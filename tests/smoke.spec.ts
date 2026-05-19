@@ -18,6 +18,7 @@ test('portal loads a playable canvas and autonomy cockpit', async ({ page }) => 
   await expect(page.getByRole('heading', { name: 'Experiment Learning' })).toBeVisible()
   await expect(page.getByRole('heading', { name: 'Production Response' })).toBeVisible()
   await expect(page.getByRole('heading', { name: 'Balance Lab' })).toBeVisible()
+  await page.getByRole('heading', { name: 'Monetization Path' }).scrollIntoViewIfNeeded()
   await expect(page.getByText('promotable-internal')).toBeVisible()
   await expect(page.getByText('ready-for-pages')).toBeVisible()
   await expect(page.getByText('blocked-by-product-gates')).toBeVisible()
