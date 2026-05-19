@@ -2,7 +2,7 @@ export const autonomousOperator = {
   "status": "operator-plan-ready",
   "mode": "plan-only",
   "selectedAction": {
-    "id": "measure-pwa-install-loop",
+    "id": "refresh-autonomous-cadence",
     "status": "armed",
     "costUsd": 0
   },
