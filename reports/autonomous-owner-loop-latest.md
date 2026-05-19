@@ -1,6 +1,6 @@
 # Autonomous Owner Loop
 
-Generated: 2026-05-19T10:34:01.572Z
+Generated: 2026-05-19T10:35:38.648Z
 Status: owner-loop-ready
 Mode: repository-channel-needed
 Autonomy score: 33/35 (94%)
@@ -19,7 +19,7 @@ Autonomy score: 33/35 (94%)
 - ready: analytics-ingest - Active source: fixture-sample; event ingest: idle-no-files; collector smoke: pass.
 - ready: local-event-bridge - Bridge bridge-waiting-for-export; inbox 0 event(s); imported 0 event(s).
 - ready: autonomous-cadence - Cadence cadence-ready; Codex active-confirmed; GitHub scheduled.
-- ready: autonomous-self-update - Self-update self-update-ready; safe pending 53; unsafe pending 0; remote push held.
+- ready: autonomous-self-update - Self-update self-update-ready; safe pending 17; unsafe pending 0; remote push held.
 - ready: portfolio-loop - Daily challenge: Canopy Bloom; seed traffic: canopy-bloom, grove-engine, metro-loom, pocket-draft.
 - ready: traffic-seeding - 4 seed campaign(s); max cost $0.
 - ready: acquisition-learning - 4 campaign(s); 0 attributed start(s); candidate canopy-bloom.
@@ -40,10 +40,10 @@ Autonomy score: 33/35 (94%)
 - ready: web-deployment - Deployment ready-for-pages; web readiness ready-after-build; promotion promotable-internal.
 - ready: release-candidate - Candidate pwa-4f3a36fa084c; status release-candidate-ready; files 40; smoke URLs 11.
 - ready: post-deploy-smoke - Smoke blocked-missing-origin; origin missing; candidate pwa-4f3a36fa084c; checks 0/12 passed; local artifact predeploy-artifact-smoke-passed 12/12 passed.
-- ready: production-bootstrap - Bootstrap production-bootstrap-ready; mode waiting-for-external-credentials; external blockers 24.
+- ready: production-bootstrap - Bootstrap production-bootstrap-ready; mode waiting-for-external-credentials; external blockers 23.
 - ready: autonomous-operator - Operator operator-plan-ready; selected seed-portfolio-traffic; execution not-requested.
 - ready: operator-history - History operator-history-ready; records 40; executed 19.
-- ready: objective-audit - Audit objective-in-progress; met 5/8; external blockers 21.
+- ready: objective-audit - Audit objective-in-progress; met 5/8; external blockers 20.
 - ready: store-listing-optimizer - Focus canopy-bloom; lead screenshot phone-canopy-bloom-generated; candidate changed yes.
 - ready: store-compliance - Rating Everyone; target audience general; blockers 4.
 - ready: android-signing - Signing signing-prepared; fingerprint available; local secrets configured.
