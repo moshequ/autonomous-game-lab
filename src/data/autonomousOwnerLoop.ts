@@ -8,7 +8,7 @@ export const autonomousOwnerLoop = {
     "externalAccountInterventionRequired": true
   },
   "ownerDecision": {
-    "nextBestActionId": "measure-pwa-install-loop"
+    "nextBestActionId": "refresh-product-gate-recovery"
   },
   "systems": [
     {
@@ -30,7 +30,7 @@ export const autonomousOwnerLoop = {
   ],
   "safeAutonomousActions": [
     {
-      "id": "measure-pwa-install-loop",
+      "id": "refresh-product-gate-recovery",
       "status": "armed"
     },
     {

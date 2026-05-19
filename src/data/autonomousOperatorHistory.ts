@@ -5,9 +5,9 @@ export const autonomousOperatorHistory = {
     "plannedRecords": 20,
     "executedRecords": 20,
     "failedRecords": 0,
-    "lastActionId": "measure-pwa-install-loop",
+    "lastActionId": "refresh-product-gate-recovery",
     "lastExecutionStatus": "not-requested",
-    "lastExecutedActionId": "optimize-daily-retention"
+    "lastExecutedActionId": "refresh-autonomous-self-update"
   }
 } as const
 
