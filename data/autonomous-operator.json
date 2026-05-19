@@ -1,22 +1,20 @@
 {
-  "generatedAt": "2026-05-19T14:30:28.373Z",
+  "generatedAt": "2026-05-19T14:32:30.186Z",
   "status": "operator-plan-ready",
   "mode": "plan-only",
   "ownerDecision": {
-    "actionId": "optimize-product-gates",
-    "command": "npm run autonomous:analyze && npm run autonomous:product-optimize && npm run autonomous:sync-config && npm run autonomous:simulate",
+    "actionId": "collect-live-events",
+    "command": "npm run autonomous:local-event-bridge && npm run autonomous:import-events && npm run autonomous:analytics && npm run autonomous:gate-recovery",
     "locallyExecutable": true,
     "rejectionReason": null
   },
   "requestedActionId": null,
   "selectedAction": {
-    "id": "optimize-product-gates",
+    "id": "collect-live-events",
     "status": "armed",
-    "command": "npm run autonomous:analyze && npm run autonomous:product-optimize && npm run autonomous:sync-config && npm run autonomous:simulate",
-    "targets": [
-      "harbor-rings"
-    ],
-    "reason": "Applies one guarded target-score or telemetry improvement when product gates block monetization.",
+    "command": "npm run autonomous:local-event-bridge && npm run autonomous:import-events && npm run autonomous:analytics && npm run autonomous:gate-recovery",
+    "targets": [],
+    "reason": "Keeps the zero-spend local event-drop bridge active until production collector or PostHog credentials exist.",
     "costUsd": 0
   },
   "selectedRejection": null,
@@ -101,6 +99,12 @@
       "status": "monitor",
       "command": "npm run autonomous:post-deploy-smoke",
       "reason": "status-monitor"
+    },
+    {
+      "id": "optimize-product-gates",
+      "status": "armed",
+      "command": "npm run autonomous:analyze && npm run autonomous:product-optimize && npm run autonomous:sync-config && npm run autonomous:simulate",
+      "reason": "not-selected-this-run"
     },
     {
       "id": "refresh-product-gate-recovery",
@@ -191,30 +195,24 @@
       "status": "blocked-needs-repository-channel",
       "command": "Run the Web PWA Deploy workflow after GitHub Pages is enabled for the repository.",
       "reason": "status-blocked-needs-repository-channel"
-    },
-    {
-      "id": "collect-live-events",
-      "status": "armed",
-      "command": "npm run autonomous:local-event-bridge && npm run autonomous:import-events && npm run autonomous:analytics && npm run autonomous:gate-recovery",
-      "reason": "not-selected-this-run"
     }
   ],
   "commandPlan": [
     {
-      "segment": "npm run autonomous:analyze",
-      "script": "autonomous:analyze"
+      "segment": "npm run autonomous:local-event-bridge",
+      "script": "autonomous:local-event-bridge"
     },
     {
-      "segment": "npm run autonomous:product-optimize",
-      "script": "autonomous:product-optimize"
+      "segment": "npm run autonomous:import-events",
+      "script": "autonomous:import-events"
     },
     {
-      "segment": "npm run autonomous:sync-config",
-      "script": "autonomous:sync-config"
+      "segment": "npm run autonomous:analytics",
+      "script": "autonomous:analytics"
     },
     {
-      "segment": "npm run autonomous:simulate",
-      "script": "autonomous:simulate"
+      "segment": "npm run autonomous:gate-recovery",
+      "script": "autonomous:gate-recovery"
     }
   ],
   "execution": {
@@ -280,7 +278,7 @@
     "RUN_WORKFLOWS=1"
   ],
   "nextActions": [
-    "Run npm run autonomous:operator -- --execute --action=optimize-product-gates to execute exactly one allowed local action.",
+    "Run npm run autonomous:operator -- --execute --action=collect-live-events to execute exactly one allowed local action.",
     "Do not execute GitHub workflow, store, paid ads, or account setup commands from the local operator."
   ]
 }
