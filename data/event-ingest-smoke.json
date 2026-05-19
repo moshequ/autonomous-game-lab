@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-19T08:18:01.755Z",
+  "generatedAt": "2026-05-19T08:29:25.642Z",
   "status": "pass",
   "fixture": {
     "sourceFile": "player-events-smoke.json",
@@ -12,13 +12,20 @@
     "copiedFiles": 1,
     "inboxValidEvents": 6,
     "noSyntheticEvents": true,
-    "noExternalUpload": true
+    "noExternalUpload": true,
+    "downloadsOptInCommand": "AGL_LOCAL_EVENT_IMPORT_DOWNLOADS=true npm run autonomous:local-event-bridge"
+  },
+  "downloadsBridge": {
+    "copiedFiles": 1,
+    "downloadsImportEnabled": true,
+    "gateSampleEvents": 3,
+    "campaignId": "gate-sample-smoke-firstGameCompletion"
   },
   "ingest": {
     "status": "imported",
     "importedEvents": 6,
     "importedFiles": 1,
-    "outputDirectory": "../../../../../../var/folders/tq/1ph_b7c95_gc2jsn1hc3h1jw0000gn/T/agl-event-ingest-4jr23q/player-events"
+    "outputDirectory": "../../../../../../var/folders/tq/1ph_b7c95_gc2jsn1hc3h1jw0000gn/T/agl-event-ingest-0nP4KX/player-events"
   },
   "incrementalIngest": {
     "status": "imported",

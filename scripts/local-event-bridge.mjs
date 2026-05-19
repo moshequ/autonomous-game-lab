@@ -1,5 +1,6 @@
 import crypto from 'node:crypto'
 import { access, copyFile, mkdir, readdir, readFile, stat, writeFile } from 'node:fs/promises'
+import os from 'node:os'
 import path from 'node:path'
 
 const root = process.cwd()
@@ -41,7 +42,15 @@ const configuredDropFiles = parseConfiguredPaths(
   process.env.AGL_LOCAL_EVENT_DROP_FILES,
   process.env.AGL_LOCAL_EVENT_DROP_FILE,
 ).map((file) => path.resolve(root, file))
-const sourceDirectories = [inboxDir, ...configuredDropDirs]
+const downloadsImportEnabled = ['1', 'true', 'yes'].includes(
+  String(process.env.AGL_LOCAL_EVENT_IMPORT_DOWNLOADS ?? process.env.AGL_EVENT_IMPORT_DOWNLOADS ?? '').toLowerCase(),
+)
+const downloadsDir = path.join(os.homedir(), 'Downloads')
+const sourceDirectories = [
+  { directory: inboxDir, role: 'inbox' },
+  ...configuredDropDirs.map((directory) => ({ directory, role: 'configured-drop-dir' })),
+  ...(downloadsImportEnabled ? [{ directory: downloadsDir, role: 'downloads-opt-in' }] : []),
+]
 const sourceFiles = [...configuredDropFiles]
 
 const eventNameFor = (event) => (typeof event?.name === 'string' ? event.name : event?.event)
@@ -85,6 +94,102 @@ const parseEvents = (raw) => {
     seen.add(id)
     return true
   })
+}
+
+const summarizeGateSampleEvents = async (files) => {
+  const campaigns = new Map()
+  let totalEvents = 0
+
+  for (const file of files.filter((candidate) => candidate.valid)) {
+    let events = []
+
+    try {
+      events = parseEvents(await readFile(file.filePath, 'utf8'))
+    } catch {
+      events = []
+    }
+
+    for (const event of events) {
+      const eventName = eventNameFor(event)
+      const properties = event.properties ?? {}
+      const campaignId =
+        typeof properties.acquisitionCampaign === 'string'
+          ? properties.acquisitionCampaign
+          : typeof properties.campaignId === 'string'
+            ? properties.campaignId
+            : null
+      const isGateSample =
+        eventName === 'gate_sample_mission_clicked' ||
+        properties.acquisitionSource === 'gate_sample' ||
+        properties.acquisitionChannel === 'product-gate-sample' ||
+        campaignId?.startsWith('gate-sample-')
+
+      if (!isGateSample || !campaignId) {
+        continue
+      }
+
+      if (!campaigns.has(campaignId)) {
+        campaigns.set(campaignId, {
+          campaignId,
+          events: 0,
+          missionClicks: 0,
+          analyticsExports: 0,
+          successEvents: 0,
+          games: new Set(),
+          gates: new Set(),
+          eventCounts: {},
+          latestAt: null,
+        })
+      }
+
+      const campaign = campaigns.get(campaignId)
+      campaign.events += 1
+      totalEvents += 1
+      campaign.eventCounts[eventName] = (campaign.eventCounts[eventName] ?? 0) + 1
+
+      if (eventName === 'gate_sample_mission_clicked') {
+        campaign.missionClicks += 1
+      }
+
+      if (eventName === 'analytics_exported') {
+        campaign.analyticsExports += 1
+      }
+
+      if (['level_completed', 'replay_clicked', 'daily_return_intent_started'].includes(eventName)) {
+        campaign.successEvents += 1
+      }
+
+      if (typeof properties.gameId === 'string') {
+        campaign.games.add(properties.gameId)
+      }
+
+      if (typeof properties.gateId === 'string') {
+        campaign.gates.add(properties.gateId)
+      }
+
+      const createdAt = event.createdAt ?? event.timestamp
+      if (typeof createdAt === 'string' && (!campaign.latestAt || createdAt > campaign.latestAt)) {
+        campaign.latestAt = createdAt
+      }
+    }
+  }
+
+  const campaignRows = [...campaigns.values()]
+    .map((campaign) => ({
+      ...campaign,
+      games: [...campaign.games].sort(),
+      gates: [...campaign.gates].sort(),
+    }))
+    .sort((left, right) => right.events - left.events || left.campaignId.localeCompare(right.campaignId))
+
+  return {
+    campaigns: campaignRows,
+    campaignCount: campaignRows.length,
+    events: totalEvents,
+    missionClicks: campaignRows.reduce((sum, campaign) => sum + campaign.missionClicks, 0),
+    analyticsExports: campaignRows.reduce((sum, campaign) => sum + campaign.analyticsExports, 0),
+    successEvents: campaignRows.reduce((sum, campaign) => sum + campaign.successEvents, 0),
+  }
 }
 
 const inspectEventFile = async (filePath) => {
@@ -134,14 +239,14 @@ await mkdir(path.dirname(reportPath), { recursive: true })
 const directorySummaries = []
 const candidateFiles = []
 
-for (const directory of sourceDirectories) {
+for (const { directory, role } of sourceDirectories) {
   const directoryExists = await exists(directory)
   const matchedFiles = directoryExists ? await listMatchingFiles(directory, filePattern) : []
   const inspectedFiles = await Promise.all(matchedFiles.map(inspectEventFile))
 
   directorySummaries.push({
     path: relativeToRoot(directory),
-    role: path.resolve(directory) === inboxDir ? 'inbox' : 'configured-drop-dir',
+    role,
     exists: directoryExists,
     matchedFiles: matchedFiles.length,
     validFiles: inspectedFiles.filter((file) => file.valid).length,
@@ -218,6 +323,11 @@ const validImportedBatches = importedBatches.filter((file) => file.valid)
 const validInboxEvents = validInboxFiles.reduce((sum, file) => sum + file.events, 0)
 const importedEvents = validImportedBatches.reduce((sum, file) => sum + file.events, 0)
 const localEventsAvailable = importedEvents > 0
+const downloadsImportCommand = 'AGL_LOCAL_EVENT_IMPORT_DOWNLOADS=true npm run autonomous:local-event-bridge'
+const gateSampleEvidence = {
+  inbox: await summarizeGateSampleEvents(validInboxFiles),
+  imported: await summarizeGateSampleEvents(validImportedBatches),
+}
 const status =
   copiedFiles.length || validInboxEvents
     ? 'bridge-ready-for-ingest'
@@ -257,9 +367,16 @@ const payload = {
     requiredFields: ['name or event', 'createdAt or timestamp'],
     recommendedFields: ['properties.gameId', 'properties.anonymousId', 'properties.sessionDate'],
     inboxDirectory: relativeToRoot(inboxDir),
+    downloadsDirectory: relativeToRoot(downloadsDir),
     importCommand: 'npm run autonomous:import-events',
     rollupCommand: 'npm run autonomous:analytics',
     recoveryCommand: 'npm run autonomous:gate-recovery',
+    downloadsImportCommand,
+  },
+  gateSampleEvidence: {
+    ...gateSampleEvidence,
+    localEvidenceAvailable: gateSampleEvidence.imported.events > 0,
+    readyForIngest: gateSampleEvidence.inbox.events > 0,
   },
   controls: {
     zeroPaidSpend: true,
@@ -269,19 +386,22 @@ const payload = {
     noPiiRequired: true,
     copyOnlyExplicitDropPaths: true,
     downloadsFolderOptInOnly: true,
+    downloadsFolderImportEnabled: downloadsImportEnabled,
+    downloadsFolderRequiresExplicitEnv: true,
     doesNotMutateProductGates: true,
   },
   nextActions:
     copiedFiles.length || validInboxEvents
-      ? [
-          'Run npm run autonomous:import-events to dedupe and persist the validated local event drops.',
-          'Run npm run autonomous:analytics and npm run autonomous:gate-recovery so product decisions use the fresh events.',
-        ]
-      : [
-          'Use the in-app Export local analytics control after playtesting.',
-          `Place the downloaded player-events file in ${relativeToRoot(inboxDir)} or pass AGL_LOCAL_EVENT_DROP_DIRS to copy from an explicit folder.`,
-          'Keep hosted collector/PostHog setup blocked until credentials exist.',
-        ],
+    ? [
+        'Run npm run autonomous:import-events to dedupe and persist the validated local event drops.',
+        'Run npm run autonomous:analytics and npm run autonomous:gate-recovery so product decisions use the fresh events.',
+      ]
+    : [
+        'Use the in-app Export local analytics control after playtesting.',
+        `Place the downloaded player-events file in ${relativeToRoot(inboxDir)} or pass AGL_LOCAL_EVENT_DROP_DIRS to copy from an explicit folder.`,
+        `Optionally run ${downloadsImportCommand} to scan Downloads explicitly.`,
+        'Keep hosted collector/PostHog setup blocked until credentials exist.',
+      ],
 }
 
 const report = [
@@ -314,6 +434,23 @@ const report = [
   `- Inbox valid events: ${payload.inbox.validEvents}`,
   `- Imported batches: ${payload.imported.validBatches}`,
   `- Imported events: ${payload.imported.events}`,
+  `- Gate sample inbox events: ${payload.gateSampleEvidence.inbox.events}`,
+  `- Gate sample imported events: ${payload.gateSampleEvidence.imported.events}`,
+  '',
+  '## Gate Sample Evidence',
+  '',
+  ...(payload.gateSampleEvidence.imported.campaigns.length
+    ? payload.gateSampleEvidence.imported.campaigns.map(
+        (campaign) =>
+          `- imported ${campaign.campaignId}: ${campaign.events} event(s), ${campaign.successEvents} success event(s), exports ${campaign.analyticsExports}`,
+      )
+    : ['- imported: none']),
+  ...(payload.gateSampleEvidence.inbox.campaigns.length
+    ? payload.gateSampleEvidence.inbox.campaigns.map(
+        (campaign) =>
+          `- inbox ${campaign.campaignId}: ${campaign.events} event(s), ${campaign.successEvents} success event(s), exports ${campaign.analyticsExports}`,
+      )
+    : ['- inbox: none']),
   '',
   '## Copied',
   '',

@@ -1,6 +1,6 @@
 # Production Readiness
 
-Generated: 2026-05-19T08:20:07.323Z
+Generated: 2026-05-19T08:31:19.968Z
 
 ## Environment
 
@@ -56,7 +56,7 @@ Status: ready-after-build
 - pass: organic-seed-loop - Organic seed loop is organic-seed-loop-ready; target canopy-bloom; player-initiated share guard active.
 - pass: retention-loop - Retention loop is retention-loop-ready; daily challenge canopy-bloom; no-push/no-account guardrails active.
 - pass: pwa-install-loop - PWA install loop is pwa-install-loop-ready; prompt surface autonomy-cockpit; cost $0.
-- pass: performance-budget - Performance budget is performance-budget-ready; initial JS 644.7 KB / 172.9 KB gzip; deferred game chunk GameCanvas-DlZAhDdt.js.
+- pass: performance-budget - Performance budget is performance-budget-ready; initial JS 646.6 KB / 173.3 KB gzip; deferred game chunk GameCanvas-PxwJRPT4.js.
 - pass: release-candidate - Release candidate is release-candidate-ready; files 39; smoke URLs 10.
 - pass: post-deploy-smoke-runner - Post-deploy smoke is blocked-missing-origin; origin missing; checks 0/11 passed, 11 blocked; local artifact predeploy-artifact-smoke-passed 11/11 passed.
 - pass: product-optimization - Product optimizer is product-optimization-ready; completion 0.397 vs gate 0.55; latest action already-applied.
@@ -109,23 +109,23 @@ Installs: 0
 ## Performance Budget
 
 Status: performance-budget-ready
-Initial JS: 644.7 KB (172.9 KB gzip)
-Deferred game chunk: GameCanvas-DlZAhDdt.js
-- pass: performance-initial-js-budget - Initial JS is 644.7 KB; budget is 675 KB.
-- pass: performance-initial-js-gzip-budget - Initial JS gzip is 172.9 KB; budget is 200 KB.
+Initial JS: 646.6 KB (173.3 KB gzip)
+Deferred game chunk: GameCanvas-PxwJRPT4.js
+- pass: performance-initial-js-budget - Initial JS is 646.6 KB; budget is 675 KB.
+- pass: performance-initial-js-gzip-budget - Initial JS gzip is 173.3 KB; budget is 200 KB.
 - pass: performance-initial-css-budget - Initial CSS is 9.6 KB; budget is 40 KB.
 - pass: performance-manifest - PWA manifest exists in dist.
 - pass: performance-service-worker - Service worker exists in dist.
-- pass: performance-game-runtime-deferred - GameCanvas-DlZAhDdt.js is deferred from the initial shell.
-- pass: performance-largest-js-deferred - Largest JS chunk is GameCanvas-DlZAhDdt.js at 1360.8 KB.
+- pass: performance-game-runtime-deferred - GameCanvas-PxwJRPT4.js is deferred from the initial shell.
+- pass: performance-largest-js-deferred - Largest JS chunk is GameCanvas-PxwJRPT4.js at 1360.8 KB.
 - pass: performance-deferred-game-budget - Deferred game chunk is 1360.8 KB; monitor budget is 1600 KB.
 
 ## Release Candidate
 
 Status: release-candidate-ready
-Candidate: pwa-afcd7c8f22f8
+Candidate: pwa-d752e3ad053a
 Files: 39
-Aggregate SHA-256: afcd7c8f22f8cb4a7c00e7be88099485d4b48b0d194f1e3d5fb89cc5fe510c99
+Aggregate SHA-256: d752e3ad053a2081466278d253db0a94c919d05a42f31f71738a22af253d240e
 - pass: release-dist-inventory - 39 dist files inventoried.
 - pass: release-required-files - 14/14 required files present.
 - pass: release-game-pages - 10 generated game page(s) in dist.
@@ -139,7 +139,7 @@ Aggregate SHA-256: afcd7c8f22f8cb4a7c00e7be88099485d4b48b0d194f1e3d5fb89cc5fe510
 
 Status: blocked-missing-origin
 Origin: missing
-Candidate: pwa-afcd7c8f22f8
+Candidate: pwa-d752e3ad053a
 Checks: 0/11 passed (11 blocked)
 Local artifact: predeploy-artifact-smoke-passed (11/11 passed)
 - blocked: smoke-app-shell - No deployed origin configured.

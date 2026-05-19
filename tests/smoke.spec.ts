@@ -951,14 +951,18 @@ test('product optimizer applies one guarded tuning step from product-gate eviden
   )
   expect(samplePlan.commandPlan.refreshPlan).toBe('npm run autonomous:sample-plan')
   expect(samplePlan.commandPlan.collectAndRefresh).toContain('autonomous:gate-recovery')
+  expect(samplePlan.commandPlan.collectDownloadsAndRefresh).toContain('AGL_LOCAL_EVENT_IMPORT_DOWNLOADS=true')
   expect(samplePlan.controls.zeroPaidSpend).toBe(true)
   expect(samplePlan.controls.noPaidTraffic).toBe(true)
   expect(samplePlan.controls.noSyntheticGatePasses).toBe(true)
   expect(samplePlan.controls.noAutomaticRuleChanges).toBe(true)
+  expect(samplePlan.controls.realEventDropsOnly).toBe(true)
+  expect(samplePlan.controls.downloadsImportRequiresExplicitOptIn).toBe(true)
   expect(samplePlan.controls.requireObservedTelemetryBeforeRecoveryChange).toBe(true)
   expect(samplePlan.missions[0]).toMatchObject({
     gateId: 'firstGameCompletion',
     status: 'collecting-sample',
+    evidence: { status: 'waiting-for-player-export' },
     controls: { costUsd: 0, noSyntheticEvents: true, noRuleChange: true },
   })
   await expect(page.getByLabel('Product Gate Recovery')).toContainText('product-gate-recovery-ready')
@@ -976,7 +980,8 @@ test('product gate sample mission starts an attributed zero-spend evidence run',
       title: string
       campaignId: string
       needed: { promptViews: number; successes: number }
-      controls: { costUsd: number; noSyntheticEvents: boolean; noRuleChange: boolean; noRevenueEnablement: boolean }
+    controls: { costUsd: number; noSyntheticEvents: boolean; noRuleChange: boolean; noRevenueEnablement: boolean }
+    evidence: { status: string }
     }>
   }
   const mission = samplePlan.missions[0]
@@ -1034,6 +1039,32 @@ test('product gate sample mission starts an attributed zero-spend evidence run',
       }, mission.campaignId),
     )
     .toBe(mission.gameId)
+
+  const downloadPromise = page.waitForEvent('download')
+  await samplePanel.getByRole('button', { name: `Export sample evidence for ${mission.title}` }).click()
+  const download = await downloadPromise
+  const downloadPath = await download.path()
+
+  expect(download.suggestedFilename()).toMatch(/^player-events-\d{4}-\d{2}-\d{2}\.json$/)
+  expect(downloadPath).toBeTruthy()
+
+  if (downloadPath) {
+    const events = JSON.parse(await readFile(downloadPath, 'utf8')) as Array<{
+      name: string
+      properties: Record<string, string | number | boolean>
+    }>
+    const exportEvent = events.findLast((event) => event.name === 'analytics_exported')
+
+    expect(exportEvent?.properties).toMatchObject({
+      exportSurface: 'product-gate-sample',
+      gateId: mission.gateId,
+      gameId: mission.gameId,
+      campaignId: mission.campaignId,
+      noSyntheticEvents: mission.controls.noSyntheticEvents,
+      acquisitionCampaign: mission.campaignId,
+      acquisitionSource: 'gate_sample',
+    })
+  }
 })
 
 test('first move coach highlights a safe opening and records coach telemetry', async ({ page }) => {
@@ -1191,12 +1222,19 @@ test('local event bridge keeps browser analytics drops importable without extern
     inbox: { directory: string; validEvents: number }
     imported: { directory: string; events: number }
     eventDropContract: { filenamePattern: string; importCommand: string; rollupCommand: string }
+    gateSampleEvidence: {
+      inbox: { events: number; campaigns: unknown[] }
+      imported: { events: number; campaigns: unknown[] }
+      localEvidenceAvailable: boolean
+    }
     controls: {
       zeroPaidSpend: boolean
       localOnly: boolean
       noExternalUpload: boolean
       noSyntheticEvents: boolean
       copyOnlyExplicitDropPaths: boolean
+      downloadsFolderOptInOnly: boolean
+      downloadsFolderRequiresExplicitEnv: boolean
     }
   }
 
@@ -1213,6 +1251,10 @@ test('local event bridge keeps browser analytics drops importable without extern
   expect(bridge.controls.noExternalUpload).toBe(true)
   expect(bridge.controls.noSyntheticEvents).toBe(true)
   expect(bridge.controls.copyOnlyExplicitDropPaths).toBe(true)
+  expect(bridge.controls.downloadsFolderOptInOnly).toBe(true)
+  expect(bridge.controls.downloadsFolderRequiresExplicitEnv).toBe(true)
+  expect(bridge.gateSampleEvidence.localEvidenceAvailable).toBe(false)
+  expect(bridge.gateSampleEvidence.inbox.campaigns).toHaveLength(0)
 
   await page.goto('/')
   await expect(page.getByLabel('Local Event Bridge')).toContainText('Local Event Bridge')

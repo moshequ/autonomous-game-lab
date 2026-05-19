@@ -1,5 +1,5 @@
 export const localEventBridge = {
-  "generatedAt": "2026-05-19T08:18:01.843Z",
+  "generatedAt": "2026-05-19T08:29:25.750Z",
   "status": "bridge-waiting-for-export",
   "mode": "local-zero-spend-event-drop-bridge",
   "inbox": {
@@ -44,9 +44,31 @@ export const localEventBridge = {
       "properties.sessionDate"
     ],
     "inboxDirectory": "data/player-events/inbox",
+    "downloadsDirectory": "../../../../Downloads",
     "importCommand": "npm run autonomous:import-events",
     "rollupCommand": "npm run autonomous:analytics",
-    "recoveryCommand": "npm run autonomous:gate-recovery"
+    "recoveryCommand": "npm run autonomous:gate-recovery",
+    "downloadsImportCommand": "AGL_LOCAL_EVENT_IMPORT_DOWNLOADS=true npm run autonomous:local-event-bridge"
+  },
+  "gateSampleEvidence": {
+    "inbox": {
+      "campaigns": [],
+      "campaignCount": 0,
+      "events": 0,
+      "missionClicks": 0,
+      "analyticsExports": 0,
+      "successEvents": 0
+    },
+    "imported": {
+      "campaigns": [],
+      "campaignCount": 0,
+      "events": 0,
+      "missionClicks": 0,
+      "analyticsExports": 0,
+      "successEvents": 0
+    },
+    "localEvidenceAvailable": false,
+    "readyForIngest": false
   },
   "controls": {
     "zeroPaidSpend": true,
@@ -56,11 +78,14 @@ export const localEventBridge = {
     "noPiiRequired": true,
     "copyOnlyExplicitDropPaths": true,
     "downloadsFolderOptInOnly": true,
+    "downloadsFolderImportEnabled": false,
+    "downloadsFolderRequiresExplicitEnv": true,
     "doesNotMutateProductGates": true
   },
   "nextActions": [
     "Use the in-app Export local analytics control after playtesting.",
     "Place the downloaded player-events file in data/player-events/inbox or pass AGL_LOCAL_EVENT_DROP_DIRS to copy from an explicit folder.",
+    "Optionally run AGL_LOCAL_EVENT_IMPORT_DOWNLOADS=true npm run autonomous:local-event-bridge to scan Downloads explicitly.",
     "Keep hosted collector/PostHog setup blocked until credentials exist."
   ]
 } as const

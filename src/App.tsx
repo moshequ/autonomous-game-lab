@@ -1082,8 +1082,8 @@ function App() {
       revenueCents: 0,
     })
   }
-  const exportLocalAnalytics = () => {
-    trackEvent('analytics_exported', { destination: 'local_file' })
+  const exportLocalAnalytics = (properties: Record<string, string | number | boolean | null> = {}) => {
+    trackEvent('analytics_exported', { destination: 'local_file', ...properties })
     const payload = JSON.stringify(getBufferedEvents(), null, 2)
     const blob = new Blob([payload], { type: 'application/json' })
     const url = URL.createObjectURL(blob)
@@ -1165,7 +1165,7 @@ function App() {
             className="iconButton"
             type="button"
             title="Export local analytics"
-            onClick={exportLocalAnalytics}
+            onClick={() => exportLocalAnalytics()}
           >
             <Download size={18} aria-hidden="true" />
           </button>
@@ -1995,6 +1995,10 @@ function App() {
                   <span>Zero spend</span>
                   <strong>{productGateSamplePlan.controls.zeroPaidSpend ? 'yes' : 'review'}</strong>
                 </div>
+                <div>
+                  <span>Evidence</span>
+                  <strong>{productGateSamplePrimary?.evidence.status ?? 'waiting'}</strong>
+                </div>
                 {productGateSamplePrimary ? (
                   <div className="sampleActions">
                     <button
@@ -2003,6 +2007,23 @@ function App() {
                       onClick={() => startGateSampleMission(productGateSamplePrimary)}
                     >
                       Start sample for {productGateSamplePrimary.title}
+                    </button>
+                    <button
+                      className="tinyButton"
+                      type="button"
+                      onClick={() =>
+                        exportLocalAnalytics({
+                          exportSurface: 'product-gate-sample',
+                          gateId: productGateSamplePrimary.gateId,
+                          gameId: productGateSamplePrimary.gameId,
+                          campaignId: productGateSamplePrimary.campaignId,
+                          promptViewsNeeded: productGateSamplePrimary.needed.promptViews,
+                          observedSuccessesNeeded: productGateSamplePrimary.needed.successes,
+                          noSyntheticEvents: productGateSamplePrimary.controls.noSyntheticEvents,
+                        })
+                      }
+                    >
+                      Export sample evidence for {productGateSamplePrimary.title}
                     </button>
                   </div>
                 ) : null}

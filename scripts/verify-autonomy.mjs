@@ -440,13 +440,20 @@ if (
   localEventBridge.eventDropContract?.filenamePattern !== 'player-events*.json' ||
   localEventBridge.eventDropContract?.importCommand !== 'npm run autonomous:import-events' ||
   localEventBridge.eventDropContract?.rollupCommand !== 'npm run autonomous:analytics' ||
+  !localEventBridge.eventDropContract?.downloadsImportCommand?.includes('AGL_LOCAL_EVENT_IMPORT_DOWNLOADS=true') ||
   localEventBridge.controls?.zeroPaidSpend !== true ||
   localEventBridge.controls?.localOnly !== true ||
   localEventBridge.controls?.noExternalUpload !== true ||
   localEventBridge.controls?.noSyntheticEvents !== true ||
   localEventBridge.controls?.copyOnlyExplicitDropPaths !== true ||
+  localEventBridge.controls?.downloadsFolderOptInOnly !== true ||
+  localEventBridge.controls?.downloadsFolderRequiresExplicitEnv !== true ||
+  typeof localEventBridge.gateSampleEvidence?.imported?.events !== 'number' ||
+  typeof localEventBridge.gateSampleEvidence?.inbox?.events !== 'number' ||
   !Array.isArray(localEventBridge.sourceDirectories) ||
   !localEventBridge.sourceDirectories.some((directory) => directory.role === 'inbox') ||
+  !localEventBridgeSource.includes('AGL_LOCAL_EVENT_IMPORT_DOWNLOADS') ||
+  !localEventBridgeSource.includes('downloads-opt-in') ||
   !localEventBridgeSource.includes('AGL_LOCAL_EVENT_DROP_DIRS') ||
   !localEventBridgeSource.includes('copyFile') ||
   !appSource.includes('Local Event Bridge')
@@ -476,6 +483,11 @@ if (
   eventIngestSmoke.bridge?.inboxValidEvents < 6 ||
   eventIngestSmoke.bridge?.noSyntheticEvents !== true ||
   eventIngestSmoke.bridge?.noExternalUpload !== true ||
+  !eventIngestSmoke.bridge?.downloadsOptInCommand?.includes('AGL_LOCAL_EVENT_IMPORT_DOWNLOADS=true') ||
+  eventIngestSmoke.downloadsBridge?.copiedFiles !== 1 ||
+  eventIngestSmoke.downloadsBridge?.downloadsImportEnabled !== true ||
+  eventIngestSmoke.downloadsBridge?.gateSampleEvents < 3 ||
+  eventIngestSmoke.downloadsBridge?.campaignId !== 'gate-sample-smoke-firstGameCompletion' ||
   eventIngestSmoke.ingest?.status !== 'imported' ||
   eventIngestSmoke.ingest?.importedEvents < 6 ||
   eventIngestSmoke.incrementalIngest?.status !== 'imported' ||
@@ -490,7 +502,7 @@ if (
   eventIngestSmoke.analytics?.counts?.tutorial_completed < 1 ||
   eventIngestSmoke.analytics?.counts?.level_completed < 1
 ) {
-  fail('Event ingest smoke must prove exported player events become deduped local analytics and retention metrics.')
+  fail('Event ingest smoke must prove exported player events become deduped local analytics, retention metrics, and opt-in gate-sample downloads.')
 }
 
 if (
@@ -1049,14 +1061,20 @@ if (
   productGateSamplePlan.commandPlan?.refreshPlan !== 'npm run autonomous:sample-plan' ||
   !productGateSamplePlan.commandPlan?.collectAndRefresh?.includes('autonomous:gate-recovery') ||
   !productGateSamplePlan.commandPlan?.collectAndRefresh?.includes('autonomous:sample-plan') ||
+  !productGateSamplePlan.commandPlan?.collectDownloadsAndRefresh?.includes('AGL_LOCAL_EVENT_IMPORT_DOWNLOADS=true') ||
+  typeof productGateSamplePlan.summary?.importedGateSampleEvents !== 'number' ||
+  typeof productGateSamplePlan.summary?.inboxGateSampleEvents !== 'number' ||
   productGateSamplePlan.controls?.zeroPaidSpend !== true ||
   productGateSamplePlan.controls?.noPaidTraffic !== true ||
   productGateSamplePlan.controls?.noSyntheticGatePasses !== true ||
   productGateSamplePlan.controls?.noAutomaticRuleChanges !== true ||
   productGateSamplePlan.controls?.noRevenueEnablement !== true ||
   productGateSamplePlan.controls?.playerInitiatedOnly !== true ||
+  productGateSamplePlan.controls?.realEventDropsOnly !== true ||
+  productGateSamplePlan.controls?.downloadsImportRequiresExplicitOptIn !== true ||
   productGateSamplePlan.controls?.requireObservedTelemetryBeforeRecoveryChange !== true ||
   samplePrimaryMission?.status !== 'collecting-sample' ||
+  !samplePrimaryMission?.evidence?.status ||
   samplePrimaryMission?.needed?.promptViews !== recoveryCompletionGate?.promptViewsNeeded ||
   samplePrimaryMission?.needed?.successes !== recoveryCompletionGate?.neededSuccesses ||
   samplePrimaryMission?.controls?.costUsd !== 0 ||
@@ -1072,6 +1090,7 @@ if (
   !analyticsRollupSource.includes("'gate_sample_mission_clicked'") ||
   !appSource.includes('Product Gate Sample Plan') ||
   !appSource.includes('startGateSampleMission') ||
+  !appSource.includes('Export sample evidence') ||
   !appSource.includes("'gate_sample_mission_clicked'") ||
   !appSource.includes('product-gate-sample')
 ) {

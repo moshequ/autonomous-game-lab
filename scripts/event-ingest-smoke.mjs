@@ -43,6 +43,7 @@ const fail = (message) => {
 const tempRoot = await mkdtemp(path.join(os.tmpdir(), 'agl-event-ingest-'))
 const inboxDir = path.join(tempRoot, 'inbox')
 const dropDir = path.join(tempRoot, 'browser-downloads')
+const downloadsDir = path.join(tempRoot, 'Downloads')
 const outputDir = path.join(tempRoot, 'player-events')
 const reportsDir = path.join(tempRoot, 'reports')
 const bridgeOutput = path.join(tempRoot, 'local-event-bridge.json')
@@ -56,6 +57,7 @@ const analyticsReport = path.join(reportsDir, 'analytics-rollup.md')
 try {
   await mkdir(inboxDir, { recursive: true })
   await mkdir(dropDir, { recursive: true })
+  await mkdir(downloadsDir, { recursive: true })
   await mkdir(outputDir, { recursive: true })
   await mkdir(reportsDir, { recursive: true })
   await mkdir(path.dirname(smokeOutputPath), { recursive: true })
@@ -273,6 +275,83 @@ try {
     fail(`Expected event-level deduped analytics after incremental import, got ${JSON.stringify(incrementalAnalytics)}`)
   }
 
+  const downloadedGateSampleEvents = [
+    {
+      id: 'smoke-gate-sample-click',
+      name: 'gate_sample_mission_clicked',
+      properties: {
+        gameId: 'mosaic-haven',
+        gateId: 'firstGameCompletion',
+        campaignId: 'gate-sample-smoke-firstGameCompletion',
+        acquisitionSource: 'gate_sample',
+        acquisitionCampaign: 'gate-sample-smoke-firstGameCompletion',
+        acquisitionChannel: 'product-gate-sample',
+        anonymousId: 'anon-smoke',
+        sessionId: 'session-smoke-c',
+        sessionDate: '2026-05-18',
+      },
+      createdAt: '2026-05-18T11:00:00.000Z',
+    },
+    {
+      id: 'smoke-gate-sample-start',
+      name: 'game_started',
+      properties: {
+        gameId: 'mosaic-haven',
+        acquisitionSource: 'gate_sample',
+        acquisitionCampaign: 'gate-sample-smoke-firstGameCompletion',
+        acquisitionChannel: 'product-gate-sample',
+        anonymousId: 'anon-smoke',
+        sessionId: 'session-smoke-c',
+        sessionDate: '2026-05-18',
+      },
+      createdAt: '2026-05-18T11:01:00.000Z',
+    },
+    {
+      id: 'smoke-gate-sample-export',
+      name: 'analytics_exported',
+      properties: {
+        gameId: 'mosaic-haven',
+        gateId: 'firstGameCompletion',
+        campaignId: 'gate-sample-smoke-firstGameCompletion',
+        acquisitionSource: 'gate_sample',
+        acquisitionCampaign: 'gate-sample-smoke-firstGameCompletion',
+        acquisitionChannel: 'product-gate-sample',
+        anonymousId: 'anon-smoke',
+        sessionId: 'session-smoke-c',
+        sessionDate: '2026-05-18',
+      },
+      createdAt: '2026-05-18T11:02:00.000Z',
+    },
+  ]
+
+  await writeFile(
+    path.join(downloadsDir, 'player-events-downloads-gate-sample.json'),
+    JSON.stringify(downloadedGateSampleEvents, null, 2),
+  )
+
+  await run(process.execPath, ['scripts/local-event-bridge.mjs'], {
+    HOME: tempRoot,
+    AGL_LOCAL_EVENT_IMPORT_DOWNLOADS: 'true',
+    AGL_EVENT_OUTPUT_DIR: outputDir,
+    AGL_EVENT_INBOX_DIR: inboxDir,
+    AGL_LOCAL_EVENT_BRIDGE_OUTPUT: bridgeOutput,
+    AGL_LOCAL_EVENT_BRIDGE_TS_OUTPUT: bridgeTsOutput,
+    AGL_LOCAL_EVENT_BRIDGE_REPORT: bridgeReport,
+  })
+
+  const downloadsBridge = JSON.parse(await readFile(bridgeOutput, 'utf8'))
+
+  if (
+    downloadsBridge.copiedFiles.length !== 1 ||
+    downloadsBridge.controls.downloadsFolderImportEnabled !== true ||
+    !downloadsBridge.sourceDirectories.some((directory) => directory.role === 'downloads-opt-in') ||
+    downloadsBridge.gateSampleEvidence.inbox.events < downloadedGateSampleEvents.length ||
+    downloadsBridge.gateSampleEvidence.inbox.campaigns[0]?.campaignId !==
+      'gate-sample-smoke-firstGameCompletion'
+  ) {
+    fail(`Expected opt-in Downloads import to copy gate-sample evidence, got ${JSON.stringify(downloadsBridge)}`)
+  }
+
   const smoke = {
     generatedAt: new Date().toISOString(),
     status: 'pass',
@@ -288,6 +367,13 @@ try {
       inboxValidEvents: bridge.inbox.validEvents,
       noSyntheticEvents: bridge.controls.noSyntheticEvents,
       noExternalUpload: bridge.controls.noExternalUpload,
+      downloadsOptInCommand: bridge.eventDropContract.downloadsImportCommand,
+    },
+    downloadsBridge: {
+      copiedFiles: downloadsBridge.copiedFiles.length,
+      downloadsImportEnabled: downloadsBridge.controls.downloadsFolderImportEnabled,
+      gateSampleEvents: downloadsBridge.gateSampleEvidence.inbox.events,
+      campaignId: downloadsBridge.gateSampleEvidence.inbox.campaigns[0]?.campaignId,
     },
     ingest: {
       status: ingest.status,
@@ -338,6 +424,8 @@ try {
     `- Imported files: ${smoke.ingest.importedFiles}`,
     `- Incremental imported events: ${smoke.incrementalIngest.importedEvents}`,
     `- Incremental duplicate events skipped: ${smoke.incrementalIngest.duplicateEvents}`,
+    `- Downloads opt-in copied files: ${smoke.downloadsBridge.copiedFiles}`,
+    `- Downloads gate-sample events: ${smoke.downloadsBridge.gateSampleEvents}`,
     '',
     '## Analytics',
     '',

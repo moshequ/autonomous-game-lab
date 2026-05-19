@@ -1,5 +1,5 @@
 export const productGateSamplePlan = {
-  "generatedAt": "2026-05-19T07:44:42.774Z",
+  "generatedAt": "2026-05-19T08:28:31.432Z",
   "status": "product-gate-sample-plan-ready",
   "sourceStatus": {
     "analyticsSource": "fixture-sample",
@@ -18,6 +18,10 @@ export const productGateSamplePlan = {
     "totalObservedSuccessesNeeded": 66,
     "sampleReadyCount": 0,
     "localEventsAvailable": false,
+    "importedGateSampleEvents": 0,
+    "inboxGateSampleEvents": 0,
+    "evidenceReadyCount": 0,
+    "inboxReadyCount": 0,
     "nextOwnerAction": "refresh-product-gate-sample-plan"
   },
   "missions": [
@@ -90,6 +94,14 @@ export const productGateSamplePlan = {
         "noSyntheticEvents": true,
         "noRuleChange": true,
         "noRevenueEnablement": true
+      },
+      "evidence": {
+        "status": "waiting-for-player-export",
+        "source": null,
+        "events": 0,
+        "successEvents": 0,
+        "analyticsExports": 0,
+        "latestAt": null
       }
     },
     {
@@ -153,6 +165,14 @@ export const productGateSamplePlan = {
         "noSyntheticEvents": true,
         "noRuleChange": true,
         "noRevenueEnablement": true
+      },
+      "evidence": {
+        "status": "waiting-for-player-export",
+        "source": null,
+        "events": 0,
+        "successEvents": 0,
+        "analyticsExports": 0,
+        "latestAt": null
       }
     },
     {
@@ -221,12 +241,21 @@ export const productGateSamplePlan = {
         "noSyntheticEvents": true,
         "noRuleChange": true,
         "noRevenueEnablement": true
+      },
+      "evidence": {
+        "status": "waiting-for-player-export",
+        "source": null,
+        "events": 0,
+        "successEvents": 0,
+        "analyticsExports": 0,
+        "latestAt": null
       }
     }
   ],
   "commandPlan": {
     "refreshPlan": "npm run autonomous:sample-plan",
     "collectAndRefresh": "npm run autonomous:local-event-bridge && npm run autonomous:import-events && npm run autonomous:analytics && npm run autonomous:gate-recovery && npm run autonomous:sample-plan",
+    "collectDownloadsAndRefresh": "AGL_LOCAL_EVENT_IMPORT_DOWNLOADS=true npm run autonomous:local-event-bridge && npm run autonomous:import-events && npm run autonomous:analytics && npm run autonomous:gate-recovery && npm run autonomous:sample-plan",
     "primaryLoopRefresh": "npm run autonomous:completion-loop"
   },
   "controls": {
@@ -238,6 +267,8 @@ export const productGateSamplePlan = {
     "noStoreSubmission": true,
     "playerInitiatedOnly": true,
     "localEventBridgeRequired": true,
+    "realEventDropsOnly": true,
+    "downloadsImportRequiresExplicitOptIn": true,
     "requireObservedTelemetryBeforeRecoveryChange": true
   },
   "nextActions": [

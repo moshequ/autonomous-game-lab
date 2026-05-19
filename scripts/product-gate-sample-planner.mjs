@@ -162,6 +162,54 @@ const totalPromptViewsNeeded = missions.reduce((sum, mission) => sum + mission.n
 const totalObservedSuccessesNeeded = missions.reduce((sum, mission) => sum + mission.needed.successes, 0)
 const sampleReadyCount = missions.filter((mission) => mission.status === 'ready-for-recovery-decision').length
 const localEventsAvailable = localEventBridge.imported?.localEventsAvailable === true
+const importedGateSampleEvents = localEventBridge.gateSampleEvidence?.imported?.events ?? 0
+const inboxGateSampleEvents = localEventBridge.gateSampleEvidence?.inbox?.events ?? 0
+const gateSampleCampaigns = [
+  ...(localEventBridge.gateSampleEvidence?.imported?.campaigns ?? []).map((campaign) => ({
+    ...campaign,
+    source: 'imported',
+  })),
+  ...(localEventBridge.gateSampleEvidence?.inbox?.campaigns ?? []).map((campaign) => ({
+    ...campaign,
+    source: 'inbox',
+  })),
+]
+const gateSampleCampaignById = new Map(gateSampleCampaigns.map((campaign) => [campaign.campaignId, campaign]))
+
+const evidenceForMission = (mission) => {
+  const evidence = gateSampleCampaignById.get(mission.campaignId)
+
+  if (!evidence) {
+    return {
+      status: 'waiting-for-player-export',
+      source: null,
+      events: 0,
+      successEvents: 0,
+      analyticsExports: 0,
+      latestAt: null,
+    }
+  }
+
+  return {
+    status: evidence.source === 'imported' ? 'imported-sample-active' : 'inbox-ready-for-ingest',
+    source: evidence.source,
+    events: evidence.events,
+    successEvents: evidence.successEvents,
+    analyticsExports: evidence.analyticsExports,
+    latestAt: evidence.latestAt,
+  }
+}
+
+const missionsWithEvidence = missions.map((mission) => ({
+  ...mission,
+  evidence: evidenceForMission(mission),
+}))
+const evidenceReadyCount = missionsWithEvidence.filter(
+  (mission) => mission.evidence.status === 'imported-sample-active',
+).length
+const inboxReadyCount = missionsWithEvidence.filter(
+  (mission) => mission.evidence.status === 'inbox-ready-for-ingest',
+).length
 
 const payload = {
   generatedAt: new Date().toISOString(),
@@ -183,13 +231,19 @@ const payload = {
     totalObservedSuccessesNeeded,
     sampleReadyCount,
     localEventsAvailable,
+    importedGateSampleEvents,
+    inboxGateSampleEvents,
+    evidenceReadyCount,
+    inboxReadyCount,
     nextOwnerAction: 'refresh-product-gate-sample-plan',
   },
-  missions,
+  missions: missionsWithEvidence,
   commandPlan: {
     refreshPlan: 'npm run autonomous:sample-plan',
     collectAndRefresh:
       'npm run autonomous:local-event-bridge && npm run autonomous:import-events && npm run autonomous:analytics && npm run autonomous:gate-recovery && npm run autonomous:sample-plan',
+    collectDownloadsAndRefresh:
+      'AGL_LOCAL_EVENT_IMPORT_DOWNLOADS=true npm run autonomous:local-event-bridge && npm run autonomous:import-events && npm run autonomous:analytics && npm run autonomous:gate-recovery && npm run autonomous:sample-plan',
     primaryLoopRefresh: primaryMission?.refreshCommands?.[0] ?? null,
   },
   controls: {
@@ -201,6 +255,8 @@ const payload = {
     noStoreSubmission: true,
     playerInitiatedOnly: true,
     localEventBridgeRequired: true,
+    realEventDropsOnly: true,
+    downloadsImportRequiresExplicitOptIn: true,
     requireObservedTelemetryBeforeRecoveryChange: true,
   },
   nextActions: [
@@ -212,6 +268,8 @@ const payload = {
       : 'Keep the primary gate sample mission active until the recovery decision is sample-ready.',
     localEventsAvailable
       ? 'Use imported local event drops before the next recovery decision.'
+      : inboxGateSampleEvents
+        ? 'Import the gate-sample event drop already waiting in the local inbox before the next recovery decision.'
       : 'Export or collect real browser events through the local event bridge before changing copy, placement, revenue, or rules.',
   ],
 }
@@ -225,18 +283,21 @@ const report = [
   `Primary gate: ${payload.summary.primaryGateId ?? 'none'}`,
   `Prompt views needed: ${payload.summary.totalPromptViewsNeeded}`,
   `Observed successes needed: ${payload.summary.totalObservedSuccessesNeeded}`,
+  `Imported gate-sample events: ${payload.summary.importedGateSampleEvents}`,
+  `Inbox gate-sample events: ${payload.summary.inboxGateSampleEvents}`,
   '',
   '## Missions',
   '',
   ...payload.missions.map(
     (mission) =>
-      `- #${mission.rank} ${mission.gateId}: ${mission.status}; ${pct(mission.current.actual)} / ${pct(mission.current.gate)}; needs ${mission.needed.promptViews} prompt view(s), ${mission.needed.successes} success(es); ${mission.playPath}`,
+      `- #${mission.rank} ${mission.gateId}: ${mission.status}; evidence ${mission.evidence.status}; ${pct(mission.current.actual)} / ${pct(mission.current.gate)}; needs ${mission.needed.promptViews} prompt view(s), ${mission.needed.successes} success(es); ${mission.playPath}`,
   ),
   '',
   '## Commands',
   '',
   `- Refresh plan: ${payload.commandPlan.refreshPlan}`,
   `- Collect and refresh: ${payload.commandPlan.collectAndRefresh}`,
+  `- Collect downloads and refresh: ${payload.commandPlan.collectDownloadsAndRefresh}`,
   '',
   '## Controls',
   '',

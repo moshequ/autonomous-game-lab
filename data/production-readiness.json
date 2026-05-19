@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-19T08:20:07.323Z",
+  "generatedAt": "2026-05-19T08:31:19.968Z",
   "environment": {
     "status": "production-env-missing",
     "publicOrigin": null,
@@ -319,7 +319,7 @@
       {
         "id": "performance-budget",
         "status": "pass",
-        "detail": "Performance budget is performance-budget-ready; initial JS 644.7 KB / 172.9 KB gzip; deferred game chunk GameCanvas-DlZAhDdt.js."
+        "detail": "Performance budget is performance-budget-ready; initial JS 646.6 KB / 173.3 KB gzip; deferred game chunk GameCanvas-PxwJRPT4.js."
       },
       {
         "id": "release-candidate",
@@ -795,21 +795,21 @@
     },
     "initial": {
       "entryScripts": [
-        "index-gyu9LJVS.js",
+        "index-CBNLF1_z.js",
         "registerSW.js"
       ],
       "scriptPaths": [
-        "assets/index-gyu9LJVS.js",
+        "assets/index-CBNLF1_z.js",
         "registerSW.js"
       ],
       "jsFiles": [
         {
-          "file": "index-gyu9LJVS.js",
-          "path": "assets/index-gyu9LJVS.js",
-          "bytes": 660029,
-          "kb": 644.6,
-          "gzipBytes": 176946,
-          "gzipKb": 172.8
+          "file": "index-CBNLF1_z.js",
+          "path": "assets/index-CBNLF1_z.js",
+          "bytes": 661936,
+          "kb": 646.4,
+          "gzipBytes": 177314,
+          "gzipKb": 173.2
         },
         {
           "file": "registerSW.js",
@@ -820,10 +820,10 @@
           "gzipKb": 0.1
         }
       ],
-      "jsBytes": 660163,
-      "jsKb": 644.7,
-      "gzipBytes": 177072,
-      "gzipKb": 172.9,
+      "jsBytes": 662070,
+      "jsKb": 646.6,
+      "gzipBytes": 177440,
+      "gzipKb": 173.3,
       "cssFiles": [
         {
           "file": "index-BA4sddeG.css",
@@ -842,8 +842,8 @@
     "deferred": {
       "chunks": [
         {
-          "file": "GameCanvas-DlZAhDdt.js",
-          "path": "assets/GameCanvas-DlZAhDdt.js",
+          "file": "GameCanvas-PxwJRPT4.js",
+          "path": "assets/GameCanvas-PxwJRPT4.js",
           "bytes": 1393468,
           "kb": 1360.8,
           "gzipBytes": 356095,
@@ -851,24 +851,24 @@
         }
       ],
       "gameChunk": {
-        "file": "GameCanvas-DlZAhDdt.js",
-        "path": "assets/GameCanvas-DlZAhDdt.js",
+        "file": "GameCanvas-PxwJRPT4.js",
+        "path": "assets/GameCanvas-PxwJRPT4.js",
         "bytes": 1393468,
         "kb": 1360.8,
         "gzipBytes": 356095,
         "gzipKb": 347.7
       },
       "largestDeferredChunk": {
-        "file": "GameCanvas-DlZAhDdt.js",
-        "path": "assets/GameCanvas-DlZAhDdt.js",
+        "file": "GameCanvas-PxwJRPT4.js",
+        "path": "assets/GameCanvas-PxwJRPT4.js",
         "bytes": 1393468,
         "kb": 1360.8,
         "gzipBytes": 356095,
         "gzipKb": 347.7
       },
       "largestJsChunk": {
-        "file": "GameCanvas-DlZAhDdt.js",
-        "path": "assets/GameCanvas-DlZAhDdt.js",
+        "file": "GameCanvas-PxwJRPT4.js",
+        "path": "assets/GameCanvas-PxwJRPT4.js",
         "bytes": 1393468,
         "kb": 1360.8,
         "gzipBytes": 356095,
@@ -889,12 +889,12 @@
       {
         "id": "initial-js-budget",
         "status": "pass",
-        "detail": "Initial JS is 644.7 KB; budget is 675 KB."
+        "detail": "Initial JS is 646.6 KB; budget is 675 KB."
       },
       {
         "id": "initial-js-gzip-budget",
         "status": "pass",
-        "detail": "Initial JS gzip is 172.9 KB; budget is 200 KB."
+        "detail": "Initial JS gzip is 173.3 KB; budget is 200 KB."
       },
       {
         "id": "initial-css-budget",
@@ -914,12 +914,12 @@
       {
         "id": "game-runtime-deferred",
         "status": "pass",
-        "detail": "GameCanvas-DlZAhDdt.js is deferred from the initial shell."
+        "detail": "GameCanvas-PxwJRPT4.js is deferred from the initial shell."
       },
       {
         "id": "largest-js-deferred",
         "status": "pass",
-        "detail": "Largest JS chunk is GameCanvas-DlZAhDdt.js at 1360.8 KB."
+        "detail": "Largest JS chunk is GameCanvas-PxwJRPT4.js at 1360.8 KB."
       },
       {
         "id": "deferred-game-budget",
@@ -930,7 +930,7 @@
   },
   "releaseCandidate": {
     "status": "release-candidate-ready",
-    "candidateId": "pwa-afcd7c8f22f8",
+    "candidateId": "pwa-d752e3ad053a",
     "target": {
       "provider": "github-pages",
       "artifactPath": "dist",
@@ -941,8 +941,8 @@
     },
     "summary": {
       "totalFiles": 39,
-      "totalBytes": 3645247,
-      "totalKb": 3559.8,
+      "totalBytes": 3647154,
+      "totalKb": 3561.7,
       "assetFiles": 3,
       "htmlFiles": 13,
       "gamePages": 10,
@@ -951,7 +951,7 @@
     },
     "integrity": {
       "algorithm": "sha256",
-      "aggregateHash": "afcd7c8f22f8cb4a7c00e7be88099485d4b48b0d194f1e3d5fb89cc5fe510c99",
+      "aggregateHash": "d752e3ad053a2081466278d253db0a94c919d05a42f31f71738a22af253d240e",
       "requiredFileChecks": [
         {
           "path": "index.html",
@@ -1140,8 +1140,8 @@
     "target": {
       "origin": null,
       "provider": "github-pages",
-      "candidateId": "pwa-afcd7c8f22f8",
-      "aggregateHash": "afcd7c8f22f8cb4a7c00e7be88099485d4b48b0d194f1e3d5fb89cc5fe510c99"
+      "candidateId": "pwa-d752e3ad053a",
+      "aggregateHash": "d752e3ad053a2081466278d253db0a94c919d05a42f31f71738a22af253d240e"
     },
     "sourceStatus": {
       "deployment": "ready-for-pages",
@@ -1278,8 +1278,8 @@
           "bytes": 16482,
           "candidateMatches": true,
           "hashMatches": true,
-          "localCandidateId": "pwa-afcd7c8f22f8",
-          "localAggregateHash": "afcd7c8f22f8cb4a7c00e7be88099485d4b48b0d194f1e3d5fb89cc5fe510c99",
+          "localCandidateId": "pwa-d752e3ad053a",
+          "localAggregateHash": "d752e3ad053a2081466278d253db0a94c919d05a42f31f71738a22af253d240e",
           "detail": "Local release manifest matches the release candidate."
         }
       ]
@@ -1389,7 +1389,7 @@
         "path": "/release-candidate.json",
         "url": "${DEPLOYED_PWA_ORIGIN}/release-candidate.json",
         "expectedStatus": 200,
-        "requiredText": "pwa-afcd7c8f22f8",
+        "requiredText": "pwa-d752e3ad053a",
         "status": "blocked",
         "detail": "No deployed origin configured."
       }
