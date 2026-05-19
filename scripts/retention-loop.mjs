@@ -18,7 +18,11 @@ const playable = await readJson(path.join(dataDir, 'playable-games.json'))
 
 const roundMetric = (value) => (typeof value === 'number' ? Math.round(value * 1000) / 1000 : null)
 const pct = (value) => (typeof value === 'number' ? `${Math.round(value * 100)}%` : 'n/a')
-const today = new Date().toISOString().slice(0, 10)
+const localIsoDate = (date = new Date()) => {
+  const localDate = new Date(date.getTime() - date.getTimezoneOffset() * 60_000)
+  return localDate.toISOString().slice(0, 10)
+}
+const today = localIsoDate()
 const addDays = (isoDate, days) => {
   const date = new Date(`${isoDate}T00:00:00.000Z`)
   date.setUTCDate(date.getUTCDate() + days)

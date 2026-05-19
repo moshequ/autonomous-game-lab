@@ -21,6 +21,11 @@ const titleCase = (value) =>
 
 const round = (value) => Math.round(value * 1000) / 1000
 
+const localIsoDate = (date = new Date()) => {
+  const localDate = new Date(date.getTime() - date.getTimezoneOffset() * 60_000)
+  return localDate.toISOString().slice(0, 10)
+}
+
 const scoreFromMetrics = (metrics = {}) => {
   const startRate = typeof metrics.startRate === 'number' ? metrics.startRate : 0.45
   const completion = typeof metrics.firstGameCompletion === 'number' ? metrics.firstGameCompletion : 0.32
@@ -70,7 +75,7 @@ for (const item of backlog) {
   backlogByGame.get(item.gameId).push(item)
 }
 
-const today = new Date().toISOString().slice(0, 10)
+const today = localIsoDate()
 const playableIds = playable.games ?? []
 const analyticsSource = analytics.sourceStatus?.activeSource ?? 'unknown'
 const hasLiveAnalytics = ['posthog', 'local-event-drops'].includes(analyticsSource)

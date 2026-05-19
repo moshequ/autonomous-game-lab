@@ -316,6 +316,8 @@ const productionBootstrapSource = await readFile(path.join(root, 'scripts', 'pro
 const postDeploySmokeSource = await readFile(path.join(root, 'scripts', 'post-deploy-smoke.mjs'), 'utf8')
 const repositoryReadinessSource = await readFile(path.join(root, 'scripts', 'repository-readiness.mjs'), 'utf8')
 const repositoryBootstrapSource = await readFile(path.join(root, 'scripts', 'repository-bootstrap.mjs'), 'utf8')
+const portfolioPolicySource = await readFile(path.join(root, 'scripts', 'portfolio-policy.mjs'), 'utf8')
+const retentionLoopSource = await readFile(path.join(root, 'scripts', 'retention-loop.mjs'), 'utf8')
 const autonomousOperatorSource = await readFile(path.join(root, 'scripts', 'autonomous-operator.mjs'), 'utf8')
 const autonomousOwnerLoopSource = await readFile(path.join(root, 'scripts', 'autonomous-owner-loop.mjs'), 'utf8')
 const autonomousSelfUpdateSource = await readFile(path.join(root, 'scripts', 'autonomous-self-update.mjs'), 'utf8')
@@ -651,6 +653,7 @@ const portfolioOrderedIds = portfolioPolicy.rotation?.orderedGameIds ?? []
 const stalePortfolioGame = [...portfolioGameIds].find((gameId) => !playableIds.has(gameId))
 const missingPortfolioGame = [...playableIds].find((gameId) => !portfolioGameIds.has(gameId))
 const duplicatePortfolioOrder = portfolioOrderedIds.find((gameId, index) => portfolioOrderedIds.indexOf(gameId) !== index)
+const utcDailyPattern = 'new Date().toISOString().slice(0, 10)'
 
 if (
   portfolioPolicy.status !== 'portfolio-policy-ready' ||
@@ -666,6 +669,15 @@ if (
   duplicatePortfolioOrder
 ) {
   fail('Portfolio policy must rank every playable game exactly once with no-spend and no-retirement guardrails.')
+}
+
+if (
+  portfolioPolicySource.includes(`const today = ${utcDailyPattern}`) ||
+  retentionLoopSource.includes(`const today = ${utcDailyPattern}`) ||
+  !portfolioPolicySource.includes('const today = localIsoDate()') ||
+  !retentionLoopSource.includes('const today = localIsoDate()')
+) {
+  fail('Daily portfolio and retention scripts must use the local runner date, not the UTC date.')
 }
 
 const portfolioBacklogMiss = backlog.find(
