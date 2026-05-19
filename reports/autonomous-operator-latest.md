@@ -1,10 +1,10 @@
 # Autonomous Operator
 
-Generated: 2026-05-19T06:28:56.956Z
+Generated: 2026-05-19T06:32:19.496Z
 Status: operator-plan-ready
 Mode: plan-only
-Owner decision: bootstrap-production-setup
-Selected action: bootstrap-production-setup
+Owner decision: optimize-product-gates
+Selected action: optimize-product-gates
 Execution: not-requested
 
 ## Controls
@@ -18,7 +18,7 @@ Execution: not-requested
 
 ## Selected Action
 
-- bootstrap-production-setup: npm run autonomous:release-candidate && npm run autonomous:deploy-plan && npm run autonomous:bootstrap
+- optimize-product-gates: npm run autonomous:analyze && npm run autonomous:product-optimize && npm run autonomous:sync-config && npm run autonomous:simulate
 
 ## Eligible Local Actions
 
@@ -52,5 +52,5 @@ Execution: not-requested
 - check-performance-budget: not-selected-this-run
 - prepare-release-candidate: not-selected-this-run
 - run-post-deploy-smoke: status-monitor
-- optimize-product-gates: not-selected-this-run
 - refresh-first-move-coach: not-selected-this-run
+- refresh-completion-loop: not-selected-this-run
