@@ -1,6 +1,6 @@
 # Event Collector Smoke
 
-Generated: 2026-05-19T18:03:53.448Z
+Generated: 2026-05-19T18:08:17.869Z
 Status: pass
 
 ## Collector
