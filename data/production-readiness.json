@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-19T04:21:38.719Z",
+  "generatedAt": "2026-05-19T04:23:21.378Z",
   "environment": {
     "status": "production-env-missing",
     "publicOrigin": null,
@@ -75,21 +75,86 @@
         "originRemote": null,
         "remoteRepository": null,
         "hasCommit": true,
-        "dirtyFiles": 3,
+        "dirtyFiles": 36,
         "dirtyPaths": [
-          "ata/repository-readiness.json",
+          "data/autonomous-operator-history.json",
+          "data/autonomous-operator.json",
+          "data/autonomous-owner-loop.json",
+          "data/deployment-plan.json",
+          "data/event-collector-smoke.json",
+          "data/event-ingest-smoke.json",
+          "data/objective-audit.json",
+          "data/performance-budget.json",
+          "data/post-deploy-smoke.json",
+          "data/production-bootstrap.json",
+          "data/production-readiness.json",
+          "data/release-candidate.json",
+          "data/repository-bootstrap.json",
+          "data/repository-readiness.json",
+          "reports/autonomous-operator-history-latest.md",
+          "reports/autonomous-operator-latest.md",
+          "reports/autonomous-owner-loop-latest.md",
+          "reports/deployment-plan-latest.md",
+          "reports/event-collector-smoke-latest.md",
+          "reports/event-ingest-smoke-latest.md",
+          "reports/objective-audit-latest.md",
+          "reports/performance-budget-latest.md",
+          "reports/post-deploy-smoke-latest.md",
+          "reports/production-bootstrap-latest.md",
+          "reports/production-readiness-latest.md",
+          "reports/release-candidate-latest.md",
+          "reports/repository-bootstrap-latest.md",
           "reports/repository-readiness-latest.md",
+          "src/data/deploymentPlan.ts",
+          "src/data/objectiveAudit.ts",
+          "src/data/performanceBudget.ts",
+          "src/data/postDeploySmoke.ts",
+          "src/data/productionBootstrap.ts",
+          "src/data/releaseCandidate.ts",
+          "src/data/repositoryBootstrap.ts",
           "src/data/repositoryReadiness.ts"
         ],
-        "generatedEvidenceDirtyFiles": 2,
+        "generatedEvidenceDirtyFiles": 36,
         "generatedEvidenceDirtyPaths": [
+          "data/autonomous-operator-history.json",
+          "data/autonomous-operator.json",
+          "data/autonomous-owner-loop.json",
+          "data/deployment-plan.json",
+          "data/event-collector-smoke.json",
+          "data/event-ingest-smoke.json",
+          "data/objective-audit.json",
+          "data/performance-budget.json",
+          "data/post-deploy-smoke.json",
+          "data/production-bootstrap.json",
+          "data/production-readiness.json",
+          "data/release-candidate.json",
+          "data/repository-bootstrap.json",
+          "data/repository-readiness.json",
+          "reports/autonomous-operator-history-latest.md",
+          "reports/autonomous-operator-latest.md",
+          "reports/autonomous-owner-loop-latest.md",
+          "reports/deployment-plan-latest.md",
+          "reports/event-collector-smoke-latest.md",
+          "reports/event-ingest-smoke-latest.md",
+          "reports/objective-audit-latest.md",
+          "reports/performance-budget-latest.md",
+          "reports/post-deploy-smoke-latest.md",
+          "reports/production-bootstrap-latest.md",
+          "reports/production-readiness-latest.md",
+          "reports/release-candidate-latest.md",
+          "reports/repository-bootstrap-latest.md",
           "reports/repository-readiness-latest.md",
+          "src/data/deploymentPlan.ts",
+          "src/data/objectiveAudit.ts",
+          "src/data/performanceBudget.ts",
+          "src/data/postDeploySmoke.ts",
+          "src/data/productionBootstrap.ts",
+          "src/data/releaseCandidate.ts",
+          "src/data/repositoryBootstrap.ts",
           "src/data/repositoryReadiness.ts"
         ],
-        "nonGeneratedDirtyFiles": 1,
-        "nonGeneratedDirtyPaths": [
-          "ata/repository-readiness.json"
-        ]
+        "nonGeneratedDirtyFiles": 0,
+        "nonGeneratedDirtyPaths": []
       },
       "after": {
         "insideWorkTree": true,
@@ -98,21 +163,86 @@
         "originRemote": null,
         "remoteRepository": null,
         "hasCommit": true,
-        "dirtyFiles": 3,
+        "dirtyFiles": 36,
         "dirtyPaths": [
-          "ata/repository-readiness.json",
+          "data/autonomous-operator-history.json",
+          "data/autonomous-operator.json",
+          "data/autonomous-owner-loop.json",
+          "data/deployment-plan.json",
+          "data/event-collector-smoke.json",
+          "data/event-ingest-smoke.json",
+          "data/objective-audit.json",
+          "data/performance-budget.json",
+          "data/post-deploy-smoke.json",
+          "data/production-bootstrap.json",
+          "data/production-readiness.json",
+          "data/release-candidate.json",
+          "data/repository-bootstrap.json",
+          "data/repository-readiness.json",
+          "reports/autonomous-operator-history-latest.md",
+          "reports/autonomous-operator-latest.md",
+          "reports/autonomous-owner-loop-latest.md",
+          "reports/deployment-plan-latest.md",
+          "reports/event-collector-smoke-latest.md",
+          "reports/event-ingest-smoke-latest.md",
+          "reports/objective-audit-latest.md",
+          "reports/performance-budget-latest.md",
+          "reports/post-deploy-smoke-latest.md",
+          "reports/production-bootstrap-latest.md",
+          "reports/production-readiness-latest.md",
+          "reports/release-candidate-latest.md",
+          "reports/repository-bootstrap-latest.md",
           "reports/repository-readiness-latest.md",
+          "src/data/deploymentPlan.ts",
+          "src/data/objectiveAudit.ts",
+          "src/data/performanceBudget.ts",
+          "src/data/postDeploySmoke.ts",
+          "src/data/productionBootstrap.ts",
+          "src/data/releaseCandidate.ts",
+          "src/data/repositoryBootstrap.ts",
           "src/data/repositoryReadiness.ts"
         ],
-        "generatedEvidenceDirtyFiles": 2,
+        "generatedEvidenceDirtyFiles": 36,
         "generatedEvidenceDirtyPaths": [
+          "data/autonomous-operator-history.json",
+          "data/autonomous-operator.json",
+          "data/autonomous-owner-loop.json",
+          "data/deployment-plan.json",
+          "data/event-collector-smoke.json",
+          "data/event-ingest-smoke.json",
+          "data/objective-audit.json",
+          "data/performance-budget.json",
+          "data/post-deploy-smoke.json",
+          "data/production-bootstrap.json",
+          "data/production-readiness.json",
+          "data/release-candidate.json",
+          "data/repository-bootstrap.json",
+          "data/repository-readiness.json",
+          "reports/autonomous-operator-history-latest.md",
+          "reports/autonomous-operator-latest.md",
+          "reports/autonomous-owner-loop-latest.md",
+          "reports/deployment-plan-latest.md",
+          "reports/event-collector-smoke-latest.md",
+          "reports/event-ingest-smoke-latest.md",
+          "reports/objective-audit-latest.md",
+          "reports/performance-budget-latest.md",
+          "reports/post-deploy-smoke-latest.md",
+          "reports/production-bootstrap-latest.md",
+          "reports/production-readiness-latest.md",
+          "reports/release-candidate-latest.md",
+          "reports/repository-bootstrap-latest.md",
           "reports/repository-readiness-latest.md",
+          "src/data/deploymentPlan.ts",
+          "src/data/objectiveAudit.ts",
+          "src/data/performanceBudget.ts",
+          "src/data/postDeploySmoke.ts",
+          "src/data/productionBootstrap.ts",
+          "src/data/releaseCandidate.ts",
+          "src/data/repositoryBootstrap.ts",
           "src/data/repositoryReadiness.ts"
         ],
-        "nonGeneratedDirtyFiles": 1,
-        "nonGeneratedDirtyPaths": [
-          "ata/repository-readiness.json"
-        ]
+        "nonGeneratedDirtyFiles": 0,
+        "nonGeneratedDirtyPaths": []
       }
     },
     "repository": {
@@ -178,13 +308,13 @@
       },
       {
         "id": "commit-current-snapshot",
-        "status": "ready-for-explicit-snapshot-commit",
+        "status": "ready",
         "costUsd": 0,
         "command": "AGL_ALLOW_REPOSITORY_BOOTSTRAP=1 AGL_ALLOW_SNAPSHOT_COMMIT=1 ./ops/github/bootstrap-repository.sh",
         "mutatesLocalGit": true,
         "mutatesRemoteGitHub": false,
         "requiresExplicitEnv": true,
-        "detail": "1 non-generated source or artifact file(s) are not committed yet."
+        "detail": "36 repository evidence file(s) changed during this dry run; the outer verified commit will persist them."
       },
       {
         "id": "set-or-create-origin",
@@ -214,11 +344,10 @@
         "mutatesLocalGit": false,
         "mutatesRemoteGitHub": true,
         "requiresExplicitEnv": true,
-        "detail": "Push stays held until a committed local snapshot and origin remote exist."
+        "detail": "Push stays held until an origin remote exists and AGL_ALLOW_PUSH=1 is set."
       }
     ],
     "blockers": [
-      "Commit current generated changes before pushing to GitHub Pages.",
       "Set GITHUB_REPOSITORY or GH_REPO to the intended owner/repo.",
       "Attach a GitHub origin remote or create the target repository.",
       "Authenticate GitHub CLI or provide GH_TOKEN/GITHUB_TOKEN for remote repository bootstrap."
@@ -317,7 +446,7 @@
       {
         "id": "performance-budget",
         "status": "pass",
-        "detail": "Performance budget is performance-budget-ready; initial JS 628 KB / 169.6 KB gzip; deferred game chunk GameCanvas-yFhjfbRM.js."
+        "detail": "Performance budget is performance-budget-ready; initial JS 627.9 KB / 169.6 KB gzip; deferred game chunk GameCanvas-BC7XPawy.js."
       },
       {
         "id": "release-candidate",
@@ -362,7 +491,7 @@
       {
         "id": "production-bootstrap",
         "status": "pass",
-        "detail": "Production bootstrap is production-bootstrap-ready; mode waiting-for-external-credentials; external blockers 24."
+        "detail": "Production bootstrap is production-bootstrap-ready; mode waiting-for-external-credentials; external blockers 23."
       },
       {
         "id": "autonomous-operator",
@@ -793,20 +922,20 @@
     },
     "initial": {
       "entryScripts": [
-        "index-BVYLdUK4.js",
+        "index-CyvcbRyD.js",
         "registerSW.js"
       ],
       "scriptPaths": [
-        "assets/index-BVYLdUK4.js",
+        "assets/index-CyvcbRyD.js",
         "registerSW.js"
       ],
       "jsFiles": [
         {
-          "file": "index-BVYLdUK4.js",
-          "path": "assets/index-BVYLdUK4.js",
-          "bytes": 642947,
-          "kb": 627.9,
-          "gzipBytes": 173563,
+          "file": "index-CyvcbRyD.js",
+          "path": "assets/index-CyvcbRyD.js",
+          "bytes": 642885,
+          "kb": 627.8,
+          "gzipBytes": 173544,
           "gzipKb": 169.5
         },
         {
@@ -818,9 +947,9 @@
           "gzipKb": 0.1
         }
       ],
-      "jsBytes": 643081,
-      "jsKb": 628,
-      "gzipBytes": 173689,
+      "jsBytes": 643019,
+      "jsKb": 627.9,
+      "gzipBytes": 173670,
       "gzipKb": 169.6,
       "cssFiles": [
         {
@@ -840,36 +969,36 @@
     "deferred": {
       "chunks": [
         {
-          "file": "GameCanvas-yFhjfbRM.js",
-          "path": "assets/GameCanvas-yFhjfbRM.js",
+          "file": "GameCanvas-BC7XPawy.js",
+          "path": "assets/GameCanvas-BC7XPawy.js",
           "bytes": 1393468,
           "kb": 1360.8,
-          "gzipBytes": 356095,
+          "gzipBytes": 356094,
           "gzipKb": 347.7
         }
       ],
       "gameChunk": {
-        "file": "GameCanvas-yFhjfbRM.js",
-        "path": "assets/GameCanvas-yFhjfbRM.js",
+        "file": "GameCanvas-BC7XPawy.js",
+        "path": "assets/GameCanvas-BC7XPawy.js",
         "bytes": 1393468,
         "kb": 1360.8,
-        "gzipBytes": 356095,
+        "gzipBytes": 356094,
         "gzipKb": 347.7
       },
       "largestDeferredChunk": {
-        "file": "GameCanvas-yFhjfbRM.js",
-        "path": "assets/GameCanvas-yFhjfbRM.js",
+        "file": "GameCanvas-BC7XPawy.js",
+        "path": "assets/GameCanvas-BC7XPawy.js",
         "bytes": 1393468,
         "kb": 1360.8,
-        "gzipBytes": 356095,
+        "gzipBytes": 356094,
         "gzipKb": 347.7
       },
       "largestJsChunk": {
-        "file": "GameCanvas-yFhjfbRM.js",
-        "path": "assets/GameCanvas-yFhjfbRM.js",
+        "file": "GameCanvas-BC7XPawy.js",
+        "path": "assets/GameCanvas-BC7XPawy.js",
         "bytes": 1393468,
         "kb": 1360.8,
-        "gzipBytes": 356095,
+        "gzipBytes": 356094,
         "gzipKb": 347.7
       },
       "chunksBytes": 1393468,
@@ -887,7 +1016,7 @@
       {
         "id": "initial-js-budget",
         "status": "pass",
-        "detail": "Initial JS is 628 KB; budget is 675 KB."
+        "detail": "Initial JS is 627.9 KB; budget is 675 KB."
       },
       {
         "id": "initial-js-gzip-budget",
@@ -912,12 +1041,12 @@
       {
         "id": "game-runtime-deferred",
         "status": "pass",
-        "detail": "GameCanvas-yFhjfbRM.js is deferred from the initial shell."
+        "detail": "GameCanvas-BC7XPawy.js is deferred from the initial shell."
       },
       {
         "id": "largest-js-deferred",
         "status": "pass",
-        "detail": "Largest JS chunk is GameCanvas-yFhjfbRM.js at 1360.8 KB."
+        "detail": "Largest JS chunk is GameCanvas-BC7XPawy.js at 1360.8 KB."
       },
       {
         "id": "deferred-game-budget",
@@ -928,7 +1057,7 @@
   },
   "releaseCandidate": {
     "status": "release-candidate-ready",
-    "candidateId": "pwa-e4af393025bf",
+    "candidateId": "pwa-bdd4abbdb148",
     "target": {
       "provider": "github-pages",
       "artifactPath": "dist",
@@ -939,7 +1068,7 @@
     },
     "summary": {
       "totalFiles": 38,
-      "totalBytes": 3628771,
+      "totalBytes": 3628709,
       "totalKb": 3543.7,
       "assetFiles": 3,
       "htmlFiles": 13,
@@ -949,7 +1078,7 @@
     },
     "integrity": {
       "algorithm": "sha256",
-      "aggregateHash": "e4af393025bffee70464adbf26ac98a035997485521dc2ed4046ef3bc0312fda",
+      "aggregateHash": "bdd4abbdb1488b87cc191902b588cad1eedc54e3328c5edeec87f11b7dda9ba8",
       "requiredFileChecks": [
         {
           "path": "index.html",
@@ -1113,8 +1242,8 @@
     "target": {
       "origin": null,
       "provider": "github-pages",
-      "candidateId": "pwa-e4af393025bf",
-      "aggregateHash": "e4af393025bffee70464adbf26ac98a035997485521dc2ed4046ef3bc0312fda"
+      "candidateId": "pwa-bdd4abbdb148",
+      "aggregateHash": "bdd4abbdb1488b87cc191902b588cad1eedc54e3328c5edeec87f11b7dda9ba8"
     },
     "sourceStatus": {
       "deployment": "ready-for-pages",
@@ -1221,8 +1350,8 @@
           "bytes": 15513,
           "candidateMatches": true,
           "hashMatches": true,
-          "localCandidateId": "pwa-e4af393025bf",
-          "localAggregateHash": "e4af393025bffee70464adbf26ac98a035997485521dc2ed4046ef3bc0312fda",
+          "localCandidateId": "pwa-bdd4abbdb148",
+          "localAggregateHash": "bdd4abbdb1488b87cc191902b588cad1eedc54e3328c5edeec87f11b7dda9ba8",
           "detail": "Local release manifest matches the release candidate."
         }
       ]
@@ -1305,7 +1434,7 @@
         "path": "/release-candidate.json",
         "url": "${DEPLOYED_PWA_ORIGIN}/release-candidate.json",
         "expectedStatus": 200,
-        "requiredText": "pwa-e4af393025bf",
+        "requiredText": "pwa-bdd4abbdb148",
         "status": "blocked",
         "detail": "No deployed origin configured."
       }
@@ -1902,7 +2031,7 @@
       "totalVariables": 24,
       "configuredSecrets": 3,
       "totalSecrets": 8,
-      "externalBlockers": 24
+      "externalBlockers": 23
     },
     "controls": {
       "zeroSpendGuard": true,
@@ -1944,7 +2073,6 @@
         "command": "npm run autonomous:repo-bootstrap",
         "evidence": "Repository bootstrap waiting-for-github-target; helper ops/github/bootstrap-repository.sh; local git ready.",
         "requires": [
-          "Commit current generated changes before pushing to GitHub Pages.",
           "Set GITHUB_REPOSITORY or GH_REPO to the intended owner/repo.",
           "Attach a GitHub origin remote or create the target repository.",
           "Authenticate GitHub CLI or provide GH_TOKEN/GITHUB_TOKEN for remote repository bootstrap."
@@ -2127,10 +2255,6 @@
       {
         "source": "repository-readiness",
         "blocker": "Configure GH_TOKEN or GITHUB_TOKEN for workflow dispatch and repository settings sync."
-      },
-      {
-        "source": "repository-bootstrap",
-        "blocker": "Commit current generated changes before pushing to GitHub Pages."
       },
       {
         "source": "repository-bootstrap",
@@ -2906,7 +3030,7 @@
       "met": 5,
       "prepared": 2,
       "incomplete": 1,
-      "externalBlockers": 21,
+      "externalBlockers": 20,
       "productBlockers": 6
     },
     "controls": {
@@ -3010,7 +3134,6 @@
         "blockers": [
           "Add a GitHub origin remote or set GITHUB_REPOSITORY/GH_REPO.",
           "Configure GH_TOKEN or GITHUB_TOKEN for workflow dispatch and repository settings sync.",
-          "Commit current generated changes before pushing to GitHub Pages.",
           "Set GITHUB_REPOSITORY or GH_REPO to the intended owner/repo.",
           "Attach a GitHub origin remote or create the target repository.",
           "Authenticate GitHub CLI or provide GH_TOKEN/GITHUB_TOKEN for remote repository bootstrap.",
