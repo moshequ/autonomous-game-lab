@@ -2,12 +2,12 @@ export const autonomousOperatorHistory = {
   "status": "operator-history-ready",
   "summary": {
     "totalRecords": 40,
-    "plannedRecords": 27,
-    "executedRecords": 13,
+    "plannedRecords": 26,
+    "executedRecords": 14,
     "failedRecords": 0,
-    "lastActionId": "optimize-daily-retention",
+    "lastActionId": "measure-pwa-install-loop",
     "lastExecutionStatus": "not-requested",
-    "lastExecutedActionId": "optimize-product-gates"
+    "lastExecutedActionId": "optimize-daily-retention"
   }
 } as const
 
