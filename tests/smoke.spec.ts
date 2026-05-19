@@ -1501,6 +1501,7 @@ test('autonomous cadence keeps unattended operation auditable and guarded', asyn
           scheduleMatches: boolean
           workspaceMatches: boolean
           promptGuardrailsPresent: boolean
+          relatedActiveAutomationIds: string[]
         }
       }
       githubActions: { status: string; workflow: string; artifactUpload: boolean }
@@ -1562,6 +1563,7 @@ test('autonomous cadence keeps unattended operation auditable and guarded', asyn
     expect(cadence.schedulers.codexDesktop.actual.scheduleMatches).toBe(true)
     expect(cadence.schedulers.codexDesktop.actual.workspaceMatches).toBe(true)
     expect(cadence.schedulers.codexDesktop.actual.promptGuardrailsPresent).toBe(true)
+    expect(cadence.schedulers.codexDesktop.actual.relatedActiveAutomationIds).toEqual([])
   }
   expect(manifest.id).toBe(cadence.schedulers.codexDesktop.id)
   expect(manifest.status).toBe('active-declared')

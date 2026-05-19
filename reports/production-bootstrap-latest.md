@@ -1,6 +1,6 @@
 # Production Bootstrap
 
-Generated: 2026-05-19T21:02:14.418Z
+Generated: 2026-05-19T21:07:27.992Z
 Status: production-bootstrap-ready
 Mode: waiting-for-external-credentials
 GitHub repository: missing
@@ -81,6 +81,7 @@ gh CLI available: true
 
 - repository-readiness: Add a GitHub origin remote, set GITHUB_REPOSITORY/GH_REPO, or authenticate gh to infer the target repository.
 - repository-readiness: Authenticate GitHub CLI or configure GH_TOKEN/GITHUB_TOKEN for workflow dispatch and repository settings sync.
+- repository-bootstrap: Commit current generated changes before pushing to GitHub Pages.
 - repository-bootstrap: Set GITHUB_REPOSITORY/GH_REPO or authenticate gh so the intended owner/repo can be inferred.
 - repository-bootstrap: Attach a GitHub origin remote or create the target repository.
 - repository-bootstrap: Authenticate GitHub CLI or provide GH_TOKEN/GITHUB_TOKEN for remote repository bootstrap.
@@ -90,4 +91,3 @@ gh CLI available: true
 - production-environment: Set AGL_EVENT_COLLECTOR_EXPORT_URL + AGL_EVENT_COLLECTOR_ADMIN_TOKEN or PostHog server credentials for autonomous production rollups.
 - production-environment: Set VITE_ADSENSE_CLIENT_ID + VITE_ADSENSE_REWARDED_SLOT_ID for web/PWA revenue tests or ADMOB_PUBLISHER_ID for native app placements.
 - production-environment: Connect Google Play credentials or set AGL_GOOGLE_PLAY_ACCOUNT_CONNECTED=true.
-- production-environment: Connect Apple Developer account only after revenue justifies iOS spend.

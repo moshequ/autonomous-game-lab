@@ -135,18 +135,28 @@ const codexAutomationManifest = {
 
 const codexAutomations = await loadCodexAutomations(codexAutomationsDir)
 const installedCodexAutomation = codexAutomations.find((automation) => automation.id === codexAutomationManifest.id) ?? null
+const automationUsesWorkspace = (automation) =>
+  Array.isArray(automation?.cwds) ? automation.cwds.includes(root) : false
+const automationLooksLikeOwnerLoop = (automation) => {
+  const haystack = [automation.id, automation.name, automation.prompt].join(' ').toLowerCase()
+
+  return (
+    haystack.includes('autonomous game lab') ||
+    haystack.includes('autonomous game portal') ||
+    haystack.includes('autonomous production-owner loop') ||
+    (haystack.includes('autonomous') && haystack.includes('owner loop'))
+  )
+}
 const relatedCodexAutomations = codexAutomations.filter(
   (automation) =>
     automation.id !== codexAutomationManifest.id &&
-    (automation.name === codexAutomationManifest.name ||
-      String(automation.prompt ?? '').includes('Autonomous Game Lab') ||
-      String(automation.prompt ?? '').includes('autonomous production-owner loop')),
+    automationUsesWorkspace(automation) &&
+    automationLooksLikeOwnerLoop(automation),
 )
+const relatedActiveCodexAutomations = relatedCodexAutomations.filter((automation) => automation.status === 'ACTIVE')
 const installedCodexAutomationActive = installedCodexAutomation?.status === 'ACTIVE'
 const installedCodexAutomationScheduleMatches = installedCodexAutomation?.rrule === codexAutomationManifest.schedule.rrule
-const installedCodexAutomationWorkspaceMatches = Array.isArray(installedCodexAutomation?.cwds)
-  ? installedCodexAutomation.cwds.includes(root)
-  : false
+const installedCodexAutomationWorkspaceMatches = automationUsesWorkspace(installedCodexAutomation)
 const installedCodexAutomationPromptGuarded =
   String(installedCodexAutomation?.prompt ?? '').includes('zero-spend') &&
   String(installedCodexAutomation?.prompt ?? '').includes('Do not enable paid spend') &&
@@ -181,9 +191,12 @@ const codexDesktopActual = {
   workspaceMatches: installedCodexAutomationWorkspaceMatches,
   scheduleMatches: installedCodexAutomationScheduleMatches,
   promptGuardrailsPresent: installedCodexAutomationPromptGuarded,
-  relatedActiveAutomationIds: relatedCodexAutomations
-    .filter((automation) => automation.status === 'ACTIVE')
-    .map((automation) => automation.id),
+  relatedActiveAutomationIds: relatedActiveCodexAutomations.map((automation) => automation.id),
+  relatedAutomations: relatedCodexAutomations.map((automation) => ({
+    id: automation.id,
+    status: automation.status ?? null,
+    rrule: automation.rrule ?? null,
+  })),
 }
 
 const checks = [
@@ -202,6 +215,15 @@ const checks = [
         : codexAutomationStorageAvailable
           ? `Codex app automation ${codexAutomationManifest.id} is not installed in local Codex automation storage.`
           : 'Codex automation storage is unavailable in this environment; GitHub Actions remains the CI scheduler.',
+  },
+  {
+    id: 'codex-automation-single-active-owner-loop',
+    status: relatedActiveCodexAutomations.length === 0 ? 'pass' : 'blocker',
+    detail: relatedActiveCodexAutomations.length
+      ? `Duplicate active owner-loop automation(s) share this workspace: ${relatedActiveCodexAutomations
+          .map((automation) => automation.id)
+          .join(', ')}.`
+      : 'No duplicate active Codex owner-loop automations share this workspace.',
   },
   {
     id: 'local-operate-script',
