@@ -1,0 +1,26 @@
+{
+  "id": "autonomous-game-lab-daily-owner-loop",
+  "name": "Autonomous Game Lab daily owner loop",
+  "kind": "cron",
+  "status": "active-declared",
+  "schedule": {
+    "rrule": "FREQ=HOURLY;INTERVAL=24",
+    "timezone": "local",
+    "cadence": "daily"
+  },
+  "workspace": "/Users/moshequ/Documents/Codex/2026-05-18/i-want-to-have-a-new",
+  "executionEnvironment": "local",
+  "expectedPrompt": "Operate the Autonomous Game Lab as a zero-spend autonomous owner, run the owner/verification loop, apply only bounded local improvements, commit verified changes, and keep external production mutations gated.",
+  "verification": {
+    "source": "codex-app-automation-card",
+    "lastKnownAutomationId": "autonomous-game-lab-daily-owner-loop",
+    "repoManifestMirrorsExpectedSchedule": true
+  },
+  "guardrails": {
+    "zeroPaidSpend": true,
+    "noStoreSubmission": true,
+    "noRevenueEnablement": true,
+    "noExternalPosting": true,
+    "remoteGitHubMutationRequiresEvidenceAndExplicitGate": true
+  }
+}

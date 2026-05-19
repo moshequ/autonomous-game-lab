@@ -131,6 +131,13 @@ const autonomousOperatorHistory = await readOptionalJson(path.join(dataDir, 'aut
   controls: {},
   records: [],
 })
+const autonomousCadence = await readOptionalJson(path.join(dataDir, 'autonomous-cadence.json'), {
+  status: 'missing',
+  schedulers: {},
+  commandPlan: {},
+  controls: {},
+  checks: [],
+})
 const objectiveAudit = await readOptionalJson(path.join(dataDir, 'objective-audit.json'), {
   status: 'missing',
   summary: {},
@@ -210,6 +217,24 @@ const systems = [
     nextAction: liveAnalytics
       ? 'Continue importing live player events before rollups.'
       : 'Keep local/fixture rollups active until production collector credentials exist.',
+  },
+  {
+    id: 'autonomous-cadence',
+    status: systemStatus(
+      autonomousCadence.status === 'cadence-ready' &&
+        autonomousCadence.controls?.zeroPaidSpend === true &&
+        autonomousCadence.controls?.codexAutomationExpectedActive === true &&
+        autonomousCadence.schedulers?.githubActions?.status === 'scheduled' &&
+        autonomousCadence.commandPlan?.operate === 'npm run autonomous:operate',
+      'needs-cadence-evidence',
+    ),
+    autonomy: 'scheduled-local-owner-loop',
+    evidence: `Cadence ${autonomousCadence.status}; Codex ${
+      autonomousCadence.schedulers?.codexDesktop?.status ?? 'missing'
+    }; GitHub ${autonomousCadence.schedulers?.githubActions?.status ?? 'missing'}.`,
+    nextAction:
+      autonomousCadence.nextActions?.[0] ??
+      'Keep the daily Codex automation and scheduled CI workflow aligned with the owner loop.',
   },
   {
     id: 'portfolio-loop',
@@ -658,6 +683,17 @@ const safeAutonomousActions = [
     reason: 'Regenerates trend, game, analytics, growth, safety, monetization, deployment, and owner-loop state.',
   },
   {
+    id: 'refresh-autonomous-cadence',
+    status: autonomousCadence.status === 'cadence-ready' ? 'armed' : 'monitor',
+    costUsd: 0,
+    command: 'npm run autonomous:cadence',
+    targets: [
+      autonomousCadence.schedulers?.codexDesktop?.id ?? 'codex-daily-automation',
+      autonomousCadence.schedulers?.githubActions?.workflow ?? '.github/workflows/autonomous-daily.yml',
+    ],
+    reason: 'Keeps the unattended daily operating cadence, recovery policy, and verification chain auditable.',
+  },
+  {
     id: 'seed-portfolio-traffic',
     status: traffic.status === 'traffic-seeding-ready' && traffic.campaigns?.length ? 'armed' : 'monitor',
     costUsd: 0,
@@ -910,6 +946,7 @@ const payload = {
     organicSeedLoopStatus: organicSeedLoop.status,
     retentionLoopStatus: retention.status,
     pwaInstallLoopStatus: pwaInstall.status,
+    autonomousCadenceStatus: autonomousCadence.status,
     performanceBudgetStatus: performanceBudget.status,
     repositoryReadinessStatus: repositoryReadiness.status,
     repositoryBootstrapStatus: repositoryBootstrap.status,
@@ -932,6 +969,8 @@ const payload = {
     supportEmailStatus: storePackage.supportPage?.supportEmailStatus,
   },
   commands: {
+    operate: 'npm run autonomous:operate',
+    cadence: 'npm run autonomous:cadence',
     daily: 'npm run autonomous:daily',
     verify: 'npm run test:automation',
     fullGate: 'npm run autonomous:daily && npm run test:e2e && npm run autonomous:assert-deployable',

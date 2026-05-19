@@ -40,6 +40,7 @@ const requiredFiles = [
   'data/production-bootstrap.json',
   'data/autonomous-operator.json',
   'data/autonomous-operator-history.json',
+  'data/autonomous-cadence.json',
   'data/objective-audit.json',
   'data/autonomous-owner-loop.json',
   'data/production-environment.json',
@@ -80,6 +81,7 @@ const requiredFiles = [
   'src/data/productionBootstrap.ts',
   'src/data/autonomousOperator.ts',
   'src/data/autonomousOperatorHistory.ts',
+  'src/data/autonomousCadence.ts',
   'src/data/objectiveAudit.ts',
   'src/data/storeListingOptimizer.ts',
   'src/data/storeCompliance.ts',
@@ -118,6 +120,7 @@ const requiredFiles = [
   'reports/production-bootstrap-latest.md',
   'reports/autonomous-operator-latest.md',
   'reports/autonomous-operator-history-latest.md',
+  'reports/autonomous-cadence-latest.md',
   'reports/objective-audit-latest.md',
   'reports/autonomous-owner-loop-latest.md',
   'reports/production-environment-latest.md',
@@ -144,6 +147,7 @@ const requiredFiles = [
   'ops/github/README.md',
   'ops/github/bootstrap-repository.sh',
   'ops/github/setup-production.sh',
+  'ops/codex/autonomous-game-lab-daily-owner-loop.json',
   'ops/cloudflare/event-collector-worker.mjs',
   'ops/cloudflare/README.md',
   'ops/cloudflare/wrangler.toml.example',
@@ -151,6 +155,7 @@ const requiredFiles = [
   'scripts/lib/env-loader.mjs',
   'scripts/repository-readiness.mjs',
   'scripts/repository-bootstrap.mjs',
+  'scripts/autonomous-cadence.mjs',
   'public/icons/app-icon.svg',
   'public/icons/icon-192.png',
   'public/icons/icon-512.png',
@@ -222,6 +227,7 @@ const autonomousOperator = JSON.parse(await readFile(path.join(root, 'data', 'au
 const autonomousOperatorHistory = JSON.parse(
   await readFile(path.join(root, 'data', 'autonomous-operator-history.json'), 'utf8'),
 )
+const autonomousCadence = JSON.parse(await readFile(path.join(root, 'data', 'autonomous-cadence.json'), 'utf8'))
 const objectiveAudit = JSON.parse(await readFile(path.join(root, 'data', 'objective-audit.json'), 'utf8'))
 const autonomousOwnerLoop = JSON.parse(
   await readFile(path.join(root, 'data', 'autonomous-owner-loop.json'), 'utf8'),
@@ -276,6 +282,9 @@ const objectiveAuditSource = await readFile(path.join(root, 'scripts', 'objectiv
 const githubRepositoryBootstrapScript = await readFile(path.join(root, 'ops', 'github', 'bootstrap-repository.sh'), 'utf8')
 const githubSetupScript = await readFile(path.join(root, 'ops', 'github', 'setup-production.sh'), 'utf8')
 const githubSetupReadme = await readFile(path.join(root, 'ops', 'github', 'README.md'), 'utf8')
+const codexAutomationManifest = JSON.parse(
+  await readFile(path.join(root, 'ops', 'codex', 'autonomous-game-lab-daily-owner-loop.json'), 'utf8'),
+)
 const gitignoreSource = await readFile(path.join(root, '.gitignore'), 'utf8')
 const playableIds = new Set(playable.games ?? [])
 const roundMetric = (value) => (typeof value === 'number' ? Math.round(value * 1000) / 1000 : value)
@@ -1271,6 +1280,21 @@ if (hasDuplicateOperatorDryRun) {
   fail('Autonomous operator history must compact repeated no-op dry-run plans instead of appending duplicate records.')
 }
 
+if (
+  autonomousCadence.status !== 'cadence-ready' ||
+  autonomousCadence.schedulers?.codexDesktop?.status !== 'active-declared' ||
+  autonomousCadence.schedulers?.githubActions?.status !== 'scheduled' ||
+  autonomousCadence.commandPlan?.operate !== 'npm run autonomous:operate' ||
+  autonomousCadence.controls?.zeroPaidSpend !== true ||
+  autonomousCadence.controls?.noStoreSubmission !== true ||
+  autonomousCadence.controls?.noRevenueEnablement !== true ||
+  autonomousCadence.recoveryPolicy?.commitOnlyAfterVerification !== true ||
+  autonomousCadence.recoveryPolicy?.neverDispatchExternalWorkflowsOnRecovery !== true ||
+  !appSource.includes('Autonomous Cadence')
+) {
+  fail('Autonomous cadence must keep unattended local operation auditable, scheduled, and guarded in the app shell.')
+}
+
 const objectiveRequirementIds = new Set((objectiveAudit.requirements ?? []).map((item) => item.id))
 const objectiveDataDrivenRequirement = objectiveAudit.requirements?.find(
   (item) => item.id === 'data-driven-improvement-loop',
@@ -1313,6 +1337,9 @@ if (
   objectiveAutonomyRequirement?.status !== objectiveExpectedAutonomyStatus ||
   !objectiveAutonomyRequirement?.evidence?.some((item) =>
     item.includes(`Post-deploy smoke: ${postDeploySmoke.status}`),
+  ) ||
+  !objectiveAutonomyRequirement?.evidence?.some((item) =>
+    item.includes(`Autonomous cadence: ${autonomousCadence.status}`),
   ) ||
   !objectiveAutonomyRequirement?.evidence?.some((item) =>
     item.includes(`Repository channel: ${repositoryReadiness.status}`),
@@ -1495,6 +1522,49 @@ if (!packageJson.scripts?.['autonomous:performance']?.includes('performance-budg
 const dailyScript = packageJson.scripts?.['autonomous:daily'] ?? ''
 const performanceRuns = [...dailyScript.matchAll(/autonomous:performance/g)].map((match) => match.index ?? -1)
 const buildRuns = [...dailyScript.matchAll(/npm run build/g)].map((match) => match.index ?? -1)
+
+if (!packageJson.scripts?.['autonomous:cadence']?.includes('autonomous-cadence')) {
+  fail('Autonomous scripts must expose the autonomous cadence generator.')
+}
+
+if (
+  !packageJson.scripts?.['autonomous:operate']?.includes('autonomous:daily') ||
+  !packageJson.scripts?.['autonomous:operate']?.includes('test:e2e')
+) {
+  fail('Autonomous operate script must run the daily loop and browser smoke suite.')
+}
+
+if (
+  !dailyScript.includes('autonomous:cadence') ||
+  dailyScript.indexOf('autonomous:cadence') > dailyScript.indexOf('autonomous:owner-loop', dailyScript.indexOf('autonomous:deploy-plan'))
+) {
+  fail('Autonomous daily loop must refresh cadence evidence before owner-loop evidence.')
+}
+
+if (
+  autonomousCadence.status !== 'cadence-ready' ||
+  autonomousCadence.schedulers?.codexDesktop?.id !== 'autonomous-game-lab-daily-owner-loop' ||
+  autonomousCadence.schedulers?.codexDesktop?.status !== 'active-declared' ||
+  autonomousCadence.schedulers?.githubActions?.status !== 'scheduled' ||
+  autonomousCadence.schedulers?.githubActions?.workflow !== '.github/workflows/autonomous-daily.yml' ||
+  autonomousCadence.schedulers?.githubActions?.artifactUpload !== true ||
+  autonomousCadence.commandPlan?.operate !== 'npm run autonomous:operate' ||
+  autonomousCadence.commandPlan?.daily !== 'npm run autonomous:daily' ||
+  autonomousCadence.commandPlan?.verifyAutomation !== 'npm run test:automation' ||
+  autonomousCadence.commandPlan?.browserSmoke !== 'npm run test:e2e' ||
+  autonomousCadence.controls?.zeroPaidSpend !== true ||
+  autonomousCadence.controls?.noStoreSubmission !== true ||
+  autonomousCadence.controls?.noRevenueEnablement !== true ||
+  autonomousCadence.controls?.codexAutomationExpectedActive !== true ||
+  !(autonomousCadence.checks ?? []).every((check) => check.status === 'pass') ||
+  codexAutomationManifest.id !== autonomousCadence.schedulers?.codexDesktop?.id ||
+  codexAutomationManifest.status !== 'active-declared' ||
+  codexAutomationManifest.guardrails?.zeroPaidSpend !== true ||
+  codexAutomationManifest.guardrails?.noStoreSubmission !== true ||
+  codexAutomationManifest.guardrails?.noRevenueEnablement !== true
+) {
+  fail('Autonomous cadence must publish the daily Codex/GitHub schedule, guarded operate command, and zero-spend controls.')
+}
 
 if (performanceRuns.length < 2) {
   fail('Autonomous daily loop must generate performance budgets after both production builds.')
@@ -2637,6 +2707,15 @@ if (
 }
 
 if (
+  !readiness.webPwa?.checks?.some((check) => check.id === 'autonomous-cadence' && check.status === 'pass') ||
+  readiness.autonomousCadence?.status !== autonomousCadence.status ||
+  readiness.autonomousCadence?.commandPlan?.operate !== 'npm run autonomous:operate' ||
+  readiness.autonomousCadence?.controls?.zeroPaidSpend !== true
+) {
+  fail('Production readiness must include scheduled autonomous cadence evidence and zero-spend controls.')
+}
+
+if (
   !readiness.webPwa?.checks?.some((check) => check.id === 'objective-audit' && check.status === 'pass') ||
   readiness.objectiveAudit?.status !== objectiveAudit.status ||
   readiness.objectiveAudit?.completion?.canMarkGoalComplete !== false ||
@@ -2799,6 +2878,7 @@ const ownerGuardrailIds = new Set((autonomousOwnerLoop.guardrails ?? []).map((gu
 const requiredOwnerSystems = [
   'game-factory',
   'analytics-ingest',
+  'autonomous-cadence',
   'repository-channel',
   'repository-bootstrap',
   'portfolio-loop',
@@ -2828,6 +2908,7 @@ const requiredOwnerSystems = [
 ]
 const requiredOwnerActions = [
   'run-daily-owner-loop',
+  'refresh-autonomous-cadence',
   'seed-portfolio-traffic',
   'optimize-daily-retention',
   'measure-pwa-install-loop',
@@ -2877,6 +2958,7 @@ if (
   autonomousOwnerLoop.evidence?.acquisitionLearningStatus !== acquisitionLearning.status ||
   autonomousOwnerLoop.evidence?.retentionLoopStatus !== retentionLoop.status ||
   autonomousOwnerLoop.evidence?.pwaInstallLoopStatus !== pwaInstallLoop.status ||
+  autonomousOwnerLoop.evidence?.autonomousCadenceStatus !== autonomousCadence.status ||
   autonomousOwnerLoop.evidence?.performanceBudgetStatus !== performanceBudget.status ||
   autonomousOwnerLoop.evidence?.repositoryReadinessStatus !== repositoryReadiness.status ||
   autonomousOwnerLoop.evidence?.repositoryBootstrapStatus !== repositoryBootstrap.status ||
@@ -2905,6 +2987,13 @@ if (
 if (
   !autonomousOwnerLoop.safeAutonomousActions?.some(
     (action) => action.id === 'run-daily-owner-loop' && action.command === 'npm run autonomous:daily',
+  ) ||
+  !autonomousOwnerLoop.safeAutonomousActions?.some(
+    (action) =>
+      action.id === 'refresh-autonomous-cadence' &&
+      action.command === 'npm run autonomous:cadence' &&
+      action.costUsd === 0 &&
+      action.targets?.includes('autonomous-game-lab-daily-owner-loop'),
   ) ||
   !autonomousOwnerLoop.safeAutonomousActions?.some(
     (action) =>

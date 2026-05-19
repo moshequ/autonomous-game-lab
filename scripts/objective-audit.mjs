@@ -50,6 +50,7 @@ const [
   autonomousOwnerLoop,
   autonomousOperator,
   autonomousOperatorHistory,
+  autonomousCadence,
   environment,
 ] = await Promise.all([
   readJson(path.join(root, 'package.json')),
@@ -87,6 +88,7 @@ const [
   readJson(path.join(dataDir, 'autonomous-owner-loop.json')),
   readJson(path.join(dataDir, 'autonomous-operator.json')),
   readJson(path.join(dataDir, 'autonomous-operator-history.json')),
+  readJson(path.join(dataDir, 'autonomous-cadence.json')),
   readJson(path.join(dataDir, 'production-environment.json')),
 ])
 
@@ -258,6 +260,7 @@ const requirements = [
     id: 'minimal-intervention-autonomy',
     status:
       autonomousOwnerLoop.status === 'owner-loop-ready' &&
+      autonomousCadence.status === 'cadence-ready' &&
       autonomousOperator.status === 'operator-plan-ready' &&
       autonomousOperatorHistory.status === 'operator-history-ready' &&
       releaseCandidate.status === 'release-candidate-ready' &&
@@ -268,6 +271,7 @@ const requirements = [
       packageJson.scripts?.['autonomous:daily']?.includes('autonomous:objective-audit') !== true
         ? 'needs-daily-audit-wiring'
       : autonomousOwnerLoop.status === 'owner-loop-ready' &&
+          autonomousCadence.status === 'cadence-ready' &&
           autonomousOperator.status === 'operator-plan-ready' &&
           autonomousOperatorHistory.status === 'operator-history-ready' &&
           releaseCandidate.status === 'release-candidate-ready' &&
@@ -277,6 +281,7 @@ const requirements = [
           productionBootstrap.status === 'production-bootstrap-ready'
         ? 'needs-repository-channel'
       : autonomousOwnerLoop.status === 'owner-loop-ready' &&
+          autonomousCadence.status === 'cadence-ready' &&
           autonomousOperator.status === 'operator-plan-ready' &&
           autonomousOperatorHistory.status === 'operator-history-ready' &&
           releaseCandidate.status === 'release-candidate-ready' &&
@@ -289,6 +294,9 @@ const requirements = [
     summary: 'A scheduled local loop, owner state, bootstrap handoff, and dry-run operator reduce manual maintenance.',
     evidence: [
       `Owner loop: ${autonomousOwnerLoop.status}`,
+      `Autonomous cadence: ${autonomousCadence.status}; Codex ${
+        autonomousCadence.schedulers?.codexDesktop?.status ?? 'missing'
+      }; GitHub ${autonomousCadence.schedulers?.githubActions?.status ?? 'missing'}`,
       `Operator: ${autonomousOperator.status}`,
       `Operator history: ${autonomousOperatorHistory.status}; records ${
         autonomousOperatorHistory.summary?.totalRecords ?? 0
@@ -310,6 +318,7 @@ const requirements = [
       `Credential-gated actions: ${autonomousOwnerLoop.credentialRequiredActions?.length ?? 0}`,
     ],
     blockers: [
+      ...(autonomousCadence.blockers ?? []),
       ...(repositoryReadiness.blockers ?? []),
       ...(repositoryBootstrap.blockers ?? []),
       ...(autonomousOwnerLoop.credentialRequiredActions?.map((action) => `${action.target}: ${action.purpose}`) ?? []),

@@ -1,10 +1,10 @@
 export const autonomousOwnerLoop = {
-  "generatedAt": "2026-05-19T02:07:10.067Z",
+  "generatedAt": "2026-05-19T02:18:05.575Z",
   "status": "owner-loop-ready",
   "mode": "repository-channel-needed",
   "autonomyScore": {
-    "readySystems": 27,
-    "totalSystems": 29,
+    "readySystems": 28,
+    "totalSystems": 30,
     "percent": 93
   },
   "controls": {
@@ -39,6 +39,13 @@ export const autonomousOwnerLoop = {
       "autonomy": "automatic-local-fixture",
       "evidence": "Active source: fixture-sample; event ingest: idle-no-files; collector smoke: pass.",
       "nextAction": "Keep local/fixture rollups active until production collector credentials exist."
+    },
+    {
+      "id": "autonomous-cadence",
+      "status": "ready",
+      "autonomy": "scheduled-local-owner-loop",
+      "evidence": "Cadence cadence-ready; Codex active-declared; GitHub scheduled.",
+      "nextAction": "Let the daily Codex automation run the local owner loop and keep the GitHub scheduled workflow as CI evidence."
     },
     {
       "id": "portfolio-loop",
@@ -86,7 +93,7 @@ export const autonomousOwnerLoop = {
       "id": "performance-budget",
       "status": "ready",
       "autonomy": "automatic-build-budget",
-      "evidence": "Initial JS 655 KB; gzip 174.2 KB; deferred chunks 1.",
+      "evidence": "Initial JS 659 KB; gzip 175.3 KB; deferred chunks 1.",
       "nextAction": "Keep Phaser and game scenes outside the initial PWA shell."
     },
     {
@@ -156,21 +163,21 @@ export const autonomousOwnerLoop = {
       "id": "release-candidate",
       "status": "ready",
       "autonomy": "content-hashed-deploy-evidence",
-      "evidence": "Candidate pwa-d5ff5976c0cb; status release-candidate-ready; files 38; smoke URLs 7.",
+      "evidence": "Candidate pwa-20402032da40; status release-candidate-ready; files 38; smoke URLs 7.",
       "nextAction": "Regenerate the release candidate after every production build before deploy or rollback decisions."
     },
     {
       "id": "post-deploy-smoke",
       "status": "ready",
       "autonomy": "read-only-live-deploy-verification",
-      "evidence": "Smoke blocked-missing-origin; origin missing; candidate pwa-d5ff5976c0cb; checks 0/8 passed.",
+      "evidence": "Smoke blocked-missing-origin; origin missing; candidate pwa-20402032da40; checks 0/8 passed.",
       "nextAction": "Run this after deployment with AGL_DEPLOYED_PWA_ORIGIN set to the Pages URL."
     },
     {
       "id": "production-bootstrap",
       "status": "ready",
       "autonomy": "zero-spend-setup-orchestration",
-      "evidence": "Bootstrap production-bootstrap-ready; mode waiting-for-external-credentials; external blockers 26.",
+      "evidence": "Bootstrap production-bootstrap-ready; mode waiting-for-external-credentials; external blockers 27.",
       "nextAction": "Fill required environment values, then run npm run autonomous:bootstrap."
     },
     {
@@ -191,7 +198,7 @@ export const autonomousOwnerLoop = {
       "id": "objective-audit",
       "status": "ready",
       "autonomy": "completion-evidence-ledger",
-      "evidence": "Audit objective-in-progress; met 5/8; external blockers 23.",
+      "evidence": "Audit objective-in-progress; met 5/8; external blockers 24.",
       "nextAction": "The local autonomous PWA system is largely prepared, but production credentials, live data, monetization gates, hosted compliance URLs, and store account/signing blockers remain."
     },
     {
@@ -237,6 +244,17 @@ export const autonomousOwnerLoop = {
       "costUsd": 0,
       "command": "npm run autonomous:daily",
       "reason": "Regenerates trend, game, analytics, growth, safety, monetization, deployment, and owner-loop state."
+    },
+    {
+      "id": "refresh-autonomous-cadence",
+      "status": "armed",
+      "costUsd": 0,
+      "command": "npm run autonomous:cadence",
+      "targets": [
+        "autonomous-game-lab-daily-owner-loop",
+        ".github/workflows/autonomous-daily.yml"
+      ],
+      "reason": "Keeps the unattended daily operating cadence, recovery policy, and verification chain auditable."
     },
     {
       "id": "seed-portfolio-traffic",
@@ -288,7 +306,7 @@ export const autonomousOwnerLoop = {
       "command": "npm run build && npm run autonomous:performance",
       "targets": [
         "pwa-shell",
-        "GameCanvas-DIpwTMzc.js"
+        "GameCanvas-Bp_VcuBp.js"
       ],
       "reason": "Keeps the PWA shell fast while Phaser and game scenes stay deferred."
     },
@@ -298,7 +316,7 @@ export const autonomousOwnerLoop = {
       "costUsd": 0,
       "command": "npm run autonomous:release-candidate",
       "targets": [
-        "pwa-d5ff5976c0cb"
+        "pwa-20402032da40"
       ],
       "reason": "Records a content-hashed dist inventory and post-deploy smoke plan for the exact PWA build."
     },
@@ -309,7 +327,7 @@ export const autonomousOwnerLoop = {
       "command": "npm run autonomous:post-deploy-smoke",
       "targets": [
         "deployed-pages-url",
-        "pwa-d5ff5976c0cb"
+        "pwa-20402032da40"
       ],
       "reason": "Waits for a deployed Pages origin, then verifies the live PWA matches the exact release candidate."
     },
@@ -618,6 +636,7 @@ export const autonomousOwnerLoop = {
     "organicSeedLoopStatus": "organic-seed-loop-ready",
     "retentionLoopStatus": "retention-loop-ready",
     "pwaInstallLoopStatus": "pwa-install-loop-ready",
+    "autonomousCadenceStatus": "cadence-ready",
     "performanceBudgetStatus": "performance-budget-ready",
     "repositoryReadinessStatus": "waiting-for-github-repository",
     "repositoryBootstrapStatus": "waiting-for-github-target",
@@ -639,6 +658,8 @@ export const autonomousOwnerLoop = {
     "supportEmailStatus": "needs-production-address"
   },
   "commands": {
+    "operate": "npm run autonomous:operate",
+    "cadence": "npm run autonomous:cadence",
     "daily": "npm run autonomous:daily",
     "verify": "npm run test:automation",
     "fullGate": "npm run autonomous:daily && npm run test:e2e && npm run autonomous:assert-deployable"

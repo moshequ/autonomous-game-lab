@@ -1,6 +1,6 @@
 # Production Readiness
 
-Generated: 2026-05-19T02:07:07.495Z
+Generated: 2026-05-19T02:18:05.351Z
 
 ## Environment
 
@@ -31,10 +31,10 @@ Local git: true
 - done: repo-bootstrap-inspect-repository-channel - Repository readiness is waiting-for-github-repository.
 - ready: repo-bootstrap-initialize-local-git - Git worktree is available at /Users/moshequ/Documents/Codex/2026-05-18/i-want-to-have-a-new.
 - ready: repo-bootstrap-create-initial-commit - The local repository has at least one commit.
-- ready: repo-bootstrap-commit-current-snapshot - The current generated production snapshot is committed.
+- ready-for-explicit-snapshot-commit: repo-bootstrap-commit-current-snapshot - 35 generated or source file(s) are not committed yet.
 - waiting-for-github-target: repo-bootstrap-set-or-create-origin - Set GITHUB_REPOSITORY or GH_REPO before attaching origin.
 - waiting-for-github-target: repo-bootstrap-create-github-repository - Set GITHUB_REPOSITORY or GH_REPO before creating a GitHub repository.
-- waiting-for-commit-and-origin: repo-bootstrap-push-initial-snapshot - Push stays held until an origin remote exists and AGL_ALLOW_PUSH=1 is set.
+- waiting-for-commit-and-origin: repo-bootstrap-push-initial-snapshot - Push stays held until a committed local snapshot and origin remote exist.
 
 ## Web/PWA
 
@@ -55,7 +55,7 @@ Status: ready-after-build
 - pass: organic-seed-loop - Organic seed loop is organic-seed-loop-ready; target canopy-bloom; player-initiated share guard active.
 - pass: retention-loop - Retention loop is retention-loop-ready; daily challenge canopy-bloom; no-push/no-account guardrails active.
 - pass: pwa-install-loop - PWA install loop is pwa-install-loop-ready; prompt surface autonomy-cockpit; cost $0.
-- pass: performance-budget - Performance budget is performance-budget-ready; initial JS 655 KB / 174.2 KB gzip; deferred game chunk GameCanvas-DIpwTMzc.js.
+- pass: performance-budget - Performance budget is performance-budget-ready; initial JS 659 KB / 175.3 KB gzip; deferred game chunk GameCanvas-Bp_VcuBp.js.
 - pass: release-candidate - Release candidate is release-candidate-ready; files 38; smoke URLs 7.
 - pass: post-deploy-smoke-runner - Post-deploy smoke is blocked-missing-origin; origin missing; checks 0/8 passed, 8 blocked.
 - pass: product-optimization - Product optimizer is product-optimization-ready; completion 0.397 vs gate 0.55; latest action already-applied.
@@ -64,9 +64,10 @@ Status: ready-after-build
 - pass: replay-loop - Replay loop is replay-loop-ready; prompt armed; target harbor-rings.
 - pass: release-health - Release health guard is monitoring.
 - pass: production-environment - Production environment status is production-env-missing.
-- pass: production-bootstrap - Production bootstrap is production-bootstrap-ready; mode waiting-for-external-credentials; external blockers 26.
+- pass: production-bootstrap - Production bootstrap is production-bootstrap-ready; mode waiting-for-external-credentials; external blockers 27.
 - pass: autonomous-operator - Autonomous operator is operator-plan-ready; selected prepare-repository-channel; execution not-requested.
 - pass: autonomous-operator-history - Autonomous operator history is operator-history-ready; records 11; executed 0.
+- pass: autonomous-cadence - Autonomous cadence is cadence-ready; Codex active-declared; GitHub scheduled.
 - pass: objective-audit - Objective audit is objective-in-progress; met 5 / 8; can complete false.
 
 ## Monetization
@@ -106,23 +107,23 @@ Installs: 0
 ## Performance Budget
 
 Status: performance-budget-ready
-Initial JS: 655 KB (174.2 KB gzip)
-Deferred game chunk: GameCanvas-DIpwTMzc.js
-- pass: performance-initial-js-budget - Initial JS is 655 KB; budget is 675 KB.
-- pass: performance-initial-js-gzip-budget - Initial JS gzip is 174.2 KB; budget is 200 KB.
+Initial JS: 659 KB (175.3 KB gzip)
+Deferred game chunk: GameCanvas-Bp_VcuBp.js
+- pass: performance-initial-js-budget - Initial JS is 659 KB; budget is 675 KB.
+- pass: performance-initial-js-gzip-budget - Initial JS gzip is 175.3 KB; budget is 200 KB.
 - pass: performance-initial-css-budget - Initial CSS is 9.6 KB; budget is 40 KB.
 - pass: performance-manifest - PWA manifest exists in dist.
 - pass: performance-service-worker - Service worker exists in dist.
-- pass: performance-game-runtime-deferred - GameCanvas-DIpwTMzc.js is deferred from the initial shell.
-- pass: performance-largest-js-deferred - Largest JS chunk is GameCanvas-DIpwTMzc.js at 1360.8 KB.
+- pass: performance-game-runtime-deferred - GameCanvas-Bp_VcuBp.js is deferred from the initial shell.
+- pass: performance-largest-js-deferred - Largest JS chunk is GameCanvas-Bp_VcuBp.js at 1360.8 KB.
 - pass: performance-deferred-game-budget - Deferred game chunk is 1360.8 KB; monitor budget is 1600 KB.
 
 ## Release Candidate
 
 Status: release-candidate-ready
-Candidate: pwa-d5ff5976c0cb
+Candidate: pwa-20402032da40
 Files: 38
-Aggregate SHA-256: d5ff5976c0cb15447794290ec5b0c4e1c8badc522b0fb27fab68617fcf2b477f
+Aggregate SHA-256: 20402032da401309035f8314a5f8ed84e0fe95d82f5f360ff265cc2f3e812f62
 - pass: release-dist-inventory - 38 dist files inventoried.
 - pass: release-required-files - 13/13 required files present.
 - pass: release-game-pages - 10 generated game page(s) in dist.
@@ -136,7 +137,7 @@ Aggregate SHA-256: d5ff5976c0cb15447794290ec5b0c4e1c8badc522b0fb27fab68617fcf2b4
 
 Status: blocked-missing-origin
 Origin: missing
-Candidate: pwa-d5ff5976c0cb
+Candidate: pwa-20402032da40
 Checks: 0/8 passed (8 blocked)
 - blocked: smoke-app-shell - No deployed origin configured.
 - blocked: smoke-manifest-webmanifest - No deployed origin configured.
@@ -225,6 +226,21 @@ Execution: not-requested
 Status: operator-history-ready
 Records: 11
 Executed: 0
+
+## Autonomous Cadence
+
+Status: cadence-ready
+Cadence: daily
+Codex app: active-declared
+GitHub Actions: scheduled
+- pass: cadence-codex-automation-manifest - Codex app automation manifest declares autonomous-game-lab-daily-owner-loop.
+- pass: cadence-local-operate-script - autonomous:operate is npm run autonomous:daily && npm run test:e2e.
+- pass: cadence-cadence-refresh-script - autonomous:cadence is node scripts/autonomous-cadence.mjs.
+- pass: cadence-daily-loop-script - autonomous:daily regenerates game, analytics, readiness, cadence, audit, and automation evidence.
+- pass: cadence-automation-verifier - test:automation is node scripts/event-collector-smoke.mjs && node scripts/event-ingest-smoke.mjs && node scripts/verify-autonomy.mjs.
+- pass: cadence-browser-smoke - test:e2e is playwright test.
+- pass: cadence-github-scheduled-workflow - GitHub Actions daily workflow can run the autonomous loop and upload evidence artifacts.
+- pass: cadence-zero-spend-operation - Cadence is local/CI execution only; it does not enable paid spend, stores, ads, or revenue.
 
 ## Objective Audit
 

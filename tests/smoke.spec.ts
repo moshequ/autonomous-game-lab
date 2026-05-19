@@ -53,6 +53,8 @@ test('portal loads a playable canvas and autonomy cockpit', async ({ page }) => 
   await expect(page.getByLabel('Autonomous Operator')).toContainText('operator-plan-ready')
   await expect(page.getByLabel('Autonomous Operator')).toContainText('Selected action')
   await expect(page.getByLabel('Operator History')).toContainText('operator-history-ready')
+  await expect(page.getByLabel('Autonomous Cadence')).toContainText('cadence-ready')
+  await expect(page.getByLabel('Autonomous Cadence')).toContainText('autonomous:operate')
   await expect(page.getByLabel('Operator History')).toContainText('Records')
   await expect(page.getByLabel('Objective Audit')).toContainText('objective-in-progress')
   await expect(page.getByLabel('Objective Audit')).toContainText('Can complete')
@@ -1010,6 +1012,55 @@ test('autonomous operator history keeps a capped audit trail', async ({ page }) 
 
   await page.goto('/')
   await expect(page.getByLabel('Operator History')).toContainText('operator-history-ready')
+})
+
+test('autonomous cadence keeps unattended operation auditable and guarded', async ({ page }) => {
+  const cadence = JSON.parse(await readFile('data/autonomous-cadence.json', 'utf8')) as {
+    status: string
+    schedulers: {
+      codexDesktop: { id: string; status: string }
+      githubActions: { status: string; workflow: string; artifactUpload: boolean }
+    }
+    commandPlan: { operate: string; daily: string; verifyAutomation: string; browserSmoke: string }
+    controls: {
+      zeroPaidSpend: boolean
+      noStoreSubmission: boolean
+      noRevenueEnablement: boolean
+      codexAutomationExpectedActive: boolean
+    }
+    checks: Array<{ id: string; status: string }>
+  }
+  const manifest = JSON.parse(
+    await readFile('ops/codex/autonomous-game-lab-daily-owner-loop.json', 'utf8'),
+  ) as {
+    id: string
+    status: string
+    guardrails: { zeroPaidSpend: boolean; noStoreSubmission: boolean; noRevenueEnablement: boolean }
+  }
+
+  expect(cadence.status).toBe('cadence-ready')
+  expect(cadence.schedulers.codexDesktop.id).toBe('autonomous-game-lab-daily-owner-loop')
+  expect(cadence.schedulers.codexDesktop.status).toBe('active-declared')
+  expect(cadence.schedulers.githubActions.status).toBe('scheduled')
+  expect(cadence.schedulers.githubActions.workflow).toBe('.github/workflows/autonomous-daily.yml')
+  expect(cadence.schedulers.githubActions.artifactUpload).toBe(true)
+  expect(cadence.commandPlan.operate).toBe('npm run autonomous:operate')
+  expect(cadence.commandPlan.daily).toBe('npm run autonomous:daily')
+  expect(cadence.commandPlan.verifyAutomation).toBe('npm run test:automation')
+  expect(cadence.commandPlan.browserSmoke).toBe('npm run test:e2e')
+  expect(cadence.controls.zeroPaidSpend).toBe(true)
+  expect(cadence.controls.noStoreSubmission).toBe(true)
+  expect(cadence.controls.noRevenueEnablement).toBe(true)
+  expect(cadence.controls.codexAutomationExpectedActive).toBe(true)
+  expect(cadence.checks.every((check) => check.status === 'pass')).toBe(true)
+  expect(manifest.id).toBe(cadence.schedulers.codexDesktop.id)
+  expect(manifest.status).toBe('active-declared')
+  expect(manifest.guardrails.zeroPaidSpend).toBe(true)
+  expect(manifest.guardrails.noStoreSubmission).toBe(true)
+  expect(manifest.guardrails.noRevenueEnablement).toBe(true)
+
+  await page.goto('/')
+  await expect(page.getByLabel('Autonomous Cadence')).toContainText('cadence-ready')
 })
 
 test('objective audit maps the goal to evidence and remaining blockers', async ({ page }) => {

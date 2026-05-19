@@ -29,6 +29,7 @@ const repositoryBootstrapPath = path.join(root, 'data', 'repository-bootstrap.js
 const productionBootstrapPath = path.join(root, 'data', 'production-bootstrap.json')
 const autonomousOperatorPath = path.join(root, 'data', 'autonomous-operator.json')
 const autonomousOperatorHistoryPath = path.join(root, 'data', 'autonomous-operator-history.json')
+const autonomousCadencePath = path.join(root, 'data', 'autonomous-cadence.json')
 const objectiveAuditPath = path.join(root, 'data', 'objective-audit.json')
 const releaseHealthPath = path.join(root, 'data', 'release-health.json')
 const deploymentPlanPath = path.join(root, 'data', 'deployment-plan.json')
@@ -201,6 +202,13 @@ const autonomousOperatorHistory = await readOptionalJson(autonomousOperatorHisto
   summary: {},
   controls: {},
   records: [],
+})
+const autonomousCadence = await readOptionalJson(autonomousCadencePath, {
+  status: 'missing',
+  schedulers: {},
+  commandPlan: {},
+  controls: {},
+  checks: [],
 })
 const objectiveAudit = await readOptionalJson(objectiveAuditPath, {
   status: 'missing',
@@ -548,6 +556,13 @@ const autonomousOperatorHistoryReady =
     autonomousOperatorHistory.controls?.localCommandAllowlistEnforced === true &&
     autonomousOperatorHistory.controls?.historyIsCapped === true &&
     (autonomousOperatorHistory.summary?.totalRecords ?? 0) >= 1)
+const autonomousCadenceReady =
+  autonomousCadence.status === 'cadence-ready' &&
+  autonomousCadence.controls?.zeroPaidSpend === true &&
+  autonomousCadence.controls?.codexAutomationExpectedActive === true &&
+  autonomousCadence.schedulers?.githubActions?.status === 'scheduled' &&
+  autonomousCadence.commandPlan?.operate === 'npm run autonomous:operate' &&
+  (autonomousCadence.checks ?? []).every((item) => item.status === 'pass')
 const objectiveAuditReady =
   objectiveAudit.status === 'missing' ||
   (objectiveAudit.status === 'objective-in-progress' &&
@@ -751,6 +766,13 @@ const webChecks = [
     `Autonomous operator history is ${autonomousOperatorHistory.status}; records ${
       autonomousOperatorHistory.summary?.totalRecords ?? 'n/a'
     }; executed ${autonomousOperatorHistory.summary?.executedRecords ?? 'n/a'}.`,
+  ),
+  check(
+    'autonomous-cadence',
+    autonomousCadenceReady,
+    `Autonomous cadence is ${autonomousCadence.status}; Codex ${
+      autonomousCadence.schedulers?.codexDesktop?.status ?? 'missing'
+    }; GitHub ${autonomousCadence.schedulers?.githubActions?.status ?? 'missing'}.`,
   ),
   check(
     'objective-audit',
@@ -1013,6 +1035,15 @@ const payload = {
     retention: autonomousOperatorHistory.retention,
     recentRecords: (autonomousOperatorHistory.records ?? []).slice(-5),
   },
+  autonomousCadence: {
+    status: autonomousCadence.status,
+    cadence: autonomousCadence.cadence,
+    schedulers: autonomousCadence.schedulers,
+    commandPlan: autonomousCadence.commandPlan,
+    controls: autonomousCadence.controls,
+    checks: autonomousCadence.checks ?? [],
+    blockers: autonomousCadence.blockers ?? [],
+  },
   objectiveAudit: {
     status: objectiveAudit.status,
     summary: objectiveAudit.summary,
@@ -1228,6 +1259,16 @@ const report = [
   `Status: ${payload.autonomousOperatorHistory.status}`,
   `Records: ${payload.autonomousOperatorHistory.summary?.totalRecords ?? 'n/a'}`,
   `Executed: ${payload.autonomousOperatorHistory.summary?.executedRecords ?? 'n/a'}`,
+  '',
+  '## Autonomous Cadence',
+  '',
+  `Status: ${payload.autonomousCadence.status}`,
+  `Cadence: ${payload.autonomousCadence.cadence ?? 'missing'}`,
+  `Codex app: ${payload.autonomousCadence.schedulers?.codexDesktop?.status ?? 'missing'}`,
+  `GitHub Actions: ${payload.autonomousCadence.schedulers?.githubActions?.status ?? 'missing'}`,
+  ...(payload.autonomousCadence.checks ?? []).map(
+    (item) => `- ${item.status}: cadence-${item.id} - ${item.detail}`,
+  ),
   '',
   '## Objective Audit',
   '',

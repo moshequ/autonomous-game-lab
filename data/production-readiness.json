@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-19T02:07:07.495Z",
+  "generatedAt": "2026-05-19T02:18:05.351Z",
   "environment": {
     "status": "production-env-missing",
     "publicOrigin": null,
@@ -75,7 +75,7 @@
         "originRemote": null,
         "remoteRepository": null,
         "hasCommit": true,
-        "dirtyFiles": 0
+        "dirtyFiles": 35
       },
       "after": {
         "insideWorkTree": true,
@@ -84,7 +84,7 @@
         "originRemote": null,
         "remoteRepository": null,
         "hasCommit": true,
-        "dirtyFiles": 0
+        "dirtyFiles": 35
       }
     },
     "repository": {
@@ -150,13 +150,13 @@
       },
       {
         "id": "commit-current-snapshot",
-        "status": "ready",
+        "status": "ready-for-explicit-snapshot-commit",
         "costUsd": 0,
         "command": "AGL_ALLOW_REPOSITORY_BOOTSTRAP=1 AGL_ALLOW_SNAPSHOT_COMMIT=1 ./ops/github/bootstrap-repository.sh",
         "mutatesLocalGit": true,
         "mutatesRemoteGitHub": false,
         "requiresExplicitEnv": true,
-        "detail": "The current generated production snapshot is committed."
+        "detail": "35 generated or source file(s) are not committed yet."
       },
       {
         "id": "set-or-create-origin",
@@ -186,10 +186,11 @@
         "mutatesLocalGit": false,
         "mutatesRemoteGitHub": true,
         "requiresExplicitEnv": true,
-        "detail": "Push stays held until an origin remote exists and AGL_ALLOW_PUSH=1 is set."
+        "detail": "Push stays held until a committed local snapshot and origin remote exist."
       }
     ],
     "blockers": [
+      "Commit current generated changes before pushing to GitHub Pages.",
       "Set GITHUB_REPOSITORY or GH_REPO to the intended owner/repo.",
       "Attach a GitHub origin remote or create the target repository.",
       "Authenticate GitHub CLI or provide GH_TOKEN/GITHUB_TOKEN for remote repository bootstrap."
@@ -288,7 +289,7 @@
       {
         "id": "performance-budget",
         "status": "pass",
-        "detail": "Performance budget is performance-budget-ready; initial JS 655 KB / 174.2 KB gzip; deferred game chunk GameCanvas-DIpwTMzc.js."
+        "detail": "Performance budget is performance-budget-ready; initial JS 659 KB / 175.3 KB gzip; deferred game chunk GameCanvas-Bp_VcuBp.js."
       },
       {
         "id": "release-candidate",
@@ -333,7 +334,7 @@
       {
         "id": "production-bootstrap",
         "status": "pass",
-        "detail": "Production bootstrap is production-bootstrap-ready; mode waiting-for-external-credentials; external blockers 26."
+        "detail": "Production bootstrap is production-bootstrap-ready; mode waiting-for-external-credentials; external blockers 27."
       },
       {
         "id": "autonomous-operator",
@@ -344,6 +345,11 @@
         "id": "autonomous-operator-history",
         "status": "pass",
         "detail": "Autonomous operator history is operator-history-ready; records 11; executed 0."
+      },
+      {
+        "id": "autonomous-cadence",
+        "status": "pass",
+        "detail": "Autonomous cadence is cadence-ready; Codex active-declared; GitHub scheduled."
       },
       {
         "id": "objective-audit",
@@ -754,21 +760,21 @@
     },
     "initial": {
       "entryScripts": [
-        "index-DP_qmqrs.js",
+        "index-BtV5_Ox3.js",
         "registerSW.js"
       ],
       "scriptPaths": [
-        "assets/index-DP_qmqrs.js",
+        "assets/index-BtV5_Ox3.js",
         "registerSW.js"
       ],
       "jsFiles": [
         {
-          "file": "index-DP_qmqrs.js",
-          "path": "assets/index-DP_qmqrs.js",
-          "bytes": 670591,
-          "kb": 654.9,
-          "gzipBytes": 178282,
-          "gzipKb": 174.1
+          "file": "index-BtV5_Ox3.js",
+          "path": "assets/index-BtV5_Ox3.js",
+          "bytes": 674711,
+          "kb": 658.9,
+          "gzipBytes": 179356,
+          "gzipKb": 175.2
         },
         {
           "file": "registerSW.js",
@@ -779,10 +785,10 @@
           "gzipKb": 0.1
         }
       ],
-      "jsBytes": 670725,
-      "jsKb": 655,
-      "gzipBytes": 178408,
-      "gzipKb": 174.2,
+      "jsBytes": 674845,
+      "jsKb": 659,
+      "gzipBytes": 179482,
+      "gzipKb": 175.3,
       "cssFiles": [
         {
           "file": "index-DTpigz8N.css",
@@ -801,8 +807,8 @@
     "deferred": {
       "chunks": [
         {
-          "file": "GameCanvas-DIpwTMzc.js",
-          "path": "assets/GameCanvas-DIpwTMzc.js",
+          "file": "GameCanvas-Bp_VcuBp.js",
+          "path": "assets/GameCanvas-Bp_VcuBp.js",
           "bytes": 1393468,
           "kb": 1360.8,
           "gzipBytes": 356094,
@@ -810,24 +816,24 @@
         }
       ],
       "gameChunk": {
-        "file": "GameCanvas-DIpwTMzc.js",
-        "path": "assets/GameCanvas-DIpwTMzc.js",
+        "file": "GameCanvas-Bp_VcuBp.js",
+        "path": "assets/GameCanvas-Bp_VcuBp.js",
         "bytes": 1393468,
         "kb": 1360.8,
         "gzipBytes": 356094,
         "gzipKb": 347.7
       },
       "largestDeferredChunk": {
-        "file": "GameCanvas-DIpwTMzc.js",
-        "path": "assets/GameCanvas-DIpwTMzc.js",
+        "file": "GameCanvas-Bp_VcuBp.js",
+        "path": "assets/GameCanvas-Bp_VcuBp.js",
         "bytes": 1393468,
         "kb": 1360.8,
         "gzipBytes": 356094,
         "gzipKb": 347.7
       },
       "largestJsChunk": {
-        "file": "GameCanvas-DIpwTMzc.js",
-        "path": "assets/GameCanvas-DIpwTMzc.js",
+        "file": "GameCanvas-Bp_VcuBp.js",
+        "path": "assets/GameCanvas-Bp_VcuBp.js",
         "bytes": 1393468,
         "kb": 1360.8,
         "gzipBytes": 356094,
@@ -848,12 +854,12 @@
       {
         "id": "initial-js-budget",
         "status": "pass",
-        "detail": "Initial JS is 655 KB; budget is 675 KB."
+        "detail": "Initial JS is 659 KB; budget is 675 KB."
       },
       {
         "id": "initial-js-gzip-budget",
         "status": "pass",
-        "detail": "Initial JS gzip is 174.2 KB; budget is 200 KB."
+        "detail": "Initial JS gzip is 175.3 KB; budget is 200 KB."
       },
       {
         "id": "initial-css-budget",
@@ -873,12 +879,12 @@
       {
         "id": "game-runtime-deferred",
         "status": "pass",
-        "detail": "GameCanvas-DIpwTMzc.js is deferred from the initial shell."
+        "detail": "GameCanvas-Bp_VcuBp.js is deferred from the initial shell."
       },
       {
         "id": "largest-js-deferred",
         "status": "pass",
-        "detail": "Largest JS chunk is GameCanvas-DIpwTMzc.js at 1360.8 KB."
+        "detail": "Largest JS chunk is GameCanvas-Bp_VcuBp.js at 1360.8 KB."
       },
       {
         "id": "deferred-game-budget",
@@ -889,7 +895,7 @@
   },
   "releaseCandidate": {
     "status": "release-candidate-ready",
-    "candidateId": "pwa-d5ff5976c0cb",
+    "candidateId": "pwa-20402032da40",
     "target": {
       "provider": "github-pages",
       "artifactPath": "dist",
@@ -900,8 +906,8 @@
     },
     "summary": {
       "totalFiles": 38,
-      "totalBytes": 3656415,
-      "totalKb": 3570.7,
+      "totalBytes": 3660535,
+      "totalKb": 3574.7,
       "assetFiles": 3,
       "htmlFiles": 13,
       "gamePages": 10,
@@ -910,7 +916,7 @@
     },
     "integrity": {
       "algorithm": "sha256",
-      "aggregateHash": "d5ff5976c0cb15447794290ec5b0c4e1c8badc522b0fb27fab68617fcf2b477f",
+      "aggregateHash": "20402032da401309035f8314a5f8ed84e0fe95d82f5f360ff265cc2f3e812f62",
       "requiredFileChecks": [
         {
           "path": "index.html",
@@ -1074,8 +1080,8 @@
     "target": {
       "origin": null,
       "provider": "github-pages",
-      "candidateId": "pwa-d5ff5976c0cb",
-      "aggregateHash": "d5ff5976c0cb15447794290ec5b0c4e1c8badc522b0fb27fab68617fcf2b477f"
+      "candidateId": "pwa-20402032da40",
+      "aggregateHash": "20402032da401309035f8314a5f8ed84e0fe95d82f5f360ff265cc2f3e812f62"
     },
     "sourceStatus": {
       "deployment": "ready-for-pages",
@@ -1165,7 +1171,7 @@
         "path": "/release-candidate.json",
         "url": "${DEPLOYED_PWA_ORIGIN}/release-candidate.json",
         "expectedStatus": 200,
-        "requiredText": "pwa-d5ff5976c0cb",
+        "requiredText": "pwa-20402032da40",
         "status": "blocked",
         "detail": "No deployed origin configured."
       }
@@ -1762,7 +1768,7 @@
       "totalVariables": 22,
       "configuredSecrets": 0,
       "totalSecrets": 8,
-      "externalBlockers": 26
+      "externalBlockers": 27
     },
     "controls": {
       "zeroSpendGuard": true,
@@ -1804,6 +1810,7 @@
         "command": "npm run autonomous:repo-bootstrap",
         "evidence": "Repository bootstrap waiting-for-github-target; helper ops/github/bootstrap-repository.sh; local git ready.",
         "requires": [
+          "Commit current generated changes before pushing to GitHub Pages.",
           "Set GITHUB_REPOSITORY or GH_REPO to the intended owner/repo.",
           "Attach a GitHub origin remote or create the target repository.",
           "Authenticate GitHub CLI or provide GH_TOKEN/GITHUB_TOKEN for remote repository bootstrap."
@@ -1977,6 +1984,10 @@
       {
         "source": "repository-readiness",
         "blocker": "Configure GH_TOKEN or GITHUB_TOKEN for workflow dispatch and repository settings sync."
+      },
+      {
+        "source": "repository-bootstrap",
+        "blocker": "Commit current generated changes before pushing to GitHub Pages."
       },
       {
         "source": "repository-bootstrap",
@@ -2469,6 +2480,107 @@
       }
     ]
   },
+  "autonomousCadence": {
+    "status": "cadence-ready",
+    "cadence": "daily",
+    "schedulers": {
+      "codexDesktop": {
+        "id": "autonomous-game-lab-daily-owner-loop",
+        "name": "Autonomous Game Lab daily owner loop",
+        "kind": "cron",
+        "status": "active-declared",
+        "schedule": {
+          "rrule": "FREQ=HOURLY;INTERVAL=24",
+          "timezone": "local",
+          "cadence": "daily"
+        },
+        "workspace": "/Users/moshequ/Documents/Codex/2026-05-18/i-want-to-have-a-new",
+        "executionEnvironment": "local",
+        "expectedPrompt": "Operate the Autonomous Game Lab as a zero-spend autonomous owner, run the owner/verification loop, apply only bounded local improvements, commit verified changes, and keep external production mutations gated.",
+        "verification": {
+          "source": "codex-app-automation-card",
+          "lastKnownAutomationId": "autonomous-game-lab-daily-owner-loop",
+          "repoManifestMirrorsExpectedSchedule": true
+        },
+        "guardrails": {
+          "zeroPaidSpend": true,
+          "noStoreSubmission": true,
+          "noRevenueEnablement": true,
+          "noExternalPosting": true,
+          "remoteGitHubMutationRequiresEvidenceAndExplicitGate": true
+        }
+      },
+      "githubActions": {
+        "status": "scheduled",
+        "workflow": ".github/workflows/autonomous-daily.yml",
+        "cron": "17 3 * * *",
+        "dispatch": true,
+        "permissions": "contents: read",
+        "artifactUpload": true
+      }
+    },
+    "commandPlan": {
+      "operate": "npm run autonomous:operate",
+      "daily": "npm run autonomous:daily",
+      "verifyAutomation": "npm run test:automation",
+      "browserSmoke": "npm run test:e2e",
+      "ownerDecision": "prepare-repository-channel"
+    },
+    "controls": {
+      "zeroPaidSpend": true,
+      "localLoopCanRunWithoutExternalAccounts": true,
+      "noStoreSubmission": true,
+      "noRevenueEnablement": true,
+      "noPaidAcquisition": true,
+      "noExternalPosting": true,
+      "remoteMutationRequiresRepositoryEvidence": true,
+      "codexAutomationExpectedActive": true,
+      "githubWorkflowReadOnlyByDefault": true
+    },
+    "checks": [
+      {
+        "id": "codex-automation-manifest",
+        "status": "pass",
+        "detail": "Codex app automation manifest declares autonomous-game-lab-daily-owner-loop."
+      },
+      {
+        "id": "local-operate-script",
+        "status": "pass",
+        "detail": "autonomous:operate is npm run autonomous:daily && npm run test:e2e."
+      },
+      {
+        "id": "cadence-refresh-script",
+        "status": "pass",
+        "detail": "autonomous:cadence is node scripts/autonomous-cadence.mjs."
+      },
+      {
+        "id": "daily-loop-script",
+        "status": "pass",
+        "detail": "autonomous:daily regenerates game, analytics, readiness, cadence, audit, and automation evidence."
+      },
+      {
+        "id": "automation-verifier",
+        "status": "pass",
+        "detail": "test:automation is node scripts/event-collector-smoke.mjs && node scripts/event-ingest-smoke.mjs && node scripts/verify-autonomy.mjs."
+      },
+      {
+        "id": "browser-smoke",
+        "status": "pass",
+        "detail": "test:e2e is playwright test."
+      },
+      {
+        "id": "github-scheduled-workflow",
+        "status": "pass",
+        "detail": "GitHub Actions daily workflow can run the autonomous loop and upload evidence artifacts."
+      },
+      {
+        "id": "zero-spend-operation",
+        "status": "pass",
+        "detail": "Cadence is local/CI execution only; it does not enable paid spend, stores, ads, or revenue."
+      }
+    ],
+    "blockers": []
+  },
   "objectiveAudit": {
     "status": "objective-in-progress",
     "summary": {
@@ -2476,7 +2588,7 @@
       "met": 5,
       "prepared": 2,
       "incomplete": 1,
-      "externalBlockers": 23,
+      "externalBlockers": 24,
       "productBlockers": 6
     },
     "controls": {
@@ -2565,6 +2677,7 @@
         "summary": "A scheduled local loop, owner state, bootstrap handoff, and dry-run operator reduce manual maintenance.",
         "evidence": [
           "Owner loop: owner-loop-ready",
+          "Autonomous cadence: cadence-ready; Codex active-declared; GitHub scheduled",
           "Operator: operator-plan-ready",
           "Operator history: operator-history-ready; records 11",
           "Bootstrap: production-bootstrap-ready",
@@ -2578,6 +2691,7 @@
         "blockers": [
           "Add a GitHub origin remote or set GITHUB_REPOSITORY/GH_REPO.",
           "Configure GH_TOKEN or GITHUB_TOKEN for workflow dispatch and repository settings sync.",
+          "Commit current generated changes before pushing to GitHub Pages.",
           "Set GITHUB_REPOSITORY or GH_REPO to the intended owner/repo.",
           "Attach a GitHub origin remote or create the target repository.",
           "Authenticate GitHub CLI or provide GH_TOKEN/GITHUB_TOKEN for remote repository bootstrap.",

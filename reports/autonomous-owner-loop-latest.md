@@ -1,9 +1,9 @@
 # Autonomous Owner Loop
 
-Generated: 2026-05-19T02:07:10.067Z
+Generated: 2026-05-19T02:18:05.575Z
 Status: owner-loop-ready
 Mode: repository-channel-needed
-Autonomy score: 27/29 (93%)
+Autonomy score: 28/30 (93%)
 
 ## Owner Decision
 
@@ -15,13 +15,14 @@ Autonomy score: 27/29 (93%)
 
 - ready: game-factory - 10 playable games; 5 generated runtime games.
 - ready: analytics-ingest - Active source: fixture-sample; event ingest: idle-no-files; collector smoke: pass.
+- ready: autonomous-cadence - Cadence cadence-ready; Codex active-declared; GitHub scheduled.
 - ready: portfolio-loop - Daily challenge: Canopy Bloom; seed traffic: canopy-bloom, grove-engine, metro-loom, pocket-draft.
 - ready: traffic-seeding - 4 seed campaign(s); max cost $0.
 - ready: acquisition-learning - 4 campaign(s); 0 attributed start(s); candidate canopy-bloom.
 - ready: organic-seed-loop - Target canopy-bloom; surface portal-growth-loop; share telemetry organic_seed_share_clicked.
 - ready: retention-loop - Daily canopy-bloom; D1 17%; streak variant daily-streak; return prompt armed; return intent armed.
 - ready: pwa-install-loop - Prompt autonomy-cockpit; installs 0; launch events 0.
-- ready: performance-budget - Initial JS 655 KB; gzip 174.2 KB; deferred chunks 1.
+- ready: performance-budget - Initial JS 659 KB; gzip 175.3 KB; deferred chunks 1.
 - ready: product-optimization - Completion 40% / gate 55%; latest already-applied.
 - ready: first-move-coach - Coach first-move-coach-ready; enabled targets 6; primary harbor-rings.
 - ready: completion-loop - Completion loop completion-loop-ready; prompt armed; finish line armed; target harbor-rings; completion 40%.
@@ -31,12 +32,12 @@ Autonomy score: 27/29 (93%)
 - waiting-for-github-repository: repository-channel - Repository missing; git worktree ready; workflow dispatch blocked.
 - ready: repository-bootstrap - Bootstrap waiting-for-github-target; mode plan-only; helper ops/github/bootstrap-repository.sh; local git ready.
 - ready: web-deployment - Deployment ready-for-pages; web readiness ready-after-build; promotion promotable-internal.
-- ready: release-candidate - Candidate pwa-d5ff5976c0cb; status release-candidate-ready; files 38; smoke URLs 7.
-- ready: post-deploy-smoke - Smoke blocked-missing-origin; origin missing; candidate pwa-d5ff5976c0cb; checks 0/8 passed.
-- ready: production-bootstrap - Bootstrap production-bootstrap-ready; mode waiting-for-external-credentials; external blockers 26.
+- ready: release-candidate - Candidate pwa-20402032da40; status release-candidate-ready; files 38; smoke URLs 7.
+- ready: post-deploy-smoke - Smoke blocked-missing-origin; origin missing; candidate pwa-20402032da40; checks 0/8 passed.
+- ready: production-bootstrap - Bootstrap production-bootstrap-ready; mode waiting-for-external-credentials; external blockers 27.
 - ready: autonomous-operator - Operator operator-plan-ready; selected prepare-repository-channel; execution not-requested.
 - ready: operator-history - History operator-history-ready; records 11; executed 0.
-- ready: objective-audit - Audit objective-in-progress; met 5/8; external blockers 23.
+- ready: objective-audit - Audit objective-in-progress; met 5/8; external blockers 24.
 - ready: store-listing-optimizer - Focus canopy-bloom; lead screenshot phone-canopy-bloom-generated; candidate changed yes.
 - ready: store-compliance - Rating Everyone; target audience general; blockers 4.
 - ready: production-safety - Response guarded-operations; incident drill pass; spend mode no-spend.
@@ -46,6 +47,7 @@ Autonomy score: 27/29 (93%)
 ## Safe Autonomous Actions
 
 - armed: run-daily-owner-loop - npm run autonomous:daily
+- armed: refresh-autonomous-cadence - npm run autonomous:cadence
 - armed: seed-portfolio-traffic - npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop
 - armed: refresh-organic-seed-loop - npm run autonomous:organic-seed-loop
 - armed: optimize-daily-retention - npm run autonomous:retention

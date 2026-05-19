@@ -22,6 +22,7 @@ import { balanceReport } from './data/balanceReport'
 import { deploymentPlan } from './data/deploymentPlan'
 import { eventCollectorDeployment } from './data/eventCollectorDeployment'
 import { androidRelease } from './data/androidRelease'
+import { autonomousCadence } from './data/autonomousCadence'
 import { autonomousOwnerLoop } from './data/autonomousOwnerLoop'
 import { completionLoop } from './data/completionLoop'
 import { autonomyBacklog, games } from './data/games'
@@ -1713,6 +1714,24 @@ function App() {
                 <div>
                   <span>Last action</span>
                   <strong>{operatorHistorySummary.lastActionId ?? 'none'}</strong>
+                </div>
+              </div>
+              <div className="monetizationRuntime" aria-label="Autonomous Cadence">
+                <div>
+                  <span>Autonomous Cadence</span>
+                  <strong>{autonomousCadence.status}</strong>
+                </div>
+                <div>
+                  <span>Codex app</span>
+                  <strong>{autonomousCadence.schedulers.codexDesktop.status}</strong>
+                </div>
+                <div>
+                  <span>GitHub Actions</span>
+                  <strong>{autonomousCadence.schedulers.githubActions.status}</strong>
+                </div>
+                <div>
+                  <span>Operate</span>
+                  <strong>{autonomousCadence.commandPlan.operate}</strong>
                 </div>
               </div>
               <div className="monetizationRuntime" aria-label="Objective Audit">
