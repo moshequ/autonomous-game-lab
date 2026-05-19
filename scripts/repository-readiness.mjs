@@ -39,7 +39,7 @@ const parseDirtyPaths = (stdout) =>
     ? stdout
         .split('\n')
         .filter(Boolean)
-        .map((line) => line.slice(3).trim())
+        .map((line) => (line[2] === ' ' ? line.slice(3) : line.replace(/^[ MADRCU?!]{1,2}\s+/, '')).trim())
         .filter(Boolean)
     : []
 
