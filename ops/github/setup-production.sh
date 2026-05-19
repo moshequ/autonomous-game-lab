@@ -17,6 +17,28 @@ derive_repository_name() {
   node -e 'const fs=require("fs"); let name="autonomous-game-lab"; try { name=JSON.parse(fs.readFileSync("package.json","utf8")).name || name } catch {} name=String(name).split("/").pop().replace(/[^A-Za-z0-9._-]+/g,"-").replace(/^-+|-+$/g,"") || "autonomous-game-lab"; console.log(name)'
 }
 
+derive_repository_from_origin() {
+  local remote_url
+  remote_url="$(git remote get-url origin 2>/dev/null || true)"
+
+  if [[ "$remote_url" =~ ^https://github\.com/([^/[:space:]]+/[^/.[:space:]]+)(\.git)?$ ]]; then
+    printf "%s" "${BASH_REMATCH[1]}"
+    return
+  fi
+
+  if [[ "$remote_url" =~ ^git@github\.com:([^/[:space:]]+/[^/.[:space:]]+)(\.git)?$ ]]; then
+    printf "%s" "${BASH_REMATCH[1]}"
+  fi
+}
+
+if [[ -z "$repo" ]]; then
+  origin_repo="$(derive_repository_from_origin)"
+  if [[ -n "$origin_repo" ]]; then
+    repo="$origin_repo"
+    echo "inferred GitHub repository target from origin: $repo"
+  fi
+fi
+
 if [[ -z "$repo" && "${AGL_ALLOW_GH_INFER_REPOSITORY:-1}" == "1" ]]; then
   gh_owner="$(gh api user --jq .login 2>/dev/null || true)"
   if [[ -n "$gh_owner" ]]; then
@@ -26,7 +48,7 @@ if [[ -z "$repo" && "${AGL_ALLOW_GH_INFER_REPOSITORY:-1}" == "1" ]]; then
 fi
 
 if [[ -z "$repo" ]]; then
-  echo "Set GITHUB_REPOSITORY/GH_REPO or authenticate gh so owner/package-name can be inferred." >&2
+  echo "Set GITHUB_REPOSITORY/GH_REPO, add a GitHub origin remote, or authenticate gh so owner/package-name can be inferred." >&2
   exit 1
 fi
 

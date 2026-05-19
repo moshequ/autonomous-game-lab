@@ -1175,7 +1175,12 @@ test('production bootstrap emits zero-spend setup handoff artifacts', async ({ p
     }
     summary: { externalBlockers: number }
     stages: Array<{ id: string; costUsd: number }>
-    setupScript: { path: string; avoidsSecretEcho: boolean; configuresPagesSource: boolean }
+    setupScript: {
+      path: string
+      avoidsSecretEcho: boolean
+      configuresPagesSource: boolean
+      infersRepositoryFromOriginRemote: boolean
+    }
     requiredVariables: Array<{ repositoryVariable: string; command: string }>
     requiredSecrets: Array<{ repositorySecret: string; command: string }>
     setupCommands: Array<{ id: string; command: string; costUsd: number }>
@@ -1203,8 +1208,11 @@ test('production bootstrap emits zero-spend setup handoff artifacts', async ({ p
   expect(bootstrap.setupScript.path).toBe('ops/github/setup-production.sh')
   expect(bootstrap.setupScript.avoidsSecretEcho).toBe(true)
   expect(bootstrap.setupScript.configuresPagesSource).toBe(true)
+  expect(bootstrap.setupScript.infersRepositoryFromOriginRemote).toBe(true)
   expect(setupScript).toContain('gh variable set')
   expect(setupScript).toContain('gh secret set')
+  expect(setupScript).toContain('derive_repository_from_origin')
+  expect(setupScript).toContain('git remote get-url origin')
   expect(setupScript).toContain('AGL_SYNC_PAGES_SETTINGS')
   expect(setupScript).toContain('repos/$repo/pages')
   expect(setupScript).toContain('build_type=workflow')

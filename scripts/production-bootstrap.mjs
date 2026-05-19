@@ -398,6 +398,7 @@ const payload = {
     status: 'generated',
     dryRunByDefault: false,
     usesCurrentShellEnvironment: true,
+    infersRepositoryFromOriginRemote: true,
     configuresPagesSource: true,
     avoidsSecretEcho: true,
   },
@@ -497,6 +498,28 @@ derive_repository_name() {
   node -e 'const fs=require("fs"); let name="autonomous-game-lab"; try { name=JSON.parse(fs.readFileSync("package.json","utf8")).name || name } catch {} name=String(name).split("/").pop().replace(/[^A-Za-z0-9._-]+/g,"-").replace(/^-+|-+$/g,"") || "autonomous-game-lab"; console.log(name)'
 }
 
+derive_repository_from_origin() {
+  local remote_url
+  remote_url="$(git remote get-url origin 2>/dev/null || true)"
+
+  if [[ "$remote_url" =~ ^https://github\\.com/([^/[:space:]]+/[^/.[:space:]]+)(\\.git)?$ ]]; then
+    printf "%s" "\${BASH_REMATCH[1]}"
+    return
+  fi
+
+  if [[ "$remote_url" =~ ^git@github\\.com:([^/[:space:]]+/[^/.[:space:]]+)(\\.git)?$ ]]; then
+    printf "%s" "\${BASH_REMATCH[1]}"
+  fi
+}
+
+if [[ -z "$repo" ]]; then
+  origin_repo="$(derive_repository_from_origin)"
+  if [[ -n "$origin_repo" ]]; then
+    repo="$origin_repo"
+    echo "inferred GitHub repository target from origin: $repo"
+  fi
+fi
+
 if [[ -z "$repo" && "\${AGL_ALLOW_GH_INFER_REPOSITORY:-1}" == "1" ]]; then
   gh_owner="$(gh api user --jq .login 2>/dev/null || true)"
   if [[ -n "$gh_owner" ]]; then
@@ -506,7 +529,7 @@ if [[ -z "$repo" && "\${AGL_ALLOW_GH_INFER_REPOSITORY:-1}" == "1" ]]; then
 fi
 
 if [[ -z "$repo" ]]; then
-  echo "Set GITHUB_REPOSITORY/GH_REPO or authenticate gh so owner/package-name can be inferred." >&2
+  echo "Set GITHUB_REPOSITORY/GH_REPO, add a GitHub origin remote, or authenticate gh so owner/package-name can be inferred." >&2
   exit 1
 fi
 
@@ -593,7 +616,7 @@ This folder contains the zero-spend GitHub setup helper for the autonomous PWA r
 
 1. Run \`npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap\` and clear any repository-channel blockers.
 2. Export the environment values from \`ops/production.env.example\`.
-3. Set \`GITHUB_REPOSITORY=owner/repo\` / \`GH_REPO=owner/repo\`, or authenticate \`gh\` and let the helpers infer \`owner/package-name\`.
+3. Set \`GITHUB_REPOSITORY=owner/repo\` / \`GH_REPO=owner/repo\`, attach a GitHub \`origin\` remote, or authenticate \`gh\` and let the helpers infer \`owner/package-name\`.
 4. Authenticate \`gh\` with access to repository variables and secrets.
 5. To initialize/attach the repository transport, run the guarded helper with only the explicit actions you want:
 

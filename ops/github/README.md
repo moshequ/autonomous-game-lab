@@ -8,7 +8,7 @@ This folder contains the zero-spend GitHub setup helper for the autonomous PWA r
 
 1. Run `npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap` and clear any repository-channel blockers.
 2. Export the environment values from `ops/production.env.example`.
-3. Set `GITHUB_REPOSITORY=owner/repo` / `GH_REPO=owner/repo`, or authenticate `gh` and let the helpers infer `owner/package-name`.
+3. Set `GITHUB_REPOSITORY=owner/repo` / `GH_REPO=owner/repo`, attach a GitHub `origin` remote, or authenticate `gh` and let the helpers infer `owner/package-name`.
 4. Authenticate `gh` with access to repository variables and secrets.
 5. To initialize/attach the repository transport, run the guarded helper with only the explicit actions you want:
 

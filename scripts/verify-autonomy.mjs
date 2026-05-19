@@ -1484,6 +1484,7 @@ if (
   productionBootstrap.setupScript?.path !== 'ops/github/setup-production.sh' ||
   productionBootstrap.setupScript?.avoidsSecretEcho !== true ||
   productionBootstrap.setupScript?.configuresPagesSource !== true ||
+  productionBootstrap.setupScript?.infersRepositoryFromOriginRemote !== true ||
   productionBootstrap.repository?.repositoryReadinessStatus !== repositoryReadiness.status ||
   productionBootstrap.repository?.repositoryBootstrapStatus !== repositoryBootstrap.status ||
   productionBootstrap.repository?.insideWorkTree !== repositoryReadiness.workspace?.insideWorkTree ||
@@ -1505,6 +1506,8 @@ if (
   githubRepositoryBootstrapScript.includes('gh workflow run') ||
   !githubSetupScript.includes('gh variable set') ||
   !githubSetupScript.includes('gh secret set') ||
+  !githubSetupScript.includes('derive_repository_from_origin') ||
+  !githubSetupScript.includes('git remote get-url origin') ||
   !githubSetupScript.includes('AGL_SYNC_PAGES_SETTINGS') ||
   !githubSetupScript.includes('repos/$repo/pages') ||
   !githubSetupScript.includes('build_type=workflow') ||
