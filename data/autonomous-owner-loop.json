@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-19T07:58:46.004Z",
+  "generatedAt": "2026-05-19T08:06:54.524Z",
   "status": "owner-loop-ready",
   "mode": "repository-channel-needed",
   "autonomyScore": {
@@ -233,14 +233,14 @@
       "id": "release-candidate",
       "status": "ready",
       "autonomy": "content-hashed-deploy-evidence",
-      "evidence": "Candidate pwa-e116bd15348b; status release-candidate-ready; files 38; smoke URLs 7.",
+      "evidence": "Candidate pwa-69c6810ef118; status release-candidate-ready; files 38; smoke URLs 7.",
       "nextAction": "Regenerate the release candidate after every production build before deploy or rollback decisions."
     },
     {
       "id": "post-deploy-smoke",
       "status": "ready",
       "autonomy": "read-only-live-deploy-verification",
-      "evidence": "Smoke blocked-missing-origin; origin missing; candidate pwa-e116bd15348b; checks 0/8 passed; local artifact predeploy-artifact-smoke-passed 8/8 passed.",
+      "evidence": "Smoke blocked-missing-origin; origin missing; candidate pwa-69c6810ef118; checks 0/8 passed; local artifact predeploy-artifact-smoke-passed 8/8 passed.",
       "nextAction": "Run this after deployment with AGL_DEPLOYED_PWA_ORIGIN set to the Pages URL."
     },
     {
@@ -393,7 +393,7 @@
       "command": "npm run build && npm run autonomous:performance",
       "targets": [
         "pwa-shell",
-        "GameCanvas-DzVzJnii.js"
+        "GameCanvas-DX5NcrBl.js"
       ],
       "reason": "Keeps the PWA shell fast while Phaser and game scenes stay deferred."
     },
@@ -403,7 +403,7 @@
       "costUsd": 0,
       "command": "npm run autonomous:release-candidate",
       "targets": [
-        "pwa-e116bd15348b"
+        "pwa-69c6810ef118"
       ],
       "reason": "Records a content-hashed dist inventory and post-deploy smoke plan for the exact PWA build."
     },
@@ -414,7 +414,7 @@
       "command": "npm run autonomous:post-deploy-smoke",
       "targets": [
         "deployed-pages-url",
-        "pwa-e116bd15348b"
+        "pwa-69c6810ef118"
       ],
       "reason": "Waits for a deployed Pages origin, then verifies the live PWA matches the exact release candidate."
     },

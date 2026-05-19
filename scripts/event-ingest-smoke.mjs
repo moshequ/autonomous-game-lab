@@ -199,6 +199,80 @@ try {
     fail(`Expected local D1 retention of 1, got ${JSON.stringify(analytics.retention)}`)
   }
 
+  const incrementalEvents = [
+    ...exportedEvents,
+    {
+      id: 'smoke-second-start',
+      name: 'game_started',
+      properties: {
+        gameId: 'mosaic-haven',
+        anonymousId: 'anon-smoke',
+        sessionId: 'session-smoke-b',
+        sessionDate: '2026-05-18',
+      },
+      createdAt: '2026-05-18T10:01:00.000Z',
+    },
+  ]
+
+  await writeFile(
+    path.join(dropDir, 'player-events-smoke-incremental.json'),
+    JSON.stringify(incrementalEvents, null, 2),
+  )
+
+  await run(process.execPath, ['scripts/local-event-bridge.mjs'], {
+    AGL_LOCAL_EVENT_DROP_DIRS: dropDir,
+    AGL_EVENT_OUTPUT_DIR: outputDir,
+    AGL_EVENT_INBOX_DIR: inboxDir,
+    AGL_LOCAL_EVENT_BRIDGE_OUTPUT: bridgeOutput,
+    AGL_LOCAL_EVENT_BRIDGE_TS_OUTPUT: bridgeTsOutput,
+    AGL_LOCAL_EVENT_BRIDGE_REPORT: bridgeReport,
+  })
+
+  const incrementalBridge = JSON.parse(await readFile(bridgeOutput, 'utf8'))
+
+  if (incrementalBridge.status !== 'bridge-ready-for-ingest' || incrementalBridge.copiedFiles.length !== 1) {
+    fail(`Expected local bridge to copy only the incremental event drop, got ${JSON.stringify(incrementalBridge)}`)
+  }
+
+  await run(process.execPath, ['scripts/event-ingestor.mjs'], {
+    AGL_EVENT_IMPORT_DIRS: inboxDir,
+    AGL_EVENT_OUTPUT_DIR: outputDir,
+    AGL_EVENT_INBOX_DIR: inboxDir,
+    AGL_EVENT_INGEST_OUTPUT: ingestOutput,
+    AGL_EVENT_INGEST_REPORT: ingestReport,
+  })
+
+  const incrementalIngest = JSON.parse(await readFile(ingestOutput, 'utf8'))
+
+  if (
+    incrementalIngest.status !== 'imported' ||
+    incrementalIngest.importedEvents !== 1 ||
+    incrementalIngest.duplicateEvents < 12 ||
+    incrementalIngest.importedFiles.length !== 1 ||
+    incrementalIngest.importedFiles[0]?.duplicateEvents !== 6
+  ) {
+    fail(`Expected incremental ingest to persist only 1 new event, got ${JSON.stringify(incrementalIngest)}`)
+  }
+
+  await run(process.execPath, ['scripts/analytics-rollup.mjs'], {
+    AGL_LOCAL_EVENTS_DIR: outputDir,
+    AGL_ANALYTICS_OUTPUT: analyticsOutput,
+    AGL_ANALYTICS_REPORT: analyticsReport,
+  })
+
+  const incrementalAnalytics = JSON.parse(await readFile(analyticsOutput, 'utf8'))
+  const incrementalGame = incrementalAnalytics.games.find((row) => row.gameId === 'mosaic-haven')
+
+  if (
+    incrementalAnalytics.sourceStatus.localEventDrops.events !== 7 ||
+    incrementalAnalytics.sourceStatus.localEventDrops.duplicateEvents !== 0 ||
+    incrementalGame?.counts.game_viewed !== 3 ||
+    incrementalGame?.counts.game_started !== 2 ||
+    incrementalGame?.counts.level_completed !== 1
+  ) {
+    fail(`Expected event-level deduped analytics after incremental import, got ${JSON.stringify(incrementalAnalytics)}`)
+  }
+
   const smoke = {
     generatedAt: new Date().toISOString(),
     status: 'pass',
@@ -221,22 +295,30 @@ try {
       importedFiles: ingest.importedFiles.length,
       outputDirectory: ingest.outputDirectory,
     },
+    incrementalIngest: {
+      status: incrementalIngest.status,
+      importedEvents: incrementalIngest.importedEvents,
+      importedFiles: incrementalIngest.importedFiles.length,
+      duplicateEvents: incrementalIngest.duplicateEvents,
+      importedFileDuplicateEvents: incrementalIngest.importedFiles[0]?.duplicateEvents ?? 0,
+    },
     analytics: {
-      activeSource: analytics.sourceStatus.activeSource,
-      localEventFiles: analytics.sourceStatus.localEventDrops.files,
-      localEvents: analytics.sourceStatus.localEventDrops.events,
-      retentionSource: analytics.retention.source,
-      d1Retention: analytics.retention.d1Retention,
+      activeSource: incrementalAnalytics.sourceStatus.activeSource,
+      localEventFiles: incrementalAnalytics.sourceStatus.localEventDrops.files,
+      localEvents: incrementalAnalytics.sourceStatus.localEventDrops.events,
+      duplicateEvents: incrementalAnalytics.sourceStatus.localEventDrops.duplicateEvents,
+      retentionSource: incrementalAnalytics.retention.source,
+      d1Retention: incrementalAnalytics.retention.d1Retention,
       counts: {
-        game_viewed: game.counts.game_viewed,
-        game_started: game.counts.game_started,
-        tutorial_completed: game.counts.tutorial_completed,
-        level_completed: game.counts.level_completed,
+        game_viewed: incrementalGame.counts.game_viewed,
+        game_started: incrementalGame.counts.game_started,
+        tutorial_completed: incrementalGame.counts.tutorial_completed,
+        level_completed: incrementalGame.counts.level_completed,
       },
       metrics: {
-        startRate: game.metrics.startRate,
-        tutorialCompletion: game.metrics.tutorialCompletion,
-        firstGameCompletion: game.metrics.firstGameCompletion,
+        startRate: incrementalGame.metrics.startRate,
+        tutorialCompletion: incrementalGame.metrics.tutorialCompletion,
+        firstGameCompletion: incrementalGame.metrics.firstGameCompletion,
       },
     },
   }
@@ -254,6 +336,8 @@ try {
     `- Status: ${smoke.ingest.status}`,
     `- Imported events: ${smoke.ingest.importedEvents}`,
     `- Imported files: ${smoke.ingest.importedFiles}`,
+    `- Incremental imported events: ${smoke.incrementalIngest.importedEvents}`,
+    `- Incremental duplicate events skipped: ${smoke.incrementalIngest.duplicateEvents}`,
     '',
     '## Analytics',
     '',

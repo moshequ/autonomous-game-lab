@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-19T07:44:35.368Z",
+  "generatedAt": "2026-05-19T08:03:12.642Z",
   "sourceStatus": {
     "activeSource": "fixture-sample",
     "posthog": {
@@ -11,7 +11,9 @@
     "localEventDrops": {
       "directory": "data/player-events",
       "files": 0,
-      "events": 0
+      "events": 0,
+      "rawEvents": 0,
+      "duplicateEvents": 0
     },
     "fallbackSample": {
       "rows": 2

@@ -475,15 +475,19 @@ if (
   eventIngestSmoke.bridge?.noExternalUpload !== true ||
   eventIngestSmoke.ingest?.status !== 'imported' ||
   eventIngestSmoke.ingest?.importedEvents < 6 ||
+  eventIngestSmoke.incrementalIngest?.status !== 'imported' ||
+  eventIngestSmoke.incrementalIngest?.importedEvents !== 1 ||
+  eventIngestSmoke.incrementalIngest?.duplicateEvents < 12 ||
+  eventIngestSmoke.incrementalIngest?.importedFileDuplicateEvents < 6 ||
   eventIngestSmoke.analytics?.activeSource !== 'local-event-drops' ||
   eventIngestSmoke.analytics?.retentionSource !== 'local-event-drops' ||
   eventIngestSmoke.analytics?.d1Retention !== 1 ||
   eventIngestSmoke.analytics?.counts?.game_viewed < 3 ||
-  eventIngestSmoke.analytics?.counts?.game_started < 1 ||
+  eventIngestSmoke.analytics?.counts?.game_started < 2 ||
   eventIngestSmoke.analytics?.counts?.tutorial_completed < 1 ||
   eventIngestSmoke.analytics?.counts?.level_completed < 1
 ) {
-  fail('Event ingest smoke must prove exported player events become local analytics and retention metrics.')
+  fail('Event ingest smoke must prove exported player events become deduped local analytics and retention metrics.')
 }
 
 if (

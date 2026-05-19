@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-19T07:58:41.704Z",
+  "generatedAt": "2026-05-19T08:06:50.624Z",
   "environment": {
     "status": "production-env-missing",
     "publicOrigin": null,
@@ -314,7 +314,7 @@
       {
         "id": "performance-budget",
         "status": "pass",
-        "detail": "Performance budget is performance-budget-ready; initial JS 644.6 KB / 172.9 KB gzip; deferred game chunk GameCanvas-DzVzJnii.js."
+        "detail": "Performance budget is performance-budget-ready; initial JS 644.6 KB / 172.9 KB gzip; deferred game chunk GameCanvas-DX5NcrBl.js."
       },
       {
         "id": "release-candidate",
@@ -790,20 +790,20 @@
     },
     "initial": {
       "entryScripts": [
-        "index-Cj0_KxkC.js",
+        "index-CNAAjigU.js",
         "registerSW.js"
       ],
       "scriptPaths": [
-        "assets/index-Cj0_KxkC.js",
+        "assets/index-CNAAjigU.js",
         "registerSW.js"
       ],
       "jsFiles": [
         {
-          "file": "index-Cj0_KxkC.js",
-          "path": "assets/index-Cj0_KxkC.js",
+          "file": "index-CNAAjigU.js",
+          "path": "assets/index-CNAAjigU.js",
           "bytes": 659891,
           "kb": 644.4,
-          "gzipBytes": 176891,
+          "gzipBytes": 176887,
           "gzipKb": 172.7
         },
         {
@@ -817,7 +817,7 @@
       ],
       "jsBytes": 660025,
       "jsKb": 644.6,
-      "gzipBytes": 177017,
+      "gzipBytes": 177013,
       "gzipKb": 172.9,
       "cssFiles": [
         {
@@ -837,8 +837,8 @@
     "deferred": {
       "chunks": [
         {
-          "file": "GameCanvas-DzVzJnii.js",
-          "path": "assets/GameCanvas-DzVzJnii.js",
+          "file": "GameCanvas-DX5NcrBl.js",
+          "path": "assets/GameCanvas-DX5NcrBl.js",
           "bytes": 1393468,
           "kb": 1360.8,
           "gzipBytes": 356095,
@@ -846,24 +846,24 @@
         }
       ],
       "gameChunk": {
-        "file": "GameCanvas-DzVzJnii.js",
-        "path": "assets/GameCanvas-DzVzJnii.js",
+        "file": "GameCanvas-DX5NcrBl.js",
+        "path": "assets/GameCanvas-DX5NcrBl.js",
         "bytes": 1393468,
         "kb": 1360.8,
         "gzipBytes": 356095,
         "gzipKb": 347.7
       },
       "largestDeferredChunk": {
-        "file": "GameCanvas-DzVzJnii.js",
-        "path": "assets/GameCanvas-DzVzJnii.js",
+        "file": "GameCanvas-DX5NcrBl.js",
+        "path": "assets/GameCanvas-DX5NcrBl.js",
         "bytes": 1393468,
         "kb": 1360.8,
         "gzipBytes": 356095,
         "gzipKb": 347.7
       },
       "largestJsChunk": {
-        "file": "GameCanvas-DzVzJnii.js",
-        "path": "assets/GameCanvas-DzVzJnii.js",
+        "file": "GameCanvas-DX5NcrBl.js",
+        "path": "assets/GameCanvas-DX5NcrBl.js",
         "bytes": 1393468,
         "kb": 1360.8,
         "gzipBytes": 356095,
@@ -909,12 +909,12 @@
       {
         "id": "game-runtime-deferred",
         "status": "pass",
-        "detail": "GameCanvas-DzVzJnii.js is deferred from the initial shell."
+        "detail": "GameCanvas-DX5NcrBl.js is deferred from the initial shell."
       },
       {
         "id": "largest-js-deferred",
         "status": "pass",
-        "detail": "Largest JS chunk is GameCanvas-DzVzJnii.js at 1360.8 KB."
+        "detail": "Largest JS chunk is GameCanvas-DX5NcrBl.js at 1360.8 KB."
       },
       {
         "id": "deferred-game-budget",
@@ -925,7 +925,7 @@
   },
   "releaseCandidate": {
     "status": "release-candidate-ready",
-    "candidateId": "pwa-e116bd15348b",
+    "candidateId": "pwa-69c6810ef118",
     "target": {
       "provider": "github-pages",
       "artifactPath": "dist",
@@ -946,7 +946,7 @@
     },
     "integrity": {
       "algorithm": "sha256",
-      "aggregateHash": "e116bd15348b62b0cc863d29b8c5f473a82f63b6831256fc20de83e8650f92a8",
+      "aggregateHash": "69c6810ef1184108da08707e14bd62af22083a23ce5562efc98ef11155dbb751",
       "requiredFileChecks": [
         {
           "path": "index.html",
@@ -1110,8 +1110,8 @@
     "target": {
       "origin": null,
       "provider": "github-pages",
-      "candidateId": "pwa-e116bd15348b",
-      "aggregateHash": "e116bd15348b62b0cc863d29b8c5f473a82f63b6831256fc20de83e8650f92a8"
+      "candidateId": "pwa-69c6810ef118",
+      "aggregateHash": "69c6810ef1184108da08707e14bd62af22083a23ce5562efc98ef11155dbb751"
     },
     "sourceStatus": {
       "deployment": "ready-for-pages",
@@ -1218,8 +1218,8 @@
           "bytes": 15513,
           "candidateMatches": true,
           "hashMatches": true,
-          "localCandidateId": "pwa-e116bd15348b",
-          "localAggregateHash": "e116bd15348b62b0cc863d29b8c5f473a82f63b6831256fc20de83e8650f92a8",
+          "localCandidateId": "pwa-69c6810ef118",
+          "localAggregateHash": "69c6810ef1184108da08707e14bd62af22083a23ce5562efc98ef11155dbb751",
           "detail": "Local release manifest matches the release candidate."
         }
       ]
@@ -1302,7 +1302,7 @@
         "path": "/release-candidate.json",
         "url": "${DEPLOYED_PWA_ORIGIN}/release-candidate.json",
         "expectedStatus": 200,
-        "requiredText": "pwa-e116bd15348b",
+        "requiredText": "pwa-69c6810ef118",
         "status": "blocked",
         "detail": "No deployed origin configured."
       }

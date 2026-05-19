@@ -1,5 +1,5 @@
 export const repositoryBootstrap = {
-  "generatedAt": "2026-05-19T07:58:23.684Z",
+  "generatedAt": "2026-05-19T08:06:37.983Z",
   "status": "waiting-for-github-target",
   "mode": "plan-only",
   "envFiles": {
@@ -114,7 +114,7 @@ export const repositoryBootstrap = {
     "repositoryReadiness": "waiting-for-github-repository",
     "deployment": "ready-for-pages",
     "releaseCandidate": "release-candidate-ready",
-    "releaseCandidateId": "pwa-e116bd15348b",
+    "releaseCandidateId": "pwa-69c6810ef118",
     "postDeploySmoke": "blocked-missing-origin"
   },
   "execution": {

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-19T07:56:47.734Z",
+  "generatedAt": "2026-05-19T08:05:16.718Z",
   "status": "pass",
   "fixture": {
     "sourceFile": "player-events-smoke.json",
@@ -18,24 +18,32 @@
     "status": "imported",
     "importedEvents": 6,
     "importedFiles": 1,
-    "outputDirectory": "../../../../../../var/folders/tq/1ph_b7c95_gc2jsn1hc3h1jw0000gn/T/agl-event-ingest-nORusZ/player-events"
+    "outputDirectory": "../../../../../../var/folders/tq/1ph_b7c95_gc2jsn1hc3h1jw0000gn/T/agl-event-ingest-KYGlgB/player-events"
+  },
+  "incrementalIngest": {
+    "status": "imported",
+    "importedEvents": 1,
+    "importedFiles": 1,
+    "duplicateEvents": 12,
+    "importedFileDuplicateEvents": 6
   },
   "analytics": {
     "activeSource": "local-event-drops",
-    "localEventFiles": 1,
-    "localEvents": 6,
+    "localEventFiles": 2,
+    "localEvents": 7,
+    "duplicateEvents": 0,
     "retentionSource": "local-event-drops",
     "d1Retention": 1,
     "counts": {
       "game_viewed": 3,
-      "game_started": 1,
+      "game_started": 2,
       "tutorial_completed": 1,
       "level_completed": 1
     },
     "metrics": {
-      "startRate": 0.333,
-      "tutorialCompletion": 1,
-      "firstGameCompletion": 1
+      "startRate": 0.667,
+      "tutorialCompletion": 0.5,
+      "firstGameCompletion": 0.5
     }
   }
 }

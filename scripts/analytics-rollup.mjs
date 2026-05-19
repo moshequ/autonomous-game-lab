@@ -125,6 +125,16 @@ const emptyCounts = () =>
 
 const normalizeGameId = (value) => (value && typeof value === 'string' ? value : 'unknown')
 
+const stableJson = (value) => JSON.stringify(value, Object.keys(value ?? {}).sort())
+
+const eventIdentityFor = (event) =>
+  event.id ??
+  JSON.stringify({
+    name: event.name ?? event.event,
+    createdAt: event.createdAt ?? event.timestamp,
+    properties: stableJson(event.properties ?? {}),
+  })
+
 const rowsFromAggregateSample = async () =>
   (await readJson(samplePath)).map((row) => ({
     gameId: row.gameId,
@@ -150,10 +160,28 @@ const loadLocalEvents = async () => {
       return Array.isArray(payload) ? payload : payload.events ?? []
     }),
   )
+  const rawEvents = eventBatches.flat()
+  const seen = new Set()
+  const events = []
+  let duplicateEvents = 0
+
+  for (const event of rawEvents) {
+    const eventIdentity = eventIdentityFor(event)
+
+    if (seen.has(eventIdentity)) {
+      duplicateEvents += 1
+      continue
+    }
+
+    seen.add(eventIdentity)
+    events.push(event)
+  }
 
   return {
     files,
-    events: eventBatches.flat(),
+    events,
+    rawEvents: rawEvents.length,
+    duplicateEvents,
   }
 }
 
@@ -545,6 +573,8 @@ const payload = {
       directory: path.relative(root, localEventsDir),
       files: local.files.length,
       events: local.events.length,
+      rawEvents: local.rawEvents ?? local.events.length,
+      duplicateEvents: local.duplicateEvents ?? 0,
     },
     fallbackSample: {
       rows: sampleRows.length,

@@ -1,6 +1,6 @@
 # Autonomous Owner Loop
 
-Generated: 2026-05-19T07:58:46.004Z
+Generated: 2026-05-19T08:06:54.524Z
 Status: owner-loop-ready
 Mode: repository-channel-needed
 Autonomy score: 33/35 (94%)
@@ -38,8 +38,8 @@ Autonomy score: 33/35 (94%)
 - waiting-for-github-repository: repository-channel - Repository missing; git worktree ready; workflow dispatch blocked.
 - ready: repository-bootstrap - Bootstrap waiting-for-github-target; mode plan-only; helper ops/github/bootstrap-repository.sh; local git ready.
 - ready: web-deployment - Deployment ready-for-pages; web readiness ready-after-build; promotion promotable-internal.
-- ready: release-candidate - Candidate pwa-e116bd15348b; status release-candidate-ready; files 38; smoke URLs 7.
-- ready: post-deploy-smoke - Smoke blocked-missing-origin; origin missing; candidate pwa-e116bd15348b; checks 0/8 passed; local artifact predeploy-artifact-smoke-passed 8/8 passed.
+- ready: release-candidate - Candidate pwa-69c6810ef118; status release-candidate-ready; files 38; smoke URLs 7.
+- ready: post-deploy-smoke - Smoke blocked-missing-origin; origin missing; candidate pwa-69c6810ef118; checks 0/8 passed; local artifact predeploy-artifact-smoke-passed 8/8 passed.
 - ready: production-bootstrap - Bootstrap production-bootstrap-ready; mode waiting-for-external-credentials; external blockers 23.
 - ready: autonomous-operator - Operator operator-plan-ready; selected refresh-product-gate-sample-plan; execution not-requested.
 - ready: operator-history - History operator-history-ready; records 40; executed 18.

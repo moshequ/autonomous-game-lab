@@ -1,6 +1,6 @@
 # Production Readiness
 
-Generated: 2026-05-19T07:58:41.704Z
+Generated: 2026-05-19T08:06:50.624Z
 
 ## Environment
 
@@ -55,7 +55,7 @@ Status: ready-after-build
 - pass: organic-seed-loop - Organic seed loop is organic-seed-loop-ready; target canopy-bloom; player-initiated share guard active.
 - pass: retention-loop - Retention loop is retention-loop-ready; daily challenge canopy-bloom; no-push/no-account guardrails active.
 - pass: pwa-install-loop - PWA install loop is pwa-install-loop-ready; prompt surface autonomy-cockpit; cost $0.
-- pass: performance-budget - Performance budget is performance-budget-ready; initial JS 644.6 KB / 172.9 KB gzip; deferred game chunk GameCanvas-DzVzJnii.js.
+- pass: performance-budget - Performance budget is performance-budget-ready; initial JS 644.6 KB / 172.9 KB gzip; deferred game chunk GameCanvas-DX5NcrBl.js.
 - pass: release-candidate - Release candidate is release-candidate-ready; files 38; smoke URLs 7.
 - pass: post-deploy-smoke-runner - Post-deploy smoke is blocked-missing-origin; origin missing; checks 0/8 passed, 8 blocked; local artifact predeploy-artifact-smoke-passed 8/8 passed.
 - pass: product-optimization - Product optimizer is product-optimization-ready; completion 0.397 vs gate 0.55; latest action already-applied.
@@ -109,22 +109,22 @@ Installs: 0
 
 Status: performance-budget-ready
 Initial JS: 644.6 KB (172.9 KB gzip)
-Deferred game chunk: GameCanvas-DzVzJnii.js
+Deferred game chunk: GameCanvas-DX5NcrBl.js
 - pass: performance-initial-js-budget - Initial JS is 644.6 KB; budget is 675 KB.
 - pass: performance-initial-js-gzip-budget - Initial JS gzip is 172.9 KB; budget is 200 KB.
 - pass: performance-initial-css-budget - Initial CSS is 9.6 KB; budget is 40 KB.
 - pass: performance-manifest - PWA manifest exists in dist.
 - pass: performance-service-worker - Service worker exists in dist.
-- pass: performance-game-runtime-deferred - GameCanvas-DzVzJnii.js is deferred from the initial shell.
-- pass: performance-largest-js-deferred - Largest JS chunk is GameCanvas-DzVzJnii.js at 1360.8 KB.
+- pass: performance-game-runtime-deferred - GameCanvas-DX5NcrBl.js is deferred from the initial shell.
+- pass: performance-largest-js-deferred - Largest JS chunk is GameCanvas-DX5NcrBl.js at 1360.8 KB.
 - pass: performance-deferred-game-budget - Deferred game chunk is 1360.8 KB; monitor budget is 1600 KB.
 
 ## Release Candidate
 
 Status: release-candidate-ready
-Candidate: pwa-e116bd15348b
+Candidate: pwa-69c6810ef118
 Files: 38
-Aggregate SHA-256: e116bd15348b62b0cc863d29b8c5f473a82f63b6831256fc20de83e8650f92a8
+Aggregate SHA-256: 69c6810ef1184108da08707e14bd62af22083a23ce5562efc98ef11155dbb751
 - pass: release-dist-inventory - 38 dist files inventoried.
 - pass: release-required-files - 13/13 required files present.
 - pass: release-game-pages - 10 generated game page(s) in dist.
@@ -138,7 +138,7 @@ Aggregate SHA-256: e116bd15348b62b0cc863d29b8c5f473a82f63b6831256fc20de83e8650f9
 
 Status: blocked-missing-origin
 Origin: missing
-Candidate: pwa-e116bd15348b
+Candidate: pwa-69c6810ef118
 Checks: 0/8 passed (8 blocked)
 Local artifact: predeploy-artifact-smoke-passed (8/8 passed)
 - blocked: smoke-app-shell - No deployed origin configured.

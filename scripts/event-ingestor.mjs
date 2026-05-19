@@ -28,6 +28,7 @@ const importDirs = (
   .filter(Boolean)
 
 const filePattern = /^player-events.*\.json$/i
+const importedPattern = /^imported-.*\.json$/i
 
 const relativeToRoot = (value) => {
   if (!value || /^https?:\/\//i.test(value)) {
@@ -110,6 +111,7 @@ const eventBatchHash = (events) =>
 
 const importedFiles = []
 const skippedFiles = []
+let knownEventIds = new Set()
 
 const importBatch = async (events, sourcePath) => {
   if (!events.length) {
@@ -117,7 +119,20 @@ const importBatch = async (events, sourcePath) => {
     return
   }
 
-  const hash = eventBatchHash(events)
+  const newEvents = events.filter((event) => !knownEventIds.has(event.id))
+  const duplicateEvents = events.length - newEvents.length
+
+  if (!newEvents.length) {
+    skippedFiles.push({
+      sourcePath,
+      reason: 'duplicate events',
+      events: events.length,
+      duplicateEvents,
+    })
+    return
+  }
+
+  const hash = eventBatchHash(newEvents)
   const targetPath = path.join(outputDir, `imported-${hash}.json`)
 
   if (await exists(targetPath)) {
@@ -125,19 +140,44 @@ const importBatch = async (events, sourcePath) => {
     return
   }
 
-  await writeFile(targetPath, JSON.stringify(events, null, 2) + '\n')
+  await writeFile(targetPath, JSON.stringify(newEvents, null, 2) + '\n')
+  for (const event of newEvents) {
+    knownEventIds.add(event.id)
+  }
   importedFiles.push({
     sourcePath,
     targetPath,
-    events: events.length,
+    events: newEvents.length,
+    sourceEvents: events.length,
+    duplicateEvents,
     hash,
   })
+}
+
+const loadKnownEventIds = async () => {
+  const files = await readdir(outputDir).catch(() => [])
+  const ids = new Set()
+
+  for (const file of files.filter((candidate) => importedPattern.test(candidate))) {
+    try {
+      const events = parseEvents(await readFile(path.join(outputDir, file), 'utf8'))
+
+      for (const event of events) {
+        ids.add(event.id)
+      }
+    } catch {
+      // A bad historical import should not block ingesting fresh valid events.
+    }
+  }
+
+  return ids
 }
 
 await mkdir(outputDir, { recursive: true })
 await mkdir(inboxDir, { recursive: true })
 await mkdir(path.dirname(outputJsonPath), { recursive: true })
 await mkdir(path.dirname(reportPath), { recursive: true })
+knownEventIds = await loadKnownEventIds()
 
 const sourceDirectories = []
 const remoteCollectors = []
@@ -209,11 +249,12 @@ const payload = {
   generatedAt: new Date().toISOString(),
   status: importedFiles.length
     ? 'imported'
-    : skippedFiles.some((file) => file.reason === 'duplicate batch')
+    : skippedFiles.some((file) => file.reason === 'duplicate batch' || file.reason === 'duplicate events')
       ? 'idle-duplicates'
       : 'idle-no-files',
   outputDirectory: path.relative(root, outputDir),
   importPattern: filePattern.toString(),
+  existingImportedEvents: knownEventIds.size - importedFiles.reduce((sum, file) => sum + file.events, 0),
   sourceDirectories,
   remoteCollectors,
   importedFiles: importedFiles.map((file) => ({
@@ -227,6 +268,10 @@ const payload = {
     targetPath: file.targetPath ? relativeToRoot(file.targetPath) : undefined,
   })),
   importedEvents: importedFiles.reduce((sum, file) => sum + file.events, 0),
+  duplicateEvents: [
+    ...importedFiles.map((file) => file.duplicateEvents ?? 0),
+    ...skippedFiles.map((file) => file.duplicateEvents ?? 0),
+  ].reduce((sum, value) => sum + value, 0),
 }
 
 const report = [
@@ -251,8 +296,13 @@ const report = [
   '## Imported',
   '',
   ...(payload.importedFiles.length
-    ? payload.importedFiles.map((file) => `- ${file.targetPath}: ${file.events} event(s) from ${file.sourcePath}`)
+    ? payload.importedFiles.map(
+        (file) =>
+          `- ${file.targetPath}: ${file.events} new event(s) from ${file.sourcePath} (${file.duplicateEvents} duplicate event(s) skipped)`,
+      )
     : ['- none']),
+  `- Existing imported events before run: ${payload.existingImportedEvents}`,
+  `- Duplicate events skipped: ${payload.duplicateEvents}`,
   '',
   '## Skipped',
   '',
