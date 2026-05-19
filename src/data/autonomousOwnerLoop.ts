@@ -8,7 +8,7 @@ export const autonomousOwnerLoop = {
     "externalAccountInterventionRequired": true
   },
   "ownerDecision": {
-    "nextBestActionId": "collect-live-events"
+    "nextBestActionId": "prepare-repository-channel"
   },
   "systems": [
     {
@@ -30,7 +30,7 @@ export const autonomousOwnerLoop = {
   ],
   "safeAutonomousActions": [
     {
-      "id": "collect-live-events",
+      "id": "prepare-repository-channel",
       "status": "armed"
     },
     {
