@@ -13,7 +13,11 @@ const readOptionalJson = async (filePath, fallback) =>
     .then((raw) => JSON.parse(raw))
     .catch(() => fallback)
 
-const todaySlug = () => new Date().toISOString().slice(0, 10).replaceAll('-', '')
+const localIsoDate = (date = new Date()) => {
+  const localDate = new Date(date.getTime() - date.getTimezoneOffset() * 60_000)
+  return localDate.toISOString().slice(0, 10)
+}
+const todaySlug = () => localIsoDate().replaceAll('-', '')
 const pct = (value) => (typeof value === 'number' ? `${Math.round(value * 100)}%` : 'n/a')
 
 const routeFor = ({ gameId, gateId }) => {

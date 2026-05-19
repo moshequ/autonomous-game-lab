@@ -318,14 +318,15 @@ const repositoryReadinessSource = await readFile(path.join(root, 'scripts', 'rep
 const repositoryBootstrapSource = await readFile(path.join(root, 'scripts', 'repository-bootstrap.mjs'), 'utf8')
 const portfolioPolicySource = await readFile(path.join(root, 'scripts', 'portfolio-policy.mjs'), 'utf8')
 const retentionLoopSource = await readFile(path.join(root, 'scripts', 'retention-loop.mjs'), 'utf8')
-const autonomousOperatorSource = await readFile(path.join(root, 'scripts', 'autonomous-operator.mjs'), 'utf8')
-const autonomousOwnerLoopSource = await readFile(path.join(root, 'scripts', 'autonomous-owner-loop.mjs'), 'utf8')
-const autonomousSelfUpdateSource = await readFile(path.join(root, 'scripts', 'autonomous-self-update.mjs'), 'utf8')
-const localEventBridgeSource = await readFile(path.join(root, 'scripts', 'local-event-bridge.mjs'), 'utf8')
+const trafficSeedingSource = await readFile(path.join(root, 'scripts', 'traffic-seeding.mjs'), 'utf8')
 const productGateSamplePlanSource = await readFile(
   path.join(root, 'scripts', 'product-gate-sample-planner.mjs'),
   'utf8',
 )
+const autonomousOperatorSource = await readFile(path.join(root, 'scripts', 'autonomous-operator.mjs'), 'utf8')
+const autonomousOwnerLoopSource = await readFile(path.join(root, 'scripts', 'autonomous-owner-loop.mjs'), 'utf8')
+const autonomousSelfUpdateSource = await readFile(path.join(root, 'scripts', 'autonomous-self-update.mjs'), 'utf8')
+const localEventBridgeSource = await readFile(path.join(root, 'scripts', 'local-event-bridge.mjs'), 'utf8')
 const androidSigningSource = await readFile(path.join(root, 'scripts', 'android-signing-prep.mjs'), 'utf8')
 const objectiveAuditSource = await readFile(path.join(root, 'scripts', 'objective-audit.mjs'), 'utf8')
 const githubRepositoryBootstrapScript = await readFile(path.join(root, 'ops', 'github', 'bootstrap-repository.sh'), 'utf8')
@@ -674,10 +675,14 @@ if (
 if (
   portfolioPolicySource.includes(`const today = ${utcDailyPattern}`) ||
   retentionLoopSource.includes(`const today = ${utcDailyPattern}`) ||
+  trafficSeedingSource.includes(`new Date().toISOString().slice(0, 10).replaceAll('-', '')`) ||
+  productGateSamplePlanSource.includes(`new Date().toISOString().slice(0, 10).replaceAll('-', '')`) ||
   !portfolioPolicySource.includes('const today = localIsoDate()') ||
-  !retentionLoopSource.includes('const today = localIsoDate()')
+  !retentionLoopSource.includes('const today = localIsoDate()') ||
+  !trafficSeedingSource.includes('const slugDate = () => localIsoDate().replaceAll') ||
+  !productGateSamplePlanSource.includes('const todaySlug = () => localIsoDate().replaceAll')
 ) {
-  fail('Daily portfolio and retention scripts must use the local runner date, not the UTC date.')
+  fail('Daily portfolio, retention, campaign, and sample scripts must use the local runner date, not the UTC date.')
 }
 
 const portfolioBacklogMiss = backlog.find(
