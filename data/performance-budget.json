@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-19T04:09:21.960Z",
+  "generatedAt": "2026-05-19T04:12:06.524Z",
   "status": "performance-budget-ready",
   "sourceBuild": "dist",
   "budgets": {
@@ -14,20 +14,20 @@
   },
   "initial": {
     "entryScripts": [
-      "index-BdjBQXqx.js",
+      "index-edMQKr21.js",
       "registerSW.js"
     ],
     "scriptPaths": [
-      "assets/index-BdjBQXqx.js",
+      "assets/index-edMQKr21.js",
       "registerSW.js"
     ],
     "jsFiles": [
       {
-        "file": "index-BdjBQXqx.js",
-        "path": "assets/index-BdjBQXqx.js",
-        "bytes": 642844,
-        "kb": 627.8,
-        "gzipBytes": 173477,
+        "file": "index-edMQKr21.js",
+        "path": "assets/index-edMQKr21.js",
+        "bytes": 642589,
+        "kb": 627.5,
+        "gzipBytes": 173446,
         "gzipKb": 169.4
       },
       {
@@ -39,9 +39,9 @@
         "gzipKb": 0.1
       }
     ],
-    "jsBytes": 642978,
-    "jsKb": 627.9,
-    "gzipBytes": 173603,
+    "jsBytes": 642723,
+    "jsKb": 627.7,
+    "gzipBytes": 173572,
     "gzipKb": 169.5,
     "cssFiles": [
       {
@@ -61,36 +61,36 @@
   "deferred": {
     "chunks": [
       {
-        "file": "GameCanvas-DkW_jg6Q.js",
-        "path": "assets/GameCanvas-DkW_jg6Q.js",
+        "file": "GameCanvas-CzFv03xi.js",
+        "path": "assets/GameCanvas-CzFv03xi.js",
         "bytes": 1393468,
         "kb": 1360.8,
-        "gzipBytes": 356095,
+        "gzipBytes": 356094,
         "gzipKb": 347.7
       }
     ],
     "gameChunk": {
-      "file": "GameCanvas-DkW_jg6Q.js",
-      "path": "assets/GameCanvas-DkW_jg6Q.js",
+      "file": "GameCanvas-CzFv03xi.js",
+      "path": "assets/GameCanvas-CzFv03xi.js",
       "bytes": 1393468,
       "kb": 1360.8,
-      "gzipBytes": 356095,
+      "gzipBytes": 356094,
       "gzipKb": 347.7
     },
     "largestDeferredChunk": {
-      "file": "GameCanvas-DkW_jg6Q.js",
-      "path": "assets/GameCanvas-DkW_jg6Q.js",
+      "file": "GameCanvas-CzFv03xi.js",
+      "path": "assets/GameCanvas-CzFv03xi.js",
       "bytes": 1393468,
       "kb": 1360.8,
-      "gzipBytes": 356095,
+      "gzipBytes": 356094,
       "gzipKb": 347.7
     },
     "largestJsChunk": {
-      "file": "GameCanvas-DkW_jg6Q.js",
-      "path": "assets/GameCanvas-DkW_jg6Q.js",
+      "file": "GameCanvas-CzFv03xi.js",
+      "path": "assets/GameCanvas-CzFv03xi.js",
       "bytes": 1393468,
       "kb": 1360.8,
-      "gzipBytes": 356095,
+      "gzipBytes": 356094,
       "gzipKb": 347.7
     },
     "chunksBytes": 1393468,
@@ -99,19 +99,19 @@
   "assets": {
     "js": [
       {
-        "file": "GameCanvas-DkW_jg6Q.js",
-        "path": "assets/GameCanvas-DkW_jg6Q.js",
+        "file": "GameCanvas-CzFv03xi.js",
+        "path": "assets/GameCanvas-CzFv03xi.js",
         "bytes": 1393468,
         "kb": 1360.8,
-        "gzipBytes": 356095,
+        "gzipBytes": 356094,
         "gzipKb": 347.7
       },
       {
-        "file": "index-BdjBQXqx.js",
-        "path": "assets/index-BdjBQXqx.js",
-        "bytes": 642844,
-        "kb": 627.8,
-        "gzipBytes": 173477,
+        "file": "index-edMQKr21.js",
+        "path": "assets/index-edMQKr21.js",
+        "bytes": 642589,
+        "kb": 627.5,
+        "gzipBytes": 173446,
         "gzipKb": 169.4
       },
       {
@@ -149,7 +149,7 @@
     {
       "id": "initial-js-budget",
       "status": "pass",
-      "detail": "Initial JS is 627.9 KB; budget is 675 KB."
+      "detail": "Initial JS is 627.7 KB; budget is 675 KB."
     },
     {
       "id": "initial-js-gzip-budget",
@@ -174,12 +174,12 @@
     {
       "id": "game-runtime-deferred",
       "status": "pass",
-      "detail": "GameCanvas-DkW_jg6Q.js is deferred from the initial shell."
+      "detail": "GameCanvas-CzFv03xi.js is deferred from the initial shell."
     },
     {
       "id": "largest-js-deferred",
       "status": "pass",
-      "detail": "Largest JS chunk is GameCanvas-DkW_jg6Q.js at 1360.8 KB."
+      "detail": "Largest JS chunk is GameCanvas-CzFv03xi.js at 1360.8 KB."
     },
     {
       "id": "deferred-game-budget",
