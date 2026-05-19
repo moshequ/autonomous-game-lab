@@ -1,6 +1,6 @@
 # Autonomous Cadence
 
-Generated: 2026-05-19T03:05:27.448Z
+Generated: 2026-05-19T03:55:36.394Z
 Status: cadence-ready
 Cadence: daily
 
@@ -14,6 +14,7 @@ Cadence: daily
 ## Commands
 
 - Operate: npm run autonomous:operate
+- Execute one local action: npm run autonomous:operator -- --execute
 - Daily: npm run autonomous:daily
 - Self-update: npm run autonomous:self-update
 - Automation verify: npm run test:automation
@@ -23,7 +24,7 @@ Cadence: daily
 
 - pass: codex-automation-manifest - Codex app automation manifest declares autonomous-game-lab-daily-owner-loop.
 - pass: codex-automation-installed - Codex app automation autonomous-game-lab-daily-owner-loop is active, scheduled, local, and pointed at this workspace.
-- pass: local-operate-script - autonomous:operate is npm run autonomous:daily && npm run test:e2e.
+- pass: local-operate-script - autonomous:operate is npm run autonomous:daily && npm run autonomous:operator -- --execute && npm run autonomous:owner-loop && npm run autonomous:operator && npm run autonomous:objective-audit && npm run autonomous:readiness && npm run autonomous:owner-loop && npm run test:e2e.
 - pass: cadence-refresh-script - autonomous:cadence is node scripts/autonomous-cadence.mjs.
 - pass: self-update-script - autonomous:self-update is node scripts/autonomous-self-update.mjs.
 - pass: daily-loop-script - autonomous:daily regenerates game, analytics, readiness, cadence, audit, and automation evidence.
@@ -41,6 +42,8 @@ Cadence: daily
 - noRevenueEnablement: true
 - noPaidAcquisition: true
 - noExternalPosting: true
+- scheduledLocalActionExecution: true
+- scheduledExecutionUsesOperatorAllowlist: true
 - remoteMutationRequiresRepositoryEvidence: true
 - codexAutomationExpectedActive: true
 - codexAutomationActualStatusAudited: true

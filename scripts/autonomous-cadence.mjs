@@ -203,7 +203,14 @@ const checks = [
   },
   {
     id: 'local-operate-script',
-    status: operateScript.includes('autonomous:daily') && operateScript.includes('test:e2e') ? 'pass' : 'blocker',
+    status:
+      operateScript.includes('autonomous:daily') &&
+      operateScript.includes('autonomous:operator -- --execute') &&
+      operateScript.includes('autonomous:owner-loop') &&
+      operateScript.includes('autonomous:readiness') &&
+      operateScript.includes('test:e2e')
+        ? 'pass'
+        : 'blocker',
     detail: `autonomous:operate is ${operateScript || 'missing'}.`,
   },
   {
@@ -325,6 +332,7 @@ const payload = {
   commandPlan: {
     operate: 'npm run autonomous:operate',
     daily: 'npm run autonomous:daily',
+    executeOneLocalAction: 'npm run autonomous:operator -- --execute',
     selfUpdate: 'npm run autonomous:self-update',
     verifyAutomation: 'npm run test:automation',
     browserSmoke: 'npm run test:e2e',
@@ -346,6 +354,8 @@ const payload = {
     noRevenueEnablement: true,
     noPaidAcquisition: true,
     noExternalPosting: true,
+    scheduledLocalActionExecution: true,
+    scheduledExecutionUsesOperatorAllowlist: true,
     remoteMutationRequiresRepositoryEvidence: true,
     codexAutomationExpectedActive: true,
     codexAutomationActualStatusAudited: true,
@@ -374,6 +384,7 @@ const appPayload = {
   },
   commandPlan: {
     operate: payload.commandPlan.operate,
+    executeOneLocalAction: payload.commandPlan.executeOneLocalAction,
   },
 }
 
@@ -396,6 +407,7 @@ const report = [
   '## Commands',
   '',
   `- Operate: ${payload.commandPlan.operate}`,
+  `- Execute one local action: ${payload.commandPlan.executeOneLocalAction}`,
   `- Daily: ${payload.commandPlan.daily}`,
   `- Self-update: ${payload.commandPlan.selfUpdate}`,
   `- Automation verify: ${payload.commandPlan.verifyAutomation}`,

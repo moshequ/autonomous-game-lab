@@ -1,5 +1,5 @@
 export const objectiveAudit = {
-  "generatedAt": "2026-05-19T03:49:28.119Z",
+  "generatedAt": "2026-05-19T03:55:36.643Z",
   "status": "objective-in-progress",
   "objective": "Build a bootstrapped autonomous web/PWA game portal that can generate original board-game-inspired games, measure user behavior, propose and apply data-driven improvements, and prepare a path to monetization and app-store distribution with minimal manual intervention.",
   "summary": {
@@ -72,7 +72,7 @@ export const objectiveAudit = {
         "Experiment results: evaluated",
         "Backlog items: 4",
         "Applied/deferred actions: 6",
-        "Operator selected: refresh-autonomous-self-update; status operator-plan-ready; execution not-requested"
+        "Operator selected: refresh-autonomous-cadence; status operator-plan-ready; execution not-requested"
       ],
       "blockers": [],
       "nextAction": "Keep collecting starts until a safe product-gate tuning action is justified.",
@@ -87,7 +87,7 @@ export const objectiveAudit = {
         "Autonomous cadence: cadence-ready; Codex active-confirmed; GitHub scheduled",
         "Autonomous self-update: self-update-ready; workflow .github/workflows/autonomous-self-update.yml; unsafe pending 0",
         "Operator: operator-plan-ready",
-        "Operator history: operator-history-ready; records 39; executed 7",
+        "Operator history: operator-history-ready; records 40; executed 8",
         "Bootstrap: production-bootstrap-ready",
         "Repository bootstrap: waiting-for-github-target; helper ops/github/bootstrap-repository.sh",
         "Release candidate: release-candidate-ready; smoke URLs 7",
@@ -258,7 +258,7 @@ export const objectiveAudit = {
   "completion": {
     "canMarkGoalComplete": false,
     "reason": "The local autonomous PWA system is largely prepared, but production credentials, live data, monetization gates, hosted compliance URLs, and store account/signing blockers remain.",
-    "nextBestAction": "refresh-objective-audit"
+    "nextBestAction": "run-daily-owner-loop"
   }
 } as const
 

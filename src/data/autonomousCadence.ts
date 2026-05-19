@@ -9,7 +9,8 @@ export const autonomousCadence = {
     }
   },
   "commandPlan": {
-    "operate": "npm run autonomous:operate"
+    "operate": "npm run autonomous:operate",
+    "executeOneLocalAction": "npm run autonomous:operator -- --execute"
   }
 } as const
 

@@ -1107,11 +1107,19 @@ test('autonomous cadence keeps unattended operation auditable and guarded', asyn
       }
       githubActions: { status: string; workflow: string; artifactUpload: boolean }
     }
-    commandPlan: { operate: string; daily: string; verifyAutomation: string; browserSmoke: string }
+    commandPlan: {
+      operate: string
+      daily: string
+      executeOneLocalAction: string
+      verifyAutomation: string
+      browserSmoke: string
+    }
     controls: {
       zeroPaidSpend: boolean
       noStoreSubmission: boolean
       noRevenueEnablement: boolean
+      scheduledLocalActionExecution: boolean
+      scheduledExecutionUsesOperatorAllowlist: boolean
       codexAutomationExpectedActive: boolean
       codexAutomationActualStatusAudited: boolean
     }
@@ -1134,11 +1142,14 @@ test('autonomous cadence keeps unattended operation auditable and guarded', asyn
   expect(cadence.schedulers.githubActions.artifactUpload).toBe(true)
   expect(cadence.commandPlan.operate).toBe('npm run autonomous:operate')
   expect(cadence.commandPlan.daily).toBe('npm run autonomous:daily')
+  expect(cadence.commandPlan.executeOneLocalAction).toBe('npm run autonomous:operator -- --execute')
   expect(cadence.commandPlan.verifyAutomation).toBe('npm run test:automation')
   expect(cadence.commandPlan.browserSmoke).toBe('npm run test:e2e')
   expect(cadence.controls.zeroPaidSpend).toBe(true)
   expect(cadence.controls.noStoreSubmission).toBe(true)
   expect(cadence.controls.noRevenueEnablement).toBe(true)
+  expect(cadence.controls.scheduledLocalActionExecution).toBe(true)
+  expect(cadence.controls.scheduledExecutionUsesOperatorAllowlist).toBe(true)
   expect(cadence.controls.codexAutomationExpectedActive).toBe(true)
   expect(cadence.controls.codexAutomationActualStatusAudited).toBe(true)
   expect(cadence.checks.every((check) => check.status === 'pass')).toBe(true)

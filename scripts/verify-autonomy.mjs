@@ -1325,14 +1325,17 @@ const cadenceCodexDesktopStatusAllowed = ['active-confirmed', 'active-declared-u
 if (
   autonomousCadence.status !== 'cadence-ready' ||
   !cadenceCodexDesktopStatusAllowed ||
-  autonomousCadence.schedulers?.githubActions?.status !== 'scheduled' ||
-  autonomousCadence.schedulers?.githubSelfUpdate?.status !== 'gated' ||
-  autonomousCadence.commandPlan?.operate !== 'npm run autonomous:operate' ||
-  autonomousCadence.commandPlan?.selfUpdate !== 'npm run autonomous:self-update' ||
-  autonomousCadence.controls?.zeroPaidSpend !== true ||
-  autonomousCadence.controls?.noStoreSubmission !== true ||
-  autonomousCadence.controls?.noRevenueEnablement !== true ||
-  autonomousCadence.controls?.codexAutomationActualStatusAudited !== true ||
+	  autonomousCadence.schedulers?.githubActions?.status !== 'scheduled' ||
+	  autonomousCadence.schedulers?.githubSelfUpdate?.status !== 'gated' ||
+	  autonomousCadence.commandPlan?.operate !== 'npm run autonomous:operate' ||
+	  autonomousCadence.commandPlan?.executeOneLocalAction !== 'npm run autonomous:operator -- --execute' ||
+	  autonomousCadence.commandPlan?.selfUpdate !== 'npm run autonomous:self-update' ||
+	  autonomousCadence.controls?.zeroPaidSpend !== true ||
+	  autonomousCadence.controls?.noStoreSubmission !== true ||
+	  autonomousCadence.controls?.noRevenueEnablement !== true ||
+	  autonomousCadence.controls?.scheduledLocalActionExecution !== true ||
+	  autonomousCadence.controls?.scheduledExecutionUsesOperatorAllowlist !== true ||
+	  autonomousCadence.controls?.codexAutomationActualStatusAudited !== true ||
   (cadenceCodexDesktopStatus === 'active-confirmed' &&
     (autonomousCadence.schedulers?.codexDesktop?.actual?.installedStatus !== 'ACTIVE' ||
       autonomousCadence.schedulers?.codexDesktop?.actual?.scheduleMatches !== true ||
@@ -1626,9 +1629,12 @@ if (!packageJson.scripts?.['autonomous:android-signing']?.includes('android-sign
 
 if (
   !packageJson.scripts?.['autonomous:operate']?.includes('autonomous:daily') ||
+  !packageJson.scripts?.['autonomous:operate']?.includes('autonomous:operator -- --execute') ||
+  !packageJson.scripts?.['autonomous:operate']?.includes('autonomous:owner-loop') ||
+  !packageJson.scripts?.['autonomous:operate']?.includes('autonomous:readiness') ||
   !packageJson.scripts?.['autonomous:operate']?.includes('test:e2e')
 ) {
-  fail('Autonomous operate script must run the daily loop and browser smoke suite.')
+  fail('Autonomous operate script must run the daily loop, execute one allowlisted local action, refresh owner/readiness evidence, and run the browser smoke suite.')
 }
 
 if (
@@ -1653,15 +1659,18 @@ if (
   autonomousCadence.schedulers?.githubActions?.artifactUpload !== true ||
   autonomousCadence.schedulers?.githubSelfUpdate?.status !== 'gated' ||
   autonomousCadence.schedulers?.githubSelfUpdate?.workflow !== '.github/workflows/autonomous-self-update.yml' ||
-  autonomousCadence.commandPlan?.operate !== 'npm run autonomous:operate' ||
-  autonomousCadence.commandPlan?.daily !== 'npm run autonomous:daily' ||
-  autonomousCadence.commandPlan?.selfUpdate !== 'npm run autonomous:self-update' ||
+	  autonomousCadence.commandPlan?.operate !== 'npm run autonomous:operate' ||
+	  autonomousCadence.commandPlan?.daily !== 'npm run autonomous:daily' ||
+	  autonomousCadence.commandPlan?.executeOneLocalAction !== 'npm run autonomous:operator -- --execute' ||
+	  autonomousCadence.commandPlan?.selfUpdate !== 'npm run autonomous:self-update' ||
   autonomousCadence.commandPlan?.verifyAutomation !== 'npm run test:automation' ||
   autonomousCadence.commandPlan?.browserSmoke !== 'npm run test:e2e' ||
-  autonomousCadence.controls?.zeroPaidSpend !== true ||
-  autonomousCadence.controls?.noStoreSubmission !== true ||
-  autonomousCadence.controls?.noRevenueEnablement !== true ||
-  autonomousCadence.controls?.codexAutomationExpectedActive !== true ||
+	  autonomousCadence.controls?.zeroPaidSpend !== true ||
+	  autonomousCadence.controls?.noStoreSubmission !== true ||
+	  autonomousCadence.controls?.noRevenueEnablement !== true ||
+	  autonomousCadence.controls?.scheduledLocalActionExecution !== true ||
+	  autonomousCadence.controls?.scheduledExecutionUsesOperatorAllowlist !== true ||
+	  autonomousCadence.controls?.codexAutomationExpectedActive !== true ||
   autonomousCadence.controls?.codexAutomationActualStatusAudited !== true ||
   !(autonomousCadence.checks ?? []).every((check) => check.status === 'pass') ||
   codexAutomationManifest.id !== autonomousCadence.schedulers?.codexDesktop?.id ||
@@ -2870,10 +2879,12 @@ if (
 }
 
 if (
-  !readiness.webPwa?.checks?.some((check) => check.id === 'autonomous-cadence' && check.status === 'pass') ||
-  readiness.autonomousCadence?.status !== autonomousCadence.status ||
-  readiness.autonomousCadence?.commandPlan?.operate !== 'npm run autonomous:operate' ||
-  readiness.autonomousCadence?.controls?.zeroPaidSpend !== true
+	  !readiness.webPwa?.checks?.some((check) => check.id === 'autonomous-cadence' && check.status === 'pass') ||
+	  readiness.autonomousCadence?.status !== autonomousCadence.status ||
+	  readiness.autonomousCadence?.commandPlan?.operate !== 'npm run autonomous:operate' ||
+	  readiness.autonomousCadence?.commandPlan?.executeOneLocalAction !== 'npm run autonomous:operator -- --execute' ||
+	  readiness.autonomousCadence?.controls?.scheduledLocalActionExecution !== true ||
+	  readiness.autonomousCadence?.controls?.zeroPaidSpend !== true
 ) {
   fail('Production readiness must include scheduled autonomous cadence evidence and zero-spend controls.')
 }

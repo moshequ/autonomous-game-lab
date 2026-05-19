@@ -976,6 +976,7 @@ const guardrails = [
 const executableNow = safeAutonomousActions.filter((action) =>
   ['armed', 'ready-when-repository-pages-enabled'].includes(action.status),
 )
+const ownerSelectableNow = executableNow.filter((action) => action.id !== 'run-daily-owner-loop')
 const recentExecutionWindow = 8
 const recentExecutedRecords = [...(autonomousOperatorHistory.records ?? [])]
   .reverse()
@@ -987,9 +988,9 @@ const recentExecutedActionIds = [
   ...new Set(recentExecutedRecords.map((record) => record.selectedActionId).filter(Boolean)),
 ].slice(0, recentExecutionWindow)
 const recentlyExecutedActionIds = new Set(recentExecutedActionIds)
-const executableWithoutImmediateRepeat = executableNow.filter((action) => !recentlyExecutedActionIds.has(action.id))
+const executableWithoutImmediateRepeat = ownerSelectableNow.filter((action) => !recentlyExecutedActionIds.has(action.id))
 const prioritizedExecutableNow =
-  executableWithoutImmediateRepeat.length > 0 ? executableWithoutImmediateRepeat : executableNow
+  executableWithoutImmediateRepeat.length > 0 ? executableWithoutImmediateRepeat : ownerSelectableNow
 const preferredActionOrder = [
   'prepare-repository-channel',
   'deploy-web-pwa',
@@ -998,6 +999,7 @@ const preferredActionOrder = [
   'optimize-product-gates',
   'optimize-daily-retention',
   'measure-pwa-install-loop',
+  'refresh-autonomous-cadence',
   'refresh-autonomous-self-update',
   'refresh-objective-audit',
 ]
