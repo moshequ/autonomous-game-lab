@@ -1,8 +1,8 @@
 export const trafficSeeding = {
-  "generatedAt": "2026-05-19T04:48:03.194Z",
+  "generatedAt": "2026-05-19T05:07:41.598Z",
   "status": "traffic-seeding-ready",
   "analyticsSource": "fixture-sample",
-  "portfolioGeneratedAt": "2026-05-19T04:48:02.953Z",
+  "portfolioGeneratedAt": "2026-05-19T05:07:41.368Z",
   "guardrails": {
     "maxCostUsd": 0,
     "noPaidPromotion": true,
