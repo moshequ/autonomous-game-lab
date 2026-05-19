@@ -1,5 +1,5 @@
 export const repositoryReadiness = {
-  "generatedAt": "2026-05-19T15:20:16.343Z",
+  "generatedAt": "2026-05-19T15:22:56.602Z",
   "status": "waiting-for-github-repository",
   "envFiles": {
     "loaded": true,
@@ -56,7 +56,7 @@ export const repositoryReadiness = {
     "insideWorkTree": true,
     "gitRoot": "/Users/moshequ/Documents/Codex/2026-05-18/i-want-to-have-a-new",
     "currentBranch": "main",
-    "dirtyFiles": 48,
+    "dirtyFiles": 51,
     "dirtyPaths": [
       "data/analytics-rollup.json",
       "data/autonomous-operator-history.json",
@@ -75,6 +75,7 @@ export const repositoryReadiness = {
       "data/release-candidate.json",
       "data/repository-bootstrap.json",
       "data/repository-readiness.json",
+      "data/retention-loop.json",
       "reports/analytics-rollup-latest.md",
       "reports/autonomous-operator-history-latest.md",
       "reports/autonomous-operator-latest.md",
@@ -92,6 +93,7 @@ export const repositoryReadiness = {
       "reports/release-candidate-latest.md",
       "reports/repository-bootstrap-latest.md",
       "reports/repository-readiness-latest.md",
+      "reports/retention-loop-latest.md",
       "src/data/autonomousOperator.ts",
       "src/data/autonomousOperatorHistory.ts",
       "src/data/autonomousOwnerLoop.ts",
@@ -105,9 +107,10 @@ export const repositoryReadiness = {
       "src/data/productionBootstrap.ts",
       "src/data/releaseCandidate.ts",
       "src/data/repositoryBootstrap.ts",
-      "src/data/repositoryReadiness.ts"
+      "src/data/repositoryReadiness.ts",
+      "src/data/retentionLoop.ts"
     ],
-    "generatedEvidenceDirtyFiles": 48,
+    "generatedEvidenceDirtyFiles": 51,
     "generatedEvidenceDirtyPaths": [
       "data/analytics-rollup.json",
       "data/autonomous-operator-history.json",
@@ -126,6 +129,7 @@ export const repositoryReadiness = {
       "data/release-candidate.json",
       "data/repository-bootstrap.json",
       "data/repository-readiness.json",
+      "data/retention-loop.json",
       "reports/analytics-rollup-latest.md",
       "reports/autonomous-operator-history-latest.md",
       "reports/autonomous-operator-latest.md",
@@ -143,6 +147,7 @@ export const repositoryReadiness = {
       "reports/release-candidate-latest.md",
       "reports/repository-bootstrap-latest.md",
       "reports/repository-readiness-latest.md",
+      "reports/retention-loop-latest.md",
       "src/data/autonomousOperator.ts",
       "src/data/autonomousOperatorHistory.ts",
       "src/data/autonomousOwnerLoop.ts",
@@ -156,7 +161,8 @@ export const repositoryReadiness = {
       "src/data/productionBootstrap.ts",
       "src/data/releaseCandidate.ts",
       "src/data/repositoryBootstrap.ts",
-      "src/data/repositoryReadiness.ts"
+      "src/data/repositoryReadiness.ts",
+      "src/data/retentionLoop.ts"
     ],
     "nonGeneratedDirtyFiles": 0,
     "nonGeneratedDirtyPaths": []
@@ -185,7 +191,7 @@ export const repositoryReadiness = {
     "workflowExists": true,
     "deployWorkflowIncludesSmoke": true,
     "deploymentStatus": "ready-for-pages",
-    "releaseCandidateId": "pwa-900571c10669",
+    "releaseCandidateId": "pwa-372f9eac31a6",
     "postDeploySmokeStatus": "blocked-missing-origin"
   },
   "controls": {

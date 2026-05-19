@@ -1,5 +1,5 @@
 export const performanceBudget = {
-  "generatedAt": "2026-05-19T15:20:10.037Z",
+  "generatedAt": "2026-05-19T15:22:50.944Z",
   "status": "performance-budget-ready",
   "sourceBuild": "dist",
   "budgets": {
@@ -14,20 +14,20 @@ export const performanceBudget = {
   },
   "initial": {
     "entryScripts": [
-      "index-B11uSYku.js",
+      "index-DHCmAZK8.js",
       "registerSW.js"
     ],
     "scriptPaths": [
-      "assets/index-B11uSYku.js",
+      "assets/index-DHCmAZK8.js",
       "registerSW.js"
     ],
     "jsFiles": [
       {
-        "file": "index-B11uSYku.js",
-        "path": "assets/index-B11uSYku.js",
-        "bytes": 672787,
+        "file": "index-DHCmAZK8.js",
+        "path": "assets/index-DHCmAZK8.js",
+        "bytes": 672798,
         "kb": 657,
-        "gzipBytes": 178289,
+        "gzipBytes": 178283,
         "gzipKb": 174.1
       },
       {
@@ -39,9 +39,9 @@ export const performanceBudget = {
         "gzipKb": 0.1
       }
     ],
-    "jsBytes": 672921,
-    "jsKb": 657.1,
-    "gzipBytes": 178415,
+    "jsBytes": 672932,
+    "jsKb": 657.2,
+    "gzipBytes": 178409,
     "gzipKb": 174.2,
     "cssFiles": [
       {
@@ -61,36 +61,36 @@ export const performanceBudget = {
   "deferred": {
     "chunks": [
       {
-        "file": "GameCanvas-CilIPiSF.js",
-        "path": "assets/GameCanvas-CilIPiSF.js",
+        "file": "GameCanvas-C2_4SFNg.js",
+        "path": "assets/GameCanvas-C2_4SFNg.js",
         "bytes": 1393468,
         "kb": 1360.8,
-        "gzipBytes": 356094,
+        "gzipBytes": 356095,
         "gzipKb": 347.7
       }
     ],
     "gameChunk": {
-      "file": "GameCanvas-CilIPiSF.js",
-      "path": "assets/GameCanvas-CilIPiSF.js",
+      "file": "GameCanvas-C2_4SFNg.js",
+      "path": "assets/GameCanvas-C2_4SFNg.js",
       "bytes": 1393468,
       "kb": 1360.8,
-      "gzipBytes": 356094,
+      "gzipBytes": 356095,
       "gzipKb": 347.7
     },
     "largestDeferredChunk": {
-      "file": "GameCanvas-CilIPiSF.js",
-      "path": "assets/GameCanvas-CilIPiSF.js",
+      "file": "GameCanvas-C2_4SFNg.js",
+      "path": "assets/GameCanvas-C2_4SFNg.js",
       "bytes": 1393468,
       "kb": 1360.8,
-      "gzipBytes": 356094,
+      "gzipBytes": 356095,
       "gzipKb": 347.7
     },
     "largestJsChunk": {
-      "file": "GameCanvas-CilIPiSF.js",
-      "path": "assets/GameCanvas-CilIPiSF.js",
+      "file": "GameCanvas-C2_4SFNg.js",
+      "path": "assets/GameCanvas-C2_4SFNg.js",
       "bytes": 1393468,
       "kb": 1360.8,
-      "gzipBytes": 356094,
+      "gzipBytes": 356095,
       "gzipKb": 347.7
     },
     "chunksBytes": 1393468,
@@ -99,19 +99,19 @@ export const performanceBudget = {
   "assets": {
     "js": [
       {
-        "file": "GameCanvas-CilIPiSF.js",
-        "path": "assets/GameCanvas-CilIPiSF.js",
+        "file": "GameCanvas-C2_4SFNg.js",
+        "path": "assets/GameCanvas-C2_4SFNg.js",
         "bytes": 1393468,
         "kb": 1360.8,
-        "gzipBytes": 356094,
+        "gzipBytes": 356095,
         "gzipKb": 347.7
       },
       {
-        "file": "index-B11uSYku.js",
-        "path": "assets/index-B11uSYku.js",
-        "bytes": 672787,
+        "file": "index-DHCmAZK8.js",
+        "path": "assets/index-DHCmAZK8.js",
+        "bytes": 672798,
         "kb": 657,
-        "gzipBytes": 178289,
+        "gzipBytes": 178283,
         "gzipKb": 174.1
       },
       {
@@ -149,7 +149,7 @@ export const performanceBudget = {
     {
       "id": "initial-js-budget",
       "status": "pass",
-      "detail": "Initial JS is 657.1 KB; budget is 675 KB."
+      "detail": "Initial JS is 657.2 KB; budget is 675 KB."
     },
     {
       "id": "initial-js-gzip-budget",
@@ -174,12 +174,12 @@ export const performanceBudget = {
     {
       "id": "game-runtime-deferred",
       "status": "pass",
-      "detail": "GameCanvas-CilIPiSF.js is deferred from the initial shell."
+      "detail": "GameCanvas-C2_4SFNg.js is deferred from the initial shell."
     },
     {
       "id": "largest-js-deferred",
       "status": "pass",
-      "detail": "Largest JS chunk is GameCanvas-CilIPiSF.js at 1360.8 KB."
+      "detail": "Largest JS chunk is GameCanvas-C2_4SFNg.js at 1360.8 KB."
     },
     {
       "id": "deferred-game-budget",

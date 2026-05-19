@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-19T15:20:17.687Z",
+  "generatedAt": "2026-05-19T15:22:57.729Z",
   "status": "owner-loop-ready",
   "mode": "repository-channel-needed",
   "autonomyScore": {
@@ -20,25 +20,25 @@
     "rollbackRequired": false
   },
   "ownerDecision": {
-    "nextBestActionId": "optimize-daily-retention",
-    "nextBestAction": "npm run autonomous:retention",
+    "nextBestActionId": "measure-pwa-install-loop",
+    "nextBestAction": "npm run autonomous:pwa-install",
     "canExecuteWithoutSpend": true,
-    "rationale": "Keeps daily challenge, local streak prompts, and retention-safe missions aligned with behavior data."
+    "rationale": "Measures optional PWA install prompts and standalone launches as the zero-cost distribution path."
   },
   "executionMemory": {
     "avoidImmediateRepeat": true,
     "recentExecutionWindow": 8,
     "recentExecutedActionIds": [
+      "optimize-daily-retention",
       "collect-live-events",
       "refresh-product-gate-recovery",
       "refresh-autonomous-self-update",
       "optimize-product-gates",
       "bootstrap-production-setup",
       "seed-portfolio-traffic",
-      "prepare-repository-channel",
-      "refresh-autonomous-cadence"
+      "prepare-repository-channel"
     ],
-    "lastExecutedActionId": "collect-live-events",
+    "lastExecutedActionId": "optimize-daily-retention",
     "lastExecutedStatus": "executed",
     "lastRecordExecutionStatus": "not-requested",
     "recentlySatisfiedActionIds": [
@@ -53,9 +53,9 @@
       "evidenceReadyNow": false
     },
     "skippedRecentlyExecutedActionIds": [
-      "refresh-autonomous-cadence",
       "refresh-autonomous-self-update",
       "seed-portfolio-traffic",
+      "optimize-daily-retention",
       "optimize-product-gates",
       "refresh-product-gate-recovery",
       "prepare-repository-channel",
@@ -164,7 +164,7 @@
       "id": "performance-budget",
       "status": "ready",
       "autonomy": "automatic-build-budget",
-      "evidence": "Initial JS 657.1 KB; gzip 174.2 KB; deferred chunks 1.",
+      "evidence": "Initial JS 657.2 KB; gzip 174.2 KB; deferred chunks 1.",
       "nextAction": "Keep Phaser and game scenes outside the initial PWA shell."
     },
     {
@@ -248,14 +248,14 @@
       "id": "release-candidate",
       "status": "ready",
       "autonomy": "content-hashed-deploy-evidence",
-      "evidence": "Candidate pwa-900571c10669; status release-candidate-ready; files 40; smoke URLs 11.",
+      "evidence": "Candidate pwa-372f9eac31a6; status release-candidate-ready; files 40; smoke URLs 11.",
       "nextAction": "Regenerate the release candidate after every production build before deploy or rollback decisions."
     },
     {
       "id": "post-deploy-smoke",
       "status": "ready",
       "autonomy": "read-only-live-deploy-verification",
-      "evidence": "Smoke blocked-missing-origin; origin missing; candidate pwa-900571c10669; checks 0/12 passed; local artifact predeploy-artifact-smoke-passed 12/12 passed.",
+      "evidence": "Smoke blocked-missing-origin; origin missing; candidate pwa-372f9eac31a6; checks 0/12 passed; local artifact predeploy-artifact-smoke-passed 12/12 passed.",
       "nextAction": "Run this after deployment with AGL_DEPLOYED_PWA_ORIGIN set to the Pages URL."
     },
     {
@@ -269,7 +269,7 @@
       "id": "autonomous-operator",
       "status": "ready",
       "autonomy": "one-safe-action-runner",
-      "evidence": "Operator operator-plan-ready; selected optimize-daily-retention; execution not-requested.",
+      "evidence": "Operator operator-plan-ready; selected measure-pwa-install-loop; execution not-requested.",
       "nextAction": "Keep a dry-run operator plan ready, then execute only one allowlisted local action when explicitly requested."
     },
     {
@@ -408,7 +408,7 @@
       "command": "npm run build && npm run autonomous:performance",
       "targets": [
         "pwa-shell",
-        "GameCanvas-CilIPiSF.js"
+        "GameCanvas-C2_4SFNg.js"
       ],
       "reason": "Keeps the PWA shell fast while Phaser and game scenes stay deferred."
     },
@@ -418,7 +418,7 @@
       "costUsd": 0,
       "command": "npm run autonomous:release-candidate",
       "targets": [
-        "pwa-900571c10669"
+        "pwa-372f9eac31a6"
       ],
       "reason": "Records a content-hashed dist inventory and post-deploy smoke plan for the exact PWA build."
     },
@@ -429,7 +429,7 @@
       "command": "npm run autonomous:post-deploy-smoke",
       "targets": [
         "deployed-pages-url",
-        "pwa-900571c10669"
+        "pwa-372f9eac31a6"
       ],
       "reason": "Waits for a deployed Pages origin, then verifies the live PWA matches the exact release candidate."
     },
@@ -533,7 +533,7 @@
       "costUsd": 0,
       "command": "npm run autonomous:operator",
       "targets": [
-        "optimize-daily-retention"
+        "measure-pwa-install-loop"
       ],
       "reason": "Publishes the one-action local execution plan with allowlist, zero-spend, and audit controls."
     },
@@ -543,7 +543,7 @@
       "costUsd": 0,
       "command": "npm run autonomous:operator",
       "targets": [
-        "optimize-daily-retention"
+        "measure-pwa-install-loop"
       ],
       "reason": "Refreshes the capped operator history so safe actions remain auditable over time."
     },
