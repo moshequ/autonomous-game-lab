@@ -1,5 +1,5 @@
 export const repositoryBootstrap = {
-  "generatedAt": "2026-05-19T04:13:43.172Z",
+  "generatedAt": "2026-05-19T04:14:34.705Z",
   "status": "waiting-for-github-target",
   "mode": "plan-only",
   "envFiles": {
@@ -61,7 +61,7 @@ export const repositoryBootstrap = {
       "originRemote": null,
       "remoteRepository": null,
       "hasCommit": true,
-      "dirtyFiles": 3
+      "dirtyFiles": 0
     },
     "after": {
       "insideWorkTree": true,
@@ -70,7 +70,7 @@ export const repositoryBootstrap = {
       "originRemote": null,
       "remoteRepository": null,
       "hasCommit": true,
-      "dirtyFiles": 3
+      "dirtyFiles": 0
     }
   },
   "repository": {
@@ -142,13 +142,13 @@ export const repositoryBootstrap = {
     },
     {
       "id": "commit-current-snapshot",
-      "status": "ready-for-explicit-snapshot-commit",
+      "status": "ready",
       "costUsd": 0,
       "command": "AGL_ALLOW_REPOSITORY_BOOTSTRAP=1 AGL_ALLOW_SNAPSHOT_COMMIT=1 ./ops/github/bootstrap-repository.sh",
       "mutatesLocalGit": true,
       "mutatesRemoteGitHub": false,
       "requiresExplicitEnv": true,
-      "detail": "3 generated or source file(s) are not committed yet."
+      "detail": "The current generated production snapshot is committed."
     },
     {
       "id": "set-or-create-origin",
@@ -178,11 +178,10 @@ export const repositoryBootstrap = {
       "mutatesLocalGit": false,
       "mutatesRemoteGitHub": true,
       "requiresExplicitEnv": true,
-      "detail": "Push stays held until a committed local snapshot and origin remote exist."
+      "detail": "Push stays held until an origin remote exists and AGL_ALLOW_PUSH=1 is set."
     }
   ],
   "blockers": [
-    "Commit current generated changes before pushing to GitHub Pages.",
     "Set GITHUB_REPOSITORY or GH_REPO to the intended owner/repo.",
     "Attach a GitHub origin remote or create the target repository.",
     "Authenticate GitHub CLI or provide GH_TOKEN/GITHUB_TOKEN for remote repository bootstrap."

@@ -1,6 +1,6 @@
 # Autonomous Owner Loop
 
-Generated: 2026-05-19T04:13:45.158Z
+Generated: 2026-05-19T04:14:36.953Z
 Status: owner-loop-ready
 Mode: repository-channel-needed
 Autonomy score: 30/32 (94%)
@@ -37,10 +37,10 @@ Autonomy score: 30/32 (94%)
 - ready: web-deployment - Deployment ready-for-pages; web readiness ready-after-build; promotion promotable-internal.
 - ready: release-candidate - Candidate pwa-81a1a4865cf1; status release-candidate-ready; files 38; smoke URLs 7.
 - ready: post-deploy-smoke - Smoke blocked-missing-origin; origin missing; candidate pwa-81a1a4865cf1; checks 0/8 passed; local artifact predeploy-artifact-smoke-passed 8/8 passed.
-- ready: production-bootstrap - Bootstrap production-bootstrap-ready; mode waiting-for-external-credentials; external blockers 24.
+- ready: production-bootstrap - Bootstrap production-bootstrap-ready; mode waiting-for-external-credentials; external blockers 23.
 - ready: autonomous-operator - Operator operator-plan-ready; selected prepare-repository-channel; execution not-requested.
 - ready: operator-history - History operator-history-ready; records 40; executed 9.
-- ready: objective-audit - Audit objective-in-progress; met 5/8; external blockers 21.
+- ready: objective-audit - Audit objective-in-progress; met 5/8; external blockers 20.
 - ready: store-listing-optimizer - Focus canopy-bloom; lead screenshot phone-canopy-bloom-generated; candidate changed yes.
 - ready: store-compliance - Rating Everyone; target audience general; blockers 4.
 - ready: android-signing - Signing signing-prepared; fingerprint available; local secrets configured.
