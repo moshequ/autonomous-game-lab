@@ -1,5 +1,5 @@
 export const repositoryBootstrap = {
-  "generatedAt": "2026-05-19T15:22:52.218Z",
+  "generatedAt": "2026-05-19T15:25:50.437Z",
   "status": "waiting-for-github-target",
   "mode": "plan-only",
   "envFiles": {
@@ -73,9 +73,9 @@ export const repositoryBootstrap = {
         "data/post-deploy-smoke.json",
         "data/product-gate-recovery.json",
         "data/product-gate-sample-plan.json",
+        "data/pwa-install-loop.json",
         "data/release-candidate.json",
         "data/repository-readiness.json",
-        "data/retention-loop.json",
         "reports/analytics-rollup-latest.md",
         "reports/autonomous-operator-history-latest.md",
         "reports/autonomous-operator-latest.md",
@@ -86,9 +86,9 @@ export const repositoryBootstrap = {
         "reports/post-deploy-smoke-latest.md",
         "reports/product-gate-recovery-latest.md",
         "reports/product-gate-sample-plan-latest.md",
+        "reports/pwa-install-loop-latest.md",
         "reports/release-candidate-latest.md",
         "reports/repository-readiness-latest.md",
-        "reports/retention-loop-latest.md",
         "src/data/autonomousOperator.ts",
         "src/data/autonomousOperatorHistory.ts",
         "src/data/autonomousOwnerLoop.ts",
@@ -97,9 +97,9 @@ export const repositoryBootstrap = {
         "src/data/postDeploySmoke.ts",
         "src/data/productGateRecovery.ts",
         "src/data/productGateSamplePlan.ts",
+        "src/data/pwaInstallLoop.ts",
         "src/data/releaseCandidate.ts",
-        "src/data/repositoryReadiness.ts",
-        "src/data/retentionLoop.ts"
+        "src/data/repositoryReadiness.ts"
       ],
       "generatedEvidenceDirtyFiles": 37,
       "generatedEvidenceDirtyPaths": [
@@ -113,9 +113,9 @@ export const repositoryBootstrap = {
         "data/post-deploy-smoke.json",
         "data/product-gate-recovery.json",
         "data/product-gate-sample-plan.json",
+        "data/pwa-install-loop.json",
         "data/release-candidate.json",
         "data/repository-readiness.json",
-        "data/retention-loop.json",
         "reports/analytics-rollup-latest.md",
         "reports/autonomous-operator-history-latest.md",
         "reports/autonomous-operator-latest.md",
@@ -126,9 +126,9 @@ export const repositoryBootstrap = {
         "reports/post-deploy-smoke-latest.md",
         "reports/product-gate-recovery-latest.md",
         "reports/product-gate-sample-plan-latest.md",
+        "reports/pwa-install-loop-latest.md",
         "reports/release-candidate-latest.md",
         "reports/repository-readiness-latest.md",
-        "reports/retention-loop-latest.md",
         "src/data/autonomousOperator.ts",
         "src/data/autonomousOperatorHistory.ts",
         "src/data/autonomousOwnerLoop.ts",
@@ -137,9 +137,9 @@ export const repositoryBootstrap = {
         "src/data/postDeploySmoke.ts",
         "src/data/productGateRecovery.ts",
         "src/data/productGateSamplePlan.ts",
+        "src/data/pwaInstallLoop.ts",
         "src/data/releaseCandidate.ts",
-        "src/data/repositoryReadiness.ts",
-        "src/data/retentionLoop.ts"
+        "src/data/repositoryReadiness.ts"
       ],
       "nonGeneratedDirtyFiles": 0,
       "nonGeneratedDirtyPaths": []
@@ -163,9 +163,9 @@ export const repositoryBootstrap = {
         "data/post-deploy-smoke.json",
         "data/product-gate-recovery.json",
         "data/product-gate-sample-plan.json",
+        "data/pwa-install-loop.json",
         "data/release-candidate.json",
         "data/repository-readiness.json",
-        "data/retention-loop.json",
         "reports/analytics-rollup-latest.md",
         "reports/autonomous-operator-history-latest.md",
         "reports/autonomous-operator-latest.md",
@@ -176,9 +176,9 @@ export const repositoryBootstrap = {
         "reports/post-deploy-smoke-latest.md",
         "reports/product-gate-recovery-latest.md",
         "reports/product-gate-sample-plan-latest.md",
+        "reports/pwa-install-loop-latest.md",
         "reports/release-candidate-latest.md",
         "reports/repository-readiness-latest.md",
-        "reports/retention-loop-latest.md",
         "src/data/autonomousOperator.ts",
         "src/data/autonomousOperatorHistory.ts",
         "src/data/autonomousOwnerLoop.ts",
@@ -187,9 +187,9 @@ export const repositoryBootstrap = {
         "src/data/postDeploySmoke.ts",
         "src/data/productGateRecovery.ts",
         "src/data/productGateSamplePlan.ts",
+        "src/data/pwaInstallLoop.ts",
         "src/data/releaseCandidate.ts",
-        "src/data/repositoryReadiness.ts",
-        "src/data/retentionLoop.ts"
+        "src/data/repositoryReadiness.ts"
       ],
       "generatedEvidenceDirtyFiles": 37,
       "generatedEvidenceDirtyPaths": [
@@ -203,9 +203,9 @@ export const repositoryBootstrap = {
         "data/post-deploy-smoke.json",
         "data/product-gate-recovery.json",
         "data/product-gate-sample-plan.json",
+        "data/pwa-install-loop.json",
         "data/release-candidate.json",
         "data/repository-readiness.json",
-        "data/retention-loop.json",
         "reports/analytics-rollup-latest.md",
         "reports/autonomous-operator-history-latest.md",
         "reports/autonomous-operator-latest.md",
@@ -216,9 +216,9 @@ export const repositoryBootstrap = {
         "reports/post-deploy-smoke-latest.md",
         "reports/product-gate-recovery-latest.md",
         "reports/product-gate-sample-plan-latest.md",
+        "reports/pwa-install-loop-latest.md",
         "reports/release-candidate-latest.md",
         "reports/repository-readiness-latest.md",
-        "reports/retention-loop-latest.md",
         "src/data/autonomousOperator.ts",
         "src/data/autonomousOperatorHistory.ts",
         "src/data/autonomousOwnerLoop.ts",
@@ -227,9 +227,9 @@ export const repositoryBootstrap = {
         "src/data/postDeploySmoke.ts",
         "src/data/productGateRecovery.ts",
         "src/data/productGateSamplePlan.ts",
+        "src/data/pwaInstallLoop.ts",
         "src/data/releaseCandidate.ts",
-        "src/data/repositoryReadiness.ts",
-        "src/data/retentionLoop.ts"
+        "src/data/repositoryReadiness.ts"
       ],
       "nonGeneratedDirtyFiles": 0,
       "nonGeneratedDirtyPaths": []
@@ -257,7 +257,7 @@ export const repositoryBootstrap = {
     "repositoryReadiness": "waiting-for-github-repository",
     "deployment": "ready-for-pages",
     "releaseCandidate": "release-candidate-ready",
-    "releaseCandidateId": "pwa-372f9eac31a6",
+    "releaseCandidateId": "pwa-e7c904405372",
     "postDeploySmoke": "blocked-missing-origin"
   },
   "execution": {
