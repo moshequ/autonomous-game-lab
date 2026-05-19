@@ -40,13 +40,10 @@ jobs:
       - name: Install Playwright browser
         run: npx playwright install --with-deps chromium
 
-      - name: Run autonomous production loop
+      - name: Run autonomous owner loop
         env:
           VITE_BASE_PATH: ${{ vars.VITE_BASE_PATH }}
-        run: npm run autonomous:daily
-
-      - name: Run browser smoke tests
-        run: npm run test:e2e
+        run: npm run autonomous:operate
 
       - name: Prepare release candidate
         run: npm run autonomous:release-candidate

@@ -311,7 +311,7 @@ const setupCommands = [
   },
   {
     id: 'local-gate',
-    command: 'npm run autonomous:daily && npm run test:e2e && npm run autonomous:assert-deployable',
+    command: 'npm run autonomous:operate && npm run autonomous:assert-deployable',
     safeToRunAutomatically: true,
     costUsd: 0,
   },

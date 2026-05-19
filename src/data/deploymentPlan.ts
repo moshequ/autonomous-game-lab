@@ -1,5 +1,5 @@
 export const deploymentPlan = {
-  "generatedAt": "2026-05-19T22:04:25.170Z",
+  "generatedAt": "2026-05-19T22:15:54.955Z",
   "status": "ready-for-pages",
   "target": {
     "provider": "github-pages",
@@ -53,11 +53,11 @@ export const deploymentPlan = {
   },
   "releaseCandidate": {
     "status": "release-candidate-ready",
-    "candidateId": "pwa-cd380eeb15b1",
+    "candidateId": "pwa-598392ee3e56",
     "manifestPath": "dist/release-candidate.json",
-    "aggregateHash": "cd380eeb15b1e1ba5817941dcb1766e0b3bc12b35a3b06b39af1658cbd160691",
+    "aggregateHash": "598392ee3e56f8d094c163aef0e1e40908d0784af17225bdccf137c2b4619e53",
     "totalFiles": 40,
-    "totalKb": 3586.9,
+    "totalKb": 3583.7,
     "postDeploySmokeUrls": 11
   },
   "compliance": {
@@ -121,7 +121,7 @@ export const deploymentPlan = {
     {
       "id": "release-candidate",
       "status": "pass",
-      "detail": "Release candidate is release-candidate-ready; candidate pwa-cd380eeb15b1."
+      "detail": "Release candidate is release-candidate-ready; candidate pwa-598392ee3e56."
     },
     {
       "id": "deploy-workflow",
@@ -140,7 +140,7 @@ export const deploymentPlan = {
     }
   ],
   "commands": {
-    "localVerification": "npm run autonomous:daily && npm run test:e2e",
+    "localVerification": "npm run autonomous:operate",
     "deployWorkflow": "Run Web PWA Deploy workflow or let it run after Autonomous Daily Studio succeeds.",
     "collectorWorkflow": "Run Event Collector Deploy after Cloudflare variables and secrets are configured."
   }

@@ -1,10 +1,10 @@
 # Autonomous Operator
 
-Generated: 2026-05-19T22:04:26.434Z
+Generated: 2026-05-19T22:13:49.601Z
 Status: operator-plan-ready
 Mode: plan-only
-Owner decision: prepare-repository-channel
-Selected action: prepare-repository-channel
+Owner decision: bootstrap-production-setup
+Selected action: bootstrap-production-setup
 Execution: not-requested
 
 ## Controls
@@ -18,7 +18,7 @@ Execution: not-requested
 
 ## Selected Action
 
-- prepare-repository-channel: npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap
+- bootstrap-production-setup: npm run autonomous:release-candidate && npm run autonomous:deploy-plan && npm run autonomous:bootstrap
 
 ## Eligible Local Actions
 

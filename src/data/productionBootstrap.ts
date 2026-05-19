@@ -1,5 +1,5 @@
 export const productionBootstrap = {
-  "generatedAt": "2026-05-19T22:04:20.447Z",
+  "generatedAt": "2026-05-19T22:15:55.350Z",
   "status": "production-bootstrap-ready",
   "mode": "waiting-for-external-credentials",
   "envFiles": {
@@ -962,7 +962,7 @@ export const productionBootstrap = {
     },
     {
       "id": "local-gate",
-      "command": "npm run autonomous:daily && npm run test:e2e && npm run autonomous:assert-deployable",
+      "command": "npm run autonomous:operate && npm run autonomous:assert-deployable",
       "safeToRunAutomatically": true,
       "costUsd": 0
     },

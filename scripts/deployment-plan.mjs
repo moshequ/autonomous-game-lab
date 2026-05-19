@@ -219,7 +219,7 @@ const payload = {
   ],
   checks,
   commands: {
-    localVerification: 'npm run autonomous:daily && npm run test:e2e',
+    localVerification: 'npm run autonomous:operate',
     deployWorkflow: 'Run Web PWA Deploy workflow or let it run after Autonomous Daily Studio succeeds.',
     collectorWorkflow: 'Run Event Collector Deploy after Cloudflare variables and secrets are configured.',
   },

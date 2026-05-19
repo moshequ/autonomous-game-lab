@@ -3916,6 +3916,7 @@ if (
   !deployWorkflow.includes('actions/configure-pages') ||
   !deployWorkflow.includes('actions/upload-pages-artifact') ||
   !deployWorkflow.includes('actions/deploy-pages') ||
+  !deployWorkflow.includes('npm run autonomous:operate') ||
   !deployWorkflow.includes('npm run autonomous:release-candidate') ||
   !deployWorkflow.includes('npm run autonomous:assert-deployable') ||
   !deployWorkflow.includes('AGL_DEPLOYED_PWA_ORIGIN') ||

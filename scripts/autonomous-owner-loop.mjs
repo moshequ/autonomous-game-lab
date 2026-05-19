@@ -1268,7 +1268,7 @@ const payload = {
     selfUpdate: 'npm run autonomous:self-update',
     daily: 'npm run autonomous:daily',
     verify: 'npm run test:automation',
-    fullGate: 'npm run autonomous:daily && npm run test:e2e && npm run autonomous:assert-deployable',
+    fullGate: 'npm run autonomous:operate && npm run autonomous:assert-deployable',
   },
 }
 

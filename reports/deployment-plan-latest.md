@@ -1,6 +1,6 @@
 # Deployment Plan
 
-Generated: 2026-05-19T22:04:25.170Z
+Generated: 2026-05-19T22:15:54.955Z
 Status: ready-for-pages
 Target: github-pages
 Cost: $0 platform hosting for public/internal experiment traffic
@@ -15,7 +15,7 @@ Cost: $0 platform hosting for public/internal experiment traffic
 - pass: dist-index - Production index.html exists.
 - pass: dist-service-worker - Production service worker exists.
 - pass: dist-privacy - Privacy policy is included in the deployable build.
-- pass: release-candidate - Release candidate is release-candidate-ready; candidate pwa-cd380eeb15b1.
+- pass: release-candidate - Release candidate is release-candidate-ready; candidate pwa-598392ee3e56.
 - pass: deploy-workflow - GitHub Pages deployment workflow exists.
 - pass: production-environment - Environment status is production-env-missing; public origin is missing.
 - pass: event-collector-deployment - Event collector deployment is blocked-needs-cloudflare-env.
@@ -37,9 +37,9 @@ Cost: $0 platform hosting for public/internal experiment traffic
 ## Release Candidate
 
 - Status: release-candidate-ready
-- Candidate: pwa-cd380eeb15b1
+- Candidate: pwa-598392ee3e56
 - Files: 40
-- Aggregate SHA-256: cd380eeb15b1e1ba5817941dcb1766e0b3bc12b35a3b06b39af1658cbd160691
+- Aggregate SHA-256: 598392ee3e56f8d094c163aef0e1e40908d0784af17225bdccf137c2b4619e53
 - Post-deploy smoke URLs: 11
 
 ## Repository Channel
@@ -67,6 +67,6 @@ Cost: $0 platform hosting for public/internal experiment traffic
 
 ## Commands
 
-- Local verification: npm run autonomous:daily && npm run test:e2e
+- Local verification: npm run autonomous:operate
 - Deploy workflow: Run Web PWA Deploy workflow or let it run after Autonomous Daily Studio succeeds.
 - Collector workflow: Run Event Collector Deploy after Cloudflare variables and secrets are configured.
