@@ -183,6 +183,7 @@ const selfUpdateEnabled = ['1', 'true', 'yes'].includes(
 
 const packageSelfUpdateScript = packageJson.scripts?.['autonomous:self-update'] ?? ''
 const dailyScript = packageJson.scripts?.['autonomous:daily'] ?? ''
+const operateScript = packageJson.scripts?.['autonomous:operate'] ?? ''
 
 const checks = [
   {
@@ -201,11 +202,10 @@ const checks = [
       dailyWorkflowExists &&
       dailyWorkflow.includes('permissions:') &&
       dailyWorkflow.includes('contents: read') &&
-      dailyWorkflow.includes('npm run autonomous:daily') &&
-      dailyWorkflow.includes('npm run test:e2e')
+      dailyWorkflow.includes('npm run autonomous:operate')
         ? 'pass'
         : 'blocker',
-    detail: 'The ordinary daily workflow remains read-only and uploads evidence artifacts.',
+    detail: 'The ordinary daily workflow remains read-only, runs the owner loop, and uploads evidence artifacts.',
   },
   {
     id: 'self-update-workflow',
@@ -214,12 +214,11 @@ const checks = [
       selfUpdateWorkflow.includes("workflows: ['Autonomous Daily Studio']") &&
       selfUpdateWorkflow.includes("vars.AGL_AUTONOMOUS_SELF_UPDATE == '1'") &&
       selfUpdateWorkflow.includes('contents: write') &&
-      selfUpdateWorkflow.includes('npm run autonomous:daily') &&
-      selfUpdateWorkflow.includes('npm run test:e2e') &&
+      selfUpdateWorkflow.includes('npm run autonomous:operate') &&
       selfUpdateWorkflow.includes('npm run autonomous:self-update -- --assert-safe')
         ? 'pass'
         : 'blocker',
-    detail: 'A separate gated workflow can reproduce the daily loop, verify it, and persist allowlisted changes.',
+    detail: 'A separate gated workflow can reproduce the owner loop, verify it, and persist allowlisted changes.',
   },
   {
     id: 'safe-path-allowlist',
@@ -242,8 +241,10 @@ const checks = [
   },
   {
     id: 'zero-spend-controls',
-    status: 'pass',
-    detail: 'Self-update only stages repository artifacts; it does not create accounts, stores, ads, paid traffic, or revenue.',
+    status: operateScript.includes('test:e2e') ? 'pass' : 'blocker',
+    detail: operateScript.includes('test:e2e')
+      ? 'Self-update owner-loop verification includes browser smoke coverage and does not create accounts, stores, ads, paid traffic, or revenue.'
+      : 'autonomous:operate must include browser smoke coverage before self-update can persist changes.',
   },
 ]
 
@@ -289,7 +290,7 @@ const payload = {
     workflow: '.github/workflows/autonomous-self-update.yml',
     enabledByRepositoryVariable: 'AGL_AUTONOMOUS_SELF_UPDATE=1',
     directPushRequiresRepositoryVariable: 'AGL_AUTONOMOUS_SELF_UPDATE_DIRECT=1',
-    verificationBeforeCommit: ['npm run autonomous:daily', 'npm run test:e2e', 'npm run autonomous:self-update -- --assert-safe'],
+    verificationBeforeCommit: ['npm run autonomous:operate', 'npm run autonomous:self-update -- --assert-safe'],
     stagePaths,
     commitMessage: 'Autonomous daily self-update',
     skipWhenNoAllowlistedChanges: true,

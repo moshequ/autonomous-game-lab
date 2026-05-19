@@ -1504,7 +1504,7 @@ test('autonomous cadence keeps unattended operation auditable and guarded', asyn
           relatedActiveAutomationIds: string[]
         }
       }
-      githubActions: { status: string; workflow: string; artifactUpload: boolean }
+      githubActions: { status: string; workflow: string; command: string; artifactUpload: boolean }
     }
     commandPlan: {
       operate: string
@@ -1541,6 +1541,7 @@ test('autonomous cadence keeps unattended operation auditable and guarded', asyn
   expect(cadence.schedulers.codexDesktop.declaredStatus).toBe('active-declared')
   expect(cadence.schedulers.githubActions.status).toBe('scheduled')
   expect(cadence.schedulers.githubActions.workflow).toBe('.github/workflows/autonomous-daily.yml')
+  expect(cadence.schedulers.githubActions.command).toBe('npm run autonomous:operate')
   expect(cadence.schedulers.githubActions.artifactUpload).toBe(true)
   expect(cadence.commandPlan.operate).toBe('npm run autonomous:operate')
   expect(cadence.commandPlan.daily).toBe('npm run autonomous:daily')
@@ -1606,8 +1607,7 @@ test('autonomous self-update persists only verified allowlisted generated change
   expect(selfUpdate.commitPlan.workflow).toBe('.github/workflows/autonomous-self-update.yml')
   expect(selfUpdate.commitPlan.enabledByRepositoryVariable).toBe('AGL_AUTONOMOUS_SELF_UPDATE=1')
   expect(selfUpdate.commitPlan.directPushRequiresRepositoryVariable).toBe('AGL_AUTONOMOUS_SELF_UPDATE_DIRECT=1')
-  expect(selfUpdate.commitPlan.verificationBeforeCommit).toContain('npm run autonomous:daily')
-  expect(selfUpdate.commitPlan.verificationBeforeCommit).toContain('npm run test:e2e')
+  expect(selfUpdate.commitPlan.verificationBeforeCommit).toContain('npm run autonomous:operate')
   expect(selfUpdate.commitPlan.verificationBeforeCommit).toContain('npm run autonomous:self-update -- --assert-safe')
   expect(selfUpdate.controls.zeroPaidSpend).toBe(true)
   expect(selfUpdate.controls.dailyWorkflowReadOnly).toBe(true)
@@ -1619,10 +1619,10 @@ test('autonomous self-update persists only verified allowlisted generated change
   expect(selfUpdate.checks.every((check) => check.status === 'pass')).toBe(true)
   expect(workflow).toContain("vars.AGL_AUTONOMOUS_SELF_UPDATE == '1'")
   expect(workflow).toContain('contents: write')
-  expect(workflow).toContain('npm run autonomous:daily')
-  expect(workflow).toContain('npm run test:e2e')
+  expect(workflow).toContain('npm run autonomous:operate')
   expect(workflow).toContain('npm run autonomous:self-update -- --assert-safe')
   expect(dailyWorkflow).toContain('contents: read')
+  expect(dailyWorkflow).toContain('npm run autonomous:operate')
 
   await page.goto('/')
   await expect(page.getByLabel('Autonomous Self Update')).toContainText('self-update-ready')

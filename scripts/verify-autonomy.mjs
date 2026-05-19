@@ -1650,8 +1650,7 @@ if (
   autonomousSelfUpdate.commitPlan?.workflow !== '.github/workflows/autonomous-self-update.yml' ||
   autonomousSelfUpdate.commitPlan?.enabledByRepositoryVariable !== 'AGL_AUTONOMOUS_SELF_UPDATE=1' ||
   autonomousSelfUpdate.commitPlan?.directPushRequiresRepositoryVariable !== 'AGL_AUTONOMOUS_SELF_UPDATE_DIRECT=1' ||
-  !autonomousSelfUpdate.commitPlan?.verificationBeforeCommit?.includes('npm run autonomous:daily') ||
-  !autonomousSelfUpdate.commitPlan?.verificationBeforeCommit?.includes('npm run test:e2e') ||
+  !autonomousSelfUpdate.commitPlan?.verificationBeforeCommit?.includes('npm run autonomous:operate') ||
   !autonomousSelfUpdate.commitPlan?.verificationBeforeCommit?.includes('npm run autonomous:self-update -- --assert-safe') ||
   autonomousSelfUpdate.controls?.zeroPaidSpend !== true ||
   autonomousSelfUpdate.controls?.dailyWorkflowReadOnly !== true ||
@@ -1663,8 +1662,7 @@ if (
   !(autonomousSelfUpdate.checks ?? []).every((check) => check.status === 'pass') ||
   !selfUpdateWorkflow.includes("vars.AGL_AUTONOMOUS_SELF_UPDATE == '1'") ||
   !selfUpdateWorkflow.includes('contents: write') ||
-  !selfUpdateWorkflow.includes('npm run autonomous:daily') ||
-  !selfUpdateWorkflow.includes('npm run test:e2e') ||
+  !selfUpdateWorkflow.includes('npm run autonomous:operate') ||
   !selfUpdateWorkflow.includes('npm run autonomous:self-update -- --assert-safe') ||
   !workflow.includes('contents: read') ||
   !autonomousSelfUpdateSource.includes('allowedPrefixes') ||
@@ -1967,6 +1965,7 @@ if (
   autonomousCadence.schedulers?.codexDesktop?.declaredStatus !== 'active-declared' ||
   autonomousCadence.schedulers?.githubActions?.status !== 'scheduled' ||
   autonomousCadence.schedulers?.githubActions?.workflow !== '.github/workflows/autonomous-daily.yml' ||
+  autonomousCadence.schedulers?.githubActions?.command !== 'npm run autonomous:operate' ||
   autonomousCadence.schedulers?.githubActions?.artifactUpload !== true ||
   autonomousCadence.schedulers?.githubSelfUpdate?.status !== 'gated' ||
   autonomousCadence.schedulers?.githubSelfUpdate?.workflow !== '.github/workflows/autonomous-self-update.yml' ||
@@ -3950,11 +3949,10 @@ if (
 
 if (
   !workflow.includes('schedule:') ||
-  !workflow.includes('npm run autonomous:daily') ||
-  !workflow.includes('npm run test:e2e') ||
+  !workflow.includes('npm run autonomous:operate') ||
   !workflow.includes('actions/upload-artifact')
 ) {
-  fail('Scheduled CI workflow must run the autonomous loop, browser tests, and upload artifacts.')
+  fail('Scheduled CI workflow must run the autonomous owner loop and upload artifacts.')
 }
 
 if (process.exitCode) {

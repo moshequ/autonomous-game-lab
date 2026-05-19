@@ -29,11 +29,8 @@ jobs:
       - name: Install Playwright browser
         run: npx playwright install --with-deps chromium
 
-      - name: Run autonomous production loop
-        run: npm run autonomous:daily
-
-      - name: Run browser smoke tests
-        run: npm run test:e2e
+      - name: Run autonomous owner loop
+        run: npm run autonomous:operate
 
       - name: Upload operating artifacts
         if: always()

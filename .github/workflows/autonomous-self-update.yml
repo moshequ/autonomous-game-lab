@@ -37,11 +37,8 @@ jobs:
       - name: Install Playwright browser
         run: npx playwright install --with-deps chromium
 
-      - name: Reproduce autonomous production loop
-        run: npm run autonomous:daily
-
-      - name: Verify browser behavior
-        run: npm run test:e2e
+      - name: Reproduce autonomous owner loop
+        run: npm run autonomous:operate
 
       - name: Assert self-update safety
         run: npm run autonomous:self-update -- --assert-safe

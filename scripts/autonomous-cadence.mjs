@@ -293,13 +293,12 @@ const checks = [
       workflowExists &&
       workflow.includes('schedule:') &&
       workflow.includes('workflow_dispatch:') &&
-      workflow.includes('npm run autonomous:daily') &&
-      workflow.includes('npm run test:e2e') &&
+      workflow.includes('npm run autonomous:operate') &&
       workflow.includes('actions/upload-artifact')
         ? 'pass'
         : 'blocker',
     detail: workflowExists
-      ? 'GitHub Actions daily workflow can run the autonomous loop and upload evidence artifacts.'
+      ? 'GitHub Actions daily workflow can run the full autonomous owner loop and upload evidence artifacts.'
       : 'Autonomous daily GitHub workflow is missing.',
   },
   {
@@ -350,6 +349,7 @@ const payload = {
           : 'missing',
       workflow: '.github/workflows/autonomous-daily.yml',
       cron: "17 3 * * *",
+      command: 'npm run autonomous:operate',
       dispatch: true,
       permissions: 'contents: read',
       artifactUpload: true,
