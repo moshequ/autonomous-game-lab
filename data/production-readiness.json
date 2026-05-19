@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-19T04:12:12.683Z",
+  "generatedAt": "2026-05-19T04:13:44.942Z",
   "environment": {
     "status": "production-env-missing",
     "publicOrigin": null,
@@ -75,7 +75,7 @@
         "originRemote": null,
         "remoteRepository": null,
         "hasCommit": true,
-        "dirtyFiles": 23
+        "dirtyFiles": 3
       },
       "after": {
         "insideWorkTree": true,
@@ -84,7 +84,7 @@
         "originRemote": null,
         "remoteRepository": null,
         "hasCommit": true,
-        "dirtyFiles": 23
+        "dirtyFiles": 3
       }
     },
     "repository": {
@@ -156,7 +156,7 @@
         "mutatesLocalGit": true,
         "mutatesRemoteGitHub": false,
         "requiresExplicitEnv": true,
-        "detail": "23 generated or source file(s) are not committed yet."
+        "detail": "3 generated or source file(s) are not committed yet."
       },
       {
         "id": "set-or-create-origin",
@@ -2693,7 +2693,7 @@
       "selfUpdate": "npm run autonomous:self-update",
       "verifyAutomation": "npm run test:automation",
       "browserSmoke": "npm run test:e2e",
-      "ownerDecision": "refresh-autonomous-cadence"
+      "ownerDecision": "prepare-repository-channel"
     },
     "controls": {
       "zeroPaidSpend": true,
