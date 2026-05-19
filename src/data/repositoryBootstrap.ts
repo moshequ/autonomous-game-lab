@@ -1,5 +1,5 @@
 export const repositoryBootstrap = {
-  "generatedAt": "2026-05-19T01:40:01.490Z",
+  "generatedAt": "2026-05-19T01:41:42.272Z",
   "status": "waiting-for-github-target",
   "mode": "plan-only",
   "envFiles": {
@@ -44,7 +44,7 @@ export const repositoryBootstrap = {
       "originRemote": null,
       "remoteRepository": null,
       "hasCommit": true,
-      "dirtyFiles": 53
+      "dirtyFiles": 3
     },
     "after": {
       "insideWorkTree": true,
@@ -53,7 +53,7 @@ export const repositoryBootstrap = {
       "originRemote": null,
       "remoteRepository": null,
       "hasCommit": true,
-      "dirtyFiles": 53
+      "dirtyFiles": 3
     }
   },
   "repository": {
@@ -131,7 +131,7 @@ export const repositoryBootstrap = {
       "mutatesLocalGit": true,
       "mutatesRemoteGitHub": false,
       "requiresExplicitEnv": true,
-      "detail": "53 generated or source file(s) are not committed yet."
+      "detail": "3 generated or source file(s) are not committed yet."
     },
     {
       "id": "set-or-create-origin",
