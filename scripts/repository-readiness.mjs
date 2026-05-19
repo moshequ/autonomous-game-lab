@@ -280,7 +280,7 @@ const payload = {
       ? null
       : 'Add a GitHub origin remote, set GITHUB_REPOSITORY/GH_REPO to owner/repo, or authenticate gh to infer owner/package-name.',
     ghCredentialReady ? null : 'Authenticate GitHub CLI or provide GH_TOKEN/GITHUB_TOKEN before non-interactive workflow dispatch.',
-    'Enable GitHub Pages with GitHub Actions as the source in the target repository.',
+    'Let the production bootstrap helper enable GitHub Pages with GitHub Actions as the source once gh credentials exist.',
   ].filter(Boolean),
   nextActions: [
     repositoryChannelReady

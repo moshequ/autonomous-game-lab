@@ -212,7 +212,7 @@ const payload = {
     analyticsStatus: environment.analytics?.status ?? 'missing',
   },
   setupRequiredOnce: [
-    'Set GitHub Pages source to GitHub Actions in repository settings.',
+    'Run the production bootstrap helper with gh credentials so it can set GitHub Pages source to GitHub Actions.',
     'For project pages, set repository variable VITE_BASE_PATH to /repository-name/.',
     'Set Cloudflare collector variables and secrets only when live first-party analytics are needed.',
     'Optionally attach a custom domain before app-store submission so the privacy URL is stable.',

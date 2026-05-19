@@ -1,6 +1,6 @@
 # Deployment Plan
 
-Generated: 2026-05-19T10:23:54.103Z
+Generated: 2026-05-19T10:34:00.773Z
 Status: ready-for-pages
 Target: github-pages
 Cost: $0 platform hosting for public/internal experiment traffic
@@ -15,7 +15,7 @@ Cost: $0 platform hosting for public/internal experiment traffic
 - pass: dist-index - Production index.html exists.
 - pass: dist-service-worker - Production service worker exists.
 - pass: dist-privacy - Privacy policy is included in the deployable build.
-- pass: release-candidate - Release candidate is release-candidate-ready; candidate pwa-7dbbdef84b0f.
+- pass: release-candidate - Release candidate is release-candidate-ready; candidate pwa-4f3a36fa084c.
 - pass: deploy-workflow - GitHub Pages deployment workflow exists.
 - pass: production-environment - Environment status is production-env-missing; public origin is missing.
 - pass: event-collector-deployment - Event collector deployment is blocked-needs-cloudflare-env.
@@ -37,9 +37,9 @@ Cost: $0 platform hosting for public/internal experiment traffic
 ## Release Candidate
 
 - Status: release-candidate-ready
-- Candidate: pwa-7dbbdef84b0f
+- Candidate: pwa-4f3a36fa084c
 - Files: 40
-- Aggregate SHA-256: 7dbbdef84b0f5a8ab961407ff6ebd3877ea120b2bb086a63df5d7cbe40ac59a7
+- Aggregate SHA-256: 4f3a36fa084cc0a7f9d56183a70383f6759eb7eafa67a2f9406c69d6dbdde205
 - Post-deploy smoke URLs: 11
 
 ## Repository Channel
@@ -60,7 +60,7 @@ Cost: $0 platform hosting for public/internal experiment traffic
 
 ## One-Time Setup
 
-- Set GitHub Pages source to GitHub Actions in repository settings.
+- Run the production bootstrap helper with gh credentials so it can set GitHub Pages source to GitHub Actions.
 - For project pages, set repository variable VITE_BASE_PATH to /repository-name/.
 - Set Cloudflare collector variables and secrets only when live first-party analytics are needed.
 - Optionally attach a custom domain before app-store submission so the privacy URL is stable.

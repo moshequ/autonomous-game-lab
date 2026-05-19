@@ -1,6 +1,6 @@
 # Production Bootstrap
 
-Generated: 2026-05-19T10:23:54.382Z
+Generated: 2026-05-19T10:34:01.072Z
 Status: production-bootstrap-ready
 Mode: waiting-for-external-credentials
 GitHub repository: missing
@@ -20,6 +20,7 @@ gh CLI available: true
 - waiting-for-github-target: repository-bootstrap; auto-run no; Repository bootstrap waiting-for-github-target; helper ops/github/bootstrap-repository.sh; local git ready.
 - waiting-for-origin-support: production-environment; auto-run no; Environment production-env-missing; public origin missing; support missing-production-address.
 - ready-for-actions-pages: github-pages-hosting; auto-run no; Deployment plan is ready-for-pages; Pages workflow is .github/workflows/web-pwa-deploy.yml.
+- waiting-for-gh-auth: github-pages-settings; auto-run no; GitHub CLI authentication is required before Pages settings can be synced.
 - waiting-for-self-update-gate: autonomous-self-update; auto-run no; Self-update gate missing; direct push held.
 - partially-configured: github-actions-variables; auto-run no; 3/24 repository variable value(s) present in this environment.
 - partially-configured: github-actions-secrets; auto-run no; 3/8 repository secret value(s) present in this environment.
@@ -33,6 +34,7 @@ gh CLI available: true
 - repository-preflight: npm run autonomous:repo-readiness
 - repository-bootstrap-plan: npm run autonomous:repo-bootstrap
 - local-gate: npm run autonomous:daily && npm run test:e2e && npm run autonomous:assert-deployable
+- sync-pages-settings: AGL_SYNC_PAGES_SETTINGS=1 ./ops/github/setup-production.sh
 - sync-repository-config: ./ops/github/setup-production.sh
 - run-web-workflow: RUN_WORKFLOWS=1 ./ops/github/setup-production.sh
 - run-android-workflow: RUN_WORKFLOWS=1 ALLOW_ANDROID_RELEASE_WORKFLOW=1 ./ops/github/setup-production.sh
@@ -79,6 +81,7 @@ gh CLI available: true
 
 - repository-readiness: Add a GitHub origin remote, set GITHUB_REPOSITORY/GH_REPO, or authenticate gh to infer the target repository.
 - repository-readiness: Authenticate GitHub CLI or configure GH_TOKEN/GITHUB_TOKEN for workflow dispatch and repository settings sync.
+- repository-bootstrap: Commit current generated changes before pushing to GitHub Pages.
 - repository-bootstrap: Set GITHUB_REPOSITORY/GH_REPO or authenticate gh so the intended owner/repo can be inferred.
 - repository-bootstrap: Attach a GitHub origin remote or create the target repository.
 - repository-bootstrap: Authenticate GitHub CLI or provide GH_TOKEN/GITHUB_TOKEN for remote repository bootstrap.
@@ -88,4 +91,3 @@ gh CLI available: true
 - production-environment: Set AGL_EVENT_COLLECTOR_EXPORT_URL + AGL_EVENT_COLLECTOR_ADMIN_TOKEN or PostHog server credentials for autonomous production rollups.
 - production-environment: Set VITE_ADSENSE_CLIENT_ID + VITE_ADSENSE_REWARDED_SLOT_ID for web/PWA revenue tests or ADMOB_PUBLISHER_ID for native app placements.
 - production-environment: Connect Google Play credentials or set AGL_GOOGLE_PLAY_ACCOUNT_CONNECTED=true.
-- production-environment: Connect Apple Developer account only after revenue justifies iOS spend.

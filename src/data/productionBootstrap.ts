@@ -1,5 +1,5 @@
 export const productionBootstrap = {
-  "generatedAt": "2026-05-19T10:23:54.382Z",
+  "generatedAt": "2026-05-19T10:34:01.072Z",
   "status": "production-bootstrap-ready",
   "mode": "waiting-for-external-credentials",
   "envFiles": {
@@ -76,17 +76,18 @@ export const productionBootstrap = {
     "noRevenueEnablement": true,
     "noStoreWorkflowWithoutEconomics": true,
     "applyRequiresExistingCredentials": true,
+    "canAutoConfigurePagesSource": true,
     "generatedScriptsAvoidSecretEcho": true,
     "repositoryBootstrapDryRunByDefault": true
   },
   "summary": {
     "readyGroups": 3,
-    "totalGroups": 11,
+    "totalGroups": 12,
     "configuredVariables": 3,
     "totalVariables": 24,
     "configuredSecrets": 3,
     "totalSecrets": 8,
-    "externalBlockers": 23
+    "externalBlockers": 24
   },
   "stages": [
     {
@@ -109,6 +110,7 @@ export const productionBootstrap = {
       "command": "npm run autonomous:repo-bootstrap",
       "evidence": "Repository bootstrap waiting-for-github-target; helper ops/github/bootstrap-repository.sh; local git ready.",
       "requires": [
+        "Commit current generated changes before pushing to GitHub Pages.",
         "Set GITHUB_REPOSITORY/GH_REPO or authenticate gh so the intended owner/repo can be inferred.",
         "Attach a GitHub origin remote or create the target repository.",
         "Authenticate GitHub CLI or provide GH_TOKEN/GITHUB_TOKEN for remote repository bootstrap."
@@ -142,6 +144,18 @@ export const productionBootstrap = {
         "Repository exists on GitHub.",
         "GitHub Pages source is set to GitHub Actions.",
         "VITE_BASE_PATH is set when deploying to project pages."
+      ]
+    },
+    {
+      "id": "github-pages-settings",
+      "status": "waiting-for-gh-auth",
+      "canAutoRun": false,
+      "costUsd": 0,
+      "command": "AGL_SYNC_PAGES_SETTINGS=1 ./ops/github/setup-production.sh",
+      "evidence": "GitHub CLI authentication is required before Pages settings can be synced.",
+      "requires": [
+        "Repository exists on GitHub.",
+        "Authenticated gh token has repository administration or Pages settings access."
       ]
     },
     {
@@ -266,6 +280,7 @@ export const productionBootstrap = {
       "command": "npm run autonomous:repo-bootstrap",
       "evidence": "Repository bootstrap waiting-for-github-target; helper ops/github/bootstrap-repository.sh; local git ready.",
       "requires": [
+        "Commit current generated changes before pushing to GitHub Pages.",
         "Set GITHUB_REPOSITORY/GH_REPO or authenticate gh so the intended owner/repo can be inferred.",
         "Attach a GitHub origin remote or create the target repository.",
         "Authenticate GitHub CLI or provide GH_TOKEN/GITHUB_TOKEN for remote repository bootstrap."
@@ -299,6 +314,18 @@ export const productionBootstrap = {
         "Repository exists on GitHub.",
         "GitHub Pages source is set to GitHub Actions.",
         "VITE_BASE_PATH is set when deploying to project pages."
+      ]
+    },
+    {
+      "id": "github-pages-settings",
+      "status": "waiting-for-gh-auth",
+      "canAutoRun": false,
+      "costUsd": 0,
+      "command": "AGL_SYNC_PAGES_SETTINGS=1 ./ops/github/setup-production.sh",
+      "evidence": "GitHub CLI authentication is required before Pages settings can be synced.",
+      "requires": [
+        "Repository exists on GitHub.",
+        "Authenticated gh token has repository administration or Pages settings access."
       ]
     },
     {
@@ -942,6 +969,12 @@ export const productionBootstrap = {
       "costUsd": 0
     },
     {
+      "id": "sync-pages-settings",
+      "command": "AGL_SYNC_PAGES_SETTINGS=1 ./ops/github/setup-production.sh",
+      "safeToRunAutomatically": false,
+      "costUsd": 0
+    },
+    {
       "id": "sync-repository-config",
       "command": "./ops/github/setup-production.sh",
       "safeToRunAutomatically": false,
@@ -965,6 +998,7 @@ export const productionBootstrap = {
     "status": "generated",
     "dryRunByDefault": false,
     "usesCurrentShellEnvironment": true,
+    "configuresPagesSource": true,
     "avoidsSecretEcho": true
   },
   "generatedArtifacts": [
@@ -986,6 +1020,10 @@ export const productionBootstrap = {
     {
       "source": "repository-readiness",
       "blocker": "Authenticate GitHub CLI or configure GH_TOKEN/GITHUB_TOKEN for workflow dispatch and repository settings sync."
+    },
+    {
+      "source": "repository-bootstrap",
+      "blocker": "Commit current generated changes before pushing to GitHub Pages."
     },
     {
       "source": "repository-bootstrap",

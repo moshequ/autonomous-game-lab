@@ -1174,7 +1174,7 @@ test('production bootstrap emits zero-spend setup handoff artifacts', async ({ p
     }
     summary: { externalBlockers: number }
     stages: Array<{ id: string; costUsd: number }>
-    setupScript: { path: string; avoidsSecretEcho: boolean }
+    setupScript: { path: string; avoidsSecretEcho: boolean; configuresPagesSource: boolean }
     requiredVariables: Array<{ repositoryVariable: string; command: string }>
     requiredSecrets: Array<{ repositorySecret: string; command: string }>
     setupCommands: Array<{ id: string; command: string; costUsd: number }>
@@ -1190,17 +1190,23 @@ test('production bootstrap emits zero-spend setup handoff artifacts', async ({ p
   expect(bootstrap.stages.some((stage) => stage.id === 'repository-channel')).toBe(true)
   expect(bootstrap.stages.some((stage) => stage.id === 'repository-bootstrap')).toBe(true)
   expect(bootstrap.stages.some((stage) => stage.id === 'github-pages-hosting')).toBe(true)
+  expect(bootstrap.stages.some((stage) => stage.id === 'github-pages-settings')).toBe(true)
   expect(bootstrap.stages.some((stage) => stage.id === 'event-collector')).toBe(true)
   expect(bootstrap.stages.every((stage) => stage.costUsd === 0)).toBe(true)
   expect(bootstrap.setupCommands.some((command) => command.id === 'repository-preflight')).toBe(true)
   expect(bootstrap.setupCommands.some((command) => command.id === 'repository-bootstrap-plan')).toBe(true)
+  expect(bootstrap.setupCommands.some((command) => command.id === 'sync-pages-settings')).toBe(true)
   expect(bootstrap.requiredVariables.some((item) => item.repositoryVariable === 'AGL_PUBLIC_ORIGIN')).toBe(true)
   expect(bootstrap.requiredSecrets.some((item) => item.repositorySecret === 'CLOUDFLARE_API_TOKEN')).toBe(true)
   expect(bootstrap.setupCommands.every((command) => command.costUsd === 0)).toBe(true)
   expect(bootstrap.setupScript.path).toBe('ops/github/setup-production.sh')
   expect(bootstrap.setupScript.avoidsSecretEcho).toBe(true)
+  expect(bootstrap.setupScript.configuresPagesSource).toBe(true)
   expect(setupScript).toContain('gh variable set')
   expect(setupScript).toContain('gh secret set')
+  expect(setupScript).toContain('AGL_SYNC_PAGES_SETTINGS')
+  expect(setupScript).toContain('repos/$repo/pages')
+  expect(setupScript).toContain('build_type=workflow')
   expect(setupScript).toContain('RUN_WORKFLOWS')
   expect(setupScript).not.toContain('admin-export-token')
   expect(setupScript).not.toContain('ca-pub-your-web-client-id')

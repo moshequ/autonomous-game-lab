@@ -63,6 +63,22 @@ all_present() {
   done
 }
 
+sync_pages_settings() {
+  if [[ "${AGL_SYNC_PAGES_SETTINGS:-1}" != "1" ]]; then
+    echo "skip GitHub Pages settings: AGL_SYNC_PAGES_SETTINGS is not 1"
+    return
+  fi
+
+  if gh api "repos/$repo/pages" >/dev/null 2>&1; then
+    gh api --method PUT "repos/$repo/pages" -f build_type=workflow -F https_enforced=true >/dev/null
+    echo "GitHub Pages source set to Actions workflow for $repo"
+  else
+    gh api --method POST "repos/$repo/pages" -f build_type=workflow >/dev/null
+    gh api --method PUT "repos/$repo/pages" -f build_type=workflow -F https_enforced=true >/dev/null || true
+    echo "GitHub Pages site created for workflow deployment on $repo"
+  fi
+}
+
 set_variable "VITE_BASE_PATH" "VITE_BASE_PATH"
 set_variable "AGL_PUBLIC_ORIGIN" "AGL_PUBLIC_ORIGIN"
 set_variable "VITE_PUBLIC_ORIGIN" "AGL_PUBLIC_ORIGIN"
@@ -97,6 +113,8 @@ set_secret "AGL_ANDROID_KEY_ALIAS" "AGL_ANDROID_KEY_ALIAS"
 set_secret "GOOGLE_PLAY_SERVICE_ACCOUNT_JSON" "GOOGLE_PLAY_SERVICE_ACCOUNT_JSON"
 
 echo "Production GitHub variables/secrets sync complete for configured values."
+
+sync_pages_settings
 
 if [[ "${RUN_WORKFLOWS:-0}" == "1" ]]; then
   gh workflow run web-pwa-deploy.yml "${repo_args[@]}"

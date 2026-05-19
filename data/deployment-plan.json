@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-19T10:23:54.103Z",
+  "generatedAt": "2026-05-19T10:34:00.773Z",
   "status": "ready-for-pages",
   "target": {
     "provider": "github-pages",
@@ -53,11 +53,11 @@
   },
   "releaseCandidate": {
     "status": "release-candidate-ready",
-    "candidateId": "pwa-7dbbdef84b0f",
+    "candidateId": "pwa-4f3a36fa084c",
     "manifestPath": "dist/release-candidate.json",
-    "aggregateHash": "7dbbdef84b0f5a8ab961407ff6ebd3877ea120b2bb086a63df5d7cbe40ac59a7",
+    "aggregateHash": "4f3a36fa084cc0a7f9d56183a70383f6759eb7eafa67a2f9406c69d6dbdde205",
     "totalFiles": 40,
-    "totalKb": 3581.8,
+    "totalKb": 3584.1,
     "postDeploySmokeUrls": 11
   },
   "compliance": {
@@ -72,7 +72,7 @@
     "analyticsStatus": "local-or-fixture"
   },
   "setupRequiredOnce": [
-    "Set GitHub Pages source to GitHub Actions in repository settings.",
+    "Run the production bootstrap helper with gh credentials so it can set GitHub Pages source to GitHub Actions.",
     "For project pages, set repository variable VITE_BASE_PATH to /repository-name/.",
     "Set Cloudflare collector variables and secrets only when live first-party analytics are needed.",
     "Optionally attach a custom domain before app-store submission so the privacy URL is stable."
@@ -121,7 +121,7 @@
     {
       "id": "release-candidate",
       "status": "pass",
-      "detail": "Release candidate is release-candidate-ready; candidate pwa-7dbbdef84b0f."
+      "detail": "Release candidate is release-candidate-ready; candidate pwa-4f3a36fa084c."
     },
     {
       "id": "deploy-workflow",

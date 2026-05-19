@@ -189,6 +189,20 @@ const setupGroups = [
     ],
   },
   {
+    id: 'github-pages-settings',
+    status: canUseGh ? 'ready-to-sync' : 'waiting-for-gh-auth',
+    canAutoRun: canUseGh,
+    costUsd: 0,
+    command: 'AGL_SYNC_PAGES_SETTINGS=1 ./ops/github/setup-production.sh',
+    evidence: canUseGh
+      ? 'GitHub CLI can configure Pages to use the Actions workflow source.'
+      : 'GitHub CLI authentication is required before Pages settings can be synced.',
+    requires: [
+      'Repository exists on GitHub.',
+      'Authenticated gh token has repository administration or Pages settings access.',
+    ],
+  },
+  {
     id: 'autonomous-self-update',
     status: configured(process.env.AGL_AUTONOMOUS_SELF_UPDATE)
       ? configured(process.env.AGL_AUTONOMOUS_SELF_UPDATE_DIRECT)
@@ -302,6 +316,12 @@ const setupCommands = [
     costUsd: 0,
   },
   {
+    id: 'sync-pages-settings',
+    command: 'AGL_SYNC_PAGES_SETTINGS=1 ./ops/github/setup-production.sh',
+    safeToRunAutomatically: canUseGh,
+    costUsd: 0,
+  },
+  {
     id: 'sync-repository-config',
     command: './ops/github/setup-production.sh',
     safeToRunAutomatically: canUseGh,
@@ -353,6 +373,7 @@ const payload = {
     noRevenueEnablement: monetization.revenueEnabled !== true,
     noStoreWorkflowWithoutEconomics: true,
     applyRequiresExistingCredentials: true,
+    canAutoConfigurePagesSource: true,
     generatedScriptsAvoidSecretEcho: true,
     repositoryBootstrapDryRunByDefault: repositoryBootstrap.controls?.dryRunByDefault === true,
   },
@@ -377,6 +398,7 @@ const payload = {
     status: 'generated',
     dryRunByDefault: false,
     usesCurrentShellEnvironment: true,
+    configuresPagesSource: true,
     avoidsSecretEcho: true,
   },
   generatedArtifacts: [
@@ -521,10 +543,28 @@ all_present() {
   done
 }
 
+sync_pages_settings() {
+  if [[ "\${AGL_SYNC_PAGES_SETTINGS:-1}" != "1" ]]; then
+    echo "skip GitHub Pages settings: AGL_SYNC_PAGES_SETTINGS is not 1"
+    return
+  fi
+
+  if gh api "repos/$repo/pages" >/dev/null 2>&1; then
+    gh api --method PUT "repos/$repo/pages" -f build_type=workflow -F https_enforced=true >/dev/null
+    echo "GitHub Pages source set to Actions workflow for $repo"
+  else
+    gh api --method POST "repos/$repo/pages" -f build_type=workflow >/dev/null
+    gh api --method PUT "repos/$repo/pages" -f build_type=workflow -F https_enforced=true >/dev/null || true
+    echo "GitHub Pages site created for workflow deployment on $repo"
+  fi
+}
+
 ${variableCommands.map(([repoName, envName]) => `set_variable "${repoName}" "${envName}"`).join('\n')}
 ${secretCommands.map(([repoName, envName]) => `set_secret "${repoName}" "${envName}"`).join('\n')}
 
 echo "Production GitHub variables/secrets sync complete for configured values."
+
+sync_pages_settings
 
 if [[ "\${RUN_WORKFLOWS:-0}" == "1" ]]; then
   gh workflow run web-pwa-deploy.yml "\${repo_args[@]}"
@@ -566,6 +606,8 @@ AGL_ALLOW_REPOSITORY_BOOTSTRAP=1 ./ops/github/bootstrap-repository.sh
 \`\`\`bash
 ./ops/github/setup-production.sh
 \`\`\`
+
+By default the setup helper also configures GitHub Pages to use the Actions workflow source. Set \`AGL_SYNC_PAGES_SETTINGS=0\` to skip that remote settings sync.
 
 Set \`RUN_WORKFLOWS=1\` to trigger the web workflow after syncing configured values. The collector workflow runs only when its Cloudflare values exist. Android stays held unless \`ALLOW_ANDROID_RELEASE_WORKFLOW=1\`, signing secrets exist, and the normal release gates pass.
 `

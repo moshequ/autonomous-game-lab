@@ -1432,6 +1432,7 @@ const requiredBootstrapStages = [
   'repository-bootstrap',
   'production-environment',
   'github-pages-hosting',
+  'github-pages-settings',
   'autonomous-self-update',
   'github-actions-variables',
   'github-actions-secrets',
@@ -1462,8 +1463,10 @@ if (
   productionBootstrap.controls?.noPaidResourcesCreated !== true ||
   productionBootstrap.controls?.noStoreSubmission !== true ||
   productionBootstrap.controls?.noRevenueEnablement !== true ||
+  productionBootstrap.controls?.canAutoConfigurePagesSource !== true ||
   productionBootstrap.setupScript?.path !== 'ops/github/setup-production.sh' ||
   productionBootstrap.setupScript?.avoidsSecretEcho !== true ||
+  productionBootstrap.setupScript?.configuresPagesSource !== true ||
   productionBootstrap.repository?.repositoryReadinessStatus !== repositoryReadiness.status ||
   productionBootstrap.repository?.repositoryBootstrapStatus !== repositoryBootstrap.status ||
   productionBootstrap.repository?.insideWorkTree !== repositoryReadiness.workspace?.insideWorkTree ||
@@ -1472,6 +1475,7 @@ if (
   !requiredBootstrapSecrets.every((name) => bootstrapSecretNames.has(name)) ||
   !productionBootstrap.setupCommands?.some((command) => command.id === 'repository-preflight') ||
   !productionBootstrap.setupCommands?.some((command) => command.id === 'repository-bootstrap-plan') ||
+  !productionBootstrap.setupCommands?.some((command) => command.id === 'sync-pages-settings') ||
   !productionBootstrap.setupCommands?.some((command) => command.id === 'sync-repository-config') ||
   !productionBootstrap.setupCommands?.every((command) => command.costUsd === 0) ||
   !productionBootstrap.generatedArtifacts?.includes('ops/github/bootstrap-repository.sh') ||
@@ -1484,6 +1488,9 @@ if (
   githubRepositoryBootstrapScript.includes('gh workflow run') ||
   !githubSetupScript.includes('gh variable set') ||
   !githubSetupScript.includes('gh secret set') ||
+  !githubSetupScript.includes('AGL_SYNC_PAGES_SETTINGS') ||
+  !githubSetupScript.includes('repos/$repo/pages') ||
+  !githubSetupScript.includes('build_type=workflow') ||
   !githubSetupScript.includes('RUN_WORKFLOWS') ||
   !githubSetupScript.includes('ALLOW_ANDROID_RELEASE_WORKFLOW') ||
   !githubSetupScript.includes('AGL_AUTONOMOUS_SELF_UPDATE') ||
