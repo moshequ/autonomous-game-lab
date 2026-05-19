@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-19T03:06:33.759Z",
+  "generatedAt": "2026-05-19T03:15:03.806Z",
   "status": "waiting-for-github-target",
   "mode": "plan-only",
   "envFiles": {
@@ -61,7 +61,7 @@
       "originRemote": null,
       "remoteRepository": null,
       "hasCommit": true,
-      "dirtyFiles": 29
+      "dirtyFiles": 46
     },
     "after": {
       "insideWorkTree": true,
@@ -70,7 +70,7 @@
       "originRemote": null,
       "remoteRepository": null,
       "hasCommit": true,
-      "dirtyFiles": 29
+      "dirtyFiles": 46
     }
   },
   "repository": {
@@ -86,9 +86,9 @@
   },
   "sourceStatus": {
     "repositoryReadiness": "waiting-for-github-repository",
-    "deployment": "blocked",
-    "releaseCandidate": "release-candidate-blocked",
-    "releaseCandidateId": "pwa-2d4916c47233",
+    "deployment": "ready-for-pages",
+    "releaseCandidate": "release-candidate-ready",
+    "releaseCandidateId": "pwa-5d17285b2e72",
     "postDeploySmoke": "blocked-missing-origin"
   },
   "execution": {
@@ -148,7 +148,7 @@
       "mutatesLocalGit": true,
       "mutatesRemoteGitHub": false,
       "requiresExplicitEnv": true,
-      "detail": "29 generated or source file(s) are not committed yet."
+      "detail": "46 generated or source file(s) are not committed yet."
     },
     {
       "id": "set-or-create-origin",

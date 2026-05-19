@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-19T03:06:34.640Z",
+  "generatedAt": "2026-05-19T03:15:04.263Z",
   "status": "production-bootstrap-ready",
   "mode": "waiting-for-external-credentials",
   "envFiles": {
@@ -76,13 +76,13 @@
     "repositoryBootstrapDryRunByDefault": true
   },
   "summary": {
-    "readyGroups": 2,
+    "readyGroups": 3,
     "totalGroups": 11,
     "configuredVariables": 3,
     "totalVariables": 24,
     "configuredSecrets": 3,
     "totalSecrets": 8,
-    "externalBlockers": 25
+    "externalBlockers": 24
   },
   "stages": [
     {
@@ -94,8 +94,7 @@
       "evidence": "Repository missing; git worktree ready; workflow dispatch blocked.",
       "requires": [
         "Add a GitHub origin remote or set GITHUB_REPOSITORY/GH_REPO.",
-        "Configure GH_TOKEN or GITHUB_TOKEN for workflow dispatch and repository settings sync.",
-        "Refresh build, release candidate, post-deploy smoke, and deployment plan artifacts."
+        "Configure GH_TOKEN or GITHUB_TOKEN for workflow dispatch and repository settings sync."
       ]
     },
     {
@@ -131,11 +130,11 @@
     },
     {
       "id": "github-pages-hosting",
-      "status": "blocked",
+      "status": "ready-for-actions-pages",
       "canAutoRun": false,
       "costUsd": 0,
       "command": "gh workflow run web-pwa-deploy.yml",
-      "evidence": "Deployment plan is blocked; Pages workflow is .github/workflows/web-pwa-deploy.yml.",
+      "evidence": "Deployment plan is ready-for-pages; Pages workflow is .github/workflows/web-pwa-deploy.yml.",
       "requires": [
         "Repository exists on GitHub.",
         "GitHub Pages source is set to GitHub Actions.",
@@ -253,8 +252,7 @@
       "evidence": "Repository missing; git worktree ready; workflow dispatch blocked.",
       "requires": [
         "Add a GitHub origin remote or set GITHUB_REPOSITORY/GH_REPO.",
-        "Configure GH_TOKEN or GITHUB_TOKEN for workflow dispatch and repository settings sync.",
-        "Refresh build, release candidate, post-deploy smoke, and deployment plan artifacts."
+        "Configure GH_TOKEN or GITHUB_TOKEN for workflow dispatch and repository settings sync."
       ]
     },
     {
@@ -290,11 +288,11 @@
     },
     {
       "id": "github-pages-hosting",
-      "status": "blocked",
+      "status": "ready-for-actions-pages",
       "canAutoRun": false,
       "costUsd": 0,
       "command": "gh workflow run web-pwa-deploy.yml",
-      "evidence": "Deployment plan is blocked; Pages workflow is .github/workflows/web-pwa-deploy.yml.",
+      "evidence": "Deployment plan is ready-for-pages; Pages workflow is .github/workflows/web-pwa-deploy.yml.",
       "requires": [
         "Repository exists on GitHub.",
         "GitHub Pages source is set to GitHub Actions.",
@@ -986,10 +984,6 @@
     {
       "source": "repository-readiness",
       "blocker": "Configure GH_TOKEN or GITHUB_TOKEN for workflow dispatch and repository settings sync."
-    },
-    {
-      "source": "repository-readiness",
-      "blocker": "Refresh build, release candidate, post-deploy smoke, and deployment plan artifacts."
     },
     {
       "source": "repository-bootstrap",

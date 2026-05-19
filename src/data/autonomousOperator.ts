@@ -1,5 +1,5 @@
 export const autonomousOperator = {
-  "generatedAt": "2026-05-19T03:06:35.311Z",
+  "generatedAt": "2026-05-19T03:16:01.688Z",
   "status": "operator-plan-ready",
   "mode": "plan-only",
   "ownerDecision": {
@@ -26,6 +26,8 @@ export const autonomousOperator = {
     "refresh-organic-seed-loop",
     "optimize-daily-retention",
     "measure-pwa-install-loop",
+    "check-performance-budget",
+    "prepare-release-candidate",
     "optimize-product-gates",
     "refresh-first-move-coach",
     "refresh-completion-loop",
@@ -80,15 +82,15 @@ export const autonomousOperator = {
     },
     {
       "id": "check-performance-budget",
-      "status": "monitor",
+      "status": "armed",
       "command": "npm run build && npm run autonomous:performance",
-      "reason": "status-monitor"
+      "reason": "not-selected-this-run"
     },
     {
       "id": "prepare-release-candidate",
-      "status": "monitor",
+      "status": "armed",
       "command": "npm run autonomous:release-candidate",
-      "reason": "status-monitor"
+      "reason": "not-selected-this-run"
     },
     {
       "id": "run-post-deploy-smoke",

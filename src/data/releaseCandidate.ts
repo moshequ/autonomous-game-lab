@@ -1,7 +1,7 @@
 export const releaseCandidate = {
-  "generatedAt": "2026-05-19T03:06:32.846Z",
-  "status": "release-candidate-blocked",
-  "candidateId": "pwa-2d4916c47233",
+  "generatedAt": "2026-05-19T03:15:01.415Z",
+  "status": "release-candidate-ready",
+  "candidateId": "pwa-5d17285b2e72",
   "target": {
     "provider": "github-pages",
     "artifactPath": "dist",
@@ -12,8 +12,8 @@ export const releaseCandidate = {
   },
   "summary": {
     "totalFiles": 38,
-    "totalBytes": 3678532,
-    "totalKb": 3592.3,
+    "totalBytes": 3675654,
+    "totalKb": 3589.5,
     "assetFiles": 3,
     "htmlFiles": 13,
     "gamePages": 10,
@@ -22,7 +22,7 @@ export const releaseCandidate = {
   },
   "integrity": {
     "algorithm": "sha256",
-    "aggregateHash": "2d4916c472336ae6f155e9b95a9b04ffa3a6dd992bb007898255b7f58c5f1cd2",
+    "aggregateHash": "5d17285b2e72438a0f0f20c454a77752ce457ae5e57eff5dc5a01d3f31bba665",
     "files": [
       {
         "path": "app-ads.txt",
@@ -32,16 +32,16 @@ export const releaseCandidate = {
         "cacheControl": "public, max-age=3600"
       },
       {
-        "path": "assets/GameCanvas-EulQ6qe-.js",
+        "path": "assets/GameCanvas-CPgEYQo_.js",
         "bytes": 1393468,
-        "sha256": "14db217fc36be58c3979bfc24df6c037ceac3f0188a007e2b66cd9627cacab1b",
+        "sha256": "bfaa8407aafed97e1474333090ccc3326d6d878067dc047be5b8131bb195448c",
         "contentType": "text/javascript; charset=utf-8",
         "cacheControl": "public, max-age=31536000, immutable"
       },
       {
-        "path": "assets/index-DHvEcL2T.js",
-        "bytes": 692708,
-        "sha256": "9eeeb3772a415ee96d0713c1fef69fb1bd10afbf6df85ae85da1845a6255b52e",
+        "path": "assets/index-BZhUSoWf.js",
+        "bytes": 689830,
+        "sha256": "d016cb89df9a93b66047741a9e7d309accb56059a6ca33f055fafe818536bed5",
         "contentType": "text/javascript; charset=utf-8",
         "cacheControl": "public, max-age=31536000, immutable"
       },
@@ -188,7 +188,7 @@ export const releaseCandidate = {
       {
         "path": "index.html",
         "bytes": 803,
-        "sha256": "0f1a0374b27bea755cd6a6d69091fa629c215c02117ac5fd8f0b11de6ce225cf",
+        "sha256": "fc375990c5e8610a83ef8ce6f0fb9c7f2b2860511ab0f43013b8819cb88ee691",
         "contentType": "text/html; charset=utf-8",
         "cacheControl": "no-cache"
       },
@@ -279,7 +279,7 @@ export const releaseCandidate = {
       {
         "path": "sw.js",
         "bytes": 3535,
-        "sha256": "fb9824a831ac4407760dd13cdccf3c11639e1bd7956d7ab3f44d0917239244bf",
+        "sha256": "aa2f0335fcf57d1a18b6a2a71d10260a9693eaa2ee2afc8bd1e339a8735de510",
         "contentType": "text/javascript; charset=utf-8",
         "cacheControl": "no-cache"
       },
@@ -456,8 +456,8 @@ export const releaseCandidate = {
     },
     {
       "id": "performance-budget",
-      "status": "blocker",
-      "detail": "Performance budget is blocked-performance-budget."
+      "status": "pass",
+      "detail": "Performance budget is performance-budget-ready."
     },
     {
       "id": "release-health",

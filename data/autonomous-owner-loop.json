@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2026-05-19T03:06:36.171Z",
+  "generatedAt": "2026-05-19T03:16:02.591Z",
   "status": "owner-loop-ready",
-  "mode": "guarded-local-automation",
+  "mode": "repository-channel-needed",
   "autonomyScore": {
-    "readySystems": 27,
+    "readySystems": 30,
     "totalSystems": 32,
-    "percent": 84
+    "percent": 94
   },
   "controls": {
     "localLoopCanRunWithoutExternalAccounts": true,
@@ -51,7 +51,7 @@
       "id": "autonomous-self-update",
       "status": "ready",
       "autonomy": "gated-generated-change-persistence",
-      "evidence": "Self-update self-update-ready; safe pending 41; unsafe pending 0; remote push held.",
+      "evidence": "Self-update self-update-ready; safe pending 44; unsafe pending 0; remote push held.",
       "nextAction": "When a GitHub repository is connected, set AGL_AUTONOMOUS_SELF_UPDATE=1 and AGL_AUTONOMOUS_SELF_UPDATE_DIRECT=1 to let verified generated changes persist."
     },
     {
@@ -98,9 +98,9 @@
     },
     {
       "id": "performance-budget",
-      "status": "needs-attention",
+      "status": "ready",
       "autonomy": "automatic-build-budget",
-      "evidence": "Initial JS 676.6 KB; gzip 177.7 KB; deferred chunks 1.",
+      "evidence": "Initial JS 673.8 KB; gzip 177.2 KB; deferred chunks 1.",
       "nextAction": "Keep Phaser and game scenes outside the initial PWA shell."
     },
     {
@@ -161,30 +161,30 @@
     },
     {
       "id": "web-deployment",
-      "status": "blocked",
+      "status": "ready",
       "autonomy": "workflow-gated",
-      "evidence": "Deployment blocked; web readiness blocked; promotion blocked.",
-      "nextAction": "Fix web readiness blockers."
+      "evidence": "Deployment ready-for-pages; web readiness ready-after-build; promotion promotable-internal.",
+      "nextAction": "Connect a free static host or GitHub Pages environment, then publish dist."
     },
     {
       "id": "release-candidate",
-      "status": "needs-release-manifest",
+      "status": "ready",
       "autonomy": "content-hashed-deploy-evidence",
-      "evidence": "Candidate pwa-2d4916c47233; status release-candidate-blocked; files 38; smoke URLs 7.",
+      "evidence": "Candidate pwa-5d17285b2e72; status release-candidate-ready; files 38; smoke URLs 7.",
       "nextAction": "Regenerate the release candidate after every production build before deploy or rollback decisions."
     },
     {
       "id": "post-deploy-smoke",
       "status": "ready",
       "autonomy": "read-only-live-deploy-verification",
-      "evidence": "Smoke blocked-missing-origin; origin missing; candidate pwa-2d4916c47233; checks 0/8 passed.",
+      "evidence": "Smoke blocked-missing-origin; origin missing; candidate pwa-5d17285b2e72; checks 0/8 passed.",
       "nextAction": "Run this after deployment with AGL_DEPLOYED_PWA_ORIGIN set to the Pages URL."
     },
     {
       "id": "production-bootstrap",
       "status": "ready",
       "autonomy": "zero-spend-setup-orchestration",
-      "evidence": "Bootstrap production-bootstrap-ready; mode waiting-for-external-credentials; external blockers 25.",
+      "evidence": "Bootstrap production-bootstrap-ready; mode waiting-for-external-credentials; external blockers 24.",
       "nextAction": "Fill required environment values, then run npm run autonomous:bootstrap."
     },
     {
@@ -198,14 +198,14 @@
       "id": "operator-history",
       "status": "ready",
       "autonomy": "operator-audit-trail",
-      "evidence": "History operator-history-ready; records 19; executed 0.",
+      "evidence": "History operator-history-ready; records 23; executed 0.",
       "nextAction": "Keep a capped durable record of operator plans and one-action executions."
     },
     {
       "id": "objective-audit",
       "status": "ready",
       "autonomy": "completion-evidence-ledger",
-      "evidence": "Audit objective-in-progress; met 4/8; external blockers 21.",
+      "evidence": "Audit objective-in-progress; met 5/8; external blockers 21.",
       "nextAction": "The local autonomous PWA system is largely prepared, but production credentials, live data, monetization gates, hosted compliance URLs, and store account/signing blockers remain."
     },
     {
@@ -325,22 +325,22 @@
     },
     {
       "id": "check-performance-budget",
-      "status": "monitor",
+      "status": "armed",
       "costUsd": 0,
       "command": "npm run build && npm run autonomous:performance",
       "targets": [
         "pwa-shell",
-        "GameCanvas-EulQ6qe-.js"
+        "GameCanvas-CPgEYQo_.js"
       ],
       "reason": "Keeps the PWA shell fast while Phaser and game scenes stay deferred."
     },
     {
       "id": "prepare-release-candidate",
-      "status": "monitor",
+      "status": "armed",
       "costUsd": 0,
       "command": "npm run autonomous:release-candidate",
       "targets": [
-        "pwa-2d4916c47233"
+        "pwa-5d17285b2e72"
       ],
       "reason": "Records a content-hashed dist inventory and post-deploy smoke plan for the exact PWA build."
     },
@@ -351,7 +351,7 @@
       "command": "npm run autonomous:post-deploy-smoke",
       "targets": [
         "deployed-pages-url",
-        "pwa-2d4916c47233"
+        "pwa-5d17285b2e72"
       ],
       "reason": "Waits for a deployed Pages origin, then verifies the live PWA matches the exact release candidate."
     },
@@ -645,10 +645,10 @@
     "pwaInstallLoopStatus": "pwa-install-loop-ready",
     "autonomousCadenceStatus": "cadence-ready",
     "autonomousSelfUpdateStatus": "self-update-ready",
-    "performanceBudgetStatus": "blocked-performance-budget",
+    "performanceBudgetStatus": "performance-budget-ready",
     "repositoryReadinessStatus": "waiting-for-github-repository",
     "repositoryBootstrapStatus": "waiting-for-github-target",
-    "releaseCandidateStatus": "release-candidate-blocked",
+    "releaseCandidateStatus": "release-candidate-ready",
     "postDeploySmokeStatus": "blocked-missing-origin",
     "productOptimizationStatus": "product-optimization-ready",
     "firstMoveCoachStatus": "first-move-coach-ready",
@@ -659,7 +659,7 @@
     "autonomousOperatorHistoryStatus": "operator-history-ready",
     "objectiveAuditStatus": "objective-in-progress",
     "storeListingOptimizerStatus": "store-listing-optimizer-ready",
-    "deploymentStatus": "blocked",
+    "deploymentStatus": "ready-for-pages",
     "releaseHealthStatus": "monitoring",
     "productionEnvironmentStatus": "production-env-missing",
     "storeComplianceStatus": "draft-ready-external-blockers",
