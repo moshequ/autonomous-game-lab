@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-19T06:12:43.860Z",
+  "generatedAt": "2026-05-19T06:16:12.934Z",
   "status": "self-update-ready",
   "mode": "plan-and-assert",
   "envFiles": {
@@ -70,7 +70,7 @@
     "ownerLoop": "owner-loop-ready"
   },
   "pendingChanges": {
-    "total": 45,
+    "total": 42,
     "safe": [
       {
         "code": "M",
@@ -153,13 +153,6 @@
         "code": "M",
         "path": "data/production-readiness.json",
         "raw": " M data/production-readiness.json",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "data/pwa-install-loop.json",
-        "raw": " M data/pwa-install-loop.json",
         "safe": true,
         "reason": "allowlisted-generated-artifact"
       },
@@ -270,13 +263,6 @@
       },
       {
         "code": "M",
-        "path": "reports/pwa-install-loop-latest.md",
-        "raw": " M reports/pwa-install-loop-latest.md",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
         "path": "reports/release-candidate-latest.md",
         "raw": " M reports/release-candidate-latest.md",
         "safe": true,
@@ -361,13 +347,6 @@
       },
       {
         "code": "M",
-        "path": "src/data/pwaInstallLoop.ts",
-        "raw": " M src/data/pwaInstallLoop.ts",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
         "path": "src/data/releaseCandidate.ts",
         "raw": " M src/data/releaseCandidate.ts",
         "safe": true,
@@ -389,7 +368,7 @@
       }
     ],
     "unsafe": [],
-    "safeCount": 45,
+    "safeCount": 42,
     "unsafeCount": 0
   },
   "commitPlan": {
@@ -414,7 +393,6 @@
       "data/post-deploy-smoke.json",
       "data/production-bootstrap.json",
       "data/production-readiness.json",
-      "data/pwa-install-loop.json",
       "data/release-candidate.json",
       "data/repository-bootstrap.json",
       "data/repository-readiness.json",
@@ -430,7 +408,6 @@
       "reports/post-deploy-smoke-latest.md",
       "reports/production-bootstrap-latest.md",
       "reports/production-readiness-latest.md",
-      "reports/pwa-install-loop-latest.md",
       "reports/release-candidate-latest.md",
       "reports/repository-bootstrap-latest.md",
       "reports/repository-readiness-latest.md",
@@ -443,7 +420,6 @@
       "src/data/performanceBudget.ts",
       "src/data/postDeploySmoke.ts",
       "src/data/productionBootstrap.ts",
-      "src/data/pwaInstallLoop.ts",
       "src/data/releaseCandidate.ts",
       "src/data/repositoryBootstrap.ts",
       "src/data/repositoryReadiness.ts"
@@ -535,7 +511,7 @@
     {
       "id": "safe-path-allowlist",
       "status": "pass",
-      "detail": "45 safe pending file(s), 0 unsafe pending file(s)."
+      "detail": "42 safe pending file(s), 0 unsafe pending file(s)."
     },
     {
       "id": "repository-optional",

@@ -8,7 +8,7 @@ export const autonomousOwnerLoop = {
     "externalAccountInterventionRequired": true
   },
   "ownerDecision": {
-    "nextBestActionId": "refresh-autonomous-self-update"
+    "nextBestActionId": "refresh-objective-audit"
   },
   "systems": [
     {
