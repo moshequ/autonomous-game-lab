@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-19T08:57:49.307Z",
+  "generatedAt": "2026-05-19T09:11:58.748Z",
   "status": "pass",
   "fixture": {
     "sourceFile": "player-events-smoke.json",
@@ -18,14 +18,23 @@
   "downloadsBridge": {
     "copiedFiles": 1,
     "downloadsImportEnabled": true,
+    "explicitScanStatus": "evidence-found",
+    "explicitScanEvidenceFound": true,
+    "explicitScanCopiedFiles": 1,
     "gateSampleEvents": 3,
     "campaignId": "gate-sample-smoke-firstGameCompletion"
+  },
+  "followupBridge": {
+    "downloadsImportEnabled": false,
+    "explicitScanStatus": "evidence-found",
+    "explicitScanEvidenceFound": true,
+    "preservedScanAt": "2026-05-19T09:11:58.594Z"
   },
   "ingest": {
     "status": "imported",
     "importedEvents": 6,
     "importedFiles": 1,
-    "outputDirectory": "../../../../../../var/folders/tq/1ph_b7c95_gc2jsn1hc3h1jw0000gn/T/agl-event-ingest-PhBh86/player-events"
+    "outputDirectory": "../../../../../../var/folders/tq/1ph_b7c95_gc2jsn1hc3h1jw0000gn/T/agl-event-ingest-UTxgFg/player-events"
   },
   "incrementalIngest": {
     "status": "imported",

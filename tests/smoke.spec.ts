@@ -1303,7 +1303,29 @@ test('autonomous operator history keeps a capped audit trail', async ({ page }) 
       recentlySatisfiedActionIds: string[]
       skippedRecentlyExecutedActionIds: string[]
       skippedRecentlySatisfiedActionIds: string[]
+      gateSampleDownloadsBackoff: {
+        enabled: boolean
+        cooldownHours: number
+        coolingDown: boolean
+        lastExplicitScanAt: string | null
+        lastExplicitScanStatus: string | null
+        evidenceReadyNow: boolean
+      }
     }
+  }
+  const localEventBridge = JSON.parse(await readFile('data/local-event-bridge.json', 'utf8')) as {
+    explicitDownloadsScan: {
+      scannedAt: string
+      status: string
+      evidenceFound: boolean
+    } | null
+    gateSampleEvidence: {
+      inbox: { events: number }
+      imported: { events: number }
+    }
+  }
+  const productGateSamplePlan = JSON.parse(await readFile('data/product-gate-sample-plan.json', 'utf8')) as {
+    generatedAt: string
   }
   const lastExecutedRecord = [...history.records]
     .reverse()
@@ -1335,6 +1357,19 @@ test('autonomous operator history keeps a capped audit trail', async ({ page }) 
   const hasExecutableAlternativeOutsideCovered = ownerLoop.safeAutonomousActions.some(
     (action) => ['armed', 'ready-when-repository-pages-enabled'].includes(action.status) && !recentlyCoveredActionIds.has(action.id),
   )
+  const gateSampleEvidenceReadyNow =
+    (localEventBridge.gateSampleEvidence?.inbox?.events ?? 0) > 0 ||
+    (localEventBridge.gateSampleEvidence?.imported?.events ?? 0) > 0
+  const explicitDownloadsScanAt = Date.parse(localEventBridge.explicitDownloadsScan?.scannedAt ?? '')
+  const downloadsScanRecent = Number.isFinite(explicitDownloadsScanAt) && Date.now() - explicitDownloadsScanAt < 4 * 60 * 60 * 1000
+  const gateSampleDownloadsCoolingDown =
+    downloadsScanRecent && localEventBridge.explicitDownloadsScan?.evidenceFound === false && !gateSampleEvidenceReadyNow
+  const samplePlanFreshAfterDownloadsScan =
+    Number.isFinite(explicitDownloadsScanAt) &&
+    Number.isFinite(Date.parse(productGateSamplePlan.generatedAt ?? '')) &&
+    Date.parse(productGateSamplePlan.generatedAt) >= explicitDownloadsScanAt
+  const collectGateSampleAction = ownerLoop.safeAutonomousActions.find((action) => action.id === 'collect-gate-sample-downloads')
+  const refreshSamplePlanAction = ownerLoop.safeAutonomousActions.find((action) => action.id === 'refresh-product-gate-sample-plan')
 
   expect(history.status).toBe('operator-history-ready')
   expect(history.retention.maxRecords).toBe(40)
@@ -1353,10 +1388,33 @@ test('autonomous operator history keeps a capped audit trail', async ({ page }) 
   expect(ownerLoop.executionMemory.lastExecutedActionId).toBe(history.summary.lastExecutedActionId)
   expect(ownerLoop.executionMemory.lastExecutedStatus).toBe(lastExecutedRecord?.execution.status)
   expect(ownerLoop.executionMemory.lastRecordExecutionStatus).toBe(history.summary.lastExecutionStatus)
+  expect(ownerLoop.executionMemory.gateSampleDownloadsBackoff.enabled).toBe(true)
+  expect(ownerLoop.executionMemory.gateSampleDownloadsBackoff.cooldownHours).toBe(4)
+  expect(ownerLoop.executionMemory.gateSampleDownloadsBackoff.coolingDown).toBe(gateSampleDownloadsCoolingDown)
+  expect(ownerLoop.executionMemory.gateSampleDownloadsBackoff.lastExplicitScanAt).toBe(
+    Number.isFinite(explicitDownloadsScanAt) ? localEventBridge.explicitDownloadsScan?.scannedAt : null,
+  )
+  expect(ownerLoop.executionMemory.gateSampleDownloadsBackoff.lastExplicitScanStatus).toBe(
+    localEventBridge.explicitDownloadsScan?.status ?? null,
+  )
+  expect(ownerLoop.executionMemory.gateSampleDownloadsBackoff.evidenceReadyNow).toBe(gateSampleEvidenceReadyNow)
+  if (gateSampleDownloadsCoolingDown) {
+    expect(collectGateSampleAction?.status).toBe('monitor')
+    expect(ownerLoop.ownerDecision.nextBestActionId).not.toBe('collect-gate-sample-downloads')
+
+    if (samplePlanFreshAfterDownloadsScan) {
+      expect(refreshSamplePlanAction?.status).toBe('monitor')
+      expect(ownerLoop.ownerDecision.nextBestActionId).not.toBe('refresh-product-gate-sample-plan')
+    }
+  }
   if (hasExecutableAlternativeOutsideRecent) {
     expect(recentExecutedActionIds).not.toContain(ownerLoop.ownerDecision.nextBestActionId)
     for (const actionId of recentExecutedActionIds) {
-      expect(ownerLoop.executionMemory.skippedRecentlyExecutedActionIds).toContain(actionId)
+      const executedAction = ownerLoop.safeAutonomousActions.find((action) => action.id === actionId)
+
+      if (executedAction && ['armed', 'ready-when-repository-pages-enabled'].includes(executedAction.status)) {
+        expect(ownerLoop.executionMemory.skippedRecentlyExecutedActionIds).toContain(actionId)
+      }
     }
   }
   if (hasExecutableAlternativeOutsideCovered) {

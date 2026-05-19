@@ -1,6 +1,6 @@
 # Event Ingest Smoke
 
-Generated: 2026-05-19T08:57:49.307Z
+Generated: 2026-05-19T09:11:58.748Z
 Status: pass
 
 ## Ingest
@@ -13,6 +13,8 @@ Status: pass
 - Incremental imported events: 1
 - Incremental duplicate events skipped: 12
 - Downloads opt-in copied files: 1
+- Downloads explicit scan: evidence-found
+- Follow-up preserved scan: evidence-found
 - Downloads gate-sample events: 3
 
 ## Analytics

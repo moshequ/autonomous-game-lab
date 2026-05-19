@@ -817,6 +817,22 @@ const gateSampleNeedsEvidence = gateSampleMissions.some((mission) =>
   mission.status === 'collecting-sample' ||
   ['waiting-for-player-export', 'inbox-ready-for-ingest'].includes(mission.evidence?.status),
 )
+const gateSampleEvidenceReadyNow =
+  (localEventBridge.gateSampleEvidence?.inbox?.events ?? 0) > 0 ||
+  (localEventBridge.gateSampleEvidence?.imported?.events ?? 0) > 0
+const gateSampleDownloadsBackoffHours = 4
+const explicitDownloadsScanAt = Date.parse(localEventBridge.explicitDownloadsScan?.scannedAt ?? '')
+const explicitDownloadsScanRecent =
+  Number.isFinite(explicitDownloadsScanAt) &&
+  Date.now() - explicitDownloadsScanAt < gateSampleDownloadsBackoffHours * 60 * 60 * 1000
+const gateSampleDownloadsScanCoolingDown =
+  explicitDownloadsScanRecent &&
+  localEventBridge.explicitDownloadsScan?.evidenceFound === false &&
+  !gateSampleEvidenceReadyNow
+const productGateSamplePlanFreshAfterDownloadsScan =
+  Number.isFinite(explicitDownloadsScanAt) &&
+  Number.isFinite(Date.parse(productGateSamplePlan.generatedAt ?? '')) &&
+  Date.parse(productGateSamplePlan.generatedAt) >= explicitDownloadsScanAt
 const gateSampleCollectionTargets = [
   productGateSamplePlan.summary?.primaryGateId ?? productGateRecovery.summary?.primaryBottleneck ?? 'product-gates',
   ...gateSampleMissions.map((mission) => mission.campaignId).filter(Boolean).slice(0, 2),
@@ -931,18 +947,25 @@ const safeAutonomousActions = [
   {
     id: 'collect-gate-sample-downloads',
     status:
-      productGateSamplePlan.status === 'product-gate-sample-plan-ready' && gateSampleNeedsEvidence
+      productGateSamplePlan.status === 'product-gate-sample-plan-ready' &&
+      gateSampleNeedsEvidence &&
+      !gateSampleDownloadsScanCoolingDown
         ? 'armed'
         : 'monitor',
     costUsd: 0,
     command: 'npm run autonomous:collect-sample-downloads',
     targets: gateSampleCollectionTargets,
-    reason:
-      'Opt-in scans local browser Downloads and the event inbox for real player exports, imports them, refreshes analytics and recovery, then regenerates the sample plan.',
+    reason: gateSampleDownloadsScanCoolingDown
+      ? `Recent explicit Downloads scan found no player exports; retry after ${gateSampleDownloadsBackoffHours} hours or when an inbox event drop appears.`
+      : 'Opt-in scans local browser Downloads and the event inbox for real player exports, imports them, refreshes analytics and recovery, then regenerates the sample plan.',
   },
   {
     id: 'refresh-product-gate-sample-plan',
-    status: productGateSamplePlan.status === 'product-gate-sample-plan-ready' ? 'armed' : 'monitor',
+    status:
+      productGateSamplePlan.status === 'product-gate-sample-plan-ready' &&
+      !(gateSampleDownloadsScanCoolingDown && productGateSamplePlanFreshAfterDownloadsScan)
+        ? 'armed'
+        : 'monitor',
     costUsd: 0,
     command: 'npm run autonomous:sample-plan',
     targets: [productGateSamplePlan.summary?.primaryGateId ?? productGateRecovery.summary?.primaryBottleneck ?? 'product-gates'],
@@ -1180,6 +1203,16 @@ const payload = {
     lastExecutedStatus: lastExecutedRecord?.execution?.status ?? null,
     lastRecordExecutionStatus: autonomousOperatorHistory.summary?.lastExecutionStatus ?? null,
     recentlySatisfiedActionIds,
+    gateSampleDownloadsBackoff: {
+      enabled: true,
+      cooldownHours: gateSampleDownloadsBackoffHours,
+      coolingDown: gateSampleDownloadsScanCoolingDown,
+      lastExplicitScanAt: Number.isFinite(explicitDownloadsScanAt)
+        ? localEventBridge.explicitDownloadsScan?.scannedAt
+        : null,
+      lastExplicitScanStatus: localEventBridge.explicitDownloadsScan?.status ?? null,
+      evidenceReadyNow: gateSampleEvidenceReadyNow,
+    },
     skippedRecentlyExecutedActionIds: executableNow
       .filter((action) => recentlyExecutedActionIds.has(action.id) && action.id !== nextBestAction.id)
       .map((action) => action.id),

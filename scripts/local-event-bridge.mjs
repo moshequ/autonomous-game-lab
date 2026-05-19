@@ -16,6 +16,10 @@ const exists = async (filePath) =>
   access(filePath)
     .then(() => true)
     .catch(() => false)
+const readOptionalJson = async (filePath, fallback) =>
+  readFile(filePath, 'utf8')
+    .then((raw) => JSON.parse(raw))
+    .catch(() => fallback)
 
 const hashText = (value) => crypto.createHash('sha256').update(value).digest('hex').slice(0, 16)
 const hashFile = async (filePath) => hashText(await readFile(filePath, 'utf8'))
@@ -236,13 +240,17 @@ await mkdir(path.dirname(outputJsonPath), { recursive: true })
 await mkdir(path.dirname(outputTsPath), { recursive: true })
 await mkdir(path.dirname(reportPath), { recursive: true })
 
+const previousBridge = await readOptionalJson(outputJsonPath, {})
 const directorySummaries = []
 const candidateFiles = []
 
 for (const { directory, role } of sourceDirectories) {
   const directoryExists = await exists(directory)
   const matchedFiles = directoryExists ? await listMatchingFiles(directory, filePattern) : []
-  const inspectedFiles = await Promise.all(matchedFiles.map(inspectEventFile))
+  const inspectedFiles = (await Promise.all(matchedFiles.map(inspectEventFile))).map((file) => ({
+    ...file,
+    sourceRole: role,
+  }))
 
   directorySummaries.push({
     path: relativeToRoot(directory),
@@ -259,9 +267,10 @@ for (const filePath of sourceFiles) {
   const fileName = path.basename(filePath)
   candidateFiles.push(
     filePattern.test(fileName)
-      ? await inspectEventFile(filePath)
+      ? { ...(await inspectEventFile(filePath)), sourceRole: 'configured-drop-file' }
       : {
           filePath,
+          sourceRole: 'configured-drop-file',
           exists: await exists(filePath),
           valid: false,
           events: 0,
@@ -290,6 +299,7 @@ for (const candidate of candidateFiles.filter((file) => file.valid)) {
   if (alreadyInInbox) {
     skippedFiles.push({
       sourcePath: relativeToRoot(sourcePath),
+      sourceRole: candidate.sourceRole,
       reason: 'already-in-inbox',
       events: candidate.events,
     })
@@ -299,6 +309,7 @@ for (const candidate of candidateFiles.filter((file) => file.valid)) {
   if (candidate.hash && inboxHashes.has(candidate.hash)) {
     skippedFiles.push({
       sourcePath: relativeToRoot(sourcePath),
+      sourceRole: candidate.sourceRole,
       reason: 'duplicate-inbox-batch',
       events: candidate.events,
     })
@@ -310,6 +321,7 @@ for (const candidate of candidateFiles.filter((file) => file.valid)) {
   inboxHashes.add(candidate.hash)
   copiedFiles.push({
     sourcePath: relativeToRoot(sourcePath),
+    sourceRole: candidate.sourceRole,
     targetPath: relativeToRoot(targetPath),
     events: candidate.events,
     hash: candidate.hash,
@@ -328,6 +340,24 @@ const gateSampleEvidence = {
   inbox: await summarizeGateSampleEvents(validInboxFiles),
   imported: await summarizeGateSampleEvents(validImportedBatches),
 }
+const generatedAt = new Date().toISOString()
+const downloadsDirectorySummary = directorySummaries.find((directory) => directory.role === 'downloads-opt-in')
+const copiedDownloadsFiles = copiedFiles.filter((file) => file.sourceRole === 'downloads-opt-in')
+const explicitDownloadsScan = downloadsImportEnabled
+  ? {
+      scannedAt: generatedAt,
+      status:
+        (downloadsDirectorySummary?.validEvents ?? 0) > 0 || copiedDownloadsFiles.length > 0
+          ? 'evidence-found'
+          : 'no-evidence-found',
+      directory: relativeToRoot(downloadsDir),
+      matchedFiles: downloadsDirectorySummary?.matchedFiles ?? 0,
+      validFiles: downloadsDirectorySummary?.validFiles ?? 0,
+      validEvents: downloadsDirectorySummary?.validEvents ?? 0,
+      copiedFiles: copiedDownloadsFiles.length,
+      evidenceFound: (downloadsDirectorySummary?.validEvents ?? 0) > 0 || copiedDownloadsFiles.length > 0,
+    }
+  : (previousBridge.explicitDownloadsScan ?? null)
 const status =
   copiedFiles.length || validInboxEvents
     ? 'bridge-ready-for-ingest'
@@ -336,7 +366,7 @@ const status =
       : 'bridge-waiting-for-export'
 
 const payload = {
-  generatedAt: new Date().toISOString(),
+  generatedAt,
   status,
   mode: 'local-zero-spend-event-drop-bridge',
   inbox: {
@@ -373,6 +403,7 @@ const payload = {
     recoveryCommand: 'npm run autonomous:gate-recovery',
     downloadsImportCommand,
   },
+  explicitDownloadsScan,
   gateSampleEvidence: {
     ...gateSampleEvidence,
     localEvidenceAvailable: gateSampleEvidence.imported.events > 0,
@@ -436,6 +467,7 @@ const report = [
   `- Imported events: ${payload.imported.events}`,
   `- Gate sample inbox events: ${payload.gateSampleEvidence.inbox.events}`,
   `- Gate sample imported events: ${payload.gateSampleEvidence.imported.events}`,
+  `- Last explicit Downloads scan: ${payload.explicitDownloadsScan?.status ?? 'none'}`,
   '',
   '## Gate Sample Evidence',
   '',

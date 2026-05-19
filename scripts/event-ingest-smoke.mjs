@@ -344,12 +344,35 @@ try {
   if (
     downloadsBridge.copiedFiles.length !== 1 ||
     downloadsBridge.controls.downloadsFolderImportEnabled !== true ||
+    downloadsBridge.explicitDownloadsScan?.status !== 'evidence-found' ||
+    downloadsBridge.explicitDownloadsScan?.evidenceFound !== true ||
+    downloadsBridge.explicitDownloadsScan?.copiedFiles !== 1 ||
     !downloadsBridge.sourceDirectories.some((directory) => directory.role === 'downloads-opt-in') ||
     downloadsBridge.gateSampleEvidence.inbox.events < downloadedGateSampleEvents.length ||
     downloadsBridge.gateSampleEvidence.inbox.campaigns[0]?.campaignId !==
       'gate-sample-smoke-firstGameCompletion'
   ) {
     fail(`Expected opt-in Downloads import to copy gate-sample evidence, got ${JSON.stringify(downloadsBridge)}`)
+  }
+
+  await run(process.execPath, ['scripts/local-event-bridge.mjs'], {
+    HOME: tempRoot,
+    AGL_EVENT_OUTPUT_DIR: outputDir,
+    AGL_EVENT_INBOX_DIR: inboxDir,
+    AGL_LOCAL_EVENT_BRIDGE_OUTPUT: bridgeOutput,
+    AGL_LOCAL_EVENT_BRIDGE_TS_OUTPUT: bridgeTsOutput,
+    AGL_LOCAL_EVENT_BRIDGE_REPORT: bridgeReport,
+  })
+
+  const followupBridge = JSON.parse(await readFile(bridgeOutput, 'utf8'))
+
+  if (
+    followupBridge.controls.downloadsFolderImportEnabled !== false ||
+    followupBridge.explicitDownloadsScan?.status !== 'evidence-found' ||
+    followupBridge.explicitDownloadsScan?.evidenceFound !== true ||
+    followupBridge.explicitDownloadsScan?.scannedAt !== downloadsBridge.explicitDownloadsScan.scannedAt
+  ) {
+    fail(`Expected non-download bridge run to preserve the last explicit Downloads scan, got ${JSON.stringify(followupBridge)}`)
   }
 
   const smoke = {
@@ -372,8 +395,17 @@ try {
     downloadsBridge: {
       copiedFiles: downloadsBridge.copiedFiles.length,
       downloadsImportEnabled: downloadsBridge.controls.downloadsFolderImportEnabled,
+      explicitScanStatus: downloadsBridge.explicitDownloadsScan.status,
+      explicitScanEvidenceFound: downloadsBridge.explicitDownloadsScan.evidenceFound,
+      explicitScanCopiedFiles: downloadsBridge.explicitDownloadsScan.copiedFiles,
       gateSampleEvents: downloadsBridge.gateSampleEvidence.inbox.events,
       campaignId: downloadsBridge.gateSampleEvidence.inbox.campaigns[0]?.campaignId,
+    },
+    followupBridge: {
+      downloadsImportEnabled: followupBridge.controls.downloadsFolderImportEnabled,
+      explicitScanStatus: followupBridge.explicitDownloadsScan.status,
+      explicitScanEvidenceFound: followupBridge.explicitDownloadsScan.evidenceFound,
+      preservedScanAt: followupBridge.explicitDownloadsScan.scannedAt,
     },
     ingest: {
       status: ingest.status,
@@ -425,6 +457,8 @@ try {
     `- Incremental imported events: ${smoke.incrementalIngest.importedEvents}`,
     `- Incremental duplicate events skipped: ${smoke.incrementalIngest.duplicateEvents}`,
     `- Downloads opt-in copied files: ${smoke.downloadsBridge.copiedFiles}`,
+    `- Downloads explicit scan: ${smoke.downloadsBridge.explicitScanStatus}`,
+    `- Follow-up preserved scan: ${smoke.followupBridge.explicitScanStatus}`,
     `- Downloads gate-sample events: ${smoke.downloadsBridge.gateSampleEvents}`,
     '',
     '## Analytics',

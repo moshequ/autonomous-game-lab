@@ -1,5 +1,5 @@
 export const repositoryBootstrap = {
-  "generatedAt": "2026-05-19T08:57:46.077Z",
+  "generatedAt": "2026-05-19T09:11:54.154Z",
   "status": "waiting-for-github-target",
   "mode": "plan-only",
   "envFiles": {
@@ -61,16 +61,34 @@ export const repositoryBootstrap = {
       "originRemote": null,
       "remoteRepository": null,
       "hasCommit": true,
-      "dirtyFiles": 3,
+      "dirtyFiles": 12,
       "dirtyPaths": [
+        "data/performance-budget.json",
+        "data/post-deploy-smoke.json",
+        "data/release-candidate.json",
         "data/repository-readiness.json",
+        "reports/performance-budget-latest.md",
+        "reports/post-deploy-smoke-latest.md",
+        "reports/release-candidate-latest.md",
         "reports/repository-readiness-latest.md",
+        "src/data/performanceBudget.ts",
+        "src/data/postDeploySmoke.ts",
+        "src/data/releaseCandidate.ts",
         "src/data/repositoryReadiness.ts"
       ],
-      "generatedEvidenceDirtyFiles": 3,
+      "generatedEvidenceDirtyFiles": 12,
       "generatedEvidenceDirtyPaths": [
+        "data/performance-budget.json",
+        "data/post-deploy-smoke.json",
+        "data/release-candidate.json",
         "data/repository-readiness.json",
+        "reports/performance-budget-latest.md",
+        "reports/post-deploy-smoke-latest.md",
+        "reports/release-candidate-latest.md",
         "reports/repository-readiness-latest.md",
+        "src/data/performanceBudget.ts",
+        "src/data/postDeploySmoke.ts",
+        "src/data/releaseCandidate.ts",
         "src/data/repositoryReadiness.ts"
       ],
       "nonGeneratedDirtyFiles": 0,
@@ -83,16 +101,34 @@ export const repositoryBootstrap = {
       "originRemote": null,
       "remoteRepository": null,
       "hasCommit": true,
-      "dirtyFiles": 3,
+      "dirtyFiles": 12,
       "dirtyPaths": [
+        "data/performance-budget.json",
+        "data/post-deploy-smoke.json",
+        "data/release-candidate.json",
         "data/repository-readiness.json",
+        "reports/performance-budget-latest.md",
+        "reports/post-deploy-smoke-latest.md",
+        "reports/release-candidate-latest.md",
         "reports/repository-readiness-latest.md",
+        "src/data/performanceBudget.ts",
+        "src/data/postDeploySmoke.ts",
+        "src/data/releaseCandidate.ts",
         "src/data/repositoryReadiness.ts"
       ],
-      "generatedEvidenceDirtyFiles": 3,
+      "generatedEvidenceDirtyFiles": 12,
       "generatedEvidenceDirtyPaths": [
+        "data/performance-budget.json",
+        "data/post-deploy-smoke.json",
+        "data/release-candidate.json",
         "data/repository-readiness.json",
+        "reports/performance-budget-latest.md",
+        "reports/post-deploy-smoke-latest.md",
+        "reports/release-candidate-latest.md",
         "reports/repository-readiness-latest.md",
+        "src/data/performanceBudget.ts",
+        "src/data/postDeploySmoke.ts",
+        "src/data/releaseCandidate.ts",
         "src/data/repositoryReadiness.ts"
       ],
       "nonGeneratedDirtyFiles": 0,
@@ -114,7 +150,7 @@ export const repositoryBootstrap = {
     "repositoryReadiness": "waiting-for-github-repository",
     "deployment": "ready-for-pages",
     "releaseCandidate": "release-candidate-ready",
-    "releaseCandidateId": "pwa-fbd320ad2abd",
+    "releaseCandidateId": "pwa-7dff6529eb87",
     "postDeploySmoke": "blocked-missing-origin"
   },
   "execution": {
@@ -174,7 +210,7 @@ export const repositoryBootstrap = {
       "mutatesLocalGit": true,
       "mutatesRemoteGitHub": false,
       "requiresExplicitEnv": true,
-      "detail": "3 repository evidence file(s) changed during this dry run; the outer verified commit will persist them."
+      "detail": "12 repository evidence file(s) changed during this dry run; the outer verified commit will persist them."
     },
     {
       "id": "set-or-create-origin",

@@ -1,5 +1,5 @@
 export const repositoryReadiness = {
-  "generatedAt": "2026-05-19T08:57:45.659Z",
+  "generatedAt": "2026-05-19T09:11:53.565Z",
   "status": "waiting-for-github-repository",
   "envFiles": {
     "loaded": true,
@@ -56,10 +56,30 @@ export const repositoryReadiness = {
     "insideWorkTree": true,
     "gitRoot": "/Users/moshequ/Documents/Codex/2026-05-18/i-want-to-have-a-new",
     "currentBranch": "main",
-    "dirtyFiles": 0,
-    "dirtyPaths": [],
-    "generatedEvidenceDirtyFiles": 0,
-    "generatedEvidenceDirtyPaths": [],
+    "dirtyFiles": 9,
+    "dirtyPaths": [
+      "data/performance-budget.json",
+      "data/post-deploy-smoke.json",
+      "data/release-candidate.json",
+      "reports/performance-budget-latest.md",
+      "reports/post-deploy-smoke-latest.md",
+      "reports/release-candidate-latest.md",
+      "src/data/performanceBudget.ts",
+      "src/data/postDeploySmoke.ts",
+      "src/data/releaseCandidate.ts"
+    ],
+    "generatedEvidenceDirtyFiles": 9,
+    "generatedEvidenceDirtyPaths": [
+      "data/performance-budget.json",
+      "data/post-deploy-smoke.json",
+      "data/release-candidate.json",
+      "reports/performance-budget-latest.md",
+      "reports/post-deploy-smoke-latest.md",
+      "reports/release-candidate-latest.md",
+      "src/data/performanceBudget.ts",
+      "src/data/postDeploySmoke.ts",
+      "src/data/releaseCandidate.ts"
+    ],
     "nonGeneratedDirtyFiles": 0,
     "nonGeneratedDirtyPaths": []
   },
@@ -80,7 +100,7 @@ export const repositoryReadiness = {
     "workflowExists": true,
     "deployWorkflowIncludesSmoke": true,
     "deploymentStatus": "ready-for-pages",
-    "releaseCandidateId": "pwa-fbd320ad2abd",
+    "releaseCandidateId": "pwa-7dff6529eb87",
     "postDeploySmokeStatus": "blocked-missing-origin"
   },
   "controls": {

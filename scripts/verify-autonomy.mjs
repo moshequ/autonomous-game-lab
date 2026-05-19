@@ -314,6 +314,7 @@ const postDeploySmokeSource = await readFile(path.join(root, 'scripts', 'post-de
 const repositoryReadinessSource = await readFile(path.join(root, 'scripts', 'repository-readiness.mjs'), 'utf8')
 const repositoryBootstrapSource = await readFile(path.join(root, 'scripts', 'repository-bootstrap.mjs'), 'utf8')
 const autonomousOperatorSource = await readFile(path.join(root, 'scripts', 'autonomous-operator.mjs'), 'utf8')
+const autonomousOwnerLoopSource = await readFile(path.join(root, 'scripts', 'autonomous-owner-loop.mjs'), 'utf8')
 const autonomousSelfUpdateSource = await readFile(path.join(root, 'scripts', 'autonomous-self-update.mjs'), 'utf8')
 const localEventBridgeSource = await readFile(path.join(root, 'scripts', 'local-event-bridge.mjs'), 'utf8')
 const productGateSamplePlanSource = await readFile(
@@ -431,6 +432,19 @@ if (
   fail('Event ingestor must publish local player-event import status and source directories.')
 }
 
+const localExplicitDownloadsScan = localEventBridge.explicitDownloadsScan
+const localEventBridgeHasExplicitDownloadsScan = Object.hasOwn(localEventBridge, 'explicitDownloadsScan')
+const localExplicitDownloadsScanValid =
+  localExplicitDownloadsScan === null ||
+  (typeof localExplicitDownloadsScan === 'object' &&
+    typeof localExplicitDownloadsScan.scannedAt === 'string' &&
+    ['evidence-found', 'no-evidence-found'].includes(localExplicitDownloadsScan.status) &&
+    typeof localExplicitDownloadsScan.matchedFiles === 'number' &&
+    typeof localExplicitDownloadsScan.validFiles === 'number' &&
+    typeof localExplicitDownloadsScan.validEvents === 'number' &&
+    typeof localExplicitDownloadsScan.copiedFiles === 'number' &&
+    typeof localExplicitDownloadsScan.evidenceFound === 'boolean')
+
 if (
   !['bridge-ready-for-ingest', 'bridge-local-events-active', 'bridge-waiting-for-export'].includes(
     localEventBridge.status,
@@ -450,10 +464,14 @@ if (
   localEventBridge.controls?.downloadsFolderRequiresExplicitEnv !== true ||
   typeof localEventBridge.gateSampleEvidence?.imported?.events !== 'number' ||
   typeof localEventBridge.gateSampleEvidence?.inbox?.events !== 'number' ||
+  !localEventBridgeHasExplicitDownloadsScan ||
+  !localExplicitDownloadsScanValid ||
   !Array.isArray(localEventBridge.sourceDirectories) ||
   !localEventBridge.sourceDirectories.some((directory) => directory.role === 'inbox') ||
   !localEventBridgeSource.includes('AGL_LOCAL_EVENT_IMPORT_DOWNLOADS') ||
   !localEventBridgeSource.includes('downloads-opt-in') ||
+  !localEventBridgeSource.includes('explicitDownloadsScan') ||
+  !localEventBridgeSource.includes('previousBridge') ||
   !localEventBridgeSource.includes('AGL_LOCAL_EVENT_DROP_DIRS') ||
   !localEventBridgeSource.includes('copyFile') ||
   !appSource.includes('Local Event Bridge')
@@ -486,6 +504,12 @@ if (
   !eventIngestSmoke.bridge?.downloadsOptInCommand?.includes('AGL_LOCAL_EVENT_IMPORT_DOWNLOADS=true') ||
   eventIngestSmoke.downloadsBridge?.copiedFiles !== 1 ||
   eventIngestSmoke.downloadsBridge?.downloadsImportEnabled !== true ||
+  eventIngestSmoke.downloadsBridge?.explicitScanStatus !== 'evidence-found' ||
+  eventIngestSmoke.downloadsBridge?.explicitScanEvidenceFound !== true ||
+  eventIngestSmoke.downloadsBridge?.explicitScanCopiedFiles !== 1 ||
+  eventIngestSmoke.followupBridge?.downloadsImportEnabled !== false ||
+  eventIngestSmoke.followupBridge?.explicitScanStatus !== 'evidence-found' ||
+  eventIngestSmoke.followupBridge?.explicitScanEvidenceFound !== true ||
   eventIngestSmoke.downloadsBridge?.gateSampleEvents < 3 ||
   eventIngestSmoke.downloadsBridge?.campaignId !== 'gate-sample-smoke-firstGameCompletion' ||
   eventIngestSmoke.ingest?.status !== 'imported' ||
@@ -3514,6 +3538,29 @@ const ownerHasExecutableAlternativeOutsideCovered = (autonomousOwnerLoop.safeAut
     ['armed', 'ready-when-repository-pages-enabled'].includes(action.status) &&
     !ownerRecentlyCoveredActionIds.has(action.id),
 )
+const ownerGateSampleBackoff = autonomousOwnerLoop.executionMemory?.gateSampleDownloadsBackoff
+const ownerGateSampleEvidenceReadyNow =
+  (localEventBridge.gateSampleEvidence?.inbox?.events ?? 0) > 0 ||
+  (localEventBridge.gateSampleEvidence?.imported?.events ?? 0) > 0
+const ownerExplicitDownloadsScanAt = Date.parse(localEventBridge.explicitDownloadsScan?.scannedAt ?? '')
+const ownerGateSampleDownloadsBackoffHours = 4
+const ownerExplicitDownloadsScanRecent =
+  Number.isFinite(ownerExplicitDownloadsScanAt) &&
+  Date.now() - ownerExplicitDownloadsScanAt < ownerGateSampleDownloadsBackoffHours * 60 * 60 * 1000
+const ownerGateSampleDownloadsCoolingDown =
+  ownerExplicitDownloadsScanRecent &&
+  localEventBridge.explicitDownloadsScan?.evidenceFound === false &&
+  !ownerGateSampleEvidenceReadyNow
+const ownerProductGateSamplePlanFreshAfterDownloadsScan =
+  Number.isFinite(ownerExplicitDownloadsScanAt) &&
+  Number.isFinite(Date.parse(productGateSamplePlan.generatedAt ?? '')) &&
+  Date.parse(productGateSamplePlan.generatedAt) >= ownerExplicitDownloadsScanAt
+const ownerCollectGateSampleAction = autonomousOwnerLoop.safeAutonomousActions?.find(
+  (action) => action.id === 'collect-gate-sample-downloads',
+)
+const ownerRefreshSamplePlanAction = autonomousOwnerLoop.safeAutonomousActions?.find(
+  (action) => action.id === 'refresh-product-gate-sample-plan',
+)
 
 if (
   autonomousOwnerLoop.status !== 'owner-loop-ready' ||
@@ -3560,6 +3607,14 @@ if (
   autonomousOwnerLoop.executionMemory?.lastExecutedActionId !== ownerLastExecutedActionId ||
   autonomousOwnerLoop.executionMemory?.lastExecutedStatus !== ownerLastExecutedStatus ||
   autonomousOwnerLoop.executionMemory?.lastRecordExecutionStatus !== ownerLastRecordExecutionStatus ||
+  ownerGateSampleBackoff?.enabled !== true ||
+  ownerGateSampleBackoff?.cooldownHours !== ownerGateSampleDownloadsBackoffHours ||
+  ownerGateSampleBackoff?.coolingDown !== ownerGateSampleDownloadsCoolingDown ||
+  ownerGateSampleBackoff?.lastExplicitScanAt !==
+    (Number.isFinite(ownerExplicitDownloadsScanAt) ? localEventBridge.explicitDownloadsScan?.scannedAt : null) ||
+  ownerGateSampleBackoff?.lastExplicitScanStatus !== (localEventBridge.explicitDownloadsScan?.status ?? null) ||
+  ownerGateSampleBackoff?.evidenceReadyNow !== ownerGateSampleEvidenceReadyNow ||
+  !autonomousOwnerLoopSource.includes('gateSampleDownloadsBackoff') ||
   JSON.stringify(autonomousOwnerLoop.executionMemory?.recentExecutedActionIds ?? []) !==
     JSON.stringify(ownerRecentExecutedActionIds) ||
   JSON.stringify(autonomousOwnerLoop.executionMemory?.recentlySatisfiedActionIds ?? []) !==
@@ -3585,7 +3640,16 @@ if (
     ownerHasExecutableAlternativeOutsideCovered &&
     !ownerRecentlySatisfiedExecutableActionIds.every((actionId) =>
       autonomousOwnerLoop.executionMemory?.skippedRecentlySatisfiedActionIds?.includes(actionId),
-    ))
+    )) ||
+  (ownerGateSampleDownloadsCoolingDown && ownerCollectGateSampleAction?.status !== 'monitor') ||
+  (ownerGateSampleDownloadsCoolingDown &&
+    autonomousOwnerLoop.ownerDecision?.nextBestActionId === 'collect-gate-sample-downloads') ||
+  (ownerGateSampleDownloadsCoolingDown &&
+    ownerProductGateSamplePlanFreshAfterDownloadsScan &&
+    ownerRefreshSamplePlanAction?.status !== 'monitor') ||
+  (ownerGateSampleDownloadsCoolingDown &&
+    ownerProductGateSamplePlanFreshAfterDownloadsScan &&
+    autonomousOwnerLoop.ownerDecision?.nextBestActionId === 'refresh-product-gate-sample-plan')
 ) {
   fail('Autonomous owner loop must synthesize current production state, safe actions, and credential-gated blockers.')
 }
