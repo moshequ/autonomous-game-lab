@@ -1,23 +1,24 @@
 {
-  "generatedAt": "2026-05-19T16:54:23.815Z",
+  "generatedAt": "2026-05-19T17:10:34.950Z",
   "status": "operator-plan-ready",
   "mode": "plan-only",
   "ownerDecision": {
-    "actionId": "refresh-autonomous-cadence",
-    "command": "npm run autonomous:cadence",
+    "actionId": "collect-gate-sample-downloads",
+    "command": "npm run autonomous:collect-sample-downloads",
     "locallyExecutable": true,
     "rejectionReason": null
   },
   "requestedActionId": null,
   "selectedAction": {
-    "id": "refresh-autonomous-cadence",
+    "id": "collect-gate-sample-downloads",
     "status": "armed",
-    "command": "npm run autonomous:cadence",
+    "command": "npm run autonomous:collect-sample-downloads",
     "targets": [
-      "autonomous-game-lab-daily-owner-loop",
-      ".github/workflows/autonomous-daily.yml"
+      "firstGameCompletion",
+      "gate-sample-20260519-firstGameCompletion",
+      "gate-sample-20260519-replayRate"
     ],
-    "reason": "Keeps the unattended daily operating cadence, recovery policy, and verification chain auditable.",
+    "reason": "Opt-in scans local browser Downloads and the event inbox for real player exports, imports them, refreshes analytics and recovery, then regenerates the sample plan.",
     "costUsd": 0
   },
   "selectedRejection": null,
@@ -32,6 +33,8 @@
     "prepare-release-candidate",
     "optimize-product-gates",
     "refresh-product-gate-recovery",
+    "collect-gate-sample-downloads",
+    "refresh-product-gate-sample-plan",
     "refresh-first-move-coach",
     "refresh-completion-loop",
     "refresh-replay-loop",
@@ -48,6 +51,12 @@
       "status": "armed",
       "command": "npm run autonomous:daily",
       "reason": "daily-loop-recursion-blocked"
+    },
+    {
+      "id": "refresh-autonomous-cadence",
+      "status": "armed",
+      "command": "npm run autonomous:cadence",
+      "reason": "not-selected-this-run"
     },
     {
       "id": "refresh-autonomous-self-update",
@@ -110,16 +119,10 @@
       "reason": "not-selected-this-run"
     },
     {
-      "id": "collect-gate-sample-downloads",
-      "status": "monitor",
-      "command": "npm run autonomous:collect-sample-downloads",
-      "reason": "status-monitor"
-    },
-    {
       "id": "refresh-product-gate-sample-plan",
-      "status": "monitor",
+      "status": "armed",
       "command": "npm run autonomous:sample-plan",
-      "reason": "status-monitor"
+      "reason": "not-selected-this-run"
     },
     {
       "id": "refresh-first-move-coach",
@@ -202,8 +205,8 @@
   ],
   "commandPlan": [
     {
-      "segment": "npm run autonomous:cadence",
-      "script": "autonomous:cadence"
+      "segment": "npm run autonomous:collect-sample-downloads",
+      "script": "autonomous:collect-sample-downloads"
     }
   ],
   "execution": {
@@ -269,7 +272,7 @@
     "RUN_WORKFLOWS=1"
   ],
   "nextActions": [
-    "Run npm run autonomous:operator -- --execute --action=refresh-autonomous-cadence to execute exactly one allowed local action.",
+    "Run npm run autonomous:operator -- --execute --action=collect-gate-sample-downloads to execute exactly one allowed local action.",
     "Do not execute GitHub workflow, store, paid ads, or account setup commands from the local operator."
   ]
 }
