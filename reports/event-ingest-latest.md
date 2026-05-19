@@ -1,6 +1,6 @@
 # Event Ingest
 
-Generated: 2026-05-19T14:18:25.248Z
+Generated: 2026-05-19T14:20:55.477Z
 Status: idle-no-files
 Output directory: data/player-events
 
