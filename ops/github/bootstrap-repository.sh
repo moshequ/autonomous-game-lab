@@ -9,23 +9,38 @@ fi
 default_branch="${AGL_DEFAULT_BRANCH:-main}"
 target_repo="${GITHUB_REPOSITORY:-${GH_REPO:-}}"
 
+ensure_git_identity() {
+  if ! git config user.name >/dev/null 2>&1; then
+    git config user.name "${AGL_GIT_AUTHOR_NAME:-Autonomous Game Lab Operator}"
+  fi
+  if ! git config user.email >/dev/null 2>&1; then
+    git config user.email "${AGL_GIT_AUTHOR_EMAIL:-autonomous-game-lab@example.invalid}"
+  fi
+}
+
+commit_current_snapshot() {
+  local message="$1"
+  if [[ -n "$(git status --short)" ]]; then
+    ensure_git_identity
+    git add .
+    git commit -m "$message"
+  else
+    echo "working tree already has a clean committed snapshot"
+  fi
+}
+
 if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
   git init -b "$default_branch" 2>/dev/null || git init
 fi
 
 if ! git rev-parse --verify HEAD >/dev/null 2>&1; then
   if [[ "${AGL_ALLOW_INITIAL_COMMIT:-0}" == "1" ]]; then
-    if ! git config user.name >/dev/null 2>&1; then
-      git config user.name "${AGL_GIT_AUTHOR_NAME:-Autonomous Game Lab Operator}"
-    fi
-    if ! git config user.email >/dev/null 2>&1; then
-      git config user.email "${AGL_GIT_AUTHOR_EMAIL:-autonomous-game-lab@example.invalid}"
-    fi
-    git add .
-    git commit -m "${AGL_INITIAL_COMMIT_MESSAGE:-Initial autonomous game lab snapshot}"
+    commit_current_snapshot "${AGL_INITIAL_COMMIT_MESSAGE:-Initial autonomous game lab snapshot}"
   else
     echo "skip initial commit: set AGL_ALLOW_INITIAL_COMMIT=1 to commit the current snapshot"
   fi
+elif [[ "${AGL_ALLOW_SNAPSHOT_COMMIT:-0}" == "1" ]]; then
+  commit_current_snapshot "${AGL_SNAPSHOT_COMMIT_MESSAGE:-Refresh autonomous production snapshot}"
 fi
 
 if [[ -n "$target_repo" && "${AGL_ALLOW_ORIGIN_REMOTE:-0}" == "1" ]]; then
@@ -63,6 +78,10 @@ if [[ "${AGL_ALLOW_GITHUB_REPO_CREATE:-0}" == "1" ]]; then
   else
     create_args=("$target_repo" "--$visibility" "--source=." "--remote=origin")
     if [[ "${AGL_ALLOW_PUSH:-0}" == "1" ]]; then
+      if [[ -n "$(git status --short)" ]]; then
+        echo "working tree has uncommitted changes; set AGL_ALLOW_SNAPSHOT_COMMIT=1 before push." >&2
+        exit 1
+      fi
       create_args+=("--push")
     fi
     gh repo create "${create_args[@]}"
@@ -77,6 +96,11 @@ if [[ "${AGL_ALLOW_PUSH:-0}" == "1" ]]; then
 
   if ! git rev-parse --verify HEAD >/dev/null 2>&1; then
     echo "a local commit is required before push." >&2
+    exit 1
+  fi
+
+  if [[ -n "$(git status --short)" ]]; then
+    echo "working tree has uncommitted changes; set AGL_ALLOW_SNAPSHOT_COMMIT=1 before push." >&2
     exit 1
   fi
 

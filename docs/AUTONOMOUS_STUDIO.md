@@ -191,7 +191,7 @@ Core KPIs:
 - `npm run autonomous:release-candidate` records the content-hashed production build inventory, required files, cache guidance, and post-deploy smoke plan.
 - `npm run autonomous:post-deploy-smoke` checks a deployed Pages origin from `AGL_DEPLOYED_PWA_ORIGIN` and compares the live release manifest against the local candidate hash.
 - `npm run autonomous:repo-readiness` checks the git/GitHub Pages deployment channel without mutating git, creating repositories, or dispatching workflows.
-- `npm run autonomous:repo-bootstrap` writes the guarded repository transport plan; add `-- --apply-local-git` only when local git initialization should be applied.
+- `npm run autonomous:repo-bootstrap` writes the guarded repository transport plan; add `-- --apply-local-git` only when local git initialization should be applied. Snapshot commits, origin attach, GitHub repository creation, and push require explicit `AGL_ALLOW_*` gates, and push refuses dirty generated evidence.
 - `npm run autonomous:product-optimize` consumes product-gate evidence, applies one guarded target-score step when safe, records history, and keeps completion/replay runtime improvement loops armed.
 - `npm run autonomous:completion-loop` publishes the optional mid-run completion nudge policy with completion_nudge_viewed/clicked/dismissed telemetry and no forced tutorial, auto move, or paid reward.
 - `npm run autonomous:replay-loop` publishes the optional after-completion replay prompt policy with replay_prompt_viewed/clicked/dismissed telemetry and no forced restart or paid reward.

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-19T01:24:28.405Z",
+  "generatedAt": "2026-05-19T01:28:43.377Z",
   "environment": {
     "status": "production-env-missing",
     "publicOrigin": null,
@@ -75,7 +75,7 @@
         "originRemote": null,
         "remoteRepository": null,
         "hasCommit": true,
-        "dirtyFiles": 35
+        "dirtyFiles": 17
       },
       "after": {
         "insideWorkTree": true,
@@ -84,7 +84,7 @@
         "originRemote": null,
         "remoteRepository": null,
         "hasCommit": true,
-        "dirtyFiles": 35
+        "dirtyFiles": 17
       }
     },
     "repository": {
@@ -98,6 +98,7 @@
       "localGitMutationRequiresExplicitFlag": true,
       "remoteGitHubMutationRequiresExplicitEnv": true,
       "initialCommitRequiresExplicitEnv": true,
+      "snapshotCommitRequiresExplicitEnv": true,
       "pushRequiresExplicitEnv": true,
       "noWorkflowDispatch": true,
       "noAccountCreation": true,
@@ -111,6 +112,7 @@
       "requiresEnv": "AGL_ALLOW_REPOSITORY_BOOTSTRAP=1",
       "canInitializeLocalGit": true,
       "canCreateInitialCommit": true,
+      "canCommitCurrentSnapshot": true,
       "canAttachOrigin": true,
       "canCreateGithubRepository": true,
       "canPush": true,
@@ -147,6 +149,16 @@
         "detail": "The local repository has at least one commit."
       },
       {
+        "id": "commit-current-snapshot",
+        "status": "ready-for-explicit-snapshot-commit",
+        "costUsd": 0,
+        "command": "AGL_ALLOW_REPOSITORY_BOOTSTRAP=1 AGL_ALLOW_SNAPSHOT_COMMIT=1 ./ops/github/bootstrap-repository.sh",
+        "mutatesLocalGit": true,
+        "mutatesRemoteGitHub": false,
+        "requiresExplicitEnv": true,
+        "detail": "17 generated or source file(s) are not committed yet."
+      },
+      {
         "id": "set-or-create-origin",
         "status": "waiting-for-github-target",
         "costUsd": 0,
@@ -174,10 +186,11 @@
         "mutatesLocalGit": false,
         "mutatesRemoteGitHub": true,
         "requiresExplicitEnv": true,
-        "detail": "Push stays held until a local commit and origin remote exist."
+        "detail": "Push stays held until a committed local snapshot and origin remote exist."
       }
     ],
     "blockers": [
+      "Commit current generated changes before pushing to GitHub Pages.",
       "Set GITHUB_REPOSITORY or GH_REPO to the intended owner/repo.",
       "Attach a GitHub origin remote or create the target repository.",
       "Authenticate GitHub CLI or provide GH_TOKEN/GITHUB_TOKEN for remote repository bootstrap."
@@ -276,7 +289,7 @@
       {
         "id": "performance-budget",
         "status": "pass",
-        "detail": "Performance budget is performance-budget-ready; initial JS 645.7 KB / 172.5 KB gzip; deferred game chunk GameCanvas-CCvt-fJi.js."
+        "detail": "Performance budget is performance-budget-ready; initial JS 645.7 KB / 172.5 KB gzip; deferred game chunk GameCanvas-BR9yX-hr.js."
       },
       {
         "id": "release-candidate",
@@ -321,7 +334,7 @@
       {
         "id": "production-bootstrap",
         "status": "pass",
-        "detail": "Production bootstrap is production-bootstrap-ready; mode waiting-for-external-credentials; external blockers 26."
+        "detail": "Production bootstrap is production-bootstrap-ready; mode waiting-for-external-credentials; external blockers 27."
       },
       {
         "id": "autonomous-operator",
@@ -742,20 +755,20 @@
     },
     "initial": {
       "entryScripts": [
-        "index-B7OApyAN.js",
+        "index-DV1riHOp.js",
         "registerSW.js"
       ],
       "scriptPaths": [
-        "assets/index-B7OApyAN.js",
+        "assets/index-DV1riHOp.js",
         "registerSW.js"
       ],
       "jsFiles": [
         {
-          "file": "index-B7OApyAN.js",
-          "path": "assets/index-B7OApyAN.js",
-          "bytes": 661030,
+          "file": "index-DV1riHOp.js",
+          "path": "assets/index-DV1riHOp.js",
+          "bytes": 661037,
           "kb": 645.5,
-          "gzipBytes": 176542,
+          "gzipBytes": 176541,
           "gzipKb": 172.4
         },
         {
@@ -767,9 +780,9 @@
           "gzipKb": 0.1
         }
       ],
-      "jsBytes": 661164,
+      "jsBytes": 661171,
       "jsKb": 645.7,
-      "gzipBytes": 176668,
+      "gzipBytes": 176667,
       "gzipKb": 172.5,
       "cssFiles": [
         {
@@ -789,8 +802,8 @@
     "deferred": {
       "chunks": [
         {
-          "file": "GameCanvas-CCvt-fJi.js",
-          "path": "assets/GameCanvas-CCvt-fJi.js",
+          "file": "GameCanvas-BR9yX-hr.js",
+          "path": "assets/GameCanvas-BR9yX-hr.js",
           "bytes": 1393468,
           "kb": 1360.8,
           "gzipBytes": 356094,
@@ -798,24 +811,24 @@
         }
       ],
       "gameChunk": {
-        "file": "GameCanvas-CCvt-fJi.js",
-        "path": "assets/GameCanvas-CCvt-fJi.js",
+        "file": "GameCanvas-BR9yX-hr.js",
+        "path": "assets/GameCanvas-BR9yX-hr.js",
         "bytes": 1393468,
         "kb": 1360.8,
         "gzipBytes": 356094,
         "gzipKb": 347.7
       },
       "largestDeferredChunk": {
-        "file": "GameCanvas-CCvt-fJi.js",
-        "path": "assets/GameCanvas-CCvt-fJi.js",
+        "file": "GameCanvas-BR9yX-hr.js",
+        "path": "assets/GameCanvas-BR9yX-hr.js",
         "bytes": 1393468,
         "kb": 1360.8,
         "gzipBytes": 356094,
         "gzipKb": 347.7
       },
       "largestJsChunk": {
-        "file": "GameCanvas-CCvt-fJi.js",
-        "path": "assets/GameCanvas-CCvt-fJi.js",
+        "file": "GameCanvas-BR9yX-hr.js",
+        "path": "assets/GameCanvas-BR9yX-hr.js",
         "bytes": 1393468,
         "kb": 1360.8,
         "gzipBytes": 356094,
@@ -861,12 +874,12 @@
       {
         "id": "game-runtime-deferred",
         "status": "pass",
-        "detail": "GameCanvas-CCvt-fJi.js is deferred from the initial shell."
+        "detail": "GameCanvas-BR9yX-hr.js is deferred from the initial shell."
       },
       {
         "id": "largest-js-deferred",
         "status": "pass",
-        "detail": "Largest JS chunk is GameCanvas-CCvt-fJi.js at 1360.8 KB."
+        "detail": "Largest JS chunk is GameCanvas-BR9yX-hr.js at 1360.8 KB."
       },
       {
         "id": "deferred-game-budget",
@@ -877,7 +890,7 @@
   },
   "releaseCandidate": {
     "status": "release-candidate-ready",
-    "candidateId": "pwa-7a411483bcd0",
+    "candidateId": "pwa-bb839e809e0f",
     "target": {
       "provider": "github-pages",
       "artifactPath": "dist",
@@ -888,7 +901,7 @@
     },
     "summary": {
       "totalFiles": 38,
-      "totalBytes": 3646854,
+      "totalBytes": 3646861,
       "totalKb": 3561.4,
       "assetFiles": 3,
       "htmlFiles": 13,
@@ -898,7 +911,7 @@
     },
     "integrity": {
       "algorithm": "sha256",
-      "aggregateHash": "7a411483bcd0114a5b861c7220ae0f5b85da83a934a2e7a1e8381a19bab2e12c",
+      "aggregateHash": "bb839e809e0f651719166a4c33d19e7daf6bfe92220650982324deb0d2aa70b9",
       "requiredFileChecks": [
         {
           "path": "index.html",
@@ -1062,8 +1075,8 @@
     "target": {
       "origin": null,
       "provider": "github-pages",
-      "candidateId": "pwa-7a411483bcd0",
-      "aggregateHash": "7a411483bcd0114a5b861c7220ae0f5b85da83a934a2e7a1e8381a19bab2e12c"
+      "candidateId": "pwa-bb839e809e0f",
+      "aggregateHash": "bb839e809e0f651719166a4c33d19e7daf6bfe92220650982324deb0d2aa70b9"
     },
     "sourceStatus": {
       "deployment": "ready-for-pages",
@@ -1153,7 +1166,7 @@
         "path": "/release-candidate.json",
         "url": "${DEPLOYED_PWA_ORIGIN}/release-candidate.json",
         "expectedStatus": 200,
-        "requiredText": "pwa-7a411483bcd0",
+        "requiredText": "pwa-bb839e809e0f",
         "status": "blocked",
         "detail": "No deployed origin configured."
       }
@@ -1701,7 +1714,7 @@
       "totalVariables": 22,
       "configuredSecrets": 0,
       "totalSecrets": 8,
-      "externalBlockers": 26
+      "externalBlockers": 27
     },
     "controls": {
       "zeroSpendGuard": true,
@@ -1743,6 +1756,7 @@
         "command": "npm run autonomous:repo-bootstrap",
         "evidence": "Repository bootstrap waiting-for-github-target; helper ops/github/bootstrap-repository.sh; local git ready.",
         "requires": [
+          "Commit current generated changes before pushing to GitHub Pages.",
           "Set GITHUB_REPOSITORY or GH_REPO to the intended owner/repo.",
           "Attach a GitHub origin remote or create the target repository.",
           "Authenticate GitHub CLI or provide GH_TOKEN/GITHUB_TOKEN for remote repository bootstrap."
@@ -1916,6 +1930,10 @@
       {
         "source": "repository-readiness",
         "blocker": "Configure GH_TOKEN or GITHUB_TOKEN for workflow dispatch and repository settings sync."
+      },
+      {
+        "source": "repository-bootstrap",
+        "blocker": "Commit current generated changes before pushing to GitHub Pages."
       },
       {
         "source": "repository-bootstrap",
@@ -2414,7 +2432,7 @@
       "met": 5,
       "prepared": 2,
       "incomplete": 1,
-      "externalBlockers": 23,
+      "externalBlockers": 24,
       "productBlockers": 6
     },
     "controls": {
@@ -2516,6 +2534,7 @@
         "blockers": [
           "Add a GitHub origin remote or set GITHUB_REPOSITORY/GH_REPO.",
           "Configure GH_TOKEN or GITHUB_TOKEN for workflow dispatch and repository settings sync.",
+          "Commit current generated changes before pushing to GitHub Pages.",
           "Set GITHUB_REPOSITORY or GH_REPO to the intended owner/repo.",
           "Attach a GitHub origin remote or create the target repository.",
           "Authenticate GitHub CLI or provide GH_TOKEN/GITHUB_TOKEN for remote repository bootstrap.",

@@ -2421,11 +2421,13 @@ if (
   repositoryBootstrap.controls?.localGitMutationRequiresExplicitFlag !== true ||
   repositoryBootstrap.controls?.remoteGitHubMutationRequiresExplicitEnv !== true ||
   repositoryBootstrap.controls?.initialCommitRequiresExplicitEnv !== true ||
+  repositoryBootstrap.controls?.snapshotCommitRequiresExplicitEnv !== true ||
   repositoryBootstrap.controls?.pushRequiresExplicitEnv !== true ||
   repositoryBootstrap.controls?.noWorkflowDispatch !== true ||
   repositoryBootstrap.helper?.path !== 'ops/github/bootstrap-repository.sh' ||
   repositoryBootstrap.helper?.noWorkflowDispatch !== true ||
   !repositoryBootstrap.actions?.some((action) => action.id === 'initialize-local-git') ||
+  !repositoryBootstrap.actions?.some((action) => action.id === 'commit-current-snapshot') ||
   !repositoryBootstrap.actions?.some((action) => action.id === 'create-github-repository') ||
   !repositoryBootstrap.actions?.some((action) => action.id === 'push-initial-snapshot') ||
   (repositoryBootstrap.status === 'repository-bootstrap-ready' &&
@@ -2435,7 +2437,10 @@ if (
   packageJson.scripts?.['autonomous:daily']?.includes('autonomous:repo-bootstrap') !== true ||
   !repositoryBootstrapSource.includes('localGitMutationRequiresExplicitFlag') ||
   !repositoryBootstrapSource.includes('remoteGitHubMutationRequiresExplicitEnv') ||
+  !repositoryBootstrapSource.includes('snapshotCommitRequiresExplicitEnv') ||
   !repositoryBootstrapSource.includes('AGL_ALLOW_LOCAL_GIT_BOOTSTRAP') ||
+  !githubRepositoryBootstrapScript.includes('AGL_ALLOW_SNAPSHOT_COMMIT') ||
+  !githubRepositoryBootstrapScript.includes('working tree has uncommitted changes') ||
   !githubRepositoryBootstrapScript.includes('No workflows were dispatched') ||
   githubRepositoryBootstrapScript.includes('RUN_WORKFLOWS') ||
   !appSource.includes('Repository Bootstrap')

@@ -531,6 +531,7 @@ test('repository readiness surfaces the GitHub Pages deployment channel without 
       dryRunByDefault: boolean
       localGitMutationRequiresExplicitFlag: boolean
       remoteGitHubMutationRequiresExplicitEnv: boolean
+      snapshotCommitRequiresExplicitEnv: boolean
       noWorkflowDispatch: boolean
     }
     helper: { path: string; noWorkflowDispatch: boolean }
@@ -570,12 +571,16 @@ test('repository readiness surfaces the GitHub Pages deployment channel without 
   expect(repositoryBootstrap.controls.dryRunByDefault).toBe(true)
   expect(repositoryBootstrap.controls.localGitMutationRequiresExplicitFlag).toBe(true)
   expect(repositoryBootstrap.controls.remoteGitHubMutationRequiresExplicitEnv).toBe(true)
+  expect(repositoryBootstrap.controls.snapshotCommitRequiresExplicitEnv).toBe(true)
   expect(repositoryBootstrap.controls.noWorkflowDispatch).toBe(true)
   expect(repositoryBootstrap.helper.path).toBe('ops/github/bootstrap-repository.sh')
   expect(repositoryBootstrap.helper.noWorkflowDispatch).toBe(true)
   expect(repositoryBootstrap.actions.some((action) => action.id === 'initialize-local-git')).toBe(true)
+  expect(repositoryBootstrap.actions.some((action) => action.id === 'commit-current-snapshot')).toBe(true)
   expect(repositoryBootstrap.actions.some((action) => action.id === 'create-github-repository')).toBe(true)
   expect(repositoryBootstrapScript).toContain('AGL_ALLOW_REPOSITORY_BOOTSTRAP')
+  expect(repositoryBootstrapScript).toContain('AGL_ALLOW_SNAPSHOT_COMMIT')
+  expect(repositoryBootstrapScript).toContain('working tree has uncommitted changes')
   expect(repositoryBootstrapScript).not.toContain('gh workflow run')
   expect(bootstrap.stages.some((stage) => stage.id === 'repository-channel')).toBe(true)
   expect(bootstrap.stages.some((stage) => stage.id === 'repository-bootstrap')).toBe(true)

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-19T01:24:27.322Z",
+  "generatedAt": "2026-05-19T01:28:42.316Z",
   "status": "production-bootstrap-ready",
   "mode": "waiting-for-external-credentials",
   "repository": {
@@ -32,7 +32,7 @@
     "totalVariables": 22,
     "configuredSecrets": 0,
     "totalSecrets": 8,
-    "externalBlockers": 26
+    "externalBlockers": 27
   },
   "stages": [
     {
@@ -55,6 +55,7 @@
       "command": "npm run autonomous:repo-bootstrap",
       "evidence": "Repository bootstrap waiting-for-github-target; helper ops/github/bootstrap-repository.sh; local git ready.",
       "requires": [
+        "Commit current generated changes before pushing to GitHub Pages.",
         "Set GITHUB_REPOSITORY or GH_REPO to the intended owner/repo.",
         "Attach a GitHub origin remote or create the target repository.",
         "Authenticate GitHub CLI or provide GH_TOKEN/GITHUB_TOKEN for remote repository bootstrap."
@@ -203,6 +204,7 @@
       "command": "npm run autonomous:repo-bootstrap",
       "evidence": "Repository bootstrap waiting-for-github-target; helper ops/github/bootstrap-repository.sh; local git ready.",
       "requires": [
+        "Commit current generated changes before pushing to GitHub Pages.",
         "Set GITHUB_REPOSITORY or GH_REPO to the intended owner/repo.",
         "Attach a GitHub origin remote or create the target repository.",
         "Authenticate GitHub CLI or provide GH_TOKEN/GITHUB_TOKEN for remote repository bootstrap."
@@ -882,6 +884,10 @@
     {
       "source": "repository-readiness",
       "blocker": "Configure GH_TOKEN or GITHUB_TOKEN for workflow dispatch and repository settings sync."
+    },
+    {
+      "source": "repository-bootstrap",
+      "blocker": "Commit current generated changes before pushing to GitHub Pages."
     },
     {
       "source": "repository-bootstrap",

@@ -146,6 +146,15 @@ const initialCommitStatus = gitAfter.hasCommit
   : gitAfter.insideWorkTree
     ? 'ready-for-explicit-initial-commit'
     : 'waiting-for-local-git'
+const snapshotCommitStatus =
+  gitAfter.insideWorkTree && gitAfter.hasCommit
+    ? gitAfter.dirtyFiles > 0
+      ? 'ready-for-explicit-snapshot-commit'
+      : 'ready'
+    : gitAfter.insideWorkTree
+      ? 'waiting-for-initial-commit'
+      : 'waiting-for-local-git'
+const cleanSnapshotReady = gitAfter.insideWorkTree && gitAfter.hasCommit && gitAfter.dirtyFiles === 0
 
 const actions = [
   {
@@ -182,6 +191,20 @@ const actions = [
       : 'Initial commit is held behind AGL_ALLOW_INITIAL_COMMIT=1.',
   },
   {
+    id: 'commit-current-snapshot',
+    status: snapshotCommitStatus,
+    costUsd: 0,
+    command: 'AGL_ALLOW_REPOSITORY_BOOTSTRAP=1 AGL_ALLOW_SNAPSHOT_COMMIT=1 ./ops/github/bootstrap-repository.sh',
+    mutatesLocalGit: true,
+    mutatesRemoteGitHub: false,
+    requiresExplicitEnv: true,
+    detail: cleanSnapshotReady
+      ? 'The current generated production snapshot is committed.'
+      : gitAfter.dirtyFiles > 0
+        ? `${gitAfter.dirtyFiles} generated or source file(s) are not committed yet.`
+        : 'Snapshot commit waits for a local git worktree with an initial commit.',
+  },
+  {
     id: 'set-or-create-origin',
     status: originStatus,
     costUsd: 0,
@@ -212,21 +235,28 @@ const actions = [
   {
     id: 'push-initial-snapshot',
     status:
-      gitAfter.insideWorkTree && gitAfter.hasCommit && gitAfter.remoteRepository
+      gitAfter.insideWorkTree && gitAfter.hasCommit && gitAfter.remoteRepository && cleanSnapshotReady
         ? 'ready-for-explicit-push'
-        : 'waiting-for-commit-and-origin',
+        : gitAfter.remoteRepository && !cleanSnapshotReady
+          ? 'waiting-for-clean-snapshot'
+          : 'waiting-for-commit-and-origin',
     costUsd: 0,
     command: 'AGL_ALLOW_REPOSITORY_BOOTSTRAP=1 AGL_ALLOW_PUSH=1 ./ops/github/bootstrap-repository.sh',
     mutatesLocalGit: false,
     mutatesRemoteGitHub: true,
     requiresExplicitEnv: true,
-    detail: 'Push stays held until a local commit and origin remote exist.',
+    detail: cleanSnapshotReady
+      ? 'Push stays held until an origin remote exists and AGL_ALLOW_PUSH=1 is set.'
+      : 'Push stays held until a committed local snapshot and origin remote exist.',
   },
 ]
 
 const blockers = [
   ...(gitAfter.insideWorkTree ? [] : ['Initialize this workspace as a local git repository.']),
   ...(gitAfter.hasCommit ? [] : ['Create an initial commit before pushing to GitHub Pages.']),
+  ...(gitAfter.hasCommit && gitAfter.dirtyFiles > 0
+    ? ['Commit current generated changes before pushing to GitHub Pages.']
+    : []),
   ...(targetRepository ? [] : ['Set GITHUB_REPOSITORY or GH_REPO to the intended owner/repo.']),
   ...(gitAfter.remoteRepository ? [] : ['Attach a GitHub origin remote or create the target repository.']),
   ...(ghReady ? [] : ['Authenticate GitHub CLI or provide GH_TOKEN/GITHUB_TOKEN for remote repository bootstrap.']),
@@ -286,6 +316,7 @@ const payload = {
     localGitMutationRequiresExplicitFlag: true,
     remoteGitHubMutationRequiresExplicitEnv: true,
     initialCommitRequiresExplicitEnv: true,
+    snapshotCommitRequiresExplicitEnv: true,
     pushRequiresExplicitEnv: true,
     noWorkflowDispatch: true,
     noAccountCreation: true,
@@ -301,6 +332,7 @@ const payload = {
     requiresEnv: 'AGL_ALLOW_REPOSITORY_BOOTSTRAP=1',
     canInitializeLocalGit: true,
     canCreateInitialCommit: true,
+    canCommitCurrentSnapshot: true,
     canAttachOrigin: true,
     canCreateGithubRepository: true,
     canPush: true,
@@ -349,23 +381,38 @@ fi
 default_branch="\${AGL_DEFAULT_BRANCH:-main}"
 target_repo="\${GITHUB_REPOSITORY:-\${GH_REPO:-}}"
 
+ensure_git_identity() {
+  if ! git config user.name >/dev/null 2>&1; then
+    git config user.name "\${AGL_GIT_AUTHOR_NAME:-Autonomous Game Lab Operator}"
+  fi
+  if ! git config user.email >/dev/null 2>&1; then
+    git config user.email "\${AGL_GIT_AUTHOR_EMAIL:-autonomous-game-lab@example.invalid}"
+  fi
+}
+
+commit_current_snapshot() {
+  local message="$1"
+  if [[ -n "$(git status --short)" ]]; then
+    ensure_git_identity
+    git add .
+    git commit -m "$message"
+  else
+    echo "working tree already has a clean committed snapshot"
+  fi
+}
+
 if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
   git init -b "$default_branch" 2>/dev/null || git init
 fi
 
 if ! git rev-parse --verify HEAD >/dev/null 2>&1; then
   if [[ "\${AGL_ALLOW_INITIAL_COMMIT:-0}" == "1" ]]; then
-    if ! git config user.name >/dev/null 2>&1; then
-      git config user.name "\${AGL_GIT_AUTHOR_NAME:-Autonomous Game Lab Operator}"
-    fi
-    if ! git config user.email >/dev/null 2>&1; then
-      git config user.email "\${AGL_GIT_AUTHOR_EMAIL:-autonomous-game-lab@example.invalid}"
-    fi
-    git add .
-    git commit -m "\${AGL_INITIAL_COMMIT_MESSAGE:-Initial autonomous game lab snapshot}"
+    commit_current_snapshot "\${AGL_INITIAL_COMMIT_MESSAGE:-Initial autonomous game lab snapshot}"
   else
     echo "skip initial commit: set AGL_ALLOW_INITIAL_COMMIT=1 to commit the current snapshot"
   fi
+elif [[ "\${AGL_ALLOW_SNAPSHOT_COMMIT:-0}" == "1" ]]; then
+  commit_current_snapshot "\${AGL_SNAPSHOT_COMMIT_MESSAGE:-Refresh autonomous production snapshot}"
 fi
 
 if [[ -n "$target_repo" && "\${AGL_ALLOW_ORIGIN_REMOTE:-0}" == "1" ]]; then
@@ -403,6 +450,10 @@ if [[ "\${AGL_ALLOW_GITHUB_REPO_CREATE:-0}" == "1" ]]; then
   else
     create_args=("$target_repo" "--$visibility" "--source=." "--remote=origin")
     if [[ "\${AGL_ALLOW_PUSH:-0}" == "1" ]]; then
+      if [[ -n "$(git status --short)" ]]; then
+        echo "working tree has uncommitted changes; set AGL_ALLOW_SNAPSHOT_COMMIT=1 before push." >&2
+        exit 1
+      fi
       create_args+=("--push")
     fi
     gh repo create "\${create_args[@]}"
@@ -417,6 +468,11 @@ if [[ "\${AGL_ALLOW_PUSH:-0}" == "1" ]]; then
 
   if ! git rev-parse --verify HEAD >/dev/null 2>&1; then
     echo "a local commit is required before push." >&2
+    exit 1
+  fi
+
+  if [[ -n "$(git status --short)" ]]; then
+    echo "working tree has uncommitted changes; set AGL_ALLOW_SNAPSHOT_COMMIT=1 before push." >&2
     exit 1
   fi
 
