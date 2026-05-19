@@ -1,5 +1,5 @@
 export const repositoryReadiness = {
-  "generatedAt": "2026-05-19T04:59:08.296Z",
+  "generatedAt": "2026-05-19T05:01:11.107Z",
   "status": "waiting-for-github-repository",
   "envFiles": {
     "loaded": true,
@@ -56,12 +56,11 @@ export const repositoryReadiness = {
     "insideWorkTree": true,
     "gitRoot": "/Users/moshequ/Documents/Codex/2026-05-18/i-want-to-have-a-new",
     "currentBranch": "main",
-    "dirtyFiles": 37,
+    "dirtyFiles": 35,
     "dirtyPaths": [
       "data/autonomous-operator-history.json",
       "data/autonomous-operator.json",
       "data/autonomous-owner-loop.json",
-      "data/autonomous-self-update.json",
       "data/deployment-plan.json",
       "data/objective-audit.json",
       "data/performance-budget.json",
@@ -74,7 +73,6 @@ export const repositoryReadiness = {
       "reports/autonomous-operator-history-latest.md",
       "reports/autonomous-operator-latest.md",
       "reports/autonomous-owner-loop-latest.md",
-      "reports/autonomous-self-update-latest.md",
       "reports/deployment-plan-latest.md",
       "reports/objective-audit-latest.md",
       "reports/performance-budget-latest.md",
@@ -96,12 +94,11 @@ export const repositoryReadiness = {
       "src/data/repositoryBootstrap.ts",
       "src/data/repositoryReadiness.ts"
     ],
-    "generatedEvidenceDirtyFiles": 37,
+    "generatedEvidenceDirtyFiles": 35,
     "generatedEvidenceDirtyPaths": [
       "data/autonomous-operator-history.json",
       "data/autonomous-operator.json",
       "data/autonomous-owner-loop.json",
-      "data/autonomous-self-update.json",
       "data/deployment-plan.json",
       "data/objective-audit.json",
       "data/performance-budget.json",
@@ -114,7 +111,6 @@ export const repositoryReadiness = {
       "reports/autonomous-operator-history-latest.md",
       "reports/autonomous-operator-latest.md",
       "reports/autonomous-owner-loop-latest.md",
-      "reports/autonomous-self-update-latest.md",
       "reports/deployment-plan-latest.md",
       "reports/objective-audit-latest.md",
       "reports/performance-budget-latest.md",
@@ -156,7 +152,7 @@ export const repositoryReadiness = {
     "workflowExists": true,
     "deployWorkflowIncludesSmoke": true,
     "deploymentStatus": "ready-for-pages",
-    "releaseCandidateId": "pwa-2cf3f9bebd8e",
+    "releaseCandidateId": "pwa-4216ba697c37",
     "postDeploySmokeStatus": "blocked-missing-origin"
   },
   "controls": {
