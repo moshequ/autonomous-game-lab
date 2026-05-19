@@ -1,14 +1,14 @@
 # Deployment Plan
 
-Generated: 2026-05-19T02:56:20.555Z
-Status: blocked
+Generated: 2026-05-19T02:57:54.144Z
+Status: ready-for-pages
 Target: github-pages
 Cost: $0 platform hosting for public/internal experiment traffic
 
 ## Checks
 
-- blocker: web-promotion - Hold web deploy until readiness blockers clear.
-- blocker: web-readiness - Web readiness is blocked.
+- pass: web-promotion - Promote the current PWA build to an internal/public web experiment when hosting is connected.
+- pass: web-readiness - Web readiness is ready-after-build.
 - pass: release-health - Release health is monitoring.
 - pass: unit-economics-guard - Spend mode is no-spend; max daily paid spend is $0.00.
 - pass: production-response - Production response is guarded-operations; rollback required is false.
@@ -50,7 +50,6 @@ Cost: $0 platform hosting for public/internal experiment traffic
 - Workflow dispatch ready: false
 - blocker: Add a GitHub origin remote or set GITHUB_REPOSITORY/GH_REPO.
 - blocker: Configure GH_TOKEN or GITHUB_TOKEN for workflow dispatch and repository settings sync.
-- blocker: Refresh build, release candidate, post-deploy smoke, and deployment plan artifacts.
 
 ## Environment
 

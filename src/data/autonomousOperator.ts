@@ -1,5 +1,5 @@
 export const autonomousOperator = {
-  "generatedAt": "2026-05-19T02:56:21.521Z",
+  "generatedAt": "2026-05-19T02:57:54.806Z",
   "status": "operator-plan-ready",
   "mode": "plan-only",
   "ownerDecision": {
@@ -21,6 +21,7 @@ export const autonomousOperator = {
   },
   "selectedRejection": null,
   "eligibleActionIds": [
+    "refresh-autonomous-self-update",
     "seed-portfolio-traffic",
     "refresh-organic-seed-loop",
     "optimize-daily-retention",
@@ -51,9 +52,9 @@ export const autonomousOperator = {
     },
     {
       "id": "refresh-autonomous-self-update",
-      "status": "monitor",
+      "status": "armed",
       "command": "npm run autonomous:self-update",
-      "reason": "status-monitor"
+      "reason": "not-selected-this-run"
     },
     {
       "id": "seed-portfolio-traffic",

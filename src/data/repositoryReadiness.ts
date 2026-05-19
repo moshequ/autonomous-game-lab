@@ -1,5 +1,5 @@
 export const repositoryReadiness = {
-  "generatedAt": "2026-05-19T02:56:19.149Z",
+  "generatedAt": "2026-05-19T02:57:53.170Z",
   "status": "waiting-for-github-repository",
   "envFiles": {
     "loaded": true,
@@ -56,7 +56,7 @@ export const repositoryReadiness = {
     "insideWorkTree": true,
     "gitRoot": "/Users/moshequ/Documents/Codex/2026-05-18/i-want-to-have-a-new",
     "currentBranch": "main",
-    "dirtyFiles": 76
+    "dirtyFiles": 35
   },
   "repository": {
     "target": null,
@@ -74,7 +74,7 @@ export const repositoryReadiness = {
     "workflowPath": ".github/workflows/web-pwa-deploy.yml",
     "workflowExists": true,
     "deployWorkflowIncludesSmoke": true,
-    "deploymentStatus": "blocked",
+    "deploymentStatus": "ready-for-pages",
     "releaseCandidateId": "pwa-f737a2df3046",
     "postDeploySmokeStatus": "blocked-missing-origin"
   },
@@ -120,14 +120,13 @@ export const repositoryReadiness = {
     },
     {
       "id": "deployable-artifact",
-      "status": "blocker",
-      "detail": "Deployment blocked; release candidate release-candidate-ready; smoke blocked-missing-origin."
+      "status": "pass",
+      "detail": "Deployment ready-for-pages; release candidate release-candidate-ready; smoke blocked-missing-origin."
     }
   ],
   "blockers": [
     "Add a GitHub origin remote or set GITHUB_REPOSITORY/GH_REPO.",
-    "Configure GH_TOKEN or GITHUB_TOKEN for workflow dispatch and repository settings sync.",
-    "Refresh build, release candidate, post-deploy smoke, and deployment plan artifacts."
+    "Configure GH_TOKEN or GITHUB_TOKEN for workflow dispatch and repository settings sync."
   ],
   "setupRequiredOnce": [
     "Add a GitHub origin remote or set GITHUB_REPOSITORY/GH_REPO to owner/repo.",

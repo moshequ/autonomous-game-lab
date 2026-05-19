@@ -1,6 +1,6 @@
 # Production Bootstrap
 
-Generated: 2026-05-19T02:56:20.808Z
+Generated: 2026-05-19T02:57:54.386Z
 Status: production-bootstrap-ready
 Mode: waiting-for-external-credentials
 GitHub repository: missing
@@ -19,7 +19,7 @@ gh CLI available: true
 - waiting-for-github-repository: repository-channel; auto-run no; Repository missing; git worktree ready; workflow dispatch blocked.
 - waiting-for-github-target: repository-bootstrap; auto-run no; Repository bootstrap waiting-for-github-target; helper ops/github/bootstrap-repository.sh; local git ready.
 - waiting-for-origin-support: production-environment; auto-run no; Environment production-env-missing; public origin missing; support missing-production-address.
-- blocked: github-pages-hosting; auto-run no; Deployment plan is blocked; Pages workflow is .github/workflows/web-pwa-deploy.yml.
+- ready-for-actions-pages: github-pages-hosting; auto-run no; Deployment plan is ready-for-pages; Pages workflow is .github/workflows/web-pwa-deploy.yml.
 - waiting-for-self-update-gate: autonomous-self-update; auto-run no; Self-update gate missing; direct push held.
 - partially-configured: github-actions-variables; auto-run no; 3/24 repository variable value(s) present in this environment.
 - partially-configured: github-actions-secrets; auto-run no; 3/8 repository secret value(s) present in this environment.
@@ -79,7 +79,6 @@ gh CLI available: true
 
 - repository-readiness: Add a GitHub origin remote or set GITHUB_REPOSITORY/GH_REPO.
 - repository-readiness: Configure GH_TOKEN or GITHUB_TOKEN for workflow dispatch and repository settings sync.
-- repository-readiness: Refresh build, release candidate, post-deploy smoke, and deployment plan artifacts.
 - repository-bootstrap: Commit current generated changes before pushing to GitHub Pages.
 - repository-bootstrap: Set GITHUB_REPOSITORY or GH_REPO to the intended owner/repo.
 - repository-bootstrap: Attach a GitHub origin remote or create the target repository.
@@ -89,3 +88,4 @@ gh CLI available: true
 - production-environment: Set VITE_EVENT_COLLECTOR_URL or VITE_POSTHOG_KEY to forward browser analytics in production.
 - production-environment: Set AGL_EVENT_COLLECTOR_EXPORT_URL + AGL_EVENT_COLLECTOR_ADMIN_TOKEN or PostHog server credentials for autonomous production rollups.
 - production-environment: Set VITE_ADSENSE_CLIENT_ID + VITE_ADSENSE_REWARDED_SLOT_ID for web/PWA revenue tests or ADMOB_PUBLISHER_ID for native app placements.
+- production-environment: Connect Google Play credentials or set AGL_GOOGLE_PLAY_ACCOUNT_CONNECTED=true.

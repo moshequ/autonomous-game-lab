@@ -1,11 +1,11 @@
 export const autonomousOwnerLoop = {
-  "generatedAt": "2026-05-19T02:56:22.245Z",
+  "generatedAt": "2026-05-19T02:57:55.651Z",
   "status": "owner-loop-ready",
-  "mode": "guarded-local-automation",
+  "mode": "repository-channel-needed",
   "autonomyScore": {
-    "readySystems": 28,
+    "readySystems": 30,
     "totalSystems": 32,
-    "percent": 88
+    "percent": 94
   },
   "controls": {
     "localLoopCanRunWithoutExternalAccounts": true,
@@ -49,10 +49,10 @@ export const autonomousOwnerLoop = {
     },
     {
       "id": "autonomous-self-update",
-      "status": "needs-self-update-evidence",
+      "status": "ready",
       "autonomy": "gated-generated-change-persistence",
-      "evidence": "Self-update self-update-needs-attention; safe pending 67; unsafe pending 15; remote push held.",
-      "nextAction": "Fix self-update workflow or allowlist blockers before enabling autonomous persistence."
+      "evidence": "Self-update self-update-ready; safe pending 0; unsafe pending 0; remote push held.",
+      "nextAction": "When a GitHub repository is connected, set AGL_AUTONOMOUS_SELF_UPDATE=1 and AGL_AUTONOMOUS_SELF_UPDATE_DIRECT=1 to let verified generated changes persist."
     },
     {
       "id": "portfolio-loop",
@@ -161,10 +161,10 @@ export const autonomousOwnerLoop = {
     },
     {
       "id": "web-deployment",
-      "status": "blocked",
+      "status": "ready",
       "autonomy": "workflow-gated",
-      "evidence": "Deployment blocked; web readiness blocked; promotion blocked.",
-      "nextAction": "Fix web readiness blockers."
+      "evidence": "Deployment ready-for-pages; web readiness ready-after-build; promotion promotable-internal.",
+      "nextAction": "Connect a free static host or GitHub Pages environment, then publish dist."
     },
     {
       "id": "release-candidate",
@@ -184,7 +184,7 @@ export const autonomousOwnerLoop = {
       "id": "production-bootstrap",
       "status": "ready",
       "autonomy": "zero-spend-setup-orchestration",
-      "evidence": "Bootstrap production-bootstrap-ready; mode waiting-for-external-credentials; external blockers 25.",
+      "evidence": "Bootstrap production-bootstrap-ready; mode waiting-for-external-credentials; external blockers 24.",
       "nextAction": "Fill required environment values, then run npm run autonomous:bootstrap."
     },
     {
@@ -198,14 +198,14 @@ export const autonomousOwnerLoop = {
       "id": "operator-history",
       "status": "ready",
       "autonomy": "operator-audit-trail",
-      "evidence": "History operator-history-ready; records 13; executed 0.",
+      "evidence": "History operator-history-ready; records 14; executed 0.",
       "nextAction": "Keep a capped durable record of operator plans and one-action executions."
     },
     {
       "id": "objective-audit",
       "status": "ready",
       "autonomy": "completion-evidence-ledger",
-      "evidence": "Audit objective-in-progress; met 4/8; external blockers 21.",
+      "evidence": "Audit objective-in-progress; met 5/8; external blockers 21.",
       "nextAction": "The local autonomous PWA system is largely prepared, but production credentials, live data, monetization gates, hosted compliance URLs, and store account/signing blockers remain."
     },
     {
@@ -272,7 +272,7 @@ export const autonomousOwnerLoop = {
     },
     {
       "id": "refresh-autonomous-self-update",
-      "status": "monitor",
+      "status": "armed",
       "costUsd": 0,
       "command": "npm run autonomous:self-update",
       "targets": [
@@ -644,7 +644,7 @@ export const autonomousOwnerLoop = {
     "retentionLoopStatus": "retention-loop-ready",
     "pwaInstallLoopStatus": "pwa-install-loop-ready",
     "autonomousCadenceStatus": "cadence-ready",
-    "autonomousSelfUpdateStatus": "self-update-needs-attention",
+    "autonomousSelfUpdateStatus": "self-update-ready",
     "performanceBudgetStatus": "performance-budget-ready",
     "repositoryReadinessStatus": "waiting-for-github-repository",
     "repositoryBootstrapStatus": "waiting-for-github-target",
@@ -659,7 +659,7 @@ export const autonomousOwnerLoop = {
     "autonomousOperatorHistoryStatus": "operator-history-ready",
     "objectiveAuditStatus": "objective-in-progress",
     "storeListingOptimizerStatus": "store-listing-optimizer-ready",
-    "deploymentStatus": "blocked",
+    "deploymentStatus": "ready-for-pages",
     "releaseHealthStatus": "monitoring",
     "productionEnvironmentStatus": "production-env-missing",
     "storeComplianceStatus": "draft-ready-external-blockers",

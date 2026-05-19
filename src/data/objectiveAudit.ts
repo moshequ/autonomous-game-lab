@@ -1,31 +1,29 @@
 export const objectiveAudit = {
-  "generatedAt": "2026-05-19T02:56:21.762Z",
+  "generatedAt": "2026-05-19T02:57:55.225Z",
   "status": "objective-in-progress",
   "objective": "Build a bootstrapped autonomous web/PWA game portal that can generate original board-game-inspired games, measure user behavior, propose and apply data-driven improvements, and prepare a path to monetization and app-store distribution with minimal manual intervention.",
   "summary": {
     "requirements": 8,
-    "met": 4,
+    "met": 5,
     "prepared": 2,
-    "incomplete": 2,
+    "incomplete": 1,
     "externalBlockers": 21,
     "productBlockers": 6
   },
   "requirements": [
     {
       "id": "web-pwa-game-portal",
-      "status": "incomplete",
+      "status": "met",
       "summary": "A playable web/PWA portal exists and passes the production web readiness gate.",
       "evidence": [
-        "Web readiness: blocked",
+        "Web readiness: ready-after-build",
         "Manifest in dist: true",
         "Service worker in dist: true",
         "Release candidate: release-candidate-ready; 38 files",
-        "Deployment plan: blocked"
+        "Deployment plan: ready-for-pages"
       ],
-      "blockers": [
-        "Autonomous self-update is self-update-needs-attention; safe pending 42; unsafe pending 15; remote push held."
-      ],
-      "nextAction": "Fix web readiness blockers.",
+      "blockers": [],
+      "nextAction": "Connect a free static host or GitHub Pages environment, then publish dist.",
       "completionCritical": true
     },
     {
@@ -82,27 +80,25 @@ export const objectiveAudit = {
     },
     {
       "id": "minimal-intervention-autonomy",
-      "status": "incomplete",
+      "status": "needs-repository-channel",
       "summary": "A scheduled local loop, owner state, bootstrap handoff, and dry-run operator reduce manual maintenance.",
       "evidence": [
         "Owner loop: owner-loop-ready",
         "Autonomous cadence: cadence-ready; Codex active-declared; GitHub scheduled",
-        "Autonomous self-update: self-update-needs-attention; workflow .github/workflows/autonomous-self-update.yml; unsafe pending 15",
+        "Autonomous self-update: self-update-ready; workflow .github/workflows/autonomous-self-update.yml; unsafe pending 0",
         "Operator: operator-plan-ready",
-        "Operator history: operator-history-ready; records 13",
+        "Operator history: operator-history-ready; records 14",
         "Bootstrap: production-bootstrap-ready",
         "Repository bootstrap: waiting-for-github-target; helper ops/github/bootstrap-repository.sh",
         "Release candidate: release-candidate-ready; smoke URLs 7",
         "Post-deploy smoke: blocked-missing-origin; origin missing; checks 0/8",
         "Repository channel: waiting-for-github-repository; repository missing; git worktree true",
-        "Autonomy score: 88%",
+        "Autonomy score: 94%",
         "Credential-gated actions: 13"
       ],
       "blockers": [
-        "safe-path-allowlist: 67 safe pending file(s), 15 unsafe pending file(s).",
         "Add a GitHub origin remote or set GITHUB_REPOSITORY/GH_REPO.",
         "Configure GH_TOKEN or GITHUB_TOKEN for workflow dispatch and repository settings sync.",
-        "Refresh build, release candidate, post-deploy smoke, and deployment plan artifacts.",
         "Commit current generated changes before pushing to GitHub Pages.",
         "Set GITHUB_REPOSITORY or GH_REPO to the intended owner/repo.",
         "Attach a GitHub origin remote or create the target repository.",
@@ -224,7 +220,6 @@ export const objectiveAudit = {
     "all": [
       "Add a GitHub origin remote or set GITHUB_REPOSITORY/GH_REPO.",
       "Configure GH_TOKEN or GITHUB_TOKEN for workflow dispatch and repository settings sync.",
-      "Refresh build, release candidate, post-deploy smoke, and deployment plan artifacts.",
       "Commit current generated changes before pushing to GitHub Pages.",
       "Set GITHUB_REPOSITORY or GH_REPO to the intended owner/repo.",
       "Attach a GitHub origin remote or create the target repository.",

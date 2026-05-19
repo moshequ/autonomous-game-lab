@@ -1,6 +1,6 @@
 # Production Readiness
 
-Generated: 2026-05-19T02:56:22.004Z
+Generated: 2026-05-19T02:57:55.438Z
 
 ## Environment
 
@@ -20,7 +20,7 @@ Workflow dispatch ready: false
 - pass: repository-gh-cli - gh version 2.90.0 (2026-04-16)
 - external-blocker: repository-gh-token - GH_TOKEN or GITHUB_TOKEN is not configured for non-interactive workflow dispatch.
 - pass: repository-pages-workflow - Web PWA Deploy workflow exists and includes post-deploy smoke.
-- blocker: repository-deployable-artifact - Deployment blocked; release candidate release-candidate-ready; smoke blocked-missing-origin.
+- pass: repository-deployable-artifact - Deployment ready-for-pages; release candidate release-candidate-ready; smoke blocked-missing-origin.
 
 ## Repository Bootstrap
 
@@ -31,14 +31,14 @@ Local git: true
 - done: repo-bootstrap-inspect-repository-channel - Repository readiness is waiting-for-github-repository.
 - ready: repo-bootstrap-initialize-local-git - Git worktree is available at /Users/moshequ/Documents/Codex/2026-05-18/i-want-to-have-a-new.
 - ready: repo-bootstrap-create-initial-commit - The local repository has at least one commit.
-- ready-for-explicit-snapshot-commit: repo-bootstrap-commit-current-snapshot - 79 generated or source file(s) are not committed yet.
+- ready-for-explicit-snapshot-commit: repo-bootstrap-commit-current-snapshot - 38 generated or source file(s) are not committed yet.
 - waiting-for-github-target: repo-bootstrap-set-or-create-origin - Set GITHUB_REPOSITORY or GH_REPO before attaching origin.
 - waiting-for-github-target: repo-bootstrap-create-github-repository - Set GITHUB_REPOSITORY or GH_REPO before creating a GitHub repository.
 - waiting-for-commit-and-origin: repo-bootstrap-push-initial-snapshot - Push stays held until a committed local snapshot and origin remote exist.
 
 ## Web/PWA
 
-Status: blocked
+Status: ready-after-build
 - pass: manifest - PWA manifest exists in the production build.
 - pass: install-icons - Generated install/store icons are icons-ready; 6 icons checked.
 - pass: service-worker - Offline service worker exists.
@@ -64,12 +64,12 @@ Status: blocked
 - pass: replay-loop - Replay loop is replay-loop-ready; prompt armed; target harbor-rings.
 - pass: release-health - Release health guard is monitoring.
 - pass: production-environment - Production environment status is production-env-missing.
-- pass: production-bootstrap - Production bootstrap is production-bootstrap-ready; mode waiting-for-external-credentials; external blockers 25.
+- pass: production-bootstrap - Production bootstrap is production-bootstrap-ready; mode waiting-for-external-credentials; external blockers 24.
 - pass: autonomous-operator - Autonomous operator is operator-plan-ready; selected prepare-repository-channel; execution not-requested.
-- pass: autonomous-operator-history - Autonomous operator history is operator-history-ready; records 13; executed 0.
+- pass: autonomous-operator-history - Autonomous operator history is operator-history-ready; records 14; executed 0.
 - pass: autonomous-cadence - Autonomous cadence is cadence-ready; Codex active-declared; GitHub scheduled.
-- blocker: autonomous-self-update - Autonomous self-update is self-update-needs-attention; safe pending 67; unsafe pending 15; remote push held.
-- pass: objective-audit - Objective audit is objective-in-progress; met 4 / 8; can complete false.
+- pass: autonomous-self-update - Autonomous self-update is self-update-ready; safe pending 0; unsafe pending 0; remote push held.
+- pass: objective-audit - Objective audit is objective-in-progress; met 5 / 8; can complete false.
 
 ## Monetization
 
@@ -207,7 +207,7 @@ Setup script: ops/github/setup-production.sh
 - waiting-for-github-repository: bootstrap-repository-channel - Repository missing; git worktree ready; workflow dispatch blocked.
 - waiting-for-github-target: bootstrap-repository-bootstrap - Repository bootstrap waiting-for-github-target; helper ops/github/bootstrap-repository.sh; local git ready.
 - waiting-for-origin-support: bootstrap-production-environment - Environment production-env-missing; public origin missing; support missing-production-address.
-- blocked: bootstrap-github-pages-hosting - Deployment plan is blocked; Pages workflow is .github/workflows/web-pwa-deploy.yml.
+- ready-for-actions-pages: bootstrap-github-pages-hosting - Deployment plan is ready-for-pages; Pages workflow is .github/workflows/web-pwa-deploy.yml.
 - waiting-for-self-update-gate: bootstrap-autonomous-self-update - Self-update gate missing; direct push held.
 - partially-configured: bootstrap-github-actions-variables - 3/24 repository variable value(s) present in this environment.
 - partially-configured: bootstrap-github-actions-secrets - 3/8 repository secret value(s) present in this environment.
@@ -226,7 +226,7 @@ Execution: not-requested
 ## Autonomous Operator History
 
 Status: operator-history-ready
-Records: 13
+Records: 14
 Executed: 0
 
 ## Autonomous Cadence
@@ -248,16 +248,16 @@ GitHub Actions: scheduled
 
 ## Autonomous Self Update
 
-Status: self-update-needs-attention
+Status: self-update-ready
 Workflow: .github/workflows/autonomous-self-update.yml
-Safe pending: 67
-Unsafe pending: 15
+Safe pending: 0
+Unsafe pending: 0
 Remote push ready: false
 - pass: self-update-script-registered - autonomous:self-update is node scripts/autonomous-self-update.mjs.
 - pass: self-update-daily-loop-refresh - autonomous:daily refreshes self-update evidence before owner/audit evidence.
 - pass: self-update-daily-workflow-read-only - The ordinary daily workflow remains read-only and uploads evidence artifacts.
 - pass: self-update-self-update-workflow - A separate gated workflow can reproduce the daily loop, verify it, and persist allowlisted changes.
-- blocker: self-update-safe-path-allowlist - 67 safe pending file(s), 15 unsafe pending file(s).
+- pass: self-update-safe-path-allowlist - 0 safe pending file(s), 0 unsafe pending file(s).
 - pass: self-update-repository-optional - Git worktree is available on main.
 - pass: self-update-remote-push-gated - Remote push remains held until GitHub credentials and AGL_AUTONOMOUS_SELF_UPDATE_DIRECT=1 are configured.
 - pass: self-update-zero-spend-controls - Self-update only stages repository artifacts; it does not create accounts, stores, ads, paid traffic, or revenue.
@@ -265,7 +265,7 @@ Remote push ready: false
 ## Objective Audit
 
 Status: objective-in-progress
-Met: 4 / 8
+Met: 5 / 8
 Can mark complete: false
 
 ## Distribution

@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-05-19T02:56:20.555Z",
-  "status": "blocked",
+  "generatedAt": "2026-05-19T02:57:54.144Z",
+  "status": "ready-for-pages",
   "target": {
     "provider": "github-pages",
     "cost": "$0 platform hosting for public/internal experiment traffic",
@@ -16,8 +16,7 @@
     "workflowDispatchReady": false,
     "blockers": [
       "Add a GitHub origin remote or set GITHUB_REPOSITORY/GH_REPO.",
-      "Configure GH_TOKEN or GITHUB_TOKEN for workflow dispatch and repository settings sync.",
-      "Refresh build, release candidate, post-deploy smoke, and deployment plan artifacts."
+      "Configure GH_TOKEN or GITHUB_TOKEN for workflow dispatch and repository settings sync."
     ]
   },
   "eventCollector": {
@@ -27,8 +26,8 @@
     "costPosture": "free-tier-friendly-no-paid-traffic"
   },
   "promotion": {
-    "webStatus": "blocked",
-    "nextAction": "Fix web readiness blockers."
+    "webStatus": "promotable-internal",
+    "nextAction": "Connect a free static host or GitHub Pages environment, then publish dist."
   },
   "releaseHealth": {
     "status": "monitoring",
@@ -81,13 +80,13 @@
   "checks": [
     {
       "id": "web-promotion",
-      "status": "blocker",
-      "detail": "Hold web deploy until readiness blockers clear."
+      "status": "pass",
+      "detail": "Promote the current PWA build to an internal/public web experiment when hosting is connected."
     },
     {
       "id": "web-readiness",
-      "status": "blocker",
-      "detail": "Web readiness is blocked."
+      "status": "pass",
+      "detail": "Web readiness is ready-after-build."
     },
     {
       "id": "release-health",

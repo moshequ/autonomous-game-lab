@@ -1,9 +1,9 @@
 # Autonomous Owner Loop
 
-Generated: 2026-05-19T02:56:22.245Z
+Generated: 2026-05-19T02:57:55.651Z
 Status: owner-loop-ready
-Mode: guarded-local-automation
-Autonomy score: 28/32 (88%)
+Mode: repository-channel-needed
+Autonomy score: 30/32 (94%)
 
 ## Owner Decision
 
@@ -16,7 +16,7 @@ Autonomy score: 28/32 (88%)
 - ready: game-factory - 10 playable games; 5 generated runtime games.
 - ready: analytics-ingest - Active source: fixture-sample; event ingest: idle-no-files; collector smoke: pass.
 - ready: autonomous-cadence - Cadence cadence-ready; Codex active-declared; GitHub scheduled.
-- needs-self-update-evidence: autonomous-self-update - Self-update self-update-needs-attention; safe pending 67; unsafe pending 15; remote push held.
+- ready: autonomous-self-update - Self-update self-update-ready; safe pending 0; unsafe pending 0; remote push held.
 - ready: portfolio-loop - Daily challenge: Canopy Bloom; seed traffic: canopy-bloom, grove-engine, metro-loom, pocket-draft.
 - ready: traffic-seeding - 4 seed campaign(s); max cost $0.
 - ready: acquisition-learning - 4 campaign(s); 0 attributed start(s); candidate canopy-bloom.
@@ -32,13 +32,13 @@ Autonomy score: 28/32 (88%)
 - ready: organic-growth - 10 SEO/share pages; optimization 5 page(s).
 - waiting-for-github-repository: repository-channel - Repository missing; git worktree ready; workflow dispatch blocked.
 - ready: repository-bootstrap - Bootstrap waiting-for-github-target; mode plan-only; helper ops/github/bootstrap-repository.sh; local git ready.
-- blocked: web-deployment - Deployment blocked; web readiness blocked; promotion blocked.
+- ready: web-deployment - Deployment ready-for-pages; web readiness ready-after-build; promotion promotable-internal.
 - ready: release-candidate - Candidate pwa-f737a2df3046; status release-candidate-ready; files 38; smoke URLs 7.
 - ready: post-deploy-smoke - Smoke blocked-missing-origin; origin missing; candidate pwa-f737a2df3046; checks 0/8 passed.
-- ready: production-bootstrap - Bootstrap production-bootstrap-ready; mode waiting-for-external-credentials; external blockers 25.
+- ready: production-bootstrap - Bootstrap production-bootstrap-ready; mode waiting-for-external-credentials; external blockers 24.
 - ready: autonomous-operator - Operator operator-plan-ready; selected prepare-repository-channel; execution not-requested.
-- ready: operator-history - History operator-history-ready; records 13; executed 0.
-- ready: objective-audit - Audit objective-in-progress; met 4/8; external blockers 21.
+- ready: operator-history - History operator-history-ready; records 14; executed 0.
+- ready: objective-audit - Audit objective-in-progress; met 5/8; external blockers 21.
 - ready: store-listing-optimizer - Focus canopy-bloom; lead screenshot phone-canopy-bloom-generated; candidate changed yes.
 - ready: store-compliance - Rating Everyone; target audience general; blockers 4.
 - ready: android-signing - Signing signing-prepared; fingerprint available; local secrets configured.
@@ -50,7 +50,7 @@ Autonomy score: 28/32 (88%)
 
 - armed: run-daily-owner-loop - npm run autonomous:daily
 - armed: refresh-autonomous-cadence - npm run autonomous:cadence
-- monitor: refresh-autonomous-self-update - npm run autonomous:self-update
+- armed: refresh-autonomous-self-update - npm run autonomous:self-update
 - armed: seed-portfolio-traffic - npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop
 - armed: refresh-organic-seed-loop - npm run autonomous:organic-seed-loop
 - armed: optimize-daily-retention - npm run autonomous:retention
