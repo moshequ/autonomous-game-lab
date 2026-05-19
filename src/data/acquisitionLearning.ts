@@ -1,5 +1,5 @@
 export const acquisitionLearning = {
-  "generatedAt": "2026-05-19T12:55:42.017Z",
+  "generatedAt": "2026-05-19T13:20:38.184Z",
   "status": "acquisition-learning-ready",
   "sourceStatus": {
     "analyticsSource": "fixture-sample",
