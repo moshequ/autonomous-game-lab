@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-05-19T10:03:21.678Z",
+  "generatedAt": "2026-05-19T10:10:14.981Z",
   "status": "cadence-ready",
   "cadence": "daily",
   "workspace": {
     "path": "/Users/moshequ/Documents/Codex/2026-05-18/i-want-to-have-a-new",
     "repositoryStatus": "waiting-for-github-repository",
     "repository": null,
-    "gitDirtyFiles": 44
+    "gitDirtyFiles": 43
   },
   "schedulers": {
     "codexDesktop": {
@@ -76,7 +76,7 @@
     "selfUpdate": "npm run autonomous:self-update",
     "verifyAutomation": "npm run test:automation",
     "browserSmoke": "npm run test:e2e",
-    "ownerDecision": "refresh-autonomous-self-update"
+    "ownerDecision": "bootstrap-production-setup"
   },
   "recoveryPolicy": {
     "stopOnFailure": true,

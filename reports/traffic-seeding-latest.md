@@ -1,6 +1,6 @@
 # Traffic Seeding
 
-Generated: 2026-05-19T09:52:27.278Z
+Generated: 2026-05-19T10:09:27.015Z
 Status: traffic-seeding-ready
 Analytics source: fixture-sample
 Max cost: $0.00
@@ -20,7 +20,7 @@ Max cost: $0.00
 
 ## Seed Kit
 
-- /seed-kit.html with 4 zero-spend seed campaign links.
+- /seed-kit.html with 4 zero-spend seed campaign links and player-initiated copy/share controls.
 
 ## Next Actions
 

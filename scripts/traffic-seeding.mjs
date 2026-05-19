@@ -130,6 +130,8 @@ const payload = {
     maxCostUsd: 0,
     noPaidPromotion: unitEconomics.controls?.paidAcquisitionAllowed !== true,
     noExternalPostingWithoutCredentials: true,
+    noAutomatedExternalPosting: true,
+    playerInitiatedSharingOnly: true,
     minimumStartsBeforeQualityJudgment: 40,
   },
   channels,
@@ -153,6 +155,8 @@ const nextShareManifest = {
     url: absoluteUrl(siteUrl, '/seed-kit.html'),
     campaignCount: campaigns.length,
     costUsd: 0,
+    playerInitiatedSharingOnly: true,
+    copyShareControls: true,
     generatedAt: payload.generatedAt,
   },
   seedCampaigns: campaigns.map((campaign) => ({
@@ -171,15 +175,19 @@ const nextShareManifest = {
 const seedKitCards = campaigns
   .map(
     (campaign) => `
-      <article class="campaign" data-campaign-id="${escapeHtml(campaign.id)}">
+      <article class="campaign" data-campaign-id="${escapeHtml(campaign.id)}" data-share-path="${escapeHtml(
+        campaign.sharePath,
+      )}" data-share-title="${escapeHtml(campaign.copy.title)}" data-share-text="${escapeHtml(campaign.copy.text)}">
         <div>
           <p class="eyebrow">Priority ${campaign.priority} · ${escapeHtml(campaign.dataConfidence)}</p>
           <h2>${escapeHtml(campaign.title)}</h2>
           <p>${escapeHtml(campaign.copy.text)}</p>
         </div>
-        <div class="links">
+        <div class="actions">
           <a href="${escapeHtml(campaign.sharePath)}">Seed link</a>
-          <a href="${escapeHtml(campaign.pagePath)}">Organic page</a>
+          <a class="secondary" href="${escapeHtml(campaign.pagePath)}">Organic page</a>
+          <button type="button" data-seed-action="copy">Copy share text</button>
+          <button class="secondary" type="button" data-seed-action="share">Share</button>
         </div>
         <dl>
           <div><dt>Campaign</dt><dd>${escapeHtml(campaign.id)}</dd></div>
@@ -188,8 +196,9 @@ const seedKitCards = campaigns
         </dl>
         <label>
           Share copy
-          <textarea readonly>${escapeHtml(`${campaign.copy.title}\n${campaign.copy.text}\n${campaign.sharePath}`)}</textarea>
+          <textarea data-share-copy readonly>${escapeHtml(`${campaign.copy.title}\n${campaign.copy.text}\n${campaign.sharePath}`)}</textarea>
         </label>
+        <p class="status" data-seed-status aria-live="polite"></p>
       </article>`,
   )
   .join('\n')
@@ -216,15 +225,16 @@ const seedKitHtml = `<!doctype html>
       .campaign { display: grid; gap: 14px; background: #ffffff; border: 1px solid #d6ded2; border-radius: 8px; padding: 18px; box-shadow: 0 10px 24px rgba(22, 36, 26, 0.08); }
       .eyebrow { color: #496858; font-size: 0.78rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em; }
       .campaign p:not(.eyebrow) { color: #4e5c54; line-height: 1.45; }
-      .links { display: flex; gap: 10px; flex-wrap: wrap; }
-      a { color: #ffffff; background: #1f6b4d; border-radius: 6px; padding: 10px 12px; text-decoration: none; font-weight: 800; }
-      a + a { color: #1f6b4d; background: #e9f2eb; }
+      .actions { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+      a, button { color: #ffffff; background: #1f6b4d; border: 0; border-radius: 6px; padding: 10px 12px; text-decoration: none; font: inherit; font-weight: 800; cursor: pointer; min-height: 42px; }
+      .secondary { color: #1f6b4d; background: #e9f2eb; }
       dl { display: grid; gap: 8px; margin: 0; }
       dl div { display: flex; justify-content: space-between; gap: 12px; border-top: 1px solid #edf1ea; padding-top: 8px; }
       dt { color: #5d6b63; }
       dd { margin: 0; font-weight: 800; text-align: right; overflow-wrap: anywhere; }
       label { display: grid; gap: 6px; color: #5d6b63; font-weight: 700; }
       textarea { min-height: 96px; resize: vertical; border: 1px solid #cfd8cd; border-radius: 6px; padding: 10px; font: inherit; color: #1c2a21; background: #fbfcfa; }
+      .status { min-height: 1.25rem; color: #496858; font-size: 0.9rem; font-weight: 700; }
     </style>
   </head>
   <body>
@@ -243,6 +253,50 @@ const seedKitHtml = `<!doctype html>
         ${seedKitCards}
       </section>
     </main>
+    <script>
+      (() => {
+        const writeClipboard = async (text, textarea) => {
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            await navigator.clipboard.writeText(text)
+            return true
+          }
+
+          textarea.focus()
+          textarea.select()
+          return document.execCommand('copy')
+        }
+
+        document.querySelectorAll('[data-seed-action]').forEach((button) => {
+          const originalLabel = button.textContent
+          button.addEventListener('click', async () => {
+            const card = button.closest('[data-campaign-id]')
+            const textarea = card.querySelector('[data-share-copy]')
+            const status = card.querySelector('[data-seed-status]')
+            const url = new URL(card.dataset.sharePath, window.location.href).toString()
+            const title = card.dataset.shareTitle
+            const text = card.dataset.shareText
+            const copy = [title, text, url].join('\\n')
+
+            try {
+              if (button.dataset.seedAction === 'share' && navigator.share) {
+                await navigator.share({ title, text, url })
+                status.textContent = 'Share sheet opened.'
+              } else {
+                await writeClipboard(copy, textarea)
+                status.textContent = 'Share text copied.'
+              }
+              button.textContent = 'Done'
+            } catch {
+              status.textContent = 'Copy the share text manually.'
+            }
+
+            window.setTimeout(() => {
+              button.textContent = originalLabel
+            }, 1600)
+          })
+        })
+      })()
+    </script>
   </body>
 </html>
 `
@@ -268,7 +322,7 @@ const report = [
   '',
   '## Seed Kit',
   '',
-  `- /seed-kit.html with ${payload.campaigns.length} zero-spend seed campaign links.`,
+  `- /seed-kit.html with ${payload.campaigns.length} zero-spend seed campaign links and player-initiated copy/share controls.`,
   '',
   '## Next Actions',
   '',

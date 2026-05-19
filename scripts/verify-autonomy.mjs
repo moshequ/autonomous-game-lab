@@ -721,6 +721,8 @@ if (
   trafficSeeding.guardrails?.maxCostUsd !== 0 ||
   trafficSeeding.guardrails?.noPaidPromotion !== true ||
   trafficSeeding.guardrails?.noExternalPostingWithoutCredentials !== true ||
+  trafficSeeding.guardrails?.noAutomatedExternalPosting !== true ||
+  trafficSeeding.guardrails?.playerInitiatedSharingOnly !== true ||
   trafficSeeding.guardrails?.minimumStartsBeforeQualityJudgment < 40 ||
   !trafficCampaigns.length ||
   missingSeedCampaign ||
@@ -736,11 +738,16 @@ if (
   shareManifest.seedKit?.path !== '/seed-kit.html' ||
   shareManifest.seedKit?.campaignCount !== trafficCampaigns.length ||
   shareManifest.seedKit?.costUsd !== 0 ||
+  shareManifest.seedKit?.playerInitiatedSharingOnly !== true ||
+  shareManifest.seedKit?.copyShareControls !== true ||
   !seedKitHtml.includes('Autonomous Game Lab Seed Kit') ||
   !seedKitHtml.includes('$0.00 spend') ||
+  !seedKitHtml.includes('data-seed-action="copy"') ||
+  !seedKitHtml.includes('data-seed-action="share"') ||
+  !seedKitHtml.includes('navigator.share') ||
   seedKitHtml.includes('autonomous-game-lab.example.com')
 ) {
-  fail('Traffic seeding must publish zero-cost campaigns, UTM/share links, a runtime-origin seed kit, and sample-size guardrails for every seed game.')
+  fail('Traffic seeding must publish zero-cost campaigns, UTM/share links, a runtime-origin seed kit, player-initiated sharing controls, and sample-size guardrails for every seed game.')
 }
 
 if (

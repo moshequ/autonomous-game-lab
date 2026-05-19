@@ -2237,11 +2237,17 @@ test('generated organic game page is reachable and links into the PWA', async ({
 
 test('zero-spend seed kit is reachable and uses runtime-relative campaign links', async ({ page }) => {
   const traffic = JSON.parse(await readFile('data/traffic-seeding.json', 'utf8')) as {
-    guardrails: { maxCostUsd: number }
+    guardrails: { maxCostUsd: number; playerInitiatedSharingOnly: boolean; noAutomatedExternalPosting: boolean }
     campaigns: Array<{ id: string; sharePath: string; title: string }>
   }
   const shareManifest = JSON.parse(await readFile('public/share-manifest.json', 'utf8')) as {
-    seedKit: { path: string; campaignCount: number; costUsd: number }
+    seedKit: {
+      path: string
+      campaignCount: number
+      costUsd: number
+      playerInitiatedSharingOnly: boolean
+      copyShareControls: boolean
+    }
   }
 
   await page.goto('/seed-kit.html')
@@ -2251,13 +2257,21 @@ test('zero-spend seed kit is reachable and uses runtime-relative campaign links'
   expect(shareManifest.seedKit.path).toBe('/seed-kit.html')
   expect(shareManifest.seedKit.campaignCount).toBe(traffic.campaigns.length)
   expect(shareManifest.seedKit.costUsd).toBe(traffic.guardrails.maxCostUsd)
+  expect(traffic.guardrails.playerInitiatedSharingOnly).toBe(true)
+  expect(traffic.guardrails.noAutomatedExternalPosting).toBe(true)
+  expect(shareManifest.seedKit.playerInitiatedSharingOnly).toBe(true)
+  expect(shareManifest.seedKit.copyShareControls).toBe(true)
 
   const firstCampaign = traffic.campaigns[0]
-  await expect(page.locator(`[data-campaign-id="${firstCampaign.id}"]`)).toContainText(firstCampaign.title)
+  const firstCard = page.locator(`[data-campaign-id="${firstCampaign.id}"]`)
+  await expect(firstCard).toContainText(firstCampaign.title)
+  await expect(firstCard).toHaveAttribute('data-share-path', firstCampaign.sharePath)
   await expect(page.getByRole('link', { name: 'Seed link' }).first()).toHaveAttribute(
     'href',
     firstCampaign.sharePath,
   )
+  await expect(page.getByRole('button', { name: 'Copy share text' }).first()).toBeVisible()
+  await expect(page.getByRole('button', { name: 'Share' }).first()).toBeVisible()
   expect(firstCampaign.sharePath).toContain('utm_source=seed_share')
   expect(await page.content()).not.toContain('autonomous-game-lab.example.com')
 })
