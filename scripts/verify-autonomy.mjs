@@ -3132,6 +3132,19 @@ const missingBootstrapSecret = (productionBootstrap.requiredSecrets ?? [])
         (action) => action.target === item.repositorySecret,
       ),
   )
+const ownerLastExecutedRecord = [...(autonomousOperatorHistory.records ?? [])]
+  .reverse()
+  .find((record) => record.execution?.requested === true)
+const ownerLastExecutedActionId =
+  ownerLastExecutedRecord?.selectedActionId ?? autonomousOperatorHistory.summary?.lastExecutedActionId ?? null
+const ownerLastExecutedStatus = ownerLastExecutedRecord?.execution?.status ?? null
+const ownerLastRecordExecutionStatus = autonomousOperatorHistory.summary?.lastExecutionStatus ?? null
+const ownerHasExecutedAction = (autonomousOperatorHistory.summary?.executedRecords ?? 0) > 0
+const ownerRecentlyExecutedActionStillExecutable = (autonomousOwnerLoop.safeAutonomousActions ?? []).some(
+  (action) =>
+    action.id === ownerLastExecutedActionId &&
+    ['armed', 'ready-when-repository-pages-enabled'].includes(action.status),
+)
 
 if (
   autonomousOwnerLoop.status !== 'owner-loop-ready' ||
@@ -3170,7 +3183,17 @@ if (
   missingOwnerSystem ||
   missingOwnerAction ||
   ownerMissingCredential ||
-  missingBootstrapSecret
+  missingBootstrapSecret ||
+  autonomousOwnerLoop.executionMemory?.avoidImmediateRepeat !== true ||
+  autonomousOwnerLoop.executionMemory?.lastExecutedActionId !== ownerLastExecutedActionId ||
+  autonomousOwnerLoop.executionMemory?.lastExecutedStatus !== ownerLastExecutedStatus ||
+  autonomousOwnerLoop.executionMemory?.lastRecordExecutionStatus !== ownerLastRecordExecutionStatus ||
+  (ownerHasExecutedAction &&
+    ownerRecentlyExecutedActionStillExecutable &&
+    autonomousOwnerLoop.ownerDecision?.nextBestActionId === ownerLastExecutedActionId) ||
+  (ownerHasExecutedAction &&
+    ownerRecentlyExecutedActionStillExecutable &&
+    !autonomousOwnerLoop.executionMemory?.skippedRecentlyExecutedActionIds?.includes(ownerLastExecutedActionId))
 ) {
   fail('Autonomous owner loop must synthesize current production state, safe actions, and credential-gated blockers.')
 }

@@ -976,11 +976,31 @@ const guardrails = [
 const executableNow = safeAutonomousActions.filter((action) =>
   ['armed', 'ready-when-repository-pages-enabled'].includes(action.status),
 )
+const lastExecutedRecord = [...(autonomousOperatorHistory.records ?? [])]
+  .reverse()
+  .find((record) => record.execution?.requested === true)
+const lastExecutedActionId =
+  lastExecutedRecord?.selectedActionId ?? autonomousOperatorHistory.summary?.lastExecutedActionId ?? null
+const recentlyExecutedActionIds = new Set(lastExecutedActionId ? [lastExecutedActionId] : [])
+const executableWithoutImmediateRepeat = executableNow.filter((action) => !recentlyExecutedActionIds.has(action.id))
+const prioritizedExecutableNow =
+  executableWithoutImmediateRepeat.length > 0 ? executableWithoutImmediateRepeat : executableNow
+const preferredActionOrder = [
+  'prepare-repository-channel',
+  'deploy-web-pwa',
+  'seed-portfolio-traffic',
+  'bootstrap-production-setup',
+  'optimize-product-gates',
+  'optimize-daily-retention',
+  'measure-pwa-install-loop',
+  'refresh-autonomous-self-update',
+  'refresh-objective-audit',
+]
 const nextBestAction =
-  executableNow.find((action) => action.id === 'prepare-repository-channel') ??
-  executableNow.find((action) => action.id === 'deploy-web-pwa') ??
-  executableNow.find((action) => action.id === 'seed-portfolio-traffic') ??
-  executableNow[0] ??
+  preferredActionOrder
+    .map((actionId) => prioritizedExecutableNow.find((action) => action.id === actionId))
+    .find(Boolean) ??
+  prioritizedExecutableNow[0] ??
   safeAutonomousActions[0]
 
 const payload = {
@@ -1009,6 +1029,16 @@ const payload = {
     nextBestAction: nextBestAction.command,
     canExecuteWithoutSpend: nextBestAction.costUsd === 0,
     rationale: nextBestAction.reason,
+  },
+  executionMemory: {
+    avoidImmediateRepeat: true,
+    lastExecutedActionId,
+    lastExecutedStatus: lastExecutedRecord?.execution?.status ?? null,
+    lastRecordExecutionStatus: autonomousOperatorHistory.summary?.lastExecutionStatus ?? null,
+    skippedRecentlyExecutedActionIds: executableNow
+      .filter((action) => recentlyExecutedActionIds.has(action.id) && action.id !== nextBestAction.id)
+      .map((action) => action.id),
+    preferredActionOrder,
   },
   systems,
   safeAutonomousActions,
@@ -1070,6 +1100,7 @@ const report = [
   `- Next action: ${payload.ownerDecision.nextBestActionId}`,
   `- Command: ${payload.ownerDecision.nextBestAction}`,
   `- Rationale: ${payload.ownerDecision.rationale}`,
+  `- Last executed action: ${payload.executionMemory.lastExecutedActionId ?? 'none'}`,
   '',
   '## Systems',
   '',

@@ -1,5 +1,5 @@
 export const autonomousOwnerLoop = {
-  "generatedAt": "2026-05-19T03:27:35.237Z",
+  "generatedAt": "2026-05-19T03:31:22.877Z",
   "status": "owner-loop-ready",
   "mode": "repository-channel-needed",
   "autonomyScore": {
@@ -20,10 +20,30 @@ export const autonomousOwnerLoop = {
     "rollbackRequired": false
   },
   "ownerDecision": {
-    "nextBestActionId": "prepare-repository-channel",
-    "nextBestAction": "npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap",
+    "nextBestActionId": "seed-portfolio-traffic",
+    "nextBestAction": "npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop",
     "canExecuteWithoutSpend": true,
-    "rationale": "Surfaces and prepares the missing git/GitHub deployment-channel blockers before web deploy."
+    "rationale": "Under-measured playable games need free organic/internal traffic before quality judgment."
+  },
+  "executionMemory": {
+    "avoidImmediateRepeat": true,
+    "lastExecutedActionId": "prepare-repository-channel",
+    "lastExecutedStatus": "executed",
+    "lastRecordExecutionStatus": "not-requested",
+    "skippedRecentlyExecutedActionIds": [
+      "prepare-repository-channel"
+    ],
+    "preferredActionOrder": [
+      "prepare-repository-channel",
+      "deploy-web-pwa",
+      "seed-portfolio-traffic",
+      "bootstrap-production-setup",
+      "optimize-product-gates",
+      "optimize-daily-retention",
+      "measure-pwa-install-loop",
+      "refresh-autonomous-self-update",
+      "refresh-objective-audit"
+    ]
   },
   "systems": [
     {
@@ -191,14 +211,14 @@ export const autonomousOwnerLoop = {
       "id": "autonomous-operator",
       "status": "ready",
       "autonomy": "one-safe-action-runner",
-      "evidence": "Operator operator-executed; selected prepare-repository-channel; execution executed.",
+      "evidence": "Operator operator-plan-ready; selected seed-portfolio-traffic; execution not-requested.",
       "nextAction": "Keep a dry-run operator plan ready, then execute only one allowlisted local action when explicitly requested."
     },
     {
       "id": "operator-history",
       "status": "ready",
       "autonomy": "operator-audit-trail",
-      "evidence": "History operator-history-ready; records 24; executed 1.",
+      "evidence": "History operator-history-ready; records 25; executed 1.",
       "nextAction": "Keep a capped durable record of operator plans and one-action executions."
     },
     {
@@ -423,7 +443,7 @@ export const autonomousOwnerLoop = {
       "costUsd": 0,
       "command": "npm run autonomous:operator",
       "targets": [
-        "prepare-repository-channel"
+        "seed-portfolio-traffic"
       ],
       "reason": "Publishes the one-action local execution plan with allowlist, zero-spend, and audit controls."
     },
@@ -433,7 +453,7 @@ export const autonomousOwnerLoop = {
       "costUsd": 0,
       "command": "npm run autonomous:operator",
       "targets": [
-        "prepare-repository-channel"
+        "seed-portfolio-traffic"
       ],
       "reason": "Refreshes the capped operator history so safe actions remain auditable over time."
     },
@@ -655,7 +675,7 @@ export const autonomousOwnerLoop = {
     "completionLoopStatus": "completion-loop-ready",
     "replayLoopStatus": "replay-loop-ready",
     "productionBootstrapStatus": "production-bootstrap-ready",
-    "autonomousOperatorStatus": "operator-executed",
+    "autonomousOperatorStatus": "operator-plan-ready",
     "autonomousOperatorHistoryStatus": "operator-history-ready",
     "objectiveAuditStatus": "objective-in-progress",
     "storeListingOptimizerStatus": "store-listing-optimizer-ready",

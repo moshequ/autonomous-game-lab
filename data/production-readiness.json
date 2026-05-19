@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-19T03:27:35.014Z",
+  "generatedAt": "2026-05-19T03:31:19.078Z",
   "environment": {
     "status": "production-env-missing",
     "publicOrigin": null,
@@ -338,12 +338,12 @@
       {
         "id": "autonomous-operator",
         "status": "pass",
-        "detail": "Autonomous operator is operator-executed; selected prepare-repository-channel; execution executed."
+        "detail": "Autonomous operator is operator-plan-ready; selected seed-portfolio-traffic; execution not-requested."
       },
       {
         "id": "autonomous-operator-history",
         "status": "pass",
-        "detail": "Autonomous operator history is operator-history-ready; records 24; executed 1."
+        "detail": "Autonomous operator history is operator-history-ready; records 25; executed 1."
       },
       {
         "id": "autonomous-cadence",
@@ -2190,16 +2190,19 @@
     ]
   },
   "autonomousOperator": {
-    "status": "operator-executed",
-    "mode": "execute-one-action",
+    "status": "operator-plan-ready",
+    "mode": "plan-only",
     "selectedAction": {
-      "id": "prepare-repository-channel",
+      "id": "seed-portfolio-traffic",
       "status": "armed",
-      "command": "npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap",
+      "command": "npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop",
       "targets": [
-        "github-repository-channel"
+        "canopy-bloom",
+        "grove-engine",
+        "metro-loom",
+        "pocket-draft"
       ],
-      "reason": "Surfaces and prepares the missing git/GitHub deployment-channel blockers before web deploy.",
+      "reason": "Under-measured playable games need free organic/internal traffic before quality judgment.",
       "costUsd": 0
     },
     "controls": {
@@ -2217,37 +2220,11 @@
       "noStoreSubmissionCommands": true
     },
     "execution": {
-      "requested": true,
-      "status": "executed",
+      "requested": false,
+      "status": "not-requested",
       "maxActionsPerRun": 1,
-      "attemptedActionId": "prepare-repository-channel",
-      "results": [
-        {
-          "script": "autonomous:repo-readiness",
-          "exitCode": 0,
-          "stdoutTail": [
-            "> autonomous-game-lab@0.0.0 autonomous:repo-readiness",
-            "> node scripts/repository-readiness.mjs",
-            "Wrote data/repository-readiness.json",
-            "Wrote src/data/repositoryReadiness.ts",
-            "Wrote reports/repository-readiness-latest.md"
-          ],
-          "stderrTail": []
-        },
-        {
-          "script": "autonomous:repo-bootstrap",
-          "exitCode": 0,
-          "stdoutTail": [
-            "> autonomous-game-lab@0.0.0 autonomous:repo-bootstrap",
-            "> node scripts/repository-bootstrap.mjs",
-            "Wrote data/repository-bootstrap.json",
-            "Wrote src/data/repositoryBootstrap.ts",
-            "Wrote reports/repository-bootstrap-latest.md",
-            "Wrote ops/github/bootstrap-repository.sh"
-          ],
-          "stderrTail": []
-        }
-      ]
+      "attemptedActionId": null,
+      "results": []
     },
     "eligibleActionIds": [
       "refresh-autonomous-self-update",
@@ -2283,12 +2260,6 @@
         "id": "refresh-autonomous-self-update",
         "status": "armed",
         "command": "npm run autonomous:self-update",
-        "reason": "not-selected-this-run"
-      },
-      {
-        "id": "seed-portfolio-traffic",
-        "status": "armed",
-        "command": "npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop",
         "reason": "not-selected-this-run"
       },
       {
@@ -2352,6 +2323,12 @@
         "reason": "not-selected-this-run"
       },
       {
+        "id": "prepare-repository-channel",
+        "status": "armed",
+        "command": "npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap",
+        "reason": "not-selected-this-run"
+      },
+      {
         "id": "bootstrap-production-setup",
         "status": "armed",
         "command": "npm run autonomous:release-candidate && npm run autonomous:deploy-plan && npm run autonomous:bootstrap",
@@ -2410,12 +2387,12 @@
   "autonomousOperatorHistory": {
     "status": "operator-history-ready",
     "summary": {
-      "totalRecords": 24,
-      "plannedRecords": 23,
+      "totalRecords": 25,
+      "plannedRecords": 24,
       "executedRecords": 1,
       "failedRecords": 0,
-      "lastActionId": "prepare-repository-channel",
-      "lastExecutionStatus": "executed",
+      "lastActionId": "seed-portfolio-traffic",
+      "lastExecutionStatus": "not-requested",
       "lastExecutedActionId": "prepare-repository-channel"
     },
     "controls": {
@@ -2428,49 +2405,10 @@
     "retention": {
       "maxRecords": 40,
       "appendOnlyWhenPlanChangesOrExecutes": true,
-      "latestRunAppended": true,
+      "latestRunAppended": false,
       "compactedDuplicateDryRuns": 0
     },
     "recentRecords": [
-      {
-        "id": "20260519030736-prepare-repository-channel",
-        "generatedAt": "2026-05-19T03:07:36.558Z",
-        "runFingerprint": "a515e9153597aab4",
-        "mode": "plan-only",
-        "status": "operator-plan-ready",
-        "selectedActionId": "prepare-repository-channel",
-        "selectedCommand": "npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap",
-        "eligibleActionIds": [
-          "refresh-autonomous-self-update",
-          "seed-portfolio-traffic",
-          "refresh-organic-seed-loop",
-          "optimize-daily-retention",
-          "measure-pwa-install-loop",
-          "check-performance-budget",
-          "optimize-product-gates",
-          "refresh-first-move-coach",
-          "refresh-completion-loop",
-          "refresh-replay-loop",
-          "prepare-repository-channel",
-          "bootstrap-production-setup",
-          "optimize-store-listing",
-          "apply-safe-improvements"
-        ],
-        "blockedActionCount": 23,
-        "execution": {
-          "requested": false,
-          "status": "not-requested",
-          "attemptedActionId": null,
-          "resultCount": 0,
-          "failedScripts": []
-        },
-        "controls": {
-          "zeroPaidSpend": true,
-          "localCommandAllowlistEnforced": true,
-          "externalWorkflowExecutionBlockedByDefault": true,
-          "maxActionsPerRun": 1
-        }
-      },
       {
         "id": "20260519030744-prepare-repository-channel",
         "generatedAt": "2026-05-19T03:07:44.427Z",
@@ -2621,6 +2559,46 @@
           "status": "executed",
           "attemptedActionId": "prepare-repository-channel",
           "resultCount": 2,
+          "failedScripts": []
+        },
+        "controls": {
+          "zeroPaidSpend": true,
+          "localCommandAllowlistEnforced": true,
+          "externalWorkflowExecutionBlockedByDefault": true,
+          "maxActionsPerRun": 1
+        }
+      },
+      {
+        "id": "20260519032927-seed-portfolio-traffic",
+        "generatedAt": "2026-05-19T03:29:27.674Z",
+        "runFingerprint": "623d54b2e007ba3c",
+        "mode": "plan-only",
+        "status": "operator-plan-ready",
+        "selectedActionId": "seed-portfolio-traffic",
+        "selectedCommand": "npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop",
+        "eligibleActionIds": [
+          "refresh-autonomous-self-update",
+          "seed-portfolio-traffic",
+          "refresh-organic-seed-loop",
+          "optimize-daily-retention",
+          "measure-pwa-install-loop",
+          "check-performance-budget",
+          "prepare-release-candidate",
+          "optimize-product-gates",
+          "refresh-first-move-coach",
+          "refresh-completion-loop",
+          "refresh-replay-loop",
+          "prepare-repository-channel",
+          "bootstrap-production-setup",
+          "optimize-store-listing",
+          "apply-safe-improvements"
+        ],
+        "blockedActionCount": 23,
+        "execution": {
+          "requested": false,
+          "status": "not-requested",
+          "attemptedActionId": null,
+          "resultCount": 0,
           "failedScripts": []
         },
         "controls": {
@@ -2893,7 +2871,7 @@
     "completion": {
       "canMarkGoalComplete": false,
       "reason": "The local autonomous PWA system is largely prepared, but production credentials, live data, monetization gates, hosted compliance URLs, and store account/signing blockers remain.",
-      "nextBestAction": "prepare-repository-channel"
+      "nextBestAction": "seed-portfolio-traffic"
     },
     "requirements": [
       {
@@ -2957,7 +2935,7 @@
           "Experiment results: evaluated",
           "Backlog items: 4",
           "Applied/deferred actions: 6",
-          "Operator selected: prepare-repository-channel; status operator-executed; execution executed"
+          "Operator selected: seed-portfolio-traffic; status operator-plan-ready; execution not-requested"
         ],
         "blockers": [],
         "nextAction": "Keep collecting starts until a safe product-gate tuning action is justified.",
@@ -2971,8 +2949,8 @@
           "Owner loop: owner-loop-ready",
           "Autonomous cadence: cadence-ready; Codex active-confirmed; GitHub scheduled",
           "Autonomous self-update: self-update-ready; workflow .github/workflows/autonomous-self-update.yml; unsafe pending 0",
-          "Operator: operator-executed",
-          "Operator history: operator-history-ready; records 24; executed 1",
+          "Operator: operator-plan-ready",
+          "Operator history: operator-history-ready; records 25; executed 1",
           "Bootstrap: production-bootstrap-ready",
           "Repository bootstrap: waiting-for-github-target; helper ops/github/bootstrap-repository.sh",
           "Release candidate: release-candidate-ready; smoke URLs 7",

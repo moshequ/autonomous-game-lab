@@ -44,7 +44,7 @@ test('portal loads a playable canvas and autonomy cockpit', async ({ page }) => 
   await expect(page.getByText('production-env-missing')).toBeVisible()
   await expect(page.getByText('owner-loop-ready')).toBeVisible()
   await expect(page.getByText('repository-channel-needed')).toBeVisible()
-  await expect(page.getByText('prepare-repository-channel').first()).toBeVisible()
+  await expect(page.getByText(/prepare-repository-channel|seed-portfolio-traffic/).first()).toBeVisible()
   await expect(page.getByLabel('Performance Budget')).toContainText('performance-budget-ready')
   await expect(page.getByLabel('Performance Budget')).toContainText('Initial JS')
   await expect(page.getByLabel('Production Bootstrap')).toContainText('production-bootstrap-ready')
@@ -997,6 +997,7 @@ test('autonomous operator history keeps a capped audit trail', async ({ page }) 
       executedRecords: number
       failedRecords: number
       lastActionId: string | null
+      lastExecutionStatus: string | null
       lastExecutedActionId: string | null
     }
     controls: {
@@ -1012,6 +1013,19 @@ test('autonomous operator history keeps a capped audit trail', async ({ page }) 
       execution: { requested: boolean; status: string }
     }>
   }
+  const ownerLoop = JSON.parse(await readFile('data/autonomous-owner-loop.json', 'utf8')) as {
+    ownerDecision: { nextBestActionId: string }
+    executionMemory: {
+      avoidImmediateRepeat: boolean
+      lastExecutedActionId: string | null
+      lastExecutedStatus: string | null
+      lastRecordExecutionStatus: string | null
+      skippedRecentlyExecutedActionIds: string[]
+    }
+  }
+  const lastExecutedRecord = [...history.records]
+    .reverse()
+    .find((record) => record.execution.requested === true)
 
   expect(history.status).toBe('operator-history-ready')
   expect(history.retention.maxRecords).toBe(40)
@@ -1023,6 +1037,14 @@ test('autonomous operator history keeps a capped audit trail', async ({ page }) 
   expect(history.summary.failedRecords).toBe(0)
   expect(history.summary.lastActionId).toBeTruthy()
   expect(history.summary.lastExecutedActionId).toBeTruthy()
+  expect(ownerLoop.executionMemory.avoidImmediateRepeat).toBe(true)
+  expect(ownerLoop.executionMemory.lastExecutedActionId).toBe(history.summary.lastExecutedActionId)
+  expect(ownerLoop.executionMemory.lastExecutedStatus).toBe(lastExecutedRecord?.execution.status)
+  expect(ownerLoop.executionMemory.lastRecordExecutionStatus).toBe(history.summary.lastExecutionStatus)
+  expect(ownerLoop.ownerDecision.nextBestActionId).not.toBe(history.summary.lastExecutedActionId)
+  expect(ownerLoop.executionMemory.skippedRecentlyExecutedActionIds).toContain(
+    history.summary.lastExecutedActionId,
+  )
   expect(history.controls.zeroPaidSpend).toBe(true)
   expect(history.controls.localCommandAllowlistEnforced).toBe(true)
   expect(history.controls.maxActionsPerRun).toBe(1)
