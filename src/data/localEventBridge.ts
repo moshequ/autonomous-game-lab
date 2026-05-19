@@ -1,5 +1,5 @@
 export const localEventBridge = {
-  "generatedAt": "2026-05-19T17:10:36.626Z",
+  "generatedAt": "2026-05-19T17:14:12.640Z",
   "status": "bridge-waiting-for-export",
   "mode": "local-zero-spend-event-drop-bridge",
   "inbox": {
@@ -51,7 +51,7 @@ export const localEventBridge = {
     "downloadsImportCommand": "AGL_LOCAL_EVENT_IMPORT_DOWNLOADS=true npm run autonomous:local-event-bridge"
   },
   "explicitDownloadsScan": {
-    "scannedAt": "2026-05-19T13:10:02.099Z",
+    "scannedAt": "2026-05-19T17:13:43.509Z",
     "status": "no-evidence-found",
     "directory": "../../../../Downloads",
     "matchedFiles": 0,

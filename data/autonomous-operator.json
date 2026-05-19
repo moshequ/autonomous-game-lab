@@ -1,24 +1,22 @@
 {
-  "generatedAt": "2026-05-19T17:10:34.950Z",
+  "generatedAt": "2026-05-19T17:14:11.194Z",
   "status": "operator-plan-ready",
   "mode": "plan-only",
   "ownerDecision": {
-    "actionId": "collect-gate-sample-downloads",
-    "command": "npm run autonomous:collect-sample-downloads",
+    "actionId": "prepare-repository-channel",
+    "command": "npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap",
     "locallyExecutable": true,
     "rejectionReason": null
   },
   "requestedActionId": null,
   "selectedAction": {
-    "id": "collect-gate-sample-downloads",
+    "id": "prepare-repository-channel",
     "status": "armed",
-    "command": "npm run autonomous:collect-sample-downloads",
+    "command": "npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap",
     "targets": [
-      "firstGameCompletion",
-      "gate-sample-20260519-firstGameCompletion",
-      "gate-sample-20260519-replayRate"
+      "github-repository-channel"
     ],
-    "reason": "Opt-in scans local browser Downloads and the event inbox for real player exports, imports them, refreshes analytics and recovery, then regenerates the sample plan.",
+    "reason": "Surfaces and prepares the missing git/GitHub deployment-channel blockers before web deploy.",
     "costUsd": 0
   },
   "selectedRejection": null,
@@ -33,8 +31,6 @@
     "prepare-release-candidate",
     "optimize-product-gates",
     "refresh-product-gate-recovery",
-    "collect-gate-sample-downloads",
-    "refresh-product-gate-sample-plan",
     "refresh-first-move-coach",
     "refresh-completion-loop",
     "refresh-replay-loop",
@@ -119,10 +115,16 @@
       "reason": "not-selected-this-run"
     },
     {
+      "id": "collect-gate-sample-downloads",
+      "status": "monitor",
+      "command": "npm run autonomous:collect-sample-downloads",
+      "reason": "status-monitor"
+    },
+    {
       "id": "refresh-product-gate-sample-plan",
-      "status": "armed",
+      "status": "monitor",
       "command": "npm run autonomous:sample-plan",
-      "reason": "not-selected-this-run"
+      "reason": "status-monitor"
     },
     {
       "id": "refresh-first-move-coach",
@@ -140,12 +142,6 @@
       "id": "refresh-replay-loop",
       "status": "armed",
       "command": "npm run autonomous:replay-loop",
-      "reason": "not-selected-this-run"
-    },
-    {
-      "id": "prepare-repository-channel",
-      "status": "armed",
-      "command": "npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap",
       "reason": "not-selected-this-run"
     },
     {
@@ -205,8 +201,12 @@
   ],
   "commandPlan": [
     {
-      "segment": "npm run autonomous:collect-sample-downloads",
-      "script": "autonomous:collect-sample-downloads"
+      "segment": "npm run autonomous:repo-readiness",
+      "script": "autonomous:repo-readiness"
+    },
+    {
+      "segment": "npm run autonomous:repo-bootstrap",
+      "script": "autonomous:repo-bootstrap"
     }
   ],
   "execution": {
@@ -272,7 +272,7 @@
     "RUN_WORKFLOWS=1"
   ],
   "nextActions": [
-    "Run npm run autonomous:operator -- --execute --action=collect-gate-sample-downloads to execute exactly one allowed local action.",
+    "Run npm run autonomous:operator -- --execute --action=prepare-repository-channel to execute exactly one allowed local action.",
     "Do not execute GitHub workflow, store, paid ads, or account setup commands from the local operator."
   ]
 }

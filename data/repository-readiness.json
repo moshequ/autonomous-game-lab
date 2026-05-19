@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-19T17:10:33.091Z",
+  "generatedAt": "2026-05-19T17:14:09.597Z",
   "status": "waiting-for-github-repository",
   "envFiles": {
     "loaded": true,
@@ -56,10 +56,9 @@
     "insideWorkTree": true,
     "gitRoot": "/Users/moshequ/Documents/Codex/2026-05-18/i-want-to-have-a-new",
     "currentBranch": "main",
-    "dirtyFiles": 50,
+    "dirtyFiles": 48,
     "dirtyPaths": [
       "data/analytics-rollup.json",
-      "data/autonomous-cadence.json",
       "data/autonomous-operator-history.json",
       "data/autonomous-operator.json",
       "data/autonomous-owner-loop.json",
@@ -77,7 +76,6 @@
       "data/repository-bootstrap.json",
       "data/repository-readiness.json",
       "reports/analytics-rollup-latest.md",
-      "reports/autonomous-cadence-latest.md",
       "reports/autonomous-operator-history-latest.md",
       "reports/autonomous-operator-latest.md",
       "reports/autonomous-owner-loop-latest.md",
@@ -109,10 +107,9 @@
       "src/data/repositoryBootstrap.ts",
       "src/data/repositoryReadiness.ts"
     ],
-    "generatedEvidenceDirtyFiles": 50,
+    "generatedEvidenceDirtyFiles": 48,
     "generatedEvidenceDirtyPaths": [
       "data/analytics-rollup.json",
-      "data/autonomous-cadence.json",
       "data/autonomous-operator-history.json",
       "data/autonomous-operator.json",
       "data/autonomous-owner-loop.json",
@@ -130,7 +127,6 @@
       "data/repository-bootstrap.json",
       "data/repository-readiness.json",
       "reports/analytics-rollup-latest.md",
-      "reports/autonomous-cadence-latest.md",
       "reports/autonomous-operator-history-latest.md",
       "reports/autonomous-operator-latest.md",
       "reports/autonomous-owner-loop-latest.md",
@@ -189,7 +185,7 @@
     "workflowExists": true,
     "deployWorkflowIncludesSmoke": true,
     "deploymentStatus": "ready-for-pages",
-    "releaseCandidateId": "pwa-a9efad99c2fc",
+    "releaseCandidateId": "pwa-bd4ac9b22050",
     "postDeploySmokeStatus": "blocked-missing-origin"
   },
   "controls": {
