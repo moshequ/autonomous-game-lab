@@ -1,9 +1,11 @@
 # PWA Install Loop
 
-Generated: 2026-05-19T21:59:54.491Z
+Generated: 2026-05-19T23:01:38.522Z
 Status: pwa-install-loop-ready
 Channel: pwa-install (ready-after-hosting)
+Prompt available: 0
 Prompt views: 0
+Cooldown suppressions: 0
 Installs: 0
 Acceptance: 0%
 
@@ -19,8 +21,16 @@ Acceptance: 0%
 - noForcedPrompt: true
 - noBlockingGameplay: true
 - respectBrowserPromptAvailability: true
+- enforceDismissalCooldown: true
 - noInstallWall: true
 - noPaidInstallReward: true
+
+## Measurement
+
+- Availability: pwa_install_prompt_available
+- User-visible prompt: pwa_install_prompt_viewed
+- Cooldown: pwa_install_prompt_cooldown
+- Launch: pwa_launch_mode_detected
 
 ## Next Actions
 

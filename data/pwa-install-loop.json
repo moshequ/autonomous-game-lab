@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-19T21:59:54.491Z",
+  "generatedAt": "2026-05-19T23:01:38.522Z",
   "status": "pwa-install-loop-ready",
   "sourceStatus": {
     "analyticsSource": "fixture-sample",
@@ -21,12 +21,15 @@
     "metric": "pwa_install_prompt_viewed -> pwa_installed -> pwa_launch_mode_detected"
   },
   "metrics": {
+    "promptAvailable": 0,
     "promptViews": 0,
     "promptClicks": 0,
     "accepted": 0,
     "dismissed": 0,
+    "cooldownSuppressions": 0,
     "installed": 0,
     "launchModes": 0,
+    "promptSurfaceRate": 0,
     "installRate": 0,
     "acceptanceRate": 0,
     "dismissalRate": 0
@@ -53,10 +56,24 @@
     "noPaidInstallIncentive": true,
     "noNotificationPermissionPrompt": true
   },
+  "measurementPolicy": {
+    "availableEvent": "pwa_install_prompt_available",
+    "surfacedEvent": "pwa_install_prompt_viewed",
+    "clickedEvent": "pwa_install_prompt_clicked",
+    "acceptedEvent": "pwa_install_prompt_accepted",
+    "dismissedEvent": "pwa_install_prompt_dismissed",
+    "cooldownEvent": "pwa_install_prompt_cooldown",
+    "installedEvent": "pwa_installed",
+    "launchEvent": "pwa_launch_mode_detected",
+    "cooldownStorageKey": "agl.pwa.installDismissedAt",
+    "cooldownDays": 14,
+    "reason": "Separate browser install eligibility from user-visible prompting so the loop can optimize distribution without nagging players."
+  },
   "guardrails": {
     "noForcedPrompt": true,
     "noBlockingGameplay": true,
     "respectBrowserPromptAvailability": true,
+    "enforceDismissalCooldown": true,
     "noInstallWall": true,
     "noPaidInstallReward": true
   },

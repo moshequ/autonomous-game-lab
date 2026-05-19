@@ -190,6 +190,20 @@ const exportedEvents = [
     createdAt: '2026-05-17T09:06:00.000Z',
   },
   {
+    id: 'collector-pwa-available',
+    name: 'pwa_install_prompt_available',
+    properties: {
+      gameId: 'mosaic-haven',
+      anonymousId: 'anon-collector',
+      sessionId: 'session-collector-a',
+      sessionDate: '2026-05-17',
+      displayMode: 'browser',
+      cooldownActive: false,
+      alreadyInstalled: false,
+    },
+    createdAt: '2026-05-17T09:06:40.000Z',
+  },
+  {
     id: 'collector-pwa-install',
     name: 'pwa_install_prompt_clicked',
     properties: {
@@ -199,6 +213,19 @@ const exportedEvents = [
       sessionDate: '2026-05-17',
     },
     createdAt: '2026-05-17T09:07:00.000Z',
+  },
+  {
+    id: 'collector-pwa-cooldown',
+    name: 'pwa_install_prompt_cooldown',
+    properties: {
+      gameId: 'mosaic-haven',
+      anonymousId: 'anon-collector',
+      sessionId: 'session-collector-a',
+      sessionDate: '2026-05-17',
+      displayMode: 'browser',
+      cooldownDays: 14,
+    },
+    createdAt: '2026-05-17T09:07:30.000Z',
   },
   {
     id: 'collector-view-b',
@@ -322,7 +349,9 @@ try {
     game?.counts.completion_nudge_viewed !== 1 ||
     game?.counts.replay_prompt_clicked !== 1 ||
     game?.counts.daily_return_prompt_clicked !== 1 ||
+    game?.counts.pwa_install_prompt_available !== 1 ||
     game?.counts.pwa_install_prompt_clicked !== 1 ||
+    game?.counts.pwa_install_prompt_cooldown !== 1 ||
     game?.counts.level_completed !== 1
   ) {
     fail(`Expected collector events to roll up into local analytics, got ${JSON.stringify(analytics)}`)
@@ -356,7 +385,9 @@ try {
         completion_nudge_viewed: game.counts.completion_nudge_viewed,
         replay_prompt_clicked: game.counts.replay_prompt_clicked,
         daily_return_prompt_clicked: game.counts.daily_return_prompt_clicked,
+        pwa_install_prompt_available: game.counts.pwa_install_prompt_available,
         pwa_install_prompt_clicked: game.counts.pwa_install_prompt_clicked,
+        pwa_install_prompt_cooldown: game.counts.pwa_install_prompt_cooldown,
         level_completed: game.counts.level_completed,
       },
     },

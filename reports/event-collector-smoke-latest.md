@@ -1,13 +1,13 @@
 # Event Collector Smoke
 
-Generated: 2026-05-19T22:51:51.097Z
+Generated: 2026-05-19T23:03:31.126Z
 Status: pass
 
 ## Collector
 
 - Post status: accepted
-- Stored events: 11
-- Exported events: 11
+- Stored events: 13
+- Exported events: 13
 - PII stripped: true
 
 ## Ingest And Rollup

@@ -50,10 +50,12 @@ const allowedEventNames = new Set([
   'daily_return_intent_started',
   'daily_return_intent_cleared',
   'streak_updated',
+  'pwa_install_prompt_available',
   'pwa_install_prompt_viewed',
   'pwa_install_prompt_clicked',
   'pwa_install_prompt_accepted',
   'pwa_install_prompt_dismissed',
+  'pwa_install_prompt_cooldown',
   'pwa_installed',
   'pwa_launch_mode_detected',
 ])

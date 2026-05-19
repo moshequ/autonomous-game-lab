@@ -1,5 +1,5 @@
 export const repositoryBootstrap = {
-  "generatedAt": "2026-05-19T22:51:41.690Z",
+  "generatedAt": "2026-05-19T23:03:25.011Z",
   "status": "waiting-for-github-target",
   "mode": "plan-only",
   "envFiles": {
@@ -61,7 +61,7 @@ export const repositoryBootstrap = {
       "originRemote": null,
       "remoteRepository": null,
       "hasCommit": true,
-      "dirtyFiles": 55,
+      "dirtyFiles": 63,
       "dirtyPaths": [
         "data/analytics-rollup.json",
         "data/autonomous-operator-history.json",
@@ -79,10 +79,11 @@ export const repositoryBootstrap = {
         "data/product-gate-sample-plan.json",
         "data/production-bootstrap.json",
         "data/production-readiness.json",
+        "data/pwa-install-loop.json",
         "data/release-candidate.json",
         "data/repository-bootstrap.json",
         "data/repository-readiness.json",
-        "data/retention-loop.json",
+        "ops/cloudflare/event-collector-worker.mjs",
         "reports/analytics-rollup-latest.md",
         "reports/autonomous-operator-history-latest.md",
         "reports/autonomous-operator-latest.md",
@@ -99,10 +100,15 @@ export const repositoryBootstrap = {
         "reports/product-gate-sample-plan-latest.md",
         "reports/production-bootstrap-latest.md",
         "reports/production-readiness-latest.md",
+        "reports/pwa-install-loop-latest.md",
         "reports/release-candidate-latest.md",
         "reports/repository-bootstrap-latest.md",
         "reports/repository-readiness-latest.md",
-        "reports/retention-loop-latest.md",
+        "scripts/analytics-rollup.mjs",
+        "scripts/event-collector-smoke.mjs",
+        "scripts/pwa-install-loop.mjs",
+        "scripts/verify-autonomy.mjs",
+        "src/App.tsx",
         "src/data/autonomousOperator.ts",
         "src/data/autonomousOperatorHistory.ts",
         "src/data/autonomousOwnerLoop.ts",
@@ -114,10 +120,12 @@ export const repositoryBootstrap = {
         "src/data/productGateRecovery.ts",
         "src/data/productGateSamplePlan.ts",
         "src/data/productionBootstrap.ts",
+        "src/data/pwaInstallLoop.ts",
         "src/data/releaseCandidate.ts",
         "src/data/repositoryBootstrap.ts",
         "src/data/repositoryReadiness.ts",
-        "src/data/retentionLoop.ts"
+        "src/lib/analytics.ts",
+        "tests/smoke.spec.ts"
       ],
       "generatedEvidenceDirtyFiles": 55,
       "generatedEvidenceDirtyPaths": [
@@ -137,10 +145,10 @@ export const repositoryBootstrap = {
         "data/product-gate-sample-plan.json",
         "data/production-bootstrap.json",
         "data/production-readiness.json",
+        "data/pwa-install-loop.json",
         "data/release-candidate.json",
         "data/repository-bootstrap.json",
         "data/repository-readiness.json",
-        "data/retention-loop.json",
         "reports/analytics-rollup-latest.md",
         "reports/autonomous-operator-history-latest.md",
         "reports/autonomous-operator-latest.md",
@@ -157,10 +165,10 @@ export const repositoryBootstrap = {
         "reports/product-gate-sample-plan-latest.md",
         "reports/production-bootstrap-latest.md",
         "reports/production-readiness-latest.md",
+        "reports/pwa-install-loop-latest.md",
         "reports/release-candidate-latest.md",
         "reports/repository-bootstrap-latest.md",
         "reports/repository-readiness-latest.md",
-        "reports/retention-loop-latest.md",
         "src/data/autonomousOperator.ts",
         "src/data/autonomousOperatorHistory.ts",
         "src/data/autonomousOwnerLoop.ts",
@@ -172,13 +180,22 @@ export const repositoryBootstrap = {
         "src/data/productGateRecovery.ts",
         "src/data/productGateSamplePlan.ts",
         "src/data/productionBootstrap.ts",
+        "src/data/pwaInstallLoop.ts",
         "src/data/releaseCandidate.ts",
         "src/data/repositoryBootstrap.ts",
-        "src/data/repositoryReadiness.ts",
-        "src/data/retentionLoop.ts"
+        "src/data/repositoryReadiness.ts"
       ],
-      "nonGeneratedDirtyFiles": 0,
-      "nonGeneratedDirtyPaths": []
+      "nonGeneratedDirtyFiles": 8,
+      "nonGeneratedDirtyPaths": [
+        "ops/cloudflare/event-collector-worker.mjs",
+        "scripts/analytics-rollup.mjs",
+        "scripts/event-collector-smoke.mjs",
+        "scripts/pwa-install-loop.mjs",
+        "scripts/verify-autonomy.mjs",
+        "src/App.tsx",
+        "src/lib/analytics.ts",
+        "tests/smoke.spec.ts"
+      ]
     },
     "after": {
       "insideWorkTree": true,
@@ -187,7 +204,7 @@ export const repositoryBootstrap = {
       "originRemote": null,
       "remoteRepository": null,
       "hasCommit": true,
-      "dirtyFiles": 55,
+      "dirtyFiles": 63,
       "dirtyPaths": [
         "data/analytics-rollup.json",
         "data/autonomous-operator-history.json",
@@ -205,10 +222,11 @@ export const repositoryBootstrap = {
         "data/product-gate-sample-plan.json",
         "data/production-bootstrap.json",
         "data/production-readiness.json",
+        "data/pwa-install-loop.json",
         "data/release-candidate.json",
         "data/repository-bootstrap.json",
         "data/repository-readiness.json",
-        "data/retention-loop.json",
+        "ops/cloudflare/event-collector-worker.mjs",
         "reports/analytics-rollup-latest.md",
         "reports/autonomous-operator-history-latest.md",
         "reports/autonomous-operator-latest.md",
@@ -225,10 +243,15 @@ export const repositoryBootstrap = {
         "reports/product-gate-sample-plan-latest.md",
         "reports/production-bootstrap-latest.md",
         "reports/production-readiness-latest.md",
+        "reports/pwa-install-loop-latest.md",
         "reports/release-candidate-latest.md",
         "reports/repository-bootstrap-latest.md",
         "reports/repository-readiness-latest.md",
-        "reports/retention-loop-latest.md",
+        "scripts/analytics-rollup.mjs",
+        "scripts/event-collector-smoke.mjs",
+        "scripts/pwa-install-loop.mjs",
+        "scripts/verify-autonomy.mjs",
+        "src/App.tsx",
         "src/data/autonomousOperator.ts",
         "src/data/autonomousOperatorHistory.ts",
         "src/data/autonomousOwnerLoop.ts",
@@ -240,10 +263,12 @@ export const repositoryBootstrap = {
         "src/data/productGateRecovery.ts",
         "src/data/productGateSamplePlan.ts",
         "src/data/productionBootstrap.ts",
+        "src/data/pwaInstallLoop.ts",
         "src/data/releaseCandidate.ts",
         "src/data/repositoryBootstrap.ts",
         "src/data/repositoryReadiness.ts",
-        "src/data/retentionLoop.ts"
+        "src/lib/analytics.ts",
+        "tests/smoke.spec.ts"
       ],
       "generatedEvidenceDirtyFiles": 55,
       "generatedEvidenceDirtyPaths": [
@@ -263,10 +288,10 @@ export const repositoryBootstrap = {
         "data/product-gate-sample-plan.json",
         "data/production-bootstrap.json",
         "data/production-readiness.json",
+        "data/pwa-install-loop.json",
         "data/release-candidate.json",
         "data/repository-bootstrap.json",
         "data/repository-readiness.json",
-        "data/retention-loop.json",
         "reports/analytics-rollup-latest.md",
         "reports/autonomous-operator-history-latest.md",
         "reports/autonomous-operator-latest.md",
@@ -283,10 +308,10 @@ export const repositoryBootstrap = {
         "reports/product-gate-sample-plan-latest.md",
         "reports/production-bootstrap-latest.md",
         "reports/production-readiness-latest.md",
+        "reports/pwa-install-loop-latest.md",
         "reports/release-candidate-latest.md",
         "reports/repository-bootstrap-latest.md",
         "reports/repository-readiness-latest.md",
-        "reports/retention-loop-latest.md",
         "src/data/autonomousOperator.ts",
         "src/data/autonomousOperatorHistory.ts",
         "src/data/autonomousOwnerLoop.ts",
@@ -298,13 +323,22 @@ export const repositoryBootstrap = {
         "src/data/productGateRecovery.ts",
         "src/data/productGateSamplePlan.ts",
         "src/data/productionBootstrap.ts",
+        "src/data/pwaInstallLoop.ts",
         "src/data/releaseCandidate.ts",
         "src/data/repositoryBootstrap.ts",
-        "src/data/repositoryReadiness.ts",
-        "src/data/retentionLoop.ts"
+        "src/data/repositoryReadiness.ts"
       ],
-      "nonGeneratedDirtyFiles": 0,
-      "nonGeneratedDirtyPaths": []
+      "nonGeneratedDirtyFiles": 8,
+      "nonGeneratedDirtyPaths": [
+        "ops/cloudflare/event-collector-worker.mjs",
+        "scripts/analytics-rollup.mjs",
+        "scripts/event-collector-smoke.mjs",
+        "scripts/pwa-install-loop.mjs",
+        "scripts/verify-autonomy.mjs",
+        "src/App.tsx",
+        "src/lib/analytics.ts",
+        "tests/smoke.spec.ts"
+      ]
     }
   },
   "repository": {
@@ -335,7 +369,7 @@ export const repositoryBootstrap = {
     "repositoryReadiness": "waiting-for-github-repository",
     "deployment": "ready-for-pages",
     "releaseCandidate": "release-candidate-ready",
-    "releaseCandidateId": "pwa-27969b2f9aa0",
+    "releaseCandidateId": "pwa-081be17dbc48",
     "postDeploySmoke": "blocked-missing-origin"
   },
   "execution": {
@@ -389,13 +423,13 @@ export const repositoryBootstrap = {
     },
     {
       "id": "commit-current-snapshot",
-      "status": "ready",
+      "status": "ready-for-explicit-snapshot-commit",
       "costUsd": 0,
       "command": "AGL_ALLOW_REPOSITORY_BOOTSTRAP=1 AGL_ALLOW_SNAPSHOT_COMMIT=1 ./ops/github/bootstrap-repository.sh",
       "mutatesLocalGit": true,
       "mutatesRemoteGitHub": false,
       "requiresExplicitEnv": true,
-      "detail": "55 repository evidence file(s) changed during this dry run; the outer verified commit will persist them."
+      "detail": "8 non-generated source or artifact file(s) are not committed yet."
     },
     {
       "id": "set-or-create-origin",
@@ -425,10 +459,11 @@ export const repositoryBootstrap = {
       "mutatesLocalGit": false,
       "mutatesRemoteGitHub": true,
       "requiresExplicitEnv": true,
-      "detail": "Push stays held until an origin remote exists and AGL_ALLOW_PUSH=1 is set."
+      "detail": "Push stays held until a committed local snapshot and origin remote exist."
     }
   ],
   "blockers": [
+    "Commit current generated changes before pushing to GitHub Pages.",
     "Set GITHUB_REPOSITORY/GH_REPO or authenticate gh so the intended owner/repo can be inferred.",
     "Attach a GitHub origin remote or create the target repository.",
     "Authenticate GitHub CLI or provide GH_TOKEN/GITHUB_TOKEN for remote repository bootstrap."

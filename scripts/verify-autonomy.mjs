@@ -553,7 +553,9 @@ if (
   eventCollectorSmoke.analytics?.counts?.completion_nudge_viewed < 1 ||
   eventCollectorSmoke.analytics?.counts?.replay_prompt_clicked < 1 ||
   eventCollectorSmoke.analytics?.counts?.daily_return_prompt_clicked < 1 ||
+  eventCollectorSmoke.analytics?.counts?.pwa_install_prompt_available < 1 ||
   eventCollectorSmoke.analytics?.counts?.pwa_install_prompt_clicked < 1 ||
+  eventCollectorSmoke.analytics?.counts?.pwa_install_prompt_cooldown < 1 ||
   eventCollectorSmoke.analytics?.counts?.level_completed < 1
 ) {
   fail(
@@ -921,10 +923,12 @@ if (
 }
 
 const pwaInstallEvents = [
+  'pwa_install_prompt_available',
   'pwa_install_prompt_viewed',
   'pwa_install_prompt_clicked',
   'pwa_install_prompt_accepted',
   'pwa_install_prompt_dismissed',
+  'pwa_install_prompt_cooldown',
   'pwa_installed',
   'pwa_launch_mode_detected',
 ]
@@ -940,27 +944,36 @@ if (
   pwaInstallLoop.sourceStatus?.retentionLoop !== retentionLoop.status ||
   pwaInstallLoop.channel?.id !== 'pwa-install' ||
   pwaInstallLoop.channel?.costUsd !== 0 ||
+  pwaInstallLoop.metrics?.promptAvailable !== (analytics.totals.counts.pwa_install_prompt_available ?? 0) ||
   pwaInstallLoop.metrics?.promptViews !== (analytics.totals.counts.pwa_install_prompt_viewed ?? 0) ||
   pwaInstallLoop.metrics?.promptClicks !== (analytics.totals.counts.pwa_install_prompt_clicked ?? 0) ||
   pwaInstallLoop.metrics?.accepted !== (analytics.totals.counts.pwa_install_prompt_accepted ?? 0) ||
   pwaInstallLoop.metrics?.dismissed !== (analytics.totals.counts.pwa_install_prompt_dismissed ?? 0) ||
+  pwaInstallLoop.metrics?.cooldownSuppressions !== (analytics.totals.counts.pwa_install_prompt_cooldown ?? 0) ||
   pwaInstallLoop.metrics?.installed !== (analytics.totals.counts.pwa_installed ?? 0) ||
   pwaInstallLoop.metrics?.launchModes !== (analytics.totals.counts.pwa_launch_mode_detected ?? 0) ||
   pwaInstallLoop.promptPolicy?.surface !== 'autonomy-cockpit' ||
   pwaInstallLoop.promptPolicy?.ctaLabel !== 'Install app' ||
   pwaInstallLoop.promptPolicy?.nativePromptRequired !== true ||
+  pwaInstallLoop.promptPolicy?.cooldownDaysAfterDismissal !== 14 ||
+  pwaInstallLoop.measurementPolicy?.availableEvent !== 'pwa_install_prompt_available' ||
+  pwaInstallLoop.measurementPolicy?.cooldownEvent !== 'pwa_install_prompt_cooldown' ||
+  pwaInstallLoop.measurementPolicy?.cooldownStorageKey !== 'agl.pwa.installDismissedAt' ||
+  pwaInstallLoop.measurementPolicy?.cooldownDays !== 14 ||
   pwaInstallLoop.localState?.dismissalKey !== 'agl.pwa.installDismissedAt' ||
   pwaInstallLoop.localState?.installedKey !== 'agl.pwa.installedAt' ||
   pwaInstallLoop.localState?.launchModeKey !== 'agl.pwa.launchMode' ||
   pwaInstallLoop.guardrails?.noForcedPrompt !== true ||
   pwaInstallLoop.guardrails?.noBlockingGameplay !== true ||
   pwaInstallLoop.guardrails?.respectBrowserPromptAvailability !== true ||
+  pwaInstallLoop.guardrails?.enforceDismissalCooldown !== true ||
   pwaInstallLoop.guardrails?.noInstallWall !== true ||
   pwaInstallLoop.guardrails?.noPaidInstallReward !== true ||
   missingPwaEventType ||
   missingPwaRollupEvent ||
   !appSource.includes('beforeinstallprompt') ||
   !appSource.includes('appinstalled') ||
+  !appSource.includes('pwaInstallCooldownActive') ||
   !appSource.includes('PWA Install Loop')
 ) {
   fail('PWA install loop must instrument browser-controlled install prompts, standalone launches, and no-pressure install guardrails.')

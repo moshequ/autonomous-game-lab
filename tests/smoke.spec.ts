@@ -208,15 +208,71 @@ test('PWA install loop records browser prompt telemetry', async ({ page }) => {
     const raw = window.localStorage.getItem('agl.analytics.events')
     return raw ? JSON.parse(raw) : []
   })
+  const available = events.findLast(
+    (event: { name: string }) => event.name === 'pwa_install_prompt_available',
+  )
   const viewed = events.findLast((event: { name: string }) => event.name === 'pwa_install_prompt_viewed')
   const clicked = events.findLast((event: { name: string }) => event.name === 'pwa_install_prompt_clicked')
   const accepted = events.findLast((event: { name: string }) => event.name === 'pwa_install_prompt_accepted')
   const launch = events.findLast((event: { name: string }) => event.name === 'pwa_launch_mode_detected')
 
+  expect(available.properties.cooldownActive).toBe(false)
   expect(viewed.properties.surface).toBe('autonomy-cockpit')
   expect(clicked.properties.nativePromptAvailable).toBe(true)
   expect(accepted.properties.outcome).toBe('accepted')
   expect(launch.properties.displayMode).toBeTruthy()
+})
+
+test('PWA install loop respects dismissal cooldown before surfacing prompt', async ({ page }) => {
+  const installLoop = JSON.parse(await readFile('data/pwa-install-loop.json', 'utf8')) as {
+    localState: { dismissalKey: string }
+    promptPolicy: { cooldownDaysAfterDismissal: number }
+  }
+
+  await page.addInitScript((dismissalKey) => {
+    window.localStorage.setItem(dismissalKey, new Date().toISOString())
+  }, installLoop.localState.dismissalKey)
+  await page.goto('/')
+
+  await page.evaluate(() => {
+    const event = new Event('beforeinstallprompt') as Event & {
+      prompt: () => Promise<void>
+      userChoice: Promise<{ outcome: 'accepted'; platform: string }>
+    }
+    event.prompt = () => {
+      ;(window as unknown as { __pwaPromptCalled?: boolean }).__pwaPromptCalled = true
+      return Promise.resolve()
+    }
+    event.userChoice = Promise.resolve({ outcome: 'accepted', platform: 'web' })
+    window.dispatchEvent(event)
+  })
+
+  const panel = page.getByLabel('PWA Install Loop')
+  await expect(panel).toContainText('cooldown')
+  await expect(panel.getByRole('button', { name: 'Install cooling down' })).toBeDisabled()
+
+  const result = await page.evaluate(() => {
+    const raw = window.localStorage.getItem('agl.analytics.events')
+    const events = raw ? JSON.parse(raw) : []
+
+    return {
+      promptCalled: (window as unknown as { __pwaPromptCalled?: boolean }).__pwaPromptCalled ?? false,
+      available: events.findLast(
+        (event: { name: string }) => event.name === 'pwa_install_prompt_available',
+      ),
+      cooldown: events.findLast(
+        (event: { name: string }) => event.name === 'pwa_install_prompt_cooldown',
+      ),
+      viewed: events.findLast((event: { name: string }) => event.name === 'pwa_install_prompt_viewed'),
+    }
+  })
+
+  expect(result.promptCalled).toBe(false)
+  expect(result.available.properties.cooldownActive).toBe(true)
+  expect(result.cooldown.properties.cooldownDays).toBe(
+    installLoop.promptPolicy.cooldownDaysAfterDismissal,
+  )
+  expect(result.viewed).toBeUndefined()
 })
 
 test('reset run records replay telemetry for the product optimizer', async ({ page }) => {

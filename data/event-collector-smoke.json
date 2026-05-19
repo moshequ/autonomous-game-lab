@@ -1,16 +1,16 @@
 {
-  "generatedAt": "2026-05-19T22:51:51.097Z",
+  "generatedAt": "2026-05-19T23:03:31.126Z",
   "status": "pass",
   "collector": {
     "postStatus": "accepted",
-    "storedEvents": 11,
-    "exportedEvents": 11,
+    "storedEvents": 13,
+    "exportedEvents": 13,
     "files": 1,
     "piiStripped": true
   },
   "ingest": {
     "status": "imported",
-    "importedEvents": 11,
+    "importedEvents": 13,
     "remoteCollectorStatus": "available"
   },
   "analytics": {
@@ -26,7 +26,9 @@
       "completion_nudge_viewed": 1,
       "replay_prompt_clicked": 1,
       "daily_return_prompt_clicked": 1,
+      "pwa_install_prompt_available": 1,
       "pwa_install_prompt_clicked": 1,
+      "pwa_install_prompt_cooldown": 1,
       "level_completed": 1
     }
   }

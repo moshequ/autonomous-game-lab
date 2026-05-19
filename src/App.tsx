@@ -166,6 +166,20 @@ const nextIsoDate = (isoDate: string) => {
   return date.toISOString().slice(0, 10)
 }
 
+const isWithinCooldownDays = (isoTimestamp: string, cooldownDays: number) => {
+  if (!isoTimestamp || cooldownDays <= 0) {
+    return false
+  }
+
+  const timestamp = Date.parse(isoTimestamp)
+
+  if (!Number.isFinite(timestamp)) {
+    return false
+  }
+
+  return Date.now() - timestamp < cooldownDays * 24 * 60 * 60 * 1000
+}
+
 const readStringStorage = (key: string) => {
   if (typeof window === 'undefined') {
     return ''
@@ -253,8 +267,28 @@ function App() {
     readStringStorage(completionLoop.localState.finishLineAcceptedRunKey),
   )
   const [pwaPromptEvent, setPwaPromptEvent] = useState<BeforeInstallPromptEvent | null>(null)
-  const [pwaInstallStatus, setPwaInstallStatus] = useState('waiting')
+  const [pwaInstallStatus, setPwaInstallStatus] = useState(() => {
+    const displayMode = getPwaDisplayMode()
+    const installedAt = readStringStorage(pwaInstallLoop.localState.installedKey)
+    const dismissedAt = readStringStorage(pwaInstallLoop.localState.dismissalKey)
+
+    if (displayMode === 'standalone' || installedAt) {
+      return 'installed'
+    }
+
+    if (isWithinCooldownDays(dismissedAt, pwaInstallLoop.promptPolicy.cooldownDaysAfterDismissal)) {
+      return 'cooldown'
+    }
+
+    return 'waiting'
+  })
   const [pwaDisplayMode, setPwaDisplayMode] = useState(() => getPwaDisplayMode())
+  const [pwaDismissedAt, setPwaDismissedAt] = useState(() =>
+    readStringStorage(pwaInstallLoop.localState.dismissalKey),
+  )
+  const [pwaInstalledAt, setPwaInstalledAt] = useState(() =>
+    readStringStorage(pwaInstallLoop.localState.installedKey),
+  )
   const monetizationGateEventRef = useRef('')
   const dailyChallengeCompletionRef = useRef('')
   const dailyReturnPromptRef = useRef('')
@@ -315,13 +349,50 @@ function App() {
     const onBeforeInstallPrompt = (event: Event) => {
       event.preventDefault()
       const installEvent = event as BeforeInstallPromptEvent
+      const nextDisplayMode = getPwaDisplayMode()
+      const dismissedAt = readStringStorage(pwaInstallLoop.localState.dismissalKey)
+      const installedAt = readStringStorage(pwaInstallLoop.localState.installedKey)
+      const cooldownActive = isWithinCooldownDays(
+        dismissedAt,
+        pwaInstallLoop.promptPolicy.cooldownDaysAfterDismissal,
+      )
+      const alreadyInstalled = nextDisplayMode === 'standalone' || Boolean(installedAt)
+
+      trackEvent('pwa_install_prompt_available', {
+        displayMode: nextDisplayMode,
+        surface: pwaInstallLoop.promptPolicy.surface,
+        installLoopStatus: pwaInstallLoop.status,
+        priorityGameId: pwaInstallLoop.promptPolicy.priorityGameId,
+        cooldownActive,
+        alreadyInstalled,
+      })
+
+      if (alreadyInstalled) {
+        setPwaPromptEvent(null)
+        setPwaInstallStatus('installed')
+        return
+      }
+
+      if (cooldownActive) {
+        setPwaPromptEvent(null)
+        setPwaInstallStatus('cooldown')
+        trackEvent('pwa_install_prompt_cooldown', {
+          displayMode: nextDisplayMode,
+          surface: pwaInstallLoop.promptPolicy.surface,
+          dismissedAt,
+          cooldownDays: pwaInstallLoop.promptPolicy.cooldownDaysAfterDismissal,
+          reason: 'dismissal-cooldown',
+        })
+        return
+      }
+
       setPwaPromptEvent(installEvent)
       setPwaInstallStatus('prompt-available')
 
       if (!pwaPromptViewedRef.current) {
         pwaPromptViewedRef.current = true
         trackEvent('pwa_install_prompt_viewed', {
-          displayMode: getPwaDisplayMode(),
+          displayMode: nextDisplayMode,
           surface: pwaInstallLoop.promptPolicy.surface,
           installLoopStatus: pwaInstallLoop.status,
           priorityGameId: pwaInstallLoop.promptPolicy.priorityGameId,
@@ -333,7 +404,10 @@ function App() {
       const nextDisplayMode = getPwaDisplayMode()
       const installedAt = new Date().toISOString()
       window.localStorage.setItem(pwaInstallLoop.localState.installedKey, installedAt)
+      window.localStorage.removeItem(pwaInstallLoop.localState.dismissalKey)
       setPwaDisplayMode(nextDisplayMode)
+      setPwaDismissedAt('')
+      setPwaInstalledAt(installedAt)
       setPwaPromptEvent(null)
       setPwaInstallStatus('installed')
       trackEvent('pwa_installed', {
@@ -477,6 +551,19 @@ function App() {
     snapshot.completed &&
     replayRunKey !== '' &&
     replayPromptDismissedRunKey !== replayRunKey
+  const pwaInstallCooldownActive = isWithinCooldownDays(
+    pwaDismissedAt,
+    pwaInstallLoop.promptPolicy.cooldownDaysAfterDismissal,
+  )
+  const pwaAlreadyInstalled = pwaDisplayMode === 'standalone' || Boolean(pwaInstalledAt)
+  const pwaPromptEligible = Boolean(pwaPromptEvent) && !pwaInstallCooldownActive && !pwaAlreadyInstalled
+  const pwaInstallButtonLabel = pwaAlreadyInstalled
+    ? 'Installed'
+    : pwaInstallCooldownActive
+      ? 'Install cooling down'
+      : pwaPromptEvent
+        ? pwaInstallLoop.promptPolicy.ctaLabel
+        : 'Install unavailable'
   const eventCounts = events.reduce<Record<string, number>>((counts, event) => {
     counts[event.name] = (counts[event.name] ?? 0) + 1
     return counts
@@ -837,6 +924,11 @@ function App() {
   }
   const promptPwaInstall = async () => {
     const displayMode = getPwaDisplayMode()
+    if (pwaInstallCooldownActive || pwaAlreadyInstalled) {
+      setPwaInstallStatus(pwaAlreadyInstalled ? 'installed' : 'cooldown')
+      return
+    }
+
     trackEvent('pwa_install_prompt_clicked', {
       displayMode,
       surface: pwaInstallLoop.promptPolicy.surface,
@@ -853,10 +945,15 @@ function App() {
       const choice = await pwaPromptEvent.userChoice
       const eventName =
         choice.outcome === 'accepted' ? 'pwa_install_prompt_accepted' : 'pwa_install_prompt_dismissed'
-      setPwaInstallStatus(choice.outcome)
+      setPwaInstallStatus(choice.outcome === 'dismissed' ? 'cooldown' : choice.outcome)
 
       if (choice.outcome === 'dismissed') {
-        window.localStorage.setItem(pwaInstallLoop.localState.dismissalKey, new Date().toISOString())
+        const dismissedAt = new Date().toISOString()
+        window.localStorage.setItem(pwaInstallLoop.localState.dismissalKey, dismissedAt)
+        setPwaDismissedAt(dismissedAt)
+      } else {
+        window.localStorage.removeItem(pwaInstallLoop.localState.dismissalKey)
+        setPwaDismissedAt('')
       }
 
       trackEvent(eventName, {
@@ -864,16 +961,23 @@ function App() {
         surface: pwaInstallLoop.promptPolicy.surface,
         platform: choice.platform,
         outcome: choice.outcome,
+        cooldownDays:
+          choice.outcome === 'dismissed'
+            ? pwaInstallLoop.promptPolicy.cooldownDaysAfterDismissal
+            : null,
       })
       setPwaPromptEvent(null)
     } catch {
-      setPwaInstallStatus('dismissed')
-      window.localStorage.setItem(pwaInstallLoop.localState.dismissalKey, new Date().toISOString())
+      setPwaInstallStatus('cooldown')
+      const dismissedAt = new Date().toISOString()
+      window.localStorage.setItem(pwaInstallLoop.localState.dismissalKey, dismissedAt)
+      setPwaDismissedAt(dismissedAt)
       trackEvent('pwa_install_prompt_dismissed', {
         displayMode,
         surface: pwaInstallLoop.promptPolicy.surface,
         platform: 'unknown',
         outcome: 'error',
+        cooldownDays: pwaInstallLoop.promptPolicy.cooldownDaysAfterDismissal,
       })
     }
   }
@@ -1526,10 +1630,10 @@ function App() {
               <button
                 className="tinyButton"
                 type="button"
-                disabled={!pwaPromptEvent}
+                disabled={!pwaPromptEligible}
                 onClick={promptPwaInstall}
               >
-                {pwaPromptEvent ? pwaInstallLoop.promptPolicy.ctaLabel : 'Install unavailable'}
+                {pwaInstallButtonLabel}
               </button>
             </div>
 
@@ -1551,6 +1655,7 @@ function App() {
                   'seed_campaign_clicked',
                   'daily_challenge_completed',
                   'daily_return_intent_started',
+                  'pwa_install_prompt_available',
                   'pwa_installed',
                 ].map((name) => (
                   <div className="eventRow" key={name}>

@@ -34,15 +34,18 @@ const iconCoverageReady =
   (iconAssets.manifestIcons?.length ?? 0) >= 4 &&
   iconAssets.assets?.some((asset) => asset.id === 'store-1024')
 const serviceWorkerConfigured = viteConfig.includes('registerType') && viteConfig.includes('autoUpdate')
+const promptAvailable = metric('pwa_install_prompt_available')
 const promptViews = metric('pwa_install_prompt_viewed')
 const promptClicks = metric('pwa_install_prompt_clicked')
 const accepted = metric('pwa_install_prompt_accepted')
 const dismissed = metric('pwa_install_prompt_dismissed')
+const cooldownSuppressions = metric('pwa_install_prompt_cooldown')
 const installed = metric('pwa_installed')
 const launchModes = metric('pwa_launch_mode_detected')
 const installRate = promptViews ? installed / promptViews : 0
 const acceptanceRate = promptClicks ? accepted / promptClicks : 0
 const dismissalRate = promptClicks ? dismissed / promptClicks : 0
+const promptSurfaceRate = promptAvailable ? promptViews / promptAvailable : 0
 const canMeasureInstall =
   analytics.sourceStatus?.activeSource !== 'missing' &&
   retention.status === 'retention-loop-ready' &&
@@ -69,12 +72,15 @@ const payload = {
     metric: 'pwa_install_prompt_viewed -> pwa_installed -> pwa_launch_mode_detected',
   },
   metrics: {
+    promptAvailable,
     promptViews,
     promptClicks,
     accepted,
     dismissed,
+    cooldownSuppressions,
     installed,
     launchModes,
+    promptSurfaceRate: roundMetric(promptSurfaceRate),
     installRate: roundMetric(installRate),
     acceptanceRate: roundMetric(acceptanceRate),
     dismissalRate: roundMetric(dismissalRate),
@@ -101,15 +107,31 @@ const payload = {
     noPaidInstallIncentive: true,
     noNotificationPermissionPrompt: true,
   },
+  measurementPolicy: {
+    availableEvent: 'pwa_install_prompt_available',
+    surfacedEvent: 'pwa_install_prompt_viewed',
+    clickedEvent: 'pwa_install_prompt_clicked',
+    acceptedEvent: 'pwa_install_prompt_accepted',
+    dismissedEvent: 'pwa_install_prompt_dismissed',
+    cooldownEvent: 'pwa_install_prompt_cooldown',
+    installedEvent: 'pwa_installed',
+    launchEvent: 'pwa_launch_mode_detected',
+    cooldownStorageKey: 'agl.pwa.installDismissedAt',
+    cooldownDays: 14,
+    reason: 'Separate browser install eligibility from user-visible prompting so the loop can optimize distribution without nagging players.',
+  },
   guardrails: {
     noForcedPrompt: true,
     noBlockingGameplay: true,
     respectBrowserPromptAvailability: true,
+    enforceDismissalCooldown: true,
     noInstallWall: true,
     noPaidInstallReward: true,
   },
   nextActions: [
-    promptViews
+    promptAvailable && !promptViews
+      ? `Native prompt was available ${promptAvailable} time(s), but cooldown or install state prevented user-facing CTA exposure.`
+      : promptViews
       ? `Improve PWA install acceptance from ${pct(acceptanceRate)} while keeping prompt cooldowns.`
       : 'Start measuring native install prompt availability and standalone launches.',
     environment.publicOrigin?.status === 'configured'
@@ -125,7 +147,9 @@ const report = [
   `Generated: ${payload.generatedAt}`,
   `Status: ${payload.status}`,
   `Channel: ${payload.channel.id} (${payload.channel.status})`,
+  `Prompt available: ${payload.metrics.promptAvailable}`,
   `Prompt views: ${payload.metrics.promptViews}`,
+  `Cooldown suppressions: ${payload.metrics.cooldownSuppressions}`,
   `Installs: ${payload.metrics.installed}`,
   `Acceptance: ${pct(payload.metrics.acceptanceRate)}`,
   '',
@@ -139,6 +163,13 @@ const report = [
   '## Guardrails',
   '',
   ...Object.entries(payload.guardrails).map(([key, value]) => `- ${key}: ${value}`),
+  '',
+  '## Measurement',
+  '',
+  `- Availability: ${payload.measurementPolicy.availableEvent}`,
+  `- User-visible prompt: ${payload.measurementPolicy.surfacedEvent}`,
+  `- Cooldown: ${payload.measurementPolicy.cooldownEvent}`,
+  `- Launch: ${payload.measurementPolicy.launchEvent}`,
   '',
   '## Next Actions',
   '',

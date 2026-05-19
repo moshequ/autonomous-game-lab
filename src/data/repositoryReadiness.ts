@@ -1,5 +1,5 @@
 export const repositoryReadiness = {
-  "generatedAt": "2026-05-19T22:51:41.332Z",
+  "generatedAt": "2026-05-19T23:03:29.344Z",
   "status": "waiting-for-github-repository",
   "envFiles": {
     "loaded": true,
@@ -56,7 +56,7 @@ export const repositoryReadiness = {
     "insideWorkTree": true,
     "gitRoot": "/Users/moshequ/Documents/Codex/2026-05-18/i-want-to-have-a-new",
     "currentBranch": "main",
-    "dirtyFiles": 55,
+    "dirtyFiles": 63,
     "dirtyPaths": [
       "data/analytics-rollup.json",
       "data/autonomous-operator-history.json",
@@ -74,10 +74,11 @@ export const repositoryReadiness = {
       "data/product-gate-sample-plan.json",
       "data/production-bootstrap.json",
       "data/production-readiness.json",
+      "data/pwa-install-loop.json",
       "data/release-candidate.json",
       "data/repository-bootstrap.json",
       "data/repository-readiness.json",
-      "data/retention-loop.json",
+      "ops/cloudflare/event-collector-worker.mjs",
       "reports/analytics-rollup-latest.md",
       "reports/autonomous-operator-history-latest.md",
       "reports/autonomous-operator-latest.md",
@@ -94,10 +95,15 @@ export const repositoryReadiness = {
       "reports/product-gate-sample-plan-latest.md",
       "reports/production-bootstrap-latest.md",
       "reports/production-readiness-latest.md",
+      "reports/pwa-install-loop-latest.md",
       "reports/release-candidate-latest.md",
       "reports/repository-bootstrap-latest.md",
       "reports/repository-readiness-latest.md",
-      "reports/retention-loop-latest.md",
+      "scripts/analytics-rollup.mjs",
+      "scripts/event-collector-smoke.mjs",
+      "scripts/pwa-install-loop.mjs",
+      "scripts/verify-autonomy.mjs",
+      "src/App.tsx",
       "src/data/autonomousOperator.ts",
       "src/data/autonomousOperatorHistory.ts",
       "src/data/autonomousOwnerLoop.ts",
@@ -109,10 +115,12 @@ export const repositoryReadiness = {
       "src/data/productGateRecovery.ts",
       "src/data/productGateSamplePlan.ts",
       "src/data/productionBootstrap.ts",
+      "src/data/pwaInstallLoop.ts",
       "src/data/releaseCandidate.ts",
       "src/data/repositoryBootstrap.ts",
       "src/data/repositoryReadiness.ts",
-      "src/data/retentionLoop.ts"
+      "src/lib/analytics.ts",
+      "tests/smoke.spec.ts"
     ],
     "generatedEvidenceDirtyFiles": 55,
     "generatedEvidenceDirtyPaths": [
@@ -132,10 +140,10 @@ export const repositoryReadiness = {
       "data/product-gate-sample-plan.json",
       "data/production-bootstrap.json",
       "data/production-readiness.json",
+      "data/pwa-install-loop.json",
       "data/release-candidate.json",
       "data/repository-bootstrap.json",
       "data/repository-readiness.json",
-      "data/retention-loop.json",
       "reports/analytics-rollup-latest.md",
       "reports/autonomous-operator-history-latest.md",
       "reports/autonomous-operator-latest.md",
@@ -152,10 +160,10 @@ export const repositoryReadiness = {
       "reports/product-gate-sample-plan-latest.md",
       "reports/production-bootstrap-latest.md",
       "reports/production-readiness-latest.md",
+      "reports/pwa-install-loop-latest.md",
       "reports/release-candidate-latest.md",
       "reports/repository-bootstrap-latest.md",
       "reports/repository-readiness-latest.md",
-      "reports/retention-loop-latest.md",
       "src/data/autonomousOperator.ts",
       "src/data/autonomousOperatorHistory.ts",
       "src/data/autonomousOwnerLoop.ts",
@@ -167,13 +175,22 @@ export const repositoryReadiness = {
       "src/data/productGateRecovery.ts",
       "src/data/productGateSamplePlan.ts",
       "src/data/productionBootstrap.ts",
+      "src/data/pwaInstallLoop.ts",
       "src/data/releaseCandidate.ts",
       "src/data/repositoryBootstrap.ts",
-      "src/data/repositoryReadiness.ts",
-      "src/data/retentionLoop.ts"
+      "src/data/repositoryReadiness.ts"
     ],
-    "nonGeneratedDirtyFiles": 0,
-    "nonGeneratedDirtyPaths": []
+    "nonGeneratedDirtyFiles": 8,
+    "nonGeneratedDirtyPaths": [
+      "ops/cloudflare/event-collector-worker.mjs",
+      "scripts/analytics-rollup.mjs",
+      "scripts/event-collector-smoke.mjs",
+      "scripts/pwa-install-loop.mjs",
+      "scripts/verify-autonomy.mjs",
+      "src/App.tsx",
+      "src/lib/analytics.ts",
+      "tests/smoke.spec.ts"
+    ]
   },
   "repository": {
     "target": null,
@@ -205,7 +222,7 @@ export const repositoryReadiness = {
     "workflowExists": true,
     "deployWorkflowIncludesSmoke": true,
     "deploymentStatus": "ready-for-pages",
-    "releaseCandidateId": "pwa-27969b2f9aa0",
+    "releaseCandidateId": "pwa-081be17dbc48",
     "postDeploySmokeStatus": "blocked-missing-origin"
   },
   "controls": {
