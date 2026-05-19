@@ -1,5 +1,5 @@
 export const repositoryReadiness = {
-  "generatedAt": "2026-05-19T06:14:49.616Z",
+  "generatedAt": "2026-05-19T06:18:18.380Z",
   "status": "waiting-for-github-repository",
   "envFiles": {
     "loaded": true,
@@ -56,12 +56,11 @@ export const repositoryReadiness = {
     "insideWorkTree": true,
     "gitRoot": "/Users/moshequ/Documents/Codex/2026-05-18/i-want-to-have-a-new",
     "currentBranch": "main",
-    "dirtyFiles": 38,
+    "dirtyFiles": 35,
     "dirtyPaths": [
       "data/autonomous-operator-history.json",
       "data/autonomous-operator.json",
       "data/autonomous-owner-loop.json",
-      "data/autonomous-self-update.json",
       "data/deployment-plan.json",
       "data/objective-audit.json",
       "data/performance-budget.json",
@@ -74,7 +73,6 @@ export const repositoryReadiness = {
       "reports/autonomous-operator-history-latest.md",
       "reports/autonomous-operator-latest.md",
       "reports/autonomous-owner-loop-latest.md",
-      "reports/autonomous-self-update-latest.md",
       "reports/deployment-plan-latest.md",
       "reports/objective-audit-latest.md",
       "reports/performance-budget-latest.md",
@@ -87,7 +85,6 @@ export const repositoryReadiness = {
       "src/data/autonomousOperator.ts",
       "src/data/autonomousOperatorHistory.ts",
       "src/data/autonomousOwnerLoop.ts",
-      "src/data/autonomousSelfUpdate.ts",
       "src/data/deploymentPlan.ts",
       "src/data/objectiveAudit.ts",
       "src/data/performanceBudget.ts",
@@ -97,12 +94,11 @@ export const repositoryReadiness = {
       "src/data/repositoryBootstrap.ts",
       "src/data/repositoryReadiness.ts"
     ],
-    "generatedEvidenceDirtyFiles": 38,
+    "generatedEvidenceDirtyFiles": 35,
     "generatedEvidenceDirtyPaths": [
       "data/autonomous-operator-history.json",
       "data/autonomous-operator.json",
       "data/autonomous-owner-loop.json",
-      "data/autonomous-self-update.json",
       "data/deployment-plan.json",
       "data/objective-audit.json",
       "data/performance-budget.json",
@@ -115,7 +111,6 @@ export const repositoryReadiness = {
       "reports/autonomous-operator-history-latest.md",
       "reports/autonomous-operator-latest.md",
       "reports/autonomous-owner-loop-latest.md",
-      "reports/autonomous-self-update-latest.md",
       "reports/deployment-plan-latest.md",
       "reports/objective-audit-latest.md",
       "reports/performance-budget-latest.md",
@@ -128,7 +123,6 @@ export const repositoryReadiness = {
       "src/data/autonomousOperator.ts",
       "src/data/autonomousOperatorHistory.ts",
       "src/data/autonomousOwnerLoop.ts",
-      "src/data/autonomousSelfUpdate.ts",
       "src/data/deploymentPlan.ts",
       "src/data/objectiveAudit.ts",
       "src/data/performanceBudget.ts",
@@ -158,7 +152,7 @@ export const repositoryReadiness = {
     "workflowExists": true,
     "deployWorkflowIncludesSmoke": true,
     "deploymentStatus": "ready-for-pages",
-    "releaseCandidateId": "pwa-5c504438b8ee",
+    "releaseCandidateId": "pwa-13f1fa4969aa",
     "postDeploySmokeStatus": "blocked-missing-origin"
   },
   "controls": {
