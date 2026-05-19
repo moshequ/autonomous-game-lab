@@ -1,5 +1,5 @@
 export const performanceBudget = {
-  "generatedAt": "2026-05-19T18:41:09.114Z",
+  "generatedAt": "2026-05-19T18:45:31.298Z",
   "status": "performance-budget-ready",
   "sourceBuild": "dist",
   "budgets": {
@@ -14,21 +14,21 @@ export const performanceBudget = {
   },
   "initial": {
     "entryScripts": [
-      "index-BEmLwo70.js",
+      "index-CI1PIrtr.js",
       "registerSW.js"
     ],
     "scriptPaths": [
-      "assets/index-BEmLwo70.js",
+      "assets/index-CI1PIrtr.js",
       "registerSW.js"
     ],
     "jsFiles": [
       {
-        "file": "index-BEmLwo70.js",
-        "path": "assets/index-BEmLwo70.js",
-        "bytes": 674525,
-        "kb": 658.7,
-        "gzipBytes": 178402,
-        "gzipKb": 174.2
+        "file": "index-CI1PIrtr.js",
+        "path": "assets/index-CI1PIrtr.js",
+        "bytes": 672785,
+        "kb": 657,
+        "gzipBytes": 178297,
+        "gzipKb": 174.1
       },
       {
         "file": "registerSW.js",
@@ -39,10 +39,10 @@ export const performanceBudget = {
         "gzipKb": 0.1
       }
     ],
-    "jsBytes": 674659,
-    "jsKb": 658.8,
-    "gzipBytes": 178528,
-    "gzipKb": 174.3,
+    "jsBytes": 672919,
+    "jsKb": 657.1,
+    "gzipBytes": 178423,
+    "gzipKb": 174.2,
     "cssFiles": [
       {
         "file": "index-BA4sddeG.css",
@@ -61,8 +61,8 @@ export const performanceBudget = {
   "deferred": {
     "chunks": [
       {
-        "file": "GameCanvas-BOMMYbaF.js",
-        "path": "assets/GameCanvas-BOMMYbaF.js",
+        "file": "GameCanvas-Ds_rIEFC.js",
+        "path": "assets/GameCanvas-Ds_rIEFC.js",
         "bytes": 1393468,
         "kb": 1360.8,
         "gzipBytes": 356094,
@@ -70,24 +70,24 @@ export const performanceBudget = {
       }
     ],
     "gameChunk": {
-      "file": "GameCanvas-BOMMYbaF.js",
-      "path": "assets/GameCanvas-BOMMYbaF.js",
+      "file": "GameCanvas-Ds_rIEFC.js",
+      "path": "assets/GameCanvas-Ds_rIEFC.js",
       "bytes": 1393468,
       "kb": 1360.8,
       "gzipBytes": 356094,
       "gzipKb": 347.7
     },
     "largestDeferredChunk": {
-      "file": "GameCanvas-BOMMYbaF.js",
-      "path": "assets/GameCanvas-BOMMYbaF.js",
+      "file": "GameCanvas-Ds_rIEFC.js",
+      "path": "assets/GameCanvas-Ds_rIEFC.js",
       "bytes": 1393468,
       "kb": 1360.8,
       "gzipBytes": 356094,
       "gzipKb": 347.7
     },
     "largestJsChunk": {
-      "file": "GameCanvas-BOMMYbaF.js",
-      "path": "assets/GameCanvas-BOMMYbaF.js",
+      "file": "GameCanvas-Ds_rIEFC.js",
+      "path": "assets/GameCanvas-Ds_rIEFC.js",
       "bytes": 1393468,
       "kb": 1360.8,
       "gzipBytes": 356094,
@@ -99,20 +99,20 @@ export const performanceBudget = {
   "assets": {
     "js": [
       {
-        "file": "GameCanvas-BOMMYbaF.js",
-        "path": "assets/GameCanvas-BOMMYbaF.js",
+        "file": "GameCanvas-Ds_rIEFC.js",
+        "path": "assets/GameCanvas-Ds_rIEFC.js",
         "bytes": 1393468,
         "kb": 1360.8,
         "gzipBytes": 356094,
         "gzipKb": 347.7
       },
       {
-        "file": "index-BEmLwo70.js",
-        "path": "assets/index-BEmLwo70.js",
-        "bytes": 674525,
-        "kb": 658.7,
-        "gzipBytes": 178402,
-        "gzipKb": 174.2
+        "file": "index-CI1PIrtr.js",
+        "path": "assets/index-CI1PIrtr.js",
+        "bytes": 672785,
+        "kb": 657,
+        "gzipBytes": 178297,
+        "gzipKb": 174.1
       },
       {
         "file": "registerSW.js",
@@ -149,12 +149,12 @@ export const performanceBudget = {
     {
       "id": "initial-js-budget",
       "status": "pass",
-      "detail": "Initial JS is 658.8 KB; budget is 675 KB."
+      "detail": "Initial JS is 657.1 KB; budget is 675 KB."
     },
     {
       "id": "initial-js-gzip-budget",
       "status": "pass",
-      "detail": "Initial JS gzip is 174.3 KB; budget is 200 KB."
+      "detail": "Initial JS gzip is 174.2 KB; budget is 200 KB."
     },
     {
       "id": "initial-css-budget",
@@ -174,12 +174,12 @@ export const performanceBudget = {
     {
       "id": "game-runtime-deferred",
       "status": "pass",
-      "detail": "GameCanvas-BOMMYbaF.js is deferred from the initial shell."
+      "detail": "GameCanvas-Ds_rIEFC.js is deferred from the initial shell."
     },
     {
       "id": "largest-js-deferred",
       "status": "pass",
-      "detail": "Largest JS chunk is GameCanvas-BOMMYbaF.js at 1360.8 KB."
+      "detail": "Largest JS chunk is GameCanvas-Ds_rIEFC.js at 1360.8 KB."
     },
     {
       "id": "deferred-game-budget",

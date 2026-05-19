@@ -1,6 +1,6 @@
 # Product Gate Sample Plan
 
-Generated: 2026-05-19T18:41:03.270Z
+Generated: 2026-05-19T18:45:25.412Z
 Status: product-gate-sample-plan-ready
 Analytics source: fixture-sample
 Primary gate: firstGameCompletion

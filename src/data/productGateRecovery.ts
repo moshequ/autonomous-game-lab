@@ -1,5 +1,5 @@
 export const productGateRecovery = {
-  "generatedAt": "2026-05-19T18:41:03.030Z",
+  "generatedAt": "2026-05-19T18:45:25.135Z",
   "status": "product-gate-recovery-ready",
   "sourceStatus": {
     "analyticsSource": "fixture-sample",
