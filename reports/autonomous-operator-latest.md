@@ -1,10 +1,10 @@
 # Autonomous Operator
 
-Generated: 2026-05-19T12:42:03.746Z
+Generated: 2026-05-19T12:46:21.308Z
 Status: operator-plan-ready
 Mode: plan-only
-Owner decision: refresh-product-gate-recovery
-Selected action: refresh-product-gate-recovery
+Owner decision: collect-live-events
+Selected action: collect-live-events
 Execution: not-requested
 
 ## Controls
@@ -18,7 +18,7 @@ Execution: not-requested
 
 ## Selected Action
 
-- refresh-product-gate-recovery: npm run autonomous:gate-recovery
+- collect-live-events: npm run autonomous:local-event-bridge && npm run autonomous:import-events && npm run autonomous:analytics && npm run autonomous:gate-recovery
 
 ## Eligible Local Actions
 
@@ -55,4 +55,4 @@ Execution: not-requested
 - prepare-release-candidate: not-selected-this-run
 - run-post-deploy-smoke: status-monitor
 - optimize-product-gates: not-selected-this-run
-- collect-gate-sample-downloads: status-monitor
+- refresh-product-gate-recovery: not-selected-this-run

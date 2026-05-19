@@ -1,5 +1,5 @@
 export const performanceBudget = {
-  "generatedAt": "2026-05-19T12:41:55.571Z",
+  "generatedAt": "2026-05-19T12:46:13.298Z",
   "status": "performance-budget-ready",
   "sourceBuild": "dist",
   "budgets": {
@@ -14,20 +14,20 @@ export const performanceBudget = {
   },
   "initial": {
     "entryScripts": [
-      "index-8Ej1lpPH.js",
+      "index-BFWQswd9.js",
       "registerSW.js"
     ],
     "scriptPaths": [
-      "assets/index-8Ej1lpPH.js",
+      "assets/index-BFWQswd9.js",
       "registerSW.js"
     ],
     "jsFiles": [
       {
-        "file": "index-8Ej1lpPH.js",
-        "path": "assets/index-8Ej1lpPH.js",
-        "bytes": 674568,
-        "kb": 658.8,
-        "gzipBytes": 178380,
+        "file": "index-BFWQswd9.js",
+        "path": "assets/index-BFWQswd9.js",
+        "bytes": 673439,
+        "kb": 657.7,
+        "gzipBytes": 178331,
         "gzipKb": 174.2
       },
       {
@@ -39,9 +39,9 @@ export const performanceBudget = {
         "gzipKb": 0.1
       }
     ],
-    "jsBytes": 674702,
-    "jsKb": 658.9,
-    "gzipBytes": 178506,
+    "jsBytes": 673573,
+    "jsKb": 657.8,
+    "gzipBytes": 178457,
     "gzipKb": 174.3,
     "cssFiles": [
       {
@@ -61,36 +61,36 @@ export const performanceBudget = {
   "deferred": {
     "chunks": [
       {
-        "file": "GameCanvas-CoZBjlf4.js",
-        "path": "assets/GameCanvas-CoZBjlf4.js",
+        "file": "GameCanvas-DZ-towOG.js",
+        "path": "assets/GameCanvas-DZ-towOG.js",
         "bytes": 1393468,
         "kb": 1360.8,
-        "gzipBytes": 356094,
+        "gzipBytes": 356095,
         "gzipKb": 347.7
       }
     ],
     "gameChunk": {
-      "file": "GameCanvas-CoZBjlf4.js",
-      "path": "assets/GameCanvas-CoZBjlf4.js",
+      "file": "GameCanvas-DZ-towOG.js",
+      "path": "assets/GameCanvas-DZ-towOG.js",
       "bytes": 1393468,
       "kb": 1360.8,
-      "gzipBytes": 356094,
+      "gzipBytes": 356095,
       "gzipKb": 347.7
     },
     "largestDeferredChunk": {
-      "file": "GameCanvas-CoZBjlf4.js",
-      "path": "assets/GameCanvas-CoZBjlf4.js",
+      "file": "GameCanvas-DZ-towOG.js",
+      "path": "assets/GameCanvas-DZ-towOG.js",
       "bytes": 1393468,
       "kb": 1360.8,
-      "gzipBytes": 356094,
+      "gzipBytes": 356095,
       "gzipKb": 347.7
     },
     "largestJsChunk": {
-      "file": "GameCanvas-CoZBjlf4.js",
-      "path": "assets/GameCanvas-CoZBjlf4.js",
+      "file": "GameCanvas-DZ-towOG.js",
+      "path": "assets/GameCanvas-DZ-towOG.js",
       "bytes": 1393468,
       "kb": 1360.8,
-      "gzipBytes": 356094,
+      "gzipBytes": 356095,
       "gzipKb": 347.7
     },
     "chunksBytes": 1393468,
@@ -99,19 +99,19 @@ export const performanceBudget = {
   "assets": {
     "js": [
       {
-        "file": "GameCanvas-CoZBjlf4.js",
-        "path": "assets/GameCanvas-CoZBjlf4.js",
+        "file": "GameCanvas-DZ-towOG.js",
+        "path": "assets/GameCanvas-DZ-towOG.js",
         "bytes": 1393468,
         "kb": 1360.8,
-        "gzipBytes": 356094,
+        "gzipBytes": 356095,
         "gzipKb": 347.7
       },
       {
-        "file": "index-8Ej1lpPH.js",
-        "path": "assets/index-8Ej1lpPH.js",
-        "bytes": 674568,
-        "kb": 658.8,
-        "gzipBytes": 178380,
+        "file": "index-BFWQswd9.js",
+        "path": "assets/index-BFWQswd9.js",
+        "bytes": 673439,
+        "kb": 657.7,
+        "gzipBytes": 178331,
         "gzipKb": 174.2
       },
       {
@@ -149,7 +149,7 @@ export const performanceBudget = {
     {
       "id": "initial-js-budget",
       "status": "pass",
-      "detail": "Initial JS is 658.9 KB; budget is 675 KB."
+      "detail": "Initial JS is 657.8 KB; budget is 675 KB."
     },
     {
       "id": "initial-js-gzip-budget",
@@ -174,12 +174,12 @@ export const performanceBudget = {
     {
       "id": "game-runtime-deferred",
       "status": "pass",
-      "detail": "GameCanvas-CoZBjlf4.js is deferred from the initial shell."
+      "detail": "GameCanvas-DZ-towOG.js is deferred from the initial shell."
     },
     {
       "id": "largest-js-deferred",
       "status": "pass",
-      "detail": "Largest JS chunk is GameCanvas-CoZBjlf4.js at 1360.8 KB."
+      "detail": "Largest JS chunk is GameCanvas-DZ-towOG.js at 1360.8 KB."
     },
     {
       "id": "deferred-game-budget",
