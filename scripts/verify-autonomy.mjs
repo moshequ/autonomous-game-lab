@@ -729,6 +729,17 @@ if (
   fail('Traffic seeding must publish zero-cost campaigns, UTM/share links, and sample-size guardrails for every seed game.')
 }
 
+if (
+  !appSource.includes('resolveRuntimeCampaignUrl') ||
+  !appSource.includes('replaceHistoryWithCampaignUrl') ||
+  !appSource.includes('autonomous-game-lab.example.com') ||
+  !appSource.includes('window.location.origin') ||
+  !appSource.includes('navigator.clipboard.writeText(resolvedShareUrl)') ||
+  !appSource.includes('replaceHistoryWithCampaignUrl(campaign.playPath')
+) {
+  fail('Traffic seeding runtime must resolve generated placeholder URLs to the active PWA origin before navigation or sharing.')
+}
+
 const acquisitionCampaigns = acquisitionLearning.campaigns ?? []
 const acquisitionCampaignIds = new Set(acquisitionCampaigns.map((campaign) => campaign.id))
 const missingAcquisitionCampaign = trafficCampaigns.find((campaign) => !acquisitionCampaignIds.has(campaign.id))

@@ -477,6 +477,43 @@ function App() {
     setExternalAnalyticsOptOut(next)
     trackEvent('privacy_choice_updated', { externalAnalyticsOptOut: next })
   }
+  const resolveRuntimeCampaignUrl = (urlOrPath: string) => {
+    if (typeof window === 'undefined') {
+      return urlOrPath
+    }
+
+    try {
+      const campaignUrl = new URL(urlOrPath, window.location.origin)
+      const generatedPlaceholderHost =
+        campaignUrl.hostname === 'autonomous-game-lab.example.com' ||
+        campaignUrl.hostname.endsWith('.example.com') ||
+        urlOrPath.startsWith('/')
+
+      if (generatedPlaceholderHost) {
+        return `${window.location.origin}${campaignUrl.pathname}${campaignUrl.search}${campaignUrl.hash}`
+      }
+
+      return campaignUrl.toString()
+    } catch {
+      return urlOrPath
+    }
+  }
+  const replaceHistoryWithCampaignUrl = (urlOrPath: string) => {
+    if (typeof window === 'undefined') {
+      return
+    }
+
+    try {
+      const campaignUrl = new URL(resolveRuntimeCampaignUrl(urlOrPath), window.location.origin)
+      window.history.replaceState(
+        null,
+        '',
+        `${campaignUrl.pathname}${campaignUrl.search}${campaignUrl.hash}`,
+      )
+    } catch {
+      // Keep the game playable even if a generated campaign URL is malformed.
+    }
+  }
   const openSeedCampaign = (campaign: (typeof trafficCampaigns)[number]) => {
     setAcquisitionAttribution({
       source: 'seed_internal',
@@ -488,6 +525,8 @@ function App() {
     if (isPlayableGameId(campaign.gameId)) {
       setSelectedGameId(campaign.gameId)
     }
+
+    replaceHistoryWithCampaignUrl(campaign.playPath)
 
     trackEvent('seed_campaign_clicked', {
       gameId: campaign.gameId,
@@ -539,10 +578,11 @@ function App() {
 
     let method = 'clipboard'
     let succeeded = false
+    const resolvedShareUrl = resolveRuntimeCampaignUrl(campaign.shareUrl)
     const shareData = {
       title: campaign.copy.title,
       text: campaign.copy.text,
-      url: campaign.shareUrl,
+      url: resolvedShareUrl,
     }
 
     if (navigator.share) {
@@ -555,7 +595,7 @@ function App() {
       }
     } else if (navigator.clipboard?.writeText) {
       try {
-        await navigator.clipboard.writeText(campaign.shareUrl)
+        await navigator.clipboard.writeText(resolvedShareUrl)
         succeeded = true
       } catch {
         method = 'clipboard_unavailable'

@@ -129,7 +129,10 @@ test('organic seed loop records player-initiated seed and share telemetry', asyn
     Object.defineProperty(navigator, 'clipboard', {
       configurable: true,
       value: {
-        writeText: () => Promise.resolve(),
+        writeText: (text: string) => {
+          ;(window as unknown as { __lastClipboardWrite?: string }).__lastClipboardWrite = text
+          return Promise.resolve()
+        },
       },
     })
   })
@@ -140,7 +143,21 @@ test('organic seed loop records player-initiated seed and share telemetry', asyn
   await expect(seedPanel).toContainText(loop.target.title)
   await seedPanel.getByRole('button', { name: loop.runtimeSurface.primaryCtaLabel }).click()
   await expect(page.getByLabel('Autonomy cockpit')).toContainText(loop.target.title)
+  const openedSeedUrl = new URL(page.url())
+  expect(openedSeedUrl.searchParams.get('game')).toBe(loop.target.gameId)
+  expect(openedSeedUrl.searchParams.get('utm_source')).toBe('seed_internal')
+  expect(openedSeedUrl.searchParams.get('utm_campaign')).toBe(loop.target.campaignId)
   await seedPanel.getByRole('button', { name: loop.runtimeSurface.secondaryCtaLabel }).click()
+
+  const copiedShareUrl = await page.evaluate(
+    () => (window as unknown as { __lastClipboardWrite?: string }).__lastClipboardWrite ?? '',
+  )
+  const copiedShare = new URL(copiedShareUrl)
+  expect(copiedShare.host).toBe(openedSeedUrl.host)
+  expect(copiedShare.hostname).not.toBe('autonomous-game-lab.example.com')
+  expect(copiedShare.searchParams.get('game')).toBe(loop.target.gameId)
+  expect(copiedShare.searchParams.get('utm_source')).toBe('seed_share')
+  expect(copiedShare.searchParams.get('utm_campaign')).toBe(loop.target.campaignId)
 
   await expect
     .poll(async () =>
@@ -1866,6 +1883,11 @@ test('traffic seeding switches games and records campaign telemetry', async ({ p
   const trafficSeeding = page.getByLabel('Traffic Seeding')
   await trafficSeeding.getByRole('button', { name: 'Seed traffic for Grove Engine' }).click()
   await expect(page.getByRole('heading', { name: 'Grove Engine' })).toBeVisible()
+  const seededUrl = new URL(page.url())
+
+  expect(seededUrl.searchParams.get('game')).toBe('grove-engine')
+  expect(seededUrl.searchParams.get('utm_source')).toBe('seed_internal')
+  expect(seededUrl.searchParams.get('utm_campaign')).toMatch(/^seed-\d{8}-grove-engine$/)
 
   const seedEvent = await page.evaluate(() => {
     const raw = window.localStorage.getItem('agl.analytics.events')
