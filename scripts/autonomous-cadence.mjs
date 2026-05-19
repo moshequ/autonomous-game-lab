@@ -95,6 +95,7 @@ const workflowExists = await exists(workflowPath)
 const selfUpdateWorkflowExists = await exists(selfUpdateWorkflowPath)
 const dailyScript = script('autonomous:daily')
 const operateScript = script('autonomous:operate')
+const afterActionScript = script('autonomous:after-action')
 const cadenceScript = script('autonomous:cadence')
 const selfUpdateScript = script('autonomous:self-update')
 const testAutomationScript = script('test:automation')
@@ -206,12 +207,18 @@ const checks = [
     status:
       operateScript.includes('autonomous:daily') &&
       operateScript.includes('autonomous:operator -- --execute') &&
-      operateScript.includes('autonomous:owner-loop') &&
-      operateScript.includes('autonomous:readiness') &&
-      operateScript.includes('test:e2e')
+      operateScript.includes('autonomous:after-action') &&
+      operateScript.includes('test:e2e') &&
+      afterActionScript.includes('autonomous:owner-loop') &&
+      afterActionScript.includes('npm run build') &&
+      afterActionScript.includes('autonomous:release-candidate') &&
+      afterActionScript.includes('autonomous:readiness') &&
+      afterActionScript.includes('test:automation')
         ? 'pass'
         : 'blocker',
-    detail: `autonomous:operate is ${operateScript || 'missing'}.`,
+    detail: `autonomous:operate is ${operateScript || 'missing'}; autonomous:after-action is ${
+      afterActionScript || 'missing'
+    }.`,
   },
   {
     id: 'cadence-refresh-script',
@@ -333,6 +340,7 @@ const payload = {
     operate: 'npm run autonomous:operate',
     daily: 'npm run autonomous:daily',
     executeOneLocalAction: 'npm run autonomous:operator -- --execute',
+    afterAction: 'npm run autonomous:after-action',
     selfUpdate: 'npm run autonomous:self-update',
     verifyAutomation: 'npm run test:automation',
     browserSmoke: 'npm run test:e2e',
@@ -356,6 +364,8 @@ const payload = {
     noExternalPosting: true,
     scheduledLocalActionExecution: true,
     scheduledExecutionUsesOperatorAllowlist: true,
+    postActionBuildRefresh: true,
+    postActionVerification: true,
     remoteMutationRequiresRepositoryEvidence: true,
     codexAutomationExpectedActive: true,
     codexAutomationActualStatusAudited: true,
@@ -385,6 +395,7 @@ const appPayload = {
   commandPlan: {
     operate: payload.commandPlan.operate,
     executeOneLocalAction: payload.commandPlan.executeOneLocalAction,
+    afterAction: payload.commandPlan.afterAction,
   },
 }
 
@@ -408,6 +419,7 @@ const report = [
   '',
   `- Operate: ${payload.commandPlan.operate}`,
   `- Execute one local action: ${payload.commandPlan.executeOneLocalAction}`,
+  `- After action: ${payload.commandPlan.afterAction}`,
   `- Daily: ${payload.commandPlan.daily}`,
   `- Self-update: ${payload.commandPlan.selfUpdate}`,
   `- Automation verify: ${payload.commandPlan.verifyAutomation}`,
