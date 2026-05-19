@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-19T14:56:04.898Z",
+  "generatedAt": "2026-05-19T14:57:41.946Z",
   "status": "objective-in-progress",
   "objective": "Build a bootstrapped autonomous web/PWA game portal that can generate original board-game-inspired games, measure user behavior, propose and apply data-driven improvements, and prepare a path to monetization and app-store distribution with minimal manual intervention.",
   "summary": {
@@ -75,7 +75,7 @@
         "Experiment results: evaluated",
         "Backlog items: 4",
         "Applied/deferred actions: 6",
-        "Operator selected: collect-live-events; status operator-plan-ready; execution not-requested"
+        "Operator selected: optimize-daily-retention; status operator-plan-ready; execution not-requested"
       ],
       "blockers": [],
       "nextAction": "Keep collecting starts until a safe product-gate tuning action is justified.",
@@ -258,6 +258,6 @@
   "completion": {
     "canMarkGoalComplete": false,
     "reason": "The local autonomous PWA system is largely prepared, but production credentials, live data, monetization gates, hosted compliance URLs, and store account/signing blockers remain.",
-    "nextBestAction": "collect-live-events"
+    "nextBestAction": "optimize-daily-retention"
   }
 }
