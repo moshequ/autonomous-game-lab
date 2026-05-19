@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-19T22:02:00.390Z",
+  "generatedAt": "2026-05-19T22:10:55.985Z",
   "status": "self-update-ready",
   "mode": "plan-and-assert",
   "envFiles": {
@@ -103,8 +103,7 @@
     "enabledByRepositoryVariable": "AGL_AUTONOMOUS_SELF_UPDATE=1",
     "directPushRequiresRepositoryVariable": "AGL_AUTONOMOUS_SELF_UPDATE_DIRECT=1",
     "verificationBeforeCommit": [
-      "npm run autonomous:daily",
-      "npm run test:e2e",
+      "npm run autonomous:operate",
       "npm run autonomous:self-update -- --assert-safe"
     ],
     "stagePaths": [
@@ -190,12 +189,12 @@
     {
       "id": "daily-workflow-read-only",
       "status": "pass",
-      "detail": "The ordinary daily workflow remains read-only and uploads evidence artifacts."
+      "detail": "The ordinary daily workflow remains read-only, runs the owner loop, and uploads evidence artifacts."
     },
     {
       "id": "self-update-workflow",
       "status": "pass",
-      "detail": "A separate gated workflow can reproduce the daily loop, verify it, and persist allowlisted changes."
+      "detail": "A separate gated workflow can reproduce the owner loop, verify it, and persist allowlisted changes."
     },
     {
       "id": "safe-path-allowlist",
@@ -215,7 +214,7 @@
     {
       "id": "zero-spend-controls",
       "status": "pass",
-      "detail": "Self-update only stages repository artifacts; it does not create accounts, stores, ads, paid traffic, or revenue."
+      "detail": "Self-update owner-loop verification includes browser smoke coverage and does not create accounts, stores, ads, paid traffic, or revenue."
     }
   ],
   "blockers": [],
