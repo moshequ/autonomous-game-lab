@@ -1,10 +1,10 @@
 # Autonomous Operator
 
-Generated: 2026-05-19T10:46:53.069Z
+Generated: 2026-05-19T10:52:25.541Z
 Status: operator-plan-ready
 Mode: plan-only
-Owner decision: refresh-product-gate-recovery
-Selected action: refresh-product-gate-recovery
+Owner decision: measure-pwa-install-loop
+Selected action: measure-pwa-install-loop
 Execution: not-requested
 
 ## Controls
@@ -18,7 +18,7 @@ Execution: not-requested
 
 ## Selected Action
 
-- refresh-product-gate-recovery: npm run autonomous:gate-recovery
+- measure-pwa-install-loop: npm run autonomous:pwa-install
 
 ## Eligible Local Actions
 
@@ -50,9 +50,9 @@ Execution: not-requested
 - seed-portfolio-traffic: not-selected-this-run
 - refresh-organic-seed-loop: not-selected-this-run
 - optimize-daily-retention: not-selected-this-run
-- measure-pwa-install-loop: not-selected-this-run
 - check-performance-budget: not-selected-this-run
 - prepare-release-candidate: not-selected-this-run
 - run-post-deploy-smoke: status-monitor
 - optimize-product-gates: not-selected-this-run
+- refresh-product-gate-recovery: not-selected-this-run
 - collect-gate-sample-downloads: status-monitor
