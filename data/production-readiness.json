@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-19T14:42:02.752Z",
+  "generatedAt": "2026-05-19T14:45:03.573Z",
   "environment": {
     "status": "production-env-missing",
     "publicOrigin": null,
@@ -78,10 +78,10 @@
         "dirtyFiles": 36,
         "dirtyPaths": [
           "data/analytics-rollup.json",
-          "data/autonomous-cadence.json",
           "data/autonomous-operator-history.json",
           "data/autonomous-operator.json",
           "data/autonomous-owner-loop.json",
+          "data/autonomous-self-update.json",
           "data/event-ingest.json",
           "data/local-event-bridge.json",
           "data/performance-budget.json",
@@ -91,10 +91,10 @@
           "data/release-candidate.json",
           "data/repository-readiness.json",
           "reports/analytics-rollup-latest.md",
-          "reports/autonomous-cadence-latest.md",
           "reports/autonomous-operator-history-latest.md",
           "reports/autonomous-operator-latest.md",
           "reports/autonomous-owner-loop-latest.md",
+          "reports/autonomous-self-update-latest.md",
           "reports/event-ingest-latest.md",
           "reports/local-event-bridge-latest.md",
           "reports/performance-budget-latest.md",
@@ -117,10 +117,10 @@
         "generatedEvidenceDirtyFiles": 36,
         "generatedEvidenceDirtyPaths": [
           "data/analytics-rollup.json",
-          "data/autonomous-cadence.json",
           "data/autonomous-operator-history.json",
           "data/autonomous-operator.json",
           "data/autonomous-owner-loop.json",
+          "data/autonomous-self-update.json",
           "data/event-ingest.json",
           "data/local-event-bridge.json",
           "data/performance-budget.json",
@@ -130,10 +130,10 @@
           "data/release-candidate.json",
           "data/repository-readiness.json",
           "reports/analytics-rollup-latest.md",
-          "reports/autonomous-cadence-latest.md",
           "reports/autonomous-operator-history-latest.md",
           "reports/autonomous-operator-latest.md",
           "reports/autonomous-owner-loop-latest.md",
+          "reports/autonomous-self-update-latest.md",
           "reports/event-ingest-latest.md",
           "reports/local-event-bridge-latest.md",
           "reports/performance-budget-latest.md",
@@ -166,10 +166,10 @@
         "dirtyFiles": 36,
         "dirtyPaths": [
           "data/analytics-rollup.json",
-          "data/autonomous-cadence.json",
           "data/autonomous-operator-history.json",
           "data/autonomous-operator.json",
           "data/autonomous-owner-loop.json",
+          "data/autonomous-self-update.json",
           "data/event-ingest.json",
           "data/local-event-bridge.json",
           "data/performance-budget.json",
@@ -179,10 +179,10 @@
           "data/release-candidate.json",
           "data/repository-readiness.json",
           "reports/analytics-rollup-latest.md",
-          "reports/autonomous-cadence-latest.md",
           "reports/autonomous-operator-history-latest.md",
           "reports/autonomous-operator-latest.md",
           "reports/autonomous-owner-loop-latest.md",
+          "reports/autonomous-self-update-latest.md",
           "reports/event-ingest-latest.md",
           "reports/local-event-bridge-latest.md",
           "reports/performance-budget-latest.md",
@@ -205,10 +205,10 @@
         "generatedEvidenceDirtyFiles": 36,
         "generatedEvidenceDirtyPaths": [
           "data/analytics-rollup.json",
-          "data/autonomous-cadence.json",
           "data/autonomous-operator-history.json",
           "data/autonomous-operator.json",
           "data/autonomous-owner-loop.json",
+          "data/autonomous-self-update.json",
           "data/event-ingest.json",
           "data/local-event-bridge.json",
           "data/performance-budget.json",
@@ -218,10 +218,10 @@
           "data/release-candidate.json",
           "data/repository-readiness.json",
           "reports/analytics-rollup-latest.md",
-          "reports/autonomous-cadence-latest.md",
           "reports/autonomous-operator-history-latest.md",
           "reports/autonomous-operator-latest.md",
           "reports/autonomous-owner-loop-latest.md",
+          "reports/autonomous-self-update-latest.md",
           "reports/event-ingest-latest.md",
           "reports/local-event-bridge-latest.md",
           "reports/performance-budget-latest.md",
@@ -456,7 +456,7 @@
       {
         "id": "performance-budget",
         "status": "pass",
-        "detail": "Performance budget is performance-budget-ready; initial JS 657.7 KB / 174.3 KB gzip; deferred game chunk GameCanvas-D_GU9UyZ.js."
+        "detail": "Performance budget is performance-budget-ready; initial JS 657.6 KB / 174.2 KB gzip; deferred game chunk GameCanvas-_5AfPUCg.js."
       },
       {
         "id": "release-candidate",
@@ -506,7 +506,7 @@
       {
         "id": "autonomous-operator",
         "status": "pass",
-        "detail": "Autonomous operator is operator-plan-ready; selected refresh-autonomous-self-update; execution not-requested."
+        "detail": "Autonomous operator is operator-plan-ready; selected prepare-repository-channel; execution not-requested."
       },
       {
         "id": "autonomous-operator-history",
@@ -932,20 +932,20 @@
     },
     "initial": {
       "entryScripts": [
-        "index-iI11zLJ2.js",
+        "index-DoYNZpoD.js",
         "registerSW.js"
       ],
       "scriptPaths": [
-        "assets/index-iI11zLJ2.js",
+        "assets/index-DoYNZpoD.js",
         "registerSW.js"
       ],
       "jsFiles": [
         {
-          "file": "index-iI11zLJ2.js",
-          "path": "assets/index-iI11zLJ2.js",
-          "bytes": 673358,
-          "kb": 657.6,
-          "gzipBytes": 178322,
+          "file": "index-DoYNZpoD.js",
+          "path": "assets/index-DoYNZpoD.js",
+          "bytes": 673224,
+          "kb": 657.4,
+          "gzipBytes": 178305,
           "gzipKb": 174.1
         },
         {
@@ -957,10 +957,10 @@
           "gzipKb": 0.1
         }
       ],
-      "jsBytes": 673492,
-      "jsKb": 657.7,
-      "gzipBytes": 178448,
-      "gzipKb": 174.3,
+      "jsBytes": 673358,
+      "jsKb": 657.6,
+      "gzipBytes": 178431,
+      "gzipKb": 174.2,
       "cssFiles": [
         {
           "file": "index-BA4sddeG.css",
@@ -979,36 +979,36 @@
     "deferred": {
       "chunks": [
         {
-          "file": "GameCanvas-D_GU9UyZ.js",
-          "path": "assets/GameCanvas-D_GU9UyZ.js",
+          "file": "GameCanvas-_5AfPUCg.js",
+          "path": "assets/GameCanvas-_5AfPUCg.js",
           "bytes": 1393468,
           "kb": 1360.8,
-          "gzipBytes": 356095,
+          "gzipBytes": 356094,
           "gzipKb": 347.7
         }
       ],
       "gameChunk": {
-        "file": "GameCanvas-D_GU9UyZ.js",
-        "path": "assets/GameCanvas-D_GU9UyZ.js",
+        "file": "GameCanvas-_5AfPUCg.js",
+        "path": "assets/GameCanvas-_5AfPUCg.js",
         "bytes": 1393468,
         "kb": 1360.8,
-        "gzipBytes": 356095,
+        "gzipBytes": 356094,
         "gzipKb": 347.7
       },
       "largestDeferredChunk": {
-        "file": "GameCanvas-D_GU9UyZ.js",
-        "path": "assets/GameCanvas-D_GU9UyZ.js",
+        "file": "GameCanvas-_5AfPUCg.js",
+        "path": "assets/GameCanvas-_5AfPUCg.js",
         "bytes": 1393468,
         "kb": 1360.8,
-        "gzipBytes": 356095,
+        "gzipBytes": 356094,
         "gzipKb": 347.7
       },
       "largestJsChunk": {
-        "file": "GameCanvas-D_GU9UyZ.js",
-        "path": "assets/GameCanvas-D_GU9UyZ.js",
+        "file": "GameCanvas-_5AfPUCg.js",
+        "path": "assets/GameCanvas-_5AfPUCg.js",
         "bytes": 1393468,
         "kb": 1360.8,
-        "gzipBytes": 356095,
+        "gzipBytes": 356094,
         "gzipKb": 347.7
       },
       "chunksBytes": 1393468,
@@ -1026,12 +1026,12 @@
       {
         "id": "initial-js-budget",
         "status": "pass",
-        "detail": "Initial JS is 657.7 KB; budget is 675 KB."
+        "detail": "Initial JS is 657.6 KB; budget is 675 KB."
       },
       {
         "id": "initial-js-gzip-budget",
         "status": "pass",
-        "detail": "Initial JS gzip is 174.3 KB; budget is 200 KB."
+        "detail": "Initial JS gzip is 174.2 KB; budget is 200 KB."
       },
       {
         "id": "initial-css-budget",
@@ -1051,12 +1051,12 @@
       {
         "id": "game-runtime-deferred",
         "status": "pass",
-        "detail": "GameCanvas-D_GU9UyZ.js is deferred from the initial shell."
+        "detail": "GameCanvas-_5AfPUCg.js is deferred from the initial shell."
       },
       {
         "id": "largest-js-deferred",
         "status": "pass",
-        "detail": "Largest JS chunk is GameCanvas-D_GU9UyZ.js at 1360.8 KB."
+        "detail": "Largest JS chunk is GameCanvas-_5AfPUCg.js at 1360.8 KB."
       },
       {
         "id": "deferred-game-budget",
@@ -1067,7 +1067,7 @@
   },
   "releaseCandidate": {
     "status": "release-candidate-ready",
-    "candidateId": "pwa-37b193b6e5f3",
+    "candidateId": "pwa-f19a51574939",
     "target": {
       "provider": "github-pages",
       "artifactPath": "dist",
@@ -1078,8 +1078,8 @@
     },
     "summary": {
       "totalFiles": 40,
-      "totalBytes": 3669891,
-      "totalKb": 3583.9,
+      "totalBytes": 3669757,
+      "totalKb": 3583.7,
       "assetFiles": 3,
       "htmlFiles": 14,
       "gamePages": 10,
@@ -1088,7 +1088,7 @@
     },
     "integrity": {
       "algorithm": "sha256",
-      "aggregateHash": "37b193b6e5f3775363de55f60417a233dfd11fcd0a8e8142b3b3caf5278c1eeb",
+      "aggregateHash": "f19a51574939d0f7c371775853c13883242bb655f3ac8f855f6cd9b99fca6177",
       "requiredFileChecks": [
         {
           "path": "index.html",
@@ -1288,8 +1288,8 @@
     "target": {
       "origin": null,
       "provider": "github-pages",
-      "candidateId": "pwa-37b193b6e5f3",
-      "aggregateHash": "37b193b6e5f3775363de55f60417a233dfd11fcd0a8e8142b3b3caf5278c1eeb"
+      "candidateId": "pwa-f19a51574939",
+      "aggregateHash": "f19a51574939d0f7c371775853c13883242bb655f3ac8f855f6cd9b99fca6177"
     },
     "sourceStatus": {
       "deployment": "ready-for-pages",
@@ -1436,8 +1436,8 @@
           "bytes": 17003,
           "candidateMatches": true,
           "hashMatches": true,
-          "localCandidateId": "pwa-37b193b6e5f3",
-          "localAggregateHash": "37b193b6e5f3775363de55f60417a233dfd11fcd0a8e8142b3b3caf5278c1eeb",
+          "localCandidateId": "pwa-f19a51574939",
+          "localAggregateHash": "f19a51574939d0f7c371775853c13883242bb655f3ac8f855f6cd9b99fca6177",
           "detail": "Local release manifest matches the release candidate."
         }
       ]
@@ -1556,7 +1556,7 @@
         "path": "/release-candidate.json",
         "url": "${DEPLOYED_PWA_ORIGIN}/release-candidate.json",
         "expectedStatus": 200,
-        "requiredText": "pwa-37b193b6e5f3",
+        "requiredText": "pwa-f19a51574939",
         "status": "blocked",
         "detail": "No deployed origin configured."
       }
@@ -2488,13 +2488,13 @@
     "status": "operator-plan-ready",
     "mode": "plan-only",
     "selectedAction": {
-      "id": "refresh-autonomous-self-update",
+      "id": "prepare-repository-channel",
       "status": "armed",
-      "command": "npm run autonomous:self-update",
+      "command": "npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap",
       "targets": [
-        ".github/workflows/autonomous-self-update.yml"
+        "github-repository-channel"
       ],
-      "reason": "Keeps verified generated-change persistence gated, allowlisted, and ready for the scheduled production repository.",
+      "reason": "Surfaces and prepares the missing git/GitHub deployment-channel blockers before web deploy.",
       "costUsd": 0
     },
     "controls": {
@@ -2550,6 +2550,12 @@
         "id": "refresh-autonomous-cadence",
         "status": "armed",
         "command": "npm run autonomous:cadence",
+        "reason": "not-selected-this-run"
+      },
+      {
+        "id": "refresh-autonomous-self-update",
+        "status": "armed",
+        "command": "npm run autonomous:self-update",
         "reason": "not-selected-this-run"
       },
       {
@@ -2637,12 +2643,6 @@
         "reason": "not-selected-this-run"
       },
       {
-        "id": "prepare-repository-channel",
-        "status": "armed",
-        "command": "npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap",
-        "reason": "not-selected-this-run"
-      },
-      {
         "id": "bootstrap-production-setup",
         "status": "armed",
         "command": "npm run autonomous:release-candidate && npm run autonomous:deploy-plan && npm run autonomous:bootstrap",
@@ -2705,9 +2705,9 @@
       "plannedRecords": 20,
       "executedRecords": 20,
       "failedRecords": 0,
-      "lastActionId": "refresh-autonomous-self-update",
+      "lastActionId": "prepare-repository-channel",
       "lastExecutionStatus": "not-requested",
-      "lastExecutedActionId": "refresh-autonomous-cadence"
+      "lastExecutedActionId": "refresh-autonomous-self-update"
     },
     "controls": {
       "zeroPaidSpend": true,
@@ -2723,94 +2723,6 @@
       "compactedDuplicateDryRuns": 0
     },
     "recentRecords": [
-      {
-        "id": "20260519143710-measure-pwa-install-loop",
-        "generatedAt": "2026-05-19T14:37:10.784Z",
-        "runFingerprint": "ed58bab3af744814",
-        "mode": "plan-only",
-        "status": "operator-plan-ready",
-        "selectedActionId": "measure-pwa-install-loop",
-        "selectedCommand": "npm run autonomous:pwa-install",
-        "eligibleActionIds": [
-          "refresh-autonomous-cadence",
-          "refresh-autonomous-self-update",
-          "seed-portfolio-traffic",
-          "refresh-organic-seed-loop",
-          "optimize-daily-retention",
-          "measure-pwa-install-loop",
-          "check-performance-budget",
-          "prepare-release-candidate",
-          "optimize-product-gates",
-          "refresh-product-gate-recovery",
-          "refresh-first-move-coach",
-          "refresh-completion-loop",
-          "refresh-replay-loop",
-          "prepare-repository-channel",
-          "bootstrap-production-setup",
-          "refresh-objective-audit",
-          "optimize-store-listing",
-          "apply-safe-improvements",
-          "collect-live-events"
-        ],
-        "blockedActionCount": 26,
-        "execution": {
-          "requested": false,
-          "status": "not-requested",
-          "attemptedActionId": null,
-          "resultCount": 0,
-          "failedScripts": []
-        },
-        "controls": {
-          "zeroPaidSpend": true,
-          "localCommandAllowlistEnforced": true,
-          "externalWorkflowExecutionBlockedByDefault": true,
-          "maxActionsPerRun": 1
-        }
-      },
-      {
-        "id": "20260519143902-measure-pwa-install-loop",
-        "generatedAt": "2026-05-19T14:39:02.145Z",
-        "runFingerprint": "d31910b3ef823346",
-        "mode": "execute-one-action",
-        "status": "operator-executed",
-        "selectedActionId": "measure-pwa-install-loop",
-        "selectedCommand": "npm run autonomous:pwa-install",
-        "eligibleActionIds": [
-          "refresh-autonomous-cadence",
-          "refresh-autonomous-self-update",
-          "seed-portfolio-traffic",
-          "refresh-organic-seed-loop",
-          "optimize-daily-retention",
-          "measure-pwa-install-loop",
-          "check-performance-budget",
-          "prepare-release-candidate",
-          "optimize-product-gates",
-          "refresh-product-gate-recovery",
-          "refresh-first-move-coach",
-          "refresh-completion-loop",
-          "refresh-replay-loop",
-          "prepare-repository-channel",
-          "bootstrap-production-setup",
-          "refresh-objective-audit",
-          "optimize-store-listing",
-          "apply-safe-improvements",
-          "collect-live-events"
-        ],
-        "blockedActionCount": 26,
-        "execution": {
-          "requested": true,
-          "status": "executed",
-          "attemptedActionId": "measure-pwa-install-loop",
-          "resultCount": 1,
-          "failedScripts": []
-        },
-        "controls": {
-          "zeroPaidSpend": true,
-          "localCommandAllowlistEnforced": true,
-          "externalWorkflowExecutionBlockedByDefault": true,
-          "maxActionsPerRun": 1
-        }
-      },
       {
         "id": "20260519143912-refresh-autonomous-cadence",
         "generatedAt": "2026-05-19T14:39:12.542Z",
@@ -2907,6 +2819,94 @@
         "status": "operator-plan-ready",
         "selectedActionId": "refresh-autonomous-self-update",
         "selectedCommand": "npm run autonomous:self-update",
+        "eligibleActionIds": [
+          "refresh-autonomous-cadence",
+          "refresh-autonomous-self-update",
+          "seed-portfolio-traffic",
+          "refresh-organic-seed-loop",
+          "optimize-daily-retention",
+          "measure-pwa-install-loop",
+          "check-performance-budget",
+          "prepare-release-candidate",
+          "optimize-product-gates",
+          "refresh-product-gate-recovery",
+          "refresh-first-move-coach",
+          "refresh-completion-loop",
+          "refresh-replay-loop",
+          "prepare-repository-channel",
+          "bootstrap-production-setup",
+          "refresh-objective-audit",
+          "optimize-store-listing",
+          "apply-safe-improvements",
+          "collect-live-events"
+        ],
+        "blockedActionCount": 26,
+        "execution": {
+          "requested": false,
+          "status": "not-requested",
+          "attemptedActionId": null,
+          "resultCount": 0,
+          "failedScripts": []
+        },
+        "controls": {
+          "zeroPaidSpend": true,
+          "localCommandAllowlistEnforced": true,
+          "externalWorkflowExecutionBlockedByDefault": true,
+          "maxActionsPerRun": 1
+        }
+      },
+      {
+        "id": "20260519144436-refresh-autonomous-self-update",
+        "generatedAt": "2026-05-19T14:44:36.415Z",
+        "runFingerprint": "8bc32847a26721e4",
+        "mode": "execute-one-action",
+        "status": "operator-executed",
+        "selectedActionId": "refresh-autonomous-self-update",
+        "selectedCommand": "npm run autonomous:self-update",
+        "eligibleActionIds": [
+          "refresh-autonomous-cadence",
+          "refresh-autonomous-self-update",
+          "seed-portfolio-traffic",
+          "refresh-organic-seed-loop",
+          "optimize-daily-retention",
+          "measure-pwa-install-loop",
+          "check-performance-budget",
+          "prepare-release-candidate",
+          "optimize-product-gates",
+          "refresh-product-gate-recovery",
+          "refresh-first-move-coach",
+          "refresh-completion-loop",
+          "refresh-replay-loop",
+          "prepare-repository-channel",
+          "bootstrap-production-setup",
+          "refresh-objective-audit",
+          "optimize-store-listing",
+          "apply-safe-improvements",
+          "collect-live-events"
+        ],
+        "blockedActionCount": 26,
+        "execution": {
+          "requested": true,
+          "status": "executed",
+          "attemptedActionId": "refresh-autonomous-self-update",
+          "resultCount": 1,
+          "failedScripts": []
+        },
+        "controls": {
+          "zeroPaidSpend": true,
+          "localCommandAllowlistEnforced": true,
+          "externalWorkflowExecutionBlockedByDefault": true,
+          "maxActionsPerRun": 1
+        }
+      },
+      {
+        "id": "20260519144449-prepare-repository-channel",
+        "generatedAt": "2026-05-19T14:44:49.553Z",
+        "runFingerprint": "ad9476a3ca02ef74",
+        "mode": "plan-only",
+        "status": "operator-plan-ready",
+        "selectedActionId": "prepare-repository-channel",
+        "selectedCommand": "npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap",
         "eligibleActionIds": [
           "refresh-autonomous-cadence",
           "refresh-autonomous-self-update",
@@ -3215,7 +3215,7 @@
     "completion": {
       "canMarkGoalComplete": false,
       "reason": "The local autonomous PWA system is largely prepared, but production credentials, live data, monetization gates, hosted compliance URLs, and store account/signing blockers remain.",
-      "nextBestAction": "refresh-autonomous-self-update"
+      "nextBestAction": "prepare-repository-channel"
     },
     "requirements": [
       {
@@ -3282,7 +3282,7 @@
           "Experiment results: evaluated",
           "Backlog items: 4",
           "Applied/deferred actions: 6",
-          "Operator selected: refresh-autonomous-self-update; status operator-plan-ready; execution not-requested"
+          "Operator selected: prepare-repository-channel; status operator-plan-ready; execution not-requested"
         ],
         "blockers": [],
         "nextAction": "Keep collecting starts until a safe product-gate tuning action is justified.",
