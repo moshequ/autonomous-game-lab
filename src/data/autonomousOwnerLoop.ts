@@ -8,7 +8,7 @@ export const autonomousOwnerLoop = {
     "externalAccountInterventionRequired": true
   },
   "ownerDecision": {
-    "nextBestActionId": "refresh-product-gate-recovery"
+    "nextBestActionId": "prepare-repository-channel"
   },
   "systems": [
     {
@@ -30,7 +30,7 @@ export const autonomousOwnerLoop = {
   ],
   "safeAutonomousActions": [
     {
-      "id": "refresh-product-gate-recovery",
+      "id": "prepare-repository-channel",
       "status": "armed"
     },
     {
