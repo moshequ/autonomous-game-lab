@@ -1,5 +1,5 @@
 export const repositoryReadiness = {
-  "generatedAt": "2026-05-19T04:14:34.981Z",
+  "generatedAt": "2026-05-19T04:19:06.478Z",
   "status": "waiting-for-github-repository",
   "envFiles": {
     "loaded": true,
@@ -56,7 +56,22 @@ export const repositoryReadiness = {
     "insideWorkTree": true,
     "gitRoot": "/Users/moshequ/Documents/Codex/2026-05-18/i-want-to-have-a-new",
     "currentBranch": "main",
-    "dirtyFiles": 3
+    "dirtyFiles": 4,
+    "dirtyPaths": [
+      "cripts/repository-bootstrap.mjs",
+      "scripts/repository-readiness.mjs",
+      "scripts/verify-autonomy.mjs",
+      "tests/smoke.spec.ts"
+    ],
+    "generatedEvidenceDirtyFiles": 0,
+    "generatedEvidenceDirtyPaths": [],
+    "nonGeneratedDirtyFiles": 4,
+    "nonGeneratedDirtyPaths": [
+      "cripts/repository-bootstrap.mjs",
+      "scripts/repository-readiness.mjs",
+      "scripts/verify-autonomy.mjs",
+      "tests/smoke.spec.ts"
+    ]
   },
   "repository": {
     "target": null,

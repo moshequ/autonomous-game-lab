@@ -34,6 +34,25 @@ const run = (command, args) =>
 
 const configured = (value) => typeof value === 'string' && value.trim().length > 0
 
+const parseDirtyPaths = (stdout) =>
+  stdout
+    ? stdout
+        .split('\n')
+        .filter(Boolean)
+        .map((line) => line.slice(3).trim())
+        .filter(Boolean)
+    : []
+
+const generatedEvidencePaths = new Set([
+  'data/repository-readiness.json',
+  'src/data/repositoryReadiness.ts',
+  'reports/repository-readiness-latest.md',
+  'data/repository-bootstrap.json',
+  'src/data/repositoryBootstrap.ts',
+  'reports/repository-bootstrap-latest.md',
+  'ops/github/bootstrap-repository.sh',
+])
+
 const repositoryFromRemote = (remoteUrl) => {
   if (!remoteUrl) {
     return null
@@ -74,6 +93,9 @@ const gitRootResult = insideWorkTree ? await run('git', ['rev-parse', '--show-to
 const gitBranchResult = insideWorkTree ? await run('git', ['branch', '--show-current']) : { ok: false, stdout: null }
 const gitRemoteResult = insideWorkTree ? await run('git', ['remote', 'get-url', 'origin']) : { ok: false, stdout: null }
 const gitStatusResult = insideWorkTree ? await run('git', ['status', '--short']) : { ok: false, stdout: '' }
+const dirtyPaths = parseDirtyPaths(gitStatusResult.stdout)
+const generatedEvidenceDirtyPaths = dirtyPaths.filter((dirtyPath) => generatedEvidencePaths.has(dirtyPath))
+const nonGeneratedDirtyPaths = dirtyPaths.filter((dirtyPath) => !generatedEvidencePaths.has(dirtyPath))
 const ghVersionResult = await run('gh', ['--version'])
 const pagesWorkflowExists = await exists(workflowPath)
 const workflowSource = pagesWorkflowExists ? await readFile(workflowPath, 'utf8') : ''
@@ -173,7 +195,12 @@ const payload = {
     insideWorkTree,
     gitRoot: gitRootResult.ok ? gitRootResult.stdout : null,
     currentBranch: gitBranchResult.ok ? gitBranchResult.stdout || null : null,
-    dirtyFiles: gitStatusResult.stdout ? gitStatusResult.stdout.split('\n').filter(Boolean).length : 0,
+    dirtyFiles: dirtyPaths.length,
+    dirtyPaths,
+    generatedEvidenceDirtyFiles: generatedEvidenceDirtyPaths.length,
+    generatedEvidenceDirtyPaths,
+    nonGeneratedDirtyFiles: nonGeneratedDirtyPaths.length,
+    nonGeneratedDirtyPaths,
   },
   repository: {
     target: targetRepository,

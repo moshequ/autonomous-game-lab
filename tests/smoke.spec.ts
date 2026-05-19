@@ -688,7 +688,7 @@ test('production scripts load git-ignored env files without leaking values or mu
 test('repository readiness surfaces the GitHub Pages deployment channel without mutating git', async () => {
   const readiness = JSON.parse(await readFile('data/repository-readiness.json', 'utf8')) as {
     status: string
-    workspace: { insideWorkTree: boolean }
+    workspace: { insideWorkTree: boolean; nonGeneratedDirtyFiles: number }
     repository: { target: string | null; source: string }
     githubAutomation: { workflowDispatchReady: boolean }
     pages: { workflowPath: string; deployWorkflowIncludesSmoke: boolean; releaseCandidateId: string }
@@ -719,7 +719,9 @@ test('repository readiness surfaces the GitHub Pages deployment channel without 
       noWorkflowDispatch: boolean
     }
     helper: { path: string; noWorkflowDispatch: boolean }
+    workspace: { after: { nonGeneratedDirtyFiles: number } }
     actions: Array<{ id: string; status: string }>
+    blockers: string[]
   }
   const repositoryBootstrapScript = await readFile('ops/github/bootstrap-repository.sh', 'utf8')
   const packageJson = JSON.parse(await readFile('package.json', 'utf8')) as {
@@ -745,6 +747,10 @@ test('repository readiness surfaces the GitHub Pages deployment channel without 
   expect(readiness.checks.some((check) => check.id === 'local-git-worktree')).toBe(true)
   expect(readiness.checks.some((check) => check.id === 'pages-workflow' && check.status === 'pass')).toBe(true)
   expect(readiness.workspace.insideWorkTree || readiness.blockers.length > 0).toBe(true)
+  expect(typeof readiness.workspace.nonGeneratedDirtyFiles).toBe('number')
+  if (readiness.workspace.nonGeneratedDirtyFiles === 0) {
+    expect(readiness.blockers.some((blocker) => blocker.includes('Commit current generated changes'))).toBe(false)
+  }
   expect([
     'needs-local-git-bootstrap',
     'waiting-for-github-target',
@@ -759,6 +765,10 @@ test('repository readiness surfaces the GitHub Pages deployment channel without 
   expect(repositoryBootstrap.controls.noWorkflowDispatch).toBe(true)
   expect(repositoryBootstrap.helper.path).toBe('ops/github/bootstrap-repository.sh')
   expect(repositoryBootstrap.helper.noWorkflowDispatch).toBe(true)
+  expect(typeof repositoryBootstrap.workspace.after.nonGeneratedDirtyFiles).toBe('number')
+  if (repositoryBootstrap.workspace.after.nonGeneratedDirtyFiles === 0) {
+    expect(repositoryBootstrap.blockers.some((blocker) => blocker.includes('Commit current generated changes'))).toBe(false)
+  }
   expect(repositoryBootstrap.actions.some((action) => action.id === 'initialize-local-git')).toBe(true)
   expect(repositoryBootstrap.actions.some((action) => action.id === 'commit-current-snapshot')).toBe(true)
   expect(repositoryBootstrap.actions.some((action) => action.id === 'create-github-repository')).toBe(true)

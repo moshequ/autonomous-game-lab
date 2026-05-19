@@ -43,6 +43,25 @@ const run = (command, args) =>
 
 const configured = (value) => typeof value === 'string' && value.trim().length > 0
 
+const parseDirtyPaths = (stdout) =>
+  stdout
+    ? stdout
+        .split('\n')
+        .filter(Boolean)
+        .map((line) => line.slice(3).trim())
+        .filter(Boolean)
+    : []
+
+const generatedEvidencePaths = new Set([
+  'data/repository-readiness.json',
+  'src/data/repositoryReadiness.ts',
+  'reports/repository-readiness-latest.md',
+  'data/repository-bootstrap.json',
+  'src/data/repositoryBootstrap.ts',
+  'reports/repository-bootstrap-latest.md',
+  'ops/github/bootstrap-repository.sh',
+])
+
 const repositoryFromRemote = (remoteUrl) => {
   if (!remoteUrl) {
     return null
@@ -69,6 +88,9 @@ const inspectGit = async () => {
   const originResult = insideWorkTree ? await run('git', ['remote', 'get-url', 'origin']) : { ok: false, stdout: null }
   const headResult = insideWorkTree ? await run('git', ['rev-parse', '--verify', 'HEAD']) : { ok: false, stdout: null }
   const statusResult = insideWorkTree ? await run('git', ['status', '--short']) : { ok: false, stdout: '' }
+  const dirtyPaths = parseDirtyPaths(statusResult.stdout)
+  const generatedEvidenceDirtyPaths = dirtyPaths.filter((dirtyPath) => generatedEvidencePaths.has(dirtyPath))
+  const nonGeneratedDirtyPaths = dirtyPaths.filter((dirtyPath) => !generatedEvidencePaths.has(dirtyPath))
 
   return {
     insideWorkTree,
@@ -77,7 +99,12 @@ const inspectGit = async () => {
     originRemote: originResult.ok ? originResult.stdout : null,
     remoteRepository: repositoryFromRemote(originResult.ok ? originResult.stdout : null),
     hasCommit: headResult.ok,
-    dirtyFiles: statusResult.stdout ? statusResult.stdout.split('\n').filter(Boolean).length : 0,
+    dirtyFiles: dirtyPaths.length,
+    dirtyPaths,
+    generatedEvidenceDirtyFiles: generatedEvidenceDirtyPaths.length,
+    generatedEvidenceDirtyPaths,
+    nonGeneratedDirtyFiles: nonGeneratedDirtyPaths.length,
+    nonGeneratedDirtyPaths,
   }
 }
 
@@ -150,13 +177,13 @@ const initialCommitStatus = gitAfter.hasCommit
     : 'waiting-for-local-git'
 const snapshotCommitStatus =
   gitAfter.insideWorkTree && gitAfter.hasCommit
-    ? gitAfter.dirtyFiles > 0
+    ? gitAfter.nonGeneratedDirtyFiles > 0
       ? 'ready-for-explicit-snapshot-commit'
       : 'ready'
     : gitAfter.insideWorkTree
       ? 'waiting-for-initial-commit'
       : 'waiting-for-local-git'
-const cleanSnapshotReady = gitAfter.insideWorkTree && gitAfter.hasCommit && gitAfter.dirtyFiles === 0
+const cleanSnapshotReady = gitAfter.insideWorkTree && gitAfter.hasCommit && gitAfter.nonGeneratedDirtyFiles === 0
 
 const actions = [
   {
@@ -201,9 +228,11 @@ const actions = [
     mutatesRemoteGitHub: false,
     requiresExplicitEnv: true,
     detail: cleanSnapshotReady
-      ? 'The current generated production snapshot is committed.'
-      : gitAfter.dirtyFiles > 0
-        ? `${gitAfter.dirtyFiles} generated or source file(s) are not committed yet.`
+      ? gitAfter.generatedEvidenceDirtyFiles > 0
+        ? `${gitAfter.generatedEvidenceDirtyFiles} repository evidence file(s) changed during this dry run; the outer verified commit will persist them.`
+        : 'The current generated production snapshot is committed.'
+      : gitAfter.nonGeneratedDirtyFiles > 0
+        ? `${gitAfter.nonGeneratedDirtyFiles} non-generated source or artifact file(s) are not committed yet.`
         : 'Snapshot commit waits for a local git worktree with an initial commit.',
   },
   {
@@ -239,7 +268,7 @@ const actions = [
     status:
       gitAfter.insideWorkTree && gitAfter.hasCommit && gitAfter.remoteRepository && cleanSnapshotReady
         ? 'ready-for-explicit-push'
-        : gitAfter.remoteRepository && !cleanSnapshotReady
+        : gitAfter.remoteRepository && gitAfter.nonGeneratedDirtyFiles > 0
           ? 'waiting-for-clean-snapshot'
           : 'waiting-for-commit-and-origin',
     costUsd: 0,
@@ -256,7 +285,7 @@ const actions = [
 const blockers = [
   ...(gitAfter.insideWorkTree ? [] : ['Initialize this workspace as a local git repository.']),
   ...(gitAfter.hasCommit ? [] : ['Create an initial commit before pushing to GitHub Pages.']),
-  ...(gitAfter.hasCommit && gitAfter.dirtyFiles > 0
+  ...(gitAfter.hasCommit && gitAfter.nonGeneratedDirtyFiles > 0
     ? ['Commit current generated changes before pushing to GitHub Pages.']
     : []),
   ...(targetRepository ? [] : ['Set GITHUB_REPOSITORY or GH_REPO to the intended owner/repo.']),

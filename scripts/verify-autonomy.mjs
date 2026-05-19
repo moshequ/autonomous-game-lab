@@ -2736,13 +2736,18 @@ if (
   repositoryReadiness.pages?.deployWorkflowIncludesSmoke !== true ||
   repositoryReadiness.pages?.releaseCandidateId !== releaseCandidate.candidateId ||
   repositoryReadiness.pages?.postDeploySmokeStatus !== postDeploySmoke.status ||
+  typeof repositoryReadiness.workspace?.nonGeneratedDirtyFiles !== 'number' ||
   !repositoryReadiness.checks?.some((check) => check.id === 'local-git-worktree') ||
   !repositoryReadiness.checks?.some((check) => check.id === 'pages-workflow' && check.status === 'pass') ||
   !repositoryReadiness.checks?.some((check) => check.id === 'deployable-artifact' && check.status === 'pass') ||
   (repositoryChannelReady && repositoryReadiness.workspace?.insideWorkTree !== true) ||
   (!repositoryChannelReady && (repositoryReadiness.blockers?.length ?? 0) < 1) ||
+  (repositoryReadiness.workspace?.nonGeneratedDirtyFiles === 0 &&
+    repositoryReadiness.blockers?.some((blocker) => blocker.includes('Commit current generated changes'))) ||
   packageJson.scripts?.['autonomous:repo-readiness'] !== 'node scripts/repository-readiness.mjs' ||
   packageJson.scripts?.['autonomous:daily']?.includes('autonomous:repo-readiness') !== true ||
+  !repositoryReadinessSource.includes('nonGeneratedDirtyFiles') ||
+  !repositoryReadinessSource.includes('generatedEvidenceDirtyFiles') ||
   !repositoryReadinessSource.includes('noGitMutation') ||
   !repositoryReadinessSource.includes('noWorkflowDispatch') ||
   !appSource.includes('Repository Channel')
@@ -2785,6 +2790,9 @@ if (
   !repositoryBootstrap.actions?.some((action) => action.id === 'commit-current-snapshot') ||
   !repositoryBootstrap.actions?.some((action) => action.id === 'create-github-repository') ||
   !repositoryBootstrap.actions?.some((action) => action.id === 'push-initial-snapshot') ||
+  typeof repositoryBootstrap.workspace?.after?.nonGeneratedDirtyFiles !== 'number' ||
+  (repositoryBootstrap.workspace?.after?.nonGeneratedDirtyFiles === 0 &&
+    repositoryBootstrap.blockers?.some((blocker) => blocker.includes('Commit current generated changes'))) ||
   (repositoryBootstrap.status === 'repository-bootstrap-ready' &&
     (!repositoryBootstrap.workspace?.after?.insideWorkTree || !repositoryBootstrap.repository?.remoteRepository)) ||
   (repositoryBootstrap.status === 'needs-local-git-bootstrap' && (repositoryBootstrap.blockers?.length ?? 0) < 1) ||
@@ -2793,6 +2801,8 @@ if (
   !repositoryBootstrapSource.includes('localGitMutationRequiresExplicitFlag') ||
   !repositoryBootstrapSource.includes('remoteGitHubMutationRequiresExplicitEnv') ||
   !repositoryBootstrapSource.includes('snapshotCommitRequiresExplicitEnv') ||
+  !repositoryBootstrapSource.includes('nonGeneratedDirtyFiles') ||
+  !repositoryBootstrapSource.includes('generatedEvidenceDirtyFiles') ||
   !repositoryBootstrapSource.includes('AGL_ALLOW_LOCAL_GIT_BOOTSTRAP') ||
   !githubRepositoryBootstrapScript.includes('AGL_ALLOW_SNAPSHOT_COMMIT') ||
   !githubRepositoryBootstrapScript.includes('working tree has uncommitted changes') ||

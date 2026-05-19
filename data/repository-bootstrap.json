@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-19T04:14:34.705Z",
+  "generatedAt": "2026-05-19T04:19:06.884Z",
   "status": "waiting-for-github-target",
   "mode": "plan-only",
   "envFiles": {
@@ -61,7 +61,29 @@
       "originRemote": null,
       "remoteRepository": null,
       "hasCommit": true,
-      "dirtyFiles": 0
+      "dirtyFiles": 7,
+      "dirtyPaths": [
+        "ata/repository-readiness.json",
+        "reports/repository-readiness-latest.md",
+        "scripts/repository-bootstrap.mjs",
+        "scripts/repository-readiness.mjs",
+        "scripts/verify-autonomy.mjs",
+        "src/data/repositoryReadiness.ts",
+        "tests/smoke.spec.ts"
+      ],
+      "generatedEvidenceDirtyFiles": 2,
+      "generatedEvidenceDirtyPaths": [
+        "reports/repository-readiness-latest.md",
+        "src/data/repositoryReadiness.ts"
+      ],
+      "nonGeneratedDirtyFiles": 5,
+      "nonGeneratedDirtyPaths": [
+        "ata/repository-readiness.json",
+        "scripts/repository-bootstrap.mjs",
+        "scripts/repository-readiness.mjs",
+        "scripts/verify-autonomy.mjs",
+        "tests/smoke.spec.ts"
+      ]
     },
     "after": {
       "insideWorkTree": true,
@@ -70,7 +92,29 @@
       "originRemote": null,
       "remoteRepository": null,
       "hasCommit": true,
-      "dirtyFiles": 0
+      "dirtyFiles": 7,
+      "dirtyPaths": [
+        "ata/repository-readiness.json",
+        "reports/repository-readiness-latest.md",
+        "scripts/repository-bootstrap.mjs",
+        "scripts/repository-readiness.mjs",
+        "scripts/verify-autonomy.mjs",
+        "src/data/repositoryReadiness.ts",
+        "tests/smoke.spec.ts"
+      ],
+      "generatedEvidenceDirtyFiles": 2,
+      "generatedEvidenceDirtyPaths": [
+        "reports/repository-readiness-latest.md",
+        "src/data/repositoryReadiness.ts"
+      ],
+      "nonGeneratedDirtyFiles": 5,
+      "nonGeneratedDirtyPaths": [
+        "ata/repository-readiness.json",
+        "scripts/repository-bootstrap.mjs",
+        "scripts/repository-readiness.mjs",
+        "scripts/verify-autonomy.mjs",
+        "tests/smoke.spec.ts"
+      ]
     }
   },
   "repository": {
@@ -142,13 +186,13 @@
     },
     {
       "id": "commit-current-snapshot",
-      "status": "ready",
+      "status": "ready-for-explicit-snapshot-commit",
       "costUsd": 0,
       "command": "AGL_ALLOW_REPOSITORY_BOOTSTRAP=1 AGL_ALLOW_SNAPSHOT_COMMIT=1 ./ops/github/bootstrap-repository.sh",
       "mutatesLocalGit": true,
       "mutatesRemoteGitHub": false,
       "requiresExplicitEnv": true,
-      "detail": "The current generated production snapshot is committed."
+      "detail": "5 non-generated source or artifact file(s) are not committed yet."
     },
     {
       "id": "set-or-create-origin",
@@ -178,10 +222,11 @@
       "mutatesLocalGit": false,
       "mutatesRemoteGitHub": true,
       "requiresExplicitEnv": true,
-      "detail": "Push stays held until an origin remote exists and AGL_ALLOW_PUSH=1 is set."
+      "detail": "Push stays held until a committed local snapshot and origin remote exist."
     }
   ],
   "blockers": [
+    "Commit current generated changes before pushing to GitHub Pages.",
     "Set GITHUB_REPOSITORY or GH_REPO to the intended owner/repo.",
     "Attach a GitHub origin remote or create the target repository.",
     "Authenticate GitHub CLI or provide GH_TOKEN/GITHUB_TOKEN for remote repository bootstrap."
