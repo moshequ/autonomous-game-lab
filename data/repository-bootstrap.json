@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-19T01:28:41.864Z",
+  "generatedAt": "2026-05-19T01:29:21.651Z",
   "status": "waiting-for-github-target",
   "mode": "plan-only",
   "workspace": {
@@ -11,7 +11,7 @@
       "originRemote": null,
       "remoteRepository": null,
       "hasCommit": true,
-      "dirtyFiles": 17
+      "dirtyFiles": 3
     },
     "after": {
       "insideWorkTree": true,
@@ -20,7 +20,7 @@
       "originRemote": null,
       "remoteRepository": null,
       "hasCommit": true,
-      "dirtyFiles": 17
+      "dirtyFiles": 3
     }
   },
   "repository": {
@@ -98,7 +98,7 @@
       "mutatesLocalGit": true,
       "mutatesRemoteGitHub": false,
       "requiresExplicitEnv": true,
-      "detail": "17 generated or source file(s) are not committed yet."
+      "detail": "3 generated or source file(s) are not committed yet."
     },
     {
       "id": "set-or-create-origin",
