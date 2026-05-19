@@ -61,6 +61,9 @@ const generatedEvidencePaths = new Set([
   'reports/repository-bootstrap-latest.md',
   'ops/github/bootstrap-repository.sh',
 ])
+const generatedEvidencePrefixes = ['data/', 'reports/', 'src/data/', 'ops/github/', 'ops/codex/']
+const isGeneratedEvidencePath = (dirtyPath) =>
+  generatedEvidencePaths.has(dirtyPath) || generatedEvidencePrefixes.some((prefix) => dirtyPath.startsWith(prefix))
 
 const repositoryFromRemote = (remoteUrl) => {
   if (!remoteUrl) {
@@ -89,8 +92,8 @@ const inspectGit = async () => {
   const headResult = insideWorkTree ? await run('git', ['rev-parse', '--verify', 'HEAD']) : { ok: false, stdout: null }
   const statusResult = insideWorkTree ? await run('git', ['status', '--short']) : { ok: false, stdout: '' }
   const dirtyPaths = parseDirtyPaths(statusResult.stdout)
-  const generatedEvidenceDirtyPaths = dirtyPaths.filter((dirtyPath) => generatedEvidencePaths.has(dirtyPath))
-  const nonGeneratedDirtyPaths = dirtyPaths.filter((dirtyPath) => !generatedEvidencePaths.has(dirtyPath))
+  const generatedEvidenceDirtyPaths = dirtyPaths.filter((dirtyPath) => isGeneratedEvidencePath(dirtyPath))
+  const nonGeneratedDirtyPaths = dirtyPaths.filter((dirtyPath) => !isGeneratedEvidencePath(dirtyPath))
 
   return {
     insideWorkTree,

@@ -1,10 +1,10 @@
 # Autonomous Operator
 
-Generated: 2026-05-19T04:19:07.660Z
+Generated: 2026-05-19T04:19:53.426Z
 Status: operator-plan-ready
 Mode: plan-only
-Owner decision: prepare-repository-channel
-Selected action: prepare-repository-channel
+Owner decision: seed-portfolio-traffic
+Selected action: seed-portfolio-traffic
 Execution: not-requested
 
 ## Controls
@@ -18,7 +18,7 @@ Execution: not-requested
 
 ## Selected Action
 
-- prepare-repository-channel: npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap
+- seed-portfolio-traffic: npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop
 
 ## Eligible Local Actions
 
@@ -45,7 +45,6 @@ Execution: not-requested
 - run-daily-owner-loop: daily-loop-recursion-blocked
 - refresh-autonomous-cadence: not-selected-this-run
 - refresh-autonomous-self-update: not-selected-this-run
-- seed-portfolio-traffic: not-selected-this-run
 - refresh-organic-seed-loop: not-selected-this-run
 - optimize-daily-retention: not-selected-this-run
 - measure-pwa-install-loop: not-selected-this-run
@@ -54,3 +53,4 @@ Execution: not-requested
 - run-post-deploy-smoke: status-monitor
 - optimize-product-gates: not-selected-this-run
 - refresh-first-move-coach: not-selected-this-run
+- refresh-completion-loop: not-selected-this-run

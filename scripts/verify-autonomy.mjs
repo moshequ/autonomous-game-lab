@@ -2748,6 +2748,7 @@ if (
   packageJson.scripts?.['autonomous:daily']?.includes('autonomous:repo-readiness') !== true ||
   !repositoryReadinessSource.includes('nonGeneratedDirtyFiles') ||
   !repositoryReadinessSource.includes('generatedEvidenceDirtyFiles') ||
+  !repositoryReadinessSource.includes('generatedEvidencePrefixes') ||
   !repositoryReadinessSource.includes('noGitMutation') ||
   !repositoryReadinessSource.includes('noWorkflowDispatch') ||
   !appSource.includes('Repository Channel')
@@ -2803,6 +2804,7 @@ if (
   !repositoryBootstrapSource.includes('snapshotCommitRequiresExplicitEnv') ||
   !repositoryBootstrapSource.includes('nonGeneratedDirtyFiles') ||
   !repositoryBootstrapSource.includes('generatedEvidenceDirtyFiles') ||
+  !repositoryBootstrapSource.includes('generatedEvidencePrefixes') ||
   !repositoryBootstrapSource.includes('AGL_ALLOW_LOCAL_GIT_BOOTSTRAP') ||
   !githubRepositoryBootstrapScript.includes('AGL_ALLOW_SNAPSHOT_COMMIT') ||
   !githubRepositoryBootstrapScript.includes('working tree has uncommitted changes') ||
