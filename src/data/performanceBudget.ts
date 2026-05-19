@@ -1,5 +1,5 @@
 export const performanceBudget = {
-  "generatedAt": "2026-05-19T17:34:23.428Z",
+  "generatedAt": "2026-05-19T17:37:55.923Z",
   "status": "performance-budget-ready",
   "sourceBuild": "dist",
   "budgets": {
@@ -14,21 +14,21 @@ export const performanceBudget = {
   },
   "initial": {
     "entryScripts": [
-      "index-CEMJ4YiK.js",
+      "index-DhVJ_xZ1.js",
       "registerSW.js"
     ],
     "scriptPaths": [
-      "assets/index-CEMJ4YiK.js",
+      "assets/index-DhVJ_xZ1.js",
       "registerSW.js"
     ],
     "jsFiles": [
       {
-        "file": "index-CEMJ4YiK.js",
-        "path": "assets/index-CEMJ4YiK.js",
-        "bytes": 674548,
-        "kb": 658.7,
-        "gzipBytes": 178384,
-        "gzipKb": 174.2
+        "file": "index-DhVJ_xZ1.js",
+        "path": "assets/index-DhVJ_xZ1.js",
+        "bytes": 673244,
+        "kb": 657.5,
+        "gzipBytes": 178312,
+        "gzipKb": 174.1
       },
       {
         "file": "registerSW.js",
@@ -39,9 +39,9 @@ export const performanceBudget = {
         "gzipKb": 0.1
       }
     ],
-    "jsBytes": 674682,
-    "jsKb": 658.9,
-    "gzipBytes": 178510,
+    "jsBytes": 673378,
+    "jsKb": 657.6,
+    "gzipBytes": 178438,
     "gzipKb": 174.3,
     "cssFiles": [
       {
@@ -61,8 +61,8 @@ export const performanceBudget = {
   "deferred": {
     "chunks": [
       {
-        "file": "GameCanvas-Bfpd4Ji7.js",
-        "path": "assets/GameCanvas-Bfpd4Ji7.js",
+        "file": "GameCanvas-C-6ZsV19.js",
+        "path": "assets/GameCanvas-C-6ZsV19.js",
         "bytes": 1393468,
         "kb": 1360.8,
         "gzipBytes": 356095,
@@ -70,24 +70,24 @@ export const performanceBudget = {
       }
     ],
     "gameChunk": {
-      "file": "GameCanvas-Bfpd4Ji7.js",
-      "path": "assets/GameCanvas-Bfpd4Ji7.js",
+      "file": "GameCanvas-C-6ZsV19.js",
+      "path": "assets/GameCanvas-C-6ZsV19.js",
       "bytes": 1393468,
       "kb": 1360.8,
       "gzipBytes": 356095,
       "gzipKb": 347.7
     },
     "largestDeferredChunk": {
-      "file": "GameCanvas-Bfpd4Ji7.js",
-      "path": "assets/GameCanvas-Bfpd4Ji7.js",
+      "file": "GameCanvas-C-6ZsV19.js",
+      "path": "assets/GameCanvas-C-6ZsV19.js",
       "bytes": 1393468,
       "kb": 1360.8,
       "gzipBytes": 356095,
       "gzipKb": 347.7
     },
     "largestJsChunk": {
-      "file": "GameCanvas-Bfpd4Ji7.js",
-      "path": "assets/GameCanvas-Bfpd4Ji7.js",
+      "file": "GameCanvas-C-6ZsV19.js",
+      "path": "assets/GameCanvas-C-6ZsV19.js",
       "bytes": 1393468,
       "kb": 1360.8,
       "gzipBytes": 356095,
@@ -99,20 +99,20 @@ export const performanceBudget = {
   "assets": {
     "js": [
       {
-        "file": "GameCanvas-Bfpd4Ji7.js",
-        "path": "assets/GameCanvas-Bfpd4Ji7.js",
+        "file": "GameCanvas-C-6ZsV19.js",
+        "path": "assets/GameCanvas-C-6ZsV19.js",
         "bytes": 1393468,
         "kb": 1360.8,
         "gzipBytes": 356095,
         "gzipKb": 347.7
       },
       {
-        "file": "index-CEMJ4YiK.js",
-        "path": "assets/index-CEMJ4YiK.js",
-        "bytes": 674548,
-        "kb": 658.7,
-        "gzipBytes": 178384,
-        "gzipKb": 174.2
+        "file": "index-DhVJ_xZ1.js",
+        "path": "assets/index-DhVJ_xZ1.js",
+        "bytes": 673244,
+        "kb": 657.5,
+        "gzipBytes": 178312,
+        "gzipKb": 174.1
       },
       {
         "file": "registerSW.js",
@@ -149,7 +149,7 @@ export const performanceBudget = {
     {
       "id": "initial-js-budget",
       "status": "pass",
-      "detail": "Initial JS is 658.9 KB; budget is 675 KB."
+      "detail": "Initial JS is 657.6 KB; budget is 675 KB."
     },
     {
       "id": "initial-js-gzip-budget",
@@ -174,12 +174,12 @@ export const performanceBudget = {
     {
       "id": "game-runtime-deferred",
       "status": "pass",
-      "detail": "GameCanvas-Bfpd4Ji7.js is deferred from the initial shell."
+      "detail": "GameCanvas-C-6ZsV19.js is deferred from the initial shell."
     },
     {
       "id": "largest-js-deferred",
       "status": "pass",
-      "detail": "Largest JS chunk is GameCanvas-Bfpd4Ji7.js at 1360.8 KB."
+      "detail": "Largest JS chunk is GameCanvas-C-6ZsV19.js at 1360.8 KB."
     },
     {
       "id": "deferred-game-budget",
