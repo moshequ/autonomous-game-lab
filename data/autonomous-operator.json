@@ -1,22 +1,22 @@
 {
-  "generatedAt": "2026-05-19T17:31:26.223Z",
+  "generatedAt": "2026-05-19T17:34:31.125Z",
   "status": "operator-plan-ready",
   "mode": "plan-only",
   "ownerDecision": {
-    "actionId": "refresh-autonomous-self-update",
-    "command": "npm run autonomous:self-update",
+    "actionId": "optimize-daily-retention",
+    "command": "npm run autonomous:retention",
     "locallyExecutable": true,
     "rejectionReason": null
   },
   "requestedActionId": null,
   "selectedAction": {
-    "id": "refresh-autonomous-self-update",
+    "id": "optimize-daily-retention",
     "status": "armed",
-    "command": "npm run autonomous:self-update",
+    "command": "npm run autonomous:retention",
     "targets": [
-      ".github/workflows/autonomous-self-update.yml"
+      "canopy-bloom"
     ],
-    "reason": "Keeps verified generated-change persistence gated, allowlisted, and ready for the scheduled production repository.",
+    "reason": "Keeps daily challenge, local streak prompts, and retention-safe missions aligned with behavior data.",
     "costUsd": 0
   },
   "selectedRejection": null,
@@ -55,6 +55,12 @@
       "reason": "not-selected-this-run"
     },
     {
+      "id": "refresh-autonomous-self-update",
+      "status": "armed",
+      "command": "npm run autonomous:self-update",
+      "reason": "not-selected-this-run"
+    },
+    {
       "id": "seed-portfolio-traffic",
       "status": "armed",
       "command": "npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop",
@@ -64,12 +70,6 @@
       "id": "refresh-organic-seed-loop",
       "status": "armed",
       "command": "npm run autonomous:organic-seed-loop",
-      "reason": "not-selected-this-run"
-    },
-    {
-      "id": "optimize-daily-retention",
-      "status": "armed",
-      "command": "npm run autonomous:retention",
       "reason": "not-selected-this-run"
     },
     {
@@ -201,8 +201,8 @@
   ],
   "commandPlan": [
     {
-      "segment": "npm run autonomous:self-update",
-      "script": "autonomous:self-update"
+      "segment": "npm run autonomous:retention",
+      "script": "autonomous:retention"
     }
   ],
   "execution": {
@@ -268,7 +268,7 @@
     "RUN_WORKFLOWS=1"
   ],
   "nextActions": [
-    "Run npm run autonomous:operator -- --execute --action=refresh-autonomous-self-update to execute exactly one allowed local action.",
+    "Run npm run autonomous:operator -- --execute --action=optimize-daily-retention to execute exactly one allowed local action.",
     "Do not execute GitHub workflow, store, paid ads, or account setup commands from the local operator."
   ]
 }
