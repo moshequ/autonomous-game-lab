@@ -1,6 +1,6 @@
 # Traffic Seeding
 
-Generated: 2026-05-19T09:21:00.507Z
+Generated: 2026-05-19T09:52:27.278Z
 Status: traffic-seeding-ready
 Analytics source: fixture-sample
 Max cost: $0.00
@@ -17,6 +17,10 @@ Max cost: $0.00
 - internal-rotation: armed, $0
 - organic-page: armed, $0
 - player-share: armed, $0
+
+## Seed Kit
+
+- /seed-kit.html with 4 zero-spend seed campaign links.
 
 ## Next Actions
 

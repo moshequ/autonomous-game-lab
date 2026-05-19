@@ -59,6 +59,7 @@ const generatedEvidencePaths = new Set([
   'ops/github/bootstrap-repository.sh',
   'public/robots.txt',
   'public/sitemap.xml',
+  'public/seed-kit.html',
   'public/share-manifest.json',
 ])
 const generatedEvidencePrefixes = ['data/', 'reports/', 'src/data/', 'ops/github/', 'ops/codex/', 'public/games/']

@@ -1,7 +1,7 @@
 export const releaseCandidate = {
-  "generatedAt": "2026-05-19T09:45:05.822Z",
+  "generatedAt": "2026-05-19T09:52:37.119Z",
   "status": "release-candidate-ready",
-  "candidateId": "pwa-e7b5b676a49c",
+  "candidateId": "pwa-19250f1a72f3",
   "target": {
     "provider": "github-pages",
     "artifactPath": "dist",
@@ -11,18 +11,18 @@ export const releaseCandidate = {
     "basePath": "/"
   },
   "summary": {
-    "totalFiles": 39,
-    "totalBytes": 3649242,
-    "totalKb": 3563.7,
+    "totalFiles": 40,
+    "totalBytes": 3663838,
+    "totalKb": 3578,
     "assetFiles": 3,
-    "htmlFiles": 13,
+    "htmlFiles": 14,
     "gamePages": 10,
     "requiredFilesPresent": true,
-    "postDeploySmokeUrls": 10
+    "postDeploySmokeUrls": 11
   },
   "integrity": {
     "algorithm": "sha256",
-    "aggregateHash": "e7b5b676a49c440c0f260d3f778a2a93355e3146ccdc1900d8e33e236a291f81",
+    "aggregateHash": "19250f1a72f35bc801e8eb07a7daabc89315f18e93d23c1797d192af284ef337",
     "files": [
       {
         "path": "app-ads.txt",
@@ -32,9 +32,9 @@ export const releaseCandidate = {
         "cacheControl": "public, max-age=3600"
       },
       {
-        "path": "assets/GameCanvas-IEqgnIeP.js",
+        "path": "assets/GameCanvas-D-GQEPnt.js",
         "bytes": 1393468,
-        "sha256": "19561b7f56d2642b977c0c54ea70b4a7e79502f36798bfcfd89b549125fb2a47",
+        "sha256": "a739cd74ba5efef2ee78c6b979db7a1b1c6ab515c33c85bb5092456c05e606b3",
         "contentType": "text/javascript; charset=utf-8",
         "cacheControl": "public, max-age=31536000, immutable"
       },
@@ -46,9 +46,9 @@ export const releaseCandidate = {
         "cacheControl": "public, max-age=31536000, immutable"
       },
       {
-        "path": "assets/index-DURbBMQa.js",
-        "bytes": 664024,
-        "sha256": "503f24839af91db6ca5560b812879e23d8395195ce0d24f6d72ca305339bfc1e",
+        "path": "assets/index-BQ_jm-NJ.js",
+        "bytes": 671259,
+        "sha256": "7c542af34ba8279bcc2a7398c07ff2131fea9d0418cc438d202ce29e20829dc0",
         "contentType": "text/javascript; charset=utf-8",
         "cacheControl": "public, max-age=31536000, immutable"
       },
@@ -195,7 +195,7 @@ export const releaseCandidate = {
       {
         "path": "index.html",
         "bytes": 803,
-        "sha256": "9ed00e5617a34123f26c2b46418096306414aee611cafd727f11f6b4da2d3d55",
+        "sha256": "a640a5a6e529b5988a6bc23f4b6e13a864b90d94c55e45d82482e17017d493d0",
         "contentType": "text/html; charset=utf-8",
         "cacheControl": "no-cache"
       },
@@ -235,9 +235,16 @@ export const releaseCandidate = {
         "cacheControl": "public, max-age=3600"
       },
       {
+        "path": "seed-kit.html",
+        "bytes": 7089,
+        "sha256": "52fe69bb4a3ee2d1e0eb23589a5c0784c4e9887710f4cef98ee5caec7305ca52",
+        "contentType": "text/html; charset=utf-8",
+        "cacheControl": "no-cache"
+      },
+      {
         "path": "share-manifest.json",
-        "bytes": 6847,
-        "sha256": "570eef17699952fe76733dba4e34dd0e39a8a9fb1b51a67f1f40142710a28c06",
+        "bytes": 7053,
+        "sha256": "7aef9e0449264bcf22879b9a0519f9081f76a3b743a4840002939253fe2dcbb4",
         "contentType": "application/json; charset=utf-8",
         "cacheControl": "public, max-age=3600"
       },
@@ -285,8 +292,8 @@ export const releaseCandidate = {
       },
       {
         "path": "sw.js",
-        "bytes": 3535,
-        "sha256": "b514b0f3590d0a3060306c0d4bf4540148d609351a680de4bd16a9accb981442",
+        "bytes": 3601,
+        "sha256": "2a9eea4f8bf705c30440672a1a90ef55e4df0e3039246aba4e8f4ed7c3490863",
         "contentType": "text/javascript; charset=utf-8",
         "cacheControl": "no-cache"
       },
@@ -329,6 +336,10 @@ export const releaseCandidate = {
       },
       {
         "path": "robots.txt",
+        "status": "pass"
+      },
+      {
+        "path": "seed-kit.html",
         "status": "pass"
       },
       {
@@ -415,6 +426,13 @@ export const releaseCandidate = {
       "requiredText": "Revenue features are disabled"
     },
     {
+      "id": "seed-kit-html",
+      "path": "/seed-kit.html",
+      "url": "${DEPLOYED_PWA_ORIGIN}/seed-kit.html",
+      "expectedStatus": 200,
+      "requiredText": "Autonomous Game Lab"
+    },
+    {
       "id": "sitemap-xml",
       "path": "/sitemap.xml",
       "url": "${DEPLOYED_PWA_ORIGIN}/sitemap.xml",
@@ -474,12 +492,12 @@ export const releaseCandidate = {
     {
       "id": "dist-inventory",
       "status": "pass",
-      "detail": "39 dist files inventoried."
+      "detail": "40 dist files inventoried."
     },
     {
       "id": "required-files",
       "status": "pass",
-      "detail": "14/14 required files present."
+      "detail": "15/15 required files present."
     },
     {
       "id": "game-pages",
@@ -509,7 +527,7 @@ export const releaseCandidate = {
     {
       "id": "post-deploy-smoke-plan",
       "status": "pass",
-      "detail": "10 post-deploy smoke URL(s) planned."
+      "detail": "11 post-deploy smoke URL(s) planned."
     }
   ],
   "nextActions": [

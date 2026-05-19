@@ -183,12 +183,14 @@ const requiredFiles = [
   'public/icons/apple-touch-icon.png',
   'public/icons/store-icon-1024.png',
   'public/robots.txt',
+  'public/seed-kit.html',
   'public/sitemap.xml',
   'public/share-manifest.json',
   'public/compliance.json',
   'public/app-ads.txt',
   'public/monetization.json',
   'dist/compliance.json',
+  'dist/seed-kit.html',
   'native/android/twa-manifest.json',
   'native/android/bubblewrap.config.json',
   'native/android/assetlinks.template.json',
@@ -291,6 +293,7 @@ const androidWorkflow = await readFile(path.join(root, '.github', 'workflows', '
 const collectorWorkflow = await readFile(path.join(root, '.github', 'workflows', 'event-collector-deploy.yml'), 'utf8')
 const webDeployWorkflow = await readFile(path.join(root, '.github', 'workflows', 'web-pwa-deploy.yml'), 'utf8')
 const shareManifest = JSON.parse(await readFile(path.join(root, 'public', 'share-manifest.json'), 'utf8'))
+const seedKitHtml = await readFile(path.join(root, 'public', 'seed-kit.html'), 'utf8')
 const packageJson = JSON.parse(await readFile(path.join(root, 'package.json'), 'utf8'))
 const appSource = await readFile(path.join(root, 'src', 'App.tsx'), 'utf8')
 const gameCanvasSource = await readFile(path.join(root, 'src', 'components', 'GameCanvas.tsx'), 'utf8')
@@ -691,6 +694,7 @@ const invalidTrafficCampaign = trafficCampaigns.find(
     campaign.costUsd !== 0 ||
     campaign.noPaidPromotion !== true ||
     !campaign.playPath?.includes('utm_source=seed_internal') ||
+    !campaign.sharePath?.includes('utm_source=seed_share') ||
     !campaign.shareUrl?.includes('utm_source=seed_share') ||
     campaign.measurement?.targetStartsBeforeJudgment < trafficSeeding.guardrails?.minimumStartsBeforeQualityJudgment ||
     !campaign.measurement?.successEvents?.includes('seed_campaign_clicked') ||
@@ -706,6 +710,9 @@ const shareSeedCampaignIds = new Set(shareSeedCampaigns.map((campaign) => campai
 const missingShareSeedCampaign = trafficCampaigns.find((campaign) => !shareSeedCampaignIds.has(campaign.id))
 const staleShareSeedCampaign = shareSeedCampaigns.find(
   (campaign) => !trafficCampaigns.some((trafficCampaign) => trafficCampaign.id === campaign.id),
+)
+const missingSeedKitCampaign = trafficCampaigns.find(
+  (campaign) => !seedKitHtml.includes(campaign.id) || !seedKitHtml.includes(campaign.sharePath.replaceAll('&', '&amp;')),
 )
 
 if (
@@ -724,9 +731,16 @@ if (
   paidTrafficChannel ||
   shareSeedCampaigns.length !== trafficCampaigns.length ||
   missingShareSeedCampaign ||
-  staleShareSeedCampaign
+  staleShareSeedCampaign ||
+  missingSeedKitCampaign ||
+  shareManifest.seedKit?.path !== '/seed-kit.html' ||
+  shareManifest.seedKit?.campaignCount !== trafficCampaigns.length ||
+  shareManifest.seedKit?.costUsd !== 0 ||
+  !seedKitHtml.includes('Autonomous Game Lab Seed Kit') ||
+  !seedKitHtml.includes('$0.00 spend') ||
+  seedKitHtml.includes('autonomous-game-lab.example.com')
 ) {
-  fail('Traffic seeding must publish zero-cost campaigns, UTM/share links, and sample-size guardrails for every seed game.')
+  fail('Traffic seeding must publish zero-cost campaigns, UTM/share links, a runtime-origin seed kit, and sample-size guardrails for every seed game.')
 }
 
 if (
@@ -1623,6 +1637,7 @@ if (
   !selfUpdateWorkflow.includes('npm run autonomous:self-update -- --assert-safe') ||
   !workflow.includes('contents: read') ||
   !autonomousSelfUpdateSource.includes('allowedPrefixes') ||
+  !autonomousSelfUpdateSource.includes('public/seed-kit.html') ||
   !autonomousSelfUpdateSource.includes('blockedPrefixes') ||
   !appSource.includes('Autonomous Self Update')
 ) {
@@ -3064,6 +3079,7 @@ if (
   !repositoryReadinessSource.includes('generatedEvidenceDirtyFiles') ||
   !repositoryReadinessSource.includes('generatedEvidencePrefixes') ||
   !repositoryReadinessSource.includes('public/share-manifest.json') ||
+  !repositoryReadinessSource.includes('public/seed-kit.html') ||
   !repositoryReadinessSource.includes('gh-auth-user-and-package-name') ||
   !repositoryReadinessSource.includes('ghCredentialReady') ||
   !repositoryReadinessSource.includes('repositoryNameFromPackage') ||
@@ -3130,6 +3146,7 @@ if (
   !repositoryBootstrapSource.includes('generatedEvidenceDirtyFiles') ||
   !repositoryBootstrapSource.includes('generatedEvidencePrefixes') ||
   !repositoryBootstrapSource.includes('public/share-manifest.json') ||
+  !repositoryBootstrapSource.includes('public/seed-kit.html') ||
   !repositoryBootstrapSource.includes('gh-auth-user-and-package-name') ||
   !repositoryBootstrapSource.includes('AGL_ALLOW_GH_INFER_REPOSITORY') ||
   !repositoryBootstrapSource.includes('repositoryNameFromPackage') ||

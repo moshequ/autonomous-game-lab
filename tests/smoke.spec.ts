@@ -554,9 +554,11 @@ test('release candidate records the exact deployable PWA artifact', async () => 
   expect(candidate.integrity.files.every((file) => file.sha256.match(/^[a-f0-9]{64}$/))).toBe(true)
   expect(candidate.integrity.files.some((file) => file.path === 'index.html')).toBe(true)
   expect(candidate.integrity.files.some((file) => file.path === 'sw.js')).toBe(true)
+  expect(candidate.integrity.files.some((file) => file.path === 'seed-kit.html')).toBe(true)
   expect(candidate.integrity.files.some((file) => file.cacheControl.includes('immutable'))).toBe(true)
   expect(candidate.integrity.requiredFileChecks.every((check) => check.status === 'pass')).toBe(true)
   expect(candidate.postDeploySmoke.some((check) => check.path === '/' && check.expectedStatus === 200)).toBe(true)
+  expect(candidate.postDeploySmoke.some((check) => check.path === '/seed-kit.html')).toBe(true)
   expect(candidate.postDeploySmoke.some((check) => check.path === '/privacy.html')).toBe(true)
   expect(candidate.controls.zeroPaidSpend).toBe(true)
   expect(candidate.controls.noWorkflowExecution).toBe(true)
@@ -2231,6 +2233,33 @@ test('generated organic game page is reachable and links into the PWA', async ({
     'href',
     '../?game=harbor-rings&utm_source=organic_game_page&utm_campaign=harbor-rings',
   )
+})
+
+test('zero-spend seed kit is reachable and uses runtime-relative campaign links', async ({ page }) => {
+  const traffic = JSON.parse(await readFile('data/traffic-seeding.json', 'utf8')) as {
+    guardrails: { maxCostUsd: number }
+    campaigns: Array<{ id: string; sharePath: string; title: string }>
+  }
+  const shareManifest = JSON.parse(await readFile('public/share-manifest.json', 'utf8')) as {
+    seedKit: { path: string; campaignCount: number; costUsd: number }
+  }
+
+  await page.goto('/seed-kit.html')
+
+  await expect(page.getByRole('heading', { name: 'Autonomous Game Lab Seed Kit' })).toBeVisible()
+  await expect(page.getByText('$0.00 spend')).toBeVisible()
+  expect(shareManifest.seedKit.path).toBe('/seed-kit.html')
+  expect(shareManifest.seedKit.campaignCount).toBe(traffic.campaigns.length)
+  expect(shareManifest.seedKit.costUsd).toBe(traffic.guardrails.maxCostUsd)
+
+  const firstCampaign = traffic.campaigns[0]
+  await expect(page.locator(`[data-campaign-id="${firstCampaign.id}"]`)).toContainText(firstCampaign.title)
+  await expect(page.getByRole('link', { name: 'Seed link' }).first()).toHaveAttribute(
+    'href',
+    firstCampaign.sharePath,
+  )
+  expect(firstCampaign.sharePath).toContain('utm_source=seed_share')
+  expect(await page.content()).not.toContain('autonomous-game-lab.example.com')
 })
 
 test('privacy control can disable external analytics forwarding', async ({ page }) => {

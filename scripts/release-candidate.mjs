@@ -102,6 +102,7 @@ const requiredFiles = [
   'compliance.json',
   'sitemap.xml',
   'robots.txt',
+  'seed-kit.html',
   'share-manifest.json',
   'monetization.json',
   'app-ads.txt',
@@ -177,6 +178,7 @@ const smokePaths = [
   'compliance.json',
   'monetization.json',
   'app-ads.txt',
+  'seed-kit.html',
   'sitemap.xml',
   gamePages[0]?.path,
 ].filter(Boolean)
