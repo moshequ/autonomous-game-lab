@@ -1,5 +1,5 @@
 export const productionBootstrap = {
-  "generatedAt": "2026-05-19T15:08:39.244Z",
+  "generatedAt": "2026-05-19T15:11:25.084Z",
   "status": "production-bootstrap-ready",
   "mode": "waiting-for-external-credentials",
   "envFiles": {
