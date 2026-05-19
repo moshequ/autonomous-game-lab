@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-19T03:16:02.591Z",
+  "generatedAt": "2026-05-19T03:17:21.387Z",
   "status": "owner-loop-ready",
   "mode": "repository-channel-needed",
   "autonomyScore": {
@@ -51,7 +51,7 @@
       "id": "autonomous-self-update",
       "status": "ready",
       "autonomy": "gated-generated-change-persistence",
-      "evidence": "Self-update self-update-ready; safe pending 44; unsafe pending 0; remote push held.",
+      "evidence": "Self-update self-update-ready; safe pending 0; unsafe pending 0; remote push held.",
       "nextAction": "When a GitHub repository is connected, set AGL_AUTONOMOUS_SELF_UPDATE=1 and AGL_AUTONOMOUS_SELF_UPDATE_DIRECT=1 to let verified generated changes persist."
     },
     {
