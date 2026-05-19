@@ -1,10 +1,10 @@
 # Autonomous Operator
 
-Generated: 2026-05-19T20:50:26.445Z
+Generated: 2026-05-19T20:54:51.441Z
 Status: operator-plan-ready
 Mode: plan-only
-Owner decision: bootstrap-production-setup
-Selected action: bootstrap-production-setup
+Owner decision: collect-live-events
+Selected action: collect-live-events
 Execution: not-requested
 
 ## Controls
@@ -18,7 +18,7 @@ Execution: not-requested
 
 ## Selected Action
 
-- bootstrap-production-setup: npm run autonomous:release-candidate && npm run autonomous:deploy-plan && npm run autonomous:bootstrap
+- collect-live-events: npm run autonomous:local-event-bridge && npm run autonomous:import-events && npm run autonomous:analytics && npm run autonomous:gate-recovery
 
 ## Eligible Local Actions
 
