@@ -1,6 +1,6 @@
 # Repository Readiness
 
-Generated: 2026-05-19T23:03:29.344Z
+Generated: 2026-05-19T23:11:36.773Z
 Status: waiting-for-github-repository
 Workspace: /Users/moshequ/Documents/Codex/2026-05-18/i-want-to-have-a-new
 Repository: missing
@@ -27,11 +27,11 @@ Repository: missing
 
 ## Setup Required Once
 
-- Add a GitHub origin remote, set GITHUB_REPOSITORY/GH_REPO to owner/repo, or authenticate gh to infer owner/package-name.
+- Add a GitHub origin remote, set GITHUB_REPOSITORY/GH_REPO to owner/repo, set AGL_GITHUB_OWNER to infer owner/package-name, or authenticate gh.
 - Authenticate GitHub CLI or provide GH_TOKEN/GITHUB_TOKEN before non-interactive workflow dispatch.
 - Let the production bootstrap helper enable GitHub Pages with GitHub Actions as the source once gh credentials exist.
 
 ## Blockers
 
-- Add a GitHub origin remote, set GITHUB_REPOSITORY/GH_REPO, or authenticate gh to infer the target repository.
+- Add a GitHub origin remote, set GITHUB_REPOSITORY/GH_REPO, set AGL_GITHUB_OWNER, or authenticate gh to infer the target repository.
 - Authenticate GitHub CLI or configure GH_TOKEN/GITHUB_TOKEN for workflow dispatch and repository settings sync.

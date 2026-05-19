@@ -1509,6 +1509,7 @@ if (
   productionBootstrap.setupScript?.avoidsSecretEcho !== true ||
   productionBootstrap.setupScript?.configuresPagesSource !== true ||
   productionBootstrap.setupScript?.infersRepositoryFromOriginRemote !== true ||
+  productionBootstrap.setupScript?.infersRepositoryFromOwnerHint !== true ||
   productionBootstrap.setupScript?.supportsSshUrlRemotes !== true ||
   productionBootstrap.setupScript?.supportsDottedRepositoryNames !== true ||
   productionBootstrap.repository?.repositoryReadinessStatus !== repositoryReadiness.status ||
@@ -1533,6 +1534,8 @@ if (
   !githubSetupScript.includes('gh variable set') ||
   !githubSetupScript.includes('gh secret set') ||
   !githubSetupScript.includes('derive_repository_from_origin') ||
+  !githubSetupScript.includes('derive_repository_from_owner_hint') ||
+  !githubSetupScript.includes('AGL_GITHUB_OWNER') ||
   !githubSetupScript.includes('git remote get-url origin') ||
   !githubSetupScript.includes('ssh://git@github.com/') ||
   !githubSetupScript.includes('AGL_SYNC_PAGES_SETTINGS') ||
@@ -3130,12 +3133,13 @@ if (
   repositoryReadiness.pages?.deployWorkflowIncludesSmoke !== true ||
   repositoryReadiness.pages?.releaseCandidateId !== releaseCandidate.candidateId ||
   repositoryReadiness.pages?.postDeploySmokeStatus !== postDeploySmoke.status ||
-  !['environment', 'origin-remote', 'gh-auth-user-and-package-name', 'missing'].includes(
+  !['environment', 'origin-remote', 'owner-hint-and-package-name', 'gh-auth-user-and-package-name', 'missing'].includes(
     repositoryReadiness.repository?.source,
   ) ||
   typeof repositoryReadiness.repository?.inferredRepositoryName !== 'string' ||
   repositoryReadiness.repository?.remoteParsing?.supportsSshUrl !== true ||
   repositoryReadiness.repository?.remoteParsing?.supportsDottedRepositoryNames !== true ||
+  repositoryReadiness.repository?.remoteParsing?.supportsOwnerHint !== true ||
   typeof repositoryReadiness.githubAutomation?.ghAuthAvailable !== 'boolean' ||
   typeof repositoryReadiness.githubAutomation?.ghCredentialReady !== 'boolean' ||
   typeof repositoryReadiness.workspace?.nonGeneratedDirtyFiles !== 'number' ||
@@ -3153,6 +3157,8 @@ if (
   !repositoryReadinessSource.includes('generatedEvidencePrefixes') ||
   !repositoryReadinessSource.includes('public/share-manifest.json') ||
   !repositoryReadinessSource.includes('public/seed-kit.html') ||
+  !repositoryReadinessSource.includes('AGL_GITHUB_OWNER') ||
+  !repositoryReadinessSource.includes('owner-hint-and-package-name') ||
   !repositoryReadinessSource.includes('gh-auth-user-and-package-name') ||
   !repositoryReadinessSource.includes('ghCredentialReady') ||
   !repositoryReadinessSource.includes('repositoryNameFromPackage') ||
@@ -3195,12 +3201,13 @@ if (
   repositoryBootstrap.controls?.noWorkflowDispatch !== true ||
   repositoryBootstrap.helper?.path !== 'ops/github/bootstrap-repository.sh' ||
   repositoryBootstrap.helper?.noWorkflowDispatch !== true ||
-  !['environment', 'origin-remote', 'gh-auth-user-and-package-name', 'missing'].includes(
+  !['environment', 'origin-remote', 'owner-hint-and-package-name', 'gh-auth-user-and-package-name', 'missing'].includes(
     repositoryBootstrap.repository?.source,
   ) ||
   typeof repositoryBootstrap.repository?.inferredRepositoryName !== 'string' ||
   repositoryBootstrap.repository?.remoteParsing?.supportsSshUrl !== true ||
   repositoryBootstrap.repository?.remoteParsing?.supportsDottedRepositoryNames !== true ||
+  repositoryBootstrap.repository?.remoteParsing?.supportsOwnerHint !== true ||
   typeof repositoryBootstrap.githubAutomation?.ghAuthAvailable !== 'boolean' ||
   typeof repositoryBootstrap.githubAutomation?.ghCredentialReady !== 'boolean' ||
   !repositoryBootstrap.actions?.some((action) => action.id === 'initialize-local-git') ||
@@ -3223,12 +3230,16 @@ if (
   !repositoryBootstrapSource.includes('generatedEvidencePrefixes') ||
   !repositoryBootstrapSource.includes('public/share-manifest.json') ||
   !repositoryBootstrapSource.includes('public/seed-kit.html') ||
+  !repositoryBootstrapSource.includes('AGL_GITHUB_OWNER') ||
+  !repositoryBootstrapSource.includes('owner-hint-and-package-name') ||
   !repositoryBootstrapSource.includes('gh-auth-user-and-package-name') ||
   !repositoryBootstrapSource.includes('AGL_ALLOW_GH_INFER_REPOSITORY') ||
   !repositoryBootstrapSource.includes('repositoryNameFromPackage') ||
   !repositoryBootstrapSource.includes('ssh:\\/\\/git@github\\.com') ||
   !repositoryBootstrapSource.includes('AGL_ALLOW_LOCAL_GIT_BOOTSTRAP') ||
   !githubRepositoryBootstrapScript.includes('AGL_ALLOW_GH_INFER_REPOSITORY') ||
+  !githubRepositoryBootstrapScript.includes('AGL_GITHUB_OWNER') ||
+  !githubRepositoryBootstrapScript.includes('derive_repository_from_owner_hint') ||
   !githubRepositoryBootstrapScript.includes('derive_repository_name') ||
   !githubRepositoryBootstrapScript.includes('ssh://git@github.com/') ||
   !githubRepositoryBootstrapScript.includes('AGL_ALLOW_SNAPSHOT_COMMIT') ||

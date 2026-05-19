@@ -39,6 +39,16 @@ const repositoryNameFromPackage = (packageName) => {
 
   return normalized || 'autonomous-game-lab'
 }
+const cleanGithubOwner = (value) => {
+  const owner = String(value ?? '').trim()
+
+  return /^[A-Za-z0-9](?:[A-Za-z0-9-]{0,37}[A-Za-z0-9])?$/.test(owner) ? owner : null
+}
+const repositoryFromOwnerHint = (owner, repositoryName) => {
+  const cleanOwner = cleanGithubOwner(owner)
+
+  return cleanOwner ? `${cleanOwner}/${repositoryName}` : null
+}
 
 const parseDirtyPaths = (stdout) =>
   stdout
@@ -121,16 +131,21 @@ const pagesWorkflowExists = await exists(workflowPath)
 const workflowSource = pagesWorkflowExists ? await readFile(workflowPath, 'utf8') : ''
 const remoteRepository = repositoryFromRemote(gitRemoteResult.ok ? gitRemoteResult.stdout : null)
 const inferredRepositoryName = repositoryNameFromPackage(packageJson.name)
+const repositoryOwnerHint =
+  process.env.AGL_GITHUB_OWNER ?? process.env.GITHUB_REPOSITORY_OWNER ?? process.env.GITHUB_OWNER ?? null
+const ownerHintRepository = repositoryFromOwnerHint(repositoryOwnerHint, inferredRepositoryName)
 const inferredRepository =
   ghUserResult.ok && configured(ghUserResult.stdout) ? `${ghUserResult.stdout}/${inferredRepositoryName}` : null
-const targetRepository = repositoryFromEnv ?? remoteRepository ?? inferredRepository
+const targetRepository = repositoryFromEnv ?? remoteRepository ?? ownerHintRepository ?? inferredRepository
 const targetRepositorySource = repositoryFromEnv
   ? 'environment'
   : remoteRepository
     ? 'origin-remote'
-    : inferredRepository
-      ? 'gh-auth-user-and-package-name'
-      : 'missing'
+    : ownerHintRepository
+      ? 'owner-hint-and-package-name'
+      : inferredRepository
+        ? 'gh-auth-user-and-package-name'
+        : 'missing'
 const ghTokenConfigured = configured(process.env.GH_TOKEN) || configured(process.env.GITHUB_TOKEN)
 const ghAuthAvailable = ghAuthResult.ok
 const ghCredentialReady = ghTokenConfigured || ghAuthAvailable
@@ -215,7 +230,7 @@ const blockers = [
   ...(insideWorkTree ? [] : ['Initialize or attach this workspace to a git repository.']),
   ...(targetRepository
     ? []
-    : ['Add a GitHub origin remote, set GITHUB_REPOSITORY/GH_REPO, or authenticate gh to infer the target repository.']),
+    : ['Add a GitHub origin remote, set GITHUB_REPOSITORY/GH_REPO, set AGL_GITHUB_OWNER, or authenticate gh to infer the target repository.']),
   ...(ghVersionResult.ok ? [] : ['Install GitHub CLI for non-interactive repository operations.']),
   ...(ghCredentialReady
     ? []
@@ -245,6 +260,16 @@ const payload = {
     source: targetRepositorySource,
     originRemote: gitRemoteResult.ok ? gitRemoteResult.stdout : null,
     remoteRepository,
+    ownerHint: cleanGithubOwner(repositoryOwnerHint),
+    ownerHintEnv:
+      process.env.AGL_GITHUB_OWNER
+        ? 'AGL_GITHUB_OWNER'
+        : process.env.GITHUB_REPOSITORY_OWNER
+          ? 'GITHUB_REPOSITORY_OWNER'
+          : process.env.GITHUB_OWNER
+            ? 'GITHUB_OWNER'
+            : null,
+    ownerHintTarget: ownerHintRepository,
     inferredTarget: inferredRepository,
     inferredTargetSource: inferredRepository ? 'gh-auth-user-and-package-name' : null,
     packageName: packageJson.name ?? null,
@@ -252,9 +277,10 @@ const payload = {
     remoteParsing: {
       supportsHttps: true,
       supportsSshScp: true,
-      supportsSshUrl: true,
-      supportsDottedRepositoryNames: true,
-    },
+    supportsSshUrl: true,
+    supportsDottedRepositoryNames: true,
+    supportsOwnerHint: true,
+  },
   },
   githubAutomation: {
     ghCliAvailable: ghVersionResult.ok,
@@ -288,7 +314,7 @@ const payload = {
     insideWorkTree ? null : 'Initialize this workspace as a git repository or move it into the intended repository checkout.',
     targetRepository
       ? null
-      : 'Add a GitHub origin remote, set GITHUB_REPOSITORY/GH_REPO to owner/repo, or authenticate gh to infer owner/package-name.',
+      : 'Add a GitHub origin remote, set GITHUB_REPOSITORY/GH_REPO to owner/repo, set AGL_GITHUB_OWNER to infer owner/package-name, or authenticate gh.',
     ghCredentialReady ? null : 'Authenticate GitHub CLI or provide GH_TOKEN/GITHUB_TOKEN before non-interactive workflow dispatch.',
     'Let the production bootstrap helper enable GitHub Pages with GitHub Actions as the source once gh credentials exist.',
   ].filter(Boolean),

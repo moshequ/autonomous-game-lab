@@ -48,6 +48,16 @@ const repositoryNameFromPackage = (packageName) => {
 
   return normalized || 'autonomous-game-lab'
 }
+const cleanGithubOwner = (value) => {
+  const owner = String(value ?? '').trim()
+
+  return /^[A-Za-z0-9](?:[A-Za-z0-9-]{0,37}[A-Za-z0-9])?$/.test(owner) ? owner : null
+}
+const repositoryFromOwnerHint = (owner, repositoryName) => {
+  const cleanOwner = cleanGithubOwner(owner)
+
+  return cleanOwner ? `${cleanOwner}/${repositoryName}` : null
+}
 
 const parseDirtyPaths = (stdout) =>
   stdout
@@ -163,6 +173,9 @@ const ghVersionResult = await run('gh', ['--version'])
 const ghAuthResult = await run('gh', ['auth', 'status'])
 const ghUserResult = ghAuthResult.ok ? await run('gh', ['api', 'user', '--jq', '.login']) : { ok: false, stdout: '' }
 const inferredRepositoryName = repositoryNameFromPackage(packageJson.name)
+const repositoryOwnerHint =
+  process.env.AGL_GITHUB_OWNER ?? process.env.GITHUB_REPOSITORY_OWNER ?? process.env.GITHUB_OWNER ?? null
+const ownerHintRepository = repositoryFromOwnerHint(repositoryOwnerHint, inferredRepositoryName)
 const inferredRepository =
   repositoryReadiness.repository?.inferredTarget ??
   (ghUserResult.ok && configured(ghUserResult.stdout) ? `${ghUserResult.stdout}/${inferredRepositoryName}` : null)
@@ -171,6 +184,7 @@ const targetRepository =
   process.env.GH_REPO ??
   repositoryReadiness.repository?.target ??
   gitAfter.remoteRepository ??
+  ownerHintRepository ??
   inferredRepository ??
   null
 const targetRepositorySource = process.env.GITHUB_REPOSITORY || process.env.GH_REPO
@@ -179,9 +193,11 @@ const targetRepositorySource = process.env.GITHUB_REPOSITORY || process.env.GH_R
     ? (repositoryReadiness.repository?.source ?? 'repository-readiness')
     : gitAfter.remoteRepository
       ? 'origin-remote'
-      : inferredRepository
-        ? 'gh-auth-user-and-package-name'
-        : 'missing'
+      : ownerHintRepository
+        ? 'owner-hint-and-package-name'
+        : inferredRepository
+          ? 'gh-auth-user-and-package-name'
+          : 'missing'
 const ghTokenConfigured = configured(process.env.GH_TOKEN) || configured(process.env.GITHUB_TOKEN)
 const ghReady = Boolean(ghVersionResult.ok && (ghTokenConfigured || ghAuthResult.ok))
 const helperExists = await exists(helperPath)
@@ -280,7 +296,7 @@ const actions = [
       ? `Origin remote resolves to ${gitAfter.remoteRepository}.`
       : targetRepository
         ? `Target ${targetRepository} can be attached as origin when explicitly allowed.`
-        : 'Set GITHUB_REPOSITORY/GH_REPO or authenticate gh so the target can be inferred before attaching origin.',
+        : 'Set GITHUB_REPOSITORY/GH_REPO, set AGL_GITHUB_OWNER, or authenticate gh so the target can be inferred before attaching origin.',
   },
   {
     id: 'create-github-repository',
@@ -294,7 +310,7 @@ const actions = [
       ? ghReady
         ? `GitHub CLI can create or attach ${targetRepository} when explicitly allowed.`
         : 'GitHub CLI auth or GH_TOKEN/GITHUB_TOKEN is required before remote repository creation.'
-      : 'Set GITHUB_REPOSITORY/GH_REPO or authenticate gh so the target can be inferred before creating a GitHub repository.',
+      : 'Set GITHUB_REPOSITORY/GH_REPO, set AGL_GITHUB_OWNER, or authenticate gh so the target can be inferred before creating a GitHub repository.',
   },
   {
     id: 'push-initial-snapshot',
@@ -323,7 +339,7 @@ const blockers = [
     : []),
   ...(targetRepository
     ? []
-    : ['Set GITHUB_REPOSITORY/GH_REPO or authenticate gh so the intended owner/repo can be inferred.']),
+    : ['Set GITHUB_REPOSITORY/GH_REPO, AGL_GITHUB_OWNER, or authenticate gh so the intended owner/repo can be inferred.']),
   ...(gitAfter.remoteRepository ? [] : ['Attach a GitHub origin remote or create the target repository.']),
   ...(ghReady ? [] : ['Authenticate GitHub CLI or provide GH_TOKEN/GITHUB_TOKEN for remote repository bootstrap.']),
 ]
@@ -353,6 +369,16 @@ const payload = {
     source: targetRepositorySource,
     originRemote: gitAfter.originRemote,
     remoteRepository: gitAfter.remoteRepository,
+    ownerHint: cleanGithubOwner(repositoryOwnerHint),
+    ownerHintEnv:
+      process.env.AGL_GITHUB_OWNER
+        ? 'AGL_GITHUB_OWNER'
+        : process.env.GITHUB_REPOSITORY_OWNER
+          ? 'GITHUB_REPOSITORY_OWNER'
+          : process.env.GITHUB_OWNER
+            ? 'GITHUB_OWNER'
+            : null,
+    ownerHintTarget: ownerHintRepository,
     inferredTarget: inferredRepository,
     inferredTargetSource: inferredRepository ? 'gh-auth-user-and-package-name' : null,
     packageName: packageJson.name ?? null,
@@ -362,6 +388,7 @@ const payload = {
       supportsSshScp: true,
       supportsSshUrl: true,
       supportsDottedRepositoryNames: true,
+      supportsOwnerHint: true,
     },
   },
   githubAutomation: {
@@ -419,11 +446,12 @@ const payload = {
     infersRepositoryFromOriginRemote: true,
     supportsSshUrlRemotes: true,
     supportsDottedRepositoryNames: true,
+    supportsOwnerHint: true,
     noWorkflowDispatch: true,
   },
   nextActions: [
     gitAfter.insideWorkTree
-      ? 'Set GITHUB_REPOSITORY/GH_REPO or authenticate gh, then run repository bootstrap with explicit remote flags when credentials exist.'
+      ? 'Set GITHUB_REPOSITORY/GH_REPO, set AGL_GITHUB_OWNER, or authenticate gh, then run repository bootstrap with explicit remote flags when credentials exist.'
       : 'Run npm run autonomous:repo-bootstrap -- --apply-local-git to create the zero-cost local git channel.',
     'Keep workflow dispatch in production bootstrap; repository bootstrap only prepares git/GitHub transport.',
   ],
@@ -463,6 +491,7 @@ fi
 
 default_branch="\${AGL_DEFAULT_BRANCH:-main}"
 target_repo="\${GITHUB_REPOSITORY:-\${GH_REPO:-}}"
+owner_hint="\${AGL_GITHUB_OWNER:-\${GITHUB_REPOSITORY_OWNER:-\${GITHUB_OWNER:-}}}"
 
 derive_repository_name() {
   node -e 'const fs=require("fs"); let name="autonomous-game-lab"; try { name=JSON.parse(fs.readFileSync("package.json","utf8")).name || name } catch {} name=String(name).split("/").pop().replace(/[^A-Za-z0-9._-]+/g,"-").replace(/^-+|-+$/g,"") || "autonomous-game-lab"; console.log(name)'
@@ -495,11 +524,26 @@ derive_repository_from_origin() {
   fi
 }
 
+derive_repository_from_owner_hint() {
+  local owner="$1"
+  if [[ "$owner" =~ ^[A-Za-z0-9]([A-Za-z0-9-]{0,37}[A-Za-z0-9])?$ ]]; then
+    printf "%s/%s" "$owner" "$(derive_repository_name)"
+  fi
+}
+
 if [[ -z "$target_repo" ]]; then
   origin_repo="$(derive_repository_from_origin)"
   if [[ -n "$origin_repo" ]]; then
     target_repo="$origin_repo"
     echo "inferred GitHub repository target from origin: $target_repo"
+  fi
+fi
+
+if [[ -z "$target_repo" && -n "$owner_hint" ]]; then
+  owner_repo="$(derive_repository_from_owner_hint "$owner_hint")"
+  if [[ -n "$owner_repo" ]]; then
+    target_repo="$owner_repo"
+    echo "inferred GitHub repository target from owner hint: $target_repo"
   fi
 fi
 
@@ -555,7 +599,7 @@ fi
 
 if [[ "\${AGL_ALLOW_GITHUB_REPO_CREATE:-0}" == "1" ]]; then
   if [[ -z "$target_repo" ]]; then
-    echo "Set GITHUB_REPOSITORY or GH_REPO before creating a GitHub repository." >&2
+    echo "Set GITHUB_REPOSITORY, GH_REPO, or AGL_GITHUB_OWNER before creating a GitHub repository." >&2
     exit 1
   fi
 

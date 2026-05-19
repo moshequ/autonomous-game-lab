@@ -1,6 +1,6 @@
 # Deployment Plan
 
-Generated: 2026-05-19T23:03:29.556Z
+Generated: 2026-05-19T23:11:36.985Z
 Status: ready-for-pages
 Target: github-pages
 Cost: $0 platform hosting for public/internal experiment traffic
@@ -15,7 +15,7 @@ Cost: $0 platform hosting for public/internal experiment traffic
 - pass: dist-index - Production index.html exists.
 - pass: dist-service-worker - Production service worker exists.
 - pass: dist-privacy - Privacy policy is included in the deployable build.
-- pass: release-candidate - Release candidate is release-candidate-ready; candidate pwa-081be17dbc48.
+- pass: release-candidate - Release candidate is release-candidate-ready; candidate pwa-7cac7a08481e.
 - pass: deploy-workflow - GitHub Pages deployment workflow exists.
 - pass: production-environment - Environment status is production-env-missing; public origin is missing.
 - pass: event-collector-deployment - Event collector deployment is blocked-needs-cloudflare-env.
@@ -37,9 +37,9 @@ Cost: $0 platform hosting for public/internal experiment traffic
 ## Release Candidate
 
 - Status: release-candidate-ready
-- Candidate: pwa-081be17dbc48
+- Candidate: pwa-7cac7a08481e
 - Files: 40
-- Aggregate SHA-256: 081be17dbc48a9876d9f98b184d74124c4f87e53ada1b0fe9ff4671fb42a3168
+- Aggregate SHA-256: 7cac7a08481e6494eb86a96f82caad92d7d603d77eee2f32dd0c70ed06069332
 - Post-deploy smoke URLs: 11
 
 ## Repository Channel
@@ -48,7 +48,7 @@ Cost: $0 platform hosting for public/internal experiment traffic
 - Repository: missing
 - Git worktree: true
 - Workflow dispatch ready: false
-- blocker: Add a GitHub origin remote, set GITHUB_REPOSITORY/GH_REPO, or authenticate gh to infer the target repository.
+- blocker: Add a GitHub origin remote, set GITHUB_REPOSITORY/GH_REPO, set AGL_GITHUB_OWNER, or authenticate gh to infer the target repository.
 - blocker: Authenticate GitHub CLI or configure GH_TOKEN/GITHUB_TOKEN for workflow dispatch and repository settings sync.
 
 ## Environment

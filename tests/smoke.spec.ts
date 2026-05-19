@@ -773,6 +773,7 @@ test('repository readiness surfaces the GitHub Pages deployment channel without 
       remoteParsing: {
         supportsSshUrl: boolean
         supportsDottedRepositoryNames: boolean
+        supportsOwnerHint: boolean
       }
     }
     githubAutomation: { workflowDispatchReady: boolean; ghAuthAvailable: boolean; ghCredentialReady: boolean }
@@ -826,12 +827,13 @@ test('repository readiness surfaces the GitHub Pages deployment channel without 
   expect(readiness.controls.noGitMutation).toBe(true)
   expect(readiness.controls.noWorkflowDispatch).toBe(true)
   expect(readiness.controls.noAccountCreation).toBe(true)
-  expect(['environment', 'origin-remote', 'gh-auth-user-and-package-name', 'missing']).toContain(
+  expect(['environment', 'origin-remote', 'owner-hint-and-package-name', 'gh-auth-user-and-package-name', 'missing']).toContain(
     readiness.repository.source,
   )
   expect(readiness.repository.inferredRepositoryName).toBe(packageJson.name)
   expect(readiness.repository.remoteParsing.supportsSshUrl).toBe(true)
   expect(readiness.repository.remoteParsing.supportsDottedRepositoryNames).toBe(true)
+  expect(readiness.repository.remoteParsing.supportsOwnerHint).toBe(true)
   expect(readiness.githubAutomation.ghCredentialReady).toBe(
     readiness.githubAutomation.ghAuthAvailable || readiness.checks.some((check) => check.id === 'gh-token' && check.status === 'pass'),
   )
@@ -867,6 +869,8 @@ test('repository readiness surfaces the GitHub Pages deployment channel without 
   expect(repositoryBootstrap.actions.some((action) => action.id === 'commit-current-snapshot')).toBe(true)
   expect(repositoryBootstrap.actions.some((action) => action.id === 'create-github-repository')).toBe(true)
   expect(repositoryBootstrapScript).toContain('AGL_ALLOW_REPOSITORY_BOOTSTRAP')
+  expect(repositoryBootstrapScript).toContain('AGL_GITHUB_OWNER')
+  expect(repositoryBootstrapScript).toContain('derive_repository_from_owner_hint')
   expect(repositoryBootstrapScript).toContain('AGL_ALLOW_GH_INFER_REPOSITORY')
   expect(repositoryBootstrapScript).toContain('AGL_ALLOW_SNAPSHOT_COMMIT')
   expect(repositoryBootstrapScript).toContain('derive_repository_name')
@@ -1243,6 +1247,7 @@ test('production bootstrap emits zero-spend setup handoff artifacts', async ({ p
       avoidsSecretEcho: boolean
       configuresPagesSource: boolean
       infersRepositoryFromOriginRemote: boolean
+      infersRepositoryFromOwnerHint: boolean
       supportsSshUrlRemotes: boolean
       supportsDottedRepositoryNames: boolean
     }
@@ -1274,11 +1279,14 @@ test('production bootstrap emits zero-spend setup handoff artifacts', async ({ p
   expect(bootstrap.setupScript.avoidsSecretEcho).toBe(true)
   expect(bootstrap.setupScript.configuresPagesSource).toBe(true)
   expect(bootstrap.setupScript.infersRepositoryFromOriginRemote).toBe(true)
+  expect(bootstrap.setupScript.infersRepositoryFromOwnerHint).toBe(true)
   expect(bootstrap.setupScript.supportsSshUrlRemotes).toBe(true)
   expect(bootstrap.setupScript.supportsDottedRepositoryNames).toBe(true)
   expect(setupScript).toContain('gh variable set')
   expect(setupScript).toContain('gh secret set')
   expect(setupScript).toContain('derive_repository_from_origin')
+  expect(setupScript).toContain('derive_repository_from_owner_hint')
+  expect(setupScript).toContain('AGL_GITHUB_OWNER')
   expect(setupScript).toContain('git remote get-url origin')
   expect(setupScript).toContain('ssh://git@github.com/')
   expect(setupScript).toContain('AGL_SYNC_PAGES_SETTINGS')

@@ -31,6 +31,17 @@ const readOptionalJson = async (filePath, fallback) =>
     .then((raw) => JSON.parse(raw))
     .catch(() => fallback)
 const configured = (value) => typeof value === 'string' && value.trim().length > 0
+const repositoryNameFromPackage = (packageName) => {
+  const baseName = String(packageName || 'autonomous-game-lab').split('/').pop()
+  const normalized = baseName.replace(/[^A-Za-z0-9._-]+/g, '-').replace(/^-+|-+$/g, '')
+
+  return normalized || 'autonomous-game-lab'
+}
+const cleanGithubOwner = (value) => {
+  const owner = String(value ?? '').trim()
+
+  return /^[A-Za-z0-9](?:[A-Za-z0-9-]{0,37}[A-Za-z0-9])?$/.test(owner) ? owner : null
+}
 
 const environment = await readJson(environmentPath)
 const repositoryReadiness = await readOptionalJson(repositoryReadinessPath, {
@@ -58,7 +69,14 @@ const monetization = await readJson(monetizationPath)
 const unitEconomics = await readJson(unitEconomicsPath)
 
 const githubRepository =
-  repositoryReadiness.repository?.target ?? process.env.GITHUB_REPOSITORY ?? process.env.GH_REPO ?? null
+  repositoryReadiness.repository?.target ??
+  process.env.GITHUB_REPOSITORY ??
+  process.env.GH_REPO ??
+  (cleanGithubOwner(process.env.AGL_GITHUB_OWNER ?? process.env.GITHUB_REPOSITORY_OWNER ?? process.env.GITHUB_OWNER)
+    ? `${cleanGithubOwner(process.env.AGL_GITHUB_OWNER ?? process.env.GITHUB_REPOSITORY_OWNER ?? process.env.GITHUB_OWNER)}/${
+        repositoryReadiness.repository?.inferredRepositoryName ?? repositoryNameFromPackage(process.env.npm_package_name)
+      }`
+    : null)
 const ghTokenConfigured =
   repositoryReadiness.githubAutomation?.ghTokenConfigured ??
   (configured(process.env.GH_TOKEN) || configured(process.env.GITHUB_TOKEN))
@@ -399,6 +417,7 @@ const payload = {
     dryRunByDefault: false,
     usesCurrentShellEnvironment: true,
     infersRepositoryFromOriginRemote: true,
+    infersRepositoryFromOwnerHint: true,
     supportsSshUrlRemotes: true,
     supportsDottedRepositoryNames: true,
     configuresPagesSource: true,
@@ -495,6 +514,7 @@ if ! gh auth status >/dev/null 2>&1; then
 fi
 
 repo="\${GITHUB_REPOSITORY:-\${GH_REPO:-}}"
+owner_hint="\${AGL_GITHUB_OWNER:-\${GITHUB_REPOSITORY_OWNER:-\${GITHUB_OWNER:-}}}"
 
 derive_repository_name() {
   node -e 'const fs=require("fs"); let name="autonomous-game-lab"; try { name=JSON.parse(fs.readFileSync("package.json","utf8")).name || name } catch {} name=String(name).split("/").pop().replace(/[^A-Za-z0-9._-]+/g,"-").replace(/^-+|-+$/g,"") || "autonomous-game-lab"; console.log(name)'
@@ -527,11 +547,26 @@ derive_repository_from_origin() {
   fi
 }
 
+derive_repository_from_owner_hint() {
+  local owner="$1"
+  if [[ "$owner" =~ ^[A-Za-z0-9]([A-Za-z0-9-]{0,37}[A-Za-z0-9])?$ ]]; then
+    printf "%s/%s" "$owner" "$(derive_repository_name)"
+  fi
+}
+
 if [[ -z "$repo" ]]; then
   origin_repo="$(derive_repository_from_origin)"
   if [[ -n "$origin_repo" ]]; then
     repo="$origin_repo"
     echo "inferred GitHub repository target from origin: $repo"
+  fi
+fi
+
+if [[ -z "$repo" && -n "$owner_hint" ]]; then
+  owner_repo="$(derive_repository_from_owner_hint "$owner_hint")"
+  if [[ -n "$owner_repo" ]]; then
+    repo="$owner_repo"
+    echo "inferred GitHub repository target from owner hint: $repo"
   fi
 fi
 
@@ -544,7 +579,7 @@ if [[ -z "$repo" && "\${AGL_ALLOW_GH_INFER_REPOSITORY:-1}" == "1" ]]; then
 fi
 
 if [[ -z "$repo" ]]; then
-  echo "Set GITHUB_REPOSITORY/GH_REPO, add a GitHub origin remote, or authenticate gh so owner/package-name can be inferred." >&2
+  echo "Set GITHUB_REPOSITORY/GH_REPO, add a GitHub origin remote, set AGL_GITHUB_OWNER, or authenticate gh so owner/package-name can be inferred." >&2
   exit 1
 fi
 
@@ -631,7 +666,7 @@ This folder contains the zero-spend GitHub setup helper for the autonomous PWA r
 
 1. Run \`npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap\` and clear any repository-channel blockers.
 2. Export the environment values from \`ops/production.env.example\`.
-3. Set \`GITHUB_REPOSITORY=owner/repo\` / \`GH_REPO=owner/repo\`, attach a GitHub \`origin\` remote, or authenticate \`gh\` and let the helpers infer \`owner/package-name\`.
+3. Set \`GITHUB_REPOSITORY=owner/repo\` / \`GH_REPO=owner/repo\`, attach a GitHub \`origin\` remote, set \`AGL_GITHUB_OWNER=owner\`, or authenticate \`gh\` and let the helpers infer \`owner/package-name\`.
 4. Authenticate \`gh\` with access to repository variables and secrets.
 5. To initialize/attach the repository transport, run the guarded helper with only the explicit actions you want:
 

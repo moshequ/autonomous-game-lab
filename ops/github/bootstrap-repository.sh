@@ -8,6 +8,7 @@ fi
 
 default_branch="${AGL_DEFAULT_BRANCH:-main}"
 target_repo="${GITHUB_REPOSITORY:-${GH_REPO:-}}"
+owner_hint="${AGL_GITHUB_OWNER:-${GITHUB_REPOSITORY_OWNER:-${GITHUB_OWNER:-}}}"
 
 derive_repository_name() {
   node -e 'const fs=require("fs"); let name="autonomous-game-lab"; try { name=JSON.parse(fs.readFileSync("package.json","utf8")).name || name } catch {} name=String(name).split("/").pop().replace(/[^A-Za-z0-9._-]+/g,"-").replace(/^-+|-+$/g,"") || "autonomous-game-lab"; console.log(name)'
@@ -40,11 +41,26 @@ derive_repository_from_origin() {
   fi
 }
 
+derive_repository_from_owner_hint() {
+  local owner="$1"
+  if [[ "$owner" =~ ^[A-Za-z0-9]([A-Za-z0-9-]{0,37}[A-Za-z0-9])?$ ]]; then
+    printf "%s/%s" "$owner" "$(derive_repository_name)"
+  fi
+}
+
 if [[ -z "$target_repo" ]]; then
   origin_repo="$(derive_repository_from_origin)"
   if [[ -n "$origin_repo" ]]; then
     target_repo="$origin_repo"
     echo "inferred GitHub repository target from origin: $target_repo"
+  fi
+fi
+
+if [[ -z "$target_repo" && -n "$owner_hint" ]]; then
+  owner_repo="$(derive_repository_from_owner_hint "$owner_hint")"
+  if [[ -n "$owner_repo" ]]; then
+    target_repo="$owner_repo"
+    echo "inferred GitHub repository target from owner hint: $target_repo"
   fi
 fi
 
@@ -100,7 +116,7 @@ fi
 
 if [[ "${AGL_ALLOW_GITHUB_REPO_CREATE:-0}" == "1" ]]; then
   if [[ -z "$target_repo" ]]; then
-    echo "Set GITHUB_REPOSITORY or GH_REPO before creating a GitHub repository." >&2
+    echo "Set GITHUB_REPOSITORY, GH_REPO, or AGL_GITHUB_OWNER before creating a GitHub repository." >&2
     exit 1
   fi
 

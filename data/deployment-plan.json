@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-19T23:03:29.556Z",
+  "generatedAt": "2026-05-19T23:11:36.985Z",
   "status": "ready-for-pages",
   "target": {
     "provider": "github-pages",
@@ -15,7 +15,7 @@
     "ghCliAvailable": true,
     "workflowDispatchReady": false,
     "blockers": [
-      "Add a GitHub origin remote, set GITHUB_REPOSITORY/GH_REPO, or authenticate gh to infer the target repository.",
+      "Add a GitHub origin remote, set GITHUB_REPOSITORY/GH_REPO, set AGL_GITHUB_OWNER, or authenticate gh to infer the target repository.",
       "Authenticate GitHub CLI or configure GH_TOKEN/GITHUB_TOKEN for workflow dispatch and repository settings sync."
     ]
   },
@@ -53,11 +53,11 @@
   },
   "releaseCandidate": {
     "status": "release-candidate-ready",
-    "candidateId": "pwa-081be17dbc48",
+    "candidateId": "pwa-7cac7a08481e",
     "manifestPath": "dist/release-candidate.json",
-    "aggregateHash": "081be17dbc48a9876d9f98b184d74124c4f87e53ada1b0fe9ff4671fb42a3168",
+    "aggregateHash": "7cac7a08481e6494eb86a96f82caad92d7d603d77eee2f32dd0c70ed06069332",
     "totalFiles": 40,
-    "totalKb": 3591.8,
+    "totalKb": 3585.5,
     "postDeploySmokeUrls": 11
   },
   "compliance": {
@@ -121,7 +121,7 @@
     {
       "id": "release-candidate",
       "status": "pass",
-      "detail": "Release candidate is release-candidate-ready; candidate pwa-081be17dbc48."
+      "detail": "Release candidate is release-candidate-ready; candidate pwa-7cac7a08481e."
     },
     {
       "id": "deploy-workflow",

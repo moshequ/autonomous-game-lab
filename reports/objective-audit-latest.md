@@ -1,6 +1,6 @@
 # Objective Audit
 
-Generated: 2026-05-19T23:03:29.993Z
+Generated: 2026-05-19T23:11:37.428Z
 Status: objective-in-progress
 Can mark goal complete: false
 Reason: The local autonomous PWA system is largely prepared, but production credentials, live data, monetization gates, hosted compliance URLs, and store account/signing blockers remain.
@@ -35,10 +35,10 @@ Reason: The local autonomous PWA system is largely prepared, but production cred
 
 ## Top Blockers
 
-- Add a GitHub origin remote, set GITHUB_REPOSITORY/GH_REPO, or authenticate gh to infer the target repository.
+- Add a GitHub origin remote, set GITHUB_REPOSITORY/GH_REPO, set AGL_GITHUB_OWNER, or authenticate gh to infer the target repository.
 - Authenticate GitHub CLI or configure GH_TOKEN/GITHUB_TOKEN for workflow dispatch and repository settings sync.
 - Commit current generated changes before pushing to GitHub Pages.
-- Set GITHUB_REPOSITORY/GH_REPO or authenticate gh so the intended owner/repo can be inferred.
+- Set GITHUB_REPOSITORY/GH_REPO, AGL_GITHUB_OWNER, or authenticate gh so the intended owner/repo can be inferred.
 - Attach a GitHub origin remote or create the target repository.
 - Authenticate GitHub CLI or provide GH_TOKEN/GITHUB_TOKEN for remote repository bootstrap.
 - Set AGL_PUBLIC_ORIGIN or PUBLIC_SITE_URL to a real HTTPS production origin.
