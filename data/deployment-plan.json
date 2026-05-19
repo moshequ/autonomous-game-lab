@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-19T03:05:34.499Z",
+  "generatedAt": "2026-05-19T03:06:34.392Z",
   "status": "blocked",
   "target": {
     "provider": "github-pages",
@@ -54,11 +54,11 @@
   },
   "releaseCandidate": {
     "status": "release-candidate-blocked",
-    "candidateId": "pwa-5fa0b4ccd7b3",
+    "candidateId": "pwa-2d4916c47233",
     "manifestPath": "dist/release-candidate.json",
-    "aggregateHash": "5fa0b4ccd7b3986527251ba661dd31eba272deada5bd0c29cd0ed701cbca5acf",
+    "aggregateHash": "2d4916c472336ae6f155e9b95a9b04ffa3a6dd992bb007898255b7f58c5f1cd2",
     "totalFiles": 38,
-    "totalKb": 3598.2,
+    "totalKb": 3592.3,
     "postDeploySmokeUrls": 7
   },
   "compliance": {
@@ -122,7 +122,7 @@
     {
       "id": "release-candidate",
       "status": "blocker",
-      "detail": "Release candidate is release-candidate-blocked; candidate pwa-5fa0b4ccd7b3."
+      "detail": "Release candidate is release-candidate-blocked; candidate pwa-2d4916c47233."
     },
     {
       "id": "deploy-workflow",

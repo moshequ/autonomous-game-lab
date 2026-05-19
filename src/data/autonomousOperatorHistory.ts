@@ -1,15 +1,15 @@
 export const autonomousOperatorHistory = {
-  "generatedAt": "2026-05-19T03:05:35.504Z",
+  "generatedAt": "2026-05-19T03:06:35.311Z",
   "status": "operator-history-ready",
   "retention": {
     "maxRecords": 40,
     "appendOnlyWhenPlanChangesOrExecutes": true,
-    "latestRunAppended": true,
+    "latestRunAppended": false,
     "compactedDuplicateDryRuns": 0
   },
   "summary": {
-    "totalRecords": 18,
-    "plannedRecords": 18,
+    "totalRecords": 19,
+    "plannedRecords": 19,
     "executedRecords": 0,
     "failedRecords": 0,
     "lastActionId": "prepare-repository-channel",
@@ -676,6 +676,44 @@ export const autonomousOperatorHistory = {
       "selectedActionId": "prepare-repository-channel",
       "selectedCommand": "npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap",
       "eligibleActionIds": [
+        "seed-portfolio-traffic",
+        "refresh-organic-seed-loop",
+        "optimize-daily-retention",
+        "measure-pwa-install-loop",
+        "optimize-product-gates",
+        "refresh-first-move-coach",
+        "refresh-completion-loop",
+        "refresh-replay-loop",
+        "prepare-repository-channel",
+        "bootstrap-production-setup",
+        "optimize-store-listing",
+        "apply-safe-improvements"
+      ],
+      "blockedActionCount": 23,
+      "execution": {
+        "requested": false,
+        "status": "not-requested",
+        "attemptedActionId": null,
+        "resultCount": 0,
+        "failedScripts": []
+      },
+      "controls": {
+        "zeroPaidSpend": true,
+        "localCommandAllowlistEnforced": true,
+        "externalWorkflowExecutionBlockedByDefault": true,
+        "maxActionsPerRun": 1
+      }
+    },
+    {
+      "id": "20260519030627-prepare-repository-channel",
+      "generatedAt": "2026-05-19T03:06:27.116Z",
+      "runFingerprint": "ee096c3bf096598f",
+      "mode": "plan-only",
+      "status": "operator-plan-ready",
+      "selectedActionId": "prepare-repository-channel",
+      "selectedCommand": "npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap",
+      "eligibleActionIds": [
+        "refresh-autonomous-self-update",
         "seed-portfolio-traffic",
         "refresh-organic-seed-loop",
         "optimize-daily-retention",

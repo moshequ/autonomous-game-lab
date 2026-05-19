@@ -1,9 +1,9 @@
 # Autonomous Owner Loop
 
-Generated: 2026-05-19T03:05:36.389Z
+Generated: 2026-05-19T03:06:36.171Z
 Status: owner-loop-ready
 Mode: guarded-local-automation
-Autonomy score: 26/32 (81%)
+Autonomy score: 27/32 (84%)
 
 ## Owner Decision
 
@@ -16,14 +16,14 @@ Autonomy score: 26/32 (81%)
 - ready: game-factory - 10 playable games; 5 generated runtime games.
 - ready: analytics-ingest - Active source: fixture-sample; event ingest: idle-no-files; collector smoke: pass.
 - ready: autonomous-cadence - Cadence cadence-ready; Codex active-confirmed; GitHub scheduled.
-- needs-self-update-evidence: autonomous-self-update - Self-update self-update-needs-attention; safe pending 48; unsafe pending 1; remote push held.
+- ready: autonomous-self-update - Self-update self-update-ready; safe pending 41; unsafe pending 0; remote push held.
 - ready: portfolio-loop - Daily challenge: Canopy Bloom; seed traffic: canopy-bloom, grove-engine, metro-loom, pocket-draft.
 - ready: traffic-seeding - 4 seed campaign(s); max cost $0.
 - ready: acquisition-learning - 4 campaign(s); 0 attributed start(s); candidate canopy-bloom.
 - ready: organic-seed-loop - Target canopy-bloom; surface portal-growth-loop; share telemetry organic_seed_share_clicked.
 - ready: retention-loop - Daily canopy-bloom; D1 17%; streak variant daily-streak; return prompt armed; return intent armed.
 - ready: pwa-install-loop - Prompt autonomy-cockpit; installs 0; launch events 0.
-- needs-attention: performance-budget - Initial JS 682.5 KB; gzip 178.3 KB; deferred chunks 1.
+- needs-attention: performance-budget - Initial JS 676.6 KB; gzip 177.7 KB; deferred chunks 1.
 - ready: product-optimization - Completion 40% / gate 55%; latest already-applied.
 - ready: first-move-coach - Coach first-move-coach-ready; enabled targets 6; primary harbor-rings.
 - ready: completion-loop - Completion loop completion-loop-ready; prompt armed; finish line armed; target harbor-rings; completion 40%.
@@ -33,11 +33,11 @@ Autonomy score: 26/32 (81%)
 - waiting-for-github-repository: repository-channel - Repository missing; git worktree ready; workflow dispatch blocked.
 - ready: repository-bootstrap - Bootstrap waiting-for-github-target; mode plan-only; helper ops/github/bootstrap-repository.sh; local git ready.
 - blocked: web-deployment - Deployment blocked; web readiness blocked; promotion blocked.
-- needs-release-manifest: release-candidate - Candidate pwa-5fa0b4ccd7b3; status release-candidate-blocked; files 38; smoke URLs 7.
-- ready: post-deploy-smoke - Smoke blocked-missing-origin; origin missing; candidate pwa-5fa0b4ccd7b3; checks 0/8 passed.
+- needs-release-manifest: release-candidate - Candidate pwa-2d4916c47233; status release-candidate-blocked; files 38; smoke URLs 7.
+- ready: post-deploy-smoke - Smoke blocked-missing-origin; origin missing; candidate pwa-2d4916c47233; checks 0/8 passed.
 - ready: production-bootstrap - Bootstrap production-bootstrap-ready; mode waiting-for-external-credentials; external blockers 25.
 - ready: autonomous-operator - Operator operator-plan-ready; selected prepare-repository-channel; execution not-requested.
-- ready: operator-history - History operator-history-ready; records 18; executed 0.
+- ready: operator-history - History operator-history-ready; records 19; executed 0.
 - ready: objective-audit - Audit objective-in-progress; met 4/8; external blockers 21.
 - ready: store-listing-optimizer - Focus canopy-bloom; lead screenshot phone-canopy-bloom-generated; candidate changed yes.
 - ready: store-compliance - Rating Everyone; target audience general; blockers 4.
@@ -50,7 +50,7 @@ Autonomy score: 26/32 (81%)
 
 - armed: run-daily-owner-loop - npm run autonomous:daily
 - armed: refresh-autonomous-cadence - npm run autonomous:cadence
-- monitor: refresh-autonomous-self-update - npm run autonomous:self-update
+- armed: refresh-autonomous-self-update - npm run autonomous:self-update
 - armed: seed-portfolio-traffic - npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop
 - armed: refresh-organic-seed-loop - npm run autonomous:organic-seed-loop
 - armed: optimize-daily-retention - npm run autonomous:retention

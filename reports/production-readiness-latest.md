@@ -1,6 +1,6 @@
 # Production Readiness
 
-Generated: 2026-05-19T03:05:36.164Z
+Generated: 2026-05-19T03:06:35.959Z
 
 ## Environment
 
@@ -31,7 +31,7 @@ Local git: true
 - done: repo-bootstrap-inspect-repository-channel - Repository readiness is waiting-for-github-repository.
 - ready: repo-bootstrap-initialize-local-git - Git worktree is available at /Users/moshequ/Documents/Codex/2026-05-18/i-want-to-have-a-new.
 - ready: repo-bootstrap-create-initial-commit - The local repository has at least one commit.
-- ready-for-explicit-snapshot-commit: repo-bootstrap-commit-current-snapshot - 49 generated or source file(s) are not committed yet.
+- ready-for-explicit-snapshot-commit: repo-bootstrap-commit-current-snapshot - 29 generated or source file(s) are not committed yet.
 - waiting-for-github-target: repo-bootstrap-set-or-create-origin - Set GITHUB_REPOSITORY or GH_REPO before attaching origin.
 - waiting-for-github-target: repo-bootstrap-create-github-repository - Set GITHUB_REPOSITORY or GH_REPO before creating a GitHub repository.
 - waiting-for-commit-and-origin: repo-bootstrap-push-initial-snapshot - Push stays held until a committed local snapshot and origin remote exist.
@@ -55,7 +55,7 @@ Status: blocked
 - pass: organic-seed-loop - Organic seed loop is organic-seed-loop-ready; target canopy-bloom; player-initiated share guard active.
 - pass: retention-loop - Retention loop is retention-loop-ready; daily challenge canopy-bloom; no-push/no-account guardrails active.
 - pass: pwa-install-loop - PWA install loop is pwa-install-loop-ready; prompt surface autonomy-cockpit; cost $0.
-- blocker: performance-budget - Performance budget is blocked-performance-budget; initial JS 682.5 KB / 178.3 KB gzip; deferred game chunk GameCanvas-s9KcYzES.js.
+- blocker: performance-budget - Performance budget is blocked-performance-budget; initial JS 676.6 KB / 177.7 KB gzip; deferred game chunk GameCanvas-EulQ6qe-.js.
 - blocker: release-candidate - Release candidate is release-candidate-blocked; files 38; smoke URLs 7.
 - pass: post-deploy-smoke-runner - Post-deploy smoke is blocked-missing-origin; origin missing; checks 0/8 passed, 8 blocked.
 - pass: product-optimization - Product optimizer is product-optimization-ready; completion 0.397 vs gate 0.55; latest action already-applied.
@@ -66,9 +66,9 @@ Status: blocked
 - pass: production-environment - Production environment status is production-env-missing.
 - pass: production-bootstrap - Production bootstrap is production-bootstrap-ready; mode waiting-for-external-credentials; external blockers 25.
 - pass: autonomous-operator - Autonomous operator is operator-plan-ready; selected prepare-repository-channel; execution not-requested.
-- pass: autonomous-operator-history - Autonomous operator history is operator-history-ready; records 18; executed 0.
+- pass: autonomous-operator-history - Autonomous operator history is operator-history-ready; records 19; executed 0.
 - pass: autonomous-cadence - Autonomous cadence is cadence-ready; Codex active-confirmed; GitHub scheduled.
-- blocker: autonomous-self-update - Autonomous self-update is self-update-needs-attention; safe pending 48; unsafe pending 1; remote push held.
+- pass: autonomous-self-update - Autonomous self-update is self-update-ready; safe pending 41; unsafe pending 0; remote push held.
 - pass: objective-audit - Objective audit is objective-in-progress; met 4 / 8; can complete false.
 
 ## Monetization
@@ -108,23 +108,23 @@ Installs: 0
 ## Performance Budget
 
 Status: blocked-performance-budget
-Initial JS: 682.5 KB (178.3 KB gzip)
-Deferred game chunk: GameCanvas-s9KcYzES.js
-- blocker: performance-initial-js-budget - Initial JS is 682.5 KB; budget is 675 KB.
-- pass: performance-initial-js-gzip-budget - Initial JS gzip is 178.3 KB; budget is 200 KB.
+Initial JS: 676.6 KB (177.7 KB gzip)
+Deferred game chunk: GameCanvas-EulQ6qe-.js
+- blocker: performance-initial-js-budget - Initial JS is 676.6 KB; budget is 675 KB.
+- pass: performance-initial-js-gzip-budget - Initial JS gzip is 177.7 KB; budget is 200 KB.
 - pass: performance-initial-css-budget - Initial CSS is 9.6 KB; budget is 40 KB.
 - pass: performance-manifest - PWA manifest exists in dist.
 - pass: performance-service-worker - Service worker exists in dist.
-- pass: performance-game-runtime-deferred - GameCanvas-s9KcYzES.js is deferred from the initial shell.
-- pass: performance-largest-js-deferred - Largest JS chunk is GameCanvas-s9KcYzES.js at 1360.8 KB.
+- pass: performance-game-runtime-deferred - GameCanvas-EulQ6qe-.js is deferred from the initial shell.
+- pass: performance-largest-js-deferred - Largest JS chunk is GameCanvas-EulQ6qe-.js at 1360.8 KB.
 - pass: performance-deferred-game-budget - Deferred game chunk is 1360.8 KB; monitor budget is 1600 KB.
 
 ## Release Candidate
 
 Status: release-candidate-blocked
-Candidate: pwa-5fa0b4ccd7b3
+Candidate: pwa-2d4916c47233
 Files: 38
-Aggregate SHA-256: 5fa0b4ccd7b3986527251ba661dd31eba272deada5bd0c29cd0ed701cbca5acf
+Aggregate SHA-256: 2d4916c472336ae6f155e9b95a9b04ffa3a6dd992bb007898255b7f58c5f1cd2
 - pass: release-dist-inventory - 38 dist files inventoried.
 - pass: release-required-files - 13/13 required files present.
 - pass: release-game-pages - 10 generated game page(s) in dist.
@@ -138,7 +138,7 @@ Aggregate SHA-256: 5fa0b4ccd7b3986527251ba661dd31eba272deada5bd0c29cd0ed701cbca5
 
 Status: blocked-missing-origin
 Origin: missing
-Candidate: pwa-5fa0b4ccd7b3
+Candidate: pwa-2d4916c47233
 Checks: 0/8 passed (8 blocked)
 - blocked: smoke-app-shell - No deployed origin configured.
 - blocked: smoke-manifest-webmanifest - No deployed origin configured.
@@ -226,7 +226,7 @@ Execution: not-requested
 ## Autonomous Operator History
 
 Status: operator-history-ready
-Records: 18
+Records: 19
 Executed: 0
 
 ## Autonomous Cadence
@@ -249,16 +249,16 @@ GitHub Actions: scheduled
 
 ## Autonomous Self Update
 
-Status: self-update-needs-attention
+Status: self-update-ready
 Workflow: .github/workflows/autonomous-self-update.yml
-Safe pending: 48
-Unsafe pending: 1
+Safe pending: 41
+Unsafe pending: 0
 Remote push ready: false
 - pass: self-update-script-registered - autonomous:self-update is node scripts/autonomous-self-update.mjs.
 - pass: self-update-daily-loop-refresh - autonomous:daily refreshes self-update evidence before owner/audit evidence.
 - pass: self-update-daily-workflow-read-only - The ordinary daily workflow remains read-only and uploads evidence artifacts.
 - pass: self-update-self-update-workflow - A separate gated workflow can reproduce the daily loop, verify it, and persist allowlisted changes.
-- blocker: self-update-safe-path-allowlist - 48 safe pending file(s), 1 unsafe pending file(s).
+- pass: self-update-safe-path-allowlist - 41 safe pending file(s), 0 unsafe pending file(s).
 - pass: self-update-repository-optional - Git worktree is available on main.
 - pass: self-update-remote-push-gated - Remote push remains held until GitHub credentials and AGL_AUTONOMOUS_SELF_UPDATE_DIRECT=1 are configured.
 - pass: self-update-zero-spend-controls - Self-update only stages repository artifacts; it does not create accounts, stores, ads, paid traffic, or revenue.

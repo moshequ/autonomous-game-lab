@@ -323,6 +323,18 @@ const payload = {
     'Keep source-code changes outside this allowlist so production automation cannot rewrite core app logic without an explicit development change.',
   ],
 }
+const appPayload = {
+  status: payload.status,
+  repository: {
+    remotePushReady: payload.repository.remotePushReady,
+  },
+  pendingChanges: {
+    safeCount: payload.pendingChanges.safeCount,
+  },
+  commitPlan: {
+    workflow: payload.commitPlan.workflow,
+  },
+}
 
 const report = [
   '# Autonomous Self Update',
@@ -372,7 +384,7 @@ await mkdir(path.dirname(reportPath), { recursive: true })
 await writeFile(outputJsonPath, JSON.stringify(payload, null, 2) + '\n')
 await writeFile(
   outputTsPath,
-  `export const autonomousSelfUpdate = ${JSON.stringify(payload, null, 2)} as const\n\nexport type AutonomousSelfUpdate = typeof autonomousSelfUpdate\n`,
+  `export const autonomousSelfUpdate = ${JSON.stringify(appPayload, null, 2)} as const\n\nexport type AutonomousSelfUpdate = typeof autonomousSelfUpdate\n`,
 )
 await writeFile(reportPath, report.join('\n'))
 

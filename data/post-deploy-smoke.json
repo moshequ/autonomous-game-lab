@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-19T03:05:33.045Z",
+  "generatedAt": "2026-05-19T03:06:33.056Z",
   "status": "blocked-missing-origin",
   "envFiles": {
     "loaded": true,
@@ -54,8 +54,8 @@
   "target": {
     "origin": null,
     "provider": "github-pages",
-    "candidateId": "pwa-5fa0b4ccd7b3",
-    "aggregateHash": "5fa0b4ccd7b3986527251ba661dd31eba272deada5bd0c29cd0ed701cbca5acf"
+    "candidateId": "pwa-2d4916c47233",
+    "aggregateHash": "2d4916c472336ae6f155e9b95a9b04ffa3a6dd992bb007898255b7f58c5f1cd2"
   },
   "sourceStatus": {
     "deployment": "blocked",
@@ -145,7 +145,7 @@
       "path": "/release-candidate.json",
       "url": "${DEPLOYED_PWA_ORIGIN}/release-candidate.json",
       "expectedStatus": 200,
-      "requiredText": "pwa-5fa0b4ccd7b3",
+      "requiredText": "pwa-2d4916c47233",
       "status": "blocked",
       "detail": "No deployed origin configured."
     }

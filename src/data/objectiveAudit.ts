@@ -1,5 +1,5 @@
 export const objectiveAudit = {
-  "generatedAt": "2026-05-19T03:05:35.941Z",
+  "generatedAt": "2026-05-19T03:06:35.746Z",
   "status": "objective-in-progress",
   "objective": "Build a bootstrapped autonomous web/PWA game portal that can generate original board-game-inspired games, measure user behavior, propose and apply data-driven improvements, and prepare a path to monetization and app-store distribution with minimal manual intervention.",
   "summary": {
@@ -23,7 +23,7 @@ export const objectiveAudit = {
         "Deployment plan: blocked"
       ],
       "blockers": [
-        "Performance budget is blocked-performance-budget; initial JS 682.5 KB / 178.3 KB gzip; deferred game chunk GameCanvas-s9KcYzES.js.",
+        "Performance budget is blocked-performance-budget; initial JS 676.6 KB / 177.7 KB gzip; deferred game chunk GameCanvas-EulQ6qe-.js.",
         "Release candidate is release-candidate-blocked; files 38; smoke URLs 7."
       ],
       "nextAction": "Fix web readiness blockers.",
@@ -88,19 +88,18 @@ export const objectiveAudit = {
       "evidence": [
         "Owner loop: owner-loop-ready",
         "Autonomous cadence: cadence-ready; Codex active-confirmed; GitHub scheduled",
-        "Autonomous self-update: self-update-needs-attention; workflow .github/workflows/autonomous-self-update.yml; unsafe pending 1",
+        "Autonomous self-update: self-update-ready; workflow .github/workflows/autonomous-self-update.yml; unsafe pending 0",
         "Operator: operator-plan-ready",
-        "Operator history: operator-history-ready; records 18",
+        "Operator history: operator-history-ready; records 19",
         "Bootstrap: production-bootstrap-ready",
         "Repository bootstrap: waiting-for-github-target; helper ops/github/bootstrap-repository.sh",
         "Release candidate: release-candidate-blocked; smoke URLs 7",
         "Post-deploy smoke: blocked-missing-origin; origin missing; checks 0/8",
         "Repository channel: waiting-for-github-repository; repository missing; git worktree true",
-        "Autonomy score: 81%",
+        "Autonomy score: 84%",
         "Credential-gated actions: 13"
       ],
       "blockers": [
-        "safe-path-allowlist: 48 safe pending file(s), 1 unsafe pending file(s).",
         "Add a GitHub origin remote or set GITHUB_REPOSITORY/GH_REPO.",
         "Configure GH_TOKEN or GITHUB_TOKEN for workflow dispatch and repository settings sync.",
         "Refresh build, release candidate, post-deploy smoke, and deployment plan artifacts.",

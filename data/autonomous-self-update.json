@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-19T03:05:35.028Z",
+  "generatedAt": "2026-05-19T03:07:17.392Z",
   "status": "self-update-needs-attention",
   "mode": "plan-and-assert",
   "envFiles": {
@@ -70,15 +70,8 @@
     "ownerLoop": "owner-loop-ready"
   },
   "pendingChanges": {
-    "total": 49,
+    "total": 46,
     "safe": [
-      {
-        "code": "M",
-        "path": "data/autonomous-cadence.json",
-        "raw": " M data/autonomous-cadence.json",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
       {
         "code": "M",
         "path": "data/autonomous-operator-history.json",
@@ -188,13 +181,6 @@
         "code": "M",
         "path": "data/repository-readiness.json",
         "raw": " M data/repository-readiness.json",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "reports/autonomous-cadence-latest.md",
-        "raw": " M reports/autonomous-cadence-latest.md",
         "safe": true,
         "reason": "allowlisted-generated-artifact"
       },
@@ -312,13 +298,6 @@
       },
       {
         "code": "M",
-        "path": "src/data/autonomousCadence.ts",
-        "raw": " M src/data/autonomousCadence.ts",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
         "path": "src/data/autonomousOperator.ts",
         "raw": " M src/data/autonomousOperator.ts",
         "safe": true,
@@ -412,13 +391,13 @@
     "unsafe": [
       {
         "code": "M",
-        "path": "scripts/autonomous-cadence.mjs",
-        "raw": " M scripts/autonomous-cadence.mjs",
+        "path": "scripts/autonomous-self-update.mjs",
+        "raw": " M scripts/autonomous-self-update.mjs",
         "safe": false,
         "reason": "outside-autonomous-generated-allowlist"
       }
     ],
-    "safeCount": 48,
+    "safeCount": 45,
     "unsafeCount": 1
   },
   "commitPlan": {
@@ -431,7 +410,6 @@
       "npm run autonomous:self-update -- --assert-safe"
     ],
     "stagePaths": [
-      "data/autonomous-cadence.json",
       "data/autonomous-operator-history.json",
       "data/autonomous-operator.json",
       "data/autonomous-owner-loop.json",
@@ -448,7 +426,6 @@
       "data/release-candidate.json",
       "data/repository-bootstrap.json",
       "data/repository-readiness.json",
-      "reports/autonomous-cadence-latest.md",
       "reports/autonomous-operator-history-latest.md",
       "reports/autonomous-operator-latest.md",
       "reports/autonomous-owner-loop-latest.md",
@@ -465,7 +442,6 @@
       "reports/release-candidate-latest.md",
       "reports/repository-bootstrap-latest.md",
       "reports/repository-readiness-latest.md",
-      "src/data/autonomousCadence.ts",
       "src/data/autonomousOperator.ts",
       "src/data/autonomousOperatorHistory.ts",
       "src/data/autonomousOwnerLoop.ts",
@@ -567,7 +543,7 @@
     {
       "id": "safe-path-allowlist",
       "status": "blocker",
-      "detail": "48 safe pending file(s), 1 unsafe pending file(s)."
+      "detail": "45 safe pending file(s), 1 unsafe pending file(s)."
     },
     {
       "id": "repository-optional",
@@ -586,7 +562,7 @@
     }
   ],
   "blockers": [
-    "safe-path-allowlist: 48 safe pending file(s), 1 unsafe pending file(s)."
+    "safe-path-allowlist: 45 safe pending file(s), 1 unsafe pending file(s)."
   ],
   "nextActions": [
     "Fix self-update workflow or allowlist blockers before enabling autonomous persistence.",
