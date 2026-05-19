@@ -1,22 +1,23 @@
 {
-  "generatedAt": "2026-05-19T06:42:27.400Z",
+  "generatedAt": "2026-05-19T06:47:20.750Z",
   "status": "operator-plan-ready",
   "mode": "plan-only",
   "ownerDecision": {
-    "actionId": "refresh-autonomous-self-update",
-    "command": "npm run autonomous:self-update",
+    "actionId": "refresh-objective-audit",
+    "command": "npm run autonomous:objective-audit",
     "locallyExecutable": true,
     "rejectionReason": null
   },
   "requestedActionId": null,
   "selectedAction": {
-    "id": "refresh-autonomous-self-update",
+    "id": "refresh-objective-audit",
     "status": "armed",
-    "command": "npm run autonomous:self-update",
+    "command": "npm run autonomous:objective-audit",
     "targets": [
-      ".github/workflows/autonomous-self-update.yml"
+      "objective-evidence",
+      "production-blockers"
     ],
-    "reason": "Keeps verified generated-change persistence gated, allowlisted, and ready for the scheduled production repository.",
+    "reason": "Keeps the original objective mapped to current evidence and prevents false completion claims.",
     "costUsd": 0
   },
   "selectedRejection": null,
@@ -50,6 +51,12 @@
       "id": "refresh-autonomous-cadence",
       "status": "armed",
       "command": "npm run autonomous:cadence",
+      "reason": "not-selected-this-run"
+    },
+    {
+      "id": "refresh-autonomous-self-update",
+      "status": "armed",
+      "command": "npm run autonomous:self-update",
       "reason": "not-selected-this-run"
     },
     {
@@ -143,12 +150,6 @@
       "reason": "command-not-in-local-allowlist"
     },
     {
-      "id": "refresh-objective-audit",
-      "status": "armed",
-      "command": "npm run autonomous:objective-audit",
-      "reason": "not-selected-this-run"
-    },
-    {
       "id": "optimize-store-listing",
       "status": "armed",
       "command": "npm run autonomous:store-listing-optimize && npm run autonomous:store-compliance",
@@ -181,8 +182,8 @@
   ],
   "commandPlan": [
     {
-      "segment": "npm run autonomous:self-update",
-      "script": "autonomous:self-update"
+      "segment": "npm run autonomous:objective-audit",
+      "script": "autonomous:objective-audit"
     }
   ],
   "execution": {
@@ -244,7 +245,7 @@
     "RUN_WORKFLOWS=1"
   ],
   "nextActions": [
-    "Run npm run autonomous:operator -- --execute --action=refresh-autonomous-self-update to execute exactly one allowed local action.",
+    "Run npm run autonomous:operator -- --execute --action=refresh-objective-audit to execute exactly one allowed local action.",
     "Do not execute GitHub workflow, store, paid ads, or account setup commands from the local operator."
   ]
 }
