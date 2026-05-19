@@ -1,6 +1,6 @@
 # Production Readiness
 
-Generated: 2026-05-19T16:19:18.333Z
+Generated: 2026-05-19T16:21:50.189Z
 
 ## Environment
 
@@ -31,7 +31,7 @@ Local git: true
 - done: repo-bootstrap-inspect-repository-channel - Repository readiness is waiting-for-github-repository.
 - ready: repo-bootstrap-initialize-local-git - Git worktree is available at /Users/moshequ/Documents/Codex/2026-05-18/i-want-to-have-a-new.
 - ready: repo-bootstrap-create-initial-commit - The local repository has at least one commit.
-- ready: repo-bootstrap-commit-current-snapshot - 43 repository evidence file(s) changed during this dry run; the outer verified commit will persist them.
+- ready: repo-bootstrap-commit-current-snapshot - 37 repository evidence file(s) changed during this dry run; the outer verified commit will persist them.
 - waiting-for-github-target: repo-bootstrap-set-or-create-origin - Set GITHUB_REPOSITORY/GH_REPO or authenticate gh so the target can be inferred before attaching origin.
 - waiting-for-github-target: repo-bootstrap-create-github-repository - Set GITHUB_REPOSITORY/GH_REPO or authenticate gh so the target can be inferred before creating a GitHub repository.
 - waiting-for-commit-and-origin: repo-bootstrap-push-initial-snapshot - Push stays held until an origin remote exists and AGL_ALLOW_PUSH=1 is set.
@@ -56,7 +56,7 @@ Status: ready-after-build
 - pass: organic-seed-loop - Organic seed loop is organic-seed-loop-ready; target canopy-bloom; player-initiated share guard active.
 - pass: retention-loop - Retention loop is retention-loop-ready; daily challenge canopy-bloom; no-push/no-account guardrails active.
 - pass: pwa-install-loop - PWA install loop is pwa-install-loop-ready; prompt surface autonomy-cockpit; cost $0.
-- pass: performance-budget - Performance budget is performance-budget-ready; initial JS 657.9 KB / 174.2 KB gzip; deferred game chunk GameCanvas-Cl8yCtBn.js.
+- pass: performance-budget - Performance budget is performance-budget-ready; initial JS 658.9 KB / 174.3 KB gzip; deferred game chunk GameCanvas-fA7fnT_D.js.
 - pass: release-candidate - Release candidate is release-candidate-ready; files 40; smoke URLs 11.
 - pass: post-deploy-smoke-runner - Post-deploy smoke is blocked-missing-origin; origin missing; checks 0/12 passed, 12 blocked; local artifact predeploy-artifact-smoke-passed 12/12 passed.
 - pass: product-optimization - Product optimizer is product-optimization-ready; completion 0.397 vs gate 0.55; latest action already-applied.
@@ -66,7 +66,7 @@ Status: ready-after-build
 - pass: release-health - Release health guard is monitoring.
 - pass: production-environment - Production environment status is production-env-missing.
 - pass: production-bootstrap - Production bootstrap is production-bootstrap-ready; mode waiting-for-external-credentials; external blockers 23.
-- pass: autonomous-operator - Autonomous operator is operator-plan-ready; selected optimize-daily-retention; execution not-requested.
+- pass: autonomous-operator - Autonomous operator is operator-plan-ready; selected measure-pwa-install-loop; execution not-requested.
 - pass: autonomous-operator-history - Autonomous operator history is operator-history-ready; records 40; executed 20.
 - pass: autonomous-cadence - Autonomous cadence is cadence-ready; Codex active-confirmed; GitHub scheduled.
 - pass: autonomous-self-update - Autonomous self-update is self-update-ready; safe pending 0; unsafe pending 0; remote push held.
@@ -109,23 +109,23 @@ Installs: 0
 ## Performance Budget
 
 Status: performance-budget-ready
-Initial JS: 657.9 KB (174.2 KB gzip)
-Deferred game chunk: GameCanvas-Cl8yCtBn.js
-- pass: performance-initial-js-budget - Initial JS is 657.9 KB; budget is 675 KB.
-- pass: performance-initial-js-gzip-budget - Initial JS gzip is 174.2 KB; budget is 200 KB.
+Initial JS: 658.9 KB (174.3 KB gzip)
+Deferred game chunk: GameCanvas-fA7fnT_D.js
+- pass: performance-initial-js-budget - Initial JS is 658.9 KB; budget is 675 KB.
+- pass: performance-initial-js-gzip-budget - Initial JS gzip is 174.3 KB; budget is 200 KB.
 - pass: performance-initial-css-budget - Initial CSS is 9.6 KB; budget is 40 KB.
 - pass: performance-manifest - PWA manifest exists in dist.
 - pass: performance-service-worker - Service worker exists in dist.
-- pass: performance-game-runtime-deferred - GameCanvas-Cl8yCtBn.js is deferred from the initial shell.
-- pass: performance-largest-js-deferred - Largest JS chunk is GameCanvas-Cl8yCtBn.js at 1360.8 KB.
+- pass: performance-game-runtime-deferred - GameCanvas-fA7fnT_D.js is deferred from the initial shell.
+- pass: performance-largest-js-deferred - Largest JS chunk is GameCanvas-fA7fnT_D.js at 1360.8 KB.
 - pass: performance-deferred-game-budget - Deferred game chunk is 1360.8 KB; monitor budget is 1600 KB.
 
 ## Release Candidate
 
 Status: release-candidate-ready
-Candidate: pwa-9ceca2e8144e
+Candidate: pwa-a6e173e458c2
 Files: 40
-Aggregate SHA-256: 9ceca2e8144e9300c64c5273cd519faddc9a26b1629dde901f8d58511509ba63
+Aggregate SHA-256: a6e173e458c2df9cbbdcb3e1a5e7835ca4ab9676ea56fec3c67015b4c064d91a
 - pass: release-dist-inventory - 40 dist files inventoried.
 - pass: release-required-files - 15/15 required files present.
 - pass: release-game-pages - 10 generated game page(s) in dist.
@@ -139,7 +139,7 @@ Aggregate SHA-256: 9ceca2e8144e9300c64c5273cd519faddc9a26b1629dde901f8d58511509b
 
 Status: blocked-missing-origin
 Origin: missing
-Candidate: pwa-9ceca2e8144e
+Candidate: pwa-a6e173e458c2
 Checks: 0/12 passed (12 blocked)
 Local artifact: predeploy-artifact-smoke-passed (12/12 passed)
 - blocked: smoke-app-shell - No deployed origin configured.
@@ -227,7 +227,7 @@ Setup script: ops/github/setup-production.sh
 
 Status: operator-plan-ready
 Mode: plan-only
-Selected action: optimize-daily-retention
+Selected action: measure-pwa-install-loop
 Execution: not-requested
 
 ## Autonomous Operator History
