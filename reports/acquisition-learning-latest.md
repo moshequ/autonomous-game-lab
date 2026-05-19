@@ -1,6 +1,6 @@
 # Acquisition Learning
 
-Generated: 2026-05-19T11:11:19.690Z
+Generated: 2026-05-19T11:24:33.810Z
 Status: acquisition-learning-ready
 Analytics source: fixture-sample
 Raw attribution available: no
