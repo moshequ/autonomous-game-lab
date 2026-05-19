@@ -1,25 +1,24 @@
 {
-  "generatedAt": "2026-05-19T04:45:46.462Z",
+  "generatedAt": "2026-05-19T04:48:24.624Z",
   "status": "operator-plan-ready",
   "mode": "plan-only",
   "ownerDecision": {
-    "actionId": "seed-portfolio-traffic",
-    "command": "npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop",
+    "actionId": "bootstrap-production-setup",
+    "command": "npm run autonomous:release-candidate && npm run autonomous:deploy-plan && npm run autonomous:bootstrap",
     "locallyExecutable": true,
     "rejectionReason": null
   },
   "requestedActionId": null,
   "selectedAction": {
-    "id": "seed-portfolio-traffic",
+    "id": "bootstrap-production-setup",
     "status": "armed",
-    "command": "npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop",
+    "command": "npm run autonomous:release-candidate && npm run autonomous:deploy-plan && npm run autonomous:bootstrap",
     "targets": [
-      "canopy-bloom",
-      "grove-engine",
-      "metro-loom",
-      "pocket-draft"
+      "github-pages",
+      "repository-config",
+      "event-collector"
     ],
-    "reason": "Under-measured playable games need free organic/internal traffic before quality judgment.",
+    "reason": "Regenerates the zero-spend production setup handoff and exact GitHub variable/secret commands.",
     "costUsd": 0
   },
   "selectedRejection": null,
@@ -59,6 +58,12 @@
       "id": "refresh-autonomous-self-update",
       "status": "armed",
       "command": "npm run autonomous:self-update",
+      "reason": "not-selected-this-run"
+    },
+    {
+      "id": "seed-portfolio-traffic",
+      "status": "armed",
+      "command": "npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop",
       "reason": "not-selected-this-run"
     },
     {
@@ -128,12 +133,6 @@
       "reason": "not-selected-this-run"
     },
     {
-      "id": "bootstrap-production-setup",
-      "status": "armed",
-      "command": "npm run autonomous:release-candidate && npm run autonomous:deploy-plan && npm run autonomous:bootstrap",
-      "reason": "not-selected-this-run"
-    },
-    {
       "id": "run-autonomous-operator",
       "status": "armed",
       "command": "npm run autonomous:operator",
@@ -184,24 +183,16 @@
   ],
   "commandPlan": [
     {
-      "segment": "npm run autonomous:growth",
-      "script": "autonomous:growth"
+      "segment": "npm run autonomous:release-candidate",
+      "script": "autonomous:release-candidate"
     },
     {
-      "segment": "npm run autonomous:portfolio",
-      "script": "autonomous:portfolio"
+      "segment": "npm run autonomous:deploy-plan",
+      "script": "autonomous:deploy-plan"
     },
     {
-      "segment": "npm run autonomous:traffic",
-      "script": "autonomous:traffic"
-    },
-    {
-      "segment": "npm run autonomous:acquisition",
-      "script": "autonomous:acquisition"
-    },
-    {
-      "segment": "npm run autonomous:organic-seed-loop",
-      "script": "autonomous:organic-seed-loop"
+      "segment": "npm run autonomous:bootstrap",
+      "script": "autonomous:bootstrap"
     }
   ],
   "execution": {
@@ -263,7 +254,7 @@
     "RUN_WORKFLOWS=1"
   ],
   "nextActions": [
-    "Run npm run autonomous:operator -- --execute --action=seed-portfolio-traffic to execute exactly one allowed local action.",
+    "Run npm run autonomous:operator -- --execute --action=bootstrap-production-setup to execute exactly one allowed local action.",
     "Do not execute GitHub workflow, store, paid ads, or account setup commands from the local operator."
   ]
 }
