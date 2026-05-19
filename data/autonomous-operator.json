@@ -1,20 +1,22 @@
 {
-  "generatedAt": "2026-05-19T16:06:26.828Z",
+  "generatedAt": "2026-05-19T16:09:08.768Z",
   "status": "operator-plan-ready",
   "mode": "plan-only",
   "ownerDecision": {
-    "actionId": "collect-live-events",
-    "command": "npm run autonomous:local-event-bridge && npm run autonomous:import-events && npm run autonomous:analytics && npm run autonomous:gate-recovery",
+    "actionId": "prepare-repository-channel",
+    "command": "npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap",
     "locallyExecutable": true,
     "rejectionReason": null
   },
   "requestedActionId": null,
   "selectedAction": {
-    "id": "collect-live-events",
+    "id": "prepare-repository-channel",
     "status": "armed",
-    "command": "npm run autonomous:local-event-bridge && npm run autonomous:import-events && npm run autonomous:analytics && npm run autonomous:gate-recovery",
-    "targets": [],
-    "reason": "Keeps the zero-spend local event-drop bridge active until production collector or PostHog credentials exist.",
+    "command": "npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap",
+    "targets": [
+      "github-repository-channel"
+    ],
+    "reason": "Surfaces and prepares the missing git/GitHub deployment-channel blockers before web deploy.",
     "costUsd": 0
   },
   "selectedRejection": null,
@@ -143,12 +145,6 @@
       "reason": "not-selected-this-run"
     },
     {
-      "id": "prepare-repository-channel",
-      "status": "armed",
-      "command": "npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap",
-      "reason": "not-selected-this-run"
-    },
-    {
       "id": "bootstrap-production-setup",
       "status": "armed",
       "command": "npm run autonomous:release-candidate && npm run autonomous:deploy-plan && npm run autonomous:bootstrap",
@@ -195,24 +191,22 @@
       "status": "blocked-needs-repository-channel",
       "command": "Run the Web PWA Deploy workflow after GitHub Pages is enabled for the repository.",
       "reason": "status-blocked-needs-repository-channel"
+    },
+    {
+      "id": "collect-live-events",
+      "status": "armed",
+      "command": "npm run autonomous:local-event-bridge && npm run autonomous:import-events && npm run autonomous:analytics && npm run autonomous:gate-recovery",
+      "reason": "not-selected-this-run"
     }
   ],
   "commandPlan": [
     {
-      "segment": "npm run autonomous:local-event-bridge",
-      "script": "autonomous:local-event-bridge"
+      "segment": "npm run autonomous:repo-readiness",
+      "script": "autonomous:repo-readiness"
     },
     {
-      "segment": "npm run autonomous:import-events",
-      "script": "autonomous:import-events"
-    },
-    {
-      "segment": "npm run autonomous:analytics",
-      "script": "autonomous:analytics"
-    },
-    {
-      "segment": "npm run autonomous:gate-recovery",
-      "script": "autonomous:gate-recovery"
+      "segment": "npm run autonomous:repo-bootstrap",
+      "script": "autonomous:repo-bootstrap"
     }
   ],
   "execution": {
@@ -278,7 +272,7 @@
     "RUN_WORKFLOWS=1"
   ],
   "nextActions": [
-    "Run npm run autonomous:operator -- --execute --action=collect-live-events to execute exactly one allowed local action.",
+    "Run npm run autonomous:operator -- --execute --action=prepare-repository-channel to execute exactly one allowed local action.",
     "Do not execute GitHub workflow, store, paid ads, or account setup commands from the local operator."
   ]
 }

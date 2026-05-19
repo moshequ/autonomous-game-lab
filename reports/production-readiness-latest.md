@@ -1,6 +1,6 @@
 # Production Readiness
 
-Generated: 2026-05-19T16:06:26.319Z
+Generated: 2026-05-19T16:09:08.262Z
 
 ## Environment
 
@@ -56,7 +56,7 @@ Status: ready-after-build
 - pass: organic-seed-loop - Organic seed loop is organic-seed-loop-ready; target canopy-bloom; player-initiated share guard active.
 - pass: retention-loop - Retention loop is retention-loop-ready; daily challenge canopy-bloom; no-push/no-account guardrails active.
 - pass: pwa-install-loop - PWA install loop is pwa-install-loop-ready; prompt surface autonomy-cockpit; cost $0.
-- pass: performance-budget - Performance budget is performance-budget-ready; initial JS 657.6 KB / 174.3 KB gzip; deferred game chunk GameCanvas-gSv1pTmp.js.
+- pass: performance-budget - Performance budget is performance-budget-ready; initial JS 657.2 KB / 174.2 KB gzip; deferred game chunk GameCanvas-CJE7wbaw.js.
 - pass: release-candidate - Release candidate is release-candidate-ready; files 40; smoke URLs 11.
 - pass: post-deploy-smoke-runner - Post-deploy smoke is blocked-missing-origin; origin missing; checks 0/12 passed, 12 blocked; local artifact predeploy-artifact-smoke-passed 12/12 passed.
 - pass: product-optimization - Product optimizer is product-optimization-ready; completion 0.397 vs gate 0.55; latest action already-applied.
@@ -66,7 +66,7 @@ Status: ready-after-build
 - pass: release-health - Release health guard is monitoring.
 - pass: production-environment - Production environment status is production-env-missing.
 - pass: production-bootstrap - Production bootstrap is production-bootstrap-ready; mode waiting-for-external-credentials; external blockers 23.
-- pass: autonomous-operator - Autonomous operator is operator-plan-ready; selected collect-live-events; execution not-requested.
+- pass: autonomous-operator - Autonomous operator is operator-plan-ready; selected prepare-repository-channel; execution not-requested.
 - pass: autonomous-operator-history - Autonomous operator history is operator-history-ready; records 40; executed 20.
 - pass: autonomous-cadence - Autonomous cadence is cadence-ready; Codex active-confirmed; GitHub scheduled.
 - pass: autonomous-self-update - Autonomous self-update is self-update-ready; safe pending 0; unsafe pending 0; remote push held.
@@ -109,23 +109,23 @@ Installs: 0
 ## Performance Budget
 
 Status: performance-budget-ready
-Initial JS: 657.6 KB (174.3 KB gzip)
-Deferred game chunk: GameCanvas-gSv1pTmp.js
-- pass: performance-initial-js-budget - Initial JS is 657.6 KB; budget is 675 KB.
-- pass: performance-initial-js-gzip-budget - Initial JS gzip is 174.3 KB; budget is 200 KB.
+Initial JS: 657.2 KB (174.2 KB gzip)
+Deferred game chunk: GameCanvas-CJE7wbaw.js
+- pass: performance-initial-js-budget - Initial JS is 657.2 KB; budget is 675 KB.
+- pass: performance-initial-js-gzip-budget - Initial JS gzip is 174.2 KB; budget is 200 KB.
 - pass: performance-initial-css-budget - Initial CSS is 9.6 KB; budget is 40 KB.
 - pass: performance-manifest - PWA manifest exists in dist.
 - pass: performance-service-worker - Service worker exists in dist.
-- pass: performance-game-runtime-deferred - GameCanvas-gSv1pTmp.js is deferred from the initial shell.
-- pass: performance-largest-js-deferred - Largest JS chunk is GameCanvas-gSv1pTmp.js at 1360.8 KB.
+- pass: performance-game-runtime-deferred - GameCanvas-CJE7wbaw.js is deferred from the initial shell.
+- pass: performance-largest-js-deferred - Largest JS chunk is GameCanvas-CJE7wbaw.js at 1360.8 KB.
 - pass: performance-deferred-game-budget - Deferred game chunk is 1360.8 KB; monitor budget is 1600 KB.
 
 ## Release Candidate
 
 Status: release-candidate-ready
-Candidate: pwa-4ce978bdbd26
+Candidate: pwa-076fdfe0207c
 Files: 40
-Aggregate SHA-256: 4ce978bdbd26180ca8a177014c9e01b77d09d877e0181e5bf21cb99cc7d50306
+Aggregate SHA-256: 076fdfe0207cdc2f36bf7509944b410493f8a68be559688a87be9bb132e472be
 - pass: release-dist-inventory - 40 dist files inventoried.
 - pass: release-required-files - 15/15 required files present.
 - pass: release-game-pages - 10 generated game page(s) in dist.
@@ -139,7 +139,7 @@ Aggregate SHA-256: 4ce978bdbd26180ca8a177014c9e01b77d09d877e0181e5bf21cb99cc7d50
 
 Status: blocked-missing-origin
 Origin: missing
-Candidate: pwa-4ce978bdbd26
+Candidate: pwa-076fdfe0207c
 Checks: 0/12 passed (12 blocked)
 Local artifact: predeploy-artifact-smoke-passed (12/12 passed)
 - blocked: smoke-app-shell - No deployed origin configured.
@@ -227,7 +227,7 @@ Setup script: ops/github/setup-production.sh
 
 Status: operator-plan-ready
 Mode: plan-only
-Selected action: collect-live-events
+Selected action: prepare-repository-channel
 Execution: not-requested
 
 ## Autonomous Operator History
