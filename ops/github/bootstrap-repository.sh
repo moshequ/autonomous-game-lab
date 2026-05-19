@@ -13,6 +13,41 @@ derive_repository_name() {
   node -e 'const fs=require("fs"); let name="autonomous-game-lab"; try { name=JSON.parse(fs.readFileSync("package.json","utf8")).name || name } catch {} name=String(name).split("/").pop().replace(/[^A-Za-z0-9._-]+/g,"-").replace(/^-+|-+$/g,"") || "autonomous-game-lab"; console.log(name)'
 }
 
+derive_repository_from_origin() {
+  local remote_url
+  remote_url="$(git remote get-url origin 2>/dev/null || true)"
+  remote_url="${remote_url%/}"
+
+  case "$remote_url" in
+    https://github.com/*)
+      remote_url="${remote_url#https://github.com/}"
+      ;;
+    git@github.com:*)
+      remote_url="${remote_url#git@github.com:}"
+      ;;
+    ssh://git@github.com/*)
+      remote_url="${remote_url#ssh://git@github.com/}"
+      ;;
+    *)
+      return
+      ;;
+  esac
+
+  remote_url="${remote_url%.git}"
+
+  if [[ "$remote_url" =~ ^[^/[:space:]]+/[^/[:space:]]+$ ]]; then
+    printf "%s" "$remote_url"
+  fi
+}
+
+if [[ -z "$target_repo" ]]; then
+  origin_repo="$(derive_repository_from_origin)"
+  if [[ -n "$origin_repo" ]]; then
+    target_repo="$origin_repo"
+    echo "inferred GitHub repository target from origin: $target_repo"
+  fi
+fi
+
 if [[ -z "$target_repo" && "${AGL_ALLOW_GH_INFER_REPOSITORY:-1}" == "1" ]] && command -v gh >/dev/null 2>&1 && gh auth status >/dev/null 2>&1; then
   gh_owner="$(gh api user --jq .login 2>/dev/null || true)"
   if [[ -n "$gh_owner" ]]; then

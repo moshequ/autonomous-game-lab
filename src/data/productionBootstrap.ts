@@ -1,5 +1,5 @@
 export const productionBootstrap = {
-  "generatedAt": "2026-05-19T22:22:46.578Z",
+  "generatedAt": "2026-05-19T22:38:49.636Z",
   "status": "production-bootstrap-ready",
   "mode": "waiting-for-external-credentials",
   "envFiles": {
@@ -997,6 +997,8 @@ export const productionBootstrap = {
     "dryRunByDefault": false,
     "usesCurrentShellEnvironment": true,
     "infersRepositoryFromOriginRemote": true,
+    "supportsSshUrlRemotes": true,
+    "supportsDottedRepositoryNames": true,
     "configuresPagesSource": true,
     "avoidsSecretEcho": true
   },

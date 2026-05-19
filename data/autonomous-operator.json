@@ -1,22 +1,20 @@
 {
-  "generatedAt": "2026-05-19T22:21:00.559Z",
+  "generatedAt": "2026-05-19T22:38:50.784Z",
   "status": "operator-plan-ready",
   "mode": "plan-only",
   "ownerDecision": {
-    "actionId": "refresh-autonomous-self-update",
-    "command": "npm run autonomous:self-update",
+    "actionId": "collect-live-events",
+    "command": "npm run autonomous:local-event-bridge && npm run autonomous:import-events && npm run autonomous:analytics && npm run autonomous:gate-recovery",
     "locallyExecutable": true,
     "rejectionReason": null
   },
   "requestedActionId": null,
   "selectedAction": {
-    "id": "refresh-autonomous-self-update",
+    "id": "collect-live-events",
     "status": "armed",
-    "command": "npm run autonomous:self-update",
-    "targets": [
-      ".github/workflows/autonomous-self-update.yml"
-    ],
-    "reason": "Keeps verified generated-change persistence gated, allowlisted, and ready for the scheduled production repository.",
+    "command": "npm run autonomous:local-event-bridge && npm run autonomous:import-events && npm run autonomous:analytics && npm run autonomous:gate-recovery",
+    "targets": [],
+    "reason": "Keeps the zero-spend local event-drop bridge active until production collector or PostHog credentials exist.",
     "costUsd": 0
   },
   "selectedRejection": null,
@@ -52,6 +50,12 @@
       "id": "refresh-autonomous-cadence",
       "status": "armed",
       "command": "npm run autonomous:cadence",
+      "reason": "not-selected-this-run"
+    },
+    {
+      "id": "refresh-autonomous-self-update",
+      "status": "armed",
+      "command": "npm run autonomous:self-update",
       "reason": "not-selected-this-run"
     },
     {
@@ -191,18 +195,24 @@
       "status": "blocked-needs-repository-channel",
       "command": "Run the Web PWA Deploy workflow after GitHub Pages is enabled for the repository.",
       "reason": "status-blocked-needs-repository-channel"
-    },
-    {
-      "id": "collect-live-events",
-      "status": "armed",
-      "command": "npm run autonomous:local-event-bridge && npm run autonomous:import-events && npm run autonomous:analytics && npm run autonomous:gate-recovery",
-      "reason": "not-selected-this-run"
     }
   ],
   "commandPlan": [
     {
-      "segment": "npm run autonomous:self-update",
-      "script": "autonomous:self-update"
+      "segment": "npm run autonomous:local-event-bridge",
+      "script": "autonomous:local-event-bridge"
+    },
+    {
+      "segment": "npm run autonomous:import-events",
+      "script": "autonomous:import-events"
+    },
+    {
+      "segment": "npm run autonomous:analytics",
+      "script": "autonomous:analytics"
+    },
+    {
+      "segment": "npm run autonomous:gate-recovery",
+      "script": "autonomous:gate-recovery"
     }
   ],
   "execution": {
@@ -268,7 +278,7 @@
     "RUN_WORKFLOWS=1"
   ],
   "nextActions": [
-    "Run npm run autonomous:operator -- --execute --action=refresh-autonomous-self-update to execute exactly one allowed local action.",
+    "Run npm run autonomous:operator -- --execute --action=collect-live-events to execute exactly one allowed local action.",
     "Do not execute GitHub workflow, store, paid ads, or account setup commands from the local operator."
   ]
 }
