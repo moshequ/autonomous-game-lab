@@ -1,15 +1,15 @@
 # Autonomous Owner Loop
 
-Generated: 2026-05-19T06:47:20.467Z
+Generated: 2026-05-19T07:00:57.373Z
 Status: owner-loop-ready
 Mode: repository-channel-needed
-Autonomy score: 30/32 (94%)
+Autonomy score: 31/33 (94%)
 
 ## Owner Decision
 
-- Next action: refresh-objective-audit
-- Command: npm run autonomous:objective-audit
-- Rationale: Keeps the original objective mapped to current evidence and prevents false completion claims.
+- Next action: refresh-product-gate-recovery
+- Command: npm run autonomous:gate-recovery
+- Rationale: Ranks the exact observed lift and prompt sample still needed before revenue gates can open.
 - Last executed action: refresh-autonomous-self-update
 - Recent executed actions: refresh-autonomous-self-update, measure-pwa-install-loop, optimize-daily-retention, optimize-product-gates, bootstrap-production-setup, seed-portfolio-traffic, prepare-repository-channel, refresh-autonomous-cadence
 
@@ -18,15 +18,16 @@ Autonomy score: 30/32 (94%)
 - ready: game-factory - 10 playable games; 5 generated runtime games.
 - ready: analytics-ingest - Active source: fixture-sample; event ingest: idle-no-files; collector smoke: pass.
 - ready: autonomous-cadence - Cadence cadence-ready; Codex active-confirmed; GitHub scheduled.
-- ready: autonomous-self-update - Self-update self-update-ready; safe pending 0; unsafe pending 0; remote push held.
+- ready: autonomous-self-update - Self-update self-update-ready; safe pending 42; unsafe pending 0; remote push held.
 - ready: portfolio-loop - Daily challenge: Canopy Bloom; seed traffic: canopy-bloom, grove-engine, metro-loom, pocket-draft.
 - ready: traffic-seeding - 4 seed campaign(s); max cost $0.
 - ready: acquisition-learning - 4 campaign(s); 0 attributed start(s); candidate canopy-bloom.
 - ready: organic-seed-loop - Target canopy-bloom; surface portal-growth-loop; share telemetry organic_seed_share_clicked.
 - ready: retention-loop - Daily canopy-bloom; D1 17%; streak variant daily-streak; return prompt armed; return intent armed.
 - ready: pwa-install-loop - Prompt autonomy-cockpit; installs 0; launch events 0.
-- ready: performance-budget - Initial JS 633.3 KB; gzip 170.1 KB; deferred chunks 1.
+- ready: performance-budget - Initial JS 637.9 KB; gzip 171.2 KB; deferred chunks 1.
 - ready: product-optimization - Completion 40% / gate 55%; latest already-applied.
+- ready: product-gate-recovery - Recovery product-gate-recovery-ready; primary firstGameCompletion; failing gates 3; next lift 58.
 - ready: first-move-coach - Coach first-move-coach-ready; enabled targets 6; primary harbor-rings.
 - ready: completion-loop - Completion loop completion-loop-ready; prompt armed; finish line armed; target harbor-rings; completion 40%.
 - ready: replay-loop - Replay loop replay-loop-ready; prompt armed; target harbor-rings; replay 31%.
@@ -35,12 +36,12 @@ Autonomy score: 30/32 (94%)
 - waiting-for-github-repository: repository-channel - Repository missing; git worktree ready; workflow dispatch blocked.
 - ready: repository-bootstrap - Bootstrap waiting-for-github-target; mode plan-only; helper ops/github/bootstrap-repository.sh; local git ready.
 - ready: web-deployment - Deployment ready-for-pages; web readiness ready-after-build; promotion promotable-internal.
-- ready: release-candidate - Candidate pwa-676bdb18d223; status release-candidate-ready; files 38; smoke URLs 7.
-- ready: post-deploy-smoke - Smoke blocked-missing-origin; origin missing; candidate pwa-676bdb18d223; checks 0/8 passed; local artifact predeploy-artifact-smoke-passed 8/8 passed.
+- ready: release-candidate - Candidate pwa-c06b0e48f862; status release-candidate-ready; files 38; smoke URLs 7.
+- ready: post-deploy-smoke - Smoke blocked-missing-origin; origin missing; candidate pwa-c06b0e48f862; checks 0/8 passed; local artifact predeploy-artifact-smoke-passed 8/8 passed.
 - ready: production-bootstrap - Bootstrap production-bootstrap-ready; mode waiting-for-external-credentials; external blockers 23.
-- ready: autonomous-operator - Operator operator-plan-ready; selected refresh-objective-audit; execution not-requested.
-- ready: operator-history - History operator-history-ready; records 40; executed 20.
-- ready: objective-audit - Audit objective-in-progress; met 5/8; external blockers 20.
+- ready: autonomous-operator - Operator operator-plan-ready; selected refresh-product-gate-recovery; execution not-requested.
+- ready: operator-history - History operator-history-ready; records 40; executed 19.
+- ready: objective-audit - Audit objective-in-progress; met 5/8; external blockers 21.
 - ready: store-listing-optimizer - Focus canopy-bloom; lead screenshot phone-canopy-bloom-generated; candidate changed yes.
 - ready: store-compliance - Rating Everyone; target audience general; blockers 4.
 - ready: android-signing - Signing signing-prepared; fingerprint available; local secrets configured.
@@ -61,6 +62,7 @@ Autonomy score: 30/32 (94%)
 - armed: prepare-release-candidate - npm run autonomous:release-candidate
 - monitor: run-post-deploy-smoke - npm run autonomous:post-deploy-smoke
 - armed: optimize-product-gates - npm run autonomous:analyze && npm run autonomous:product-optimize && npm run autonomous:sync-config && npm run autonomous:simulate
+- armed: refresh-product-gate-recovery - npm run autonomous:gate-recovery
 - armed: refresh-first-move-coach - npm run autonomous:first-move-coach
 - armed: refresh-completion-loop - npm run autonomous:completion-loop
 - armed: refresh-replay-loop - npm run autonomous:replay-loop

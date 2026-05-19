@@ -34,6 +34,7 @@ const requiredFiles = [
   'data/repository-readiness.json',
   'data/repository-bootstrap.json',
   'data/product-optimization.json',
+  'data/product-gate-recovery.json',
   'data/first-move-coach.json',
   'data/completion-loop.json',
   'data/replay-loop.json',
@@ -77,6 +78,7 @@ const requiredFiles = [
   'src/data/repositoryReadiness.ts',
   'src/data/repositoryBootstrap.ts',
   'src/data/productOptimization.ts',
+  'src/data/productGateRecovery.ts',
   'src/data/firstMoveCoach.ts',
   'src/data/completionLoop.ts',
   'src/data/replayLoop.ts',
@@ -119,6 +121,7 @@ const requiredFiles = [
   'reports/repository-readiness-latest.md',
   'reports/repository-bootstrap-latest.md',
   'reports/product-optimization-latest.md',
+  'reports/product-gate-recovery-latest.md',
   'reports/first-move-coach-latest.md',
   'reports/completion-loop-latest.md',
   'reports/replay-loop-latest.md',
@@ -229,6 +232,7 @@ const localArtifactSmoke = postDeploySmoke.localArtifactSmoke ?? {}
 const repositoryReadiness = JSON.parse(await readFile(path.join(root, 'data', 'repository-readiness.json'), 'utf8'))
 const repositoryBootstrap = JSON.parse(await readFile(path.join(root, 'data', 'repository-bootstrap.json'), 'utf8'))
 const productOptimization = JSON.parse(await readFile(path.join(root, 'data', 'product-optimization.json'), 'utf8'))
+const productGateRecovery = JSON.parse(await readFile(path.join(root, 'data', 'product-gate-recovery.json'), 'utf8'))
 const firstMoveCoach = JSON.parse(await readFile(path.join(root, 'data', 'first-move-coach.json'), 'utf8'))
 const completionLoop = JSON.parse(await readFile(path.join(root, 'data', 'completion-loop.json'), 'utf8'))
 const replayLoop = JSON.parse(await readFile(path.join(root, 'data', 'replay-loop.json'), 'utf8'))
@@ -890,6 +894,52 @@ if (
   !gameCanvasSource.includes("surface: 'game-canvas-restart'")
 ) {
   fail('Product optimizer must publish guarded product-gate tuning, first-move coaching, and real replay telemetry wiring.')
+}
+
+const recoveryCompletionGate = productGateRecovery.gates?.find((gate) => gate.id === 'firstGameCompletion')
+const recoveryReplayGate = productGateRecovery.gates?.find((gate) => gate.id === 'replayRate')
+const recoveryRetentionGate = productGateRecovery.gates?.find((gate) => gate.id === 'd1Retention')
+const expectedCompletionNeeded = Math.max(
+  0,
+  Math.ceil(0.55 * analytics.totals.counts.game_started) - analytics.totals.counts.level_completed,
+)
+const expectedReplayNeeded = Math.max(
+  0,
+  Math.ceil(0.35 * analytics.totals.counts.level_completed) - analytics.totals.counts.replay_clicked,
+)
+const expectedRetentionNeeded = Math.max(
+  0,
+  Math.ceil(0.18 * analytics.retention.eligibleUsers) - analytics.retention.retainedUsers,
+)
+
+if (
+  productGateRecovery.status !== 'product-gate-recovery-ready' ||
+  productGateRecovery.sourceStatus?.analyticsSource !== analytics.sourceStatus.activeSource ||
+  productGateRecovery.sourceStatus?.productOptimization !== productOptimization.status ||
+  productGateRecovery.sourceStatus?.monetization !== monetizationPlan.status ||
+  productGateRecovery.summary?.failingGates !== 3 ||
+  productGateRecovery.summary?.primaryBottleneck !== 'firstGameCompletion' ||
+  productGateRecovery.summary?.quickestGateTest !== 'd1Retention' ||
+  productGateRecovery.summary?.revenueEnabled !== false ||
+  productGateRecovery.controls?.zeroPaidSpend !== true ||
+  productGateRecovery.controls?.revenueStillDisabledUntilAllGatesPass !== true ||
+  productGateRecovery.controls?.noSyntheticGatePasses !== true ||
+  productGateRecovery.controls?.requireObservedTelemetryBeforeCopyChange !== true ||
+  productGateRecovery.controls?.oneRecoveryFocusPerOwnerRun !== true ||
+  productGateRecovery.controls?.noPaidRewardsOrPushNotifications !== true ||
+  recoveryCompletionGate?.neededSuccesses !== expectedCompletionNeeded ||
+  recoveryReplayGate?.neededSuccesses !== expectedReplayNeeded ||
+  recoveryRetentionGate?.neededSuccesses !== expectedRetentionNeeded ||
+  recoveryCompletionGate?.promptViewsNeeded < 1 ||
+  recoveryReplayGate?.promptViewsNeeded < 1 ||
+  recoveryRetentionGate?.promptViewsNeeded < 1 ||
+  productGateRecovery.priorities?.[0]?.gateId !== 'firstGameCompletion' ||
+  productGateRecovery.priorities?.[0]?.ownerLoop !== 'completion-loop' ||
+  productGateRecovery.priorities?.[2]?.gateId !== 'd1Retention' ||
+  !appSource.includes('Product Gate Recovery') ||
+  !appSource.includes('productGateRecovery')
+) {
+  fail('Product gate recovery must quantify observed lift, sample needs, and zero-spend controls before revenue can open.')
 }
 
 const firstMoveCoachEvents = [

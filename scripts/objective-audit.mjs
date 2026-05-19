@@ -24,6 +24,7 @@ const [
   eventCollectorSmoke,
   eventIngestSmoke,
   productOptimization,
+  productGateRecovery,
   firstMoveCoach,
   completionLoop,
   replayLoop,
@@ -64,6 +65,7 @@ const [
   readJson(path.join(dataDir, 'event-collector-smoke.json')),
   readJson(path.join(dataDir, 'event-ingest-smoke.json')),
   readJson(path.join(dataDir, 'product-optimization.json')),
+  readJson(path.join(dataDir, 'product-gate-recovery.json')),
   readJson(path.join(dataDir, 'first-move-coach.json')),
   readJson(path.join(dataDir, 'completion-loop.json')),
   readJson(path.join(dataDir, 'replay-loop.json')),
@@ -233,6 +235,7 @@ const requirements = [
     id: 'data-driven-improvement-loop',
     status:
       productOptimization.status === 'product-optimization-ready' &&
+      productGateRecovery.status === 'product-gate-recovery-ready' &&
       firstMoveCoach.status === 'first-move-coach-ready' &&
       completionLoop.status === 'completion-loop-ready' &&
       replayLoop.status === 'replay-loop-ready' &&
@@ -247,6 +250,9 @@ const requirements = [
     summary: 'Analytics drive product-gate optimization, experiment evaluation, backlog routing, and one safe local operator action.',
     evidence: [
       `Product optimizer: ${productOptimization.status}`,
+      `Gate recovery: ${productGateRecovery.status}; primary ${
+        productGateRecovery.summary?.primaryBottleneck ?? 'missing'
+      }; needed lift ${productGateRecovery.priorities?.[0]?.neededSuccesses ?? 'missing'}`,
       `First-move coach: ${firstMoveCoach.status}; enabled targets ${
         firstMoveCoach.summary?.enabledTargets ?? 0
       }`,

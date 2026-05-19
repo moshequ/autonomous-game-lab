@@ -1,0 +1,148 @@
+{
+  "generatedAt": "2026-05-19T06:54:57.463Z",
+  "status": "product-gate-recovery-ready",
+  "sourceStatus": {
+    "analyticsSource": "fixture-sample",
+    "retentionSource": "fixture-retention",
+    "productOptimization": "product-optimization-ready",
+    "monetization": "blocked-by-product-gates"
+  },
+  "summary": {
+    "failingGates": 3,
+    "passingGates": 0,
+    "primaryBottleneck": "firstGameCompletion",
+    "quickestGateTest": "d1Retention",
+    "revenueEnabled": false
+  },
+  "gates": [
+    {
+      "id": "firstGameCompletion",
+      "label": "First game completion",
+      "actual": 0.397,
+      "gate": 0.55,
+      "denominator": 375,
+      "successes": 149,
+      "ownerLoop": "completion-loop",
+      "runtimeSurface": "autonomy-cockpit-completion-card",
+      "primaryTelemetry": [
+        "completion_nudge_viewed",
+        "completion_nudge_clicked",
+        "finish_line_coach_viewed",
+        "finish_line_coach_clicked",
+        "first_move_coach_used"
+      ],
+      "actionId": "refresh-completion-loop",
+      "pass": false,
+      "gap": 0.153,
+      "neededSuccesses": 58,
+      "minimumPromptViewsForDecision": 30,
+      "currentPromptViews": 0,
+      "promptViewsNeeded": 30,
+      "status": "needs-observed-lift"
+    },
+    {
+      "id": "replayRate",
+      "label": "Replay rate",
+      "actual": 0.309,
+      "gate": 0.35,
+      "denominator": 149,
+      "successes": 46,
+      "ownerLoop": "replay-loop",
+      "runtimeSurface": "autonomy-cockpit-replay-card",
+      "primaryTelemetry": [
+        "replay_prompt_viewed",
+        "replay_prompt_clicked",
+        "replay_prompt_dismissed",
+        "replay_clicked"
+      ],
+      "actionId": "refresh-replay-loop",
+      "pass": false,
+      "gap": 0.041,
+      "neededSuccesses": 7,
+      "minimumPromptViewsForDecision": 30,
+      "currentPromptViews": 0,
+      "promptViewsNeeded": 30,
+      "status": "needs-observed-lift"
+    },
+    {
+      "id": "d1Retention",
+      "label": "D1 retention",
+      "actual": 0.167,
+      "gate": 0.18,
+      "denominator": 12,
+      "successes": 2,
+      "ownerLoop": "retention-loop",
+      "runtimeSurface": "autonomy-cockpit-return-intent-card",
+      "primaryTelemetry": [
+        "daily_return_prompt_viewed",
+        "daily_return_prompt_clicked",
+        "daily_return_intent_viewed",
+        "daily_return_intent_started"
+      ],
+      "actionId": "optimize-daily-retention",
+      "pass": false,
+      "gap": 0.013,
+      "neededSuccesses": 1,
+      "minimumPromptViewsForDecision": 10,
+      "currentPromptViews": 0,
+      "promptViewsNeeded": 10,
+      "status": "needs-observed-lift"
+    }
+  ],
+  "priorities": [
+    {
+      "rank": 1,
+      "gateId": "firstGameCompletion",
+      "label": "First game completion",
+      "ownerLoop": "completion-loop",
+      "actionId": "refresh-completion-loop",
+      "neededSuccesses": 58,
+      "promptViewsNeeded": 30,
+      "nextMeasurement": "completion_nudge_viewed, completion_nudge_clicked, finish_line_coach_viewed, finish_line_coach_clicked, first_move_coach_used",
+      "reason": "First game completion is the largest revenue-blocking gap."
+    },
+    {
+      "rank": 2,
+      "gateId": "replayRate",
+      "label": "Replay rate",
+      "ownerLoop": "replay-loop",
+      "actionId": "refresh-replay-loop",
+      "neededSuccesses": 7,
+      "promptViewsNeeded": 30,
+      "nextMeasurement": "replay_prompt_viewed, replay_prompt_clicked, replay_prompt_dismissed, replay_clicked",
+      "reason": "Replay rate still blocks revenue and store payback assumptions."
+    },
+    {
+      "rank": 3,
+      "gateId": "d1Retention",
+      "label": "D1 retention",
+      "ownerLoop": "retention-loop",
+      "actionId": "optimize-daily-retention",
+      "neededSuccesses": 1,
+      "promptViewsNeeded": 10,
+      "nextMeasurement": "daily_return_prompt_viewed, daily_return_prompt_clicked, daily_return_intent_viewed, daily_return_intent_started",
+      "reason": "D1 retention is the fastest gate to re-test with real retained-player evidence."
+    }
+  ],
+  "controls": {
+    "zeroPaidSpend": true,
+    "revenueStillDisabledUntilAllGatesPass": true,
+    "noSyntheticGatePasses": true,
+    "requireObservedTelemetryBeforeCopyChange": true,
+    "oneRecoveryFocusPerOwnerRun": true,
+    "noPaidRewardsOrPushNotifications": true
+  },
+  "linkedLoops": {
+    "productOptimization": "product-optimization-ready",
+    "firstMoveCoach": "first-move-coach-ready",
+    "completionLoop": "completion-loop-ready",
+    "replayLoop": "replay-loop-ready",
+    "retentionLoop": "retention-loop-ready"
+  },
+  "nextActions": [
+    "First game completion needs 58 more observed success(es) at the current denominator before the gate clears.",
+    "completion-loop should collect 30 more prompt exposure(s) before automation changes copy or placement again.",
+    "D1 retention is the quickest separate gate test: 1 more observed success(es) would clear it.",
+    "Keep revenue, paid acquisition, push notifications, and app-store submission disabled until every gate passes with observed data."
+  ]
+}

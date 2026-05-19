@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2026-05-19T06:47:20.467Z",
+  "generatedAt": "2026-05-19T07:00:57.373Z",
   "status": "owner-loop-ready",
   "mode": "repository-channel-needed",
   "autonomyScore": {
-    "readySystems": 30,
-    "totalSystems": 32,
+    "readySystems": 31,
+    "totalSystems": 33,
     "percent": 94
   },
   "controls": {
@@ -20,10 +20,10 @@
     "rollbackRequired": false
   },
   "ownerDecision": {
-    "nextBestActionId": "refresh-objective-audit",
-    "nextBestAction": "npm run autonomous:objective-audit",
+    "nextBestActionId": "refresh-product-gate-recovery",
+    "nextBestAction": "npm run autonomous:gate-recovery",
     "canExecuteWithoutSpend": true,
-    "rationale": "Keeps the original objective mapped to current evidence and prevents false completion claims."
+    "rationale": "Ranks the exact observed lift and prompt sample still needed before revenue gates can open."
   },
   "executionMemory": {
     "avoidImmediateRepeat": true,
@@ -57,6 +57,7 @@
       "seed-portfolio-traffic",
       "bootstrap-production-setup",
       "optimize-product-gates",
+      "refresh-product-gate-recovery",
       "optimize-daily-retention",
       "measure-pwa-install-loop",
       "refresh-autonomous-cadence",
@@ -90,7 +91,7 @@
       "id": "autonomous-self-update",
       "status": "ready",
       "autonomy": "gated-generated-change-persistence",
-      "evidence": "Self-update self-update-ready; safe pending 0; unsafe pending 0; remote push held.",
+      "evidence": "Self-update self-update-ready; safe pending 42; unsafe pending 0; remote push held.",
       "nextAction": "When a GitHub repository is connected, set AGL_AUTONOMOUS_SELF_UPDATE=1 and AGL_AUTONOMOUS_SELF_UPDATE_DIRECT=1 to let verified generated changes persist."
     },
     {
@@ -139,7 +140,7 @@
       "id": "performance-budget",
       "status": "ready",
       "autonomy": "automatic-build-budget",
-      "evidence": "Initial JS 633.3 KB; gzip 170.1 KB; deferred chunks 1.",
+      "evidence": "Initial JS 637.9 KB; gzip 171.2 KB; deferred chunks 1.",
       "nextAction": "Keep Phaser and game scenes outside the initial PWA shell."
     },
     {
@@ -148,6 +149,13 @@
       "autonomy": "bounded-product-tuning",
       "evidence": "Completion 40% / gate 55%; latest already-applied.",
       "nextAction": "Keep collecting starts until a safe product-gate tuning action is justified."
+    },
+    {
+      "id": "product-gate-recovery",
+      "status": "ready",
+      "autonomy": "observed-lift-recovery-plan",
+      "evidence": "Recovery product-gate-recovery-ready; primary firstGameCompletion; failing gates 3; next lift 58.",
+      "nextAction": "First game completion needs 58 more observed success(es) at the current denominator before the gate clears."
     },
     {
       "id": "first-move-coach",
@@ -209,14 +217,14 @@
       "id": "release-candidate",
       "status": "ready",
       "autonomy": "content-hashed-deploy-evidence",
-      "evidence": "Candidate pwa-676bdb18d223; status release-candidate-ready; files 38; smoke URLs 7.",
+      "evidence": "Candidate pwa-c06b0e48f862; status release-candidate-ready; files 38; smoke URLs 7.",
       "nextAction": "Regenerate the release candidate after every production build before deploy or rollback decisions."
     },
     {
       "id": "post-deploy-smoke",
       "status": "ready",
       "autonomy": "read-only-live-deploy-verification",
-      "evidence": "Smoke blocked-missing-origin; origin missing; candidate pwa-676bdb18d223; checks 0/8 passed; local artifact predeploy-artifact-smoke-passed 8/8 passed.",
+      "evidence": "Smoke blocked-missing-origin; origin missing; candidate pwa-c06b0e48f862; checks 0/8 passed; local artifact predeploy-artifact-smoke-passed 8/8 passed.",
       "nextAction": "Run this after deployment with AGL_DEPLOYED_PWA_ORIGIN set to the Pages URL."
     },
     {
@@ -230,21 +238,21 @@
       "id": "autonomous-operator",
       "status": "ready",
       "autonomy": "one-safe-action-runner",
-      "evidence": "Operator operator-plan-ready; selected refresh-objective-audit; execution not-requested.",
+      "evidence": "Operator operator-plan-ready; selected refresh-product-gate-recovery; execution not-requested.",
       "nextAction": "Keep a dry-run operator plan ready, then execute only one allowlisted local action when explicitly requested."
     },
     {
       "id": "operator-history",
       "status": "ready",
       "autonomy": "operator-audit-trail",
-      "evidence": "History operator-history-ready; records 40; executed 20.",
+      "evidence": "History operator-history-ready; records 40; executed 19.",
       "nextAction": "Keep a capped durable record of operator plans and one-action executions."
     },
     {
       "id": "objective-audit",
       "status": "ready",
       "autonomy": "completion-evidence-ledger",
-      "evidence": "Audit objective-in-progress; met 5/8; external blockers 20.",
+      "evidence": "Audit objective-in-progress; met 5/8; external blockers 21.",
       "nextAction": "The local autonomous PWA system is largely prepared, but production credentials, live data, monetization gates, hosted compliance URLs, and store account/signing blockers remain."
     },
     {
@@ -369,7 +377,7 @@
       "command": "npm run build && npm run autonomous:performance",
       "targets": [
         "pwa-shell",
-        "GameCanvas-DcyPCv-w.js"
+        "GameCanvas-BLrIofCa.js"
       ],
       "reason": "Keeps the PWA shell fast while Phaser and game scenes stay deferred."
     },
@@ -379,7 +387,7 @@
       "costUsd": 0,
       "command": "npm run autonomous:release-candidate",
       "targets": [
-        "pwa-676bdb18d223"
+        "pwa-c06b0e48f862"
       ],
       "reason": "Records a content-hashed dist inventory and post-deploy smoke plan for the exact PWA build."
     },
@@ -390,7 +398,7 @@
       "command": "npm run autonomous:post-deploy-smoke",
       "targets": [
         "deployed-pages-url",
-        "pwa-676bdb18d223"
+        "pwa-c06b0e48f862"
       ],
       "reason": "Waits for a deployed Pages origin, then verifies the live PWA matches the exact release candidate."
     },
@@ -403,6 +411,16 @@
         "harbor-rings"
       ],
       "reason": "Applies one guarded target-score or telemetry improvement when product gates block monetization."
+    },
+    {
+      "id": "refresh-product-gate-recovery",
+      "status": "armed",
+      "costUsd": 0,
+      "command": "npm run autonomous:gate-recovery",
+      "targets": [
+        "firstGameCompletion"
+      ],
+      "reason": "Ranks the exact observed lift and prompt sample still needed before revenue gates can open."
     },
     {
       "id": "refresh-first-move-coach",
@@ -462,7 +480,7 @@
       "costUsd": 0,
       "command": "npm run autonomous:operator",
       "targets": [
-        "refresh-objective-audit"
+        "refresh-product-gate-recovery"
       ],
       "reason": "Publishes the one-action local execution plan with allowlist, zero-spend, and audit controls."
     },
@@ -472,7 +490,7 @@
       "costUsd": 0,
       "command": "npm run autonomous:operator",
       "targets": [
-        "refresh-objective-audit"
+        "refresh-product-gate-recovery"
       ],
       "reason": "Refreshes the capped operator history so safe actions remain auditable over time."
     },

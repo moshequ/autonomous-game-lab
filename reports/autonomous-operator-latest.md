@@ -1,10 +1,10 @@
 # Autonomous Operator
 
-Generated: 2026-05-19T06:47:20.750Z
+Generated: 2026-05-19T07:00:57.611Z
 Status: operator-plan-ready
 Mode: plan-only
-Owner decision: refresh-objective-audit
-Selected action: refresh-objective-audit
+Owner decision: refresh-product-gate-recovery
+Selected action: refresh-product-gate-recovery
 Execution: not-requested
 
 ## Controls
@@ -18,7 +18,7 @@ Execution: not-requested
 
 ## Selected Action
 
-- refresh-objective-audit: npm run autonomous:objective-audit
+- refresh-product-gate-recovery: npm run autonomous:gate-recovery
 
 ## Eligible Local Actions
 
@@ -31,6 +31,7 @@ Execution: not-requested
 - check-performance-budget
 - prepare-release-candidate
 - optimize-product-gates
+- refresh-product-gate-recovery
 - refresh-first-move-coach
 - refresh-completion-loop
 - refresh-replay-loop

@@ -1,23 +1,22 @@
 {
-  "generatedAt": "2026-05-19T06:47:20.750Z",
+  "generatedAt": "2026-05-19T07:00:57.611Z",
   "status": "operator-plan-ready",
   "mode": "plan-only",
   "ownerDecision": {
-    "actionId": "refresh-objective-audit",
-    "command": "npm run autonomous:objective-audit",
+    "actionId": "refresh-product-gate-recovery",
+    "command": "npm run autonomous:gate-recovery",
     "locallyExecutable": true,
     "rejectionReason": null
   },
   "requestedActionId": null,
   "selectedAction": {
-    "id": "refresh-objective-audit",
+    "id": "refresh-product-gate-recovery",
     "status": "armed",
-    "command": "npm run autonomous:objective-audit",
+    "command": "npm run autonomous:gate-recovery",
     "targets": [
-      "objective-evidence",
-      "production-blockers"
+      "firstGameCompletion"
     ],
-    "reason": "Keeps the original objective mapped to current evidence and prevents false completion claims.",
+    "reason": "Ranks the exact observed lift and prompt sample still needed before revenue gates can open.",
     "costUsd": 0
   },
   "selectedRejection": null,
@@ -31,6 +30,7 @@
     "check-performance-budget",
     "prepare-release-candidate",
     "optimize-product-gates",
+    "refresh-product-gate-recovery",
     "refresh-first-move-coach",
     "refresh-completion-loop",
     "refresh-replay-loop",
@@ -150,6 +150,12 @@
       "reason": "command-not-in-local-allowlist"
     },
     {
+      "id": "refresh-objective-audit",
+      "status": "armed",
+      "command": "npm run autonomous:objective-audit",
+      "reason": "not-selected-this-run"
+    },
+    {
       "id": "optimize-store-listing",
       "status": "armed",
       "command": "npm run autonomous:store-listing-optimize && npm run autonomous:store-compliance",
@@ -182,8 +188,8 @@
   ],
   "commandPlan": [
     {
-      "segment": "npm run autonomous:objective-audit",
-      "script": "autonomous:objective-audit"
+      "segment": "npm run autonomous:gate-recovery",
+      "script": "autonomous:gate-recovery"
     }
   ],
   "execution": {
@@ -225,6 +231,7 @@
     "npm run autonomous:first-move-coach",
     "npm run autonomous:completion-loop",
     "npm run autonomous:replay-loop",
+    "npm run autonomous:gate-recovery",
     "npm run autonomous:analyze && npm run autonomous:product-optimize && npm run autonomous:sync-config && npm run autonomous:simulate",
     "npm run autonomous:store-listing-optimize && npm run autonomous:store-compliance",
     "npm run autonomous:android-signing",
@@ -245,7 +252,7 @@
     "RUN_WORKFLOWS=1"
   ],
   "nextActions": [
-    "Run npm run autonomous:operator -- --execute --action=refresh-objective-audit to execute exactly one allowed local action.",
+    "Run npm run autonomous:operator -- --execute --action=refresh-product-gate-recovery to execute exactly one allowed local action.",
     "Do not execute GitHub workflow, store, paid ads, or account setup commands from the local operator."
   ]
 }

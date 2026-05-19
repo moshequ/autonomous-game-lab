@@ -98,6 +98,7 @@ const operateScript = script('autonomous:operate')
 const afterActionScript = script('autonomous:after-action')
 const cadenceScript = script('autonomous:cadence')
 const selfUpdateScript = script('autonomous:self-update')
+const gateRecoveryScript = script('autonomous:gate-recovery')
 const testAutomationScript = script('test:automation')
 const testE2eScript = script('test:e2e')
 const codexHome = process.env.CODEX_HOME?.trim() || (process.env.HOME ? path.join(process.env.HOME, '.codex') : null)
@@ -211,6 +212,7 @@ const checks = [
       operateScript.includes('test:e2e') &&
       afterActionScript.includes('autonomous:owner-loop') &&
       afterActionScript.includes('npm run build') &&
+      afterActionScript.includes('autonomous:gate-recovery') &&
       afterActionScript.includes('autonomous:release-candidate') &&
       afterActionScript.includes('autonomous:readiness') &&
       afterActionScript.includes('test:automation')
@@ -231,9 +233,15 @@ const checks = [
     detail: `autonomous:self-update is ${selfUpdateScript || 'missing'}.`,
   },
   {
+    id: 'gate-recovery-script',
+    status: gateRecoveryScript.includes('product-gate-recovery') ? 'pass' : 'blocker',
+    detail: `autonomous:gate-recovery is ${gateRecoveryScript || 'missing'}.`,
+  },
+  {
     id: 'daily-loop-script',
     status:
       dailyScript.includes('autonomous:trend') &&
+      dailyScript.includes('autonomous:gate-recovery') &&
       dailyScript.includes('autonomous:cadence') &&
       dailyScript.includes('autonomous:self-update') &&
       dailyScript.includes('autonomous:objective-audit') &&

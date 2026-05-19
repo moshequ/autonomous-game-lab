@@ -68,6 +68,13 @@ const productOptimization = await readOptionalJson(path.join(dataDir, 'product-o
   actions: [],
   controls: {},
 })
+const productGateRecovery = await readOptionalJson(path.join(dataDir, 'product-gate-recovery.json'), {
+  status: 'missing',
+  summary: {},
+  gates: [],
+  priorities: [],
+  controls: {},
+})
 const firstMoveCoach = await readOptionalJson(path.join(dataDir, 'first-move-coach.json'), {
   status: 'missing',
   summary: {},
@@ -392,6 +399,26 @@ const systems = [
       productOptimization.productGates?.firstGameCompletion?.gate,
     )}%; latest ${productOptimization.actions?.[0]?.status ?? 'missing'}.`,
     nextAction: productOptimization.nextActions?.[0] ?? 'Tune product gates from measured completion and replay data.',
+  },
+  {
+    id: 'product-gate-recovery',
+    status: systemStatus(
+      productGateRecovery.status === 'product-gate-recovery-ready' &&
+        productGateRecovery.controls?.zeroPaidSpend === true &&
+        productGateRecovery.controls?.noSyntheticGatePasses === true &&
+        productGateRecovery.controls?.requireObservedTelemetryBeforeCopyChange === true &&
+        productGateRecovery.priorities?.length >= 1,
+      'needs-recovery-plan',
+    ),
+    autonomy: 'observed-lift-recovery-plan',
+    evidence: `Recovery ${productGateRecovery.status}; primary ${
+      productGateRecovery.summary?.primaryBottleneck ?? 'missing'
+    }; failing gates ${productGateRecovery.summary?.failingGates ?? 0}; next lift ${
+      productGateRecovery.priorities?.[0]?.neededSuccesses ?? 'n/a'
+    }.`,
+    nextAction:
+      productGateRecovery.nextActions?.[0] ??
+      'Keep ranking the smallest observed lift needed before revenue gates can open.',
   },
   {
     id: 'first-move-coach',
@@ -833,6 +860,14 @@ const safeAutonomousActions = [
     reason: 'Applies one guarded target-score or telemetry improvement when product gates block monetization.',
   },
   {
+    id: 'refresh-product-gate-recovery',
+    status: productGateRecovery.status === 'product-gate-recovery-ready' ? 'armed' : 'monitor',
+    costUsd: 0,
+    command: 'npm run autonomous:gate-recovery',
+    targets: [productGateRecovery.summary?.primaryBottleneck ?? 'product-gate-recovery'],
+    reason: 'Ranks the exact observed lift and prompt sample still needed before revenue gates can open.',
+  },
+  {
     id: 'refresh-first-move-coach',
     status: firstMoveCoach.status === 'first-move-coach-ready' ? 'armed' : 'monitor',
     costUsd: 0,
@@ -997,6 +1032,7 @@ const preferredActionOrder = [
   'seed-portfolio-traffic',
   'bootstrap-production-setup',
   'optimize-product-gates',
+  'refresh-product-gate-recovery',
   'optimize-daily-retention',
   'measure-pwa-install-loop',
   'refresh-autonomous-cadence',

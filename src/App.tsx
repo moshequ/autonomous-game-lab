@@ -46,6 +46,7 @@ import { objectiveAudit } from './data/objectiveAudit'
 import { organicSeedLoop } from './data/organicSeedLoop'
 import { firstMoveCoach } from './data/firstMoveCoach'
 import { productOptimization } from './data/productOptimization'
+import { productGateRecovery } from './data/productGateRecovery'
 import { pwaInstallLoop } from './data/pwaInstallLoop'
 import { performanceBudget } from './data/performanceBudget'
 import { releaseHealth } from './data/releaseHealth'
@@ -386,6 +387,11 @@ function App() {
   const ownerActions = autonomousOwnerLoop.safeAutonomousActions.slice(0, 3)
   const performanceGameChunk = performanceBudget.deferred.gameChunk ?? performanceBudget.deferred.largestDeferredChunk
   const productOptimizationAction = productOptimization.actions[0]
+  const productGateRecoveryPrimary = productGateRecovery.priorities[0]
+  const productGateRecoveryPrimaryGate =
+    productGateRecovery.gates.find(
+      (gate) => gate.id === productGateRecovery.summary.primaryBottleneck,
+    ) ?? productGateRecovery.gates[0]
   const firstMoveCoachPrimary =
     firstMoveCoach.targets.find((target) => target.gameId === firstMoveCoach.summary.primaryTargetId) ??
     firstMoveCoach.targets.find((target) => target.enabled)
@@ -1896,6 +1902,24 @@ function App() {
                 <div>
                   <span>Latest action</span>
                   <strong>{productOptimizationAction?.status ?? 'monitor'}</strong>
+                </div>
+              </div>
+              <div className="monetizationRuntime" aria-label="Product Gate Recovery">
+                <div>
+                  <span>Gate Recovery</span>
+                  <strong>{productGateRecovery.status}</strong>
+                </div>
+                <div>
+                  <span>Primary gate</span>
+                  <strong>{productGateRecovery.summary.primaryBottleneck}</strong>
+                </div>
+                <div>
+                  <span>Observed lift</span>
+                  <strong>{productGateRecoveryPrimaryGate.neededSuccesses} wins</strong>
+                </div>
+                <div>
+                  <span>Next sample</span>
+                  <strong>{productGateRecoveryPrimary?.promptViewsNeeded ?? 0} views</strong>
                 </div>
               </div>
               <div className="monetizationRuntime" aria-label="First Move Coach">

@@ -812,6 +812,24 @@ test('product optimizer applies one guarded tuning step from product-gate eviden
   const balance = JSON.parse(await readFile('data/game-balance.json', 'utf8')) as {
     games: Record<string, { targetScore: number; tuning: { targetStep: number } }>
   }
+  const recovery = JSON.parse(await readFile('data/product-gate-recovery.json', 'utf8')) as {
+    status: string
+    summary: { failingGates: number; primaryBottleneck: string; quickestGateTest: string }
+    gates: Array<{
+      id: string
+      denominator: number
+      successes: number
+      neededSuccesses: number
+      promptViewsNeeded: number
+      ownerLoop: string
+    }>
+    priorities: Array<{ gateId: string; ownerLoop: string; neededSuccesses: number }>
+    controls: {
+      zeroPaidSpend: boolean
+      noSyntheticGatePasses: boolean
+      requireObservedTelemetryBeforeCopyChange: boolean
+    }
+  }
   const targetAction = optimization.actions.find((action) => action.actionType === 'target-score-curve')
   const completionAction = optimization.actions.find(
     (action) => action.actionType === 'runtime-completion-nudge',
@@ -846,6 +864,31 @@ test('product optimizer applies one guarded tuning step from product-gate eviden
 
   await page.goto('/')
   await expect(page.getByLabel('Product Optimization')).toContainText('product-optimization-ready')
+  expect(recovery.status).toBe('product-gate-recovery-ready')
+  expect(recovery.summary.failingGates).toBe(3)
+  expect(recovery.summary.primaryBottleneck).toBe('firstGameCompletion')
+  expect(recovery.summary.quickestGateTest).toBe('d1Retention')
+  expect(recovery.controls.zeroPaidSpend).toBe(true)
+  expect(recovery.controls.noSyntheticGatePasses).toBe(true)
+  expect(recovery.controls.requireObservedTelemetryBeforeCopyChange).toBe(true)
+
+  const completionRecovery = recovery.gates.find((gate) => gate.id === 'firstGameCompletion')
+  const replayRecovery = recovery.gates.find((gate) => gate.id === 'replayRate')
+  const retentionRecovery = recovery.gates.find((gate) => gate.id === 'd1Retention')
+
+  expect(completionRecovery?.neededSuccesses).toBe(
+    Math.max(0, Math.ceil(0.55 * (completionRecovery?.denominator ?? 0)) - (completionRecovery?.successes ?? 0)),
+  )
+  expect(replayRecovery?.neededSuccesses).toBe(
+    Math.max(0, Math.ceil(0.35 * (replayRecovery?.denominator ?? 0)) - (replayRecovery?.successes ?? 0)),
+  )
+  expect(retentionRecovery?.neededSuccesses).toBe(
+    Math.max(0, Math.ceil(0.18 * (retentionRecovery?.denominator ?? 0)) - (retentionRecovery?.successes ?? 0)),
+  )
+  expect(recovery.priorities[0].ownerLoop).toBe('completion-loop')
+  expect(completionRecovery?.promptViewsNeeded).toBeGreaterThan(0)
+  await expect(page.getByLabel('Product Gate Recovery')).toContainText('product-gate-recovery-ready')
+  await expect(page.getByLabel('Product Gate Recovery')).toContainText('firstGameCompletion')
 })
 
 test('first move coach highlights a safe opening and records coach telemetry', async ({ page }) => {

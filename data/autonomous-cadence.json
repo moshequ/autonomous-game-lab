@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-05-19T06:21:36.701Z",
+  "generatedAt": "2026-05-19T06:57:33.873Z",
   "status": "cadence-ready",
   "cadence": "daily",
   "workspace": {
     "path": "/Users/moshequ/Documents/Codex/2026-05-18/i-want-to-have-a-new",
     "repositoryStatus": "waiting-for-github-repository",
     "repository": null,
-    "gitDirtyFiles": 35
+    "gitDirtyFiles": 38
   },
   "schedulers": {
     "codexDesktop": {
@@ -78,7 +78,7 @@
     "selfUpdate": "npm run autonomous:self-update",
     "verifyAutomation": "npm run test:automation",
     "browserSmoke": "npm run test:e2e",
-    "ownerDecision": "refresh-autonomous-cadence"
+    "ownerDecision": "refresh-objective-audit"
   },
   "recoveryPolicy": {
     "stopOnFailure": true,
@@ -121,7 +121,7 @@
     {
       "id": "local-operate-script",
       "status": "pass",
-      "detail": "autonomous:operate is npm run autonomous:daily && npm run autonomous:operator -- --execute && npm run autonomous:after-action && npm run test:e2e; autonomous:after-action is npm run autonomous:owner-loop && npm run autonomous:operator && npm run build && npm run autonomous:performance && npm run autonomous:release-candidate && npm run autonomous:post-deploy-smoke && npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap && npm run autonomous:deploy-plan && npm run autonomous:bootstrap && npm run autonomous:readiness && npm run autonomous:repo-readiness && npm run autonomous:deploy-plan && npm run autonomous:readiness && npm run autonomous:owner-loop && npm run autonomous:operator && npm run autonomous:objective-audit && npm run autonomous:readiness && npm run autonomous:deploy-plan && npm run autonomous:post-deploy-smoke && npm run autonomous:readiness && npm run autonomous:repo-readiness && npm run autonomous:deploy-plan && npm run autonomous:post-deploy-smoke && npm run autonomous:readiness && npm run autonomous:repo-readiness && npm run autonomous:deploy-plan && npm run autonomous:readiness && npm run autonomous:objective-audit && npm run autonomous:readiness && npm run autonomous:owner-loop && npm run autonomous:operator && npm run test:automation."
+      "detail": "autonomous:operate is npm run autonomous:daily && npm run autonomous:operator -- --execute && npm run autonomous:after-action && npm run test:e2e; autonomous:after-action is npm run autonomous:owner-loop && npm run autonomous:operator && npm run autonomous:gate-recovery && npm run build && npm run autonomous:performance && npm run autonomous:release-candidate && npm run autonomous:post-deploy-smoke && npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap && npm run autonomous:deploy-plan && npm run autonomous:bootstrap && npm run autonomous:readiness && npm run autonomous:repo-readiness && npm run autonomous:deploy-plan && npm run autonomous:readiness && npm run autonomous:owner-loop && npm run autonomous:operator && npm run autonomous:objective-audit && npm run autonomous:readiness && npm run autonomous:deploy-plan && npm run autonomous:post-deploy-smoke && npm run autonomous:readiness && npm run autonomous:repo-readiness && npm run autonomous:deploy-plan && npm run autonomous:post-deploy-smoke && npm run autonomous:readiness && npm run autonomous:repo-readiness && npm run autonomous:deploy-plan && npm run autonomous:readiness && npm run autonomous:objective-audit && npm run autonomous:readiness && npm run autonomous:owner-loop && npm run autonomous:operator && npm run test:automation."
     },
     {
       "id": "cadence-refresh-script",
@@ -132,6 +132,11 @@
       "id": "self-update-script",
       "status": "pass",
       "detail": "autonomous:self-update is node scripts/autonomous-self-update.mjs."
+    },
+    {
+      "id": "gate-recovery-script",
+      "status": "pass",
+      "detail": "autonomous:gate-recovery is node scripts/product-gate-recovery.mjs."
     },
     {
       "id": "daily-loop-script",

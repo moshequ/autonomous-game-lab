@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-19T06:47:19.909Z",
+  "generatedAt": "2026-05-19T07:00:57.844Z",
   "status": "objective-in-progress",
   "objective": "Build a bootstrapped autonomous web/PWA game portal that can generate original board-game-inspired games, measure user behavior, propose and apply data-driven improvements, and prepare a path to monetization and app-store distribution with minimal manual intervention.",
   "summary": {
@@ -64,6 +64,7 @@
       "summary": "Analytics drive product-gate optimization, experiment evaluation, backlog routing, and one safe local operator action.",
       "evidence": [
         "Product optimizer: product-optimization-ready",
+        "Gate recovery: product-gate-recovery-ready; primary firstGameCompletion; needed lift 58",
         "First-move coach: first-move-coach-ready; enabled targets 6",
         "Completion loop: completion-loop-ready; prompt armed; finish line armed",
         "Replay loop: replay-loop-ready; prompt armed",
@@ -72,7 +73,7 @@
         "Experiment results: evaluated",
         "Backlog items: 4",
         "Applied/deferred actions: 6",
-        "Operator selected: refresh-objective-audit; status operator-plan-ready; execution not-requested"
+        "Operator selected: refresh-product-gate-recovery; status operator-plan-ready; execution not-requested"
       ],
       "blockers": [],
       "nextAction": "Keep collecting starts until a safe product-gate tuning action is justified.",
@@ -87,7 +88,7 @@
         "Autonomous cadence: cadence-ready; Codex active-confirmed; GitHub scheduled",
         "Autonomous self-update: self-update-ready; workflow .github/workflows/autonomous-self-update.yml; unsafe pending 0",
         "Operator: operator-plan-ready",
-        "Operator history: operator-history-ready; records 40; executed 20",
+        "Operator history: operator-history-ready; records 40; executed 19",
         "Bootstrap: production-bootstrap-ready",
         "Repository bootstrap: waiting-for-github-target; helper ops/github/bootstrap-repository.sh",
         "Release candidate: release-candidate-ready; smoke URLs 7",
@@ -255,6 +256,6 @@
   "completion": {
     "canMarkGoalComplete": false,
     "reason": "The local autonomous PWA system is largely prepared, but production credentials, live data, monetization gates, hosted compliance URLs, and store account/signing blockers remain.",
-    "nextBestAction": "refresh-objective-audit"
+    "nextBestAction": "refresh-product-gate-recovery"
   }
 }
