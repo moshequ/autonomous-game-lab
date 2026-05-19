@@ -1,5 +1,5 @@
 export const performanceBudget = {
-  "generatedAt": "2026-05-19T13:30:02.363Z",
+  "generatedAt": "2026-05-19T13:32:01.891Z",
   "status": "performance-budget-ready",
   "sourceBuild": "dist",
   "budgets": {
@@ -14,20 +14,20 @@ export const performanceBudget = {
   },
   "initial": {
     "entryScripts": [
-      "index-BsmoSDwR.js",
+      "index-CoUlktvD.js",
       "registerSW.js"
     ],
     "scriptPaths": [
-      "assets/index-BsmoSDwR.js",
+      "assets/index-CoUlktvD.js",
       "registerSW.js"
     ],
     "jsFiles": [
       {
-        "file": "index-BsmoSDwR.js",
-        "path": "assets/index-BsmoSDwR.js",
-        "bytes": 673234,
+        "file": "index-CoUlktvD.js",
+        "path": "assets/index-CoUlktvD.js",
+        "bytes": 673241,
         "kb": 657.5,
-        "gzipBytes": 178301,
+        "gzipBytes": 178308,
         "gzipKb": 174.1
       },
       {
@@ -39,10 +39,10 @@ export const performanceBudget = {
         "gzipKb": 0.1
       }
     ],
-    "jsBytes": 673368,
+    "jsBytes": 673375,
     "jsKb": 657.6,
-    "gzipBytes": 178427,
-    "gzipKb": 174.2,
+    "gzipBytes": 178434,
+    "gzipKb": 174.3,
     "cssFiles": [
       {
         "file": "index-BA4sddeG.css",
@@ -61,8 +61,8 @@ export const performanceBudget = {
   "deferred": {
     "chunks": [
       {
-        "file": "GameCanvas-E1JaoEZn.js",
-        "path": "assets/GameCanvas-E1JaoEZn.js",
+        "file": "GameCanvas-DNJSmAhs.js",
+        "path": "assets/GameCanvas-DNJSmAhs.js",
         "bytes": 1393468,
         "kb": 1360.8,
         "gzipBytes": 356094,
@@ -70,24 +70,24 @@ export const performanceBudget = {
       }
     ],
     "gameChunk": {
-      "file": "GameCanvas-E1JaoEZn.js",
-      "path": "assets/GameCanvas-E1JaoEZn.js",
+      "file": "GameCanvas-DNJSmAhs.js",
+      "path": "assets/GameCanvas-DNJSmAhs.js",
       "bytes": 1393468,
       "kb": 1360.8,
       "gzipBytes": 356094,
       "gzipKb": 347.7
     },
     "largestDeferredChunk": {
-      "file": "GameCanvas-E1JaoEZn.js",
-      "path": "assets/GameCanvas-E1JaoEZn.js",
+      "file": "GameCanvas-DNJSmAhs.js",
+      "path": "assets/GameCanvas-DNJSmAhs.js",
       "bytes": 1393468,
       "kb": 1360.8,
       "gzipBytes": 356094,
       "gzipKb": 347.7
     },
     "largestJsChunk": {
-      "file": "GameCanvas-E1JaoEZn.js",
-      "path": "assets/GameCanvas-E1JaoEZn.js",
+      "file": "GameCanvas-DNJSmAhs.js",
+      "path": "assets/GameCanvas-DNJSmAhs.js",
       "bytes": 1393468,
       "kb": 1360.8,
       "gzipBytes": 356094,
@@ -99,19 +99,19 @@ export const performanceBudget = {
   "assets": {
     "js": [
       {
-        "file": "GameCanvas-E1JaoEZn.js",
-        "path": "assets/GameCanvas-E1JaoEZn.js",
+        "file": "GameCanvas-DNJSmAhs.js",
+        "path": "assets/GameCanvas-DNJSmAhs.js",
         "bytes": 1393468,
         "kb": 1360.8,
         "gzipBytes": 356094,
         "gzipKb": 347.7
       },
       {
-        "file": "index-BsmoSDwR.js",
-        "path": "assets/index-BsmoSDwR.js",
-        "bytes": 673234,
+        "file": "index-CoUlktvD.js",
+        "path": "assets/index-CoUlktvD.js",
+        "bytes": 673241,
         "kb": 657.5,
-        "gzipBytes": 178301,
+        "gzipBytes": 178308,
         "gzipKb": 174.1
       },
       {
@@ -154,7 +154,7 @@ export const performanceBudget = {
     {
       "id": "initial-js-gzip-budget",
       "status": "pass",
-      "detail": "Initial JS gzip is 174.2 KB; budget is 200 KB."
+      "detail": "Initial JS gzip is 174.3 KB; budget is 200 KB."
     },
     {
       "id": "initial-css-budget",
@@ -174,12 +174,12 @@ export const performanceBudget = {
     {
       "id": "game-runtime-deferred",
       "status": "pass",
-      "detail": "GameCanvas-E1JaoEZn.js is deferred from the initial shell."
+      "detail": "GameCanvas-DNJSmAhs.js is deferred from the initial shell."
     },
     {
       "id": "largest-js-deferred",
       "status": "pass",
-      "detail": "Largest JS chunk is GameCanvas-E1JaoEZn.js at 1360.8 KB."
+      "detail": "Largest JS chunk is GameCanvas-DNJSmAhs.js at 1360.8 KB."
     },
     {
       "id": "deferred-game-budget",

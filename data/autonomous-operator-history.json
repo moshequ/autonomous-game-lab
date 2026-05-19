@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-19T13:30:09.917Z",
+  "generatedAt": "2026-05-19T13:32:09.540Z",
   "status": "operator-history-ready",
   "retention": {
     "maxRecords": 40,
@@ -12,9 +12,9 @@
     "plannedRecords": 21,
     "executedRecords": 19,
     "failedRecords": 0,
-    "lastActionId": "refresh-product-gate-recovery",
+    "lastActionId": "collect-live-events",
     "lastExecutionStatus": "not-requested",
-    "lastExecutedActionId": "refresh-autonomous-self-update"
+    "lastExecutedActionId": "refresh-product-gate-recovery"
   },
   "controls": {
     "zeroPaidSpend": true,
@@ -24,94 +24,6 @@
     "historyIsCapped": true
   },
   "records": [
-    {
-      "id": "20260519124147-refresh-product-gate-recovery",
-      "generatedAt": "2026-05-19T12:41:47.602Z",
-      "runFingerprint": "d48492eb75ce30bb",
-      "mode": "plan-only",
-      "status": "operator-plan-ready",
-      "selectedActionId": "refresh-product-gate-recovery",
-      "selectedCommand": "npm run autonomous:gate-recovery",
-      "eligibleActionIds": [
-        "refresh-autonomous-cadence",
-        "refresh-autonomous-self-update",
-        "seed-portfolio-traffic",
-        "refresh-organic-seed-loop",
-        "optimize-daily-retention",
-        "measure-pwa-install-loop",
-        "check-performance-budget",
-        "prepare-release-candidate",
-        "optimize-product-gates",
-        "refresh-product-gate-recovery",
-        "refresh-first-move-coach",
-        "refresh-completion-loop",
-        "refresh-replay-loop",
-        "prepare-repository-channel",
-        "bootstrap-production-setup",
-        "refresh-objective-audit",
-        "optimize-store-listing",
-        "apply-safe-improvements",
-        "collect-live-events"
-      ],
-      "blockedActionCount": 26,
-      "execution": {
-        "requested": false,
-        "status": "not-requested",
-        "attemptedActionId": null,
-        "resultCount": 0,
-        "failedScripts": []
-      },
-      "controls": {
-        "zeroPaidSpend": true,
-        "localCommandAllowlistEnforced": true,
-        "externalWorkflowExecutionBlockedByDefault": true,
-        "maxActionsPerRun": 1
-      }
-    },
-    {
-      "id": "20260519124558-refresh-product-gate-recovery",
-      "generatedAt": "2026-05-19T12:45:58.507Z",
-      "runFingerprint": "535d61309db09680",
-      "mode": "execute-one-action",
-      "status": "operator-executed",
-      "selectedActionId": "refresh-product-gate-recovery",
-      "selectedCommand": "npm run autonomous:gate-recovery",
-      "eligibleActionIds": [
-        "refresh-autonomous-cadence",
-        "refresh-autonomous-self-update",
-        "seed-portfolio-traffic",
-        "refresh-organic-seed-loop",
-        "optimize-daily-retention",
-        "measure-pwa-install-loop",
-        "check-performance-budget",
-        "prepare-release-candidate",
-        "optimize-product-gates",
-        "refresh-product-gate-recovery",
-        "refresh-first-move-coach",
-        "refresh-completion-loop",
-        "refresh-replay-loop",
-        "prepare-repository-channel",
-        "bootstrap-production-setup",
-        "refresh-objective-audit",
-        "optimize-store-listing",
-        "apply-safe-improvements",
-        "collect-live-events"
-      ],
-      "blockedActionCount": 26,
-      "execution": {
-        "requested": true,
-        "status": "executed",
-        "attemptedActionId": "refresh-product-gate-recovery",
-        "resultCount": 1,
-        "failedScripts": []
-      },
-      "controls": {
-        "zeroPaidSpend": true,
-        "localCommandAllowlistEnforced": true,
-        "externalWorkflowExecutionBlockedByDefault": true,
-        "maxActionsPerRun": 1
-      }
-    },
     {
       "id": "20260519124606-collect-live-events",
       "generatedAt": "2026-05-19T12:46:06.268Z",
@@ -1752,6 +1664,94 @@
       "status": "operator-plan-ready",
       "selectedActionId": "refresh-product-gate-recovery",
       "selectedCommand": "npm run autonomous:gate-recovery",
+      "eligibleActionIds": [
+        "refresh-autonomous-cadence",
+        "refresh-autonomous-self-update",
+        "seed-portfolio-traffic",
+        "refresh-organic-seed-loop",
+        "optimize-daily-retention",
+        "measure-pwa-install-loop",
+        "check-performance-budget",
+        "prepare-release-candidate",
+        "optimize-product-gates",
+        "refresh-product-gate-recovery",
+        "refresh-first-move-coach",
+        "refresh-completion-loop",
+        "refresh-replay-loop",
+        "prepare-repository-channel",
+        "bootstrap-production-setup",
+        "refresh-objective-audit",
+        "optimize-store-listing",
+        "apply-safe-improvements",
+        "collect-live-events"
+      ],
+      "blockedActionCount": 26,
+      "execution": {
+        "requested": false,
+        "status": "not-requested",
+        "attemptedActionId": null,
+        "resultCount": 0,
+        "failedScripts": []
+      },
+      "controls": {
+        "zeroPaidSpend": true,
+        "localCommandAllowlistEnforced": true,
+        "externalWorkflowExecutionBlockedByDefault": true,
+        "maxActionsPerRun": 1
+      }
+    },
+    {
+      "id": "20260519133132-refresh-product-gate-recovery",
+      "generatedAt": "2026-05-19T13:31:32.280Z",
+      "runFingerprint": "535d61309db09680",
+      "mode": "execute-one-action",
+      "status": "operator-executed",
+      "selectedActionId": "refresh-product-gate-recovery",
+      "selectedCommand": "npm run autonomous:gate-recovery",
+      "eligibleActionIds": [
+        "refresh-autonomous-cadence",
+        "refresh-autonomous-self-update",
+        "seed-portfolio-traffic",
+        "refresh-organic-seed-loop",
+        "optimize-daily-retention",
+        "measure-pwa-install-loop",
+        "check-performance-budget",
+        "prepare-release-candidate",
+        "optimize-product-gates",
+        "refresh-product-gate-recovery",
+        "refresh-first-move-coach",
+        "refresh-completion-loop",
+        "refresh-replay-loop",
+        "prepare-repository-channel",
+        "bootstrap-production-setup",
+        "refresh-objective-audit",
+        "optimize-store-listing",
+        "apply-safe-improvements",
+        "collect-live-events"
+      ],
+      "blockedActionCount": 26,
+      "execution": {
+        "requested": true,
+        "status": "executed",
+        "attemptedActionId": "refresh-product-gate-recovery",
+        "resultCount": 1,
+        "failedScripts": []
+      },
+      "controls": {
+        "zeroPaidSpend": true,
+        "localCommandAllowlistEnforced": true,
+        "externalWorkflowExecutionBlockedByDefault": true,
+        "maxActionsPerRun": 1
+      }
+    },
+    {
+      "id": "20260519133155-collect-live-events",
+      "generatedAt": "2026-05-19T13:31:55.644Z",
+      "runFingerprint": "1bdc38e071573842",
+      "mode": "plan-only",
+      "status": "operator-plan-ready",
+      "selectedActionId": "collect-live-events",
+      "selectedCommand": "npm run autonomous:local-event-bridge && npm run autonomous:import-events && npm run autonomous:analytics && npm run autonomous:gate-recovery",
       "eligibleActionIds": [
         "refresh-autonomous-cadence",
         "refresh-autonomous-self-update",
