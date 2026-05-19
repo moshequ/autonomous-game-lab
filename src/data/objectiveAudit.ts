@@ -1,5 +1,5 @@
 export const objectiveAudit = {
-  "generatedAt": "2026-05-19T21:33:38.090Z",
+  "generatedAt": "2026-05-19T21:38:16.494Z",
   "status": "objective-in-progress",
   "objective": "Build a bootstrapped autonomous web/PWA game portal that can generate original board-game-inspired games, measure user behavior, propose and apply data-driven improvements, and prepare a path to monetization and app-store distribution with minimal manual intervention.",
   "summary": {
@@ -7,7 +7,7 @@ export const objectiveAudit = {
     "met": 5,
     "prepared": 2,
     "incomplete": 1,
-    "externalBlockers": 21,
+    "externalBlockers": 20,
     "productBlockers": 6
   },
   "requirements": [
@@ -75,7 +75,7 @@ export const objectiveAudit = {
         "Experiment results: evaluated",
         "Backlog items: 4",
         "Applied/deferred actions: 6",
-        "Operator selected: refresh-autonomous-cadence; status operator-plan-ready; execution not-requested"
+        "Operator selected: refresh-autonomous-self-update; status operator-plan-ready; execution not-requested"
       ],
       "blockers": [],
       "nextAction": "Keep collecting starts until a safe product-gate tuning action is justified.",
@@ -102,7 +102,6 @@ export const objectiveAudit = {
       "blockers": [
         "Add a GitHub origin remote, set GITHUB_REPOSITORY/GH_REPO, or authenticate gh to infer the target repository.",
         "Authenticate GitHub CLI or configure GH_TOKEN/GITHUB_TOKEN for workflow dispatch and repository settings sync.",
-        "Commit current generated changes before pushing to GitHub Pages.",
         "Set GITHUB_REPOSITORY/GH_REPO or authenticate gh so the intended owner/repo can be inferred.",
         "Attach a GitHub origin remote or create the target repository.",
         "Authenticate GitHub CLI or provide GH_TOKEN/GITHUB_TOKEN for remote repository bootstrap.",
@@ -192,7 +191,6 @@ export const objectiveAudit = {
     "external": [
       "Add a GitHub origin remote, set GITHUB_REPOSITORY/GH_REPO, or authenticate gh to infer the target repository.",
       "Authenticate GitHub CLI or configure GH_TOKEN/GITHUB_TOKEN for workflow dispatch and repository settings sync.",
-      "Commit current generated changes before pushing to GitHub Pages.",
       "Set GITHUB_REPOSITORY/GH_REPO or authenticate gh so the intended owner/repo can be inferred.",
       "Attach a GitHub origin remote or create the target repository.",
       "Authenticate GitHub CLI or provide GH_TOKEN/GITHUB_TOKEN for remote repository bootstrap.",
@@ -223,7 +221,6 @@ export const objectiveAudit = {
     "all": [
       "Add a GitHub origin remote, set GITHUB_REPOSITORY/GH_REPO, or authenticate gh to infer the target repository.",
       "Authenticate GitHub CLI or configure GH_TOKEN/GITHUB_TOKEN for workflow dispatch and repository settings sync.",
-      "Commit current generated changes before pushing to GitHub Pages.",
       "Set GITHUB_REPOSITORY/GH_REPO or authenticate gh so the intended owner/repo can be inferred.",
       "Attach a GitHub origin remote or create the target repository.",
       "Authenticate GitHub CLI or provide GH_TOKEN/GITHUB_TOKEN for remote repository bootstrap.",
@@ -261,7 +258,7 @@ export const objectiveAudit = {
   "completion": {
     "canMarkGoalComplete": false,
     "reason": "The local autonomous PWA system is largely prepared, but production credentials, live data, monetization gates, hosted compliance URLs, and store account/signing blockers remain.",
-    "nextBestAction": "refresh-autonomous-cadence"
+    "nextBestAction": "refresh-autonomous-self-update"
   }
 } as const
 

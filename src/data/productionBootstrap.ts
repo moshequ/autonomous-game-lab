@@ -1,5 +1,5 @@
 export const productionBootstrap = {
-  "generatedAt": "2026-05-19T21:33:33.577Z",
+  "generatedAt": "2026-05-19T21:38:11.400Z",
   "status": "production-bootstrap-ready",
   "mode": "waiting-for-external-credentials",
   "envFiles": {
@@ -87,7 +87,7 @@ export const productionBootstrap = {
     "totalVariables": 24,
     "configuredSecrets": 3,
     "totalSecrets": 8,
-    "externalBlockers": 24
+    "externalBlockers": 23
   },
   "stages": [
     {
@@ -110,7 +110,6 @@ export const productionBootstrap = {
       "command": "npm run autonomous:repo-bootstrap",
       "evidence": "Repository bootstrap waiting-for-github-target; helper ops/github/bootstrap-repository.sh; local git ready.",
       "requires": [
-        "Commit current generated changes before pushing to GitHub Pages.",
         "Set GITHUB_REPOSITORY/GH_REPO or authenticate gh so the intended owner/repo can be inferred.",
         "Attach a GitHub origin remote or create the target repository.",
         "Authenticate GitHub CLI or provide GH_TOKEN/GITHUB_TOKEN for remote repository bootstrap."
@@ -280,7 +279,6 @@ export const productionBootstrap = {
       "command": "npm run autonomous:repo-bootstrap",
       "evidence": "Repository bootstrap waiting-for-github-target; helper ops/github/bootstrap-repository.sh; local git ready.",
       "requires": [
-        "Commit current generated changes before pushing to GitHub Pages.",
         "Set GITHUB_REPOSITORY/GH_REPO or authenticate gh so the intended owner/repo can be inferred.",
         "Attach a GitHub origin remote or create the target repository.",
         "Authenticate GitHub CLI or provide GH_TOKEN/GITHUB_TOKEN for remote repository bootstrap."
@@ -1020,10 +1018,6 @@ export const productionBootstrap = {
     {
       "source": "repository-readiness",
       "blocker": "Authenticate GitHub CLI or configure GH_TOKEN/GITHUB_TOKEN for workflow dispatch and repository settings sync."
-    },
-    {
-      "source": "repository-bootstrap",
-      "blocker": "Commit current generated changes before pushing to GitHub Pages."
     },
     {
       "source": "repository-bootstrap",
