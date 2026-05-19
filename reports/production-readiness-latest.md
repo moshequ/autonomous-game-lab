@@ -1,6 +1,6 @@
 # Production Readiness
 
-Generated: 2026-05-19T08:53:16.916Z
+Generated: 2026-05-19T08:57:47.998Z
 
 ## Environment
 
@@ -56,7 +56,7 @@ Status: ready-after-build
 - pass: organic-seed-loop - Organic seed loop is organic-seed-loop-ready; target canopy-bloom; player-initiated share guard active.
 - pass: retention-loop - Retention loop is retention-loop-ready; daily challenge canopy-bloom; no-push/no-account guardrails active.
 - pass: pwa-install-loop - PWA install loop is pwa-install-loop-ready; prompt surface autonomy-cockpit; cost $0.
-- pass: performance-budget - Performance budget is performance-budget-ready; initial JS 649.8 KB / 173.4 KB gzip; deferred game chunk GameCanvas-eph3OuAO.js.
+- pass: performance-budget - Performance budget is performance-budget-ready; initial JS 646.4 KB / 173.2 KB gzip; deferred game chunk GameCanvas-CtTCx91Y.js.
 - pass: release-candidate - Release candidate is release-candidate-ready; files 39; smoke URLs 10.
 - pass: post-deploy-smoke-runner - Post-deploy smoke is blocked-missing-origin; origin missing; checks 0/11 passed, 11 blocked; local artifact predeploy-artifact-smoke-passed 11/11 passed.
 - pass: product-optimization - Product optimizer is product-optimization-ready; completion 0.397 vs gate 0.55; latest action already-applied.
@@ -66,10 +66,10 @@ Status: ready-after-build
 - pass: release-health - Release health guard is monitoring.
 - pass: production-environment - Production environment status is production-env-missing.
 - pass: production-bootstrap - Production bootstrap is production-bootstrap-ready; mode waiting-for-external-credentials; external blockers 23.
-- pass: autonomous-operator - Autonomous operator is operator-plan-ready; selected seed-portfolio-traffic; execution not-requested.
+- pass: autonomous-operator - Autonomous operator is operator-plan-ready; selected collect-gate-sample-downloads; execution not-requested.
 - pass: autonomous-operator-history - Autonomous operator history is operator-history-ready; records 40; executed 17.
 - pass: autonomous-cadence - Autonomous cadence is cadence-ready; Codex active-confirmed; GitHub scheduled.
-- pass: autonomous-self-update - Autonomous self-update is self-update-ready; safe pending 0; unsafe pending 0; remote push held.
+- pass: autonomous-self-update - Autonomous self-update is self-update-ready; safe pending 54; unsafe pending 0; remote push held.
 - pass: objective-audit - Objective audit is objective-in-progress; met 5 / 8; can complete false.
 
 ## Monetization
@@ -109,23 +109,23 @@ Installs: 0
 ## Performance Budget
 
 Status: performance-budget-ready
-Initial JS: 649.8 KB (173.4 KB gzip)
-Deferred game chunk: GameCanvas-eph3OuAO.js
-- pass: performance-initial-js-budget - Initial JS is 649.8 KB; budget is 675 KB.
-- pass: performance-initial-js-gzip-budget - Initial JS gzip is 173.4 KB; budget is 200 KB.
+Initial JS: 646.4 KB (173.2 KB gzip)
+Deferred game chunk: GameCanvas-CtTCx91Y.js
+- pass: performance-initial-js-budget - Initial JS is 646.4 KB; budget is 675 KB.
+- pass: performance-initial-js-gzip-budget - Initial JS gzip is 173.2 KB; budget is 200 KB.
 - pass: performance-initial-css-budget - Initial CSS is 9.6 KB; budget is 40 KB.
 - pass: performance-manifest - PWA manifest exists in dist.
 - pass: performance-service-worker - Service worker exists in dist.
-- pass: performance-game-runtime-deferred - GameCanvas-eph3OuAO.js is deferred from the initial shell.
-- pass: performance-largest-js-deferred - Largest JS chunk is GameCanvas-eph3OuAO.js at 1360.8 KB.
+- pass: performance-game-runtime-deferred - GameCanvas-CtTCx91Y.js is deferred from the initial shell.
+- pass: performance-largest-js-deferred - Largest JS chunk is GameCanvas-CtTCx91Y.js at 1360.8 KB.
 - pass: performance-deferred-game-budget - Deferred game chunk is 1360.8 KB; monitor budget is 1600 KB.
 
 ## Release Candidate
 
 Status: release-candidate-ready
-Candidate: pwa-7762e647a83b
+Candidate: pwa-fbd320ad2abd
 Files: 39
-Aggregate SHA-256: 7762e647a83b7f3164f80d8f095a01be63bc18f9d36edbd2d756c23ba0850827
+Aggregate SHA-256: fbd320ad2abdfd6f7b15cdde95ccbc497246d10d3f31d0587e5219bf7503a36b
 - pass: release-dist-inventory - 39 dist files inventoried.
 - pass: release-required-files - 14/14 required files present.
 - pass: release-game-pages - 10 generated game page(s) in dist.
@@ -139,7 +139,7 @@ Aggregate SHA-256: 7762e647a83b7f3164f80d8f095a01be63bc18f9d36edbd2d756c23ba0850
 
 Status: blocked-missing-origin
 Origin: missing
-Candidate: pwa-7762e647a83b
+Candidate: pwa-fbd320ad2abd
 Checks: 0/11 passed (11 blocked)
 Local artifact: predeploy-artifact-smoke-passed (11/11 passed)
 - blocked: smoke-app-shell - No deployed origin configured.
@@ -225,7 +225,7 @@ Setup script: ops/github/setup-production.sh
 
 Status: operator-plan-ready
 Mode: plan-only
-Selected action: seed-portfolio-traffic
+Selected action: collect-gate-sample-downloads
 Execution: not-requested
 
 ## Autonomous Operator History
@@ -257,14 +257,14 @@ GitHub Actions: scheduled
 
 Status: self-update-ready
 Workflow: .github/workflows/autonomous-self-update.yml
-Safe pending: 0
+Safe pending: 54
 Unsafe pending: 0
 Remote push ready: false
 - pass: self-update-script-registered - autonomous:self-update is node scripts/autonomous-self-update.mjs.
 - pass: self-update-daily-loop-refresh - autonomous:daily refreshes self-update evidence before owner/audit evidence.
 - pass: self-update-daily-workflow-read-only - The ordinary daily workflow remains read-only and uploads evidence artifacts.
 - pass: self-update-self-update-workflow - A separate gated workflow can reproduce the daily loop, verify it, and persist allowlisted changes.
-- pass: self-update-safe-path-allowlist - 0 safe pending file(s), 0 unsafe pending file(s).
+- pass: self-update-safe-path-allowlist - 54 safe pending file(s), 0 unsafe pending file(s).
 - pass: self-update-repository-optional - Git worktree is available on main.
 - pass: self-update-remote-push-gated - Remote push remains held until GitHub credentials and AGL_AUTONOMOUS_SELF_UPDATE_DIRECT=1 are configured.
 - pass: self-update-zero-spend-controls - Self-update only stages repository artifacts; it does not create accounts, stores, ads, paid traffic, or revenue.
