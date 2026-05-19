@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-19T13:56:35.886Z",
+  "generatedAt": "2026-05-19T13:59:04.085Z",
   "status": "performance-budget-ready",
   "sourceBuild": "dist",
   "budgets": {
@@ -14,20 +14,20 @@
   },
   "initial": {
     "entryScripts": [
-      "index-DddsA8Zm.js",
+      "index-D_6rKjxv.js",
       "registerSW.js"
     ],
     "scriptPaths": [
-      "assets/index-DddsA8Zm.js",
+      "assets/index-D_6rKjxv.js",
       "registerSW.js"
     ],
     "jsFiles": [
       {
-        "file": "index-DddsA8Zm.js",
-        "path": "assets/index-DddsA8Zm.js",
-        "bytes": 673236,
+        "file": "index-D_6rKjxv.js",
+        "path": "assets/index-D_6rKjxv.js",
+        "bytes": 673241,
         "kb": 657.5,
-        "gzipBytes": 178307,
+        "gzipBytes": 178312,
         "gzipKb": 174.1
       },
       {
@@ -39,9 +39,9 @@
         "gzipKb": 0.1
       }
     ],
-    "jsBytes": 673370,
+    "jsBytes": 673375,
     "jsKb": 657.6,
-    "gzipBytes": 178433,
+    "gzipBytes": 178438,
     "gzipKb": 174.3,
     "cssFiles": [
       {
@@ -61,36 +61,36 @@
   "deferred": {
     "chunks": [
       {
-        "file": "GameCanvas-CptMXc2F.js",
-        "path": "assets/GameCanvas-CptMXc2F.js",
+        "file": "GameCanvas-Dd0uUUB7.js",
+        "path": "assets/GameCanvas-Dd0uUUB7.js",
         "bytes": 1393468,
         "kb": 1360.8,
-        "gzipBytes": 356094,
+        "gzipBytes": 356095,
         "gzipKb": 347.7
       }
     ],
     "gameChunk": {
-      "file": "GameCanvas-CptMXc2F.js",
-      "path": "assets/GameCanvas-CptMXc2F.js",
+      "file": "GameCanvas-Dd0uUUB7.js",
+      "path": "assets/GameCanvas-Dd0uUUB7.js",
       "bytes": 1393468,
       "kb": 1360.8,
-      "gzipBytes": 356094,
+      "gzipBytes": 356095,
       "gzipKb": 347.7
     },
     "largestDeferredChunk": {
-      "file": "GameCanvas-CptMXc2F.js",
-      "path": "assets/GameCanvas-CptMXc2F.js",
+      "file": "GameCanvas-Dd0uUUB7.js",
+      "path": "assets/GameCanvas-Dd0uUUB7.js",
       "bytes": 1393468,
       "kb": 1360.8,
-      "gzipBytes": 356094,
+      "gzipBytes": 356095,
       "gzipKb": 347.7
     },
     "largestJsChunk": {
-      "file": "GameCanvas-CptMXc2F.js",
-      "path": "assets/GameCanvas-CptMXc2F.js",
+      "file": "GameCanvas-Dd0uUUB7.js",
+      "path": "assets/GameCanvas-Dd0uUUB7.js",
       "bytes": 1393468,
       "kb": 1360.8,
-      "gzipBytes": 356094,
+      "gzipBytes": 356095,
       "gzipKb": 347.7
     },
     "chunksBytes": 1393468,
@@ -99,19 +99,19 @@
   "assets": {
     "js": [
       {
-        "file": "GameCanvas-CptMXc2F.js",
-        "path": "assets/GameCanvas-CptMXc2F.js",
+        "file": "GameCanvas-Dd0uUUB7.js",
+        "path": "assets/GameCanvas-Dd0uUUB7.js",
         "bytes": 1393468,
         "kb": 1360.8,
-        "gzipBytes": 356094,
+        "gzipBytes": 356095,
         "gzipKb": 347.7
       },
       {
-        "file": "index-DddsA8Zm.js",
-        "path": "assets/index-DddsA8Zm.js",
-        "bytes": 673236,
+        "file": "index-D_6rKjxv.js",
+        "path": "assets/index-D_6rKjxv.js",
+        "bytes": 673241,
         "kb": 657.5,
-        "gzipBytes": 178307,
+        "gzipBytes": 178312,
         "gzipKb": 174.1
       },
       {
@@ -174,12 +174,12 @@
     {
       "id": "game-runtime-deferred",
       "status": "pass",
-      "detail": "GameCanvas-CptMXc2F.js is deferred from the initial shell."
+      "detail": "GameCanvas-Dd0uUUB7.js is deferred from the initial shell."
     },
     {
       "id": "largest-js-deferred",
       "status": "pass",
-      "detail": "Largest JS chunk is GameCanvas-CptMXc2F.js at 1360.8 KB."
+      "detail": "Largest JS chunk is GameCanvas-Dd0uUUB7.js at 1360.8 KB."
     },
     {
       "id": "deferred-game-budget",
