@@ -1,22 +1,22 @@
 {
-  "generatedAt": "2026-05-19T16:16:44.143Z",
+  "generatedAt": "2026-05-19T16:19:18.838Z",
   "status": "operator-plan-ready",
   "mode": "plan-only",
   "ownerDecision": {
-    "actionId": "optimize-product-gates",
-    "command": "npm run autonomous:analyze && npm run autonomous:product-optimize && npm run autonomous:sync-config && npm run autonomous:simulate",
+    "actionId": "optimize-daily-retention",
+    "command": "npm run autonomous:retention",
     "locallyExecutable": true,
     "rejectionReason": null
   },
   "requestedActionId": null,
   "selectedAction": {
-    "id": "optimize-product-gates",
+    "id": "optimize-daily-retention",
     "status": "armed",
-    "command": "npm run autonomous:analyze && npm run autonomous:product-optimize && npm run autonomous:sync-config && npm run autonomous:simulate",
+    "command": "npm run autonomous:retention",
     "targets": [
-      "harbor-rings"
+      "canopy-bloom"
     ],
-    "reason": "Applies one guarded target-score or telemetry improvement when product gates block monetization.",
+    "reason": "Keeps daily challenge, local streak prompts, and retention-safe missions aligned with behavior data.",
     "costUsd": 0
   },
   "selectedRejection": null,
@@ -73,12 +73,6 @@
       "reason": "not-selected-this-run"
     },
     {
-      "id": "optimize-daily-retention",
-      "status": "armed",
-      "command": "npm run autonomous:retention",
-      "reason": "not-selected-this-run"
-    },
-    {
       "id": "measure-pwa-install-loop",
       "status": "armed",
       "command": "npm run autonomous:pwa-install",
@@ -101,6 +95,12 @@
       "status": "monitor",
       "command": "npm run autonomous:post-deploy-smoke",
       "reason": "status-monitor"
+    },
+    {
+      "id": "optimize-product-gates",
+      "status": "armed",
+      "command": "npm run autonomous:analyze && npm run autonomous:product-optimize && npm run autonomous:sync-config && npm run autonomous:simulate",
+      "reason": "not-selected-this-run"
     },
     {
       "id": "refresh-product-gate-recovery",
@@ -201,20 +201,8 @@
   ],
   "commandPlan": [
     {
-      "segment": "npm run autonomous:analyze",
-      "script": "autonomous:analyze"
-    },
-    {
-      "segment": "npm run autonomous:product-optimize",
-      "script": "autonomous:product-optimize"
-    },
-    {
-      "segment": "npm run autonomous:sync-config",
-      "script": "autonomous:sync-config"
-    },
-    {
-      "segment": "npm run autonomous:simulate",
-      "script": "autonomous:simulate"
+      "segment": "npm run autonomous:retention",
+      "script": "autonomous:retention"
     }
   ],
   "execution": {
@@ -280,7 +268,7 @@
     "RUN_WORKFLOWS=1"
   ],
   "nextActions": [
-    "Run npm run autonomous:operator -- --execute --action=optimize-product-gates to execute exactly one allowed local action.",
+    "Run npm run autonomous:operator -- --execute --action=optimize-daily-retention to execute exactly one allowed local action.",
     "Do not execute GitHub workflow, store, paid ads, or account setup commands from the local operator."
   ]
 }
