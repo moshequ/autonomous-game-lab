@@ -1,4 +1,4 @@
-import { mkdir, writeFile } from 'node:fs/promises'
+import { mkdir, readFile, writeFile } from 'node:fs/promises'
 import path from 'node:path'
 import { loadLocalEnv } from './lib/env-loader.mjs'
 
@@ -8,6 +8,11 @@ const outputJsonPath = path.join(root, 'data', 'production-environment.json')
 const outputTsPath = path.join(root, 'src', 'data', 'productionEnvironment.ts')
 const reportPath = path.join(root, 'reports', 'production-environment-latest.md')
 const envExamplePath = path.join(root, 'ops', 'production.env.example')
+
+const readOptionalJson = async (filePath, fallback) =>
+  readFile(filePath, 'utf8')
+    .then((raw) => JSON.parse(raw))
+    .catch(() => fallback)
 
 const boolFromEnv = (name) => ['1', 'true', 'yes'].includes(String(process.env[name] ?? '').toLowerCase())
 
@@ -55,13 +60,20 @@ const validEmail = (value) => Boolean(value && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test
 const publicOrigin = normalizeOrigin(
   first(process.env.AGL_PUBLIC_ORIGIN, process.env.VITE_PUBLIC_ORIGIN, process.env.PUBLIC_SITE_URL, process.env.AGL_PUBLIC_HOST),
 )
+const androidSigning = await readOptionalJson(path.join(root, 'data', 'android-signing.json'), {
+  status: 'missing',
+  signing: {},
+})
 const publicHost = hostFromOrigin(publicOrigin)
 const publicOriginReady = looksProductionHost(publicOrigin)
 const supportEmail = first(process.env.AGL_SUPPORT_EMAIL, process.env.SUPPORT_EMAIL)
 const supportEmailReady = validEmail(supportEmail)
 const basePath = first(process.env.VITE_BASE_PATH) ?? '/'
 const androidPackageName = first(process.env.AGL_ANDROID_PACKAGE_NAME) ?? 'app.autonomousgamelab.portal'
-const androidSha256 = first(process.env.AGL_ANDROID_SHA256_CERT_FINGERPRINT)
+const androidSha256 = first(
+  process.env.AGL_ANDROID_SHA256_CERT_FINGERPRINT,
+  androidSigning.signing?.sha256CertFingerprint,
+)
 const androidSigningReady = Boolean(androidSha256)
 const googlePlayConnected =
   boolFromEnv('AGL_GOOGLE_PLAY_ACCOUNT_CONNECTED') || Boolean(first(process.env.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON))

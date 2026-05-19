@@ -22,6 +22,7 @@ import { balanceReport } from './data/balanceReport'
 import { deploymentPlan } from './data/deploymentPlan'
 import { eventCollectorDeployment } from './data/eventCollectorDeployment'
 import { androidRelease } from './data/androidRelease'
+import { androidSigning } from './data/androidSigning'
 import { autonomousCadence } from './data/autonomousCadence'
 import { autonomousOwnerLoop } from './data/autonomousOwnerLoop'
 import { autonomousSelfUpdate } from './data/autonomousSelfUpdate'
@@ -2140,6 +2141,24 @@ function App() {
               <div className="factRow">
                 <span>Android handoff</span>
                 <strong>{nativePackage.packageName}</strong>
+              </div>
+              <div className="monetizationRuntime" aria-label="Android Signing">
+                <div>
+                  <span>Android signing</span>
+                  <strong>{androidSigning.status}</strong>
+                </div>
+                <div>
+                  <span>Fingerprint</span>
+                  <strong>{androidSigning.signing.sha256CertFingerprint ? 'ready' : 'missing'}</strong>
+                </div>
+                <div>
+                  <span>Local secrets</span>
+                  <strong>{androidSigning.ciSecrets.configuredLocally ? 'ready' : 'missing'}</strong>
+                </div>
+                <div>
+                  <span>Keystore</span>
+                  <strong>{androidSigning.localFiles.keystoreExists ? 'ignored-local' : 'missing'}</strong>
+                </div>
               </div>
               <div className="factRow">
                 <span>Asset links</span>

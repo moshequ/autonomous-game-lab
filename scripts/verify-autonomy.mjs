@@ -55,6 +55,7 @@ const requiredFiles = [
   'data/store-assets.json',
   'data/store-listing-optimizer.json',
   'data/store-compliance.json',
+  'data/android-signing.json',
   'data/native-package.json',
   'data/balance-report.json',
   'data/production-readiness.json',
@@ -87,6 +88,7 @@ const requiredFiles = [
   'src/data/objectiveAudit.ts',
   'src/data/storeListingOptimizer.ts',
   'src/data/storeCompliance.ts',
+  'src/data/androidSigning.ts',
   'src/data/autonomousOwnerLoop.ts',
   '.github/workflows/autonomous-daily.yml',
   '.github/workflows/autonomous-self-update.yml',
@@ -138,6 +140,7 @@ const requiredFiles = [
   'reports/store-assets-latest.md',
   'reports/store-listing-optimizer-latest.md',
   'reports/store-compliance-latest.md',
+  'reports/android-signing-latest.md',
   'reports/native-package-latest.md',
   'reports/bot-simulation-latest.md',
   'reports/balance-auto-tuner-latest.md',
@@ -161,6 +164,7 @@ const requiredFiles = [
   'scripts/repository-bootstrap.mjs',
   'scripts/autonomous-cadence.mjs',
   'scripts/autonomous-self-update.mjs',
+  'scripts/android-signing-prep.mjs',
   'public/icons/app-icon.svg',
   'public/icons/icon-192.png',
   'public/icons/icon-512.png',
@@ -254,6 +258,7 @@ const storeListingOptimizer = JSON.parse(
   await readFile(path.join(root, 'data', 'store-listing-optimizer.json'), 'utf8'),
 )
 const storeCompliance = JSON.parse(await readFile(path.join(root, 'data', 'store-compliance.json'), 'utf8'))
+const androidSigning = JSON.parse(await readFile(path.join(root, 'data', 'android-signing.json'), 'utf8'))
 const nativePackage = JSON.parse(await readFile(path.join(root, 'data', 'native-package.json'), 'utf8'))
 const balance = JSON.parse(await readFile(path.join(root, 'data', 'balance-report.json'), 'utf8'))
 const readiness = JSON.parse(await readFile(path.join(root, 'data', 'production-readiness.json'), 'utf8'))
@@ -288,6 +293,7 @@ const repositoryReadinessSource = await readFile(path.join(root, 'scripts', 'rep
 const repositoryBootstrapSource = await readFile(path.join(root, 'scripts', 'repository-bootstrap.mjs'), 'utf8')
 const autonomousOperatorSource = await readFile(path.join(root, 'scripts', 'autonomous-operator.mjs'), 'utf8')
 const autonomousSelfUpdateSource = await readFile(path.join(root, 'scripts', 'autonomous-self-update.mjs'), 'utf8')
+const androidSigningSource = await readFile(path.join(root, 'scripts', 'android-signing-prep.mjs'), 'utf8')
 const objectiveAuditSource = await readFile(path.join(root, 'scripts', 'objective-audit.mjs'), 'utf8')
 const githubRepositoryBootstrapScript = await readFile(path.join(root, 'ops', 'github', 'bootstrap-repository.sh'), 'utf8')
 const githubSetupScript = await readFile(path.join(root, 'ops', 'github', 'setup-production.sh'), 'utf8')
@@ -1108,6 +1114,7 @@ const envAwareArtifacts = [
   repositoryBootstrap,
   productionBootstrap,
   autonomousSelfUpdate,
+  androidSigning,
   eventCollectorDeployment,
   postDeploySmoke,
 ]
@@ -1117,6 +1124,7 @@ const envAwareSources = [
   repositoryBootstrapSource,
   productionBootstrapSource,
   autonomousSelfUpdateSource,
+  androidSigningSource,
   eventCollectorDeployPlanSource,
   postDeploySmokeSource,
 ]
@@ -1249,6 +1257,7 @@ if (
   !autonomousOperator.allowlist?.includes('npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap') ||
   !autonomousOperator.allowlist?.includes('npm run autonomous:repo-bootstrap') ||
   !autonomousOperator.allowlist?.includes('npm run autonomous:self-update') ||
+  !autonomousOperator.allowlist?.includes('npm run autonomous:android-signing') ||
   !autonomousOperator.blockedFragments?.includes('gh workflow run') ||
   !autonomousOperator.blockedActions?.some((action) => action.reason === 'daily-loop-recursion-blocked') ||
   !autonomousOperatorSource.includes("spawn('npm'") ||
@@ -1399,6 +1408,9 @@ if (
   !objectiveAutonomyRequirement?.evidence?.some((item) =>
     item.includes(`Repository bootstrap: ${repositoryBootstrap.status}`),
   ) ||
+  !objectiveAudit.requirements
+    ?.find((item) => item.id === 'app-store-distribution-path')
+    ?.evidence?.some((item) => item.includes(`Android signing: ${androidSigning.status}`)) ||
   objectiveAudit.requirements?.find((item) => item.id === 'monetization-path')?.status !== 'prepared-blocked-by-gates' ||
   objectiveAudit.requirements?.find((item) => item.id === 'app-store-distribution-path')?.status !== 'prepared-external-blockers' ||
   (objectiveAudit.blockers?.external?.length ?? 0) === 0 ||
@@ -1583,6 +1595,10 @@ if (!packageJson.scripts?.['autonomous:self-update']?.includes('autonomous-self-
   fail('Autonomous scripts must expose the autonomous self-update generator.')
 }
 
+if (!packageJson.scripts?.['autonomous:android-signing']?.includes('android-signing-prep')) {
+  fail('Autonomous scripts must expose the Android signing prep generator.')
+}
+
 if (
   !packageJson.scripts?.['autonomous:operate']?.includes('autonomous:daily') ||
   !packageJson.scripts?.['autonomous:operate']?.includes('test:e2e')
@@ -1593,11 +1609,13 @@ if (
 if (
   !dailyScript.includes('autonomous:cadence') ||
   !dailyScript.includes('autonomous:self-update') ||
+  !dailyScript.includes('autonomous:android-signing') ||
+  dailyScript.indexOf('autonomous:android-signing') > dailyScript.indexOf('autonomous:env') ||
   dailyScript.indexOf('autonomous:cadence') > dailyScript.indexOf('autonomous:owner-loop', dailyScript.indexOf('autonomous:deploy-plan')) ||
   dailyScript.indexOf('autonomous:self-update') >
     dailyScript.indexOf('autonomous:owner-loop', dailyScript.indexOf('autonomous:deploy-plan'))
 ) {
-  fail('Autonomous daily loop must refresh cadence and self-update evidence before owner-loop evidence.')
+  fail('Autonomous daily loop must refresh Android signing, cadence, and self-update evidence in the right order.')
 }
 
 if (
@@ -2045,12 +2063,18 @@ if (
   fail('Native packager must publish Android TWA handoff metadata, asset-links template, and build commands.')
 }
 
+const nativeSigningFingerprintReady = Boolean(androidSigning.signing?.sha256CertFingerprint)
+const nativeSigningFingerprintBlocker = 'Android signing certificate SHA-256 fingerprint is missing.'
+
 if (
   nativePackage.status === 'blocked-draft-ready' &&
   (!nativePackage.blockers?.includes('Production host is missing or still uses example.com.') ||
-    !nativePackage.blockers?.includes('Android signing certificate SHA-256 fingerprint is missing.'))
+    (nativeSigningFingerprintReady
+      ? nativePackage.blockers?.includes(nativeSigningFingerprintBlocker)
+      : !nativePackage.blockers?.includes(nativeSigningFingerprintBlocker)) ||
+    (nativeSigningFingerprintReady && nativePackage.signing?.status !== 'fingerprint-configured'))
 ) {
-  fail('Native package must stay blocked until production host and Android signing fingerprint exist.')
+  fail('Native package must stay blocked by external host/account gates while consuming prepared Android signing evidence.')
 }
 
 if (
@@ -2085,11 +2109,43 @@ const bubblewrapConfig = JSON.parse(await readFile(path.join(root, 'native', 'an
 const assetLinksTemplate = JSON.parse(await readFile(path.join(root, 'native', 'android', 'assetlinks.template.json'), 'utf8'))
 
 if (
+  androidSigning.status !== 'signing-prepared' ||
+  !/^([A-F0-9]{2}:){31}[A-F0-9]{2}$/.test(androidSigning.signing?.sha256CertFingerprint ?? '') ||
+  androidSigning.localFiles?.keystorePath !== 'ops/android/signing/release.keystore' ||
+  androidSigning.localFiles?.localEnvPath !== 'ops/production.env.local' ||
+  androidSigning.localFiles?.gitIgnored !== true ||
+  androidSigning.ciSecrets?.configuredLocally !== true ||
+  androidSigning.ciSecrets?.valuesRedacted !== true ||
+  androidSigning.controls?.zeroPaidSpend !== true ||
+  androidSigning.controls?.noSecretValuesInReports !== true ||
+  androidSigning.controls?.localSecretFilesGitIgnored !== true ||
+  androidSigning.controls?.doesNotCommitKeystore !== true ||
+  !(androidSigning.checks ?? []).every((check) => check.status === 'pass') ||
+  !androidSigningSource.includes('keytool') ||
+  !androidSigningSource.includes('ops/production.env.local') ||
+  !gitignoreSource.includes('ops/android/signing/') ||
+  !gitignoreSource.includes('native/android/secrets/') ||
+  JSON.stringify(androidSigning).includes('AGL_ANDROID_KEYSTORE_PASSWORD=')
+) {
+  fail('Android signing prep must create redacted zero-spend signing evidence without committing keystore secrets.')
+}
+
+if (
   twaManifest.packageId !== nativePackage.packageName ||
   bubblewrapConfig.packageId !== nativePackage.packageName ||
   assetLinksTemplate[0]?.target?.package_name !== nativePackage.packageName
 ) {
   fail('Native Android handoff files must use the same package name as native-package.json.')
+}
+
+if (
+  nativePackage.signing?.status !== 'fingerprint-configured' ||
+  nativePackage.signing?.sha256CertFingerprint !== androidSigning.signing?.sha256CertFingerprint ||
+  nativePackage.signing?.localSecretsConfigured !== true ||
+  productionEnvironment.android?.signingFingerprintConfigured !== true ||
+  productionEnvironment.android?.sha256CertFingerprint !== androidSigning.signing?.sha256CertFingerprint
+) {
+  fail('Native package and production environment must consume Android signing fingerprint evidence.')
 }
 
 const pngInfo = async (relativePath) => {
@@ -2799,6 +2855,19 @@ if (
   fail('Production readiness must include the objective audit and preserve incomplete/blocker state.')
 }
 
+if (
+  !readiness.distribution?.storePackage?.checks?.some(
+    (check) => check.id === 'android-signing-prep' && check.status === 'pass',
+  ) ||
+  readiness.distribution?.androidSigning?.status !== androidSigning.status ||
+  readiness.distribution?.androidSigning?.signing?.sha256CertFingerprint !==
+    androidSigning.signing?.sha256CertFingerprint ||
+  readiness.distribution?.nativePackage?.signing?.sha256CertFingerprint !==
+    androidSigning.signing?.sha256CertFingerprint
+) {
+  fail('Production readiness must include Android signing prep evidence and native package fingerprint handoff.')
+}
+
 if (readiness.distribution?.googlePlay?.status !== 'blocked') {
   fail('Google Play distribution must remain blocked until credentials and policy assets exist.')
 }
@@ -2977,6 +3046,7 @@ const requiredOwnerSystems = [
   'objective-audit',
   'store-listing-optimizer',
   'store-compliance',
+  'android-signing',
   'production-safety',
   'monetization-path',
   'app-store-path',
@@ -3001,6 +3071,7 @@ const requiredOwnerActions = [
   'review-operator-history',
   'refresh-objective-audit',
   'optimize-store-listing',
+  'prepare-android-signing',
   'apply-safe-improvements',
   'deploy-web-pwa',
   'collect-live-events',
@@ -3053,6 +3124,7 @@ if (
   autonomousOwnerLoop.evidence?.deploymentStatus !== deployment.status ||
   autonomousOwnerLoop.evidence?.productionEnvironmentStatus !== productionEnvironment.status ||
   autonomousOwnerLoop.evidence?.storeComplianceStatus !== storeCompliance.status ||
+  autonomousOwnerLoop.evidence?.androidSigningStatus !== androidSigning.status ||
   missingOwnerSystem ||
   missingOwnerAction ||
   ownerMissingCredential ||
@@ -3188,6 +3260,13 @@ if (
       action.command?.includes('autonomous:store-compliance') &&
       action.costUsd === 0 &&
       action.targets?.includes(storeListingOptimizer.recommendation?.focusGameId),
+  ) ||
+  !autonomousOwnerLoop.safeAutonomousActions?.some(
+    (action) =>
+      action.id === 'prepare-android-signing' &&
+      action.command === 'npm run autonomous:android-signing' &&
+      action.costUsd === 0 &&
+      action.targets?.includes('android-twa-signing'),
   ) ||
   !autonomousOwnerLoop.safeAutonomousActions?.some(
     (action) => action.id === 'deploy-web-pwa' && action.costUsd === 0,

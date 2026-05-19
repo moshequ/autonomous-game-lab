@@ -1,6 +1,6 @@
 # Production Readiness
 
-Generated: 2026-05-19T02:39:05.267Z
+Generated: 2026-05-19T02:56:22.004Z
 
 ## Environment
 
@@ -20,7 +20,7 @@ Workflow dispatch ready: false
 - pass: repository-gh-cli - gh version 2.90.0 (2026-04-16)
 - external-blocker: repository-gh-token - GH_TOKEN or GITHUB_TOKEN is not configured for non-interactive workflow dispatch.
 - pass: repository-pages-workflow - Web PWA Deploy workflow exists and includes post-deploy smoke.
-- pass: repository-deployable-artifact - Deployment ready-for-pages; release candidate release-candidate-ready; smoke blocked-missing-origin.
+- blocker: repository-deployable-artifact - Deployment blocked; release candidate release-candidate-ready; smoke blocked-missing-origin.
 
 ## Repository Bootstrap
 
@@ -31,14 +31,14 @@ Local git: true
 - done: repo-bootstrap-inspect-repository-channel - Repository readiness is waiting-for-github-repository.
 - ready: repo-bootstrap-initialize-local-git - Git worktree is available at /Users/moshequ/Documents/Codex/2026-05-18/i-want-to-have-a-new.
 - ready: repo-bootstrap-create-initial-commit - The local repository has at least one commit.
-- ready: repo-bootstrap-commit-current-snapshot - The current generated production snapshot is committed.
+- ready-for-explicit-snapshot-commit: repo-bootstrap-commit-current-snapshot - 79 generated or source file(s) are not committed yet.
 - waiting-for-github-target: repo-bootstrap-set-or-create-origin - Set GITHUB_REPOSITORY or GH_REPO before attaching origin.
 - waiting-for-github-target: repo-bootstrap-create-github-repository - Set GITHUB_REPOSITORY or GH_REPO before creating a GitHub repository.
-- waiting-for-commit-and-origin: repo-bootstrap-push-initial-snapshot - Push stays held until an origin remote exists and AGL_ALLOW_PUSH=1 is set.
+- waiting-for-commit-and-origin: repo-bootstrap-push-initial-snapshot - Push stays held until a committed local snapshot and origin remote exist.
 
 ## Web/PWA
 
-Status: ready-after-build
+Status: blocked
 - pass: manifest - PWA manifest exists in the production build.
 - pass: install-icons - Generated install/store icons are icons-ready; 6 icons checked.
 - pass: service-worker - Offline service worker exists.
@@ -55,7 +55,7 @@ Status: ready-after-build
 - pass: organic-seed-loop - Organic seed loop is organic-seed-loop-ready; target canopy-bloom; player-initiated share guard active.
 - pass: retention-loop - Retention loop is retention-loop-ready; daily challenge canopy-bloom; no-push/no-account guardrails active.
 - pass: pwa-install-loop - PWA install loop is pwa-install-loop-ready; prompt surface autonomy-cockpit; cost $0.
-- pass: performance-budget - Performance budget is performance-budget-ready; initial JS 668.5 KB / 176.9 KB gzip; deferred game chunk GameCanvas-DKp6VYzB.js.
+- pass: performance-budget - Performance budget is performance-budget-ready; initial JS 672.5 KB / 177.8 KB gzip; deferred game chunk GameCanvas-CedI3y22.js.
 - pass: release-candidate - Release candidate is release-candidate-ready; files 38; smoke URLs 7.
 - pass: post-deploy-smoke-runner - Post-deploy smoke is blocked-missing-origin; origin missing; checks 0/8 passed, 8 blocked.
 - pass: product-optimization - Product optimizer is product-optimization-ready; completion 0.397 vs gate 0.55; latest action already-applied.
@@ -64,12 +64,12 @@ Status: ready-after-build
 - pass: replay-loop - Replay loop is replay-loop-ready; prompt armed; target harbor-rings.
 - pass: release-health - Release health guard is monitoring.
 - pass: production-environment - Production environment status is production-env-missing.
-- pass: production-bootstrap - Production bootstrap is production-bootstrap-ready; mode waiting-for-external-credentials; external blockers 27.
+- pass: production-bootstrap - Production bootstrap is production-bootstrap-ready; mode waiting-for-external-credentials; external blockers 25.
 - pass: autonomous-operator - Autonomous operator is operator-plan-ready; selected prepare-repository-channel; execution not-requested.
-- pass: autonomous-operator-history - Autonomous operator history is operator-history-ready; records 12; executed 0.
+- pass: autonomous-operator-history - Autonomous operator history is operator-history-ready; records 13; executed 0.
 - pass: autonomous-cadence - Autonomous cadence is cadence-ready; Codex active-declared; GitHub scheduled.
-- pass: autonomous-self-update - Autonomous self-update is self-update-ready; safe pending 0; unsafe pending 0; remote push held.
-- pass: objective-audit - Objective audit is objective-in-progress; met 5 / 8; can complete false.
+- blocker: autonomous-self-update - Autonomous self-update is self-update-needs-attention; safe pending 67; unsafe pending 15; remote push held.
+- pass: objective-audit - Objective audit is objective-in-progress; met 4 / 8; can complete false.
 
 ## Monetization
 
@@ -108,23 +108,23 @@ Installs: 0
 ## Performance Budget
 
 Status: performance-budget-ready
-Initial JS: 668.5 KB (176.9 KB gzip)
-Deferred game chunk: GameCanvas-DKp6VYzB.js
-- pass: performance-initial-js-budget - Initial JS is 668.5 KB; budget is 675 KB.
-- pass: performance-initial-js-gzip-budget - Initial JS gzip is 176.9 KB; budget is 200 KB.
+Initial JS: 672.5 KB (177.8 KB gzip)
+Deferred game chunk: GameCanvas-CedI3y22.js
+- pass: performance-initial-js-budget - Initial JS is 672.5 KB; budget is 675 KB.
+- pass: performance-initial-js-gzip-budget - Initial JS gzip is 177.8 KB; budget is 200 KB.
 - pass: performance-initial-css-budget - Initial CSS is 9.6 KB; budget is 40 KB.
 - pass: performance-manifest - PWA manifest exists in dist.
 - pass: performance-service-worker - Service worker exists in dist.
-- pass: performance-game-runtime-deferred - GameCanvas-DKp6VYzB.js is deferred from the initial shell.
-- pass: performance-largest-js-deferred - Largest JS chunk is GameCanvas-DKp6VYzB.js at 1360.8 KB.
+- pass: performance-game-runtime-deferred - GameCanvas-CedI3y22.js is deferred from the initial shell.
+- pass: performance-largest-js-deferred - Largest JS chunk is GameCanvas-CedI3y22.js at 1360.8 KB.
 - pass: performance-deferred-game-budget - Deferred game chunk is 1360.8 KB; monitor budget is 1600 KB.
 
 ## Release Candidate
 
 Status: release-candidate-ready
-Candidate: pwa-3e36776be7b0
+Candidate: pwa-f737a2df3046
 Files: 38
-Aggregate SHA-256: 3e36776be7b010bc0ef25a6ab5ffba9d779283e5fa33ebc97a231e0fef1b50c6
+Aggregate SHA-256: f737a2df304646eaada17526f30bd8cb5e29364ea5ccd5571097f787e3034e6b
 - pass: release-dist-inventory - 38 dist files inventoried.
 - pass: release-required-files - 13/13 required files present.
 - pass: release-game-pages - 10 generated game page(s) in dist.
@@ -138,7 +138,7 @@ Aggregate SHA-256: 3e36776be7b010bc0ef25a6ab5ffba9d779283e5fa33ebc97a231e0fef1b5
 
 Status: blocked-missing-origin
 Origin: missing
-Candidate: pwa-3e36776be7b0
+Candidate: pwa-f737a2df3046
 Checks: 0/8 passed (8 blocked)
 - blocked: smoke-app-shell - No deployed origin configured.
 - blocked: smoke-manifest-webmanifest - No deployed origin configured.
@@ -207,10 +207,10 @@ Setup script: ops/github/setup-production.sh
 - waiting-for-github-repository: bootstrap-repository-channel - Repository missing; git worktree ready; workflow dispatch blocked.
 - waiting-for-github-target: bootstrap-repository-bootstrap - Repository bootstrap waiting-for-github-target; helper ops/github/bootstrap-repository.sh; local git ready.
 - waiting-for-origin-support: bootstrap-production-environment - Environment production-env-missing; public origin missing; support missing-production-address.
-- ready-for-actions-pages: bootstrap-github-pages-hosting - Deployment plan is ready-for-pages; Pages workflow is .github/workflows/web-pwa-deploy.yml.
+- blocked: bootstrap-github-pages-hosting - Deployment plan is blocked; Pages workflow is .github/workflows/web-pwa-deploy.yml.
 - waiting-for-self-update-gate: bootstrap-autonomous-self-update - Self-update gate missing; direct push held.
-- partially-configured: bootstrap-github-actions-variables - 1/24 repository variable value(s) present in this environment.
-- waiting-for-secrets: bootstrap-github-actions-secrets - 0/8 repository secret value(s) present in this environment.
+- partially-configured: bootstrap-github-actions-variables - 3/24 repository variable value(s) present in this environment.
+- partially-configured: bootstrap-github-actions-secrets - 3/8 repository secret value(s) present in this environment.
 - blocked-needs-cloudflare-env: bootstrap-event-collector - Collector deployment is blocked-needs-cloudflare-env; provider cloudflare-worker-r2.
 - held-by-product-gates: bootstrap-monetization-gate - Revenue disabled; spend mode no-spend.
 - draft-ready-external-blockers: bootstrap-store-compliance-unblock - 4 store compliance blocker(s) remain.
@@ -226,7 +226,7 @@ Execution: not-requested
 ## Autonomous Operator History
 
 Status: operator-history-ready
-Records: 12
+Records: 13
 Executed: 0
 
 ## Autonomous Cadence
@@ -248,16 +248,16 @@ GitHub Actions: scheduled
 
 ## Autonomous Self Update
 
-Status: self-update-ready
+Status: self-update-needs-attention
 Workflow: .github/workflows/autonomous-self-update.yml
-Safe pending: 0
-Unsafe pending: 0
+Safe pending: 67
+Unsafe pending: 15
 Remote push ready: false
 - pass: self-update-script-registered - autonomous:self-update is node scripts/autonomous-self-update.mjs.
 - pass: self-update-daily-loop-refresh - autonomous:daily refreshes self-update evidence before owner/audit evidence.
 - pass: self-update-daily-workflow-read-only - The ordinary daily workflow remains read-only and uploads evidence artifacts.
 - pass: self-update-self-update-workflow - A separate gated workflow can reproduce the daily loop, verify it, and persist allowlisted changes.
-- pass: self-update-safe-path-allowlist - 0 safe pending file(s), 0 unsafe pending file(s).
+- blocker: self-update-safe-path-allowlist - 67 safe pending file(s), 15 unsafe pending file(s).
 - pass: self-update-repository-optional - Git worktree is available on main.
 - pass: self-update-remote-push-gated - Remote push remains held until GitHub credentials and AGL_AUTONOMOUS_SELF_UPDATE_DIRECT=1 are configured.
 - pass: self-update-zero-spend-controls - Self-update only stages repository artifacts; it does not create accounts, stores, ads, paid traffic, or revenue.
@@ -265,7 +265,7 @@ Remote push ready: false
 ## Objective Audit
 
 Status: objective-in-progress
-Met: 5 / 8
+Met: 4 / 8
 Can mark complete: false
 
 ## Distribution
@@ -277,6 +277,7 @@ Store package: draft-ready
 - pass: apple-privacy-labels - Apple App Privacy label draft exists.
 - pass: native-packaging-path - Android TWA packaging draft exists while signing remains blocked.
 - pass: native-package-handoff - Android native handoff is blocked-draft-ready.
+- pass: android-signing-prep - Android signing is signing-prepared; fingerprint available.
 - pass: store-screenshots - Generated store screenshot assets are screenshots-ready; 4 screenshots attached.
 - pass: store-compliance - Store compliance is draft-ready-external-blockers.
 
@@ -299,10 +300,14 @@ Store compliance: draft-ready-external-blockers
 Native package: blocked-draft-ready
 - blocker: native-production-host - Production host is not configured.
 - blocker: native-hosted-privacy - Privacy URL status is needs-hosted-domain.
-- blocker: native-android-signing-fingerprint - Signing fingerprint is missing.
+- pass: native-android-signing-fingerprint - SHA-256 certificate fingerprint is configured.
 - pass: native-store-screenshots - 4 screenshot asset(s) available.
 - pass: native-icon-assets - 6 icon asset(s) available.
 - blocker: native-google-play-account - Google Play developer account is not connected.
+
+Android signing: signing-prepared
+- fingerprint: FC:92:04:44:5B:93:78:92:A9:8C:08:50:BF:97:7A:90:A5:62:61:81:53:E7:A9:AA:A9:39:86:74:AE:D3:52:C2
+- local secrets configured: true
 
 Icon assets: icons-ready
 - manifest icon: /icons/icon-192.png (192x192, any)

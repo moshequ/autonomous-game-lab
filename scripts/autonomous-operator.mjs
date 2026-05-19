@@ -54,6 +54,7 @@ const allowedLocalCommands = [
   'npm run autonomous:replay-loop',
   'npm run autonomous:analyze && npm run autonomous:product-optimize && npm run autonomous:sync-config && npm run autonomous:simulate',
   'npm run autonomous:store-listing-optimize && npm run autonomous:store-compliance',
+  'npm run autonomous:android-signing',
   'npm run autonomous:experiments && npm run autonomous:improve && npm run autonomous:sync-experiments',
   'npm run autonomous:import-events && npm run autonomous:analytics',
   'npm run autonomous:deploy-plan && npm run autonomous:bootstrap',

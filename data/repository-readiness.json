@@ -1,10 +1,27 @@
 {
-  "generatedAt": "2026-05-19T02:38:43.153Z",
+  "generatedAt": "2026-05-19T02:56:19.149Z",
   "status": "waiting-for-github-repository",
   "envFiles": {
-    "loaded": false,
-    "loadedFiles": [],
-    "loadedKeys": [],
+    "loaded": true,
+    "loadedFiles": [
+      {
+        "path": "ops/production.env.local",
+        "keys": [
+          "AGL_ANDROID_PACKAGE_NAME",
+          "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
+          "AGL_ANDROID_KEYSTORE_BASE64",
+          "AGL_ANDROID_KEYSTORE_PASSWORD",
+          "AGL_ANDROID_KEY_ALIAS"
+        ]
+      }
+    ],
+    "loadedKeys": [
+      "AGL_ANDROID_PACKAGE_NAME",
+      "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
+      "AGL_ANDROID_KEYSTORE_BASE64",
+      "AGL_ANDROID_KEYSTORE_PASSWORD",
+      "AGL_ANDROID_KEY_ALIAS"
+    ],
     "skippedExistingKeys": [],
     "skippedProtectedKeys": [],
     "overwrittenEnvFileKeys": [],
@@ -39,7 +56,7 @@
     "insideWorkTree": true,
     "gitRoot": "/Users/moshequ/Documents/Codex/2026-05-18/i-want-to-have-a-new",
     "currentBranch": "main",
-    "dirtyFiles": 0
+    "dirtyFiles": 76
   },
   "repository": {
     "target": null,
@@ -57,8 +74,8 @@
     "workflowPath": ".github/workflows/web-pwa-deploy.yml",
     "workflowExists": true,
     "deployWorkflowIncludesSmoke": true,
-    "deploymentStatus": "ready-for-pages",
-    "releaseCandidateId": "pwa-3e36776be7b0",
+    "deploymentStatus": "blocked",
+    "releaseCandidateId": "pwa-f737a2df3046",
     "postDeploySmokeStatus": "blocked-missing-origin"
   },
   "controls": {
@@ -103,13 +120,14 @@
     },
     {
       "id": "deployable-artifact",
-      "status": "pass",
-      "detail": "Deployment ready-for-pages; release candidate release-candidate-ready; smoke blocked-missing-origin."
+      "status": "blocker",
+      "detail": "Deployment blocked; release candidate release-candidate-ready; smoke blocked-missing-origin."
     }
   ],
   "blockers": [
     "Add a GitHub origin remote or set GITHUB_REPOSITORY/GH_REPO.",
-    "Configure GH_TOKEN or GITHUB_TOKEN for workflow dispatch and repository settings sync."
+    "Configure GH_TOKEN or GITHUB_TOKEN for workflow dispatch and repository settings sync.",
+    "Refresh build, release candidate, post-deploy smoke, and deployment plan artifacts."
   ],
   "setupRequiredOnce": [
     "Add a GitHub origin remote or set GITHUB_REPOSITORY/GH_REPO to owner/repo.",

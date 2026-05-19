@@ -1,6 +1,6 @@
 # Autonomous Operator
 
-Generated: 2026-05-19T02:36:24.364Z
+Generated: 2026-05-19T02:56:21.521Z
 Status: operator-plan-ready
 Mode: plan-only
 Owner decision: prepare-repository-channel
@@ -22,7 +22,6 @@ Execution: not-requested
 
 ## Eligible Local Actions
 
-- refresh-autonomous-self-update
 - seed-portfolio-traffic
 - refresh-organic-seed-loop
 - optimize-daily-retention
@@ -42,7 +41,7 @@ Execution: not-requested
 
 - run-daily-owner-loop: daily-loop-recursion-blocked
 - refresh-autonomous-cadence: command-not-in-local-allowlist
-- refresh-autonomous-self-update: not-selected-this-run
+- refresh-autonomous-self-update: status-monitor
 - seed-portfolio-traffic: not-selected-this-run
 - refresh-organic-seed-loop: not-selected-this-run
 - optimize-daily-retention: not-selected-this-run

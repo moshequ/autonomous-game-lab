@@ -1,9 +1,9 @@
 # Autonomous Owner Loop
 
-Generated: 2026-05-19T02:39:05.514Z
+Generated: 2026-05-19T02:56:22.245Z
 Status: owner-loop-ready
-Mode: repository-channel-needed
-Autonomy score: 29/31 (94%)
+Mode: guarded-local-automation
+Autonomy score: 28/32 (88%)
 
 ## Owner Decision
 
@@ -16,14 +16,14 @@ Autonomy score: 29/31 (94%)
 - ready: game-factory - 10 playable games; 5 generated runtime games.
 - ready: analytics-ingest - Active source: fixture-sample; event ingest: idle-no-files; collector smoke: pass.
 - ready: autonomous-cadence - Cadence cadence-ready; Codex active-declared; GitHub scheduled.
-- ready: autonomous-self-update - Self-update self-update-ready; safe pending 0; unsafe pending 0; remote push held.
+- needs-self-update-evidence: autonomous-self-update - Self-update self-update-needs-attention; safe pending 67; unsafe pending 15; remote push held.
 - ready: portfolio-loop - Daily challenge: Canopy Bloom; seed traffic: canopy-bloom, grove-engine, metro-loom, pocket-draft.
 - ready: traffic-seeding - 4 seed campaign(s); max cost $0.
 - ready: acquisition-learning - 4 campaign(s); 0 attributed start(s); candidate canopy-bloom.
 - ready: organic-seed-loop - Target canopy-bloom; surface portal-growth-loop; share telemetry organic_seed_share_clicked.
 - ready: retention-loop - Daily canopy-bloom; D1 17%; streak variant daily-streak; return prompt armed; return intent armed.
 - ready: pwa-install-loop - Prompt autonomy-cockpit; installs 0; launch events 0.
-- ready: performance-budget - Initial JS 668.5 KB; gzip 176.9 KB; deferred chunks 1.
+- ready: performance-budget - Initial JS 672.5 KB; gzip 177.8 KB; deferred chunks 1.
 - ready: product-optimization - Completion 40% / gate 55%; latest already-applied.
 - ready: first-move-coach - Coach first-move-coach-ready; enabled targets 6; primary harbor-rings.
 - ready: completion-loop - Completion loop completion-loop-ready; prompt armed; finish line armed; target harbor-rings; completion 40%.
@@ -32,15 +32,16 @@ Autonomy score: 29/31 (94%)
 - ready: organic-growth - 10 SEO/share pages; optimization 5 page(s).
 - waiting-for-github-repository: repository-channel - Repository missing; git worktree ready; workflow dispatch blocked.
 - ready: repository-bootstrap - Bootstrap waiting-for-github-target; mode plan-only; helper ops/github/bootstrap-repository.sh; local git ready.
-- ready: web-deployment - Deployment ready-for-pages; web readiness ready-after-build; promotion promotable-internal.
-- ready: release-candidate - Candidate pwa-3e36776be7b0; status release-candidate-ready; files 38; smoke URLs 7.
-- ready: post-deploy-smoke - Smoke blocked-missing-origin; origin missing; candidate pwa-3e36776be7b0; checks 0/8 passed.
-- ready: production-bootstrap - Bootstrap production-bootstrap-ready; mode waiting-for-external-credentials; external blockers 27.
+- blocked: web-deployment - Deployment blocked; web readiness blocked; promotion blocked.
+- ready: release-candidate - Candidate pwa-f737a2df3046; status release-candidate-ready; files 38; smoke URLs 7.
+- ready: post-deploy-smoke - Smoke blocked-missing-origin; origin missing; candidate pwa-f737a2df3046; checks 0/8 passed.
+- ready: production-bootstrap - Bootstrap production-bootstrap-ready; mode waiting-for-external-credentials; external blockers 25.
 - ready: autonomous-operator - Operator operator-plan-ready; selected prepare-repository-channel; execution not-requested.
-- ready: operator-history - History operator-history-ready; records 12; executed 0.
-- ready: objective-audit - Audit objective-in-progress; met 5/8; external blockers 24.
+- ready: operator-history - History operator-history-ready; records 13; executed 0.
+- ready: objective-audit - Audit objective-in-progress; met 4/8; external blockers 21.
 - ready: store-listing-optimizer - Focus canopy-bloom; lead screenshot phone-canopy-bloom-generated; candidate changed yes.
 - ready: store-compliance - Rating Everyone; target audience general; blockers 4.
+- ready: android-signing - Signing signing-prepared; fingerprint available; local secrets configured.
 - ready: production-safety - Response guarded-operations; incident drill pass; spend mode no-spend.
 - held-by-product-gates: monetization-path - Revenue disabled; promotion blocked; completion 40%.
 - blocked-needs-host-signing-play: app-store-path - Native package blocked-draft-ready; Android promotion blocked; screenshots 4.
@@ -49,7 +50,7 @@ Autonomy score: 29/31 (94%)
 
 - armed: run-daily-owner-loop - npm run autonomous:daily
 - armed: refresh-autonomous-cadence - npm run autonomous:cadence
-- armed: refresh-autonomous-self-update - npm run autonomous:self-update
+- monitor: refresh-autonomous-self-update - npm run autonomous:self-update
 - armed: seed-portfolio-traffic - npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop
 - armed: refresh-organic-seed-loop - npm run autonomous:organic-seed-loop
 - armed: optimize-daily-retention - npm run autonomous:retention
@@ -67,6 +68,7 @@ Autonomy score: 29/31 (94%)
 - armed: review-operator-history - npm run autonomous:operator
 - armed: refresh-objective-audit - npm run autonomous:objective-audit
 - armed: optimize-store-listing - npm run autonomous:store-listing-optimize && npm run autonomous:store-compliance
+- monitor: prepare-android-signing - npm run autonomous:android-signing
 - armed: apply-safe-improvements - npm run autonomous:experiments && npm run autonomous:improve && npm run autonomous:sync-experiments
 - blocked-needs-repository-channel: deploy-web-pwa - Run the Web PWA Deploy workflow after GitHub Pages is enabled for the repository.
 - blocked-needs-collector-or-posthog: collect-live-events - npm run autonomous:import-events && npm run autonomous:analytics
@@ -80,15 +82,11 @@ Autonomy score: 29/31 (94%)
 - VITE_EVENT_COLLECTOR_URL + AGL_EVENT_COLLECTOR_EXPORT_URL: Optional zero-cost Worker/R2 event collector for browser analytics and autonomous rollups.
 - VITE_ADSENSE_CLIENT_ID + VITE_ADSENSE_REWARDED_SLOT_ID: Web/PWA rewarded or display-ad test configuration after product and privacy gates pass.
 - ADMOB_PUBLISHER_ID: Native app seller line for app-ads.txt and Android rewarded tests after app-store gates pass.
-- AGL_ANDROID_SHA256_CERT_FINGERPRINT: Android signing fingerprint for Digital Asset Links.
 - AGL_GOOGLE_PLAY_ACCOUNT_CONNECTED: Allows native packaging gates to treat Play Console access as connected.
 - CLOUDFLARE_API_TOKEN: Repository secret sourced from CLOUDFLARE_API_TOKEN.
 - VITE_EVENT_COLLECTOR_WRITE_TOKEN: Repository secret sourced from VITE_EVENT_COLLECTOR_WRITE_TOKEN.
 - AGL_EVENT_COLLECTOR_ADMIN_TOKEN: Repository secret sourced from AGL_EVENT_COLLECTOR_ADMIN_TOKEN.
 - POSTHOG_PERSONAL_API_KEY: Repository secret sourced from POSTHOG_PERSONAL_API_KEY.
-- AGL_ANDROID_KEYSTORE_BASE64: Repository secret sourced from AGL_ANDROID_KEYSTORE_BASE64.
-- AGL_ANDROID_KEYSTORE_PASSWORD: Repository secret sourced from AGL_ANDROID_KEYSTORE_PASSWORD.
-- AGL_ANDROID_KEY_ALIAS: Repository secret sourced from AGL_ANDROID_KEY_ALIAS.
 - GOOGLE_PLAY_SERVICE_ACCOUNT_JSON: Repository secret sourced from GOOGLE_PLAY_SERVICE_ACCOUNT_JSON.
 
 ## Guardrails

@@ -1,6 +1,6 @@
 # Native Package
 
-Generated: 2026-05-18T23:36:59.702Z
+Generated: 2026-05-19T02:56:18.038Z
 Status: blocked-draft-ready
 Platform: android-trusted-web-activity
 Package: app.autonomousgamelab.portal
@@ -10,7 +10,7 @@ Host: autonomous-game-lab.example.com
 
 - blocker: production-host - Production host is not configured.
 - blocker: hosted-privacy - Privacy URL status is needs-hosted-domain.
-- blocker: android-signing-fingerprint - Signing fingerprint is missing.
+- pass: android-signing-fingerprint - SHA-256 certificate fingerprint is configured.
 - pass: store-screenshots - 4 screenshot asset(s) available.
 - pass: icon-assets - 6 icon asset(s) available.
 - blocker: google-play-account - Google Play developer account is not connected.

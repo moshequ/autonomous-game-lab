@@ -1,6 +1,6 @@
 # Unit Economics Guard
 
-Generated: 2026-05-18T23:37:00.549Z
+Generated: 2026-05-19T02:56:20.133Z
 Status: no-spend
 Analytics source: fixture-sample
 Cost posture: zero-paid-spend-until-live-revenue-and-retention-pass

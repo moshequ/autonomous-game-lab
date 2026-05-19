@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-18T23:36:59.702Z",
+  "generatedAt": "2026-05-19T02:56:18.037Z",
   "source": "Autonomous Game Lab native packager",
   "status": "blocked-draft-ready",
   "initCommand": "npx @bubblewrap/cli init --manifest https://YOUR_HOST/manifest.webmanifest",
@@ -9,8 +9,8 @@
   "host": "autonomous-game-lab.example.com",
   "startUrl": "/",
   "signing": {
-    "status": "blocked-until-keystore-exists",
-    "sha256CertFingerprint": null
+    "status": "fingerprint-configured",
+    "sha256CertFingerprint": "FC:92:04:44:5B:93:78:92:A9:8C:08:50:BF:97:7A:90:A5:62:61:81:53:E7:A9:AA:A9:39:86:74:AE:D3:52:C2"
   },
   "assetLinks": {
     "status": "template-only",

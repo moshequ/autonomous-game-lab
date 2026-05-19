@@ -1,6 +1,6 @@
 # Promotion Decision
 
-Generated: 2026-05-18T23:37:00.127Z
+Generated: 2026-05-19T02:56:19.926Z
 Analytics source: fixture-sample
 Release health: monitoring
 Cost posture: no-new-spend
@@ -9,10 +9,11 @@ Cost posture: no-new-spend
 
 ### web-pwa
 
-- Status: promotable-internal
-- Decision: Promote the current PWA build to an internal/public web experiment when hosting is connected.
-- Next action: Connect a free static host or GitHub Pages environment, then publish dist.
-- Blockers: none
+- Status: blocked
+- Decision: Hold web deploy until readiness blockers clear.
+- Next action: Fix web readiness blockers.
+- Blockers:
+  - Web readiness is blocked
 
 ### monetization
 
@@ -30,8 +31,8 @@ Cost posture: no-new-spend
 - Decision: Keep Android packaging blocked.
 - Next action: Host privacy URL, create signing assets, and connect Google Play account.
 - Blockers:
+  - Web/PWA readiness is not green.
   - Hosted privacy policy URL is missing.
-  - Signed Android package and keystore are missing.
   - Google Play developer account is not connected.
   - Native package is blocked-draft-ready.
 

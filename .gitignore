@@ -17,6 +17,8 @@ test-results
 !.env.example
 ops/production.env
 ops/*.env.local
+ops/android/signing/
+native/android/secrets/
 !ops/production.env.example
 *.local
 

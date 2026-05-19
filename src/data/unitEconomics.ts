@@ -1,5 +1,5 @@
 export const unitEconomics = {
-  "generatedAt": "2026-05-18T23:37:00.549Z",
+  "generatedAt": "2026-05-19T02:56:20.133Z",
   "status": "no-spend",
   "analyticsSource": "fixture-sample",
   "projectionConfidence": "low-fixture-or-zero",
@@ -45,8 +45,8 @@ export const unitEconomics = {
       "allowed": false,
       "paybackDays": null,
       "blockers": [
+        "Web/PWA readiness is not green.",
         "Hosted privacy policy URL is missing.",
-        "Signed Android package and keystore are missing.",
         "Google Play developer account is not connected.",
         "Native package is blocked-draft-ready.",
         "No live revenue signal yet.",
@@ -80,7 +80,7 @@ export const unitEconomics = {
     "noInterstitialsBeforeRetention": true
   },
   "promotion": {
-    "web": "promotable-internal",
+    "web": "blocked",
     "monetization": "blocked",
     "androidGooglePlay": "blocked",
     "iosAppStore": "defer"

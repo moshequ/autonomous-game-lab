@@ -1,21 +1,21 @@
 # Deployment Plan
 
-Generated: 2026-05-19T02:37:55.146Z
-Status: ready-for-pages
+Generated: 2026-05-19T02:56:20.555Z
+Status: blocked
 Target: github-pages
 Cost: $0 platform hosting for public/internal experiment traffic
 
 ## Checks
 
-- pass: web-promotion - Promote the current PWA build to an internal/public web experiment when hosting is connected.
-- pass: web-readiness - Web readiness is ready-after-build.
+- blocker: web-promotion - Hold web deploy until readiness blockers clear.
+- blocker: web-readiness - Web readiness is blocked.
 - pass: release-health - Release health is monitoring.
 - pass: unit-economics-guard - Spend mode is no-spend; max daily paid spend is $0.00.
 - pass: production-response - Production response is guarded-operations; rollback required is false.
 - pass: dist-index - Production index.html exists.
 - pass: dist-service-worker - Production service worker exists.
 - pass: dist-privacy - Privacy policy is included in the deployable build.
-- pass: release-candidate - Release candidate is release-candidate-ready; candidate pwa-3e36776be7b0.
+- pass: release-candidate - Release candidate is release-candidate-ready; candidate pwa-f737a2df3046.
 - pass: deploy-workflow - GitHub Pages deployment workflow exists.
 - pass: production-environment - Environment status is production-env-missing; public origin is missing.
 - pass: event-collector-deployment - Event collector deployment is blocked-needs-cloudflare-env.
@@ -37,9 +37,9 @@ Cost: $0 platform hosting for public/internal experiment traffic
 ## Release Candidate
 
 - Status: release-candidate-ready
-- Candidate: pwa-3e36776be7b0
+- Candidate: pwa-f737a2df3046
 - Files: 38
-- Aggregate SHA-256: 3e36776be7b010bc0ef25a6ab5ffba9d779283e5fa33ebc97a231e0fef1b50c6
+- Aggregate SHA-256: f737a2df304646eaada17526f30bd8cb5e29364ea5ccd5571097f787e3034e6b
 - Post-deploy smoke URLs: 7
 
 ## Repository Channel
@@ -50,6 +50,7 @@ Cost: $0 platform hosting for public/internal experiment traffic
 - Workflow dispatch ready: false
 - blocker: Add a GitHub origin remote or set GITHUB_REPOSITORY/GH_REPO.
 - blocker: Configure GH_TOKEN or GITHUB_TOKEN for workflow dispatch and repository settings sync.
+- blocker: Refresh build, release candidate, post-deploy smoke, and deployment plan artifacts.
 
 ## Environment
 

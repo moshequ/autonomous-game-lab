@@ -1,6 +1,56 @@
 {
-  "generatedAt": "2026-05-18T23:37:00.777Z",
+  "generatedAt": "2026-05-19T02:56:20.346Z",
   "status": "blocked-needs-host-signing-play",
+  "envFiles": {
+    "loaded": true,
+    "loadedFiles": [
+      {
+        "path": "ops/production.env.local",
+        "keys": [
+          "AGL_ANDROID_PACKAGE_NAME",
+          "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
+          "AGL_ANDROID_KEYSTORE_BASE64",
+          "AGL_ANDROID_KEYSTORE_PASSWORD",
+          "AGL_ANDROID_KEY_ALIAS"
+        ]
+      }
+    ],
+    "loadedKeys": [
+      "AGL_ANDROID_PACKAGE_NAME",
+      "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
+      "AGL_ANDROID_KEYSTORE_BASE64",
+      "AGL_ANDROID_KEYSTORE_PASSWORD",
+      "AGL_ANDROID_KEY_ALIAS"
+    ],
+    "skippedExistingKeys": [],
+    "skippedProtectedKeys": [],
+    "overwrittenEnvFileKeys": [],
+    "supportedFiles": [
+      ".env",
+      ".env.local",
+      ".env.production",
+      ".env.production.local",
+      "ops/production.env",
+      "ops/production.env.local"
+    ],
+    "candidateFiles": [
+      ".env",
+      ".env.local",
+      ".env.production",
+      ".env.production.local",
+      "ops/production.env",
+      "ops/production.env.local"
+    ],
+    "shellEnvPrecedence": true,
+    "valuesRedacted": true,
+    "controls": {
+      "shellEnvPrecedence": true,
+      "laterEnvFilesOverrideEarlierEnvFiles": true,
+      "protectedMutationKeysRequireShellEnv": true,
+      "noSecretValuesInReports": true,
+      "gitIgnoredLocalEnvFiles": true
+    }
+  },
   "platform": "android-trusted-web-activity",
   "channel": "android-google-play",
   "costPosture": "zero-paid-spend-until-live-revenue-and-retention-pass",
@@ -8,6 +58,7 @@
   "releaseTrack": "internal",
   "releaseMode": "draft",
   "nativePackageStatus": "blocked-draft-ready",
+  "signingStatus": "signing-prepared",
   "storeComplianceStatus": "draft-ready-external-blockers",
   "promotionStatus": "blocked",
   "workflow": {
@@ -28,7 +79,9 @@
     "googlePlayFeeAllowed": false,
     "paybackDays": null,
     "hostedPrivacyStatus": "needs-hosted-domain",
-    "assetLinksStatus": "template-only"
+    "assetLinksStatus": "template-only",
+    "signingFingerprint": "FC:92:04:44:5B:93:78:92:A9:8C:08:50:BF:97:7A:90:A5:62:61:81:53:E7:A9:AA:A9:39:86:74:AE:D3:52:C2",
+    "localSigningSecretsConfigured": true
   },
   "checks": [
     {
@@ -58,12 +111,12 @@
     },
     {
       "id": "signing-fingerprint",
-      "status": "blocker",
-      "detail": "Android signing fingerprint is missing."
+      "status": "pass",
+      "detail": "Android signing fingerprint is configured."
     },
     {
       "id": "signing-secrets",
-      "status": "missing-env",
+      "status": "pass",
       "detail": "Android keystore, password, and alias are available to CI."
     },
     {
@@ -95,8 +148,6 @@
   "blockers": [
     "native-package-ready: Native package is blocked-draft-ready.",
     "asset-links: Digital Asset Links are template-only.",
-    "signing-fingerprint: Android signing fingerprint is missing.",
-    "signing-secrets: Android keystore, password, and alias are available to CI.",
     "google-play-account: Google Play account is not connected.",
     "play-service-account: Google Play service account upload credentials are available to CI.",
     "unit-economics-store-spend: Store spend allowed is false; spend mode is no-spend.",
@@ -104,8 +155,7 @@
   ],
   "setupRequiredOnce": [
     "Host the PWA on a stable HTTPS production domain with privacy and support URLs.",
-    "Create Android signing material and set AGL_ANDROID_SHA256_CERT_FINGERPRINT after the certificate exists.",
-    "Set AGL_ANDROID_KEYSTORE_BASE64, AGL_ANDROID_KEYSTORE_PASSWORD, and AGL_ANDROID_KEY_ALIAS in CI secrets.",
+    "Use production bootstrap to sync the prepared AGL_ANDROID_* signing values into CI secrets when repository credentials exist.",
     "Connect Google Play only after unit economics allows the one-time store fee.",
     "Set GOOGLE_PLAY_SERVICE_ACCOUNT_JSON or GOOGLE_PLAY_SERVICE_ACCOUNT_BASE64 before automated internal testing uploads."
   ],

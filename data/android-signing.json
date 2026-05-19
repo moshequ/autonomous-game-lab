@@ -1,0 +1,125 @@
+{
+  "generatedAt": "2026-05-19T02:56:17.622Z",
+  "status": "signing-prepared",
+  "envFiles": {
+    "loaded": true,
+    "loadedFiles": [
+      {
+        "path": "ops/production.env.local",
+        "keys": [
+          "AGL_ANDROID_PACKAGE_NAME",
+          "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
+          "AGL_ANDROID_KEYSTORE_BASE64",
+          "AGL_ANDROID_KEYSTORE_PASSWORD",
+          "AGL_ANDROID_KEY_ALIAS"
+        ]
+      }
+    ],
+    "loadedKeys": [
+      "AGL_ANDROID_PACKAGE_NAME",
+      "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
+      "AGL_ANDROID_KEYSTORE_BASE64",
+      "AGL_ANDROID_KEYSTORE_PASSWORD",
+      "AGL_ANDROID_KEY_ALIAS"
+    ],
+    "skippedExistingKeys": [],
+    "skippedProtectedKeys": [],
+    "overwrittenEnvFileKeys": [],
+    "supportedFiles": [
+      ".env",
+      ".env.local",
+      ".env.production",
+      ".env.production.local",
+      "ops/production.env",
+      "ops/production.env.local"
+    ],
+    "candidateFiles": [
+      ".env",
+      ".env.local",
+      ".env.production",
+      ".env.production.local",
+      "ops/production.env",
+      "ops/production.env.local"
+    ],
+    "shellEnvPrecedence": true,
+    "valuesRedacted": true,
+    "controls": {
+      "shellEnvPrecedence": true,
+      "laterEnvFilesOverrideEarlierEnvFiles": true,
+      "protectedMutationKeysRequireShellEnv": true,
+      "noSecretValuesInReports": true,
+      "gitIgnoredLocalEnvFiles": true
+    }
+  },
+  "platform": "android-trusted-web-activity",
+  "packageName": "app.autonomousgamelab.portal",
+  "signing": {
+    "keyAlias": "autonomous-game-lab",
+    "sha256CertFingerprint": "FC:92:04:44:5B:93:78:92:A9:8C:08:50:BF:97:7A:90:A5:62:61:81:53:E7:A9:AA:A9:39:86:74:AE:D3:52:C2",
+    "fingerprintSource": "environment",
+    "generatedThisRun": false,
+    "restoredFromBase64": false,
+    "validityDays": 10000,
+    "algorithm": "RSA-2048",
+    "storeType": "pkcs12"
+  },
+  "localFiles": {
+    "keystorePath": "ops/android/signing/release.keystore",
+    "certificatePath": "ops/android/signing/certificate.pem",
+    "localEnvPath": "ops/production.env.local",
+    "keystoreExists": true,
+    "localEnvWritten": true,
+    "gitIgnored": true
+  },
+  "ciSecrets": {
+    "required": [
+      "AGL_ANDROID_KEYSTORE_BASE64",
+      "AGL_ANDROID_KEYSTORE_PASSWORD",
+      "AGL_ANDROID_KEY_ALIAS"
+    ],
+    "configuredLocally": true,
+    "valuesRedacted": true
+  },
+  "controls": {
+    "zeroPaidSpend": true,
+    "noAccountCreation": true,
+    "noStoreSubmission": true,
+    "noRevenueEnablement": true,
+    "noSecretValuesInReports": true,
+    "localSecretFilesGitIgnored": true,
+    "doesNotCommitKeystore": true,
+    "doesNotRotateExistingFingerprintInCi": true
+  },
+  "checks": [
+    {
+      "id": "signing-tool",
+      "status": "pass",
+      "detail": "OpenSSL is available for PKCS#12 Android signing material."
+    },
+    {
+      "id": "keystore-file",
+      "status": "pass",
+      "detail": "Local keystore exists at ops/android/signing/release.keystore."
+    },
+    {
+      "id": "fingerprint",
+      "status": "pass",
+      "detail": "SHA-256 fingerprint is available for Digital Asset Links."
+    },
+    {
+      "id": "local-env-sync",
+      "status": "pass",
+      "detail": "Signing values were synced into ops/production.env.local with secret values redacted from reports."
+    },
+    {
+      "id": "secret-redaction",
+      "status": "pass",
+      "detail": "Keystore bytes, base64, and password are never written to committed reports or src/data artifacts."
+    }
+  ],
+  "blockers": [],
+  "nextActions": [
+    "Use production bootstrap to sync AGL_ANDROID_* values into GitHub variables and secrets when a repository token exists.",
+    "Keep Google Play submission blocked until host, privacy, account, and unit-economics gates pass."
+  ]
+}

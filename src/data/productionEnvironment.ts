@@ -1,10 +1,27 @@
 export const productionEnvironment = {
-  "generatedAt": "2026-05-19T02:35:48.310Z",
+  "generatedAt": "2026-05-19T02:56:17.825Z",
   "status": "production-env-missing",
   "envFiles": {
-    "loaded": false,
-    "loadedFiles": [],
-    "loadedKeys": [],
+    "loaded": true,
+    "loadedFiles": [
+      {
+        "path": "ops/production.env.local",
+        "keys": [
+          "AGL_ANDROID_PACKAGE_NAME",
+          "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
+          "AGL_ANDROID_KEYSTORE_BASE64",
+          "AGL_ANDROID_KEYSTORE_PASSWORD",
+          "AGL_ANDROID_KEY_ALIAS"
+        ]
+      }
+    ],
+    "loadedKeys": [
+      "AGL_ANDROID_PACKAGE_NAME",
+      "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
+      "AGL_ANDROID_KEYSTORE_BASE64",
+      "AGL_ANDROID_KEYSTORE_PASSWORD",
+      "AGL_ANDROID_KEY_ALIAS"
+    ],
     "skippedExistingKeys": [],
     "skippedProtectedKeys": [],
     "overwrittenEnvFileKeys": [],
@@ -75,8 +92,8 @@ export const productionEnvironment = {
   },
   "android": {
     "packageName": "app.autonomousgamelab.portal",
-    "signingFingerprintConfigured": false,
-    "sha256CertFingerprint": null,
+    "signingFingerprintConfigured": true,
+    "sha256CertFingerprint": "FC:92:04:44:5B:93:78:92:A9:8C:08:50:BF:97:7A:90:A5:62:61:81:53:E7:A9:AA:A9:39:86:74:AE:D3:52:C2",
     "googlePlayAccountConnected": false,
     "status": "blocked-needs-host-signing-account"
   },
@@ -90,7 +107,6 @@ export const productionEnvironment = {
     "Set VITE_EVENT_COLLECTOR_URL or VITE_POSTHOG_KEY to forward browser analytics in production.",
     "Set AGL_EVENT_COLLECTOR_EXPORT_URL + AGL_EVENT_COLLECTOR_ADMIN_TOKEN or PostHog server credentials for autonomous production rollups.",
     "Set VITE_ADSENSE_CLIENT_ID + VITE_ADSENSE_REWARDED_SLOT_ID for web/PWA revenue tests or ADMOB_PUBLISHER_ID for native app placements.",
-    "Set AGL_ANDROID_SHA256_CERT_FINGERPRINT after Android signing exists.",
     "Connect Google Play credentials or set AGL_GOOGLE_PLAY_ACCOUNT_CONNECTED=true.",
     "Connect Apple Developer account only after revenue justifies iOS spend."
   ],
@@ -133,7 +149,7 @@ export const productionEnvironment = {
     {
       "name": "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
       "purpose": "Android signing fingerprint for Digital Asset Links.",
-      "configured": false
+      "configured": true
     },
     {
       "name": "AGL_GOOGLE_PLAY_ACCOUNT_CONNECTED",

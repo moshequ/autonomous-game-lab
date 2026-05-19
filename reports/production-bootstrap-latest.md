@@ -1,6 +1,6 @@
 # Production Bootstrap
 
-Generated: 2026-05-19T02:37:55.406Z
+Generated: 2026-05-19T02:56:20.808Z
 Status: production-bootstrap-ready
 Mode: waiting-for-external-credentials
 GitHub repository: missing
@@ -9,7 +9,7 @@ gh CLI available: true
 
 ## Local Env Files
 
-- none loaded
+- ops/production.env.local: AGL_ANDROID_PACKAGE_NAME, AGL_ANDROID_SHA256_CERT_FINGERPRINT, AGL_ANDROID_KEYSTORE_BASE64, AGL_ANDROID_KEYSTORE_PASSWORD, AGL_ANDROID_KEY_ALIAS
 - shell env precedence: true
 - protected mutation keys require shell env: true
 - values redacted: true
@@ -19,10 +19,10 @@ gh CLI available: true
 - waiting-for-github-repository: repository-channel; auto-run no; Repository missing; git worktree ready; workflow dispatch blocked.
 - waiting-for-github-target: repository-bootstrap; auto-run no; Repository bootstrap waiting-for-github-target; helper ops/github/bootstrap-repository.sh; local git ready.
 - waiting-for-origin-support: production-environment; auto-run no; Environment production-env-missing; public origin missing; support missing-production-address.
-- ready-for-actions-pages: github-pages-hosting; auto-run no; Deployment plan is ready-for-pages; Pages workflow is .github/workflows/web-pwa-deploy.yml.
+- blocked: github-pages-hosting; auto-run no; Deployment plan is blocked; Pages workflow is .github/workflows/web-pwa-deploy.yml.
 - waiting-for-self-update-gate: autonomous-self-update; auto-run no; Self-update gate missing; direct push held.
-- partially-configured: github-actions-variables; auto-run no; 1/24 repository variable value(s) present in this environment.
-- waiting-for-secrets: github-actions-secrets; auto-run no; 0/8 repository secret value(s) present in this environment.
+- partially-configured: github-actions-variables; auto-run no; 3/24 repository variable value(s) present in this environment.
+- partially-configured: github-actions-secrets; auto-run no; 3/8 repository secret value(s) present in this environment.
 - blocked-needs-cloudflare-env: event-collector; auto-run no; Collector deployment is blocked-needs-cloudflare-env; provider cloudflare-worker-r2.
 - held-by-product-gates: monetization-gate; auto-run no; Revenue disabled; spend mode no-spend.
 - draft-ready-external-blockers: store-compliance-unblock; auto-run no; 4 store compliance blocker(s) remain.
@@ -57,8 +57,8 @@ gh CLI available: true
 - missing: VITE_ADSENSE_REWARDED_SLOT_ID from VITE_ADSENSE_REWARDED_SLOT_ID
 - missing: ADMOB_PUBLISHER_ID from ADMOB_PUBLISHER_ID
 - missing: AD_NETWORK_PROVIDER from AD_NETWORK_PROVIDER
-- missing: AGL_ANDROID_PACKAGE_NAME from AGL_ANDROID_PACKAGE_NAME
-- missing: AGL_ANDROID_SHA256_CERT_FINGERPRINT from AGL_ANDROID_SHA256_CERT_FINGERPRINT
+- ready: AGL_ANDROID_PACKAGE_NAME from AGL_ANDROID_PACKAGE_NAME
+- ready: AGL_ANDROID_SHA256_CERT_FINGERPRINT from AGL_ANDROID_SHA256_CERT_FINGERPRINT
 - missing: AGL_GOOGLE_PLAY_ACCOUNT_CONNECTED from AGL_GOOGLE_PLAY_ACCOUNT_CONNECTED
 - missing: AGL_APPLE_DEVELOPER_ACCOUNT_CONNECTED from AGL_APPLE_DEVELOPER_ACCOUNT_CONNECTED
 - missing: AGL_AUTONOMOUS_SELF_UPDATE from AGL_AUTONOMOUS_SELF_UPDATE
@@ -70,15 +70,16 @@ gh CLI available: true
 - missing: VITE_EVENT_COLLECTOR_WRITE_TOKEN from VITE_EVENT_COLLECTOR_WRITE_TOKEN
 - missing: AGL_EVENT_COLLECTOR_ADMIN_TOKEN from AGL_EVENT_COLLECTOR_ADMIN_TOKEN
 - missing: POSTHOG_PERSONAL_API_KEY from POSTHOG_PERSONAL_API_KEY
-- missing: AGL_ANDROID_KEYSTORE_BASE64 from AGL_ANDROID_KEYSTORE_BASE64
-- missing: AGL_ANDROID_KEYSTORE_PASSWORD from AGL_ANDROID_KEYSTORE_PASSWORD
-- missing: AGL_ANDROID_KEY_ALIAS from AGL_ANDROID_KEY_ALIAS
+- ready: AGL_ANDROID_KEYSTORE_BASE64 from AGL_ANDROID_KEYSTORE_BASE64
+- ready: AGL_ANDROID_KEYSTORE_PASSWORD from AGL_ANDROID_KEYSTORE_PASSWORD
+- ready: AGL_ANDROID_KEY_ALIAS from AGL_ANDROID_KEY_ALIAS
 - missing: GOOGLE_PLAY_SERVICE_ACCOUNT_JSON from GOOGLE_PLAY_SERVICE_ACCOUNT_JSON
 
 ## External Blockers
 
 - repository-readiness: Add a GitHub origin remote or set GITHUB_REPOSITORY/GH_REPO.
 - repository-readiness: Configure GH_TOKEN or GITHUB_TOKEN for workflow dispatch and repository settings sync.
+- repository-readiness: Refresh build, release candidate, post-deploy smoke, and deployment plan artifacts.
 - repository-bootstrap: Commit current generated changes before pushing to GitHub Pages.
 - repository-bootstrap: Set GITHUB_REPOSITORY or GH_REPO to the intended owner/repo.
 - repository-bootstrap: Attach a GitHub origin remote or create the target repository.
@@ -88,4 +89,3 @@ gh CLI available: true
 - production-environment: Set VITE_EVENT_COLLECTOR_URL or VITE_POSTHOG_KEY to forward browser analytics in production.
 - production-environment: Set AGL_EVENT_COLLECTOR_EXPORT_URL + AGL_EVENT_COLLECTOR_ADMIN_TOKEN or PostHog server credentials for autonomous production rollups.
 - production-environment: Set VITE_ADSENSE_CLIENT_ID + VITE_ADSENSE_REWARDED_SLOT_ID for web/PWA revenue tests or ADMOB_PUBLISHER_ID for native app placements.
-- production-environment: Set AGL_ANDROID_SHA256_CERT_FINGERPRINT after Android signing exists.

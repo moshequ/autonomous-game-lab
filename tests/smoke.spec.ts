@@ -37,6 +37,8 @@ test('portal loads a playable canvas and autonomy cockpit', async ({ page }) => 
   await expect(page.getByLabel('Store Listing Optimizer')).toContainText('store-listing-optimizer-ready')
   await expect(page.getByLabel('Store Listing Optimizer')).toContainText('Canopy Bloom')
   await expect(page.getByText('Asset links')).toBeVisible()
+  await expect(page.getByLabel('Android Signing')).toContainText('signing-prepared')
+  await expect(page.getByLabel('Android Signing')).toContainText('ignored-local')
   await expect(page.getByText('Environment')).toBeVisible()
   await expect(page.getByText('production-env-missing')).toBeVisible()
   await expect(page.getByText('owner-loop-ready')).toBeVisible()
@@ -1116,6 +1118,56 @@ test('autonomous self-update persists only verified allowlisted generated change
 
   await page.goto('/')
   await expect(page.getByLabel('Autonomous Self Update')).toContainText('self-update-ready')
+})
+
+test('android signing prep creates redacted zero-spend TWA signing evidence', async ({ page }) => {
+  const signing = JSON.parse(await readFile('data/android-signing.json', 'utf8')) as {
+    status: string
+    signing: {
+      keyAlias: string
+      sha256CertFingerprint: string
+      generatedThisRun: boolean
+    }
+    localFiles: {
+      keystorePath: string
+      localEnvPath: string
+      keystoreExists: boolean
+      gitIgnored: boolean
+    }
+    ciSecrets: { configuredLocally: boolean; valuesRedacted: boolean; required: string[] }
+    controls: {
+      zeroPaidSpend: boolean
+      noSecretValuesInReports: boolean
+      localSecretFilesGitIgnored: boolean
+      doesNotCommitKeystore: boolean
+    }
+    checks: Array<{ id: string; status: string }>
+  }
+  const gitignore = await readFile('.gitignore', 'utf8')
+  const report = await readFile('reports/android-signing-latest.md', 'utf8')
+
+  expect(signing.status).toBe('signing-prepared')
+  expect(signing.signing.keyAlias).toBeTruthy()
+  expect(signing.signing.sha256CertFingerprint).toMatch(/^([A-F0-9]{2}:){31}[A-F0-9]{2}$/)
+  expect(signing.localFiles.keystorePath).toBe('ops/android/signing/release.keystore')
+  expect(signing.localFiles.localEnvPath).toBe('ops/production.env.local')
+  expect(signing.localFiles.keystoreExists).toBe(true)
+  expect(signing.localFiles.gitIgnored).toBe(true)
+  expect(signing.ciSecrets.configuredLocally).toBe(true)
+  expect(signing.ciSecrets.valuesRedacted).toBe(true)
+  expect(signing.ciSecrets.required).toContain('AGL_ANDROID_KEYSTORE_BASE64')
+  expect(signing.controls.zeroPaidSpend).toBe(true)
+  expect(signing.controls.noSecretValuesInReports).toBe(true)
+  expect(signing.controls.localSecretFilesGitIgnored).toBe(true)
+  expect(signing.controls.doesNotCommitKeystore).toBe(true)
+  expect(signing.checks.every((check) => check.status === 'pass')).toBe(true)
+  expect(gitignore).toContain('ops/android/signing/')
+  expect(gitignore).toContain('native/android/secrets/')
+  expect(JSON.stringify(signing)).not.toContain('AGL_ANDROID_KEYSTORE_PASSWORD=')
+  expect(report).not.toContain('AGL_ANDROID_KEYSTORE_BASE64=')
+
+  await page.goto('/')
+  await expect(page.getByLabel('Android Signing')).toContainText('signing-prepared')
 })
 
 test('objective audit maps the goal to evidence and remaining blockers', async ({ page }) => {

@@ -161,6 +161,11 @@ const storeAssets = await readJson(path.join(dataDir, 'store-assets.json'))
 const storeListingOptimizer = await readJson(path.join(dataDir, 'store-listing-optimizer.json'))
 const storeCompliance = await readJson(path.join(dataDir, 'store-compliance.json'))
 const nativePackage = await readJson(path.join(dataDir, 'native-package.json'))
+const androidSigning = await readOptionalJson(path.join(dataDir, 'android-signing.json'), {
+  status: 'missing',
+  signing: {},
+  controls: {},
+})
 const promotion = await readJson(path.join(dataDir, 'promotion-decision.json'))
 const monetization = await readJson(path.join(dataDir, 'monetization-plan.json'))
 const unitEconomics = await readJson(path.join(dataDir, 'unit-economics.json'))
@@ -625,6 +630,23 @@ const systems = [
       storeCompliance.nextActions?.[0] ?? 'Keep store compliance drafts current with package and monetization changes.',
   },
   {
+    id: 'android-signing',
+    status: systemStatus(
+      androidSigning.status === 'signing-prepared' &&
+        androidSigning.controls?.noSecretValuesInReports === true &&
+        androidSigning.controls?.doesNotCommitKeystore === true &&
+        Boolean(androidSigning.signing?.sha256CertFingerprint),
+      'needs-signing-material',
+    ),
+    autonomy: 'local-secret-material-prepared',
+    evidence: `Signing ${androidSigning.status}; fingerprint ${
+      androidSigning.signing?.sha256CertFingerprint ? 'available' : 'missing'
+    }; local secrets ${androidSigning.ciSecrets?.configuredLocally === true ? 'configured' : 'missing'}.`,
+    nextAction:
+      androidSigning.nextActions?.[0] ??
+      'Keep Android signing material local and sync CI secrets only through production bootstrap.',
+  },
+  {
     id: 'production-safety',
     status: systemStatus(
       productionResponse.status &&
@@ -879,6 +901,14 @@ const safeAutonomousActions = [
     reason: 'Keeps store copy, keyword themes, screenshots, and compliance drafts aligned with behavior signals.',
   },
   {
+    id: 'prepare-android-signing',
+    status: androidSigning.status === 'signing-prepared' ? 'monitor' : 'armed',
+    costUsd: 0,
+    command: 'npm run autonomous:android-signing',
+    targets: ['android-twa-signing', androidSigning.localFiles?.keystorePath ?? 'ops/android/signing/release.keystore'],
+    reason: 'Prepares local Android signing material and public fingerprint without committing secrets or paying store fees.',
+  },
+  {
     id: 'apply-safe-improvements',
     status: releaseHealth.controls?.canApplyExperimentChanges ? 'armed' : 'held',
     costUsd: 0,
@@ -1006,6 +1036,7 @@ const payload = {
     productionEnvironmentStatus: productionEnvironment.status,
     storePackageStatus: storePackage.status,
     storeComplianceStatus: storeCompliance.status,
+    androidSigningStatus: androidSigning.status,
     supportEmailStatus: storePackage.supportPage?.supportEmailStatus,
   },
   commands: {

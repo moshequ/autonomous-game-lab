@@ -40,6 +40,7 @@ const [
   storeAssets,
   storeCompliance,
   nativePackage,
+  androidSigning,
   androidRelease,
   releaseCandidate,
   postDeploySmoke,
@@ -79,6 +80,7 @@ const [
   readJson(path.join(dataDir, 'store-assets.json')),
   readJson(path.join(dataDir, 'store-compliance.json')),
   readJson(path.join(dataDir, 'native-package.json')),
+  readJson(path.join(dataDir, 'android-signing.json')),
   readJson(path.join(dataDir, 'android-release.json')),
   readJson(path.join(dataDir, 'release-candidate.json')),
   readJson(path.join(dataDir, 'post-deploy-smoke.json')),
@@ -362,6 +364,9 @@ const requirements = [
       `Store package privacy URL: ${storePackage.privacyPolicy?.productionUrlStatus}`,
       `Store assets: ${storeAssets.status}`,
       `Store compliance: ${storeCompliance.status}`,
+      `Android signing: ${androidSigning.status}; fingerprint ${
+        androidSigning.signing?.sha256CertFingerprint ? 'available' : 'missing'
+      }`,
       `Native package: ${nativePackage.status}`,
       `Android release: ${androidRelease.status}`,
     ],

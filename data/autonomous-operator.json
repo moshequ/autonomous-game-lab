@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-19T02:36:24.364Z",
+  "generatedAt": "2026-05-19T02:56:21.521Z",
   "status": "operator-plan-ready",
   "mode": "plan-only",
   "ownerDecision": {
@@ -21,7 +21,6 @@
   },
   "selectedRejection": null,
   "eligibleActionIds": [
-    "refresh-autonomous-self-update",
     "seed-portfolio-traffic",
     "refresh-organic-seed-loop",
     "optimize-daily-retention",
@@ -52,9 +51,9 @@
     },
     {
       "id": "refresh-autonomous-self-update",
-      "status": "armed",
+      "status": "monitor",
       "command": "npm run autonomous:self-update",
-      "reason": "not-selected-this-run"
+      "reason": "status-monitor"
     },
     {
       "id": "seed-portfolio-traffic",
@@ -153,6 +152,12 @@
       "reason": "not-selected-this-run"
     },
     {
+      "id": "prepare-android-signing",
+      "status": "monitor",
+      "command": "npm run autonomous:android-signing",
+      "reason": "status-monitor"
+    },
+    {
       "id": "apply-safe-improvements",
       "status": "armed",
       "command": "npm run autonomous:experiments && npm run autonomous:improve && npm run autonomous:sync-experiments",
@@ -220,6 +225,7 @@
     "npm run autonomous:replay-loop",
     "npm run autonomous:analyze && npm run autonomous:product-optimize && npm run autonomous:sync-config && npm run autonomous:simulate",
     "npm run autonomous:store-listing-optimize && npm run autonomous:store-compliance",
+    "npm run autonomous:android-signing",
     "npm run autonomous:experiments && npm run autonomous:improve && npm run autonomous:sync-experiments",
     "npm run autonomous:import-events && npm run autonomous:analytics",
     "npm run autonomous:deploy-plan && npm run autonomous:bootstrap",

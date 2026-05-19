@@ -1,5 +1,5 @@
 export const promotionDecision = {
-  "generatedAt": "2026-05-18T23:37:00.127Z",
+  "generatedAt": "2026-05-19T02:56:19.926Z",
   "analyticsSource": "fixture-sample",
   "releaseHealth": {
     "status": "monitoring",
@@ -10,10 +10,12 @@ export const promotionDecision = {
   "decisions": [
     {
       "channel": "web-pwa",
-      "status": "promotable-internal",
-      "decision": "Promote the current PWA build to an internal/public web experiment when hosting is connected.",
-      "blockers": [],
-      "nextAction": "Connect a free static host or GitHub Pages environment, then publish dist."
+      "status": "blocked",
+      "decision": "Hold web deploy until readiness blockers clear.",
+      "blockers": [
+        "Web readiness is blocked"
+      ],
+      "nextAction": "Fix web readiness blockers."
     },
     {
       "channel": "monetization",
@@ -31,8 +33,8 @@ export const promotionDecision = {
       "status": "blocked",
       "decision": "Keep Android packaging blocked.",
       "blockers": [
+        "Web/PWA readiness is not green.",
         "Hosted privacy policy URL is missing.",
-        "Signed Android package and keystore are missing.",
         "Google Play developer account is not connected.",
         "Native package is blocked-draft-ready."
       ],
@@ -51,7 +53,7 @@ export const promotionDecision = {
     }
   ],
   "summary": {
-    "nextChannel": "web-pwa",
+    "nextChannel": null,
     "blockedPaidChannels": [
       "monetization",
       "android-google-play",

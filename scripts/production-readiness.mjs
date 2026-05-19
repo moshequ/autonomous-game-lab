@@ -23,6 +23,7 @@ const firstMoveCoachPath = path.join(root, 'data', 'first-move-coach.json')
 const completionLoopPath = path.join(root, 'data', 'completion-loop.json')
 const replayLoopPath = path.join(root, 'data', 'replay-loop.json')
 const nativePackagePath = path.join(root, 'data', 'native-package.json')
+const androidSigningPath = path.join(root, 'data', 'android-signing.json')
 const environmentPath = path.join(root, 'data', 'production-environment.json')
 const repositoryReadinessPath = path.join(root, 'data', 'repository-readiness.json')
 const repositoryBootstrapPath = path.join(root, 'data', 'repository-bootstrap.json')
@@ -159,6 +160,13 @@ const nativePackage = await readOptionalJson(nativePackagePath, {
   status: 'missing',
   checks: [],
   handoff: {},
+})
+const androidSigning = await readOptionalJson(androidSigningPath, {
+  status: 'missing',
+  signing: {},
+  ciSecrets: {},
+  controls: {},
+  checks: [],
 })
 const environment = await readOptionalJson(environmentPath, {
   status: 'missing',
@@ -881,6 +889,16 @@ const storePackageChecks = [
     `Android native handoff is ${nativePackage.status}.`,
   ),
   check(
+    'android-signing-prep',
+    androidSigning.status === 'signing-prepared' &&
+      androidSigning.controls?.noSecretValuesInReports === true &&
+      androidSigning.controls?.doesNotCommitKeystore === true &&
+      Boolean(androidSigning.signing?.sha256CertFingerprint),
+    `Android signing is ${androidSigning.status}; fingerprint ${
+      androidSigning.signing?.sha256CertFingerprint ? 'available' : 'missing'
+    }.`,
+  ),
+  check(
     'store-screenshots',
     storeScreenshotsReady,
     `Generated store screenshot assets are ${storeAssets.status}; ${screenshotAssets.length} screenshots attached.`,
@@ -1129,9 +1147,17 @@ const payload = {
       platform: nativePackage.platform,
       packageName: nativePackage.packageName,
       host: nativePackage.host,
+      signing: nativePackage.signing,
       assetLinksStatus: nativePackage.assetLinks?.status,
       blockers: nativePackage.blockers ?? [],
       checks: nativePackage.checks ?? [],
+    },
+    androidSigning: {
+      status: androidSigning.status,
+      signing: androidSigning.signing,
+      ciSecrets: androidSigning.ciSecrets,
+      controls: androidSigning.controls,
+      checks: androidSigning.checks ?? [],
     },
     iconAssets: {
       status: iconAssets.status,
@@ -1344,6 +1370,10 @@ const report = [
   ...(payload.distribution.nativePackage.checks ?? []).map(
     (item) => `- ${item.status}: native-${item.id} - ${item.detail}`,
   ),
+  '',
+  `Android signing: ${payload.distribution.androidSigning.status}`,
+  `- fingerprint: ${payload.distribution.androidSigning.signing?.sha256CertFingerprint ?? 'missing'}`,
+  `- local secrets configured: ${payload.distribution.androidSigning.ciSecrets?.configuredLocally ?? false}`,
   '',
   `Icon assets: ${payload.distribution.iconAssets.status}`,
   ...(payload.distribution.iconAssets.manifestIcons ?? []).map(

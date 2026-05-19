@@ -1,8 +1,11 @@
 import { access, mkdir, readFile, writeFile } from 'node:fs/promises'
 import path from 'node:path'
+import { loadLocalEnv } from './lib/env-loader.mjs'
 
 const root = process.cwd()
+const localEnv = await loadLocalEnv({ root })
 const nativePackagePath = path.join(root, 'data', 'native-package.json')
+const androidSigningPath = path.join(root, 'data', 'android-signing.json')
 const storePackagePath = path.join(root, 'data', 'store-package.json')
 const storeCompliancePath = path.join(root, 'data', 'store-compliance.json')
 const storeAssetsPath = path.join(root, 'data', 'store-assets.json')
@@ -29,6 +32,11 @@ const readOptionalJson = async (filePath, fallback) =>
 const configured = (...values) => values.some((value) => typeof value === 'string' && value.trim())
 
 const nativePackage = await readJson(nativePackagePath)
+const androidSigning = await readOptionalJson(androidSigningPath, {
+  status: 'missing',
+  ciSecrets: {},
+  signing: {},
+})
 const storePackage = await readJson(storePackagePath)
 const storeCompliance = await readOptionalJson(storeCompliancePath, { status: 'missing', checks: [] })
 const storeAssets = await readJson(storeAssetsPath)
@@ -135,10 +143,22 @@ const status = hardBlockers.length
     : economicsHeld.length
       ? 'release-held-by-economics'
       : 'ready-for-internal-testing'
+const setupRequiredOnce = [
+  'Host the PWA on a stable HTTPS production domain with privacy and support URLs.',
+  ...(fingerprintReady && androidSigning.ciSecrets?.configuredLocally === true
+    ? ['Use production bootstrap to sync the prepared AGL_ANDROID_* signing values into CI secrets when repository credentials exist.']
+    : [
+        'Create Android signing material and set AGL_ANDROID_SHA256_CERT_FINGERPRINT after the certificate exists.',
+        'Set AGL_ANDROID_KEYSTORE_BASE64, AGL_ANDROID_KEYSTORE_PASSWORD, and AGL_ANDROID_KEY_ALIAS in CI secrets.',
+      ]),
+  'Connect Google Play only after unit economics allows the one-time store fee.',
+  'Set GOOGLE_PLAY_SERVICE_ACCOUNT_JSON or GOOGLE_PLAY_SERVICE_ACCOUNT_BASE64 before automated internal testing uploads.',
+]
 
 const payload = {
   generatedAt: new Date().toISOString(),
   status,
+  envFiles: localEnv,
   platform: 'android-trusted-web-activity',
   channel: 'android-google-play',
   costPosture: unitEconomics.costPosture,
@@ -146,6 +166,7 @@ const payload = {
   releaseTrack,
   releaseMode,
   nativePackageStatus: nativePackage.status,
+  signingStatus: androidSigning.status,
   storeComplianceStatus: storeCompliance.status,
   promotionStatus: androidPromotion?.status ?? 'missing',
   workflow: {
@@ -167,16 +188,12 @@ const payload = {
     paybackDays: unitEconomics.storeFees?.googlePlay?.paybackDays ?? null,
     hostedPrivacyStatus: storePackage.privacyPolicy?.productionUrlStatus ?? 'missing',
     assetLinksStatus: nativePackage.assetLinks?.status ?? 'missing',
+    signingFingerprint: androidSigning.signing?.sha256CertFingerprint ?? nativePackage.signing?.sha256CertFingerprint ?? null,
+    localSigningSecretsConfigured: androidSigning.ciSecrets?.configuredLocally === true,
   },
   checks,
   blockers: checks.filter((check) => check.status !== 'pass').map((check) => `${check.id}: ${check.detail}`),
-  setupRequiredOnce: [
-    'Host the PWA on a stable HTTPS production domain with privacy and support URLs.',
-    'Create Android signing material and set AGL_ANDROID_SHA256_CERT_FINGERPRINT after the certificate exists.',
-    'Set AGL_ANDROID_KEYSTORE_BASE64, AGL_ANDROID_KEYSTORE_PASSWORD, and AGL_ANDROID_KEY_ALIAS in CI secrets.',
-    'Connect Google Play only after unit economics allows the one-time store fee.',
-    'Set GOOGLE_PLAY_SERVICE_ACCOUNT_JSON or GOOGLE_PLAY_SERVICE_ACCOUNT_BASE64 before automated internal testing uploads.',
-  ],
+  setupRequiredOnce,
   commands: {
     plan: 'npm run autonomous:android-release-plan',
     nativePackage: 'npm run autonomous:native-package',

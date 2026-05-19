@@ -1,29 +1,31 @@
 {
-  "generatedAt": "2026-05-19T02:39:04.875Z",
+  "generatedAt": "2026-05-19T02:56:21.762Z",
   "status": "objective-in-progress",
   "objective": "Build a bootstrapped autonomous web/PWA game portal that can generate original board-game-inspired games, measure user behavior, propose and apply data-driven improvements, and prepare a path to monetization and app-store distribution with minimal manual intervention.",
   "summary": {
     "requirements": 8,
-    "met": 5,
+    "met": 4,
     "prepared": 2,
-    "incomplete": 1,
-    "externalBlockers": 24,
+    "incomplete": 2,
+    "externalBlockers": 21,
     "productBlockers": 6
   },
   "requirements": [
     {
       "id": "web-pwa-game-portal",
-      "status": "met",
+      "status": "incomplete",
       "summary": "A playable web/PWA portal exists and passes the production web readiness gate.",
       "evidence": [
-        "Web readiness: ready-after-build",
+        "Web readiness: blocked",
         "Manifest in dist: true",
         "Service worker in dist: true",
         "Release candidate: release-candidate-ready; 38 files",
-        "Deployment plan: ready-for-pages"
+        "Deployment plan: blocked"
       ],
-      "blockers": [],
-      "nextAction": "Connect a free static host or GitHub Pages environment, then publish dist.",
+      "blockers": [
+        "Autonomous self-update is self-update-needs-attention; safe pending 42; unsafe pending 15; remote push held."
+      ],
+      "nextAction": "Fix web readiness blockers.",
       "completionCritical": true
     },
     {
@@ -80,25 +82,28 @@
     },
     {
       "id": "minimal-intervention-autonomy",
-      "status": "needs-repository-channel",
+      "status": "incomplete",
       "summary": "A scheduled local loop, owner state, bootstrap handoff, and dry-run operator reduce manual maintenance.",
       "evidence": [
         "Owner loop: owner-loop-ready",
         "Autonomous cadence: cadence-ready; Codex active-declared; GitHub scheduled",
-        "Autonomous self-update: self-update-ready; workflow .github/workflows/autonomous-self-update.yml; unsafe pending 0",
+        "Autonomous self-update: self-update-needs-attention; workflow .github/workflows/autonomous-self-update.yml; unsafe pending 15",
         "Operator: operator-plan-ready",
-        "Operator history: operator-history-ready; records 12",
+        "Operator history: operator-history-ready; records 13",
         "Bootstrap: production-bootstrap-ready",
         "Repository bootstrap: waiting-for-github-target; helper ops/github/bootstrap-repository.sh",
         "Release candidate: release-candidate-ready; smoke URLs 7",
         "Post-deploy smoke: blocked-missing-origin; origin missing; checks 0/8",
         "Repository channel: waiting-for-github-repository; repository missing; git worktree true",
-        "Autonomy score: 94%",
-        "Credential-gated actions: 17"
+        "Autonomy score: 88%",
+        "Credential-gated actions: 13"
       ],
       "blockers": [
+        "safe-path-allowlist: 67 safe pending file(s), 15 unsafe pending file(s).",
         "Add a GitHub origin remote or set GITHUB_REPOSITORY/GH_REPO.",
         "Configure GH_TOKEN or GITHUB_TOKEN for workflow dispatch and repository settings sync.",
+        "Refresh build, release candidate, post-deploy smoke, and deployment plan artifacts.",
+        "Commit current generated changes before pushing to GitHub Pages.",
         "Set GITHUB_REPOSITORY or GH_REPO to the intended owner/repo.",
         "Attach a GitHub origin remote or create the target repository.",
         "Authenticate GitHub CLI or provide GH_TOKEN/GITHUB_TOKEN for remote repository bootstrap.",
@@ -109,15 +114,11 @@
         "VITE_EVENT_COLLECTOR_URL + AGL_EVENT_COLLECTOR_EXPORT_URL: Optional zero-cost Worker/R2 event collector for browser analytics and autonomous rollups.",
         "VITE_ADSENSE_CLIENT_ID + VITE_ADSENSE_REWARDED_SLOT_ID: Web/PWA rewarded or display-ad test configuration after product and privacy gates pass.",
         "ADMOB_PUBLISHER_ID: Native app seller line for app-ads.txt and Android rewarded tests after app-store gates pass.",
-        "AGL_ANDROID_SHA256_CERT_FINGERPRINT: Android signing fingerprint for Digital Asset Links.",
         "AGL_GOOGLE_PLAY_ACCOUNT_CONNECTED: Allows native packaging gates to treat Play Console access as connected.",
         "CLOUDFLARE_API_TOKEN: Repository secret sourced from CLOUDFLARE_API_TOKEN.",
         "VITE_EVENT_COLLECTOR_WRITE_TOKEN: Repository secret sourced from VITE_EVENT_COLLECTOR_WRITE_TOKEN.",
         "AGL_EVENT_COLLECTOR_ADMIN_TOKEN: Repository secret sourced from AGL_EVENT_COLLECTOR_ADMIN_TOKEN.",
         "POSTHOG_PERSONAL_API_KEY: Repository secret sourced from POSTHOG_PERSONAL_API_KEY.",
-        "AGL_ANDROID_KEYSTORE_BASE64: Repository secret sourced from AGL_ANDROID_KEYSTORE_BASE64.",
-        "AGL_ANDROID_KEYSTORE_PASSWORD: Repository secret sourced from AGL_ANDROID_KEYSTORE_PASSWORD.",
-        "AGL_ANDROID_KEY_ALIAS: Repository secret sourced from AGL_ANDROID_KEY_ALIAS.",
         "GOOGLE_PLAY_SERVICE_ACCOUNT_JSON: Repository secret sourced from GOOGLE_PLAY_SERVICE_ACCOUNT_JSON."
       ],
       "nextAction": "Keep the operator dry-run plan ready and execute one local action only when explicitly requested.",
@@ -151,6 +152,7 @@
         "Store package privacy URL: needs-hosted-domain",
         "Store assets: screenshots-ready",
         "Store compliance: draft-ready-external-blockers",
+        "Android signing: signing-prepared; fingerprint available",
         "Native package: blocked-draft-ready",
         "Android release: blocked-needs-host-signing-play"
       ],
@@ -161,8 +163,6 @@
         "apple-developer-account: Apple Developer account remains deferred until iOS spend is justified.",
         "native-package-ready: Native package is blocked-draft-ready.",
         "asset-links: Digital Asset Links are template-only.",
-        "signing-fingerprint: Android signing fingerprint is missing.",
-        "signing-secrets: Android keystore, password, and alias are available to CI.",
         "google-play-account: Google Play account is not connected.",
         "play-service-account: Google Play service account upload credentials are available to CI.",
         "unit-economics-store-spend: Store spend allowed is false; spend mode is no-spend.",
@@ -193,6 +193,7 @@
     "external": [
       "Add a GitHub origin remote or set GITHUB_REPOSITORY/GH_REPO.",
       "Configure GH_TOKEN or GITHUB_TOKEN for workflow dispatch and repository settings sync.",
+      "Commit current generated changes before pushing to GitHub Pages.",
       "Set GITHUB_REPOSITORY or GH_REPO to the intended owner/repo.",
       "Attach a GitHub origin remote or create the target repository.",
       "Authenticate GitHub CLI or provide GH_TOKEN/GITHUB_TOKEN for remote repository bootstrap.",
@@ -201,7 +202,6 @@
       "Set VITE_EVENT_COLLECTOR_URL or VITE_POSTHOG_KEY to forward browser analytics in production.",
       "Set AGL_EVENT_COLLECTOR_EXPORT_URL + AGL_EVENT_COLLECTOR_ADMIN_TOKEN or PostHog server credentials for autonomous production rollups.",
       "Set VITE_ADSENSE_CLIENT_ID + VITE_ADSENSE_REWARDED_SLOT_ID for web/PWA revenue tests or ADMOB_PUBLISHER_ID for native app placements.",
-      "Set AGL_ANDROID_SHA256_CERT_FINGERPRINT after Android signing exists.",
       "Connect Google Play credentials or set AGL_GOOGLE_PLAY_ACCOUNT_CONNECTED=true.",
       "Connect Apple Developer account only after revenue justifies iOS spend.",
       "hosted-privacy-url: Hosted privacy policy URL is required before public store submission.",
@@ -209,11 +209,8 @@
       "google-play-account: Google Play developer account must be connected before Android submission.",
       "apple-developer-account: Apple Developer account remains deferred until iOS spend is justified.",
       "asset-links: Digital Asset Links are template-only.",
-      "signing-fingerprint: Android signing fingerprint is missing.",
-      "signing-secrets: Android keystore, password, and alias are available to CI.",
       "google-play-account: Google Play account is not connected.",
       "play-service-account: Google Play service account upload credentials are available to CI.",
-      "Commit current generated changes before pushing to GitHub Pages.",
       "Collector environment is not configured."
     ],
     "product": [
@@ -227,6 +224,8 @@
     "all": [
       "Add a GitHub origin remote or set GITHUB_REPOSITORY/GH_REPO.",
       "Configure GH_TOKEN or GITHUB_TOKEN for workflow dispatch and repository settings sync.",
+      "Refresh build, release candidate, post-deploy smoke, and deployment plan artifacts.",
+      "Commit current generated changes before pushing to GitHub Pages.",
       "Set GITHUB_REPOSITORY or GH_REPO to the intended owner/repo.",
       "Attach a GitHub origin remote or create the target repository.",
       "Authenticate GitHub CLI or provide GH_TOKEN/GITHUB_TOKEN for remote repository bootstrap.",
@@ -235,7 +234,6 @@
       "Set VITE_EVENT_COLLECTOR_URL or VITE_POSTHOG_KEY to forward browser analytics in production.",
       "Set AGL_EVENT_COLLECTOR_EXPORT_URL + AGL_EVENT_COLLECTOR_ADMIN_TOKEN or PostHog server credentials for autonomous production rollups.",
       "Set VITE_ADSENSE_CLIENT_ID + VITE_ADSENSE_REWARDED_SLOT_ID for web/PWA revenue tests or ADMOB_PUBLISHER_ID for native app placements.",
-      "Set AGL_ANDROID_SHA256_CERT_FINGERPRINT after Android signing exists.",
       "Connect Google Play credentials or set AGL_GOOGLE_PLAY_ACCOUNT_CONNECTED=true.",
       "Connect Apple Developer account only after revenue justifies iOS spend.",
       "First-game completion is 40%; gate is 55%.",
@@ -248,13 +246,10 @@
       "apple-developer-account: Apple Developer account remains deferred until iOS spend is justified.",
       "native-package-ready: Native package is blocked-draft-ready.",
       "asset-links: Digital Asset Links are template-only.",
-      "signing-fingerprint: Android signing fingerprint is missing.",
-      "signing-secrets: Android keystore, password, and alias are available to CI.",
       "google-play-account: Google Play account is not connected.",
       "play-service-account: Google Play service account upload credentials are available to CI.",
       "unit-economics-store-spend: Store spend allowed is false; spend mode is no-spend.",
       "promotion-gate: Android promotion status is blocked.",
-      "Commit current generated changes before pushing to GitHub Pages.",
       "Collector environment is not configured."
     ]
   },
