@@ -1,22 +1,22 @@
 {
-  "generatedAt": "2026-05-19T06:39:07.501Z",
+  "generatedAt": "2026-05-19T06:42:27.400Z",
   "status": "operator-plan-ready",
   "mode": "plan-only",
   "ownerDecision": {
-    "actionId": "measure-pwa-install-loop",
-    "command": "npm run autonomous:pwa-install",
+    "actionId": "refresh-autonomous-self-update",
+    "command": "npm run autonomous:self-update",
     "locallyExecutable": true,
     "rejectionReason": null
   },
   "requestedActionId": null,
   "selectedAction": {
-    "id": "measure-pwa-install-loop",
+    "id": "refresh-autonomous-self-update",
     "status": "armed",
-    "command": "npm run autonomous:pwa-install",
+    "command": "npm run autonomous:self-update",
     "targets": [
-      "pwa-install"
+      ".github/workflows/autonomous-self-update.yml"
     ],
-    "reason": "Measures optional PWA install prompts and standalone launches as the zero-cost distribution path.",
+    "reason": "Keeps verified generated-change persistence gated, allowlisted, and ready for the scheduled production repository.",
     "costUsd": 0
   },
   "selectedRejection": null,
@@ -53,12 +53,6 @@
       "reason": "not-selected-this-run"
     },
     {
-      "id": "refresh-autonomous-self-update",
-      "status": "armed",
-      "command": "npm run autonomous:self-update",
-      "reason": "not-selected-this-run"
-    },
-    {
       "id": "seed-portfolio-traffic",
       "status": "armed",
       "command": "npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop",
@@ -74,6 +68,12 @@
       "id": "optimize-daily-retention",
       "status": "armed",
       "command": "npm run autonomous:retention",
+      "reason": "not-selected-this-run"
+    },
+    {
+      "id": "measure-pwa-install-loop",
+      "status": "armed",
+      "command": "npm run autonomous:pwa-install",
       "reason": "not-selected-this-run"
     },
     {
@@ -181,8 +181,8 @@
   ],
   "commandPlan": [
     {
-      "segment": "npm run autonomous:pwa-install",
-      "script": "autonomous:pwa-install"
+      "segment": "npm run autonomous:self-update",
+      "script": "autonomous:self-update"
     }
   ],
   "execution": {
@@ -244,7 +244,7 @@
     "RUN_WORKFLOWS=1"
   ],
   "nextActions": [
-    "Run npm run autonomous:operator -- --execute --action=measure-pwa-install-loop to execute exactly one allowed local action.",
+    "Run npm run autonomous:operator -- --execute --action=refresh-autonomous-self-update to execute exactly one allowed local action.",
     "Do not execute GitHub workflow, store, paid ads, or account setup commands from the local operator."
   ]
 }

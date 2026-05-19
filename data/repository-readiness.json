@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-19T06:39:05.891Z",
+  "generatedAt": "2026-05-19T06:42:25.865Z",
   "status": "waiting-for-github-repository",
   "envFiles": {
     "loaded": true,
@@ -67,10 +67,10 @@
       "data/post-deploy-smoke.json",
       "data/production-bootstrap.json",
       "data/production-readiness.json",
+      "data/pwa-install-loop.json",
       "data/release-candidate.json",
       "data/repository-bootstrap.json",
       "data/repository-readiness.json",
-      "data/retention-loop.json",
       "reports/autonomous-operator-history-latest.md",
       "reports/autonomous-operator-latest.md",
       "reports/autonomous-owner-loop-latest.md",
@@ -80,10 +80,10 @@
       "reports/post-deploy-smoke-latest.md",
       "reports/production-bootstrap-latest.md",
       "reports/production-readiness-latest.md",
+      "reports/pwa-install-loop-latest.md",
       "reports/release-candidate-latest.md",
       "reports/repository-bootstrap-latest.md",
       "reports/repository-readiness-latest.md",
-      "reports/retention-loop-latest.md",
       "src/data/autonomousOperator.ts",
       "src/data/autonomousOperatorHistory.ts",
       "src/data/autonomousOwnerLoop.ts",
@@ -92,10 +92,10 @@
       "src/data/performanceBudget.ts",
       "src/data/postDeploySmoke.ts",
       "src/data/productionBootstrap.ts",
+      "src/data/pwaInstallLoop.ts",
       "src/data/releaseCandidate.ts",
       "src/data/repositoryBootstrap.ts",
-      "src/data/repositoryReadiness.ts",
-      "src/data/retentionLoop.ts"
+      "src/data/repositoryReadiness.ts"
     ],
     "generatedEvidenceDirtyFiles": 38,
     "generatedEvidenceDirtyPaths": [
@@ -108,10 +108,10 @@
       "data/post-deploy-smoke.json",
       "data/production-bootstrap.json",
       "data/production-readiness.json",
+      "data/pwa-install-loop.json",
       "data/release-candidate.json",
       "data/repository-bootstrap.json",
       "data/repository-readiness.json",
-      "data/retention-loop.json",
       "reports/autonomous-operator-history-latest.md",
       "reports/autonomous-operator-latest.md",
       "reports/autonomous-owner-loop-latest.md",
@@ -121,10 +121,10 @@
       "reports/post-deploy-smoke-latest.md",
       "reports/production-bootstrap-latest.md",
       "reports/production-readiness-latest.md",
+      "reports/pwa-install-loop-latest.md",
       "reports/release-candidate-latest.md",
       "reports/repository-bootstrap-latest.md",
       "reports/repository-readiness-latest.md",
-      "reports/retention-loop-latest.md",
       "src/data/autonomousOperator.ts",
       "src/data/autonomousOperatorHistory.ts",
       "src/data/autonomousOwnerLoop.ts",
@@ -133,10 +133,10 @@
       "src/data/performanceBudget.ts",
       "src/data/postDeploySmoke.ts",
       "src/data/productionBootstrap.ts",
+      "src/data/pwaInstallLoop.ts",
       "src/data/releaseCandidate.ts",
       "src/data/repositoryBootstrap.ts",
-      "src/data/repositoryReadiness.ts",
-      "src/data/retentionLoop.ts"
+      "src/data/repositoryReadiness.ts"
     ],
     "nonGeneratedDirtyFiles": 0,
     "nonGeneratedDirtyPaths": []
@@ -158,7 +158,7 @@
     "workflowExists": true,
     "deployWorkflowIncludesSmoke": true,
     "deploymentStatus": "ready-for-pages",
-    "releaseCandidateId": "pwa-be35df4310a8",
+    "releaseCandidateId": "pwa-ed1c47aa6b5b",
     "postDeploySmokeStatus": "blocked-missing-origin"
   },
   "controls": {
