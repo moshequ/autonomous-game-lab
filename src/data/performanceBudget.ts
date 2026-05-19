@@ -1,5 +1,5 @@
 export const performanceBudget = {
-  "generatedAt": "2026-05-19T09:33:24.926Z",
+  "generatedAt": "2026-05-19T09:36:44.194Z",
   "status": "performance-budget-ready",
   "sourceBuild": "dist",
   "budgets": {
@@ -14,21 +14,21 @@ export const performanceBudget = {
   },
   "initial": {
     "entryScripts": [
-      "index-Cob-XBcv.js",
+      "index-BTn0CpRX.js",
       "registerSW.js"
     ],
     "scriptPaths": [
-      "assets/index-Cob-XBcv.js",
+      "assets/index-BTn0CpRX.js",
       "registerSW.js"
     ],
     "jsFiles": [
       {
-        "file": "index-Cob-XBcv.js",
-        "path": "assets/index-Cob-XBcv.js",
-        "bytes": 665821,
-        "kb": 650.2,
-        "gzipBytes": 177737,
-        "gzipKb": 173.6
+        "file": "index-BTn0CpRX.js",
+        "path": "assets/index-BTn0CpRX.js",
+        "bytes": 672150,
+        "kb": 656.4,
+        "gzipBytes": 178135,
+        "gzipKb": 174
       },
       {
         "file": "registerSW.js",
@@ -39,10 +39,10 @@ export const performanceBudget = {
         "gzipKb": 0.1
       }
     ],
-    "jsBytes": 665955,
-    "jsKb": 650.3,
-    "gzipBytes": 177863,
-    "gzipKb": 173.7,
+    "jsBytes": 672284,
+    "jsKb": 656.5,
+    "gzipBytes": 178261,
+    "gzipKb": 174.1,
     "cssFiles": [
       {
         "file": "index-BA4sddeG.css",
@@ -61,8 +61,8 @@ export const performanceBudget = {
   "deferred": {
     "chunks": [
       {
-        "file": "GameCanvas-CmimoaUI.js",
-        "path": "assets/GameCanvas-CmimoaUI.js",
+        "file": "GameCanvas-C74Khzxg.js",
+        "path": "assets/GameCanvas-C74Khzxg.js",
         "bytes": 1393468,
         "kb": 1360.8,
         "gzipBytes": 356094,
@@ -70,24 +70,24 @@ export const performanceBudget = {
       }
     ],
     "gameChunk": {
-      "file": "GameCanvas-CmimoaUI.js",
-      "path": "assets/GameCanvas-CmimoaUI.js",
+      "file": "GameCanvas-C74Khzxg.js",
+      "path": "assets/GameCanvas-C74Khzxg.js",
       "bytes": 1393468,
       "kb": 1360.8,
       "gzipBytes": 356094,
       "gzipKb": 347.7
     },
     "largestDeferredChunk": {
-      "file": "GameCanvas-CmimoaUI.js",
-      "path": "assets/GameCanvas-CmimoaUI.js",
+      "file": "GameCanvas-C74Khzxg.js",
+      "path": "assets/GameCanvas-C74Khzxg.js",
       "bytes": 1393468,
       "kb": 1360.8,
       "gzipBytes": 356094,
       "gzipKb": 347.7
     },
     "largestJsChunk": {
-      "file": "GameCanvas-CmimoaUI.js",
-      "path": "assets/GameCanvas-CmimoaUI.js",
+      "file": "GameCanvas-C74Khzxg.js",
+      "path": "assets/GameCanvas-C74Khzxg.js",
       "bytes": 1393468,
       "kb": 1360.8,
       "gzipBytes": 356094,
@@ -99,20 +99,20 @@ export const performanceBudget = {
   "assets": {
     "js": [
       {
-        "file": "GameCanvas-CmimoaUI.js",
-        "path": "assets/GameCanvas-CmimoaUI.js",
+        "file": "GameCanvas-C74Khzxg.js",
+        "path": "assets/GameCanvas-C74Khzxg.js",
         "bytes": 1393468,
         "kb": 1360.8,
         "gzipBytes": 356094,
         "gzipKb": 347.7
       },
       {
-        "file": "index-Cob-XBcv.js",
-        "path": "assets/index-Cob-XBcv.js",
-        "bytes": 665821,
-        "kb": 650.2,
-        "gzipBytes": 177737,
-        "gzipKb": 173.6
+        "file": "index-BTn0CpRX.js",
+        "path": "assets/index-BTn0CpRX.js",
+        "bytes": 672150,
+        "kb": 656.4,
+        "gzipBytes": 178135,
+        "gzipKb": 174
       },
       {
         "file": "registerSW.js",
@@ -149,12 +149,12 @@ export const performanceBudget = {
     {
       "id": "initial-js-budget",
       "status": "pass",
-      "detail": "Initial JS is 650.3 KB; budget is 675 KB."
+      "detail": "Initial JS is 656.5 KB; budget is 675 KB."
     },
     {
       "id": "initial-js-gzip-budget",
       "status": "pass",
-      "detail": "Initial JS gzip is 173.7 KB; budget is 200 KB."
+      "detail": "Initial JS gzip is 174.1 KB; budget is 200 KB."
     },
     {
       "id": "initial-css-budget",
@@ -174,12 +174,12 @@ export const performanceBudget = {
     {
       "id": "game-runtime-deferred",
       "status": "pass",
-      "detail": "GameCanvas-CmimoaUI.js is deferred from the initial shell."
+      "detail": "GameCanvas-C74Khzxg.js is deferred from the initial shell."
     },
     {
       "id": "largest-js-deferred",
       "status": "pass",
-      "detail": "Largest JS chunk is GameCanvas-CmimoaUI.js at 1360.8 KB."
+      "detail": "Largest JS chunk is GameCanvas-C74Khzxg.js at 1360.8 KB."
     },
     {
       "id": "deferred-game-budget",
