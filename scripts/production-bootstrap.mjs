@@ -399,6 +399,8 @@ const payload = {
     dryRunByDefault: false,
     usesCurrentShellEnvironment: true,
     infersRepositoryFromOriginRemote: true,
+    supportsSshUrlRemotes: true,
+    supportsDottedRepositoryNames: true,
     configuresPagesSource: true,
     avoidsSecretEcho: true,
   },
@@ -501,14 +503,27 @@ derive_repository_name() {
 derive_repository_from_origin() {
   local remote_url
   remote_url="$(git remote get-url origin 2>/dev/null || true)"
+  remote_url="\${remote_url%/}"
 
-  if [[ "$remote_url" =~ ^https://github\\.com/([^/[:space:]]+/[^/.[:space:]]+)(\\.git)?$ ]]; then
-    printf "%s" "\${BASH_REMATCH[1]}"
-    return
-  fi
+  case "$remote_url" in
+    https://github.com/*)
+      remote_url="\${remote_url#https://github.com/}"
+      ;;
+    git@github.com:*)
+      remote_url="\${remote_url#git@github.com:}"
+      ;;
+    ssh://git@github.com/*)
+      remote_url="\${remote_url#ssh://git@github.com/}"
+      ;;
+    *)
+      return
+      ;;
+  esac
 
-  if [[ "$remote_url" =~ ^git@github\\.com:([^/[:space:]]+/[^/.[:space:]]+)(\\.git)?$ ]]; then
-    printf "%s" "\${BASH_REMATCH[1]}"
+  remote_url="\${remote_url%.git}"
+
+  if [[ "$remote_url" =~ ^[^/[:space:]]+/[^/[:space:]]+$ ]]; then
+    printf "%s" "$remote_url"
   fi
 }
 

@@ -67,18 +67,22 @@ const isGeneratedEvidencePath = (dirtyPath) =>
   generatedEvidencePaths.has(dirtyPath) || generatedEvidencePrefixes.some((prefix) => dirtyPath.startsWith(prefix))
 
 const repositoryFromRemote = (remoteUrl) => {
-  if (!remoteUrl) {
+  const normalizedRemoteUrl = String(remoteUrl ?? '').trim().replace(/\/+$/g, '')
+  if (!normalizedRemoteUrl) {
     return null
   }
 
-  const httpsMatch = remoteUrl.match(/^https:\/\/github\.com\/([^/\s]+\/[^/\s.]+)(?:\.git)?$/)
-  if (httpsMatch) {
-    return httpsMatch[1]
-  }
+  const githubRemotePatterns = [
+    /^https:\/\/github\.com\/([^/\s]+\/[^/\s]+?)(?:\.git)?$/,
+    /^git@github\.com:([^/\s]+\/[^/\s]+?)(?:\.git)?$/,
+    /^ssh:\/\/git@github\.com\/([^/\s]+\/[^/\s]+?)(?:\.git)?$/,
+  ]
 
-  const sshMatch = remoteUrl.match(/^git@github\.com:([^/\s]+\/[^/\s.]+)(?:\.git)?$/)
-  if (sshMatch) {
-    return sshMatch[1]
+  for (const pattern of githubRemotePatterns) {
+    const match = normalizedRemoteUrl.match(pattern)
+    if (match) {
+      return match[1]
+    }
   }
 
   return null
@@ -245,6 +249,12 @@ const payload = {
     inferredTargetSource: inferredRepository ? 'gh-auth-user-and-package-name' : null,
     packageName: packageJson.name ?? null,
     inferredRepositoryName,
+    remoteParsing: {
+      supportsHttps: true,
+      supportsSshScp: true,
+      supportsSshUrl: true,
+      supportsDottedRepositoryNames: true,
+    },
   },
   githubAutomation: {
     ghCliAvailable: ghVersionResult.ok,

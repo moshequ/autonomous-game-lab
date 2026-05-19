@@ -1485,6 +1485,8 @@ if (
   productionBootstrap.setupScript?.avoidsSecretEcho !== true ||
   productionBootstrap.setupScript?.configuresPagesSource !== true ||
   productionBootstrap.setupScript?.infersRepositoryFromOriginRemote !== true ||
+  productionBootstrap.setupScript?.supportsSshUrlRemotes !== true ||
+  productionBootstrap.setupScript?.supportsDottedRepositoryNames !== true ||
   productionBootstrap.repository?.repositoryReadinessStatus !== repositoryReadiness.status ||
   productionBootstrap.repository?.repositoryBootstrapStatus !== repositoryBootstrap.status ||
   productionBootstrap.repository?.insideWorkTree !== repositoryReadiness.workspace?.insideWorkTree ||
@@ -1508,6 +1510,7 @@ if (
   !githubSetupScript.includes('gh secret set') ||
   !githubSetupScript.includes('derive_repository_from_origin') ||
   !githubSetupScript.includes('git remote get-url origin') ||
+  !githubSetupScript.includes('ssh://git@github.com/') ||
   !githubSetupScript.includes('AGL_SYNC_PAGES_SETTINGS') ||
   !githubSetupScript.includes('repos/$repo/pages') ||
   !githubSetupScript.includes('build_type=workflow') ||
@@ -3096,6 +3099,8 @@ if (
     repositoryReadiness.repository?.source,
   ) ||
   typeof repositoryReadiness.repository?.inferredRepositoryName !== 'string' ||
+  repositoryReadiness.repository?.remoteParsing?.supportsSshUrl !== true ||
+  repositoryReadiness.repository?.remoteParsing?.supportsDottedRepositoryNames !== true ||
   typeof repositoryReadiness.githubAutomation?.ghAuthAvailable !== 'boolean' ||
   typeof repositoryReadiness.githubAutomation?.ghCredentialReady !== 'boolean' ||
   typeof repositoryReadiness.workspace?.nonGeneratedDirtyFiles !== 'number' ||
@@ -3116,6 +3121,7 @@ if (
   !repositoryReadinessSource.includes('gh-auth-user-and-package-name') ||
   !repositoryReadinessSource.includes('ghCredentialReady') ||
   !repositoryReadinessSource.includes('repositoryNameFromPackage') ||
+  !repositoryReadinessSource.includes('ssh://git@github.com') ||
   !repositoryReadinessSource.includes('noGitMutation') ||
   !repositoryReadinessSource.includes('noWorkflowDispatch') ||
   !appSource.includes('Repository Channel')
@@ -3158,6 +3164,8 @@ if (
     repositoryBootstrap.repository?.source,
   ) ||
   typeof repositoryBootstrap.repository?.inferredRepositoryName !== 'string' ||
+  repositoryBootstrap.repository?.remoteParsing?.supportsSshUrl !== true ||
+  repositoryBootstrap.repository?.remoteParsing?.supportsDottedRepositoryNames !== true ||
   typeof repositoryBootstrap.githubAutomation?.ghAuthAvailable !== 'boolean' ||
   typeof repositoryBootstrap.githubAutomation?.ghCredentialReady !== 'boolean' ||
   !repositoryBootstrap.actions?.some((action) => action.id === 'initialize-local-git') ||
@@ -3183,9 +3191,11 @@ if (
   !repositoryBootstrapSource.includes('gh-auth-user-and-package-name') ||
   !repositoryBootstrapSource.includes('AGL_ALLOW_GH_INFER_REPOSITORY') ||
   !repositoryBootstrapSource.includes('repositoryNameFromPackage') ||
+  !repositoryBootstrapSource.includes('ssh://git@github.com') ||
   !repositoryBootstrapSource.includes('AGL_ALLOW_LOCAL_GIT_BOOTSTRAP') ||
   !githubRepositoryBootstrapScript.includes('AGL_ALLOW_GH_INFER_REPOSITORY') ||
   !githubRepositoryBootstrapScript.includes('derive_repository_name') ||
+  !githubRepositoryBootstrapScript.includes('ssh://git@github.com/') ||
   !githubRepositoryBootstrapScript.includes('AGL_ALLOW_SNAPSHOT_COMMIT') ||
   !githubRepositoryBootstrapScript.includes('working tree has uncommitted changes') ||
   !githubRepositoryBootstrapScript.includes('No workflows were dispatched') ||

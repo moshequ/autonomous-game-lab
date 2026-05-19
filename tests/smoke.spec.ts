@@ -714,6 +714,10 @@ test('repository readiness surfaces the GitHub Pages deployment channel without 
       source: string
       inferredTarget: string | null
       inferredRepositoryName: string
+      remoteParsing: {
+        supportsSshUrl: boolean
+        supportsDottedRepositoryNames: boolean
+      }
     }
     githubAutomation: { workflowDispatchReady: boolean; ghAuthAvailable: boolean; ghCredentialReady: boolean }
     pages: { workflowPath: string; deployWorkflowIncludesSmoke: boolean; releaseCandidateId: string }
@@ -770,6 +774,8 @@ test('repository readiness surfaces the GitHub Pages deployment channel without 
     readiness.repository.source,
   )
   expect(readiness.repository.inferredRepositoryName).toBe(packageJson.name)
+  expect(readiness.repository.remoteParsing.supportsSshUrl).toBe(true)
+  expect(readiness.repository.remoteParsing.supportsDottedRepositoryNames).toBe(true)
   expect(readiness.githubAutomation.ghCredentialReady).toBe(
     readiness.githubAutomation.ghAuthAvailable || readiness.checks.some((check) => check.id === 'gh-token' && check.status === 'pass'),
   )
@@ -808,6 +814,7 @@ test('repository readiness surfaces the GitHub Pages deployment channel without 
   expect(repositoryBootstrapScript).toContain('AGL_ALLOW_GH_INFER_REPOSITORY')
   expect(repositoryBootstrapScript).toContain('AGL_ALLOW_SNAPSHOT_COMMIT')
   expect(repositoryBootstrapScript).toContain('derive_repository_name')
+  expect(repositoryBootstrapScript).toContain('ssh://git@github.com/')
   expect(repositoryBootstrapScript).toContain('working tree has uncommitted changes')
   expect(repositoryBootstrapScript).not.toContain('gh workflow run')
   expect(bootstrap.stages.some((stage) => stage.id === 'repository-channel')).toBe(true)
@@ -1180,6 +1187,8 @@ test('production bootstrap emits zero-spend setup handoff artifacts', async ({ p
       avoidsSecretEcho: boolean
       configuresPagesSource: boolean
       infersRepositoryFromOriginRemote: boolean
+      supportsSshUrlRemotes: boolean
+      supportsDottedRepositoryNames: boolean
     }
     requiredVariables: Array<{ repositoryVariable: string; command: string }>
     requiredSecrets: Array<{ repositorySecret: string; command: string }>
@@ -1209,10 +1218,13 @@ test('production bootstrap emits zero-spend setup handoff artifacts', async ({ p
   expect(bootstrap.setupScript.avoidsSecretEcho).toBe(true)
   expect(bootstrap.setupScript.configuresPagesSource).toBe(true)
   expect(bootstrap.setupScript.infersRepositoryFromOriginRemote).toBe(true)
+  expect(bootstrap.setupScript.supportsSshUrlRemotes).toBe(true)
+  expect(bootstrap.setupScript.supportsDottedRepositoryNames).toBe(true)
   expect(setupScript).toContain('gh variable set')
   expect(setupScript).toContain('gh secret set')
   expect(setupScript).toContain('derive_repository_from_origin')
   expect(setupScript).toContain('git remote get-url origin')
+  expect(setupScript).toContain('ssh://git@github.com/')
   expect(setupScript).toContain('AGL_SYNC_PAGES_SETTINGS')
   expect(setupScript).toContain('repos/$repo/pages')
   expect(setupScript).toContain('build_type=workflow')

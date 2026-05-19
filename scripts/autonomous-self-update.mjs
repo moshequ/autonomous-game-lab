@@ -44,18 +44,22 @@ const readOptionalJson = async (filePath, fallback) =>
 const configured = (value) => typeof value === 'string' && value.trim().length > 0
 
 const repositoryFromRemote = (remoteUrl) => {
-  if (!remoteUrl) {
+  const normalizedRemoteUrl = String(remoteUrl ?? '').trim().replace(/\/+$/g, '')
+  if (!normalizedRemoteUrl) {
     return null
   }
 
-  const httpsMatch = remoteUrl.match(/^https:\/\/github\.com\/([^/\s]+\/[^/\s.]+)(?:\.git)?$/)
-  if (httpsMatch) {
-    return httpsMatch[1]
-  }
+  const githubRemotePatterns = [
+    /^https:\/\/github\.com\/([^/\s]+\/[^/\s]+?)(?:\.git)?$/,
+    /^git@github\.com:([^/\s]+\/[^/\s]+?)(?:\.git)?$/,
+    /^ssh:\/\/git@github\.com\/([^/\s]+\/[^/\s]+?)(?:\.git)?$/,
+  ]
 
-  const sshMatch = remoteUrl.match(/^git@github\.com:([^/\s]+\/[^/\s.]+)(?:\.git)?$/)
-  if (sshMatch) {
-    return sshMatch[1]
+  for (const pattern of githubRemotePatterns) {
+    const match = normalizedRemoteUrl.match(pattern)
+    if (match) {
+      return match[1]
+    }
   }
 
   return null
