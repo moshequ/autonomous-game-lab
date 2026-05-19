@@ -1,10 +1,10 @@
 # Autonomous Operator
 
-Generated: 2026-05-19T23:12:59.989Z
+Generated: 2026-05-19T23:20:32.424Z
 Status: operator-plan-ready
 Mode: plan-only
-Owner decision: seed-portfolio-traffic
-Selected action: seed-portfolio-traffic
+Owner decision: refresh-autonomous-cadence
+Selected action: refresh-autonomous-cadence
 Execution: not-requested
 
 ## Controls
@@ -18,7 +18,7 @@ Execution: not-requested
 
 ## Selected Action
 
-- seed-portfolio-traffic: npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop
+- refresh-autonomous-cadence: npm run autonomous:cadence
 
 ## Eligible Local Actions
 
@@ -45,8 +45,8 @@ Execution: not-requested
 ## Blocked Actions
 
 - run-daily-owner-loop: daily-loop-recursion-blocked
-- refresh-autonomous-cadence: not-selected-this-run
 - refresh-autonomous-self-update: not-selected-this-run
+- seed-portfolio-traffic: not-selected-this-run
 - refresh-organic-seed-loop: not-selected-this-run
 - optimize-daily-retention: not-selected-this-run
 - measure-pwa-install-loop: not-selected-this-run
