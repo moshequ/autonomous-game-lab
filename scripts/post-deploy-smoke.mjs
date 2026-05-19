@@ -5,6 +5,7 @@ import { loadLocalEnv } from './lib/env-loader.mjs'
 const root = process.cwd()
 const localEnv = await loadLocalEnv({ root })
 const dataDir = path.join(root, 'data')
+const distDir = path.join(root, 'dist')
 const outputJsonPath = path.join(dataDir, 'post-deploy-smoke.json')
 const outputTsPath = path.join(root, 'src', 'data', 'postDeploySmoke.ts')
 const reportPath = path.join(root, 'reports', 'post-deploy-smoke-latest.md')
@@ -13,6 +14,7 @@ const readJson = async (filePath) => JSON.parse(await readFile(filePath, 'utf8')
 const argv = process.argv.slice(2)
 const argValue = (prefix) => argv.find((arg) => arg.startsWith(prefix))?.slice(prefix.length)
 const assertMode = argv.includes('--assert')
+const assertLocalMode = argv.includes('--assert-local')
 const timeoutMs = Number(argValue('--timeout-ms=') ?? process.env.AGL_POST_DEPLOY_TIMEOUT_MS ?? 12_000)
 const explicitOrigin = argValue('--origin=')
 const deployedOrigin =
@@ -50,6 +52,9 @@ const urlForPath = (origin, smokePath) => {
   nextUrl.pathname = pathname
   return nextUrl.toString()
 }
+
+const distPathForSmokePath = (smokePath) =>
+  path.join(distDir, smokePath === '/' ? 'index.html' : smokePath.replace(/^\//, ''))
 
 const fetchText = async (url) => {
   const response = await fetch(url, {
@@ -91,6 +96,108 @@ const manifestCheck = {
   requiredText: releaseCandidate.candidateId,
   status: origin ? 'pending' : 'blocked',
   detail: origin ? 'Ready to compare deployed release manifest.' : 'No deployed origin configured.',
+}
+
+const runLocalArtifactChecks = async () => {
+  const localChecks = []
+
+  for (const check of plannedChecks) {
+    const filePath = distPathForSmokePath(check.path)
+
+    try {
+      const text = await readFile(filePath, 'utf8')
+      const textMatches = check.requiredText ? text.includes(check.requiredText) : true
+
+      localChecks.push({
+        id: check.id,
+        path: check.path,
+        file: path.relative(root, filePath),
+        expectedStatus: check.expectedStatus,
+        status: textMatches ? 'pass' : 'fail',
+        bytes: text.length,
+        textMatched: textMatches,
+        detail: textMatches
+          ? 'Local production artifact matched required text.'
+          : `Local production artifact is missing required text "${check.requiredText}".`,
+      })
+    } catch (error) {
+      localChecks.push({
+        id: check.id,
+        path: check.path,
+        file: path.relative(root, filePath),
+        expectedStatus: check.expectedStatus,
+        status: 'fail',
+        bytes: 0,
+        textMatched: false,
+        detail: error instanceof Error ? error.message : String(error),
+      })
+    }
+  }
+
+  const manifestPath = distPathForSmokePath(manifestCheck.path)
+
+  try {
+    const text = await readFile(manifestPath, 'utf8')
+    let parsed = null
+
+    try {
+      parsed = JSON.parse(text)
+    } catch {
+      parsed = null
+    }
+
+    const candidateMatches = parsed?.candidateId === releaseCandidate.candidateId
+    const hashMatches = parsed?.integrity?.aggregateHash === releaseCandidate.integrity?.aggregateHash
+
+    localChecks.push({
+      id: manifestCheck.id,
+      path: manifestCheck.path,
+      file: path.relative(root, manifestPath),
+      expectedStatus: manifestCheck.expectedStatus,
+      status: candidateMatches && hashMatches ? 'pass' : 'fail',
+      bytes: text.length,
+      candidateMatches,
+      hashMatches,
+      localCandidateId: parsed?.candidateId ?? null,
+      localAggregateHash: parsed?.integrity?.aggregateHash ?? null,
+      detail:
+        candidateMatches && hashMatches
+          ? 'Local release manifest matches the release candidate.'
+          : 'Local release manifest does not match the release candidate.',
+    })
+  } catch (error) {
+    localChecks.push({
+      id: manifestCheck.id,
+      path: manifestCheck.path,
+      file: path.relative(root, manifestPath),
+      expectedStatus: manifestCheck.expectedStatus,
+      status: 'fail',
+      bytes: 0,
+      candidateMatches: false,
+      hashMatches: false,
+      detail: error instanceof Error ? error.message : String(error),
+    })
+  }
+
+  const failed = localChecks.filter((check) => check.status === 'fail')
+  const passed = localChecks.filter((check) => check.status === 'pass')
+
+  return {
+    status: failed.length ? 'predeploy-artifact-smoke-failed' : 'predeploy-artifact-smoke-passed',
+    artifactPath: releaseCandidate.target?.artifactPath ?? 'dist',
+    summary: {
+      planned: localChecks.length,
+      passed: passed.length,
+      failed: failed.length,
+    },
+    controls: {
+      readOnlyFileChecks: true,
+      noNetworkRequired: true,
+      requiredTextChecks: true,
+      manifestHashComparisonRequired: true,
+    },
+    checks: localChecks,
+  }
 }
 
 const runChecks = async () => {
@@ -179,6 +286,7 @@ const runChecks = async () => {
   return smokeResults
 }
 
+const localArtifactSmoke = await runLocalArtifactChecks()
 const checks = await runChecks()
 const failedChecks = checks.filter((check) => check.status === 'fail')
 const blockedChecks = checks.filter((check) => check.status === 'blocked')
@@ -210,12 +318,14 @@ const payload = {
     failed: failedChecks.length,
     blocked: blockedChecks.length,
   },
+  localArtifactSmoke,
   controls: {
     zeroPaidSpend: unitEconomics.controls?.maxDailySpendUsd === 0,
     noStoreSubmission: true,
     noRevenueEnablement: true,
     noAccountCreation: true,
     readOnlyHttpChecks: true,
+    localArtifactSmokeRequired: true,
     manifestHashComparisonRequired: true,
   },
   checks,
@@ -243,6 +353,15 @@ const report = [
   `- Passed: ${payload.summary.passed}`,
   `- Failed: ${payload.summary.failed}`,
   `- Blocked: ${payload.summary.blocked}`,
+  '',
+  '## Local Artifact Smoke',
+  '',
+  `Status: ${payload.localArtifactSmoke.status}`,
+  `Artifact path: ${payload.localArtifactSmoke.artifactPath}`,
+  `Checks: ${payload.localArtifactSmoke.summary.passed}/${payload.localArtifactSmoke.summary.planned} passed`,
+  ...payload.localArtifactSmoke.checks.map(
+    (check) => `- ${check.status}: ${check.id} - ${check.file} - ${check.detail}`,
+  ),
   '',
   '## Checks',
   '',
@@ -274,5 +393,10 @@ console.log(`Wrote ${path.relative(root, reportPath)}`)
 
 if (assertMode && status !== 'post-deploy-smoke-passed') {
   console.error(`Post-deploy smoke status is ${status}.`)
+  process.exit(1)
+}
+
+if (assertLocalMode && localArtifactSmoke.status !== 'predeploy-artifact-smoke-passed') {
+  console.error(`Local artifact smoke status is ${localArtifactSmoke.status}.`)
   process.exit(1)
 }

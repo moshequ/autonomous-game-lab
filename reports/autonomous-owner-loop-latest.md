@@ -1,6 +1,6 @@
 # Autonomous Owner Loop
 
-Generated: 2026-05-19T03:17:21.387Z
+Generated: 2026-05-19T03:22:37.689Z
 Status: owner-loop-ready
 Mode: repository-channel-needed
 Autonomy score: 30/32 (94%)
@@ -34,7 +34,7 @@ Autonomy score: 30/32 (94%)
 - ready: repository-bootstrap - Bootstrap waiting-for-github-target; mode plan-only; helper ops/github/bootstrap-repository.sh; local git ready.
 - ready: web-deployment - Deployment ready-for-pages; web readiness ready-after-build; promotion promotable-internal.
 - ready: release-candidate - Candidate pwa-5d17285b2e72; status release-candidate-ready; files 38; smoke URLs 7.
-- ready: post-deploy-smoke - Smoke blocked-missing-origin; origin missing; candidate pwa-5d17285b2e72; checks 0/8 passed.
+- ready: post-deploy-smoke - Smoke blocked-missing-origin; origin missing; candidate pwa-5d17285b2e72; checks 0/8 passed; local artifact predeploy-artifact-smoke-passed 8/8 passed.
 - ready: production-bootstrap - Bootstrap production-bootstrap-ready; mode waiting-for-external-credentials; external blockers 24.
 - ready: autonomous-operator - Operator operator-plan-ready; selected prepare-repository-channel; execution not-requested.
 - ready: operator-history - History operator-history-ready; records 23; executed 0.

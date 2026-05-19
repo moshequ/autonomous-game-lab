@@ -1,5 +1,5 @@
 export const autonomousOwnerLoop = {
-  "generatedAt": "2026-05-19T03:17:21.387Z",
+  "generatedAt": "2026-05-19T03:22:37.689Z",
   "status": "owner-loop-ready",
   "mode": "repository-channel-needed",
   "autonomyScore": {
@@ -177,7 +177,7 @@ export const autonomousOwnerLoop = {
       "id": "post-deploy-smoke",
       "status": "ready",
       "autonomy": "read-only-live-deploy-verification",
-      "evidence": "Smoke blocked-missing-origin; origin missing; candidate pwa-5d17285b2e72; checks 0/8 passed.",
+      "evidence": "Smoke blocked-missing-origin; origin missing; candidate pwa-5d17285b2e72; checks 0/8 passed; local artifact predeploy-artifact-smoke-passed 8/8 passed.",
       "nextAction": "Run this after deployment with AGL_DEPLOYED_PWA_ORIGIN set to the Pages URL."
     },
     {

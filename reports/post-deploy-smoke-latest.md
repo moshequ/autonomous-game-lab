@@ -1,6 +1,6 @@
 # Post-Deploy Smoke
 
-Generated: 2026-05-19T03:15:03.186Z
+Generated: 2026-05-19T03:22:36.585Z
 Status: blocked-missing-origin
 Origin: missing
 Candidate: pwa-5d17285b2e72
@@ -11,6 +11,20 @@ Candidate: pwa-5d17285b2e72
 - Passed: 0
 - Failed: 0
 - Blocked: 8
+
+## Local Artifact Smoke
+
+Status: predeploy-artifact-smoke-passed
+Artifact path: dist
+Checks: 8/8 passed
+- pass: app-shell - dist/index.html - Local production artifact matched required text.
+- pass: manifest-webmanifest - dist/manifest.webmanifest - Local production artifact matched required text.
+- pass: sw-js - dist/sw.js - Local production artifact matched required text.
+- pass: privacy-html - dist/privacy.html - Local production artifact matched required text.
+- pass: support-html - dist/support.html - Local production artifact matched required text.
+- pass: sitemap-xml - dist/sitemap.xml - Local production artifact matched required text.
+- pass: games-canopy-bloom-html - dist/games/canopy-bloom.html - Local production artifact matched required text.
+- pass: release-candidate-manifest - dist/release-candidate.json - Local release manifest matches the release candidate.
 
 ## Checks
 
@@ -30,6 +44,7 @@ Candidate: pwa-5d17285b2e72
 - noRevenueEnablement: true
 - noAccountCreation: true
 - readOnlyHttpChecks: true
+- localArtifactSmokeRequired: true
 - manifestHashComparisonRequired: true
 
 ## Next Actions

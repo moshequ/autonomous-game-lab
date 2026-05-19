@@ -1,5 +1,5 @@
 export const postDeploySmoke = {
-  "generatedAt": "2026-05-19T03:15:03.186Z",
+  "generatedAt": "2026-05-19T03:22:36.585Z",
   "status": "blocked-missing-origin",
   "envFiles": {
     "loaded": true,
@@ -68,12 +68,113 @@ export const postDeploySmoke = {
     "failed": 0,
     "blocked": 8
   },
+  "localArtifactSmoke": {
+    "status": "predeploy-artifact-smoke-passed",
+    "artifactPath": "dist",
+    "summary": {
+      "planned": 8,
+      "passed": 8,
+      "failed": 0
+    },
+    "controls": {
+      "readOnlyFileChecks": true,
+      "noNetworkRequired": true,
+      "requiredTextChecks": true,
+      "manifestHashComparisonRequired": true
+    },
+    "checks": [
+      {
+        "id": "app-shell",
+        "path": "/",
+        "file": "dist/index.html",
+        "expectedStatus": 200,
+        "status": "pass",
+        "bytes": 803,
+        "textMatched": true,
+        "detail": "Local production artifact matched required text."
+      },
+      {
+        "id": "manifest-webmanifest",
+        "path": "/manifest.webmanifest",
+        "file": "dist/manifest.webmanifest",
+        "expectedStatus": 200,
+        "status": "pass",
+        "bytes": 713,
+        "textMatched": true,
+        "detail": "Local production artifact matched required text."
+      },
+      {
+        "id": "sw-js",
+        "path": "/sw.js",
+        "file": "dist/sw.js",
+        "expectedStatus": 200,
+        "status": "pass",
+        "bytes": 3533,
+        "textMatched": true,
+        "detail": "Local production artifact matched required text."
+      },
+      {
+        "id": "privacy-html",
+        "path": "/privacy.html",
+        "file": "dist/privacy.html",
+        "expectedStatus": 200,
+        "status": "pass",
+        "bytes": 2648,
+        "textMatched": true,
+        "detail": "Local production artifact matched required text."
+      },
+      {
+        "id": "support-html",
+        "path": "/support.html",
+        "file": "dist/support.html",
+        "expectedStatus": 200,
+        "status": "pass",
+        "bytes": 1475,
+        "textMatched": true,
+        "detail": "Local production artifact matched required text."
+      },
+      {
+        "id": "sitemap-xml",
+        "path": "/sitemap.xml",
+        "file": "dist/sitemap.xml",
+        "expectedStatus": 200,
+        "status": "pass",
+        "bytes": 1783,
+        "textMatched": true,
+        "detail": "Local production artifact matched required text."
+      },
+      {
+        "id": "games-canopy-bloom-html",
+        "path": "/games/canopy-bloom.html",
+        "file": "dist/games/canopy-bloom.html",
+        "expectedStatus": 200,
+        "status": "pass",
+        "bytes": 5067,
+        "textMatched": true,
+        "detail": "Local production artifact matched required text."
+      },
+      {
+        "id": "release-candidate-manifest",
+        "path": "/release-candidate.json",
+        "file": "dist/release-candidate.json",
+        "expectedStatus": 200,
+        "status": "pass",
+        "bytes": 15513,
+        "candidateMatches": true,
+        "hashMatches": true,
+        "localCandidateId": "pwa-5d17285b2e72",
+        "localAggregateHash": "5d17285b2e72438a0f0f20c454a77752ce457ae5e57eff5dc5a01d3f31bba665",
+        "detail": "Local release manifest matches the release candidate."
+      }
+    ]
+  },
   "controls": {
     "zeroPaidSpend": true,
     "noStoreSubmission": true,
     "noRevenueEnablement": true,
     "noAccountCreation": true,
     "readOnlyHttpChecks": true,
+    "localArtifactSmokeRequired": true,
     "manifestHashComparisonRequired": true
   },
   "checks": [

@@ -225,6 +225,7 @@ const pwaInstallLoop = JSON.parse(await readFile(path.join(root, 'data', 'pwa-in
 const performanceBudget = JSON.parse(await readFile(path.join(root, 'data', 'performance-budget.json'), 'utf8'))
 const releaseCandidate = JSON.parse(await readFile(path.join(root, 'data', 'release-candidate.json'), 'utf8'))
 const postDeploySmoke = JSON.parse(await readFile(path.join(root, 'data', 'post-deploy-smoke.json'), 'utf8'))
+const localArtifactSmoke = postDeploySmoke.localArtifactSmoke ?? {}
 const repositoryReadiness = JSON.parse(await readFile(path.join(root, 'data', 'repository-readiness.json'), 'utf8'))
 const repositoryBootstrap = JSON.parse(await readFile(path.join(root, 'data', 'repository-bootstrap.json'), 'utf8'))
 const productOptimization = JSON.parse(await readFile(path.join(root, 'data', 'product-optimization.json'), 'utf8'))
@@ -1406,6 +1407,9 @@ if (
   objectiveAutonomyRequirement?.status !== objectiveExpectedAutonomyStatus ||
   !objectiveAutonomyRequirement?.evidence?.some((item) =>
     item.includes(`Post-deploy smoke: ${postDeploySmoke.status}`),
+  ) ||
+  !objectiveAutonomyRequirement?.evidence?.some((item) =>
+    item.includes(`local artifact ${localArtifactSmoke.status}`),
   ) ||
   !objectiveAutonomyRequirement?.evidence?.some((item) =>
     item.includes(`Autonomous cadence: ${autonomousCadence.status}`),
@@ -2611,9 +2615,21 @@ const postDeploySmokeExpectedChecks = (releaseCandidate.postDeploySmoke?.length 
 const postDeployManifestCheck = postDeploySmoke.checks?.find(
   (check) => check.id === 'release-candidate-manifest',
 )
+const localArtifactManifestCheck = localArtifactSmoke.checks?.find(
+  (check) => check.id === 'release-candidate-manifest',
+)
 
 if (
   !postDeploySmokeAllowedStatuses.includes(postDeploySmoke.status) ||
+  localArtifactSmoke.status !== 'predeploy-artifact-smoke-passed' ||
+  localArtifactSmoke.summary?.planned < postDeploySmokeExpectedChecks ||
+  localArtifactSmoke.summary?.passed !== localArtifactSmoke.summary?.planned ||
+  localArtifactSmoke.summary?.failed !== 0 ||
+  localArtifactSmoke.controls?.readOnlyFileChecks !== true ||
+  localArtifactSmoke.controls?.noNetworkRequired !== true ||
+  localArtifactSmoke.controls?.requiredTextChecks !== true ||
+  localArtifactSmoke.controls?.manifestHashComparisonRequired !== true ||
+  !localArtifactManifestCheck ||
   postDeploySmoke.sourceStatus?.deployment !== deployment.status ||
   postDeploySmoke.sourceStatus?.releaseCandidate !== releaseCandidate.status ||
   postDeploySmoke.target?.candidateId !== releaseCandidate.candidateId ||
@@ -2622,6 +2638,7 @@ if (
   postDeploySmoke.controls?.noStoreSubmission !== true ||
   postDeploySmoke.controls?.noRevenueEnablement !== true ||
   postDeploySmoke.controls?.readOnlyHttpChecks !== true ||
+  postDeploySmoke.controls?.localArtifactSmokeRequired !== true ||
   postDeploySmoke.controls?.manifestHashComparisonRequired !== true ||
   (postDeploySmoke.checks?.length ?? 0) < postDeploySmokeExpectedChecks ||
   !postDeployManifestCheck ||
@@ -2647,7 +2664,11 @@ if (
   readiness.postDeploySmoke?.status !== postDeploySmoke.status ||
   readiness.postDeploySmoke?.target?.candidateId !== releaseCandidate.candidateId ||
   readiness.postDeploySmoke?.target?.aggregateHash !== releaseCandidate.integrity?.aggregateHash ||
+  readiness.postDeploySmoke?.localArtifactSmoke?.status !== 'predeploy-artifact-smoke-passed' ||
+  readiness.postDeploySmoke?.localArtifactSmoke?.summary?.passed !==
+    readiness.postDeploySmoke?.localArtifactSmoke?.summary?.planned ||
   readiness.postDeploySmoke?.controls?.readOnlyHttpChecks !== true ||
+  readiness.postDeploySmoke?.controls?.localArtifactSmokeRequired !== true ||
   readiness.postDeploySmoke?.controls?.manifestHashComparisonRequired !== true
 ) {
   fail('Production readiness must include the post-deploy smoke runner and release-manifest comparison evidence.')

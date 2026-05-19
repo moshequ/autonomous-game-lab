@@ -122,10 +122,14 @@ const objectiveBlockers = [
 ]
 const postDeploySmokeReady =
   ['blocked-missing-origin', 'post-deploy-smoke-passed'].includes(postDeploySmoke.status) &&
+  postDeploySmoke.localArtifactSmoke?.status === 'predeploy-artifact-smoke-passed' &&
+  postDeploySmoke.localArtifactSmoke?.summary?.passed === postDeploySmoke.localArtifactSmoke?.summary?.planned &&
+  postDeploySmoke.localArtifactSmoke?.summary?.failed === 0 &&
   postDeploySmoke.target?.candidateId === releaseCandidate.candidateId &&
   postDeploySmoke.target?.aggregateHash === releaseCandidate.integrity?.aggregateHash &&
   postDeploySmoke.controls?.zeroPaidSpend === true &&
   postDeploySmoke.controls?.readOnlyHttpChecks === true &&
+  postDeploySmoke.controls?.localArtifactSmokeRequired === true &&
   postDeploySmoke.controls?.manifestHashComparisonRequired === true
 const repositoryChannelReady = ['repository-channel-ready', 'waiting-for-gh-auth'].includes(
   repositoryReadiness.status,
@@ -320,7 +324,10 @@ const requirements = [
       }`,
       `Post-deploy smoke: ${postDeploySmoke.status}; origin ${
         postDeploySmoke.target?.origin ?? 'missing'
-      }; checks ${postDeploySmoke.summary?.passed ?? 0}/${postDeploySmoke.summary?.planned ?? 0}`,
+      }; checks ${postDeploySmoke.summary?.passed ?? 0}/${postDeploySmoke.summary?.planned ?? 0}; local artifact ${
+        postDeploySmoke.localArtifactSmoke?.status ?? 'missing'
+      } ${postDeploySmoke.localArtifactSmoke?.summary?.passed ?? 0}/${
+        postDeploySmoke.localArtifactSmoke?.summary?.planned ?? 0}`,
       `Repository channel: ${repositoryReadiness.status}; repository ${
         repositoryReadiness.repository?.target ?? 'missing'
       }; git worktree ${repositoryReadiness.workspace?.insideWorkTree === true}`,

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-19T03:17:20.963Z",
+  "generatedAt": "2026-05-19T03:22:37.261Z",
   "status": "objective-in-progress",
   "objective": "Build a bootstrapped autonomous web/PWA game portal that can generate original board-game-inspired games, measure user behavior, propose and apply data-driven improvements, and prepare a path to monetization and app-store distribution with minimal manual intervention.",
   "summary": {
@@ -91,7 +91,7 @@
         "Bootstrap: production-bootstrap-ready",
         "Repository bootstrap: waiting-for-github-target; helper ops/github/bootstrap-repository.sh",
         "Release candidate: release-candidate-ready; smoke URLs 7",
-        "Post-deploy smoke: blocked-missing-origin; origin missing; checks 0/8",
+        "Post-deploy smoke: blocked-missing-origin; origin missing; checks 0/8; local artifact predeploy-artifact-smoke-passed 8/8",
         "Repository channel: waiting-for-github-repository; repository missing; git worktree true",
         "Autonomy score: 94%",
         "Credential-gated actions: 13"

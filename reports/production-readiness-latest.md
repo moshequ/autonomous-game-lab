@@ -1,6 +1,6 @@
 # Production Readiness
 
-Generated: 2026-05-19T03:17:21.176Z
+Generated: 2026-05-19T03:22:37.474Z
 
 ## Environment
 
@@ -57,7 +57,7 @@ Status: ready-after-build
 - pass: pwa-install-loop - PWA install loop is pwa-install-loop-ready; prompt surface autonomy-cockpit; cost $0.
 - pass: performance-budget - Performance budget is performance-budget-ready; initial JS 673.8 KB / 177.2 KB gzip; deferred game chunk GameCanvas-CPgEYQo_.js.
 - pass: release-candidate - Release candidate is release-candidate-ready; files 38; smoke URLs 7.
-- pass: post-deploy-smoke-runner - Post-deploy smoke is blocked-missing-origin; origin missing; checks 0/8 passed, 8 blocked.
+- pass: post-deploy-smoke-runner - Post-deploy smoke is blocked-missing-origin; origin missing; checks 0/8 passed, 8 blocked; local artifact predeploy-artifact-smoke-passed 8/8 passed.
 - pass: product-optimization - Product optimizer is product-optimization-ready; completion 0.397 vs gate 0.55; latest action already-applied.
 - pass: first-move-coach - First-move coach is first-move-coach-ready; enabled targets 6; primary harbor-rings.
 - pass: completion-loop - Completion loop is completion-loop-ready; prompt armed; target harbor-rings.
@@ -140,6 +140,7 @@ Status: blocked-missing-origin
 Origin: missing
 Candidate: pwa-5d17285b2e72
 Checks: 0/8 passed (8 blocked)
+Local artifact: predeploy-artifact-smoke-passed (8/8 passed)
 - blocked: smoke-app-shell - No deployed origin configured.
 - blocked: smoke-manifest-webmanifest - No deployed origin configured.
 - blocked: smoke-sw-js - No deployed origin configured.

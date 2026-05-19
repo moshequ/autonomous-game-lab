@@ -552,11 +552,23 @@ test('post-deploy smoke runner is wired to the release manifest and Pages workfl
     target: { origin: string | null; candidateId: string; aggregateHash: string }
     sourceStatus: { deployment: string; releaseCandidate: string }
     summary: { planned: number; passed: number; blocked: number }
+    localArtifactSmoke: {
+      status: string
+      summary: { planned: number; passed: number; failed: number }
+      controls: {
+        readOnlyFileChecks: boolean
+        noNetworkRequired: boolean
+        requiredTextChecks: boolean
+        manifestHashComparisonRequired: boolean
+      }
+      checks: Array<{ id: string; status: string; file: string }>
+    }
     controls: {
       zeroPaidSpend: boolean
       noStoreSubmission: boolean
       noRevenueEnablement: boolean
       readOnlyHttpChecks: boolean
+      localArtifactSmokeRequired: boolean
       manifestHashComparisonRequired: boolean
     }
     checks: Array<{ id: string; status: string }>
@@ -580,7 +592,17 @@ test('post-deploy smoke runner is wired to the release manifest and Pages workfl
   expect(smoke.controls.noStoreSubmission).toBe(true)
   expect(smoke.controls.noRevenueEnablement).toBe(true)
   expect(smoke.controls.readOnlyHttpChecks).toBe(true)
+  expect(smoke.controls.localArtifactSmokeRequired).toBe(true)
   expect(smoke.controls.manifestHashComparisonRequired).toBe(true)
+  expect(smoke.localArtifactSmoke.status).toBe('predeploy-artifact-smoke-passed')
+  expect(smoke.localArtifactSmoke.summary.passed).toBe(smoke.localArtifactSmoke.summary.planned)
+  expect(smoke.localArtifactSmoke.summary.failed).toBe(0)
+  expect(smoke.localArtifactSmoke.summary.planned).toBeGreaterThanOrEqual(candidate.postDeploySmoke.length + 1)
+  expect(smoke.localArtifactSmoke.controls.readOnlyFileChecks).toBe(true)
+  expect(smoke.localArtifactSmoke.controls.noNetworkRequired).toBe(true)
+  expect(smoke.localArtifactSmoke.controls.requiredTextChecks).toBe(true)
+  expect(smoke.localArtifactSmoke.controls.manifestHashComparisonRequired).toBe(true)
+  expect(smoke.localArtifactSmoke.checks.some((check) => check.id === 'release-candidate-manifest')).toBe(true)
   expect(smoke.checks.length).toBeGreaterThanOrEqual(candidate.postDeploySmoke.length + 1)
   expect(smoke.checks.some((check) => check.id === 'release-candidate-manifest')).toBe(true)
   expect(smoke.target.origin ? smoke.summary.passed : smoke.summary.blocked).toBe(smoke.summary.planned)

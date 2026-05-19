@@ -418,11 +418,28 @@ const releaseCandidateReady =
   (await exists(path.join(root, 'dist', 'release-candidate.json')))
 const postDeploySmokeChecks = postDeploySmoke.checks ?? []
 const postDeploySmokeExpectedChecks = (releaseCandidate.postDeploySmoke?.length ?? 0) + 1
+const localArtifactSmoke = postDeploySmoke.localArtifactSmoke ?? {
+  status: 'missing',
+  summary: {},
+  controls: {},
+  checks: [],
+}
+const localArtifactSmokeReady =
+  localArtifactSmoke.status === 'predeploy-artifact-smoke-passed' &&
+  localArtifactSmoke.summary?.planned >= postDeploySmokeExpectedChecks &&
+  localArtifactSmoke.summary?.passed === localArtifactSmoke.summary?.planned &&
+  localArtifactSmoke.summary?.failed === 0 &&
+  localArtifactSmoke.controls?.readOnlyFileChecks === true &&
+  localArtifactSmoke.controls?.noNetworkRequired === true &&
+  localArtifactSmoke.controls?.requiredTextChecks === true &&
+  localArtifactSmoke.controls?.manifestHashComparisonRequired === true &&
+  localArtifactSmoke.checks?.some((item) => item.id === 'release-candidate-manifest')
 const postDeploySmokeStatusAllowed = ['blocked-missing-origin', 'post-deploy-smoke-passed'].includes(
   postDeploySmoke.status,
 )
 const postDeploySmokeRunnerReady =
   postDeploySmokeStatusAllowed &&
+  localArtifactSmokeReady &&
   postDeploySmoke.sourceStatus?.deployment === deployment.status &&
   postDeploySmoke.sourceStatus?.releaseCandidate === releaseCandidate.status &&
   postDeploySmoke.target?.candidateId === releaseCandidate.candidateId &&
@@ -431,6 +448,7 @@ const postDeploySmokeRunnerReady =
   postDeploySmoke.controls?.noStoreSubmission === true &&
   postDeploySmoke.controls?.noRevenueEnablement === true &&
   postDeploySmoke.controls?.readOnlyHttpChecks === true &&
+  postDeploySmoke.controls?.localArtifactSmokeRequired === true &&
   postDeploySmoke.controls?.manifestHashComparisonRequired === true &&
   postDeploySmokeChecks.length >= postDeploySmokeExpectedChecks &&
   postDeploySmokeChecks.some((item) => item.id === 'release-candidate-manifest') &&
@@ -731,7 +749,9 @@ const webChecks = [
       postDeploySmoke.target?.origin ?? 'missing'
     }; checks ${postDeploySmoke.summary?.passed ?? 0}/${postDeploySmoke.summary?.planned ?? 0} passed, ${
       postDeploySmoke.summary?.blocked ?? 0
-    } blocked.`,
+    } blocked; local artifact ${localArtifactSmoke.status} ${
+      localArtifactSmoke.summary?.passed ?? 0
+    }/${localArtifactSmoke.summary?.planned ?? 0} passed.`,
   ),
   check(
     'product-optimization',
@@ -1018,6 +1038,7 @@ const payload = {
     target: postDeploySmoke.target,
     sourceStatus: postDeploySmoke.sourceStatus,
     summary: postDeploySmoke.summary,
+    localArtifactSmoke,
     controls: postDeploySmoke.controls,
     checks: postDeploySmokeChecks,
   },
@@ -1262,6 +1283,7 @@ const report = [
   `Origin: ${payload.postDeploySmoke.target?.origin ?? 'missing'}`,
   `Candidate: ${payload.postDeploySmoke.target?.candidateId ?? 'missing'}`,
   `Checks: ${payload.postDeploySmoke.summary?.passed ?? 0}/${payload.postDeploySmoke.summary?.planned ?? 0} passed (${payload.postDeploySmoke.summary?.blocked ?? 0} blocked)`,
+  `Local artifact: ${payload.postDeploySmoke.localArtifactSmoke?.status ?? 'missing'} (${payload.postDeploySmoke.localArtifactSmoke?.summary?.passed ?? 0}/${payload.postDeploySmoke.localArtifactSmoke?.summary?.planned ?? 0} passed)`,
   ...(payload.postDeploySmoke.checks ?? []).map(
     (item) => `- ${item.status}: smoke-${item.id} - ${item.detail}`,
   ),

@@ -200,12 +200,16 @@ const ownerMode = releaseHealth.controls?.rollbackRequired
     : 'guarded-local-automation'
 const postDeploySmokeRunnerReady =
   ['blocked-missing-origin', 'post-deploy-smoke-passed'].includes(postDeploySmoke.status) &&
+  postDeploySmoke.localArtifactSmoke?.status === 'predeploy-artifact-smoke-passed' &&
+  postDeploySmoke.localArtifactSmoke?.summary?.passed === postDeploySmoke.localArtifactSmoke?.summary?.planned &&
+  postDeploySmoke.localArtifactSmoke?.summary?.failed === 0 &&
   postDeploySmoke.sourceStatus?.deployment === deployment.status &&
   postDeploySmoke.sourceStatus?.releaseCandidate === releaseCandidate.status &&
   postDeploySmoke.target?.candidateId === releaseCandidate.candidateId &&
   postDeploySmoke.target?.aggregateHash === releaseCandidate.integrity?.aggregateHash &&
   postDeploySmoke.controls?.zeroPaidSpend === true &&
   postDeploySmoke.controls?.readOnlyHttpChecks === true &&
+  postDeploySmoke.controls?.localArtifactSmokeRequired === true &&
   postDeploySmoke.controls?.manifestHashComparisonRequired === true &&
   (postDeploySmoke.checks?.length ?? 0) >= (releaseCandidate.postDeploySmoke?.length ?? 0) + 1
 
@@ -538,7 +542,11 @@ const systems = [
       postDeploySmoke.target?.origin ?? 'missing'
     }; candidate ${postDeploySmoke.target?.candidateId ?? 'missing'}; checks ${
       postDeploySmoke.summary?.passed ?? 0
-    }/${postDeploySmoke.summary?.planned ?? 0} passed.`,
+    }/${postDeploySmoke.summary?.planned ?? 0} passed; local artifact ${
+      postDeploySmoke.localArtifactSmoke?.status ?? 'missing'
+    } ${postDeploySmoke.localArtifactSmoke?.summary?.passed ?? 0}/${
+      postDeploySmoke.localArtifactSmoke?.summary?.planned ?? 0
+    } passed.`,
     nextAction:
       postDeploySmoke.nextActions?.[0] ??
       'Run the smoke runner with the deployed Pages URL after the workflow publishes the PWA.',
