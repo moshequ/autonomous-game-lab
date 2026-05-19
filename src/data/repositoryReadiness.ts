@@ -1,5 +1,5 @@
 export const repositoryReadiness = {
-  "generatedAt": "2026-05-19T15:15:50.846Z",
+  "generatedAt": "2026-05-19T15:17:37.601Z",
   "status": "waiting-for-github-repository",
   "envFiles": {
     "loaded": true,
@@ -56,13 +56,12 @@ export const repositoryReadiness = {
     "insideWorkTree": true,
     "gitRoot": "/Users/moshequ/Documents/Codex/2026-05-18/i-want-to-have-a-new",
     "currentBranch": "main",
-    "dirtyFiles": 50,
+    "dirtyFiles": 48,
     "dirtyPaths": [
       "data/analytics-rollup.json",
       "data/autonomous-operator-history.json",
       "data/autonomous-operator.json",
       "data/autonomous-owner-loop.json",
-      "data/autonomous-self-update.json",
       "data/deployment-plan.json",
       "data/event-ingest.json",
       "data/local-event-bridge.json",
@@ -80,7 +79,6 @@ export const repositoryReadiness = {
       "reports/autonomous-operator-history-latest.md",
       "reports/autonomous-operator-latest.md",
       "reports/autonomous-owner-loop-latest.md",
-      "reports/autonomous-self-update-latest.md",
       "reports/deployment-plan-latest.md",
       "reports/event-ingest-latest.md",
       "reports/local-event-bridge-latest.md",
@@ -109,13 +107,12 @@ export const repositoryReadiness = {
       "src/data/repositoryBootstrap.ts",
       "src/data/repositoryReadiness.ts"
     ],
-    "generatedEvidenceDirtyFiles": 50,
+    "generatedEvidenceDirtyFiles": 48,
     "generatedEvidenceDirtyPaths": [
       "data/analytics-rollup.json",
       "data/autonomous-operator-history.json",
       "data/autonomous-operator.json",
       "data/autonomous-owner-loop.json",
-      "data/autonomous-self-update.json",
       "data/deployment-plan.json",
       "data/event-ingest.json",
       "data/local-event-bridge.json",
@@ -133,7 +130,6 @@ export const repositoryReadiness = {
       "reports/autonomous-operator-history-latest.md",
       "reports/autonomous-operator-latest.md",
       "reports/autonomous-owner-loop-latest.md",
-      "reports/autonomous-self-update-latest.md",
       "reports/deployment-plan-latest.md",
       "reports/event-ingest-latest.md",
       "reports/local-event-bridge-latest.md",
@@ -189,7 +185,7 @@ export const repositoryReadiness = {
     "workflowExists": true,
     "deployWorkflowIncludesSmoke": true,
     "deploymentStatus": "ready-for-pages",
-    "releaseCandidateId": "pwa-a5261f0da690",
+    "releaseCandidateId": "pwa-1861f289fc72",
     "postDeploySmokeStatus": "blocked-missing-origin"
   },
   "controls": {
