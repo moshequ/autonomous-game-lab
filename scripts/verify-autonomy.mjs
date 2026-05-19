@@ -41,6 +41,7 @@ const requiredFiles = [
   'data/autonomous-operator.json',
   'data/autonomous-operator-history.json',
   'data/autonomous-cadence.json',
+  'data/autonomous-self-update.json',
   'data/objective-audit.json',
   'data/autonomous-owner-loop.json',
   'data/production-environment.json',
@@ -82,11 +83,13 @@ const requiredFiles = [
   'src/data/autonomousOperator.ts',
   'src/data/autonomousOperatorHistory.ts',
   'src/data/autonomousCadence.ts',
+  'src/data/autonomousSelfUpdate.ts',
   'src/data/objectiveAudit.ts',
   'src/data/storeListingOptimizer.ts',
   'src/data/storeCompliance.ts',
   'src/data/autonomousOwnerLoop.ts',
   '.github/workflows/autonomous-daily.yml',
+  '.github/workflows/autonomous-self-update.yml',
   '.github/workflows/android-twa-release.yml',
   '.github/workflows/event-collector-deploy.yml',
   '.github/workflows/web-pwa-deploy.yml',
@@ -121,6 +124,7 @@ const requiredFiles = [
   'reports/autonomous-operator-latest.md',
   'reports/autonomous-operator-history-latest.md',
   'reports/autonomous-cadence-latest.md',
+  'reports/autonomous-self-update-latest.md',
   'reports/objective-audit-latest.md',
   'reports/autonomous-owner-loop-latest.md',
   'reports/production-environment-latest.md',
@@ -156,6 +160,7 @@ const requiredFiles = [
   'scripts/repository-readiness.mjs',
   'scripts/repository-bootstrap.mjs',
   'scripts/autonomous-cadence.mjs',
+  'scripts/autonomous-self-update.mjs',
   'public/icons/app-icon.svg',
   'public/icons/icon-192.png',
   'public/icons/icon-512.png',
@@ -228,6 +233,9 @@ const autonomousOperatorHistory = JSON.parse(
   await readFile(path.join(root, 'data', 'autonomous-operator-history.json'), 'utf8'),
 )
 const autonomousCadence = JSON.parse(await readFile(path.join(root, 'data', 'autonomous-cadence.json'), 'utf8'))
+const autonomousSelfUpdate = JSON.parse(
+  await readFile(path.join(root, 'data', 'autonomous-self-update.json'), 'utf8'),
+)
 const objectiveAudit = JSON.parse(await readFile(path.join(root, 'data', 'objective-audit.json'), 'utf8'))
 const autonomousOwnerLoop = JSON.parse(
   await readFile(path.join(root, 'data', 'autonomous-owner-loop.json'), 'utf8'),
@@ -255,6 +263,7 @@ const applied = JSON.parse(await readFile(path.join(root, 'data', 'applied-impro
 const backlog = JSON.parse(await readFile(path.join(root, 'data', 'improvement-backlog.json'), 'utf8'))
 const improvementRouting = JSON.parse(await readFile(path.join(root, 'data', 'improvement-routing.json'), 'utf8'))
 const workflow = await readFile(path.join(root, '.github', 'workflows', 'autonomous-daily.yml'), 'utf8')
+const selfUpdateWorkflow = await readFile(path.join(root, '.github', 'workflows', 'autonomous-self-update.yml'), 'utf8')
 const androidWorkflow = await readFile(path.join(root, '.github', 'workflows', 'android-twa-release.yml'), 'utf8')
 const collectorWorkflow = await readFile(path.join(root, '.github', 'workflows', 'event-collector-deploy.yml'), 'utf8')
 const webDeployWorkflow = await readFile(path.join(root, '.github', 'workflows', 'web-pwa-deploy.yml'), 'utf8')
@@ -278,6 +287,7 @@ const postDeploySmokeSource = await readFile(path.join(root, 'scripts', 'post-de
 const repositoryReadinessSource = await readFile(path.join(root, 'scripts', 'repository-readiness.mjs'), 'utf8')
 const repositoryBootstrapSource = await readFile(path.join(root, 'scripts', 'repository-bootstrap.mjs'), 'utf8')
 const autonomousOperatorSource = await readFile(path.join(root, 'scripts', 'autonomous-operator.mjs'), 'utf8')
+const autonomousSelfUpdateSource = await readFile(path.join(root, 'scripts', 'autonomous-self-update.mjs'), 'utf8')
 const objectiveAuditSource = await readFile(path.join(root, 'scripts', 'objective-audit.mjs'), 'utf8')
 const githubRepositoryBootstrapScript = await readFile(path.join(root, 'ops', 'github', 'bootstrap-repository.sh'), 'utf8')
 const githubSetupScript = await readFile(path.join(root, 'ops', 'github', 'setup-production.sh'), 'utf8')
@@ -1097,6 +1107,7 @@ const envAwareArtifacts = [
   repositoryReadiness,
   repositoryBootstrap,
   productionBootstrap,
+  autonomousSelfUpdate,
   eventCollectorDeployment,
   postDeploySmoke,
 ]
@@ -1105,6 +1116,7 @@ const envAwareSources = [
   repositoryReadinessSource,
   repositoryBootstrapSource,
   productionBootstrapSource,
+  autonomousSelfUpdateSource,
   eventCollectorDeployPlanSource,
   postDeploySmokeSource,
 ]
@@ -1147,6 +1159,7 @@ const requiredBootstrapStages = [
   'repository-bootstrap',
   'production-environment',
   'github-pages-hosting',
+  'autonomous-self-update',
   'github-actions-variables',
   'github-actions-secrets',
   'event-collector',
@@ -1159,6 +1172,8 @@ const requiredBootstrapVariables = [
   'CLOUDFLARE_ACCOUNT_ID',
   'VITE_EVENT_COLLECTOR_URL',
   'AGL_ANDROID_SHA256_CERT_FINGERPRINT',
+  'AGL_AUTONOMOUS_SELF_UPDATE',
+  'AGL_AUTONOMOUS_SELF_UPDATE_DIRECT',
 ]
 const requiredBootstrapSecrets = [
   'CLOUDFLARE_API_TOKEN',
@@ -1198,6 +1213,7 @@ if (
   !githubSetupScript.includes('gh secret set') ||
   !githubSetupScript.includes('RUN_WORKFLOWS') ||
   !githubSetupScript.includes('ALLOW_ANDROID_RELEASE_WORKFLOW') ||
+  !githubSetupScript.includes('AGL_AUTONOMOUS_SELF_UPDATE') ||
   githubSetupScript.includes('admin-export-token') ||
   githubSetupScript.includes('ca-pub-your-web-client-id') ||
   !githubSetupReadme.includes('zero-spend')
@@ -1232,6 +1248,7 @@ if (
   !autonomousOperator.allowlist?.includes('npm run autonomous:repo-readiness') ||
   !autonomousOperator.allowlist?.includes('npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap') ||
   !autonomousOperator.allowlist?.includes('npm run autonomous:repo-bootstrap') ||
+  !autonomousOperator.allowlist?.includes('npm run autonomous:self-update') ||
   !autonomousOperator.blockedFragments?.includes('gh workflow run') ||
   !autonomousOperator.blockedActions?.some((action) => action.reason === 'daily-loop-recursion-blocked') ||
   !autonomousOperatorSource.includes("spawn('npm'") ||
@@ -1284,7 +1301,9 @@ if (
   autonomousCadence.status !== 'cadence-ready' ||
   autonomousCadence.schedulers?.codexDesktop?.status !== 'active-declared' ||
   autonomousCadence.schedulers?.githubActions?.status !== 'scheduled' ||
+  autonomousCadence.schedulers?.githubSelfUpdate?.status !== 'gated' ||
   autonomousCadence.commandPlan?.operate !== 'npm run autonomous:operate' ||
+  autonomousCadence.commandPlan?.selfUpdate !== 'npm run autonomous:self-update' ||
   autonomousCadence.controls?.zeroPaidSpend !== true ||
   autonomousCadence.controls?.noStoreSubmission !== true ||
   autonomousCadence.controls?.noRevenueEnablement !== true ||
@@ -1293,6 +1312,36 @@ if (
   !appSource.includes('Autonomous Cadence')
 ) {
   fail('Autonomous cadence must keep unattended local operation auditable, scheduled, and guarded in the app shell.')
+}
+
+if (
+  autonomousSelfUpdate.status !== 'self-update-ready' ||
+  autonomousSelfUpdate.pendingChanges?.unsafeCount !== 0 ||
+  autonomousSelfUpdate.commitPlan?.workflow !== '.github/workflows/autonomous-self-update.yml' ||
+  autonomousSelfUpdate.commitPlan?.enabledByRepositoryVariable !== 'AGL_AUTONOMOUS_SELF_UPDATE=1' ||
+  autonomousSelfUpdate.commitPlan?.directPushRequiresRepositoryVariable !== 'AGL_AUTONOMOUS_SELF_UPDATE_DIRECT=1' ||
+  !autonomousSelfUpdate.commitPlan?.verificationBeforeCommit?.includes('npm run autonomous:daily') ||
+  !autonomousSelfUpdate.commitPlan?.verificationBeforeCommit?.includes('npm run test:e2e') ||
+  !autonomousSelfUpdate.commitPlan?.verificationBeforeCommit?.includes('npm run autonomous:self-update -- --assert-safe') ||
+  autonomousSelfUpdate.controls?.zeroPaidSpend !== true ||
+  autonomousSelfUpdate.controls?.dailyWorkflowReadOnly !== true ||
+  autonomousSelfUpdate.controls?.writePermissionIsolatedToSelfUpdateWorkflow !== true ||
+  autonomousSelfUpdate.controls?.commitRequiresCleanVerification !== true ||
+  autonomousSelfUpdate.controls?.commitRequiresSafePathAllowlist !== true ||
+  autonomousSelfUpdate.controls?.directPushRequiresExplicitVariable !== true ||
+  autonomousSelfUpdate.controls?.doesNotStageSourceOrWorkflowChanges !== true ||
+  !(autonomousSelfUpdate.checks ?? []).every((check) => check.status === 'pass') ||
+  !selfUpdateWorkflow.includes("vars.AGL_AUTONOMOUS_SELF_UPDATE == '1'") ||
+  !selfUpdateWorkflow.includes('contents: write') ||
+  !selfUpdateWorkflow.includes('npm run autonomous:daily') ||
+  !selfUpdateWorkflow.includes('npm run test:e2e') ||
+  !selfUpdateWorkflow.includes('npm run autonomous:self-update -- --assert-safe') ||
+  !workflow.includes('contents: read') ||
+  !autonomousSelfUpdateSource.includes('allowedPrefixes') ||
+  !autonomousSelfUpdateSource.includes('blockedPrefixes') ||
+  !appSource.includes('Autonomous Self Update')
+) {
+  fail('Autonomous self-update must persist only verified allowlisted generated artifacts behind explicit repository gates.')
 }
 
 const objectiveRequirementIds = new Set((objectiveAudit.requirements ?? []).map((item) => item.id))
@@ -1340,6 +1389,9 @@ if (
   ) ||
   !objectiveAutonomyRequirement?.evidence?.some((item) =>
     item.includes(`Autonomous cadence: ${autonomousCadence.status}`),
+  ) ||
+  !objectiveAutonomyRequirement?.evidence?.some((item) =>
+    item.includes(`Autonomous self-update: ${autonomousSelfUpdate.status}`),
   ) ||
   !objectiveAutonomyRequirement?.evidence?.some((item) =>
     item.includes(`Repository channel: ${repositoryReadiness.status}`),
@@ -1527,6 +1579,10 @@ if (!packageJson.scripts?.['autonomous:cadence']?.includes('autonomous-cadence')
   fail('Autonomous scripts must expose the autonomous cadence generator.')
 }
 
+if (!packageJson.scripts?.['autonomous:self-update']?.includes('autonomous-self-update')) {
+  fail('Autonomous scripts must expose the autonomous self-update generator.')
+}
+
 if (
   !packageJson.scripts?.['autonomous:operate']?.includes('autonomous:daily') ||
   !packageJson.scripts?.['autonomous:operate']?.includes('test:e2e')
@@ -1536,9 +1592,12 @@ if (
 
 if (
   !dailyScript.includes('autonomous:cadence') ||
-  dailyScript.indexOf('autonomous:cadence') > dailyScript.indexOf('autonomous:owner-loop', dailyScript.indexOf('autonomous:deploy-plan'))
+  !dailyScript.includes('autonomous:self-update') ||
+  dailyScript.indexOf('autonomous:cadence') > dailyScript.indexOf('autonomous:owner-loop', dailyScript.indexOf('autonomous:deploy-plan')) ||
+  dailyScript.indexOf('autonomous:self-update') >
+    dailyScript.indexOf('autonomous:owner-loop', dailyScript.indexOf('autonomous:deploy-plan'))
 ) {
-  fail('Autonomous daily loop must refresh cadence evidence before owner-loop evidence.')
+  fail('Autonomous daily loop must refresh cadence and self-update evidence before owner-loop evidence.')
 }
 
 if (
@@ -1548,8 +1607,11 @@ if (
   autonomousCadence.schedulers?.githubActions?.status !== 'scheduled' ||
   autonomousCadence.schedulers?.githubActions?.workflow !== '.github/workflows/autonomous-daily.yml' ||
   autonomousCadence.schedulers?.githubActions?.artifactUpload !== true ||
+  autonomousCadence.schedulers?.githubSelfUpdate?.status !== 'gated' ||
+  autonomousCadence.schedulers?.githubSelfUpdate?.workflow !== '.github/workflows/autonomous-self-update.yml' ||
   autonomousCadence.commandPlan?.operate !== 'npm run autonomous:operate' ||
   autonomousCadence.commandPlan?.daily !== 'npm run autonomous:daily' ||
+  autonomousCadence.commandPlan?.selfUpdate !== 'npm run autonomous:self-update' ||
   autonomousCadence.commandPlan?.verifyAutomation !== 'npm run test:automation' ||
   autonomousCadence.commandPlan?.browserSmoke !== 'npm run test:e2e' ||
   autonomousCadence.controls?.zeroPaidSpend !== true ||
@@ -2677,6 +2739,7 @@ if (
   !readiness.productionBootstrap?.stages?.some((stage) => stage.id === 'repository-channel') ||
   !readiness.productionBootstrap?.stages?.some((stage) => stage.id === 'repository-bootstrap') ||
   !readiness.productionBootstrap?.stages?.some((stage) => stage.id === 'github-pages-hosting') ||
+  !readiness.productionBootstrap?.stages?.some((stage) => stage.id === 'autonomous-self-update') ||
   !readiness.productionBootstrap?.setupCommands?.some((command) => command.id === 'repository-preflight') ||
   !readiness.productionBootstrap?.setupCommands?.some((command) => command.id === 'repository-bootstrap-plan') ||
   !readiness.productionBootstrap?.setupCommands?.some((command) => command.id === 'sync-repository-config')
@@ -2713,6 +2776,17 @@ if (
   readiness.autonomousCadence?.controls?.zeroPaidSpend !== true
 ) {
   fail('Production readiness must include scheduled autonomous cadence evidence and zero-spend controls.')
+}
+
+if (
+  !readiness.webPwa?.checks?.some((check) => check.id === 'autonomous-self-update' && check.status === 'pass') ||
+  readiness.autonomousSelfUpdate?.status !== autonomousSelfUpdate.status ||
+  readiness.autonomousSelfUpdate?.commitPlan?.workflow !== '.github/workflows/autonomous-self-update.yml' ||
+  readiness.autonomousSelfUpdate?.pendingChanges?.unsafeCount !== 0 ||
+  readiness.autonomousSelfUpdate?.controls?.commitRequiresCleanVerification !== true ||
+  readiness.autonomousSelfUpdate?.controls?.commitRequiresSafePathAllowlist !== true
+) {
+  fail('Production readiness must include guarded autonomous self-update persistence evidence.')
 }
 
 if (
@@ -2879,6 +2953,7 @@ const requiredOwnerSystems = [
   'game-factory',
   'analytics-ingest',
   'autonomous-cadence',
+  'autonomous-self-update',
   'repository-channel',
   'repository-bootstrap',
   'portfolio-loop',
@@ -2909,6 +2984,7 @@ const requiredOwnerSystems = [
 const requiredOwnerActions = [
   'run-daily-owner-loop',
   'refresh-autonomous-cadence',
+  'refresh-autonomous-self-update',
   'seed-portfolio-traffic',
   'optimize-daily-retention',
   'measure-pwa-install-loop',
@@ -2959,6 +3035,7 @@ if (
   autonomousOwnerLoop.evidence?.retentionLoopStatus !== retentionLoop.status ||
   autonomousOwnerLoop.evidence?.pwaInstallLoopStatus !== pwaInstallLoop.status ||
   autonomousOwnerLoop.evidence?.autonomousCadenceStatus !== autonomousCadence.status ||
+  autonomousOwnerLoop.evidence?.autonomousSelfUpdateStatus !== autonomousSelfUpdate.status ||
   autonomousOwnerLoop.evidence?.performanceBudgetStatus !== performanceBudget.status ||
   autonomousOwnerLoop.evidence?.repositoryReadinessStatus !== repositoryReadiness.status ||
   autonomousOwnerLoop.evidence?.repositoryBootstrapStatus !== repositoryBootstrap.status ||
@@ -2994,6 +3071,13 @@ if (
       action.command === 'npm run autonomous:cadence' &&
       action.costUsd === 0 &&
       action.targets?.includes('autonomous-game-lab-daily-owner-loop'),
+  ) ||
+  !autonomousOwnerLoop.safeAutonomousActions?.some(
+    (action) =>
+      action.id === 'refresh-autonomous-self-update' &&
+      action.command === 'npm run autonomous:self-update' &&
+      action.costUsd === 0 &&
+      action.targets?.includes('.github/workflows/autonomous-self-update.yml'),
   ) ||
   !autonomousOwnerLoop.safeAutonomousActions?.some(
     (action) =>

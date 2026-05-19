@@ -51,6 +51,7 @@ const [
   autonomousOperator,
   autonomousOperatorHistory,
   autonomousCadence,
+  autonomousSelfUpdate,
   environment,
 ] = await Promise.all([
   readJson(path.join(root, 'package.json')),
@@ -89,6 +90,7 @@ const [
   readJson(path.join(dataDir, 'autonomous-operator.json')),
   readJson(path.join(dataDir, 'autonomous-operator-history.json')),
   readJson(path.join(dataDir, 'autonomous-cadence.json')),
+  readJson(path.join(dataDir, 'autonomous-self-update.json')),
   readJson(path.join(dataDir, 'production-environment.json')),
 ])
 
@@ -261,6 +263,7 @@ const requirements = [
     status:
       autonomousOwnerLoop.status === 'owner-loop-ready' &&
       autonomousCadence.status === 'cadence-ready' &&
+      autonomousSelfUpdate.status === 'self-update-ready' &&
       autonomousOperator.status === 'operator-plan-ready' &&
       autonomousOperatorHistory.status === 'operator-history-ready' &&
       releaseCandidate.status === 'release-candidate-ready' &&
@@ -272,6 +275,7 @@ const requirements = [
         ? 'needs-daily-audit-wiring'
       : autonomousOwnerLoop.status === 'owner-loop-ready' &&
           autonomousCadence.status === 'cadence-ready' &&
+          autonomousSelfUpdate.status === 'self-update-ready' &&
           autonomousOperator.status === 'operator-plan-ready' &&
           autonomousOperatorHistory.status === 'operator-history-ready' &&
           releaseCandidate.status === 'release-candidate-ready' &&
@@ -282,6 +286,7 @@ const requirements = [
         ? 'needs-repository-channel'
       : autonomousOwnerLoop.status === 'owner-loop-ready' &&
           autonomousCadence.status === 'cadence-ready' &&
+          autonomousSelfUpdate.status === 'self-update-ready' &&
           autonomousOperator.status === 'operator-plan-ready' &&
           autonomousOperatorHistory.status === 'operator-history-ready' &&
           releaseCandidate.status === 'release-candidate-ready' &&
@@ -297,6 +302,9 @@ const requirements = [
       `Autonomous cadence: ${autonomousCadence.status}; Codex ${
         autonomousCadence.schedulers?.codexDesktop?.status ?? 'missing'
       }; GitHub ${autonomousCadence.schedulers?.githubActions?.status ?? 'missing'}`,
+      `Autonomous self-update: ${autonomousSelfUpdate.status}; workflow ${
+        autonomousSelfUpdate.commitPlan?.workflow ?? 'missing'
+      }; unsafe pending ${autonomousSelfUpdate.pendingChanges?.unsafeCount ?? 'missing'}`,
       `Operator: ${autonomousOperator.status}`,
       `Operator history: ${autonomousOperatorHistory.status}; records ${
         autonomousOperatorHistory.summary?.totalRecords ?? 0
@@ -319,6 +327,7 @@ const requirements = [
     ],
     blockers: [
       ...(autonomousCadence.blockers ?? []),
+      ...(autonomousSelfUpdate.blockers ?? []),
       ...(repositoryReadiness.blockers ?? []),
       ...(repositoryBootstrap.blockers ?? []),
       ...(autonomousOwnerLoop.credentialRequiredActions?.map((action) => `${action.target}: ${action.purpose}`) ?? []),

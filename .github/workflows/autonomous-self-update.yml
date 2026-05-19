@@ -1,0 +1,101 @@
+name: Autonomous Self Update
+
+on:
+  workflow_run:
+    workflows: ['Autonomous Daily Studio']
+    types: [completed]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: autonomous-self-update
+  cancel-in-progress: false
+
+jobs:
+  persist-verified-improvements:
+    if: ${{ vars.AGL_AUTONOMOUS_SELF_UPDATE == '1' && (github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success') }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright browser
+        run: npx playwright install --with-deps chromium
+
+      - name: Reproduce autonomous production loop
+        run: npm run autonomous:daily
+
+      - name: Verify browser behavior
+        run: npm run test:e2e
+
+      - name: Assert self-update safety
+        run: npm run autonomous:self-update -- --assert-safe
+
+      - name: Commit verified autonomous changes
+        env:
+          AGL_AUTONOMOUS_SELF_UPDATE_DIRECT: ${{ vars.AGL_AUTONOMOUS_SELF_UPDATE_DIRECT }}
+        run: |
+          if [[ "${AGL_AUTONOMOUS_SELF_UPDATE_DIRECT:-0}" != "1" ]]; then
+            echo "skip commit: AGL_AUTONOMOUS_SELF_UPDATE_DIRECT is not enabled"
+            exit 0
+          fi
+
+          node - <<'NODE' > /tmp/autonomous-self-update-files.txt
+          const fs = require('fs')
+          const plan = JSON.parse(fs.readFileSync('data/autonomous-self-update.json', 'utf8'))
+          if (plan.status !== 'self-update-ready') {
+            console.error(`self-update status is ${plan.status}`)
+            process.exit(1)
+          }
+          if ((plan.pendingChanges?.unsafeCount ?? 0) > 0) {
+            console.error('unsafe pending changes are present')
+            process.exit(1)
+          }
+          for (const filePath of plan.commitPlan?.stagePaths ?? []) {
+            if (fs.existsSync(filePath)) {
+              console.log(filePath)
+            }
+          }
+          NODE
+
+          if [[ ! -s /tmp/autonomous-self-update-files.txt ]]; then
+            echo "no allowlisted autonomous files to stage"
+            exit 0
+          fi
+
+          xargs -a /tmp/autonomous-self-update-files.txt git add --
+
+          if git diff --cached --quiet; then
+            echo "no verified autonomous changes to commit"
+            exit 0
+          fi
+
+          git config user.name "autonomous-game-lab-bot"
+          git config user.email "autonomous-game-lab-bot@users.noreply.github.com"
+          git commit -m "Autonomous daily self-update"
+          git push
+
+      - name: Upload self-update artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: autonomous-self-update
+          path: |
+            data/autonomous-self-update.json
+            reports/autonomous-self-update-latest.md
+          if-no-files-found: ignore

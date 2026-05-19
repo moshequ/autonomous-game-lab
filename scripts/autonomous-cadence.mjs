@@ -7,6 +7,7 @@ const srcDataDir = path.join(root, 'src', 'data')
 const reportsDir = path.join(root, 'reports')
 const codexOpsDir = path.join(root, 'ops', 'codex')
 const workflowPath = path.join(root, '.github', 'workflows', 'autonomous-daily.yml')
+const selfUpdateWorkflowPath = path.join(root, '.github', 'workflows', 'autonomous-self-update.yml')
 const outputJsonPath = path.join(dataDir, 'autonomous-cadence.json')
 const outputTsPath = path.join(srcDataDir, 'autonomousCadence.ts')
 const reportPath = path.join(reportsDir, 'autonomous-cadence-latest.md')
@@ -27,6 +28,7 @@ const readOptionalJson = async (filePath, fallback) =>
 
 const packageJson = await readJson(path.join(root, 'package.json'))
 const workflow = await readOptionalText(workflowPath)
+const selfUpdateWorkflow = await readOptionalText(selfUpdateWorkflowPath)
 const repositoryReadiness = await readOptionalJson(path.join(dataDir, 'repository-readiness.json'), {
   status: 'missing',
   workspace: {},
@@ -39,9 +41,11 @@ const ownerLoop = await readOptionalJson(path.join(dataDir, 'autonomous-owner-lo
 
 const script = (name) => packageJson.scripts?.[name] ?? ''
 const workflowExists = await exists(workflowPath)
+const selfUpdateWorkflowExists = await exists(selfUpdateWorkflowPath)
 const dailyScript = script('autonomous:daily')
 const operateScript = script('autonomous:operate')
 const cadenceScript = script('autonomous:cadence')
+const selfUpdateScript = script('autonomous:self-update')
 const testAutomationScript = script('test:automation')
 const testE2eScript = script('test:e2e')
 
@@ -90,10 +94,16 @@ const checks = [
     detail: `autonomous:cadence is ${cadenceScript || 'missing'}.`,
   },
   {
+    id: 'self-update-script',
+    status: selfUpdateScript.includes('autonomous-self-update') ? 'pass' : 'blocker',
+    detail: `autonomous:self-update is ${selfUpdateScript || 'missing'}.`,
+  },
+  {
     id: 'daily-loop-script',
     status:
       dailyScript.includes('autonomous:trend') &&
       dailyScript.includes('autonomous:cadence') &&
+      dailyScript.includes('autonomous:self-update') &&
       dailyScript.includes('autonomous:objective-audit') &&
       dailyScript.includes('test:automation')
         ? 'pass'
@@ -131,6 +141,20 @@ const checks = [
       : 'Autonomous daily GitHub workflow is missing.',
   },
   {
+    id: 'github-self-update-workflow',
+    status:
+      selfUpdateWorkflowExists &&
+      selfUpdateWorkflow.includes("workflows: ['Autonomous Daily Studio']") &&
+      selfUpdateWorkflow.includes("vars.AGL_AUTONOMOUS_SELF_UPDATE == '1'") &&
+      selfUpdateWorkflow.includes('contents: write') &&
+      selfUpdateWorkflow.includes('npm run autonomous:self-update -- --assert-safe')
+        ? 'pass'
+        : 'blocker',
+    detail: selfUpdateWorkflowExists
+      ? 'Gated GitHub workflow can persist allowlisted verified generated changes when explicitly enabled.'
+      : 'Autonomous self-update GitHub workflow is missing.',
+  },
+  {
     id: 'zero-spend-operation',
     status: 'pass',
     detail: 'Cadence is local/CI execution only; it does not enable paid spend, stores, ads, or revenue.',
@@ -163,10 +187,22 @@ const payload = {
       permissions: 'contents: read',
       artifactUpload: true,
     },
+    githubSelfUpdate: {
+      status:
+        checks.find((check) => check.id === 'github-self-update-workflow')?.status === 'pass'
+          ? 'gated'
+          : 'missing',
+      workflow: '.github/workflows/autonomous-self-update.yml',
+      trigger: 'workflow_run: Autonomous Daily Studio',
+      permission: 'contents: write',
+      enabledByRepositoryVariable: 'AGL_AUTONOMOUS_SELF_UPDATE=1',
+      directPushRequiresRepositoryVariable: 'AGL_AUTONOMOUS_SELF_UPDATE_DIRECT=1',
+    },
   },
   commandPlan: {
     operate: 'npm run autonomous:operate',
     daily: 'npm run autonomous:daily',
+    selfUpdate: 'npm run autonomous:self-update',
     verifyAutomation: 'npm run test:automation',
     browserSmoke: 'npm run test:e2e',
     ownerDecision: ownerLoop.ownerDecision?.nextBestActionId ?? null,
@@ -178,6 +214,7 @@ const payload = {
     neverEnablePaidSpendOnRecovery: true,
     neverDispatchExternalWorkflowsOnRecovery: true,
     reportBlockersInsteadOfGuessing: true,
+    selfUpdateRequiresVerification: true,
   },
   controls: {
     zeroPaidSpend: true,
@@ -189,6 +226,8 @@ const payload = {
     remoteMutationRequiresRepositoryEvidence: true,
     codexAutomationExpectedActive: true,
     githubWorkflowReadOnlyByDefault: true,
+    selfUpdateWorkflowWritePermissionGated: true,
+    selfUpdateStagesAllowlistedGeneratedFilesOnly: true,
   },
   checks,
   blockers,
@@ -211,11 +250,13 @@ const report = [
   '',
   `- Codex app: ${payload.schedulers.codexDesktop.status} (${payload.schedulers.codexDesktop.id})`,
   `- GitHub Actions: ${payload.schedulers.githubActions.status} (${payload.schedulers.githubActions.cron})`,
+  `- GitHub self-update: ${payload.schedulers.githubSelfUpdate.status} (${payload.schedulers.githubSelfUpdate.workflow})`,
   '',
   '## Commands',
   '',
   `- Operate: ${payload.commandPlan.operate}`,
   `- Daily: ${payload.commandPlan.daily}`,
+  `- Self-update: ${payload.commandPlan.selfUpdate}`,
   `- Automation verify: ${payload.commandPlan.verifyAutomation}`,
   `- Browser smoke: ${payload.commandPlan.browserSmoke}`,
   '',

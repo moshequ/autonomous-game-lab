@@ -1,9 +1,9 @@
 # Autonomous Owner Loop
 
-Generated: 2026-05-19T02:22:21.328Z
+Generated: 2026-05-19T02:35:49.056Z
 Status: owner-loop-ready
 Mode: repository-channel-needed
-Autonomy score: 28/30 (93%)
+Autonomy score: 28/31 (90%)
 
 ## Owner Decision
 
@@ -16,6 +16,7 @@ Autonomy score: 28/30 (93%)
 - ready: game-factory - 10 playable games; 5 generated runtime games.
 - ready: analytics-ingest - Active source: fixture-sample; event ingest: idle-no-files; collector smoke: pass.
 - ready: autonomous-cadence - Cadence cadence-ready; Codex active-declared; GitHub scheduled.
+- needs-self-update-evidence: autonomous-self-update - Self-update self-update-needs-attention; safe pending 3; unsafe pending 13; remote push held.
 - ready: portfolio-loop - Daily challenge: Canopy Bloom; seed traffic: canopy-bloom, grove-engine, metro-loom, pocket-draft.
 - ready: traffic-seeding - 4 seed campaign(s); max cost $0.
 - ready: acquisition-learning - 4 campaign(s); 0 attributed start(s); candidate canopy-bloom.
@@ -48,6 +49,7 @@ Autonomy score: 28/30 (93%)
 
 - armed: run-daily-owner-loop - npm run autonomous:daily
 - armed: refresh-autonomous-cadence - npm run autonomous:cadence
+- monitor: refresh-autonomous-self-update - npm run autonomous:self-update
 - armed: seed-portfolio-traffic - npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop
 - armed: refresh-organic-seed-loop - npm run autonomous:organic-seed-loop
 - armed: optimize-daily-retention - npm run autonomous:retention

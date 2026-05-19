@@ -1,6 +1,6 @@
 # Production Readiness
 
-Generated: 2026-05-19T02:22:21.090Z
+Generated: 2026-05-19T02:35:49.276Z
 
 ## Environment
 
@@ -38,7 +38,7 @@ Local git: true
 
 ## Web/PWA
 
-Status: ready-after-build
+Status: blocked
 - pass: manifest - PWA manifest exists in the production build.
 - pass: install-icons - Generated install/store icons are icons-ready; 6 icons checked.
 - pass: service-worker - Offline service worker exists.
@@ -68,6 +68,7 @@ Status: ready-after-build
 - pass: autonomous-operator - Autonomous operator is operator-plan-ready; selected prepare-repository-channel; execution not-requested.
 - pass: autonomous-operator-history - Autonomous operator history is operator-history-ready; records 11; executed 0.
 - pass: autonomous-cadence - Autonomous cadence is cadence-ready; Codex active-declared; GitHub scheduled.
+- blocker: autonomous-self-update - Autonomous self-update is self-update-needs-attention; safe pending 3; unsafe pending 13; remote push held.
 - pass: objective-audit - Objective audit is objective-in-progress; met 5 / 8; can complete false.
 
 ## Monetization
@@ -207,7 +208,8 @@ Setup script: ops/github/setup-production.sh
 - waiting-for-github-target: bootstrap-repository-bootstrap - Repository bootstrap waiting-for-github-target; helper ops/github/bootstrap-repository.sh; local git ready.
 - waiting-for-origin-support: bootstrap-production-environment - Environment production-env-missing; public origin missing; support missing-production-address.
 - ready-for-actions-pages: bootstrap-github-pages-hosting - Deployment plan is ready-for-pages; Pages workflow is .github/workflows/web-pwa-deploy.yml.
-- partially-configured: bootstrap-github-actions-variables - 1/22 repository variable value(s) present in this environment.
+- waiting-for-self-update-gate: bootstrap-autonomous-self-update - Self-update gate missing; direct push held.
+- partially-configured: bootstrap-github-actions-variables - 1/24 repository variable value(s) present in this environment.
 - waiting-for-secrets: bootstrap-github-actions-secrets - 0/8 repository secret value(s) present in this environment.
 - blocked-needs-cloudflare-env: bootstrap-event-collector - Collector deployment is blocked-needs-cloudflare-env; provider cloudflare-worker-r2.
 - held-by-product-gates: bootstrap-monetization-gate - Revenue disabled; spend mode no-spend.
@@ -236,11 +238,29 @@ GitHub Actions: scheduled
 - pass: cadence-codex-automation-manifest - Codex app automation manifest declares autonomous-game-lab-daily-owner-loop.
 - pass: cadence-local-operate-script - autonomous:operate is npm run autonomous:daily && npm run test:e2e.
 - pass: cadence-cadence-refresh-script - autonomous:cadence is node scripts/autonomous-cadence.mjs.
+- pass: cadence-self-update-script - autonomous:self-update is node scripts/autonomous-self-update.mjs.
 - pass: cadence-daily-loop-script - autonomous:daily regenerates game, analytics, readiness, cadence, audit, and automation evidence.
 - pass: cadence-automation-verifier - test:automation is node scripts/event-collector-smoke.mjs && node scripts/event-ingest-smoke.mjs && node scripts/verify-autonomy.mjs.
 - pass: cadence-browser-smoke - test:e2e is playwright test.
 - pass: cadence-github-scheduled-workflow - GitHub Actions daily workflow can run the autonomous loop and upload evidence artifacts.
+- pass: cadence-github-self-update-workflow - Gated GitHub workflow can persist allowlisted verified generated changes when explicitly enabled.
 - pass: cadence-zero-spend-operation - Cadence is local/CI execution only; it does not enable paid spend, stores, ads, or revenue.
+
+## Autonomous Self Update
+
+Status: self-update-needs-attention
+Workflow: .github/workflows/autonomous-self-update.yml
+Safe pending: 3
+Unsafe pending: 13
+Remote push ready: false
+- pass: self-update-script-registered - autonomous:self-update is node scripts/autonomous-self-update.mjs.
+- pass: self-update-daily-loop-refresh - autonomous:daily refreshes self-update evidence before owner/audit evidence.
+- pass: self-update-daily-workflow-read-only - The ordinary daily workflow remains read-only and uploads evidence artifacts.
+- pass: self-update-self-update-workflow - A separate gated workflow can reproduce the daily loop, verify it, and persist allowlisted changes.
+- blocker: self-update-safe-path-allowlist - 3 safe pending file(s), 13 unsafe pending file(s).
+- pass: self-update-repository-optional - Git worktree is available on main.
+- pass: self-update-remote-push-gated - Remote push remains held until GitHub credentials and AGL_AUTONOMOUS_SELF_UPDATE_DIRECT=1 are configured.
+- pass: self-update-zero-spend-controls - Self-update only stages repository artifacts; it does not create accounts, stores, ads, paid traffic, or revenue.
 
 ## Objective Audit
 

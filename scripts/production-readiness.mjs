@@ -30,6 +30,7 @@ const productionBootstrapPath = path.join(root, 'data', 'production-bootstrap.js
 const autonomousOperatorPath = path.join(root, 'data', 'autonomous-operator.json')
 const autonomousOperatorHistoryPath = path.join(root, 'data', 'autonomous-operator-history.json')
 const autonomousCadencePath = path.join(root, 'data', 'autonomous-cadence.json')
+const autonomousSelfUpdatePath = path.join(root, 'data', 'autonomous-self-update.json')
 const objectiveAuditPath = path.join(root, 'data', 'objective-audit.json')
 const releaseHealthPath = path.join(root, 'data', 'release-health.json')
 const deploymentPlanPath = path.join(root, 'data', 'deployment-plan.json')
@@ -209,6 +210,15 @@ const autonomousCadence = await readOptionalJson(autonomousCadencePath, {
   commandPlan: {},
   controls: {},
   checks: [],
+})
+const autonomousSelfUpdate = await readOptionalJson(autonomousSelfUpdatePath, {
+  status: 'missing',
+  repository: {},
+  pendingChanges: {},
+  commitPlan: {},
+  controls: {},
+  checks: [],
+  blockers: [],
 })
 const objectiveAudit = await readOptionalJson(objectiveAuditPath, {
   status: 'missing',
@@ -530,6 +540,7 @@ const productionBootstrapReady =
   (productionBootstrap.stages ?? []).some((stage) => stage.id === 'repository-channel') &&
   (productionBootstrap.stages ?? []).some((stage) => stage.id === 'repository-bootstrap') &&
   (productionBootstrap.stages ?? []).some((stage) => stage.id === 'github-pages-hosting') &&
+  (productionBootstrap.stages ?? []).some((stage) => stage.id === 'autonomous-self-update') &&
   (productionBootstrap.stages ?? []).some((stage) => stage.id === 'event-collector') &&
   (productionBootstrap.setupCommands ?? []).some((command) => command.id === 'repository-preflight') &&
   (productionBootstrap.setupCommands ?? []).some((command) => command.id === 'repository-bootstrap-plan') &&
@@ -563,6 +574,16 @@ const autonomousCadenceReady =
   autonomousCadence.schedulers?.githubActions?.status === 'scheduled' &&
   autonomousCadence.commandPlan?.operate === 'npm run autonomous:operate' &&
   (autonomousCadence.checks ?? []).every((item) => item.status === 'pass')
+const autonomousSelfUpdateReady =
+  autonomousSelfUpdate.status === 'self-update-ready' &&
+  autonomousSelfUpdate.controls?.zeroPaidSpend === true &&
+  autonomousSelfUpdate.controls?.dailyWorkflowReadOnly === true &&
+  autonomousSelfUpdate.controls?.writePermissionIsolatedToSelfUpdateWorkflow === true &&
+  autonomousSelfUpdate.controls?.commitRequiresCleanVerification === true &&
+  autonomousSelfUpdate.controls?.commitRequiresSafePathAllowlist === true &&
+  autonomousSelfUpdate.controls?.directPushRequiresExplicitVariable === true &&
+  (autonomousSelfUpdate.pendingChanges?.unsafeCount ?? 0) === 0 &&
+  (autonomousSelfUpdate.checks ?? []).every((item) => item.status === 'pass')
 const objectiveAuditReady =
   objectiveAudit.status === 'missing' ||
   (objectiveAudit.status === 'objective-in-progress' &&
@@ -773,6 +794,15 @@ const webChecks = [
     `Autonomous cadence is ${autonomousCadence.status}; Codex ${
       autonomousCadence.schedulers?.codexDesktop?.status ?? 'missing'
     }; GitHub ${autonomousCadence.schedulers?.githubActions?.status ?? 'missing'}.`,
+  ),
+  check(
+    'autonomous-self-update',
+    autonomousSelfUpdateReady,
+    `Autonomous self-update is ${autonomousSelfUpdate.status}; safe pending ${
+      autonomousSelfUpdate.pendingChanges?.safeCount ?? 'n/a'
+    }; unsafe pending ${autonomousSelfUpdate.pendingChanges?.unsafeCount ?? 'n/a'}; remote push ${
+      autonomousSelfUpdate.repository?.remotePushReady === true ? 'ready' : 'held'
+    }.`,
   ),
   check(
     'objective-audit',
@@ -1044,6 +1074,15 @@ const payload = {
     checks: autonomousCadence.checks ?? [],
     blockers: autonomousCadence.blockers ?? [],
   },
+  autonomousSelfUpdate: {
+    status: autonomousSelfUpdate.status,
+    repository: autonomousSelfUpdate.repository,
+    pendingChanges: autonomousSelfUpdate.pendingChanges,
+    commitPlan: autonomousSelfUpdate.commitPlan,
+    controls: autonomousSelfUpdate.controls,
+    checks: autonomousSelfUpdate.checks ?? [],
+    blockers: autonomousSelfUpdate.blockers ?? [],
+  },
   objectiveAudit: {
     status: objectiveAudit.status,
     summary: objectiveAudit.summary,
@@ -1268,6 +1307,17 @@ const report = [
   `GitHub Actions: ${payload.autonomousCadence.schedulers?.githubActions?.status ?? 'missing'}`,
   ...(payload.autonomousCadence.checks ?? []).map(
     (item) => `- ${item.status}: cadence-${item.id} - ${item.detail}`,
+  ),
+  '',
+  '## Autonomous Self Update',
+  '',
+  `Status: ${payload.autonomousSelfUpdate.status}`,
+  `Workflow: ${payload.autonomousSelfUpdate.commitPlan?.workflow ?? 'missing'}`,
+  `Safe pending: ${payload.autonomousSelfUpdate.pendingChanges?.safeCount ?? 'n/a'}`,
+  `Unsafe pending: ${payload.autonomousSelfUpdate.pendingChanges?.unsafeCount ?? 'n/a'}`,
+  `Remote push ready: ${payload.autonomousSelfUpdate.repository?.remotePushReady ?? false}`,
+  ...(payload.autonomousSelfUpdate.checks ?? []).map(
+    (item) => `- ${item.status}: self-update-${item.id} - ${item.detail}`,
   ),
   '',
   '## Objective Audit',

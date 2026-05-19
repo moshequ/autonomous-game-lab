@@ -138,6 +138,14 @@ const autonomousCadence = await readOptionalJson(path.join(dataDir, 'autonomous-
   controls: {},
   checks: [],
 })
+const autonomousSelfUpdate = await readOptionalJson(path.join(dataDir, 'autonomous-self-update.json'), {
+  status: 'missing',
+  repository: {},
+  pendingChanges: {},
+  commitPlan: {},
+  controls: {},
+  checks: [],
+})
 const objectiveAudit = await readOptionalJson(path.join(dataDir, 'objective-audit.json'), {
   status: 'missing',
   summary: {},
@@ -235,6 +243,28 @@ const systems = [
     nextAction:
       autonomousCadence.nextActions?.[0] ??
       'Keep the daily Codex automation and scheduled CI workflow aligned with the owner loop.',
+  },
+  {
+    id: 'autonomous-self-update',
+    status: systemStatus(
+      autonomousSelfUpdate.status === 'self-update-ready' &&
+        autonomousSelfUpdate.controls?.zeroPaidSpend === true &&
+        autonomousSelfUpdate.controls?.commitRequiresCleanVerification === true &&
+        autonomousSelfUpdate.controls?.commitRequiresSafePathAllowlist === true &&
+        autonomousSelfUpdate.controls?.directPushRequiresExplicitVariable === true,
+      'needs-self-update-evidence',
+    ),
+    autonomy: autonomousSelfUpdate.repository?.remotePushReady
+      ? 'verified-generated-change-persistence'
+      : 'gated-generated-change-persistence',
+    evidence: `Self-update ${autonomousSelfUpdate.status}; safe pending ${
+      autonomousSelfUpdate.pendingChanges?.safeCount ?? 0
+    }; unsafe pending ${autonomousSelfUpdate.pendingChanges?.unsafeCount ?? 0}; remote push ${
+      autonomousSelfUpdate.repository?.remotePushReady === true ? 'ready' : 'held'
+    }.`,
+    nextAction:
+      autonomousSelfUpdate.nextActions?.[0] ??
+      'Keep generated production changes staged only after daily and browser verification.',
   },
   {
     id: 'portfolio-loop',
@@ -694,6 +724,15 @@ const safeAutonomousActions = [
     reason: 'Keeps the unattended daily operating cadence, recovery policy, and verification chain auditable.',
   },
   {
+    id: 'refresh-autonomous-self-update',
+    status: autonomousSelfUpdate.status === 'self-update-ready' ? 'armed' : 'monitor',
+    costUsd: 0,
+    command: 'npm run autonomous:self-update',
+    targets: [autonomousSelfUpdate.commitPlan?.workflow ?? '.github/workflows/autonomous-self-update.yml'],
+    reason:
+      'Keeps verified generated-change persistence gated, allowlisted, and ready for the scheduled production repository.',
+  },
+  {
     id: 'seed-portfolio-traffic',
     status: traffic.status === 'traffic-seeding-ready' && traffic.campaigns?.length ? 'armed' : 'monitor',
     costUsd: 0,
@@ -947,6 +986,7 @@ const payload = {
     retentionLoopStatus: retention.status,
     pwaInstallLoopStatus: pwaInstall.status,
     autonomousCadenceStatus: autonomousCadence.status,
+    autonomousSelfUpdateStatus: autonomousSelfUpdate.status,
     performanceBudgetStatus: performanceBudget.status,
     repositoryReadinessStatus: repositoryReadiness.status,
     repositoryBootstrapStatus: repositoryBootstrap.status,
@@ -971,6 +1011,7 @@ const payload = {
   commands: {
     operate: 'npm run autonomous:operate',
     cadence: 'npm run autonomous:cadence',
+    selfUpdate: 'npm run autonomous:self-update',
     daily: 'npm run autonomous:daily',
     verify: 'npm run test:automation',
     fullGate: 'npm run autonomous:daily && npm run test:e2e && npm run autonomous:assert-deployable',

@@ -1,6 +1,6 @@
 # Production Bootstrap
 
-Generated: 2026-05-19T02:22:19.848Z
+Generated: 2026-05-19T02:35:48.634Z
 Status: production-bootstrap-ready
 Mode: waiting-for-external-credentials
 GitHub repository: missing
@@ -20,7 +20,8 @@ gh CLI available: true
 - waiting-for-github-target: repository-bootstrap; auto-run no; Repository bootstrap waiting-for-github-target; helper ops/github/bootstrap-repository.sh; local git ready.
 - waiting-for-origin-support: production-environment; auto-run no; Environment production-env-missing; public origin missing; support missing-production-address.
 - ready-for-actions-pages: github-pages-hosting; auto-run no; Deployment plan is ready-for-pages; Pages workflow is .github/workflows/web-pwa-deploy.yml.
-- partially-configured: github-actions-variables; auto-run no; 1/22 repository variable value(s) present in this environment.
+- waiting-for-self-update-gate: autonomous-self-update; auto-run no; Self-update gate missing; direct push held.
+- partially-configured: github-actions-variables; auto-run no; 1/24 repository variable value(s) present in this environment.
 - waiting-for-secrets: github-actions-secrets; auto-run no; 0/8 repository secret value(s) present in this environment.
 - blocked-needs-cloudflare-env: event-collector; auto-run no; Collector deployment is blocked-needs-cloudflare-env; provider cloudflare-worker-r2.
 - held-by-product-gates: monetization-gate; auto-run no; Revenue disabled; spend mode no-spend.
@@ -60,6 +61,8 @@ gh CLI available: true
 - missing: AGL_ANDROID_SHA256_CERT_FINGERPRINT from AGL_ANDROID_SHA256_CERT_FINGERPRINT
 - missing: AGL_GOOGLE_PLAY_ACCOUNT_CONNECTED from AGL_GOOGLE_PLAY_ACCOUNT_CONNECTED
 - missing: AGL_APPLE_DEVELOPER_ACCOUNT_CONNECTED from AGL_APPLE_DEVELOPER_ACCOUNT_CONNECTED
+- missing: AGL_AUTONOMOUS_SELF_UPDATE from AGL_AUTONOMOUS_SELF_UPDATE
+- missing: AGL_AUTONOMOUS_SELF_UPDATE_DIRECT from AGL_AUTONOMOUS_SELF_UPDATE_DIRECT
 
 ## Repository Secrets
 

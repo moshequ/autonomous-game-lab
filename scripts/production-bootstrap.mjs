@@ -101,6 +101,8 @@ const variableCommands = [
   ['AGL_ANDROID_SHA256_CERT_FINGERPRINT', 'AGL_ANDROID_SHA256_CERT_FINGERPRINT'],
   ['AGL_GOOGLE_PLAY_ACCOUNT_CONNECTED', 'AGL_GOOGLE_PLAY_ACCOUNT_CONNECTED'],
   ['AGL_APPLE_DEVELOPER_ACCOUNT_CONNECTED', 'AGL_APPLE_DEVELOPER_ACCOUNT_CONNECTED'],
+  ['AGL_AUTONOMOUS_SELF_UPDATE', 'AGL_AUTONOMOUS_SELF_UPDATE'],
+  ['AGL_AUTONOMOUS_SELF_UPDATE_DIRECT', 'AGL_AUTONOMOUS_SELF_UPDATE_DIRECT'],
 ]
 const secretCommands = [
   ['CLOUDFLARE_API_TOKEN', 'CLOUDFLARE_API_TOKEN'],
@@ -184,6 +186,24 @@ const setupGroups = [
       'Repository exists on GitHub.',
       'GitHub Pages source is set to GitHub Actions.',
       'VITE_BASE_PATH is set when deploying to project pages.',
+    ],
+  },
+  {
+    id: 'autonomous-self-update',
+    status: configured(process.env.AGL_AUTONOMOUS_SELF_UPDATE)
+      ? configured(process.env.AGL_AUTONOMOUS_SELF_UPDATE_DIRECT)
+        ? 'ready-for-direct-persistence'
+        : 'ready-for-safety-checks'
+      : 'waiting-for-self-update-gate',
+    canAutoRun: canUseGh && configured(process.env.AGL_AUTONOMOUS_SELF_UPDATE),
+    costUsd: 0,
+    command: 'Run Autonomous Self Update after the daily workflow succeeds.',
+    evidence: `Self-update gate ${configured(process.env.AGL_AUTONOMOUS_SELF_UPDATE) ? 'configured' : 'missing'}; direct push ${
+      configured(process.env.AGL_AUTONOMOUS_SELF_UPDATE_DIRECT) ? 'configured' : 'held'
+    }.`,
+    requires: [
+      'Set AGL_AUTONOMOUS_SELF_UPDATE=1 to allow the self-update workflow to run after verified daily builds.',
+      'Set AGL_AUTONOMOUS_SELF_UPDATE_DIRECT=1 only when direct generated-artifact commits to the default branch are acceptable.',
     ],
   },
   {

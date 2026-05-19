@@ -1,28 +1,30 @@
 export const objectiveAudit = {
-  "generatedAt": "2026-05-19T02:22:20.860Z",
+  "generatedAt": "2026-05-19T02:35:49.488Z",
   "status": "objective-in-progress",
   "objective": "Build a bootstrapped autonomous web/PWA game portal that can generate original board-game-inspired games, measure user behavior, propose and apply data-driven improvements, and prepare a path to monetization and app-store distribution with minimal manual intervention.",
   "summary": {
     "requirements": 8,
-    "met": 5,
+    "met": 4,
     "prepared": 2,
-    "incomplete": 1,
+    "incomplete": 2,
     "externalBlockers": 23,
     "productBlockers": 6
   },
   "requirements": [
     {
       "id": "web-pwa-game-portal",
-      "status": "met",
+      "status": "incomplete",
       "summary": "A playable web/PWA portal exists and passes the production web readiness gate.",
       "evidence": [
-        "Web readiness: ready-after-build",
+        "Web readiness: blocked",
         "Manifest in dist: true",
         "Service worker in dist: true",
         "Release candidate: release-candidate-ready; 38 files",
         "Deployment plan: ready-for-pages"
       ],
-      "blockers": [],
+      "blockers": [
+        "Autonomous self-update is self-update-needs-attention; safe pending 3; unsafe pending 13; remote push held."
+      ],
       "nextAction": "Connect a free static host or GitHub Pages environment, then publish dist.",
       "completionCritical": true
     },
@@ -80,11 +82,12 @@ export const objectiveAudit = {
     },
     {
       "id": "minimal-intervention-autonomy",
-      "status": "needs-repository-channel",
+      "status": "incomplete",
       "summary": "A scheduled local loop, owner state, bootstrap handoff, and dry-run operator reduce manual maintenance.",
       "evidence": [
         "Owner loop: owner-loop-ready",
         "Autonomous cadence: cadence-ready; Codex active-declared; GitHub scheduled",
+        "Autonomous self-update: self-update-needs-attention; workflow .github/workflows/autonomous-self-update.yml; unsafe pending 13",
         "Operator: operator-plan-ready",
         "Operator history: operator-history-ready; records 11",
         "Bootstrap: production-bootstrap-ready",
@@ -92,10 +95,11 @@ export const objectiveAudit = {
         "Release candidate: release-candidate-ready; smoke URLs 7",
         "Post-deploy smoke: blocked-missing-origin; origin missing; checks 0/8",
         "Repository channel: waiting-for-github-repository; repository missing; git worktree true",
-        "Autonomy score: 93%",
+        "Autonomy score: 90%",
         "Credential-gated actions: 17"
       ],
       "blockers": [
+        "safe-path-allowlist: 3 safe pending file(s), 13 unsafe pending file(s).",
         "Add a GitHub origin remote or set GITHUB_REPOSITORY/GH_REPO.",
         "Configure GH_TOKEN or GITHUB_TOKEN for workflow dispatch and repository settings sync.",
         "Set GITHUB_REPOSITORY or GH_REPO to the intended owner/repo.",

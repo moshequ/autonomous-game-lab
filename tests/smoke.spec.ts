@@ -55,6 +55,8 @@ test('portal loads a playable canvas and autonomy cockpit', async ({ page }) => 
   await expect(page.getByLabel('Operator History')).toContainText('operator-history-ready')
   await expect(page.getByLabel('Autonomous Cadence')).toContainText('cadence-ready')
   await expect(page.getByLabel('Autonomous Cadence')).toContainText('autonomous:operate')
+  await expect(page.getByLabel('Autonomous Self Update')).toContainText('self-update-ready')
+  await expect(page.getByLabel('Autonomous Self Update')).toContainText('autonomous-self-update.yml')
   await expect(page.getByLabel('Operator History')).toContainText('Records')
   await expect(page.getByLabel('Objective Audit')).toContainText('objective-in-progress')
   await expect(page.getByLabel('Objective Audit')).toContainText('Can complete')
@@ -1061,6 +1063,59 @@ test('autonomous cadence keeps unattended operation auditable and guarded', asyn
 
   await page.goto('/')
   await expect(page.getByLabel('Autonomous Cadence')).toContainText('cadence-ready')
+})
+
+test('autonomous self-update persists only verified allowlisted generated changes', async ({ page }) => {
+  const selfUpdate = JSON.parse(await readFile('data/autonomous-self-update.json', 'utf8')) as {
+    status: string
+    repository: { remotePushReady: boolean; directPushConfigured: boolean }
+    pendingChanges: { unsafeCount: number; safeCount: number }
+    commitPlan: {
+      workflow: string
+      enabledByRepositoryVariable: string
+      directPushRequiresRepositoryVariable: string
+      verificationBeforeCommit: string[]
+      stagePaths: string[]
+    }
+    controls: {
+      zeroPaidSpend: boolean
+      dailyWorkflowReadOnly: boolean
+      writePermissionIsolatedToSelfUpdateWorkflow: boolean
+      commitRequiresCleanVerification: boolean
+      commitRequiresSafePathAllowlist: boolean
+      directPushRequiresExplicitVariable: boolean
+      doesNotStageSourceOrWorkflowChanges: boolean
+    }
+    checks: Array<{ id: string; status: string }>
+  }
+  const workflow = await readFile('.github/workflows/autonomous-self-update.yml', 'utf8')
+  const dailyWorkflow = await readFile('.github/workflows/autonomous-daily.yml', 'utf8')
+
+  expect(selfUpdate.status).toBe('self-update-ready')
+  expect(selfUpdate.pendingChanges.unsafeCount).toBe(0)
+  expect(selfUpdate.commitPlan.workflow).toBe('.github/workflows/autonomous-self-update.yml')
+  expect(selfUpdate.commitPlan.enabledByRepositoryVariable).toBe('AGL_AUTONOMOUS_SELF_UPDATE=1')
+  expect(selfUpdate.commitPlan.directPushRequiresRepositoryVariable).toBe('AGL_AUTONOMOUS_SELF_UPDATE_DIRECT=1')
+  expect(selfUpdate.commitPlan.verificationBeforeCommit).toContain('npm run autonomous:daily')
+  expect(selfUpdate.commitPlan.verificationBeforeCommit).toContain('npm run test:e2e')
+  expect(selfUpdate.commitPlan.verificationBeforeCommit).toContain('npm run autonomous:self-update -- --assert-safe')
+  expect(selfUpdate.controls.zeroPaidSpend).toBe(true)
+  expect(selfUpdate.controls.dailyWorkflowReadOnly).toBe(true)
+  expect(selfUpdate.controls.writePermissionIsolatedToSelfUpdateWorkflow).toBe(true)
+  expect(selfUpdate.controls.commitRequiresCleanVerification).toBe(true)
+  expect(selfUpdate.controls.commitRequiresSafePathAllowlist).toBe(true)
+  expect(selfUpdate.controls.directPushRequiresExplicitVariable).toBe(true)
+  expect(selfUpdate.controls.doesNotStageSourceOrWorkflowChanges).toBe(true)
+  expect(selfUpdate.checks.every((check) => check.status === 'pass')).toBe(true)
+  expect(workflow).toContain("vars.AGL_AUTONOMOUS_SELF_UPDATE == '1'")
+  expect(workflow).toContain('contents: write')
+  expect(workflow).toContain('npm run autonomous:daily')
+  expect(workflow).toContain('npm run test:e2e')
+  expect(workflow).toContain('npm run autonomous:self-update -- --assert-safe')
+  expect(dailyWorkflow).toContain('contents: read')
+
+  await page.goto('/')
+  await expect(page.getByLabel('Autonomous Self Update')).toContainText('self-update-ready')
 })
 
 test('objective audit maps the goal to evidence and remaining blockers', async ({ page }) => {

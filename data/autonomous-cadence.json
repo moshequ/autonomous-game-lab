@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-19T02:22:20.106Z",
+  "generatedAt": "2026-05-19T02:35:48.837Z",
   "status": "cadence-ready",
   "cadence": "daily",
   "workspace": {
@@ -42,11 +42,20 @@
       "dispatch": true,
       "permissions": "contents: read",
       "artifactUpload": true
+    },
+    "githubSelfUpdate": {
+      "status": "gated",
+      "workflow": ".github/workflows/autonomous-self-update.yml",
+      "trigger": "workflow_run: Autonomous Daily Studio",
+      "permission": "contents: write",
+      "enabledByRepositoryVariable": "AGL_AUTONOMOUS_SELF_UPDATE=1",
+      "directPushRequiresRepositoryVariable": "AGL_AUTONOMOUS_SELF_UPDATE_DIRECT=1"
     }
   },
   "commandPlan": {
     "operate": "npm run autonomous:operate",
     "daily": "npm run autonomous:daily",
+    "selfUpdate": "npm run autonomous:self-update",
     "verifyAutomation": "npm run test:automation",
     "browserSmoke": "npm run test:e2e",
     "ownerDecision": "prepare-repository-channel"
@@ -57,7 +66,8 @@
     "commitOnlyAfterVerification": true,
     "neverEnablePaidSpendOnRecovery": true,
     "neverDispatchExternalWorkflowsOnRecovery": true,
-    "reportBlockersInsteadOfGuessing": true
+    "reportBlockersInsteadOfGuessing": true,
+    "selfUpdateRequiresVerification": true
   },
   "controls": {
     "zeroPaidSpend": true,
@@ -68,7 +78,9 @@
     "noExternalPosting": true,
     "remoteMutationRequiresRepositoryEvidence": true,
     "codexAutomationExpectedActive": true,
-    "githubWorkflowReadOnlyByDefault": true
+    "githubWorkflowReadOnlyByDefault": true,
+    "selfUpdateWorkflowWritePermissionGated": true,
+    "selfUpdateStagesAllowlistedGeneratedFilesOnly": true
   },
   "checks": [
     {
@@ -85,6 +97,11 @@
       "id": "cadence-refresh-script",
       "status": "pass",
       "detail": "autonomous:cadence is node scripts/autonomous-cadence.mjs."
+    },
+    {
+      "id": "self-update-script",
+      "status": "pass",
+      "detail": "autonomous:self-update is node scripts/autonomous-self-update.mjs."
     },
     {
       "id": "daily-loop-script",
@@ -105,6 +122,11 @@
       "id": "github-scheduled-workflow",
       "status": "pass",
       "detail": "GitHub Actions daily workflow can run the autonomous loop and upload evidence artifacts."
+    },
+    {
+      "id": "github-self-update-workflow",
+      "status": "pass",
+      "detail": "Gated GitHub workflow can persist allowlisted verified generated changes when explicitly enabled."
     },
     {
       "id": "zero-spend-operation",

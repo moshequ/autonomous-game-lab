@@ -1,0 +1,56 @@
+# Autonomous Self Update
+
+Generated: 2026-05-19T02:35:30.104Z
+Status: self-update-needs-attention
+Mode: plan-and-assert
+
+## Repository
+
+- Target: missing
+- Origin: missing
+- Branch: main
+- Self-update enabled: false
+- Direct push ready: false
+
+## Pending Changes
+
+- Total: 16
+- Safe: 3
+- Unsafe: 13
+
+## Commit Plan
+
+- Workflow: .github/workflows/autonomous-self-update.yml
+- Gate: AGL_AUTONOMOUS_SELF_UPDATE=1
+- Direct push gate: AGL_AUTONOMOUS_SELF_UPDATE_DIRECT=1
+- Message: Autonomous daily self-update
+
+## Checks
+
+- pass: script-registered - autonomous:self-update is node scripts/autonomous-self-update.mjs.
+- pass: daily-loop-refresh - autonomous:daily refreshes self-update evidence before owner/audit evidence.
+- pass: daily-workflow-read-only - The ordinary daily workflow remains read-only and uploads evidence artifacts.
+- pass: self-update-workflow - A separate gated workflow can reproduce the daily loop, verify it, and persist allowlisted changes.
+- blocker: safe-path-allowlist - 3 safe pending file(s), 13 unsafe pending file(s).
+- pass: repository-optional - Git worktree is available on main.
+- pass: remote-push-gated - Remote push remains held until GitHub credentials and AGL_AUTONOMOUS_SELF_UPDATE_DIRECT=1 are configured.
+- pass: zero-spend-controls - Self-update only stages repository artifacts; it does not create accounts, stores, ads, paid traffic, or revenue.
+
+## Guardrails
+
+- zeroPaidSpend: true
+- noAccountCreation: true
+- noStoreSubmission: true
+- noRevenueEnablement: true
+- noPaidAcquisition: true
+- dailyWorkflowReadOnly: true
+- writePermissionIsolatedToSelfUpdateWorkflow: true
+- commitRequiresCleanVerification: true
+- commitRequiresSafePathAllowlist: true
+- remotePushRequiresGitHubToken: true
+- directPushRequiresExplicitVariable: true
+- doesNotStageSourceOrWorkflowChanges: true
+
+## Blockers
+
+- safe-path-allowlist: 3 safe pending file(s), 13 unsafe pending file(s).

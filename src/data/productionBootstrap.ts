@@ -1,5 +1,5 @@
 export const productionBootstrap = {
-  "generatedAt": "2026-05-19T02:22:19.848Z",
+  "generatedAt": "2026-05-19T02:35:48.634Z",
   "status": "production-bootstrap-ready",
   "mode": "waiting-for-external-credentials",
   "envFiles": {
@@ -60,9 +60,9 @@ export const productionBootstrap = {
   },
   "summary": {
     "readyGroups": 2,
-    "totalGroups": 10,
+    "totalGroups": 11,
     "configuredVariables": 1,
-    "totalVariables": 22,
+    "totalVariables": 24,
     "configuredSecrets": 0,
     "totalSecrets": 8,
     "externalBlockers": 26
@@ -125,12 +125,24 @@ export const productionBootstrap = {
       ]
     },
     {
+      "id": "autonomous-self-update",
+      "status": "waiting-for-self-update-gate",
+      "canAutoRun": false,
+      "costUsd": 0,
+      "command": "Run Autonomous Self Update after the daily workflow succeeds.",
+      "evidence": "Self-update gate missing; direct push held.",
+      "requires": [
+        "Set AGL_AUTONOMOUS_SELF_UPDATE=1 to allow the self-update workflow to run after verified daily builds.",
+        "Set AGL_AUTONOMOUS_SELF_UPDATE_DIRECT=1 only when direct generated-artifact commits to the default branch are acceptable."
+      ]
+    },
+    {
       "id": "github-actions-variables",
       "status": "partially-configured",
       "canAutoRun": false,
       "costUsd": 0,
       "command": "./ops/github/setup-production.sh",
-      "evidence": "1/22 repository variable value(s) present in this environment.",
+      "evidence": "1/24 repository variable value(s) present in this environment.",
       "requires": [
         "AGL_PUBLIC_ORIGIN",
         "AGL_PUBLIC_ORIGIN",
@@ -273,12 +285,24 @@ export const productionBootstrap = {
       ]
     },
     {
+      "id": "autonomous-self-update",
+      "status": "waiting-for-self-update-gate",
+      "canAutoRun": false,
+      "costUsd": 0,
+      "command": "Run Autonomous Self Update after the daily workflow succeeds.",
+      "evidence": "Self-update gate missing; direct push held.",
+      "requires": [
+        "Set AGL_AUTONOMOUS_SELF_UPDATE=1 to allow the self-update workflow to run after verified daily builds.",
+        "Set AGL_AUTONOMOUS_SELF_UPDATE_DIRECT=1 only when direct generated-artifact commits to the default branch are acceptable."
+      ]
+    },
+    {
       "id": "github-actions-variables",
       "status": "partially-configured",
       "canAutoRun": false,
       "costUsd": 0,
       "command": "./ops/github/setup-production.sh",
-      "evidence": "1/22 repository variable value(s) present in this environment.",
+      "evidence": "1/24 repository variable value(s) present in this environment.",
       "requires": [
         "AGL_PUBLIC_ORIGIN",
         "AGL_PUBLIC_ORIGIN",
@@ -539,6 +563,22 @@ export const productionBootstrap = {
       "envName": "AGL_APPLE_DEVELOPER_ACCOUNT_CONNECTED",
       "configured": false,
       "command": "gh variable set AGL_APPLE_DEVELOPER_ACCOUNT_CONNECTED --body \"$AGL_APPLE_DEVELOPER_ACCOUNT_CONNECTED\""
+    },
+    {
+      "id": "var-agl-autonomous-self-update",
+      "kind": "github-variable",
+      "repositoryVariable": "AGL_AUTONOMOUS_SELF_UPDATE",
+      "envName": "AGL_AUTONOMOUS_SELF_UPDATE",
+      "configured": false,
+      "command": "gh variable set AGL_AUTONOMOUS_SELF_UPDATE --body \"$AGL_AUTONOMOUS_SELF_UPDATE\""
+    },
+    {
+      "id": "var-agl-autonomous-self-update-direct",
+      "kind": "github-variable",
+      "repositoryVariable": "AGL_AUTONOMOUS_SELF_UPDATE_DIRECT",
+      "envName": "AGL_AUTONOMOUS_SELF_UPDATE_DIRECT",
+      "configured": false,
+      "command": "gh variable set AGL_AUTONOMOUS_SELF_UPDATE_DIRECT --body \"$AGL_AUTONOMOUS_SELF_UPDATE_DIRECT\""
     }
   ],
   "requiredSecrets": [
@@ -783,6 +823,22 @@ export const productionBootstrap = {
       "envName": "AGL_APPLE_DEVELOPER_ACCOUNT_CONNECTED",
       "configured": false,
       "command": "gh variable set AGL_APPLE_DEVELOPER_ACCOUNT_CONNECTED --body \"$AGL_APPLE_DEVELOPER_ACCOUNT_CONNECTED\""
+    },
+    {
+      "id": "var-agl-autonomous-self-update",
+      "kind": "github-variable",
+      "repositoryVariable": "AGL_AUTONOMOUS_SELF_UPDATE",
+      "envName": "AGL_AUTONOMOUS_SELF_UPDATE",
+      "configured": false,
+      "command": "gh variable set AGL_AUTONOMOUS_SELF_UPDATE --body \"$AGL_AUTONOMOUS_SELF_UPDATE\""
+    },
+    {
+      "id": "var-agl-autonomous-self-update-direct",
+      "kind": "github-variable",
+      "repositoryVariable": "AGL_AUTONOMOUS_SELF_UPDATE_DIRECT",
+      "envName": "AGL_AUTONOMOUS_SELF_UPDATE_DIRECT",
+      "configured": false,
+      "command": "gh variable set AGL_AUTONOMOUS_SELF_UPDATE_DIRECT --body \"$AGL_AUTONOMOUS_SELF_UPDATE_DIRECT\""
     }
   ],
   "repoSecretActions": [

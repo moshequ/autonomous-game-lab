@@ -287,6 +287,10 @@ const envExample = [
   '# iOS remains deferred until revenue justifies annual account cost.',
   'AGL_APPLE_DEVELOPER_ACCOUNT_CONNECTED=false',
   '',
+  '# Optional autonomous persistence after CI reproduces the daily loop and browser tests.',
+  'AGL_AUTONOMOUS_SELF_UPDATE=0',
+  'AGL_AUTONOMOUS_SELF_UPDATE_DIRECT=0',
+  '',
 ].join('\n')
 
 await mkdir(path.dirname(outputJsonPath), { recursive: true })

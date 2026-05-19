@@ -24,6 +24,7 @@ import { eventCollectorDeployment } from './data/eventCollectorDeployment'
 import { androidRelease } from './data/androidRelease'
 import { autonomousCadence } from './data/autonomousCadence'
 import { autonomousOwnerLoop } from './data/autonomousOwnerLoop'
+import { autonomousSelfUpdate } from './data/autonomousSelfUpdate'
 import { completionLoop } from './data/completionLoop'
 import { autonomyBacklog, games } from './data/games'
 import { experimentResults } from './data/experimentResults'
@@ -1732,6 +1733,24 @@ function App() {
                 <div>
                   <span>Operate</span>
                   <strong>{autonomousCadence.commandPlan.operate}</strong>
+                </div>
+              </div>
+              <div className="monetizationRuntime" aria-label="Autonomous Self Update">
+                <div>
+                  <span>Autonomous Self Update</span>
+                  <strong>{autonomousSelfUpdate.status}</strong>
+                </div>
+                <div>
+                  <span>Workflow</span>
+                  <strong>{autonomousSelfUpdate.commitPlan.workflow}</strong>
+                </div>
+                <div>
+                  <span>Safe pending</span>
+                  <strong>{autonomousSelfUpdate.pendingChanges.safeCount}</strong>
+                </div>
+                <div>
+                  <span>Direct push</span>
+                  <strong>{autonomousSelfUpdate.repository.remotePushReady ? 'ready' : 'gated'}</strong>
                 </div>
               </div>
               <div className="monetizationRuntime" aria-label="Objective Audit">

@@ -48,6 +48,7 @@ const allowedLocalCommands = [
   'npm run autonomous:repo-readiness',
   'npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap',
   'npm run autonomous:repo-bootstrap',
+  'npm run autonomous:self-update',
   'npm run autonomous:first-move-coach',
   'npm run autonomous:completion-loop',
   'npm run autonomous:replay-loop',
