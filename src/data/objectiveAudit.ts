@@ -1,5 +1,5 @@
 export const objectiveAudit = {
-  "generatedAt": "2026-05-19T07:07:20.314Z",
+  "generatedAt": "2026-05-19T07:27:34.250Z",
   "status": "objective-in-progress",
   "objective": "Build a bootstrapped autonomous web/PWA game portal that can generate original board-game-inspired games, measure user behavior, propose and apply data-driven improvements, and prepare a path to monetization and app-store distribution with minimal manual intervention.",
   "summary": {
@@ -48,12 +48,13 @@ export const objectiveAudit = {
       "evidence": [
         "Analytics source: fixture-sample",
         "Collector smoke: pass",
+        "Local event bridge: bridge-waiting-for-export; inbox events 0; imported events 0",
         "Ingest smoke: pass",
         "Game starts in rollup: 375",
         "D1 retention: 0.167"
       ],
       "blockers": [
-        "Production analytics still need PostHog or first-party collector credentials for live player data."
+        "Production analytics still need PostHog or first-party collector credentials for live player data; local browser event drops are bridged meanwhile."
       ],
       "nextAction": "Connect the first-party collector or PostHog when production credentials exist.",
       "completionCritical": true
@@ -88,7 +89,7 @@ export const objectiveAudit = {
         "Autonomous cadence: cadence-ready; Codex active-confirmed; GitHub scheduled",
         "Autonomous self-update: self-update-ready; workflow .github/workflows/autonomous-self-update.yml; unsafe pending 0",
         "Operator: operator-plan-ready",
-        "Operator history: operator-history-ready; records 40; executed 19",
+        "Operator history: operator-history-ready; records 40; executed 18",
         "Bootstrap: production-bootstrap-ready",
         "Repository bootstrap: waiting-for-github-target; helper ops/github/bootstrap-repository.sh",
         "Release candidate: release-candidate-ready; smoke URLs 7",

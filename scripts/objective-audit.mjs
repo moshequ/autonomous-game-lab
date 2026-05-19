@@ -22,6 +22,7 @@ const [
   generatedPlayable,
   analytics,
   eventCollectorSmoke,
+  localEventBridge,
   eventIngestSmoke,
   productOptimization,
   productGateRecovery,
@@ -63,6 +64,7 @@ const [
   readJson(path.join(dataDir, 'generated-playable-games.json')),
   readJson(path.join(dataDir, 'analytics-rollup.json')),
   readJson(path.join(dataDir, 'event-collector-smoke.json')),
+  readJson(path.join(dataDir, 'local-event-bridge.json')),
   readJson(path.join(dataDir, 'event-ingest-smoke.json')),
   readJson(path.join(dataDir, 'product-optimization.json')),
   readJson(path.join(dataDir, 'product-gate-recovery.json')),
@@ -111,6 +113,10 @@ const lowRiskConcepts = acceptedConcepts.filter(
 const lowRiskGeneratedGames =
   generatedPlayable.games?.filter((game) => game.sourceDistance?.copiedExpressionRisk === 'low') ?? []
 const liveAnalytics = ['posthog', 'local-event-drops'].includes(analytics.sourceStatus?.activeSource)
+const localEventBridgeReady =
+  ['bridge-ready-for-ingest', 'bridge-local-events-active', 'bridge-waiting-for-export'].includes(
+    localEventBridge.status,
+  ) && localEventBridge.controls?.noSyntheticEvents === true
 const objectiveBlockers = [
   ...new Set([
     ...(repositoryReadiness.blockers ?? []),
@@ -210,6 +216,7 @@ const requirements = [
     status:
       analytics.sourceStatus?.activeSource &&
       eventCollectorSmoke.status === 'pass' &&
+      localEventBridgeReady &&
       eventIngestSmoke.status === 'pass' &&
       readiness.webPwa?.checks?.some((check) => check.id === 'privacy-control' && check.status === 'pass')
         ? liveAnalytics
@@ -220,13 +227,18 @@ const requirements = [
     evidence: [
       `Analytics source: ${analytics.sourceStatus?.activeSource ?? 'missing'}`,
       `Collector smoke: ${eventCollectorSmoke.status}`,
+      `Local event bridge: ${localEventBridge.status}; inbox events ${
+        localEventBridge.inbox?.validEvents ?? 0
+      }; imported events ${localEventBridge.imported?.events ?? 0}`,
       `Ingest smoke: ${eventIngestSmoke.status}`,
       `Game starts in rollup: ${analytics.totals?.counts?.game_started ?? 0}`,
       `D1 retention: ${analytics.totals?.metrics?.d1Retention ?? 'missing'}`,
     ],
     blockers: liveAnalytics
       ? []
-      : ['Production analytics still need PostHog or first-party collector credentials for live player data.'],
+      : [
+          'Production analytics still need PostHog or first-party collector credentials for live player data; local browser event drops are bridged meanwhile.',
+        ],
     nextAction: liveAnalytics
       ? 'Keep importing live events before each rollup.'
       : 'Connect the first-party collector or PostHog when production credentials exist.',

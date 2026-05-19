@@ -16,6 +16,7 @@ const requiredFiles = [
   'data/generated-playable-games.json',
   'data/event-collector-smoke.json',
   'data/event-collector-deployment.json',
+  'data/local-event-bridge.json',
   'data/event-ingest.json',
   'data/event-ingest-smoke.json',
   'data/analytics-rollup.json',
@@ -88,6 +89,7 @@ const requiredFiles = [
   'src/data/autonomousCadence.ts',
   'src/data/autonomousSelfUpdate.ts',
   'src/data/objectiveAudit.ts',
+  'src/data/localEventBridge.ts',
   'src/data/storeListingOptimizer.ts',
   'src/data/storeCompliance.ts',
   'src/data/androidSigning.ts',
@@ -104,6 +106,7 @@ const requiredFiles = [
   'reports/generated-playable-games-latest.md',
   'reports/event-collector-smoke-latest.md',
   'reports/event-collector-deployment-latest.md',
+  'reports/local-event-bridge-latest.md',
   'reports/event-ingest-latest.md',
   'reports/event-ingest-smoke-latest.md',
   'reports/analytics-rollup-latest.md',
@@ -214,6 +217,7 @@ const eventCollectorSmoke = JSON.parse(await readFile(path.join(root, 'data', 'e
 const eventCollectorDeployment = JSON.parse(
   await readFile(path.join(root, 'data', 'event-collector-deployment.json'), 'utf8'),
 )
+const localEventBridge = JSON.parse(await readFile(path.join(root, 'data', 'local-event-bridge.json'), 'utf8'))
 const eventIngest = JSON.parse(await readFile(path.join(root, 'data', 'event-ingest.json'), 'utf8'))
 const eventIngestSmoke = JSON.parse(await readFile(path.join(root, 'data', 'event-ingest-smoke.json'), 'utf8'))
 const analytics = JSON.parse(await readFile(path.join(root, 'data', 'analytics-rollup.json'), 'utf8'))
@@ -298,6 +302,7 @@ const repositoryReadinessSource = await readFile(path.join(root, 'scripts', 'rep
 const repositoryBootstrapSource = await readFile(path.join(root, 'scripts', 'repository-bootstrap.mjs'), 'utf8')
 const autonomousOperatorSource = await readFile(path.join(root, 'scripts', 'autonomous-operator.mjs'), 'utf8')
 const autonomousSelfUpdateSource = await readFile(path.join(root, 'scripts', 'autonomous-self-update.mjs'), 'utf8')
+const localEventBridgeSource = await readFile(path.join(root, 'scripts', 'local-event-bridge.mjs'), 'utf8')
 const androidSigningSource = await readFile(path.join(root, 'scripts', 'android-signing-prep.mjs'), 'utf8')
 const objectiveAuditSource = await readFile(path.join(root, 'scripts', 'objective-audit.mjs'), 'utf8')
 const githubRepositoryBootstrapScript = await readFile(path.join(root, 'ops', 'github', 'bootstrap-repository.sh'), 'utf8')
@@ -397,6 +402,29 @@ if (
   fail('Event ingestor must publish local player-event import status and source directories.')
 }
 
+if (
+  !['bridge-ready-for-ingest', 'bridge-local-events-active', 'bridge-waiting-for-export'].includes(
+    localEventBridge.status,
+  ) ||
+  localEventBridge.inbox?.directory !== 'data/player-events/inbox' ||
+  localEventBridge.imported?.directory !== eventIngest.outputDirectory ||
+  localEventBridge.eventDropContract?.filenamePattern !== 'player-events*.json' ||
+  localEventBridge.eventDropContract?.importCommand !== 'npm run autonomous:import-events' ||
+  localEventBridge.eventDropContract?.rollupCommand !== 'npm run autonomous:analytics' ||
+  localEventBridge.controls?.zeroPaidSpend !== true ||
+  localEventBridge.controls?.localOnly !== true ||
+  localEventBridge.controls?.noExternalUpload !== true ||
+  localEventBridge.controls?.noSyntheticEvents !== true ||
+  localEventBridge.controls?.copyOnlyExplicitDropPaths !== true ||
+  !Array.isArray(localEventBridge.sourceDirectories) ||
+  !localEventBridge.sourceDirectories.some((directory) => directory.role === 'inbox') ||
+  !localEventBridgeSource.includes('AGL_LOCAL_EVENT_DROP_DIRS') ||
+  !localEventBridgeSource.includes('copyFile') ||
+  !appSource.includes('Local Event Bridge')
+) {
+  fail('Local event bridge must validate browser event drops, preserve zero-spend local-only controls, and surface the ingest contract.')
+}
+
 for (const importedFile of eventIngest.importedFiles ?? []) {
   try {
     await readFile(path.join(root, importedFile.targetPath), 'utf8')
@@ -414,6 +442,11 @@ if (
 
 if (
   eventIngestSmoke.status !== 'pass' ||
+  eventIngestSmoke.bridge?.status !== 'bridge-ready-for-ingest' ||
+  eventIngestSmoke.bridge?.copiedFiles !== 1 ||
+  eventIngestSmoke.bridge?.inboxValidEvents < 6 ||
+  eventIngestSmoke.bridge?.noSyntheticEvents !== true ||
+  eventIngestSmoke.bridge?.noExternalUpload !== true ||
   eventIngestSmoke.ingest?.status !== 'imported' ||
   eventIngestSmoke.ingest?.importedEvents < 6 ||
   eventIngestSmoke.analytics?.activeSource !== 'local-event-drops' ||
@@ -1330,6 +1363,9 @@ if (
   !autonomousOperator.allowlist?.includes('npm run autonomous:self-update') ||
   !autonomousOperator.allowlist?.includes('npm run autonomous:objective-audit') ||
   !autonomousOperator.allowlist?.includes('npm run autonomous:android-signing') ||
+  !autonomousOperator.allowlist?.includes(
+    'npm run autonomous:local-event-bridge && npm run autonomous:import-events && npm run autonomous:analytics && npm run autonomous:gate-recovery',
+  ) ||
   !autonomousOperator.blockedFragments?.includes('gh workflow run') ||
   !autonomousOperator.blockedActions?.some((action) => action.reason === 'daily-loop-recursion-blocked') ||
   !autonomousOperatorSource.includes("spawn('npm'") ||
@@ -1953,11 +1989,26 @@ if (!packageJson.scripts?.['autonomous:daily']?.includes('autonomous:import-even
   fail('Autonomous daily loop must import exported local player events before analytics rollup.')
 }
 
+if (!packageJson.scripts?.['autonomous:daily']?.includes('autonomous:local-event-bridge')) {
+  fail('Autonomous daily loop must refresh the local event bridge before event import.')
+}
+
+const eventBridgeIndex = dailyScript.indexOf('autonomous:local-event-bridge')
+const eventImportIndex = dailyScript.indexOf('autonomous:import-events')
+const analyticsIndex = dailyScript.indexOf('autonomous:analytics')
+
 if (
-  packageJson.scripts?.['autonomous:daily']?.indexOf('autonomous:import-events') >
-  packageJson.scripts?.['autonomous:daily']?.indexOf('autonomous:analytics')
+  eventBridgeIndex === -1 ||
+  eventImportIndex === -1 ||
+  analyticsIndex === -1 ||
+  eventBridgeIndex > eventImportIndex ||
+  eventImportIndex > analyticsIndex
 ) {
-  fail('Autonomous daily loop must import local player events before analytics rollup.')
+  fail('Autonomous daily loop must bridge local player events before import and analytics rollup.')
+}
+
+if (!packageJson.scripts?.['autonomous:local-event-bridge']?.includes('local-event-bridge')) {
+  fail('Autonomous scripts must expose the local event bridge.')
 }
 
 if (!packageJson.scripts?.['autonomous:event-ingest-smoke']?.includes('event-ingest-smoke')) {
@@ -1983,26 +2034,34 @@ if (
   fail('Autonomous daily loop must smoke-test the event collector before generating its deployment plan.')
 }
 
-if (!packageJson.scripts?.['test:automation']?.includes('event-collector-smoke')) {
+const testAutomationScript = packageJson.scripts?.['test:automation'] ?? ''
+
+if (!testAutomationScript.includes('event-collector-smoke')) {
   fail('Autonomous verification must run the isolated event collector smoke check.')
 }
 
-if (!packageJson.scripts?.['test:automation']?.includes('event-ingest-smoke')) {
+if (!testAutomationScript.includes('event-ingest-smoke')) {
   fail('Autonomous verification must run the isolated event ingest smoke check.')
 }
 
+if (!testAutomationScript.includes('local-event-bridge')) {
+  fail('Autonomous verification must refresh the local event bridge artifact before verification.')
+}
+
 if (
-  packageJson.scripts?.['test:automation']?.indexOf('event-collector-smoke') >
-  packageJson.scripts?.['test:automation']?.indexOf('verify-autonomy')
+  testAutomationScript.indexOf('event-collector-smoke') > testAutomationScript.indexOf('verify-autonomy')
 ) {
   fail('Autonomous verification must generate event collector smoke artifacts before verifying them.')
 }
 
 if (
-  packageJson.scripts?.['test:automation']?.indexOf('event-ingest-smoke') >
-  packageJson.scripts?.['test:automation']?.indexOf('verify-autonomy')
+  testAutomationScript.indexOf('event-ingest-smoke') > testAutomationScript.indexOf('verify-autonomy')
 ) {
   fail('Autonomous verification must generate event ingest smoke artifacts before verifying them.')
+}
+
+if (testAutomationScript.indexOf('local-event-bridge') > testAutomationScript.indexOf('verify-autonomy')) {
+  fail('Autonomous verification must refresh local event bridge artifacts before verifying them.')
 }
 
 if (!packageJson.scripts?.['autonomous:daily']?.includes('autonomous:monetization')) {
@@ -3176,6 +3235,7 @@ const ownerGuardrailIds = new Set((autonomousOwnerLoop.guardrails ?? []).map((gu
 const requiredOwnerSystems = [
   'game-factory',
   'analytics-ingest',
+  'local-event-bridge',
   'autonomous-cadence',
   'autonomous-self-update',
   'repository-channel',
@@ -3282,6 +3342,7 @@ if (
   autonomousOwnerLoop.controls?.storeSpendAllowed !== unitEconomics.controls?.storeSpendAllowed ||
   autonomousOwnerLoop.controls?.deployAllowed !== productionResponse.controls?.deployAllowed ||
   autonomousOwnerLoop.evidence?.analyticsSource !== analytics.sourceStatus.activeSource ||
+  autonomousOwnerLoop.evidence?.localEventBridgeStatus !== localEventBridge.status ||
   autonomousOwnerLoop.evidence?.dailyChallenge?.gameId !== portfolioPolicy.dailyChallenge?.gameId ||
   autonomousOwnerLoop.evidence?.trafficSeedingStatus !== trafficSeeding.status ||
   autonomousOwnerLoop.evidence?.acquisitionLearningStatus !== acquisitionLearning.status ||
@@ -3473,6 +3534,13 @@ if (
   ) ||
   !autonomousOwnerLoop.safeAutonomousActions?.some(
     (action) => action.id === 'deploy-web-pwa' && action.costUsd === 0,
+  ) ||
+  !autonomousOwnerLoop.safeAutonomousActions?.some(
+    (action) =>
+      action.id === 'collect-live-events' &&
+      action.command ===
+        'npm run autonomous:local-event-bridge && npm run autonomous:import-events && npm run autonomous:analytics && npm run autonomous:gate-recovery' &&
+      action.costUsd === 0,
   ) ||
   !ownerGuardrailIds.has('zero-paid-spend') ||
   !ownerGuardrailIds.has('no-revenue-before-product-gates') ||

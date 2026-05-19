@@ -32,6 +32,7 @@ import { experimentResults } from './data/experimentResults'
 import { generatedPlayableGames } from './data/generatedPlayableGames'
 import { growthPlan } from './data/growthPlan'
 import { incidentDrill } from './data/incidentDrill'
+import { localEventBridge } from './data/localEventBridge'
 import { monetizationPlan } from './data/monetizationPlan'
 import { nativePackage } from './data/nativePackage'
 import { portfolioPolicy } from './data/portfolioPolicy'
@@ -1704,6 +1705,24 @@ function App() {
                 <div>
                   <span>Execution</span>
                   <strong>{autonomousOperator.execution.status}</strong>
+                </div>
+              </div>
+              <div className="monetizationRuntime" aria-label="Local Event Bridge">
+                <div>
+                  <span>Local Event Bridge</span>
+                  <strong>{localEventBridge.status}</strong>
+                </div>
+                <div>
+                  <span>Inbox events</span>
+                  <strong>{localEventBridge.inbox.validEvents}</strong>
+                </div>
+                <div>
+                  <span>Imported events</span>
+                  <strong>{localEventBridge.imported.events}</strong>
+                </div>
+                <div>
+                  <span>External upload</span>
+                  <strong>{localEventBridge.controls.noExternalUpload ? 'blocked' : 'open'}</strong>
                 </div>
               </div>
               <div className="monetizationRuntime" aria-label="Operator History">

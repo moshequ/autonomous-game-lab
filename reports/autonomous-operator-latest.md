@@ -1,6 +1,6 @@
 # Autonomous Operator
 
-Generated: 2026-05-19T07:07:19.883Z
+Generated: 2026-05-19T07:27:29.319Z
 Status: operator-plan-ready
 Mode: plan-only
 Owner decision: refresh-product-gate-recovery
@@ -40,6 +40,7 @@ Execution: not-requested
 - refresh-objective-audit
 - optimize-store-listing
 - apply-safe-improvements
+- collect-live-events
 
 ## Blocked Actions
 

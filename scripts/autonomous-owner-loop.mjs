@@ -24,6 +24,12 @@ const playable = await readJson(path.join(dataDir, 'playable-games.json'))
 const generatedPlayable = await readJson(path.join(dataDir, 'generated-playable-games.json'))
 const analytics = await readJson(path.join(dataDir, 'analytics-rollup.json'))
 const eventIngest = await readJson(path.join(dataDir, 'event-ingest.json'))
+const localEventBridge = await readOptionalJson(path.join(dataDir, 'local-event-bridge.json'), {
+  status: 'missing',
+  inbox: {},
+  imported: {},
+  controls: {},
+})
 const eventCollectorSmoke = await readJson(path.join(dataDir, 'event-collector-smoke.json'))
 const eventCollectorDeployment = await readJson(path.join(dataDir, 'event-collector-deployment.json'))
 const growth = await readJson(path.join(dataDir, 'growth-plan.json'))
@@ -186,6 +192,14 @@ const playableCount = playable.games?.length ?? 0
 const generatedCount = generatedPlayable.games?.length ?? 0
 const analyticsSource = analytics.sourceStatus?.activeSource ?? 'unknown'
 const liveAnalytics = ['posthog', 'local-event-drops'].includes(analyticsSource)
+const localEventBridgeReady =
+  ['bridge-ready-for-ingest', 'bridge-local-events-active', 'bridge-waiting-for-export'].includes(
+    localEventBridge.status,
+  ) &&
+  localEventBridge.controls?.zeroPaidSpend === true &&
+  localEventBridge.controls?.localOnly === true &&
+  localEventBridge.controls?.noExternalUpload === true &&
+  localEventBridge.controls?.noSyntheticEvents === true
 const webDecision = promotion.decisions?.find((decision) => decision.channel === 'web-pwa')
 const monetizationDecision = promotion.decisions?.find((decision) => decision.channel === 'monetization')
 const androidDecision = promotion.decisions?.find((decision) => decision.channel === 'android-google-play')
@@ -241,6 +255,18 @@ const systems = [
     nextAction: liveAnalytics
       ? 'Continue importing live player events before rollups.'
       : 'Keep local/fixture rollups active until production collector credentials exist.',
+  },
+  {
+    id: 'local-event-bridge',
+    status: systemStatus(localEventBridgeReady, 'needs-local-bridge'),
+    autonomy: 'zero-spend-local-learning',
+    evidence: `Bridge ${localEventBridge.status}; inbox ${localEventBridge.inbox?.validEvents ?? 0} event(s); imported ${
+      localEventBridge.imported?.events ?? 0
+    } event(s).`,
+    nextAction:
+      localEventBridge.status === 'bridge-ready-for-ingest'
+        ? 'Import validated local event drops before the next analytics rollup.'
+        : 'Keep the browser export and explicit drop-folder bridge ready until the hosted collector is configured.',
   },
   {
     id: 'autonomous-cadence',
@@ -978,12 +1004,13 @@ const safeAutonomousActions = [
   },
   {
     id: 'collect-live-events',
-    status: liveAnalytics ? 'armed' : 'blocked-needs-collector-or-posthog',
+    status: liveAnalytics || localEventBridgeReady ? 'armed' : 'blocked-needs-collector-or-posthog',
     costUsd: 0,
-    command: 'npm run autonomous:import-events && npm run autonomous:analytics',
+    command:
+      'npm run autonomous:local-event-bridge && npm run autonomous:import-events && npm run autonomous:analytics && npm run autonomous:gate-recovery',
     reason: liveAnalytics
-      ? 'Live/player event data is available for autonomous rollups.'
-      : 'The local loop can run, but production learning needs a configured collector or PostHog project.',
+      ? 'Live/player event data is available for autonomous rollups and product-gate recovery.'
+      : 'Keeps the zero-spend local event-drop bridge active until production collector or PostHog credentials exist.',
   },
 ]
 
@@ -1035,6 +1062,7 @@ const preferredActionOrder = [
   'bootstrap-production-setup',
   'optimize-product-gates',
   'refresh-product-gate-recovery',
+  'collect-live-events',
   'optimize-daily-retention',
   'measure-pwa-install-loop',
   'refresh-autonomous-cadence',
@@ -1094,6 +1122,7 @@ const payload = {
   guardrails,
   evidence: {
     analyticsSource,
+    localEventBridgeStatus: localEventBridge.status,
     dailyChallenge: portfolioPolicy.dailyChallenge,
     trafficSeedingStatus: traffic.status,
     acquisitionLearningStatus: acquisition.status,

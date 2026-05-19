@@ -1,10 +1,12 @@
 # Event Ingest Smoke
 
-Generated: 2026-05-19T07:07:33.777Z
+Generated: 2026-05-19T07:24:52.060Z
 Status: pass
 
 ## Ingest
 
+- Bridge status: bridge-ready-for-ingest
+- Bridge copied files: 1
 - Status: imported
 - Imported events: 6
 - Imported files: 1

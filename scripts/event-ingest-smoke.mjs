@@ -42,8 +42,12 @@ const fail = (message) => {
 
 const tempRoot = await mkdtemp(path.join(os.tmpdir(), 'agl-event-ingest-'))
 const inboxDir = path.join(tempRoot, 'inbox')
+const dropDir = path.join(tempRoot, 'browser-downloads')
 const outputDir = path.join(tempRoot, 'player-events')
 const reportsDir = path.join(tempRoot, 'reports')
+const bridgeOutput = path.join(tempRoot, 'local-event-bridge.json')
+const bridgeTsOutput = path.join(tempRoot, 'localEventBridge.ts')
+const bridgeReport = path.join(reportsDir, 'local-event-bridge.md')
 const ingestOutput = path.join(tempRoot, 'event-ingest.json')
 const ingestReport = path.join(reportsDir, 'event-ingest.md')
 const analyticsOutput = path.join(tempRoot, 'analytics-rollup.json')
@@ -51,6 +55,7 @@ const analyticsReport = path.join(reportsDir, 'analytics-rollup.md')
 
 try {
   await mkdir(inboxDir, { recursive: true })
+  await mkdir(dropDir, { recursive: true })
   await mkdir(outputDir, { recursive: true })
   await mkdir(reportsDir, { recursive: true })
   await mkdir(path.dirname(smokeOutputPath), { recursive: true })
@@ -136,7 +141,28 @@ try {
     },
   ]
 
-  await writeFile(path.join(inboxDir, 'player-events-smoke.json'), JSON.stringify(exportedEvents, null, 2))
+  await writeFile(path.join(dropDir, 'player-events-smoke.json'), JSON.stringify(exportedEvents, null, 2))
+
+  await run(process.execPath, ['scripts/local-event-bridge.mjs'], {
+    AGL_LOCAL_EVENT_DROP_DIRS: dropDir,
+    AGL_EVENT_OUTPUT_DIR: outputDir,
+    AGL_EVENT_INBOX_DIR: inboxDir,
+    AGL_LOCAL_EVENT_BRIDGE_OUTPUT: bridgeOutput,
+    AGL_LOCAL_EVENT_BRIDGE_TS_OUTPUT: bridgeTsOutput,
+    AGL_LOCAL_EVENT_BRIDGE_REPORT: bridgeReport,
+  })
+
+  const bridge = JSON.parse(await readFile(bridgeOutput, 'utf8'))
+
+  if (
+    bridge.status !== 'bridge-ready-for-ingest' ||
+    bridge.copiedFiles.length !== 1 ||
+    bridge.inbox.validEvents !== 6 ||
+    bridge.controls.noSyntheticEvents !== true ||
+    bridge.controls.noExternalUpload !== true
+  ) {
+    fail(`Expected local bridge to copy one explicit event drop into the inbox, got ${JSON.stringify(bridge)}`)
+  }
 
   await run(process.execPath, ['scripts/event-ingestor.mjs'], {
     AGL_EVENT_IMPORT_DIRS: inboxDir,
@@ -182,6 +208,13 @@ try {
       uniqueEvents: 6,
       gameId: 'mosaic-haven',
     },
+    bridge: {
+      status: bridge.status,
+      copiedFiles: bridge.copiedFiles.length,
+      inboxValidEvents: bridge.inbox.validEvents,
+      noSyntheticEvents: bridge.controls.noSyntheticEvents,
+      noExternalUpload: bridge.controls.noExternalUpload,
+    },
     ingest: {
       status: ingest.status,
       importedEvents: ingest.importedEvents,
@@ -216,6 +249,8 @@ try {
     '',
     '## Ingest',
     '',
+    `- Bridge status: ${smoke.bridge.status}`,
+    `- Bridge copied files: ${smoke.bridge.copiedFiles}`,
     `- Status: ${smoke.ingest.status}`,
     `- Imported events: ${smoke.ingest.importedEvents}`,
     `- Imported files: ${smoke.ingest.importedFiles}`,

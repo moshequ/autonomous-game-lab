@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-19T07:07:16.432Z",
+  "generatedAt": "2026-05-19T07:26:46.843Z",
   "status": "waiting-for-github-target",
   "mode": "plan-only",
   "envFiles": {
@@ -61,18 +61,10 @@
       "originRemote": null,
       "remoteRepository": null,
       "hasCommit": true,
-      "dirtyFiles": 3,
-      "dirtyPaths": [
-        "data/repository-readiness.json",
-        "reports/repository-readiness-latest.md",
-        "src/data/repositoryReadiness.ts"
-      ],
-      "generatedEvidenceDirtyFiles": 3,
-      "generatedEvidenceDirtyPaths": [
-        "data/repository-readiness.json",
-        "reports/repository-readiness-latest.md",
-        "src/data/repositoryReadiness.ts"
-      ],
+      "dirtyFiles": 0,
+      "dirtyPaths": [],
+      "generatedEvidenceDirtyFiles": 0,
+      "generatedEvidenceDirtyPaths": [],
       "nonGeneratedDirtyFiles": 0,
       "nonGeneratedDirtyPaths": []
     },
@@ -83,18 +75,10 @@
       "originRemote": null,
       "remoteRepository": null,
       "hasCommit": true,
-      "dirtyFiles": 3,
-      "dirtyPaths": [
-        "data/repository-readiness.json",
-        "reports/repository-readiness-latest.md",
-        "src/data/repositoryReadiness.ts"
-      ],
-      "generatedEvidenceDirtyFiles": 3,
-      "generatedEvidenceDirtyPaths": [
-        "data/repository-readiness.json",
-        "reports/repository-readiness-latest.md",
-        "src/data/repositoryReadiness.ts"
-      ],
+      "dirtyFiles": 0,
+      "dirtyPaths": [],
+      "generatedEvidenceDirtyFiles": 0,
+      "generatedEvidenceDirtyPaths": [],
       "nonGeneratedDirtyFiles": 0,
       "nonGeneratedDirtyPaths": []
     }
@@ -114,7 +98,7 @@
     "repositoryReadiness": "waiting-for-github-repository",
     "deployment": "ready-for-pages",
     "releaseCandidate": "release-candidate-ready",
-    "releaseCandidateId": "pwa-faff790defc1",
+    "releaseCandidateId": "pwa-382ff83a5677",
     "postDeploySmoke": "blocked-missing-origin"
   },
   "execution": {
@@ -174,7 +158,7 @@
       "mutatesLocalGit": true,
       "mutatesRemoteGitHub": false,
       "requiresExplicitEnv": true,
-      "detail": "3 repository evidence file(s) changed during this dry run; the outer verified commit will persist them."
+      "detail": "The current generated production snapshot is committed."
     },
     {
       "id": "set-or-create-origin",

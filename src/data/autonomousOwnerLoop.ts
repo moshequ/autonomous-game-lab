@@ -20,11 +20,11 @@ export const autonomousOwnerLoop = {
       "status": "ready"
     },
     {
-      "id": "autonomous-cadence",
+      "id": "local-event-bridge",
       "status": "ready"
     },
     {
-      "id": "autonomous-self-update",
+      "id": "autonomous-cadence",
       "status": "ready"
     }
   ],

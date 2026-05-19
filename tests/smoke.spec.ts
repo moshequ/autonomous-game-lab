@@ -1068,6 +1068,39 @@ test('autonomous operator plans or executes one allowlisted zero-spend local act
   await expect(page.getByLabel('Autonomous Operator')).toContainText(/operator-plan-ready|operator-executed/)
 })
 
+test('local event bridge keeps browser analytics drops importable without external upload', async ({ page }) => {
+  const bridge = JSON.parse(await readFile('data/local-event-bridge.json', 'utf8')) as {
+    status: string
+    inbox: { directory: string; validEvents: number }
+    imported: { directory: string; events: number }
+    eventDropContract: { filenamePattern: string; importCommand: string; rollupCommand: string }
+    controls: {
+      zeroPaidSpend: boolean
+      localOnly: boolean
+      noExternalUpload: boolean
+      noSyntheticEvents: boolean
+      copyOnlyExplicitDropPaths: boolean
+    }
+  }
+
+  expect(['bridge-ready-for-ingest', 'bridge-local-events-active', 'bridge-waiting-for-export']).toContain(
+    bridge.status,
+  )
+  expect(bridge.inbox.directory).toBe('data/player-events/inbox')
+  expect(bridge.imported.directory).toBe('data/player-events')
+  expect(bridge.eventDropContract.filenamePattern).toBe('player-events*.json')
+  expect(bridge.eventDropContract.importCommand).toBe('npm run autonomous:import-events')
+  expect(bridge.eventDropContract.rollupCommand).toBe('npm run autonomous:analytics')
+  expect(bridge.controls.zeroPaidSpend).toBe(true)
+  expect(bridge.controls.localOnly).toBe(true)
+  expect(bridge.controls.noExternalUpload).toBe(true)
+  expect(bridge.controls.noSyntheticEvents).toBe(true)
+  expect(bridge.controls.copyOnlyExplicitDropPaths).toBe(true)
+
+  await page.goto('/')
+  await expect(page.getByLabel('Local Event Bridge')).toContainText('Local Event Bridge')
+})
+
 test('autonomous operator history keeps a capped audit trail', async ({ page }) => {
   const history = JSON.parse(await readFile('data/autonomous-operator-history.json', 'utf8')) as {
     status: string

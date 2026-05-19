@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-19T07:07:19.883Z",
+  "generatedAt": "2026-05-19T07:27:29.319Z",
   "status": "operator-plan-ready",
   "mode": "plan-only",
   "ownerDecision": {
@@ -38,7 +38,8 @@
     "bootstrap-production-setup",
     "refresh-objective-audit",
     "optimize-store-listing",
-    "apply-safe-improvements"
+    "apply-safe-improvements",
+    "collect-live-events"
   ],
   "blockedActions": [
     {
@@ -181,9 +182,9 @@
     },
     {
       "id": "collect-live-events",
-      "status": "blocked-needs-collector-or-posthog",
-      "command": "npm run autonomous:import-events && npm run autonomous:analytics",
-      "reason": "status-blocked-needs-collector-or-posthog"
+      "status": "armed",
+      "command": "npm run autonomous:local-event-bridge && npm run autonomous:import-events && npm run autonomous:analytics && npm run autonomous:gate-recovery",
+      "reason": "not-selected-this-run"
     }
   ],
   "commandPlan": [
@@ -237,6 +238,7 @@
     "npm run autonomous:android-signing",
     "npm run autonomous:experiments && npm run autonomous:improve && npm run autonomous:sync-experiments",
     "npm run autonomous:import-events && npm run autonomous:analytics",
+    "npm run autonomous:local-event-bridge && npm run autonomous:import-events && npm run autonomous:analytics && npm run autonomous:gate-recovery",
     "npm run autonomous:deploy-plan && npm run autonomous:bootstrap",
     "npm run autonomous:release-candidate && npm run autonomous:deploy-plan && npm run autonomous:bootstrap"
   ],
