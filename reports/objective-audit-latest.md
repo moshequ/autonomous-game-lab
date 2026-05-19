@@ -1,6 +1,6 @@
 # Objective Audit
 
-Generated: 2026-05-19T03:37:25.831Z
+Generated: 2026-05-19T03:47:39.595Z
 Status: objective-in-progress
 Can mark goal complete: false
 Reason: The local autonomous PWA system is largely prepared, but production credentials, live data, monetization gates, hosted compliance URLs, and store account/signing blockers remain.
@@ -11,7 +11,7 @@ Reason: The local autonomous PWA system is largely prepared, but production cred
 - Met: 5
 - Prepared: 2
 - Incomplete: 1
-- External blockers: 20
+- External blockers: 21
 - Product blockers: 6
 
 ## Requirements
@@ -37,6 +37,7 @@ Reason: The local autonomous PWA system is largely prepared, but production cred
 
 - Add a GitHub origin remote or set GITHUB_REPOSITORY/GH_REPO.
 - Configure GH_TOKEN or GITHUB_TOKEN for workflow dispatch and repository settings sync.
+- Commit current generated changes before pushing to GitHub Pages.
 - Set GITHUB_REPOSITORY or GH_REPO to the intended owner/repo.
 - Attach a GitHub origin remote or create the target repository.
 - Authenticate GitHub CLI or provide GH_TOKEN/GITHUB_TOKEN for remote repository bootstrap.
@@ -50,4 +51,3 @@ Reason: The local autonomous PWA system is largely prepared, but production cred
 - First-game completion is 40%; gate is 55%.
 - Replay rate is 31%; gate is 35%.
 - D1 retention is 17%; gate is 18%; source is fixture-retention.
-- Web/PWA or native ad provider is not configured for gated revenue tests.

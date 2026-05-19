@@ -1,22 +1,22 @@
 {
-  "generatedAt": "2026-05-19T03:40:35.719Z",
+  "generatedAt": "2026-05-19T03:47:39.168Z",
   "status": "operator-plan-ready",
   "mode": "plan-only",
   "ownerDecision": {
-    "actionId": "optimize-product-gates",
-    "command": "npm run autonomous:analyze && npm run autonomous:product-optimize && npm run autonomous:sync-config && npm run autonomous:simulate",
+    "actionId": "refresh-autonomous-self-update",
+    "command": "npm run autonomous:self-update",
     "locallyExecutable": true,
     "rejectionReason": null
   },
   "requestedActionId": null,
   "selectedAction": {
-    "id": "optimize-product-gates",
+    "id": "refresh-autonomous-self-update",
     "status": "armed",
-    "command": "npm run autonomous:analyze && npm run autonomous:product-optimize && npm run autonomous:sync-config && npm run autonomous:simulate",
+    "command": "npm run autonomous:self-update",
     "targets": [
-      "harbor-rings"
+      ".github/workflows/autonomous-self-update.yml"
     ],
-    "reason": "Applies one guarded target-score or telemetry improvement when product gates block monetization.",
+    "reason": "Keeps verified generated-change persistence gated, allowlisted, and ready for the scheduled production repository.",
     "costUsd": 0
   },
   "selectedRejection": null,
@@ -26,6 +26,8 @@
     "refresh-organic-seed-loop",
     "optimize-daily-retention",
     "measure-pwa-install-loop",
+    "check-performance-budget",
+    "prepare-release-candidate",
     "optimize-product-gates",
     "refresh-first-move-coach",
     "refresh-completion-loop",
@@ -47,12 +49,6 @@
       "status": "armed",
       "command": "npm run autonomous:cadence",
       "reason": "command-not-in-local-allowlist"
-    },
-    {
-      "id": "refresh-autonomous-self-update",
-      "status": "armed",
-      "command": "npm run autonomous:self-update",
-      "reason": "not-selected-this-run"
     },
     {
       "id": "seed-portfolio-traffic",
@@ -80,21 +76,27 @@
     },
     {
       "id": "check-performance-budget",
-      "status": "monitor",
+      "status": "armed",
       "command": "npm run build && npm run autonomous:performance",
-      "reason": "status-monitor"
+      "reason": "not-selected-this-run"
     },
     {
       "id": "prepare-release-candidate",
-      "status": "monitor",
+      "status": "armed",
       "command": "npm run autonomous:release-candidate",
-      "reason": "status-monitor"
+      "reason": "not-selected-this-run"
     },
     {
       "id": "run-post-deploy-smoke",
       "status": "monitor",
       "command": "npm run autonomous:post-deploy-smoke",
       "reason": "status-monitor"
+    },
+    {
+      "id": "optimize-product-gates",
+      "status": "armed",
+      "command": "npm run autonomous:analyze && npm run autonomous:product-optimize && npm run autonomous:sync-config && npm run autonomous:simulate",
+      "reason": "not-selected-this-run"
     },
     {
       "id": "refresh-first-move-coach",
@@ -177,20 +179,8 @@
   ],
   "commandPlan": [
     {
-      "segment": "npm run autonomous:analyze",
-      "script": "autonomous:analyze"
-    },
-    {
-      "segment": "npm run autonomous:product-optimize",
-      "script": "autonomous:product-optimize"
-    },
-    {
-      "segment": "npm run autonomous:sync-config",
-      "script": "autonomous:sync-config"
-    },
-    {
-      "segment": "npm run autonomous:simulate",
-      "script": "autonomous:simulate"
+      "segment": "npm run autonomous:self-update",
+      "script": "autonomous:self-update"
     }
   ],
   "execution": {
@@ -250,7 +240,7 @@
     "RUN_WORKFLOWS=1"
   ],
   "nextActions": [
-    "Run npm run autonomous:operator -- --execute --action=optimize-product-gates to execute exactly one allowed local action.",
+    "Run npm run autonomous:operator -- --execute --action=refresh-autonomous-self-update to execute exactly one allowed local action.",
     "Do not execute GitHub workflow, store, paid ads, or account setup commands from the local operator."
   ]
 }

@@ -1,11 +1,11 @@
 export const retentionLoop = {
-  "generatedAt": "2026-05-19T00:33:43.516Z",
+  "generatedAt": "2026-05-19T03:46:46.310Z",
   "status": "retention-loop-ready",
   "dailyChallenge": {
-    "date": "2026-05-18",
+    "date": "2026-05-19",
     "gameId": "canopy-bloom",
     "title": "Canopy Bloom",
-    "seed": "daily-20260518-71b",
+    "seed": "daily-20260519-5i8",
     "reason": "Canopy Bloom has the strongest blended portfolio score (51.912)."
   },
   "sourceStatus": {
@@ -49,7 +49,7 @@ export const retentionLoop = {
     "trigger": "after-completed-run",
     "ctaLabel": "Queue tomorrow",
     "dismissLabel": "Not today",
-    "nextChallengeDate": "2026-05-19",
+    "nextChallengeDate": "2026-05-20",
     "cooldown": "one prompt per daily challenge date",
     "reason": "D1 retention is 17% and the gate is 18%; ask for a local return intent after a completed run.",
     "telemetry": {
@@ -100,7 +100,7 @@ export const retentionLoop = {
     },
     {
       "id": "confirm-return-intent",
-      "label": "Queue 2026-05-19 board intent",
+      "label": "Queue 2026-05-20 board intent",
       "event": "daily_return_prompt_clicked",
       "gameId": "canopy-bloom",
       "reward": "local-return-intent",

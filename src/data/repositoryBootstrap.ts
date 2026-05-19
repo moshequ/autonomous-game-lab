@@ -1,5 +1,5 @@
 export const repositoryBootstrap = {
-  "generatedAt": "2026-05-19T03:42:21.504Z",
+  "generatedAt": "2026-05-19T03:47:45.699Z",
   "status": "waiting-for-github-target",
   "mode": "plan-only",
   "envFiles": {
@@ -61,7 +61,7 @@ export const repositoryBootstrap = {
       "originRemote": null,
       "remoteRepository": null,
       "hasCommit": true,
-      "dirtyFiles": 59
+      "dirtyFiles": 41
     },
     "after": {
       "insideWorkTree": true,
@@ -70,7 +70,7 @@ export const repositoryBootstrap = {
       "originRemote": null,
       "remoteRepository": null,
       "hasCommit": true,
-      "dirtyFiles": 59
+      "dirtyFiles": 41
     }
   },
   "repository": {
@@ -88,7 +88,7 @@ export const repositoryBootstrap = {
     "repositoryReadiness": "waiting-for-github-repository",
     "deployment": "ready-for-pages",
     "releaseCandidate": "release-candidate-ready",
-    "releaseCandidateId": "pwa-2e1df1a8618a",
+    "releaseCandidateId": "pwa-d33b48782247",
     "postDeploySmoke": "blocked-missing-origin"
   },
   "execution": {
@@ -148,7 +148,7 @@ export const repositoryBootstrap = {
       "mutatesLocalGit": true,
       "mutatesRemoteGitHub": false,
       "requiresExplicitEnv": true,
-      "detail": "59 generated or source file(s) are not committed yet."
+      "detail": "41 generated or source file(s) are not committed yet."
     },
     {
       "id": "set-or-create-origin",

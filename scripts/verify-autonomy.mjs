@@ -3143,7 +3143,7 @@ const ownerLastRecordExecutionStatus = autonomousOperatorHistory.summary?.lastEx
 const ownerHasExecutedAction = (autonomousOperatorHistory.summary?.executedRecords ?? 0) > 0
 const ownerRecentExecutedActionIds = [
   ...new Set(ownerRecentExecutedRecords.map((record) => record.selectedActionId).filter(Boolean)),
-].slice(0, 3)
+].slice(0, 8)
 const ownerRecentlyExecutedActionStillExecutable = (autonomousOwnerLoop.safeAutonomousActions ?? []).some(
   (action) =>
     action.id === ownerLastExecutedActionId &&
@@ -3199,7 +3199,7 @@ if (
   ownerMissingCredential ||
   missingBootstrapSecret ||
   autonomousOwnerLoop.executionMemory?.avoidImmediateRepeat !== true ||
-  autonomousOwnerLoop.executionMemory?.recentExecutionWindow !== 3 ||
+  autonomousOwnerLoop.executionMemory?.recentExecutionWindow !== 8 ||
   autonomousOwnerLoop.executionMemory?.lastExecutedActionId !== ownerLastExecutedActionId ||
   autonomousOwnerLoop.executionMemory?.lastExecutedStatus !== ownerLastExecutedStatus ||
   autonomousOwnerLoop.executionMemory?.lastRecordExecutionStatus !== ownerLastRecordExecutionStatus ||

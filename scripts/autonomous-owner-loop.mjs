@@ -976,6 +976,7 @@ const guardrails = [
 const executableNow = safeAutonomousActions.filter((action) =>
   ['armed', 'ready-when-repository-pages-enabled'].includes(action.status),
 )
+const recentExecutionWindow = 8
 const recentExecutedRecords = [...(autonomousOperatorHistory.records ?? [])]
   .reverse()
   .filter((record) => record.execution?.requested === true && record.execution?.status === 'executed')
@@ -984,7 +985,7 @@ const lastExecutedActionId =
   lastExecutedRecord?.selectedActionId ?? autonomousOperatorHistory.summary?.lastExecutedActionId ?? null
 const recentExecutedActionIds = [
   ...new Set(recentExecutedRecords.map((record) => record.selectedActionId).filter(Boolean)),
-].slice(0, 3)
+].slice(0, recentExecutionWindow)
 const recentlyExecutedActionIds = new Set(recentExecutedActionIds)
 const executableWithoutImmediateRepeat = executableNow.filter((action) => !recentlyExecutedActionIds.has(action.id))
 const prioritizedExecutableNow =
@@ -1036,7 +1037,7 @@ const payload = {
   },
   executionMemory: {
     avoidImmediateRepeat: true,
-    recentExecutionWindow: 3,
+    recentExecutionWindow,
     recentExecutedActionIds,
     lastExecutedActionId,
     lastExecutedStatus: lastExecutedRecord?.execution?.status ?? null,
