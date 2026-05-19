@@ -1,20 +1,22 @@
 {
-  "generatedAt": "2026-05-19T12:46:21.308Z",
+  "generatedAt": "2026-05-19T12:50:07.969Z",
   "status": "operator-plan-ready",
   "mode": "plan-only",
   "ownerDecision": {
-    "actionId": "collect-live-events",
-    "command": "npm run autonomous:local-event-bridge && npm run autonomous:import-events && npm run autonomous:analytics && npm run autonomous:gate-recovery",
+    "actionId": "measure-pwa-install-loop",
+    "command": "npm run autonomous:pwa-install",
     "locallyExecutable": true,
     "rejectionReason": null
   },
   "requestedActionId": null,
   "selectedAction": {
-    "id": "collect-live-events",
+    "id": "measure-pwa-install-loop",
     "status": "armed",
-    "command": "npm run autonomous:local-event-bridge && npm run autonomous:import-events && npm run autonomous:analytics && npm run autonomous:gate-recovery",
-    "targets": [],
-    "reason": "Keeps the zero-spend local event-drop bridge active until production collector or PostHog credentials exist.",
+    "command": "npm run autonomous:pwa-install",
+    "targets": [
+      "pwa-install"
+    ],
+    "reason": "Measures optional PWA install prompts and standalone launches as the zero-cost distribution path.",
     "costUsd": 0
   },
   "selectedRejection": null,
@@ -74,12 +76,6 @@
       "id": "optimize-daily-retention",
       "status": "armed",
       "command": "npm run autonomous:retention",
-      "reason": "not-selected-this-run"
-    },
-    {
-      "id": "measure-pwa-install-loop",
-      "status": "armed",
-      "command": "npm run autonomous:pwa-install",
       "reason": "not-selected-this-run"
     },
     {
@@ -195,24 +191,18 @@
       "status": "blocked-needs-repository-channel",
       "command": "Run the Web PWA Deploy workflow after GitHub Pages is enabled for the repository.",
       "reason": "status-blocked-needs-repository-channel"
+    },
+    {
+      "id": "collect-live-events",
+      "status": "armed",
+      "command": "npm run autonomous:local-event-bridge && npm run autonomous:import-events && npm run autonomous:analytics && npm run autonomous:gate-recovery",
+      "reason": "not-selected-this-run"
     }
   ],
   "commandPlan": [
     {
-      "segment": "npm run autonomous:local-event-bridge",
-      "script": "autonomous:local-event-bridge"
-    },
-    {
-      "segment": "npm run autonomous:import-events",
-      "script": "autonomous:import-events"
-    },
-    {
-      "segment": "npm run autonomous:analytics",
-      "script": "autonomous:analytics"
-    },
-    {
-      "segment": "npm run autonomous:gate-recovery",
-      "script": "autonomous:gate-recovery"
+      "segment": "npm run autonomous:pwa-install",
+      "script": "autonomous:pwa-install"
     }
   ],
   "execution": {
@@ -278,7 +268,7 @@
     "RUN_WORKFLOWS=1"
   ],
   "nextActions": [
-    "Run npm run autonomous:operator -- --execute --action=collect-live-events to execute exactly one allowed local action.",
+    "Run npm run autonomous:operator -- --execute --action=measure-pwa-install-loop to execute exactly one allowed local action.",
     "Do not execute GitHub workflow, store, paid ads, or account setup commands from the local operator."
   ]
 }
