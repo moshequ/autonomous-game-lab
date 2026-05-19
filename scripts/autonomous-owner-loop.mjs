@@ -821,10 +821,12 @@ const gateSampleEvidenceReadyNow =
   (localEventBridge.gateSampleEvidence?.inbox?.events ?? 0) > 0 ||
   (localEventBridge.gateSampleEvidence?.imported?.events ?? 0) > 0
 const gateSampleDownloadsBackoffHours = 4
+const gateSampleDownloadsExpiryBufferMs = 60 * 1000
 const explicitDownloadsScanAt = Date.parse(localEventBridge.explicitDownloadsScan?.scannedAt ?? '')
 const explicitDownloadsScanRecent =
   Number.isFinite(explicitDownloadsScanAt) &&
-  Date.now() - explicitDownloadsScanAt < gateSampleDownloadsBackoffHours * 60 * 60 * 1000
+  Date.now() + gateSampleDownloadsExpiryBufferMs - explicitDownloadsScanAt <
+    gateSampleDownloadsBackoffHours * 60 * 60 * 1000
 const gateSampleDownloadsScanCoolingDown =
   explicitDownloadsScanRecent &&
   localEventBridge.explicitDownloadsScan?.evidenceFound === false &&

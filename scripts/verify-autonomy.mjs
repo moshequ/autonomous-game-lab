@@ -3606,9 +3606,11 @@ const ownerGateSampleEvidenceReadyNow =
   (localEventBridge.gateSampleEvidence?.imported?.events ?? 0) > 0
 const ownerExplicitDownloadsScanAt = Date.parse(localEventBridge.explicitDownloadsScan?.scannedAt ?? '')
 const ownerGateSampleDownloadsBackoffHours = 4
+const ownerGateSampleDownloadsExpiryBufferMs = 60 * 1000
 const ownerExplicitDownloadsScanRecent =
   Number.isFinite(ownerExplicitDownloadsScanAt) &&
-  Date.now() - ownerExplicitDownloadsScanAt < ownerGateSampleDownloadsBackoffHours * 60 * 60 * 1000
+  Date.now() + ownerGateSampleDownloadsExpiryBufferMs - ownerExplicitDownloadsScanAt <
+    ownerGateSampleDownloadsBackoffHours * 60 * 60 * 1000
 const ownerGateSampleDownloadsCoolingDown =
   ownerExplicitDownloadsScanRecent &&
   localEventBridge.explicitDownloadsScan?.evidenceFound === false &&
