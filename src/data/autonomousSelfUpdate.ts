@@ -1,5 +1,5 @@
 export const autonomousSelfUpdate = {
-  "generatedAt": "2026-05-19T02:36:18.906Z",
+  "generatedAt": "2026-05-19T02:39:03.998Z",
   "status": "self-update-ready",
   "mode": "plan-and-assert",
   "envFiles": {
@@ -48,7 +48,7 @@ export const autonomousSelfUpdate = {
   },
   "sourceStatus": {
     "repositoryReadiness": "waiting-for-github-repository",
-    "productionReadiness": "blocked",
+    "productionReadiness": "ready-after-build",
     "autonomousCadence": "cadence-ready",
     "ownerLoop": "owner-loop-ready"
   },
