@@ -1918,6 +1918,10 @@ function App() {
                   <strong>{productGateRecoveryPrimaryGate.neededSuccesses} wins</strong>
                 </div>
                 <div>
+                  <span>Experiment</span>
+                  <strong>{productGateRecovery.summary.primaryExperimentStatus}</strong>
+                </div>
+                <div>
                   <span>Next sample</span>
                   <strong>{productGateRecoveryPrimary?.promptViewsNeeded ?? 0} views</strong>
                 </div>

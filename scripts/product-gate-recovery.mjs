@@ -13,6 +13,8 @@ const readJson = async (filePath) => JSON.parse(await readFile(filePath, 'utf8')
 const roundMetric = (value) => (typeof value === 'number' ? Math.round(value * 1000) / 1000 : null)
 const pct = (value) => (typeof value === 'number' ? `${Math.round(value * 100)}%` : 'n/a')
 const clampNeeded = (needed) => Math.max(0, needed)
+const ratio = (numerator, denominator) =>
+  denominator > 0 ? Math.round((numerator / denominator) * 1000) / 1000 : null
 
 const analytics = await readJson(path.join(dataDir, 'analytics-rollup.json'))
 const gates = await readJson(path.join(dataDir, 'production-gates.json'))
@@ -38,13 +40,19 @@ const gateRows = [
     successes: counts.level_completed ?? 0,
     ownerLoop: 'completion-loop',
     runtimeSurface: completionLoop.promptPolicy?.surface,
-    primaryTelemetry: [
+    viewTelemetry: [
       completionLoop.promptPolicy?.telemetry?.viewed,
-      completionLoop.promptPolicy?.telemetry?.clicked,
       completionLoop.finishLinePolicy?.telemetry?.viewed,
+      'first_move_coach_shown',
+    ].filter(Boolean),
+    actionTelemetry: [
+      completionLoop.promptPolicy?.telemetry?.clicked,
       completionLoop.finishLinePolicy?.telemetry?.clicked,
       'first_move_coach_used',
     ].filter(Boolean),
+    successTelemetry: ['level_completed'],
+    failureTelemetry: ['game_abandoned'],
+    minimumActionRateForCopyHold: 0.18,
     actionId: 'refresh-completion-loop',
   },
   {
@@ -56,12 +64,15 @@ const gateRows = [
     successes: counts.replay_clicked ?? 0,
     ownerLoop: 'replay-loop',
     runtimeSurface: replayLoop.promptPolicy?.surface,
-    primaryTelemetry: [
+    viewTelemetry: [
       replayLoop.promptPolicy?.telemetry?.viewed,
-      replayLoop.promptPolicy?.telemetry?.clicked,
-      replayLoop.promptPolicy?.telemetry?.dismissed,
-      replayLoop.promptPolicy?.telemetry?.replay,
     ].filter(Boolean),
+    actionTelemetry: [
+      replayLoop.promptPolicy?.telemetry?.clicked,
+    ].filter(Boolean),
+    successTelemetry: ['replay_clicked'],
+    failureTelemetry: [replayLoop.promptPolicy?.telemetry?.dismissed].filter(Boolean),
+    minimumActionRateForCopyHold: 0.2,
     actionId: 'refresh-replay-loop',
   },
   {
@@ -73,21 +84,47 @@ const gateRows = [
     successes: retention.retainedUsers ?? analytics.sourceStatus?.retention?.retainedUsers ?? 0,
     ownerLoop: 'retention-loop',
     runtimeSurface: retentionLoop.returnIntentPolicy?.surface,
-    primaryTelemetry: [
+    viewTelemetry: [
       retentionLoop.promptPolicy?.telemetry?.viewed,
-      retentionLoop.promptPolicy?.telemetry?.clicked,
       retentionLoop.returnIntentPolicy?.telemetry?.viewed,
+    ].filter(Boolean),
+    actionTelemetry: [
+      retentionLoop.promptPolicy?.telemetry?.clicked,
       retentionLoop.returnIntentPolicy?.telemetry?.started,
     ].filter(Boolean),
+    successTelemetry: ['daily_return_intent_started'],
+    failureTelemetry: [
+      retentionLoop.promptPolicy?.telemetry?.dismissed,
+      retentionLoop.returnIntentPolicy?.telemetry?.cleared,
+    ].filter(Boolean),
+    minimumActionRateForCopyHold: 0.2,
     actionId: 'optimize-daily-retention',
   },
 ].map((row) => {
   const neededSuccesses = clampNeeded(Math.ceil(row.gate * row.denominator) - row.successes)
   const gap = Math.max(0, row.gate - (row.actual ?? 0))
-  const currentPromptViews = row.primaryTelemetry
-    .filter((eventName) => String(eventName).endsWith('_viewed') || String(eventName).includes('coach_shown'))
-    .reduce((sum, eventName) => sum + (counts[eventName] ?? 0), 0)
+  const currentPromptViews = row.viewTelemetry.reduce((sum, eventName) => sum + (counts[eventName] ?? 0), 0)
+  const currentPromptActions = row.actionTelemetry.reduce((sum, eventName) => sum + (counts[eventName] ?? 0), 0)
+  const currentPromptFailures = row.failureTelemetry.reduce((sum, eventName) => sum + (counts[eventName] ?? 0), 0)
   const minimumPromptViewsForDecision = row.id === 'd1Retention' ? 10 : 30
+  const promptViewsNeeded = clampNeeded(minimumPromptViewsForDecision - currentPromptViews)
+  const sampleReady = promptViewsNeeded === 0
+  const actionRate = ratio(currentPromptActions, currentPromptViews)
+  const experimentStatus = row.pass
+    ? 'gate-passing'
+    : !sampleReady
+      ? 'collecting-sample'
+      : actionRate === null || actionRate < row.minimumActionRateForCopyHold
+        ? 'copy-test-ready'
+        : 'placement-test-ready'
+  const recommendedChange =
+    experimentStatus === 'collecting-sample'
+      ? 'hold-current-runtime-copy'
+      : experimentStatus === 'copy-test-ready'
+        ? 'prepare-next-copy-variant'
+        : experimentStatus === 'placement-test-ready'
+          ? 'prepare-trigger-or-placement-test'
+          : 'monitor-gate'
 
   return {
     ...row,
@@ -98,8 +135,14 @@ const gateRows = [
     neededSuccesses,
     minimumPromptViewsForDecision,
     currentPromptViews,
-    promptViewsNeeded: clampNeeded(minimumPromptViewsForDecision - currentPromptViews),
+    currentPromptActions,
+    currentPromptFailures,
+    actionRate,
+    sampleReady,
+    promptViewsNeeded,
     status: neededSuccesses > 0 ? 'needs-observed-lift' : 'passing',
+    experimentStatus,
+    recommendedChange,
   }
 })
 
@@ -117,7 +160,9 @@ const priorities = failingGates.map((gate, index) => ({
   actionId: gate.actionId,
   neededSuccesses: gate.neededSuccesses,
   promptViewsNeeded: gate.promptViewsNeeded,
-  nextMeasurement: gate.primaryTelemetry.join(', '),
+  experimentStatus: gate.experimentStatus,
+  recommendedChange: gate.recommendedChange,
+  nextMeasurement: [...gate.viewTelemetry, ...gate.actionTelemetry, ...gate.successTelemetry].join(', '),
   reason:
     gate.id === primaryBottleneck.id
       ? `${gate.label} is the largest revenue-blocking gap.`
@@ -125,6 +170,24 @@ const priorities = failingGates.map((gate, index) => ({
         ? `${gate.label} is the fastest gate to re-test with real retained-player evidence.`
         : `${gate.label} still blocks revenue and store payback assumptions.`,
 }))
+const recoveryExperiments = gateRows.map((gate) => ({
+  gateId: gate.id,
+  status: gate.experimentStatus,
+  ownerLoop: gate.ownerLoop,
+  canChangeCopy: !gate.pass && gate.sampleReady && gate.experimentStatus === 'copy-test-ready',
+  canChangePlacement: !gate.pass && gate.sampleReady && gate.experimentStatus === 'placement-test-ready',
+  currentPromptViews: gate.currentPromptViews,
+  currentPromptActions: gate.currentPromptActions,
+  actionRate: gate.actionRate,
+  minimumPromptViewsForDecision: gate.minimumPromptViewsForDecision,
+  promptViewsNeeded: gate.promptViewsNeeded,
+  recommendedChange: gate.recommendedChange,
+  holdReason: gate.sampleReady
+    ? 'Observed sample is sufficient for the next bounded recovery decision.'
+    : `Needs ${gate.promptViewsNeeded} more prompt exposure(s) before changing copy or placement.`,
+}))
+const primaryExperiment =
+  recoveryExperiments.find((experiment) => experiment.gateId === primaryBottleneck.id) ?? recoveryExperiments[0]
 
 const payload = {
   generatedAt: new Date().toISOString(),
@@ -141,16 +204,21 @@ const payload = {
     primaryBottleneck: primaryBottleneck.id,
     quickestGateTest: quickestGateTest.id,
     revenueEnabled: monetization.revenueEnabled === true,
+    primaryExperimentStatus: primaryExperiment?.status ?? 'missing',
   },
   gates: gateRows,
   priorities,
+  experiments: recoveryExperiments,
   controls: {
     zeroPaidSpend: true,
     revenueStillDisabledUntilAllGatesPass: monetization.revenueEnabled !== true,
     noSyntheticGatePasses: true,
     requireObservedTelemetryBeforeCopyChange: true,
+    copyChangeRequiresSampleReady: true,
+    placementChangeRequiresSampleReady: true,
     oneRecoveryFocusPerOwnerRun: true,
     noPaidRewardsOrPushNotifications: true,
+    noAutomaticRuleChanges: true,
   },
   linkedLoops: {
     productOptimization: productOptimization.status,
@@ -161,7 +229,7 @@ const payload = {
   },
   nextActions: [
     `${primaryBottleneck.label} needs ${primaryBottleneck.neededSuccesses} more observed success(es) at the current denominator before the gate clears.`,
-    `${primaryBottleneck.ownerLoop} should collect ${primaryBottleneck.promptViewsNeeded} more prompt exposure(s) before automation changes copy or placement again.`,
+    `${primaryBottleneck.ownerLoop} is ${primaryExperiment?.status ?? 'missing'} and should collect ${primaryBottleneck.promptViewsNeeded} more prompt exposure(s) before automation changes copy or placement again.`,
     quickestGateTest.id !== primaryBottleneck.id
       ? `${quickestGateTest.label} is the quickest separate gate test: ${quickestGateTest.neededSuccesses} more observed success(es) would clear it.`
       : 'Keep the current primary recovery loop active until enough real telemetry arrives.',
@@ -178,12 +246,20 @@ const report = [
   `Failing gates: ${payload.summary.failingGates}`,
   `Primary bottleneck: ${payload.summary.primaryBottleneck}`,
   `Quickest gate test: ${payload.summary.quickestGateTest}`,
+  `Primary experiment status: ${payload.summary.primaryExperimentStatus}`,
   '',
   '## Gates',
   '',
   ...payload.gates.map(
     (gate) =>
       `- ${gate.status}: ${gate.id} - ${pct(gate.actual)} / ${pct(gate.gate)}; needs ${gate.neededSuccesses} observed success(es); ${gate.promptViewsNeeded} prompt exposure(s) before next copy change.`,
+  ),
+  '',
+  '## Recovery Experiments',
+  '',
+  ...payload.experiments.map(
+    (experiment) =>
+      `- ${experiment.status}: ${experiment.gateId}; views ${experiment.currentPromptViews}/${experiment.minimumPromptViewsForDecision}; action rate ${pct(experiment.actionRate)}; next ${experiment.recommendedChange}.`,
   ),
   '',
   '## Priorities',

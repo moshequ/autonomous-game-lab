@@ -899,6 +899,9 @@ if (
 const recoveryCompletionGate = productGateRecovery.gates?.find((gate) => gate.id === 'firstGameCompletion')
 const recoveryReplayGate = productGateRecovery.gates?.find((gate) => gate.id === 'replayRate')
 const recoveryRetentionGate = productGateRecovery.gates?.find((gate) => gate.id === 'd1Retention')
+const recoveryPrimaryExperiment = productGateRecovery.experiments?.find(
+  (experiment) => experiment.gateId === productGateRecovery.summary?.primaryBottleneck,
+)
 const expectedCompletionNeeded = Math.max(
   0,
   Math.ceil(0.55 * analytics.totals.counts.game_started) - analytics.totals.counts.level_completed,
@@ -920,22 +923,32 @@ if (
   productGateRecovery.summary?.failingGates !== 3 ||
   productGateRecovery.summary?.primaryBottleneck !== 'firstGameCompletion' ||
   productGateRecovery.summary?.quickestGateTest !== 'd1Retention' ||
+  productGateRecovery.summary?.primaryExperimentStatus !== 'collecting-sample' ||
   productGateRecovery.summary?.revenueEnabled !== false ||
   productGateRecovery.controls?.zeroPaidSpend !== true ||
   productGateRecovery.controls?.revenueStillDisabledUntilAllGatesPass !== true ||
   productGateRecovery.controls?.noSyntheticGatePasses !== true ||
   productGateRecovery.controls?.requireObservedTelemetryBeforeCopyChange !== true ||
+  productGateRecovery.controls?.copyChangeRequiresSampleReady !== true ||
+  productGateRecovery.controls?.placementChangeRequiresSampleReady !== true ||
   productGateRecovery.controls?.oneRecoveryFocusPerOwnerRun !== true ||
   productGateRecovery.controls?.noPaidRewardsOrPushNotifications !== true ||
+  productGateRecovery.controls?.noAutomaticRuleChanges !== true ||
   recoveryCompletionGate?.neededSuccesses !== expectedCompletionNeeded ||
   recoveryReplayGate?.neededSuccesses !== expectedReplayNeeded ||
   recoveryRetentionGate?.neededSuccesses !== expectedRetentionNeeded ||
+  recoveryCompletionGate?.sampleReady !== false ||
   recoveryCompletionGate?.promptViewsNeeded < 1 ||
   recoveryReplayGate?.promptViewsNeeded < 1 ||
   recoveryRetentionGate?.promptViewsNeeded < 1 ||
   productGateRecovery.priorities?.[0]?.gateId !== 'firstGameCompletion' ||
   productGateRecovery.priorities?.[0]?.ownerLoop !== 'completion-loop' ||
+  productGateRecovery.priorities?.[0]?.experimentStatus !== 'collecting-sample' ||
   productGateRecovery.priorities?.[2]?.gateId !== 'd1Retention' ||
+  recoveryPrimaryExperiment?.status !== 'collecting-sample' ||
+  recoveryPrimaryExperiment?.canChangeCopy !== false ||
+  recoveryPrimaryExperiment?.canChangePlacement !== false ||
+  recoveryPrimaryExperiment?.recommendedChange !== 'hold-current-runtime-copy' ||
   !appSource.includes('Product Gate Recovery') ||
   !appSource.includes('productGateRecovery')
 ) {

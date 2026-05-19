@@ -1,6 +1,6 @@
 # Production Readiness
 
-Generated: 2026-05-19T07:00:57.129Z
+Generated: 2026-05-19T07:07:18.313Z
 
 ## Environment
 
@@ -55,7 +55,7 @@ Status: ready-after-build
 - pass: organic-seed-loop - Organic seed loop is organic-seed-loop-ready; target canopy-bloom; player-initiated share guard active.
 - pass: retention-loop - Retention loop is retention-loop-ready; daily challenge canopy-bloom; no-push/no-account guardrails active.
 - pass: pwa-install-loop - PWA install loop is pwa-install-loop-ready; prompt surface autonomy-cockpit; cost $0.
-- pass: performance-budget - Performance budget is performance-budget-ready; initial JS 637.9 KB / 171.2 KB gzip; deferred game chunk GameCanvas-BLrIofCa.js.
+- pass: performance-budget - Performance budget is performance-budget-ready; initial JS 635 KB / 171.1 KB gzip; deferred game chunk GameCanvas-BiFpeb7H.js.
 - pass: release-candidate - Release candidate is release-candidate-ready; files 38; smoke URLs 7.
 - pass: post-deploy-smoke-runner - Post-deploy smoke is blocked-missing-origin; origin missing; checks 0/8 passed, 8 blocked; local artifact predeploy-artifact-smoke-passed 8/8 passed.
 - pass: product-optimization - Product optimizer is product-optimization-ready; completion 0.397 vs gate 0.55; latest action already-applied.
@@ -108,23 +108,23 @@ Installs: 0
 ## Performance Budget
 
 Status: performance-budget-ready
-Initial JS: 637.9 KB (171.2 KB gzip)
-Deferred game chunk: GameCanvas-BLrIofCa.js
-- pass: performance-initial-js-budget - Initial JS is 637.9 KB; budget is 675 KB.
-- pass: performance-initial-js-gzip-budget - Initial JS gzip is 171.2 KB; budget is 200 KB.
+Initial JS: 635 KB (171.1 KB gzip)
+Deferred game chunk: GameCanvas-BiFpeb7H.js
+- pass: performance-initial-js-budget - Initial JS is 635 KB; budget is 675 KB.
+- pass: performance-initial-js-gzip-budget - Initial JS gzip is 171.1 KB; budget is 200 KB.
 - pass: performance-initial-css-budget - Initial CSS is 9.6 KB; budget is 40 KB.
 - pass: performance-manifest - PWA manifest exists in dist.
 - pass: performance-service-worker - Service worker exists in dist.
-- pass: performance-game-runtime-deferred - GameCanvas-BLrIofCa.js is deferred from the initial shell.
-- pass: performance-largest-js-deferred - Largest JS chunk is GameCanvas-BLrIofCa.js at 1360.8 KB.
+- pass: performance-game-runtime-deferred - GameCanvas-BiFpeb7H.js is deferred from the initial shell.
+- pass: performance-largest-js-deferred - Largest JS chunk is GameCanvas-BiFpeb7H.js at 1360.8 KB.
 - pass: performance-deferred-game-budget - Deferred game chunk is 1360.8 KB; monitor budget is 1600 KB.
 
 ## Release Candidate
 
 Status: release-candidate-ready
-Candidate: pwa-c06b0e48f862
+Candidate: pwa-faff790defc1
 Files: 38
-Aggregate SHA-256: c06b0e48f86296e457b81b8602c9d35241dcdf5de69d3ca5aa1f9c725e7d5e18
+Aggregate SHA-256: faff790defc142ce52fe92256404b8df4df01c4ed5d53037ca2095b7bfc7ffcc
 - pass: release-dist-inventory - 38 dist files inventoried.
 - pass: release-required-files - 13/13 required files present.
 - pass: release-game-pages - 10 generated game page(s) in dist.
@@ -138,7 +138,7 @@ Aggregate SHA-256: c06b0e48f86296e457b81b8602c9d35241dcdf5de69d3ca5aa1f9c725e7d5
 
 Status: blocked-missing-origin
 Origin: missing
-Candidate: pwa-c06b0e48f862
+Candidate: pwa-faff790defc1
 Checks: 0/8 passed (8 blocked)
 Local artifact: predeploy-artifact-smoke-passed (8/8 passed)
 - blocked: smoke-app-shell - No deployed origin configured.

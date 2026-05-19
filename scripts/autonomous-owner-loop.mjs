@@ -413,7 +413,9 @@ const systems = [
     autonomy: 'observed-lift-recovery-plan',
     evidence: `Recovery ${productGateRecovery.status}; primary ${
       productGateRecovery.summary?.primaryBottleneck ?? 'missing'
-    }; failing gates ${productGateRecovery.summary?.failingGates ?? 0}; next lift ${
+    }; experiment ${productGateRecovery.summary?.primaryExperimentStatus ?? 'missing'}; failing gates ${
+      productGateRecovery.summary?.failingGates ?? 0
+    }; next lift ${
       productGateRecovery.priorities?.[0]?.neededSuccesses ?? 'n/a'
     }.`,
     nextAction:

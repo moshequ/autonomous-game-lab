@@ -252,7 +252,9 @@ const requirements = [
       `Product optimizer: ${productOptimization.status}`,
       `Gate recovery: ${productGateRecovery.status}; primary ${
         productGateRecovery.summary?.primaryBottleneck ?? 'missing'
-      }; needed lift ${productGateRecovery.priorities?.[0]?.neededSuccesses ?? 'missing'}`,
+      }; experiment ${productGateRecovery.summary?.primaryExperimentStatus ?? 'missing'}; needed lift ${
+        productGateRecovery.priorities?.[0]?.neededSuccesses ?? 'missing'
+      }`,
       `First-move coach: ${firstMoveCoach.status}; enabled targets ${
         firstMoveCoach.summary?.enabledTargets ?? 0
       }`,

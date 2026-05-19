@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-19T06:54:57.463Z",
+  "generatedAt": "2026-05-19T07:05:21.505Z",
   "status": "product-gate-recovery-ready",
   "sourceStatus": {
     "analyticsSource": "fixture-sample",
@@ -12,7 +12,8 @@
     "passingGates": 0,
     "primaryBottleneck": "firstGameCompletion",
     "quickestGateTest": "d1Retention",
-    "revenueEnabled": false
+    "revenueEnabled": false,
+    "primaryExperimentStatus": "collecting-sample"
   },
   "gates": [
     {
@@ -24,21 +25,37 @@
       "successes": 149,
       "ownerLoop": "completion-loop",
       "runtimeSurface": "autonomy-cockpit-completion-card",
-      "primaryTelemetry": [
+      "viewTelemetry": [
         "completion_nudge_viewed",
-        "completion_nudge_clicked",
         "finish_line_coach_viewed",
+        "first_move_coach_shown"
+      ],
+      "actionTelemetry": [
+        "completion_nudge_clicked",
         "finish_line_coach_clicked",
         "first_move_coach_used"
       ],
+      "successTelemetry": [
+        "level_completed"
+      ],
+      "failureTelemetry": [
+        "game_abandoned"
+      ],
+      "minimumActionRateForCopyHold": 0.18,
       "actionId": "refresh-completion-loop",
       "pass": false,
       "gap": 0.153,
       "neededSuccesses": 58,
       "minimumPromptViewsForDecision": 30,
       "currentPromptViews": 0,
+      "currentPromptActions": 0,
+      "currentPromptFailures": 226,
+      "actionRate": null,
+      "sampleReady": false,
       "promptViewsNeeded": 30,
-      "status": "needs-observed-lift"
+      "status": "needs-observed-lift",
+      "experimentStatus": "collecting-sample",
+      "recommendedChange": "hold-current-runtime-copy"
     },
     {
       "id": "replayRate",
@@ -49,20 +66,33 @@
       "successes": 46,
       "ownerLoop": "replay-loop",
       "runtimeSurface": "autonomy-cockpit-replay-card",
-      "primaryTelemetry": [
-        "replay_prompt_viewed",
-        "replay_prompt_clicked",
-        "replay_prompt_dismissed",
+      "viewTelemetry": [
+        "replay_prompt_viewed"
+      ],
+      "actionTelemetry": [
+        "replay_prompt_clicked"
+      ],
+      "successTelemetry": [
         "replay_clicked"
       ],
+      "failureTelemetry": [
+        "replay_prompt_dismissed"
+      ],
+      "minimumActionRateForCopyHold": 0.2,
       "actionId": "refresh-replay-loop",
       "pass": false,
       "gap": 0.041,
       "neededSuccesses": 7,
       "minimumPromptViewsForDecision": 30,
       "currentPromptViews": 0,
+      "currentPromptActions": 0,
+      "currentPromptFailures": 0,
+      "actionRate": null,
+      "sampleReady": false,
       "promptViewsNeeded": 30,
-      "status": "needs-observed-lift"
+      "status": "needs-observed-lift",
+      "experimentStatus": "collecting-sample",
+      "recommendedChange": "hold-current-runtime-copy"
     },
     {
       "id": "d1Retention",
@@ -73,20 +103,36 @@
       "successes": 2,
       "ownerLoop": "retention-loop",
       "runtimeSurface": "autonomy-cockpit-return-intent-card",
-      "primaryTelemetry": [
+      "viewTelemetry": [
         "daily_return_prompt_viewed",
+        "daily_return_intent_viewed"
+      ],
+      "actionTelemetry": [
         "daily_return_prompt_clicked",
-        "daily_return_intent_viewed",
         "daily_return_intent_started"
       ],
+      "successTelemetry": [
+        "daily_return_intent_started"
+      ],
+      "failureTelemetry": [
+        "daily_return_prompt_dismissed",
+        "daily_return_intent_cleared"
+      ],
+      "minimumActionRateForCopyHold": 0.2,
       "actionId": "optimize-daily-retention",
       "pass": false,
       "gap": 0.013,
       "neededSuccesses": 1,
       "minimumPromptViewsForDecision": 10,
       "currentPromptViews": 0,
+      "currentPromptActions": 0,
+      "currentPromptFailures": 0,
+      "actionRate": null,
+      "sampleReady": false,
       "promptViewsNeeded": 10,
-      "status": "needs-observed-lift"
+      "status": "needs-observed-lift",
+      "experimentStatus": "collecting-sample",
+      "recommendedChange": "hold-current-runtime-copy"
     }
   ],
   "priorities": [
@@ -98,7 +144,9 @@
       "actionId": "refresh-completion-loop",
       "neededSuccesses": 58,
       "promptViewsNeeded": 30,
-      "nextMeasurement": "completion_nudge_viewed, completion_nudge_clicked, finish_line_coach_viewed, finish_line_coach_clicked, first_move_coach_used",
+      "experimentStatus": "collecting-sample",
+      "recommendedChange": "hold-current-runtime-copy",
+      "nextMeasurement": "completion_nudge_viewed, finish_line_coach_viewed, first_move_coach_shown, completion_nudge_clicked, finish_line_coach_clicked, first_move_coach_used, level_completed",
       "reason": "First game completion is the largest revenue-blocking gap."
     },
     {
@@ -109,7 +157,9 @@
       "actionId": "refresh-replay-loop",
       "neededSuccesses": 7,
       "promptViewsNeeded": 30,
-      "nextMeasurement": "replay_prompt_viewed, replay_prompt_clicked, replay_prompt_dismissed, replay_clicked",
+      "experimentStatus": "collecting-sample",
+      "recommendedChange": "hold-current-runtime-copy",
+      "nextMeasurement": "replay_prompt_viewed, replay_prompt_clicked, replay_clicked",
       "reason": "Replay rate still blocks revenue and store payback assumptions."
     },
     {
@@ -120,8 +170,54 @@
       "actionId": "optimize-daily-retention",
       "neededSuccesses": 1,
       "promptViewsNeeded": 10,
-      "nextMeasurement": "daily_return_prompt_viewed, daily_return_prompt_clicked, daily_return_intent_viewed, daily_return_intent_started",
+      "experimentStatus": "collecting-sample",
+      "recommendedChange": "hold-current-runtime-copy",
+      "nextMeasurement": "daily_return_prompt_viewed, daily_return_intent_viewed, daily_return_prompt_clicked, daily_return_intent_started, daily_return_intent_started",
       "reason": "D1 retention is the fastest gate to re-test with real retained-player evidence."
+    }
+  ],
+  "experiments": [
+    {
+      "gateId": "firstGameCompletion",
+      "status": "collecting-sample",
+      "ownerLoop": "completion-loop",
+      "canChangeCopy": false,
+      "canChangePlacement": false,
+      "currentPromptViews": 0,
+      "currentPromptActions": 0,
+      "actionRate": null,
+      "minimumPromptViewsForDecision": 30,
+      "promptViewsNeeded": 30,
+      "recommendedChange": "hold-current-runtime-copy",
+      "holdReason": "Needs 30 more prompt exposure(s) before changing copy or placement."
+    },
+    {
+      "gateId": "replayRate",
+      "status": "collecting-sample",
+      "ownerLoop": "replay-loop",
+      "canChangeCopy": false,
+      "canChangePlacement": false,
+      "currentPromptViews": 0,
+      "currentPromptActions": 0,
+      "actionRate": null,
+      "minimumPromptViewsForDecision": 30,
+      "promptViewsNeeded": 30,
+      "recommendedChange": "hold-current-runtime-copy",
+      "holdReason": "Needs 30 more prompt exposure(s) before changing copy or placement."
+    },
+    {
+      "gateId": "d1Retention",
+      "status": "collecting-sample",
+      "ownerLoop": "retention-loop",
+      "canChangeCopy": false,
+      "canChangePlacement": false,
+      "currentPromptViews": 0,
+      "currentPromptActions": 0,
+      "actionRate": null,
+      "minimumPromptViewsForDecision": 10,
+      "promptViewsNeeded": 10,
+      "recommendedChange": "hold-current-runtime-copy",
+      "holdReason": "Needs 10 more prompt exposure(s) before changing copy or placement."
     }
   ],
   "controls": {
@@ -129,8 +225,11 @@
     "revenueStillDisabledUntilAllGatesPass": true,
     "noSyntheticGatePasses": true,
     "requireObservedTelemetryBeforeCopyChange": true,
+    "copyChangeRequiresSampleReady": true,
+    "placementChangeRequiresSampleReady": true,
     "oneRecoveryFocusPerOwnerRun": true,
-    "noPaidRewardsOrPushNotifications": true
+    "noPaidRewardsOrPushNotifications": true,
+    "noAutomaticRuleChanges": true
   },
   "linkedLoops": {
     "productOptimization": "product-optimization-ready",
@@ -141,7 +240,7 @@
   },
   "nextActions": [
     "First game completion needs 58 more observed success(es) at the current denominator before the gate clears.",
-    "completion-loop should collect 30 more prompt exposure(s) before automation changes copy or placement again.",
+    "completion-loop is collecting-sample and should collect 30 more prompt exposure(s) before automation changes copy or placement again.",
     "D1 retention is the quickest separate gate test: 1 more observed success(es) would clear it.",
     "Keep revenue, paid acquisition, push notifications, and app-store submission disabled until every gate passes with observed data."
   ]

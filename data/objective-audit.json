@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-19T07:00:57.844Z",
+  "generatedAt": "2026-05-19T07:07:20.314Z",
   "status": "objective-in-progress",
   "objective": "Build a bootstrapped autonomous web/PWA game portal that can generate original board-game-inspired games, measure user behavior, propose and apply data-driven improvements, and prepare a path to monetization and app-store distribution with minimal manual intervention.",
   "summary": {
@@ -64,7 +64,7 @@
       "summary": "Analytics drive product-gate optimization, experiment evaluation, backlog routing, and one safe local operator action.",
       "evidence": [
         "Product optimizer: product-optimization-ready",
-        "Gate recovery: product-gate-recovery-ready; primary firstGameCompletion; needed lift 58",
+        "Gate recovery: product-gate-recovery-ready; primary firstGameCompletion; experiment collecting-sample; needed lift 58",
         "First-move coach: first-move-coach-ready; enabled targets 6",
         "Completion loop: completion-loop-ready; prompt armed; finish line armed",
         "Replay loop: replay-loop-ready; prompt armed",

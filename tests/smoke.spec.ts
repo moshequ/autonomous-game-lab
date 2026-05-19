@@ -814,7 +814,12 @@ test('product optimizer applies one guarded tuning step from product-gate eviden
   }
   const recovery = JSON.parse(await readFile('data/product-gate-recovery.json', 'utf8')) as {
     status: string
-    summary: { failingGates: number; primaryBottleneck: string; quickestGateTest: string }
+    summary: {
+      failingGates: number
+      primaryBottleneck: string
+      quickestGateTest: string
+      primaryExperimentStatus: string
+    }
     gates: Array<{
       id: string
       denominator: number
@@ -824,10 +829,21 @@ test('product optimizer applies one guarded tuning step from product-gate eviden
       ownerLoop: string
     }>
     priorities: Array<{ gateId: string; ownerLoop: string; neededSuccesses: number }>
+    experiments: Array<{
+      gateId: string
+      status: string
+      canChangeCopy: boolean
+      canChangePlacement: boolean
+      promptViewsNeeded: number
+      recommendedChange: string
+    }>
     controls: {
       zeroPaidSpend: boolean
       noSyntheticGatePasses: boolean
       requireObservedTelemetryBeforeCopyChange: boolean
+      copyChangeRequiresSampleReady: boolean
+      placementChangeRequiresSampleReady: boolean
+      noAutomaticRuleChanges: boolean
     }
   }
   const targetAction = optimization.actions.find((action) => action.actionType === 'target-score-curve')
@@ -868,9 +884,13 @@ test('product optimizer applies one guarded tuning step from product-gate eviden
   expect(recovery.summary.failingGates).toBe(3)
   expect(recovery.summary.primaryBottleneck).toBe('firstGameCompletion')
   expect(recovery.summary.quickestGateTest).toBe('d1Retention')
+  expect(recovery.summary.primaryExperimentStatus).toBe('collecting-sample')
   expect(recovery.controls.zeroPaidSpend).toBe(true)
   expect(recovery.controls.noSyntheticGatePasses).toBe(true)
   expect(recovery.controls.requireObservedTelemetryBeforeCopyChange).toBe(true)
+  expect(recovery.controls.copyChangeRequiresSampleReady).toBe(true)
+  expect(recovery.controls.placementChangeRequiresSampleReady).toBe(true)
+  expect(recovery.controls.noAutomaticRuleChanges).toBe(true)
 
   const completionRecovery = recovery.gates.find((gate) => gate.id === 'firstGameCompletion')
   const replayRecovery = recovery.gates.find((gate) => gate.id === 'replayRate')
@@ -887,8 +907,16 @@ test('product optimizer applies one guarded tuning step from product-gate eviden
   )
   expect(recovery.priorities[0].ownerLoop).toBe('completion-loop')
   expect(completionRecovery?.promptViewsNeeded).toBeGreaterThan(0)
+  expect(recovery.experiments[0]).toMatchObject({
+    gateId: 'firstGameCompletion',
+    status: 'collecting-sample',
+    canChangeCopy: false,
+    canChangePlacement: false,
+    recommendedChange: 'hold-current-runtime-copy',
+  })
   await expect(page.getByLabel('Product Gate Recovery')).toContainText('product-gate-recovery-ready')
   await expect(page.getByLabel('Product Gate Recovery')).toContainText('firstGameCompletion')
+  await expect(page.getByLabel('Product Gate Recovery')).toContainText('collecting-sample')
 })
 
 test('first move coach highlights a safe opening and records coach telemetry', async ({ page }) => {
