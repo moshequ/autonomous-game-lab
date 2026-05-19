@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-05-19T22:04:07.021Z",
+  "generatedAt": "2026-05-19T22:09:17.401Z",
   "status": "cadence-ready",
   "cadence": "daily",
   "workspace": {
     "path": "/Users/moshequ/Documents/Codex/2026-05-18/i-want-to-have-a-new",
     "repositoryStatus": "waiting-for-github-repository",
     "repository": null,
-    "gitDirtyFiles": 58
+    "gitDirtyFiles": 50
   },
   "schedulers": {
     "codexDesktop": {
@@ -67,6 +67,7 @@
       "status": "scheduled",
       "workflow": ".github/workflows/autonomous-daily.yml",
       "cron": "17 3 * * *",
+      "command": "npm run autonomous:operate",
       "dispatch": true,
       "permissions": "contents: read",
       "artifactUpload": true
@@ -88,7 +89,7 @@
     "selfUpdate": "npm run autonomous:self-update",
     "verifyAutomation": "npm run test:automation",
     "browserSmoke": "npm run test:e2e",
-    "ownerDecision": "refresh-autonomous-cadence"
+    "ownerDecision": "prepare-repository-channel"
   },
   "recoveryPolicy": {
     "stopOnFailure": true,
@@ -171,7 +172,7 @@
     {
       "id": "github-scheduled-workflow",
       "status": "pass",
-      "detail": "GitHub Actions daily workflow can run the autonomous loop and upload evidence artifacts."
+      "detail": "GitHub Actions daily workflow can run the full autonomous owner loop and upload evidence artifacts."
     },
     {
       "id": "github-self-update-workflow",

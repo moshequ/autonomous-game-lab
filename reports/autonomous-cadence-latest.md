@@ -1,6 +1,6 @@
 # Autonomous Cadence
 
-Generated: 2026-05-19T22:04:07.021Z
+Generated: 2026-05-19T22:09:17.401Z
 Status: cadence-ready
 Cadence: daily
 
@@ -33,7 +33,7 @@ Cadence: daily
 - pass: daily-loop-script - autonomous:daily regenerates game, analytics, readiness, cadence, audit, and automation evidence.
 - pass: automation-verifier - test:automation is node scripts/event-collector-smoke.mjs && node scripts/event-ingest-smoke.mjs && node scripts/local-event-bridge.mjs && node scripts/verify-autonomy.mjs.
 - pass: browser-smoke - test:e2e is playwright test.
-- pass: github-scheduled-workflow - GitHub Actions daily workflow can run the autonomous loop and upload evidence artifacts.
+- pass: github-scheduled-workflow - GitHub Actions daily workflow can run the full autonomous owner loop and upload evidence artifacts.
 - pass: github-self-update-workflow - Gated GitHub workflow can persist allowlisted verified generated changes when explicitly enabled.
 - pass: zero-spend-operation - Cadence is local/CI execution only; it does not enable paid spend, stores, ads, or revenue.
 
