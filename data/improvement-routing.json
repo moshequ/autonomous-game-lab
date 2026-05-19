@@ -1,0 +1,66 @@
+{
+  "generatedAt": "2026-05-18T23:36:44.888Z",
+  "status": "live-targets-ready",
+  "analyticsSource": "fixture-sample",
+  "playableGameIds": [
+    "harbor-rings",
+    "lantern-relay",
+    "harbor-circuit",
+    "foundry-ledger",
+    "orbit-atlas",
+    "mosaic-haven",
+    "pocket-draft",
+    "metro-loom",
+    "grove-engine",
+    "canopy-bloom"
+  ],
+  "liveAnalyticsRows": [
+    {
+      "gameId": "harbor-rings",
+      "issueCount": 4
+    }
+  ],
+  "inactiveAnalyticsRows": [
+    {
+      "gameId": "orchard-bids",
+      "issueCount": 4,
+      "reason": "analytics row is historical or fixture-only and is not registered as playable"
+    }
+  ],
+  "backlogCount": 4,
+  "skippedIssueCount": 4,
+  "skippedIssues": [
+    {
+      "gameId": "orchard-bids",
+      "title": "Improve title and thumbnail",
+      "reason": "start rate is 57%; orchard-bids is not currently in the playable registry",
+      "confidence": 74,
+      "experiment": "thumbnail_board_state_v2",
+      "status": "skipped"
+    },
+    {
+      "gameId": "orchard-bids",
+      "title": "Shorten first tutorial",
+      "reason": "tutorial completion is 60%; orchard-bids is not currently in the playable registry",
+      "confidence": 81,
+      "experiment": "first_session_pacing",
+      "status": "skipped"
+    },
+    {
+      "gameId": "orchard-bids",
+      "title": "Rebalance first-game difficulty",
+      "reason": "completion rate is 41%; orchard-bids is not currently in the playable registry",
+      "confidence": 69,
+      "experiment": "target_score_curve",
+      "status": "skipped"
+    },
+    {
+      "gameId": "orchard-bids",
+      "title": "Add daily goal reward copy and result animation",
+      "reason": "replay rate is 30%; orchard-bids is not currently in the playable registry",
+      "confidence": 58,
+      "experiment": "reward_offer",
+      "status": "skipped"
+    }
+  ]
+}

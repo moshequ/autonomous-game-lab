@@ -1,0 +1,2989 @@
+{
+  "generatedAt": "2026-05-19T01:21:37.765Z",
+  "environment": {
+    "status": "production-env-missing",
+    "publicOrigin": null,
+    "publicOriginStatus": "missing",
+    "supportStatus": "missing-production-address",
+    "analyticsStatus": "local-or-fixture"
+  },
+  "repositoryChannel": {
+    "status": "waiting-for-github-repository",
+    "repository": null,
+    "insideWorkTree": true,
+    "workflowDispatchReady": false,
+    "controls": {
+      "zeroPaidSpend": true,
+      "readOnlyLocalInspection": true,
+      "noGitMutation": true,
+      "noWorkflowDispatch": true,
+      "noAccountCreation": true,
+      "noStoreSubmission": true,
+      "noRevenueEnablement": true
+    },
+    "checks": [
+      {
+        "id": "local-git-worktree",
+        "status": "pass",
+        "detail": "Git worktree detected at /Users/moshequ/Documents/Codex/2026-05-18/i-want-to-have-a-new."
+      },
+      {
+        "id": "github-target",
+        "status": "blocker",
+        "detail": "Set GITHUB_REPOSITORY/GH_REPO or add a GitHub origin remote."
+      },
+      {
+        "id": "origin-remote",
+        "status": "blocker",
+        "detail": "No GitHub origin remote is available from this workspace."
+      },
+      {
+        "id": "gh-cli",
+        "status": "pass",
+        "detail": "gh version 2.90.0 (2026-04-16)"
+      },
+      {
+        "id": "gh-token",
+        "status": "external-blocker",
+        "detail": "GH_TOKEN or GITHUB_TOKEN is not configured for non-interactive workflow dispatch."
+      },
+      {
+        "id": "pages-workflow",
+        "status": "pass",
+        "detail": "Web PWA Deploy workflow exists and includes post-deploy smoke."
+      },
+      {
+        "id": "deployable-artifact",
+        "status": "pass",
+        "detail": "Deployment ready-for-pages; release candidate release-candidate-ready; smoke blocked-missing-origin."
+      }
+    ],
+    "blockers": [
+      "Add a GitHub origin remote or set GITHUB_REPOSITORY/GH_REPO.",
+      "Configure GH_TOKEN or GITHUB_TOKEN for workflow dispatch and repository settings sync."
+    ]
+  },
+  "repositoryBootstrap": {
+    "status": "waiting-for-github-target",
+    "mode": "plan-only",
+    "workspace": {
+      "path": "/Users/moshequ/Documents/Codex/2026-05-18/i-want-to-have-a-new",
+      "before": {
+        "insideWorkTree": true,
+        "gitRoot": "/Users/moshequ/Documents/Codex/2026-05-18/i-want-to-have-a-new",
+        "currentBranch": "main",
+        "originRemote": null,
+        "remoteRepository": null,
+        "hasCommit": false,
+        "dirtyFiles": 21
+      },
+      "after": {
+        "insideWorkTree": true,
+        "gitRoot": "/Users/moshequ/Documents/Codex/2026-05-18/i-want-to-have-a-new",
+        "currentBranch": "main",
+        "originRemote": null,
+        "remoteRepository": null,
+        "hasCommit": false,
+        "dirtyFiles": 21
+      }
+    },
+    "repository": {
+      "target": null,
+      "originRemote": null,
+      "remoteRepository": null
+    },
+    "controls": {
+      "zeroPaidSpend": true,
+      "dryRunByDefault": true,
+      "localGitMutationRequiresExplicitFlag": true,
+      "remoteGitHubMutationRequiresExplicitEnv": true,
+      "initialCommitRequiresExplicitEnv": true,
+      "pushRequiresExplicitEnv": true,
+      "noWorkflowDispatch": true,
+      "noAccountCreation": true,
+      "noStoreSubmission": true,
+      "noRevenueEnablement": true,
+      "helperDoesNotEchoSecrets": true
+    },
+    "helper": {
+      "path": "ops/github/bootstrap-repository.sh",
+      "status": "generated",
+      "requiresEnv": "AGL_ALLOW_REPOSITORY_BOOTSTRAP=1",
+      "canInitializeLocalGit": true,
+      "canCreateInitialCommit": true,
+      "canAttachOrigin": true,
+      "canCreateGithubRepository": true,
+      "canPush": true,
+      "noWorkflowDispatch": true
+    },
+    "actions": [
+      {
+        "id": "inspect-repository-channel",
+        "status": "done",
+        "costUsd": 0,
+        "command": "npm run autonomous:repo-readiness",
+        "mutatesLocalGit": false,
+        "mutatesRemoteGitHub": false,
+        "detail": "Repository readiness is waiting-for-github-repository."
+      },
+      {
+        "id": "initialize-local-git",
+        "status": "ready",
+        "costUsd": 0,
+        "command": "npm run autonomous:repo-bootstrap -- --apply-local-git",
+        "mutatesLocalGit": true,
+        "mutatesRemoteGitHub": false,
+        "requiresExplicitFlag": true,
+        "detail": "Git worktree is available at /Users/moshequ/Documents/Codex/2026-05-18/i-want-to-have-a-new."
+      },
+      {
+        "id": "create-initial-commit",
+        "status": "ready-for-explicit-initial-commit",
+        "costUsd": 0,
+        "command": "AGL_ALLOW_REPOSITORY_BOOTSTRAP=1 AGL_ALLOW_INITIAL_COMMIT=1 ./ops/github/bootstrap-repository.sh",
+        "mutatesLocalGit": true,
+        "mutatesRemoteGitHub": false,
+        "requiresExplicitEnv": true,
+        "detail": "Initial commit is held behind AGL_ALLOW_INITIAL_COMMIT=1."
+      },
+      {
+        "id": "set-or-create-origin",
+        "status": "waiting-for-github-target",
+        "costUsd": 0,
+        "command": "AGL_ALLOW_REPOSITORY_BOOTSTRAP=1 AGL_ALLOW_ORIGIN_REMOTE=1 ./ops/github/bootstrap-repository.sh",
+        "mutatesLocalGit": true,
+        "mutatesRemoteGitHub": false,
+        "requiresExplicitEnv": true,
+        "detail": "Set GITHUB_REPOSITORY or GH_REPO before attaching origin."
+      },
+      {
+        "id": "create-github-repository",
+        "status": "waiting-for-github-target",
+        "costUsd": 0,
+        "command": "AGL_ALLOW_REPOSITORY_BOOTSTRAP=1 AGL_ALLOW_GITHUB_REPO_CREATE=1 ./ops/github/bootstrap-repository.sh",
+        "mutatesLocalGit": false,
+        "mutatesRemoteGitHub": true,
+        "requiresExplicitEnv": true,
+        "detail": "Set GITHUB_REPOSITORY or GH_REPO before creating a GitHub repository."
+      },
+      {
+        "id": "push-initial-snapshot",
+        "status": "waiting-for-commit-and-origin",
+        "costUsd": 0,
+        "command": "AGL_ALLOW_REPOSITORY_BOOTSTRAP=1 AGL_ALLOW_PUSH=1 ./ops/github/bootstrap-repository.sh",
+        "mutatesLocalGit": false,
+        "mutatesRemoteGitHub": true,
+        "requiresExplicitEnv": true,
+        "detail": "Push stays held until a local commit and origin remote exist."
+      }
+    ],
+    "blockers": [
+      "Create an initial commit before pushing to GitHub Pages.",
+      "Set GITHUB_REPOSITORY or GH_REPO to the intended owner/repo.",
+      "Attach a GitHub origin remote or create the target repository.",
+      "Authenticate GitHub CLI or provide GH_TOKEN/GITHUB_TOKEN for remote repository bootstrap."
+    ]
+  },
+  "webPwa": {
+    "status": "ready-after-build",
+    "required": [
+      "manifest",
+      "offline-capable build",
+      "privacy page before external analytics",
+      "touch-first layout",
+      "analytics opt-out before production launch"
+    ],
+    "checks": [
+      {
+        "id": "manifest",
+        "status": "pass",
+        "detail": "PWA manifest exists in the production build."
+      },
+      {
+        "id": "install-icons",
+        "status": "pass",
+        "detail": "Generated install/store icons are icons-ready; 6 icons checked."
+      },
+      {
+        "id": "service-worker",
+        "status": "pass",
+        "detail": "Offline service worker exists."
+      },
+      {
+        "id": "privacy-control",
+        "status": "pass",
+        "detail": "External analytics opt-out is exposed in the app shell."
+      },
+      {
+        "id": "privacy-page",
+        "status": "pass",
+        "detail": "Generated privacy policy page is included in public assets and production build."
+      },
+      {
+        "id": "support-page",
+        "status": "pass",
+        "detail": "Generated support page is included in public assets and production build."
+      },
+      {
+        "id": "playable-prototypes",
+        "status": "pass",
+        "detail": "Every currently accepted generated concept is playable."
+      },
+      {
+        "id": "generated-runtime",
+        "status": "pass",
+        "detail": "Generated game factory has a concept-first portfolio of no-handoff playable runtime configs."
+      },
+      {
+        "id": "balance-severity",
+        "status": "pass",
+        "detail": "Bot simulator has no high-severity balance findings."
+      },
+      {
+        "id": "scheduled-ci-runner",
+        "status": "pass",
+        "detail": "Scheduled CI runner exists for the full autonomous loop and browser smoke tests."
+      },
+      {
+        "id": "organic-growth-plan",
+        "status": "pass",
+        "detail": "Generated growth plan has game pages for zero-cost discovery tests."
+      },
+      {
+        "id": "organic-growth-optimizer",
+        "status": "pass",
+        "detail": "Growth optimizer produced guarded acquisition actions that feed generated pages."
+      },
+      {
+        "id": "organic-growth-assets",
+        "status": "pass",
+        "detail": "Sitemap, robots, share manifest, and generated game pages are included in the production build."
+      },
+      {
+        "id": "organic-seed-loop",
+        "status": "pass",
+        "detail": "Organic seed loop is organic-seed-loop-ready; target canopy-bloom; player-initiated share guard active."
+      },
+      {
+        "id": "retention-loop",
+        "status": "pass",
+        "detail": "Retention loop is retention-loop-ready; daily challenge canopy-bloom; no-push/no-account guardrails active."
+      },
+      {
+        "id": "pwa-install-loop",
+        "status": "pass",
+        "detail": "PWA install loop is pwa-install-loop-ready; prompt surface autonomy-cockpit; cost $0."
+      },
+      {
+        "id": "performance-budget",
+        "status": "pass",
+        "detail": "Performance budget is performance-budget-ready; initial JS 646.2 KB / 172.6 KB gzip; deferred game chunk GameCanvas-Cikf0GiS.js."
+      },
+      {
+        "id": "release-candidate",
+        "status": "pass",
+        "detail": "Release candidate is release-candidate-ready; files 38; smoke URLs 7."
+      },
+      {
+        "id": "post-deploy-smoke-runner",
+        "status": "pass",
+        "detail": "Post-deploy smoke is blocked-missing-origin; origin missing; checks 0/8 passed, 8 blocked."
+      },
+      {
+        "id": "product-optimization",
+        "status": "pass",
+        "detail": "Product optimizer is product-optimization-ready; completion 0.397 vs gate 0.55; latest action already-applied."
+      },
+      {
+        "id": "first-move-coach",
+        "status": "pass",
+        "detail": "First-move coach is first-move-coach-ready; enabled targets 6; primary harbor-rings."
+      },
+      {
+        "id": "completion-loop",
+        "status": "pass",
+        "detail": "Completion loop is completion-loop-ready; prompt armed; target harbor-rings."
+      },
+      {
+        "id": "replay-loop",
+        "status": "pass",
+        "detail": "Replay loop is replay-loop-ready; prompt armed; target harbor-rings."
+      },
+      {
+        "id": "release-health",
+        "status": "pass",
+        "detail": "Release health guard is monitoring."
+      },
+      {
+        "id": "production-environment",
+        "status": "pass",
+        "detail": "Production environment status is production-env-missing."
+      },
+      {
+        "id": "production-bootstrap",
+        "status": "pass",
+        "detail": "Production bootstrap is production-bootstrap-ready; mode waiting-for-external-credentials; external blockers 27."
+      },
+      {
+        "id": "autonomous-operator",
+        "status": "pass",
+        "detail": "Autonomous operator is operator-plan-ready; selected prepare-repository-channel; execution not-requested."
+      },
+      {
+        "id": "autonomous-operator-history",
+        "status": "pass",
+        "detail": "Autonomous operator history is operator-history-ready; records 9; executed 0."
+      },
+      {
+        "id": "objective-audit",
+        "status": "pass",
+        "detail": "Objective audit is objective-in-progress; met 5 / 8; can complete false."
+      }
+    ]
+  },
+  "monetization": {
+    "status": "blocked",
+    "allowedEarlyTests": [
+      "rewarded hint",
+      "cosmetic unlock",
+      "remove ads"
+    ],
+    "blockedBeforeRetention": [
+      "subscription",
+      "interstitial during first session",
+      "paywalled core rules"
+    ],
+    "metrics": {
+      "gameViewed": 580,
+      "gameStarted": 375,
+      "firstGameCompletion": 0.397,
+      "replayRate": 0.309,
+      "d1Retention": 0.167,
+      "source": "fixture-sample",
+      "retentionSource": "fixture-retention"
+    },
+    "checks": [
+      {
+        "id": "first-game-completion",
+        "status": "blocker",
+        "detail": "First-game completion is 40%; gate is 55%."
+      },
+      {
+        "id": "replay-rate",
+        "status": "blocker",
+        "detail": "Replay rate is 31%; gate is 35%."
+      },
+      {
+        "id": "d1-retention",
+        "status": "blocker",
+        "detail": "D1 retention is 17%; gate is 18%; source is fixture-retention."
+      }
+    ]
+  },
+  "organicSeedLoop": {
+    "status": "organic-seed-loop-ready",
+    "sourceStatus": {
+      "analyticsSource": "fixture-sample",
+      "trafficSeeding": "traffic-seeding-ready",
+      "acquisitionLearning": "acquisition-learning-ready",
+      "rawAttributionAvailable": false
+    },
+    "target": {
+      "campaignId": "seed-20260518-canopy-bloom",
+      "gameId": "canopy-bloom",
+      "title": "Canopy Bloom",
+      "priority": 1,
+      "opportunityScore": 1,
+      "sampleProgress": 0
+    },
+    "runtimeSurface": {
+      "id": "organic-seed-card",
+      "status": "armed",
+      "surface": "portal-growth-loop",
+      "placement": "growth-loop-panel",
+      "primaryCtaLabel": "Try today's challenge",
+      "secondaryCtaLabel": "Share seed link",
+      "telemetry": {
+        "viewed": "organic_seed_card_viewed",
+        "opened": "seed_campaign_clicked",
+        "shared": "organic_seed_share_clicked",
+        "share": "share_clicked",
+        "started": "game_started"
+      }
+    },
+    "guardrails": {
+      "maxCostUsd": 0,
+      "noPaidPromotion": true,
+      "playerInitiatedSharingOnly": true,
+      "noAutomatedExternalPosting": true,
+      "noSpamAutomation": true,
+      "noPaidIncentives": true,
+      "noAccountsRequired": true,
+      "requireCampaignAttribution": true,
+      "minimumStartsBeforeQualityJudgment": 40,
+      "shareCooldownHours": 12
+    },
+    "missions": [
+      {
+        "id": "open-seed-game",
+        "status": "armed",
+        "event": "seed_campaign_clicked",
+        "targetGameId": "canopy-bloom",
+        "reward": "sample-growth"
+      },
+      {
+        "id": "share-seed-link",
+        "status": "armed",
+        "event": "organic_seed_share_clicked",
+        "targetGameId": "canopy-bloom",
+        "reward": "organic-signal"
+      },
+      {
+        "id": "measure-seeded-start",
+        "status": "armed",
+        "event": "game_started",
+        "targetGameId": "canopy-bloom",
+        "reward": "quality-evidence"
+      }
+    ],
+    "campaigns": [
+      {
+        "id": "seed-20260518-canopy-bloom",
+        "gameId": "canopy-bloom",
+        "title": "Canopy Bloom",
+        "priority": 1,
+        "status": "collecting-attribution",
+        "action": "seed-traffic",
+        "dataConfidence": "seed-needed",
+        "costUsd": 0,
+        "playUrl": "https://autonomous-game-lab.example.com/?game=canopy-bloom&utm_source=seed_internal&utm_campaign=seed-20260518-canopy-bloom",
+        "shareUrl": "https://autonomous-game-lab.example.com/?game=canopy-bloom&utm_source=seed_share&utm_campaign=seed-20260518-canopy-bloom",
+        "pageUrl": "https://autonomous-game-lab.example.com/games/canopy-bloom.html",
+        "copy": {
+          "title": "Play Canopy Bloom",
+          "text": "A generated roll and write puzzle with quick science desk decisions.",
+          "cta": "Try today's challenge"
+        },
+        "shareReadiness": "ready",
+        "attribution": {
+          "seedClicks": 0,
+          "organicEntries": 0,
+          "attributedStarts": 0,
+          "observedStarts": 0
+        },
+        "metrics": {
+          "targetStarts": 40,
+          "sampleProgress": 0,
+          "startRate": null,
+          "completionRate": null,
+          "opportunityScore": 1
+        },
+        "nextAction": "Collect player-initiated starts and shares for Canopy Bloom before quality judgment."
+      },
+      {
+        "id": "seed-20260518-grove-engine",
+        "gameId": "grove-engine",
+        "title": "Grove Engine",
+        "priority": 2,
+        "status": "collecting-attribution",
+        "action": "seed-traffic",
+        "dataConfidence": "seed-needed",
+        "costUsd": 0,
+        "playUrl": "https://autonomous-game-lab.example.com/?game=grove-engine&utm_source=seed_internal&utm_campaign=seed-20260518-grove-engine",
+        "shareUrl": "https://autonomous-game-lab.example.com/?game=grove-engine&utm_source=seed_share&utm_campaign=seed-20260518-grove-engine",
+        "pageUrl": "https://autonomous-game-lab.example.com/games/grove-engine.html",
+        "copy": {
+          "title": "Play Grove Engine",
+          "text": "A generated engine building puzzle with quick expedition planning decisions.",
+          "cta": "Try today's challenge"
+        },
+        "shareReadiness": "ready",
+        "attribution": {
+          "seedClicks": 0,
+          "organicEntries": 0,
+          "attributedStarts": 0,
+          "observedStarts": 0
+        },
+        "metrics": {
+          "targetStarts": 40,
+          "sampleProgress": 0,
+          "startRate": null,
+          "completionRate": null,
+          "opportunityScore": 0.875
+        },
+        "nextAction": "Collect player-initiated starts and shares for Grove Engine before quality judgment."
+      },
+      {
+        "id": "seed-20260518-metro-loom",
+        "gameId": "metro-loom",
+        "title": "Metro Loom",
+        "priority": 3,
+        "status": "collecting-attribution",
+        "action": "seed-traffic",
+        "dataConfidence": "seed-needed",
+        "costUsd": 0,
+        "playUrl": "https://autonomous-game-lab.example.com/?game=metro-loom&utm_source=seed_internal&utm_campaign=seed-20260518-metro-loom",
+        "shareUrl": "https://autonomous-game-lab.example.com/?game=metro-loom&utm_source=seed_share&utm_campaign=seed-20260518-metro-loom",
+        "pageUrl": "https://autonomous-game-lab.example.com/games/metro-loom.html",
+        "copy": {
+          "title": "Play Metro Loom",
+          "text": "A generated route building puzzle with quick merchant timing decisions.",
+          "cta": "Try today's challenge"
+        },
+        "shareReadiness": "ready",
+        "attribution": {
+          "seedClicks": 0,
+          "organicEntries": 0,
+          "attributedStarts": 0,
+          "observedStarts": 0
+        },
+        "metrics": {
+          "targetStarts": 40,
+          "sampleProgress": 0,
+          "startRate": null,
+          "completionRate": null,
+          "opportunityScore": 0.833
+        },
+        "nextAction": "Collect player-initiated starts and shares for Metro Loom before quality judgment."
+      },
+      {
+        "id": "seed-20260518-pocket-draft",
+        "gameId": "pocket-draft",
+        "title": "Pocket Draft",
+        "priority": 4,
+        "status": "collecting-attribution",
+        "action": "seed-traffic",
+        "dataConfidence": "seed-needed",
+        "costUsd": 0,
+        "playUrl": "https://autonomous-game-lab.example.com/?game=pocket-draft&utm_source=seed_internal&utm_campaign=seed-20260518-pocket-draft",
+        "shareUrl": "https://autonomous-game-lab.example.com/?game=pocket-draft&utm_source=seed_share&utm_campaign=seed-20260518-pocket-draft",
+        "pageUrl": "https://autonomous-game-lab.example.com/games/pocket-draft.html",
+        "copy": {
+          "title": "Play Pocket Draft",
+          "text": "A generated card drafting puzzle with quick compact city logistics decisions.",
+          "cta": "Play free puzzle"
+        },
+        "shareReadiness": "ready",
+        "attribution": {
+          "seedClicks": 0,
+          "organicEntries": 0,
+          "attributedStarts": 0,
+          "observedStarts": 0
+        },
+        "metrics": {
+          "targetStarts": 40,
+          "sampleProgress": 0,
+          "startRate": null,
+          "completionRate": null,
+          "opportunityScore": 0.813
+        },
+        "nextAction": "Collect player-initiated starts and shares for Pocket Draft before quality judgment."
+      }
+    ]
+  },
+  "retention": {
+    "status": "ready-local-loop",
+    "dailyChallenge": {
+      "date": "2026-05-18",
+      "gameId": "canopy-bloom",
+      "title": "Canopy Bloom",
+      "seed": "daily-20260518-71b",
+      "reason": "Canopy Bloom has the strongest blended portfolio score (51.912)."
+    },
+    "metrics": {
+      "d1Retention": 0.167,
+      "replayRate": 0.309,
+      "firstGameCompletion": 0.397,
+      "eligibleUsers": 12,
+      "retainedUsers": 2
+    },
+    "guardrails": {
+      "noPushNotifications": true,
+      "noAccountsRequired": true,
+      "noDarkPatterns": true,
+      "noPaidRetentionMechanics": true,
+      "noRewardedAdsUntilMonetizationGatesPass": true,
+      "noNotificationPermissionRequest": true
+    },
+    "promptPolicy": {
+      "status": "armed",
+      "surface": "autonomy-cockpit-retention-card",
+      "trigger": "after-completed-run",
+      "ctaLabel": "Queue tomorrow",
+      "dismissLabel": "Not today",
+      "nextChallengeDate": "2026-05-19",
+      "cooldown": "one prompt per daily challenge date",
+      "reason": "D1 retention is 17% and the gate is 18%; ask for a local return intent after a completed run.",
+      "telemetry": {
+        "viewed": "daily_return_prompt_viewed",
+        "clicked": "daily_return_prompt_clicked",
+        "dismissed": "daily_return_prompt_dismissed"
+      }
+    },
+    "returnIntentPolicy": {
+      "status": "armed",
+      "surface": "autonomy-cockpit-return-intent-card",
+      "trigger": "app-load-with-local-return-intent",
+      "ctaLabel": "Play queued board",
+      "dismissLabel": "Clear intent",
+      "cooldown": "one activation per queued intent date",
+      "reason": "D1 retention is 17% and the gate is 18%; convert queued local return intent into a measured game start.",
+      "telemetry": {
+        "viewed": "daily_return_intent_viewed",
+        "started": "daily_return_intent_started",
+        "cleared": "daily_return_intent_cleared"
+      }
+    },
+    "controls": {
+      "canNudgeRetention": true,
+      "retentionReady": false,
+      "completionReady": false,
+      "replayReady": false,
+      "monetizationStillBlocked": true,
+      "returnIntentPlayerInitiatedOnly": true,
+      "noBackgroundWakeups": true
+    },
+    "missions": [
+      {
+        "id": "finish-daily-challenge",
+        "label": "Finish Canopy Bloom",
+        "event": "daily_challenge_completed",
+        "gameId": "canopy-bloom",
+        "reward": "streak-credit",
+        "status": "armed"
+      },
+      {
+        "id": "return-tomorrow",
+        "label": "Return tomorrow for a fresh board",
+        "event": "daily_return_prompt_viewed",
+        "gameId": "canopy-bloom",
+        "reward": "next-daily-seed",
+        "status": "armed"
+      },
+      {
+        "id": "confirm-return-intent",
+        "label": "Queue 2026-05-19 board intent",
+        "event": "daily_return_prompt_clicked",
+        "gameId": "canopy-bloom",
+        "reward": "local-return-intent",
+        "status": "armed"
+      },
+      {
+        "id": "activate-return-intent",
+        "label": "Start a queued return board",
+        "event": "daily_return_intent_started",
+        "gameId": "canopy-bloom",
+        "reward": "retained-session",
+        "status": "armed"
+      },
+      {
+        "id": "share-daily-seed",
+        "label": "Share the daily seed after a run",
+        "event": "share_clicked",
+        "gameId": "canopy-bloom",
+        "reward": "organic-signal",
+        "status": "armed"
+      }
+    ]
+  },
+  "pwaInstall": {
+    "status": "ready-browser-controlled",
+    "channel": {
+      "id": "pwa-install",
+      "status": "ready-after-hosting",
+      "costUsd": 0,
+      "assets": [
+        "manifest.webmanifest",
+        "service worker",
+        "install icons",
+        "standalone launch telemetry"
+      ],
+      "metric": "pwa_install_prompt_viewed -> pwa_installed -> pwa_launch_mode_detected"
+    },
+    "metrics": {
+      "promptViews": 0,
+      "promptClicks": 0,
+      "accepted": 0,
+      "dismissed": 0,
+      "installed": 0,
+      "launchModes": 0,
+      "installRate": 0,
+      "acceptanceRate": 0,
+      "dismissalRate": 0
+    },
+    "promptPolicy": {
+      "surface": "autonomy-cockpit",
+      "ctaLabel": "Install app",
+      "minimumCompletedRunsBeforeNudge": 0,
+      "minimumTurnsBeforeNudge": 1,
+      "cooldownDaysAfterDismissal": 14,
+      "nativePromptRequired": true,
+      "fallbackWhenUnavailable": "measure-browser-launch-mode-only",
+      "priorityGameId": "canopy-bloom"
+    },
+    "guardrails": {
+      "noForcedPrompt": true,
+      "noBlockingGameplay": true,
+      "respectBrowserPromptAvailability": true,
+      "noInstallWall": true,
+      "noPaidInstallReward": true
+    }
+  },
+  "performanceBudget": {
+    "status": "performance-budget-ready",
+    "budgets": {
+      "initialJsMaxBytes": 665600,
+      "initialJsMaxKb": 650,
+      "initialGzipMaxBytes": 204800,
+      "initialGzipMaxKb": 200,
+      "initialCssMaxBytes": 40960,
+      "initialCssMaxKb": 40,
+      "deferredGameChunkMaxBytes": 1638400,
+      "deferredGameChunkMaxKb": 1600
+    },
+    "initial": {
+      "entryScripts": [
+        "index-CRqMO1iw.js",
+        "registerSW.js"
+      ],
+      "scriptPaths": [
+        "assets/index-CRqMO1iw.js",
+        "registerSW.js"
+      ],
+      "jsFiles": [
+        {
+          "file": "index-CRqMO1iw.js",
+          "path": "assets/index-CRqMO1iw.js",
+          "bytes": 661528,
+          "kb": 646,
+          "gzipBytes": 176591,
+          "gzipKb": 172.5
+        },
+        {
+          "file": "registerSW.js",
+          "path": "registerSW.js",
+          "bytes": 134,
+          "kb": 0.1,
+          "gzipBytes": 126,
+          "gzipKb": 0.1
+        }
+      ],
+      "jsBytes": 661662,
+      "jsKb": 646.2,
+      "gzipBytes": 176717,
+      "gzipKb": 172.6,
+      "cssFiles": [
+        {
+          "file": "index-DTpigz8N.css",
+          "path": "assets/index-DTpigz8N.css",
+          "bytes": 9837,
+          "kb": 9.6,
+          "gzipBytes": 2675,
+          "gzipKb": 2.6
+        }
+      ],
+      "cssBytes": 9837,
+      "cssKb": 9.6,
+      "cssGzipBytes": 2675,
+      "cssGzipKb": 2.6
+    },
+    "deferred": {
+      "chunks": [
+        {
+          "file": "GameCanvas-Cikf0GiS.js",
+          "path": "assets/GameCanvas-Cikf0GiS.js",
+          "bytes": 1393468,
+          "kb": 1360.8,
+          "gzipBytes": 356094,
+          "gzipKb": 347.7
+        }
+      ],
+      "gameChunk": {
+        "file": "GameCanvas-Cikf0GiS.js",
+        "path": "assets/GameCanvas-Cikf0GiS.js",
+        "bytes": 1393468,
+        "kb": 1360.8,
+        "gzipBytes": 356094,
+        "gzipKb": 347.7
+      },
+      "largestDeferredChunk": {
+        "file": "GameCanvas-Cikf0GiS.js",
+        "path": "assets/GameCanvas-Cikf0GiS.js",
+        "bytes": 1393468,
+        "kb": 1360.8,
+        "gzipBytes": 356094,
+        "gzipKb": 347.7
+      },
+      "largestJsChunk": {
+        "file": "GameCanvas-Cikf0GiS.js",
+        "path": "assets/GameCanvas-Cikf0GiS.js",
+        "bytes": 1393468,
+        "kb": 1360.8,
+        "gzipBytes": 356094,
+        "gzipKb": 347.7
+      },
+      "chunksBytes": 1393468,
+      "chunksKb": 1360.8
+    },
+    "controls": {
+      "phaserDeferredFromInitialShell": true,
+      "initialShellBudgetEnforced": true,
+      "largeGameChunkAllowedWhenDeferred": true,
+      "noPerformanceClaimsWithoutBuildEvidence": true,
+      "largestJsChunkIsDeferred": true,
+      "serviceWorkerPrecacheIncludesLazyChunk": true
+    },
+    "checks": [
+      {
+        "id": "initial-js-budget",
+        "status": "pass",
+        "detail": "Initial JS is 646.2 KB; budget is 650 KB."
+      },
+      {
+        "id": "initial-js-gzip-budget",
+        "status": "pass",
+        "detail": "Initial JS gzip is 172.6 KB; budget is 200 KB."
+      },
+      {
+        "id": "initial-css-budget",
+        "status": "pass",
+        "detail": "Initial CSS is 9.6 KB; budget is 40 KB."
+      },
+      {
+        "id": "manifest",
+        "status": "pass",
+        "detail": "PWA manifest exists in dist."
+      },
+      {
+        "id": "service-worker",
+        "status": "pass",
+        "detail": "Service worker exists in dist."
+      },
+      {
+        "id": "game-runtime-deferred",
+        "status": "pass",
+        "detail": "GameCanvas-Cikf0GiS.js is deferred from the initial shell."
+      },
+      {
+        "id": "largest-js-deferred",
+        "status": "pass",
+        "detail": "Largest JS chunk is GameCanvas-Cikf0GiS.js at 1360.8 KB."
+      },
+      {
+        "id": "deferred-game-budget",
+        "status": "pass",
+        "detail": "Deferred game chunk is 1360.8 KB; monitor budget is 1600 KB."
+      }
+    ]
+  },
+  "releaseCandidate": {
+    "status": "release-candidate-ready",
+    "candidateId": "pwa-aceb80dfc3e5",
+    "target": {
+      "provider": "github-pages",
+      "artifactPath": "dist",
+      "manifestPath": "dist/release-candidate.json",
+      "publicOrigin": null,
+      "publicOriginStatus": "missing",
+      "basePath": "/"
+    },
+    "summary": {
+      "totalFiles": 38,
+      "totalBytes": 3647352,
+      "totalKb": 3561.9,
+      "assetFiles": 3,
+      "htmlFiles": 13,
+      "gamePages": 10,
+      "requiredFilesPresent": true,
+      "postDeploySmokeUrls": 7
+    },
+    "integrity": {
+      "algorithm": "sha256",
+      "aggregateHash": "aceb80dfc3e5962994681579c2a1c722d1462b3bc0fd1bc4dbfc280923bec115",
+      "requiredFileChecks": [
+        {
+          "path": "index.html",
+          "status": "pass"
+        },
+        {
+          "path": "manifest.webmanifest",
+          "status": "pass"
+        },
+        {
+          "path": "sw.js",
+          "status": "pass"
+        },
+        {
+          "path": "privacy.html",
+          "status": "pass"
+        },
+        {
+          "path": "support.html",
+          "status": "pass"
+        },
+        {
+          "path": "sitemap.xml",
+          "status": "pass"
+        },
+        {
+          "path": "robots.txt",
+          "status": "pass"
+        },
+        {
+          "path": "share-manifest.json",
+          "status": "pass"
+        },
+        {
+          "path": "monetization.json",
+          "status": "pass"
+        },
+        {
+          "path": "app-ads.txt",
+          "status": "pass"
+        },
+        {
+          "path": "icons/icon-192.png",
+          "status": "pass"
+        },
+        {
+          "path": "icons/icon-512.png",
+          "status": "pass"
+        },
+        {
+          "path": "icons/apple-touch-icon.png",
+          "status": "pass"
+        }
+      ]
+    },
+    "postDeploySmoke": [
+      {
+        "id": "app-shell",
+        "path": "/",
+        "url": "${DEPLOYED_PWA_ORIGIN}/",
+        "expectedStatus": 200,
+        "requiredText": "Autonomous Game Lab"
+      },
+      {
+        "id": "manifest-webmanifest",
+        "path": "/manifest.webmanifest",
+        "url": "${DEPLOYED_PWA_ORIGIN}/manifest.webmanifest",
+        "expectedStatus": 200,
+        "requiredText": null
+      },
+      {
+        "id": "sw-js",
+        "path": "/sw.js",
+        "url": "${DEPLOYED_PWA_ORIGIN}/sw.js",
+        "expectedStatus": 200,
+        "requiredText": null
+      },
+      {
+        "id": "privacy-html",
+        "path": "/privacy.html",
+        "url": "${DEPLOYED_PWA_ORIGIN}/privacy.html",
+        "expectedStatus": 200,
+        "requiredText": "Autonomous Game Lab"
+      },
+      {
+        "id": "support-html",
+        "path": "/support.html",
+        "url": "${DEPLOYED_PWA_ORIGIN}/support.html",
+        "expectedStatus": 200,
+        "requiredText": "Autonomous Game Lab"
+      },
+      {
+        "id": "sitemap-xml",
+        "path": "/sitemap.xml",
+        "url": "${DEPLOYED_PWA_ORIGIN}/sitemap.xml",
+        "expectedStatus": 200,
+        "requiredText": null
+      },
+      {
+        "id": "games-canopy-bloom-html",
+        "path": "/games/canopy-bloom.html",
+        "url": "${DEPLOYED_PWA_ORIGIN}/games/canopy-bloom.html",
+        "expectedStatus": 200,
+        "requiredText": "Autonomous Game Lab"
+      }
+    ],
+    "controls": {
+      "zeroPaidSpend": true,
+      "noExternalAccountCreation": true,
+      "noWorkflowExecution": true,
+      "noStoreSubmission": true,
+      "noRevenueEnablement": true,
+      "contentHashesRecorded": true,
+      "postDeploySmokeRequired": true
+    },
+    "checks": [
+      {
+        "id": "dist-inventory",
+        "status": "pass",
+        "detail": "38 dist files inventoried."
+      },
+      {
+        "id": "required-files",
+        "status": "pass",
+        "detail": "13/13 required files present."
+      },
+      {
+        "id": "game-pages",
+        "status": "pass",
+        "detail": "10 generated game page(s) in dist."
+      },
+      {
+        "id": "performance-budget",
+        "status": "pass",
+        "detail": "Performance budget is performance-budget-ready."
+      },
+      {
+        "id": "release-health",
+        "status": "pass",
+        "detail": "Release health is monitoring."
+      },
+      {
+        "id": "production-response",
+        "status": "pass",
+        "detail": "Deploy allowed is true."
+      },
+      {
+        "id": "spend-guard",
+        "status": "pass",
+        "detail": "Spend mode is no-spend."
+      },
+      {
+        "id": "post-deploy-smoke-plan",
+        "status": "pass",
+        "detail": "7 post-deploy smoke URL(s) planned."
+      }
+    ]
+  },
+  "postDeploySmoke": {
+    "status": "blocked-missing-origin",
+    "target": {
+      "origin": null,
+      "provider": "github-pages",
+      "candidateId": "pwa-aceb80dfc3e5",
+      "aggregateHash": "aceb80dfc3e5962994681579c2a1c722d1462b3bc0fd1bc4dbfc280923bec115"
+    },
+    "sourceStatus": {
+      "deployment": "ready-for-pages",
+      "releaseCandidate": "release-candidate-ready",
+      "productionResponse": "guarded-operations"
+    },
+    "summary": {
+      "planned": 8,
+      "passed": 0,
+      "failed": 0,
+      "blocked": 8
+    },
+    "controls": {
+      "zeroPaidSpend": true,
+      "noStoreSubmission": true,
+      "noRevenueEnablement": true,
+      "noAccountCreation": true,
+      "readOnlyHttpChecks": true,
+      "manifestHashComparisonRequired": true
+    },
+    "checks": [
+      {
+        "id": "app-shell",
+        "path": "/",
+        "url": "${DEPLOYED_PWA_ORIGIN}/",
+        "expectedStatus": 200,
+        "requiredText": "Autonomous Game Lab",
+        "status": "blocked",
+        "detail": "No deployed origin configured."
+      },
+      {
+        "id": "manifest-webmanifest",
+        "path": "/manifest.webmanifest",
+        "url": "${DEPLOYED_PWA_ORIGIN}/manifest.webmanifest",
+        "expectedStatus": 200,
+        "requiredText": null,
+        "status": "blocked",
+        "detail": "No deployed origin configured."
+      },
+      {
+        "id": "sw-js",
+        "path": "/sw.js",
+        "url": "${DEPLOYED_PWA_ORIGIN}/sw.js",
+        "expectedStatus": 200,
+        "requiredText": null,
+        "status": "blocked",
+        "detail": "No deployed origin configured."
+      },
+      {
+        "id": "privacy-html",
+        "path": "/privacy.html",
+        "url": "${DEPLOYED_PWA_ORIGIN}/privacy.html",
+        "expectedStatus": 200,
+        "requiredText": "Autonomous Game Lab",
+        "status": "blocked",
+        "detail": "No deployed origin configured."
+      },
+      {
+        "id": "support-html",
+        "path": "/support.html",
+        "url": "${DEPLOYED_PWA_ORIGIN}/support.html",
+        "expectedStatus": 200,
+        "requiredText": "Autonomous Game Lab",
+        "status": "blocked",
+        "detail": "No deployed origin configured."
+      },
+      {
+        "id": "sitemap-xml",
+        "path": "/sitemap.xml",
+        "url": "${DEPLOYED_PWA_ORIGIN}/sitemap.xml",
+        "expectedStatus": 200,
+        "requiredText": null,
+        "status": "blocked",
+        "detail": "No deployed origin configured."
+      },
+      {
+        "id": "games-canopy-bloom-html",
+        "path": "/games/canopy-bloom.html",
+        "url": "${DEPLOYED_PWA_ORIGIN}/games/canopy-bloom.html",
+        "expectedStatus": 200,
+        "requiredText": "Autonomous Game Lab",
+        "status": "blocked",
+        "detail": "No deployed origin configured."
+      },
+      {
+        "id": "release-candidate-manifest",
+        "path": "/release-candidate.json",
+        "url": "${DEPLOYED_PWA_ORIGIN}/release-candidate.json",
+        "expectedStatus": 200,
+        "requiredText": "pwa-aceb80dfc3e5",
+        "status": "blocked",
+        "detail": "No deployed origin configured."
+      }
+    ]
+  },
+  "productOptimization": {
+    "status": "product-optimization-ready",
+    "sourceStatus": {
+      "analyticsSource": "fixture-sample",
+      "retentionSource": "fixture-retention",
+      "releaseHealth": "monitoring"
+    },
+    "productGates": {
+      "firstGameCompletion": {
+        "actual": 0.397,
+        "gate": 0.55,
+        "pass": false
+      },
+      "replayRate": {
+        "actual": 0.309,
+        "gate": 0.35,
+        "pass": false
+      },
+      "d1Retention": {
+        "actual": 0.167,
+        "gate": 0.18,
+        "pass": false
+      }
+    },
+    "controls": {
+      "minStartsForBalanceChange": 100,
+      "requirePlayableGame": true,
+      "noChangeWhenReleaseHealthBlocks": true,
+      "noRepeatForSameSourceData": true,
+      "oneTargetStepPerRun": true,
+      "keepGeneratedTargetsSynced": true,
+      "revenueStillDisabledUntilGatesPass": true,
+      "firstMoveCoachMustBeFirstTurnOnly": true,
+      "completionNudgeMustBeMidRunOnly": true,
+      "replayPromptAfterCompletedRunOnly": true,
+      "returnIntentMustBePlayerInitiated": true,
+      "noBackgroundRetentionWakeups": true
+    },
+    "actions": [
+      {
+        "id": "target-score-curve-harbor-rings",
+        "actionType": "target-score-curve",
+        "status": "already-applied",
+        "gameId": "harbor-rings",
+        "title": "Harbor Rings",
+        "sourceDataHash": "325bce2331ba",
+        "before": 52,
+        "after": 46,
+        "delta": -6,
+        "confidence": 89,
+        "reason": "Same analytics evidence already produced a target-score tuning change.",
+        "guardrail": "Changed by one target step (6) and stayed above min target 40.",
+        "appliedAt": "2026-05-18T22:21:28.082Z"
+      },
+      {
+        "id": "runtime-first-move-coach",
+        "actionType": "runtime-first-move-coach",
+        "status": "armed",
+        "reason": "Completion is 40% and tutorial completion is 65%; highlight one strong first move without auto-playing.",
+        "guardrail": "First-turn highlight only, no forced tutorial, no auto move, telemetry must record shown/used/skipped."
+      },
+      {
+        "id": "runtime-completion-nudge",
+        "actionType": "runtime-completion-nudge",
+        "status": "armed",
+        "reason": "First-game completion is 40%; show one optional mid-run nudge and measure completion_nudge_* against level_completed and game_abandoned.",
+        "guardrail": "Mid-run prompt only, no forced tutorial, no auto move, no rule change, and telemetry must record viewed/clicked/dismissed."
+      },
+      {
+        "id": "runtime-replay-telemetry",
+        "actionType": "runtime-replay-telemetry",
+        "status": "armed",
+        "reason": "Replay rate is 31%; keep reset and in-canvas restart telemetry wired to replay_clicked."
+      },
+      {
+        "id": "runtime-replay-prompt",
+        "actionType": "runtime-replay-prompt",
+        "status": "armed",
+        "reason": "Replay rate is 31%; show one optional completed-run prompt and measure replay_prompt_* against replay_clicked.",
+        "guardrail": "Prompt only after a completed run, never auto-restart, never block exit, and keep revenue disabled until gates pass."
+      },
+      {
+        "id": "runtime-return-intent-activation",
+        "actionType": "runtime-return-intent-activation",
+        "status": "armed",
+        "reason": "D1 retention is 17%; convert queued local return intent into a measured next-session start.",
+        "guardrail": "Player-initiated start only, no push notifications, no background wakeups, no account requirement, and no paid incentives."
+      }
+    ],
+    "nextActions": [
+      "Keep collecting starts until a safe product-gate tuning action is justified.",
+      "Use replay_prompt_viewed/clicked/dismissed with replay_clicked to measure whether completed-run copy improves replay.",
+      "Use first_move_coach_shown/used/skipped to measure whether fast-start players complete more first runs.",
+      "Use completion_nudge_viewed/clicked/dismissed against level_completed and game_abandoned to reduce first-run dropoff.",
+      "Improve D1 retention from 17% toward 18% through queued return-intent activation."
+    ]
+  },
+  "firstMoveCoach": {
+    "status": "first-move-coach-ready",
+    "sourceStatus": {
+      "analyticsSource": "fixture-sample",
+      "releaseHealth": "monitoring",
+      "productOptimization": "product-optimization-ready",
+      "fastStartWeight": 85,
+      "guidedWeight": 15
+    },
+    "productGates": {
+      "firstGameCompletion": {
+        "actual": 0.397,
+        "gate": 0.55,
+        "pass": false
+      },
+      "replayRate": {
+        "actual": 0.309,
+        "gate": 0.35,
+        "pass": false
+      },
+      "d1Retention": {
+        "actual": 0.167,
+        "gate": 0.18,
+        "pass": false
+      },
+      "tutorialCompletion": {
+        "actual": 0.653,
+        "gate": 0.75,
+        "pass": false
+      }
+    },
+    "summary": {
+      "enabled": true,
+      "targets": 10,
+      "enabledTargets": 6,
+      "primaryTargetId": "harbor-rings",
+      "completionGap": 0.153,
+      "tutorialGap": 0.097
+    },
+    "controls": {
+      "zeroPaidSpend": true,
+      "firstTurnOnly": true,
+      "noAutoMove": true,
+      "noForcedTutorial": true,
+      "noRevenueEnablement": true,
+      "respectsExperimentPolicy": true,
+      "requiresReleaseHealth": true
+    },
+    "telemetry": {
+      "shown": "first_move_coach_shown",
+      "used": "first_move_coach_used",
+      "skipped": "first_move_coach_skipped",
+      "properties": [
+        "gameId",
+        "variantId",
+        "row",
+        "col",
+        "recommendedRow",
+        "recommendedCol",
+        "surface"
+      ]
+    },
+    "targets": [
+      {
+        "gameId": "harbor-rings",
+        "title": "Harbor Rings",
+        "enabled": true,
+        "variantId": "fast-start",
+        "surface": "game-board-first-turn",
+        "recommendedCell": {
+          "row": 2,
+          "col": 2,
+          "label": "center"
+        },
+        "board": {
+          "rows": 5,
+          "cols": 5
+        },
+        "generatedRuntime": false,
+        "runtimeSupported": true,
+        "priorityScore": 1998,
+        "sourceReason": "completion 39% and tutorial 67%",
+        "copy": "Start here",
+        "telemetryId": "first-move-coach-harbor-rings"
+      },
+      {
+        "gameId": "canopy-bloom",
+        "title": "Canopy Bloom",
+        "enabled": true,
+        "variantId": "fast-start",
+        "surface": "game-board-first-turn",
+        "recommendedCell": {
+          "row": 1,
+          "col": 2,
+          "label": "middle lane"
+        },
+        "board": {
+          "rows": 4,
+          "cols": 5
+        },
+        "generatedRuntime": true,
+        "runtimeSupported": true,
+        "priorityScore": 0,
+        "sourceReason": "generated daily/portfolio game without live row yet",
+        "copy": "Start here",
+        "telemetryId": "first-move-coach-canopy-bloom"
+      },
+      {
+        "gameId": "foundry-ledger",
+        "title": "Foundry Ledger",
+        "enabled": false,
+        "variantId": "fast-start",
+        "surface": "game-board-first-turn",
+        "recommendedCell": {
+          "row": 1,
+          "col": 1,
+          "label": "center"
+        },
+        "board": {
+          "rows": 4,
+          "cols": 4
+        },
+        "generatedRuntime": false,
+        "runtimeSupported": false,
+        "priorityScore": 0,
+        "sourceReason": "playable game without live row yet",
+        "copy": "Start here",
+        "telemetryId": "first-move-coach-foundry-ledger"
+      },
+      {
+        "gameId": "grove-engine",
+        "title": "Grove Engine",
+        "enabled": true,
+        "variantId": "fast-start",
+        "surface": "game-board-first-turn",
+        "recommendedCell": {
+          "row": 1,
+          "col": 2,
+          "label": "middle lane"
+        },
+        "board": {
+          "rows": 3,
+          "cols": 5
+        },
+        "generatedRuntime": true,
+        "runtimeSupported": true,
+        "priorityScore": 0,
+        "sourceReason": "generated daily/portfolio game without live row yet",
+        "copy": "Start here",
+        "telemetryId": "first-move-coach-grove-engine"
+      },
+      {
+        "gameId": "harbor-circuit",
+        "title": "Harbor Circuit",
+        "enabled": false,
+        "variantId": "fast-start",
+        "surface": "game-board-first-turn",
+        "recommendedCell": {
+          "row": 1,
+          "col": 1,
+          "label": "middle lane"
+        },
+        "board": {
+          "rows": 3,
+          "cols": 4
+        },
+        "generatedRuntime": false,
+        "runtimeSupported": false,
+        "priorityScore": 0,
+        "sourceReason": "playable game without live row yet",
+        "copy": "Start here",
+        "telemetryId": "first-move-coach-harbor-circuit"
+      },
+      {
+        "gameId": "lantern-relay",
+        "title": "Lantern Relay",
+        "enabled": false,
+        "variantId": "fast-start",
+        "surface": "game-board-first-turn",
+        "recommendedCell": {
+          "row": 2,
+          "col": 2,
+          "label": "center"
+        },
+        "board": {
+          "rows": 5,
+          "cols": 5
+        },
+        "generatedRuntime": false,
+        "runtimeSupported": false,
+        "priorityScore": 0,
+        "sourceReason": "playable game without live row yet",
+        "copy": "Start here",
+        "telemetryId": "first-move-coach-lantern-relay"
+      },
+      {
+        "gameId": "metro-loom",
+        "title": "Metro Loom",
+        "enabled": true,
+        "variantId": "fast-start",
+        "surface": "game-board-first-turn",
+        "recommendedCell": {
+          "row": 2,
+          "col": 2,
+          "label": "center"
+        },
+        "board": {
+          "rows": 5,
+          "cols": 5
+        },
+        "generatedRuntime": true,
+        "runtimeSupported": true,
+        "priorityScore": 0,
+        "sourceReason": "generated daily/portfolio game without live row yet",
+        "copy": "Start here",
+        "telemetryId": "first-move-coach-metro-loom"
+      },
+      {
+        "gameId": "mosaic-haven",
+        "title": "Mosaic Haven",
+        "enabled": true,
+        "variantId": "fast-start",
+        "surface": "game-board-first-turn",
+        "recommendedCell": {
+          "row": 1,
+          "col": 1,
+          "label": "center"
+        },
+        "board": {
+          "rows": 4,
+          "cols": 4
+        },
+        "generatedRuntime": true,
+        "runtimeSupported": true,
+        "priorityScore": 0,
+        "sourceReason": "generated daily/portfolio game without live row yet",
+        "copy": "Start here",
+        "telemetryId": "first-move-coach-mosaic-haven"
+      }
+    ]
+  },
+  "completionLoop": {
+    "status": "completion-loop-ready",
+    "sourceStatus": {
+      "analyticsSource": "fixture-sample",
+      "releaseHealth": "monitoring",
+      "productOptimization": "product-optimization-ready",
+      "firstMoveCoach": "first-move-coach-ready"
+    },
+    "target": {
+      "gameId": "harbor-rings",
+      "title": "Harbor Rings",
+      "starts": 284,
+      "maxMoves": 12,
+      "triggerMove": 3,
+      "candidateCompletionRate": 0.394,
+      "candidateTutorialRate": 0.669
+    },
+    "metrics": {
+      "firstGameCompletion": 0.397,
+      "completionGate": 0.55,
+      "completionGap": 0.153,
+      "tutorialCompletion": 0.653,
+      "tutorialGap": 0.097,
+      "abandonmentRate": 0.603,
+      "gameStarts": 375,
+      "completions": 149,
+      "abandonments": 226,
+      "promptViews": 0,
+      "promptClicks": 0,
+      "promptDismissals": 0
+    },
+    "controls": {
+      "zeroPaidSpend": true,
+      "midRunOnly": true,
+      "onePromptPerRun": true,
+      "noForcedTutorial": true,
+      "noAutoMove": true,
+      "noRuleChange": true,
+      "noPaidRewards": true,
+      "noRevenueEnablement": true,
+      "noDarkPatterns": true,
+      "requireAbandonmentTelemetry": true,
+      "canNudgeCompletion": true,
+      "completionReady": false,
+      "monetizationStillBlocked": true
+    },
+    "promptPolicy": {
+      "id": "mid-run-finish-nudge",
+      "status": "armed",
+      "surface": "autonomy-cockpit-completion-card",
+      "trigger": "after-progress-checkpoint",
+      "triggerMove": 3,
+      "ctaLabel": "Keep playing",
+      "dismissLabel": "Hide",
+      "copy": "You are already into the run. Finish the last turns to get a useful score.",
+      "cooldown": "one prompt per active run",
+      "reason": "First-game completion is 40% and the gate is 55%; nudge players who reach move 3 to finish.",
+      "telemetry": {
+        "viewed": "completion_nudge_viewed",
+        "clicked": "completion_nudge_clicked",
+        "dismissed": "completion_nudge_dismissed",
+        "completed": "level_completed",
+        "abandoned": "game_abandoned"
+      }
+    },
+    "missions": [
+      {
+        "id": "reach-progress-checkpoint",
+        "label": "Reach move 3",
+        "event": "completion_nudge_viewed",
+        "gameId": "harbor-rings",
+        "reward": "finish-context",
+        "status": "armed"
+      },
+      {
+        "id": "choose-keep-playing",
+        "label": "Choose to keep playing from the completion nudge",
+        "event": "completion_nudge_clicked",
+        "gameId": "harbor-rings",
+        "reward": "attention-return",
+        "status": "armed"
+      },
+      {
+        "id": "complete-after-nudge",
+        "label": "Complete the run after a progress checkpoint",
+        "event": "level_completed",
+        "gameId": "harbor-rings",
+        "reward": "completion-signal",
+        "status": "armed"
+      },
+      {
+        "id": "measure-abandonment",
+        "label": "Measure abandoned runs against nudge exposure",
+        "event": "game_abandoned",
+        "gameId": "harbor-rings",
+        "reward": "friction-signal",
+        "status": "armed"
+      }
+    ]
+  },
+  "replayLoop": {
+    "status": "replay-loop-ready",
+    "sourceStatus": {
+      "analyticsSource": "fixture-sample",
+      "releaseHealth": "monitoring",
+      "productOptimization": "product-optimization-ready"
+    },
+    "target": {
+      "gameId": "harbor-rings",
+      "title": "Harbor Rings",
+      "starts": 284,
+      "candidateReplayRate": 0.313,
+      "candidateReplayGap": 0.037
+    },
+    "metrics": {
+      "replayRate": 0.309,
+      "replayGate": 0.35,
+      "replayGap": 0.041,
+      "firstGameCompletion": 0.397,
+      "d1Retention": 0.167,
+      "levelCompletions": 149,
+      "replayClicks": 46,
+      "promptViews": 0,
+      "promptClicks": 0,
+      "promptDismissals": 0
+    },
+    "controls": {
+      "zeroPaidSpend": true,
+      "afterCompletedRunOnly": true,
+      "onePromptPerCompletedRun": true,
+      "noForcedReplay": true,
+      "noAutoRestart": true,
+      "noPaidRewards": true,
+      "noRevenueEnablement": true,
+      "noDarkPatterns": true,
+      "requireCompletedRunTelemetry": true,
+      "canNudgeReplay": true,
+      "completionReady": false,
+      "retentionReady": false,
+      "replayReady": false,
+      "monetizationStillBlocked": true
+    },
+    "promptPolicy": {
+      "id": "completed-run-replay-prompt",
+      "status": "armed",
+      "surface": "autonomy-cockpit-replay-card",
+      "trigger": "after-completed-run",
+      "ctaLabel": "Play again",
+      "dismissLabel": "Done for now",
+      "copy": "Try one cleaner run with the same rules.",
+      "cooldown": "one prompt per completed run",
+      "reason": "Replay rate is 31% and the gate is 35%; ask for one fresh run after completion.",
+      "telemetry": {
+        "viewed": "replay_prompt_viewed",
+        "clicked": "replay_prompt_clicked",
+        "dismissed": "replay_prompt_dismissed",
+        "replay": "replay_clicked"
+      }
+    },
+    "missions": [
+      {
+        "id": "finish-run",
+        "label": "Finish a Harbor Rings run",
+        "event": "level_completed",
+        "gameId": "harbor-rings",
+        "reward": "result-context",
+        "status": "armed"
+      },
+      {
+        "id": "show-replay-prompt",
+        "label": "Show one replay prompt after a completed run",
+        "event": "replay_prompt_viewed",
+        "gameId": "harbor-rings",
+        "reward": "fresh-run-suggestion",
+        "status": "armed"
+      },
+      {
+        "id": "confirm-replay",
+        "label": "Start a fresh run from the completed-run prompt",
+        "event": "replay_prompt_clicked",
+        "gameId": "harbor-rings",
+        "reward": "fresh-run",
+        "status": "armed"
+      },
+      {
+        "id": "respect-replay-dismissal",
+        "label": "Let players leave after one completed run",
+        "event": "replay_prompt_dismissed",
+        "gameId": "harbor-rings",
+        "reward": "no-pressure-exit",
+        "status": "armed"
+      }
+    ]
+  },
+  "productionBootstrap": {
+    "status": "production-bootstrap-ready",
+    "mode": "waiting-for-external-credentials",
+    "summary": {
+      "readyGroups": 2,
+      "totalGroups": 10,
+      "configuredVariables": 1,
+      "totalVariables": 22,
+      "configuredSecrets": 0,
+      "totalSecrets": 8,
+      "externalBlockers": 27
+    },
+    "controls": {
+      "zeroSpendGuard": true,
+      "zeroPaidSpend": true,
+      "noPaidResourcesCreated": true,
+      "noAccountCreation": true,
+      "noStoreSubmission": true,
+      "noRevenueEnablement": true,
+      "noStoreWorkflowWithoutEconomics": true,
+      "applyRequiresExistingCredentials": true,
+      "generatedScriptsAvoidSecretEcho": true,
+      "repositoryBootstrapDryRunByDefault": true
+    },
+    "setupScript": {
+      "path": "ops/github/setup-production.sh",
+      "status": "generated",
+      "dryRunByDefault": false,
+      "usesCurrentShellEnvironment": true,
+      "avoidsSecretEcho": true
+    },
+    "stages": [
+      {
+        "id": "repository-channel",
+        "status": "waiting-for-github-repository",
+        "canAutoRun": false,
+        "costUsd": 0,
+        "command": "npm run autonomous:repo-readiness",
+        "evidence": "Repository missing; git worktree ready; workflow dispatch blocked.",
+        "requires": [
+          "Add a GitHub origin remote or set GITHUB_REPOSITORY/GH_REPO.",
+          "Configure GH_TOKEN or GITHUB_TOKEN for workflow dispatch and repository settings sync."
+        ]
+      },
+      {
+        "id": "repository-bootstrap",
+        "status": "waiting-for-github-target",
+        "canAutoRun": false,
+        "costUsd": 0,
+        "command": "npm run autonomous:repo-bootstrap",
+        "evidence": "Repository bootstrap waiting-for-github-target; helper ops/github/bootstrap-repository.sh; local git ready.",
+        "requires": [
+          "Create an initial commit before pushing to GitHub Pages.",
+          "Set GITHUB_REPOSITORY or GH_REPO to the intended owner/repo.",
+          "Attach a GitHub origin remote or create the target repository.",
+          "Authenticate GitHub CLI or provide GH_TOKEN/GITHUB_TOKEN for remote repository bootstrap."
+        ]
+      },
+      {
+        "id": "production-environment",
+        "status": "waiting-for-origin-support",
+        "canAutoRun": false,
+        "costUsd": 0,
+        "command": "npm run autonomous:env",
+        "evidence": "Environment production-env-missing; public origin missing; support missing-production-address.",
+        "requires": [
+          "Set AGL_PUBLIC_ORIGIN or PUBLIC_SITE_URL to a real HTTPS production origin.",
+          "Set AGL_SUPPORT_EMAIL to a real support inbox before public store submission.",
+          "Set VITE_EVENT_COLLECTOR_URL or VITE_POSTHOG_KEY to forward browser analytics in production.",
+          "Set AGL_EVENT_COLLECTOR_EXPORT_URL + AGL_EVENT_COLLECTOR_ADMIN_TOKEN or PostHog server credentials for autonomous production rollups.",
+          "Set VITE_ADSENSE_CLIENT_ID + VITE_ADSENSE_REWARDED_SLOT_ID for web/PWA revenue tests or ADMOB_PUBLISHER_ID for native app placements.",
+          "Set AGL_ANDROID_SHA256_CERT_FINGERPRINT after Android signing exists.",
+          "Connect Google Play credentials or set AGL_GOOGLE_PLAY_ACCOUNT_CONNECTED=true.",
+          "Connect Apple Developer account only after revenue justifies iOS spend."
+        ]
+      },
+      {
+        "id": "github-pages-hosting",
+        "status": "ready-for-actions-pages",
+        "canAutoRun": false,
+        "costUsd": 0,
+        "command": "gh workflow run web-pwa-deploy.yml",
+        "evidence": "Deployment plan is ready-for-pages; Pages workflow is .github/workflows/web-pwa-deploy.yml.",
+        "requires": [
+          "Repository exists on GitHub.",
+          "GitHub Pages source is set to GitHub Actions.",
+          "VITE_BASE_PATH is set when deploying to project pages."
+        ]
+      },
+      {
+        "id": "github-actions-variables",
+        "status": "partially-configured",
+        "canAutoRun": false,
+        "costUsd": 0,
+        "command": "./ops/github/setup-production.sh",
+        "evidence": "1/22 repository variable value(s) present in this environment.",
+        "requires": [
+          "AGL_PUBLIC_ORIGIN",
+          "AGL_PUBLIC_ORIGIN",
+          "AGL_PUBLIC_ORIGIN",
+          "AGL_SUPPORT_EMAIL",
+          "VITE_POSTHOG_KEY"
+        ]
+      },
+      {
+        "id": "github-actions-secrets",
+        "status": "waiting-for-secrets",
+        "canAutoRun": false,
+        "costUsd": 0,
+        "command": "./ops/github/setup-production.sh",
+        "evidence": "0/8 repository secret value(s) present in this environment.",
+        "requires": [
+          "CLOUDFLARE_API_TOKEN",
+          "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
+          "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
+          "POSTHOG_PERSONAL_API_KEY",
+          "AGL_ANDROID_KEYSTORE_BASE64"
+        ]
+      },
+      {
+        "id": "event-collector",
+        "status": "blocked-needs-cloudflare-env",
+        "canAutoRun": false,
+        "costUsd": 0,
+        "command": "gh workflow run event-collector-deploy.yml",
+        "evidence": "Collector deployment is blocked-needs-cloudflare-env; provider cloudflare-worker-r2.",
+        "requires": [
+          "Create or select a Cloudflare account and R2 bucket for collector event batches.",
+          "Set repository variables CLOUDFLARE_ACCOUNT_ID, AGL_EVENT_COLLECTOR_R2_BUCKET, AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS, VITE_EVENT_COLLECTOR_URL, and AGL_EVENT_COLLECTOR_EXPORT_URL.",
+          "Set repository secrets CLOUDFLARE_API_TOKEN, VITE_EVENT_COLLECTOR_WRITE_TOKEN, and AGL_EVENT_COLLECTOR_ADMIN_TOKEN.",
+          "Run the Event Collector Deploy workflow; it runs the collector smoke before deploying."
+        ]
+      },
+      {
+        "id": "monetization-gate",
+        "status": "held-by-product-gates",
+        "canAutoRun": false,
+        "costUsd": 0,
+        "command": "npm run autonomous:monetization && npm run autonomous:unit-economics",
+        "evidence": "Revenue disabled; spend mode no-spend.",
+        "requires": [
+          "First-game completion is 40%; gate is 55%.",
+          "Replay rate is 31%; gate is 35%.",
+          "D1 retention is 17%; gate is 18%; source is fixture-retention.",
+          "Web/PWA or native ad provider is not configured for gated revenue tests."
+        ]
+      },
+      {
+        "id": "store-compliance-unblock",
+        "status": "draft-ready-external-blockers",
+        "canAutoRun": false,
+        "costUsd": 0,
+        "command": "npm run autonomous:store-package && npm run autonomous:store-compliance",
+        "evidence": "4 store compliance blocker(s) remain.",
+        "requires": [
+          "hosted-privacy-url: Hosted privacy policy URL is required before public store submission.",
+          "support-contact: Production support email is required before public store submission.",
+          "google-play-account: Google Play developer account must be connected before Android submission.",
+          "apple-developer-account: Apple Developer account remains deferred until iOS spend is justified."
+        ]
+      },
+      {
+        "id": "android-release-unblock",
+        "status": "blocked-needs-host-signing-play",
+        "canAutoRun": false,
+        "costUsd": 0,
+        "command": "gh workflow run android-twa-release.yml",
+        "evidence": "Native package blocked-draft-ready; Android release blocked-needs-host-signing-play.",
+        "requires": [
+          "native-package-ready: Native package is blocked-draft-ready.",
+          "asset-links: Digital Asset Links are template-only.",
+          "signing-fingerprint: Android signing fingerprint is missing.",
+          "signing-secrets: Android keystore, password, and alias are available to CI.",
+          "google-play-account: Google Play account is not connected.",
+          "play-service-account: Google Play service account upload credentials are available to CI.",
+          "unit-economics-store-spend: Store spend allowed is false; spend mode is no-spend.",
+          "promotion-gate: Android promotion status is blocked."
+        ]
+      }
+    ],
+    "setupCommands": [
+      {
+        "id": "repository-preflight",
+        "command": "npm run autonomous:repo-readiness",
+        "safeToRunAutomatically": true,
+        "costUsd": 0
+      },
+      {
+        "id": "repository-bootstrap-plan",
+        "command": "npm run autonomous:repo-bootstrap",
+        "safeToRunAutomatically": true,
+        "costUsd": 0
+      },
+      {
+        "id": "local-gate",
+        "command": "npm run autonomous:daily && npm run test:e2e && npm run autonomous:assert-deployable",
+        "safeToRunAutomatically": true,
+        "costUsd": 0
+      },
+      {
+        "id": "sync-repository-config",
+        "command": "./ops/github/setup-production.sh",
+        "safeToRunAutomatically": false,
+        "costUsd": 0
+      },
+      {
+        "id": "run-web-workflow",
+        "command": "RUN_WORKFLOWS=1 ./ops/github/setup-production.sh",
+        "safeToRunAutomatically": false,
+        "costUsd": 0
+      },
+      {
+        "id": "run-android-workflow",
+        "command": "RUN_WORKFLOWS=1 ALLOW_ANDROID_RELEASE_WORKFLOW=1 ./ops/github/setup-production.sh",
+        "safeToRunAutomatically": false,
+        "costUsd": 0
+      }
+    ],
+    "externalBlockers": [
+      {
+        "source": "repository-readiness",
+        "blocker": "Add a GitHub origin remote or set GITHUB_REPOSITORY/GH_REPO."
+      },
+      {
+        "source": "repository-readiness",
+        "blocker": "Configure GH_TOKEN or GITHUB_TOKEN for workflow dispatch and repository settings sync."
+      },
+      {
+        "source": "repository-bootstrap",
+        "blocker": "Create an initial commit before pushing to GitHub Pages."
+      },
+      {
+        "source": "repository-bootstrap",
+        "blocker": "Set GITHUB_REPOSITORY or GH_REPO to the intended owner/repo."
+      },
+      {
+        "source": "repository-bootstrap",
+        "blocker": "Attach a GitHub origin remote or create the target repository."
+      },
+      {
+        "source": "repository-bootstrap",
+        "blocker": "Authenticate GitHub CLI or provide GH_TOKEN/GITHUB_TOKEN for remote repository bootstrap."
+      },
+      {
+        "source": "production-environment",
+        "blocker": "Set AGL_PUBLIC_ORIGIN or PUBLIC_SITE_URL to a real HTTPS production origin."
+      },
+      {
+        "source": "production-environment",
+        "blocker": "Set AGL_SUPPORT_EMAIL to a real support inbox before public store submission."
+      },
+      {
+        "source": "production-environment",
+        "blocker": "Set VITE_EVENT_COLLECTOR_URL or VITE_POSTHOG_KEY to forward browser analytics in production."
+      },
+      {
+        "source": "production-environment",
+        "blocker": "Set AGL_EVENT_COLLECTOR_EXPORT_URL + AGL_EVENT_COLLECTOR_ADMIN_TOKEN or PostHog server credentials for autonomous production rollups."
+      },
+      {
+        "source": "production-environment",
+        "blocker": "Set VITE_ADSENSE_CLIENT_ID + VITE_ADSENSE_REWARDED_SLOT_ID for web/PWA revenue tests or ADMOB_PUBLISHER_ID for native app placements."
+      },
+      {
+        "source": "production-environment",
+        "blocker": "Set AGL_ANDROID_SHA256_CERT_FINGERPRINT after Android signing exists."
+      },
+      {
+        "source": "production-environment",
+        "blocker": "Connect Google Play credentials or set AGL_GOOGLE_PLAY_ACCOUNT_CONNECTED=true."
+      },
+      {
+        "source": "production-environment",
+        "blocker": "Connect Apple Developer account only after revenue justifies iOS spend."
+      },
+      {
+        "source": "event-collector",
+        "blocker": "Collector environment is not configured."
+      },
+      {
+        "source": "store-compliance",
+        "blocker": "hosted-privacy-url: Hosted privacy policy URL is required before public store submission."
+      },
+      {
+        "source": "store-compliance",
+        "blocker": "support-contact: Production support email is required before public store submission."
+      },
+      {
+        "source": "store-compliance",
+        "blocker": "google-play-account: Google Play developer account must be connected before Android submission."
+      },
+      {
+        "source": "store-compliance",
+        "blocker": "apple-developer-account: Apple Developer account remains deferred until iOS spend is justified."
+      },
+      {
+        "source": "android-release",
+        "blocker": "native-package-ready: Native package is blocked-draft-ready."
+      },
+      {
+        "source": "android-release",
+        "blocker": "asset-links: Digital Asset Links are template-only."
+      },
+      {
+        "source": "android-release",
+        "blocker": "signing-fingerprint: Android signing fingerprint is missing."
+      },
+      {
+        "source": "android-release",
+        "blocker": "signing-secrets: Android keystore, password, and alias are available to CI."
+      },
+      {
+        "source": "android-release",
+        "blocker": "google-play-account: Google Play account is not connected."
+      },
+      {
+        "source": "android-release",
+        "blocker": "play-service-account: Google Play service account upload credentials are available to CI."
+      },
+      {
+        "source": "android-release",
+        "blocker": "unit-economics-store-spend: Store spend allowed is false; spend mode is no-spend."
+      },
+      {
+        "source": "android-release",
+        "blocker": "promotion-gate: Android promotion status is blocked."
+      }
+    ]
+  },
+  "autonomousOperator": {
+    "status": "operator-plan-ready",
+    "mode": "plan-only",
+    "selectedAction": {
+      "id": "prepare-repository-channel",
+      "status": "armed",
+      "command": "npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap",
+      "targets": [
+        "github-repository-channel"
+      ],
+      "reason": "Surfaces and prepares the missing git/GitHub deployment-channel blockers before web deploy.",
+      "costUsd": 0
+    },
+    "controls": {
+      "zeroPaidSpend": true,
+      "allOwnerGuardrailsEnforced": true,
+      "productionDeployAllowed": true,
+      "maxActionsPerRun": 1,
+      "executeRequiresFlag": true,
+      "dryRunByDefault": true,
+      "localCommandAllowlistEnforced": true,
+      "exactCommandMatchRequired": true,
+      "externalWorkflowExecutionBlockedByDefault": true,
+      "dailyLoopRecursionBlocked": true,
+      "noPaidSpendCommands": true,
+      "noStoreSubmissionCommands": true
+    },
+    "execution": {
+      "requested": false,
+      "status": "not-requested",
+      "maxActionsPerRun": 1,
+      "attemptedActionId": null,
+      "results": []
+    },
+    "eligibleActionIds": [
+      "seed-portfolio-traffic",
+      "refresh-organic-seed-loop",
+      "optimize-daily-retention",
+      "measure-pwa-install-loop",
+      "check-performance-budget",
+      "prepare-release-candidate",
+      "optimize-product-gates",
+      "refresh-first-move-coach",
+      "refresh-completion-loop",
+      "refresh-replay-loop",
+      "prepare-repository-channel",
+      "bootstrap-production-setup",
+      "optimize-store-listing",
+      "apply-safe-improvements"
+    ],
+    "blockedActions": [
+      {
+        "id": "run-daily-owner-loop",
+        "status": "armed",
+        "command": "npm run autonomous:daily",
+        "reason": "daily-loop-recursion-blocked"
+      },
+      {
+        "id": "seed-portfolio-traffic",
+        "status": "armed",
+        "command": "npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop",
+        "reason": "not-selected-this-run"
+      },
+      {
+        "id": "refresh-organic-seed-loop",
+        "status": "armed",
+        "command": "npm run autonomous:organic-seed-loop",
+        "reason": "not-selected-this-run"
+      },
+      {
+        "id": "optimize-daily-retention",
+        "status": "armed",
+        "command": "npm run autonomous:retention",
+        "reason": "not-selected-this-run"
+      },
+      {
+        "id": "measure-pwa-install-loop",
+        "status": "armed",
+        "command": "npm run autonomous:pwa-install",
+        "reason": "not-selected-this-run"
+      },
+      {
+        "id": "check-performance-budget",
+        "status": "armed",
+        "command": "npm run build && npm run autonomous:performance",
+        "reason": "not-selected-this-run"
+      },
+      {
+        "id": "prepare-release-candidate",
+        "status": "armed",
+        "command": "npm run autonomous:release-candidate",
+        "reason": "not-selected-this-run"
+      },
+      {
+        "id": "run-post-deploy-smoke",
+        "status": "monitor",
+        "command": "npm run autonomous:post-deploy-smoke",
+        "reason": "status-monitor"
+      },
+      {
+        "id": "optimize-product-gates",
+        "status": "armed",
+        "command": "npm run autonomous:analyze && npm run autonomous:product-optimize && npm run autonomous:sync-config && npm run autonomous:simulate",
+        "reason": "not-selected-this-run"
+      },
+      {
+        "id": "refresh-first-move-coach",
+        "status": "armed",
+        "command": "npm run autonomous:first-move-coach",
+        "reason": "not-selected-this-run"
+      },
+      {
+        "id": "refresh-completion-loop",
+        "status": "armed",
+        "command": "npm run autonomous:completion-loop",
+        "reason": "not-selected-this-run"
+      },
+      {
+        "id": "refresh-replay-loop",
+        "status": "armed",
+        "command": "npm run autonomous:replay-loop",
+        "reason": "not-selected-this-run"
+      },
+      {
+        "id": "bootstrap-production-setup",
+        "status": "armed",
+        "command": "npm run autonomous:release-candidate && npm run autonomous:deploy-plan && npm run autonomous:bootstrap",
+        "reason": "not-selected-this-run"
+      },
+      {
+        "id": "run-autonomous-operator",
+        "status": "armed",
+        "command": "npm run autonomous:operator",
+        "reason": "command-not-in-local-allowlist"
+      },
+      {
+        "id": "review-operator-history",
+        "status": "armed",
+        "command": "npm run autonomous:operator",
+        "reason": "command-not-in-local-allowlist"
+      },
+      {
+        "id": "refresh-objective-audit",
+        "status": "armed",
+        "command": "npm run autonomous:objective-audit",
+        "reason": "command-not-in-local-allowlist"
+      },
+      {
+        "id": "optimize-store-listing",
+        "status": "armed",
+        "command": "npm run autonomous:store-listing-optimize && npm run autonomous:store-compliance",
+        "reason": "not-selected-this-run"
+      },
+      {
+        "id": "apply-safe-improvements",
+        "status": "armed",
+        "command": "npm run autonomous:experiments && npm run autonomous:improve && npm run autonomous:sync-experiments",
+        "reason": "not-selected-this-run"
+      },
+      {
+        "id": "deploy-web-pwa",
+        "status": "blocked-needs-repository-channel",
+        "command": "Run the Web PWA Deploy workflow after GitHub Pages is enabled for the repository.",
+        "reason": "status-blocked-needs-repository-channel"
+      },
+      {
+        "id": "collect-live-events",
+        "status": "blocked-needs-collector-or-posthog",
+        "command": "npm run autonomous:import-events && npm run autonomous:analytics",
+        "reason": "status-blocked-needs-collector-or-posthog"
+      }
+    ]
+  },
+  "autonomousOperatorHistory": {
+    "status": "operator-history-ready",
+    "summary": {
+      "totalRecords": 9,
+      "plannedRecords": 9,
+      "executedRecords": 0,
+      "failedRecords": 0,
+      "lastActionId": "prepare-repository-channel",
+      "lastExecutionStatus": "not-requested",
+      "lastExecutedActionId": null
+    },
+    "controls": {
+      "zeroPaidSpend": true,
+      "localCommandAllowlistEnforced": true,
+      "maxActionsPerRun": 1,
+      "externalWorkflowExecutionBlockedByDefault": true,
+      "historyIsCapped": true
+    },
+    "retention": {
+      "maxRecords": 40,
+      "appendOnlyWhenPlanChangesOrExecutes": true,
+      "latestRunAppended": false,
+      "compactedDuplicateDryRuns": 0
+    },
+    "recentRecords": [
+      {
+        "id": "20260519001331-seed-portfolio-traffic",
+        "generatedAt": "2026-05-19T00:13:31.367Z",
+        "runFingerprint": "a158946445eb92b9",
+        "mode": "plan-only",
+        "status": "operator-plan-ready",
+        "selectedActionId": "seed-portfolio-traffic",
+        "selectedCommand": "npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition",
+        "eligibleActionIds": [
+          "seed-portfolio-traffic",
+          "optimize-daily-retention",
+          "measure-pwa-install-loop",
+          "check-performance-budget",
+          "prepare-release-candidate",
+          "optimize-product-gates",
+          "refresh-first-move-coach",
+          "refresh-completion-loop",
+          "refresh-replay-loop",
+          "bootstrap-production-setup",
+          "optimize-store-listing",
+          "apply-safe-improvements"
+        ],
+        "blockedActionCount": 17,
+        "execution": {
+          "requested": false,
+          "status": "not-requested",
+          "attemptedActionId": null,
+          "resultCount": 0,
+          "failedScripts": []
+        },
+        "controls": {
+          "zeroPaidSpend": true,
+          "localCommandAllowlistEnforced": true,
+          "externalWorkflowExecutionBlockedByDefault": true,
+          "maxActionsPerRun": 1
+        }
+      },
+      {
+        "id": "20260519002229-seed-portfolio-traffic",
+        "generatedAt": "2026-05-19T00:22:29.524Z",
+        "runFingerprint": "a73f4e9ec4bda83d",
+        "mode": "plan-only",
+        "status": "operator-plan-ready",
+        "selectedActionId": "seed-portfolio-traffic",
+        "selectedCommand": "npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop",
+        "eligibleActionIds": [
+          "seed-portfolio-traffic",
+          "refresh-organic-seed-loop",
+          "optimize-daily-retention",
+          "measure-pwa-install-loop",
+          "check-performance-budget",
+          "prepare-release-candidate",
+          "optimize-product-gates",
+          "refresh-first-move-coach",
+          "refresh-completion-loop",
+          "refresh-replay-loop",
+          "bootstrap-production-setup",
+          "optimize-store-listing",
+          "apply-safe-improvements"
+        ],
+        "blockedActionCount": 18,
+        "execution": {
+          "requested": false,
+          "status": "not-requested",
+          "attemptedActionId": null,
+          "resultCount": 0,
+          "failedScripts": []
+        },
+        "controls": {
+          "zeroPaidSpend": true,
+          "localCommandAllowlistEnforced": true,
+          "externalWorkflowExecutionBlockedByDefault": true,
+          "maxActionsPerRun": 1
+        }
+      },
+      {
+        "id": "20260519010315-seed-portfolio-traffic",
+        "generatedAt": "2026-05-19T01:03:15.261Z",
+        "runFingerprint": "4d068967e9275242",
+        "mode": "plan-only",
+        "status": "operator-plan-ready",
+        "selectedActionId": "seed-portfolio-traffic",
+        "selectedCommand": "npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop",
+        "eligibleActionIds": [
+          "seed-portfolio-traffic",
+          "refresh-organic-seed-loop",
+          "optimize-daily-retention",
+          "measure-pwa-install-loop",
+          "check-performance-budget",
+          "prepare-release-candidate",
+          "optimize-product-gates",
+          "refresh-first-move-coach",
+          "refresh-completion-loop",
+          "refresh-replay-loop",
+          "prepare-repository-channel",
+          "bootstrap-production-setup",
+          "optimize-store-listing",
+          "apply-safe-improvements"
+        ],
+        "blockedActionCount": 20,
+        "execution": {
+          "requested": false,
+          "status": "not-requested",
+          "attemptedActionId": null,
+          "resultCount": 0,
+          "failedScripts": []
+        },
+        "controls": {
+          "zeroPaidSpend": true,
+          "localCommandAllowlistEnforced": true,
+          "externalWorkflowExecutionBlockedByDefault": true,
+          "maxActionsPerRun": 1
+        }
+      },
+      {
+        "id": "20260519010353-prepare-repository-channel",
+        "generatedAt": "2026-05-19T01:03:53.564Z",
+        "runFingerprint": "747a2c0f243cd55c",
+        "mode": "plan-only",
+        "status": "operator-plan-ready",
+        "selectedActionId": "prepare-repository-channel",
+        "selectedCommand": "npm run autonomous:repo-readiness",
+        "eligibleActionIds": [
+          "seed-portfolio-traffic",
+          "refresh-organic-seed-loop",
+          "optimize-daily-retention",
+          "measure-pwa-install-loop",
+          "check-performance-budget",
+          "prepare-release-candidate",
+          "optimize-product-gates",
+          "refresh-first-move-coach",
+          "refresh-completion-loop",
+          "refresh-replay-loop",
+          "prepare-repository-channel",
+          "bootstrap-production-setup",
+          "optimize-store-listing",
+          "apply-safe-improvements"
+        ],
+        "blockedActionCount": 20,
+        "execution": {
+          "requested": false,
+          "status": "not-requested",
+          "attemptedActionId": null,
+          "resultCount": 0,
+          "failedScripts": []
+        },
+        "controls": {
+          "zeroPaidSpend": true,
+          "localCommandAllowlistEnforced": true,
+          "externalWorkflowExecutionBlockedByDefault": true,
+          "maxActionsPerRun": 1
+        }
+      },
+      {
+        "id": "20260519011928-prepare-repository-channel",
+        "generatedAt": "2026-05-19T01:19:28.563Z",
+        "runFingerprint": "d303b9b393988342",
+        "mode": "plan-only",
+        "status": "operator-plan-ready",
+        "selectedActionId": "prepare-repository-channel",
+        "selectedCommand": "npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap",
+        "eligibleActionIds": [
+          "seed-portfolio-traffic",
+          "refresh-organic-seed-loop",
+          "optimize-daily-retention",
+          "measure-pwa-install-loop",
+          "check-performance-budget",
+          "prepare-release-candidate",
+          "optimize-product-gates",
+          "refresh-first-move-coach",
+          "refresh-completion-loop",
+          "refresh-replay-loop",
+          "prepare-repository-channel",
+          "bootstrap-production-setup",
+          "optimize-store-listing",
+          "apply-safe-improvements"
+        ],
+        "blockedActionCount": 20,
+        "execution": {
+          "requested": false,
+          "status": "not-requested",
+          "attemptedActionId": null,
+          "resultCount": 0,
+          "failedScripts": []
+        },
+        "controls": {
+          "zeroPaidSpend": true,
+          "localCommandAllowlistEnforced": true,
+          "externalWorkflowExecutionBlockedByDefault": true,
+          "maxActionsPerRun": 1
+        }
+      }
+    ]
+  },
+  "objectiveAudit": {
+    "status": "objective-in-progress",
+    "summary": {
+      "requirements": 8,
+      "met": 5,
+      "prepared": 2,
+      "incomplete": 1,
+      "externalBlockers": 24,
+      "productBlockers": 6
+    },
+    "controls": {
+      "preserveOriginalScope": true,
+      "doNotMarkGoalCompleteWhileBlocked": true,
+      "zeroSpendGuard": true,
+      "noRevenueEnablementUntilGatesPass": true,
+      "noStoreSubmissionUntilExternalAccounts": true
+    },
+    "completion": {
+      "canMarkGoalComplete": false,
+      "reason": "The local autonomous PWA system is largely prepared, but production credentials, live data, monetization gates, hosted compliance URLs, and store account/signing blockers remain.",
+      "nextBestAction": "prepare-repository-channel"
+    },
+    "requirements": [
+      {
+        "id": "web-pwa-game-portal",
+        "status": "met",
+        "summary": "A playable web/PWA portal exists and passes the production web readiness gate.",
+        "evidence": [
+          "Web readiness: ready-after-build",
+          "Manifest in dist: true",
+          "Service worker in dist: true",
+          "Release candidate: release-candidate-ready; 38 files",
+          "Deployment plan: ready-for-pages"
+        ],
+        "blockers": [],
+        "nextAction": "Connect a free static host or GitHub Pages environment, then publish dist.",
+        "completionCritical": true
+      },
+      {
+        "id": "original-trend-driven-game-generation",
+        "status": "met",
+        "summary": "Trend signals produce original, low-IP-risk concepts and generated playable games.",
+        "evidence": [
+          "Trend source: fixture-safe",
+          "Candidate concepts: 4",
+          "Low-risk concepts: 4",
+          "Playable games: 10",
+          "Generated games: 5"
+        ],
+        "blockers": [],
+        "nextAction": "Keep licensed/cache/fixture trend inputs feeding original concept generation.",
+        "completionCritical": true
+      },
+      {
+        "id": "behavior-measurement-loop",
+        "status": "met-fixture-or-local",
+        "summary": "Gameplay, retention, install, acquisition, and privacy telemetry can be measured and rolled up.",
+        "evidence": [
+          "Analytics source: fixture-sample",
+          "Collector smoke: pass",
+          "Ingest smoke: pass",
+          "Game starts in rollup: 375",
+          "D1 retention: 0.167"
+        ],
+        "blockers": [
+          "Production analytics still need PostHog or first-party collector credentials for live player data."
+        ],
+        "nextAction": "Connect the first-party collector or PostHog when production credentials exist.",
+        "completionCritical": true
+      },
+      {
+        "id": "data-driven-improvement-loop",
+        "status": "met",
+        "summary": "Analytics drive product-gate optimization, experiment evaluation, backlog routing, and one safe local operator action.",
+        "evidence": [
+          "Product optimizer: product-optimization-ready",
+          "First-move coach: first-move-coach-ready; enabled targets 6",
+          "Completion loop: completion-loop-ready; prompt armed",
+          "Replay loop: replay-loop-ready; prompt armed",
+          "Retention loop: retention-loop-ready; return intent armed",
+          "Organic seed loop: organic-seed-loop-ready; target canopy-bloom",
+          "Experiment results: evaluated",
+          "Backlog items: 4",
+          "Applied/deferred actions: 6",
+          "Operator selected: prepare-repository-channel"
+        ],
+        "blockers": [],
+        "nextAction": "Keep collecting starts until a safe product-gate tuning action is justified.",
+        "completionCritical": true
+      },
+      {
+        "id": "minimal-intervention-autonomy",
+        "status": "needs-repository-channel",
+        "summary": "A scheduled local loop, owner state, bootstrap handoff, and dry-run operator reduce manual maintenance.",
+        "evidence": [
+          "Owner loop: owner-loop-ready",
+          "Operator: operator-plan-ready",
+          "Operator history: operator-history-ready; records 9",
+          "Bootstrap: production-bootstrap-ready",
+          "Repository bootstrap: waiting-for-github-target; helper ops/github/bootstrap-repository.sh",
+          "Release candidate: release-candidate-ready; smoke URLs 7",
+          "Post-deploy smoke: blocked-missing-origin; origin missing; checks 0/8",
+          "Repository channel: waiting-for-github-repository; repository missing; git worktree true",
+          "Autonomy score: 93%",
+          "Credential-gated actions: 17"
+        ],
+        "blockers": [
+          "Add a GitHub origin remote or set GITHUB_REPOSITORY/GH_REPO.",
+          "Configure GH_TOKEN or GITHUB_TOKEN for workflow dispatch and repository settings sync.",
+          "Create an initial commit before pushing to GitHub Pages.",
+          "Set GITHUB_REPOSITORY or GH_REPO to the intended owner/repo.",
+          "Attach a GitHub origin remote or create the target repository.",
+          "Authenticate GitHub CLI or provide GH_TOKEN/GITHUB_TOKEN for remote repository bootstrap.",
+          "AGL_PUBLIC_ORIGIN: HTTPS origin used for hosted privacy/support URLs, sitemap, TWA host, and Digital Asset Links.",
+          "AGL_SUPPORT_EMAIL: Production support contact for privacy and store listings.",
+          "VITE_POSTHOG_KEY: Optional browser-side PostHog analytics forwarding.",
+          "POSTHOG_PROJECT_ID + POSTHOG_PERSONAL_API_KEY: Optional autonomous production analytics and experiment result rollups from PostHog.",
+          "VITE_EVENT_COLLECTOR_URL + AGL_EVENT_COLLECTOR_EXPORT_URL: Optional zero-cost Worker/R2 event collector for browser analytics and autonomous rollups.",
+          "VITE_ADSENSE_CLIENT_ID + VITE_ADSENSE_REWARDED_SLOT_ID: Web/PWA rewarded or display-ad test configuration after product and privacy gates pass.",
+          "ADMOB_PUBLISHER_ID: Native app seller line for app-ads.txt and Android rewarded tests after app-store gates pass.",
+          "AGL_ANDROID_SHA256_CERT_FINGERPRINT: Android signing fingerprint for Digital Asset Links.",
+          "AGL_GOOGLE_PLAY_ACCOUNT_CONNECTED: Allows native packaging gates to treat Play Console access as connected.",
+          "CLOUDFLARE_API_TOKEN: Repository secret sourced from CLOUDFLARE_API_TOKEN.",
+          "VITE_EVENT_COLLECTOR_WRITE_TOKEN: Repository secret sourced from VITE_EVENT_COLLECTOR_WRITE_TOKEN.",
+          "AGL_EVENT_COLLECTOR_ADMIN_TOKEN: Repository secret sourced from AGL_EVENT_COLLECTOR_ADMIN_TOKEN.",
+          "POSTHOG_PERSONAL_API_KEY: Repository secret sourced from POSTHOG_PERSONAL_API_KEY.",
+          "AGL_ANDROID_KEYSTORE_BASE64: Repository secret sourced from AGL_ANDROID_KEYSTORE_BASE64.",
+          "AGL_ANDROID_KEYSTORE_PASSWORD: Repository secret sourced from AGL_ANDROID_KEYSTORE_PASSWORD.",
+          "AGL_ANDROID_KEY_ALIAS: Repository secret sourced from AGL_ANDROID_KEY_ALIAS.",
+          "GOOGLE_PLAY_SERVICE_ACCOUNT_JSON: Repository secret sourced from GOOGLE_PLAY_SERVICE_ACCOUNT_JSON."
+        ],
+        "nextAction": "Keep the operator dry-run plan ready and execute one local action only when explicitly requested.",
+        "completionCritical": true
+      },
+      {
+        "id": "monetization-path",
+        "status": "prepared-blocked-by-gates",
+        "summary": "Revenue path exists with guarded rewarded/cosmetic tests, app-ads output, and unit-economics spend controls.",
+        "evidence": [
+          "Monetization status: blocked-by-product-gates",
+          "Revenue enabled: false",
+          "Runtime: guarded-disabled",
+          "Unit economics: no-spend",
+          "Paid acquisition allowed: false"
+        ],
+        "blockers": [
+          "First-game completion is 40%; gate is 55%.",
+          "Replay rate is 31%; gate is 35%.",
+          "D1 retention is 17%; gate is 18%; source is fixture-retention.",
+          "Web/PWA or native ad provider is not configured for gated revenue tests."
+        ],
+        "nextAction": "Collect live completion, replay, and retention data until gates pass.",
+        "completionCritical": true
+      },
+      {
+        "id": "app-store-distribution-path",
+        "status": "prepared-external-blockers",
+        "summary": "Store listing, compliance drafts, screenshots, and Android TWA handoff are prepared while store release stays gated.",
+        "evidence": [
+          "Store package privacy URL: needs-hosted-domain",
+          "Store assets: screenshots-ready",
+          "Store compliance: draft-ready-external-blockers",
+          "Native package: blocked-draft-ready",
+          "Android release: blocked-needs-host-signing-play"
+        ],
+        "blockers": [
+          "hosted-privacy-url: Hosted privacy policy URL is required before public store submission.",
+          "support-contact: Production support email is required before public store submission.",
+          "google-play-account: Google Play developer account must be connected before Android submission.",
+          "apple-developer-account: Apple Developer account remains deferred until iOS spend is justified.",
+          "native-package-ready: Native package is blocked-draft-ready.",
+          "asset-links: Digital Asset Links are template-only.",
+          "signing-fingerprint: Android signing fingerprint is missing.",
+          "signing-secrets: Android keystore, password, and alias are available to CI.",
+          "google-play-account: Google Play account is not connected.",
+          "play-service-account: Google Play service account upload credentials are available to CI.",
+          "unit-economics-store-spend: Store spend allowed is false; spend mode is no-spend.",
+          "promotion-gate: Android promotion status is blocked.",
+          "Revenue signal is $0.00, below $99.00.",
+          "Apple Developer account is not connected.",
+          "Hosted privacy policy URL is missing."
+        ],
+        "nextAction": "Host privacy URL, create signing assets, and connect Google Play account.",
+        "completionCritical": true
+      },
+      {
+        "id": "minimal-cost-guardrails",
+        "status": "met",
+        "summary": "Zero-spend, no-store-submission, and no-revenue-before-gates controls are enforced.",
+        "evidence": [
+          "Max daily spend: $0.00",
+          "Bootstrap zero spend: true",
+          "Operator zero spend: true",
+          "Owner guardrails: 4/4"
+        ],
+        "blockers": [],
+        "nextAction": "Preserve zero-spend posture until observed revenue and payback gates open.",
+        "completionCritical": true
+      }
+    ]
+  },
+  "distribution": {
+    "googlePlay": {
+      "status": "blocked",
+      "estimatedCostUsd": 25,
+      "blockers": [
+        "developer account",
+        "signed Android package",
+        "store listing",
+        "content rating",
+        "privacy policy URL",
+        "data safety form",
+        "ad disclosure when ads are enabled"
+      ],
+      "storePackageStatus": "draft-ready",
+      "nativePackageStatus": "blocked-draft-ready"
+    },
+    "iosAppStore": {
+      "status": "defer",
+      "estimatedCostUsd": 99,
+      "blockers": [
+        "Apple Developer account",
+        "native app-like value beyond a thin web wrapper",
+        "store listing",
+        "age rating",
+        "privacy nutrition labels",
+        "in-app purchase setup for digital purchases"
+      ],
+      "storePackageStatus": "draft-ready"
+    },
+    "storePackage": {
+      "status": "draft-ready",
+      "privacyPolicyPath": "/privacy.html",
+      "productionPrivacyUrlStatus": "needs-hosted-domain",
+      "checks": [
+        {
+          "id": "store-listing",
+          "status": "pass",
+          "detail": "Generated store listing copy exists and fits Google Play short-description limits."
+        },
+        {
+          "id": "store-listing-optimizer",
+          "status": "pass",
+          "detail": "Store listing optimizer is store-listing-optimizer-ready; focus canopy-bloom."
+        },
+        {
+          "id": "google-data-safety",
+          "status": "pass",
+          "detail": "Google Play data safety draft exists."
+        },
+        {
+          "id": "apple-privacy-labels",
+          "status": "pass",
+          "detail": "Apple App Privacy label draft exists."
+        },
+        {
+          "id": "native-packaging-path",
+          "status": "pass",
+          "detail": "Android TWA packaging draft exists while signing remains blocked."
+        },
+        {
+          "id": "native-package-handoff",
+          "status": "pass",
+          "detail": "Android native handoff is blocked-draft-ready."
+        },
+        {
+          "id": "store-screenshots",
+          "status": "pass",
+          "detail": "Generated store screenshot assets are screenshots-ready; 4 screenshots attached."
+        },
+        {
+          "id": "store-compliance",
+          "status": "pass",
+          "detail": "Store compliance is draft-ready-external-blockers."
+        }
+      ]
+    },
+    "storeListingOptimizer": {
+      "status": "store-listing-optimizer-ready",
+      "recommendation": {
+        "focusGameId": "canopy-bloom",
+        "title": "Canopy Bloom",
+        "previousLaunchCandidateId": "lantern-relay",
+        "changedLaunchCandidate": true,
+        "rationale": [
+          "Growth quality 78",
+          "Portfolio score 51.912",
+          "current daily challenge",
+          "current acquisition candidate",
+          "has generated store screenshot"
+        ]
+      },
+      "copyGuardrails": {
+        "appNameMaxChars": 30,
+        "googleShortDescriptionMaxChars": 80,
+        "appleSubtitleMaxChars": 30,
+        "appleKeywordsMaxChars": 100,
+        "noProtectedBoardGameNames": true,
+        "noUnverifiedAwardsOrRankingClaims": true,
+        "noMonetizationClaimsBeforeEnabled": true,
+        "noChildDirectedClaims": true
+      },
+      "leadScreenshotId": "phone-canopy-bloom-generated"
+    },
+    "storeCompliance": {
+      "status": "draft-ready-external-blockers",
+      "contentRating": {
+        "googlePlay": {
+          "questionnaireStatus": "draft-ready",
+          "expectedRating": "Everyone",
+          "descriptors": [],
+          "answers": {
+            "violence": "none",
+            "fear": "none",
+            "sexualContent": "none",
+            "language": "none",
+            "controlledSubstances": "none",
+            "gambling": "none",
+            "simulatedGambling": false,
+            "userGeneratedContent": false,
+            "realMoneyPrizes": false,
+            "locationSharing": false
+          },
+          "evidence": [
+            "No gambling",
+            "No real-money prizes",
+            "No user-generated content in first release",
+            "Ads disabled until retention gates pass"
+          ]
+        },
+        "appleAppStore": {
+          "ageRatingStatus": "draft-ready",
+          "expectedRating": "4+",
+          "answers": {
+            "cartoonViolence": "none",
+            "realisticViolence": "none",
+            "profanity": "none",
+            "matureThemes": "none",
+            "simulatedGambling": "none",
+            "contests": "none",
+            "unrestrictedWebAccess": false,
+            "userGeneratedContent": false,
+            "gamblingAndContests": false
+          },
+          "evidence": [
+            "No gambling",
+            "No real-money prizes",
+            "No user-generated content in first release",
+            "Ads disabled until retention gates pass"
+          ]
+        }
+      },
+      "targetAudience": {
+        "status": "draft-ready",
+        "directedToChildren": false,
+        "childrenUnder13Targeted": false,
+        "targetAgeBands": [
+          "13-15",
+          "16-17",
+          "18+"
+        ],
+        "familyPolicy": "not-designed-for-families-program",
+        "rationale": "The app is a general-audience solo strategy puzzle portal with no child-directed branding, accounts, chat, UGC, gambling, or real-money prizes."
+      },
+      "adsAndMonetization": {
+        "status": "ads-disabled",
+        "adsEnabled": false,
+        "adDisclosureRequired": false,
+        "adDisclosureDraft": "Ads are disabled in the current release.",
+        "inAppPurchasesEnabled": false,
+        "subscriptionsEnabled": false,
+        "paywalledCoreRules": false,
+        "paidAcquisitionAllowed": false,
+        "blockedTelemetryWhenDisabled": [
+          "rewarded_ad_started",
+          "rewarded_ad_completed",
+          "revenue_cents"
+        ]
+      },
+      "blockers": [
+        "hosted-privacy-url: Hosted privacy policy URL is required before public store submission.",
+        "support-contact: Production support email is required before public store submission.",
+        "google-play-account: Google Play developer account must be connected before Android submission.",
+        "apple-developer-account: Apple Developer account remains deferred until iOS spend is justified."
+      ],
+      "checks": [
+        {
+          "id": "content-rating",
+          "status": "pass",
+          "detail": "Content rating drafts avoid gambling, UGC, real-money prizes, mature content, and unrestricted web access."
+        },
+        {
+          "id": "target-audience",
+          "status": "pass",
+          "detail": "Target audience is general audience and not child-directed."
+        },
+        {
+          "id": "ads-declaration",
+          "status": "pass",
+          "detail": "Ads declaration is ads-disabled; revenue enabled is false."
+        },
+        {
+          "id": "privacy-data",
+          "status": "pass",
+          "detail": "Data safety, App Privacy labels, and account-deletion stance are drafted."
+        },
+        {
+          "id": "app-access",
+          "status": "pass",
+          "detail": "Reviewer access does not require credentials because accounts are disabled."
+        },
+        {
+          "id": "store-screenshots",
+          "status": "pass",
+          "detail": "4 generated screenshot asset(s) are available."
+        },
+        {
+          "id": "hosted-privacy-url",
+          "status": "external-blocker",
+          "detail": "Hosted privacy policy URL is required before public store submission."
+        },
+        {
+          "id": "support-contact",
+          "status": "external-blocker",
+          "detail": "Production support email is required before public store submission."
+        },
+        {
+          "id": "google-play-account",
+          "status": "external-blocker",
+          "detail": "Google Play developer account must be connected before Android submission."
+        },
+        {
+          "id": "apple-developer-account",
+          "status": "external-blocker",
+          "detail": "Apple Developer account remains deferred until iOS spend is justified."
+        }
+      ]
+    },
+    "nativePackage": {
+      "status": "blocked-draft-ready",
+      "platform": "android-trusted-web-activity",
+      "packageName": "app.autonomousgamelab.portal",
+      "host": "autonomous-game-lab.example.com",
+      "assetLinksStatus": "template-only",
+      "blockers": [
+        "Production host is missing or still uses example.com.",
+        "Hosted privacy policy URL is missing.",
+        "Android signing certificate SHA-256 fingerprint is missing.",
+        "Google Play developer account is not connected."
+      ],
+      "checks": [
+        {
+          "id": "production-host",
+          "status": "blocker",
+          "detail": "Production host is not configured."
+        },
+        {
+          "id": "hosted-privacy",
+          "status": "blocker",
+          "detail": "Privacy URL status is needs-hosted-domain."
+        },
+        {
+          "id": "android-signing-fingerprint",
+          "status": "blocker",
+          "detail": "Signing fingerprint is missing."
+        },
+        {
+          "id": "store-screenshots",
+          "status": "pass",
+          "detail": "4 screenshot asset(s) available."
+        },
+        {
+          "id": "icon-assets",
+          "status": "pass",
+          "detail": "6 icon asset(s) available."
+        },
+        {
+          "id": "google-play-account",
+          "status": "blocker",
+          "detail": "Google Play developer account is not connected."
+        }
+      ]
+    },
+    "iconAssets": {
+      "status": "icons-ready",
+      "manifestIcons": [
+        {
+          "src": "/icons/icon-192.png",
+          "sizes": "192x192",
+          "type": "image/png",
+          "purpose": "any"
+        },
+        {
+          "src": "/icons/icon-512.png",
+          "sizes": "512x512",
+          "type": "image/png",
+          "purpose": "any"
+        },
+        {
+          "src": "/icons/maskable-192.png",
+          "sizes": "192x192",
+          "type": "image/png",
+          "purpose": "maskable"
+        },
+        {
+          "src": "/icons/maskable-512.png",
+          "sizes": "512x512",
+          "type": "image/png",
+          "purpose": "maskable"
+        }
+      ],
+      "storeIcons": [
+        {
+          "id": "store-1024",
+          "fileName": "store-icon-1024.png",
+          "size": 1024,
+          "purpose": "store",
+          "platformUse": [
+            "Google Play icon draft",
+            "Apple App Store icon draft"
+          ],
+          "path": "/icons/store-icon-1024.png",
+          "sourcePath": "public/icons/store-icon-1024.png",
+          "width": 1024,
+          "height": 1024,
+          "bytes": 431782,
+          "type": "image/png"
+        }
+      ],
+      "checks": [
+        {
+          "id": "pwa-192",
+          "publicExists": true,
+          "distExists": true,
+          "hasDimensions": true
+        },
+        {
+          "id": "pwa-512",
+          "publicExists": true,
+          "distExists": true,
+          "hasDimensions": true
+        },
+        {
+          "id": "maskable-192",
+          "publicExists": true,
+          "distExists": true,
+          "hasDimensions": true
+        },
+        {
+          "id": "maskable-512",
+          "publicExists": true,
+          "distExists": true,
+          "hasDimensions": true
+        },
+        {
+          "id": "apple-touch-180",
+          "publicExists": true,
+          "distExists": true,
+          "hasDimensions": true
+        },
+        {
+          "id": "store-1024",
+          "publicExists": true,
+          "distExists": true,
+          "hasDimensions": true
+        }
+      ]
+    }
+  },
+  "promotion": {
+    "nextAction": "Deploy web/PWA experiment when hosting credentials exist.",
+    "storeRule": "Do not package native apps until retention gates, privacy URL, and account credentials exist."
+  }
+}

@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Metro Loom | Autonomous Game Lab</title>
+    <meta name="description" content="A generated route building puzzle with quick merchant timing decisions." />
+    <meta name="keywords" content="route building, merchant timing, daily puzzle, solo board game, generated strategy game, board-game-inspired, mobile PWA" />
+    <link rel="canonical" href="https://autonomous-game-lab.example.com/games/metro-loom.html" />
+    <meta property="og:title" content="Metro Loom" />
+    <meta property="og:description" content="A generated route building puzzle with quick merchant timing decisions." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://autonomous-game-lab.example.com/games/metro-loom.html" />
+    <style>
+      :root {
+        color: #191713;
+        background: #fbf7ef;
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        line-height: 1.5;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-width: 320px;
+        background: #fbf7ef;
+      }
+
+      main {
+        display: grid;
+        min-height: 100svh;
+        grid-template-columns: minmax(0, 0.9fr) minmax(320px, 1.1fr);
+        gap: clamp(24px, 5vw, 72px);
+        align-items: center;
+        width: min(1180px, calc(100% - 32px));
+        margin: 0 auto;
+        padding: 42px 0;
+      }
+
+      h1 {
+        margin: 0;
+        font-size: clamp(42px, 8vw, 88px);
+        line-height: 0.95;
+        letter-spacing: 0;
+      }
+
+      p {
+        margin: 0;
+        color: #625d52;
+      }
+
+      .copy {
+        display: grid;
+        gap: 18px;
+      }
+
+      .eyebrow,
+      .tag {
+        display: inline-flex;
+        width: fit-content;
+        border-radius: 8px;
+        font-weight: 800;
+      }
+
+      .eyebrow {
+        padding: 5px 9px;
+        color: #187f7a;
+        background: #d7efeb;
+      }
+
+      .tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .tag {
+        padding: 4px 8px;
+        color: #625d52;
+        background: #f3eadc;
+        font-size: 13px;
+      }
+
+      .play {
+        display: inline-flex;
+        width: fit-content;
+        min-height: 44px;
+        align-items: center;
+        justify-content: center;
+        padding: 0 16px;
+        border: 1px solid #191713;
+        border-radius: 8px;
+        color: #fffdfa;
+        background: #191713;
+        font-weight: 800;
+        text-decoration: none;
+      }
+
+      .board {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 8px;
+        min-height: min(64svh, 620px);
+        padding: clamp(14px, 3vw, 28px);
+        border: 1px solid #d9d0bf;
+        border-radius: 8px;
+        background: #fffdfa;
+        box-shadow: 0 18px 40px rgba(54, 44, 26, 0.1);
+      }
+
+      .cell {
+        min-height: 64px;
+        border-radius: 7px;
+      }
+
+      .c0 {
+        background: #187f7a;
+      }
+
+      .c1 {
+        background: #bd4d38;
+      }
+
+      .c2 {
+        background: #b87b16;
+      }
+
+      .c3 {
+        background: #6b5bb8;
+      }
+
+      .c4 {
+        background: #f3eadc;
+        border: 1px solid #d9d0bf;
+      }
+
+      @media (max-width: 820px) {
+        main {
+          grid-template-columns: 1fr;
+          align-items: start;
+        }
+
+        .board {
+          min-height: 360px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <section class="copy">
+        <span class="eyebrow">generated-playable strategy puzzle</span>
+        <h1>Metro Loom</h1>
+        <p>Metro Loom is tuned as a daily route building challenge with a compact board and a clear score target. A complete tactical board-game feeling in 5 minutes, tuned for touch screens.</p>
+        <div class="tags">
+          <span class="tag">route building</span>
+          <span class="tag">merchant timing</span>
+          <span class="tag">start learning</span>
+          <span class="tag">replay learning</span>
+        </div>
+        <a class="play" href="../?game=metro-loom&amp;utm_source=organic_game_page&amp;utm_campaign=metro-loom">Try today&#39;s challenge</a>
+      </section>
+      <section class="board" aria-label="Metro Loom board preview">
+        <span class="cell c2"></span><span class="cell c3"></span><span class="cell c4"></span><span class="cell c0"></span><span class="cell c1"></span><span class="cell c2"></span><span class="cell c3"></span><span class="cell c4"></span><span class="cell c0"></span><span class="cell c1"></span><span class="cell c2"></span><span class="cell c3"></span><span class="cell c4"></span><span class="cell c0"></span><span class="cell c1"></span><span class="cell c2"></span><span class="cell c3"></span><span class="cell c4"></span><span class="cell c0"></span><span class="cell c1"></span>
+      </section>
+    </main>
+  </body>
+</html>

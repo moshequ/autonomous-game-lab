@@ -1,0 +1,65 @@
+{
+  "generatedAt": "2026-05-18T23:36:41.986Z",
+  "sourceDataHash": "5cff86cdbfc3",
+  "source": "fixture-sample",
+  "observed": {
+    "organicEntries": 0,
+    "shareClicks": 0,
+    "gameStarts": 375
+  },
+  "actions": [
+    {
+      "status": "skipped",
+      "gameId": "canopy-bloom",
+      "reason": "same growth diagnosis already applied for this source data",
+      "sourceDataHash": "5cff86cdbfc3"
+    },
+    {
+      "status": "skipped",
+      "gameId": "grove-engine",
+      "reason": "same growth diagnosis already applied for this source data",
+      "sourceDataHash": "5cff86cdbfc3"
+    },
+    {
+      "status": "skipped",
+      "gameId": "harbor-rings",
+      "reason": "same growth diagnosis already applied for this source data",
+      "sourceDataHash": "5cff86cdbfc3"
+    }
+  ],
+  "policySummary": {
+    "optimizedGames": 5,
+    "activeChanges": [
+      {
+        "gameId": "canopy-bloom",
+        "ctaVariant": "daily-challenge",
+        "messageVariant": "daily",
+        "reason": "No organic entry data yet; seed strongest pages with daily challenge copy."
+      },
+      {
+        "gameId": "orbit-atlas",
+        "ctaVariant": "daily-challenge",
+        "messageVariant": "daily",
+        "reason": "No organic entry data yet; seed strongest pages with daily challenge copy."
+      },
+      {
+        "gameId": "harbor-rings",
+        "ctaVariant": "quick-strategy",
+        "messageVariant": "generated-original",
+        "reason": "No share clicks captured yet; test faster share-oriented CTA."
+      },
+      {
+        "gameId": "metro-loom",
+        "ctaVariant": "daily-challenge",
+        "messageVariant": "daily",
+        "reason": "No organic entry data yet; seed strongest pages with daily challenge copy."
+      },
+      {
+        "gameId": "grove-engine",
+        "ctaVariant": "daily-challenge",
+        "messageVariant": "daily",
+        "reason": "No organic entry data yet; seed strongest pages with daily challenge copy."
+      }
+    ]
+  }
+}

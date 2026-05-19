@@ -1,0 +1,105 @@
+{
+  "generatedAt": "2026-05-18T23:37:00.549Z",
+  "status": "no-spend",
+  "analyticsSource": "fixture-sample",
+  "projectionConfidence": "low-fixture-or-zero",
+  "costPosture": "zero-paid-spend-until-live-revenue-and-retention-pass",
+  "observed": {
+    "gameViews": 580,
+    "gameStarts": 375,
+    "revenueCents": 0,
+    "revenueUsd": 0,
+    "revenuePerStartedGameCents": 0,
+    "revenuePerViewCents": 0
+  },
+  "projections": {
+    "basis": "fixture/local-free fallback; not valid for paid spend",
+    "lookbackDays": null,
+    "estimatedDailyRevenueCents": 0,
+    "projectedMonthlyRevenueCents": 0,
+    "projectedAnnualRevenueCents": 0
+  },
+  "productGates": {
+    "firstGameCompletion": {
+      "actual": 0.397,
+      "required": 0.55,
+      "pass": false
+    },
+    "replayRate": {
+      "actual": 0.309,
+      "required": 0.35,
+      "pass": false
+    },
+    "d1Retention": {
+      "actual": 0.167,
+      "required": 0.18,
+      "pass": false
+    },
+    "retentionReady": false,
+    "revenueSignalPresent": false
+  },
+  "storeFees": {
+    "googlePlay": {
+      "costUsd": 25,
+      "type": "one-time-developer-account",
+      "allowed": false,
+      "paybackDays": null,
+      "blockers": [
+        "Hosted privacy policy URL is missing.",
+        "Signed Android package and keystore are missing.",
+        "Google Play developer account is not connected.",
+        "Native package is blocked-draft-ready.",
+        "No live revenue signal yet.",
+        "Projected Google Play fee payback is not within 60 days."
+      ]
+    },
+    "iosAppStore": {
+      "costUsd": 99,
+      "type": "annual-developer-account",
+      "allowed": false,
+      "paybackDays": null,
+      "blockers": [
+        "Revenue signal is $0.00, below $99.00.",
+        "Apple Developer account is not connected.",
+        "Hosted privacy policy URL is missing.",
+        "Projected annual revenue is $0.00, below $99.00.",
+        "Projected Apple fee payback is not within 90 days."
+      ]
+    }
+  },
+  "controls": {
+    "spendGuardActive": true,
+    "spendMode": "no-spend",
+    "maxDailySpendUsd": 0,
+    "paidAcquisitionAllowed": false,
+    "storeSpendAllowed": false,
+    "monetizationSpendAllowed": false,
+    "requiresHumanApprovalForSpendAboveUsd": 0,
+    "noPaidAcquisitionBeforeRevenue": true,
+    "noStoreFeesBeforePayback": true,
+    "noInterstitialsBeforeRetention": true
+  },
+  "promotion": {
+    "web": "promotable-internal",
+    "monetization": "blocked",
+    "androidGooglePlay": "blocked",
+    "iosAppStore": "defer"
+  },
+  "recommendations": [
+    {
+      "id": "stay-web-organic",
+      "action": "Keep traffic on the free web/PWA loop and generated organic pages.",
+      "reason": "Current analytics are fixture or local-only, so spend decisions would be speculation."
+    },
+    {
+      "id": "hold-paid-acquisition",
+      "action": "Do not run paid acquisition.",
+      "reason": "Paid acquisition needs live revenue plus passing retention gates."
+    },
+    {
+      "id": "hold-store-fees",
+      "action": "Do not pay app-store account fees yet.",
+      "reason": "Store fees remain blocked until hosted compliance URLs, credentials, revenue, and payback gates clear."
+    }
+  ]
+}

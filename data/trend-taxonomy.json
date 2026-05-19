@@ -1,0 +1,90 @@
+{
+  "mechanics": [
+    {
+      "name": "tile placement",
+      "keywords": ["tile", "map", "island", "city", "garden", "kingdom"],
+      "mobileFit": 88,
+      "template": "grid-puzzle"
+    },
+    {
+      "name": "card drafting",
+      "keywords": ["card", "draft", "deck", "market", "hand"],
+      "mobileFit": 82,
+      "template": "tableau"
+    },
+    {
+      "name": "route building",
+      "keywords": ["route", "rail", "metro", "line", "network", "path"],
+      "mobileFit": 90,
+      "template": "line-drawing"
+    },
+    {
+      "name": "auction",
+      "keywords": ["auction", "bid", "market", "merchant", "trade"],
+      "mobileFit": 74,
+      "template": "turn-economy"
+    },
+    {
+      "name": "roll and write",
+      "keywords": ["roll", "dice", "write", "sheet", "combo"],
+      "mobileFit": 86,
+      "template": "daily-sheet"
+    },
+    {
+      "name": "engine building",
+      "keywords": ["engine", "factory", "tableau", "chain", "combo"],
+      "mobileFit": 78,
+      "template": "tableau"
+    },
+    {
+      "name": "worker placement",
+      "keywords": ["worker", "village", "guild", "action", "placement"],
+      "mobileFit": 69,
+      "template": "turn-economy"
+    }
+  ],
+  "themes": [
+    {
+      "name": "cozy production",
+      "keywords": ["garden", "farm", "orchard", "tea", "bakery", "market"],
+      "adSafety": 96
+    },
+    {
+      "name": "compact city logistics",
+      "keywords": ["city", "metro", "rail", "route", "harbor", "market"],
+      "adSafety": 93
+    },
+    {
+      "name": "science desk",
+      "keywords": ["observatory", "weather", "lab", "star", "archive"],
+      "adSafety": 95
+    },
+    {
+      "name": "expedition planning",
+      "keywords": ["ruins", "island", "map", "expedition", "camp"],
+      "adSafety": 89
+    },
+    {
+      "name": "merchant timing",
+      "keywords": ["merchant", "trade", "auction", "bid", "contract"],
+      "adSafety": 91
+    }
+  ],
+  "audiences": [
+    {
+      "name": "mobile puzzle",
+      "keywords": ["puzzle", "solo", "short", "daily"],
+      "sessionMinutes": 5
+    },
+    {
+      "name": "families",
+      "keywords": ["family", "casual", "cozy", "simple"],
+      "sessionMinutes": 7
+    },
+    {
+      "name": "strategy solo",
+      "keywords": ["solo", "strategy", "bot", "campaign"],
+      "sessionMinutes": 9
+    }
+  ]
+}

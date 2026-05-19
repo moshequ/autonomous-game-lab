@@ -1,0 +1,33 @@
+{
+  "generatedAt": "2026-05-18T23:37:00.335Z",
+  "status": "blocked-by-product-gates",
+  "revenueEnabled": false,
+  "runtime": {
+    "status": "guarded-disabled",
+    "surface": "result-screen",
+    "firstPlacementId": "rewarded-hint-after-failed-daily",
+    "requiresCompletedRun": true,
+    "requiresFailedRun": true,
+    "maxOffersPerSession": 1,
+    "disabledReason": "First-game completion is 40%; gate is 55%.",
+    "blockedEventsWhenDisabled": [
+      "rewarded_ad_started",
+      "rewarded_ad_completed",
+      "revenue_cents"
+    ],
+    "webAdapter": "adsense-not-configured",
+    "appAdapter": "admob-not-configured"
+  },
+  "placements": [
+    {
+      "id": "rewarded-hint-after-failed-daily",
+      "status": "disabled",
+      "type": "rewarded"
+    },
+    {
+      "id": "cosmetic-unlock-result-skin",
+      "status": "disabled",
+      "type": "cosmetic"
+    }
+  ]
+}

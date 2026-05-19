@@ -1,0 +1,95 @@
+name: Event Collector Deploy
+
+on:
+  workflow_dispatch:
+  workflow_run:
+    workflows: ['Autonomous Daily Studio']
+    types: [completed]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: event-collector
+  cancel-in-progress: false
+
+jobs:
+  collector:
+    if: github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      AGL_EVENT_COLLECTOR_R2_BUCKET: ${{ vars.AGL_EVENT_COLLECTOR_R2_BUCKET }}
+      AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS: ${{ vars.AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS }}
+      VITE_EVENT_COLLECTOR_URL: ${{ vars.VITE_EVENT_COLLECTOR_URL }}
+      AGL_EVENT_COLLECTOR_EXPORT_URL: ${{ vars.AGL_EVENT_COLLECTOR_EXPORT_URL }}
+      VITE_EVENT_COLLECTOR_WRITE_TOKEN: ${{ secrets.VITE_EVENT_COLLECTOR_WRITE_TOKEN }}
+      AGL_EVENT_COLLECTOR_ADMIN_TOKEN: ${{ secrets.AGL_EVENT_COLLECTOR_ADMIN_TOKEN }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Verify collector behavior
+        run: npm run autonomous:event-collector-smoke
+
+      - name: Generate collector deployment plan
+        run: npm run autonomous:collector-deploy-plan
+
+      - name: Skip deploy when environment is incomplete
+        if: env.CLOUDFLARE_ACCOUNT_ID == '' || env.CLOUDFLARE_API_TOKEN == '' || env.AGL_EVENT_COLLECTOR_ADMIN_TOKEN == '' || env.VITE_EVENT_COLLECTOR_URL == '' || env.AGL_EVENT_COLLECTOR_EXPORT_URL == ''
+        run: |
+          echo "Cloudflare collector deployment is not configured yet."
+          cat reports/event-collector-deployment-latest.md
+
+      - name: Render Wrangler config
+        if: env.CLOUDFLARE_ACCOUNT_ID != '' && env.CLOUDFLARE_API_TOKEN != '' && env.AGL_EVENT_COLLECTOR_ADMIN_TOKEN != '' && env.VITE_EVENT_COLLECTOR_URL != '' && env.AGL_EVENT_COLLECTOR_EXPORT_URL != ''
+        run: |
+          mkdir -p .wrangler
+          cat > .wrangler/event-collector.toml <<EOF
+          name = "autonomous-game-lab-events"
+          main = "ops/cloudflare/event-collector-worker.mjs"
+          compatibility_date = "2026-05-18"
+          account_id = "${CLOUDFLARE_ACCOUNT_ID}"
+
+          [vars]
+          ALLOWED_ORIGINS = "${AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS}"
+          PUBLIC_WRITE_TOKEN = "${VITE_EVENT_COLLECTOR_WRITE_TOKEN}"
+
+          [[r2_buckets]]
+          binding = "EVENT_BUCKET"
+          bucket_name = "${AGL_EVENT_COLLECTOR_R2_BUCKET:-autonomous-game-lab-events}"
+          EOF
+
+      - name: Deploy event collector Worker
+        if: env.CLOUDFLARE_ACCOUNT_ID != '' && env.CLOUDFLARE_API_TOKEN != '' && env.AGL_EVENT_COLLECTOR_ADMIN_TOKEN != '' && env.VITE_EVENT_COLLECTOR_URL != '' && env.AGL_EVENT_COLLECTOR_EXPORT_URL != ''
+        run: npx wrangler@latest deploy --config .wrangler/event-collector.toml
+
+      - name: Sync admin export secret
+        if: env.CLOUDFLARE_ACCOUNT_ID != '' && env.CLOUDFLARE_API_TOKEN != '' && env.AGL_EVENT_COLLECTOR_ADMIN_TOKEN != '' && env.VITE_EVENT_COLLECTOR_URL != '' && env.AGL_EVENT_COLLECTOR_EXPORT_URL != ''
+        run: printf "%s" "$AGL_EVENT_COLLECTOR_ADMIN_TOKEN" | npx wrangler@latest secret put ADMIN_EXPORT_TOKEN --config .wrangler/event-collector.toml
+
+      - name: Assert configured collector plan
+        if: env.CLOUDFLARE_ACCOUNT_ID != '' && env.CLOUDFLARE_API_TOKEN != '' && env.AGL_EVENT_COLLECTOR_ADMIN_TOKEN != '' && env.VITE_EVENT_COLLECTOR_URL != '' && env.AGL_EVENT_COLLECTOR_EXPORT_URL != ''
+        run: node scripts/event-collector-deploy-plan.mjs --assert-configured
+
+      - name: Upload collector artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: event-collector-deployment
+          path: |
+            data/event-collector-*.json
+            reports/event-collector-*.md
+          if-no-files-found: ignore

@@ -1,0 +1,104 @@
+{
+  "generatedAt": "2026-05-19T00:12:09.382Z",
+  "status": "replay-loop-ready",
+  "sourceStatus": {
+    "analyticsSource": "fixture-sample",
+    "releaseHealth": "monitoring",
+    "productOptimization": "product-optimization-ready"
+  },
+  "target": {
+    "gameId": "harbor-rings",
+    "title": "Harbor Rings",
+    "starts": 284,
+    "candidateReplayRate": 0.313,
+    "candidateReplayGap": 0.037
+  },
+  "metrics": {
+    "replayRate": 0.309,
+    "replayGate": 0.35,
+    "replayGap": 0.041,
+    "firstGameCompletion": 0.397,
+    "d1Retention": 0.167,
+    "levelCompletions": 149,
+    "replayClicks": 46,
+    "promptViews": 0,
+    "promptClicks": 0,
+    "promptDismissals": 0
+  },
+  "promptPolicy": {
+    "id": "completed-run-replay-prompt",
+    "status": "armed",
+    "surface": "autonomy-cockpit-replay-card",
+    "trigger": "after-completed-run",
+    "ctaLabel": "Play again",
+    "dismissLabel": "Done for now",
+    "copy": "Try one cleaner run with the same rules.",
+    "cooldown": "one prompt per completed run",
+    "reason": "Replay rate is 31% and the gate is 35%; ask for one fresh run after completion.",
+    "telemetry": {
+      "viewed": "replay_prompt_viewed",
+      "clicked": "replay_prompt_clicked",
+      "dismissed": "replay_prompt_dismissed",
+      "replay": "replay_clicked"
+    }
+  },
+  "localState": {
+    "dismissedRunKey": "agl.replay.dismissedRunKey",
+    "acceptedRunKey": "agl.replay.acceptedRunKey"
+  },
+  "controls": {
+    "zeroPaidSpend": true,
+    "afterCompletedRunOnly": true,
+    "onePromptPerCompletedRun": true,
+    "noForcedReplay": true,
+    "noAutoRestart": true,
+    "noPaidRewards": true,
+    "noRevenueEnablement": true,
+    "noDarkPatterns": true,
+    "requireCompletedRunTelemetry": true,
+    "canNudgeReplay": true,
+    "completionReady": false,
+    "retentionReady": false,
+    "replayReady": false,
+    "monetizationStillBlocked": true
+  },
+  "missions": [
+    {
+      "id": "finish-run",
+      "label": "Finish a Harbor Rings run",
+      "event": "level_completed",
+      "gameId": "harbor-rings",
+      "reward": "result-context",
+      "status": "armed"
+    },
+    {
+      "id": "show-replay-prompt",
+      "label": "Show one replay prompt after a completed run",
+      "event": "replay_prompt_viewed",
+      "gameId": "harbor-rings",
+      "reward": "fresh-run-suggestion",
+      "status": "armed"
+    },
+    {
+      "id": "confirm-replay",
+      "label": "Start a fresh run from the completed-run prompt",
+      "event": "replay_prompt_clicked",
+      "gameId": "harbor-rings",
+      "reward": "fresh-run",
+      "status": "armed"
+    },
+    {
+      "id": "respect-replay-dismissal",
+      "label": "Let players leave after one completed run",
+      "event": "replay_prompt_dismissed",
+      "gameId": "harbor-rings",
+      "reward": "no-pressure-exit",
+      "status": "armed"
+    }
+  ],
+  "nextActions": [
+    "Improve replay rate from 31% toward 35% with a measured completed-run prompt.",
+    "Compare replay_prompt_viewed, replay_prompt_clicked, replay_prompt_dismissed, and replay_clicked before changing copy.",
+    "Keep replay prompts optional, local, and zero-spend until product gates pass."
+  ]
+}

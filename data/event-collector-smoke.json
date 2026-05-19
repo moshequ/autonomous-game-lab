@@ -1,0 +1,27 @@
+{
+  "generatedAt": "2026-05-19T01:21:45.604Z",
+  "status": "pass",
+  "collector": {
+    "postStatus": "accepted",
+    "storedEvents": 5,
+    "exportedEvents": 5,
+    "files": 1,
+    "piiStripped": true
+  },
+  "ingest": {
+    "status": "imported",
+    "importedEvents": 5,
+    "remoteCollectorStatus": "available"
+  },
+  "analytics": {
+    "activeSource": "local-event-drops",
+    "retentionSource": "local-event-drops",
+    "d1Retention": 1,
+    "counts": {
+      "game_viewed": 2,
+      "game_started": 1,
+      "tutorial_completed": 1,
+      "level_completed": 1
+    }
+  }
+}

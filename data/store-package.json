@@ -1,0 +1,243 @@
+{
+  "generatedAt": "2026-05-18T23:36:41.558Z",
+  "launchCandidate": {
+    "id": "canopy-bloom",
+    "title": "Canopy Bloom",
+    "status": "generated-playable"
+  },
+  "privacyPolicy": {
+    "path": "/privacy.html",
+    "productionUrl": null,
+    "productionUrlStatus": "needs-hosted-domain",
+    "updatedAt": "2026-05-18",
+    "summary": "Autonomous Game Lab collects anonymous gameplay events to improve game balance, onboarding, and replay quality. Accounts, paid purchases, and advertising are disabled until production gates pass.",
+    "dataCollected": [
+      {
+        "category": "Gameplay analytics",
+        "examples": [
+          "game_viewed",
+          "game_started",
+          "tutorial_completed",
+          "turn_taken",
+          "level_completed"
+        ],
+        "purpose": "Measure friction, balance, completion, and replay behavior.",
+        "linkedToIdentity": false,
+        "sharedWithThirdParties": false
+      },
+      {
+        "category": "Experiment assignment",
+        "examples": [
+          "onboarding variant",
+          "reward copy variant"
+        ],
+        "purpose": "Compare low-risk product improvements.",
+        "linkedToIdentity": false,
+        "sharedWithThirdParties": false
+      }
+    ],
+    "dataNotCollectedYet": [
+      "contact information",
+      "precise location",
+      "contacts",
+      "photos",
+      "payment data"
+    ],
+    "userControls": [
+      "External analytics opt-out is available in the app.",
+      "Local browser analytics can be cleared by clearing site data.",
+      "No account deletion flow is required while accounts are disabled."
+    ]
+  },
+  "supportPage": {
+    "path": "/support.html",
+    "productionUrl": null,
+    "productionUrlStatus": "needs-hosted-domain",
+    "supportEmail": null,
+    "supportEmailStatus": "needs-production-address",
+    "topics": [
+      "Gameplay feedback",
+      "Privacy questions",
+      "Store listing support contact",
+      "Bug reports for web/PWA builds"
+    ]
+  },
+  "dataSafetyDraft": {
+    "googlePlay": {
+      "status": "draft-ready",
+      "dataTypes": [
+        {
+          "type": "App activity",
+          "purpose": [
+            "Analytics"
+          ],
+          "optional": false,
+          "shared": false,
+          "processedEphemerally": false
+        }
+      ],
+      "noCollectionClaims": [
+        "No account data",
+        "No location",
+        "No financial information",
+        "No user-generated content"
+      ],
+      "blockersBeforeSubmission": [
+        "Hosted privacy policy URL",
+        "Developer account access",
+        "Signed Android package",
+        "Final ad disclosure if ads are enabled"
+      ]
+    },
+    "appleAppPrivacy": {
+      "status": "draft-ready",
+      "labels": [
+        {
+          "dataType": "Product Interaction",
+          "purpose": "Analytics",
+          "linkedToUser": false,
+          "usedForTracking": false
+        }
+      ],
+      "blockersBeforeSubmission": [
+        "Hosted privacy policy URL",
+        "Apple Developer account access",
+        "Native app package or approved wrapper strategy",
+        "Final in-app purchase disclosure if purchases are enabled"
+      ]
+    }
+  },
+  "storeListing": {
+    "source": "store-listing-optimizer",
+    "sourceGameId": "canopy-bloom",
+    "appName": "Autonomous Game Lab",
+    "googlePlay": {
+      "title": "Autonomous Game Lab",
+      "shortDescription": "Original daily strategy puzzles led by Canopy Bloom. Quick solo board-game play.",
+      "fullDescription": "Autonomous Game Lab is a web-first collection of original board-game-inspired solo strategy puzzles. Canopy Bloom is the current data-led store focus: A generated roll and write puzzle with quick science desk decisions. Every game is built for short touch-first sessions, clear scoring, daily replay, and measured improvements from anonymous gameplay signals. Accounts, user-generated content, purchases, gambling, and ads remain disabled until production gates and store review requirements pass.",
+      "keywordThemes": [
+        "roll and write",
+        "science desk",
+        "daily puzzle",
+        "solo board game",
+        "generated strategy game",
+        "board-game-inspired",
+        "engine building",
+        "expedition planning",
+        "route building",
+        "merchant timing",
+        "card drafting",
+        "compact city logistics"
+      ]
+    },
+    "appleAppStore": {
+      "name": "Autonomous Game Lab",
+      "subtitle": "Canopy Bloom daily strategy",
+      "promotionalText": "Play Canopy Bloom, today's data-led solo strategy puzzle.",
+      "keywords": "roll and write,science desk,daily puzzle,solo board game,generated strategy game,board-game-inspired"
+    },
+    "shortDescription": "Original daily strategy puzzles led by Canopy Bloom. Quick solo board-game play.",
+    "fullDescription": "Autonomous Game Lab is a web-first collection of original board-game-inspired solo strategy puzzles. Canopy Bloom is the current data-led store focus: A generated roll and write puzzle with quick science desk decisions. Every game is built for short touch-first sessions, clear scoring, daily replay, and measured improvements from anonymous gameplay signals. Accounts, user-generated content, purchases, gambling, and ads remain disabled until production gates and store review requirements pass.",
+    "keywords": [
+      "roll and write",
+      "science desk",
+      "daily puzzle",
+      "solo board game",
+      "generated strategy game",
+      "board-game-inspired",
+      "engine building",
+      "expedition planning",
+      "route building",
+      "merchant timing",
+      "card drafting",
+      "compact city logistics"
+    ],
+    "screenshots": [
+      "lead gameplay board",
+      "daily challenge and streak surface",
+      "multi-game portal",
+      "generated public game page"
+    ],
+    "screenshotAssets": [
+      {
+        "id": "phone-canopy-bloom-generated",
+        "label": "Generated Canopy Bloom board",
+        "path": "/store-assets/screenshots/phone-canopy-bloom-generated.png",
+        "width": 1170,
+        "height": 2532,
+        "platformUse": [
+          "Google Play phone",
+          "Apple iPhone draft"
+        ]
+      },
+      {
+        "id": "phone-lantern-relay-game",
+        "label": "Lantern Relay playable board",
+        "path": "/store-assets/screenshots/phone-lantern-relay-game.png",
+        "width": 1170,
+        "height": 2532,
+        "platformUse": [
+          "Google Play phone",
+          "Apple iPhone draft"
+        ]
+      },
+      {
+        "id": "phone-portal-home",
+        "label": "Mobile portal home",
+        "path": "/store-assets/screenshots/phone-portal-home.png",
+        "width": 1170,
+        "height": 2532,
+        "platformUse": [
+          "Google Play phone",
+          "Apple iPhone draft"
+        ]
+      },
+      {
+        "id": "desktop-growth-page",
+        "label": "Generated public game landing page",
+        "path": "/store-assets/screenshots/desktop-growth-page.png",
+        "width": 1440,
+        "height": 900,
+        "platformUse": [
+          "Web/PWA listing",
+          "press kit"
+        ]
+      }
+    ],
+    "contentRatingNotes": [
+      "No gambling",
+      "No real-money prizes",
+      "No user-generated content in first release",
+      "Ads disabled until retention gates pass"
+    ]
+  },
+  "nativePackaging": {
+    "recommendedFirstNativePath": "Android Trusted Web Activity after web retention gates pass",
+    "androidTwaManifest": {
+      "packageName": "app.autonomousgamelab.portal",
+      "host": "autonomous-game-lab.example.com",
+      "startUrl": "/",
+      "launcherName": "Game Lab",
+      "displayMode": "standalone",
+      "signing": "blocked-until-keystore-exists"
+    },
+    "iosStrategy": "Defer until revenue validates Apple Developer annual cost and native review risk."
+  },
+  "costGates": {
+    "googlePlayOneTimeUsd": 25,
+    "appleDeveloperAnnualUsd": 99
+  },
+  "sourceReferences": {
+    "googlePlayConsoleSignup": "https://support.google.com/googleplay/android-developer/answer/6112435",
+    "googlePlayDataSafety": "https://support.google.com/googleplay/android-developer/answer/10787469",
+    "appleDeveloperProgram": "https://developer.apple.com/programs/",
+    "applePrivacyLabels": "https://developer.apple.com/app-store/app-privacy-details/"
+  },
+  "storeListingOptimization": {
+    "generatedAt": "2026-05-18T23:36:59.284Z",
+    "status": "store-listing-optimizer-ready",
+    "previousLaunchCandidateId": "lantern-relay",
+    "recommendedFocusGameId": "canopy-bloom",
+    "leadScreenshotId": "phone-canopy-bloom-generated"
+  }
+}

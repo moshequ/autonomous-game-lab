@@ -1,0 +1,34 @@
+{
+  "generatedAt": "2026-05-19T01:21:45.837Z",
+  "status": "pass",
+  "fixture": {
+    "sourceFile": "player-events-smoke.json",
+    "exportedEvents": 7,
+    "uniqueEvents": 6,
+    "gameId": "mosaic-haven"
+  },
+  "ingest": {
+    "status": "imported",
+    "importedEvents": 6,
+    "importedFiles": 1,
+    "outputDirectory": "../../../../../../var/folders/tq/1ph_b7c95_gc2jsn1hc3h1jw0000gn/T/agl-event-ingest-uWycZO/player-events"
+  },
+  "analytics": {
+    "activeSource": "local-event-drops",
+    "localEventFiles": 1,
+    "localEvents": 6,
+    "retentionSource": "local-event-drops",
+    "d1Retention": 1,
+    "counts": {
+      "game_viewed": 3,
+      "game_started": 1,
+      "tutorial_completed": 1,
+      "level_completed": 1
+    },
+    "metrics": {
+      "startRate": 0.333,
+      "tutorialCompletion": 1,
+      "firstGameCompletion": 1
+    }
+  }
+}

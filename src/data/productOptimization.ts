@@ -1,0 +1,137 @@
+export const productOptimization = {
+  "generatedAt": "2026-05-19T00:33:43.284Z",
+  "status": "product-optimization-ready",
+  "sourceDataHash": "325bce2331ba",
+  "sourceStatus": {
+    "analyticsSource": "fixture-sample",
+    "retentionSource": "fixture-retention",
+    "releaseHealth": "monitoring"
+  },
+  "productGates": {
+    "firstGameCompletion": {
+      "actual": 0.397,
+      "gate": 0.55,
+      "pass": false
+    },
+    "replayRate": {
+      "actual": 0.309,
+      "gate": 0.35,
+      "pass": false
+    },
+    "d1Retention": {
+      "actual": 0.167,
+      "gate": 0.18,
+      "pass": false
+    }
+  },
+  "controls": {
+    "minStartsForBalanceChange": 100,
+    "requirePlayableGame": true,
+    "noChangeWhenReleaseHealthBlocks": true,
+    "noRepeatForSameSourceData": true,
+    "oneTargetStepPerRun": true,
+    "keepGeneratedTargetsSynced": true,
+    "revenueStillDisabledUntilGatesPass": true,
+    "firstMoveCoachMustBeFirstTurnOnly": true,
+    "completionNudgeMustBeMidRunOnly": true,
+    "replayPromptAfterCompletedRunOnly": true,
+    "returnIntentMustBePlayerInitiated": true,
+    "noBackgroundRetentionWakeups": true
+  },
+  "candidates": [
+    {
+      "gameId": "harbor-rings",
+      "starts": 284,
+      "metrics": {
+        "startRate": 0.676,
+        "tutorialCompletion": 0.669,
+        "firstGameCompletion": 0.394,
+        "replayRate": 0.313
+      },
+      "gaps": {
+        "completion": 0.156,
+        "replay": 0.037,
+        "tutorial": 0.081
+      },
+      "score": 1669
+    }
+  ],
+  "actions": [
+    {
+      "id": "target-score-curve-harbor-rings",
+      "actionType": "target-score-curve",
+      "status": "already-applied",
+      "gameId": "harbor-rings",
+      "title": "Harbor Rings",
+      "sourceDataHash": "325bce2331ba",
+      "before": 52,
+      "after": 46,
+      "delta": -6,
+      "confidence": 89,
+      "reason": "Same analytics evidence already produced a target-score tuning change.",
+      "guardrail": "Changed by one target step (6) and stayed above min target 40.",
+      "appliedAt": "2026-05-18T22:21:28.082Z"
+    },
+    {
+      "id": "runtime-first-move-coach",
+      "actionType": "runtime-first-move-coach",
+      "status": "armed",
+      "reason": "Completion is 40% and tutorial completion is 65%; highlight one strong first move without auto-playing.",
+      "guardrail": "First-turn highlight only, no forced tutorial, no auto move, telemetry must record shown/used/skipped."
+    },
+    {
+      "id": "runtime-completion-nudge",
+      "actionType": "runtime-completion-nudge",
+      "status": "armed",
+      "reason": "First-game completion is 40%; show one optional mid-run nudge and measure completion_nudge_* against level_completed and game_abandoned.",
+      "guardrail": "Mid-run prompt only, no forced tutorial, no auto move, no rule change, and telemetry must record viewed/clicked/dismissed."
+    },
+    {
+      "id": "runtime-replay-telemetry",
+      "actionType": "runtime-replay-telemetry",
+      "status": "armed",
+      "reason": "Replay rate is 31%; keep reset and in-canvas restart telemetry wired to replay_clicked."
+    },
+    {
+      "id": "runtime-replay-prompt",
+      "actionType": "runtime-replay-prompt",
+      "status": "armed",
+      "reason": "Replay rate is 31%; show one optional completed-run prompt and measure replay_prompt_* against replay_clicked.",
+      "guardrail": "Prompt only after a completed run, never auto-restart, never block exit, and keep revenue disabled until gates pass."
+    },
+    {
+      "id": "runtime-return-intent-activation",
+      "actionType": "runtime-return-intent-activation",
+      "status": "armed",
+      "reason": "D1 retention is 17%; convert queued local return intent into a measured next-session start.",
+      "guardrail": "Player-initiated start only, no push notifications, no background wakeups, no account requirement, and no paid incentives."
+    }
+  ],
+  "generatedSyncChanges": [],
+  "history": [
+    {
+      "id": "target-score-curve-harbor-rings",
+      "actionType": "target-score-curve",
+      "status": "applied",
+      "gameId": "harbor-rings",
+      "title": "Harbor Rings",
+      "sourceDataHash": "325bce2331ba",
+      "before": 52,
+      "after": 46,
+      "delta": -6,
+      "confidence": 89,
+      "reason": "First-game completion is 39%; monetization gate is 55%.",
+      "guardrail": "Changed by one target step (6) and stayed above min target 40.",
+      "appliedAt": "2026-05-18T22:21:28.082Z"
+    }
+  ],
+  "nextActions": [
+    "Keep collecting starts until a safe product-gate tuning action is justified.",
+    "Use replay_prompt_viewed/clicked/dismissed with replay_clicked to measure whether completed-run copy improves replay.",
+    "Use first_move_coach_shown/used/skipped to measure whether fast-start players complete more first runs.",
+    "Use completion_nudge_viewed/clicked/dismissed against level_completed and game_abandoned to reduce first-run dropoff.",
+    "Improve D1 retention from 17% toward 18% through queued return-intent activation."
+  ]
+} as const
+
+export type ProductOptimization = typeof productOptimization

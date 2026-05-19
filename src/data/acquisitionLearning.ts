@@ -1,0 +1,178 @@
+export const acquisitionLearning = {
+  "generatedAt": "2026-05-18T23:36:46.989Z",
+  "status": "acquisition-learning-ready",
+  "sourceStatus": {
+    "analyticsSource": "fixture-sample",
+    "localEventFiles": 0,
+    "localEvents": 0,
+    "rawAttributionAvailable": false
+  },
+  "guardrails": {
+    "maxCostUsd": 0,
+    "noPaidPromotion": true,
+    "requireCampaignAttribution": true,
+    "minimumAttributedStartsBeforeJudgment": 40
+  },
+  "summary": {
+    "campaigns": 4,
+    "collectingCount": 4,
+    "blockedCount": 0,
+    "featuredCandidateId": "seed-20260518-canopy-bloom",
+    "featuredGameId": "canopy-bloom",
+    "totalAttributedStarts": 0,
+    "totalAggregateStarts": 0
+  },
+  "channels": [
+    {
+      "id": "internal-rotation",
+      "status": "armed",
+      "costUsd": 0,
+      "attributedEvents": 0,
+      "clicks": 0,
+      "starts": 0,
+      "completions": 0,
+      "startRate": 0
+    },
+    {
+      "id": "organic-page",
+      "status": "armed",
+      "costUsd": 0,
+      "attributedEvents": 0,
+      "clicks": 0,
+      "starts": 0,
+      "completions": 0,
+      "startRate": 0
+    },
+    {
+      "id": "player-share",
+      "status": "armed",
+      "costUsd": 0,
+      "attributedEvents": 0,
+      "clicks": 0,
+      "starts": 0,
+      "completions": 0,
+      "startRate": 0
+    }
+  ],
+  "campaigns": [
+    {
+      "id": "seed-20260518-canopy-bloom",
+      "gameId": "canopy-bloom",
+      "title": "Canopy Bloom",
+      "status": "collecting-attribution",
+      "priority": 1,
+      "costUsd": 0,
+      "noPaidPromotion": true,
+      "attribution": {
+        "source": "fixture-sample",
+        "localEventFiles": 0,
+        "seedClicks": 0,
+        "organicEntries": 0,
+        "attributedStarts": 0,
+        "attributedCompletions": 0,
+        "aggregateViews": 0,
+        "aggregateStarts": 0
+      },
+      "metrics": {
+        "targetStarts": 40,
+        "observedStarts": 0,
+        "sampleProgress": 0,
+        "startRate": null,
+        "completionRate": null,
+        "growthQualityScore": 78
+      },
+      "nextAction": "Collect campaign-attributed events for Canopy Bloom; aggregate starts are 0."
+    },
+    {
+      "id": "seed-20260518-grove-engine",
+      "gameId": "grove-engine",
+      "title": "Grove Engine",
+      "status": "collecting-attribution",
+      "priority": 2,
+      "costUsd": 0,
+      "noPaidPromotion": true,
+      "attribution": {
+        "source": "fixture-sample",
+        "localEventFiles": 0,
+        "seedClicks": 0,
+        "organicEntries": 0,
+        "attributedStarts": 0,
+        "attributedCompletions": 0,
+        "aggregateViews": 0,
+        "aggregateStarts": 0
+      },
+      "metrics": {
+        "targetStarts": 40,
+        "observedStarts": 0,
+        "sampleProgress": 0,
+        "startRate": null,
+        "completionRate": null,
+        "growthQualityScore": 74
+      },
+      "nextAction": "Collect campaign-attributed events for Grove Engine; aggregate starts are 0."
+    },
+    {
+      "id": "seed-20260518-metro-loom",
+      "gameId": "metro-loom",
+      "title": "Metro Loom",
+      "status": "collecting-attribution",
+      "priority": 3,
+      "costUsd": 0,
+      "noPaidPromotion": true,
+      "attribution": {
+        "source": "fixture-sample",
+        "localEventFiles": 0,
+        "seedClicks": 0,
+        "organicEntries": 0,
+        "attributedStarts": 0,
+        "attributedCompletions": 0,
+        "aggregateViews": 0,
+        "aggregateStarts": 0
+      },
+      "metrics": {
+        "targetStarts": 40,
+        "observedStarts": 0,
+        "sampleProgress": 0,
+        "startRate": null,
+        "completionRate": null,
+        "growthQualityScore": 70
+      },
+      "nextAction": "Collect campaign-attributed events for Metro Loom; aggregate starts are 0."
+    },
+    {
+      "id": "seed-20260518-pocket-draft",
+      "gameId": "pocket-draft",
+      "title": "Pocket Draft",
+      "status": "collecting-attribution",
+      "priority": 4,
+      "costUsd": 0,
+      "noPaidPromotion": true,
+      "attribution": {
+        "source": "fixture-sample",
+        "localEventFiles": 0,
+        "seedClicks": 0,
+        "organicEntries": 0,
+        "attributedStarts": 0,
+        "attributedCompletions": 0,
+        "aggregateViews": 0,
+        "aggregateStarts": 0
+      },
+      "metrics": {
+        "targetStarts": 40,
+        "observedStarts": 0,
+        "sampleProgress": 0,
+        "startRate": null,
+        "completionRate": null,
+        "growthQualityScore": 66
+      },
+      "nextAction": "Collect campaign-attributed events for Pocket Draft; aggregate starts are 0."
+    }
+  ],
+  "nextActions": [
+    "Collect campaign-attributed events for Canopy Bloom; aggregate starts are 0.",
+    "Keep session acquisition attribution enabled so future gameplay events connect back to UTM campaigns.",
+    "Keep every acquisition action inside the zero-spend web/PWA loop until unit-economics gates pass."
+  ]
+} as const
+
+export type AcquisitionLearning = typeof acquisitionLearning

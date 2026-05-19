@@ -1,0 +1,30 @@
+[
+  {
+    "gameId": "harbor-rings",
+    "title": "Shorten first tutorial",
+    "reason": "tutorial completion is 67%",
+    "confidence": 81,
+    "experiment": "first_session_pacing"
+  },
+  {
+    "gameId": "harbor-rings",
+    "title": "Improve title and thumbnail",
+    "reason": "start rate is 68%",
+    "confidence": 74,
+    "experiment": "thumbnail_board_state_v2"
+  },
+  {
+    "gameId": "harbor-rings",
+    "title": "Rebalance first-game difficulty",
+    "reason": "completion rate is 39%",
+    "confidence": 69,
+    "experiment": "target_score_curve"
+  },
+  {
+    "gameId": "harbor-rings",
+    "title": "Add daily goal reward copy and result animation",
+    "reason": "replay rate is 31%",
+    "confidence": 58,
+    "experiment": "reward_offer"
+  }
+]

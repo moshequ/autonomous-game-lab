@@ -1,0 +1,41 @@
+{
+  "monetization": {
+    "minFirstGameCompletion": 0.55,
+    "minReplayRate": 0.35,
+    "minD1Retention": 0.18,
+    "allowedEarlyTests": ["rewarded hint", "cosmetic unlock", "remove ads"],
+    "blockedBeforeRetention": ["subscription", "interstitial during first session", "paywalled core rules"]
+  },
+  "webPwa": {
+    "required": [
+      "manifest",
+      "offline-capable build",
+      "privacy page before external analytics",
+      "touch-first layout",
+      "analytics opt-out before production launch"
+    ]
+  },
+  "googlePlay": {
+    "oneTimeCostUsd": 25,
+    "required": [
+      "developer account",
+      "signed Android package",
+      "store listing",
+      "content rating",
+      "privacy policy URL",
+      "data safety form",
+      "ad disclosure when ads are enabled"
+    ]
+  },
+  "iosAppStore": {
+    "annualCostUsd": 99,
+    "required": [
+      "Apple Developer account",
+      "native app-like value beyond a thin web wrapper",
+      "store listing",
+      "age rating",
+      "privacy nutrition labels",
+      "in-app purchase setup for digital purchases"
+    ]
+  }
+}

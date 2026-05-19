@@ -1,0 +1,283 @@
+{
+  "generatedAt": "2026-05-18T23:36:48.051Z",
+  "sourceDataHash": "965e5b31eb9f",
+  "releaseHealthStatus": "monitoring",
+  "experimentResultsStatus": "evaluated",
+  "playableGameIds": [
+    "harbor-rings",
+    "lantern-relay",
+    "harbor-circuit",
+    "foundry-ledger",
+    "orbit-atlas",
+    "mosaic-haven",
+    "pocket-draft",
+    "metro-loom",
+    "grove-engine",
+    "canopy-bloom"
+  ],
+  "actions": [
+    {
+      "status": "deferred",
+      "source": "experiment-results",
+      "experiment": "first_session_pacing",
+      "title": "Promote winning experiment variant",
+      "reason": "fast-start is already at the maximum safe traffic weight"
+    },
+    {
+      "status": "skipped",
+      "source": "experiment-results",
+      "experiment": "reward_offer",
+      "title": "Promote winning experiment variant",
+      "reason": "same experiment result already produced an applied change",
+      "sourceDataHash": "965e5b31eb9f"
+    },
+    {
+      "status": "skipped",
+      "experiment": "first_session_pacing",
+      "gameId": "harbor-rings",
+      "title": "Shorten first tutorial",
+      "reason": "same diagnosed issue already produced an applied change",
+      "sourceDataHash": "965e5b31eb9f"
+    },
+    {
+      "status": "deferred",
+      "experiment": "thumbnail_board_state_v2",
+      "gameId": "harbor-rings",
+      "title": "Improve title and thumbnail",
+      "reason": "no safe automatic applier exists for this experiment"
+    },
+    {
+      "status": "deferred",
+      "experiment": "target_score_curve",
+      "gameId": "harbor-rings",
+      "title": "Rebalance first-game difficulty",
+      "reason": "confidence 69% is below 70% guardrail"
+    },
+    {
+      "status": "skipped",
+      "experiment": "reward_offer",
+      "gameId": "harbor-rings",
+      "title": "Add daily goal reward copy and result animation",
+      "reason": "same diagnosed issue already produced an applied change",
+      "sourceDataHash": "965e5b31eb9f"
+    }
+  ],
+  "history": [
+    {
+      "status": "applied",
+      "experiment": "first_session_pacing",
+      "gameId": "harbor-rings",
+      "title": "Shorten first tutorial",
+      "sourceReason": "tutorial completion is 67%",
+      "confidence": 81,
+      "sourceDataHash": "a6b721343c82",
+      "change": "shifted 10 weight points from guided to fast-start",
+      "before": [
+        {
+          "id": "fast-start",
+          "label": "Start playing after one sentence",
+          "weight": 60
+        },
+        {
+          "id": "guided",
+          "label": "Show one extra example before play",
+          "weight": 40
+        }
+      ],
+      "after": [
+        {
+          "id": "fast-start",
+          "label": "Start playing after one sentence",
+          "weight": 70
+        },
+        {
+          "id": "guided",
+          "label": "Show one extra example before play",
+          "weight": 30
+        }
+      ],
+      "appliedAt": "2026-05-18T17:31:49.562Z"
+    },
+    {
+      "status": "applied",
+      "experiment": "reward_offer",
+      "gameId": "harbor-rings",
+      "title": "Add daily goal reward copy and result animation",
+      "sourceReason": "replay rate is 31%",
+      "confidence": 58,
+      "sourceDataHash": "a6b721343c82",
+      "change": "shifted 10 weight points from score-booster to daily-streak",
+      "before": [
+        {
+          "id": "daily-streak",
+          "label": "Reward daily streak progress",
+          "weight": 50
+        },
+        {
+          "id": "score-booster",
+          "label": "Reward score target progress",
+          "weight": 50
+        }
+      ],
+      "after": [
+        {
+          "id": "daily-streak",
+          "label": "Reward daily streak progress",
+          "weight": 60
+        },
+        {
+          "id": "score-booster",
+          "label": "Reward score target progress",
+          "weight": 40
+        }
+      ],
+      "appliedAt": "2026-05-18T17:31:49.562Z"
+    },
+    {
+      "status": "applied",
+      "experiment": "first_session_pacing",
+      "gameId": "orchard-bids",
+      "title": "Shorten first tutorial",
+      "sourceReason": "tutorial completion is 60%",
+      "confidence": 81,
+      "sourceDataHash": "30e785bbf32f",
+      "change": "shifted 10 weight points from guided to fast-start",
+      "before": [
+        {
+          "id": "fast-start",
+          "label": "Start playing after one sentence",
+          "weight": 70
+        },
+        {
+          "id": "guided",
+          "label": "Show one extra example before play",
+          "weight": 30
+        }
+      ],
+      "after": [
+        {
+          "id": "fast-start",
+          "label": "Start playing after one sentence",
+          "weight": 80
+        },
+        {
+          "id": "guided",
+          "label": "Show one extra example before play",
+          "weight": 20
+        }
+      ],
+      "appliedAt": "2026-05-18T17:39:39.374Z"
+    },
+    {
+      "status": "applied",
+      "experiment": "reward_offer",
+      "gameId": "orchard-bids",
+      "title": "Add daily goal reward copy and result animation",
+      "sourceReason": "replay rate is 30%",
+      "confidence": 58,
+      "sourceDataHash": "30e785bbf32f",
+      "change": "shifted 10 weight points from score-booster to daily-streak",
+      "before": [
+        {
+          "id": "daily-streak",
+          "label": "Reward daily streak progress",
+          "weight": 60
+        },
+        {
+          "id": "score-booster",
+          "label": "Reward score target progress",
+          "weight": 40
+        }
+      ],
+      "after": [
+        {
+          "id": "daily-streak",
+          "label": "Reward daily streak progress",
+          "weight": 70
+        },
+        {
+          "id": "score-booster",
+          "label": "Reward score target progress",
+          "weight": 30
+        }
+      ],
+      "appliedAt": "2026-05-18T17:39:39.374Z"
+    },
+    {
+      "status": "applied",
+      "experiment": "first_session_pacing",
+      "gameId": "all-games",
+      "title": "Promote winning experiment variant",
+      "sourceReason": "fast-start beat guided on tutorialCompletion with 94% confidence",
+      "confidence": 94,
+      "sourceDataHash": "086355d8df22",
+      "change": "shifted 5 weight points from guided to fast-start",
+      "before": [
+        {
+          "id": "fast-start",
+          "label": "Start playing after one sentence",
+          "weight": 80
+        },
+        {
+          "id": "guided",
+          "label": "Show one extra example before play",
+          "weight": 20
+        }
+      ],
+      "after": [
+        {
+          "id": "fast-start",
+          "label": "Start playing after one sentence",
+          "weight": 85
+        },
+        {
+          "id": "guided",
+          "label": "Show one extra example before play",
+          "weight": 15
+        }
+      ],
+      "source": "experiment-results",
+      "winnerVariant": "fast-start",
+      "runnerUpVariant": "guided",
+      "appliedAt": "2026-05-18T19:05:23.525Z"
+    },
+    {
+      "status": "applied",
+      "experiment": "reward_offer",
+      "gameId": "all-games",
+      "title": "Promote winning experiment variant",
+      "sourceReason": "daily-streak beat score-booster on replayRate with 95% confidence",
+      "confidence": 95,
+      "sourceDataHash": "086355d8df22",
+      "change": "shifted 10 weight points from score-booster to daily-streak",
+      "before": [
+        {
+          "id": "daily-streak",
+          "label": "Reward daily streak progress",
+          "weight": 70
+        },
+        {
+          "id": "score-booster",
+          "label": "Reward score target progress",
+          "weight": 30
+        }
+      ],
+      "after": [
+        {
+          "id": "daily-streak",
+          "label": "Reward daily streak progress",
+          "weight": 80
+        },
+        {
+          "id": "score-booster",
+          "label": "Reward score target progress",
+          "weight": 20
+        }
+      ],
+      "source": "experiment-results",
+      "winnerVariant": "daily-streak",
+      "runnerUpVariant": "score-booster",
+      "appliedAt": "2026-05-18T19:05:23.525Z"
+    }
+  ]
+}

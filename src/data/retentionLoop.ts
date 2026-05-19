@@ -1,0 +1,133 @@
+export const retentionLoop = {
+  "generatedAt": "2026-05-19T00:33:43.516Z",
+  "status": "retention-loop-ready",
+  "dailyChallenge": {
+    "date": "2026-05-18",
+    "gameId": "canopy-bloom",
+    "title": "Canopy Bloom",
+    "seed": "daily-20260518-71b",
+    "reason": "Canopy Bloom has the strongest blended portfolio score (51.912)."
+  },
+  "sourceStatus": {
+    "analyticsSource": "fixture-sample",
+    "retentionSource": "fixture-retention",
+    "releaseHealth": "monitoring"
+  },
+  "metrics": {
+    "d1Retention": 0.167,
+    "replayRate": 0.309,
+    "firstGameCompletion": 0.397,
+    "eligibleUsers": 12,
+    "retainedUsers": 2
+  },
+  "guardrails": {
+    "noPushNotifications": true,
+    "noAccountsRequired": true,
+    "noDarkPatterns": true,
+    "noPaidRetentionMechanics": true,
+    "noRewardedAdsUntilMonetizationGatesPass": true,
+    "noNotificationPermissionRequest": true
+  },
+  "localState": {
+    "storageKey": "agl.retention.dailyStreak",
+    "dateKey": "agl.retention.lastCompletedDate",
+    "bestKey": "agl.retention.bestDailyStreak",
+    "returnIntentKey": "agl.retention.returnIntentDate",
+    "returnPromptDismissedKey": "agl.retention.returnPromptDismissedDate",
+    "returnIntentStartedKey": "agl.retention.returnIntentStartedDate",
+    "returnIntentClearedKey": "agl.retention.returnIntentClearedDate"
+  },
+  "rewardPolicy": {
+    "recommendedVariant": "daily-streak",
+    "currentDailyStreakWeight": 80,
+    "action": "promote-winner",
+    "reason": "daily-streak beat score-booster on replayRate with 95% confidence"
+  },
+  "promptPolicy": {
+    "status": "armed",
+    "surface": "autonomy-cockpit-retention-card",
+    "trigger": "after-completed-run",
+    "ctaLabel": "Queue tomorrow",
+    "dismissLabel": "Not today",
+    "nextChallengeDate": "2026-05-19",
+    "cooldown": "one prompt per daily challenge date",
+    "reason": "D1 retention is 17% and the gate is 18%; ask for a local return intent after a completed run.",
+    "telemetry": {
+      "viewed": "daily_return_prompt_viewed",
+      "clicked": "daily_return_prompt_clicked",
+      "dismissed": "daily_return_prompt_dismissed"
+    }
+  },
+  "returnIntentPolicy": {
+    "status": "armed",
+    "surface": "autonomy-cockpit-return-intent-card",
+    "trigger": "app-load-with-local-return-intent",
+    "ctaLabel": "Play queued board",
+    "dismissLabel": "Clear intent",
+    "cooldown": "one activation per queued intent date",
+    "reason": "D1 retention is 17% and the gate is 18%; convert queued local return intent into a measured game start.",
+    "telemetry": {
+      "viewed": "daily_return_intent_viewed",
+      "started": "daily_return_intent_started",
+      "cleared": "daily_return_intent_cleared"
+    }
+  },
+  "controls": {
+    "canNudgeRetention": true,
+    "retentionReady": false,
+    "completionReady": false,
+    "replayReady": false,
+    "monetizationStillBlocked": true,
+    "returnIntentPlayerInitiatedOnly": true,
+    "noBackgroundWakeups": true
+  },
+  "missions": [
+    {
+      "id": "finish-daily-challenge",
+      "label": "Finish Canopy Bloom",
+      "event": "daily_challenge_completed",
+      "gameId": "canopy-bloom",
+      "reward": "streak-credit",
+      "status": "armed"
+    },
+    {
+      "id": "return-tomorrow",
+      "label": "Return tomorrow for a fresh board",
+      "event": "daily_return_prompt_viewed",
+      "gameId": "canopy-bloom",
+      "reward": "next-daily-seed",
+      "status": "armed"
+    },
+    {
+      "id": "confirm-return-intent",
+      "label": "Queue 2026-05-19 board intent",
+      "event": "daily_return_prompt_clicked",
+      "gameId": "canopy-bloom",
+      "reward": "local-return-intent",
+      "status": "armed"
+    },
+    {
+      "id": "activate-return-intent",
+      "label": "Start a queued return board",
+      "event": "daily_return_intent_started",
+      "gameId": "canopy-bloom",
+      "reward": "retained-session",
+      "status": "armed"
+    },
+    {
+      "id": "share-daily-seed",
+      "label": "Share the daily seed after a run",
+      "event": "share_clicked",
+      "gameId": "canopy-bloom",
+      "reward": "organic-signal",
+      "status": "armed"
+    }
+  ],
+  "nextActions": [
+    "Improve D1 retention from 17% toward 18% with local streak prompts.",
+    "Improve replay rate from 31% toward 35% with the daily return mission.",
+    "Do not use push notifications, accounts, paid rewards, or ads for retention until gates pass."
+  ]
+} as const
+
+export type RetentionLoop = typeof retentionLoop

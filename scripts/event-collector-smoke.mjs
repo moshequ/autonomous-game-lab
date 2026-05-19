@@ -1,0 +1,314 @@
+import { createServer } from 'node:http'
+import { spawn } from 'node:child_process'
+import { mkdtemp, mkdir, readFile, rm, writeFile } from 'node:fs/promises'
+import os from 'node:os'
+import path from 'node:path'
+import worker from '../ops/cloudflare/event-collector-worker.mjs'
+
+const root = process.cwd()
+const smokeOutputPath = path.join(root, 'data', 'event-collector-smoke.json')
+const smokeReportPath = path.join(root, 'reports', 'event-collector-smoke-latest.md')
+
+class MemoryR2Object {
+  constructor(value) {
+    this.value = value
+  }
+
+  async text() {
+    return this.value
+  }
+}
+
+class MemoryR2Bucket {
+  constructor() {
+    this.objects = new Map()
+  }
+
+  async put(key, value) {
+    this.objects.set(key, String(value))
+  }
+
+  async get(key) {
+    const value = this.objects.get(key)
+    return value ? new MemoryR2Object(value) : null
+  }
+
+  async list({ prefix = '', limit = 1_000 } = {}) {
+    return {
+      objects: [...this.objects.keys()]
+        .filter((key) => key.startsWith(prefix))
+        .sort()
+        .slice(0, limit)
+        .map((key) => ({ key })),
+    }
+  }
+}
+
+const run = (command, args, env) =>
+  new Promise((resolve, reject) => {
+    const child = spawn(command, args, {
+      cwd: root,
+      env: {
+        ...process.env,
+        ...env,
+      },
+      stdio: 'pipe',
+    })
+    let stdout = ''
+    let stderr = ''
+
+    child.stdout.on('data', (chunk) => {
+      stdout += chunk
+    })
+    child.stderr.on('data', (chunk) => {
+      stderr += chunk
+    })
+    child.on('error', reject)
+    child.on('close', (code) => {
+      if (code === 0) {
+        resolve({ stdout, stderr })
+      } else {
+        reject(new Error(`${command} ${args.join(' ')} failed with ${code}\n${stdout}\n${stderr}`))
+      }
+    })
+  })
+
+const fail = (message) => {
+  throw new Error(message)
+}
+
+const env = {
+  EVENT_BUCKET: new MemoryR2Bucket(),
+  ALLOWED_ORIGINS: 'https://autonomous.example',
+  PUBLIC_WRITE_TOKEN: 'public-smoke-token',
+  ADMIN_EXPORT_TOKEN: 'admin-smoke-token',
+}
+
+const exportedEvents = [
+  {
+    id: 'collector-view-a',
+    name: 'game_viewed',
+    properties: {
+      gameId: 'mosaic-haven',
+      anonymousId: 'anon-collector',
+      sessionId: 'session-collector-a',
+      sessionDate: '2026-05-17',
+      email: 'remove@example.com',
+    },
+    createdAt: '2026-05-17T09:00:00.000Z',
+  },
+  {
+    id: 'collector-start',
+    name: 'game_started',
+    properties: {
+      gameId: 'mosaic-haven',
+      anonymousId: 'anon-collector',
+      sessionId: 'session-collector-a',
+      sessionDate: '2026-05-17',
+    },
+    createdAt: '2026-05-17T09:01:00.000Z',
+  },
+  {
+    id: 'collector-tutorial',
+    name: 'tutorial_completed',
+    properties: {
+      gameId: 'mosaic-haven',
+      anonymousId: 'anon-collector',
+      sessionId: 'session-collector-a',
+      sessionDate: '2026-05-17',
+    },
+    createdAt: '2026-05-17T09:02:00.000Z',
+  },
+  {
+    id: 'collector-complete',
+    name: 'level_completed',
+    properties: {
+      gameId: 'mosaic-haven',
+      anonymousId: 'anon-collector',
+      sessionId: 'session-collector-a',
+      sessionDate: '2026-05-17',
+    },
+    createdAt: '2026-05-17T09:05:00.000Z',
+  },
+  {
+    id: 'collector-view-b',
+    name: 'game_viewed',
+    properties: {
+      gameId: 'mosaic-haven',
+      anonymousId: 'anon-collector',
+      sessionId: 'session-collector-b',
+      sessionDate: '2026-05-18',
+    },
+    createdAt: '2026-05-18T09:00:00.000Z',
+  },
+]
+
+const postResponse = await worker.fetch(
+  new Request('https://collector.example/events', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Origin: 'https://autonomous.example',
+      'X-AGL-Write-Token': env.PUBLIC_WRITE_TOKEN,
+    },
+    body: JSON.stringify({ source: 'web-pwa', events: exportedEvents }),
+  }),
+  env,
+)
+const postPayload = await postResponse.json()
+
+if (postResponse.status !== 202 || postPayload.status !== 'accepted' || postPayload.events !== exportedEvents.length) {
+  fail(`Expected accepted collector POST, got ${postResponse.status} ${JSON.stringify(postPayload)}`)
+}
+
+const exportResponse = await worker.fetch(
+  new Request('https://collector.example/events/export?limit=20', {
+    headers: {
+      Authorization: `Bearer ${env.ADMIN_EXPORT_TOKEN}`,
+    },
+  }),
+  env,
+)
+const exportPayload = await exportResponse.json()
+
+if (exportResponse.status !== 200 || exportPayload.events?.length !== exportedEvents.length) {
+  fail(`Expected collector export with ${exportedEvents.length} events, got ${JSON.stringify(exportPayload)}`)
+}
+
+if (exportPayload.events.some((event) => event.properties?.email)) {
+  fail('Collector export leaked a sensitive email property.')
+}
+
+const tempRoot = await mkdtemp(path.join(os.tmpdir(), 'agl-event-collector-'))
+const outputDir = path.join(tempRoot, 'player-events')
+const emptyImportDir = path.join(tempRoot, 'empty-imports')
+const ingestOutput = path.join(tempRoot, 'event-ingest.json')
+const ingestReport = path.join(tempRoot, 'event-ingest.md')
+const analyticsOutput = path.join(tempRoot, 'analytics-rollup.json')
+const analyticsReport = path.join(tempRoot, 'analytics-rollup.md')
+let server
+
+try {
+  await mkdir(outputDir, { recursive: true })
+  await mkdir(emptyImportDir, { recursive: true })
+  await mkdir(path.dirname(smokeOutputPath), { recursive: true })
+  await mkdir(path.dirname(smokeReportPath), { recursive: true })
+
+  server = createServer(async (request, response) => {
+    const chunks = []
+
+    for await (const chunk of request) {
+      chunks.push(chunk)
+    }
+
+    const workerRequest = new Request(`http://127.0.0.1${request.url}`, {
+      method: request.method,
+      headers: request.headers,
+      body: chunks.length ? Buffer.concat(chunks) : undefined,
+    })
+    const workerResponse = await worker.fetch(workerRequest, env)
+    const body = Buffer.from(await workerResponse.arrayBuffer())
+
+    response.writeHead(workerResponse.status, Object.fromEntries(workerResponse.headers))
+    response.end(body)
+  })
+
+  await new Promise((resolve) => server.listen(0, '127.0.0.1', resolve))
+  const { port } = server.address()
+  const exportUrl = `http://127.0.0.1:${port}/events/export?limit=20`
+
+  await run(process.execPath, ['scripts/event-ingestor.mjs'], {
+    AGL_EVENT_COLLECTOR_EXPORT_URL: exportUrl,
+    AGL_EVENT_COLLECTOR_ADMIN_TOKEN: env.ADMIN_EXPORT_TOKEN,
+    AGL_EVENT_IMPORT_DIRS: emptyImportDir,
+    AGL_EVENT_OUTPUT_DIR: outputDir,
+    AGL_EVENT_INBOX_DIR: emptyImportDir,
+    AGL_EVENT_INGEST_OUTPUT: ingestOutput,
+    AGL_EVENT_INGEST_REPORT: ingestReport,
+  })
+
+  const ingest = JSON.parse(await readFile(ingestOutput, 'utf8'))
+
+  if (ingest.status !== 'imported' || ingest.importedEvents !== exportedEvents.length) {
+    fail(`Expected collector events to import, got ${JSON.stringify(ingest)}`)
+  }
+
+  await run(process.execPath, ['scripts/analytics-rollup.mjs'], {
+    AGL_LOCAL_EVENTS_DIR: outputDir,
+    AGL_ANALYTICS_OUTPUT: analyticsOutput,
+    AGL_ANALYTICS_REPORT: analyticsReport,
+  })
+
+  const analytics = JSON.parse(await readFile(analyticsOutput, 'utf8'))
+  const game = analytics.games.find((row) => row.gameId === 'mosaic-haven')
+
+  if (
+    analytics.sourceStatus.activeSource !== 'local-event-drops' ||
+    analytics.retention.source !== 'local-event-drops' ||
+    analytics.retention.d1Retention !== 1 ||
+    game?.counts.game_started !== 1 ||
+    game?.counts.level_completed !== 1
+  ) {
+    fail(`Expected collector events to roll up into local analytics, got ${JSON.stringify(analytics)}`)
+  }
+
+  const smoke = {
+    generatedAt: new Date().toISOString(),
+    status: 'pass',
+    collector: {
+      postStatus: postPayload.status,
+      storedEvents: postPayload.events,
+      exportedEvents: exportPayload.events.length,
+      files: exportPayload.files.length,
+      piiStripped: true,
+    },
+    ingest: {
+      status: ingest.status,
+      importedEvents: ingest.importedEvents,
+      remoteCollectorStatus: ingest.remoteCollectors?.[0]?.status ?? 'missing',
+    },
+    analytics: {
+      activeSource: analytics.sourceStatus.activeSource,
+      retentionSource: analytics.retention.source,
+      d1Retention: analytics.retention.d1Retention,
+      counts: {
+        game_viewed: game.counts.game_viewed,
+        game_started: game.counts.game_started,
+        tutorial_completed: game.counts.tutorial_completed,
+        level_completed: game.counts.level_completed,
+      },
+    },
+  }
+
+  const report = [
+    '# Event Collector Smoke',
+    '',
+    `Generated: ${smoke.generatedAt}`,
+    `Status: ${smoke.status}`,
+    '',
+    '## Collector',
+    '',
+    `- Post status: ${smoke.collector.postStatus}`,
+    `- Stored events: ${smoke.collector.storedEvents}`,
+    `- Exported events: ${smoke.collector.exportedEvents}`,
+    `- PII stripped: ${smoke.collector.piiStripped}`,
+    '',
+    '## Ingest And Rollup',
+    '',
+    `- Ingest status: ${smoke.ingest.status}`,
+    `- Remote collector status: ${smoke.ingest.remoteCollectorStatus}`,
+    `- Active analytics source: ${smoke.analytics.activeSource}`,
+    `- D1 retention: ${smoke.analytics.d1Retention}`,
+    '',
+  ]
+
+  await writeFile(smokeOutputPath, JSON.stringify(smoke, null, 2) + '\n')
+  await writeFile(smokeReportPath, report.join('\n'))
+
+  console.log(`Wrote ${path.relative(root, smokeOutputPath)}`)
+  console.log(`Wrote ${path.relative(root, smokeReportPath)}`)
+  console.log('Event collector smoke passed: Worker events exported, imported, and rolled up.')
+} finally {
+  await new Promise((resolve) => (server ? server.close(resolve) : resolve()))
+  await rm(tempRoot, { recursive: true, force: true })
+}

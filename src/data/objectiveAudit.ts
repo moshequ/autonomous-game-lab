@@ -1,0 +1,274 @@
+export const objectiveAudit = {
+  "generatedAt": "2026-05-19T01:21:37.517Z",
+  "status": "objective-in-progress",
+  "objective": "Build a bootstrapped autonomous web/PWA game portal that can generate original board-game-inspired games, measure user behavior, propose and apply data-driven improvements, and prepare a path to monetization and app-store distribution with minimal manual intervention.",
+  "summary": {
+    "requirements": 8,
+    "met": 5,
+    "prepared": 2,
+    "incomplete": 1,
+    "externalBlockers": 24,
+    "productBlockers": 6
+  },
+  "requirements": [
+    {
+      "id": "web-pwa-game-portal",
+      "status": "met",
+      "summary": "A playable web/PWA portal exists and passes the production web readiness gate.",
+      "evidence": [
+        "Web readiness: ready-after-build",
+        "Manifest in dist: true",
+        "Service worker in dist: true",
+        "Release candidate: release-candidate-ready; 38 files",
+        "Deployment plan: ready-for-pages"
+      ],
+      "blockers": [],
+      "nextAction": "Connect a free static host or GitHub Pages environment, then publish dist.",
+      "completionCritical": true
+    },
+    {
+      "id": "original-trend-driven-game-generation",
+      "status": "met",
+      "summary": "Trend signals produce original, low-IP-risk concepts and generated playable games.",
+      "evidence": [
+        "Trend source: fixture-safe",
+        "Candidate concepts: 4",
+        "Low-risk concepts: 4",
+        "Playable games: 10",
+        "Generated games: 5"
+      ],
+      "blockers": [],
+      "nextAction": "Keep licensed/cache/fixture trend inputs feeding original concept generation.",
+      "completionCritical": true
+    },
+    {
+      "id": "behavior-measurement-loop",
+      "status": "met-fixture-or-local",
+      "summary": "Gameplay, retention, install, acquisition, and privacy telemetry can be measured and rolled up.",
+      "evidence": [
+        "Analytics source: fixture-sample",
+        "Collector smoke: pass",
+        "Ingest smoke: pass",
+        "Game starts in rollup: 375",
+        "D1 retention: 0.167"
+      ],
+      "blockers": [
+        "Production analytics still need PostHog or first-party collector credentials for live player data."
+      ],
+      "nextAction": "Connect the first-party collector or PostHog when production credentials exist.",
+      "completionCritical": true
+    },
+    {
+      "id": "data-driven-improvement-loop",
+      "status": "met",
+      "summary": "Analytics drive product-gate optimization, experiment evaluation, backlog routing, and one safe local operator action.",
+      "evidence": [
+        "Product optimizer: product-optimization-ready",
+        "First-move coach: first-move-coach-ready; enabled targets 6",
+        "Completion loop: completion-loop-ready; prompt armed",
+        "Replay loop: replay-loop-ready; prompt armed",
+        "Retention loop: retention-loop-ready; return intent armed",
+        "Organic seed loop: organic-seed-loop-ready; target canopy-bloom",
+        "Experiment results: evaluated",
+        "Backlog items: 4",
+        "Applied/deferred actions: 6",
+        "Operator selected: prepare-repository-channel"
+      ],
+      "blockers": [],
+      "nextAction": "Keep collecting starts until a safe product-gate tuning action is justified.",
+      "completionCritical": true
+    },
+    {
+      "id": "minimal-intervention-autonomy",
+      "status": "needs-repository-channel",
+      "summary": "A scheduled local loop, owner state, bootstrap handoff, and dry-run operator reduce manual maintenance.",
+      "evidence": [
+        "Owner loop: owner-loop-ready",
+        "Operator: operator-plan-ready",
+        "Operator history: operator-history-ready; records 9",
+        "Bootstrap: production-bootstrap-ready",
+        "Repository bootstrap: waiting-for-github-target; helper ops/github/bootstrap-repository.sh",
+        "Release candidate: release-candidate-ready; smoke URLs 7",
+        "Post-deploy smoke: blocked-missing-origin; origin missing; checks 0/8",
+        "Repository channel: waiting-for-github-repository; repository missing; git worktree true",
+        "Autonomy score: 93%",
+        "Credential-gated actions: 17"
+      ],
+      "blockers": [
+        "Add a GitHub origin remote or set GITHUB_REPOSITORY/GH_REPO.",
+        "Configure GH_TOKEN or GITHUB_TOKEN for workflow dispatch and repository settings sync.",
+        "Create an initial commit before pushing to GitHub Pages.",
+        "Set GITHUB_REPOSITORY or GH_REPO to the intended owner/repo.",
+        "Attach a GitHub origin remote or create the target repository.",
+        "Authenticate GitHub CLI or provide GH_TOKEN/GITHUB_TOKEN for remote repository bootstrap.",
+        "AGL_PUBLIC_ORIGIN: HTTPS origin used for hosted privacy/support URLs, sitemap, TWA host, and Digital Asset Links.",
+        "AGL_SUPPORT_EMAIL: Production support contact for privacy and store listings.",
+        "VITE_POSTHOG_KEY: Optional browser-side PostHog analytics forwarding.",
+        "POSTHOG_PROJECT_ID + POSTHOG_PERSONAL_API_KEY: Optional autonomous production analytics and experiment result rollups from PostHog.",
+        "VITE_EVENT_COLLECTOR_URL + AGL_EVENT_COLLECTOR_EXPORT_URL: Optional zero-cost Worker/R2 event collector for browser analytics and autonomous rollups.",
+        "VITE_ADSENSE_CLIENT_ID + VITE_ADSENSE_REWARDED_SLOT_ID: Web/PWA rewarded or display-ad test configuration after product and privacy gates pass.",
+        "ADMOB_PUBLISHER_ID: Native app seller line for app-ads.txt and Android rewarded tests after app-store gates pass.",
+        "AGL_ANDROID_SHA256_CERT_FINGERPRINT: Android signing fingerprint for Digital Asset Links.",
+        "AGL_GOOGLE_PLAY_ACCOUNT_CONNECTED: Allows native packaging gates to treat Play Console access as connected.",
+        "CLOUDFLARE_API_TOKEN: Repository secret sourced from CLOUDFLARE_API_TOKEN.",
+        "VITE_EVENT_COLLECTOR_WRITE_TOKEN: Repository secret sourced from VITE_EVENT_COLLECTOR_WRITE_TOKEN.",
+        "AGL_EVENT_COLLECTOR_ADMIN_TOKEN: Repository secret sourced from AGL_EVENT_COLLECTOR_ADMIN_TOKEN.",
+        "POSTHOG_PERSONAL_API_KEY: Repository secret sourced from POSTHOG_PERSONAL_API_KEY.",
+        "AGL_ANDROID_KEYSTORE_BASE64: Repository secret sourced from AGL_ANDROID_KEYSTORE_BASE64.",
+        "AGL_ANDROID_KEYSTORE_PASSWORD: Repository secret sourced from AGL_ANDROID_KEYSTORE_PASSWORD.",
+        "AGL_ANDROID_KEY_ALIAS: Repository secret sourced from AGL_ANDROID_KEY_ALIAS.",
+        "GOOGLE_PLAY_SERVICE_ACCOUNT_JSON: Repository secret sourced from GOOGLE_PLAY_SERVICE_ACCOUNT_JSON."
+      ],
+      "nextAction": "Keep the operator dry-run plan ready and execute one local action only when explicitly requested.",
+      "completionCritical": true
+    },
+    {
+      "id": "monetization-path",
+      "status": "prepared-blocked-by-gates",
+      "summary": "Revenue path exists with guarded rewarded/cosmetic tests, app-ads output, and unit-economics spend controls.",
+      "evidence": [
+        "Monetization status: blocked-by-product-gates",
+        "Revenue enabled: false",
+        "Runtime: guarded-disabled",
+        "Unit economics: no-spend",
+        "Paid acquisition allowed: false"
+      ],
+      "blockers": [
+        "First-game completion is 40%; gate is 55%.",
+        "Replay rate is 31%; gate is 35%.",
+        "D1 retention is 17%; gate is 18%; source is fixture-retention.",
+        "Web/PWA or native ad provider is not configured for gated revenue tests."
+      ],
+      "nextAction": "Collect live completion, replay, and retention data until gates pass.",
+      "completionCritical": true
+    },
+    {
+      "id": "app-store-distribution-path",
+      "status": "prepared-external-blockers",
+      "summary": "Store listing, compliance drafts, screenshots, and Android TWA handoff are prepared while store release stays gated.",
+      "evidence": [
+        "Store package privacy URL: needs-hosted-domain",
+        "Store assets: screenshots-ready",
+        "Store compliance: draft-ready-external-blockers",
+        "Native package: blocked-draft-ready",
+        "Android release: blocked-needs-host-signing-play"
+      ],
+      "blockers": [
+        "hosted-privacy-url: Hosted privacy policy URL is required before public store submission.",
+        "support-contact: Production support email is required before public store submission.",
+        "google-play-account: Google Play developer account must be connected before Android submission.",
+        "apple-developer-account: Apple Developer account remains deferred until iOS spend is justified.",
+        "native-package-ready: Native package is blocked-draft-ready.",
+        "asset-links: Digital Asset Links are template-only.",
+        "signing-fingerprint: Android signing fingerprint is missing.",
+        "signing-secrets: Android keystore, password, and alias are available to CI.",
+        "google-play-account: Google Play account is not connected.",
+        "play-service-account: Google Play service account upload credentials are available to CI.",
+        "unit-economics-store-spend: Store spend allowed is false; spend mode is no-spend.",
+        "promotion-gate: Android promotion status is blocked.",
+        "Revenue signal is $0.00, below $99.00.",
+        "Apple Developer account is not connected.",
+        "Hosted privacy policy URL is missing."
+      ],
+      "nextAction": "Host privacy URL, create signing assets, and connect Google Play account.",
+      "completionCritical": true
+    },
+    {
+      "id": "minimal-cost-guardrails",
+      "status": "met",
+      "summary": "Zero-spend, no-store-submission, and no-revenue-before-gates controls are enforced.",
+      "evidence": [
+        "Max daily spend: $0.00",
+        "Bootstrap zero spend: true",
+        "Operator zero spend: true",
+        "Owner guardrails: 4/4"
+      ],
+      "blockers": [],
+      "nextAction": "Preserve zero-spend posture until observed revenue and payback gates open.",
+      "completionCritical": true
+    }
+  ],
+  "blockers": {
+    "external": [
+      "Add a GitHub origin remote or set GITHUB_REPOSITORY/GH_REPO.",
+      "Configure GH_TOKEN or GITHUB_TOKEN for workflow dispatch and repository settings sync.",
+      "Create an initial commit before pushing to GitHub Pages.",
+      "Set GITHUB_REPOSITORY or GH_REPO to the intended owner/repo.",
+      "Attach a GitHub origin remote or create the target repository.",
+      "Authenticate GitHub CLI or provide GH_TOKEN/GITHUB_TOKEN for remote repository bootstrap.",
+      "Set AGL_PUBLIC_ORIGIN or PUBLIC_SITE_URL to a real HTTPS production origin.",
+      "Set AGL_SUPPORT_EMAIL to a real support inbox before public store submission.",
+      "Set VITE_EVENT_COLLECTOR_URL or VITE_POSTHOG_KEY to forward browser analytics in production.",
+      "Set AGL_EVENT_COLLECTOR_EXPORT_URL + AGL_EVENT_COLLECTOR_ADMIN_TOKEN or PostHog server credentials for autonomous production rollups.",
+      "Set VITE_ADSENSE_CLIENT_ID + VITE_ADSENSE_REWARDED_SLOT_ID for web/PWA revenue tests or ADMOB_PUBLISHER_ID for native app placements.",
+      "Set AGL_ANDROID_SHA256_CERT_FINGERPRINT after Android signing exists.",
+      "Connect Google Play credentials or set AGL_GOOGLE_PLAY_ACCOUNT_CONNECTED=true.",
+      "Connect Apple Developer account only after revenue justifies iOS spend.",
+      "hosted-privacy-url: Hosted privacy policy URL is required before public store submission.",
+      "support-contact: Production support email is required before public store submission.",
+      "google-play-account: Google Play developer account must be connected before Android submission.",
+      "apple-developer-account: Apple Developer account remains deferred until iOS spend is justified.",
+      "asset-links: Digital Asset Links are template-only.",
+      "signing-fingerprint: Android signing fingerprint is missing.",
+      "signing-secrets: Android keystore, password, and alias are available to CI.",
+      "google-play-account: Google Play account is not connected.",
+      "play-service-account: Google Play service account upload credentials are available to CI.",
+      "Collector environment is not configured."
+    ],
+    "product": [
+      "Set VITE_ADSENSE_CLIENT_ID + VITE_ADSENSE_REWARDED_SLOT_ID for web/PWA revenue tests or ADMOB_PUBLISHER_ID for native app placements.",
+      "Connect Apple Developer account only after revenue justifies iOS spend.",
+      "First-game completion is 40%; gate is 55%.",
+      "Replay rate is 31%; gate is 35%.",
+      "D1 retention is 17%; gate is 18%; source is fixture-retention.",
+      "Web/PWA or native ad provider is not configured for gated revenue tests."
+    ],
+    "all": [
+      "Add a GitHub origin remote or set GITHUB_REPOSITORY/GH_REPO.",
+      "Configure GH_TOKEN or GITHUB_TOKEN for workflow dispatch and repository settings sync.",
+      "Create an initial commit before pushing to GitHub Pages.",
+      "Set GITHUB_REPOSITORY or GH_REPO to the intended owner/repo.",
+      "Attach a GitHub origin remote or create the target repository.",
+      "Authenticate GitHub CLI or provide GH_TOKEN/GITHUB_TOKEN for remote repository bootstrap.",
+      "Set AGL_PUBLIC_ORIGIN or PUBLIC_SITE_URL to a real HTTPS production origin.",
+      "Set AGL_SUPPORT_EMAIL to a real support inbox before public store submission.",
+      "Set VITE_EVENT_COLLECTOR_URL or VITE_POSTHOG_KEY to forward browser analytics in production.",
+      "Set AGL_EVENT_COLLECTOR_EXPORT_URL + AGL_EVENT_COLLECTOR_ADMIN_TOKEN or PostHog server credentials for autonomous production rollups.",
+      "Set VITE_ADSENSE_CLIENT_ID + VITE_ADSENSE_REWARDED_SLOT_ID for web/PWA revenue tests or ADMOB_PUBLISHER_ID for native app placements.",
+      "Set AGL_ANDROID_SHA256_CERT_FINGERPRINT after Android signing exists.",
+      "Connect Google Play credentials or set AGL_GOOGLE_PLAY_ACCOUNT_CONNECTED=true.",
+      "Connect Apple Developer account only after revenue justifies iOS spend.",
+      "First-game completion is 40%; gate is 55%.",
+      "Replay rate is 31%; gate is 35%.",
+      "D1 retention is 17%; gate is 18%; source is fixture-retention.",
+      "Web/PWA or native ad provider is not configured for gated revenue tests.",
+      "hosted-privacy-url: Hosted privacy policy URL is required before public store submission.",
+      "support-contact: Production support email is required before public store submission.",
+      "google-play-account: Google Play developer account must be connected before Android submission.",
+      "apple-developer-account: Apple Developer account remains deferred until iOS spend is justified.",
+      "native-package-ready: Native package is blocked-draft-ready.",
+      "asset-links: Digital Asset Links are template-only.",
+      "signing-fingerprint: Android signing fingerprint is missing.",
+      "signing-secrets: Android keystore, password, and alias are available to CI.",
+      "google-play-account: Google Play account is not connected.",
+      "play-service-account: Google Play service account upload credentials are available to CI.",
+      "unit-economics-store-spend: Store spend allowed is false; spend mode is no-spend.",
+      "promotion-gate: Android promotion status is blocked.",
+      "Collector environment is not configured."
+    ]
+  },
+  "controls": {
+    "preserveOriginalScope": true,
+    "doNotMarkGoalCompleteWhileBlocked": true,
+    "zeroSpendGuard": true,
+    "noRevenueEnablementUntilGatesPass": true,
+    "noStoreSubmissionUntilExternalAccounts": true
+  },
+  "completion": {
+    "canMarkGoalComplete": false,
+    "reason": "The local autonomous PWA system is largely prepared, but production credentials, live data, monetization gates, hosted compliance URLs, and store account/signing blockers remain.",
+    "nextBestAction": "prepare-repository-channel"
+  }
+} as const
+
+export type ObjectiveAudit = typeof objectiveAudit

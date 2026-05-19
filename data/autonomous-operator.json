@@ -1,0 +1,229 @@
+{
+  "generatedAt": "2026-05-19T01:21:38.311Z",
+  "status": "operator-plan-ready",
+  "mode": "plan-only",
+  "ownerDecision": {
+    "actionId": "prepare-repository-channel",
+    "command": "npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap",
+    "locallyExecutable": true,
+    "rejectionReason": null
+  },
+  "requestedActionId": null,
+  "selectedAction": {
+    "id": "prepare-repository-channel",
+    "status": "armed",
+    "command": "npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap",
+    "targets": [
+      "github-repository-channel"
+    ],
+    "reason": "Surfaces and prepares the missing git/GitHub deployment-channel blockers before web deploy.",
+    "costUsd": 0
+  },
+  "selectedRejection": null,
+  "eligibleActionIds": [
+    "seed-portfolio-traffic",
+    "refresh-organic-seed-loop",
+    "optimize-daily-retention",
+    "measure-pwa-install-loop",
+    "check-performance-budget",
+    "prepare-release-candidate",
+    "optimize-product-gates",
+    "refresh-first-move-coach",
+    "refresh-completion-loop",
+    "refresh-replay-loop",
+    "prepare-repository-channel",
+    "bootstrap-production-setup",
+    "optimize-store-listing",
+    "apply-safe-improvements"
+  ],
+  "blockedActions": [
+    {
+      "id": "run-daily-owner-loop",
+      "status": "armed",
+      "command": "npm run autonomous:daily",
+      "reason": "daily-loop-recursion-blocked"
+    },
+    {
+      "id": "seed-portfolio-traffic",
+      "status": "armed",
+      "command": "npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop",
+      "reason": "not-selected-this-run"
+    },
+    {
+      "id": "refresh-organic-seed-loop",
+      "status": "armed",
+      "command": "npm run autonomous:organic-seed-loop",
+      "reason": "not-selected-this-run"
+    },
+    {
+      "id": "optimize-daily-retention",
+      "status": "armed",
+      "command": "npm run autonomous:retention",
+      "reason": "not-selected-this-run"
+    },
+    {
+      "id": "measure-pwa-install-loop",
+      "status": "armed",
+      "command": "npm run autonomous:pwa-install",
+      "reason": "not-selected-this-run"
+    },
+    {
+      "id": "check-performance-budget",
+      "status": "armed",
+      "command": "npm run build && npm run autonomous:performance",
+      "reason": "not-selected-this-run"
+    },
+    {
+      "id": "prepare-release-candidate",
+      "status": "armed",
+      "command": "npm run autonomous:release-candidate",
+      "reason": "not-selected-this-run"
+    },
+    {
+      "id": "run-post-deploy-smoke",
+      "status": "monitor",
+      "command": "npm run autonomous:post-deploy-smoke",
+      "reason": "status-monitor"
+    },
+    {
+      "id": "optimize-product-gates",
+      "status": "armed",
+      "command": "npm run autonomous:analyze && npm run autonomous:product-optimize && npm run autonomous:sync-config && npm run autonomous:simulate",
+      "reason": "not-selected-this-run"
+    },
+    {
+      "id": "refresh-first-move-coach",
+      "status": "armed",
+      "command": "npm run autonomous:first-move-coach",
+      "reason": "not-selected-this-run"
+    },
+    {
+      "id": "refresh-completion-loop",
+      "status": "armed",
+      "command": "npm run autonomous:completion-loop",
+      "reason": "not-selected-this-run"
+    },
+    {
+      "id": "refresh-replay-loop",
+      "status": "armed",
+      "command": "npm run autonomous:replay-loop",
+      "reason": "not-selected-this-run"
+    },
+    {
+      "id": "bootstrap-production-setup",
+      "status": "armed",
+      "command": "npm run autonomous:release-candidate && npm run autonomous:deploy-plan && npm run autonomous:bootstrap",
+      "reason": "not-selected-this-run"
+    },
+    {
+      "id": "run-autonomous-operator",
+      "status": "armed",
+      "command": "npm run autonomous:operator",
+      "reason": "command-not-in-local-allowlist"
+    },
+    {
+      "id": "review-operator-history",
+      "status": "armed",
+      "command": "npm run autonomous:operator",
+      "reason": "command-not-in-local-allowlist"
+    },
+    {
+      "id": "refresh-objective-audit",
+      "status": "armed",
+      "command": "npm run autonomous:objective-audit",
+      "reason": "command-not-in-local-allowlist"
+    },
+    {
+      "id": "optimize-store-listing",
+      "status": "armed",
+      "command": "npm run autonomous:store-listing-optimize && npm run autonomous:store-compliance",
+      "reason": "not-selected-this-run"
+    },
+    {
+      "id": "apply-safe-improvements",
+      "status": "armed",
+      "command": "npm run autonomous:experiments && npm run autonomous:improve && npm run autonomous:sync-experiments",
+      "reason": "not-selected-this-run"
+    },
+    {
+      "id": "deploy-web-pwa",
+      "status": "blocked-needs-repository-channel",
+      "command": "Run the Web PWA Deploy workflow after GitHub Pages is enabled for the repository.",
+      "reason": "status-blocked-needs-repository-channel"
+    },
+    {
+      "id": "collect-live-events",
+      "status": "blocked-needs-collector-or-posthog",
+      "command": "npm run autonomous:import-events && npm run autonomous:analytics",
+      "reason": "status-blocked-needs-collector-or-posthog"
+    }
+  ],
+  "commandPlan": [
+    {
+      "segment": "npm run autonomous:repo-readiness",
+      "script": "autonomous:repo-readiness"
+    },
+    {
+      "segment": "npm run autonomous:repo-bootstrap",
+      "script": "autonomous:repo-bootstrap"
+    }
+  ],
+  "execution": {
+    "requested": false,
+    "status": "not-requested",
+    "maxActionsPerRun": 1,
+    "attemptedActionId": null,
+    "results": []
+  },
+  "controls": {
+    "zeroPaidSpend": true,
+    "allOwnerGuardrailsEnforced": true,
+    "productionDeployAllowed": true,
+    "maxActionsPerRun": 1,
+    "executeRequiresFlag": true,
+    "dryRunByDefault": true,
+    "localCommandAllowlistEnforced": true,
+    "exactCommandMatchRequired": true,
+    "externalWorkflowExecutionBlockedByDefault": true,
+    "dailyLoopRecursionBlocked": true,
+    "noPaidSpendCommands": true,
+    "noStoreSubmissionCommands": true
+  },
+  "allowlist": [
+    "npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition",
+    "npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop",
+    "npm run autonomous:organic-seed-loop",
+    "npm run autonomous:retention",
+    "npm run autonomous:pwa-install",
+    "npm run build && npm run autonomous:performance",
+    "npm run autonomous:release-candidate",
+    "npm run autonomous:post-deploy-smoke",
+    "npm run autonomous:repo-readiness",
+    "npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap",
+    "npm run autonomous:repo-bootstrap",
+    "npm run autonomous:first-move-coach",
+    "npm run autonomous:completion-loop",
+    "npm run autonomous:replay-loop",
+    "npm run autonomous:analyze && npm run autonomous:product-optimize && npm run autonomous:sync-config && npm run autonomous:simulate",
+    "npm run autonomous:store-listing-optimize && npm run autonomous:store-compliance",
+    "npm run autonomous:experiments && npm run autonomous:improve && npm run autonomous:sync-experiments",
+    "npm run autonomous:import-events && npm run autonomous:analytics",
+    "npm run autonomous:deploy-plan && npm run autonomous:bootstrap",
+    "npm run autonomous:release-candidate && npm run autonomous:deploy-plan && npm run autonomous:bootstrap"
+  ],
+  "blockedFragments": [
+    "gh workflow run",
+    "wrangler",
+    "bubblewrap",
+    "secret put",
+    "npm publish",
+    "curl ",
+    "rm -rf",
+    "./ops/github/setup-production.sh",
+    "RUN_WORKFLOWS=1"
+  ],
+  "nextActions": [
+    "Run npm run autonomous:operator -- --execute --action=prepare-repository-channel to execute exactly one allowed local action.",
+    "Do not execute GitHub workflow, store, paid ads, or account setup commands from the local operator."
+  ]
+}

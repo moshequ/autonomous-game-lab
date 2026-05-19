@@ -1,0 +1,293 @@
+export const firstMoveCoach = {
+  "generatedAt": "2026-05-18T23:37:01.690Z",
+  "status": "first-move-coach-ready",
+  "sourceStatus": {
+    "analyticsSource": "fixture-sample",
+    "releaseHealth": "monitoring",
+    "productOptimization": "product-optimization-ready",
+    "fastStartWeight": 85,
+    "guidedWeight": 15
+  },
+  "productGates": {
+    "firstGameCompletion": {
+      "actual": 0.397,
+      "gate": 0.55,
+      "pass": false
+    },
+    "replayRate": {
+      "actual": 0.309,
+      "gate": 0.35,
+      "pass": false
+    },
+    "d1Retention": {
+      "actual": 0.167,
+      "gate": 0.18,
+      "pass": false
+    },
+    "tutorialCompletion": {
+      "actual": 0.653,
+      "gate": 0.75,
+      "pass": false
+    }
+  },
+  "summary": {
+    "enabled": true,
+    "targets": 10,
+    "enabledTargets": 6,
+    "primaryTargetId": "harbor-rings",
+    "completionGap": 0.153,
+    "tutorialGap": 0.097
+  },
+  "controls": {
+    "zeroPaidSpend": true,
+    "firstTurnOnly": true,
+    "noAutoMove": true,
+    "noForcedTutorial": true,
+    "noRevenueEnablement": true,
+    "respectsExperimentPolicy": true,
+    "requiresReleaseHealth": true
+  },
+  "telemetry": {
+    "shown": "first_move_coach_shown",
+    "used": "first_move_coach_used",
+    "skipped": "first_move_coach_skipped",
+    "properties": [
+      "gameId",
+      "variantId",
+      "row",
+      "col",
+      "recommendedRow",
+      "recommendedCol",
+      "surface"
+    ]
+  },
+  "targets": [
+    {
+      "gameId": "harbor-rings",
+      "title": "Harbor Rings",
+      "enabled": true,
+      "variantId": "fast-start",
+      "surface": "game-board-first-turn",
+      "recommendedCell": {
+        "row": 2,
+        "col": 2,
+        "label": "center"
+      },
+      "board": {
+        "rows": 5,
+        "cols": 5
+      },
+      "generatedRuntime": false,
+      "runtimeSupported": true,
+      "priorityScore": 1998,
+      "sourceReason": "completion 39% and tutorial 67%",
+      "copy": "Start here",
+      "telemetryId": "first-move-coach-harbor-rings"
+    },
+    {
+      "gameId": "canopy-bloom",
+      "title": "Canopy Bloom",
+      "enabled": true,
+      "variantId": "fast-start",
+      "surface": "game-board-first-turn",
+      "recommendedCell": {
+        "row": 1,
+        "col": 2,
+        "label": "middle lane"
+      },
+      "board": {
+        "rows": 4,
+        "cols": 5
+      },
+      "generatedRuntime": true,
+      "runtimeSupported": true,
+      "priorityScore": 0,
+      "sourceReason": "generated daily/portfolio game without live row yet",
+      "copy": "Start here",
+      "telemetryId": "first-move-coach-canopy-bloom"
+    },
+    {
+      "gameId": "foundry-ledger",
+      "title": "Foundry Ledger",
+      "enabled": false,
+      "variantId": "fast-start",
+      "surface": "game-board-first-turn",
+      "recommendedCell": {
+        "row": 1,
+        "col": 1,
+        "label": "center"
+      },
+      "board": {
+        "rows": 4,
+        "cols": 4
+      },
+      "generatedRuntime": false,
+      "runtimeSupported": false,
+      "priorityScore": 0,
+      "sourceReason": "playable game without live row yet",
+      "copy": "Start here",
+      "telemetryId": "first-move-coach-foundry-ledger"
+    },
+    {
+      "gameId": "grove-engine",
+      "title": "Grove Engine",
+      "enabled": true,
+      "variantId": "fast-start",
+      "surface": "game-board-first-turn",
+      "recommendedCell": {
+        "row": 1,
+        "col": 2,
+        "label": "middle lane"
+      },
+      "board": {
+        "rows": 3,
+        "cols": 5
+      },
+      "generatedRuntime": true,
+      "runtimeSupported": true,
+      "priorityScore": 0,
+      "sourceReason": "generated daily/portfolio game without live row yet",
+      "copy": "Start here",
+      "telemetryId": "first-move-coach-grove-engine"
+    },
+    {
+      "gameId": "harbor-circuit",
+      "title": "Harbor Circuit",
+      "enabled": false,
+      "variantId": "fast-start",
+      "surface": "game-board-first-turn",
+      "recommendedCell": {
+        "row": 1,
+        "col": 1,
+        "label": "middle lane"
+      },
+      "board": {
+        "rows": 3,
+        "cols": 4
+      },
+      "generatedRuntime": false,
+      "runtimeSupported": false,
+      "priorityScore": 0,
+      "sourceReason": "playable game without live row yet",
+      "copy": "Start here",
+      "telemetryId": "first-move-coach-harbor-circuit"
+    },
+    {
+      "gameId": "lantern-relay",
+      "title": "Lantern Relay",
+      "enabled": false,
+      "variantId": "fast-start",
+      "surface": "game-board-first-turn",
+      "recommendedCell": {
+        "row": 2,
+        "col": 2,
+        "label": "center"
+      },
+      "board": {
+        "rows": 5,
+        "cols": 5
+      },
+      "generatedRuntime": false,
+      "runtimeSupported": false,
+      "priorityScore": 0,
+      "sourceReason": "playable game without live row yet",
+      "copy": "Start here",
+      "telemetryId": "first-move-coach-lantern-relay"
+    },
+    {
+      "gameId": "metro-loom",
+      "title": "Metro Loom",
+      "enabled": true,
+      "variantId": "fast-start",
+      "surface": "game-board-first-turn",
+      "recommendedCell": {
+        "row": 2,
+        "col": 2,
+        "label": "center"
+      },
+      "board": {
+        "rows": 5,
+        "cols": 5
+      },
+      "generatedRuntime": true,
+      "runtimeSupported": true,
+      "priorityScore": 0,
+      "sourceReason": "generated daily/portfolio game without live row yet",
+      "copy": "Start here",
+      "telemetryId": "first-move-coach-metro-loom"
+    },
+    {
+      "gameId": "mosaic-haven",
+      "title": "Mosaic Haven",
+      "enabled": true,
+      "variantId": "fast-start",
+      "surface": "game-board-first-turn",
+      "recommendedCell": {
+        "row": 1,
+        "col": 1,
+        "label": "center"
+      },
+      "board": {
+        "rows": 4,
+        "cols": 4
+      },
+      "generatedRuntime": true,
+      "runtimeSupported": true,
+      "priorityScore": 0,
+      "sourceReason": "generated daily/portfolio game without live row yet",
+      "copy": "Start here",
+      "telemetryId": "first-move-coach-mosaic-haven"
+    },
+    {
+      "gameId": "orbit-atlas",
+      "title": "Orbit Atlas",
+      "enabled": false,
+      "variantId": "fast-start",
+      "surface": "game-board-first-turn",
+      "recommendedCell": {
+        "row": 1,
+        "col": 1,
+        "label": "middle lane"
+      },
+      "board": {
+        "rows": 3,
+        "cols": 4
+      },
+      "generatedRuntime": false,
+      "runtimeSupported": false,
+      "priorityScore": 0,
+      "sourceReason": "playable game without live row yet",
+      "copy": "Start here",
+      "telemetryId": "first-move-coach-orbit-atlas"
+    },
+    {
+      "gameId": "pocket-draft",
+      "title": "Pocket Draft",
+      "enabled": true,
+      "variantId": "fast-start",
+      "surface": "game-board-first-turn",
+      "recommendedCell": {
+        "row": 1,
+        "col": 2,
+        "label": "middle lane"
+      },
+      "board": {
+        "rows": 3,
+        "cols": 5
+      },
+      "generatedRuntime": true,
+      "runtimeSupported": true,
+      "priorityScore": 0,
+      "sourceReason": "generated daily/portfolio game without live row yet",
+      "copy": "Start here",
+      "telemetryId": "first-move-coach-pocket-draft"
+    }
+  ],
+  "nextActions": [
+    "Measure first_move_coach_used against first-game completion before increasing revenue gates.",
+    "Retire or soften the coach after live data shows tutorial and completion gates are stable."
+  ]
+} as const
+
+export type FirstMoveCoach = typeof firstMoveCoach
+export type FirstMoveCoachTarget = FirstMoveCoach['targets'][number]

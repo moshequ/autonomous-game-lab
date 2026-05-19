@@ -1,0 +1,33 @@
+{
+  "generatedAt": "2026-05-18T23:36:38.427Z",
+  "status": "fixture-safe",
+  "activeSource": "fixture",
+  "bggHotness": {
+    "configured": false,
+    "ok": false,
+    "reason": "BGG_XML_API_TOKEN is not set; using fixture trends.",
+    "endpoint": "https://boardgamegeek.com/xmlapi2/hot?type=boardgame",
+    "tokenEnv": "BGG_XML_API_TOKEN",
+    "authorizationRequired": true
+  },
+  "cache": {
+    "status": "empty",
+    "usable": false,
+    "ageDays": null,
+    "maxAgeDays": 30,
+    "fetchedAt": null,
+    "reason": "No licensed BGG hotness cache has been created yet."
+  },
+  "fixture": {
+    "items": 5,
+    "purpose": "Safe deterministic fallback for development, tests, and no-token operation."
+  },
+  "policy": {
+    "officialUrl": "https://boardgamegeek.com/using_the_xml_api",
+    "stance": "Do not scrape private BGG endpoints. Use registered XML API access, cached licensed results, or local fixtures."
+  },
+  "downstream": {
+    "conceptGenerator": "Consumes trend-signals.json regardless of source.",
+    "gameFactory": "Builds original games from aggregated mechanic/theme signals, not copied source expression."
+  }
+}

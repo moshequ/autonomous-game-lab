@@ -1,0 +1,157 @@
+export const experimentResults = {
+  "generatedAt": "2026-05-18T23:36:47.833Z",
+  "status": "evaluated",
+  "sourceStatus": {
+    "activeSource": "fixture-experiment-results",
+    "posthog": {
+      "status": "not-configured",
+      "error": null
+    },
+    "localEventDrops": {
+      "directory": "data/player-events",
+      "files": 0,
+      "events": 0
+    },
+    "fallbackSample": {
+      "experiments": 2
+    }
+  },
+  "experiments": [
+    {
+      "id": "first_session_pacing",
+      "primaryMetric": "tutorialCompletion",
+      "totalStarts": 375,
+      "minimumVariantStarts": 125,
+      "confidence": 94,
+      "recommendedAction": "hold-at-guardrail",
+      "winner": {
+        "variantId": "fast-start",
+        "score": 0.505,
+        "currentWeight": 85
+      },
+      "runnerUp": {
+        "variantId": "guided",
+        "score": 0.419,
+        "currentWeight": 15
+      },
+      "variants": [
+        {
+          "variantId": "fast-start",
+          "counts": {
+            "experiment_assigned": 250,
+            "game_started": 250,
+            "tutorial_completed": 172,
+            "level_completed": 103,
+            "game_abandoned": 147,
+            "replay_clicked": 32
+          },
+          "metrics": {
+            "tutorialCompletion": 0.688,
+            "firstGameCompletion": 0.412,
+            "replayRate": 0.311,
+            "abandonmentRate": 0.588
+          },
+          "currentWeight": 85,
+          "score": 0.505
+        },
+        {
+          "variantId": "guided",
+          "counts": {
+            "experiment_assigned": 125,
+            "game_started": 125,
+            "tutorial_completed": 73,
+            "level_completed": 46,
+            "game_abandoned": 79,
+            "replay_clicked": 14
+          },
+          "metrics": {
+            "tutorialCompletion": 0.584,
+            "firstGameCompletion": 0.368,
+            "replayRate": 0.304,
+            "abandonmentRate": 0.632
+          },
+          "currentWeight": 15,
+          "score": 0.419
+        }
+      ]
+    },
+    {
+      "id": "reward_offer",
+      "primaryMetric": "replayRate",
+      "totalStarts": 375,
+      "minimumVariantStarts": 130,
+      "confidence": 95,
+      "recommendedAction": "promote-winner",
+      "winner": {
+        "variantId": "daily-streak",
+        "score": 0.263,
+        "currentWeight": 80
+      },
+      "runnerUp": {
+        "variantId": "score-booster",
+        "score": 0.172,
+        "currentWeight": 20
+      },
+      "variants": [
+        {
+          "variantId": "daily-streak",
+          "counts": {
+            "experiment_assigned": 245,
+            "game_started": 245,
+            "tutorial_completed": 164,
+            "level_completed": 96,
+            "game_abandoned": 149,
+            "replay_clicked": 34
+          },
+          "metrics": {
+            "tutorialCompletion": 0.669,
+            "firstGameCompletion": 0.392,
+            "replayRate": 0.354,
+            "abandonmentRate": 0.608
+          },
+          "currentWeight": 80,
+          "score": 0.263
+        },
+        {
+          "variantId": "score-booster",
+          "counts": {
+            "experiment_assigned": 130,
+            "game_started": 130,
+            "tutorial_completed": 81,
+            "level_completed": 53,
+            "game_abandoned": 77,
+            "replay_clicked": 12
+          },
+          "metrics": {
+            "tutorialCompletion": 0.623,
+            "firstGameCompletion": 0.408,
+            "replayRate": 0.226,
+            "abandonmentRate": 0.592
+          },
+          "currentWeight": 20,
+          "score": 0.172
+        }
+      ]
+    }
+  ],
+  "recommendations": [
+    {
+      "experiment": "first_session_pacing",
+      "action": "hold-at-guardrail",
+      "winnerVariant": "fast-start",
+      "runnerUpVariant": "guided",
+      "confidence": 94,
+      "reason": "fast-start is already at the maximum safe traffic weight"
+    },
+    {
+      "experiment": "reward_offer",
+      "action": "promote-winner",
+      "winnerVariant": "daily-streak",
+      "runnerUpVariant": "score-booster",
+      "confidence": 95,
+      "reason": "daily-streak beat score-booster on replayRate with 95% confidence"
+    }
+  ]
+} as const
+
+export type ExperimentResults = typeof experimentResults

@@ -1,0 +1,255 @@
+import { copyFile, mkdir, readFile, stat, writeFile } from 'node:fs/promises'
+import { createReadStream } from 'node:fs'
+import http from 'node:http'
+import path from 'node:path'
+import { chromium } from 'playwright'
+
+const root = process.cwd()
+const distDir = path.join(root, 'dist')
+const storePackagePath = path.join(root, 'data', 'store-package.json')
+const outputJsonPath = path.join(root, 'data', 'store-assets.json')
+const outputTsPath = path.join(root, 'src', 'data', 'storeAssets.ts')
+const reportPath = path.join(root, 'reports', 'store-assets-latest.md')
+const publicScreenshotDir = path.join(root, 'public', 'store-assets', 'screenshots')
+const distScreenshotDir = path.join(root, 'dist', 'store-assets', 'screenshots')
+
+const contentTypes = {
+  '.css': 'text/css; charset=utf-8',
+  '.html': 'text/html; charset=utf-8',
+  '.js': 'text/javascript; charset=utf-8',
+  '.json': 'application/json; charset=utf-8',
+  '.png': 'image/png',
+  '.svg': 'image/svg+xml',
+  '.txt': 'text/plain; charset=utf-8',
+  '.webmanifest': 'application/manifest+json',
+}
+
+const safeJoin = (base, requestPath) => {
+  const decoded = decodeURIComponent(requestPath.split('?')[0])
+  const normalized = path.normalize(decoded).replace(/^[/\\]+/, '')
+  const target = path.resolve(base, normalized === '' || normalized === '.' ? 'index.html' : normalized)
+  const resolvedBase = path.resolve(base)
+
+  return target.startsWith(`${resolvedBase}${path.sep}`) ? target : path.join(resolvedBase, 'index.html')
+}
+
+const serveDist = async () => {
+  const server = http.createServer(async (request, response) => {
+    const requestUrl = new URL(request.url ?? '/', 'http://127.0.0.1')
+    let filePath = safeJoin(distDir, requestUrl.pathname)
+
+    try {
+      const fileStat = await stat(filePath)
+      if (fileStat.isDirectory()) {
+        filePath = path.join(filePath, 'index.html')
+      }
+    } catch {
+      filePath = path.join(distDir, 'index.html')
+    }
+
+    try {
+      response.setHeader('Content-Type', contentTypes[path.extname(filePath)] ?? 'application/octet-stream')
+      createReadStream(filePath).pipe(response)
+    } catch {
+      response.writeHead(404)
+      response.end('Not found')
+    }
+  })
+
+  await new Promise((resolve) => server.listen(0, '127.0.0.1', resolve))
+  const address = server.address()
+  return {
+    origin: `http://127.0.0.1:${address.port}`,
+    close: () => new Promise((resolve) => server.close(resolve)),
+  }
+}
+
+const pngDimensions = async (filePath) => {
+  const buffer = await readFile(filePath)
+
+  if (buffer.toString('hex', 0, 8) !== '89504e470d0a1a0a') {
+    throw new Error(`${filePath} is not a PNG`)
+  }
+
+  return {
+    width: buffer.readUInt32BE(16),
+    height: buffer.readUInt32BE(20),
+    bytes: buffer.byteLength,
+  }
+}
+
+const shots = [
+  {
+    id: 'phone-portal-home',
+    label: 'Mobile portal home',
+    route: '/',
+    waitForText: 'Autonomous Game Lab',
+    viewport: { width: 390, height: 844, deviceScaleFactor: 3, isMobile: true },
+    platformUse: ['Google Play phone', 'Apple iPhone draft'],
+  },
+  {
+    id: 'phone-lantern-relay-game',
+    label: 'Lantern Relay playable board',
+    route: '/?game=lantern-relay&utm_source=store_screenshot&utm_campaign=lantern-relay',
+    waitForText: 'Lantern Relay',
+    focusSelector: '.canvasFrame',
+    focusBlock: 'start',
+    hideStickyNavigation: true,
+    waitForSelector: 'canvas',
+    viewport: { width: 390, height: 844, deviceScaleFactor: 3, isMobile: true },
+    platformUse: ['Google Play phone', 'Apple iPhone draft'],
+  },
+  {
+    id: 'phone-canopy-bloom-generated',
+    label: 'Generated Canopy Bloom board',
+    route: '/?game=canopy-bloom&utm_source=store_screenshot&utm_campaign=canopy-bloom',
+    waitForText: 'Canopy Bloom',
+    focusSelector: '.canvasFrame',
+    focusBlock: 'start',
+    hideStickyNavigation: true,
+    waitForSelector: 'canvas',
+    viewport: { width: 390, height: 844, deviceScaleFactor: 3, isMobile: true },
+    platformUse: ['Google Play phone', 'Apple iPhone draft'],
+  },
+  {
+    id: 'desktop-growth-page',
+    label: 'Generated public game landing page',
+    route: '/games/canopy-bloom.html',
+    waitForText: 'Canopy Bloom',
+    viewport: { width: 1440, height: 900, deviceScaleFactor: 1, isMobile: false },
+    platformUse: ['Web/PWA listing', 'press kit'],
+  },
+]
+
+await stat(path.join(distDir, 'index.html'))
+await mkdir(publicScreenshotDir, { recursive: true })
+await mkdir(distScreenshotDir, { recursive: true })
+await mkdir(path.dirname(outputJsonPath), { recursive: true })
+await mkdir(path.dirname(outputTsPath), { recursive: true })
+await mkdir(path.dirname(reportPath), { recursive: true })
+
+const server = await serveDist()
+const browser = await chromium.launch()
+const screenshots = []
+
+try {
+  for (const shot of shots) {
+    const context = await browser.newContext({
+      viewport: {
+        width: shot.viewport.width,
+        height: shot.viewport.height,
+      },
+      deviceScaleFactor: shot.viewport.deviceScaleFactor,
+      isMobile: shot.viewport.isMobile,
+    })
+    const page = await context.newPage()
+    const publicPath = path.join(publicScreenshotDir, `${shot.id}.png`)
+    const distPath = path.join(distScreenshotDir, `${shot.id}.png`)
+
+    await page.goto(`${server.origin}${shot.route}`, { waitUntil: 'networkidle' })
+    await page.getByText(shot.waitForText).first().waitFor({ state: 'visible' })
+    if (shot.hideStickyNavigation) {
+      await page.addStyleTag({
+        content: '.topbar { position: static !important; backdrop-filter: none !important; }',
+      })
+    }
+    if (shot.waitForSelector) {
+      await page.locator(shot.waitForSelector).first().waitFor({ state: 'visible' })
+    }
+    if (shot.focusSelector) {
+      const block = shot.focusBlock ?? 'start'
+      await page
+        .locator(shot.focusSelector)
+        .first()
+        .evaluate((element, scrollBlock) => {
+          element.scrollIntoView({ block: scrollBlock, inline: 'nearest' })
+        }, block)
+      await page.waitForTimeout(300)
+    }
+    await page.screenshot({ path: publicPath, fullPage: false })
+    await copyFile(publicPath, distPath)
+    await context.close()
+
+    const dimensions = await pngDimensions(publicPath)
+    const distDimensions = await pngDimensions(distPath)
+
+    if (
+      dimensions.bytes < 20_000 ||
+      dimensions.width < shot.viewport.width ||
+      dimensions.height < shot.viewport.height ||
+      distDimensions.width !== dimensions.width ||
+      distDimensions.height !== dimensions.height
+    ) {
+      throw new Error(`${shot.id} screenshot is unexpectedly small`)
+    }
+
+    screenshots.push({
+      id: shot.id,
+      label: shot.label,
+      route: shot.route,
+      path: `/store-assets/screenshots/${shot.id}.png`,
+      distPath: `dist/store-assets/screenshots/${shot.id}.png`,
+      width: dimensions.width,
+      height: dimensions.height,
+      bytes: dimensions.bytes,
+      platformUse: shot.platformUse,
+    })
+  }
+} finally {
+  await browser.close()
+  await server.close()
+}
+
+const storePackage = JSON.parse(await readFile(storePackagePath, 'utf8'))
+storePackage.storeListing ??= {}
+storePackage.storeListing.screenshotAssets = screenshots.map((screenshot) => ({
+  id: screenshot.id,
+  label: screenshot.label,
+  path: screenshot.path,
+  width: screenshot.width,
+  height: screenshot.height,
+  platformUse: screenshot.platformUse,
+}))
+
+const payload = {
+  generatedAt: new Date().toISOString(),
+  status: screenshots.length >= 4 ? 'screenshots-ready' : 'blocked',
+  sourceBuild: 'dist',
+  screenshots,
+  storePackageUpdated: true,
+}
+
+const report = [
+  '# Store Assets',
+  '',
+  `Generated: ${payload.generatedAt}`,
+  `Status: ${payload.status}`,
+  '',
+  '## Screenshots',
+  '',
+  ...screenshots.map(
+    (screenshot) =>
+      `- ${screenshot.id}: ${screenshot.width}x${screenshot.height}, ${Math.round(
+        screenshot.bytes / 1024,
+      )} KB, ${screenshot.path}`,
+  ),
+  '',
+  '## Store Package',
+  '',
+  '- Attached generated screenshot assets to data/store-package.json.',
+  '',
+]
+
+await writeFile(storePackagePath, JSON.stringify(storePackage, null, 2) + '\n')
+await writeFile(outputJsonPath, JSON.stringify(payload, null, 2) + '\n')
+await writeFile(
+  outputTsPath,
+  `export const storeAssets = ${JSON.stringify(payload, null, 2)} as const\n\nexport type StoreAssets = typeof storeAssets\n`,
+)
+await writeFile(reportPath, report.join('\n'))
+
+console.log(`Wrote ${path.relative(root, outputJsonPath)}`)
+console.log(`Wrote ${path.relative(root, outputTsPath)}`)
+console.log(`Wrote ${path.relative(root, storePackagePath)}`)
+console.log(`Wrote ${path.relative(root, reportPath)}`)
+console.log(`Wrote ${screenshots.length} screenshots`)

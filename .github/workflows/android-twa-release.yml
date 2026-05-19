@@ -1,0 +1,100 @@
+name: Android TWA Release
+
+on:
+  workflow_dispatch:
+  workflow_run:
+    workflows: ['Autonomous Daily Studio']
+    types: [completed]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: android-twa-release
+  cancel-in-progress: false
+
+jobs:
+  android-release:
+    if: github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      AGL_PUBLIC_ORIGIN: ${{ vars.AGL_PUBLIC_ORIGIN }}
+      VITE_PUBLIC_ORIGIN: ${{ vars.VITE_PUBLIC_ORIGIN }}
+      PUBLIC_SITE_URL: ${{ vars.PUBLIC_SITE_URL }}
+      VITE_BASE_PATH: ${{ vars.VITE_BASE_PATH }}
+      AGL_SUPPORT_EMAIL: ${{ vars.AGL_SUPPORT_EMAIL }}
+      AGL_ANDROID_PACKAGE_NAME: ${{ vars.AGL_ANDROID_PACKAGE_NAME }}
+      AGL_ANDROID_SHA256_CERT_FINGERPRINT: ${{ vars.AGL_ANDROID_SHA256_CERT_FINGERPRINT }}
+      AGL_GOOGLE_PLAY_ACCOUNT_CONNECTED: ${{ vars.AGL_GOOGLE_PLAY_ACCOUNT_CONNECTED }}
+      AGL_ANDROID_KEY_ALIAS: ${{ secrets.AGL_ANDROID_KEY_ALIAS }}
+      AGL_ANDROID_KEYSTORE_BASE64: ${{ secrets.AGL_ANDROID_KEYSTORE_BASE64 }}
+      AGL_ANDROID_KEYSTORE_PASSWORD: ${{ secrets.AGL_ANDROID_KEYSTORE_PASSWORD }}
+      GOOGLE_PLAY_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright browser
+        run: npx playwright install --with-deps chromium
+
+      - name: Build release prerequisites
+        run: |
+          npm run autonomous:env
+          npm run build
+          npm run autonomous:store-package
+          npm run autonomous:store-assets
+          npm run autonomous:native-package
+          npm run autonomous:readiness
+          npm run autonomous:promote
+          npm run autonomous:unit-economics
+          npm run autonomous:android-release-plan
+
+      - name: Read Android release gate
+        id: android_gate
+        run: |
+          status="$(node -e "const fs=require('fs'); console.log(JSON.parse(fs.readFileSync('data/android-release.json','utf8')).status)")"
+          echo "status=$status" >> "$GITHUB_OUTPUT"
+
+      - name: Skip Android package while gated
+        if: steps.android_gate.outputs.status != 'ready-for-internal-testing'
+        run: |
+          echo "Android release is gated: ${{ steps.android_gate.outputs.status }}"
+          cat reports/android-release-latest.md
+
+      - name: Decode Android keystore
+        if: steps.android_gate.outputs.status == 'ready-for-internal-testing' && env.AGL_ANDROID_KEYSTORE_BASE64 != '' && env.AGL_ANDROID_KEYSTORE_PASSWORD != '' && env.AGL_ANDROID_KEY_ALIAS != ''
+        run: |
+          mkdir -p native/android/secrets
+          printf "%s" "$AGL_ANDROID_KEYSTORE_BASE64" | base64 --decode > native/android/secrets/release.keystore
+
+      - name: Validate Bubblewrap package
+        if: steps.android_gate.outputs.status == 'ready-for-internal-testing' && env.AGL_ANDROID_KEYSTORE_BASE64 != '' && env.AGL_ANDROID_KEYSTORE_PASSWORD != '' && env.AGL_ANDROID_KEY_ALIAS != ''
+        run: npx @bubblewrap/cli validate
+
+      - name: Build Bubblewrap package
+        if: steps.android_gate.outputs.status == 'ready-for-internal-testing' && env.AGL_ANDROID_KEYSTORE_BASE64 != '' && env.AGL_ANDROID_KEYSTORE_PASSWORD != '' && env.AGL_ANDROID_KEY_ALIAS != ''
+        run: npx @bubblewrap/cli build
+
+      - name: Upload Android artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: android-twa-release
+          path: |
+            data/android-release.json
+            reports/android-release-latest.md
+            native/android
+            **/*.aab
+            **/*.apk
+          if-no-files-found: ignore

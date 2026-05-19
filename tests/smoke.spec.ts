@@ -1,0 +1,1556 @@
+import { expect, test } from '@playwright/test'
+import { readFile } from 'node:fs/promises'
+
+test('portal loads a playable canvas and autonomy cockpit', async ({ page }) => {
+  await page.goto('/')
+
+  await expect(page.getByRole('heading', { name: /Original board-game-inspired/i })).toBeVisible()
+  await expect(page.getByLabel('Autonomy cockpit')).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Generated Prototype Queue' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Lantern Relay' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Owner Loop' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Release Health' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Portfolio Policy' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Experiment Learning' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Production Response' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Balance Lab' })).toBeVisible()
+  await expect(page.getByText('promotable-internal')).toBeVisible()
+  await expect(page.getByText('ready-for-pages')).toBeVisible()
+  await expect(page.getByText('blocked-by-product-gates')).toBeVisible()
+  await expect(page.getByText('Spend guard')).toBeVisible()
+  await expect(page.getByText('no-spend')).toBeVisible()
+  await expect(page.getByText('Paid acquisition')).toBeVisible()
+  await expect(page.getByText('guarded-operations')).toBeVisible()
+  await expect(page.getByText('Incident drill')).toBeVisible()
+  await expect(page.getByText('verified')).toBeVisible()
+  await expect(page.getByText('Native package')).toBeVisible()
+  await expect(page.getByText('blocked-draft-ready')).toBeVisible()
+  await expect(page.getByText('Android release')).toBeVisible()
+  await expect(page.getByText('blocked-needs-host-signing-play')).toBeVisible()
+  await expect(page.getByLabel('Store Compliance')).toContainText('draft-ready-external-blockers')
+  await expect(page.getByLabel('Store Compliance')).toContainText('Everyone')
+  await expect(page.getByLabel('Store Compliance')).toContainText('ads-disabled')
+  await expect(page.getByLabel('Store Listing Optimizer')).toContainText('store-listing-optimizer-ready')
+  await expect(page.getByLabel('Store Listing Optimizer')).toContainText('Canopy Bloom')
+  await expect(page.getByText('Asset links')).toBeVisible()
+  await expect(page.getByText('Environment')).toBeVisible()
+  await expect(page.getByText('production-env-missing')).toBeVisible()
+  await expect(page.getByText('owner-loop-ready')).toBeVisible()
+  await expect(page.getByText('repository-channel-needed')).toBeVisible()
+  await expect(page.getByText('prepare-repository-channel').first()).toBeVisible()
+  await expect(page.getByLabel('Performance Budget')).toContainText('performance-budget-ready')
+  await expect(page.getByLabel('Performance Budget')).toContainText('Initial JS')
+  await expect(page.getByLabel('Production Bootstrap')).toContainText('production-bootstrap-ready')
+  await expect(page.getByLabel('Production Bootstrap')).toContainText('External blockers')
+  await expect(page.getByLabel('Repository Channel')).toContainText(/blocked-no-local-git|waiting-for-gh-auth|repository-channel-ready|waiting-for-github-repository|waiting-for-repository-channel/)
+  await expect(page.getByLabel('Repository Channel')).toContainText('Workflow dispatch')
+  await expect(page.getByLabel('Repository Bootstrap')).toContainText(/needs-local-git-bootstrap|waiting-for-github-target|waiting-for-origin-remote|waiting-for-gh-auth|repository-bootstrap-ready/)
+  await expect(page.getByLabel('Repository Bootstrap')).toContainText('bootstrap-repository.sh')
+  await expect(page.getByLabel('Autonomous Operator')).toContainText('operator-plan-ready')
+  await expect(page.getByLabel('Autonomous Operator')).toContainText('Selected action')
+  await expect(page.getByLabel('Operator History')).toContainText('operator-history-ready')
+  await expect(page.getByLabel('Operator History')).toContainText('Records')
+  await expect(page.getByLabel('Objective Audit')).toContainText('objective-in-progress')
+  await expect(page.getByLabel('Objective Audit')).toContainText('Can complete')
+  await expect(page.getByLabel('Product Optimization')).toContainText('product-optimization-ready')
+  await expect(page.getByLabel('Product Optimization')).toContainText('Completion gate')
+  await expect(page.getByLabel('First Move Coach')).toContainText('first-move-coach-ready')
+  await expect(page.getByLabel('First Move Coach')).toContainText('first-turn-only')
+  await expect(page.getByLabel('Completion Loop')).toContainText('completion-loop-ready')
+  await expect(page.getByLabel('Completion Loop')).toContainText('Completion gate')
+  await expect(page.getByLabel('Replay Loop')).toContainText('replay-loop-ready')
+  await expect(page.getByLabel('Replay Loop')).toContainText('Replay gate')
+  await expect(page.getByLabel('Traffic Seeding')).toContainText('traffic-seeding-ready')
+  await expect(page.getByLabel('Traffic Seeding')).toContainText('Seed campaigns')
+  await expect(page.getByLabel('Organic Seed Loop')).toContainText('organic-seed-loop-ready')
+  await expect(page.getByLabel('Acquisition Learning')).toContainText('acquisition-learning-ready')
+  await expect(page.getByLabel('Daily Retention')).toContainText('retention-loop-ready')
+  await expect(page.getByLabel('Daily Retention')).toContainText('Canopy Bloom')
+  await expect(page.getByLabel('Daily Retention')).toContainText('Return intent')
+  await expect(page.getByLabel('PWA Install Loop')).toContainText('pwa-install-loop-ready')
+  await expect(page.getByLabel('Revenue runtime')).toContainText('guarded-disabled')
+
+  const canvas = page.locator('canvas').first()
+  await expect(canvas).toBeVisible()
+
+  const sample = await canvas.evaluate((node) => {
+    const canvasNode = node as HTMLCanvasElement
+    const context = canvasNode.getContext('2d')
+    if (!context) {
+      return 0
+    }
+    const data = context.getImageData(0, 0, canvasNode.width, canvasNode.height).data
+    let painted = 0
+
+    for (let index = 3; index < data.length; index += 40) {
+      if (data[index] > 0) {
+        painted += 1
+      }
+    }
+
+    return painted
+  })
+
+  expect(sample).toBeGreaterThan(100)
+})
+
+test('organic seed loop records player-initiated seed and share telemetry', async ({ page }) => {
+  const loop = JSON.parse(await readFile('data/organic-seed-loop.json', 'utf8')) as {
+    status: string
+    target: { campaignId: string; gameId: string; title: string }
+    runtimeSurface: {
+      surface: string
+      primaryCtaLabel: string
+      secondaryCtaLabel: string
+      telemetry: { viewed: string; shared: string; opened: string; share: string }
+    }
+  }
+
+  await page.addInitScript(() => {
+    Object.defineProperty(navigator, 'share', {
+      configurable: true,
+      value: undefined,
+    })
+    Object.defineProperty(navigator, 'clipboard', {
+      configurable: true,
+      value: {
+        writeText: () => Promise.resolve(),
+      },
+    })
+  })
+  await page.goto('/')
+
+  const seedPanel = page.getByLabel('Organic Seed Loop')
+  await expect(seedPanel).toContainText(loop.status)
+  await expect(seedPanel).toContainText(loop.target.title)
+  await seedPanel.getByRole('button', { name: loop.runtimeSurface.primaryCtaLabel }).click()
+  await expect(page.getByLabel('Autonomy cockpit')).toContainText(loop.target.title)
+  await seedPanel.getByRole('button', { name: loop.runtimeSurface.secondaryCtaLabel }).click()
+
+  await expect
+    .poll(async () =>
+      page.evaluate((eventName) => {
+        const raw = window.localStorage.getItem('agl.analytics.events')
+        const events = raw ? JSON.parse(raw) : []
+        return events.some((event: { name: string }) => event.name === eventName)
+      }, loop.runtimeSurface.telemetry.shared),
+    )
+    .toBe(true)
+
+  const events = await page.evaluate(() => {
+    const raw = window.localStorage.getItem('agl.analytics.events')
+    return raw ? JSON.parse(raw) : []
+  })
+  const viewed = events.findLast((event: { name: string }) => event.name === loop.runtimeSurface.telemetry.viewed)
+  const opened = events.findLast((event: { name: string }) => event.name === loop.runtimeSurface.telemetry.opened)
+  const shared = events.findLast((event: { name: string }) => event.name === loop.runtimeSurface.telemetry.shared)
+  const share = events.findLast((event: { name: string }) => event.name === loop.runtimeSurface.telemetry.share)
+
+  expect(viewed.properties.surface).toBe(loop.runtimeSurface.surface)
+  expect(viewed.properties.campaignId).toBe(loop.target.campaignId)
+  expect(opened.properties.campaignId).toBe(loop.target.campaignId)
+  expect(opened.properties.gameId).toBe(loop.target.gameId)
+  expect(shared.properties.campaignId).toBe(loop.target.campaignId)
+  expect(shared.properties.channel).toBe('player-share')
+  expect(share.properties.seeded).toBe(true)
+})
+
+test('PWA install loop records browser prompt telemetry', async ({ page }) => {
+  await page.goto('/')
+
+  await expect(page.getByLabel('PWA Install Loop')).toContainText('pwa-install-loop-ready')
+  await page.evaluate(() => {
+    const event = new Event('beforeinstallprompt') as Event & {
+      prompt: () => Promise<void>
+      userChoice: Promise<{ outcome: 'accepted'; platform: string }>
+    }
+    event.prompt = () => Promise.resolve()
+    event.userChoice = Promise.resolve({ outcome: 'accepted', platform: 'web' })
+    window.dispatchEvent(event)
+  })
+
+  await expect(page.getByRole('button', { name: 'Install app' })).toBeEnabled()
+  await page.getByRole('button', { name: 'Install app' }).click()
+
+  const events = await page.evaluate(() => {
+    const raw = window.localStorage.getItem('agl.analytics.events')
+    return raw ? JSON.parse(raw) : []
+  })
+  const viewed = events.findLast((event: { name: string }) => event.name === 'pwa_install_prompt_viewed')
+  const clicked = events.findLast((event: { name: string }) => event.name === 'pwa_install_prompt_clicked')
+  const accepted = events.findLast((event: { name: string }) => event.name === 'pwa_install_prompt_accepted')
+  const launch = events.findLast((event: { name: string }) => event.name === 'pwa_launch_mode_detected')
+
+  expect(viewed.properties.surface).toBe('autonomy-cockpit')
+  expect(clicked.properties.nativePromptAvailable).toBe(true)
+  expect(accepted.properties.outcome).toBe('accepted')
+  expect(launch.properties.displayMode).toBeTruthy()
+})
+
+test('reset run records replay telemetry for the product optimizer', async ({ page }) => {
+  await page.goto('/')
+  await page.getByRole('button', { name: 'Reset run' }).click()
+  await page.waitForLoadState('domcontentloaded')
+
+  const replayEvent = await page.evaluate(() => {
+    const raw = window.localStorage.getItem('agl.analytics.events')
+    const events = raw ? JSON.parse(raw) : []
+    return events.findLast((event: { name: string }) => event.name === 'replay_clicked')
+  })
+
+  expect(replayEvent.properties.surface).toBe('topbar-reset')
+  expect(replayEvent.properties.gameId).toBeTruthy()
+})
+
+test('mid-run completion nudge records checkpoint telemetry without changing the rules', async ({
+  page,
+}) => {
+  const completion = JSON.parse(await readFile('data/completion-loop.json', 'utf8')) as {
+    localState: { acceptedRunKey: string }
+    promptPolicy: { ctaLabel: string; surface: string; triggerMove: number }
+  }
+
+  await page.addInitScript(() => {
+    window.localStorage.setItem('agl.experiment.first_session_pacing', 'fast-start')
+  })
+  await page.goto('/?game=harbor-rings')
+  const cockpit = page.getByLabel('Autonomy cockpit')
+  await expect(cockpit.getByRole('heading', { name: 'Harbor Rings' })).toBeVisible()
+
+  const canvas = page.locator('canvas').first()
+  await expect(canvas).toBeVisible()
+  const box = await canvas.boundingBox()
+  expect(box).not.toBeNull()
+
+  if (!box) {
+    return
+  }
+
+  const cells = [
+    [2, 2],
+    [2, 1],
+    [2, 3],
+  ]
+  const harborCellSize = 64
+  const harborGap = 7
+  const harborStartX = 106
+  const harborStartY = 132
+  const turnCount = () =>
+    page.evaluate(() => {
+      const raw = window.localStorage.getItem('agl.analytics.events')
+      const events = raw ? JSON.parse(raw) : []
+      return events.filter((event: { name: string }) => event.name === 'turn_taken').length
+    })
+
+  for (const [index, [row, col]] of cells.slice(0, completion.promptPolicy.triggerMove).entries()) {
+    const x = harborStartX + col * (harborCellSize + harborGap) + harborCellSize / 2
+    const y = harborStartY + row * (harborCellSize + harborGap) + harborCellSize / 2
+    const targetMove = index + 1
+
+    for (let attempt = 0; attempt < 3; attempt += 1) {
+      await page.mouse.click(box.x + (x / 560) * box.width, box.y + (y / 500) * box.height)
+
+      if ((await turnCount()) >= targetMove) {
+        break
+      }
+
+      await page.waitForTimeout(50)
+    }
+
+    await expect.poll(turnCount).toBe(targetMove)
+  }
+
+  const completionPanel = page.getByLabel('Completion Loop')
+  await expect(completionPanel).toContainText('Progress nudge')
+  await completionPanel.getByRole('button', { name: completion.promptPolicy.ctaLabel }).click()
+
+  const events = await page.evaluate(() => {
+    const raw = window.localStorage.getItem('agl.analytics.events')
+    return raw ? JSON.parse(raw) : []
+  })
+  const viewed = events.findLast((event: { name: string }) => event.name === 'completion_nudge_viewed')
+  const clicked = events.findLast((event: { name: string }) => event.name === 'completion_nudge_clicked')
+  const acceptedRunKey = await page.evaluate(
+    (key) => window.localStorage.getItem(key),
+    completion.localState.acceptedRunKey,
+  )
+
+  expect(viewed.properties.surface).toBe(completion.promptPolicy.surface)
+  expect(viewed.properties.moves).toBe(completion.promptPolicy.triggerMove)
+  expect(clicked.properties.surface).toBe(completion.promptPolicy.surface)
+  expect(clicked.properties.gameId).toBe('harbor-rings')
+  expect(acceptedRunKey).toBeTruthy()
+})
+
+test('completed-run replay prompt starts a fresh run and records replay-loop telemetry', async ({
+  page,
+}) => {
+  const replayLoop = JSON.parse(await readFile('data/replay-loop.json', 'utf8')) as {
+    promptPolicy: { ctaLabel: string; surface: string; telemetry: { viewed: string; clicked: string } }
+  }
+  const balance = JSON.parse(await readFile('data/game-balance.json', 'utf8')) as {
+    games: { 'harbor-rings': { maxMoves: number } }
+  }
+  const maxMoves = balance.games['harbor-rings'].maxMoves
+
+  await page.addInitScript(() => {
+    window.localStorage.setItem('agl.experiment.first_session_pacing', 'fast-start')
+  })
+  await page.goto('/?game=harbor-rings')
+  const cockpit = page.getByLabel('Autonomy cockpit')
+  await expect(cockpit.getByRole('heading', { name: 'Harbor Rings' })).toBeVisible()
+
+  const canvas = page.locator('canvas').first()
+  await expect(canvas).toBeVisible()
+  const box = await canvas.boundingBox()
+  expect(box).not.toBeNull()
+
+  if (!box) {
+    return
+  }
+
+  const cells = [
+    [2, 2],
+    [2, 1],
+    [2, 3],
+    [1, 2],
+    [3, 2],
+    [1, 1],
+    [1, 3],
+    [3, 1],
+    [3, 3],
+    [0, 2],
+    [0, 0],
+    [0, 1],
+  ]
+  const harborCellSize = 64
+  const harborGap = 7
+  const harborStartX = 106
+  const harborStartY = 132
+  const turnCount = () =>
+    page.evaluate(() => {
+      const raw = window.localStorage.getItem('agl.analytics.events')
+      const events = raw ? JSON.parse(raw) : []
+      return events.filter((event: { name: string }) => event.name === 'turn_taken').length
+    })
+
+  for (const [index, [row, col]] of cells.slice(0, maxMoves).entries()) {
+    const x = harborStartX + col * (harborCellSize + harborGap) + harborCellSize / 2
+    const y = harborStartY + row * (harborCellSize + harborGap) + harborCellSize / 2
+    const targetMove = index + 1
+
+    for (let attempt = 0; attempt < 3; attempt += 1) {
+      await page.mouse.click(box.x + (x / 560) * box.width, box.y + (y / 500) * box.height)
+
+      if ((await turnCount()) >= targetMove) {
+        break
+      }
+
+      await page.waitForTimeout(50)
+    }
+
+    await expect.poll(turnCount).toBe(targetMove)
+  }
+
+  const replayPanel = page.getByLabel('Replay Loop')
+  await expect(replayPanel).toContainText('Fresh run')
+  await replayPanel.getByRole('button', { name: replayLoop.promptPolicy.ctaLabel }).click()
+  await page.waitForLoadState('domcontentloaded')
+
+  const events = await page.evaluate(() => {
+    const raw = window.localStorage.getItem('agl.analytics.events')
+    return raw ? JSON.parse(raw) : []
+  })
+  const viewed = events.findLast((event: { name: string }) => event.name === 'replay_prompt_viewed')
+  const clicked = events.findLast((event: { name: string }) => event.name === 'replay_prompt_clicked')
+  const replay = events.findLast((event: { name: string }) => event.name === 'replay_clicked')
+
+  expect(viewed.properties.surface).toBe(replayLoop.promptPolicy.surface)
+  expect(clicked.properties.surface).toBe(replayLoop.promptPolicy.surface)
+  expect(replay.properties.surface).toBe(replayLoop.promptPolicy.surface)
+  expect(replay.properties.gameId).toBe('harbor-rings')
+})
+
+test('performance budget keeps the game runtime deferred from the initial shell', async ({ page }) => {
+  const budget = JSON.parse(await readFile('data/performance-budget.json', 'utf8')) as {
+    status: string
+    budgets: { initialJsMaxBytes: number; initialGzipMaxBytes: number; initialCssMaxBytes: number }
+    initial: { jsBytes: number; gzipBytes: number; cssBytes: number; entryScripts: string[] }
+    deferred: { chunks: Array<{ file: string }>; largestJsChunk: { file: string } | null }
+    controls: {
+      phaserDeferredFromInitialShell: boolean
+      initialShellBudgetEnforced: boolean
+      largeGameChunkAllowedWhenDeferred: boolean
+    }
+  }
+
+  expect(budget.status).toBe('performance-budget-ready')
+  expect(budget.initial.jsBytes).toBeLessThanOrEqual(budget.budgets.initialJsMaxBytes)
+  expect(budget.initial.gzipBytes).toBeLessThanOrEqual(budget.budgets.initialGzipMaxBytes)
+  expect(budget.initial.cssBytes).toBeLessThanOrEqual(budget.budgets.initialCssMaxBytes)
+  expect(budget.controls.phaserDeferredFromInitialShell).toBe(true)
+  expect(budget.controls.initialShellBudgetEnforced).toBe(true)
+  expect(budget.controls.largeGameChunkAllowedWhenDeferred).toBe(true)
+  expect(budget.deferred.chunks.some((chunk) => chunk.file.includes('GameCanvas'))).toBe(true)
+  expect(budget.deferred.largestJsChunk?.file).toBeTruthy()
+  expect(budget.initial.entryScripts).not.toContain(budget.deferred.largestJsChunk?.file ?? '')
+
+  await page.goto('/')
+  await expect(page.getByLabel('Performance Budget')).toContainText('performance-budget-ready')
+})
+
+test('release candidate records the exact deployable PWA artifact', async () => {
+  const candidate = JSON.parse(await readFile('data/release-candidate.json', 'utf8')) as {
+    status: string
+    candidateId: string
+    target: { artifactPath: string; manifestPath: string }
+    summary: {
+      totalFiles: number
+      gamePages: number
+      requiredFilesPresent: boolean
+      postDeploySmokeUrls: number
+    }
+    integrity: {
+      algorithm: string
+      aggregateHash: string
+      requiredFileChecks: Array<{ path: string; status: string }>
+      files: Array<{ path: string; sha256: string; bytes: number; cacheControl: string }>
+    }
+    postDeploySmoke: Array<{ path: string; expectedStatus: number; url: string }>
+    controls: {
+      zeroPaidSpend: boolean
+      noWorkflowExecution: boolean
+      noStoreSubmission: boolean
+      contentHashesRecorded: boolean
+      postDeploySmokeRequired: boolean
+    }
+  }
+  const distCandidate = JSON.parse(await readFile('dist/release-candidate.json', 'utf8')) as {
+    candidateId: string
+    integrity: { aggregateHash: string }
+  }
+
+  expect(candidate.status).toBe('release-candidate-ready')
+  expect(candidate.candidateId).toMatch(/^pwa-[a-f0-9]{12}$/)
+  expect(candidate.target.artifactPath).toBe('dist')
+  expect(candidate.target.manifestPath).toBe('dist/release-candidate.json')
+  expect(candidate.summary.totalFiles).toBeGreaterThanOrEqual(20)
+  expect(candidate.summary.gamePages).toBeGreaterThanOrEqual(1)
+  expect(candidate.summary.requiredFilesPresent).toBe(true)
+  expect(candidate.summary.postDeploySmokeUrls).toBeGreaterThanOrEqual(6)
+  expect(candidate.integrity.algorithm).toBe('sha256')
+  expect(candidate.integrity.aggregateHash).toMatch(/^[a-f0-9]{64}$/)
+  expect(candidate.integrity.files.every((file) => file.sha256.match(/^[a-f0-9]{64}$/))).toBe(true)
+  expect(candidate.integrity.files.some((file) => file.path === 'index.html')).toBe(true)
+  expect(candidate.integrity.files.some((file) => file.path === 'sw.js')).toBe(true)
+  expect(candidate.integrity.files.some((file) => file.cacheControl.includes('immutable'))).toBe(true)
+  expect(candidate.integrity.requiredFileChecks.every((check) => check.status === 'pass')).toBe(true)
+  expect(candidate.postDeploySmoke.some((check) => check.path === '/' && check.expectedStatus === 200)).toBe(true)
+  expect(candidate.postDeploySmoke.some((check) => check.path === '/privacy.html')).toBe(true)
+  expect(candidate.controls.zeroPaidSpend).toBe(true)
+  expect(candidate.controls.noWorkflowExecution).toBe(true)
+  expect(candidate.controls.noStoreSubmission).toBe(true)
+  expect(candidate.controls.contentHashesRecorded).toBe(true)
+  expect(candidate.controls.postDeploySmokeRequired).toBe(true)
+  expect(distCandidate.candidateId).toBe(candidate.candidateId)
+  expect(distCandidate.integrity.aggregateHash).toBe(candidate.integrity.aggregateHash)
+})
+
+test('post-deploy smoke runner is wired to the release manifest and Pages workflow', async () => {
+  const smoke = JSON.parse(await readFile('data/post-deploy-smoke.json', 'utf8')) as {
+    status: string
+    target: { origin: string | null; candidateId: string; aggregateHash: string }
+    sourceStatus: { deployment: string; releaseCandidate: string }
+    summary: { planned: number; passed: number; blocked: number }
+    controls: {
+      zeroPaidSpend: boolean
+      noStoreSubmission: boolean
+      noRevenueEnablement: boolean
+      readOnlyHttpChecks: boolean
+      manifestHashComparisonRequired: boolean
+    }
+    checks: Array<{ id: string; status: string }>
+  }
+  const candidate = JSON.parse(await readFile('data/release-candidate.json', 'utf8')) as {
+    status: string
+    candidateId: string
+    integrity: { aggregateHash: string }
+    postDeploySmoke: Array<{ path: string }>
+  }
+  const workflow = await readFile('.github/workflows/web-pwa-deploy.yml', 'utf8')
+  const packageJson = JSON.parse(await readFile('package.json', 'utf8')) as {
+    scripts: Record<string, string>
+  }
+
+  expect(['blocked-missing-origin', 'post-deploy-smoke-passed']).toContain(smoke.status)
+  expect(smoke.sourceStatus.releaseCandidate).toBe(candidate.status)
+  expect(smoke.target.candidateId).toBe(candidate.candidateId)
+  expect(smoke.target.aggregateHash).toBe(candidate.integrity.aggregateHash)
+  expect(smoke.controls.zeroPaidSpend).toBe(true)
+  expect(smoke.controls.noStoreSubmission).toBe(true)
+  expect(smoke.controls.noRevenueEnablement).toBe(true)
+  expect(smoke.controls.readOnlyHttpChecks).toBe(true)
+  expect(smoke.controls.manifestHashComparisonRequired).toBe(true)
+  expect(smoke.checks.length).toBeGreaterThanOrEqual(candidate.postDeploySmoke.length + 1)
+  expect(smoke.checks.some((check) => check.id === 'release-candidate-manifest')).toBe(true)
+  expect(smoke.target.origin ? smoke.summary.passed : smoke.summary.blocked).toBe(smoke.summary.planned)
+  expect(packageJson.scripts['autonomous:post-deploy-smoke']).toBe('node scripts/post-deploy-smoke.mjs')
+  expect(packageJson.scripts['autonomous:daily']).toContain('autonomous:post-deploy-smoke')
+  expect(workflow).toContain('AGL_DEPLOYED_PWA_ORIGIN')
+  expect(workflow).toContain('npm run autonomous:post-deploy-smoke -- --assert')
+  expect(workflow).toContain('data/post-deploy-smoke.json')
+})
+
+test('repository readiness surfaces the GitHub Pages deployment channel without mutating git', async () => {
+  const readiness = JSON.parse(await readFile('data/repository-readiness.json', 'utf8')) as {
+    status: string
+    workspace: { insideWorkTree: boolean }
+    repository: { target: string | null; source: string }
+    githubAutomation: { workflowDispatchReady: boolean }
+    pages: { workflowPath: string; deployWorkflowIncludesSmoke: boolean; releaseCandidateId: string }
+    controls: {
+      zeroPaidSpend: boolean
+      readOnlyLocalInspection: boolean
+      noGitMutation: boolean
+      noWorkflowDispatch: boolean
+      noAccountCreation: boolean
+    }
+    checks: Array<{ id: string; status: string }>
+    blockers: string[]
+  }
+  const candidate = JSON.parse(await readFile('data/release-candidate.json', 'utf8')) as {
+    candidateId: string
+  }
+  const bootstrap = JSON.parse(await readFile('data/production-bootstrap.json', 'utf8')) as {
+    stages: Array<{ id: string }>
+    setupCommands: Array<{ id: string; command: string }>
+  }
+  const repositoryBootstrap = JSON.parse(await readFile('data/repository-bootstrap.json', 'utf8')) as {
+    status: string
+    controls: {
+      dryRunByDefault: boolean
+      localGitMutationRequiresExplicitFlag: boolean
+      remoteGitHubMutationRequiresExplicitEnv: boolean
+      noWorkflowDispatch: boolean
+    }
+    helper: { path: string; noWorkflowDispatch: boolean }
+    actions: Array<{ id: string; status: string }>
+  }
+  const repositoryBootstrapScript = await readFile('ops/github/bootstrap-repository.sh', 'utf8')
+  const packageJson = JSON.parse(await readFile('package.json', 'utf8')) as {
+    scripts: Record<string, string>
+  }
+
+  expect([
+    'repository-channel-ready',
+    'waiting-for-gh-auth',
+    'waiting-for-repository-channel',
+    'waiting-for-github-repository',
+    'blocked-missing-pages-workflow',
+    'blocked-no-local-git',
+  ]).toContain(readiness.status)
+  expect(readiness.controls.zeroPaidSpend).toBe(true)
+  expect(readiness.controls.readOnlyLocalInspection).toBe(true)
+  expect(readiness.controls.noGitMutation).toBe(true)
+  expect(readiness.controls.noWorkflowDispatch).toBe(true)
+  expect(readiness.controls.noAccountCreation).toBe(true)
+  expect(readiness.pages.workflowPath).toBe('.github/workflows/web-pwa-deploy.yml')
+  expect(readiness.pages.deployWorkflowIncludesSmoke).toBe(true)
+  expect(readiness.pages.releaseCandidateId).toBe(candidate.candidateId)
+  expect(readiness.checks.some((check) => check.id === 'local-git-worktree')).toBe(true)
+  expect(readiness.checks.some((check) => check.id === 'pages-workflow' && check.status === 'pass')).toBe(true)
+  expect(readiness.workspace.insideWorkTree || readiness.blockers.length > 0).toBe(true)
+  expect([
+    'needs-local-git-bootstrap',
+    'waiting-for-github-target',
+    'waiting-for-origin-remote',
+    'waiting-for-gh-auth',
+    'repository-bootstrap-ready',
+  ]).toContain(repositoryBootstrap.status)
+  expect(repositoryBootstrap.controls.dryRunByDefault).toBe(true)
+  expect(repositoryBootstrap.controls.localGitMutationRequiresExplicitFlag).toBe(true)
+  expect(repositoryBootstrap.controls.remoteGitHubMutationRequiresExplicitEnv).toBe(true)
+  expect(repositoryBootstrap.controls.noWorkflowDispatch).toBe(true)
+  expect(repositoryBootstrap.helper.path).toBe('ops/github/bootstrap-repository.sh')
+  expect(repositoryBootstrap.helper.noWorkflowDispatch).toBe(true)
+  expect(repositoryBootstrap.actions.some((action) => action.id === 'initialize-local-git')).toBe(true)
+  expect(repositoryBootstrap.actions.some((action) => action.id === 'create-github-repository')).toBe(true)
+  expect(repositoryBootstrapScript).toContain('AGL_ALLOW_REPOSITORY_BOOTSTRAP')
+  expect(repositoryBootstrapScript).not.toContain('gh workflow run')
+  expect(bootstrap.stages.some((stage) => stage.id === 'repository-channel')).toBe(true)
+  expect(bootstrap.stages.some((stage) => stage.id === 'repository-bootstrap')).toBe(true)
+  expect(bootstrap.setupCommands.some((command) => command.id === 'repository-preflight')).toBe(true)
+  expect(bootstrap.setupCommands.some((command) => command.id === 'repository-bootstrap-plan')).toBe(true)
+  expect(packageJson.scripts['autonomous:repo-readiness']).toBe('node scripts/repository-readiness.mjs')
+  expect(packageJson.scripts['autonomous:repo-bootstrap']).toBe('node scripts/repository-bootstrap.mjs')
+  expect(packageJson.scripts['autonomous:daily']).toContain('autonomous:repo-readiness')
+  expect(packageJson.scripts['autonomous:daily']).toContain('autonomous:repo-bootstrap')
+})
+
+test('product optimizer applies one guarded tuning step from product-gate evidence', async ({ page }) => {
+  const optimization = JSON.parse(await readFile('data/product-optimization.json', 'utf8')) as {
+    status: string
+    productGates: {
+      firstGameCompletion: { actual: number; gate: number; pass: boolean }
+      replayRate: { actual: number; gate: number; pass: boolean }
+      d1Retention: { actual: number; gate: number; pass: boolean }
+    }
+    controls: {
+      noRepeatForSameSourceData: boolean
+      oneTargetStepPerRun: boolean
+      returnIntentMustBePlayerInitiated: boolean
+    }
+    actions: Array<{
+      actionType: string
+      status: string
+      gameId?: string
+      before?: number
+      after?: number
+    }>
+    history: Array<{ actionType: string; status: string; gameId?: string; after?: number }>
+  }
+  const balance = JSON.parse(await readFile('data/game-balance.json', 'utf8')) as {
+    games: Record<string, { targetScore: number; tuning: { targetStep: number } }>
+  }
+  const targetAction = optimization.actions.find((action) => action.actionType === 'target-score-curve')
+  const completionAction = optimization.actions.find(
+    (action) => action.actionType === 'runtime-completion-nudge',
+  )
+  const returnIntentAction = optimization.actions.find(
+    (action) => action.actionType === 'runtime-return-intent-activation',
+  )
+
+  expect(optimization.status).toBe('product-optimization-ready')
+  expect(optimization.productGates.firstGameCompletion.pass).toBe(false)
+  expect(optimization.productGates.replayRate.pass).toBe(false)
+  expect(optimization.productGates.d1Retention.pass).toBe(false)
+  expect(optimization.controls.noRepeatForSameSourceData).toBe(true)
+  expect(optimization.controls.oneTargetStepPerRun).toBe(true)
+  expect(optimization.controls.returnIntentMustBePlayerInitiated).toBe(true)
+  expect(completionAction?.status).toBe('armed')
+  expect(returnIntentAction?.status).toBe('armed')
+  expect(targetAction?.status).toMatch(/applied|already-applied/)
+  expect(targetAction?.gameId).toBeTruthy()
+
+  const tunedGame = balance.games[targetAction?.gameId ?? '']
+  expect(tunedGame.targetScore).toBe(targetAction?.after)
+  expect((targetAction?.before ?? 0) - (targetAction?.after ?? 0)).toBeLessThanOrEqual(
+    tunedGame.tuning.targetStep,
+  )
+  expect(optimization.history.some((action) => action.gameId === targetAction?.gameId)).toBe(true)
+
+  await page.goto('/')
+  await expect(page.getByLabel('Product Optimization')).toContainText('product-optimization-ready')
+})
+
+test('first move coach highlights a safe opening and records coach telemetry', async ({ page }) => {
+  const coach = JSON.parse(await readFile('data/first-move-coach.json', 'utf8')) as {
+    status: string
+    summary: { enabledTargets: number }
+    controls: { firstTurnOnly: boolean; noAutoMove: boolean }
+    targets: Array<{
+      gameId: string
+      enabled: boolean
+      variantId: string
+      runtimeSupported: boolean
+      recommendedCell: { row: number; col: number }
+    }>
+  }
+  const harborTarget = coach.targets.find((target) => target.gameId === 'harbor-rings')
+
+  expect(coach.status).toBe('first-move-coach-ready')
+  expect(coach.summary.enabledTargets).toBeGreaterThan(0)
+  expect(coach.controls.firstTurnOnly).toBe(true)
+  expect(coach.controls.noAutoMove).toBe(true)
+  expect(harborTarget?.enabled).toBe(true)
+  expect(harborTarget?.runtimeSupported).toBe(true)
+  expect(harborTarget?.variantId).toBe('fast-start')
+  expect(harborTarget?.recommendedCell).toMatchObject({ row: 2, col: 2 })
+
+  await page.addInitScript(() => {
+    window.localStorage.setItem('agl.experiment.first_session_pacing', 'fast-start')
+  })
+  await page.goto('/?game=harbor-rings')
+  await expect(
+    page.getByLabel('Autonomy cockpit').getByRole('heading', { name: 'Harbor Rings' }),
+  ).toBeVisible()
+
+  const canvas = page.locator('canvas').first()
+  await expect(canvas).toBeVisible()
+  const box = await canvas.boundingBox()
+  expect(box).not.toBeNull()
+
+  if (!box) {
+    return
+  }
+
+  await page.mouse.click(box.x + (280 / 560) * box.width, box.y + (306 / 500) * box.height)
+  await expect(page.getByText(/^1\/\d+$/).first()).toBeVisible()
+
+  const coachEvents = await page.evaluate(() => {
+    const raw = window.localStorage.getItem('agl.analytics.events')
+    const events = raw ? JSON.parse(raw) : []
+    return events.filter((event: { name: string }) => event.name.startsWith('first_move_coach_'))
+  })
+  const shown = coachEvents.find((event: { name: string }) => event.name === 'first_move_coach_shown')
+  const used = coachEvents.find((event: { name: string }) => event.name === 'first_move_coach_used')
+
+  expect(shown.properties.gameId).toBe('harbor-rings')
+  expect(shown.properties.recommendedRow).toBe(2)
+  expect(shown.properties.recommendedCol).toBe(2)
+  expect(used.properties.gameId).toBe('harbor-rings')
+  expect(used.properties.row).toBe(2)
+  expect(used.properties.col).toBe(2)
+  expect(used.properties.recommendedRow).toBe(2)
+  expect(used.properties.recommendedCol).toBe(2)
+})
+
+test('production bootstrap emits zero-spend setup handoff artifacts', async ({ page }) => {
+  const bootstrap = JSON.parse(await readFile('data/production-bootstrap.json', 'utf8')) as {
+    status: string
+    mode: string
+    controls: {
+      zeroSpendGuard: boolean
+      noPaidResourcesCreated: boolean
+      noStoreSubmission: boolean
+      noRevenueEnablement: boolean
+    }
+    summary: { externalBlockers: number }
+    stages: Array<{ id: string; costUsd: number }>
+    setupScript: { path: string; avoidsSecretEcho: boolean }
+    requiredVariables: Array<{ repositoryVariable: string; command: string }>
+    requiredSecrets: Array<{ repositorySecret: string; command: string }>
+    setupCommands: Array<{ id: string; command: string; costUsd: number }>
+  }
+  const setupScript = await readFile('ops/github/setup-production.sh', 'utf8')
+
+  expect(bootstrap.status).toBe('production-bootstrap-ready')
+  expect(bootstrap.mode).toMatch(/waiting-for-external-credentials|can-apply-configured-actions/)
+  expect(bootstrap.controls.zeroSpendGuard).toBe(true)
+  expect(bootstrap.controls.noPaidResourcesCreated).toBe(true)
+  expect(bootstrap.controls.noStoreSubmission).toBe(true)
+  expect(bootstrap.controls.noRevenueEnablement).toBe(true)
+  expect(bootstrap.stages.some((stage) => stage.id === 'repository-channel')).toBe(true)
+  expect(bootstrap.stages.some((stage) => stage.id === 'repository-bootstrap')).toBe(true)
+  expect(bootstrap.stages.some((stage) => stage.id === 'github-pages-hosting')).toBe(true)
+  expect(bootstrap.stages.some((stage) => stage.id === 'event-collector')).toBe(true)
+  expect(bootstrap.stages.every((stage) => stage.costUsd === 0)).toBe(true)
+  expect(bootstrap.setupCommands.some((command) => command.id === 'repository-preflight')).toBe(true)
+  expect(bootstrap.setupCommands.some((command) => command.id === 'repository-bootstrap-plan')).toBe(true)
+  expect(bootstrap.requiredVariables.some((item) => item.repositoryVariable === 'AGL_PUBLIC_ORIGIN')).toBe(true)
+  expect(bootstrap.requiredSecrets.some((item) => item.repositorySecret === 'CLOUDFLARE_API_TOKEN')).toBe(true)
+  expect(bootstrap.setupCommands.every((command) => command.costUsd === 0)).toBe(true)
+  expect(bootstrap.setupScript.path).toBe('ops/github/setup-production.sh')
+  expect(bootstrap.setupScript.avoidsSecretEcho).toBe(true)
+  expect(setupScript).toContain('gh variable set')
+  expect(setupScript).toContain('gh secret set')
+  expect(setupScript).toContain('RUN_WORKFLOWS')
+  expect(setupScript).not.toContain('admin-export-token')
+  expect(setupScript).not.toContain('ca-pub-your-web-client-id')
+
+  await page.goto('/')
+  await expect(page.getByLabel('Production Bootstrap')).toContainText('production-bootstrap-ready')
+})
+
+test('autonomous operator plans one allowlisted zero-spend local action', async ({ page }) => {
+  const operator = JSON.parse(await readFile('data/autonomous-operator.json', 'utf8')) as {
+    status: string
+    mode: string
+    selectedAction: { id: string; command: string; costUsd: number } | null
+    controls: {
+      zeroPaidSpend: boolean
+      localCommandAllowlistEnforced: boolean
+      maxActionsPerRun: number
+      dryRunByDefault: boolean
+      externalWorkflowExecutionBlockedByDefault: boolean
+      dailyLoopRecursionBlocked: boolean
+    }
+    execution: { requested: boolean; status: string; maxActionsPerRun: number }
+    allowlist: string[]
+    blockedFragments: string[]
+    blockedActions: Array<{ id: string; reason: string }>
+  }
+
+  expect(operator.status).toBe('operator-plan-ready')
+  expect(operator.mode).toBe('plan-only')
+  expect(operator.selectedAction?.costUsd).toBe(0)
+  expect(operator.selectedAction?.command).toBeTruthy()
+  expect(operator.allowlist).toContain(operator.selectedAction?.command)
+  expect(operator.controls.zeroPaidSpend).toBe(true)
+  expect(operator.controls.localCommandAllowlistEnforced).toBe(true)
+  expect(operator.controls.maxActionsPerRun).toBe(1)
+  expect(operator.controls.dryRunByDefault).toBe(true)
+  expect(operator.controls.externalWorkflowExecutionBlockedByDefault).toBe(true)
+  expect(operator.controls.dailyLoopRecursionBlocked).toBe(true)
+  expect(operator.execution.requested).toBe(false)
+  expect(operator.execution.maxActionsPerRun).toBe(1)
+  expect(operator.blockedFragments).toContain('gh workflow run')
+  expect(operator.blockedActions.some((action) => action.reason === 'daily-loop-recursion-blocked')).toBe(true)
+
+  await page.goto('/')
+  await expect(page.getByLabel('Autonomous Operator')).toContainText('operator-plan-ready')
+})
+
+test('autonomous operator history keeps a capped audit trail', async ({ page }) => {
+  const history = JSON.parse(await readFile('data/autonomous-operator-history.json', 'utf8')) as {
+    status: string
+    retention: {
+      maxRecords: number
+      appendOnlyWhenPlanChangesOrExecutes: boolean
+      compactedDuplicateDryRuns?: number
+    }
+    summary: {
+      totalRecords: number
+      plannedRecords: number
+      executedRecords: number
+      failedRecords: number
+      lastActionId: string | null
+    }
+    controls: {
+      zeroPaidSpend: boolean
+      localCommandAllowlistEnforced: boolean
+      maxActionsPerRun: number
+      externalWorkflowExecutionBlockedByDefault: boolean
+      historyIsCapped: boolean
+    }
+    records: Array<{
+      selectedActionId: string | null
+      runFingerprint: string
+      execution: { requested: boolean; status: string }
+    }>
+  }
+
+  expect(history.status).toBe('operator-history-ready')
+  expect(history.retention.maxRecords).toBe(40)
+  expect(history.retention.appendOnlyWhenPlanChangesOrExecutes).toBe(true)
+  expect(history.summary.totalRecords).toBeGreaterThanOrEqual(1)
+  expect(history.summary.totalRecords).toBeLessThanOrEqual(40)
+  expect(history.summary.plannedRecords).toBeGreaterThanOrEqual(1)
+  expect(history.summary.failedRecords).toBe(0)
+  expect(history.summary.lastActionId).toBeTruthy()
+  expect(history.controls.zeroPaidSpend).toBe(true)
+  expect(history.controls.localCommandAllowlistEnforced).toBe(true)
+  expect(history.controls.maxActionsPerRun).toBe(1)
+  expect(history.controls.externalWorkflowExecutionBlockedByDefault).toBe(true)
+  expect(history.controls.historyIsCapped).toBe(true)
+  expect(history.records.at(-1)?.execution.status).toMatch(/not-requested|executed/)
+  const hasDuplicateDryRun = history.records.some((record, index) => {
+    const previous = history.records[index - 1]
+
+    return (
+      Boolean(previous) &&
+      previous.execution.requested === false &&
+      record.execution.requested === false &&
+      previous.runFingerprint === record.runFingerprint
+    )
+  })
+  expect(hasDuplicateDryRun).toBe(false)
+
+  await page.goto('/')
+  await expect(page.getByLabel('Operator History')).toContainText('operator-history-ready')
+})
+
+test('objective audit maps the goal to evidence and remaining blockers', async ({ page }) => {
+  const audit = JSON.parse(await readFile('data/objective-audit.json', 'utf8')) as {
+    status: string
+    summary: { requirements: number; met: number; prepared: number; externalBlockers: number }
+    requirements: Array<{ id: string; status: string; evidence: string[] }>
+    blockers: { external: string[]; product: string[] }
+    controls: {
+      preserveOriginalScope: boolean
+      doNotMarkGoalCompleteWhileBlocked: boolean
+      zeroSpendGuard: boolean
+    }
+    completion: { canMarkGoalComplete: boolean; reason: string }
+  }
+  const requirementIds = audit.requirements.map((requirement) => requirement.id)
+
+  expect(audit.status).toBe('objective-in-progress')
+  expect(audit.summary.requirements).toBeGreaterThanOrEqual(8)
+  expect(audit.summary.met).toBeGreaterThanOrEqual(5)
+  expect(requirementIds).toContain('web-pwa-game-portal')
+  expect(requirementIds).toContain('original-trend-driven-game-generation')
+  expect(requirementIds).toContain('behavior-measurement-loop')
+  expect(requirementIds).toContain('data-driven-improvement-loop')
+  expect(requirementIds).toContain('monetization-path')
+  expect(requirementIds).toContain('app-store-distribution-path')
+  expect(audit.requirements.find((item) => item.id === 'monetization-path')?.status).toBe(
+    'prepared-blocked-by-gates',
+  )
+  expect(audit.requirements.find((item) => item.id === 'app-store-distribution-path')?.status).toBe(
+    'prepared-external-blockers',
+  )
+  expect(audit.controls.preserveOriginalScope).toBe(true)
+  expect(audit.controls.doNotMarkGoalCompleteWhileBlocked).toBe(true)
+  expect(audit.controls.zeroSpendGuard).toBe(true)
+  expect(audit.completion.canMarkGoalComplete).toBe(false)
+  expect(audit.blockers.external.length).toBeGreaterThan(0)
+  expect(audit.blockers.product.length).toBeGreaterThan(0)
+
+  await page.goto('/')
+  await expect(page.getByLabel('Objective Audit')).toContainText('objective-in-progress')
+})
+
+test('daily challenge starts the retained game and records retention telemetry', async ({ page }) => {
+  await page.goto('/')
+
+  await expect(page.getByLabel('Daily Retention')).toContainText('retention-loop-ready')
+  await page.getByRole('button', { name: 'Play daily challenge' }).click()
+  await expect(page.getByRole('heading', { name: 'Canopy Bloom' })).toBeVisible()
+
+  const events = await page.evaluate(() => {
+    const raw = window.localStorage.getItem('agl.analytics.events')
+    return raw ? JSON.parse(raw) : []
+  })
+  const viewed = events.findLast((event: { name: string }) => event.name === 'daily_challenge_viewed')
+  const started = events.findLast((event: { name: string }) => event.name === 'daily_challenge_started')
+
+  expect(viewed.properties.gameId).toBe('canopy-bloom')
+  expect(viewed.properties.challengeDate).toMatch(/^\d{4}-\d{2}-\d{2}$/)
+  expect(started.properties.gameId).toBe('canopy-bloom')
+  expect(started.properties.seed).toMatch(/^daily-/)
+  expect(started.properties.rewardVariantId).toBeTruthy()
+})
+
+test('daily return prompt captures a local return intent after a completed run', async ({ page }) => {
+  const retention = JSON.parse(await readFile('data/retention-loop.json', 'utf8')) as {
+    localState: { returnIntentKey: string }
+    promptPolicy: { ctaLabel: string; nextChallengeDate: string; telemetry: { clicked: string; viewed: string } }
+  }
+  const balance = JSON.parse(await readFile('data/game-balance.json', 'utf8')) as {
+    games: { 'harbor-rings': { maxMoves: number } }
+  }
+  const maxMoves = balance.games['harbor-rings'].maxMoves
+
+  await page.addInitScript(() => {
+    window.localStorage.setItem('agl.experiment.first_session_pacing', 'fast-start')
+  })
+  await page.goto('/?game=harbor-rings')
+  const cockpit = page.getByLabel('Autonomy cockpit')
+  await expect(cockpit.getByRole('heading', { name: 'Harbor Rings' })).toBeVisible()
+  await expect(cockpit).toContainText(`0/${maxMoves}`)
+
+  const canvas = page.locator('canvas').first()
+  await expect(canvas).toBeVisible()
+  const box = await canvas.boundingBox()
+  expect(box).not.toBeNull()
+
+  if (!box) {
+    return
+  }
+
+  const cells = [
+    [2, 2],
+    [2, 1],
+    [2, 3],
+    [1, 2],
+    [3, 2],
+    [1, 1],
+    [1, 3],
+    [3, 1],
+    [3, 3],
+    [0, 2],
+    [0, 0],
+    [0, 1],
+  ]
+  const harborCellSize = 64
+  const harborGap = 7
+  const harborStartX = 106
+  const harborStartY = 132
+
+  const turnCount = () =>
+    page.evaluate(() => {
+      const raw = window.localStorage.getItem('agl.analytics.events')
+      const events = raw ? JSON.parse(raw) : []
+      return events.filter((event: { name: string }) => event.name === 'turn_taken').length
+    })
+
+  for (const [index, [row, col]] of cells.slice(0, maxMoves).entries()) {
+    const x = harborStartX + col * (harborCellSize + harborGap) + harborCellSize / 2
+    const y = harborStartY + row * (harborCellSize + harborGap) + harborCellSize / 2
+    const targetMove = index + 1
+
+    for (let attempt = 0; attempt < 3; attempt += 1) {
+      await page.mouse.click(box.x + (x / 560) * box.width, box.y + (y / 500) * box.height)
+
+      if ((await turnCount()) >= targetMove) {
+        break
+      }
+
+      await page.waitForTimeout(50)
+    }
+
+    await expect.poll(turnCount).toBe(targetMove)
+  }
+
+  const dailyRetention = page.getByLabel('Daily Retention')
+  await expect(dailyRetention).toContainText('Return prompt')
+  await dailyRetention.getByRole('button', { name: retention.promptPolicy.ctaLabel }).click()
+
+  const events = await page.evaluate(() => {
+    const raw = window.localStorage.getItem('agl.analytics.events')
+    return raw ? JSON.parse(raw) : []
+  })
+  const viewed = events.findLast(
+    (event: { name: string }) => event.name === 'daily_return_prompt_viewed',
+  )
+  const clicked = events.findLast(
+    (event: { name: string }) => event.name === 'daily_return_prompt_clicked',
+  )
+  const returnIntentDate = await page.evaluate(
+    (key) => window.localStorage.getItem(key),
+    retention.localState.returnIntentKey,
+  )
+
+  expect(viewed.properties.gameId).toBe('harbor-rings')
+  expect(clicked.properties.intentDate).toBe(retention.promptPolicy.nextChallengeDate)
+  expect(returnIntentDate).toBe(retention.promptPolicy.nextChallengeDate)
+})
+
+test('queued return intent starts a retained session without push or accounts', async ({ page }) => {
+  const retention = JSON.parse(await readFile('data/retention-loop.json', 'utf8')) as {
+    localState: { returnIntentKey: string; returnIntentStartedKey: string }
+    promptPolicy: { nextChallengeDate: string }
+    returnIntentPolicy: {
+      ctaLabel: string
+      surface: string
+      telemetry: { viewed: string; started: string }
+    }
+  }
+
+  await page.addInitScript(
+    ({ key, intentDate }) => {
+      window.localStorage.setItem(key, intentDate)
+    },
+    {
+      key: retention.localState.returnIntentKey,
+      intentDate: retention.promptPolicy.nextChallengeDate,
+    },
+  )
+  await page.goto('/')
+
+  const dailyRetention = page.getByLabel('Daily Retention')
+  await expect(dailyRetention).toContainText('Queued return')
+  await dailyRetention.getByRole('button', { name: retention.returnIntentPolicy.ctaLabel }).click()
+  await expect(page.getByRole('heading', { name: 'Canopy Bloom' })).toBeVisible()
+
+  const events = await page.evaluate(() => {
+    const raw = window.localStorage.getItem('agl.analytics.events')
+    return raw ? JSON.parse(raw) : []
+  })
+  const viewed = events.findLast(
+    (event: { name: string }) => event.name === retention.returnIntentPolicy.telemetry.viewed,
+  )
+  const started = events.findLast(
+    (event: { name: string }) => event.name === retention.returnIntentPolicy.telemetry.started,
+  )
+  const dailyStarted = events.findLast(
+    (event: { name: string }) => event.name === 'daily_challenge_started',
+  )
+  const startedDate = await page.evaluate(
+    (key) => window.localStorage.getItem(key),
+    retention.localState.returnIntentStartedKey,
+  )
+
+  expect(viewed.properties.intentDate).toBe(retention.promptPolicy.nextChallengeDate)
+  expect(started.properties.surface).toBe(retention.returnIntentPolicy.surface)
+  expect(started.properties.gameId).toBe('canopy-bloom')
+  expect(dailyStarted.properties.surface).toBe(retention.returnIntentPolicy.surface)
+  expect(startedDate).toBe(retention.promptPolicy.nextChallengeDate)
+})
+
+test('traffic seeding switches games and records campaign telemetry', async ({ page }) => {
+  await page.goto('/')
+
+  const trafficSeeding = page.getByLabel('Traffic Seeding')
+  await trafficSeeding.getByRole('button', { name: 'Seed traffic for Grove Engine' }).click()
+  await expect(page.getByRole('heading', { name: 'Grove Engine' })).toBeVisible()
+
+  const seedEvent = await page.evaluate(() => {
+    const raw = window.localStorage.getItem('agl.analytics.events')
+    const events = raw ? JSON.parse(raw) : []
+    return events.findLast((event: { name: string }) => event.name === 'seed_campaign_clicked')
+  })
+
+  expect(seedEvent.properties.gameId).toBe('grove-engine')
+  expect(seedEvent.properties.campaignId).toMatch(/^seed-\d{8}-grove-engine$/)
+  expect(seedEvent.properties.channel).toBe('internal-rotation')
+  expect(seedEvent.properties.acquisitionCampaign).toMatch(/^seed-\d{8}-grove-engine$/)
+  expect(seedEvent.properties.acquisitionSource).toBe('seed_internal')
+  expect(seedEvent.properties.acquisitionChannel).toBe('internal-rotation')
+  expect(seedEvent.properties.costUsd).toBe(0)
+
+  await expect
+    .poll(async () =>
+      page.evaluate(() => {
+        const raw = window.localStorage.getItem('agl.analytics.events')
+        const events = raw ? JSON.parse(raw) : []
+        const started = events.findLast(
+          (event: { name: string; properties: Record<string, string> }) =>
+            event.name === 'game_started' && event.properties.gameId === 'grove-engine',
+        )
+        return started?.properties.acquisitionCampaign
+      }),
+    )
+    .toMatch(/^seed-\d{8}-grove-engine$/)
+})
+
+test('first move updates telemetry and tutorial completion', async ({ page }) => {
+  await page.goto('/')
+
+  const canvas = page.locator('canvas').first()
+  const box = await canvas.boundingBox()
+  expect(box).not.toBeNull()
+
+  if (!box) {
+    return
+  }
+
+  await page.mouse.click(box.x + (85 / 560) * box.width, box.y + (183 / 500) * box.height)
+  await expect(page.getByText(/^1\/\d+$/).first()).toBeVisible()
+
+  const eventNames = await page.evaluate(() => {
+    const raw = window.localStorage.getItem('agl.analytics.events')
+    return raw ? JSON.parse(raw).map((event: { name: string }) => event.name) : []
+  })
+
+  expect(eventNames).toContain('tutorial_completed')
+  expect(eventNames).toContain('turn_taken')
+
+  const turnEvent = await page.evaluate(() => {
+    const raw = window.localStorage.getItem('agl.analytics.events')
+    const events = raw ? JSON.parse(raw) : []
+    return events.findLast((event: { name: string }) => event.name === 'turn_taken')
+  })
+
+  expect(turnEvent.properties.rewardVariantId).toBeTruthy()
+  expect(turnEvent.properties.anonymousId).toMatch(/^anon-/)
+  expect(turnEvent.properties.sessionId).toMatch(/^session-/)
+  expect(turnEvent.properties.sessionDate).toMatch(/^\d{4}-\d{2}-\d{2}$/)
+})
+
+test('runtime errors are captured for release health', async ({ page }) => {
+  await page.goto('/')
+  await page.evaluate(() => {
+    window.dispatchEvent(
+      new ErrorEvent('error', {
+        message: 'synthetic smoke runtime failure',
+        filename: 'smoke.spec.ts',
+        lineno: 12,
+        colno: 3,
+      }),
+    )
+  })
+
+  const runtimeError = await page.evaluate(() => {
+    const raw = window.localStorage.getItem('agl.analytics.events')
+    const events = raw ? JSON.parse(raw) : []
+    return events.findLast((event: { name: string }) => event.name === 'runtime_error')
+  })
+
+  expect(runtimeError.properties.message).toContain('synthetic smoke runtime failure')
+  expect(runtimeError.properties.surface).toBe('window')
+  expect(runtimeError.properties.anonymousId).toMatch(/^anon-/)
+})
+
+test('local analytics export produces an event drop file', async ({ page }) => {
+  await page.goto('/')
+
+  const downloadPromise = page.waitForEvent('download')
+  await page.getByRole('button', { name: 'Export local analytics' }).click()
+  const download = await downloadPromise
+  const downloadPath = await download.path()
+
+  expect(download.suggestedFilename()).toMatch(/^player-events-\d{4}-\d{2}-\d{2}\.json$/)
+  expect(downloadPath).toBeTruthy()
+
+  if (!downloadPath) {
+    return
+  }
+
+  const events = JSON.parse(await readFile(downloadPath, 'utf8')) as Array<{
+    name: string
+    properties: Record<string, string>
+  }>
+
+  expect(events.some((event) => event.name === 'analytics_exported')).toBe(true)
+  expect(events.some((event) => event.properties.anonymousId?.startsWith('anon-'))).toBe(true)
+  expect(events.some((event) => /^\d{4}-\d{2}-\d{2}$/.test(event.properties.sessionDate))).toBe(true)
+})
+
+test('lantern relay prototype is playable and instrumented', async ({ page }) => {
+  await page.goto('/')
+  await page
+    .getByLabel('Playable games')
+    .getByRole('button', { name: /Lantern Relay/ })
+    .click()
+
+  await expect(page.getByText('0/10')).toBeVisible()
+  await expect(page.getByText('86')).toBeVisible()
+
+  const canvas = page.locator('canvas').first()
+  const box = await canvas.boundingBox()
+  expect(box).not.toBeNull()
+
+  if (!box) {
+    return
+  }
+
+  await page.mouse.click(box.x + (85 / 560) * box.width, box.y + (183 / 500) * box.height)
+  await expect(page.getByText('1/10')).toBeVisible()
+
+  const eventNames = await page.evaluate(() => {
+    const raw = window.localStorage.getItem('agl.analytics.events')
+    return raw ? JSON.parse(raw).map((event: { name: string }) => event.name) : []
+  })
+
+  expect(eventNames).toContain('prototype_started')
+  expect(eventNames).toContain('tutorial_completed')
+  expect(eventNames).toContain('turn_taken')
+})
+
+test('harbor circuit prototype is playable and instrumented', async ({ page }) => {
+  await page.goto('/')
+  await page
+    .getByLabel('Playable games')
+    .getByRole('button', { name: /Harbor Circuit/ })
+    .click()
+
+  await expect(page.getByText('0/9')).toBeVisible()
+
+  const canvas = page.locator('canvas').first()
+  const box = await canvas.boundingBox()
+  expect(box).not.toBeNull()
+
+  if (!box) {
+    return
+  }
+
+  await page.mouse.click(box.x + (112 / 560) * box.width, box.y + (224 / 500) * box.height)
+  await expect(page.getByText('1/9')).toBeVisible()
+
+  const eventNames = await page.evaluate(() => {
+    const raw = window.localStorage.getItem('agl.analytics.events')
+    return raw ? JSON.parse(raw).map((event: { name: string }) => event.name) : []
+  })
+
+  expect(eventNames).toContain('prototype_started')
+  expect(eventNames).toContain('tutorial_completed')
+  expect(eventNames).toContain('turn_taken')
+})
+
+test('foundry ledger prototype is playable and instrumented', async ({ page }) => {
+  await page.goto('/')
+  await page
+    .getByLabel('Playable games')
+    .getByRole('button', { name: /Foundry Ledger/ })
+    .click()
+
+  await expect(page.getByText('0/9')).toBeVisible()
+
+  const canvas = page.locator('canvas').first()
+  const box = await canvas.boundingBox()
+  expect(box).not.toBeNull()
+
+  if (!box) {
+    return
+  }
+
+  await page.mouse.click(box.x + (94 / 560) * box.width, box.y + (160 / 500) * box.height)
+  await expect(page.getByText('1/9')).toBeVisible()
+
+  const eventNames = await page.evaluate(() => {
+    const raw = window.localStorage.getItem('agl.analytics.events')
+    return raw ? JSON.parse(raw).map((event: { name: string }) => event.name) : []
+  })
+
+  expect(eventNames).toContain('prototype_started')
+  expect(eventNames).toContain('tutorial_completed')
+  expect(eventNames).toContain('turn_taken')
+})
+
+test('orbit atlas prototype is playable and instrumented', async ({ page }) => {
+  await page.goto('/')
+  await page
+    .getByLabel('Playable games')
+    .getByRole('button', { name: /Orbit Atlas/ })
+    .click()
+
+  await expect(page.getByText('0/10')).toBeVisible()
+
+  const canvas = page.locator('canvas').first()
+  const box = await canvas.boundingBox()
+  expect(box).not.toBeNull()
+
+  if (!box) {
+    return
+  }
+
+  await page.mouse.click(box.x + (112 / 560) * box.width, box.y + (224 / 500) * box.height)
+  await expect(page.getByText('1/10')).toBeVisible()
+
+  const eventNames = await page.evaluate(() => {
+    const raw = window.localStorage.getItem('agl.analytics.events')
+    return raw ? JSON.parse(raw).map((event: { name: string }) => event.name) : []
+  })
+
+  expect(eventNames).toContain('prototype_started')
+  expect(eventNames).toContain('tutorial_completed')
+  expect(eventNames).toContain('turn_taken')
+})
+
+test('generated runtime game is playable and instrumented', async ({ page }) => {
+  await page.goto('/')
+  await page
+    .getByLabel('Playable games')
+    .getByRole('button', { name: /Canopy Bloom/ })
+    .click()
+
+  await expect(page.getByText('0/10')).toBeVisible()
+
+  const canvas = page.locator('canvas').first()
+  const box = await canvas.boundingBox()
+  expect(box).not.toBeNull()
+
+  if (!box) {
+    return
+  }
+
+  await page.mouse.click(box.x + (75 / 560) * box.width, box.y + (176 / 500) * box.height)
+  await expect(page.getByText('1/10')).toBeVisible()
+
+  const turnEvent = await page.evaluate(() => {
+    const raw = window.localStorage.getItem('agl.analytics.events')
+    const events = raw ? JSON.parse(raw) : []
+    return events.findLast((event: { name: string }) => event.name === 'turn_taken')
+  })
+
+  expect(turnEvent.properties.gameId).toBe('canopy-bloom')
+  expect(turnEvent.properties.generatedRuntime).toBe(true)
+})
+
+test('generated runtime portfolio includes additional playable games', async ({ page }) => {
+  await page.goto('/')
+  await page
+    .getByLabel('Playable games')
+    .getByRole('button', { name: /Mosaic Haven/ })
+    .click()
+
+  await expect(page.getByText('0/10')).toBeVisible()
+
+  const canvas = page.locator('canvas').first()
+  const box = await canvas.boundingBox()
+  expect(box).not.toBeNull()
+
+  if (!box) {
+    return
+  }
+
+  await page.mouse.click(box.x + (75 / 560) * box.width, box.y + (176 / 500) * box.height)
+  await expect(page.getByText('1/10')).toBeVisible()
+
+  const turnEvent = await page.evaluate(() => {
+    const raw = window.localStorage.getItem('agl.analytics.events')
+    const events = raw ? JSON.parse(raw) : []
+    return events.findLast((event: { name: string }) => event.name === 'turn_taken')
+  })
+
+  expect(turnEvent.properties.gameId).toBe('mosaic-haven')
+  expect(turnEvent.properties.generatedRuntime).toBe(true)
+})
+
+test('prototype queue records planning interest', async ({ page }) => {
+  await page.goto('/')
+  await page.getByRole('button', { name: 'View plan' }).first().click()
+
+  const eventNames = await page.evaluate(() => {
+    const raw = window.localStorage.getItem('agl.analytics.events')
+    return raw ? JSON.parse(raw).map((event: { name: string }) => event.name) : []
+  })
+
+  expect(eventNames).toContain('prototype_card_viewed')
+})
+
+test('organic game links select a playable game and track entry', async ({ page }) => {
+  await page.goto('/?game=orbit-atlas&utm_source=organic_game_page&utm_campaign=orbit-atlas')
+
+  await expect(page.getByText('0/10')).toBeVisible()
+
+  const entryEvent = await page.evaluate(() => {
+    const raw = window.localStorage.getItem('agl.analytics.events')
+    const events = raw ? JSON.parse(raw) : []
+    return events.findLast((event: { name: string }) => event.name === 'organic_entry_opened')
+  })
+
+  expect(entryEvent.properties.gameId).toBe('orbit-atlas')
+  expect(entryEvent.properties.source).toBe('organic_game_page')
+
+  const startedEvent = await page.evaluate(() => {
+    const raw = window.localStorage.getItem('agl.analytics.events')
+    const events = raw ? JSON.parse(raw) : []
+    return events.findLast(
+      (event: { name: string; properties: Record<string, string> }) =>
+        event.name === 'game_started' && event.properties.gameId === 'orbit-atlas',
+    )
+  })
+
+  expect(startedEvent.properties.acquisitionSource).toBe('organic_game_page')
+  expect(startedEvent.properties.acquisitionCampaign).toBe('orbit-atlas')
+  expect(startedEvent.properties.acquisitionGameId).toBe('orbit-atlas')
+  expect(startedEvent.properties.acquisitionChannel).toBe('organic-page')
+})
+
+test('generated organic game page is reachable and links into the PWA', async ({ page }) => {
+  await page.goto('/games/harbor-rings.html')
+
+  await expect(page.getByRole('heading', { name: 'Harbor Rings' })).toBeVisible()
+  await expect(page.getByRole('link', { name: /Play free puzzle|Try today's challenge|Start quick strategy run/ })).toHaveAttribute(
+    'href',
+    '../?game=harbor-rings&utm_source=organic_game_page&utm_campaign=harbor-rings',
+  )
+})
+
+test('privacy control can disable external analytics forwarding', async ({ page }) => {
+  await page.goto('/')
+  await page.getByRole('button', { name: 'Opt out external analytics' }).click()
+
+  await expect(page.getByText('External analytics', { exact: true })).toBeVisible()
+  await expect(page.getByText('off', { exact: true })).toBeVisible()
+
+  const optedOut = await page.evaluate(() =>
+    window.localStorage.getItem('agl.privacy.externalAnalyticsOptOut'),
+  )
+  const eventNames = await page.evaluate(() => {
+    const raw = window.localStorage.getItem('agl.analytics.events')
+    return raw ? JSON.parse(raw).map((event: { name: string }) => event.name) : []
+  })
+
+  expect(optedOut).toBe('true')
+  expect(eventNames).toContain('privacy_choice_updated')
+})
+
+test('generated privacy policy is reachable', async ({ page }) => {
+  await page.goto('/privacy.html')
+
+  await expect(page.getByRole('heading', { name: 'Autonomous Game Lab Privacy Policy' })).toBeVisible()
+  await expect(page.getByText('Gameplay analytics')).toBeVisible()
+  await expect(page.getByText('External analytics opt-out')).toBeVisible()
+})
+
+test('generated support page is reachable', async ({ page }) => {
+  await page.goto('/support.html')
+
+  await expect(page.getByRole('heading', { name: 'Autonomous Game Lab Support' })).toBeVisible()
+  await expect(page.getByText('internal web/PWA experiment mode')).toBeVisible()
+  await expect(page.getByText('production support email')).toBeVisible()
+})
+
+test('monetization manifest and app ads placeholder are reachable', async ({ page }) => {
+  await page.goto('/monetization.json')
+
+  await expect(page.locator('body')).toContainText('blocked-by-product-gates')
+  await expect(page.locator('body')).toContainText('rewarded-hint-after-failed-daily')
+
+  await page.goto('/app-ads.txt')
+  await expect(page.locator('body')).toContainText('Revenue features are disabled')
+})
+
+test('monetization runtime is guarded before revenue gates pass', async ({ page }) => {
+  await page.goto('/')
+
+  await expect(page.getByLabel('Revenue runtime')).toContainText('guarded-disabled')
+  await expect(page.getByLabel('Revenue runtime')).toContainText('rewarded-hint-after-failed-daily')
+  await expect(page.getByRole('button', { name: 'Revenue gate held' })).toBeDisabled()
+
+  await expect
+    .poll(async () =>
+      page.evaluate(() => {
+        const raw = window.localStorage.getItem('agl.analytics.events')
+        const events = raw ? JSON.parse(raw) : []
+        return events.map((event: { name: string }) => event.name)
+      }),
+    )
+    .toContain('store_gate_viewed')
+
+  const eventNames = await page.evaluate(() => {
+    const raw = window.localStorage.getItem('agl.analytics.events')
+    return raw ? JSON.parse(raw).map((event: { name: string }) => event.name) : []
+  })
+  const gateEvent = await page.evaluate(() => {
+    const raw = window.localStorage.getItem('agl.analytics.events')
+    const events = raw ? JSON.parse(raw) : []
+    return events.findLast((event: { name: string }) => event.name === 'store_gate_viewed')
+  })
+
+  expect(eventNames).not.toContain('rewarded_ad_started')
+  expect(eventNames).not.toContain('rewarded_ad_completed')
+  expect(eventNames).not.toContain('revenue_cents')
+  expect(gateEvent.properties.runtimeStatus).toBe('guarded-disabled')
+  expect(gateEvent.properties.placementId).toBe('rewarded-hint-after-failed-daily')
+  expect(gateEvent.properties.revenueEnabled).toBe(false)
+})
+
+test('generated store screenshot assets are reachable', async ({ page }) => {
+  const response = await page.goto('/store-assets/screenshots/phone-canopy-bloom-generated.png')
+
+  expect(response?.ok()).toBeTruthy()
+  expect(response?.headers()['content-type']).toContain('image/png')
+
+  const imageSize = await page.locator('img').evaluate((node) => {
+    const image = node as HTMLImageElement
+
+    return {
+      width: image.naturalWidth,
+      height: image.naturalHeight,
+    }
+  })
+
+  expect(imageSize.width).toBeGreaterThanOrEqual(390)
+  expect(imageSize.height).toBeGreaterThanOrEqual(844)
+})
+
+test('store listing optimizer promotes the data-led store focus', async ({ page }) => {
+  const optimizer = JSON.parse(await readFile('data/store-listing-optimizer.json', 'utf8')) as {
+    status: string
+    recommendation: { focusGameId: string; changedLaunchCandidate: boolean }
+    listing: { shortDescription: string; keywords: string[] }
+    screenshotPriorities: Array<{ id: string }>
+    copyGuardrails: { googleShortDescriptionMaxChars: number; noMonetizationClaimsBeforeEnabled: boolean }
+  }
+  const storePackage = JSON.parse(await readFile('data/store-package.json', 'utf8')) as {
+    launchCandidate: { id: string }
+    storeListing: { shortDescription: string; screenshotAssets: Array<{ id: string }> }
+  }
+
+  expect(optimizer.status).toBe('store-listing-optimizer-ready')
+  expect(optimizer.recommendation.focusGameId).toBe('canopy-bloom')
+  expect(storePackage.launchCandidate.id).toBe(optimizer.recommendation.focusGameId)
+  expect(storePackage.storeListing.shortDescription.length).toBeLessThanOrEqual(
+    optimizer.copyGuardrails.googleShortDescriptionMaxChars,
+  )
+  expect(storePackage.storeListing.screenshotAssets[0].id).toBe(optimizer.screenshotPriorities[0].id)
+  expect(optimizer.copyGuardrails.noMonetizationClaimsBeforeEnabled).toBe(true)
+  expect(optimizer.listing.keywords).toContain('daily puzzle')
+
+  await page.goto('/')
+  await expect(page.getByLabel('Store Listing Optimizer')).toContainText('Canopy Bloom')
+})
+
+test('generated install icon assets are reachable', async ({ page }) => {
+  const response = await page.goto('/icons/icon-512.png')
+
+  expect(response?.ok()).toBeTruthy()
+  expect(response?.headers()['content-type']).toContain('image/png')
+
+  const imageSize = await page.locator('img').evaluate((node) => {
+    const image = node as HTMLImageElement
+
+    return {
+      width: image.naturalWidth,
+      height: image.naturalHeight,
+    }
+  })
+
+  expect(imageSize.width).toBe(512)
+  expect(imageSize.height).toBe(512)
+})

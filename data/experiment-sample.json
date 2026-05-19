@@ -1,0 +1,59 @@
+{
+  "source": "fixture-experiment-results",
+  "experiments": [
+    {
+      "id": "first_session_pacing",
+      "variants": [
+        {
+          "variantId": "fast-start",
+          "counts": {
+            "experiment_assigned": 250,
+            "game_started": 250,
+            "tutorial_completed": 172,
+            "level_completed": 103,
+            "game_abandoned": 147,
+            "replay_clicked": 32
+          }
+        },
+        {
+          "variantId": "guided",
+          "counts": {
+            "experiment_assigned": 125,
+            "game_started": 125,
+            "tutorial_completed": 73,
+            "level_completed": 46,
+            "game_abandoned": 79,
+            "replay_clicked": 14
+          }
+        }
+      ]
+    },
+    {
+      "id": "reward_offer",
+      "variants": [
+        {
+          "variantId": "daily-streak",
+          "counts": {
+            "experiment_assigned": 245,
+            "game_started": 245,
+            "tutorial_completed": 164,
+            "level_completed": 96,
+            "game_abandoned": 149,
+            "replay_clicked": 34
+          }
+        },
+        {
+          "variantId": "score-booster",
+          "counts": {
+            "experiment_assigned": 130,
+            "game_started": 130,
+            "tutorial_completed": 81,
+            "level_completed": 53,
+            "game_abandoned": 77,
+            "replay_clicked": 12
+          }
+        }
+      ]
+    }
+  ]
+}

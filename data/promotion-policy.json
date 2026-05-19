@@ -1,0 +1,24 @@
+{
+  "webPwa": {
+    "allowFixtureSourceForInternalDeploy": true,
+    "requiredReadinessStatus": "ready-after-build",
+    "requiredStorePackageStatus": "draft-ready"
+  },
+  "monetization": {
+    "requiredStatus": "ready-for-low-risk-test",
+    "allowedFirstActions": ["rewarded hint", "cosmetic unlock", "remove ads"],
+    "blockedActions": ["subscription", "interstitial during first session", "paywalled core rules"]
+  },
+  "android": {
+    "requiredWebStatus": "ready-after-build",
+    "requiredStorePackageStatus": "draft-ready",
+    "requiresHostedPrivacyUrl": true,
+    "requiresSigning": true,
+    "requiresGooglePlayAccount": true
+  },
+  "ios": {
+    "requiresPositiveRevenueSignal": true,
+    "requiresAppleDeveloperAccount": true,
+    "minimumRevenueCentsToConsider": 9900
+  }
+}

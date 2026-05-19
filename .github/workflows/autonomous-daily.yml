@@ -1,0 +1,49 @@
+name: Autonomous Daily Studio
+
+on:
+  schedule:
+    - cron: '17 3 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  autonomous-daily:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright browser
+        run: npx playwright install --with-deps chromium
+
+      - name: Run autonomous production loop
+        run: npm run autonomous:daily
+
+      - name: Run browser smoke tests
+        run: npm run test:e2e
+
+      - name: Upload operating artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: autonomous-game-lab-artifacts
+          path: |
+            data/*.json
+            reports/*.md
+            dist
+            playwright-report
+            test-results
+          if-no-files-found: ignore

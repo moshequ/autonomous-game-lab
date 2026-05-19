@@ -1,0 +1,119 @@
+{
+  "generatedAt": "2026-05-18T23:37:00.777Z",
+  "status": "blocked-needs-host-signing-play",
+  "platform": "android-trusted-web-activity",
+  "channel": "android-google-play",
+  "costPosture": "zero-paid-spend-until-live-revenue-and-retention-pass",
+  "packageName": "app.autonomousgamelab.portal",
+  "releaseTrack": "internal",
+  "releaseMode": "draft",
+  "nativePackageStatus": "blocked-draft-ready",
+  "storeComplianceStatus": "draft-ready-external-blockers",
+  "promotionStatus": "blocked",
+  "workflow": {
+    "path": ".github/workflows/android-twa-release.yml",
+    "status": "present",
+    "buildsWhenReady": false
+  },
+  "artifacts": {
+    "handoffDirectory": "native/android",
+    "twaManifestPath": "native/android/twa-manifest.json",
+    "bubblewrapConfigPath": "native/android/bubblewrap.config.json",
+    "assetLinksPath": "native/android/assetlinks.template.json",
+    "expectedAabPath": "native/android/app-release-bundle.aab",
+    "expectedApkPath": "native/android/app-release-signed.apk"
+  },
+  "gates": {
+    "storeSpendAllowed": false,
+    "googlePlayFeeAllowed": false,
+    "paybackDays": null,
+    "hostedPrivacyStatus": "needs-hosted-domain",
+    "assetLinksStatus": "template-only"
+  },
+  "checks": [
+    {
+      "id": "native-package-ready",
+      "status": "blocker",
+      "detail": "Native package is blocked-draft-ready."
+    },
+    {
+      "id": "store-package-draft",
+      "status": "pass",
+      "detail": "Store package is draft-ready; data safety is draft-ready."
+    },
+    {
+      "id": "store-compliance-draft",
+      "status": "pass",
+      "detail": "Store compliance is draft-ready-external-blockers."
+    },
+    {
+      "id": "store-screenshots",
+      "status": "pass",
+      "detail": "4 screenshot asset(s) are available."
+    },
+    {
+      "id": "asset-links",
+      "status": "blocker",
+      "detail": "Digital Asset Links are template-only."
+    },
+    {
+      "id": "signing-fingerprint",
+      "status": "blocker",
+      "detail": "Android signing fingerprint is missing."
+    },
+    {
+      "id": "signing-secrets",
+      "status": "missing-env",
+      "detail": "Android keystore, password, and alias are available to CI."
+    },
+    {
+      "id": "google-play-account",
+      "status": "missing-env",
+      "detail": "Google Play account is not connected."
+    },
+    {
+      "id": "play-service-account",
+      "status": "missing-env",
+      "detail": "Google Play service account upload credentials are available to CI."
+    },
+    {
+      "id": "unit-economics-store-spend",
+      "status": "held-by-economics",
+      "detail": "Store spend allowed is false; spend mode is no-spend."
+    },
+    {
+      "id": "promotion-gate",
+      "status": "blocker",
+      "detail": "Android promotion status is blocked."
+    },
+    {
+      "id": "release-workflow",
+      "status": "pass",
+      "detail": "Android TWA release workflow exists."
+    }
+  ],
+  "blockers": [
+    "native-package-ready: Native package is blocked-draft-ready.",
+    "asset-links: Digital Asset Links are template-only.",
+    "signing-fingerprint: Android signing fingerprint is missing.",
+    "signing-secrets: Android keystore, password, and alias are available to CI.",
+    "google-play-account: Google Play account is not connected.",
+    "play-service-account: Google Play service account upload credentials are available to CI.",
+    "unit-economics-store-spend: Store spend allowed is false; spend mode is no-spend.",
+    "promotion-gate: Android promotion status is blocked."
+  ],
+  "setupRequiredOnce": [
+    "Host the PWA on a stable HTTPS production domain with privacy and support URLs.",
+    "Create Android signing material and set AGL_ANDROID_SHA256_CERT_FINGERPRINT after the certificate exists.",
+    "Set AGL_ANDROID_KEYSTORE_BASE64, AGL_ANDROID_KEYSTORE_PASSWORD, and AGL_ANDROID_KEY_ALIAS in CI secrets.",
+    "Connect Google Play only after unit economics allows the one-time store fee.",
+    "Set GOOGLE_PLAY_SERVICE_ACCOUNT_JSON or GOOGLE_PLAY_SERVICE_ACCOUNT_BASE64 before automated internal testing uploads."
+  ],
+  "commands": {
+    "plan": "npm run autonomous:android-release-plan",
+    "nativePackage": "npm run autonomous:native-package",
+    "validate": "npx @bubblewrap/cli validate",
+    "build": "npx @bubblewrap/cli build",
+    "releaseWorkflow": "Run Android TWA Release after host, signing, Play, and economics gates pass."
+  }
+}

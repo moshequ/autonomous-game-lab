@@ -1,0 +1,373 @@
+{
+  "generatedAt": "2026-05-19T00:33:43.286Z",
+  "status": "generated-runtime-ready",
+  "games": [
+    {
+      "id": "mosaic-haven",
+      "title": "Mosaic Haven",
+      "status": "generated-playable",
+      "source": {
+        "mechanic": "tile placement",
+        "theme": "cozy production",
+        "audience": "mobile puzzle",
+        "generatedFrom": [
+          "trend-signals",
+          "generated-concepts"
+        ],
+        "trendScore": 357,
+        "conceptId": "lantern-relay",
+        "conceptTitle": "Lantern Relay",
+        "conceptScore": 357,
+        "representedPrototypeTemplates": 1
+      },
+      "sourceDistance": {
+        "copiedExpressionRisk": "low",
+        "ruleText": "generated from local scoring template only; no source rule text used",
+        "art": "procedural board colors and layout; no source art used"
+      },
+      "boardRows": 4,
+      "boardCols": 4,
+      "maxMoves": 10,
+      "targetScore": 90,
+      "pieces": [
+        {
+          "id": "sprout",
+          "label": "Sprout",
+          "fill": "#187f7a"
+        },
+        {
+          "id": "ember",
+          "label": "Ember",
+          "fill": "#bd4d38"
+        },
+        {
+          "id": "sun",
+          "label": "Sun",
+          "fill": "#b87b16"
+        },
+        {
+          "id": "violet",
+          "label": "Violet",
+          "fill": "#6b5bb8"
+        }
+      ],
+      "tutorial": "Mark one cell per turn. Build tile placement combos across cozy production to beat 90.",
+      "playerPromise": "A complete tactical board-game feeling in 5 minutes, tuned for touch screens.",
+      "scoring": {
+        "base": 3,
+        "sameNeighbor": 5,
+        "occupiedNeighbor": 3,
+        "rowDiversity": 5,
+        "columnDiversity": 5,
+        "center": 3,
+        "corner": 2
+      },
+      "storeListing": {
+        "shortDescription": "A generated tile placement puzzle with quick cozy production decisions.",
+        "keywords": [
+          "tile placement",
+          "cozy production",
+          "daily puzzle",
+          "solo board game",
+          "generated strategy game"
+        ]
+      }
+    },
+    {
+      "id": "pocket-draft",
+      "title": "Pocket Draft",
+      "status": "generated-playable",
+      "source": {
+        "mechanic": "card drafting",
+        "theme": "compact city logistics",
+        "audience": "strategy solo",
+        "generatedFrom": [
+          "trend-signals",
+          "generated-concepts"
+        ],
+        "trendScore": 253,
+        "conceptId": "harbor-circuit",
+        "conceptTitle": "Harbor Circuit",
+        "conceptScore": 253,
+        "representedPrototypeTemplates": 2
+      },
+      "sourceDistance": {
+        "copiedExpressionRisk": "low",
+        "ruleText": "generated from local scoring template only; no source rule text used",
+        "art": "procedural board colors and layout; no source art used"
+      },
+      "boardRows": 3,
+      "boardCols": 5,
+      "maxMoves": 12,
+      "targetScore": 136,
+      "pieces": [
+        {
+          "id": "station",
+          "label": "Station",
+          "fill": "#2a7187"
+        },
+        {
+          "id": "signal",
+          "label": "Signal",
+          "fill": "#c2543d"
+        },
+        {
+          "id": "loop",
+          "label": "Loop",
+          "fill": "#c58a16"
+        },
+        {
+          "id": "spur",
+          "label": "Spur",
+          "fill": "#4d6f3a"
+        }
+      ],
+      "tutorial": "Mark one cell per turn. Build card drafting combos across compact city logistics to beat 136.",
+      "playerPromise": "A complete tactical board-game feeling in 9 minutes, tuned for touch screens.",
+      "scoring": {
+        "base": 4,
+        "sameNeighbor": 6,
+        "occupiedNeighbor": 1,
+        "rowDiversity": 7,
+        "columnDiversity": 3,
+        "center": 2,
+        "corner": 2
+      },
+      "storeListing": {
+        "shortDescription": "A generated card drafting puzzle with quick compact city logistics decisions.",
+        "keywords": [
+          "card drafting",
+          "compact city logistics",
+          "daily puzzle",
+          "solo board game",
+          "generated strategy game"
+        ]
+      }
+    },
+    {
+      "id": "metro-loom",
+      "title": "Metro Loom",
+      "status": "generated-playable",
+      "source": {
+        "mechanic": "route building",
+        "theme": "merchant timing",
+        "audience": "mobile puzzle",
+        "generatedFrom": [
+          "trend-signals",
+          "generated-concepts"
+        ],
+        "trendScore": 240,
+        "conceptId": "foundry-ledger",
+        "conceptTitle": "Foundry Ledger",
+        "conceptScore": 240,
+        "representedPrototypeTemplates": 1
+      },
+      "sourceDistance": {
+        "copiedExpressionRisk": "low",
+        "ruleText": "generated from local scoring template only; no source rule text used",
+        "art": "procedural board colors and layout; no source art used"
+      },
+      "boardRows": 5,
+      "boardCols": 5,
+      "maxMoves": 10,
+      "targetScore": 88,
+      "pieces": [
+        {
+          "id": "stall",
+          "label": "Stall",
+          "fill": "#8f5f2c"
+        },
+        {
+          "id": "permit",
+          "label": "Permit",
+          "fill": "#2f7d5e"
+        },
+        {
+          "id": "clock",
+          "label": "Clock",
+          "fill": "#7b65b8"
+        },
+        {
+          "id": "cart",
+          "label": "Cart",
+          "fill": "#b85b4b"
+        }
+      ],
+      "tutorial": "Mark one cell per turn. Build route building combos across merchant timing to beat 88.",
+      "playerPromise": "A complete tactical board-game feeling in 5 minutes, tuned for touch screens.",
+      "scoring": {
+        "base": 2,
+        "sameNeighbor": 3,
+        "occupiedNeighbor": 5,
+        "rowDiversity": 3,
+        "columnDiversity": 7,
+        "center": 2,
+        "corner": 1
+      },
+      "storeListing": {
+        "shortDescription": "A generated route building puzzle with quick merchant timing decisions.",
+        "keywords": [
+          "route building",
+          "merchant timing",
+          "daily puzzle",
+          "solo board game",
+          "generated strategy game"
+        ]
+      }
+    },
+    {
+      "id": "grove-engine",
+      "title": "Grove Engine",
+      "status": "generated-playable",
+      "source": {
+        "mechanic": "engine building",
+        "theme": "expedition planning",
+        "audience": "families",
+        "generatedFrom": [
+          "trend-signals",
+          "generated-concepts"
+        ],
+        "trendScore": 207,
+        "conceptId": "orbit-atlas",
+        "conceptTitle": "Orbit Atlas",
+        "conceptScore": 207,
+        "representedPrototypeTemplates": 2
+      },
+      "sourceDistance": {
+        "copiedExpressionRisk": "low",
+        "ruleText": "generated from local scoring template only; no source rule text used",
+        "art": "procedural board colors and layout; no source art used"
+      },
+      "boardRows": 3,
+      "boardCols": 5,
+      "maxMoves": 11,
+      "targetScore": 104,
+      "pieces": [
+        {
+          "id": "scout",
+          "label": "Scout",
+          "fill": "#50658f"
+        },
+        {
+          "id": "camp",
+          "label": "Camp",
+          "fill": "#c1822c"
+        },
+        {
+          "id": "path",
+          "label": "Path",
+          "fill": "#2e8176"
+        },
+        {
+          "id": "cache",
+          "label": "Cache",
+          "fill": "#9a4f65"
+        }
+      ],
+      "tutorial": "Mark one cell per turn. Build engine building combos across expedition planning to beat 104.",
+      "playerPromise": "A complete tactical board-game feeling in 7 minutes, tuned for touch screens.",
+      "scoring": {
+        "base": 4,
+        "sameNeighbor": 6,
+        "occupiedNeighbor": 1,
+        "rowDiversity": 7,
+        "columnDiversity": 3,
+        "center": 2,
+        "corner": 2
+      },
+      "storeListing": {
+        "shortDescription": "A generated engine building puzzle with quick expedition planning decisions.",
+        "keywords": [
+          "engine building",
+          "expedition planning",
+          "daily puzzle",
+          "solo board game",
+          "generated strategy game"
+        ]
+      }
+    },
+    {
+      "id": "canopy-bloom",
+      "title": "Canopy Bloom",
+      "status": "generated-playable",
+      "source": {
+        "mechanic": "roll and write",
+        "theme": "science desk",
+        "audience": "mobile puzzle",
+        "generatedFrom": [
+          "trend-signals"
+        ],
+        "trendScore": 81,
+        "conceptId": null,
+        "conceptTitle": null,
+        "conceptScore": null,
+        "representedPrototypeTemplates": 0
+      },
+      "sourceDistance": {
+        "copiedExpressionRisk": "low",
+        "ruleText": "generated from local scoring template only; no source rule text used",
+        "art": "procedural board colors and layout; no source art used"
+      },
+      "boardRows": 4,
+      "boardCols": 5,
+      "maxMoves": 10,
+      "targetScore": 82,
+      "pieces": [
+        {
+          "id": "sprout",
+          "label": "Sprout",
+          "fill": "#187f7a"
+        },
+        {
+          "id": "ember",
+          "label": "Ember",
+          "fill": "#bd4d38"
+        },
+        {
+          "id": "sun",
+          "label": "Sun",
+          "fill": "#b87b16"
+        },
+        {
+          "id": "violet",
+          "label": "Violet",
+          "fill": "#6b5bb8"
+        }
+      ],
+      "tutorial": "Mark one cell per turn. Build roll and write combos across science desk to beat 82.",
+      "playerPromise": "A generated roll and write puzzle that turns trend signals into a compact solo board state.",
+      "scoring": {
+        "base": 3,
+        "sameNeighbor": 4,
+        "occupiedNeighbor": 2,
+        "rowDiversity": 6,
+        "columnDiversity": 4,
+        "center": 3,
+        "corner": 2
+      },
+      "storeListing": {
+        "shortDescription": "A generated roll and write puzzle with quick science desk decisions.",
+        "keywords": [
+          "roll and write",
+          "science desk",
+          "daily puzzle",
+          "solo board game",
+          "generated strategy game"
+        ]
+      }
+    }
+  ],
+  "runtime": {
+    "scene": "GeneratedPuzzleScene",
+    "codeHandoffRequired": false,
+    "selectionStrategy": "accepted-concepts-first-then-trend-signals",
+    "generatedConceptCoverage": 4,
+    "telemetry": [
+      "game_started",
+      "tutorial_completed",
+      "turn_taken",
+      "level_completed",
+      "replay_clicked"
+    ]
+  }
+}

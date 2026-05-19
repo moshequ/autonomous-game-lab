@@ -1,0 +1,207 @@
+{
+  "generatedAt": "2026-05-19T00:22:19.700Z",
+  "status": "organic-seed-loop-ready",
+  "sourceStatus": {
+    "analyticsSource": "fixture-sample",
+    "trafficSeeding": "traffic-seeding-ready",
+    "acquisitionLearning": "acquisition-learning-ready",
+    "rawAttributionAvailable": false
+  },
+  "target": {
+    "campaignId": "seed-20260518-canopy-bloom",
+    "gameId": "canopy-bloom",
+    "title": "Canopy Bloom",
+    "priority": 1,
+    "opportunityScore": 1,
+    "sampleProgress": 0
+  },
+  "runtimeSurface": {
+    "id": "organic-seed-card",
+    "status": "armed",
+    "surface": "portal-growth-loop",
+    "placement": "growth-loop-panel",
+    "primaryCtaLabel": "Try today's challenge",
+    "secondaryCtaLabel": "Share seed link",
+    "telemetry": {
+      "viewed": "organic_seed_card_viewed",
+      "opened": "seed_campaign_clicked",
+      "shared": "organic_seed_share_clicked",
+      "share": "share_clicked",
+      "started": "game_started"
+    }
+  },
+  "guardrails": {
+    "maxCostUsd": 0,
+    "noPaidPromotion": true,
+    "playerInitiatedSharingOnly": true,
+    "noAutomatedExternalPosting": true,
+    "noSpamAutomation": true,
+    "noPaidIncentives": true,
+    "noAccountsRequired": true,
+    "requireCampaignAttribution": true,
+    "minimumStartsBeforeQualityJudgment": 40,
+    "shareCooldownHours": 12
+  },
+  "campaigns": [
+    {
+      "id": "seed-20260518-canopy-bloom",
+      "gameId": "canopy-bloom",
+      "title": "Canopy Bloom",
+      "priority": 1,
+      "status": "collecting-attribution",
+      "action": "seed-traffic",
+      "dataConfidence": "seed-needed",
+      "costUsd": 0,
+      "playUrl": "https://autonomous-game-lab.example.com/?game=canopy-bloom&utm_source=seed_internal&utm_campaign=seed-20260518-canopy-bloom",
+      "shareUrl": "https://autonomous-game-lab.example.com/?game=canopy-bloom&utm_source=seed_share&utm_campaign=seed-20260518-canopy-bloom",
+      "pageUrl": "https://autonomous-game-lab.example.com/games/canopy-bloom.html",
+      "copy": {
+        "title": "Play Canopy Bloom",
+        "text": "A generated roll and write puzzle with quick science desk decisions.",
+        "cta": "Try today's challenge"
+      },
+      "shareReadiness": "ready",
+      "attribution": {
+        "seedClicks": 0,
+        "organicEntries": 0,
+        "attributedStarts": 0,
+        "observedStarts": 0
+      },
+      "metrics": {
+        "targetStarts": 40,
+        "sampleProgress": 0,
+        "startRate": null,
+        "completionRate": null,
+        "opportunityScore": 1
+      },
+      "nextAction": "Collect player-initiated starts and shares for Canopy Bloom before quality judgment."
+    },
+    {
+      "id": "seed-20260518-grove-engine",
+      "gameId": "grove-engine",
+      "title": "Grove Engine",
+      "priority": 2,
+      "status": "collecting-attribution",
+      "action": "seed-traffic",
+      "dataConfidence": "seed-needed",
+      "costUsd": 0,
+      "playUrl": "https://autonomous-game-lab.example.com/?game=grove-engine&utm_source=seed_internal&utm_campaign=seed-20260518-grove-engine",
+      "shareUrl": "https://autonomous-game-lab.example.com/?game=grove-engine&utm_source=seed_share&utm_campaign=seed-20260518-grove-engine",
+      "pageUrl": "https://autonomous-game-lab.example.com/games/grove-engine.html",
+      "copy": {
+        "title": "Play Grove Engine",
+        "text": "A generated engine building puzzle with quick expedition planning decisions.",
+        "cta": "Try today's challenge"
+      },
+      "shareReadiness": "ready",
+      "attribution": {
+        "seedClicks": 0,
+        "organicEntries": 0,
+        "attributedStarts": 0,
+        "observedStarts": 0
+      },
+      "metrics": {
+        "targetStarts": 40,
+        "sampleProgress": 0,
+        "startRate": null,
+        "completionRate": null,
+        "opportunityScore": 0.875
+      },
+      "nextAction": "Collect player-initiated starts and shares for Grove Engine before quality judgment."
+    },
+    {
+      "id": "seed-20260518-metro-loom",
+      "gameId": "metro-loom",
+      "title": "Metro Loom",
+      "priority": 3,
+      "status": "collecting-attribution",
+      "action": "seed-traffic",
+      "dataConfidence": "seed-needed",
+      "costUsd": 0,
+      "playUrl": "https://autonomous-game-lab.example.com/?game=metro-loom&utm_source=seed_internal&utm_campaign=seed-20260518-metro-loom",
+      "shareUrl": "https://autonomous-game-lab.example.com/?game=metro-loom&utm_source=seed_share&utm_campaign=seed-20260518-metro-loom",
+      "pageUrl": "https://autonomous-game-lab.example.com/games/metro-loom.html",
+      "copy": {
+        "title": "Play Metro Loom",
+        "text": "A generated route building puzzle with quick merchant timing decisions.",
+        "cta": "Try today's challenge"
+      },
+      "shareReadiness": "ready",
+      "attribution": {
+        "seedClicks": 0,
+        "organicEntries": 0,
+        "attributedStarts": 0,
+        "observedStarts": 0
+      },
+      "metrics": {
+        "targetStarts": 40,
+        "sampleProgress": 0,
+        "startRate": null,
+        "completionRate": null,
+        "opportunityScore": 0.833
+      },
+      "nextAction": "Collect player-initiated starts and shares for Metro Loom before quality judgment."
+    },
+    {
+      "id": "seed-20260518-pocket-draft",
+      "gameId": "pocket-draft",
+      "title": "Pocket Draft",
+      "priority": 4,
+      "status": "collecting-attribution",
+      "action": "seed-traffic",
+      "dataConfidence": "seed-needed",
+      "costUsd": 0,
+      "playUrl": "https://autonomous-game-lab.example.com/?game=pocket-draft&utm_source=seed_internal&utm_campaign=seed-20260518-pocket-draft",
+      "shareUrl": "https://autonomous-game-lab.example.com/?game=pocket-draft&utm_source=seed_share&utm_campaign=seed-20260518-pocket-draft",
+      "pageUrl": "https://autonomous-game-lab.example.com/games/pocket-draft.html",
+      "copy": {
+        "title": "Play Pocket Draft",
+        "text": "A generated card drafting puzzle with quick compact city logistics decisions.",
+        "cta": "Play free puzzle"
+      },
+      "shareReadiness": "ready",
+      "attribution": {
+        "seedClicks": 0,
+        "organicEntries": 0,
+        "attributedStarts": 0,
+        "observedStarts": 0
+      },
+      "metrics": {
+        "targetStarts": 40,
+        "sampleProgress": 0,
+        "startRate": null,
+        "completionRate": null,
+        "opportunityScore": 0.813
+      },
+      "nextAction": "Collect player-initiated starts and shares for Pocket Draft before quality judgment."
+    }
+  ],
+  "missions": [
+    {
+      "id": "open-seed-game",
+      "status": "armed",
+      "event": "seed_campaign_clicked",
+      "targetGameId": "canopy-bloom",
+      "reward": "sample-growth"
+    },
+    {
+      "id": "share-seed-link",
+      "status": "armed",
+      "event": "organic_seed_share_clicked",
+      "targetGameId": "canopy-bloom",
+      "reward": "organic-signal"
+    },
+    {
+      "id": "measure-seeded-start",
+      "status": "armed",
+      "event": "game_started",
+      "targetGameId": "canopy-bloom",
+      "reward": "quality-evidence"
+    }
+  ],
+  "nextActions": [
+    "Feature Canopy Bloom as the current organic seed target.",
+    "Use only player-initiated sharing; do not post externally without credentials or consent.",
+    "Keep collecting attributed starts until the sample-size gate clears."
+  ]
+}

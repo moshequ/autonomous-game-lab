@@ -1,0 +1,20 @@
+{
+  "generatedAt": "2026-05-18T23:36:59.702Z",
+  "source": "Autonomous Game Lab native packager",
+  "status": "blocked-draft-ready",
+  "initCommand": "npx @bubblewrap/cli init --manifest https://YOUR_HOST/manifest.webmanifest",
+  "buildCommand": "npx @bubblewrap/cli build",
+  "validateCommand": "npx @bubblewrap/cli validate",
+  "packageId": "app.autonomousgamelab.portal",
+  "host": "autonomous-game-lab.example.com",
+  "startUrl": "/",
+  "signing": {
+    "status": "blocked-until-keystore-exists",
+    "sha256CertFingerprint": null
+  },
+  "assetLinks": {
+    "status": "template-only",
+    "hostedPath": "/.well-known/assetlinks.json",
+    "templatePath": "native/android/assetlinks.template.json"
+  }
+}

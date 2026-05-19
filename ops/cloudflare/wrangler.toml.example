@@ -1,0 +1,14 @@
+name = "autonomous-game-lab-events"
+main = "event-collector-worker.mjs"
+compatibility_date = "2026-05-18"
+
+[vars]
+ALLOWED_ORIGINS = "https://your-domain.example"
+PUBLIC_WRITE_TOKEN = "replace-with-public-write-token"
+
+[[r2_buckets]]
+binding = "EVENT_BUCKET"
+bucket_name = "autonomous-game-lab-events"
+
+# Set ADMIN_EXPORT_TOKEN with:
+# wrangler secret put ADMIN_EXPORT_TOKEN

@@ -1,0 +1,623 @@
+{
+  "generatedAt": "2026-05-18T23:36:38.427Z",
+  "sourceStatus": {
+    "bggHotness": {
+      "ok": false,
+      "reason": "BGG_XML_API_TOKEN is not set; using fixture trends.",
+      "items": []
+    },
+    "cache": {
+      "status": "empty",
+      "usable": false,
+      "ageDays": null,
+      "maxAgeDays": 30,
+      "fetchedAt": null,
+      "reason": "No licensed BGG hotness cache has been created yet."
+    },
+    "activeSource": "fixture",
+    "note": "BGG XML API requires registration and bearer authorization. Use BGG_XML_API_TOKEN to activate licensed live BGG hotness."
+  },
+  "items": [
+    {
+      "source": "fixture",
+      "rank": 1,
+      "title": "Hot modular-map campaign game",
+      "year": 2026,
+      "mechanics": [
+        "tile placement",
+        "campaign progression",
+        "variable scoring"
+      ],
+      "themes": [
+        "expedition",
+        "ancient ruins"
+      ],
+      "audience": [
+        "solo",
+        "strategy"
+      ],
+      "tokens": [
+        "hot",
+        "modular-map",
+        "campaign",
+        "game",
+        "tile",
+        "placement",
+        "campaign",
+        "progression",
+        "variable",
+        "scoring",
+        "expedition",
+        "ancient",
+        "ruins",
+        "solo",
+        "strategy"
+      ],
+      "inferred": {
+        "mechanics": [
+          {
+            "name": "tile placement",
+            "score": 73,
+            "mobileFit": 88,
+            "template": "grid-puzzle"
+          },
+          {
+            "name": "worker placement",
+            "score": 31,
+            "mobileFit": 69,
+            "template": "turn-economy"
+          },
+          {
+            "name": "card drafting",
+            "score": 19,
+            "mobileFit": 82,
+            "template": "tableau"
+          }
+        ],
+        "themes": [
+          {
+            "name": "expedition planning",
+            "score": 59,
+            "adSafety": 89
+          },
+          {
+            "name": "cozy production",
+            "score": 11,
+            "adSafety": 96
+          }
+        ],
+        "audiences": [
+          {
+            "name": "strategy solo",
+            "score": 37,
+            "sessionMinutes": 9
+          },
+          {
+            "name": "mobile puzzle",
+            "score": 17,
+            "sessionMinutes": 5
+          }
+        ]
+      }
+    },
+    {
+      "source": "fixture",
+      "rank": 2,
+      "title": "Hot cozy tableau game",
+      "year": 2026,
+      "mechanics": [
+        "card drafting",
+        "set collection",
+        "engine building"
+      ],
+      "themes": [
+        "gardening",
+        "market day"
+      ],
+      "audience": [
+        "casual",
+        "families"
+      ],
+      "tokens": [
+        "hot",
+        "cozy",
+        "tableau",
+        "game",
+        "card",
+        "drafting",
+        "set",
+        "collection",
+        "engine",
+        "building",
+        "gardening",
+        "market",
+        "day",
+        "casual",
+        "families"
+      ],
+      "inferred": {
+        "mechanics": [
+          {
+            "name": "card drafting",
+            "score": 84,
+            "mobileFit": 82,
+            "template": "tableau"
+          },
+          {
+            "name": "engine building",
+            "score": 72,
+            "mobileFit": 78,
+            "template": "tableau"
+          },
+          {
+            "name": "tile placement",
+            "score": 30,
+            "mobileFit": 88,
+            "template": "grid-puzzle"
+          }
+        ],
+        "themes": [
+          {
+            "name": "cozy production",
+            "score": 34,
+            "adSafety": 96
+          },
+          {
+            "name": "compact city logistics",
+            "score": 22,
+            "adSafety": 93
+          }
+        ],
+        "audiences": [
+          {
+            "name": "families",
+            "score": 46,
+            "sessionMinutes": 7
+          },
+          {
+            "name": "mobile puzzle",
+            "score": 6,
+            "sessionMinutes": 5
+          }
+        ]
+      }
+    },
+    {
+      "source": "fixture",
+      "rank": 3,
+      "title": "Hot route puzzle game",
+      "year": 2025,
+      "mechanics": [
+        "route building",
+        "network planning",
+        "spatial puzzle"
+      ],
+      "themes": [
+        "metro",
+        "city logistics"
+      ],
+      "audience": [
+        "mobile puzzle",
+        "solo"
+      ],
+      "tokens": [
+        "hot",
+        "route",
+        "puzzle",
+        "game",
+        "route",
+        "building",
+        "network",
+        "planning",
+        "spatial",
+        "puzzle",
+        "metro",
+        "city",
+        "logistics",
+        "mobile",
+        "puzzle",
+        "solo"
+      ],
+      "inferred": {
+        "mechanics": [
+          {
+            "name": "route building",
+            "score": 83,
+            "mobileFit": 90,
+            "template": "line-drawing"
+          },
+          {
+            "name": "tile placement",
+            "score": 29,
+            "mobileFit": 88,
+            "template": "grid-puzzle"
+          },
+          {
+            "name": "card drafting",
+            "score": 17,
+            "mobileFit": 82,
+            "template": "tableau"
+          }
+        ],
+        "themes": [
+          {
+            "name": "compact city logistics",
+            "score": 45,
+            "adSafety": 93
+          },
+          {
+            "name": "cozy production",
+            "score": 9,
+            "adSafety": 96
+          }
+        ],
+        "audiences": [
+          {
+            "name": "mobile puzzle",
+            "score": 45,
+            "sessionMinutes": 5
+          },
+          {
+            "name": "strategy solo",
+            "score": 15,
+            "sessionMinutes": 9
+          }
+        ]
+      }
+    },
+    {
+      "source": "fixture",
+      "rank": 4,
+      "title": "Hot auction duel game",
+      "year": 2026,
+      "mechanics": [
+        "auction",
+        "push your luck",
+        "resource conversion"
+      ],
+      "themes": [
+        "harvest",
+        "merchant guild"
+      ],
+      "audience": [
+        "two player",
+        "bot friendly"
+      ],
+      "tokens": [
+        "hot",
+        "auction",
+        "duel",
+        "game",
+        "auction",
+        "push",
+        "your",
+        "luck",
+        "resource",
+        "conversion",
+        "harvest",
+        "merchant",
+        "guild",
+        "two",
+        "player",
+        "bot",
+        "friendly"
+      ],
+      "inferred": {
+        "mechanics": [
+          {
+            "name": "auction",
+            "score": 70,
+            "mobileFit": 74,
+            "template": "turn-economy"
+          },
+          {
+            "name": "worker placement",
+            "score": 28,
+            "mobileFit": 69,
+            "template": "turn-economy"
+          },
+          {
+            "name": "tile placement",
+            "score": 16,
+            "mobileFit": 88,
+            "template": "grid-puzzle"
+          }
+        ],
+        "themes": [
+          {
+            "name": "merchant timing",
+            "score": 32,
+            "adSafety": 91
+          },
+          {
+            "name": "cozy production",
+            "score": 8,
+            "adSafety": 96
+          }
+        ],
+        "audiences": [
+          {
+            "name": "strategy solo",
+            "score": 14,
+            "sessionMinutes": 9
+          },
+          {
+            "name": "mobile puzzle",
+            "score": 4,
+            "sessionMinutes": 5
+          }
+        ]
+      }
+    },
+    {
+      "source": "fixture",
+      "rank": 5,
+      "title": "Hot roll-and-write combo game",
+      "year": 2025,
+      "mechanics": [
+        "roll and write",
+        "combo scoring",
+        "daily challenge"
+      ],
+      "themes": [
+        "observatory",
+        "weather station"
+      ],
+      "audience": [
+        "short session",
+        "mobile puzzle"
+      ],
+      "tokens": [
+        "hot",
+        "roll-and-write",
+        "combo",
+        "game",
+        "roll",
+        "and",
+        "write",
+        "combo",
+        "scoring",
+        "daily",
+        "challenge",
+        "observatory",
+        "weather",
+        "station",
+        "short",
+        "session",
+        "mobile",
+        "puzzle"
+      ],
+      "inferred": {
+        "mechanics": [
+          {
+            "name": "roll and write",
+            "score": 81,
+            "mobileFit": 86,
+            "template": "daily-sheet"
+          },
+          {
+            "name": "engine building",
+            "score": 27,
+            "mobileFit": 78,
+            "template": "tableau"
+          },
+          {
+            "name": "tile placement",
+            "score": 15,
+            "mobileFit": 88,
+            "template": "grid-puzzle"
+          }
+        ],
+        "themes": [
+          {
+            "name": "science desk",
+            "score": 31,
+            "adSafety": 95
+          },
+          {
+            "name": "cozy production",
+            "score": 7,
+            "adSafety": 96
+          }
+        ],
+        "audiences": [
+          {
+            "name": "mobile puzzle",
+            "score": 53,
+            "sessionMinutes": 5
+          },
+          {
+            "name": "families",
+            "score": 3,
+            "sessionMinutes": 7
+          }
+        ]
+      }
+    }
+  ],
+  "signals": {
+    "mechanics": [
+      {
+        "name": "tile placement",
+        "score": 163,
+        "mobileFit": 88,
+        "template": "grid-puzzle",
+        "mentions": 5,
+        "sourceRanks": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "averageRank": 3
+      },
+      {
+        "name": "card drafting",
+        "score": 120,
+        "mobileFit": 82,
+        "template": "tableau",
+        "mentions": 3,
+        "sourceRanks": [
+          1,
+          2,
+          3
+        ],
+        "averageRank": 2
+      },
+      {
+        "name": "engine building",
+        "score": 99,
+        "mobileFit": 78,
+        "template": "tableau",
+        "mentions": 2,
+        "sourceRanks": [
+          2,
+          5
+        ],
+        "averageRank": 4
+      },
+      {
+        "name": "route building",
+        "score": 83,
+        "mobileFit": 90,
+        "template": "line-drawing",
+        "mentions": 1,
+        "sourceRanks": [
+          3
+        ],
+        "averageRank": 3
+      },
+      {
+        "name": "roll and write",
+        "score": 81,
+        "mobileFit": 86,
+        "template": "daily-sheet",
+        "mentions": 1,
+        "sourceRanks": [
+          5
+        ],
+        "averageRank": 5
+      },
+      {
+        "name": "auction",
+        "score": 70,
+        "mobileFit": 74,
+        "template": "turn-economy",
+        "mentions": 1,
+        "sourceRanks": [
+          4
+        ],
+        "averageRank": 4
+      },
+      {
+        "name": "worker placement",
+        "score": 59,
+        "mobileFit": 69,
+        "template": "turn-economy",
+        "mentions": 2,
+        "sourceRanks": [
+          1,
+          4
+        ],
+        "averageRank": 3
+      }
+    ],
+    "themes": [
+      {
+        "name": "cozy production",
+        "score": 69,
+        "adSafety": 96,
+        "mentions": 5,
+        "sourceRanks": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "averageRank": 3
+      },
+      {
+        "name": "compact city logistics",
+        "score": 67,
+        "adSafety": 93,
+        "mentions": 2,
+        "sourceRanks": [
+          2,
+          3
+        ],
+        "averageRank": 3
+      },
+      {
+        "name": "expedition planning",
+        "score": 59,
+        "adSafety": 89,
+        "mentions": 1,
+        "sourceRanks": [
+          1
+        ],
+        "averageRank": 1
+      },
+      {
+        "name": "merchant timing",
+        "score": 32,
+        "adSafety": 91,
+        "mentions": 1,
+        "sourceRanks": [
+          4
+        ],
+        "averageRank": 4
+      },
+      {
+        "name": "science desk",
+        "score": 31,
+        "adSafety": 95,
+        "mentions": 1,
+        "sourceRanks": [
+          5
+        ],
+        "averageRank": 5
+      }
+    ],
+    "audiences": [
+      {
+        "name": "mobile puzzle",
+        "score": 125,
+        "sessionMinutes": 5,
+        "mentions": 5,
+        "sourceRanks": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "averageRank": 3
+      },
+      {
+        "name": "strategy solo",
+        "score": 66,
+        "sessionMinutes": 9,
+        "mentions": 3,
+        "sourceRanks": [
+          1,
+          3,
+          4
+        ],
+        "averageRank": 3
+      },
+      {
+        "name": "families",
+        "score": 49,
+        "sessionMinutes": 7,
+        "mentions": 2,
+        "sourceRanks": [
+          2,
+          5
+        ],
+        "averageRank": 4
+      }
+    ]
+  }
+}

@@ -1,0 +1,1000 @@
+{
+  "generatedAt": "2026-05-19T01:21:36.633Z",
+  "status": "production-bootstrap-ready",
+  "mode": "waiting-for-external-credentials",
+  "repository": {
+    "githubRepository": null,
+    "ghCliAvailable": true,
+    "ghTokenConfigured": false,
+    "canUseGh": false,
+    "repositoryReadinessStatus": "waiting-for-github-repository",
+    "repositoryBootstrapStatus": "waiting-for-github-target",
+    "insideWorkTree": true,
+    "workflowDispatchReady": false,
+    "bootstrapHelperPath": "ops/github/bootstrap-repository.sh"
+  },
+  "controls": {
+    "zeroSpendGuard": true,
+    "zeroPaidSpend": true,
+    "noPaidResourcesCreated": true,
+    "noAccountCreation": true,
+    "noStoreSubmission": true,
+    "noRevenueEnablement": true,
+    "noStoreWorkflowWithoutEconomics": true,
+    "applyRequiresExistingCredentials": true,
+    "generatedScriptsAvoidSecretEcho": true,
+    "repositoryBootstrapDryRunByDefault": true
+  },
+  "summary": {
+    "readyGroups": 2,
+    "totalGroups": 10,
+    "configuredVariables": 1,
+    "totalVariables": 22,
+    "configuredSecrets": 0,
+    "totalSecrets": 8,
+    "externalBlockers": 27
+  },
+  "stages": [
+    {
+      "id": "repository-channel",
+      "status": "waiting-for-github-repository",
+      "canAutoRun": false,
+      "costUsd": 0,
+      "command": "npm run autonomous:repo-readiness",
+      "evidence": "Repository missing; git worktree ready; workflow dispatch blocked.",
+      "requires": [
+        "Add a GitHub origin remote or set GITHUB_REPOSITORY/GH_REPO.",
+        "Configure GH_TOKEN or GITHUB_TOKEN for workflow dispatch and repository settings sync."
+      ]
+    },
+    {
+      "id": "repository-bootstrap",
+      "status": "waiting-for-github-target",
+      "canAutoRun": false,
+      "costUsd": 0,
+      "command": "npm run autonomous:repo-bootstrap",
+      "evidence": "Repository bootstrap waiting-for-github-target; helper ops/github/bootstrap-repository.sh; local git ready.",
+      "requires": [
+        "Create an initial commit before pushing to GitHub Pages.",
+        "Set GITHUB_REPOSITORY or GH_REPO to the intended owner/repo.",
+        "Attach a GitHub origin remote or create the target repository.",
+        "Authenticate GitHub CLI or provide GH_TOKEN/GITHUB_TOKEN for remote repository bootstrap."
+      ]
+    },
+    {
+      "id": "production-environment",
+      "status": "waiting-for-origin-support",
+      "canAutoRun": false,
+      "costUsd": 0,
+      "command": "npm run autonomous:env",
+      "evidence": "Environment production-env-missing; public origin missing; support missing-production-address.",
+      "requires": [
+        "Set AGL_PUBLIC_ORIGIN or PUBLIC_SITE_URL to a real HTTPS production origin.",
+        "Set AGL_SUPPORT_EMAIL to a real support inbox before public store submission.",
+        "Set VITE_EVENT_COLLECTOR_URL or VITE_POSTHOG_KEY to forward browser analytics in production.",
+        "Set AGL_EVENT_COLLECTOR_EXPORT_URL + AGL_EVENT_COLLECTOR_ADMIN_TOKEN or PostHog server credentials for autonomous production rollups.",
+        "Set VITE_ADSENSE_CLIENT_ID + VITE_ADSENSE_REWARDED_SLOT_ID for web/PWA revenue tests or ADMOB_PUBLISHER_ID for native app placements.",
+        "Set AGL_ANDROID_SHA256_CERT_FINGERPRINT after Android signing exists.",
+        "Connect Google Play credentials or set AGL_GOOGLE_PLAY_ACCOUNT_CONNECTED=true.",
+        "Connect Apple Developer account only after revenue justifies iOS spend."
+      ]
+    },
+    {
+      "id": "github-pages-hosting",
+      "status": "ready-for-actions-pages",
+      "canAutoRun": false,
+      "costUsd": 0,
+      "command": "gh workflow run web-pwa-deploy.yml",
+      "evidence": "Deployment plan is ready-for-pages; Pages workflow is .github/workflows/web-pwa-deploy.yml.",
+      "requires": [
+        "Repository exists on GitHub.",
+        "GitHub Pages source is set to GitHub Actions.",
+        "VITE_BASE_PATH is set when deploying to project pages."
+      ]
+    },
+    {
+      "id": "github-actions-variables",
+      "status": "partially-configured",
+      "canAutoRun": false,
+      "costUsd": 0,
+      "command": "./ops/github/setup-production.sh",
+      "evidence": "1/22 repository variable value(s) present in this environment.",
+      "requires": [
+        "AGL_PUBLIC_ORIGIN",
+        "AGL_PUBLIC_ORIGIN",
+        "AGL_PUBLIC_ORIGIN",
+        "AGL_SUPPORT_EMAIL",
+        "VITE_POSTHOG_KEY"
+      ]
+    },
+    {
+      "id": "github-actions-secrets",
+      "status": "waiting-for-secrets",
+      "canAutoRun": false,
+      "costUsd": 0,
+      "command": "./ops/github/setup-production.sh",
+      "evidence": "0/8 repository secret value(s) present in this environment.",
+      "requires": [
+        "CLOUDFLARE_API_TOKEN",
+        "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
+        "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
+        "POSTHOG_PERSONAL_API_KEY",
+        "AGL_ANDROID_KEYSTORE_BASE64"
+      ]
+    },
+    {
+      "id": "event-collector",
+      "status": "blocked-needs-cloudflare-env",
+      "canAutoRun": false,
+      "costUsd": 0,
+      "command": "gh workflow run event-collector-deploy.yml",
+      "evidence": "Collector deployment is blocked-needs-cloudflare-env; provider cloudflare-worker-r2.",
+      "requires": [
+        "Create or select a Cloudflare account and R2 bucket for collector event batches.",
+        "Set repository variables CLOUDFLARE_ACCOUNT_ID, AGL_EVENT_COLLECTOR_R2_BUCKET, AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS, VITE_EVENT_COLLECTOR_URL, and AGL_EVENT_COLLECTOR_EXPORT_URL.",
+        "Set repository secrets CLOUDFLARE_API_TOKEN, VITE_EVENT_COLLECTOR_WRITE_TOKEN, and AGL_EVENT_COLLECTOR_ADMIN_TOKEN.",
+        "Run the Event Collector Deploy workflow; it runs the collector smoke before deploying."
+      ]
+    },
+    {
+      "id": "monetization-gate",
+      "status": "held-by-product-gates",
+      "canAutoRun": false,
+      "costUsd": 0,
+      "command": "npm run autonomous:monetization && npm run autonomous:unit-economics",
+      "evidence": "Revenue disabled; spend mode no-spend.",
+      "requires": [
+        "First-game completion is 40%; gate is 55%.",
+        "Replay rate is 31%; gate is 35%.",
+        "D1 retention is 17%; gate is 18%; source is fixture-retention.",
+        "Web/PWA or native ad provider is not configured for gated revenue tests."
+      ]
+    },
+    {
+      "id": "store-compliance-unblock",
+      "status": "draft-ready-external-blockers",
+      "canAutoRun": false,
+      "costUsd": 0,
+      "command": "npm run autonomous:store-package && npm run autonomous:store-compliance",
+      "evidence": "4 store compliance blocker(s) remain.",
+      "requires": [
+        "hosted-privacy-url: Hosted privacy policy URL is required before public store submission.",
+        "support-contact: Production support email is required before public store submission.",
+        "google-play-account: Google Play developer account must be connected before Android submission.",
+        "apple-developer-account: Apple Developer account remains deferred until iOS spend is justified."
+      ]
+    },
+    {
+      "id": "android-release-unblock",
+      "status": "blocked-needs-host-signing-play",
+      "canAutoRun": false,
+      "costUsd": 0,
+      "command": "gh workflow run android-twa-release.yml",
+      "evidence": "Native package blocked-draft-ready; Android release blocked-needs-host-signing-play.",
+      "requires": [
+        "native-package-ready: Native package is blocked-draft-ready.",
+        "asset-links: Digital Asset Links are template-only.",
+        "signing-fingerprint: Android signing fingerprint is missing.",
+        "signing-secrets: Android keystore, password, and alias are available to CI.",
+        "google-play-account: Google Play account is not connected.",
+        "play-service-account: Google Play service account upload credentials are available to CI.",
+        "unit-economics-store-spend: Store spend allowed is false; spend mode is no-spend.",
+        "promotion-gate: Android promotion status is blocked."
+      ]
+    }
+  ],
+  "setupGroups": [
+    {
+      "id": "repository-channel",
+      "status": "waiting-for-github-repository",
+      "canAutoRun": false,
+      "costUsd": 0,
+      "command": "npm run autonomous:repo-readiness",
+      "evidence": "Repository missing; git worktree ready; workflow dispatch blocked.",
+      "requires": [
+        "Add a GitHub origin remote or set GITHUB_REPOSITORY/GH_REPO.",
+        "Configure GH_TOKEN or GITHUB_TOKEN for workflow dispatch and repository settings sync."
+      ]
+    },
+    {
+      "id": "repository-bootstrap",
+      "status": "waiting-for-github-target",
+      "canAutoRun": false,
+      "costUsd": 0,
+      "command": "npm run autonomous:repo-bootstrap",
+      "evidence": "Repository bootstrap waiting-for-github-target; helper ops/github/bootstrap-repository.sh; local git ready.",
+      "requires": [
+        "Create an initial commit before pushing to GitHub Pages.",
+        "Set GITHUB_REPOSITORY or GH_REPO to the intended owner/repo.",
+        "Attach a GitHub origin remote or create the target repository.",
+        "Authenticate GitHub CLI or provide GH_TOKEN/GITHUB_TOKEN for remote repository bootstrap."
+      ]
+    },
+    {
+      "id": "production-environment",
+      "status": "waiting-for-origin-support",
+      "canAutoRun": false,
+      "costUsd": 0,
+      "command": "npm run autonomous:env",
+      "evidence": "Environment production-env-missing; public origin missing; support missing-production-address.",
+      "requires": [
+        "Set AGL_PUBLIC_ORIGIN or PUBLIC_SITE_URL to a real HTTPS production origin.",
+        "Set AGL_SUPPORT_EMAIL to a real support inbox before public store submission.",
+        "Set VITE_EVENT_COLLECTOR_URL or VITE_POSTHOG_KEY to forward browser analytics in production.",
+        "Set AGL_EVENT_COLLECTOR_EXPORT_URL + AGL_EVENT_COLLECTOR_ADMIN_TOKEN or PostHog server credentials for autonomous production rollups.",
+        "Set VITE_ADSENSE_CLIENT_ID + VITE_ADSENSE_REWARDED_SLOT_ID for web/PWA revenue tests or ADMOB_PUBLISHER_ID for native app placements.",
+        "Set AGL_ANDROID_SHA256_CERT_FINGERPRINT after Android signing exists.",
+        "Connect Google Play credentials or set AGL_GOOGLE_PLAY_ACCOUNT_CONNECTED=true.",
+        "Connect Apple Developer account only after revenue justifies iOS spend."
+      ]
+    },
+    {
+      "id": "github-pages-hosting",
+      "status": "ready-for-actions-pages",
+      "canAutoRun": false,
+      "costUsd": 0,
+      "command": "gh workflow run web-pwa-deploy.yml",
+      "evidence": "Deployment plan is ready-for-pages; Pages workflow is .github/workflows/web-pwa-deploy.yml.",
+      "requires": [
+        "Repository exists on GitHub.",
+        "GitHub Pages source is set to GitHub Actions.",
+        "VITE_BASE_PATH is set when deploying to project pages."
+      ]
+    },
+    {
+      "id": "github-actions-variables",
+      "status": "partially-configured",
+      "canAutoRun": false,
+      "costUsd": 0,
+      "command": "./ops/github/setup-production.sh",
+      "evidence": "1/22 repository variable value(s) present in this environment.",
+      "requires": [
+        "AGL_PUBLIC_ORIGIN",
+        "AGL_PUBLIC_ORIGIN",
+        "AGL_PUBLIC_ORIGIN",
+        "AGL_SUPPORT_EMAIL",
+        "VITE_POSTHOG_KEY"
+      ]
+    },
+    {
+      "id": "github-actions-secrets",
+      "status": "waiting-for-secrets",
+      "canAutoRun": false,
+      "costUsd": 0,
+      "command": "./ops/github/setup-production.sh",
+      "evidence": "0/8 repository secret value(s) present in this environment.",
+      "requires": [
+        "CLOUDFLARE_API_TOKEN",
+        "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
+        "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
+        "POSTHOG_PERSONAL_API_KEY",
+        "AGL_ANDROID_KEYSTORE_BASE64"
+      ]
+    },
+    {
+      "id": "event-collector",
+      "status": "blocked-needs-cloudflare-env",
+      "canAutoRun": false,
+      "costUsd": 0,
+      "command": "gh workflow run event-collector-deploy.yml",
+      "evidence": "Collector deployment is blocked-needs-cloudflare-env; provider cloudflare-worker-r2.",
+      "requires": [
+        "Create or select a Cloudflare account and R2 bucket for collector event batches.",
+        "Set repository variables CLOUDFLARE_ACCOUNT_ID, AGL_EVENT_COLLECTOR_R2_BUCKET, AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS, VITE_EVENT_COLLECTOR_URL, and AGL_EVENT_COLLECTOR_EXPORT_URL.",
+        "Set repository secrets CLOUDFLARE_API_TOKEN, VITE_EVENT_COLLECTOR_WRITE_TOKEN, and AGL_EVENT_COLLECTOR_ADMIN_TOKEN.",
+        "Run the Event Collector Deploy workflow; it runs the collector smoke before deploying."
+      ]
+    },
+    {
+      "id": "monetization-gate",
+      "status": "held-by-product-gates",
+      "canAutoRun": false,
+      "costUsd": 0,
+      "command": "npm run autonomous:monetization && npm run autonomous:unit-economics",
+      "evidence": "Revenue disabled; spend mode no-spend.",
+      "requires": [
+        "First-game completion is 40%; gate is 55%.",
+        "Replay rate is 31%; gate is 35%.",
+        "D1 retention is 17%; gate is 18%; source is fixture-retention.",
+        "Web/PWA or native ad provider is not configured for gated revenue tests."
+      ]
+    },
+    {
+      "id": "store-compliance-unblock",
+      "status": "draft-ready-external-blockers",
+      "canAutoRun": false,
+      "costUsd": 0,
+      "command": "npm run autonomous:store-package && npm run autonomous:store-compliance",
+      "evidence": "4 store compliance blocker(s) remain.",
+      "requires": [
+        "hosted-privacy-url: Hosted privacy policy URL is required before public store submission.",
+        "support-contact: Production support email is required before public store submission.",
+        "google-play-account: Google Play developer account must be connected before Android submission.",
+        "apple-developer-account: Apple Developer account remains deferred until iOS spend is justified."
+      ]
+    },
+    {
+      "id": "android-release-unblock",
+      "status": "blocked-needs-host-signing-play",
+      "canAutoRun": false,
+      "costUsd": 0,
+      "command": "gh workflow run android-twa-release.yml",
+      "evidence": "Native package blocked-draft-ready; Android release blocked-needs-host-signing-play.",
+      "requires": [
+        "native-package-ready: Native package is blocked-draft-ready.",
+        "asset-links: Digital Asset Links are template-only.",
+        "signing-fingerprint: Android signing fingerprint is missing.",
+        "signing-secrets: Android keystore, password, and alias are available to CI.",
+        "google-play-account: Google Play account is not connected.",
+        "play-service-account: Google Play service account upload credentials are available to CI.",
+        "unit-economics-store-spend: Store spend allowed is false; spend mode is no-spend.",
+        "promotion-gate: Android promotion status is blocked."
+      ]
+    }
+  ],
+  "requiredVariables": [
+    {
+      "id": "var-vite-base-path",
+      "kind": "github-variable",
+      "repositoryVariable": "VITE_BASE_PATH",
+      "envName": "VITE_BASE_PATH",
+      "configured": true,
+      "command": "gh variable set VITE_BASE_PATH --body \"$VITE_BASE_PATH\""
+    },
+    {
+      "id": "var-agl-public-origin",
+      "kind": "github-variable",
+      "repositoryVariable": "AGL_PUBLIC_ORIGIN",
+      "envName": "AGL_PUBLIC_ORIGIN",
+      "configured": false,
+      "command": "gh variable set AGL_PUBLIC_ORIGIN --body \"$AGL_PUBLIC_ORIGIN\""
+    },
+    {
+      "id": "var-vite-public-origin",
+      "kind": "github-variable",
+      "repositoryVariable": "VITE_PUBLIC_ORIGIN",
+      "envName": "AGL_PUBLIC_ORIGIN",
+      "configured": false,
+      "command": "gh variable set VITE_PUBLIC_ORIGIN --body \"$AGL_PUBLIC_ORIGIN\""
+    },
+    {
+      "id": "var-public-site-url",
+      "kind": "github-variable",
+      "repositoryVariable": "PUBLIC_SITE_URL",
+      "envName": "AGL_PUBLIC_ORIGIN",
+      "configured": false,
+      "command": "gh variable set PUBLIC_SITE_URL --body \"$AGL_PUBLIC_ORIGIN\""
+    },
+    {
+      "id": "var-agl-support-email",
+      "kind": "github-variable",
+      "repositoryVariable": "AGL_SUPPORT_EMAIL",
+      "envName": "AGL_SUPPORT_EMAIL",
+      "configured": false,
+      "command": "gh variable set AGL_SUPPORT_EMAIL --body \"$AGL_SUPPORT_EMAIL\""
+    },
+    {
+      "id": "var-vite-posthog-key",
+      "kind": "github-variable",
+      "repositoryVariable": "VITE_POSTHOG_KEY",
+      "envName": "VITE_POSTHOG_KEY",
+      "configured": false,
+      "command": "gh variable set VITE_POSTHOG_KEY --body \"$VITE_POSTHOG_KEY\""
+    },
+    {
+      "id": "var-vite-posthog-host",
+      "kind": "github-variable",
+      "repositoryVariable": "VITE_POSTHOG_HOST",
+      "envName": "VITE_POSTHOG_HOST",
+      "configured": false,
+      "command": "gh variable set VITE_POSTHOG_HOST --body \"$VITE_POSTHOG_HOST\""
+    },
+    {
+      "id": "var-posthog-project-id",
+      "kind": "github-variable",
+      "repositoryVariable": "POSTHOG_PROJECT_ID",
+      "envName": "POSTHOG_PROJECT_ID",
+      "configured": false,
+      "command": "gh variable set POSTHOG_PROJECT_ID --body \"$POSTHOG_PROJECT_ID\""
+    },
+    {
+      "id": "var-posthog-host",
+      "kind": "github-variable",
+      "repositoryVariable": "POSTHOG_HOST",
+      "envName": "POSTHOG_HOST",
+      "configured": false,
+      "command": "gh variable set POSTHOG_HOST --body \"$POSTHOG_HOST\""
+    },
+    {
+      "id": "var-cloudflare-account-id",
+      "kind": "github-variable",
+      "repositoryVariable": "CLOUDFLARE_ACCOUNT_ID",
+      "envName": "CLOUDFLARE_ACCOUNT_ID",
+      "configured": false,
+      "command": "gh variable set CLOUDFLARE_ACCOUNT_ID --body \"$CLOUDFLARE_ACCOUNT_ID\""
+    },
+    {
+      "id": "var-vite-event-collector-url",
+      "kind": "github-variable",
+      "repositoryVariable": "VITE_EVENT_COLLECTOR_URL",
+      "envName": "VITE_EVENT_COLLECTOR_URL",
+      "configured": false,
+      "command": "gh variable set VITE_EVENT_COLLECTOR_URL --body \"$VITE_EVENT_COLLECTOR_URL\""
+    },
+    {
+      "id": "var-agl-event-collector-export-url",
+      "kind": "github-variable",
+      "repositoryVariable": "AGL_EVENT_COLLECTOR_EXPORT_URL",
+      "envName": "AGL_EVENT_COLLECTOR_EXPORT_URL",
+      "configured": false,
+      "command": "gh variable set AGL_EVENT_COLLECTOR_EXPORT_URL --body \"$AGL_EVENT_COLLECTOR_EXPORT_URL\""
+    },
+    {
+      "id": "var-agl-event-collector-r2-bucket",
+      "kind": "github-variable",
+      "repositoryVariable": "AGL_EVENT_COLLECTOR_R2_BUCKET",
+      "envName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
+      "configured": false,
+      "command": "gh variable set AGL_EVENT_COLLECTOR_R2_BUCKET --body \"$AGL_EVENT_COLLECTOR_R2_BUCKET\""
+    },
+    {
+      "id": "var-agl-event-collector-allowed-origins",
+      "kind": "github-variable",
+      "repositoryVariable": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
+      "envName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
+      "configured": false,
+      "command": "gh variable set AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS --body \"$AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS\""
+    },
+    {
+      "id": "var-vite-adsense-client-id",
+      "kind": "github-variable",
+      "repositoryVariable": "VITE_ADSENSE_CLIENT_ID",
+      "envName": "VITE_ADSENSE_CLIENT_ID",
+      "configured": false,
+      "command": "gh variable set VITE_ADSENSE_CLIENT_ID --body \"$VITE_ADSENSE_CLIENT_ID\""
+    },
+    {
+      "id": "var-vite-adsense-rewarded-slot-id",
+      "kind": "github-variable",
+      "repositoryVariable": "VITE_ADSENSE_REWARDED_SLOT_ID",
+      "envName": "VITE_ADSENSE_REWARDED_SLOT_ID",
+      "configured": false,
+      "command": "gh variable set VITE_ADSENSE_REWARDED_SLOT_ID --body \"$VITE_ADSENSE_REWARDED_SLOT_ID\""
+    },
+    {
+      "id": "var-admob-publisher-id",
+      "kind": "github-variable",
+      "repositoryVariable": "ADMOB_PUBLISHER_ID",
+      "envName": "ADMOB_PUBLISHER_ID",
+      "configured": false,
+      "command": "gh variable set ADMOB_PUBLISHER_ID --body \"$ADMOB_PUBLISHER_ID\""
+    },
+    {
+      "id": "var-ad-network-provider",
+      "kind": "github-variable",
+      "repositoryVariable": "AD_NETWORK_PROVIDER",
+      "envName": "AD_NETWORK_PROVIDER",
+      "configured": false,
+      "command": "gh variable set AD_NETWORK_PROVIDER --body \"$AD_NETWORK_PROVIDER\""
+    },
+    {
+      "id": "var-agl-android-package-name",
+      "kind": "github-variable",
+      "repositoryVariable": "AGL_ANDROID_PACKAGE_NAME",
+      "envName": "AGL_ANDROID_PACKAGE_NAME",
+      "configured": false,
+      "command": "gh variable set AGL_ANDROID_PACKAGE_NAME --body \"$AGL_ANDROID_PACKAGE_NAME\""
+    },
+    {
+      "id": "var-agl-android-sha256-cert-fingerprint",
+      "kind": "github-variable",
+      "repositoryVariable": "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
+      "envName": "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
+      "configured": false,
+      "command": "gh variable set AGL_ANDROID_SHA256_CERT_FINGERPRINT --body \"$AGL_ANDROID_SHA256_CERT_FINGERPRINT\""
+    },
+    {
+      "id": "var-agl-google-play-account-connected",
+      "kind": "github-variable",
+      "repositoryVariable": "AGL_GOOGLE_PLAY_ACCOUNT_CONNECTED",
+      "envName": "AGL_GOOGLE_PLAY_ACCOUNT_CONNECTED",
+      "configured": false,
+      "command": "gh variable set AGL_GOOGLE_PLAY_ACCOUNT_CONNECTED --body \"$AGL_GOOGLE_PLAY_ACCOUNT_CONNECTED\""
+    },
+    {
+      "id": "var-agl-apple-developer-account-connected",
+      "kind": "github-variable",
+      "repositoryVariable": "AGL_APPLE_DEVELOPER_ACCOUNT_CONNECTED",
+      "envName": "AGL_APPLE_DEVELOPER_ACCOUNT_CONNECTED",
+      "configured": false,
+      "command": "gh variable set AGL_APPLE_DEVELOPER_ACCOUNT_CONNECTED --body \"$AGL_APPLE_DEVELOPER_ACCOUNT_CONNECTED\""
+    }
+  ],
+  "requiredSecrets": [
+    {
+      "id": "secret-cloudflare-api-token",
+      "kind": "github-secret",
+      "repositorySecret": "CLOUDFLARE_API_TOKEN",
+      "envName": "CLOUDFLARE_API_TOKEN",
+      "configured": false,
+      "command": "printf \"%s\" \"$CLOUDFLARE_API_TOKEN\" | gh secret set CLOUDFLARE_API_TOKEN"
+    },
+    {
+      "id": "secret-vite-event-collector-write-token",
+      "kind": "github-secret",
+      "repositorySecret": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
+      "envName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
+      "configured": false,
+      "command": "printf \"%s\" \"$VITE_EVENT_COLLECTOR_WRITE_TOKEN\" | gh secret set VITE_EVENT_COLLECTOR_WRITE_TOKEN"
+    },
+    {
+      "id": "secret-agl-event-collector-admin-token",
+      "kind": "github-secret",
+      "repositorySecret": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
+      "envName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
+      "configured": false,
+      "command": "printf \"%s\" \"$AGL_EVENT_COLLECTOR_ADMIN_TOKEN\" | gh secret set AGL_EVENT_COLLECTOR_ADMIN_TOKEN"
+    },
+    {
+      "id": "secret-posthog-personal-api-key",
+      "kind": "github-secret",
+      "repositorySecret": "POSTHOG_PERSONAL_API_KEY",
+      "envName": "POSTHOG_PERSONAL_API_KEY",
+      "configured": false,
+      "command": "printf \"%s\" \"$POSTHOG_PERSONAL_API_KEY\" | gh secret set POSTHOG_PERSONAL_API_KEY"
+    },
+    {
+      "id": "secret-agl-android-keystore-base64",
+      "kind": "github-secret",
+      "repositorySecret": "AGL_ANDROID_KEYSTORE_BASE64",
+      "envName": "AGL_ANDROID_KEYSTORE_BASE64",
+      "configured": false,
+      "command": "printf \"%s\" \"$AGL_ANDROID_KEYSTORE_BASE64\" | gh secret set AGL_ANDROID_KEYSTORE_BASE64"
+    },
+    {
+      "id": "secret-agl-android-keystore-password",
+      "kind": "github-secret",
+      "repositorySecret": "AGL_ANDROID_KEYSTORE_PASSWORD",
+      "envName": "AGL_ANDROID_KEYSTORE_PASSWORD",
+      "configured": false,
+      "command": "printf \"%s\" \"$AGL_ANDROID_KEYSTORE_PASSWORD\" | gh secret set AGL_ANDROID_KEYSTORE_PASSWORD"
+    },
+    {
+      "id": "secret-agl-android-key-alias",
+      "kind": "github-secret",
+      "repositorySecret": "AGL_ANDROID_KEY_ALIAS",
+      "envName": "AGL_ANDROID_KEY_ALIAS",
+      "configured": false,
+      "command": "printf \"%s\" \"$AGL_ANDROID_KEY_ALIAS\" | gh secret set AGL_ANDROID_KEY_ALIAS"
+    },
+    {
+      "id": "secret-google-play-service-account-json",
+      "kind": "github-secret",
+      "repositorySecret": "GOOGLE_PLAY_SERVICE_ACCOUNT_JSON",
+      "envName": "GOOGLE_PLAY_SERVICE_ACCOUNT_JSON",
+      "configured": false,
+      "command": "printf \"%s\" \"$GOOGLE_PLAY_SERVICE_ACCOUNT_JSON\" | gh secret set GOOGLE_PLAY_SERVICE_ACCOUNT_JSON"
+    }
+  ],
+  "repoVariableActions": [
+    {
+      "id": "var-vite-base-path",
+      "kind": "github-variable",
+      "repositoryVariable": "VITE_BASE_PATH",
+      "envName": "VITE_BASE_PATH",
+      "configured": true,
+      "command": "gh variable set VITE_BASE_PATH --body \"$VITE_BASE_PATH\""
+    },
+    {
+      "id": "var-agl-public-origin",
+      "kind": "github-variable",
+      "repositoryVariable": "AGL_PUBLIC_ORIGIN",
+      "envName": "AGL_PUBLIC_ORIGIN",
+      "configured": false,
+      "command": "gh variable set AGL_PUBLIC_ORIGIN --body \"$AGL_PUBLIC_ORIGIN\""
+    },
+    {
+      "id": "var-vite-public-origin",
+      "kind": "github-variable",
+      "repositoryVariable": "VITE_PUBLIC_ORIGIN",
+      "envName": "AGL_PUBLIC_ORIGIN",
+      "configured": false,
+      "command": "gh variable set VITE_PUBLIC_ORIGIN --body \"$AGL_PUBLIC_ORIGIN\""
+    },
+    {
+      "id": "var-public-site-url",
+      "kind": "github-variable",
+      "repositoryVariable": "PUBLIC_SITE_URL",
+      "envName": "AGL_PUBLIC_ORIGIN",
+      "configured": false,
+      "command": "gh variable set PUBLIC_SITE_URL --body \"$AGL_PUBLIC_ORIGIN\""
+    },
+    {
+      "id": "var-agl-support-email",
+      "kind": "github-variable",
+      "repositoryVariable": "AGL_SUPPORT_EMAIL",
+      "envName": "AGL_SUPPORT_EMAIL",
+      "configured": false,
+      "command": "gh variable set AGL_SUPPORT_EMAIL --body \"$AGL_SUPPORT_EMAIL\""
+    },
+    {
+      "id": "var-vite-posthog-key",
+      "kind": "github-variable",
+      "repositoryVariable": "VITE_POSTHOG_KEY",
+      "envName": "VITE_POSTHOG_KEY",
+      "configured": false,
+      "command": "gh variable set VITE_POSTHOG_KEY --body \"$VITE_POSTHOG_KEY\""
+    },
+    {
+      "id": "var-vite-posthog-host",
+      "kind": "github-variable",
+      "repositoryVariable": "VITE_POSTHOG_HOST",
+      "envName": "VITE_POSTHOG_HOST",
+      "configured": false,
+      "command": "gh variable set VITE_POSTHOG_HOST --body \"$VITE_POSTHOG_HOST\""
+    },
+    {
+      "id": "var-posthog-project-id",
+      "kind": "github-variable",
+      "repositoryVariable": "POSTHOG_PROJECT_ID",
+      "envName": "POSTHOG_PROJECT_ID",
+      "configured": false,
+      "command": "gh variable set POSTHOG_PROJECT_ID --body \"$POSTHOG_PROJECT_ID\""
+    },
+    {
+      "id": "var-posthog-host",
+      "kind": "github-variable",
+      "repositoryVariable": "POSTHOG_HOST",
+      "envName": "POSTHOG_HOST",
+      "configured": false,
+      "command": "gh variable set POSTHOG_HOST --body \"$POSTHOG_HOST\""
+    },
+    {
+      "id": "var-cloudflare-account-id",
+      "kind": "github-variable",
+      "repositoryVariable": "CLOUDFLARE_ACCOUNT_ID",
+      "envName": "CLOUDFLARE_ACCOUNT_ID",
+      "configured": false,
+      "command": "gh variable set CLOUDFLARE_ACCOUNT_ID --body \"$CLOUDFLARE_ACCOUNT_ID\""
+    },
+    {
+      "id": "var-vite-event-collector-url",
+      "kind": "github-variable",
+      "repositoryVariable": "VITE_EVENT_COLLECTOR_URL",
+      "envName": "VITE_EVENT_COLLECTOR_URL",
+      "configured": false,
+      "command": "gh variable set VITE_EVENT_COLLECTOR_URL --body \"$VITE_EVENT_COLLECTOR_URL\""
+    },
+    {
+      "id": "var-agl-event-collector-export-url",
+      "kind": "github-variable",
+      "repositoryVariable": "AGL_EVENT_COLLECTOR_EXPORT_URL",
+      "envName": "AGL_EVENT_COLLECTOR_EXPORT_URL",
+      "configured": false,
+      "command": "gh variable set AGL_EVENT_COLLECTOR_EXPORT_URL --body \"$AGL_EVENT_COLLECTOR_EXPORT_URL\""
+    },
+    {
+      "id": "var-agl-event-collector-r2-bucket",
+      "kind": "github-variable",
+      "repositoryVariable": "AGL_EVENT_COLLECTOR_R2_BUCKET",
+      "envName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
+      "configured": false,
+      "command": "gh variable set AGL_EVENT_COLLECTOR_R2_BUCKET --body \"$AGL_EVENT_COLLECTOR_R2_BUCKET\""
+    },
+    {
+      "id": "var-agl-event-collector-allowed-origins",
+      "kind": "github-variable",
+      "repositoryVariable": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
+      "envName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
+      "configured": false,
+      "command": "gh variable set AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS --body \"$AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS\""
+    },
+    {
+      "id": "var-vite-adsense-client-id",
+      "kind": "github-variable",
+      "repositoryVariable": "VITE_ADSENSE_CLIENT_ID",
+      "envName": "VITE_ADSENSE_CLIENT_ID",
+      "configured": false,
+      "command": "gh variable set VITE_ADSENSE_CLIENT_ID --body \"$VITE_ADSENSE_CLIENT_ID\""
+    },
+    {
+      "id": "var-vite-adsense-rewarded-slot-id",
+      "kind": "github-variable",
+      "repositoryVariable": "VITE_ADSENSE_REWARDED_SLOT_ID",
+      "envName": "VITE_ADSENSE_REWARDED_SLOT_ID",
+      "configured": false,
+      "command": "gh variable set VITE_ADSENSE_REWARDED_SLOT_ID --body \"$VITE_ADSENSE_REWARDED_SLOT_ID\""
+    },
+    {
+      "id": "var-admob-publisher-id",
+      "kind": "github-variable",
+      "repositoryVariable": "ADMOB_PUBLISHER_ID",
+      "envName": "ADMOB_PUBLISHER_ID",
+      "configured": false,
+      "command": "gh variable set ADMOB_PUBLISHER_ID --body \"$ADMOB_PUBLISHER_ID\""
+    },
+    {
+      "id": "var-ad-network-provider",
+      "kind": "github-variable",
+      "repositoryVariable": "AD_NETWORK_PROVIDER",
+      "envName": "AD_NETWORK_PROVIDER",
+      "configured": false,
+      "command": "gh variable set AD_NETWORK_PROVIDER --body \"$AD_NETWORK_PROVIDER\""
+    },
+    {
+      "id": "var-agl-android-package-name",
+      "kind": "github-variable",
+      "repositoryVariable": "AGL_ANDROID_PACKAGE_NAME",
+      "envName": "AGL_ANDROID_PACKAGE_NAME",
+      "configured": false,
+      "command": "gh variable set AGL_ANDROID_PACKAGE_NAME --body \"$AGL_ANDROID_PACKAGE_NAME\""
+    },
+    {
+      "id": "var-agl-android-sha256-cert-fingerprint",
+      "kind": "github-variable",
+      "repositoryVariable": "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
+      "envName": "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
+      "configured": false,
+      "command": "gh variable set AGL_ANDROID_SHA256_CERT_FINGERPRINT --body \"$AGL_ANDROID_SHA256_CERT_FINGERPRINT\""
+    },
+    {
+      "id": "var-agl-google-play-account-connected",
+      "kind": "github-variable",
+      "repositoryVariable": "AGL_GOOGLE_PLAY_ACCOUNT_CONNECTED",
+      "envName": "AGL_GOOGLE_PLAY_ACCOUNT_CONNECTED",
+      "configured": false,
+      "command": "gh variable set AGL_GOOGLE_PLAY_ACCOUNT_CONNECTED --body \"$AGL_GOOGLE_PLAY_ACCOUNT_CONNECTED\""
+    },
+    {
+      "id": "var-agl-apple-developer-account-connected",
+      "kind": "github-variable",
+      "repositoryVariable": "AGL_APPLE_DEVELOPER_ACCOUNT_CONNECTED",
+      "envName": "AGL_APPLE_DEVELOPER_ACCOUNT_CONNECTED",
+      "configured": false,
+      "command": "gh variable set AGL_APPLE_DEVELOPER_ACCOUNT_CONNECTED --body \"$AGL_APPLE_DEVELOPER_ACCOUNT_CONNECTED\""
+    }
+  ],
+  "repoSecretActions": [
+    {
+      "id": "secret-cloudflare-api-token",
+      "kind": "github-secret",
+      "repositorySecret": "CLOUDFLARE_API_TOKEN",
+      "envName": "CLOUDFLARE_API_TOKEN",
+      "configured": false,
+      "command": "printf \"%s\" \"$CLOUDFLARE_API_TOKEN\" | gh secret set CLOUDFLARE_API_TOKEN"
+    },
+    {
+      "id": "secret-vite-event-collector-write-token",
+      "kind": "github-secret",
+      "repositorySecret": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
+      "envName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
+      "configured": false,
+      "command": "printf \"%s\" \"$VITE_EVENT_COLLECTOR_WRITE_TOKEN\" | gh secret set VITE_EVENT_COLLECTOR_WRITE_TOKEN"
+    },
+    {
+      "id": "secret-agl-event-collector-admin-token",
+      "kind": "github-secret",
+      "repositorySecret": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
+      "envName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
+      "configured": false,
+      "command": "printf \"%s\" \"$AGL_EVENT_COLLECTOR_ADMIN_TOKEN\" | gh secret set AGL_EVENT_COLLECTOR_ADMIN_TOKEN"
+    },
+    {
+      "id": "secret-posthog-personal-api-key",
+      "kind": "github-secret",
+      "repositorySecret": "POSTHOG_PERSONAL_API_KEY",
+      "envName": "POSTHOG_PERSONAL_API_KEY",
+      "configured": false,
+      "command": "printf \"%s\" \"$POSTHOG_PERSONAL_API_KEY\" | gh secret set POSTHOG_PERSONAL_API_KEY"
+    },
+    {
+      "id": "secret-agl-android-keystore-base64",
+      "kind": "github-secret",
+      "repositorySecret": "AGL_ANDROID_KEYSTORE_BASE64",
+      "envName": "AGL_ANDROID_KEYSTORE_BASE64",
+      "configured": false,
+      "command": "printf \"%s\" \"$AGL_ANDROID_KEYSTORE_BASE64\" | gh secret set AGL_ANDROID_KEYSTORE_BASE64"
+    },
+    {
+      "id": "secret-agl-android-keystore-password",
+      "kind": "github-secret",
+      "repositorySecret": "AGL_ANDROID_KEYSTORE_PASSWORD",
+      "envName": "AGL_ANDROID_KEYSTORE_PASSWORD",
+      "configured": false,
+      "command": "printf \"%s\" \"$AGL_ANDROID_KEYSTORE_PASSWORD\" | gh secret set AGL_ANDROID_KEYSTORE_PASSWORD"
+    },
+    {
+      "id": "secret-agl-android-key-alias",
+      "kind": "github-secret",
+      "repositorySecret": "AGL_ANDROID_KEY_ALIAS",
+      "envName": "AGL_ANDROID_KEY_ALIAS",
+      "configured": false,
+      "command": "printf \"%s\" \"$AGL_ANDROID_KEY_ALIAS\" | gh secret set AGL_ANDROID_KEY_ALIAS"
+    },
+    {
+      "id": "secret-google-play-service-account-json",
+      "kind": "github-secret",
+      "repositorySecret": "GOOGLE_PLAY_SERVICE_ACCOUNT_JSON",
+      "envName": "GOOGLE_PLAY_SERVICE_ACCOUNT_JSON",
+      "configured": false,
+      "command": "printf \"%s\" \"$GOOGLE_PLAY_SERVICE_ACCOUNT_JSON\" | gh secret set GOOGLE_PLAY_SERVICE_ACCOUNT_JSON"
+    }
+  ],
+  "setupCommands": [
+    {
+      "id": "repository-preflight",
+      "command": "npm run autonomous:repo-readiness",
+      "safeToRunAutomatically": true,
+      "costUsd": 0
+    },
+    {
+      "id": "repository-bootstrap-plan",
+      "command": "npm run autonomous:repo-bootstrap",
+      "safeToRunAutomatically": true,
+      "costUsd": 0
+    },
+    {
+      "id": "local-gate",
+      "command": "npm run autonomous:daily && npm run test:e2e && npm run autonomous:assert-deployable",
+      "safeToRunAutomatically": true,
+      "costUsd": 0
+    },
+    {
+      "id": "sync-repository-config",
+      "command": "./ops/github/setup-production.sh",
+      "safeToRunAutomatically": false,
+      "costUsd": 0
+    },
+    {
+      "id": "run-web-workflow",
+      "command": "RUN_WORKFLOWS=1 ./ops/github/setup-production.sh",
+      "safeToRunAutomatically": false,
+      "costUsd": 0
+    },
+    {
+      "id": "run-android-workflow",
+      "command": "RUN_WORKFLOWS=1 ALLOW_ANDROID_RELEASE_WORKFLOW=1 ./ops/github/setup-production.sh",
+      "safeToRunAutomatically": false,
+      "costUsd": 0
+    }
+  ],
+  "setupScript": {
+    "path": "ops/github/setup-production.sh",
+    "status": "generated",
+    "dryRunByDefault": false,
+    "usesCurrentShellEnvironment": true,
+    "avoidsSecretEcho": true
+  },
+  "generatedArtifacts": [
+    "data/production-bootstrap.json",
+    "src/data/productionBootstrap.ts",
+    "reports/production-bootstrap-latest.md",
+    "data/repository-bootstrap.json",
+    "src/data/repositoryBootstrap.ts",
+    "reports/repository-bootstrap-latest.md",
+    "ops/github/bootstrap-repository.sh",
+    "ops/github/setup-production.sh",
+    "ops/github/README.md"
+  ],
+  "externalBlockers": [
+    {
+      "source": "repository-readiness",
+      "blocker": "Add a GitHub origin remote or set GITHUB_REPOSITORY/GH_REPO."
+    },
+    {
+      "source": "repository-readiness",
+      "blocker": "Configure GH_TOKEN or GITHUB_TOKEN for workflow dispatch and repository settings sync."
+    },
+    {
+      "source": "repository-bootstrap",
+      "blocker": "Create an initial commit before pushing to GitHub Pages."
+    },
+    {
+      "source": "repository-bootstrap",
+      "blocker": "Set GITHUB_REPOSITORY or GH_REPO to the intended owner/repo."
+    },
+    {
+      "source": "repository-bootstrap",
+      "blocker": "Attach a GitHub origin remote or create the target repository."
+    },
+    {
+      "source": "repository-bootstrap",
+      "blocker": "Authenticate GitHub CLI or provide GH_TOKEN/GITHUB_TOKEN for remote repository bootstrap."
+    },
+    {
+      "source": "production-environment",
+      "blocker": "Set AGL_PUBLIC_ORIGIN or PUBLIC_SITE_URL to a real HTTPS production origin."
+    },
+    {
+      "source": "production-environment",
+      "blocker": "Set AGL_SUPPORT_EMAIL to a real support inbox before public store submission."
+    },
+    {
+      "source": "production-environment",
+      "blocker": "Set VITE_EVENT_COLLECTOR_URL or VITE_POSTHOG_KEY to forward browser analytics in production."
+    },
+    {
+      "source": "production-environment",
+      "blocker": "Set AGL_EVENT_COLLECTOR_EXPORT_URL + AGL_EVENT_COLLECTOR_ADMIN_TOKEN or PostHog server credentials for autonomous production rollups."
+    },
+    {
+      "source": "production-environment",
+      "blocker": "Set VITE_ADSENSE_CLIENT_ID + VITE_ADSENSE_REWARDED_SLOT_ID for web/PWA revenue tests or ADMOB_PUBLISHER_ID for native app placements."
+    },
+    {
+      "source": "production-environment",
+      "blocker": "Set AGL_ANDROID_SHA256_CERT_FINGERPRINT after Android signing exists."
+    },
+    {
+      "source": "production-environment",
+      "blocker": "Connect Google Play credentials or set AGL_GOOGLE_PLAY_ACCOUNT_CONNECTED=true."
+    },
+    {
+      "source": "production-environment",
+      "blocker": "Connect Apple Developer account only after revenue justifies iOS spend."
+    },
+    {
+      "source": "event-collector",
+      "blocker": "Collector environment is not configured."
+    },
+    {
+      "source": "store-compliance",
+      "blocker": "hosted-privacy-url: Hosted privacy policy URL is required before public store submission."
+    },
+    {
+      "source": "store-compliance",
+      "blocker": "support-contact: Production support email is required before public store submission."
+    },
+    {
+      "source": "store-compliance",
+      "blocker": "google-play-account: Google Play developer account must be connected before Android submission."
+    },
+    {
+      "source": "store-compliance",
+      "blocker": "apple-developer-account: Apple Developer account remains deferred until iOS spend is justified."
+    },
+    {
+      "source": "android-release",
+      "blocker": "native-package-ready: Native package is blocked-draft-ready."
+    },
+    {
+      "source": "android-release",
+      "blocker": "asset-links: Digital Asset Links are template-only."
+    },
+    {
+      "source": "android-release",
+      "blocker": "signing-fingerprint: Android signing fingerprint is missing."
+    },
+    {
+      "source": "android-release",
+      "blocker": "signing-secrets: Android keystore, password, and alias are available to CI."
+    },
+    {
+      "source": "android-release",
+      "blocker": "google-play-account: Google Play account is not connected."
+    },
+    {
+      "source": "android-release",
+      "blocker": "play-service-account: Google Play service account upload credentials are available to CI."
+    },
+    {
+      "source": "android-release",
+      "blocker": "unit-economics-store-spend: Store spend allowed is false; spend mode is no-spend."
+    },
+    {
+      "source": "android-release",
+      "blocker": "promotion-gate: Android promotion status is blocked."
+    }
+  ],
+  "ownerAction": {
+    "id": "collect-production-credentials",
+    "status": "credential-gated",
+    "command": "Fill required environment values, then run npm run autonomous:bootstrap.",
+    "costUsd": 0
+  },
+  "nextActions": [
+    "Provide a GitHub repository plus required environment values/secrets to let the bootstrap script configure production workflows.",
+    "Keep GitHub Pages as the first zero-cost distribution channel.",
+    "Keep app-store, paid spend, and revenue disabled until product and compliance gates pass."
+  ]
+}
