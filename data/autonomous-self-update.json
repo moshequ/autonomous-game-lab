@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-19T21:09:41.965Z",
+  "generatedAt": "2026-05-19T21:11:24.320Z",
   "status": "self-update-ready",
   "mode": "plan-and-assert",
   "envFiles": {
@@ -70,32 +70,10 @@
     "ownerLoop": "owner-loop-ready"
   },
   "pendingChanges": {
-    "total": 3,
-    "safe": [
-      {
-        "code": "M",
-        "path": "data/autonomous-self-update.json",
-        "raw": " M data/autonomous-self-update.json",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "reports/autonomous-self-update-latest.md",
-        "raw": " M reports/autonomous-self-update-latest.md",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "src/data/autonomousSelfUpdate.ts",
-        "raw": " M src/data/autonomousSelfUpdate.ts",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      }
-    ],
+    "total": 0,
+    "safe": [],
     "unsafe": [],
-    "safeCount": 3,
+    "safeCount": 0,
     "unsafeCount": 0
   },
   "commitPlan": {
@@ -109,8 +87,8 @@
     ],
     "stagePaths": [
       "data/autonomous-self-update.json",
-      "reports/autonomous-self-update-latest.md",
-      "src/data/autonomousSelfUpdate.ts"
+      "src/data/autonomousSelfUpdate.ts",
+      "reports/autonomous-self-update-latest.md"
     ],
     "commitMessage": "Autonomous daily self-update",
     "skipWhenNoAllowlistedChanges": true
@@ -200,7 +178,7 @@
     {
       "id": "safe-path-allowlist",
       "status": "pass",
-      "detail": "3 safe pending file(s), 0 unsafe pending file(s)."
+      "detail": "0 safe pending file(s), 0 unsafe pending file(s)."
     },
     {
       "id": "repository-optional",
