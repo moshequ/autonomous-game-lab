@@ -1,17 +1,17 @@
 # Autonomous Owner Loop
 
-Generated: 2026-05-19T12:53:22.451Z
+Generated: 2026-05-19T12:56:05.914Z
 Status: owner-loop-ready
 Mode: repository-channel-needed
 Autonomy score: 33/35 (94%)
 
 ## Owner Decision
 
-- Next action: seed-portfolio-traffic
-- Command: npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop
-- Rationale: Under-measured playable games need free organic/internal traffic before quality judgment.
-- Last executed action: prepare-repository-channel
-- Recent executed actions: prepare-repository-channel, measure-pwa-install-loop, optimize-daily-retention, collect-live-events, refresh-product-gate-recovery, refresh-autonomous-self-update, optimize-product-gates, bootstrap-production-setup
+- Next action: bootstrap-production-setup
+- Command: npm run autonomous:release-candidate && npm run autonomous:deploy-plan && npm run autonomous:bootstrap
+- Rationale: Regenerates the zero-spend production setup handoff and exact GitHub variable/secret commands.
+- Last executed action: seed-portfolio-traffic
+- Recent executed actions: seed-portfolio-traffic, prepare-repository-channel, measure-pwa-install-loop, optimize-daily-retention, collect-live-events, refresh-product-gate-recovery, refresh-autonomous-self-update, optimize-product-gates
 
 ## Systems
 
@@ -38,10 +38,10 @@ Autonomy score: 33/35 (94%)
 - waiting-for-github-repository: repository-channel - Repository missing; git worktree ready; workflow dispatch blocked.
 - ready: repository-bootstrap - Bootstrap waiting-for-github-target; mode plan-only; helper ops/github/bootstrap-repository.sh; local git ready.
 - ready: web-deployment - Deployment ready-for-pages; web readiness ready-after-build; promotion promotable-internal.
-- ready: release-candidate - Candidate pwa-eaf5eebf6ec4; status release-candidate-ready; files 40; smoke URLs 11.
-- ready: post-deploy-smoke - Smoke blocked-missing-origin; origin missing; candidate pwa-eaf5eebf6ec4; checks 0/12 passed; local artifact predeploy-artifact-smoke-passed 12/12 passed.
+- ready: release-candidate - Candidate pwa-6268ee6ff7a7; status release-candidate-ready; files 40; smoke URLs 11.
+- ready: post-deploy-smoke - Smoke blocked-missing-origin; origin missing; candidate pwa-6268ee6ff7a7; checks 0/12 passed; local artifact predeploy-artifact-smoke-passed 12/12 passed.
 - ready: production-bootstrap - Bootstrap production-bootstrap-ready; mode waiting-for-external-credentials; external blockers 23.
-- ready: autonomous-operator - Operator operator-plan-ready; selected seed-portfolio-traffic; execution not-requested.
+- ready: autonomous-operator - Operator operator-plan-ready; selected bootstrap-production-setup; execution not-requested.
 - ready: operator-history - History operator-history-ready; records 40; executed 20.
 - ready: objective-audit - Audit objective-in-progress; met 5/8; external blockers 20.
 - ready: store-listing-optimizer - Focus canopy-bloom; lead screenshot phone-canopy-bloom-generated; candidate changed yes.
