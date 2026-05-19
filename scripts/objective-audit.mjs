@@ -238,7 +238,7 @@ const requirements = [
       }`,
       `Completion loop: ${completionLoop.status}; prompt ${
         completionLoop.promptPolicy?.status ?? 'missing'
-      }`,
+      }; finish line ${completionLoop.finishLinePolicy?.status ?? 'missing'}`,
       `Replay loop: ${replayLoop.status}; prompt ${replayLoop.promptPolicy?.status ?? 'missing'}`,
       `Retention loop: ${retentionLoop.status}; return intent ${
         retentionLoop.returnIntentPolicy?.status ?? 'missing'

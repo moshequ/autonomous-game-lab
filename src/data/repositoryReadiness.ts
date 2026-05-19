@@ -1,5 +1,5 @@
 export const repositoryReadiness = {
-  "generatedAt": "2026-05-19T01:41:39.577Z",
+  "generatedAt": "2026-05-19T02:04:07.101Z",
   "status": "waiting-for-github-repository",
   "envFiles": {
     "loaded": false,
@@ -39,7 +39,7 @@ export const repositoryReadiness = {
     "insideWorkTree": true,
     "gitRoot": "/Users/moshequ/Documents/Codex/2026-05-18/i-want-to-have-a-new",
     "currentBranch": "main",
-    "dirtyFiles": 0
+    "dirtyFiles": 64
   },
   "repository": {
     "target": null,
@@ -58,7 +58,7 @@ export const repositoryReadiness = {
     "workflowExists": true,
     "deployWorkflowIncludesSmoke": true,
     "deploymentStatus": "ready-for-pages",
-    "releaseCandidateId": "pwa-b8f7e5d09ed2",
+    "releaseCandidateId": "pwa-d5ff5976c0cb",
     "postDeploySmokeStatus": "blocked-missing-origin"
   },
   "controls": {

@@ -52,6 +52,8 @@ const targetGameId = targetCandidate?.gameId ?? null
 const targetConfig = targetGameId ? balance.games?.[targetGameId] : null
 const targetPlayable = targetGameId ? playableIds.has(targetGameId) : false
 const triggerMove = Math.max(2, Math.ceil((targetConfig?.maxMoves ?? 12) * 0.25))
+const finishLineTriggerMove = Math.max(triggerMove + 1, Math.ceil((targetConfig?.maxMoves ?? 12) * 0.5))
+const finishLineMinRemainingMoves = 2
 const promptStatus = canNudgeCompletion && targetPlayable && completionGap > 0 ? 'armed' : 'monitor'
 
 const payload = {
@@ -108,9 +110,35 @@ const payload = {
       abandoned: 'game_abandoned',
     },
   },
+  finishLinePolicy: {
+    id: 'behind-pace-finish-line-coach',
+    status: promptStatus,
+    surface: 'autonomy-cockpit-finish-line-card',
+    trigger: 'behind-pace-after-midpoint',
+    triggerMove: finishLineTriggerMove,
+    minimumRemainingMoves: finishLineMinRemainingMoves,
+    scorePaceRatio: 0.92,
+    ctaLabel: 'Focus board',
+    dismissLabel: 'Hide',
+    copy: 'You still have enough turns. Use the target pace to decide whether to chase points or finish cleanly.',
+    cooldown: 'one finish-line coach per active run',
+    reason:
+      promptStatus === 'armed'
+        ? `First-game completion is ${pct(completionRate)}; show target pace only when the run is behind after move ${finishLineTriggerMove}.`
+        : 'Completion gate is stable, release health is holding nudges, or no playable completion target exists.',
+    telemetry: {
+      viewed: 'finish_line_coach_viewed',
+      clicked: 'finish_line_coach_clicked',
+      dismissed: 'finish_line_coach_dismissed',
+      completed: 'level_completed',
+      abandoned: 'game_abandoned',
+    },
+  },
   localState: {
     dismissedRunKey: 'agl.completion.dismissedRunKey',
     acceptedRunKey: 'agl.completion.acceptedRunKey',
+    finishLineDismissedRunKey: 'agl.finishLine.dismissedRunKey',
+    finishLineAcceptedRunKey: 'agl.finishLine.acceptedRunKey',
   },
   controls: {
     zeroPaidSpend: true,
@@ -119,6 +147,9 @@ const payload = {
     noForcedTutorial: true,
     noAutoMove: true,
     noRuleChange: true,
+    finishLineCoachBehindPaceOnly: true,
+    finishLineCoachAfterMidpointOnly: true,
+    noScoreManipulation: true,
     noPaidRewards: true,
     noRevenueEnablement: true,
     noDarkPatterns: true,
@@ -154,6 +185,22 @@ const payload = {
       gameId: targetGameId,
       reward: 'completion-signal',
       status: targetPlayable ? 'armed' : 'blocked-missing-game',
+    },
+    {
+      id: 'view-finish-line-coach',
+      label: 'Show target pace when a run falls behind',
+      event: 'finish_line_coach_viewed',
+      gameId: targetGameId,
+      reward: 'pace-clarity',
+      status: promptStatus,
+    },
+    {
+      id: 'focus-after-finish-line-coach',
+      label: 'Choose to focus the board from the finish-line coach',
+      event: 'finish_line_coach_clicked',
+      gameId: targetGameId,
+      reward: 'attention-return',
+      status: promptStatus,
     },
     {
       id: 'measure-abandonment',
@@ -192,6 +239,13 @@ const report = [
   '## Missions',
   '',
   ...payload.missions.map((mission) => `- ${mission.status}: ${mission.id} - ${mission.label}`),
+  '',
+  '## Finish-Line Coach',
+  '',
+  `- Status: ${payload.finishLinePolicy.status}`,
+  `- Surface: ${payload.finishLinePolicy.surface}`,
+  `- Trigger: ${payload.finishLinePolicy.trigger} at move ${payload.finishLinePolicy.triggerMove}`,
+  `- Telemetry: ${payload.finishLinePolicy.telemetry.viewed}, ${payload.finishLinePolicy.telemetry.clicked}, ${payload.finishLinePolicy.telemetry.dismissed}`,
   '',
   '## Guardrails',
   '',

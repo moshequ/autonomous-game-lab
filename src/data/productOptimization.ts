@@ -1,5 +1,5 @@
 export const productOptimization = {
-  "generatedAt": "2026-05-19T00:33:43.284Z",
+  "generatedAt": "2026-05-19T01:52:08.358Z",
   "status": "product-optimization-ready",
   "sourceDataHash": "325bce2331ba",
   "sourceStatus": {
@@ -34,6 +34,7 @@ export const productOptimization = {
     "revenueStillDisabledUntilGatesPass": true,
     "firstMoveCoachMustBeFirstTurnOnly": true,
     "completionNudgeMustBeMidRunOnly": true,
+    "finishLineCoachBehindPaceOnly": true,
     "replayPromptAfterCompletedRunOnly": true,
     "returnIntentMustBePlayerInitiated": true,
     "noBackgroundRetentionWakeups": true
@@ -87,6 +88,13 @@ export const productOptimization = {
       "guardrail": "Mid-run prompt only, no forced tutorial, no auto move, no rule change, and telemetry must record viewed/clicked/dismissed."
     },
     {
+      "id": "runtime-finish-line-coach",
+      "actionType": "runtime-finish-line-coach",
+      "status": "armed",
+      "reason": "First-game completion is 40%; show target pace only when a run falls behind after the midpoint.",
+      "guardrail": "Behind-pace midpoint prompt only, no score changes, no auto move, no forced tutorial, and telemetry must record viewed/clicked/dismissed."
+    },
+    {
       "id": "runtime-replay-telemetry",
       "actionType": "runtime-replay-telemetry",
       "status": "armed",
@@ -130,6 +138,7 @@ export const productOptimization = {
     "Use replay_prompt_viewed/clicked/dismissed with replay_clicked to measure whether completed-run copy improves replay.",
     "Use first_move_coach_shown/used/skipped to measure whether fast-start players complete more first runs.",
     "Use completion_nudge_viewed/clicked/dismissed against level_completed and game_abandoned to reduce first-run dropoff.",
+    "Use finish_line_coach_viewed/clicked/dismissed to test whether target-pace clarity reduces mid-run abandonment.",
     "Improve D1 retention from 17% toward 18% through queued return-intent activation."
   ]
 } as const

@@ -1,6 +1,6 @@
 # Product Gate Optimizer
 
-Generated: 2026-05-19T00:33:43.284Z
+Generated: 2026-05-19T01:52:08.358Z
 Status: product-optimization-ready
 Analytics source: fixture-sample
 Release health: monitoring
@@ -16,6 +16,7 @@ Release health: monitoring
 - already-applied: target-score-curve-harbor-rings; Same analytics evidence already produced a target-score tuning change.
 - armed: runtime-first-move-coach; Completion is 40% and tutorial completion is 65%; highlight one strong first move without auto-playing.
 - armed: runtime-completion-nudge; First-game completion is 40%; show one optional mid-run nudge and measure completion_nudge_* against level_completed and game_abandoned.
+- armed: runtime-finish-line-coach; First-game completion is 40%; show target pace only when a run falls behind after the midpoint.
 - armed: runtime-replay-telemetry; Replay rate is 31%; keep reset and in-canvas restart telemetry wired to replay_clicked.
 - armed: runtime-replay-prompt; Replay rate is 31%; show one optional completed-run prompt and measure replay_prompt_* against replay_clicked.
 - armed: runtime-return-intent-activation; D1 retention is 17%; convert queued local return intent into a measured next-session start.

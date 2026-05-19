@@ -810,6 +810,9 @@ const productFirstMoveCoachAction = productOptimization.actions?.find(
 const productCompletionAction = productOptimization.actions?.find(
   (action) => action.actionType === 'runtime-completion-nudge',
 )
+const productFinishLineAction = productOptimization.actions?.find(
+  (action) => action.actionType === 'runtime-finish-line-coach',
+)
 const productReturnIntentAction = productOptimization.actions?.find(
   (action) => action.actionType === 'runtime-return-intent-activation',
 )
@@ -837,6 +840,7 @@ if (
   productOptimization.controls?.revenueStillDisabledUntilGatesPass !== true ||
   productOptimization.controls?.firstMoveCoachMustBeFirstTurnOnly !== true ||
   productOptimization.controls?.completionNudgeMustBeMidRunOnly !== true ||
+  productOptimization.controls?.finishLineCoachBehindPaceOnly !== true ||
   productOptimization.controls?.replayPromptAfterCompletedRunOnly !== true ||
   productOptimization.controls?.returnIntentMustBePlayerInitiated !== true ||
   productOptimization.controls?.noBackgroundRetentionWakeups !== true ||
@@ -846,6 +850,8 @@ if (
   !['armed', 'monitor'].includes(productFirstMoveCoachAction.status) ||
   !productCompletionAction ||
   !['armed', 'monitor'].includes(productCompletionAction.status) ||
+  !productFinishLineAction ||
+  !['armed', 'monitor'].includes(productFinishLineAction.status) ||
   !productReplayAction ||
   !['armed', 'monitor'].includes(productReplayAction.status) ||
   !productReplayPromptAction ||
@@ -913,6 +919,11 @@ const completionNudgeEvents = [
   'completion_nudge_clicked',
   'completion_nudge_dismissed',
 ]
+const finishLineCoachEvents = [
+  'finish_line_coach_viewed',
+  'finish_line_coach_clicked',
+  'finish_line_coach_dismissed',
+]
 
 if (
   completionLoop.status !== 'completion-loop-ready' ||
@@ -931,6 +942,9 @@ if (
   completionLoop.controls?.noForcedTutorial !== true ||
   completionLoop.controls?.noAutoMove !== true ||
   completionLoop.controls?.noRuleChange !== true ||
+  completionLoop.controls?.finishLineCoachBehindPaceOnly !== true ||
+  completionLoop.controls?.finishLineCoachAfterMidpointOnly !== true ||
+  completionLoop.controls?.noScoreManipulation !== true ||
   completionLoop.controls?.noPaidRewards !== true ||
   completionLoop.controls?.noRevenueEnablement !== true ||
   completionLoop.controls?.requireAbandonmentTelemetry !== true ||
@@ -943,19 +957,40 @@ if (
   completionLoop.promptPolicy?.telemetry?.dismissed !== 'completion_nudge_dismissed' ||
   completionLoop.promptPolicy?.telemetry?.completed !== 'level_completed' ||
   completionLoop.promptPolicy?.telemetry?.abandoned !== 'game_abandoned' ||
+  completionLoop.finishLinePolicy?.surface !== 'autonomy-cockpit-finish-line-card' ||
+  completionLoop.finishLinePolicy?.trigger !== 'behind-pace-after-midpoint' ||
+  completionLoop.finishLinePolicy?.triggerMove <= completionLoop.promptPolicy?.triggerMove ||
+  completionLoop.finishLinePolicy?.minimumRemainingMoves < 1 ||
+  completionLoop.finishLinePolicy?.scorePaceRatio <= 0 ||
+  completionLoop.finishLinePolicy?.telemetry?.viewed !== 'finish_line_coach_viewed' ||
+  completionLoop.finishLinePolicy?.telemetry?.clicked !== 'finish_line_coach_clicked' ||
+  completionLoop.finishLinePolicy?.telemetry?.dismissed !== 'finish_line_coach_dismissed' ||
   completionLoop.localState?.dismissedRunKey !== 'agl.completion.dismissedRunKey' ||
   completionLoop.localState?.acceptedRunKey !== 'agl.completion.acceptedRunKey' ||
+  completionLoop.localState?.finishLineDismissedRunKey !== 'agl.finishLine.dismissedRunKey' ||
+  completionLoop.localState?.finishLineAcceptedRunKey !== 'agl.finishLine.acceptedRunKey' ||
   !completionLoop.missions?.some(
     (mission) =>
       mission.id === 'choose-keep-playing' &&
       mission.event === 'completion_nudge_clicked' &&
       mission.gameId === completionLoop.target?.gameId,
   ) ||
+  !completionLoop.missions?.some(
+    (mission) =>
+      mission.id === 'focus-after-finish-line-coach' &&
+      mission.event === 'finish_line_coach_clicked' &&
+      mission.gameId === completionLoop.target?.gameId,
+  ) ||
   completionNudgeEvents.some((eventName) => !analyticsLibSource.includes(`'${eventName}'`)) ||
   completionNudgeEvents.some((eventName) => !analyticsRollupSource.includes(`'${eventName}'`)) ||
   completionNudgeEvents.some((eventName) => !appSource.includes(`'${eventName}'`)) ||
+  finishLineCoachEvents.some((eventName) => !analyticsLibSource.includes(`'${eventName}'`)) ||
+  finishLineCoachEvents.some((eventName) => !analyticsRollupSource.includes(`'${eventName}'`)) ||
+  finishLineCoachEvents.some((eventName) => !appSource.includes(`'${eventName}'`)) ||
   !appSource.includes('Completion Loop') ||
+  !appSource.includes('Finish line') ||
   !appSource.includes('keepPlayingFromCompletionNudge') ||
+  !appSource.includes('focusFromFinishLineCoach') ||
   packageJson.scripts?.['autonomous:completion-loop'] !== 'node scripts/completion-loop.mjs' ||
   packageJson.scripts?.['autonomous:daily']?.includes('autonomous:completion-loop') !== true
 ) {
@@ -2546,9 +2581,11 @@ if (
   readiness.completionLoop?.target?.gameId !== completionLoop.target?.gameId ||
   readiness.completionLoop?.controls?.midRunOnly !== true ||
   readiness.completionLoop?.controls?.noAutoMove !== true ||
-  readiness.completionLoop?.promptPolicy?.telemetry?.clicked !== 'completion_nudge_clicked'
+  readiness.completionLoop?.controls?.finishLineCoachBehindPaceOnly !== true ||
+  readiness.completionLoop?.promptPolicy?.telemetry?.clicked !== 'completion_nudge_clicked' ||
+  readiness.completionLoop?.finishLinePolicy?.telemetry?.clicked !== 'finish_line_coach_clicked'
 ) {
-  fail('Production readiness must include completion-loop evidence, controls, and nudge telemetry contract.')
+  fail('Production readiness must include completion-loop evidence, controls, nudge telemetry, and finish-line coaching contract.')
 }
 
 if (

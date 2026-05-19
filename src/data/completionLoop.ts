@@ -1,5 +1,5 @@
 export const completionLoop = {
-  "generatedAt": "2026-05-19T00:12:09.168Z",
+  "generatedAt": "2026-05-19T01:52:17.847Z",
   "status": "completion-loop-ready",
   "sourceStatus": {
     "analyticsSource": "fixture-sample",
@@ -49,9 +49,32 @@ export const completionLoop = {
       "abandoned": "game_abandoned"
     }
   },
+  "finishLinePolicy": {
+    "id": "behind-pace-finish-line-coach",
+    "status": "armed",
+    "surface": "autonomy-cockpit-finish-line-card",
+    "trigger": "behind-pace-after-midpoint",
+    "triggerMove": 6,
+    "minimumRemainingMoves": 2,
+    "scorePaceRatio": 0.92,
+    "ctaLabel": "Focus board",
+    "dismissLabel": "Hide",
+    "copy": "You still have enough turns. Use the target pace to decide whether to chase points or finish cleanly.",
+    "cooldown": "one finish-line coach per active run",
+    "reason": "First-game completion is 40%; show target pace only when the run is behind after move 6.",
+    "telemetry": {
+      "viewed": "finish_line_coach_viewed",
+      "clicked": "finish_line_coach_clicked",
+      "dismissed": "finish_line_coach_dismissed",
+      "completed": "level_completed",
+      "abandoned": "game_abandoned"
+    }
+  },
   "localState": {
     "dismissedRunKey": "agl.completion.dismissedRunKey",
-    "acceptedRunKey": "agl.completion.acceptedRunKey"
+    "acceptedRunKey": "agl.completion.acceptedRunKey",
+    "finishLineDismissedRunKey": "agl.finishLine.dismissedRunKey",
+    "finishLineAcceptedRunKey": "agl.finishLine.acceptedRunKey"
   },
   "controls": {
     "zeroPaidSpend": true,
@@ -60,6 +83,9 @@ export const completionLoop = {
     "noForcedTutorial": true,
     "noAutoMove": true,
     "noRuleChange": true,
+    "finishLineCoachBehindPaceOnly": true,
+    "finishLineCoachAfterMidpointOnly": true,
+    "noScoreManipulation": true,
     "noPaidRewards": true,
     "noRevenueEnablement": true,
     "noDarkPatterns": true,
@@ -91,6 +117,22 @@ export const completionLoop = {
       "event": "level_completed",
       "gameId": "harbor-rings",
       "reward": "completion-signal",
+      "status": "armed"
+    },
+    {
+      "id": "view-finish-line-coach",
+      "label": "Show target pace when a run falls behind",
+      "event": "finish_line_coach_viewed",
+      "gameId": "harbor-rings",
+      "reward": "pace-clarity",
+      "status": "armed"
+    },
+    {
+      "id": "focus-after-finish-line-coach",
+      "label": "Choose to focus the board from the finish-line coach",
+      "event": "finish_line_coach_clicked",
+      "gameId": "harbor-rings",
+      "reward": "attention-return",
       "status": "armed"
     },
     {

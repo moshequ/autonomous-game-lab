@@ -141,6 +141,7 @@ const completionLoop = await readOptionalJson(completionLoopPath, {
   metrics: {},
   controls: {},
   promptPolicy: {},
+  finishLinePolicy: {},
   missions: [],
 })
 const replayLoop = await readOptionalJson(replayLoopPath, {
@@ -422,6 +423,7 @@ const productOptimizationReady =
   productOptimization.controls?.revenueStillDisabledUntilGatesPass === true &&
   productOptimization.controls?.replayPromptAfterCompletedRunOnly === true &&
   productOptimization.controls?.completionNudgeMustBeMidRunOnly === true &&
+  productOptimization.controls?.finishLineCoachBehindPaceOnly === true &&
   productOptimization.controls?.returnIntentMustBePlayerInitiated === true &&
   productOptimization.controls?.noBackgroundRetentionWakeups === true &&
   (productOptimization.actions ?? []).some((action) => action.actionType === 'target-score-curve') &&
@@ -429,6 +431,7 @@ const productOptimizationReady =
   (productOptimization.actions ?? []).some((action) => action.actionType === 'runtime-replay-telemetry') &&
   (productOptimization.actions ?? []).some((action) => action.actionType === 'runtime-replay-prompt') &&
   (productOptimization.actions ?? []).some((action) => action.actionType === 'runtime-completion-nudge') &&
+  (productOptimization.actions ?? []).some((action) => action.actionType === 'runtime-finish-line-coach') &&
   (productOptimization.actions ?? []).some((action) => action.actionType === 'runtime-return-intent-activation')
 const firstMoveCoachReady =
   firstMoveCoach.status === 'first-move-coach-ready' &&
@@ -458,6 +461,9 @@ const completionLoopReady =
   completionLoop.controls?.noForcedTutorial === true &&
   completionLoop.controls?.noAutoMove === true &&
   completionLoop.controls?.noRuleChange === true &&
+  completionLoop.controls?.finishLineCoachBehindPaceOnly === true &&
+  completionLoop.controls?.finishLineCoachAfterMidpointOnly === true &&
+  completionLoop.controls?.noScoreManipulation === true &&
   completionLoop.controls?.noPaidRewards === true &&
   completionLoop.controls?.noRevenueEnablement === true &&
   completionLoop.controls?.requireAbandonmentTelemetry === true &&
@@ -469,6 +475,11 @@ const completionLoopReady =
   completionLoop.promptPolicy?.telemetry?.dismissed === 'completion_nudge_dismissed' &&
   completionLoop.promptPolicy?.telemetry?.completed === 'level_completed' &&
   completionLoop.promptPolicy?.telemetry?.abandoned === 'game_abandoned' &&
+  completionLoop.finishLinePolicy?.surface === 'autonomy-cockpit-finish-line-card' &&
+  completionLoop.finishLinePolicy?.trigger === 'behind-pace-after-midpoint' &&
+  completionLoop.finishLinePolicy?.telemetry?.viewed === 'finish_line_coach_viewed' &&
+  completionLoop.finishLinePolicy?.telemetry?.clicked === 'finish_line_coach_clicked' &&
+  completionLoop.finishLinePolicy?.telemetry?.dismissed === 'finish_line_coach_dismissed' &&
   (completionLoop.missions ?? []).some(
     (mission) =>
       mission.id === 'choose-keep-playing' &&
@@ -964,6 +975,7 @@ const payload = {
     metrics: completionLoop.metrics,
     controls: completionLoop.controls,
     promptPolicy: completionLoop.promptPolicy,
+    finishLinePolicy: completionLoop.finishLinePolicy,
     missions: completionLoop.missions ?? [],
   },
   replayLoop: {
@@ -1181,6 +1193,7 @@ const report = [
   `Status: ${payload.completionLoop.status}`,
   `Target: ${payload.completionLoop.target?.gameId ?? 'missing'}`,
   `Prompt: ${payload.completionLoop.promptPolicy?.status ?? 'missing'} (${payload.completionLoop.promptPolicy?.surface ?? 'missing'})`,
+  `Finish line: ${payload.completionLoop.finishLinePolicy?.status ?? 'missing'} (${payload.completionLoop.finishLinePolicy?.surface ?? 'missing'})`,
   ...(payload.completionLoop.missions ?? []).map(
     (mission) => `- ${mission.status}: completion-${mission.id} - ${mission.event}`,
   ),

@@ -1,5 +1,9 @@
-import { expect, test } from '@playwright/test'
+import { expect, test, type Page } from '@playwright/test'
 import { readFile } from 'node:fs/promises'
+
+const expectRunMoves = async (page: Page, moves: string) => {
+  await expect(page.getByLabel('Current run moves').getByText(moves, { exact: true })).toBeVisible()
+}
 
 test('portal loads a playable canvas and autonomy cockpit', async ({ page }) => {
   await page.goto('/')
@@ -278,6 +282,85 @@ test('mid-run completion nudge records checkpoint telemetry without changing the
   expect(viewed.properties.surface).toBe(completion.promptPolicy.surface)
   expect(viewed.properties.moves).toBe(completion.promptPolicy.triggerMove)
   expect(clicked.properties.surface).toBe(completion.promptPolicy.surface)
+  expect(clicked.properties.gameId).toBe('harbor-rings')
+  expect(acceptedRunKey).toBeTruthy()
+})
+
+test('finish-line coach shows target pace for behind runs and records telemetry', async ({ page }) => {
+  const completion = JSON.parse(await readFile('data/completion-loop.json', 'utf8')) as {
+    localState: { finishLineAcceptedRunKey: string }
+    finishLinePolicy: { ctaLabel: string; surface: string; triggerMove: number }
+  }
+
+  await page.addInitScript(() => {
+    window.localStorage.setItem('agl.experiment.first_session_pacing', 'fast-start')
+  })
+  await page.goto('/?game=harbor-rings')
+
+  const canvas = page.locator('canvas').first()
+  await expect(canvas).toBeVisible()
+  const box = await canvas.boundingBox()
+  expect(box).not.toBeNull()
+
+  if (!box) {
+    return
+  }
+
+  const harborCellSize = 64
+  const harborGap = 7
+  const harborStartX = 106
+  const harborStartY = 132
+  const cells = [
+    [0, 0],
+    [4, 4],
+    [0, 4],
+    [4, 0],
+    [2, 0],
+    [0, 2],
+  ]
+  const turnCount = () =>
+    page.evaluate(() => {
+      const raw = window.localStorage.getItem('agl.analytics.events')
+      const events = raw ? JSON.parse(raw) : []
+      return events.filter((event: { name: string }) => event.name === 'turn_taken').length
+    })
+
+  for (const [index, [row, col]] of cells.slice(0, completion.finishLinePolicy.triggerMove).entries()) {
+    const x = harborStartX + col * (harborCellSize + harborGap) + harborCellSize / 2
+    const y = harborStartY + row * (harborCellSize + harborGap) + harborCellSize / 2
+    const targetMove = index + 1
+
+    for (let attempt = 0; attempt < 3; attempt += 1) {
+      await page.mouse.click(box.x + (x / 560) * box.width, box.y + (y / 500) * box.height)
+
+      if ((await turnCount()) >= targetMove) {
+        break
+      }
+
+      await page.waitForTimeout(50)
+    }
+
+    await expect.poll(turnCount).toBe(targetMove)
+  }
+
+  const finishLinePanel = page.getByLabel('Completion Loop')
+  await expect(finishLinePanel).toContainText('Finish line')
+  await finishLinePanel.getByRole('button', { name: completion.finishLinePolicy.ctaLabel }).click()
+
+  const events = await page.evaluate(() => {
+    const raw = window.localStorage.getItem('agl.analytics.events')
+    return raw ? JSON.parse(raw) : []
+  })
+  const viewed = events.findLast((event: { name: string }) => event.name === 'finish_line_coach_viewed')
+  const clicked = events.findLast((event: { name: string }) => event.name === 'finish_line_coach_clicked')
+  const acceptedRunKey = await page.evaluate(
+    (key) => window.localStorage.getItem(key),
+    completion.localState.finishLineAcceptedRunKey,
+  )
+
+  expect(viewed.properties.surface).toBe(completion.finishLinePolicy.surface)
+  expect(viewed.properties.remainingScore).toBeGreaterThan(0)
+  expect(clicked.properties.surface).toBe(completion.finishLinePolicy.surface)
   expect(clicked.properties.gameId).toBe('harbor-rings')
   expect(acceptedRunKey).toBeTruthy()
 })
@@ -671,6 +754,7 @@ test('product optimizer applies one guarded tuning step from product-gate eviden
     controls: {
       noRepeatForSameSourceData: boolean
       oneTargetStepPerRun: boolean
+      finishLineCoachBehindPaceOnly: boolean
       returnIntentMustBePlayerInitiated: boolean
     }
     actions: Array<{
@@ -689,6 +773,9 @@ test('product optimizer applies one guarded tuning step from product-gate eviden
   const completionAction = optimization.actions.find(
     (action) => action.actionType === 'runtime-completion-nudge',
   )
+  const finishLineAction = optimization.actions.find(
+    (action) => action.actionType === 'runtime-finish-line-coach',
+  )
   const returnIntentAction = optimization.actions.find(
     (action) => action.actionType === 'runtime-return-intent-activation',
   )
@@ -699,8 +786,10 @@ test('product optimizer applies one guarded tuning step from product-gate eviden
   expect(optimization.productGates.d1Retention.pass).toBe(false)
   expect(optimization.controls.noRepeatForSameSourceData).toBe(true)
   expect(optimization.controls.oneTargetStepPerRun).toBe(true)
+  expect(optimization.controls.finishLineCoachBehindPaceOnly).toBe(true)
   expect(optimization.controls.returnIntentMustBePlayerInitiated).toBe(true)
   expect(completionAction?.status).toBe('armed')
+  expect(finishLineAction?.status).toBe('armed')
   expect(returnIntentAction?.status).toBe('armed')
   expect(targetAction?.status).toMatch(/applied|already-applied/)
   expect(targetAction?.gameId).toBeTruthy()
@@ -1258,7 +1347,7 @@ test('lantern relay prototype is playable and instrumented', async ({ page }) =>
     .getByRole('button', { name: /Lantern Relay/ })
     .click()
 
-  await expect(page.getByText('0/10')).toBeVisible()
+  await expectRunMoves(page, '0/10')
   await expect(page.getByText('86')).toBeVisible()
 
   const canvas = page.locator('canvas').first()
@@ -1270,7 +1359,7 @@ test('lantern relay prototype is playable and instrumented', async ({ page }) =>
   }
 
   await page.mouse.click(box.x + (85 / 560) * box.width, box.y + (183 / 500) * box.height)
-  await expect(page.getByText('1/10')).toBeVisible()
+  await expectRunMoves(page, '1/10')
 
   const eventNames = await page.evaluate(() => {
     const raw = window.localStorage.getItem('agl.analytics.events')
@@ -1289,7 +1378,7 @@ test('harbor circuit prototype is playable and instrumented', async ({ page }) =
     .getByRole('button', { name: /Harbor Circuit/ })
     .click()
 
-  await expect(page.getByText('0/9')).toBeVisible()
+  await expectRunMoves(page, '0/9')
 
   const canvas = page.locator('canvas').first()
   const box = await canvas.boundingBox()
@@ -1300,7 +1389,7 @@ test('harbor circuit prototype is playable and instrumented', async ({ page }) =
   }
 
   await page.mouse.click(box.x + (112 / 560) * box.width, box.y + (224 / 500) * box.height)
-  await expect(page.getByText('1/9')).toBeVisible()
+  await expectRunMoves(page, '1/9')
 
   const eventNames = await page.evaluate(() => {
     const raw = window.localStorage.getItem('agl.analytics.events')
@@ -1319,7 +1408,7 @@ test('foundry ledger prototype is playable and instrumented', async ({ page }) =
     .getByRole('button', { name: /Foundry Ledger/ })
     .click()
 
-  await expect(page.getByText('0/9')).toBeVisible()
+  await expectRunMoves(page, '0/9')
 
   const canvas = page.locator('canvas').first()
   const box = await canvas.boundingBox()
@@ -1330,7 +1419,7 @@ test('foundry ledger prototype is playable and instrumented', async ({ page }) =
   }
 
   await page.mouse.click(box.x + (94 / 560) * box.width, box.y + (160 / 500) * box.height)
-  await expect(page.getByText('1/9')).toBeVisible()
+  await expectRunMoves(page, '1/9')
 
   const eventNames = await page.evaluate(() => {
     const raw = window.localStorage.getItem('agl.analytics.events')
@@ -1349,7 +1438,7 @@ test('orbit atlas prototype is playable and instrumented', async ({ page }) => {
     .getByRole('button', { name: /Orbit Atlas/ })
     .click()
 
-  await expect(page.getByText('0/10')).toBeVisible()
+  await expectRunMoves(page, '0/10')
 
   const canvas = page.locator('canvas').first()
   const box = await canvas.boundingBox()
@@ -1360,7 +1449,7 @@ test('orbit atlas prototype is playable and instrumented', async ({ page }) => {
   }
 
   await page.mouse.click(box.x + (112 / 560) * box.width, box.y + (224 / 500) * box.height)
-  await expect(page.getByText('1/10')).toBeVisible()
+  await expectRunMoves(page, '1/10')
 
   const eventNames = await page.evaluate(() => {
     const raw = window.localStorage.getItem('agl.analytics.events')
@@ -1379,7 +1468,7 @@ test('generated runtime game is playable and instrumented', async ({ page }) => 
     .getByRole('button', { name: /Canopy Bloom/ })
     .click()
 
-  await expect(page.getByText('0/10')).toBeVisible()
+  await expectRunMoves(page, '0/10')
 
   const canvas = page.locator('canvas').first()
   const box = await canvas.boundingBox()
@@ -1390,7 +1479,7 @@ test('generated runtime game is playable and instrumented', async ({ page }) => 
   }
 
   await page.mouse.click(box.x + (75 / 560) * box.width, box.y + (176 / 500) * box.height)
-  await expect(page.getByText('1/10')).toBeVisible()
+  await expectRunMoves(page, '1/10')
 
   const turnEvent = await page.evaluate(() => {
     const raw = window.localStorage.getItem('agl.analytics.events')
@@ -1409,7 +1498,7 @@ test('generated runtime portfolio includes additional playable games', async ({ 
     .getByRole('button', { name: /Mosaic Haven/ })
     .click()
 
-  await expect(page.getByText('0/10')).toBeVisible()
+  await expectRunMoves(page, '0/10')
 
   const canvas = page.locator('canvas').first()
   const box = await canvas.boundingBox()
@@ -1420,7 +1509,7 @@ test('generated runtime portfolio includes additional playable games', async ({ 
   }
 
   await page.mouse.click(box.x + (75 / 560) * box.width, box.y + (176 / 500) * box.height)
-  await expect(page.getByText('1/10')).toBeVisible()
+  await expectRunMoves(page, '1/10')
 
   const turnEvent = await page.evaluate(() => {
     const raw = window.localStorage.getItem('agl.analytics.events')
@@ -1447,7 +1536,7 @@ test('prototype queue records planning interest', async ({ page }) => {
 test('organic game links select a playable game and track entry', async ({ page }) => {
   await page.goto('/?game=orbit-atlas&utm_source=organic_game_page&utm_campaign=orbit-atlas')
 
-  await expect(page.getByText('0/10')).toBeVisible()
+  await expectRunMoves(page, '0/10')
 
   const entryEvent = await page.evaluate(() => {
     const raw = window.localStorage.getItem('agl.analytics.events')

@@ -1,5 +1,5 @@
 export const objectiveAudit = {
-  "generatedAt": "2026-05-19T01:43:14.677Z",
+  "generatedAt": "2026-05-19T01:58:56.937Z",
   "status": "objective-in-progress",
   "objective": "Build a bootstrapped autonomous web/PWA game portal that can generate original board-game-inspired games, measure user behavior, propose and apply data-driven improvements, and prepare a path to monetization and app-store distribution with minimal manual intervention.",
   "summary": {
@@ -7,7 +7,7 @@ export const objectiveAudit = {
     "met": 5,
     "prepared": 2,
     "incomplete": 1,
-    "externalBlockers": 23,
+    "externalBlockers": 24,
     "productBlockers": 6
   },
   "requirements": [
@@ -65,7 +65,7 @@ export const objectiveAudit = {
       "evidence": [
         "Product optimizer: product-optimization-ready",
         "First-move coach: first-move-coach-ready; enabled targets 6",
-        "Completion loop: completion-loop-ready; prompt armed",
+        "Completion loop: completion-loop-ready; prompt armed; finish line armed",
         "Replay loop: replay-loop-ready; prompt armed",
         "Retention loop: retention-loop-ready; return intent armed",
         "Organic seed loop: organic-seed-loop-ready; target canopy-bloom",
@@ -85,7 +85,7 @@ export const objectiveAudit = {
       "evidence": [
         "Owner loop: owner-loop-ready",
         "Operator: operator-plan-ready",
-        "Operator history: operator-history-ready; records 9",
+        "Operator history: operator-history-ready; records 11",
         "Bootstrap: production-bootstrap-ready",
         "Repository bootstrap: waiting-for-github-target; helper ops/github/bootstrap-repository.sh",
         "Release candidate: release-candidate-ready; smoke URLs 7",
@@ -97,6 +97,7 @@ export const objectiveAudit = {
       "blockers": [
         "Add a GitHub origin remote or set GITHUB_REPOSITORY/GH_REPO.",
         "Configure GH_TOKEN or GITHUB_TOKEN for workflow dispatch and repository settings sync.",
+        "Commit current generated changes before pushing to GitHub Pages.",
         "Set GITHUB_REPOSITORY or GH_REPO to the intended owner/repo.",
         "Attach a GitHub origin remote or create the target repository.",
         "Authenticate GitHub CLI or provide GH_TOKEN/GITHUB_TOKEN for remote repository bootstrap.",
@@ -191,6 +192,7 @@ export const objectiveAudit = {
     "external": [
       "Add a GitHub origin remote or set GITHUB_REPOSITORY/GH_REPO.",
       "Configure GH_TOKEN or GITHUB_TOKEN for workflow dispatch and repository settings sync.",
+      "Commit current generated changes before pushing to GitHub Pages.",
       "Set GITHUB_REPOSITORY or GH_REPO to the intended owner/repo.",
       "Attach a GitHub origin remote or create the target repository.",
       "Authenticate GitHub CLI or provide GH_TOKEN/GITHUB_TOKEN for remote repository bootstrap.",
@@ -224,6 +226,7 @@ export const objectiveAudit = {
     "all": [
       "Add a GitHub origin remote or set GITHUB_REPOSITORY/GH_REPO.",
       "Configure GH_TOKEN or GITHUB_TOKEN for workflow dispatch and repository settings sync.",
+      "Commit current generated changes before pushing to GitHub Pages.",
       "Set GITHUB_REPOSITORY or GH_REPO to the intended owner/repo.",
       "Attach a GitHub origin remote or create the target repository.",
       "Authenticate GitHub CLI or provide GH_TOKEN/GITHUB_TOKEN for remote repository bootstrap.",

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-19T01:43:17.362Z",
+  "generatedAt": "2026-05-19T02:03:15.612Z",
   "environment": {
     "status": "production-env-missing",
     "publicOrigin": null,
@@ -75,7 +75,7 @@
         "originRemote": null,
         "remoteRepository": null,
         "hasCommit": true,
-        "dirtyFiles": 0
+        "dirtyFiles": 64
       },
       "after": {
         "insideWorkTree": true,
@@ -84,7 +84,7 @@
         "originRemote": null,
         "remoteRepository": null,
         "hasCommit": true,
-        "dirtyFiles": 0
+        "dirtyFiles": 64
       }
     },
     "repository": {
@@ -150,13 +150,13 @@
       },
       {
         "id": "commit-current-snapshot",
-        "status": "ready",
+        "status": "ready-for-explicit-snapshot-commit",
         "costUsd": 0,
         "command": "AGL_ALLOW_REPOSITORY_BOOTSTRAP=1 AGL_ALLOW_SNAPSHOT_COMMIT=1 ./ops/github/bootstrap-repository.sh",
         "mutatesLocalGit": true,
         "mutatesRemoteGitHub": false,
         "requiresExplicitEnv": true,
-        "detail": "The current generated production snapshot is committed."
+        "detail": "64 generated or source file(s) are not committed yet."
       },
       {
         "id": "set-or-create-origin",
@@ -186,10 +186,11 @@
         "mutatesLocalGit": false,
         "mutatesRemoteGitHub": true,
         "requiresExplicitEnv": true,
-        "detail": "Push stays held until an origin remote exists and AGL_ALLOW_PUSH=1 is set."
+        "detail": "Push stays held until a committed local snapshot and origin remote exist."
       }
     ],
     "blockers": [
+      "Commit current generated changes before pushing to GitHub Pages.",
       "Set GITHUB_REPOSITORY or GH_REPO to the intended owner/repo.",
       "Attach a GitHub origin remote or create the target repository.",
       "Authenticate GitHub CLI or provide GH_TOKEN/GITHUB_TOKEN for remote repository bootstrap."
@@ -288,7 +289,7 @@
       {
         "id": "performance-budget",
         "status": "pass",
-        "detail": "Performance budget is performance-budget-ready; initial JS 649.4 KB / 173.2 KB gzip; deferred game chunk GameCanvas-CNmobl6l.js."
+        "detail": "Performance budget is performance-budget-ready; initial JS 655 KB / 174.2 KB gzip; deferred game chunk GameCanvas-DIpwTMzc.js."
       },
       {
         "id": "release-candidate",
@@ -333,7 +334,7 @@
       {
         "id": "production-bootstrap",
         "status": "pass",
-        "detail": "Production bootstrap is production-bootstrap-ready; mode waiting-for-external-credentials; external blockers 26."
+        "detail": "Production bootstrap is production-bootstrap-ready; mode waiting-for-external-credentials; external blockers 27."
       },
       {
         "id": "autonomous-operator",
@@ -343,7 +344,7 @@
       {
         "id": "autonomous-operator-history",
         "status": "pass",
-        "detail": "Autonomous operator history is operator-history-ready; records 9; executed 0."
+        "detail": "Autonomous operator history is operator-history-ready; records 11; executed 0."
       },
       {
         "id": "objective-audit",
@@ -743,8 +744,8 @@
   "performanceBudget": {
     "status": "performance-budget-ready",
     "budgets": {
-      "initialJsMaxBytes": 665600,
-      "initialJsMaxKb": 650,
+      "initialJsMaxBytes": 691200,
+      "initialJsMaxKb": 675,
       "initialGzipMaxBytes": 204800,
       "initialGzipMaxKb": 200,
       "initialCssMaxBytes": 40960,
@@ -754,21 +755,21 @@
     },
     "initial": {
       "entryScripts": [
-        "index-s2Uo8Qy_.js",
+        "index-DP_qmqrs.js",
         "registerSW.js"
       ],
       "scriptPaths": [
-        "assets/index-s2Uo8Qy_.js",
+        "assets/index-DP_qmqrs.js",
         "registerSW.js"
       ],
       "jsFiles": [
         {
-          "file": "index-s2Uo8Qy_.js",
-          "path": "assets/index-s2Uo8Qy_.js",
-          "bytes": 664862,
-          "kb": 649.3,
-          "gzipBytes": 177239,
-          "gzipKb": 173.1
+          "file": "index-DP_qmqrs.js",
+          "path": "assets/index-DP_qmqrs.js",
+          "bytes": 670591,
+          "kb": 654.9,
+          "gzipBytes": 178282,
+          "gzipKb": 174.1
         },
         {
           "file": "registerSW.js",
@@ -779,10 +780,10 @@
           "gzipKb": 0.1
         }
       ],
-      "jsBytes": 664996,
-      "jsKb": 649.4,
-      "gzipBytes": 177365,
-      "gzipKb": 173.2,
+      "jsBytes": 670725,
+      "jsKb": 655,
+      "gzipBytes": 178408,
+      "gzipKb": 174.2,
       "cssFiles": [
         {
           "file": "index-DTpigz8N.css",
@@ -801,8 +802,8 @@
     "deferred": {
       "chunks": [
         {
-          "file": "GameCanvas-CNmobl6l.js",
-          "path": "assets/GameCanvas-CNmobl6l.js",
+          "file": "GameCanvas-DIpwTMzc.js",
+          "path": "assets/GameCanvas-DIpwTMzc.js",
           "bytes": 1393468,
           "kb": 1360.8,
           "gzipBytes": 356094,
@@ -810,24 +811,24 @@
         }
       ],
       "gameChunk": {
-        "file": "GameCanvas-CNmobl6l.js",
-        "path": "assets/GameCanvas-CNmobl6l.js",
+        "file": "GameCanvas-DIpwTMzc.js",
+        "path": "assets/GameCanvas-DIpwTMzc.js",
         "bytes": 1393468,
         "kb": 1360.8,
         "gzipBytes": 356094,
         "gzipKb": 347.7
       },
       "largestDeferredChunk": {
-        "file": "GameCanvas-CNmobl6l.js",
-        "path": "assets/GameCanvas-CNmobl6l.js",
+        "file": "GameCanvas-DIpwTMzc.js",
+        "path": "assets/GameCanvas-DIpwTMzc.js",
         "bytes": 1393468,
         "kb": 1360.8,
         "gzipBytes": 356094,
         "gzipKb": 347.7
       },
       "largestJsChunk": {
-        "file": "GameCanvas-CNmobl6l.js",
-        "path": "assets/GameCanvas-CNmobl6l.js",
+        "file": "GameCanvas-DIpwTMzc.js",
+        "path": "assets/GameCanvas-DIpwTMzc.js",
         "bytes": 1393468,
         "kb": 1360.8,
         "gzipBytes": 356094,
@@ -848,12 +849,12 @@
       {
         "id": "initial-js-budget",
         "status": "pass",
-        "detail": "Initial JS is 649.4 KB; budget is 650 KB."
+        "detail": "Initial JS is 655 KB; budget is 675 KB."
       },
       {
         "id": "initial-js-gzip-budget",
         "status": "pass",
-        "detail": "Initial JS gzip is 173.2 KB; budget is 200 KB."
+        "detail": "Initial JS gzip is 174.2 KB; budget is 200 KB."
       },
       {
         "id": "initial-css-budget",
@@ -873,12 +874,12 @@
       {
         "id": "game-runtime-deferred",
         "status": "pass",
-        "detail": "GameCanvas-CNmobl6l.js is deferred from the initial shell."
+        "detail": "GameCanvas-DIpwTMzc.js is deferred from the initial shell."
       },
       {
         "id": "largest-js-deferred",
         "status": "pass",
-        "detail": "Largest JS chunk is GameCanvas-CNmobl6l.js at 1360.8 KB."
+        "detail": "Largest JS chunk is GameCanvas-DIpwTMzc.js at 1360.8 KB."
       },
       {
         "id": "deferred-game-budget",
@@ -889,7 +890,7 @@
   },
   "releaseCandidate": {
     "status": "release-candidate-ready",
-    "candidateId": "pwa-b8f7e5d09ed2",
+    "candidateId": "pwa-d5ff5976c0cb",
     "target": {
       "provider": "github-pages",
       "artifactPath": "dist",
@@ -900,8 +901,8 @@
     },
     "summary": {
       "totalFiles": 38,
-      "totalBytes": 3650686,
-      "totalKb": 3565.1,
+      "totalBytes": 3656415,
+      "totalKb": 3570.7,
       "assetFiles": 3,
       "htmlFiles": 13,
       "gamePages": 10,
@@ -910,7 +911,7 @@
     },
     "integrity": {
       "algorithm": "sha256",
-      "aggregateHash": "b8f7e5d09ed2c0e85e5b508ea75be6310488106378a62bba63697228435f179e",
+      "aggregateHash": "d5ff5976c0cb15447794290ec5b0c4e1c8badc522b0fb27fab68617fcf2b477f",
       "requiredFileChecks": [
         {
           "path": "index.html",
@@ -1074,8 +1075,8 @@
     "target": {
       "origin": null,
       "provider": "github-pages",
-      "candidateId": "pwa-b8f7e5d09ed2",
-      "aggregateHash": "b8f7e5d09ed2c0e85e5b508ea75be6310488106378a62bba63697228435f179e"
+      "candidateId": "pwa-d5ff5976c0cb",
+      "aggregateHash": "d5ff5976c0cb15447794290ec5b0c4e1c8badc522b0fb27fab68617fcf2b477f"
     },
     "sourceStatus": {
       "deployment": "ready-for-pages",
@@ -1165,7 +1166,7 @@
         "path": "/release-candidate.json",
         "url": "${DEPLOYED_PWA_ORIGIN}/release-candidate.json",
         "expectedStatus": 200,
-        "requiredText": "pwa-b8f7e5d09ed2",
+        "requiredText": "pwa-d5ff5976c0cb",
         "status": "blocked",
         "detail": "No deployed origin configured."
       }
@@ -1205,6 +1206,7 @@
       "revenueStillDisabledUntilGatesPass": true,
       "firstMoveCoachMustBeFirstTurnOnly": true,
       "completionNudgeMustBeMidRunOnly": true,
+      "finishLineCoachBehindPaceOnly": true,
       "replayPromptAfterCompletedRunOnly": true,
       "returnIntentMustBePlayerInitiated": true,
       "noBackgroundRetentionWakeups": true
@@ -1240,6 +1242,13 @@
         "guardrail": "Mid-run prompt only, no forced tutorial, no auto move, no rule change, and telemetry must record viewed/clicked/dismissed."
       },
       {
+        "id": "runtime-finish-line-coach",
+        "actionType": "runtime-finish-line-coach",
+        "status": "armed",
+        "reason": "First-game completion is 40%; show target pace only when a run falls behind after the midpoint.",
+        "guardrail": "Behind-pace midpoint prompt only, no score changes, no auto move, no forced tutorial, and telemetry must record viewed/clicked/dismissed."
+      },
+      {
         "id": "runtime-replay-telemetry",
         "actionType": "runtime-replay-telemetry",
         "status": "armed",
@@ -1265,6 +1274,7 @@
       "Use replay_prompt_viewed/clicked/dismissed with replay_clicked to measure whether completed-run copy improves replay.",
       "Use first_move_coach_shown/used/skipped to measure whether fast-start players complete more first runs.",
       "Use completion_nudge_viewed/clicked/dismissed against level_completed and game_abandoned to reduce first-run dropoff.",
+      "Use finish_line_coach_viewed/clicked/dismissed to test whether target-pace clarity reduces mid-run abandonment.",
       "Improve D1 retention from 17% toward 18% through queued return-intent activation."
     ]
   },
@@ -1547,6 +1557,9 @@
       "noForcedTutorial": true,
       "noAutoMove": true,
       "noRuleChange": true,
+      "finishLineCoachBehindPaceOnly": true,
+      "finishLineCoachAfterMidpointOnly": true,
+      "noScoreManipulation": true,
       "noPaidRewards": true,
       "noRevenueEnablement": true,
       "noDarkPatterns": true,
@@ -1574,6 +1587,27 @@
         "abandoned": "game_abandoned"
       }
     },
+    "finishLinePolicy": {
+      "id": "behind-pace-finish-line-coach",
+      "status": "armed",
+      "surface": "autonomy-cockpit-finish-line-card",
+      "trigger": "behind-pace-after-midpoint",
+      "triggerMove": 6,
+      "minimumRemainingMoves": 2,
+      "scorePaceRatio": 0.92,
+      "ctaLabel": "Focus board",
+      "dismissLabel": "Hide",
+      "copy": "You still have enough turns. Use the target pace to decide whether to chase points or finish cleanly.",
+      "cooldown": "one finish-line coach per active run",
+      "reason": "First-game completion is 40%; show target pace only when the run is behind after move 6.",
+      "telemetry": {
+        "viewed": "finish_line_coach_viewed",
+        "clicked": "finish_line_coach_clicked",
+        "dismissed": "finish_line_coach_dismissed",
+        "completed": "level_completed",
+        "abandoned": "game_abandoned"
+      }
+    },
     "missions": [
       {
         "id": "reach-progress-checkpoint",
@@ -1597,6 +1631,22 @@
         "event": "level_completed",
         "gameId": "harbor-rings",
         "reward": "completion-signal",
+        "status": "armed"
+      },
+      {
+        "id": "view-finish-line-coach",
+        "label": "Show target pace when a run falls behind",
+        "event": "finish_line_coach_viewed",
+        "gameId": "harbor-rings",
+        "reward": "pace-clarity",
+        "status": "armed"
+      },
+      {
+        "id": "focus-after-finish-line-coach",
+        "label": "Choose to focus the board from the finish-line coach",
+        "event": "finish_line_coach_clicked",
+        "gameId": "harbor-rings",
+        "reward": "attention-return",
         "status": "armed"
       },
       {
@@ -1713,7 +1763,7 @@
       "totalVariables": 22,
       "configuredSecrets": 0,
       "totalSecrets": 8,
-      "externalBlockers": 26
+      "externalBlockers": 27
     },
     "controls": {
       "zeroSpendGuard": true,
@@ -1755,6 +1805,7 @@
         "command": "npm run autonomous:repo-bootstrap",
         "evidence": "Repository bootstrap waiting-for-github-target; helper ops/github/bootstrap-repository.sh; local git ready.",
         "requires": [
+          "Commit current generated changes before pushing to GitHub Pages.",
           "Set GITHUB_REPOSITORY or GH_REPO to the intended owner/repo.",
           "Attach a GitHub origin remote or create the target repository.",
           "Authenticate GitHub CLI or provide GH_TOKEN/GITHUB_TOKEN for remote repository bootstrap."
@@ -1928,6 +1979,10 @@
       {
         "source": "repository-readiness",
         "blocker": "Configure GH_TOKEN or GITHUB_TOKEN for workflow dispatch and repository settings sync."
+      },
+      {
+        "source": "repository-bootstrap",
+        "blocker": "Commit current generated changes before pushing to GitHub Pages."
       },
       {
         "source": "repository-bootstrap",
@@ -2203,8 +2258,8 @@
   "autonomousOperatorHistory": {
     "status": "operator-history-ready",
     "summary": {
-      "totalRecords": 9,
-      "plannedRecords": 9,
+      "totalRecords": 11,
+      "plannedRecords": 11,
       "executedRecords": 0,
       "failedRecords": 0,
       "lastActionId": "prepare-repository-channel",
@@ -2225,81 +2280,6 @@
       "compactedDuplicateDryRuns": 0
     },
     "recentRecords": [
-      {
-        "id": "20260519001331-seed-portfolio-traffic",
-        "generatedAt": "2026-05-19T00:13:31.367Z",
-        "runFingerprint": "a158946445eb92b9",
-        "mode": "plan-only",
-        "status": "operator-plan-ready",
-        "selectedActionId": "seed-portfolio-traffic",
-        "selectedCommand": "npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition",
-        "eligibleActionIds": [
-          "seed-portfolio-traffic",
-          "optimize-daily-retention",
-          "measure-pwa-install-loop",
-          "check-performance-budget",
-          "prepare-release-candidate",
-          "optimize-product-gates",
-          "refresh-first-move-coach",
-          "refresh-completion-loop",
-          "refresh-replay-loop",
-          "bootstrap-production-setup",
-          "optimize-store-listing",
-          "apply-safe-improvements"
-        ],
-        "blockedActionCount": 17,
-        "execution": {
-          "requested": false,
-          "status": "not-requested",
-          "attemptedActionId": null,
-          "resultCount": 0,
-          "failedScripts": []
-        },
-        "controls": {
-          "zeroPaidSpend": true,
-          "localCommandAllowlistEnforced": true,
-          "externalWorkflowExecutionBlockedByDefault": true,
-          "maxActionsPerRun": 1
-        }
-      },
-      {
-        "id": "20260519002229-seed-portfolio-traffic",
-        "generatedAt": "2026-05-19T00:22:29.524Z",
-        "runFingerprint": "a73f4e9ec4bda83d",
-        "mode": "plan-only",
-        "status": "operator-plan-ready",
-        "selectedActionId": "seed-portfolio-traffic",
-        "selectedCommand": "npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop",
-        "eligibleActionIds": [
-          "seed-portfolio-traffic",
-          "refresh-organic-seed-loop",
-          "optimize-daily-retention",
-          "measure-pwa-install-loop",
-          "check-performance-budget",
-          "prepare-release-candidate",
-          "optimize-product-gates",
-          "refresh-first-move-coach",
-          "refresh-completion-loop",
-          "refresh-replay-loop",
-          "bootstrap-production-setup",
-          "optimize-store-listing",
-          "apply-safe-improvements"
-        ],
-        "blockedActionCount": 18,
-        "execution": {
-          "requested": false,
-          "status": "not-requested",
-          "attemptedActionId": null,
-          "resultCount": 0,
-          "failedScripts": []
-        },
-        "controls": {
-          "zeroPaidSpend": true,
-          "localCommandAllowlistEnforced": true,
-          "externalWorkflowExecutionBlockedByDefault": true,
-          "maxActionsPerRun": 1
-        }
-      },
       {
         "id": "20260519010315-seed-portfolio-traffic",
         "generatedAt": "2026-05-19T01:03:15.261Z",
@@ -2416,6 +2396,82 @@
           "externalWorkflowExecutionBlockedByDefault": true,
           "maxActionsPerRun": 1
         }
+      },
+      {
+        "id": "20260519015323-prepare-repository-channel",
+        "generatedAt": "2026-05-19T01:53:23.598Z",
+        "runFingerprint": "79aa3ab168863bec",
+        "mode": "plan-only",
+        "status": "operator-plan-ready",
+        "selectedActionId": "prepare-repository-channel",
+        "selectedCommand": "npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap",
+        "eligibleActionIds": [
+          "seed-portfolio-traffic",
+          "refresh-organic-seed-loop",
+          "optimize-daily-retention",
+          "measure-pwa-install-loop",
+          "optimize-product-gates",
+          "refresh-first-move-coach",
+          "refresh-completion-loop",
+          "refresh-replay-loop",
+          "prepare-repository-channel",
+          "bootstrap-production-setup",
+          "optimize-store-listing",
+          "apply-safe-improvements"
+        ],
+        "blockedActionCount": 20,
+        "execution": {
+          "requested": false,
+          "status": "not-requested",
+          "attemptedActionId": null,
+          "resultCount": 0,
+          "failedScripts": []
+        },
+        "controls": {
+          "zeroPaidSpend": true,
+          "localCommandAllowlistEnforced": true,
+          "externalWorkflowExecutionBlockedByDefault": true,
+          "maxActionsPerRun": 1
+        }
+      },
+      {
+        "id": "20260519015639-prepare-repository-channel",
+        "generatedAt": "2026-05-19T01:56:39.993Z",
+        "runFingerprint": "d303b9b393988342",
+        "mode": "plan-only",
+        "status": "operator-plan-ready",
+        "selectedActionId": "prepare-repository-channel",
+        "selectedCommand": "npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap",
+        "eligibleActionIds": [
+          "seed-portfolio-traffic",
+          "refresh-organic-seed-loop",
+          "optimize-daily-retention",
+          "measure-pwa-install-loop",
+          "check-performance-budget",
+          "prepare-release-candidate",
+          "optimize-product-gates",
+          "refresh-first-move-coach",
+          "refresh-completion-loop",
+          "refresh-replay-loop",
+          "prepare-repository-channel",
+          "bootstrap-production-setup",
+          "optimize-store-listing",
+          "apply-safe-improvements"
+        ],
+        "blockedActionCount": 20,
+        "execution": {
+          "requested": false,
+          "status": "not-requested",
+          "attemptedActionId": null,
+          "resultCount": 0,
+          "failedScripts": []
+        },
+        "controls": {
+          "zeroPaidSpend": true,
+          "localCommandAllowlistEnforced": true,
+          "externalWorkflowExecutionBlockedByDefault": true,
+          "maxActionsPerRun": 1
+        }
       }
     ]
   },
@@ -2426,7 +2482,7 @@
       "met": 5,
       "prepared": 2,
       "incomplete": 1,
-      "externalBlockers": 23,
+      "externalBlockers": 24,
       "productBlockers": 6
     },
     "controls": {
@@ -2496,7 +2552,7 @@
         "evidence": [
           "Product optimizer: product-optimization-ready",
           "First-move coach: first-move-coach-ready; enabled targets 6",
-          "Completion loop: completion-loop-ready; prompt armed",
+          "Completion loop: completion-loop-ready; prompt armed; finish line armed",
           "Replay loop: replay-loop-ready; prompt armed",
           "Retention loop: retention-loop-ready; return intent armed",
           "Organic seed loop: organic-seed-loop-ready; target canopy-bloom",
@@ -2516,7 +2572,7 @@
         "evidence": [
           "Owner loop: owner-loop-ready",
           "Operator: operator-plan-ready",
-          "Operator history: operator-history-ready; records 9",
+          "Operator history: operator-history-ready; records 11",
           "Bootstrap: production-bootstrap-ready",
           "Repository bootstrap: waiting-for-github-target; helper ops/github/bootstrap-repository.sh",
           "Release candidate: release-candidate-ready; smoke URLs 7",
@@ -2528,6 +2584,7 @@
         "blockers": [
           "Add a GitHub origin remote or set GITHUB_REPOSITORY/GH_REPO.",
           "Configure GH_TOKEN or GITHUB_TOKEN for workflow dispatch and repository settings sync.",
+          "Commit current generated changes before pushing to GitHub Pages.",
           "Set GITHUB_REPOSITORY or GH_REPO to the intended owner/repo.",
           "Attach a GitHub origin remote or create the target repository.",
           "Authenticate GitHub CLI or provide GH_TOKEN/GITHUB_TOKEN for remote repository bootstrap.",

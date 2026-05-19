@@ -207,6 +207,16 @@ actions.push({
     'Mid-run prompt only, no forced tutorial, no auto move, no rule change, and telemetry must record viewed/clicked/dismissed.',
 })
 actions.push({
+  id: 'runtime-finish-line-coach',
+  actionType: 'runtime-finish-line-coach',
+  status: firstMoveCoachNeeded ? 'armed' : 'monitor',
+  reason: firstMoveCoachNeeded
+    ? `First-game completion is ${pct(productGates.firstGameCompletion.actual)}; show target pace only when a run falls behind after the midpoint.`
+    : 'Completion gate is stable; keep behind-pace finish-line coaching monitored.',
+  guardrail:
+    'Behind-pace midpoint prompt only, no score changes, no auto move, no forced tutorial, and telemetry must record viewed/clicked/dismissed.',
+})
+actions.push({
   id: 'runtime-replay-telemetry',
   actionType: 'runtime-replay-telemetry',
   status: replayNeedsTelemetry ? 'armed' : 'monitor',
@@ -281,6 +291,7 @@ const payload = {
     revenueStillDisabledUntilGatesPass: true,
     firstMoveCoachMustBeFirstTurnOnly: true,
     completionNudgeMustBeMidRunOnly: true,
+    finishLineCoachBehindPaceOnly: true,
     replayPromptAfterCompletedRunOnly: true,
     returnIntentMustBePlayerInitiated: true,
     noBackgroundRetentionWakeups: true,
@@ -302,6 +313,9 @@ const payload = {
     firstMoveCoachNeeded
       ? 'Use completion_nudge_viewed/clicked/dismissed against level_completed and game_abandoned to reduce first-run dropoff.'
       : 'Keep completion nudges dormant while gates are stable.',
+    firstMoveCoachNeeded
+      ? 'Use finish_line_coach_viewed/clicked/dismissed to test whether target-pace clarity reduces mid-run abandonment.'
+      : 'Keep finish-line coaching dormant while gates are stable.',
     productGates.d1Retention.pass
       ? 'D1 retention gate is clear; keep local streak prompts measured.'
       : `Improve D1 retention from ${pct(productGates.d1Retention.actual)} toward ${pct(productGates.d1Retention.gate)} through queued return-intent activation.`,

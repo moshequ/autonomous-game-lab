@@ -81,6 +81,7 @@ const completionLoop = await readOptionalJson(path.join(dataDir, 'completion-loo
   metrics: {},
   controls: {},
   promptPolicy: {},
+  finishLinePolicy: {},
   missions: [],
 })
 const replayLoop = await readOptionalJson(path.join(dataDir, 'replay-loop.json'), {
@@ -319,7 +320,8 @@ const systems = [
         productOptimization.actions?.some((action) => action.actionType === 'target-score-curve') &&
         productOptimization.actions?.some((action) => action.actionType === 'runtime-replay-telemetry') &&
         productOptimization.actions?.some((action) => action.actionType === 'runtime-replay-prompt') &&
-        productOptimization.actions?.some((action) => action.actionType === 'runtime-completion-nudge'),
+        productOptimization.actions?.some((action) => action.actionType === 'runtime-completion-nudge') &&
+        productOptimization.actions?.some((action) => action.actionType === 'runtime-finish-line-coach'),
     ),
     autonomy: 'bounded-product-tuning',
     evidence: `Completion ${percent(productOptimization.productGates?.firstGameCompletion?.actual)}% / gate ${percent(
@@ -348,14 +350,18 @@ const systems = [
       completionLoop.status === 'completion-loop-ready' &&
         completionLoop.controls?.zeroPaidSpend === true &&
         completionLoop.controls?.midRunOnly === true &&
+        completionLoop.controls?.finishLineCoachBehindPaceOnly === true &&
         completionLoop.controls?.noAutoMove === true &&
-        completionLoop.promptPolicy?.telemetry?.clicked === 'completion_nudge_clicked',
+        completionLoop.promptPolicy?.telemetry?.clicked === 'completion_nudge_clicked' &&
+        completionLoop.finishLinePolicy?.telemetry?.clicked === 'finish_line_coach_clicked',
       'needs-completion-policy',
     ),
     autonomy: 'bounded-mid-run-nudge',
     evidence: `Completion loop ${completionLoop.status}; prompt ${
       completionLoop.promptPolicy?.status ?? 'missing'
-    }; target ${completionLoop.target?.gameId ?? 'missing'}; completion ${percent(
+    }; finish line ${completionLoop.finishLinePolicy?.status ?? 'missing'}; target ${
+      completionLoop.target?.gameId ?? 'missing'
+    }; completion ${percent(
       completionLoop.metrics?.firstGameCompletion,
     )}%.`,
     nextAction:
@@ -735,7 +741,7 @@ const safeAutonomousActions = [
     costUsd: 0,
     command: 'npm run autonomous:completion-loop',
     targets: [completionLoop.target?.gameId ?? 'completion-loop'],
-    reason: 'Refreshes the optional mid-run completion nudge from completion and abandonment evidence.',
+    reason: 'Refreshes optional completion nudges and behind-pace finish-line coaching from product-gate evidence.',
   },
   {
     id: 'refresh-replay-loop',

@@ -1,4 +1,4 @@
-import { lazy, Suspense, useEffect, useMemo, useRef, useState } from 'react'
+import { lazy, Suspense, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import {
   Activity,
   BarChart3,
@@ -240,6 +240,12 @@ function App() {
   const [completionNudgeAcceptedRunKey, setCompletionNudgeAcceptedRunKey] = useState(() =>
     readStringStorage(completionLoop.localState.acceptedRunKey),
   )
+  const [finishLineDismissedRunKey, setFinishLineDismissedRunKey] = useState(() =>
+    readStringStorage(completionLoop.localState.finishLineDismissedRunKey),
+  )
+  const [finishLineAcceptedRunKey, setFinishLineAcceptedRunKey] = useState(() =>
+    readStringStorage(completionLoop.localState.finishLineAcceptedRunKey),
+  )
   const [pwaPromptEvent, setPwaPromptEvent] = useState<BeforeInstallPromptEvent | null>(null)
   const [pwaInstallStatus, setPwaInstallStatus] = useState('waiting')
   const [pwaDisplayMode, setPwaDisplayMode] = useState(() => getPwaDisplayMode())
@@ -249,6 +255,7 @@ function App() {
   const dailyReturnIntentRef = useRef('')
   const replayPromptRef = useRef('')
   const completionNudgeRef = useRef('')
+  const finishLineCoachRef = useRef('')
   const organicSeedCardRef = useRef('')
   const pwaPromptViewedRef = useRef(false)
   const pacingVariant = useMemo(() => getExperimentVariant('first_session_pacing'), [])
@@ -422,6 +429,25 @@ function App() {
     snapshot.moves < snapshot.maxMoves &&
     completionNudgeDismissedRunKey !== completionRunKey &&
     completionNudgeAcceptedRunKey !== completionRunKey
+  const finishLineRunKey = `${activeRunId}:${completionLoop.finishLinePolicy.triggerMove}`
+  const finishLineTargetScore = activeBalance?.targetScore ?? snapshot.score
+  const finishLineRemainingScore = Math.max(0, finishLineTargetScore - snapshot.score)
+  const finishLineRemainingMoves = Math.max(0, snapshot.maxMoves - snapshot.moves)
+  const finishLineExpectedScore = Math.ceil(
+    finishLineTargetScore *
+      (snapshot.moves / Math.max(snapshot.maxMoves, 1)) *
+      completionLoop.finishLinePolicy.scorePaceRatio,
+  )
+  const finishLineBehindPace = snapshot.score < finishLineExpectedScore
+  const finishLineCoachVisible =
+    completionLoop.finishLinePolicy.status === 'armed' &&
+    selectedGameId === completionLoop.target.gameId &&
+    !snapshot.completed &&
+    snapshot.moves >= completionLoop.finishLinePolicy.triggerMove &&
+    finishLineRemainingMoves >= completionLoop.finishLinePolicy.minimumRemainingMoves &&
+    finishLineBehindPace &&
+    finishLineDismissedRunKey !== finishLineRunKey &&
+    finishLineAcceptedRunKey !== finishLineRunKey
   const replayRunKey = snapshot.completed
     ? `${selectedGameId}:${snapshot.moves}:${snapshot.score}:${snapshot.result}`
     : ''
@@ -628,6 +654,45 @@ function App() {
       variantId: pacingVariant.id,
       rewardVariantId: rewardVariant.id,
     })
+  }
+  const finishLineEventProperties = useCallback(() => ({
+    gameId: selectedGameId,
+    runKey: finishLineRunKey,
+    score: snapshot.score,
+    targetScore: finishLineTargetScore,
+    remainingScore: finishLineRemainingScore,
+    remainingMoves: finishLineRemainingMoves,
+    expectedScore: finishLineExpectedScore,
+    moves: snapshot.moves,
+    maxMoves: snapshot.maxMoves,
+    surface: completionLoop.finishLinePolicy.surface,
+    promptId: completionLoop.finishLinePolicy.id,
+    triggerMove: completionLoop.finishLinePolicy.triggerMove,
+    variantId: pacingVariant.id,
+    rewardVariantId: rewardVariant.id,
+  }), [
+    finishLineExpectedScore,
+    finishLineRemainingMoves,
+    finishLineRemainingScore,
+    finishLineRunKey,
+    finishLineTargetScore,
+    pacingVariant.id,
+    rewardVariant.id,
+    selectedGameId,
+    snapshot.maxMoves,
+    snapshot.moves,
+    snapshot.score,
+  ])
+  const focusFromFinishLineCoach = () => {
+    window.localStorage.setItem(completionLoop.localState.finishLineAcceptedRunKey, finishLineRunKey)
+    setFinishLineAcceptedRunKey(finishLineRunKey)
+    trackEvent('finish_line_coach_clicked', finishLineEventProperties())
+    document.querySelector('canvas')?.scrollIntoView({ block: 'center', behavior: 'smooth' })
+  }
+  const dismissFinishLineCoach = () => {
+    window.localStorage.setItem(completionLoop.localState.finishLineDismissedRunKey, finishLineRunKey)
+    setFinishLineDismissedRunKey(finishLineRunKey)
+    trackEvent('finish_line_coach_dismissed', finishLineEventProperties())
   }
   const playAgainFromReplayPrompt = () => {
     window.localStorage.setItem(replayLoop.localState.acceptedRunKey, replayRunKey)
@@ -845,6 +910,31 @@ function App() {
   }, [
     completionNudgeVisible,
     completionRunKey,
+    pacingVariant.id,
+    rewardVariant.id,
+    selectedGameId,
+    snapshot.maxMoves,
+    snapshot.moves,
+    snapshot.score,
+  ])
+  useEffect(() => {
+    if (!finishLineCoachVisible || finishLineCoachRef.current === finishLineRunKey) {
+      return
+    }
+
+    finishLineCoachRef.current = finishLineRunKey
+    trackEvent('finish_line_coach_viewed', {
+      ...finishLineEventProperties(),
+      trigger: completionLoop.finishLinePolicy.trigger,
+    })
+  }, [
+    finishLineCoachVisible,
+    finishLineExpectedScore,
+    finishLineRemainingMoves,
+    finishLineRemainingScore,
+    finishLineRunKey,
+    finishLineTargetScore,
+    finishLineEventProperties,
     pacingVariant.id,
     rewardVariant.id,
     selectedGameId,
@@ -1130,7 +1220,7 @@ function App() {
                   <span>Score</span>
                   <strong>{snapshot.score}</strong>
                 </div>
-                <div className="factRow">
+                <div className="factRow" aria-label="Current run moves">
                   <span>Moves</span>
                   <strong>
                     {snapshot.moves}/{snapshot.maxMoves}
@@ -1182,6 +1272,30 @@ function App() {
                     </button>
                     <button className="tinyButton subtleButton" type="button" onClick={dismissCompletionNudge}>
                       {completionLoop.promptPolicy.dismissLabel}
+                    </button>
+                  </div>
+                </>
+              ) : null}
+              {finishLineCoachVisible ? (
+                <>
+                  <div>
+                    <span>Finish line</span>
+                    <strong>
+                      {finishLineRemainingScore} in {finishLineRemainingMoves}
+                    </strong>
+                  </div>
+                  <div>
+                    <span>Target pace</span>
+                    <strong>
+                      {Math.max(1, Math.ceil(finishLineRemainingScore / finishLineRemainingMoves))}/turn
+                    </strong>
+                  </div>
+                  <div className="completionActions">
+                    <button className="tinyButton" type="button" onClick={focusFromFinishLineCoach}>
+                      {completionLoop.finishLinePolicy.ctaLabel}
+                    </button>
+                    <button className="tinyButton subtleButton" type="button" onClick={dismissFinishLineCoach}>
+                      {completionLoop.finishLinePolicy.dismissLabel}
                     </button>
                   </div>
                 </>
