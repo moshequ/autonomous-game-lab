@@ -1,5 +1,5 @@
 export const repositoryBootstrap = {
-  "generatedAt": "2026-05-19T23:32:22.878Z",
+  "generatedAt": "2026-05-19T23:36:22.323Z",
   "status": "waiting-for-github-target",
   "mode": "plan-only",
   "envFiles": {
@@ -74,8 +74,8 @@ export const repositoryBootstrap = {
         "data/product-gate-recovery.json",
         "data/product-gate-sample-plan.json",
         "data/release-candidate.json",
+        "data/repository-bootstrap.json",
         "data/repository-readiness.json",
-        "data/retention-loop.json",
         "reports/analytics-rollup-latest.md",
         "reports/autonomous-operator-history-latest.md",
         "reports/autonomous-operator-latest.md",
@@ -87,8 +87,8 @@ export const repositoryBootstrap = {
         "reports/product-gate-recovery-latest.md",
         "reports/product-gate-sample-plan-latest.md",
         "reports/release-candidate-latest.md",
+        "reports/repository-bootstrap-latest.md",
         "reports/repository-readiness-latest.md",
-        "reports/retention-loop-latest.md",
         "src/data/autonomousOperator.ts",
         "src/data/autonomousOperatorHistory.ts",
         "src/data/autonomousOwnerLoop.ts",
@@ -98,8 +98,8 @@ export const repositoryBootstrap = {
         "src/data/productGateRecovery.ts",
         "src/data/productGateSamplePlan.ts",
         "src/data/releaseCandidate.ts",
-        "src/data/repositoryReadiness.ts",
-        "src/data/retentionLoop.ts"
+        "src/data/repositoryBootstrap.ts",
+        "src/data/repositoryReadiness.ts"
       ],
       "generatedEvidenceDirtyFiles": 37,
       "generatedEvidenceDirtyPaths": [
@@ -114,8 +114,8 @@ export const repositoryBootstrap = {
         "data/product-gate-recovery.json",
         "data/product-gate-sample-plan.json",
         "data/release-candidate.json",
+        "data/repository-bootstrap.json",
         "data/repository-readiness.json",
-        "data/retention-loop.json",
         "reports/analytics-rollup-latest.md",
         "reports/autonomous-operator-history-latest.md",
         "reports/autonomous-operator-latest.md",
@@ -127,8 +127,8 @@ export const repositoryBootstrap = {
         "reports/product-gate-recovery-latest.md",
         "reports/product-gate-sample-plan-latest.md",
         "reports/release-candidate-latest.md",
+        "reports/repository-bootstrap-latest.md",
         "reports/repository-readiness-latest.md",
-        "reports/retention-loop-latest.md",
         "src/data/autonomousOperator.ts",
         "src/data/autonomousOperatorHistory.ts",
         "src/data/autonomousOwnerLoop.ts",
@@ -138,8 +138,8 @@ export const repositoryBootstrap = {
         "src/data/productGateRecovery.ts",
         "src/data/productGateSamplePlan.ts",
         "src/data/releaseCandidate.ts",
-        "src/data/repositoryReadiness.ts",
-        "src/data/retentionLoop.ts"
+        "src/data/repositoryBootstrap.ts",
+        "src/data/repositoryReadiness.ts"
       ],
       "nonGeneratedDirtyFiles": 0,
       "nonGeneratedDirtyPaths": []
@@ -164,8 +164,8 @@ export const repositoryBootstrap = {
         "data/product-gate-recovery.json",
         "data/product-gate-sample-plan.json",
         "data/release-candidate.json",
+        "data/repository-bootstrap.json",
         "data/repository-readiness.json",
-        "data/retention-loop.json",
         "reports/analytics-rollup-latest.md",
         "reports/autonomous-operator-history-latest.md",
         "reports/autonomous-operator-latest.md",
@@ -177,8 +177,8 @@ export const repositoryBootstrap = {
         "reports/product-gate-recovery-latest.md",
         "reports/product-gate-sample-plan-latest.md",
         "reports/release-candidate-latest.md",
+        "reports/repository-bootstrap-latest.md",
         "reports/repository-readiness-latest.md",
-        "reports/retention-loop-latest.md",
         "src/data/autonomousOperator.ts",
         "src/data/autonomousOperatorHistory.ts",
         "src/data/autonomousOwnerLoop.ts",
@@ -188,8 +188,8 @@ export const repositoryBootstrap = {
         "src/data/productGateRecovery.ts",
         "src/data/productGateSamplePlan.ts",
         "src/data/releaseCandidate.ts",
-        "src/data/repositoryReadiness.ts",
-        "src/data/retentionLoop.ts"
+        "src/data/repositoryBootstrap.ts",
+        "src/data/repositoryReadiness.ts"
       ],
       "generatedEvidenceDirtyFiles": 37,
       "generatedEvidenceDirtyPaths": [
@@ -204,8 +204,8 @@ export const repositoryBootstrap = {
         "data/product-gate-recovery.json",
         "data/product-gate-sample-plan.json",
         "data/release-candidate.json",
+        "data/repository-bootstrap.json",
         "data/repository-readiness.json",
-        "data/retention-loop.json",
         "reports/analytics-rollup-latest.md",
         "reports/autonomous-operator-history-latest.md",
         "reports/autonomous-operator-latest.md",
@@ -217,8 +217,8 @@ export const repositoryBootstrap = {
         "reports/product-gate-recovery-latest.md",
         "reports/product-gate-sample-plan-latest.md",
         "reports/release-candidate-latest.md",
+        "reports/repository-bootstrap-latest.md",
         "reports/repository-readiness-latest.md",
-        "reports/retention-loop-latest.md",
         "src/data/autonomousOperator.ts",
         "src/data/autonomousOperatorHistory.ts",
         "src/data/autonomousOwnerLoop.ts",
@@ -228,8 +228,8 @@ export const repositoryBootstrap = {
         "src/data/productGateRecovery.ts",
         "src/data/productGateSamplePlan.ts",
         "src/data/releaseCandidate.ts",
-        "src/data/repositoryReadiness.ts",
-        "src/data/retentionLoop.ts"
+        "src/data/repositoryBootstrap.ts",
+        "src/data/repositoryReadiness.ts"
       ],
       "nonGeneratedDirtyFiles": 0,
       "nonGeneratedDirtyPaths": []
@@ -267,7 +267,7 @@ export const repositoryBootstrap = {
     "repositoryReadiness": "waiting-for-github-repository",
     "deployment": "ready-for-pages",
     "releaseCandidate": "release-candidate-ready",
-    "releaseCandidateId": "pwa-82379c7d6983",
+    "releaseCandidateId": "pwa-e16363f17ef3",
     "postDeploySmoke": "blocked-missing-origin"
   },
   "execution": {
