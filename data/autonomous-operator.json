@@ -1,24 +1,22 @@
 {
-  "generatedAt": "2026-05-19T16:38:02.979Z",
+  "generatedAt": "2026-05-19T16:41:35.336Z",
   "status": "operator-plan-ready",
   "mode": "plan-only",
   "ownerDecision": {
-    "actionId": "bootstrap-production-setup",
-    "command": "npm run autonomous:release-candidate && npm run autonomous:deploy-plan && npm run autonomous:bootstrap",
+    "actionId": "optimize-product-gates",
+    "command": "npm run autonomous:analyze && npm run autonomous:product-optimize && npm run autonomous:sync-config && npm run autonomous:simulate",
     "locallyExecutable": true,
     "rejectionReason": null
   },
   "requestedActionId": null,
   "selectedAction": {
-    "id": "bootstrap-production-setup",
+    "id": "optimize-product-gates",
     "status": "armed",
-    "command": "npm run autonomous:release-candidate && npm run autonomous:deploy-plan && npm run autonomous:bootstrap",
+    "command": "npm run autonomous:analyze && npm run autonomous:product-optimize && npm run autonomous:sync-config && npm run autonomous:simulate",
     "targets": [
-      "github-pages",
-      "repository-config",
-      "event-collector"
+      "harbor-rings"
     ],
-    "reason": "Regenerates the zero-spend production setup handoff and exact GitHub variable/secret commands.",
+    "reason": "Applies one guarded target-score or telemetry improvement when product gates block monetization.",
     "costUsd": 0
   },
   "selectedRejection": null,
@@ -105,12 +103,6 @@
       "reason": "status-monitor"
     },
     {
-      "id": "optimize-product-gates",
-      "status": "armed",
-      "command": "npm run autonomous:analyze && npm run autonomous:product-optimize && npm run autonomous:sync-config && npm run autonomous:simulate",
-      "reason": "not-selected-this-run"
-    },
-    {
       "id": "refresh-product-gate-recovery",
       "status": "armed",
       "command": "npm run autonomous:gate-recovery",
@@ -150,6 +142,12 @@
       "id": "prepare-repository-channel",
       "status": "armed",
       "command": "npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap",
+      "reason": "not-selected-this-run"
+    },
+    {
+      "id": "bootstrap-production-setup",
+      "status": "armed",
+      "command": "npm run autonomous:release-candidate && npm run autonomous:deploy-plan && npm run autonomous:bootstrap",
       "reason": "not-selected-this-run"
     },
     {
@@ -203,16 +201,20 @@
   ],
   "commandPlan": [
     {
-      "segment": "npm run autonomous:release-candidate",
-      "script": "autonomous:release-candidate"
+      "segment": "npm run autonomous:analyze",
+      "script": "autonomous:analyze"
     },
     {
-      "segment": "npm run autonomous:deploy-plan",
-      "script": "autonomous:deploy-plan"
+      "segment": "npm run autonomous:product-optimize",
+      "script": "autonomous:product-optimize"
     },
     {
-      "segment": "npm run autonomous:bootstrap",
-      "script": "autonomous:bootstrap"
+      "segment": "npm run autonomous:sync-config",
+      "script": "autonomous:sync-config"
+    },
+    {
+      "segment": "npm run autonomous:simulate",
+      "script": "autonomous:simulate"
     }
   ],
   "execution": {
@@ -278,7 +280,7 @@
     "RUN_WORKFLOWS=1"
   ],
   "nextActions": [
-    "Run npm run autonomous:operator -- --execute --action=bootstrap-production-setup to execute exactly one allowed local action.",
+    "Run npm run autonomous:operator -- --execute --action=optimize-product-gates to execute exactly one allowed local action.",
     "Do not execute GitHub workflow, store, paid ads, or account setup commands from the local operator."
   ]
 }
