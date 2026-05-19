@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-19T03:33:42.442Z",
+  "generatedAt": "2026-05-19T03:42:22.669Z",
   "status": "owner-loop-ready",
   "mode": "repository-channel-needed",
   "autonomyScore": {
@@ -20,18 +20,26 @@
     "rollbackRequired": false
   },
   "ownerDecision": {
-    "nextBestActionId": "seed-portfolio-traffic",
-    "nextBestAction": "npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop",
+    "nextBestActionId": "optimize-product-gates",
+    "nextBestAction": "npm run autonomous:analyze && npm run autonomous:product-optimize && npm run autonomous:sync-config && npm run autonomous:simulate",
     "canExecuteWithoutSpend": true,
-    "rationale": "Under-measured playable games need free organic/internal traffic before quality judgment."
+    "rationale": "Applies one guarded target-score or telemetry improvement when product gates block monetization."
   },
   "executionMemory": {
     "avoidImmediateRepeat": true,
-    "lastExecutedActionId": "prepare-repository-channel",
+    "recentExecutionWindow": 3,
+    "recentExecutedActionIds": [
+      "bootstrap-production-setup",
+      "seed-portfolio-traffic",
+      "prepare-repository-channel"
+    ],
+    "lastExecutedActionId": "bootstrap-production-setup",
     "lastExecutedStatus": "executed",
     "lastRecordExecutionStatus": "not-requested",
     "skippedRecentlyExecutedActionIds": [
-      "prepare-repository-channel"
+      "seed-portfolio-traffic",
+      "prepare-repository-channel",
+      "bootstrap-production-setup"
     ],
     "preferredActionOrder": [
       "prepare-repository-channel",
@@ -120,7 +128,7 @@
       "id": "performance-budget",
       "status": "ready",
       "autonomy": "automatic-build-budget",
-      "evidence": "Initial JS 673.8 KB; gzip 177.2 KB; deferred chunks 1.",
+      "evidence": "Initial JS 627.3 KB; gzip 169.5 KB; deferred chunks 1.",
       "nextAction": "Keep Phaser and game scenes outside the initial PWA shell."
     },
     {
@@ -190,14 +198,14 @@
       "id": "release-candidate",
       "status": "ready",
       "autonomy": "content-hashed-deploy-evidence",
-      "evidence": "Candidate pwa-5d17285b2e72; status release-candidate-ready; files 38; smoke URLs 7.",
+      "evidence": "Candidate pwa-2e1df1a8618a; status release-candidate-ready; files 38; smoke URLs 7.",
       "nextAction": "Regenerate the release candidate after every production build before deploy or rollback decisions."
     },
     {
       "id": "post-deploy-smoke",
       "status": "ready",
       "autonomy": "read-only-live-deploy-verification",
-      "evidence": "Smoke blocked-missing-origin; origin missing; candidate pwa-5d17285b2e72; checks 0/8 passed; local artifact predeploy-artifact-smoke-passed 8/8 passed.",
+      "evidence": "Smoke blocked-missing-origin; origin missing; candidate pwa-2e1df1a8618a; checks 0/8 passed; local artifact predeploy-artifact-smoke-passed 8/8 passed.",
       "nextAction": "Run this after deployment with AGL_DEPLOYED_PWA_ORIGIN set to the Pages URL."
     },
     {
@@ -211,21 +219,21 @@
       "id": "autonomous-operator",
       "status": "ready",
       "autonomy": "one-safe-action-runner",
-      "evidence": "Operator operator-plan-ready; selected seed-portfolio-traffic; execution not-requested.",
+      "evidence": "Operator operator-plan-ready; selected optimize-product-gates; execution not-requested.",
       "nextAction": "Keep a dry-run operator plan ready, then execute only one allowlisted local action when explicitly requested."
     },
     {
       "id": "operator-history",
       "status": "ready",
       "autonomy": "operator-audit-trail",
-      "evidence": "History operator-history-ready; records 25; executed 1.",
+      "evidence": "History operator-history-ready; records 30; executed 3.",
       "nextAction": "Keep a capped durable record of operator plans and one-action executions."
     },
     {
       "id": "objective-audit",
       "status": "ready",
       "autonomy": "completion-evidence-ledger",
-      "evidence": "Audit objective-in-progress; met 5/8; external blockers 21.",
+      "evidence": "Audit objective-in-progress; met 5/8; external blockers 20.",
       "nextAction": "The local autonomous PWA system is largely prepared, but production credentials, live data, monetization gates, hosted compliance URLs, and store account/signing blockers remain."
     },
     {
@@ -350,7 +358,7 @@
       "command": "npm run build && npm run autonomous:performance",
       "targets": [
         "pwa-shell",
-        "GameCanvas-CPgEYQo_.js"
+        "GameCanvas-C_5jqY4a.js"
       ],
       "reason": "Keeps the PWA shell fast while Phaser and game scenes stay deferred."
     },
@@ -360,7 +368,7 @@
       "costUsd": 0,
       "command": "npm run autonomous:release-candidate",
       "targets": [
-        "pwa-5d17285b2e72"
+        "pwa-2e1df1a8618a"
       ],
       "reason": "Records a content-hashed dist inventory and post-deploy smoke plan for the exact PWA build."
     },
@@ -371,7 +379,7 @@
       "command": "npm run autonomous:post-deploy-smoke",
       "targets": [
         "deployed-pages-url",
-        "pwa-5d17285b2e72"
+        "pwa-2e1df1a8618a"
       ],
       "reason": "Waits for a deployed Pages origin, then verifies the live PWA matches the exact release candidate."
     },
@@ -443,7 +451,7 @@
       "costUsd": 0,
       "command": "npm run autonomous:operator",
       "targets": [
-        "seed-portfolio-traffic"
+        "optimize-product-gates"
       ],
       "reason": "Publishes the one-action local execution plan with allowlist, zero-spend, and audit controls."
     },
@@ -453,7 +461,7 @@
       "costUsd": 0,
       "command": "npm run autonomous:operator",
       "targets": [
-        "seed-portfolio-traffic"
+        "optimize-product-gates"
       ],
       "reason": "Refreshes the capped operator history so safe actions remain auditable over time."
     },
@@ -652,10 +660,10 @@
   "evidence": {
     "analyticsSource": "fixture-sample",
     "dailyChallenge": {
-      "date": "2026-05-18",
+      "date": "2026-05-19",
       "gameId": "canopy-bloom",
       "title": "Canopy Bloom",
-      "seed": "daily-20260518-71b",
+      "seed": "daily-20260519-5i8",
       "reason": "Canopy Bloom has the strongest blended portfolio score (51.912)."
     },
     "trafficSeedingStatus": "traffic-seeding-ready",

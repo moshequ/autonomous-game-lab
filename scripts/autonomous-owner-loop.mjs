@@ -976,12 +976,16 @@ const guardrails = [
 const executableNow = safeAutonomousActions.filter((action) =>
   ['armed', 'ready-when-repository-pages-enabled'].includes(action.status),
 )
-const lastExecutedRecord = [...(autonomousOperatorHistory.records ?? [])]
+const recentExecutedRecords = [...(autonomousOperatorHistory.records ?? [])]
   .reverse()
-  .find((record) => record.execution?.requested === true)
+  .filter((record) => record.execution?.requested === true && record.execution?.status === 'executed')
+const lastExecutedRecord = recentExecutedRecords[0]
 const lastExecutedActionId =
   lastExecutedRecord?.selectedActionId ?? autonomousOperatorHistory.summary?.lastExecutedActionId ?? null
-const recentlyExecutedActionIds = new Set(lastExecutedActionId ? [lastExecutedActionId] : [])
+const recentExecutedActionIds = [
+  ...new Set(recentExecutedRecords.map((record) => record.selectedActionId).filter(Boolean)),
+].slice(0, 3)
+const recentlyExecutedActionIds = new Set(recentExecutedActionIds)
 const executableWithoutImmediateRepeat = executableNow.filter((action) => !recentlyExecutedActionIds.has(action.id))
 const prioritizedExecutableNow =
   executableWithoutImmediateRepeat.length > 0 ? executableWithoutImmediateRepeat : executableNow
@@ -1032,6 +1036,8 @@ const payload = {
   },
   executionMemory: {
     avoidImmediateRepeat: true,
+    recentExecutionWindow: 3,
+    recentExecutedActionIds,
     lastExecutedActionId,
     lastExecutedStatus: lastExecutedRecord?.execution?.status ?? null,
     lastRecordExecutionStatus: autonomousOperatorHistory.summary?.lastExecutionStatus ?? null,
@@ -1087,6 +1093,28 @@ const payload = {
   },
 }
 
+const appPayload = {
+  status: payload.status,
+  mode: payload.mode,
+  autonomyScore: {
+    percent: payload.autonomyScore.percent,
+  },
+  controls: {
+    externalAccountInterventionRequired: payload.controls.externalAccountInterventionRequired,
+  },
+  ownerDecision: {
+    nextBestActionId: payload.ownerDecision.nextBestActionId,
+  },
+  systems: payload.systems.slice(0, 4).map((system) => ({
+    id: system.id,
+    status: system.status,
+  })),
+  safeAutonomousActions: payload.safeAutonomousActions.slice(0, 3).map((action) => ({
+    id: action.id,
+    status: action.status,
+  })),
+}
+
 const report = [
   '# Autonomous Owner Loop',
   '',
@@ -1101,6 +1129,11 @@ const report = [
   `- Command: ${payload.ownerDecision.nextBestAction}`,
   `- Rationale: ${payload.ownerDecision.rationale}`,
   `- Last executed action: ${payload.executionMemory.lastExecutedActionId ?? 'none'}`,
+  `- Recent executed actions: ${
+    payload.executionMemory.recentExecutedActionIds.length
+      ? payload.executionMemory.recentExecutedActionIds.join(', ')
+      : 'none'
+  }`,
   '',
   '## Systems',
   '',
@@ -1130,7 +1163,7 @@ await mkdir(path.dirname(reportPath), { recursive: true })
 await writeFile(outputJsonPath, JSON.stringify(payload, null, 2) + '\n')
 await writeFile(
   outputTsPath,
-  `export const autonomousOwnerLoop = ${JSON.stringify(payload, null, 2)} as const\n\nexport type AutonomousOwnerLoop = typeof autonomousOwnerLoop\n`,
+  `export const autonomousOwnerLoop = ${JSON.stringify(appPayload, null, 2)} as const\n\nexport type AutonomousOwnerLoop = typeof autonomousOwnerLoop\n`,
 )
 await writeFile(reportPath, report.join('\n'))
 

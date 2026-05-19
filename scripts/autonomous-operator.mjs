@@ -392,6 +392,24 @@ const historyPayload = {
   },
   records,
 }
+const appPayload = {
+  status: payload.status,
+  mode: payload.mode,
+  selectedAction: payload.selectedAction
+    ? {
+        id: payload.selectedAction.id,
+        status: payload.selectedAction.status,
+        costUsd: payload.selectedAction.costUsd,
+      }
+    : null,
+  execution: {
+    status: payload.execution.status,
+  },
+}
+const historyAppPayload = {
+  status: historyPayload.status,
+  summary: historyPayload.summary,
+}
 
 const report = [
   '# Autonomous Operator',
@@ -469,13 +487,13 @@ await mkdir(path.dirname(historyReportPath), { recursive: true })
 await writeFile(outputJsonPath, JSON.stringify(payload, null, 2) + '\n')
 await writeFile(
   outputTsPath,
-  `export const autonomousOperator = ${JSON.stringify(payload, null, 2)} as const\n\nexport type AutonomousOperator = typeof autonomousOperator\n`,
+  `export const autonomousOperator = ${JSON.stringify(appPayload, null, 2)} as const\n\nexport type AutonomousOperator = typeof autonomousOperator\n`,
 )
 await writeFile(reportPath, report.join('\n'))
 await writeFile(historyJsonPath, JSON.stringify(historyPayload, null, 2) + '\n')
 await writeFile(
   historyTsPath,
-  `export const autonomousOperatorHistory = ${JSON.stringify(historyPayload, null, 2)} as const\n\nexport type AutonomousOperatorHistory = typeof autonomousOperatorHistory\n`,
+  `export const autonomousOperatorHistory = ${JSON.stringify(historyAppPayload, null, 2)} as const\n\nexport type AutonomousOperatorHistory = typeof autonomousOperatorHistory\n`,
 )
 await writeFile(historyReportPath, historyReport.join('\n'))
 

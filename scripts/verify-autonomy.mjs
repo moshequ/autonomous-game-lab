@@ -3132,18 +3132,32 @@ const missingBootstrapSecret = (productionBootstrap.requiredSecrets ?? [])
         (action) => action.target === item.repositorySecret,
       ),
   )
-const ownerLastExecutedRecord = [...(autonomousOperatorHistory.records ?? [])]
+const ownerRecentExecutedRecords = [...(autonomousOperatorHistory.records ?? [])]
   .reverse()
-  .find((record) => record.execution?.requested === true)
+  .filter((record) => record.execution?.requested === true && record.execution?.status === 'executed')
+const ownerLastExecutedRecord = ownerRecentExecutedRecords[0]
 const ownerLastExecutedActionId =
   ownerLastExecutedRecord?.selectedActionId ?? autonomousOperatorHistory.summary?.lastExecutedActionId ?? null
 const ownerLastExecutedStatus = ownerLastExecutedRecord?.execution?.status ?? null
 const ownerLastRecordExecutionStatus = autonomousOperatorHistory.summary?.lastExecutionStatus ?? null
 const ownerHasExecutedAction = (autonomousOperatorHistory.summary?.executedRecords ?? 0) > 0
+const ownerRecentExecutedActionIds = [
+  ...new Set(ownerRecentExecutedRecords.map((record) => record.selectedActionId).filter(Boolean)),
+].slice(0, 3)
 const ownerRecentlyExecutedActionStillExecutable = (autonomousOwnerLoop.safeAutonomousActions ?? []).some(
   (action) =>
     action.id === ownerLastExecutedActionId &&
     ['armed', 'ready-when-repository-pages-enabled'].includes(action.status),
+)
+const ownerRecentlyExecutedExecutableActionIds = ownerRecentExecutedActionIds.filter((actionId) =>
+  (autonomousOwnerLoop.safeAutonomousActions ?? []).some(
+    (action) => action.id === actionId && ['armed', 'ready-when-repository-pages-enabled'].includes(action.status),
+  ),
+)
+const ownerHasExecutableAlternativeOutsideRecent = (autonomousOwnerLoop.safeAutonomousActions ?? []).some(
+  (action) =>
+    ['armed', 'ready-when-repository-pages-enabled'].includes(action.status) &&
+    !ownerRecentExecutedActionIds.includes(action.id),
 )
 
 if (
@@ -3185,15 +3199,26 @@ if (
   ownerMissingCredential ||
   missingBootstrapSecret ||
   autonomousOwnerLoop.executionMemory?.avoidImmediateRepeat !== true ||
+  autonomousOwnerLoop.executionMemory?.recentExecutionWindow !== 3 ||
   autonomousOwnerLoop.executionMemory?.lastExecutedActionId !== ownerLastExecutedActionId ||
   autonomousOwnerLoop.executionMemory?.lastExecutedStatus !== ownerLastExecutedStatus ||
   autonomousOwnerLoop.executionMemory?.lastRecordExecutionStatus !== ownerLastRecordExecutionStatus ||
+  JSON.stringify(autonomousOwnerLoop.executionMemory?.recentExecutedActionIds ?? []) !==
+    JSON.stringify(ownerRecentExecutedActionIds) ||
+  (ownerHasExecutedAction &&
+    ownerHasExecutableAlternativeOutsideRecent &&
+    ownerRecentExecutedActionIds.includes(autonomousOwnerLoop.ownerDecision?.nextBestActionId)) ||
   (ownerHasExecutedAction &&
     ownerRecentlyExecutedActionStillExecutable &&
     autonomousOwnerLoop.ownerDecision?.nextBestActionId === ownerLastExecutedActionId) ||
   (ownerHasExecutedAction &&
     ownerRecentlyExecutedActionStillExecutable &&
-    !autonomousOwnerLoop.executionMemory?.skippedRecentlyExecutedActionIds?.includes(ownerLastExecutedActionId))
+    !autonomousOwnerLoop.executionMemory?.skippedRecentlyExecutedActionIds?.includes(ownerLastExecutedActionId)) ||
+  (ownerHasExecutedAction &&
+    ownerHasExecutableAlternativeOutsideRecent &&
+    !ownerRecentlyExecutedExecutableActionIds.every((actionId) =>
+      autonomousOwnerLoop.executionMemory?.skippedRecentlyExecutedActionIds?.includes(actionId),
+    ))
 ) {
   fail('Autonomous owner loop must synthesize current production state, safe actions, and credential-gated blockers.')
 }

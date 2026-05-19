@@ -6,6 +6,10 @@ const expectRunMoves = async (page: Page, moves: string) => {
 }
 
 test('portal loads a playable canvas and autonomy cockpit', async ({ page }) => {
+  const ownerLoop = JSON.parse(await readFile('data/autonomous-owner-loop.json', 'utf8')) as {
+    ownerDecision: { nextBestActionId: string }
+  }
+
   await page.goto('/')
 
   await expect(page.getByRole('heading', { name: /Original board-game-inspired/i })).toBeVisible()
@@ -44,7 +48,7 @@ test('portal loads a playable canvas and autonomy cockpit', async ({ page }) => 
   await expect(page.getByText('production-env-missing')).toBeVisible()
   await expect(page.getByText('owner-loop-ready')).toBeVisible()
   await expect(page.getByText('repository-channel-needed')).toBeVisible()
-  await expect(page.getByText(/prepare-repository-channel|seed-portfolio-traffic/).first()).toBeVisible()
+  await expect(page.getByText(ownerLoop.ownerDecision.nextBestActionId).first()).toBeVisible()
   await expect(page.getByLabel('Performance Budget')).toContainText('performance-budget-ready')
   await expect(page.getByLabel('Performance Budget')).toContainText('Initial JS')
   await expect(page.getByLabel('Production Bootstrap')).toContainText('production-bootstrap-ready')
@@ -1015,8 +1019,11 @@ test('autonomous operator history keeps a capped audit trail', async ({ page }) 
   }
   const ownerLoop = JSON.parse(await readFile('data/autonomous-owner-loop.json', 'utf8')) as {
     ownerDecision: { nextBestActionId: string }
+    safeAutonomousActions: Array<{ id: string; status: string }>
     executionMemory: {
       avoidImmediateRepeat: boolean
+      recentExecutionWindow: number
+      recentExecutedActionIds: string[]
       lastExecutedActionId: string | null
       lastExecutedStatus: string | null
       lastRecordExecutionStatus: string | null
@@ -1025,7 +1032,19 @@ test('autonomous operator history keeps a capped audit trail', async ({ page }) 
   }
   const lastExecutedRecord = [...history.records]
     .reverse()
-    .find((record) => record.execution.requested === true)
+    .find((record) => record.execution.requested === true && record.execution.status === 'executed')
+  const recentExecutedActionIds = [
+    ...new Set(
+      [...history.records]
+        .reverse()
+        .filter((record) => record.execution.requested === true && record.execution.status === 'executed')
+        .map((record) => record.selectedActionId)
+        .filter(Boolean),
+    ),
+  ].slice(0, 3)
+  const hasExecutableAlternativeOutsideRecent = ownerLoop.safeAutonomousActions.some(
+    (action) => ['armed', 'ready-when-repository-pages-enabled'].includes(action.status) && !recentExecutedActionIds.includes(action.id),
+  )
 
   expect(history.status).toBe('operator-history-ready')
   expect(history.retention.maxRecords).toBe(40)
@@ -1038,13 +1057,17 @@ test('autonomous operator history keeps a capped audit trail', async ({ page }) 
   expect(history.summary.lastActionId).toBeTruthy()
   expect(history.summary.lastExecutedActionId).toBeTruthy()
   expect(ownerLoop.executionMemory.avoidImmediateRepeat).toBe(true)
+  expect(ownerLoop.executionMemory.recentExecutionWindow).toBe(3)
+  expect(ownerLoop.executionMemory.recentExecutedActionIds).toEqual(recentExecutedActionIds)
   expect(ownerLoop.executionMemory.lastExecutedActionId).toBe(history.summary.lastExecutedActionId)
   expect(ownerLoop.executionMemory.lastExecutedStatus).toBe(lastExecutedRecord?.execution.status)
   expect(ownerLoop.executionMemory.lastRecordExecutionStatus).toBe(history.summary.lastExecutionStatus)
-  expect(ownerLoop.ownerDecision.nextBestActionId).not.toBe(history.summary.lastExecutedActionId)
-  expect(ownerLoop.executionMemory.skippedRecentlyExecutedActionIds).toContain(
-    history.summary.lastExecutedActionId,
-  )
+  if (hasExecutableAlternativeOutsideRecent) {
+    expect(recentExecutedActionIds).not.toContain(ownerLoop.ownerDecision.nextBestActionId)
+    for (const actionId of recentExecutedActionIds) {
+      expect(ownerLoop.executionMemory.skippedRecentlyExecutedActionIds).toContain(actionId)
+    }
+  }
   expect(history.controls.zeroPaidSpend).toBe(true)
   expect(history.controls.localCommandAllowlistEnforced).toBe(true)
   expect(history.controls.maxActionsPerRun).toBe(1)

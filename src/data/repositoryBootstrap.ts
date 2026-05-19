@@ -1,5 +1,5 @@
 export const repositoryBootstrap = {
-  "generatedAt": "2026-05-19T03:27:19.217Z",
+  "generatedAt": "2026-05-19T03:42:21.504Z",
   "status": "waiting-for-github-target",
   "mode": "plan-only",
   "envFiles": {
@@ -61,7 +61,7 @@ export const repositoryBootstrap = {
       "originRemote": null,
       "remoteRepository": null,
       "hasCommit": true,
-      "dirtyFiles": 0
+      "dirtyFiles": 59
     },
     "after": {
       "insideWorkTree": true,
@@ -70,7 +70,7 @@ export const repositoryBootstrap = {
       "originRemote": null,
       "remoteRepository": null,
       "hasCommit": true,
-      "dirtyFiles": 0
+      "dirtyFiles": 59
     }
   },
   "repository": {
@@ -88,7 +88,7 @@ export const repositoryBootstrap = {
     "repositoryReadiness": "waiting-for-github-repository",
     "deployment": "ready-for-pages",
     "releaseCandidate": "release-candidate-ready",
-    "releaseCandidateId": "pwa-5d17285b2e72",
+    "releaseCandidateId": "pwa-2e1df1a8618a",
     "postDeploySmoke": "blocked-missing-origin"
   },
   "execution": {
@@ -142,13 +142,13 @@ export const repositoryBootstrap = {
     },
     {
       "id": "commit-current-snapshot",
-      "status": "ready",
+      "status": "ready-for-explicit-snapshot-commit",
       "costUsd": 0,
       "command": "AGL_ALLOW_REPOSITORY_BOOTSTRAP=1 AGL_ALLOW_SNAPSHOT_COMMIT=1 ./ops/github/bootstrap-repository.sh",
       "mutatesLocalGit": true,
       "mutatesRemoteGitHub": false,
       "requiresExplicitEnv": true,
-      "detail": "The current generated production snapshot is committed."
+      "detail": "59 generated or source file(s) are not committed yet."
     },
     {
       "id": "set-or-create-origin",
@@ -178,10 +178,11 @@ export const repositoryBootstrap = {
       "mutatesLocalGit": false,
       "mutatesRemoteGitHub": true,
       "requiresExplicitEnv": true,
-      "detail": "Push stays held until an origin remote exists and AGL_ALLOW_PUSH=1 is set."
+      "detail": "Push stays held until a committed local snapshot and origin remote exist."
     }
   ],
   "blockers": [
+    "Commit current generated changes before pushing to GitHub Pages.",
     "Set GITHUB_REPOSITORY or GH_REPO to the intended owner/repo.",
     "Attach a GitHub origin remote or create the target repository.",
     "Authenticate GitHub CLI or provide GH_TOKEN/GITHUB_TOKEN for remote repository bootstrap."
