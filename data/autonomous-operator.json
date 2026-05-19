@@ -1,23 +1,22 @@
 {
-  "generatedAt": "2026-05-19T17:40:55.633Z",
+  "generatedAt": "2026-05-19T17:43:42.480Z",
   "status": "operator-plan-ready",
   "mode": "plan-only",
   "ownerDecision": {
-    "actionId": "refresh-autonomous-cadence",
-    "command": "npm run autonomous:cadence",
+    "actionId": "refresh-product-gate-recovery",
+    "command": "npm run autonomous:gate-recovery",
     "locallyExecutable": true,
     "rejectionReason": null
   },
   "requestedActionId": null,
   "selectedAction": {
-    "id": "refresh-autonomous-cadence",
+    "id": "refresh-product-gate-recovery",
     "status": "armed",
-    "command": "npm run autonomous:cadence",
+    "command": "npm run autonomous:gate-recovery",
     "targets": [
-      "autonomous-game-lab-daily-owner-loop",
-      ".github/workflows/autonomous-daily.yml"
+      "firstGameCompletion"
     ],
-    "reason": "Keeps the unattended daily operating cadence, recovery policy, and verification chain auditable.",
+    "reason": "Ranks the exact observed lift and prompt sample still needed before revenue gates can open.",
     "costUsd": 0
   },
   "selectedRejection": null,
@@ -48,6 +47,12 @@
       "status": "armed",
       "command": "npm run autonomous:daily",
       "reason": "daily-loop-recursion-blocked"
+    },
+    {
+      "id": "refresh-autonomous-cadence",
+      "status": "armed",
+      "command": "npm run autonomous:cadence",
+      "reason": "not-selected-this-run"
     },
     {
       "id": "refresh-autonomous-self-update",
@@ -101,12 +106,6 @@
       "id": "optimize-product-gates",
       "status": "armed",
       "command": "npm run autonomous:analyze && npm run autonomous:product-optimize && npm run autonomous:sync-config && npm run autonomous:simulate",
-      "reason": "not-selected-this-run"
-    },
-    {
-      "id": "refresh-product-gate-recovery",
-      "status": "armed",
-      "command": "npm run autonomous:gate-recovery",
       "reason": "not-selected-this-run"
     },
     {
@@ -202,8 +201,8 @@
   ],
   "commandPlan": [
     {
-      "segment": "npm run autonomous:cadence",
-      "script": "autonomous:cadence"
+      "segment": "npm run autonomous:gate-recovery",
+      "script": "autonomous:gate-recovery"
     }
   ],
   "execution": {
@@ -269,7 +268,7 @@
     "RUN_WORKFLOWS=1"
   ],
   "nextActions": [
-    "Run npm run autonomous:operator -- --execute --action=refresh-autonomous-cadence to execute exactly one allowed local action.",
+    "Run npm run autonomous:operator -- --execute --action=refresh-product-gate-recovery to execute exactly one allowed local action.",
     "Do not execute GitHub workflow, store, paid ads, or account setup commands from the local operator."
   ]
 }
