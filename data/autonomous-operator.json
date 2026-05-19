@@ -1,23 +1,23 @@
 {
-  "generatedAt": "2026-05-19T05:45:03.129Z",
+  "generatedAt": "2026-05-19T05:49:25.367Z",
   "status": "operator-plan-ready",
   "mode": "plan-only",
   "ownerDecision": {
-    "actionId": "refresh-objective-audit",
-    "command": "npm run autonomous:objective-audit",
+    "actionId": "refresh-autonomous-cadence",
+    "command": "npm run autonomous:cadence",
     "locallyExecutable": true,
     "rejectionReason": null
   },
   "requestedActionId": null,
   "selectedAction": {
-    "id": "refresh-objective-audit",
+    "id": "refresh-autonomous-cadence",
     "status": "armed",
-    "command": "npm run autonomous:objective-audit",
+    "command": "npm run autonomous:cadence",
     "targets": [
-      "objective-evidence",
-      "production-blockers"
+      "autonomous-game-lab-daily-owner-loop",
+      ".github/workflows/autonomous-daily.yml"
     ],
-    "reason": "Keeps the original objective mapped to current evidence and prevents false completion claims.",
+    "reason": "Keeps the unattended daily operating cadence, recovery policy, and verification chain auditable.",
     "costUsd": 0
   },
   "selectedRejection": null,
@@ -46,12 +46,6 @@
       "status": "armed",
       "command": "npm run autonomous:daily",
       "reason": "daily-loop-recursion-blocked"
-    },
-    {
-      "id": "refresh-autonomous-cadence",
-      "status": "armed",
-      "command": "npm run autonomous:cadence",
-      "reason": "not-selected-this-run"
     },
     {
       "id": "refresh-autonomous-self-update",
@@ -150,6 +144,12 @@
       "reason": "command-not-in-local-allowlist"
     },
     {
+      "id": "refresh-objective-audit",
+      "status": "armed",
+      "command": "npm run autonomous:objective-audit",
+      "reason": "not-selected-this-run"
+    },
+    {
       "id": "optimize-store-listing",
       "status": "armed",
       "command": "npm run autonomous:store-listing-optimize && npm run autonomous:store-compliance",
@@ -182,8 +182,8 @@
   ],
   "commandPlan": [
     {
-      "segment": "npm run autonomous:objective-audit",
-      "script": "autonomous:objective-audit"
+      "segment": "npm run autonomous:cadence",
+      "script": "autonomous:cadence"
     }
   ],
   "execution": {
@@ -245,7 +245,7 @@
     "RUN_WORKFLOWS=1"
   ],
   "nextActions": [
-    "Run npm run autonomous:operator -- --execute --action=refresh-objective-audit to execute exactly one allowed local action.",
+    "Run npm run autonomous:operator -- --execute --action=refresh-autonomous-cadence to execute exactly one allowed local action.",
     "Do not execute GitHub workflow, store, paid ads, or account setup commands from the local operator."
   ]
 }

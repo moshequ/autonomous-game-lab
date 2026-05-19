@@ -1,10 +1,10 @@
 # Autonomous Operator
 
-Generated: 2026-05-19T05:45:03.129Z
+Generated: 2026-05-19T05:49:25.367Z
 Status: operator-plan-ready
 Mode: plan-only
-Owner decision: refresh-objective-audit
-Selected action: refresh-objective-audit
+Owner decision: refresh-autonomous-cadence
+Selected action: refresh-autonomous-cadence
 Execution: not-requested
 
 ## Controls
@@ -18,7 +18,7 @@ Execution: not-requested
 
 ## Selected Action
 
-- refresh-objective-audit: npm run autonomous:objective-audit
+- refresh-autonomous-cadence: npm run autonomous:cadence
 
 ## Eligible Local Actions
 
@@ -43,7 +43,6 @@ Execution: not-requested
 ## Blocked Actions
 
 - run-daily-owner-loop: daily-loop-recursion-blocked
-- refresh-autonomous-cadence: not-selected-this-run
 - refresh-autonomous-self-update: not-selected-this-run
 - seed-portfolio-traffic: not-selected-this-run
 - refresh-organic-seed-loop: not-selected-this-run
@@ -54,3 +53,4 @@ Execution: not-requested
 - run-post-deploy-smoke: status-monitor
 - optimize-product-gates: not-selected-this-run
 - refresh-first-move-coach: not-selected-this-run
+- refresh-completion-loop: not-selected-this-run
