@@ -1,5 +1,5 @@
 export const postDeploySmoke = {
-  "generatedAt": "2026-05-19T20:33:02.462Z",
+  "generatedAt": "2026-05-19T20:36:51.110Z",
   "status": "blocked-missing-origin",
   "envFiles": {
     "loaded": true,
@@ -54,8 +54,8 @@ export const postDeploySmoke = {
   "target": {
     "origin": null,
     "provider": "github-pages",
-    "candidateId": "pwa-aaa5c092f5e6",
-    "aggregateHash": "aaa5c092f5e6e5a16a1a14366596d3da137ddc862d9b6bd7f187939f0ebce402"
+    "candidateId": "pwa-ff2e270a843b",
+    "aggregateHash": "ff2e270a843b5f07607a79e35142bbc77cd68bc09758caa2f7f29a338b5c8241"
   },
   "sourceStatus": {
     "deployment": "ready-for-pages",
@@ -199,11 +199,11 @@ export const postDeploySmoke = {
         "file": "dist/release-candidate.json",
         "expectedStatus": 200,
         "status": "pass",
-        "bytes": 17001,
+        "bytes": 17003,
         "candidateMatches": true,
         "hashMatches": true,
-        "localCandidateId": "pwa-aaa5c092f5e6",
-        "localAggregateHash": "aaa5c092f5e6e5a16a1a14366596d3da137ddc862d9b6bd7f187939f0ebce402",
+        "localCandidateId": "pwa-ff2e270a843b",
+        "localAggregateHash": "ff2e270a843b5f07607a79e35142bbc77cd68bc09758caa2f7f29a338b5c8241",
         "detail": "Local release manifest matches the release candidate."
       }
     ]
@@ -322,7 +322,7 @@ export const postDeploySmoke = {
       "path": "/release-candidate.json",
       "url": "${DEPLOYED_PWA_ORIGIN}/release-candidate.json",
       "expectedStatus": 200,
-      "requiredText": "pwa-aaa5c092f5e6",
+      "requiredText": "pwa-ff2e270a843b",
       "status": "blocked",
       "detail": "No deployed origin configured."
     }
