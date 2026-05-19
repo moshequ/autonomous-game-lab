@@ -1,6 +1,6 @@
 # Production Readiness
 
-Generated: 2026-05-19T03:27:20.440Z
+Generated: 2026-05-19T03:27:35.014Z
 
 ## Environment
 
@@ -68,7 +68,7 @@ Status: ready-after-build
 - pass: autonomous-operator - Autonomous operator is operator-executed; selected prepare-repository-channel; execution executed.
 - pass: autonomous-operator-history - Autonomous operator history is operator-history-ready; records 24; executed 1.
 - pass: autonomous-cadence - Autonomous cadence is cadence-ready; Codex active-confirmed; GitHub scheduled.
-- pass: autonomous-self-update - Autonomous self-update is self-update-ready; safe pending 3; unsafe pending 0; remote push held.
+- pass: autonomous-self-update - Autonomous self-update is self-update-ready; safe pending 0; unsafe pending 0; remote push held.
 - pass: objective-audit - Objective audit is objective-in-progress; met 5 / 8; can complete false.
 
 ## Monetization
@@ -252,14 +252,14 @@ GitHub Actions: scheduled
 
 Status: self-update-ready
 Workflow: .github/workflows/autonomous-self-update.yml
-Safe pending: 3
+Safe pending: 0
 Unsafe pending: 0
 Remote push ready: false
 - pass: self-update-script-registered - autonomous:self-update is node scripts/autonomous-self-update.mjs.
 - pass: self-update-daily-loop-refresh - autonomous:daily refreshes self-update evidence before owner/audit evidence.
 - pass: self-update-daily-workflow-read-only - The ordinary daily workflow remains read-only and uploads evidence artifacts.
 - pass: self-update-self-update-workflow - A separate gated workflow can reproduce the daily loop, verify it, and persist allowlisted changes.
-- pass: self-update-safe-path-allowlist - 3 safe pending file(s), 0 unsafe pending file(s).
+- pass: self-update-safe-path-allowlist - 0 safe pending file(s), 0 unsafe pending file(s).
 - pass: self-update-repository-optional - Git worktree is available on main.
 - pass: self-update-remote-push-gated - Remote push remains held until GitHub credentials and AGL_AUTONOMOUS_SELF_UPDATE_DIRECT=1 are configured.
 - pass: self-update-zero-spend-controls - Self-update only stages repository artifacts; it does not create accounts, stores, ads, paid traffic, or revenue.
