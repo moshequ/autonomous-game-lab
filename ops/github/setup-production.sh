@@ -6,17 +6,30 @@ if ! command -v gh >/dev/null 2>&1; then
   exit 1
 fi
 
-if [[ -z "${GITHUB_REPOSITORY:-${GH_REPO:-}}" ]]; then
-  echo "Set GITHUB_REPOSITORY or GH_REPO to owner/repo." >&2
-  exit 1
-fi
-
 if ! gh auth status >/dev/null 2>&1; then
   echo "Authenticate GitHub CLI before syncing production settings." >&2
   exit 1
 fi
 
 repo="${GITHUB_REPOSITORY:-${GH_REPO:-}}"
+
+derive_repository_name() {
+  node -e 'const fs=require("fs"); let name="autonomous-game-lab"; try { name=JSON.parse(fs.readFileSync("package.json","utf8")).name || name } catch {} name=String(name).split("/").pop().replace(/[^A-Za-z0-9._-]+/g,"-").replace(/^-+|-+$/g,"") || "autonomous-game-lab"; console.log(name)'
+}
+
+if [[ -z "$repo" && "${AGL_ALLOW_GH_INFER_REPOSITORY:-1}" == "1" ]]; then
+  gh_owner="$(gh api user --jq .login 2>/dev/null || true)"
+  if [[ -n "$gh_owner" ]]; then
+    repo="$gh_owner/$(derive_repository_name)"
+    echo "inferred GitHub repository target: $repo"
+  fi
+fi
+
+if [[ -z "$repo" ]]; then
+  echo "Set GITHUB_REPOSITORY/GH_REPO or authenticate gh so owner/package-name can be inferred." >&2
+  exit 1
+fi
+
 repo_args=(--repo "$repo")
 
 set_variable() {

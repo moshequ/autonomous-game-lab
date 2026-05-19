@@ -328,8 +328,15 @@ const payload = {
   envFiles: localEnv,
   repository: {
     githubRepository,
+    githubRepositorySource: repositoryReadiness.repository?.source ?? null,
+    inferredRepository: repositoryReadiness.repository?.inferredTarget ?? repositoryBootstrap.repository?.inferredTarget ?? null,
     ghCliAvailable: hasGhCli,
     ghTokenConfigured,
+    ghAuthAvailable: repositoryReadiness.githubAutomation?.ghAuthAvailable ?? repositoryBootstrap.githubAutomation?.ghAuthAvailable ?? false,
+    ghCredentialReady:
+      repositoryReadiness.githubAutomation?.ghCredentialReady ??
+      repositoryBootstrap.githubAutomation?.ghCredentialReady ??
+      ghTokenConfigured,
     canUseGh,
     repositoryReadinessStatus: repositoryReadiness.status,
     repositoryBootstrapStatus: repositoryBootstrap.status,
@@ -457,17 +464,30 @@ if ! command -v gh >/dev/null 2>&1; then
   exit 1
 fi
 
-if [[ -z "\${GITHUB_REPOSITORY:-\${GH_REPO:-}}" ]]; then
-  echo "Set GITHUB_REPOSITORY or GH_REPO to owner/repo." >&2
-  exit 1
-fi
-
 if ! gh auth status >/dev/null 2>&1; then
   echo "Authenticate GitHub CLI before syncing production settings." >&2
   exit 1
 fi
 
 repo="\${GITHUB_REPOSITORY:-\${GH_REPO:-}}"
+
+derive_repository_name() {
+  node -e 'const fs=require("fs"); let name="autonomous-game-lab"; try { name=JSON.parse(fs.readFileSync("package.json","utf8")).name || name } catch {} name=String(name).split("/").pop().replace(/[^A-Za-z0-9._-]+/g,"-").replace(/^-+|-+$/g,"") || "autonomous-game-lab"; console.log(name)'
+}
+
+if [[ -z "$repo" && "\${AGL_ALLOW_GH_INFER_REPOSITORY:-1}" == "1" ]]; then
+  gh_owner="$(gh api user --jq .login 2>/dev/null || true)"
+  if [[ -n "$gh_owner" ]]; then
+    repo="$gh_owner/$(derive_repository_name)"
+    echo "inferred GitHub repository target: $repo"
+  fi
+fi
+
+if [[ -z "$repo" ]]; then
+  echo "Set GITHUB_REPOSITORY/GH_REPO or authenticate gh so owner/package-name can be inferred." >&2
+  exit 1
+fi
+
 repo_args=(--repo "$repo")
 
 set_variable() {
@@ -533,7 +553,7 @@ This folder contains the zero-spend GitHub setup helper for the autonomous PWA r
 
 1. Run \`npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap\` and clear any repository-channel blockers.
 2. Export the environment values from \`ops/production.env.example\`.
-3. Set \`GITHUB_REPOSITORY=owner/repo\` or \`GH_REPO=owner/repo\`.
+3. Set \`GITHUB_REPOSITORY=owner/repo\` / \`GH_REPO=owner/repo\`, or authenticate \`gh\` and let the helpers infer \`owner/package-name\`.
 4. Authenticate \`gh\` with access to repository variables and secrets.
 5. To initialize/attach the repository transport, run the guarded helper with only the explicit actions you want:
 

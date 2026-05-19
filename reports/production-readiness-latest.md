@@ -1,6 +1,6 @@
 # Production Readiness
 
-Generated: 2026-05-19T09:11:56.598Z
+Generated: 2026-05-19T09:19:27.322Z
 
 ## Environment
 
@@ -15,10 +15,10 @@ Repository: missing
 Git worktree: true
 Workflow dispatch ready: false
 - pass: repository-local-git-worktree - Git worktree detected at /Users/moshequ/Documents/Codex/2026-05-18/i-want-to-have-a-new.
-- blocker: repository-github-target - Set GITHUB_REPOSITORY/GH_REPO or add a GitHub origin remote.
+- blocker: repository-github-target - Set GITHUB_REPOSITORY/GH_REPO, add a GitHub origin remote, or authenticate gh so the target can be inferred.
 - blocker: repository-origin-remote - No GitHub origin remote is available from this workspace.
 - pass: repository-gh-cli - gh version 2.90.0 (2026-04-16)
-- external-blocker: repository-gh-token - GH_TOKEN or GITHUB_TOKEN is not configured for non-interactive workflow dispatch.
+- external-blocker: repository-gh-token - Authenticate GitHub CLI or configure GH_TOKEN/GITHUB_TOKEN for non-interactive workflow dispatch.
 - pass: repository-pages-workflow - Web PWA Deploy workflow exists and includes post-deploy smoke.
 - pass: repository-deployable-artifact - Deployment ready-for-pages; release candidate release-candidate-ready; smoke blocked-missing-origin.
 
@@ -32,8 +32,8 @@ Local git: true
 - ready: repo-bootstrap-initialize-local-git - Git worktree is available at /Users/moshequ/Documents/Codex/2026-05-18/i-want-to-have-a-new.
 - ready: repo-bootstrap-create-initial-commit - The local repository has at least one commit.
 - ready: repo-bootstrap-commit-current-snapshot - 12 repository evidence file(s) changed during this dry run; the outer verified commit will persist them.
-- waiting-for-github-target: repo-bootstrap-set-or-create-origin - Set GITHUB_REPOSITORY or GH_REPO before attaching origin.
-- waiting-for-github-target: repo-bootstrap-create-github-repository - Set GITHUB_REPOSITORY or GH_REPO before creating a GitHub repository.
+- waiting-for-github-target: repo-bootstrap-set-or-create-origin - Set GITHUB_REPOSITORY/GH_REPO or authenticate gh so the target can be inferred before attaching origin.
+- waiting-for-github-target: repo-bootstrap-create-github-repository - Set GITHUB_REPOSITORY/GH_REPO or authenticate gh so the target can be inferred before creating a GitHub repository.
 - waiting-for-commit-and-origin: repo-bootstrap-push-initial-snapshot - Push stays held until an origin remote exists and AGL_ALLOW_PUSH=1 is set.
 
 ## Web/PWA
@@ -56,7 +56,7 @@ Status: ready-after-build
 - pass: organic-seed-loop - Organic seed loop is organic-seed-loop-ready; target canopy-bloom; player-initiated share guard active.
 - pass: retention-loop - Retention loop is retention-loop-ready; daily challenge canopy-bloom; no-push/no-account guardrails active.
 - pass: pwa-install-loop - PWA install loop is pwa-install-loop-ready; prompt surface autonomy-cockpit; cost $0.
-- pass: performance-budget - Performance budget is performance-budget-ready; initial JS 654.9 KB / 173.8 KB gzip; deferred game chunk GameCanvas-Dn809fPc.js.
+- pass: performance-budget - Performance budget is performance-budget-ready; initial JS 652.5 KB / 173.8 KB gzip; deferred game chunk GameCanvas-CJSsF9bG.js.
 - pass: release-candidate - Release candidate is release-candidate-ready; files 39; smoke URLs 10.
 - pass: post-deploy-smoke-runner - Post-deploy smoke is blocked-missing-origin; origin missing; checks 0/11 passed, 11 blocked; local artifact predeploy-artifact-smoke-passed 11/11 passed.
 - pass: product-optimization - Product optimizer is product-optimization-ready; completion 0.397 vs gate 0.55; latest action already-applied.
@@ -66,7 +66,7 @@ Status: ready-after-build
 - pass: release-health - Release health guard is monitoring.
 - pass: production-environment - Production environment status is production-env-missing.
 - pass: production-bootstrap - Production bootstrap is production-bootstrap-ready; mode waiting-for-external-credentials; external blockers 23.
-- pass: autonomous-operator - Autonomous operator is operator-plan-ready; selected refresh-autonomous-cadence; execution not-requested.
+- pass: autonomous-operator - Autonomous operator is operator-plan-ready; selected seed-portfolio-traffic; execution not-requested.
 - pass: autonomous-operator-history - Autonomous operator history is operator-history-ready; records 40; executed 17.
 - pass: autonomous-cadence - Autonomous cadence is cadence-ready; Codex active-confirmed; GitHub scheduled.
 - pass: autonomous-self-update - Autonomous self-update is self-update-ready; safe pending 54; unsafe pending 0; remote push held.
@@ -109,23 +109,23 @@ Installs: 0
 ## Performance Budget
 
 Status: performance-budget-ready
-Initial JS: 654.9 KB (173.8 KB gzip)
-Deferred game chunk: GameCanvas-Dn809fPc.js
-- pass: performance-initial-js-budget - Initial JS is 654.9 KB; budget is 675 KB.
+Initial JS: 652.5 KB (173.8 KB gzip)
+Deferred game chunk: GameCanvas-CJSsF9bG.js
+- pass: performance-initial-js-budget - Initial JS is 652.5 KB; budget is 675 KB.
 - pass: performance-initial-js-gzip-budget - Initial JS gzip is 173.8 KB; budget is 200 KB.
 - pass: performance-initial-css-budget - Initial CSS is 9.6 KB; budget is 40 KB.
 - pass: performance-manifest - PWA manifest exists in dist.
 - pass: performance-service-worker - Service worker exists in dist.
-- pass: performance-game-runtime-deferred - GameCanvas-Dn809fPc.js is deferred from the initial shell.
-- pass: performance-largest-js-deferred - Largest JS chunk is GameCanvas-Dn809fPc.js at 1360.8 KB.
+- pass: performance-game-runtime-deferred - GameCanvas-CJSsF9bG.js is deferred from the initial shell.
+- pass: performance-largest-js-deferred - Largest JS chunk is GameCanvas-CJSsF9bG.js at 1360.8 KB.
 - pass: performance-deferred-game-budget - Deferred game chunk is 1360.8 KB; monitor budget is 1600 KB.
 
 ## Release Candidate
 
 Status: release-candidate-ready
-Candidate: pwa-7dff6529eb87
+Candidate: pwa-e3e1a42c2289
 Files: 39
-Aggregate SHA-256: 7dff6529eb87030541c9e153211f90310d1d7d9cfdd5277c37227e952505d4dd
+Aggregate SHA-256: e3e1a42c2289e8b48036e5de4299af8cf95ff3f137c30539c3348a22a105367c
 - pass: release-dist-inventory - 39 dist files inventoried.
 - pass: release-required-files - 14/14 required files present.
 - pass: release-game-pages - 10 generated game page(s) in dist.
@@ -139,7 +139,7 @@ Aggregate SHA-256: 7dff6529eb87030541c9e153211f90310d1d7d9cfdd5277c37227e952505d
 
 Status: blocked-missing-origin
 Origin: missing
-Candidate: pwa-7dff6529eb87
+Candidate: pwa-e3e1a42c2289
 Checks: 0/11 passed (11 blocked)
 Local artifact: predeploy-artifact-smoke-passed (11/11 passed)
 - blocked: smoke-app-shell - No deployed origin configured.
@@ -225,7 +225,7 @@ Setup script: ops/github/setup-production.sh
 
 Status: operator-plan-ready
 Mode: plan-only
-Selected action: refresh-autonomous-cadence
+Selected action: seed-portfolio-traffic
 Execution: not-requested
 
 ## Autonomous Operator History

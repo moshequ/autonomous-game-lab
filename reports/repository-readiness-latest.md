@@ -1,6 +1,6 @@
 # Repository Readiness
 
-Generated: 2026-05-19T09:11:53.565Z
+Generated: 2026-05-19T09:19:25.027Z
 Status: waiting-for-github-repository
 Workspace: /Users/moshequ/Documents/Codex/2026-05-18/i-want-to-have-a-new
 Repository: missing
@@ -8,10 +8,10 @@ Repository: missing
 ## Checks
 
 - pass: local-git-worktree - Git worktree detected at /Users/moshequ/Documents/Codex/2026-05-18/i-want-to-have-a-new.
-- blocker: github-target - Set GITHUB_REPOSITORY/GH_REPO or add a GitHub origin remote.
+- blocker: github-target - Set GITHUB_REPOSITORY/GH_REPO, add a GitHub origin remote, or authenticate gh so the target can be inferred.
 - blocker: origin-remote - No GitHub origin remote is available from this workspace.
 - pass: gh-cli - gh version 2.90.0 (2026-04-16)
-- external-blocker: gh-token - GH_TOKEN or GITHUB_TOKEN is not configured for non-interactive workflow dispatch.
+- external-blocker: gh-token - Authenticate GitHub CLI or configure GH_TOKEN/GITHUB_TOKEN for non-interactive workflow dispatch.
 - pass: pages-workflow - Web PWA Deploy workflow exists and includes post-deploy smoke.
 - pass: deployable-artifact - Deployment ready-for-pages; release candidate release-candidate-ready; smoke blocked-missing-origin.
 
@@ -27,11 +27,11 @@ Repository: missing
 
 ## Setup Required Once
 
-- Add a GitHub origin remote or set GITHUB_REPOSITORY/GH_REPO to owner/repo.
+- Add a GitHub origin remote, set GITHUB_REPOSITORY/GH_REPO to owner/repo, or authenticate gh to infer owner/package-name.
 - Authenticate GitHub CLI or provide GH_TOKEN/GITHUB_TOKEN before non-interactive workflow dispatch.
 - Enable GitHub Pages with GitHub Actions as the source in the target repository.
 
 ## Blockers
 
-- Add a GitHub origin remote or set GITHUB_REPOSITORY/GH_REPO.
-- Configure GH_TOKEN or GITHUB_TOKEN for workflow dispatch and repository settings sync.
+- Add a GitHub origin remote, set GITHUB_REPOSITORY/GH_REPO, or authenticate gh to infer the target repository.
+- Authenticate GitHub CLI or configure GH_TOKEN/GITHUB_TOKEN for workflow dispatch and repository settings sync.

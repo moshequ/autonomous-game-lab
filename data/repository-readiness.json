@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-19T09:11:53.565Z",
+  "generatedAt": "2026-05-19T09:19:25.027Z",
   "status": "waiting-for-github-repository",
   "envFiles": {
     "loaded": true,
@@ -87,11 +87,18 @@
     "target": null,
     "source": "missing",
     "originRemote": null,
-    "remoteRepository": null
+    "remoteRepository": null,
+    "inferredTarget": null,
+    "inferredTargetSource": null,
+    "packageName": "autonomous-game-lab",
+    "inferredRepositoryName": "autonomous-game-lab"
   },
   "githubAutomation": {
     "ghCliAvailable": true,
+    "ghAuthAvailable": false,
+    "ghCredentialReady": false,
     "ghTokenConfigured": false,
+    "ghUserLogin": null,
     "workflowDispatchReady": false,
     "canSyncRepositorySettings": false
   },
@@ -100,7 +107,7 @@
     "workflowExists": true,
     "deployWorkflowIncludesSmoke": true,
     "deploymentStatus": "ready-for-pages",
-    "releaseCandidateId": "pwa-7dff6529eb87",
+    "releaseCandidateId": "pwa-e3e1a42c2289",
     "postDeploySmokeStatus": "blocked-missing-origin"
   },
   "controls": {
@@ -121,7 +128,7 @@
     {
       "id": "github-target",
       "status": "blocker",
-      "detail": "Set GITHUB_REPOSITORY/GH_REPO or add a GitHub origin remote."
+      "detail": "Set GITHUB_REPOSITORY/GH_REPO, add a GitHub origin remote, or authenticate gh so the target can be inferred."
     },
     {
       "id": "origin-remote",
@@ -136,7 +143,7 @@
     {
       "id": "gh-token",
       "status": "external-blocker",
-      "detail": "GH_TOKEN or GITHUB_TOKEN is not configured for non-interactive workflow dispatch."
+      "detail": "Authenticate GitHub CLI or configure GH_TOKEN/GITHUB_TOKEN for non-interactive workflow dispatch."
     },
     {
       "id": "pages-workflow",
@@ -150,11 +157,11 @@
     }
   ],
   "blockers": [
-    "Add a GitHub origin remote or set GITHUB_REPOSITORY/GH_REPO.",
-    "Configure GH_TOKEN or GITHUB_TOKEN for workflow dispatch and repository settings sync."
+    "Add a GitHub origin remote, set GITHUB_REPOSITORY/GH_REPO, or authenticate gh to infer the target repository.",
+    "Authenticate GitHub CLI or configure GH_TOKEN/GITHUB_TOKEN for workflow dispatch and repository settings sync."
   ],
   "setupRequiredOnce": [
-    "Add a GitHub origin remote or set GITHUB_REPOSITORY/GH_REPO to owner/repo.",
+    "Add a GitHub origin remote, set GITHUB_REPOSITORY/GH_REPO to owner/repo, or authenticate gh to infer owner/package-name.",
     "Authenticate GitHub CLI or provide GH_TOKEN/GITHUB_TOKEN before non-interactive workflow dispatch.",
     "Enable GitHub Pages with GitHub Actions as the source in the target repository."
   ],

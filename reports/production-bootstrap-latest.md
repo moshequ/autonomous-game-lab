@@ -1,6 +1,6 @@
 # Production Bootstrap
 
-Generated: 2026-05-19T09:11:54.752Z
+Generated: 2026-05-19T09:19:25.989Z
 Status: production-bootstrap-ready
 Mode: waiting-for-external-credentials
 GitHub repository: missing
@@ -77,9 +77,9 @@ gh CLI available: true
 
 ## External Blockers
 
-- repository-readiness: Add a GitHub origin remote or set GITHUB_REPOSITORY/GH_REPO.
-- repository-readiness: Configure GH_TOKEN or GITHUB_TOKEN for workflow dispatch and repository settings sync.
-- repository-bootstrap: Set GITHUB_REPOSITORY or GH_REPO to the intended owner/repo.
+- repository-readiness: Add a GitHub origin remote, set GITHUB_REPOSITORY/GH_REPO, or authenticate gh to infer the target repository.
+- repository-readiness: Authenticate GitHub CLI or configure GH_TOKEN/GITHUB_TOKEN for workflow dispatch and repository settings sync.
+- repository-bootstrap: Set GITHUB_REPOSITORY/GH_REPO or authenticate gh so the intended owner/repo can be inferred.
 - repository-bootstrap: Attach a GitHub origin remote or create the target repository.
 - repository-bootstrap: Authenticate GitHub CLI or provide GH_TOKEN/GITHUB_TOKEN for remote repository bootstrap.
 - production-environment: Set AGL_PUBLIC_ORIGIN or PUBLIC_SITE_URL to a real HTTPS production origin.

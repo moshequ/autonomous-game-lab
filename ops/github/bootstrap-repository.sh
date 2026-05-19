@@ -9,6 +9,18 @@ fi
 default_branch="${AGL_DEFAULT_BRANCH:-main}"
 target_repo="${GITHUB_REPOSITORY:-${GH_REPO:-}}"
 
+derive_repository_name() {
+  node -e 'const fs=require("fs"); let name="autonomous-game-lab"; try { name=JSON.parse(fs.readFileSync("package.json","utf8")).name || name } catch {} name=String(name).split("/").pop().replace(/[^A-Za-z0-9._-]+/g,"-").replace(/^-+|-+$/g,"") || "autonomous-game-lab"; console.log(name)'
+}
+
+if [[ -z "$target_repo" && "${AGL_ALLOW_GH_INFER_REPOSITORY:-1}" == "1" ]] && command -v gh >/dev/null 2>&1 && gh auth status >/dev/null 2>&1; then
+  gh_owner="$(gh api user --jq .login 2>/dev/null || true)"
+  if [[ -n "$gh_owner" ]]; then
+    target_repo="$gh_owner/$(derive_repository_name)"
+    echo "inferred GitHub repository target: $target_repo"
+  fi
+fi
+
 ensure_git_identity() {
   if ! git config user.name >/dev/null 2>&1; then
     git config user.name "${AGL_GIT_AUTHOR_NAME:-Autonomous Game Lab Operator}"

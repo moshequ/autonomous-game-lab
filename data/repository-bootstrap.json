@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-19T09:11:54.154Z",
+  "generatedAt": "2026-05-19T09:19:25.446Z",
   "status": "waiting-for-github-target",
   "mode": "plan-only",
   "envFiles": {
@@ -137,20 +137,27 @@
   },
   "repository": {
     "target": null,
+    "source": "missing",
     "originRemote": null,
-    "remoteRepository": null
+    "remoteRepository": null,
+    "inferredTarget": null,
+    "inferredTargetSource": null,
+    "packageName": "autonomous-game-lab",
+    "inferredRepositoryName": "autonomous-game-lab"
   },
   "githubAutomation": {
     "ghCliAvailable": true,
     "ghAuthAvailable": false,
     "ghTokenConfigured": false,
+    "ghCredentialReady": false,
+    "ghUserLogin": null,
     "ghReady": false
   },
   "sourceStatus": {
     "repositoryReadiness": "waiting-for-github-repository",
     "deployment": "ready-for-pages",
     "releaseCandidate": "release-candidate-ready",
-    "releaseCandidateId": "pwa-7dff6529eb87",
+    "releaseCandidateId": "pwa-e3e1a42c2289",
     "postDeploySmoke": "blocked-missing-origin"
   },
   "execution": {
@@ -220,7 +227,7 @@
       "mutatesLocalGit": true,
       "mutatesRemoteGitHub": false,
       "requiresExplicitEnv": true,
-      "detail": "Set GITHUB_REPOSITORY or GH_REPO before attaching origin."
+      "detail": "Set GITHUB_REPOSITORY/GH_REPO or authenticate gh so the target can be inferred before attaching origin."
     },
     {
       "id": "create-github-repository",
@@ -230,7 +237,7 @@
       "mutatesLocalGit": false,
       "mutatesRemoteGitHub": true,
       "requiresExplicitEnv": true,
-      "detail": "Set GITHUB_REPOSITORY or GH_REPO before creating a GitHub repository."
+      "detail": "Set GITHUB_REPOSITORY/GH_REPO or authenticate gh so the target can be inferred before creating a GitHub repository."
     },
     {
       "id": "push-initial-snapshot",
@@ -244,7 +251,7 @@
     }
   ],
   "blockers": [
-    "Set GITHUB_REPOSITORY or GH_REPO to the intended owner/repo.",
+    "Set GITHUB_REPOSITORY/GH_REPO or authenticate gh so the intended owner/repo can be inferred.",
     "Attach a GitHub origin remote or create the target repository.",
     "Authenticate GitHub CLI or provide GH_TOKEN/GITHUB_TOKEN for remote repository bootstrap."
   ],
@@ -261,7 +268,7 @@
     "noWorkflowDispatch": true
   },
   "nextActions": [
-    "Set GITHUB_REPOSITORY/GH_REPO and run repository bootstrap with explicit remote flags when credentials exist.",
+    "Set GITHUB_REPOSITORY/GH_REPO or authenticate gh, then run repository bootstrap with explicit remote flags when credentials exist.",
     "Keep workflow dispatch in production bootstrap; repository bootstrap only prepares git/GitHub transport."
   ]
 }

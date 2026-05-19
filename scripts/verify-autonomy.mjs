@@ -3033,6 +3033,12 @@ if (
   repositoryReadiness.pages?.deployWorkflowIncludesSmoke !== true ||
   repositoryReadiness.pages?.releaseCandidateId !== releaseCandidate.candidateId ||
   repositoryReadiness.pages?.postDeploySmokeStatus !== postDeploySmoke.status ||
+  !['environment', 'origin-remote', 'gh-auth-user-and-package-name', 'missing'].includes(
+    repositoryReadiness.repository?.source,
+  ) ||
+  typeof repositoryReadiness.repository?.inferredRepositoryName !== 'string' ||
+  typeof repositoryReadiness.githubAutomation?.ghAuthAvailable !== 'boolean' ||
+  typeof repositoryReadiness.githubAutomation?.ghCredentialReady !== 'boolean' ||
   typeof repositoryReadiness.workspace?.nonGeneratedDirtyFiles !== 'number' ||
   !repositoryReadiness.checks?.some((check) => check.id === 'local-git-worktree') ||
   !repositoryReadiness.checks?.some((check) => check.id === 'pages-workflow' && check.status === 'pass') ||
@@ -3047,6 +3053,9 @@ if (
   !repositoryReadinessSource.includes('generatedEvidenceDirtyFiles') ||
   !repositoryReadinessSource.includes('generatedEvidencePrefixes') ||
   !repositoryReadinessSource.includes('public/share-manifest.json') ||
+  !repositoryReadinessSource.includes('gh-auth-user-and-package-name') ||
+  !repositoryReadinessSource.includes('ghCredentialReady') ||
+  !repositoryReadinessSource.includes('repositoryNameFromPackage') ||
   !repositoryReadinessSource.includes('noGitMutation') ||
   !repositoryReadinessSource.includes('noWorkflowDispatch') ||
   !appSource.includes('Repository Channel')
@@ -3085,6 +3094,12 @@ if (
   repositoryBootstrap.controls?.noWorkflowDispatch !== true ||
   repositoryBootstrap.helper?.path !== 'ops/github/bootstrap-repository.sh' ||
   repositoryBootstrap.helper?.noWorkflowDispatch !== true ||
+  !['environment', 'origin-remote', 'gh-auth-user-and-package-name', 'missing'].includes(
+    repositoryBootstrap.repository?.source,
+  ) ||
+  typeof repositoryBootstrap.repository?.inferredRepositoryName !== 'string' ||
+  typeof repositoryBootstrap.githubAutomation?.ghAuthAvailable !== 'boolean' ||
+  typeof repositoryBootstrap.githubAutomation?.ghCredentialReady !== 'boolean' ||
   !repositoryBootstrap.actions?.some((action) => action.id === 'initialize-local-git') ||
   !repositoryBootstrap.actions?.some((action) => action.id === 'commit-current-snapshot') ||
   !repositoryBootstrap.actions?.some((action) => action.id === 'create-github-repository') ||
@@ -3104,7 +3119,12 @@ if (
   !repositoryBootstrapSource.includes('generatedEvidenceDirtyFiles') ||
   !repositoryBootstrapSource.includes('generatedEvidencePrefixes') ||
   !repositoryBootstrapSource.includes('public/share-manifest.json') ||
+  !repositoryBootstrapSource.includes('gh-auth-user-and-package-name') ||
+  !repositoryBootstrapSource.includes('AGL_ALLOW_GH_INFER_REPOSITORY') ||
+  !repositoryBootstrapSource.includes('repositoryNameFromPackage') ||
   !repositoryBootstrapSource.includes('AGL_ALLOW_LOCAL_GIT_BOOTSTRAP') ||
+  !githubRepositoryBootstrapScript.includes('AGL_ALLOW_GH_INFER_REPOSITORY') ||
+  !githubRepositoryBootstrapScript.includes('derive_repository_name') ||
   !githubRepositoryBootstrapScript.includes('AGL_ALLOW_SNAPSHOT_COMMIT') ||
   !githubRepositoryBootstrapScript.includes('working tree has uncommitted changes') ||
   !githubRepositoryBootstrapScript.includes('No workflows were dispatched') ||

@@ -33,6 +33,12 @@ const run = (command, args) =>
   })
 
 const configured = (value) => typeof value === 'string' && value.trim().length > 0
+const repositoryNameFromPackage = (packageName) => {
+  const baseName = String(packageName || 'autonomous-game-lab').split('/').pop()
+  const normalized = baseName.replace(/[^A-Za-z0-9._-]+/g, '-').replace(/^-+|-+$/g, '')
+
+  return normalized || 'autonomous-game-lab'
+}
 
 const parseDirtyPaths = (stdout) =>
   stdout
@@ -78,6 +84,7 @@ const repositoryFromRemote = (remoteUrl) => {
 }
 
 const repositoryFromEnv = process.env.GITHUB_REPOSITORY ?? process.env.GH_REPO ?? null
+const packageJson = await readOptionalJson(path.join(root, 'package.json'), { name: 'autonomous-game-lab' })
 const releaseCandidate = await readOptionalJson(path.join(dataDir, 'release-candidate.json'), {
   status: 'missing',
   candidateId: null,
@@ -103,12 +110,26 @@ const dirtyPaths = parseDirtyPaths(gitStatusResult.stdout)
 const generatedEvidenceDirtyPaths = dirtyPaths.filter((dirtyPath) => isGeneratedEvidencePath(dirtyPath))
 const nonGeneratedDirtyPaths = dirtyPaths.filter((dirtyPath) => !isGeneratedEvidencePath(dirtyPath))
 const ghVersionResult = await run('gh', ['--version'])
+const ghAuthResult = ghVersionResult.ok ? await run('gh', ['auth', 'status']) : { ok: false, stdout: '', stderr: '' }
+const ghUserResult = ghAuthResult.ok ? await run('gh', ['api', 'user', '--jq', '.login']) : { ok: false, stdout: '' }
 const pagesWorkflowExists = await exists(workflowPath)
 const workflowSource = pagesWorkflowExists ? await readFile(workflowPath, 'utf8') : ''
 const remoteRepository = repositoryFromRemote(gitRemoteResult.ok ? gitRemoteResult.stdout : null)
-const targetRepository = repositoryFromEnv ?? remoteRepository
+const inferredRepositoryName = repositoryNameFromPackage(packageJson.name)
+const inferredRepository =
+  ghUserResult.ok && configured(ghUserResult.stdout) ? `${ghUserResult.stdout}/${inferredRepositoryName}` : null
+const targetRepository = repositoryFromEnv ?? remoteRepository ?? inferredRepository
+const targetRepositorySource = repositoryFromEnv
+  ? 'environment'
+  : remoteRepository
+    ? 'origin-remote'
+    : inferredRepository
+      ? 'gh-auth-user-and-package-name'
+      : 'missing'
 const ghTokenConfigured = configured(process.env.GH_TOKEN) || configured(process.env.GITHUB_TOKEN)
-const ghAutomationReady = Boolean(targetRepository && ghVersionResult.ok && ghTokenConfigured)
+const ghAuthAvailable = ghAuthResult.ok
+const ghCredentialReady = ghTokenConfigured || ghAuthAvailable
+const ghAutomationReady = Boolean(targetRepository && ghVersionResult.ok && ghCredentialReady)
 const deploymentArtifactsReady =
   deployment.status === 'ready-for-pages' &&
   releaseCandidate.status === 'release-candidate-ready' &&
@@ -131,7 +152,7 @@ const checks = [
     status: targetRepository ? 'pass' : 'blocker',
     detail: targetRepository
       ? `Target repository is ${targetRepository}.`
-      : 'Set GITHUB_REPOSITORY/GH_REPO or add a GitHub origin remote.',
+      : 'Set GITHUB_REPOSITORY/GH_REPO, add a GitHub origin remote, or authenticate gh so the target can be inferred.',
   },
   {
     id: 'origin-remote',
@@ -147,10 +168,12 @@ const checks = [
   },
   {
     id: 'gh-token',
-    status: ghTokenConfigured ? 'pass' : 'external-blocker',
-    detail: ghTokenConfigured
-      ? 'GitHub token is present in the current environment.'
-      : 'GH_TOKEN or GITHUB_TOKEN is not configured for non-interactive workflow dispatch.',
+    status: ghCredentialReady ? 'pass' : 'external-blocker',
+    detail: ghCredentialReady
+      ? ghTokenConfigured
+        ? 'GitHub token is present in the current environment.'
+        : 'GitHub CLI authentication is available for repository operations.'
+      : 'Authenticate GitHub CLI or configure GH_TOKEN/GITHUB_TOKEN for non-interactive workflow dispatch.',
   },
   {
     id: 'pages-workflow',
@@ -185,9 +208,13 @@ const status = repositoryChannelReady
 
 const blockers = [
   ...(insideWorkTree ? [] : ['Initialize or attach this workspace to a git repository.']),
-  ...(remoteRepository ? [] : ['Add a GitHub origin remote or set GITHUB_REPOSITORY/GH_REPO.']),
+  ...(targetRepository
+    ? []
+    : ['Add a GitHub origin remote, set GITHUB_REPOSITORY/GH_REPO, or authenticate gh to infer the target repository.']),
   ...(ghVersionResult.ok ? [] : ['Install GitHub CLI for non-interactive repository operations.']),
-  ...(ghTokenConfigured ? [] : ['Configure GH_TOKEN or GITHUB_TOKEN for workflow dispatch and repository settings sync.']),
+  ...(ghCredentialReady
+    ? []
+    : ['Authenticate GitHub CLI or configure GH_TOKEN/GITHUB_TOKEN for workflow dispatch and repository settings sync.']),
   ...(pagesWorkflowExists ? [] : ['Add .github/workflows/web-pwa-deploy.yml.']),
   ...(deploymentArtifactsReady ? [] : ['Refresh build, release candidate, post-deploy smoke, and deployment plan artifacts.']),
 ]
@@ -210,13 +237,20 @@ const payload = {
   },
   repository: {
     target: targetRepository,
-    source: repositoryFromEnv ? 'environment' : remoteRepository ? 'origin-remote' : 'missing',
+    source: targetRepositorySource,
     originRemote: gitRemoteResult.ok ? gitRemoteResult.stdout : null,
     remoteRepository,
+    inferredTarget: inferredRepository,
+    inferredTargetSource: inferredRepository ? 'gh-auth-user-and-package-name' : null,
+    packageName: packageJson.name ?? null,
+    inferredRepositoryName,
   },
   githubAutomation: {
     ghCliAvailable: ghVersionResult.ok,
+    ghAuthAvailable,
+    ghCredentialReady,
     ghTokenConfigured,
+    ghUserLogin: ghUserResult.ok ? ghUserResult.stdout : null,
     workflowDispatchReady,
     canSyncRepositorySettings: ghAutomationReady,
   },
@@ -241,8 +275,10 @@ const payload = {
   blockers,
   setupRequiredOnce: [
     insideWorkTree ? null : 'Initialize this workspace as a git repository or move it into the intended repository checkout.',
-    remoteRepository ? null : 'Add a GitHub origin remote or set GITHUB_REPOSITORY/GH_REPO to owner/repo.',
-    ghTokenConfigured ? null : 'Authenticate GitHub CLI or provide GH_TOKEN/GITHUB_TOKEN before non-interactive workflow dispatch.',
+    targetRepository
+      ? null
+      : 'Add a GitHub origin remote, set GITHUB_REPOSITORY/GH_REPO to owner/repo, or authenticate gh to infer owner/package-name.',
+    ghCredentialReady ? null : 'Authenticate GitHub CLI or provide GH_TOKEN/GITHUB_TOKEN before non-interactive workflow dispatch.',
     'Enable GitHub Pages with GitHub Actions as the source in the target repository.',
   ].filter(Boolean),
   nextActions: [

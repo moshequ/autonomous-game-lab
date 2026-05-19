@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-19T09:11:54.752Z",
+  "generatedAt": "2026-05-19T09:19:25.989Z",
   "status": "production-bootstrap-ready",
   "mode": "waiting-for-external-credentials",
   "envFiles": {
@@ -54,8 +54,12 @@
   },
   "repository": {
     "githubRepository": null,
+    "githubRepositorySource": "missing",
+    "inferredRepository": null,
     "ghCliAvailable": true,
     "ghTokenConfigured": false,
+    "ghAuthAvailable": false,
+    "ghCredentialReady": false,
     "canUseGh": false,
     "repositoryReadinessStatus": "waiting-for-github-repository",
     "repositoryBootstrapStatus": "waiting-for-github-target",
@@ -93,8 +97,8 @@
       "command": "npm run autonomous:repo-readiness",
       "evidence": "Repository missing; git worktree ready; workflow dispatch blocked.",
       "requires": [
-        "Add a GitHub origin remote or set GITHUB_REPOSITORY/GH_REPO.",
-        "Configure GH_TOKEN or GITHUB_TOKEN for workflow dispatch and repository settings sync."
+        "Add a GitHub origin remote, set GITHUB_REPOSITORY/GH_REPO, or authenticate gh to infer the target repository.",
+        "Authenticate GitHub CLI or configure GH_TOKEN/GITHUB_TOKEN for workflow dispatch and repository settings sync."
       ]
     },
     {
@@ -105,7 +109,7 @@
       "command": "npm run autonomous:repo-bootstrap",
       "evidence": "Repository bootstrap waiting-for-github-target; helper ops/github/bootstrap-repository.sh; local git ready.",
       "requires": [
-        "Set GITHUB_REPOSITORY or GH_REPO to the intended owner/repo.",
+        "Set GITHUB_REPOSITORY/GH_REPO or authenticate gh so the intended owner/repo can be inferred.",
         "Attach a GitHub origin remote or create the target repository.",
         "Authenticate GitHub CLI or provide GH_TOKEN/GITHUB_TOKEN for remote repository bootstrap."
       ]
@@ -250,8 +254,8 @@
       "command": "npm run autonomous:repo-readiness",
       "evidence": "Repository missing; git worktree ready; workflow dispatch blocked.",
       "requires": [
-        "Add a GitHub origin remote or set GITHUB_REPOSITORY/GH_REPO.",
-        "Configure GH_TOKEN or GITHUB_TOKEN for workflow dispatch and repository settings sync."
+        "Add a GitHub origin remote, set GITHUB_REPOSITORY/GH_REPO, or authenticate gh to infer the target repository.",
+        "Authenticate GitHub CLI or configure GH_TOKEN/GITHUB_TOKEN for workflow dispatch and repository settings sync."
       ]
     },
     {
@@ -262,7 +266,7 @@
       "command": "npm run autonomous:repo-bootstrap",
       "evidence": "Repository bootstrap waiting-for-github-target; helper ops/github/bootstrap-repository.sh; local git ready.",
       "requires": [
-        "Set GITHUB_REPOSITORY or GH_REPO to the intended owner/repo.",
+        "Set GITHUB_REPOSITORY/GH_REPO or authenticate gh so the intended owner/repo can be inferred.",
         "Attach a GitHub origin remote or create the target repository.",
         "Authenticate GitHub CLI or provide GH_TOKEN/GITHUB_TOKEN for remote repository bootstrap."
       ]
@@ -977,15 +981,15 @@
   "externalBlockers": [
     {
       "source": "repository-readiness",
-      "blocker": "Add a GitHub origin remote or set GITHUB_REPOSITORY/GH_REPO."
+      "blocker": "Add a GitHub origin remote, set GITHUB_REPOSITORY/GH_REPO, or authenticate gh to infer the target repository."
     },
     {
       "source": "repository-readiness",
-      "blocker": "Configure GH_TOKEN or GITHUB_TOKEN for workflow dispatch and repository settings sync."
+      "blocker": "Authenticate GitHub CLI or configure GH_TOKEN/GITHUB_TOKEN for workflow dispatch and repository settings sync."
     },
     {
       "source": "repository-bootstrap",
-      "blocker": "Set GITHUB_REPOSITORY or GH_REPO to the intended owner/repo."
+      "blocker": "Set GITHUB_REPOSITORY/GH_REPO or authenticate gh so the intended owner/repo can be inferred."
     },
     {
       "source": "repository-bootstrap",

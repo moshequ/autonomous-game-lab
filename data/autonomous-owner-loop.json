@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-19T09:11:55.536Z",
+  "generatedAt": "2026-05-19T09:19:26.522Z",
   "status": "owner-loop-ready",
   "mode": "repository-channel-needed",
   "autonomyScore": {
@@ -20,25 +20,25 @@
     "rollbackRequired": false
   },
   "ownerDecision": {
-    "nextBestActionId": "refresh-autonomous-cadence",
-    "nextBestAction": "npm run autonomous:cadence",
+    "nextBestActionId": "seed-portfolio-traffic",
+    "nextBestAction": "npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop",
     "canExecuteWithoutSpend": true,
-    "rationale": "Keeps the unattended daily operating cadence, recovery policy, and verification chain auditable."
+    "rationale": "Under-measured playable games need free organic/internal traffic before quality judgment."
   },
   "executionMemory": {
     "avoidImmediateRepeat": true,
     "recentExecutionWindow": 8,
     "recentExecutedActionIds": [
+      "prepare-repository-channel",
+      "refresh-autonomous-cadence",
       "collect-gate-sample-downloads",
       "refresh-autonomous-self-update",
       "measure-pwa-install-loop",
       "optimize-daily-retention",
       "optimize-product-gates",
-      "bootstrap-production-setup",
-      "seed-portfolio-traffic",
-      "prepare-repository-channel"
+      "bootstrap-production-setup"
     ],
-    "lastExecutedActionId": "collect-gate-sample-downloads",
+    "lastExecutedActionId": "prepare-repository-channel",
     "lastExecutedStatus": "executed",
     "lastRecordExecutionStatus": "not-requested",
     "recentlySatisfiedActionIds": [
@@ -55,8 +55,8 @@
       "evidenceReadyNow": false
     },
     "skippedRecentlyExecutedActionIds": [
+      "refresh-autonomous-cadence",
       "refresh-autonomous-self-update",
-      "seed-portfolio-traffic",
       "optimize-daily-retention",
       "measure-pwa-install-loop",
       "optimize-product-gates",
@@ -166,7 +166,7 @@
       "id": "performance-budget",
       "status": "ready",
       "autonomy": "automatic-build-budget",
-      "evidence": "Initial JS 654.9 KB; gzip 173.8 KB; deferred chunks 1.",
+      "evidence": "Initial JS 652.5 KB; gzip 173.8 KB; deferred chunks 1.",
       "nextAction": "Keep Phaser and game scenes outside the initial PWA shell."
     },
     {
@@ -237,7 +237,7 @@
       "status": "ready",
       "autonomy": "guarded-git-transport-bootstrap",
       "evidence": "Bootstrap waiting-for-github-target; mode plan-only; helper ops/github/bootstrap-repository.sh; local git ready.",
-      "nextAction": "Set GITHUB_REPOSITORY/GH_REPO and run repository bootstrap with explicit remote flags when credentials exist."
+      "nextAction": "Set GITHUB_REPOSITORY/GH_REPO or authenticate gh, then run repository bootstrap with explicit remote flags when credentials exist."
     },
     {
       "id": "web-deployment",
@@ -250,14 +250,14 @@
       "id": "release-candidate",
       "status": "ready",
       "autonomy": "content-hashed-deploy-evidence",
-      "evidence": "Candidate pwa-7dff6529eb87; status release-candidate-ready; files 39; smoke URLs 10.",
+      "evidence": "Candidate pwa-e3e1a42c2289; status release-candidate-ready; files 39; smoke URLs 10.",
       "nextAction": "Regenerate the release candidate after every production build before deploy or rollback decisions."
     },
     {
       "id": "post-deploy-smoke",
       "status": "ready",
       "autonomy": "read-only-live-deploy-verification",
-      "evidence": "Smoke blocked-missing-origin; origin missing; candidate pwa-7dff6529eb87; checks 0/11 passed; local artifact predeploy-artifact-smoke-passed 11/11 passed.",
+      "evidence": "Smoke blocked-missing-origin; origin missing; candidate pwa-e3e1a42c2289; checks 0/11 passed; local artifact predeploy-artifact-smoke-passed 11/11 passed.",
       "nextAction": "Run this after deployment with AGL_DEPLOYED_PWA_ORIGIN set to the Pages URL."
     },
     {
@@ -271,7 +271,7 @@
       "id": "autonomous-operator",
       "status": "ready",
       "autonomy": "one-safe-action-runner",
-      "evidence": "Operator operator-plan-ready; selected refresh-autonomous-cadence; execution not-requested.",
+      "evidence": "Operator operator-plan-ready; selected seed-portfolio-traffic; execution not-requested.",
       "nextAction": "Keep a dry-run operator plan ready, then execute only one allowlisted local action when explicitly requested."
     },
     {
@@ -410,7 +410,7 @@
       "command": "npm run build && npm run autonomous:performance",
       "targets": [
         "pwa-shell",
-        "GameCanvas-Dn809fPc.js"
+        "GameCanvas-CJSsF9bG.js"
       ],
       "reason": "Keeps the PWA shell fast while Phaser and game scenes stay deferred."
     },
@@ -420,7 +420,7 @@
       "costUsd": 0,
       "command": "npm run autonomous:release-candidate",
       "targets": [
-        "pwa-7dff6529eb87"
+        "pwa-e3e1a42c2289"
       ],
       "reason": "Records a content-hashed dist inventory and post-deploy smoke plan for the exact PWA build."
     },
@@ -431,7 +431,7 @@
       "command": "npm run autonomous:post-deploy-smoke",
       "targets": [
         "deployed-pages-url",
-        "pwa-7dff6529eb87"
+        "pwa-e3e1a42c2289"
       ],
       "reason": "Waits for a deployed Pages origin, then verifies the live PWA matches the exact release candidate."
     },
@@ -535,7 +535,7 @@
       "costUsd": 0,
       "command": "npm run autonomous:operator",
       "targets": [
-        "refresh-autonomous-cadence"
+        "seed-portfolio-traffic"
       ],
       "reason": "Publishes the one-action local execution plan with allowlist, zero-spend, and audit controls."
     },
@@ -545,7 +545,7 @@
       "costUsd": 0,
       "command": "npm run autonomous:operator",
       "targets": [
-        "refresh-autonomous-cadence"
+        "seed-portfolio-traffic"
       ],
       "reason": "Refreshes the capped operator history so safe actions remain auditable over time."
     },

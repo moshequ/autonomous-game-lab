@@ -689,8 +689,13 @@ test('repository readiness surfaces the GitHub Pages deployment channel without 
   const readiness = JSON.parse(await readFile('data/repository-readiness.json', 'utf8')) as {
     status: string
     workspace: { insideWorkTree: boolean; nonGeneratedDirtyFiles: number }
-    repository: { target: string | null; source: string }
-    githubAutomation: { workflowDispatchReady: boolean }
+    repository: {
+      target: string | null
+      source: string
+      inferredTarget: string | null
+      inferredRepositoryName: string
+    }
+    githubAutomation: { workflowDispatchReady: boolean; ghAuthAvailable: boolean; ghCredentialReady: boolean }
     pages: { workflowPath: string; deployWorkflowIncludesSmoke: boolean; releaseCandidateId: string }
     controls: {
       zeroPaidSpend: boolean
@@ -741,6 +746,13 @@ test('repository readiness surfaces the GitHub Pages deployment channel without 
   expect(readiness.controls.noGitMutation).toBe(true)
   expect(readiness.controls.noWorkflowDispatch).toBe(true)
   expect(readiness.controls.noAccountCreation).toBe(true)
+  expect(['environment', 'origin-remote', 'gh-auth-user-and-package-name', 'missing']).toContain(
+    readiness.repository.source,
+  )
+  expect(readiness.repository.inferredRepositoryName).toBe(packageJson.name)
+  expect(readiness.githubAutomation.ghCredentialReady).toBe(
+    readiness.githubAutomation.ghAuthAvailable || readiness.checks.some((check) => check.id === 'gh-token' && check.status === 'pass'),
+  )
   expect(readiness.pages.workflowPath).toBe('.github/workflows/web-pwa-deploy.yml')
   expect(readiness.pages.deployWorkflowIncludesSmoke).toBe(true)
   expect(readiness.pages.releaseCandidateId).toBe(candidate.candidateId)
@@ -773,7 +785,9 @@ test('repository readiness surfaces the GitHub Pages deployment channel without 
   expect(repositoryBootstrap.actions.some((action) => action.id === 'commit-current-snapshot')).toBe(true)
   expect(repositoryBootstrap.actions.some((action) => action.id === 'create-github-repository')).toBe(true)
   expect(repositoryBootstrapScript).toContain('AGL_ALLOW_REPOSITORY_BOOTSTRAP')
+  expect(repositoryBootstrapScript).toContain('AGL_ALLOW_GH_INFER_REPOSITORY')
   expect(repositoryBootstrapScript).toContain('AGL_ALLOW_SNAPSHOT_COMMIT')
+  expect(repositoryBootstrapScript).toContain('derive_repository_name')
   expect(repositoryBootstrapScript).toContain('working tree has uncommitted changes')
   expect(repositoryBootstrapScript).not.toContain('gh workflow run')
   expect(bootstrap.stages.some((stage) => stage.id === 'repository-channel')).toBe(true)

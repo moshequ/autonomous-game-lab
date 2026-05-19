@@ -42,6 +42,12 @@ const run = (command, args) =>
   })
 
 const configured = (value) => typeof value === 'string' && value.trim().length > 0
+const repositoryNameFromPackage = (packageName) => {
+  const baseName = String(packageName || 'autonomous-game-lab').split('/').pop()
+  const normalized = baseName.replace(/[^A-Za-z0-9._-]+/g, '-').replace(/^-+|-+$/g, '')
+
+  return normalized || 'autonomous-game-lab'
+}
 
 const parseDirtyPaths = (stdout) =>
   stdout
@@ -135,6 +141,7 @@ const repositoryReadiness = await readOptionalJson(path.join(dataDir, 'repositor
   githubAutomation: {},
   blockers: ['Run npm run autonomous:repo-readiness before repository bootstrap.'],
 })
+const packageJson = await readOptionalJson(path.join(root, 'package.json'), { name: 'autonomous-game-lab' })
 const deployment = await readOptionalJson(path.join(dataDir, 'deployment-plan.json'), {
   status: 'missing',
   target: {},
@@ -149,12 +156,27 @@ const postDeploySmoke = await readOptionalJson(path.join(dataDir, 'post-deploy-s
 
 const ghVersionResult = await run('gh', ['--version'])
 const ghAuthResult = await run('gh', ['auth', 'status'])
+const ghUserResult = ghAuthResult.ok ? await run('gh', ['api', 'user', '--jq', '.login']) : { ok: false, stdout: '' }
+const inferredRepositoryName = repositoryNameFromPackage(packageJson.name)
+const inferredRepository =
+  repositoryReadiness.repository?.inferredTarget ??
+  (ghUserResult.ok && configured(ghUserResult.stdout) ? `${ghUserResult.stdout}/${inferredRepositoryName}` : null)
 const targetRepository =
   process.env.GITHUB_REPOSITORY ??
   process.env.GH_REPO ??
   repositoryReadiness.repository?.target ??
   gitAfter.remoteRepository ??
+  inferredRepository ??
   null
+const targetRepositorySource = process.env.GITHUB_REPOSITORY || process.env.GH_REPO
+  ? 'environment'
+  : repositoryReadiness.repository?.target
+    ? (repositoryReadiness.repository?.source ?? 'repository-readiness')
+    : gitAfter.remoteRepository
+      ? 'origin-remote'
+      : inferredRepository
+        ? 'gh-auth-user-and-package-name'
+        : 'missing'
 const ghTokenConfigured = configured(process.env.GH_TOKEN) || configured(process.env.GITHUB_TOKEN)
 const ghReady = Boolean(ghVersionResult.ok && (ghTokenConfigured || ghAuthResult.ok))
 const helperExists = await exists(helperPath)
@@ -253,7 +275,7 @@ const actions = [
       ? `Origin remote resolves to ${gitAfter.remoteRepository}.`
       : targetRepository
         ? `Target ${targetRepository} can be attached as origin when explicitly allowed.`
-        : 'Set GITHUB_REPOSITORY or GH_REPO before attaching origin.',
+        : 'Set GITHUB_REPOSITORY/GH_REPO or authenticate gh so the target can be inferred before attaching origin.',
   },
   {
     id: 'create-github-repository',
@@ -267,7 +289,7 @@ const actions = [
       ? ghReady
         ? `GitHub CLI can create or attach ${targetRepository} when explicitly allowed.`
         : 'GitHub CLI auth or GH_TOKEN/GITHUB_TOKEN is required before remote repository creation.'
-      : 'Set GITHUB_REPOSITORY or GH_REPO before creating a GitHub repository.',
+      : 'Set GITHUB_REPOSITORY/GH_REPO or authenticate gh so the target can be inferred before creating a GitHub repository.',
   },
   {
     id: 'push-initial-snapshot',
@@ -294,7 +316,9 @@ const blockers = [
   ...(gitAfter.hasCommit && gitAfter.nonGeneratedDirtyFiles > 0
     ? ['Commit current generated changes before pushing to GitHub Pages.']
     : []),
-  ...(targetRepository ? [] : ['Set GITHUB_REPOSITORY or GH_REPO to the intended owner/repo.']),
+  ...(targetRepository
+    ? []
+    : ['Set GITHUB_REPOSITORY/GH_REPO or authenticate gh so the intended owner/repo can be inferred.']),
   ...(gitAfter.remoteRepository ? [] : ['Attach a GitHub origin remote or create the target repository.']),
   ...(ghReady ? [] : ['Authenticate GitHub CLI or provide GH_TOKEN/GITHUB_TOKEN for remote repository bootstrap.']),
 ]
@@ -321,13 +345,20 @@ const payload = {
   },
   repository: {
     target: targetRepository,
+    source: targetRepositorySource,
     originRemote: gitAfter.originRemote,
     remoteRepository: gitAfter.remoteRepository,
+    inferredTarget: inferredRepository,
+    inferredTargetSource: inferredRepository ? 'gh-auth-user-and-package-name' : null,
+    packageName: packageJson.name ?? null,
+    inferredRepositoryName,
   },
   githubAutomation: {
     ghCliAvailable: ghVersionResult.ok,
     ghAuthAvailable: ghAuthResult.ok,
     ghTokenConfigured,
+    ghCredentialReady: ghReady,
+    ghUserLogin: ghUserResult.ok ? ghUserResult.stdout : null,
     ghReady,
   },
   sourceStatus: {
@@ -378,7 +409,7 @@ const payload = {
   },
   nextActions: [
     gitAfter.insideWorkTree
-      ? 'Set GITHUB_REPOSITORY/GH_REPO and run repository bootstrap with explicit remote flags when credentials exist.'
+      ? 'Set GITHUB_REPOSITORY/GH_REPO or authenticate gh, then run repository bootstrap with explicit remote flags when credentials exist.'
       : 'Run npm run autonomous:repo-bootstrap -- --apply-local-git to create the zero-cost local git channel.',
     'Keep workflow dispatch in production bootstrap; repository bootstrap only prepares git/GitHub transport.',
   ],
@@ -418,6 +449,18 @@ fi
 
 default_branch="\${AGL_DEFAULT_BRANCH:-main}"
 target_repo="\${GITHUB_REPOSITORY:-\${GH_REPO:-}}"
+
+derive_repository_name() {
+  node -e 'const fs=require("fs"); let name="autonomous-game-lab"; try { name=JSON.parse(fs.readFileSync("package.json","utf8")).name || name } catch {} name=String(name).split("/").pop().replace(/[^A-Za-z0-9._-]+/g,"-").replace(/^-+|-+$/g,"") || "autonomous-game-lab"; console.log(name)'
+}
+
+if [[ -z "$target_repo" && "\${AGL_ALLOW_GH_INFER_REPOSITORY:-1}" == "1" ]] && command -v gh >/dev/null 2>&1 && gh auth status >/dev/null 2>&1; then
+  gh_owner="$(gh api user --jq .login 2>/dev/null || true)"
+  if [[ -n "$gh_owner" ]]; then
+    target_repo="$gh_owner/$(derive_repository_name)"
+    echo "inferred GitHub repository target: $target_repo"
+  fi
+fi
 
 ensure_git_identity() {
   if ! git config user.name >/dev/null 2>&1; then
