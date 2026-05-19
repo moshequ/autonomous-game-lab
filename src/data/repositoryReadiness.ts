@@ -1,5 +1,5 @@
 export const repositoryReadiness = {
-  "generatedAt": "2026-05-19T02:18:03.568Z",
+  "generatedAt": "2026-05-19T02:21:08.235Z",
   "status": "waiting-for-github-repository",
   "envFiles": {
     "loaded": false,
@@ -39,7 +39,7 @@ export const repositoryReadiness = {
     "insideWorkTree": true,
     "gitRoot": "/Users/moshequ/Documents/Codex/2026-05-18/i-want-to-have-a-new",
     "currentBranch": "main",
-    "dirtyFiles": 32
+    "dirtyFiles": 0
   },
   "repository": {
     "target": null,
