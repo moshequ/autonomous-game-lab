@@ -1,5 +1,5 @@
 export const repositoryBootstrap = {
-  "generatedAt": "2026-05-19T14:21:03.136Z",
+  "generatedAt": "2026-05-19T14:22:47.655Z",
   "status": "waiting-for-github-target",
   "mode": "plan-only",
   "envFiles": {
@@ -61,13 +61,12 @@ export const repositoryBootstrap = {
       "originRemote": null,
       "remoteRepository": null,
       "hasCommit": true,
-      "dirtyFiles": 36,
+      "dirtyFiles": 34,
       "dirtyPaths": [
         "data/analytics-rollup.json",
         "data/autonomous-operator-history.json",
         "data/autonomous-operator.json",
         "data/autonomous-owner-loop.json",
-        "data/autonomous-self-update.json",
         "data/event-ingest.json",
         "data/local-event-bridge.json",
         "data/performance-budget.json",
@@ -80,7 +79,6 @@ export const repositoryBootstrap = {
         "reports/autonomous-operator-history-latest.md",
         "reports/autonomous-operator-latest.md",
         "reports/autonomous-owner-loop-latest.md",
-        "reports/autonomous-self-update-latest.md",
         "reports/event-ingest-latest.md",
         "reports/local-event-bridge-latest.md",
         "reports/performance-budget-latest.md",
@@ -100,13 +98,12 @@ export const repositoryBootstrap = {
         "src/data/releaseCandidate.ts",
         "src/data/repositoryReadiness.ts"
       ],
-      "generatedEvidenceDirtyFiles": 36,
+      "generatedEvidenceDirtyFiles": 34,
       "generatedEvidenceDirtyPaths": [
         "data/analytics-rollup.json",
         "data/autonomous-operator-history.json",
         "data/autonomous-operator.json",
         "data/autonomous-owner-loop.json",
-        "data/autonomous-self-update.json",
         "data/event-ingest.json",
         "data/local-event-bridge.json",
         "data/performance-budget.json",
@@ -119,7 +116,6 @@ export const repositoryBootstrap = {
         "reports/autonomous-operator-history-latest.md",
         "reports/autonomous-operator-latest.md",
         "reports/autonomous-owner-loop-latest.md",
-        "reports/autonomous-self-update-latest.md",
         "reports/event-ingest-latest.md",
         "reports/local-event-bridge-latest.md",
         "reports/performance-budget-latest.md",
@@ -149,13 +145,12 @@ export const repositoryBootstrap = {
       "originRemote": null,
       "remoteRepository": null,
       "hasCommit": true,
-      "dirtyFiles": 36,
+      "dirtyFiles": 34,
       "dirtyPaths": [
         "data/analytics-rollup.json",
         "data/autonomous-operator-history.json",
         "data/autonomous-operator.json",
         "data/autonomous-owner-loop.json",
-        "data/autonomous-self-update.json",
         "data/event-ingest.json",
         "data/local-event-bridge.json",
         "data/performance-budget.json",
@@ -168,7 +163,6 @@ export const repositoryBootstrap = {
         "reports/autonomous-operator-history-latest.md",
         "reports/autonomous-operator-latest.md",
         "reports/autonomous-owner-loop-latest.md",
-        "reports/autonomous-self-update-latest.md",
         "reports/event-ingest-latest.md",
         "reports/local-event-bridge-latest.md",
         "reports/performance-budget-latest.md",
@@ -188,13 +182,12 @@ export const repositoryBootstrap = {
         "src/data/releaseCandidate.ts",
         "src/data/repositoryReadiness.ts"
       ],
-      "generatedEvidenceDirtyFiles": 36,
+      "generatedEvidenceDirtyFiles": 34,
       "generatedEvidenceDirtyPaths": [
         "data/analytics-rollup.json",
         "data/autonomous-operator-history.json",
         "data/autonomous-operator.json",
         "data/autonomous-owner-loop.json",
-        "data/autonomous-self-update.json",
         "data/event-ingest.json",
         "data/local-event-bridge.json",
         "data/performance-budget.json",
@@ -207,7 +200,6 @@ export const repositoryBootstrap = {
         "reports/autonomous-operator-history-latest.md",
         "reports/autonomous-operator-latest.md",
         "reports/autonomous-owner-loop-latest.md",
-        "reports/autonomous-self-update-latest.md",
         "reports/event-ingest-latest.md",
         "reports/local-event-bridge-latest.md",
         "reports/performance-budget-latest.md",
@@ -253,7 +245,7 @@ export const repositoryBootstrap = {
     "repositoryReadiness": "waiting-for-github-repository",
     "deployment": "ready-for-pages",
     "releaseCandidate": "release-candidate-ready",
-    "releaseCandidateId": "pwa-491ec84e36ff",
+    "releaseCandidateId": "pwa-1348df45a527",
     "postDeploySmoke": "blocked-missing-origin"
   },
   "execution": {
@@ -313,7 +305,7 @@ export const repositoryBootstrap = {
       "mutatesLocalGit": true,
       "mutatesRemoteGitHub": false,
       "requiresExplicitEnv": true,
-      "detail": "36 repository evidence file(s) changed during this dry run; the outer verified commit will persist them."
+      "detail": "34 repository evidence file(s) changed during this dry run; the outer verified commit will persist them."
     },
     {
       "id": "set-or-create-origin",

@@ -1,22 +1,22 @@
 {
-  "generatedAt": "2026-05-19T14:21:11.017Z",
+  "generatedAt": "2026-05-19T14:22:53.428Z",
   "status": "operator-plan-ready",
   "mode": "plan-only",
   "ownerDecision": {
-    "actionId": "refresh-product-gate-recovery",
-    "command": "npm run autonomous:gate-recovery",
+    "actionId": "prepare-repository-channel",
+    "command": "npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap",
     "locallyExecutable": true,
     "rejectionReason": null
   },
   "requestedActionId": null,
   "selectedAction": {
-    "id": "refresh-product-gate-recovery",
+    "id": "prepare-repository-channel",
     "status": "armed",
-    "command": "npm run autonomous:gate-recovery",
+    "command": "npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap",
     "targets": [
-      "firstGameCompletion"
+      "github-repository-channel"
     ],
-    "reason": "Ranks the exact observed lift and prompt sample still needed before revenue gates can open.",
+    "reason": "Surfaces and prepares the missing git/GitHub deployment-channel blockers before web deploy.",
     "costUsd": 0
   },
   "selectedRejection": null,
@@ -109,6 +109,12 @@
       "reason": "not-selected-this-run"
     },
     {
+      "id": "refresh-product-gate-recovery",
+      "status": "armed",
+      "command": "npm run autonomous:gate-recovery",
+      "reason": "not-selected-this-run"
+    },
+    {
       "id": "collect-gate-sample-downloads",
       "status": "monitor",
       "command": "npm run autonomous:collect-sample-downloads",
@@ -136,12 +142,6 @@
       "id": "refresh-replay-loop",
       "status": "armed",
       "command": "npm run autonomous:replay-loop",
-      "reason": "not-selected-this-run"
-    },
-    {
-      "id": "prepare-repository-channel",
-      "status": "armed",
-      "command": "npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap",
       "reason": "not-selected-this-run"
     },
     {
@@ -201,8 +201,12 @@
   ],
   "commandPlan": [
     {
-      "segment": "npm run autonomous:gate-recovery",
-      "script": "autonomous:gate-recovery"
+      "segment": "npm run autonomous:repo-readiness",
+      "script": "autonomous:repo-readiness"
+    },
+    {
+      "segment": "npm run autonomous:repo-bootstrap",
+      "script": "autonomous:repo-bootstrap"
     }
   ],
   "execution": {
@@ -268,7 +272,7 @@
     "RUN_WORKFLOWS=1"
   ],
   "nextActions": [
-    "Run npm run autonomous:operator -- --execute --action=refresh-product-gate-recovery to execute exactly one allowed local action.",
+    "Run npm run autonomous:operator -- --execute --action=prepare-repository-channel to execute exactly one allowed local action.",
     "Do not execute GitHub workflow, store, paid ads, or account setup commands from the local operator."
   ]
 }
