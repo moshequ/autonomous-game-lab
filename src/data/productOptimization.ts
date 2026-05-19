@@ -1,5 +1,5 @@
 export const productOptimization = {
-  "generatedAt": "2026-05-19T17:31:02.202Z",
+  "generatedAt": "2026-05-19T17:59:34.061Z",
   "status": "product-optimization-ready",
   "sourceDataHash": "325bce2331ba",
   "sourceStatus": {
