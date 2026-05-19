@@ -1,6 +1,39 @@
 {
-  "generatedAt": "2026-05-18T23:36:39.276Z",
+  "generatedAt": "2026-05-19T01:38:35.186Z",
   "status": "production-env-missing",
+  "envFiles": {
+    "loaded": false,
+    "loadedFiles": [],
+    "loadedKeys": [],
+    "skippedExistingKeys": [],
+    "skippedProtectedKeys": [],
+    "overwrittenEnvFileKeys": [],
+    "supportedFiles": [
+      ".env",
+      ".env.local",
+      ".env.production",
+      ".env.production.local",
+      "ops/production.env",
+      "ops/production.env.local"
+    ],
+    "candidateFiles": [
+      ".env",
+      ".env.local",
+      ".env.production",
+      ".env.production.local",
+      "ops/production.env",
+      "ops/production.env.local"
+    ],
+    "shellEnvPrecedence": true,
+    "valuesRedacted": true,
+    "controls": {
+      "shellEnvPrecedence": true,
+      "laterEnvFilesOverrideEarlierEnvFiles": true,
+      "protectedMutationKeysRequireShellEnv": true,
+      "noSecretValuesInReports": true,
+      "gitIgnoredLocalEnvFiles": true
+    }
+  },
   "publicOrigin": {
     "origin": null,
     "host": null,

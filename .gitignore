@@ -12,6 +12,12 @@ dist
 dist-ssr
 playwright-report
 test-results
+.env
+.env.*
+!.env.example
+ops/production.env
+ops/*.env.local
+!ops/production.env.example
 *.local
 
 # Editor directories and files

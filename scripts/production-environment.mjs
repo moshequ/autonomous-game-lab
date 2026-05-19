@@ -1,7 +1,9 @@
 import { mkdir, writeFile } from 'node:fs/promises'
 import path from 'node:path'
+import { loadLocalEnv } from './lib/env-loader.mjs'
 
 const root = process.cwd()
+const localEnv = await loadLocalEnv({ root })
 const outputJsonPath = path.join(root, 'data', 'production-environment.json')
 const outputTsPath = path.join(root, 'src', 'data', 'productionEnvironment.ts')
 const reportPath = path.join(root, 'reports', 'production-environment-latest.md')
@@ -110,6 +112,7 @@ const blockers = [
 const payload = {
   generatedAt: new Date().toISOString(),
   status: publicOriginReady && serverAnalyticsConfigured ? 'production-env-partial' : 'production-env-missing',
+  envFiles: localEnv,
   publicOrigin: {
     origin: publicOrigin,
     host: publicHost,
@@ -222,6 +225,15 @@ const report = [
   `Analytics: ${payload.analytics.status}`,
   `Monetization: ${payload.monetization.status}`,
   `Android: ${payload.android.status}`,
+  '',
+  '## Local Env Files',
+  '',
+  ...(payload.envFiles.loadedFiles.length
+    ? payload.envFiles.loadedFiles.map((file) => `- ${file.path}: ${file.keys.join(', ') || 'no keys'}`)
+    : ['- none loaded']),
+  `- shell env precedence: ${payload.envFiles.controls.shellEnvPrecedence}`,
+  `- protected mutation keys require shell env: ${payload.envFiles.controls.protectedMutationKeysRequireShellEnv}`,
+  `- values redacted: ${payload.envFiles.controls.noSecretValuesInReports}`,
   '',
   '## Required Environment',
   '',

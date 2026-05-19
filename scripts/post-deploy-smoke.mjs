@@ -1,7 +1,9 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises'
 import path from 'node:path'
+import { loadLocalEnv } from './lib/env-loader.mjs'
 
 const root = process.cwd()
+const localEnv = await loadLocalEnv({ root })
 const dataDir = path.join(root, 'data')
 const outputJsonPath = path.join(dataDir, 'post-deploy-smoke.json')
 const outputTsPath = path.join(root, 'src', 'data', 'postDeploySmoke.ts')
@@ -190,6 +192,7 @@ const status = !origin
 const payload = {
   generatedAt: new Date().toISOString(),
   status,
+  envFiles: localEnv,
   target: {
     origin: origin?.toString() ?? null,
     provider: deployment.target?.provider ?? releaseCandidate.target?.provider ?? 'github-pages',

@@ -1,8 +1,10 @@
 import { execFile } from 'node:child_process'
 import { access, mkdir, readFile, writeFile } from 'node:fs/promises'
 import path from 'node:path'
+import { loadLocalEnv } from './lib/env-loader.mjs'
 
 const root = process.cwd()
+const localEnv = await loadLocalEnv({ root })
 const dataDir = path.join(root, 'data')
 const outputJsonPath = path.join(dataDir, 'repository-readiness.json')
 const outputTsPath = path.join(root, 'src', 'data', 'repositoryReadiness.ts')
@@ -165,6 +167,7 @@ const blockers = [
 const payload = {
   generatedAt: new Date().toISOString(),
   status,
+  envFiles: localEnv,
   workspace: {
     path: root,
     insideWorkTree,

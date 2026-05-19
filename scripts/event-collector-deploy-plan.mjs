@@ -1,7 +1,9 @@
 import { access, mkdir, readFile, writeFile } from 'node:fs/promises'
 import path from 'node:path'
+import { loadLocalEnv } from './lib/env-loader.mjs'
 
 const root = process.cwd()
+const localEnv = await loadLocalEnv({ root })
 const productionEnvironmentPath = path.join(root, 'data', 'production-environment.json')
 const eventCollectorSmokePath = path.join(root, 'data', 'event-collector-smoke.json')
 const workflowPath = path.join(root, '.github', 'workflows', 'event-collector-deploy.yml')
@@ -98,6 +100,7 @@ const status = hardBlocked
 const payload = {
   generatedAt: new Date().toISOString(),
   status,
+  envFiles: localEnv,
   provider: 'cloudflare-worker-r2',
   costPosture: 'free-tier-friendly-no-paid-traffic',
   worker: {

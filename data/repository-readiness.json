@@ -1,12 +1,45 @@
 {
-  "generatedAt": "2026-05-19T01:29:51.457Z",
+  "generatedAt": "2026-05-19T01:39:58.917Z",
   "status": "waiting-for-github-repository",
+  "envFiles": {
+    "loaded": false,
+    "loadedFiles": [],
+    "loadedKeys": [],
+    "skippedExistingKeys": [],
+    "skippedProtectedKeys": [],
+    "overwrittenEnvFileKeys": [],
+    "supportedFiles": [
+      ".env",
+      ".env.local",
+      ".env.production",
+      ".env.production.local",
+      "ops/production.env",
+      "ops/production.env.local"
+    ],
+    "candidateFiles": [
+      ".env",
+      ".env.local",
+      ".env.production",
+      ".env.production.local",
+      "ops/production.env",
+      "ops/production.env.local"
+    ],
+    "shellEnvPrecedence": true,
+    "valuesRedacted": true,
+    "controls": {
+      "shellEnvPrecedence": true,
+      "laterEnvFilesOverrideEarlierEnvFiles": true,
+      "protectedMutationKeysRequireShellEnv": true,
+      "noSecretValuesInReports": true,
+      "gitIgnoredLocalEnvFiles": true
+    }
+  },
   "workspace": {
     "path": "/Users/moshequ/Documents/Codex/2026-05-18/i-want-to-have-a-new",
     "insideWorkTree": true,
     "gitRoot": "/Users/moshequ/Documents/Codex/2026-05-18/i-want-to-have-a-new",
     "currentBranch": "main",
-    "dirtyFiles": 0
+    "dirtyFiles": 53
   },
   "repository": {
     "target": null,
@@ -25,7 +58,7 @@
     "workflowExists": true,
     "deployWorkflowIncludesSmoke": true,
     "deploymentStatus": "ready-for-pages",
-    "releaseCandidateId": "pwa-bb839e809e0f",
+    "releaseCandidateId": "pwa-b8f7e5d09ed2",
     "postDeploySmokeStatus": "blocked-missing-origin"
   },
   "controls": {

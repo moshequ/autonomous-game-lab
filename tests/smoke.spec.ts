@@ -501,6 +501,74 @@ test('post-deploy smoke runner is wired to the release manifest and Pages workfl
   expect(workflow).toContain('data/post-deploy-smoke.json')
 })
 
+test('production scripts load git-ignored env files without leaking values or mutation gates', async () => {
+  const artifactPaths = [
+    'data/production-environment.json',
+    'data/repository-readiness.json',
+    'data/repository-bootstrap.json',
+    'data/production-bootstrap.json',
+    'data/event-collector-deployment.json',
+    'data/post-deploy-smoke.json',
+  ]
+  const expectedFiles = [
+    '.env',
+    '.env.local',
+    '.env.production',
+    '.env.production.local',
+    'ops/production.env',
+    'ops/production.env.local',
+  ]
+
+  for (const artifactPath of artifactPaths) {
+    const artifact = JSON.parse(await readFile(artifactPath, 'utf8')) as {
+      envFiles: {
+        candidateFiles: string[]
+        loadedFiles: Array<Record<string, unknown>>
+        controls: {
+          shellEnvPrecedence: boolean
+          protectedMutationKeysRequireShellEnv: boolean
+          noSecretValuesInReports: boolean
+          gitIgnoredLocalEnvFiles: boolean
+        }
+      }
+    }
+
+    expect(artifact.envFiles.candidateFiles).toEqual(expect.arrayContaining(expectedFiles))
+    expect(artifact.envFiles.controls.shellEnvPrecedence).toBe(true)
+    expect(artifact.envFiles.controls.protectedMutationKeysRequireShellEnv).toBe(true)
+    expect(artifact.envFiles.controls.noSecretValuesInReports).toBe(true)
+    expect(artifact.envFiles.controls.gitIgnoredLocalEnvFiles).toBe(true)
+    expect(
+      artifact.envFiles.loadedFiles.some((file) =>
+        Object.prototype.hasOwnProperty.call(file, 'value'),
+      ),
+    ).toBe(false)
+  }
+
+  const gitignore = await readFile('.gitignore', 'utf8')
+  const envLoader = await readFile('scripts/lib/env-loader.mjs', 'utf8')
+  const envAwareScripts = [
+    'scripts/production-environment.mjs',
+    'scripts/repository-readiness.mjs',
+    'scripts/repository-bootstrap.mjs',
+    'scripts/production-bootstrap.mjs',
+    'scripts/event-collector-deploy-plan.mjs',
+    'scripts/post-deploy-smoke.mjs',
+  ]
+
+  expect(gitignore).toContain('.env')
+  expect(gitignore).toContain('.env.*')
+  expect(gitignore).toContain('ops/production.env')
+  expect(gitignore).toContain('ops/*.env.local')
+  expect(gitignore).toContain('!ops/production.env.example')
+  expect(envLoader).toContain('AGL_ALLOW_')
+  expect(envLoader).toContain('protectedMutationKeysRequireShellEnv')
+
+  for (const scriptPath of envAwareScripts) {
+    expect(await readFile(scriptPath, 'utf8')).toContain('loadLocalEnv')
+  }
+})
+
 test('repository readiness surfaces the GitHub Pages deployment channel without mutating git', async () => {
   const readiness = JSON.parse(await readFile('data/repository-readiness.json', 'utf8')) as {
     status: string

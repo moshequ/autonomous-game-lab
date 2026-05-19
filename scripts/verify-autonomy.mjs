@@ -148,6 +148,7 @@ const requiredFiles = [
   'ops/cloudflare/README.md',
   'ops/cloudflare/wrangler.toml.example',
   'scripts/post-deploy-smoke.mjs',
+  'scripts/lib/env-loader.mjs',
   'scripts/repository-readiness.mjs',
   'scripts/repository-bootstrap.mjs',
   'public/icons/app-icon.svg',
@@ -260,6 +261,12 @@ const generatedPuzzleSource = await readFile(path.join(root, 'src', 'game', 'Gen
 const distIndexHtml = await readFile(path.join(root, 'dist', 'index.html'), 'utf8')
 const analyticsLibSource = await readFile(path.join(root, 'src', 'lib', 'analytics.ts'), 'utf8')
 const analyticsRollupSource = await readFile(path.join(root, 'scripts', 'analytics-rollup.mjs'), 'utf8')
+const envLoaderSource = await readFile(path.join(root, 'scripts', 'lib', 'env-loader.mjs'), 'utf8')
+const productionEnvironmentSource = await readFile(path.join(root, 'scripts', 'production-environment.mjs'), 'utf8')
+const eventCollectorDeployPlanSource = await readFile(
+  path.join(root, 'scripts', 'event-collector-deploy-plan.mjs'),
+  'utf8',
+)
 const productionBootstrapSource = await readFile(path.join(root, 'scripts', 'production-bootstrap.mjs'), 'utf8')
 const postDeploySmokeSource = await readFile(path.join(root, 'scripts', 'post-deploy-smoke.mjs'), 'utf8')
 const repositoryReadinessSource = await readFile(path.join(root, 'scripts', 'repository-readiness.mjs'), 'utf8')
@@ -269,6 +276,7 @@ const objectiveAuditSource = await readFile(path.join(root, 'scripts', 'objectiv
 const githubRepositoryBootstrapScript = await readFile(path.join(root, 'ops', 'github', 'bootstrap-repository.sh'), 'utf8')
 const githubSetupScript = await readFile(path.join(root, 'ops', 'github', 'setup-production.sh'), 'utf8')
 const githubSetupReadme = await readFile(path.join(root, 'ops', 'github', 'README.md'), 'utf8')
+const gitignoreSource = await readFile(path.join(root, '.gitignore'), 'utf8')
 const playableIds = new Set(playable.games ?? [])
 const roundMetric = (value) => (typeof value === 'number' ? Math.round(value * 1000) / 1000 : value)
 const corePlayableIds = new Set([
@@ -1030,6 +1038,57 @@ if (
   productionEnvironment.publicOrigin.privacyUrl !== null
 ) {
   fail('Production environment must not synthesize hosted privacy URLs without a real public origin.')
+}
+
+const expectedEnvFiles = [
+  '.env',
+  '.env.local',
+  '.env.production',
+  '.env.production.local',
+  'ops/production.env',
+  'ops/production.env.local',
+]
+const envAwareArtifacts = [
+  productionEnvironment,
+  repositoryReadiness,
+  repositoryBootstrap,
+  productionBootstrap,
+  eventCollectorDeployment,
+  postDeploySmoke,
+]
+const envAwareSources = [
+  productionEnvironmentSource,
+  repositoryReadinessSource,
+  repositoryBootstrapSource,
+  productionBootstrapSource,
+  eventCollectorDeployPlanSource,
+  postDeploySmokeSource,
+]
+const loadedEnvFileMetadataLeaksValues = envAwareArtifacts.some((artifact) =>
+  (artifact.envFiles?.loadedFiles ?? []).some((file) => Object.hasOwn(file, 'value')),
+)
+
+if (
+  !expectedEnvFiles.every((file) => productionEnvironment.envFiles?.candidateFiles?.includes(file)) ||
+  productionEnvironment.envFiles?.controls?.shellEnvPrecedence !== true ||
+  productionEnvironment.envFiles?.controls?.protectedMutationKeysRequireShellEnv !== true ||
+  productionEnvironment.envFiles?.controls?.noSecretValuesInReports !== true ||
+  productionEnvironment.envFiles?.controls?.gitIgnoredLocalEnvFiles !== true ||
+  !envAwareArtifacts.every((artifact) => artifact.envFiles?.controls?.shellEnvPrecedence === true) ||
+  !envAwareArtifacts.every(
+    (artifact) => artifact.envFiles?.controls?.protectedMutationKeysRequireShellEnv === true,
+  ) ||
+  loadedEnvFileMetadataLeaksValues ||
+  !envAwareSources.every((source) => source.includes('loadLocalEnv')) ||
+  !envLoaderSource.includes('AGL_ALLOW_') ||
+  !envLoaderSource.includes('protectedMutationKeysRequireShellEnv') ||
+  !gitignoreSource.includes('.env') ||
+  !gitignoreSource.includes('.env.*') ||
+  !gitignoreSource.includes('ops/production.env') ||
+  !gitignoreSource.includes('ops/*.env.local') ||
+  !gitignoreSource.includes('!ops/production.env.example')
+) {
+  fail('Production env-file loading must support git-ignored local config without leaking values or enabling mutation gates.')
 }
 
 const bootstrapStageIds = new Set((productionBootstrap.stages ?? []).map((stage) => stage.id))

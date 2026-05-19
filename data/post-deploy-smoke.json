@@ -1,11 +1,44 @@
 {
-  "generatedAt": "2026-05-19T01:28:41.153Z",
+  "generatedAt": "2026-05-19T01:39:55.906Z",
   "status": "blocked-missing-origin",
+  "envFiles": {
+    "loaded": false,
+    "loadedFiles": [],
+    "loadedKeys": [],
+    "skippedExistingKeys": [],
+    "skippedProtectedKeys": [],
+    "overwrittenEnvFileKeys": [],
+    "supportedFiles": [
+      ".env",
+      ".env.local",
+      ".env.production",
+      ".env.production.local",
+      "ops/production.env",
+      "ops/production.env.local"
+    ],
+    "candidateFiles": [
+      ".env",
+      ".env.local",
+      ".env.production",
+      ".env.production.local",
+      "ops/production.env",
+      "ops/production.env.local"
+    ],
+    "shellEnvPrecedence": true,
+    "valuesRedacted": true,
+    "controls": {
+      "shellEnvPrecedence": true,
+      "laterEnvFilesOverrideEarlierEnvFiles": true,
+      "protectedMutationKeysRequireShellEnv": true,
+      "noSecretValuesInReports": true,
+      "gitIgnoredLocalEnvFiles": true
+    }
+  },
   "target": {
     "origin": null,
     "provider": "github-pages",
-    "candidateId": "pwa-bb839e809e0f",
-    "aggregateHash": "bb839e809e0f651719166a4c33d19e7daf6bfe92220650982324deb0d2aa70b9"
+    "candidateId": "pwa-b8f7e5d09ed2",
+    "aggregateHash": "b8f7e5d09ed2c0e85e5b508ea75be6310488106378a62bba63697228435f179e"
   },
   "sourceStatus": {
     "deployment": "ready-for-pages",
@@ -95,7 +128,7 @@
       "path": "/release-candidate.json",
       "url": "${DEPLOYED_PWA_ORIGIN}/release-candidate.json",
       "expectedStatus": 200,
-      "requiredText": "pwa-bb839e809e0f",
+      "requiredText": "pwa-b8f7e5d09ed2",
       "status": "blocked",
       "detail": "No deployed origin configured."
     }

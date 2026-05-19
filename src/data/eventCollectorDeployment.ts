@@ -1,6 +1,39 @@
 export const eventCollectorDeployment = {
-  "generatedAt": "2026-05-18T23:36:40.917Z",
+  "generatedAt": "2026-05-19T01:38:40.009Z",
   "status": "blocked-needs-cloudflare-env",
+  "envFiles": {
+    "loaded": false,
+    "loadedFiles": [],
+    "loadedKeys": [],
+    "skippedExistingKeys": [],
+    "skippedProtectedKeys": [],
+    "overwrittenEnvFileKeys": [],
+    "supportedFiles": [
+      ".env",
+      ".env.local",
+      ".env.production",
+      ".env.production.local",
+      "ops/production.env",
+      "ops/production.env.local"
+    ],
+    "candidateFiles": [
+      ".env",
+      ".env.local",
+      ".env.production",
+      ".env.production.local",
+      "ops/production.env",
+      "ops/production.env.local"
+    ],
+    "shellEnvPrecedence": true,
+    "valuesRedacted": true,
+    "controls": {
+      "shellEnvPrecedence": true,
+      "laterEnvFilesOverrideEarlierEnvFiles": true,
+      "protectedMutationKeysRequireShellEnv": true,
+      "noSecretValuesInReports": true,
+      "gitIgnoredLocalEnvFiles": true
+    }
+  },
   "provider": "cloudflare-worker-r2",
   "costPosture": "free-tier-friendly-no-paid-traffic",
   "worker": {

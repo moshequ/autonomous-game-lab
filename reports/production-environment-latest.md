@@ -1,11 +1,18 @@
 # Production Environment
 
-Generated: 2026-05-18T23:36:39.276Z
+Generated: 2026-05-19T01:38:35.186Z
 Status: production-env-missing
 Public origin: missing
 Analytics: local-or-fixture
 Monetization: disabled
 Android: blocked-needs-host-signing-account
+
+## Local Env Files
+
+- none loaded
+- shell env precedence: true
+- protected mutation keys require shell env: true
+- values redacted: true
 
 ## Required Environment
 

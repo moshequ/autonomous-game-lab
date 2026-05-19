@@ -1,8 +1,10 @@
 import { execFile } from 'node:child_process'
 import { access, chmod, mkdir, readFile, writeFile } from 'node:fs/promises'
 import path from 'node:path'
+import { loadLocalEnv } from './lib/env-loader.mjs'
 
 const root = process.cwd()
+const localEnv = await loadLocalEnv({ root })
 const dataDir = path.join(root, 'data')
 const srcDataDir = path.join(root, 'src', 'data')
 const reportsDir = path.join(root, 'reports')
@@ -276,6 +278,7 @@ const payload = {
   generatedAt: new Date().toISOString(),
   status,
   mode: applyLocalGit ? 'apply-local-git' : 'plan-only',
+  envFiles: localEnv,
   workspace: {
     path: root,
     before: gitBefore,

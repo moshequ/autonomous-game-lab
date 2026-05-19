@@ -1,11 +1,18 @@
 # Production Bootstrap
 
-Generated: 2026-05-19T01:29:52.274Z
+Generated: 2026-05-19T01:40:08.566Z
 Status: production-bootstrap-ready
 Mode: waiting-for-external-credentials
 GitHub repository: missing
 Repository channel: waiting-for-github-repository
 gh CLI available: true
+
+## Local Env Files
+
+- none loaded
+- shell env precedence: true
+- protected mutation keys require shell env: true
+- values redacted: true
 
 ## Setup Groups
 
@@ -69,6 +76,7 @@ gh CLI available: true
 
 - repository-readiness: Add a GitHub origin remote or set GITHUB_REPOSITORY/GH_REPO.
 - repository-readiness: Configure GH_TOKEN or GITHUB_TOKEN for workflow dispatch and repository settings sync.
+- repository-bootstrap: Commit current generated changes before pushing to GitHub Pages.
 - repository-bootstrap: Set GITHUB_REPOSITORY or GH_REPO to the intended owner/repo.
 - repository-bootstrap: Attach a GitHub origin remote or create the target repository.
 - repository-bootstrap: Authenticate GitHub CLI or provide GH_TOKEN/GITHUB_TOKEN for remote repository bootstrap.
@@ -78,4 +86,3 @@ gh CLI available: true
 - production-environment: Set AGL_EVENT_COLLECTOR_EXPORT_URL + AGL_EVENT_COLLECTOR_ADMIN_TOKEN or PostHog server credentials for autonomous production rollups.
 - production-environment: Set VITE_ADSENSE_CLIENT_ID + VITE_ADSENSE_REWARDED_SLOT_ID for web/PWA revenue tests or ADMOB_PUBLISHER_ID for native app placements.
 - production-environment: Set AGL_ANDROID_SHA256_CERT_FINGERPRINT after Android signing exists.
-- production-environment: Connect Google Play credentials or set AGL_GOOGLE_PLAY_ACCOUNT_CONNECTED=true.

@@ -1,5 +1,5 @@
 export const autonomousOperator = {
-  "generatedAt": "2026-05-19T01:29:53.775Z",
+  "generatedAt": "2026-05-19T01:40:17.532Z",
   "status": "operator-plan-ready",
   "mode": "plan-only",
   "ownerDecision": {

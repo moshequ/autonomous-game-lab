@@ -1,7 +1,9 @@
 import { chmod, mkdir, readFile, writeFile } from 'node:fs/promises'
 import path from 'node:path'
+import { loadLocalEnv } from './lib/env-loader.mjs'
 
 const root = process.cwd()
+const localEnv = await loadLocalEnv({ root })
 const dataDir = path.join(root, 'data')
 const srcDataDir = path.join(root, 'src', 'data')
 const reportsDir = path.join(root, 'reports')
@@ -303,6 +305,7 @@ const payload = {
   generatedAt: new Date().toISOString(),
   status: 'production-bootstrap-ready',
   mode: nextRunnable ? 'can-apply-configured-actions' : 'waiting-for-external-credentials',
+  envFiles: localEnv,
   repository: {
     githubRepository,
     ghCliAvailable: hasGhCli,
@@ -385,6 +388,15 @@ const report = [
   `GitHub repository: ${githubRepository ?? 'missing'}`,
   `Repository channel: ${repositoryReadiness.status}`,
   `gh CLI available: ${hasGhCli}`,
+  '',
+  '## Local Env Files',
+  '',
+  ...(payload.envFiles.loadedFiles.length
+    ? payload.envFiles.loadedFiles.map((file) => `- ${file.path}: ${file.keys.join(', ') || 'no keys'}`)
+    : ['- none loaded']),
+  `- shell env precedence: ${payload.envFiles.controls.shellEnvPrecedence}`,
+  `- protected mutation keys require shell env: ${payload.envFiles.controls.protectedMutationKeysRequireShellEnv}`,
+  `- values redacted: ${payload.envFiles.controls.noSecretValuesInReports}`,
   '',
   '## Setup Groups',
   '',
