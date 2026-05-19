@@ -3856,6 +3856,14 @@ if (
 }
 
 if (
+  !appSource.includes('ownerDecisionAction') ||
+  !appSource.includes('autonomousOwnerLoop.ownerDecision.nextBestActionId') ||
+  !appSource.includes('[ownerDecisionAction]')
+) {
+  fail('Autonomy cockpit must always surface the owner loop next action even when it is outside the top action slice.')
+}
+
+if (
   !deployWorkflow.includes('actions/configure-pages') ||
   !deployWorkflow.includes('actions/upload-pages-artifact') ||
   !deployWorkflow.includes('actions/deploy-pages') ||

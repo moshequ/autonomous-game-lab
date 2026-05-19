@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-19T09:26:30.781Z",
+  "generatedAt": "2026-05-19T09:33:24.926Z",
   "status": "performance-budget-ready",
   "sourceBuild": "dist",
   "budgets": {
@@ -14,21 +14,21 @@
   },
   "initial": {
     "entryScripts": [
-      "index-04SvoyZ-.js",
+      "index-Cob-XBcv.js",
       "registerSW.js"
     ],
     "scriptPaths": [
-      "assets/index-04SvoyZ-.js",
+      "assets/index-Cob-XBcv.js",
       "registerSW.js"
     ],
     "jsFiles": [
       {
-        "file": "index-04SvoyZ-.js",
-        "path": "assets/index-04SvoyZ-.js",
-        "bytes": 672225,
-        "kb": 656.5,
-        "gzipBytes": 178099,
-        "gzipKb": 173.9
+        "file": "index-Cob-XBcv.js",
+        "path": "assets/index-Cob-XBcv.js",
+        "bytes": 665821,
+        "kb": 650.2,
+        "gzipBytes": 177737,
+        "gzipKb": 173.6
       },
       {
         "file": "registerSW.js",
@@ -39,10 +39,10 @@
         "gzipKb": 0.1
       }
     ],
-    "jsBytes": 672359,
-    "jsKb": 656.6,
-    "gzipBytes": 178225,
-    "gzipKb": 174,
+    "jsBytes": 665955,
+    "jsKb": 650.3,
+    "gzipBytes": 177863,
+    "gzipKb": 173.7,
     "cssFiles": [
       {
         "file": "index-BA4sddeG.css",
@@ -61,8 +61,8 @@
   "deferred": {
     "chunks": [
       {
-        "file": "GameCanvas-Imc-hjIW.js",
-        "path": "assets/GameCanvas-Imc-hjIW.js",
+        "file": "GameCanvas-CmimoaUI.js",
+        "path": "assets/GameCanvas-CmimoaUI.js",
         "bytes": 1393468,
         "kb": 1360.8,
         "gzipBytes": 356094,
@@ -70,24 +70,24 @@
       }
     ],
     "gameChunk": {
-      "file": "GameCanvas-Imc-hjIW.js",
-      "path": "assets/GameCanvas-Imc-hjIW.js",
+      "file": "GameCanvas-CmimoaUI.js",
+      "path": "assets/GameCanvas-CmimoaUI.js",
       "bytes": 1393468,
       "kb": 1360.8,
       "gzipBytes": 356094,
       "gzipKb": 347.7
     },
     "largestDeferredChunk": {
-      "file": "GameCanvas-Imc-hjIW.js",
-      "path": "assets/GameCanvas-Imc-hjIW.js",
+      "file": "GameCanvas-CmimoaUI.js",
+      "path": "assets/GameCanvas-CmimoaUI.js",
       "bytes": 1393468,
       "kb": 1360.8,
       "gzipBytes": 356094,
       "gzipKb": 347.7
     },
     "largestJsChunk": {
-      "file": "GameCanvas-Imc-hjIW.js",
-      "path": "assets/GameCanvas-Imc-hjIW.js",
+      "file": "GameCanvas-CmimoaUI.js",
+      "path": "assets/GameCanvas-CmimoaUI.js",
       "bytes": 1393468,
       "kb": 1360.8,
       "gzipBytes": 356094,
@@ -99,20 +99,20 @@
   "assets": {
     "js": [
       {
-        "file": "GameCanvas-Imc-hjIW.js",
-        "path": "assets/GameCanvas-Imc-hjIW.js",
+        "file": "GameCanvas-CmimoaUI.js",
+        "path": "assets/GameCanvas-CmimoaUI.js",
         "bytes": 1393468,
         "kb": 1360.8,
         "gzipBytes": 356094,
         "gzipKb": 347.7
       },
       {
-        "file": "index-04SvoyZ-.js",
-        "path": "assets/index-04SvoyZ-.js",
-        "bytes": 672225,
-        "kb": 656.5,
-        "gzipBytes": 178099,
-        "gzipKb": 173.9
+        "file": "index-Cob-XBcv.js",
+        "path": "assets/index-Cob-XBcv.js",
+        "bytes": 665821,
+        "kb": 650.2,
+        "gzipBytes": 177737,
+        "gzipKb": 173.6
       },
       {
         "file": "registerSW.js",
@@ -149,12 +149,12 @@
     {
       "id": "initial-js-budget",
       "status": "pass",
-      "detail": "Initial JS is 656.6 KB; budget is 675 KB."
+      "detail": "Initial JS is 650.3 KB; budget is 675 KB."
     },
     {
       "id": "initial-js-gzip-budget",
       "status": "pass",
-      "detail": "Initial JS gzip is 174 KB; budget is 200 KB."
+      "detail": "Initial JS gzip is 173.7 KB; budget is 200 KB."
     },
     {
       "id": "initial-css-budget",
@@ -174,12 +174,12 @@
     {
       "id": "game-runtime-deferred",
       "status": "pass",
-      "detail": "GameCanvas-Imc-hjIW.js is deferred from the initial shell."
+      "detail": "GameCanvas-CmimoaUI.js is deferred from the initial shell."
     },
     {
       "id": "largest-js-deferred",
       "status": "pass",
-      "detail": "Largest JS chunk is GameCanvas-Imc-hjIW.js at 1360.8 KB."
+      "detail": "Largest JS chunk is GameCanvas-CmimoaUI.js at 1360.8 KB."
     },
     {
       "id": "deferred-game-budget",

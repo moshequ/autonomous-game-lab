@@ -1270,6 +1270,13 @@ const payload = {
   },
 }
 
+const appSafeAutonomousActions = [
+  ...payload.safeAutonomousActions.filter((action) => action.id === payload.ownerDecision.nextBestActionId),
+  ...payload.safeAutonomousActions
+    .filter((action) => action.id !== payload.ownerDecision.nextBestActionId)
+    .slice(0, 3),
+]
+
 const appPayload = {
   status: payload.status,
   mode: payload.mode,
@@ -1286,7 +1293,7 @@ const appPayload = {
     id: system.id,
     status: system.status,
   })),
-  safeAutonomousActions: payload.safeAutonomousActions.slice(0, 3).map((action) => ({
+  safeAutonomousActions: appSafeAutonomousActions.map((action) => ({
     id: action.id,
     status: action.status,
   })),
