@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-19T17:46:27.850Z",
+  "generatedAt": "2026-05-19T17:49:36.788Z",
   "status": "performance-budget-ready",
   "sourceBuild": "dist",
   "budgets": {
@@ -14,21 +14,21 @@
   },
   "initial": {
     "entryScripts": [
-      "index-a8-XZzcm.js",
+      "index-Cm9fHxxp.js",
       "registerSW.js"
     ],
     "scriptPaths": [
-      "assets/index-a8-XZzcm.js",
+      "assets/index-Cm9fHxxp.js",
       "registerSW.js"
     ],
     "jsFiles": [
       {
-        "file": "index-a8-XZzcm.js",
-        "path": "assets/index-a8-XZzcm.js",
-        "bytes": 673221,
-        "kb": 657.4,
-        "gzipBytes": 178304,
-        "gzipKb": 174.1
+        "file": "index-Cm9fHxxp.js",
+        "path": "assets/index-Cm9fHxxp.js",
+        "bytes": 665455,
+        "kb": 649.9,
+        "gzipBytes": 177817,
+        "gzipKb": 173.6
       },
       {
         "file": "registerSW.js",
@@ -39,10 +39,10 @@
         "gzipKb": 0.1
       }
     ],
-    "jsBytes": 673355,
-    "jsKb": 657.6,
-    "gzipBytes": 178430,
-    "gzipKb": 174.2,
+    "jsBytes": 665589,
+    "jsKb": 650,
+    "gzipBytes": 177943,
+    "gzipKb": 173.8,
     "cssFiles": [
       {
         "file": "index-BA4sddeG.css",
@@ -61,36 +61,36 @@
   "deferred": {
     "chunks": [
       {
-        "file": "GameCanvas-CigERO4e.js",
-        "path": "assets/GameCanvas-CigERO4e.js",
+        "file": "GameCanvas-DAGwfP4C.js",
+        "path": "assets/GameCanvas-DAGwfP4C.js",
         "bytes": 1393468,
         "kb": 1360.8,
-        "gzipBytes": 356095,
+        "gzipBytes": 356094,
         "gzipKb": 347.7
       }
     ],
     "gameChunk": {
-      "file": "GameCanvas-CigERO4e.js",
-      "path": "assets/GameCanvas-CigERO4e.js",
+      "file": "GameCanvas-DAGwfP4C.js",
+      "path": "assets/GameCanvas-DAGwfP4C.js",
       "bytes": 1393468,
       "kb": 1360.8,
-      "gzipBytes": 356095,
+      "gzipBytes": 356094,
       "gzipKb": 347.7
     },
     "largestDeferredChunk": {
-      "file": "GameCanvas-CigERO4e.js",
-      "path": "assets/GameCanvas-CigERO4e.js",
+      "file": "GameCanvas-DAGwfP4C.js",
+      "path": "assets/GameCanvas-DAGwfP4C.js",
       "bytes": 1393468,
       "kb": 1360.8,
-      "gzipBytes": 356095,
+      "gzipBytes": 356094,
       "gzipKb": 347.7
     },
     "largestJsChunk": {
-      "file": "GameCanvas-CigERO4e.js",
-      "path": "assets/GameCanvas-CigERO4e.js",
+      "file": "GameCanvas-DAGwfP4C.js",
+      "path": "assets/GameCanvas-DAGwfP4C.js",
       "bytes": 1393468,
       "kb": 1360.8,
-      "gzipBytes": 356095,
+      "gzipBytes": 356094,
       "gzipKb": 347.7
     },
     "chunksBytes": 1393468,
@@ -99,20 +99,20 @@
   "assets": {
     "js": [
       {
-        "file": "GameCanvas-CigERO4e.js",
-        "path": "assets/GameCanvas-CigERO4e.js",
+        "file": "GameCanvas-DAGwfP4C.js",
+        "path": "assets/GameCanvas-DAGwfP4C.js",
         "bytes": 1393468,
         "kb": 1360.8,
-        "gzipBytes": 356095,
+        "gzipBytes": 356094,
         "gzipKb": 347.7
       },
       {
-        "file": "index-a8-XZzcm.js",
-        "path": "assets/index-a8-XZzcm.js",
-        "bytes": 673221,
-        "kb": 657.4,
-        "gzipBytes": 178304,
-        "gzipKb": 174.1
+        "file": "index-Cm9fHxxp.js",
+        "path": "assets/index-Cm9fHxxp.js",
+        "bytes": 665455,
+        "kb": 649.9,
+        "gzipBytes": 177817,
+        "gzipKb": 173.6
       },
       {
         "file": "registerSW.js",
@@ -149,12 +149,12 @@
     {
       "id": "initial-js-budget",
       "status": "pass",
-      "detail": "Initial JS is 657.6 KB; budget is 675 KB."
+      "detail": "Initial JS is 650 KB; budget is 675 KB."
     },
     {
       "id": "initial-js-gzip-budget",
       "status": "pass",
-      "detail": "Initial JS gzip is 174.2 KB; budget is 200 KB."
+      "detail": "Initial JS gzip is 173.8 KB; budget is 200 KB."
     },
     {
       "id": "initial-css-budget",
@@ -174,12 +174,12 @@
     {
       "id": "game-runtime-deferred",
       "status": "pass",
-      "detail": "GameCanvas-CigERO4e.js is deferred from the initial shell."
+      "detail": "GameCanvas-DAGwfP4C.js is deferred from the initial shell."
     },
     {
       "id": "largest-js-deferred",
       "status": "pass",
-      "detail": "Largest JS chunk is GameCanvas-CigERO4e.js at 1360.8 KB."
+      "detail": "Largest JS chunk is GameCanvas-DAGwfP4C.js at 1360.8 KB."
     },
     {
       "id": "deferred-game-budget",
