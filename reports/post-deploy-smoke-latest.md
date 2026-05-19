@@ -1,9 +1,9 @@
 # Post-Deploy Smoke
 
-Generated: 2026-05-19T05:16:22.210Z
+Generated: 2026-05-19T05:18:41.616Z
 Status: blocked-missing-origin
 Origin: missing
-Candidate: pwa-1bb2fae4371d
+Candidate: pwa-51e4b8e81dd2
 
 ## Summary
 
