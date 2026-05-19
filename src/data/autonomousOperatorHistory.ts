@@ -1,15 +1,15 @@
 export const autonomousOperatorHistory = {
-  "generatedAt": "2026-05-19T02:07:02.094Z",
+  "generatedAt": "2026-05-19T02:36:24.364Z",
   "status": "operator-history-ready",
   "retention": {
     "maxRecords": 40,
     "appendOnlyWhenPlanChangesOrExecutes": true,
-    "latestRunAppended": false,
+    "latestRunAppended": true,
     "compactedDuplicateDryRuns": 0
   },
   "summary": {
-    "totalRecords": 11,
-    "plannedRecords": 11,
+    "totalRecords": 12,
+    "plannedRecords": 12,
     "executedRecords": 0,
     "failedRecords": 0,
     "lastActionId": "prepare-repository-channel",
@@ -417,6 +417,46 @@ export const autonomousOperatorHistory = {
         "apply-safe-improvements"
       ],
       "blockedActionCount": 20,
+      "execution": {
+        "requested": false,
+        "status": "not-requested",
+        "attemptedActionId": null,
+        "resultCount": 0,
+        "failedScripts": []
+      },
+      "controls": {
+        "zeroPaidSpend": true,
+        "localCommandAllowlistEnforced": true,
+        "externalWorkflowExecutionBlockedByDefault": true,
+        "maxActionsPerRun": 1
+      }
+    },
+    {
+      "id": "20260519023624-prepare-repository-channel",
+      "generatedAt": "2026-05-19T02:36:24.364Z",
+      "runFingerprint": "16b599c6c1a52652",
+      "mode": "plan-only",
+      "status": "operator-plan-ready",
+      "selectedActionId": "prepare-repository-channel",
+      "selectedCommand": "npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap",
+      "eligibleActionIds": [
+        "refresh-autonomous-self-update",
+        "seed-portfolio-traffic",
+        "refresh-organic-seed-loop",
+        "optimize-daily-retention",
+        "measure-pwa-install-loop",
+        "check-performance-budget",
+        "prepare-release-candidate",
+        "optimize-product-gates",
+        "refresh-first-move-coach",
+        "refresh-completion-loop",
+        "refresh-replay-loop",
+        "prepare-repository-channel",
+        "bootstrap-production-setup",
+        "optimize-store-listing",
+        "apply-safe-improvements"
+      ],
+      "blockedActionCount": 22,
       "execution": {
         "requested": false,
         "status": "not-requested",

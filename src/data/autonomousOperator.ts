@@ -1,5 +1,5 @@
 export const autonomousOperator = {
-  "generatedAt": "2026-05-19T02:07:02.094Z",
+  "generatedAt": "2026-05-19T02:36:24.364Z",
   "status": "operator-plan-ready",
   "mode": "plan-only",
   "ownerDecision": {
@@ -21,6 +21,7 @@ export const autonomousOperator = {
   },
   "selectedRejection": null,
   "eligibleActionIds": [
+    "refresh-autonomous-self-update",
     "seed-portfolio-traffic",
     "refresh-organic-seed-loop",
     "optimize-daily-retention",
@@ -42,6 +43,18 @@ export const autonomousOperator = {
       "status": "armed",
       "command": "npm run autonomous:daily",
       "reason": "daily-loop-recursion-blocked"
+    },
+    {
+      "id": "refresh-autonomous-cadence",
+      "status": "armed",
+      "command": "npm run autonomous:cadence",
+      "reason": "command-not-in-local-allowlist"
+    },
+    {
+      "id": "refresh-autonomous-self-update",
+      "status": "armed",
+      "command": "npm run autonomous:self-update",
+      "reason": "not-selected-this-run"
     },
     {
       "id": "seed-portfolio-traffic",
@@ -201,6 +214,7 @@ export const autonomousOperator = {
     "npm run autonomous:repo-readiness",
     "npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap",
     "npm run autonomous:repo-bootstrap",
+    "npm run autonomous:self-update",
     "npm run autonomous:first-move-coach",
     "npm run autonomous:completion-loop",
     "npm run autonomous:replay-loop",

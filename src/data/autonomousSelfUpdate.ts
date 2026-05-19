@@ -1,6 +1,6 @@
 export const autonomousSelfUpdate = {
-  "generatedAt": "2026-05-19T02:35:30.104Z",
-  "status": "self-update-needs-attention",
+  "generatedAt": "2026-05-19T02:36:18.906Z",
+  "status": "self-update-ready",
   "mode": "plan-and-assert",
   "envFiles": {
     "loaded": false,
@@ -48,130 +48,16 @@ export const autonomousSelfUpdate = {
   },
   "sourceStatus": {
     "repositoryReadiness": "waiting-for-github-repository",
-    "productionReadiness": "ready-after-build",
+    "productionReadiness": "blocked",
     "autonomousCadence": "cadence-ready",
     "ownerLoop": "owner-loop-ready"
   },
   "pendingChanges": {
-    "total": 16,
-    "safe": [
-      {
-        "code": "??",
-        "path": "data/autonomous-self-update.json",
-        "raw": "?? data/autonomous-self-update.json",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "??",
-        "path": "reports/autonomous-self-update-latest.md",
-        "raw": "?? reports/autonomous-self-update-latest.md",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "??",
-        "path": "src/data/autonomousSelfUpdate.ts",
-        "raw": "?? src/data/autonomousSelfUpdate.ts",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      }
-    ],
-    "unsafe": [
-      {
-        "code": "M",
-        "path": "package.json",
-        "raw": " M package.json",
-        "safe": false,
-        "reason": "outside-autonomous-generated-allowlist"
-      },
-      {
-        "code": "M",
-        "path": "scripts/autonomous-cadence.mjs",
-        "raw": " M scripts/autonomous-cadence.mjs",
-        "safe": false,
-        "reason": "outside-autonomous-generated-allowlist"
-      },
-      {
-        "code": "M",
-        "path": "scripts/autonomous-operator.mjs",
-        "raw": " M scripts/autonomous-operator.mjs",
-        "safe": false,
-        "reason": "outside-autonomous-generated-allowlist"
-      },
-      {
-        "code": "M",
-        "path": "scripts/autonomous-owner-loop.mjs",
-        "raw": " M scripts/autonomous-owner-loop.mjs",
-        "safe": false,
-        "reason": "outside-autonomous-generated-allowlist"
-      },
-      {
-        "code": "M",
-        "path": "scripts/objective-audit.mjs",
-        "raw": " M scripts/objective-audit.mjs",
-        "safe": false,
-        "reason": "outside-autonomous-generated-allowlist"
-      },
-      {
-        "code": "M",
-        "path": "scripts/production-bootstrap.mjs",
-        "raw": " M scripts/production-bootstrap.mjs",
-        "safe": false,
-        "reason": "outside-autonomous-generated-allowlist"
-      },
-      {
-        "code": "M",
-        "path": "scripts/production-environment.mjs",
-        "raw": " M scripts/production-environment.mjs",
-        "safe": false,
-        "reason": "outside-autonomous-generated-allowlist"
-      },
-      {
-        "code": "M",
-        "path": "scripts/production-readiness.mjs",
-        "raw": " M scripts/production-readiness.mjs",
-        "safe": false,
-        "reason": "outside-autonomous-generated-allowlist"
-      },
-      {
-        "code": "M",
-        "path": "scripts/verify-autonomy.mjs",
-        "raw": " M scripts/verify-autonomy.mjs",
-        "safe": false,
-        "reason": "outside-autonomous-generated-allowlist"
-      },
-      {
-        "code": "M",
-        "path": "src/App.tsx",
-        "raw": " M src/App.tsx",
-        "safe": false,
-        "reason": "outside-autonomous-generated-allowlist"
-      },
-      {
-        "code": "M",
-        "path": "tests/smoke.spec.ts",
-        "raw": " M tests/smoke.spec.ts",
-        "safe": false,
-        "reason": "outside-autonomous-generated-allowlist"
-      },
-      {
-        "code": "??",
-        "path": ".github/workflows/autonomous-self-update.yml",
-        "raw": "?? .github/workflows/autonomous-self-update.yml",
-        "safe": false,
-        "reason": "outside-autonomous-generated-allowlist"
-      },
-      {
-        "code": "??",
-        "path": "scripts/autonomous-self-update.mjs",
-        "raw": "?? scripts/autonomous-self-update.mjs",
-        "safe": false,
-        "reason": "outside-autonomous-generated-allowlist"
-      }
-    ],
-    "safeCount": 3,
-    "unsafeCount": 13
+    "total": 0,
+    "safe": [],
+    "unsafe": [],
+    "safeCount": 0,
+    "unsafeCount": 0
   },
   "commitPlan": {
     "workflow": ".github/workflows/autonomous-self-update.yml",
@@ -184,8 +70,8 @@ export const autonomousSelfUpdate = {
     ],
     "stagePaths": [
       "data/autonomous-self-update.json",
-      "reports/autonomous-self-update-latest.md",
-      "src/data/autonomousSelfUpdate.ts"
+      "src/data/autonomousSelfUpdate.ts",
+      "reports/autonomous-self-update-latest.md"
     ],
     "commitMessage": "Autonomous daily self-update",
     "skipWhenNoAllowlistedChanges": true
@@ -273,8 +159,8 @@ export const autonomousSelfUpdate = {
     },
     {
       "id": "safe-path-allowlist",
-      "status": "blocker",
-      "detail": "3 safe pending file(s), 13 unsafe pending file(s)."
+      "status": "pass",
+      "detail": "0 safe pending file(s), 0 unsafe pending file(s)."
     },
     {
       "id": "repository-optional",
@@ -292,11 +178,9 @@ export const autonomousSelfUpdate = {
       "detail": "Self-update only stages repository artifacts; it does not create accounts, stores, ads, paid traffic, or revenue."
     }
   ],
-  "blockers": [
-    "safe-path-allowlist: 3 safe pending file(s), 13 unsafe pending file(s)."
-  ],
+  "blockers": [],
   "nextActions": [
-    "Fix self-update workflow or allowlist blockers before enabling autonomous persistence.",
+    "When a GitHub repository is connected, set AGL_AUTONOMOUS_SELF_UPDATE=1 and AGL_AUTONOMOUS_SELF_UPDATE_DIRECT=1 to let verified generated changes persist.",
     "Keep source-code changes outside this allowlist so production automation cannot rewrite core app logic without an explicit development change."
   ]
 } as const

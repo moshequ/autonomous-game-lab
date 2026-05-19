@@ -1,11 +1,11 @@
 export const autonomousOwnerLoop = {
-  "generatedAt": "2026-05-19T02:35:49.056Z",
+  "generatedAt": "2026-05-19T02:37:56.466Z",
   "status": "owner-loop-ready",
   "mode": "repository-channel-needed",
   "autonomyScore": {
-    "readySystems": 28,
+    "readySystems": 29,
     "totalSystems": 31,
-    "percent": 90
+    "percent": 94
   },
   "controls": {
     "localLoopCanRunWithoutExternalAccounts": true,
@@ -49,10 +49,10 @@ export const autonomousOwnerLoop = {
     },
     {
       "id": "autonomous-self-update",
-      "status": "needs-self-update-evidence",
+      "status": "ready",
       "autonomy": "gated-generated-change-persistence",
-      "evidence": "Self-update self-update-needs-attention; safe pending 3; unsafe pending 13; remote push held.",
-      "nextAction": "Fix self-update workflow or allowlist blockers before enabling autonomous persistence."
+      "evidence": "Self-update self-update-ready; safe pending 0; unsafe pending 0; remote push held.",
+      "nextAction": "When a GitHub repository is connected, set AGL_AUTONOMOUS_SELF_UPDATE=1 and AGL_AUTONOMOUS_SELF_UPDATE_DIRECT=1 to let verified generated changes persist."
     },
     {
       "id": "portfolio-loop",
@@ -100,7 +100,7 @@ export const autonomousOwnerLoop = {
       "id": "performance-budget",
       "status": "ready",
       "autonomy": "automatic-build-budget",
-      "evidence": "Initial JS 659 KB; gzip 175.3 KB; deferred chunks 1.",
+      "evidence": "Initial JS 668.5 KB; gzip 176.9 KB; deferred chunks 1.",
       "nextAction": "Keep Phaser and game scenes outside the initial PWA shell."
     },
     {
@@ -170,21 +170,21 @@ export const autonomousOwnerLoop = {
       "id": "release-candidate",
       "status": "ready",
       "autonomy": "content-hashed-deploy-evidence",
-      "evidence": "Candidate pwa-20402032da40; status release-candidate-ready; files 38; smoke URLs 7.",
+      "evidence": "Candidate pwa-3e36776be7b0; status release-candidate-ready; files 38; smoke URLs 7.",
       "nextAction": "Regenerate the release candidate after every production build before deploy or rollback decisions."
     },
     {
       "id": "post-deploy-smoke",
       "status": "ready",
       "autonomy": "read-only-live-deploy-verification",
-      "evidence": "Smoke blocked-missing-origin; origin missing; candidate pwa-20402032da40; checks 0/8 passed.",
+      "evidence": "Smoke blocked-missing-origin; origin missing; candidate pwa-3e36776be7b0; checks 0/8 passed.",
       "nextAction": "Run this after deployment with AGL_DEPLOYED_PWA_ORIGIN set to the Pages URL."
     },
     {
       "id": "production-bootstrap",
       "status": "ready",
       "autonomy": "zero-spend-setup-orchestration",
-      "evidence": "Bootstrap production-bootstrap-ready; mode waiting-for-external-credentials; external blockers 26.",
+      "evidence": "Bootstrap production-bootstrap-ready; mode waiting-for-external-credentials; external blockers 27.",
       "nextAction": "Fill required environment values, then run npm run autonomous:bootstrap."
     },
     {
@@ -198,14 +198,14 @@ export const autonomousOwnerLoop = {
       "id": "operator-history",
       "status": "ready",
       "autonomy": "operator-audit-trail",
-      "evidence": "History operator-history-ready; records 11; executed 0.",
+      "evidence": "History operator-history-ready; records 12; executed 0.",
       "nextAction": "Keep a capped durable record of operator plans and one-action executions."
     },
     {
       "id": "objective-audit",
       "status": "ready",
       "autonomy": "completion-evidence-ledger",
-      "evidence": "Audit objective-in-progress; met 5/8; external blockers 23.",
+      "evidence": "Audit objective-in-progress; met 5/8; external blockers 24.",
       "nextAction": "The local autonomous PWA system is largely prepared, but production credentials, live data, monetization gates, hosted compliance URLs, and store account/signing blockers remain."
     },
     {
@@ -265,7 +265,7 @@ export const autonomousOwnerLoop = {
     },
     {
       "id": "refresh-autonomous-self-update",
-      "status": "monitor",
+      "status": "armed",
       "costUsd": 0,
       "command": "npm run autonomous:self-update",
       "targets": [
@@ -323,7 +323,7 @@ export const autonomousOwnerLoop = {
       "command": "npm run build && npm run autonomous:performance",
       "targets": [
         "pwa-shell",
-        "GameCanvas-Bp_VcuBp.js"
+        "GameCanvas-DKp6VYzB.js"
       ],
       "reason": "Keeps the PWA shell fast while Phaser and game scenes stay deferred."
     },
@@ -333,7 +333,7 @@ export const autonomousOwnerLoop = {
       "costUsd": 0,
       "command": "npm run autonomous:release-candidate",
       "targets": [
-        "pwa-20402032da40"
+        "pwa-3e36776be7b0"
       ],
       "reason": "Records a content-hashed dist inventory and post-deploy smoke plan for the exact PWA build."
     },
@@ -344,7 +344,7 @@ export const autonomousOwnerLoop = {
       "command": "npm run autonomous:post-deploy-smoke",
       "targets": [
         "deployed-pages-url",
-        "pwa-20402032da40"
+        "pwa-3e36776be7b0"
       ],
       "reason": "Waits for a deployed Pages origin, then verifies the live PWA matches the exact release candidate."
     },
@@ -654,7 +654,7 @@ export const autonomousOwnerLoop = {
     "retentionLoopStatus": "retention-loop-ready",
     "pwaInstallLoopStatus": "pwa-install-loop-ready",
     "autonomousCadenceStatus": "cadence-ready",
-    "autonomousSelfUpdateStatus": "self-update-needs-attention",
+    "autonomousSelfUpdateStatus": "self-update-ready",
     "performanceBudgetStatus": "performance-budget-ready",
     "repositoryReadinessStatus": "waiting-for-github-repository",
     "repositoryBootstrapStatus": "waiting-for-github-target",
