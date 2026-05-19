@@ -1,10 +1,10 @@
 # Autonomous Operator
 
-Generated: 2026-05-19T10:57:40.385Z
+Generated: 2026-05-19T11:03:37.523Z
 Status: operator-plan-ready
 Mode: plan-only
-Owner decision: bootstrap-production-setup
-Selected action: bootstrap-production-setup
+Owner decision: refresh-autonomous-self-update
+Selected action: refresh-autonomous-self-update
 Execution: not-requested
 
 ## Controls
@@ -18,7 +18,7 @@ Execution: not-requested
 
 ## Selected Action
 
-- bootstrap-production-setup: npm run autonomous:release-candidate && npm run autonomous:deploy-plan && npm run autonomous:bootstrap
+- refresh-autonomous-self-update: npm run autonomous:self-update
 
 ## Eligible Local Actions
 
@@ -46,7 +46,6 @@ Execution: not-requested
 
 - run-daily-owner-loop: daily-loop-recursion-blocked
 - refresh-autonomous-cadence: not-selected-this-run
-- refresh-autonomous-self-update: not-selected-this-run
 - seed-portfolio-traffic: not-selected-this-run
 - refresh-organic-seed-loop: not-selected-this-run
 - optimize-daily-retention: not-selected-this-run
@@ -56,3 +55,4 @@ Execution: not-requested
 - run-post-deploy-smoke: status-monitor
 - optimize-product-gates: not-selected-this-run
 - refresh-product-gate-recovery: not-selected-this-run
+- collect-gate-sample-downloads: status-monitor
