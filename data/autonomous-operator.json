@@ -1,22 +1,23 @@
 {
-  "generatedAt": "2026-05-19T12:58:44.141Z",
+  "generatedAt": "2026-05-19T13:01:10.761Z",
   "status": "operator-plan-ready",
   "mode": "plan-only",
   "ownerDecision": {
-    "actionId": "optimize-product-gates",
-    "command": "npm run autonomous:analyze && npm run autonomous:product-optimize && npm run autonomous:sync-config && npm run autonomous:simulate",
+    "actionId": "refresh-autonomous-cadence",
+    "command": "npm run autonomous:cadence",
     "locallyExecutable": true,
     "rejectionReason": null
   },
   "requestedActionId": null,
   "selectedAction": {
-    "id": "optimize-product-gates",
+    "id": "refresh-autonomous-cadence",
     "status": "armed",
-    "command": "npm run autonomous:analyze && npm run autonomous:product-optimize && npm run autonomous:sync-config && npm run autonomous:simulate",
+    "command": "npm run autonomous:cadence",
     "targets": [
-      "harbor-rings"
+      "autonomous-game-lab-daily-owner-loop",
+      ".github/workflows/autonomous-daily.yml"
     ],
-    "reason": "Applies one guarded target-score or telemetry improvement when product gates block monetization.",
+    "reason": "Keeps the unattended daily operating cadence, recovery policy, and verification chain auditable.",
     "costUsd": 0
   },
   "selectedRejection": null,
@@ -47,12 +48,6 @@
       "status": "armed",
       "command": "npm run autonomous:daily",
       "reason": "daily-loop-recursion-blocked"
-    },
-    {
-      "id": "refresh-autonomous-cadence",
-      "status": "armed",
-      "command": "npm run autonomous:cadence",
-      "reason": "not-selected-this-run"
     },
     {
       "id": "refresh-autonomous-self-update",
@@ -101,6 +96,12 @@
       "status": "monitor",
       "command": "npm run autonomous:post-deploy-smoke",
       "reason": "status-monitor"
+    },
+    {
+      "id": "optimize-product-gates",
+      "status": "armed",
+      "command": "npm run autonomous:analyze && npm run autonomous:product-optimize && npm run autonomous:sync-config && npm run autonomous:simulate",
+      "reason": "not-selected-this-run"
     },
     {
       "id": "refresh-product-gate-recovery",
@@ -201,20 +202,8 @@
   ],
   "commandPlan": [
     {
-      "segment": "npm run autonomous:analyze",
-      "script": "autonomous:analyze"
-    },
-    {
-      "segment": "npm run autonomous:product-optimize",
-      "script": "autonomous:product-optimize"
-    },
-    {
-      "segment": "npm run autonomous:sync-config",
-      "script": "autonomous:sync-config"
-    },
-    {
-      "segment": "npm run autonomous:simulate",
-      "script": "autonomous:simulate"
+      "segment": "npm run autonomous:cadence",
+      "script": "autonomous:cadence"
     }
   ],
   "execution": {
@@ -280,7 +269,7 @@
     "RUN_WORKFLOWS=1"
   ],
   "nextActions": [
-    "Run npm run autonomous:operator -- --execute --action=optimize-product-gates to execute exactly one allowed local action.",
+    "Run npm run autonomous:operator -- --execute --action=refresh-autonomous-cadence to execute exactly one allowed local action.",
     "Do not execute GitHub workflow, store, paid ads, or account setup commands from the local operator."
   ]
 }
