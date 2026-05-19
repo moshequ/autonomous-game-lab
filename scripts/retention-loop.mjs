@@ -164,6 +164,19 @@ const payload = {
       cleared: 'daily_return_intent_cleared',
     },
   },
+  measurementPolicy: {
+    source: 'player-exported-events',
+    retainedEvent: 'daily_return_intent_started',
+    cohortDateProperty: 'retentionCohortDate',
+    returnDateProperty: 'retentionReturnDate',
+    evidenceProperty: 'retentionEvidence',
+    evidenceValue: 'queued-return-intent',
+    d1Only: true,
+    requiresAnonymousId: true,
+    noSyntheticEvents: true,
+    reason:
+      'Queued return-intent activations carry explicit cohort and return dates so local event exports can prove D1 retention without accounts or push notifications.',
+  },
   controls: {
     canNudgeRetention,
     retentionReady,
@@ -216,6 +229,7 @@ const report = [
   `- Status: ${payload.returnIntentPolicy.status}`,
   `- Surface: ${payload.returnIntentPolicy.surface}`,
   `- Telemetry: ${payload.returnIntentPolicy.telemetry.viewed}, ${payload.returnIntentPolicy.telemetry.started}, ${payload.returnIntentPolicy.telemetry.cleared}`,
+  `- Measurement: ${payload.measurementPolicy.retainedEvent} with ${payload.measurementPolicy.cohortDateProperty} -> ${payload.measurementPolicy.returnDateProperty}`,
   '',
   '## Guardrails',
   '',

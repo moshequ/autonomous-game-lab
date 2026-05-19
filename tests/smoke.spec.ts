@@ -1859,6 +1859,7 @@ test('daily return prompt captures a local return intent after a completed run',
 test('queued return intent starts a retained session without push or accounts', async ({ page }) => {
   const retention = JSON.parse(await readFile('data/retention-loop.json', 'utf8')) as {
     localState: { returnIntentKey: string; returnIntentStartedKey: string }
+    dailyChallenge: { date: string }
     promptPolicy: { nextChallengeDate: string }
     returnIntentPolicy: {
       ctaLabel: string
@@ -1904,7 +1905,12 @@ test('queued return intent starts a retained session without push or accounts', 
   expect(viewed.properties.intentDate).toBe(retention.promptPolicy.nextChallengeDate)
   expect(started.properties.surface).toBe(retention.returnIntentPolicy.surface)
   expect(started.properties.gameId).toBe('canopy-bloom')
+  expect(started.properties.retentionEvidence).toBe('queued-return-intent')
+  expect(started.properties.retentionCohortDate).toBe(retention.dailyChallenge.date)
+  expect(started.properties.retentionReturnDate).toBe(retention.promptPolicy.nextChallengeDate)
+  expect(started.properties.d1RetentionCandidate).toBe(true)
   expect(dailyStarted.properties.surface).toBe(retention.returnIntentPolicy.surface)
+  expect(dailyStarted.properties.retentionEvidence).toBe('queued-return-intent')
   expect(startedDate).toBe(retention.promptPolicy.nextChallengeDate)
 })
 

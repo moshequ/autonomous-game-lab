@@ -289,6 +289,20 @@ const retentionRowsFromEvents = (events) => {
     if (anonymousId && isoDate) {
       addUserDate(users, anonymousId, isoDate)
     }
+
+    const cohortDate = toIsoDate(properties.retentionCohortDate ?? properties.challengeDate)
+    const returnDate = toIsoDate(properties.retentionReturnDate ?? properties.intentDate)
+    const explicitD1Return =
+      eventName === 'daily_return_intent_started' &&
+      properties.retentionEvidence === 'queued-return-intent' &&
+      cohortDate &&
+      returnDate &&
+      addUtcDays(cohortDate, 1) === returnDate
+
+    if (anonymousId && explicitD1Return) {
+      addUserDate(users, anonymousId, cohortDate)
+      addUserDate(users, anonymousId, returnDate)
+    }
   }
 
   return userMapToRetentionRows(users)

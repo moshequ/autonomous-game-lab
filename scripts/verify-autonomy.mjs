@@ -872,6 +872,13 @@ if (
   retentionLoop.returnIntentPolicy?.telemetry?.viewed !== 'daily_return_intent_viewed' ||
   retentionLoop.returnIntentPolicy?.telemetry?.started !== 'daily_return_intent_started' ||
   retentionLoop.returnIntentPolicy?.telemetry?.cleared !== 'daily_return_intent_cleared' ||
+  retentionLoop.measurementPolicy?.source !== 'player-exported-events' ||
+  retentionLoop.measurementPolicy?.retainedEvent !== 'daily_return_intent_started' ||
+  retentionLoop.measurementPolicy?.cohortDateProperty !== 'retentionCohortDate' ||
+  retentionLoop.measurementPolicy?.returnDateProperty !== 'retentionReturnDate' ||
+  retentionLoop.measurementPolicy?.evidenceValue !== 'queued-return-intent' ||
+  retentionLoop.measurementPolicy?.requiresAnonymousId !== true ||
+  retentionLoop.measurementPolicy?.noSyntheticEvents !== true ||
   retentionLoop.controls?.returnIntentPlayerInitiatedOnly !== true ||
   retentionLoop.controls?.noBackgroundWakeups !== true ||
   !retentionMissionIds.has('finish-daily-challenge') ||
@@ -901,6 +908,10 @@ if (
   retentionPromptEvents.some((eventName) => !analyticsLibSource.includes(`'${eventName}'`)) ||
   retentionPromptEvents.some((eventName) => !analyticsRollupSource.includes(`'${eventName}'`)) ||
   retentionPromptEvents.some((eventName) => !appSource.includes(`'${eventName}'`)) ||
+  !analyticsRollupSource.includes('retentionCohortDate') ||
+  !analyticsRollupSource.includes('queued-return-intent') ||
+  !appSource.includes('retentionReturnDate') ||
+  !appSource.includes('d1RetentionCandidate') ||
   !appSource.includes('queueDailyReturn') ||
   !appSource.includes('startQueuedReturnIntent') ||
   !appSource.includes('Queued return') ||

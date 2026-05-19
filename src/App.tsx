@@ -674,6 +674,8 @@ function App() {
   const startQueuedReturnIntent = () => {
     window.localStorage.setItem(retentionLoop.localState.returnIntentStartedKey, dailyReturnIntentDate)
     setDailyReturnIntentStartedDate(dailyReturnIntentDate)
+    const retentionCohortDate = previousIsoDate(dailyReturnIntentDate)
+    const d1RetentionCandidate = retentionCohortDate === retentionLoop.dailyChallenge.date
 
     if (isPlayableGameId(retentionLoop.dailyChallenge.gameId)) {
       setSelectedGameId(retentionLoop.dailyChallenge.gameId)
@@ -683,6 +685,10 @@ function App() {
       gameId: retentionLoop.dailyChallenge.gameId,
       challengeDate: retentionLoop.dailyChallenge.date,
       intentDate: dailyReturnIntentDate,
+      retentionCohortDate,
+      retentionReturnDate: dailyReturnIntentDate,
+      retentionEvidence: 'queued-return-intent',
+      d1RetentionCandidate,
       seed: retentionLoop.dailyChallenge.seed,
       surface: retentionLoop.returnIntentPolicy.surface,
       trigger: retentionLoop.returnIntentPolicy.trigger,
@@ -692,6 +698,10 @@ function App() {
     trackEvent('daily_challenge_started', {
       gameId: retentionLoop.dailyChallenge.gameId,
       challengeDate: retentionLoop.dailyChallenge.date,
+      retentionCohortDate,
+      retentionReturnDate: dailyReturnIntentDate,
+      retentionEvidence: 'queued-return-intent',
+      d1RetentionCandidate,
       seed: retentionLoop.dailyChallenge.seed,
       streak: dailyStreak,
       rewardVariantId: rewardVariant.id,
