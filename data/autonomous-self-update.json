@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-19T05:49:48.320Z",
+  "generatedAt": "2026-05-19T05:52:28.877Z",
   "status": "self-update-ready",
   "mode": "plan-and-assert",
   "envFiles": {
@@ -70,8 +70,15 @@
     "ownerLoop": "owner-loop-ready"
   },
   "pendingChanges": {
-    "total": 39,
+    "total": 41,
     "safe": [
+      {
+        "code": "M",
+        "path": "data/autonomous-cadence.json",
+        "raw": " M data/autonomous-cadence.json",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
       {
         "code": "M",
         "path": "data/autonomous-operator-history.json",
@@ -167,6 +174,13 @@
         "code": "M",
         "path": "data/repository-readiness.json",
         "raw": " M data/repository-readiness.json",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
+        "path": "reports/autonomous-cadence-latest.md",
+        "raw": " M reports/autonomous-cadence-latest.md",
         "safe": true,
         "reason": "allowlisted-generated-artifact"
       },
@@ -347,7 +361,7 @@
       }
     ],
     "unsafe": [],
-    "safeCount": 39,
+    "safeCount": 41,
     "unsafeCount": 0
   },
   "commitPlan": {
@@ -360,6 +374,7 @@
       "npm run autonomous:self-update -- --assert-safe"
     ],
     "stagePaths": [
+      "data/autonomous-cadence.json",
       "data/autonomous-operator-history.json",
       "data/autonomous-operator.json",
       "data/autonomous-owner-loop.json",
@@ -374,6 +389,7 @@
       "data/release-candidate.json",
       "data/repository-bootstrap.json",
       "data/repository-readiness.json",
+      "reports/autonomous-cadence-latest.md",
       "reports/autonomous-operator-history-latest.md",
       "reports/autonomous-operator-latest.md",
       "reports/autonomous-owner-loop-latest.md",
@@ -490,7 +506,7 @@
     {
       "id": "safe-path-allowlist",
       "status": "pass",
-      "detail": "39 safe pending file(s), 0 unsafe pending file(s)."
+      "detail": "41 safe pending file(s), 0 unsafe pending file(s)."
     },
     {
       "id": "repository-optional",
