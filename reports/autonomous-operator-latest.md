@@ -1,10 +1,10 @@
 # Autonomous Operator
 
-Generated: 2026-05-19T17:26:20.794Z
+Generated: 2026-05-19T17:31:26.223Z
 Status: operator-plan-ready
 Mode: plan-only
-Owner decision: optimize-product-gates
-Selected action: optimize-product-gates
+Owner decision: refresh-autonomous-self-update
+Selected action: refresh-autonomous-self-update
 Execution: not-requested
 
 ## Controls
@@ -18,7 +18,7 @@ Execution: not-requested
 
 ## Selected Action
 
-- optimize-product-gates: npm run autonomous:analyze && npm run autonomous:product-optimize && npm run autonomous:sync-config && npm run autonomous:simulate
+- refresh-autonomous-self-update: npm run autonomous:self-update
 
 ## Eligible Local Actions
 
@@ -46,7 +46,6 @@ Execution: not-requested
 
 - run-daily-owner-loop: daily-loop-recursion-blocked
 - refresh-autonomous-cadence: not-selected-this-run
-- refresh-autonomous-self-update: not-selected-this-run
 - seed-portfolio-traffic: not-selected-this-run
 - refresh-organic-seed-loop: not-selected-this-run
 - optimize-daily-retention: not-selected-this-run
@@ -54,5 +53,6 @@ Execution: not-requested
 - check-performance-budget: not-selected-this-run
 - prepare-release-candidate: not-selected-this-run
 - run-post-deploy-smoke: status-monitor
+- optimize-product-gates: not-selected-this-run
 - refresh-product-gate-recovery: not-selected-this-run
 - collect-gate-sample-downloads: status-monitor
