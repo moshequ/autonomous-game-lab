@@ -1,22 +1,24 @@
 {
-  "generatedAt": "2026-05-19T10:52:25.541Z",
+  "generatedAt": "2026-05-19T10:57:40.385Z",
   "status": "operator-plan-ready",
   "mode": "plan-only",
   "ownerDecision": {
-    "actionId": "measure-pwa-install-loop",
-    "command": "npm run autonomous:pwa-install",
+    "actionId": "bootstrap-production-setup",
+    "command": "npm run autonomous:release-candidate && npm run autonomous:deploy-plan && npm run autonomous:bootstrap",
     "locallyExecutable": true,
     "rejectionReason": null
   },
   "requestedActionId": null,
   "selectedAction": {
-    "id": "measure-pwa-install-loop",
+    "id": "bootstrap-production-setup",
     "status": "armed",
-    "command": "npm run autonomous:pwa-install",
+    "command": "npm run autonomous:release-candidate && npm run autonomous:deploy-plan && npm run autonomous:bootstrap",
     "targets": [
-      "pwa-install"
+      "github-pages",
+      "repository-config",
+      "event-collector"
     ],
-    "reason": "Measures optional PWA install prompts and standalone launches as the zero-cost distribution path.",
+    "reason": "Regenerates the zero-spend production setup handoff and exact GitHub variable/secret commands.",
     "costUsd": 0
   },
   "selectedRejection": null,
@@ -76,6 +78,12 @@
       "id": "optimize-daily-retention",
       "status": "armed",
       "command": "npm run autonomous:retention",
+      "reason": "not-selected-this-run"
+    },
+    {
+      "id": "measure-pwa-install-loop",
+      "status": "armed",
+      "command": "npm run autonomous:pwa-install",
       "reason": "not-selected-this-run"
     },
     {
@@ -145,12 +153,6 @@
       "reason": "not-selected-this-run"
     },
     {
-      "id": "bootstrap-production-setup",
-      "status": "armed",
-      "command": "npm run autonomous:release-candidate && npm run autonomous:deploy-plan && npm run autonomous:bootstrap",
-      "reason": "not-selected-this-run"
-    },
-    {
       "id": "run-autonomous-operator",
       "status": "armed",
       "command": "npm run autonomous:operator",
@@ -201,8 +203,16 @@
   ],
   "commandPlan": [
     {
-      "segment": "npm run autonomous:pwa-install",
-      "script": "autonomous:pwa-install"
+      "segment": "npm run autonomous:release-candidate",
+      "script": "autonomous:release-candidate"
+    },
+    {
+      "segment": "npm run autonomous:deploy-plan",
+      "script": "autonomous:deploy-plan"
+    },
+    {
+      "segment": "npm run autonomous:bootstrap",
+      "script": "autonomous:bootstrap"
     }
   ],
   "execution": {
@@ -268,7 +278,7 @@
     "RUN_WORKFLOWS=1"
   ],
   "nextActions": [
-    "Run npm run autonomous:operator -- --execute --action=measure-pwa-install-loop to execute exactly one allowed local action.",
+    "Run npm run autonomous:operator -- --execute --action=bootstrap-production-setup to execute exactly one allowed local action.",
     "Do not execute GitHub workflow, store, paid ads, or account setup commands from the local operator."
   ]
 }
