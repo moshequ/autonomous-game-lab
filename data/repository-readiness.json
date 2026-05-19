@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-19T13:08:07.035Z",
+  "generatedAt": "2026-05-19T13:10:25.836Z",
   "status": "waiting-for-github-repository",
   "envFiles": {
     "loaded": true,
@@ -56,16 +56,13 @@
     "insideWorkTree": true,
     "gitRoot": "/Users/moshequ/Documents/Codex/2026-05-18/i-want-to-have-a-new",
     "currentBranch": "main",
-    "dirtyFiles": 56,
+    "dirtyFiles": 48,
     "dirtyPaths": [
       "data/analytics-rollup.json",
       "data/autonomous-operator-history.json",
       "data/autonomous-operator.json",
       "data/autonomous-owner-loop.json",
-      "data/autonomous-self-update.json",
       "data/deployment-plan.json",
-      "data/event-collector-smoke.json",
-      "data/event-ingest-smoke.json",
       "data/event-ingest.json",
       "data/local-event-bridge.json",
       "data/objective-audit.json",
@@ -82,11 +79,8 @@
       "reports/autonomous-operator-history-latest.md",
       "reports/autonomous-operator-latest.md",
       "reports/autonomous-owner-loop-latest.md",
-      "reports/autonomous-self-update-latest.md",
       "reports/deployment-plan-latest.md",
-      "reports/event-collector-smoke-latest.md",
       "reports/event-ingest-latest.md",
-      "reports/event-ingest-smoke-latest.md",
       "reports/local-event-bridge-latest.md",
       "reports/objective-audit-latest.md",
       "reports/performance-budget-latest.md",
@@ -98,8 +92,6 @@
       "reports/release-candidate-latest.md",
       "reports/repository-bootstrap-latest.md",
       "reports/repository-readiness-latest.md",
-      "scripts/autonomous-owner-loop.mjs",
-      "scripts/verify-autonomy.mjs",
       "src/data/autonomousOperator.ts",
       "src/data/autonomousOperatorHistory.ts",
       "src/data/autonomousOwnerLoop.ts",
@@ -115,16 +107,13 @@
       "src/data/repositoryBootstrap.ts",
       "src/data/repositoryReadiness.ts"
     ],
-    "generatedEvidenceDirtyFiles": 54,
+    "generatedEvidenceDirtyFiles": 48,
     "generatedEvidenceDirtyPaths": [
       "data/analytics-rollup.json",
       "data/autonomous-operator-history.json",
       "data/autonomous-operator.json",
       "data/autonomous-owner-loop.json",
-      "data/autonomous-self-update.json",
       "data/deployment-plan.json",
-      "data/event-collector-smoke.json",
-      "data/event-ingest-smoke.json",
       "data/event-ingest.json",
       "data/local-event-bridge.json",
       "data/objective-audit.json",
@@ -141,11 +130,8 @@
       "reports/autonomous-operator-history-latest.md",
       "reports/autonomous-operator-latest.md",
       "reports/autonomous-owner-loop-latest.md",
-      "reports/autonomous-self-update-latest.md",
       "reports/deployment-plan-latest.md",
-      "reports/event-collector-smoke-latest.md",
       "reports/event-ingest-latest.md",
-      "reports/event-ingest-smoke-latest.md",
       "reports/local-event-bridge-latest.md",
       "reports/objective-audit-latest.md",
       "reports/performance-budget-latest.md",
@@ -172,11 +158,8 @@
       "src/data/repositoryBootstrap.ts",
       "src/data/repositoryReadiness.ts"
     ],
-    "nonGeneratedDirtyFiles": 2,
-    "nonGeneratedDirtyPaths": [
-      "scripts/autonomous-owner-loop.mjs",
-      "scripts/verify-autonomy.mjs"
-    ]
+    "nonGeneratedDirtyFiles": 0,
+    "nonGeneratedDirtyPaths": []
   },
   "repository": {
     "target": null,
@@ -202,7 +185,7 @@
     "workflowExists": true,
     "deployWorkflowIncludesSmoke": true,
     "deploymentStatus": "ready-for-pages",
-    "releaseCandidateId": "pwa-13aea2713bb7",
+    "releaseCandidateId": "pwa-86bc72dfdb7c",
     "postDeploySmokeStatus": "blocked-missing-origin"
   },
   "controls": {
