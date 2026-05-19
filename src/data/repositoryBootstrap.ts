@@ -1,5 +1,5 @@
 export const repositoryBootstrap = {
-  "generatedAt": "2026-05-19T14:01:55.863Z",
+  "generatedAt": "2026-05-19T14:04:39.369Z",
   "status": "waiting-for-github-target",
   "mode": "plan-only",
   "envFiles": {
@@ -61,7 +61,7 @@ export const repositoryBootstrap = {
       "originRemote": null,
       "remoteRepository": null,
       "hasCommit": true,
-      "dirtyFiles": 34,
+      "dirtyFiles": 37,
       "dirtyPaths": [
         "data/analytics-rollup.json",
         "data/autonomous-operator-history.json",
@@ -74,6 +74,7 @@ export const repositoryBootstrap = {
         "data/product-gate-recovery.json",
         "data/product-gate-sample-plan.json",
         "data/release-candidate.json",
+        "data/repository-bootstrap.json",
         "data/repository-readiness.json",
         "reports/analytics-rollup-latest.md",
         "reports/autonomous-operator-history-latest.md",
@@ -86,6 +87,7 @@ export const repositoryBootstrap = {
         "reports/product-gate-recovery-latest.md",
         "reports/product-gate-sample-plan-latest.md",
         "reports/release-candidate-latest.md",
+        "reports/repository-bootstrap-latest.md",
         "reports/repository-readiness-latest.md",
         "src/data/autonomousOperator.ts",
         "src/data/autonomousOperatorHistory.ts",
@@ -96,9 +98,10 @@ export const repositoryBootstrap = {
         "src/data/productGateRecovery.ts",
         "src/data/productGateSamplePlan.ts",
         "src/data/releaseCandidate.ts",
+        "src/data/repositoryBootstrap.ts",
         "src/data/repositoryReadiness.ts"
       ],
-      "generatedEvidenceDirtyFiles": 34,
+      "generatedEvidenceDirtyFiles": 37,
       "generatedEvidenceDirtyPaths": [
         "data/analytics-rollup.json",
         "data/autonomous-operator-history.json",
@@ -111,6 +114,7 @@ export const repositoryBootstrap = {
         "data/product-gate-recovery.json",
         "data/product-gate-sample-plan.json",
         "data/release-candidate.json",
+        "data/repository-bootstrap.json",
         "data/repository-readiness.json",
         "reports/analytics-rollup-latest.md",
         "reports/autonomous-operator-history-latest.md",
@@ -123,6 +127,7 @@ export const repositoryBootstrap = {
         "reports/product-gate-recovery-latest.md",
         "reports/product-gate-sample-plan-latest.md",
         "reports/release-candidate-latest.md",
+        "reports/repository-bootstrap-latest.md",
         "reports/repository-readiness-latest.md",
         "src/data/autonomousOperator.ts",
         "src/data/autonomousOperatorHistory.ts",
@@ -133,6 +138,7 @@ export const repositoryBootstrap = {
         "src/data/productGateRecovery.ts",
         "src/data/productGateSamplePlan.ts",
         "src/data/releaseCandidate.ts",
+        "src/data/repositoryBootstrap.ts",
         "src/data/repositoryReadiness.ts"
       ],
       "nonGeneratedDirtyFiles": 0,
@@ -145,7 +151,7 @@ export const repositoryBootstrap = {
       "originRemote": null,
       "remoteRepository": null,
       "hasCommit": true,
-      "dirtyFiles": 34,
+      "dirtyFiles": 37,
       "dirtyPaths": [
         "data/analytics-rollup.json",
         "data/autonomous-operator-history.json",
@@ -158,6 +164,7 @@ export const repositoryBootstrap = {
         "data/product-gate-recovery.json",
         "data/product-gate-sample-plan.json",
         "data/release-candidate.json",
+        "data/repository-bootstrap.json",
         "data/repository-readiness.json",
         "reports/analytics-rollup-latest.md",
         "reports/autonomous-operator-history-latest.md",
@@ -170,6 +177,7 @@ export const repositoryBootstrap = {
         "reports/product-gate-recovery-latest.md",
         "reports/product-gate-sample-plan-latest.md",
         "reports/release-candidate-latest.md",
+        "reports/repository-bootstrap-latest.md",
         "reports/repository-readiness-latest.md",
         "src/data/autonomousOperator.ts",
         "src/data/autonomousOperatorHistory.ts",
@@ -180,9 +188,10 @@ export const repositoryBootstrap = {
         "src/data/productGateRecovery.ts",
         "src/data/productGateSamplePlan.ts",
         "src/data/releaseCandidate.ts",
+        "src/data/repositoryBootstrap.ts",
         "src/data/repositoryReadiness.ts"
       ],
-      "generatedEvidenceDirtyFiles": 34,
+      "generatedEvidenceDirtyFiles": 37,
       "generatedEvidenceDirtyPaths": [
         "data/analytics-rollup.json",
         "data/autonomous-operator-history.json",
@@ -195,6 +204,7 @@ export const repositoryBootstrap = {
         "data/product-gate-recovery.json",
         "data/product-gate-sample-plan.json",
         "data/release-candidate.json",
+        "data/repository-bootstrap.json",
         "data/repository-readiness.json",
         "reports/analytics-rollup-latest.md",
         "reports/autonomous-operator-history-latest.md",
@@ -207,6 +217,7 @@ export const repositoryBootstrap = {
         "reports/product-gate-recovery-latest.md",
         "reports/product-gate-sample-plan-latest.md",
         "reports/release-candidate-latest.md",
+        "reports/repository-bootstrap-latest.md",
         "reports/repository-readiness-latest.md",
         "src/data/autonomousOperator.ts",
         "src/data/autonomousOperatorHistory.ts",
@@ -217,6 +228,7 @@ export const repositoryBootstrap = {
         "src/data/productGateRecovery.ts",
         "src/data/productGateSamplePlan.ts",
         "src/data/releaseCandidate.ts",
+        "src/data/repositoryBootstrap.ts",
         "src/data/repositoryReadiness.ts"
       ],
       "nonGeneratedDirtyFiles": 0,
@@ -245,7 +257,7 @@ export const repositoryBootstrap = {
     "repositoryReadiness": "waiting-for-github-repository",
     "deployment": "ready-for-pages",
     "releaseCandidate": "release-candidate-ready",
-    "releaseCandidateId": "pwa-542656fe1603",
+    "releaseCandidateId": "pwa-da01e6355f96",
     "postDeploySmoke": "blocked-missing-origin"
   },
   "execution": {
@@ -305,7 +317,7 @@ export const repositoryBootstrap = {
       "mutatesLocalGit": true,
       "mutatesRemoteGitHub": false,
       "requiresExplicitEnv": true,
-      "detail": "34 repository evidence file(s) changed during this dry run; the outer verified commit will persist them."
+      "detail": "37 repository evidence file(s) changed during this dry run; the outer verified commit will persist them."
     },
     {
       "id": "set-or-create-origin",
