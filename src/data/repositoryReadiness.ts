@@ -1,5 +1,5 @@
 export const repositoryReadiness = {
-  "generatedAt": "2026-05-19T18:15:38.467Z",
+  "generatedAt": "2026-05-19T18:19:45.551Z",
   "status": "waiting-for-github-repository",
   "envFiles": {
     "loaded": true,
@@ -59,10 +59,10 @@ export const repositoryReadiness = {
     "dirtyFiles": 50,
     "dirtyPaths": [
       "data/analytics-rollup.json",
-      "data/autonomous-cadence.json",
       "data/autonomous-operator-history.json",
       "data/autonomous-operator.json",
       "data/autonomous-owner-loop.json",
+      "data/autonomous-self-update.json",
       "data/deployment-plan.json",
       "data/event-ingest.json",
       "data/local-event-bridge.json",
@@ -77,10 +77,10 @@ export const repositoryReadiness = {
       "data/repository-bootstrap.json",
       "data/repository-readiness.json",
       "reports/analytics-rollup-latest.md",
-      "reports/autonomous-cadence-latest.md",
       "reports/autonomous-operator-history-latest.md",
       "reports/autonomous-operator-latest.md",
       "reports/autonomous-owner-loop-latest.md",
+      "reports/autonomous-self-update-latest.md",
       "reports/deployment-plan-latest.md",
       "reports/event-ingest-latest.md",
       "reports/local-event-bridge-latest.md",
@@ -112,10 +112,10 @@ export const repositoryReadiness = {
     "generatedEvidenceDirtyFiles": 50,
     "generatedEvidenceDirtyPaths": [
       "data/analytics-rollup.json",
-      "data/autonomous-cadence.json",
       "data/autonomous-operator-history.json",
       "data/autonomous-operator.json",
       "data/autonomous-owner-loop.json",
+      "data/autonomous-self-update.json",
       "data/deployment-plan.json",
       "data/event-ingest.json",
       "data/local-event-bridge.json",
@@ -130,10 +130,10 @@ export const repositoryReadiness = {
       "data/repository-bootstrap.json",
       "data/repository-readiness.json",
       "reports/analytics-rollup-latest.md",
-      "reports/autonomous-cadence-latest.md",
       "reports/autonomous-operator-history-latest.md",
       "reports/autonomous-operator-latest.md",
       "reports/autonomous-owner-loop-latest.md",
+      "reports/autonomous-self-update-latest.md",
       "reports/deployment-plan-latest.md",
       "reports/event-ingest-latest.md",
       "reports/local-event-bridge-latest.md",
@@ -189,7 +189,7 @@ export const repositoryReadiness = {
     "workflowExists": true,
     "deployWorkflowIncludesSmoke": true,
     "deploymentStatus": "ready-for-pages",
-    "releaseCandidateId": "pwa-e6a71250ef3c",
+    "releaseCandidateId": "pwa-c16734e6452f",
     "postDeploySmokeStatus": "blocked-missing-origin"
   },
   "controls": {
