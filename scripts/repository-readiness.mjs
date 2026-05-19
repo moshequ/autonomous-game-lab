@@ -51,8 +51,11 @@ const generatedEvidencePaths = new Set([
   'src/data/repositoryBootstrap.ts',
   'reports/repository-bootstrap-latest.md',
   'ops/github/bootstrap-repository.sh',
+  'public/robots.txt',
+  'public/sitemap.xml',
+  'public/share-manifest.json',
 ])
-const generatedEvidencePrefixes = ['data/', 'reports/', 'src/data/', 'ops/github/', 'ops/codex/']
+const generatedEvidencePrefixes = ['data/', 'reports/', 'src/data/', 'ops/github/', 'ops/codex/', 'public/games/']
 const isGeneratedEvidencePath = (dirtyPath) =>
   generatedEvidencePaths.has(dirtyPath) || generatedEvidencePrefixes.some((prefix) => dirtyPath.startsWith(prefix))
 

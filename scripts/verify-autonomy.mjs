@@ -2749,6 +2749,7 @@ if (
   !repositoryReadinessSource.includes('nonGeneratedDirtyFiles') ||
   !repositoryReadinessSource.includes('generatedEvidenceDirtyFiles') ||
   !repositoryReadinessSource.includes('generatedEvidencePrefixes') ||
+  !repositoryReadinessSource.includes('public/share-manifest.json') ||
   !repositoryReadinessSource.includes('noGitMutation') ||
   !repositoryReadinessSource.includes('noWorkflowDispatch') ||
   !appSource.includes('Repository Channel')
@@ -2805,6 +2806,7 @@ if (
   !repositoryBootstrapSource.includes('nonGeneratedDirtyFiles') ||
   !repositoryBootstrapSource.includes('generatedEvidenceDirtyFiles') ||
   !repositoryBootstrapSource.includes('generatedEvidencePrefixes') ||
+  !repositoryBootstrapSource.includes('public/share-manifest.json') ||
   !repositoryBootstrapSource.includes('AGL_ALLOW_LOCAL_GIT_BOOTSTRAP') ||
   !githubRepositoryBootstrapScript.includes('AGL_ALLOW_SNAPSHOT_COMMIT') ||
   !githubRepositoryBootstrapScript.includes('working tree has uncommitted changes') ||
