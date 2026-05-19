@@ -1,5 +1,5 @@
 export const productGateSamplePlan = {
-  "generatedAt": "2026-05-19T08:28:31.432Z",
+  "generatedAt": "2026-05-19T08:38:03.622Z",
   "status": "product-gate-sample-plan-ready",
   "sourceStatus": {
     "analyticsSource": "fixture-sample",
@@ -22,7 +22,7 @@ export const productGateSamplePlan = {
     "inboxGateSampleEvents": 0,
     "evidenceReadyCount": 0,
     "inboxReadyCount": 0,
-    "nextOwnerAction": "refresh-product-gate-sample-plan"
+    "nextOwnerAction": "collect-gate-sample-downloads"
   },
   "missions": [
     {
@@ -255,7 +255,7 @@ export const productGateSamplePlan = {
   "commandPlan": {
     "refreshPlan": "npm run autonomous:sample-plan",
     "collectAndRefresh": "npm run autonomous:local-event-bridge && npm run autonomous:import-events && npm run autonomous:analytics && npm run autonomous:gate-recovery && npm run autonomous:sample-plan",
-    "collectDownloadsAndRefresh": "AGL_LOCAL_EVENT_IMPORT_DOWNLOADS=true npm run autonomous:local-event-bridge && npm run autonomous:import-events && npm run autonomous:analytics && npm run autonomous:gate-recovery && npm run autonomous:sample-plan",
+    "collectDownloadsAndRefresh": "npm run autonomous:collect-sample-downloads",
     "primaryLoopRefresh": "npm run autonomous:completion-loop"
   },
   "controls": {
@@ -274,7 +274,7 @@ export const productGateSamplePlan = {
   "nextActions": [
     "First game completion needs 30 more prompt exposure(s) and 58 observed success(es); feature Harbor Rings via /?game=harbor-rings&utm_source=gate_sample&utm_campaign=gate-sample-20260519-firstGameCompletion.",
     "D1 retention is the fastest gate sample: 10 prompt exposure(s), 1 observed success(es).",
-    "Export or collect real browser events through the local event bridge before changing copy, placement, revenue, or rules."
+    "Export or collect real browser events, then run npm run autonomous:collect-sample-downloads before changing copy, placement, revenue, or rules."
   ]
 } as const
 

@@ -951,7 +951,7 @@ test('product optimizer applies one guarded tuning step from product-gate eviden
   )
   expect(samplePlan.commandPlan.refreshPlan).toBe('npm run autonomous:sample-plan')
   expect(samplePlan.commandPlan.collectAndRefresh).toContain('autonomous:gate-recovery')
-  expect(samplePlan.commandPlan.collectDownloadsAndRefresh).toContain('AGL_LOCAL_EVENT_IMPORT_DOWNLOADS=true')
+  expect(samplePlan.commandPlan.collectDownloadsAndRefresh).toBe('npm run autonomous:collect-sample-downloads')
   expect(samplePlan.controls.zeroPaidSpend).toBe(true)
   expect(samplePlan.controls.noPaidTraffic).toBe(true)
   expect(samplePlan.controls.noSyntheticGatePasses).toBe(true)

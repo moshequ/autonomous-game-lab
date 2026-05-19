@@ -1,10 +1,10 @@
 # Autonomous Operator
 
-Generated: 2026-05-19T08:31:16.446Z
+Generated: 2026-05-19T08:42:17.969Z
 Status: operator-plan-ready
 Mode: plan-only
-Owner decision: refresh-product-gate-sample-plan
-Selected action: refresh-product-gate-sample-plan
+Owner decision: collect-gate-sample-downloads
+Selected action: collect-gate-sample-downloads
 Execution: not-requested
 
 ## Controls
@@ -18,7 +18,7 @@ Execution: not-requested
 
 ## Selected Action
 
-- refresh-product-gate-sample-plan: npm run autonomous:sample-plan
+- collect-gate-sample-downloads: npm run autonomous:collect-sample-downloads
 
 ## Eligible Local Actions
 
@@ -32,6 +32,7 @@ Execution: not-requested
 - prepare-release-candidate
 - optimize-product-gates
 - refresh-product-gate-recovery
+- collect-gate-sample-downloads
 - refresh-product-gate-sample-plan
 - refresh-first-move-coach
 - refresh-completion-loop

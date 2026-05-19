@@ -8,7 +8,7 @@ export const autonomousOwnerLoop = {
     "externalAccountInterventionRequired": true
   },
   "ownerDecision": {
-    "nextBestActionId": "refresh-product-gate-sample-plan"
+    "nextBestActionId": "collect-gate-sample-downloads"
   },
   "systems": [
     {

@@ -1,22 +1,24 @@
 {
-  "generatedAt": "2026-05-19T08:31:16.446Z",
+  "generatedAt": "2026-05-19T08:42:17.969Z",
   "status": "operator-plan-ready",
   "mode": "plan-only",
   "ownerDecision": {
-    "actionId": "refresh-product-gate-sample-plan",
-    "command": "npm run autonomous:sample-plan",
+    "actionId": "collect-gate-sample-downloads",
+    "command": "npm run autonomous:collect-sample-downloads",
     "locallyExecutable": true,
     "rejectionReason": null
   },
   "requestedActionId": null,
   "selectedAction": {
-    "id": "refresh-product-gate-sample-plan",
+    "id": "collect-gate-sample-downloads",
     "status": "armed",
-    "command": "npm run autonomous:sample-plan",
+    "command": "npm run autonomous:collect-sample-downloads",
     "targets": [
-      "firstGameCompletion"
+      "firstGameCompletion",
+      "gate-sample-20260519-firstGameCompletion",
+      "gate-sample-20260519-replayRate"
     ],
-    "reason": "Turns gate deficits into zero-cost player-initiated sample missions and exact refresh commands.",
+    "reason": "Opt-in scans local browser Downloads and the event inbox for real player exports, imports them, refreshes analytics and recovery, then regenerates the sample plan.",
     "costUsd": 0
   },
   "selectedRejection": null,
@@ -31,6 +33,7 @@
     "prepare-release-candidate",
     "optimize-product-gates",
     "refresh-product-gate-recovery",
+    "collect-gate-sample-downloads",
     "refresh-product-gate-sample-plan",
     "refresh-first-move-coach",
     "refresh-completion-loop",
@@ -116,6 +119,12 @@
       "reason": "not-selected-this-run"
     },
     {
+      "id": "refresh-product-gate-sample-plan",
+      "status": "armed",
+      "command": "npm run autonomous:sample-plan",
+      "reason": "not-selected-this-run"
+    },
+    {
       "id": "refresh-first-move-coach",
       "status": "armed",
       "command": "npm run autonomous:first-move-coach",
@@ -196,8 +205,8 @@
   ],
   "commandPlan": [
     {
-      "segment": "npm run autonomous:sample-plan",
-      "script": "autonomous:sample-plan"
+      "segment": "npm run autonomous:collect-sample-downloads",
+      "script": "autonomous:collect-sample-downloads"
     }
   ],
   "execution": {
@@ -241,6 +250,7 @@
     "npm run autonomous:replay-loop",
     "npm run autonomous:gate-recovery",
     "npm run autonomous:sample-plan",
+    "npm run autonomous:collect-sample-downloads",
     "npm run autonomous:analyze && npm run autonomous:product-optimize && npm run autonomous:sync-config && npm run autonomous:simulate",
     "npm run autonomous:store-listing-optimize && npm run autonomous:store-compliance",
     "npm run autonomous:android-signing",
@@ -262,7 +272,7 @@
     "RUN_WORKFLOWS=1"
   ],
   "nextActions": [
-    "Run npm run autonomous:operator -- --execute --action=refresh-product-gate-sample-plan to execute exactly one allowed local action.",
+    "Run npm run autonomous:operator -- --execute --action=collect-gate-sample-downloads to execute exactly one allowed local action.",
     "Do not execute GitHub workflow, store, paid ads, or account setup commands from the local operator."
   ]
 }

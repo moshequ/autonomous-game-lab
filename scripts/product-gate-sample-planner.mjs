@@ -210,6 +210,7 @@ const evidenceReadyCount = missionsWithEvidence.filter(
 const inboxReadyCount = missionsWithEvidence.filter(
   (mission) => mission.evidence.status === 'inbox-ready-for-ingest',
 ).length
+const collectSampleDownloadsCommand = 'npm run autonomous:collect-sample-downloads'
 
 const payload = {
   generatedAt: new Date().toISOString(),
@@ -235,15 +236,14 @@ const payload = {
     inboxGateSampleEvents,
     evidenceReadyCount,
     inboxReadyCount,
-    nextOwnerAction: 'refresh-product-gate-sample-plan',
+    nextOwnerAction: missions.length ? 'collect-gate-sample-downloads' : 'refresh-product-gate-sample-plan',
   },
   missions: missionsWithEvidence,
   commandPlan: {
     refreshPlan: 'npm run autonomous:sample-plan',
     collectAndRefresh:
       'npm run autonomous:local-event-bridge && npm run autonomous:import-events && npm run autonomous:analytics && npm run autonomous:gate-recovery && npm run autonomous:sample-plan',
-    collectDownloadsAndRefresh:
-      'AGL_LOCAL_EVENT_IMPORT_DOWNLOADS=true npm run autonomous:local-event-bridge && npm run autonomous:import-events && npm run autonomous:analytics && npm run autonomous:gate-recovery && npm run autonomous:sample-plan',
+    collectDownloadsAndRefresh: collectSampleDownloadsCommand,
     primaryLoopRefresh: primaryMission?.refreshCommands?.[0] ?? null,
   },
   controls: {
@@ -269,8 +269,8 @@ const payload = {
     localEventsAvailable
       ? 'Use imported local event drops before the next recovery decision.'
       : inboxGateSampleEvents
-        ? 'Import the gate-sample event drop already waiting in the local inbox before the next recovery decision.'
-      : 'Export or collect real browser events through the local event bridge before changing copy, placement, revenue, or rules.',
+        ? `Import the gate-sample event drop already waiting in the local inbox with ${collectSampleDownloadsCommand}.`
+      : `Export or collect real browser events, then run ${collectSampleDownloadsCommand} before changing copy, placement, revenue, or rules.`,
   ],
 }
 

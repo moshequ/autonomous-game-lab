@@ -812,6 +812,16 @@ const blockedExternalActions = [
   },
 ]
 
+const gateSampleMissions = productGateSamplePlan.missions ?? []
+const gateSampleNeedsEvidence = gateSampleMissions.some((mission) =>
+  mission.status === 'collecting-sample' ||
+  ['waiting-for-player-export', 'inbox-ready-for-ingest'].includes(mission.evidence?.status),
+)
+const gateSampleCollectionTargets = [
+  productGateSamplePlan.summary?.primaryGateId ?? productGateRecovery.summary?.primaryBottleneck ?? 'product-gates',
+  ...gateSampleMissions.map((mission) => mission.campaignId).filter(Boolean).slice(0, 2),
+]
+
 const safeAutonomousActions = [
   {
     id: 'run-daily-owner-loop',
@@ -917,6 +927,18 @@ const safeAutonomousActions = [
     command: 'npm run autonomous:gate-recovery',
     targets: [productGateRecovery.summary?.primaryBottleneck ?? 'product-gate-recovery'],
     reason: 'Ranks the exact observed lift and prompt sample still needed before revenue gates can open.',
+  },
+  {
+    id: 'collect-gate-sample-downloads',
+    status:
+      productGateSamplePlan.status === 'product-gate-sample-plan-ready' && gateSampleNeedsEvidence
+        ? 'armed'
+        : 'monitor',
+    costUsd: 0,
+    command: 'npm run autonomous:collect-sample-downloads',
+    targets: gateSampleCollectionTargets,
+    reason:
+      'Opt-in scans local browser Downloads and the event inbox for real player exports, imports them, refreshes analytics and recovery, then regenerates the sample plan.',
   },
   {
     id: 'refresh-product-gate-sample-plan',
@@ -1092,6 +1114,7 @@ const preferredActionOrder = [
   'seed-portfolio-traffic',
   'bootstrap-production-setup',
   'optimize-product-gates',
+  'collect-gate-sample-downloads',
   'refresh-product-gate-sample-plan',
   'refresh-product-gate-recovery',
   'collect-live-events',

@@ -1061,7 +1061,7 @@ if (
   productGateSamplePlan.commandPlan?.refreshPlan !== 'npm run autonomous:sample-plan' ||
   !productGateSamplePlan.commandPlan?.collectAndRefresh?.includes('autonomous:gate-recovery') ||
   !productGateSamplePlan.commandPlan?.collectAndRefresh?.includes('autonomous:sample-plan') ||
-  !productGateSamplePlan.commandPlan?.collectDownloadsAndRefresh?.includes('AGL_LOCAL_EVENT_IMPORT_DOWNLOADS=true') ||
+  productGateSamplePlan.commandPlan?.collectDownloadsAndRefresh !== 'npm run autonomous:collect-sample-downloads' ||
   typeof productGateSamplePlan.summary?.importedGateSampleEvents !== 'number' ||
   typeof productGateSamplePlan.summary?.inboxGateSampleEvents !== 'number' ||
   productGateSamplePlan.controls?.zeroPaidSpend !== true ||
@@ -1083,6 +1083,9 @@ if (
   !productGateSamplePlanSource.includes('localEventBridge') ||
   !productGateSamplePlanSource.includes('productGateRecovery') ||
   !packageJson.scripts?.['autonomous:sample-plan']?.includes('product-gate-sample-planner') ||
+  !packageJson.scripts?.['autonomous:collect-sample-downloads']?.includes('AGL_LOCAL_EVENT_IMPORT_DOWNLOADS=true') ||
+  !packageJson.scripts?.['autonomous:collect-sample-downloads']?.includes('autonomous:gate-recovery') ||
+  !packageJson.scripts?.['autonomous:collect-sample-downloads']?.includes('autonomous:sample-plan') ||
   !packageJson.scripts?.['autonomous:daily']?.includes('autonomous:sample-plan') ||
   !packageJson.scripts?.['autonomous:after-action']?.includes('autonomous:sample-plan') ||
   !analyticsLibSource.includes("'gate_sample_mission_clicked'") ||
@@ -1473,6 +1476,7 @@ if (
   !autonomousOperator.allowlist?.includes('npm run autonomous:objective-audit') ||
   !autonomousOperator.allowlist?.includes('npm run autonomous:android-signing') ||
   !autonomousOperator.allowlist?.includes('npm run autonomous:sample-plan') ||
+  !autonomousOperator.allowlist?.includes('npm run autonomous:collect-sample-downloads') ||
   !autonomousOperator.allowlist?.includes(
     'npm run autonomous:local-event-bridge && npm run autonomous:import-events && npm run autonomous:analytics && npm run autonomous:gate-recovery',
   ) ||
@@ -2123,6 +2127,14 @@ if (
 
 if (!packageJson.scripts?.['autonomous:local-event-bridge']?.includes('local-event-bridge')) {
   fail('Autonomous scripts must expose the local event bridge.')
+}
+
+if (
+  !packageJson.scripts?.['autonomous:collect-sample-downloads']?.includes('AGL_LOCAL_EVENT_IMPORT_DOWNLOADS=true') ||
+  !packageJson.scripts?.['autonomous:collect-sample-downloads']?.includes('local-event-bridge') ||
+  !packageJson.scripts?.['autonomous:collect-sample-downloads']?.includes('autonomous:sample-plan')
+) {
+  fail('Autonomous scripts must expose the opt-in gate-sample Downloads collection refresh chain.')
 }
 
 if (!packageJson.scripts?.['autonomous:event-ingest-smoke']?.includes('event-ingest-smoke')) {
@@ -3422,6 +3434,7 @@ const requiredOwnerActions = [
   'run-post-deploy-smoke',
   'prepare-repository-channel',
   'refresh-first-move-coach',
+  'collect-gate-sample-downloads',
   'refresh-product-gate-sample-plan',
   'refresh-completion-loop',
   'refresh-replay-loop',
@@ -3620,6 +3633,13 @@ if (
     (action) =>
       action.id === 'refresh-product-gate-sample-plan' &&
       action.command === 'npm run autonomous:sample-plan' &&
+      action.costUsd === 0 &&
+      action.targets?.includes(productGateSamplePlan.summary?.primaryGateId),
+  ) ||
+  !autonomousOwnerLoop.safeAutonomousActions?.some(
+    (action) =>
+      action.id === 'collect-gate-sample-downloads' &&
+      action.command === 'npm run autonomous:collect-sample-downloads' &&
       action.costUsd === 0 &&
       action.targets?.includes(productGateSamplePlan.summary?.primaryGateId),
   ) ||

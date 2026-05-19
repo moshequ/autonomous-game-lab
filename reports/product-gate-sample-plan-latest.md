@@ -1,6 +1,6 @@
 # Product Gate Sample Plan
 
-Generated: 2026-05-19T08:28:31.432Z
+Generated: 2026-05-19T08:38:03.622Z
 Status: product-gate-sample-plan-ready
 Analytics source: fixture-sample
 Primary gate: firstGameCompletion
@@ -19,7 +19,7 @@ Inbox gate-sample events: 0
 
 - Refresh plan: npm run autonomous:sample-plan
 - Collect and refresh: npm run autonomous:local-event-bridge && npm run autonomous:import-events && npm run autonomous:analytics && npm run autonomous:gate-recovery && npm run autonomous:sample-plan
-- Collect downloads and refresh: AGL_LOCAL_EVENT_IMPORT_DOWNLOADS=true npm run autonomous:local-event-bridge && npm run autonomous:import-events && npm run autonomous:analytics && npm run autonomous:gate-recovery && npm run autonomous:sample-plan
+- Collect downloads and refresh: npm run autonomous:collect-sample-downloads
 
 ## Controls
 
@@ -39,4 +39,4 @@ Inbox gate-sample events: 0
 
 - First game completion needs 30 more prompt exposure(s) and 58 observed success(es); feature Harbor Rings via /?game=harbor-rings&utm_source=gate_sample&utm_campaign=gate-sample-20260519-firstGameCompletion.
 - D1 retention is the fastest gate sample: 10 prompt exposure(s), 1 observed success(es).
-- Export or collect real browser events through the local event bridge before changing copy, placement, revenue, or rules.
+- Export or collect real browser events, then run npm run autonomous:collect-sample-downloads before changing copy, placement, revenue, or rules.
