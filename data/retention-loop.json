@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-19T21:59:11.233Z",
+  "generatedAt": "2026-05-19T22:51:35.056Z",
   "status": "retention-loop-ready",
   "dailyChallenge": {
     "date": "2026-05-20",
@@ -71,6 +71,18 @@
       "started": "daily_return_intent_started",
       "cleared": "daily_return_intent_cleared"
     }
+  },
+  "measurementPolicy": {
+    "source": "player-exported-events",
+    "retainedEvent": "daily_return_intent_started",
+    "cohortDateProperty": "retentionCohortDate",
+    "returnDateProperty": "retentionReturnDate",
+    "evidenceProperty": "retentionEvidence",
+    "evidenceValue": "queued-return-intent",
+    "d1Only": true,
+    "requiresAnonymousId": true,
+    "noSyntheticEvents": true,
+    "reason": "Queued return-intent activations carry explicit cohort and return dates so local event exports can prove D1 retention without accounts or push notifications."
   },
   "controls": {
     "canNudgeRetention": true,

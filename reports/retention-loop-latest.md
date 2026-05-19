@@ -1,6 +1,6 @@
 # Retention Loop
 
-Generated: 2026-05-19T21:59:11.233Z
+Generated: 2026-05-19T22:51:35.056Z
 Status: retention-loop-ready
 Daily challenge: Canopy Bloom (canopy-bloom)
 D1 retention: 17%
@@ -32,6 +32,7 @@ Replay rate: 31%
 - Status: armed
 - Surface: autonomy-cockpit-return-intent-card
 - Telemetry: daily_return_intent_viewed, daily_return_intent_started, daily_return_intent_cleared
+- Measurement: daily_return_intent_started with retentionCohortDate -> retentionReturnDate
 
 ## Guardrails
 
