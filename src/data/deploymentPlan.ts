@@ -1,5 +1,5 @@
 export const deploymentPlan = {
-  "generatedAt": "2026-05-19T14:15:18.320Z",
+  "generatedAt": "2026-05-19T14:16:53.822Z",
   "status": "ready-for-pages",
   "target": {
     "provider": "github-pages",
@@ -53,11 +53,11 @@ export const deploymentPlan = {
   },
   "releaseCandidate": {
     "status": "release-candidate-ready",
-    "candidateId": "pwa-913a01ccd67a",
+    "candidateId": "pwa-cf696d2961d1",
     "manifestPath": "dist/release-candidate.json",
-    "aggregateHash": "913a01ccd67a4acf1983cf810f1fb2ed071281d4ef0ce58cad2de1b0068a83fa",
+    "aggregateHash": "cf696d2961d1d3c8a73a6eaa6528ffbc675466b58ce2f7f5c9110512c16433d4",
     "totalFiles": 40,
-    "totalKb": 3585,
+    "totalKb": 3583.8,
     "postDeploySmokeUrls": 11
   },
   "compliance": {
@@ -121,7 +121,7 @@ export const deploymentPlan = {
     {
       "id": "release-candidate",
       "status": "pass",
-      "detail": "Release candidate is release-candidate-ready; candidate pwa-913a01ccd67a."
+      "detail": "Release candidate is release-candidate-ready; candidate pwa-cf696d2961d1."
     },
     {
       "id": "deploy-workflow",
