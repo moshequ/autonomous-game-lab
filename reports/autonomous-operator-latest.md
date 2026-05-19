@@ -1,10 +1,10 @@
 # Autonomous Operator
 
-Generated: 2026-05-19T15:01:45.944Z
+Generated: 2026-05-19T15:04:29.819Z
 Status: operator-plan-ready
 Mode: plan-only
-Owner decision: refresh-autonomous-cadence
-Selected action: refresh-autonomous-cadence
+Owner decision: prepare-repository-channel
+Selected action: prepare-repository-channel
 Execution: not-requested
 
 ## Controls
@@ -18,7 +18,7 @@ Execution: not-requested
 
 ## Selected Action
 
-- refresh-autonomous-cadence: npm run autonomous:cadence
+- prepare-repository-channel: npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap
 
 ## Eligible Local Actions
 
@@ -45,6 +45,7 @@ Execution: not-requested
 ## Blocked Actions
 
 - run-daily-owner-loop: daily-loop-recursion-blocked
+- refresh-autonomous-cadence: not-selected-this-run
 - refresh-autonomous-self-update: not-selected-this-run
 - seed-portfolio-traffic: not-selected-this-run
 - refresh-organic-seed-loop: not-selected-this-run
@@ -55,4 +56,3 @@ Execution: not-requested
 - run-post-deploy-smoke: status-monitor
 - optimize-product-gates: not-selected-this-run
 - refresh-product-gate-recovery: not-selected-this-run
-- collect-gate-sample-downloads: status-monitor
