@@ -1,10 +1,10 @@
 # Autonomous Operator
 
-Generated: 2026-05-19T20:54:51.441Z
+Generated: 2026-05-19T21:02:20.319Z
 Status: operator-plan-ready
 Mode: plan-only
-Owner decision: collect-live-events
-Selected action: collect-live-events
+Owner decision: refresh-autonomous-cadence
+Selected action: refresh-autonomous-cadence
 Execution: not-requested
 
 ## Controls
@@ -18,7 +18,7 @@ Execution: not-requested
 
 ## Selected Action
 
-- collect-live-events: npm run autonomous:local-event-bridge && npm run autonomous:import-events && npm run autonomous:analytics && npm run autonomous:gate-recovery
+- refresh-autonomous-cadence: npm run autonomous:cadence
 
 ## Eligible Local Actions
 
@@ -45,7 +45,6 @@ Execution: not-requested
 ## Blocked Actions
 
 - run-daily-owner-loop: daily-loop-recursion-blocked
-- refresh-autonomous-cadence: not-selected-this-run
 - refresh-autonomous-self-update: not-selected-this-run
 - seed-portfolio-traffic: not-selected-this-run
 - refresh-organic-seed-loop: not-selected-this-run
@@ -56,3 +55,4 @@ Execution: not-requested
 - run-post-deploy-smoke: status-monitor
 - optimize-product-gates: not-selected-this-run
 - refresh-product-gate-recovery: not-selected-this-run
+- collect-gate-sample-downloads: status-monitor
