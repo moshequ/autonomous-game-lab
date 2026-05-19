@@ -3121,7 +3121,7 @@ if (
   !repositoryReadinessSource.includes('gh-auth-user-and-package-name') ||
   !repositoryReadinessSource.includes('ghCredentialReady') ||
   !repositoryReadinessSource.includes('repositoryNameFromPackage') ||
-  !repositoryReadinessSource.includes('ssh://git@github.com') ||
+  !repositoryReadinessSource.includes('ssh:\\/\\/git@github\\.com') ||
   !repositoryReadinessSource.includes('noGitMutation') ||
   !repositoryReadinessSource.includes('noWorkflowDispatch') ||
   !appSource.includes('Repository Channel')
@@ -3191,7 +3191,7 @@ if (
   !repositoryBootstrapSource.includes('gh-auth-user-and-package-name') ||
   !repositoryBootstrapSource.includes('AGL_ALLOW_GH_INFER_REPOSITORY') ||
   !repositoryBootstrapSource.includes('repositoryNameFromPackage') ||
-  !repositoryBootstrapSource.includes('ssh://git@github.com') ||
+  !repositoryBootstrapSource.includes('ssh:\\/\\/git@github\\.com') ||
   !repositoryBootstrapSource.includes('AGL_ALLOW_LOCAL_GIT_BOOTSTRAP') ||
   !githubRepositoryBootstrapScript.includes('AGL_ALLOW_GH_INFER_REPOSITORY') ||
   !githubRepositoryBootstrapScript.includes('derive_repository_name') ||
