@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-19T12:11:15.663Z",
+  "generatedAt": "2026-05-19T12:17:28.306Z",
   "status": "performance-budget-ready",
   "sourceBuild": "dist",
   "budgets": {
@@ -14,21 +14,21 @@
   },
   "initial": {
     "entryScripts": [
-      "index-DYHIP-ol.js",
+      "index-CevNl3nX.js",
       "registerSW.js"
     ],
     "scriptPaths": [
-      "assets/index-DYHIP-ol.js",
+      "assets/index-CevNl3nX.js",
       "registerSW.js"
     ],
     "jsFiles": [
       {
-        "file": "index-DYHIP-ol.js",
-        "path": "assets/index-DYHIP-ol.js",
-        "bytes": 673225,
-        "kb": 657.4,
-        "gzipBytes": 178301,
-        "gzipKb": 174.1
+        "file": "index-CevNl3nX.js",
+        "path": "assets/index-CevNl3nX.js",
+        "bytes": 678259,
+        "kb": 662.4,
+        "gzipBytes": 178516,
+        "gzipKb": 174.3
       },
       {
         "file": "registerSW.js",
@@ -39,10 +39,10 @@
         "gzipKb": 0.1
       }
     ],
-    "jsBytes": 673359,
-    "jsKb": 657.6,
-    "gzipBytes": 178427,
-    "gzipKb": 174.2,
+    "jsBytes": 678393,
+    "jsKb": 662.5,
+    "gzipBytes": 178642,
+    "gzipKb": 174.5,
     "cssFiles": [
       {
         "file": "index-BA4sddeG.css",
@@ -61,8 +61,8 @@
   "deferred": {
     "chunks": [
       {
-        "file": "GameCanvas-CSV-drgR.js",
-        "path": "assets/GameCanvas-CSV-drgR.js",
+        "file": "GameCanvas-2O2JyW2O.js",
+        "path": "assets/GameCanvas-2O2JyW2O.js",
         "bytes": 1393468,
         "kb": 1360.8,
         "gzipBytes": 356094,
@@ -70,24 +70,24 @@
       }
     ],
     "gameChunk": {
-      "file": "GameCanvas-CSV-drgR.js",
-      "path": "assets/GameCanvas-CSV-drgR.js",
+      "file": "GameCanvas-2O2JyW2O.js",
+      "path": "assets/GameCanvas-2O2JyW2O.js",
       "bytes": 1393468,
       "kb": 1360.8,
       "gzipBytes": 356094,
       "gzipKb": 347.7
     },
     "largestDeferredChunk": {
-      "file": "GameCanvas-CSV-drgR.js",
-      "path": "assets/GameCanvas-CSV-drgR.js",
+      "file": "GameCanvas-2O2JyW2O.js",
+      "path": "assets/GameCanvas-2O2JyW2O.js",
       "bytes": 1393468,
       "kb": 1360.8,
       "gzipBytes": 356094,
       "gzipKb": 347.7
     },
     "largestJsChunk": {
-      "file": "GameCanvas-CSV-drgR.js",
-      "path": "assets/GameCanvas-CSV-drgR.js",
+      "file": "GameCanvas-2O2JyW2O.js",
+      "path": "assets/GameCanvas-2O2JyW2O.js",
       "bytes": 1393468,
       "kb": 1360.8,
       "gzipBytes": 356094,
@@ -99,20 +99,20 @@
   "assets": {
     "js": [
       {
-        "file": "GameCanvas-CSV-drgR.js",
-        "path": "assets/GameCanvas-CSV-drgR.js",
+        "file": "GameCanvas-2O2JyW2O.js",
+        "path": "assets/GameCanvas-2O2JyW2O.js",
         "bytes": 1393468,
         "kb": 1360.8,
         "gzipBytes": 356094,
         "gzipKb": 347.7
       },
       {
-        "file": "index-DYHIP-ol.js",
-        "path": "assets/index-DYHIP-ol.js",
-        "bytes": 673225,
-        "kb": 657.4,
-        "gzipBytes": 178301,
-        "gzipKb": 174.1
+        "file": "index-CevNl3nX.js",
+        "path": "assets/index-CevNl3nX.js",
+        "bytes": 678259,
+        "kb": 662.4,
+        "gzipBytes": 178516,
+        "gzipKb": 174.3
       },
       {
         "file": "registerSW.js",
@@ -149,12 +149,12 @@
     {
       "id": "initial-js-budget",
       "status": "pass",
-      "detail": "Initial JS is 657.6 KB; budget is 675 KB."
+      "detail": "Initial JS is 662.5 KB; budget is 675 KB."
     },
     {
       "id": "initial-js-gzip-budget",
       "status": "pass",
-      "detail": "Initial JS gzip is 174.2 KB; budget is 200 KB."
+      "detail": "Initial JS gzip is 174.5 KB; budget is 200 KB."
     },
     {
       "id": "initial-css-budget",
@@ -174,12 +174,12 @@
     {
       "id": "game-runtime-deferred",
       "status": "pass",
-      "detail": "GameCanvas-CSV-drgR.js is deferred from the initial shell."
+      "detail": "GameCanvas-2O2JyW2O.js is deferred from the initial shell."
     },
     {
       "id": "largest-js-deferred",
       "status": "pass",
-      "detail": "Largest JS chunk is GameCanvas-CSV-drgR.js at 1360.8 KB."
+      "detail": "Largest JS chunk is GameCanvas-2O2JyW2O.js at 1360.8 KB."
     },
     {
       "id": "deferred-game-budget",
