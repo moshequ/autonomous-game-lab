@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-19T20:36:51.110Z",
+  "generatedAt": "2026-05-19T20:41:35.659Z",
   "status": "blocked-missing-origin",
   "envFiles": {
     "loaded": true,
@@ -54,8 +54,8 @@
   "target": {
     "origin": null,
     "provider": "github-pages",
-    "candidateId": "pwa-ff2e270a843b",
-    "aggregateHash": "ff2e270a843b5f07607a79e35142bbc77cd68bc09758caa2f7f29a338b5c8241"
+    "candidateId": "pwa-a95bf7679d53",
+    "aggregateHash": "a95bf7679d538717cd6c18e14a3244c365b90f0c9538a3028ed94fe9dce0684a"
   },
   "sourceStatus": {
     "deployment": "ready-for-pages",
@@ -202,8 +202,8 @@
         "bytes": 17003,
         "candidateMatches": true,
         "hashMatches": true,
-        "localCandidateId": "pwa-ff2e270a843b",
-        "localAggregateHash": "ff2e270a843b5f07607a79e35142bbc77cd68bc09758caa2f7f29a338b5c8241",
+        "localCandidateId": "pwa-a95bf7679d53",
+        "localAggregateHash": "a95bf7679d538717cd6c18e14a3244c365b90f0c9538a3028ed94fe9dce0684a",
         "detail": "Local release manifest matches the release candidate."
       }
     ]
@@ -322,7 +322,7 @@
       "path": "/release-candidate.json",
       "url": "${DEPLOYED_PWA_ORIGIN}/release-candidate.json",
       "expectedStatus": 200,
-      "requiredText": "pwa-ff2e270a843b",
+      "requiredText": "pwa-a95bf7679d53",
       "status": "blocked",
       "detail": "No deployed origin configured."
     }
