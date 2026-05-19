@@ -2276,6 +2276,17 @@ if (testAutomationScript.indexOf('local-event-bridge') > testAutomationScript.in
   fail('Autonomous verification must refresh local event bridge artifacts before verifying them.')
 }
 
+if (
+  !analyticsLibSource.includes('flushBufferedEventsToCollector') ||
+  !analyticsLibSource.includes('forwardedIdsKey') ||
+  !analyticsLibSource.includes("window.addEventListener('online', flushBufferedEventsToCollector)") ||
+  !analyticsLibSource.includes("window.addEventListener('visibilitychange'") ||
+  !analyticsLibSource.includes('postEventsToEventCollector(pendingEvents)') ||
+  !analyticsLibSource.includes('.slice(-50)')
+) {
+  fail('Browser analytics must retry buffered real events to the first-party collector without losing the local buffer.')
+}
+
 if (!packageJson.scripts?.['autonomous:daily']?.includes('autonomous:monetization')) {
   fail('Autonomous daily loop must generate monetization plans.')
 }

@@ -70,6 +70,7 @@ export interface AnalyticsEvent {
 }
 
 const bufferKey = 'agl.analytics.events'
+const forwardedIdsKey = 'agl.analytics.forwardedEventIds'
 const anonymousIdKey = 'agl.analytics.anonymousId'
 const sessionIdKey = 'agl.analytics.sessionId'
 const acquisitionSourceKey = 'agl.analytics.acquisitionSource'
@@ -79,6 +80,7 @@ const acquisitionChannelKey = 'agl.analytics.acquisitionChannel'
 let initialized = false
 let posthogReady = false
 let urlAttributionInitialized = false
+let collectorFlushInFlight = false
 
 const createId = (prefix: string) => `${prefix}-${crypto.randomUUID()}`
 
@@ -250,6 +252,110 @@ const writeBuffer = (events: AnalyticsEvent[]) => {
   window.localStorage.setItem(bufferKey, JSON.stringify(events.slice(-300)))
 }
 
+const readForwardedIds = () => {
+  if (typeof window === 'undefined') {
+    return new Set<string>()
+  }
+
+  try {
+    const raw = window.localStorage.getItem(forwardedIdsKey)
+    const ids = raw ? (JSON.parse(raw) as string[]) : []
+    return new Set(ids.filter((id) => typeof id === 'string'))
+  } catch {
+    return new Set<string>()
+  }
+}
+
+const writeForwardedIds = (ids: Set<string>) => {
+  if (typeof window === 'undefined') {
+    return
+  }
+
+  window.localStorage.setItem(forwardedIdsKey, JSON.stringify([...ids].slice(-1000)))
+}
+
+const markForwardedEvents = (events: AnalyticsEvent[]) => {
+  const forwardedIds = readForwardedIds()
+
+  for (const event of events) {
+    forwardedIds.add(event.id)
+  }
+
+  writeForwardedIds(forwardedIds)
+}
+
+const collectorEndpoint = () => {
+  if (typeof window === 'undefined') {
+    return null
+  }
+
+  const endpoint = eventCollectorUrl()
+  return endpoint ? new URL(endpoint, window.location.origin).toString() : null
+}
+
+const postEventsToEventCollector = async (events: AnalyticsEvent[]) => {
+  if (!events.length || isExternalAnalyticsOptedOut()) {
+    return false
+  }
+
+  const endpoint = collectorEndpoint()
+
+  if (!endpoint) {
+    return false
+  }
+
+  const headers: Record<string, string> = {
+    'Content-Type': 'application/json',
+  }
+  const writeToken = eventCollectorWriteToken()
+
+  if (writeToken) {
+    headers['X-AGL-Write-Token'] = writeToken
+  }
+
+  const response = await fetch(endpoint, {
+    method: 'POST',
+    mode: 'cors',
+    keepalive: true,
+    headers,
+    body: JSON.stringify({
+      source: 'web-pwa',
+      events,
+    }),
+  })
+
+  return response.ok
+}
+
+export const flushBufferedEventsToCollector = () => {
+  if (typeof window === 'undefined' || collectorFlushInFlight || isExternalAnalyticsOptedOut()) {
+    return
+  }
+
+  const forwardedIds = readForwardedIds()
+  const pendingEvents = readBuffer()
+    .filter((event) => !forwardedIds.has(event.id))
+    .slice(-50)
+
+  if (!pendingEvents.length) {
+    return
+  }
+
+  collectorFlushInFlight = true
+  void postEventsToEventCollector(pendingEvents)
+    .then((forwarded) => {
+      if (forwarded) {
+        markForwardedEvents(pendingEvents)
+      }
+    })
+    .catch(() => {
+      // The local buffer remains the retry queue while the collector is offline.
+    })
+    .finally(() => {
+      collectorFlushInFlight = false
+    })
+}
+
 export const initAnalytics = () => {
   if (initialized || typeof window === 'undefined') {
     return
@@ -277,6 +383,7 @@ export const initAnalytics = () => {
 
   window.addEventListener('agl:privacy', () => {
     if (!posthogReady) {
+      flushBufferedEventsToCollector()
       return
     }
 
@@ -284,6 +391,14 @@ export const initAnalytics = () => {
       posthog.opt_out_capturing()
     } else {
       posthog.opt_in_capturing()
+      flushBufferedEventsToCollector()
+    }
+  })
+
+  window.addEventListener('online', flushBufferedEventsToCollector)
+  window.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'hidden' || document.visibilityState === 'visible') {
+      flushBufferedEventsToCollector()
     }
   })
 
@@ -308,42 +423,8 @@ export const initAnalytics = () => {
       column: 0,
     })
   })
-}
 
-const forwardToEventCollector = (event: AnalyticsEvent) => {
-  if (typeof window === 'undefined' || isExternalAnalyticsOptedOut()) {
-    return
-  }
-
-  const endpoint = eventCollectorUrl()
-
-  if (!endpoint) {
-    return
-  }
-
-  const headers: Record<string, string> = {
-    'Content-Type': 'application/json',
-  }
-  const writeToken = eventCollectorWriteToken()
-
-  if (writeToken) {
-    headers['X-AGL-Write-Token'] = writeToken
-  }
-
-  const url = new URL(endpoint, window.location.origin).toString()
-
-  void fetch(url, {
-    method: 'POST',
-    mode: 'cors',
-    keepalive: true,
-    headers,
-    body: JSON.stringify({
-      source: 'web-pwa',
-      events: [event],
-    }),
-  }).catch(() => {
-    // Local buffering remains the source of truth when the collector is offline.
-  })
+  window.setTimeout(flushBufferedEventsToCollector, 0)
 }
 
 export const trackEvent = (
@@ -369,10 +450,9 @@ export const trackEvent = (
     posthog.capture(name, enrichedProperties)
   }
 
-  forwardToEventCollector(event)
-
   const nextEvents = [...readBuffer(), event]
   writeBuffer(nextEvents)
+  flushBufferedEventsToCollector()
   if (typeof window !== 'undefined') {
     window.dispatchEvent(new CustomEvent<AnalyticsEvent>('agl:analytics', { detail: event }))
   }

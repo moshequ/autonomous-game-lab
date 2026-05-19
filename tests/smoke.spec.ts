@@ -2306,6 +2306,8 @@ test('zero-spend seed kit is reachable and uses runtime-relative campaign links'
 })
 
 test('privacy control can disable external analytics forwarding', async ({ page }) => {
+  const analyticsSource = await readFile('src/lib/analytics.ts', 'utf8')
+
   await page.goto('/')
   await page.getByRole('button', { name: 'Opt out external analytics' }).click()
 
@@ -2322,6 +2324,11 @@ test('privacy control can disable external analytics forwarding', async ({ page 
 
   expect(optedOut).toBe('true')
   expect(eventNames).toContain('privacy_choice_updated')
+  expect(analyticsSource).toContain('flushBufferedEventsToCollector')
+  expect(analyticsSource).toContain('forwardedIdsKey')
+  expect(analyticsSource).toContain("window.addEventListener('online', flushBufferedEventsToCollector)")
+  expect(analyticsSource).toContain("window.addEventListener('visibilitychange'")
+  expect(analyticsSource).toContain('postEventsToEventCollector(pendingEvents)')
 })
 
 test('generated privacy policy is reachable', async ({ page }) => {
