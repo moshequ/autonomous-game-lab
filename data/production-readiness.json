@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-19T11:29:07.131Z",
+  "generatedAt": "2026-05-19T11:33:50.924Z",
   "environment": {
     "status": "production-env-missing",
     "publicOrigin": null,
@@ -75,149 +75,145 @@
         "originRemote": null,
         "remoteRepository": null,
         "hasCommit": true,
-        "dirtyFiles": 69,
+        "dirtyFiles": 67,
         "dirtyPaths": [
-          "data/acquisition-learning.json",
+          "data/autonomous-cadence.json",
           "data/autonomous-operator-history.json",
           "data/autonomous-operator.json",
           "data/autonomous-owner-loop.json",
           "data/autonomous-self-update.json",
+          "data/balance-report.json",
           "data/completion-loop.json",
           "data/deployment-plan.json",
           "data/first-move-coach.json",
-          "data/growth-plan.json",
+          "data/generated-playable-games.json",
+          "data/improvement-routing.json",
           "data/objective-audit.json",
-          "data/organic-seed-loop.json",
           "data/performance-budget.json",
-          "data/portfolio-policy.json",
           "data/post-deploy-smoke.json",
+          "data/product-gate-recovery.json",
           "data/product-gate-sample-plan.json",
+          "data/product-optimization.json",
           "data/production-bootstrap.json",
           "data/production-readiness.json",
+          "data/pwa-install-loop.json",
           "data/release-candidate.json",
           "data/replay-loop.json",
           "data/repository-bootstrap.json",
           "data/repository-readiness.json",
-          "data/retention-loop.json",
-          "data/traffic-seeding.json",
-          "public/share-manifest.json",
-          "reports/acquisition-learning-latest.md",
+          "reports/autonomous-analyst-latest.md",
+          "reports/autonomous-cadence-latest.md",
           "reports/autonomous-operator-history-latest.md",
           "reports/autonomous-operator-latest.md",
           "reports/autonomous-owner-loop-latest.md",
           "reports/autonomous-self-update-latest.md",
+          "reports/bot-simulation-latest.md",
           "reports/completion-loop-latest.md",
           "reports/deployment-plan-latest.md",
           "reports/first-move-coach-latest.md",
-          "reports/growth-plan-latest.md",
           "reports/objective-audit-latest.md",
-          "reports/organic-seed-loop-latest.md",
           "reports/performance-budget-latest.md",
-          "reports/portfolio-policy-latest.md",
           "reports/post-deploy-smoke-latest.md",
+          "reports/product-gate-recovery-latest.md",
           "reports/product-gate-sample-plan-latest.md",
+          "reports/product-optimization-latest.md",
           "reports/production-bootstrap-latest.md",
           "reports/production-readiness-latest.md",
+          "reports/pwa-install-loop-latest.md",
           "reports/release-candidate-latest.md",
           "reports/replay-loop-latest.md",
           "reports/repository-bootstrap-latest.md",
           "reports/repository-readiness-latest.md",
-          "reports/retention-loop-latest.md",
-          "reports/traffic-seeding-latest.md",
-          "src/data/acquisitionLearning.ts",
           "src/data/autonomousOperator.ts",
           "src/data/autonomousOperatorHistory.ts",
           "src/data/autonomousOwnerLoop.ts",
           "src/data/autonomousSelfUpdate.ts",
+          "src/data/balanceReport.ts",
           "src/data/completionLoop.ts",
           "src/data/deploymentPlan.ts",
           "src/data/firstMoveCoach.ts",
-          "src/data/growthPlan.ts",
           "src/data/objectiveAudit.ts",
-          "src/data/organicSeedLoop.ts",
           "src/data/performanceBudget.ts",
-          "src/data/portfolioPolicy.ts",
           "src/data/postDeploySmoke.ts",
+          "src/data/productGateRecovery.ts",
           "src/data/productGateSamplePlan.ts",
+          "src/data/productOptimization.ts",
           "src/data/productionBootstrap.ts",
+          "src/data/pwaInstallLoop.ts",
           "src/data/releaseCandidate.ts",
           "src/data/replayLoop.ts",
           "src/data/repositoryBootstrap.ts",
-          "src/data/repositoryReadiness.ts",
-          "src/data/retentionLoop.ts",
-          "src/data/trafficSeeding.ts"
+          "src/data/repositoryReadiness.ts"
         ],
-        "generatedEvidenceDirtyFiles": 69,
+        "generatedEvidenceDirtyFiles": 67,
         "generatedEvidenceDirtyPaths": [
-          "data/acquisition-learning.json",
+          "data/autonomous-cadence.json",
           "data/autonomous-operator-history.json",
           "data/autonomous-operator.json",
           "data/autonomous-owner-loop.json",
           "data/autonomous-self-update.json",
+          "data/balance-report.json",
           "data/completion-loop.json",
           "data/deployment-plan.json",
           "data/first-move-coach.json",
-          "data/growth-plan.json",
+          "data/generated-playable-games.json",
+          "data/improvement-routing.json",
           "data/objective-audit.json",
-          "data/organic-seed-loop.json",
           "data/performance-budget.json",
-          "data/portfolio-policy.json",
           "data/post-deploy-smoke.json",
+          "data/product-gate-recovery.json",
           "data/product-gate-sample-plan.json",
+          "data/product-optimization.json",
           "data/production-bootstrap.json",
           "data/production-readiness.json",
+          "data/pwa-install-loop.json",
           "data/release-candidate.json",
           "data/replay-loop.json",
           "data/repository-bootstrap.json",
           "data/repository-readiness.json",
-          "data/retention-loop.json",
-          "data/traffic-seeding.json",
-          "public/share-manifest.json",
-          "reports/acquisition-learning-latest.md",
+          "reports/autonomous-analyst-latest.md",
+          "reports/autonomous-cadence-latest.md",
           "reports/autonomous-operator-history-latest.md",
           "reports/autonomous-operator-latest.md",
           "reports/autonomous-owner-loop-latest.md",
           "reports/autonomous-self-update-latest.md",
+          "reports/bot-simulation-latest.md",
           "reports/completion-loop-latest.md",
           "reports/deployment-plan-latest.md",
           "reports/first-move-coach-latest.md",
-          "reports/growth-plan-latest.md",
           "reports/objective-audit-latest.md",
-          "reports/organic-seed-loop-latest.md",
           "reports/performance-budget-latest.md",
-          "reports/portfolio-policy-latest.md",
           "reports/post-deploy-smoke-latest.md",
+          "reports/product-gate-recovery-latest.md",
           "reports/product-gate-sample-plan-latest.md",
+          "reports/product-optimization-latest.md",
           "reports/production-bootstrap-latest.md",
           "reports/production-readiness-latest.md",
+          "reports/pwa-install-loop-latest.md",
           "reports/release-candidate-latest.md",
           "reports/replay-loop-latest.md",
           "reports/repository-bootstrap-latest.md",
           "reports/repository-readiness-latest.md",
-          "reports/retention-loop-latest.md",
-          "reports/traffic-seeding-latest.md",
-          "src/data/acquisitionLearning.ts",
           "src/data/autonomousOperator.ts",
           "src/data/autonomousOperatorHistory.ts",
           "src/data/autonomousOwnerLoop.ts",
           "src/data/autonomousSelfUpdate.ts",
+          "src/data/balanceReport.ts",
           "src/data/completionLoop.ts",
           "src/data/deploymentPlan.ts",
           "src/data/firstMoveCoach.ts",
-          "src/data/growthPlan.ts",
           "src/data/objectiveAudit.ts",
-          "src/data/organicSeedLoop.ts",
           "src/data/performanceBudget.ts",
-          "src/data/portfolioPolicy.ts",
           "src/data/postDeploySmoke.ts",
+          "src/data/productGateRecovery.ts",
           "src/data/productGateSamplePlan.ts",
+          "src/data/productOptimization.ts",
           "src/data/productionBootstrap.ts",
+          "src/data/pwaInstallLoop.ts",
           "src/data/releaseCandidate.ts",
           "src/data/replayLoop.ts",
           "src/data/repositoryBootstrap.ts",
-          "src/data/repositoryReadiness.ts",
-          "src/data/retentionLoop.ts",
-          "src/data/trafficSeeding.ts"
+          "src/data/repositoryReadiness.ts"
         ],
         "nonGeneratedDirtyFiles": 0,
         "nonGeneratedDirtyPaths": []
@@ -229,149 +225,145 @@
         "originRemote": null,
         "remoteRepository": null,
         "hasCommit": true,
-        "dirtyFiles": 69,
+        "dirtyFiles": 67,
         "dirtyPaths": [
-          "data/acquisition-learning.json",
+          "data/autonomous-cadence.json",
           "data/autonomous-operator-history.json",
           "data/autonomous-operator.json",
           "data/autonomous-owner-loop.json",
           "data/autonomous-self-update.json",
+          "data/balance-report.json",
           "data/completion-loop.json",
           "data/deployment-plan.json",
           "data/first-move-coach.json",
-          "data/growth-plan.json",
+          "data/generated-playable-games.json",
+          "data/improvement-routing.json",
           "data/objective-audit.json",
-          "data/organic-seed-loop.json",
           "data/performance-budget.json",
-          "data/portfolio-policy.json",
           "data/post-deploy-smoke.json",
+          "data/product-gate-recovery.json",
           "data/product-gate-sample-plan.json",
+          "data/product-optimization.json",
           "data/production-bootstrap.json",
           "data/production-readiness.json",
+          "data/pwa-install-loop.json",
           "data/release-candidate.json",
           "data/replay-loop.json",
           "data/repository-bootstrap.json",
           "data/repository-readiness.json",
-          "data/retention-loop.json",
-          "data/traffic-seeding.json",
-          "public/share-manifest.json",
-          "reports/acquisition-learning-latest.md",
+          "reports/autonomous-analyst-latest.md",
+          "reports/autonomous-cadence-latest.md",
           "reports/autonomous-operator-history-latest.md",
           "reports/autonomous-operator-latest.md",
           "reports/autonomous-owner-loop-latest.md",
           "reports/autonomous-self-update-latest.md",
+          "reports/bot-simulation-latest.md",
           "reports/completion-loop-latest.md",
           "reports/deployment-plan-latest.md",
           "reports/first-move-coach-latest.md",
-          "reports/growth-plan-latest.md",
           "reports/objective-audit-latest.md",
-          "reports/organic-seed-loop-latest.md",
           "reports/performance-budget-latest.md",
-          "reports/portfolio-policy-latest.md",
           "reports/post-deploy-smoke-latest.md",
+          "reports/product-gate-recovery-latest.md",
           "reports/product-gate-sample-plan-latest.md",
+          "reports/product-optimization-latest.md",
           "reports/production-bootstrap-latest.md",
           "reports/production-readiness-latest.md",
+          "reports/pwa-install-loop-latest.md",
           "reports/release-candidate-latest.md",
           "reports/replay-loop-latest.md",
           "reports/repository-bootstrap-latest.md",
           "reports/repository-readiness-latest.md",
-          "reports/retention-loop-latest.md",
-          "reports/traffic-seeding-latest.md",
-          "src/data/acquisitionLearning.ts",
           "src/data/autonomousOperator.ts",
           "src/data/autonomousOperatorHistory.ts",
           "src/data/autonomousOwnerLoop.ts",
           "src/data/autonomousSelfUpdate.ts",
+          "src/data/balanceReport.ts",
           "src/data/completionLoop.ts",
           "src/data/deploymentPlan.ts",
           "src/data/firstMoveCoach.ts",
-          "src/data/growthPlan.ts",
           "src/data/objectiveAudit.ts",
-          "src/data/organicSeedLoop.ts",
           "src/data/performanceBudget.ts",
-          "src/data/portfolioPolicy.ts",
           "src/data/postDeploySmoke.ts",
+          "src/data/productGateRecovery.ts",
           "src/data/productGateSamplePlan.ts",
+          "src/data/productOptimization.ts",
           "src/data/productionBootstrap.ts",
+          "src/data/pwaInstallLoop.ts",
           "src/data/releaseCandidate.ts",
           "src/data/replayLoop.ts",
           "src/data/repositoryBootstrap.ts",
-          "src/data/repositoryReadiness.ts",
-          "src/data/retentionLoop.ts",
-          "src/data/trafficSeeding.ts"
+          "src/data/repositoryReadiness.ts"
         ],
-        "generatedEvidenceDirtyFiles": 69,
+        "generatedEvidenceDirtyFiles": 67,
         "generatedEvidenceDirtyPaths": [
-          "data/acquisition-learning.json",
+          "data/autonomous-cadence.json",
           "data/autonomous-operator-history.json",
           "data/autonomous-operator.json",
           "data/autonomous-owner-loop.json",
           "data/autonomous-self-update.json",
+          "data/balance-report.json",
           "data/completion-loop.json",
           "data/deployment-plan.json",
           "data/first-move-coach.json",
-          "data/growth-plan.json",
+          "data/generated-playable-games.json",
+          "data/improvement-routing.json",
           "data/objective-audit.json",
-          "data/organic-seed-loop.json",
           "data/performance-budget.json",
-          "data/portfolio-policy.json",
           "data/post-deploy-smoke.json",
+          "data/product-gate-recovery.json",
           "data/product-gate-sample-plan.json",
+          "data/product-optimization.json",
           "data/production-bootstrap.json",
           "data/production-readiness.json",
+          "data/pwa-install-loop.json",
           "data/release-candidate.json",
           "data/replay-loop.json",
           "data/repository-bootstrap.json",
           "data/repository-readiness.json",
-          "data/retention-loop.json",
-          "data/traffic-seeding.json",
-          "public/share-manifest.json",
-          "reports/acquisition-learning-latest.md",
+          "reports/autonomous-analyst-latest.md",
+          "reports/autonomous-cadence-latest.md",
           "reports/autonomous-operator-history-latest.md",
           "reports/autonomous-operator-latest.md",
           "reports/autonomous-owner-loop-latest.md",
           "reports/autonomous-self-update-latest.md",
+          "reports/bot-simulation-latest.md",
           "reports/completion-loop-latest.md",
           "reports/deployment-plan-latest.md",
           "reports/first-move-coach-latest.md",
-          "reports/growth-plan-latest.md",
           "reports/objective-audit-latest.md",
-          "reports/organic-seed-loop-latest.md",
           "reports/performance-budget-latest.md",
-          "reports/portfolio-policy-latest.md",
           "reports/post-deploy-smoke-latest.md",
+          "reports/product-gate-recovery-latest.md",
           "reports/product-gate-sample-plan-latest.md",
+          "reports/product-optimization-latest.md",
           "reports/production-bootstrap-latest.md",
           "reports/production-readiness-latest.md",
+          "reports/pwa-install-loop-latest.md",
           "reports/release-candidate-latest.md",
           "reports/replay-loop-latest.md",
           "reports/repository-bootstrap-latest.md",
           "reports/repository-readiness-latest.md",
-          "reports/retention-loop-latest.md",
-          "reports/traffic-seeding-latest.md",
-          "src/data/acquisitionLearning.ts",
           "src/data/autonomousOperator.ts",
           "src/data/autonomousOperatorHistory.ts",
           "src/data/autonomousOwnerLoop.ts",
           "src/data/autonomousSelfUpdate.ts",
+          "src/data/balanceReport.ts",
           "src/data/completionLoop.ts",
           "src/data/deploymentPlan.ts",
           "src/data/firstMoveCoach.ts",
-          "src/data/growthPlan.ts",
           "src/data/objectiveAudit.ts",
-          "src/data/organicSeedLoop.ts",
           "src/data/performanceBudget.ts",
-          "src/data/portfolioPolicy.ts",
           "src/data/postDeploySmoke.ts",
+          "src/data/productGateRecovery.ts",
           "src/data/productGateSamplePlan.ts",
+          "src/data/productOptimization.ts",
           "src/data/productionBootstrap.ts",
+          "src/data/pwaInstallLoop.ts",
           "src/data/releaseCandidate.ts",
           "src/data/replayLoop.ts",
           "src/data/repositoryBootstrap.ts",
-          "src/data/repositoryReadiness.ts",
-          "src/data/retentionLoop.ts",
-          "src/data/trafficSeeding.ts"
+          "src/data/repositoryReadiness.ts"
         ],
         "nonGeneratedDirtyFiles": 0,
         "nonGeneratedDirtyPaths": []
@@ -451,7 +443,7 @@
         "mutatesLocalGit": true,
         "mutatesRemoteGitHub": false,
         "requiresExplicitEnv": true,
-        "detail": "69 repository evidence file(s) changed during this dry run; the outer verified commit will persist them."
+        "detail": "67 repository evidence file(s) changed during this dry run; the outer verified commit will persist them."
       },
       {
         "id": "set-or-create-origin",
@@ -588,7 +580,7 @@
       {
         "id": "performance-budget",
         "status": "pass",
-        "detail": "Performance budget is performance-budget-ready; initial JS 662.4 KB / 174.5 KB gzip; deferred game chunk GameCanvas-FhstGPQb.js."
+        "detail": "Performance budget is performance-budget-ready; initial JS 660.5 KB / 174.4 KB gzip; deferred game chunk GameCanvas-CEtQWmUv.js."
       },
       {
         "id": "release-candidate",
@@ -638,7 +630,7 @@
       {
         "id": "autonomous-operator",
         "status": "pass",
-        "detail": "Autonomous operator is operator-plan-ready; selected optimize-product-gates; execution not-requested."
+        "detail": "Autonomous operator is operator-plan-ready; selected refresh-product-gate-recovery; execution not-requested."
       },
       {
         "id": "autonomous-operator-history",
@@ -653,7 +645,7 @@
       {
         "id": "autonomous-self-update",
         "status": "pass",
-        "detail": "Autonomous self-update is self-update-ready; safe pending 69; unsafe pending 0; remote push held."
+        "detail": "Autonomous self-update is self-update-ready; safe pending 67; unsafe pending 0; remote push held."
       },
       {
         "id": "objective-audit",
@@ -1064,20 +1056,20 @@
     },
     "initial": {
       "entryScripts": [
-        "index-6bQhqF9B.js",
+        "index-DDhiE3Vc.js",
         "registerSW.js"
       ],
       "scriptPaths": [
-        "assets/index-6bQhqF9B.js",
+        "assets/index-DDhiE3Vc.js",
         "registerSW.js"
       ],
       "jsFiles": [
         {
-          "file": "index-6bQhqF9B.js",
-          "path": "assets/index-6bQhqF9B.js",
-          "bytes": 678184,
-          "kb": 662.3,
-          "gzipBytes": 178529,
+          "file": "index-DDhiE3Vc.js",
+          "path": "assets/index-DDhiE3Vc.js",
+          "bytes": 676223,
+          "kb": 660.4,
+          "gzipBytes": 178437,
           "gzipKb": 174.3
         },
         {
@@ -1089,10 +1081,10 @@
           "gzipKb": 0.1
         }
       ],
-      "jsBytes": 678318,
-      "jsKb": 662.4,
-      "gzipBytes": 178655,
-      "gzipKb": 174.5,
+      "jsBytes": 676357,
+      "jsKb": 660.5,
+      "gzipBytes": 178563,
+      "gzipKb": 174.4,
       "cssFiles": [
         {
           "file": "index-BA4sddeG.css",
@@ -1111,36 +1103,36 @@
     "deferred": {
       "chunks": [
         {
-          "file": "GameCanvas-FhstGPQb.js",
-          "path": "assets/GameCanvas-FhstGPQb.js",
+          "file": "GameCanvas-CEtQWmUv.js",
+          "path": "assets/GameCanvas-CEtQWmUv.js",
           "bytes": 1393468,
           "kb": 1360.8,
-          "gzipBytes": 356095,
+          "gzipBytes": 356094,
           "gzipKb": 347.7
         }
       ],
       "gameChunk": {
-        "file": "GameCanvas-FhstGPQb.js",
-        "path": "assets/GameCanvas-FhstGPQb.js",
+        "file": "GameCanvas-CEtQWmUv.js",
+        "path": "assets/GameCanvas-CEtQWmUv.js",
         "bytes": 1393468,
         "kb": 1360.8,
-        "gzipBytes": 356095,
+        "gzipBytes": 356094,
         "gzipKb": 347.7
       },
       "largestDeferredChunk": {
-        "file": "GameCanvas-FhstGPQb.js",
-        "path": "assets/GameCanvas-FhstGPQb.js",
+        "file": "GameCanvas-CEtQWmUv.js",
+        "path": "assets/GameCanvas-CEtQWmUv.js",
         "bytes": 1393468,
         "kb": 1360.8,
-        "gzipBytes": 356095,
+        "gzipBytes": 356094,
         "gzipKb": 347.7
       },
       "largestJsChunk": {
-        "file": "GameCanvas-FhstGPQb.js",
-        "path": "assets/GameCanvas-FhstGPQb.js",
+        "file": "GameCanvas-CEtQWmUv.js",
+        "path": "assets/GameCanvas-CEtQWmUv.js",
         "bytes": 1393468,
         "kb": 1360.8,
-        "gzipBytes": 356095,
+        "gzipBytes": 356094,
         "gzipKb": 347.7
       },
       "chunksBytes": 1393468,
@@ -1158,12 +1150,12 @@
       {
         "id": "initial-js-budget",
         "status": "pass",
-        "detail": "Initial JS is 662.4 KB; budget is 675 KB."
+        "detail": "Initial JS is 660.5 KB; budget is 675 KB."
       },
       {
         "id": "initial-js-gzip-budget",
         "status": "pass",
-        "detail": "Initial JS gzip is 174.5 KB; budget is 200 KB."
+        "detail": "Initial JS gzip is 174.4 KB; budget is 200 KB."
       },
       {
         "id": "initial-css-budget",
@@ -1183,12 +1175,12 @@
       {
         "id": "game-runtime-deferred",
         "status": "pass",
-        "detail": "GameCanvas-FhstGPQb.js is deferred from the initial shell."
+        "detail": "GameCanvas-CEtQWmUv.js is deferred from the initial shell."
       },
       {
         "id": "largest-js-deferred",
         "status": "pass",
-        "detail": "Largest JS chunk is GameCanvas-FhstGPQb.js at 1360.8 KB."
+        "detail": "Largest JS chunk is GameCanvas-CEtQWmUv.js at 1360.8 KB."
       },
       {
         "id": "deferred-game-budget",
@@ -1199,7 +1191,7 @@
   },
   "releaseCandidate": {
     "status": "release-candidate-ready",
-    "candidateId": "pwa-5e0786c72923",
+    "candidateId": "pwa-c6a87c2f4695",
     "target": {
       "provider": "github-pages",
       "artifactPath": "dist",
@@ -1210,8 +1202,8 @@
     },
     "summary": {
       "totalFiles": 40,
-      "totalBytes": 3674717,
-      "totalKb": 3588.6,
+      "totalBytes": 3672756,
+      "totalKb": 3586.7,
       "assetFiles": 3,
       "htmlFiles": 14,
       "gamePages": 10,
@@ -1220,7 +1212,7 @@
     },
     "integrity": {
       "algorithm": "sha256",
-      "aggregateHash": "5e0786c72923ad98a32ad5bdac5381137ab06e282e71604725aabb882dcf3457",
+      "aggregateHash": "c6a87c2f4695bca1d459d55bd2fa5886bca7bde8dbdd6150ac52b774fe9ef78d",
       "requiredFileChecks": [
         {
           "path": "index.html",
@@ -1420,8 +1412,8 @@
     "target": {
       "origin": null,
       "provider": "github-pages",
-      "candidateId": "pwa-5e0786c72923",
-      "aggregateHash": "5e0786c72923ad98a32ad5bdac5381137ab06e282e71604725aabb882dcf3457"
+      "candidateId": "pwa-c6a87c2f4695",
+      "aggregateHash": "c6a87c2f4695bca1d459d55bd2fa5886bca7bde8dbdd6150ac52b774fe9ef78d"
     },
     "sourceStatus": {
       "deployment": "ready-for-pages",
@@ -1568,8 +1560,8 @@
           "bytes": 17003,
           "candidateMatches": true,
           "hashMatches": true,
-          "localCandidateId": "pwa-5e0786c72923",
-          "localAggregateHash": "5e0786c72923ad98a32ad5bdac5381137ab06e282e71604725aabb882dcf3457",
+          "localCandidateId": "pwa-c6a87c2f4695",
+          "localAggregateHash": "c6a87c2f4695bca1d459d55bd2fa5886bca7bde8dbdd6150ac52b774fe9ef78d",
           "detail": "Local release manifest matches the release candidate."
         }
       ]
@@ -1688,7 +1680,7 @@
         "path": "/release-candidate.json",
         "url": "${DEPLOYED_PWA_ORIGIN}/release-candidate.json",
         "expectedStatus": 200,
-        "requiredText": "pwa-5e0786c72923",
+        "requiredText": "pwa-c6a87c2f4695",
         "status": "blocked",
         "detail": "No deployed origin configured."
       }
@@ -2620,13 +2612,13 @@
     "status": "operator-plan-ready",
     "mode": "plan-only",
     "selectedAction": {
-      "id": "optimize-product-gates",
+      "id": "refresh-product-gate-recovery",
       "status": "armed",
-      "command": "npm run autonomous:analyze && npm run autonomous:product-optimize && npm run autonomous:sync-config && npm run autonomous:simulate",
+      "command": "npm run autonomous:gate-recovery",
       "targets": [
-        "harbor-rings"
+        "firstGameCompletion"
       ],
-      "reason": "Applies one guarded target-score or telemetry improvement when product gates block monetization.",
+      "reason": "Ranks the exact observed lift and prompt sample still needed before revenue gates can open.",
       "costUsd": 0
     },
     "controls": {
@@ -2733,9 +2725,9 @@
         "reason": "status-monitor"
       },
       {
-        "id": "refresh-product-gate-recovery",
+        "id": "optimize-product-gates",
         "status": "armed",
-        "command": "npm run autonomous:gate-recovery",
+        "command": "npm run autonomous:analyze && npm run autonomous:product-optimize && npm run autonomous:sync-config && npm run autonomous:simulate",
         "reason": "not-selected-this-run"
       },
       {
@@ -2837,9 +2829,9 @@
       "plannedRecords": 20,
       "executedRecords": 20,
       "failedRecords": 0,
-      "lastActionId": "optimize-product-gates",
+      "lastActionId": "refresh-product-gate-recovery",
       "lastExecutionStatus": "not-requested",
-      "lastExecutedActionId": "bootstrap-production-setup"
+      "lastExecutedActionId": "refresh-autonomous-self-update"
     },
     "controls": {
       "zeroPaidSpend": true,
@@ -2856,13 +2848,13 @@
     },
     "recentRecords": [
       {
-        "id": "20260519112227-seed-portfolio-traffic",
-        "generatedAt": "2026-05-19T11:22:27.619Z",
-        "runFingerprint": "3169949241ce676e",
+        "id": "20260519113208-refresh-autonomous-cadence",
+        "generatedAt": "2026-05-19T11:32:08.129Z",
+        "runFingerprint": "052f89eafdee2679",
         "mode": "plan-only",
         "status": "operator-plan-ready",
-        "selectedActionId": "seed-portfolio-traffic",
-        "selectedCommand": "npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop",
+        "selectedActionId": "refresh-autonomous-cadence",
+        "selectedCommand": "npm run autonomous:cadence",
         "eligibleActionIds": [
           "refresh-autonomous-cadence",
           "refresh-autonomous-self-update",
@@ -2900,13 +2892,13 @@
         }
       },
       {
-        "id": "20260519112434-seed-portfolio-traffic",
-        "generatedAt": "2026-05-19T11:24:34.056Z",
-        "runFingerprint": "8b8fcef00e5af469",
+        "id": "20260519113225-refresh-autonomous-cadence",
+        "generatedAt": "2026-05-19T11:32:25.774Z",
+        "runFingerprint": "c59dc812ccf89bd6",
         "mode": "execute-one-action",
         "status": "operator-executed",
-        "selectedActionId": "seed-portfolio-traffic",
-        "selectedCommand": "npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop",
+        "selectedActionId": "refresh-autonomous-cadence",
+        "selectedCommand": "npm run autonomous:cadence",
         "eligibleActionIds": [
           "refresh-autonomous-cadence",
           "refresh-autonomous-self-update",
@@ -2932,8 +2924,8 @@
         "execution": {
           "requested": true,
           "status": "executed",
-          "attemptedActionId": "seed-portfolio-traffic",
-          "resultCount": 5,
+          "attemptedActionId": "refresh-autonomous-cadence",
+          "resultCount": 1,
           "failedScripts": []
         },
         "controls": {
@@ -2944,13 +2936,13 @@
         }
       },
       {
-        "id": "20260519112547-bootstrap-production-setup",
-        "generatedAt": "2026-05-19T11:25:47.742Z",
-        "runFingerprint": "9c924175948cf5ee",
+        "id": "20260519113251-refresh-autonomous-self-update",
+        "generatedAt": "2026-05-19T11:32:51.637Z",
+        "runFingerprint": "39b5ce4fa9a8ac5d",
         "mode": "plan-only",
         "status": "operator-plan-ready",
-        "selectedActionId": "bootstrap-production-setup",
-        "selectedCommand": "npm run autonomous:release-candidate && npm run autonomous:deploy-plan && npm run autonomous:bootstrap",
+        "selectedActionId": "refresh-autonomous-self-update",
+        "selectedCommand": "npm run autonomous:self-update",
         "eligibleActionIds": [
           "refresh-autonomous-cadence",
           "refresh-autonomous-self-update",
@@ -2988,13 +2980,13 @@
         }
       },
       {
-        "id": "20260519112608-bootstrap-production-setup",
-        "generatedAt": "2026-05-19T11:26:08.313Z",
-        "runFingerprint": "b0eda77a2e52f64c",
+        "id": "20260519113325-refresh-autonomous-self-update",
+        "generatedAt": "2026-05-19T11:33:25.657Z",
+        "runFingerprint": "8bc32847a26721e4",
         "mode": "execute-one-action",
         "status": "operator-executed",
-        "selectedActionId": "bootstrap-production-setup",
-        "selectedCommand": "npm run autonomous:release-candidate && npm run autonomous:deploy-plan && npm run autonomous:bootstrap",
+        "selectedActionId": "refresh-autonomous-self-update",
+        "selectedCommand": "npm run autonomous:self-update",
         "eligibleActionIds": [
           "refresh-autonomous-cadence",
           "refresh-autonomous-self-update",
@@ -3020,8 +3012,8 @@
         "execution": {
           "requested": true,
           "status": "executed",
-          "attemptedActionId": "bootstrap-production-setup",
-          "resultCount": 3,
+          "attemptedActionId": "refresh-autonomous-self-update",
+          "resultCount": 1,
           "failedScripts": []
         },
         "controls": {
@@ -3032,13 +3024,13 @@
         }
       },
       {
-        "id": "20260519112636-optimize-product-gates",
-        "generatedAt": "2026-05-19T11:26:36.404Z",
-        "runFingerprint": "b6f5d25f96d48629",
+        "id": "20260519113340-refresh-product-gate-recovery",
+        "generatedAt": "2026-05-19T11:33:40.205Z",
+        "runFingerprint": "d48492eb75ce30bb",
         "mode": "plan-only",
         "status": "operator-plan-ready",
-        "selectedActionId": "optimize-product-gates",
-        "selectedCommand": "npm run autonomous:analyze && npm run autonomous:product-optimize && npm run autonomous:sync-config && npm run autonomous:simulate",
+        "selectedActionId": "refresh-product-gate-recovery",
+        "selectedCommand": "npm run autonomous:gate-recovery",
         "eligibleActionIds": [
           "refresh-autonomous-cadence",
           "refresh-autonomous-self-update",
@@ -3246,12 +3238,12 @@
       "remotePushReady": false
     },
     "pendingChanges": {
-      "total": 69,
+      "total": 67,
       "safe": [
         {
           "code": "M",
-          "path": "data/acquisition-learning.json",
-          "raw": " M data/acquisition-learning.json",
+          "path": "data/autonomous-cadence.json",
+          "raw": " M data/autonomous-cadence.json",
           "safe": true,
           "reason": "allowlisted-generated-artifact"
         },
@@ -3285,6 +3277,13 @@
         },
         {
           "code": "M",
+          "path": "data/balance-report.json",
+          "raw": " M data/balance-report.json",
+          "safe": true,
+          "reason": "allowlisted-generated-artifact"
+        },
+        {
+          "code": "M",
           "path": "data/completion-loop.json",
           "raw": " M data/completion-loop.json",
           "safe": true,
@@ -3306,8 +3305,15 @@
         },
         {
           "code": "M",
-          "path": "data/growth-plan.json",
-          "raw": " M data/growth-plan.json",
+          "path": "data/generated-playable-games.json",
+          "raw": " M data/generated-playable-games.json",
+          "safe": true,
+          "reason": "allowlisted-generated-artifact"
+        },
+        {
+          "code": "M",
+          "path": "data/improvement-routing.json",
+          "raw": " M data/improvement-routing.json",
           "safe": true,
           "reason": "allowlisted-generated-artifact"
         },
@@ -3320,22 +3326,8 @@
         },
         {
           "code": "M",
-          "path": "data/organic-seed-loop.json",
-          "raw": " M data/organic-seed-loop.json",
-          "safe": true,
-          "reason": "allowlisted-generated-artifact"
-        },
-        {
-          "code": "M",
           "path": "data/performance-budget.json",
           "raw": " M data/performance-budget.json",
-          "safe": true,
-          "reason": "allowlisted-generated-artifact"
-        },
-        {
-          "code": "M",
-          "path": "data/portfolio-policy.json",
-          "raw": " M data/portfolio-policy.json",
           "safe": true,
           "reason": "allowlisted-generated-artifact"
         },
@@ -3348,8 +3340,22 @@
         },
         {
           "code": "M",
+          "path": "data/product-gate-recovery.json",
+          "raw": " M data/product-gate-recovery.json",
+          "safe": true,
+          "reason": "allowlisted-generated-artifact"
+        },
+        {
+          "code": "M",
           "path": "data/product-gate-sample-plan.json",
           "raw": " M data/product-gate-sample-plan.json",
+          "safe": true,
+          "reason": "allowlisted-generated-artifact"
+        },
+        {
+          "code": "M",
+          "path": "data/product-optimization.json",
+          "raw": " M data/product-optimization.json",
           "safe": true,
           "reason": "allowlisted-generated-artifact"
         },
@@ -3364,6 +3370,13 @@
           "code": "M",
           "path": "data/production-readiness.json",
           "raw": " M data/production-readiness.json",
+          "safe": true,
+          "reason": "allowlisted-generated-artifact"
+        },
+        {
+          "code": "M",
+          "path": "data/pwa-install-loop.json",
+          "raw": " M data/pwa-install-loop.json",
           "safe": true,
           "reason": "allowlisted-generated-artifact"
         },
@@ -3397,29 +3410,15 @@
         },
         {
           "code": "M",
-          "path": "data/retention-loop.json",
-          "raw": " M data/retention-loop.json",
+          "path": "reports/autonomous-analyst-latest.md",
+          "raw": " M reports/autonomous-analyst-latest.md",
           "safe": true,
           "reason": "allowlisted-generated-artifact"
         },
         {
           "code": "M",
-          "path": "data/traffic-seeding.json",
-          "raw": " M data/traffic-seeding.json",
-          "safe": true,
-          "reason": "allowlisted-generated-artifact"
-        },
-        {
-          "code": "M",
-          "path": "public/share-manifest.json",
-          "raw": " M public/share-manifest.json",
-          "safe": true,
-          "reason": "allowlisted-generated-artifact"
-        },
-        {
-          "code": "M",
-          "path": "reports/acquisition-learning-latest.md",
-          "raw": " M reports/acquisition-learning-latest.md",
+          "path": "reports/autonomous-cadence-latest.md",
+          "raw": " M reports/autonomous-cadence-latest.md",
           "safe": true,
           "reason": "allowlisted-generated-artifact"
         },
@@ -3453,6 +3452,13 @@
         },
         {
           "code": "M",
+          "path": "reports/bot-simulation-latest.md",
+          "raw": " M reports/bot-simulation-latest.md",
+          "safe": true,
+          "reason": "allowlisted-generated-artifact"
+        },
+        {
+          "code": "M",
           "path": "reports/completion-loop-latest.md",
           "raw": " M reports/completion-loop-latest.md",
           "safe": true,
@@ -3474,22 +3480,8 @@
         },
         {
           "code": "M",
-          "path": "reports/growth-plan-latest.md",
-          "raw": " M reports/growth-plan-latest.md",
-          "safe": true,
-          "reason": "allowlisted-generated-artifact"
-        },
-        {
-          "code": "M",
           "path": "reports/objective-audit-latest.md",
           "raw": " M reports/objective-audit-latest.md",
-          "safe": true,
-          "reason": "allowlisted-generated-artifact"
-        },
-        {
-          "code": "M",
-          "path": "reports/organic-seed-loop-latest.md",
-          "raw": " M reports/organic-seed-loop-latest.md",
           "safe": true,
           "reason": "allowlisted-generated-artifact"
         },
@@ -3502,13 +3494,6 @@
         },
         {
           "code": "M",
-          "path": "reports/portfolio-policy-latest.md",
-          "raw": " M reports/portfolio-policy-latest.md",
-          "safe": true,
-          "reason": "allowlisted-generated-artifact"
-        },
-        {
-          "code": "M",
           "path": "reports/post-deploy-smoke-latest.md",
           "raw": " M reports/post-deploy-smoke-latest.md",
           "safe": true,
@@ -3516,8 +3501,22 @@
         },
         {
           "code": "M",
+          "path": "reports/product-gate-recovery-latest.md",
+          "raw": " M reports/product-gate-recovery-latest.md",
+          "safe": true,
+          "reason": "allowlisted-generated-artifact"
+        },
+        {
+          "code": "M",
           "path": "reports/product-gate-sample-plan-latest.md",
           "raw": " M reports/product-gate-sample-plan-latest.md",
+          "safe": true,
+          "reason": "allowlisted-generated-artifact"
+        },
+        {
+          "code": "M",
+          "path": "reports/product-optimization-latest.md",
+          "raw": " M reports/product-optimization-latest.md",
           "safe": true,
           "reason": "allowlisted-generated-artifact"
         },
@@ -3532,6 +3531,13 @@
           "code": "M",
           "path": "reports/production-readiness-latest.md",
           "raw": " M reports/production-readiness-latest.md",
+          "safe": true,
+          "reason": "allowlisted-generated-artifact"
+        },
+        {
+          "code": "M",
+          "path": "reports/pwa-install-loop-latest.md",
+          "raw": " M reports/pwa-install-loop-latest.md",
           "safe": true,
           "reason": "allowlisted-generated-artifact"
         },
@@ -3565,27 +3571,6 @@
         },
         {
           "code": "M",
-          "path": "reports/retention-loop-latest.md",
-          "raw": " M reports/retention-loop-latest.md",
-          "safe": true,
-          "reason": "allowlisted-generated-artifact"
-        },
-        {
-          "code": "M",
-          "path": "reports/traffic-seeding-latest.md",
-          "raw": " M reports/traffic-seeding-latest.md",
-          "safe": true,
-          "reason": "allowlisted-generated-artifact"
-        },
-        {
-          "code": "M",
-          "path": "src/data/acquisitionLearning.ts",
-          "raw": " M src/data/acquisitionLearning.ts",
-          "safe": true,
-          "reason": "allowlisted-generated-artifact"
-        },
-        {
-          "code": "M",
           "path": "src/data/autonomousOperator.ts",
           "raw": " M src/data/autonomousOperator.ts",
           "safe": true,
@@ -3614,6 +3599,13 @@
         },
         {
           "code": "M",
+          "path": "src/data/balanceReport.ts",
+          "raw": " M src/data/balanceReport.ts",
+          "safe": true,
+          "reason": "allowlisted-generated-artifact"
+        },
+        {
+          "code": "M",
           "path": "src/data/completionLoop.ts",
           "raw": " M src/data/completionLoop.ts",
           "safe": true,
@@ -3635,22 +3627,8 @@
         },
         {
           "code": "M",
-          "path": "src/data/growthPlan.ts",
-          "raw": " M src/data/growthPlan.ts",
-          "safe": true,
-          "reason": "allowlisted-generated-artifact"
-        },
-        {
-          "code": "M",
           "path": "src/data/objectiveAudit.ts",
           "raw": " M src/data/objectiveAudit.ts",
-          "safe": true,
-          "reason": "allowlisted-generated-artifact"
-        },
-        {
-          "code": "M",
-          "path": "src/data/organicSeedLoop.ts",
-          "raw": " M src/data/organicSeedLoop.ts",
           "safe": true,
           "reason": "allowlisted-generated-artifact"
         },
@@ -3663,15 +3641,15 @@
         },
         {
           "code": "M",
-          "path": "src/data/portfolioPolicy.ts",
-          "raw": " M src/data/portfolioPolicy.ts",
+          "path": "src/data/postDeploySmoke.ts",
+          "raw": " M src/data/postDeploySmoke.ts",
           "safe": true,
           "reason": "allowlisted-generated-artifact"
         },
         {
           "code": "M",
-          "path": "src/data/postDeploySmoke.ts",
-          "raw": " M src/data/postDeploySmoke.ts",
+          "path": "src/data/productGateRecovery.ts",
+          "raw": " M src/data/productGateRecovery.ts",
           "safe": true,
           "reason": "allowlisted-generated-artifact"
         },
@@ -3684,8 +3662,22 @@
         },
         {
           "code": "M",
+          "path": "src/data/productOptimization.ts",
+          "raw": " M src/data/productOptimization.ts",
+          "safe": true,
+          "reason": "allowlisted-generated-artifact"
+        },
+        {
+          "code": "M",
           "path": "src/data/productionBootstrap.ts",
           "raw": " M src/data/productionBootstrap.ts",
+          "safe": true,
+          "reason": "allowlisted-generated-artifact"
+        },
+        {
+          "code": "M",
+          "path": "src/data/pwaInstallLoop.ts",
+          "raw": " M src/data/pwaInstallLoop.ts",
           "safe": true,
           "reason": "allowlisted-generated-artifact"
         },
@@ -3716,24 +3708,10 @@
           "raw": " M src/data/repositoryReadiness.ts",
           "safe": true,
           "reason": "allowlisted-generated-artifact"
-        },
-        {
-          "code": "M",
-          "path": "src/data/retentionLoop.ts",
-          "raw": " M src/data/retentionLoop.ts",
-          "safe": true,
-          "reason": "allowlisted-generated-artifact"
-        },
-        {
-          "code": "M",
-          "path": "src/data/trafficSeeding.ts",
-          "raw": " M src/data/trafficSeeding.ts",
-          "safe": true,
-          "reason": "allowlisted-generated-artifact"
         }
       ],
       "unsafe": [],
-      "safeCount": 69,
+      "safeCount": 67,
       "unsafeCount": 0
     },
     "commitPlan": {
@@ -3746,75 +3724,73 @@
         "npm run autonomous:self-update -- --assert-safe"
       ],
       "stagePaths": [
-        "data/acquisition-learning.json",
+        "data/autonomous-cadence.json",
         "data/autonomous-operator-history.json",
         "data/autonomous-operator.json",
         "data/autonomous-owner-loop.json",
         "data/autonomous-self-update.json",
+        "data/balance-report.json",
         "data/completion-loop.json",
         "data/deployment-plan.json",
         "data/first-move-coach.json",
-        "data/growth-plan.json",
+        "data/generated-playable-games.json",
+        "data/improvement-routing.json",
         "data/objective-audit.json",
-        "data/organic-seed-loop.json",
         "data/performance-budget.json",
-        "data/portfolio-policy.json",
         "data/post-deploy-smoke.json",
+        "data/product-gate-recovery.json",
         "data/product-gate-sample-plan.json",
+        "data/product-optimization.json",
         "data/production-bootstrap.json",
         "data/production-readiness.json",
+        "data/pwa-install-loop.json",
         "data/release-candidate.json",
         "data/replay-loop.json",
         "data/repository-bootstrap.json",
         "data/repository-readiness.json",
-        "data/retention-loop.json",
-        "data/traffic-seeding.json",
-        "public/share-manifest.json",
-        "reports/acquisition-learning-latest.md",
+        "reports/autonomous-analyst-latest.md",
+        "reports/autonomous-cadence-latest.md",
         "reports/autonomous-operator-history-latest.md",
         "reports/autonomous-operator-latest.md",
         "reports/autonomous-owner-loop-latest.md",
         "reports/autonomous-self-update-latest.md",
+        "reports/bot-simulation-latest.md",
         "reports/completion-loop-latest.md",
         "reports/deployment-plan-latest.md",
         "reports/first-move-coach-latest.md",
-        "reports/growth-plan-latest.md",
         "reports/objective-audit-latest.md",
-        "reports/organic-seed-loop-latest.md",
         "reports/performance-budget-latest.md",
-        "reports/portfolio-policy-latest.md",
         "reports/post-deploy-smoke-latest.md",
+        "reports/product-gate-recovery-latest.md",
         "reports/product-gate-sample-plan-latest.md",
+        "reports/product-optimization-latest.md",
         "reports/production-bootstrap-latest.md",
         "reports/production-readiness-latest.md",
+        "reports/pwa-install-loop-latest.md",
         "reports/release-candidate-latest.md",
         "reports/replay-loop-latest.md",
         "reports/repository-bootstrap-latest.md",
         "reports/repository-readiness-latest.md",
-        "reports/retention-loop-latest.md",
-        "reports/traffic-seeding-latest.md",
-        "src/data/acquisitionLearning.ts",
         "src/data/autonomousOperator.ts",
         "src/data/autonomousOperatorHistory.ts",
         "src/data/autonomousOwnerLoop.ts",
         "src/data/autonomousSelfUpdate.ts",
+        "src/data/balanceReport.ts",
         "src/data/completionLoop.ts",
         "src/data/deploymentPlan.ts",
         "src/data/firstMoveCoach.ts",
-        "src/data/growthPlan.ts",
         "src/data/objectiveAudit.ts",
-        "src/data/organicSeedLoop.ts",
         "src/data/performanceBudget.ts",
-        "src/data/portfolioPolicy.ts",
         "src/data/postDeploySmoke.ts",
+        "src/data/productGateRecovery.ts",
         "src/data/productGateSamplePlan.ts",
+        "src/data/productOptimization.ts",
         "src/data/productionBootstrap.ts",
+        "src/data/pwaInstallLoop.ts",
         "src/data/releaseCandidate.ts",
         "src/data/replayLoop.ts",
         "src/data/repositoryBootstrap.ts",
-        "src/data/repositoryReadiness.ts",
-        "src/data/retentionLoop.ts",
-        "src/data/trafficSeeding.ts"
+        "src/data/repositoryReadiness.ts"
       ],
       "commitMessage": "Autonomous daily self-update",
       "skipWhenNoAllowlistedChanges": true
@@ -3857,7 +3833,7 @@
       {
         "id": "safe-path-allowlist",
         "status": "pass",
-        "detail": "69 safe pending file(s), 0 unsafe pending file(s)."
+        "detail": "67 safe pending file(s), 0 unsafe pending file(s)."
       },
       {
         "id": "repository-optional",
@@ -3897,7 +3873,7 @@
     "completion": {
       "canMarkGoalComplete": false,
       "reason": "The local autonomous PWA system is largely prepared, but production credentials, live data, monetization gates, hosted compliance URLs, and store account/signing blockers remain.",
-      "nextBestAction": "optimize-product-gates"
+      "nextBestAction": "refresh-product-gate-recovery"
     },
     "requirements": [
       {
@@ -3964,7 +3940,7 @@
           "Experiment results: evaluated",
           "Backlog items: 4",
           "Applied/deferred actions: 6",
-          "Operator selected: optimize-product-gates; status operator-plan-ready; execution not-requested"
+          "Operator selected: refresh-product-gate-recovery; status operator-plan-ready; execution not-requested"
         ],
         "blockers": [],
         "nextAction": "Keep collecting starts until a safe product-gate tuning action is justified.",
