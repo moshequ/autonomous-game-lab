@@ -1,0 +1,248 @@
+{
+  "generatedAt": "2026-05-19T07:34:43.291Z",
+  "status": "product-gate-sample-plan-ready",
+  "sourceStatus": {
+    "analyticsSource": "fixture-sample",
+    "retentionSource": "fixture-retention",
+    "productGateRecovery": "product-gate-recovery-ready",
+    "localEventBridge": "bridge-waiting-for-export",
+    "organicSeedLoop": "organic-seed-loop-ready",
+    "trafficSeeding": "traffic-seeding-ready"
+  },
+  "summary": {
+    "failingGates": 3,
+    "missions": 3,
+    "primaryGateId": "firstGameCompletion",
+    "fastestGateId": "d1Retention",
+    "totalPromptViewsNeeded": 70,
+    "totalObservedSuccessesNeeded": 66,
+    "sampleReadyCount": 0,
+    "localEventsAvailable": false,
+    "nextOwnerAction": "refresh-product-gate-sample-plan"
+  },
+  "missions": [
+    {
+      "id": "collect-firstGameCompletion-sample",
+      "rank": 1,
+      "gateId": "firstGameCompletion",
+      "label": "First game completion",
+      "status": "collecting-sample",
+      "ownerLoop": "completion-loop",
+      "actionId": "refresh-completion-loop",
+      "gameId": "harbor-rings",
+      "title": "Harbor Rings",
+      "surface": "autonomy-cockpit-completion-card",
+      "campaignId": "gate-sample-20260519-firstGameCompletion",
+      "playPath": "/?game=harbor-rings&utm_source=gate_sample&utm_campaign=gate-sample-20260519-firstGameCompletion",
+      "organicSeedCampaignId": null,
+      "current": {
+        "actual": 0.397,
+        "gate": 0.55,
+        "denominator": 375,
+        "successes": 149,
+        "promptViews": 0,
+        "promptActions": 0,
+        "actionRate": null
+      },
+      "needed": {
+        "promptViews": 30,
+        "successes": 58,
+        "minimumPromptViewsForDecision": 30
+      },
+      "telemetry": {
+        "view": [
+          "completion_nudge_viewed",
+          "finish_line_coach_viewed",
+          "first_move_coach_shown"
+        ],
+        "action": [
+          "completion_nudge_clicked",
+          "finish_line_coach_clicked",
+          "first_move_coach_used"
+        ],
+        "success": [
+          "level_completed"
+        ],
+        "failure": [
+          "game_abandoned"
+        ],
+        "collectionEvents": [
+          "completion_nudge_viewed",
+          "finish_line_coach_viewed",
+          "first_move_coach_shown",
+          "completion_nudge_clicked",
+          "finish_line_coach_clicked",
+          "first_move_coach_used",
+          "level_completed"
+        ]
+      },
+      "refreshCommands": [
+        "npm run autonomous:completion-loop",
+        "npm run autonomous:local-event-bridge",
+        "npm run autonomous:import-events",
+        "npm run autonomous:analytics",
+        "npm run autonomous:gate-recovery"
+      ],
+      "controls": {
+        "costUsd": 0,
+        "noPaidTraffic": true,
+        "playerInitiatedOnly": true,
+        "noSyntheticEvents": true,
+        "noRuleChange": true,
+        "noRevenueEnablement": true
+      }
+    },
+    {
+      "id": "collect-replayRate-sample",
+      "rank": 2,
+      "gateId": "replayRate",
+      "label": "Replay rate",
+      "status": "collecting-sample",
+      "ownerLoop": "replay-loop",
+      "actionId": "refresh-replay-loop",
+      "gameId": "harbor-rings",
+      "title": "Harbor Rings",
+      "surface": "autonomy-cockpit-replay-card",
+      "campaignId": "gate-sample-20260519-replayRate",
+      "playPath": "/?game=harbor-rings&utm_source=gate_sample&utm_campaign=gate-sample-20260519-replayRate",
+      "organicSeedCampaignId": null,
+      "current": {
+        "actual": 0.309,
+        "gate": 0.35,
+        "denominator": 149,
+        "successes": 46,
+        "promptViews": 0,
+        "promptActions": 0,
+        "actionRate": null
+      },
+      "needed": {
+        "promptViews": 30,
+        "successes": 7,
+        "minimumPromptViewsForDecision": 30
+      },
+      "telemetry": {
+        "view": [
+          "replay_prompt_viewed"
+        ],
+        "action": [
+          "replay_prompt_clicked"
+        ],
+        "success": [
+          "replay_clicked"
+        ],
+        "failure": [
+          "replay_prompt_dismissed"
+        ],
+        "collectionEvents": [
+          "replay_prompt_viewed",
+          "replay_prompt_clicked",
+          "replay_clicked"
+        ]
+      },
+      "refreshCommands": [
+        "npm run autonomous:replay-loop",
+        "npm run autonomous:local-event-bridge",
+        "npm run autonomous:import-events",
+        "npm run autonomous:analytics",
+        "npm run autonomous:gate-recovery"
+      ],
+      "controls": {
+        "costUsd": 0,
+        "noPaidTraffic": true,
+        "playerInitiatedOnly": true,
+        "noSyntheticEvents": true,
+        "noRuleChange": true,
+        "noRevenueEnablement": true
+      }
+    },
+    {
+      "id": "collect-d1Retention-sample",
+      "rank": 3,
+      "gateId": "d1Retention",
+      "label": "D1 retention",
+      "status": "collecting-sample",
+      "ownerLoop": "retention-loop",
+      "actionId": "optimize-daily-retention",
+      "gameId": "canopy-bloom",
+      "title": "Canopy Bloom",
+      "surface": "autonomy-cockpit-return-intent-card",
+      "campaignId": "gate-sample-20260519-d1Retention",
+      "playPath": "/?game=canopy-bloom&utm_source=gate_sample&utm_campaign=gate-sample-20260519-d1Retention",
+      "organicSeedCampaignId": "seed-20260519-canopy-bloom",
+      "current": {
+        "actual": 0.167,
+        "gate": 0.18,
+        "denominator": 12,
+        "successes": 2,
+        "promptViews": 0,
+        "promptActions": 0,
+        "actionRate": null
+      },
+      "needed": {
+        "promptViews": 10,
+        "successes": 1,
+        "minimumPromptViewsForDecision": 10
+      },
+      "telemetry": {
+        "view": [
+          "daily_return_prompt_viewed",
+          "daily_return_intent_viewed"
+        ],
+        "action": [
+          "daily_return_prompt_clicked",
+          "daily_return_intent_started"
+        ],
+        "success": [
+          "daily_return_intent_started"
+        ],
+        "failure": [
+          "daily_return_prompt_dismissed",
+          "daily_return_intent_cleared"
+        ],
+        "collectionEvents": [
+          "daily_return_prompt_viewed",
+          "daily_return_intent_viewed",
+          "daily_return_prompt_clicked",
+          "daily_return_intent_started",
+          "daily_return_intent_started"
+        ]
+      },
+      "refreshCommands": [
+        "npm run autonomous:retention",
+        "npm run autonomous:local-event-bridge",
+        "npm run autonomous:import-events",
+        "npm run autonomous:analytics",
+        "npm run autonomous:gate-recovery"
+      ],
+      "controls": {
+        "costUsd": 0,
+        "noPaidTraffic": true,
+        "playerInitiatedOnly": true,
+        "noSyntheticEvents": true,
+        "noRuleChange": true,
+        "noRevenueEnablement": true
+      }
+    }
+  ],
+  "commandPlan": {
+    "refreshPlan": "npm run autonomous:sample-plan",
+    "collectAndRefresh": "npm run autonomous:local-event-bridge && npm run autonomous:import-events && npm run autonomous:analytics && npm run autonomous:gate-recovery && npm run autonomous:sample-plan",
+    "primaryLoopRefresh": "npm run autonomous:completion-loop"
+  },
+  "controls": {
+    "zeroPaidSpend": true,
+    "noPaidTraffic": true,
+    "noSyntheticGatePasses": true,
+    "noAutomaticRuleChanges": true,
+    "noRevenueEnablement": true,
+    "noStoreSubmission": true,
+    "playerInitiatedOnly": true,
+    "localEventBridgeRequired": true,
+    "requireObservedTelemetryBeforeRecoveryChange": true
+  },
+  "nextActions": [
+    "First game completion needs 30 more prompt exposure(s) and 58 observed success(es); feature Harbor Rings via /?game=harbor-rings&utm_source=gate_sample&utm_campaign=gate-sample-20260519-firstGameCompletion.",
+    "D1 retention is the fastest gate sample: 10 prompt exposure(s), 1 observed success(es).",
+    "Export or collect real browser events through the local event bridge before changing copy, placement, revenue, or rules."
+  ]
+}

@@ -36,6 +36,7 @@ const requiredFiles = [
   'data/repository-bootstrap.json',
   'data/product-optimization.json',
   'data/product-gate-recovery.json',
+  'data/product-gate-sample-plan.json',
   'data/first-move-coach.json',
   'data/completion-loop.json',
   'data/replay-loop.json',
@@ -80,6 +81,7 @@ const requiredFiles = [
   'src/data/repositoryBootstrap.ts',
   'src/data/productOptimization.ts',
   'src/data/productGateRecovery.ts',
+  'src/data/productGateSamplePlan.ts',
   'src/data/firstMoveCoach.ts',
   'src/data/completionLoop.ts',
   'src/data/replayLoop.ts',
@@ -125,6 +127,7 @@ const requiredFiles = [
   'reports/repository-bootstrap-latest.md',
   'reports/product-optimization-latest.md',
   'reports/product-gate-recovery-latest.md',
+  'reports/product-gate-sample-plan-latest.md',
   'reports/first-move-coach-latest.md',
   'reports/completion-loop-latest.md',
   'reports/replay-loop-latest.md',
@@ -237,6 +240,9 @@ const repositoryReadiness = JSON.parse(await readFile(path.join(root, 'data', 'r
 const repositoryBootstrap = JSON.parse(await readFile(path.join(root, 'data', 'repository-bootstrap.json'), 'utf8'))
 const productOptimization = JSON.parse(await readFile(path.join(root, 'data', 'product-optimization.json'), 'utf8'))
 const productGateRecovery = JSON.parse(await readFile(path.join(root, 'data', 'product-gate-recovery.json'), 'utf8'))
+const productGateSamplePlan = JSON.parse(
+  await readFile(path.join(root, 'data', 'product-gate-sample-plan.json'), 'utf8'),
+)
 const firstMoveCoach = JSON.parse(await readFile(path.join(root, 'data', 'first-move-coach.json'), 'utf8'))
 const completionLoop = JSON.parse(await readFile(path.join(root, 'data', 'completion-loop.json'), 'utf8'))
 const replayLoop = JSON.parse(await readFile(path.join(root, 'data', 'replay-loop.json'), 'utf8'))
@@ -303,6 +309,10 @@ const repositoryBootstrapSource = await readFile(path.join(root, 'scripts', 'rep
 const autonomousOperatorSource = await readFile(path.join(root, 'scripts', 'autonomous-operator.mjs'), 'utf8')
 const autonomousSelfUpdateSource = await readFile(path.join(root, 'scripts', 'autonomous-self-update.mjs'), 'utf8')
 const localEventBridgeSource = await readFile(path.join(root, 'scripts', 'local-event-bridge.mjs'), 'utf8')
+const productGateSamplePlanSource = await readFile(
+  path.join(root, 'scripts', 'product-gate-sample-planner.mjs'),
+  'utf8',
+)
 const androidSigningSource = await readFile(path.join(root, 'scripts', 'android-signing-prep.mjs'), 'utf8')
 const objectiveAuditSource = await readFile(path.join(root, 'scripts', 'objective-audit.mjs'), 'utf8')
 const githubRepositoryBootstrapScript = await readFile(path.join(root, 'ops', 'github', 'bootstrap-repository.sh'), 'utf8')
@@ -988,6 +998,48 @@ if (
   fail('Product gate recovery must quantify observed lift, sample needs, and zero-spend controls before revenue can open.')
 }
 
+const samplePrimaryMission = productGateSamplePlan.missions?.find(
+  (mission) => mission.gateId === productGateRecovery.summary?.primaryBottleneck,
+)
+const sampleRetentionMission = productGateSamplePlan.missions?.find((mission) => mission.gateId === 'd1Retention')
+
+if (
+  productGateSamplePlan.status !== 'product-gate-sample-plan-ready' ||
+  productGateSamplePlan.sourceStatus?.productGateRecovery !== productGateRecovery.status ||
+  productGateSamplePlan.sourceStatus?.localEventBridge !== localEventBridge.status ||
+  productGateSamplePlan.summary?.primaryGateId !== productGateRecovery.summary?.primaryBottleneck ||
+  productGateSamplePlan.summary?.fastestGateId !== productGateRecovery.summary?.quickestGateTest ||
+  productGateSamplePlan.summary?.missions !== productGateRecovery.summary?.failingGates ||
+  productGateSamplePlan.summary?.totalPromptViewsNeeded !==
+    productGateRecovery.gates?.reduce((sum, gate) => sum + gate.promptViewsNeeded, 0) ||
+  productGateSamplePlan.summary?.totalObservedSuccessesNeeded !==
+    productGateRecovery.gates?.reduce((sum, gate) => sum + gate.neededSuccesses, 0) ||
+  productGateSamplePlan.commandPlan?.refreshPlan !== 'npm run autonomous:sample-plan' ||
+  !productGateSamplePlan.commandPlan?.collectAndRefresh?.includes('autonomous:gate-recovery') ||
+  !productGateSamplePlan.commandPlan?.collectAndRefresh?.includes('autonomous:sample-plan') ||
+  productGateSamplePlan.controls?.zeroPaidSpend !== true ||
+  productGateSamplePlan.controls?.noPaidTraffic !== true ||
+  productGateSamplePlan.controls?.noSyntheticGatePasses !== true ||
+  productGateSamplePlan.controls?.noAutomaticRuleChanges !== true ||
+  productGateSamplePlan.controls?.noRevenueEnablement !== true ||
+  productGateSamplePlan.controls?.playerInitiatedOnly !== true ||
+  productGateSamplePlan.controls?.requireObservedTelemetryBeforeRecoveryChange !== true ||
+  samplePrimaryMission?.status !== 'collecting-sample' ||
+  samplePrimaryMission?.needed?.promptViews !== recoveryCompletionGate?.promptViewsNeeded ||
+  samplePrimaryMission?.needed?.successes !== recoveryCompletionGate?.neededSuccesses ||
+  samplePrimaryMission?.controls?.costUsd !== 0 ||
+  samplePrimaryMission?.controls?.noSyntheticEvents !== true ||
+  sampleRetentionMission?.gameId !== retentionLoop.dailyChallenge?.gameId ||
+  !productGateSamplePlanSource.includes('localEventBridge') ||
+  !productGateSamplePlanSource.includes('productGateRecovery') ||
+  !packageJson.scripts?.['autonomous:sample-plan']?.includes('product-gate-sample-planner') ||
+  !packageJson.scripts?.['autonomous:daily']?.includes('autonomous:sample-plan') ||
+  !packageJson.scripts?.['autonomous:after-action']?.includes('autonomous:sample-plan') ||
+  !appSource.includes('Product Gate Sample Plan')
+) {
+  fail('Product gate sample plan must turn recovery deficits into zero-spend sample missions before copy, rule, or revenue changes.')
+}
+
 const firstMoveCoachEvents = [
   'first_move_coach_shown',
   'first_move_coach_used',
@@ -1363,6 +1415,7 @@ if (
   !autonomousOperator.allowlist?.includes('npm run autonomous:self-update') ||
   !autonomousOperator.allowlist?.includes('npm run autonomous:objective-audit') ||
   !autonomousOperator.allowlist?.includes('npm run autonomous:android-signing') ||
+  !autonomousOperator.allowlist?.includes('npm run autonomous:sample-plan') ||
   !autonomousOperator.allowlist?.includes(
     'npm run autonomous:local-event-bridge && npm run autonomous:import-events && npm run autonomous:analytics && npm run autonomous:gate-recovery',
   ) ||
@@ -1987,6 +2040,10 @@ if (!packageJson.scripts?.['autonomous:daily']?.includes('autonomous:icons')) {
 
 if (!packageJson.scripts?.['autonomous:daily']?.includes('autonomous:import-events')) {
   fail('Autonomous daily loop must import exported local player events before analytics rollup.')
+}
+
+if (!packageJson.scripts?.['autonomous:daily']?.includes('autonomous:sample-plan')) {
+  fail('Autonomous daily loop must generate product gate sample plans after gate recovery.')
 }
 
 if (!packageJson.scripts?.['autonomous:daily']?.includes('autonomous:local-event-bridge')) {
@@ -3247,6 +3304,7 @@ const requiredOwnerSystems = [
   'pwa-install-loop',
   'performance-budget',
   'product-optimization',
+  'product-gate-sample-plan',
   'improvement-loop',
   'organic-growth',
   'web-deployment',
@@ -3278,6 +3336,7 @@ const requiredOwnerActions = [
   'run-post-deploy-smoke',
   'prepare-repository-channel',
   'refresh-first-move-coach',
+  'refresh-product-gate-sample-plan',
   'refresh-completion-loop',
   'refresh-replay-loop',
   'optimize-product-gates',
@@ -3356,6 +3415,7 @@ if (
   autonomousOwnerLoop.evidence?.releaseCandidateStatus !== releaseCandidate.status ||
   autonomousOwnerLoop.evidence?.postDeploySmokeStatus !== postDeploySmoke.status ||
   autonomousOwnerLoop.evidence?.firstMoveCoachStatus !== firstMoveCoach.status ||
+  autonomousOwnerLoop.evidence?.productGateSamplePlanStatus !== productGateSamplePlan.status ||
   autonomousOwnerLoop.evidence?.completionLoopStatus !== completionLoop.status ||
   autonomousOwnerLoop.evidence?.replayLoopStatus !== replayLoop.status ||
   autonomousOwnerLoop.evidence?.productOptimizationStatus !== productOptimization.status ||
@@ -3469,6 +3529,13 @@ if (
       action.command === 'npm run autonomous:first-move-coach' &&
       action.costUsd === 0 &&
       action.targets?.includes(firstMoveCoach.summary?.primaryTargetId),
+  ) ||
+  !autonomousOwnerLoop.safeAutonomousActions?.some(
+    (action) =>
+      action.id === 'refresh-product-gate-sample-plan' &&
+      action.command === 'npm run autonomous:sample-plan' &&
+      action.costUsd === 0 &&
+      action.targets?.includes(productGateSamplePlan.summary?.primaryGateId),
   ) ||
   !autonomousOwnerLoop.safeAutonomousActions?.some(
     (action) =>

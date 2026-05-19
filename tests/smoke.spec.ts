@@ -846,6 +846,31 @@ test('product optimizer applies one guarded tuning step from product-gate eviden
       noAutomaticRuleChanges: boolean
     }
   }
+  const samplePlan = JSON.parse(await readFile('data/product-gate-sample-plan.json', 'utf8')) as {
+    status: string
+    summary: {
+      primaryGateId: string
+      fastestGateId: string
+      missions: number
+      totalPromptViewsNeeded: number
+      totalObservedSuccessesNeeded: number
+    }
+    missions: Array<{
+      gateId: string
+      status: string
+      gameId: string
+      needed: { promptViews: number; successes: number }
+      controls: { costUsd: number; noSyntheticEvents: boolean; noRuleChange: boolean }
+    }>
+    commandPlan: { refreshPlan: string; collectAndRefresh: string }
+    controls: {
+      zeroPaidSpend: boolean
+      noPaidTraffic: boolean
+      noSyntheticGatePasses: boolean
+      noAutomaticRuleChanges: boolean
+      requireObservedTelemetryBeforeRecoveryChange: boolean
+    }
+  }
   const targetAction = optimization.actions.find((action) => action.actionType === 'target-score-curve')
   const completionAction = optimization.actions.find(
     (action) => action.actionType === 'runtime-completion-nudge',
@@ -914,9 +939,33 @@ test('product optimizer applies one guarded tuning step from product-gate eviden
     canChangePlacement: false,
     recommendedChange: 'hold-current-runtime-copy',
   })
+  expect(samplePlan.status).toBe('product-gate-sample-plan-ready')
+  expect(samplePlan.summary.primaryGateId).toBe(recovery.summary.primaryBottleneck)
+  expect(samplePlan.summary.fastestGateId).toBe(recovery.summary.quickestGateTest)
+  expect(samplePlan.summary.missions).toBe(recovery.summary.failingGates)
+  expect(samplePlan.summary.totalPromptViewsNeeded).toBe(
+    recovery.gates.reduce((sum, gate) => sum + gate.promptViewsNeeded, 0),
+  )
+  expect(samplePlan.summary.totalObservedSuccessesNeeded).toBe(
+    recovery.gates.reduce((sum, gate) => sum + gate.neededSuccesses, 0),
+  )
+  expect(samplePlan.commandPlan.refreshPlan).toBe('npm run autonomous:sample-plan')
+  expect(samplePlan.commandPlan.collectAndRefresh).toContain('autonomous:gate-recovery')
+  expect(samplePlan.controls.zeroPaidSpend).toBe(true)
+  expect(samplePlan.controls.noPaidTraffic).toBe(true)
+  expect(samplePlan.controls.noSyntheticGatePasses).toBe(true)
+  expect(samplePlan.controls.noAutomaticRuleChanges).toBe(true)
+  expect(samplePlan.controls.requireObservedTelemetryBeforeRecoveryChange).toBe(true)
+  expect(samplePlan.missions[0]).toMatchObject({
+    gateId: 'firstGameCompletion',
+    status: 'collecting-sample',
+    controls: { costUsd: 0, noSyntheticEvents: true, noRuleChange: true },
+  })
   await expect(page.getByLabel('Product Gate Recovery')).toContainText('product-gate-recovery-ready')
   await expect(page.getByLabel('Product Gate Recovery')).toContainText('firstGameCompletion')
   await expect(page.getByLabel('Product Gate Recovery')).toContainText('collecting-sample')
+  await expect(page.getByLabel('Product Gate Sample Plan')).toContainText('product-gate-sample-plan-ready')
+  await expect(page.getByLabel('Product Gate Sample Plan')).toContainText('firstGameCompletion')
 })
 
 test('first move coach highlights a safe opening and records coach telemetry', async ({ page }) => {

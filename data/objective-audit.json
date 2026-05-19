@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-19T07:27:34.250Z",
+  "generatedAt": "2026-05-19T07:38:06.012Z",
   "status": "objective-in-progress",
   "objective": "Build a bootstrapped autonomous web/PWA game portal that can generate original board-game-inspired games, measure user behavior, propose and apply data-driven improvements, and prepare a path to monetization and app-store distribution with minimal manual intervention.",
   "summary": {
@@ -66,6 +66,7 @@
       "evidence": [
         "Product optimizer: product-optimization-ready",
         "Gate recovery: product-gate-recovery-ready; primary firstGameCompletion; experiment collecting-sample; needed lift 58",
+        "Sample plan: product-gate-sample-plan-ready; primary firstGameCompletion; prompt views needed 70",
         "First-move coach: first-move-coach-ready; enabled targets 6",
         "Completion loop: completion-loop-ready; prompt armed; finish line armed",
         "Replay loop: replay-loop-ready; prompt armed",
@@ -74,7 +75,7 @@
         "Experiment results: evaluated",
         "Backlog items: 4",
         "Applied/deferred actions: 6",
-        "Operator selected: refresh-product-gate-recovery; status operator-plan-ready; execution not-requested"
+        "Operator selected: refresh-product-gate-sample-plan; status operator-plan-ready; execution not-requested"
       ],
       "blockers": [],
       "nextAction": "Keep collecting starts until a safe product-gate tuning action is justified.",
@@ -257,6 +258,6 @@
   "completion": {
     "canMarkGoalComplete": false,
     "reason": "The local autonomous PWA system is largely prepared, but production credentials, live data, monetization gates, hosted compliance URLs, and store account/signing blockers remain.",
-    "nextBestAction": "refresh-product-gate-recovery"
+    "nextBestAction": "refresh-product-gate-sample-plan"
   }
 }

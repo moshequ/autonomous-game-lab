@@ -81,6 +81,12 @@ const productGateRecovery = await readOptionalJson(path.join(dataDir, 'product-g
   priorities: [],
   controls: {},
 })
+const productGateSamplePlan = await readOptionalJson(path.join(dataDir, 'product-gate-sample-plan.json'), {
+  status: 'missing',
+  summary: {},
+  missions: [],
+  controls: {},
+})
 const firstMoveCoach = await readOptionalJson(path.join(dataDir, 'first-move-coach.json'), {
   status: 'missing',
   summary: {},
@@ -447,6 +453,23 @@ const systems = [
     nextAction:
       productGateRecovery.nextActions?.[0] ??
       'Keep ranking the smallest observed lift needed before revenue gates can open.',
+  },
+  {
+    id: 'product-gate-sample-plan',
+    status: systemStatus(
+      productGateSamplePlan.status === 'product-gate-sample-plan-ready' &&
+        productGateSamplePlan.controls?.zeroPaidSpend === true &&
+        productGateSamplePlan.controls?.noSyntheticGatePasses === true &&
+        productGateSamplePlan.controls?.requireObservedTelemetryBeforeRecoveryChange === true,
+      'needs-sample-plan',
+    ),
+    autonomy: 'sample-collection-routing',
+    evidence: `Sample plan ${productGateSamplePlan.status}; primary ${
+      productGateSamplePlan.summary?.primaryGateId ?? 'missing'
+    }; prompt views needed ${productGateSamplePlan.summary?.totalPromptViewsNeeded ?? 'missing'}.`,
+    nextAction:
+      productGateSamplePlan.nextActions?.[0] ??
+      'Convert product gate deficits into zero-cost sample collection missions before changing copy or revenue gates.',
   },
   {
     id: 'first-move-coach',
@@ -896,6 +919,14 @@ const safeAutonomousActions = [
     reason: 'Ranks the exact observed lift and prompt sample still needed before revenue gates can open.',
   },
   {
+    id: 'refresh-product-gate-sample-plan',
+    status: productGateSamplePlan.status === 'product-gate-sample-plan-ready' ? 'armed' : 'monitor',
+    costUsd: 0,
+    command: 'npm run autonomous:sample-plan',
+    targets: [productGateSamplePlan.summary?.primaryGateId ?? productGateRecovery.summary?.primaryBottleneck ?? 'product-gates'],
+    reason: 'Turns gate deficits into zero-cost player-initiated sample missions and exact refresh commands.',
+  },
+  {
     id: 'refresh-first-move-coach',
     status: firstMoveCoach.status === 'first-move-coach-ready' ? 'armed' : 'monitor',
     costUsd: 0,
@@ -1061,6 +1092,7 @@ const preferredActionOrder = [
   'seed-portfolio-traffic',
   'bootstrap-production-setup',
   'optimize-product-gates',
+  'refresh-product-gate-sample-plan',
   'refresh-product-gate-recovery',
   'collect-live-events',
   'optimize-daily-retention',
@@ -1137,6 +1169,7 @@ const payload = {
     releaseCandidateStatus: releaseCandidate.status,
     postDeploySmokeStatus: postDeploySmoke.status,
     productOptimizationStatus: productOptimization.status,
+    productGateSamplePlanStatus: productGateSamplePlan.status,
     firstMoveCoachStatus: firstMoveCoach.status,
     completionLoopStatus: completionLoop.status,
     replayLoopStatus: replayLoop.status,

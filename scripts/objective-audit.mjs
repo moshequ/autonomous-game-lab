@@ -26,6 +26,7 @@ const [
   eventIngestSmoke,
   productOptimization,
   productGateRecovery,
+  productGateSamplePlan,
   firstMoveCoach,
   completionLoop,
   replayLoop,
@@ -68,6 +69,7 @@ const [
   readJson(path.join(dataDir, 'event-ingest-smoke.json')),
   readJson(path.join(dataDir, 'product-optimization.json')),
   readJson(path.join(dataDir, 'product-gate-recovery.json')),
+  readJson(path.join(dataDir, 'product-gate-sample-plan.json')),
   readJson(path.join(dataDir, 'first-move-coach.json')),
   readJson(path.join(dataDir, 'completion-loop.json')),
   readJson(path.join(dataDir, 'replay-loop.json')),
@@ -248,6 +250,7 @@ const requirements = [
     status:
       productOptimization.status === 'product-optimization-ready' &&
       productGateRecovery.status === 'product-gate-recovery-ready' &&
+      productGateSamplePlan.status === 'product-gate-sample-plan-ready' &&
       firstMoveCoach.status === 'first-move-coach-ready' &&
       completionLoop.status === 'completion-loop-ready' &&
       replayLoop.status === 'replay-loop-ready' &&
@@ -267,6 +270,9 @@ const requirements = [
       }; experiment ${productGateRecovery.summary?.primaryExperimentStatus ?? 'missing'}; needed lift ${
         productGateRecovery.priorities?.[0]?.neededSuccesses ?? 'missing'
       }`,
+      `Sample plan: ${productGateSamplePlan.status}; primary ${
+        productGateSamplePlan.summary?.primaryGateId ?? 'missing'
+      }; prompt views needed ${productGateSamplePlan.summary?.totalPromptViewsNeeded ?? 'missing'}`,
       `First-move coach: ${firstMoveCoach.status}; enabled targets ${
         firstMoveCoach.summary?.enabledTargets ?? 0
       }`,

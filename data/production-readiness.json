@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-19T07:27:18.836Z",
+  "generatedAt": "2026-05-19T07:38:04.446Z",
   "environment": {
     "status": "production-env-missing",
     "publicOrigin": null,
@@ -298,7 +298,7 @@
       {
         "id": "performance-budget",
         "status": "pass",
-        "detail": "Performance budget is performance-budget-ready; initial JS 637.8 KB / 171.8 KB gzip; deferred game chunk GameCanvas-DFvO73NB.js."
+        "detail": "Performance budget is performance-budget-ready; initial JS 642.8 KB / 172.5 KB gzip; deferred game chunk GameCanvas-Dstg0MFC.js."
       },
       {
         "id": "release-candidate",
@@ -348,7 +348,7 @@
       {
         "id": "autonomous-operator",
         "status": "pass",
-        "detail": "Autonomous operator is operator-plan-ready; selected refresh-product-gate-recovery; execution not-requested."
+        "detail": "Autonomous operator is operator-plan-ready; selected refresh-product-gate-sample-plan; execution not-requested."
       },
       {
         "id": "autonomous-operator-history",
@@ -774,21 +774,21 @@
     },
     "initial": {
       "entryScripts": [
-        "index-B_6xr_Tq.js",
+        "index-CzzRpj87.js",
         "registerSW.js"
       ],
       "scriptPaths": [
-        "assets/index-B_6xr_Tq.js",
+        "assets/index-CzzRpj87.js",
         "registerSW.js"
       ],
       "jsFiles": [
         {
-          "file": "index-B_6xr_Tq.js",
-          "path": "assets/index-B_6xr_Tq.js",
-          "bytes": 653002,
-          "kb": 637.7,
-          "gzipBytes": 175830,
-          "gzipKb": 171.7
+          "file": "index-CzzRpj87.js",
+          "path": "assets/index-CzzRpj87.js",
+          "bytes": 658137,
+          "kb": 642.7,
+          "gzipBytes": 176546,
+          "gzipKb": 172.4
         },
         {
           "file": "registerSW.js",
@@ -799,10 +799,10 @@
           "gzipKb": 0.1
         }
       ],
-      "jsBytes": 653136,
-      "jsKb": 637.8,
-      "gzipBytes": 175956,
-      "gzipKb": 171.8,
+      "jsBytes": 658271,
+      "jsKb": 642.8,
+      "gzipBytes": 176672,
+      "gzipKb": 172.5,
       "cssFiles": [
         {
           "file": "index-DTpigz8N.css",
@@ -821,36 +821,36 @@
     "deferred": {
       "chunks": [
         {
-          "file": "GameCanvas-DFvO73NB.js",
-          "path": "assets/GameCanvas-DFvO73NB.js",
+          "file": "GameCanvas-Dstg0MFC.js",
+          "path": "assets/GameCanvas-Dstg0MFC.js",
           "bytes": 1393468,
           "kb": 1360.8,
-          "gzipBytes": 356094,
+          "gzipBytes": 356095,
           "gzipKb": 347.7
         }
       ],
       "gameChunk": {
-        "file": "GameCanvas-DFvO73NB.js",
-        "path": "assets/GameCanvas-DFvO73NB.js",
+        "file": "GameCanvas-Dstg0MFC.js",
+        "path": "assets/GameCanvas-Dstg0MFC.js",
         "bytes": 1393468,
         "kb": 1360.8,
-        "gzipBytes": 356094,
+        "gzipBytes": 356095,
         "gzipKb": 347.7
       },
       "largestDeferredChunk": {
-        "file": "GameCanvas-DFvO73NB.js",
-        "path": "assets/GameCanvas-DFvO73NB.js",
+        "file": "GameCanvas-Dstg0MFC.js",
+        "path": "assets/GameCanvas-Dstg0MFC.js",
         "bytes": 1393468,
         "kb": 1360.8,
-        "gzipBytes": 356094,
+        "gzipBytes": 356095,
         "gzipKb": 347.7
       },
       "largestJsChunk": {
-        "file": "GameCanvas-DFvO73NB.js",
-        "path": "assets/GameCanvas-DFvO73NB.js",
+        "file": "GameCanvas-Dstg0MFC.js",
+        "path": "assets/GameCanvas-Dstg0MFC.js",
         "bytes": 1393468,
         "kb": 1360.8,
-        "gzipBytes": 356094,
+        "gzipBytes": 356095,
         "gzipKb": 347.7
       },
       "chunksBytes": 1393468,
@@ -868,12 +868,12 @@
       {
         "id": "initial-js-budget",
         "status": "pass",
-        "detail": "Initial JS is 637.8 KB; budget is 675 KB."
+        "detail": "Initial JS is 642.8 KB; budget is 675 KB."
       },
       {
         "id": "initial-js-gzip-budget",
         "status": "pass",
-        "detail": "Initial JS gzip is 171.8 KB; budget is 200 KB."
+        "detail": "Initial JS gzip is 172.5 KB; budget is 200 KB."
       },
       {
         "id": "initial-css-budget",
@@ -893,12 +893,12 @@
       {
         "id": "game-runtime-deferred",
         "status": "pass",
-        "detail": "GameCanvas-DFvO73NB.js is deferred from the initial shell."
+        "detail": "GameCanvas-Dstg0MFC.js is deferred from the initial shell."
       },
       {
         "id": "largest-js-deferred",
         "status": "pass",
-        "detail": "Largest JS chunk is GameCanvas-DFvO73NB.js at 1360.8 KB."
+        "detail": "Largest JS chunk is GameCanvas-Dstg0MFC.js at 1360.8 KB."
       },
       {
         "id": "deferred-game-budget",
@@ -909,7 +909,7 @@
   },
   "releaseCandidate": {
     "status": "release-candidate-ready",
-    "candidateId": "pwa-382ff83a5677",
+    "candidateId": "pwa-f5fdb7b1b300",
     "target": {
       "provider": "github-pages",
       "artifactPath": "dist",
@@ -920,8 +920,8 @@
     },
     "summary": {
       "totalFiles": 38,
-      "totalBytes": 3638826,
-      "totalKb": 3553.5,
+      "totalBytes": 3643961,
+      "totalKb": 3558.6,
       "assetFiles": 3,
       "htmlFiles": 13,
       "gamePages": 10,
@@ -930,7 +930,7 @@
     },
     "integrity": {
       "algorithm": "sha256",
-      "aggregateHash": "382ff83a5677ee6e9f240dbaa63bc3da70a95672466364f45a040d8eaf11a9d3",
+      "aggregateHash": "f5fdb7b1b3003862703a451dfca51d9596de7807efd515bf35265472e9f5ef6b",
       "requiredFileChecks": [
         {
           "path": "index.html",
@@ -1094,8 +1094,8 @@
     "target": {
       "origin": null,
       "provider": "github-pages",
-      "candidateId": "pwa-382ff83a5677",
-      "aggregateHash": "382ff83a5677ee6e9f240dbaa63bc3da70a95672466364f45a040d8eaf11a9d3"
+      "candidateId": "pwa-f5fdb7b1b300",
+      "aggregateHash": "f5fdb7b1b3003862703a451dfca51d9596de7807efd515bf35265472e9f5ef6b"
     },
     "sourceStatus": {
       "deployment": "ready-for-pages",
@@ -1202,8 +1202,8 @@
           "bytes": 15513,
           "candidateMatches": true,
           "hashMatches": true,
-          "localCandidateId": "pwa-382ff83a5677",
-          "localAggregateHash": "382ff83a5677ee6e9f240dbaa63bc3da70a95672466364f45a040d8eaf11a9d3",
+          "localCandidateId": "pwa-f5fdb7b1b300",
+          "localAggregateHash": "f5fdb7b1b3003862703a451dfca51d9596de7807efd515bf35265472e9f5ef6b",
           "detail": "Local release manifest matches the release candidate."
         }
       ]
@@ -1286,7 +1286,7 @@
         "path": "/release-candidate.json",
         "url": "${DEPLOYED_PWA_ORIGIN}/release-candidate.json",
         "expectedStatus": 200,
-        "requiredText": "pwa-382ff83a5677",
+        "requiredText": "pwa-f5fdb7b1b300",
         "status": "blocked",
         "detail": "No deployed origin configured."
       }
@@ -2198,13 +2198,13 @@
     "status": "operator-plan-ready",
     "mode": "plan-only",
     "selectedAction": {
-      "id": "refresh-product-gate-recovery",
+      "id": "refresh-product-gate-sample-plan",
       "status": "armed",
-      "command": "npm run autonomous:gate-recovery",
+      "command": "npm run autonomous:sample-plan",
       "targets": [
         "firstGameCompletion"
       ],
-      "reason": "Ranks the exact observed lift and prompt sample still needed before revenue gates can open.",
+      "reason": "Turns gate deficits into zero-cost player-initiated sample missions and exact refresh commands.",
       "costUsd": 0
     },
     "controls": {
@@ -2239,6 +2239,7 @@
       "prepare-release-candidate",
       "optimize-product-gates",
       "refresh-product-gate-recovery",
+      "refresh-product-gate-sample-plan",
       "refresh-first-move-coach",
       "refresh-completion-loop",
       "refresh-replay-loop",
@@ -2314,6 +2315,12 @@
         "id": "optimize-product-gates",
         "status": "armed",
         "command": "npm run autonomous:analyze && npm run autonomous:product-optimize && npm run autonomous:sync-config && npm run autonomous:simulate",
+        "reason": "not-selected-this-run"
+      },
+      {
+        "id": "refresh-product-gate-recovery",
+        "status": "armed",
+        "command": "npm run autonomous:gate-recovery",
         "reason": "not-selected-this-run"
       },
       {
@@ -2403,7 +2410,7 @@
       "plannedRecords": 22,
       "executedRecords": 18,
       "failedRecords": 0,
-      "lastActionId": "refresh-product-gate-recovery",
+      "lastActionId": "refresh-product-gate-sample-plan",
       "lastExecutionStatus": "not-requested",
       "lastExecutedActionId": "refresh-autonomous-self-update"
     },
@@ -2421,48 +2428,6 @@
       "compactedDuplicateDryRuns": 0
     },
     "recentRecords": [
-      {
-        "id": "20260519064646-refresh-autonomous-self-update",
-        "generatedAt": "2026-05-19T06:46:46.926Z",
-        "runFingerprint": "6693754b73c6fb91",
-        "mode": "execute-one-action",
-        "status": "operator-executed",
-        "selectedActionId": "refresh-autonomous-self-update",
-        "selectedCommand": "npm run autonomous:self-update",
-        "eligibleActionIds": [
-          "refresh-autonomous-cadence",
-          "refresh-autonomous-self-update",
-          "seed-portfolio-traffic",
-          "refresh-organic-seed-loop",
-          "optimize-daily-retention",
-          "measure-pwa-install-loop",
-          "check-performance-budget",
-          "prepare-release-candidate",
-          "optimize-product-gates",
-          "refresh-first-move-coach",
-          "refresh-completion-loop",
-          "refresh-replay-loop",
-          "prepare-repository-channel",
-          "bootstrap-production-setup",
-          "refresh-objective-audit",
-          "optimize-store-listing",
-          "apply-safe-improvements"
-        ],
-        "blockedActionCount": 23,
-        "execution": {
-          "requested": true,
-          "status": "executed",
-          "attemptedActionId": "refresh-autonomous-self-update",
-          "resultCount": 1,
-          "failedScripts": []
-        },
-        "controls": {
-          "zeroPaidSpend": true,
-          "localCommandAllowlistEnforced": true,
-          "externalWorkflowExecutionBlockedByDefault": true,
-          "maxActionsPerRun": 1
-        }
-      },
       {
         "id": "20260519064706-refresh-objective-audit",
         "generatedAt": "2026-05-19T06:47:06.435Z",
@@ -2621,6 +2586,51 @@
           "collect-live-events"
         ],
         "blockedActionCount": 24,
+        "execution": {
+          "requested": false,
+          "status": "not-requested",
+          "attemptedActionId": null,
+          "resultCount": 0,
+          "failedScripts": []
+        },
+        "controls": {
+          "zeroPaidSpend": true,
+          "localCommandAllowlistEnforced": true,
+          "externalWorkflowExecutionBlockedByDefault": true,
+          "maxActionsPerRun": 1
+        }
+      },
+      {
+        "id": "20260519073500-refresh-product-gate-sample-plan",
+        "generatedAt": "2026-05-19T07:35:00.170Z",
+        "runFingerprint": "000bc37f569f16aa",
+        "mode": "plan-only",
+        "status": "operator-plan-ready",
+        "selectedActionId": "refresh-product-gate-sample-plan",
+        "selectedCommand": "npm run autonomous:sample-plan",
+        "eligibleActionIds": [
+          "refresh-autonomous-cadence",
+          "refresh-autonomous-self-update",
+          "seed-portfolio-traffic",
+          "refresh-organic-seed-loop",
+          "optimize-daily-retention",
+          "measure-pwa-install-loop",
+          "check-performance-budget",
+          "prepare-release-candidate",
+          "optimize-product-gates",
+          "refresh-product-gate-recovery",
+          "refresh-product-gate-sample-plan",
+          "refresh-first-move-coach",
+          "refresh-completion-loop",
+          "refresh-replay-loop",
+          "prepare-repository-channel",
+          "bootstrap-production-setup",
+          "refresh-objective-audit",
+          "optimize-store-listing",
+          "apply-safe-improvements",
+          "collect-live-events"
+        ],
+        "blockedActionCount": 25,
         "execution": {
           "requested": false,
           "status": "not-requested",
@@ -2896,7 +2906,7 @@
       "met": 5,
       "prepared": 2,
       "incomplete": 1,
-      "externalBlockers": 20,
+      "externalBlockers": 21,
       "productBlockers": 6
     },
     "controls": {
@@ -2909,7 +2919,7 @@
     "completion": {
       "canMarkGoalComplete": false,
       "reason": "The local autonomous PWA system is largely prepared, but production credentials, live data, monetization gates, hosted compliance URLs, and store account/signing blockers remain.",
-      "nextBestAction": "refresh-product-gate-recovery"
+      "nextBestAction": "refresh-product-gate-sample-plan"
     },
     "requirements": [
       {
@@ -2967,6 +2977,7 @@
         "evidence": [
           "Product optimizer: product-optimization-ready",
           "Gate recovery: product-gate-recovery-ready; primary firstGameCompletion; experiment collecting-sample; needed lift 58",
+          "Sample plan: product-gate-sample-plan-ready; primary firstGameCompletion; prompt views needed 70",
           "First-move coach: first-move-coach-ready; enabled targets 6",
           "Completion loop: completion-loop-ready; prompt armed; finish line armed",
           "Replay loop: replay-loop-ready; prompt armed",
@@ -2975,7 +2986,7 @@
           "Experiment results: evaluated",
           "Backlog items: 4",
           "Applied/deferred actions: 6",
-          "Operator selected: refresh-product-gate-recovery; status operator-plan-ready; execution not-requested"
+          "Operator selected: refresh-product-gate-sample-plan; status operator-plan-ready; execution not-requested"
         ],
         "blockers": [],
         "nextAction": "Keep collecting starts until a safe product-gate tuning action is justified.",
@@ -3002,6 +3013,7 @@
         "blockers": [
           "Add a GitHub origin remote or set GITHUB_REPOSITORY/GH_REPO.",
           "Configure GH_TOKEN or GITHUB_TOKEN for workflow dispatch and repository settings sync.",
+          "Commit current generated changes before pushing to GitHub Pages.",
           "Set GITHUB_REPOSITORY or GH_REPO to the intended owner/repo.",
           "Attach a GitHub origin remote or create the target repository.",
           "Authenticate GitHub CLI or provide GH_TOKEN/GITHUB_TOKEN for remote repository bootstrap.",

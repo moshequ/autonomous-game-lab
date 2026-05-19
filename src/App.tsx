@@ -48,6 +48,7 @@ import { organicSeedLoop } from './data/organicSeedLoop'
 import { firstMoveCoach } from './data/firstMoveCoach'
 import { productOptimization } from './data/productOptimization'
 import { productGateRecovery } from './data/productGateRecovery'
+import { productGateSamplePlan } from './data/productGateSamplePlan'
 import { pwaInstallLoop } from './data/pwaInstallLoop'
 import { performanceBudget } from './data/performanceBudget'
 import { releaseHealth } from './data/releaseHealth'
@@ -393,6 +394,7 @@ function App() {
     productGateRecovery.gates.find(
       (gate) => gate.id === productGateRecovery.summary.primaryBottleneck,
     ) ?? productGateRecovery.gates[0]
+  const productGateSamplePrimary = productGateSamplePlan.missions[0]
   const firstMoveCoachPrimary =
     firstMoveCoach.targets.find((target) => target.gameId === firstMoveCoach.summary.primaryTargetId) ??
     firstMoveCoach.targets.find((target) => target.enabled)
@@ -1943,6 +1945,24 @@ function App() {
                 <div>
                   <span>Next sample</span>
                   <strong>{productGateRecoveryPrimary?.promptViewsNeeded ?? 0} views</strong>
+                </div>
+              </div>
+              <div className="monetizationRuntime" aria-label="Product Gate Sample Plan">
+                <div>
+                  <span>Sample Plan</span>
+                  <strong>{productGateSamplePlan.status}</strong>
+                </div>
+                <div>
+                  <span>Primary mission</span>
+                  <strong>{productGateSamplePrimary?.gateId ?? 'none'}</strong>
+                </div>
+                <div>
+                  <span>Prompt debt</span>
+                  <strong>{productGateSamplePlan.summary.totalPromptViewsNeeded} views</strong>
+                </div>
+                <div>
+                  <span>Zero spend</span>
+                  <strong>{productGateSamplePlan.controls.zeroPaidSpend ? 'yes' : 'review'}</strong>
                 </div>
               </div>
               <div className="monetizationRuntime" aria-label="First Move Coach">

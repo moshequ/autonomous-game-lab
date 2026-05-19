@@ -1,15 +1,15 @@
 # Autonomous Owner Loop
 
-Generated: 2026-05-19T07:27:23.557Z
+Generated: 2026-05-19T07:38:04.882Z
 Status: owner-loop-ready
 Mode: repository-channel-needed
-Autonomy score: 32/34 (94%)
+Autonomy score: 33/35 (94%)
 
 ## Owner Decision
 
-- Next action: refresh-product-gate-recovery
-- Command: npm run autonomous:gate-recovery
-- Rationale: Ranks the exact observed lift and prompt sample still needed before revenue gates can open.
+- Next action: refresh-product-gate-sample-plan
+- Command: npm run autonomous:sample-plan
+- Rationale: Turns gate deficits into zero-cost player-initiated sample missions and exact refresh commands.
 - Last executed action: refresh-autonomous-self-update
 - Recent executed actions: refresh-autonomous-self-update, measure-pwa-install-loop, optimize-daily-retention, optimize-product-gates, bootstrap-production-setup, seed-portfolio-traffic, prepare-repository-channel, refresh-autonomous-cadence
 
@@ -26,9 +26,10 @@ Autonomy score: 32/34 (94%)
 - ready: organic-seed-loop - Target canopy-bloom; surface portal-growth-loop; share telemetry organic_seed_share_clicked.
 - ready: retention-loop - Daily canopy-bloom; D1 17%; streak variant daily-streak; return prompt armed; return intent armed.
 - ready: pwa-install-loop - Prompt autonomy-cockpit; installs 0; launch events 0.
-- ready: performance-budget - Initial JS 637.8 KB; gzip 171.8 KB; deferred chunks 1.
+- ready: performance-budget - Initial JS 642.8 KB; gzip 172.5 KB; deferred chunks 1.
 - ready: product-optimization - Completion 40% / gate 55%; latest already-applied.
 - ready: product-gate-recovery - Recovery product-gate-recovery-ready; primary firstGameCompletion; experiment collecting-sample; failing gates 3; next lift 58.
+- ready: product-gate-sample-plan - Sample plan product-gate-sample-plan-ready; primary firstGameCompletion; prompt views needed 70.
 - ready: first-move-coach - Coach first-move-coach-ready; enabled targets 6; primary harbor-rings.
 - ready: completion-loop - Completion loop completion-loop-ready; prompt armed; finish line armed; target harbor-rings; completion 40%.
 - ready: replay-loop - Replay loop replay-loop-ready; prompt armed; target harbor-rings; replay 31%.
@@ -37,12 +38,12 @@ Autonomy score: 32/34 (94%)
 - waiting-for-github-repository: repository-channel - Repository missing; git worktree ready; workflow dispatch blocked.
 - ready: repository-bootstrap - Bootstrap waiting-for-github-target; mode plan-only; helper ops/github/bootstrap-repository.sh; local git ready.
 - ready: web-deployment - Deployment ready-for-pages; web readiness ready-after-build; promotion promotable-internal.
-- ready: release-candidate - Candidate pwa-382ff83a5677; status release-candidate-ready; files 38; smoke URLs 7.
-- ready: post-deploy-smoke - Smoke blocked-missing-origin; origin missing; candidate pwa-382ff83a5677; checks 0/8 passed; local artifact predeploy-artifact-smoke-passed 8/8 passed.
+- ready: release-candidate - Candidate pwa-f5fdb7b1b300; status release-candidate-ready; files 38; smoke URLs 7.
+- ready: post-deploy-smoke - Smoke blocked-missing-origin; origin missing; candidate pwa-f5fdb7b1b300; checks 0/8 passed; local artifact predeploy-artifact-smoke-passed 8/8 passed.
 - ready: production-bootstrap - Bootstrap production-bootstrap-ready; mode waiting-for-external-credentials; external blockers 23.
-- ready: autonomous-operator - Operator operator-plan-ready; selected refresh-product-gate-recovery; execution not-requested.
+- ready: autonomous-operator - Operator operator-plan-ready; selected refresh-product-gate-sample-plan; execution not-requested.
 - ready: operator-history - History operator-history-ready; records 40; executed 18.
-- ready: objective-audit - Audit objective-in-progress; met 5/8; external blockers 20.
+- ready: objective-audit - Audit objective-in-progress; met 5/8; external blockers 21.
 - ready: store-listing-optimizer - Focus canopy-bloom; lead screenshot phone-canopy-bloom-generated; candidate changed yes.
 - ready: store-compliance - Rating Everyone; target audience general; blockers 4.
 - ready: android-signing - Signing signing-prepared; fingerprint available; local secrets configured.
@@ -64,6 +65,7 @@ Autonomy score: 32/34 (94%)
 - monitor: run-post-deploy-smoke - npm run autonomous:post-deploy-smoke
 - armed: optimize-product-gates - npm run autonomous:analyze && npm run autonomous:product-optimize && npm run autonomous:sync-config && npm run autonomous:simulate
 - armed: refresh-product-gate-recovery - npm run autonomous:gate-recovery
+- armed: refresh-product-gate-sample-plan - npm run autonomous:sample-plan
 - armed: refresh-first-move-coach - npm run autonomous:first-move-coach
 - armed: refresh-completion-loop - npm run autonomous:completion-loop
 - armed: refresh-replay-loop - npm run autonomous:replay-loop
