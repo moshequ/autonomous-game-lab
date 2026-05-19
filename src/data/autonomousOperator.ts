@@ -2,7 +2,7 @@ export const autonomousOperator = {
   "status": "operator-plan-ready",
   "mode": "plan-only",
   "selectedAction": {
-    "id": "collect-live-events",
+    "id": "seed-portfolio-traffic",
     "status": "armed",
     "costUsd": 0
   },
