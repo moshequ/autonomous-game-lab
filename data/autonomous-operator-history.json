@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-19T05:39:32.016Z",
+  "generatedAt": "2026-05-19T05:42:46.883Z",
   "status": "operator-history-ready",
   "retention": {
     "maxRecords": 40,
@@ -12,9 +12,9 @@
     "plannedRecords": 20,
     "executedRecords": 20,
     "failedRecords": 0,
-    "lastActionId": "measure-pwa-install-loop",
+    "lastActionId": "refresh-autonomous-self-update",
     "lastExecutionStatus": "not-requested",
-    "lastExecutedActionId": "optimize-daily-retention"
+    "lastExecutedActionId": "measure-pwa-install-loop"
   },
   "controls": {
     "zeroPaidSpend": true,
@@ -24,90 +24,6 @@
     "historyIsCapped": true
   },
   "records": [
-    {
-      "id": "20260519045333-optimize-product-gates",
-      "generatedAt": "2026-05-19T04:53:33.208Z",
-      "runFingerprint": "7ed389a31bab8dd7",
-      "mode": "execute-one-action",
-      "status": "operator-executed",
-      "selectedActionId": "optimize-product-gates",
-      "selectedCommand": "npm run autonomous:analyze && npm run autonomous:product-optimize && npm run autonomous:sync-config && npm run autonomous:simulate",
-      "eligibleActionIds": [
-        "refresh-autonomous-cadence",
-        "refresh-autonomous-self-update",
-        "seed-portfolio-traffic",
-        "refresh-organic-seed-loop",
-        "optimize-daily-retention",
-        "measure-pwa-install-loop",
-        "check-performance-budget",
-        "prepare-release-candidate",
-        "optimize-product-gates",
-        "refresh-first-move-coach",
-        "refresh-completion-loop",
-        "refresh-replay-loop",
-        "prepare-repository-channel",
-        "bootstrap-production-setup",
-        "refresh-objective-audit",
-        "optimize-store-listing",
-        "apply-safe-improvements"
-      ],
-      "blockedActionCount": 23,
-      "execution": {
-        "requested": true,
-        "status": "executed",
-        "attemptedActionId": "optimize-product-gates",
-        "resultCount": 4,
-        "failedScripts": []
-      },
-      "controls": {
-        "zeroPaidSpend": true,
-        "localCommandAllowlistEnforced": true,
-        "externalWorkflowExecutionBlockedByDefault": true,
-        "maxActionsPerRun": 1
-      }
-    },
-    {
-      "id": "20260519045342-optimize-daily-retention",
-      "generatedAt": "2026-05-19T04:53:42.187Z",
-      "runFingerprint": "0879f669f1cad4cd",
-      "mode": "plan-only",
-      "status": "operator-plan-ready",
-      "selectedActionId": "optimize-daily-retention",
-      "selectedCommand": "npm run autonomous:retention",
-      "eligibleActionIds": [
-        "refresh-autonomous-cadence",
-        "refresh-autonomous-self-update",
-        "seed-portfolio-traffic",
-        "refresh-organic-seed-loop",
-        "optimize-daily-retention",
-        "measure-pwa-install-loop",
-        "check-performance-budget",
-        "prepare-release-candidate",
-        "optimize-product-gates",
-        "refresh-first-move-coach",
-        "refresh-completion-loop",
-        "refresh-replay-loop",
-        "prepare-repository-channel",
-        "bootstrap-production-setup",
-        "refresh-objective-audit",
-        "optimize-store-listing",
-        "apply-safe-improvements"
-      ],
-      "blockedActionCount": 23,
-      "execution": {
-        "requested": false,
-        "status": "not-requested",
-        "attemptedActionId": null,
-        "resultCount": 0,
-        "failedScripts": []
-      },
-      "controls": {
-        "zeroPaidSpend": true,
-        "localCommandAllowlistEnforced": true,
-        "externalWorkflowExecutionBlockedByDefault": true,
-        "maxActionsPerRun": 1
-      }
-    },
     {
       "id": "20260519045444-optimize-daily-retention",
       "generatedAt": "2026-05-19T04:54:44.132Z",
@@ -1670,6 +1586,90 @@
       "status": "operator-plan-ready",
       "selectedActionId": "measure-pwa-install-loop",
       "selectedCommand": "npm run autonomous:pwa-install",
+      "eligibleActionIds": [
+        "refresh-autonomous-cadence",
+        "refresh-autonomous-self-update",
+        "seed-portfolio-traffic",
+        "refresh-organic-seed-loop",
+        "optimize-daily-retention",
+        "measure-pwa-install-loop",
+        "check-performance-budget",
+        "prepare-release-candidate",
+        "optimize-product-gates",
+        "refresh-first-move-coach",
+        "refresh-completion-loop",
+        "refresh-replay-loop",
+        "prepare-repository-channel",
+        "bootstrap-production-setup",
+        "refresh-objective-audit",
+        "optimize-store-listing",
+        "apply-safe-improvements"
+      ],
+      "blockedActionCount": 23,
+      "execution": {
+        "requested": false,
+        "status": "not-requested",
+        "attemptedActionId": null,
+        "resultCount": 0,
+        "failedScripts": []
+      },
+      "controls": {
+        "zeroPaidSpend": true,
+        "localCommandAllowlistEnforced": true,
+        "externalWorkflowExecutionBlockedByDefault": true,
+        "maxActionsPerRun": 1
+      }
+    },
+    {
+      "id": "20260519054226-measure-pwa-install-loop",
+      "generatedAt": "2026-05-19T05:42:26.545Z",
+      "runFingerprint": "e51e45bc159d0077",
+      "mode": "execute-one-action",
+      "status": "operator-executed",
+      "selectedActionId": "measure-pwa-install-loop",
+      "selectedCommand": "npm run autonomous:pwa-install",
+      "eligibleActionIds": [
+        "refresh-autonomous-cadence",
+        "refresh-autonomous-self-update",
+        "seed-portfolio-traffic",
+        "refresh-organic-seed-loop",
+        "optimize-daily-retention",
+        "measure-pwa-install-loop",
+        "check-performance-budget",
+        "prepare-release-candidate",
+        "optimize-product-gates",
+        "refresh-first-move-coach",
+        "refresh-completion-loop",
+        "refresh-replay-loop",
+        "prepare-repository-channel",
+        "bootstrap-production-setup",
+        "refresh-objective-audit",
+        "optimize-store-listing",
+        "apply-safe-improvements"
+      ],
+      "blockedActionCount": 23,
+      "execution": {
+        "requested": true,
+        "status": "executed",
+        "attemptedActionId": "measure-pwa-install-loop",
+        "resultCount": 1,
+        "failedScripts": []
+      },
+      "controls": {
+        "zeroPaidSpend": true,
+        "localCommandAllowlistEnforced": true,
+        "externalWorkflowExecutionBlockedByDefault": true,
+        "maxActionsPerRun": 1
+      }
+    },
+    {
+      "id": "20260519054233-refresh-autonomous-self-update",
+      "generatedAt": "2026-05-19T05:42:33.353Z",
+      "runFingerprint": "16e21e8508db42df",
+      "mode": "plan-only",
+      "status": "operator-plan-ready",
+      "selectedActionId": "refresh-autonomous-self-update",
+      "selectedCommand": "npm run autonomous:self-update",
       "eligibleActionIds": [
         "refresh-autonomous-cadence",
         "refresh-autonomous-self-update",

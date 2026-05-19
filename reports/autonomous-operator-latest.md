@@ -1,10 +1,10 @@
 # Autonomous Operator
 
-Generated: 2026-05-19T05:39:32.016Z
+Generated: 2026-05-19T05:42:46.883Z
 Status: operator-plan-ready
 Mode: plan-only
-Owner decision: measure-pwa-install-loop
-Selected action: measure-pwa-install-loop
+Owner decision: refresh-autonomous-self-update
+Selected action: refresh-autonomous-self-update
 Execution: not-requested
 
 ## Controls
@@ -18,7 +18,7 @@ Execution: not-requested
 
 ## Selected Action
 
-- measure-pwa-install-loop: npm run autonomous:pwa-install
+- refresh-autonomous-self-update: npm run autonomous:self-update
 
 ## Eligible Local Actions
 
@@ -44,10 +44,10 @@ Execution: not-requested
 
 - run-daily-owner-loop: daily-loop-recursion-blocked
 - refresh-autonomous-cadence: not-selected-this-run
-- refresh-autonomous-self-update: not-selected-this-run
 - seed-portfolio-traffic: not-selected-this-run
 - refresh-organic-seed-loop: not-selected-this-run
 - optimize-daily-retention: not-selected-this-run
+- measure-pwa-install-loop: not-selected-this-run
 - check-performance-budget: not-selected-this-run
 - prepare-release-candidate: not-selected-this-run
 - run-post-deploy-smoke: status-monitor
