@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-19T21:15:37.630Z",
+  "generatedAt": "2026-05-19T21:19:45.161Z",
   "status": "self-update-ready",
   "mode": "plan-and-assert",
   "envFiles": {
@@ -70,10 +70,487 @@
     "ownerLoop": "owner-loop-ready"
   },
   "pendingChanges": {
-    "total": 0,
-    "safe": [],
+    "total": 68,
+    "safe": [
+      {
+        "code": "M",
+        "path": "data/acquisition-learning.json",
+        "raw": " M data/acquisition-learning.json",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
+        "path": "data/analytics-rollup.json",
+        "raw": " M data/analytics-rollup.json",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
+        "path": "data/autonomous-operator-history.json",
+        "raw": " M data/autonomous-operator-history.json",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
+        "path": "data/autonomous-operator.json",
+        "raw": " M data/autonomous-operator.json",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
+        "path": "data/autonomous-owner-loop.json",
+        "raw": " M data/autonomous-owner-loop.json",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
+        "path": "data/deployment-plan.json",
+        "raw": " M data/deployment-plan.json",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
+        "path": "data/event-collector-smoke.json",
+        "raw": " M data/event-collector-smoke.json",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
+        "path": "data/event-ingest-smoke.json",
+        "raw": " M data/event-ingest-smoke.json",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
+        "path": "data/event-ingest.json",
+        "raw": " M data/event-ingest.json",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
+        "path": "data/growth-plan.json",
+        "raw": " M data/growth-plan.json",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
+        "path": "data/local-event-bridge.json",
+        "raw": " M data/local-event-bridge.json",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
+        "path": "data/objective-audit.json",
+        "raw": " M data/objective-audit.json",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
+        "path": "data/organic-seed-loop.json",
+        "raw": " M data/organic-seed-loop.json",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
+        "path": "data/performance-budget.json",
+        "raw": " M data/performance-budget.json",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
+        "path": "data/portfolio-policy.json",
+        "raw": " M data/portfolio-policy.json",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
+        "path": "data/post-deploy-smoke.json",
+        "raw": " M data/post-deploy-smoke.json",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
+        "path": "data/product-gate-recovery.json",
+        "raw": " M data/product-gate-recovery.json",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
+        "path": "data/product-gate-sample-plan.json",
+        "raw": " M data/product-gate-sample-plan.json",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
+        "path": "data/production-bootstrap.json",
+        "raw": " M data/production-bootstrap.json",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
+        "path": "data/production-readiness.json",
+        "raw": " M data/production-readiness.json",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
+        "path": "data/release-candidate.json",
+        "raw": " M data/release-candidate.json",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
+        "path": "data/repository-bootstrap.json",
+        "raw": " M data/repository-bootstrap.json",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
+        "path": "data/repository-readiness.json",
+        "raw": " M data/repository-readiness.json",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
+        "path": "data/traffic-seeding.json",
+        "raw": " M data/traffic-seeding.json",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
+        "path": "public/share-manifest.json",
+        "raw": " M public/share-manifest.json",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
+        "path": "reports/acquisition-learning-latest.md",
+        "raw": " M reports/acquisition-learning-latest.md",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
+        "path": "reports/analytics-rollup-latest.md",
+        "raw": " M reports/analytics-rollup-latest.md",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
+        "path": "reports/autonomous-operator-history-latest.md",
+        "raw": " M reports/autonomous-operator-history-latest.md",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
+        "path": "reports/autonomous-operator-latest.md",
+        "raw": " M reports/autonomous-operator-latest.md",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
+        "path": "reports/autonomous-owner-loop-latest.md",
+        "raw": " M reports/autonomous-owner-loop-latest.md",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
+        "path": "reports/deployment-plan-latest.md",
+        "raw": " M reports/deployment-plan-latest.md",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
+        "path": "reports/event-collector-smoke-latest.md",
+        "raw": " M reports/event-collector-smoke-latest.md",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
+        "path": "reports/event-ingest-latest.md",
+        "raw": " M reports/event-ingest-latest.md",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
+        "path": "reports/event-ingest-smoke-latest.md",
+        "raw": " M reports/event-ingest-smoke-latest.md",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
+        "path": "reports/growth-plan-latest.md",
+        "raw": " M reports/growth-plan-latest.md",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
+        "path": "reports/local-event-bridge-latest.md",
+        "raw": " M reports/local-event-bridge-latest.md",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
+        "path": "reports/objective-audit-latest.md",
+        "raw": " M reports/objective-audit-latest.md",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
+        "path": "reports/organic-seed-loop-latest.md",
+        "raw": " M reports/organic-seed-loop-latest.md",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
+        "path": "reports/performance-budget-latest.md",
+        "raw": " M reports/performance-budget-latest.md",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
+        "path": "reports/portfolio-policy-latest.md",
+        "raw": " M reports/portfolio-policy-latest.md",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
+        "path": "reports/post-deploy-smoke-latest.md",
+        "raw": " M reports/post-deploy-smoke-latest.md",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
+        "path": "reports/product-gate-recovery-latest.md",
+        "raw": " M reports/product-gate-recovery-latest.md",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
+        "path": "reports/product-gate-sample-plan-latest.md",
+        "raw": " M reports/product-gate-sample-plan-latest.md",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
+        "path": "reports/production-bootstrap-latest.md",
+        "raw": " M reports/production-bootstrap-latest.md",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
+        "path": "reports/production-readiness-latest.md",
+        "raw": " M reports/production-readiness-latest.md",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
+        "path": "reports/release-candidate-latest.md",
+        "raw": " M reports/release-candidate-latest.md",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
+        "path": "reports/repository-bootstrap-latest.md",
+        "raw": " M reports/repository-bootstrap-latest.md",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
+        "path": "reports/repository-readiness-latest.md",
+        "raw": " M reports/repository-readiness-latest.md",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
+        "path": "reports/traffic-seeding-latest.md",
+        "raw": " M reports/traffic-seeding-latest.md",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
+        "path": "src/data/acquisitionLearning.ts",
+        "raw": " M src/data/acquisitionLearning.ts",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
+        "path": "src/data/autonomousOperator.ts",
+        "raw": " M src/data/autonomousOperator.ts",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
+        "path": "src/data/autonomousOperatorHistory.ts",
+        "raw": " M src/data/autonomousOperatorHistory.ts",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
+        "path": "src/data/autonomousOwnerLoop.ts",
+        "raw": " M src/data/autonomousOwnerLoop.ts",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
+        "path": "src/data/deploymentPlan.ts",
+        "raw": " M src/data/deploymentPlan.ts",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
+        "path": "src/data/growthPlan.ts",
+        "raw": " M src/data/growthPlan.ts",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
+        "path": "src/data/localEventBridge.ts",
+        "raw": " M src/data/localEventBridge.ts",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
+        "path": "src/data/objectiveAudit.ts",
+        "raw": " M src/data/objectiveAudit.ts",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
+        "path": "src/data/organicSeedLoop.ts",
+        "raw": " M src/data/organicSeedLoop.ts",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
+        "path": "src/data/performanceBudget.ts",
+        "raw": " M src/data/performanceBudget.ts",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
+        "path": "src/data/portfolioPolicy.ts",
+        "raw": " M src/data/portfolioPolicy.ts",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
+        "path": "src/data/postDeploySmoke.ts",
+        "raw": " M src/data/postDeploySmoke.ts",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
+        "path": "src/data/productGateRecovery.ts",
+        "raw": " M src/data/productGateRecovery.ts",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
+        "path": "src/data/productGateSamplePlan.ts",
+        "raw": " M src/data/productGateSamplePlan.ts",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
+        "path": "src/data/productionBootstrap.ts",
+        "raw": " M src/data/productionBootstrap.ts",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
+        "path": "src/data/releaseCandidate.ts",
+        "raw": " M src/data/releaseCandidate.ts",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
+        "path": "src/data/repositoryBootstrap.ts",
+        "raw": " M src/data/repositoryBootstrap.ts",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
+        "path": "src/data/repositoryReadiness.ts",
+        "raw": " M src/data/repositoryReadiness.ts",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
+        "path": "src/data/trafficSeeding.ts",
+        "raw": " M src/data/trafficSeeding.ts",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      }
+    ],
     "unsafe": [],
-    "safeCount": 0,
+    "safeCount": 68,
     "unsafeCount": 0
   },
   "commitPlan": {
@@ -86,6 +563,74 @@
       "npm run autonomous:self-update -- --assert-safe"
     ],
     "stagePaths": [
+      "data/acquisition-learning.json",
+      "data/analytics-rollup.json",
+      "data/autonomous-operator-history.json",
+      "data/autonomous-operator.json",
+      "data/autonomous-owner-loop.json",
+      "data/deployment-plan.json",
+      "data/event-collector-smoke.json",
+      "data/event-ingest-smoke.json",
+      "data/event-ingest.json",
+      "data/growth-plan.json",
+      "data/local-event-bridge.json",
+      "data/objective-audit.json",
+      "data/organic-seed-loop.json",
+      "data/performance-budget.json",
+      "data/portfolio-policy.json",
+      "data/post-deploy-smoke.json",
+      "data/product-gate-recovery.json",
+      "data/product-gate-sample-plan.json",
+      "data/production-bootstrap.json",
+      "data/production-readiness.json",
+      "data/release-candidate.json",
+      "data/repository-bootstrap.json",
+      "data/repository-readiness.json",
+      "data/traffic-seeding.json",
+      "public/share-manifest.json",
+      "reports/acquisition-learning-latest.md",
+      "reports/analytics-rollup-latest.md",
+      "reports/autonomous-operator-history-latest.md",
+      "reports/autonomous-operator-latest.md",
+      "reports/autonomous-owner-loop-latest.md",
+      "reports/deployment-plan-latest.md",
+      "reports/event-collector-smoke-latest.md",
+      "reports/event-ingest-latest.md",
+      "reports/event-ingest-smoke-latest.md",
+      "reports/growth-plan-latest.md",
+      "reports/local-event-bridge-latest.md",
+      "reports/objective-audit-latest.md",
+      "reports/organic-seed-loop-latest.md",
+      "reports/performance-budget-latest.md",
+      "reports/portfolio-policy-latest.md",
+      "reports/post-deploy-smoke-latest.md",
+      "reports/product-gate-recovery-latest.md",
+      "reports/product-gate-sample-plan-latest.md",
+      "reports/production-bootstrap-latest.md",
+      "reports/production-readiness-latest.md",
+      "reports/release-candidate-latest.md",
+      "reports/repository-bootstrap-latest.md",
+      "reports/repository-readiness-latest.md",
+      "reports/traffic-seeding-latest.md",
+      "src/data/acquisitionLearning.ts",
+      "src/data/autonomousOperator.ts",
+      "src/data/autonomousOperatorHistory.ts",
+      "src/data/autonomousOwnerLoop.ts",
+      "src/data/deploymentPlan.ts",
+      "src/data/growthPlan.ts",
+      "src/data/localEventBridge.ts",
+      "src/data/objectiveAudit.ts",
+      "src/data/organicSeedLoop.ts",
+      "src/data/performanceBudget.ts",
+      "src/data/portfolioPolicy.ts",
+      "src/data/postDeploySmoke.ts",
+      "src/data/productGateRecovery.ts",
+      "src/data/productGateSamplePlan.ts",
+      "src/data/productionBootstrap.ts",
+      "src/data/releaseCandidate.ts",
+      "src/data/repositoryBootstrap.ts",
+      "src/data/repositoryReadiness.ts",
+      "src/data/trafficSeeding.ts",
       "data/autonomous-self-update.json",
       "src/data/autonomousSelfUpdate.ts",
       "reports/autonomous-self-update-latest.md"
@@ -178,7 +723,7 @@
     {
       "id": "safe-path-allowlist",
       "status": "pass",
-      "detail": "0 safe pending file(s), 0 unsafe pending file(s)."
+      "detail": "68 safe pending file(s), 0 unsafe pending file(s)."
     },
     {
       "id": "repository-optional",
