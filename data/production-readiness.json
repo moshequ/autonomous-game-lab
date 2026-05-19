@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-19T02:57:55.438Z",
+  "generatedAt": "2026-05-19T03:03:27.335Z",
   "environment": {
     "status": "production-env-missing",
     "publicOrigin": null,
@@ -197,7 +197,7 @@
     ]
   },
   "webPwa": {
-    "status": "ready-after-build",
+    "status": "blocked",
     "required": [
       "manifest",
       "offline-capable build",
@@ -344,22 +344,22 @@
       {
         "id": "autonomous-operator-history",
         "status": "pass",
-        "detail": "Autonomous operator history is operator-history-ready; records 14; executed 0."
+        "detail": "Autonomous operator history is operator-history-ready; records 15; executed 0."
       },
       {
         "id": "autonomous-cadence",
         "status": "pass",
-        "detail": "Autonomous cadence is cadence-ready; Codex active-declared; GitHub scheduled."
+        "detail": "Autonomous cadence is cadence-ready; Codex active-confirmed; GitHub scheduled."
       },
       {
         "id": "autonomous-self-update",
-        "status": "pass",
-        "detail": "Autonomous self-update is self-update-ready; safe pending 0; unsafe pending 0; remote push held."
+        "status": "blocker",
+        "detail": "Autonomous self-update is self-update-needs-attention; safe pending 3; unsafe pending 5; remote push held."
       },
       {
         "id": "objective-audit",
         "status": "pass",
-        "detail": "Objective audit is objective-in-progress; met 5 / 8; can complete false."
+        "detail": "Objective audit is objective-in-progress; met 4 / 8; can complete false."
       }
     ]
   },
@@ -2124,7 +2124,6 @@
       "results": []
     },
     "eligibleActionIds": [
-      "refresh-autonomous-self-update",
       "seed-portfolio-traffic",
       "refresh-organic-seed-loop",
       "optimize-daily-retention",
@@ -2155,9 +2154,9 @@
       },
       {
         "id": "refresh-autonomous-self-update",
-        "status": "armed",
+        "status": "monitor",
         "command": "npm run autonomous:self-update",
-        "reason": "not-selected-this-run"
+        "reason": "status-monitor"
       },
       {
         "id": "seed-portfolio-traffic",
@@ -2284,8 +2283,8 @@
   "autonomousOperatorHistory": {
     "status": "operator-history-ready",
     "summary": {
-      "totalRecords": 14,
-      "plannedRecords": 14,
+      "totalRecords": 15,
+      "plannedRecords": 15,
       "executedRecords": 0,
       "failedRecords": 0,
       "lastActionId": "prepare-repository-channel",
@@ -2302,47 +2301,10 @@
     "retention": {
       "maxRecords": 40,
       "appendOnlyWhenPlanChangesOrExecutes": true,
-      "latestRunAppended": false,
+      "latestRunAppended": true,
       "compactedDuplicateDryRuns": 0
     },
     "recentRecords": [
-      {
-        "id": "20260519015323-prepare-repository-channel",
-        "generatedAt": "2026-05-19T01:53:23.598Z",
-        "runFingerprint": "79aa3ab168863bec",
-        "mode": "plan-only",
-        "status": "operator-plan-ready",
-        "selectedActionId": "prepare-repository-channel",
-        "selectedCommand": "npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap",
-        "eligibleActionIds": [
-          "seed-portfolio-traffic",
-          "refresh-organic-seed-loop",
-          "optimize-daily-retention",
-          "measure-pwa-install-loop",
-          "optimize-product-gates",
-          "refresh-first-move-coach",
-          "refresh-completion-loop",
-          "refresh-replay-loop",
-          "prepare-repository-channel",
-          "bootstrap-production-setup",
-          "optimize-store-listing",
-          "apply-safe-improvements"
-        ],
-        "blockedActionCount": 20,
-        "execution": {
-          "requested": false,
-          "status": "not-requested",
-          "attemptedActionId": null,
-          "resultCount": 0,
-          "failedScripts": []
-        },
-        "controls": {
-          "zeroPaidSpend": true,
-          "localCommandAllowlistEnforced": true,
-          "externalWorkflowExecutionBlockedByDefault": true,
-          "maxActionsPerRun": 1
-        }
-      },
       {
         "id": "20260519015639-prepare-repository-channel",
         "generatedAt": "2026-05-19T01:56:39.993Z",
@@ -2500,6 +2462,45 @@
           "externalWorkflowExecutionBlockedByDefault": true,
           "maxActionsPerRun": 1
         }
+      },
+      {
+        "id": "20260519030326-prepare-repository-channel",
+        "generatedAt": "2026-05-19T03:03:26.704Z",
+        "runFingerprint": "d303b9b393988342",
+        "mode": "plan-only",
+        "status": "operator-plan-ready",
+        "selectedActionId": "prepare-repository-channel",
+        "selectedCommand": "npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap",
+        "eligibleActionIds": [
+          "seed-portfolio-traffic",
+          "refresh-organic-seed-loop",
+          "optimize-daily-retention",
+          "measure-pwa-install-loop",
+          "check-performance-budget",
+          "prepare-release-candidate",
+          "optimize-product-gates",
+          "refresh-first-move-coach",
+          "refresh-completion-loop",
+          "refresh-replay-loop",
+          "prepare-repository-channel",
+          "bootstrap-production-setup",
+          "optimize-store-listing",
+          "apply-safe-improvements"
+        ],
+        "blockedActionCount": 23,
+        "execution": {
+          "requested": false,
+          "status": "not-requested",
+          "attemptedActionId": null,
+          "resultCount": 0,
+          "failedScripts": []
+        },
+        "controls": {
+          "zeroPaidSpend": true,
+          "localCommandAllowlistEnforced": true,
+          "externalWorkflowExecutionBlockedByDefault": true,
+          "maxActionsPerRun": 1
+        }
       }
     ]
   },
@@ -2511,7 +2512,7 @@
         "id": "autonomous-game-lab-daily-owner-loop",
         "name": "Autonomous Game Lab daily owner loop",
         "kind": "cron",
-        "status": "active-declared",
+        "status": "active-confirmed",
         "schedule": {
           "rrule": "FREQ=HOURLY;INTERVAL=24",
           "timezone": "local",
@@ -2531,6 +2532,24 @@
           "noRevenueEnablement": true,
           "noExternalPosting": true,
           "remoteGitHubMutationRequiresEvidenceAndExplicitGate": true
+        },
+        "declaredStatus": "active-declared",
+        "actual": {
+          "status": "active-confirmed",
+          "codexHome": ".codex",
+          "storageAvailable": true,
+          "path": "automations/autonomous-game-lab-daily-owner-loop/automation.toml",
+          "installedStatus": "ACTIVE",
+          "rrule": "FREQ=HOURLY;INTERVAL=24",
+          "model": "gpt-5.2",
+          "reasoningEffort": "medium",
+          "executionEnvironment": "local",
+          "workspaceMatches": true,
+          "scheduleMatches": true,
+          "promptGuardrailsPresent": true,
+          "relatedActiveAutomationIds": [
+            "autonomous-game-lab-daily-analyst"
+          ]
         }
       },
       "githubActions": {
@@ -2567,6 +2586,7 @@
       "noExternalPosting": true,
       "remoteMutationRequiresRepositoryEvidence": true,
       "codexAutomationExpectedActive": true,
+      "codexAutomationActualStatusAudited": true,
       "githubWorkflowReadOnlyByDefault": true,
       "selfUpdateWorkflowWritePermissionGated": true,
       "selfUpdateStagesAllowlistedGeneratedFilesOnly": true
@@ -2576,6 +2596,11 @@
         "id": "codex-automation-manifest",
         "status": "pass",
         "detail": "Codex app automation manifest declares autonomous-game-lab-daily-owner-loop."
+      },
+      {
+        "id": "codex-automation-installed",
+        "status": "pass",
+        "detail": "Codex app automation autonomous-game-lab-daily-owner-loop is active, scheduled, local, and pointed at this workspace."
       },
       {
         "id": "local-operate-script",
@@ -2626,7 +2651,7 @@
     "blockers": []
   },
   "autonomousSelfUpdate": {
-    "status": "self-update-ready",
+    "status": "self-update-needs-attention",
     "repository": {
       "target": null,
       "originRemote": null,
@@ -2639,11 +2664,69 @@
       "remotePushReady": false
     },
     "pendingChanges": {
-      "total": 0,
-      "safe": [],
-      "unsafe": [],
-      "safeCount": 0,
-      "unsafeCount": 0
+      "total": 8,
+      "safe": [
+        {
+          "code": "M",
+          "path": "data/autonomous-cadence.json",
+          "raw": " M data/autonomous-cadence.json",
+          "safe": true,
+          "reason": "allowlisted-generated-artifact"
+        },
+        {
+          "code": "M",
+          "path": "reports/autonomous-cadence-latest.md",
+          "raw": " M reports/autonomous-cadence-latest.md",
+          "safe": true,
+          "reason": "allowlisted-generated-artifact"
+        },
+        {
+          "code": "M",
+          "path": "src/data/autonomousCadence.ts",
+          "raw": " M src/data/autonomousCadence.ts",
+          "safe": true,
+          "reason": "allowlisted-generated-artifact"
+        }
+      ],
+      "unsafe": [
+        {
+          "code": "M",
+          "path": "README.md",
+          "raw": " M README.md",
+          "safe": false,
+          "reason": "outside-autonomous-generated-allowlist"
+        },
+        {
+          "code": "M",
+          "path": "docs/AUTONOMOUS_STUDIO.md",
+          "raw": " M docs/AUTONOMOUS_STUDIO.md",
+          "safe": false,
+          "reason": "outside-autonomous-generated-allowlist"
+        },
+        {
+          "code": "M",
+          "path": "scripts/autonomous-cadence.mjs",
+          "raw": " M scripts/autonomous-cadence.mjs",
+          "safe": false,
+          "reason": "outside-autonomous-generated-allowlist"
+        },
+        {
+          "code": "M",
+          "path": "scripts/verify-autonomy.mjs",
+          "raw": " M scripts/verify-autonomy.mjs",
+          "safe": false,
+          "reason": "outside-autonomous-generated-allowlist"
+        },
+        {
+          "code": "M",
+          "path": "tests/smoke.spec.ts",
+          "raw": " M tests/smoke.spec.ts",
+          "safe": false,
+          "reason": "outside-autonomous-generated-allowlist"
+        }
+      ],
+      "safeCount": 3,
+      "unsafeCount": 5
     },
     "commitPlan": {
       "workflow": ".github/workflows/autonomous-self-update.yml",
@@ -2655,6 +2738,9 @@
         "npm run autonomous:self-update -- --assert-safe"
       ],
       "stagePaths": [
+        "data/autonomous-cadence.json",
+        "reports/autonomous-cadence-latest.md",
+        "src/data/autonomousCadence.ts",
         "data/autonomous-self-update.json",
         "src/data/autonomousSelfUpdate.ts",
         "reports/autonomous-self-update-latest.md"
@@ -2699,8 +2785,8 @@
       },
       {
         "id": "safe-path-allowlist",
-        "status": "pass",
-        "detail": "0 safe pending file(s), 0 unsafe pending file(s)."
+        "status": "blocker",
+        "detail": "3 safe pending file(s), 5 unsafe pending file(s)."
       },
       {
         "id": "repository-optional",
@@ -2718,15 +2804,17 @@
         "detail": "Self-update only stages repository artifacts; it does not create accounts, stores, ads, paid traffic, or revenue."
       }
     ],
-    "blockers": []
+    "blockers": [
+      "safe-path-allowlist: 3 safe pending file(s), 5 unsafe pending file(s)."
+    ]
   },
   "objectiveAudit": {
     "status": "objective-in-progress",
     "summary": {
       "requirements": 8,
-      "met": 5,
+      "met": 4,
       "prepared": 2,
-      "incomplete": 1,
+      "incomplete": 2,
       "externalBlockers": 21,
       "productBlockers": 6
     },
@@ -2745,16 +2833,18 @@
     "requirements": [
       {
         "id": "web-pwa-game-portal",
-        "status": "met",
+        "status": "incomplete",
         "summary": "A playable web/PWA portal exists and passes the production web readiness gate.",
         "evidence": [
-          "Web readiness: ready-after-build",
+          "Web readiness: blocked",
           "Manifest in dist: true",
           "Service worker in dist: true",
           "Release candidate: release-candidate-ready; 38 files",
           "Deployment plan: ready-for-pages"
         ],
-        "blockers": [],
+        "blockers": [
+          "Autonomous self-update is self-update-needs-attention; safe pending 3; unsafe pending 5; remote push held."
+        ],
         "nextAction": "Connect a free static host or GitHub Pages environment, then publish dist.",
         "completionCritical": true
       },
@@ -2812,23 +2902,24 @@
       },
       {
         "id": "minimal-intervention-autonomy",
-        "status": "needs-repository-channel",
+        "status": "incomplete",
         "summary": "A scheduled local loop, owner state, bootstrap handoff, and dry-run operator reduce manual maintenance.",
         "evidence": [
           "Owner loop: owner-loop-ready",
-          "Autonomous cadence: cadence-ready; Codex active-declared; GitHub scheduled",
-          "Autonomous self-update: self-update-ready; workflow .github/workflows/autonomous-self-update.yml; unsafe pending 0",
+          "Autonomous cadence: cadence-ready; Codex active-confirmed; GitHub scheduled",
+          "Autonomous self-update: self-update-needs-attention; workflow .github/workflows/autonomous-self-update.yml; unsafe pending 5",
           "Operator: operator-plan-ready",
-          "Operator history: operator-history-ready; records 14",
+          "Operator history: operator-history-ready; records 15",
           "Bootstrap: production-bootstrap-ready",
           "Repository bootstrap: waiting-for-github-target; helper ops/github/bootstrap-repository.sh",
           "Release candidate: release-candidate-ready; smoke URLs 7",
           "Post-deploy smoke: blocked-missing-origin; origin missing; checks 0/8",
           "Repository channel: waiting-for-github-repository; repository missing; git worktree true",
-          "Autonomy score: 94%",
+          "Autonomy score: 88%",
           "Credential-gated actions: 13"
         ],
         "blockers": [
+          "safe-path-allowlist: 3 safe pending file(s), 5 unsafe pending file(s).",
           "Add a GitHub origin remote or set GITHUB_REPOSITORY/GH_REPO.",
           "Configure GH_TOKEN or GITHUB_TOKEN for workflow dispatch and repository settings sync.",
           "Commit current generated changes before pushing to GitHub Pages.",
@@ -3357,7 +3448,7 @@
     }
   },
   "promotion": {
-    "nextAction": "Deploy web/PWA experiment when hosting credentials exist.",
+    "nextAction": "Fix web/PWA blockers before external traffic.",
     "storeRule": "Do not package native apps until retention gates, privacy URL, and account credentials exist."
   }
 }

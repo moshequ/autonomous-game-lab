@@ -1,4 +1,4 @@
-import { access, mkdir, readFile, writeFile } from 'node:fs/promises'
+import { access, mkdir, readFile, readdir, writeFile } from 'node:fs/promises'
 import path from 'node:path'
 
 const root = process.cwd()
@@ -26,6 +26,57 @@ const readOptionalJson = async (filePath, fallback) =>
     .then((raw) => JSON.parse(raw))
     .catch(() => fallback)
 
+const parseTomlValue = (rawValue) => {
+  const value = rawValue.trim()
+
+  if (value.startsWith('[') && value.endsWith(']')) {
+    return [...value.matchAll(/"([^"]*)"/g)].map((match) => match[1])
+  }
+
+  if (value.startsWith('"') && value.endsWith('"')) {
+    return value.slice(1, -1).replaceAll('\\"', '"')
+  }
+
+  if (/^\d+$/.test(value)) {
+    return Number(value)
+  }
+
+  return value
+}
+
+const parseAutomationToml = (raw, filePath) => {
+  const parsed = { filePath }
+
+  for (const line of raw.split(/\r?\n/)) {
+    const match = line.match(/^([A-Za-z_][A-Za-z0-9_]*)\s*=\s*(.+)$/)
+
+    if (match) {
+      parsed[match[1]] = parseTomlValue(match[2])
+    }
+  }
+
+  return parsed
+}
+
+const loadCodexAutomations = async (automationsDir) => {
+  if (!automationsDir || !(await exists(automationsDir))) {
+    return []
+  }
+
+  const entries = await readdir(automationsDir, { withFileTypes: true }).catch(() => [])
+  const automationFiles = entries
+    .filter((entry) => entry.isDirectory())
+    .map((entry) => path.join(automationsDir, entry.name, 'automation.toml'))
+
+  return Promise.all(
+    automationFiles.map(async (filePath) => {
+      const raw = await readFile(filePath, 'utf8').catch(() => null)
+
+      return raw ? parseAutomationToml(raw, filePath) : null
+    }),
+  ).then((items) => items.filter(Boolean))
+}
+
 const packageJson = await readJson(path.join(root, 'package.json'))
 const workflow = await readOptionalText(workflowPath)
 const selfUpdateWorkflow = await readOptionalText(selfUpdateWorkflowPath)
@@ -48,6 +99,9 @@ const cadenceScript = script('autonomous:cadence')
 const selfUpdateScript = script('autonomous:self-update')
 const testAutomationScript = script('test:automation')
 const testE2eScript = script('test:e2e')
+const codexHome = process.env.CODEX_HOME?.trim() || (process.env.HOME ? path.join(process.env.HOME, '.codex') : null)
+const codexAutomationsDir = codexHome ? path.join(codexHome, 'automations') : null
+const codexAutomationStorageAvailable = Boolean(codexAutomationsDir && (await exists(codexAutomationsDir)))
 
 const codexAutomationManifest = {
   id: 'autonomous-game-lab-daily-owner-loop',
@@ -77,11 +131,75 @@ const codexAutomationManifest = {
   },
 }
 
+const codexAutomations = await loadCodexAutomations(codexAutomationsDir)
+const installedCodexAutomation = codexAutomations.find((automation) => automation.id === codexAutomationManifest.id) ?? null
+const relatedCodexAutomations = codexAutomations.filter(
+  (automation) =>
+    automation.id !== codexAutomationManifest.id &&
+    (automation.name === codexAutomationManifest.name ||
+      String(automation.prompt ?? '').includes('Autonomous Game Lab') ||
+      String(automation.prompt ?? '').includes('autonomous production-owner loop')),
+)
+const installedCodexAutomationActive = installedCodexAutomation?.status === 'ACTIVE'
+const installedCodexAutomationScheduleMatches = installedCodexAutomation?.rrule === codexAutomationManifest.schedule.rrule
+const installedCodexAutomationWorkspaceMatches = Array.isArray(installedCodexAutomation?.cwds)
+  ? installedCodexAutomation.cwds.includes(root)
+  : false
+const installedCodexAutomationPromptGuarded =
+  String(installedCodexAutomation?.prompt ?? '').includes('zero-spend') &&
+  String(installedCodexAutomation?.prompt ?? '').includes('Do not enable paid spend') &&
+  String(installedCodexAutomation?.prompt ?? '').includes('commit')
+const installedCodexAutomationEnvironmentMatches = installedCodexAutomation?.execution_environment === 'local'
+const installedCodexAutomationConfirmed =
+  installedCodexAutomationActive &&
+  installedCodexAutomationScheduleMatches &&
+  installedCodexAutomationWorkspaceMatches &&
+  installedCodexAutomationPromptGuarded &&
+  installedCodexAutomationEnvironmentMatches
+const codexDesktopStatus = installedCodexAutomationConfirmed
+  ? 'active-confirmed'
+  : installedCodexAutomation
+    ? 'installed-needs-attention'
+    : codexAutomationStorageAvailable && !process.env.CI
+      ? 'missing-local-automation'
+      : 'active-declared-unverified'
+const codexDesktopCheckRequired = codexAutomationStorageAvailable && !process.env.CI
+const codexDesktopActual = {
+  status: codexDesktopStatus,
+  codexHome: codexHome ? path.basename(codexHome) : null,
+  storageAvailable: codexAutomationStorageAvailable,
+  path: installedCodexAutomation?.filePath
+    ? path.relative(codexHome ?? root, installedCodexAutomation.filePath)
+    : null,
+  installedStatus: installedCodexAutomation?.status ?? null,
+  rrule: installedCodexAutomation?.rrule ?? null,
+  model: installedCodexAutomation?.model ?? null,
+  reasoningEffort: installedCodexAutomation?.reasoning_effort ?? null,
+  executionEnvironment: installedCodexAutomation?.execution_environment ?? null,
+  workspaceMatches: installedCodexAutomationWorkspaceMatches,
+  scheduleMatches: installedCodexAutomationScheduleMatches,
+  promptGuardrailsPresent: installedCodexAutomationPromptGuarded,
+  relatedActiveAutomationIds: relatedCodexAutomations
+    .filter((automation) => automation.status === 'ACTIVE')
+    .map((automation) => automation.id),
+}
+
 const checks = [
   {
     id: 'codex-automation-manifest',
     status: codexAutomationManifest.status === 'active-declared' ? 'pass' : 'blocker',
     detail: `Codex app automation manifest declares ${codexAutomationManifest.id}.`,
+  },
+  {
+    id: 'codex-automation-installed',
+    status: installedCodexAutomationConfirmed || !codexDesktopCheckRequired ? 'pass' : 'blocker',
+    detail: installedCodexAutomationConfirmed
+      ? `Codex app automation ${codexAutomationManifest.id} is active, scheduled, local, and pointed at this workspace.`
+      : installedCodexAutomation
+        ? `Codex app automation ${codexAutomationManifest.id} is installed but needs attention (${codexDesktopStatus}).`
+        : codexAutomationStorageAvailable
+          ? `Codex app automation ${codexAutomationManifest.id} is not installed in local Codex automation storage.`
+          : 'Codex automation storage is unavailable in this environment; GitHub Actions remains the CI scheduler.',
   },
   {
     id: 'local-operate-script',
@@ -175,7 +293,12 @@ const payload = {
     gitDirtyFiles: repositoryReadiness.workspace?.dirtyFiles ?? null,
   },
   schedulers: {
-    codexDesktop: codexAutomationManifest,
+    codexDesktop: {
+      ...codexAutomationManifest,
+      status: codexDesktopStatus,
+      declaredStatus: codexAutomationManifest.status,
+      actual: codexDesktopActual,
+    },
     githubActions: {
       status:
         checks.find((check) => check.id === 'github-scheduled-workflow')?.status === 'pass'
@@ -225,6 +348,7 @@ const payload = {
     noExternalPosting: true,
     remoteMutationRequiresRepositoryEvidence: true,
     codexAutomationExpectedActive: true,
+    codexAutomationActualStatusAudited: true,
     githubWorkflowReadOnlyByDefault: true,
     selfUpdateWorkflowWritePermissionGated: true,
     selfUpdateStagesAllowlistedGeneratedFilesOnly: true,
@@ -249,6 +373,9 @@ const report = [
   '## Schedulers',
   '',
   `- Codex app: ${payload.schedulers.codexDesktop.status} (${payload.schedulers.codexDesktop.id})`,
+  `- Codex app actual: ${payload.schedulers.codexDesktop.actual.installedStatus ?? 'unverified'}; schedule matches ${
+    payload.schedulers.codexDesktop.actual.scheduleMatches
+  }; workspace matches ${payload.schedulers.codexDesktop.actual.workspaceMatches}`,
   `- GitHub Actions: ${payload.schedulers.githubActions.status} (${payload.schedulers.githubActions.cron})`,
   `- GitHub self-update: ${payload.schedulers.githubSelfUpdate.status} (${payload.schedulers.githubSelfUpdate.workflow})`,
   '',

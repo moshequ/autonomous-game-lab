@@ -1022,7 +1022,17 @@ test('autonomous cadence keeps unattended operation auditable and guarded', asyn
   const cadence = JSON.parse(await readFile('data/autonomous-cadence.json', 'utf8')) as {
     status: string
     schedulers: {
-      codexDesktop: { id: string; status: string }
+      codexDesktop: {
+        id: string
+        status: string
+        declaredStatus: string
+        actual: {
+          installedStatus: string | null
+          scheduleMatches: boolean
+          workspaceMatches: boolean
+          promptGuardrailsPresent: boolean
+        }
+      }
       githubActions: { status: string; workflow: string; artifactUpload: boolean }
     }
     commandPlan: { operate: string; daily: string; verifyAutomation: string; browserSmoke: string }
@@ -1031,6 +1041,7 @@ test('autonomous cadence keeps unattended operation auditable and guarded', asyn
       noStoreSubmission: boolean
       noRevenueEnablement: boolean
       codexAutomationExpectedActive: boolean
+      codexAutomationActualStatusAudited: boolean
     }
     checks: Array<{ id: string; status: string }>
   }
@@ -1044,7 +1055,8 @@ test('autonomous cadence keeps unattended operation auditable and guarded', asyn
 
   expect(cadence.status).toBe('cadence-ready')
   expect(cadence.schedulers.codexDesktop.id).toBe('autonomous-game-lab-daily-owner-loop')
-  expect(cadence.schedulers.codexDesktop.status).toBe('active-declared')
+  expect(['active-confirmed', 'active-declared-unverified']).toContain(cadence.schedulers.codexDesktop.status)
+  expect(cadence.schedulers.codexDesktop.declaredStatus).toBe('active-declared')
   expect(cadence.schedulers.githubActions.status).toBe('scheduled')
   expect(cadence.schedulers.githubActions.workflow).toBe('.github/workflows/autonomous-daily.yml')
   expect(cadence.schedulers.githubActions.artifactUpload).toBe(true)
@@ -1056,7 +1068,14 @@ test('autonomous cadence keeps unattended operation auditable and guarded', asyn
   expect(cadence.controls.noStoreSubmission).toBe(true)
   expect(cadence.controls.noRevenueEnablement).toBe(true)
   expect(cadence.controls.codexAutomationExpectedActive).toBe(true)
+  expect(cadence.controls.codexAutomationActualStatusAudited).toBe(true)
   expect(cadence.checks.every((check) => check.status === 'pass')).toBe(true)
+  if (cadence.schedulers.codexDesktop.status === 'active-confirmed') {
+    expect(cadence.schedulers.codexDesktop.actual.installedStatus).toBe('ACTIVE')
+    expect(cadence.schedulers.codexDesktop.actual.scheduleMatches).toBe(true)
+    expect(cadence.schedulers.codexDesktop.actual.workspaceMatches).toBe(true)
+    expect(cadence.schedulers.codexDesktop.actual.promptGuardrailsPresent).toBe(true)
+  }
   expect(manifest.id).toBe(cadence.schedulers.codexDesktop.id)
   expect(manifest.status).toBe('active-declared')
   expect(manifest.guardrails.zeroPaidSpend).toBe(true)

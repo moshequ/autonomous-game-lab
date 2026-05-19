@@ -1,6 +1,6 @@
 # Production Readiness
 
-Generated: 2026-05-19T02:57:55.438Z
+Generated: 2026-05-19T03:03:27.335Z
 
 ## Environment
 
@@ -38,7 +38,7 @@ Local git: true
 
 ## Web/PWA
 
-Status: ready-after-build
+Status: blocked
 - pass: manifest - PWA manifest exists in the production build.
 - pass: install-icons - Generated install/store icons are icons-ready; 6 icons checked.
 - pass: service-worker - Offline service worker exists.
@@ -66,10 +66,10 @@ Status: ready-after-build
 - pass: production-environment - Production environment status is production-env-missing.
 - pass: production-bootstrap - Production bootstrap is production-bootstrap-ready; mode waiting-for-external-credentials; external blockers 24.
 - pass: autonomous-operator - Autonomous operator is operator-plan-ready; selected prepare-repository-channel; execution not-requested.
-- pass: autonomous-operator-history - Autonomous operator history is operator-history-ready; records 14; executed 0.
-- pass: autonomous-cadence - Autonomous cadence is cadence-ready; Codex active-declared; GitHub scheduled.
-- pass: autonomous-self-update - Autonomous self-update is self-update-ready; safe pending 0; unsafe pending 0; remote push held.
-- pass: objective-audit - Objective audit is objective-in-progress; met 5 / 8; can complete false.
+- pass: autonomous-operator-history - Autonomous operator history is operator-history-ready; records 15; executed 0.
+- pass: autonomous-cadence - Autonomous cadence is cadence-ready; Codex active-confirmed; GitHub scheduled.
+- blocker: autonomous-self-update - Autonomous self-update is self-update-needs-attention; safe pending 3; unsafe pending 5; remote push held.
+- pass: objective-audit - Objective audit is objective-in-progress; met 4 / 8; can complete false.
 
 ## Monetization
 
@@ -226,16 +226,17 @@ Execution: not-requested
 ## Autonomous Operator History
 
 Status: operator-history-ready
-Records: 14
+Records: 15
 Executed: 0
 
 ## Autonomous Cadence
 
 Status: cadence-ready
 Cadence: daily
-Codex app: active-declared
+Codex app: active-confirmed
 GitHub Actions: scheduled
 - pass: cadence-codex-automation-manifest - Codex app automation manifest declares autonomous-game-lab-daily-owner-loop.
+- pass: cadence-codex-automation-installed - Codex app automation autonomous-game-lab-daily-owner-loop is active, scheduled, local, and pointed at this workspace.
 - pass: cadence-local-operate-script - autonomous:operate is npm run autonomous:daily && npm run test:e2e.
 - pass: cadence-cadence-refresh-script - autonomous:cadence is node scripts/autonomous-cadence.mjs.
 - pass: cadence-self-update-script - autonomous:self-update is node scripts/autonomous-self-update.mjs.
@@ -248,16 +249,16 @@ GitHub Actions: scheduled
 
 ## Autonomous Self Update
 
-Status: self-update-ready
+Status: self-update-needs-attention
 Workflow: .github/workflows/autonomous-self-update.yml
-Safe pending: 0
-Unsafe pending: 0
+Safe pending: 3
+Unsafe pending: 5
 Remote push ready: false
 - pass: self-update-script-registered - autonomous:self-update is node scripts/autonomous-self-update.mjs.
 - pass: self-update-daily-loop-refresh - autonomous:daily refreshes self-update evidence before owner/audit evidence.
 - pass: self-update-daily-workflow-read-only - The ordinary daily workflow remains read-only and uploads evidence artifacts.
 - pass: self-update-self-update-workflow - A separate gated workflow can reproduce the daily loop, verify it, and persist allowlisted changes.
-- pass: self-update-safe-path-allowlist - 0 safe pending file(s), 0 unsafe pending file(s).
+- blocker: self-update-safe-path-allowlist - 3 safe pending file(s), 5 unsafe pending file(s).
 - pass: self-update-repository-optional - Git worktree is available on main.
 - pass: self-update-remote-push-gated - Remote push remains held until GitHub credentials and AGL_AUTONOMOUS_SELF_UPDATE_DIRECT=1 are configured.
 - pass: self-update-zero-spend-controls - Self-update only stages repository artifacts; it does not create accounts, stores, ads, paid traffic, or revenue.
@@ -265,7 +266,7 @@ Remote push ready: false
 ## Objective Audit
 
 Status: objective-in-progress
-Met: 5 / 8
+Met: 4 / 8
 Can mark complete: false
 
 ## Distribution

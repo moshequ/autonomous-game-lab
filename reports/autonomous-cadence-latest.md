@@ -1,12 +1,13 @@
 # Autonomous Cadence
 
-Generated: 2026-05-19T02:56:21.280Z
+Generated: 2026-05-19T03:03:25.809Z
 Status: cadence-ready
 Cadence: daily
 
 ## Schedulers
 
-- Codex app: active-declared (autonomous-game-lab-daily-owner-loop)
+- Codex app: active-confirmed (autonomous-game-lab-daily-owner-loop)
+- Codex app actual: ACTIVE; schedule matches true; workspace matches true
 - GitHub Actions: scheduled (17 3 * * *)
 - GitHub self-update: gated (.github/workflows/autonomous-self-update.yml)
 
@@ -21,6 +22,7 @@ Cadence: daily
 ## Checks
 
 - pass: codex-automation-manifest - Codex app automation manifest declares autonomous-game-lab-daily-owner-loop.
+- pass: codex-automation-installed - Codex app automation autonomous-game-lab-daily-owner-loop is active, scheduled, local, and pointed at this workspace.
 - pass: local-operate-script - autonomous:operate is npm run autonomous:daily && npm run test:e2e.
 - pass: cadence-refresh-script - autonomous:cadence is node scripts/autonomous-cadence.mjs.
 - pass: self-update-script - autonomous:self-update is node scripts/autonomous-self-update.mjs.
@@ -41,6 +43,7 @@ Cadence: daily
 - noExternalPosting: true
 - remoteMutationRequiresRepositoryEvidence: true
 - codexAutomationExpectedActive: true
+- codexAutomationActualStatusAudited: true
 - githubWorkflowReadOnlyByDefault: true
 - selfUpdateWorkflowWritePermissionGated: true
 - selfUpdateStagesAllowlistedGeneratedFilesOnly: true

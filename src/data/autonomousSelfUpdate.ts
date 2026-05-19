@@ -1,6 +1,6 @@
 export const autonomousSelfUpdate = {
-  "generatedAt": "2026-05-19T02:57:32.215Z",
-  "status": "self-update-ready",
+  "generatedAt": "2026-05-19T03:03:26.063Z",
+  "status": "self-update-needs-attention",
   "mode": "plan-and-assert",
   "envFiles": {
     "loaded": true,
@@ -65,16 +65,74 @@ export const autonomousSelfUpdate = {
   },
   "sourceStatus": {
     "repositoryReadiness": "waiting-for-github-repository",
-    "productionReadiness": "blocked",
+    "productionReadiness": "ready-after-build",
     "autonomousCadence": "cadence-ready",
     "ownerLoop": "owner-loop-ready"
   },
   "pendingChanges": {
-    "total": 0,
-    "safe": [],
-    "unsafe": [],
-    "safeCount": 0,
-    "unsafeCount": 0
+    "total": 8,
+    "safe": [
+      {
+        "code": "M",
+        "path": "data/autonomous-cadence.json",
+        "raw": " M data/autonomous-cadence.json",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
+        "path": "reports/autonomous-cadence-latest.md",
+        "raw": " M reports/autonomous-cadence-latest.md",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
+        "path": "src/data/autonomousCadence.ts",
+        "raw": " M src/data/autonomousCadence.ts",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      }
+    ],
+    "unsafe": [
+      {
+        "code": "M",
+        "path": "README.md",
+        "raw": " M README.md",
+        "safe": false,
+        "reason": "outside-autonomous-generated-allowlist"
+      },
+      {
+        "code": "M",
+        "path": "docs/AUTONOMOUS_STUDIO.md",
+        "raw": " M docs/AUTONOMOUS_STUDIO.md",
+        "safe": false,
+        "reason": "outside-autonomous-generated-allowlist"
+      },
+      {
+        "code": "M",
+        "path": "scripts/autonomous-cadence.mjs",
+        "raw": " M scripts/autonomous-cadence.mjs",
+        "safe": false,
+        "reason": "outside-autonomous-generated-allowlist"
+      },
+      {
+        "code": "M",
+        "path": "scripts/verify-autonomy.mjs",
+        "raw": " M scripts/verify-autonomy.mjs",
+        "safe": false,
+        "reason": "outside-autonomous-generated-allowlist"
+      },
+      {
+        "code": "M",
+        "path": "tests/smoke.spec.ts",
+        "raw": " M tests/smoke.spec.ts",
+        "safe": false,
+        "reason": "outside-autonomous-generated-allowlist"
+      }
+    ],
+    "safeCount": 3,
+    "unsafeCount": 5
   },
   "commitPlan": {
     "workflow": ".github/workflows/autonomous-self-update.yml",
@@ -86,6 +144,9 @@ export const autonomousSelfUpdate = {
       "npm run autonomous:self-update -- --assert-safe"
     ],
     "stagePaths": [
+      "data/autonomous-cadence.json",
+      "reports/autonomous-cadence-latest.md",
+      "src/data/autonomousCadence.ts",
       "data/autonomous-self-update.json",
       "src/data/autonomousSelfUpdate.ts",
       "reports/autonomous-self-update-latest.md"
@@ -176,8 +237,8 @@ export const autonomousSelfUpdate = {
     },
     {
       "id": "safe-path-allowlist",
-      "status": "pass",
-      "detail": "0 safe pending file(s), 0 unsafe pending file(s)."
+      "status": "blocker",
+      "detail": "3 safe pending file(s), 5 unsafe pending file(s)."
     },
     {
       "id": "repository-optional",
@@ -195,9 +256,11 @@ export const autonomousSelfUpdate = {
       "detail": "Self-update only stages repository artifacts; it does not create accounts, stores, ads, paid traffic, or revenue."
     }
   ],
-  "blockers": [],
+  "blockers": [
+    "safe-path-allowlist: 3 safe pending file(s), 5 unsafe pending file(s)."
+  ],
   "nextActions": [
-    "When a GitHub repository is connected, set AGL_AUTONOMOUS_SELF_UPDATE=1 and AGL_AUTONOMOUS_SELF_UPDATE_DIRECT=1 to let verified generated changes persist.",
+    "Fix self-update workflow or allowlist blockers before enabling autonomous persistence.",
     "Keep source-code changes outside this allowlist so production automation cannot rewrite core app logic without an explicit development change."
   ]
 } as const

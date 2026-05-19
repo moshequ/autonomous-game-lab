@@ -1,19 +1,19 @@
 {
-  "generatedAt": "2026-05-19T02:56:21.280Z",
+  "generatedAt": "2026-05-19T03:03:25.809Z",
   "status": "cadence-ready",
   "cadence": "daily",
   "workspace": {
     "path": "/Users/moshequ/Documents/Codex/2026-05-18/i-want-to-have-a-new",
     "repositoryStatus": "waiting-for-github-repository",
     "repository": null,
-    "gitDirtyFiles": 76
+    "gitDirtyFiles": 35
   },
   "schedulers": {
     "codexDesktop": {
       "id": "autonomous-game-lab-daily-owner-loop",
       "name": "Autonomous Game Lab daily owner loop",
       "kind": "cron",
-      "status": "active-declared",
+      "status": "active-confirmed",
       "schedule": {
         "rrule": "FREQ=HOURLY;INTERVAL=24",
         "timezone": "local",
@@ -33,6 +33,24 @@
         "noRevenueEnablement": true,
         "noExternalPosting": true,
         "remoteGitHubMutationRequiresEvidenceAndExplicitGate": true
+      },
+      "declaredStatus": "active-declared",
+      "actual": {
+        "status": "active-confirmed",
+        "codexHome": ".codex",
+        "storageAvailable": true,
+        "path": "automations/autonomous-game-lab-daily-owner-loop/automation.toml",
+        "installedStatus": "ACTIVE",
+        "rrule": "FREQ=HOURLY;INTERVAL=24",
+        "model": "gpt-5.2",
+        "reasoningEffort": "medium",
+        "executionEnvironment": "local",
+        "workspaceMatches": true,
+        "scheduleMatches": true,
+        "promptGuardrailsPresent": true,
+        "relatedActiveAutomationIds": [
+          "autonomous-game-lab-daily-analyst"
+        ]
       }
     },
     "githubActions": {
@@ -78,6 +96,7 @@
     "noExternalPosting": true,
     "remoteMutationRequiresRepositoryEvidence": true,
     "codexAutomationExpectedActive": true,
+    "codexAutomationActualStatusAudited": true,
     "githubWorkflowReadOnlyByDefault": true,
     "selfUpdateWorkflowWritePermissionGated": true,
     "selfUpdateStagesAllowlistedGeneratedFilesOnly": true
@@ -87,6 +106,11 @@
       "id": "codex-automation-manifest",
       "status": "pass",
       "detail": "Codex app automation manifest declares autonomous-game-lab-daily-owner-loop."
+    },
+    {
+      "id": "codex-automation-installed",
+      "status": "pass",
+      "detail": "Codex app automation autonomous-game-lab-daily-owner-loop is active, scheduled, local, and pointed at this workspace."
     },
     {
       "id": "local-operate-script",

@@ -1306,9 +1306,14 @@ if (hasDuplicateOperatorDryRun) {
   fail('Autonomous operator history must compact repeated no-op dry-run plans instead of appending duplicate records.')
 }
 
+const cadenceCodexDesktopStatus = autonomousCadence.schedulers?.codexDesktop?.status
+const cadenceCodexDesktopStatusAllowed = ['active-confirmed', 'active-declared-unverified'].includes(
+  cadenceCodexDesktopStatus,
+)
+
 if (
   autonomousCadence.status !== 'cadence-ready' ||
-  autonomousCadence.schedulers?.codexDesktop?.status !== 'active-declared' ||
+  !cadenceCodexDesktopStatusAllowed ||
   autonomousCadence.schedulers?.githubActions?.status !== 'scheduled' ||
   autonomousCadence.schedulers?.githubSelfUpdate?.status !== 'gated' ||
   autonomousCadence.commandPlan?.operate !== 'npm run autonomous:operate' ||
@@ -1316,6 +1321,12 @@ if (
   autonomousCadence.controls?.zeroPaidSpend !== true ||
   autonomousCadence.controls?.noStoreSubmission !== true ||
   autonomousCadence.controls?.noRevenueEnablement !== true ||
+  autonomousCadence.controls?.codexAutomationActualStatusAudited !== true ||
+  (cadenceCodexDesktopStatus === 'active-confirmed' &&
+    (autonomousCadence.schedulers?.codexDesktop?.actual?.installedStatus !== 'ACTIVE' ||
+      autonomousCadence.schedulers?.codexDesktop?.actual?.scheduleMatches !== true ||
+      autonomousCadence.schedulers?.codexDesktop?.actual?.workspaceMatches !== true ||
+      autonomousCadence.schedulers?.codexDesktop?.actual?.promptGuardrailsPresent !== true)) ||
   autonomousCadence.recoveryPolicy?.commitOnlyAfterVerification !== true ||
   autonomousCadence.recoveryPolicy?.neverDispatchExternalWorkflowsOnRecovery !== true ||
   !appSource.includes('Autonomous Cadence')
@@ -1621,7 +1632,8 @@ if (
 if (
   autonomousCadence.status !== 'cadence-ready' ||
   autonomousCadence.schedulers?.codexDesktop?.id !== 'autonomous-game-lab-daily-owner-loop' ||
-  autonomousCadence.schedulers?.codexDesktop?.status !== 'active-declared' ||
+  !cadenceCodexDesktopStatusAllowed ||
+  autonomousCadence.schedulers?.codexDesktop?.declaredStatus !== 'active-declared' ||
   autonomousCadence.schedulers?.githubActions?.status !== 'scheduled' ||
   autonomousCadence.schedulers?.githubActions?.workflow !== '.github/workflows/autonomous-daily.yml' ||
   autonomousCadence.schedulers?.githubActions?.artifactUpload !== true ||
@@ -1636,6 +1648,7 @@ if (
   autonomousCadence.controls?.noStoreSubmission !== true ||
   autonomousCadence.controls?.noRevenueEnablement !== true ||
   autonomousCadence.controls?.codexAutomationExpectedActive !== true ||
+  autonomousCadence.controls?.codexAutomationActualStatusAudited !== true ||
   !(autonomousCadence.checks ?? []).every((check) => check.status === 'pass') ||
   codexAutomationManifest.id !== autonomousCadence.schedulers?.codexDesktop?.id ||
   codexAutomationManifest.status !== 'active-declared' ||
