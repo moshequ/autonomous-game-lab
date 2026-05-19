@@ -1,5 +1,5 @@
 export const repositoryBootstrap = {
-  "generatedAt": "2026-05-19T03:24:28.542Z",
+  "generatedAt": "2026-05-19T03:26:53.149Z",
   "status": "waiting-for-github-target",
   "mode": "plan-only",
   "envFiles": {
