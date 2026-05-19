@@ -1,6 +1,6 @@
 # Autonomous Owner Loop
 
-Generated: 2026-05-19T01:29:23.382Z
+Generated: 2026-05-19T01:29:53.558Z
 Status: owner-loop-ready
 Mode: repository-channel-needed
 Autonomy score: 27/29 (93%)
@@ -33,10 +33,10 @@ Autonomy score: 27/29 (93%)
 - ready: web-deployment - Deployment ready-for-pages; web readiness ready-after-build; promotion promotable-internal.
 - ready: release-candidate - Candidate pwa-bb839e809e0f; status release-candidate-ready; files 38; smoke URLs 7.
 - ready: post-deploy-smoke - Smoke blocked-missing-origin; origin missing; candidate pwa-bb839e809e0f; checks 0/8 passed.
-- ready: production-bootstrap - Bootstrap production-bootstrap-ready; mode waiting-for-external-credentials; external blockers 27.
+- ready: production-bootstrap - Bootstrap production-bootstrap-ready; mode waiting-for-external-credentials; external blockers 26.
 - ready: autonomous-operator - Operator operator-plan-ready; selected prepare-repository-channel; execution not-requested.
 - ready: operator-history - History operator-history-ready; records 9; executed 0.
-- ready: objective-audit - Audit objective-in-progress; met 5/8; external blockers 24.
+- ready: objective-audit - Audit objective-in-progress; met 5/8; external blockers 23.
 - ready: store-listing-optimizer - Focus canopy-bloom; lead screenshot phone-canopy-bloom-generated; candidate changed yes.
 - ready: store-compliance - Rating Everyone; target audience general; blockers 4.
 - ready: production-safety - Response guarded-operations; incident drill pass; spend mode no-spend.

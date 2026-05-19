@@ -1,5 +1,5 @@
 export const autonomousOwnerLoop = {
-  "generatedAt": "2026-05-19T01:29:23.382Z",
+  "generatedAt": "2026-05-19T01:29:53.558Z",
   "status": "owner-loop-ready",
   "mode": "repository-channel-needed",
   "autonomyScore": {
@@ -170,7 +170,7 @@ export const autonomousOwnerLoop = {
       "id": "production-bootstrap",
       "status": "ready",
       "autonomy": "zero-spend-setup-orchestration",
-      "evidence": "Bootstrap production-bootstrap-ready; mode waiting-for-external-credentials; external blockers 27.",
+      "evidence": "Bootstrap production-bootstrap-ready; mode waiting-for-external-credentials; external blockers 26.",
       "nextAction": "Fill required environment values, then run npm run autonomous:bootstrap."
     },
     {
@@ -191,7 +191,7 @@ export const autonomousOwnerLoop = {
       "id": "objective-audit",
       "status": "ready",
       "autonomy": "completion-evidence-ledger",
-      "evidence": "Audit objective-in-progress; met 5/8; external blockers 24.",
+      "evidence": "Audit objective-in-progress; met 5/8; external blockers 23.",
       "nextAction": "The local autonomous PWA system is largely prepared, but production credentials, live data, monetization gates, hosted compliance URLs, and store account/signing blockers remain."
     },
     {
