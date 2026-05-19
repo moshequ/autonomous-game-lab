@@ -1,5 +1,5 @@
 export const objectiveAudit = {
-  "generatedAt": "2026-05-19T03:47:39.595Z",
+  "generatedAt": "2026-05-19T03:49:28.119Z",
   "status": "objective-in-progress",
   "objective": "Build a bootstrapped autonomous web/PWA game portal that can generate original board-game-inspired games, measure user behavior, propose and apply data-driven improvements, and prepare a path to monetization and app-store distribution with minimal manual intervention.",
   "summary": {
@@ -87,7 +87,7 @@ export const objectiveAudit = {
         "Autonomous cadence: cadence-ready; Codex active-confirmed; GitHub scheduled",
         "Autonomous self-update: self-update-ready; workflow .github/workflows/autonomous-self-update.yml; unsafe pending 0",
         "Operator: operator-plan-ready",
-        "Operator history: operator-history-ready; records 37; executed 6",
+        "Operator history: operator-history-ready; records 39; executed 7",
         "Bootstrap: production-bootstrap-ready",
         "Repository bootstrap: waiting-for-github-target; helper ops/github/bootstrap-repository.sh",
         "Release candidate: release-candidate-ready; smoke URLs 7",
@@ -258,7 +258,7 @@ export const objectiveAudit = {
   "completion": {
     "canMarkGoalComplete": false,
     "reason": "The local autonomous PWA system is largely prepared, but production credentials, live data, monetization gates, hosted compliance URLs, and store account/signing blockers remain.",
-    "nextBestAction": "refresh-autonomous-self-update"
+    "nextBestAction": "refresh-objective-audit"
   }
 } as const
 

@@ -1263,7 +1263,9 @@ if (
   !autonomousOperator.allowlist?.includes('npm run autonomous:repo-readiness') ||
   !autonomousOperator.allowlist?.includes('npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap') ||
   !autonomousOperator.allowlist?.includes('npm run autonomous:repo-bootstrap') ||
+  !autonomousOperator.allowlist?.includes('npm run autonomous:cadence') ||
   !autonomousOperator.allowlist?.includes('npm run autonomous:self-update') ||
+  !autonomousOperator.allowlist?.includes('npm run autonomous:objective-audit') ||
   !autonomousOperator.allowlist?.includes('npm run autonomous:android-signing') ||
   !autonomousOperator.blockedFragments?.includes('gh workflow run') ||
   !autonomousOperator.blockedActions?.some((action) => action.reason === 'daily-loop-recursion-blocked') ||
