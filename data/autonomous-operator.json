@@ -1,23 +1,25 @@
 {
-  "generatedAt": "2026-05-19T09:59:09.626Z",
+  "generatedAt": "2026-05-19T10:05:04.516Z",
   "status": "operator-plan-ready",
   "mode": "plan-only",
   "ownerDecision": {
-    "actionId": "refresh-autonomous-cadence",
-    "command": "npm run autonomous:cadence",
+    "actionId": "seed-portfolio-traffic",
+    "command": "npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop",
     "locallyExecutable": true,
     "rejectionReason": null
   },
   "requestedActionId": null,
   "selectedAction": {
-    "id": "refresh-autonomous-cadence",
+    "id": "seed-portfolio-traffic",
     "status": "armed",
-    "command": "npm run autonomous:cadence",
+    "command": "npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop",
     "targets": [
-      "autonomous-game-lab-daily-owner-loop",
-      ".github/workflows/autonomous-daily.yml"
+      "canopy-bloom",
+      "grove-engine",
+      "metro-loom",
+      "pocket-draft"
     ],
-    "reason": "Keeps the unattended daily operating cadence, recovery policy, and verification chain auditable.",
+    "reason": "Under-measured playable games need free organic/internal traffic before quality judgment.",
     "costUsd": 0
   },
   "selectedRejection": null,
@@ -50,15 +52,15 @@
       "reason": "daily-loop-recursion-blocked"
     },
     {
-      "id": "refresh-autonomous-self-update",
+      "id": "refresh-autonomous-cadence",
       "status": "armed",
-      "command": "npm run autonomous:self-update",
+      "command": "npm run autonomous:cadence",
       "reason": "not-selected-this-run"
     },
     {
-      "id": "seed-portfolio-traffic",
+      "id": "refresh-autonomous-self-update",
       "status": "armed",
-      "command": "npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop",
+      "command": "npm run autonomous:self-update",
       "reason": "not-selected-this-run"
     },
     {
@@ -202,8 +204,24 @@
   ],
   "commandPlan": [
     {
-      "segment": "npm run autonomous:cadence",
-      "script": "autonomous:cadence"
+      "segment": "npm run autonomous:growth",
+      "script": "autonomous:growth"
+    },
+    {
+      "segment": "npm run autonomous:portfolio",
+      "script": "autonomous:portfolio"
+    },
+    {
+      "segment": "npm run autonomous:traffic",
+      "script": "autonomous:traffic"
+    },
+    {
+      "segment": "npm run autonomous:acquisition",
+      "script": "autonomous:acquisition"
+    },
+    {
+      "segment": "npm run autonomous:organic-seed-loop",
+      "script": "autonomous:organic-seed-loop"
     }
   ],
   "execution": {
@@ -269,7 +287,7 @@
     "RUN_WORKFLOWS=1"
   ],
   "nextActions": [
-    "Run npm run autonomous:operator -- --execute --action=refresh-autonomous-cadence to execute exactly one allowed local action.",
+    "Run npm run autonomous:operator -- --execute --action=seed-portfolio-traffic to execute exactly one allowed local action.",
     "Do not execute GitHub workflow, store, paid ads, or account setup commands from the local operator."
   ]
 }

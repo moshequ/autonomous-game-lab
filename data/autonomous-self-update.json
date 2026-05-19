@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-19T09:39:04.086Z",
+  "generatedAt": "2026-05-19T10:03:40.745Z",
   "status": "self-update-ready",
   "mode": "plan-and-assert",
   "envFiles": {
@@ -70,8 +70,15 @@
     "ownerLoop": "owner-loop-ready"
   },
   "pendingChanges": {
-    "total": 17,
+    "total": 16,
     "safe": [
+      {
+        "code": "M",
+        "path": "data/autonomous-cadence.json",
+        "raw": " M data/autonomous-cadence.json",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
       {
         "code": "M",
         "path": "data/autonomous-operator-history.json",
@@ -109,8 +116,8 @@
       },
       {
         "code": "M",
-        "path": "data/pwa-install-loop.json",
-        "raw": " M data/pwa-install-loop.json",
+        "path": "reports/autonomous-cadence-latest.md",
+        "raw": " M reports/autonomous-cadence-latest.md",
         "safe": true,
         "reason": "allowlisted-generated-artifact"
       },
@@ -151,13 +158,6 @@
       },
       {
         "code": "M",
-        "path": "reports/pwa-install-loop-latest.md",
-        "raw": " M reports/pwa-install-loop-latest.md",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
         "path": "src/data/autonomousOperator.ts",
         "raw": " M src/data/autonomousOperator.ts",
         "safe": true,
@@ -183,17 +183,10 @@
         "raw": " M src/data/objectiveAudit.ts",
         "safe": true,
         "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "src/data/pwaInstallLoop.ts",
-        "raw": " M src/data/pwaInstallLoop.ts",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
       }
     ],
     "unsafe": [],
-    "safeCount": 17,
+    "safeCount": 16,
     "unsafeCount": 0
   },
   "commitPlan": {
@@ -206,23 +199,22 @@
       "npm run autonomous:self-update -- --assert-safe"
     ],
     "stagePaths": [
+      "data/autonomous-cadence.json",
       "data/autonomous-operator-history.json",
       "data/autonomous-operator.json",
       "data/autonomous-owner-loop.json",
       "data/objective-audit.json",
       "data/production-readiness.json",
-      "data/pwa-install-loop.json",
+      "reports/autonomous-cadence-latest.md",
       "reports/autonomous-operator-history-latest.md",
       "reports/autonomous-operator-latest.md",
       "reports/autonomous-owner-loop-latest.md",
       "reports/objective-audit-latest.md",
       "reports/production-readiness-latest.md",
-      "reports/pwa-install-loop-latest.md",
       "src/data/autonomousOperator.ts",
       "src/data/autonomousOperatorHistory.ts",
       "src/data/autonomousOwnerLoop.ts",
       "src/data/objectiveAudit.ts",
-      "src/data/pwaInstallLoop.ts",
       "data/autonomous-self-update.json",
       "src/data/autonomousSelfUpdate.ts",
       "reports/autonomous-self-update-latest.md"
@@ -251,6 +243,7 @@
       "public/monetization.json",
       "public/privacy.html",
       "public/robots.txt",
+      "public/seed-kit.html",
       "public/share-manifest.json",
       "public/sitemap.xml",
       "public/support.html"
@@ -314,7 +307,7 @@
     {
       "id": "safe-path-allowlist",
       "status": "pass",
-      "detail": "17 safe pending file(s), 0 unsafe pending file(s)."
+      "detail": "16 safe pending file(s), 0 unsafe pending file(s)."
     },
     {
       "id": "repository-optional",

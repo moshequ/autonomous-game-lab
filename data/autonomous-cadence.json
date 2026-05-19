@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-05-19T09:13:50.214Z",
+  "generatedAt": "2026-05-19T10:03:21.678Z",
   "status": "cadence-ready",
   "cadence": "daily",
   "workspace": {
     "path": "/Users/moshequ/Documents/Codex/2026-05-18/i-want-to-have-a-new",
     "repositoryStatus": "waiting-for-github-repository",
     "repository": null,
-    "gitDirtyFiles": 9
+    "gitDirtyFiles": 44
   },
   "schedulers": {
     "codexDesktop": {
@@ -48,9 +48,7 @@
         "workspaceMatches": true,
         "scheduleMatches": true,
         "promptGuardrailsPresent": true,
-        "relatedActiveAutomationIds": [
-          "autonomous-game-lab-daily-analyst"
-        ]
+        "relatedActiveAutomationIds": []
       }
     },
     "githubActions": {
@@ -78,7 +76,7 @@
     "selfUpdate": "npm run autonomous:self-update",
     "verifyAutomation": "npm run test:automation",
     "browserSmoke": "npm run test:e2e",
-    "ownerDecision": "refresh-autonomous-cadence"
+    "ownerDecision": "refresh-autonomous-self-update"
   },
   "recoveryPolicy": {
     "stopOnFailure": true,
