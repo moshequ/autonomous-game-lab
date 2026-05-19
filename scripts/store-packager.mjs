@@ -10,6 +10,7 @@ const outputJsonPath = path.join(root, 'data', 'store-package.json')
 const outputReportPath = path.join(root, 'reports', 'store-package-latest.md')
 const privacyPath = path.join(root, 'public', 'privacy.html')
 const supportPath = path.join(root, 'public', 'support.html')
+const complianceManifestPath = path.join(root, 'public', 'compliance.json')
 
 const readJson = async (filePath) => JSON.parse(await readFile(filePath, 'utf8'))
 const readOptionalJson = async (filePath, fallback) =>
@@ -34,6 +35,7 @@ const externalAnalyticsConfigured =
 const playablePrototypes = (pipeline.prototypes ?? []).filter((prototype) => prototype.status === 'playable')
 const launchCandidate = playablePrototypes[0] ?? pipeline.prototypes?.[0]
 const shortDate = new Date().toISOString().slice(0, 10)
+const generatedAt = new Date().toISOString()
 
 const sourceReferences = {
   googlePlayConsoleSignup: 'https://support.google.com/googleplay/android-developer/answer/6112435',
@@ -135,6 +137,69 @@ const twaManifest = {
   signing: 'blocked-until-keystore-exists',
 }
 
+const compliancePublicationBlockers = [
+  ...(privacyPolicy.productionUrl ? [] : ['production-origin']),
+  ...(supportPage.supportEmail ? [] : ['support-email']),
+]
+const compliancePublicationStatus = compliancePublicationBlockers.length
+  ? 'waiting-for-production-inputs'
+  : 'ready-for-hosted-compliance'
+const compliancePublication = {
+  status: compliancePublicationStatus,
+  publicPath: '/compliance.json',
+  productionUrl: privacyPolicy.productionUrl ? `${environment.publicOrigin.origin}/compliance.json` : null,
+  localArtifacts: [
+    {
+      id: 'privacy-policy',
+      path: privacyPolicy.path,
+      productionUrl: privacyPolicy.productionUrl,
+      status: privacyPolicy.productionUrlStatus,
+      requiredText: ['Autonomous Game Lab Privacy Policy', 'Gameplay analytics', 'External analytics opt-out'],
+    },
+    {
+      id: 'support-page',
+      path: supportPage.path,
+      productionUrl: supportPage.productionUrl,
+      status: supportPage.productionUrlStatus,
+      requiredText: ['Autonomous Game Lab Support', 'Support Topics'],
+    },
+    {
+      id: 'compliance-manifest',
+      path: '/compliance.json',
+      productionUrl: privacyPolicy.productionUrl ? `${environment.publicOrigin.origin}/compliance.json` : null,
+      status: privacyPolicy.productionUrl ? 'hosted-after-deploy' : 'needs-hosted-domain',
+      requiredText: ['store-compliance', 'privacyPolicy', 'supportPage'],
+    },
+  ],
+  smokeChecks: [
+    {
+      id: 'privacy-policy',
+      path: privacyPolicy.path,
+      expectedStatus: 200,
+      requiredText: 'Autonomous Game Lab Privacy Policy',
+    },
+    {
+      id: 'support-page',
+      path: supportPage.path,
+      expectedStatus: 200,
+      requiredText: 'Autonomous Game Lab Support',
+    },
+    {
+      id: 'compliance-manifest',
+      path: '/compliance.json',
+      expectedStatus: 200,
+      requiredText: 'store-compliance',
+    },
+  ],
+  blockers: compliancePublicationBlockers,
+  controls: {
+    noStoreSubmission: true,
+    noRevenueEnablement: true,
+    noPaidSpend: true,
+    postDeploySmokeRequired: true,
+  },
+}
+
 const storeListing = launchCandidate
   ? {
       sourcePrototypeId: launchCandidate.id,
@@ -152,7 +217,7 @@ const storeListing = launchCandidate
   : null
 
 const payload = {
-  generatedAt: new Date().toISOString(),
+  generatedAt,
   launchCandidate: launchCandidate
     ? {
         id: launchCandidate.id,
@@ -162,6 +227,7 @@ const payload = {
     : null,
   privacyPolicy,
   supportPage,
+  compliancePublication,
   dataSafetyDraft,
   storeListing,
   nativePackaging: {
@@ -174,6 +240,46 @@ const payload = {
     appleDeveloperAnnualUsd: gates.iosAppStore.annualCostUsd,
   },
   sourceReferences,
+}
+
+const complianceManifest = {
+  generatedAt,
+  id: 'store-compliance-publication',
+  appName: 'Autonomous Game Lab',
+  status: compliancePublication.status,
+  publicOrigin: {
+    origin: environment.publicOrigin?.origin ?? null,
+    host: environment.publicOrigin?.host ?? null,
+    status: environment.publicOrigin?.status ?? 'missing',
+  },
+  privacyPolicy: {
+    path: privacyPolicy.path,
+    productionUrl: privacyPolicy.productionUrl,
+    productionUrlStatus: privacyPolicy.productionUrlStatus,
+    updatedAt: privacyPolicy.updatedAt,
+    dataCollected: privacyPolicy.dataCollected,
+    userControls: privacyPolicy.userControls,
+  },
+  supportPage: {
+    path: supportPage.path,
+    productionUrl: supportPage.productionUrl,
+    productionUrlStatus: supportPage.productionUrlStatus,
+    supportEmail: supportPage.supportEmail,
+    supportEmailStatus: supportPage.supportEmailStatus,
+    topics: supportPage.topics,
+  },
+  storeCompliance: {
+    policyPosture: 'no-accounts-no-ugc-no-gambling-no-paid-spend',
+    googlePlayDataSafetyStatus: dataSafetyDraft.googlePlay.status,
+    applePrivacyLabelStatus: dataSafetyDraft.appleAppPrivacy.status,
+    contentRating: {
+      googlePlayExpected: 'Everyone',
+      appleExpected: '4+',
+    },
+  },
+  smokeChecks: compliancePublication.smokeChecks,
+  blockers: compliancePublication.blockers,
+  controls: compliancePublication.controls,
 }
 
 const privacyHtml = `<!doctype html>
@@ -328,6 +434,8 @@ const report = [
   `- Privacy production URL: ${privacyPolicy.productionUrl ?? 'not configured'}`,
   `- Support page path: ${supportPage.path}`,
   `- Support email: ${supportPage.supportEmail ?? 'not configured'}`,
+  `- Compliance manifest path: ${compliancePublication.publicPath}`,
+  `- Compliance publish status: ${compliancePublication.status}`,
   `- Production URL status: ${privacyPolicy.productionUrlStatus}`,
   '- External analytics opt-out: present',
   '',
@@ -354,8 +462,10 @@ await writeFile(outputJsonPath, JSON.stringify(payload, null, 2) + '\n')
 await writeFile(outputReportPath, report.join('\n'))
 await writeFile(privacyPath, privacyHtml)
 await writeFile(supportPath, supportHtml)
+await writeFile(complianceManifestPath, JSON.stringify(complianceManifest, null, 2) + '\n')
 
 console.log(`Wrote ${path.relative(root, outputJsonPath)}`)
 console.log(`Wrote ${path.relative(root, outputReportPath)}`)
 console.log(`Wrote ${path.relative(root, privacyPath)}`)
 console.log(`Wrote ${path.relative(root, supportPath)}`)
+console.log(`Wrote ${path.relative(root, complianceManifestPath)}`)

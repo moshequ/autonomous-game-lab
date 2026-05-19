@@ -659,6 +659,15 @@ const webChecks = [
     'Generated support page is included in public assets and production build.',
   ),
   check(
+    'compliance-manifest',
+    (await exists(path.join(root, 'public', 'compliance.json'))) &&
+      (await exists(path.join(root, 'dist', 'compliance.json'))) &&
+      storePackage.compliancePublication?.publicPath === '/compliance.json' &&
+      storePackage.compliancePublication?.smokeChecks?.some((item) => item.path === '/privacy.html') &&
+      storePackage.compliancePublication?.smokeChecks?.some((item) => item.path === '/support.html'),
+    'Generated compliance manifest is included in public assets, production build, and post-deploy smoke handoff.',
+  ),
+  check(
     'playable-prototypes',
     pipeline.prototypes?.every((prototype) => prototype.status === 'playable'),
     'Every currently accepted generated concept is playable.',
@@ -932,6 +941,13 @@ const storePackageChecks = [
         storeCompliance.adsAndMonetization?.adDisclosureRequired === true),
     `Store compliance is ${storeCompliance.status}.`,
   ),
+  check(
+    'compliance-publication-pack',
+    storePackage.compliancePublication?.publicPath === '/compliance.json' &&
+      storePackage.compliancePublication?.controls?.postDeploySmokeRequired === true &&
+      (storePackage.compliancePublication?.smokeChecks?.length ?? 0) >= 3,
+    `Compliance publication is ${storePackage.compliancePublication?.status ?? 'missing'}.`,
+  ),
 ]
 
 const statusFromChecks = (checks, readyStatus) =>
@@ -1147,6 +1163,7 @@ const payload = {
       status: statusFromChecks(storePackageChecks, 'draft-ready'),
       privacyPolicyPath: storePackage.privacyPolicy?.path,
       productionPrivacyUrlStatus: storePackage.privacyPolicy?.productionUrlStatus,
+      compliancePublication: storePackage.compliancePublication,
       checks: storePackageChecks,
     },
     storeListingOptimizer: {

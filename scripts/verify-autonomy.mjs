@@ -185,8 +185,10 @@ const requiredFiles = [
   'public/robots.txt',
   'public/sitemap.xml',
   'public/share-manifest.json',
+  'public/compliance.json',
   'public/app-ads.txt',
   'public/monetization.json',
+  'dist/compliance.json',
   'native/android/twa-manifest.json',
   'native/android/bubblewrap.config.json',
   'native/android/assetlinks.template.json',
@@ -268,6 +270,7 @@ const productionResponse = JSON.parse(await readFile(path.join(root, 'data', 'pr
 const incidentDrill = JSON.parse(await readFile(path.join(root, 'data', 'incident-drill.json'), 'utf8'))
 const deployment = JSON.parse(await readFile(path.join(root, 'data', 'deployment-plan.json'), 'utf8'))
 const storePackage = JSON.parse(await readFile(path.join(root, 'data', 'store-package.json'), 'utf8'))
+const publicComplianceManifest = JSON.parse(await readFile(path.join(root, 'public', 'compliance.json'), 'utf8'))
 const storeAssets = JSON.parse(await readFile(path.join(root, 'data', 'store-assets.json'), 'utf8'))
 const storeListingOptimizer = JSON.parse(
   await readFile(path.join(root, 'data', 'store-listing-optimizer.json'), 'utf8'),
@@ -2306,6 +2309,7 @@ if (
   !storeComplianceCheckIds.has('ads-declaration') ||
   !storeComplianceCheckIds.has('privacy-data') ||
   !storeComplianceCheckIds.has('app-access') ||
+  !storeComplianceCheckIds.has('compliance-publication') ||
   !storeCompliance.blockers?.some((blocker) => blocker.includes('hosted-privacy-url')) ||
   !storeCompliance.reviewerNotes?.length
 ) {
@@ -2317,6 +2321,23 @@ if (
   storePackage.privacyPolicy?.productionUrlStatus !== 'needs-hosted-domain'
 ) {
   fail('Store package must keep privacy URL unhosted while production origin is missing.')
+}
+
+if (
+  storePackage.compliancePublication?.publicPath !== '/compliance.json' ||
+  storePackage.compliancePublication?.controls?.postDeploySmokeRequired !== true ||
+  !storePackage.compliancePublication?.smokeChecks?.some(
+    (check) => check.id === 'compliance-manifest' && check.path === '/compliance.json',
+  ) ||
+  !storePackage.compliancePublication?.smokeChecks?.some((check) => check.path === '/privacy.html') ||
+  !storePackage.compliancePublication?.smokeChecks?.some((check) => check.path === '/support.html') ||
+  publicComplianceManifest.id !== 'store-compliance-publication' ||
+  publicComplianceManifest.status !== storePackage.compliancePublication.status ||
+  publicComplianceManifest.privacyPolicy?.path !== '/privacy.html' ||
+  publicComplianceManifest.supportPage?.path !== '/support.html' ||
+  publicComplianceManifest.storeCompliance?.policyPosture !== 'no-accounts-no-ugc-no-gambling-no-paid-spend'
+) {
+  fail('Store package must publish a deployable compliance manifest with privacy, support, and post-deploy smoke handoff.')
 }
 
 if (
@@ -2843,9 +2864,13 @@ if (
   releaseCandidate.controls?.postDeploySmokeRequired !== true ||
   !releaseCandidate.postDeploySmoke?.some((item) => item.path === '/' && item.expectedStatus === 200) ||
   !releaseCandidate.postDeploySmoke?.some((item) => item.path === '/privacy.html') ||
+  !releaseCandidate.postDeploySmoke?.some(
+    (item) => item.path === '/compliance.json' && item.requiredText === 'store-compliance',
+  ) ||
   !releaseCandidateRequiredFiles.has('index.html') ||
   !releaseCandidateRequiredFiles.has('sw.js') ||
   !releaseCandidateRequiredFiles.has('manifest.webmanifest') ||
+  !releaseCandidateRequiredFiles.has('compliance.json') ||
   distReleaseCandidate.candidateId !== releaseCandidate.candidateId ||
   packageJson.scripts?.['autonomous:daily']?.includes('autonomous:release-candidate') !== true ||
   packageJson.scripts?.['autonomous:assert-deployable']?.includes('autonomous:release-candidate') !== true
@@ -2871,6 +2896,7 @@ const postDeployManifestCheck = postDeploySmoke.checks?.find(
 const localArtifactManifestCheck = localArtifactSmoke.checks?.find(
   (check) => check.id === 'release-candidate-manifest',
 )
+const localArtifactComplianceCheck = localArtifactSmoke.checks?.find((check) => check.path === '/compliance.json')
 
 if (
   !postDeploySmokeAllowedStatuses.includes(postDeploySmoke.status) ||
@@ -2883,6 +2909,8 @@ if (
   localArtifactSmoke.controls?.requiredTextChecks !== true ||
   localArtifactSmoke.controls?.manifestHashComparisonRequired !== true ||
   !localArtifactManifestCheck ||
+  !localArtifactComplianceCheck ||
+  localArtifactComplianceCheck.status !== 'pass' ||
   postDeploySmoke.sourceStatus?.deployment !== deployment.status ||
   postDeploySmoke.sourceStatus?.releaseCandidate !== releaseCandidate.status ||
   postDeploySmoke.target?.candidateId !== releaseCandidate.candidateId ||
@@ -3198,6 +3226,10 @@ if (
   !readiness.distribution?.storePackage?.checks?.some(
     (check) => check.id === 'store-compliance' && check.status === 'pass',
   ) ||
+  !readiness.distribution?.storePackage?.checks?.some(
+    (check) => check.id === 'compliance-publication-pack' && check.status === 'pass',
+  ) ||
+  readiness.distribution?.storePackage?.compliancePublication?.publicPath !== '/compliance.json' ||
   readiness.distribution?.storeCompliance?.contentRating?.googlePlay?.expectedRating !== 'Everyone' ||
   readiness.distribution?.storeCompliance?.targetAudience?.directedToChildren !== false
 ) {

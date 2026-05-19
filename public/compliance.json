@@ -1,0 +1,99 @@
+{
+  "generatedAt": "2026-05-19T08:14:32.635Z",
+  "id": "store-compliance-publication",
+  "appName": "Autonomous Game Lab",
+  "status": "waiting-for-production-inputs",
+  "publicOrigin": {
+    "origin": null,
+    "host": null,
+    "status": "missing"
+  },
+  "privacyPolicy": {
+    "path": "/privacy.html",
+    "productionUrl": null,
+    "productionUrlStatus": "needs-hosted-domain",
+    "updatedAt": "2026-05-19",
+    "dataCollected": [
+      {
+        "category": "Gameplay analytics",
+        "examples": [
+          "game_viewed",
+          "game_started",
+          "tutorial_completed",
+          "turn_taken",
+          "level_completed"
+        ],
+        "purpose": "Measure friction, balance, completion, and replay behavior.",
+        "linkedToIdentity": false,
+        "sharedWithThirdParties": false
+      },
+      {
+        "category": "Experiment assignment",
+        "examples": [
+          "onboarding variant",
+          "reward copy variant"
+        ],
+        "purpose": "Compare low-risk product improvements.",
+        "linkedToIdentity": false,
+        "sharedWithThirdParties": false
+      }
+    ],
+    "userControls": [
+      "External analytics opt-out is available in the app.",
+      "Local browser analytics can be cleared by clearing site data.",
+      "No account deletion flow is required while accounts are disabled."
+    ]
+  },
+  "supportPage": {
+    "path": "/support.html",
+    "productionUrl": null,
+    "productionUrlStatus": "needs-hosted-domain",
+    "supportEmail": null,
+    "supportEmailStatus": "needs-production-address",
+    "topics": [
+      "Gameplay feedback",
+      "Privacy questions",
+      "Store listing support contact",
+      "Bug reports for web/PWA builds"
+    ]
+  },
+  "storeCompliance": {
+    "policyPosture": "no-accounts-no-ugc-no-gambling-no-paid-spend",
+    "googlePlayDataSafetyStatus": "draft-ready",
+    "applePrivacyLabelStatus": "draft-ready",
+    "contentRating": {
+      "googlePlayExpected": "Everyone",
+      "appleExpected": "4+"
+    }
+  },
+  "smokeChecks": [
+    {
+      "id": "privacy-policy",
+      "path": "/privacy.html",
+      "expectedStatus": 200,
+      "requiredText": "Autonomous Game Lab Privacy Policy"
+    },
+    {
+      "id": "support-page",
+      "path": "/support.html",
+      "expectedStatus": 200,
+      "requiredText": "Autonomous Game Lab Support"
+    },
+    {
+      "id": "compliance-manifest",
+      "path": "/compliance.json",
+      "expectedStatus": 200,
+      "requiredText": "store-compliance"
+    }
+  ],
+  "blockers": [
+    "production-origin",
+    "support-email"
+  ],
+  "controls": {
+    "noStoreSubmission": true,
+    "noRevenueEnablement": true,
+    "noPaidSpend": true,
+    "postDeploySmokeRequired": true
+  }
+}

@@ -1,6 +1,6 @@
 # Store Compliance
 
-Generated: 2026-05-18T23:36:59.492Z
+Generated: 2026-05-19T08:16:31.724Z
 Status: draft-ready-external-blockers
 Policy posture: no-accounts-no-ugc-no-gambling-no-paid-spend
 
@@ -24,6 +24,7 @@ Policy posture: no-accounts-no-ugc-no-gambling-no-paid-spend
 - pass: ads-declaration - Ads declaration is ads-disabled; revenue enabled is false.
 - pass: privacy-data - Data safety, App Privacy labels, and account-deletion stance are drafted.
 - pass: app-access - Reviewer access does not require credentials because accounts are disabled.
+- pass: compliance-publication - Deployable compliance manifest ties privacy, support, and post-deploy smoke checks together.
 - pass: store-screenshots - 4 generated screenshot asset(s) are available.
 - external-blocker: hosted-privacy-url - Hosted privacy policy URL is required before public store submission.
 - external-blocker: support-contact - Production support email is required before public store submission.

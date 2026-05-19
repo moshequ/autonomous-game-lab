@@ -2104,6 +2104,14 @@ test('generated support page is reachable', async ({ page }) => {
   await expect(page.getByText('production support email')).toBeVisible()
 })
 
+test('generated compliance manifest is reachable', async ({ page }) => {
+  await page.goto('/compliance.json')
+
+  await expect(page.locator('body')).toContainText('store-compliance-publication')
+  await expect(page.locator('body')).toContainText('privacyPolicy')
+  await expect(page.locator('body')).toContainText('/support.html')
+})
+
 test('monetization manifest and app ads placeholder are reachable', async ({ page }) => {
   await page.goto('/monetization.json')
 

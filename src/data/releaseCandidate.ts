@@ -1,7 +1,7 @@
 export const releaseCandidate = {
-  "generatedAt": "2026-05-19T08:05:20.783Z",
+  "generatedAt": "2026-05-19T08:16:31.744Z",
   "status": "release-candidate-ready",
-  "candidateId": "pwa-69c6810ef118",
+  "candidateId": "pwa-afcd7c8f22f8",
   "target": {
     "provider": "github-pages",
     "artifactPath": "dist",
@@ -11,18 +11,18 @@ export const releaseCandidate = {
     "basePath": "/"
   },
   "summary": {
-    "totalFiles": 38,
-    "totalBytes": 3645751,
-    "totalKb": 3560.3,
+    "totalFiles": 39,
+    "totalBytes": 3645247,
+    "totalKb": 3559.8,
     "assetFiles": 3,
     "htmlFiles": 13,
     "gamePages": 10,
     "requiredFilesPresent": true,
-    "postDeploySmokeUrls": 7
+    "postDeploySmokeUrls": 10
   },
   "integrity": {
     "algorithm": "sha256",
-    "aggregateHash": "69c6810ef1184108da08707e14bd62af22083a23ce5562efc98ef11155dbb751",
+    "aggregateHash": "afcd7c8f22f8cb4a7c00e7be88099485d4b48b0d194f1e3d5fb89cc5fe510c99",
     "files": [
       {
         "path": "app-ads.txt",
@@ -32,9 +32,9 @@ export const releaseCandidate = {
         "cacheControl": "public, max-age=3600"
       },
       {
-        "path": "assets/GameCanvas-DX5NcrBl.js",
+        "path": "assets/GameCanvas-DlZAhDdt.js",
         "bytes": 1393468,
-        "sha256": "fba97463f0e50f103227d28df9f75b9142aa992109ac01205bc624b640b36056",
+        "sha256": "31712483bbfb6bbd1ba0f4b87050bad92a5eacde350132269dc0c430c93b79ec",
         "contentType": "text/javascript; charset=utf-8",
         "cacheControl": "public, max-age=31536000, immutable"
       },
@@ -46,11 +46,18 @@ export const releaseCandidate = {
         "cacheControl": "public, max-age=31536000, immutable"
       },
       {
-        "path": "assets/index-CNAAjigU.js",
-        "bytes": 659891,
-        "sha256": "699e2da6c2879ed94afd534b7aba78290b17959762c363dfcf717086cff3faed",
+        "path": "assets/index-gyu9LJVS.js",
+        "bytes": 660029,
+        "sha256": "6e7bc73e6455f22273d4e5fd2868b058183c924718f9e2bfaf8d5f099ba64788",
         "contentType": "text/javascript; charset=utf-8",
         "cacheControl": "public, max-age=31536000, immutable"
+      },
+      {
+        "path": "compliance.json",
+        "bytes": 2716,
+        "sha256": "e7ea3f8f87c4fed8fe6266116dcfcbd22b73e1eff8e26d78ac7b53fe9d11ebd4",
+        "contentType": "application/json; charset=utf-8",
+        "cacheControl": "public, max-age=3600"
       },
       {
         "path": "favicon.svg",
@@ -188,7 +195,7 @@ export const releaseCandidate = {
       {
         "path": "index.html",
         "bytes": 803,
-        "sha256": "5ce043297d3f0dd5e16aad5e966977cd73da92efccdd33c0e79e6d43a6f40011",
+        "sha256": "2a801cc4405bd3599fdac39cd5a48c397476ca787dc9ede04146f7be8393fb60",
         "contentType": "text/html; charset=utf-8",
         "cacheControl": "no-cache"
       },
@@ -209,7 +216,7 @@ export const releaseCandidate = {
       {
         "path": "privacy.html",
         "bytes": 2648,
-        "sha256": "9160b01fee7f677add9bf5091df4ec8b41c960dbf066c504f46bfecf194deab3",
+        "sha256": "5349c85c52422c0cea667ef3d8d325f104e81d94a87d792bba153ca18af589f1",
         "contentType": "text/html; charset=utf-8",
         "cacheControl": "no-cache"
       },
@@ -250,15 +257,15 @@ export const releaseCandidate = {
       },
       {
         "path": "store-assets/screenshots/phone-canopy-bloom-generated.png",
-        "bytes": 195095,
-        "sha256": "25b3a64f9e3e8a68f0af5b5b6a771c8247c59eea64083eb3f94ee7e76dc741a4",
+        "bytes": 194824,
+        "sha256": "4468815c99b603f6a0619d204688d13452c57f083ec9228851f18845b8939c88",
         "contentType": "image/png",
         "cacheControl": "public, max-age=3600"
       },
       {
         "path": "store-assets/screenshots/phone-lantern-relay-game.png",
-        "bytes": 198994,
-        "sha256": "36301fb8e37d835d35a40bcec516e06f8076548f9050f5ae6f5d284947c52744",
+        "bytes": 195907,
+        "sha256": "1ce576b25dc43c90a2004186f943c070bf2ba2cd61a1626254735604b0c42561",
         "contentType": "image/png",
         "cacheControl": "public, max-age=3600"
       },
@@ -279,7 +286,7 @@ export const releaseCandidate = {
       {
         "path": "sw.js",
         "bytes": 3535,
-        "sha256": "2395436dd9c3b7f70721f67d395c5c5f4c04a9edcd82c14f677e3837c004d3fc",
+        "sha256": "c9f1389f7ee1a05fe9295bfb1ce7dff9674cf464125cb2f1f914534f26f606e2",
         "contentType": "text/javascript; charset=utf-8",
         "cacheControl": "no-cache"
       },
@@ -310,6 +317,10 @@ export const releaseCandidate = {
       },
       {
         "path": "support.html",
+        "status": "pass"
+      },
+      {
+        "path": "compliance.json",
         "status": "pass"
       },
       {
@@ -383,6 +394,27 @@ export const releaseCandidate = {
       "requiredText": "Autonomous Game Lab"
     },
     {
+      "id": "compliance-json",
+      "path": "/compliance.json",
+      "url": "${DEPLOYED_PWA_ORIGIN}/compliance.json",
+      "expectedStatus": 200,
+      "requiredText": "store-compliance"
+    },
+    {
+      "id": "monetization-json",
+      "path": "/monetization.json",
+      "url": "${DEPLOYED_PWA_ORIGIN}/monetization.json",
+      "expectedStatus": 200,
+      "requiredText": "blocked-by-product-gates"
+    },
+    {
+      "id": "app-ads-txt",
+      "path": "/app-ads.txt",
+      "url": "${DEPLOYED_PWA_ORIGIN}/app-ads.txt",
+      "expectedStatus": 200,
+      "requiredText": "Revenue features are disabled"
+    },
+    {
       "id": "sitemap-xml",
       "path": "/sitemap.xml",
       "url": "${DEPLOYED_PWA_ORIGIN}/sitemap.xml",
@@ -442,12 +474,12 @@ export const releaseCandidate = {
     {
       "id": "dist-inventory",
       "status": "pass",
-      "detail": "38 dist files inventoried."
+      "detail": "39 dist files inventoried."
     },
     {
       "id": "required-files",
       "status": "pass",
-      "detail": "13/13 required files present."
+      "detail": "14/14 required files present."
     },
     {
       "id": "game-pages",
@@ -477,7 +509,7 @@ export const releaseCandidate = {
     {
       "id": "post-deploy-smoke-plan",
       "status": "pass",
-      "detail": "7 post-deploy smoke URL(s) planned."
+      "detail": "10 post-deploy smoke URL(s) planned."
     }
   ],
   "nextActions": [

@@ -1,6 +1,6 @@
 # Store Package
 
-Generated: 2026-05-18T23:36:41.558Z
+Generated: 2026-05-19T08:14:32.635Z
 
 ## Launch Candidate
 
@@ -12,6 +12,8 @@ Lantern Relay (lantern-relay)
 - Privacy production URL: not configured
 - Support page path: /support.html
 - Support email: not configured
+- Compliance manifest path: /compliance.json
+- Compliance publish status: waiting-for-production-inputs
 - Production URL status: needs-hosted-domain
 - External analytics opt-out: present
 

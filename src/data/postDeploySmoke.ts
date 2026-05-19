@@ -1,5 +1,5 @@
 export const postDeploySmoke = {
-  "generatedAt": "2026-05-19T08:04:21.995Z",
+  "generatedAt": "2026-05-19T08:16:36.238Z",
   "status": "blocked-missing-origin",
   "envFiles": {
     "loaded": true,
@@ -54,8 +54,8 @@ export const postDeploySmoke = {
   "target": {
     "origin": null,
     "provider": "github-pages",
-    "candidateId": "pwa-69c6810ef118",
-    "aggregateHash": "69c6810ef1184108da08707e14bd62af22083a23ce5562efc98ef11155dbb751"
+    "candidateId": "pwa-afcd7c8f22f8",
+    "aggregateHash": "afcd7c8f22f8cb4a7c00e7be88099485d4b48b0d194f1e3d5fb89cc5fe510c99"
   },
   "sourceStatus": {
     "deployment": "ready-for-pages",
@@ -63,17 +63,17 @@ export const postDeploySmoke = {
     "productionResponse": "guarded-operations"
   },
   "summary": {
-    "planned": 8,
+    "planned": 11,
     "passed": 0,
     "failed": 0,
-    "blocked": 8
+    "blocked": 11
   },
   "localArtifactSmoke": {
     "status": "predeploy-artifact-smoke-passed",
     "artifactPath": "dist",
     "summary": {
-      "planned": 8,
-      "passed": 8,
+      "planned": 11,
+      "passed": 11,
       "failed": 0
     },
     "controls": {
@@ -134,6 +134,36 @@ export const postDeploySmoke = {
         "detail": "Local production artifact matched required text."
       },
       {
+        "id": "compliance-json",
+        "path": "/compliance.json",
+        "file": "dist/compliance.json",
+        "expectedStatus": 200,
+        "status": "pass",
+        "bytes": 2716,
+        "textMatched": true,
+        "detail": "Local production artifact matched required text."
+      },
+      {
+        "id": "monetization-json",
+        "path": "/monetization.json",
+        "file": "dist/monetization.json",
+        "expectedStatus": 200,
+        "status": "pass",
+        "bytes": 878,
+        "textMatched": true,
+        "detail": "Local production artifact matched required text."
+      },
+      {
+        "id": "app-ads-txt",
+        "path": "/app-ads.txt",
+        "file": "dist/app-ads.txt",
+        "expectedStatus": 200,
+        "status": "pass",
+        "bytes": 187,
+        "textMatched": true,
+        "detail": "Local production artifact matched required text."
+      },
+      {
         "id": "sitemap-xml",
         "path": "/sitemap.xml",
         "file": "dist/sitemap.xml",
@@ -159,11 +189,11 @@ export const postDeploySmoke = {
         "file": "dist/release-candidate.json",
         "expectedStatus": 200,
         "status": "pass",
-        "bytes": 15513,
+        "bytes": 16482,
         "candidateMatches": true,
         "hashMatches": true,
-        "localCandidateId": "pwa-69c6810ef118",
-        "localAggregateHash": "69c6810ef1184108da08707e14bd62af22083a23ce5562efc98ef11155dbb751",
+        "localCandidateId": "pwa-afcd7c8f22f8",
+        "localAggregateHash": "afcd7c8f22f8cb4a7c00e7be88099485d4b48b0d194f1e3d5fb89cc5fe510c99",
         "detail": "Local release manifest matches the release candidate."
       }
     ]
@@ -224,6 +254,33 @@ export const postDeploySmoke = {
       "detail": "No deployed origin configured."
     },
     {
+      "id": "compliance-json",
+      "path": "/compliance.json",
+      "url": "${DEPLOYED_PWA_ORIGIN}/compliance.json",
+      "expectedStatus": 200,
+      "requiredText": "store-compliance",
+      "status": "blocked",
+      "detail": "No deployed origin configured."
+    },
+    {
+      "id": "monetization-json",
+      "path": "/monetization.json",
+      "url": "${DEPLOYED_PWA_ORIGIN}/monetization.json",
+      "expectedStatus": 200,
+      "requiredText": "blocked-by-product-gates",
+      "status": "blocked",
+      "detail": "No deployed origin configured."
+    },
+    {
+      "id": "app-ads-txt",
+      "path": "/app-ads.txt",
+      "url": "${DEPLOYED_PWA_ORIGIN}/app-ads.txt",
+      "expectedStatus": 200,
+      "requiredText": "Revenue features are disabled",
+      "status": "blocked",
+      "detail": "No deployed origin configured."
+    },
+    {
       "id": "sitemap-xml",
       "path": "/sitemap.xml",
       "url": "${DEPLOYED_PWA_ORIGIN}/sitemap.xml",
@@ -246,7 +303,7 @@ export const postDeploySmoke = {
       "path": "/release-candidate.json",
       "url": "${DEPLOYED_PWA_ORIGIN}/release-candidate.json",
       "expectedStatus": 200,
-      "requiredText": "pwa-69c6810ef118",
+      "requiredText": "pwa-afcd7c8f22f8",
       "status": "blocked",
       "detail": "No deployed origin configured."
     }

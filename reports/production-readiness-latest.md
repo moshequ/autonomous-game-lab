@@ -1,6 +1,6 @@
 # Production Readiness
 
-Generated: 2026-05-19T08:06:50.624Z
+Generated: 2026-05-19T08:20:07.323Z
 
 ## Environment
 
@@ -45,6 +45,7 @@ Status: ready-after-build
 - pass: privacy-control - External analytics opt-out is exposed in the app shell.
 - pass: privacy-page - Generated privacy policy page is included in public assets and production build.
 - pass: support-page - Generated support page is included in public assets and production build.
+- pass: compliance-manifest - Generated compliance manifest is included in public assets, production build, and post-deploy smoke handoff.
 - pass: playable-prototypes - Every currently accepted generated concept is playable.
 - pass: generated-runtime - Generated game factory has a concept-first portfolio of no-handoff playable runtime configs.
 - pass: balance-severity - Bot simulator has no high-severity balance findings.
@@ -55,9 +56,9 @@ Status: ready-after-build
 - pass: organic-seed-loop - Organic seed loop is organic-seed-loop-ready; target canopy-bloom; player-initiated share guard active.
 - pass: retention-loop - Retention loop is retention-loop-ready; daily challenge canopy-bloom; no-push/no-account guardrails active.
 - pass: pwa-install-loop - PWA install loop is pwa-install-loop-ready; prompt surface autonomy-cockpit; cost $0.
-- pass: performance-budget - Performance budget is performance-budget-ready; initial JS 644.6 KB / 172.9 KB gzip; deferred game chunk GameCanvas-DX5NcrBl.js.
-- pass: release-candidate - Release candidate is release-candidate-ready; files 38; smoke URLs 7.
-- pass: post-deploy-smoke-runner - Post-deploy smoke is blocked-missing-origin; origin missing; checks 0/8 passed, 8 blocked; local artifact predeploy-artifact-smoke-passed 8/8 passed.
+- pass: performance-budget - Performance budget is performance-budget-ready; initial JS 644.7 KB / 172.9 KB gzip; deferred game chunk GameCanvas-DlZAhDdt.js.
+- pass: release-candidate - Release candidate is release-candidate-ready; files 39; smoke URLs 10.
+- pass: post-deploy-smoke-runner - Post-deploy smoke is blocked-missing-origin; origin missing; checks 0/11 passed, 11 blocked; local artifact predeploy-artifact-smoke-passed 11/11 passed.
 - pass: product-optimization - Product optimizer is product-optimization-ready; completion 0.397 vs gate 0.55; latest action already-applied.
 - pass: first-move-coach - First-move coach is first-move-coach-ready; enabled targets 6; primary harbor-rings.
 - pass: completion-loop - Completion loop is completion-loop-ready; prompt armed; target harbor-rings.
@@ -108,44 +109,47 @@ Installs: 0
 ## Performance Budget
 
 Status: performance-budget-ready
-Initial JS: 644.6 KB (172.9 KB gzip)
-Deferred game chunk: GameCanvas-DX5NcrBl.js
-- pass: performance-initial-js-budget - Initial JS is 644.6 KB; budget is 675 KB.
+Initial JS: 644.7 KB (172.9 KB gzip)
+Deferred game chunk: GameCanvas-DlZAhDdt.js
+- pass: performance-initial-js-budget - Initial JS is 644.7 KB; budget is 675 KB.
 - pass: performance-initial-js-gzip-budget - Initial JS gzip is 172.9 KB; budget is 200 KB.
 - pass: performance-initial-css-budget - Initial CSS is 9.6 KB; budget is 40 KB.
 - pass: performance-manifest - PWA manifest exists in dist.
 - pass: performance-service-worker - Service worker exists in dist.
-- pass: performance-game-runtime-deferred - GameCanvas-DX5NcrBl.js is deferred from the initial shell.
-- pass: performance-largest-js-deferred - Largest JS chunk is GameCanvas-DX5NcrBl.js at 1360.8 KB.
+- pass: performance-game-runtime-deferred - GameCanvas-DlZAhDdt.js is deferred from the initial shell.
+- pass: performance-largest-js-deferred - Largest JS chunk is GameCanvas-DlZAhDdt.js at 1360.8 KB.
 - pass: performance-deferred-game-budget - Deferred game chunk is 1360.8 KB; monitor budget is 1600 KB.
 
 ## Release Candidate
 
 Status: release-candidate-ready
-Candidate: pwa-69c6810ef118
-Files: 38
-Aggregate SHA-256: 69c6810ef1184108da08707e14bd62af22083a23ce5562efc98ef11155dbb751
-- pass: release-dist-inventory - 38 dist files inventoried.
-- pass: release-required-files - 13/13 required files present.
+Candidate: pwa-afcd7c8f22f8
+Files: 39
+Aggregate SHA-256: afcd7c8f22f8cb4a7c00e7be88099485d4b48b0d194f1e3d5fb89cc5fe510c99
+- pass: release-dist-inventory - 39 dist files inventoried.
+- pass: release-required-files - 14/14 required files present.
 - pass: release-game-pages - 10 generated game page(s) in dist.
 - pass: release-performance-budget - Performance budget is performance-budget-ready.
 - pass: release-release-health - Release health is monitoring.
 - pass: release-production-response - Deploy allowed is true.
 - pass: release-spend-guard - Spend mode is no-spend.
-- pass: release-post-deploy-smoke-plan - 7 post-deploy smoke URL(s) planned.
+- pass: release-post-deploy-smoke-plan - 10 post-deploy smoke URL(s) planned.
 
 ## Post-Deploy Smoke
 
 Status: blocked-missing-origin
 Origin: missing
-Candidate: pwa-69c6810ef118
-Checks: 0/8 passed (8 blocked)
-Local artifact: predeploy-artifact-smoke-passed (8/8 passed)
+Candidate: pwa-afcd7c8f22f8
+Checks: 0/11 passed (11 blocked)
+Local artifact: predeploy-artifact-smoke-passed (11/11 passed)
 - blocked: smoke-app-shell - No deployed origin configured.
 - blocked: smoke-manifest-webmanifest - No deployed origin configured.
 - blocked: smoke-sw-js - No deployed origin configured.
 - blocked: smoke-privacy-html - No deployed origin configured.
 - blocked: smoke-support-html - No deployed origin configured.
+- blocked: smoke-compliance-json - No deployed origin configured.
+- blocked: smoke-monetization-json - No deployed origin configured.
+- blocked: smoke-app-ads-txt - No deployed origin configured.
 - blocked: smoke-sitemap-xml - No deployed origin configured.
 - blocked: smoke-games-canopy-bloom-html - No deployed origin configured.
 - blocked: smoke-release-candidate-manifest - No deployed origin configured.
@@ -283,6 +287,7 @@ Store package: draft-ready
 - pass: android-signing-prep - Android signing is signing-prepared; fingerprint available.
 - pass: store-screenshots - Generated store screenshot assets are screenshots-ready; 4 screenshots attached.
 - pass: store-compliance - Store compliance is draft-ready-external-blockers.
+- pass: compliance-publication-pack - Compliance publication is waiting-for-production-inputs.
 
 Store listing optimizer: store-listing-optimizer-ready
 - focus: canopy-bloom
@@ -294,6 +299,7 @@ Store compliance: draft-ready-external-blockers
 - pass: compliance-ads-declaration - Ads declaration is ads-disabled; revenue enabled is false.
 - pass: compliance-privacy-data - Data safety, App Privacy labels, and account-deletion stance are drafted.
 - pass: compliance-app-access - Reviewer access does not require credentials because accounts are disabled.
+- pass: compliance-compliance-publication - Deployable compliance manifest ties privacy, support, and post-deploy smoke checks together.
 - pass: compliance-store-screenshots - 4 generated screenshot asset(s) are available.
 - external-blocker: compliance-hosted-privacy-url - Hosted privacy policy URL is required before public store submission.
 - external-blocker: compliance-support-contact - Production support email is required before public store submission.

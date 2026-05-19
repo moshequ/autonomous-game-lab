@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-19T08:06:50.624Z",
+  "generatedAt": "2026-05-19T08:20:07.323Z",
   "environment": {
     "status": "production-env-missing",
     "publicOrigin": null,
@@ -262,6 +262,11 @@
         "detail": "Generated support page is included in public assets and production build."
       },
       {
+        "id": "compliance-manifest",
+        "status": "pass",
+        "detail": "Generated compliance manifest is included in public assets, production build, and post-deploy smoke handoff."
+      },
+      {
         "id": "playable-prototypes",
         "status": "pass",
         "detail": "Every currently accepted generated concept is playable."
@@ -314,17 +319,17 @@
       {
         "id": "performance-budget",
         "status": "pass",
-        "detail": "Performance budget is performance-budget-ready; initial JS 644.6 KB / 172.9 KB gzip; deferred game chunk GameCanvas-DX5NcrBl.js."
+        "detail": "Performance budget is performance-budget-ready; initial JS 644.7 KB / 172.9 KB gzip; deferred game chunk GameCanvas-DlZAhDdt.js."
       },
       {
         "id": "release-candidate",
         "status": "pass",
-        "detail": "Release candidate is release-candidate-ready; files 38; smoke URLs 7."
+        "detail": "Release candidate is release-candidate-ready; files 39; smoke URLs 10."
       },
       {
         "id": "post-deploy-smoke-runner",
         "status": "pass",
-        "detail": "Post-deploy smoke is blocked-missing-origin; origin missing; checks 0/8 passed, 8 blocked; local artifact predeploy-artifact-smoke-passed 8/8 passed."
+        "detail": "Post-deploy smoke is blocked-missing-origin; origin missing; checks 0/11 passed, 11 blocked; local artifact predeploy-artifact-smoke-passed 11/11 passed."
       },
       {
         "id": "product-optimization",
@@ -790,21 +795,21 @@
     },
     "initial": {
       "entryScripts": [
-        "index-CNAAjigU.js",
+        "index-gyu9LJVS.js",
         "registerSW.js"
       ],
       "scriptPaths": [
-        "assets/index-CNAAjigU.js",
+        "assets/index-gyu9LJVS.js",
         "registerSW.js"
       ],
       "jsFiles": [
         {
-          "file": "index-CNAAjigU.js",
-          "path": "assets/index-CNAAjigU.js",
-          "bytes": 659891,
-          "kb": 644.4,
-          "gzipBytes": 176887,
-          "gzipKb": 172.7
+          "file": "index-gyu9LJVS.js",
+          "path": "assets/index-gyu9LJVS.js",
+          "bytes": 660029,
+          "kb": 644.6,
+          "gzipBytes": 176946,
+          "gzipKb": 172.8
         },
         {
           "file": "registerSW.js",
@@ -815,9 +820,9 @@
           "gzipKb": 0.1
         }
       ],
-      "jsBytes": 660025,
-      "jsKb": 644.6,
-      "gzipBytes": 177013,
+      "jsBytes": 660163,
+      "jsKb": 644.7,
+      "gzipBytes": 177072,
       "gzipKb": 172.9,
       "cssFiles": [
         {
@@ -837,8 +842,8 @@
     "deferred": {
       "chunks": [
         {
-          "file": "GameCanvas-DX5NcrBl.js",
-          "path": "assets/GameCanvas-DX5NcrBl.js",
+          "file": "GameCanvas-DlZAhDdt.js",
+          "path": "assets/GameCanvas-DlZAhDdt.js",
           "bytes": 1393468,
           "kb": 1360.8,
           "gzipBytes": 356095,
@@ -846,24 +851,24 @@
         }
       ],
       "gameChunk": {
-        "file": "GameCanvas-DX5NcrBl.js",
-        "path": "assets/GameCanvas-DX5NcrBl.js",
+        "file": "GameCanvas-DlZAhDdt.js",
+        "path": "assets/GameCanvas-DlZAhDdt.js",
         "bytes": 1393468,
         "kb": 1360.8,
         "gzipBytes": 356095,
         "gzipKb": 347.7
       },
       "largestDeferredChunk": {
-        "file": "GameCanvas-DX5NcrBl.js",
-        "path": "assets/GameCanvas-DX5NcrBl.js",
+        "file": "GameCanvas-DlZAhDdt.js",
+        "path": "assets/GameCanvas-DlZAhDdt.js",
         "bytes": 1393468,
         "kb": 1360.8,
         "gzipBytes": 356095,
         "gzipKb": 347.7
       },
       "largestJsChunk": {
-        "file": "GameCanvas-DX5NcrBl.js",
-        "path": "assets/GameCanvas-DX5NcrBl.js",
+        "file": "GameCanvas-DlZAhDdt.js",
+        "path": "assets/GameCanvas-DlZAhDdt.js",
         "bytes": 1393468,
         "kb": 1360.8,
         "gzipBytes": 356095,
@@ -884,7 +889,7 @@
       {
         "id": "initial-js-budget",
         "status": "pass",
-        "detail": "Initial JS is 644.6 KB; budget is 675 KB."
+        "detail": "Initial JS is 644.7 KB; budget is 675 KB."
       },
       {
         "id": "initial-js-gzip-budget",
@@ -909,12 +914,12 @@
       {
         "id": "game-runtime-deferred",
         "status": "pass",
-        "detail": "GameCanvas-DX5NcrBl.js is deferred from the initial shell."
+        "detail": "GameCanvas-DlZAhDdt.js is deferred from the initial shell."
       },
       {
         "id": "largest-js-deferred",
         "status": "pass",
-        "detail": "Largest JS chunk is GameCanvas-DX5NcrBl.js at 1360.8 KB."
+        "detail": "Largest JS chunk is GameCanvas-DlZAhDdt.js at 1360.8 KB."
       },
       {
         "id": "deferred-game-budget",
@@ -925,7 +930,7 @@
   },
   "releaseCandidate": {
     "status": "release-candidate-ready",
-    "candidateId": "pwa-69c6810ef118",
+    "candidateId": "pwa-afcd7c8f22f8",
     "target": {
       "provider": "github-pages",
       "artifactPath": "dist",
@@ -935,18 +940,18 @@
       "basePath": "/"
     },
     "summary": {
-      "totalFiles": 38,
-      "totalBytes": 3645751,
-      "totalKb": 3560.3,
+      "totalFiles": 39,
+      "totalBytes": 3645247,
+      "totalKb": 3559.8,
       "assetFiles": 3,
       "htmlFiles": 13,
       "gamePages": 10,
       "requiredFilesPresent": true,
-      "postDeploySmokeUrls": 7
+      "postDeploySmokeUrls": 10
     },
     "integrity": {
       "algorithm": "sha256",
-      "aggregateHash": "69c6810ef1184108da08707e14bd62af22083a23ce5562efc98ef11155dbb751",
+      "aggregateHash": "afcd7c8f22f8cb4a7c00e7be88099485d4b48b0d194f1e3d5fb89cc5fe510c99",
       "requiredFileChecks": [
         {
           "path": "index.html",
@@ -966,6 +971,10 @@
         },
         {
           "path": "support.html",
+          "status": "pass"
+        },
+        {
+          "path": "compliance.json",
           "status": "pass"
         },
         {
@@ -1039,6 +1048,27 @@
         "requiredText": "Autonomous Game Lab"
       },
       {
+        "id": "compliance-json",
+        "path": "/compliance.json",
+        "url": "${DEPLOYED_PWA_ORIGIN}/compliance.json",
+        "expectedStatus": 200,
+        "requiredText": "store-compliance"
+      },
+      {
+        "id": "monetization-json",
+        "path": "/monetization.json",
+        "url": "${DEPLOYED_PWA_ORIGIN}/monetization.json",
+        "expectedStatus": 200,
+        "requiredText": "blocked-by-product-gates"
+      },
+      {
+        "id": "app-ads-txt",
+        "path": "/app-ads.txt",
+        "url": "${DEPLOYED_PWA_ORIGIN}/app-ads.txt",
+        "expectedStatus": 200,
+        "requiredText": "Revenue features are disabled"
+      },
+      {
         "id": "sitemap-xml",
         "path": "/sitemap.xml",
         "url": "${DEPLOYED_PWA_ORIGIN}/sitemap.xml",
@@ -1066,12 +1096,12 @@
       {
         "id": "dist-inventory",
         "status": "pass",
-        "detail": "38 dist files inventoried."
+        "detail": "39 dist files inventoried."
       },
       {
         "id": "required-files",
         "status": "pass",
-        "detail": "13/13 required files present."
+        "detail": "14/14 required files present."
       },
       {
         "id": "game-pages",
@@ -1101,7 +1131,7 @@
       {
         "id": "post-deploy-smoke-plan",
         "status": "pass",
-        "detail": "7 post-deploy smoke URL(s) planned."
+        "detail": "10 post-deploy smoke URL(s) planned."
       }
     ]
   },
@@ -1110,8 +1140,8 @@
     "target": {
       "origin": null,
       "provider": "github-pages",
-      "candidateId": "pwa-69c6810ef118",
-      "aggregateHash": "69c6810ef1184108da08707e14bd62af22083a23ce5562efc98ef11155dbb751"
+      "candidateId": "pwa-afcd7c8f22f8",
+      "aggregateHash": "afcd7c8f22f8cb4a7c00e7be88099485d4b48b0d194f1e3d5fb89cc5fe510c99"
     },
     "sourceStatus": {
       "deployment": "ready-for-pages",
@@ -1119,17 +1149,17 @@
       "productionResponse": "guarded-operations"
     },
     "summary": {
-      "planned": 8,
+      "planned": 11,
       "passed": 0,
       "failed": 0,
-      "blocked": 8
+      "blocked": 11
     },
     "localArtifactSmoke": {
       "status": "predeploy-artifact-smoke-passed",
       "artifactPath": "dist",
       "summary": {
-        "planned": 8,
-        "passed": 8,
+        "planned": 11,
+        "passed": 11,
         "failed": 0
       },
       "controls": {
@@ -1190,6 +1220,36 @@
           "detail": "Local production artifact matched required text."
         },
         {
+          "id": "compliance-json",
+          "path": "/compliance.json",
+          "file": "dist/compliance.json",
+          "expectedStatus": 200,
+          "status": "pass",
+          "bytes": 2716,
+          "textMatched": true,
+          "detail": "Local production artifact matched required text."
+        },
+        {
+          "id": "monetization-json",
+          "path": "/monetization.json",
+          "file": "dist/monetization.json",
+          "expectedStatus": 200,
+          "status": "pass",
+          "bytes": 878,
+          "textMatched": true,
+          "detail": "Local production artifact matched required text."
+        },
+        {
+          "id": "app-ads-txt",
+          "path": "/app-ads.txt",
+          "file": "dist/app-ads.txt",
+          "expectedStatus": 200,
+          "status": "pass",
+          "bytes": 187,
+          "textMatched": true,
+          "detail": "Local production artifact matched required text."
+        },
+        {
           "id": "sitemap-xml",
           "path": "/sitemap.xml",
           "file": "dist/sitemap.xml",
@@ -1215,11 +1275,11 @@
           "file": "dist/release-candidate.json",
           "expectedStatus": 200,
           "status": "pass",
-          "bytes": 15513,
+          "bytes": 16482,
           "candidateMatches": true,
           "hashMatches": true,
-          "localCandidateId": "pwa-69c6810ef118",
-          "localAggregateHash": "69c6810ef1184108da08707e14bd62af22083a23ce5562efc98ef11155dbb751",
+          "localCandidateId": "pwa-afcd7c8f22f8",
+          "localAggregateHash": "afcd7c8f22f8cb4a7c00e7be88099485d4b48b0d194f1e3d5fb89cc5fe510c99",
           "detail": "Local release manifest matches the release candidate."
         }
       ]
@@ -1280,6 +1340,33 @@
         "detail": "No deployed origin configured."
       },
       {
+        "id": "compliance-json",
+        "path": "/compliance.json",
+        "url": "${DEPLOYED_PWA_ORIGIN}/compliance.json",
+        "expectedStatus": 200,
+        "requiredText": "store-compliance",
+        "status": "blocked",
+        "detail": "No deployed origin configured."
+      },
+      {
+        "id": "monetization-json",
+        "path": "/monetization.json",
+        "url": "${DEPLOYED_PWA_ORIGIN}/monetization.json",
+        "expectedStatus": 200,
+        "requiredText": "blocked-by-product-gates",
+        "status": "blocked",
+        "detail": "No deployed origin configured."
+      },
+      {
+        "id": "app-ads-txt",
+        "path": "/app-ads.txt",
+        "url": "${DEPLOYED_PWA_ORIGIN}/app-ads.txt",
+        "expectedStatus": 200,
+        "requiredText": "Revenue features are disabled",
+        "status": "blocked",
+        "detail": "No deployed origin configured."
+      },
+      {
         "id": "sitemap-xml",
         "path": "/sitemap.xml",
         "url": "${DEPLOYED_PWA_ORIGIN}/sitemap.xml",
@@ -1302,7 +1389,7 @@
         "path": "/release-candidate.json",
         "url": "${DEPLOYED_PWA_ORIGIN}/release-candidate.json",
         "expectedStatus": 200,
-        "requiredText": "pwa-69c6810ef118",
+        "requiredText": "pwa-afcd7c8f22f8",
         "status": "blocked",
         "detail": "No deployed origin configured."
       }
@@ -2922,7 +3009,7 @@
       "met": 5,
       "prepared": 2,
       "incomplete": 1,
-      "externalBlockers": 21,
+      "externalBlockers": 20,
       "productBlockers": 6
     },
     "controls": {
@@ -2946,7 +3033,7 @@
           "Web readiness: ready-after-build",
           "Manifest in dist: true",
           "Service worker in dist: true",
-          "Release candidate: release-candidate-ready; 38 files",
+          "Release candidate: release-candidate-ready; 39 files",
           "Deployment plan: ready-for-pages"
         ],
         "blockers": [],
@@ -3020,8 +3107,8 @@
           "Operator history: operator-history-ready; records 40; executed 18",
           "Bootstrap: production-bootstrap-ready",
           "Repository bootstrap: waiting-for-github-target; helper ops/github/bootstrap-repository.sh",
-          "Release candidate: release-candidate-ready; smoke URLs 7",
-          "Post-deploy smoke: blocked-missing-origin; origin missing; checks 0/8; local artifact predeploy-artifact-smoke-passed 8/8",
+          "Release candidate: release-candidate-ready; smoke URLs 10",
+          "Post-deploy smoke: blocked-missing-origin; origin missing; checks 0/11; local artifact predeploy-artifact-smoke-passed 11/11",
           "Repository channel: waiting-for-github-repository; repository missing; git worktree true",
           "Autonomy score: 94%",
           "Credential-gated actions: 13"
@@ -3029,7 +3116,6 @@
         "blockers": [
           "Add a GitHub origin remote or set GITHUB_REPOSITORY/GH_REPO.",
           "Configure GH_TOKEN or GITHUB_TOKEN for workflow dispatch and repository settings sync.",
-          "Commit current generated changes before pushing to GitHub Pages.",
           "Set GITHUB_REPOSITORY or GH_REPO to the intended owner/repo.",
           "Attach a GitHub origin remote or create the target repository.",
           "Authenticate GitHub CLI or provide GH_TOKEN/GITHUB_TOKEN for remote repository bootstrap.",
@@ -3149,6 +3235,75 @@
       "status": "draft-ready",
       "privacyPolicyPath": "/privacy.html",
       "productionPrivacyUrlStatus": "needs-hosted-domain",
+      "compliancePublication": {
+        "status": "waiting-for-production-inputs",
+        "publicPath": "/compliance.json",
+        "productionUrl": null,
+        "localArtifacts": [
+          {
+            "id": "privacy-policy",
+            "path": "/privacy.html",
+            "productionUrl": null,
+            "status": "needs-hosted-domain",
+            "requiredText": [
+              "Autonomous Game Lab Privacy Policy",
+              "Gameplay analytics",
+              "External analytics opt-out"
+            ]
+          },
+          {
+            "id": "support-page",
+            "path": "/support.html",
+            "productionUrl": null,
+            "status": "needs-hosted-domain",
+            "requiredText": [
+              "Autonomous Game Lab Support",
+              "Support Topics"
+            ]
+          },
+          {
+            "id": "compliance-manifest",
+            "path": "/compliance.json",
+            "productionUrl": null,
+            "status": "needs-hosted-domain",
+            "requiredText": [
+              "store-compliance",
+              "privacyPolicy",
+              "supportPage"
+            ]
+          }
+        ],
+        "smokeChecks": [
+          {
+            "id": "privacy-policy",
+            "path": "/privacy.html",
+            "expectedStatus": 200,
+            "requiredText": "Autonomous Game Lab Privacy Policy"
+          },
+          {
+            "id": "support-page",
+            "path": "/support.html",
+            "expectedStatus": 200,
+            "requiredText": "Autonomous Game Lab Support"
+          },
+          {
+            "id": "compliance-manifest",
+            "path": "/compliance.json",
+            "expectedStatus": 200,
+            "requiredText": "store-compliance"
+          }
+        ],
+        "blockers": [
+          "production-origin",
+          "support-email"
+        ],
+        "controls": {
+          "noStoreSubmission": true,
+          "noRevenueEnablement": true,
+          "noPaidSpend": true,
+          "postDeploySmokeRequired": true
+        }
+      },
       "checks": [
         {
           "id": "store-listing",
@@ -3194,6 +3349,11 @@
           "id": "store-compliance",
           "status": "pass",
           "detail": "Store compliance is draft-ready-external-blockers."
+        },
+        {
+          "id": "compliance-publication-pack",
+          "status": "pass",
+          "detail": "Compliance publication is waiting-for-production-inputs."
         }
       ]
     },
@@ -3330,6 +3490,11 @@
           "id": "app-access",
           "status": "pass",
           "detail": "Reviewer access does not require credentials because accounts are disabled."
+        },
+        {
+          "id": "compliance-publication",
+          "status": "pass",
+          "detail": "Deployable compliance manifest ties privacy, support, and post-deploy smoke checks together."
         },
         {
           "id": "store-screenshots",

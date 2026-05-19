@@ -99,6 +99,7 @@ const requiredFiles = [
   'sw.js',
   'privacy.html',
   'support.html',
+  'compliance.json',
   'sitemap.xml',
   'robots.txt',
   'share-manifest.json',
@@ -173,20 +174,39 @@ const smokePaths = [
   'sw.js',
   'privacy.html',
   'support.html',
+  'compliance.json',
+  'monetization.json',
+  'app-ads.txt',
   'sitemap.xml',
   gamePages[0]?.path,
 ].filter(Boolean)
+
+const requiredTextForSmokePath = (filePath) => {
+  if (filePath === 'index.html') {
+    return 'Autonomous Game Lab'
+  }
+
+  if (filePath === 'compliance.json') {
+    return 'store-compliance'
+  }
+
+  if (filePath === 'monetization.json') {
+    return 'blocked-by-product-gates'
+  }
+
+  if (filePath === 'app-ads.txt') {
+    return 'Revenue features are disabled'
+  }
+
+  return filePath.endsWith('.html') ? 'Autonomous Game Lab' : null
+}
+
 const postDeploySmoke = smokePaths.map((filePath) => ({
   id: filePath === 'index.html' ? 'app-shell' : filePath.replace(/[^a-z0-9]+/gi, '-').replace(/^-|-$/g, ''),
   path: filePath === 'index.html' ? '/' : `/${filePath}`,
   url: publicUrl(publicOrigin, basePath, filePath),
   expectedStatus: 200,
-  requiredText:
-    filePath === 'index.html'
-      ? 'Autonomous Game Lab'
-      : filePath.endsWith('.html')
-        ? 'Autonomous Game Lab'
-        : null,
+  requiredText: requiredTextForSmokePath(filePath),
 }))
 const cachePolicy = [
   {

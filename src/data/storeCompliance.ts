@@ -1,5 +1,5 @@
 export const storeCompliance = {
-  "generatedAt": "2026-05-18T23:36:59.492Z",
+  "generatedAt": "2026-05-19T08:16:31.724Z",
   "status": "draft-ready-external-blockers",
   "launchCandidate": {
     "id": "canopy-bloom",
@@ -125,6 +125,11 @@ export const storeCompliance = {
       "id": "app-access",
       "status": "pass",
       "detail": "Reviewer access does not require credentials because accounts are disabled."
+    },
+    {
+      "id": "compliance-publication",
+      "status": "pass",
+      "detail": "Deployable compliance manifest ties privacy, support, and post-deploy smoke checks together."
     },
     {
       "id": "store-screenshots",

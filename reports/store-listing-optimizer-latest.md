@@ -1,6 +1,6 @@
 # Store Listing Optimizer
 
-Generated: 2026-05-18T23:36:59.284Z
+Generated: 2026-05-19T08:16:27.228Z
 Status: store-listing-optimizer-ready
 Focus: Canopy Bloom (canopy-bloom)
 Previous candidate: lantern-relay

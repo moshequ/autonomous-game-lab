@@ -39,6 +39,10 @@ const supportConfigured = storePackage.supportPage?.supportEmailStatus === 'conf
 const googlePlayConnected = productionEnvironment.android?.googlePlayAccountConnected === true
 const appleConnected = productionEnvironment.ios?.appleDeveloperAccountConnected === true
 const screenshotsReady = storeAssets.status === 'screenshots-ready' && (storeAssets.screenshots?.length ?? 0) >= 4
+const compliancePublicationReady =
+  storePackage.compliancePublication?.publicPath === '/compliance.json' &&
+  storePackage.compliancePublication?.controls?.postDeploySmokeRequired === true &&
+  (storePackage.compliancePublication?.smokeChecks?.length ?? 0) >= 3
 
 const contentRating = {
   googlePlay: {
@@ -156,6 +160,11 @@ const checks = [
     'app-access',
     appAccess.loginRequired === false && appAccess.reviewerCredentialsRequired === false,
     'Reviewer access does not require credentials because accounts are disabled.',
+  ),
+  check(
+    'compliance-publication',
+    compliancePublicationReady,
+    'Deployable compliance manifest ties privacy, support, and post-deploy smoke checks together.',
   ),
   check(
     'store-screenshots',

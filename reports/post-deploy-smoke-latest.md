@@ -1,27 +1,30 @@
 # Post-Deploy Smoke
 
-Generated: 2026-05-19T08:04:21.995Z
+Generated: 2026-05-19T08:16:36.238Z
 Status: blocked-missing-origin
 Origin: missing
-Candidate: pwa-69c6810ef118
+Candidate: pwa-afcd7c8f22f8
 
 ## Summary
 
-- Planned: 8
+- Planned: 11
 - Passed: 0
 - Failed: 0
-- Blocked: 8
+- Blocked: 11
 
 ## Local Artifact Smoke
 
 Status: predeploy-artifact-smoke-passed
 Artifact path: dist
-Checks: 8/8 passed
+Checks: 11/11 passed
 - pass: app-shell - dist/index.html - Local production artifact matched required text.
 - pass: manifest-webmanifest - dist/manifest.webmanifest - Local production artifact matched required text.
 - pass: sw-js - dist/sw.js - Local production artifact matched required text.
 - pass: privacy-html - dist/privacy.html - Local production artifact matched required text.
 - pass: support-html - dist/support.html - Local production artifact matched required text.
+- pass: compliance-json - dist/compliance.json - Local production artifact matched required text.
+- pass: monetization-json - dist/monetization.json - Local production artifact matched required text.
+- pass: app-ads-txt - dist/app-ads.txt - Local production artifact matched required text.
 - pass: sitemap-xml - dist/sitemap.xml - Local production artifact matched required text.
 - pass: games-canopy-bloom-html - dist/games/canopy-bloom.html - Local production artifact matched required text.
 - pass: release-candidate-manifest - dist/release-candidate.json - Local release manifest matches the release candidate.
@@ -33,6 +36,9 @@ Checks: 8/8 passed
 - blocked: sw-js - ${DEPLOYED_PWA_ORIGIN}/sw.js - No deployed origin configured.
 - blocked: privacy-html - ${DEPLOYED_PWA_ORIGIN}/privacy.html - No deployed origin configured.
 - blocked: support-html - ${DEPLOYED_PWA_ORIGIN}/support.html - No deployed origin configured.
+- blocked: compliance-json - ${DEPLOYED_PWA_ORIGIN}/compliance.json - No deployed origin configured.
+- blocked: monetization-json - ${DEPLOYED_PWA_ORIGIN}/monetization.json - No deployed origin configured.
+- blocked: app-ads-txt - ${DEPLOYED_PWA_ORIGIN}/app-ads.txt - No deployed origin configured.
 - blocked: sitemap-xml - ${DEPLOYED_PWA_ORIGIN}/sitemap.xml - No deployed origin configured.
 - blocked: games-canopy-bloom-html - ${DEPLOYED_PWA_ORIGIN}/games/canopy-bloom.html - No deployed origin configured.
 - blocked: release-candidate-manifest - ${DEPLOYED_PWA_ORIGIN}/release-candidate.json - No deployed origin configured.

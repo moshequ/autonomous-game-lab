@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-18T23:36:41.558Z",
+  "generatedAt": "2026-05-19T08:14:32.635Z",
   "launchCandidate": {
     "id": "canopy-bloom",
     "title": "Canopy Bloom",
@@ -9,7 +9,7 @@
     "path": "/privacy.html",
     "productionUrl": null,
     "productionUrlStatus": "needs-hosted-domain",
-    "updatedAt": "2026-05-18",
+    "updatedAt": "2026-05-19",
     "summary": "Autonomous Game Lab collects anonymous gameplay events to improve game balance, onboarding, and replay quality. Accounts, paid purchases, and advertising are disabled until production gates pass.",
     "dataCollected": [
       {
@@ -61,6 +61,75 @@
       "Store listing support contact",
       "Bug reports for web/PWA builds"
     ]
+  },
+  "compliancePublication": {
+    "status": "waiting-for-production-inputs",
+    "publicPath": "/compliance.json",
+    "productionUrl": null,
+    "localArtifacts": [
+      {
+        "id": "privacy-policy",
+        "path": "/privacy.html",
+        "productionUrl": null,
+        "status": "needs-hosted-domain",
+        "requiredText": [
+          "Autonomous Game Lab Privacy Policy",
+          "Gameplay analytics",
+          "External analytics opt-out"
+        ]
+      },
+      {
+        "id": "support-page",
+        "path": "/support.html",
+        "productionUrl": null,
+        "status": "needs-hosted-domain",
+        "requiredText": [
+          "Autonomous Game Lab Support",
+          "Support Topics"
+        ]
+      },
+      {
+        "id": "compliance-manifest",
+        "path": "/compliance.json",
+        "productionUrl": null,
+        "status": "needs-hosted-domain",
+        "requiredText": [
+          "store-compliance",
+          "privacyPolicy",
+          "supportPage"
+        ]
+      }
+    ],
+    "smokeChecks": [
+      {
+        "id": "privacy-policy",
+        "path": "/privacy.html",
+        "expectedStatus": 200,
+        "requiredText": "Autonomous Game Lab Privacy Policy"
+      },
+      {
+        "id": "support-page",
+        "path": "/support.html",
+        "expectedStatus": 200,
+        "requiredText": "Autonomous Game Lab Support"
+      },
+      {
+        "id": "compliance-manifest",
+        "path": "/compliance.json",
+        "expectedStatus": 200,
+        "requiredText": "store-compliance"
+      }
+    ],
+    "blockers": [
+      "production-origin",
+      "support-email"
+    ],
+    "controls": {
+      "noStoreSubmission": true,
+      "noRevenueEnablement": true,
+      "noPaidSpend": true,
+      "postDeploySmokeRequired": true
+    }
   },
   "dataSafetyDraft": {
     "googlePlay": {
@@ -234,7 +303,7 @@
     "applePrivacyLabels": "https://developer.apple.com/app-store/app-privacy-details/"
   },
   "storeListingOptimization": {
-    "generatedAt": "2026-05-18T23:36:59.284Z",
+    "generatedAt": "2026-05-19T08:16:27.228Z",
     "status": "store-listing-optimizer-ready",
     "previousLaunchCandidateId": "lantern-relay",
     "recommendedFocusGameId": "canopy-bloom",
