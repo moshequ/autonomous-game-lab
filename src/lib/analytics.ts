@@ -42,6 +42,7 @@ export type AnalyticsEventName =
   | 'organic_seed_card_viewed'
   | 'organic_seed_share_clicked'
   | 'seed_campaign_clicked'
+  | 'gate_sample_mission_clicked'
   | 'daily_challenge_viewed'
   | 'daily_challenge_started'
   | 'daily_challenge_completed'
@@ -216,6 +217,8 @@ const initUrlAttribution = () => {
         ? 'player-share'
         : source === 'seed_internal'
           ? 'internal-rotation'
+          : source === 'gate_sample'
+            ? 'product-gate-sample'
           : source ?? 'direct'
 
   setAcquisitionAttribution({

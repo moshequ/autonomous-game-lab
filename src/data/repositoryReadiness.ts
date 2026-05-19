@@ -1,5 +1,5 @@
 export const repositoryReadiness = {
-  "generatedAt": "2026-05-19T07:37:43.154Z",
+  "generatedAt": "2026-05-19T07:49:49.250Z",
   "status": "waiting-for-github-repository",
   "envFiles": {
     "loaded": true,
@@ -80,7 +80,7 @@ export const repositoryReadiness = {
     "workflowExists": true,
     "deployWorkflowIncludesSmoke": true,
     "deploymentStatus": "ready-for-pages",
-    "releaseCandidateId": "pwa-f5fdb7b1b300",
+    "releaseCandidateId": "pwa-43561c84b0ec",
     "postDeploySmokeStatus": "blocked-missing-origin"
   },
   "controls": {

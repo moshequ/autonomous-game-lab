@@ -968,6 +968,74 @@ test('product optimizer applies one guarded tuning step from product-gate eviden
   await expect(page.getByLabel('Product Gate Sample Plan')).toContainText('firstGameCompletion')
 })
 
+test('product gate sample mission starts an attributed zero-spend evidence run', async ({ page }) => {
+  const samplePlan = JSON.parse(await readFile('data/product-gate-sample-plan.json', 'utf8')) as {
+    missions: Array<{
+      gateId: string
+      gameId: string
+      title: string
+      campaignId: string
+      needed: { promptViews: number; successes: number }
+      controls: { costUsd: number; noSyntheticEvents: boolean; noRuleChange: boolean; noRevenueEnablement: boolean }
+    }>
+  }
+  const mission = samplePlan.missions[0]
+
+  await page.goto('/')
+
+  const samplePanel = page.getByLabel('Product Gate Sample Plan')
+  await samplePanel.scrollIntoViewIfNeeded()
+  await samplePanel.getByRole('button', { name: `Start sample for ${mission.title}` }).click()
+
+  await expect(page.getByLabel('Autonomy cockpit').getByRole('heading', { name: mission.title })).toBeVisible()
+  expect(page.url()).toContain(`game=${mission.gameId}`)
+  expect(page.url()).toContain('utm_source=gate_sample')
+  expect(page.url()).toContain(`utm_campaign=${mission.campaignId}`)
+
+  const missionClick = await page.evaluate((campaignId) => {
+    const raw = window.localStorage.getItem('agl.analytics.events')
+    const events = raw ? JSON.parse(raw) : []
+
+    for (let index = events.length - 1; index >= 0; index -= 1) {
+      const event = events[index]
+      if (event.name === 'gate_sample_mission_clicked' && event.properties.campaignId === campaignId) {
+        return event.properties
+      }
+    }
+
+    return null
+  }, mission.campaignId)
+
+  expect(missionClick).toMatchObject({
+    gameId: mission.gameId,
+    gateId: mission.gateId,
+    campaignId: mission.campaignId,
+    acquisitionSource: 'gate_sample',
+    acquisitionCampaign: mission.campaignId,
+    acquisitionChannel: 'product-gate-sample',
+    costUsd: mission.controls.costUsd,
+    noSyntheticEvents: mission.controls.noSyntheticEvents,
+    noRuleChange: mission.controls.noRuleChange,
+    noRevenueEnablement: mission.controls.noRevenueEnablement,
+    promptViewsNeeded: mission.needed.promptViews,
+    observedSuccessesNeeded: mission.needed.successes,
+  })
+
+  await expect
+    .poll(async () =>
+      page.evaluate((campaignId) => {
+        const raw = window.localStorage.getItem('agl.analytics.events')
+        const events = raw ? JSON.parse(raw) : []
+        const started = events.find(
+          (event) => event.name === 'game_started' && event.properties.acquisitionCampaign === campaignId,
+        )
+
+        return started?.properties.gameId ?? null
+      }, mission.campaignId),
+    )
+    .toBe(mission.gameId)
+})
+
 test('first move coach highlights a safe opening and records coach telemetry', async ({ page }) => {
   const coach = JSON.parse(await readFile('data/first-move-coach.json', 'utf8')) as {
     status: string

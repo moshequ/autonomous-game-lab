@@ -76,6 +76,7 @@ const campaignRows = (traffic.campaigns ?? [])
       (event) => eventName(event) === 'level_completed' && eventGameId(event) === campaign.gameId,
     ).length
     const seedClicks = campaignEvents.filter((event) => eventName(event) === 'seed_campaign_clicked').length
+    const gateSampleClicks = campaignEvents.filter((event) => eventName(event) === 'gate_sample_mission_clicked').length
     const organicEntries = campaignEvents.filter((event) => eventName(event) === 'organic_entry_opened').length
     const gameAnalytics = analyticsById.get(campaign.gameId)
     const growthPage = growthById.get(campaign.gameId)
@@ -83,7 +84,9 @@ const campaignRows = (traffic.campaigns ?? [])
     const aggregateViews = gameAnalytics?.counts?.game_viewed ?? 0
     const observedStarts = rawAttributionAvailable ? attributedStarts : aggregateStarts
     const sampleProgress = Math.min(1, safeDivide(observedStarts, targetStarts))
-    const startRate = rawAttributionAvailable ? safeDivide(attributedStarts, Math.max(seedClicks + organicEntries, 1)) : null
+    const startRate = rawAttributionAvailable
+      ? safeDivide(attributedStarts, Math.max(seedClicks + gateSampleClicks + organicEntries, 1))
+      : null
     const completionRate = rawAttributionAvailable ? safeDivide(attributedCompletions, Math.max(attributedStarts, 1)) : null
     const status =
       campaign.costUsd !== 0 || campaign.noPaidPromotion !== true
@@ -118,6 +121,7 @@ const campaignRows = (traffic.campaigns ?? [])
         source: rawAttributionAvailable ? 'campaign-events' : analytics.sourceStatus?.activeSource,
         localEventFiles: localEventFiles.length,
         seedClicks,
+        gateSampleClicks,
         organicEntries,
         attributedStarts,
         attributedCompletions,
@@ -141,7 +145,7 @@ const channelRows = (traffic.channels ?? []).map((channel) => {
   const starts = channelEvents.filter((event) => eventName(event) === 'game_started').length
   const completions = channelEvents.filter((event) => eventName(event) === 'level_completed').length
   const clicks = channelEvents.filter((event) =>
-    ['seed_campaign_clicked', 'organic_entry_opened', 'share_clicked'].includes(eventName(event)),
+    ['seed_campaign_clicked', 'gate_sample_mission_clicked', 'organic_entry_opened', 'share_clicked'].includes(eventName(event)),
   ).length
 
   return {

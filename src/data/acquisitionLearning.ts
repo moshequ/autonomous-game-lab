@@ -1,5 +1,5 @@
 export const acquisitionLearning = {
-  "generatedAt": "2026-05-19T06:28:17.134Z",
+  "generatedAt": "2026-05-19T07:44:38.297Z",
   "status": "acquisition-learning-ready",
   "sourceStatus": {
     "analyticsSource": "fixture-sample",
@@ -67,6 +67,7 @@ export const acquisitionLearning = {
         "source": "fixture-sample",
         "localEventFiles": 0,
         "seedClicks": 0,
+        "gateSampleClicks": 0,
         "organicEntries": 0,
         "attributedStarts": 0,
         "attributedCompletions": 0,
@@ -95,6 +96,7 @@ export const acquisitionLearning = {
         "source": "fixture-sample",
         "localEventFiles": 0,
         "seedClicks": 0,
+        "gateSampleClicks": 0,
         "organicEntries": 0,
         "attributedStarts": 0,
         "attributedCompletions": 0,
@@ -123,6 +125,7 @@ export const acquisitionLearning = {
         "source": "fixture-sample",
         "localEventFiles": 0,
         "seedClicks": 0,
+        "gateSampleClicks": 0,
         "organicEntries": 0,
         "attributedStarts": 0,
         "attributedCompletions": 0,
@@ -151,6 +154,7 @@ export const acquisitionLearning = {
         "source": "fixture-sample",
         "localEventFiles": 0,
         "seedClicks": 0,
+        "gateSampleClicks": 0,
         "organicEntries": 0,
         "attributedStarts": 0,
         "attributedCompletions": 0,

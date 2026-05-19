@@ -498,6 +498,37 @@ function App() {
       costUsd: campaign.costUsd,
     })
   }
+  const startGateSampleMission = (mission: (typeof productGateSamplePlan.missions)[number]) => {
+    setAcquisitionAttribution({
+      source: 'gate_sample',
+      campaign: mission.campaignId,
+      gameId: mission.gameId,
+      channel: 'product-gate-sample',
+    })
+
+    if (isPlayableGameId(mission.gameId)) {
+      setSelectedGameId(mission.gameId)
+    }
+
+    if (typeof window !== 'undefined') {
+      const playUrl = new URL(mission.playPath, window.location.origin)
+      window.history.replaceState(null, '', `${playUrl.pathname}${playUrl.search}`)
+    }
+
+    trackEvent('gate_sample_mission_clicked', {
+      gameId: mission.gameId,
+      gateId: mission.gateId,
+      campaignId: mission.campaignId,
+      ownerLoop: mission.ownerLoop,
+      surface: mission.surface,
+      promptViewsNeeded: mission.needed.promptViews,
+      observedSuccessesNeeded: mission.needed.successes,
+      costUsd: mission.controls.costUsd,
+      noSyntheticEvents: mission.controls.noSyntheticEvents,
+      noRuleChange: mission.controls.noRuleChange,
+      noRevenueEnablement: mission.controls.noRevenueEnablement,
+    })
+  }
   const shareSeedCampaign = async (campaign: (typeof trafficCampaigns)[number]) => {
     setAcquisitionAttribution({
       source: 'seed_share',
@@ -1964,6 +1995,17 @@ function App() {
                   <span>Zero spend</span>
                   <strong>{productGateSamplePlan.controls.zeroPaidSpend ? 'yes' : 'review'}</strong>
                 </div>
+                {productGateSamplePrimary ? (
+                  <div className="sampleActions">
+                    <button
+                      className="tinyButton"
+                      type="button"
+                      onClick={() => startGateSampleMission(productGateSamplePrimary)}
+                    >
+                      Start sample for {productGateSamplePrimary.title}
+                    </button>
+                  </div>
+                ) : null}
               </div>
               <div className="monetizationRuntime" aria-label="First Move Coach">
                 <div>

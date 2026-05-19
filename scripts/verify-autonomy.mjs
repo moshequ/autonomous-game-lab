@@ -1035,7 +1035,13 @@ if (
   !packageJson.scripts?.['autonomous:sample-plan']?.includes('product-gate-sample-planner') ||
   !packageJson.scripts?.['autonomous:daily']?.includes('autonomous:sample-plan') ||
   !packageJson.scripts?.['autonomous:after-action']?.includes('autonomous:sample-plan') ||
-  !appSource.includes('Product Gate Sample Plan')
+  !analyticsLibSource.includes("'gate_sample_mission_clicked'") ||
+  !analyticsLibSource.includes("source === 'gate_sample'") ||
+  !analyticsRollupSource.includes("'gate_sample_mission_clicked'") ||
+  !appSource.includes('Product Gate Sample Plan') ||
+  !appSource.includes('startGateSampleMission') ||
+  !appSource.includes("'gate_sample_mission_clicked'") ||
+  !appSource.includes('product-gate-sample')
 ) {
   fail('Product gate sample plan must turn recovery deficits into zero-spend sample missions before copy, rule, or revenue changes.')
 }
