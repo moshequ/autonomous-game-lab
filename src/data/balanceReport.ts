@@ -1,5 +1,5 @@
 export const balanceReport = {
-  "generatedAt": "2026-05-19T10:15:21.081Z",
+  "generatedAt": "2026-05-19T10:44:24.644Z",
   "simulationCountPerStrategy": 420,
   "games": [
     {

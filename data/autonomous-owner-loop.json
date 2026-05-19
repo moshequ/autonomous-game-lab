@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-19T10:43:00.179Z",
+  "generatedAt": "2026-05-19T10:46:53.614Z",
   "status": "owner-loop-ready",
   "mode": "repository-channel-needed",
   "autonomyScore": {
@@ -20,30 +20,28 @@
     "rollbackRequired": false
   },
   "ownerDecision": {
-    "nextBestActionId": "optimize-product-gates",
-    "nextBestAction": "npm run autonomous:analyze && npm run autonomous:product-optimize && npm run autonomous:sync-config && npm run autonomous:simulate",
+    "nextBestActionId": "refresh-product-gate-recovery",
+    "nextBestAction": "npm run autonomous:gate-recovery",
     "canExecuteWithoutSpend": true,
-    "rationale": "Applies one guarded target-score or telemetry improvement when product gates block monetization."
+    "rationale": "Ranks the exact observed lift and prompt sample still needed before revenue gates can open."
   },
   "executionMemory": {
     "avoidImmediateRepeat": true,
     "recentExecutionWindow": 8,
     "recentExecutedActionIds": [
+      "optimize-product-gates",
       "bootstrap-production-setup",
       "seed-portfolio-traffic",
       "prepare-repository-channel",
       "refresh-autonomous-self-update",
       "refresh-autonomous-cadence",
       "measure-pwa-install-loop",
-      "optimize-daily-retention",
-      "collect-live-events"
+      "optimize-daily-retention"
     ],
-    "lastExecutedActionId": "bootstrap-production-setup",
+    "lastExecutedActionId": "optimize-product-gates",
     "lastExecutedStatus": "executed",
     "lastRecordExecutionStatus": "not-requested",
-    "recentlySatisfiedActionIds": [
-      "refresh-product-gate-recovery"
-    ],
+    "recentlySatisfiedActionIds": [],
     "gateSampleDownloadsBackoff": {
       "enabled": true,
       "cooldownHours": 4,
@@ -58,13 +56,11 @@
       "seed-portfolio-traffic",
       "optimize-daily-retention",
       "measure-pwa-install-loop",
+      "optimize-product-gates",
       "prepare-repository-channel",
-      "bootstrap-production-setup",
-      "collect-live-events"
+      "bootstrap-production-setup"
     ],
-    "skippedRecentlySatisfiedActionIds": [
-      "refresh-product-gate-recovery"
-    ],
+    "skippedRecentlySatisfiedActionIds": [],
     "preferredActionOrder": [
       "prepare-repository-channel",
       "deploy-web-pwa",
@@ -115,7 +111,7 @@
       "id": "autonomous-self-update",
       "status": "ready",
       "autonomy": "gated-generated-change-persistence",
-      "evidence": "Self-update self-update-ready; safe pending 45; unsafe pending 0; remote push held.",
+      "evidence": "Self-update self-update-ready; safe pending 69; unsafe pending 0; remote push held.",
       "nextAction": "When a GitHub repository is connected, set AGL_AUTONOMOUS_SELF_UPDATE=1 and AGL_AUTONOMOUS_SELF_UPDATE_DIRECT=1 to let verified generated changes persist."
     },
     {
@@ -164,7 +160,7 @@
       "id": "performance-budget",
       "status": "ready",
       "autonomy": "automatic-build-budget",
-      "evidence": "Initial JS 654.3 KB; gzip 174 KB; deferred chunks 1.",
+      "evidence": "Initial JS 657.4 KB; gzip 174.2 KB; deferred chunks 1.",
       "nextAction": "Keep Phaser and game scenes outside the initial PWA shell."
     },
     {
@@ -248,14 +244,14 @@
       "id": "release-candidate",
       "status": "ready",
       "autonomy": "content-hashed-deploy-evidence",
-      "evidence": "Candidate pwa-14d21c695749; status release-candidate-ready; files 40; smoke URLs 11.",
+      "evidence": "Candidate pwa-0f7f4598c44e; status release-candidate-ready; files 40; smoke URLs 11.",
       "nextAction": "Regenerate the release candidate after every production build before deploy or rollback decisions."
     },
     {
       "id": "post-deploy-smoke",
       "status": "ready",
       "autonomy": "read-only-live-deploy-verification",
-      "evidence": "Smoke blocked-missing-origin; origin missing; candidate pwa-14d21c695749; checks 0/12 passed; local artifact predeploy-artifact-smoke-passed 12/12 passed.",
+      "evidence": "Smoke blocked-missing-origin; origin missing; candidate pwa-0f7f4598c44e; checks 0/12 passed; local artifact predeploy-artifact-smoke-passed 12/12 passed.",
       "nextAction": "Run this after deployment with AGL_DEPLOYED_PWA_ORIGIN set to the Pages URL."
     },
     {
@@ -269,7 +265,7 @@
       "id": "autonomous-operator",
       "status": "ready",
       "autonomy": "one-safe-action-runner",
-      "evidence": "Operator operator-plan-ready; selected optimize-product-gates; execution not-requested.",
+      "evidence": "Operator operator-plan-ready; selected refresh-product-gate-recovery; execution not-requested.",
       "nextAction": "Keep a dry-run operator plan ready, then execute only one allowlisted local action when explicitly requested."
     },
     {
@@ -408,7 +404,7 @@
       "command": "npm run build && npm run autonomous:performance",
       "targets": [
         "pwa-shell",
-        "GameCanvas-Bipjk5KP.js"
+        "GameCanvas-sxiJnqEw.js"
       ],
       "reason": "Keeps the PWA shell fast while Phaser and game scenes stay deferred."
     },
@@ -418,7 +414,7 @@
       "costUsd": 0,
       "command": "npm run autonomous:release-candidate",
       "targets": [
-        "pwa-14d21c695749"
+        "pwa-0f7f4598c44e"
       ],
       "reason": "Records a content-hashed dist inventory and post-deploy smoke plan for the exact PWA build."
     },
@@ -429,7 +425,7 @@
       "command": "npm run autonomous:post-deploy-smoke",
       "targets": [
         "deployed-pages-url",
-        "pwa-14d21c695749"
+        "pwa-0f7f4598c44e"
       ],
       "reason": "Waits for a deployed Pages origin, then verifies the live PWA matches the exact release candidate."
     },
@@ -533,7 +529,7 @@
       "costUsd": 0,
       "command": "npm run autonomous:operator",
       "targets": [
-        "optimize-product-gates"
+        "refresh-product-gate-recovery"
       ],
       "reason": "Publishes the one-action local execution plan with allowlist, zero-spend, and audit controls."
     },
@@ -543,7 +539,7 @@
       "costUsd": 0,
       "command": "npm run autonomous:operator",
       "targets": [
-        "optimize-product-gates"
+        "refresh-product-gate-recovery"
       ],
       "reason": "Refreshes the capped operator history so safe actions remain auditable over time."
     },
