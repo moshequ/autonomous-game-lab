@@ -1,6 +1,6 @@
 # Autonomous Operator History
 
-Generated: 2026-05-19T14:16:54.995Z
+Generated: 2026-05-19T14:18:38.115Z
 Status: operator-history-ready
 Records: 40
 Executed records: 20
@@ -17,8 +17,6 @@ Compacted duplicate dry-runs: 0
 
 ## Recent Records
 
-- 2026-05-19T14:07:16.400Z: seed-portfolio-traffic; executed; appended fingerprint 8b8fcef00e5af469
-- 2026-05-19T14:07:36.344Z: bootstrap-production-setup; not-requested; appended fingerprint 9c924175948cf5ee
 - 2026-05-19T14:11:15.482Z: bootstrap-production-setup; executed; appended fingerprint b0eda77a2e52f64c
 - 2026-05-19T14:11:27.042Z: optimize-product-gates; not-requested; appended fingerprint b6f5d25f96d48629
 - 2026-05-19T14:13:09.779Z: optimize-product-gates; executed; appended fingerprint 9563f40a459f4f06
@@ -27,3 +25,5 @@ Compacted duplicate dry-runs: 0
 - 2026-05-19T14:15:06.078Z: measure-pwa-install-loop; not-requested; appended fingerprint ed58bab3af744814
 - 2026-05-19T14:16:34.608Z: measure-pwa-install-loop; executed; appended fingerprint d31910b3ef823346
 - 2026-05-19T14:16:41.775Z: refresh-autonomous-cadence; not-requested; appended fingerprint 052f89eafdee2679
+- 2026-05-19T14:18:17.232Z: refresh-autonomous-cadence; executed; appended fingerprint c59dc812ccf89bd6
+- 2026-05-19T14:18:24.782Z: refresh-autonomous-self-update; not-requested; appended fingerprint 39b5ce4fa9a8ac5d

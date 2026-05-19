@@ -1,6 +1,6 @@
 # Product Gate Recovery
 
-Generated: 2026-05-19T14:16:42.697Z
+Generated: 2026-05-19T14:18:25.725Z
 Status: product-gate-recovery-ready
 Analytics source: fixture-sample
 Failing gates: 3

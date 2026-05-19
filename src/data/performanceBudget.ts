@@ -1,5 +1,5 @@
 export const performanceBudget = {
-  "generatedAt": "2026-05-19T14:16:47.980Z",
+  "generatedAt": "2026-05-19T14:18:31.021Z",
   "status": "performance-budget-ready",
   "sourceBuild": "dist",
   "budgets": {
@@ -14,20 +14,20 @@ export const performanceBudget = {
   },
   "initial": {
     "entryScripts": [
-      "index-BVZZzqBg.js",
+      "index-K39KavRX.js",
       "registerSW.js"
     ],
     "scriptPaths": [
-      "assets/index-BVZZzqBg.js",
+      "assets/index-K39KavRX.js",
       "registerSW.js"
     ],
     "jsFiles": [
       {
-        "file": "index-BVZZzqBg.js",
-        "path": "assets/index-BVZZzqBg.js",
-        "bytes": 673308,
-        "kb": 657.5,
-        "gzipBytes": 178326,
+        "file": "index-K39KavRX.js",
+        "path": "assets/index-K39KavRX.js",
+        "bytes": 673358,
+        "kb": 657.6,
+        "gzipBytes": 178315,
         "gzipKb": 174.1
       },
       {
@@ -39,9 +39,9 @@ export const performanceBudget = {
         "gzipKb": 0.1
       }
     ],
-    "jsBytes": 673442,
+    "jsBytes": 673492,
     "jsKb": 657.7,
-    "gzipBytes": 178452,
+    "gzipBytes": 178441,
     "gzipKb": 174.3,
     "cssFiles": [
       {
@@ -61,37 +61,37 @@ export const performanceBudget = {
   "deferred": {
     "chunks": [
       {
-        "file": "GameCanvas-CvQN_CDk.js",
-        "path": "assets/GameCanvas-CvQN_CDk.js",
+        "file": "GameCanvas-D7f4N8Dx.js",
+        "path": "assets/GameCanvas-D7f4N8Dx.js",
         "bytes": 1393468,
         "kb": 1360.8,
-        "gzipBytes": 356096,
-        "gzipKb": 347.8
+        "gzipBytes": 356095,
+        "gzipKb": 347.7
       }
     ],
     "gameChunk": {
-      "file": "GameCanvas-CvQN_CDk.js",
-      "path": "assets/GameCanvas-CvQN_CDk.js",
+      "file": "GameCanvas-D7f4N8Dx.js",
+      "path": "assets/GameCanvas-D7f4N8Dx.js",
       "bytes": 1393468,
       "kb": 1360.8,
-      "gzipBytes": 356096,
-      "gzipKb": 347.8
+      "gzipBytes": 356095,
+      "gzipKb": 347.7
     },
     "largestDeferredChunk": {
-      "file": "GameCanvas-CvQN_CDk.js",
-      "path": "assets/GameCanvas-CvQN_CDk.js",
+      "file": "GameCanvas-D7f4N8Dx.js",
+      "path": "assets/GameCanvas-D7f4N8Dx.js",
       "bytes": 1393468,
       "kb": 1360.8,
-      "gzipBytes": 356096,
-      "gzipKb": 347.8
+      "gzipBytes": 356095,
+      "gzipKb": 347.7
     },
     "largestJsChunk": {
-      "file": "GameCanvas-CvQN_CDk.js",
-      "path": "assets/GameCanvas-CvQN_CDk.js",
+      "file": "GameCanvas-D7f4N8Dx.js",
+      "path": "assets/GameCanvas-D7f4N8Dx.js",
       "bytes": 1393468,
       "kb": 1360.8,
-      "gzipBytes": 356096,
-      "gzipKb": 347.8
+      "gzipBytes": 356095,
+      "gzipKb": 347.7
     },
     "chunksBytes": 1393468,
     "chunksKb": 1360.8
@@ -99,19 +99,19 @@ export const performanceBudget = {
   "assets": {
     "js": [
       {
-        "file": "GameCanvas-CvQN_CDk.js",
-        "path": "assets/GameCanvas-CvQN_CDk.js",
+        "file": "GameCanvas-D7f4N8Dx.js",
+        "path": "assets/GameCanvas-D7f4N8Dx.js",
         "bytes": 1393468,
         "kb": 1360.8,
-        "gzipBytes": 356096,
-        "gzipKb": 347.8
+        "gzipBytes": 356095,
+        "gzipKb": 347.7
       },
       {
-        "file": "index-BVZZzqBg.js",
-        "path": "assets/index-BVZZzqBg.js",
-        "bytes": 673308,
-        "kb": 657.5,
-        "gzipBytes": 178326,
+        "file": "index-K39KavRX.js",
+        "path": "assets/index-K39KavRX.js",
+        "bytes": 673358,
+        "kb": 657.6,
+        "gzipBytes": 178315,
         "gzipKb": 174.1
       },
       {
@@ -174,12 +174,12 @@ export const performanceBudget = {
     {
       "id": "game-runtime-deferred",
       "status": "pass",
-      "detail": "GameCanvas-CvQN_CDk.js is deferred from the initial shell."
+      "detail": "GameCanvas-D7f4N8Dx.js is deferred from the initial shell."
     },
     {
       "id": "largest-js-deferred",
       "status": "pass",
-      "detail": "Largest JS chunk is GameCanvas-CvQN_CDk.js at 1360.8 KB."
+      "detail": "Largest JS chunk is GameCanvas-D7f4N8Dx.js at 1360.8 KB."
     },
     {
       "id": "deferred-game-budget",
