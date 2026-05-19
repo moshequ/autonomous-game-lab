@@ -1,22 +1,22 @@
 {
-  "generatedAt": "2026-05-19T15:43:30.442Z",
+  "generatedAt": "2026-05-19T15:45:16.692Z",
   "status": "operator-plan-ready",
   "mode": "plan-only",
   "ownerDecision": {
-    "actionId": "optimize-daily-retention",
-    "command": "npm run autonomous:retention",
+    "actionId": "prepare-repository-channel",
+    "command": "npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap",
     "locallyExecutable": true,
     "rejectionReason": null
   },
   "requestedActionId": null,
   "selectedAction": {
-    "id": "optimize-daily-retention",
+    "id": "prepare-repository-channel",
     "status": "armed",
-    "command": "npm run autonomous:retention",
+    "command": "npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap",
     "targets": [
-      "canopy-bloom"
+      "github-repository-channel"
     ],
-    "reason": "Keeps daily challenge, local streak prompts, and retention-safe missions aligned with behavior data.",
+    "reason": "Surfaces and prepares the missing git/GitHub deployment-channel blockers before web deploy.",
     "costUsd": 0
   },
   "selectedRejection": null,
@@ -70,6 +70,12 @@
       "id": "refresh-organic-seed-loop",
       "status": "armed",
       "command": "npm run autonomous:organic-seed-loop",
+      "reason": "not-selected-this-run"
+    },
+    {
+      "id": "optimize-daily-retention",
+      "status": "armed",
+      "command": "npm run autonomous:retention",
       "reason": "not-selected-this-run"
     },
     {
@@ -139,12 +145,6 @@
       "reason": "not-selected-this-run"
     },
     {
-      "id": "prepare-repository-channel",
-      "status": "armed",
-      "command": "npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap",
-      "reason": "not-selected-this-run"
-    },
-    {
       "id": "bootstrap-production-setup",
       "status": "armed",
       "command": "npm run autonomous:release-candidate && npm run autonomous:deploy-plan && npm run autonomous:bootstrap",
@@ -201,8 +201,12 @@
   ],
   "commandPlan": [
     {
-      "segment": "npm run autonomous:retention",
-      "script": "autonomous:retention"
+      "segment": "npm run autonomous:repo-readiness",
+      "script": "autonomous:repo-readiness"
+    },
+    {
+      "segment": "npm run autonomous:repo-bootstrap",
+      "script": "autonomous:repo-bootstrap"
     }
   ],
   "execution": {
@@ -268,7 +272,7 @@
     "RUN_WORKFLOWS=1"
   ],
   "nextActions": [
-    "Run npm run autonomous:operator -- --execute --action=optimize-daily-retention to execute exactly one allowed local action.",
+    "Run npm run autonomous:operator -- --execute --action=prepare-repository-channel to execute exactly one allowed local action.",
     "Do not execute GitHub workflow, store, paid ads, or account setup commands from the local operator."
   ]
 }
