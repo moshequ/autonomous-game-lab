@@ -1,5 +1,5 @@
 export const objectiveAudit = {
-  "generatedAt": "2026-05-19T03:03:27.123Z",
+  "generatedAt": "2026-05-19T03:05:35.941Z",
   "status": "objective-in-progress",
   "objective": "Build a bootstrapped autonomous web/PWA game portal that can generate original board-game-inspired games, measure user behavior, propose and apply data-driven improvements, and prepare a path to monetization and app-store distribution with minimal manual intervention.",
   "summary": {
@@ -19,13 +19,14 @@ export const objectiveAudit = {
         "Web readiness: blocked",
         "Manifest in dist: true",
         "Service worker in dist: true",
-        "Release candidate: release-candidate-ready; 38 files",
-        "Deployment plan: ready-for-pages"
+        "Release candidate: release-candidate-blocked; 38 files",
+        "Deployment plan: blocked"
       ],
       "blockers": [
-        "Autonomous self-update is self-update-needs-attention; safe pending 3; unsafe pending 5; remote push held."
+        "Performance budget is blocked-performance-budget; initial JS 682.5 KB / 178.3 KB gzip; deferred game chunk GameCanvas-s9KcYzES.js.",
+        "Release candidate is release-candidate-blocked; files 38; smoke URLs 7."
       ],
-      "nextAction": "Connect a free static host or GitHub Pages environment, then publish dist.",
+      "nextAction": "Fix web readiness blockers.",
       "completionCritical": true
     },
     {
@@ -87,21 +88,22 @@ export const objectiveAudit = {
       "evidence": [
         "Owner loop: owner-loop-ready",
         "Autonomous cadence: cadence-ready; Codex active-confirmed; GitHub scheduled",
-        "Autonomous self-update: self-update-needs-attention; workflow .github/workflows/autonomous-self-update.yml; unsafe pending 5",
+        "Autonomous self-update: self-update-needs-attention; workflow .github/workflows/autonomous-self-update.yml; unsafe pending 1",
         "Operator: operator-plan-ready",
-        "Operator history: operator-history-ready; records 15",
+        "Operator history: operator-history-ready; records 18",
         "Bootstrap: production-bootstrap-ready",
         "Repository bootstrap: waiting-for-github-target; helper ops/github/bootstrap-repository.sh",
-        "Release candidate: release-candidate-ready; smoke URLs 7",
+        "Release candidate: release-candidate-blocked; smoke URLs 7",
         "Post-deploy smoke: blocked-missing-origin; origin missing; checks 0/8",
         "Repository channel: waiting-for-github-repository; repository missing; git worktree true",
-        "Autonomy score: 88%",
+        "Autonomy score: 81%",
         "Credential-gated actions: 13"
       ],
       "blockers": [
-        "safe-path-allowlist: 3 safe pending file(s), 5 unsafe pending file(s).",
+        "safe-path-allowlist: 48 safe pending file(s), 1 unsafe pending file(s).",
         "Add a GitHub origin remote or set GITHUB_REPOSITORY/GH_REPO.",
         "Configure GH_TOKEN or GITHUB_TOKEN for workflow dispatch and repository settings sync.",
+        "Refresh build, release candidate, post-deploy smoke, and deployment plan artifacts.",
         "Commit current generated changes before pushing to GitHub Pages.",
         "Set GITHUB_REPOSITORY or GH_REPO to the intended owner/repo.",
         "Attach a GitHub origin remote or create the target repository.",
@@ -223,6 +225,7 @@ export const objectiveAudit = {
     "all": [
       "Add a GitHub origin remote or set GITHUB_REPOSITORY/GH_REPO.",
       "Configure GH_TOKEN or GITHUB_TOKEN for workflow dispatch and repository settings sync.",
+      "Refresh build, release candidate, post-deploy smoke, and deployment plan artifacts.",
       "Commit current generated changes before pushing to GitHub Pages.",
       "Set GITHUB_REPOSITORY or GH_REPO to the intended owner/repo.",
       "Attach a GitHub origin remote or create the target repository.",

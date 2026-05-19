@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-19T02:57:53.936Z",
+  "generatedAt": "2026-05-19T03:05:34.284Z",
   "analyticsSource": "fixture-sample",
   "releaseHealth": {
     "status": "monitoring",
@@ -10,10 +10,12 @@
   "decisions": [
     {
       "channel": "web-pwa",
-      "status": "promotable-internal",
-      "decision": "Promote the current PWA build to an internal/public web experiment when hosting is connected.",
-      "blockers": [],
-      "nextAction": "Connect a free static host or GitHub Pages environment, then publish dist."
+      "status": "blocked",
+      "decision": "Hold web deploy until readiness blockers clear.",
+      "blockers": [
+        "Web readiness is blocked"
+      ],
+      "nextAction": "Fix web readiness blockers."
     },
     {
       "channel": "monetization",
@@ -31,6 +33,7 @@
       "status": "blocked",
       "decision": "Keep Android packaging blocked.",
       "blockers": [
+        "Web/PWA readiness is not green.",
         "Hosted privacy policy URL is missing.",
         "Google Play developer account is not connected.",
         "Native package is blocked-draft-ready."
@@ -50,7 +53,7 @@
     }
   ],
   "summary": {
-    "nextChannel": "web-pwa",
+    "nextChannel": null,
     "blockedPaidChannels": [
       "monetization",
       "android-google-play",

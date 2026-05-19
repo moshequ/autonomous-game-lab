@@ -1,6 +1,6 @@
 # Autonomous Operator
 
-Generated: 2026-05-19T03:03:26.704Z
+Generated: 2026-05-19T03:05:35.504Z
 Status: operator-plan-ready
 Mode: plan-only
 Owner decision: prepare-repository-channel
@@ -26,8 +26,6 @@ Execution: not-requested
 - refresh-organic-seed-loop
 - optimize-daily-retention
 - measure-pwa-install-loop
-- check-performance-budget
-- prepare-release-candidate
 - optimize-product-gates
 - refresh-first-move-coach
 - refresh-completion-loop
@@ -46,8 +44,8 @@ Execution: not-requested
 - refresh-organic-seed-loop: not-selected-this-run
 - optimize-daily-retention: not-selected-this-run
 - measure-pwa-install-loop: not-selected-this-run
-- check-performance-budget: not-selected-this-run
-- prepare-release-candidate: not-selected-this-run
+- check-performance-budget: status-monitor
+- prepare-release-candidate: status-monitor
 - run-post-deploy-smoke: status-monitor
 - optimize-product-gates: not-selected-this-run
 - refresh-first-move-coach: not-selected-this-run

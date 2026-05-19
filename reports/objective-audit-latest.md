@@ -1,6 +1,6 @@
 # Objective Audit
 
-Generated: 2026-05-19T03:03:27.123Z
+Generated: 2026-05-19T03:05:35.941Z
 Status: objective-in-progress
 Can mark goal complete: false
 Reason: The local autonomous PWA system is largely prepared, but production credentials, live data, monetization gates, hosted compliance URLs, and store account/signing blockers remain.
@@ -17,7 +17,7 @@ Reason: The local autonomous PWA system is largely prepared, but production cred
 ## Requirements
 
 - incomplete: web-pwa-game-portal - A playable web/PWA portal exists and passes the production web readiness gate.
-  - next: Connect a free static host or GitHub Pages environment, then publish dist.
+  - next: Fix web readiness blockers.
 - met: original-trend-driven-game-generation - Trend signals produce original, low-IP-risk concepts and generated playable games.
   - next: Keep licensed/cache/fixture trend inputs feeding original concept generation.
 - met-fixture-or-local: behavior-measurement-loop - Gameplay, retention, install, acquisition, and privacy telemetry can be measured and rolled up.
@@ -37,6 +37,7 @@ Reason: The local autonomous PWA system is largely prepared, but production cred
 
 - Add a GitHub origin remote or set GITHUB_REPOSITORY/GH_REPO.
 - Configure GH_TOKEN or GITHUB_TOKEN for workflow dispatch and repository settings sync.
+- Refresh build, release candidate, post-deploy smoke, and deployment plan artifacts.
 - Commit current generated changes before pushing to GitHub Pages.
 - Set GITHUB_REPOSITORY or GH_REPO to the intended owner/repo.
 - Attach a GitHub origin remote or create the target repository.
@@ -50,4 +51,3 @@ Reason: The local autonomous PWA system is largely prepared, but production cred
 - Connect Apple Developer account only after revenue justifies iOS spend.
 - First-game completion is 40%; gate is 55%.
 - Replay rate is 31%; gate is 35%.
-- D1 retention is 17%; gate is 18%; source is fixture-retention.

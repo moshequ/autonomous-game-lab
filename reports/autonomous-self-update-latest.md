@@ -1,6 +1,6 @@
 # Autonomous Self Update
 
-Generated: 2026-05-19T03:03:26.063Z
+Generated: 2026-05-19T03:05:35.028Z
 Status: self-update-needs-attention
 Mode: plan-and-assert
 
@@ -14,9 +14,9 @@ Mode: plan-and-assert
 
 ## Pending Changes
 
-- Total: 8
-- Safe: 3
-- Unsafe: 5
+- Total: 49
+- Safe: 48
+- Unsafe: 1
 
 ## Commit Plan
 
@@ -31,7 +31,7 @@ Mode: plan-and-assert
 - pass: daily-loop-refresh - autonomous:daily refreshes self-update evidence before owner/audit evidence.
 - pass: daily-workflow-read-only - The ordinary daily workflow remains read-only and uploads evidence artifacts.
 - pass: self-update-workflow - A separate gated workflow can reproduce the daily loop, verify it, and persist allowlisted changes.
-- blocker: safe-path-allowlist - 3 safe pending file(s), 5 unsafe pending file(s).
+- blocker: safe-path-allowlist - 48 safe pending file(s), 1 unsafe pending file(s).
 - pass: repository-optional - Git worktree is available on main.
 - pass: remote-push-gated - Remote push remains held until GitHub credentials and AGL_AUTONOMOUS_SELF_UPDATE_DIRECT=1 are configured.
 - pass: zero-spend-controls - Self-update only stages repository artifacts; it does not create accounts, stores, ads, paid traffic, or revenue.
@@ -53,4 +53,4 @@ Mode: plan-and-assert
 
 ## Blockers
 
-- safe-path-allowlist: 3 safe pending file(s), 5 unsafe pending file(s).
+- safe-path-allowlist: 48 safe pending file(s), 1 unsafe pending file(s).

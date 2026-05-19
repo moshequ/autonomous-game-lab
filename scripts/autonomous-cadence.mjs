@@ -362,6 +362,20 @@ const payload = {
     'Keep repository, deployment, revenue, and store actions gated by their existing evidence checks.',
   ],
 }
+const appPayload = {
+  status: payload.status,
+  schedulers: {
+    codexDesktop: {
+      status: payload.schedulers.codexDesktop.status,
+    },
+    githubActions: {
+      status: payload.schedulers.githubActions.status,
+    },
+  },
+  commandPlan: {
+    operate: payload.commandPlan.operate,
+  },
+}
 
 const report = [
   '# Autonomous Cadence',
@@ -409,7 +423,7 @@ await writeFile(codexAutomationManifestPath, JSON.stringify(codexAutomationManif
 await writeFile(outputJsonPath, JSON.stringify(payload, null, 2) + '\n')
 await writeFile(
   outputTsPath,
-  `export const autonomousCadence = ${JSON.stringify(payload, null, 2)} as const\n\nexport type AutonomousCadence = typeof autonomousCadence\n`,
+  `export const autonomousCadence = ${JSON.stringify(appPayload, null, 2)} as const\n\nexport type AutonomousCadence = typeof autonomousCadence\n`,
 )
 await writeFile(reportPath, report.join('\n'))
 

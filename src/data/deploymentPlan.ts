@@ -1,6 +1,6 @@
 export const deploymentPlan = {
-  "generatedAt": "2026-05-19T02:57:54.144Z",
-  "status": "ready-for-pages",
+  "generatedAt": "2026-05-19T03:05:34.499Z",
+  "status": "blocked",
   "target": {
     "provider": "github-pages",
     "cost": "$0 platform hosting for public/internal experiment traffic",
@@ -16,7 +16,8 @@ export const deploymentPlan = {
     "workflowDispatchReady": false,
     "blockers": [
       "Add a GitHub origin remote or set GITHUB_REPOSITORY/GH_REPO.",
-      "Configure GH_TOKEN or GITHUB_TOKEN for workflow dispatch and repository settings sync."
+      "Configure GH_TOKEN or GITHUB_TOKEN for workflow dispatch and repository settings sync.",
+      "Refresh build, release candidate, post-deploy smoke, and deployment plan artifacts."
     ]
   },
   "eventCollector": {
@@ -26,8 +27,8 @@ export const deploymentPlan = {
     "costPosture": "free-tier-friendly-no-paid-traffic"
   },
   "promotion": {
-    "webStatus": "promotable-internal",
-    "nextAction": "Connect a free static host or GitHub Pages environment, then publish dist."
+    "webStatus": "blocked",
+    "nextAction": "Fix web readiness blockers."
   },
   "releaseHealth": {
     "status": "monitoring",
@@ -52,12 +53,12 @@ export const deploymentPlan = {
     ]
   },
   "releaseCandidate": {
-    "status": "release-candidate-ready",
-    "candidateId": "pwa-f737a2df3046",
+    "status": "release-candidate-blocked",
+    "candidateId": "pwa-5fa0b4ccd7b3",
     "manifestPath": "dist/release-candidate.json",
-    "aggregateHash": "f737a2df304646eaada17526f30bd8cb5e29364ea5ccd5571097f787e3034e6b",
+    "aggregateHash": "5fa0b4ccd7b3986527251ba661dd31eba272deada5bd0c29cd0ed701cbca5acf",
     "totalFiles": 38,
-    "totalKb": 3588.2,
+    "totalKb": 3598.2,
     "postDeploySmokeUrls": 7
   },
   "compliance": {
@@ -80,13 +81,13 @@ export const deploymentPlan = {
   "checks": [
     {
       "id": "web-promotion",
-      "status": "pass",
-      "detail": "Promote the current PWA build to an internal/public web experiment when hosting is connected."
+      "status": "blocker",
+      "detail": "Hold web deploy until readiness blockers clear."
     },
     {
       "id": "web-readiness",
-      "status": "pass",
-      "detail": "Web readiness is ready-after-build."
+      "status": "blocker",
+      "detail": "Web readiness is blocked."
     },
     {
       "id": "release-health",
@@ -120,8 +121,8 @@ export const deploymentPlan = {
     },
     {
       "id": "release-candidate",
-      "status": "pass",
-      "detail": "Release candidate is release-candidate-ready; candidate pwa-f737a2df3046."
+      "status": "blocker",
+      "detail": "Release candidate is release-candidate-blocked; candidate pwa-5fa0b4ccd7b3."
     },
     {
       "id": "deploy-workflow",
