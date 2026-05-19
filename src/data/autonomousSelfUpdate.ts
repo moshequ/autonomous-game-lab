@@ -4,7 +4,7 @@ export const autonomousSelfUpdate = {
     "remotePushReady": false
   },
   "pendingChanges": {
-    "safeCount": 68
+    "safeCount": 66
   },
   "commitPlan": {
     "workflow": ".github/workflows/autonomous-self-update.yml"
