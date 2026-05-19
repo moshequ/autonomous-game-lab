@@ -1,6 +1,6 @@
 # Autonomous Owner Loop
 
-Generated: 2026-05-19T01:21:38.037Z
+Generated: 2026-05-19T01:24:28.622Z
 Status: owner-loop-ready
 Mode: repository-channel-needed
 Autonomy score: 27/29 (93%)
@@ -21,7 +21,7 @@ Autonomy score: 27/29 (93%)
 - ready: organic-seed-loop - Target canopy-bloom; surface portal-growth-loop; share telemetry organic_seed_share_clicked.
 - ready: retention-loop - Daily canopy-bloom; D1 17%; streak variant daily-streak; return prompt armed; return intent armed.
 - ready: pwa-install-loop - Prompt autonomy-cockpit; installs 0; launch events 0.
-- ready: performance-budget - Initial JS 646.2 KB; gzip 172.6 KB; deferred chunks 1.
+- ready: performance-budget - Initial JS 645.7 KB; gzip 172.5 KB; deferred chunks 1.
 - ready: product-optimization - Completion 40% / gate 55%; latest already-applied.
 - ready: first-move-coach - Coach first-move-coach-ready; enabled targets 6; primary harbor-rings.
 - ready: completion-loop - Completion loop completion-loop-ready; prompt armed; target harbor-rings; completion 40%.
@@ -31,12 +31,12 @@ Autonomy score: 27/29 (93%)
 - waiting-for-github-repository: repository-channel - Repository missing; git worktree ready; workflow dispatch blocked.
 - ready: repository-bootstrap - Bootstrap waiting-for-github-target; mode plan-only; helper ops/github/bootstrap-repository.sh; local git ready.
 - ready: web-deployment - Deployment ready-for-pages; web readiness ready-after-build; promotion promotable-internal.
-- ready: release-candidate - Candidate pwa-aceb80dfc3e5; status release-candidate-ready; files 38; smoke URLs 7.
-- ready: post-deploy-smoke - Smoke blocked-missing-origin; origin missing; candidate pwa-aceb80dfc3e5; checks 0/8 passed.
-- ready: production-bootstrap - Bootstrap production-bootstrap-ready; mode waiting-for-external-credentials; external blockers 27.
+- ready: release-candidate - Candidate pwa-7a411483bcd0; status release-candidate-ready; files 38; smoke URLs 7.
+- ready: post-deploy-smoke - Smoke blocked-missing-origin; origin missing; candidate pwa-7a411483bcd0; checks 0/8 passed.
+- ready: production-bootstrap - Bootstrap production-bootstrap-ready; mode waiting-for-external-credentials; external blockers 26.
 - ready: autonomous-operator - Operator operator-plan-ready; selected prepare-repository-channel; execution not-requested.
 - ready: operator-history - History operator-history-ready; records 9; executed 0.
-- ready: objective-audit - Audit objective-in-progress; met 5/8; external blockers 24.
+- ready: objective-audit - Audit objective-in-progress; met 5/8; external blockers 23.
 - ready: store-listing-optimizer - Focus canopy-bloom; lead screenshot phone-canopy-bloom-generated; candidate changed yes.
 - ready: store-compliance - Rating Everyone; target audience general; blockers 4.
 - ready: production-safety - Response guarded-operations; incident drill pass; spend mode no-spend.

@@ -1,5 +1,5 @@
 export const repositoryBootstrap = {
-  "generatedAt": "2026-05-19T01:23:35.084Z",
+  "generatedAt": "2026-05-19T01:24:26.869Z",
   "status": "waiting-for-github-target",
   "mode": "plan-only",
   "workspace": {
@@ -10,8 +10,8 @@ export const repositoryBootstrap = {
       "currentBranch": "main",
       "originRemote": null,
       "remoteRepository": null,
-      "hasCommit": false,
-      "dirtyFiles": 21
+      "hasCommit": true,
+      "dirtyFiles": 35
     },
     "after": {
       "insideWorkTree": true,
@@ -19,8 +19,8 @@ export const repositoryBootstrap = {
       "currentBranch": "main",
       "originRemote": null,
       "remoteRepository": null,
-      "hasCommit": false,
-      "dirtyFiles": 21
+      "hasCommit": true,
+      "dirtyFiles": 35
     }
   },
   "repository": {
@@ -38,7 +38,7 @@ export const repositoryBootstrap = {
     "repositoryReadiness": "waiting-for-github-repository",
     "deployment": "ready-for-pages",
     "releaseCandidate": "release-candidate-ready",
-    "releaseCandidateId": "pwa-aceb80dfc3e5",
+    "releaseCandidateId": "pwa-7a411483bcd0",
     "postDeploySmoke": "blocked-missing-origin"
   },
   "execution": {
@@ -81,13 +81,13 @@ export const repositoryBootstrap = {
     },
     {
       "id": "create-initial-commit",
-      "status": "ready-for-explicit-initial-commit",
+      "status": "ready",
       "costUsd": 0,
       "command": "AGL_ALLOW_REPOSITORY_BOOTSTRAP=1 AGL_ALLOW_INITIAL_COMMIT=1 ./ops/github/bootstrap-repository.sh",
       "mutatesLocalGit": true,
       "mutatesRemoteGitHub": false,
       "requiresExplicitEnv": true,
-      "detail": "Initial commit is held behind AGL_ALLOW_INITIAL_COMMIT=1."
+      "detail": "The local repository has at least one commit."
     },
     {
       "id": "set-or-create-origin",
@@ -121,7 +121,6 @@ export const repositoryBootstrap = {
     }
   ],
   "blockers": [
-    "Create an initial commit before pushing to GitHub Pages.",
     "Set GITHUB_REPOSITORY or GH_REPO to the intended owner/repo.",
     "Attach a GitHub origin remote or create the target repository.",
     "Authenticate GitHub CLI or provide GH_TOKEN/GITHUB_TOKEN for remote repository bootstrap."

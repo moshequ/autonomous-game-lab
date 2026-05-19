@@ -1,5 +1,5 @@
 export const autonomousOwnerLoop = {
-  "generatedAt": "2026-05-19T01:21:38.037Z",
+  "generatedAt": "2026-05-19T01:24:28.622Z",
   "status": "owner-loop-ready",
   "mode": "repository-channel-needed",
   "autonomyScore": {
@@ -86,7 +86,7 @@ export const autonomousOwnerLoop = {
       "id": "performance-budget",
       "status": "ready",
       "autonomy": "automatic-build-budget",
-      "evidence": "Initial JS 646.2 KB; gzip 172.6 KB; deferred chunks 1.",
+      "evidence": "Initial JS 645.7 KB; gzip 172.5 KB; deferred chunks 1.",
       "nextAction": "Keep Phaser and game scenes outside the initial PWA shell."
     },
     {
@@ -156,21 +156,21 @@ export const autonomousOwnerLoop = {
       "id": "release-candidate",
       "status": "ready",
       "autonomy": "content-hashed-deploy-evidence",
-      "evidence": "Candidate pwa-aceb80dfc3e5; status release-candidate-ready; files 38; smoke URLs 7.",
+      "evidence": "Candidate pwa-7a411483bcd0; status release-candidate-ready; files 38; smoke URLs 7.",
       "nextAction": "Regenerate the release candidate after every production build before deploy or rollback decisions."
     },
     {
       "id": "post-deploy-smoke",
       "status": "ready",
       "autonomy": "read-only-live-deploy-verification",
-      "evidence": "Smoke blocked-missing-origin; origin missing; candidate pwa-aceb80dfc3e5; checks 0/8 passed.",
+      "evidence": "Smoke blocked-missing-origin; origin missing; candidate pwa-7a411483bcd0; checks 0/8 passed.",
       "nextAction": "Run this after deployment with AGL_DEPLOYED_PWA_ORIGIN set to the Pages URL."
     },
     {
       "id": "production-bootstrap",
       "status": "ready",
       "autonomy": "zero-spend-setup-orchestration",
-      "evidence": "Bootstrap production-bootstrap-ready; mode waiting-for-external-credentials; external blockers 27.",
+      "evidence": "Bootstrap production-bootstrap-ready; mode waiting-for-external-credentials; external blockers 26.",
       "nextAction": "Fill required environment values, then run npm run autonomous:bootstrap."
     },
     {
@@ -191,7 +191,7 @@ export const autonomousOwnerLoop = {
       "id": "objective-audit",
       "status": "ready",
       "autonomy": "completion-evidence-ledger",
-      "evidence": "Audit objective-in-progress; met 5/8; external blockers 24.",
+      "evidence": "Audit objective-in-progress; met 5/8; external blockers 23.",
       "nextAction": "The local autonomous PWA system is largely prepared, but production credentials, live data, monetization gates, hosted compliance URLs, and store account/signing blockers remain."
     },
     {
@@ -288,7 +288,7 @@ export const autonomousOwnerLoop = {
       "command": "npm run build && npm run autonomous:performance",
       "targets": [
         "pwa-shell",
-        "GameCanvas-Cikf0GiS.js"
+        "GameCanvas-CCvt-fJi.js"
       ],
       "reason": "Keeps the PWA shell fast while Phaser and game scenes stay deferred."
     },
@@ -298,7 +298,7 @@ export const autonomousOwnerLoop = {
       "costUsd": 0,
       "command": "npm run autonomous:release-candidate",
       "targets": [
-        "pwa-aceb80dfc3e5"
+        "pwa-7a411483bcd0"
       ],
       "reason": "Records a content-hashed dist inventory and post-deploy smoke plan for the exact PWA build."
     },
@@ -309,7 +309,7 @@ export const autonomousOwnerLoop = {
       "command": "npm run autonomous:post-deploy-smoke",
       "targets": [
         "deployed-pages-url",
-        "pwa-aceb80dfc3e5"
+        "pwa-7a411483bcd0"
       ],
       "reason": "Waits for a deployed Pages origin, then verifies the live PWA matches the exact release candidate."
     },
