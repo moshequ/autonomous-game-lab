@@ -1,5 +1,5 @@
 export const firstMoveCoach = {
-  "generatedAt": "2026-05-19T11:07:42.092Z",
+  "generatedAt": "2026-05-19T11:12:50.315Z",
   "status": "first-move-coach-ready",
   "sourceStatus": {
     "analyticsSource": "fixture-sample",

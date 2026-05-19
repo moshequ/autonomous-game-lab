@@ -1,5 +1,5 @@
 export const portfolioPolicy = {
-  "generatedAt": "2026-05-19T10:56:56.474Z",
+  "generatedAt": "2026-05-19T11:11:19.169Z",
   "status": "portfolio-policy-ready",
   "analyticsSource": "fixture-sample",
   "releaseHealthStatus": "monitoring",
