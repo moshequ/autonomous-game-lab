@@ -1,25 +1,22 @@
 {
-  "generatedAt": "2026-05-19T20:00:34.626Z",
+  "generatedAt": "2026-05-19T20:04:40.783Z",
   "status": "operator-plan-ready",
   "mode": "plan-only",
   "ownerDecision": {
-    "actionId": "seed-portfolio-traffic",
-    "command": "npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop",
+    "actionId": "optimize-product-gates",
+    "command": "npm run autonomous:analyze && npm run autonomous:product-optimize && npm run autonomous:sync-config && npm run autonomous:simulate",
     "locallyExecutable": true,
     "rejectionReason": null
   },
   "requestedActionId": null,
   "selectedAction": {
-    "id": "seed-portfolio-traffic",
+    "id": "optimize-product-gates",
     "status": "armed",
-    "command": "npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop",
+    "command": "npm run autonomous:analyze && npm run autonomous:product-optimize && npm run autonomous:sync-config && npm run autonomous:simulate",
     "targets": [
-      "canopy-bloom",
-      "grove-engine",
-      "metro-loom",
-      "pocket-draft"
+      "harbor-rings"
     ],
-    "reason": "Under-measured playable games need free organic/internal traffic before quality judgment.",
+    "reason": "Applies one guarded target-score or telemetry improvement when product gates block monetization.",
     "costUsd": 0
   },
   "selectedRejection": null,
@@ -64,6 +61,12 @@
       "reason": "not-selected-this-run"
     },
     {
+      "id": "seed-portfolio-traffic",
+      "status": "armed",
+      "command": "npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop",
+      "reason": "not-selected-this-run"
+    },
+    {
       "id": "refresh-organic-seed-loop",
       "status": "armed",
       "command": "npm run autonomous:organic-seed-loop",
@@ -98,12 +101,6 @@
       "status": "monitor",
       "command": "npm run autonomous:post-deploy-smoke",
       "reason": "status-monitor"
-    },
-    {
-      "id": "optimize-product-gates",
-      "status": "armed",
-      "command": "npm run autonomous:analyze && npm run autonomous:product-optimize && npm run autonomous:sync-config && npm run autonomous:simulate",
-      "reason": "not-selected-this-run"
     },
     {
       "id": "refresh-product-gate-recovery",
@@ -204,24 +201,20 @@
   ],
   "commandPlan": [
     {
-      "segment": "npm run autonomous:growth",
-      "script": "autonomous:growth"
+      "segment": "npm run autonomous:analyze",
+      "script": "autonomous:analyze"
     },
     {
-      "segment": "npm run autonomous:portfolio",
-      "script": "autonomous:portfolio"
+      "segment": "npm run autonomous:product-optimize",
+      "script": "autonomous:product-optimize"
     },
     {
-      "segment": "npm run autonomous:traffic",
-      "script": "autonomous:traffic"
+      "segment": "npm run autonomous:sync-config",
+      "script": "autonomous:sync-config"
     },
     {
-      "segment": "npm run autonomous:acquisition",
-      "script": "autonomous:acquisition"
-    },
-    {
-      "segment": "npm run autonomous:organic-seed-loop",
-      "script": "autonomous:organic-seed-loop"
+      "segment": "npm run autonomous:simulate",
+      "script": "autonomous:simulate"
     }
   ],
   "execution": {
@@ -287,7 +280,7 @@
     "RUN_WORKFLOWS=1"
   ],
   "nextActions": [
-    "Run npm run autonomous:operator -- --execute --action=seed-portfolio-traffic to execute exactly one allowed local action.",
+    "Run npm run autonomous:operator -- --execute --action=optimize-product-gates to execute exactly one allowed local action.",
     "Do not execute GitHub workflow, store, paid ads, or account setup commands from the local operator."
   ]
 }
