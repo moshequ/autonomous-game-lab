@@ -1300,7 +1300,9 @@ test('autonomous operator history keeps a capped audit trail', async ({ page }) 
       lastExecutedActionId: string | null
       lastExecutedStatus: string | null
       lastRecordExecutionStatus: string | null
+      recentlySatisfiedActionIds: string[]
       skippedRecentlyExecutedActionIds: string[]
+      skippedRecentlySatisfiedActionIds: string[]
     }
   }
   const lastExecutedRecord = [...history.records]
@@ -1315,8 +1317,23 @@ test('autonomous operator history keeps a capped audit trail', async ({ page }) 
         .filter(Boolean),
     ),
   ].slice(0, 8)
+  const compositeActionSatisfiedActionIds: Record<string, string[]> = {
+    'collect-gate-sample-downloads': [
+      'collect-live-events',
+      'refresh-product-gate-recovery',
+      'refresh-product-gate-sample-plan',
+    ],
+    'collect-live-events': ['refresh-product-gate-recovery'],
+  }
+  const recentlySatisfiedActionIds = [
+    ...new Set(recentExecutedActionIds.flatMap((actionId) => compositeActionSatisfiedActionIds[actionId] ?? [])),
+  ]
+  const recentlyCoveredActionIds = new Set([...recentExecutedActionIds, ...recentlySatisfiedActionIds])
   const hasExecutableAlternativeOutsideRecent = ownerLoop.safeAutonomousActions.some(
     (action) => ['armed', 'ready-when-repository-pages-enabled'].includes(action.status) && !recentExecutedActionIds.includes(action.id),
+  )
+  const hasExecutableAlternativeOutsideCovered = ownerLoop.safeAutonomousActions.some(
+    (action) => ['armed', 'ready-when-repository-pages-enabled'].includes(action.status) && !recentlyCoveredActionIds.has(action.id),
   )
 
   expect(history.status).toBe('operator-history-ready')
@@ -1332,6 +1349,7 @@ test('autonomous operator history keeps a capped audit trail', async ({ page }) 
   expect(ownerLoop.executionMemory.avoidImmediateRepeat).toBe(true)
   expect(ownerLoop.executionMemory.recentExecutionWindow).toBe(8)
   expect(ownerLoop.executionMemory.recentExecutedActionIds).toEqual(recentExecutedActionIds)
+  expect(ownerLoop.executionMemory.recentlySatisfiedActionIds).toEqual(recentlySatisfiedActionIds)
   expect(ownerLoop.executionMemory.lastExecutedActionId).toBe(history.summary.lastExecutedActionId)
   expect(ownerLoop.executionMemory.lastExecutedStatus).toBe(lastExecutedRecord?.execution.status)
   expect(ownerLoop.executionMemory.lastRecordExecutionStatus).toBe(history.summary.lastExecutionStatus)
@@ -1339,6 +1357,16 @@ test('autonomous operator history keeps a capped audit trail', async ({ page }) 
     expect(recentExecutedActionIds).not.toContain(ownerLoop.ownerDecision.nextBestActionId)
     for (const actionId of recentExecutedActionIds) {
       expect(ownerLoop.executionMemory.skippedRecentlyExecutedActionIds).toContain(actionId)
+    }
+  }
+  if (hasExecutableAlternativeOutsideCovered) {
+    expect(recentlySatisfiedActionIds).not.toContain(ownerLoop.ownerDecision.nextBestActionId)
+    for (const actionId of recentlySatisfiedActionIds) {
+      const satisfiedAction = ownerLoop.safeAutonomousActions.find((action) => action.id === actionId)
+
+      if (satisfiedAction && ['armed', 'ready-when-repository-pages-enabled'].includes(satisfiedAction.status)) {
+        expect(ownerLoop.executionMemory.skippedRecentlySatisfiedActionIds).toContain(actionId)
+      }
     }
   }
   expect(history.controls.zeroPaidSpend).toBe(true)

@@ -1104,8 +1104,22 @@ const lastExecutedActionId =
 const recentExecutedActionIds = [
   ...new Set(recentExecutedRecords.map((record) => record.selectedActionId).filter(Boolean)),
 ].slice(0, recentExecutionWindow)
+const compositeActionSatisfiedActionIds = {
+  'collect-gate-sample-downloads': [
+    'collect-live-events',
+    'refresh-product-gate-recovery',
+    'refresh-product-gate-sample-plan',
+  ],
+  'collect-live-events': ['refresh-product-gate-recovery'],
+}
+const recentlySatisfiedActionIds = [
+  ...new Set(
+    recentExecutedActionIds.flatMap((actionId) => compositeActionSatisfiedActionIds[actionId] ?? []),
+  ),
+]
 const recentlyExecutedActionIds = new Set(recentExecutedActionIds)
-const executableWithoutImmediateRepeat = ownerSelectableNow.filter((action) => !recentlyExecutedActionIds.has(action.id))
+const recentlyCoveredActionIds = new Set([...recentExecutedActionIds, ...recentlySatisfiedActionIds])
+const executableWithoutImmediateRepeat = ownerSelectableNow.filter((action) => !recentlyCoveredActionIds.has(action.id))
 const prioritizedExecutableNow =
   executableWithoutImmediateRepeat.length > 0 ? executableWithoutImmediateRepeat : ownerSelectableNow
 const preferredActionOrder = [
@@ -1165,8 +1179,12 @@ const payload = {
     lastExecutedActionId,
     lastExecutedStatus: lastExecutedRecord?.execution?.status ?? null,
     lastRecordExecutionStatus: autonomousOperatorHistory.summary?.lastExecutionStatus ?? null,
+    recentlySatisfiedActionIds,
     skippedRecentlyExecutedActionIds: executableNow
       .filter((action) => recentlyExecutedActionIds.has(action.id) && action.id !== nextBestAction.id)
+      .map((action) => action.id),
+    skippedRecentlySatisfiedActionIds: executableNow
+      .filter((action) => recentlySatisfiedActionIds.includes(action.id) && action.id !== nextBestAction.id)
       .map((action) => action.id),
     preferredActionOrder,
   },

@@ -3475,6 +3475,20 @@ const ownerHasExecutedAction = (autonomousOperatorHistory.summary?.executedRecor
 const ownerRecentExecutedActionIds = [
   ...new Set(ownerRecentExecutedRecords.map((record) => record.selectedActionId).filter(Boolean)),
 ].slice(0, 8)
+const ownerCompositeActionSatisfiedActionIds = {
+  'collect-gate-sample-downloads': [
+    'collect-live-events',
+    'refresh-product-gate-recovery',
+    'refresh-product-gate-sample-plan',
+  ],
+  'collect-live-events': ['refresh-product-gate-recovery'],
+}
+const ownerRecentlySatisfiedActionIds = [
+  ...new Set(
+    ownerRecentExecutedActionIds.flatMap((actionId) => ownerCompositeActionSatisfiedActionIds[actionId] ?? []),
+  ),
+]
+const ownerRecentlyCoveredActionIds = new Set([...ownerRecentExecutedActionIds, ...ownerRecentlySatisfiedActionIds])
 const ownerRecentlyExecutedActionStillExecutable = (autonomousOwnerLoop.safeAutonomousActions ?? []).some(
   (action) =>
     action.id === ownerLastExecutedActionId &&
@@ -3489,6 +3503,16 @@ const ownerHasExecutableAlternativeOutsideRecent = (autonomousOwnerLoop.safeAuto
   (action) =>
     ['armed', 'ready-when-repository-pages-enabled'].includes(action.status) &&
     !ownerRecentExecutedActionIds.includes(action.id),
+)
+const ownerRecentlySatisfiedExecutableActionIds = ownerRecentlySatisfiedActionIds.filter((actionId) =>
+  (autonomousOwnerLoop.safeAutonomousActions ?? []).some(
+    (action) => action.id === actionId && ['armed', 'ready-when-repository-pages-enabled'].includes(action.status),
+  ),
+)
+const ownerHasExecutableAlternativeOutsideCovered = (autonomousOwnerLoop.safeAutonomousActions ?? []).some(
+  (action) =>
+    ['armed', 'ready-when-repository-pages-enabled'].includes(action.status) &&
+    !ownerRecentlyCoveredActionIds.has(action.id),
 )
 
 if (
@@ -3538,9 +3562,14 @@ if (
   autonomousOwnerLoop.executionMemory?.lastRecordExecutionStatus !== ownerLastRecordExecutionStatus ||
   JSON.stringify(autonomousOwnerLoop.executionMemory?.recentExecutedActionIds ?? []) !==
     JSON.stringify(ownerRecentExecutedActionIds) ||
+  JSON.stringify(autonomousOwnerLoop.executionMemory?.recentlySatisfiedActionIds ?? []) !==
+    JSON.stringify(ownerRecentlySatisfiedActionIds) ||
   (ownerHasExecutedAction &&
     ownerHasExecutableAlternativeOutsideRecent &&
     ownerRecentExecutedActionIds.includes(autonomousOwnerLoop.ownerDecision?.nextBestActionId)) ||
+  (ownerHasExecutedAction &&
+    ownerHasExecutableAlternativeOutsideCovered &&
+    ownerRecentlySatisfiedActionIds.includes(autonomousOwnerLoop.ownerDecision?.nextBestActionId)) ||
   (ownerHasExecutedAction &&
     ownerRecentlyExecutedActionStillExecutable &&
     autonomousOwnerLoop.ownerDecision?.nextBestActionId === ownerLastExecutedActionId) ||
@@ -3551,6 +3580,11 @@ if (
     ownerHasExecutableAlternativeOutsideRecent &&
     !ownerRecentlyExecutedExecutableActionIds.every((actionId) =>
       autonomousOwnerLoop.executionMemory?.skippedRecentlyExecutedActionIds?.includes(actionId),
+    )) ||
+  (ownerHasExecutedAction &&
+    ownerHasExecutableAlternativeOutsideCovered &&
+    !ownerRecentlySatisfiedExecutableActionIds.every((actionId) =>
+      autonomousOwnerLoop.executionMemory?.skippedRecentlySatisfiedActionIds?.includes(actionId),
     ))
 ) {
   fail('Autonomous owner loop must synthesize current production state, safe actions, and credential-gated blockers.')
