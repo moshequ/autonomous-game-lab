@@ -1,24 +1,22 @@
 {
-  "generatedAt": "2026-05-19T21:47:42.976Z",
+  "generatedAt": "2026-05-19T21:51:56.752Z",
   "status": "operator-plan-ready",
   "mode": "plan-only",
   "ownerDecision": {
-    "actionId": "bootstrap-production-setup",
-    "command": "npm run autonomous:release-candidate && npm run autonomous:deploy-plan && npm run autonomous:bootstrap",
+    "actionId": "refresh-product-gate-recovery",
+    "command": "npm run autonomous:gate-recovery",
     "locallyExecutable": true,
     "rejectionReason": null
   },
   "requestedActionId": null,
   "selectedAction": {
-    "id": "bootstrap-production-setup",
+    "id": "refresh-product-gate-recovery",
     "status": "armed",
-    "command": "npm run autonomous:release-candidate && npm run autonomous:deploy-plan && npm run autonomous:bootstrap",
+    "command": "npm run autonomous:gate-recovery",
     "targets": [
-      "github-pages",
-      "repository-config",
-      "event-collector"
+      "firstGameCompletion"
     ],
-    "reason": "Regenerates the zero-spend production setup handoff and exact GitHub variable/secret commands.",
+    "reason": "Ranks the exact observed lift and prompt sample still needed before revenue gates can open.",
     "costUsd": 0
   },
   "selectedRejection": null,
@@ -111,12 +109,6 @@
       "reason": "not-selected-this-run"
     },
     {
-      "id": "refresh-product-gate-recovery",
-      "status": "armed",
-      "command": "npm run autonomous:gate-recovery",
-      "reason": "not-selected-this-run"
-    },
-    {
       "id": "collect-gate-sample-downloads",
       "status": "monitor",
       "command": "npm run autonomous:collect-sample-downloads",
@@ -150,6 +142,12 @@
       "id": "prepare-repository-channel",
       "status": "armed",
       "command": "npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap",
+      "reason": "not-selected-this-run"
+    },
+    {
+      "id": "bootstrap-production-setup",
+      "status": "armed",
+      "command": "npm run autonomous:release-candidate && npm run autonomous:deploy-plan && npm run autonomous:bootstrap",
       "reason": "not-selected-this-run"
     },
     {
@@ -203,16 +201,8 @@
   ],
   "commandPlan": [
     {
-      "segment": "npm run autonomous:release-candidate",
-      "script": "autonomous:release-candidate"
-    },
-    {
-      "segment": "npm run autonomous:deploy-plan",
-      "script": "autonomous:deploy-plan"
-    },
-    {
-      "segment": "npm run autonomous:bootstrap",
-      "script": "autonomous:bootstrap"
+      "segment": "npm run autonomous:gate-recovery",
+      "script": "autonomous:gate-recovery"
     }
   ],
   "execution": {
@@ -278,7 +268,7 @@
     "RUN_WORKFLOWS=1"
   ],
   "nextActions": [
-    "Run npm run autonomous:operator -- --execute --action=bootstrap-production-setup to execute exactly one allowed local action.",
+    "Run npm run autonomous:operator -- --execute --action=refresh-product-gate-recovery to execute exactly one allowed local action.",
     "Do not execute GitHub workflow, store, paid ads, or account setup commands from the local operator."
   ]
 }
