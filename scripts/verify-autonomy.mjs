@@ -1231,10 +1231,15 @@ if (
 }
 
 const operatorSelectedCommand = autonomousOperator.selectedAction?.command
+const operatorStatusAllowed = ['operator-plan-ready', 'operator-executed'].includes(autonomousOperator.status)
+const operatorModeAllowed = ['plan-only', 'execute-one-action'].includes(autonomousOperator.mode)
+const operatorExecutionStatusAllowed = ['not-requested', 'executed'].includes(
+  autonomousOperator.execution?.status,
+)
 
 if (
-  autonomousOperator.status !== 'operator-plan-ready' ||
-  autonomousOperator.mode !== 'plan-only' ||
+  !operatorStatusAllowed ||
+  !operatorModeAllowed ||
   autonomousOperator.selectedAction?.costUsd !== 0 ||
   autonomousOperator.ownerDecision?.locallyExecutable !== true ||
   autonomousOperator.selectedAction?.id !== autonomousOwnerLoop.ownerDecision?.nextBestActionId ||
@@ -1249,7 +1254,8 @@ if (
   autonomousOperator.controls?.executeRequiresFlag !== true ||
   autonomousOperator.controls?.externalWorkflowExecutionBlockedByDefault !== true ||
   autonomousOperator.controls?.dailyLoopRecursionBlocked !== true ||
-  autonomousOperator.execution?.requested !== false ||
+  autonomousOperator.execution?.requested !== (autonomousOperator.status === 'operator-executed') ||
+  !operatorExecutionStatusAllowed ||
   autonomousOperator.execution?.maxActionsPerRun !== 1 ||
   !autonomousOperator.allowlist?.includes('npm run autonomous:completion-loop') ||
   !autonomousOperator.allowlist?.includes('npm run autonomous:replay-loop') ||
@@ -1267,7 +1273,7 @@ if (
   !autonomousOperatorSource.includes('AGL_OPERATOR_EXECUTE') ||
   !appSource.includes('Autonomous Operator')
 ) {
-  fail('Autonomous operator must publish a dry-run one-action plan with exact local command allowlisting, zero-spend controls, and external workflow blocks.')
+  fail('Autonomous operator must publish or execute one exact allowlisted local action with zero-spend controls and external workflow blocks.')
 }
 
 if (
@@ -1277,7 +1283,9 @@ if (
   autonomousOperatorHistory.summary?.totalRecords < 1 ||
   autonomousOperatorHistory.summary?.totalRecords > 40 ||
   autonomousOperatorHistory.summary?.plannedRecords < 1 ||
+  autonomousOperatorHistory.summary?.executedRecords < 1 ||
   autonomousOperatorHistory.summary?.failedRecords !== 0 ||
+  !autonomousOperatorHistory.summary?.lastExecutedActionId ||
   autonomousOperatorHistory.controls?.zeroPaidSpend !== true ||
   autonomousOperatorHistory.controls?.localCommandAllowlistEnforced !== true ||
   autonomousOperatorHistory.controls?.maxActionsPerRun !== 1 ||
@@ -1289,7 +1297,7 @@ if (
   !autonomousOperatorSource.includes('slice(-40)') ||
   !appSource.includes('Operator History')
 ) {
-  fail('Autonomous operator history must keep a capped durable audit trail for planned/executed allowlisted actions.')
+  fail('Autonomous operator history must keep a capped durable audit trail for planned and successfully executed allowlisted actions.')
 }
 
 const hasDuplicateOperatorDryRun = (autonomousOperatorHistory.records ?? []).some((record, index, records) => {

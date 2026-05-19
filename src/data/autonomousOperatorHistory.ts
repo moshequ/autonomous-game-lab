@@ -1,5 +1,5 @@
 export const autonomousOperatorHistory = {
-  "generatedAt": "2026-05-19T03:16:01.688Z",
+  "generatedAt": "2026-05-19T03:24:28.550Z",
   "status": "operator-history-ready",
   "retention": {
     "maxRecords": 40,
@@ -8,13 +8,13 @@ export const autonomousOperatorHistory = {
     "compactedDuplicateDryRuns": 0
   },
   "summary": {
-    "totalRecords": 23,
+    "totalRecords": 24,
     "plannedRecords": 23,
-    "executedRecords": 0,
+    "executedRecords": 1,
     "failedRecords": 0,
     "lastActionId": "prepare-repository-channel",
-    "lastExecutionStatus": "not-requested",
-    "lastExecutedActionId": null
+    "lastExecutionStatus": "executed",
+    "lastExecutedActionId": "prepare-repository-channel"
   },
   "controls": {
     "zeroPaidSpend": true,
@@ -891,6 +891,46 @@ export const autonomousOperatorHistory = {
         "status": "not-requested",
         "attemptedActionId": null,
         "resultCount": 0,
+        "failedScripts": []
+      },
+      "controls": {
+        "zeroPaidSpend": true,
+        "localCommandAllowlistEnforced": true,
+        "externalWorkflowExecutionBlockedByDefault": true,
+        "maxActionsPerRun": 1
+      }
+    },
+    {
+      "id": "20260519032428-prepare-repository-channel",
+      "generatedAt": "2026-05-19T03:24:28.550Z",
+      "runFingerprint": "34714fb013b63c50",
+      "mode": "execute-one-action",
+      "status": "operator-executed",
+      "selectedActionId": "prepare-repository-channel",
+      "selectedCommand": "npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap",
+      "eligibleActionIds": [
+        "refresh-autonomous-self-update",
+        "seed-portfolio-traffic",
+        "refresh-organic-seed-loop",
+        "optimize-daily-retention",
+        "measure-pwa-install-loop",
+        "check-performance-budget",
+        "prepare-release-candidate",
+        "optimize-product-gates",
+        "refresh-first-move-coach",
+        "refresh-completion-loop",
+        "refresh-replay-loop",
+        "prepare-repository-channel",
+        "bootstrap-production-setup",
+        "optimize-store-listing",
+        "apply-safe-improvements"
+      ],
+      "blockedActionCount": 23,
+      "execution": {
+        "requested": true,
+        "status": "executed",
+        "attemptedActionId": "prepare-repository-channel",
+        "resultCount": 2,
         "failedScripts": []
       },
       "controls": {

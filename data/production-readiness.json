@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-19T03:23:23.079Z",
+  "generatedAt": "2026-05-19T03:25:58.926Z",
   "environment": {
     "status": "production-env-missing",
     "publicOrigin": null,
@@ -75,7 +75,7 @@
         "originRemote": null,
         "remoteRepository": null,
         "hasCommit": true,
-        "dirtyFiles": 46
+        "dirtyFiles": 3
       },
       "after": {
         "insideWorkTree": true,
@@ -84,7 +84,7 @@
         "originRemote": null,
         "remoteRepository": null,
         "hasCommit": true,
-        "dirtyFiles": 46
+        "dirtyFiles": 3
       }
     },
     "repository": {
@@ -156,7 +156,7 @@
         "mutatesLocalGit": true,
         "mutatesRemoteGitHub": false,
         "requiresExplicitEnv": true,
-        "detail": "46 generated or source file(s) are not committed yet."
+        "detail": "3 generated or source file(s) are not committed yet."
       },
       {
         "id": "set-or-create-origin",
@@ -339,12 +339,12 @@
       {
         "id": "autonomous-operator",
         "status": "pass",
-        "detail": "Autonomous operator is operator-plan-ready; selected prepare-repository-channel; execution not-requested."
+        "detail": "Autonomous operator is operator-executed; selected prepare-repository-channel; execution executed."
       },
       {
         "id": "autonomous-operator-history",
         "status": "pass",
-        "detail": "Autonomous operator history is operator-history-ready; records 23; executed 0."
+        "detail": "Autonomous operator history is operator-history-ready; records 24; executed 1."
       },
       {
         "id": "autonomous-cadence",
@@ -2191,8 +2191,8 @@
     ]
   },
   "autonomousOperator": {
-    "status": "operator-plan-ready",
-    "mode": "plan-only",
+    "status": "operator-executed",
+    "mode": "execute-one-action",
     "selectedAction": {
       "id": "prepare-repository-channel",
       "status": "armed",
@@ -2218,11 +2218,37 @@
       "noStoreSubmissionCommands": true
     },
     "execution": {
-      "requested": false,
-      "status": "not-requested",
+      "requested": true,
+      "status": "executed",
       "maxActionsPerRun": 1,
-      "attemptedActionId": null,
-      "results": []
+      "attemptedActionId": "prepare-repository-channel",
+      "results": [
+        {
+          "script": "autonomous:repo-readiness",
+          "exitCode": 0,
+          "stdoutTail": [
+            "> autonomous-game-lab@0.0.0 autonomous:repo-readiness",
+            "> node scripts/repository-readiness.mjs",
+            "Wrote data/repository-readiness.json",
+            "Wrote src/data/repositoryReadiness.ts",
+            "Wrote reports/repository-readiness-latest.md"
+          ],
+          "stderrTail": []
+        },
+        {
+          "script": "autonomous:repo-bootstrap",
+          "exitCode": 0,
+          "stdoutTail": [
+            "> autonomous-game-lab@0.0.0 autonomous:repo-bootstrap",
+            "> node scripts/repository-bootstrap.mjs",
+            "Wrote data/repository-bootstrap.json",
+            "Wrote src/data/repositoryBootstrap.ts",
+            "Wrote reports/repository-bootstrap-latest.md",
+            "Wrote ops/github/bootstrap-repository.sh"
+          ],
+          "stderrTail": []
+        }
+      ]
     },
     "eligibleActionIds": [
       "refresh-autonomous-self-update",
@@ -2385,13 +2411,13 @@
   "autonomousOperatorHistory": {
     "status": "operator-history-ready",
     "summary": {
-      "totalRecords": 23,
+      "totalRecords": 24,
       "plannedRecords": 23,
-      "executedRecords": 0,
+      "executedRecords": 1,
       "failedRecords": 0,
       "lastActionId": "prepare-repository-channel",
-      "lastExecutionStatus": "not-requested",
-      "lastExecutedActionId": null
+      "lastExecutionStatus": "executed",
+      "lastExecutedActionId": "prepare-repository-channel"
     },
     "controls": {
       "zeroPaidSpend": true,
@@ -2407,44 +2433,6 @@
       "compactedDuplicateDryRuns": 0
     },
     "recentRecords": [
-      {
-        "id": "20260519030627-prepare-repository-channel",
-        "generatedAt": "2026-05-19T03:06:27.116Z",
-        "runFingerprint": "ee096c3bf096598f",
-        "mode": "plan-only",
-        "status": "operator-plan-ready",
-        "selectedActionId": "prepare-repository-channel",
-        "selectedCommand": "npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap",
-        "eligibleActionIds": [
-          "refresh-autonomous-self-update",
-          "seed-portfolio-traffic",
-          "refresh-organic-seed-loop",
-          "optimize-daily-retention",
-          "measure-pwa-install-loop",
-          "optimize-product-gates",
-          "refresh-first-move-coach",
-          "refresh-completion-loop",
-          "refresh-replay-loop",
-          "prepare-repository-channel",
-          "bootstrap-production-setup",
-          "optimize-store-listing",
-          "apply-safe-improvements"
-        ],
-        "blockedActionCount": 23,
-        "execution": {
-          "requested": false,
-          "status": "not-requested",
-          "attemptedActionId": null,
-          "resultCount": 0,
-          "failedScripts": []
-        },
-        "controls": {
-          "zeroPaidSpend": true,
-          "localCommandAllowlistEnforced": true,
-          "externalWorkflowExecutionBlockedByDefault": true,
-          "maxActionsPerRun": 1
-        }
-      },
       {
         "id": "20260519030736-prepare-repository-channel",
         "generatedAt": "2026-05-19T03:07:36.558Z",
@@ -2594,6 +2582,46 @@
           "status": "not-requested",
           "attemptedActionId": null,
           "resultCount": 0,
+          "failedScripts": []
+        },
+        "controls": {
+          "zeroPaidSpend": true,
+          "localCommandAllowlistEnforced": true,
+          "externalWorkflowExecutionBlockedByDefault": true,
+          "maxActionsPerRun": 1
+        }
+      },
+      {
+        "id": "20260519032428-prepare-repository-channel",
+        "generatedAt": "2026-05-19T03:24:28.550Z",
+        "runFingerprint": "34714fb013b63c50",
+        "mode": "execute-one-action",
+        "status": "operator-executed",
+        "selectedActionId": "prepare-repository-channel",
+        "selectedCommand": "npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap",
+        "eligibleActionIds": [
+          "refresh-autonomous-self-update",
+          "seed-portfolio-traffic",
+          "refresh-organic-seed-loop",
+          "optimize-daily-retention",
+          "measure-pwa-install-loop",
+          "check-performance-budget",
+          "prepare-release-candidate",
+          "optimize-product-gates",
+          "refresh-first-move-coach",
+          "refresh-completion-loop",
+          "refresh-replay-loop",
+          "prepare-repository-channel",
+          "bootstrap-production-setup",
+          "optimize-store-listing",
+          "apply-safe-improvements"
+        ],
+        "blockedActionCount": 23,
+        "execution": {
+          "requested": true,
+          "status": "executed",
+          "attemptedActionId": "prepare-repository-channel",
+          "resultCount": 2,
           "failedScripts": []
         },
         "controls": {
@@ -2930,7 +2958,7 @@
           "Experiment results: evaluated",
           "Backlog items: 4",
           "Applied/deferred actions: 6",
-          "Operator selected: prepare-repository-channel"
+          "Operator selected: prepare-repository-channel; status operator-executed; execution executed"
         ],
         "blockers": [],
         "nextAction": "Keep collecting starts until a safe product-gate tuning action is justified.",
@@ -2944,8 +2972,8 @@
           "Owner loop: owner-loop-ready",
           "Autonomous cadence: cadence-ready; Codex active-confirmed; GitHub scheduled",
           "Autonomous self-update: self-update-ready; workflow .github/workflows/autonomous-self-update.yml; unsafe pending 0",
-          "Operator: operator-plan-ready",
-          "Operator history: operator-history-ready; records 23",
+          "Operator: operator-executed",
+          "Operator history: operator-history-ready; records 24; executed 1",
           "Bootstrap: production-bootstrap-ready",
           "Repository bootstrap: waiting-for-github-target; helper ops/github/bootstrap-repository.sh",
           "Release candidate: release-candidate-ready; smoke URLs 7",

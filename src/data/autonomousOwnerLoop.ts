@@ -1,5 +1,5 @@
 export const autonomousOwnerLoop = {
-  "generatedAt": "2026-05-19T03:23:23.292Z",
+  "generatedAt": "2026-05-19T03:25:59.147Z",
   "status": "owner-loop-ready",
   "mode": "repository-channel-needed",
   "autonomyScore": {
@@ -191,14 +191,14 @@ export const autonomousOwnerLoop = {
       "id": "autonomous-operator",
       "status": "ready",
       "autonomy": "one-safe-action-runner",
-      "evidence": "Operator operator-plan-ready; selected prepare-repository-channel; execution not-requested.",
+      "evidence": "Operator operator-executed; selected prepare-repository-channel; execution executed.",
       "nextAction": "Keep a dry-run operator plan ready, then execute only one allowlisted local action when explicitly requested."
     },
     {
       "id": "operator-history",
       "status": "ready",
       "autonomy": "operator-audit-trail",
-      "evidence": "History operator-history-ready; records 23; executed 0.",
+      "evidence": "History operator-history-ready; records 24; executed 1.",
       "nextAction": "Keep a capped durable record of operator plans and one-action executions."
     },
     {
@@ -655,7 +655,7 @@ export const autonomousOwnerLoop = {
     "completionLoopStatus": "completion-loop-ready",
     "replayLoopStatus": "replay-loop-ready",
     "productionBootstrapStatus": "production-bootstrap-ready",
-    "autonomousOperatorStatus": "operator-plan-ready",
+    "autonomousOperatorStatus": "operator-executed",
     "autonomousOperatorHistoryStatus": "operator-history-ready",
     "objectiveAuditStatus": "objective-in-progress",
     "storeListingOptimizerStatus": "store-listing-optimizer-ready",

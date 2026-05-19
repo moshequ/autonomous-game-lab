@@ -1,14 +1,14 @@
 {
-  "generatedAt": "2026-05-19T03:16:01.688Z",
-  "status": "operator-plan-ready",
-  "mode": "plan-only",
+  "generatedAt": "2026-05-19T03:24:28.550Z",
+  "status": "operator-executed",
+  "mode": "execute-one-action",
   "ownerDecision": {
     "actionId": "prepare-repository-channel",
     "command": "npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap",
     "locallyExecutable": true,
     "rejectionReason": null
   },
-  "requestedActionId": null,
+  "requestedActionId": "prepare-repository-channel",
   "selectedAction": {
     "id": "prepare-repository-channel",
     "status": "armed",
@@ -188,11 +188,37 @@
     }
   ],
   "execution": {
-    "requested": false,
-    "status": "not-requested",
+    "requested": true,
+    "status": "executed",
     "maxActionsPerRun": 1,
-    "attemptedActionId": null,
-    "results": []
+    "attemptedActionId": "prepare-repository-channel",
+    "results": [
+      {
+        "script": "autonomous:repo-readiness",
+        "exitCode": 0,
+        "stdoutTail": [
+          "> autonomous-game-lab@0.0.0 autonomous:repo-readiness",
+          "> node scripts/repository-readiness.mjs",
+          "Wrote data/repository-readiness.json",
+          "Wrote src/data/repositoryReadiness.ts",
+          "Wrote reports/repository-readiness-latest.md"
+        ],
+        "stderrTail": []
+      },
+      {
+        "script": "autonomous:repo-bootstrap",
+        "exitCode": 0,
+        "stdoutTail": [
+          "> autonomous-game-lab@0.0.0 autonomous:repo-bootstrap",
+          "> node scripts/repository-bootstrap.mjs",
+          "Wrote data/repository-bootstrap.json",
+          "Wrote src/data/repositoryBootstrap.ts",
+          "Wrote reports/repository-bootstrap-latest.md",
+          "Wrote ops/github/bootstrap-repository.sh"
+        ],
+        "stderrTail": []
+      }
+    ]
   },
   "controls": {
     "zeroPaidSpend": true,
@@ -244,7 +270,7 @@
     "RUN_WORKFLOWS=1"
   ],
   "nextActions": [
-    "Run npm run autonomous:operator -- --execute --action=prepare-repository-channel to execute exactly one allowed local action.",
+    "Review prepare-repository-channel execution results before another operator run.",
     "Do not execute GitHub workflow, store, paid ads, or account setup commands from the local operator."
   ]
 }

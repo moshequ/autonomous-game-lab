@@ -134,6 +134,10 @@ const postDeploySmokeReady =
 const repositoryChannelReady = ['repository-channel-ready', 'waiting-for-gh-auth'].includes(
   repositoryReadiness.status,
 )
+const autonomousOperatorReady = ['operator-plan-ready', 'operator-executed'].includes(autonomousOperator.status)
+const autonomousOperatorHistoryReady =
+  autonomousOperatorHistory.status === 'operator-history-ready' &&
+  (autonomousOperatorHistory.summary?.executedRecords ?? 0) >= 1
 
 const requirement = ({
   id,
@@ -237,7 +241,7 @@ const requirements = [
       experimentResults.status === 'evaluated' &&
       Array.isArray(improvementBacklog) &&
       Array.isArray(appliedImprovements.actions) &&
-      autonomousOperator.status === 'operator-plan-ready'
+      autonomousOperatorReady
         ? 'met'
         : 'incomplete',
     summary: 'Analytics drive product-gate optimization, experiment evaluation, backlog routing, and one safe local operator action.',
@@ -259,7 +263,7 @@ const requirements = [
       `Experiment results: ${experimentResults.status}`,
       `Backlog items: ${improvementBacklog.length}`,
       `Applied/deferred actions: ${appliedImprovements.actions?.length ?? 0}`,
-      `Operator selected: ${autonomousOperator.selectedAction?.id ?? 'none'}`,
+      `Operator selected: ${autonomousOperator.selectedAction?.id ?? 'none'}; status ${autonomousOperator.status}; execution ${autonomousOperator.execution?.status ?? 'missing'}`,
     ],
     blockers: [],
     nextAction: productOptimization.nextActions?.[0] ?? 'Keep applying only bounded changes from current evidence.',
@@ -270,8 +274,8 @@ const requirements = [
       autonomousOwnerLoop.status === 'owner-loop-ready' &&
       autonomousCadence.status === 'cadence-ready' &&
       autonomousSelfUpdate.status === 'self-update-ready' &&
-      autonomousOperator.status === 'operator-plan-ready' &&
-      autonomousOperatorHistory.status === 'operator-history-ready' &&
+      autonomousOperatorReady &&
+      autonomousOperatorHistoryReady &&
       releaseCandidate.status === 'release-candidate-ready' &&
       postDeploySmokeReady &&
       repositoryChannelReady &&
@@ -282,8 +286,8 @@ const requirements = [
       : autonomousOwnerLoop.status === 'owner-loop-ready' &&
           autonomousCadence.status === 'cadence-ready' &&
           autonomousSelfUpdate.status === 'self-update-ready' &&
-          autonomousOperator.status === 'operator-plan-ready' &&
-          autonomousOperatorHistory.status === 'operator-history-ready' &&
+          autonomousOperatorReady &&
+          autonomousOperatorHistoryReady &&
           releaseCandidate.status === 'release-candidate-ready' &&
           postDeploySmokeReady &&
           !repositoryChannelReady &&
@@ -293,8 +297,8 @@ const requirements = [
       : autonomousOwnerLoop.status === 'owner-loop-ready' &&
           autonomousCadence.status === 'cadence-ready' &&
           autonomousSelfUpdate.status === 'self-update-ready' &&
-          autonomousOperator.status === 'operator-plan-ready' &&
-          autonomousOperatorHistory.status === 'operator-history-ready' &&
+          autonomousOperatorReady &&
+          autonomousOperatorHistoryReady &&
           releaseCandidate.status === 'release-candidate-ready' &&
           postDeploySmokeReady &&
           repositoryChannelReady &&
@@ -314,7 +318,7 @@ const requirements = [
       `Operator: ${autonomousOperator.status}`,
       `Operator history: ${autonomousOperatorHistory.status}; records ${
         autonomousOperatorHistory.summary?.totalRecords ?? 0
-      }`,
+      }; executed ${autonomousOperatorHistory.summary?.executedRecords ?? 0}`,
       `Bootstrap: ${productionBootstrap.status}`,
       `Repository bootstrap: ${repositoryBootstrap.status}; helper ${
         repositoryBootstrap.helper?.path ?? 'missing'

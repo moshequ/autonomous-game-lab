@@ -53,7 +53,7 @@ test('portal loads a playable canvas and autonomy cockpit', async ({ page }) => 
   await expect(page.getByLabel('Repository Channel')).toContainText('Workflow dispatch')
   await expect(page.getByLabel('Repository Bootstrap')).toContainText(/needs-local-git-bootstrap|waiting-for-github-target|waiting-for-origin-remote|waiting-for-gh-auth|repository-bootstrap-ready/)
   await expect(page.getByLabel('Repository Bootstrap')).toContainText('bootstrap-repository.sh')
-  await expect(page.getByLabel('Autonomous Operator')).toContainText('operator-plan-ready')
+  await expect(page.getByLabel('Autonomous Operator')).toContainText(/operator-plan-ready|operator-executed/)
   await expect(page.getByLabel('Autonomous Operator')).toContainText('Selected action')
   await expect(page.getByLabel('Operator History')).toContainText('operator-history-ready')
   await expect(page.getByLabel('Autonomous Cadence')).toContainText('cadence-ready')
@@ -943,7 +943,7 @@ test('production bootstrap emits zero-spend setup handoff artifacts', async ({ p
   await expect(page.getByLabel('Production Bootstrap')).toContainText('production-bootstrap-ready')
 })
 
-test('autonomous operator plans one allowlisted zero-spend local action', async ({ page }) => {
+test('autonomous operator plans or executes one allowlisted zero-spend local action', async ({ page }) => {
   const operator = JSON.parse(await readFile('data/autonomous-operator.json', 'utf8')) as {
     status: string
     mode: string
@@ -962,8 +962,8 @@ test('autonomous operator plans one allowlisted zero-spend local action', async 
     blockedActions: Array<{ id: string; reason: string }>
   }
 
-  expect(operator.status).toBe('operator-plan-ready')
-  expect(operator.mode).toBe('plan-only')
+  expect(['operator-plan-ready', 'operator-executed']).toContain(operator.status)
+  expect(['plan-only', 'execute-one-action']).toContain(operator.mode)
   expect(operator.selectedAction?.costUsd).toBe(0)
   expect(operator.selectedAction?.command).toBeTruthy()
   expect(operator.allowlist).toContain(operator.selectedAction?.command)
@@ -973,13 +973,14 @@ test('autonomous operator plans one allowlisted zero-spend local action', async 
   expect(operator.controls.dryRunByDefault).toBe(true)
   expect(operator.controls.externalWorkflowExecutionBlockedByDefault).toBe(true)
   expect(operator.controls.dailyLoopRecursionBlocked).toBe(true)
-  expect(operator.execution.requested).toBe(false)
+  expect(operator.execution.requested).toBe(operator.status === 'operator-executed')
+  expect(['not-requested', 'executed']).toContain(operator.execution.status)
   expect(operator.execution.maxActionsPerRun).toBe(1)
   expect(operator.blockedFragments).toContain('gh workflow run')
   expect(operator.blockedActions.some((action) => action.reason === 'daily-loop-recursion-blocked')).toBe(true)
 
   await page.goto('/')
-  await expect(page.getByLabel('Autonomous Operator')).toContainText('operator-plan-ready')
+  await expect(page.getByLabel('Autonomous Operator')).toContainText(/operator-plan-ready|operator-executed/)
 })
 
 test('autonomous operator history keeps a capped audit trail', async ({ page }) => {
@@ -996,6 +997,7 @@ test('autonomous operator history keeps a capped audit trail', async ({ page }) 
       executedRecords: number
       failedRecords: number
       lastActionId: string | null
+      lastExecutedActionId: string | null
     }
     controls: {
       zeroPaidSpend: boolean
@@ -1017,8 +1019,10 @@ test('autonomous operator history keeps a capped audit trail', async ({ page }) 
   expect(history.summary.totalRecords).toBeGreaterThanOrEqual(1)
   expect(history.summary.totalRecords).toBeLessThanOrEqual(40)
   expect(history.summary.plannedRecords).toBeGreaterThanOrEqual(1)
+  expect(history.summary.executedRecords).toBeGreaterThanOrEqual(1)
   expect(history.summary.failedRecords).toBe(0)
   expect(history.summary.lastActionId).toBeTruthy()
+  expect(history.summary.lastExecutedActionId).toBeTruthy()
   expect(history.controls.zeroPaidSpend).toBe(true)
   expect(history.controls.localCommandAllowlistEnforced).toBe(true)
   expect(history.controls.maxActionsPerRun).toBe(1)
