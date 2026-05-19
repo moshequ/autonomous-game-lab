@@ -298,6 +298,10 @@ const analyticsLibSource = await readFile(path.join(root, 'src', 'lib', 'analyti
 const analyticsRollupSource = await readFile(path.join(root, 'scripts', 'analytics-rollup.mjs'), 'utf8')
 const envLoaderSource = await readFile(path.join(root, 'scripts', 'lib', 'env-loader.mjs'), 'utf8')
 const productionEnvironmentSource = await readFile(path.join(root, 'scripts', 'production-environment.mjs'), 'utf8')
+const eventCollectorWorkerSource = await readFile(
+  path.join(root, 'ops', 'cloudflare', 'event-collector-worker.mjs'),
+  'utf8',
+)
 const eventCollectorDeployPlanSource = await readFile(
   path.join(root, 'scripts', 'event-collector-deploy-plan.mjs'),
   'utf8',
@@ -324,6 +328,18 @@ const codexAutomationManifest = JSON.parse(
 const gitignoreSource = await readFile(path.join(root, '.gitignore'), 'utf8')
 const playableIds = new Set(playable.games ?? [])
 const roundMetric = (value) => (typeof value === 'number' ? Math.round(value * 1000) / 1000 : value)
+const extractQuotedValues = (source) => [...source.matchAll(/'([^']+)'/g)].map((match) => match[1])
+const analyticsEventTypeSource = analyticsLibSource.slice(
+  analyticsLibSource.indexOf('export type AnalyticsEventName'),
+  analyticsLibSource.indexOf('export type AnalyticsProperties'),
+)
+const collectorAllowedEventSource = eventCollectorWorkerSource.slice(
+  eventCollectorWorkerSource.indexOf('const allowedEventNames'),
+  eventCollectorWorkerSource.indexOf('const sensitivePropertyKeys'),
+)
+const analyticsEventNames = extractQuotedValues(analyticsEventTypeSource)
+const collectorAllowedEventNames = new Set(extractQuotedValues(collectorAllowedEventSource))
+const missingCollectorEventNames = analyticsEventNames.filter((eventName) => !collectorAllowedEventNames.has(eventName))
 const corePlayableIds = new Set([
   'harbor-rings',
   'lantern-relay',
@@ -471,6 +487,7 @@ if (
 }
 
 if (
+  missingCollectorEventNames.length > 0 ||
   eventCollectorSmoke.status !== 'pass' ||
   eventCollectorSmoke.collector?.postStatus !== 'accepted' ||
   eventCollectorSmoke.collector?.storedEvents < 5 ||
@@ -482,9 +499,17 @@ if (
   eventCollectorSmoke.analytics?.retentionSource !== 'local-event-drops' ||
   eventCollectorSmoke.analytics?.d1Retention !== 1 ||
   eventCollectorSmoke.analytics?.counts?.game_started < 1 ||
+  eventCollectorSmoke.analytics?.counts?.gate_sample_mission_clicked < 1 ||
+  eventCollectorSmoke.analytics?.counts?.first_move_coach_shown < 1 ||
+  eventCollectorSmoke.analytics?.counts?.completion_nudge_viewed < 1 ||
+  eventCollectorSmoke.analytics?.counts?.replay_prompt_clicked < 1 ||
+  eventCollectorSmoke.analytics?.counts?.daily_return_prompt_clicked < 1 ||
+  eventCollectorSmoke.analytics?.counts?.pwa_install_prompt_clicked < 1 ||
   eventCollectorSmoke.analytics?.counts?.level_completed < 1
 ) {
-  fail('Event collector smoke must prove Worker events export, import, PII stripping, and roll up into analytics.')
+  fail(
+    `Event collector smoke must prove Worker events export, import, PII stripping, app event allowlisting, and roll up into analytics. Missing collector events: ${missingCollectorEventNames.join(', ') || 'none'}.`,
+  )
 }
 
 if (

@@ -98,6 +98,21 @@ const exportedEvents = [
     createdAt: '2026-05-17T09:00:00.000Z',
   },
   {
+    id: 'collector-gate-sample',
+    name: 'gate_sample_mission_clicked',
+    properties: {
+      gameId: 'mosaic-haven',
+      gateId: 'firstGameCompletion',
+      campaignId: 'gate-sample-smoke',
+      anonymousId: 'anon-collector',
+      sessionId: 'session-collector-a',
+      sessionDate: '2026-05-17',
+      costUsd: 0,
+      noSyntheticEvents: true,
+    },
+    createdAt: '2026-05-17T09:00:30.000Z',
+  },
+  {
     id: 'collector-start',
     name: 'game_started',
     properties: {
@@ -107,6 +122,17 @@ const exportedEvents = [
       sessionDate: '2026-05-17',
     },
     createdAt: '2026-05-17T09:01:00.000Z',
+  },
+  {
+    id: 'collector-first-move-coach',
+    name: 'first_move_coach_shown',
+    properties: {
+      gameId: 'mosaic-haven',
+      anonymousId: 'anon-collector',
+      sessionId: 'session-collector-a',
+      sessionDate: '2026-05-17',
+    },
+    createdAt: '2026-05-17T09:01:20.000Z',
   },
   {
     id: 'collector-tutorial',
@@ -120,6 +146,28 @@ const exportedEvents = [
     createdAt: '2026-05-17T09:02:00.000Z',
   },
   {
+    id: 'collector-completion-nudge',
+    name: 'completion_nudge_viewed',
+    properties: {
+      gameId: 'mosaic-haven',
+      anonymousId: 'anon-collector',
+      sessionId: 'session-collector-a',
+      sessionDate: '2026-05-17',
+    },
+    createdAt: '2026-05-17T09:03:00.000Z',
+  },
+  {
+    id: 'collector-replay-prompt',
+    name: 'replay_prompt_clicked',
+    properties: {
+      gameId: 'mosaic-haven',
+      anonymousId: 'anon-collector',
+      sessionId: 'session-collector-a',
+      sessionDate: '2026-05-17',
+    },
+    createdAt: '2026-05-17T09:04:00.000Z',
+  },
+  {
     id: 'collector-complete',
     name: 'level_completed',
     properties: {
@@ -129,6 +177,28 @@ const exportedEvents = [
       sessionDate: '2026-05-17',
     },
     createdAt: '2026-05-17T09:05:00.000Z',
+  },
+  {
+    id: 'collector-daily-return',
+    name: 'daily_return_prompt_clicked',
+    properties: {
+      gameId: 'mosaic-haven',
+      anonymousId: 'anon-collector',
+      sessionId: 'session-collector-a',
+      sessionDate: '2026-05-17',
+    },
+    createdAt: '2026-05-17T09:06:00.000Z',
+  },
+  {
+    id: 'collector-pwa-install',
+    name: 'pwa_install_prompt_clicked',
+    properties: {
+      gameId: 'mosaic-haven',
+      anonymousId: 'anon-collector',
+      sessionId: 'session-collector-a',
+      sessionDate: '2026-05-17',
+    },
+    createdAt: '2026-05-17T09:07:00.000Z',
   },
   {
     id: 'collector-view-b',
@@ -247,6 +317,12 @@ try {
     analytics.retention.source !== 'local-event-drops' ||
     analytics.retention.d1Retention !== 1 ||
     game?.counts.game_started !== 1 ||
+    game?.counts.gate_sample_mission_clicked !== 1 ||
+    game?.counts.first_move_coach_shown !== 1 ||
+    game?.counts.completion_nudge_viewed !== 1 ||
+    game?.counts.replay_prompt_clicked !== 1 ||
+    game?.counts.daily_return_prompt_clicked !== 1 ||
+    game?.counts.pwa_install_prompt_clicked !== 1 ||
     game?.counts.level_completed !== 1
   ) {
     fail(`Expected collector events to roll up into local analytics, got ${JSON.stringify(analytics)}`)
@@ -274,7 +350,13 @@ try {
       counts: {
         game_viewed: game.counts.game_viewed,
         game_started: game.counts.game_started,
+        gate_sample_mission_clicked: game.counts.gate_sample_mission_clicked,
+        first_move_coach_shown: game.counts.first_move_coach_shown,
         tutorial_completed: game.counts.tutorial_completed,
+        completion_nudge_viewed: game.counts.completion_nudge_viewed,
+        replay_prompt_clicked: game.counts.replay_prompt_clicked,
+        daily_return_prompt_clicked: game.counts.daily_return_prompt_clicked,
+        pwa_install_prompt_clicked: game.counts.pwa_install_prompt_clicked,
         level_completed: game.counts.level_completed,
       },
     },

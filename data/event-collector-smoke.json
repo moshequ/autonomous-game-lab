@@ -1,16 +1,16 @@
 {
-  "generatedAt": "2026-05-19T07:48:46.418Z",
+  "generatedAt": "2026-05-19T07:56:47.365Z",
   "status": "pass",
   "collector": {
     "postStatus": "accepted",
-    "storedEvents": 5,
-    "exportedEvents": 5,
+    "storedEvents": 11,
+    "exportedEvents": 11,
     "files": 1,
     "piiStripped": true
   },
   "ingest": {
     "status": "imported",
-    "importedEvents": 5,
+    "importedEvents": 11,
     "remoteCollectorStatus": "available"
   },
   "analytics": {
@@ -20,7 +20,13 @@
     "counts": {
       "game_viewed": 2,
       "game_started": 1,
+      "gate_sample_mission_clicked": 1,
+      "first_move_coach_shown": 1,
       "tutorial_completed": 1,
+      "completion_nudge_viewed": 1,
+      "replay_prompt_clicked": 1,
+      "daily_return_prompt_clicked": 1,
+      "pwa_install_prompt_clicked": 1,
       "level_completed": 1
     }
   }
