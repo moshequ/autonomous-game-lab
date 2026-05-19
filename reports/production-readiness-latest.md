@@ -1,6 +1,6 @@
 # Production Readiness
 
-Generated: 2026-05-19T08:47:10.601Z
+Generated: 2026-05-19T08:53:16.916Z
 
 ## Environment
 
@@ -56,7 +56,7 @@ Status: ready-after-build
 - pass: organic-seed-loop - Organic seed loop is organic-seed-loop-ready; target canopy-bloom; player-initiated share guard active.
 - pass: retention-loop - Retention loop is retention-loop-ready; daily challenge canopy-bloom; no-push/no-account guardrails active.
 - pass: pwa-install-loop - PWA install loop is pwa-install-loop-ready; prompt surface autonomy-cockpit; cost $0.
-- pass: performance-budget - Performance budget is performance-budget-ready; initial JS 646.5 KB / 173.3 KB gzip; deferred game chunk GameCanvas-CxqlJ8uJ.js.
+- pass: performance-budget - Performance budget is performance-budget-ready; initial JS 649.8 KB / 173.4 KB gzip; deferred game chunk GameCanvas-eph3OuAO.js.
 - pass: release-candidate - Release candidate is release-candidate-ready; files 39; smoke URLs 10.
 - pass: post-deploy-smoke-runner - Post-deploy smoke is blocked-missing-origin; origin missing; checks 0/11 passed, 11 blocked; local artifact predeploy-artifact-smoke-passed 11/11 passed.
 - pass: product-optimization - Product optimizer is product-optimization-ready; completion 0.397 vs gate 0.55; latest action already-applied.
@@ -66,7 +66,7 @@ Status: ready-after-build
 - pass: release-health - Release health guard is monitoring.
 - pass: production-environment - Production environment status is production-env-missing.
 - pass: production-bootstrap - Production bootstrap is production-bootstrap-ready; mode waiting-for-external-credentials; external blockers 23.
-- pass: autonomous-operator - Autonomous operator is operator-plan-ready; selected refresh-autonomous-cadence; execution not-requested.
+- pass: autonomous-operator - Autonomous operator is operator-plan-ready; selected seed-portfolio-traffic; execution not-requested.
 - pass: autonomous-operator-history - Autonomous operator history is operator-history-ready; records 40; executed 17.
 - pass: autonomous-cadence - Autonomous cadence is cadence-ready; Codex active-confirmed; GitHub scheduled.
 - pass: autonomous-self-update - Autonomous self-update is self-update-ready; safe pending 0; unsafe pending 0; remote push held.
@@ -109,23 +109,23 @@ Installs: 0
 ## Performance Budget
 
 Status: performance-budget-ready
-Initial JS: 646.5 KB (173.3 KB gzip)
-Deferred game chunk: GameCanvas-CxqlJ8uJ.js
-- pass: performance-initial-js-budget - Initial JS is 646.5 KB; budget is 675 KB.
-- pass: performance-initial-js-gzip-budget - Initial JS gzip is 173.3 KB; budget is 200 KB.
+Initial JS: 649.8 KB (173.4 KB gzip)
+Deferred game chunk: GameCanvas-eph3OuAO.js
+- pass: performance-initial-js-budget - Initial JS is 649.8 KB; budget is 675 KB.
+- pass: performance-initial-js-gzip-budget - Initial JS gzip is 173.4 KB; budget is 200 KB.
 - pass: performance-initial-css-budget - Initial CSS is 9.6 KB; budget is 40 KB.
 - pass: performance-manifest - PWA manifest exists in dist.
 - pass: performance-service-worker - Service worker exists in dist.
-- pass: performance-game-runtime-deferred - GameCanvas-CxqlJ8uJ.js is deferred from the initial shell.
-- pass: performance-largest-js-deferred - Largest JS chunk is GameCanvas-CxqlJ8uJ.js at 1360.8 KB.
+- pass: performance-game-runtime-deferred - GameCanvas-eph3OuAO.js is deferred from the initial shell.
+- pass: performance-largest-js-deferred - Largest JS chunk is GameCanvas-eph3OuAO.js at 1360.8 KB.
 - pass: performance-deferred-game-budget - Deferred game chunk is 1360.8 KB; monitor budget is 1600 KB.
 
 ## Release Candidate
 
 Status: release-candidate-ready
-Candidate: pwa-838e979f16ad
+Candidate: pwa-7762e647a83b
 Files: 39
-Aggregate SHA-256: 838e979f16ade0f09cc5fe6eed5ce78d9d2e2610f2385de476c93fdeb85a0385
+Aggregate SHA-256: 7762e647a83b7f3164f80d8f095a01be63bc18f9d36edbd2d756c23ba0850827
 - pass: release-dist-inventory - 39 dist files inventoried.
 - pass: release-required-files - 14/14 required files present.
 - pass: release-game-pages - 10 generated game page(s) in dist.
@@ -139,7 +139,7 @@ Aggregate SHA-256: 838e979f16ade0f09cc5fe6eed5ce78d9d2e2610f2385de476c93fdeb85a0
 
 Status: blocked-missing-origin
 Origin: missing
-Candidate: pwa-838e979f16ad
+Candidate: pwa-7762e647a83b
 Checks: 0/11 passed (11 blocked)
 Local artifact: predeploy-artifact-smoke-passed (11/11 passed)
 - blocked: smoke-app-shell - No deployed origin configured.
@@ -225,7 +225,7 @@ Setup script: ops/github/setup-production.sh
 
 Status: operator-plan-ready
 Mode: plan-only
-Selected action: refresh-autonomous-cadence
+Selected action: seed-portfolio-traffic
 Execution: not-requested
 
 ## Autonomous Operator History
@@ -242,7 +242,7 @@ Codex app: active-confirmed
 GitHub Actions: scheduled
 - pass: cadence-codex-automation-manifest - Codex app automation manifest declares autonomous-game-lab-daily-owner-loop.
 - pass: cadence-codex-automation-installed - Codex app automation autonomous-game-lab-daily-owner-loop is active, scheduled, local, and pointed at this workspace.
-- pass: cadence-local-operate-script - autonomous:operate is npm run autonomous:daily && npm run autonomous:operator -- --execute && npm run autonomous:after-action && npm run test:e2e; autonomous:after-action is npm run autonomous:owner-loop && npm run autonomous:operator && npm run autonomous:local-event-bridge && npm run autonomous:import-events && npm run autonomous:analytics && npm run autonomous:gate-recovery && npm run build && npm run autonomous:performance && npm run autonomous:release-candidate && npm run autonomous:post-deploy-smoke && npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap && npm run autonomous:deploy-plan && npm run autonomous:bootstrap && npm run autonomous:readiness && npm run autonomous:repo-readiness && npm run autonomous:deploy-plan && npm run autonomous:readiness && npm run autonomous:owner-loop && npm run autonomous:operator && npm run autonomous:objective-audit && npm run autonomous:readiness && npm run autonomous:deploy-plan && npm run autonomous:post-deploy-smoke && npm run autonomous:readiness && npm run autonomous:repo-readiness && npm run autonomous:deploy-plan && npm run autonomous:post-deploy-smoke && npm run autonomous:readiness && npm run autonomous:repo-readiness && npm run autonomous:deploy-plan && npm run autonomous:readiness && npm run autonomous:objective-audit && npm run autonomous:readiness && npm run autonomous:owner-loop && npm run autonomous:operator && npm run test:automation.
+- pass: cadence-local-operate-script - autonomous:operate is npm run autonomous:daily && npm run autonomous:operator -- --execute && npm run autonomous:after-action && npm run test:e2e; autonomous:after-action is npm run autonomous:owner-loop && npm run autonomous:operator && npm run autonomous:local-event-bridge && npm run autonomous:import-events && npm run autonomous:analytics && npm run autonomous:gate-recovery && npm run autonomous:sample-plan && npm run build && npm run autonomous:performance && npm run autonomous:release-candidate && npm run autonomous:post-deploy-smoke && npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap && npm run autonomous:deploy-plan && npm run autonomous:bootstrap && npm run autonomous:readiness && npm run autonomous:repo-readiness && npm run autonomous:deploy-plan && npm run autonomous:readiness && npm run autonomous:owner-loop && npm run autonomous:operator && npm run autonomous:objective-audit && npm run autonomous:readiness && npm run autonomous:deploy-plan && npm run autonomous:post-deploy-smoke && npm run autonomous:readiness && npm run autonomous:repo-readiness && npm run autonomous:deploy-plan && npm run autonomous:post-deploy-smoke && npm run autonomous:readiness && npm run autonomous:repo-readiness && npm run autonomous:deploy-plan && npm run autonomous:readiness && npm run autonomous:objective-audit && npm run autonomous:readiness && npm run autonomous:owner-loop && npm run autonomous:operator && npm run test:automation.
 - pass: cadence-cadence-refresh-script - autonomous:cadence is node scripts/autonomous-cadence.mjs.
 - pass: cadence-self-update-script - autonomous:self-update is node scripts/autonomous-self-update.mjs.
 - pass: cadence-gate-recovery-script - autonomous:gate-recovery is node scripts/product-gate-recovery.mjs.
