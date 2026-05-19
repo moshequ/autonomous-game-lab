@@ -1,22 +1,25 @@
 {
-  "generatedAt": "2026-05-19T06:22:07.771Z",
+  "generatedAt": "2026-05-19T06:25:11.942Z",
   "status": "operator-plan-ready",
   "mode": "plan-only",
   "ownerDecision": {
-    "actionId": "prepare-repository-channel",
-    "command": "npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap",
+    "actionId": "seed-portfolio-traffic",
+    "command": "npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop",
     "locallyExecutable": true,
     "rejectionReason": null
   },
   "requestedActionId": null,
   "selectedAction": {
-    "id": "prepare-repository-channel",
+    "id": "seed-portfolio-traffic",
     "status": "armed",
-    "command": "npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap",
+    "command": "npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop",
     "targets": [
-      "github-repository-channel"
+      "canopy-bloom",
+      "grove-engine",
+      "metro-loom",
+      "pocket-draft"
     ],
-    "reason": "Surfaces and prepares the missing git/GitHub deployment-channel blockers before web deploy.",
+    "reason": "Under-measured playable games need free organic/internal traffic before quality judgment.",
     "costUsd": 0
   },
   "selectedRejection": null,
@@ -56,12 +59,6 @@
       "id": "refresh-autonomous-self-update",
       "status": "armed",
       "command": "npm run autonomous:self-update",
-      "reason": "not-selected-this-run"
-    },
-    {
-      "id": "seed-portfolio-traffic",
-      "status": "armed",
-      "command": "npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop",
       "reason": "not-selected-this-run"
     },
     {
@@ -125,6 +122,12 @@
       "reason": "not-selected-this-run"
     },
     {
+      "id": "prepare-repository-channel",
+      "status": "armed",
+      "command": "npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap",
+      "reason": "not-selected-this-run"
+    },
+    {
       "id": "bootstrap-production-setup",
       "status": "armed",
       "command": "npm run autonomous:release-candidate && npm run autonomous:deploy-plan && npm run autonomous:bootstrap",
@@ -181,12 +184,24 @@
   ],
   "commandPlan": [
     {
-      "segment": "npm run autonomous:repo-readiness",
-      "script": "autonomous:repo-readiness"
+      "segment": "npm run autonomous:growth",
+      "script": "autonomous:growth"
     },
     {
-      "segment": "npm run autonomous:repo-bootstrap",
-      "script": "autonomous:repo-bootstrap"
+      "segment": "npm run autonomous:portfolio",
+      "script": "autonomous:portfolio"
+    },
+    {
+      "segment": "npm run autonomous:traffic",
+      "script": "autonomous:traffic"
+    },
+    {
+      "segment": "npm run autonomous:acquisition",
+      "script": "autonomous:acquisition"
+    },
+    {
+      "segment": "npm run autonomous:organic-seed-loop",
+      "script": "autonomous:organic-seed-loop"
     }
   ],
   "execution": {
@@ -248,7 +263,7 @@
     "RUN_WORKFLOWS=1"
   ],
   "nextActions": [
-    "Run npm run autonomous:operator -- --execute --action=prepare-repository-channel to execute exactly one allowed local action.",
+    "Run npm run autonomous:operator -- --execute --action=seed-portfolio-traffic to execute exactly one allowed local action.",
     "Do not execute GitHub workflow, store, paid ads, or account setup commands from the local operator."
   ]
 }
