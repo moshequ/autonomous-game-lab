@@ -422,6 +422,7 @@ function App() {
   const pwaPromptViewedRef = useRef(false)
   const pacingVariant = useMemo(() => getExperimentVariant('first_session_pacing'), [])
   const rewardVariant = useMemo(() => getExperimentVariant('reward_offer'), [])
+  const thumbnailVariant = useMemo(() => getExperimentVariant('thumbnail_board_state_v2'), [])
   const activeRunId = useMemo(() => `${selectedGameId}-${crypto.randomUUID()}`, [selectedGameId])
 
   useEffect(() => {
@@ -1863,6 +1864,7 @@ function App() {
                 gameId={selectedGameId}
                 variantId={pacingVariant.id}
                 rewardVariantId={rewardVariant.id}
+                thumbnailVariantId={thumbnailVariant.id}
                 onSnapshot={setSnapshot}
               />
             </Suspense>
@@ -2208,8 +2210,15 @@ function App() {
           </div>
           <div className="gameGrid">
             {games.map((game) => (
-              <article className="gameCard" key={game.id}>
-                <div className="gameArt" aria-hidden="true">
+              <article
+                className={`gameCard ${thumbnailVariant.id === 'board-state' ? 'gameCardBoardState' : ''}`}
+                data-thumbnail-variant={thumbnailVariant.id}
+                key={game.id}
+              >
+                <div
+                  className={`gameArt ${thumbnailVariant.id === 'board-state' ? 'gameArtBoardState' : ''}`}
+                  aria-hidden="true"
+                >
                   {Array.from({ length: 15 }, (_, index) => (
                     <span key={index} />
                   ))}

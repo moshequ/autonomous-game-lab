@@ -11,6 +11,7 @@ const reportPath = path.join(root, 'reports', 'experiment-results-latest.md')
 
 const countedEvents = [
   'experiment_assigned',
+  'game_viewed',
   'game_started',
   'tutorial_completed',
   'level_completed',
@@ -21,6 +22,7 @@ const countedEvents = [
 const experimentVariantProperty = {
   first_session_pacing: 'variantId',
   reward_offer: 'rewardVariantId',
+  thumbnail_board_state_v2: 'thumbnailVariantId',
 }
 
 const metricWeights = {
@@ -31,6 +33,11 @@ const metricWeights = {
   },
   reward_offer: {
     replayRate: 0.75,
+    firstGameCompletion: 0.15,
+    abandonmentRate: -0.1,
+  },
+  thumbnail_board_state_v2: {
+    startRate: 0.75,
     firstGameCompletion: 0.15,
     abandonmentRate: -0.1,
   },
@@ -162,6 +169,7 @@ const fetchPosthogRows = async () => {
       properties.variant AS assigned_variant,
       properties.variantId AS pacing_variant,
       properties.rewardVariantId AS reward_variant,
+      properties.thumbnailVariantId AS thumbnail_variant,
       count() AS event_count
     FROM events
     WHERE timestamp >= now() - INTERVAL ${lookbackDays} DAY
@@ -192,7 +200,15 @@ const fetchPosthogRows = async () => {
     const experiments = new Map()
 
     for (const result of payload.results ?? []) {
-      const [eventName, assignedExperiment, assignedVariant, pacingVariant, rewardVariant, eventCount] = result
+      const [
+        eventName,
+        assignedExperiment,
+        assignedVariant,
+        pacingVariant,
+        rewardVariant,
+        thumbnailVariant,
+        eventCount,
+      ] = result
       const count = Number(eventCount)
 
       if (eventName === 'experiment_assigned') {
@@ -207,6 +223,7 @@ const fetchPosthogRows = async () => {
 
       const pacingRow = ensureVariantRow(experiments, 'first_session_pacing', pacingVariant)
       const rewardRow = ensureVariantRow(experiments, 'reward_offer', rewardVariant)
+      const thumbnailRow = ensureVariantRow(experiments, 'thumbnail_board_state_v2', thumbnailVariant)
 
       if (pacingRow) {
         pacingRow.counts[eventName] += count
@@ -214,6 +231,10 @@ const fetchPosthogRows = async () => {
 
       if (rewardRow) {
         rewardRow.counts[eventName] += count
+      }
+
+      if (thumbnailRow) {
+        thumbnailRow.counts[eventName] += count
       }
     }
 
@@ -231,12 +252,14 @@ const fetchPosthogRows = async () => {
 
 const addMetrics = (variant) => {
   const counts = variant.counts
+  const gameViews = Math.max(counts.game_viewed, counts.game_started, 1)
   const gameStarts = Math.max(counts.game_started, 1)
   const levelCompleted = Math.max(counts.level_completed, 1)
 
   return {
     ...variant,
     metrics: {
+      startRate: roundMetric(counts.game_started / gameViews),
       tutorialCompletion: roundMetric(counts.tutorial_completed / gameStarts),
       firstGameCompletion: roundMetric(counts.level_completed / gameStarts),
       replayRate: roundMetric(counts.replay_clicked / levelCompleted),
@@ -294,7 +317,9 @@ const evaluateExperiment = (experiment, policy) => {
     primaryMetric:
       experiment.id === 'reward_offer'
         ? 'replayRate'
-        : 'tutorialCompletion',
+        : experiment.id === 'thumbnail_board_state_v2'
+          ? 'startRate'
+          : 'tutorialCompletion',
     totalStarts,
     minimumVariantStarts,
     confidence,
@@ -400,7 +425,9 @@ const report = [
     `- Recommendation: ${experiment.recommendedAction}`,
     ...experiment.variants.map(
       (variant) =>
-        `- ${variant.variantId}: score ${variant.score}, tutorial ${pct(
+        `- ${variant.variantId}: score ${variant.score}, start ${pct(
+          variant.metrics.startRate,
+        )}, tutorial ${pct(
           variant.metrics.tutorialCompletion,
         )}, completion ${pct(variant.metrics.firstGameCompletion)}, replay ${pct(
           variant.metrics.replayRate,

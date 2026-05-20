@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-05-20T09:01:53.855Z",
-  "sourceDataHash": "24287ccacfee",
+  "generatedAt": "2026-05-20T12:33:37.550Z",
+  "sourceDataHash": "d7dff2beae3d",
   "releaseHealthStatus": "monitoring",
   "experimentResultsStatus": "evaluated",
   "playableGameIds": [
@@ -29,7 +29,44 @@
       "experiment": "reward_offer",
       "title": "Promote winning experiment variant",
       "reason": "same experiment result already produced an applied change",
-      "sourceDataHash": "24287ccacfee"
+      "sourceDataHash": "d7dff2beae3d"
+    },
+    {
+      "status": "applied",
+      "experiment": "thumbnail_board_state_v2",
+      "gameId": "all-games",
+      "title": "Promote winning experiment variant",
+      "sourceReason": "board-state beat title-first on startRate with 83% confidence",
+      "confidence": 83,
+      "sourceDataHash": "d7dff2beae3d",
+      "change": "shifted 10 weight points from title-first to board-state",
+      "before": [
+        {
+          "id": "board-state",
+          "label": "Show a stronger board-state preview",
+          "weight": 50
+        },
+        {
+          "id": "title-first",
+          "label": "Keep the title-led card treatment",
+          "weight": 50
+        }
+      ],
+      "after": [
+        {
+          "id": "board-state",
+          "label": "Show a stronger board-state preview",
+          "weight": 60
+        },
+        {
+          "id": "title-first",
+          "label": "Keep the title-led card treatment",
+          "weight": 40
+        }
+      ],
+      "source": "experiment-results",
+      "winnerVariant": "board-state",
+      "runnerUpVariant": "title-first"
     },
     {
       "status": "skipped",
@@ -37,14 +74,14 @@
       "gameId": "harbor-rings",
       "title": "Shorten first tutorial",
       "reason": "same diagnosed issue already produced an applied change",
-      "sourceDataHash": "24287ccacfee"
+      "sourceDataHash": "d7dff2beae3d"
     },
     {
-      "status": "deferred",
+      "status": "skipped",
       "experiment": "thumbnail_board_state_v2",
       "gameId": "harbor-rings",
       "title": "Improve title and thumbnail",
-      "reason": "no safe automatic applier exists for this experiment"
+      "reason": "experiment already changed in this run"
     },
     {
       "status": "deferred",
@@ -59,7 +96,7 @@
       "gameId": "harbor-rings",
       "title": "Add daily goal reward copy and result animation",
       "reason": "same diagnosed issue already produced an applied change",
-      "sourceDataHash": "24287ccacfee"
+      "sourceDataHash": "d7dff2beae3d"
     }
   ],
   "history": [
@@ -278,6 +315,44 @@
       "winnerVariant": "daily-streak",
       "runnerUpVariant": "score-booster",
       "appliedAt": "2026-05-18T19:05:23.525Z"
+    },
+    {
+      "status": "applied",
+      "experiment": "thumbnail_board_state_v2",
+      "gameId": "all-games",
+      "title": "Promote winning experiment variant",
+      "sourceReason": "board-state beat title-first on startRate with 83% confidence",
+      "confidence": 83,
+      "sourceDataHash": "d7dff2beae3d",
+      "change": "shifted 10 weight points from title-first to board-state",
+      "before": [
+        {
+          "id": "board-state",
+          "label": "Show a stronger board-state preview",
+          "weight": 50
+        },
+        {
+          "id": "title-first",
+          "label": "Keep the title-led card treatment",
+          "weight": 50
+        }
+      ],
+      "after": [
+        {
+          "id": "board-state",
+          "label": "Show a stronger board-state preview",
+          "weight": 60
+        },
+        {
+          "id": "title-first",
+          "label": "Keep the title-led card treatment",
+          "weight": 40
+        }
+      ],
+      "source": "experiment-results",
+      "winnerVariant": "board-state",
+      "runnerUpVariant": "title-first",
+      "appliedAt": "2026-05-20T12:33:37.549Z"
     }
   ]
 }

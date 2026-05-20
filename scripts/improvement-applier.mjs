@@ -331,6 +331,14 @@ const applyIssue = (issue) => {
     return action
   }
 
+  if (issue.experiment === 'thumbnail_board_state_v2') {
+    const action = shiftWeight({ experiment: issue.experiment, preferredVariantId: 'board-state', issue })
+    if (action.status === 'applied') {
+      touchedExperiments.add(issue.experiment)
+    }
+    return action
+  }
+
   return {
     status: 'deferred',
     experiment: issue.experiment,

@@ -133,6 +133,50 @@ test('portal loads a playable canvas and autonomy cockpit', async ({ page }) => 
   expect(sample).toBeGreaterThan(100)
 })
 
+test('thumbnail board-state experiment reaches cards and start telemetry', async ({ page }) => {
+  await page.addInitScript(() => {
+    window.localStorage.setItem('agl.experiment.first_session_pacing', 'fast-start')
+    window.localStorage.setItem('agl.experiment.reward_offer', 'daily-streak')
+    window.localStorage.setItem('agl.experiment.thumbnail_board_state_v2', 'board-state')
+  })
+
+  await page.goto('/?game=harbor-rings')
+
+  await expect(page.locator('.gameCard[data-thumbnail-variant="board-state"]').first()).toBeVisible()
+  await expect(page.locator('.gameArtBoardState').first()).toBeVisible()
+  await expect(page.locator('canvas').first()).toBeVisible()
+
+  await expect
+    .poll(() =>
+      page.evaluate(() => {
+        const raw = window.localStorage.getItem('agl.analytics.events')
+        const events = raw ? JSON.parse(raw) : []
+        return (
+          events.find(
+            (event: { name: string; properties: { gameId?: string; thumbnailVariantId?: string } }) =>
+              event.name === 'game_viewed' && event.properties.gameId === 'harbor-rings',
+          )?.properties.thumbnailVariantId ?? null
+        )
+      }),
+    )
+    .toBe('board-state')
+
+  await expect
+    .poll(() =>
+      page.evaluate(() => {
+        const raw = window.localStorage.getItem('agl.analytics.events')
+        const events = raw ? JSON.parse(raw) : []
+        return (
+          events.find(
+            (event: { name: string; properties: { gameId?: string; thumbnailVariantId?: string } }) =>
+              event.name === 'game_started' && event.properties.gameId === 'harbor-rings',
+          )?.properties.thumbnailVariantId ?? null
+        )
+      }),
+    )
+    .toBe('board-state')
+})
+
 test('local learning router routes players to the next zero-spend evidence action', async ({ page }) => {
   const samplePlan = JSON.parse(await readFile('data/product-gate-sample-plan.json', 'utf8')) as {
     missions: Array<{

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-18T19:05:23.525Z",
+  "generatedAt": "2026-05-20T12:33:37.549Z",
   "guardrails": {
     "minVariantWeight": 15,
     "maxVariantWeight": 85,
@@ -7,7 +7,8 @@
     "minimumConfidence": 70,
     "minimumConfidenceByExperiment": {
       "first_session_pacing": 75,
-      "reward_offer": 55
+      "reward_offer": 55,
+      "thumbnail_board_state_v2": 70
     }
   },
   "experiments": {
@@ -38,6 +39,21 @@
           "id": "score-booster",
           "label": "Reward score target progress",
           "weight": 20
+        }
+      ]
+    },
+    "thumbnail_board_state_v2": {
+      "goal": "Improve game-view-to-start conversion with clearer board-state thumbnails.",
+      "variants": [
+        {
+          "id": "board-state",
+          "label": "Show a stronger board-state preview",
+          "weight": 60
+        },
+        {
+          "id": "title-first",
+          "label": "Keep the title-led card treatment",
+          "weight": 40
         }
       ]
     }

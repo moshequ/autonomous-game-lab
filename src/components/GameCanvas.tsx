@@ -17,6 +17,7 @@ interface GameCanvasProps {
   gameId: PlayableGameId
   variantId: string
   rewardVariantId: string
+  thumbnailVariantId: string
   onSnapshot: (snapshot: GameSnapshot) => void
 }
 
@@ -64,13 +65,19 @@ const createScene = ({
   return new HarborRingsScene({ sink: onEvent, pacingVariant: variantId, firstMoveCoach: firstMoveCoachTarget })
 }
 
-export const GameCanvas = ({ gameId, variantId, rewardVariantId, onSnapshot }: GameCanvasProps) => {
+export const GameCanvas = ({
+  gameId,
+  variantId,
+  rewardVariantId,
+  thumbnailVariantId,
+  onSnapshot,
+}: GameCanvasProps) => {
   const mountId = useMemo(() => `game-${crypto.randomUUID()}`, [])
   const completedRef = useRef(false)
 
   useEffect(() => {
     completedRef.current = false
-    trackEvent('game_viewed', { gameId, variantId, rewardVariantId })
+    trackEvent('game_viewed', { gameId, variantId, rewardVariantId, thumbnailVariantId })
 
     const handleSceneEvent = (event: GameSceneEvent) => {
       if (event.type === 'snapshot' && event.snapshot) {
@@ -84,6 +91,7 @@ export const GameCanvas = ({ gameId, variantId, rewardVariantId, onSnapshot }: G
             ...(event.properties ?? {}),
             variantId,
             rewardVariantId,
+            thumbnailVariantId,
             surface: 'game-canvas-restart',
           })
         }
@@ -92,6 +100,7 @@ export const GameCanvas = ({ gameId, variantId, rewardVariantId, onSnapshot }: G
           ...(event.properties ?? {}),
           variantId,
           rewardVariantId,
+          thumbnailVariantId,
         })
       }
     }
@@ -112,7 +121,7 @@ export const GameCanvas = ({ gameId, variantId, rewardVariantId, onSnapshot }: G
       }
       game.destroy(true)
     }
-  }, [gameId, mountId, onSnapshot, rewardVariantId, variantId])
+  }, [gameId, mountId, onSnapshot, rewardVariantId, thumbnailVariantId, variantId])
 
   return <div id={mountId} className="gameMount" aria-label={`${gameId} game canvas`} />
 }

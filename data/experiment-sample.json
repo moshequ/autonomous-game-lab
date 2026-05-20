@@ -54,6 +54,35 @@
           }
         }
       ]
+    },
+    {
+      "id": "thumbnail_board_state_v2",
+      "variants": [
+        {
+          "variantId": "board-state",
+          "counts": {
+            "experiment_assigned": 190,
+            "game_viewed": 190,
+            "game_started": 138,
+            "tutorial_completed": 93,
+            "level_completed": 59,
+            "game_abandoned": 79,
+            "replay_clicked": 18
+          }
+        },
+        {
+          "variantId": "title-first",
+          "counts": {
+            "experiment_assigned": 185,
+            "game_viewed": 185,
+            "game_started": 117,
+            "tutorial_completed": 72,
+            "level_completed": 44,
+            "game_abandoned": 73,
+            "replay_clicked": 11
+          }
+        }
+      ]
     }
   ]
 }
