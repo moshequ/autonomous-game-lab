@@ -1,22 +1,24 @@
 {
-  "generatedAt": "2026-05-20T22:41:53.821Z",
+  "generatedAt": "2026-05-20T22:47:58.674Z",
   "status": "operator-plan-ready",
   "mode": "plan-only",
   "ownerDecision": {
-    "actionId": "refresh-support-feedback",
-    "command": "npm run autonomous:support-feedback",
+    "actionId": "collect-live-events",
+    "command": "npm run autonomous:local-event-bridge && npm run autonomous:import-events && npm run autonomous:analytics && npm run autonomous:gate-recovery && npm run autonomous:sample-plan",
     "locallyExecutable": true,
     "rejectionReason": null
   },
   "requestedActionId": null,
   "selectedAction": {
-    "id": "refresh-support-feedback",
+    "id": "collect-live-events",
     "status": "armed",
-    "command": "npm run autonomous:support-feedback",
+    "command": "npm run autonomous:local-event-bridge && npm run autonomous:import-events && npm run autonomous:analytics && npm run autonomous:gate-recovery && npm run autonomous:sample-plan",
     "targets": [
-      "moshequ/autonomous-game-lab"
+      "firstGameCompletion",
+      "gate-sample-20260521-firstGameCompletion",
+      "gate-sample-20260521-replayRate"
     ],
-    "reason": "Reads public GitHub issue intake and turns player reports into redacted improvement signals.",
+    "reason": "Keeps the zero-spend local event-drop bridge active and refreshes recovery/sample planning until production collector or PostHog credentials exist.",
     "costUsd": 0
   },
   "selectedRejection": null,
@@ -24,7 +26,6 @@
     "refresh-autonomous-cadence",
     "refresh-autonomous-self-update",
     "refresh-support-feedback",
-    "optimize-daily-retention",
     "measure-pwa-install-loop",
     "check-performance-budget",
     "prepare-release-candidate",
@@ -65,10 +66,16 @@
       "reason": "status-monitor"
     },
     {
-      "id": "optimize-daily-retention",
+      "id": "refresh-support-feedback",
       "status": "armed",
-      "command": "npm run autonomous:retention",
+      "command": "npm run autonomous:support-feedback",
       "reason": "not-selected-this-run"
+    },
+    {
+      "id": "optimize-daily-retention",
+      "status": "monitor",
+      "command": "npm run autonomous:retention",
+      "reason": "status-monitor"
     },
     {
       "id": "measure-pwa-install-loop",
@@ -201,18 +208,28 @@
       "status": "ready-when-repository-pages-enabled",
       "command": "Run the Web PWA Deploy workflow after GitHub Pages is enabled for the repository.",
       "reason": "status-ready-when-repository-pages-enabled"
-    },
-    {
-      "id": "collect-live-events",
-      "status": "armed",
-      "command": "npm run autonomous:local-event-bridge && npm run autonomous:import-events && npm run autonomous:analytics && npm run autonomous:gate-recovery && npm run autonomous:sample-plan",
-      "reason": "not-selected-this-run"
     }
   ],
   "commandPlan": [
     {
-      "segment": "npm run autonomous:support-feedback",
-      "script": "autonomous:support-feedback"
+      "segment": "npm run autonomous:local-event-bridge",
+      "script": "autonomous:local-event-bridge"
+    },
+    {
+      "segment": "npm run autonomous:import-events",
+      "script": "autonomous:import-events"
+    },
+    {
+      "segment": "npm run autonomous:analytics",
+      "script": "autonomous:analytics"
+    },
+    {
+      "segment": "npm run autonomous:gate-recovery",
+      "script": "autonomous:gate-recovery"
+    },
+    {
+      "segment": "npm run autonomous:sample-plan",
+      "script": "autonomous:sample-plan"
     }
   ],
   "execution": {
@@ -282,7 +299,7 @@
     "RUN_WORKFLOWS=1"
   ],
   "nextActions": [
-    "Run npm run autonomous:operator -- --execute --action=refresh-support-feedback to execute exactly one allowed local action.",
+    "Run npm run autonomous:operator -- --execute --action=collect-live-events to execute exactly one allowed local action.",
     "Do not execute GitHub workflow, store, paid ads, or account setup commands from the local operator."
   ]
 }

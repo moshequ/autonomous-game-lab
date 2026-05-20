@@ -1,17 +1,17 @@
 # Autonomous Owner Loop
 
-Generated: 2026-05-20T22:41:53.582Z
+Generated: 2026-05-20T22:47:58.453Z
 Status: owner-loop-ready
 Mode: zero-spend-web-ready
 Autonomy score: 41/42 (98%)
 
 ## Owner Decision
 
-- Next action: refresh-support-feedback
-- Command: npm run autonomous:support-feedback
-- Rationale: Reads public GitHub issue intake and turns player reports into redacted improvement signals.
-- Last executed action: refresh-autonomous-self-update
-- Recent executed actions: refresh-autonomous-self-update, collect-live-events, seed-portfolio-traffic, measure-pwa-install-loop, refresh-autonomous-cadence, optimize-daily-retention, optimize-store-listing, refresh-completion-loop
+- Next action: collect-live-events
+- Command: npm run autonomous:local-event-bridge && npm run autonomous:import-events && npm run autonomous:analytics && npm run autonomous:gate-recovery && npm run autonomous:sample-plan
+- Rationale: Keeps the zero-spend local event-drop bridge active and refreshes recovery/sample planning until production collector or PostHog credentials exist.
+- Last executed action: seed-portfolio-traffic
+- Recent executed actions: seed-portfolio-traffic, measure-pwa-install-loop, optimize-store-listing, optimize-daily-retention, bootstrap-production-setup, check-performance-budget, refresh-support-feedback, refresh-autonomous-self-update
 
 ## Systems
 
@@ -29,7 +29,7 @@ Autonomy score: 41/42 (98%)
 - ready: organic-seed-loop - Target canopy-bloom; surface portal-growth-loop; share telemetry organic_seed_share_clicked.
 - ready: retention-loop - Daily canopy-bloom; D1 17%; streak variant daily-streak; return prompt armed; return intent armed.
 - ready: pwa-install-loop - Prompt autonomy-cockpit; installs 0; launch events 0; sample collecting-sample needs 20 prompt(s) and 10 launch event(s).
-- ready: performance-budget - Initial JS 649 KB; gzip 177.8 KB; deferred chunks 1.
+- ready: performance-budget - Initial JS 648.9 KB; gzip 177.7 KB; deferred chunks 1.
 - ready: product-optimization - Completion 40% / gate 55%; latest already-applied.
 - ready: support-feedback - Support feedback support-feedback-empty; issues 0; routable signals 0.
 - ready: product-gate-recovery - Recovery product-gate-recovery-ready; primary firstGameCompletion; experiment collecting-sample; failing gates 3; next lift 58.
@@ -48,8 +48,8 @@ Autonomy score: 41/42 (98%)
 - ready: production-bootstrap - Bootstrap production-bootstrap-ready; mode can-apply-configured-actions; external blockers 16.
 - ready: production-activation - Activation activation-ready; mode dry-run; execution dry-run; gh ready.
 - ready: support-channel - Support channel support-channel-ready; repository moshequ/autonomous-game-lab; public intake ready.
-- ready: autonomous-operator - Operator operator-plan-ready; selected bootstrap-production-setup; execution not-requested.
-- ready: operator-history - History operator-history-ready; records 40; executed 16.
+- ready: autonomous-operator - Operator operator-plan-ready; selected collect-live-events; execution not-requested.
+- ready: operator-history - History operator-history-ready; records 40; executed 17.
 - ready: objective-audit - Audit objective-in-progress; met 6/8; external blockers 12.
 - ready: store-listing-optimizer - Focus canopy-bloom; lead screenshot phone-canopy-bloom-generated; candidate changed no.
 - ready: store-compliance - Rating Everyone; target audience general; blockers 3.
@@ -66,7 +66,7 @@ Autonomy score: 41/42 (98%)
 - monitor: seed-portfolio-traffic - npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop
 - monitor: refresh-organic-seed-loop - npm run autonomous:organic-seed-loop
 - armed: refresh-support-feedback - npm run autonomous:support-feedback
-- armed: optimize-daily-retention - npm run autonomous:retention
+- monitor: optimize-daily-retention - npm run autonomous:retention
 - armed: measure-pwa-install-loop - npm run autonomous:pwa-install
 - armed: check-performance-budget - npm run build && npm run autonomous:performance
 - armed: prepare-release-candidate - npm run autonomous:release-candidate

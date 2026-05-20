@@ -1,5 +1,5 @@
 export const objectiveAudit = {
-  "generatedAt": "2026-05-20T22:41:53.337Z",
+  "generatedAt": "2026-05-20T22:47:58.212Z",
   "status": "objective-in-progress",
   "objective": "Build a bootstrapped autonomous web/PWA game portal that can generate original board-game-inspired games, measure user behavior, propose and apply data-driven improvements, and prepare a path to monetization and app-store distribution with minimal manual intervention.",
   "summary": {
@@ -76,7 +76,7 @@ export const objectiveAudit = {
         "Backlog: improvement-backlog-ready; items 4; hash a738f73a0160",
         "Support feedback: support-feedback-empty; issues 0; routable signals 0",
         "Applied/deferred actions: 7",
-        "Operator selected: bootstrap-production-setup; status operator-plan-ready; execution not-requested"
+        "Operator selected: collect-live-events; status operator-plan-ready; execution not-requested"
       ],
       "blockers": [],
       "nextAction": "Keep collecting starts until a safe product-gate tuning action is justified.",
@@ -91,7 +91,7 @@ export const objectiveAudit = {
         "Autonomous cadence: cadence-ready; Codex active-confirmed; GitHub scheduled",
         "Autonomous self-update: self-update-ready; workflow .github/workflows/autonomous-self-update.yml; unsafe pending 0",
         "Operator: operator-plan-ready",
-        "Operator history: operator-history-ready; records 40; executed 16",
+        "Operator history: operator-history-ready; records 40; executed 17",
         "Bootstrap: production-bootstrap-ready",
         "Repository bootstrap: repository-bootstrap-ready; helper ops/github/bootstrap-repository.sh",
         "Release candidate: release-candidate-ready; smoke URLs 14",
@@ -233,10 +233,10 @@ export const objectiveAudit = {
     "noRevenueEnablementUntilGatesPass": true,
     "noStoreSubmissionUntilExternalAccounts": true,
     "currentWorktreeClean": false,
-    "currentWorktreeDirtyFiles": 16,
+    "currentWorktreeDirtyFiles": 72,
     "productionBootstrapFresh": true,
     "productionBootstrapStaleInputIds": [],
-    "objectiveNextBestActionSource": "freshness-guard"
+    "objectiveNextBestActionSource": "owner-loop"
   },
   "completion": {
     "canMarkGoalComplete": false,
