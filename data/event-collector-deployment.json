@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-20T08:20:05.714Z",
+  "generatedAt": "2026-05-20T08:31:53.724Z",
   "status": "blocked-needs-cloudflare-env",
   "envFiles": {
     "loaded": true,
@@ -62,7 +62,8 @@
   "workflow": {
     "path": ".github/workflows/event-collector-deploy.yml",
     "status": "present",
-    "deploysWhenConfigured": false
+    "deploysWhenConfigured": false,
+    "autoCreatesBucket": true
   },
   "environment": {
     "browserCollectorConfigured": false,
@@ -81,7 +82,7 @@
     "activeSource": "local-event-drops"
   },
   "setupRequiredOnce": [
-    "Create or select a Cloudflare account and R2 bucket for collector event batches.",
+    "Create or select a Cloudflare account; the deploy workflow creates or reuses the R2 bucket for collector event batches.",
     "Set repository variables CLOUDFLARE_ACCOUNT_ID, AGL_EVENT_COLLECTOR_R2_BUCKET, AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS, VITE_EVENT_COLLECTOR_URL, and AGL_EVENT_COLLECTOR_EXPORT_URL.",
     "Set repository secrets CLOUDFLARE_API_TOKEN, VITE_EVENT_COLLECTOR_WRITE_TOKEN, and AGL_EVENT_COLLECTOR_ADMIN_TOKEN.",
     "Run the Event Collector Deploy workflow; it runs the collector smoke before deploying."

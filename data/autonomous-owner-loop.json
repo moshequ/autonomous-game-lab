@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-20T07:52:56.279Z",
+  "generatedAt": "2026-05-20T08:32:19.888Z",
   "status": "owner-loop-ready",
   "mode": "zero-spend-web-ready",
   "autonomyScore": {
@@ -50,7 +50,7 @@
     "objectiveAuditFreshness": {
       "fresh": true,
       "structurallyReady": true,
-      "auditGeneratedAt": "2026-05-20T07:52:16.865Z",
+      "auditGeneratedAt": "2026-05-20T08:32:05.953Z",
       "evaluatedInputIds": [
         "analytics-rollup",
         "event-ingest",
@@ -317,7 +317,7 @@
       "id": "operator-history",
       "status": "ready",
       "autonomy": "operator-audit-trail",
-      "evidence": "History operator-history-ready; records 40; executed 13.",
+      "evidence": "History operator-history-ready; records 40; executed 12.",
       "nextAction": "Keep a capped durable record of operator plans and one-action executions."
     },
     {
@@ -750,7 +750,7 @@
       "id": "live-analytics-collector",
       "status": "blocked-needs-cloudflare-env",
       "target": "cloudflare-worker-r2",
-      "reason": "Create or select a Cloudflare account and R2 bucket for collector event batches.",
+      "reason": "Create or select a Cloudflare account; the deploy workflow creates or reuses the R2 bucket for collector event batches.",
       "unblockWhen": "Cloudflare account, R2 bucket, collector URLs, write token, and admin export token exist."
     },
     {

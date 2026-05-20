@@ -801,6 +801,8 @@ test('post-deploy smoke runner is wired to the release manifest and Pages workfl
   expect(workflow).toContain('npm run autonomous:operate')
   expect(workflow).toContain('actions/upload-pages-artifact@v5')
   expect(workflow).toContain('include-hidden-files: true')
+  expect(workflow).toContain('AGL_EVENT_COLLECTOR_R2_BUCKET')
+  expect(workflow).toContain('AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS')
   expect(workflow).toContain('VITE_EVENT_COLLECTOR_URL')
   expect(workflow).toContain('VITE_EVENT_COLLECTOR_WRITE_TOKEN')
   expect(workflow).toContain('AGL_EVENT_COLLECTOR_EXPORT_URL')
@@ -860,6 +862,7 @@ test('production scripts load git-ignored env files without leaking values or mu
   const envLoader = await readFile('scripts/lib/env-loader.mjs', 'utf8')
   const productionEnvExample = await readFile('ops/production.env.example', 'utf8')
   const cloudflareReadme = await readFile('ops/cloudflare/README.md', 'utf8')
+  const collectorWorkflow = await readFile('.github/workflows/event-collector-deploy.yml', 'utf8')
   const envAwareScripts = [
     'scripts/production-environment.mjs',
     'scripts/repository-readiness.mjs',
@@ -916,6 +919,7 @@ test('production scripts load git-ignored env files without leaking values or mu
   expect(gitignore).toContain('!ops/production.env.example')
   expect(envLoader).toContain('AGL_ALLOW_')
   expect(envLoader).toContain('protectedMutationKeysRequireShellEnv')
+  expect(collectorWorkflow).toContain('r2 bucket create')
 
   for (const scriptPath of envAwareScripts) {
     expect(await readFile(scriptPath, 'utf8')).toContain('loadLocalEnv')

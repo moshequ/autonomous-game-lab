@@ -607,6 +607,7 @@ if (
   eventCollectorDeployment.smoke?.status !== eventCollectorSmoke.status ||
   eventCollectorDeployment.smoke?.piiStripped !== true ||
   eventCollectorDeployment.workflow?.path !== '.github/workflows/event-collector-deploy.yml' ||
+  eventCollectorDeployment.workflow?.autoCreatesBucket !== true ||
   !eventCollectorWorkerSource.includes('parseAllowedOrigins') ||
   !eventCollectorWorkerSource.includes('new URL(value).origin') ||
   !eventCollectorDeployment.checks?.some((check) => check.id === 'worker-source' && check.status === 'pass') ||
@@ -4613,6 +4614,7 @@ if (
 if (
   !collectorWorkflow.includes('npm run autonomous:event-collector-smoke') ||
   !collectorWorkflow.includes('npm run autonomous:collector-deploy-plan') ||
+  !collectorWorkflow.includes('r2 bucket create') ||
   !collectorWorkflow.includes('npx wrangler@latest deploy') ||
   !collectorWorkflow.includes('AGL_EVENT_COLLECTOR_ADMIN_TOKEN') ||
   !collectorWorkflow.includes('CLOUDFLARE_API_TOKEN') ||

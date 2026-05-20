@@ -1,9 +1,10 @@
 # Event Collector Deployment
 
-Generated: 2026-05-20T08:20:05.714Z
+Generated: 2026-05-20T08:31:53.724Z
 Status: blocked-needs-cloudflare-env
 Provider: cloudflare-worker-r2
 Cost posture: free-tier-friendly-no-paid-traffic
+Auto-create R2 bucket: true
 
 ## Checks
 
@@ -23,7 +24,7 @@ Cost posture: free-tier-friendly-no-paid-traffic
 
 ## One-Time Setup
 
-- Create or select a Cloudflare account and R2 bucket for collector event batches.
+- Create or select a Cloudflare account; the deploy workflow creates or reuses the R2 bucket for collector event batches.
 - Set repository variables CLOUDFLARE_ACCOUNT_ID, AGL_EVENT_COLLECTOR_R2_BUCKET, AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS, VITE_EVENT_COLLECTOR_URL, and AGL_EVENT_COLLECTOR_EXPORT_URL.
 - Set repository secrets CLOUDFLARE_API_TOKEN, VITE_EVENT_COLLECTOR_WRITE_TOKEN, and AGL_EVENT_COLLECTOR_ADMIN_TOKEN.
 - Run the Event Collector Deploy workflow; it runs the collector smoke before deploying.

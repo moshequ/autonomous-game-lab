@@ -53,6 +53,13 @@ jobs:
           echo "Cloudflare collector deployment is not configured yet."
           cat reports/event-collector-deployment-latest.md
 
+      - name: Ensure R2 bucket exists
+        if: env.CLOUDFLARE_ACCOUNT_ID != '' && env.CLOUDFLARE_API_TOKEN != '' && env.AGL_EVENT_COLLECTOR_ADMIN_TOKEN != '' && env.VITE_EVENT_COLLECTOR_URL != '' && env.AGL_EVENT_COLLECTOR_EXPORT_URL != ''
+        run: |
+          bucket="${AGL_EVENT_COLLECTOR_R2_BUCKET:-autonomous-game-lab-events}"
+          npx wrangler@latest r2 bucket create "$bucket" ||
+            npx wrangler@latest r2 bucket list | grep -F "$bucket"
+
       - name: Render Wrangler config
         if: env.CLOUDFLARE_ACCOUNT_ID != '' && env.CLOUDFLARE_API_TOKEN != '' && env.AGL_EVENT_COLLECTOR_ADMIN_TOKEN != '' && env.VITE_EVENT_COLLECTOR_URL != '' && env.AGL_EVENT_COLLECTOR_EXPORT_URL != ''
         run: |

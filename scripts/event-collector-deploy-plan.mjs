@@ -52,6 +52,7 @@ const collectorEnvReady = browserConfigured && serverExportConfigured && writeTo
 const workerSourceExists = await exists(workerPath)
 const wranglerExampleExists = await exists(wranglerExamplePath)
 const workflowExists = await exists(workflowPath)
+const workflowSource = workflowExists ? await readFile(workflowPath, 'utf8') : ''
 const smokeReady =
   eventCollectorSmoke.status === 'pass' &&
   eventCollectorSmoke.collector?.piiStripped === true &&
@@ -113,6 +114,7 @@ const payload = {
     path: '.github/workflows/event-collector-deploy.yml',
     status: workflowExists ? 'present' : 'missing',
     deploysWhenConfigured: deployCredentialReady && collectorEnvReady,
+    autoCreatesBucket: workflowSource.includes('r2 bucket create'),
   },
   environment: {
     browserCollectorConfigured: browserConfigured,
@@ -131,7 +133,7 @@ const payload = {
     activeSource: eventCollectorSmoke.analytics?.activeSource ?? null,
   },
   setupRequiredOnce: [
-    'Create or select a Cloudflare account and R2 bucket for collector event batches.',
+    'Create or select a Cloudflare account; the deploy workflow creates or reuses the R2 bucket for collector event batches.',
     'Set repository variables CLOUDFLARE_ACCOUNT_ID, AGL_EVENT_COLLECTOR_R2_BUCKET, AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS, VITE_EVENT_COLLECTOR_URL, and AGL_EVENT_COLLECTOR_EXPORT_URL.',
     'Set repository secrets CLOUDFLARE_API_TOKEN, VITE_EVENT_COLLECTOR_WRITE_TOKEN, and AGL_EVENT_COLLECTOR_ADMIN_TOKEN.',
     'Run the Event Collector Deploy workflow; it runs the collector smoke before deploying.',
@@ -151,6 +153,7 @@ const report = [
   `Status: ${payload.status}`,
   `Provider: ${payload.provider}`,
   `Cost posture: ${payload.costPosture}`,
+  `Auto-create R2 bucket: ${payload.workflow.autoCreatesBucket}`,
   '',
   '## Checks',
   '',
