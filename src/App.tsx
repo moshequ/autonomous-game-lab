@@ -189,6 +189,57 @@ const readStringStorage = (key: string) => {
   return window.localStorage.getItem(key) ?? ''
 }
 
+type ProductGateSampleMission = (typeof productGateSamplePlan.missions)[number]
+
+const matchesGateSampleCampaign = (event: AnalyticsEvent, campaignId: string) =>
+  event.properties.acquisitionCampaign === campaignId || event.properties.campaignId === campaignId
+
+const countEventsNamed = (events: AnalyticsEvent[], names: readonly string[]) => {
+  const wanted = new Set(names)
+  return events.filter((event) => wanted.has(event.name)).length
+}
+
+const sampleProgressForMission = (
+  mission: ProductGateSampleMission,
+  events: AnalyticsEvent[],
+) => {
+  const campaignEvents = events.filter((event) => matchesGateSampleCampaign(event, mission.campaignId))
+  const promptViews = countEventsNamed(campaignEvents, mission.telemetry.view)
+  const promptActions = countEventsNamed(campaignEvents, mission.telemetry.action)
+  const successEvents = countEventsNamed(campaignEvents, mission.telemetry.success)
+  const failureEvents = countEventsNamed(campaignEvents, mission.telemetry.failure)
+  const collectionEvents = countEventsNamed(campaignEvents, [...new Set(mission.telemetry.collectionEvents)])
+  const analyticsExports = campaignEvents.filter(
+    (event) =>
+      event.name === 'analytics_exported' &&
+      event.properties.exportSurface === 'product-gate-sample',
+  ).length
+  const promptViewsRemaining = Math.max(0, mission.needed.minimumPromptViewsForDecision - promptViews)
+  const successesRemaining = Math.max(0, mission.needed.successes - successEvents)
+  const sampleDecisionReady = promptViewsRemaining === 0 && successesRemaining === 0
+  const evidenceDropReady = campaignEvents.length > analyticsExports
+
+  return {
+    campaignEvents: campaignEvents.length,
+    collectionEvents,
+    promptViews,
+    promptActions,
+    successEvents,
+    failureEvents,
+    analyticsExports,
+    promptViewsRemaining,
+    successesRemaining,
+    evidenceDropReady,
+    sampleDecisionReady,
+    status:
+      campaignEvents.length === 0
+        ? 'waiting-for-local-events'
+        : sampleDecisionReady
+          ? 'ready-to-export'
+          : 'collecting-local-events',
+  }
+}
+
 type ChannelDecision = {
   channel: string
   status: string
@@ -508,6 +559,22 @@ function App() {
     ) ?? productGateSamplePrimary
   const productGateSampleFastestDistinct =
     productGateSampleFastest?.campaignId !== productGateSamplePrimary?.campaignId ? productGateSampleFastest : null
+  const productGateSampleProgress = useMemo(
+    () =>
+      new Map(
+        productGateSamplePlan.missions.map((mission) => [
+          mission.campaignId,
+          sampleProgressForMission(mission, events),
+        ]),
+      ),
+    [events],
+  )
+  const productGateSamplePrimaryProgress = productGateSamplePrimary
+    ? productGateSampleProgress.get(productGateSamplePrimary.campaignId)
+    : null
+  const productGateSampleFastestProgress = productGateSampleFastest
+    ? productGateSampleProgress.get(productGateSampleFastest.campaignId)
+    : null
   const firstMoveCoachPrimary =
     firstMoveCoach.targets.find((target) => target.gameId === firstMoveCoach.summary.primaryTargetId) ??
     firstMoveCoach.targets.find((target) => target.enabled)
@@ -1290,6 +1357,8 @@ function App() {
     URL.revokeObjectURL(url)
   }
   const exportGateSampleEvidence = (mission: (typeof productGateSamplePlan.missions)[number]) => {
+    const progress = sampleProgressForMission(mission, getBufferedEvents())
+
     exportLocalAnalytics({
       exportSurface: 'product-gate-sample',
       gateId: mission.gateId,
@@ -1297,6 +1366,17 @@ function App() {
       campaignId: mission.campaignId,
       promptViewsNeeded: mission.needed.promptViews,
       observedSuccessesNeeded: mission.needed.successes,
+      localCampaignEvents: progress.campaignEvents,
+      localCollectionEvents: progress.collectionEvents,
+      localPromptViews: progress.promptViews,
+      localPromptActions: progress.promptActions,
+      localObservedSuccesses: progress.successEvents,
+      localFailures: progress.failureEvents,
+      localAnalyticsExports: progress.analyticsExports,
+      localPromptViewsRemaining: progress.promptViewsRemaining,
+      localSuccessesRemaining: progress.successesRemaining,
+      localEvidenceDropReady: progress.evidenceDropReady,
+      localSampleDecisionReady: progress.sampleDecisionReady,
       noSyntheticEvents: mission.controls.noSyntheticEvents,
     })
   }
@@ -2283,6 +2363,41 @@ function App() {
                   <span>Evidence</span>
                   <strong>{productGateSamplePrimary?.evidence.status ?? 'waiting'}</strong>
                 </div>
+                <div>
+                  <span>Local sample</span>
+                  <strong>
+                    {productGateSamplePrimaryProgress
+                      ? `${productGateSamplePrimaryProgress.campaignEvents} events / ${productGateSamplePrimaryProgress.successEvents} wins`
+                      : 'none'}
+                  </strong>
+                </div>
+                <div>
+                  <span>Local debt</span>
+                  <strong>
+                    {productGateSamplePrimaryProgress
+                      ? `${productGateSamplePrimaryProgress.promptViewsRemaining} views / ${productGateSamplePrimaryProgress.successesRemaining} wins`
+                      : 'none'}
+                  </strong>
+                </div>
+                <div>
+                  <span>Export state</span>
+                  <strong>
+                    {productGateSamplePrimaryProgress?.sampleDecisionReady
+                      ? 'decision-ready'
+                      : productGateSamplePrimaryProgress?.evidenceDropReady
+                        ? 'export-ready'
+                        : 'collecting'}
+                  </strong>
+                </div>
+                {productGateSampleFastestDistinct && productGateSampleFastestProgress ? (
+                  <div>
+                    <span>Fastest local</span>
+                    <strong>
+                      {productGateSampleFastestProgress.campaignEvents} events /{' '}
+                      {productGateSampleFastestProgress.successEvents} wins
+                    </strong>
+                  </div>
+                ) : null}
                 {productGateSamplePrimary ? (
                   <div className="sampleActions">
                     <button

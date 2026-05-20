@@ -1,6 +1,6 @@
 # Product Gate Sample Plan
 
-Generated: 2026-05-20T09:03:15.112Z
+Generated: 2026-05-20T09:48:09.064Z
 Status: product-gate-sample-plan-ready
 Analytics source: fixture-sample
 Primary gate: firstGameCompletion
@@ -11,6 +11,7 @@ Inbox gate-sample events: 0
 Downloads scan: no-evidence-found; cooling down true
 Next recommended Downloads scan: 2026-05-20T09:52:52.843Z
 Public sample page: /gate-sample.html
+Runtime evidence policy: active
 
 ## Missions
 

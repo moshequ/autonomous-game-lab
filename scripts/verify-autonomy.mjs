@@ -1281,6 +1281,17 @@ if (
   productGateSamplePlan.publicSamplePage?.zeroPaidSpend !== true ||
   productGateSamplePlan.publicSamplePage?.playerInitiatedOnly !== true ||
   productGateSamplePlan.publicSamplePage?.noSyntheticEvents !== true ||
+  productGateSamplePlan.runtimeEvidencePolicy?.status !== 'active' ||
+  productGateSamplePlan.runtimeEvidencePolicy?.surface !== 'product-gate-sample-plan-card' ||
+  productGateSamplePlan.runtimeEvidencePolicy?.localProgressSource !== 'agl.analytics.events' ||
+  !productGateSamplePlan.runtimeEvidencePolicy?.campaignMatchProperties?.includes('acquisitionCampaign') ||
+  !productGateSamplePlan.runtimeEvidencePolicy?.campaignMatchProperties?.includes('campaignId') ||
+  !productGateSamplePlan.runtimeEvidencePolicy?.exportProperties?.includes('localObservedSuccesses') ||
+  !productGateSamplePlan.runtimeEvidencePolicy?.exportProperties?.includes('localSampleDecisionReady') ||
+  productGateSamplePlan.runtimeEvidencePolicy?.controls?.zeroPaidSpend !== true ||
+  productGateSamplePlan.runtimeEvidencePolicy?.controls?.localOnlyUntilCollectorConfigured !== true ||
+  productGateSamplePlan.runtimeEvidencePolicy?.controls?.noSyntheticEvents !== true ||
+  productGateSamplePlan.runtimeEvidencePolicy?.controls?.playerInitiatedExportOnly !== true ||
   typeof productGateSamplePlan.summary?.importedGateSampleEvents !== 'number' ||
   typeof productGateSamplePlan.summary?.inboxGateSampleEvents !== 'number' ||
   productGateSamplePlan.summary?.downloadsScanStatus !==
@@ -1315,6 +1326,7 @@ if (
   !productGateSamplePlanSource.includes('productGateRecovery') ||
   !productGateSamplePlanSource.includes('gateSamplePagePath') ||
   !productGateSamplePlanSource.includes('sampleRoleForMission') ||
+  !productGateSamplePlanSource.includes('runtimeEvidencePolicy') ||
   !packageJson.scripts?.['autonomous:sample-plan']?.includes('product-gate-sample-planner') ||
   !packageJson.scripts?.['autonomous:collect-sample-downloads']?.includes('AGL_LOCAL_EVENT_IMPORT_DOWNLOADS=true') ||
   !packageJson.scripts?.['autonomous:collect-sample-downloads']?.includes('autonomous:gate-recovery') ||
@@ -1326,6 +1338,9 @@ if (
   !analyticsRollupSource.includes("'gate_sample_mission_clicked'") ||
   !appSource.includes('Product Gate Sample Plan') ||
   !appSource.includes('startGateSampleMission') ||
+  !appSource.includes('sampleProgressForMission') ||
+  !appSource.includes('Local sample') ||
+  !appSource.includes('localObservedSuccesses') ||
   !appSource.includes('Export sample evidence') ||
   !appSource.includes("'gate_sample_mission_clicked'") ||
   !appSource.includes("entrySource === 'gate_sample'") ||

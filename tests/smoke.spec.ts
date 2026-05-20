@@ -1311,6 +1311,19 @@ test('product optimizer applies one guarded tuning step from product-gate eviden
       playerInitiatedOnly: boolean
       noSyntheticEvents: boolean
     }
+    runtimeEvidencePolicy: {
+      status: string
+      surface: string
+      localProgressSource: string
+      campaignMatchProperties: string[]
+      exportProperties: string[]
+      controls: {
+        zeroPaidSpend: boolean
+        localOnlyUntilCollectorConfigured: boolean
+        noSyntheticEvents: boolean
+        playerInitiatedExportOnly: boolean
+      }
+    }
     controls: {
       zeroPaidSpend: boolean
       noPaidTraffic: boolean
@@ -1418,6 +1431,15 @@ test('product optimizer applies one guarded tuning step from product-gate eviden
   expect(samplePlan.publicSamplePage.zeroPaidSpend).toBe(true)
   expect(samplePlan.publicSamplePage.playerInitiatedOnly).toBe(true)
   expect(samplePlan.publicSamplePage.noSyntheticEvents).toBe(true)
+  expect(samplePlan.runtimeEvidencePolicy.status).toBe('active')
+  expect(samplePlan.runtimeEvidencePolicy.surface).toBe('product-gate-sample-plan-card')
+  expect(samplePlan.runtimeEvidencePolicy.localProgressSource).toBe('agl.analytics.events')
+  expect(samplePlan.runtimeEvidencePolicy.campaignMatchProperties).toContain('acquisitionCampaign')
+  expect(samplePlan.runtimeEvidencePolicy.exportProperties).toContain('localObservedSuccesses')
+  expect(samplePlan.runtimeEvidencePolicy.controls.zeroPaidSpend).toBe(true)
+  expect(samplePlan.runtimeEvidencePolicy.controls.localOnlyUntilCollectorConfigured).toBe(true)
+  expect(samplePlan.runtimeEvidencePolicy.controls.noSyntheticEvents).toBe(true)
+  expect(samplePlan.runtimeEvidencePolicy.controls.playerInitiatedExportOnly).toBe(true)
   expect(samplePlan.controls.zeroPaidSpend).toBe(true)
   expect(samplePlan.controls.noPaidTraffic).toBe(true)
   expect(samplePlan.controls.noSyntheticGatePasses).toBe(true)
@@ -1438,6 +1460,8 @@ test('product optimizer applies one guarded tuning step from product-gate eviden
   await expect(page.getByLabel('Product Gate Sample Plan')).toContainText('product-gate-sample-plan-ready')
   await expect(page.getByLabel('Product Gate Sample Plan')).toContainText('firstGameCompletion')
   await expect(page.getByLabel('Product Gate Sample Plan')).toContainText('d1Retention')
+  await expect(page.getByLabel('Product Gate Sample Plan')).toContainText('Local sample')
+  await expect(page.getByLabel('Product Gate Sample Plan')).toContainText('Export state')
 })
 
 test('product gate recovery marks passing gates as monitoring instead of collecting sample', async () => {
@@ -1702,7 +1726,11 @@ test('product gate sample mission starts an attributed zero-spend evidence run',
       noSyntheticEvents: mission.controls.noSyntheticEvents,
       acquisitionCampaign: mission.campaignId,
       acquisitionSource: 'gate_sample',
+      localEvidenceDropReady: true,
     })
+    expect(Number(exportEvent?.properties.localCampaignEvents ?? 0)).toBeGreaterThanOrEqual(1)
+    expect(Number(exportEvent?.properties.localPromptViewsRemaining ?? -1)).toBeGreaterThanOrEqual(0)
+    expect(Number(exportEvent?.properties.localSuccessesRemaining ?? -1)).toBeGreaterThanOrEqual(0)
   }
 
   expect(fastestMission).toBeTruthy()
@@ -1755,9 +1783,11 @@ test('product gate sample mission starts an attributed zero-spend evidence run',
         gateId: fastestMission.gateId,
         gameId: fastestMission.gameId,
         campaignId: fastestMission.campaignId,
+        localEvidenceDropReady: true,
         acquisitionCampaign: fastestMission.campaignId,
         acquisitionSource: 'gate_sample',
       })
+      expect(Number(fastestExportEvent?.properties.localCampaignEvents ?? 0)).toBeGreaterThanOrEqual(1)
     }
   }
 })

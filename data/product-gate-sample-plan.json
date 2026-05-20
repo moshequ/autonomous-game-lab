@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-20T09:03:15.112Z",
+  "generatedAt": "2026-05-20T09:48:09.064Z",
   "status": "product-gate-sample-plan-ready",
   "sourceStatus": {
     "analyticsSource": "fixture-sample",
@@ -47,6 +47,48 @@
     "zeroPaidSpend": true,
     "playerInitiatedOnly": true,
     "noSyntheticEvents": true
+  },
+  "runtimeEvidencePolicy": {
+    "status": "active",
+    "surface": "product-gate-sample-plan-card",
+    "localProgressSource": "agl.analytics.events",
+    "campaignMatchProperties": [
+      "acquisitionCampaign",
+      "campaignId"
+    ],
+    "progressCounters": [
+      "localCampaignEvents",
+      "localCollectionEvents",
+      "localPromptViews",
+      "localPromptActions",
+      "localObservedSuccesses",
+      "localFailures",
+      "localAnalyticsExports",
+      "localPromptViewsRemaining",
+      "localSuccessesRemaining"
+    ],
+    "exportProperties": [
+      "exportSurface",
+      "gateId",
+      "gameId",
+      "campaignId",
+      "localCampaignEvents",
+      "localCollectionEvents",
+      "localPromptViews",
+      "localPromptActions",
+      "localObservedSuccesses",
+      "localFailures",
+      "localAnalyticsExports",
+      "localEvidenceDropReady",
+      "localSampleDecisionReady"
+    ],
+    "controls": {
+      "zeroPaidSpend": true,
+      "localOnlyUntilCollectorConfigured": true,
+      "noSyntheticEvents": true,
+      "playerInitiatedExportOnly": true,
+      "noRevenueEnablement": true
+    }
   },
   "missions": [
     {
