@@ -1,5 +1,5 @@
 export const repositoryReadiness = {
-  "generatedAt": "2026-05-20T04:07:40.637Z",
+  "generatedAt": "2026-05-20T04:08:49.973Z",
   "status": "waiting-for-github-repository",
   "envFiles": {
     "loaded": true,
@@ -56,30 +56,10 @@ export const repositoryReadiness = {
     "insideWorkTree": true,
     "gitRoot": "/Users/moshequ/Documents/Codex/2026-05-18/i-want-to-have-a-new",
     "currentBranch": "main",
-    "dirtyFiles": 9,
-    "dirtyPaths": [
-      "data/event-collector-deployment.json",
-      "data/local-event-bridge.json",
-      "data/production-environment.json",
-      "reports/event-collector-deployment-latest.md",
-      "reports/local-event-bridge-latest.md",
-      "reports/production-environment-latest.md",
-      "src/data/eventCollectorDeployment.ts",
-      "src/data/localEventBridge.ts",
-      "src/data/productionEnvironment.ts"
-    ],
-    "generatedEvidenceDirtyFiles": 9,
-    "generatedEvidenceDirtyPaths": [
-      "data/event-collector-deployment.json",
-      "data/local-event-bridge.json",
-      "data/production-environment.json",
-      "reports/event-collector-deployment-latest.md",
-      "reports/local-event-bridge-latest.md",
-      "reports/production-environment-latest.md",
-      "src/data/eventCollectorDeployment.ts",
-      "src/data/localEventBridge.ts",
-      "src/data/productionEnvironment.ts"
-    ],
+    "dirtyFiles": 0,
+    "dirtyPaths": [],
+    "generatedEvidenceDirtyFiles": 0,
+    "generatedEvidenceDirtyPaths": [],
     "nonGeneratedDirtyFiles": 0,
     "nonGeneratedDirtyPaths": []
   },
