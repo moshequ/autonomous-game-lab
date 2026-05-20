@@ -1,10 +1,10 @@
 # Autonomous Operator
 
-Generated: 2026-05-20T01:19:36.817Z
+Generated: 2026-05-20T01:23:19.766Z
 Status: operator-plan-ready
 Mode: plan-only
-Owner decision: seed-portfolio-traffic
-Selected action: seed-portfolio-traffic
+Owner decision: bootstrap-production-setup
+Selected action: bootstrap-production-setup
 Execution: not-requested
 
 ## Controls
@@ -18,7 +18,7 @@ Execution: not-requested
 
 ## Selected Action
 
-- seed-portfolio-traffic: npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop
+- bootstrap-production-setup: npm run autonomous:release-candidate && npm run autonomous:deploy-plan && npm run autonomous:bootstrap
 
 ## Eligible Local Actions
 
@@ -32,6 +32,8 @@ Execution: not-requested
 - prepare-release-candidate
 - optimize-product-gates
 - refresh-product-gate-recovery
+- collect-gate-sample-downloads
+- refresh-product-gate-sample-plan
 - refresh-first-move-coach
 - refresh-completion-loop
 - refresh-replay-loop
@@ -47,6 +49,7 @@ Execution: not-requested
 - run-daily-owner-loop: daily-loop-recursion-blocked
 - refresh-autonomous-cadence: not-selected-this-run
 - refresh-autonomous-self-update: not-selected-this-run
+- seed-portfolio-traffic: not-selected-this-run
 - refresh-organic-seed-loop: not-selected-this-run
 - optimize-daily-retention: not-selected-this-run
 - measure-pwa-install-loop: not-selected-this-run
@@ -55,4 +58,3 @@ Execution: not-requested
 - run-post-deploy-smoke: status-monitor
 - optimize-product-gates: not-selected-this-run
 - refresh-product-gate-recovery: not-selected-this-run
-- collect-gate-sample-downloads: status-monitor
