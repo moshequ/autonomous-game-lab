@@ -1021,6 +1021,14 @@ test('post-deploy smoke runner is wired to the release manifest and Pages workfl
     postDeploySmoke: Array<{ path: string }>
   }
   const workflow = await readFile('.github/workflows/web-pwa-deploy.yml', 'utf8')
+  const deployment = JSON.parse(await readFile('data/deployment-plan.json', 'utf8')) as {
+    status: string
+    checks: Array<{ id: string; status: string }>
+  }
+  const readiness = JSON.parse(await readFile('data/production-readiness.json', 'utf8')) as {
+    webPwa: { checks: Array<{ id: string; status: string }> }
+  }
+  const deploymentScript = await readFile('scripts/deployment-plan.mjs', 'utf8')
   const packageJson = JSON.parse(await readFile('package.json', 'utf8')) as {
     scripts: Record<string, string>
   }
@@ -1054,6 +1062,12 @@ test('post-deploy smoke runner is wired to the release manifest and Pages workfl
   expect(smoke.checks.length).toBeGreaterThanOrEqual(candidate.postDeploySmoke.length + 1)
   expect(smoke.checks.some((check) => check.id === 'release-candidate-manifest')).toBe(true)
   expect(smoke.target.origin ? smoke.summary.passed : smoke.summary.blocked).toBe(smoke.summary.planned)
+  expect(deploymentScript).toContain("check.id !== 'post-deploy-smoke-runner'")
+
+  if (readiness.webPwa.checks.every((check) => check.status === 'pass' || check.id === 'post-deploy-smoke-runner')) {
+    expect(deployment.checks.find((check) => check.id === 'web-readiness')?.status).toBe('pass')
+    expect(deployment.status).toBe('ready-for-pages')
+  }
 
   if (smoke.status === 'post-deploy-smoke-observed-live') {
     expect(smoke.target.strictManifestComparison).toBe(false)

@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-05-20T22:30:10.847Z",
-  "status": "waiting-for-repository-channel",
+  "generatedAt": "2026-05-20T22:35:42.007Z",
+  "status": "repository-channel-ready",
   "envFiles": {
     "loaded": true,
     "loadedFiles": [
@@ -56,94 +56,23 @@
     "insideWorkTree": true,
     "gitRoot": "/Users/moshequ/Documents/Codex/2026-05-18/i-want-to-have-a-new",
     "currentBranch": "main",
-    "dirtyFiles": 40,
+    "dirtyFiles": 4,
     "dirtyPaths": [
-      "data/autonomous-operator-history.json",
-      "data/autonomous-operator.json",
-      "data/autonomous-owner-loop.json",
-      "data/autonomous-self-update.json",
       "data/deployment-plan.json",
-      "data/objective-audit.json",
-      "data/performance-budget.json",
-      "data/post-deploy-smoke.json",
-      "data/production-activation.json",
-      "data/production-bootstrap.json",
-      "data/production-readiness.json",
-      "data/release-candidate.json",
-      "data/repository-bootstrap.json",
-      "data/repository-readiness.json",
-      "reports/autonomous-operator-history-latest.md",
-      "reports/autonomous-operator-latest.md",
-      "reports/autonomous-owner-loop-latest.md",
-      "reports/autonomous-self-update-latest.md",
       "reports/deployment-plan-latest.md",
-      "reports/objective-audit-latest.md",
-      "reports/performance-budget-latest.md",
-      "reports/post-deploy-smoke-latest.md",
-      "reports/production-activation-latest.md",
-      "reports/production-bootstrap-latest.md",
-      "reports/production-readiness-latest.md",
-      "reports/release-candidate-latest.md",
-      "reports/repository-bootstrap-latest.md",
-      "reports/repository-readiness-latest.md",
-      "src/data/autonomousOperator.ts",
-      "src/data/autonomousOperatorHistory.ts",
-      "src/data/autonomousOwnerLoop.ts",
-      "src/data/autonomousSelfUpdate.ts",
-      "src/data/deploymentPlan.ts",
-      "src/data/objectiveAudit.ts",
-      "src/data/performanceBudget.ts",
-      "src/data/postDeploySmoke.ts",
-      "src/data/productionActivation.ts",
-      "src/data/productionBootstrap.ts",
-      "src/data/releaseCandidate.ts",
-      "src/data/repositoryReadiness.ts"
+      "scripts/deployment-plan.mjs",
+      "tests/smoke.spec.ts"
     ],
-    "generatedEvidenceDirtyFiles": 40,
+    "generatedEvidenceDirtyFiles": 2,
     "generatedEvidenceDirtyPaths": [
-      "data/autonomous-operator-history.json",
-      "data/autonomous-operator.json",
-      "data/autonomous-owner-loop.json",
-      "data/autonomous-self-update.json",
       "data/deployment-plan.json",
-      "data/objective-audit.json",
-      "data/performance-budget.json",
-      "data/post-deploy-smoke.json",
-      "data/production-activation.json",
-      "data/production-bootstrap.json",
-      "data/production-readiness.json",
-      "data/release-candidate.json",
-      "data/repository-bootstrap.json",
-      "data/repository-readiness.json",
-      "reports/autonomous-operator-history-latest.md",
-      "reports/autonomous-operator-latest.md",
-      "reports/autonomous-owner-loop-latest.md",
-      "reports/autonomous-self-update-latest.md",
-      "reports/deployment-plan-latest.md",
-      "reports/objective-audit-latest.md",
-      "reports/performance-budget-latest.md",
-      "reports/post-deploy-smoke-latest.md",
-      "reports/production-activation-latest.md",
-      "reports/production-bootstrap-latest.md",
-      "reports/production-readiness-latest.md",
-      "reports/release-candidate-latest.md",
-      "reports/repository-bootstrap-latest.md",
-      "reports/repository-readiness-latest.md",
-      "src/data/autonomousOperator.ts",
-      "src/data/autonomousOperatorHistory.ts",
-      "src/data/autonomousOwnerLoop.ts",
-      "src/data/autonomousSelfUpdate.ts",
-      "src/data/deploymentPlan.ts",
-      "src/data/objectiveAudit.ts",
-      "src/data/performanceBudget.ts",
-      "src/data/postDeploySmoke.ts",
-      "src/data/productionActivation.ts",
-      "src/data/productionBootstrap.ts",
-      "src/data/releaseCandidate.ts",
-      "src/data/repositoryReadiness.ts"
+      "reports/deployment-plan-latest.md"
     ],
-    "nonGeneratedDirtyFiles": 0,
-    "nonGeneratedDirtyPaths": []
+    "nonGeneratedDirtyFiles": 2,
+    "nonGeneratedDirtyPaths": [
+      "scripts/deployment-plan.mjs",
+      "tests/smoke.spec.ts"
+    ]
   },
   "repository": {
     "target": "moshequ/autonomous-game-lab",
@@ -171,14 +100,14 @@
     "ghCredentialReady": true,
     "ghTokenConfigured": false,
     "ghUserLogin": "moshequ",
-    "workflowDispatchReady": false,
+    "workflowDispatchReady": true,
     "canSyncRepositorySettings": true
   },
   "pages": {
     "workflowPath": ".github/workflows/web-pwa-deploy.yml",
     "workflowExists": true,
     "deployWorkflowIncludesSmoke": true,
-    "deploymentStatus": "blocked",
+    "deploymentStatus": "ready-for-pages",
     "releaseCandidateId": "pwa-f20af01ab326",
     "postDeploySmokeStatus": "post-deploy-smoke-observed-live",
     "liveSettings": {
@@ -283,18 +212,16 @@
     },
     {
       "id": "deployable-artifact",
-      "status": "blocker",
-      "detail": "Deployment blocked; release candidate release-candidate-ready; smoke post-deploy-smoke-observed-live."
+      "status": "pass",
+      "detail": "Deployment ready-for-pages; release candidate release-candidate-ready; smoke post-deploy-smoke-observed-live."
     }
   ],
-  "blockers": [
-    "Refresh build, release candidate, post-deploy smoke, and deployment plan artifacts."
-  ],
+  "blockers": [],
   "setupRequiredOnce": [
     "Let the production bootstrap helper enable GitHub Pages with GitHub Actions as the source once gh credentials exist."
   ],
   "nextActions": [
-    "Prepare the GitHub repository channel before treating the web deploy as runnable.",
+    "Use production bootstrap to sync configured repository variables/secrets, then dispatch the Web PWA Deploy workflow.",
     "Keep this script read-only; repository creation, workflow dispatch, and settings sync stay in guarded bootstrap commands."
   ]
 }

@@ -61,6 +61,12 @@ const collectorDeployment = await readOptionalJson(collectorDeploymentPath, {
   workflow: { path: '.github/workflows/event-collector-deploy.yml', status: 'missing' },
 })
 const webDecision = promotion.decisions?.find((decision) => decision.channel === 'web-pwa')
+const webPwaChecks = readiness.webPwa?.checks ?? []
+const preDeployWebBlockers = webPwaChecks.filter(
+  (check) => check.status !== 'pass' && check.id !== 'post-deploy-smoke-runner',
+)
+const preDeployWebReady =
+  readiness.webPwa?.status === 'ready-after-build' || (webPwaChecks.length > 0 && preDeployWebBlockers.length === 0)
 
 const checks = [
   {
@@ -70,8 +76,10 @@ const checks = [
   },
   {
     id: 'web-readiness',
-    status: readiness.webPwa?.status === 'ready-after-build' ? 'pass' : 'blocker',
-    detail: `Web readiness is ${readiness.webPwa?.status ?? 'missing'}.`,
+    status: preDeployWebReady ? 'pass' : 'blocker',
+    detail: preDeployWebReady
+      ? `Pre-deploy web readiness passed; live post-deploy smoke remains ${readiness.webPwa?.status ?? 'missing'}.`
+      : `Web readiness is ${readiness.webPwa?.status ?? 'missing'}.`,
   },
   {
     id: 'release-health',

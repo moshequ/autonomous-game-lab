@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-20T22:30:12.519Z",
+  "generatedAt": "2026-05-20T22:35:39.937Z",
   "status": "ready-for-pages",
   "target": {
     "provider": "github-pages",
@@ -85,7 +85,7 @@
     {
       "id": "web-readiness",
       "status": "pass",
-      "detail": "Web readiness is ready-after-build."
+      "detail": "Pre-deploy web readiness passed; live post-deploy smoke remains blocked."
     },
     {
       "id": "release-health",
