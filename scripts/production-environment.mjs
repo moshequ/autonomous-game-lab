@@ -31,7 +31,7 @@ const normalizeOrigin = (value) => {
 
   try {
     const url = new URL(withProtocol)
-    url.pathname = ''
+    url.pathname = url.pathname === '/' ? '' : url.pathname.replace(/\/+$/, '')
     url.search = ''
     url.hash = ''
     return url.toString().replace(/\/$/, '')

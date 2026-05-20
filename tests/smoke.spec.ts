@@ -987,6 +987,36 @@ test('production environment infers zero-cost GitHub Pages origin from repositor
       source: 'github-pages-target',
       fallback: 'github-pages-target',
     })
+
+    await execFileAsync('node', [path.join(process.cwd(), 'scripts/production-environment.mjs')], {
+      cwd: tempRoot,
+      env: {
+        ...process.env,
+        AGL_PUBLIC_ORIGIN: 'https://demo-owner.github.io/autonomous-game-lab',
+        VITE_PUBLIC_ORIGIN: '',
+        PUBLIC_SITE_URL: '',
+        AGL_PUBLIC_HOST: '',
+        VITE_BASE_PATH: '/autonomous-game-lab/',
+      },
+    })
+
+    const explicitEnvironment = JSON.parse(
+      await readFile(path.join(tempRoot, 'data/production-environment.json'), 'utf8'),
+    ) as {
+      publicOrigin: {
+        origin: string
+        source: string
+        status: string
+        privacyUrl: string
+      }
+    }
+
+    expect(explicitEnvironment.publicOrigin.source).toBe('environment')
+    expect(explicitEnvironment.publicOrigin.status).toBe('configured')
+    expect(explicitEnvironment.publicOrigin.origin).toBe('https://demo-owner.github.io/autonomous-game-lab')
+    expect(explicitEnvironment.publicOrigin.privacyUrl).toBe(
+      'https://demo-owner.github.io/autonomous-game-lab/privacy.html',
+    )
   } finally {
     await rm(tempRoot, { recursive: true, force: true })
   }
