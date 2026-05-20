@@ -1,15 +1,15 @@
 # Autonomous Owner Loop
 
-Generated: 2026-05-20T22:35:44.603Z
+Generated: 2026-05-20T22:38:22.088Z
 Status: owner-loop-ready
 Mode: zero-spend-web-ready
-Autonomy score: 39/42 (93%)
+Autonomy score: 41/42 (98%)
 
 ## Owner Decision
 
-- Next action: refresh-support-feedback
-- Command: npm run autonomous:support-feedback
-- Rationale: Reads public GitHub issue intake and turns player reports into redacted improvement signals.
+- Next action: bootstrap-production-setup
+- Command: npm run autonomous:release-candidate && npm run autonomous:deploy-plan && npm run autonomous:bootstrap
+- Rationale: Regenerates the zero-spend production setup handoff and exact GitHub variable/secret commands.
 - Last executed action: refresh-autonomous-self-update
 - Recent executed actions: refresh-autonomous-self-update, collect-live-events, seed-portfolio-traffic, measure-pwa-install-loop, refresh-autonomous-cadence, optimize-daily-retention, optimize-store-listing, refresh-completion-loop
 
@@ -41,16 +41,16 @@ Autonomy score: 39/42 (93%)
 - ready: organic-growth - 10 SEO/share pages; optimization 5 page(s).
 - ready: repository-channel - Repository moshequ/autonomous-game-lab; git worktree ready; workflow dispatch ready.
 - ready: repository-bootstrap - Bootstrap repository-bootstrap-ready; mode plan-only; helper ops/github/bootstrap-repository.sh; local git ready.
-- blocked: web-deployment - Deployment ready-for-pages; web readiness blocked; promotion promotable-internal.
+- ready: web-deployment - Deployment ready-for-pages; web readiness ready-after-build; promotion promotable-internal.
 - ready: release-candidate - Release candidate release-candidate-ready; files 44; smoke URLs 14.
-- waiting-for-origin: post-deploy-smoke - Smoke post-deploy-smoke-observed-live; origin https://moshequ.github.io/autonomous-game-lab; manifest comparison required; checks 15/15 passed; local artifact predeploy-artifact-smoke-passed 15/15 passed.
+- ready: post-deploy-smoke - Smoke post-deploy-smoke-observed-live; origin https://moshequ.github.io/autonomous-game-lab; manifest comparison required; checks 15/15 passed; local artifact predeploy-artifact-smoke-passed 15/15 passed.
 - ready: post-deploy-artifact-sync - Artifact sync post-deploy-artifact-sync-passed; run 26193142076; live matches artifact true; strict true.
 - ready: production-bootstrap - Bootstrap production-bootstrap-ready; mode can-apply-configured-actions; external blockers 17.
 - ready: production-activation - Activation activation-ready; mode dry-run; execution dry-run; gh ready.
 - ready: support-channel - Support channel support-channel-ready; repository moshequ/autonomous-game-lab; public intake ready.
-- ready: autonomous-operator - Operator operator-plan-ready; selected prepare-repository-channel; execution not-requested.
-- ready: operator-history - History operator-history-ready; records 40; executed 17.
-- ready: objective-audit - Audit objective-in-progress; met 5/8; external blockers 12.
+- ready: autonomous-operator - Operator operator-plan-ready; selected refresh-support-feedback; execution not-requested.
+- ready: operator-history - History operator-history-ready; records 40; executed 16.
+- ready: objective-audit - Audit objective-in-progress; met 6/8; external blockers 12.
 - ready: store-listing-optimizer - Focus canopy-bloom; lead screenshot phone-canopy-bloom-generated; candidate changed no.
 - ready: store-compliance - Rating Everyone; target audience general; blockers 3.
 - ready: android-signing - Signing signing-prepared; fingerprint available; local secrets configured.
@@ -80,7 +80,7 @@ Autonomy score: 39/42 (93%)
 - monitor: refresh-completion-loop - npm run autonomous:completion-loop
 - monitor: refresh-replay-loop - npm run autonomous:replay-loop
 - monitor: prepare-repository-channel - npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap
-- monitor: bootstrap-production-setup - npm run autonomous:release-candidate && npm run autonomous:deploy-plan && npm run autonomous:bootstrap
+- armed: bootstrap-production-setup - npm run autonomous:release-candidate && npm run autonomous:deploy-plan && npm run autonomous:bootstrap
 - monitor: activate-production-when-configured - npm run autonomous:activate-production
 - armed: run-autonomous-operator - npm run autonomous:operator
 - armed: review-operator-history - npm run autonomous:operator

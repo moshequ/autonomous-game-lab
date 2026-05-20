@@ -1,22 +1,24 @@
 {
-  "generatedAt": "2026-05-20T22:35:44.842Z",
+  "generatedAt": "2026-05-20T22:38:22.308Z",
   "status": "operator-plan-ready",
   "mode": "plan-only",
   "ownerDecision": {
-    "actionId": "refresh-support-feedback",
-    "command": "npm run autonomous:support-feedback",
+    "actionId": "bootstrap-production-setup",
+    "command": "npm run autonomous:release-candidate && npm run autonomous:deploy-plan && npm run autonomous:bootstrap",
     "locallyExecutable": true,
     "rejectionReason": null
   },
   "requestedActionId": null,
   "selectedAction": {
-    "id": "refresh-support-feedback",
+    "id": "bootstrap-production-setup",
     "status": "armed",
-    "command": "npm run autonomous:support-feedback",
+    "command": "npm run autonomous:release-candidate && npm run autonomous:deploy-plan && npm run autonomous:bootstrap",
     "targets": [
-      "moshequ/autonomous-game-lab"
+      "github-pages",
+      "repository-config",
+      "event-collector"
     ],
-    "reason": "Reads public GitHub issue intake and turns player reports into redacted improvement signals.",
+    "reason": "Regenerates the zero-spend production setup handoff and exact GitHub variable/secret commands.",
     "costUsd": 0
   },
   "selectedRejection": null,
@@ -30,6 +32,7 @@
     "prepare-release-candidate",
     "run-post-deploy-smoke",
     "refresh-product-gate-recovery",
+    "bootstrap-production-setup",
     "optimize-store-listing",
     "collect-live-events"
   ],
@@ -63,6 +66,12 @@
       "status": "monitor",
       "command": "npm run autonomous:organic-seed-loop",
       "reason": "status-monitor"
+    },
+    {
+      "id": "refresh-support-feedback",
+      "status": "armed",
+      "command": "npm run autonomous:support-feedback",
+      "reason": "not-selected-this-run"
     },
     {
       "id": "optimize-daily-retention",
@@ -149,12 +158,6 @@
       "reason": "status-monitor"
     },
     {
-      "id": "bootstrap-production-setup",
-      "status": "monitor",
-      "command": "npm run autonomous:release-candidate && npm run autonomous:deploy-plan && npm run autonomous:bootstrap",
-      "reason": "status-monitor"
-    },
-    {
       "id": "activate-production-when-configured",
       "status": "monitor",
       "command": "npm run autonomous:activate-production",
@@ -211,8 +214,16 @@
   ],
   "commandPlan": [
     {
-      "segment": "npm run autonomous:support-feedback",
-      "script": "autonomous:support-feedback"
+      "segment": "npm run autonomous:release-candidate",
+      "script": "autonomous:release-candidate"
+    },
+    {
+      "segment": "npm run autonomous:deploy-plan",
+      "script": "autonomous:deploy-plan"
+    },
+    {
+      "segment": "npm run autonomous:bootstrap",
+      "script": "autonomous:bootstrap"
     }
   ],
   "execution": {
@@ -282,7 +293,7 @@
     "RUN_WORKFLOWS=1"
   ],
   "nextActions": [
-    "Run npm run autonomous:operator -- --execute --action=refresh-support-feedback to execute exactly one allowed local action.",
+    "Run npm run autonomous:operator -- --execute --action=bootstrap-production-setup to execute exactly one allowed local action.",
     "Do not execute GitHub workflow, store, paid ads, or account setup commands from the local operator."
   ]
 }

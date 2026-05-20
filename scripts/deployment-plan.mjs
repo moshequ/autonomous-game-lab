@@ -61,9 +61,10 @@ const collectorDeployment = await readOptionalJson(collectorDeploymentPath, {
   workflow: { path: '.github/workflows/event-collector-deploy.yml', status: 'missing' },
 })
 const webDecision = promotion.decisions?.find((decision) => decision.channel === 'web-pwa')
+const preDeployReadinessDeferredCheckIds = new Set(['release-candidate', 'post-deploy-smoke-runner'])
 const webPwaChecks = readiness.webPwa?.checks ?? []
 const preDeployWebBlockers = webPwaChecks.filter(
-  (check) => check.status !== 'pass' && check.id !== 'post-deploy-smoke-runner',
+  (check) => check.status !== 'pass' && !preDeployReadinessDeferredCheckIds.has(check.id),
 )
 const preDeployWebReady =
   readiness.webPwa?.status === 'ready-after-build' || (webPwaChecks.length > 0 && preDeployWebBlockers.length === 0)

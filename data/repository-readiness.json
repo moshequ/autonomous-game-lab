@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-20T22:35:42.007Z",
+  "generatedAt": "2026-05-20T22:38:19.255Z",
   "status": "repository-channel-ready",
   "envFiles": {
     "loaded": true,
@@ -56,17 +56,37 @@
     "insideWorkTree": true,
     "gitRoot": "/Users/moshequ/Documents/Codex/2026-05-18/i-want-to-have-a-new",
     "currentBranch": "main",
-    "dirtyFiles": 4,
+    "dirtyFiles": 14,
     "dirtyPaths": [
       "data/deployment-plan.json",
+      "data/performance-budget.json",
+      "data/post-deploy-smoke.json",
+      "data/production-readiness.json",
+      "data/release-candidate.json",
       "reports/deployment-plan-latest.md",
+      "reports/performance-budget-latest.md",
+      "reports/post-deploy-smoke-latest.md",
+      "reports/production-readiness-latest.md",
+      "reports/release-candidate-latest.md",
       "scripts/deployment-plan.mjs",
+      "src/data/postDeploySmoke.ts",
+      "src/data/releaseCandidate.ts",
       "tests/smoke.spec.ts"
     ],
-    "generatedEvidenceDirtyFiles": 2,
+    "generatedEvidenceDirtyFiles": 12,
     "generatedEvidenceDirtyPaths": [
       "data/deployment-plan.json",
-      "reports/deployment-plan-latest.md"
+      "data/performance-budget.json",
+      "data/post-deploy-smoke.json",
+      "data/production-readiness.json",
+      "data/release-candidate.json",
+      "reports/deployment-plan-latest.md",
+      "reports/performance-budget-latest.md",
+      "reports/post-deploy-smoke-latest.md",
+      "reports/production-readiness-latest.md",
+      "reports/release-candidate-latest.md",
+      "src/data/postDeploySmoke.ts",
+      "src/data/releaseCandidate.ts"
     ],
     "nonGeneratedDirtyFiles": 2,
     "nonGeneratedDirtyPaths": [
@@ -108,7 +128,7 @@
     "workflowExists": true,
     "deployWorkflowIncludesSmoke": true,
     "deploymentStatus": "ready-for-pages",
-    "releaseCandidateId": "pwa-f20af01ab326",
+    "releaseCandidateId": "pwa-49d3c41966bc",
     "postDeploySmokeStatus": "post-deploy-smoke-observed-live",
     "liveSettings": {
       "status": "inspected",
