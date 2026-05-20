@@ -1228,7 +1228,8 @@ const guardrails = [
 const executableNow = safeAutonomousActions.filter((action) =>
   ['armed', 'ready-when-repository-pages-enabled'].includes(action.status),
 )
-const ownerSelectableNow = executableNow.filter((action) => action.id !== 'run-daily-owner-loop')
+const locallyExecutableNow = executableNow.filter((action) => action.status === 'armed')
+const ownerSelectableNow = locallyExecutableNow.filter((action) => action.id !== 'run-daily-owner-loop')
 const recentExecutionWindow = 8
 const recentExecutedRecords = [...(autonomousOperatorHistory.records ?? [])]
   .reverse()
@@ -1340,10 +1341,10 @@ const payload = {
       lastExplicitScanStatus: localEventBridge.explicitDownloadsScan?.status ?? null,
       evidenceReadyNow: gateSampleEvidenceReadyNow,
     },
-    skippedRecentlyExecutedActionIds: executableNow
+    skippedRecentlyExecutedActionIds: locallyExecutableNow
       .filter((action) => recentlyExecutedActionIds.has(action.id) && action.id !== nextBestAction.id)
       .map((action) => action.id),
-    skippedRecentlySatisfiedActionIds: executableNow
+    skippedRecentlySatisfiedActionIds: locallyExecutableNow
       .filter((action) => recentlySatisfiedActionIds.includes(action.id) && action.id !== nextBestAction.id)
       .map((action) => action.id),
     preferredActionOrder,

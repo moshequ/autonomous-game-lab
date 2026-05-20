@@ -2674,6 +2674,15 @@ const testAutomationRepoBootstrapRuns = [...testAutomationScript.matchAll(/auton
 const testAutomationReadinessRuns = [...testAutomationScript.matchAll(/autonomous:readiness/g)].map(
   (match) => match.index ?? -1,
 )
+const testAutomationOwnerLoopRuns = [...testAutomationScript.matchAll(/autonomous:owner-loop/g)].map(
+  (match) => match.index ?? -1,
+)
+const testAutomationOperatorRuns = [...testAutomationScript.matchAll(/autonomous:operator/g)].map(
+  (match) => match.index ?? -1,
+)
+const testAutomationObjectiveAuditRuns = [...testAutomationScript.matchAll(/autonomous:objective-audit/g)].map(
+  (match) => match.index ?? -1,
+)
 
 if (
   testAutomationDeployPlanRuns.length < 2 ||
@@ -2703,6 +2712,19 @@ if (
   fail(
     'Autonomous verification must rebuild dist, refresh performance, release candidate, deployment, smoke, repository readiness, and readiness before verify-autonomy.',
   )
+}
+
+if (
+  testAutomationOwnerLoopRuns.length < 2 ||
+  testAutomationOperatorRuns.length < 2 ||
+  testAutomationObjectiveAuditRuns.length < 1 ||
+  testAutomationObjectiveAuditRuns.at(-1) > testAutomationOwnerLoopRuns.at(-1) ||
+  testAutomationOwnerLoopRuns.at(-1) > testAutomationOperatorRuns.at(-1) ||
+  testAutomationOperatorRuns.at(-1) > testAutomationReadinessRuns.at(-1) ||
+  testAutomationReadinessRuns.at(-1) > testAutomationVerifyIndex ||
+  testAutomationOperatorRuns.at(-1) > testAutomationVerifyIndex
+) {
+  fail('Autonomous verification must refresh objective, regenerate owner/operator evidence, then refresh readiness before verify-autonomy.')
 }
 
 if (
