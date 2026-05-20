@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-20T16:39:29.796Z",
+  "generatedAt": "2026-05-20T16:40:05.366Z",
   "status": "owner-loop-ready",
   "mode": "zero-spend-web-ready",
   "autonomyScore": {
@@ -38,9 +38,9 @@
     "lastRecordExecutionStatus": "not-requested",
     "recentlySatisfiedActionIds": [],
     "objectiveAuditFreshness": {
-      "fresh": false,
+      "fresh": true,
       "structurallyReady": true,
-      "auditGeneratedAt": "2026-05-20T16:38:12.097Z",
+      "auditGeneratedAt": "2026-05-20T16:40:04.242Z",
       "evaluatedInputIds": [
         "analytics-rollup",
         "event-ingest",
@@ -55,9 +55,7 @@
         "monetization-plan",
         "android-release"
       ],
-      "staleInputIds": [
-        "repository-readiness"
-      ]
+      "staleInputIds": []
     },
     "gateSampleDownloadsBackoff": {
       "enabled": true,
@@ -652,14 +650,14 @@
     },
     {
       "id": "refresh-objective-audit",
-      "status": "armed",
+      "status": "monitor",
       "costUsd": 0,
       "command": "npm run autonomous:objective-audit",
       "targets": [
         "objective-evidence",
         "production-blockers"
       ],
-      "reason": "Keeps the original objective mapped to current evidence and prevents false completion claims."
+      "reason": "Objective audit already covers the current upstream evidence; keep it monitored while product and data actions run."
     },
     {
       "id": "optimize-store-listing",
