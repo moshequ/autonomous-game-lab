@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-20T03:34:23.873Z",
+  "generatedAt": "2026-05-20T03:48:58.423Z",
   "status": "waiting-for-github-target",
   "mode": "plan-only",
   "envFiles": {
@@ -61,8 +61,9 @@
       "originRemote": null,
       "remoteRepository": null,
       "hasCommit": true,
-      "dirtyFiles": 39,
+      "dirtyFiles": 50,
       "dirtyPaths": [
+        "data/autonomous-cadence.json",
         "data/autonomous-operator-history.json",
         "data/autonomous-operator.json",
         "data/autonomous-owner-loop.json",
@@ -78,6 +79,7 @@
         "data/release-candidate.json",
         "data/repository-bootstrap.json",
         "data/repository-readiness.json",
+        "reports/autonomous-cadence-latest.md",
         "reports/autonomous-operator-history-latest.md",
         "reports/autonomous-operator-latest.md",
         "reports/autonomous-owner-loop-latest.md",
@@ -93,6 +95,14 @@
         "reports/release-candidate-latest.md",
         "reports/repository-bootstrap-latest.md",
         "reports/repository-readiness-latest.md",
+        "scripts/autonomous-cadence.mjs",
+        "scripts/production-readiness.mjs",
+        "scripts/verify-autonomy.mjs",
+        "src/App.tsx",
+        "src/data/autonomousCadence.ts",
+        "src/data/autonomousOperator.ts",
+        "src/data/autonomousOperatorHistory.ts",
+        "src/data/autonomousOwnerLoop.ts",
         "src/data/deploymentPlan.ts",
         "src/data/eventCollectorDeployment.ts",
         "src/data/localEventBridge.ts",
@@ -101,10 +111,12 @@
         "src/data/postDeploySmoke.ts",
         "src/data/releaseCandidate.ts",
         "src/data/repositoryBootstrap.ts",
-        "src/data/repositoryReadiness.ts"
+        "src/data/repositoryReadiness.ts",
+        "tests/smoke.spec.ts"
       ],
-      "generatedEvidenceDirtyFiles": 39,
+      "generatedEvidenceDirtyFiles": 45,
       "generatedEvidenceDirtyPaths": [
+        "data/autonomous-cadence.json",
         "data/autonomous-operator-history.json",
         "data/autonomous-operator.json",
         "data/autonomous-owner-loop.json",
@@ -120,6 +132,7 @@
         "data/release-candidate.json",
         "data/repository-bootstrap.json",
         "data/repository-readiness.json",
+        "reports/autonomous-cadence-latest.md",
         "reports/autonomous-operator-history-latest.md",
         "reports/autonomous-operator-latest.md",
         "reports/autonomous-owner-loop-latest.md",
@@ -135,6 +148,10 @@
         "reports/release-candidate-latest.md",
         "reports/repository-bootstrap-latest.md",
         "reports/repository-readiness-latest.md",
+        "src/data/autonomousCadence.ts",
+        "src/data/autonomousOperator.ts",
+        "src/data/autonomousOperatorHistory.ts",
+        "src/data/autonomousOwnerLoop.ts",
         "src/data/deploymentPlan.ts",
         "src/data/eventCollectorDeployment.ts",
         "src/data/localEventBridge.ts",
@@ -145,8 +162,14 @@
         "src/data/repositoryBootstrap.ts",
         "src/data/repositoryReadiness.ts"
       ],
-      "nonGeneratedDirtyFiles": 0,
-      "nonGeneratedDirtyPaths": []
+      "nonGeneratedDirtyFiles": 5,
+      "nonGeneratedDirtyPaths": [
+        "scripts/autonomous-cadence.mjs",
+        "scripts/production-readiness.mjs",
+        "scripts/verify-autonomy.mjs",
+        "src/App.tsx",
+        "tests/smoke.spec.ts"
+      ]
     },
     "after": {
       "insideWorkTree": true,
@@ -155,8 +178,9 @@
       "originRemote": null,
       "remoteRepository": null,
       "hasCommit": true,
-      "dirtyFiles": 39,
+      "dirtyFiles": 50,
       "dirtyPaths": [
+        "data/autonomous-cadence.json",
         "data/autonomous-operator-history.json",
         "data/autonomous-operator.json",
         "data/autonomous-owner-loop.json",
@@ -172,6 +196,7 @@
         "data/release-candidate.json",
         "data/repository-bootstrap.json",
         "data/repository-readiness.json",
+        "reports/autonomous-cadence-latest.md",
         "reports/autonomous-operator-history-latest.md",
         "reports/autonomous-operator-latest.md",
         "reports/autonomous-owner-loop-latest.md",
@@ -187,6 +212,14 @@
         "reports/release-candidate-latest.md",
         "reports/repository-bootstrap-latest.md",
         "reports/repository-readiness-latest.md",
+        "scripts/autonomous-cadence.mjs",
+        "scripts/production-readiness.mjs",
+        "scripts/verify-autonomy.mjs",
+        "src/App.tsx",
+        "src/data/autonomousCadence.ts",
+        "src/data/autonomousOperator.ts",
+        "src/data/autonomousOperatorHistory.ts",
+        "src/data/autonomousOwnerLoop.ts",
         "src/data/deploymentPlan.ts",
         "src/data/eventCollectorDeployment.ts",
         "src/data/localEventBridge.ts",
@@ -195,10 +228,12 @@
         "src/data/postDeploySmoke.ts",
         "src/data/releaseCandidate.ts",
         "src/data/repositoryBootstrap.ts",
-        "src/data/repositoryReadiness.ts"
+        "src/data/repositoryReadiness.ts",
+        "tests/smoke.spec.ts"
       ],
-      "generatedEvidenceDirtyFiles": 39,
+      "generatedEvidenceDirtyFiles": 45,
       "generatedEvidenceDirtyPaths": [
+        "data/autonomous-cadence.json",
         "data/autonomous-operator-history.json",
         "data/autonomous-operator.json",
         "data/autonomous-owner-loop.json",
@@ -214,6 +249,7 @@
         "data/release-candidate.json",
         "data/repository-bootstrap.json",
         "data/repository-readiness.json",
+        "reports/autonomous-cadence-latest.md",
         "reports/autonomous-operator-history-latest.md",
         "reports/autonomous-operator-latest.md",
         "reports/autonomous-owner-loop-latest.md",
@@ -229,6 +265,10 @@
         "reports/release-candidate-latest.md",
         "reports/repository-bootstrap-latest.md",
         "reports/repository-readiness-latest.md",
+        "src/data/autonomousCadence.ts",
+        "src/data/autonomousOperator.ts",
+        "src/data/autonomousOperatorHistory.ts",
+        "src/data/autonomousOwnerLoop.ts",
         "src/data/deploymentPlan.ts",
         "src/data/eventCollectorDeployment.ts",
         "src/data/localEventBridge.ts",
@@ -239,8 +279,14 @@
         "src/data/repositoryBootstrap.ts",
         "src/data/repositoryReadiness.ts"
       ],
-      "nonGeneratedDirtyFiles": 0,
-      "nonGeneratedDirtyPaths": []
+      "nonGeneratedDirtyFiles": 5,
+      "nonGeneratedDirtyPaths": [
+        "scripts/autonomous-cadence.mjs",
+        "scripts/production-readiness.mjs",
+        "scripts/verify-autonomy.mjs",
+        "src/App.tsx",
+        "tests/smoke.spec.ts"
+      ]
     }
   },
   "repository": {
@@ -275,7 +321,7 @@
     "repositoryReadiness": "waiting-for-github-repository",
     "deployment": "ready-for-pages",
     "releaseCandidate": "release-candidate-ready",
-    "releaseCandidateId": "pwa-6d354e77d7b7",
+    "releaseCandidateId": "pwa-c75054be21da",
     "postDeploySmoke": "blocked-missing-origin"
   },
   "execution": {
@@ -329,13 +375,13 @@
     },
     {
       "id": "commit-current-snapshot",
-      "status": "ready",
+      "status": "ready-for-explicit-snapshot-commit",
       "costUsd": 0,
       "command": "AGL_ALLOW_REPOSITORY_BOOTSTRAP=1 AGL_ALLOW_SNAPSHOT_COMMIT=1 ./ops/github/bootstrap-repository.sh",
       "mutatesLocalGit": true,
       "mutatesRemoteGitHub": false,
       "requiresExplicitEnv": true,
-      "detail": "39 repository evidence file(s) changed during this dry run; the outer verified commit will persist them."
+      "detail": "5 non-generated source or artifact file(s) are not committed yet."
     },
     {
       "id": "set-or-create-origin",
@@ -365,10 +411,11 @@
       "mutatesLocalGit": false,
       "mutatesRemoteGitHub": true,
       "requiresExplicitEnv": true,
-      "detail": "Push stays held until an origin remote exists and AGL_ALLOW_PUSH=1 is set."
+      "detail": "Push stays held until a committed local snapshot and origin remote exist."
     }
   ],
   "blockers": [
+    "Commit current generated changes before pushing to GitHub Pages.",
     "Set GITHUB_REPOSITORY/GH_REPO, AGL_GITHUB_OWNER, or authenticate gh so the intended owner/repo can be inferred.",
     "Attach a GitHub origin remote or create the target repository.",
     "Authenticate GitHub CLI or provide GH_TOKEN/GITHUB_TOKEN for remote repository bootstrap."

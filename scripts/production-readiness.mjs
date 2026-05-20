@@ -217,6 +217,8 @@ const autonomousCadence = await readOptionalJson(autonomousCadencePath, {
   schedulers: {},
   commandPlan: {},
   controls: {},
+  freshnessPolicy: {},
+  artifactFreshness: [],
   checks: [],
 })
 const autonomousSelfUpdate = await readOptionalJson(autonomousSelfUpdatePath, {
@@ -601,6 +603,9 @@ const autonomousCadenceReady =
   autonomousCadence.status === 'cadence-ready' &&
   autonomousCadence.controls?.zeroPaidSpend === true &&
   autonomousCadence.controls?.codexAutomationExpectedActive === true &&
+  autonomousCadence.controls?.staleEvidenceBlocksUnattendedTrust === true &&
+  autonomousCadence.freshnessPolicy?.status === 'fresh' &&
+  autonomousCadence.freshnessPolicy?.staleArtifactCount === 0 &&
   autonomousCadence.schedulers?.githubActions?.status === 'scheduled' &&
   autonomousCadence.commandPlan?.operate === 'npm run autonomous:operate' &&
   (autonomousCadence.checks ?? []).every((item) => item.status === 'pass')
@@ -1131,6 +1136,8 @@ const payload = {
     schedulers: autonomousCadence.schedulers,
     commandPlan: autonomousCadence.commandPlan,
     controls: autonomousCadence.controls,
+    freshnessPolicy: autonomousCadence.freshnessPolicy,
+    artifactFreshness: autonomousCadence.artifactFreshness ?? [],
     checks: autonomousCadence.checks ?? [],
     blockers: autonomousCadence.blockers ?? [],
   },
@@ -1375,6 +1382,9 @@ const report = [
   `Cadence: ${payload.autonomousCadence.cadence ?? 'missing'}`,
   `Codex app: ${payload.autonomousCadence.schedulers?.codexDesktop?.status ?? 'missing'}`,
   `GitHub Actions: ${payload.autonomousCadence.schedulers?.githubActions?.status ?? 'missing'}`,
+  `Freshness: ${payload.autonomousCadence.freshnessPolicy?.status ?? 'missing'}; stale artifacts ${
+    payload.autonomousCadence.freshnessPolicy?.staleArtifactCount ?? 'missing'
+  }`,
   ...(payload.autonomousCadence.checks ?? []).map(
     (item) => `- ${item.status}: cadence-${item.id} - ${item.detail}`,
   ),

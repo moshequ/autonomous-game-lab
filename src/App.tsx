@@ -1994,6 +1994,14 @@ function App() {
                   <strong>{autonomousCadence.schedulers.githubActions.status}</strong>
                 </div>
                 <div>
+                  <span>Freshness</span>
+                  <strong>{autonomousCadence.freshness.status}</strong>
+                </div>
+                <div>
+                  <span>Stale evidence</span>
+                  <strong>{autonomousCadence.freshness.staleArtifacts}</strong>
+                </div>
+                <div>
                   <span>Operate</span>
                   <strong>{autonomousCadence.commandPlan.operate}</strong>
                 </div>

@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-05-20T01:41:51.954Z",
+  "generatedAt": "2026-05-20T03:49:06.563Z",
   "status": "cadence-ready",
   "cadence": "daily",
   "workspace": {
     "path": "/Users/moshequ/Documents/Codex/2026-05-18/i-want-to-have-a-new",
     "repositoryStatus": "waiting-for-github-repository",
     "repository": null,
-    "gitDirtyFiles": 51
+    "gitDirtyFiles": 50
   },
   "schedulers": {
     "codexDesktop": {
@@ -89,7 +89,7 @@
     "selfUpdate": "npm run autonomous:self-update",
     "verifyAutomation": "npm run test:automation",
     "browserSmoke": "npm run test:e2e",
-    "ownerDecision": "refresh-autonomous-cadence"
+    "ownerDecision": "prepare-repository-channel"
   },
   "recoveryPolicy": {
     "stopOnFailure": true,
@@ -100,6 +100,101 @@
     "reportBlockersInsteadOfGuessing": true,
     "selfUpdateRequiresVerification": true
   },
+  "freshnessPolicy": {
+    "status": "fresh",
+    "staleAfterHours": 36,
+    "requiredArtifactCount": 8,
+    "freshArtifactCount": 8,
+    "staleArtifactCount": 0,
+    "missingGeneratedAtCount": 0,
+    "invalidArtifactCount": 0,
+    "oldestAgeHours": 0.5,
+    "latestGeneratedAt": "2026-05-20T03:48:50.344Z",
+    "oldestGeneratedAt": "2026-05-20T03:18:59.766Z",
+    "staleArtifactIds": []
+  },
+  "artifactFreshness": [
+    {
+      "id": "owner-loop",
+      "label": "Owner loop decision",
+      "path": "data/autonomous-owner-loop.json",
+      "status": "fresh",
+      "generatedAt": "2026-05-20T03:48:27.186Z",
+      "ageHours": 0.01,
+      "staleAfterHours": 36,
+      "detail": "data/autonomous-owner-loop.json is 0.01h old."
+    },
+    {
+      "id": "operator",
+      "label": "Operator execution",
+      "path": "data/autonomous-operator.json",
+      "status": "fresh",
+      "generatedAt": "2026-05-20T03:48:30.355Z",
+      "ageHours": 0.01,
+      "staleAfterHours": 36,
+      "detail": "data/autonomous-operator.json is 0.01h old."
+    },
+    {
+      "id": "production-readiness",
+      "label": "Production readiness",
+      "path": "data/production-readiness.json",
+      "status": "fresh",
+      "generatedAt": "2026-05-20T03:45:26.027Z",
+      "ageHours": 0.06,
+      "staleAfterHours": 36,
+      "detail": "data/production-readiness.json is 0.06h old."
+    },
+    {
+      "id": "release-candidate",
+      "label": "Release candidate",
+      "path": "data/release-candidate.json",
+      "status": "fresh",
+      "generatedAt": "2026-05-20T03:48:47.002Z",
+      "ageHours": 0.01,
+      "staleAfterHours": 36,
+      "detail": "data/release-candidate.json is 0.01h old."
+    },
+    {
+      "id": "post-deploy-smoke",
+      "label": "Post-deploy smoke",
+      "path": "data/post-deploy-smoke.json",
+      "status": "fresh",
+      "generatedAt": "2026-05-20T03:48:50.344Z",
+      "ageHours": 0,
+      "staleAfterHours": 36,
+      "detail": "data/post-deploy-smoke.json is 0h old."
+    },
+    {
+      "id": "product-gate-sample-plan",
+      "label": "Product gate sample plan",
+      "path": "data/product-gate-sample-plan.json",
+      "status": "fresh",
+      "generatedAt": "2026-05-20T03:18:59.766Z",
+      "ageHours": 0.5,
+      "staleAfterHours": 36,
+      "detail": "data/product-gate-sample-plan.json is 0.5h old."
+    },
+    {
+      "id": "pwa-install-loop",
+      "label": "PWA install loop",
+      "path": "data/pwa-install-loop.json",
+      "status": "fresh",
+      "generatedAt": "2026-05-20T03:30:11.388Z",
+      "ageHours": 0.32,
+      "staleAfterHours": 36,
+      "detail": "data/pwa-install-loop.json is 0.32h old."
+    },
+    {
+      "id": "objective-audit",
+      "label": "Objective audit",
+      "path": "data/objective-audit.json",
+      "status": "fresh",
+      "generatedAt": "2026-05-20T03:45:29.118Z",
+      "ageHours": 0.06,
+      "staleAfterHours": 36,
+      "detail": "data/objective-audit.json is 0.06h old."
+    }
+  ],
   "controls": {
     "zeroPaidSpend": true,
     "localLoopCanRunWithoutExternalAccounts": true,
@@ -114,6 +209,7 @@
     "remoteMutationRequiresRepositoryEvidence": true,
     "codexAutomationExpectedActive": true,
     "codexAutomationActualStatusAudited": true,
+    "staleEvidenceBlocksUnattendedTrust": true,
     "githubWorkflowReadOnlyByDefault": true,
     "selfUpdateWorkflowWritePermissionGated": true,
     "selfUpdateStagesAllowlistedGeneratedFilesOnly": true
@@ -168,6 +264,11 @@
       "id": "browser-smoke",
       "status": "pass",
       "detail": "test:e2e is playwright test."
+    },
+    {
+      "id": "fresh-generated-evidence",
+      "status": "pass",
+      "detail": "All 8 required generated evidence artifacts are fresh within 36h."
     },
     {
       "id": "github-scheduled-workflow",

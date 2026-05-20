@@ -12,6 +12,12 @@ export const autonomousCadence = {
     "operate": "npm run autonomous:operate",
     "executeOneLocalAction": "npm run autonomous:operator -- --execute",
     "afterAction": "npm run autonomous:after-action"
+  },
+  "freshness": {
+    "status": "fresh",
+    "staleArtifacts": 0,
+    "oldestAgeHours": 0.5,
+    "staleAfterHours": 36
   }
 } as const
 

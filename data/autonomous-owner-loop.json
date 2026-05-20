@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-20T03:34:24.995Z",
+  "generatedAt": "2026-05-20T03:50:41.558Z",
   "status": "owner-loop-ready",
   "mode": "repository-channel-needed",
   "autonomyScore": {
@@ -20,25 +20,25 @@
     "rollbackRequired": false
   },
   "ownerDecision": {
-    "nextBestActionId": "refresh-autonomous-cadence",
-    "nextBestAction": "npm run autonomous:cadence",
+    "nextBestActionId": "prepare-repository-channel",
+    "nextBestAction": "npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap",
     "canExecuteWithoutSpend": true,
-    "rationale": "Keeps the unattended daily operating cadence, recovery policy, and verification chain auditable."
+    "rationale": "Surfaces and prepares the missing git/GitHub deployment-channel blockers before web deploy."
   },
   "executionMemory": {
     "avoidImmediateRepeat": true,
     "recentExecutionWindow": 8,
     "recentExecutedActionIds": [
+      "refresh-autonomous-cadence",
       "measure-pwa-install-loop",
       "optimize-daily-retention",
       "collect-live-events",
       "refresh-product-gate-recovery",
       "optimize-product-gates",
       "bootstrap-production-setup",
-      "seed-portfolio-traffic",
-      "prepare-repository-channel"
+      "seed-portfolio-traffic"
     ],
-    "lastExecutedActionId": "measure-pwa-install-loop",
+    "lastExecutedActionId": "refresh-autonomous-cadence",
     "lastExecutedStatus": "executed",
     "lastRecordExecutionStatus": "not-requested",
     "recentlySatisfiedActionIds": [
@@ -54,12 +54,12 @@
       "evidenceReadyNow": false
     },
     "skippedRecentlyExecutedActionIds": [
+      "refresh-autonomous-cadence",
       "seed-portfolio-traffic",
       "optimize-daily-retention",
       "measure-pwa-install-loop",
       "optimize-product-gates",
       "refresh-product-gate-recovery",
-      "prepare-repository-channel",
       "bootstrap-production-setup",
       "collect-live-events"
     ],
@@ -165,7 +165,7 @@
       "id": "performance-budget",
       "status": "ready",
       "autonomy": "automatic-build-budget",
-      "evidence": "Initial JS 658.2 KB; gzip 175.4 KB; deferred chunks 1.",
+      "evidence": "Initial JS 668 KB; gzip 176.1 KB; deferred chunks 1.",
       "nextAction": "Keep Phaser and game scenes outside the initial PWA shell."
     },
     {
@@ -249,14 +249,14 @@
       "id": "release-candidate",
       "status": "ready",
       "autonomy": "content-hashed-deploy-evidence",
-      "evidence": "Candidate pwa-6d354e77d7b7; status release-candidate-ready; files 43; smoke URLs 14.",
+      "evidence": "Candidate pwa-c75054be21da; status release-candidate-ready; files 43; smoke URLs 14.",
       "nextAction": "Regenerate the release candidate after every production build before deploy or rollback decisions."
     },
     {
       "id": "post-deploy-smoke",
       "status": "ready",
       "autonomy": "read-only-live-deploy-verification",
-      "evidence": "Smoke blocked-missing-origin; origin missing; candidate pwa-6d354e77d7b7; checks 0/15 passed; local artifact predeploy-artifact-smoke-passed 15/15 passed.",
+      "evidence": "Smoke blocked-missing-origin; origin missing; candidate pwa-c75054be21da; checks 0/15 passed; local artifact predeploy-artifact-smoke-passed 15/15 passed.",
       "nextAction": "Run this after deployment with AGL_DEPLOYED_PWA_ORIGIN set to the Pages URL."
     },
     {
@@ -270,21 +270,21 @@
       "id": "autonomous-operator",
       "status": "ready",
       "autonomy": "one-safe-action-runner",
-      "evidence": "Operator operator-plan-ready; selected refresh-autonomous-cadence; execution not-requested.",
+      "evidence": "Operator operator-plan-ready; selected prepare-repository-channel; execution not-requested.",
       "nextAction": "Keep a dry-run operator plan ready, then execute only one allowlisted local action when explicitly requested."
     },
     {
       "id": "operator-history",
       "status": "ready",
       "autonomy": "operator-audit-trail",
-      "evidence": "History operator-history-ready; records 40; executed 20.",
+      "evidence": "History operator-history-ready; records 40; executed 19.",
       "nextAction": "Keep a capped durable record of operator plans and one-action executions."
     },
     {
       "id": "objective-audit",
       "status": "ready",
       "autonomy": "completion-evidence-ledger",
-      "evidence": "Audit objective-in-progress; met 5/8; external blockers 19.",
+      "evidence": "Audit objective-in-progress; met 5/8; external blockers 20.",
       "nextAction": "The local autonomous PWA system is largely prepared, but production credentials, live data, monetization gates, hosted compliance URLs, and store account/signing blockers remain."
     },
     {
@@ -409,7 +409,7 @@
       "command": "npm run build && npm run autonomous:performance",
       "targets": [
         "pwa-shell",
-        "GameCanvas-sTJM-SPj.js"
+        "GameCanvas-BqEvUnx8.js"
       ],
       "reason": "Keeps the PWA shell fast while Phaser and game scenes stay deferred."
     },
@@ -419,7 +419,7 @@
       "costUsd": 0,
       "command": "npm run autonomous:release-candidate",
       "targets": [
-        "pwa-6d354e77d7b7"
+        "pwa-c75054be21da"
       ],
       "reason": "Records a content-hashed dist inventory and post-deploy smoke plan for the exact PWA build."
     },
@@ -430,7 +430,7 @@
       "command": "npm run autonomous:post-deploy-smoke",
       "targets": [
         "deployed-pages-url",
-        "pwa-6d354e77d7b7"
+        "pwa-c75054be21da"
       ],
       "reason": "Waits for a deployed Pages origin, then verifies the live PWA matches the exact release candidate."
     },
@@ -534,7 +534,7 @@
       "costUsd": 0,
       "command": "npm run autonomous:operator",
       "targets": [
-        "refresh-autonomous-cadence"
+        "prepare-repository-channel"
       ],
       "reason": "Publishes the one-action local execution plan with allowlist, zero-spend, and audit controls."
     },
@@ -544,7 +544,7 @@
       "costUsd": 0,
       "command": "npm run autonomous:operator",
       "targets": [
-        "refresh-autonomous-cadence"
+        "prepare-repository-channel"
       ],
       "reason": "Refreshes the capped operator history so safe actions remain auditable over time."
     },

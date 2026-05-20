@@ -12,6 +12,8 @@ const outputJsonPath = path.join(dataDir, 'autonomous-cadence.json')
 const outputTsPath = path.join(srcDataDir, 'autonomousCadence.ts')
 const reportPath = path.join(reportsDir, 'autonomous-cadence-latest.md')
 const codexAutomationManifestPath = path.join(codexOpsDir, 'autonomous-game-lab-daily-owner-loop.json')
+const freshnessStaleAfterHours = 36
+const generatedAt = new Date()
 
 const exists = async (filePath) =>
   access(filePath)
@@ -25,6 +27,112 @@ const readOptionalJson = async (filePath, fallback) =>
   readFile(filePath, 'utf8')
     .then((raw) => JSON.parse(raw))
     .catch(() => fallback)
+
+const toFixedNumber = (value, digits = 2) => Number(value.toFixed(digits))
+
+const freshnessRequiredArtifacts = [
+  {
+    id: 'owner-loop',
+    label: 'Owner loop decision',
+    path: 'data/autonomous-owner-loop.json',
+  },
+  {
+    id: 'operator',
+    label: 'Operator execution',
+    path: 'data/autonomous-operator.json',
+  },
+  {
+    id: 'production-readiness',
+    label: 'Production readiness',
+    path: 'data/production-readiness.json',
+  },
+  {
+    id: 'release-candidate',
+    label: 'Release candidate',
+    path: 'data/release-candidate.json',
+  },
+  {
+    id: 'post-deploy-smoke',
+    label: 'Post-deploy smoke',
+    path: 'data/post-deploy-smoke.json',
+  },
+  {
+    id: 'product-gate-sample-plan',
+    label: 'Product gate sample plan',
+    path: 'data/product-gate-sample-plan.json',
+  },
+  {
+    id: 'pwa-install-loop',
+    label: 'PWA install loop',
+    path: 'data/pwa-install-loop.json',
+  },
+  {
+    id: 'objective-audit',
+    label: 'Objective audit',
+    path: 'data/objective-audit.json',
+  },
+]
+
+const readArtifactFreshness = async (artifact) => {
+  const absolutePath = path.join(root, artifact.path)
+  const raw = await readFile(absolutePath, 'utf8').catch(() => null)
+
+  if (!raw) {
+    return {
+      ...artifact,
+      status: 'missing',
+      generatedAt: null,
+      ageHours: null,
+      staleAfterHours: freshnessStaleAfterHours,
+      detail: `${artifact.path} is missing.`,
+    }
+  }
+
+  let parsed
+
+  try {
+    parsed = JSON.parse(raw)
+  } catch {
+    return {
+      ...artifact,
+      status: 'invalid-json',
+      generatedAt: null,
+      ageHours: null,
+      staleAfterHours: freshnessStaleAfterHours,
+      detail: `${artifact.path} is not parseable JSON.`,
+    }
+  }
+
+  const artifactGeneratedAt = typeof parsed.generatedAt === 'string' ? parsed.generatedAt : null
+  const generatedAtMs = artifactGeneratedAt ? Date.parse(artifactGeneratedAt) : Number.NaN
+
+  if (!Number.isFinite(generatedAtMs)) {
+    return {
+      ...artifact,
+      status: 'missing-generated-at',
+      generatedAt: artifactGeneratedAt,
+      ageHours: null,
+      staleAfterHours: freshnessStaleAfterHours,
+      detail: `${artifact.path} does not publish a parseable generatedAt timestamp.`,
+    }
+  }
+
+  const ageHours = toFixedNumber((generatedAt.getTime() - generatedAtMs) / (60 * 60 * 1000))
+  const status =
+    ageHours < -1 ? 'clock-skew' : ageHours <= freshnessStaleAfterHours ? 'fresh' : 'stale'
+
+  return {
+    ...artifact,
+    status,
+    generatedAt: artifactGeneratedAt,
+    ageHours,
+    staleAfterHours: freshnessStaleAfterHours,
+    detail:
+      status === 'fresh'
+        ? `${artifact.path} is ${ageHours}h old.`
+        : `${artifact.path} is ${status} at ${ageHours}h old.`,
+  }
+}
 
 const parseTomlValue = (rawValue) => {
   const value = rawValue.trim()
@@ -89,6 +197,41 @@ const ownerLoop = await readOptionalJson(path.join(dataDir, 'autonomous-owner-lo
   status: 'missing',
   ownerDecision: {},
 })
+const artifactFreshness = await Promise.all(freshnessRequiredArtifacts.map(readArtifactFreshness))
+const staleArtifacts = artifactFreshness.filter((artifact) => artifact.status !== 'fresh')
+const artifactsWithAge = artifactFreshness.filter((artifact) => typeof artifact.ageHours === 'number')
+const oldestAgeHours = artifactsWithAge.length
+  ? Math.max(...artifactsWithAge.map((artifact) => artifact.ageHours))
+  : null
+const newestGeneratedAt = artifactsWithAge.length
+  ? artifactsWithAge
+      .map((artifact) => artifact.generatedAt)
+      .filter(Boolean)
+      .sort()
+      .at(-1)
+  : null
+const oldestGeneratedAt = artifactsWithAge.length
+  ? artifactsWithAge
+      .map((artifact) => artifact.generatedAt)
+      .filter(Boolean)
+      .sort()
+      .at(0)
+  : null
+const freshnessPolicy = {
+  status: staleArtifacts.length ? 'stale-evidence' : 'fresh',
+  staleAfterHours: freshnessStaleAfterHours,
+  requiredArtifactCount: freshnessRequiredArtifacts.length,
+  freshArtifactCount: artifactFreshness.filter((artifact) => artifact.status === 'fresh').length,
+  staleArtifactCount: staleArtifacts.length,
+  missingGeneratedAtCount: artifactFreshness.filter((artifact) => artifact.status === 'missing-generated-at').length,
+  invalidArtifactCount: artifactFreshness.filter((artifact) =>
+    ['missing', 'invalid-json', 'clock-skew'].includes(artifact.status),
+  ).length,
+  oldestAgeHours,
+  latestGeneratedAt: newestGeneratedAt,
+  oldestGeneratedAt,
+  staleArtifactIds: staleArtifacts.map((artifact) => artifact.id),
+}
 
 const script = (name) => packageJson.scripts?.[name] ?? ''
 const workflowExists = await exists(workflowPath)
@@ -288,6 +431,15 @@ const checks = [
     detail: `test:e2e is ${testE2eScript || 'missing'}.`,
   },
   {
+    id: 'fresh-generated-evidence',
+    status: freshnessPolicy.status === 'fresh' ? 'pass' : 'blocker',
+    detail: staleArtifacts.length
+      ? `Stale or invalid generated artifact evidence: ${staleArtifacts
+          .map((artifact) => `${artifact.id} (${artifact.status})`)
+          .join(', ')}.`
+      : `All ${freshnessPolicy.requiredArtifactCount} required generated evidence artifacts are fresh within ${freshnessPolicy.staleAfterHours}h.`,
+  },
+  {
     id: 'github-scheduled-workflow',
     status:
       workflowExists &&
@@ -326,7 +478,7 @@ const blockers = checks.filter((check) => check.status !== 'pass').map((check) =
 const status = blockers.length ? 'cadence-needs-attention' : 'cadence-ready'
 
 const payload = {
-  generatedAt: new Date().toISOString(),
+  generatedAt: generatedAt.toISOString(),
   status,
   cadence: 'daily',
   workspace: {
@@ -385,6 +537,8 @@ const payload = {
     reportBlockersInsteadOfGuessing: true,
     selfUpdateRequiresVerification: true,
   },
+  freshnessPolicy,
+  artifactFreshness,
   controls: {
     zeroPaidSpend: true,
     localLoopCanRunWithoutExternalAccounts: true,
@@ -399,6 +553,7 @@ const payload = {
     remoteMutationRequiresRepositoryEvidence: true,
     codexAutomationExpectedActive: true,
     codexAutomationActualStatusAudited: true,
+    staleEvidenceBlocksUnattendedTrust: true,
     githubWorkflowReadOnlyByDefault: true,
     selfUpdateWorkflowWritePermissionGated: true,
     selfUpdateStagesAllowlistedGeneratedFilesOnly: true,
@@ -427,6 +582,12 @@ const appPayload = {
     executeOneLocalAction: payload.commandPlan.executeOneLocalAction,
     afterAction: payload.commandPlan.afterAction,
   },
+  freshness: {
+    status: payload.freshnessPolicy.status,
+    staleArtifacts: payload.freshnessPolicy.staleArtifactCount,
+    oldestAgeHours: payload.freshnessPolicy.oldestAgeHours,
+    staleAfterHours: payload.freshnessPolicy.staleAfterHours,
+  },
 }
 
 const report = [
@@ -454,6 +615,19 @@ const report = [
   `- Self-update: ${payload.commandPlan.selfUpdate}`,
   `- Automation verify: ${payload.commandPlan.verifyAutomation}`,
   `- Browser smoke: ${payload.commandPlan.browserSmoke}`,
+  '',
+  '## Freshness',
+  '',
+  `- Status: ${payload.freshnessPolicy.status}`,
+  `- Required artifacts: ${payload.freshnessPolicy.requiredArtifactCount}`,
+  `- Fresh artifacts: ${payload.freshnessPolicy.freshArtifactCount}`,
+  `- Stale/invalid artifacts: ${payload.freshnessPolicy.staleArtifactCount}`,
+  `- Stale after: ${payload.freshnessPolicy.staleAfterHours}h`,
+  `- Oldest age: ${payload.freshnessPolicy.oldestAgeHours ?? 'unknown'}h`,
+  '',
+  ...payload.artifactFreshness.map(
+    (artifact) => `- ${artifact.status}: ${artifact.id} - ${artifact.detail}`,
+  ),
   '',
   '## Checks',
   '',

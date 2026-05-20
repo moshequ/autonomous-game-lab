@@ -1767,6 +1767,14 @@ if (
 	  autonomousCadence.controls?.postActionBuildRefresh !== true ||
 	  autonomousCadence.controls?.postActionVerification !== true ||
 	  autonomousCadence.controls?.codexAutomationActualStatusAudited !== true ||
+	  autonomousCadence.controls?.staleEvidenceBlocksUnattendedTrust !== true ||
+	  autonomousCadence.freshnessPolicy?.status !== 'fresh' ||
+	  autonomousCadence.freshnessPolicy?.staleArtifactCount !== 0 ||
+	  (autonomousCadence.freshnessPolicy?.staleAfterHours ?? 0) < 24 ||
+	  !Array.isArray(autonomousCadence.artifactFreshness) ||
+	  autonomousCadence.artifactFreshness.length !== autonomousCadence.freshnessPolicy?.requiredArtifactCount ||
+	  !(autonomousCadence.artifactFreshness ?? []).every((artifact) => artifact.status === 'fresh') ||
+	  !(autonomousCadence.checks ?? []).some((check) => check.id === 'fresh-generated-evidence' && check.status === 'pass') ||
   (cadenceCodexDesktopStatus === 'active-confirmed' &&
     (autonomousCadence.schedulers?.codexDesktop?.actual?.installedStatus !== 'ACTIVE' ||
       autonomousCadence.schedulers?.codexDesktop?.actual?.scheduleMatches !== true ||
@@ -1774,7 +1782,8 @@ if (
       autonomousCadence.schedulers?.codexDesktop?.actual?.promptGuardrailsPresent !== true)) ||
   autonomousCadence.recoveryPolicy?.commitOnlyAfterVerification !== true ||
   autonomousCadence.recoveryPolicy?.neverDispatchExternalWorkflowsOnRecovery !== true ||
-  !appSource.includes('Autonomous Cadence')
+  !appSource.includes('Autonomous Cadence') ||
+  !appSource.includes('Stale evidence')
 ) {
   fail('Autonomous cadence must keep unattended local operation auditable, scheduled, and guarded in the app shell.')
 }
@@ -2122,6 +2131,14 @@ if (
 	  autonomousCadence.controls?.postActionVerification !== true ||
 	  autonomousCadence.controls?.codexAutomationExpectedActive !== true ||
   autonomousCadence.controls?.codexAutomationActualStatusAudited !== true ||
+  autonomousCadence.controls?.staleEvidenceBlocksUnattendedTrust !== true ||
+  autonomousCadence.freshnessPolicy?.status !== 'fresh' ||
+  autonomousCadence.freshnessPolicy?.staleArtifactCount !== 0 ||
+  (autonomousCadence.freshnessPolicy?.staleAfterHours ?? 0) < 24 ||
+  !Array.isArray(autonomousCadence.artifactFreshness) ||
+  autonomousCadence.artifactFreshness.length !== autonomousCadence.freshnessPolicy?.requiredArtifactCount ||
+  !(autonomousCadence.artifactFreshness ?? []).every((artifact) => artifact.status === 'fresh') ||
+  !(autonomousCadence.checks ?? []).some((check) => check.id === 'fresh-generated-evidence' && check.status === 'pass') ||
   !(autonomousCadence.checks ?? []).every((check) => check.status === 'pass') ||
   codexAutomationManifest.id !== autonomousCadence.schedulers?.codexDesktop?.id ||
   codexAutomationManifest.status !== 'active-declared' ||
@@ -3495,7 +3512,10 @@ if (
 	  readiness.autonomousCadence?.controls?.scheduledLocalActionExecution !== true ||
 	  readiness.autonomousCadence?.controls?.postActionBuildRefresh !== true ||
 	  readiness.autonomousCadence?.controls?.postActionVerification !== true ||
-	  readiness.autonomousCadence?.controls?.zeroPaidSpend !== true
+	  readiness.autonomousCadence?.controls?.zeroPaidSpend !== true ||
+	  readiness.autonomousCadence?.controls?.staleEvidenceBlocksUnattendedTrust !== true ||
+	  readiness.autonomousCadence?.freshnessPolicy?.status !== 'fresh' ||
+	  readiness.autonomousCadence?.freshnessPolicy?.staleArtifactCount !== 0
 ) {
   fail('Production readiness must include scheduled autonomous cadence evidence and zero-spend controls.')
 }

@@ -2108,7 +2108,18 @@ test('autonomous cadence keeps unattended operation auditable and guarded', asyn
       postActionVerification: boolean
       codexAutomationExpectedActive: boolean
       codexAutomationActualStatusAudited: boolean
+      staleEvidenceBlocksUnattendedTrust: boolean
     }
+    freshnessPolicy: {
+      status: string
+      staleAfterHours: number
+      requiredArtifactCount: number
+      freshArtifactCount: number
+      staleArtifactCount: number
+      oldestAgeHours: number | null
+      staleArtifactIds: string[]
+    }
+    artifactFreshness: Array<{ id: string; status: string; ageHours: number | null; staleAfterHours: number }>
     checks: Array<{ id: string; status: string }>
   }
   const manifest = JSON.parse(
@@ -2142,6 +2153,16 @@ test('autonomous cadence keeps unattended operation auditable and guarded', asyn
   expect(cadence.controls.postActionVerification).toBe(true)
   expect(cadence.controls.codexAutomationExpectedActive).toBe(true)
   expect(cadence.controls.codexAutomationActualStatusAudited).toBe(true)
+  expect(cadence.controls.staleEvidenceBlocksUnattendedTrust).toBe(true)
+  expect(cadence.freshnessPolicy.status).toBe('fresh')
+  expect(cadence.freshnessPolicy.staleAfterHours).toBeGreaterThanOrEqual(24)
+  expect(cadence.freshnessPolicy.requiredArtifactCount).toBe(cadence.artifactFreshness.length)
+  expect(cadence.freshnessPolicy.freshArtifactCount).toBe(cadence.freshnessPolicy.requiredArtifactCount)
+  expect(cadence.freshnessPolicy.staleArtifactCount).toBe(0)
+  expect(cadence.freshnessPolicy.staleArtifactIds).toEqual([])
+  expect(cadence.artifactFreshness.every((artifact) => artifact.status === 'fresh')).toBe(true)
+  expect(cadence.artifactFreshness.some((artifact) => artifact.id === 'objective-audit')).toBe(true)
+  expect(cadence.checks.some((check) => check.id === 'fresh-generated-evidence')).toBe(true)
   expect(cadence.checks.every((check) => check.status === 'pass')).toBe(true)
   if (cadence.schedulers.codexDesktop.status === 'active-confirmed') {
     expect(cadence.schedulers.codexDesktop.actual.installedStatus).toBe('ACTIVE')
@@ -2158,6 +2179,7 @@ test('autonomous cadence keeps unattended operation auditable and guarded', asyn
 
   await page.goto('/')
   await expect(page.getByLabel('Autonomous Cadence')).toContainText('cadence-ready')
+  await expect(page.getByLabel('Autonomous Cadence')).toContainText('fresh')
 })
 
 test('autonomous self-update persists only verified allowlisted generated changes', async ({ page }) => {
