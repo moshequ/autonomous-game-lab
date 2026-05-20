@@ -1,5 +1,5 @@
 export const productionActivation = {
-  "generatedAt": "2026-05-20T09:03:28.079Z",
+  "generatedAt": "2026-05-20T09:34:44.626Z",
   "status": "activation-ready",
   "mode": "dry-run",
   "envFiles": {
@@ -16,14 +16,14 @@ export const productionActivation = {
         ]
       }
     ],
-    "loadedKeys": [],
-    "skippedExistingKeys": [
+    "loadedKeys": [
       "AGL_ANDROID_PACKAGE_NAME",
       "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
       "AGL_ANDROID_KEYSTORE_BASE64",
       "AGL_ANDROID_KEYSTORE_PASSWORD",
       "AGL_ANDROID_KEY_ALIAS"
     ],
+    "skippedExistingKeys": [],
     "skippedProtectedKeys": [],
     "overwrittenEnvFileKeys": [],
     "supportedFiles": [
@@ -67,8 +67,8 @@ export const productionActivation = {
     "runWebWorkflows": false,
     "allowRepositoryBootstrap": false,
     "allowAndroidWorkflow": false,
-    "configuredVariables": 10,
-    "configuredSecrets": 5
+    "configuredVariables": 6,
+    "configuredSecrets": 3
   },
   "controls": {
     "zeroPaidSpend": true,
