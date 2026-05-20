@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-20T00:16:03.143Z",
+  "generatedAt": "2026-05-20T00:18:28.511Z",
   "status": "waiting-for-github-target",
   "mode": "plan-only",
   "envFiles": {
@@ -73,9 +73,9 @@
         "data/post-deploy-smoke.json",
         "data/product-gate-recovery.json",
         "data/product-gate-sample-plan.json",
+        "data/pwa-install-loop.json",
         "data/release-candidate.json",
         "data/repository-readiness.json",
-        "data/retention-loop.json",
         "reports/analytics-rollup-latest.md",
         "reports/autonomous-operator-history-latest.md",
         "reports/autonomous-operator-latest.md",
@@ -86,9 +86,9 @@
         "reports/post-deploy-smoke-latest.md",
         "reports/product-gate-recovery-latest.md",
         "reports/product-gate-sample-plan-latest.md",
+        "reports/pwa-install-loop-latest.md",
         "reports/release-candidate-latest.md",
         "reports/repository-readiness-latest.md",
-        "reports/retention-loop-latest.md",
         "src/data/autonomousOperator.ts",
         "src/data/autonomousOperatorHistory.ts",
         "src/data/autonomousOwnerLoop.ts",
@@ -97,9 +97,9 @@
         "src/data/postDeploySmoke.ts",
         "src/data/productGateRecovery.ts",
         "src/data/productGateSamplePlan.ts",
+        "src/data/pwaInstallLoop.ts",
         "src/data/releaseCandidate.ts",
-        "src/data/repositoryReadiness.ts",
-        "src/data/retentionLoop.ts"
+        "src/data/repositoryReadiness.ts"
       ],
       "generatedEvidenceDirtyFiles": 37,
       "generatedEvidenceDirtyPaths": [
@@ -113,9 +113,9 @@
         "data/post-deploy-smoke.json",
         "data/product-gate-recovery.json",
         "data/product-gate-sample-plan.json",
+        "data/pwa-install-loop.json",
         "data/release-candidate.json",
         "data/repository-readiness.json",
-        "data/retention-loop.json",
         "reports/analytics-rollup-latest.md",
         "reports/autonomous-operator-history-latest.md",
         "reports/autonomous-operator-latest.md",
@@ -126,9 +126,9 @@
         "reports/post-deploy-smoke-latest.md",
         "reports/product-gate-recovery-latest.md",
         "reports/product-gate-sample-plan-latest.md",
+        "reports/pwa-install-loop-latest.md",
         "reports/release-candidate-latest.md",
         "reports/repository-readiness-latest.md",
-        "reports/retention-loop-latest.md",
         "src/data/autonomousOperator.ts",
         "src/data/autonomousOperatorHistory.ts",
         "src/data/autonomousOwnerLoop.ts",
@@ -137,9 +137,9 @@
         "src/data/postDeploySmoke.ts",
         "src/data/productGateRecovery.ts",
         "src/data/productGateSamplePlan.ts",
+        "src/data/pwaInstallLoop.ts",
         "src/data/releaseCandidate.ts",
-        "src/data/repositoryReadiness.ts",
-        "src/data/retentionLoop.ts"
+        "src/data/repositoryReadiness.ts"
       ],
       "nonGeneratedDirtyFiles": 0,
       "nonGeneratedDirtyPaths": []
@@ -163,9 +163,9 @@
         "data/post-deploy-smoke.json",
         "data/product-gate-recovery.json",
         "data/product-gate-sample-plan.json",
+        "data/pwa-install-loop.json",
         "data/release-candidate.json",
         "data/repository-readiness.json",
-        "data/retention-loop.json",
         "reports/analytics-rollup-latest.md",
         "reports/autonomous-operator-history-latest.md",
         "reports/autonomous-operator-latest.md",
@@ -176,9 +176,9 @@
         "reports/post-deploy-smoke-latest.md",
         "reports/product-gate-recovery-latest.md",
         "reports/product-gate-sample-plan-latest.md",
+        "reports/pwa-install-loop-latest.md",
         "reports/release-candidate-latest.md",
         "reports/repository-readiness-latest.md",
-        "reports/retention-loop-latest.md",
         "src/data/autonomousOperator.ts",
         "src/data/autonomousOperatorHistory.ts",
         "src/data/autonomousOwnerLoop.ts",
@@ -187,9 +187,9 @@
         "src/data/postDeploySmoke.ts",
         "src/data/productGateRecovery.ts",
         "src/data/productGateSamplePlan.ts",
+        "src/data/pwaInstallLoop.ts",
         "src/data/releaseCandidate.ts",
-        "src/data/repositoryReadiness.ts",
-        "src/data/retentionLoop.ts"
+        "src/data/repositoryReadiness.ts"
       ],
       "generatedEvidenceDirtyFiles": 37,
       "generatedEvidenceDirtyPaths": [
@@ -203,9 +203,9 @@
         "data/post-deploy-smoke.json",
         "data/product-gate-recovery.json",
         "data/product-gate-sample-plan.json",
+        "data/pwa-install-loop.json",
         "data/release-candidate.json",
         "data/repository-readiness.json",
-        "data/retention-loop.json",
         "reports/analytics-rollup-latest.md",
         "reports/autonomous-operator-history-latest.md",
         "reports/autonomous-operator-latest.md",
@@ -216,9 +216,9 @@
         "reports/post-deploy-smoke-latest.md",
         "reports/product-gate-recovery-latest.md",
         "reports/product-gate-sample-plan-latest.md",
+        "reports/pwa-install-loop-latest.md",
         "reports/release-candidate-latest.md",
         "reports/repository-readiness-latest.md",
-        "reports/retention-loop-latest.md",
         "src/data/autonomousOperator.ts",
         "src/data/autonomousOperatorHistory.ts",
         "src/data/autonomousOwnerLoop.ts",
@@ -227,9 +227,9 @@
         "src/data/postDeploySmoke.ts",
         "src/data/productGateRecovery.ts",
         "src/data/productGateSamplePlan.ts",
+        "src/data/pwaInstallLoop.ts",
         "src/data/releaseCandidate.ts",
-        "src/data/repositoryReadiness.ts",
-        "src/data/retentionLoop.ts"
+        "src/data/repositoryReadiness.ts"
       ],
       "nonGeneratedDirtyFiles": 0,
       "nonGeneratedDirtyPaths": []
@@ -267,7 +267,7 @@
     "repositoryReadiness": "waiting-for-github-repository",
     "deployment": "ready-for-pages",
     "releaseCandidate": "release-candidate-ready",
-    "releaseCandidateId": "pwa-47ef4dd70c2e",
+    "releaseCandidateId": "pwa-1d07f0ccd876",
     "postDeploySmoke": "blocked-missing-origin"
   },
   "execution": {
