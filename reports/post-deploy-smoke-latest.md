@@ -1,27 +1,28 @@
 # Post-Deploy Smoke
 
-Generated: 2026-05-20T03:20:02.440Z
+Generated: 2026-05-20T03:31:03.950Z
 Status: blocked-missing-origin
 Origin: missing
-Candidate: pwa-943dd5024c70
+Candidate: pwa-85b35fefb474
 
 ## Summary
 
-- Planned: 14
+- Planned: 15
 - Passed: 0
 - Failed: 0
-- Blocked: 14
+- Blocked: 15
 
 ## Local Artifact Smoke
 
 Status: predeploy-artifact-smoke-passed
 Artifact path: dist
-Checks: 14/14 passed
+Checks: 15/15 passed
 - pass: app-shell - dist/index.html - Local production artifact matched required text.
 - pass: manifest-webmanifest - dist/manifest.webmanifest - Local production artifact matched required text.
 - pass: sw-js - dist/sw.js - Local production artifact matched required text.
 - pass: privacy-html - dist/privacy.html - Local production artifact matched required text.
 - pass: support-html - dist/support.html - Local production artifact matched required text.
+- pass: install-html - dist/install.html - Local production artifact matched required text.
 - pass: compliance-json - dist/compliance.json - Local production artifact matched required text.
 - pass: monetization-json - dist/monetization.json - Local production artifact matched required text.
 - pass: app-ads-txt - dist/app-ads.txt - Local production artifact matched required text.
@@ -39,6 +40,7 @@ Checks: 14/14 passed
 - blocked: sw-js - ${DEPLOYED_PWA_ORIGIN}/sw.js - No deployed origin configured.
 - blocked: privacy-html - ${DEPLOYED_PWA_ORIGIN}/privacy.html - No deployed origin configured.
 - blocked: support-html - ${DEPLOYED_PWA_ORIGIN}/support.html - No deployed origin configured.
+- blocked: install-html - ${DEPLOYED_PWA_ORIGIN}/install.html - No deployed origin configured.
 - blocked: compliance-json - ${DEPLOYED_PWA_ORIGIN}/compliance.json - No deployed origin configured.
 - blocked: monetization-json - ${DEPLOYED_PWA_ORIGIN}/monetization.json - No deployed origin configured.
 - blocked: app-ads-txt - ${DEPLOYED_PWA_ORIGIN}/app-ads.txt - No deployed origin configured.

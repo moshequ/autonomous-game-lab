@@ -223,7 +223,9 @@ const initUrlAttribution = () => {
           ? 'internal-rotation'
           : source === 'gate_sample'
             ? 'product-gate-sample'
-          : source ?? 'direct'
+            : source === 'pwa_install'
+              ? 'pwa-install'
+              : source ?? 'direct'
 
   setAcquisitionAttribution({
     source: source ?? 'direct_game_link',

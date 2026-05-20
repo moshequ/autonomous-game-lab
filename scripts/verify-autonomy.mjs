@@ -183,6 +183,7 @@ const requiredFiles = [
   'public/icons/apple-touch-icon.png',
   'public/icons/store-icon-1024.png',
   'public/gate-sample.html',
+  'public/install.html',
   'public/robots.txt',
   'public/seed-kit.html',
   'public/sitemap.xml',
@@ -298,6 +299,7 @@ const collectorWorkflow = await readFile(path.join(root, '.github', 'workflows',
 const webDeployWorkflow = await readFile(path.join(root, '.github', 'workflows', 'web-pwa-deploy.yml'), 'utf8')
 const shareManifest = JSON.parse(await readFile(path.join(root, 'public', 'share-manifest.json'), 'utf8'))
 const gateSampleHtml = await readFile(path.join(root, 'public', 'gate-sample.html'), 'utf8')
+const installHtml = await readFile(path.join(root, 'public', 'install.html'), 'utf8')
 const seedKitHtml = await readFile(path.join(root, 'public', 'seed-kit.html'), 'utf8')
 const packageJson = JSON.parse(await readFile(path.join(root, 'package.json'), 'utf8'))
 const appSource = await readFile(path.join(root, 'src', 'App.tsx'), 'utf8')
@@ -965,6 +967,13 @@ if (
   pwaInstallLoop.promptPolicy?.ctaLabel !== 'Install app' ||
   pwaInstallLoop.promptPolicy?.nativePromptRequired !== true ||
   pwaInstallLoop.promptPolicy?.cooldownDaysAfterDismissal !== 14 ||
+  pwaInstallLoop.publicInstallPage?.path !== '/install.html' ||
+  pwaInstallLoop.publicInstallPage?.file !== 'public/install.html' ||
+  !pwaInstallLoop.publicInstallPage?.campaignId?.startsWith('pwa-install-') ||
+  !pwaInstallLoop.publicInstallPage?.playPath?.includes('utm_source=pwa_install') ||
+  pwaInstallLoop.publicInstallPage?.zeroPaidSpend !== true ||
+  pwaInstallLoop.publicInstallPage?.playerInitiatedOnly !== true ||
+  pwaInstallLoop.publicInstallPage?.browserPromptControlled !== true ||
   pwaInstallLoop.measurementPolicy?.availableEvent !== 'pwa_install_prompt_available' ||
   pwaInstallLoop.measurementPolicy?.cooldownEvent !== 'pwa_install_prompt_cooldown' ||
   pwaInstallLoop.measurementPolicy?.cooldownStorageKey !== 'agl.pwa.installDismissedAt' ||
@@ -980,6 +989,12 @@ if (
   pwaInstallLoop.guardrails?.noPaidInstallReward !== true ||
   missingPwaEventType ||
   missingPwaRollupEvent ||
+  !analyticsLibSource.includes("source === 'pwa_install'") ||
+  !analyticsLibSource.includes("'pwa-install'") ||
+  !installHtml.includes('Autonomous Game Lab Install') ||
+  !installHtml.includes('data-channel-id="pwa-install"') ||
+  !installHtml.includes(pwaInstallLoop.publicInstallPage?.campaignId ?? 'missing') ||
+  !installHtml.includes('utm_source=pwa_install') ||
   !appSource.includes('beforeinstallprompt') ||
   !appSource.includes('appinstalled') ||
   !appSource.includes('pwaInstallCooldownActive') ||
@@ -1787,6 +1802,7 @@ if (
   !workflow.includes('contents: read') ||
   !autonomousSelfUpdateSource.includes('allowedPrefixes') ||
   !autonomousSelfUpdateSource.includes('public/gate-sample.html') ||
+  !autonomousSelfUpdateSource.includes('public/install.html') ||
   !autonomousSelfUpdateSource.includes('public/seed-kit.html') ||
   !autonomousSelfUpdateSource.includes('blockedPrefixes') ||
   !appSource.includes('Autonomous Self Update')
@@ -3089,6 +3105,8 @@ if (
   readiness.pwaInstall?.status !== 'ready-browser-controlled' ||
   readiness.pwaInstall?.channel?.id !== pwaInstallLoop.channel?.id ||
   readiness.pwaInstall?.promptPolicy?.nativePromptRequired !== true ||
+  readiness.pwaInstall?.publicInstallPage?.path !== '/install.html' ||
+  readiness.pwaInstall?.publicInstallPage?.browserPromptControlled !== true ||
   readiness.pwaInstall?.guardrails?.noForcedPrompt !== true ||
   readiness.pwaInstall?.guardrails?.noBlockingGameplay !== true
 ) {
@@ -3127,6 +3145,7 @@ if (
   releaseCandidate.controls?.postDeploySmokeRequired !== true ||
   !releaseCandidate.postDeploySmoke?.some((item) => item.path === '/' && item.expectedStatus === 200) ||
   !releaseCandidate.postDeploySmoke?.some((item) => item.path === '/privacy.html') ||
+  !releaseCandidate.postDeploySmoke?.some((item) => item.path === '/install.html') ||
   !releaseCandidate.postDeploySmoke?.some((item) => item.path === '/gate-sample.html') ||
   !releaseCandidate.postDeploySmoke?.some(
     (item) => item.path === '/compliance.json' && item.requiredText === 'store-compliance',
@@ -3140,6 +3159,7 @@ if (
   !releaseCandidateRequiredFiles.has('sw.js') ||
   !releaseCandidateRequiredFiles.has('manifest.webmanifest') ||
   !releaseCandidateRequiredFiles.has('compliance.json') ||
+  !releaseCandidateRequiredFiles.has('install.html') ||
   !releaseCandidateRequiredFiles.has('gate-sample.html') ||
   !releaseCandidateRequiredFiles.has('.well-known/assetlinks.json') ||
   distReleaseCandidate.candidateId !== releaseCandidate.candidateId ||
@@ -3273,6 +3293,7 @@ if (
   !repositoryReadinessSource.includes('generatedEvidencePrefixes') ||
   !repositoryReadinessSource.includes('public/share-manifest.json') ||
   !repositoryReadinessSource.includes('public/gate-sample.html') ||
+  !repositoryReadinessSource.includes('public/install.html') ||
   !repositoryReadinessSource.includes('public/seed-kit.html') ||
   !repositoryReadinessSource.includes('AGL_GITHUB_OWNER') ||
   !repositoryReadinessSource.includes('owner-hint-and-package-name') ||
@@ -3347,6 +3368,7 @@ if (
   !repositoryBootstrapSource.includes('generatedEvidencePrefixes') ||
   !repositoryBootstrapSource.includes('public/share-manifest.json') ||
   !repositoryBootstrapSource.includes('public/gate-sample.html') ||
+  !repositoryBootstrapSource.includes('public/install.html') ||
   !repositoryBootstrapSource.includes('public/seed-kit.html') ||
   !repositoryBootstrapSource.includes('AGL_GITHUB_OWNER') ||
   !repositoryBootstrapSource.includes('owner-hint-and-package-name') ||
@@ -3643,6 +3665,7 @@ if (
   deployment.releaseCandidate?.status !== releaseCandidate.status ||
   deployment.releaseCandidate?.candidateId !== releaseCandidate.candidateId ||
   deployment.releaseCandidate?.aggregateHash !== releaseCandidate.integrity?.aggregateHash ||
+  !deployment.checks?.some((check) => check.id === 'dist-install' && check.status === 'pass') ||
   !deployment.checks?.some((check) => check.id === 'release-candidate' && check.status === 'pass')
 ) {
   fail('Deployment plan must include the exact release-candidate manifest before Pages deploy.')

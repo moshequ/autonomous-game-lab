@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-05-20T03:19:58.720Z",
+  "generatedAt": "2026-05-20T03:31:03.729Z",
   "status": "release-candidate-ready",
-  "candidateId": "pwa-943dd5024c70",
+  "candidateId": "pwa-85b35fefb474",
   "target": {
     "provider": "github-pages",
     "artifactPath": "dist",
@@ -11,18 +11,18 @@
     "basePath": "/"
   },
   "summary": {
-    "totalFiles": 42,
-    "totalBytes": 3685166,
-    "totalKb": 3598.8,
+    "totalFiles": 43,
+    "totalBytes": 3681391,
+    "totalKb": 3595.1,
     "assetFiles": 3,
-    "htmlFiles": 15,
+    "htmlFiles": 16,
     "gamePages": 10,
     "requiredFilesPresent": true,
-    "postDeploySmokeUrls": 13
+    "postDeploySmokeUrls": 14
   },
   "integrity": {
     "algorithm": "sha256",
-    "aggregateHash": "943dd5024c70a0cbe66642a396de8874ef231cb6bb84a3b319300588e61a0538",
+    "aggregateHash": "85b35fefb474307b973fe5a66a8355e5fcfd65aa69c156f12d34dfd97880e2eb",
     "files": [
       {
         "path": ".well-known/assetlinks.json",
@@ -39,9 +39,9 @@
         "cacheControl": "public, max-age=3600"
       },
       {
-        "path": "assets/GameCanvas-BQdzlo1D.js",
+        "path": "assets/GameCanvas-DWqg25hT.js",
         "bytes": 1393468,
-        "sha256": "ebba963c858f7b1c844ea0dee4f5a923390c4b89cb6c7e2069382aebdb2f7f82",
+        "sha256": "b8142b70f11932e8c3f6f7cb1e9b9b62a7803b21fc97bb6a5913650e02498b8d",
         "contentType": "text/javascript; charset=utf-8",
         "cacheControl": "public, max-age=31536000, immutable"
       },
@@ -53,9 +53,9 @@
         "cacheControl": "public, max-age=31536000, immutable"
       },
       {
-        "path": "assets/index-DE3NVse8.js",
-        "bytes": 680693,
-        "sha256": "fea77195999a8529e20945fb83b8c8f0e11b269bdfc6bc5b91592a4fb99162cf",
+        "path": "assets/index-BPkv2vpc.js",
+        "bytes": 673757,
+        "sha256": "ab266f019f00502ff2897206418a565662109de408c967c8fb03bc982cc6b9fe",
         "contentType": "text/javascript; charset=utf-8",
         "cacheControl": "public, max-age=31536000, immutable"
       },
@@ -209,7 +209,14 @@
       {
         "path": "index.html",
         "bytes": 803,
-        "sha256": "c4966e08aaca5469628ecf3e6e470fb1cd92e37d5405f70bab6a7d08c99df1ab",
+        "sha256": "81cef75dba143cb1f72ffb41beebbbe1057d9fb6cd08b425c265f1bb587fe694",
+        "contentType": "text/html; charset=utf-8",
+        "cacheControl": "no-cache"
+      },
+      {
+        "path": "install.html",
+        "bytes": 3096,
+        "sha256": "a8996ba000f267e29e7d28b6a4c494ef92e071bc1c01c8a45cf0e94e30033afb",
         "contentType": "text/html; charset=utf-8",
         "cacheControl": "no-cache"
       },
@@ -306,8 +313,8 @@
       },
       {
         "path": "sw.js",
-        "bytes": 3670,
-        "sha256": "12cd65882faa3b2d0d8667f9f7df2555045eeeae6fb5e657c12dd3ef6d5c962c",
+        "bytes": 3735,
+        "sha256": "fb2b9c826e01a07354229efd9cedc26f07ac941d566cc89187cc694d35439e6c",
         "contentType": "text/javascript; charset=utf-8",
         "cacheControl": "no-cache"
       },
@@ -338,6 +345,10 @@
       },
       {
         "path": "support.html",
+        "status": "pass"
+      },
+      {
+        "path": "install.html",
         "status": "pass"
       },
       {
@@ -423,6 +434,13 @@
       "id": "support-html",
       "path": "/support.html",
       "url": "${DEPLOYED_PWA_ORIGIN}/support.html",
+      "expectedStatus": 200,
+      "requiredText": "Autonomous Game Lab"
+    },
+    {
+      "id": "install-html",
+      "path": "/install.html",
+      "url": "${DEPLOYED_PWA_ORIGIN}/install.html",
       "expectedStatus": 200,
       "requiredText": "Autonomous Game Lab"
     },
@@ -528,12 +546,12 @@
     {
       "id": "dist-inventory",
       "status": "pass",
-      "detail": "42 dist files inventoried."
+      "detail": "43 dist files inventoried."
     },
     {
       "id": "required-files",
       "status": "pass",
-      "detail": "17/17 required files present."
+      "detail": "18/18 required files present."
     },
     {
       "id": "game-pages",
@@ -563,7 +581,7 @@
     {
       "id": "post-deploy-smoke-plan",
       "status": "pass",
-      "detail": "13 post-deploy smoke URL(s) planned."
+      "detail": "14 post-deploy smoke URL(s) planned."
     }
   ],
   "nextActions": [

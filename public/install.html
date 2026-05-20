@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Autonomous Game Lab Install</title>
+    <style>
+      :root {
+        color: #17211f;
+        background: #f5f7f6;
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+      }
+
+      main {
+        width: min(820px, calc(100% - 32px));
+        min-height: 100vh;
+        display: grid;
+        align-content: center;
+        gap: 18px;
+        margin: 0 auto;
+        padding: 42px 0;
+      }
+
+      h1,
+      p {
+        margin: 0;
+      }
+
+      h1 {
+        max-width: 680px;
+        font-size: clamp(2.4rem, 8vw, 5rem);
+        line-height: 0.95;
+        letter-spacing: 0;
+      }
+
+      p {
+        max-width: 620px;
+        color: #4a5753;
+        font-size: 1.05rem;
+        line-height: 1.55;
+      }
+
+      .eyebrow {
+        color: #0f766e;
+        font-size: 0.76rem;
+        font-weight: 800;
+        letter-spacing: 0;
+        text-transform: uppercase;
+      }
+
+      .panel {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 12px;
+        margin-top: 10px;
+      }
+
+      .metric {
+        min-height: 88px;
+        padding: 16px;
+        border: 1px solid #cbd8d4;
+        border-radius: 8px;
+        background: #ffffff;
+      }
+
+      .metric span {
+        display: block;
+        color: #68726f;
+        font-size: 0.74rem;
+        font-weight: 800;
+        text-transform: uppercase;
+      }
+
+      .metric strong {
+        display: block;
+        margin-top: 6px;
+        font-size: 1.05rem;
+      }
+
+      .play {
+        display: inline-flex;
+        width: fit-content;
+        align-items: center;
+        justify-content: center;
+        min-height: 46px;
+        padding: 0 18px;
+        border-radius: 7px;
+        background: #0f766e;
+        color: #fff;
+        font-weight: 800;
+        text-decoration: none;
+      }
+
+      @media (max-width: 720px) {
+        .panel {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main data-campaign-id="pwa-install-canopy-bloom" data-channel-id="pwa-install">
+      <p class="eyebrow">Zero-spend install path</p>
+      <h1>Autonomous Game Lab Install</h1>
+      <p>Open the PWA from this player-initiated link so install prompt availability, acceptance, and standalone launches can be measured without paid incentives.</p>
+      <section class="panel" aria-label="Install measurement">
+        <div class="metric"><span>Campaign</span><strong>pwa-install-canopy-bloom</strong></div>
+        <div class="metric"><span>Browser prompt</span><strong>controlled</strong></div>
+        <div class="metric"><span>Cost</span><strong>$0.00</strong></div>
+      </section>
+      <a class="play" href="./?game=canopy-bloom&amp;utm_source=pwa_install&amp;utm_campaign=pwa-install-canopy-bloom">Open app</a>
+    </main>
+  </body>
+</html>

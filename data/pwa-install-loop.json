@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-20T01:38:16.644Z",
+  "generatedAt": "2026-05-20T03:30:11.388Z",
   "status": "pwa-install-loop-ready",
   "sourceStatus": {
     "analyticsSource": "fixture-sample",
@@ -44,6 +44,18 @@
     "fallbackWhenUnavailable": "measure-browser-launch-mode-only",
     "priorityGameId": "canopy-bloom"
   },
+  "publicInstallPage": {
+    "path": "/install.html",
+    "file": "public/install.html",
+    "campaignId": "pwa-install-canopy-bloom",
+    "playPath": "/?game=canopy-bloom&utm_source=pwa_install&utm_campaign=pwa-install-canopy-bloom",
+    "priorityGameId": "canopy-bloom",
+    "zeroPaidSpend": true,
+    "playerInitiatedOnly": true,
+    "browserPromptControlled": true,
+    "nativePromptRequired": true,
+    "hostedOriginRequired": true
+  },
   "localState": {
     "dismissalKey": "agl.pwa.installDismissedAt",
     "installedKey": "agl.pwa.installedAt",
@@ -79,6 +91,7 @@
   },
   "nextActions": [
     "Start measuring native install prompt availability and standalone launches.",
+    "Route install traffic through /?game=canopy-bloom&utm_source=pwa_install&utm_campaign=pwa-install-canopy-bloom so prompt events carry pwa-install attribution.",
     "Publish to a stable HTTPS host before using PWA install data for store-readiness claims.",
     "Keep install prompts optional, non-blocking, and separated from paid rewards."
   ]

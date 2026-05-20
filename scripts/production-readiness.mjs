@@ -386,6 +386,10 @@ const pwaInstallReady =
   pwaInstallLoop.status === 'pwa-install-loop-ready' &&
   pwaInstallLoop.channel?.costUsd === 0 &&
   pwaInstallLoop.promptPolicy?.nativePromptRequired === true &&
+  pwaInstallLoop.publicInstallPage?.path === '/install.html' &&
+  pwaInstallLoop.publicInstallPage?.zeroPaidSpend === true &&
+  pwaInstallLoop.publicInstallPage?.playerInitiatedOnly === true &&
+  pwaInstallLoop.publicInstallPage?.browserPromptControlled === true &&
   pwaInstallGuardrails.noForcedPrompt === true &&
   pwaInstallGuardrails.noBlockingGameplay === true &&
   pwaInstallGuardrails.respectBrowserPromptAvailability === true &&
@@ -1025,6 +1029,7 @@ const payload = {
     channel: pwaInstallLoop.channel,
     metrics: pwaInstallLoop.metrics ?? {},
     promptPolicy: pwaInstallLoop.promptPolicy ?? {},
+    publicInstallPage: pwaInstallLoop.publicInstallPage ?? {},
     guardrails: pwaInstallGuardrails,
   },
   performanceBudget: {

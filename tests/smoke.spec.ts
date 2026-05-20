@@ -294,6 +294,61 @@ test('PWA install loop respects dismissal cooldown before surfacing prompt', asy
   expect(result.viewed).toBeUndefined()
 })
 
+test('generated PWA install page routes attributed install traffic into the app', async ({ page }) => {
+  const installLoop = JSON.parse(await readFile('data/pwa-install-loop.json', 'utf8')) as {
+    publicInstallPage: {
+      path: string
+      campaignId: string
+      playPath: string
+      priorityGameId: string
+      zeroPaidSpend: boolean
+      playerInitiatedOnly: boolean
+      browserPromptControlled: boolean
+    }
+  }
+
+  await page.goto(installLoop.publicInstallPage.path)
+
+  await expect(page.getByRole('heading', { name: 'Autonomous Game Lab Install' })).toBeVisible()
+  await expect(page.getByText('$0.00')).toBeVisible()
+  await expect(page.locator('[data-channel-id="pwa-install"]')).toHaveAttribute(
+    'data-campaign-id',
+    installLoop.publicInstallPage.campaignId,
+  )
+  await expect(page.getByRole('link', { name: 'Open app' })).toHaveAttribute(
+    'href',
+    `.${installLoop.publicInstallPage.playPath}`,
+  )
+  expect(installLoop.publicInstallPage.zeroPaidSpend).toBe(true)
+  expect(installLoop.publicInstallPage.playerInitiatedOnly).toBe(true)
+  expect(installLoop.publicInstallPage.browserPromptControlled).toBe(true)
+  expect(await page.content()).not.toContain('autonomous-game-lab.example.com')
+
+  await page.goto(installLoop.publicInstallPage.playPath)
+  await page.evaluate(() => {
+    const event = new Event('beforeinstallprompt') as Event & {
+      prompt: () => Promise<void>
+      userChoice: Promise<{ outcome: 'accepted'; platform: string }>
+    }
+    event.prompt = () => Promise.resolve()
+    event.userChoice = Promise.resolve({ outcome: 'accepted', platform: 'web' })
+    window.dispatchEvent(event)
+  })
+  await page.getByRole('button', { name: 'Install app' }).click()
+
+  const clicked = await page.evaluate(() => {
+    const raw = window.localStorage.getItem('agl.analytics.events')
+    const events = raw ? JSON.parse(raw) : []
+
+    return events.findLast((event: { name: string }) => event.name === 'pwa_install_prompt_clicked')
+  })
+
+  expect(clicked.properties.acquisitionSource).toBe('pwa_install')
+  expect(clicked.properties.acquisitionCampaign).toBe(installLoop.publicInstallPage.campaignId)
+  expect(clicked.properties.acquisitionChannel).toBe('pwa-install')
+  expect(clicked.properties.acquisitionGameId).toBe(installLoop.publicInstallPage.priorityGameId)
+})
+
 test('reset run records replay telemetry for the product optimizer', async ({ page }) => {
   await page.goto('/')
   await page.getByRole('button', { name: 'Reset run' }).click()
@@ -635,6 +690,7 @@ test('release candidate records the exact deployable PWA artifact', async () => 
   expect(candidate.integrity.files.some((file) => file.cacheControl.includes('immutable'))).toBe(true)
   expect(candidate.integrity.requiredFileChecks.every((check) => check.status === 'pass')).toBe(true)
   expect(candidate.postDeploySmoke.some((check) => check.path === '/' && check.expectedStatus === 200)).toBe(true)
+  expect(candidate.postDeploySmoke.some((check) => check.path === '/install.html')).toBe(true)
   expect(candidate.postDeploySmoke.some((check) => check.path === '/gate-sample.html')).toBe(true)
   expect(candidate.postDeploySmoke.some((check) => check.path === '/seed-kit.html')).toBe(true)
   expect(candidate.postDeploySmoke.some((check) => check.path === '/privacy.html')).toBe(true)

@@ -109,6 +109,11 @@ const checks = [
     detail: 'Privacy policy is included in the deployable build.',
   },
   {
+    id: 'dist-install',
+    status: (await exists(path.join(root, 'dist', 'install.html'))) ? 'pass' : 'blocker',
+    detail: 'PWA install handoff page is included in the deployable build.',
+  },
+  {
     id: 'release-candidate',
     status:
       releaseCandidate.status === 'release-candidate-ready' &&

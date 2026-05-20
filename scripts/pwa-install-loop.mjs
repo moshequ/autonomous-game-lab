@@ -6,6 +6,7 @@ const dataDir = path.join(root, 'data')
 const outputJsonPath = path.join(dataDir, 'pwa-install-loop.json')
 const outputTsPath = path.join(root, 'src', 'data', 'pwaInstallLoop.ts')
 const reportPath = path.join(root, 'reports', 'pwa-install-loop-latest.md')
+const installPagePath = path.join(root, 'public', 'install.html')
 
 const readJson = async (filePath) => JSON.parse(await readFile(filePath, 'utf8'))
 const readText = async (filePath) => readFile(filePath, 'utf8').catch(() => '')
@@ -23,6 +24,13 @@ const counts = analytics.totals?.counts ?? {}
 const metric = (eventName) => Number(counts[eventName] ?? 0)
 const roundMetric = (value) => Math.round(value * 1000) / 1000
 const pct = (value) => `${Math.round(value * 100)}%`
+const escapeHtml = (value) =>
+  String(value)
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+const runtimeHref = (value) => (value.startsWith('/') ? `.${value}` : value)
 
 const growthInstallChannel = (growth.channels ?? []).find((channel) => channel.id === 'pwa-install')
 const manifestConfigured =
@@ -50,6 +58,13 @@ const canMeasureInstall =
   analytics.sourceStatus?.activeSource !== 'missing' &&
   retention.status === 'retention-loop-ready' &&
   acquisition.status === 'acquisition-learning-ready'
+const priorityGameId = retention.dailyChallenge?.gameId ?? acquisition.summary?.featuredGameId ?? null
+const installCampaignId = `pwa-install-${priorityGameId ?? 'portal'}`
+const installPlayPath = `/?${new URLSearchParams({
+  ...(priorityGameId ? { game: priorityGameId } : {}),
+  utm_source: 'pwa_install',
+  utm_campaign: installCampaignId,
+}).toString()}`
 
 const payload = {
   generatedAt: new Date().toISOString(),
@@ -93,7 +108,19 @@ const payload = {
     cooldownDaysAfterDismissal: 14,
     nativePromptRequired: true,
     fallbackWhenUnavailable: 'measure-browser-launch-mode-only',
-    priorityGameId: retention.dailyChallenge?.gameId ?? acquisition.summary?.featuredGameId ?? null,
+    priorityGameId,
+  },
+  publicInstallPage: {
+    path: '/install.html',
+    file: 'public/install.html',
+    campaignId: installCampaignId,
+    playPath: installPlayPath,
+    priorityGameId,
+    zeroPaidSpend: true,
+    playerInitiatedOnly: true,
+    browserPromptControlled: true,
+    nativePromptRequired: true,
+    hostedOriginRequired: environment.publicOrigin?.status !== 'configured',
   },
   localState: {
     dismissalKey: 'agl.pwa.installDismissedAt',
@@ -134,6 +161,7 @@ const payload = {
       : promptViews
       ? `Improve PWA install acceptance from ${pct(acceptanceRate)} while keeping prompt cooldowns.`
       : 'Start measuring native install prompt availability and standalone launches.',
+    `Route install traffic through ${installPlayPath} so prompt events carry pwa-install attribution.`,
     environment.publicOrigin?.status === 'configured'
       ? 'Keep install links pointed at the stable HTTPS production origin.'
       : 'Publish to a stable HTTPS host before using PWA install data for store-readiness claims.',
@@ -159,6 +187,8 @@ const report = [
   `- CTA: ${payload.promptPolicy.ctaLabel}`,
   `- Cooldown after dismissal: ${payload.promptPolicy.cooldownDaysAfterDismissal} days`,
   `- Priority game: ${payload.promptPolicy.priorityGameId ?? 'none'}`,
+  `- Public install page: ${payload.publicInstallPage.path}`,
+  `- Campaign: ${payload.publicInstallPage.campaignId}`,
   '',
   '## Guardrails',
   '',
@@ -177,16 +207,143 @@ const report = [
   '',
 ]
 
+const installPage = `<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Autonomous Game Lab Install</title>
+    <style>
+      :root {
+        color: #17211f;
+        background: #f5f7f6;
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+      }
+
+      main {
+        width: min(820px, calc(100% - 32px));
+        min-height: 100vh;
+        display: grid;
+        align-content: center;
+        gap: 18px;
+        margin: 0 auto;
+        padding: 42px 0;
+      }
+
+      h1,
+      p {
+        margin: 0;
+      }
+
+      h1 {
+        max-width: 680px;
+        font-size: clamp(2.4rem, 8vw, 5rem);
+        line-height: 0.95;
+        letter-spacing: 0;
+      }
+
+      p {
+        max-width: 620px;
+        color: #4a5753;
+        font-size: 1.05rem;
+        line-height: 1.55;
+      }
+
+      .eyebrow {
+        color: #0f766e;
+        font-size: 0.76rem;
+        font-weight: 800;
+        letter-spacing: 0;
+        text-transform: uppercase;
+      }
+
+      .panel {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 12px;
+        margin-top: 10px;
+      }
+
+      .metric {
+        min-height: 88px;
+        padding: 16px;
+        border: 1px solid #cbd8d4;
+        border-radius: 8px;
+        background: #ffffff;
+      }
+
+      .metric span {
+        display: block;
+        color: #68726f;
+        font-size: 0.74rem;
+        font-weight: 800;
+        text-transform: uppercase;
+      }
+
+      .metric strong {
+        display: block;
+        margin-top: 6px;
+        font-size: 1.05rem;
+      }
+
+      .play {
+        display: inline-flex;
+        width: fit-content;
+        align-items: center;
+        justify-content: center;
+        min-height: 46px;
+        padding: 0 18px;
+        border-radius: 7px;
+        background: #0f766e;
+        color: #fff;
+        font-weight: 800;
+        text-decoration: none;
+      }
+
+      @media (max-width: 720px) {
+        .panel {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main data-campaign-id="${escapeHtml(payload.publicInstallPage.campaignId)}" data-channel-id="pwa-install">
+      <p class="eyebrow">Zero-spend install path</p>
+      <h1>Autonomous Game Lab Install</h1>
+      <p>Open the PWA from this player-initiated link so install prompt availability, acceptance, and standalone launches can be measured without paid incentives.</p>
+      <section class="panel" aria-label="Install measurement">
+        <div class="metric"><span>Campaign</span><strong>${escapeHtml(payload.publicInstallPage.campaignId)}</strong></div>
+        <div class="metric"><span>Browser prompt</span><strong>controlled</strong></div>
+        <div class="metric"><span>Cost</span><strong>$0.00</strong></div>
+      </section>
+      <a class="play" href="${escapeHtml(runtimeHref(payload.publicInstallPage.playPath))}">Open app</a>
+    </main>
+  </body>
+</html>
+`
+
 await mkdir(path.dirname(outputJsonPath), { recursive: true })
 await mkdir(path.dirname(outputTsPath), { recursive: true })
 await mkdir(path.dirname(reportPath), { recursive: true })
+await mkdir(path.dirname(installPagePath), { recursive: true })
 await writeFile(outputJsonPath, JSON.stringify(payload, null, 2) + '\n')
 await writeFile(
   outputTsPath,
   `export const pwaInstallLoop = ${JSON.stringify(payload, null, 2)} as const\n\nexport type PwaInstallLoop = typeof pwaInstallLoop\n`,
 )
 await writeFile(reportPath, report.join('\n'))
+await writeFile(installPagePath, installPage)
 
 console.log(`Wrote ${path.relative(root, outputJsonPath)}`)
 console.log(`Wrote ${path.relative(root, outputTsPath)}`)
 console.log(`Wrote ${path.relative(root, reportPath)}`)
+console.log(`Wrote ${path.relative(root, installPagePath)}`)

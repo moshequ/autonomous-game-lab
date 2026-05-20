@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-20T03:20:02.440Z",
+  "generatedAt": "2026-05-20T03:31:03.950Z",
   "status": "blocked-missing-origin",
   "envFiles": {
     "loaded": true,
@@ -54,8 +54,8 @@
   "target": {
     "origin": null,
     "provider": "github-pages",
-    "candidateId": "pwa-943dd5024c70",
-    "aggregateHash": "943dd5024c70a0cbe66642a396de8874ef231cb6bb84a3b319300588e61a0538"
+    "candidateId": "pwa-85b35fefb474",
+    "aggregateHash": "85b35fefb474307b973fe5a66a8355e5fcfd65aa69c156f12d34dfd97880e2eb"
   },
   "sourceStatus": {
     "deployment": "ready-for-pages",
@@ -63,17 +63,17 @@
     "productionResponse": "guarded-operations"
   },
   "summary": {
-    "planned": 14,
+    "planned": 15,
     "passed": 0,
     "failed": 0,
-    "blocked": 14
+    "blocked": 15
   },
   "localArtifactSmoke": {
     "status": "predeploy-artifact-smoke-passed",
     "artifactPath": "dist",
     "summary": {
-      "planned": 14,
-      "passed": 14,
+      "planned": 15,
+      "passed": 15,
       "failed": 0
     },
     "controls": {
@@ -109,7 +109,7 @@
         "file": "dist/sw.js",
         "expectedStatus": 200,
         "status": "pass",
-        "bytes": 3668,
+        "bytes": 3733,
         "textMatched": true,
         "detail": "Local production artifact matched required text."
       },
@@ -130,6 +130,16 @@
         "expectedStatus": 200,
         "status": "pass",
         "bytes": 1475,
+        "textMatched": true,
+        "detail": "Local production artifact matched required text."
+      },
+      {
+        "id": "install-html",
+        "path": "/install.html",
+        "file": "dist/install.html",
+        "expectedStatus": 200,
+        "status": "pass",
+        "bytes": 3096,
         "textMatched": true,
         "detail": "Local production artifact matched required text."
       },
@@ -219,11 +229,11 @@
         "file": "dist/release-candidate.json",
         "expectedStatus": 200,
         "status": "pass",
-        "bytes": 18168,
+        "bytes": 18683,
         "candidateMatches": true,
         "hashMatches": true,
-        "localCandidateId": "pwa-943dd5024c70",
-        "localAggregateHash": "943dd5024c70a0cbe66642a396de8874ef231cb6bb84a3b319300588e61a0538",
+        "localCandidateId": "pwa-85b35fefb474",
+        "localAggregateHash": "85b35fefb474307b973fe5a66a8355e5fcfd65aa69c156f12d34dfd97880e2eb",
         "detail": "Local release manifest matches the release candidate."
       }
     ]
@@ -278,6 +288,15 @@
       "id": "support-html",
       "path": "/support.html",
       "url": "${DEPLOYED_PWA_ORIGIN}/support.html",
+      "expectedStatus": 200,
+      "requiredText": "Autonomous Game Lab",
+      "status": "blocked",
+      "detail": "No deployed origin configured."
+    },
+    {
+      "id": "install-html",
+      "path": "/install.html",
+      "url": "${DEPLOYED_PWA_ORIGIN}/install.html",
       "expectedStatus": 200,
       "requiredText": "Autonomous Game Lab",
       "status": "blocked",
@@ -360,7 +379,7 @@
       "path": "/release-candidate.json",
       "url": "${DEPLOYED_PWA_ORIGIN}/release-candidate.json",
       "expectedStatus": 200,
-      "requiredText": "pwa-943dd5024c70",
+      "requiredText": "pwa-85b35fefb474",
       "status": "blocked",
       "detail": "No deployed origin configured."
     }

@@ -1,22 +1,22 @@
 # Release Candidate
 
-Generated: 2026-05-20T03:19:58.720Z
+Generated: 2026-05-20T03:31:03.729Z
 Status: release-candidate-ready
-Candidate: pwa-943dd5024c70
-Files: 42
-Size: 3598.8 KB
-Aggregate SHA-256: 943dd5024c70a0cbe66642a396de8874ef231cb6bb84a3b319300588e61a0538
+Candidate: pwa-85b35fefb474
+Files: 43
+Size: 3595.1 KB
+Aggregate SHA-256: 85b35fefb474307b973fe5a66a8355e5fcfd65aa69c156f12d34dfd97880e2eb
 
 ## Checks
 
-- pass: dist-inventory - 42 dist files inventoried.
-- pass: required-files - 17/17 required files present.
+- pass: dist-inventory - 43 dist files inventoried.
+- pass: required-files - 18/18 required files present.
 - pass: game-pages - 10 generated game page(s) in dist.
 - pass: performance-budget - Performance budget is performance-budget-ready.
 - pass: release-health - Release health is monitoring.
 - pass: production-response - Deploy allowed is true.
 - pass: spend-guard - Spend mode is no-spend.
-- pass: post-deploy-smoke-plan - 13 post-deploy smoke URL(s) planned.
+- pass: post-deploy-smoke-plan - 14 post-deploy smoke URL(s) planned.
 
 ## Required Files
 
@@ -25,6 +25,7 @@ Aggregate SHA-256: 943dd5024c70a0cbe66642a396de8874ef231cb6bb84a3b319300588e61a0
 - pass: sw.js
 - pass: privacy.html
 - pass: support.html
+- pass: install.html
 - pass: compliance.json
 - pass: sitemap.xml
 - pass: robots.txt
@@ -45,6 +46,7 @@ Aggregate SHA-256: 943dd5024c70a0cbe66642a396de8874ef231cb6bb84a3b319300588e61a0
 - 200: ${DEPLOYED_PWA_ORIGIN}/sw.js
 - 200: ${DEPLOYED_PWA_ORIGIN}/privacy.html
 - 200: ${DEPLOYED_PWA_ORIGIN}/support.html
+- 200: ${DEPLOYED_PWA_ORIGIN}/install.html
 - 200: ${DEPLOYED_PWA_ORIGIN}/compliance.json
 - 200: ${DEPLOYED_PWA_ORIGIN}/monetization.json
 - 200: ${DEPLOYED_PWA_ORIGIN}/app-ads.txt

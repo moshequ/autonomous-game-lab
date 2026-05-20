@@ -1,5 +1,5 @@
 export const localEventBridge = {
-  "generatedAt": "2026-05-20T03:21:57.104Z",
+  "generatedAt": "2026-05-20T03:32:59.982Z",
   "status": "bridge-waiting-for-export",
   "mode": "local-zero-spend-event-drop-bridge",
   "inbox": {

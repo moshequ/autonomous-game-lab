@@ -1,5 +1,5 @@
 export const deploymentPlan = {
-  "generatedAt": "2026-05-20T03:21:34.117Z",
+  "generatedAt": "2026-05-20T03:31:04.187Z",
   "status": "ready-for-pages",
   "target": {
     "provider": "github-pages",
@@ -53,12 +53,12 @@ export const deploymentPlan = {
   },
   "releaseCandidate": {
     "status": "release-candidate-ready",
-    "candidateId": "pwa-943dd5024c70",
+    "candidateId": "pwa-85b35fefb474",
     "manifestPath": "dist/release-candidate.json",
-    "aggregateHash": "943dd5024c70a0cbe66642a396de8874ef231cb6bb84a3b319300588e61a0538",
-    "totalFiles": 42,
-    "totalKb": 3598.8,
-    "postDeploySmokeUrls": 13
+    "aggregateHash": "85b35fefb474307b973fe5a66a8355e5fcfd65aa69c156f12d34dfd97880e2eb",
+    "totalFiles": 43,
+    "totalKb": 3595.1,
+    "postDeploySmokeUrls": 14
   },
   "compliance": {
     "privacyPath": "/privacy.html",
@@ -119,9 +119,14 @@ export const deploymentPlan = {
       "detail": "Privacy policy is included in the deployable build."
     },
     {
+      "id": "dist-install",
+      "status": "pass",
+      "detail": "PWA install handoff page is included in the deployable build."
+    },
+    {
       "id": "release-candidate",
       "status": "pass",
-      "detail": "Release candidate is release-candidate-ready; candidate pwa-943dd5024c70."
+      "detail": "Release candidate is release-candidate-ready; candidate pwa-85b35fefb474."
     },
     {
       "id": "deploy-workflow",
