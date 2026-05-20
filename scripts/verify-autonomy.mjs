@@ -4589,6 +4589,7 @@ if (
 if (
   !deployWorkflow.includes('actions/configure-pages') ||
   !deployWorkflow.includes('actions/upload-pages-artifact') ||
+  !deployWorkflow.includes('include-hidden-files: true') ||
   !deployWorkflow.includes('actions/deploy-pages') ||
   !deployWorkflow.includes('npm run autonomous:operate') ||
   !deployWorkflow.includes('npm run autonomous:release-candidate') ||
