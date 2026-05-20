@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-20T06:53:08.940Z",
+  "generatedAt": "2026-05-20T08:20:05.443Z",
   "status": "pass",
   "collector": {
     "postStatus": "accepted",
@@ -8,7 +8,8 @@
     "exportedEvents": 14,
     "files": 2,
     "piiStripped": true,
-    "acceptsBeaconBodyToken": true
+    "acceptsBeaconBodyToken": true,
+    "normalizesAllowedOriginPath": true
   },
   "ingest": {
     "status": "imported",

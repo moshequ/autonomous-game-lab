@@ -78,7 +78,7 @@ const fail = (message) => {
 
 const env = {
   EVENT_BUCKET: new MemoryR2Bucket(),
-  ALLOWED_ORIGINS: 'https://autonomous.example',
+  ALLOWED_ORIGINS: 'https://autonomous.example/project-page',
   PUBLIC_WRITE_TOKEN: 'public-smoke-token',
   ADMIN_EXPORT_TOKEN: 'admin-smoke-token',
 }
@@ -376,6 +376,7 @@ try {
 	      files: exportPayload.files.length,
 	      piiStripped: true,
 	      acceptsBeaconBodyToken: true,
+	      normalizesAllowedOriginPath: true,
 	    },
     ingest: {
       status: ingest.status,
@@ -415,6 +416,7 @@ try {
 	    `- Beacon status: ${smoke.collector.beaconStatus}`,
 	    `- Stored events: ${smoke.collector.storedEvents}`,
     `- Exported events: ${smoke.collector.exportedEvents}`,
+    `- Normalizes allowed origin path: ${smoke.collector.normalizesAllowedOriginPath}`,
     `- PII stripped: ${smoke.collector.piiStripped}`,
     '',
     '## Ingest And Rollup',

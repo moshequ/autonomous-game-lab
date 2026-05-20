@@ -1,6 +1,6 @@
 # Event Collector Smoke
 
-Generated: 2026-05-20T06:53:08.940Z
+Generated: 2026-05-20T08:20:05.443Z
 Status: pass
 
 ## Collector
@@ -9,6 +9,7 @@ Status: pass
 - Beacon status: accepted
 - Stored events: 14
 - Exported events: 14
+- Normalizes allowed origin path: true
 - PII stripped: true
 
 ## Ingest And Rollup

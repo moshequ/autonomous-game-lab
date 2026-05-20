@@ -576,6 +576,7 @@ if (
 	  eventCollectorSmoke.collector?.postStatus !== 'accepted' ||
 	  eventCollectorSmoke.collector?.beaconStatus !== 'accepted' ||
 	  eventCollectorSmoke.collector?.acceptsBeaconBodyToken !== true ||
+	  eventCollectorSmoke.collector?.normalizesAllowedOriginPath !== true ||
 	  eventCollectorSmoke.collector?.storedEvents < 5 ||
   eventCollectorSmoke.collector?.exportedEvents < 5 ||
   eventCollectorSmoke.collector?.piiStripped !== true ||
@@ -606,6 +607,8 @@ if (
   eventCollectorDeployment.smoke?.status !== eventCollectorSmoke.status ||
   eventCollectorDeployment.smoke?.piiStripped !== true ||
   eventCollectorDeployment.workflow?.path !== '.github/workflows/event-collector-deploy.yml' ||
+  !eventCollectorWorkerSource.includes('parseAllowedOrigins') ||
+  !eventCollectorWorkerSource.includes('new URL(value).origin') ||
   !eventCollectorDeployment.checks?.some((check) => check.id === 'worker-source' && check.status === 'pass') ||
   !eventCollectorDeployment.checks?.some((check) => check.id === 'collector-smoke' && check.status === 'pass') ||
   !eventCollectorDeployment.checks?.some((check) => check.id === 'deploy-workflow' && check.status === 'pass')
@@ -4592,6 +4595,12 @@ if (
   !deployWorkflow.includes('include-hidden-files: true') ||
   !deployWorkflow.includes('actions/deploy-pages') ||
   !deployWorkflow.includes('npm run autonomous:operate') ||
+  !deployWorkflow.includes('VITE_EVENT_COLLECTOR_URL') ||
+  !deployWorkflow.includes('VITE_EVENT_COLLECTOR_WRITE_TOKEN') ||
+  !deployWorkflow.includes('AGL_EVENT_COLLECTOR_EXPORT_URL') ||
+  !deployWorkflow.includes('AGL_EVENT_COLLECTOR_ADMIN_TOKEN') ||
+  !deployWorkflow.includes('VITE_POSTHOG_KEY') ||
+  !deployWorkflow.includes('POSTHOG_PERSONAL_API_KEY') ||
   !deployWorkflow.includes('npm run autonomous:release-candidate') ||
   !deployWorkflow.includes('npm run autonomous:assert-deployable') ||
   !deployWorkflow.includes('AGL_DEPLOYED_PWA_ORIGIN') ||

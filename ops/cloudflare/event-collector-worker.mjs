@@ -89,9 +89,23 @@ const parseCsv = (value) =>
     .map((item) => item.trim())
     .filter(Boolean)
 
+const normalizeAllowedOrigin = (value) => {
+  if (value === '*') {
+    return value
+  }
+
+  try {
+    return new URL(value).origin
+  } catch {
+    return value.replace(/\/+$/g, '')
+  }
+}
+
+const parseAllowedOrigins = (value) => parseCsv(value).map(normalizeAllowedOrigin)
+
 const corsHeaders = (request, env) => {
   const origin = request.headers.get('Origin')
-  const allowedOrigins = parseCsv(env.ALLOWED_ORIGINS)
+  const allowedOrigins = parseAllowedOrigins(env.ALLOWED_ORIGINS)
   const allowAny = allowedOrigins.length === 0 || allowedOrigins.includes('*')
   const allowedOrigin = allowAny ? (origin ?? '*') : allowedOrigins.includes(origin ?? '') ? origin : null
 
@@ -105,7 +119,7 @@ const corsHeaders = (request, env) => {
 
 const isAllowedOrigin = (request, env) => {
   const origin = request.headers.get('Origin')
-  const allowedOrigins = parseCsv(env.ALLOWED_ORIGINS)
+  const allowedOrigins = parseAllowedOrigins(env.ALLOWED_ORIGINS)
 
   return allowedOrigins.length === 0 || allowedOrigins.includes('*') || !origin || allowedOrigins.includes(origin)
 }
