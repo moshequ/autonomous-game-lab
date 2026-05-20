@@ -655,20 +655,7 @@ function App() {
   const operatorSelectedAction = autonomousOperator.selectedAction
   const operatorHistorySummary = autonomousOperatorHistory.summary
   const objectiveAuditSummary = objectiveAudit.summary
-  const trafficCampaigns = trafficSeeding.campaigns.slice(0, 4)
-  const organicSeedTargetCampaign =
-    trafficCampaigns.find((campaign) => campaign.id === organicSeedLoop.target?.campaignId) ??
-    trafficCampaigns[0]
-  const organicSeedCardVisible =
-    organicSeedLoop.runtimeSurface.status === 'armed' && Boolean(organicSeedTargetCampaign)
-  const organicSeedCampaignId = organicSeedTargetCampaign?.id ?? ''
-  const organicSeedGameId = organicSeedTargetCampaign?.gameId ?? ''
-  const organicSeedCampaignTitle = organicSeedTargetCampaign?.title ?? ''
-  const organicSeedPriority = organicSeedTargetCampaign?.priority ?? 0
-  const organicSeedCostUsd = organicSeedTargetCampaign?.costUsd ?? 0
-  const organicSeedSurface = organicSeedLoop.runtimeSurface.surface
-  const organicSeedPlacement = organicSeedLoop.runtimeSurface.placement
-  const acquisitionCampaigns = acquisitionLearning.campaigns.slice(0, 3)
+  const trafficCampaigns = useMemo(() => trafficSeeding.campaigns.slice(0, 4), [])
   const trafficCampaignProgress = useMemo(
     () =>
       new Map(
@@ -679,9 +666,64 @@ function App() {
       ),
     [events, trafficCampaigns],
   )
+  const organicSeedGeneratedTargetCampaign =
+    trafficCampaigns.find((campaign) => campaign.id === organicSeedLoop.target?.campaignId) ??
+    trafficCampaigns[0]
+  const organicSeedRuntimePick = useMemo(() => {
+    const openCampaigns = trafficCampaigns
+      .map((campaign) => {
+        const progress = trafficCampaignProgress.get(campaign.id)
+        const targetStarts =
+          progress?.targetStarts ?? campaign.measurement.targetStartsBeforeJudgment
+        const starts = progress?.starts ?? 0
+        const signals =
+          (progress?.seedClicks ?? 0) +
+          (progress?.shareActions ?? 0) +
+          (progress?.organicEntries ?? 0)
+
+        return {
+          campaign,
+          progress,
+          progressRatio: starts / Math.max(targetStarts, 1),
+          starts,
+          signals,
+        }
+      })
+      .filter(
+        ({ campaign, progress }) =>
+          campaign.costUsd === 0 &&
+          campaign.noPaidPromotion &&
+          progress?.sampleDecisionReady !== true,
+      )
+      .sort(
+        (left, right) =>
+          left.progressRatio - right.progressRatio ||
+          left.starts - right.starts ||
+          left.signals - right.signals ||
+          left.campaign.priority - right.campaign.priority,
+      )
+
+    return openCampaigns[0] ?? null
+  }, [trafficCampaignProgress, trafficCampaigns])
+  const organicSeedTargetCampaign =
+    organicSeedRuntimePick?.campaign ?? organicSeedGeneratedTargetCampaign
+  const organicSeedTargetSource = organicSeedRuntimePick ? 'local-balanced' : 'generated-plan'
+  const organicSeedCardVisible =
+    organicSeedLoop.runtimeSurface.status === 'armed' && Boolean(organicSeedTargetCampaign)
+  const organicSeedCampaignId = organicSeedTargetCampaign?.id ?? ''
+  const organicSeedGameId = organicSeedTargetCampaign?.gameId ?? ''
+  const organicSeedCampaignTitle = organicSeedTargetCampaign?.title ?? ''
+  const organicSeedPriority = organicSeedTargetCampaign?.priority ?? 0
+  const organicSeedCostUsd = organicSeedTargetCampaign?.costUsd ?? 0
+  const organicSeedSurface = organicSeedLoop.runtimeSurface.surface
+  const organicSeedPlacement = organicSeedLoop.runtimeSurface.placement
+  const acquisitionCampaigns = acquisitionLearning.campaigns.slice(0, 3)
   const organicSeedProgress = organicSeedTargetCampaign
     ? trafficCampaignProgress.get(organicSeedTargetCampaign.id)
     : null
+  const organicSeedSamplePercent = organicSeedProgress
+    ? organicSeedProgress.starts / Math.max(organicSeedProgress.targetStarts, 1)
+    : organicSeedLoop.target?.sampleProgress
   const localTrafficStarts = [...trafficCampaignProgress.values()].reduce(
     (sum, progress) => sum + progress.starts,
     0,
@@ -3118,8 +3160,12 @@ function App() {
                     <div>
                       <span>{organicSeedTargetCampaign.title}</span>
                       <strong>
-                        {formatPercent(organicSeedLoop.target?.sampleProgress)} sample
+                        {formatPercent(organicSeedSamplePercent)} sample
                       </strong>
+                    </div>
+                    <div>
+                      <span>Runtime pick</span>
+                      <strong>{organicSeedTargetSource}</strong>
                     </div>
                     <div>
                       <span>Local sample</span>
@@ -3175,18 +3221,37 @@ function App() {
                       <div>
                         <span>{campaign.title}</span>
                         <strong>
-                          {campaign.dataConfidence} · {progress?.starts ?? 0}/
+                          {campaign.id === organicSeedCampaignId ? 'next seed' : campaign.dataConfidence} ·{' '}
+                          {progress?.starts ?? 0}/
                           {campaign.measurement.targetStartsBeforeJudgment} local starts
                         </strong>
                       </div>
-                      <button
-                        aria-label={`Seed traffic for ${campaign.title}`}
-                        className="tinyButton"
-                        type="button"
-                        onClick={() => openSeedCampaign(campaign)}
-                      >
-                        {campaign.copy.cta}
-                      </button>
+                      <div className="campaignActions">
+                        <button
+                          aria-label={`Seed traffic for ${campaign.title}`}
+                          className="tinyButton"
+                          type="button"
+                          onClick={() => openSeedCampaign(campaign)}
+                        >
+                          {campaign.copy.cta}
+                        </button>
+                        <button
+                          aria-label={`Share seed link for ${campaign.title}`}
+                          className="tinyButton subtleButton"
+                          type="button"
+                          onClick={() => shareSeedCampaign(campaign)}
+                        >
+                          Share
+                        </button>
+                        <button
+                          aria-label={`Export evidence for ${campaign.title}`}
+                          className="tinyButton subtleButton"
+                          type="button"
+                          onClick={() => exportTrafficCampaignEvidence(campaign)}
+                        >
+                          Export
+                        </button>
+                      </div>
                     </div>
                   )
                 })}

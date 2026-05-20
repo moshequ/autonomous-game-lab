@@ -209,6 +209,12 @@ test('organic seed loop records player-initiated seed and share telemetry', asyn
       exportProperties: string[]
     }
   }
+  const traffic = JSON.parse(await readFile('data/traffic-seeding.json', 'utf8')) as {
+    campaigns: Array<{ id: string; gameId: string; title: string }>
+  }
+  const nextRuntimeCampaign =
+    traffic.campaigns.find((campaign) => campaign.id !== loop.target.campaignId) ??
+    traffic.campaigns[0]
 
   await page.addInitScript(() => {
     Object.defineProperty(navigator, 'share', {
@@ -231,6 +237,7 @@ test('organic seed loop records player-initiated seed and share telemetry', asyn
   await expect(seedPanel).toContainText(loop.status)
   await expect(seedPanel).toContainText(loop.target.title)
   await expect(seedPanel).toContainText('Local sample')
+  await expect(seedPanel).toContainText('Runtime pick')
   await expect(seedPanel).toContainText('Export state')
   expect(loop.runtimeProgressPolicy.status).toBe('active')
   expect(loop.runtimeProgressPolicy.storageKey).toBe('agl.analytics.events')
@@ -243,6 +250,7 @@ test('organic seed loop records player-initiated seed and share telemetry', asyn
   expect(openedSeedUrl.searchParams.get('game')).toBe(loop.target.gameId)
   expect(openedSeedUrl.searchParams.get('utm_source')).toBe('seed_internal')
   expect(openedSeedUrl.searchParams.get('utm_campaign')).toBe(loop.target.campaignId)
+  await expect(seedPanel).toContainText(nextRuntimeCampaign.title)
   await seedPanel.getByRole('button', { name: loop.runtimeSurface.secondaryCtaLabel }).click()
 
   const copiedShareUrl = await page.evaluate(
@@ -251,9 +259,9 @@ test('organic seed loop records player-initiated seed and share telemetry', asyn
   const copiedShare = new URL(copiedShareUrl)
   expect(copiedShare.protocol).toMatch(/^https?:$/)
   expect(copiedShare.hostname).not.toBe('autonomous-game-lab.example.com')
-  expect(copiedShare.searchParams.get('game')).toBe(loop.target.gameId)
+  expect(copiedShare.searchParams.get('game')).toBe(nextRuntimeCampaign.gameId)
   expect(copiedShare.searchParams.get('utm_source')).toBe('seed_share')
-  expect(copiedShare.searchParams.get('utm_campaign')).toBe(loop.target.campaignId)
+  expect(copiedShare.searchParams.get('utm_campaign')).toBe(nextRuntimeCampaign.id)
 
   await expect
     .poll(async () =>
@@ -265,27 +273,32 @@ test('organic seed loop records player-initiated seed and share telemetry', asyn
     )
     .toBe(true)
 
-  await expect(seedPanel).toContainText(/Local actions[1-9]\d* signals/)
+  await expect(seedPanel).toContainText('local-balanced')
 
   const events = await page.evaluate(() => {
     const raw = window.localStorage.getItem('agl.analytics.events')
     return raw ? JSON.parse(raw) : []
   })
-  const viewed = events.findLast((event: { name: string }) => event.name === loop.runtimeSurface.telemetry.viewed)
+  const viewedCampaignIds = events
+    .filter((event: { name: string }) => event.name === loop.runtimeSurface.telemetry.viewed)
+    .map((event: { properties: Record<string, string> }) => event.properties.campaignId)
   const opened = events.findLast((event: { name: string }) => event.name === loop.runtimeSurface.telemetry.opened)
   const shared = events.findLast((event: { name: string }) => event.name === loop.runtimeSurface.telemetry.shared)
   const share = events.findLast((event: { name: string }) => event.name === loop.runtimeSurface.telemetry.share)
 
-  expect(viewed.properties.surface).toBe(loop.runtimeSurface.surface)
-  expect(viewed.properties.campaignId).toBe(loop.target.campaignId)
+  expect(viewedCampaignIds).toContain(loop.target.campaignId)
+  expect(viewedCampaignIds).toContain(nextRuntimeCampaign.id)
   expect(opened.properties.campaignId).toBe(loop.target.campaignId)
   expect(opened.properties.gameId).toBe(loop.target.gameId)
-  expect(shared.properties.campaignId).toBe(loop.target.campaignId)
+  expect(shared.properties.campaignId).toBe(nextRuntimeCampaign.id)
   expect(shared.properties.channel).toBe('player-share')
   expect(share.properties.seeded).toBe(true)
 
   const downloadPromise = page.waitForEvent('download')
-  await seedPanel.getByRole('button', { name: 'Export seed evidence' }).click()
+  await page
+    .getByLabel('Traffic Seeding')
+    .getByRole('button', { name: `Export evidence for ${nextRuntimeCampaign.title}` })
+    .click()
   const download = await downloadPromise
   const downloadPath = await download.path()
 
@@ -304,18 +317,17 @@ test('organic seed loop records player-initiated seed and share telemetry', asyn
     )
 
     expect(exportEvent?.properties).toMatchObject({
-      gameId: loop.target.gameId,
-      campaignId: loop.target.campaignId,
+      gameId: nextRuntimeCampaign.gameId,
+      campaignId: nextRuntimeCampaign.id,
       exportSurface: loop.runtimeProgressPolicy.exportSurface,
       noPaidPromotion: true,
       costUsd: 0,
       localEvidenceDropReady: true,
-      acquisitionCampaign: loop.target.campaignId,
+      acquisitionCampaign: nextRuntimeCampaign.id,
       acquisitionSource: 'seed_share',
       acquisitionChannel: 'player-share',
     })
     expect(Number(exportEvent?.properties.localCampaignEvents ?? 0)).toBeGreaterThanOrEqual(3)
-    expect(Number(exportEvent?.properties.localSeedClicks ?? 0)).toBeGreaterThanOrEqual(1)
     expect(Number(exportEvent?.properties.localShareActions ?? 0)).toBeGreaterThanOrEqual(1)
     expect(Number(exportEvent?.properties.localStartsRemaining ?? -1)).toBeGreaterThanOrEqual(0)
   }

@@ -384,6 +384,12 @@
   gap: 2px;
 }
 
+.campaignRow .campaignActions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
 .campaignRow span {
   color: var(--ink);
   font-weight: 800;
