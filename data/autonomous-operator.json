@@ -1,36 +1,37 @@
 {
-  "generatedAt": "2026-05-20T22:58:51.293Z",
+  "generatedAt": "2026-05-20T23:11:06.318Z",
   "status": "operator-plan-ready",
   "mode": "plan-only",
   "ownerDecision": {
-    "actionId": "refresh-autonomous-cadence",
-    "command": "npm run autonomous:cadence",
+    "actionId": "optimize-store-listing",
+    "command": "npm run autonomous:store-listing-optimize && npm run autonomous:store-compliance",
     "locallyExecutable": true,
     "rejectionReason": null
   },
   "requestedActionId": null,
   "selectedAction": {
-    "id": "refresh-autonomous-cadence",
+    "id": "optimize-store-listing",
     "status": "armed",
-    "command": "npm run autonomous:cadence",
+    "command": "npm run autonomous:store-listing-optimize && npm run autonomous:store-compliance",
     "targets": [
-      "autonomous-game-lab-daily-owner-loop",
-      ".github/workflows/autonomous-daily.yml"
+      "canopy-bloom"
     ],
-    "reason": "Keeps the unattended daily operating cadence, recovery policy, and verification chain auditable.",
+    "reason": "Keeps store copy, keyword themes, screenshots, and compliance drafts aligned with behavior signals.",
     "costUsd": 0
   },
   "selectedRejection": null,
   "eligibleActionIds": [
     "refresh-autonomous-cadence",
     "refresh-autonomous-self-update",
+    "seed-portfolio-traffic",
+    "refresh-organic-seed-loop",
     "refresh-support-feedback",
-    "optimize-daily-retention",
     "measure-pwa-install-loop",
     "check-performance-budget",
     "prepare-release-candidate",
     "run-post-deploy-smoke",
     "refresh-product-gate-recovery",
+    "refresh-objective-audit",
     "optimize-store-listing"
   ],
   "blockedActions": [
@@ -41,6 +42,12 @@
       "reason": "daily-loop-recursion-blocked"
     },
     {
+      "id": "refresh-autonomous-cadence",
+      "status": "armed",
+      "command": "npm run autonomous:cadence",
+      "reason": "not-selected-this-run"
+    },
+    {
       "id": "refresh-autonomous-self-update",
       "status": "armed",
       "command": "npm run autonomous:self-update",
@@ -48,15 +55,15 @@
     },
     {
       "id": "seed-portfolio-traffic",
-      "status": "monitor",
+      "status": "armed",
       "command": "npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop",
-      "reason": "status-monitor"
+      "reason": "not-selected-this-run"
     },
     {
       "id": "refresh-organic-seed-loop",
-      "status": "monitor",
+      "status": "armed",
       "command": "npm run autonomous:organic-seed-loop",
-      "reason": "status-monitor"
+      "reason": "not-selected-this-run"
     },
     {
       "id": "refresh-support-feedback",
@@ -66,9 +73,9 @@
     },
     {
       "id": "optimize-daily-retention",
-      "status": "armed",
+      "status": "monitor",
       "command": "npm run autonomous:retention",
-      "reason": "not-selected-this-run"
+      "reason": "status-monitor"
     },
     {
       "id": "measure-pwa-install-loop",
@@ -174,14 +181,8 @@
     },
     {
       "id": "refresh-objective-audit",
-      "status": "monitor",
-      "command": "npm run autonomous:objective-audit",
-      "reason": "status-monitor"
-    },
-    {
-      "id": "optimize-store-listing",
       "status": "armed",
-      "command": "npm run autonomous:store-listing-optimize && npm run autonomous:store-compliance",
+      "command": "npm run autonomous:objective-audit",
       "reason": "not-selected-this-run"
     },
     {
@@ -211,8 +212,12 @@
   ],
   "commandPlan": [
     {
-      "segment": "npm run autonomous:cadence",
-      "script": "autonomous:cadence"
+      "segment": "npm run autonomous:store-listing-optimize",
+      "script": "autonomous:store-listing-optimize"
+    },
+    {
+      "segment": "npm run autonomous:store-compliance",
+      "script": "autonomous:store-compliance"
     }
   ],
   "execution": {
@@ -282,7 +287,7 @@
     "RUN_WORKFLOWS=1"
   ],
   "nextActions": [
-    "Run npm run autonomous:operator -- --execute --action=refresh-autonomous-cadence to execute exactly one allowed local action.",
+    "Run npm run autonomous:operator -- --execute --action=optimize-store-listing to execute exactly one allowed local action.",
     "Do not execute GitHub workflow, store, paid ads, or account setup commands from the local operator."
   ]
 }

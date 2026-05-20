@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-20T22:58:51.070Z",
+  "generatedAt": "2026-05-20T23:11:06.089Z",
   "status": "owner-loop-ready",
   "mode": "zero-spend-web-ready",
   "autonomyScore": {
@@ -21,36 +21,37 @@
     "repositoryHandoffPrepared": false
   },
   "ownerDecision": {
-    "nextBestActionId": "refresh-autonomous-cadence",
-    "nextBestAction": "npm run autonomous:cadence",
+    "nextBestActionId": "optimize-store-listing",
+    "nextBestAction": "npm run autonomous:store-listing-optimize && npm run autonomous:store-compliance",
     "canExecuteWithoutSpend": true,
-    "rationale": "Keeps the unattended daily operating cadence, recovery policy, and verification chain auditable."
+    "rationale": "Keeps store copy, keyword themes, screenshots, and compliance drafts aligned with behavior signals."
   },
   "executionMemory": {
     "avoidImmediateRepeat": true,
     "recentExecutionWindow": 8,
     "recentExecutedActionIds": [
+      "collect-gate-sample-downloads",
+      "check-performance-budget",
+      "refresh-support-feedback",
+      "refresh-autonomous-self-update",
+      "refresh-autonomous-cadence",
       "collect-live-events",
       "seed-portfolio-traffic",
-      "measure-pwa-install-loop",
-      "optimize-store-listing",
-      "optimize-daily-retention",
-      "bootstrap-production-setup",
-      "check-performance-budget",
-      "refresh-support-feedback"
+      "measure-pwa-install-loop"
     ],
-    "lastExecutedActionId": "collect-live-events",
+    "lastExecutedActionId": "collect-gate-sample-downloads",
     "lastExecutedStatus": "executed",
     "lastRecordExecutionStatus": "not-requested",
     "recentlySatisfiedActionIds": [
+      "collect-live-events",
       "refresh-product-gate-recovery",
       "refresh-product-gate-sample-plan",
       "refresh-organic-seed-loop"
     ],
     "objectiveAuditFreshness": {
-      "fresh": true,
+      "fresh": false,
       "structurallyReady": true,
-      "auditGeneratedAt": "2026-05-20T22:58:50.823Z",
+      "auditGeneratedAt": "2026-05-20T23:10:27.088Z",
       "evaluatedInputIds": [
         "analytics-rollup",
         "event-ingest",
@@ -65,7 +66,11 @@
         "monetization-plan",
         "android-release"
       ],
-      "staleInputIds": []
+      "staleInputIds": [
+        "production-activation",
+        "repository-readiness",
+        "repository-bootstrap"
+      ]
     },
     "sourceFreshness": {
       "productOptimization": {
@@ -82,12 +87,12 @@
         ]
       },
       "retentionLoop": {
-        "current": false,
-        "ready": false,
+        "current": true,
+        "ready": true,
         "status": "retention-loop-ready",
-        "artifactGeneratedAt": "2026-05-20T22:45:47.236Z",
-        "artifactSourceDataHash": "ce56ddbe487e",
-        "sourceDataHash": "05a8f31db893",
+        "artifactGeneratedAt": "2026-05-20T23:09:22.025Z",
+        "artifactSourceDataHash": "075199d2c45f",
+        "sourceDataHash": "075199d2c45f",
         "evaluatedInputIds": [
           "analytics-rollup",
           "portfolio-policy",
@@ -130,12 +135,12 @@
         ]
       },
       "organicSeedLoop": {
-        "current": true,
-        "ready": true,
+        "current": false,
+        "ready": false,
         "status": "organic-seed-loop-ready",
         "artifactGeneratedAt": "2026-05-20T22:47:01.024Z",
         "artifactSourceDataHash": "246b7951e43c",
-        "sourceDataHash": "246b7951e43c",
+        "sourceDataHash": "30a9c3a4ec79",
         "evaluatedInputIds": [
           "playable-games",
           "analytics-rollup",
@@ -219,7 +224,7 @@
       "enabled": true,
       "cooldownHours": 4,
       "coolingDown": true,
-      "lastExplicitScanAt": "2026-05-20T19:03:48.635Z",
+      "lastExplicitScanAt": "2026-05-20T23:03:31.409Z",
       "lastExplicitScanStatus": "no-evidence-found",
       "evidenceReadyNow": false
     },
@@ -227,7 +232,7 @@
       "current": true,
       "ready": true,
       "status": "bridge-waiting-for-export",
-      "bridgeGeneratedAt": "2026-05-20T22:52:25.183Z",
+      "bridgeGeneratedAt": "2026-05-20T23:03:31.409Z",
       "analyticsSource": "fixture-sample",
       "evidenceReadyNow": false,
       "evaluatedInputIds": [
@@ -240,13 +245,15 @@
       "staleInputIds": []
     },
     "skippedRecentlyExecutedActionIds": [
+      "refresh-autonomous-cadence",
+      "refresh-autonomous-self-update",
+      "seed-portfolio-traffic",
       "refresh-support-feedback",
-      "optimize-daily-retention",
       "measure-pwa-install-loop",
-      "check-performance-budget",
-      "optimize-store-listing"
+      "check-performance-budget"
     ],
     "skippedRecentlySatisfiedActionIds": [
+      "refresh-organic-seed-loop",
       "refresh-product-gate-recovery"
     ],
     "preferredActionOrder": [
@@ -281,7 +288,7 @@
     },
     "productionBootstrapFreshness": {
       "fresh": true,
-      "bootstrapGeneratedAt": "2026-05-20T22:56:00.137Z",
+      "bootstrapGeneratedAt": "2026-05-20T23:10:38.462Z",
       "evaluatedInputIds": [
         "release-candidate",
         "deployment-plan",
@@ -347,7 +354,7 @@
       "id": "autonomous-self-update",
       "status": "ready",
       "autonomy": "gated-generated-change-persistence",
-      "evidence": "Self-update self-update-ready; safe pending 0; unsafe pending 0; remote push held.",
+      "evidence": "Self-update self-update-ready; safe pending 17; unsafe pending 0; remote push held.",
       "nextAction": "When a GitHub repository is connected, set AGL_AUTONOMOUS_SELF_UPDATE=1 and AGL_AUTONOMOUS_SELF_UPDATE_DIRECT=1 to let verified generated changes persist."
     },
     {
@@ -396,7 +403,7 @@
       "id": "performance-budget",
       "status": "ready",
       "autonomy": "automatic-build-budget",
-      "evidence": "Initial JS 649 KB; gzip 177.8 KB; deferred chunks 1.",
+      "evidence": "Initial JS 649.1 KB; gzip 177.8 KB; deferred chunks 1.",
       "nextAction": "Keep Phaser and game scenes outside the initial PWA shell."
     },
     {
@@ -495,7 +502,7 @@
       "status": "ready",
       "autonomy": "read-only-live-deploy-verification",
       "evidence": "Smoke post-deploy-smoke-observed-live; origin https://moshequ.github.io/autonomous-game-lab; manifest comparison required; checks 15/15 passed; local artifact predeploy-artifact-smoke-passed 15/15 passed.",
-      "nextAction": "Live Pages is reachable and serving pwa-952bdd1e7815; run the deploy workflow for strict proof of the current local candidate if needed."
+      "nextAction": "Live Pages is reachable and serving pwa-62aaa5bb3a31; run the deploy workflow for strict proof of the current local candidate if needed."
     },
     {
       "id": "post-deploy-artifact-sync",
@@ -529,14 +536,14 @@
       "id": "autonomous-operator",
       "status": "ready",
       "autonomy": "one-safe-action-runner",
-      "evidence": "Operator operator-plan-ready; selected refresh-autonomous-cadence; execution not-requested.",
+      "evidence": "Operator operator-plan-ready; selected optimize-store-listing; execution not-requested.",
       "nextAction": "Keep a dry-run operator plan ready, then execute only one allowlisted local action when explicitly requested."
     },
     {
       "id": "operator-history",
       "status": "ready",
       "autonomy": "operator-audit-trail",
-      "evidence": "History operator-history-ready; records 40; executed 15.",
+      "evidence": "History operator-history-ready; records 40; executed 14.",
       "nextAction": "Keep a capped durable record of operator plans and one-action executions."
     },
     {
@@ -620,7 +627,7 @@
     },
     {
       "id": "seed-portfolio-traffic",
-      "status": "monitor",
+      "status": "armed",
       "costUsd": 0,
       "command": "npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop",
       "targets": [
@@ -629,17 +636,17 @@
         "metro-loom",
         "pocket-draft"
       ],
-      "reason": "Traffic campaigns, acquisition learning, and organic seed surface already reflect the current inputs."
+      "reason": "Under-measured playable games need free organic/internal traffic before quality judgment."
     },
     {
       "id": "refresh-organic-seed-loop",
-      "status": "monitor",
+      "status": "armed",
       "costUsd": 0,
       "command": "npm run autonomous:organic-seed-loop",
       "targets": [
         "canopy-bloom"
       ],
-      "reason": "Organic seed surface already reflects current traffic, acquisition, retention, and analytics inputs."
+      "reason": "Refreshes the player-initiated zero-cost share surface for the highest-opportunity seed campaign."
     },
     {
       "id": "refresh-support-feedback",
@@ -653,13 +660,13 @@
     },
     {
       "id": "optimize-daily-retention",
-      "status": "armed",
+      "status": "monitor",
       "costUsd": 0,
       "command": "npm run autonomous:retention",
       "targets": [
         "canopy-bloom"
       ],
-      "reason": "Keeps daily challenge, local streak prompts, and retention-safe missions aligned with behavior data."
+      "reason": "Daily challenge, return-intent, and D1 sample policies already reflect current retention evidence."
     },
     {
       "id": "measure-pwa-install-loop",
@@ -678,7 +685,7 @@
       "command": "npm run build && npm run autonomous:performance",
       "targets": [
         "pwa-shell",
-        "GameCanvas-yBByWBAz.js"
+        "GameCanvas-DxPYmxwm.js"
       ],
       "reason": "Keeps the PWA shell fast while Phaser and game scenes stay deferred."
     },
@@ -826,7 +833,7 @@
       "costUsd": 0,
       "command": "npm run autonomous:operator",
       "targets": [
-        "refresh-autonomous-cadence"
+        "optimize-store-listing"
       ],
       "reason": "Publishes the one-action local execution plan with allowlist, zero-spend, and audit controls."
     },
@@ -836,20 +843,20 @@
       "costUsd": 0,
       "command": "npm run autonomous:operator",
       "targets": [
-        "refresh-autonomous-cadence"
+        "optimize-store-listing"
       ],
       "reason": "Refreshes the capped operator history so safe actions remain auditable over time."
     },
     {
       "id": "refresh-objective-audit",
-      "status": "monitor",
+      "status": "armed",
       "costUsd": 0,
       "command": "npm run autonomous:objective-audit",
       "targets": [
         "objective-evidence",
         "production-blockers"
       ],
-      "reason": "Objective audit already covers the current upstream evidence; keep it monitored while product and data actions run."
+      "reason": "Keeps the original objective mapped to current evidence and prevents false completion claims."
     },
     {
       "id": "optimize-store-listing",

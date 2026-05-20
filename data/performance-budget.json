@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-20T22:55:54.599Z",
+  "generatedAt": "2026-05-20T23:10:32.604Z",
   "status": "performance-budget-ready",
   "sourceBuild": "dist",
   "basePath": "/",
@@ -15,20 +15,20 @@
   },
   "initial": {
     "entryScripts": [
-      "index-CqUb7GZw.js",
+      "index-CAfOzO1A.js",
       "registerSW.js"
     ],
     "scriptPaths": [
-      "assets/index-CqUb7GZw.js",
+      "assets/index-CAfOzO1A.js",
       "registerSW.js"
     ],
     "jsFiles": [
       {
-        "file": "index-CqUb7GZw.js",
-        "path": "assets/index-CqUb7GZw.js",
-        "bytes": 664376,
-        "kb": 648.8,
-        "gzipBytes": 181897,
+        "file": "index-CAfOzO1A.js",
+        "path": "assets/index-CAfOzO1A.js",
+        "bytes": 664459,
+        "kb": 648.9,
+        "gzipBytes": 181893,
         "gzipKb": 177.6
       },
       {
@@ -40,9 +40,9 @@
         "gzipKb": 0.1
       }
     ],
-    "jsBytes": 664550,
-    "jsKb": 649,
-    "gzipBytes": 182038,
+    "jsBytes": 664633,
+    "jsKb": 649.1,
+    "gzipBytes": 182034,
     "gzipKb": 177.8,
     "cssFiles": [
       {
@@ -62,36 +62,36 @@
   "deferred": {
     "chunks": [
       {
-        "file": "GameCanvas-yBByWBAz.js",
-        "path": "assets/GameCanvas-yBByWBAz.js",
+        "file": "GameCanvas-DxPYmxwm.js",
+        "path": "assets/GameCanvas-DxPYmxwm.js",
         "bytes": 1393554,
         "kb": 1360.9,
-        "gzipBytes": 356111,
+        "gzipBytes": 356110,
         "gzipKb": 347.8
       }
     ],
     "gameChunk": {
-      "file": "GameCanvas-yBByWBAz.js",
-      "path": "assets/GameCanvas-yBByWBAz.js",
+      "file": "GameCanvas-DxPYmxwm.js",
+      "path": "assets/GameCanvas-DxPYmxwm.js",
       "bytes": 1393554,
       "kb": 1360.9,
-      "gzipBytes": 356111,
+      "gzipBytes": 356110,
       "gzipKb": 347.8
     },
     "largestDeferredChunk": {
-      "file": "GameCanvas-yBByWBAz.js",
-      "path": "assets/GameCanvas-yBByWBAz.js",
+      "file": "GameCanvas-DxPYmxwm.js",
+      "path": "assets/GameCanvas-DxPYmxwm.js",
       "bytes": 1393554,
       "kb": 1360.9,
-      "gzipBytes": 356111,
+      "gzipBytes": 356110,
       "gzipKb": 347.8
     },
     "largestJsChunk": {
-      "file": "GameCanvas-yBByWBAz.js",
-      "path": "assets/GameCanvas-yBByWBAz.js",
+      "file": "GameCanvas-DxPYmxwm.js",
+      "path": "assets/GameCanvas-DxPYmxwm.js",
       "bytes": 1393554,
       "kb": 1360.9,
-      "gzipBytes": 356111,
+      "gzipBytes": 356110,
       "gzipKb": 347.8
     },
     "chunksBytes": 1393554,
@@ -100,19 +100,19 @@
   "assets": {
     "js": [
       {
-        "file": "GameCanvas-yBByWBAz.js",
-        "path": "assets/GameCanvas-yBByWBAz.js",
+        "file": "GameCanvas-DxPYmxwm.js",
+        "path": "assets/GameCanvas-DxPYmxwm.js",
         "bytes": 1393554,
         "kb": 1360.9,
-        "gzipBytes": 356111,
+        "gzipBytes": 356110,
         "gzipKb": 347.8
       },
       {
-        "file": "index-CqUb7GZw.js",
-        "path": "assets/index-CqUb7GZw.js",
-        "bytes": 664376,
-        "kb": 648.8,
-        "gzipBytes": 181897,
+        "file": "index-CAfOzO1A.js",
+        "path": "assets/index-CAfOzO1A.js",
+        "bytes": 664459,
+        "kb": 648.9,
+        "gzipBytes": 181893,
         "gzipKb": 177.6
       },
       {
@@ -150,7 +150,7 @@
     {
       "id": "initial-js-budget",
       "status": "pass",
-      "detail": "Initial JS is 649 KB; budget is 675 KB."
+      "detail": "Initial JS is 649.1 KB; budget is 675 KB."
     },
     {
       "id": "initial-js-gzip-budget",
@@ -175,12 +175,12 @@
     {
       "id": "game-runtime-deferred",
       "status": "pass",
-      "detail": "GameCanvas-yBByWBAz.js is deferred from the initial shell."
+      "detail": "GameCanvas-DxPYmxwm.js is deferred from the initial shell."
     },
     {
       "id": "largest-js-deferred",
       "status": "pass",
-      "detail": "Largest JS chunk is GameCanvas-yBByWBAz.js at 1360.9 KB."
+      "detail": "Largest JS chunk is GameCanvas-DxPYmxwm.js at 1360.9 KB."
     },
     {
       "id": "deferred-game-budget",
