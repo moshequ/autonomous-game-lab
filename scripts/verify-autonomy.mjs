@@ -2709,6 +2709,8 @@ if (
   !bundleSyncScript.includes('autonomous:repo-readiness') ||
   !bundleSyncScript.includes('autonomous:repo-bootstrap') ||
   !bundleSyncScript.includes('autonomous:deploy-plan') ||
+  !bundleSyncScript.includes('autonomous:bootstrap') ||
+  !bundleSyncScript.includes('autonomous:activate-production') ||
   !bundleSyncScript.includes('autonomous:owner-loop') ||
   !bundleSyncScript.includes('autonomous:objective-audit') ||
   !bundleSyncScript.includes('autonomous:readiness') ||
