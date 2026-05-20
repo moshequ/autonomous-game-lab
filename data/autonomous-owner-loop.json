@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-20T02:46:29.281Z",
+  "generatedAt": "2026-05-20T02:48:10.310Z",
   "status": "owner-loop-ready",
   "mode": "repository-channel-needed",
   "autonomyScore": {
@@ -258,7 +258,7 @@
       "id": "production-bootstrap",
       "status": "ready",
       "autonomy": "zero-spend-setup-orchestration",
-      "evidence": "Bootstrap production-bootstrap-ready; mode waiting-for-external-credentials; external blockers 23.",
+      "evidence": "Bootstrap production-bootstrap-ready; mode waiting-for-external-credentials; external blockers 22.",
       "nextAction": "Fill required environment values, then run npm run autonomous:bootstrap."
     },
     {

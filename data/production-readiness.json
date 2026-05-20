@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-20T02:46:27.736Z",
+  "generatedAt": "2026-05-20T02:48:10.082Z",
   "environment": {
     "status": "production-env-missing",
     "publicOrigin": null,
@@ -75,43 +75,20 @@
         "originRemote": null,
         "remoteRepository": null,
         "hasCommit": true,
-        "dirtyFiles": 14,
+        "dirtyFiles": 3,
         "dirtyPaths": [
-          "data/event-collector-deployment.json",
-          "data/production-environment.json",
           "data/repository-readiness.json",
-          "ops/cloudflare/README.md",
-          "ops/production.env.example",
-          "reports/event-collector-deployment-latest.md",
-          "reports/production-environment-latest.md",
           "reports/repository-readiness-latest.md",
-          "scripts/production-environment.mjs",
-          "scripts/verify-autonomy.mjs",
-          "src/data/eventCollectorDeployment.ts",
-          "src/data/productionEnvironment.ts",
-          "src/data/repositoryReadiness.ts",
-          "tests/smoke.spec.ts"
-        ],
-        "generatedEvidenceDirtyFiles": 9,
-        "generatedEvidenceDirtyPaths": [
-          "data/event-collector-deployment.json",
-          "data/production-environment.json",
-          "data/repository-readiness.json",
-          "reports/event-collector-deployment-latest.md",
-          "reports/production-environment-latest.md",
-          "reports/repository-readiness-latest.md",
-          "src/data/eventCollectorDeployment.ts",
-          "src/data/productionEnvironment.ts",
           "src/data/repositoryReadiness.ts"
         ],
-        "nonGeneratedDirtyFiles": 5,
-        "nonGeneratedDirtyPaths": [
-          "ops/cloudflare/README.md",
-          "ops/production.env.example",
-          "scripts/production-environment.mjs",
-          "scripts/verify-autonomy.mjs",
-          "tests/smoke.spec.ts"
-        ]
+        "generatedEvidenceDirtyFiles": 3,
+        "generatedEvidenceDirtyPaths": [
+          "data/repository-readiness.json",
+          "reports/repository-readiness-latest.md",
+          "src/data/repositoryReadiness.ts"
+        ],
+        "nonGeneratedDirtyFiles": 0,
+        "nonGeneratedDirtyPaths": []
       },
       "after": {
         "insideWorkTree": true,
@@ -120,43 +97,20 @@
         "originRemote": null,
         "remoteRepository": null,
         "hasCommit": true,
-        "dirtyFiles": 14,
+        "dirtyFiles": 3,
         "dirtyPaths": [
-          "data/event-collector-deployment.json",
-          "data/production-environment.json",
           "data/repository-readiness.json",
-          "ops/cloudflare/README.md",
-          "ops/production.env.example",
-          "reports/event-collector-deployment-latest.md",
-          "reports/production-environment-latest.md",
           "reports/repository-readiness-latest.md",
-          "scripts/production-environment.mjs",
-          "scripts/verify-autonomy.mjs",
-          "src/data/eventCollectorDeployment.ts",
-          "src/data/productionEnvironment.ts",
-          "src/data/repositoryReadiness.ts",
-          "tests/smoke.spec.ts"
-        ],
-        "generatedEvidenceDirtyFiles": 9,
-        "generatedEvidenceDirtyPaths": [
-          "data/event-collector-deployment.json",
-          "data/production-environment.json",
-          "data/repository-readiness.json",
-          "reports/event-collector-deployment-latest.md",
-          "reports/production-environment-latest.md",
-          "reports/repository-readiness-latest.md",
-          "src/data/eventCollectorDeployment.ts",
-          "src/data/productionEnvironment.ts",
           "src/data/repositoryReadiness.ts"
         ],
-        "nonGeneratedDirtyFiles": 5,
-        "nonGeneratedDirtyPaths": [
-          "ops/cloudflare/README.md",
-          "ops/production.env.example",
-          "scripts/production-environment.mjs",
-          "scripts/verify-autonomy.mjs",
-          "tests/smoke.spec.ts"
-        ]
+        "generatedEvidenceDirtyFiles": 3,
+        "generatedEvidenceDirtyPaths": [
+          "data/repository-readiness.json",
+          "reports/repository-readiness-latest.md",
+          "src/data/repositoryReadiness.ts"
+        ],
+        "nonGeneratedDirtyFiles": 0,
+        "nonGeneratedDirtyPaths": []
       }
     },
     "repository": {
@@ -241,13 +195,13 @@
       },
       {
         "id": "commit-current-snapshot",
-        "status": "ready-for-explicit-snapshot-commit",
+        "status": "ready",
         "costUsd": 0,
         "command": "AGL_ALLOW_REPOSITORY_BOOTSTRAP=1 AGL_ALLOW_SNAPSHOT_COMMIT=1 ./ops/github/bootstrap-repository.sh",
         "mutatesLocalGit": true,
         "mutatesRemoteGitHub": false,
         "requiresExplicitEnv": true,
-        "detail": "5 non-generated source or artifact file(s) are not committed yet."
+        "detail": "3 repository evidence file(s) changed during this dry run; the outer verified commit will persist them."
       },
       {
         "id": "set-or-create-origin",
@@ -277,11 +231,10 @@
         "mutatesLocalGit": false,
         "mutatesRemoteGitHub": true,
         "requiresExplicitEnv": true,
-        "detail": "Push stays held until a committed local snapshot and origin remote exist."
+        "detail": "Push stays held until an origin remote exists and AGL_ALLOW_PUSH=1 is set."
       }
     ],
     "blockers": [
-      "Commit current generated changes before pushing to GitHub Pages.",
       "Set GITHUB_REPOSITORY/GH_REPO, AGL_GITHUB_OWNER, or authenticate gh so the intended owner/repo can be inferred.",
       "Attach a GitHub origin remote or create the target repository.",
       "Authenticate GitHub CLI or provide GH_TOKEN/GITHUB_TOKEN for remote repository bootstrap."
@@ -430,7 +383,7 @@
       {
         "id": "production-bootstrap",
         "status": "pass",
-        "detail": "Production bootstrap is production-bootstrap-ready; mode waiting-for-external-credentials; external blockers 23."
+        "detail": "Production bootstrap is production-bootstrap-ready; mode waiting-for-external-credentials; external blockers 22."
       },
       {
         "id": "autonomous-operator",
@@ -2146,7 +2099,7 @@
       "totalVariables": 24,
       "configuredSecrets": 3,
       "totalSecrets": 8,
-      "externalBlockers": 23
+      "externalBlockers": 22
     },
     "controls": {
       "zeroSpendGuard": true,
@@ -2195,7 +2148,6 @@
         "command": "npm run autonomous:repo-bootstrap",
         "evidence": "Repository bootstrap waiting-for-github-target; helper ops/github/bootstrap-repository.sh; local git ready.",
         "requires": [
-          "Commit current generated changes before pushing to GitHub Pages.",
           "Set GITHUB_REPOSITORY/GH_REPO, AGL_GITHUB_OWNER, or authenticate gh so the intended owner/repo can be inferred.",
           "Attach a GitHub origin remote or create the target repository.",
           "Authenticate GitHub CLI or provide GH_TOKEN/GITHUB_TOKEN for remote repository bootstrap."
@@ -2395,10 +2347,6 @@
       {
         "source": "repository-readiness",
         "blocker": "Authenticate GitHub CLI or configure GH_TOKEN/GITHUB_TOKEN for workflow dispatch and repository settings sync."
-      },
-      {
-        "source": "repository-bootstrap",
-        "blocker": "Commit current generated changes before pushing to GitHub Pages."
       },
       {
         "source": "repository-bootstrap",

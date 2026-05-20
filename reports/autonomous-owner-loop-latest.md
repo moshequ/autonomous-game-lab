@@ -1,6 +1,6 @@
 # Autonomous Owner Loop
 
-Generated: 2026-05-20T02:46:29.281Z
+Generated: 2026-05-20T02:48:10.310Z
 Status: owner-loop-ready
 Mode: repository-channel-needed
 Autonomy score: 33/35 (94%)
@@ -40,7 +40,7 @@ Autonomy score: 33/35 (94%)
 - ready: web-deployment - Deployment ready-for-pages; web readiness ready-after-build; promotion promotable-internal.
 - ready: release-candidate - Candidate pwa-2bb0bfa27f5c; status release-candidate-ready; files 42; smoke URLs 13.
 - ready: post-deploy-smoke - Smoke blocked-missing-origin; origin missing; candidate pwa-2bb0bfa27f5c; checks 0/14 passed; local artifact predeploy-artifact-smoke-passed 14/14 passed.
-- ready: production-bootstrap - Bootstrap production-bootstrap-ready; mode waiting-for-external-credentials; external blockers 23.
+- ready: production-bootstrap - Bootstrap production-bootstrap-ready; mode waiting-for-external-credentials; external blockers 22.
 - ready: autonomous-operator - Operator operator-plan-ready; selected refresh-product-gate-recovery; execution not-requested.
 - ready: operator-history - History operator-history-ready; records 40; executed 20.
 - ready: objective-audit - Audit objective-in-progress; met 5/8; external blockers 20.
