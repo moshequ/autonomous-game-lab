@@ -1,9 +1,9 @@
 # Portfolio Policy
 
-Generated: 2026-05-20T20:50:24.482Z
+Generated: 2026-05-20T21:51:50.430Z
 Status: portfolio-policy-ready
 Analytics source: fixture-sample
-Daily challenge: Canopy Bloom (daily-20260520-2mi)
+Daily challenge: Canopy Bloom (daily-20260521-13f)
 
 ## Rotation
 

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-20T21:46:44.001Z",
+  "generatedAt": "2026-05-20T21:53:26.563Z",
   "status": "owner-loop-ready",
   "mode": "zero-spend-web-ready",
   "autonomyScore": {
@@ -21,25 +21,25 @@
     "repositoryHandoffPrepared": false
   },
   "ownerDecision": {
-    "nextBestActionId": "measure-pwa-install-loop",
-    "nextBestAction": "npm run autonomous:pwa-install",
+    "nextBestActionId": "refresh-replay-loop",
+    "nextBestAction": "npm run autonomous:replay-loop",
     "canExecuteWithoutSpend": true,
-    "rationale": "Measures optional PWA install prompts and standalone launches as the zero-cost distribution path."
+    "rationale": "Refreshes the optional completed-run replay prompt from product-gate and replay telemetry evidence."
   },
   "executionMemory": {
     "avoidImmediateRepeat": true,
     "recentExecutionWindow": 8,
     "recentExecutedActionIds": [
+      "collect-live-events",
+      "seed-portfolio-traffic",
+      "measure-pwa-install-loop",
       "optimize-product-gates",
       "optimize-daily-retention",
       "optimize-store-listing",
       "refresh-completion-loop",
-      "refresh-first-move-coach",
-      "apply-safe-improvements",
-      "collect-live-events",
-      "seed-portfolio-traffic"
+      "refresh-first-move-coach"
     ],
-    "lastExecutedActionId": "optimize-product-gates",
+    "lastExecutedActionId": "collect-live-events",
     "lastExecutedStatus": "executed",
     "lastRecordExecutionStatus": "not-requested",
     "recentlySatisfiedActionIds": [
@@ -50,7 +50,7 @@
     "objectiveAuditFreshness": {
       "fresh": true,
       "structurallyReady": true,
-      "auditGeneratedAt": "2026-05-20T21:46:43.766Z",
+      "auditGeneratedAt": "2026-05-20T21:53:26.294Z",
       "evaluatedInputIds": [
         "analytics-rollup",
         "event-ingest",
@@ -100,12 +100,12 @@
         ]
       },
       "completionLoop": {
-        "current": true,
-        "ready": true,
+        "current": false,
+        "ready": false,
         "status": "completion-loop-ready",
         "artifactGeneratedAt": "2026-05-20T21:24:51.732Z",
         "artifactSourceDataHash": "038f275097db",
-        "sourceDataHash": "038f275097db",
+        "sourceDataHash": "6c1fc2760519",
         "evaluatedInputIds": [
           "analytics-rollup",
           "production-gates",
@@ -118,12 +118,12 @@
         ]
       },
       "replayLoop": {
-        "current": true,
-        "ready": true,
+        "current": false,
+        "ready": false,
         "status": "replay-loop-ready",
         "artifactGeneratedAt": "2026-05-20T21:24:52.037Z",
         "artifactSourceDataHash": "381edef7ef06",
-        "sourceDataHash": "381edef7ef06",
+        "sourceDataHash": "e755792f294a",
         "evaluatedInputIds": [
           "analytics-rollup",
           "production-gates",
@@ -148,8 +148,9 @@
     "skippedRecentlyExecutedActionIds": [
       "seed-portfolio-traffic",
       "optimize-daily-retention",
+      "measure-pwa-install-loop",
+      "refresh-completion-loop",
       "optimize-store-listing",
-      "apply-safe-improvements",
       "collect-live-events"
     ],
     "skippedRecentlySatisfiedActionIds": [
@@ -188,7 +189,7 @@
     },
     "productionBootstrapFreshness": {
       "fresh": true,
-      "bootstrapGeneratedAt": "2026-05-20T21:46:43.087Z",
+      "bootstrapGeneratedAt": "2026-05-20T21:53:25.536Z",
       "evaluatedInputIds": [
         "release-candidate",
         "deployment-plan",
@@ -303,7 +304,7 @@
       "id": "performance-budget",
       "status": "ready",
       "autonomy": "automatic-build-budget",
-      "evidence": "Initial JS 648.9 KB; gzip 177.7 KB; deferred chunks 1.",
+      "evidence": "Initial JS 648.8 KB; gzip 177.7 KB; deferred chunks 1.",
       "nextAction": "Keep Phaser and game scenes outside the initial PWA shell."
     },
     {
@@ -402,13 +403,13 @@
       "status": "ready",
       "autonomy": "read-only-live-deploy-verification",
       "evidence": "Smoke post-deploy-smoke-observed-live; origin https://moshequ.github.io/autonomous-game-lab; manifest comparison required; checks 15/15 passed; local artifact predeploy-artifact-smoke-passed 15/15 passed.",
-      "nextAction": "Live Pages is reachable and serving pwa-9a20c12629e7; run the deploy workflow for strict proof of the current local candidate if needed."
+      "nextAction": "Live Pages is reachable and serving pwa-b8033c53667d; run the deploy workflow for strict proof of the current local candidate if needed."
     },
     {
       "id": "post-deploy-artifact-sync",
       "status": "ready",
       "autonomy": "read-only-actions-artifact-import",
-      "evidence": "Artifact sync post-deploy-artifact-sync-passed; run 26191382924; live matches artifact true; strict true.",
+      "evidence": "Artifact sync post-deploy-artifact-sync-passed; run 26191907506; live matches artifact true; strict true.",
       "nextAction": "Keep this strict deploy artifact as live-production evidence while local candidates continue to iterate."
     },
     {
@@ -436,14 +437,14 @@
       "id": "autonomous-operator",
       "status": "ready",
       "autonomy": "one-safe-action-runner",
-      "evidence": "Operator operator-plan-ready; selected measure-pwa-install-loop; execution not-requested.",
+      "evidence": "Operator operator-plan-ready; selected refresh-replay-loop; execution not-requested.",
       "nextAction": "Keep a dry-run operator plan ready, then execute only one allowlisted local action when explicitly requested."
     },
     {
       "id": "operator-history",
       "status": "ready",
       "autonomy": "operator-audit-trail",
-      "evidence": "History operator-history-ready; records 40; executed 16.",
+      "evidence": "History operator-history-ready; records 40; executed 17.",
       "nextAction": "Keep a capped durable record of operator plans and one-action executions."
     },
     {
@@ -585,7 +586,7 @@
       "command": "npm run build && npm run autonomous:performance",
       "targets": [
         "pwa-shell",
-        "GameCanvas-C-CemP4H.js"
+        "GameCanvas-rTiv0l2v.js"
       ],
       "reason": "Keeps the PWA shell fast while Phaser and game scenes stay deferred."
     },
@@ -616,7 +617,7 @@
       "costUsd": 0,
       "command": "npm run autonomous:post-deploy-artifact-sync",
       "targets": [
-        26191382924,
+        26191907506,
         "release-candidate-manifest"
       ],
       "reason": "Strict deploy artifact evidence is already synced from the latest successful Pages workflow."
@@ -675,23 +676,23 @@
     },
     {
       "id": "refresh-completion-loop",
-      "status": "monitor",
+      "status": "armed",
       "costUsd": 0,
       "command": "npm run autonomous:completion-loop",
       "targets": [
         "harbor-rings"
       ],
-      "reason": "Completion loop already matches the current source evidence; wait for new completion or coach data."
+      "reason": "Refreshes optional completion nudges and behind-pace finish-line coaching from product-gate evidence."
     },
     {
       "id": "refresh-replay-loop",
-      "status": "monitor",
+      "status": "armed",
       "costUsd": 0,
       "command": "npm run autonomous:replay-loop",
       "targets": [
         "harbor-rings"
       ],
-      "reason": "Replay loop already matches the current source evidence; wait for new replay or experiment data."
+      "reason": "Refreshes the optional completed-run replay prompt from product-gate and replay telemetry evidence."
     },
     {
       "id": "prepare-repository-channel",
@@ -733,7 +734,7 @@
       "costUsd": 0,
       "command": "npm run autonomous:operator",
       "targets": [
-        "measure-pwa-install-loop"
+        "refresh-replay-loop"
       ],
       "reason": "Publishes the one-action local execution plan with allowlist, zero-spend, and audit controls."
     },
@@ -743,7 +744,7 @@
       "costUsd": 0,
       "command": "npm run autonomous:operator",
       "targets": [
-        "measure-pwa-install-loop"
+        "refresh-replay-loop"
       ],
       "reason": "Refreshes the capped operator history so safe actions remain auditable over time."
     },
@@ -927,10 +928,10 @@
     "analyticsSource": "fixture-sample",
     "localEventBridgeStatus": "bridge-waiting-for-export",
     "dailyChallenge": {
-      "date": "2026-05-20",
+      "date": "2026-05-21",
       "gameId": "canopy-bloom",
       "title": "Canopy Bloom",
-      "seed": "daily-20260520-2mi",
+      "seed": "daily-20260521-13f",
       "reason": "Canopy Bloom has the strongest blended portfolio score (51.912)."
     },
     "trafficSeedingStatus": "traffic-seeding-ready",
