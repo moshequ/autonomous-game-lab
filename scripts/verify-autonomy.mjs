@@ -1987,6 +1987,10 @@ if (
   !selfUpdateWorkflow.includes('npm run autonomous:self-update -- --assert-safe') ||
   !selfUpdateWorkflow.includes('GITHUB_TOKEN: ${{ github.token }}') ||
   !selfUpdateWorkflow.includes('AGL_AUTONOMOUS_SELF_UPDATE_DIRECT: ${{ vars.AGL_AUTONOMOUS_SELF_UPDATE_DIRECT }}') ||
+  !selfUpdateWorkflow.includes('AGL_ANDROID_KEYSTORE_BASE64') ||
+  !selfUpdateWorkflow.includes('AGL_ANDROID_SHA256_CERT_FINGERPRINT') ||
+  !selfUpdateWorkflow.includes('VITE_BASE_PATH') ||
+  !selfUpdateWorkflow.includes('AGL_PUBLIC_ORIGIN') ||
   !workflow.includes('contents: read') ||
   !autonomousSelfUpdateSource.includes('allowedPrefixes') ||
   !autonomousSelfUpdateSource.includes('public/gate-sample.html') ||

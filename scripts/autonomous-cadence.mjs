@@ -618,11 +618,15 @@ const checks = [
       selfUpdateWorkflow.includes('contents: write') &&
       selfUpdateWorkflow.includes('npm run autonomous:self-update -- --assert-safe') &&
       selfUpdateWorkflow.includes('GITHUB_TOKEN: ${{ github.token }}') &&
-      selfUpdateWorkflow.includes('AGL_AUTONOMOUS_SELF_UPDATE_DIRECT: ${{ vars.AGL_AUTONOMOUS_SELF_UPDATE_DIRECT }}')
+      selfUpdateWorkflow.includes('AGL_AUTONOMOUS_SELF_UPDATE_DIRECT: ${{ vars.AGL_AUTONOMOUS_SELF_UPDATE_DIRECT }}') &&
+      selfUpdateWorkflow.includes('AGL_ANDROID_KEYSTORE_BASE64') &&
+      selfUpdateWorkflow.includes('AGL_ANDROID_SHA256_CERT_FINGERPRINT') &&
+      selfUpdateWorkflow.includes('VITE_BASE_PATH') &&
+      selfUpdateWorkflow.includes('AGL_PUBLIC_ORIGIN')
         ? 'pass'
         : 'blocker',
     detail: selfUpdateWorkflowExists
-      ? 'Gated GitHub workflow can persist allowlisted verified generated changes with workflow token evidence when explicitly enabled.'
+      ? 'Gated GitHub workflow can persist allowlisted verified generated changes with production env and workflow token evidence when explicitly enabled.'
       : 'Autonomous self-update GitHub workflow is missing.',
   },
   {
