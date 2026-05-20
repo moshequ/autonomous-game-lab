@@ -1,13 +1,13 @@
 export const objectiveAudit = {
-  "generatedAt": "2026-05-20T14:41:36.557Z",
+  "generatedAt": "2026-05-20T14:53:58.976Z",
   "status": "objective-in-progress",
   "objective": "Build a bootstrapped autonomous web/PWA game portal that can generate original board-game-inspired games, measure user behavior, propose and apply data-driven improvements, and prepare a path to monetization and app-store distribution with minimal manual intervention.",
   "summary": {
     "requirements": 8,
-    "met": 6,
+    "met": 5,
     "prepared": 2,
-    "incomplete": 0,
-    "externalBlockers": 12,
+    "incomplete": 1,
+    "externalBlockers": 13,
     "productBlockers": 6
   },
   "requirements": [
@@ -83,12 +83,12 @@ export const objectiveAudit = {
     },
     {
       "id": "minimal-intervention-autonomy",
-      "status": "met-local",
+      "status": "incomplete",
       "summary": "A scheduled local loop, owner state, bootstrap handoff, and dry-run operator reduce manual maintenance.",
       "evidence": [
         "Owner loop: owner-loop-ready",
         "Autonomous cadence: cadence-ready; Codex active-confirmed; GitHub scheduled",
-        "Autonomous self-update: self-update-ready; workflow .github/workflows/autonomous-self-update.yml; unsafe pending 0",
+        "Autonomous self-update: self-update-needs-attention; workflow .github/workflows/autonomous-self-update.yml; unsafe pending 5",
         "Operator: operator-plan-ready",
         "Operator history: operator-history-ready; records 40; executed 1",
         "Bootstrap: production-bootstrap-ready",
@@ -97,10 +97,12 @@ export const objectiveAudit = {
         "Post-deploy smoke: post-deploy-smoke-observed-live; origin https://moshequ.github.io/autonomous-game-lab; checks 15/15; local artifact predeploy-artifact-smoke-passed 15/15",
         "Strict deploy artifact sync: post-deploy-artifact-sync-passed; run 26169563431; live matches artifact true; candidate pwa-4cedf81c09ca",
         "Repository channel: repository-channel-ready; repository moshequ/autonomous-game-lab; git worktree true",
-        "Autonomy score: 98%",
+        "Autonomy score: 95%",
         "Credential-gated actions: 10"
       ],
       "blockers": [
+        "safe-path-allowlist: 41 safe pending file(s), 5 unsafe pending file(s).",
+        "Commit current generated changes before pushing to GitHub Pages.",
         "AGL_SUPPORT_EMAIL: Production support contact for privacy and store listings.",
         "VITE_POSTHOG_KEY: Optional browser-side PostHog analytics forwarding.",
         "POSTHOG_PROJECT_ID + POSTHOG_PERSONAL_API_KEY: Optional autonomous production analytics and experiment result rollups from PostHog.",
@@ -179,6 +181,7 @@ export const objectiveAudit = {
   ],
   "blockers": {
     "external": [
+      "Commit current generated changes before pushing to GitHub Pages.",
       "Set AGL_SUPPORT_EMAIL to a real support inbox before public store submission.",
       "Set VITE_EVENT_COLLECTOR_URL or VITE_POSTHOG_KEY to forward browser analytics in production.",
       "Set AGL_EVENT_COLLECTOR_EXPORT_URL + AGL_EVENT_COLLECTOR_ADMIN_TOKEN or PostHog server credentials for autonomous production rollups.",
@@ -201,6 +204,7 @@ export const objectiveAudit = {
       "Web/PWA or native ad provider is not configured for gated revenue tests."
     ],
     "all": [
+      "Commit current generated changes before pushing to GitHub Pages.",
       "Set AGL_SUPPORT_EMAIL to a real support inbox before public store submission.",
       "Set VITE_EVENT_COLLECTOR_URL or VITE_POSTHOG_KEY to forward browser analytics in production.",
       "Set AGL_EVENT_COLLECTOR_EXPORT_URL + AGL_EVENT_COLLECTOR_ADMIN_TOKEN or PostHog server credentials for autonomous production rollups.",
@@ -229,7 +233,7 @@ export const objectiveAudit = {
     "noRevenueEnablementUntilGatesPass": true,
     "noStoreSubmissionUntilExternalAccounts": true,
     "currentWorktreeClean": false,
-    "currentWorktreeDirtyFiles": 22
+    "currentWorktreeDirtyFiles": 50
   },
   "completion": {
     "canMarkGoalComplete": false,

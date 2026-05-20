@@ -95,6 +95,10 @@ const productionHostReady =
 const collectorReady = collector.status === 'ready-for-worker-deploy'
 const monetizationReady = monetization.revenueEnabled === true
 const storeSpendAllowed = unitEconomics.controls?.storeSpendAllowed === true
+const repositoryVariableNames = new Set(environment.repositoryEnv?.variableNames ?? [])
+const repositorySecretNames = new Set(environment.repositoryEnv?.secretNames ?? [])
+const repositoryVariableConfigured = (name) => repositoryVariableNames.has(name)
+const repositorySecretConfigured = (name) => repositorySecretNames.has(name)
 
 const variableCommands = [
   ['VITE_BASE_PATH', 'VITE_BASE_PATH'],
@@ -146,6 +150,7 @@ const inferredVariableValue = (repoName) => {
 }
 const commandForVariable = ([repoName, envName]) => {
   const envConfigured = configured(process.env[envName])
+  const repoConfigured = repositoryVariableConfigured(repoName)
   const inferredValue = inferredVariableValue(repoName)
   const inferredConfigured = configured(inferredValue)
 
@@ -156,12 +161,14 @@ const commandForVariable = ([repoName, envName]) => {
     envName,
     valueSource: envConfigured
       ? 'environment'
+      : repoConfigured
+        ? 'github-variable'
       : inferredConfigured
         ? environment.publicOrigin?.source === 'github-pages-target'
           ? 'inferred-github-pages'
           : 'production-environment'
         : 'missing',
-    configured: envConfigured || inferredConfigured,
+    configured: envConfigured || repoConfigured || inferredConfigured,
     command: `gh variable set ${repoName} --body "$${envName}"`,
   }
 }
@@ -170,7 +177,12 @@ const commandForSecret = ([repoName, envName]) => ({
   kind: 'github-secret',
   repositorySecret: repoName,
   envName,
-  configured: configured(process.env[envName]),
+  valueSource: configured(process.env[envName])
+    ? 'environment'
+    : repositorySecretConfigured(repoName)
+      ? 'github-secret'
+      : 'missing',
+  configured: configured(process.env[envName]) || repositorySecretConfigured(repoName),
   command: `printf "%s" "$${envName}" | gh secret set ${repoName}`,
 })
 

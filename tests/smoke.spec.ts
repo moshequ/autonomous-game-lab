@@ -1,6 +1,6 @@
 import { expect, test, type Page } from '@playwright/test'
 import { execFile } from 'node:child_process'
-import { mkdir, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises'
+import { chmod, mkdir, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import path from 'node:path'
 
@@ -1389,6 +1389,143 @@ test('production environment infers zero-cost GitHub Pages origin from repositor
   }
 })
 
+test('production environment inspects GitHub repository variables and secret metadata safely', async () => {
+  const tempRoot = await mkdtemp(path.join(tmpdir(), 'agl-production-gh-env-'))
+  const fakeBin = path.join(tempRoot, 'bin')
+  const fakeGh = path.join(fakeBin, 'gh')
+
+  try {
+    await mkdir(fakeBin, { recursive: true })
+    await writeFile(
+      fakeGh,
+      [
+        '#!/usr/bin/env bash',
+        'set -euo pipefail',
+        'if [[ "${1:-}" == "variable" && "${2:-}" == "list" ]]; then',
+        `  printf '%s\\n' '[{"name":"AGL_PUBLIC_ORIGIN","value":"https://play.aglab.test/portal"},{"name":"VITE_BASE_PATH","value":"/portal/"},{"name":"VITE_POSTHOG_KEY","value":"phc_repo_public"},{"name":"POSTHOG_PROJECT_ID","value":"12345"},{"name":"VITE_EVENT_COLLECTOR_URL","value":"https://events.aglab.test/events"},{"name":"AGL_EVENT_COLLECTOR_EXPORT_URL","value":"https://events.aglab.test/events/export"},{"name":"AGL_ANDROID_PACKAGE_NAME","value":"app.aglab.portal"},{"name":"AGL_ANDROID_SHA256_CERT_FINGERPRINT","value":"AA:BB:CC:DD"},{"name":"AGL_GOOGLE_PLAY_ACCOUNT_CONNECTED","value":"true"}]'`,
+        'elif [[ "${1:-}" == "secret" && "${2:-}" == "list" ]]; then',
+        `  printf '%s\\n' '[{"name":"VITE_EVENT_COLLECTOR_WRITE_TOKEN","updatedAt":"2026-05-20T00:00:00Z"},{"name":"AGL_EVENT_COLLECTOR_ADMIN_TOKEN","updatedAt":"2026-05-20T00:00:00Z"},{"name":"POSTHOG_PERSONAL_API_KEY","updatedAt":"2026-05-20T00:00:00Z"},{"name":"GOOGLE_PLAY_SERVICE_ACCOUNT_JSON","updatedAt":"2026-05-20T00:00:00Z"}]'`,
+        'else',
+        '  exit 1',
+        'fi',
+        '',
+      ].join('\n'),
+    )
+    await chmod(fakeGh, 0o755)
+    await writeFile(
+      path.join(tempRoot, 'package.json'),
+      JSON.stringify({ name: 'autonomous-game-lab' }, null, 2),
+    )
+
+    await execFileAsync('node', [path.join(process.cwd(), 'scripts/production-environment.mjs')], {
+      cwd: tempRoot,
+      env: {
+        ...process.env,
+        PATH: `${fakeBin}${path.delimiter}${process.env.PATH ?? ''}`,
+        GITHUB_REPOSITORY: 'demo-owner/autonomous-game-lab',
+        GH_REPO: '',
+        AGL_GITHUB_OWNER: '',
+        GITHUB_REPOSITORY_OWNER: '',
+        GITHUB_OWNER: '',
+        AGL_PUBLIC_ORIGIN: '',
+        VITE_PUBLIC_ORIGIN: '',
+        PUBLIC_SITE_URL: '',
+        AGL_PUBLIC_HOST: '',
+        VITE_BASE_PATH: '',
+        AGL_SUPPORT_EMAIL: '',
+        SUPPORT_EMAIL: '',
+        VITE_POSTHOG_KEY: '',
+        POSTHOG_PROJECT_ID: '',
+        POSTHOG_PERSONAL_API_KEY: '',
+        VITE_EVENT_COLLECTOR_URL: '',
+        AGL_EVENT_COLLECTOR_URL: '',
+        AGL_EVENT_COLLECTOR_EXPORT_URL: '',
+        VITE_EVENT_COLLECTOR_WRITE_TOKEN: '',
+        AGL_EVENT_COLLECTOR_ADMIN_TOKEN: '',
+        AGL_ANDROID_PACKAGE_NAME: '',
+        AGL_ANDROID_SHA256_CERT_FINGERPRINT: '',
+        AGL_GOOGLE_PLAY_ACCOUNT_CONNECTED: '',
+        GOOGLE_PLAY_SERVICE_ACCOUNT_JSON: '',
+      },
+    })
+
+    const environmentRaw = await readFile(path.join(tempRoot, 'data/production-environment.json'), 'utf8')
+    const environment = JSON.parse(environmentRaw) as {
+      status: string
+      repositoryEnv: {
+        status: string
+        repository: string
+        variables: Array<Record<string, unknown>>
+        secrets: Array<Record<string, unknown>>
+        variableNames: string[]
+        secretNames: string[]
+        controls: {
+          readOnlyInspection: boolean
+          secretValuesNeverRead: boolean
+          noMutation: boolean
+        }
+      }
+      publicOrigin: { origin: string; basePath: string; source: string; status: string }
+      analytics: {
+        browserPosthogConfigured: boolean
+        serverPosthogConfigured: boolean
+        eventCollector: {
+          browserConfigured: boolean
+          serverExportConfigured: boolean
+          writeTokenConfigured: boolean
+          adminTokenConfigured: boolean
+        }
+      }
+      android: {
+        packageName: string
+        signingFingerprintConfigured: boolean
+        googlePlayAccountConnected: boolean
+      }
+      requiredEnv: Array<{ name: string; configured: boolean; source?: string }>
+    }
+
+    expect(environment.repositoryEnv.status).toBe('inspected')
+    expect(environment.repositoryEnv.repository).toBe('demo-owner/autonomous-game-lab')
+    expect(environment.repositoryEnv.controls.readOnlyInspection).toBe(true)
+    expect(environment.repositoryEnv.controls.secretValuesNeverRead).toBe(true)
+    expect(environment.repositoryEnv.controls.noMutation).toBe(true)
+    expect(environment.repositoryEnv.variableNames).toEqual(
+      expect.arrayContaining(['AGL_PUBLIC_ORIGIN', 'VITE_EVENT_COLLECTOR_URL', 'VITE_POSTHOG_KEY']),
+    )
+    expect(environment.repositoryEnv.secretNames).toEqual(
+      expect.arrayContaining(['AGL_EVENT_COLLECTOR_ADMIN_TOKEN', 'VITE_EVENT_COLLECTOR_WRITE_TOKEN']),
+    )
+    expect(environment.repositoryEnv.variables.some((row) => Object.prototype.hasOwnProperty.call(row, 'value'))).toBe(
+      false,
+    )
+    expect(environment.repositoryEnv.secrets.some((row) => Object.prototype.hasOwnProperty.call(row, 'value'))).toBe(
+      false,
+    )
+    expect(environmentRaw).not.toContain('super-secret')
+
+    expect(environment.status).toBe('production-env-partial')
+    expect(environment.publicOrigin.source).toBe('github-variable')
+    expect(environment.publicOrigin.status).toBe('configured')
+    expect(environment.publicOrigin.origin).toBe('https://play.aglab.test/portal')
+    expect(environment.publicOrigin.basePath).toBe('/portal/')
+    expect(environment.analytics.browserPosthogConfigured).toBe(true)
+    expect(environment.analytics.serverPosthogConfigured).toBe(true)
+    expect(environment.analytics.eventCollector.browserConfigured).toBe(true)
+    expect(environment.analytics.eventCollector.serverExportConfigured).toBe(true)
+    expect(environment.analytics.eventCollector.writeTokenConfigured).toBe(true)
+    expect(environment.analytics.eventCollector.adminTokenConfigured).toBe(true)
+    expect(environment.android.packageName).toBe('app.aglab.portal')
+    expect(environment.android.signingFingerprintConfigured).toBe(true)
+    expect(environment.android.googlePlayAccountConnected).toBe(true)
+    expect(environment.requiredEnv.find((item) => item.name === 'AGL_PUBLIC_ORIGIN')).toMatchObject({
+      configured: true,
+      source: 'github-variable',
+    })
+  } finally {
+    await rm(tempRoot, { recursive: true, force: true })
+  }
+})
+
 test('repository readiness surfaces the GitHub Pages deployment channel without mutating git', async () => {
   const readiness = JSON.parse(await readFile('data/repository-readiness.json', 'utf8')) as {
     status: string
@@ -2286,7 +2423,7 @@ test('production bootstrap emits zero-spend setup handoff artifacts', async ({ p
   expect(bootstrap.setupScript.supportsSshUrlRemotes).toBe(true)
   expect(bootstrap.setupScript.supportsDottedRepositoryNames).toBe(true)
   expect(bootstrap.requiredVariables.find((item) => item.repositoryVariable === 'VITE_BASE_PATH')?.valueSource).toMatch(
-    /environment|production-environment|inferred-github-pages/,
+    /environment|github-variable|production-environment|inferred-github-pages/,
   )
   expect(setupScript).toContain('gh variable set')
   expect(setupScript).toContain('gh secret set')

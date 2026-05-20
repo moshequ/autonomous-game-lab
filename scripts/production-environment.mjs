@@ -1,3 +1,4 @@
+import { execFile } from 'node:child_process'
 import { mkdir, readFile, writeFile } from 'node:fs/promises'
 import path from 'node:path'
 import { loadLocalEnv } from './lib/env-loader.mjs'
@@ -19,6 +20,33 @@ const boolFromEnv = (name) => ['1', 'true', 'yes'].includes(String(process.env[n
 
 const first = (...values) => values.find((value) => typeof value === 'string' && value.trim())?.trim() ?? null
 const configured = (value) => typeof value === 'string' && value.trim().length > 0
+const runJson = (command, args) =>
+  new Promise((resolve) => {
+    execFile(command, args, { cwd: root, timeout: 5_000 }, (error, stdout, stderr) => {
+      if (error) {
+        resolve({
+          ok: false,
+          rows: [],
+          error: stderr.trim() || error.message,
+        })
+        return
+      }
+
+      try {
+        resolve({
+          ok: true,
+          rows: JSON.parse(stdout || '[]'),
+          error: null,
+        })
+      } catch (parseError) {
+        resolve({
+          ok: false,
+          rows: [],
+          error: parseError instanceof Error ? parseError.message : String(parseError),
+        })
+      }
+    })
+  })
 
 const normalizeOrigin = (value) => {
   const raw = first(value)
@@ -133,40 +161,138 @@ const githubPagesCandidate = parsedRepositoryTarget
       costUsd: 0,
     }
   : null
-const explicitPublicOrigin = normalizeOrigin(
-  first(process.env.AGL_PUBLIC_ORIGIN, process.env.VITE_PUBLIC_ORIGIN, process.env.PUBLIC_SITE_URL, process.env.AGL_PUBLIC_HOST),
+
+const readGithubRepositoryEnv = async (repository) => {
+  if (!repository) {
+    return {
+      status: 'missing-repository-target',
+      repository: null,
+      variables: [],
+      secrets: [],
+      variableNames: [],
+      secretNames: [],
+      errors: ['Repository target is unavailable.'],
+      controls: {
+        readOnlyInspection: true,
+        secretValuesNeverRead: true,
+        noMutation: true,
+      },
+    }
+  }
+
+  const [variablesResult, secretsResult] = await Promise.all([
+    runJson('gh', ['variable', 'list', '--repo', repository, '--json', 'name,value']),
+    runJson('gh', ['secret', 'list', '--repo', repository, '--json', 'name,updatedAt']),
+  ])
+  const variableRows = variablesResult.ok
+    ? variablesResult.rows
+        .filter((row) => configured(row.name))
+        .map((row) => ({ name: row.name, value: typeof row.value === 'string' ? row.value : '' }))
+    : []
+  const secretRows = secretsResult.ok
+    ? secretsResult.rows.filter((row) => configured(row.name)).map((row) => ({ name: row.name, updatedAt: row.updatedAt }))
+    : []
+  const errors = [
+    ...(variablesResult.ok ? [] : [`variables: ${variablesResult.error}`]),
+    ...(secretsResult.ok ? [] : [`secrets: ${secretsResult.error}`]),
+  ]
+
+  return {
+    status: variablesResult.ok || secretsResult.ok ? 'inspected' : 'unavailable',
+    repository,
+    variables: variableRows.map((row) => ({ name: row.name, configured: configured(row.value) })),
+    secrets: secretRows.map((row) => ({ name: row.name, configured: true, updatedAt: row.updatedAt })),
+    variableNames: variableRows.map((row) => row.name).sort(),
+    secretNames: secretRows.map((row) => row.name).sort(),
+    errors,
+    controls: {
+      readOnlyInspection: true,
+      secretValuesNeverRead: true,
+      noMutation: true,
+    },
+    _variableValues: Object.fromEntries(variableRows.map((row) => [row.name, row.value])),
+  }
+}
+
+const repositoryEnv = await readGithubRepositoryEnv(repositoryTarget)
+const repositoryVariableValues = repositoryEnv._variableValues ?? {}
+const repositorySecretNames = new Set(repositoryEnv.secretNames ?? [])
+delete repositoryEnv._variableValues
+
+const repoVariableValue = (name) => first(repositoryVariableValues[name])
+const envSource = (name) => ({ value: process.env[name], source: 'environment', name })
+const repoSource = (name) => ({ value: repoVariableValue(name), source: 'github-variable', name })
+const firstSource = (...sources) =>
+  sources.find((source) => configured(source.value)) ?? { value: null, source: 'missing', name: null }
+const secretConfigured = (name) => configured(process.env[name]) || repositorySecretNames.has(name)
+const boolFromEnvOrRepo = (name) =>
+  boolFromEnv(name) || ['1', 'true', 'yes'].includes(String(repoVariableValue(name) ?? '').toLowerCase())
+
+const explicitPublicOriginSource = firstSource(
+  envSource('AGL_PUBLIC_ORIGIN'),
+  envSource('VITE_PUBLIC_ORIGIN'),
+  envSource('PUBLIC_SITE_URL'),
+  envSource('AGL_PUBLIC_HOST'),
+  repoSource('AGL_PUBLIC_ORIGIN'),
+  repoSource('VITE_PUBLIC_ORIGIN'),
+  repoSource('PUBLIC_SITE_URL'),
 )
-const publicOriginSource = explicitPublicOrigin ? 'environment' : githubPagesCandidate ? 'github-pages-target' : 'missing'
+const explicitPublicOrigin = normalizeOrigin(explicitPublicOriginSource.value)
+const publicOriginSource = explicitPublicOrigin
+  ? explicitPublicOriginSource.source
+  : githubPagesCandidate
+    ? 'github-pages-target'
+    : 'missing'
 const publicOrigin = explicitPublicOrigin ?? githubPagesCandidate?.origin ?? null
 const publicHost = hostFromOrigin(publicOrigin)
 const publicOriginReady = looksProductionHost(publicOrigin)
-const supportEmail = first(process.env.AGL_SUPPORT_EMAIL, process.env.SUPPORT_EMAIL)
+const supportEmailSource = firstSource(envSource('AGL_SUPPORT_EMAIL'), envSource('SUPPORT_EMAIL'), repoSource('AGL_SUPPORT_EMAIL'))
+const supportEmail = first(supportEmailSource.value)
 const supportEmailReady = validEmail(supportEmail)
-const basePath = first(process.env.VITE_BASE_PATH) ?? githubPagesCandidate?.basePath ?? '/'
-const androidPackageName = first(process.env.AGL_ANDROID_PACKAGE_NAME) ?? 'app.autonomousgamelab.portal'
+const basePath = firstSource(envSource('VITE_BASE_PATH'), repoSource('VITE_BASE_PATH')).value ?? githubPagesCandidate?.basePath ?? '/'
+const androidPackageName =
+  firstSource(envSource('AGL_ANDROID_PACKAGE_NAME'), repoSource('AGL_ANDROID_PACKAGE_NAME')).value ??
+  'app.autonomousgamelab.portal'
 const androidSha256 = first(
   process.env.AGL_ANDROID_SHA256_CERT_FINGERPRINT,
+  repoVariableValue('AGL_ANDROID_SHA256_CERT_FINGERPRINT'),
   androidSigning.signing?.sha256CertFingerprint,
 )
 const androidSigningReady = Boolean(androidSha256)
 const googlePlayConnected =
-  boolFromEnv('AGL_GOOGLE_PLAY_ACCOUNT_CONNECTED') || Boolean(first(process.env.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON))
-const appleConnected = boolFromEnv('AGL_APPLE_DEVELOPER_ACCOUNT_CONNECTED')
-const adsenseClientId = first(process.env.VITE_ADSENSE_CLIENT_ID, process.env.ADSENSE_CLIENT_ID)
+  boolFromEnvOrRepo('AGL_GOOGLE_PLAY_ACCOUNT_CONNECTED') ||
+  Boolean(first(process.env.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON)) ||
+  repositorySecretNames.has('GOOGLE_PLAY_SERVICE_ACCOUNT_JSON')
+const appleConnected = boolFromEnvOrRepo('AGL_APPLE_DEVELOPER_ACCOUNT_CONNECTED')
+const adsenseClientId = first(
+  process.env.VITE_ADSENSE_CLIENT_ID,
+  process.env.ADSENSE_CLIENT_ID,
+  repoVariableValue('VITE_ADSENSE_CLIENT_ID'),
+)
 const adsenseRewardedSlotId = first(
   process.env.VITE_ADSENSE_REWARDED_SLOT_ID,
   process.env.ADSENSE_REWARDED_SLOT_ID,
+  repoVariableValue('VITE_ADSENSE_REWARDED_SLOT_ID'),
 )
-const admobPublisherId = first(process.env.ADMOB_PUBLISHER_ID)
+const admobPublisherId = first(process.env.ADMOB_PUBLISHER_ID, repoVariableValue('ADMOB_PUBLISHER_ID'))
 const webAdConfigured = Boolean(adsenseClientId && adsenseRewardedSlotId)
 const appAdConfigured = Boolean(admobPublisherId)
-const browserPosthogConfigured = Boolean(first(process.env.VITE_POSTHOG_KEY))
-const serverPosthogConfigured = Boolean(first(process.env.POSTHOG_PROJECT_ID) && first(process.env.POSTHOG_PERSONAL_API_KEY))
-const posthogHost = first(process.env.POSTHOG_HOST, process.env.VITE_POSTHOG_HOST) ?? 'https://us.posthog.com'
-const eventCollectorUrl = first(process.env.VITE_EVENT_COLLECTOR_URL, process.env.AGL_EVENT_COLLECTOR_URL)
-const eventCollectorExportUrl = first(process.env.AGL_EVENT_COLLECTOR_EXPORT_URL)
-const eventCollectorWriteTokenConfigured = Boolean(first(process.env.VITE_EVENT_COLLECTOR_WRITE_TOKEN))
-const eventCollectorAdminConfigured = Boolean(first(process.env.AGL_EVENT_COLLECTOR_ADMIN_TOKEN))
+const browserPosthogConfigured = Boolean(first(process.env.VITE_POSTHOG_KEY, repoVariableValue('VITE_POSTHOG_KEY')))
+const serverPosthogConfigured = Boolean(
+  first(process.env.POSTHOG_PROJECT_ID, repoVariableValue('POSTHOG_PROJECT_ID')) &&
+    secretConfigured('POSTHOG_PERSONAL_API_KEY'),
+)
+const posthogHost =
+  first(process.env.POSTHOG_HOST, process.env.VITE_POSTHOG_HOST, repoVariableValue('POSTHOG_HOST'), repoVariableValue('VITE_POSTHOG_HOST')) ??
+  'https://us.posthog.com'
+const eventCollectorUrl = first(
+  process.env.VITE_EVENT_COLLECTOR_URL,
+  process.env.AGL_EVENT_COLLECTOR_URL,
+  repoVariableValue('VITE_EVENT_COLLECTOR_URL'),
+)
+const eventCollectorExportUrl = first(process.env.AGL_EVENT_COLLECTOR_EXPORT_URL, repoVariableValue('AGL_EVENT_COLLECTOR_EXPORT_URL'))
+const eventCollectorWriteTokenConfigured = secretConfigured('VITE_EVENT_COLLECTOR_WRITE_TOKEN')
+const eventCollectorAdminConfigured = secretConfigured('AGL_EVENT_COLLECTOR_ADMIN_TOKEN')
 const browserCollectorConfigured = Boolean(eventCollectorUrl)
 const serverCollectorConfigured = Boolean(eventCollectorExportUrl && eventCollectorAdminConfigured)
 const browserAnalyticsConfigured = browserPosthogConfigured || browserCollectorConfigured
@@ -199,6 +325,7 @@ const payload = {
   generatedAt: new Date().toISOString(),
   status: publicOriginReady && serverAnalyticsConfigured ? 'production-env-partial' : 'production-env-missing',
   envFiles: localEnv,
+  repositoryEnv,
   publicOrigin: {
     origin: publicOrigin,
     host: publicHost,
@@ -330,6 +457,22 @@ const report = [
   `- shell env precedence: ${payload.envFiles.controls.shellEnvPrecedence}`,
   `- protected mutation keys require shell env: ${payload.envFiles.controls.protectedMutationKeysRequireShellEnv}`,
   `- values redacted: ${payload.envFiles.controls.noSecretValuesInReports}`,
+  '',
+  '## GitHub Repository Environment',
+  '',
+  `- status: ${payload.repositoryEnv.status}`,
+  `- repository: ${payload.repositoryEnv.repository ?? 'missing'}`,
+  `- variables inspected: ${payload.repositoryEnv.variableNames.length}`,
+  `- secrets inspected: ${payload.repositoryEnv.secretNames.length}`,
+  `- read-only inspection: ${payload.repositoryEnv.controls.readOnlyInspection}`,
+  `- secret values never read: ${payload.repositoryEnv.controls.secretValuesNeverRead}`,
+  `- no mutation: ${payload.repositoryEnv.controls.noMutation}`,
+  ...(payload.repositoryEnv.variableNames.length
+    ? [`- variable names: ${payload.repositoryEnv.variableNames.join(', ')}`]
+    : ['- variable names: none']),
+  ...(payload.repositoryEnv.secretNames.length
+    ? [`- secret names: ${payload.repositoryEnv.secretNames.join(', ')}`]
+    : ['- secret names: none']),
   '',
   '## Required Environment',
   '',

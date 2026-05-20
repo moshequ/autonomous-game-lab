@@ -1650,6 +1650,14 @@ if (
   !productionEnvironment.status ||
   !productionEnvironment.requiredEnv?.length ||
   typeof productionEnvironment.publicOrigin?.status !== 'string' ||
+  typeof productionEnvironment.repositoryEnv?.status !== 'string' ||
+  !Array.isArray(productionEnvironment.repositoryEnv?.variables) ||
+  !Array.isArray(productionEnvironment.repositoryEnv?.secrets) ||
+  !Array.isArray(productionEnvironment.repositoryEnv?.variableNames) ||
+  !Array.isArray(productionEnvironment.repositoryEnv?.secretNames) ||
+  productionEnvironment.repositoryEnv?.controls?.readOnlyInspection !== true ||
+  productionEnvironment.repositoryEnv?.controls?.secretValuesNeverRead !== true ||
+  productionEnvironment.repositoryEnv?.controls?.noMutation !== true ||
   typeof productionEnvironment.analytics?.serverPosthogConfigured !== 'boolean' ||
   typeof productionEnvironment.analytics?.eventCollector?.browserConfigured !== 'boolean' ||
   productionEnvironment.analytics?.eventCollector?.provider !== 'cloudflare-worker-r2' ||
@@ -1659,6 +1667,22 @@ if (
   typeof productionEnvironment.android?.googlePlayAccountConnected !== 'boolean'
 ) {
   fail('Production environment must publish host, analytics collector, monetization, and app-store configuration readiness.')
+}
+
+const repositoryEnvLeaksValues =
+  productionEnvironment.repositoryEnv?.variables?.some((row) => Object.hasOwn(row, 'value')) ||
+  productionEnvironment.repositoryEnv?.secrets?.some((row) => Object.hasOwn(row, 'value')) ||
+  Object.hasOwn(productionEnvironment.repositoryEnv ?? {}, '_variableValues')
+
+if (
+  repositoryEnvLeaksValues ||
+  !productionEnvironmentSource.includes("['variable', 'list'") ||
+  !productionEnvironmentSource.includes("['secret', 'list'") ||
+  !productionEnvironmentSource.includes('secretValuesNeverRead') ||
+  !productionEnvironmentSource.includes('readOnlyInspection') ||
+  !productionEnvironmentSource.includes('noMutation')
+) {
+  fail('Production environment must inspect GitHub repository env metadata read-only without publishing secret or variable values.')
 }
 
 if (

@@ -38,13 +38,22 @@ const productionEnvironment = await readOptionalJson(productionEnvironmentPath, 
   },
 })
 const eventCollectorSmoke = await readOptionalJson(eventCollectorSmokePath, { status: 'missing' })
+const repositoryVariableNames = new Set(productionEnvironment.repositoryEnv?.variableNames ?? [])
+const repositorySecretNames = new Set(productionEnvironment.repositoryEnv?.secretNames ?? [])
+const repositoryVariableConfigured = (name) => repositoryVariableNames.has(name)
+const repositorySecretConfigured = (name) => repositorySecretNames.has(name)
 
-const cloudflareAccountConfigured = configured(process.env.CLOUDFLARE_ACCOUNT_ID)
-const cloudflareTokenConfigured = configured(process.env.CLOUDFLARE_API_TOKEN)
+const cloudflareAccountConfigured = configured(process.env.CLOUDFLARE_ACCOUNT_ID) || repositoryVariableConfigured('CLOUDFLARE_ACCOUNT_ID')
+const cloudflareTokenConfigured = configured(process.env.CLOUDFLARE_API_TOKEN) || repositorySecretConfigured('CLOUDFLARE_API_TOKEN')
 const bucketName = process.env.AGL_EVENT_COLLECTOR_R2_BUCKET?.trim() || 'autonomous-game-lab-events'
 const allowedOrigins = process.env.AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS?.trim() || process.env.AGL_PUBLIC_ORIGIN?.trim() || ''
-const writeTokenConfigured = configured(process.env.VITE_EVENT_COLLECTOR_WRITE_TOKEN)
-const adminTokenConfigured = configured(process.env.AGL_EVENT_COLLECTOR_ADMIN_TOKEN)
+const bucketConfigured = configured(process.env.AGL_EVENT_COLLECTOR_R2_BUCKET) || repositoryVariableConfigured('AGL_EVENT_COLLECTOR_R2_BUCKET')
+const allowedOriginsConfigured =
+  configured(process.env.AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS) || repositoryVariableConfigured('AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS')
+const writeTokenConfigured =
+  configured(process.env.VITE_EVENT_COLLECTOR_WRITE_TOKEN) || repositorySecretConfigured('VITE_EVENT_COLLECTOR_WRITE_TOKEN')
+const adminTokenConfigured =
+  configured(process.env.AGL_EVENT_COLLECTOR_ADMIN_TOKEN) || repositorySecretConfigured('AGL_EVENT_COLLECTOR_ADMIN_TOKEN')
 const browserConfigured = productionEnvironment.analytics?.eventCollector?.browserConfigured === true
 const serverExportConfigured = productionEnvironment.analytics?.eventCollector?.serverExportConfigured === true
 const deployCredentialReady = cloudflareAccountConfigured && cloudflareTokenConfigured && adminTokenConfigured
@@ -108,7 +117,9 @@ const payload = {
     path: 'ops/cloudflare/event-collector-worker.mjs',
     storageBinding: 'EVENT_BUCKET',
     bucketName,
+    bucketConfigured,
     allowedOrigins: allowedOrigins || null,
+    allowedOriginsConfigured,
   },
   workflow: {
     path: '.github/workflows/event-collector-deploy.yml',
