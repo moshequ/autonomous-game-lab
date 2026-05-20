@@ -1,3 +1,4 @@
+import { execFile } from 'node:child_process'
 import { access, mkdir, readFile, writeFile } from 'node:fs/promises'
 import path from 'node:path'
 
@@ -13,6 +14,16 @@ const exists = async (filePath) =>
     .catch(() => false)
 
 const readJson = async (filePath) => JSON.parse(await readFile(filePath, 'utf8'))
+const run = (command, args) =>
+  new Promise((resolve) => {
+    execFile(command, args, { cwd: root, timeout: 5_000 }, (error, stdout, stderr) => {
+      resolve({
+        ok: !error,
+        stdout: stdout.trimEnd(),
+        stderr: stderr.trimEnd(),
+      })
+    })
+  })
 
 const [
   packageJson,
@@ -106,6 +117,11 @@ const [
 
 const distManifestExists = await exists(path.join(root, 'dist', 'manifest.webmanifest'))
 const distServiceWorkerExists = await exists(path.join(root, 'dist', 'sw.js'))
+const gitStatusResult = await run('git', ['status', '--short', '--untracked-files=all'])
+const currentWorktreeDirtyFiles = gitStatusResult.ok
+  ? gitStatusResult.stdout.split('\n').filter(Boolean).length
+  : null
+const currentWorktreeClean = currentWorktreeDirtyFiles === 0
 const webDecision = promotion.decisions?.find((decision) => decision.channel === 'web-pwa')
 const monetizationDecision = promotion.decisions?.find((decision) => decision.channel === 'monetization')
 const androidDecision = promotion.decisions?.find((decision) => decision.channel === 'android-google-play')
@@ -121,7 +137,7 @@ const localEventBridgeReady =
   ['bridge-ready-for-ingest', 'bridge-local-events-active', 'bridge-waiting-for-export'].includes(
     localEventBridge.status,
   ) && localEventBridge.controls?.noSyntheticEvents === true
-const objectiveBlockers = [
+const rawObjectiveBlockers = [
   ...new Set([
     ...(repositoryReadiness.blockers ?? []),
     ...(repositoryBootstrap.blockers ?? []),
@@ -132,6 +148,14 @@ const objectiveBlockers = [
     ...(productionBootstrap.externalBlockers ?? []).map((item) => item.blocker),
   ]),
 ]
+const staleCleanWorktreeBlockers = [/^Commit current generated changes before pushing to GitHub Pages\.$/]
+const objectiveBlockers = rawObjectiveBlockers.filter(
+  (blocker) =>
+    !(
+      currentWorktreeClean &&
+      staleCleanWorktreeBlockers.some((pattern) => pattern.test(blocker))
+    ),
+)
 const postDeploySmokeReady =
   ['blocked-missing-origin', 'post-deploy-smoke-passed'].includes(postDeploySmoke.status) &&
   postDeploySmoke.localArtifactSmoke?.status === 'predeploy-artifact-smoke-passed' &&
@@ -490,6 +514,8 @@ const payload = {
     zeroSpendGuard: unitEconomics.controls?.maxDailySpendUsd === 0,
     noRevenueEnablementUntilGatesPass: monetization.revenueEnabled !== true,
     noStoreSubmissionUntilExternalAccounts: true,
+    currentWorktreeClean,
+    currentWorktreeDirtyFiles,
   },
   completion: {
     canMarkGoalComplete,
