@@ -220,7 +220,9 @@ const ghAutomationReady = Boolean(targetRepository && ghVersionResult.ok && ghCr
 const deploymentArtifactsReady =
   deployment.status === 'ready-for-pages' &&
   releaseCandidate.status === 'release-candidate-ready' &&
-  ['blocked-missing-origin', 'post-deploy-smoke-passed'].includes(postDeploySmoke.status)
+  ['blocked-missing-origin', 'post-deploy-smoke-passed', 'post-deploy-smoke-observed-live'].includes(
+    postDeploySmoke.status,
+  )
 const repositoryChannelReady = Boolean(
   insideWorkTree && targetRepository && pagesWorkflowExists && deploymentArtifactsReady,
 )

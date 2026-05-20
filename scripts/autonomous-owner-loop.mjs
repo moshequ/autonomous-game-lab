@@ -271,7 +271,9 @@ const ownerMode = releaseHealth.controls?.rollbackRequired
     ? 'zero-spend-web-ready'
     : 'guarded-local-automation'
 const postDeploySmokeRunnerReady =
-  ['blocked-missing-origin', 'post-deploy-smoke-passed'].includes(postDeploySmoke.status) &&
+  ['blocked-missing-origin', 'post-deploy-smoke-passed', 'post-deploy-smoke-observed-live'].includes(
+    postDeploySmoke.status,
+  ) &&
   postDeploySmoke.localArtifactSmoke?.status === 'predeploy-artifact-smoke-passed' &&
   postDeploySmoke.localArtifactSmoke?.summary?.passed === postDeploySmoke.localArtifactSmoke?.summary?.planned &&
   postDeploySmoke.localArtifactSmoke?.summary?.failed === 0 &&

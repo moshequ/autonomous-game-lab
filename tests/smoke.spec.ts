@@ -963,7 +963,19 @@ test('release candidate records the exact deployable PWA artifact', async () => 
 test('post-deploy smoke runner is wired to the release manifest and Pages workflow', async () => {
   const smoke = JSON.parse(await readFile('data/post-deploy-smoke.json', 'utf8')) as {
     status: string
-    target: { origin: string | null; candidateId: string; aggregateHash: string }
+    target: {
+      origin: string | null
+      originSource: string
+      candidateId: string
+      aggregateHash: string
+      strictManifestComparison: boolean
+    }
+    liveRelease: null | {
+      candidateId: string | null
+      aggregateHash: string | null
+      localCandidateMatches: boolean
+      strictManifestComparison: boolean
+    }
     sourceStatus: { deployment: string; releaseCandidate: string }
     summary: { planned: number; passed: number; blocked: number }
     localArtifactSmoke: {
@@ -984,8 +996,10 @@ test('post-deploy smoke runner is wired to the release manifest and Pages workfl
       readOnlyHttpChecks: boolean
       localArtifactSmokeRequired: boolean
       manifestHashComparisonRequired: boolean
+      strictManifestComparison: boolean
+      inferredLiveObservationAllowed: boolean
     }
-    checks: Array<{ id: string; status: string }>
+    checks: Array<{ id: string; status: string; localCandidateMatches?: boolean }>
   }
   const candidate = JSON.parse(await readFile('data/release-candidate.json', 'utf8')) as {
     status: string
@@ -998,16 +1012,23 @@ test('post-deploy smoke runner is wired to the release manifest and Pages workfl
     scripts: Record<string, string>
   }
 
-  expect(['blocked-missing-origin', 'post-deploy-smoke-passed']).toContain(smoke.status)
+  expect(['blocked-missing-origin', 'post-deploy-smoke-passed', 'post-deploy-smoke-observed-live']).toContain(
+    smoke.status,
+  )
   expect(smoke.sourceStatus.releaseCandidate).toBe(candidate.status)
   expect(smoke.target.candidateId).toBe(candidate.candidateId)
   expect(smoke.target.aggregateHash).toBe(candidate.integrity.aggregateHash)
+  if (smoke.target.origin) {
+    expect(smoke.target.originSource).not.toBe('missing')
+  }
   expect(smoke.controls.zeroPaidSpend).toBe(true)
   expect(smoke.controls.noStoreSubmission).toBe(true)
   expect(smoke.controls.noRevenueEnablement).toBe(true)
   expect(smoke.controls.readOnlyHttpChecks).toBe(true)
   expect(smoke.controls.localArtifactSmokeRequired).toBe(true)
   expect(smoke.controls.manifestHashComparisonRequired).toBe(true)
+  expect(smoke.controls.strictManifestComparison).toBe(smoke.target.strictManifestComparison)
+  expect(smoke.controls.inferredLiveObservationAllowed).toBe(!smoke.target.strictManifestComparison)
   expect(smoke.localArtifactSmoke.status).toBe('predeploy-artifact-smoke-passed')
   expect(smoke.localArtifactSmoke.summary.passed).toBe(smoke.localArtifactSmoke.summary.planned)
   expect(smoke.localArtifactSmoke.summary.failed).toBe(0)
@@ -1020,6 +1041,14 @@ test('post-deploy smoke runner is wired to the release manifest and Pages workfl
   expect(smoke.checks.length).toBeGreaterThanOrEqual(candidate.postDeploySmoke.length + 1)
   expect(smoke.checks.some((check) => check.id === 'release-candidate-manifest')).toBe(true)
   expect(smoke.target.origin ? smoke.summary.passed : smoke.summary.blocked).toBe(smoke.summary.planned)
+
+  if (smoke.status === 'post-deploy-smoke-observed-live') {
+    expect(smoke.target.strictManifestComparison).toBe(false)
+    expect(smoke.liveRelease?.localCandidateMatches).toBe(false)
+    expect(smoke.liveRelease?.candidateId).toMatch(/^pwa-[a-f0-9]{12}$/)
+    expect(smoke.liveRelease?.aggregateHash).toMatch(/^[a-f0-9]{64}$/)
+  }
+
   expect(packageJson.scripts['autonomous:post-deploy-smoke']).toBe('node scripts/post-deploy-smoke.mjs')
   expect(packageJson.scripts['autonomous:daily']).toContain('autonomous:post-deploy-smoke')
   expect(workflow).toContain('npm run autonomous:operate')

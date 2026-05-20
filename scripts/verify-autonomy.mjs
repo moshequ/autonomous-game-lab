@@ -3634,7 +3634,11 @@ if (
   fail('Production readiness must include release-candidate integrity and post-deploy smoke evidence.')
 }
 
-const postDeploySmokeAllowedStatuses = ['blocked-missing-origin', 'post-deploy-smoke-passed']
+const postDeploySmokeAllowedStatuses = [
+  'blocked-missing-origin',
+  'post-deploy-smoke-passed',
+  'post-deploy-smoke-observed-live',
+]
 const postDeploySmokeExpectedChecks = (releaseCandidate.postDeploySmoke?.length ?? 0) + 1
 const postDeployManifestCheck = postDeploySmoke.checks?.find(
   (check) => check.id === 'release-candidate-manifest',
@@ -3670,13 +3674,19 @@ if (
   (postDeploySmoke.checks?.length ?? 0) < postDeploySmokeExpectedChecks ||
   !postDeployManifestCheck ||
   (postDeploySmoke.target?.origin
-    ? postDeploySmoke.status !== 'post-deploy-smoke-passed' ||
-      postDeploySmoke.summary?.passed !== postDeploySmoke.summary?.planned
+    ? !['post-deploy-smoke-passed', 'post-deploy-smoke-observed-live'].includes(postDeploySmoke.status) ||
+      postDeploySmoke.summary?.passed !== postDeploySmoke.summary?.planned ||
+      (postDeploySmoke.status === 'post-deploy-smoke-observed-live' &&
+        (postDeploySmoke.liveRelease?.localCandidateMatches !== false ||
+          postDeploySmoke.target?.strictManifestComparison !== false ||
+          typeof postDeploySmoke.liveRelease?.candidateId !== 'string' ||
+          typeof postDeploySmoke.liveRelease?.aggregateHash !== 'string'))
     : postDeploySmoke.status !== 'blocked-missing-origin' ||
       postDeploySmoke.summary?.blocked !== postDeploySmoke.summary?.planned) ||
   packageJson.scripts?.['autonomous:post-deploy-smoke'] !== 'node scripts/post-deploy-smoke.mjs' ||
   packageJson.scripts?.['autonomous:daily']?.includes('autonomous:post-deploy-smoke') !== true ||
   !postDeploySmokeSource.includes('AGL_DEPLOYED_PWA_ORIGIN') ||
+  !postDeploySmokeSource.includes('post-deploy-smoke-observed-live') ||
   !postDeploySmokeSource.includes('manifestHashComparisonRequired') ||
   !webDeployWorkflow.includes('AGL_DEPLOYED_PWA_ORIGIN') ||
   !webDeployWorkflow.includes('npm run autonomous:post-deploy-smoke -- --assert') ||

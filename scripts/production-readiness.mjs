@@ -454,9 +454,11 @@ const localArtifactSmokeReady =
   localArtifactSmoke.controls?.requiredTextChecks === true &&
   localArtifactSmoke.controls?.manifestHashComparisonRequired === true &&
   localArtifactSmoke.checks?.some((item) => item.id === 'release-candidate-manifest')
-const postDeploySmokeStatusAllowed = ['blocked-missing-origin', 'post-deploy-smoke-passed'].includes(
-  postDeploySmoke.status,
-)
+const postDeploySmokeStatusAllowed = [
+  'blocked-missing-origin',
+  'post-deploy-smoke-passed',
+  'post-deploy-smoke-observed-live',
+].includes(postDeploySmoke.status)
 const postDeploySmokeRunnerReady =
   postDeploySmokeStatusAllowed &&
   localArtifactSmokeReady &&
@@ -472,9 +474,14 @@ const postDeploySmokeRunnerReady =
   postDeploySmoke.controls?.manifestHashComparisonRequired === true &&
   postDeploySmokeChecks.length >= postDeploySmokeExpectedChecks &&
   postDeploySmokeChecks.some((item) => item.id === 'release-candidate-manifest') &&
-  (postDeploySmoke.status === 'post-deploy-smoke-passed'
-    ? postDeploySmoke.summary?.failed === 0 && postDeploySmoke.summary?.passed === postDeploySmoke.summary?.planned
-    : postDeploySmoke.summary?.blocked === postDeploySmoke.summary?.planned)
+  (postDeploySmoke.status === 'blocked-missing-origin'
+    ? postDeploySmoke.summary?.blocked === postDeploySmoke.summary?.planned
+    : postDeploySmoke.summary?.failed === 0 &&
+      postDeploySmoke.summary?.passed === postDeploySmoke.summary?.planned &&
+      (postDeploySmoke.status === 'post-deploy-smoke-passed' ||
+        (postDeploySmoke.status === 'post-deploy-smoke-observed-live' &&
+          postDeploySmoke.liveRelease?.localCandidateMatches === false &&
+          postDeploySmoke.target?.strictManifestComparison === false)))
 const productOptimizationReady =
   productOptimization.status === 'product-optimization-ready' &&
   productOptimization.sourceStatus?.analyticsSource === analytics.sourceStatus?.activeSource &&

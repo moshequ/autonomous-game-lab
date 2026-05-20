@@ -11,6 +11,10 @@ const outputTsPath = path.join(root, 'src', 'data', 'postDeploySmoke.ts')
 const reportPath = path.join(root, 'reports', 'post-deploy-smoke-latest.md')
 
 const readJson = async (filePath) => JSON.parse(await readFile(filePath, 'utf8'))
+const readOptionalJson = async (filePath, fallback) =>
+  readFile(filePath, 'utf8')
+    .then((raw) => JSON.parse(raw))
+    .catch(() => fallback)
 const argv = process.argv.slice(2)
 const argValue = (prefix) => argv.find((arg) => arg.startsWith(prefix))?.slice(prefix.length)
 const assertMode = argv.includes('--assert')
@@ -20,15 +24,9 @@ const explicitOrigin = argValue('--origin=')
 const allowPlannedPublicOrigin = ['1', 'true', 'yes'].includes(
   String(process.env.AGL_POST_DEPLOY_USE_PUBLIC_ORIGIN ?? '').toLowerCase(),
 )
-const deployedOrigin =
-  explicitOrigin ??
-  process.env.AGL_DEPLOYED_PWA_ORIGIN ??
-  process.env.DEPLOYED_PWA_ORIGIN ??
-  (allowPlannedPublicOrigin ? (process.env.AGL_PUBLIC_ORIGIN ?? process.env.PUBLIC_SITE_URL) : null) ??
-  ''
 
 const normalizeOrigin = (value) => {
-  const trimmed = value.trim()
+  const trimmed = String(value ?? '').trim()
 
   if (!trimmed) {
     return null
@@ -78,7 +76,59 @@ const releaseCandidate = await readJson(path.join(dataDir, 'release-candidate.js
 const deployment = await readJson(path.join(dataDir, 'deployment-plan.json'))
 const productionResponse = await readJson(path.join(dataDir, 'production-response.json'))
 const unitEconomics = await readJson(path.join(dataDir, 'unit-economics.json'))
-const origin = normalizeOrigin(deployedOrigin)
+const productionEnvironment = await readOptionalJson(path.join(dataDir, 'production-environment.json'), {
+  publicOrigin: {},
+})
+const deployedOriginCandidate = (() => {
+  if (explicitOrigin) {
+    return { value: explicitOrigin, source: 'cli-origin', strictManifestComparison: true }
+  }
+
+  if (process.env.AGL_DEPLOYED_PWA_ORIGIN) {
+    return {
+      value: process.env.AGL_DEPLOYED_PWA_ORIGIN,
+      source: 'agl-deployed-pwa-origin',
+      strictManifestComparison: true,
+    }
+  }
+
+  if (process.env.DEPLOYED_PWA_ORIGIN) {
+    return {
+      value: process.env.DEPLOYED_PWA_ORIGIN,
+      source: 'deployed-pwa-origin',
+      strictManifestComparison: true,
+    }
+  }
+
+  if (allowPlannedPublicOrigin && process.env.AGL_PUBLIC_ORIGIN) {
+    return { value: process.env.AGL_PUBLIC_ORIGIN, source: 'agl-public-origin-opt-in', strictManifestComparison: false }
+  }
+
+  if (allowPlannedPublicOrigin && process.env.PUBLIC_SITE_URL) {
+    return { value: process.env.PUBLIC_SITE_URL, source: 'public-site-url-opt-in', strictManifestComparison: false }
+  }
+
+  if (releaseCandidate.target?.publicOrigin) {
+    return {
+      value: releaseCandidate.target.publicOrigin,
+      source: 'release-candidate-public-origin',
+      strictManifestComparison: false,
+    }
+  }
+
+  if (productionEnvironment.publicOrigin?.origin) {
+    return {
+      value: productionEnvironment.publicOrigin.origin,
+      source: 'production-environment-public-origin',
+      strictManifestComparison: false,
+    }
+  }
+
+  return { value: '', source: 'missing', strictManifestComparison: false }
+})()
+const origin = normalizeOrigin(deployedOriginCandidate.value)
+const originSource = origin ? deployedOriginCandidate.source : 'missing'
+const strictManifestComparison = origin ? deployedOriginCandidate.strictManifestComparison : false
 const smokePlan = releaseCandidate.postDeploySmoke ?? []
 const plannedChecks = smokePlan.map((item) => ({
   id: item.id,
@@ -254,22 +304,34 @@ const runChecks = async () => {
     const candidateMatches = parsed?.candidateId === releaseCandidate.candidateId
     const hashMatches = parsed?.integrity?.aggregateHash === releaseCandidate.integrity?.aggregateHash
     const statusMatches = response.status === 200
+    const deployedManifestReady =
+      statusMatches &&
+      parsed?.status === 'release-candidate-ready' &&
+      typeof parsed?.candidateId === 'string' &&
+      typeof parsed?.integrity?.aggregateHash === 'string'
+    const localCandidateMatches = candidateMatches && hashMatches
+    const manifestStatus = strictManifestComparison ? localCandidateMatches && statusMatches : deployedManifestReady
 
     smokeResults.push({
       ...manifestCheck,
-      status: statusMatches && candidateMatches && hashMatches ? 'pass' : 'fail',
+      status: manifestStatus ? 'pass' : 'fail',
       actualStatus: response.status,
       finalUrl: response.finalUrl,
       contentType: response.contentType,
       bytes: response.text.length,
       candidateMatches,
       hashMatches,
+      localCandidateMatches,
+      strictManifestComparison,
+      deployedReleaseStatus: parsed?.status ?? null,
       deployedCandidateId: parsed?.candidateId ?? null,
       deployedAggregateHash: parsed?.integrity?.aggregateHash ?? null,
       detail:
-        statusMatches && candidateMatches && hashMatches
+        statusMatches && localCandidateMatches
           ? 'Deployed release manifest matches the local release candidate.'
-          : 'Deployed release manifest does not match the local release candidate.',
+          : manifestStatus
+            ? 'Live release manifest is reachable; it does not match the current local release candidate.'
+            : 'Deployed release manifest does not match the expected release manifest contract.',
     })
   } catch (error) {
     smokeResults.push({
@@ -281,6 +343,9 @@ const runChecks = async () => {
       bytes: 0,
       candidateMatches: false,
       hashMatches: false,
+      localCandidateMatches: false,
+      strictManifestComparison,
+      deployedReleaseStatus: null,
       detail: error instanceof Error ? error.message : String(error),
     })
   }
@@ -293,11 +358,30 @@ const checks = await runChecks()
 const failedChecks = checks.filter((check) => check.status === 'fail')
 const blockedChecks = checks.filter((check) => check.status === 'blocked')
 const passedChecks = checks.filter((check) => check.status === 'pass')
+const deployedManifestCheck = checks.find((check) => check.id === 'release-candidate-manifest')
+const liveRelease = origin
+  ? {
+      status: deployedManifestCheck?.deployedReleaseStatus ?? null,
+      candidateId: deployedManifestCheck?.deployedCandidateId ?? null,
+      aggregateHash: deployedManifestCheck?.deployedAggregateHash ?? null,
+      localCandidateMatches: deployedManifestCheck?.localCandidateMatches === true,
+      strictManifestComparison,
+    }
+  : null
+const observedDifferentLiveCandidate = Boolean(
+  origin &&
+    !strictManifestComparison &&
+    liveRelease?.candidateId &&
+    liveRelease?.aggregateHash &&
+    liveRelease.localCandidateMatches === false,
+)
 const status = !origin
   ? 'blocked-missing-origin'
   : failedChecks.length
     ? 'post-deploy-smoke-failed'
-    : 'post-deploy-smoke-passed'
+    : observedDifferentLiveCandidate
+      ? 'post-deploy-smoke-observed-live'
+      : 'post-deploy-smoke-passed'
 
 const payload = {
   generatedAt: new Date().toISOString(),
@@ -305,10 +389,13 @@ const payload = {
   envFiles: localEnv,
   target: {
     origin: origin?.toString() ?? null,
+    originSource,
     provider: deployment.target?.provider ?? releaseCandidate.target?.provider ?? 'github-pages',
     candidateId: releaseCandidate.candidateId,
     aggregateHash: releaseCandidate.integrity?.aggregateHash ?? null,
+    strictManifestComparison,
   },
+  liveRelease,
   sourceStatus: {
     deployment: deployment.status,
     releaseCandidate: releaseCandidate.status,
@@ -329,13 +416,17 @@ const payload = {
     readOnlyHttpChecks: true,
     localArtifactSmokeRequired: true,
     manifestHashComparisonRequired: true,
+    strictManifestComparison,
+    inferredLiveObservationAllowed: !strictManifestComparison,
   },
   checks,
   nextActions: [
     origin
       ? failedChecks.length
         ? 'Hold promotion and inspect failed post-deploy smoke checks.'
-        : 'Keep the deployed Pages URL active for live traffic collection.'
+        : observedDifferentLiveCandidate
+          ? `Live Pages is reachable and serving ${liveRelease.candidateId}; run the deploy workflow for strict proof of the current local candidate if needed.`
+          : 'Keep the deployed Pages URL active for live traffic collection.'
       : 'Run this after deployment with AGL_DEPLOYED_PWA_ORIGIN set to the Pages URL.',
     'Keep revenue, paid acquisition, and app-store submission disabled until product and credential gates pass.',
   ],
@@ -347,7 +438,9 @@ const report = [
   `Generated: ${payload.generatedAt}`,
   `Status: ${payload.status}`,
   `Origin: ${payload.target.origin ?? 'missing'}`,
+  `Origin source: ${payload.target.originSource}`,
   `Candidate: ${payload.target.candidateId}`,
+  `Live candidate: ${payload.liveRelease?.candidateId ?? 'missing'}`,
   '',
   '## Summary',
   '',
