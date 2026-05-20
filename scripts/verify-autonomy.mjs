@@ -1985,6 +1985,8 @@ if (
   !selfUpdateWorkflow.includes('contents: write') ||
   !selfUpdateWorkflow.includes('npm run autonomous:operate') ||
   !selfUpdateWorkflow.includes('npm run autonomous:self-update -- --assert-safe') ||
+  !selfUpdateWorkflow.includes('GITHUB_TOKEN: ${{ github.token }}') ||
+  !selfUpdateWorkflow.includes('AGL_AUTONOMOUS_SELF_UPDATE_DIRECT: ${{ vars.AGL_AUTONOMOUS_SELF_UPDATE_DIRECT }}') ||
   !workflow.includes('contents: read') ||
   !autonomousSelfUpdateSource.includes('allowedPrefixes') ||
   !autonomousSelfUpdateSource.includes('public/gate-sample.html') ||

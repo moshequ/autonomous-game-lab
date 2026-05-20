@@ -41,11 +41,16 @@ jobs:
         run: npm run autonomous:operate
 
       - name: Assert self-update safety
+        env:
+          AGL_AUTONOMOUS_SELF_UPDATE: ${{ vars.AGL_AUTONOMOUS_SELF_UPDATE }}
+          AGL_AUTONOMOUS_SELF_UPDATE_DIRECT: ${{ vars.AGL_AUTONOMOUS_SELF_UPDATE_DIRECT }}
+          GITHUB_TOKEN: ${{ github.token }}
         run: npm run autonomous:self-update -- --assert-safe
 
       - name: Commit verified autonomous changes
         env:
           AGL_AUTONOMOUS_SELF_UPDATE_DIRECT: ${{ vars.AGL_AUTONOMOUS_SELF_UPDATE_DIRECT }}
+          GITHUB_TOKEN: ${{ github.token }}
         run: |
           if [[ "${AGL_AUTONOMOUS_SELF_UPDATE_DIRECT:-0}" != "1" ]]; then
             echo "skip commit: AGL_AUTONOMOUS_SELF_UPDATE_DIRECT is not enabled"

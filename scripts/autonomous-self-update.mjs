@@ -226,10 +226,12 @@ const checks = [
       selfUpdateWorkflow.includes("vars.AGL_AUTONOMOUS_SELF_UPDATE == '1'") &&
       selfUpdateWorkflow.includes('contents: write') &&
       selfUpdateWorkflow.includes('npm run autonomous:operate') &&
-      selfUpdateWorkflow.includes('npm run autonomous:self-update -- --assert-safe')
+      selfUpdateWorkflow.includes('npm run autonomous:self-update -- --assert-safe') &&
+      selfUpdateWorkflow.includes('GITHUB_TOKEN: ${{ github.token }}') &&
+      selfUpdateWorkflow.includes('AGL_AUTONOMOUS_SELF_UPDATE_DIRECT: ${{ vars.AGL_AUTONOMOUS_SELF_UPDATE_DIRECT }}')
         ? 'pass'
         : 'blocker',
-    detail: 'A separate gated workflow can reproduce the owner loop, verify it, and persist allowlisted changes.',
+    detail: 'A separate gated workflow can reproduce the owner loop, verify it with gate env, and persist allowlisted changes.',
   },
   {
     id: 'post-self-update-deploy',

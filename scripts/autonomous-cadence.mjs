@@ -616,11 +616,13 @@ const checks = [
       selfUpdateWorkflow.includes("workflows: ['Autonomous Daily Studio']") &&
       selfUpdateWorkflow.includes("vars.AGL_AUTONOMOUS_SELF_UPDATE == '1'") &&
       selfUpdateWorkflow.includes('contents: write') &&
-      selfUpdateWorkflow.includes('npm run autonomous:self-update -- --assert-safe')
+      selfUpdateWorkflow.includes('npm run autonomous:self-update -- --assert-safe') &&
+      selfUpdateWorkflow.includes('GITHUB_TOKEN: ${{ github.token }}') &&
+      selfUpdateWorkflow.includes('AGL_AUTONOMOUS_SELF_UPDATE_DIRECT: ${{ vars.AGL_AUTONOMOUS_SELF_UPDATE_DIRECT }}')
         ? 'pass'
         : 'blocker',
     detail: selfUpdateWorkflowExists
-      ? 'Gated GitHub workflow can persist allowlisted verified generated changes when explicitly enabled.'
+      ? 'Gated GitHub workflow can persist allowlisted verified generated changes with workflow token evidence when explicitly enabled.'
       : 'Autonomous self-update GitHub workflow is missing.',
   },
   {
