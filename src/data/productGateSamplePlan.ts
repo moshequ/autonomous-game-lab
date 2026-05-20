@@ -1,5 +1,5 @@
 export const productGateSamplePlan = {
-  "generatedAt": "2026-05-20T00:07:15.675Z",
+  "generatedAt": "2026-05-20T00:10:14.975Z",
   "status": "product-gate-sample-plan-ready",
   "sourceStatus": {
     "analyticsSource": "fixture-sample",
