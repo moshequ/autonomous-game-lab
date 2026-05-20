@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-20T15:43:55.649Z",
+  "generatedAt": "2026-05-20T15:44:45.273Z",
   "status": "operator-plan-ready",
   "mode": "plan-only",
   "ownerDecision": {
@@ -24,6 +24,7 @@
   "selectedRejection": null,
   "eligibleActionIds": [
     "refresh-autonomous-cadence",
+    "refresh-autonomous-self-update",
     "seed-portfolio-traffic",
     "refresh-organic-seed-loop",
     "optimize-daily-retention",
@@ -39,7 +40,6 @@
     "refresh-completion-loop",
     "refresh-replay-loop",
     "bootstrap-production-setup",
-    "refresh-objective-audit",
     "optimize-store-listing",
     "apply-safe-improvements",
     "collect-live-events"
@@ -59,9 +59,9 @@
     },
     {
       "id": "refresh-autonomous-self-update",
-      "status": "monitor",
+      "status": "armed",
       "command": "npm run autonomous:self-update",
-      "reason": "status-monitor"
+      "reason": "not-selected-this-run"
     },
     {
       "id": "seed-portfolio-traffic",
@@ -179,9 +179,9 @@
     },
     {
       "id": "refresh-objective-audit",
-      "status": "armed",
+      "status": "monitor",
       "command": "npm run autonomous:objective-audit",
-      "reason": "not-selected-this-run"
+      "reason": "status-monitor"
     },
     {
       "id": "optimize-store-listing",

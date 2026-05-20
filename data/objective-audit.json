@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-05-20T15:43:55.883Z",
+  "generatedAt": "2026-05-20T15:44:45.511Z",
   "status": "objective-in-progress",
   "objective": "Build a bootstrapped autonomous web/PWA game portal that can generate original board-game-inspired games, measure user behavior, propose and apply data-driven improvements, and prepare a path to monetization and app-store distribution with minimal manual intervention.",
   "summary": {
     "requirements": 8,
-    "met": 4,
+    "met": 5,
     "prepared": 2,
-    "incomplete": 2,
+    "incomplete": 1,
     "externalBlockers": 13,
     "productBlockers": 6
   },
@@ -85,12 +85,12 @@
     },
     {
       "id": "minimal-intervention-autonomy",
-      "status": "incomplete",
+      "status": "met-local",
       "summary": "A scheduled local loop, owner state, bootstrap handoff, and dry-run operator reduce manual maintenance.",
       "evidence": [
         "Owner loop: owner-loop-ready",
         "Autonomous cadence: cadence-ready; Codex active-confirmed; GitHub scheduled",
-        "Autonomous self-update: self-update-needs-attention; workflow .github/workflows/autonomous-self-update.yml; unsafe pending 2",
+        "Autonomous self-update: self-update-ready; workflow .github/workflows/autonomous-self-update.yml; unsafe pending 0",
         "Operator: operator-plan-ready",
         "Operator history: operator-history-ready; records 40; executed 1",
         "Bootstrap: production-bootstrap-ready",
@@ -99,11 +99,10 @@
         "Post-deploy smoke: post-deploy-smoke-observed-live; origin https://moshequ.github.io/autonomous-game-lab; checks 15/15; local artifact predeploy-artifact-smoke-passed 15/15",
         "Strict deploy artifact sync: post-deploy-artifact-sync-passed; run 26171799929; live matches artifact true; candidate pwa-7f57ad8adae7",
         "Repository channel: repository-channel-ready; repository moshequ/autonomous-game-lab; git worktree true",
-        "Autonomy score: 93%",
+        "Autonomy score: 95%",
         "Credential-gated actions: 10"
       ],
       "blockers": [
-        "safe-path-allowlist: 60 safe pending file(s), 2 unsafe pending file(s).",
         "Commit current generated changes before pushing to GitHub Pages.",
         "AGL_SUPPORT_EMAIL: Production support contact for privacy and store listings.",
         "VITE_POSTHOG_KEY: Optional browser-side PostHog analytics forwarding.",
@@ -238,7 +237,7 @@
     "noRevenueEnablementUntilGatesPass": true,
     "noStoreSubmissionUntilExternalAccounts": true,
     "currentWorktreeClean": false,
-    "currentWorktreeDirtyFiles": 62
+    "currentWorktreeDirtyFiles": 10
   },
   "completion": {
     "canMarkGoalComplete": false,
