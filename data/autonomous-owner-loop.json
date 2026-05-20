@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-20T09:50:39.296Z",
+  "generatedAt": "2026-05-20T10:55:17.676Z",
   "status": "owner-loop-ready",
   "mode": "zero-spend-web-ready",
   "autonomyScore": {
@@ -36,8 +36,7 @@
       "optimize-daily-retention",
       "refresh-autonomous-self-update",
       "collect-gate-sample-downloads",
-      "optimize-product-gates",
-      "bootstrap-production-setup"
+      "optimize-product-gates"
     ],
     "lastExecutedActionId": "refresh-organic-seed-loop",
     "lastExecutedStatus": "executed",
@@ -50,7 +49,7 @@
     "objectiveAuditFreshness": {
       "fresh": true,
       "structurallyReady": true,
-      "auditGeneratedAt": "2026-05-20T09:50:39.072Z",
+      "auditGeneratedAt": "2026-05-20T10:55:17.457Z",
       "evaluatedInputIds": [
         "analytics-rollup",
         "event-ingest",
@@ -68,7 +67,7 @@
     "gateSampleDownloadsBackoff": {
       "enabled": true,
       "cooldownHours": 4,
-      "coolingDown": true,
+      "coolingDown": false,
       "lastExplicitScanAt": "2026-05-20T05:52:52.843Z",
       "lastExplicitScanStatus": "no-evidence-found",
       "evidenceReadyNow": false
@@ -80,10 +79,11 @@
       "optimize-daily-retention",
       "measure-pwa-install-loop",
       "optimize-product-gates",
-      "bootstrap-production-setup"
+      "collect-gate-sample-downloads"
     ],
     "skippedRecentlySatisfiedActionIds": [
       "refresh-product-gate-recovery",
+      "refresh-product-gate-sample-plan",
       "collect-live-events"
     ],
     "preferredActionOrder": [
@@ -170,7 +170,7 @@
       "id": "autonomous-self-update",
       "status": "ready",
       "autonomy": "gated-generated-change-persistence",
-      "evidence": "Self-update self-update-ready; safe pending 36; unsafe pending 0; remote push held.",
+      "evidence": "Self-update self-update-ready; safe pending 70; unsafe pending 0; remote push held.",
       "nextAction": "When a GitHub repository is connected, set AGL_AUTONOMOUS_SELF_UPDATE=1 and AGL_AUTONOMOUS_SELF_UPDATE_DIRECT=1 to let verified generated changes persist."
     },
     {
@@ -219,7 +219,7 @@
       "id": "performance-budget",
       "status": "ready",
       "autonomy": "automatic-build-budget",
-      "evidence": "Initial JS 617.6 KB; gzip 169.9 KB; deferred chunks 1.",
+      "evidence": "Initial JS 621.8 KB; gzip 170.7 KB; deferred chunks 1.",
       "nextAction": "Keep Phaser and game scenes outside the initial PWA shell."
     },
     {
@@ -303,14 +303,14 @@
       "id": "release-candidate",
       "status": "ready",
       "autonomy": "content-hashed-deploy-evidence",
-      "evidence": "Candidate pwa-735dec3dbee6; status release-candidate-ready; files 44; smoke URLs 14.",
+      "evidence": "Candidate pwa-941a634cae7a; status release-candidate-ready; files 44; smoke URLs 14.",
       "nextAction": "Regenerate the release candidate after every production build before deploy or rollback decisions."
     },
     {
       "id": "post-deploy-smoke",
       "status": "ready",
       "autonomy": "read-only-live-deploy-verification",
-      "evidence": "Smoke blocked-missing-origin; origin missing; candidate pwa-735dec3dbee6; checks 0/15 passed; local artifact predeploy-artifact-smoke-passed 15/15 passed.",
+      "evidence": "Smoke blocked-missing-origin; origin missing; candidate pwa-941a634cae7a; checks 0/15 passed; local artifact predeploy-artifact-smoke-passed 15/15 passed.",
       "nextAction": "Run this after deployment with AGL_DEPLOYED_PWA_ORIGIN set to the Pages URL."
     },
     {
@@ -338,7 +338,7 @@
       "id": "operator-history",
       "status": "ready",
       "autonomy": "operator-audit-trail",
-      "evidence": "History operator-history-ready; records 40; executed 9.",
+      "evidence": "History operator-history-ready; records 40; executed 7.",
       "nextAction": "Keep a capped durable record of operator plans and one-action executions."
     },
     {
@@ -470,7 +470,7 @@
       "command": "npm run build && npm run autonomous:performance",
       "targets": [
         "pwa-shell",
-        "GameCanvas-B113asuI.js"
+        "GameCanvas-CHmjmLHZ.js"
       ],
       "reason": "Keeps the PWA shell fast while Phaser and game scenes stay deferred."
     },
@@ -480,7 +480,7 @@
       "costUsd": 0,
       "command": "npm run autonomous:release-candidate",
       "targets": [
-        "pwa-735dec3dbee6"
+        "pwa-941a634cae7a"
       ],
       "reason": "Records a content-hashed dist inventory and post-deploy smoke plan for the exact PWA build."
     },
@@ -491,7 +491,7 @@
       "command": "npm run autonomous:post-deploy-smoke",
       "targets": [
         "deployed-pages-url",
-        "pwa-735dec3dbee6"
+        "pwa-941a634cae7a"
       ],
       "reason": "Waits for a deployed Pages origin, then verifies the live PWA matches the exact release candidate."
     },
@@ -517,7 +517,7 @@
     },
     {
       "id": "collect-gate-sample-downloads",
-      "status": "monitor",
+      "status": "armed",
       "costUsd": 0,
       "command": "npm run autonomous:collect-sample-downloads",
       "targets": [
@@ -525,11 +525,11 @@
         "gate-sample-20260520-firstGameCompletion",
         "gate-sample-20260520-replayRate"
       ],
-      "reason": "Recent explicit Downloads scan found no player exports; retry after 4 hours or when an inbox event drop appears."
+      "reason": "Opt-in scans local browser Downloads and the event inbox for real player exports, imports them, refreshes analytics and recovery, then regenerates the sample plan."
     },
     {
       "id": "refresh-product-gate-sample-plan",
-      "status": "monitor",
+      "status": "armed",
       "costUsd": 0,
       "command": "npm run autonomous:sample-plan",
       "targets": [

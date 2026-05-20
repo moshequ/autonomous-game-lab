@@ -1,5 +1,5 @@
 export const productGateSamplePlan = {
-  "generatedAt": "2026-05-20T09:50:28.759Z",
+  "generatedAt": "2026-05-20T10:53:06.279Z",
   "status": "product-gate-sample-plan-ready",
   "sourceStatus": {
     "analyticsSource": "fixture-sample",
@@ -23,19 +23,19 @@ export const productGateSamplePlan = {
     "evidenceReadyCount": 0,
     "inboxReadyCount": 0,
     "downloadsScanStatus": "no-evidence-found",
-    "downloadsScanCoolingDown": true,
+    "downloadsScanCoolingDown": false,
     "downloadsScanNextRecommendedAt": "2026-05-20T09:52:52.843Z",
     "nextOwnerAction": "collect-gate-sample-downloads"
   },
   "downloadsScan": {
     "explicitOptInRequired": true,
     "cooldownHours": 4,
-    "coolingDown": true,
+    "coolingDown": false,
     "evidenceReadyNow": false,
     "lastScanAt": "2026-05-20T05:52:52.843Z",
     "lastScanStatus": "no-evidence-found",
-    "scanAgeHours": 3.96,
-    "cooldownRemainingHours": 0.04,
+    "scanAgeHours": 5,
+    "cooldownRemainingHours": 0,
     "nextRecommendedScanAt": "2026-05-20T09:52:52.843Z"
   },
   "publicSamplePage": {
@@ -344,7 +344,7 @@ export const productGateSamplePlan = {
   "nextActions": [
     "First game completion needs 30 more prompt exposure(s) and 58 observed success(es); feature Harbor Rings via /?game=harbor-rings&utm_source=gate_sample&utm_campaign=gate-sample-20260520-firstGameCompletion.",
     "D1 retention is the fastest gate sample: 10 prompt exposure(s), 1 observed success(es).",
-    "Wait until 2026-05-20T09:52:52.843Z before the next explicit Downloads scan unless an inbox event drop appears."
+    "Export or collect real browser events, then run npm run autonomous:collect-sample-downloads before changing copy, placement, revenue, or rules."
   ]
 } as const
 
