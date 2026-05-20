@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-05-20T16:56:54.679Z",
-  "status": "operator-plan-ready",
-  "mode": "plan-only",
+  "generatedAt": "2026-05-20T17:01:42.032Z",
+  "status": "operator-executed",
+  "mode": "execute-one-action",
   "ownerDecision": {
     "actionId": "seed-portfolio-traffic",
     "command": "npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop",
@@ -245,11 +245,77 @@
     }
   ],
   "execution": {
-    "requested": false,
-    "status": "not-requested",
+    "requested": true,
+    "status": "executed",
     "maxActionsPerRun": 1,
-    "attemptedActionId": null,
-    "results": []
+    "attemptedActionId": "seed-portfolio-traffic",
+    "results": [
+      {
+        "script": "autonomous:growth",
+        "exitCode": 0,
+        "stdoutTail": [
+          "> autonomous-game-lab@0.0.0 autonomous:growth",
+          "> node scripts/growth-planner.mjs",
+          "Wrote data/growth-plan.json",
+          "Wrote src/data/growthPlan.ts",
+          "Wrote reports/growth-plan-latest.md",
+          "Wrote public/sitemap.xml",
+          "Wrote public/robots.txt",
+          "Wrote 10 public game pages"
+        ],
+        "stderrTail": []
+      },
+      {
+        "script": "autonomous:portfolio",
+        "exitCode": 0,
+        "stdoutTail": [
+          "> autonomous-game-lab@0.0.0 autonomous:portfolio",
+          "> node scripts/portfolio-policy.mjs",
+          "Wrote data/portfolio-policy.json",
+          "Wrote src/data/portfolioPolicy.ts",
+          "Wrote reports/portfolio-policy-latest.md"
+        ],
+        "stderrTail": []
+      },
+      {
+        "script": "autonomous:traffic",
+        "exitCode": 0,
+        "stdoutTail": [
+          "> autonomous-game-lab@0.0.0 autonomous:traffic",
+          "> node scripts/traffic-seeding.mjs",
+          "Wrote data/traffic-seeding.json",
+          "Wrote src/data/trafficSeeding.ts",
+          "Wrote public/share-manifest.json",
+          "Wrote public/seed-kit.html",
+          "Wrote reports/traffic-seeding-latest.md"
+        ],
+        "stderrTail": []
+      },
+      {
+        "script": "autonomous:acquisition",
+        "exitCode": 0,
+        "stdoutTail": [
+          "> autonomous-game-lab@0.0.0 autonomous:acquisition",
+          "> node scripts/acquisition-learning.mjs",
+          "Wrote data/acquisition-learning.json",
+          "Wrote src/data/acquisitionLearning.ts",
+          "Wrote reports/acquisition-learning-latest.md"
+        ],
+        "stderrTail": []
+      },
+      {
+        "script": "autonomous:organic-seed-loop",
+        "exitCode": 0,
+        "stdoutTail": [
+          "> autonomous-game-lab@0.0.0 autonomous:organic-seed-loop",
+          "> node scripts/organic-seed-loop.mjs",
+          "Wrote data/organic-seed-loop.json",
+          "Wrote src/data/organicSeedLoop.ts",
+          "Wrote reports/organic-seed-loop-latest.md"
+        ],
+        "stderrTail": []
+      }
+    ]
   },
   "controls": {
     "zeroPaidSpend": true,
@@ -311,7 +377,7 @@
     "RUN_WORKFLOWS=1"
   ],
   "nextActions": [
-    "Run npm run autonomous:operator -- --execute --action=seed-portfolio-traffic to execute exactly one allowed local action.",
+    "Review seed-portfolio-traffic execution results before another operator run.",
     "Do not execute GitHub workflow, store, paid ads, or account setup commands from the local operator."
   ]
 }
