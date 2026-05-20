@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-20T09:11:02.866Z",
+  "generatedAt": "2026-05-20T09:19:57.656Z",
   "status": "owner-loop-ready",
   "mode": "zero-spend-web-ready",
   "autonomyScore": {
@@ -50,7 +50,7 @@
     "objectiveAuditFreshness": {
       "fresh": true,
       "structurallyReady": true,
-      "auditGeneratedAt": "2026-05-20T09:11:02.563Z",
+      "auditGeneratedAt": "2026-05-20T09:19:57.166Z",
       "evaluatedInputIds": [
         "analytics-rollup",
         "event-ingest",
@@ -163,14 +163,14 @@
       "id": "autonomous-cadence",
       "status": "ready",
       "autonomy": "scheduled-local-owner-loop",
-      "evidence": "Cadence cadence-ready; Codex active-declared-unverified; GitHub scheduled.",
+      "evidence": "Cadence cadence-ready; Codex active-confirmed; GitHub scheduled.",
       "nextAction": "Let the daily Codex automation run the local owner loop and keep the GitHub scheduled workflow as CI evidence."
     },
     {
       "id": "autonomous-self-update",
       "status": "ready",
       "autonomy": "verified-generated-change-persistence",
-      "evidence": "Self-update self-update-ready; safe pending 185; unsafe pending 0; remote push ready.",
+      "evidence": "Self-update self-update-ready; safe pending 28; unsafe pending 0; remote push ready.",
       "nextAction": "When a GitHub repository is connected, set AGL_AUTONOMOUS_SELF_UPDATE=1 and AGL_AUTONOMOUS_SELF_UPDATE_DIRECT=1 to let verified generated changes persist."
     },
     {
@@ -345,7 +345,7 @@
       "id": "objective-audit",
       "status": "ready",
       "autonomy": "completion-evidence-ledger",
-      "evidence": "Audit objective-in-progress; met 6/8; external blockers 13.",
+      "evidence": "Audit objective-in-progress; met 6/8; external blockers 12.",
       "nextAction": "The local autonomous PWA system is largely prepared, but production credentials, live data, monetization gates, hosted compliance URLs, and store account/signing blockers remain."
     },
     {

@@ -1,6 +1,6 @@
 # Autonomous Owner Loop
 
-Generated: 2026-05-20T09:11:02.866Z
+Generated: 2026-05-20T09:19:57.656Z
 Status: owner-loop-ready
 Mode: zero-spend-web-ready
 Autonomy score: 38/39 (97%)
@@ -21,8 +21,8 @@ Autonomy score: 38/39 (97%)
 - ready: game-factory - 10 playable games; 5 generated runtime games.
 - ready: analytics-ingest - Active source: fixture-sample; event ingest: idle-no-files; collector smoke: pass.
 - ready: local-event-bridge - Bridge bridge-waiting-for-export; inbox 0 event(s); imported 0 event(s).
-- ready: autonomous-cadence - Cadence cadence-ready; Codex active-declared-unverified; GitHub scheduled.
-- ready: autonomous-self-update - Self-update self-update-ready; safe pending 185; unsafe pending 0; remote push ready.
+- ready: autonomous-cadence - Cadence cadence-ready; Codex active-confirmed; GitHub scheduled.
+- ready: autonomous-self-update - Self-update self-update-ready; safe pending 28; unsafe pending 0; remote push ready.
 - ready: portfolio-loop - Daily challenge: Canopy Bloom; seed traffic: canopy-bloom, grove-engine, metro-loom, pocket-draft.
 - ready: traffic-seeding - 4 seed campaign(s); max cost $0.
 - ready: acquisition-learning - 4 campaign(s); 0 attributed start(s); candidate canopy-bloom.
@@ -47,7 +47,7 @@ Autonomy score: 38/39 (97%)
 - ready: production-activation - Activation activation-ready; mode dry-run; execution dry-run; gh ready.
 - ready: autonomous-operator - Operator operator-plan-ready; selected seed-portfolio-traffic; execution not-requested.
 - ready: operator-history - History operator-history-ready; records 40; executed 9.
-- ready: objective-audit - Audit objective-in-progress; met 6/8; external blockers 13.
+- ready: objective-audit - Audit objective-in-progress; met 6/8; external blockers 12.
 - ready: store-listing-optimizer - Focus canopy-bloom; lead screenshot phone-canopy-bloom-generated; candidate changed yes.
 - ready: store-compliance - Rating Everyone; target audience general; blockers 3.
 - ready: android-signing - Signing signing-prepared; fingerprint available; local secrets configured.

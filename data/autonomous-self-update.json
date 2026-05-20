@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-20T09:11:03.442Z",
+  "generatedAt": "2026-05-20T09:19:59.180Z",
   "status": "self-update-ready",
   "mode": "plan-and-assert",
   "envFiles": {
@@ -71,7 +71,7 @@
     "ownerLoop": "owner-loop-ready"
   },
   "pendingChanges": {
-    "total": 28,
+    "total": 14,
     "safe": [
       {
         "code": "M",
@@ -103,13 +103,6 @@
       },
       {
         "code": "M",
-        "path": "data/deployment-plan.json",
-        "raw": " M data/deployment-plan.json",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
         "path": "data/objective-audit.json",
         "raw": " M data/objective-audit.json",
         "safe": true,
@@ -117,43 +110,8 @@
       },
       {
         "code": "M",
-        "path": "data/performance-budget.json",
-        "raw": " M data/performance-budget.json",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "data/post-deploy-smoke.json",
-        "raw": " M data/post-deploy-smoke.json",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
         "path": "data/production-readiness.json",
         "raw": " M data/production-readiness.json",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "data/release-candidate.json",
-        "raw": " M data/release-candidate.json",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "data/repository-readiness.json",
-        "raw": " M data/repository-readiness.json",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "ops/codex/autonomous-game-lab-daily-owner-loop.json",
-        "raw": " M ops/codex/autonomous-game-lab-daily-owner-loop.json",
         "safe": true,
         "reason": "allowlisted-generated-artifact"
       },
@@ -187,13 +145,6 @@
       },
       {
         "code": "M",
-        "path": "reports/deployment-plan-latest.md",
-        "raw": " M reports/deployment-plan-latest.md",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
         "path": "reports/objective-audit-latest.md",
         "raw": " M reports/objective-audit-latest.md",
         "safe": true,
@@ -201,36 +152,8 @@
       },
       {
         "code": "M",
-        "path": "reports/performance-budget-latest.md",
-        "raw": " M reports/performance-budget-latest.md",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "reports/post-deploy-smoke-latest.md",
-        "raw": " M reports/post-deploy-smoke-latest.md",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
         "path": "reports/production-readiness-latest.md",
         "raw": " M reports/production-readiness-latest.md",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "reports/release-candidate-latest.md",
-        "raw": " M reports/release-candidate-latest.md",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "reports/repository-readiness-latest.md",
-        "raw": " M reports/repository-readiness-latest.md",
         "safe": true,
         "reason": "allowlisted-generated-artifact"
       },
@@ -247,31 +170,10 @@
         "raw": " M src/data/objectiveAudit.ts",
         "safe": true,
         "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "src/data/performanceBudget.ts",
-        "raw": " M src/data/performanceBudget.ts",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "src/data/postDeploySmoke.ts",
-        "raw": " M src/data/postDeploySmoke.ts",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "src/data/releaseCandidate.ts",
-        "raw": " M src/data/releaseCandidate.ts",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
       }
     ],
     "unsafe": [],
-    "safeCount": 28,
+    "safeCount": 14,
     "unsafeCount": 0
   },
   "commitPlan": {
@@ -288,30 +190,16 @@
       "data/autonomous-operator-history.json",
       "data/autonomous-operator.json",
       "data/autonomous-owner-loop.json",
-      "data/deployment-plan.json",
       "data/objective-audit.json",
-      "data/performance-budget.json",
-      "data/post-deploy-smoke.json",
       "data/production-readiness.json",
-      "data/release-candidate.json",
-      "data/repository-readiness.json",
-      "ops/codex/autonomous-game-lab-daily-owner-loop.json",
       "reports/autonomous-cadence-latest.md",
       "reports/autonomous-operator-history-latest.md",
       "reports/autonomous-operator-latest.md",
       "reports/autonomous-owner-loop-latest.md",
-      "reports/deployment-plan-latest.md",
       "reports/objective-audit-latest.md",
-      "reports/performance-budget-latest.md",
-      "reports/post-deploy-smoke-latest.md",
       "reports/production-readiness-latest.md",
-      "reports/release-candidate-latest.md",
-      "reports/repository-readiness-latest.md",
       "src/data/autonomousCadence.ts",
       "src/data/objectiveAudit.ts",
-      "src/data/performanceBudget.ts",
-      "src/data/postDeploySmoke.ts",
-      "src/data/releaseCandidate.ts",
       "data/autonomous-self-update.json",
       "src/data/autonomousSelfUpdate.ts",
       "reports/autonomous-self-update-latest.md"
@@ -413,7 +301,7 @@
     {
       "id": "safe-path-allowlist",
       "status": "pass",
-      "detail": "28 safe pending file(s), 0 unsafe pending file(s)."
+      "detail": "14 safe pending file(s), 0 unsafe pending file(s)."
     },
     {
       "id": "repository-optional",
