@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-20T20:04:02.700Z",
+  "generatedAt": "2026-05-20T20:10:28.570Z",
   "status": "post-deploy-smoke-observed-live",
   "envFiles": {
     "loaded": true,
@@ -55,14 +55,14 @@
     "origin": "https://moshequ.github.io/autonomous-game-lab",
     "originSource": "release-candidate-public-origin",
     "provider": "github-pages",
-    "candidateId": "pwa-1618b884fa1a",
-    "aggregateHash": "1618b884fa1aca52e4529d40cfc14d66e76f2eec0a04901b37b170e18c806f1b",
+    "candidateId": "pwa-59bdfa60da35",
+    "aggregateHash": "59bdfa60da3528f8eefe190e546fb91c0e6ff1d44a1c03a98d0994e29880151c",
     "strictManifestComparison": false
   },
   "liveRelease": {
     "status": "release-candidate-ready",
-    "candidateId": "pwa-4879f6a420de",
-    "aggregateHash": "4879f6a420de2be232af2cad47f7db9a97aa5f1571b9cc2b23b17fd0924c07e8",
+    "candidateId": "pwa-a11f44e32671",
+    "aggregateHash": "a11f44e32671095717a6eb0b2830f8e769cffa91a91ab19ced790a3a289d23c2",
     "localCandidateMatches": false,
     "strictManifestComparison": false
   },
@@ -241,8 +241,8 @@
         "bytes": 19426,
         "candidateMatches": true,
         "hashMatches": true,
-        "localCandidateId": "pwa-1618b884fa1a",
-        "localAggregateHash": "1618b884fa1aca52e4529d40cfc14d66e76f2eec0a04901b37b170e18c806f1b",
+        "localCandidateId": "pwa-59bdfa60da35",
+        "localAggregateHash": "59bdfa60da3528f8eefe190e546fb91c0e6ff1d44a1c03a98d0994e29880151c",
         "detail": "Local release manifest matches the release candidate."
       }
     ]
@@ -460,7 +460,7 @@
       "path": "/release-candidate.json",
       "url": "https://moshequ.github.io/autonomous-game-lab/release-candidate.json",
       "expectedStatus": 200,
-      "requiredText": "pwa-1618b884fa1a",
+      "requiredText": "pwa-59bdfa60da35",
       "status": "pass",
       "detail": "Live release manifest is reachable; it does not match the current local release candidate.",
       "actualStatus": 200,
@@ -472,12 +472,12 @@
       "localCandidateMatches": false,
       "strictManifestComparison": false,
       "deployedReleaseStatus": "release-candidate-ready",
-      "deployedCandidateId": "pwa-4879f6a420de",
-      "deployedAggregateHash": "4879f6a420de2be232af2cad47f7db9a97aa5f1571b9cc2b23b17fd0924c07e8"
+      "deployedCandidateId": "pwa-a11f44e32671",
+      "deployedAggregateHash": "a11f44e32671095717a6eb0b2830f8e769cffa91a91ab19ced790a3a289d23c2"
     }
   ],
   "nextActions": [
-    "Live Pages is reachable and serving pwa-4879f6a420de; run the deploy workflow for strict proof of the current local candidate if needed.",
+    "Live Pages is reachable and serving pwa-a11f44e32671; run the deploy workflow for strict proof of the current local candidate if needed.",
     "Keep revenue, paid acquisition, and app-store submission disabled until product and credential gates pass."
   ]
 }
