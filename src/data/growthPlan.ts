@@ -1,5 +1,5 @@
 export const growthPlan = {
-  "generatedAt": "2026-05-20T00:07:04.333Z",
+  "generatedAt": "2026-05-20T00:36:31.363Z",
   "siteUrl": "https://autonomous-game-lab.example.com",
   "status": "growth-assets-ready",
   "gamePages": [
