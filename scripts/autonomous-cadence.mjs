@@ -560,6 +560,9 @@ const checks = [
     status:
       testAutomationScript.includes('event-collector-smoke') &&
       testAutomationScript.includes('event-ingest-smoke') &&
+      testAutomationScript.includes('autonomous:release-candidate') &&
+      testAutomationScript.includes('autonomous:post-deploy-smoke') &&
+      testAutomationScript.includes('autonomous:readiness') &&
       testAutomationScript.includes('verify-autonomy')
         ? 'pass'
         : 'blocker',

@@ -2542,6 +2542,26 @@ if (!testAutomationScript.includes('local-event-bridge')) {
   fail('Autonomous verification must refresh the local event bridge artifact before verification.')
 }
 
+if (!testAutomationScript.includes('npm run build')) {
+  fail('Autonomous verification must rebuild dist before refreshing release evidence.')
+}
+
+if (!testAutomationScript.includes('autonomous:performance')) {
+  fail('Autonomous verification must refresh the performance budget after rebuilding dist.')
+}
+
+if (!testAutomationScript.includes('autonomous:release-candidate')) {
+  fail('Autonomous verification must regenerate the release-candidate manifest before verifying it.')
+}
+
+if (!testAutomationScript.includes('autonomous:post-deploy-smoke')) {
+  fail('Autonomous verification must refresh post-deploy smoke evidence before verifying release readiness.')
+}
+
+if (!testAutomationScript.includes('autonomous:readiness')) {
+  fail('Autonomous verification must refresh production readiness before verifying release evidence.')
+}
+
 if (
   testAutomationScript.indexOf('event-collector-smoke') > testAutomationScript.indexOf('verify-autonomy')
 ) {
@@ -2564,6 +2584,20 @@ if (
 
 if (testAutomationScript.indexOf('local-event-bridge') > testAutomationScript.indexOf('verify-autonomy')) {
   fail('Autonomous verification must refresh local event bridge artifacts before verifying them.')
+}
+
+if (
+  testAutomationScript.indexOf('npm run build') > testAutomationScript.indexOf('autonomous:performance') ||
+  testAutomationScript.indexOf('autonomous:performance') > testAutomationScript.indexOf('autonomous:release-candidate') ||
+  testAutomationScript.indexOf('autonomous:release-candidate') >
+    testAutomationScript.indexOf('autonomous:post-deploy-smoke') ||
+  testAutomationScript.indexOf('autonomous:post-deploy-smoke') >
+    testAutomationScript.indexOf('autonomous:readiness') ||
+  testAutomationScript.lastIndexOf('autonomous:readiness') > testAutomationScript.indexOf('verify-autonomy')
+) {
+  fail(
+    'Autonomous verification must rebuild dist, refresh performance, release candidate, smoke, and readiness before verify-autonomy.',
+  )
 }
 
 if (
