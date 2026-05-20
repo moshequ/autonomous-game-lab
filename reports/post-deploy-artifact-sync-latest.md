@@ -1,11 +1,11 @@
 # Post-Deploy Artifact Sync
 
-Generated: 2026-05-20T14:03:58.497Z
+Generated: 2026-05-20T14:14:14.266Z
 Status: post-deploy-artifact-sync-passed
 Repository: moshequ/autonomous-game-lab
 Workflow: web-pwa-deploy.yml
 Run: 26166932960
-Origin: https://moshequ.github.io/autonomous-game-lab/
+Origin: https://moshequ.github.io/autonomous-game-lab
 Artifact candidate: pwa-6ed95c5ff53b
 Live candidate: pwa-6ed95c5ff53b
 
