@@ -204,7 +204,7 @@ test('organic seed loop records player-initiated seed and share telemetry', asyn
     )
     .toBe(true)
 
-  await expect(seedPanel).toContainText(/1\/40 starts|1\/\d+ starts/)
+  await expect(seedPanel).toContainText(/Local actions[1-9]\d* signals/)
 
   const events = await page.evaluate(() => {
     const raw = window.localStorage.getItem('agl.analytics.events')
