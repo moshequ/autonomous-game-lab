@@ -26,6 +26,7 @@ const expectRunMoves = async (page: Page, moves: string) => {
 
 test('portal loads a playable canvas and autonomy cockpit', async ({ page }) => {
   const ownerLoop = JSON.parse(await readFile('data/autonomous-owner-loop.json', 'utf8')) as {
+    mode: string
     ownerDecision: { nextBestActionId: string }
   }
 
@@ -66,7 +67,7 @@ test('portal loads a playable canvas and autonomy cockpit', async ({ page }) => 
   await expect(page.getByText('Environment')).toBeVisible()
   await expect(page.getByText('production-env-missing')).toBeVisible()
   await expect(page.getByText('owner-loop-ready')).toBeVisible()
-  await expect(page.getByText('repository-channel-needed')).toBeVisible()
+  await expect(page.getByText(ownerLoop.mode)).toBeVisible()
   await expect(page.getByText(ownerLoop.ownerDecision.nextBestActionId).first()).toBeVisible()
   await expect(page.getByLabel('Performance Budget')).toContainText('performance-budget-ready')
   await expect(page.getByLabel('Performance Budget')).toContainText('Initial JS')
