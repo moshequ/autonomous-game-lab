@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-20T04:13:23.871Z",
+  "generatedAt": "2026-05-20T04:45:20.003Z",
   "status": "retention-loop-ready",
   "dailyChallenge": {
     "date": "2026-05-20",
@@ -84,6 +84,81 @@
     "noSyntheticEvents": true,
     "reason": "Queued return-intent activations carry explicit cohort and return dates so local event exports can prove D1 retention without accounts or push notifications."
   },
+  "samplePolicy": {
+    "gateId": "d1Retention",
+    "label": "D1 retention",
+    "status": "collecting-sample",
+    "sampleRole": "fastest-validation",
+    "campaignId": "gate-sample-20260520-d1Retention",
+    "playPath": "/?game=canopy-bloom&utm_source=gate_sample&utm_campaign=gate-sample-20260520-d1Retention",
+    "publicSamplePath": "/gate-sample.html",
+    "current": {
+      "actual": 0.167,
+      "gate": 0.18,
+      "denominator": 12,
+      "successes": 2,
+      "promptViews": 0,
+      "promptActions": 0,
+      "actionRate": null
+    },
+    "needed": {
+      "promptViews": 10,
+      "successes": 1,
+      "minimumPromptViewsForDecision": 10
+    },
+    "telemetry": {
+      "view": [
+        "daily_return_prompt_viewed",
+        "daily_return_intent_viewed"
+      ],
+      "action": [
+        "daily_return_prompt_clicked",
+        "daily_return_intent_started"
+      ],
+      "success": [
+        "daily_return_intent_started"
+      ],
+      "failure": [
+        "daily_return_prompt_dismissed",
+        "daily_return_intent_cleared"
+      ]
+    },
+    "evidence": {
+      "status": "waiting-for-player-export",
+      "source": null,
+      "events": 0,
+      "successEvents": 0,
+      "analyticsExports": 0,
+      "latestAt": null
+    },
+    "downloadsScan": {
+      "explicitOptInRequired": true,
+      "cooldownHours": 4,
+      "coolingDown": true,
+      "evidenceReadyNow": false,
+      "lastScanAt": "2026-05-20T01:34:54.772Z",
+      "lastScanStatus": "no-evidence-found",
+      "scanAgeHours": 3.16,
+      "cooldownRemainingHours": 0.84,
+      "nextRecommendedScanAt": "2026-05-20T05:34:54.772Z"
+    },
+    "commandPlan": {
+      "refreshRetention": "npm run autonomous:retention",
+      "refreshSamplePlan": "npm run autonomous:sample-plan",
+      "collectDownloadsAndRefresh": "npm run autonomous:collect-sample-downloads"
+    },
+    "controls": {
+      "zeroPaidSpend": true,
+      "playerInitiatedOnly": true,
+      "noSyntheticEvents": true,
+      "noAutomaticRuleChanges": true,
+      "noRevenueEnablement": true,
+      "realEventDropsOnly": true,
+      "downloadsImportRequiresExplicitOptIn": true,
+      "downloadsScanBackoffRequired": true
+    },
+    "nextAction": "Wait until 2026-05-20T05:34:54.772Z before another explicit Downloads scan, unless an inbox event drop appears."
+  },
   "controls": {
     "canNudgeRetention": true,
     "retentionReady": false,
@@ -137,6 +212,7 @@
   ],
   "nextActions": [
     "Improve D1 retention from 17% toward 18% with local streak prompts.",
+    "Wait until 2026-05-20T05:34:54.772Z before another explicit Downloads scan, unless an inbox event drop appears.",
     "Improve replay rate from 31% toward 35% with the daily return mission.",
     "Do not use push notifications, accounts, paid rewards, or ads for retention until gates pass."
   ]

@@ -2405,9 +2405,25 @@ test('objective audit maps the goal to evidence and remaining blockers', async (
 })
 
 test('daily challenge starts the retained game and records retention telemetry', async ({ page }) => {
+  const retention = JSON.parse(await readFile('data/retention-loop.json', 'utf8')) as {
+    samplePolicy: {
+      status: string
+      needed: { promptViews: number; successes: number }
+      controls: { zeroPaidSpend: boolean; noSyntheticEvents: boolean; downloadsScanBackoffRequired: boolean }
+    }
+  }
+
   await page.goto('/')
 
-  await expect(page.getByLabel('Daily Retention')).toContainText('retention-loop-ready')
+  const dailyRetention = page.getByLabel('Daily Retention')
+  await expect(dailyRetention).toContainText('retention-loop-ready')
+  await expect(dailyRetention).toContainText(retention.samplePolicy.status)
+  await expect(dailyRetention).toContainText(
+    `${retention.samplePolicy.needed.promptViews} views / ${retention.samplePolicy.needed.successes} returns`,
+  )
+  expect(retention.samplePolicy.controls.zeroPaidSpend).toBe(true)
+  expect(retention.samplePolicy.controls.noSyntheticEvents).toBe(true)
+  expect(retention.samplePolicy.controls.downloadsScanBackoffRequired).toBe(true)
   await page.getByRole('button', { name: 'Play daily challenge' }).click()
   await expect(page.getByRole('heading', { name: 'Canopy Bloom' })).toBeVisible()
 

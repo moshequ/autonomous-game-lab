@@ -1,6 +1,6 @@
 # Retention Loop
 
-Generated: 2026-05-20T04:13:23.871Z
+Generated: 2026-05-20T04:45:20.003Z
 Status: retention-loop-ready
 Daily challenge: Canopy Bloom (canopy-bloom)
 D1 retention: 17%
@@ -34,6 +34,17 @@ Replay rate: 31%
 - Telemetry: daily_return_intent_viewed, daily_return_intent_started, daily_return_intent_cleared
 - Measurement: daily_return_intent_started with retentionCohortDate -> retentionReturnDate
 
+## D1 Sample Policy
+
+- Status: collecting-sample
+- Campaign: gate-sample-20260520-d1Retention
+- Play path: /?game=canopy-bloom&utm_source=gate_sample&utm_campaign=gate-sample-20260520-d1Retention
+- Prompt views needed: 10
+- Observed retained starts needed: 1
+- Evidence: waiting-for-player-export
+- Downloads scan: no-evidence-found; cooling down true
+- Next action: Wait until 2026-05-20T05:34:54.772Z before another explicit Downloads scan, unless an inbox event drop appears.
+
 ## Guardrails
 
 - noPushNotifications: true
@@ -46,5 +57,6 @@ Replay rate: 31%
 ## Next Actions
 
 - Improve D1 retention from 17% toward 18% with local streak prompts.
+- Wait until 2026-05-20T05:34:54.772Z before another explicit Downloads scan, unless an inbox event drop appears.
 - Improve replay rate from 31% toward 35% with the daily return mission.
 - Do not use push notifications, accounts, paid rewards, or ads for retention until gates pass.

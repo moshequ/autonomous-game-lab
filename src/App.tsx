@@ -1606,6 +1606,17 @@ function App() {
                 <strong>{formatPercent(retentionLoop.metrics.d1Retention)}</strong>
               </div>
               <div>
+                <span>Sample</span>
+                <strong>{retentionLoop.samplePolicy.status}</strong>
+              </div>
+              <div>
+                <span>Sample target</span>
+                <strong>
+                  {retentionLoop.samplePolicy.needed.promptViews} views /{' '}
+                  {retentionLoop.samplePolicy.needed.successes} returns
+                </strong>
+              </div>
+              <div>
                 <span>Return intent</span>
                 <strong>{dailyReturnIntentDate || 'open'}</strong>
               </div>

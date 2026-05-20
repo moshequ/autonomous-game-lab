@@ -866,6 +866,8 @@ const rewardOfferWinner = experimentResults.recommendations?.find(
 const dailyStreakWeight = experimentPolicy.experiments?.reward_offer?.variants?.find(
   (variant) => variant.id === 'daily-streak',
 )?.weight
+const retentionSampleGate = productGateRecovery.gates?.find((gate) => gate.id === 'd1Retention')
+const retentionGateSampleMission = productGateSamplePlan.missions?.find((mission) => mission.gateId === 'd1Retention')
 
 if (
   retentionLoop.status !== 'retention-loop-ready' ||
@@ -911,6 +913,29 @@ if (
   retentionLoop.measurementPolicy?.evidenceValue !== 'queued-return-intent' ||
   retentionLoop.measurementPolicy?.requiresAnonymousId !== true ||
   retentionLoop.measurementPolicy?.noSyntheticEvents !== true ||
+  retentionLoop.samplePolicy?.gateId !== 'd1Retention' ||
+  retentionLoop.samplePolicy?.status !== retentionGateSampleMission?.status ||
+  retentionLoop.samplePolicy?.sampleRole !== retentionGateSampleMission?.sampleRole ||
+  retentionLoop.samplePolicy?.campaignId !== retentionGateSampleMission?.campaignId ||
+  retentionLoop.samplePolicy?.playPath !== retentionGateSampleMission?.playPath ||
+  retentionLoop.samplePolicy?.publicSamplePath !== productGateSamplePlan.publicSamplePage?.path ||
+  retentionLoop.samplePolicy?.current?.actual !== retentionSampleGate?.actual ||
+  retentionLoop.samplePolicy?.current?.gate !== retentionSampleGate?.gate ||
+  retentionLoop.samplePolicy?.needed?.promptViews !== retentionSampleGate?.promptViewsNeeded ||
+  retentionLoop.samplePolicy?.needed?.successes !== retentionSampleGate?.neededSuccesses ||
+  retentionLoop.samplePolicy?.needed?.minimumPromptViewsForDecision !==
+    retentionSampleGate?.minimumPromptViewsForDecision ||
+  retentionLoop.samplePolicy?.evidence?.status !== retentionGateSampleMission?.evidence?.status ||
+  retentionLoop.samplePolicy?.downloadsScan?.cooldownHours !==
+    localEventBridge.explicitDownloadsScanPolicy?.cooldownHours ||
+  retentionLoop.samplePolicy?.downloadsScan?.nextRecommendedScanAt !==
+    localEventBridge.explicitDownloadsScanPolicy?.nextRecommendedScanAt ||
+  retentionLoop.samplePolicy?.commandPlan?.collectDownloadsAndRefresh !== 'npm run autonomous:collect-sample-downloads' ||
+  retentionLoop.samplePolicy?.controls?.zeroPaidSpend !== true ||
+  retentionLoop.samplePolicy?.controls?.playerInitiatedOnly !== true ||
+  retentionLoop.samplePolicy?.controls?.noSyntheticEvents !== true ||
+  retentionLoop.samplePolicy?.controls?.noRevenueEnablement !== true ||
+  retentionLoop.samplePolicy?.controls?.downloadsScanBackoffRequired !== true ||
   retentionLoop.controls?.returnIntentPlayerInitiatedOnly !== true ||
   retentionLoop.controls?.noBackgroundWakeups !== true ||
   !retentionMissionIds.has('finish-daily-challenge') ||
@@ -947,9 +972,14 @@ if (
   !appSource.includes('queueDailyReturn') ||
   !appSource.includes('startQueuedReturnIntent') ||
   !appSource.includes('Queued return') ||
-  !appSource.includes('Return intent')
+  !appSource.includes('Return intent') ||
+  !appSource.includes('Sample target') ||
+  !retentionLoopSource.includes('productGateRecovery') ||
+  !retentionLoopSource.includes('localEventBridge') ||
+  !retentionLoopSource.includes('d1SampleEvidenceStatus') ||
+  !retentionLoopSource.includes('downloadsScanBackoffRequired')
 ) {
-  fail('Retention loop must publish a playable daily challenge, local streak state, visible return-prompt telemetry, and no-spend retention guardrails.')
+  fail('Retention loop must publish a playable daily challenge, local streak state, visible return-prompt telemetry, no-spend guardrails, and a D1 sample evidence target.')
 }
 
 const pwaInstallEvents = [
