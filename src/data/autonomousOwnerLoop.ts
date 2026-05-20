@@ -2,7 +2,7 @@ export const autonomousOwnerLoop = {
   "status": "owner-loop-ready",
   "mode": "zero-spend-web-ready",
   "autonomyScore": {
-    "percent": 93
+    "percent": 98
   },
   "controls": {
     "externalAccountInterventionRequired": true
@@ -43,7 +43,7 @@ export const autonomousOwnerLoop = {
     },
     {
       "id": "refresh-autonomous-self-update",
-      "status": "monitor"
+      "status": "armed"
     }
   ]
 } as const
