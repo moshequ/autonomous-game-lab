@@ -1,10 +1,10 @@
 # Autonomous Operator
 
-Generated: 2026-05-20T20:52:46.172Z
+Generated: 2026-05-20T21:32:51.519Z
 Status: operator-plan-ready
 Mode: plan-only
-Owner decision: refresh-first-move-coach
-Selected action: refresh-first-move-coach
+Owner decision: optimize-daily-retention
+Selected action: optimize-daily-retention
 Execution: not-requested
 
 ## Controls
@@ -18,7 +18,7 @@ Execution: not-requested
 
 ## Selected Action
 
-- refresh-first-move-coach: npm run autonomous:first-move-coach
+- optimize-daily-retention: npm run autonomous:retention
 
 ## Eligible Local Actions
 
@@ -34,9 +34,6 @@ Execution: not-requested
 - run-post-deploy-smoke
 - optimize-product-gates
 - refresh-product-gate-recovery
-- refresh-first-move-coach
-- refresh-completion-loop
-- refresh-replay-loop
 - optimize-store-listing
 - apply-safe-improvements
 - collect-live-events
@@ -49,9 +46,9 @@ Execution: not-requested
 - seed-portfolio-traffic: not-selected-this-run
 - refresh-organic-seed-loop: not-selected-this-run
 - refresh-support-feedback: not-selected-this-run
-- optimize-daily-retention: not-selected-this-run
 - measure-pwa-install-loop: not-selected-this-run
 - check-performance-budget: not-selected-this-run
 - prepare-release-candidate: not-selected-this-run
 - run-post-deploy-smoke: not-selected-this-run
 - sync-post-deploy-artifact: status-monitor
+- optimize-product-gates: not-selected-this-run

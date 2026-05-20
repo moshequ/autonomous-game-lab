@@ -1,5 +1,6 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises'
 import path from 'node:path'
+import { hashSourceData } from './lib/source-hash.mjs'
 
 const root = process.cwd()
 const dataDir = path.join(root, 'data')
@@ -37,6 +38,16 @@ const [
     controls: { canApplyExperimentChanges: true },
   }),
 ])
+const sourceDataHash = hashSourceData({
+  'analytics-rollup': analytics,
+  'product-optimization': productOptimization,
+  'experiment-policy': experimentPolicy,
+  'improvement-backlog': backlog,
+  'playable-games': playable,
+  'game-balance': gameBalance,
+  'generated-playable-games': generatedPlayable,
+  'release-health': releaseHealth,
+})
 
 const playableIds = new Set(playable.games ?? [])
 const analyticsRows = new Map((analytics.games ?? []).map((game) => [game.gameId, game]))
@@ -126,6 +137,7 @@ const targets = [...playableIds]
 
 const payload = {
   generatedAt: new Date().toISOString(),
+  sourceDataHash,
   status: 'first-move-coach-ready',
   sourceStatus: {
     analyticsSource: analytics.sourceStatus?.activeSource,

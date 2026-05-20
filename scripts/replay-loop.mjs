@@ -1,5 +1,6 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises'
 import path from 'node:path'
+import { hashSourceData } from './lib/source-hash.mjs'
 
 const root = process.cwd()
 const dataDir = path.join(root, 'data')
@@ -21,6 +22,17 @@ const portfolio = await readJson(path.join(dataDir, 'portfolio-policy.json'))
 const growth = await readJson(path.join(dataDir, 'growth-plan.json'))
 const experimentPolicy = await readJson(path.join(dataDir, 'experiment-policy.json'))
 const experimentResults = await readJson(path.join(dataDir, 'experiment-results.json'))
+const sourceDataHash = hashSourceData({
+  'analytics-rollup': analytics,
+  'production-gates': gates,
+  'product-optimization': productOptimization,
+  'release-health': releaseHealth,
+  'playable-games': playable,
+  'portfolio-policy': portfolio,
+  'growth-plan': growth,
+  'experiment-policy': experimentPolicy,
+  'experiment-results': experimentResults,
+})
 
 const playableIds = new Set(playable.games ?? [])
 const metrics = analytics.totals?.metrics ?? {}
@@ -121,6 +133,7 @@ const missions = [
 
 const payload = {
   generatedAt: new Date().toISOString(),
+  sourceDataHash,
   status: targetPlayable ? 'replay-loop-ready' : 'blocked-missing-replay-game',
   sourceStatus: {
     analyticsSource: analytics.sourceStatus?.activeSource ?? 'unknown',

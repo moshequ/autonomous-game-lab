@@ -1,22 +1,22 @@
 {
-  "generatedAt": "2026-05-20T20:52:46.172Z",
+  "generatedAt": "2026-05-20T21:32:51.519Z",
   "status": "operator-plan-ready",
   "mode": "plan-only",
   "ownerDecision": {
-    "actionId": "refresh-first-move-coach",
-    "command": "npm run autonomous:first-move-coach",
+    "actionId": "optimize-daily-retention",
+    "command": "npm run autonomous:retention",
     "locallyExecutable": true,
     "rejectionReason": null
   },
   "requestedActionId": null,
   "selectedAction": {
-    "id": "refresh-first-move-coach",
+    "id": "optimize-daily-retention",
     "status": "armed",
-    "command": "npm run autonomous:first-move-coach",
+    "command": "npm run autonomous:retention",
     "targets": [
-      "harbor-rings"
+      "canopy-bloom"
     ],
-    "reason": "Refreshes the first-turn coach policy from product-gate, onboarding, and release-health evidence.",
+    "reason": "Keeps daily challenge, local streak prompts, and retention-safe missions aligned with behavior data.",
     "costUsd": 0
   },
   "selectedRejection": null,
@@ -33,9 +33,6 @@
     "run-post-deploy-smoke",
     "optimize-product-gates",
     "refresh-product-gate-recovery",
-    "refresh-first-move-coach",
-    "refresh-completion-loop",
-    "refresh-replay-loop",
     "optimize-store-listing",
     "apply-safe-improvements",
     "collect-live-events"
@@ -75,12 +72,6 @@
       "id": "refresh-support-feedback",
       "status": "armed",
       "command": "npm run autonomous:support-feedback",
-      "reason": "not-selected-this-run"
-    },
-    {
-      "id": "optimize-daily-retention",
-      "status": "armed",
-      "command": "npm run autonomous:retention",
       "reason": "not-selected-this-run"
     },
     {
@@ -138,16 +129,22 @@
       "reason": "status-monitor"
     },
     {
+      "id": "refresh-first-move-coach",
+      "status": "monitor",
+      "command": "npm run autonomous:first-move-coach",
+      "reason": "status-monitor"
+    },
+    {
       "id": "refresh-completion-loop",
-      "status": "armed",
+      "status": "monitor",
       "command": "npm run autonomous:completion-loop",
-      "reason": "not-selected-this-run"
+      "reason": "status-monitor"
     },
     {
       "id": "refresh-replay-loop",
-      "status": "armed",
+      "status": "monitor",
       "command": "npm run autonomous:replay-loop",
-      "reason": "not-selected-this-run"
+      "reason": "status-monitor"
     },
     {
       "id": "prepare-repository-channel",
@@ -218,8 +215,8 @@
   ],
   "commandPlan": [
     {
-      "segment": "npm run autonomous:first-move-coach",
-      "script": "autonomous:first-move-coach"
+      "segment": "npm run autonomous:retention",
+      "script": "autonomous:retention"
     }
   ],
   "execution": {
@@ -289,7 +286,7 @@
     "RUN_WORKFLOWS=1"
   ],
   "nextActions": [
-    "Run npm run autonomous:operator -- --execute --action=refresh-first-move-coach to execute exactly one allowed local action.",
+    "Run npm run autonomous:operator -- --execute --action=optimize-daily-retention to execute exactly one allowed local action.",
     "Do not execute GitHub workflow, store, paid ads, or account setup commands from the local operator."
   ]
 }

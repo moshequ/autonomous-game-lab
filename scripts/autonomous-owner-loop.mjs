@@ -1,5 +1,6 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises'
 import path from 'node:path'
+import { sourceFreshness } from './lib/source-hash.mjs'
 
 const root = process.cwd()
 const dataDir = path.join(root, 'data')
@@ -30,7 +31,9 @@ const generatedConcepts = await readJson(path.join(dataDir, 'generated-concepts.
 const prototypePipeline = await readJson(path.join(dataDir, 'prototype-pipeline.json'))
 const playable = await readJson(path.join(dataDir, 'playable-games.json'))
 const generatedPlayable = await readJson(path.join(dataDir, 'generated-playable-games.json'))
+const gameBalance = await readJson(path.join(dataDir, 'game-balance.json'))
 const analytics = await readJson(path.join(dataDir, 'analytics-rollup.json'))
+const productionGates = await readJson(path.join(dataDir, 'production-gates.json'))
 const eventIngest = await readJson(path.join(dataDir, 'event-ingest.json'))
 const localEventBridge = await readOptionalJson(path.join(dataDir, 'local-event-bridge.json'), {
   status: 'missing',
@@ -199,6 +202,7 @@ const objectiveAudit = await readOptionalJson(path.join(dataDir, 'objective-audi
   requirements: [],
 })
 const releaseHealth = await readJson(path.join(dataDir, 'release-health.json'))
+const experimentPolicy = await readJson(path.join(dataDir, 'experiment-policy.json'))
 const experimentResults = await readJson(path.join(dataDir, 'experiment-results.json'))
 const improvementBacklog = await readJson(path.join(dataDir, 'improvement-backlog.json'))
 const improvementBacklogSummary = await readJson(path.join(dataDir, 'improvement-backlog-summary.json'))
@@ -1077,6 +1081,49 @@ const objectiveAuditStructurallyReady =
   objectiveAudit.completion?.canMarkGoalComplete === false &&
   (objectiveAudit.requirements?.length ?? 0) >= 8
 const objectiveAuditFresh = objectiveAuditStructurallyReady && objectiveAuditStaleInputs.length === 0
+const firstMoveCoachFreshness = sourceFreshness({
+  artifact: firstMoveCoach,
+  readyStatuses: ['first-move-coach-ready'],
+  inputs: [
+    { id: 'analytics-rollup', data: analytics },
+    { id: 'product-optimization', data: productOptimization },
+    { id: 'experiment-policy', data: experimentPolicy },
+    { id: 'improvement-backlog', data: improvementBacklog },
+    { id: 'playable-games', data: playable },
+    { id: 'game-balance', data: gameBalance },
+    { id: 'generated-playable-games', data: generatedPlayable },
+    { id: 'release-health', data: releaseHealth },
+  ],
+})
+const completionLoopFreshness = sourceFreshness({
+  artifact: completionLoop,
+  readyStatuses: ['completion-loop-ready', 'blocked-missing-completion-game'],
+  inputs: [
+    { id: 'analytics-rollup', data: analytics },
+    { id: 'production-gates', data: productionGates },
+    { id: 'product-optimization', data: productOptimization },
+    { id: 'release-health', data: releaseHealth },
+    { id: 'playable-games', data: playable },
+    { id: 'portfolio-policy', data: portfolioPolicy },
+    { id: 'game-balance', data: gameBalance },
+    { id: 'first-move-coach', data: firstMoveCoach },
+  ],
+})
+const replayLoopFreshness = sourceFreshness({
+  artifact: replayLoop,
+  readyStatuses: ['replay-loop-ready', 'blocked-missing-replay-game'],
+  inputs: [
+    { id: 'analytics-rollup', data: analytics },
+    { id: 'production-gates', data: productionGates },
+    { id: 'product-optimization', data: productOptimization },
+    { id: 'release-health', data: releaseHealth },
+    { id: 'playable-games', data: playable },
+    { id: 'portfolio-policy', data: portfolioPolicy },
+    { id: 'growth-plan', data: growth },
+    { id: 'experiment-policy', data: experimentPolicy },
+    { id: 'experiment-results', data: experimentResults },
+  ],
+})
 
 const safeAutonomousActions = [
   {
@@ -1231,27 +1278,33 @@ const safeAutonomousActions = [
   },
   {
     id: 'refresh-first-move-coach',
-    status: firstMoveCoach.status === 'first-move-coach-ready' ? 'armed' : 'monitor',
+    status: firstMoveCoachFreshness.current ? 'monitor' : 'armed',
     costUsd: 0,
     command: 'npm run autonomous:first-move-coach',
     targets: [firstMoveCoach.summary?.primaryTargetId ?? 'first-move-coach'],
-    reason: 'Refreshes the first-turn coach policy from product-gate, onboarding, and release-health evidence.',
+    reason: firstMoveCoachFreshness.current
+      ? 'First-turn coach already matches the current source evidence; wait for new product-gate or onboarding data.'
+      : 'Refreshes the first-turn coach policy from product-gate, onboarding, and release-health evidence.',
   },
   {
     id: 'refresh-completion-loop',
-    status: completionLoop.status === 'completion-loop-ready' ? 'armed' : 'monitor',
+    status: completionLoopFreshness.current ? 'monitor' : 'armed',
     costUsd: 0,
     command: 'npm run autonomous:completion-loop',
     targets: [completionLoop.target?.gameId ?? 'completion-loop'],
-    reason: 'Refreshes optional completion nudges and behind-pace finish-line coaching from product-gate evidence.',
+    reason: completionLoopFreshness.current
+      ? 'Completion loop already matches the current source evidence; wait for new completion or coach data.'
+      : 'Refreshes optional completion nudges and behind-pace finish-line coaching from product-gate evidence.',
   },
   {
     id: 'refresh-replay-loop',
-    status: replayLoop.status === 'replay-loop-ready' ? 'armed' : 'monitor',
+    status: replayLoopFreshness.current ? 'monitor' : 'armed',
     costUsd: 0,
     command: 'npm run autonomous:replay-loop',
     targets: [replayLoop.target?.gameId ?? 'replay-loop'],
-    reason: 'Refreshes the optional completed-run replay prompt from product-gate and replay telemetry evidence.',
+    reason: replayLoopFreshness.current
+      ? 'Replay loop already matches the current source evidence; wait for new replay or experiment data.'
+      : 'Refreshes the optional completed-run replay prompt from product-gate and replay telemetry evidence.',
   },
   {
     id: 'prepare-repository-channel',
@@ -1499,6 +1552,11 @@ const payload = {
       auditGeneratedAt: objectiveAudit.generatedAt ?? null,
       evaluatedInputIds: objectiveAuditFreshnessInputs.map((artifact) => artifact.id),
       staleInputIds: objectiveAuditStaleInputs.map((artifact) => artifact.id),
+    },
+    sourceFreshness: {
+      firstMoveCoach: firstMoveCoachFreshness,
+      completionLoop: completionLoopFreshness,
+      replayLoop: replayLoopFreshness,
     },
     gateSampleDownloadsBackoff: {
       enabled: true,

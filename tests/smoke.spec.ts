@@ -2795,6 +2795,17 @@ test('autonomous operator history keeps a capped audit trail', async ({ page }) 
         evaluatedInputIds: string[]
         staleInputIds: string[]
       }
+      sourceFreshness: Record<
+        'firstMoveCoach' | 'completionLoop' | 'replayLoop',
+        {
+          current: boolean
+          ready: boolean
+          status: string
+          artifactSourceDataHash: string | null
+          sourceDataHash: string
+          evaluatedInputIds: string[]
+        }
+      >
       gateSampleDownloadsBackoff: {
         enabled: boolean
         cooldownHours: number
@@ -2883,6 +2894,11 @@ test('autonomous operator history keeps a capped audit trail', async ({ page }) 
   const prepareRepositoryAction = ownerLoop.safeAutonomousActions.find((action) => action.id === 'prepare-repository-channel')
   const objectiveAuditAction = ownerLoop.safeAutonomousActions.find((action) => action.id === 'refresh-objective-audit')
   const bootstrapProductionAction = ownerLoop.safeAutonomousActions.find((action) => action.id === 'bootstrap-production-setup')
+  const sourceFreshnessActionPairs = [
+    { actionId: 'refresh-first-move-coach', freshness: ownerLoop.executionMemory.sourceFreshness.firstMoveCoach },
+    { actionId: 'refresh-completion-loop', freshness: ownerLoop.executionMemory.sourceFreshness.completionLoop },
+    { actionId: 'refresh-replay-loop', freshness: ownerLoop.executionMemory.sourceFreshness.replayLoop },
+  ]
 
   expect(history.status).toBe('operator-history-ready')
   expect(history.retention.maxRecords).toBe(40)
@@ -2920,6 +2936,19 @@ test('autonomous operator history keeps a capped audit trail', async ({ page }) 
   expect(ownerLoop.executionMemory.objectiveAuditFreshness.evaluatedInputIds).toContain('analytics-rollup')
   expect(ownerLoop.executionMemory.objectiveAuditFreshness.evaluatedInputIds).toContain('local-event-bridge')
   expect(ownerLoop.executionMemory.objectiveAuditFreshness.evaluatedInputIds).toContain('production-activation')
+  for (const { actionId, freshness } of sourceFreshnessActionPairs) {
+    const action = ownerLoop.safeAutonomousActions.find((item) => item.id === actionId)
+
+    expect(freshness.sourceDataHash).toMatch(/^[a-f0-9]{12}$/)
+    expect(freshness.evaluatedInputIds.length).toBeGreaterThan(0)
+
+    if (freshness.current) {
+      expect(action?.status).toBe('monitor')
+      expect(ownerLoop.ownerDecision.nextBestActionId).not.toBe(actionId)
+    } else {
+      expect(action?.status).toBe('armed')
+    }
+  }
   expect(typeof ownerLoop.executionMemory.productionBootstrapFreshness.fresh).toBe('boolean')
   expect(ownerLoop.executionMemory.productionBootstrapFreshness.evaluatedInputIds).toContain('release-candidate')
   expect(ownerLoop.executionMemory.productionBootstrapFreshness.evaluatedInputIds).toContain('deployment-plan')

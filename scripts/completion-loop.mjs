@@ -1,5 +1,6 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises'
 import path from 'node:path'
+import { hashSourceData } from './lib/source-hash.mjs'
 
 const root = process.cwd()
 const dataDir = path.join(root, 'data')
@@ -20,6 +21,16 @@ const playable = await readJson(path.join(dataDir, 'playable-games.json'))
 const portfolio = await readJson(path.join(dataDir, 'portfolio-policy.json'))
 const balance = await readJson(path.join(dataDir, 'game-balance.json'))
 const firstMoveCoach = await readJson(path.join(dataDir, 'first-move-coach.json'))
+const sourceDataHash = hashSourceData({
+  'analytics-rollup': analytics,
+  'production-gates': gates,
+  'product-optimization': productOptimization,
+  'release-health': releaseHealth,
+  'playable-games': playable,
+  'portfolio-policy': portfolio,
+  'game-balance': balance,
+  'first-move-coach': firstMoveCoach,
+})
 
 const playableIds = new Set(playable.games ?? [])
 const metrics = analytics.totals?.metrics ?? {}
@@ -58,6 +69,7 @@ const promptStatus = canNudgeCompletion && targetPlayable && completionGap > 0 ?
 
 const payload = {
   generatedAt: new Date().toISOString(),
+  sourceDataHash,
   status: targetPlayable ? 'completion-loop-ready' : 'blocked-missing-completion-game',
   sourceStatus: {
     analyticsSource: analytics.sourceStatus?.activeSource ?? 'unknown',

@@ -1,5 +1,6 @@
 export const replayLoop = {
-  "generatedAt": "2026-05-20T20:40:41.947Z",
+  "generatedAt": "2026-05-20T21:24:52.037Z",
+  "sourceDataHash": "381edef7ef06",
   "status": "replay-loop-ready",
   "sourceStatus": {
     "analyticsSource": "fixture-sample",

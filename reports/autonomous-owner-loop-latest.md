@@ -1,17 +1,17 @@
 # Autonomous Owner Loop
 
-Generated: 2026-05-20T20:52:45.943Z
+Generated: 2026-05-20T21:32:51.269Z
 Status: owner-loop-ready
 Mode: zero-spend-web-ready
 Autonomy score: 41/42 (98%)
 
 ## Owner Decision
 
-- Next action: refresh-first-move-coach
-- Command: npm run autonomous:first-move-coach
-- Rationale: Refreshes the first-turn coach policy from product-gate, onboarding, and release-health evidence.
-- Last executed action: apply-safe-improvements
-- Recent executed actions: apply-safe-improvements, collect-live-events, seed-portfolio-traffic, measure-pwa-install-loop, optimize-product-gates, optimize-daily-retention, refresh-replay-loop, refresh-completion-loop
+- Next action: optimize-daily-retention
+- Command: npm run autonomous:retention
+- Rationale: Keeps daily challenge, local streak prompts, and retention-safe missions aligned with behavior data.
+- Last executed action: optimize-store-listing
+- Recent executed actions: optimize-store-listing, refresh-completion-loop, refresh-first-move-coach, apply-safe-improvements, collect-live-events, seed-portfolio-traffic, measure-pwa-install-loop, optimize-product-gates
 
 ## Systems
 
@@ -29,7 +29,7 @@ Autonomy score: 41/42 (98%)
 - ready: organic-seed-loop - Target canopy-bloom; surface portal-growth-loop; share telemetry organic_seed_share_clicked.
 - ready: retention-loop - Daily canopy-bloom; D1 17%; streak variant daily-streak; return prompt armed; return intent armed.
 - ready: pwa-install-loop - Prompt autonomy-cockpit; installs 0; launch events 0; sample collecting-sample needs 20 prompt(s) and 10 launch event(s).
-- ready: performance-budget - Initial JS 648.8 KB; gzip 177.6 KB; deferred chunks 1.
+- ready: performance-budget - Initial JS 650 KB; gzip 177.8 KB; deferred chunks 1.
 - ready: product-optimization - Completion 40% / gate 55%; latest already-applied.
 - ready: support-feedback - Support feedback support-feedback-empty; issues 0; routable signals 0.
 - ready: product-gate-recovery - Recovery product-gate-recovery-ready; primary firstGameCompletion; experiment collecting-sample; failing gates 3; next lift 58.
@@ -44,14 +44,14 @@ Autonomy score: 41/42 (98%)
 - ready: web-deployment - Deployment ready-for-pages; web readiness ready-after-build; promotion promotable-internal.
 - ready: release-candidate - Release candidate release-candidate-ready; files 44; smoke URLs 14.
 - ready: post-deploy-smoke - Smoke post-deploy-smoke-observed-live; origin https://moshequ.github.io/autonomous-game-lab; manifest comparison required; checks 15/15 passed; local artifact predeploy-artifact-smoke-passed 15/15 passed.
-- ready: post-deploy-artifact-sync - Artifact sync post-deploy-artifact-sync-passed; run 26188932909; live matches artifact true; strict true.
-- ready: production-bootstrap - Bootstrap production-bootstrap-ready; mode can-apply-configured-actions; external blockers 16.
+- ready: post-deploy-artifact-sync - Artifact sync post-deploy-artifact-sync-passed; run 26189434455; live matches artifact true; strict true.
+- ready: production-bootstrap - Bootstrap production-bootstrap-ready; mode can-apply-configured-actions; external blockers 17.
 - ready: production-activation - Activation activation-ready; mode dry-run; execution dry-run; gh ready.
 - ready: support-channel - Support channel support-channel-ready; repository moshequ/autonomous-game-lab; public intake ready.
-- ready: autonomous-operator - Operator operator-plan-ready; selected refresh-first-move-coach; execution not-requested.
+- ready: autonomous-operator - Operator operator-plan-ready; selected optimize-daily-retention; execution not-requested.
 - ready: operator-history - History operator-history-ready; records 40; executed 18.
 - ready: objective-audit - Audit objective-in-progress; met 6/8; external blockers 12.
-- ready: store-listing-optimizer - Focus canopy-bloom; lead screenshot phone-canopy-bloom-generated; candidate changed yes.
+- ready: store-listing-optimizer - Focus canopy-bloom; lead screenshot phone-canopy-bloom-generated; candidate changed no.
 - ready: store-compliance - Rating Everyone; target audience general; blockers 3.
 - ready: android-signing - Signing signing-prepared; fingerprint available; local secrets configured.
 - ready: production-safety - Response guarded-operations; incident drill pass; spend mode no-spend.
@@ -76,9 +76,9 @@ Autonomy score: 41/42 (98%)
 - armed: refresh-product-gate-recovery - npm run autonomous:gate-recovery
 - monitor: collect-gate-sample-downloads - npm run autonomous:collect-sample-downloads
 - monitor: refresh-product-gate-sample-plan - npm run autonomous:sample-plan
-- armed: refresh-first-move-coach - npm run autonomous:first-move-coach
-- armed: refresh-completion-loop - npm run autonomous:completion-loop
-- armed: refresh-replay-loop - npm run autonomous:replay-loop
+- monitor: refresh-first-move-coach - npm run autonomous:first-move-coach
+- monitor: refresh-completion-loop - npm run autonomous:completion-loop
+- monitor: refresh-replay-loop - npm run autonomous:replay-loop
 - monitor: prepare-repository-channel - npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap
 - monitor: bootstrap-production-setup - npm run autonomous:release-candidate && npm run autonomous:deploy-plan && npm run autonomous:bootstrap
 - monitor: activate-production-when-configured - npm run autonomous:activate-production
