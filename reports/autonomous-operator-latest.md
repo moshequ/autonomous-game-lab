@@ -1,11 +1,11 @@
 # Autonomous Operator
 
-Generated: 2026-05-20T12:00:55.759Z
-Status: operator-executed
-Mode: execute-one-action
-Owner decision: seed-portfolio-traffic
-Selected action: seed-portfolio-traffic
-Execution: executed
+Generated: 2026-05-20T12:17:58.319Z
+Status: operator-plan-ready
+Mode: plan-only
+Owner decision: bootstrap-production-setup
+Selected action: bootstrap-production-setup
+Execution: not-requested
 
 ## Controls
 
@@ -18,7 +18,7 @@ Execution: executed
 
 ## Selected Action
 
-- seed-portfolio-traffic: npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop
+- bootstrap-production-setup: npm run autonomous:release-candidate && npm run autonomous:deploy-plan && npm run autonomous:bootstrap
 
 ## Eligible Local Actions
 
@@ -47,6 +47,7 @@ Execution: executed
 - run-daily-owner-loop: daily-loop-recursion-blocked
 - refresh-autonomous-cadence: not-selected-this-run
 - refresh-autonomous-self-update: not-selected-this-run
+- seed-portfolio-traffic: not-selected-this-run
 - refresh-organic-seed-loop: not-selected-this-run
 - optimize-daily-retention: not-selected-this-run
 - measure-pwa-install-loop: not-selected-this-run
@@ -55,4 +56,3 @@ Execution: executed
 - run-post-deploy-smoke: status-monitor
 - optimize-product-gates: not-selected-this-run
 - refresh-product-gate-recovery: not-selected-this-run
-- collect-gate-sample-downloads: not-selected-this-run

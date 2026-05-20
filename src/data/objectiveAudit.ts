@@ -1,5 +1,5 @@
 export const objectiveAudit = {
-  "generatedAt": "2026-05-20T11:54:14.054Z",
+  "generatedAt": "2026-05-20T12:17:57.793Z",
   "status": "objective-in-progress",
   "objective": "Build a bootstrapped autonomous web/PWA game portal that can generate original board-game-inspired games, measure user behavior, propose and apply data-driven improvements, and prepare a path to monetization and app-store distribution with minimal manual intervention.",
   "summary": {
@@ -75,7 +75,7 @@ export const objectiveAudit = {
         "Experiment results: evaluated",
         "Backlog: improvement-backlog-ready; items 4; hash 392ebb719e0e",
         "Applied/deferred actions: 6",
-        "Operator selected: seed-portfolio-traffic; status operator-plan-ready; execution not-requested"
+        "Operator selected: bootstrap-production-setup; status operator-plan-ready; execution not-requested"
       ],
       "blockers": [],
       "nextAction": "Keep collecting starts until a safe product-gate tuning action is justified.",
@@ -230,12 +230,12 @@ export const objectiveAudit = {
     "noRevenueEnablementUntilGatesPass": true,
     "noStoreSubmissionUntilExternalAccounts": true,
     "currentWorktreeClean": false,
-    "currentWorktreeDirtyFiles": 62
+    "currentWorktreeDirtyFiles": 66
   },
   "completion": {
     "canMarkGoalComplete": false,
     "reason": "The local autonomous PWA system is largely prepared, but production credentials, live data, monetization gates, hosted compliance URLs, and store account/signing blockers remain.",
-    "nextBestAction": "seed-portfolio-traffic"
+    "nextBestAction": "bootstrap-production-setup"
   }
 } as const
 

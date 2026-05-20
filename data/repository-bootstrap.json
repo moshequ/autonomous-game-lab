@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-20T11:54:13.559Z",
+  "generatedAt": "2026-05-20T12:17:56.983Z",
   "status": "repository-bootstrap-ready",
   "mode": "plan-only",
   "envFiles": {
@@ -61,7 +61,7 @@
       "originRemote": "git@github.com:moshequ/autonomous-game-lab.git",
       "remoteRepository": "moshequ/autonomous-game-lab",
       "hasCommit": true,
-      "dirtyFiles": 62,
+      "dirtyFiles": 66,
       "dirtyPaths": [
         "data/analytics-rollup.json",
         "data/autonomous-cadence.json",
@@ -114,6 +114,10 @@
         "reports/repository-readiness-latest.md",
         "reports/retention-loop-latest.md",
         "src/data/autonomousCadence.ts",
+        "src/data/autonomousOperator.ts",
+        "src/data/autonomousOperatorHistory.ts",
+        "src/data/autonomousOwnerLoop.ts",
+        "src/data/autonomousSelfUpdate.ts",
         "src/data/eventCollectorDeployment.ts",
         "src/data/localEventBridge.ts",
         "src/data/objectiveAudit.ts",
@@ -126,7 +130,7 @@
         "src/data/releaseCandidate.ts",
         "src/data/retentionLoop.ts"
       ],
-      "generatedEvidenceDirtyFiles": 62,
+      "generatedEvidenceDirtyFiles": 66,
       "generatedEvidenceDirtyPaths": [
         "data/analytics-rollup.json",
         "data/autonomous-cadence.json",
@@ -179,6 +183,10 @@
         "reports/repository-readiness-latest.md",
         "reports/retention-loop-latest.md",
         "src/data/autonomousCadence.ts",
+        "src/data/autonomousOperator.ts",
+        "src/data/autonomousOperatorHistory.ts",
+        "src/data/autonomousOwnerLoop.ts",
+        "src/data/autonomousSelfUpdate.ts",
         "src/data/eventCollectorDeployment.ts",
         "src/data/localEventBridge.ts",
         "src/data/objectiveAudit.ts",
@@ -201,7 +209,7 @@
       "originRemote": "git@github.com:moshequ/autonomous-game-lab.git",
       "remoteRepository": "moshequ/autonomous-game-lab",
       "hasCommit": true,
-      "dirtyFiles": 62,
+      "dirtyFiles": 66,
       "dirtyPaths": [
         "data/analytics-rollup.json",
         "data/autonomous-cadence.json",
@@ -254,6 +262,10 @@
         "reports/repository-readiness-latest.md",
         "reports/retention-loop-latest.md",
         "src/data/autonomousCadence.ts",
+        "src/data/autonomousOperator.ts",
+        "src/data/autonomousOperatorHistory.ts",
+        "src/data/autonomousOwnerLoop.ts",
+        "src/data/autonomousSelfUpdate.ts",
         "src/data/eventCollectorDeployment.ts",
         "src/data/localEventBridge.ts",
         "src/data/objectiveAudit.ts",
@@ -266,7 +278,7 @@
         "src/data/releaseCandidate.ts",
         "src/data/retentionLoop.ts"
       ],
-      "generatedEvidenceDirtyFiles": 62,
+      "generatedEvidenceDirtyFiles": 66,
       "generatedEvidenceDirtyPaths": [
         "data/analytics-rollup.json",
         "data/autonomous-cadence.json",
@@ -319,6 +331,10 @@
         "reports/repository-readiness-latest.md",
         "reports/retention-loop-latest.md",
         "src/data/autonomousCadence.ts",
+        "src/data/autonomousOperator.ts",
+        "src/data/autonomousOperatorHistory.ts",
+        "src/data/autonomousOwnerLoop.ts",
+        "src/data/autonomousSelfUpdate.ts",
         "src/data/eventCollectorDeployment.ts",
         "src/data/localEventBridge.ts",
         "src/data/objectiveAudit.ts",
@@ -367,7 +383,7 @@
     "repositoryReadiness": "repository-channel-ready",
     "deployment": "ready-for-pages",
     "releaseCandidate": "release-candidate-ready",
-    "releaseCandidateId": "pwa-836eb5c68aa8",
+    "releaseCandidateId": "pwa-346cf08cadf7",
     "postDeploySmoke": "blocked-missing-origin"
   },
   "repositoryTargetPlan": {
@@ -457,7 +473,7 @@
       "mutatesLocalGit": true,
       "mutatesRemoteGitHub": false,
       "requiresExplicitEnv": true,
-      "detail": "62 repository evidence file(s) changed during this dry run; the outer verified commit will persist them."
+      "detail": "66 repository evidence file(s) changed during this dry run; the outer verified commit will persist them."
     },
     {
       "id": "set-or-create-origin",

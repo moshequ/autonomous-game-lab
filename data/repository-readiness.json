@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-20T11:54:12.487Z",
+  "generatedAt": "2026-05-20T12:17:55.757Z",
   "status": "repository-channel-ready",
   "envFiles": {
     "loaded": true,
@@ -56,7 +56,7 @@
     "insideWorkTree": true,
     "gitRoot": "/Users/moshequ/Documents/Codex/2026-05-18/i-want-to-have-a-new",
     "currentBranch": "main",
-    "dirtyFiles": 62,
+    "dirtyFiles": 66,
     "dirtyPaths": [
       "data/analytics-rollup.json",
       "data/autonomous-cadence.json",
@@ -109,6 +109,10 @@
       "reports/repository-readiness-latest.md",
       "reports/retention-loop-latest.md",
       "src/data/autonomousCadence.ts",
+      "src/data/autonomousOperator.ts",
+      "src/data/autonomousOperatorHistory.ts",
+      "src/data/autonomousOwnerLoop.ts",
+      "src/data/autonomousSelfUpdate.ts",
       "src/data/eventCollectorDeployment.ts",
       "src/data/localEventBridge.ts",
       "src/data/objectiveAudit.ts",
@@ -121,7 +125,7 @@
       "src/data/releaseCandidate.ts",
       "src/data/retentionLoop.ts"
     ],
-    "generatedEvidenceDirtyFiles": 62,
+    "generatedEvidenceDirtyFiles": 66,
     "generatedEvidenceDirtyPaths": [
       "data/analytics-rollup.json",
       "data/autonomous-cadence.json",
@@ -174,6 +178,10 @@
       "reports/repository-readiness-latest.md",
       "reports/retention-loop-latest.md",
       "src/data/autonomousCadence.ts",
+      "src/data/autonomousOperator.ts",
+      "src/data/autonomousOperatorHistory.ts",
+      "src/data/autonomousOwnerLoop.ts",
+      "src/data/autonomousSelfUpdate.ts",
       "src/data/eventCollectorDeployment.ts",
       "src/data/localEventBridge.ts",
       "src/data/objectiveAudit.ts",
@@ -223,7 +231,7 @@
     "workflowExists": true,
     "deployWorkflowIncludesSmoke": true,
     "deploymentStatus": "ready-for-pages",
-    "releaseCandidateId": "pwa-836eb5c68aa8",
+    "releaseCandidateId": "pwa-346cf08cadf7",
     "postDeploySmokeStatus": "blocked-missing-origin"
   },
   "repositoryTargetPlan": {
