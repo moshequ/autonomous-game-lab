@@ -1,9 +1,9 @@
 # Autonomous Operator History
 
-Generated: 2026-05-20T19:15:34.812Z
+Generated: 2026-05-20T19:26:50.240Z
 Status: operator-history-ready
 Records: 40
-Executed records: 4
+Executed records: 10
 Failed records: 0
 Latest run appended: true
 Compacted duplicate dry-runs: 0
@@ -17,13 +17,13 @@ Compacted duplicate dry-runs: 0
 
 ## Recent Records
 
-- 2026-05-20T19:04:14.614Z: refresh-organic-seed-loop; not-requested; appended fingerprint ec40b1585732fb1f
-- 2026-05-20T19:06:10.214Z: refresh-organic-seed-loop; not-requested; appended fingerprint ce339cfb5c5e6c0d
-- 2026-05-20T19:07:42.201Z: refresh-organic-seed-loop; not-requested; appended fingerprint ec40b1585732fb1f
-- 2026-05-20T19:10:06.823Z: refresh-organic-seed-loop; not-requested; appended fingerprint ce339cfb5c5e6c0d
-- 2026-05-20T19:11:52.241Z: bootstrap-production-setup; not-requested; appended fingerprint d89656e892d06e0b
-- 2026-05-20T19:11:52.937Z: bootstrap-production-setup; not-requested; appended fingerprint ba2108d3da87a9e4
-- 2026-05-20T19:12:09.325Z: prepare-repository-channel; not-requested; appended fingerprint 8540896b93eb8d55
-- 2026-05-20T19:12:22.473Z: prepare-repository-channel; not-requested; appended fingerprint ce32eca68442502c
-- 2026-05-20T19:13:30.053Z: prepare-repository-channel; not-requested; appended fingerprint 633d6a0f6af9fa50
-- 2026-05-20T19:15:34.812Z: refresh-organic-seed-loop; not-requested; appended fingerprint ce339cfb5c5e6c0d
+- 2026-05-20T19:22:42.077Z: measure-pwa-install-loop; executed; appended fingerprint 5801160818a9e52b
+- 2026-05-20T19:22:42.540Z: seed-portfolio-traffic; not-requested; appended fingerprint fad65ecadbb16ec9
+- 2026-05-20T19:23:05.781Z: seed-portfolio-traffic; executed; appended fingerprint 98555a6a62e17602
+- 2026-05-20T19:23:06.327Z: collect-live-events; not-requested; appended fingerprint bfeadd4488e07a96
+- 2026-05-20T19:23:28.101Z: collect-live-events; executed; appended fingerprint 8cb9525e1311354f
+- 2026-05-20T19:23:28.919Z: refresh-organic-seed-loop; not-requested; appended fingerprint ce339cfb5c5e6c0d
+- 2026-05-20T19:25:20.891Z: bootstrap-production-setup; not-requested; appended fingerprint 0413bec91a30b93b
+- 2026-05-20T19:25:35.684Z: refresh-organic-seed-loop; not-requested; appended fingerprint ce339cfb5c5e6c0d
+- 2026-05-20T19:26:37.462Z: bootstrap-production-setup; not-requested; appended fingerprint 0413bec91a30b93b
+- 2026-05-20T19:26:50.240Z: refresh-organic-seed-loop; not-requested; appended fingerprint ce339cfb5c5e6c0d

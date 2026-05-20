@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-20T19:13:25.677Z",
+  "generatedAt": "2026-05-20T19:26:25.020Z",
   "status": "self-update-ready",
   "mode": "plan-and-assert",
   "envFiles": {
@@ -65,8 +65,8 @@
     "remotePushReady": false
   },
   "sourceStatus": {
-    "repositoryReadiness": "waiting-for-repository-channel",
-    "productionReadiness": "blocked",
+    "repositoryReadiness": "repository-channel-ready",
+    "productionReadiness": "ready-after-build",
     "autonomousCadence": "cadence-ready",
     "ownerLoop": "owner-loop-ready"
   },
