@@ -60,6 +60,7 @@ import { retentionLoop } from './data/retentionLoop'
 import { storeCompliance } from './data/storeCompliance'
 import { storeListingOptimizer } from './data/storeListingOptimizer'
 import { supportChannel } from './data/supportChannel'
+import { supportFeedback } from './data/supportFeedback'
 import { trafficSeeding } from './data/trafficSeeding'
 import { unitEconomics } from './data/unitEconomics'
 import type { GameSnapshot } from './game/gameTypes'
@@ -657,6 +658,7 @@ function App() {
   const supportChannelStatus = supportChannel.status as string
   const supportChannelRepository = supportChannel.repository.target ?? 'missing'
   const supportChannelReady = supportChannelStatus === 'support-channel-ready'
+  const supportFeedbackTopSignal = (supportFeedback.topSignals as readonly { label: string }[])[0]
   const operatorSelectedAction = autonomousOperator.selectedAction
   const operatorHistorySummary = autonomousOperatorHistory.summary
   const objectiveAuditSummary = objectiveAudit.summary
@@ -2464,6 +2466,24 @@ function App() {
                       ? 'still required'
                       : 'review'}
                   </strong>
+                </div>
+              </div>
+              <div className="monetizationRuntime" aria-label="Support Feedback">
+                <div>
+                  <span>Support Feedback</span>
+                  <strong>{supportFeedback.status}</strong>
+                </div>
+                <div>
+                  <span>Issues inspected</span>
+                  <strong>{supportFeedback.summary.issuesInspected}</strong>
+                </div>
+                <div>
+                  <span>Signals</span>
+                  <strong>{supportFeedback.summary.improvementSignals}</strong>
+                </div>
+                <div>
+                  <span>Top signal</span>
+                  <strong>{supportFeedbackTopSignal?.label ?? 'collecting'}</strong>
                 </div>
               </div>
               <div className="monetizationRuntime" aria-label="Repository Channel">

@@ -40,6 +40,7 @@ const allowedLocalCommands = [
   'npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition',
   'npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop',
   'npm run autonomous:organic-seed-loop',
+  'npm run autonomous:support-feedback',
   'npm run autonomous:retention',
   'npm run autonomous:pwa-install',
   'npm run build && npm run autonomous:performance',

@@ -9,6 +9,7 @@ const conceptsPath = path.join(root, 'data', 'generated-concepts.json')
 const prototypePath = path.join(root, 'data', 'prototype-pipeline.json')
 const balancePath = path.join(root, 'data', 'balance-report.json')
 const playablePath = path.join(root, 'data', 'playable-games.json')
+const supportFeedbackPath = path.join(root, 'data', 'support-feedback.json')
 const reportPath = path.join(root, 'reports', 'autonomous-analyst-latest.md')
 const backlogPath = path.join(root, 'data', 'improvement-backlog.json')
 const backlogSummaryPath = path.join(root, 'data', 'improvement-backlog-summary.json')
@@ -21,6 +22,14 @@ const concepts = JSON.parse(await readFile(conceptsPath, 'utf8'))
 const pipeline = JSON.parse(await readFile(prototypePath, 'utf8'))
 const balance = JSON.parse(await readFile(balancePath, 'utf8'))
 const playable = JSON.parse(await readFile(playablePath, 'utf8'))
+const supportFeedback = await readFile(supportFeedbackPath, 'utf8')
+  .then((raw) => JSON.parse(raw))
+  .catch(() => ({
+    status: 'missing',
+    sourceDataHash: null,
+    summary: { issuesInspected: 0, improvementSignals: 0, routableSignals: 0 },
+    improvementSignals: [],
+  }))
 const playableGameIds = new Set(playable.games ?? [])
 const generatedAt = new Date().toISOString()
 
@@ -86,6 +95,24 @@ const backlog = analyses
   .filter((analysis) => analysis.playable)
   .flatMap((analysis) => analysis.diagnosis.issues)
   .concat(
+    (supportFeedback.improvementSignals ?? [])
+      .filter((signal) => signal.status === 'routable')
+      .filter((signal) => signal.gameId && playableGameIds.has(signal.gameId))
+      .filter((signal) =>
+        ['first_session_pacing', 'target_score_curve', 'reward_offer', 'thumbnail_board_state_v2'].includes(
+          signal.experiment,
+        ),
+      )
+      .map((signal) => ({
+        gameId: signal.gameId,
+        title: `Support feedback: ${signal.label}`,
+        reason: `${signal.reason} Public issue numbers: ${(signal.issueNumbers ?? []).join(', ') || 'none'}`,
+        confidence: signal.confidence,
+        experiment: signal.experiment,
+        source: 'support-feedback',
+        supportSignalId: signal.id,
+        supportIssueNumbers: signal.issueNumbers ?? [],
+      })),
     balance.games
       .filter((game) => playableGameIds.has(game.gameId))
       .flatMap((game) =>
@@ -115,6 +142,9 @@ const routing = {
   generatedAt,
   status: 'live-targets-ready',
   analyticsSource: analytics.sourceStatus.activeSource,
+  supportFeedbackStatus: supportFeedback.status,
+  supportFeedbackSignals: supportFeedback.summary?.improvementSignals ?? 0,
+  supportFeedbackRoutableSignals: supportFeedback.summary?.routableSignals ?? 0,
   playableGameIds: [...playableGameIds],
   liveAnalyticsRows: analyses
     .filter((analysis) => analysis.playable)
@@ -143,6 +173,12 @@ const sourceDataHash = crypto
         metrics: row.metrics,
       })),
       playableGameIds: [...playableGameIds],
+      supportFeedback: {
+        status: supportFeedback.status,
+        sourceDataHash: supportFeedback.sourceDataHash,
+        improvementSignals: supportFeedback.summary?.improvementSignals ?? 0,
+        routableSignals: supportFeedback.summary?.routableSignals ?? 0,
+      },
       backlog,
       skippedIssues,
     }),
@@ -155,6 +191,9 @@ const backlogSummary = {
   status: backlog.length ? 'improvement-backlog-ready' : 'improvement-backlog-empty',
   sourceDataHash,
   analyticsSource: analytics.sourceStatus.activeSource,
+  supportFeedbackStatus: supportFeedback.status,
+  supportFeedbackSignals: supportFeedback.summary?.improvementSignals ?? 0,
+  supportFeedbackRoutableSignals: supportFeedback.summary?.routableSignals ?? 0,
   playableGameIds: [...playableGameIds],
   backlogCount: backlog.length,
   skippedIssueCount: skippedIssues.length,
@@ -197,6 +236,9 @@ const report = [
   '## Game Health',
   '',
   `Analytics source: ${analytics.sourceStatus.activeSource}`,
+  `Support feedback: ${supportFeedback.status}; signals ${
+    supportFeedback.summary?.improvementSignals ?? 0
+  }; routable ${supportFeedback.summary?.routableSignals ?? 0}`,
   '',
   ...analyses.flatMap((analysis) => [
     `### ${analysis.gameId}`,

@@ -1,24 +1,25 @@
 {
-  "generatedAt": "2026-05-20T16:13:38.179Z",
+  "generatedAt": "2026-05-20T16:31:18.329Z",
   "status": "operator-plan-ready",
   "mode": "plan-only",
   "ownerDecision": {
-    "actionId": "bootstrap-production-setup",
-    "command": "npm run autonomous:release-candidate && npm run autonomous:deploy-plan && npm run autonomous:bootstrap",
+    "actionId": "seed-portfolio-traffic",
+    "command": "npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop",
     "locallyExecutable": true,
     "rejectionReason": null
   },
   "requestedActionId": null,
   "selectedAction": {
-    "id": "bootstrap-production-setup",
+    "id": "seed-portfolio-traffic",
     "status": "armed",
-    "command": "npm run autonomous:release-candidate && npm run autonomous:deploy-plan && npm run autonomous:bootstrap",
+    "command": "npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop",
     "targets": [
-      "github-pages",
-      "repository-config",
-      "event-collector"
+      "canopy-bloom",
+      "grove-engine",
+      "metro-loom",
+      "pocket-draft"
     ],
-    "reason": "Regenerates the zero-spend production setup handoff and exact GitHub variable/secret commands.",
+    "reason": "Under-measured playable games need free organic/internal traffic before quality judgment.",
     "costUsd": 0
   },
   "selectedRejection": null,
@@ -27,6 +28,7 @@
     "refresh-autonomous-self-update",
     "seed-portfolio-traffic",
     "refresh-organic-seed-loop",
+    "refresh-support-feedback",
     "optimize-daily-retention",
     "measure-pwa-install-loop",
     "check-performance-budget",
@@ -40,6 +42,7 @@
     "refresh-completion-loop",
     "refresh-replay-loop",
     "bootstrap-production-setup",
+    "refresh-objective-audit",
     "optimize-store-listing",
     "apply-safe-improvements",
     "collect-live-events"
@@ -64,15 +67,15 @@
       "reason": "not-selected-this-run"
     },
     {
-      "id": "seed-portfolio-traffic",
-      "status": "armed",
-      "command": "npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop",
-      "reason": "not-selected-this-run"
-    },
-    {
       "id": "refresh-organic-seed-loop",
       "status": "armed",
       "command": "npm run autonomous:organic-seed-loop",
+      "reason": "not-selected-this-run"
+    },
+    {
+      "id": "refresh-support-feedback",
+      "status": "armed",
+      "command": "npm run autonomous:support-feedback",
       "reason": "not-selected-this-run"
     },
     {
@@ -160,6 +163,12 @@
       "reason": "status-monitor"
     },
     {
+      "id": "bootstrap-production-setup",
+      "status": "armed",
+      "command": "npm run autonomous:release-candidate && npm run autonomous:deploy-plan && npm run autonomous:bootstrap",
+      "reason": "not-selected-this-run"
+    },
+    {
       "id": "activate-production-when-configured",
       "status": "monitor",
       "command": "npm run autonomous:activate-production",
@@ -179,9 +188,9 @@
     },
     {
       "id": "refresh-objective-audit",
-      "status": "monitor",
+      "status": "armed",
       "command": "npm run autonomous:objective-audit",
-      "reason": "status-monitor"
+      "reason": "not-selected-this-run"
     },
     {
       "id": "optimize-store-listing",
@@ -216,16 +225,24 @@
   ],
   "commandPlan": [
     {
-      "segment": "npm run autonomous:release-candidate",
-      "script": "autonomous:release-candidate"
+      "segment": "npm run autonomous:growth",
+      "script": "autonomous:growth"
     },
     {
-      "segment": "npm run autonomous:deploy-plan",
-      "script": "autonomous:deploy-plan"
+      "segment": "npm run autonomous:portfolio",
+      "script": "autonomous:portfolio"
     },
     {
-      "segment": "npm run autonomous:bootstrap",
-      "script": "autonomous:bootstrap"
+      "segment": "npm run autonomous:traffic",
+      "script": "autonomous:traffic"
+    },
+    {
+      "segment": "npm run autonomous:acquisition",
+      "script": "autonomous:acquisition"
+    },
+    {
+      "segment": "npm run autonomous:organic-seed-loop",
+      "script": "autonomous:organic-seed-loop"
     }
   ],
   "execution": {
@@ -253,6 +270,7 @@
     "npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition",
     "npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop",
     "npm run autonomous:organic-seed-loop",
+    "npm run autonomous:support-feedback",
     "npm run autonomous:retention",
     "npm run autonomous:pwa-install",
     "npm run build && npm run autonomous:performance",
@@ -294,7 +312,7 @@
     "RUN_WORKFLOWS=1"
   ],
   "nextActions": [
-    "Run npm run autonomous:operator -- --execute --action=bootstrap-production-setup to execute exactly one allowed local action.",
+    "Run npm run autonomous:operator -- --execute --action=seed-portfolio-traffic to execute exactly one allowed local action.",
     "Do not execute GitHub workflow, store, paid ads, or account setup commands from the local operator."
   ]
 }

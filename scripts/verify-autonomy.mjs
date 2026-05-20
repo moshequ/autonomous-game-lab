@@ -51,6 +51,7 @@ const requiredFiles = [
   'data/autonomous-owner-loop.json',
   'data/production-environment.json',
   'data/support-channel.json',
+  'data/support-feedback.json',
   'data/icon-assets.json',
   'data/monetization-plan.json',
   'data/unit-economics.json',
@@ -98,6 +99,7 @@ const requiredFiles = [
   'src/data/autonomousSelfUpdate.ts',
   'src/data/objectiveAudit.ts',
   'src/data/supportChannel.ts',
+  'src/data/supportFeedback.ts',
   'src/data/localEventBridge.ts',
   'src/data/storeListingOptimizer.ts',
   'src/data/storeCompliance.ts',
@@ -153,6 +155,7 @@ const requiredFiles = [
   'reports/autonomous-owner-loop-latest.md',
   'reports/production-environment-latest.md',
   'reports/support-channel-latest.md',
+  'reports/support-feedback-latest.md',
   'reports/icon-assets-latest.md',
   'reports/monetization-plan-latest.md',
   'reports/unit-economics-latest.md',
@@ -187,6 +190,7 @@ const requiredFiles = [
   'scripts/repository-readiness.mjs',
   'scripts/repository-bootstrap.mjs',
   'scripts/support-channel.mjs',
+  'scripts/support-feedback-ingestor.mjs',
   'scripts/production-activation.mjs',
   'scripts/autonomous-cadence.mjs',
   'scripts/autonomous-self-update.mjs',
@@ -292,6 +296,7 @@ const autonomousOwnerLoop = JSON.parse(
 )
 const productionEnvironment = JSON.parse(await readFile(path.join(root, 'data', 'production-environment.json'), 'utf8'))
 const supportChannel = JSON.parse(await readFile(path.join(root, 'data', 'support-channel.json'), 'utf8'))
+const supportFeedback = JSON.parse(await readFile(path.join(root, 'data', 'support-feedback.json'), 'utf8'))
 const iconAssets = JSON.parse(await readFile(path.join(root, 'data', 'icon-assets.json'), 'utf8'))
 const monetizationPlan = JSON.parse(await readFile(path.join(root, 'data', 'monetization-plan.json'), 'utf8'))
 const unitEconomics = JSON.parse(await readFile(path.join(root, 'data', 'unit-economics.json'), 'utf8'))
@@ -343,6 +348,7 @@ const analyticsRollupSource = await readFile(path.join(root, 'scripts', 'analyti
 const envLoaderSource = await readFile(path.join(root, 'scripts', 'lib', 'env-loader.mjs'), 'utf8')
 const productionEnvironmentSource = await readFile(path.join(root, 'scripts', 'production-environment.mjs'), 'utf8')
 const supportChannelSource = await readFile(path.join(root, 'scripts', 'support-channel.mjs'), 'utf8')
+const supportFeedbackSource = await readFile(path.join(root, 'scripts', 'support-feedback-ingestor.mjs'), 'utf8')
 const eventCollectorWorkerSource = await readFile(
   path.join(root, 'ops', 'cloudflare', 'event-collector-worker.mjs'),
   'utf8',
@@ -433,6 +439,32 @@ if (
   !packageJson.scripts?.['autonomous:daily']?.includes('autonomous:support-channel')
 ) {
   fail('Support channel must publish zero-spend GitHub Issues intake with privacy warnings while preserving the app-store support email blocker.')
+}
+
+if (
+  !['support-feedback-ready', 'support-feedback-empty', 'support-feedback-planned', 'support-feedback-unavailable'].includes(
+    supportFeedback.status,
+  ) ||
+  supportFeedback.provider !== 'github-issues' ||
+  supportFeedback.controls?.zeroPaidSpend !== true ||
+  supportFeedback.controls?.readOnlyGithubIssueList !== true ||
+  supportFeedback.controls?.noIssueMutation !== true ||
+  supportFeedback.controls?.publicIssuesOnly !== true ||
+  supportFeedback.controls?.noAttachmentsDownloaded !== true ||
+  supportFeedback.controls?.noRawAnalyticsStored !== true ||
+  supportFeedback.controls?.redactsContactText !== true ||
+  supportFeedback.controls?.playableTargetsOnlyForAutomation !== true ||
+  !Array.isArray(supportFeedback.issueRecords) ||
+  !Array.isArray(supportFeedback.improvementSignals) ||
+  !appSource.includes('Support Feedback') ||
+  !supportFeedbackSource.includes('readOnlyGithubIssueList') ||
+  !supportFeedbackSource.includes('noAttachmentsDownloaded') ||
+  packageJson.scripts?.['autonomous:support-feedback'] !== 'node scripts/support-feedback-ingestor.mjs' ||
+  !packageJson.scripts?.['autonomous:daily']?.includes('autonomous:support-feedback') ||
+  !improvementBacklogSummary.supportFeedbackStatus ||
+  improvementRouting.supportFeedbackStatus !== supportFeedback.status
+) {
+  fail('Support feedback must ingest public GitHub issue intake as read-only, redacted, zero-spend improvement evidence.')
 }
 
 if (!trend.signals?.mechanics?.length) {
@@ -4567,6 +4599,7 @@ const ownerObjectiveAuditInputs = [
   { id: 'product-gate-sample-plan', generatedAt: productGateSamplePlan.generatedAt },
   { id: 'production-activation', generatedAt: productionActivation.generatedAt },
   { id: 'support-channel', generatedAt: supportChannel.generatedAt },
+  { id: 'support-feedback', generatedAt: supportFeedback.generatedAt },
   { id: 'repository-readiness', generatedAt: repositoryReadiness.generatedAt },
   { id: 'repository-bootstrap', generatedAt: repositoryBootstrap.generatedAt },
   { id: 'monetization-plan', generatedAt: monetizationPlan.generatedAt },

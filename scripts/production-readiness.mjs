@@ -27,6 +27,7 @@ const nativePackagePath = path.join(root, 'data', 'native-package.json')
 const androidSigningPath = path.join(root, 'data', 'android-signing.json')
 const environmentPath = path.join(root, 'data', 'production-environment.json')
 const supportChannelPath = path.join(root, 'data', 'support-channel.json')
+const supportFeedbackPath = path.join(root, 'data', 'support-feedback.json')
 const repositoryReadinessPath = path.join(root, 'data', 'repository-readiness.json')
 const repositoryBootstrapPath = path.join(root, 'data', 'repository-bootstrap.json')
 const productionBootstrapPath = path.join(root, 'data', 'production-bootstrap.json')
@@ -190,6 +191,12 @@ const supportChannel = await readOptionalJson(supportChannelPath, {
   repository: {},
   controls: {},
   links: {},
+})
+const supportFeedback = await readOptionalJson(supportFeedbackPath, {
+  status: 'missing',
+  summary: {},
+  controls: {},
+  improvementSignals: [],
 })
 const repositoryReadiness = await readOptionalJson(repositoryReadinessPath, {
   status: 'missing',
@@ -437,6 +444,15 @@ const supportChannelReady =
   supportChannel.controls?.noPrivateDataInPrefilledUrls === true &&
   supportChannel.controls?.supportEmailStillRequiredForStoreSubmission === true &&
   storePackage.supportPage?.supportChannel?.status === supportChannel.status
+const supportFeedbackReady =
+  ['support-feedback-ready', 'support-feedback-empty', 'support-feedback-planned'].includes(supportFeedback.status) &&
+  supportFeedback.provider === 'github-issues' &&
+  supportFeedback.controls?.zeroPaidSpend === true &&
+  supportFeedback.controls?.readOnlyGithubIssueList === true &&
+  supportFeedback.controls?.noIssueMutation === true &&
+  supportFeedback.controls?.noAttachmentsDownloaded === true &&
+  supportFeedback.controls?.noRawAnalyticsStored === true &&
+  supportFeedback.controls?.playableTargetsOnlyForAutomation === true
 const performanceBudgetReady =
   performanceBudget.status === 'performance-budget-ready' &&
   performanceBudget.initial?.jsBytes <= performanceBudget.budgets?.initialJsMaxBytes &&
@@ -738,6 +754,13 @@ const webChecks = [
     `Support channel is ${supportChannel.status}; repository ${
       supportChannel.repository?.target ?? 'missing'
     }; public intake ${supportChannel.repository?.publicIssuesReady === true ? 'ready' : 'planned'}.`,
+  ),
+  check(
+    'support-feedback',
+    supportFeedbackReady,
+    `Support feedback is ${supportFeedback.status}; issues ${
+      supportFeedback.summary?.issuesInspected ?? 0
+    }; routable signals ${supportFeedback.summary?.routableSignals ?? 0}.`,
   ),
   check(
     'compliance-manifest',
@@ -1167,6 +1190,13 @@ const payload = {
     controls: productOptimization.controls,
     actions: productOptimization.actions ?? [],
     nextActions: productOptimization.nextActions ?? [],
+  },
+  supportFeedback: {
+    status: supportFeedback.status,
+    provider: supportFeedback.provider,
+    summary: supportFeedback.summary,
+    controls: supportFeedback.controls,
+    topSignals: (supportFeedback.improvementSignals ?? []).slice(0, 5),
   },
   firstMoveCoach: {
     status: firstMoveCoach.status,

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-20T12:33:37.312Z",
+  "generatedAt": "2026-05-20T16:18:47.899Z",
   "status": "evaluated",
   "sourceStatus": {
     "activeSource": "fixture-experiment-results",
@@ -151,12 +151,12 @@
       "winner": {
         "variantId": "board-state",
         "score": 0.552,
-        "currentWeight": 50
+        "currentWeight": 60
       },
       "runnerUp": {
         "variantId": "title-first",
         "score": 0.468,
-        "currentWeight": 50
+        "currentWeight": 40
       },
       "variants": [
         {
@@ -177,7 +177,7 @@
             "replayRate": 0.305,
             "abandonmentRate": 0.572
           },
-          "currentWeight": 50,
+          "currentWeight": 60,
           "score": 0.552
         },
         {
@@ -198,7 +198,7 @@
             "replayRate": 0.25,
             "abandonmentRate": 0.624
           },
-          "currentWeight": 50,
+          "currentWeight": 40,
           "score": 0.468
         }
       ]

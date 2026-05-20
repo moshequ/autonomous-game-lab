@@ -53,6 +53,7 @@ const [
   unitEconomics,
   storePackage,
   supportChannel,
+  supportFeedback,
   storeAssets,
   storeCompliance,
   nativePackage,
@@ -99,6 +100,7 @@ const [
   readJson(path.join(dataDir, 'unit-economics.json')),
   readJson(path.join(dataDir, 'store-package.json')),
   readJson(path.join(dataDir, 'support-channel.json')),
+  readJson(path.join(dataDir, 'support-feedback.json')),
   readJson(path.join(dataDir, 'store-assets.json')),
   readJson(path.join(dataDir, 'store-compliance.json')),
   readJson(path.join(dataDir, 'native-package.json')),
@@ -301,6 +303,9 @@ const requirements = [
       Array.isArray(improvementBacklog) &&
       improvementBacklogSummary.status === 'improvement-backlog-ready' &&
       improvementBacklogSummary.backlogCount === improvementBacklog.length &&
+      ['support-feedback-ready', 'support-feedback-empty', 'support-feedback-planned'].includes(supportFeedback.status) &&
+      supportFeedback.controls?.readOnlyGithubIssueList === true &&
+      supportFeedback.controls?.noRawAnalyticsStored === true &&
       Array.isArray(appliedImprovements.actions) &&
       autonomousOperatorReady
         ? 'met'
@@ -333,6 +338,9 @@ const requirements = [
       `Backlog: ${improvementBacklogSummary.status}; items ${improvementBacklog.length}; hash ${
         improvementBacklogSummary.sourceDataHash ?? 'missing'
       }`,
+      `Support feedback: ${supportFeedback.status}; issues ${
+        supportFeedback.summary?.issuesInspected ?? 0
+      }; routable signals ${supportFeedback.summary?.routableSignals ?? 0}`,
       `Applied/deferred actions: ${appliedImprovements.actions?.length ?? 0}`,
       `Operator selected: ${autonomousOperator.selectedAction?.id ?? 'none'}; status ${autonomousOperator.status}; execution ${autonomousOperator.execution?.status ?? 'missing'}`,
     ],

@@ -77,6 +77,8 @@ test('portal loads a playable canvas and autonomy cockpit', async ({ page }) => 
   await expect(page.getByLabel('Production Activation')).toContainText(/dry-run|apply-configured-actions/)
   await expect(page.getByLabel('Support Channel')).toContainText(/support-channel-ready|support-channel-planned/)
   await expect(page.getByLabel('Support Channel')).toContainText('github-issues')
+  await expect(page.getByLabel('Support Feedback')).toContainText(/support-feedback-ready|support-feedback-empty|support-feedback-planned/)
+  await expect(page.getByLabel('Support Feedback')).toContainText('Issues inspected')
   await expect(page.getByLabel('Repository Channel')).toContainText(/blocked-no-local-git|waiting-for-gh-auth|repository-channel-ready|waiting-for-github-repository|waiting-for-repository-channel/)
   await expect(page.getByLabel('Repository Channel')).toContainText('Workflow dispatch')
   await expect(page.getByLabel('Repository Bootstrap')).toContainText(/needs-local-git-bootstrap|waiting-for-github-target|waiting-for-origin-remote|waiting-for-gh-auth|repository-bootstrap-ready/)
@@ -4083,6 +4085,78 @@ test('support channel publishes zero-spend public issue intake with privacy warn
   await expect(page.getByText('GitHub Issues are public')).toBeVisible()
   await expect(page.getByText('Do not paste private information')).toBeVisible()
   await expect(page.getByText('does not replace the production support email')).toBeVisible()
+})
+
+test('support feedback ingests public issues as redacted improvement evidence', async ({ page }) => {
+  const supportFeedback = JSON.parse(await readFile('data/support-feedback.json', 'utf8')) as {
+    status: string
+    provider: string
+    repository: string | null
+    summary: {
+      issuesInspected: number
+      improvementSignals: number
+      routableSignals: number
+    }
+    controls: {
+      zeroPaidSpend: boolean
+      readOnlyGithubIssueList: boolean
+      noIssueMutation: boolean
+      publicIssuesOnly: boolean
+      noAttachmentsDownloaded: boolean
+      noRawAnalyticsStored: boolean
+      redactsContactText: boolean
+      playableTargetsOnlyForAutomation: boolean
+    }
+    issueRecords: Array<{ title: string; excerpt: string; matchedSignals: string[] }>
+    improvementSignals: Array<{ status: string; experiment: string; issueNumbers: number[] }>
+  }
+  const backlogSummary = JSON.parse(await readFile('data/improvement-backlog-summary.json', 'utf8')) as {
+    supportFeedbackStatus: string
+    supportFeedbackSignals: number
+    supportFeedbackRoutableSignals: number
+    controls: { playableTargetsOnly: boolean; noSyntheticEvents: boolean }
+  }
+  const routing = JSON.parse(await readFile('data/improvement-routing.json', 'utf8')) as {
+    supportFeedbackStatus: string
+    supportFeedbackSignals: number
+    supportFeedbackRoutableSignals: number
+  }
+  const packageJson = JSON.parse(await readFile('package.json', 'utf8')) as {
+    scripts: Record<string, string>
+  }
+  const script = await readFile('scripts/support-feedback-ingestor.mjs', 'utf8')
+
+  expect(['support-feedback-ready', 'support-feedback-empty', 'support-feedback-planned']).toContain(
+    supportFeedback.status,
+  )
+  expect(supportFeedback.provider).toBe('github-issues')
+  expect(supportFeedback.controls.zeroPaidSpend).toBe(true)
+  expect(supportFeedback.controls.readOnlyGithubIssueList).toBe(true)
+  expect(supportFeedback.controls.noIssueMutation).toBe(true)
+  expect(supportFeedback.controls.publicIssuesOnly).toBe(true)
+  expect(supportFeedback.controls.noAttachmentsDownloaded).toBe(true)
+  expect(supportFeedback.controls.noRawAnalyticsStored).toBe(true)
+  expect(supportFeedback.controls.redactsContactText).toBe(true)
+  expect(supportFeedback.controls.playableTargetsOnlyForAutomation).toBe(true)
+  expect(supportFeedback.issueRecords.length).toBe(supportFeedback.summary.issuesInspected)
+  expect(supportFeedback.improvementSignals.length).toBe(supportFeedback.summary.improvementSignals)
+  expect(supportFeedback.improvementSignals.every((signal) => signal.status !== 'routable' || signal.issueNumbers.length > 0)).toBe(true)
+  expect(backlogSummary.supportFeedbackStatus).toBe(supportFeedback.status)
+  expect(backlogSummary.supportFeedbackSignals).toBe(supportFeedback.summary.improvementSignals)
+  expect(backlogSummary.supportFeedbackRoutableSignals).toBe(supportFeedback.summary.routableSignals)
+  expect(backlogSummary.controls.playableTargetsOnly).toBe(true)
+  expect(backlogSummary.controls.noSyntheticEvents).toBe(true)
+  expect(routing.supportFeedbackStatus).toBe(supportFeedback.status)
+  expect(routing.supportFeedbackSignals).toBe(supportFeedback.summary.improvementSignals)
+  expect(routing.supportFeedbackRoutableSignals).toBe(supportFeedback.summary.routableSignals)
+  expect(packageJson.scripts['autonomous:support-feedback']).toBe('node scripts/support-feedback-ingestor.mjs')
+  expect(packageJson.scripts['autonomous:daily']).toContain('autonomous:support-feedback')
+  expect(script).toContain('readOnlyGithubIssueList')
+  expect(script).toContain('noAttachmentsDownloaded')
+
+  await page.goto('/')
+  await expect(page.getByLabel('Support Feedback')).toContainText(supportFeedback.status)
+  await expect(page.getByLabel('Support Feedback')).toContainText(`${supportFeedback.summary.issuesInspected}`)
 })
 
 test('generated compliance manifest is reachable', async ({ page }) => {

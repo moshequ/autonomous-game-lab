@@ -211,6 +211,13 @@ const supportChannel = await readOptionalJson(path.join(dataDir, 'support-channe
   controls: {},
   links: {},
 })
+const supportFeedback = await readOptionalJson(path.join(dataDir, 'support-feedback.json'), {
+  status: 'missing',
+  provider: 'github-issues',
+  summary: {},
+  controls: {},
+  improvementSignals: [],
+})
 const storeAssets = await readJson(path.join(dataDir, 'store-assets.json'))
 const storeListingOptimizer = await readJson(path.join(dataDir, 'store-listing-optimizer.json'))
 const storeCompliance = await readJson(path.join(dataDir, 'store-compliance.json'))
@@ -539,6 +546,27 @@ const systems = [
       productOptimization.productGates?.firstGameCompletion?.gate,
     )}%; latest ${productOptimization.actions?.[0]?.status ?? 'missing'}.`,
     nextAction: productOptimization.nextActions?.[0] ?? 'Tune product gates from measured completion and replay data.',
+  },
+  {
+    id: 'support-feedback',
+    status: systemStatus(
+      ['support-feedback-ready', 'support-feedback-empty', 'support-feedback-planned'].includes(
+        supportFeedback.status,
+      ) &&
+        supportFeedback.provider === 'github-issues' &&
+        supportFeedback.controls?.zeroPaidSpend === true &&
+        supportFeedback.controls?.readOnlyGithubIssueList === true &&
+        supportFeedback.controls?.noIssueMutation === true &&
+        supportFeedback.controls?.noRawAnalyticsStored === true,
+      'needs-feedback-ingest',
+    ),
+    autonomy: 'read-only-public-feedback-routing',
+    evidence: `Support feedback ${supportFeedback.status}; issues ${
+      supportFeedback.summary?.issuesInspected ?? 0
+    }; routable signals ${supportFeedback.summary?.routableSignals ?? 0}.`,
+    nextAction:
+      supportFeedback.nextActions?.[0] ??
+      'Inspect public GitHub Issues and route playable game signals into the guarded backlog.',
   },
   {
     id: 'product-gate-recovery',
@@ -1005,6 +1033,7 @@ const objectiveAuditFreshnessInputs = [
   { id: 'product-gate-sample-plan', generatedAt: productGateSamplePlan.generatedAt },
   { id: 'production-activation', generatedAt: productionActivation.generatedAt },
   { id: 'support-channel', generatedAt: supportChannel.generatedAt },
+  { id: 'support-feedback', generatedAt: supportFeedback.generatedAt },
   { id: 'repository-readiness', generatedAt: repositoryReadiness.generatedAt },
   { id: 'repository-bootstrap', generatedAt: repositoryBootstrap.generatedAt },
   { id: 'monetization-plan', generatedAt: monetization.generatedAt },
@@ -1070,6 +1099,14 @@ const safeAutonomousActions = [
     command: 'npm run autonomous:organic-seed-loop',
     targets: [organicSeedLoop.target?.gameId ?? 'organic-seed-loop'],
     reason: 'Refreshes the player-initiated zero-cost share surface for the highest-opportunity seed campaign.',
+  },
+  {
+    id: 'refresh-support-feedback',
+    status: ['support-channel-ready', 'support-channel-planned'].includes(supportChannel.status) ? 'armed' : 'monitor',
+    costUsd: 0,
+    command: 'npm run autonomous:support-feedback',
+    targets: [supportChannel.repository?.target ?? 'github-issues'],
+    reason: 'Reads public GitHub issue intake and turns player reports into redacted improvement signals.',
   },
   {
     id: 'optimize-daily-retention',
@@ -1492,6 +1529,7 @@ const payload = {
     productionBootstrapStatus: productionBootstrap.status,
     productionActivationStatus: productionActivation.status,
     supportChannelStatus: supportChannel.status,
+    supportFeedbackStatus: supportFeedback.status,
     autonomousOperatorStatus: autonomousOperator.status,
     autonomousOperatorHistoryStatus: autonomousOperatorHistory.status,
     objectiveAuditStatus: objectiveAudit.status,

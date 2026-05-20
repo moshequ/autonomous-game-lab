@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-20T12:33:37.550Z",
+  "generatedAt": "2026-05-20T16:18:48.171Z",
   "sourceDataHash": "d7dff2beae3d",
   "releaseHealthStatus": "monitoring",
   "experimentResultsStatus": "evaluated",
@@ -32,41 +32,12 @@
       "sourceDataHash": "d7dff2beae3d"
     },
     {
-      "status": "applied",
-      "experiment": "thumbnail_board_state_v2",
-      "gameId": "all-games",
-      "title": "Promote winning experiment variant",
-      "sourceReason": "board-state beat title-first on startRate with 83% confidence",
-      "confidence": 83,
-      "sourceDataHash": "d7dff2beae3d",
-      "change": "shifted 10 weight points from title-first to board-state",
-      "before": [
-        {
-          "id": "board-state",
-          "label": "Show a stronger board-state preview",
-          "weight": 50
-        },
-        {
-          "id": "title-first",
-          "label": "Keep the title-led card treatment",
-          "weight": 50
-        }
-      ],
-      "after": [
-        {
-          "id": "board-state",
-          "label": "Show a stronger board-state preview",
-          "weight": 60
-        },
-        {
-          "id": "title-first",
-          "label": "Keep the title-led card treatment",
-          "weight": 40
-        }
-      ],
+      "status": "skipped",
       "source": "experiment-results",
-      "winnerVariant": "board-state",
-      "runnerUpVariant": "title-first"
+      "experiment": "thumbnail_board_state_v2",
+      "title": "Promote winning experiment variant",
+      "reason": "same experiment result already produced an applied change",
+      "sourceDataHash": "d7dff2beae3d"
     },
     {
       "status": "skipped",
@@ -81,7 +52,8 @@
       "experiment": "thumbnail_board_state_v2",
       "gameId": "harbor-rings",
       "title": "Improve title and thumbnail",
-      "reason": "experiment already changed in this run"
+      "reason": "same source data already produced an applied change",
+      "sourceDataHash": "d7dff2beae3d"
     },
     {
       "status": "deferred",
