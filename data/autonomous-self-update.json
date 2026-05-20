@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-20T13:07:28.308Z",
+  "generatedAt": "2026-05-20T13:19:21.425Z",
   "status": "self-update-ready",
   "mode": "plan-and-assert",
   "envFiles": {
@@ -71,7 +71,7 @@
     "ownerLoop": "owner-loop-ready"
   },
   "pendingChanges": {
-    "total": 60,
+    "total": 59,
     "safe": [
       {
         "code": "M",
@@ -439,13 +439,6 @@
       },
       {
         "code": "M",
-        "path": "src/data/performanceBudget.ts",
-        "raw": " M src/data/performanceBudget.ts",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
         "path": "src/data/postDeploySmoke.ts",
         "raw": " M src/data/postDeploySmoke.ts",
         "safe": true,
@@ -495,7 +488,7 @@
       }
     ],
     "unsafe": [],
-    "safeCount": 60,
+    "safeCount": 59,
     "unsafeCount": 0
   },
   "commitPlan": {
@@ -560,7 +553,6 @@
       "src/data/eventCollectorDeployment.ts",
       "src/data/localEventBridge.ts",
       "src/data/objectiveAudit.ts",
-      "src/data/performanceBudget.ts",
       "src/data/postDeploySmoke.ts",
       "src/data/productGateRecovery.ts",
       "src/data/productGateSamplePlan.ts",
@@ -669,7 +661,7 @@
     {
       "id": "safe-path-allowlist",
       "status": "pass",
-      "detail": "60 safe pending file(s), 0 unsafe pending file(s)."
+      "detail": "59 safe pending file(s), 0 unsafe pending file(s)."
     },
     {
       "id": "repository-optional",

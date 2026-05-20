@@ -1,6 +1,6 @@
 # Autonomous Owner Loop
 
-Generated: 2026-05-20T13:07:51.570Z
+Generated: 2026-05-20T13:19:47.438Z
 Status: owner-loop-ready
 Mode: zero-spend-web-ready
 Autonomy score: 38/39 (97%)
@@ -22,7 +22,7 @@ Autonomy score: 38/39 (97%)
 - ready: analytics-ingest - Active source: fixture-sample; event ingest: idle-no-files; collector smoke: pass.
 - ready: local-event-bridge - Bridge bridge-waiting-for-export; inbox 0 event(s); imported 0 event(s).
 - ready: autonomous-cadence - Cadence cadence-ready; Codex active-confirmed; GitHub scheduled.
-- ready: autonomous-self-update - Self-update self-update-ready; safe pending 60; unsafe pending 0; remote push held.
+- ready: autonomous-self-update - Self-update self-update-ready; safe pending 59; unsafe pending 0; remote push held.
 - ready: portfolio-loop - Daily challenge: Canopy Bloom; seed traffic: canopy-bloom, grove-engine, metro-loom, pocket-draft.
 - ready: traffic-seeding - 4 seed campaign(s); max cost $0.
 - ready: acquisition-learning - 4 campaign(s); 0 attributed start(s); candidate canopy-bloom.
@@ -42,7 +42,7 @@ Autonomy score: 38/39 (97%)
 - ready: repository-bootstrap - Bootstrap repository-bootstrap-ready; mode plan-only; helper ops/github/bootstrap-repository.sh; local git ready.
 - ready: web-deployment - Deployment ready-for-pages; web readiness ready-after-build; promotion promotable-internal.
 - ready: release-candidate - Release candidate release-candidate-ready; files 44; smoke URLs 14.
-- ready: post-deploy-smoke - Smoke blocked-missing-origin; origin missing; manifest comparison required; checks 0/15 passed; local artifact predeploy-artifact-smoke-passed 15/15 passed.
+- ready: post-deploy-smoke - Smoke post-deploy-smoke-observed-live; origin https://moshequ.github.io/autonomous-game-lab; manifest comparison required; checks 15/15 passed; local artifact predeploy-artifact-smoke-passed 15/15 passed.
 - ready: production-bootstrap - Bootstrap production-bootstrap-ready; mode can-apply-configured-actions; external blockers 15.
 - ready: production-activation - Activation activation-ready; mode dry-run; execution dry-run; gh ready.
 - ready: autonomous-operator - Operator operator-plan-ready; selected bootstrap-production-setup; execution not-requested.
@@ -66,7 +66,7 @@ Autonomy score: 38/39 (97%)
 - armed: measure-pwa-install-loop - npm run autonomous:pwa-install
 - armed: check-performance-budget - npm run build && npm run autonomous:performance
 - armed: prepare-release-candidate - npm run autonomous:release-candidate
-- monitor: run-post-deploy-smoke - npm run autonomous:post-deploy-smoke
+- armed: run-post-deploy-smoke - npm run autonomous:post-deploy-smoke
 - armed: optimize-product-gates - npm run autonomous:analyze && npm run autonomous:product-optimize && npm run autonomous:sync-config && npm run autonomous:simulate
 - armed: refresh-product-gate-recovery - npm run autonomous:gate-recovery
 - armed: collect-gate-sample-downloads - npm run autonomous:collect-sample-downloads

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-20T13:07:51.797Z",
+  "generatedAt": "2026-05-20T13:19:47.674Z",
   "status": "operator-plan-ready",
   "mode": "plan-only",
   "ownerDecision": {
@@ -31,6 +31,7 @@
     "measure-pwa-install-loop",
     "check-performance-budget",
     "prepare-release-candidate",
+    "run-post-deploy-smoke",
     "optimize-product-gates",
     "refresh-product-gate-recovery",
     "collect-gate-sample-downloads",
@@ -100,9 +101,9 @@
     },
     {
       "id": "run-post-deploy-smoke",
-      "status": "monitor",
+      "status": "armed",
       "command": "npm run autonomous:post-deploy-smoke",
-      "reason": "status-monitor"
+      "reason": "not-selected-this-run"
     },
     {
       "id": "optimize-product-gates",

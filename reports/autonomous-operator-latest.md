@@ -1,6 +1,6 @@
 # Autonomous Operator
 
-Generated: 2026-05-20T13:07:51.797Z
+Generated: 2026-05-20T13:19:47.674Z
 Status: operator-plan-ready
 Mode: plan-only
 Owner decision: bootstrap-production-setup
@@ -30,6 +30,7 @@ Execution: not-requested
 - measure-pwa-install-loop
 - check-performance-budget
 - prepare-release-candidate
+- run-post-deploy-smoke
 - optimize-product-gates
 - refresh-product-gate-recovery
 - collect-gate-sample-downloads
@@ -53,6 +54,6 @@ Execution: not-requested
 - measure-pwa-install-loop: not-selected-this-run
 - check-performance-budget: not-selected-this-run
 - prepare-release-candidate: not-selected-this-run
-- run-post-deploy-smoke: status-monitor
+- run-post-deploy-smoke: not-selected-this-run
 - optimize-product-gates: not-selected-this-run
 - refresh-product-gate-recovery: not-selected-this-run

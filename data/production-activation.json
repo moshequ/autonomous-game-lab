@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-20T13:07:50.888Z",
+  "generatedAt": "2026-05-20T13:19:46.764Z",
   "status": "activation-ready",
   "mode": "dry-run",
   "envFiles": {
@@ -57,7 +57,7 @@
     "repositoryBootstrap": "repository-bootstrap-ready",
     "productionBootstrap": "production-bootstrap-ready",
     "deployment": "ready-for-pages",
-    "postDeploySmoke": "blocked-missing-origin"
+    "postDeploySmoke": "post-deploy-smoke-observed-live"
   },
   "configuration": {
     "activationRequested": false,

@@ -1,6 +1,6 @@
 # Repository Readiness
 
-Generated: 2026-05-20T13:07:49.071Z
+Generated: 2026-05-20T13:19:44.885Z
 Status: repository-channel-ready
 Workspace: /Users/moshequ/Documents/Codex/2026-05-18/i-want-to-have-a-new
 Repository: moshequ/autonomous-game-lab
@@ -15,7 +15,7 @@ Planned Pages origin: https://moshequ.github.io/autonomous-game-lab
 - pass: gh-cli - gh version 2.92.0 (2026-04-28)
 - pass: gh-token - GitHub CLI authentication is available for repository operations.
 - pass: pages-workflow - Web PWA Deploy workflow exists and includes post-deploy smoke.
-- pass: deployable-artifact - Deployment ready-for-pages; release candidate release-candidate-ready; smoke blocked-missing-origin.
+- pass: deployable-artifact - Deployment ready-for-pages; release candidate release-candidate-ready; smoke post-deploy-smoke-observed-live.
 
 ## Controls
 

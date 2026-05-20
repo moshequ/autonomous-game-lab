@@ -1,6 +1,6 @@
 export const postDeploySmoke = {
-  "generatedAt": "2026-05-20T13:07:48.075Z",
-  "status": "blocked-missing-origin",
+  "generatedAt": "2026-05-20T13:19:43.830Z",
+  "status": "post-deploy-smoke-observed-live",
   "envFiles": {
     "loaded": true,
     "loadedFiles": [
@@ -52,10 +52,19 @@ export const postDeploySmoke = {
     }
   },
   "target": {
-    "origin": null,
+    "origin": "https://moshequ.github.io/autonomous-game-lab",
+    "originSource": "release-candidate-public-origin",
     "provider": "github-pages",
-    "candidateId": "pwa-70ffbedd9d1f",
-    "aggregateHash": "70ffbedd9d1fb60bd17273c114440078f5c7c91cc338266c75c5a6a6cfd50d02"
+    "candidateId": "pwa-f4290020140f",
+    "aggregateHash": "f4290020140f4cac0e17b0329b0f99f1a473461a6f584ed1719ddc00d31f9fe2",
+    "strictManifestComparison": false
+  },
+  "liveRelease": {
+    "status": "release-candidate-ready",
+    "candidateId": "pwa-ba894ae4ec8e",
+    "aggregateHash": "ba894ae4ec8e0b94de5d48733aedec62e6ca46e7ca67c974e0f9ddae1b11695f",
+    "localCandidateMatches": false,
+    "strictManifestComparison": false
   },
   "sourceStatus": {
     "deployment": "ready-for-pages",
@@ -64,9 +73,9 @@ export const postDeploySmoke = {
   },
   "summary": {
     "planned": 15,
-    "passed": 0,
+    "passed": 15,
     "failed": 0,
-    "blocked": 15
+    "blocked": 0
   },
   "localArtifactSmoke": {
     "status": "predeploy-artifact-smoke-passed",
@@ -232,8 +241,8 @@ export const postDeploySmoke = {
         "bytes": 19425,
         "candidateMatches": true,
         "hashMatches": true,
-        "localCandidateId": "pwa-70ffbedd9d1f",
-        "localAggregateHash": "70ffbedd9d1fb60bd17273c114440078f5c7c91cc338266c75c5a6a6cfd50d02",
+        "localCandidateId": "pwa-f4290020140f",
+        "localAggregateHash": "f4290020140f4cac0e17b0329b0f99f1a473461a6f584ed1719ddc00d31f9fe2",
         "detail": "Local release manifest matches the release candidate."
       }
     ]
@@ -245,7 +254,9 @@ export const postDeploySmoke = {
     "noAccountCreation": true,
     "readOnlyHttpChecks": true,
     "localArtifactSmokeRequired": true,
-    "manifestHashComparisonRequired": true
+    "manifestHashComparisonRequired": true,
+    "strictManifestComparison": false,
+    "inferredLiveObservationAllowed": true
   },
   "checks": [
     {
@@ -254,8 +265,13 @@ export const postDeploySmoke = {
       "url": "https://moshequ.github.io/autonomous-game-lab/",
       "expectedStatus": 200,
       "requiredText": "Autonomous Game Lab",
-      "status": "blocked",
-      "detail": "No deployed origin configured."
+      "status": "pass",
+      "detail": "Live URL matched status and required text.",
+      "actualStatus": 200,
+      "finalUrl": "https://moshequ.github.io/autonomous-game-lab/",
+      "contentType": "text/html; charset=utf-8",
+      "bytes": 903,
+      "textMatched": true
     },
     {
       "id": "manifest-webmanifest",
@@ -263,8 +279,13 @@ export const postDeploySmoke = {
       "url": "https://moshequ.github.io/autonomous-game-lab/manifest.webmanifest",
       "expectedStatus": 200,
       "requiredText": null,
-      "status": "blocked",
-      "detail": "No deployed origin configured."
+      "status": "pass",
+      "detail": "Live URL matched status and required text.",
+      "actualStatus": 200,
+      "finalUrl": "https://moshequ.github.io/autonomous-game-lab/manifest.webmanifest",
+      "contentType": "application/manifest+json; charset=utf-8",
+      "bytes": 853,
+      "textMatched": true
     },
     {
       "id": "sw-js",
@@ -272,8 +293,13 @@ export const postDeploySmoke = {
       "url": "https://moshequ.github.io/autonomous-game-lab/sw.js",
       "expectedStatus": 200,
       "requiredText": null,
-      "status": "blocked",
-      "detail": "No deployed origin configured."
+      "status": "pass",
+      "detail": "Live URL matched status and required text.",
+      "actualStatus": 200,
+      "finalUrl": "https://moshequ.github.io/autonomous-game-lab/sw.js",
+      "contentType": "application/javascript; charset=utf-8",
+      "bytes": 3733,
+      "textMatched": true
     },
     {
       "id": "privacy-html",
@@ -281,8 +307,13 @@ export const postDeploySmoke = {
       "url": "https://moshequ.github.io/autonomous-game-lab/privacy.html",
       "expectedStatus": 200,
       "requiredText": "Autonomous Game Lab",
-      "status": "blocked",
-      "detail": "No deployed origin configured."
+      "status": "pass",
+      "detail": "Live URL matched status and required text.",
+      "actualStatus": 200,
+      "finalUrl": "https://moshequ.github.io/autonomous-game-lab/privacy.html",
+      "contentType": "text/html; charset=utf-8",
+      "bytes": 2648,
+      "textMatched": true
     },
     {
       "id": "support-html",
@@ -290,8 +321,13 @@ export const postDeploySmoke = {
       "url": "https://moshequ.github.io/autonomous-game-lab/support.html",
       "expectedStatus": 200,
       "requiredText": "Autonomous Game Lab",
-      "status": "blocked",
-      "detail": "No deployed origin configured."
+      "status": "pass",
+      "detail": "Live URL matched status and required text.",
+      "actualStatus": 200,
+      "finalUrl": "https://moshequ.github.io/autonomous-game-lab/support.html",
+      "contentType": "text/html; charset=utf-8",
+      "bytes": 1475,
+      "textMatched": true
     },
     {
       "id": "install-html",
@@ -299,8 +335,13 @@ export const postDeploySmoke = {
       "url": "https://moshequ.github.io/autonomous-game-lab/install.html",
       "expectedStatus": 200,
       "requiredText": "Autonomous Game Lab",
-      "status": "blocked",
-      "detail": "No deployed origin configured."
+      "status": "pass",
+      "detail": "Live URL matched status and required text.",
+      "actualStatus": 200,
+      "finalUrl": "https://moshequ.github.io/autonomous-game-lab/install.html",
+      "contentType": "text/html; charset=utf-8",
+      "bytes": 3198,
+      "textMatched": true
     },
     {
       "id": "compliance-json",
@@ -308,8 +349,13 @@ export const postDeploySmoke = {
       "url": "https://moshequ.github.io/autonomous-game-lab/compliance.json",
       "expectedStatus": 200,
       "requiredText": "store-compliance",
-      "status": "blocked",
-      "detail": "No deployed origin configured."
+      "status": "pass",
+      "detail": "Live URL matched status and required text.",
+      "actualStatus": 200,
+      "finalUrl": "https://moshequ.github.io/autonomous-game-lab/compliance.json",
+      "contentType": "application/json; charset=utf-8",
+      "bytes": 2838,
+      "textMatched": true
     },
     {
       "id": "monetization-json",
@@ -317,8 +363,13 @@ export const postDeploySmoke = {
       "url": "https://moshequ.github.io/autonomous-game-lab/monetization.json",
       "expectedStatus": 200,
       "requiredText": "blocked-by-product-gates",
-      "status": "blocked",
-      "detail": "No deployed origin configured."
+      "status": "pass",
+      "detail": "Live URL matched status and required text.",
+      "actualStatus": 200,
+      "finalUrl": "https://moshequ.github.io/autonomous-game-lab/monetization.json",
+      "contentType": "application/json; charset=utf-8",
+      "bytes": 878,
+      "textMatched": true
     },
     {
       "id": "app-ads-txt",
@@ -326,8 +377,13 @@ export const postDeploySmoke = {
       "url": "https://moshequ.github.io/autonomous-game-lab/app-ads.txt",
       "expectedStatus": 200,
       "requiredText": "Revenue features are disabled",
-      "status": "blocked",
-      "detail": "No deployed origin configured."
+      "status": "pass",
+      "detail": "Live URL matched status and required text.",
+      "actualStatus": 200,
+      "finalUrl": "https://moshequ.github.io/autonomous-game-lab/app-ads.txt",
+      "contentType": "text/plain; charset=utf-8",
+      "bytes": 187,
+      "textMatched": true
     },
     {
       "id": "well-known-assetlinks-json",
@@ -335,8 +391,13 @@ export const postDeploySmoke = {
       "url": "https://moshequ.github.io/autonomous-game-lab/.well-known/assetlinks.json",
       "expectedStatus": 200,
       "requiredText": "delegate_permission/common.handle_all_urls",
-      "status": "blocked",
-      "detail": "No deployed origin configured."
+      "status": "pass",
+      "detail": "Live URL matched status and required text.",
+      "actualStatus": 200,
+      "finalUrl": "https://moshequ.github.io/autonomous-game-lab/.well-known/assetlinks.json",
+      "contentType": "application/json; charset=utf-8",
+      "bytes": 348,
+      "textMatched": true
     },
     {
       "id": "gate-sample-html",
@@ -344,8 +405,13 @@ export const postDeploySmoke = {
       "url": "https://moshequ.github.io/autonomous-game-lab/gate-sample.html",
       "expectedStatus": 200,
       "requiredText": "Autonomous Game Lab",
-      "status": "blocked",
-      "detail": "No deployed origin configured."
+      "status": "pass",
+      "detail": "Live URL matched status and required text.",
+      "actualStatus": 200,
+      "finalUrl": "https://moshequ.github.io/autonomous-game-lab/gate-sample.html",
+      "contentType": "text/html; charset=utf-8",
+      "bytes": 7523,
+      "textMatched": true
     },
     {
       "id": "seed-kit-html",
@@ -353,8 +419,13 @@ export const postDeploySmoke = {
       "url": "https://moshequ.github.io/autonomous-game-lab/seed-kit.html",
       "expectedStatus": 200,
       "requiredText": "Autonomous Game Lab",
-      "status": "blocked",
-      "detail": "No deployed origin configured."
+      "status": "pass",
+      "detail": "Live URL matched status and required text.",
+      "actualStatus": 200,
+      "finalUrl": "https://moshequ.github.io/autonomous-game-lab/seed-kit.html",
+      "contentType": "text/html; charset=utf-8",
+      "bytes": 10968,
+      "textMatched": true
     },
     {
       "id": "sitemap-xml",
@@ -362,8 +433,13 @@ export const postDeploySmoke = {
       "url": "https://moshequ.github.io/autonomous-game-lab/sitemap.xml",
       "expectedStatus": 200,
       "requiredText": null,
-      "status": "blocked",
-      "detail": "No deployed origin configured."
+      "status": "pass",
+      "detail": "Live URL matched status and required text.",
+      "actualStatus": 200,
+      "finalUrl": "https://moshequ.github.io/autonomous-game-lab/sitemap.xml",
+      "contentType": "application/xml",
+      "bytes": 1861,
+      "textMatched": true
     },
     {
       "id": "games-canopy-bloom-html",
@@ -371,21 +447,37 @@ export const postDeploySmoke = {
       "url": "https://moshequ.github.io/autonomous-game-lab/games/canopy-bloom.html",
       "expectedStatus": 200,
       "requiredText": "Autonomous Game Lab",
-      "status": "blocked",
-      "detail": "No deployed origin configured."
+      "status": "pass",
+      "detail": "Live URL matched status and required text.",
+      "actualStatus": 200,
+      "finalUrl": "https://moshequ.github.io/autonomous-game-lab/games/canopy-bloom.html",
+      "contentType": "text/html; charset=utf-8",
+      "bytes": 5079,
+      "textMatched": true
     },
     {
       "id": "release-candidate-manifest",
       "path": "/release-candidate.json",
-      "url": "${DEPLOYED_PWA_ORIGIN}/release-candidate.json",
+      "url": "https://moshequ.github.io/autonomous-game-lab/release-candidate.json",
       "expectedStatus": 200,
-      "requiredText": "pwa-70ffbedd9d1f",
-      "status": "blocked",
-      "detail": "No deployed origin configured."
+      "requiredText": "pwa-f4290020140f",
+      "status": "pass",
+      "detail": "Live release manifest is reachable; it does not match the current local release candidate.",
+      "actualStatus": 200,
+      "finalUrl": "https://moshequ.github.io/autonomous-game-lab/release-candidate.json",
+      "contentType": "application/json; charset=utf-8",
+      "bytes": 19425,
+      "candidateMatches": false,
+      "hashMatches": false,
+      "localCandidateMatches": false,
+      "strictManifestComparison": false,
+      "deployedReleaseStatus": "release-candidate-ready",
+      "deployedCandidateId": "pwa-ba894ae4ec8e",
+      "deployedAggregateHash": "ba894ae4ec8e0b94de5d48733aedec62e6ca46e7ca67c974e0f9ddae1b11695f"
     }
   ],
   "nextActions": [
-    "Run this after deployment with AGL_DEPLOYED_PWA_ORIGIN set to the Pages URL.",
+    "Live Pages is reachable and serving pwa-ba894ae4ec8e; run the deploy workflow for strict proof of the current local candidate if needed.",
     "Keep revenue, paid acquisition, and app-store submission disabled until product and credential gates pass."
   ]
 } as const

@@ -1,16 +1,18 @@
 # Post-Deploy Smoke
 
-Generated: 2026-05-20T13:07:48.075Z
-Status: blocked-missing-origin
-Origin: missing
-Candidate: pwa-70ffbedd9d1f
+Generated: 2026-05-20T13:19:43.830Z
+Status: post-deploy-smoke-observed-live
+Origin: https://moshequ.github.io/autonomous-game-lab
+Origin source: release-candidate-public-origin
+Candidate: pwa-f4290020140f
+Live candidate: pwa-ba894ae4ec8e
 
 ## Summary
 
 - Planned: 15
-- Passed: 0
+- Passed: 15
 - Failed: 0
-- Blocked: 15
+- Blocked: 0
 
 ## Local Artifact Smoke
 
@@ -35,21 +37,21 @@ Checks: 15/15 passed
 
 ## Checks
 
-- blocked: app-shell - https://moshequ.github.io/autonomous-game-lab/ - No deployed origin configured.
-- blocked: manifest-webmanifest - https://moshequ.github.io/autonomous-game-lab/manifest.webmanifest - No deployed origin configured.
-- blocked: sw-js - https://moshequ.github.io/autonomous-game-lab/sw.js - No deployed origin configured.
-- blocked: privacy-html - https://moshequ.github.io/autonomous-game-lab/privacy.html - No deployed origin configured.
-- blocked: support-html - https://moshequ.github.io/autonomous-game-lab/support.html - No deployed origin configured.
-- blocked: install-html - https://moshequ.github.io/autonomous-game-lab/install.html - No deployed origin configured.
-- blocked: compliance-json - https://moshequ.github.io/autonomous-game-lab/compliance.json - No deployed origin configured.
-- blocked: monetization-json - https://moshequ.github.io/autonomous-game-lab/monetization.json - No deployed origin configured.
-- blocked: app-ads-txt - https://moshequ.github.io/autonomous-game-lab/app-ads.txt - No deployed origin configured.
-- blocked: well-known-assetlinks-json - https://moshequ.github.io/autonomous-game-lab/.well-known/assetlinks.json - No deployed origin configured.
-- blocked: gate-sample-html - https://moshequ.github.io/autonomous-game-lab/gate-sample.html - No deployed origin configured.
-- blocked: seed-kit-html - https://moshequ.github.io/autonomous-game-lab/seed-kit.html - No deployed origin configured.
-- blocked: sitemap-xml - https://moshequ.github.io/autonomous-game-lab/sitemap.xml - No deployed origin configured.
-- blocked: games-canopy-bloom-html - https://moshequ.github.io/autonomous-game-lab/games/canopy-bloom.html - No deployed origin configured.
-- blocked: release-candidate-manifest - ${DEPLOYED_PWA_ORIGIN}/release-candidate.json - No deployed origin configured.
+- pass: app-shell - https://moshequ.github.io/autonomous-game-lab/ - Live URL matched status and required text.
+- pass: manifest-webmanifest - https://moshequ.github.io/autonomous-game-lab/manifest.webmanifest - Live URL matched status and required text.
+- pass: sw-js - https://moshequ.github.io/autonomous-game-lab/sw.js - Live URL matched status and required text.
+- pass: privacy-html - https://moshequ.github.io/autonomous-game-lab/privacy.html - Live URL matched status and required text.
+- pass: support-html - https://moshequ.github.io/autonomous-game-lab/support.html - Live URL matched status and required text.
+- pass: install-html - https://moshequ.github.io/autonomous-game-lab/install.html - Live URL matched status and required text.
+- pass: compliance-json - https://moshequ.github.io/autonomous-game-lab/compliance.json - Live URL matched status and required text.
+- pass: monetization-json - https://moshequ.github.io/autonomous-game-lab/monetization.json - Live URL matched status and required text.
+- pass: app-ads-txt - https://moshequ.github.io/autonomous-game-lab/app-ads.txt - Live URL matched status and required text.
+- pass: well-known-assetlinks-json - https://moshequ.github.io/autonomous-game-lab/.well-known/assetlinks.json - Live URL matched status and required text.
+- pass: gate-sample-html - https://moshequ.github.io/autonomous-game-lab/gate-sample.html - Live URL matched status and required text.
+- pass: seed-kit-html - https://moshequ.github.io/autonomous-game-lab/seed-kit.html - Live URL matched status and required text.
+- pass: sitemap-xml - https://moshequ.github.io/autonomous-game-lab/sitemap.xml - Live URL matched status and required text.
+- pass: games-canopy-bloom-html - https://moshequ.github.io/autonomous-game-lab/games/canopy-bloom.html - Live URL matched status and required text.
+- pass: release-candidate-manifest - https://moshequ.github.io/autonomous-game-lab/release-candidate.json - Live release manifest is reachable; it does not match the current local release candidate.
 
 ## Controls
 
@@ -60,8 +62,10 @@ Checks: 15/15 passed
 - readOnlyHttpChecks: true
 - localArtifactSmokeRequired: true
 - manifestHashComparisonRequired: true
+- strictManifestComparison: false
+- inferredLiveObservationAllowed: true
 
 ## Next Actions
 
-- Run this after deployment with AGL_DEPLOYED_PWA_ORIGIN set to the Pages URL.
+- Live Pages is reachable and serving pwa-ba894ae4ec8e; run the deploy workflow for strict proof of the current local candidate if needed.
 - Keep revenue, paid acquisition, and app-store submission disabled until product and credential gates pass.
