@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-20T21:32:51.269Z",
+  "generatedAt": "2026-05-20T21:35:08.192Z",
   "status": "owner-loop-ready",
   "mode": "zero-spend-web-ready",
   "autonomyScore": {
@@ -50,7 +50,7 @@
     "objectiveAuditFreshness": {
       "fresh": true,
       "structurallyReady": true,
-      "auditGeneratedAt": "2026-05-20T21:32:50.952Z",
+      "auditGeneratedAt": "2026-05-20T21:35:07.929Z",
       "evaluatedInputIds": [
         "analytics-rollup",
         "event-ingest",
@@ -176,7 +176,7 @@
     },
     "productionBootstrapFreshness": {
       "fresh": true,
-      "bootstrapGeneratedAt": "2026-05-20T21:32:31.106Z",
+      "bootstrapGeneratedAt": "2026-05-20T21:35:07.141Z",
       "evaluatedInputIds": [
         "release-candidate",
         "deployment-plan",
@@ -291,7 +291,7 @@
       "id": "performance-budget",
       "status": "ready",
       "autonomy": "automatic-build-budget",
-      "evidence": "Initial JS 650 KB; gzip 177.8 KB; deferred chunks 1.",
+      "evidence": "Initial JS 648.9 KB; gzip 177.7 KB; deferred chunks 1.",
       "nextAction": "Keep Phaser and game scenes outside the initial PWA shell."
     },
     {
@@ -403,7 +403,7 @@
       "id": "production-bootstrap",
       "status": "ready",
       "autonomy": "zero-spend-setup-orchestration",
-      "evidence": "Bootstrap production-bootstrap-ready; mode can-apply-configured-actions; external blockers 17.",
+      "evidence": "Bootstrap production-bootstrap-ready; mode can-apply-configured-actions; external blockers 16.",
       "nextAction": "gh workflow run web-pwa-deploy.yml"
     },
     {
@@ -424,14 +424,14 @@
       "id": "autonomous-operator",
       "status": "ready",
       "autonomy": "one-safe-action-runner",
-      "evidence": "Operator operator-plan-ready; selected optimize-daily-retention; execution not-requested.",
+      "evidence": "Operator operator-plan-ready; selected bootstrap-production-setup; execution not-requested.",
       "nextAction": "Keep a dry-run operator plan ready, then execute only one allowlisted local action when explicitly requested."
     },
     {
       "id": "operator-history",
       "status": "ready",
       "autonomy": "operator-audit-trail",
-      "evidence": "History operator-history-ready; records 40; executed 18.",
+      "evidence": "History operator-history-ready; records 40; executed 17.",
       "nextAction": "Keep a capped durable record of operator plans and one-action executions."
     },
     {
@@ -573,7 +573,7 @@
       "command": "npm run build && npm run autonomous:performance",
       "targets": [
         "pwa-shell",
-        "GameCanvas-CyVJbZXE.js"
+        "GameCanvas-H5CQ5zqc.js"
       ],
       "reason": "Keeps the PWA shell fast while Phaser and game scenes stay deferred."
     },
@@ -721,7 +721,7 @@
       "costUsd": 0,
       "command": "npm run autonomous:operator",
       "targets": [
-        "optimize-daily-retention"
+        "bootstrap-production-setup"
       ],
       "reason": "Publishes the one-action local execution plan with allowlist, zero-spend, and audit controls."
     },
@@ -731,7 +731,7 @@
       "costUsd": 0,
       "command": "npm run autonomous:operator",
       "targets": [
-        "optimize-daily-retention"
+        "bootstrap-production-setup"
       ],
       "reason": "Refreshes the capped operator history so safe actions remain auditable over time."
     },

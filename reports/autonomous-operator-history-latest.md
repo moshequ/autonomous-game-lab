@@ -1,11 +1,11 @@
 # Autonomous Operator History
 
-Generated: 2026-05-20T21:32:51.519Z
+Generated: 2026-05-20T21:35:08.445Z
 Status: operator-history-ready
 Records: 40
-Executed records: 18
+Executed records: 17
 Failed records: 0
-Latest run appended: false
+Latest run appended: true
 Compacted duplicate dry-runs: 0
 
 ## Controls
@@ -17,8 +17,6 @@ Compacted duplicate dry-runs: 0
 
 ## Recent Records
 
-- 2026-05-20T20:51:34.923Z: apply-safe-improvements; executed; appended fingerprint 0d21182a466fb148
-- 2026-05-20T20:51:35.448Z: refresh-first-move-coach; not-requested; appended fingerprint 8f837213fcae9d27
 - 2026-05-20T20:52:32.606Z: refresh-first-move-coach; not-requested; appended fingerprint 85961adb3af246de
 - 2026-05-20T20:59:00.349Z: refresh-first-move-coach; executed; appended fingerprint 8d79f61f42591dba
 - 2026-05-20T20:59:00.875Z: refresh-completion-loop; not-requested; appended fingerprint 38f53a79bcdfe914
@@ -27,3 +25,5 @@ Compacted duplicate dry-runs: 0
 - 2026-05-20T21:07:38.646Z: optimize-store-listing; not-requested; appended fingerprint 2d08fc703ff70e32
 - 2026-05-20T21:07:57.389Z: optimize-store-listing; executed; appended fingerprint d7a3af21dc596ea0
 - 2026-05-20T21:07:57.942Z: optimize-daily-retention; not-requested; appended fingerprint 2cff917daaf1242c
+- 2026-05-20T21:34:27.137Z: bootstrap-production-setup; not-requested; appended fingerprint bb3469cf5162f206
+- 2026-05-20T21:35:08.445Z: optimize-daily-retention; not-requested; appended fingerprint 2cff917daaf1242c
