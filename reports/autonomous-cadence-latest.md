@@ -1,6 +1,6 @@
 # Autonomous Cadence
 
-Generated: 2026-05-20T03:59:26.817Z
+Generated: 2026-05-20T04:01:02.151Z
 Status: cadence-ready
 Cadence: daily
 
@@ -28,20 +28,20 @@ Cadence: daily
 - Fresh artifacts: 13
 - Stale/invalid artifacts: 0
 - Stale after: 36h
-- Oldest age: 0.67h
+- Oldest age: 0.7h
 
 - fresh: owner-loop - data/autonomous-owner-loop.json is 0h old.
 - fresh: operator - data/autonomous-operator.json is 0h old.
 - fresh: production-readiness - data/production-readiness.json is 0h old.
-- fresh: growth-plan - data/growth-plan.json is 0.05h old.
-- fresh: portfolio-policy - data/portfolio-policy.json is 0.05h old.
-- fresh: traffic-seeding - data/traffic-seeding.json is 0.05h old.
-- fresh: acquisition-learning - data/acquisition-learning.json is 0.05h old.
-- fresh: organic-seed-loop - data/organic-seed-loop.json is 0.05h old.
-- fresh: release-candidate - data/release-candidate.json is 0h old.
-- fresh: post-deploy-smoke - data/post-deploy-smoke.json is 0h old.
-- fresh: product-gate-sample-plan - data/product-gate-sample-plan.json is 0.67h old.
-- fresh: pwa-install-loop - data/pwa-install-loop.json is 0.49h old.
+- fresh: growth-plan - data/growth-plan.json is 0.08h old.
+- fresh: portfolio-policy - data/portfolio-policy.json is 0.08h old.
+- fresh: traffic-seeding - data/traffic-seeding.json is 0.08h old.
+- fresh: acquisition-learning - data/acquisition-learning.json is 0.08h old.
+- fresh: organic-seed-loop - data/organic-seed-loop.json is 0.08h old.
+- fresh: release-candidate - data/release-candidate.json is 0.03h old.
+- fresh: post-deploy-smoke - data/post-deploy-smoke.json is 0.03h old.
+- fresh: product-gate-sample-plan - data/product-gate-sample-plan.json is 0.7h old.
+- fresh: pwa-install-loop - data/pwa-install-loop.json is 0.51h old.
 - fresh: objective-audit - data/objective-audit.json is 0h old.
 
 ## Checks
