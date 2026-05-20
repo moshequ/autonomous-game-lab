@@ -160,13 +160,9 @@ const rawObjectiveBlockers = [
     ...(productionBootstrap.externalBlockers ?? []).map((item) => item.blocker),
   ]),
 ]
-const staleCleanWorktreeBlockers = [/^Commit current generated changes before pushing to GitHub Pages\.$/]
+const transientLocalStateBlockers = [/^Commit current generated changes before pushing to GitHub Pages\.$/]
 const objectiveBlockers = rawObjectiveBlockers.filter(
-  (blocker) =>
-    !(
-      currentWorktreeClean &&
-      staleCleanWorktreeBlockers.some((pattern) => pattern.test(blocker))
-    ),
+  (blocker) => !transientLocalStateBlockers.some((pattern) => pattern.test(blocker)),
 )
 const postDeploySmokeReady =
   ['blocked-missing-origin', 'post-deploy-smoke-passed', 'post-deploy-smoke-observed-live'].includes(

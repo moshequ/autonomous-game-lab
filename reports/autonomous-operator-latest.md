@@ -1,6 +1,6 @@
 # Autonomous Operator
 
-Generated: 2026-05-20T20:28:55.242Z
+Generated: 2026-05-20T20:34:32.671Z
 Status: operator-plan-ready
 Mode: plan-only
 Owner decision: refresh-first-move-coach
