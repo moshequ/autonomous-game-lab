@@ -1,6 +1,6 @@
 # Autonomous Self Update
 
-Generated: 2026-05-20T16:37:19.131Z
+Generated: 2026-05-20T16:45:55.500Z
 Status: self-update-ready
 Mode: plan-and-assert
 
@@ -14,8 +14,8 @@ Mode: plan-and-assert
 
 ## Pending Changes
 
-- Total: 0
-- Safe: 0
+- Total: 52
+- Safe: 52
 - Unsafe: 0
 
 ## Commit Plan
@@ -33,7 +33,7 @@ Mode: plan-and-assert
 - pass: daily-workflow-read-only - The ordinary daily workflow remains read-only, runs the owner loop, and uploads evidence artifacts.
 - pass: self-update-workflow - A separate gated workflow can reproduce the owner loop with production env, verify it with gate env, and persist allowlisted changes.
 - pass: post-self-update-deploy - Pages redeploys after the gated self-update workflow, then repeats deployability and post-deploy smoke checks.
-- pass: safe-path-allowlist - 0 safe pending file(s), 0 unsafe pending file(s).
+- pass: safe-path-allowlist - 52 safe pending file(s), 0 unsafe pending file(s).
 - pass: repository-optional - Git worktree is available on main.
 - pass: remote-push-gated - Remote push remains held until GitHub credentials and AGL_AUTONOMOUS_SELF_UPDATE_DIRECT=1 are configured.
 - pass: zero-spend-controls - Self-update owner-loop verification includes browser smoke coverage and does not create accounts, stores, ads, paid traffic, or revenue.

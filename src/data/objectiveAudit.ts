@@ -1,5 +1,5 @@
 export const objectiveAudit = {
-  "generatedAt": "2026-05-20T16:40:04.242Z",
+  "generatedAt": "2026-05-20T16:46:23.405Z",
   "status": "objective-in-progress",
   "objective": "Build a bootstrapped autonomous web/PWA game portal that can generate original board-game-inspired games, measure user behavior, propose and apply data-driven improvements, and prepare a path to monetization and app-store distribution with minimal manual intervention.",
   "summary": {
@@ -102,7 +102,6 @@ export const objectiveAudit = {
         "Credential-gated actions: 10"
       ],
       "blockers": [
-        "Commit current generated changes before pushing to GitHub Pages.",
         "AGL_SUPPORT_EMAIL: Production support contact for privacy and store listings.",
         "VITE_POSTHOG_KEY: Optional browser-side PostHog analytics forwarding.",
         "POSTHOG_PROJECT_ID + POSTHOG_PERSONAL_API_KEY: Optional autonomous production analytics and experiment result rollups from PostHog.",
@@ -233,8 +232,8 @@ export const objectiveAudit = {
     "zeroSpendGuard": true,
     "noRevenueEnablementUntilGatesPass": true,
     "noStoreSubmissionUntilExternalAccounts": true,
-    "currentWorktreeClean": true,
-    "currentWorktreeDirtyFiles": 0
+    "currentWorktreeClean": false,
+    "currentWorktreeDirtyFiles": 64
   },
   "completion": {
     "canMarkGoalComplete": false,

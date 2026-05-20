@@ -7,7 +7,9 @@ on:
     types: [completed]
 
 permissions:
+  actions: read
   contents: read
+  issues: read
   pages: write
   id-token: write
 
@@ -54,6 +56,7 @@ jobs:
           AGL_EVENT_COLLECTOR_EXPORT_URL: ${{ vars.AGL_EVENT_COLLECTOR_EXPORT_URL }}
           AGL_EVENT_COLLECTOR_R2_BUCKET: ${{ vars.AGL_EVENT_COLLECTOR_R2_BUCKET }}
           AGL_PUBLIC_ORIGIN: ${{ vars.AGL_PUBLIC_ORIGIN }}
+          GITHUB_TOKEN: ${{ github.token }}
           POSTHOG_HOST: ${{ vars.POSTHOG_HOST }}
           POSTHOG_PERSONAL_API_KEY: ${{ secrets.POSTHOG_PERSONAL_API_KEY }}
           POSTHOG_PROJECT_ID: ${{ vars.POSTHOG_PROJECT_ID }}
