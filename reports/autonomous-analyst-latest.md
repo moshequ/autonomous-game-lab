@@ -1,6 +1,8 @@
 # Autonomous Analyst Report
 
-Generated: 2026-05-20T02:00:06.080Z
+Generated: 2026-05-20T04:20:00.585Z
+Backlog status: improvement-backlog-ready
+Backlog source hash: 392ebb719e0e
 
 ## Game Health
 

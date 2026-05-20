@@ -2180,6 +2180,7 @@ test('autonomous cadence keeps unattended operation auditable and guarded', asyn
   expect(cadence.artifactFreshness.some((artifact) => artifact.id === 'first-move-coach')).toBe(true)
   expect(cadence.artifactFreshness.some((artifact) => artifact.id === 'release-health')).toBe(true)
   expect(cadence.artifactFreshness.some((artifact) => artifact.id === 'applied-improvements')).toBe(true)
+  expect(cadence.artifactFreshness.some((artifact) => artifact.id === 'improvement-backlog')).toBe(true)
   expect(cadence.artifactFreshness.some((artifact) => artifact.id === 'improvement-routing')).toBe(true)
   expect(cadence.checks.some((check) => check.id === 'fresh-generated-evidence')).toBe(true)
   expect(cadence.checks.every((check) => check.status === 'pass')).toBe(true)

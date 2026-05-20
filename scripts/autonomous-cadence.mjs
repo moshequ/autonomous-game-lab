@@ -182,6 +182,11 @@ const freshnessRequiredArtifacts = [
     path: 'data/applied-improvements.json',
   },
   {
+    id: 'improvement-backlog',
+    label: 'Improvement backlog',
+    path: 'data/improvement-backlog-summary.json',
+  },
+  {
     id: 'improvement-routing',
     label: 'Improvement routing',
     path: 'data/improvement-routing.json',

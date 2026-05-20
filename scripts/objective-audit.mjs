@@ -35,6 +35,7 @@ const [
   experimentResults,
   appliedImprovements,
   improvementBacklog,
+  improvementBacklogSummary,
   readiness,
   promotion,
   monetization,
@@ -78,6 +79,7 @@ const [
   readJson(path.join(dataDir, 'experiment-results.json')),
   readJson(path.join(dataDir, 'applied-improvements.json')),
   readJson(path.join(dataDir, 'improvement-backlog.json')),
+  readJson(path.join(dataDir, 'improvement-backlog-summary.json')),
   readJson(path.join(dataDir, 'production-readiness.json')),
   readJson(path.join(dataDir, 'promotion-decision.json')),
   readJson(path.join(dataDir, 'monetization-plan.json')),
@@ -258,6 +260,8 @@ const requirements = [
       organicSeedLoop.status === 'organic-seed-loop-ready' &&
       experimentResults.status === 'evaluated' &&
       Array.isArray(improvementBacklog) &&
+      improvementBacklogSummary.status === 'improvement-backlog-ready' &&
+      improvementBacklogSummary.backlogCount === improvementBacklog.length &&
       Array.isArray(appliedImprovements.actions) &&
       autonomousOperatorReady
         ? 'met'
@@ -287,7 +291,9 @@ const requirements = [
         organicSeedLoop.target?.gameId ?? 'missing'
       }`,
       `Experiment results: ${experimentResults.status}`,
-      `Backlog items: ${improvementBacklog.length}`,
+      `Backlog: ${improvementBacklogSummary.status}; items ${improvementBacklog.length}; hash ${
+        improvementBacklogSummary.sourceDataHash ?? 'missing'
+      }`,
       `Applied/deferred actions: ${appliedImprovements.actions?.length ?? 0}`,
       `Operator selected: ${autonomousOperator.selectedAction?.id ?? 'none'}; status ${autonomousOperator.status}; execution ${autonomousOperator.execution?.status ?? 'missing'}`,
     ],

@@ -68,6 +68,7 @@ const requiredFiles = [
   'data/deployment-plan.json',
   'data/applied-improvements.json',
   'data/improvement-backlog.json',
+  'data/improvement-backlog-summary.json',
   'data/improvement-routing.json',
   'src/data/portfolioPolicy.ts',
   'src/data/trafficSeeding.ts',
@@ -291,6 +292,9 @@ const releaseHealth = JSON.parse(await readFile(path.join(root, 'data', 'release
 const promotion = JSON.parse(await readFile(path.join(root, 'data', 'promotion-decision.json'), 'utf8'))
 const applied = JSON.parse(await readFile(path.join(root, 'data', 'applied-improvements.json'), 'utf8'))
 const backlog = JSON.parse(await readFile(path.join(root, 'data', 'improvement-backlog.json'), 'utf8'))
+const improvementBacklogSummary = JSON.parse(
+  await readFile(path.join(root, 'data', 'improvement-backlog-summary.json'), 'utf8'),
+)
 const improvementRouting = JSON.parse(await readFile(path.join(root, 'data', 'improvement-routing.json'), 'utf8'))
 const workflow = await readFile(path.join(root, '.github', 'workflows', 'autonomous-daily.yml'), 'utf8')
 const selfUpdateWorkflow = await readFile(path.join(root, '.github', 'workflows', 'autonomous-self-update.yml'), 'utf8')
@@ -425,6 +429,14 @@ if (staleBacklogIssue) {
 }
 
 if (
+  improvementBacklogSummary.status !== 'improvement-backlog-ready' ||
+  improvementBacklogSummary.backlogCount !== backlog.length ||
+  improvementBacklogSummary.analyticsSource !== analytics.sourceStatus.activeSource ||
+  improvementBacklogSummary.routingStatus !== improvementRouting.status ||
+  improvementBacklogSummary.controls?.zeroPaidSpend !== true ||
+  improvementBacklogSummary.controls?.playableTargetsOnly !== true ||
+  improvementBacklogSummary.controls?.inactiveAnalyticsSkipped !== true ||
+  !Array.isArray(improvementBacklogSummary.topIssues) ||
   improvementRouting.status !== 'live-targets-ready' ||
   improvementRouting.backlogCount !== backlog.length ||
   !Array.isArray(improvementRouting.inactiveAnalyticsRows) ||
@@ -1780,6 +1792,7 @@ const cadenceRequiredFreshnessIds = [
   'first-move-coach',
   'pwa-install-loop',
   'applied-improvements',
+  'improvement-backlog',
   'improvement-routing',
   'objective-audit',
 ]

@@ -1,0 +1,53 @@
+{
+  "generatedAt": "2026-05-20T04:20:00.585Z",
+  "status": "improvement-backlog-ready",
+  "sourceDataHash": "392ebb719e0e",
+  "analyticsSource": "fixture-sample",
+  "playableGameIds": [
+    "harbor-rings",
+    "lantern-relay",
+    "harbor-circuit",
+    "foundry-ledger",
+    "orbit-atlas",
+    "mosaic-haven",
+    "pocket-draft",
+    "metro-loom",
+    "grove-engine",
+    "canopy-bloom"
+  ],
+  "backlogCount": 4,
+  "skippedIssueCount": 4,
+  "routingStatus": "live-targets-ready",
+  "topIssues": [
+    {
+      "gameId": "harbor-rings",
+      "title": "Shorten first tutorial",
+      "confidence": 81,
+      "experiment": "first_session_pacing"
+    },
+    {
+      "gameId": "harbor-rings",
+      "title": "Improve title and thumbnail",
+      "confidence": 74,
+      "experiment": "thumbnail_board_state_v2"
+    },
+    {
+      "gameId": "harbor-rings",
+      "title": "Rebalance first-game difficulty",
+      "confidence": 69,
+      "experiment": "target_score_curve"
+    },
+    {
+      "gameId": "harbor-rings",
+      "title": "Add daily goal reward copy and result animation",
+      "confidence": 58,
+      "experiment": "reward_offer"
+    }
+  ],
+  "controls": {
+    "zeroPaidSpend": true,
+    "playableTargetsOnly": true,
+    "inactiveAnalyticsSkipped": true,
+    "noSyntheticEvents": true
+  }
+}

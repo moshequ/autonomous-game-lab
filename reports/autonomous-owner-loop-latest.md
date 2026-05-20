@@ -1,17 +1,17 @@
 # Autonomous Owner Loop
 
-Generated: 2026-05-20T04:16:36.068Z
+Generated: 2026-05-20T04:21:26.571Z
 Status: owner-loop-ready
 Mode: repository-channel-needed
 Autonomy score: 33/35 (94%)
 
 ## Owner Decision
 
-- Next action: optimize-product-gates
-- Command: npm run autonomous:analyze && npm run autonomous:product-optimize && npm run autonomous:sync-config && npm run autonomous:simulate
-- Rationale: Applies one guarded target-score or telemetry improvement when product gates block monetization.
-- Last executed action: bootstrap-production-setup
-- Recent executed actions: bootstrap-production-setup, seed-portfolio-traffic, prepare-repository-channel, refresh-autonomous-cadence, measure-pwa-install-loop, optimize-daily-retention, collect-live-events, refresh-product-gate-recovery
+- Next action: refresh-autonomous-self-update
+- Command: npm run autonomous:self-update
+- Rationale: Keeps verified generated-change persistence gated, allowlisted, and ready for the scheduled production repository.
+- Last executed action: optimize-product-gates
+- Recent executed actions: optimize-product-gates, bootstrap-production-setup, seed-portfolio-traffic, prepare-repository-channel, refresh-autonomous-cadence, measure-pwa-install-loop, optimize-daily-retention, collect-live-events
 
 ## Systems
 
@@ -26,24 +26,24 @@ Autonomy score: 33/35 (94%)
 - ready: organic-seed-loop - Target canopy-bloom; surface portal-growth-loop; share telemetry organic_seed_share_clicked.
 - ready: retention-loop - Daily canopy-bloom; D1 17%; streak variant daily-streak; return prompt armed; return intent armed.
 - ready: pwa-install-loop - Prompt autonomy-cockpit; installs 0; launch events 0.
-- ready: performance-budget - Initial JS 658.5 KB; gzip 175.4 KB; deferred chunks 1.
+- ready: performance-budget - Initial JS 658.6 KB; gzip 175.5 KB; deferred chunks 1.
 - ready: product-optimization - Completion 40% / gate 55%; latest already-applied.
 - ready: product-gate-recovery - Recovery product-gate-recovery-ready; primary firstGameCompletion; experiment collecting-sample; failing gates 3; next lift 58.
 - ready: product-gate-sample-plan - Sample plan product-gate-sample-plan-ready; primary firstGameCompletion; prompt views needed 70.
 - ready: first-move-coach - Coach first-move-coach-ready; enabled targets 6; primary harbor-rings.
 - ready: completion-loop - Completion loop completion-loop-ready; prompt armed; finish line armed; target harbor-rings; completion 40%.
 - ready: replay-loop - Replay loop replay-loop-ready; prompt armed; target harbor-rings; replay 31%.
-- ready: improvement-loop - 4 backlog item(s); 2 experiment recommendation(s); applied status actions-ready.
+- ready: improvement-loop - improvement-backlog-ready; 4 backlog item(s); 2 experiment recommendation(s); applied status actions-ready; source 392ebb719e0e.
 - ready: organic-growth - 10 SEO/share pages; optimization 5 page(s).
 - waiting-for-github-repository: repository-channel - Repository missing; git worktree ready; workflow dispatch blocked.
 - ready: repository-bootstrap - Bootstrap waiting-for-github-target; mode plan-only; helper ops/github/bootstrap-repository.sh; local git ready.
 - ready: web-deployment - Deployment ready-for-pages; web readiness ready-after-build; promotion promotable-internal.
-- ready: release-candidate - Candidate pwa-dd138f7b3da2; status release-candidate-ready; files 43; smoke URLs 14.
-- ready: post-deploy-smoke - Smoke blocked-missing-origin; origin missing; candidate pwa-dd138f7b3da2; checks 0/15 passed; local artifact predeploy-artifact-smoke-passed 15/15 passed.
+- ready: release-candidate - Candidate pwa-559c0b291a0e; status release-candidate-ready; files 43; smoke URLs 14.
+- ready: post-deploy-smoke - Smoke blocked-missing-origin; origin missing; candidate pwa-559c0b291a0e; checks 0/15 passed; local artifact predeploy-artifact-smoke-passed 15/15 passed.
 - ready: production-bootstrap - Bootstrap production-bootstrap-ready; mode waiting-for-external-credentials; external blockers 22.
-- ready: autonomous-operator - Operator operator-plan-ready; selected optimize-product-gates; execution not-requested.
+- ready: autonomous-operator - Operator operator-plan-ready; selected refresh-autonomous-self-update; execution not-requested.
 - ready: operator-history - History operator-history-ready; records 40; executed 20.
-- ready: objective-audit - Audit objective-in-progress; met 5/8; external blockers 20.
+- ready: objective-audit - Audit objective-in-progress; met 5/8; external blockers 19.
 - ready: store-listing-optimizer - Focus canopy-bloom; lead screenshot phone-canopy-bloom-generated; candidate changed yes.
 - ready: store-compliance - Rating Everyone; target audience general; blockers 4.
 - ready: android-signing - Signing signing-prepared; fingerprint available; local secrets configured.

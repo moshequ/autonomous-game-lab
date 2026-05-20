@@ -1,4 +1,5 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises'
+import crypto from 'node:crypto'
 import path from 'node:path'
 
 const root = process.cwd()
@@ -10,6 +11,7 @@ const balancePath = path.join(root, 'data', 'balance-report.json')
 const playablePath = path.join(root, 'data', 'playable-games.json')
 const reportPath = path.join(root, 'reports', 'autonomous-analyst-latest.md')
 const backlogPath = path.join(root, 'data', 'improvement-backlog.json')
+const backlogSummaryPath = path.join(root, 'data', 'improvement-backlog-summary.json')
 const routingPath = path.join(root, 'data', 'improvement-routing.json')
 
 const analytics = JSON.parse(await readFile(analyticsPath, 'utf8'))
@@ -20,6 +22,7 @@ const pipeline = JSON.parse(await readFile(prototypePath, 'utf8'))
 const balance = JSON.parse(await readFile(balancePath, 'utf8'))
 const playable = JSON.parse(await readFile(playablePath, 'utf8'))
 const playableGameIds = new Set(playable.games ?? [])
+const generatedAt = new Date().toISOString()
 
 const pct = (value) => `${Math.round(value * 100)}%`
 
@@ -109,7 +112,7 @@ const skippedIssues = inactiveAnalyses.flatMap((analysis) =>
 )
 
 const routing = {
-  generatedAt: new Date().toISOString(),
+  generatedAt,
   status: 'live-targets-ready',
   analyticsSource: analytics.sourceStatus.activeSource,
   playableGameIds: [...playableGameIds],
@@ -129,6 +132,47 @@ const routing = {
   skippedIssues,
 }
 
+const sourceDataHash = crypto
+  .createHash('sha256')
+  .update(
+    JSON.stringify({
+      analyticsSource: analytics.sourceStatus.activeSource,
+      analyticsGames: rows.map((row) => ({
+        gameId: row.gameId,
+        counts: row.counts,
+        metrics: row.metrics,
+      })),
+      playableGameIds: [...playableGameIds],
+      backlog,
+      skippedIssues,
+    }),
+  )
+  .digest('hex')
+  .slice(0, 12)
+
+const backlogSummary = {
+  generatedAt,
+  status: backlog.length ? 'improvement-backlog-ready' : 'improvement-backlog-empty',
+  sourceDataHash,
+  analyticsSource: analytics.sourceStatus.activeSource,
+  playableGameIds: [...playableGameIds],
+  backlogCount: backlog.length,
+  skippedIssueCount: skippedIssues.length,
+  routingStatus: routing.status,
+  topIssues: backlog.slice(0, 5).map((item) => ({
+    gameId: item.gameId,
+    title: item.title,
+    confidence: item.confidence,
+    experiment: item.experiment,
+  })),
+  controls: {
+    zeroPaidSpend: true,
+    playableTargetsOnly: true,
+    inactiveAnalyticsSkipped: true,
+    noSyntheticEvents: true,
+  },
+}
+
 const playablePrototypeIds = new Set(
   pipeline.prototypes
     .filter((prototype) => prototype.status === 'playable')
@@ -146,7 +190,9 @@ const prototypeQueue = pipeline.prototypes.slice(0, 3)
 const report = [
   '# Autonomous Analyst Report',
   '',
-  `Generated: ${new Date().toISOString()}`,
+  `Generated: ${generatedAt}`,
+  `Backlog status: ${backlogSummary.status}`,
+  `Backlog source hash: ${backlogSummary.sourceDataHash}`,
   '',
   '## Game Health',
   '',
@@ -218,8 +264,10 @@ const report = [
 await mkdir(path.dirname(reportPath), { recursive: true })
 await writeFile(reportPath, report)
 await writeFile(backlogPath, JSON.stringify(backlog, null, 2))
+await writeFile(backlogSummaryPath, JSON.stringify(backlogSummary, null, 2) + '\n')
 await writeFile(routingPath, JSON.stringify(routing, null, 2) + '\n')
 
 console.log(`Wrote ${path.relative(root, reportPath)}`)
 console.log(`Wrote ${path.relative(root, backlogPath)}`)
+console.log(`Wrote ${path.relative(root, backlogSummaryPath)}`)
 console.log(`Wrote ${path.relative(root, routingPath)}`)

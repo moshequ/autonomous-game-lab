@@ -174,6 +174,7 @@ const objectiveAudit = await readOptionalJson(path.join(dataDir, 'objective-audi
 const releaseHealth = await readJson(path.join(dataDir, 'release-health.json'))
 const experimentResults = await readJson(path.join(dataDir, 'experiment-results.json'))
 const improvementBacklog = await readJson(path.join(dataDir, 'improvement-backlog.json'))
+const improvementBacklogSummary = await readJson(path.join(dataDir, 'improvement-backlog-summary.json'))
 const appliedImprovements = await readJson(path.join(dataDir, 'applied-improvements.json'))
 const storePackage = await readJson(path.join(dataDir, 'store-package.json'))
 const storeAssets = await readJson(path.join(dataDir, 'store-assets.json'))
@@ -535,13 +536,17 @@ const systems = [
     status: systemStatus(
       Array.isArray(improvementBacklog) &&
         improvementBacklog.length > 0 &&
+        improvementBacklogSummary.status === 'improvement-backlog-ready' &&
+        improvementBacklogSummary.backlogCount === improvementBacklog.length &&
         Array.isArray(appliedImprovementActions),
       'needs-more-evidence',
     ),
     autonomy: releaseHealth.controls?.canApplyExperimentChanges ? 'bounded-automatic' : 'held-by-health',
-    evidence: `${improvementBacklog.length} backlog item(s); ${
+    evidence: `${improvementBacklogSummary.status}; ${improvementBacklog.length} backlog item(s); ${
       experimentResults.recommendations?.length ?? 0
-    } experiment recommendation(s); applied status ${appliedImprovementStatus}.`,
+    } experiment recommendation(s); applied status ${appliedImprovementStatus}; source ${
+      improvementBacklogSummary.sourceDataHash ?? 'missing'
+    }.`,
     nextAction: releaseHealth.controls?.canApplyExperimentChanges
       ? 'Apply only bounded experiment and backlog changes.'
       : 'Freeze experiment changes until release health clears.',
