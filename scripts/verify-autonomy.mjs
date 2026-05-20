@@ -2667,6 +2667,7 @@ if (
 }
 
 const testAutomationScript = packageJson.scripts?.['test:automation'] ?? ''
+const bundleSyncScript = packageJson.scripts?.['autonomous:bundle-sync'] ?? ''
 
 if (!testAutomationScript.includes('event-collector-smoke')) {
   fail('Autonomous verification must run the isolated event collector smoke check.')
@@ -2698,6 +2699,16 @@ if (!testAutomationScript.includes('autonomous:release-candidate')) {
 
 if (!testAutomationScript.includes('autonomous:post-deploy-smoke')) {
   fail('Autonomous verification must refresh post-deploy smoke evidence before verifying release readiness.')
+}
+
+if (
+  !bundleSyncScript.includes('npm run build') ||
+  !bundleSyncScript.includes('autonomous:performance') ||
+  !bundleSyncScript.includes('autonomous:release-candidate') ||
+  !bundleSyncScript.includes('autonomous:post-deploy-smoke') ||
+  !testAutomationScript.includes('autonomous:bundle-sync')
+) {
+  fail('Autonomous verification must run a final bundle sync after late generated owner-loop evidence changes.')
 }
 
 if (!testAutomationScript.includes('autonomous:deploy-plan')) {
@@ -2743,6 +2754,9 @@ if (testAutomationScript.indexOf('local-event-bridge') > testAutomationScript.in
 const testAutomationBuildIndex = testAutomationScript.indexOf('npm run build')
 const testAutomationPerformanceIndex = testAutomationScript.indexOf('autonomous:performance')
 const testAutomationReleaseIndex = testAutomationScript.indexOf('autonomous:release-candidate')
+const testAutomationBundleSyncRuns = [...testAutomationScript.matchAll(/autonomous:bundle-sync/g)].map(
+  (match) => match.index ?? -1,
+)
 const testAutomationVerifyIndex = testAutomationScript.indexOf('verify-autonomy')
 const testAutomationDeployPlanRuns = [...testAutomationScript.matchAll(/autonomous:deploy-plan/g)].map(
   (match) => match.index ?? -1,
@@ -2771,6 +2785,7 @@ const testAutomationObjectiveAuditRuns = [...testAutomationScript.matchAll(/auto
 const testAutomationFinalOwnerLoopRun = testAutomationOwnerLoopRuns.at(-1) ?? -1
 const testAutomationPenultimateOwnerLoopRun = testAutomationOwnerLoopRuns.at(-2) ?? -1
 const testAutomationFinalOperatorRun = testAutomationOperatorRuns.at(-1) ?? -1
+const testAutomationFinalBundleSyncRun = testAutomationBundleSyncRuns.at(-1) ?? -1
 const testAutomationFinalDeployPlanRun = testAutomationDeployPlanRuns.at(-1) ?? -1
 const testAutomationPenultimateDeployPlanRun = testAutomationDeployPlanRuns.at(-2) ?? -1
 const testAutomationFinalRepoReadinessRun = testAutomationRepoReadinessRuns.at(-1) ?? -1
@@ -2784,10 +2799,11 @@ if (
   testAutomationPostSmokeRuns.length < 2 ||
   testAutomationRepoReadinessRuns.length < 2 ||
   testAutomationRepoBootstrapRuns.length < 2 ||
-  testAutomationReadinessRuns.length < 2
+  testAutomationReadinessRuns.length < 2 ||
+  testAutomationBundleSyncRuns.length < 1
 ) {
   fail(
-    'Autonomous verification must settle deployment, post-deploy smoke, repository readiness, and readiness with two refresh passes.',
+    'Autonomous verification must settle deployment, post-deploy smoke, repository readiness, readiness, and final bundle sync.',
   )
 }
 
@@ -2803,10 +2819,11 @@ if (
   testAutomationFinalRepoReadinessRun > testAutomationFinalRepoBootstrapRun ||
   testAutomationFinalRepoBootstrapRun > testAutomationFinalDeployPlanRun ||
   testAutomationFinalDeployPlanRun > testAutomationFinalReadinessRun ||
-  testAutomationFinalReadinessRun > testAutomationVerifyIndex
+  testAutomationFinalReadinessRun > testAutomationFinalBundleSyncRun ||
+  testAutomationFinalBundleSyncRun > testAutomationVerifyIndex
 ) {
   fail(
-    'Autonomous verification must rebuild dist, refresh performance, release candidate, smoke, final deployment, repository readiness, and readiness before verify-autonomy.',
+    'Autonomous verification must rebuild dist, refresh performance, release candidate, smoke, final deployment, repository readiness, readiness, and final bundle sync before verify-autonomy.',
   )
 }
 
@@ -2819,6 +2836,7 @@ if (
   testAutomationFinalDeployPlanRun > testAutomationFinalObjectiveAuditRun ||
   testAutomationFinalObjectiveAuditRun > testAutomationFinalOwnerLoopRun ||
   testAutomationFinalOwnerLoopRun > testAutomationFinalReadinessRun ||
+  testAutomationFinalOwnerLoopRun > testAutomationFinalBundleSyncRun ||
   testAutomationFinalReadinessRun > testAutomationVerifyIndex ||
   testAutomationFinalOperatorRun > testAutomationVerifyIndex
 ) {
