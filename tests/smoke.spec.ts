@@ -1,5 +1,24 @@
 import { expect, test, type Page } from '@playwright/test'
-import { readFile } from 'node:fs/promises'
+import { execFile } from 'node:child_process'
+import { mkdtemp, readFile, rm, writeFile } from 'node:fs/promises'
+import { tmpdir } from 'node:os'
+import path from 'node:path'
+
+const execFileAsync = (
+  command: string,
+  args: string[],
+  options: { cwd?: string; env?: NodeJS.ProcessEnv } = {},
+) =>
+  new Promise<{ stdout: string; stderr: string }>((resolve, reject) => {
+    execFile(command, args, options, (error, stdout, stderr) => {
+      if (error) {
+        reject(Object.assign(error, { stdout, stderr }))
+        return
+      }
+
+      resolve({ stdout, stderr })
+    })
+  })
 
 const expectRunMoves = async (page: Page, moves: string) => {
   await expect(page.getByLabel('Current run moves').getByText(moves, { exact: true })).toBeVisible()
@@ -761,6 +780,70 @@ test('production scripts load git-ignored env files without leaking values or mu
   }
 })
 
+test('production environment infers zero-cost GitHub Pages origin from repository target', async () => {
+  const tempRoot = await mkdtemp(path.join(tmpdir(), 'agl-production-env-'))
+
+  try {
+    await writeFile(
+      path.join(tempRoot, 'package.json'),
+      JSON.stringify({ name: 'autonomous-game-lab' }, null, 2),
+    )
+
+    await execFileAsync('node', [path.join(process.cwd(), 'scripts/production-environment.mjs')], {
+      cwd: tempRoot,
+      env: {
+        ...process.env,
+        AGL_GITHUB_OWNER: 'demo-owner',
+        AGL_PUBLIC_ORIGIN: '',
+        VITE_PUBLIC_ORIGIN: '',
+        PUBLIC_SITE_URL: '',
+        AGL_PUBLIC_HOST: '',
+        VITE_BASE_PATH: '',
+      },
+    })
+
+    const environment = JSON.parse(
+      await readFile(path.join(tempRoot, 'data/production-environment.json'), 'utf8'),
+    ) as {
+      publicOrigin: {
+        origin: string
+        basePath: string
+        source: string
+        status: string
+        privacyUrl: string
+        githubPagesCandidate: {
+          repository: string
+          origin: string
+          basePath: string
+          costUsd: number
+        }
+      }
+      requiredEnv: Array<{ name: string; configured: boolean; source?: string; fallback?: string | null }>
+    }
+
+    expect(environment.publicOrigin.source).toBe('github-pages-target')
+    expect(environment.publicOrigin.status).toBe('inferred-github-pages')
+    expect(environment.publicOrigin.origin).toBe('https://demo-owner.github.io/autonomous-game-lab')
+    expect(environment.publicOrigin.basePath).toBe('/autonomous-game-lab/')
+    expect(environment.publicOrigin.privacyUrl).toBe(
+      'https://demo-owner.github.io/autonomous-game-lab/privacy.html',
+    )
+    expect(environment.publicOrigin.githubPagesCandidate).toMatchObject({
+      repository: 'demo-owner/autonomous-game-lab',
+      origin: 'https://demo-owner.github.io/autonomous-game-lab',
+      basePath: '/autonomous-game-lab/',
+      costUsd: 0,
+    })
+    expect(environment.requiredEnv.find((item) => item.name === 'AGL_PUBLIC_ORIGIN')).toMatchObject({
+      configured: true,
+      source: 'github-pages-target',
+      fallback: 'github-pages-target',
+    })
+  } finally {
+    await rm(tempRoot, { recursive: true, force: true })
+  }
+})
+
 test('repository readiness surfaces the GitHub Pages deployment channel without mutating git', async () => {
   const readiness = JSON.parse(await readFile('data/repository-readiness.json', 'utf8')) as {
     status: string
@@ -1248,10 +1331,11 @@ test('production bootstrap emits zero-spend setup handoff artifacts', async ({ p
       configuresPagesSource: boolean
       infersRepositoryFromOriginRemote: boolean
       infersRepositoryFromOwnerHint: boolean
+      infersGithubPagesOrigin: boolean
       supportsSshUrlRemotes: boolean
       supportsDottedRepositoryNames: boolean
     }
-    requiredVariables: Array<{ repositoryVariable: string; command: string }>
+    requiredVariables: Array<{ repositoryVariable: string; command: string; valueSource: string }>
     requiredSecrets: Array<{ repositorySecret: string; command: string }>
     setupCommands: Array<{ id: string; command: string; costUsd: number }>
   }
@@ -1280,12 +1364,21 @@ test('production bootstrap emits zero-spend setup handoff artifacts', async ({ p
   expect(bootstrap.setupScript.configuresPagesSource).toBe(true)
   expect(bootstrap.setupScript.infersRepositoryFromOriginRemote).toBe(true)
   expect(bootstrap.setupScript.infersRepositoryFromOwnerHint).toBe(true)
+  expect(bootstrap.setupScript.infersGithubPagesOrigin).toBe(true)
   expect(bootstrap.setupScript.supportsSshUrlRemotes).toBe(true)
   expect(bootstrap.setupScript.supportsDottedRepositoryNames).toBe(true)
+  expect(bootstrap.requiredVariables.find((item) => item.repositoryVariable === 'VITE_BASE_PATH')?.valueSource).toMatch(
+    /environment|production-environment|inferred-github-pages/,
+  )
   expect(setupScript).toContain('gh variable set')
   expect(setupScript).toContain('gh secret set')
   expect(setupScript).toContain('derive_repository_from_origin')
   expect(setupScript).toContain('derive_repository_from_owner_hint')
+  expect(setupScript).toContain('derive_github_pages_origin')
+  expect(setupScript).toContain('derive_github_pages_base_path')
+  expect(setupScript).toContain('AGL_INFER_GITHUB_PAGES_ORIGIN')
+  expect(setupScript).toContain('inferred AGL_PUBLIC_ORIGIN from GitHub Pages target')
+  expect(setupScript).toContain('inferred VITE_BASE_PATH from GitHub Pages target')
   expect(setupScript).toContain('AGL_GITHUB_OWNER')
   expect(setupScript).toContain('git remote get-url origin')
   expect(setupScript).toContain('ssh://git@github.com/')

@@ -8,6 +8,7 @@ const outputJsonPath = path.join(root, 'data', 'production-environment.json')
 const outputTsPath = path.join(root, 'src', 'data', 'productionEnvironment.ts')
 const reportPath = path.join(root, 'reports', 'production-environment-latest.md')
 const envExamplePath = path.join(root, 'ops', 'production.env.example')
+const repositoryReadinessPath = path.join(root, 'data', 'repository-readiness.json')
 
 const readOptionalJson = async (filePath, fallback) =>
   readFile(filePath, 'utf8')
@@ -17,6 +18,7 @@ const readOptionalJson = async (filePath, fallback) =>
 const boolFromEnv = (name) => ['1', 'true', 'yes'].includes(String(process.env[name] ?? '').toLowerCase())
 
 const first = (...values) => values.find((value) => typeof value === 'string' && value.trim())?.trim() ?? null
+const configured = (value) => typeof value === 'string' && value.trim().length > 0
 
 const normalizeOrigin = (value) => {
   const raw = first(value)
@@ -57,18 +59,90 @@ const looksProductionHost = (origin) => {
 
 const validEmail = (value) => Boolean(value && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value) && !value.includes('example.'))
 
-const publicOrigin = normalizeOrigin(
-  first(process.env.AGL_PUBLIC_ORIGIN, process.env.VITE_PUBLIC_ORIGIN, process.env.PUBLIC_SITE_URL, process.env.AGL_PUBLIC_HOST),
-)
 const androidSigning = await readOptionalJson(path.join(root, 'data', 'android-signing.json'), {
   status: 'missing',
   signing: {},
 })
+const repositoryReadiness = await readOptionalJson(repositoryReadinessPath, {
+  status: 'missing',
+  repository: {},
+})
+const packageJson = await readOptionalJson(path.join(root, 'package.json'), {
+  name: 'autonomous-game-lab',
+})
+
+const repositoryNameFromPackage = (packageName) => {
+  const baseName = String(packageName || 'autonomous-game-lab').split('/').pop()
+  const normalized = baseName.replace(/[^A-Za-z0-9._-]+/g, '-').replace(/^-+|-+$/g, '')
+
+  return normalized || 'autonomous-game-lab'
+}
+const cleanGithubOwner = (value) => {
+  const owner = String(value ?? '').trim()
+
+  return /^[A-Za-z0-9](?:[A-Za-z0-9-]{0,37}[A-Za-z0-9])?$/.test(owner) ? owner : null
+}
+const cleanGithubRepositoryName = (value) => {
+  const repository = String(value ?? '').trim()
+
+  return /^[A-Za-z0-9._-]+$/.test(repository) ? repository : null
+}
+const repositoryFromOwnerHint = (owner, repositoryName) => {
+  const cleanOwner = cleanGithubOwner(owner)
+  const cleanRepository = cleanGithubRepositoryName(repositoryName)
+
+  return cleanOwner && cleanRepository ? `${cleanOwner}/${cleanRepository}` : null
+}
+const parseGithubRepository = (value) => {
+  const raw = String(value ?? '').trim()
+  const match = raw.match(/^([A-Za-z0-9](?:[A-Za-z0-9-]{0,37}[A-Za-z0-9])?)\/([A-Za-z0-9._-]+)$/)
+
+  return match ? { owner: match[1], repository: match[2], target: `${match[1]}/${match[2]}` } : null
+}
+const pagesBasePathFor = ({ owner, repository }) =>
+  repository.toLowerCase() === `${owner.toLowerCase()}.github.io` ? '/' : `/${repository}/`
+const pagesOriginFor = ({ owner, repository }) =>
+  repository.toLowerCase() === `${owner.toLowerCase()}.github.io`
+    ? `https://${owner}.github.io`
+    : `https://${owner}.github.io/${repository}`
+const inferredRepositoryName = repositoryNameFromPackage(packageJson.name)
+const ownerHint = cleanGithubOwner(
+  process.env.AGL_GITHUB_OWNER ?? process.env.GITHUB_REPOSITORY_OWNER ?? process.env.GITHUB_OWNER,
+)
+const ownerHintRepository = repositoryFromOwnerHint(ownerHint, inferredRepositoryName)
+const repositoryEnvTarget = first(process.env.GITHUB_REPOSITORY, process.env.GH_REPO)
+const repositoryTarget =
+  repositoryEnvTarget ?? repositoryReadiness.repository?.target ?? ownerHintRepository ?? null
+const repositoryTargetSource = repositoryEnvTarget
+  ? 'environment'
+  : repositoryReadiness.repository?.target
+    ? (repositoryReadiness.repository?.source ?? 'repository-readiness')
+    : ownerHintRepository
+      ? 'owner-hint-and-package-name'
+      : 'missing'
+const parsedRepositoryTarget = parseGithubRepository(repositoryTarget)
+const githubPagesCandidate = parsedRepositoryTarget
+  ? {
+      repository: parsedRepositoryTarget.target,
+      source: repositoryTargetSource,
+      origin: pagesOriginFor(parsedRepositoryTarget),
+      host: `${parsedRepositoryTarget.owner}.github.io`,
+      basePath: pagesBasePathFor(parsedRepositoryTarget),
+      privacyUrl: `${pagesOriginFor(parsedRepositoryTarget)}/privacy.html`,
+      supportUrl: `${pagesOriginFor(parsedRepositoryTarget)}/support.html`,
+      costUsd: 0,
+    }
+  : null
+const explicitPublicOrigin = normalizeOrigin(
+  first(process.env.AGL_PUBLIC_ORIGIN, process.env.VITE_PUBLIC_ORIGIN, process.env.PUBLIC_SITE_URL, process.env.AGL_PUBLIC_HOST),
+)
+const publicOriginSource = explicitPublicOrigin ? 'environment' : githubPagesCandidate ? 'github-pages-target' : 'missing'
+const publicOrigin = explicitPublicOrigin ?? githubPagesCandidate?.origin ?? null
 const publicHost = hostFromOrigin(publicOrigin)
 const publicOriginReady = looksProductionHost(publicOrigin)
 const supportEmail = first(process.env.AGL_SUPPORT_EMAIL, process.env.SUPPORT_EMAIL)
 const supportEmailReady = validEmail(supportEmail)
-const basePath = first(process.env.VITE_BASE_PATH) ?? '/'
+const basePath = first(process.env.VITE_BASE_PATH) ?? githubPagesCandidate?.basePath ?? '/'
 const androidPackageName = first(process.env.AGL_ANDROID_PACKAGE_NAME) ?? 'app.autonomousgamelab.portal'
 const androidSha256 = first(
   process.env.AGL_ANDROID_SHA256_CERT_FINGERPRINT,
@@ -129,7 +203,14 @@ const payload = {
     origin: publicOrigin,
     host: publicHost,
     basePath,
-    status: publicOriginReady ? 'configured' : 'missing',
+    source: publicOriginSource,
+    explicitOriginConfigured: Boolean(explicitPublicOrigin),
+    githubPagesCandidate,
+    status: publicOriginReady
+      ? explicitPublicOrigin
+        ? 'configured'
+        : 'inferred-github-pages'
+      : 'missing',
     privacyUrl,
     supportUrl,
   },
@@ -182,8 +263,11 @@ const payload = {
   requiredEnv: [
     {
       name: 'AGL_PUBLIC_ORIGIN',
-      purpose: 'HTTPS origin used for hosted privacy/support URLs, sitemap, TWA host, and Digital Asset Links.',
+      purpose:
+        'HTTPS origin used for hosted privacy/support URLs, sitemap, TWA host, and Digital Asset Links. If no custom origin is set, the setup helper can infer the zero-cost GitHub Pages origin from the repository target.',
       configured: publicOriginReady,
+      source: publicOriginSource,
+      fallback: githubPagesCandidate ? 'github-pages-target' : null,
     },
     {
       name: 'AGL_SUPPORT_EMAIL',

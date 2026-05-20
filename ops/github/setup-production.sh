@@ -52,6 +52,28 @@ derive_repository_from_owner_hint() {
   fi
 }
 
+derive_github_pages_origin() {
+  local target="$1"
+  local owner="${target%%/*}"
+  local name="${target#*/}"
+  if [[ "$name" == "$owner.github.io" ]]; then
+    printf "https://%s.github.io" "$owner"
+  else
+    printf "https://%s.github.io/%s" "$owner" "$name"
+  fi
+}
+
+derive_github_pages_base_path() {
+  local target="$1"
+  local owner="${target%%/*}"
+  local name="${target#*/}"
+  if [[ "$name" == "$owner.github.io" ]]; then
+    printf "/"
+  else
+    printf "/%s/" "$name"
+  fi
+}
+
 if [[ -z "$repo" ]]; then
   origin_repo="$(derive_repository_from_origin)"
   if [[ -n "$origin_repo" ]]; then
@@ -79,6 +101,20 @@ fi
 if [[ -z "$repo" ]]; then
   echo "Set GITHUB_REPOSITORY/GH_REPO, add a GitHub origin remote, set AGL_GITHUB_OWNER, or authenticate gh so owner/package-name can be inferred." >&2
   exit 1
+fi
+
+if [[ "$repo" =~ ^[A-Za-z0-9]([A-Za-z0-9-]{0,37}[A-Za-z0-9])?/[^/[:space:]]+$ && "${AGL_INFER_GITHUB_PAGES_ORIGIN:-1}" == "1" ]]; then
+  if [[ -z "${AGL_PUBLIC_ORIGIN:-}" ]]; then
+    AGL_PUBLIC_ORIGIN="$(derive_github_pages_origin "$repo")"
+    export AGL_PUBLIC_ORIGIN
+    echo "inferred AGL_PUBLIC_ORIGIN from GitHub Pages target: $AGL_PUBLIC_ORIGIN"
+  fi
+
+  if [[ -z "${VITE_BASE_PATH:-}" ]]; then
+    VITE_BASE_PATH="$(derive_github_pages_base_path "$repo")"
+    export VITE_BASE_PATH
+    echo "inferred VITE_BASE_PATH from GitHub Pages target: $VITE_BASE_PATH"
+  fi
 fi
 
 repo_args=(--repo "$repo")

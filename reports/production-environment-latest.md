@@ -1,6 +1,6 @@
 # Production Environment
 
-Generated: 2026-05-19T07:55:37.247Z
+Generated: 2026-05-20T01:18:49.817Z
 Status: production-env-missing
 Public origin: missing
 Analytics: local-or-fixture
@@ -16,7 +16,7 @@ Android: blocked-needs-host-signing-account
 
 ## Required Environment
 
-- missing: AGL_PUBLIC_ORIGIN - HTTPS origin used for hosted privacy/support URLs, sitemap, TWA host, and Digital Asset Links.
+- missing: AGL_PUBLIC_ORIGIN - HTTPS origin used for hosted privacy/support URLs, sitemap, TWA host, and Digital Asset Links. If no custom origin is set, the setup helper can infer the zero-cost GitHub Pages origin from the repository target.
 - missing: AGL_SUPPORT_EMAIL - Production support contact for privacy and store listings.
 - missing: VITE_POSTHOG_KEY - Optional browser-side PostHog analytics forwarding.
 - missing: POSTHOG_PROJECT_ID + POSTHOG_PERSONAL_API_KEY - Optional autonomous production analytics and experiment result rollups from PostHog.

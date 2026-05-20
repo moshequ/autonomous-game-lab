@@ -133,14 +133,38 @@ const secretCommands = [
   ['GOOGLE_PLAY_SERVICE_ACCOUNT_JSON', 'GOOGLE_PLAY_SERVICE_ACCOUNT_JSON'],
 ]
 
-const commandForVariable = ([repoName, envName]) => ({
-  id: `var-${repoName.toLowerCase().replaceAll('_', '-')}`,
-  kind: 'github-variable',
-  repositoryVariable: repoName,
-  envName,
-  configured: configured(process.env[envName]) || (repoName === 'VITE_BASE_PATH' && configured(pageBasePath)),
-  command: `gh variable set ${repoName} --body "$${envName}"`,
-})
+const inferredVariableValue = (repoName) => {
+  if (repoName === 'VITE_BASE_PATH') {
+    return pageBasePath
+  }
+
+  if (['AGL_PUBLIC_ORIGIN', 'VITE_PUBLIC_ORIGIN', 'PUBLIC_SITE_URL'].includes(repoName)) {
+    return environment.publicOrigin?.origin
+  }
+
+  return null
+}
+const commandForVariable = ([repoName, envName]) => {
+  const envConfigured = configured(process.env[envName])
+  const inferredValue = inferredVariableValue(repoName)
+  const inferredConfigured = configured(inferredValue)
+
+  return {
+    id: `var-${repoName.toLowerCase().replaceAll('_', '-')}`,
+    kind: 'github-variable',
+    repositoryVariable: repoName,
+    envName,
+    valueSource: envConfigured
+      ? 'environment'
+      : inferredConfigured
+        ? environment.publicOrigin?.source === 'github-pages-target'
+          ? 'inferred-github-pages'
+          : 'production-environment'
+        : 'missing',
+    configured: envConfigured || inferredConfigured,
+    command: `gh variable set ${repoName} --body "$${envName}"`,
+  }
+}
 const commandForSecret = ([repoName, envName]) => ({
   id: `secret-${repoName.toLowerCase().replaceAll('_', '-')}`,
   kind: 'github-secret',
@@ -418,6 +442,7 @@ const payload = {
     usesCurrentShellEnvironment: true,
     infersRepositoryFromOriginRemote: true,
     infersRepositoryFromOwnerHint: true,
+    infersGithubPagesOrigin: true,
     supportsSshUrlRemotes: true,
     supportsDottedRepositoryNames: true,
     configuresPagesSource: true,
@@ -483,7 +508,8 @@ const report = [
   '## Repository Variables',
   '',
   ...repoVariableActions.map(
-    (action) => `- ${action.configured ? 'ready' : 'missing'}: ${action.repositoryVariable} from ${action.envName}`,
+    (action) =>
+      `- ${action.configured ? 'ready' : 'missing'}: ${action.repositoryVariable} from ${action.envName} (${action.valueSource})`,
   ),
   '',
   '## Repository Secrets',
@@ -554,6 +580,28 @@ derive_repository_from_owner_hint() {
   fi
 }
 
+derive_github_pages_origin() {
+  local target="$1"
+  local owner="\${target%%/*}"
+  local name="\${target#*/}"
+  if [[ "$name" == "$owner.github.io" ]]; then
+    printf "https://%s.github.io" "$owner"
+  else
+    printf "https://%s.github.io/%s" "$owner" "$name"
+  fi
+}
+
+derive_github_pages_base_path() {
+  local target="$1"
+  local owner="\${target%%/*}"
+  local name="\${target#*/}"
+  if [[ "$name" == "$owner.github.io" ]]; then
+    printf "/"
+  else
+    printf "/%s/" "$name"
+  fi
+}
+
 if [[ -z "$repo" ]]; then
   origin_repo="$(derive_repository_from_origin)"
   if [[ -n "$origin_repo" ]]; then
@@ -581,6 +629,20 @@ fi
 if [[ -z "$repo" ]]; then
   echo "Set GITHUB_REPOSITORY/GH_REPO, add a GitHub origin remote, set AGL_GITHUB_OWNER, or authenticate gh so owner/package-name can be inferred." >&2
   exit 1
+fi
+
+if [[ "$repo" =~ ^[A-Za-z0-9]([A-Za-z0-9-]{0,37}[A-Za-z0-9])?/[^/[:space:]]+$ && "\${AGL_INFER_GITHUB_PAGES_ORIGIN:-1}" == "1" ]]; then
+  if [[ -z "\${AGL_PUBLIC_ORIGIN:-}" ]]; then
+    AGL_PUBLIC_ORIGIN="$(derive_github_pages_origin "$repo")"
+    export AGL_PUBLIC_ORIGIN
+    echo "inferred AGL_PUBLIC_ORIGIN from GitHub Pages target: $AGL_PUBLIC_ORIGIN"
+  fi
+
+  if [[ -z "\${VITE_BASE_PATH:-}" ]]; then
+    VITE_BASE_PATH="$(derive_github_pages_base_path "$repo")"
+    export VITE_BASE_PATH
+    echo "inferred VITE_BASE_PATH from GitHub Pages target: $VITE_BASE_PATH"
+  fi
 fi
 
 repo_args=(--repo "$repo")
@@ -681,6 +743,8 @@ AGL_ALLOW_REPOSITORY_BOOTSTRAP=1 ./ops/github/bootstrap-repository.sh
 \`\`\`
 
 By default the setup helper also configures GitHub Pages to use the Actions workflow source. Set \`AGL_SYNC_PAGES_SETTINGS=0\` to skip that remote settings sync.
+
+When \`AGL_PUBLIC_ORIGIN\` or \`VITE_BASE_PATH\` is not set, the setup helper infers the zero-cost GitHub Pages values from the repository target: \`https://owner.github.io/repo\` and \`/repo/\`, or \`https://owner.github.io\` and \`/\` for an \`owner.github.io\` repository. Set \`AGL_INFER_GITHUB_PAGES_ORIGIN=0\` to disable that fallback.
 
 Set \`RUN_WORKFLOWS=1\` to trigger the web workflow after syncing configured values. The collector workflow runs only when its Cloudflare values exist. Android stays held unless \`ALLOW_ANDROID_RELEASE_WORKFLOW=1\`, signing secrets exist, and the normal release gates pass.
 `

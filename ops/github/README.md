@@ -24,4 +24,6 @@ AGL_ALLOW_REPOSITORY_BOOTSTRAP=1 ./ops/github/bootstrap-repository.sh
 
 By default the setup helper also configures GitHub Pages to use the Actions workflow source. Set `AGL_SYNC_PAGES_SETTINGS=0` to skip that remote settings sync.
 
+When `AGL_PUBLIC_ORIGIN` or `VITE_BASE_PATH` is not set, the setup helper infers the zero-cost GitHub Pages values from the repository target: `https://owner.github.io/repo` and `/repo/`, or `https://owner.github.io` and `/` for an `owner.github.io` repository. Set `AGL_INFER_GITHUB_PAGES_ORIGIN=0` to disable that fallback.
+
 Set `RUN_WORKFLOWS=1` to trigger the web workflow after syncing configured values. The collector workflow runs only when its Cloudflare values exist. Android stays held unless `ALLOW_ANDROID_RELEASE_WORKFLOW=1`, signing secrets exist, and the normal release gates pass.

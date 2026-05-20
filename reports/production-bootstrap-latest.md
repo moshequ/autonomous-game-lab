@@ -1,6 +1,6 @@
 # Production Bootstrap
 
-Generated: 2026-05-20T01:09:49.574Z
+Generated: 2026-05-20T01:19:31.621Z
 Status: production-bootstrap-ready
 Mode: waiting-for-external-credentials
 GitHub repository: missing
@@ -41,30 +41,30 @@ gh CLI available: true
 
 ## Repository Variables
 
-- ready: VITE_BASE_PATH from VITE_BASE_PATH
-- missing: AGL_PUBLIC_ORIGIN from AGL_PUBLIC_ORIGIN
-- missing: VITE_PUBLIC_ORIGIN from AGL_PUBLIC_ORIGIN
-- missing: PUBLIC_SITE_URL from AGL_PUBLIC_ORIGIN
-- missing: AGL_SUPPORT_EMAIL from AGL_SUPPORT_EMAIL
-- missing: VITE_POSTHOG_KEY from VITE_POSTHOG_KEY
-- missing: VITE_POSTHOG_HOST from VITE_POSTHOG_HOST
-- missing: POSTHOG_PROJECT_ID from POSTHOG_PROJECT_ID
-- missing: POSTHOG_HOST from POSTHOG_HOST
-- missing: CLOUDFLARE_ACCOUNT_ID from CLOUDFLARE_ACCOUNT_ID
-- missing: VITE_EVENT_COLLECTOR_URL from VITE_EVENT_COLLECTOR_URL
-- missing: AGL_EVENT_COLLECTOR_EXPORT_URL from AGL_EVENT_COLLECTOR_EXPORT_URL
-- missing: AGL_EVENT_COLLECTOR_R2_BUCKET from AGL_EVENT_COLLECTOR_R2_BUCKET
-- missing: AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS from AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS
-- missing: VITE_ADSENSE_CLIENT_ID from VITE_ADSENSE_CLIENT_ID
-- missing: VITE_ADSENSE_REWARDED_SLOT_ID from VITE_ADSENSE_REWARDED_SLOT_ID
-- missing: ADMOB_PUBLISHER_ID from ADMOB_PUBLISHER_ID
-- missing: AD_NETWORK_PROVIDER from AD_NETWORK_PROVIDER
-- ready: AGL_ANDROID_PACKAGE_NAME from AGL_ANDROID_PACKAGE_NAME
-- ready: AGL_ANDROID_SHA256_CERT_FINGERPRINT from AGL_ANDROID_SHA256_CERT_FINGERPRINT
-- missing: AGL_GOOGLE_PLAY_ACCOUNT_CONNECTED from AGL_GOOGLE_PLAY_ACCOUNT_CONNECTED
-- missing: AGL_APPLE_DEVELOPER_ACCOUNT_CONNECTED from AGL_APPLE_DEVELOPER_ACCOUNT_CONNECTED
-- missing: AGL_AUTONOMOUS_SELF_UPDATE from AGL_AUTONOMOUS_SELF_UPDATE
-- missing: AGL_AUTONOMOUS_SELF_UPDATE_DIRECT from AGL_AUTONOMOUS_SELF_UPDATE_DIRECT
+- ready: VITE_BASE_PATH from VITE_BASE_PATH (production-environment)
+- missing: AGL_PUBLIC_ORIGIN from AGL_PUBLIC_ORIGIN (missing)
+- missing: VITE_PUBLIC_ORIGIN from AGL_PUBLIC_ORIGIN (missing)
+- missing: PUBLIC_SITE_URL from AGL_PUBLIC_ORIGIN (missing)
+- missing: AGL_SUPPORT_EMAIL from AGL_SUPPORT_EMAIL (missing)
+- missing: VITE_POSTHOG_KEY from VITE_POSTHOG_KEY (missing)
+- missing: VITE_POSTHOG_HOST from VITE_POSTHOG_HOST (missing)
+- missing: POSTHOG_PROJECT_ID from POSTHOG_PROJECT_ID (missing)
+- missing: POSTHOG_HOST from POSTHOG_HOST (missing)
+- missing: CLOUDFLARE_ACCOUNT_ID from CLOUDFLARE_ACCOUNT_ID (missing)
+- missing: VITE_EVENT_COLLECTOR_URL from VITE_EVENT_COLLECTOR_URL (missing)
+- missing: AGL_EVENT_COLLECTOR_EXPORT_URL from AGL_EVENT_COLLECTOR_EXPORT_URL (missing)
+- missing: AGL_EVENT_COLLECTOR_R2_BUCKET from AGL_EVENT_COLLECTOR_R2_BUCKET (missing)
+- missing: AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS from AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS (missing)
+- missing: VITE_ADSENSE_CLIENT_ID from VITE_ADSENSE_CLIENT_ID (missing)
+- missing: VITE_ADSENSE_REWARDED_SLOT_ID from VITE_ADSENSE_REWARDED_SLOT_ID (missing)
+- missing: ADMOB_PUBLISHER_ID from ADMOB_PUBLISHER_ID (missing)
+- missing: AD_NETWORK_PROVIDER from AD_NETWORK_PROVIDER (missing)
+- ready: AGL_ANDROID_PACKAGE_NAME from AGL_ANDROID_PACKAGE_NAME (environment)
+- ready: AGL_ANDROID_SHA256_CERT_FINGERPRINT from AGL_ANDROID_SHA256_CERT_FINGERPRINT (environment)
+- missing: AGL_GOOGLE_PLAY_ACCOUNT_CONNECTED from AGL_GOOGLE_PLAY_ACCOUNT_CONNECTED (missing)
+- missing: AGL_APPLE_DEVELOPER_ACCOUNT_CONNECTED from AGL_APPLE_DEVELOPER_ACCOUNT_CONNECTED (missing)
+- missing: AGL_AUTONOMOUS_SELF_UPDATE from AGL_AUTONOMOUS_SELF_UPDATE (missing)
+- missing: AGL_AUTONOMOUS_SELF_UPDATE_DIRECT from AGL_AUTONOMOUS_SELF_UPDATE_DIRECT (missing)
 
 ## Repository Secrets
 
@@ -81,6 +81,7 @@ gh CLI available: true
 
 - repository-readiness: Add a GitHub origin remote, set GITHUB_REPOSITORY/GH_REPO, set AGL_GITHUB_OWNER, or authenticate gh to infer the target repository.
 - repository-readiness: Authenticate GitHub CLI or configure GH_TOKEN/GITHUB_TOKEN for workflow dispatch and repository settings sync.
+- repository-bootstrap: Commit current generated changes before pushing to GitHub Pages.
 - repository-bootstrap: Set GITHUB_REPOSITORY/GH_REPO, AGL_GITHUB_OWNER, or authenticate gh so the intended owner/repo can be inferred.
 - repository-bootstrap: Attach a GitHub origin remote or create the target repository.
 - repository-bootstrap: Authenticate GitHub CLI or provide GH_TOKEN/GITHUB_TOKEN for remote repository bootstrap.
@@ -90,4 +91,3 @@ gh CLI available: true
 - production-environment: Set AGL_EVENT_COLLECTOR_EXPORT_URL + AGL_EVENT_COLLECTOR_ADMIN_TOKEN or PostHog server credentials for autonomous production rollups.
 - production-environment: Set VITE_ADSENSE_CLIENT_ID + VITE_ADSENSE_REWARDED_SLOT_ID for web/PWA revenue tests or ADMOB_PUBLISHER_ID for native app placements.
 - production-environment: Connect Google Play credentials or set AGL_GOOGLE_PLAY_ACCOUNT_CONNECTED=true.
-- production-environment: Connect Apple Developer account only after revenue justifies iOS spend.

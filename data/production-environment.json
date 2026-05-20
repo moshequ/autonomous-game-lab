@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-19T07:55:37.247Z",
+  "generatedAt": "2026-05-20T01:18:49.817Z",
   "status": "production-env-missing",
   "envFiles": {
     "loaded": true,
@@ -55,6 +55,9 @@
     "origin": null,
     "host": null,
     "basePath": "/",
+    "source": "missing",
+    "explicitOriginConfigured": false,
+    "githubPagesCandidate": null,
     "status": "missing",
     "privacyUrl": null,
     "supportUrl": null
@@ -113,8 +116,10 @@
   "requiredEnv": [
     {
       "name": "AGL_PUBLIC_ORIGIN",
-      "purpose": "HTTPS origin used for hosted privacy/support URLs, sitemap, TWA host, and Digital Asset Links.",
-      "configured": false
+      "purpose": "HTTPS origin used for hosted privacy/support URLs, sitemap, TWA host, and Digital Asset Links. If no custom origin is set, the setup helper can infer the zero-cost GitHub Pages origin from the repository target.",
+      "configured": false,
+      "source": "missing",
+      "fallback": null
     },
     {
       "name": "AGL_SUPPORT_EMAIL",

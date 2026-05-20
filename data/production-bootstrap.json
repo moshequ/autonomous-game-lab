@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-20T01:09:49.574Z",
+  "generatedAt": "2026-05-20T01:19:31.621Z",
   "status": "production-bootstrap-ready",
   "mode": "waiting-for-external-credentials",
   "envFiles": {
@@ -87,7 +87,7 @@
     "totalVariables": 24,
     "configuredSecrets": 3,
     "totalSecrets": 8,
-    "externalBlockers": 23
+    "externalBlockers": 24
   },
   "stages": [
     {
@@ -110,6 +110,7 @@
       "command": "npm run autonomous:repo-bootstrap",
       "evidence": "Repository bootstrap waiting-for-github-target; helper ops/github/bootstrap-repository.sh; local git ready.",
       "requires": [
+        "Commit current generated changes before pushing to GitHub Pages.",
         "Set GITHUB_REPOSITORY/GH_REPO, AGL_GITHUB_OWNER, or authenticate gh so the intended owner/repo can be inferred.",
         "Attach a GitHub origin remote or create the target repository.",
         "Authenticate GitHub CLI or provide GH_TOKEN/GITHUB_TOKEN for remote repository bootstrap."
@@ -279,6 +280,7 @@
       "command": "npm run autonomous:repo-bootstrap",
       "evidence": "Repository bootstrap waiting-for-github-target; helper ops/github/bootstrap-repository.sh; local git ready.",
       "requires": [
+        "Commit current generated changes before pushing to GitHub Pages.",
         "Set GITHUB_REPOSITORY/GH_REPO, AGL_GITHUB_OWNER, or authenticate gh so the intended owner/repo can be inferred.",
         "Attach a GitHub origin remote or create the target repository.",
         "Authenticate GitHub CLI or provide GH_TOKEN/GITHUB_TOKEN for remote repository bootstrap."
@@ -433,6 +435,7 @@
       "kind": "github-variable",
       "repositoryVariable": "VITE_BASE_PATH",
       "envName": "VITE_BASE_PATH",
+      "valueSource": "production-environment",
       "configured": true,
       "command": "gh variable set VITE_BASE_PATH --body \"$VITE_BASE_PATH\""
     },
@@ -441,6 +444,7 @@
       "kind": "github-variable",
       "repositoryVariable": "AGL_PUBLIC_ORIGIN",
       "envName": "AGL_PUBLIC_ORIGIN",
+      "valueSource": "missing",
       "configured": false,
       "command": "gh variable set AGL_PUBLIC_ORIGIN --body \"$AGL_PUBLIC_ORIGIN\""
     },
@@ -449,6 +453,7 @@
       "kind": "github-variable",
       "repositoryVariable": "VITE_PUBLIC_ORIGIN",
       "envName": "AGL_PUBLIC_ORIGIN",
+      "valueSource": "missing",
       "configured": false,
       "command": "gh variable set VITE_PUBLIC_ORIGIN --body \"$AGL_PUBLIC_ORIGIN\""
     },
@@ -457,6 +462,7 @@
       "kind": "github-variable",
       "repositoryVariable": "PUBLIC_SITE_URL",
       "envName": "AGL_PUBLIC_ORIGIN",
+      "valueSource": "missing",
       "configured": false,
       "command": "gh variable set PUBLIC_SITE_URL --body \"$AGL_PUBLIC_ORIGIN\""
     },
@@ -465,6 +471,7 @@
       "kind": "github-variable",
       "repositoryVariable": "AGL_SUPPORT_EMAIL",
       "envName": "AGL_SUPPORT_EMAIL",
+      "valueSource": "missing",
       "configured": false,
       "command": "gh variable set AGL_SUPPORT_EMAIL --body \"$AGL_SUPPORT_EMAIL\""
     },
@@ -473,6 +480,7 @@
       "kind": "github-variable",
       "repositoryVariable": "VITE_POSTHOG_KEY",
       "envName": "VITE_POSTHOG_KEY",
+      "valueSource": "missing",
       "configured": false,
       "command": "gh variable set VITE_POSTHOG_KEY --body \"$VITE_POSTHOG_KEY\""
     },
@@ -481,6 +489,7 @@
       "kind": "github-variable",
       "repositoryVariable": "VITE_POSTHOG_HOST",
       "envName": "VITE_POSTHOG_HOST",
+      "valueSource": "missing",
       "configured": false,
       "command": "gh variable set VITE_POSTHOG_HOST --body \"$VITE_POSTHOG_HOST\""
     },
@@ -489,6 +498,7 @@
       "kind": "github-variable",
       "repositoryVariable": "POSTHOG_PROJECT_ID",
       "envName": "POSTHOG_PROJECT_ID",
+      "valueSource": "missing",
       "configured": false,
       "command": "gh variable set POSTHOG_PROJECT_ID --body \"$POSTHOG_PROJECT_ID\""
     },
@@ -497,6 +507,7 @@
       "kind": "github-variable",
       "repositoryVariable": "POSTHOG_HOST",
       "envName": "POSTHOG_HOST",
+      "valueSource": "missing",
       "configured": false,
       "command": "gh variable set POSTHOG_HOST --body \"$POSTHOG_HOST\""
     },
@@ -505,6 +516,7 @@
       "kind": "github-variable",
       "repositoryVariable": "CLOUDFLARE_ACCOUNT_ID",
       "envName": "CLOUDFLARE_ACCOUNT_ID",
+      "valueSource": "missing",
       "configured": false,
       "command": "gh variable set CLOUDFLARE_ACCOUNT_ID --body \"$CLOUDFLARE_ACCOUNT_ID\""
     },
@@ -513,6 +525,7 @@
       "kind": "github-variable",
       "repositoryVariable": "VITE_EVENT_COLLECTOR_URL",
       "envName": "VITE_EVENT_COLLECTOR_URL",
+      "valueSource": "missing",
       "configured": false,
       "command": "gh variable set VITE_EVENT_COLLECTOR_URL --body \"$VITE_EVENT_COLLECTOR_URL\""
     },
@@ -521,6 +534,7 @@
       "kind": "github-variable",
       "repositoryVariable": "AGL_EVENT_COLLECTOR_EXPORT_URL",
       "envName": "AGL_EVENT_COLLECTOR_EXPORT_URL",
+      "valueSource": "missing",
       "configured": false,
       "command": "gh variable set AGL_EVENT_COLLECTOR_EXPORT_URL --body \"$AGL_EVENT_COLLECTOR_EXPORT_URL\""
     },
@@ -529,6 +543,7 @@
       "kind": "github-variable",
       "repositoryVariable": "AGL_EVENT_COLLECTOR_R2_BUCKET",
       "envName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
+      "valueSource": "missing",
       "configured": false,
       "command": "gh variable set AGL_EVENT_COLLECTOR_R2_BUCKET --body \"$AGL_EVENT_COLLECTOR_R2_BUCKET\""
     },
@@ -537,6 +552,7 @@
       "kind": "github-variable",
       "repositoryVariable": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
       "envName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
+      "valueSource": "missing",
       "configured": false,
       "command": "gh variable set AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS --body \"$AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS\""
     },
@@ -545,6 +561,7 @@
       "kind": "github-variable",
       "repositoryVariable": "VITE_ADSENSE_CLIENT_ID",
       "envName": "VITE_ADSENSE_CLIENT_ID",
+      "valueSource": "missing",
       "configured": false,
       "command": "gh variable set VITE_ADSENSE_CLIENT_ID --body \"$VITE_ADSENSE_CLIENT_ID\""
     },
@@ -553,6 +570,7 @@
       "kind": "github-variable",
       "repositoryVariable": "VITE_ADSENSE_REWARDED_SLOT_ID",
       "envName": "VITE_ADSENSE_REWARDED_SLOT_ID",
+      "valueSource": "missing",
       "configured": false,
       "command": "gh variable set VITE_ADSENSE_REWARDED_SLOT_ID --body \"$VITE_ADSENSE_REWARDED_SLOT_ID\""
     },
@@ -561,6 +579,7 @@
       "kind": "github-variable",
       "repositoryVariable": "ADMOB_PUBLISHER_ID",
       "envName": "ADMOB_PUBLISHER_ID",
+      "valueSource": "missing",
       "configured": false,
       "command": "gh variable set ADMOB_PUBLISHER_ID --body \"$ADMOB_PUBLISHER_ID\""
     },
@@ -569,6 +588,7 @@
       "kind": "github-variable",
       "repositoryVariable": "AD_NETWORK_PROVIDER",
       "envName": "AD_NETWORK_PROVIDER",
+      "valueSource": "missing",
       "configured": false,
       "command": "gh variable set AD_NETWORK_PROVIDER --body \"$AD_NETWORK_PROVIDER\""
     },
@@ -577,6 +597,7 @@
       "kind": "github-variable",
       "repositoryVariable": "AGL_ANDROID_PACKAGE_NAME",
       "envName": "AGL_ANDROID_PACKAGE_NAME",
+      "valueSource": "environment",
       "configured": true,
       "command": "gh variable set AGL_ANDROID_PACKAGE_NAME --body \"$AGL_ANDROID_PACKAGE_NAME\""
     },
@@ -585,6 +606,7 @@
       "kind": "github-variable",
       "repositoryVariable": "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
       "envName": "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
+      "valueSource": "environment",
       "configured": true,
       "command": "gh variable set AGL_ANDROID_SHA256_CERT_FINGERPRINT --body \"$AGL_ANDROID_SHA256_CERT_FINGERPRINT\""
     },
@@ -593,6 +615,7 @@
       "kind": "github-variable",
       "repositoryVariable": "AGL_GOOGLE_PLAY_ACCOUNT_CONNECTED",
       "envName": "AGL_GOOGLE_PLAY_ACCOUNT_CONNECTED",
+      "valueSource": "missing",
       "configured": false,
       "command": "gh variable set AGL_GOOGLE_PLAY_ACCOUNT_CONNECTED --body \"$AGL_GOOGLE_PLAY_ACCOUNT_CONNECTED\""
     },
@@ -601,6 +624,7 @@
       "kind": "github-variable",
       "repositoryVariable": "AGL_APPLE_DEVELOPER_ACCOUNT_CONNECTED",
       "envName": "AGL_APPLE_DEVELOPER_ACCOUNT_CONNECTED",
+      "valueSource": "missing",
       "configured": false,
       "command": "gh variable set AGL_APPLE_DEVELOPER_ACCOUNT_CONNECTED --body \"$AGL_APPLE_DEVELOPER_ACCOUNT_CONNECTED\""
     },
@@ -609,6 +633,7 @@
       "kind": "github-variable",
       "repositoryVariable": "AGL_AUTONOMOUS_SELF_UPDATE",
       "envName": "AGL_AUTONOMOUS_SELF_UPDATE",
+      "valueSource": "missing",
       "configured": false,
       "command": "gh variable set AGL_AUTONOMOUS_SELF_UPDATE --body \"$AGL_AUTONOMOUS_SELF_UPDATE\""
     },
@@ -617,6 +642,7 @@
       "kind": "github-variable",
       "repositoryVariable": "AGL_AUTONOMOUS_SELF_UPDATE_DIRECT",
       "envName": "AGL_AUTONOMOUS_SELF_UPDATE_DIRECT",
+      "valueSource": "missing",
       "configured": false,
       "command": "gh variable set AGL_AUTONOMOUS_SELF_UPDATE_DIRECT --body \"$AGL_AUTONOMOUS_SELF_UPDATE_DIRECT\""
     }
@@ -693,6 +719,7 @@
       "kind": "github-variable",
       "repositoryVariable": "VITE_BASE_PATH",
       "envName": "VITE_BASE_PATH",
+      "valueSource": "production-environment",
       "configured": true,
       "command": "gh variable set VITE_BASE_PATH --body \"$VITE_BASE_PATH\""
     },
@@ -701,6 +728,7 @@
       "kind": "github-variable",
       "repositoryVariable": "AGL_PUBLIC_ORIGIN",
       "envName": "AGL_PUBLIC_ORIGIN",
+      "valueSource": "missing",
       "configured": false,
       "command": "gh variable set AGL_PUBLIC_ORIGIN --body \"$AGL_PUBLIC_ORIGIN\""
     },
@@ -709,6 +737,7 @@
       "kind": "github-variable",
       "repositoryVariable": "VITE_PUBLIC_ORIGIN",
       "envName": "AGL_PUBLIC_ORIGIN",
+      "valueSource": "missing",
       "configured": false,
       "command": "gh variable set VITE_PUBLIC_ORIGIN --body \"$AGL_PUBLIC_ORIGIN\""
     },
@@ -717,6 +746,7 @@
       "kind": "github-variable",
       "repositoryVariable": "PUBLIC_SITE_URL",
       "envName": "AGL_PUBLIC_ORIGIN",
+      "valueSource": "missing",
       "configured": false,
       "command": "gh variable set PUBLIC_SITE_URL --body \"$AGL_PUBLIC_ORIGIN\""
     },
@@ -725,6 +755,7 @@
       "kind": "github-variable",
       "repositoryVariable": "AGL_SUPPORT_EMAIL",
       "envName": "AGL_SUPPORT_EMAIL",
+      "valueSource": "missing",
       "configured": false,
       "command": "gh variable set AGL_SUPPORT_EMAIL --body \"$AGL_SUPPORT_EMAIL\""
     },
@@ -733,6 +764,7 @@
       "kind": "github-variable",
       "repositoryVariable": "VITE_POSTHOG_KEY",
       "envName": "VITE_POSTHOG_KEY",
+      "valueSource": "missing",
       "configured": false,
       "command": "gh variable set VITE_POSTHOG_KEY --body \"$VITE_POSTHOG_KEY\""
     },
@@ -741,6 +773,7 @@
       "kind": "github-variable",
       "repositoryVariable": "VITE_POSTHOG_HOST",
       "envName": "VITE_POSTHOG_HOST",
+      "valueSource": "missing",
       "configured": false,
       "command": "gh variable set VITE_POSTHOG_HOST --body \"$VITE_POSTHOG_HOST\""
     },
@@ -749,6 +782,7 @@
       "kind": "github-variable",
       "repositoryVariable": "POSTHOG_PROJECT_ID",
       "envName": "POSTHOG_PROJECT_ID",
+      "valueSource": "missing",
       "configured": false,
       "command": "gh variable set POSTHOG_PROJECT_ID --body \"$POSTHOG_PROJECT_ID\""
     },
@@ -757,6 +791,7 @@
       "kind": "github-variable",
       "repositoryVariable": "POSTHOG_HOST",
       "envName": "POSTHOG_HOST",
+      "valueSource": "missing",
       "configured": false,
       "command": "gh variable set POSTHOG_HOST --body \"$POSTHOG_HOST\""
     },
@@ -765,6 +800,7 @@
       "kind": "github-variable",
       "repositoryVariable": "CLOUDFLARE_ACCOUNT_ID",
       "envName": "CLOUDFLARE_ACCOUNT_ID",
+      "valueSource": "missing",
       "configured": false,
       "command": "gh variable set CLOUDFLARE_ACCOUNT_ID --body \"$CLOUDFLARE_ACCOUNT_ID\""
     },
@@ -773,6 +809,7 @@
       "kind": "github-variable",
       "repositoryVariable": "VITE_EVENT_COLLECTOR_URL",
       "envName": "VITE_EVENT_COLLECTOR_URL",
+      "valueSource": "missing",
       "configured": false,
       "command": "gh variable set VITE_EVENT_COLLECTOR_URL --body \"$VITE_EVENT_COLLECTOR_URL\""
     },
@@ -781,6 +818,7 @@
       "kind": "github-variable",
       "repositoryVariable": "AGL_EVENT_COLLECTOR_EXPORT_URL",
       "envName": "AGL_EVENT_COLLECTOR_EXPORT_URL",
+      "valueSource": "missing",
       "configured": false,
       "command": "gh variable set AGL_EVENT_COLLECTOR_EXPORT_URL --body \"$AGL_EVENT_COLLECTOR_EXPORT_URL\""
     },
@@ -789,6 +827,7 @@
       "kind": "github-variable",
       "repositoryVariable": "AGL_EVENT_COLLECTOR_R2_BUCKET",
       "envName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
+      "valueSource": "missing",
       "configured": false,
       "command": "gh variable set AGL_EVENT_COLLECTOR_R2_BUCKET --body \"$AGL_EVENT_COLLECTOR_R2_BUCKET\""
     },
@@ -797,6 +836,7 @@
       "kind": "github-variable",
       "repositoryVariable": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
       "envName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
+      "valueSource": "missing",
       "configured": false,
       "command": "gh variable set AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS --body \"$AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS\""
     },
@@ -805,6 +845,7 @@
       "kind": "github-variable",
       "repositoryVariable": "VITE_ADSENSE_CLIENT_ID",
       "envName": "VITE_ADSENSE_CLIENT_ID",
+      "valueSource": "missing",
       "configured": false,
       "command": "gh variable set VITE_ADSENSE_CLIENT_ID --body \"$VITE_ADSENSE_CLIENT_ID\""
     },
@@ -813,6 +854,7 @@
       "kind": "github-variable",
       "repositoryVariable": "VITE_ADSENSE_REWARDED_SLOT_ID",
       "envName": "VITE_ADSENSE_REWARDED_SLOT_ID",
+      "valueSource": "missing",
       "configured": false,
       "command": "gh variable set VITE_ADSENSE_REWARDED_SLOT_ID --body \"$VITE_ADSENSE_REWARDED_SLOT_ID\""
     },
@@ -821,6 +863,7 @@
       "kind": "github-variable",
       "repositoryVariable": "ADMOB_PUBLISHER_ID",
       "envName": "ADMOB_PUBLISHER_ID",
+      "valueSource": "missing",
       "configured": false,
       "command": "gh variable set ADMOB_PUBLISHER_ID --body \"$ADMOB_PUBLISHER_ID\""
     },
@@ -829,6 +872,7 @@
       "kind": "github-variable",
       "repositoryVariable": "AD_NETWORK_PROVIDER",
       "envName": "AD_NETWORK_PROVIDER",
+      "valueSource": "missing",
       "configured": false,
       "command": "gh variable set AD_NETWORK_PROVIDER --body \"$AD_NETWORK_PROVIDER\""
     },
@@ -837,6 +881,7 @@
       "kind": "github-variable",
       "repositoryVariable": "AGL_ANDROID_PACKAGE_NAME",
       "envName": "AGL_ANDROID_PACKAGE_NAME",
+      "valueSource": "environment",
       "configured": true,
       "command": "gh variable set AGL_ANDROID_PACKAGE_NAME --body \"$AGL_ANDROID_PACKAGE_NAME\""
     },
@@ -845,6 +890,7 @@
       "kind": "github-variable",
       "repositoryVariable": "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
       "envName": "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
+      "valueSource": "environment",
       "configured": true,
       "command": "gh variable set AGL_ANDROID_SHA256_CERT_FINGERPRINT --body \"$AGL_ANDROID_SHA256_CERT_FINGERPRINT\""
     },
@@ -853,6 +899,7 @@
       "kind": "github-variable",
       "repositoryVariable": "AGL_GOOGLE_PLAY_ACCOUNT_CONNECTED",
       "envName": "AGL_GOOGLE_PLAY_ACCOUNT_CONNECTED",
+      "valueSource": "missing",
       "configured": false,
       "command": "gh variable set AGL_GOOGLE_PLAY_ACCOUNT_CONNECTED --body \"$AGL_GOOGLE_PLAY_ACCOUNT_CONNECTED\""
     },
@@ -861,6 +908,7 @@
       "kind": "github-variable",
       "repositoryVariable": "AGL_APPLE_DEVELOPER_ACCOUNT_CONNECTED",
       "envName": "AGL_APPLE_DEVELOPER_ACCOUNT_CONNECTED",
+      "valueSource": "missing",
       "configured": false,
       "command": "gh variable set AGL_APPLE_DEVELOPER_ACCOUNT_CONNECTED --body \"$AGL_APPLE_DEVELOPER_ACCOUNT_CONNECTED\""
     },
@@ -869,6 +917,7 @@
       "kind": "github-variable",
       "repositoryVariable": "AGL_AUTONOMOUS_SELF_UPDATE",
       "envName": "AGL_AUTONOMOUS_SELF_UPDATE",
+      "valueSource": "missing",
       "configured": false,
       "command": "gh variable set AGL_AUTONOMOUS_SELF_UPDATE --body \"$AGL_AUTONOMOUS_SELF_UPDATE\""
     },
@@ -877,6 +926,7 @@
       "kind": "github-variable",
       "repositoryVariable": "AGL_AUTONOMOUS_SELF_UPDATE_DIRECT",
       "envName": "AGL_AUTONOMOUS_SELF_UPDATE_DIRECT",
+      "valueSource": "missing",
       "configured": false,
       "command": "gh variable set AGL_AUTONOMOUS_SELF_UPDATE_DIRECT --body \"$AGL_AUTONOMOUS_SELF_UPDATE_DIRECT\""
     }
@@ -998,6 +1048,7 @@
     "usesCurrentShellEnvironment": true,
     "infersRepositoryFromOriginRemote": true,
     "infersRepositoryFromOwnerHint": true,
+    "infersGithubPagesOrigin": true,
     "supportsSshUrlRemotes": true,
     "supportsDottedRepositoryNames": true,
     "configuresPagesSource": true,
@@ -1022,6 +1073,10 @@
     {
       "source": "repository-readiness",
       "blocker": "Authenticate GitHub CLI or configure GH_TOKEN/GITHUB_TOKEN for workflow dispatch and repository settings sync."
+    },
+    {
+      "source": "repository-bootstrap",
+      "blocker": "Commit current generated changes before pushing to GitHub Pages."
     },
     {
       "source": "repository-bootstrap",
