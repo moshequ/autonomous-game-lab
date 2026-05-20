@@ -17,7 +17,17 @@ const exists = async (filePath) =>
 const readOptionalText = async (filePath) =>
   exists(filePath).then((found) => (found ? readFile(filePath, 'utf8') : ''))
 const sum = (items, field) => items.reduce((total, item) => total + item[field], 0)
-const normalizeAssetPath = (assetPath) => assetPath.replace(/^\//, '')
+const configuredBasePath = process.env.VITE_BASE_PATH ?? '/'
+const normalizedBasePath = configuredBasePath.replace(/^\//, '').replace(/\/?$/, '/')
+const normalizeAssetPath = (assetPath) => {
+  const normalizedAssetPath = assetPath.replace(/^\//, '')
+
+  if (normalizedBasePath !== '/' && normalizedAssetPath.startsWith(normalizedBasePath)) {
+    return normalizedAssetPath.slice(normalizedBasePath.length)
+  }
+
+  return normalizedAssetPath
+}
 
 const indexHtmlPath = path.join(distDir, 'index.html')
 const swPath = path.join(distDir, 'sw.js')
@@ -151,6 +161,7 @@ const payload = {
   generatedAt: new Date().toISOString(),
   status: blockingChecks.length ? 'blocked-performance-budget' : 'performance-budget-ready',
   sourceBuild: 'dist',
+  basePath: configuredBasePath,
   budgets,
   initial: {
     entryScripts: [...entryScriptFiles],
