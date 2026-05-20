@@ -329,6 +329,7 @@ const repositoryReadinessSource = await readFile(path.join(root, 'scripts', 'rep
 const repositoryBootstrapSource = await readFile(path.join(root, 'scripts', 'repository-bootstrap.mjs'), 'utf8')
 const portfolioPolicySource = await readFile(path.join(root, 'scripts', 'portfolio-policy.mjs'), 'utf8')
 const retentionLoopSource = await readFile(path.join(root, 'scripts', 'retention-loop.mjs'), 'utf8')
+const pwaInstallLoopSource = await readFile(path.join(root, 'scripts', 'pwa-install-loop.mjs'), 'utf8')
 const trafficSeedingSource = await readFile(path.join(root, 'scripts', 'traffic-seeding.mjs'), 'utf8')
 const productGateSamplePlanSource = await readFile(
   path.join(root, 'scripts', 'product-gate-sample-planner.mjs'),
@@ -1027,6 +1028,29 @@ if (
   pwaInstallLoop.measurementPolicy?.cooldownEvent !== 'pwa_install_prompt_cooldown' ||
   pwaInstallLoop.measurementPolicy?.cooldownStorageKey !== 'agl.pwa.installDismissedAt' ||
   pwaInstallLoop.measurementPolicy?.cooldownDays !== 14 ||
+  pwaInstallLoop.samplePolicy?.channelId !== 'pwa-install' ||
+  pwaInstallLoop.samplePolicy?.campaignId !== pwaInstallLoop.publicInstallPage?.campaignId ||
+  pwaInstallLoop.samplePolicy?.playPath !== pwaInstallLoop.publicInstallPage?.playPath ||
+  pwaInstallLoop.samplePolicy?.publicInstallPath !== pwaInstallLoop.publicInstallPage?.path ||
+  pwaInstallLoop.samplePolicy?.current?.promptViews !== pwaInstallLoop.metrics?.promptViews ||
+  pwaInstallLoop.samplePolicy?.current?.installed !== pwaInstallLoop.metrics?.installed ||
+  pwaInstallLoop.samplePolicy?.current?.launchModes !== pwaInstallLoop.metrics?.launchModes ||
+  pwaInstallLoop.samplePolicy?.needed?.minimumPromptViewsForDecision !== 20 ||
+  pwaInstallLoop.samplePolicy?.needed?.minimumLaunchModesForDecision !== 10 ||
+  pwaInstallLoop.samplePolicy?.needed?.promptViews !==
+    Math.max(0, 20 - (analytics.totals.counts.pwa_install_prompt_viewed ?? 0)) ||
+  pwaInstallLoop.samplePolicy?.needed?.launchModes !==
+    Math.max(0, 10 - (analytics.totals.counts.pwa_launch_mode_detected ?? 0)) ||
+  pwaInstallLoop.samplePolicy?.telemetry?.view !== 'pwa_install_prompt_viewed' ||
+  pwaInstallLoop.samplePolicy?.telemetry?.launch !== 'pwa_launch_mode_detected' ||
+  pwaInstallLoop.samplePolicy?.hostPolicy?.stableHttpsRequired !== true ||
+  pwaInstallLoop.samplePolicy?.controls?.zeroPaidSpend !== true ||
+  pwaInstallLoop.samplePolicy?.controls?.playerInitiatedOnly !== true ||
+  pwaInstallLoop.samplePolicy?.controls?.browserPromptControlled !== true ||
+  pwaInstallLoop.samplePolicy?.controls?.noSyntheticInstalls !== true ||
+  pwaInstallLoop.samplePolicy?.controls?.noInstallWall !== true ||
+  pwaInstallLoop.samplePolicy?.controls?.noNotificationPermissionPrompt !== true ||
+  pwaInstallLoop.samplePolicy?.controls?.noStoreSubmission !== true ||
   pwaInstallLoop.localState?.dismissalKey !== 'agl.pwa.installDismissedAt' ||
   pwaInstallLoop.localState?.installedKey !== 'agl.pwa.installedAt' ||
   pwaInstallLoop.localState?.launchModeKey !== 'agl.pwa.launchMode' ||
@@ -1044,12 +1068,17 @@ if (
   !installHtml.includes('data-channel-id="pwa-install"') ||
   !installHtml.includes(pwaInstallLoop.publicInstallPage?.campaignId ?? 'missing') ||
   !installHtml.includes('utm_source=pwa_install') ||
+  !installHtml.includes('Sample target') ||
   !appSource.includes('beforeinstallprompt') ||
   !appSource.includes('appinstalled') ||
   !appSource.includes('pwaInstallCooldownActive') ||
-  !appSource.includes('PWA Install Loop')
+  !appSource.includes('PWA Install Loop') ||
+  !appSource.includes('Install sample') ||
+  !pwaInstallLoopSource.includes('minimumPromptViewsForDecision') ||
+  !pwaInstallLoopSource.includes('installSampleNextAction') ||
+  !pwaInstallLoopSource.includes('noSyntheticInstalls')
 ) {
-  fail('PWA install loop must instrument browser-controlled install prompts, standalone launches, and no-pressure install guardrails.')
+  fail('PWA install loop must instrument browser-controlled install prompts, standalone launches, concrete sample targets, and no-pressure install guardrails.')
 }
 
 const indexEntryScriptFiles = [
@@ -3223,6 +3252,10 @@ if (
   readiness.pwaInstall?.status !== 'ready-browser-controlled' ||
   readiness.pwaInstall?.channel?.id !== pwaInstallLoop.channel?.id ||
   readiness.pwaInstall?.promptPolicy?.nativePromptRequired !== true ||
+  readiness.pwaInstall?.samplePolicy?.channelId !== 'pwa-install' ||
+  readiness.pwaInstall?.samplePolicy?.needed?.promptViews !== pwaInstallLoop.samplePolicy?.needed?.promptViews ||
+  readiness.pwaInstall?.samplePolicy?.controls?.noSyntheticInstalls !== true ||
+  readiness.pwaInstall?.samplePolicy?.hostPolicy?.stableHttpsRequired !== true ||
   readiness.pwaInstall?.publicInstallPage?.path !== '/install.html' ||
   readiness.pwaInstall?.publicInstallPage?.browserPromptControlled !== true ||
   readiness.pwaInstall?.guardrails?.noForcedPrompt !== true ||

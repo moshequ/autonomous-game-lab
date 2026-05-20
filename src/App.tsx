@@ -1675,6 +1675,17 @@ function App() {
                 <strong>{pwaDisplayMode}</strong>
               </div>
               <div>
+                <span>Install sample</span>
+                <strong>{pwaInstallLoop.samplePolicy.status}</strong>
+              </div>
+              <div>
+                <span>Sample target</span>
+                <strong>
+                  {pwaInstallLoop.samplePolicy.needed.promptViews} prompts /{' '}
+                  {pwaInstallLoop.samplePolicy.needed.launchModes} launches
+                </strong>
+              </div>
+              <div>
                 <span>Installs</span>
                 <strong>{pwaInstallLoop.metrics.installed}</strong>
               </div>

@@ -54,6 +54,8 @@ const installRate = promptViews ? installed / promptViews : 0
 const acceptanceRate = promptClicks ? accepted / promptClicks : 0
 const dismissalRate = promptClicks ? dismissed / promptClicks : 0
 const promptSurfaceRate = promptAvailable ? promptViews / promptAvailable : 0
+const minimumPromptViewsForDecision = 20
+const minimumLaunchModesForDecision = 10
 const canMeasureInstall =
   analytics.sourceStatus?.activeSource !== 'missing' &&
   retention.status === 'retention-loop-ready' &&
@@ -65,6 +67,16 @@ const installPlayPath = `/?${new URLSearchParams({
   utm_source: 'pwa_install',
   utm_campaign: installCampaignId,
 }).toString()}`
+const hostedOriginConfigured = environment.publicOrigin?.status === 'configured'
+const promptViewsNeeded = Math.max(0, minimumPromptViewsForDecision - promptViews)
+const launchModesNeeded = Math.max(0, minimumLaunchModesForDecision - launchModes)
+const installSampleReady = promptViewsNeeded === 0 && launchModesNeeded === 0
+const installSampleStatus = installSampleReady ? 'ready-for-distribution-decision' : 'collecting-sample'
+const installSampleNextAction = !hostedOriginConfigured
+  ? 'Publish to a stable HTTPS host before treating PWA install evidence as production-ready.'
+  : installSampleReady
+    ? 'Review PWA install acceptance and standalone launch evidence before app-store packaging.'
+    : `Route zero-spend install traffic through ${installPlayPath} until ${promptViewsNeeded} prompt view(s) and ${launchModesNeeded} launch-mode event(s) are collected.`
 
 const payload = {
   generatedAt: new Date().toISOString(),
@@ -120,7 +132,7 @@ const payload = {
     playerInitiatedOnly: true,
     browserPromptControlled: true,
     nativePromptRequired: true,
-    hostedOriginRequired: environment.publicOrigin?.status !== 'configured',
+    hostedOriginRequired: !hostedOriginConfigured,
   },
   localState: {
     dismissalKey: 'agl.pwa.installDismissedAt',
@@ -147,6 +159,62 @@ const payload = {
     cooldownDays: 14,
     reason: 'Separate browser install eligibility from user-visible prompting so the loop can optimize distribution without nagging players.',
   },
+  samplePolicy: {
+    channelId: 'pwa-install',
+    status: installSampleStatus,
+    campaignId: installCampaignId,
+    playPath: installPlayPath,
+    publicInstallPath: '/install.html',
+    source: analytics.sourceStatus?.activeSource ?? 'unknown',
+    current: {
+      promptAvailable,
+      promptViews,
+      promptClicks,
+      accepted,
+      dismissed,
+      cooldownSuppressions,
+      installed,
+      launchModes,
+      promptSurfaceRate: roundMetric(promptSurfaceRate),
+      installRate: roundMetric(installRate),
+      acceptanceRate: roundMetric(acceptanceRate),
+    },
+    needed: {
+      promptViews: promptViewsNeeded,
+      launchModes: launchModesNeeded,
+      minimumPromptViewsForDecision,
+      minimumLaunchModesForDecision,
+    },
+    telemetry: {
+      availability: 'pwa_install_prompt_available',
+      view: 'pwa_install_prompt_viewed',
+      click: 'pwa_install_prompt_clicked',
+      accepted: 'pwa_install_prompt_accepted',
+      dismissed: 'pwa_install_prompt_dismissed',
+      cooldown: 'pwa_install_prompt_cooldown',
+      installed: 'pwa_installed',
+      launch: 'pwa_launch_mode_detected',
+    },
+    hostPolicy: {
+      publicOriginStatus: environment.publicOrigin?.status ?? 'missing',
+      stableHttpsRequired: true,
+      hostedOriginRequired: !hostedOriginConfigured,
+      productionInstallClaimsAllowed: hostedOriginConfigured && installSampleReady,
+    },
+    controls: {
+      zeroPaidSpend: true,
+      playerInitiatedOnly: true,
+      browserPromptControlled: true,
+      nativePromptRequired: true,
+      noSyntheticInstalls: true,
+      noInstallWall: true,
+      noPaidInstallReward: true,
+      noNotificationPermissionPrompt: true,
+      noRevenueEnablement: true,
+      noStoreSubmission: true,
+    },
+    nextAction: installSampleNextAction,
+  },
   guardrails: {
     noForcedPrompt: true,
     noBlockingGameplay: true,
@@ -156,6 +224,7 @@ const payload = {
     noPaidInstallReward: true,
   },
   nextActions: [
+    installSampleNextAction,
     promptAvailable && !promptViews
       ? `Native prompt was available ${promptAvailable} time(s), but cooldown or install state prevented user-facing CTA exposure.`
       : promptViews
@@ -189,6 +258,16 @@ const report = [
   `- Priority game: ${payload.promptPolicy.priorityGameId ?? 'none'}`,
   `- Public install page: ${payload.publicInstallPage.path}`,
   `- Campaign: ${payload.publicInstallPage.campaignId}`,
+  '',
+  '## Install Sample Policy',
+  '',
+  `- Status: ${payload.samplePolicy.status}`,
+  `- Campaign: ${payload.samplePolicy.campaignId}`,
+  `- Play path: ${payload.samplePolicy.playPath}`,
+  `- Prompt views needed: ${payload.samplePolicy.needed.promptViews}`,
+  `- Launch-mode events needed: ${payload.samplePolicy.needed.launchModes}`,
+  `- Hosted origin required: ${payload.samplePolicy.hostPolicy.hostedOriginRequired}`,
+  `- Next action: ${payload.samplePolicy.nextAction}`,
   '',
   '## Guardrails',
   '',
@@ -323,6 +402,7 @@ const installPage = `<!doctype html>
       <section class="panel" aria-label="Install measurement">
         <div class="metric"><span>Campaign</span><strong>${escapeHtml(payload.publicInstallPage.campaignId)}</strong></div>
         <div class="metric"><span>Browser prompt</span><strong>controlled</strong></div>
+        <div class="metric"><span>Sample target</span><strong>${payload.samplePolicy.needed.promptViews} prompts / ${payload.samplePolicy.needed.launchModes} launches</strong></div>
         <div class="metric"><span>Cost</span><strong>$0.00</strong></div>
       </section>
       <a class="play" href="${escapeHtml(runtimeHref(payload.publicInstallPage.playPath))}">Open app</a>

@@ -1,5 +1,5 @@
 export const pwaInstallLoop = {
-  "generatedAt": "2026-05-20T03:30:11.388Z",
+  "generatedAt": "2026-05-20T04:51:48.060Z",
   "status": "pwa-install-loop-ready",
   "sourceStatus": {
     "analyticsSource": "fixture-sample",
@@ -81,6 +81,62 @@ export const pwaInstallLoop = {
     "cooldownDays": 14,
     "reason": "Separate browser install eligibility from user-visible prompting so the loop can optimize distribution without nagging players."
   },
+  "samplePolicy": {
+    "channelId": "pwa-install",
+    "status": "collecting-sample",
+    "campaignId": "pwa-install-canopy-bloom",
+    "playPath": "/?game=canopy-bloom&utm_source=pwa_install&utm_campaign=pwa-install-canopy-bloom",
+    "publicInstallPath": "/install.html",
+    "source": "fixture-sample",
+    "current": {
+      "promptAvailable": 0,
+      "promptViews": 0,
+      "promptClicks": 0,
+      "accepted": 0,
+      "dismissed": 0,
+      "cooldownSuppressions": 0,
+      "installed": 0,
+      "launchModes": 0,
+      "promptSurfaceRate": 0,
+      "installRate": 0,
+      "acceptanceRate": 0
+    },
+    "needed": {
+      "promptViews": 20,
+      "launchModes": 10,
+      "minimumPromptViewsForDecision": 20,
+      "minimumLaunchModesForDecision": 10
+    },
+    "telemetry": {
+      "availability": "pwa_install_prompt_available",
+      "view": "pwa_install_prompt_viewed",
+      "click": "pwa_install_prompt_clicked",
+      "accepted": "pwa_install_prompt_accepted",
+      "dismissed": "pwa_install_prompt_dismissed",
+      "cooldown": "pwa_install_prompt_cooldown",
+      "installed": "pwa_installed",
+      "launch": "pwa_launch_mode_detected"
+    },
+    "hostPolicy": {
+      "publicOriginStatus": "missing",
+      "stableHttpsRequired": true,
+      "hostedOriginRequired": true,
+      "productionInstallClaimsAllowed": false
+    },
+    "controls": {
+      "zeroPaidSpend": true,
+      "playerInitiatedOnly": true,
+      "browserPromptControlled": true,
+      "nativePromptRequired": true,
+      "noSyntheticInstalls": true,
+      "noInstallWall": true,
+      "noPaidInstallReward": true,
+      "noNotificationPermissionPrompt": true,
+      "noRevenueEnablement": true,
+      "noStoreSubmission": true
+    },
+    "nextAction": "Publish to a stable HTTPS host before treating PWA install evidence as production-ready."
+  },
   "guardrails": {
     "noForcedPrompt": true,
     "noBlockingGameplay": true,
@@ -90,6 +146,7 @@ export const pwaInstallLoop = {
     "noPaidInstallReward": true
   },
   "nextActions": [
+    "Publish to a stable HTTPS host before treating PWA install evidence as production-ready.",
     "Start measuring native install prompt availability and standalone launches.",
     "Route install traffic through /?game=canopy-bloom&utm_source=pwa_install&utm_campaign=pwa-install-canopy-bloom so prompt events carry pwa-install attribution.",
     "Publish to a stable HTTPS host before using PWA install data for store-readiness claims.",

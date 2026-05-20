@@ -1,6 +1,6 @@
 # PWA Install Loop
 
-Generated: 2026-05-20T03:30:11.388Z
+Generated: 2026-05-20T04:51:48.060Z
 Status: pwa-install-loop-ready
 Channel: pwa-install (ready-after-hosting)
 Prompt available: 0
@@ -17,6 +17,16 @@ Acceptance: 0%
 - Priority game: canopy-bloom
 - Public install page: /install.html
 - Campaign: pwa-install-canopy-bloom
+
+## Install Sample Policy
+
+- Status: collecting-sample
+- Campaign: pwa-install-canopy-bloom
+- Play path: /?game=canopy-bloom&utm_source=pwa_install&utm_campaign=pwa-install-canopy-bloom
+- Prompt views needed: 20
+- Launch-mode events needed: 10
+- Hosted origin required: true
+- Next action: Publish to a stable HTTPS host before treating PWA install evidence as production-ready.
 
 ## Guardrails
 
@@ -36,6 +46,7 @@ Acceptance: 0%
 
 ## Next Actions
 
+- Publish to a stable HTTPS host before treating PWA install evidence as production-ready.
 - Start measuring native install prompt availability and standalone launches.
 - Route install traffic through /?game=canopy-bloom&utm_source=pwa_install&utm_campaign=pwa-install-canopy-bloom so prompt events carry pwa-install attribution.
 - Publish to a stable HTTPS host before using PWA install data for store-readiness claims.

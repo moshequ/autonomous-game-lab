@@ -391,6 +391,8 @@ const systems = [
     status: systemStatus(
       pwaInstall.status === 'pwa-install-loop-ready' &&
         pwaInstall.channel?.costUsd === 0 &&
+        pwaInstall.samplePolicy?.controls?.zeroPaidSpend === true &&
+        pwaInstall.samplePolicy?.controls?.noSyntheticInstalls === true &&
         pwaInstall.guardrails?.noForcedPrompt === true &&
         pwaInstall.guardrails?.noBlockingGameplay === true &&
         pwaInstall.guardrails?.respectBrowserPromptAvailability === true,
@@ -398,7 +400,9 @@ const systems = [
     autonomy: 'automatic-browser-controlled',
     evidence: `Prompt ${pwaInstall.promptPolicy?.surface ?? 'missing'}; installs ${
       pwaInstall.metrics?.installed ?? 0
-    }; launch events ${pwaInstall.metrics?.launchModes ?? 0}.`,
+    }; launch events ${pwaInstall.metrics?.launchModes ?? 0}; sample ${pwaInstall.samplePolicy?.status ?? 'missing'} needs ${
+      pwaInstall.samplePolicy?.needed?.promptViews ?? 'n/a'
+    } prompt(s) and ${pwaInstall.samplePolicy?.needed?.launchModes ?? 'n/a'} launch event(s).`,
     nextAction: pwaInstall.nextActions?.[0] ?? 'Keep measuring PWA installs and standalone launches.',
   },
   {

@@ -207,9 +207,25 @@ test('organic seed loop records player-initiated seed and share telemetry', asyn
 })
 
 test('PWA install loop records browser prompt telemetry', async ({ page }) => {
+  const installLoop = JSON.parse(await readFile('data/pwa-install-loop.json', 'utf8')) as {
+    samplePolicy: {
+      status: string
+      needed: { promptViews: number; launchModes: number }
+      controls: { zeroPaidSpend: boolean; noSyntheticInstalls: boolean; noStoreSubmission: boolean }
+    }
+  }
+
   await page.goto('/')
 
-  await expect(page.getByLabel('PWA Install Loop')).toContainText('pwa-install-loop-ready')
+  const panel = page.getByLabel('PWA Install Loop')
+  await expect(panel).toContainText('pwa-install-loop-ready')
+  await expect(panel).toContainText(installLoop.samplePolicy.status)
+  await expect(panel).toContainText(
+    `${installLoop.samplePolicy.needed.promptViews} prompts / ${installLoop.samplePolicy.needed.launchModes} launches`,
+  )
+  expect(installLoop.samplePolicy.controls.zeroPaidSpend).toBe(true)
+  expect(installLoop.samplePolicy.controls.noSyntheticInstalls).toBe(true)
+  expect(installLoop.samplePolicy.controls.noStoreSubmission).toBe(true)
   await page.evaluate(() => {
     const event = new Event('beforeinstallprompt') as Event & {
       prompt: () => Promise<void>
@@ -305,12 +321,22 @@ test('generated PWA install page routes attributed install traffic into the app'
       playerInitiatedOnly: boolean
       browserPromptControlled: boolean
     }
+    samplePolicy: {
+      needed: { promptViews: number; launchModes: number }
+      controls: { zeroPaidSpend: boolean; noSyntheticInstalls: boolean }
+    }
   }
 
   await page.goto(installLoop.publicInstallPage.path)
 
   await expect(page.getByRole('heading', { name: 'Autonomous Game Lab Install' })).toBeVisible()
   await expect(page.getByText('$0.00')).toBeVisible()
+  await expect(page.getByText('Sample target')).toBeVisible()
+  await expect(
+    page.getByText(
+      `${installLoop.samplePolicy.needed.promptViews} prompts / ${installLoop.samplePolicy.needed.launchModes} launches`,
+    ),
+  ).toBeVisible()
   await expect(page.locator('[data-channel-id="pwa-install"]')).toHaveAttribute(
     'data-campaign-id',
     installLoop.publicInstallPage.campaignId,
@@ -322,6 +348,8 @@ test('generated PWA install page routes attributed install traffic into the app'
   expect(installLoop.publicInstallPage.zeroPaidSpend).toBe(true)
   expect(installLoop.publicInstallPage.playerInitiatedOnly).toBe(true)
   expect(installLoop.publicInstallPage.browserPromptControlled).toBe(true)
+  expect(installLoop.samplePolicy.controls.zeroPaidSpend).toBe(true)
+  expect(installLoop.samplePolicy.controls.noSyntheticInstalls).toBe(true)
   expect(await page.content()).not.toContain('autonomous-game-lab.example.com')
 
   await page.goto(installLoop.publicInstallPage.playPath)

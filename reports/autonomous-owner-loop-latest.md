@@ -1,17 +1,17 @@
 # Autonomous Owner Loop
 
-Generated: 2026-05-20T04:46:25.326Z
+Generated: 2026-05-20T04:53:21.828Z
 Status: owner-loop-ready
 Mode: repository-channel-needed
 Autonomy score: 33/35 (94%)
 
 ## Owner Decision
 
-- Next action: measure-pwa-install-loop
-- Command: npm run autonomous:pwa-install
-- Rationale: Measures optional PWA install prompts and standalone launches as the zero-cost distribution path.
-- Last executed action: optimize-daily-retention
-- Recent executed actions: optimize-daily-retention, collect-live-events, refresh-autonomous-self-update, optimize-product-gates, bootstrap-production-setup, seed-portfolio-traffic, prepare-repository-channel, refresh-autonomous-cadence
+- Next action: refresh-autonomous-cadence
+- Command: npm run autonomous:cadence
+- Rationale: Keeps the unattended daily operating cadence, recovery policy, and verification chain auditable.
+- Last executed action: measure-pwa-install-loop
+- Recent executed actions: measure-pwa-install-loop, optimize-daily-retention, collect-live-events, refresh-autonomous-self-update, optimize-product-gates, bootstrap-production-setup, seed-portfolio-traffic, prepare-repository-channel
 
 ## Systems
 
@@ -25,8 +25,8 @@ Autonomy score: 33/35 (94%)
 - ready: acquisition-learning - 4 campaign(s); 0 attributed start(s); candidate canopy-bloom.
 - ready: organic-seed-loop - Target canopy-bloom; surface portal-growth-loop; share telemetry organic_seed_share_clicked.
 - ready: retention-loop - Daily canopy-bloom; D1 17%; streak variant daily-streak; return prompt armed; return intent armed.
-- ready: pwa-install-loop - Prompt autonomy-cockpit; installs 0; launch events 0.
-- ready: performance-budget - Initial JS 667.7 KB; gzip 176.3 KB; deferred chunks 1.
+- ready: pwa-install-loop - Prompt autonomy-cockpit; installs 0; launch events 0; sample collecting-sample needs 20 prompt(s) and 10 launch event(s).
+- ready: performance-budget - Initial JS 662.9 KB; gzip 176 KB; deferred chunks 1.
 - ready: product-optimization - Completion 40% / gate 55%; latest already-applied.
 - ready: product-gate-recovery - Recovery product-gate-recovery-ready; primary firstGameCompletion; experiment collecting-sample; failing gates 3; next lift 58.
 - ready: product-gate-sample-plan - Sample plan product-gate-sample-plan-ready; primary firstGameCompletion; prompt views needed 70.
@@ -38,12 +38,12 @@ Autonomy score: 33/35 (94%)
 - waiting-for-github-repository: repository-channel - Repository missing; git worktree ready; workflow dispatch blocked.
 - ready: repository-bootstrap - Bootstrap waiting-for-github-target; mode plan-only; helper ops/github/bootstrap-repository.sh; local git ready.
 - ready: web-deployment - Deployment ready-for-pages; web readiness ready-after-build; promotion promotable-internal.
-- ready: release-candidate - Candidate pwa-c1aa05d658e3; status release-candidate-ready; files 43; smoke URLs 14.
-- ready: post-deploy-smoke - Smoke blocked-missing-origin; origin missing; candidate pwa-c1aa05d658e3; checks 0/15 passed; local artifact predeploy-artifact-smoke-passed 15/15 passed.
+- ready: release-candidate - Candidate pwa-cb9fb614e017; status release-candidate-ready; files 43; smoke URLs 14.
+- ready: post-deploy-smoke - Smoke blocked-missing-origin; origin missing; candidate pwa-cb9fb614e017; checks 0/15 passed; local artifact predeploy-artifact-smoke-passed 15/15 passed.
 - ready: production-bootstrap - Bootstrap production-bootstrap-ready; mode waiting-for-external-credentials; external blockers 22.
-- ready: autonomous-operator - Operator operator-plan-ready; selected measure-pwa-install-loop; execution not-requested.
+- ready: autonomous-operator - Operator operator-plan-ready; selected refresh-autonomous-cadence; execution not-requested.
 - ready: operator-history - History operator-history-ready; records 40; executed 20.
-- ready: objective-audit - Audit objective-in-progress; met 5/8; external blockers 20.
+- ready: objective-audit - Audit objective-in-progress; met 5/8; external blockers 19.
 - ready: store-listing-optimizer - Focus canopy-bloom; lead screenshot phone-canopy-bloom-generated; candidate changed yes.
 - ready: store-compliance - Rating Everyone; target audience general; blockers 4.
 - ready: android-signing - Signing signing-prepared; fingerprint available; local secrets configured.

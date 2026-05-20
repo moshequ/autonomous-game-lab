@@ -392,6 +392,11 @@ const pwaInstallReady =
   pwaInstallLoop.publicInstallPage?.zeroPaidSpend === true &&
   pwaInstallLoop.publicInstallPage?.playerInitiatedOnly === true &&
   pwaInstallLoop.publicInstallPage?.browserPromptControlled === true &&
+  pwaInstallLoop.samplePolicy?.channelId === 'pwa-install' &&
+  pwaInstallLoop.samplePolicy?.controls?.zeroPaidSpend === true &&
+  pwaInstallLoop.samplePolicy?.controls?.noSyntheticInstalls === true &&
+  pwaInstallLoop.samplePolicy?.controls?.noStoreSubmission === true &&
+  pwaInstallLoop.samplePolicy?.hostPolicy?.stableHttpsRequired === true &&
   pwaInstallGuardrails.noForcedPrompt === true &&
   pwaInstallGuardrails.noBlockingGameplay === true &&
   pwaInstallGuardrails.respectBrowserPromptAvailability === true &&
@@ -1034,6 +1039,7 @@ const payload = {
     channel: pwaInstallLoop.channel,
     metrics: pwaInstallLoop.metrics ?? {},
     promptPolicy: pwaInstallLoop.promptPolicy ?? {},
+    samplePolicy: pwaInstallLoop.samplePolicy ?? {},
     publicInstallPage: pwaInstallLoop.publicInstallPage ?? {},
     guardrails: pwaInstallGuardrails,
   },
@@ -1285,6 +1291,7 @@ const report = [
   '',
   `Status: ${payload.pwaInstall.status}`,
   `Prompt surface: ${payload.pwaInstall.promptPolicy?.surface ?? 'missing'}`,
+  `Sample target: ${payload.pwaInstall.samplePolicy?.needed?.promptViews ?? 'n/a'} prompt view(s), ${payload.pwaInstall.samplePolicy?.needed?.launchModes ?? 'n/a'} launch-mode event(s)`,
   `Installs: ${payload.pwaInstall.metrics?.installed ?? 0}`,
   '',
   '## Performance Budget',
