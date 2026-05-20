@@ -1,6 +1,6 @@
 # Production Bootstrap
 
-Generated: 2026-05-20T16:46:22.734Z
+Generated: 2026-05-20T16:56:53.597Z
 Status: production-bootstrap-ready
 Mode: can-apply-configured-actions
 GitHub repository: moshequ/autonomous-game-lab
@@ -9,7 +9,7 @@ gh CLI available: true
 
 ## Local Env Files
 
-- ops/production.env.local: AGL_ANDROID_PACKAGE_NAME, AGL_ANDROID_SHA256_CERT_FINGERPRINT, AGL_ANDROID_KEYSTORE_BASE64, AGL_ANDROID_KEYSTORE_PASSWORD, AGL_ANDROID_KEY_ALIAS
+- none loaded
 - shell env precedence: true
 - protected mutation keys require shell env: true
 - values redacted: true
@@ -42,10 +42,10 @@ gh CLI available: true
 
 ## Repository Variables
 
-- ready: VITE_BASE_PATH from VITE_BASE_PATH (github-variable)
-- ready: AGL_PUBLIC_ORIGIN from AGL_PUBLIC_ORIGIN (github-variable)
-- ready: VITE_PUBLIC_ORIGIN from AGL_PUBLIC_ORIGIN (github-variable)
-- ready: PUBLIC_SITE_URL from AGL_PUBLIC_ORIGIN (github-variable)
+- ready: VITE_BASE_PATH from VITE_BASE_PATH (environment)
+- ready: AGL_PUBLIC_ORIGIN from AGL_PUBLIC_ORIGIN (environment)
+- ready: VITE_PUBLIC_ORIGIN from AGL_PUBLIC_ORIGIN (environment)
+- ready: PUBLIC_SITE_URL from AGL_PUBLIC_ORIGIN (environment)
 - missing: AGL_SUPPORT_EMAIL from AGL_SUPPORT_EMAIL (missing)
 - missing: VITE_POSTHOG_KEY from VITE_POSTHOG_KEY (missing)
 - missing: VITE_POSTHOG_HOST from VITE_POSTHOG_HOST (missing)
@@ -54,8 +54,8 @@ gh CLI available: true
 - missing: CLOUDFLARE_ACCOUNT_ID from CLOUDFLARE_ACCOUNT_ID (missing)
 - missing: VITE_EVENT_COLLECTOR_URL from VITE_EVENT_COLLECTOR_URL (missing)
 - missing: AGL_EVENT_COLLECTOR_EXPORT_URL from AGL_EVENT_COLLECTOR_EXPORT_URL (missing)
-- ready: AGL_EVENT_COLLECTOR_R2_BUCKET from AGL_EVENT_COLLECTOR_R2_BUCKET (github-variable)
-- ready: AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS from AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS (github-variable)
+- ready: AGL_EVENT_COLLECTOR_R2_BUCKET from AGL_EVENT_COLLECTOR_R2_BUCKET (environment)
+- ready: AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS from AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS (environment)
 - missing: VITE_ADSENSE_CLIENT_ID from VITE_ADSENSE_CLIENT_ID (missing)
 - missing: VITE_ADSENSE_REWARDED_SLOT_ID from VITE_ADSENSE_REWARDED_SLOT_ID (missing)
 - missing: ADMOB_PUBLISHER_ID from ADMOB_PUBLISHER_ID (missing)
