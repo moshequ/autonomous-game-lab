@@ -1,5 +1,5 @@
 export const localEventBridge = {
-  "generatedAt": "2026-05-20T21:52:37.853Z",
+  "generatedAt": "2026-05-20T22:23:21.331Z",
   "status": "bridge-waiting-for-export",
   "mode": "local-zero-spend-event-drop-bridge",
   "inbox": {
@@ -100,8 +100,8 @@ export const localEventBridge = {
     "evidenceReadyNow": false,
     "lastScanAt": "2026-05-20T19:03:48.635Z",
     "lastScanStatus": "no-evidence-found",
-    "scanAgeHours": 2.81,
-    "cooldownRemainingHours": 1.19,
+    "scanAgeHours": 3.33,
+    "cooldownRemainingHours": 0.67,
     "nextRecommendedScanAt": "2026-05-20T23:03:48.635Z"
   },
   "gateSampleEvidence": {

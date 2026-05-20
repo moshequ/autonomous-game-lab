@@ -1,5 +1,6 @@
 import { mkdir, readdir, readFile, writeFile } from 'node:fs/promises'
 import path from 'node:path'
+import { hashSourceData } from './lib/source-hash.mjs'
 
 const root = process.cwd()
 const dataDir = path.join(root, 'data')
@@ -55,6 +56,15 @@ const growth = await readJson(path.join(dataDir, 'growth-plan.json'))
 const unitEconomics = await readJson(path.join(dataDir, 'unit-economics.json'))
 const playable = await readJson(path.join(dataDir, 'playable-games.json'))
 const { files: localEventFiles, events } = await readLocalEvents()
+const sourceDataHash = hashSourceData({
+  analytics,
+  traffic,
+  growth,
+  unitEconomics,
+  playable,
+  localEventFiles,
+  events,
+})
 
 const playableIds = new Set(playable.games ?? [])
 const analyticsById = new Map((analytics.games ?? []).map((game) => [game.gameId, game]))
@@ -173,6 +183,7 @@ const blockedCount = campaignRows.filter((campaign) => campaign.status === 'bloc
 const payload = {
   generatedAt: new Date().toISOString(),
   status: campaignRows.length ? 'acquisition-learning-ready' : 'blocked-no-campaigns',
+  sourceDataHash,
   sourceStatus: {
     analyticsSource: analytics.sourceStatus?.activeSource ?? 'unknown',
     localEventFiles: localEventFiles.length,

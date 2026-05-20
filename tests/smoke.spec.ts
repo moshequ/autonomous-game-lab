@@ -2798,6 +2798,9 @@ test('autonomous operator history keeps a capped audit trail', async ({ page }) 
       sourceFreshness: Record<
         | 'productOptimization'
         | 'retentionLoop'
+        | 'trafficSeeding'
+        | 'acquisitionLearning'
+        | 'organicSeedLoop'
         | 'firstMoveCoach'
         | 'completionLoop'
         | 'replayLoop'
@@ -2899,9 +2902,11 @@ test('autonomous operator history keeps a capped audit trail', async ({ page }) 
   const prepareRepositoryAction = ownerLoop.safeAutonomousActions.find((action) => action.id === 'prepare-repository-channel')
   const objectiveAuditAction = ownerLoop.safeAutonomousActions.find((action) => action.id === 'refresh-objective-audit')
   const bootstrapProductionAction = ownerLoop.safeAutonomousActions.find((action) => action.id === 'bootstrap-production-setup')
+  const seedPortfolioAction = ownerLoop.safeAutonomousActions.find((action) => action.id === 'seed-portfolio-traffic')
   const sourceFreshnessActionPairs = [
     { actionId: 'optimize-product-gates', freshness: ownerLoop.executionMemory.sourceFreshness.productOptimization },
     { actionId: 'optimize-daily-retention', freshness: ownerLoop.executionMemory.sourceFreshness.retentionLoop },
+    { actionId: 'refresh-organic-seed-loop', freshness: ownerLoop.executionMemory.sourceFreshness.organicSeedLoop },
     { actionId: 'refresh-first-move-coach', freshness: ownerLoop.executionMemory.sourceFreshness.firstMoveCoach },
     { actionId: 'refresh-completion-loop', freshness: ownerLoop.executionMemory.sourceFreshness.completionLoop },
     { actionId: 'refresh-replay-loop', freshness: ownerLoop.executionMemory.sourceFreshness.replayLoop },
@@ -2956,6 +2961,19 @@ test('autonomous operator history keeps a capped audit trail', async ({ page }) 
     } else {
       expect(action?.status).toBe('armed')
     }
+  }
+  const seedPortfolioFreshnesses = [
+    ownerLoop.executionMemory.sourceFreshness.trafficSeeding,
+    ownerLoop.executionMemory.sourceFreshness.acquisitionLearning,
+    ownerLoop.executionMemory.sourceFreshness.organicSeedLoop,
+  ]
+  for (const freshness of seedPortfolioFreshnesses) {
+    expect(freshness.sourceDataHash).toMatch(/^[a-f0-9]{12}$/)
+    expect(freshness.evaluatedInputIds.length).toBeGreaterThan(0)
+  }
+  if (seedPortfolioFreshnesses.every((freshness) => freshness.current)) {
+    expect(seedPortfolioAction?.status).toBe('monitor')
+    expect(ownerLoop.ownerDecision.nextBestActionId).not.toBe('seed-portfolio-traffic')
   }
   expect(typeof ownerLoop.executionMemory.productionBootstrapFreshness.fresh).toBe('boolean')
   expect(ownerLoop.executionMemory.productionBootstrapFreshness.evaluatedInputIds).toContain('release-candidate')

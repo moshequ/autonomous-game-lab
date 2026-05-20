@@ -1,10 +1,10 @@
 # Autonomous Operator
 
-Generated: 2026-05-20T22:15:06.407Z
+Generated: 2026-05-20T22:27:35.295Z
 Status: operator-plan-ready
 Mode: plan-only
-Owner decision: seed-portfolio-traffic
-Selected action: seed-portfolio-traffic
+Owner decision: refresh-support-feedback
+Selected action: refresh-support-feedback
 Execution: not-requested
 
 ## Controls
@@ -18,15 +18,13 @@ Execution: not-requested
 
 ## Selected Action
 
-- seed-portfolio-traffic: npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop
+- refresh-support-feedback: npm run autonomous:support-feedback
 
 ## Eligible Local Actions
 
 - refresh-autonomous-cadence
-- refresh-autonomous-self-update
-- seed-portfolio-traffic
-- refresh-organic-seed-loop
 - refresh-support-feedback
+- optimize-daily-retention
 - measure-pwa-install-loop
 - check-performance-budget
 - prepare-release-candidate
@@ -39,10 +37,10 @@ Execution: not-requested
 
 - run-daily-owner-loop: daily-loop-recursion-blocked
 - refresh-autonomous-cadence: not-selected-this-run
-- refresh-autonomous-self-update: not-selected-this-run
-- refresh-organic-seed-loop: not-selected-this-run
-- refresh-support-feedback: not-selected-this-run
-- optimize-daily-retention: status-monitor
+- refresh-autonomous-self-update: status-monitor
+- seed-portfolio-traffic: status-monitor
+- refresh-organic-seed-loop: status-monitor
+- optimize-daily-retention: not-selected-this-run
 - measure-pwa-install-loop: not-selected-this-run
 - check-performance-budget: not-selected-this-run
 - prepare-release-candidate: not-selected-this-run

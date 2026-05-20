@@ -1,6 +1,6 @@
-import { mkdir, readFile, writeFile } from 'node:fs/promises'
+import { mkdir, readdir, readFile, writeFile } from 'node:fs/promises'
 import path from 'node:path'
-import { hashRawSourceData, hashTextSourceData, sourceFreshness } from './lib/source-hash.mjs'
+import { hashRawSourceData, hashSourceData, hashTextSourceData, sourceFreshness } from './lib/source-hash.mjs'
 
 const root = process.cwd()
 const dataDir = path.join(root, 'data')
@@ -13,6 +13,25 @@ const readOptionalJson = async (filePath, fallback) =>
   readFile(filePath, 'utf8')
     .then((raw) => JSON.parse(raw))
     .catch(() => fallback)
+const readAcquisitionLocalEvents = async () => {
+  const localEventsDir = path.resolve(root, process.env.AGL_LOCAL_EVENTS_DIR ?? 'data/player-events')
+  let files = []
+
+  try {
+    files = (await readdir(localEventsDir)).filter((file) => file.endsWith('.json'))
+  } catch {
+    return { localEventFiles: [], events: [] }
+  }
+
+  const batches = await Promise.all(
+    files.map(async (file) => {
+      const payload = JSON.parse(await readFile(path.join(localEventsDir, file), 'utf8'))
+      return Array.isArray(payload) ? payload : payload.events ?? []
+    }),
+  )
+
+  return { localEventFiles: files, events: batches.flat() }
+}
 
 const percent = (value) => (typeof value === 'number' ? Math.round(value * 100) : null)
 const roundMetric = (value) => (typeof value === 'number' ? Math.round(value * 1000) / 1000 : null)
@@ -29,6 +48,7 @@ const localIsoDate = (date = new Date()) => {
   const localDate = new Date(date.getTime() - date.getTimezoneOffset() * 60_000)
   return localDate.toISOString().slice(0, 10)
 }
+const slugDate = (date = new Date()) => localIsoDate(date).replaceAll('-', '')
 
 const productionEnvironment = await readJson(path.join(dataDir, 'production-environment.json'))
 const trendSignals = await readJson(path.join(dataDir, 'trend-signals.json'))
@@ -52,6 +72,8 @@ const growth = await readJson(path.join(dataDir, 'growth-plan.json'))
 const portfolioPolicy = await readJson(path.join(dataDir, 'portfolio-policy.json'))
 const traffic = await readJson(path.join(dataDir, 'traffic-seeding.json'))
 const acquisition = await readJson(path.join(dataDir, 'acquisition-learning.json'))
+const { localEventFiles: acquisitionLocalEventFiles, events: acquisitionLocalEvents } =
+  await readAcquisitionLocalEvents()
 const organicSeedLoop = await readOptionalJson(path.join(dataDir, 'organic-seed-loop.json'), {
   status: 'missing',
   target: null,
@@ -1164,6 +1186,31 @@ const retentionSourceEvidence = {
     gateSampleEvidence: localEventBridge.gateSampleEvidence,
   },
 }
+const trafficSeedingSourceEvidence = {
+  runDate: slugDate(),
+  playable,
+  portfolio: portfolioPolicy,
+  growth,
+  analytics,
+  unitEconomics,
+}
+const acquisitionLearningSourceEvidence = {
+  analytics,
+  traffic,
+  growth,
+  unitEconomics,
+  playable,
+  localEventFiles: acquisitionLocalEventFiles,
+  events: acquisitionLocalEvents,
+}
+const organicSeedLoopSourceEvidence = {
+  playable,
+  analytics,
+  traffic,
+  acquisition,
+  retention,
+  unitEconomics,
+}
 const productOptimizationFreshness = sourceFreshness({
   artifact: productOptimization,
   readyStatuses: ['product-optimization-ready'],
@@ -1188,6 +1235,43 @@ const retentionLoopFreshness = sourceFreshness({
     { id: 'local-event-bridge', data: localEventBridge },
   ],
   sourceDataHash: hashRawSourceData(retentionSourceEvidence),
+})
+const trafficSeedingFreshness = sourceFreshness({
+  artifact: traffic,
+  readyStatuses: ['traffic-seeding-ready', 'blocked-no-seed-games'],
+  inputs: [
+    { id: 'playable-games', data: playable },
+    { id: 'portfolio-policy', data: portfolioPolicy },
+    { id: 'growth-plan', data: growth },
+    { id: 'analytics-rollup', data: analytics },
+    { id: 'unit-economics', data: unitEconomics },
+  ],
+  sourceDataHash: hashSourceData(trafficSeedingSourceEvidence),
+})
+const acquisitionLearningFreshness = sourceFreshness({
+  artifact: acquisition,
+  readyStatuses: ['acquisition-learning-ready', 'blocked-no-campaigns'],
+  inputs: [
+    { id: 'analytics-rollup', data: analytics },
+    { id: 'traffic-seeding', data: traffic },
+    { id: 'growth-plan', data: growth },
+    { id: 'unit-economics', data: unitEconomics },
+    { id: 'playable-games', data: playable },
+  ],
+  sourceDataHash: hashSourceData(acquisitionLearningSourceEvidence),
+})
+const organicSeedLoopFreshness = sourceFreshness({
+  artifact: organicSeedLoop,
+  readyStatuses: ['organic-seed-loop-ready', 'blocked-no-campaigns'],
+  inputs: [
+    { id: 'playable-games', data: playable },
+    { id: 'analytics-rollup', data: analytics },
+    { id: 'traffic-seeding', data: traffic },
+    { id: 'acquisition-learning', data: acquisition },
+    { id: 'retention-loop', data: retention },
+    { id: 'unit-economics', data: unitEconomics },
+  ],
+  sourceDataHash: hashSourceData(organicSeedLoopSourceEvidence),
 })
 const firstMoveCoachFreshness = sourceFreshness({
   artifact: firstMoveCoach,
@@ -1292,20 +1376,34 @@ const safeAutonomousActions = [
   },
   {
     id: 'seed-portfolio-traffic',
-    status: traffic.status === 'traffic-seeding-ready' && traffic.campaigns?.length ? 'armed' : 'monitor',
+    status:
+      trafficSeedingFreshness.current && acquisitionLearningFreshness.current && organicSeedLoopFreshness.current
+        ? 'monitor'
+        : traffic.status === 'traffic-seeding-ready' && traffic.campaigns?.length
+          ? 'armed'
+          : 'monitor',
     costUsd: 0,
     command:
       'npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop',
     targets: traffic.campaigns?.map((campaign) => campaign.gameId) ?? portfolioPolicy.rotation?.seedTrafficGameIds ?? [],
-    reason: 'Under-measured playable games need free organic/internal traffic before quality judgment.',
+    reason:
+      trafficSeedingFreshness.current && acquisitionLearningFreshness.current && organicSeedLoopFreshness.current
+        ? 'Traffic campaigns, acquisition learning, and organic seed surface already reflect the current inputs.'
+        : 'Under-measured playable games need free organic/internal traffic before quality judgment.',
   },
   {
     id: 'refresh-organic-seed-loop',
-    status: organicSeedLoop.status === 'organic-seed-loop-ready' ? 'armed' : 'monitor',
+    status: organicSeedLoopFreshness.current
+      ? 'monitor'
+      : organicSeedLoop.status === 'organic-seed-loop-ready'
+        ? 'armed'
+        : 'monitor',
     costUsd: 0,
     command: 'npm run autonomous:organic-seed-loop',
     targets: [organicSeedLoop.target?.gameId ?? 'organic-seed-loop'],
-    reason: 'Refreshes the player-initiated zero-cost share surface for the highest-opportunity seed campaign.',
+    reason: organicSeedLoopFreshness.current
+      ? 'Organic seed surface already reflects current traffic, acquisition, retention, and analytics inputs.'
+      : 'Refreshes the player-initiated zero-cost share surface for the highest-opportunity seed campaign.',
   },
   {
     id: 'refresh-support-feedback',
@@ -1703,6 +1801,9 @@ const payload = {
     sourceFreshness: {
       productOptimization: productOptimizationFreshness,
       retentionLoop: retentionLoopFreshness,
+      trafficSeeding: trafficSeedingFreshness,
+      acquisitionLearning: acquisitionLearningFreshness,
+      organicSeedLoop: organicSeedLoopFreshness,
       firstMoveCoach: firstMoveCoachFreshness,
       completionLoop: completionLoopFreshness,
       replayLoop: replayLoopFreshness,

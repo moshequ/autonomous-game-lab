@@ -1,5 +1,6 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises'
 import path from 'node:path'
+import { hashSourceData } from './lib/source-hash.mjs'
 
 const root = process.cwd()
 const dataDir = path.join(root, 'data')
@@ -18,6 +19,14 @@ const traffic = await readJson(path.join(dataDir, 'traffic-seeding.json'))
 const acquisition = await readJson(path.join(dataDir, 'acquisition-learning.json'))
 const retention = await readJson(path.join(dataDir, 'retention-loop.json'))
 const unitEconomics = await readJson(path.join(dataDir, 'unit-economics.json'))
+const sourceDataHash = hashSourceData({
+  playable,
+  analytics,
+  traffic,
+  acquisition,
+  retention,
+  unitEconomics,
+})
 
 const playableIds = new Set(playable.games ?? [])
 const acquisitionById = new Map((acquisition.campaigns ?? []).map((campaign) => [campaign.id, campaign]))
@@ -81,6 +90,7 @@ const targetCampaign = campaigns[0] ?? null
 const payload = {
   generatedAt: new Date().toISOString(),
   status: targetCampaign ? 'organic-seed-loop-ready' : 'blocked-no-campaigns',
+  sourceDataHash,
   sourceStatus: {
     analyticsSource: analytics.sourceStatus?.activeSource ?? 'unknown',
     trafficSeeding: traffic.status,

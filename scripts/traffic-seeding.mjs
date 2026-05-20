@@ -1,5 +1,6 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises'
 import path from 'node:path'
+import { hashSourceData } from './lib/source-hash.mjs'
 
 const root = process.cwd()
 const dataDir = path.join(root, 'data')
@@ -104,6 +105,14 @@ const publicUrl = (pathname) => (siteUrl ? `${siteUrl}${rootPath(pathname)}` : r
 const runDate = slugDate()
 const seedIds = (portfolio.rotation?.seedTrafficGameIds ?? []).filter((gameId) => playableIds.has(gameId))
 const campaignIds = seedIds.length ? seedIds : (portfolio.games ?? []).slice(0, 4).map((game) => game.gameId)
+const sourceDataHash = hashSourceData({
+  runDate,
+  playable,
+  portfolio,
+  growth,
+  analytics,
+  unitEconomics,
+})
 
 const channels = [
   {
@@ -193,6 +202,7 @@ const normalizedShares = (shareManifest.shares ?? []).map((share) => {
 const payload = {
   generatedAt: new Date().toISOString(),
   status: campaigns.length ? 'traffic-seeding-ready' : 'blocked-no-seed-games',
+  sourceDataHash,
   analyticsSource: analytics.sourceStatus?.activeSource ?? 'unknown',
   publicUrlMode,
   siteUrl,
