@@ -8,7 +8,7 @@ export const autonomousOwnerLoop = {
     "externalAccountInterventionRequired": true
   },
   "ownerDecision": {
-    "nextBestActionId": "optimize-product-gates"
+    "nextBestActionId": "seed-portfolio-traffic"
   },
   "systems": [
     {
@@ -30,7 +30,7 @@ export const autonomousOwnerLoop = {
   ],
   "safeAutonomousActions": [
     {
-      "id": "optimize-product-gates",
+      "id": "seed-portfolio-traffic",
       "status": "armed"
     },
     {
