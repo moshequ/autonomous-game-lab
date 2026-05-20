@@ -51,6 +51,16 @@ const rewardExperiment = experimentResults.recommendations?.find(
 )
 const rewardPolicy = experimentPolicy.experiments?.reward_offer
 const dailyStreakVariant = rewardPolicy?.variants?.find((variant) => variant.id === 'daily-streak')
+const rewardExperimentDetail = experimentResults.experiments?.find((experiment) => experiment.id === 'reward_offer')
+const dailyStreakStats = rewardExperimentDetail?.variants?.find((variant) => variant.variantId === 'daily-streak')
+const runnerUpStats = rewardExperimentDetail?.variants?.find(
+  (variant) => variant.variantId === rewardExperiment?.runnerUpVariant,
+)
+const dailyStreakLift =
+  typeof dailyStreakStats?.metrics?.replayRate === 'number' &&
+  typeof runnerUpStats?.metrics?.replayRate === 'number'
+    ? dailyStreakStats.metrics.replayRate - runnerUpStats.metrics.replayRate
+    : null
 const metrics = analytics.totals?.metrics ?? {}
 const retentionReady = (metrics.d1Retention ?? 0) >= 0.18
 const completionReady = (metrics.firstGameCompletion ?? 0) >= 0.55
@@ -194,9 +204,23 @@ const payload = {
   },
   rewardPolicy: {
     recommendedVariant: rewardExperiment?.winnerVariant ?? 'daily-streak',
+    runnerUpVariant: rewardExperiment?.runnerUpVariant ?? null,
+    confidence: rewardExperiment?.confidence ?? null,
     currentDailyStreakWeight: dailyStreakVariant?.weight ?? null,
+    primaryMetric: rewardExperimentDetail?.primaryMetric ?? 'replayRate',
+    winnerReplayRate: roundMetric(dailyStreakStats?.metrics?.replayRate),
+    runnerUpReplayRate: roundMetric(runnerUpStats?.metrics?.replayRate),
+    replayRateLift: roundMetric(dailyStreakLift),
     action: rewardExperiment?.action ?? 'monitor',
     reason: rewardExperiment?.reason ?? 'Daily streak is the default retention-safe reward framing.',
+    controls: {
+      localOnly: true,
+      noPaidRewards: true,
+      noAds: true,
+      noCurrency: true,
+      noAccountRequired: true,
+      noRevenueEnablement: true,
+    },
   },
   promptPolicy: {
     status: returnPromptNeeded ? 'armed' : 'monitor',
@@ -204,6 +228,7 @@ const payload = {
     trigger: 'after-completed-run',
     ctaLabel: 'Queue tomorrow',
     dismissLabel: 'Not today',
+    copy: "Queue tomorrow's board to protect your local daily streak.",
     nextChallengeDate,
     cooldown: 'one prompt per daily challenge date',
     reason: returnPromptNeeded
@@ -221,6 +246,7 @@ const payload = {
     trigger: 'app-load-with-local-return-intent',
     ctaLabel: 'Play queued board',
     dismissLabel: 'Clear intent',
+    copy: 'Your queued board is ready; start it to keep the local streak signal real.',
     cooldown: 'one activation per queued intent date',
     reason: returnPromptNeeded
       ? `D1 retention is ${pct(metrics.d1Retention)} and the gate is 18%; convert queued local return intent into a measured game start.`
@@ -342,12 +368,14 @@ const report = [
   '',
   `- Recommended variant: ${payload.rewardPolicy.recommendedVariant}`,
   `- Daily streak weight: ${payload.rewardPolicy.currentDailyStreakWeight ?? 'n/a'}`,
+  `- Replay-rate lift: ${pct(payload.rewardPolicy.replayRateLift)}`,
   `- Reason: ${payload.rewardPolicy.reason}`,
   '',
   '## Return Prompt',
   '',
   `- Status: ${payload.promptPolicy.status}`,
   `- Surface: ${payload.promptPolicy.surface}`,
+  `- Copy: ${payload.promptPolicy.copy}`,
   `- Next challenge date: ${payload.promptPolicy.nextChallengeDate}`,
   `- Telemetry: ${payload.promptPolicy.telemetry.viewed}, ${payload.promptPolicy.telemetry.clicked}, ${payload.promptPolicy.telemetry.dismissed}`,
   '',
@@ -355,6 +383,7 @@ const report = [
   '',
   `- Status: ${payload.returnIntentPolicy.status}`,
   `- Surface: ${payload.returnIntentPolicy.surface}`,
+  `- Copy: ${payload.returnIntentPolicy.copy}`,
   `- Telemetry: ${payload.returnIntentPolicy.telemetry.viewed}, ${payload.returnIntentPolicy.telemetry.started}, ${payload.returnIntentPolicy.telemetry.cleared}`,
   `- Measurement: ${payload.measurementPolicy.retainedEvent} with ${payload.measurementPolicy.cohortDateProperty} -> ${payload.measurementPolicy.returnDateProperty}`,
   '',

@@ -19,6 +19,8 @@ const releaseHealth = await readJson(path.join(dataDir, 'release-health.json'))
 const playable = await readJson(path.join(dataDir, 'playable-games.json'))
 const portfolio = await readJson(path.join(dataDir, 'portfolio-policy.json'))
 const growth = await readJson(path.join(dataDir, 'growth-plan.json'))
+const experimentPolicy = await readJson(path.join(dataDir, 'experiment-policy.json'))
+const experimentResults = await readJson(path.join(dataDir, 'experiment-results.json'))
 
 const playableIds = new Set(playable.games ?? [])
 const metrics = analytics.totals?.metrics ?? {}
@@ -31,6 +33,36 @@ const retentionReady = (metrics.d1Retention ?? 0) >= gates.monetization.minD1Ret
 const replayReady = replayRate >= replayGate
 const canNudgeReplay =
   releaseHealth.controls?.canApplyExperimentChanges !== false && releaseHealth.controls?.rollbackRequired !== true
+const rewardExperiment = experimentResults.recommendations?.find(
+  (recommendation) => recommendation.experiment === 'reward_offer',
+)
+const rewardExperimentDetail = experimentResults.experiments?.find(
+  (experiment) => experiment.id === 'reward_offer',
+)
+const dailyStreakStats = rewardExperimentDetail?.variants?.find((variant) => variant.variantId === 'daily-streak')
+const runnerUpStats = rewardExperimentDetail?.variants?.find(
+  (variant) => variant.variantId === rewardExperiment?.runnerUpVariant,
+)
+const dailyStreakVariant = experimentPolicy.experiments?.reward_offer?.variants?.find(
+  (variant) => variant.id === 'daily-streak',
+)
+const rewardConfidenceFloor =
+  experimentPolicy.guardrails?.minimumConfidenceByExperiment?.reward_offer ??
+  experimentPolicy.guardrails?.minimumConfidence ??
+  70
+const dailyStreakLift =
+  typeof dailyStreakStats?.metrics?.replayRate === 'number' &&
+  typeof runnerUpStats?.metrics?.replayRate === 'number'
+    ? dailyStreakStats.metrics.replayRate - runnerUpStats.metrics.replayRate
+    : null
+const dailyStreakFramingActive =
+  rewardExperiment?.action === 'promote-winner' &&
+  rewardExperiment.winnerVariant === 'daily-streak' &&
+  (rewardExperiment.confidence ?? 0) >= rewardConfidenceFloor
+const replayPromptCopy = dailyStreakFramingActive
+  ? "Start one more board to keep today's local streak alive."
+  : 'Try one cleaner run with the same rules.'
+const replayPromptCta = dailyStreakFramingActive ? 'Play streak run' : 'Play again'
 
 const titleById = new Map([
   ...(growth.gamePages ?? []).map((game) => [game.gameId, game.title]),
@@ -119,9 +151,9 @@ const payload = {
     status: promptStatus,
     surface: 'autonomy-cockpit-replay-card',
     trigger: 'after-completed-run',
-    ctaLabel: 'Play again',
+    ctaLabel: replayPromptCta,
     dismissLabel: 'Done for now',
-    copy: 'Try one cleaner run with the same rules.',
+    copy: replayPromptCopy,
     cooldown: 'one prompt per completed run',
     reason:
       promptStatus === 'armed'
@@ -132,6 +164,30 @@ const payload = {
       clicked: 'replay_prompt_clicked',
       dismissed: 'replay_prompt_dismissed',
       replay: 'replay_clicked',
+    },
+  },
+  rewardFraming: {
+    status: dailyStreakFramingActive ? 'active' : 'monitor',
+    sourceExperiment: 'reward_offer',
+    recommendedVariant: rewardExperiment?.winnerVariant ?? 'daily-streak',
+    runnerUpVariant: rewardExperiment?.runnerUpVariant ?? null,
+    confidence: rewardExperiment?.confidence ?? null,
+    confidenceFloor: rewardConfidenceFloor,
+    currentDailyStreakWeight: dailyStreakVariant?.weight ?? null,
+    primaryMetric: rewardExperimentDetail?.primaryMetric ?? 'replayRate',
+    winnerReplayRate: roundMetric(dailyStreakStats?.metrics?.replayRate),
+    runnerUpReplayRate: roundMetric(runnerUpStats?.metrics?.replayRate),
+    replayRateLift: roundMetric(dailyStreakLift),
+    reason:
+      rewardExperiment?.reason ??
+      'Daily streak is the default low-pressure replay framing when reward experiments are unavailable.',
+    controls: {
+      localOnly: true,
+      noPaidRewards: true,
+      noAds: true,
+      noCurrency: true,
+      noAccountRequired: true,
+      noRevenueEnablement: true,
     },
   },
   localState: {
@@ -177,7 +233,14 @@ const report = [
   `- Status: ${payload.promptPolicy.status}`,
   `- Surface: ${payload.promptPolicy.surface}`,
   `- Trigger: ${payload.promptPolicy.trigger}`,
+  `- Copy: ${payload.promptPolicy.copy}`,
   `- Telemetry: ${payload.promptPolicy.telemetry.viewed}, ${payload.promptPolicy.telemetry.clicked}, ${payload.promptPolicy.telemetry.dismissed}, ${payload.promptPolicy.telemetry.replay}`,
+  '',
+  '## Reward Framing',
+  '',
+  `- Status: ${payload.rewardFraming.status}`,
+  `- Variant: ${payload.rewardFraming.recommendedVariant}`,
+  `- Replay-rate lift: ${pct(payload.rewardFraming.replayRateLift)}`,
   '',
   '## Missions',
   '',

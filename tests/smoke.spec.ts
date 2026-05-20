@@ -558,7 +558,13 @@ test('completed-run replay prompt starts a fresh run and records replay-loop tel
   page,
 }) => {
   const replayLoop = JSON.parse(await readFile('data/replay-loop.json', 'utf8')) as {
-    promptPolicy: { ctaLabel: string; surface: string; telemetry: { viewed: string; clicked: string } }
+    promptPolicy: { ctaLabel: string; copy: string; surface: string; telemetry: { viewed: string; clicked: string } }
+    rewardFraming: {
+      status: string
+      recommendedVariant: string
+      confidence: number
+      controls: { noPaidRewards: boolean; noAds: boolean; noRevenueEnablement: boolean }
+    }
   }
   const balance = JSON.parse(await readFile('data/game-balance.json', 'utf8')) as {
     games: { 'harbor-rings': { maxMoves: number } }
@@ -626,6 +632,13 @@ test('completed-run replay prompt starts a fresh run and records replay-loop tel
 
   const replayPanel = page.getByLabel('Replay Loop')
   await expect(replayPanel).toContainText('Fresh run')
+  await expect(replayPanel).toContainText(replayLoop.promptPolicy.copy)
+  expect(replayLoop.rewardFraming.status).toBe('active')
+  expect(replayLoop.rewardFraming.recommendedVariant).toBe('daily-streak')
+  expect(replayLoop.rewardFraming.confidence).toBeGreaterThanOrEqual(55)
+  expect(replayLoop.rewardFraming.controls.noPaidRewards).toBe(true)
+  expect(replayLoop.rewardFraming.controls.noAds).toBe(true)
+  expect(replayLoop.rewardFraming.controls.noRevenueEnablement).toBe(true)
   await replayPanel.getByRole('button', { name: replayLoop.promptPolicy.ctaLabel }).click()
   await page.waitForLoadState('domcontentloaded')
 
@@ -2653,7 +2666,11 @@ test('daily challenge starts the retained game and records retention telemetry',
 test('daily return prompt captures a local return intent after a completed run', async ({ page }) => {
   const retention = JSON.parse(await readFile('data/retention-loop.json', 'utf8')) as {
     localState: { returnIntentKey: string }
-    promptPolicy: { ctaLabel: string; nextChallengeDate: string; telemetry: { clicked: string; viewed: string } }
+    promptPolicy: { ctaLabel: string; copy: string; nextChallengeDate: string; telemetry: { clicked: string; viewed: string } }
+    rewardPolicy: {
+      recommendedVariant: string
+      controls: { noPaidRewards: boolean; noAds: boolean; noRevenueEnablement: boolean }
+    }
   }
   const balance = JSON.parse(await readFile('data/game-balance.json', 'utf8')) as {
     games: { 'harbor-rings': { maxMoves: number } }
@@ -2723,6 +2740,11 @@ test('daily return prompt captures a local return intent after a completed run',
 
   const dailyRetention = page.getByLabel('Daily Retention')
   await expect(dailyRetention).toContainText('Return prompt')
+  await expect(dailyRetention).toContainText(retention.promptPolicy.copy)
+  expect(retention.rewardPolicy.recommendedVariant).toBe('daily-streak')
+  expect(retention.rewardPolicy.controls.noPaidRewards).toBe(true)
+  expect(retention.rewardPolicy.controls.noAds).toBe(true)
+  expect(retention.rewardPolicy.controls.noRevenueEnablement).toBe(true)
   await dailyRetention.getByRole('button', { name: retention.promptPolicy.ctaLabel }).click()
 
   const events = await page.evaluate(() => {
@@ -2752,6 +2774,7 @@ test('queued return intent starts a retained session without push or accounts', 
     promptPolicy: { nextChallengeDate: string }
     returnIntentPolicy: {
       ctaLabel: string
+      copy: string
       surface: string
       telemetry: { viewed: string; started: string }
     }
@@ -2770,6 +2793,7 @@ test('queued return intent starts a retained session without push or accounts', 
 
   const dailyRetention = page.getByLabel('Daily Retention')
   await expect(dailyRetention).toContainText('Queued return')
+  await expect(dailyRetention).toContainText(retention.returnIntentPolicy.copy)
   await dailyRetention.getByRole('button', { name: retention.returnIntentPolicy.ctaLabel }).click()
   await expect(page.getByRole('heading', { name: 'Canopy Bloom' })).toBeVisible()
 

@@ -1,6 +1,6 @@
 # Replay Loop
 
-Generated: 2026-05-20T09:02:18.221Z
+Generated: 2026-05-20T09:31:26.034Z
 Status: replay-loop-ready
 Target: Harbor Rings (harbor-rings)
 Replay rate: 31% / 35%
@@ -10,7 +10,14 @@ Replay rate: 31% / 35%
 - Status: armed
 - Surface: autonomy-cockpit-replay-card
 - Trigger: after-completed-run
+- Copy: Start one more board to keep today's local streak alive.
 - Telemetry: replay_prompt_viewed, replay_prompt_clicked, replay_prompt_dismissed, replay_clicked
+
+## Reward Framing
+
+- Status: active
+- Variant: daily-streak
+- Replay-rate lift: 13%
 
 ## Missions
 

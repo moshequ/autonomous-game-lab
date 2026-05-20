@@ -1,5 +1,5 @@
 export const replayLoop = {
-  "generatedAt": "2026-05-20T09:02:18.221Z",
+  "generatedAt": "2026-05-20T09:31:26.034Z",
   "status": "replay-loop-ready",
   "sourceStatus": {
     "analyticsSource": "fixture-sample",
@@ -30,9 +30,9 @@ export const replayLoop = {
     "status": "armed",
     "surface": "autonomy-cockpit-replay-card",
     "trigger": "after-completed-run",
-    "ctaLabel": "Play again",
+    "ctaLabel": "Play streak run",
     "dismissLabel": "Done for now",
-    "copy": "Try one cleaner run with the same rules.",
+    "copy": "Start one more board to keep today's local streak alive.",
     "cooldown": "one prompt per completed run",
     "reason": "Replay rate is 31% and the gate is 35%; ask for one fresh run after completion.",
     "telemetry": {
@@ -40,6 +40,28 @@ export const replayLoop = {
       "clicked": "replay_prompt_clicked",
       "dismissed": "replay_prompt_dismissed",
       "replay": "replay_clicked"
+    }
+  },
+  "rewardFraming": {
+    "status": "active",
+    "sourceExperiment": "reward_offer",
+    "recommendedVariant": "daily-streak",
+    "runnerUpVariant": "score-booster",
+    "confidence": 95,
+    "confidenceFloor": 55,
+    "currentDailyStreakWeight": 80,
+    "primaryMetric": "replayRate",
+    "winnerReplayRate": 0.354,
+    "runnerUpReplayRate": 0.226,
+    "replayRateLift": 0.128,
+    "reason": "daily-streak beat score-booster on replayRate with 95% confidence",
+    "controls": {
+      "localOnly": true,
+      "noPaidRewards": true,
+      "noAds": true,
+      "noCurrency": true,
+      "noAccountRequired": true,
+      "noRevenueEnablement": true
     }
   },
   "localState": {

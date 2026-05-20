@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-20T09:03:14.682Z",
+  "generatedAt": "2026-05-20T09:31:26.034Z",
   "status": "retention-loop-ready",
   "dailyChallenge": {
     "date": "2026-05-20",
@@ -39,9 +39,23 @@
   },
   "rewardPolicy": {
     "recommendedVariant": "daily-streak",
+    "runnerUpVariant": "score-booster",
+    "confidence": 95,
     "currentDailyStreakWeight": 80,
+    "primaryMetric": "replayRate",
+    "winnerReplayRate": 0.354,
+    "runnerUpReplayRate": 0.226,
+    "replayRateLift": 0.128,
     "action": "promote-winner",
-    "reason": "daily-streak beat score-booster on replayRate with 95% confidence"
+    "reason": "daily-streak beat score-booster on replayRate with 95% confidence",
+    "controls": {
+      "localOnly": true,
+      "noPaidRewards": true,
+      "noAds": true,
+      "noCurrency": true,
+      "noAccountRequired": true,
+      "noRevenueEnablement": true
+    }
   },
   "promptPolicy": {
     "status": "armed",
@@ -49,6 +63,7 @@
     "trigger": "after-completed-run",
     "ctaLabel": "Queue tomorrow",
     "dismissLabel": "Not today",
+    "copy": "Queue tomorrow's board to protect your local daily streak.",
     "nextChallengeDate": "2026-05-21",
     "cooldown": "one prompt per daily challenge date",
     "reason": "D1 retention is 17% and the gate is 18%; ask for a local return intent after a completed run.",
@@ -64,6 +79,7 @@
     "trigger": "app-load-with-local-return-intent",
     "ctaLabel": "Play queued board",
     "dismissLabel": "Clear intent",
+    "copy": "Your queued board is ready; start it to keep the local streak signal real.",
     "cooldown": "one activation per queued intent date",
     "reason": "D1 retention is 17% and the gate is 18%; convert queued local return intent into a measured game start.",
     "telemetry": {

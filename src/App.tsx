@@ -1569,6 +1569,10 @@ function App() {
                 <strong>{replayLoop.promptPolicy.status}</strong>
               </div>
               <div>
+                <span>Prompt copy</span>
+                <strong>{replayLoop.promptPolicy.copy}</strong>
+              </div>
+              <div>
                 <span>Target</span>
                 <strong>{replayLoop.target.title ?? activeGame.title}</strong>
               </div>
@@ -1630,6 +1634,10 @@ function App() {
                     <span>Queued return</span>
                     <strong>{dailyReturnIntentDate}</strong>
                   </div>
+                  <div>
+                    <span>Intent copy</span>
+                    <strong>{retentionLoop.returnIntentPolicy.copy}</strong>
+                  </div>
                   <div className="retentionActions">
                     <button className="tinyButton" type="button" onClick={startQueuedReturnIntent}>
                       {retentionLoop.returnIntentPolicy.ctaLabel}
@@ -1645,6 +1653,10 @@ function App() {
                   <div>
                     <span>Return prompt</span>
                     <strong>{retentionLoop.promptPolicy.status}</strong>
+                  </div>
+                  <div>
+                    <span>Prompt copy</span>
+                    <strong>{retentionLoop.promptPolicy.copy}</strong>
                   </div>
                   <div>
                     <span>Next board</span>
