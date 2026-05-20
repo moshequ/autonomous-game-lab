@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-20T07:15:01.955Z",
+  "generatedAt": "2026-05-20T08:40:21.455Z",
   "status": "production-bootstrap-ready",
   "mode": "can-apply-configured-actions",
   "envFiles": {
@@ -87,7 +87,7 @@
     "totalVariables": 24,
     "configuredSecrets": 3,
     "totalSecrets": 8,
-    "externalBlockers": 17
+    "externalBlockers": 15
   },
   "stages": [
     {
@@ -106,9 +106,7 @@
       "costUsd": 0,
       "command": "npm run autonomous:repo-bootstrap",
       "evidence": "Repository bootstrap repository-bootstrap-ready; helper ops/github/bootstrap-repository.sh; local git ready.",
-      "requires": [
-        "Commit current generated changes before pushing to GitHub Pages."
-      ]
+      "requires": []
     },
     {
       "id": "production-environment",
@@ -116,7 +114,7 @@
       "canAutoRun": false,
       "costUsd": 0,
       "command": "npm run autonomous:env",
-      "evidence": "Environment production-env-missing; public origin inferred-github-pages; support missing-production-address.",
+      "evidence": "Environment production-env-missing; public origin configured; support missing-production-address.",
       "requires": [
         "Set AGL_SUPPORT_EMAIL to a real support inbox before public store submission.",
         "Set VITE_EVENT_COLLECTOR_URL or VITE_POSTHOG_KEY to forward browser analytics in production.",
@@ -201,7 +199,7 @@
       "command": "gh workflow run event-collector-deploy.yml",
       "evidence": "Collector deployment is blocked-needs-cloudflare-env; provider cloudflare-worker-r2.",
       "requires": [
-        "Create or select a Cloudflare account and R2 bucket for collector event batches.",
+        "Create or select a Cloudflare account; the deploy workflow creates or reuses the R2 bucket for collector event batches.",
         "Set repository variables CLOUDFLARE_ACCOUNT_ID, AGL_EVENT_COLLECTOR_R2_BUCKET, AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS, VITE_EVENT_COLLECTOR_URL, and AGL_EVENT_COLLECTOR_EXPORT_URL.",
         "Set repository secrets CLOUDFLARE_API_TOKEN, VITE_EVENT_COLLECTOR_WRITE_TOKEN, and AGL_EVENT_COLLECTOR_ADMIN_TOKEN.",
         "Run the Event Collector Deploy workflow; it runs the collector smoke before deploying."
@@ -227,9 +225,8 @@
       "canAutoRun": false,
       "costUsd": 0,
       "command": "npm run autonomous:store-package && npm run autonomous:store-compliance",
-      "evidence": "4 store compliance blocker(s) remain.",
+      "evidence": "3 store compliance blocker(s) remain.",
       "requires": [
-        "hosted-privacy-url: Hosted privacy policy URL is required before public store submission.",
         "support-contact: Production support email is required before public store submission.",
         "google-play-account: Google Play developer account must be connected before Android submission.",
         "apple-developer-account: Apple Developer account remains deferred until iOS spend is justified."
@@ -268,9 +265,7 @@
       "costUsd": 0,
       "command": "npm run autonomous:repo-bootstrap",
       "evidence": "Repository bootstrap repository-bootstrap-ready; helper ops/github/bootstrap-repository.sh; local git ready.",
-      "requires": [
-        "Commit current generated changes before pushing to GitHub Pages."
-      ]
+      "requires": []
     },
     {
       "id": "production-environment",
@@ -278,7 +273,7 @@
       "canAutoRun": false,
       "costUsd": 0,
       "command": "npm run autonomous:env",
-      "evidence": "Environment production-env-missing; public origin inferred-github-pages; support missing-production-address.",
+      "evidence": "Environment production-env-missing; public origin configured; support missing-production-address.",
       "requires": [
         "Set AGL_SUPPORT_EMAIL to a real support inbox before public store submission.",
         "Set VITE_EVENT_COLLECTOR_URL or VITE_POSTHOG_KEY to forward browser analytics in production.",
@@ -363,7 +358,7 @@
       "command": "gh workflow run event-collector-deploy.yml",
       "evidence": "Collector deployment is blocked-needs-cloudflare-env; provider cloudflare-worker-r2.",
       "requires": [
-        "Create or select a Cloudflare account and R2 bucket for collector event batches.",
+        "Create or select a Cloudflare account; the deploy workflow creates or reuses the R2 bucket for collector event batches.",
         "Set repository variables CLOUDFLARE_ACCOUNT_ID, AGL_EVENT_COLLECTOR_R2_BUCKET, AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS, VITE_EVENT_COLLECTOR_URL, and AGL_EVENT_COLLECTOR_EXPORT_URL.",
         "Set repository secrets CLOUDFLARE_API_TOKEN, VITE_EVENT_COLLECTOR_WRITE_TOKEN, and AGL_EVENT_COLLECTOR_ADMIN_TOKEN.",
         "Run the Event Collector Deploy workflow; it runs the collector smoke before deploying."
@@ -389,9 +384,8 @@
       "canAutoRun": false,
       "costUsd": 0,
       "command": "npm run autonomous:store-package && npm run autonomous:store-compliance",
-      "evidence": "4 store compliance blocker(s) remain.",
+      "evidence": "3 store compliance blocker(s) remain.",
       "requires": [
-        "hosted-privacy-url: Hosted privacy policy URL is required before public store submission.",
         "support-contact: Production support email is required before public store submission.",
         "google-play-account: Google Play developer account must be connected before Android submission.",
         "apple-developer-account: Apple Developer account remains deferred until iOS spend is justified."
@@ -419,7 +413,7 @@
       "kind": "github-variable",
       "repositoryVariable": "VITE_BASE_PATH",
       "envName": "VITE_BASE_PATH",
-      "valueSource": "inferred-github-pages",
+      "valueSource": "production-environment",
       "configured": true,
       "command": "gh variable set VITE_BASE_PATH --body \"$VITE_BASE_PATH\""
     },
@@ -428,7 +422,7 @@
       "kind": "github-variable",
       "repositoryVariable": "AGL_PUBLIC_ORIGIN",
       "envName": "AGL_PUBLIC_ORIGIN",
-      "valueSource": "inferred-github-pages",
+      "valueSource": "production-environment",
       "configured": true,
       "command": "gh variable set AGL_PUBLIC_ORIGIN --body \"$AGL_PUBLIC_ORIGIN\""
     },
@@ -437,7 +431,7 @@
       "kind": "github-variable",
       "repositoryVariable": "VITE_PUBLIC_ORIGIN",
       "envName": "AGL_PUBLIC_ORIGIN",
-      "valueSource": "inferred-github-pages",
+      "valueSource": "production-environment",
       "configured": true,
       "command": "gh variable set VITE_PUBLIC_ORIGIN --body \"$AGL_PUBLIC_ORIGIN\""
     },
@@ -446,7 +440,7 @@
       "kind": "github-variable",
       "repositoryVariable": "PUBLIC_SITE_URL",
       "envName": "AGL_PUBLIC_ORIGIN",
-      "valueSource": "inferred-github-pages",
+      "valueSource": "production-environment",
       "configured": true,
       "command": "gh variable set PUBLIC_SITE_URL --body \"$AGL_PUBLIC_ORIGIN\""
     },
@@ -703,7 +697,7 @@
       "kind": "github-variable",
       "repositoryVariable": "VITE_BASE_PATH",
       "envName": "VITE_BASE_PATH",
-      "valueSource": "inferred-github-pages",
+      "valueSource": "production-environment",
       "configured": true,
       "command": "gh variable set VITE_BASE_PATH --body \"$VITE_BASE_PATH\""
     },
@@ -712,7 +706,7 @@
       "kind": "github-variable",
       "repositoryVariable": "AGL_PUBLIC_ORIGIN",
       "envName": "AGL_PUBLIC_ORIGIN",
-      "valueSource": "inferred-github-pages",
+      "valueSource": "production-environment",
       "configured": true,
       "command": "gh variable set AGL_PUBLIC_ORIGIN --body \"$AGL_PUBLIC_ORIGIN\""
     },
@@ -721,7 +715,7 @@
       "kind": "github-variable",
       "repositoryVariable": "VITE_PUBLIC_ORIGIN",
       "envName": "AGL_PUBLIC_ORIGIN",
-      "valueSource": "inferred-github-pages",
+      "valueSource": "production-environment",
       "configured": true,
       "command": "gh variable set VITE_PUBLIC_ORIGIN --body \"$AGL_PUBLIC_ORIGIN\""
     },
@@ -730,7 +724,7 @@
       "kind": "github-variable",
       "repositoryVariable": "PUBLIC_SITE_URL",
       "envName": "AGL_PUBLIC_ORIGIN",
-      "valueSource": "inferred-github-pages",
+      "valueSource": "production-environment",
       "configured": true,
       "command": "gh variable set PUBLIC_SITE_URL --body \"$AGL_PUBLIC_ORIGIN\""
     },
@@ -1060,10 +1054,6 @@
   ],
   "externalBlockers": [
     {
-      "source": "repository-bootstrap",
-      "blocker": "Commit current generated changes before pushing to GitHub Pages."
-    },
-    {
       "source": "production-environment",
       "blocker": "Set AGL_SUPPORT_EMAIL to a real support inbox before public store submission."
     },
@@ -1090,10 +1080,6 @@
     {
       "source": "event-collector",
       "blocker": "Collector environment is not configured."
-    },
-    {
-      "source": "store-compliance",
-      "blocker": "hosted-privacy-url: Hosted privacy policy URL is required before public store submission."
     },
     {
       "source": "store-compliance",

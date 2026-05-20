@@ -1,6 +1,6 @@
 # Autonomous Owner Loop
 
-Generated: 2026-05-20T08:32:19.888Z
+Generated: 2026-05-20T08:40:22.220Z
 Status: owner-loop-ready
 Mode: zero-spend-web-ready
 Autonomy score: 35/36 (97%)
@@ -40,11 +40,11 @@ Autonomy score: 35/36 (97%)
 - ready: web-deployment - Deployment ready-for-pages; web readiness ready-after-build; promotion promotable-internal.
 - ready: release-candidate - Candidate pwa-ec4b42e939bc; status release-candidate-ready; files 44; smoke URLs 14.
 - ready: post-deploy-smoke - Smoke blocked-missing-origin; origin missing; candidate pwa-ec4b42e939bc; checks 0/15 passed; local artifact predeploy-artifact-smoke-passed 15/15 passed.
-- ready: production-bootstrap - Bootstrap production-bootstrap-ready; mode can-apply-configured-actions; external blockers 17.
+- ready: production-bootstrap - Bootstrap production-bootstrap-ready; mode can-apply-configured-actions; external blockers 15.
 - ready: production-activation - Activation activation-applied; mode apply-configured-actions; execution executed; gh ready.
 - ready: autonomous-operator - Operator operator-plan-ready; selected refresh-organic-seed-loop; execution not-requested.
 - ready: operator-history - History operator-history-ready; records 40; executed 12.
-- ready: objective-audit - Audit objective-in-progress; met 6/8; external blockers 14.
+- ready: objective-audit - Audit objective-in-progress; met 6/8; external blockers 12.
 - ready: store-listing-optimizer - Focus canopy-bloom; lead screenshot phone-canopy-bloom-generated; candidate changed yes.
 - ready: store-compliance - Rating Everyone; target audience general; blockers 3.
 - ready: android-signing - Signing signing-prepared; fingerprint available; local secrets configured.

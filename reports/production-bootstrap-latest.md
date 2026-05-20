@@ -1,6 +1,6 @@
 # Production Bootstrap
 
-Generated: 2026-05-20T07:15:01.955Z
+Generated: 2026-05-20T08:40:21.455Z
 Status: production-bootstrap-ready
 Mode: can-apply-configured-actions
 GitHub repository: moshequ/autonomous-game-lab
@@ -18,7 +18,7 @@ gh CLI available: true
 
 - repository-channel-ready: repository-channel; auto-run no; Repository moshequ/autonomous-game-lab; git worktree ready; workflow dispatch ready.
 - repository-bootstrap-ready: repository-bootstrap; auto-run no; Repository bootstrap repository-bootstrap-ready; helper ops/github/bootstrap-repository.sh; local git ready.
-- waiting-for-origin-support: production-environment; auto-run no; Environment production-env-missing; public origin inferred-github-pages; support missing-production-address.
+- waiting-for-origin-support: production-environment; auto-run no; Environment production-env-missing; public origin configured; support missing-production-address.
 - ready-for-actions-pages: github-pages-hosting; auto-run yes; Deployment plan is ready-for-pages; Pages workflow is .github/workflows/web-pwa-deploy.yml.
 - ready-to-sync: github-pages-settings; auto-run yes; GitHub CLI can configure Pages to use the Actions workflow source.
 - waiting-for-self-update-gate: autonomous-self-update; auto-run no; Self-update gate missing; direct push held.
@@ -26,7 +26,7 @@ gh CLI available: true
 - partially-configured: github-actions-secrets; auto-run yes; 3/8 repository secret value(s) present in this environment.
 - blocked-needs-cloudflare-env: event-collector; auto-run no; Collector deployment is blocked-needs-cloudflare-env; provider cloudflare-worker-r2.
 - held-by-product-gates: monetization-gate; auto-run no; Revenue disabled; spend mode no-spend.
-- draft-ready-external-blockers: store-compliance-unblock; auto-run no; 4 store compliance blocker(s) remain.
+- draft-ready-external-blockers: store-compliance-unblock; auto-run no; 3 store compliance blocker(s) remain.
 - blocked-needs-host-signing-play: android-release-unblock; auto-run no; Native package blocked-draft-ready; Android release blocked-needs-host-signing-play.
 
 ## Setup Commands
@@ -42,10 +42,10 @@ gh CLI available: true
 
 ## Repository Variables
 
-- ready: VITE_BASE_PATH from VITE_BASE_PATH (inferred-github-pages)
-- ready: AGL_PUBLIC_ORIGIN from AGL_PUBLIC_ORIGIN (inferred-github-pages)
-- ready: VITE_PUBLIC_ORIGIN from AGL_PUBLIC_ORIGIN (inferred-github-pages)
-- ready: PUBLIC_SITE_URL from AGL_PUBLIC_ORIGIN (inferred-github-pages)
+- ready: VITE_BASE_PATH from VITE_BASE_PATH (production-environment)
+- ready: AGL_PUBLIC_ORIGIN from AGL_PUBLIC_ORIGIN (production-environment)
+- ready: VITE_PUBLIC_ORIGIN from AGL_PUBLIC_ORIGIN (production-environment)
+- ready: PUBLIC_SITE_URL from AGL_PUBLIC_ORIGIN (production-environment)
 - missing: AGL_SUPPORT_EMAIL from AGL_SUPPORT_EMAIL (missing)
 - missing: VITE_POSTHOG_KEY from VITE_POSTHOG_KEY (missing)
 - missing: VITE_POSTHOG_HOST from VITE_POSTHOG_HOST (missing)
@@ -80,7 +80,6 @@ gh CLI available: true
 
 ## External Blockers
 
-- repository-bootstrap: Commit current generated changes before pushing to GitHub Pages.
 - production-environment: Set AGL_SUPPORT_EMAIL to a real support inbox before public store submission.
 - production-environment: Set VITE_EVENT_COLLECTOR_URL or VITE_POSTHOG_KEY to forward browser analytics in production.
 - production-environment: Set AGL_EVENT_COLLECTOR_EXPORT_URL + AGL_EVENT_COLLECTOR_ADMIN_TOKEN or PostHog server credentials for autonomous production rollups.
@@ -88,7 +87,8 @@ gh CLI available: true
 - production-environment: Connect Google Play credentials or set AGL_GOOGLE_PLAY_ACCOUNT_CONNECTED=true.
 - production-environment: Connect Apple Developer account only after revenue justifies iOS spend.
 - event-collector: Collector environment is not configured.
-- store-compliance: hosted-privacy-url: Hosted privacy policy URL is required before public store submission.
 - store-compliance: support-contact: Production support email is required before public store submission.
 - store-compliance: google-play-account: Google Play developer account must be connected before Android submission.
 - store-compliance: apple-developer-account: Apple Developer account remains deferred until iOS spend is justified.
+- android-release: native-package-ready: Native package is blocked-draft-ready.
+- android-release: google-play-account: Google Play account is not connected.
