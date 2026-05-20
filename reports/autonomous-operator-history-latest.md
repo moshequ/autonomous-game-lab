@@ -1,11 +1,11 @@
 # Autonomous Operator History
 
-Generated: 2026-05-20T15:19:37.842Z
+Generated: 2026-05-20T15:20:45.178Z
 Status: operator-history-ready
 Records: 40
 Executed records: 1
 Failed records: 0
-Latest run appended: true
+Latest run appended: false
 Compacted duplicate dry-runs: 0
 
 ## Controls
@@ -17,8 +17,6 @@ Compacted duplicate dry-runs: 0
 
 ## Recent Records
 
-- 2026-05-20T15:01:38.370Z: bootstrap-production-setup; not-requested; appended fingerprint 2fd624cd97877b08
-- 2026-05-20T15:01:38.821Z: bootstrap-production-setup; not-requested; appended fingerprint d734769da823d74d
 - 2026-05-20T15:02:40.285Z: bootstrap-production-setup; not-requested; appended fingerprint 2fd624cd97877b08
 - 2026-05-20T15:02:52.562Z: bootstrap-production-setup; not-requested; appended fingerprint d734769da823d74d
 - 2026-05-20T15:12:05.911Z: bootstrap-production-setup; not-requested; appended fingerprint 2fd624cd97877b08
@@ -27,3 +25,5 @@ Compacted duplicate dry-runs: 0
 - 2026-05-20T15:13:13.221Z: bootstrap-production-setup; not-requested; appended fingerprint d734769da823d74d
 - 2026-05-20T15:19:37.479Z: bootstrap-production-setup; not-requested; appended fingerprint 2fd624cd97877b08
 - 2026-05-20T15:19:37.842Z: bootstrap-production-setup; not-requested; appended fingerprint d734769da823d74d
+- 2026-05-20T15:20:31.868Z: bootstrap-production-setup; not-requested; appended fingerprint 2fd624cd97877b08
+- 2026-05-20T15:20:43.618Z: bootstrap-production-setup; not-requested; appended fingerprint d734769da823d74d
