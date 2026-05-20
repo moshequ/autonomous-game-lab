@@ -373,6 +373,7 @@ export const flushBufferedEventsToCollector = (options: { preferBeacon?: boolean
   }
 
   if (options.preferBeacon && beaconEventsToEventCollector(pendingEvents)) {
+    markForwardedEvents(pendingEvents)
     return
   }
 

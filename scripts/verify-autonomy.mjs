@@ -3031,11 +3031,20 @@ if (
 	  !analyticsLibSource.includes('navigator.sendBeacon') ||
 	  !analyticsLibSource.includes("window.addEventListener('pagehide'") ||
 	  !analyticsLibSource.includes("window.addEventListener('online'") ||
-	  !analyticsLibSource.includes("window.addEventListener('visibilitychange'") ||
+  !analyticsLibSource.includes("window.addEventListener('visibilitychange'") ||
   !analyticsLibSource.includes('postEventsToEventCollector(pendingEvents)') ||
+  (analyticsLibSource.match(/markForwardedEvents\(pendingEvents\)/g)?.length ?? 0) < 2 ||
+  !analyticsLibSource.includes(
+    [
+      'if (options.preferBeacon && beaconEventsToEventCollector(pendingEvents)) {',
+      '    markForwardedEvents(pendingEvents)',
+      '    return',
+      '  }',
+    ].join('\n'),
+  ) ||
   !analyticsLibSource.includes('.slice(-50)')
 ) {
-  fail('Browser analytics must retry buffered real events to the first-party collector without losing the local buffer.')
+  fail('Browser analytics must retry buffered real events to the first-party collector, dedupe successful beacon/post forwards, and preserve the local buffer.')
 }
 
 if (!packageJson.scripts?.['autonomous:daily']?.includes('autonomous:monetization')) {

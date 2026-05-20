@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-20T17:39:14.184Z",
+  "generatedAt": "2026-05-20T17:47:55.951Z",
   "status": "repository-channel-ready",
   "envFiles": {
     "loaded": true,
@@ -56,60 +56,38 @@
     "insideWorkTree": true,
     "gitRoot": "/Users/moshequ/Documents/Codex/2026-05-18/i-want-to-have-a-new",
     "currentBranch": "main",
-    "dirtyFiles": 23,
+    "dirtyFiles": 12,
     "dirtyPaths": [
-      ".github/workflows/post-deploy-evidence-sync.yml",
-      ".github/workflows/web-pwa-deploy.yml",
-      "data/autonomous-cadence.json",
       "data/performance-budget.json",
-      "data/post-deploy-artifact-sync.json",
       "data/post-deploy-smoke.json",
       "data/release-candidate.json",
-      "package.json",
-      "reports/autonomous-cadence-latest.md",
       "reports/performance-budget-latest.md",
-      "reports/post-deploy-artifact-sync-latest.md",
       "reports/post-deploy-smoke-latest.md",
       "reports/release-candidate-latest.md",
-      "scripts/autonomous-cadence.mjs",
-      "scripts/post-deploy-artifact-sync.mjs",
       "scripts/verify-autonomy.mjs",
-      "src/data/autonomousCadence.ts",
       "src/data/performanceBudget.ts",
-      "src/data/postDeployArtifactSync.ts",
       "src/data/postDeploySmoke.ts",
       "src/data/releaseCandidate.ts",
-      "tests/smoke.spec.ts",
-      "scripts/verify-post-deploy-evidence-sync.mjs"
+      "src/lib/analytics.ts",
+      "tests/smoke.spec.ts"
     ],
-    "generatedEvidenceDirtyFiles": 15,
+    "generatedEvidenceDirtyFiles": 9,
     "generatedEvidenceDirtyPaths": [
-      "data/autonomous-cadence.json",
       "data/performance-budget.json",
-      "data/post-deploy-artifact-sync.json",
       "data/post-deploy-smoke.json",
       "data/release-candidate.json",
-      "reports/autonomous-cadence-latest.md",
       "reports/performance-budget-latest.md",
-      "reports/post-deploy-artifact-sync-latest.md",
       "reports/post-deploy-smoke-latest.md",
       "reports/release-candidate-latest.md",
-      "src/data/autonomousCadence.ts",
       "src/data/performanceBudget.ts",
-      "src/data/postDeployArtifactSync.ts",
       "src/data/postDeploySmoke.ts",
       "src/data/releaseCandidate.ts"
     ],
-    "nonGeneratedDirtyFiles": 8,
+    "nonGeneratedDirtyFiles": 3,
     "nonGeneratedDirtyPaths": [
-      ".github/workflows/post-deploy-evidence-sync.yml",
-      ".github/workflows/web-pwa-deploy.yml",
-      "package.json",
-      "scripts/autonomous-cadence.mjs",
-      "scripts/post-deploy-artifact-sync.mjs",
       "scripts/verify-autonomy.mjs",
-      "tests/smoke.spec.ts",
-      "scripts/verify-post-deploy-evidence-sync.mjs"
+      "src/lib/analytics.ts",
+      "tests/smoke.spec.ts"
     ]
   },
   "repository": {
@@ -146,7 +124,7 @@
     "workflowExists": true,
     "deployWorkflowIncludesSmoke": true,
     "deploymentStatus": "ready-for-pages",
-    "releaseCandidateId": "pwa-2be2c7622f58",
+    "releaseCandidateId": "pwa-c8ebcdcb0173",
     "postDeploySmokeStatus": "post-deploy-smoke-observed-live",
     "liveSettings": {
       "status": "inspected",

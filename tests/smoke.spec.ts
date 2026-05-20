@@ -4044,6 +4044,15 @@ test('privacy control can disable external analytics forwarding', async ({ page 
   expect(analyticsSource).toContain("window.addEventListener('pagehide'")
   expect(analyticsSource).toContain("window.addEventListener('visibilitychange'")
   expect(analyticsSource).toContain('postEventsToEventCollector(pendingEvents)')
+  expect(analyticsSource.match(/markForwardedEvents\(pendingEvents\)/g)?.length).toBeGreaterThanOrEqual(2)
+  expect(analyticsSource).toContain(
+    [
+      'if (options.preferBeacon && beaconEventsToEventCollector(pendingEvents)) {',
+      '    markForwardedEvents(pendingEvents)',
+      '    return',
+      '  }',
+    ].join('\n'),
+  )
 })
 
 test('generated privacy policy is reachable', async ({ page }) => {
