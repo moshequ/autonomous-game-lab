@@ -1,5 +1,5 @@
 export const postDeploySmoke = {
-  "generatedAt": "2026-05-20T12:53:51.133Z",
+  "generatedAt": "2026-05-20T13:07:48.075Z",
   "status": "blocked-missing-origin",
   "envFiles": {
     "loaded": true,
@@ -54,8 +54,8 @@ export const postDeploySmoke = {
   "target": {
     "origin": null,
     "provider": "github-pages",
-    "candidateId": "pwa-cc035d08fb1b",
-    "aggregateHash": "cc035d08fb1b3436ffaa77e43583421293541509c5a6b3634a522d97a86f7367"
+    "candidateId": "pwa-70ffbedd9d1f",
+    "aggregateHash": "70ffbedd9d1fb60bd17273c114440078f5c7c91cc338266c75c5a6a6cfd50d02"
   },
   "sourceStatus": {
     "deployment": "ready-for-pages",
@@ -89,7 +89,7 @@ export const postDeploySmoke = {
         "file": "dist/index.html",
         "expectedStatus": 200,
         "status": "pass",
-        "bytes": 803,
+        "bytes": 903,
         "textMatched": true,
         "detail": "Local production artifact matched required text."
       },
@@ -99,7 +99,7 @@ export const postDeploySmoke = {
         "file": "dist/manifest.webmanifest",
         "expectedStatus": 200,
         "status": "pass",
-        "bytes": 713,
+        "bytes": 853,
         "textMatched": true,
         "detail": "Local production artifact matched required text."
       },
@@ -232,8 +232,8 @@ export const postDeploySmoke = {
         "bytes": 19425,
         "candidateMatches": true,
         "hashMatches": true,
-        "localCandidateId": "pwa-cc035d08fb1b",
-        "localAggregateHash": "cc035d08fb1b3436ffaa77e43583421293541509c5a6b3634a522d97a86f7367",
+        "localCandidateId": "pwa-70ffbedd9d1f",
+        "localAggregateHash": "70ffbedd9d1fb60bd17273c114440078f5c7c91cc338266c75c5a6a6cfd50d02",
         "detail": "Local release manifest matches the release candidate."
       }
     ]
@@ -379,7 +379,7 @@ export const postDeploySmoke = {
       "path": "/release-candidate.json",
       "url": "${DEPLOYED_PWA_ORIGIN}/release-candidate.json",
       "expectedStatus": 200,
-      "requiredText": "pwa-cc035d08fb1b",
+      "requiredText": "pwa-70ffbedd9d1f",
       "status": "blocked",
       "detail": "No deployed origin configured."
     }
