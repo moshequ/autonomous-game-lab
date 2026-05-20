@@ -689,9 +689,9 @@ const systems = [
       'needs-release-manifest',
     ),
     autonomy: 'content-hashed-deploy-evidence',
-    evidence: `Candidate ${releaseCandidate.candidateId ?? 'missing'}; status ${
-      releaseCandidate.status
-    }; files ${releaseCandidate.summary?.totalFiles ?? 0}; smoke URLs ${
+    evidence: `Release candidate ${releaseCandidate.status}; files ${
+      releaseCandidate.summary?.totalFiles ?? 0
+    }; smoke URLs ${
       releaseCandidate.summary?.postDeploySmokeUrls ?? 0
     }.`,
     nextAction: 'Regenerate the release candidate after every production build before deploy or rollback decisions.',
@@ -702,7 +702,9 @@ const systems = [
     autonomy: 'read-only-live-deploy-verification',
     evidence: `Smoke ${postDeploySmoke.status}; origin ${
       postDeploySmoke.target?.origin ?? 'missing'
-    }; candidate ${postDeploySmoke.target?.candidateId ?? 'missing'}; checks ${
+    }; manifest comparison ${
+      postDeploySmoke.controls?.manifestHashComparisonRequired === true ? 'required' : 'missing'
+    }; checks ${
       postDeploySmoke.summary?.passed ?? 0
     }/${postDeploySmoke.summary?.planned ?? 0} passed; local artifact ${
       postDeploySmoke.localArtifactSmoke?.status ?? 'missing'
@@ -1038,7 +1040,7 @@ const safeAutonomousActions = [
     status: releaseCandidate.status === 'release-candidate-ready' ? 'armed' : 'monitor',
     costUsd: 0,
     command: 'npm run autonomous:release-candidate',
-    targets: [releaseCandidate.candidateId ?? 'dist-release-candidate'],
+    targets: ['dist-release-candidate'],
     reason: 'Records a content-hashed dist inventory and post-deploy smoke plan for the exact PWA build.',
   },
   {
@@ -1046,7 +1048,7 @@ const safeAutonomousActions = [
     status: postDeploySmoke.target?.origin ? 'armed' : 'monitor',
     costUsd: 0,
     command: 'npm run autonomous:post-deploy-smoke',
-    targets: [postDeploySmoke.target?.origin ?? 'deployed-pages-url', releaseCandidate.candidateId ?? 'release-candidate'],
+    targets: [postDeploySmoke.target?.origin ?? 'deployed-pages-url', 'release-candidate-manifest'],
     reason: postDeploySmoke.target?.origin
       ? 'Verifies the live Pages URL with read-only smoke checks and release-manifest hash comparison.'
       : 'Waits for a deployed Pages origin, then verifies the live PWA matches the exact release candidate.',

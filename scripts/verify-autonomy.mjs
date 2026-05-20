@@ -2706,6 +2706,12 @@ if (
   !bundleSyncScript.includes('autonomous:performance') ||
   !bundleSyncScript.includes('autonomous:release-candidate') ||
   !bundleSyncScript.includes('autonomous:post-deploy-smoke') ||
+  !bundleSyncScript.includes('autonomous:repo-readiness') ||
+  !bundleSyncScript.includes('autonomous:repo-bootstrap') ||
+  !bundleSyncScript.includes('autonomous:deploy-plan') ||
+  !bundleSyncScript.includes('autonomous:owner-loop') ||
+  !bundleSyncScript.includes('autonomous:objective-audit') ||
+  !bundleSyncScript.includes('autonomous:readiness') ||
   !testAutomationScript.includes('autonomous:bundle-sync')
 ) {
   fail('Autonomous verification must run a final bundle sync after late generated owner-loop evidence changes.')
@@ -4574,14 +4580,14 @@ if (
       action.id === 'prepare-release-candidate' &&
       action.command === 'npm run autonomous:release-candidate' &&
       action.costUsd === 0 &&
-      action.targets?.includes(releaseCandidate.candidateId),
+      action.targets?.includes('dist-release-candidate'),
   ) ||
   !autonomousOwnerLoop.safeAutonomousActions?.some(
     (action) =>
       action.id === 'run-post-deploy-smoke' &&
       action.command === 'npm run autonomous:post-deploy-smoke' &&
       action.costUsd === 0 &&
-      action.targets?.includes(releaseCandidate.candidateId),
+      action.targets?.includes('release-candidate-manifest'),
   ) ||
   !autonomousOwnerLoop.safeAutonomousActions?.some(
     (action) =>
