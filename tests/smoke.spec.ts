@@ -2595,12 +2595,28 @@ test('local event bridge keeps browser analytics drops importable without extern
       filenamePattern: string
       importCommand: string
       rollupCommand: string
+      recommendedFields: string[]
       strippedPropertyKeys: string[]
     }
     gateSampleEvidence: {
       inbox: { events: number; campaigns: unknown[] }
       imported: { events: number; campaigns: unknown[] }
       localEvidenceAvailable: boolean
+    }
+    exportCoverage: {
+      status: string
+      inbox: {
+        status: string
+        analyticsExports: number
+        coverageReceipts: number
+      }
+      imported: {
+        status: string
+        analyticsExports: number
+        coverageReceipts: number
+      }
+      localEvidenceAvailable: boolean
+      readyForIngest: boolean
     }
     explicitDownloadsScanPolicy: {
       explicitOptInRequired: boolean
@@ -2619,6 +2635,9 @@ test('local event bridge keeps browser analytics drops importable without extern
       copyOnlyExplicitDropPaths: boolean
       downloadsFolderOptInOnly: boolean
       downloadsFolderRequiresExplicitEnv: boolean
+      localExportCoverageReceipts: boolean
+      staleExportDebtVisibleInApp: boolean
+      bridgeReadsExportReceipts: boolean
     }
     privacy: {
       piiStrippingEnabled: boolean
@@ -2637,6 +2656,8 @@ test('local event bridge keeps browser analytics drops importable without extern
   expect(bridge.eventDropContract.filenamePattern).toBe('player-events*.json')
   expect(bridge.eventDropContract.importCommand).toBe('npm run autonomous:import-events')
   expect(bridge.eventDropContract.rollupCommand).toBe('npm run autonomous:analytics')
+  expect(bridge.eventDropContract.recommendedFields).toContain('properties.eventCountAtExport')
+  expect(bridge.eventDropContract.recommendedFields).toContain('properties.unexportedEventsBeforeExport')
   expect(bridge.eventDropContract.strippedPropertyKeys).toContain('email')
   expect(bridge.controls.zeroPaidSpend).toBe(true)
   expect(bridge.controls.localOnly).toBe(true)
@@ -2647,6 +2668,9 @@ test('local event bridge keeps browser analytics drops importable without extern
   expect(bridge.controls.copyOnlyExplicitDropPaths).toBe(true)
   expect(bridge.controls.downloadsFolderOptInOnly).toBe(true)
   expect(bridge.controls.downloadsFolderRequiresExplicitEnv).toBe(true)
+  expect(bridge.controls.localExportCoverageReceipts).toBe(true)
+  expect(bridge.controls.staleExportDebtVisibleInApp).toBe(true)
+  expect(bridge.controls.bridgeReadsExportReceipts).toBe(true)
   expect(bridge.explicitDownloadsScanPolicy.explicitOptInRequired).toBe(true)
   expect(bridge.explicitDownloadsScanPolicy.cooldownHours).toBe(4)
   expect(typeof bridge.explicitDownloadsScanPolicy.coolingDown).toBe('boolean')
@@ -2657,11 +2681,25 @@ test('local event bridge keeps browser analytics drops importable without extern
   expect(bridge.privacy.inboxWritesSanitizedEvents).toBe(true)
   expect(typeof bridge.privacy.sensitivePropertiesDropped).toBe('number')
   expect(bridge.privacy.strippedPropertyKeys).toContain('email')
+  expect([
+    'imported-export-coverage-ready',
+    'inbox-export-coverage-ready',
+    'legacy-export-needs-refresh',
+    'waiting-for-first-export',
+  ]).toContain(bridge.exportCoverage.status)
+  expect(typeof bridge.exportCoverage.inbox.analyticsExports).toBe('number')
+  expect(typeof bridge.exportCoverage.inbox.coverageReceipts).toBe('number')
+  expect(typeof bridge.exportCoverage.imported.analyticsExports).toBe('number')
+  expect(typeof bridge.exportCoverage.imported.coverageReceipts).toBe('number')
+  expect(typeof bridge.exportCoverage.localEvidenceAvailable).toBe('boolean')
+  expect(typeof bridge.exportCoverage.readyForIngest).toBe('boolean')
   expect(bridge.gateSampleEvidence.localEvidenceAvailable).toBe(false)
   expect(bridge.gateSampleEvidence.inbox.campaigns).toHaveLength(0)
 
   await page.goto('/')
   await expect(page.getByLabel('Local Event Bridge')).toContainText('Local Event Bridge')
+  await expect(page.getByLabel('Local Event Bridge')).toContainText('Export debt')
+  await expect(page.getByLabel('Local Event Bridge')).toContainText('Export coverage')
 })
 
 test('autonomous operator history keeps a capped audit trail', async ({ page }) => {
@@ -3543,13 +3581,36 @@ test('local analytics export produces an event drop file', async ({ page }) => {
   }
 
   const events = JSON.parse(await readFile(downloadPath, 'utf8')) as Array<{
+    id: string
     name: string
-    properties: Record<string, string>
+    properties: Record<string, string | number | boolean | null>
   }>
+  const exportEvent = events.findLast((event) => event.name === 'analytics_exported')
+  const receipt = await page.evaluate(() =>
+    JSON.parse(window.localStorage.getItem('agl.analytics.localExportReceipt') ?? 'null'),
+  )
 
-  expect(events.some((event) => event.name === 'analytics_exported')).toBe(true)
-  expect(events.some((event) => event.properties.anonymousId?.startsWith('anon-'))).toBe(true)
-  expect(events.some((event) => /^\d{4}-\d{2}-\d{2}$/.test(event.properties.sessionDate))).toBe(true)
+  expect(exportEvent).toBeTruthy()
+  expect(exportEvent?.properties.exportSurface).toBe('manual')
+  expect(exportEvent?.properties.eventCountAtExport).toBe(events.length)
+  expect(Number(exportEvent?.properties.unexportedEventsBeforeExport ?? 0)).toBeGreaterThan(0)
+  expect(exportEvent?.properties.exportCoverageStatusBeforeExport).toBe('waiting-for-first-export')
+  expect(receipt?.exportedEventCount).toBe(events.length)
+  expect(receipt?.latestEventId).toBe(events.at(-1)?.id)
+  expect(
+    events.some(
+      (event) =>
+        typeof event.properties.anonymousId === 'string' &&
+        event.properties.anonymousId.startsWith('anon-'),
+    ),
+  ).toBe(true)
+  expect(
+    events.some(
+      (event) =>
+        typeof event.properties.sessionDate === 'string' &&
+        /^\d{4}-\d{2}-\d{2}$/.test(event.properties.sessionDate),
+    ),
+  ).toBe(true)
 })
 
 test('lantern relay prototype is playable and instrumented', async ({ page }) => {
@@ -4040,6 +4101,9 @@ test('privacy control can disable external analytics forwarding', async ({ page 
   expect(analyticsSource).toContain('flushBufferedEventsToCollector')
   expect(analyticsSource).toContain('forwardedIdsKey')
   expect(analyticsSource).toContain('navigator.sendBeacon')
+  expect(analyticsSource).toContain('localExportReceiptKey')
+  expect(analyticsSource).toContain('getLocalAnalyticsExportCoverage')
+  expect(analyticsSource).toContain('markLocalAnalyticsExported')
   expect(analyticsSource).toContain("window.addEventListener('online'")
   expect(analyticsSource).toContain("window.addEventListener('pagehide'")
   expect(analyticsSource).toContain("window.addEventListener('visibilitychange'")

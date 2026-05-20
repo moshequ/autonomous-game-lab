@@ -1,5 +1,5 @@
 export const localEventBridge = {
-  "generatedAt": "2026-05-20T16:45:37.131Z",
+  "generatedAt": "2026-05-20T18:03:47.120Z",
   "status": "bridge-waiting-for-export",
   "mode": "local-zero-spend-event-drop-bridge",
   "inbox": {
@@ -41,7 +41,9 @@ export const localEventBridge = {
     "recommendedFields": [
       "properties.gameId",
       "properties.anonymousId",
-      "properties.sessionDate"
+      "properties.sessionDate",
+      "properties.eventCountAtExport",
+      "properties.unexportedEventsBeforeExport"
     ],
     "strippedPropertyKeys": [
       "address",
@@ -80,7 +82,7 @@ export const localEventBridge = {
     "evidenceReadyNow": false,
     "lastScanAt": "2026-05-20T05:52:52.843Z",
     "lastScanStatus": "no-evidence-found",
-    "scanAgeHours": 10.88,
+    "scanAgeHours": 12.18,
     "cooldownRemainingHours": 0,
     "nextRecommendedScanAt": "2026-05-20T09:52:52.843Z"
   },
@@ -101,6 +103,37 @@ export const localEventBridge = {
       "analyticsExports": 0,
       "successEvents": 0
     },
+    "localEvidenceAvailable": false,
+    "readyForIngest": false
+  },
+  "exportCoverage": {
+    "inbox": {
+      "status": "waiting-for-first-export",
+      "files": 0,
+      "events": 0,
+      "analyticsExports": 0,
+      "coverageReceipts": 0,
+      "selfDescribingExports": 0,
+      "latestExportedAt": null,
+      "latestExportSurface": null,
+      "latestEventCountAtExport": null,
+      "latestUnexportedEventsBeforeExport": null,
+      "latestCoverageStatusBeforeExport": null
+    },
+    "imported": {
+      "status": "waiting-for-first-export",
+      "files": 0,
+      "events": 0,
+      "analyticsExports": 0,
+      "coverageReceipts": 0,
+      "selfDescribingExports": 0,
+      "latestExportedAt": null,
+      "latestExportSurface": null,
+      "latestEventCountAtExport": null,
+      "latestUnexportedEventsBeforeExport": null,
+      "latestCoverageStatusBeforeExport": null
+    },
+    "status": "waiting-for-first-export",
     "localEvidenceAvailable": false,
     "readyForIngest": false
   },
@@ -135,10 +168,14 @@ export const localEventBridge = {
     "downloadsFolderOptInOnly": true,
     "downloadsFolderImportEnabled": false,
     "downloadsFolderRequiresExplicitEnv": true,
+    "localExportCoverageReceipts": true,
+    "staleExportDebtVisibleInApp": true,
+    "bridgeReadsExportReceipts": true,
     "doesNotMutateProductGates": true
   },
   "nextActions": [
     "Use the in-app Export local analytics control after playtesting.",
+    "Prefer fresh PWA exports because they include event-count receipts for stale-export debt.",
     "Place the downloaded player-events file in data/player-events/inbox or pass AGL_LOCAL_EVENT_DROP_DIRS to copy from an explicit folder.",
     "Optionally run AGL_LOCAL_EVENT_IMPORT_DOWNLOADS=true npm run autonomous:local-event-bridge to scan Downloads explicitly.",
     "Keep hosted collector/PostHog setup blocked until credentials exist."

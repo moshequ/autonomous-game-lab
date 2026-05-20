@@ -66,7 +66,9 @@ import { unitEconomics } from './data/unitEconomics'
 import type { GameSnapshot } from './game/gameTypes'
 import {
   getBufferedEvents,
+  getLocalAnalyticsExportCoverage,
   initAnalytics,
+  markLocalAnalyticsExported,
   setAcquisitionAttribution,
   trackEvent,
   type AnalyticsEvent,
@@ -426,6 +428,7 @@ function App() {
   const rewardVariant = useMemo(() => getExperimentVariant('reward_offer'), [])
   const thumbnailVariant = useMemo(() => getExperimentVariant('thumbnail_board_state_v2'), [])
   const activeRunId = useMemo(() => `${selectedGameId}-${crypto.randomUUID()}`, [selectedGameId])
+  const localAnalyticsCoverage = useMemo(() => getLocalAnalyticsExportCoverage(events), [events])
 
   useEffect(() => {
     initAnalytics()
@@ -1697,8 +1700,25 @@ function App() {
     })
   }
   const exportLocalAnalytics = (properties: Record<string, string | number | boolean | null> = {}) => {
-    trackEvent('analytics_exported', { destination: 'local_file', ...properties })
-    const payload = JSON.stringify(getBufferedEvents(), null, 2)
+    const eventsBeforeExport = getBufferedEvents()
+    const coverageBeforeExport = getLocalAnalyticsExportCoverage(eventsBeforeExport)
+    const exportSurface = typeof properties.exportSurface === 'string' ? properties.exportSurface : 'manual'
+    trackEvent('analytics_exported', {
+      destination: 'local_file',
+      ...properties,
+      exportSurface,
+      eventCountAtExport: eventsBeforeExport.length + 1,
+      unexportedEventsBeforeExport: coverageBeforeExport.unexportedEvents,
+      exportedEventCountBeforeExport: coverageBeforeExport.exportedEventCount,
+      exportCoverageRatioBeforeExport: Math.round(coverageBeforeExport.coverageRatio * 1000) / 1000,
+      exportCoverageStatusBeforeExport: coverageBeforeExport.status,
+      exportDebtThreshold: coverageBeforeExport.exportDebtThreshold,
+      exportAgeThresholdHours: coverageBeforeExport.exportAgeThresholdHours,
+    })
+    const exportedEvents = getBufferedEvents()
+    markLocalAnalyticsExported(exportedEvents, exportSurface)
+    setEvents(exportedEvents)
+    const payload = JSON.stringify(exportedEvents, null, 2)
     const blob = new Blob([payload], { type: 'application/json' })
     const url = URL.createObjectURL(blob)
     const anchor = document.createElement('a')
@@ -2572,6 +2592,18 @@ function App() {
                 <div>
                   <span>Imported events</span>
                   <strong>{localEventBridge.imported.events}</strong>
+                </div>
+                <div>
+                  <span>Export debt</span>
+                  <strong>{localAnalyticsCoverage.unexportedEvents} event(s)</strong>
+                </div>
+                <div>
+                  <span>Export coverage</span>
+                  <strong>{formatPercent(localAnalyticsCoverage.coverageRatio)}</strong>
+                </div>
+                <div>
+                  <span>Last export</span>
+                  <strong>{localAnalyticsCoverage.lastExportedAt?.slice(0, 10) ?? 'never'}</strong>
                 </div>
                 <div>
                   <span>External upload</span>

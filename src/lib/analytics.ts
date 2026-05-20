@@ -74,14 +74,43 @@ export interface AnalyticsEvent {
   createdAt: string
 }
 
+export type LocalAnalyticsExportStatus = 'waiting-for-first-export' | 'export-due' | 'fresh'
+
+export interface LocalAnalyticsExportReceipt {
+  exportedAt: string
+  exportSurface: string
+  exportedEventCount: number
+  latestEventId: string | null
+  latestEventAt: string | null
+}
+
+export interface LocalAnalyticsExportCoverage {
+  totalEvents: number
+  exportedEventCount: number
+  unexportedEvents: number
+  coverageRatio: number
+  status: LocalAnalyticsExportStatus
+  lastExportedAt: string | null
+  latestEventAt: string | null
+  latestEventId: string | null
+  exportSurface: string | null
+  exportDebtThreshold: number
+  exportAgeThresholdHours: number
+  exportAgeHours: number | null
+  exportSuggested: boolean
+}
+
 const bufferKey = 'agl.analytics.events'
 const forwardedIdsKey = 'agl.analytics.forwardedEventIds'
+const localExportReceiptKey = 'agl.analytics.localExportReceipt'
 const anonymousIdKey = 'agl.analytics.anonymousId'
 const sessionIdKey = 'agl.analytics.sessionId'
 const acquisitionSourceKey = 'agl.analytics.acquisitionSource'
 const acquisitionCampaignKey = 'agl.analytics.acquisitionCampaign'
 const acquisitionGameIdKey = 'agl.analytics.acquisitionGameId'
 const acquisitionChannelKey = 'agl.analytics.acquisitionChannel'
+const localExportDebtThreshold = 12
+const localExportAgeThresholdHours = 24
 let initialized = false
 let posthogReady = false
 let urlAttributionInitialized = false
@@ -257,6 +286,103 @@ const writeBuffer = (events: AnalyticsEvent[]) => {
   }
 
   window.localStorage.setItem(bufferKey, JSON.stringify(events.slice(-300)))
+}
+
+const readLocalExportReceipt = (): LocalAnalyticsExportReceipt | null => {
+  if (typeof window === 'undefined') {
+    return null
+  }
+
+  try {
+    const raw = window.localStorage.getItem(localExportReceiptKey)
+    const parsed = raw ? (JSON.parse(raw) as Partial<LocalAnalyticsExportReceipt>) : null
+
+    if (!parsed || typeof parsed.exportedAt !== 'string') {
+      return null
+    }
+
+    const exportedEventCount = Number(parsed.exportedEventCount)
+
+    return {
+      exportedAt: parsed.exportedAt,
+      exportSurface: typeof parsed.exportSurface === 'string' ? parsed.exportSurface : 'manual',
+      exportedEventCount: Number.isFinite(exportedEventCount) ? Math.max(0, exportedEventCount) : 0,
+      latestEventId: typeof parsed.latestEventId === 'string' ? parsed.latestEventId : null,
+      latestEventAt: typeof parsed.latestEventAt === 'string' ? parsed.latestEventAt : null,
+    }
+  } catch {
+    return null
+  }
+}
+
+export const getLocalAnalyticsExportCoverage = (
+  events: AnalyticsEvent[] = readBuffer(),
+): LocalAnalyticsExportCoverage => {
+  const receipt = readLocalExportReceipt()
+  const latestEvent = events.at(-1) ?? null
+  const latestEventIndex =
+    receipt?.latestEventId ? events.findIndex((event) => event.id === receipt.latestEventId) : -1
+  const unexportedEvents = receipt
+    ? latestEventIndex >= 0
+      ? Math.max(0, events.length - latestEventIndex - 1)
+      : Math.max(0, events.length - receipt.exportedEventCount)
+    : events.length
+  const exportedEventCount = Math.max(0, events.length - unexportedEvents)
+  const exportedAtMs = receipt ? Date.parse(receipt.exportedAt) : Number.NaN
+  const exportAgeHours = Number.isFinite(exportedAtMs)
+    ? Math.max(0, (Date.now() - exportedAtMs) / (60 * 60 * 1000))
+    : null
+  const exportSuggested =
+    !receipt ||
+    unexportedEvents >= localExportDebtThreshold ||
+    (typeof exportAgeHours === 'number' && exportAgeHours >= localExportAgeThresholdHours)
+  const status: LocalAnalyticsExportStatus = !receipt
+    ? 'waiting-for-first-export'
+    : exportSuggested
+      ? 'export-due'
+      : 'fresh'
+
+  return {
+    totalEvents: events.length,
+    exportedEventCount,
+    unexportedEvents,
+    coverageRatio: events.length ? exportedEventCount / events.length : receipt ? 1 : 0,
+    status,
+    lastExportedAt: receipt?.exportedAt ?? null,
+    latestEventAt: latestEvent?.createdAt ?? null,
+    latestEventId: latestEvent?.id ?? null,
+    exportSurface: receipt?.exportSurface ?? null,
+    exportDebtThreshold: localExportDebtThreshold,
+    exportAgeThresholdHours: localExportAgeThresholdHours,
+    exportAgeHours:
+      typeof exportAgeHours === 'number' ? Math.round(exportAgeHours * 100) / 100 : null,
+    exportSuggested,
+  }
+}
+
+export const markLocalAnalyticsExported = (
+  events: AnalyticsEvent[],
+  exportSurface = 'manual',
+): LocalAnalyticsExportReceipt | null => {
+  if (typeof window === 'undefined') {
+    return null
+  }
+
+  const latestEvent = events.at(-1) ?? null
+  const receipt: LocalAnalyticsExportReceipt = {
+    exportedAt: new Date().toISOString(),
+    exportSurface,
+    exportedEventCount: events.length,
+    latestEventId: latestEvent?.id ?? null,
+    latestEventAt: latestEvent?.createdAt ?? null,
+  }
+
+  try {
+    window.localStorage.setItem(localExportReceiptKey, JSON.stringify(receipt))
+    return receipt
+  } catch {
+    return null
+  }
 }
 
 const readForwardedIds = () => {

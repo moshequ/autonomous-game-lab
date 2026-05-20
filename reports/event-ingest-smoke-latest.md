@@ -1,6 +1,6 @@
 # Event Ingest Smoke
 
-Generated: 2026-05-20T16:45:37.049Z
+Generated: 2026-05-20T18:03:41.827Z
 Status: pass
 
 ## Ingest
@@ -18,6 +18,7 @@ Status: pass
 - Downloads sensitive properties stripped: 1
 - Follow-up preserved scan: evidence-found
 - Downloads gate-sample events: 3
+- Downloads export coverage receipts: 1
 
 ## Analytics
 

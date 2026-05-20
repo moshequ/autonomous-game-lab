@@ -1,6 +1,6 @@
 # Local Event Bridge
 
-Generated: 2026-05-20T16:45:37.131Z
+Generated: 2026-05-20T18:03:47.120Z
 Status: bridge-waiting-for-export
 Mode: local-zero-spend-event-drop-bridge
 
@@ -24,6 +24,9 @@ Mode: local-zero-spend-event-drop-bridge
 - Imported events: 0
 - Gate sample inbox events: 0
 - Gate sample imported events: 0
+- Export coverage status: waiting-for-first-export
+- Inbox export receipts: 0
+- Imported export receipts: 0
 - Sensitive properties stripped: 0
 - Last explicit Downloads scan: no-evidence-found
 - Downloads scan cooling down: false
@@ -51,11 +54,15 @@ Mode: local-zero-spend-event-drop-bridge
 - downloadsFolderOptInOnly: true
 - downloadsFolderImportEnabled: false
 - downloadsFolderRequiresExplicitEnv: true
+- localExportCoverageReceipts: true
+- staleExportDebtVisibleInApp: true
+- bridgeReadsExportReceipts: true
 - doesNotMutateProductGates: true
 
 ## Next Actions
 
 - Use the in-app Export local analytics control after playtesting.
+- Prefer fresh PWA exports because they include event-count receipts for stale-export debt.
 - Place the downloaded player-events file in data/player-events/inbox or pass AGL_LOCAL_EVENT_DROP_DIRS to copy from an explicit folder.
 - Optionally run AGL_LOCAL_EVENT_IMPORT_DOWNLOADS=true npm run autonomous:local-event-bridge to scan Downloads explicitly.
 - Keep hosted collector/PostHog setup blocked until credentials exist.

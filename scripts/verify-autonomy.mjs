@@ -582,6 +582,8 @@ if (
   localEventBridge.eventDropContract?.importCommand !== 'npm run autonomous:import-events' ||
   localEventBridge.eventDropContract?.rollupCommand !== 'npm run autonomous:analytics' ||
   !localEventBridge.eventDropContract?.downloadsImportCommand?.includes('AGL_LOCAL_EVENT_IMPORT_DOWNLOADS=true') ||
+  !localEventBridge.eventDropContract?.recommendedFields?.includes('properties.eventCountAtExport') ||
+  !localEventBridge.eventDropContract?.recommendedFields?.includes('properties.unexportedEventsBeforeExport') ||
   localEventBridge.controls?.zeroPaidSpend !== true ||
   localEventBridge.controls?.localOnly !== true ||
   localEventBridge.controls?.noExternalUpload !== true ||
@@ -591,6 +593,9 @@ if (
   localEventBridge.controls?.copyOnlyExplicitDropPaths !== true ||
   localEventBridge.controls?.downloadsFolderOptInOnly !== true ||
   localEventBridge.controls?.downloadsFolderRequiresExplicitEnv !== true ||
+  localEventBridge.controls?.localExportCoverageReceipts !== true ||
+  localEventBridge.controls?.staleExportDebtVisibleInApp !== true ||
+  localEventBridge.controls?.bridgeReadsExportReceipts !== true ||
   localEventBridge.explicitDownloadsScanPolicy?.explicitOptInRequired !== true ||
   localEventBridge.explicitDownloadsScanPolicy?.cooldownHours !== 4 ||
   typeof localEventBridge.explicitDownloadsScanPolicy?.coolingDown !== 'boolean' ||
@@ -598,6 +603,13 @@ if (
   typeof localEventBridge.explicitDownloadsScanPolicy?.nextRecommendedScanAt !== 'string' ||
   typeof localEventBridge.gateSampleEvidence?.imported?.events !== 'number' ||
   typeof localEventBridge.gateSampleEvidence?.inbox?.events !== 'number' ||
+  typeof localEventBridge.exportCoverage?.status !== 'string' ||
+  typeof localEventBridge.exportCoverage?.inbox?.analyticsExports !== 'number' ||
+  typeof localEventBridge.exportCoverage?.inbox?.coverageReceipts !== 'number' ||
+  typeof localEventBridge.exportCoverage?.imported?.analyticsExports !== 'number' ||
+  typeof localEventBridge.exportCoverage?.imported?.coverageReceipts !== 'number' ||
+  typeof localEventBridge.exportCoverage?.localEvidenceAvailable !== 'boolean' ||
+  typeof localEventBridge.exportCoverage?.readyForIngest !== 'boolean' ||
   localEventBridge.privacy?.piiStrippingEnabled !== true ||
   localEventBridge.privacy?.rawDropsStayLocal !== true ||
   localEventBridge.privacy?.inboxWritesSanitizedEvents !== true ||
@@ -613,13 +625,20 @@ if (
   !localEventBridgeSource.includes('explicitDownloadsScanPolicy') ||
   !localEventBridgeSource.includes('downloadsScanCooldownHours') ||
   !localEventBridgeSource.includes('previousBridge') ||
+  !localEventBridgeSource.includes('summarizeExportCoverage') ||
+  !localEventBridgeSource.includes('eventCountAtExport') ||
+  !localEventBridgeSource.includes('unexportedEventsBeforeExport') ||
   !localEventBridgeSource.includes('AGL_LOCAL_EVENT_DROP_DIRS') ||
   !localEventBridgeSource.includes('sanitizeProperties') ||
   !localEventBridgeSource.includes('sensitivePropertyKeys') ||
   !localEventBridgeSource.includes('writeFile(targetPath, JSON.stringify(candidate.sanitizedEvents') ||
-  !appSource.includes('Local Event Bridge')
+  !appSource.includes('Local Event Bridge') ||
+  !appSource.includes('Export debt') ||
+  !analyticsLibSource.includes('localExportReceiptKey') ||
+  !analyticsLibSource.includes('getLocalAnalyticsExportCoverage') ||
+  !analyticsLibSource.includes('markLocalAnalyticsExported')
 ) {
-  fail('Local event bridge must validate and sanitize browser event drops, preserve zero-spend local-only controls, and surface the ingest contract.')
+  fail('Local event bridge must validate and sanitize browser event drops, preserve zero-spend local-only controls, surface stale-export debt, and read PWA export coverage receipts.')
 }
 
 for (const importedFile of eventIngest.importedFiles ?? []) {
@@ -658,6 +677,8 @@ if (
   eventIngestSmoke.followupBridge?.explicitScanStatus !== 'evidence-found' ||
   eventIngestSmoke.followupBridge?.explicitScanEvidenceFound !== true ||
   eventIngestSmoke.downloadsBridge?.gateSampleEvents < 3 ||
+  eventIngestSmoke.downloadsBridge?.exportCoverageReceipts < 1 ||
+  eventIngestSmoke.downloadsBridge?.exportCoverageReadyForIngest !== true ||
   eventIngestSmoke.downloadsBridge?.campaignId !== 'gate-sample-smoke-firstGameCompletion' ||
   eventIngestSmoke.ingest?.status !== 'imported' ||
   eventIngestSmoke.ingest?.importedEvents < 6 ||

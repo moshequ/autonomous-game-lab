@@ -323,6 +323,82 @@ const summarizeGateSampleEvents = async (files) => {
   }
 }
 
+const numberProperty = (value) => {
+  const parsed = Number(value)
+  return Number.isFinite(parsed) ? parsed : null
+}
+
+const summarizeExportCoverage = async (files) => {
+  const exports = []
+  let totalEvents = 0
+
+  for (const file of files.filter((candidate) => candidate.valid)) {
+    let events = []
+
+    try {
+      events = parseEvents(await readFile(file.filePath, 'utf8')).events
+    } catch {
+      events = []
+    }
+
+    totalEvents += events.length
+
+    for (const event of events) {
+      if (eventNameFor(event) !== 'analytics_exported') {
+        continue
+      }
+
+      const properties = event.properties ?? {}
+      const eventCountAtExport = numberProperty(properties.eventCountAtExport)
+      const unexportedEventsBeforeExport = numberProperty(properties.unexportedEventsBeforeExport)
+      const exportedEventCountBeforeExport = numberProperty(properties.exportedEventCountBeforeExport)
+
+      exports.push({
+        id: event.id,
+        createdAt: event.createdAt ?? null,
+        exportSurface:
+          typeof properties.exportSurface === 'string'
+            ? properties.exportSurface
+            : typeof properties.exportSurfaceDetail === 'string'
+              ? properties.exportSurfaceDetail
+              : 'manual',
+        eventCountAtExport,
+        unexportedEventsBeforeExport,
+        exportedEventCountBeforeExport,
+        coverageStatusBeforeExport:
+          typeof properties.exportCoverageStatusBeforeExport === 'string'
+            ? properties.exportCoverageStatusBeforeExport
+            : null,
+        selfDescribing: typeof eventCountAtExport === 'number',
+      })
+    }
+  }
+
+  exports.sort((left, right) => String(right.createdAt ?? '').localeCompare(String(left.createdAt ?? '')))
+
+  const latest = exports[0] ?? null
+  const coverageReceipts = exports.filter((event) => event.selfDescribing).length
+  const status = coverageReceipts
+    ? 'export-coverage-ready'
+    : totalEvents
+      ? 'export-coverage-missing'
+      : 'waiting-for-first-export'
+
+  return {
+    status,
+    files: files.filter((file) => file.valid).length,
+    events: totalEvents,
+    analyticsExports: exports.length,
+    coverageReceipts,
+    selfDescribingExports: coverageReceipts,
+    latestExportedAt: latest?.createdAt ?? null,
+    latestExportSurface: latest?.exportSurface ?? null,
+    latestEventCountAtExport: latest?.eventCountAtExport ?? null,
+    latestUnexportedEventsBeforeExport: latest?.unexportedEventsBeforeExport ?? null,
+    latestCoverageStatusBeforeExport: latest?.coverageStatusBeforeExport ?? null,
+  }
+}
+
 const inspectEventFile = async (filePath) => {
   try {
     const raw = await readFile(filePath, 'utf8')
@@ -476,6 +552,10 @@ const gateSampleEvidence = {
   inbox: await summarizeGateSampleEvents(validInboxFiles),
   imported: await summarizeGateSampleEvents(validImportedBatches),
 }
+const exportCoverageSummaries = {
+  inbox: await summarizeExportCoverage(validInboxFiles),
+  imported: await summarizeExportCoverage(validImportedBatches),
+}
 const generatedAt = new Date().toISOString()
 const downloadsDirectorySummary = directorySummaries.find((directory) => directory.role === 'downloads-opt-in')
 const copiedDownloadsFiles = copiedFiles.filter((file) => file.sourceRole === 'downloads-opt-in')
@@ -565,7 +645,13 @@ const payload = {
     filenamePattern: 'player-events*.json',
     acceptedPayloads: ['Array<AnalyticsEvent>', '{ "events": Array<AnalyticsEvent> }'],
     requiredFields: ['name or event', 'createdAt or timestamp'],
-    recommendedFields: ['properties.gameId', 'properties.anonymousId', 'properties.sessionDate'],
+    recommendedFields: [
+      'properties.gameId',
+      'properties.anonymousId',
+      'properties.sessionDate',
+      'properties.eventCountAtExport',
+      'properties.unexportedEventsBeforeExport',
+    ],
     strippedPropertyKeys: [...sensitivePropertyKeys].sort(),
     inboxDirectory: relativeToRoot(inboxDir),
     downloadsDirectory: relativeToRoot(downloadsDir),
@@ -580,6 +666,20 @@ const payload = {
     ...gateSampleEvidence,
     localEvidenceAvailable: gateSampleEvidence.imported.events > 0,
     readyForIngest: gateSampleEvidence.inbox.events > 0,
+  },
+  exportCoverage: {
+    ...exportCoverageSummaries,
+    status:
+      exportCoverageSummaries.imported.coverageReceipts > 0
+        ? 'imported-export-coverage-ready'
+        : exportCoverageSummaries.inbox.coverageReceipts > 0
+          ? 'inbox-export-coverage-ready'
+          : exportCoverageSummaries.imported.analyticsExports > 0 ||
+              exportCoverageSummaries.inbox.analyticsExports > 0
+            ? 'legacy-export-needs-refresh'
+            : 'waiting-for-first-export',
+    localEvidenceAvailable: exportCoverageSummaries.imported.coverageReceipts > 0,
+    readyForIngest: exportCoverageSummaries.inbox.coverageReceipts > 0,
   },
   privacy: {
     piiStrippingEnabled: true,
@@ -600,20 +700,24 @@ const payload = {
     downloadsFolderOptInOnly: true,
     downloadsFolderImportEnabled: downloadsImportEnabled,
     downloadsFolderRequiresExplicitEnv: true,
+    localExportCoverageReceipts: true,
+    staleExportDebtVisibleInApp: true,
+    bridgeReadsExportReceipts: true,
     doesNotMutateProductGates: true,
   },
   nextActions:
     copiedFiles.length || validInboxEvents
-    ? [
-        'Run npm run autonomous:import-events to dedupe and persist the validated local event drops.',
-        'Run npm run autonomous:analytics and npm run autonomous:gate-recovery so product decisions use the fresh events.',
-      ]
-    : [
-        'Use the in-app Export local analytics control after playtesting.',
-        `Place the downloaded player-events file in ${relativeToRoot(inboxDir)} or pass AGL_LOCAL_EVENT_DROP_DIRS to copy from an explicit folder.`,
-        `Optionally run ${downloadsImportCommand} to scan Downloads explicitly.`,
-        'Keep hosted collector/PostHog setup blocked until credentials exist.',
-      ],
+      ? [
+          'Run npm run autonomous:import-events to dedupe and persist the validated local event drops.',
+          'Run npm run autonomous:analytics and npm run autonomous:gate-recovery so product decisions use the fresh events.',
+        ]
+      : [
+          'Use the in-app Export local analytics control after playtesting.',
+          'Prefer fresh PWA exports because they include event-count receipts for stale-export debt.',
+          `Place the downloaded player-events file in ${relativeToRoot(inboxDir)} or pass AGL_LOCAL_EVENT_DROP_DIRS to copy from an explicit folder.`,
+          `Optionally run ${downloadsImportCommand} to scan Downloads explicitly.`,
+          'Keep hosted collector/PostHog setup blocked until credentials exist.',
+        ],
 }
 
 const report = [
@@ -648,6 +752,9 @@ const report = [
   `- Imported events: ${payload.imported.events}`,
   `- Gate sample inbox events: ${payload.gateSampleEvidence.inbox.events}`,
   `- Gate sample imported events: ${payload.gateSampleEvidence.imported.events}`,
+  `- Export coverage status: ${payload.exportCoverage.status}`,
+  `- Inbox export receipts: ${payload.exportCoverage.inbox.coverageReceipts}`,
+  `- Imported export receipts: ${payload.exportCoverage.imported.coverageReceipts}`,
   `- Sensitive properties stripped: ${payload.privacy.sensitivePropertiesDropped}`,
   `- Last explicit Downloads scan: ${payload.explicitDownloadsScan?.status ?? 'none'}`,
   `- Downloads scan cooling down: ${payload.explicitDownloadsScanPolicy.coolingDown}`,

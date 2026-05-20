@@ -327,6 +327,13 @@ try {
         acquisitionSource: 'gate_sample',
         acquisitionCampaign: 'gate-sample-smoke-firstGameCompletion',
         acquisitionChannel: 'product-gate-sample',
+        exportSurface: 'product-gate-sample',
+        eventCountAtExport: 3,
+        unexportedEventsBeforeExport: 3,
+        exportedEventCountBeforeExport: 0,
+        exportCoverageStatusBeforeExport: 'waiting-for-first-export',
+        exportDebtThreshold: 12,
+        exportAgeThresholdHours: 24,
         anonymousId: 'anon-smoke',
         sessionId: 'session-smoke-c',
         sessionDate: '2026-05-18',
@@ -363,7 +370,9 @@ try {
     !downloadsBridge.sourceDirectories.some((directory) => directory.role === 'downloads-opt-in') ||
     downloadsBridge.gateSampleEvidence.inbox.events < downloadedGateSampleEvents.length ||
     downloadsBridge.gateSampleEvidence.inbox.campaigns[0]?.campaignId !==
-      'gate-sample-smoke-firstGameCompletion'
+      'gate-sample-smoke-firstGameCompletion' ||
+    downloadsBridge.exportCoverage.inbox.coverageReceipts < 1 ||
+    downloadsBridge.exportCoverage.readyForIngest !== true
   ) {
     fail(`Expected opt-in Downloads import to copy gate-sample evidence, got ${JSON.stringify(downloadsBridge)}`)
   }
@@ -417,6 +426,8 @@ try {
       sensitivePropertiesDropped: downloadsBridge.privacy.sensitivePropertiesDropped,
       gateSampleEvents: downloadsBridge.gateSampleEvidence.inbox.events,
       campaignId: downloadsBridge.gateSampleEvidence.inbox.campaigns[0]?.campaignId,
+      exportCoverageReceipts: downloadsBridge.exportCoverage.inbox.coverageReceipts,
+      exportCoverageReadyForIngest: downloadsBridge.exportCoverage.readyForIngest,
     },
     followupBridge: {
       downloadsImportEnabled: followupBridge.controls.downloadsFolderImportEnabled,
@@ -481,6 +492,7 @@ try {
     `- Downloads sensitive properties stripped: ${smoke.downloadsBridge.sensitivePropertiesDropped}`,
     `- Follow-up preserved scan: ${smoke.followupBridge.explicitScanStatus}`,
     `- Downloads gate-sample events: ${smoke.downloadsBridge.gateSampleEvents}`,
+    `- Downloads export coverage receipts: ${smoke.downloadsBridge.exportCoverageReceipts}`,
     '',
     '## Analytics',
     '',
