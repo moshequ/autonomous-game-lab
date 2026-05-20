@@ -41,6 +41,7 @@ import { prototypePipeline } from './data/prototypePipeline'
 import { productionResponse } from './data/productionResponse'
 import { productionEnvironment } from './data/productionEnvironment'
 import { productionBootstrap } from './data/productionBootstrap'
+import { productionActivation } from './data/productionActivation'
 import { autonomousOperator } from './data/autonomousOperator'
 import { autonomousOperatorHistory } from './data/autonomousOperatorHistory'
 import { objectiveAudit } from './data/objectiveAudit'
@@ -511,6 +512,9 @@ function App() {
     firstMoveCoach.targets.find((target) => target.gameId === firstMoveCoach.summary.primaryTargetId) ??
     firstMoveCoach.targets.find((target) => target.enabled)
   const productionBootstrapReadyGroups = productionBootstrap.summary.readyGroups ?? 0
+  const productionActivationRunnableActions = productionActivation.plannedActions.filter(
+    (action) => action.runnableNow,
+  ).length
   const operatorSelectedAction = autonomousOperator.selectedAction
   const operatorHistorySummary = autonomousOperatorHistory.summary
   const objectiveAuditSummary = objectiveAudit.summary
@@ -1910,6 +1914,24 @@ function App() {
                 <div>
                   <span>External blockers</span>
                   <strong>{productionBootstrap.summary.externalBlockers}</strong>
+                </div>
+              </div>
+              <div className="monetizationRuntime" aria-label="Production Activation">
+                <div>
+                  <span>Production Activation</span>
+                  <strong>{productionActivation.status}</strong>
+                </div>
+                <div>
+                  <span>Mode</span>
+                  <strong>{productionActivation.mode}</strong>
+                </div>
+                <div>
+                  <span>Execution</span>
+                  <strong>{productionActivation.execution.status}</strong>
+                </div>
+                <div>
+                  <span>Runnable actions</span>
+                  <strong>{productionActivationRunnableActions}</strong>
                 </div>
               </div>
               <div className="monetizationRuntime" aria-label="Repository Channel">

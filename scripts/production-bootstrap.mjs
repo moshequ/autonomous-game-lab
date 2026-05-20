@@ -370,6 +370,12 @@ const setupCommands = [
     costUsd: 0,
   },
   {
+    id: 'production-activation',
+    command: 'npm run autonomous:activate-production',
+    safeToRunAutomatically: true,
+    costUsd: 0,
+  },
+  {
     id: 'run-web-workflow',
     command: 'RUN_WORKFLOWS=1 ./ops/github/setup-production.sh',
     safeToRunAutomatically: canUseGh && deployment.status === 'ready-for-pages',
@@ -450,8 +456,11 @@ const payload = {
   },
   generatedArtifacts: [
     'data/production-bootstrap.json',
+    'data/production-activation.json',
     'src/data/productionBootstrap.ts',
+    'src/data/productionActivation.ts',
     'reports/production-bootstrap-latest.md',
+    'reports/production-activation-latest.md',
     'data/repository-bootstrap.json',
     'src/data/repositoryBootstrap.ts',
     'reports/repository-bootstrap-latest.md',

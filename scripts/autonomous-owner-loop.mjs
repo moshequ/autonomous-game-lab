@@ -120,6 +120,15 @@ const productionBootstrap = await readOptionalJson(path.join(dataDir, 'productio
   requiredSecrets: [],
   externalBlockers: [],
 })
+const productionActivation = await readOptionalJson(path.join(dataDir, 'production-activation.json'), {
+  status: 'missing',
+  mode: 'missing',
+  configuration: {},
+  controls: {},
+  plannedActions: [],
+  execution: {},
+  nextActions: [],
+})
 const repositoryReadiness = await readOptionalJson(path.join(dataDir, 'repository-readiness.json'), {
   status: 'missing',
   workspace: {},
@@ -262,6 +271,16 @@ const postDeploySmokeRunnerReady =
   postDeploySmoke.controls?.localArtifactSmokeRequired === true &&
   postDeploySmoke.controls?.manifestHashComparisonRequired === true &&
   (postDeploySmoke.checks?.length ?? 0) >= (releaseCandidate.postDeploySmoke?.length ?? 0) + 1
+const productionActivationReady =
+  ['activation-waiting-for-credentials', 'activation-ready', 'activation-applied'].includes(
+    productionActivation.status,
+  ) &&
+  productionActivation.controls?.zeroPaidSpend === true &&
+  productionActivation.controls?.dryRunByDefault === true &&
+  productionActivation.controls?.activationRequiresExplicitEnv === true &&
+  productionActivation.controls?.workflowDispatchRequiresReadyDeployment === true
+const productionActivationRunnable =
+  productionActivation.status === 'activation-ready' && productionActivation.configuration?.activationRequested === true
 
 const systems = [
   {
@@ -677,6 +696,19 @@ const systems = [
       productionBootstrap.ownerAction?.command ?? 'Regenerate the bootstrap setup and keep external blockers explicit.',
   },
   {
+    id: 'production-activation',
+    status: systemStatus(productionActivationReady, 'waiting-for-credentials'),
+    autonomy: 'guarded-credential-activated-setup',
+    evidence: `Activation ${productionActivation.status}; mode ${
+      productionActivation.mode ?? 'missing'
+    }; execution ${productionActivation.execution?.status ?? 'missing'}; gh ${
+      productionActivation.configuration?.ghCredentialReady === true ? 'ready' : 'blocked'
+    }.`,
+    nextAction:
+      productionActivation.nextActions?.[0] ??
+      'Apply configured production setup automatically once repository credentials and activation gates exist.',
+  },
+  {
     id: 'autonomous-operator',
     status: systemStatus(
       ['operator-plan-ready', 'operator-executed'].includes(autonomousOperator.status) &&
@@ -1049,6 +1081,16 @@ const safeAutonomousActions = [
     reason: 'Regenerates the zero-spend production setup handoff and exact GitHub variable/secret commands.',
   },
   {
+    id: 'activate-production-when-configured',
+    status: productionActivationRunnable ? 'armed' : 'monitor',
+    costUsd: 0,
+    command: 'npm run autonomous:activate-production',
+    targets: ['github-pages', 'repository-config', 'web-workflow'],
+    reason: productionActivationRunnable
+      ? 'Applies configured zero-spend production setup through the guarded activation controller.'
+      : 'Dry-runs production activation until existing credentials and explicit activation gates are present.',
+  },
+  {
     id: 'run-autonomous-operator',
     status: ['operator-plan-ready', 'operator-executed'].includes(autonomousOperator.status)
       ? 'armed'
@@ -1186,6 +1228,7 @@ const preferredActionOrder = [
   'deploy-web-pwa',
   'seed-portfolio-traffic',
   'bootstrap-production-setup',
+  'activate-production-when-configured',
   'optimize-product-gates',
   'collect-gate-sample-downloads',
   'collect-live-events',
@@ -1296,6 +1339,7 @@ const payload = {
     completionLoopStatus: completionLoop.status,
     replayLoopStatus: replayLoop.status,
     productionBootstrapStatus: productionBootstrap.status,
+    productionActivationStatus: productionActivation.status,
     autonomousOperatorStatus: autonomousOperator.status,
     autonomousOperatorHistoryStatus: autonomousOperatorHistory.status,
     objectiveAuditStatus: objectiveAudit.status,

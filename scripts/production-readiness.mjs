@@ -28,6 +28,7 @@ const environmentPath = path.join(root, 'data', 'production-environment.json')
 const repositoryReadinessPath = path.join(root, 'data', 'repository-readiness.json')
 const repositoryBootstrapPath = path.join(root, 'data', 'repository-bootstrap.json')
 const productionBootstrapPath = path.join(root, 'data', 'production-bootstrap.json')
+const productionActivationPath = path.join(root, 'data', 'production-activation.json')
 const autonomousOperatorPath = path.join(root, 'data', 'autonomous-operator.json')
 const autonomousOperatorHistoryPath = path.join(root, 'data', 'autonomous-operator-history.json')
 const autonomousCadencePath = path.join(root, 'data', 'autonomous-cadence.json')
@@ -189,6 +190,14 @@ const repositoryBootstrap = await readOptionalJson(repositoryBootstrapPath, {
   helper: {},
   actions: [],
   blockers: [],
+})
+const productionActivation = await readOptionalJson(productionActivationPath, {
+  status: 'missing',
+  mode: 'missing',
+  controls: {},
+  configuration: {},
+  plannedActions: [],
+  execution: {},
 })
 const productionBootstrap = await readOptionalJson(productionBootstrapPath, {
   status: 'missing',
@@ -588,6 +597,24 @@ const productionBootstrapReady =
   (productionBootstrap.requiredSecrets ?? []).some(
     (action) => action.repositorySecret === 'CLOUDFLARE_API_TOKEN',
   )
+const productionActivationReady =
+  ['activation-waiting-for-credentials', 'activation-ready', 'activation-applied'].includes(
+    productionActivation.status,
+  ) &&
+  ['dry-run', 'apply-configured-actions'].includes(productionActivation.mode) &&
+  productionActivation.controls?.zeroPaidSpend === true &&
+  productionActivation.controls?.noPaidResourcesCreated === true &&
+  productionActivation.controls?.noAccountCreation === true &&
+  productionActivation.controls?.noStoreSubmission === true &&
+  productionActivation.controls?.noRevenueEnablement === true &&
+  productionActivation.controls?.dryRunByDefault === true &&
+  productionActivation.controls?.activationRequiresExplicitEnv === true &&
+  productionActivation.controls?.repositoryMutationRequiresExplicitBootstrapGates === true &&
+  productionActivation.controls?.workflowDispatchRequiresReadyDeployment === true &&
+  productionActivation.controls?.androidWorkflowRequiresStoreEconomics === true &&
+  productionActivation.controls?.secretValuesRedacted === true &&
+  (productionActivation.plannedActions ?? []).some((action) => action.id === 'repository-bootstrap') &&
+  (productionActivation.plannedActions ?? []).some((action) => action.id === 'sync-production-settings')
 const autonomousOperatorReady =
   autonomousOperator.status === 'missing' ||
   (['operator-plan-ready', 'operator-executed'].includes(autonomousOperator.status) &&
@@ -824,6 +851,13 @@ const webChecks = [
     `Production bootstrap is ${productionBootstrap.status}; mode ${
       productionBootstrap.mode ?? 'missing'
     }; external blockers ${productionBootstrap.summary?.externalBlockers ?? 'n/a'}.`,
+  ),
+  check(
+    'production-activation',
+    productionActivationReady,
+    `Production activation is ${productionActivation.status}; mode ${
+      productionActivation.mode ?? 'missing'
+    }; execution ${productionActivation.execution?.status ?? 'missing'}.`,
   ),
   check(
     'autonomous-operator',
@@ -1121,6 +1155,16 @@ const payload = {
     stages: productionBootstrap.stages ?? [],
     setupCommands: productionBootstrap.setupCommands ?? [],
     externalBlockers: productionBootstrap.externalBlockers ?? [],
+  },
+  productionActivation: {
+    status: productionActivation.status,
+    mode: productionActivation.mode,
+    sourceStatus: productionActivation.sourceStatus,
+    configuration: productionActivation.configuration,
+    controls: productionActivation.controls,
+    plannedActions: productionActivation.plannedActions ?? [],
+    execution: productionActivation.execution ?? {},
+    nextActions: productionActivation.nextActions ?? [],
   },
   autonomousOperator: {
     status: autonomousOperator.status,

@@ -72,6 +72,11 @@ const freshnessRequiredArtifacts = [
     path: 'data/production-bootstrap.json',
   },
   {
+    id: 'production-activation',
+    label: 'Production activation',
+    path: 'data/production-activation.json',
+  },
+  {
     id: 'production-environment',
     label: 'Production environment',
     path: 'data/production-environment.json',
@@ -565,6 +570,7 @@ const checks = [
       testAutomationScript.includes('autonomous:repo-bootstrap') &&
       testAutomationScript.includes('autonomous:deploy-plan') &&
       testAutomationScript.includes('autonomous:bootstrap') &&
+      testAutomationScript.includes('autonomous:activate-production') &&
       testAutomationScript.includes('autonomous:post-deploy-smoke') &&
       testAutomationScript.includes('autonomous:readiness') &&
       testAutomationScript.includes('verify-autonomy')

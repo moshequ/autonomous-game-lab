@@ -72,6 +72,8 @@ test('portal loads a playable canvas and autonomy cockpit', async ({ page }) => 
   await expect(page.getByLabel('Performance Budget')).toContainText('Initial JS')
   await expect(page.getByLabel('Production Bootstrap')).toContainText('production-bootstrap-ready')
   await expect(page.getByLabel('Production Bootstrap')).toContainText('External blockers')
+  await expect(page.getByLabel('Production Activation')).toContainText(/activation-waiting-for-credentials|activation-ready|activation-applied/)
+  await expect(page.getByLabel('Production Activation')).toContainText(/dry-run|apply-configured-actions/)
   await expect(page.getByLabel('Repository Channel')).toContainText(/blocked-no-local-git|waiting-for-gh-auth|repository-channel-ready|waiting-for-github-repository|waiting-for-repository-channel/)
   await expect(page.getByLabel('Repository Channel')).toContainText('Workflow dispatch')
   await expect(page.getByLabel('Repository Bootstrap')).toContainText(/needs-local-git-bootstrap|waiting-for-github-target|waiting-for-origin-remote|waiting-for-gh-auth|repository-bootstrap-ready/)
@@ -1879,6 +1881,61 @@ test('production bootstrap emits zero-spend setup handoff artifacts', async ({ p
 
   await page.goto('/')
   await expect(page.getByLabel('Production Bootstrap')).toContainText('production-bootstrap-ready')
+})
+
+test('production activation dry-runs guarded setup and workflow activation', async ({ page }) => {
+  const activation = JSON.parse(await readFile('data/production-activation.json', 'utf8')) as {
+    status: string
+    mode: string
+    configuration: {
+      activationRequested: boolean
+      ghCredentialReady: boolean
+      repositoryTargetKnown: boolean
+      runWebWorkflows: boolean
+      allowAndroidWorkflow: boolean
+    }
+    controls: {
+      zeroPaidSpend: boolean
+      noPaidResourcesCreated: boolean
+      noAccountCreation: boolean
+      noStoreSubmission: boolean
+      noRevenueEnablement: boolean
+      dryRunByDefault: boolean
+      activationRequiresExplicitEnv: boolean
+      repositoryMutationRequiresExplicitBootstrapGates: boolean
+      workflowDispatchRequiresReadyDeployment: boolean
+      androidWorkflowRequiresStoreEconomics: boolean
+      secretValuesRedacted: boolean
+    }
+    plannedActions: Array<{ id: string; command: string; costUsd: number; runnableNow: boolean }>
+    execution: { requested: boolean; status: string; attemptedActions: string[] }
+  }
+
+  expect(['activation-waiting-for-credentials', 'activation-ready', 'activation-applied']).toContain(activation.status)
+  expect(['dry-run', 'apply-configured-actions']).toContain(activation.mode)
+  expect(activation.controls.zeroPaidSpend).toBe(true)
+  expect(activation.controls.noPaidResourcesCreated).toBe(true)
+  expect(activation.controls.noAccountCreation).toBe(true)
+  expect(activation.controls.noStoreSubmission).toBe(true)
+  expect(activation.controls.noRevenueEnablement).toBe(true)
+  expect(activation.controls.dryRunByDefault).toBe(true)
+  expect(activation.controls.activationRequiresExplicitEnv).toBe(true)
+  expect(activation.controls.repositoryMutationRequiresExplicitBootstrapGates).toBe(true)
+  expect(activation.controls.workflowDispatchRequiresReadyDeployment).toBe(true)
+  expect(activation.controls.androidWorkflowRequiresStoreEconomics).toBe(true)
+  expect(activation.controls.secretValuesRedacted).toBe(true)
+  expect(activation.plannedActions.some((action) => action.id === 'repository-bootstrap')).toBe(true)
+  expect(activation.plannedActions.some((action) => action.id === 'sync-production-settings')).toBe(true)
+  expect(activation.plannedActions.every((action) => action.costUsd === 0)).toBe(true)
+  if (!activation.configuration.activationRequested) {
+    expect(activation.execution.status).toBe('dry-run')
+    expect(activation.execution.attemptedActions).toEqual([])
+    expect(activation.plannedActions.every((action) => action.runnableNow === false)).toBe(true)
+  }
+
+  await page.goto('/')
+  await expect(page.getByLabel('Production Activation')).toContainText(/activation-waiting-for-credentials|activation-ready|activation-applied/)
+  await expect(page.getByLabel('Production Activation')).toContainText(/dry-run|apply-configured-actions/)
 })
 
 test('autonomous operator plans or executes one allowlisted zero-spend local action', async ({ page }) => {

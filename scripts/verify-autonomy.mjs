@@ -41,6 +41,7 @@ const requiredFiles = [
   'data/completion-loop.json',
   'data/replay-loop.json',
   'data/production-bootstrap.json',
+  'data/production-activation.json',
   'data/autonomous-operator.json',
   'data/autonomous-operator-history.json',
   'data/autonomous-cadence.json',
@@ -87,6 +88,7 @@ const requiredFiles = [
   'src/data/completionLoop.ts',
   'src/data/replayLoop.ts',
   'src/data/productionBootstrap.ts',
+  'src/data/productionActivation.ts',
   'src/data/autonomousOperator.ts',
   'src/data/autonomousOperatorHistory.ts',
   'src/data/autonomousCadence.ts',
@@ -133,6 +135,7 @@ const requiredFiles = [
   'reports/completion-loop-latest.md',
   'reports/replay-loop-latest.md',
   'reports/production-bootstrap-latest.md',
+  'reports/production-activation-latest.md',
   'reports/autonomous-operator-latest.md',
   'reports/autonomous-operator-history-latest.md',
   'reports/autonomous-cadence-latest.md',
@@ -172,6 +175,7 @@ const requiredFiles = [
   'scripts/lib/env-loader.mjs',
   'scripts/repository-readiness.mjs',
   'scripts/repository-bootstrap.mjs',
+  'scripts/production-activation.mjs',
   'scripts/autonomous-cadence.mjs',
   'scripts/autonomous-self-update.mjs',
   'scripts/android-signing-prep.mjs',
@@ -257,6 +261,7 @@ const firstMoveCoach = JSON.parse(await readFile(path.join(root, 'data', 'first-
 const completionLoop = JSON.parse(await readFile(path.join(root, 'data', 'completion-loop.json'), 'utf8'))
 const replayLoop = JSON.parse(await readFile(path.join(root, 'data', 'replay-loop.json'), 'utf8'))
 const productionBootstrap = JSON.parse(await readFile(path.join(root, 'data', 'production-bootstrap.json'), 'utf8'))
+const productionActivation = JSON.parse(await readFile(path.join(root, 'data', 'production-activation.json'), 'utf8'))
 const autonomousOperator = JSON.parse(await readFile(path.join(root, 'data', 'autonomous-operator.json'), 'utf8'))
 const autonomousOperatorHistory = JSON.parse(
   await readFile(path.join(root, 'data', 'autonomous-operator-history.json'), 'utf8'),
@@ -324,6 +329,7 @@ const eventCollectorDeployPlanSource = await readFile(
   'utf8',
 )
 const productionBootstrapSource = await readFile(path.join(root, 'scripts', 'production-bootstrap.mjs'), 'utf8')
+const productionActivationSource = await readFile(path.join(root, 'scripts', 'production-activation.mjs'), 'utf8')
 const postDeploySmokeSource = await readFile(path.join(root, 'scripts', 'post-deploy-smoke.mjs'), 'utf8')
 const repositoryReadinessSource = await readFile(path.join(root, 'scripts', 'repository-readiness.mjs'), 'utf8')
 const repositoryBootstrapSource = await readFile(path.join(root, 'scripts', 'repository-bootstrap.mjs'), 'utf8')
@@ -1712,10 +1718,13 @@ if (
   !productionBootstrap.setupCommands?.some((command) => command.id === 'repository-bootstrap-plan') ||
   !productionBootstrap.setupCommands?.some((command) => command.id === 'sync-pages-settings') ||
   !productionBootstrap.setupCommands?.some((command) => command.id === 'sync-repository-config') ||
+  !productionBootstrap.setupCommands?.some((command) => command.id === 'production-activation') ||
   !productionBootstrap.setupCommands?.every((command) => command.costUsd === 0) ||
   !productionBootstrap.generatedArtifacts?.includes('ops/github/bootstrap-repository.sh') ||
   !productionBootstrap.generatedArtifacts?.includes('ops/github/setup-production.sh') ||
+  !productionBootstrap.generatedArtifacts?.includes('data/production-activation.json') ||
   !productionBootstrapSource.includes('setup-production.sh') ||
+  !productionBootstrapSource.includes('autonomous:activate-production') ||
   !productionBootstrapSource.includes('repository-bootstrap') ||
   !githubRepositoryBootstrapScript.includes('AGL_ALLOW_REPOSITORY_BOOTSTRAP') ||
   !githubRepositoryBootstrapScript.includes('AGL_ALLOW_INITIAL_COMMIT') ||
@@ -1739,6 +1748,40 @@ if (
   !githubSetupReadme.includes('zero-spend')
 ) {
   fail('Production bootstrap must generate zero-spend GitHub setup stages, sanitized variable/secret commands, and guarded workflow triggers.')
+}
+
+if (
+  !['activation-waiting-for-credentials', 'activation-ready', 'activation-applied'].includes(
+    productionActivation.status,
+  ) ||
+  !['dry-run', 'apply-configured-actions'].includes(productionActivation.mode) ||
+  productionActivation.controls?.zeroPaidSpend !== true ||
+  productionActivation.controls?.noPaidResourcesCreated !== true ||
+  productionActivation.controls?.noAccountCreation !== true ||
+  productionActivation.controls?.noStoreSubmission !== true ||
+  productionActivation.controls?.noRevenueEnablement !== true ||
+  productionActivation.controls?.dryRunByDefault !== true ||
+  productionActivation.controls?.activationRequiresExplicitEnv !== true ||
+  productionActivation.controls?.repositoryMutationRequiresExplicitBootstrapGates !== true ||
+  productionActivation.controls?.workflowDispatchRequiresReadyDeployment !== true ||
+  productionActivation.controls?.androidWorkflowRequiresStoreEconomics !== true ||
+  productionActivation.controls?.secretValuesRedacted !== true ||
+  !productionActivation.plannedActions?.some((action) => action.id === 'repository-bootstrap') ||
+  !productionActivation.plannedActions?.some((action) => action.id === 'sync-production-settings') ||
+  !productionActivation.plannedActions?.every((action) => action.costUsd === 0) ||
+  productionActivation.execution?.requested !== (productionActivation.mode === 'apply-configured-actions') ||
+  (productionActivation.mode === 'dry-run' && productionActivation.execution?.attemptedActions?.length !== 0) ||
+  packageJson.scripts?.['autonomous:activate-production'] !== 'node scripts/production-activation.mjs' ||
+  !packageJson.scripts?.['autonomous:daily']?.includes('autonomous:activate-production') ||
+  !packageJson.scripts?.['test:automation']?.includes('autonomous:activate-production') ||
+  !productionActivationSource.includes('AGL_PRODUCTION_ACTIVATE') ||
+  !productionActivationSource.includes('AGL_PRODUCTION_RUN_WORKFLOWS') ||
+  !productionActivationSource.includes('ALLOW_ANDROID_RELEASE_WORKFLOW') ||
+  !productionActivationSource.includes('storeSpendAllowed') ||
+  !productionActivationSource.includes('secretValues') ||
+  !productionActivationSource.includes('redact')
+) {
+  fail('Production activation must dry-run by default and apply only configured zero-spend production setup behind explicit gates.')
 }
 
 const operatorSelectedCommand = autonomousOperator.selectedAction?.command
@@ -1778,6 +1821,7 @@ if (
   !autonomousOperator.allowlist?.includes('npm run autonomous:self-update') ||
   !autonomousOperator.allowlist?.includes('npm run autonomous:objective-audit') ||
   !autonomousOperator.allowlist?.includes('npm run autonomous:android-signing') ||
+  !autonomousOperator.allowlist?.includes('npm run autonomous:activate-production') ||
   !autonomousOperator.allowlist?.includes('npm run autonomous:sample-plan') ||
   !autonomousOperator.allowlist?.includes('npm run autonomous:collect-sample-downloads') ||
   !autonomousOperator.allowlist?.includes(
@@ -2339,6 +2383,10 @@ if (!packageJson.scripts?.['autonomous:bootstrap']?.includes('production-bootstr
   fail('Autonomous scripts must expose the production bootstrap generator.')
 }
 
+if (!packageJson.scripts?.['autonomous:activate-production']?.includes('production-activation')) {
+  fail('Autonomous scripts must expose the guarded production activation controller.')
+}
+
 if (!packageJson.scripts?.['autonomous:repo-readiness']?.includes('repository-readiness')) {
   fail('Autonomous scripts must expose the repository readiness generator.')
 }
@@ -2388,18 +2436,27 @@ if (missingBootstrapAfterReadiness) {
 }
 
 const bootstrapRuns = [...dailyScript.matchAll(/autonomous:bootstrap/g)].map((match) => match.index ?? -1)
+const activationRuns = [...dailyScript.matchAll(/autonomous:activate-production/g)].map(
+  (match) => match.index ?? -1,
+)
 
 if (bootstrapRuns.length < 2) {
   fail('Autonomous daily loop must regenerate production bootstrap artifacts after deployment planning and before final verification.')
 }
 
+if (activationRuns.length < 2) {
+  fail('Autonomous daily loop must dry-run production activation after bootstrap refreshes.')
+}
+
 if (
   dailyScript.indexOf('autonomous:deploy-plan') > bootstrapRuns[0] ||
+  activationRuns[0] < bootstrapRuns[0] ||
   bootstrapRuns[0] > dailyScript.indexOf('autonomous:owner-loop', bootstrapRuns[0]) ||
+  activationRuns.at(-1) < bootstrapRuns.at(-1) ||
   bootstrapRuns.at(-1) > dailyScript.indexOf('autonomous:readiness', bootstrapRuns.at(-1)) ||
   bootstrapRuns.at(-1) > dailyScript.indexOf('autonomous:owner-loop', bootstrapRuns.at(-1))
 ) {
-  fail('Autonomous daily loop must run deploy-plan, bootstrap, refresh readiness, and then refresh owner-loop before automation verification.')
+  fail('Autonomous daily loop must run deploy-plan, bootstrap, activation, refresh readiness, and then refresh owner-loop before automation verification.')
 }
 
 if (!packageJson.scripts?.['autonomous:operator']?.includes('autonomous-operator')) {
@@ -2564,6 +2621,10 @@ if (!testAutomationScript.includes('autonomous:deploy-plan')) {
 
 if (!testAutomationScript.includes('autonomous:bootstrap')) {
   fail('Autonomous verification must refresh production bootstrap evidence before final readiness.')
+}
+
+if (!testAutomationScript.includes('autonomous:activate-production')) {
+  fail('Autonomous verification must refresh guarded production activation evidence before final readiness.')
 }
 
 if (!testAutomationScript.includes('autonomous:readiness')) {
@@ -3721,6 +3782,17 @@ if (
 }
 
 if (
+  !readiness.webPwa?.checks?.some((check) => check.id === 'production-activation' && check.status === 'pass') ||
+  readiness.productionActivation?.status !== productionActivation.status ||
+  readiness.productionActivation?.controls?.dryRunByDefault !== true ||
+  readiness.productionActivation?.controls?.activationRequiresExplicitEnv !== true ||
+  readiness.productionActivation?.controls?.workflowDispatchRequiresReadyDeployment !== true ||
+  !readiness.productionActivation?.plannedActions?.some((action) => action.id === 'sync-production-settings')
+) {
+  fail('Production readiness must include guarded production activation dry-run and workflow gates.')
+}
+
+if (
   !readiness.webPwa?.checks?.some((check) => check.id === 'autonomous-operator' && check.status === 'pass') ||
   readiness.autonomousOperator?.status !== autonomousOperator.status ||
   readiness.autonomousOperator?.selectedAction?.id !== autonomousOperator.selectedAction?.id ||
@@ -3973,6 +4045,7 @@ const requiredOwnerSystems = [
   'completion-loop',
   'replay-loop',
   'production-bootstrap',
+  'production-activation',
   'autonomous-operator',
   'operator-history',
   'objective-audit',
@@ -4001,6 +4074,7 @@ const requiredOwnerActions = [
   'refresh-replay-loop',
   'optimize-product-gates',
   'bootstrap-production-setup',
+  'activate-production-when-configured',
   'run-autonomous-operator',
   'review-operator-history',
   'refresh-objective-audit',
@@ -4165,6 +4239,7 @@ if (
   autonomousOwnerLoop.evidence?.replayLoopStatus !== replayLoop.status ||
   autonomousOwnerLoop.evidence?.productOptimizationStatus !== productOptimization.status ||
   autonomousOwnerLoop.evidence?.productionBootstrapStatus !== productionBootstrap.status ||
+  autonomousOwnerLoop.evidence?.productionActivationStatus !== productionActivation.status ||
   autonomousOwnerLoop.evidence?.autonomousOperatorStatus !== autonomousOperator.status ||
   autonomousOwnerLoop.evidence?.autonomousOperatorHistoryStatus !== autonomousOperatorHistory.status ||
   autonomousOwnerLoop.evidence?.objectiveAuditStatus !== objectiveAudit.status ||
@@ -4190,6 +4265,7 @@ if (
   ownerGateSampleBackoff?.lastExplicitScanStatus !== (localEventBridge.explicitDownloadsScan?.status ?? null) ||
   ownerGateSampleBackoff?.evidenceReadyNow !== ownerGateSampleEvidenceReadyNow ||
   !autonomousOwnerLoopSource.includes('gateSampleDownloadsBackoff') ||
+  !autonomousOwnerLoopSource.includes('productionActivationRunnable') ||
   JSON.stringify(autonomousOwnerLoop.executionMemory?.recentExecutedActionIds ?? []) !==
     JSON.stringify(ownerRecentExecutedActionIds) ||
   JSON.stringify(autonomousOwnerLoop.executionMemory?.recentlySatisfiedActionIds ?? []) !==
