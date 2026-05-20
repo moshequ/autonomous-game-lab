@@ -1,6 +1,6 @@
 # Native Package
 
-Generated: 2026-05-19T02:56:18.038Z
+Generated: 2026-05-20T02:19:06.103Z
 Status: blocked-draft-ready
 Platform: android-trusted-web-activity
 Package: app.autonomousgamelab.portal
@@ -20,3 +20,4 @@ Host: autonomous-game-lab.example.com
 - TWA manifest: native/android/twa-manifest.json
 - Bubblewrap config: native/android/bubblewrap.config.json
 - Asset links template: native/android/assetlinks.template.json
+- Public asset links: public/.well-known/assetlinks.json

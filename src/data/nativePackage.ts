@@ -1,5 +1,5 @@
 export const nativePackage = {
-  "generatedAt": "2026-05-19T02:56:18.038Z",
+  "generatedAt": "2026-05-20T02:19:06.103Z",
   "status": "blocked-draft-ready",
   "platform": "android-trusted-web-activity",
   "costGate": {
@@ -16,7 +16,7 @@ export const nativePackage = {
     "twaManifestPath": "native/android/twa-manifest.json",
     "bubblewrapConfigPath": "native/android/bubblewrap.config.json",
     "assetLinksTemplatePath": "native/android/assetlinks.template.json",
-    "publicAssetLinksPath": null
+    "publicAssetLinksPath": "public/.well-known/assetlinks.json"
   },
   "signing": {
     "status": "fingerprint-configured",
@@ -26,7 +26,7 @@ export const nativePackage = {
     "localSecretsConfigured": true
   },
   "assetLinks": {
-    "status": "template-only",
+    "status": "public-file-ready",
     "template": [
       {
         "relation": [
@@ -41,7 +41,9 @@ export const nativePackage = {
         }
       }
     ],
-    "publicGenerated": false
+    "publicGenerated": true,
+    "hostReady": false,
+    "hostedPath": "/.well-known/assetlinks.json"
   },
   "icons": {
     "status": "icons-ready",

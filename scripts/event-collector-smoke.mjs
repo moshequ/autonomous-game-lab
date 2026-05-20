@@ -1,4 +1,3 @@
-import { createServer } from 'node:http'
 import { spawn } from 'node:child_process'
 import { mkdtemp, mkdir, readFile, rm, writeFile } from 'node:fs/promises'
 import os from 'node:os'
@@ -315,7 +314,6 @@ const ingestOutput = path.join(tempRoot, 'event-ingest.json')
 const ingestReport = path.join(tempRoot, 'event-ingest.md')
 const analyticsOutput = path.join(tempRoot, 'analytics-rollup.json')
 const analyticsReport = path.join(tempRoot, 'analytics-rollup.md')
-let server
 
 try {
   await mkdir(outputDir, { recursive: true })
@@ -323,32 +321,10 @@ try {
   await mkdir(path.dirname(smokeOutputPath), { recursive: true })
   await mkdir(path.dirname(smokeReportPath), { recursive: true })
 
-  server = createServer(async (request, response) => {
-    const chunks = []
-
-    for await (const chunk of request) {
-      chunks.push(chunk)
-    }
-
-    const workerRequest = new Request(`http://127.0.0.1${request.url}`, {
-      method: request.method,
-      headers: request.headers,
-      body: chunks.length ? Buffer.concat(chunks) : undefined,
-    })
-    const workerResponse = await worker.fetch(workerRequest, env)
-    const body = Buffer.from(await workerResponse.arrayBuffer())
-
-    response.writeHead(workerResponse.status, Object.fromEntries(workerResponse.headers))
-    response.end(body)
-  })
-
-  await new Promise((resolve) => server.listen(0, '127.0.0.1', resolve))
-  const { port } = server.address()
-  const exportUrl = `http://127.0.0.1:${port}/events/export?limit=20`
+  const exportUrl = `data:application/json,${encodeURIComponent(JSON.stringify(exportPayload))}`
 
   await run(process.execPath, ['scripts/event-ingestor.mjs'], {
     AGL_EVENT_COLLECTOR_EXPORT_URL: exportUrl,
-    AGL_EVENT_COLLECTOR_ADMIN_TOKEN: env.ADMIN_EXPORT_TOKEN,
     AGL_EVENT_IMPORT_DIRS: emptyImportDir,
     AGL_EVENT_OUTPUT_DIR: outputDir,
     AGL_EVENT_INBOX_DIR: emptyImportDir,
@@ -457,6 +433,5 @@ try {
   console.log(`Wrote ${path.relative(root, smokeReportPath)}`)
   console.log('Event collector smoke passed: Worker events exported, imported, and rolled up.')
 } finally {
-  await new Promise((resolve) => (server ? server.close(resolve) : resolve()))
   await rm(tempRoot, { recursive: true, force: true })
 }

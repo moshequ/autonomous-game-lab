@@ -1,5 +1,5 @@
 export const objectiveAudit = {
-  "generatedAt": "2026-05-20T02:07:51.586Z",
+  "generatedAt": "2026-05-20T02:20:31.650Z",
   "status": "objective-in-progress",
   "objective": "Build a bootstrapped autonomous web/PWA game portal that can generate original board-game-inspired games, measure user behavior, propose and apply data-driven improvements, and prepare a path to monetization and app-store distribution with minimal manual intervention.",
   "summary": {
@@ -7,7 +7,7 @@ export const objectiveAudit = {
     "met": 5,
     "prepared": 2,
     "incomplete": 1,
-    "externalBlockers": 21,
+    "externalBlockers": 19,
     "productBlockers": 6
   },
   "requirements": [
@@ -19,7 +19,7 @@ export const objectiveAudit = {
         "Web readiness: ready-after-build",
         "Manifest in dist: true",
         "Service worker in dist: true",
-        "Release candidate: release-candidate-ready; 40 files",
+        "Release candidate: release-candidate-ready; 41 files",
         "Deployment plan: ready-for-pages"
       ],
       "blockers": [],
@@ -93,8 +93,8 @@ export const objectiveAudit = {
         "Operator history: operator-history-ready; records 40; executed 20",
         "Bootstrap: production-bootstrap-ready",
         "Repository bootstrap: waiting-for-github-target; helper ops/github/bootstrap-repository.sh",
-        "Release candidate: release-candidate-ready; smoke URLs 11",
-        "Post-deploy smoke: blocked-missing-origin; origin missing; checks 0/12; local artifact predeploy-artifact-smoke-passed 12/12",
+        "Release candidate: release-candidate-ready; smoke URLs 12",
+        "Post-deploy smoke: blocked-missing-origin; origin missing; checks 0/13; local artifact predeploy-artifact-smoke-passed 13/13",
         "Repository channel: waiting-for-github-repository; repository missing; git worktree true",
         "Autonomy score: 94%",
         "Credential-gated actions: 13"
@@ -102,7 +102,6 @@ export const objectiveAudit = {
       "blockers": [
         "Add a GitHub origin remote, set GITHUB_REPOSITORY/GH_REPO, set AGL_GITHUB_OWNER, or authenticate gh to infer the target repository.",
         "Authenticate GitHub CLI or configure GH_TOKEN/GITHUB_TOKEN for workflow dispatch and repository settings sync.",
-        "Commit current generated changes before pushing to GitHub Pages.",
         "Set GITHUB_REPOSITORY/GH_REPO, AGL_GITHUB_OWNER, or authenticate gh so the intended owner/repo can be inferred.",
         "Attach a GitHub origin remote or create the target repository.",
         "Authenticate GitHub CLI or provide GH_TOKEN/GITHUB_TOKEN for remote repository bootstrap.",
@@ -161,7 +160,6 @@ export const objectiveAudit = {
         "google-play-account: Google Play developer account must be connected before Android submission.",
         "apple-developer-account: Apple Developer account remains deferred until iOS spend is justified.",
         "native-package-ready: Native package is blocked-draft-ready.",
-        "asset-links: Digital Asset Links are template-only.",
         "google-play-account: Google Play account is not connected.",
         "play-service-account: Google Play service account upload credentials are available to CI.",
         "unit-economics-store-spend: Store spend allowed is false; spend mode is no-spend.",
@@ -192,7 +190,6 @@ export const objectiveAudit = {
     "external": [
       "Add a GitHub origin remote, set GITHUB_REPOSITORY/GH_REPO, set AGL_GITHUB_OWNER, or authenticate gh to infer the target repository.",
       "Authenticate GitHub CLI or configure GH_TOKEN/GITHUB_TOKEN for workflow dispatch and repository settings sync.",
-      "Commit current generated changes before pushing to GitHub Pages.",
       "Set GITHUB_REPOSITORY/GH_REPO, AGL_GITHUB_OWNER, or authenticate gh so the intended owner/repo can be inferred.",
       "Attach a GitHub origin remote or create the target repository.",
       "Authenticate GitHub CLI or provide GH_TOKEN/GITHUB_TOKEN for remote repository bootstrap.",
@@ -207,7 +204,6 @@ export const objectiveAudit = {
       "support-contact: Production support email is required before public store submission.",
       "google-play-account: Google Play developer account must be connected before Android submission.",
       "apple-developer-account: Apple Developer account remains deferred until iOS spend is justified.",
-      "asset-links: Digital Asset Links are template-only.",
       "google-play-account: Google Play account is not connected.",
       "play-service-account: Google Play service account upload credentials are available to CI.",
       "Collector environment is not configured."
@@ -223,7 +219,6 @@ export const objectiveAudit = {
     "all": [
       "Add a GitHub origin remote, set GITHUB_REPOSITORY/GH_REPO, set AGL_GITHUB_OWNER, or authenticate gh to infer the target repository.",
       "Authenticate GitHub CLI or configure GH_TOKEN/GITHUB_TOKEN for workflow dispatch and repository settings sync.",
-      "Commit current generated changes before pushing to GitHub Pages.",
       "Set GITHUB_REPOSITORY/GH_REPO, AGL_GITHUB_OWNER, or authenticate gh so the intended owner/repo can be inferred.",
       "Attach a GitHub origin remote or create the target repository.",
       "Authenticate GitHub CLI or provide GH_TOKEN/GITHUB_TOKEN for remote repository bootstrap.",
@@ -243,7 +238,6 @@ export const objectiveAudit = {
       "google-play-account: Google Play developer account must be connected before Android submission.",
       "apple-developer-account: Apple Developer account remains deferred until iOS spend is justified.",
       "native-package-ready: Native package is blocked-draft-ready.",
-      "asset-links: Digital Asset Links are template-only.",
       "google-play-account: Google Play account is not connected.",
       "play-service-account: Google Play service account upload credentials are available to CI.",
       "unit-economics-store-spend: Store spend allowed is false; spend mode is no-spend.",

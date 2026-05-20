@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-19T02:57:33.056Z",
+  "generatedAt": "2026-05-20T02:19:24.925Z",
   "status": "blocked-needs-host-signing-play",
   "envFiles": {
     "loaded": true,
@@ -70,7 +70,7 @@
     "handoffDirectory": "native/android",
     "twaManifestPath": "native/android/twa-manifest.json",
     "bubblewrapConfigPath": "native/android/bubblewrap.config.json",
-    "assetLinksPath": "native/android/assetlinks.template.json",
+    "assetLinksPath": "public/.well-known/assetlinks.json",
     "expectedAabPath": "native/android/app-release-bundle.aab",
     "expectedApkPath": "native/android/app-release-signed.apk"
   },
@@ -79,7 +79,7 @@
     "googlePlayFeeAllowed": false,
     "paybackDays": null,
     "hostedPrivacyStatus": "needs-hosted-domain",
-    "assetLinksStatus": "template-only",
+    "assetLinksStatus": "public-file-ready",
     "signingFingerprint": "FC:92:04:44:5B:93:78:92:A9:8C:08:50:BF:97:7A:90:A5:62:61:81:53:E7:A9:AA:A9:39:86:74:AE:D3:52:C2",
     "localSigningSecretsConfigured": true
   },
@@ -106,8 +106,8 @@
     },
     {
       "id": "asset-links",
-      "status": "blocker",
-      "detail": "Digital Asset Links are template-only."
+      "status": "pass",
+      "detail": "Digital Asset Links are generated at public/.well-known/assetlinks.json."
     },
     {
       "id": "signing-fingerprint",
@@ -147,7 +147,6 @@
   ],
   "blockers": [
     "native-package-ready: Native package is blocked-draft-ready.",
-    "asset-links: Digital Asset Links are template-only.",
     "google-play-account: Google Play account is not connected.",
     "play-service-account: Google Play service account upload credentials are available to CI.",
     "unit-economics-store-spend: Store spend allowed is false; spend mode is no-spend.",

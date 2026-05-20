@@ -189,7 +189,9 @@ const requiredFiles = [
   'public/compliance.json',
   'public/app-ads.txt',
   'public/monetization.json',
+  'public/.well-known/assetlinks.json',
   'dist/compliance.json',
+  'dist/.well-known/assetlinks.json',
   'dist/seed-kit.html',
   'native/android/twa-manifest.json',
   'native/android/bubblewrap.config.json',
@@ -2518,7 +2520,9 @@ if (
   !nativePackage.handoff?.twaManifestPath ||
   !nativePackage.handoff?.bubblewrapConfigPath ||
   !nativePackage.handoff?.assetLinksTemplatePath ||
+  !nativePackage.handoff?.publicAssetLinksPath ||
   !nativePackage.assetLinks?.template?.[0]?.target?.package_name ||
+  nativePackage.assetLinks?.publicGenerated !== true ||
   !nativePackage.commands?.init ||
   !nativePackage.commands?.build
 ) {
@@ -2569,6 +2573,7 @@ if (unitEconomics.controls?.storeSpendAllowed === false && androidRelease.status
 const twaManifest = JSON.parse(await readFile(path.join(root, 'native', 'android', 'twa-manifest.json'), 'utf8'))
 const bubblewrapConfig = JSON.parse(await readFile(path.join(root, 'native', 'android', 'bubblewrap.config.json'), 'utf8'))
 const assetLinksTemplate = JSON.parse(await readFile(path.join(root, 'native', 'android', 'assetlinks.template.json'), 'utf8'))
+const publicAssetLinks = JSON.parse(await readFile(path.join(root, 'public', '.well-known', 'assetlinks.json'), 'utf8'))
 
 if (
   androidSigning.status !== 'signing-prepared' ||
@@ -2595,9 +2600,12 @@ if (
 if (
   twaManifest.packageId !== nativePackage.packageName ||
   bubblewrapConfig.packageId !== nativePackage.packageName ||
-  assetLinksTemplate[0]?.target?.package_name !== nativePackage.packageName
+  assetLinksTemplate[0]?.target?.package_name !== nativePackage.packageName ||
+  publicAssetLinks[0]?.target?.package_name !== nativePackage.packageName ||
+  publicAssetLinks[0]?.target?.sha256_cert_fingerprints?.[0] !== androidSigning.signing?.sha256CertFingerprint ||
+  nativePackage.handoff?.publicAssetLinksPath !== 'public/.well-known/assetlinks.json'
 ) {
-  fail('Native Android handoff files must use the same package name as native-package.json.')
+  fail('Native Android handoff files must use the same package name and signing fingerprint as native-package.json.')
 }
 
 if (
@@ -3038,10 +3046,16 @@ if (
   !releaseCandidate.postDeploySmoke?.some(
     (item) => item.path === '/compliance.json' && item.requiredText === 'store-compliance',
   ) ||
+  !releaseCandidate.postDeploySmoke?.some(
+    (item) =>
+      item.path === '/.well-known/assetlinks.json' &&
+      item.requiredText === 'delegate_permission/common.handle_all_urls',
+  ) ||
   !releaseCandidateRequiredFiles.has('index.html') ||
   !releaseCandidateRequiredFiles.has('sw.js') ||
   !releaseCandidateRequiredFiles.has('manifest.webmanifest') ||
   !releaseCandidateRequiredFiles.has('compliance.json') ||
+  !releaseCandidateRequiredFiles.has('.well-known/assetlinks.json') ||
   distReleaseCandidate.candidateId !== releaseCandidate.candidateId ||
   packageJson.scripts?.['autonomous:daily']?.includes('autonomous:release-candidate') !== true ||
   packageJson.scripts?.['autonomous:assert-deployable']?.includes('autonomous:release-candidate') !== true

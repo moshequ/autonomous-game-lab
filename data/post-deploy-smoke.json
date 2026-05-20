@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-20T02:07:50.387Z",
+  "generatedAt": "2026-05-20T02:20:50.163Z",
   "status": "blocked-missing-origin",
   "envFiles": {
     "loaded": true,
@@ -54,8 +54,8 @@
   "target": {
     "origin": null,
     "provider": "github-pages",
-    "candidateId": "pwa-0a5c9bf9c4e8",
-    "aggregateHash": "0a5c9bf9c4e85e8af1086c741dd6b6bb53699e75bc8f87d3f6bbf5130da886c9"
+    "candidateId": "pwa-8010349b10c6",
+    "aggregateHash": "8010349b10c65a69b25552a7c94adbfdf48ad192759f6705a530e13677e00bfb"
   },
   "sourceStatus": {
     "deployment": "ready-for-pages",
@@ -63,17 +63,17 @@
     "productionResponse": "guarded-operations"
   },
   "summary": {
-    "planned": 12,
+    "planned": 13,
     "passed": 0,
     "failed": 0,
-    "blocked": 12
+    "blocked": 13
   },
   "localArtifactSmoke": {
     "status": "predeploy-artifact-smoke-passed",
     "artifactPath": "dist",
     "summary": {
-      "planned": 12,
-      "passed": 12,
+      "planned": 13,
+      "passed": 13,
       "failed": 0
     },
     "controls": {
@@ -164,6 +164,16 @@
         "detail": "Local production artifact matched required text."
       },
       {
+        "id": "well-known-assetlinks-json",
+        "path": "/.well-known/assetlinks.json",
+        "file": "dist/.well-known/assetlinks.json",
+        "expectedStatus": 200,
+        "status": "pass",
+        "bytes": 348,
+        "textMatched": true,
+        "detail": "Local production artifact matched required text."
+      },
+      {
         "id": "seed-kit-html",
         "path": "/seed-kit.html",
         "file": "dist/seed-kit.html",
@@ -199,11 +209,11 @@
         "file": "dist/release-candidate.json",
         "expectedStatus": 200,
         "status": "pass",
-        "bytes": 17003,
+        "bytes": 17633,
         "candidateMatches": true,
         "hashMatches": true,
-        "localCandidateId": "pwa-0a5c9bf9c4e8",
-        "localAggregateHash": "0a5c9bf9c4e85e8af1086c741dd6b6bb53699e75bc8f87d3f6bbf5130da886c9",
+        "localCandidateId": "pwa-8010349b10c6",
+        "localAggregateHash": "8010349b10c65a69b25552a7c94adbfdf48ad192759f6705a530e13677e00bfb",
         "detail": "Local release manifest matches the release candidate."
       }
     ]
@@ -291,6 +301,15 @@
       "detail": "No deployed origin configured."
     },
     {
+      "id": "well-known-assetlinks-json",
+      "path": "/.well-known/assetlinks.json",
+      "url": "${DEPLOYED_PWA_ORIGIN}/.well-known/assetlinks.json",
+      "expectedStatus": 200,
+      "requiredText": "delegate_permission/common.handle_all_urls",
+      "status": "blocked",
+      "detail": "No deployed origin configured."
+    },
+    {
       "id": "seed-kit-html",
       "path": "/seed-kit.html",
       "url": "${DEPLOYED_PWA_ORIGIN}/seed-kit.html",
@@ -322,7 +341,7 @@
       "path": "/release-candidate.json",
       "url": "${DEPLOYED_PWA_ORIGIN}/release-candidate.json",
       "expectedStatus": 200,
-      "requiredText": "pwa-0a5c9bf9c4e8",
+      "requiredText": "pwa-8010349b10c6",
       "status": "blocked",
       "detail": "No deployed origin configured."
     }

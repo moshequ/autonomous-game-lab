@@ -95,6 +95,7 @@ const allowedExactPaths = new Set([
   'public/app-ads.txt',
   'public/monetization.json',
   'public/privacy.html',
+  'public/.well-known/assetlinks.json',
   'public/robots.txt',
   'public/seed-kit.html',
   'public/share-manifest.json',

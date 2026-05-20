@@ -106,6 +106,7 @@ const requiredFiles = [
   'share-manifest.json',
   'monetization.json',
   'app-ads.txt',
+  '.well-known/assetlinks.json',
   'icons/icon-192.png',
   'icons/icon-512.png',
   'icons/apple-touch-icon.png',
@@ -178,6 +179,7 @@ const smokePaths = [
   'compliance.json',
   'monetization.json',
   'app-ads.txt',
+  '.well-known/assetlinks.json',
   'seed-kit.html',
   'sitemap.xml',
   gamePages[0]?.path,
@@ -198,6 +200,10 @@ const requiredTextForSmokePath = (filePath) => {
 
   if (filePath === 'app-ads.txt') {
     return 'Revenue features are disabled'
+  }
+
+  if (filePath === '.well-known/assetlinks.json') {
+    return 'delegate_permission/common.handle_all_urls'
   }
 
   return filePath.endsWith('.html') ? 'Autonomous Game Lab' : null

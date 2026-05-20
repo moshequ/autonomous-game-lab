@@ -63,7 +63,9 @@ const storeDraftReady = productionReadiness.distribution?.storePackage?.status =
 const screenshotsReady = storeAssets.status === 'screenshots-ready' && (storeAssets.screenshots?.length ?? 0) >= 4
 const dataSafetyReady = storePackage.dataSafetyDraft?.googlePlay?.status === 'draft-ready'
 const storeComplianceReady = storeCompliance.status === 'draft-ready-external-blockers'
-const assetLinksReady = nativePackage.assetLinks?.status === 'ready'
+const assetLinksReady =
+  nativePackage.assetLinks?.publicGenerated === true &&
+  nativePackage.handoff?.publicAssetLinksPath === 'public/.well-known/assetlinks.json'
 const fingerprintReady = productionEnvironment.android?.signingFingerprintConfigured === true
 const googlePlayAccountReady = productionEnvironment.android?.googlePlayAccountConnected === true
 const androidPromotionReady = androidPromotion?.status === 'promotable'
@@ -94,7 +96,9 @@ const checks = [
   {
     id: 'asset-links',
     status: assetLinksReady ? 'pass' : 'blocker',
-    detail: `Digital Asset Links are ${nativePackage.assetLinks?.status ?? 'missing'}.`,
+    detail: assetLinksReady
+      ? `Digital Asset Links are generated at ${nativePackage.handoff?.publicAssetLinksPath}.`
+      : `Digital Asset Links are ${nativePackage.assetLinks?.status ?? 'missing'}.`,
   },
   {
     id: 'signing-fingerprint',

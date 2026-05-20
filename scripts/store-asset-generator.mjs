@@ -56,7 +56,24 @@ const serveDist = async () => {
     }
   })
 
-  await new Promise((resolve) => server.listen(0, '127.0.0.1', resolve))
+  await new Promise((resolve, reject) => {
+    const onError = (error) => {
+      server.off('listening', onListening)
+      if (error?.code === 'EPERM' || error?.code === 'EACCES') {
+        server.listen(0, '0.0.0.0')
+        return
+      }
+      reject(error)
+    }
+    const onListening = () => {
+      server.off('error', onError)
+      resolve()
+    }
+
+    server.once('error', onError)
+    server.once('listening', onListening)
+    server.listen(0, '127.0.0.1')
+  })
   const address = server.address()
   return {
     origin: `http://127.0.0.1:${address.port}`,

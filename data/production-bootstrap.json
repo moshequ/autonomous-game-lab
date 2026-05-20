@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-20T02:07:47.140Z",
+  "generatedAt": "2026-05-20T02:19:32.232Z",
   "status": "production-bootstrap-ready",
   "mode": "waiting-for-external-credentials",
   "envFiles": {
@@ -87,7 +87,7 @@
     "totalVariables": 24,
     "configuredSecrets": 3,
     "totalSecrets": 8,
-    "externalBlockers": 24
+    "externalBlockers": 22
   },
   "stages": [
     {
@@ -110,7 +110,6 @@
       "command": "npm run autonomous:repo-bootstrap",
       "evidence": "Repository bootstrap waiting-for-github-target; helper ops/github/bootstrap-repository.sh; local git ready.",
       "requires": [
-        "Commit current generated changes before pushing to GitHub Pages.",
         "Set GITHUB_REPOSITORY/GH_REPO, AGL_GITHUB_OWNER, or authenticate gh so the intended owner/repo can be inferred.",
         "Attach a GitHub origin remote or create the target repository.",
         "Authenticate GitHub CLI or provide GH_TOKEN/GITHUB_TOKEN for remote repository bootstrap."
@@ -251,7 +250,6 @@
       "evidence": "Native package blocked-draft-ready; Android release blocked-needs-host-signing-play.",
       "requires": [
         "native-package-ready: Native package is blocked-draft-ready.",
-        "asset-links: Digital Asset Links are template-only.",
         "google-play-account: Google Play account is not connected.",
         "play-service-account: Google Play service account upload credentials are available to CI.",
         "unit-economics-store-spend: Store spend allowed is false; spend mode is no-spend.",
@@ -280,7 +278,6 @@
       "command": "npm run autonomous:repo-bootstrap",
       "evidence": "Repository bootstrap waiting-for-github-target; helper ops/github/bootstrap-repository.sh; local git ready.",
       "requires": [
-        "Commit current generated changes before pushing to GitHub Pages.",
         "Set GITHUB_REPOSITORY/GH_REPO, AGL_GITHUB_OWNER, or authenticate gh so the intended owner/repo can be inferred.",
         "Attach a GitHub origin remote or create the target repository.",
         "Authenticate GitHub CLI or provide GH_TOKEN/GITHUB_TOKEN for remote repository bootstrap."
@@ -421,7 +418,6 @@
       "evidence": "Native package blocked-draft-ready; Android release blocked-needs-host-signing-play.",
       "requires": [
         "native-package-ready: Native package is blocked-draft-ready.",
-        "asset-links: Digital Asset Links are template-only.",
         "google-play-account: Google Play account is not connected.",
         "play-service-account: Google Play service account upload credentials are available to CI.",
         "unit-economics-store-spend: Store spend allowed is false; spend mode is no-spend.",
@@ -1076,10 +1072,6 @@
     },
     {
       "source": "repository-bootstrap",
-      "blocker": "Commit current generated changes before pushing to GitHub Pages."
-    },
-    {
-      "source": "repository-bootstrap",
       "blocker": "Set GITHUB_REPOSITORY/GH_REPO, AGL_GITHUB_OWNER, or authenticate gh so the intended owner/repo can be inferred."
     },
     {
@@ -1141,10 +1133,6 @@
     {
       "source": "android-release",
       "blocker": "native-package-ready: Native package is blocked-draft-ready."
-    },
-    {
-      "source": "android-release",
-      "blocker": "asset-links: Digital Asset Links are template-only."
     },
     {
       "source": "android-release",

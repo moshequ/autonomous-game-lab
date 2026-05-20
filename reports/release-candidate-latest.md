@@ -1,22 +1,22 @@
 # Release Candidate
 
-Generated: 2026-05-20T02:07:45.687Z
+Generated: 2026-05-20T02:20:35.794Z
 Status: release-candidate-ready
-Candidate: pwa-0a5c9bf9c4e8
-Files: 40
-Size: 3591.6 KB
-Aggregate SHA-256: 0a5c9bf9c4e85e8af1086c741dd6b6bb53699e75bc8f87d3f6bbf5130da886c9
+Candidate: pwa-8010349b10c6
+Files: 41
+Size: 3590.9 KB
+Aggregate SHA-256: 8010349b10c65a69b25552a7c94adbfdf48ad192759f6705a530e13677e00bfb
 
 ## Checks
 
-- pass: dist-inventory - 40 dist files inventoried.
-- pass: required-files - 15/15 required files present.
+- pass: dist-inventory - 41 dist files inventoried.
+- pass: required-files - 16/16 required files present.
 - pass: game-pages - 10 generated game page(s) in dist.
 - pass: performance-budget - Performance budget is performance-budget-ready.
 - pass: release-health - Release health is monitoring.
 - pass: production-response - Deploy allowed is true.
 - pass: spend-guard - Spend mode is no-spend.
-- pass: post-deploy-smoke-plan - 11 post-deploy smoke URL(s) planned.
+- pass: post-deploy-smoke-plan - 12 post-deploy smoke URL(s) planned.
 
 ## Required Files
 
@@ -32,6 +32,7 @@ Aggregate SHA-256: 0a5c9bf9c4e85e8af1086c741dd6b6bb53699e75bc8f87d3f6bbf5130da88
 - pass: share-manifest.json
 - pass: monetization.json
 - pass: app-ads.txt
+- pass: .well-known/assetlinks.json
 - pass: icons/icon-192.png
 - pass: icons/icon-512.png
 - pass: icons/apple-touch-icon.png
@@ -46,6 +47,7 @@ Aggregate SHA-256: 0a5c9bf9c4e85e8af1086c741dd6b6bb53699e75bc8f87d3f6bbf5130da88
 - 200: ${DEPLOYED_PWA_ORIGIN}/compliance.json
 - 200: ${DEPLOYED_PWA_ORIGIN}/monetization.json
 - 200: ${DEPLOYED_PWA_ORIGIN}/app-ads.txt
+- 200: ${DEPLOYED_PWA_ORIGIN}/.well-known/assetlinks.json
 - 200: ${DEPLOYED_PWA_ORIGIN}/seed-kit.html
 - 200: ${DEPLOYED_PWA_ORIGIN}/sitemap.xml
 - 200: ${DEPLOYED_PWA_ORIGIN}/games/canopy-bloom.html
