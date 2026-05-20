@@ -443,6 +443,7 @@ const payload = {
     readOnlyHttpChecks: true,
     strictManifestComparisonRequired: true,
     separateFromLocalCandidate: true,
+    noPostDeployReleaseRefresh: true,
   },
   checks,
   nextActions: [

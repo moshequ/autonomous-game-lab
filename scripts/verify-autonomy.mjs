@@ -2530,8 +2530,10 @@ if (
   autonomousCadence.schedulers?.githubPostDeployEvidenceSync?.trigger !== 'workflow_run: Web PWA Deploy' ||
   autonomousCadence.schedulers?.githubPostDeployEvidenceSync?.evidenceGate !==
     'npm run autonomous:post-deploy-artifact-sync -- --assert' ||
-  autonomousCadence.schedulers?.githubPostDeployEvidenceSync?.localBuildGate !==
-    'npm run build && npm run autonomous:release-candidate && npm run autonomous:post-deploy-smoke' ||
+  autonomousCadence.schedulers?.githubPostDeployEvidenceSync?.releaseRefreshPolicy !==
+    'disabled-after-deploy-to-preserve-live-artifact-evidence' ||
+  autonomousCadence.schedulers?.githubPostDeployEvidenceSync?.verificationGate !==
+    'npm run autonomous:verify-post-deploy-sync' ||
 	  autonomousCadence.commandPlan?.operate !== 'npm run autonomous:operate' ||
 	  autonomousCadence.commandPlan?.daily !== 'npm run autonomous:daily' ||
 	  autonomousCadence.commandPlan?.executeOneLocalAction !== 'npm run autonomous:operator -- --execute' ||
@@ -2567,16 +2569,14 @@ if (
   !postDeployEvidenceSyncWorkflow.includes("workflows: ['Web PWA Deploy']") ||
   !postDeployEvidenceSyncWorkflow.includes('actions: read') ||
   !postDeployEvidenceSyncWorkflow.includes('contents: write') ||
-  !postDeployEvidenceSyncWorkflow.includes('npm run build') ||
-  !postDeployEvidenceSyncWorkflow.includes('autonomous:release-candidate') ||
-  !postDeployEvidenceSyncWorkflow.includes('autonomous:post-deploy-smoke') ||
-  !postDeployEvidenceSyncWorkflow.includes('autonomous:repo-readiness') ||
-  !postDeployEvidenceSyncWorkflow.includes('autonomous:deploy-plan') ||
   !postDeployEvidenceSyncWorkflow.includes('autonomous:post-deploy-artifact-sync') ||
-  !postDeployEvidenceSyncWorkflow.includes('node scripts/verify-autonomy.mjs') ||
+  !postDeployEvidenceSyncWorkflow.includes('npm run autonomous:verify-post-deploy-sync') ||
   !postDeployEvidenceSyncWorkflow.includes('AGL_AUTONOMOUS_SELF_UPDATE_DIRECT') ||
   !postDeployEvidenceSyncWorkflow.includes('data/post-deploy-artifact-sync.json') ||
+  !postDeployEvidenceSyncWorkflow.includes('src/data/postDeployArtifactSync.ts') ||
   !postDeployEvidenceSyncWorkflow.includes('reports/post-deploy-artifact-sync-latest.md') ||
+  postDeployEvidenceSyncWorkflow.includes('autonomous:release-candidate') ||
+  postDeployEvidenceSyncWorkflow.includes('autonomous:post-deploy-smoke') ||
   !autonomousCadenceSource.includes('postDeployEvidenceSyncWorkflow')
 ) {
   fail('Autonomous cadence must publish the daily Codex/GitHub schedule, guarded operate command, and zero-spend controls.')
@@ -3897,26 +3897,26 @@ if (
   postDeployArtifactSync.controls?.readOnlyHttpChecks !== true ||
   postDeployArtifactSync.controls?.strictManifestComparisonRequired !== true ||
   postDeployArtifactSync.controls?.separateFromLocalCandidate !== true ||
+  postDeployArtifactSync.controls?.noPostDeployReleaseRefresh !== true ||
   packageJson.scripts?.['autonomous:post-deploy-artifact-sync'] !==
     'node scripts/post-deploy-artifact-sync.mjs' ||
+  packageJson.scripts?.['autonomous:verify-post-deploy-sync'] !==
+    'node scripts/verify-post-deploy-evidence-sync.mjs' ||
   !postDeployArtifactSyncSource.includes('gh') ||
   !postDeployArtifactSyncSource.includes('run') ||
   !postDeployArtifactSyncSource.includes('view') ||
   !postDeployArtifactSyncSource.includes('download') ||
   !postDeployArtifactSyncSource.includes('readOnlyGithubArtifactDownload') ||
   !postDeployArtifactSyncSource.includes('separateFromLocalCandidate') ||
+  !postDeployArtifactSyncSource.includes('noPostDeployReleaseRefresh') ||
   !postDeployEvidenceSyncWorkflow.includes("workflows: ['Web PWA Deploy']") ||
   !postDeployEvidenceSyncWorkflow.includes('actions: read') ||
   !postDeployEvidenceSyncWorkflow.includes('contents: write') ||
-  !postDeployEvidenceSyncWorkflow.includes('npm run build') ||
-  !postDeployEvidenceSyncWorkflow.includes('autonomous:release-candidate') ||
-  !postDeployEvidenceSyncWorkflow.includes('autonomous:post-deploy-smoke') ||
-  !postDeployEvidenceSyncWorkflow.includes('autonomous:repo-readiness') ||
-  !postDeployEvidenceSyncWorkflow.includes('autonomous:deploy-plan') ||
   !postDeployEvidenceSyncWorkflow.includes('autonomous:post-deploy-artifact-sync') ||
-  !postDeployEvidenceSyncWorkflow.includes('node scripts/verify-autonomy.mjs') ||
+  !postDeployEvidenceSyncWorkflow.includes('npm run autonomous:verify-post-deploy-sync') ||
   !postDeployEvidenceSyncWorkflow.includes('AGL_AUTONOMOUS_SELF_UPDATE_DIRECT') ||
   !postDeployEvidenceSyncWorkflow.includes('data/post-deploy-artifact-sync.json') ||
+  !postDeployEvidenceSyncWorkflow.includes('src/data/postDeployArtifactSync.ts') ||
   !postDeployEvidenceSyncWorkflow.includes('reports/post-deploy-artifact-sync-latest.md')
 ) {
   fail('Post-deploy artifact sync must preserve strict GitHub Actions smoke evidence and compare it to the live release manifest.')
@@ -4982,7 +4982,8 @@ if (
   !deployWorkflow.includes('include-hidden-files: true') ||
   !deployWorkflow.includes("workflows: ['Autonomous Daily Studio', 'Autonomous Self Update']") ||
   !deployWorkflow.includes('actions/deploy-pages') ||
-  !deployWorkflow.includes('npm run autonomous:operate') ||
+  !deployWorkflow.includes('npm run build') ||
+  !deployWorkflow.includes('npm run autonomous:performance') ||
   !deployWorkflow.includes('VITE_EVENT_COLLECTOR_URL') ||
   !deployWorkflow.includes('VITE_EVENT_COLLECTOR_WRITE_TOKEN') ||
   !deployWorkflow.includes('AGL_EVENT_COLLECTOR_EXPORT_URL') ||
@@ -4993,9 +4994,10 @@ if (
   !deployWorkflow.includes('npm run autonomous:assert-deployable') ||
   !deployWorkflow.includes('AGL_DEPLOYED_PWA_ORIGIN') ||
   !deployWorkflow.includes('npm run autonomous:post-deploy-smoke -- --assert') ||
-  !deployWorkflow.includes('post-deploy-smoke')
+  !deployWorkflow.includes('post-deploy-smoke') ||
+  deployWorkflow.includes('npm run autonomous:operate')
 ) {
-  fail('Web PWA deploy workflow must prepare a release candidate, configure, upload, gate, deploy GitHub Pages, and run post-deploy smoke.')
+  fail('Web PWA deploy workflow must build the committed PWA artifact, prepare a release candidate, configure, upload, gate, deploy GitHub Pages, and run post-deploy smoke.')
 }
 
 if (

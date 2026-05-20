@@ -1,10 +1,27 @@
 export const postDeployArtifactSync = {
-  "generatedAt": "2026-05-20T17:27:37.182Z",
+  "generatedAt": "2026-05-20T17:37:44.606Z",
   "status": "post-deploy-artifact-sync-passed",
   "envFiles": {
-    "loaded": false,
-    "loadedFiles": [],
-    "loadedKeys": [],
+    "loaded": true,
+    "loadedFiles": [
+      {
+        "path": "ops/production.env.local",
+        "keys": [
+          "AGL_ANDROID_PACKAGE_NAME",
+          "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
+          "AGL_ANDROID_KEYSTORE_BASE64",
+          "AGL_ANDROID_KEYSTORE_PASSWORD",
+          "AGL_ANDROID_KEY_ALIAS"
+        ]
+      }
+    ],
+    "loadedKeys": [
+      "AGL_ANDROID_PACKAGE_NAME",
+      "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
+      "AGL_ANDROID_KEYSTORE_BASE64",
+      "AGL_ANDROID_KEYSTORE_PASSWORD",
+      "AGL_ANDROID_KEY_ALIAS"
+    ],
     "skippedExistingKeys": [],
     "skippedProtectedKeys": [],
     "overwrittenEnvFileKeys": [],
@@ -36,7 +53,7 @@ export const postDeployArtifactSync = {
   },
   "repository": {
     "target": "moshequ/autonomous-game-lab",
-    "source": "environment-or-cli"
+    "source": "origin-remote"
   },
   "workflow": {
     "workflowFile": "web-pwa-deploy.yml",
@@ -91,7 +108,7 @@ export const postDeployArtifactSync = {
     "reportSha256": "6b9a747a77d89aacdadeb6c50bba719a01a8af5fa4ec2e7a3c67b1a2ed34461a"
   },
   "live": {
-    "origin": "https://moshequ.github.io/autonomous-game-lab",
+    "origin": "https://moshequ.github.io/autonomous-game-lab/",
     "manifestUrl": "https://moshequ.github.io/autonomous-game-lab/release-candidate.json",
     "status": 200,
     "finalUrl": "https://moshequ.github.io/autonomous-game-lab/release-candidate.json",
@@ -125,7 +142,8 @@ export const postDeployArtifactSync = {
     "readOnlyGithubArtifactDownload": true,
     "readOnlyHttpChecks": true,
     "strictManifestComparisonRequired": true,
-    "separateFromLocalCandidate": true
+    "separateFromLocalCandidate": true,
+    "noPostDeployReleaseRefresh": true
   },
   "checks": [
     {

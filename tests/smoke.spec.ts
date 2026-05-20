@@ -1055,7 +1055,10 @@ test('post-deploy smoke runner is wired to the release manifest and Pages workfl
 
   expect(packageJson.scripts['autonomous:post-deploy-smoke']).toBe('node scripts/post-deploy-smoke.mjs')
   expect(packageJson.scripts['autonomous:daily']).toContain('autonomous:post-deploy-smoke')
-  expect(workflow).toContain('npm run autonomous:operate')
+  expect(workflow).toContain('npm run build')
+  expect(workflow).toContain('npm run autonomous:performance')
+  expect(workflow).toContain('npm run autonomous:release-candidate')
+  expect(workflow).not.toContain('npm run autonomous:operate')
   expect(workflow).toContain('actions/upload-pages-artifact@v5')
   expect(workflow).toContain('include-hidden-files: true')
   expect(workflow).toContain('AGL_EVENT_COLLECTOR_R2_BUCKET')
@@ -1103,6 +1106,7 @@ test('post-deploy artifact sync preserves strict Pages workflow evidence', async
       readOnlyHttpChecks: boolean
       strictManifestComparisonRequired: boolean
       separateFromLocalCandidate: boolean
+      noPostDeployReleaseRefresh: boolean
     }
     checks: Array<{ id: string; status: string }>
   }
@@ -1138,6 +1142,7 @@ test('post-deploy artifact sync preserves strict Pages workflow evidence', async
   expect(sync.controls.readOnlyHttpChecks).toBe(true)
   expect(sync.controls.strictManifestComparisonRequired).toBe(true)
   expect(sync.controls.separateFromLocalCandidate).toBe(true)
+  expect(sync.controls.noPostDeployReleaseRefresh).toBe(true)
   expect(sync.checks.some((check) => check.id === 'post-deploy-smoke-artifact' && check.status === 'pass')).toBe(
     true,
   )
@@ -1145,23 +1150,27 @@ test('post-deploy artifact sync preserves strict Pages workflow evidence', async
   expect(packageJson.scripts['autonomous:post-deploy-artifact-sync']).toBe(
     'node scripts/post-deploy-artifact-sync.mjs',
   )
+  expect(packageJson.scripts['autonomous:verify-post-deploy-sync']).toBe(
+    'node scripts/verify-post-deploy-evidence-sync.mjs',
+  )
   expect(script).toContain("'run'")
   expect(script).toContain("'view'")
   expect(script).toContain("'download'")
   expect(script).toContain('readOnlyGithubArtifactDownload')
   expect(script).toContain('separateFromLocalCandidate')
+  expect(script).toContain('noPostDeployReleaseRefresh')
   expect(workflow).toContain("workflows: ['Web PWA Deploy']")
   expect(workflow).toContain('actions: read')
   expect(workflow).toContain('contents: write')
-  expect(workflow).toContain('npm run build')
-  expect(workflow).toContain('autonomous:release-candidate')
-  expect(workflow).toContain('autonomous:post-deploy-smoke')
-  expect(workflow).toContain('autonomous:repo-readiness')
-  expect(workflow).toContain('autonomous:deploy-plan')
   expect(workflow).toContain('autonomous:post-deploy-artifact-sync')
-  expect(workflow).toContain('node scripts/verify-autonomy.mjs')
+  expect(workflow).toContain('npm run autonomous:verify-post-deploy-sync')
   expect(workflow).toContain('AGL_AUTONOMOUS_SELF_UPDATE_DIRECT')
   expect(workflow).toContain('data/post-deploy-artifact-sync.json')
+  expect(workflow).toContain('src/data/postDeployArtifactSync.ts')
+  expect(workflow).toContain('reports/post-deploy-artifact-sync-latest.md')
+  expect(workflow).not.toContain('npm run build')
+  expect(workflow).not.toContain('autonomous:release-candidate')
+  expect(workflow).not.toContain('autonomous:post-deploy-smoke')
 })
 
 test('production scripts load git-ignored env files without leaking values or mutation gates', async () => {
@@ -2901,7 +2910,7 @@ test('autonomous cadence keeps unattended operation auditable and guarded', asyn
         workflow: string
         trigger: string
         evidenceGate: string
-        localBuildGate: string
+        releaseRefreshPolicy: string
         verificationGate: string
       }
     }
@@ -2962,10 +2971,12 @@ test('autonomous cadence keeps unattended operation auditable and guarded', asyn
   expect(cadence.schedulers.githubPostDeployEvidenceSync.evidenceGate).toBe(
     'npm run autonomous:post-deploy-artifact-sync -- --assert',
   )
-  expect(cadence.schedulers.githubPostDeployEvidenceSync.localBuildGate).toBe(
-    'npm run build && npm run autonomous:release-candidate && npm run autonomous:post-deploy-smoke',
+  expect(cadence.schedulers.githubPostDeployEvidenceSync.releaseRefreshPolicy).toBe(
+    'disabled-after-deploy-to-preserve-live-artifact-evidence',
   )
-  expect(cadence.schedulers.githubPostDeployEvidenceSync.verificationGate).toBe('node scripts/verify-autonomy.mjs')
+  expect(cadence.schedulers.githubPostDeployEvidenceSync.verificationGate).toBe(
+    'npm run autonomous:verify-post-deploy-sync',
+  )
   expect(cadence.commandPlan.operate).toBe('npm run autonomous:operate')
   expect(cadence.commandPlan.daily).toBe('npm run autonomous:daily')
   expect(cadence.commandPlan.executeOneLocalAction).toBe('npm run autonomous:operator -- --execute')

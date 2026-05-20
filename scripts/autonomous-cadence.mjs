@@ -643,12 +643,16 @@ const checks = [
     status:
       webDeployWorkflowExists &&
       webDeployWorkflow.includes("workflows: ['Autonomous Daily Studio', 'Autonomous Self Update']") &&
+      webDeployWorkflow.includes('npm run build') &&
+      webDeployWorkflow.includes('npm run autonomous:performance') &&
+      webDeployWorkflow.includes('npm run autonomous:release-candidate') &&
       webDeployWorkflow.includes('npm run autonomous:assert-deployable') &&
-      webDeployWorkflow.includes('npm run autonomous:post-deploy-smoke -- --assert')
+      webDeployWorkflow.includes('npm run autonomous:post-deploy-smoke -- --assert') &&
+      !webDeployWorkflow.includes('npm run autonomous:operate')
         ? 'pass'
         : 'blocker',
     detail: webDeployWorkflowExists
-      ? 'Pages deployment also follows the gated self-update workflow, so persisted generated improvements can publish without manual dispatch.'
+      ? 'Pages deployment builds the committed PWA artifact from the gated self-update workflow, so persisted generated improvements can publish without manual dispatch.'
       : 'Web PWA deploy workflow is missing.',
   },
   {
@@ -658,20 +662,19 @@ const checks = [
       postDeployEvidenceSyncWorkflow.includes("workflows: ['Web PWA Deploy']") &&
       postDeployEvidenceSyncWorkflow.includes('actions: read') &&
       postDeployEvidenceSyncWorkflow.includes('contents: write') &&
-      postDeployEvidenceSyncWorkflow.includes('npm run build') &&
-      postDeployEvidenceSyncWorkflow.includes('autonomous:release-candidate') &&
-      postDeployEvidenceSyncWorkflow.includes('autonomous:post-deploy-smoke') &&
-      postDeployEvidenceSyncWorkflow.includes('autonomous:repo-readiness') &&
-      postDeployEvidenceSyncWorkflow.includes('autonomous:deploy-plan') &&
       postDeployEvidenceSyncWorkflow.includes('autonomous:post-deploy-artifact-sync') &&
-      postDeployEvidenceSyncWorkflow.includes('node scripts/verify-autonomy.mjs') &&
+      postDeployEvidenceSyncWorkflow.includes('npm run autonomous:verify-post-deploy-sync') &&
       postDeployEvidenceSyncWorkflow.includes('AGL_AUTONOMOUS_SELF_UPDATE_DIRECT') &&
       postDeployEvidenceSyncWorkflow.includes('data/post-deploy-artifact-sync.json') &&
-      postDeployEvidenceSyncWorkflow.includes('reports/post-deploy-artifact-sync-latest.md')
+      postDeployEvidenceSyncWorkflow.includes('src/data/postDeployArtifactSync.ts') &&
+      postDeployEvidenceSyncWorkflow.includes('reports/post-deploy-artifact-sync-latest.md') &&
+      !postDeployEvidenceSyncWorkflow.includes('npm run build') &&
+      !postDeployEvidenceSyncWorkflow.includes('autonomous:release-candidate') &&
+      !postDeployEvidenceSyncWorkflow.includes('autonomous:post-deploy-smoke')
         ? 'pass'
         : 'blocker',
     detail: postDeployEvidenceSyncWorkflowExists
-      ? 'Post-deploy evidence sync imports the strict Pages smoke artifact and persists allowlisted generated evidence after verification.'
+      ? 'Post-deploy evidence sync imports only the strict Pages smoke artifact, preventing a new undeployed release candidate during evidence import.'
       : 'Post-deploy evidence sync workflow is missing.',
   },
   {
@@ -744,8 +747,8 @@ const payload = {
       trigger: 'workflow_run: Web PWA Deploy',
       permission: 'actions: read, contents: write',
       evidenceGate: 'npm run autonomous:post-deploy-artifact-sync -- --assert',
-      localBuildGate: 'npm run build && npm run autonomous:release-candidate && npm run autonomous:post-deploy-smoke',
-      verificationGate: 'node scripts/verify-autonomy.mjs',
+      releaseRefreshPolicy: 'disabled-after-deploy-to-preserve-live-artifact-evidence',
+      verificationGate: 'npm run autonomous:verify-post-deploy-sync',
       directPushRequiresRepositoryVariable: 'AGL_AUTONOMOUS_SELF_UPDATE_DIRECT=1',
     },
   },

@@ -1,11 +1,11 @@
 # Post-Deploy Artifact Sync
 
-Generated: 2026-05-20T17:27:37.182Z
+Generated: 2026-05-20T17:37:44.606Z
 Status: post-deploy-artifact-sync-passed
 Repository: moshequ/autonomous-game-lab
 Workflow: web-pwa-deploy.yml
 Run: 26178635500
-Origin: https://moshequ.github.io/autonomous-game-lab
+Origin: https://moshequ.github.io/autonomous-game-lab/
 Artifact candidate: pwa-699df56a6c26
 Live candidate: pwa-699df56a6c26
 
@@ -44,6 +44,7 @@ Live candidate: pwa-699df56a6c26
 - readOnlyHttpChecks: true
 - strictManifestComparisonRequired: true
 - separateFromLocalCandidate: true
+- noPostDeployReleaseRefresh: true
 
 ## Next Actions
 

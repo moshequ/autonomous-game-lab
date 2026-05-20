@@ -41,10 +41,7 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Install Playwright browser
-        run: npx playwright install --with-deps chromium
-
-      - name: Run autonomous owner loop
+      - name: Build committed PWA artifact
         env:
           AGL_ANDROID_KEYSTORE_BASE64: ${{ secrets.AGL_ANDROID_KEYSTORE_BASE64 }}
           AGL_ANDROID_KEYSTORE_PASSWORD: ${{ secrets.AGL_ANDROID_KEYSTORE_PASSWORD }}
@@ -67,7 +64,9 @@ jobs:
           VITE_POSTHOG_HOST: ${{ vars.VITE_POSTHOG_HOST }}
           VITE_POSTHOG_KEY: ${{ vars.VITE_POSTHOG_KEY }}
           VITE_PUBLIC_ORIGIN: ${{ vars.VITE_PUBLIC_ORIGIN }}
-        run: npm run autonomous:operate
+        run: |
+          npm run build
+          npm run autonomous:performance
 
       - name: Prepare release candidate
         env:
