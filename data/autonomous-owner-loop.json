@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-20T14:55:18.397Z",
+  "generatedAt": "2026-05-20T15:01:38.679Z",
   "status": "owner-loop-ready",
   "mode": "zero-spend-web-ready",
   "autonomyScore": {
@@ -39,7 +39,7 @@
     "objectiveAuditFreshness": {
       "fresh": true,
       "structurallyReady": true,
-      "auditGeneratedAt": "2026-05-20T14:55:18.146Z",
+      "auditGeneratedAt": "2026-05-20T15:01:38.527Z",
       "evaluatedInputIds": [
         "analytics-rollup",
         "event-ingest",
@@ -200,7 +200,7 @@
       "id": "performance-budget",
       "status": "ready",
       "autonomy": "automatic-build-budget",
-      "evidence": "Initial JS 631.2 KB; gzip 173 KB; deferred chunks 1.",
+      "evidence": "Initial JS 631 KB; gzip 172.9 KB; deferred chunks 1.",
       "nextAction": "Keep Phaser and game scenes outside the initial PWA shell."
     },
     {
@@ -292,20 +292,20 @@
       "status": "ready",
       "autonomy": "read-only-live-deploy-verification",
       "evidence": "Smoke post-deploy-smoke-observed-live; origin https://moshequ.github.io/autonomous-game-lab; manifest comparison required; checks 15/15 passed; local artifact predeploy-artifact-smoke-passed 15/15 passed.",
-      "nextAction": "Live Pages is reachable and serving pwa-4cedf81c09ca; run the deploy workflow for strict proof of the current local candidate if needed."
+      "nextAction": "Live Pages is reachable and serving pwa-51c01a3a1ded; run the deploy workflow for strict proof of the current local candidate if needed."
     },
     {
       "id": "post-deploy-artifact-sync",
       "status": "ready",
       "autonomy": "read-only-actions-artifact-import",
-      "evidence": "Artifact sync post-deploy-artifact-sync-passed; run 26169563431; live matches artifact true; strict true.",
+      "evidence": "Artifact sync post-deploy-artifact-sync-passed; run 26170819078; live matches artifact true; strict true.",
       "nextAction": "Keep this strict deploy artifact as live-production evidence while local candidates continue to iterate."
     },
     {
       "id": "production-bootstrap",
       "status": "ready",
       "autonomy": "zero-spend-setup-orchestration",
-      "evidence": "Bootstrap production-bootstrap-ready; mode can-apply-configured-actions; external blockers 16.",
+      "evidence": "Bootstrap production-bootstrap-ready; mode can-apply-configured-actions; external blockers 15.",
       "nextAction": "gh workflow run web-pwa-deploy.yml"
     },
     {
@@ -333,7 +333,7 @@
       "id": "objective-audit",
       "status": "ready",
       "autonomy": "completion-evidence-ledger",
-      "evidence": "Audit objective-in-progress; met 6/8; external blockers 13.",
+      "evidence": "Audit objective-in-progress; met 6/8; external blockers 12.",
       "nextAction": "The local autonomous PWA system is largely prepared with strict live deploy evidence synced from GitHub Actions, but production credentials, live data, monetization gates, and store account/signing blockers remain."
     },
     {
@@ -458,7 +458,7 @@
       "command": "npm run build && npm run autonomous:performance",
       "targets": [
         "pwa-shell",
-        "GameCanvas--zqdB8ip.js"
+        "GameCanvas-B-542mdz.js"
       ],
       "reason": "Keeps the PWA shell fast while Phaser and game scenes stay deferred."
     },
@@ -489,7 +489,7 @@
       "costUsd": 0,
       "command": "npm run autonomous:post-deploy-artifact-sync",
       "targets": [
-        26169563431,
+        26170819078,
         "release-candidate-manifest"
       ],
       "reason": "Strict deploy artifact evidence is already synced from the latest successful Pages workflow."
