@@ -1,6 +1,6 @@
 # Autonomous Operator
 
-Generated: 2026-05-20T16:31:18.329Z
+Generated: 2026-05-20T16:38:12.558Z
 Status: operator-plan-ready
 Mode: plan-only
 Owner decision: seed-portfolio-traffic
@@ -40,7 +40,6 @@ Execution: not-requested
 - refresh-completion-loop
 - refresh-replay-loop
 - bootstrap-production-setup
-- refresh-objective-audit
 - optimize-store-listing
 - apply-safe-improvements
 - collect-live-events

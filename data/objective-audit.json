@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-20T16:31:24.550Z",
+  "generatedAt": "2026-05-20T16:38:12.097Z",
   "status": "objective-in-progress",
   "objective": "Build a bootstrapped autonomous web/PWA game portal that can generate original board-game-inspired games, measure user behavior, propose and apply data-driven improvements, and prepare a path to monetization and app-store distribution with minimal manual intervention.",
   "summary": {
@@ -7,7 +7,7 @@
     "met": 6,
     "prepared": 2,
     "incomplete": 0,
-    "externalBlockers": 13,
+    "externalBlockers": 12,
     "productBlockers": 6
   },
   "requirements": [
@@ -183,7 +183,6 @@
   ],
   "blockers": {
     "external": [
-      "Commit current generated changes before pushing to GitHub Pages.",
       "Set AGL_SUPPORT_EMAIL to a real support inbox before public store submission.",
       "Set VITE_EVENT_COLLECTOR_URL or VITE_POSTHOG_KEY to forward browser analytics in production.",
       "Set AGL_EVENT_COLLECTOR_EXPORT_URL + AGL_EVENT_COLLECTOR_ADMIN_TOKEN or PostHog server credentials for autonomous production rollups.",
@@ -206,7 +205,6 @@
       "Web/PWA or native ad provider is not configured for gated revenue tests."
     ],
     "all": [
-      "Commit current generated changes before pushing to GitHub Pages.",
       "Set AGL_SUPPORT_EMAIL to a real support inbox before public store submission.",
       "Set VITE_EVENT_COLLECTOR_URL or VITE_POSTHOG_KEY to forward browser analytics in production.",
       "Set AGL_EVENT_COLLECTOR_EXPORT_URL + AGL_EVENT_COLLECTOR_ADMIN_TOKEN or PostHog server credentials for autonomous production rollups.",
@@ -235,8 +233,8 @@
     "zeroSpendGuard": true,
     "noRevenueEnablementUntilGatesPass": true,
     "noStoreSubmissionUntilExternalAccounts": true,
-    "currentWorktreeClean": false,
-    "currentWorktreeDirtyFiles": 75
+    "currentWorktreeClean": true,
+    "currentWorktreeDirtyFiles": 0
   },
   "completion": {
     "canMarkGoalComplete": false,
