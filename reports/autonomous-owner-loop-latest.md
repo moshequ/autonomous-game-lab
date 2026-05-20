@@ -1,17 +1,17 @@
 # Autonomous Owner Loop
 
-Generated: 2026-05-20T19:48:54.983Z
+Generated: 2026-05-20T20:04:08.201Z
 Status: owner-loop-ready
 Mode: zero-spend-web-ready
 Autonomy score: 41/42 (98%)
 
 ## Owner Decision
 
-- Next action: refresh-organic-seed-loop
-- Command: npm run autonomous:organic-seed-loop
-- Rationale: Refreshes the player-initiated zero-cost share surface for the highest-opportunity seed campaign.
-- Last executed action: collect-live-events
-- Recent executed actions: collect-live-events, seed-portfolio-traffic, measure-pwa-install-loop, optimize-product-gates, optimize-daily-retention, refresh-replay-loop, refresh-completion-loop, refresh-first-move-coach
+- Next action: refresh-first-move-coach
+- Command: npm run autonomous:first-move-coach
+- Rationale: Refreshes the first-turn coach policy from product-gate, onboarding, and release-health evidence.
+- Last executed action: refresh-organic-seed-loop
+- Recent executed actions: refresh-organic-seed-loop, collect-live-events, seed-portfolio-traffic, measure-pwa-install-loop, optimize-product-gates, optimize-daily-retention, refresh-replay-loop, refresh-completion-loop
 
 ## Systems
 
@@ -44,12 +44,12 @@ Autonomy score: 41/42 (98%)
 - ready: web-deployment - Deployment ready-for-pages; web readiness ready-after-build; promotion promotable-internal.
 - ready: release-candidate - Release candidate release-candidate-ready; files 44; smoke URLs 14.
 - ready: post-deploy-smoke - Smoke post-deploy-smoke-observed-live; origin https://moshequ.github.io/autonomous-game-lab; manifest comparison required; checks 15/15 passed; local artifact predeploy-artifact-smoke-passed 15/15 passed.
-- ready: post-deploy-artifact-sync - Artifact sync post-deploy-artifact-sync-passed; run 26184989229; live matches artifact true; strict true.
+- ready: post-deploy-artifact-sync - Artifact sync post-deploy-artifact-sync-passed; run 26186157418; live matches artifact true; strict true.
 - ready: production-bootstrap - Bootstrap production-bootstrap-ready; mode can-apply-configured-actions; external blockers 16.
 - ready: production-activation - Activation activation-ready; mode dry-run; execution dry-run; gh ready.
 - ready: support-channel - Support channel support-channel-ready; repository moshequ/autonomous-game-lab; public intake ready.
-- ready: autonomous-operator - Operator operator-plan-ready; selected refresh-organic-seed-loop; execution not-requested.
-- ready: operator-history - History operator-history-ready; records 40; executed 10.
+- ready: autonomous-operator - Operator operator-plan-ready; selected refresh-first-move-coach; execution not-requested.
+- ready: operator-history - History operator-history-ready; records 40; executed 11.
 - ready: objective-audit - Audit objective-in-progress; met 6/8; external blockers 12.
 - ready: store-listing-optimizer - Focus canopy-bloom; lead screenshot phone-canopy-bloom-generated; candidate changed yes.
 - ready: store-compliance - Rating Everyone; target audience general; blockers 3.

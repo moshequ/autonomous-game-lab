@@ -372,25 +372,34 @@ const historyRecord = {
     maxActionsPerRun: payload.controls.maxActionsPerRun,
   },
 }
+const maxHistoryRecords = 40
+const recentExecutedRecordWindow = 8
 const nextRecords = shouldAppendHistory ? [...compactedPriorRecords, historyRecord] : compactedPriorRecords
-const cappedRecords = nextRecords.slice(-40)
-const latestExecutedRecord = [...nextRecords].reverse().find((record) => record.execution?.requested)
-const records =
-  cappedRecords.some((record) => record.execution?.requested) || !latestExecutedRecord
-    ? cappedRecords
-    : [
-        latestExecutedRecord,
-        ...cappedRecords.filter((record) => record.id !== latestExecutedRecord.id).slice(-(40 - 1)),
-      ]
+const protectedExecutedRecords = nextRecords
+  .filter((record) => record.execution?.requested)
+  .slice(-Math.min(recentExecutedRecordWindow, maxHistoryRecords))
+const protectedRecordIds = new Set(protectedExecutedRecords.map((record) => record.id))
+const fillRecords = nextRecords
+  .filter((record) => !protectedRecordIds.has(record.id))
+  .slice(-(maxHistoryRecords - protectedRecordIds.size))
+const selectedRecordIds = new Set([
+  ...protectedExecutedRecords.map((record) => record.id),
+  ...fillRecords.map((record) => record.id),
+])
+const records = nextRecords.filter((record) => selectedRecordIds.has(record.id))
 const executedRecords = records.filter((record) => record.execution?.requested)
 const failedRecords = records.filter((record) => record.execution?.status === 'failed')
 const historyPayload = {
   generatedAt: payload.generatedAt,
   status: 'operator-history-ready',
   retention: {
-    maxRecords: 40,
+    maxRecords: maxHistoryRecords,
     appendOnlyWhenPlanChangesOrExecutes: true,
     preserveLatestExecutedRecord: true,
+    preserveRecentExecutedRecords: true,
+    recentExecutedRecordWindow,
+    preservedExecutedRecords: protectedExecutedRecords.length,
+    recentExecutedActionIds: protectedExecutedRecords.map((record) => record.selectedActionId).filter(Boolean),
     latestRunAppended: shouldAppendHistory,
     compactedDuplicateDryRuns,
   },

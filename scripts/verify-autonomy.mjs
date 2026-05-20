@@ -2097,11 +2097,23 @@ if (
   fail('Autonomous operator must publish or execute one exact allowlisted local action with zero-spend controls and external workflow blocks.')
 }
 
+const operatorHistoryRecentExecutedRecords = (autonomousOperatorHistory.records ?? [])
+  .filter((record) => record.execution?.requested === true)
+  .slice(-8)
+const operatorHistoryRecentExecutedActionIds = operatorHistoryRecentExecutedRecords
+  .map((record) => record.selectedActionId)
+  .filter(Boolean)
+
 if (
   autonomousOperatorHistory.status !== 'operator-history-ready' ||
   autonomousOperatorHistory.retention?.maxRecords !== 40 ||
   autonomousOperatorHistory.retention?.appendOnlyWhenPlanChangesOrExecutes !== true ||
   autonomousOperatorHistory.retention?.preserveLatestExecutedRecord !== true ||
+  autonomousOperatorHistory.retention?.preserveRecentExecutedRecords !== true ||
+  autonomousOperatorHistory.retention?.recentExecutedRecordWindow !== 8 ||
+  autonomousOperatorHistory.retention?.preservedExecutedRecords !== operatorHistoryRecentExecutedRecords.length ||
+  JSON.stringify(autonomousOperatorHistory.retention?.recentExecutedActionIds ?? []) !==
+    JSON.stringify(operatorHistoryRecentExecutedActionIds) ||
   autonomousOperatorHistory.summary?.totalRecords < 1 ||
   autonomousOperatorHistory.summary?.totalRecords > 40 ||
   autonomousOperatorHistory.summary?.plannedRecords < 1 ||
@@ -2116,7 +2128,9 @@ if (
   !autonomousOperatorHistory.records?.at(-1)?.selectedActionId ||
   !autonomousOperatorSource.includes('autonomous-operator-history.json') ||
   autonomousOperatorSource.includes('ownerGeneratedAt: ownerLoop.generatedAt') ||
-  !autonomousOperatorSource.includes('slice(-40)') ||
+  !autonomousOperatorSource.includes('recentExecutedRecordWindow') ||
+  !autonomousOperatorSource.includes('protectedExecutedRecords') ||
+  !autonomousOperatorSource.includes('selectedRecordIds') ||
   !appSource.includes('Operator History')
 ) {
   fail('Autonomous operator history must keep a capped durable audit trail for planned and successfully executed allowlisted actions.')

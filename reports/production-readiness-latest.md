@@ -1,6 +1,6 @@
 # Production Readiness
 
-Generated: 2026-05-20T19:48:55.425Z
+Generated: 2026-05-20T20:04:08.708Z
 
 ## Environment
 
@@ -59,7 +59,7 @@ Status: ready-after-build
 - pass: organic-seed-loop - Organic seed loop is organic-seed-loop-ready; target canopy-bloom; player-initiated share guard active.
 - pass: retention-loop - Retention loop is retention-loop-ready; daily challenge canopy-bloom; no-push/no-account guardrails active.
 - pass: pwa-install-loop - PWA install loop is pwa-install-loop-ready; prompt surface autonomy-cockpit; cost $0.
-- pass: performance-budget - Performance budget is performance-budget-ready; initial JS 648.8 KB / 177.6 KB gzip; deferred game chunk GameCanvas-noc3EXMe.js.
+- pass: performance-budget - Performance budget is performance-budget-ready; initial JS 648.8 KB / 177.6 KB gzip; deferred game chunk GameCanvas-DeeAj2jY.js.
 - pass: release-candidate - Release candidate is release-candidate-ready; files 44; smoke URLs 14.
 - pass: post-deploy-smoke-runner - Post-deploy smoke is post-deploy-smoke-observed-live; origin https://moshequ.github.io/autonomous-game-lab; checks 15/15 passed, 0 blocked; local artifact predeploy-artifact-smoke-passed 15/15 passed.
 - pass: product-optimization - Product optimizer is product-optimization-ready; completion 0.397 vs gate 0.55; latest action already-applied.
@@ -70,8 +70,8 @@ Status: ready-after-build
 - pass: production-environment - Production environment status is production-env-missing.
 - pass: production-bootstrap - Production bootstrap is production-bootstrap-ready; mode can-apply-configured-actions; external blockers 16.
 - pass: production-activation - Production activation is activation-ready; mode dry-run; execution dry-run.
-- pass: autonomous-operator - Autonomous operator is operator-plan-ready; selected refresh-organic-seed-loop; execution not-requested.
-- pass: autonomous-operator-history - Autonomous operator history is operator-history-ready; records 40; executed 10.
+- pass: autonomous-operator - Autonomous operator is operator-plan-ready; selected refresh-first-move-coach; execution not-requested.
+- pass: autonomous-operator-history - Autonomous operator history is operator-history-ready; records 40; executed 11.
 - pass: autonomous-cadence - Autonomous cadence is cadence-ready; Codex active-confirmed; GitHub scheduled.
 - pass: autonomous-self-update - Autonomous self-update is self-update-ready; safe pending 0; unsafe pending 0; remote push held.
 - pass: objective-audit - Objective audit is objective-in-progress; met 6 / 8; can complete false.
@@ -115,22 +115,22 @@ Installs: 0
 
 Status: performance-budget-ready
 Initial JS: 648.8 KB (177.6 KB gzip)
-Deferred game chunk: GameCanvas-noc3EXMe.js
+Deferred game chunk: GameCanvas-DeeAj2jY.js
 - pass: performance-initial-js-budget - Initial JS is 648.8 KB; budget is 675 KB.
 - pass: performance-initial-js-gzip-budget - Initial JS gzip is 177.6 KB; budget is 200 KB.
 - pass: performance-initial-css-budget - Initial CSS is 10.4 KB; budget is 40 KB.
 - pass: performance-manifest - PWA manifest exists in dist.
 - pass: performance-service-worker - Service worker exists in dist.
-- pass: performance-game-runtime-deferred - GameCanvas-noc3EXMe.js is deferred from the initial shell.
-- pass: performance-largest-js-deferred - Largest JS chunk is GameCanvas-noc3EXMe.js at 1360.9 KB.
+- pass: performance-game-runtime-deferred - GameCanvas-DeeAj2jY.js is deferred from the initial shell.
+- pass: performance-largest-js-deferred - Largest JS chunk is GameCanvas-DeeAj2jY.js at 1360.9 KB.
 - pass: performance-deferred-game-budget - Deferred game chunk is 1360.9 KB; monitor budget is 1600 KB.
 
 ## Release Candidate
 
 Status: release-candidate-ready
-Candidate: pwa-9a28de24b40f
+Candidate: pwa-1618b884fa1a
 Files: 44
-Aggregate SHA-256: 9a28de24b40ffc00c985a4328e58149fdc7df17084f48375a57621613a66e8cc
+Aggregate SHA-256: 1618b884fa1aca52e4529d40cfc14d66e76f2eec0a04901b37b170e18c806f1b
 - pass: release-dist-inventory - 44 dist files inventoried.
 - pass: release-required-files - 19/19 required files present.
 - pass: release-game-pages - 10 generated game page(s) in dist.
@@ -144,7 +144,7 @@ Aggregate SHA-256: 9a28de24b40ffc00c985a4328e58149fdc7df17084f48375a57621613a66e
 
 Status: post-deploy-smoke-observed-live
 Origin: https://moshequ.github.io/autonomous-game-lab
-Candidate: pwa-9a28de24b40f
+Candidate: pwa-1618b884fa1a
 Checks: 15/15 passed (0 blocked)
 Local artifact: predeploy-artifact-smoke-passed (15/15 passed)
 - pass: smoke-app-shell - Live URL matched status and required text.
@@ -166,14 +166,14 @@ Local artifact: predeploy-artifact-smoke-passed (15/15 passed)
 ## Post-Deploy Artifact Sync
 
 Status: post-deploy-artifact-sync-passed
-Workflow run: 26184989229
-Artifact candidate: pwa-f11d0c91d86d
-Live candidate: pwa-f11d0c91d86d
+Workflow run: 26186157418
+Artifact candidate: pwa-4879f6a420de
+Live candidate: pwa-4879f6a420de
 Live matches artifact: true
 - pass: artifact-sync-gh-cli - gh version 2.92.0 (2026-04-28)
 - pass: artifact-sync-github-repository - Target repository is moshequ/autonomous-game-lab.
-- pass: artifact-sync-explicit-pages-run - Explicit web-pwa-deploy.yml run is 26184989229.
-- pass: artifact-sync-post-deploy-smoke-artifact - Downloaded post-deploy-smoke artifact from run 26184989229.
+- pass: artifact-sync-explicit-pages-run - Explicit web-pwa-deploy.yml run is 26186157418.
+- pass: artifact-sync-post-deploy-smoke-artifact - Downloaded post-deploy-smoke artifact from run 26186157418.
 - pass: artifact-sync-strict-smoke-artifact - Artifact status post-deploy-smoke-passed; strict manifest comparison true; checks 15/15.
 - pass: artifact-sync-live-release-manifest - Live release-candidate.json still matches the strict smoke artifact.
 
@@ -249,14 +249,14 @@ Setup script: ops/github/setup-production.sh
 
 Status: operator-plan-ready
 Mode: plan-only
-Selected action: refresh-organic-seed-loop
+Selected action: refresh-first-move-coach
 Execution: not-requested
 
 ## Autonomous Operator History
 
 Status: operator-history-ready
 Records: 40
-Executed: 10
+Executed: 11
 
 ## Autonomous Cadence
 

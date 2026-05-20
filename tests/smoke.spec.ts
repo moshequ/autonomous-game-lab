@@ -2746,6 +2746,10 @@ test('autonomous operator history keeps a capped audit trail', async ({ page }) 
       maxRecords: number
       appendOnlyWhenPlanChangesOrExecutes: boolean
       preserveLatestExecutedRecord: boolean
+      preserveRecentExecutedRecords: boolean
+      recentExecutedRecordWindow: number
+      preservedExecutedRecords: number
+      recentExecutedActionIds: string[]
       compactedDuplicateDryRuns?: number
     }
     summary: {
@@ -2839,6 +2843,11 @@ test('autonomous operator history keeps a capped audit trail', async ({ page }) 
         .filter(Boolean),
     ),
   ].slice(0, 8)
+  const preservedExecutedActionIds = history.records
+    .filter((record) => record.execution.requested === true)
+    .slice(-history.retention.recentExecutedRecordWindow)
+    .map((record) => record.selectedActionId)
+    .filter(Boolean)
   const compositeActionSatisfiedActionIds: Record<string, string[]> = {
     'collect-gate-sample-downloads': [
       'collect-live-events',
@@ -2878,6 +2887,10 @@ test('autonomous operator history keeps a capped audit trail', async ({ page }) 
   expect(history.retention.maxRecords).toBe(40)
   expect(history.retention.appendOnlyWhenPlanChangesOrExecutes).toBe(true)
   expect(history.retention.preserveLatestExecutedRecord).toBe(true)
+  expect(history.retention.preserveRecentExecutedRecords).toBe(true)
+  expect(history.retention.recentExecutedRecordWindow).toBe(8)
+  expect(history.retention.preservedExecutedRecords).toBe(preservedExecutedActionIds.length)
+  expect(history.retention.recentExecutedActionIds).toEqual(preservedExecutedActionIds)
   expect(history.summary.totalRecords).toBeGreaterThanOrEqual(1)
   expect(history.summary.totalRecords).toBeLessThanOrEqual(40)
   expect(history.summary.plannedRecords).toBeGreaterThanOrEqual(1)
