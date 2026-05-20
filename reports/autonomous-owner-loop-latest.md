@@ -1,6 +1,6 @@
 # Autonomous Owner Loop
 
-Generated: 2026-05-20T23:25:40.738Z
+Generated: 2026-05-20T23:37:55.318Z
 Status: owner-loop-ready
 Mode: zero-spend-web-ready
 Autonomy score: 41/42 (98%)
@@ -10,8 +10,8 @@ Autonomy score: 41/42 (98%)
 - Next action: refresh-autonomous-cadence
 - Command: npm run autonomous:cadence
 - Rationale: Keeps the unattended daily operating cadence, recovery policy, and verification chain auditable.
-- Last executed action: prepare-release-candidate
-- Recent executed actions: prepare-release-candidate, seed-portfolio-traffic, measure-pwa-install-loop, optimize-store-listing, collect-gate-sample-downloads, check-performance-budget, refresh-support-feedback, refresh-autonomous-self-update
+- Last executed action: seed-portfolio-traffic
+- Recent executed actions: seed-portfolio-traffic, run-post-deploy-smoke, measure-pwa-install-loop, optimize-store-listing, refresh-product-gate-recovery, check-performance-budget, refresh-support-feedback, refresh-autonomous-self-update
 
 ## Systems
 
@@ -22,14 +22,14 @@ Autonomy score: 41/42 (98%)
 - ready: analytics-ingest - Active source: fixture-sample; event ingest: idle-no-files; collector smoke: pass.
 - ready: local-event-bridge - Bridge bridge-waiting-for-export; inbox 0 event(s); imported 0 event(s).
 - ready: autonomous-cadence - Cadence cadence-ready; Codex active-confirmed; GitHub scheduled.
-- ready: autonomous-self-update - Self-update self-update-ready; safe pending 17; unsafe pending 0; remote push held.
+- ready: autonomous-self-update - Self-update self-update-ready; safe pending 78; unsafe pending 0; remote push held.
 - ready: portfolio-loop - Daily challenge: Canopy Bloom; seed traffic: canopy-bloom, grove-engine, metro-loom, pocket-draft.
 - ready: traffic-seeding - 4 seed campaign(s); max cost $0.
 - ready: acquisition-learning - 4 campaign(s); 0 attributed start(s); candidate canopy-bloom.
 - ready: organic-seed-loop - Target canopy-bloom; surface portal-growth-loop; share telemetry organic_seed_share_clicked.
 - ready: retention-loop - Daily canopy-bloom; D1 17%; streak variant daily-streak; return prompt armed; return intent armed.
 - ready: pwa-install-loop - Prompt autonomy-cockpit; installs 0; launch events 0; sample collecting-sample needs 20 prompt(s) and 10 launch event(s).
-- ready: performance-budget - Initial JS 649.1 KB; gzip 177.8 KB; deferred chunks 1.
+- ready: performance-budget - Initial JS 649 KB; gzip 177.7 KB; deferred chunks 1.
 - ready: product-optimization - Completion 40% / gate 55%; latest already-applied.
 - ready: support-feedback - Support feedback support-feedback-empty; issues 0; routable signals 0.
 - ready: product-gate-recovery - Recovery product-gate-recovery-ready; primary firstGameCompletion; experiment collecting-sample; failing gates 3; next lift 58.

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-20T23:25:40.738Z",
+  "generatedAt": "2026-05-20T23:37:55.318Z",
   "status": "owner-loop-ready",
   "mode": "zero-spend-web-ready",
   "autonomyScore": {
@@ -30,28 +30,25 @@
     "avoidImmediateRepeat": true,
     "recentExecutionWindow": 8,
     "recentExecutedActionIds": [
-      "prepare-release-candidate",
       "seed-portfolio-traffic",
+      "run-post-deploy-smoke",
       "measure-pwa-install-loop",
       "optimize-store-listing",
-      "collect-gate-sample-downloads",
+      "refresh-product-gate-recovery",
       "check-performance-budget",
       "refresh-support-feedback",
       "refresh-autonomous-self-update"
     ],
-    "lastExecutedActionId": "prepare-release-candidate",
+    "lastExecutedActionId": "seed-portfolio-traffic",
     "lastExecutedStatus": "executed",
     "lastRecordExecutionStatus": "not-requested",
     "recentlySatisfiedActionIds": [
-      "refresh-organic-seed-loop",
-      "collect-live-events",
-      "refresh-product-gate-recovery",
-      "refresh-product-gate-sample-plan"
+      "refresh-organic-seed-loop"
     ],
     "objectiveAuditFreshness": {
       "fresh": true,
       "structurallyReady": true,
-      "auditGeneratedAt": "2026-05-20T23:25:40.476Z",
+      "auditGeneratedAt": "2026-05-20T23:37:55.065Z",
       "evaluatedInputIds": [
         "analytics-rollup",
         "event-ingest",
@@ -86,9 +83,9 @@
         "current": true,
         "ready": true,
         "status": "retention-loop-ready",
-        "artifactGeneratedAt": "2026-05-20T23:09:22.025Z",
-        "artifactSourceDataHash": "075199d2c45f",
-        "sourceDataHash": "075199d2c45f",
+        "artifactGeneratedAt": "2026-05-20T23:32:45.644Z",
+        "artifactSourceDataHash": "72f10f29182f",
+        "sourceDataHash": "72f10f29182f",
         "evaluatedInputIds": [
           "analytics-rollup",
           "portfolio-policy",
@@ -104,7 +101,7 @@
         "current": true,
         "ready": true,
         "status": "traffic-seeding-ready",
-        "artifactGeneratedAt": "2026-05-20T23:16:41.382Z",
+        "artifactGeneratedAt": "2026-05-20T23:34:26.437Z",
         "artifactSourceDataHash": "44334d19b778",
         "sourceDataHash": "44334d19b778",
         "evaluatedInputIds": [
@@ -119,9 +116,9 @@
         "current": true,
         "ready": true,
         "status": "acquisition-learning-ready",
-        "artifactGeneratedAt": "2026-05-20T23:16:41.648Z",
-        "artifactSourceDataHash": "7e0bdaca566c",
-        "sourceDataHash": "7e0bdaca566c",
+        "artifactGeneratedAt": "2026-05-20T23:34:26.684Z",
+        "artifactSourceDataHash": "bc5338a944c9",
+        "sourceDataHash": "bc5338a944c9",
         "evaluatedInputIds": [
           "analytics-rollup",
           "traffic-seeding",
@@ -134,9 +131,9 @@
         "current": true,
         "ready": true,
         "status": "organic-seed-loop-ready",
-        "artifactGeneratedAt": "2026-05-20T23:16:41.919Z",
-        "artifactSourceDataHash": "7e84e2d7b4ac",
-        "sourceDataHash": "7e84e2d7b4ac",
+        "artifactGeneratedAt": "2026-05-20T23:34:26.927Z",
+        "artifactSourceDataHash": "1640897c3924",
+        "sourceDataHash": "1640897c3924",
         "evaluatedInputIds": [
           "playable-games",
           "analytics-rollup",
@@ -228,7 +225,7 @@
       "current": true,
       "ready": true,
       "status": "bridge-waiting-for-export",
-      "bridgeGeneratedAt": "2026-05-20T23:03:31.409Z",
+      "bridgeGeneratedAt": "2026-05-20T23:32:45.013Z",
       "analyticsSource": "fixture-sample",
       "evidenceReadyNow": false,
       "evaluatedInputIds": [
@@ -245,12 +242,11 @@
       "refresh-support-feedback",
       "measure-pwa-install-loop",
       "check-performance-budget",
-      "prepare-release-candidate",
+      "run-post-deploy-smoke",
+      "refresh-product-gate-recovery",
       "optimize-store-listing"
     ],
-    "skippedRecentlySatisfiedActionIds": [
-      "refresh-product-gate-recovery"
-    ],
+    "skippedRecentlySatisfiedActionIds": [],
     "preferredActionOrder": [
       "prepare-repository-channel",
       "deploy-web-pwa",
@@ -283,7 +279,7 @@
     },
     "productionBootstrapFreshness": {
       "fresh": true,
-      "bootstrapGeneratedAt": "2026-05-20T23:22:50.390Z",
+      "bootstrapGeneratedAt": "2026-05-20T23:37:54.369Z",
       "evaluatedInputIds": [
         "release-candidate",
         "deployment-plan",
@@ -349,7 +345,7 @@
       "id": "autonomous-self-update",
       "status": "ready",
       "autonomy": "gated-generated-change-persistence",
-      "evidence": "Self-update self-update-ready; safe pending 17; unsafe pending 0; remote push held.",
+      "evidence": "Self-update self-update-ready; safe pending 78; unsafe pending 0; remote push held.",
       "nextAction": "When a GitHub repository is connected, set AGL_AUTONOMOUS_SELF_UPDATE=1 and AGL_AUTONOMOUS_SELF_UPDATE_DIRECT=1 to let verified generated changes persist."
     },
     {
@@ -398,7 +394,7 @@
       "id": "performance-budget",
       "status": "ready",
       "autonomy": "automatic-build-budget",
-      "evidence": "Initial JS 649.1 KB; gzip 177.8 KB; deferred chunks 1.",
+      "evidence": "Initial JS 649 KB; gzip 177.7 KB; deferred chunks 1.",
       "nextAction": "Keep Phaser and game scenes outside the initial PWA shell."
     },
     {
@@ -497,7 +493,7 @@
       "status": "ready",
       "autonomy": "read-only-live-deploy-verification",
       "evidence": "Smoke post-deploy-smoke-observed-live; origin https://moshequ.github.io/autonomous-game-lab; manifest comparison required; checks 15/15 passed; local artifact predeploy-artifact-smoke-passed 15/15 passed.",
-      "nextAction": "Live Pages is reachable and serving pwa-a5fe83e7cfb7; run the deploy workflow for strict proof of the current local candidate if needed."
+      "nextAction": "Live Pages is reachable and serving pwa-65dc86ad83a3; run the deploy workflow for strict proof of the current local candidate if needed."
     },
     {
       "id": "post-deploy-artifact-sync",
@@ -680,7 +676,7 @@
       "command": "npm run build && npm run autonomous:performance",
       "targets": [
         "pwa-shell",
-        "GameCanvas-zgdG9FkN.js"
+        "GameCanvas-BvKEjM4y.js"
       ],
       "reason": "Keeps the PWA shell fast while Phaser and game scenes stay deferred."
     },
