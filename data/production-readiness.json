@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-20T16:31:45.502Z",
+  "generatedAt": "2026-05-20T16:37:35.542Z",
   "environment": {
     "status": "production-env-missing",
     "publicOrigin": "https://moshequ.github.io/autonomous-game-lab",
@@ -631,7 +631,7 @@
       {
         "id": "performance-budget",
         "status": "pass",
-        "detail": "Performance budget is performance-budget-ready; initial JS 639.6 KB / 174.8 KB gzip; deferred game chunk GameCanvas-DBOD-CXU.js."
+        "detail": "Performance budget is performance-budget-ready; initial JS 639.9 KB / 174.8 KB gzip; deferred game chunk GameCanvas-YG7tikIG.js."
       },
       {
         "id": "release-candidate",
@@ -1186,21 +1186,21 @@
     },
     "initial": {
       "entryScripts": [
-        "index-CjL86voF.js",
+        "index-DWiRvDA-.js",
         "registerSW.js"
       ],
       "scriptPaths": [
-        "assets/index-CjL86voF.js",
+        "assets/index-DWiRvDA-.js",
         "registerSW.js"
       ],
       "jsFiles": [
         {
-          "file": "index-CjL86voF.js",
-          "path": "assets/index-CjL86voF.js",
-          "bytes": 654802,
-          "kb": 639.5,
-          "gzipBytes": 178811,
-          "gzipKb": 174.6
+          "file": "index-DWiRvDA-.js",
+          "path": "assets/index-DWiRvDA-.js",
+          "bytes": 655062,
+          "kb": 639.7,
+          "gzipBytes": 178867,
+          "gzipKb": 174.7
         },
         {
           "file": "registerSW.js",
@@ -1211,9 +1211,9 @@
           "gzipKb": 0.1
         }
       ],
-      "jsBytes": 654976,
-      "jsKb": 639.6,
-      "gzipBytes": 178952,
+      "jsBytes": 655236,
+      "jsKb": 639.9,
+      "gzipBytes": 179008,
       "gzipKb": 174.8,
       "cssFiles": [
         {
@@ -1233,8 +1233,8 @@
     "deferred": {
       "chunks": [
         {
-          "file": "GameCanvas-DBOD-CXU.js",
-          "path": "assets/GameCanvas-DBOD-CXU.js",
+          "file": "GameCanvas-YG7tikIG.js",
+          "path": "assets/GameCanvas-YG7tikIG.js",
           "bytes": 1393554,
           "kb": 1360.9,
           "gzipBytes": 356110,
@@ -1242,24 +1242,24 @@
         }
       ],
       "gameChunk": {
-        "file": "GameCanvas-DBOD-CXU.js",
-        "path": "assets/GameCanvas-DBOD-CXU.js",
+        "file": "GameCanvas-YG7tikIG.js",
+        "path": "assets/GameCanvas-YG7tikIG.js",
         "bytes": 1393554,
         "kb": 1360.9,
         "gzipBytes": 356110,
         "gzipKb": 347.8
       },
       "largestDeferredChunk": {
-        "file": "GameCanvas-DBOD-CXU.js",
-        "path": "assets/GameCanvas-DBOD-CXU.js",
+        "file": "GameCanvas-YG7tikIG.js",
+        "path": "assets/GameCanvas-YG7tikIG.js",
         "bytes": 1393554,
         "kb": 1360.9,
         "gzipBytes": 356110,
         "gzipKb": 347.8
       },
       "largestJsChunk": {
-        "file": "GameCanvas-DBOD-CXU.js",
-        "path": "assets/GameCanvas-DBOD-CXU.js",
+        "file": "GameCanvas-YG7tikIG.js",
+        "path": "assets/GameCanvas-YG7tikIG.js",
         "bytes": 1393554,
         "kb": 1360.9,
         "gzipBytes": 356110,
@@ -1280,7 +1280,7 @@
       {
         "id": "initial-js-budget",
         "status": "pass",
-        "detail": "Initial JS is 639.6 KB; budget is 675 KB."
+        "detail": "Initial JS is 639.9 KB; budget is 675 KB."
       },
       {
         "id": "initial-js-gzip-budget",
@@ -1305,12 +1305,12 @@
       {
         "id": "game-runtime-deferred",
         "status": "pass",
-        "detail": "GameCanvas-DBOD-CXU.js is deferred from the initial shell."
+        "detail": "GameCanvas-YG7tikIG.js is deferred from the initial shell."
       },
       {
         "id": "largest-js-deferred",
         "status": "pass",
-        "detail": "Largest JS chunk is GameCanvas-DBOD-CXU.js at 1360.9 KB."
+        "detail": "Largest JS chunk is GameCanvas-YG7tikIG.js at 1360.9 KB."
       },
       {
         "id": "deferred-game-budget",
@@ -1321,7 +1321,7 @@
   },
   "releaseCandidate": {
     "status": "release-candidate-ready",
-    "candidateId": "pwa-c96fe89f8736",
+    "candidateId": "pwa-a139b0926718",
     "target": {
       "provider": "github-pages",
       "artifactPath": "dist",
@@ -1332,8 +1332,8 @@
     },
     "summary": {
       "totalFiles": 44,
-      "totalBytes": 3689706,
-      "totalKb": 3603.2,
+      "totalBytes": 3689966,
+      "totalKb": 3603.5,
       "assetFiles": 3,
       "htmlFiles": 16,
       "gamePages": 10,
@@ -1342,7 +1342,7 @@
     },
     "integrity": {
       "algorithm": "sha256",
-      "aggregateHash": "c96fe89f87363d051145a35608d8f90e9a385532443db7354f9a7622ce9a7735",
+      "aggregateHash": "a139b0926718929de93d0581393c645f4eec902a5158f044e93a79febafe8bb2",
       "requiredFileChecks": [
         {
           "path": "index.html",
@@ -1580,8 +1580,8 @@
       "origin": "https://moshequ.github.io/autonomous-game-lab",
       "originSource": "release-candidate-public-origin",
       "provider": "github-pages",
-      "candidateId": "pwa-c96fe89f8736",
-      "aggregateHash": "c96fe89f87363d051145a35608d8f90e9a385532443db7354f9a7622ce9a7735",
+      "candidateId": "pwa-a139b0926718",
+      "aggregateHash": "a139b0926718929de93d0581393c645f4eec902a5158f044e93a79febafe8bb2",
       "strictManifestComparison": false
     },
     "sourceStatus": {
@@ -1759,8 +1759,8 @@
           "bytes": 19426,
           "candidateMatches": true,
           "hashMatches": true,
-          "localCandidateId": "pwa-c96fe89f8736",
-          "localAggregateHash": "c96fe89f87363d051145a35608d8f90e9a385532443db7354f9a7622ce9a7735",
+          "localCandidateId": "pwa-a139b0926718",
+          "localAggregateHash": "a139b0926718929de93d0581393c645f4eec902a5158f044e93a79febafe8bb2",
           "detail": "Local release manifest matches the release candidate."
         }
       ]
@@ -1978,7 +1978,7 @@
         "path": "/release-candidate.json",
         "url": "https://moshequ.github.io/autonomous-game-lab/release-candidate.json",
         "expectedStatus": 200,
-        "requiredText": "pwa-c96fe89f8736",
+        "requiredText": "pwa-a139b0926718",
         "status": "pass",
         "detail": "Live release manifest is reachable; it does not match the current local release candidate.",
         "actualStatus": 200,
