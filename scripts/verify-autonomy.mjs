@@ -1374,6 +1374,9 @@ if (
   productGateSamplePlan.publicSamplePage?.missionCount !== productGateSamplePlan.missions?.length ||
   productGateSamplePlan.publicSamplePage?.primaryCampaignId !== samplePrimaryMission?.campaignId ||
   productGateSamplePlan.publicSamplePage?.fastestCampaignId !== sampleFastestMission?.campaignId ||
+  productGateSamplePlan.publicSamplePage?.localProgressEnabled !== true ||
+  productGateSamplePlan.publicSamplePage?.playerInitiatedExportEnabled !== true ||
+  productGateSamplePlan.publicSamplePage?.exportSurface !== 'product-gate-sample' ||
   productGateSamplePlan.publicSamplePage?.zeroPaidSpend !== true ||
   productGateSamplePlan.publicSamplePage?.playerInitiatedOnly !== true ||
   productGateSamplePlan.publicSamplePage?.noSyntheticEvents !== true ||
@@ -1384,6 +1387,8 @@ if (
   !productGateSamplePlan.runtimeEvidencePolicy?.campaignMatchProperties?.includes('campaignId') ||
   !productGateSamplePlan.runtimeEvidencePolicy?.exportProperties?.includes('localObservedSuccesses') ||
   !productGateSamplePlan.runtimeEvidencePolicy?.exportProperties?.includes('localSampleDecisionReady') ||
+  !productGateSamplePlan.runtimeEvidencePolicy?.publicPageExportProperties?.includes('exportSurfaceDetail') ||
+  !productGateSamplePlan.runtimeEvidencePolicy?.publicPageExportProperties?.includes('localEvidenceDropReady') ||
   productGateSamplePlan.runtimeEvidencePolicy?.controls?.zeroPaidSpend !== true ||
   productGateSamplePlan.runtimeEvidencePolicy?.controls?.localOnlyUntilCollectorConfigured !== true ||
   productGateSamplePlan.runtimeEvidencePolicy?.controls?.noSyntheticEvents !== true ||
@@ -1423,6 +1428,12 @@ if (
   !productGateSamplePlanSource.includes('gateSamplePagePath') ||
   !productGateSamplePlanSource.includes('sampleRoleForMission') ||
   !productGateSamplePlanSource.includes('runtimeEvidencePolicy') ||
+  !productGateSamplePlanSource.includes('publicMissionEvidence') ||
+  !productGateSamplePlanSource.includes('safeJsonScript') ||
+  !gateSampleHtml.includes('gate-sample-mission-data') ||
+  !gateSampleHtml.includes('data-export-campaign') ||
+  !gateSampleHtml.includes('exportSurfaceDetail') ||
+  !gateSampleHtml.includes('public-gate-sample-page') ||
   !packageJson.scripts?.['autonomous:sample-plan']?.includes('product-gate-sample-planner') ||
   !packageJson.scripts?.['autonomous:collect-sample-downloads']?.includes('AGL_LOCAL_EVENT_IMPORT_DOWNLOADS=true') ||
   !packageJson.scripts?.['autonomous:collect-sample-downloads']?.includes('autonomous:gate-recovery') ||

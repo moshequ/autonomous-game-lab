@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-20T15:02:50.786Z",
+  "generatedAt": "2026-05-20T15:12:16.058Z",
   "status": "repository-bootstrap-ready",
   "mode": "plan-only",
   "envFiles": {
@@ -61,7 +61,7 @@
       "originRemote": "git@github.com:moshequ/autonomous-game-lab.git",
       "remoteRepository": "moshequ/autonomous-game-lab",
       "hasCommit": true,
-      "dirtyFiles": 26,
+      "dirtyFiles": 33,
       "dirtyPaths": [
         "data/autonomous-operator-history.json",
         "data/autonomous-operator.json",
@@ -70,10 +70,12 @@
         "data/objective-audit.json",
         "data/performance-budget.json",
         "data/post-deploy-smoke.json",
+        "data/product-gate-sample-plan.json",
         "data/production-readiness.json",
         "data/release-candidate.json",
         "data/repository-bootstrap.json",
         "data/repository-readiness.json",
+        "public/gate-sample.html",
         "reports/autonomous-operator-history-latest.md",
         "reports/autonomous-operator-latest.md",
         "reports/autonomous-owner-loop-latest.md",
@@ -81,16 +83,21 @@
         "reports/objective-audit-latest.md",
         "reports/performance-budget-latest.md",
         "reports/post-deploy-smoke-latest.md",
+        "reports/product-gate-sample-plan-latest.md",
         "reports/production-readiness-latest.md",
         "reports/release-candidate-latest.md",
         "reports/repository-bootstrap-latest.md",
         "reports/repository-readiness-latest.md",
+        "scripts/product-gate-sample-planner.mjs",
+        "scripts/verify-autonomy.mjs",
         "src/data/objectiveAudit.ts",
         "src/data/performanceBudget.ts",
         "src/data/postDeploySmoke.ts",
-        "src/data/releaseCandidate.ts"
+        "src/data/productGateSamplePlan.ts",
+        "src/data/releaseCandidate.ts",
+        "tests/smoke.spec.ts"
       ],
-      "generatedEvidenceDirtyFiles": 26,
+      "generatedEvidenceDirtyFiles": 30,
       "generatedEvidenceDirtyPaths": [
         "data/autonomous-operator-history.json",
         "data/autonomous-operator.json",
@@ -99,10 +106,12 @@
         "data/objective-audit.json",
         "data/performance-budget.json",
         "data/post-deploy-smoke.json",
+        "data/product-gate-sample-plan.json",
         "data/production-readiness.json",
         "data/release-candidate.json",
         "data/repository-bootstrap.json",
         "data/repository-readiness.json",
+        "public/gate-sample.html",
         "reports/autonomous-operator-history-latest.md",
         "reports/autonomous-operator-latest.md",
         "reports/autonomous-owner-loop-latest.md",
@@ -110,6 +119,7 @@
         "reports/objective-audit-latest.md",
         "reports/performance-budget-latest.md",
         "reports/post-deploy-smoke-latest.md",
+        "reports/product-gate-sample-plan-latest.md",
         "reports/production-readiness-latest.md",
         "reports/release-candidate-latest.md",
         "reports/repository-bootstrap-latest.md",
@@ -117,10 +127,15 @@
         "src/data/objectiveAudit.ts",
         "src/data/performanceBudget.ts",
         "src/data/postDeploySmoke.ts",
+        "src/data/productGateSamplePlan.ts",
         "src/data/releaseCandidate.ts"
       ],
-      "nonGeneratedDirtyFiles": 0,
-      "nonGeneratedDirtyPaths": []
+      "nonGeneratedDirtyFiles": 3,
+      "nonGeneratedDirtyPaths": [
+        "scripts/product-gate-sample-planner.mjs",
+        "scripts/verify-autonomy.mjs",
+        "tests/smoke.spec.ts"
+      ]
     },
     "after": {
       "insideWorkTree": true,
@@ -129,7 +144,7 @@
       "originRemote": "git@github.com:moshequ/autonomous-game-lab.git",
       "remoteRepository": "moshequ/autonomous-game-lab",
       "hasCommit": true,
-      "dirtyFiles": 26,
+      "dirtyFiles": 33,
       "dirtyPaths": [
         "data/autonomous-operator-history.json",
         "data/autonomous-operator.json",
@@ -138,10 +153,12 @@
         "data/objective-audit.json",
         "data/performance-budget.json",
         "data/post-deploy-smoke.json",
+        "data/product-gate-sample-plan.json",
         "data/production-readiness.json",
         "data/release-candidate.json",
         "data/repository-bootstrap.json",
         "data/repository-readiness.json",
+        "public/gate-sample.html",
         "reports/autonomous-operator-history-latest.md",
         "reports/autonomous-operator-latest.md",
         "reports/autonomous-owner-loop-latest.md",
@@ -149,16 +166,21 @@
         "reports/objective-audit-latest.md",
         "reports/performance-budget-latest.md",
         "reports/post-deploy-smoke-latest.md",
+        "reports/product-gate-sample-plan-latest.md",
         "reports/production-readiness-latest.md",
         "reports/release-candidate-latest.md",
         "reports/repository-bootstrap-latest.md",
         "reports/repository-readiness-latest.md",
+        "scripts/product-gate-sample-planner.mjs",
+        "scripts/verify-autonomy.mjs",
         "src/data/objectiveAudit.ts",
         "src/data/performanceBudget.ts",
         "src/data/postDeploySmoke.ts",
-        "src/data/releaseCandidate.ts"
+        "src/data/productGateSamplePlan.ts",
+        "src/data/releaseCandidate.ts",
+        "tests/smoke.spec.ts"
       ],
-      "generatedEvidenceDirtyFiles": 26,
+      "generatedEvidenceDirtyFiles": 30,
       "generatedEvidenceDirtyPaths": [
         "data/autonomous-operator-history.json",
         "data/autonomous-operator.json",
@@ -167,10 +189,12 @@
         "data/objective-audit.json",
         "data/performance-budget.json",
         "data/post-deploy-smoke.json",
+        "data/product-gate-sample-plan.json",
         "data/production-readiness.json",
         "data/release-candidate.json",
         "data/repository-bootstrap.json",
         "data/repository-readiness.json",
+        "public/gate-sample.html",
         "reports/autonomous-operator-history-latest.md",
         "reports/autonomous-operator-latest.md",
         "reports/autonomous-owner-loop-latest.md",
@@ -178,6 +202,7 @@
         "reports/objective-audit-latest.md",
         "reports/performance-budget-latest.md",
         "reports/post-deploy-smoke-latest.md",
+        "reports/product-gate-sample-plan-latest.md",
         "reports/production-readiness-latest.md",
         "reports/release-candidate-latest.md",
         "reports/repository-bootstrap-latest.md",
@@ -185,10 +210,15 @@
         "src/data/objectiveAudit.ts",
         "src/data/performanceBudget.ts",
         "src/data/postDeploySmoke.ts",
+        "src/data/productGateSamplePlan.ts",
         "src/data/releaseCandidate.ts"
       ],
-      "nonGeneratedDirtyFiles": 0,
-      "nonGeneratedDirtyPaths": []
+      "nonGeneratedDirtyFiles": 3,
+      "nonGeneratedDirtyPaths": [
+        "scripts/product-gate-sample-planner.mjs",
+        "scripts/verify-autonomy.mjs",
+        "tests/smoke.spec.ts"
+      ]
     }
   },
   "repository": {
@@ -223,7 +253,7 @@
     "repositoryReadiness": "repository-channel-ready",
     "deployment": "ready-for-pages",
     "releaseCandidate": "release-candidate-ready",
-    "releaseCandidateId": "pwa-4168f9840335",
+    "releaseCandidateId": "pwa-131a3f7a0880",
     "postDeploySmoke": "post-deploy-smoke-observed-live"
   },
   "repositoryTargetPlan": {
@@ -307,13 +337,13 @@
     },
     {
       "id": "commit-current-snapshot",
-      "status": "ready",
+      "status": "ready-for-explicit-snapshot-commit",
       "costUsd": 0,
       "command": "AGL_ALLOW_REPOSITORY_BOOTSTRAP=1 AGL_ALLOW_SNAPSHOT_COMMIT=1 ./ops/github/bootstrap-repository.sh",
       "mutatesLocalGit": true,
       "mutatesRemoteGitHub": false,
       "requiresExplicitEnv": true,
-      "detail": "26 repository evidence file(s) changed during this dry run; the outer verified commit will persist them."
+      "detail": "3 non-generated source or artifact file(s) are not committed yet."
     },
     {
       "id": "set-or-create-origin",
@@ -337,16 +367,18 @@
     },
     {
       "id": "push-initial-snapshot",
-      "status": "ready-for-explicit-push",
+      "status": "waiting-for-clean-snapshot",
       "costUsd": 0,
       "command": "AGL_ALLOW_REPOSITORY_BOOTSTRAP=1 AGL_ALLOW_PUSH=1 ./ops/github/bootstrap-repository.sh",
       "mutatesLocalGit": false,
       "mutatesRemoteGitHub": true,
       "requiresExplicitEnv": true,
-      "detail": "Push stays held until an origin remote exists and AGL_ALLOW_PUSH=1 is set."
+      "detail": "Push stays held until a committed local snapshot and origin remote exist."
     }
   ],
-  "blockers": [],
+  "blockers": [
+    "Commit current generated changes before pushing to GitHub Pages."
+  ],
   "helper": {
     "path": "ops/github/bootstrap-repository.sh",
     "status": "generated",

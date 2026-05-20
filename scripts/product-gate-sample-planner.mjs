@@ -26,6 +26,7 @@ const escapeHtml = (value) =>
     .replaceAll('<', '&lt;')
     .replaceAll('>', '&gt;')
     .replaceAll('"', '&quot;')
+const safeJsonScript = (value) => JSON.stringify(value).replaceAll('<', '\\u003c')
 const runtimeHref = (value) => {
   if (!value) {
     return './'
@@ -294,6 +295,9 @@ const payload = {
     missionCount: missionsWithEvidence.length,
     primaryCampaignId: primaryMission?.campaignId ?? null,
     fastestCampaignId: fastestMission?.campaignId ?? null,
+    localProgressEnabled: true,
+    playerInitiatedExportEnabled: true,
+    exportSurface: 'product-gate-sample',
     zeroPaidSpend: true,
     playerInitiatedOnly: true,
     noSyntheticEvents: true,
@@ -325,6 +329,20 @@ const payload = {
       'localPromptActions',
       'localObservedSuccesses',
       'localFailures',
+      'localAnalyticsExports',
+      'localEvidenceDropReady',
+      'localSampleDecisionReady',
+    ],
+    publicPageExportProperties: [
+      'exportSurface',
+      'exportSurfaceDetail',
+      'gateId',
+      'gameId',
+      'campaignId',
+      'localCampaignEvents',
+      'localCollectionEvents',
+      'localPromptViews',
+      'localObservedSuccesses',
       'localAnalyticsExports',
       'localEvidenceDropReady',
       'localSampleDecisionReady',
@@ -441,11 +459,36 @@ const missionCards = payload.missions
           <div><dt>Prompt views</dt><dd>${mission.needed.promptViews}</dd></div>
           <div><dt>Observed successes</dt><dd>${mission.needed.successes}</dd></div>
           <div><dt>Evidence</dt><dd>${escapeHtml(mission.evidence.status)}</dd></div>
+          <div><dt>Local events</dt><dd data-local-events="${escapeHtml(mission.campaignId)}">0</dd></div>
+          <div><dt>Local wins</dt><dd data-local-successes="${escapeHtml(mission.campaignId)}">0</dd></div>
+          <div><dt>Local debt</dt><dd data-local-debt="${escapeHtml(mission.campaignId)}">${mission.needed.minimumPromptViewsForDecision} views / ${mission.needed.successes} wins</dd></div>
         </dl>
-        <a class="play" href="${escapeHtml(runtimeHref(mission.playPath))}">Start mission</a>
+        <div class="missionActions">
+          <a class="play" href="${escapeHtml(runtimeHref(mission.playPath))}">Start mission</a>
+          <button class="export" type="button" data-export-campaign="${escapeHtml(mission.campaignId)}">Export evidence</button>
+        </div>
       </article>`,
   )
   .join('\n')
+
+const publicMissionEvidence = payload.missions.map((mission) => ({
+  id: mission.id,
+  gateId: mission.gateId,
+  gameId: mission.gameId,
+  title: mission.title,
+  campaignId: mission.campaignId,
+  needed: {
+    promptViews: mission.needed.promptViews,
+    successes: mission.needed.successes,
+    minimumPromptViewsForDecision: mission.needed.minimumPromptViewsForDecision,
+  },
+  telemetry: mission.telemetry,
+  controls: {
+    costUsd: mission.controls.costUsd,
+    noSyntheticEvents: mission.controls.noSyntheticEvents,
+    noRevenueEnablement: mission.controls.noRevenueEnablement,
+  },
+}))
 
 const gateSamplePage = `<!doctype html>
 <html lang="en">
@@ -593,17 +636,38 @@ const gateSamplePage = `<!doctype html>
         margin: 0;
       }
 
-      .play {
+      .missionActions {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 10px;
+        align-items: center;
+      }
+
+      .play,
+      .export {
         display: inline-flex;
         align-items: center;
         justify-content: center;
         min-height: 44px;
         padding: 0 16px;
         border-radius: 7px;
+        border: 0;
         background: #0f766e;
         color: #fff;
+        font: inherit;
         font-weight: 800;
         text-decoration: none;
+      }
+
+      .export {
+        background: #17211f;
+        cursor: pointer;
+      }
+
+      .play:focus-visible,
+      .export:focus-visible {
+        outline: 3px solid #b87b16;
+        outline-offset: 2px;
       }
 
       .handoff {
@@ -617,7 +681,8 @@ const gateSamplePage = `<!doctype html>
 
       @media (max-width: 860px) {
         .summary,
-        .missions {
+        .missions,
+        .missionActions {
           grid-template-columns: 1fr;
         }
       }
@@ -642,9 +707,155 @@ const gateSamplePage = `<!doctype html>
       </section>
       <section class="handoff" aria-label="Evidence handoff">
         <h2>Evidence handoff</h2>
-        <p>The app buffers anonymous gameplay events locally, forwards them when a production collector exists, and keeps revenue disabled until observed samples clear every product gate.</p>
+        <p>The app buffers anonymous gameplay events locally, forwards them when a production collector exists, and keeps revenue disabled until observed samples clear every product gate. Export buttons create the same player-initiated event drop consumed by the local bridge.</p>
       </section>
     </main>
+    <script type="application/json" id="gate-sample-mission-data">${safeJsonScript(publicMissionEvidence)}</script>
+    <script>
+      (() => {
+        const bufferKey = 'agl.analytics.events'
+        const missions = JSON.parse(document.getElementById('gate-sample-mission-data')?.textContent || '[]')
+
+        const readEvents = () => {
+          try {
+            const raw = window.localStorage.getItem(bufferKey)
+            const events = raw ? JSON.parse(raw) : []
+            return Array.isArray(events) ? events : []
+          } catch {
+            return []
+          }
+        }
+
+        const writeEvents = (events) => {
+          window.localStorage.setItem(bufferKey, JSON.stringify(events.slice(-300)))
+        }
+
+        const eventNames = (events, names) => {
+          const wanted = new Set(names)
+          return events.filter((event) => wanted.has(event.name)).length
+        }
+
+        const missionEvents = (mission, events) =>
+          events.filter((event) => {
+            const properties = event.properties || {}
+            return properties.acquisitionCampaign === mission.campaignId || properties.campaignId === mission.campaignId
+          })
+
+        const missionProgress = (mission, events) => {
+          const scoped = missionEvents(mission, events)
+          const promptViews = eventNames(scoped, mission.telemetry.view || [])
+          const successes = eventNames(scoped, mission.telemetry.success || [])
+          const collectionEvents = eventNames(scoped, [...new Set(mission.telemetry.collectionEvents || [])])
+          const analyticsExports = scoped.filter(
+            (event) => event.name === 'analytics_exported' && event.properties?.exportSurface === 'product-gate-sample',
+          ).length
+          const promptViewsRemaining = Math.max(0, mission.needed.minimumPromptViewsForDecision - promptViews)
+          const successesRemaining = Math.max(0, mission.needed.successes - successes)
+
+          return {
+            campaignEvents: scoped.length,
+            collectionEvents,
+            promptViews,
+            successes,
+            analyticsExports,
+            promptViewsRemaining,
+            successesRemaining,
+            evidenceDropReady: scoped.length > analyticsExports,
+            sampleDecisionReady: promptViewsRemaining === 0 && successesRemaining === 0,
+          }
+        }
+
+        const createId = () =>
+          window.crypto?.randomUUID
+            ? window.crypto.randomUUID()
+            : \`export-\${Date.now()}-\${Math.random().toString(16).slice(2)}\`
+
+        const downloadEvents = (events) => {
+          const blob = new Blob([JSON.stringify(events, null, 2)], { type: 'application/json' })
+          const url = URL.createObjectURL(blob)
+          const anchor = document.createElement('a')
+          anchor.href = url
+          anchor.download = \`player-events-\${new Date().toISOString().slice(0, 10)}.json\`
+          anchor.click()
+          URL.revokeObjectURL(url)
+        }
+
+        const renderProgress = () => {
+          const events = readEvents()
+
+          for (const mission of missions) {
+            const progress = missionProgress(mission, events)
+            const localEvents = document.querySelector(\`[data-local-events="\${mission.campaignId}"]\`)
+            const localSuccesses = document.querySelector(\`[data-local-successes="\${mission.campaignId}"]\`)
+            const localDebt = document.querySelector(\`[data-local-debt="\${mission.campaignId}"]\`)
+
+            if (localEvents) {
+              localEvents.textContent = String(progress.campaignEvents)
+            }
+
+            if (localSuccesses) {
+              localSuccesses.textContent = String(progress.successes)
+            }
+
+            if (localDebt) {
+              localDebt.textContent = progress.sampleDecisionReady
+                ? 'decision-ready'
+                : \`\${progress.promptViewsRemaining} views / \${progress.successesRemaining} wins\`
+            }
+          }
+        }
+
+        const exportMission = (mission) => {
+          const events = readEvents()
+          const progress = missionProgress(mission, events)
+          const exportEvent = {
+            id: createId(),
+            name: 'analytics_exported',
+            properties: {
+              destination: 'local_file',
+              exportSurface: 'product-gate-sample',
+              exportSurfaceDetail: 'public-gate-sample-page',
+              gateId: mission.gateId,
+              gameId: mission.gameId,
+              campaignId: mission.campaignId,
+              promptViewsNeeded: mission.needed.promptViews,
+              observedSuccessesNeeded: mission.needed.successes,
+              localCampaignEvents: progress.campaignEvents,
+              localCollectionEvents: progress.collectionEvents,
+              localPromptViews: progress.promptViews,
+              localObservedSuccesses: progress.successes,
+              localAnalyticsExports: progress.analyticsExports,
+              localPromptViewsRemaining: progress.promptViewsRemaining,
+              localSuccessesRemaining: progress.successesRemaining,
+              localEvidenceDropReady: progress.evidenceDropReady,
+              localSampleDecisionReady: progress.sampleDecisionReady,
+              zeroPaidSpend: true,
+              noSyntheticEvents: mission.controls.noSyntheticEvents,
+              noRevenueEnablement: mission.controls.noRevenueEnablement,
+            },
+            createdAt: new Date().toISOString(),
+          }
+          const nextEvents = [...events, exportEvent]
+          writeEvents(nextEvents)
+          downloadEvents(nextEvents)
+          renderProgress()
+        }
+
+        document.querySelectorAll('[data-export-campaign]').forEach((button) => {
+          button.addEventListener('click', () => {
+            const mission = missions.find((item) => item.campaignId === button.getAttribute('data-export-campaign'))
+
+            if (mission) {
+              exportMission(mission)
+            }
+          })
+        })
+
+        document.addEventListener('visibilitychange', renderProgress)
+        window.addEventListener('storage', renderProgress)
+        renderProgress()
+      })()
+    </script>
   </body>
 </html>
 `

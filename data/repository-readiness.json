@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-20T15:02:49.679Z",
+  "generatedAt": "2026-05-20T15:12:14.934Z",
   "status": "repository-channel-ready",
   "envFiles": {
     "loaded": true,
@@ -56,7 +56,7 @@
     "insideWorkTree": true,
     "gitRoot": "/Users/moshequ/Documents/Codex/2026-05-18/i-want-to-have-a-new",
     "currentBranch": "main",
-    "dirtyFiles": 26,
+    "dirtyFiles": 33,
     "dirtyPaths": [
       "data/autonomous-operator-history.json",
       "data/autonomous-operator.json",
@@ -65,10 +65,12 @@
       "data/objective-audit.json",
       "data/performance-budget.json",
       "data/post-deploy-smoke.json",
+      "data/product-gate-sample-plan.json",
       "data/production-readiness.json",
       "data/release-candidate.json",
       "data/repository-bootstrap.json",
       "data/repository-readiness.json",
+      "public/gate-sample.html",
       "reports/autonomous-operator-history-latest.md",
       "reports/autonomous-operator-latest.md",
       "reports/autonomous-owner-loop-latest.md",
@@ -76,16 +78,21 @@
       "reports/objective-audit-latest.md",
       "reports/performance-budget-latest.md",
       "reports/post-deploy-smoke-latest.md",
+      "reports/product-gate-sample-plan-latest.md",
       "reports/production-readiness-latest.md",
       "reports/release-candidate-latest.md",
       "reports/repository-bootstrap-latest.md",
       "reports/repository-readiness-latest.md",
+      "scripts/product-gate-sample-planner.mjs",
+      "scripts/verify-autonomy.mjs",
       "src/data/objectiveAudit.ts",
       "src/data/performanceBudget.ts",
       "src/data/postDeploySmoke.ts",
-      "src/data/releaseCandidate.ts"
+      "src/data/productGateSamplePlan.ts",
+      "src/data/releaseCandidate.ts",
+      "tests/smoke.spec.ts"
     ],
-    "generatedEvidenceDirtyFiles": 26,
+    "generatedEvidenceDirtyFiles": 30,
     "generatedEvidenceDirtyPaths": [
       "data/autonomous-operator-history.json",
       "data/autonomous-operator.json",
@@ -94,10 +101,12 @@
       "data/objective-audit.json",
       "data/performance-budget.json",
       "data/post-deploy-smoke.json",
+      "data/product-gate-sample-plan.json",
       "data/production-readiness.json",
       "data/release-candidate.json",
       "data/repository-bootstrap.json",
       "data/repository-readiness.json",
+      "public/gate-sample.html",
       "reports/autonomous-operator-history-latest.md",
       "reports/autonomous-operator-latest.md",
       "reports/autonomous-owner-loop-latest.md",
@@ -105,6 +114,7 @@
       "reports/objective-audit-latest.md",
       "reports/performance-budget-latest.md",
       "reports/post-deploy-smoke-latest.md",
+      "reports/product-gate-sample-plan-latest.md",
       "reports/production-readiness-latest.md",
       "reports/release-candidate-latest.md",
       "reports/repository-bootstrap-latest.md",
@@ -112,10 +122,15 @@
       "src/data/objectiveAudit.ts",
       "src/data/performanceBudget.ts",
       "src/data/postDeploySmoke.ts",
+      "src/data/productGateSamplePlan.ts",
       "src/data/releaseCandidate.ts"
     ],
-    "nonGeneratedDirtyFiles": 0,
-    "nonGeneratedDirtyPaths": []
+    "nonGeneratedDirtyFiles": 3,
+    "nonGeneratedDirtyPaths": [
+      "scripts/product-gate-sample-planner.mjs",
+      "scripts/verify-autonomy.mjs",
+      "tests/smoke.spec.ts"
+    ]
   },
   "repository": {
     "target": "moshequ/autonomous-game-lab",
@@ -151,7 +166,7 @@
     "workflowExists": true,
     "deployWorkflowIncludesSmoke": true,
     "deploymentStatus": "ready-for-pages",
-    "releaseCandidateId": "pwa-4168f9840335",
+    "releaseCandidateId": "pwa-131a3f7a0880",
     "postDeploySmokeStatus": "post-deploy-smoke-observed-live"
   },
   "repositoryTargetPlan": {

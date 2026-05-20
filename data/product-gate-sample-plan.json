@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-20T14:32:30.559Z",
+  "generatedAt": "2026-05-20T15:09:36.756Z",
   "status": "product-gate-sample-plan-ready",
   "sourceStatus": {
     "analyticsSource": "fixture-sample",
@@ -44,6 +44,9 @@
     "missionCount": 3,
     "primaryCampaignId": "gate-sample-20260520-firstGameCompletion",
     "fastestCampaignId": "gate-sample-20260520-d1Retention",
+    "localProgressEnabled": true,
+    "playerInitiatedExportEnabled": true,
+    "exportSurface": "product-gate-sample",
     "zeroPaidSpend": true,
     "playerInitiatedOnly": true,
     "noSyntheticEvents": true
@@ -78,6 +81,20 @@
       "localPromptActions",
       "localObservedSuccesses",
       "localFailures",
+      "localAnalyticsExports",
+      "localEvidenceDropReady",
+      "localSampleDecisionReady"
+    ],
+    "publicPageExportProperties": [
+      "exportSurface",
+      "exportSurfaceDetail",
+      "gateId",
+      "gameId",
+      "campaignId",
+      "localCampaignEvents",
+      "localCollectionEvents",
+      "localPromptViews",
+      "localObservedSuccesses",
       "localAnalyticsExports",
       "localEvidenceDropReady",
       "localSampleDecisionReady"
