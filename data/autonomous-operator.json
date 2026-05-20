@@ -1,22 +1,22 @@
 {
-  "generatedAt": "2026-05-20T01:42:50.247Z",
+  "generatedAt": "2026-05-20T01:44:58.539Z",
   "status": "operator-plan-ready",
   "mode": "plan-only",
   "ownerDecision": {
-    "actionId": "refresh-autonomous-self-update",
-    "command": "npm run autonomous:self-update",
+    "actionId": "prepare-repository-channel",
+    "command": "npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap",
     "locallyExecutable": true,
     "rejectionReason": null
   },
   "requestedActionId": null,
   "selectedAction": {
-    "id": "refresh-autonomous-self-update",
+    "id": "prepare-repository-channel",
     "status": "armed",
-    "command": "npm run autonomous:self-update",
+    "command": "npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap",
     "targets": [
-      ".github/workflows/autonomous-self-update.yml"
+      "github-repository-channel"
     ],
-    "reason": "Keeps verified generated-change persistence gated, allowlisted, and ready for the scheduled production repository.",
+    "reason": "Surfaces and prepares the missing git/GitHub deployment-channel blockers before web deploy.",
     "costUsd": 0
   },
   "selectedRejection": null,
@@ -52,6 +52,12 @@
       "id": "refresh-autonomous-cadence",
       "status": "armed",
       "command": "npm run autonomous:cadence",
+      "reason": "not-selected-this-run"
+    },
+    {
+      "id": "refresh-autonomous-self-update",
+      "status": "armed",
+      "command": "npm run autonomous:self-update",
       "reason": "not-selected-this-run"
     },
     {
@@ -139,12 +145,6 @@
       "reason": "not-selected-this-run"
     },
     {
-      "id": "prepare-repository-channel",
-      "status": "armed",
-      "command": "npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap",
-      "reason": "not-selected-this-run"
-    },
-    {
       "id": "bootstrap-production-setup",
       "status": "armed",
       "command": "npm run autonomous:release-candidate && npm run autonomous:deploy-plan && npm run autonomous:bootstrap",
@@ -201,8 +201,12 @@
   ],
   "commandPlan": [
     {
-      "segment": "npm run autonomous:self-update",
-      "script": "autonomous:self-update"
+      "segment": "npm run autonomous:repo-readiness",
+      "script": "autonomous:repo-readiness"
+    },
+    {
+      "segment": "npm run autonomous:repo-bootstrap",
+      "script": "autonomous:repo-bootstrap"
     }
   ],
   "execution": {
@@ -268,7 +272,7 @@
     "RUN_WORKFLOWS=1"
   ],
   "nextActions": [
-    "Run npm run autonomous:operator -- --execute --action=refresh-autonomous-self-update to execute exactly one allowed local action.",
+    "Run npm run autonomous:operator -- --execute --action=prepare-repository-channel to execute exactly one allowed local action.",
     "Do not execute GitHub workflow, store, paid ads, or account setup commands from the local operator."
   ]
 }
