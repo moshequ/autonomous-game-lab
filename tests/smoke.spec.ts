@@ -1155,6 +1155,15 @@ test('product optimizer applies one guarded tuning step from product-gate eviden
       missions: number
       totalPromptViewsNeeded: number
       totalObservedSuccessesNeeded: number
+      downloadsScanStatus: string
+      downloadsScanCoolingDown: boolean
+      downloadsScanNextRecommendedAt: string
+    }
+    downloadsScan: {
+      explicitOptInRequired: boolean
+      cooldownHours: number
+      coolingDown: boolean
+      nextRecommendedScanAt: string
     }
     missions: Array<{
       campaignId: string
@@ -1179,6 +1188,7 @@ test('product optimizer applies one guarded tuning step from product-gate eviden
       noSyntheticGatePasses: boolean
       realEventDropsOnly: boolean
       downloadsImportRequiresExplicitOptIn: boolean
+      downloadsScanBackoffRequired: boolean
       noAutomaticRuleChanges: boolean
       requireObservedTelemetryBeforeRecoveryChange: boolean
     }
@@ -1264,6 +1274,10 @@ test('product optimizer applies one guarded tuning step from product-gate eviden
   expect(samplePlan.commandPlan.refreshPlan).toBe('npm run autonomous:sample-plan')
   expect(samplePlan.commandPlan.collectAndRefresh).toContain('autonomous:gate-recovery')
   expect(samplePlan.commandPlan.collectDownloadsAndRefresh).toBe('npm run autonomous:collect-sample-downloads')
+  expect(samplePlan.downloadsScan.explicitOptInRequired).toBe(true)
+  expect(samplePlan.downloadsScan.cooldownHours).toBe(4)
+  expect(samplePlan.summary.downloadsScanCoolingDown).toBe(samplePlan.downloadsScan.coolingDown)
+  expect(samplePlan.summary.downloadsScanNextRecommendedAt).toBe(samplePlan.downloadsScan.nextRecommendedScanAt)
   expect(samplePlan.publicSamplePage.path).toBe('/gate-sample.html')
   expect(samplePlan.publicSamplePage.missionCount).toBe(samplePlan.missions.length)
   expect(samplePlan.publicSamplePage.primaryCampaignId).toBe(samplePlan.missions[0].campaignId)
@@ -1276,6 +1290,7 @@ test('product optimizer applies one guarded tuning step from product-gate eviden
   expect(samplePlan.controls.noAutomaticRuleChanges).toBe(true)
   expect(samplePlan.controls.realEventDropsOnly).toBe(true)
   expect(samplePlan.controls.downloadsImportRequiresExplicitOptIn).toBe(true)
+  expect(samplePlan.controls.downloadsScanBackoffRequired).toBe(true)
   expect(samplePlan.controls.requireObservedTelemetryBeforeRecoveryChange).toBe(true)
   expect(samplePlan.missions[0]).toMatchObject({
     gateId: 'firstGameCompletion',
@@ -1850,6 +1865,13 @@ test('local event bridge keeps browser analytics drops importable without extern
       imported: { events: number; campaigns: unknown[] }
       localEvidenceAvailable: boolean
     }
+    explicitDownloadsScanPolicy: {
+      explicitOptInRequired: boolean
+      cooldownHours: number
+      coolingDown: boolean
+      evidenceReadyNow: boolean
+      nextRecommendedScanAt: string
+    }
     controls: {
       zeroPaidSpend: boolean
       localOnly: boolean
@@ -1876,6 +1898,11 @@ test('local event bridge keeps browser analytics drops importable without extern
   expect(bridge.controls.copyOnlyExplicitDropPaths).toBe(true)
   expect(bridge.controls.downloadsFolderOptInOnly).toBe(true)
   expect(bridge.controls.downloadsFolderRequiresExplicitEnv).toBe(true)
+  expect(bridge.explicitDownloadsScanPolicy.explicitOptInRequired).toBe(true)
+  expect(bridge.explicitDownloadsScanPolicy.cooldownHours).toBe(4)
+  expect(typeof bridge.explicitDownloadsScanPolicy.coolingDown).toBe('boolean')
+  expect(typeof bridge.explicitDownloadsScanPolicy.evidenceReadyNow).toBe('boolean')
+  expect(bridge.explicitDownloadsScanPolicy.nextRecommendedScanAt).toBeTruthy()
   expect(bridge.gateSampleEvidence.localEvidenceAvailable).toBe(false)
   expect(bridge.gateSampleEvidence.inbox.campaigns).toHaveLength(0)
 

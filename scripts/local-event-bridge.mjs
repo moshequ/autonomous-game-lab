@@ -336,6 +336,7 @@ const validInboxEvents = validInboxFiles.reduce((sum, file) => sum + file.events
 const importedEvents = validImportedBatches.reduce((sum, file) => sum + file.events, 0)
 const localEventsAvailable = importedEvents > 0
 const downloadsImportCommand = 'AGL_LOCAL_EVENT_IMPORT_DOWNLOADS=true npm run autonomous:local-event-bridge'
+const downloadsScanCooldownHours = 4
 const gateSampleEvidence = {
   inbox: await summarizeGateSampleEvents(validInboxFiles),
   imported: await summarizeGateSampleEvents(validImportedBatches),
@@ -358,6 +359,36 @@ const explicitDownloadsScan = downloadsImportEnabled
       evidenceFound: (downloadsDirectorySummary?.validEvents ?? 0) > 0 || copiedDownloadsFiles.length > 0,
     }
   : (previousBridge.explicitDownloadsScan ?? null)
+const gateSampleEvidenceReadyNow = gateSampleEvidence.inbox.events > 0 || gateSampleEvidence.imported.events > 0
+const explicitDownloadsScanAt = Date.parse(explicitDownloadsScan?.scannedAt ?? '')
+const explicitDownloadsScanAgeHours = Number.isFinite(explicitDownloadsScanAt)
+  ? Math.max(0, (Date.parse(generatedAt) - explicitDownloadsScanAt) / (60 * 60 * 1000))
+  : null
+const explicitDownloadsScanCoolingDown =
+  explicitDownloadsScan?.evidenceFound === false &&
+  !gateSampleEvidenceReadyNow &&
+  typeof explicitDownloadsScanAgeHours === 'number' &&
+  explicitDownloadsScanAgeHours < downloadsScanCooldownHours
+const explicitDownloadsNextRecommendedScanAt =
+  explicitDownloadsScan?.evidenceFound === false && Number.isFinite(explicitDownloadsScanAt) && !gateSampleEvidenceReadyNow
+    ? new Date(explicitDownloadsScanAt + downloadsScanCooldownHours * 60 * 60 * 1000).toISOString()
+    : generatedAt
+const explicitDownloadsScanPolicy = {
+  explicitOptInRequired: true,
+  cooldownHours: downloadsScanCooldownHours,
+  coolingDown: explicitDownloadsScanCoolingDown,
+  evidenceReadyNow: gateSampleEvidenceReadyNow,
+  lastScanAt: Number.isFinite(explicitDownloadsScanAt) ? explicitDownloadsScan?.scannedAt : null,
+  lastScanStatus: explicitDownloadsScan?.status ?? null,
+  scanAgeHours:
+    typeof explicitDownloadsScanAgeHours === 'number'
+      ? Math.round(explicitDownloadsScanAgeHours * 100) / 100
+      : null,
+  cooldownRemainingHours: explicitDownloadsScanCoolingDown
+    ? Math.round(Math.max(0, downloadsScanCooldownHours - explicitDownloadsScanAgeHours) * 100) / 100
+    : 0,
+  nextRecommendedScanAt: explicitDownloadsNextRecommendedScanAt,
+}
 const status =
   copiedFiles.length || validInboxEvents
     ? 'bridge-ready-for-ingest'
@@ -404,6 +435,7 @@ const payload = {
     downloadsImportCommand,
   },
   explicitDownloadsScan,
+  explicitDownloadsScanPolicy,
   gateSampleEvidence: {
     ...gateSampleEvidence,
     localEvidenceAvailable: gateSampleEvidence.imported.events > 0,
@@ -468,6 +500,8 @@ const report = [
   `- Gate sample inbox events: ${payload.gateSampleEvidence.inbox.events}`,
   `- Gate sample imported events: ${payload.gateSampleEvidence.imported.events}`,
   `- Last explicit Downloads scan: ${payload.explicitDownloadsScan?.status ?? 'none'}`,
+  `- Downloads scan cooling down: ${payload.explicitDownloadsScanPolicy.coolingDown}`,
+  `- Next recommended Downloads scan: ${payload.explicitDownloadsScanPolicy.nextRecommendedScanAt}`,
   '',
   '## Gate Sample Evidence',
   '',

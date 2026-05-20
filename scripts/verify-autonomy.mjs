@@ -489,6 +489,11 @@ if (
   localEventBridge.controls?.copyOnlyExplicitDropPaths !== true ||
   localEventBridge.controls?.downloadsFolderOptInOnly !== true ||
   localEventBridge.controls?.downloadsFolderRequiresExplicitEnv !== true ||
+  localEventBridge.explicitDownloadsScanPolicy?.explicitOptInRequired !== true ||
+  localEventBridge.explicitDownloadsScanPolicy?.cooldownHours !== 4 ||
+  typeof localEventBridge.explicitDownloadsScanPolicy?.coolingDown !== 'boolean' ||
+  typeof localEventBridge.explicitDownloadsScanPolicy?.evidenceReadyNow !== 'boolean' ||
+  typeof localEventBridge.explicitDownloadsScanPolicy?.nextRecommendedScanAt !== 'string' ||
   typeof localEventBridge.gateSampleEvidence?.imported?.events !== 'number' ||
   typeof localEventBridge.gateSampleEvidence?.inbox?.events !== 'number' ||
   !localEventBridgeHasExplicitDownloadsScan ||
@@ -498,6 +503,8 @@ if (
   !localEventBridgeSource.includes('AGL_LOCAL_EVENT_IMPORT_DOWNLOADS') ||
   !localEventBridgeSource.includes('downloads-opt-in') ||
   !localEventBridgeSource.includes('explicitDownloadsScan') ||
+  !localEventBridgeSource.includes('explicitDownloadsScanPolicy') ||
+  !localEventBridgeSource.includes('downloadsScanCooldownHours') ||
   !localEventBridgeSource.includes('previousBridge') ||
   !localEventBridgeSource.includes('AGL_LOCAL_EVENT_DROP_DIRS') ||
   !localEventBridgeSource.includes('copyFile') ||
@@ -1207,6 +1214,14 @@ if (
   productGateSamplePlan.publicSamplePage?.noSyntheticEvents !== true ||
   typeof productGateSamplePlan.summary?.importedGateSampleEvents !== 'number' ||
   typeof productGateSamplePlan.summary?.inboxGateSampleEvents !== 'number' ||
+  productGateSamplePlan.summary?.downloadsScanStatus !==
+    (localEventBridge.explicitDownloadsScanPolicy?.lastScanStatus ?? 'not-scanned') ||
+  productGateSamplePlan.summary?.downloadsScanCoolingDown !==
+    localEventBridge.explicitDownloadsScanPolicy?.coolingDown ||
+  productGateSamplePlan.downloadsScan?.cooldownHours !==
+    localEventBridge.explicitDownloadsScanPolicy?.cooldownHours ||
+  productGateSamplePlan.downloadsScan?.nextRecommendedScanAt !==
+    localEventBridge.explicitDownloadsScanPolicy?.nextRecommendedScanAt ||
   productGateSamplePlan.controls?.zeroPaidSpend !== true ||
   productGateSamplePlan.controls?.noPaidTraffic !== true ||
   productGateSamplePlan.controls?.noSyntheticGatePasses !== true ||
@@ -1215,6 +1230,7 @@ if (
   productGateSamplePlan.controls?.playerInitiatedOnly !== true ||
   productGateSamplePlan.controls?.realEventDropsOnly !== true ||
   productGateSamplePlan.controls?.downloadsImportRequiresExplicitOptIn !== true ||
+  productGateSamplePlan.controls?.downloadsScanBackoffRequired !== true ||
   productGateSamplePlan.controls?.requireObservedTelemetryBeforeRecoveryChange !== true ||
   samplePrimaryMission?.status !== 'collecting-sample' ||
   !samplePrimaryMission?.evidence?.status ||
@@ -1226,6 +1242,7 @@ if (
   sampleRetentionMission?.gameId !== retentionLoop.dailyChallenge?.gameId ||
   !sampleRetentionMission?.sampleRole?.includes('fastest-validation') ||
   !productGateSamplePlanSource.includes('localEventBridge') ||
+  !productGateSamplePlanSource.includes('downloadsScanPolicy') ||
   !productGateSamplePlanSource.includes('productGateRecovery') ||
   !productGateSamplePlanSource.includes('gateSamplePagePath') ||
   !productGateSamplePlanSource.includes('sampleRoleForMission') ||

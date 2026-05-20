@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-20T04:13:22.963Z",
+  "generatedAt": "2026-05-20T04:33:51.076Z",
   "status": "product-gate-sample-plan-ready",
   "sourceStatus": {
     "analyticsSource": "fixture-sample",
@@ -22,7 +22,21 @@
     "inboxGateSampleEvents": 0,
     "evidenceReadyCount": 0,
     "inboxReadyCount": 0,
+    "downloadsScanStatus": "no-evidence-found",
+    "downloadsScanCoolingDown": true,
+    "downloadsScanNextRecommendedAt": "2026-05-20T05:34:54.772Z",
     "nextOwnerAction": "collect-gate-sample-downloads"
+  },
+  "downloadsScan": {
+    "explicitOptInRequired": true,
+    "cooldownHours": 4,
+    "coolingDown": true,
+    "evidenceReadyNow": false,
+    "lastScanAt": "2026-05-20T01:34:54.772Z",
+    "lastScanStatus": "no-evidence-found",
+    "scanAgeHours": 2.98,
+    "cooldownRemainingHours": 1.02,
+    "nextRecommendedScanAt": "2026-05-20T05:34:54.772Z"
   },
   "publicSamplePage": {
     "path": "/gate-sample.html",
@@ -282,11 +296,12 @@
     "localEventBridgeRequired": true,
     "realEventDropsOnly": true,
     "downloadsImportRequiresExplicitOptIn": true,
+    "downloadsScanBackoffRequired": true,
     "requireObservedTelemetryBeforeRecoveryChange": true
   },
   "nextActions": [
     "First game completion needs 30 more prompt exposure(s) and 58 observed success(es); feature Harbor Rings via /?game=harbor-rings&utm_source=gate_sample&utm_campaign=gate-sample-20260520-firstGameCompletion.",
     "D1 retention is the fastest gate sample: 10 prompt exposure(s), 1 observed success(es).",
-    "Export or collect real browser events, then run npm run autonomous:collect-sample-downloads before changing copy, placement, revenue, or rules."
+    "Wait until 2026-05-20T05:34:54.772Z before the next explicit Downloads scan unless an inbox event drop appears."
   ]
 }

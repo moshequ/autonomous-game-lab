@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-20T04:26:31.845Z",
+  "generatedAt": "2026-05-20T04:34:42.100Z",
   "status": "bridge-waiting-for-export",
   "mode": "local-zero-spend-event-drop-bridge",
   "inbox": {
@@ -59,6 +59,17 @@
     "validEvents": 0,
     "copiedFiles": 0,
     "evidenceFound": false
+  },
+  "explicitDownloadsScanPolicy": {
+    "explicitOptInRequired": true,
+    "cooldownHours": 4,
+    "coolingDown": true,
+    "evidenceReadyNow": false,
+    "lastScanAt": "2026-05-20T01:34:54.772Z",
+    "lastScanStatus": "no-evidence-found",
+    "scanAgeHours": 3,
+    "cooldownRemainingHours": 1,
+    "nextRecommendedScanAt": "2026-05-20T05:34:54.772Z"
   },
   "gateSampleEvidence": {
     "inbox": {

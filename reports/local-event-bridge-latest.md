@@ -1,6 +1,6 @@
 # Local Event Bridge
 
-Generated: 2026-05-20T04:26:31.845Z
+Generated: 2026-05-20T04:34:42.100Z
 Status: bridge-waiting-for-export
 Mode: local-zero-spend-event-drop-bridge
 
@@ -25,6 +25,8 @@ Mode: local-zero-spend-event-drop-bridge
 - Gate sample inbox events: 0
 - Gate sample imported events: 0
 - Last explicit Downloads scan: no-evidence-found
+- Downloads scan cooling down: true
+- Next recommended Downloads scan: 2026-05-20T05:34:54.772Z
 
 ## Gate Sample Evidence
 

@@ -182,6 +182,17 @@ const sampleReadyCount = missions.filter((mission) => mission.status === 'ready-
 const localEventsAvailable = localEventBridge.imported?.localEventsAvailable === true
 const importedGateSampleEvents = localEventBridge.gateSampleEvidence?.imported?.events ?? 0
 const inboxGateSampleEvents = localEventBridge.gateSampleEvidence?.inbox?.events ?? 0
+const downloadsScanPolicy = localEventBridge.explicitDownloadsScanPolicy ?? {
+  explicitOptInRequired: true,
+  cooldownHours: 4,
+  coolingDown: false,
+  evidenceReadyNow: importedGateSampleEvents > 0 || inboxGateSampleEvents > 0,
+  lastScanAt: localEventBridge.explicitDownloadsScan?.scannedAt ?? null,
+  lastScanStatus: localEventBridge.explicitDownloadsScan?.status ?? null,
+  scanAgeHours: null,
+  cooldownRemainingHours: 0,
+  nextRecommendedScanAt: new Date().toISOString(),
+}
 const gateSampleCampaigns = [
   ...(localEventBridge.gateSampleEvidence?.imported?.campaigns ?? []).map((campaign) => ({
     ...campaign,
@@ -239,6 +250,13 @@ const inboxReadyCount = missionsWithEvidence.filter(
   (mission) => mission.evidence.status === 'inbox-ready-for-ingest',
 ).length
 const collectSampleDownloadsCommand = 'npm run autonomous:collect-sample-downloads'
+const sampleCollectionNextAction = localEventsAvailable
+  ? 'Use imported local event drops before the next recovery decision.'
+  : inboxGateSampleEvents
+    ? `Import the gate-sample event drop already waiting in the local inbox with ${collectSampleDownloadsCommand}.`
+    : downloadsScanPolicy.coolingDown
+      ? `Wait until ${downloadsScanPolicy.nextRecommendedScanAt} before the next explicit Downloads scan unless an inbox event drop appears.`
+      : `Export or collect real browser events, then run ${collectSampleDownloadsCommand} before changing copy, placement, revenue, or rules.`
 
 const payload = {
   generatedAt: new Date().toISOString(),
@@ -264,8 +282,12 @@ const payload = {
     inboxGateSampleEvents,
     evidenceReadyCount,
     inboxReadyCount,
+    downloadsScanStatus: downloadsScanPolicy.lastScanStatus ?? 'not-scanned',
+    downloadsScanCoolingDown: downloadsScanPolicy.coolingDown,
+    downloadsScanNextRecommendedAt: downloadsScanPolicy.nextRecommendedScanAt,
     nextOwnerAction: missions.length ? 'collect-gate-sample-downloads' : 'refresh-product-gate-sample-plan',
   },
+  downloadsScan: downloadsScanPolicy,
   publicSamplePage: {
     path: '/gate-sample.html',
     file: 'public/gate-sample.html',
@@ -295,6 +317,7 @@ const payload = {
     localEventBridgeRequired: true,
     realEventDropsOnly: true,
     downloadsImportRequiresExplicitOptIn: true,
+    downloadsScanBackoffRequired: true,
     requireObservedTelemetryBeforeRecoveryChange: true,
   },
   nextActions: [
@@ -304,11 +327,7 @@ const payload = {
     fastestMission && fastestMission.gateId !== primaryMission?.gateId
       ? `${fastestMission.label} is the fastest gate sample: ${fastestMission.needed.promptViews} prompt exposure(s), ${fastestMission.needed.successes} observed success(es).`
       : 'Keep the primary gate sample mission active until the recovery decision is sample-ready.',
-    localEventsAvailable
-      ? 'Use imported local event drops before the next recovery decision.'
-      : inboxGateSampleEvents
-        ? `Import the gate-sample event drop already waiting in the local inbox with ${collectSampleDownloadsCommand}.`
-      : `Export or collect real browser events, then run ${collectSampleDownloadsCommand} before changing copy, placement, revenue, or rules.`,
+    sampleCollectionNextAction,
   ],
 }
 
@@ -323,6 +342,8 @@ const report = [
   `Observed successes needed: ${payload.summary.totalObservedSuccessesNeeded}`,
   `Imported gate-sample events: ${payload.summary.importedGateSampleEvents}`,
   `Inbox gate-sample events: ${payload.summary.inboxGateSampleEvents}`,
+  `Downloads scan: ${payload.summary.downloadsScanStatus}; cooling down ${payload.summary.downloadsScanCoolingDown}`,
+  `Next recommended Downloads scan: ${payload.summary.downloadsScanNextRecommendedAt}`,
   `Public sample page: ${payload.publicSamplePage.path}`,
   '',
   '## Missions',
