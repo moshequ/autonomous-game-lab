@@ -1,6 +1,6 @@
 # Autonomous Cadence
 
-Generated: 2026-05-20T00:21:13.984Z
+Generated: 2026-05-20T01:04:20.927Z
 Status: cadence-ready
 Cadence: daily
 
@@ -31,7 +31,7 @@ Cadence: daily
 - pass: self-update-script - autonomous:self-update is node scripts/autonomous-self-update.mjs.
 - pass: gate-recovery-script - autonomous:gate-recovery is node scripts/product-gate-recovery.mjs.
 - pass: daily-loop-script - autonomous:daily regenerates game, analytics, readiness, cadence, audit, and automation evidence.
-- pass: automation-verifier - test:automation is node scripts/event-collector-smoke.mjs && node scripts/event-ingest-smoke.mjs && node scripts/local-event-bridge.mjs && node scripts/verify-autonomy.mjs.
+- pass: automation-verifier - test:automation is node scripts/event-collector-smoke.mjs && npm run autonomous:collector-deploy-plan && node scripts/event-ingest-smoke.mjs && node scripts/local-event-bridge.mjs && node scripts/verify-autonomy.mjs.
 - pass: browser-smoke - test:e2e is playwright test.
 - pass: github-scheduled-workflow - GitHub Actions daily workflow can run the full autonomous owner loop and upload evidence artifacts.
 - pass: github-self-update-workflow - Gated GitHub workflow can persist allowlisted verified generated changes when explicitly enabled.

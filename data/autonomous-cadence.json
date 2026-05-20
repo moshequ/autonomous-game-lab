@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-20T00:21:13.984Z",
+  "generatedAt": "2026-05-20T01:04:20.927Z",
   "status": "cadence-ready",
   "cadence": "daily",
   "workspace": {
@@ -162,7 +162,7 @@
     {
       "id": "automation-verifier",
       "status": "pass",
-      "detail": "test:automation is node scripts/event-collector-smoke.mjs && node scripts/event-ingest-smoke.mjs && node scripts/local-event-bridge.mjs && node scripts/verify-autonomy.mjs."
+      "detail": "test:automation is node scripts/event-collector-smoke.mjs && npm run autonomous:collector-deploy-plan && node scripts/event-ingest-smoke.mjs && node scripts/local-event-bridge.mjs && node scripts/verify-autonomy.mjs."
     },
     {
       "id": "browser-smoke",
