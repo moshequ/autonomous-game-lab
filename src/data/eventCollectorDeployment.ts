@@ -1,5 +1,5 @@
 export const eventCollectorDeployment = {
-  "generatedAt": "2026-05-20T04:01:09.461Z",
+  "generatedAt": "2026-05-20T04:06:37.922Z",
   "status": "blocked-needs-cloudflare-env",
   "envFiles": {
     "loaded": true,

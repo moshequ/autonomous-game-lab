@@ -1749,6 +1749,31 @@ const cadenceCodexDesktopStatus = autonomousCadence.schedulers?.codexDesktop?.st
 const cadenceCodexDesktopStatusAllowed = ['active-confirmed', 'active-declared-unverified'].includes(
   cadenceCodexDesktopStatus,
 )
+const cadenceRequiredFreshnessIds = [
+  'owner-loop',
+  'operator',
+  'autonomous-self-update',
+  'production-readiness',
+  'deployment-plan',
+  'repository-readiness',
+  'repository-bootstrap',
+  'production-bootstrap',
+  'production-environment',
+  'event-collector-deployment',
+  'local-event-bridge',
+  'growth-plan',
+  'portfolio-policy',
+  'traffic-seeding',
+  'acquisition-learning',
+  'organic-seed-loop',
+  'release-candidate',
+  'post-deploy-smoke',
+  'product-gate-sample-plan',
+  'pwa-install-loop',
+  'objective-audit',
+]
+const cadenceFreshnessIds = new Set((autonomousCadence.artifactFreshness ?? []).map((artifact) => artifact.id))
+const cadenceTracksRequiredFreshness = cadenceRequiredFreshnessIds.every((id) => cadenceFreshnessIds.has(id))
 
 if (
   autonomousCadence.status !== 'cadence-ready' ||
@@ -1773,6 +1798,7 @@ if (
 	  (autonomousCadence.freshnessPolicy?.staleAfterHours ?? 0) < 24 ||
 	  !Array.isArray(autonomousCadence.artifactFreshness) ||
 	  autonomousCadence.artifactFreshness.length !== autonomousCadence.freshnessPolicy?.requiredArtifactCount ||
+	  !cadenceTracksRequiredFreshness ||
 	  !(autonomousCadence.artifactFreshness ?? []).every((artifact) => artifact.status === 'fresh') ||
 	  !(autonomousCadence.checks ?? []).some((check) => check.id === 'fresh-generated-evidence' && check.status === 'pass') ||
   (cadenceCodexDesktopStatus === 'active-confirmed' &&
@@ -2137,6 +2163,7 @@ if (
   (autonomousCadence.freshnessPolicy?.staleAfterHours ?? 0) < 24 ||
   !Array.isArray(autonomousCadence.artifactFreshness) ||
   autonomousCadence.artifactFreshness.length !== autonomousCadence.freshnessPolicy?.requiredArtifactCount ||
+  !cadenceTracksRequiredFreshness ||
   !(autonomousCadence.artifactFreshness ?? []).every((artifact) => artifact.status === 'fresh') ||
   !(autonomousCadence.checks ?? []).some((check) => check.id === 'fresh-generated-evidence' && check.status === 'pass') ||
   !(autonomousCadence.checks ?? []).every((check) => check.status === 'pass') ||

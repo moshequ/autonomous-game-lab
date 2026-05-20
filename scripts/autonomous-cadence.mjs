@@ -42,9 +42,49 @@ const freshnessRequiredArtifacts = [
     path: 'data/autonomous-operator.json',
   },
   {
+    id: 'autonomous-self-update',
+    label: 'Autonomous self-update',
+    path: 'data/autonomous-self-update.json',
+  },
+  {
     id: 'production-readiness',
     label: 'Production readiness',
     path: 'data/production-readiness.json',
+  },
+  {
+    id: 'deployment-plan',
+    label: 'Deployment plan',
+    path: 'data/deployment-plan.json',
+  },
+  {
+    id: 'repository-readiness',
+    label: 'Repository readiness',
+    path: 'data/repository-readiness.json',
+  },
+  {
+    id: 'repository-bootstrap',
+    label: 'Repository bootstrap',
+    path: 'data/repository-bootstrap.json',
+  },
+  {
+    id: 'production-bootstrap',
+    label: 'Production bootstrap',
+    path: 'data/production-bootstrap.json',
+  },
+  {
+    id: 'production-environment',
+    label: 'Production environment',
+    path: 'data/production-environment.json',
+  },
+  {
+    id: 'event-collector-deployment',
+    label: 'Event collector deployment',
+    path: 'data/event-collector-deployment.json',
+  },
+  {
+    id: 'local-event-bridge',
+    label: 'Local event bridge',
+    path: 'data/local-event-bridge.json',
   },
   {
     id: 'growth-plan',
