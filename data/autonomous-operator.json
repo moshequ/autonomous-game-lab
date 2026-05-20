@@ -1,22 +1,22 @@
 {
-  "generatedAt": "2026-05-20T01:56:27.862Z",
+  "generatedAt": "2026-05-20T02:00:40.931Z",
   "status": "operator-plan-ready",
   "mode": "plan-only",
   "ownerDecision": {
-    "actionId": "optimize-product-gates",
-    "command": "npm run autonomous:analyze && npm run autonomous:product-optimize && npm run autonomous:sync-config && npm run autonomous:simulate",
+    "actionId": "refresh-product-gate-recovery",
+    "command": "npm run autonomous:gate-recovery",
     "locallyExecutable": true,
     "rejectionReason": null
   },
   "requestedActionId": null,
   "selectedAction": {
-    "id": "optimize-product-gates",
+    "id": "refresh-product-gate-recovery",
     "status": "armed",
-    "command": "npm run autonomous:analyze && npm run autonomous:product-optimize && npm run autonomous:sync-config && npm run autonomous:simulate",
+    "command": "npm run autonomous:gate-recovery",
     "targets": [
-      "harbor-rings"
+      "firstGameCompletion"
     ],
-    "reason": "Applies one guarded target-score or telemetry improvement when product gates block monetization.",
+    "reason": "Ranks the exact observed lift and prompt sample still needed before revenue gates can open.",
     "costUsd": 0
   },
   "selectedRejection": null,
@@ -103,9 +103,9 @@
       "reason": "status-monitor"
     },
     {
-      "id": "refresh-product-gate-recovery",
+      "id": "optimize-product-gates",
       "status": "armed",
-      "command": "npm run autonomous:gate-recovery",
+      "command": "npm run autonomous:analyze && npm run autonomous:product-optimize && npm run autonomous:sync-config && npm run autonomous:simulate",
       "reason": "not-selected-this-run"
     },
     {
@@ -201,20 +201,8 @@
   ],
   "commandPlan": [
     {
-      "segment": "npm run autonomous:analyze",
-      "script": "autonomous:analyze"
-    },
-    {
-      "segment": "npm run autonomous:product-optimize",
-      "script": "autonomous:product-optimize"
-    },
-    {
-      "segment": "npm run autonomous:sync-config",
-      "script": "autonomous:sync-config"
-    },
-    {
-      "segment": "npm run autonomous:simulate",
-      "script": "autonomous:simulate"
+      "segment": "npm run autonomous:gate-recovery",
+      "script": "autonomous:gate-recovery"
     }
   ],
   "execution": {
@@ -280,7 +268,7 @@
     "RUN_WORKFLOWS=1"
   ],
   "nextActions": [
-    "Run npm run autonomous:operator -- --execute --action=optimize-product-gates to execute exactly one allowed local action.",
+    "Run npm run autonomous:operator -- --execute --action=refresh-product-gate-recovery to execute exactly one allowed local action.",
     "Do not execute GitHub workflow, store, paid ads, or account setup commands from the local operator."
   ]
 }

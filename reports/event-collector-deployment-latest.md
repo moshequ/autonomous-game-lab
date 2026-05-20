@@ -1,6 +1,6 @@
 # Event Collector Deployment
 
-Generated: 2026-05-20T01:56:28.683Z
+Generated: 2026-05-20T02:00:41.681Z
 Status: blocked-needs-cloudflare-env
 Provider: cloudflare-worker-r2
 Cost posture: free-tier-friendly-no-paid-traffic
