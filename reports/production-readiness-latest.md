@@ -1,6 +1,6 @@
 # Production Readiness
 
-Generated: 2026-05-20T11:09:30.702Z
+Generated: 2026-05-20T11:40:52.562Z
 
 ## Environment
 
@@ -31,7 +31,7 @@ Local git: true
 - done: repo-bootstrap-inspect-repository-channel - Repository readiness is repository-channel-ready.
 - ready: repo-bootstrap-initialize-local-git - Git worktree is available at /Users/moshequ/Documents/Codex/2026-05-18/i-want-to-have-a-new.
 - ready: repo-bootstrap-create-initial-commit - The local repository has at least one commit.
-- ready: repo-bootstrap-commit-current-snapshot - 64 repository evidence file(s) changed during this dry run; the outer verified commit will persist them.
+- ready: repo-bootstrap-commit-current-snapshot - 63 repository evidence file(s) changed during this dry run; the outer verified commit will persist them.
 - ready: repo-bootstrap-set-or-create-origin - Origin remote resolves to moshequ/autonomous-game-lab.
 - ready-for-explicit-create-or-attach: repo-bootstrap-create-github-repository - GitHub CLI can create or attach moshequ/autonomous-game-lab when explicitly allowed.
 - ready-for-explicit-push: repo-bootstrap-push-initial-snapshot - Push stays held until an origin remote exists and AGL_ALLOW_PUSH=1 is set.
@@ -56,7 +56,7 @@ Status: ready-after-build
 - pass: organic-seed-loop - Organic seed loop is organic-seed-loop-ready; target canopy-bloom; player-initiated share guard active.
 - pass: retention-loop - Retention loop is retention-loop-ready; daily challenge canopy-bloom; no-push/no-account guardrails active.
 - pass: pwa-install-loop - PWA install loop is pwa-install-loop-ready; prompt surface autonomy-cockpit; cost $0.
-- pass: performance-budget - Performance budget is performance-budget-ready; initial JS 621.5 KB / 170.7 KB gzip; deferred game chunk GameCanvas-TWQwuu6f.js.
+- pass: performance-budget - Performance budget is performance-budget-ready; initial JS 621.5 KB / 170.7 KB gzip; deferred game chunk GameCanvas-RmrV9Syv.js.
 - pass: release-candidate - Release candidate is release-candidate-ready; files 44; smoke URLs 14.
 - pass: post-deploy-smoke-runner - Post-deploy smoke is blocked-missing-origin; origin missing; checks 0/15 passed, 15 blocked; local artifact predeploy-artifact-smoke-passed 15/15 passed.
 - pass: product-optimization - Product optimizer is product-optimization-ready; completion 0.397 vs gate 0.55; latest action already-applied.
@@ -68,9 +68,9 @@ Status: ready-after-build
 - pass: production-bootstrap - Production bootstrap is production-bootstrap-ready; mode can-apply-configured-actions; external blockers 15.
 - pass: production-activation - Production activation is activation-ready; mode dry-run; execution dry-run.
 - pass: autonomous-operator - Autonomous operator is operator-plan-ready; selected seed-portfolio-traffic; execution not-requested.
-- pass: autonomous-operator-history - Autonomous operator history is operator-history-ready; records 40; executed 3.
+- pass: autonomous-operator-history - Autonomous operator history is operator-history-ready; records 40; executed 1.
 - pass: autonomous-cadence - Autonomous cadence is cadence-ready; Codex active-confirmed; GitHub scheduled.
-- pass: autonomous-self-update - Autonomous self-update is self-update-ready; safe pending 64; unsafe pending 0; remote push held.
+- pass: autonomous-self-update - Autonomous self-update is self-update-ready; safe pending 63; unsafe pending 0; remote push held.
 - pass: objective-audit - Objective audit is objective-in-progress; met 6 / 8; can complete false.
 
 ## Monetization
@@ -112,22 +112,22 @@ Installs: 0
 
 Status: performance-budget-ready
 Initial JS: 621.5 KB (170.7 KB gzip)
-Deferred game chunk: GameCanvas-TWQwuu6f.js
+Deferred game chunk: GameCanvas-RmrV9Syv.js
 - pass: performance-initial-js-budget - Initial JS is 621.5 KB; budget is 675 KB.
 - pass: performance-initial-js-gzip-budget - Initial JS gzip is 170.7 KB; budget is 200 KB.
 - pass: performance-initial-css-budget - Initial CSS is 9.6 KB; budget is 40 KB.
 - pass: performance-manifest - PWA manifest exists in dist.
 - pass: performance-service-worker - Service worker exists in dist.
-- pass: performance-game-runtime-deferred - GameCanvas-TWQwuu6f.js is deferred from the initial shell.
-- pass: performance-largest-js-deferred - Largest JS chunk is GameCanvas-TWQwuu6f.js at 1360.8 KB.
+- pass: performance-game-runtime-deferred - GameCanvas-RmrV9Syv.js is deferred from the initial shell.
+- pass: performance-largest-js-deferred - Largest JS chunk is GameCanvas-RmrV9Syv.js at 1360.8 KB.
 - pass: performance-deferred-game-budget - Deferred game chunk is 1360.8 KB; monitor budget is 1600 KB.
 
 ## Release Candidate
 
 Status: release-candidate-ready
-Candidate: pwa-a642e8d7c656
+Candidate: pwa-59bd009c27ce
 Files: 44
-Aggregate SHA-256: a642e8d7c656836b486f9dc2c16c3466cad6759dc33221eaab5a669b7f2df209
+Aggregate SHA-256: 59bd009c27cebf0d323ec435de67d57a02a82ea02688970be6c19319d39d478d
 - pass: release-dist-inventory - 44 dist files inventoried.
 - pass: release-required-files - 19/19 required files present.
 - pass: release-game-pages - 10 generated game page(s) in dist.
@@ -141,7 +141,7 @@ Aggregate SHA-256: a642e8d7c656836b486f9dc2c16c3466cad6759dc33221eaab5a669b7f2df
 
 Status: blocked-missing-origin
 Origin: missing
-Candidate: pwa-a642e8d7c656
+Candidate: pwa-59bd009c27ce
 Checks: 0/15 passed (15 blocked)
 Local artifact: predeploy-artifact-smoke-passed (15/15 passed)
 - blocked: smoke-app-shell - No deployed origin configured.
@@ -239,12 +239,12 @@ Execution: not-requested
 
 Status: operator-history-ready
 Records: 40
-Executed: 3
+Executed: 1
 
 ## Autonomous Cadence
 
 Status: cadence-ready
-Cadence: daily
+Cadence: twice-daily-local-daily-ci
 Codex app: active-confirmed
 GitHub Actions: scheduled
 Freshness: fresh; stale artifacts 0
@@ -256,7 +256,7 @@ Freshness: fresh; stale artifacts 0
 - pass: cadence-self-update-script - autonomous:self-update is node scripts/autonomous-self-update.mjs.
 - pass: cadence-gate-recovery-script - autonomous:gate-recovery is node scripts/product-gate-recovery.mjs.
 - pass: cadence-daily-loop-script - autonomous:daily regenerates game, analytics, readiness, cadence, audit, and automation evidence.
-- pass: cadence-automation-verifier - test:automation is node scripts/event-collector-smoke.mjs && npm run autonomous:collector-deploy-plan && node scripts/event-ingest-smoke.mjs && node scripts/local-event-bridge.mjs && npm run autonomous:import-events && npm run autonomous:analytics && npm run autonomous:retention && npm run autonomous:pwa-install && npm run autonomous:gate-recovery && npm run autonomous:sample-plan && npm run build && npm run autonomous:performance && npm run autonomous:release-candidate && npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap && npm run autonomous:deploy-plan && npm run autonomous:bootstrap && npm run autonomous:post-deploy-smoke && npm run autonomous:readiness && npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap && npm run autonomous:deploy-plan && npm run autonomous:bootstrap && npm run autonomous:post-deploy-smoke && npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap && npm run autonomous:activate-production && npm run autonomous:readiness && npm run autonomous:cadence && npm run autonomous:self-update && npm run autonomous:owner-loop && npm run autonomous:operator && npm run autonomous:objective-audit && npm run autonomous:owner-loop && npm run autonomous:operator && npm run autonomous:owner-loop && npm run autonomous:readiness && node scripts/verify-autonomy.mjs.
+- pass: cadence-automation-verifier - test:automation is node scripts/event-collector-smoke.mjs && npm run autonomous:collector-deploy-plan && node scripts/event-ingest-smoke.mjs && node scripts/local-event-bridge.mjs && npm run autonomous:import-events && npm run autonomous:analytics && npm run autonomous:retention && npm run autonomous:pwa-install && npm run autonomous:gate-recovery && npm run autonomous:sample-plan && npm run build && npm run autonomous:performance && npm run autonomous:release-candidate && npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap && npm run autonomous:deploy-plan && npm run autonomous:bootstrap && npm run autonomous:post-deploy-smoke && npm run autonomous:readiness && npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap && npm run autonomous:deploy-plan && npm run autonomous:bootstrap && npm run autonomous:post-deploy-smoke && npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap && npm run autonomous:activate-production && npm run autonomous:readiness && npm run autonomous:cadence && npm run autonomous:self-update && npm run autonomous:owner-loop && npm run autonomous:operator && npm run autonomous:objective-audit && npm run autonomous:owner-loop && npm run autonomous:operator && npm run autonomous:owner-loop && npm run autonomous:readiness && npm run autonomous:deploy-plan && npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap && npm run autonomous:deploy-plan && npm run autonomous:objective-audit && npm run autonomous:owner-loop && npm run autonomous:readiness && node scripts/verify-autonomy.mjs.
 - pass: cadence-browser-smoke - test:e2e is playwright test.
 - pass: cadence-fresh-generated-evidence - All 37 required generated evidence artifacts are fresh within 36h.
 - pass: cadence-github-scheduled-workflow - GitHub Actions daily workflow can run the full autonomous owner loop and upload evidence artifacts.
@@ -268,7 +268,7 @@ Freshness: fresh; stale artifacts 0
 
 Status: self-update-ready
 Workflow: .github/workflows/autonomous-self-update.yml
-Safe pending: 64
+Safe pending: 63
 Unsafe pending: 0
 Remote push ready: false
 - pass: self-update-script-registered - autonomous:self-update is node scripts/autonomous-self-update.mjs.
@@ -276,7 +276,7 @@ Remote push ready: false
 - pass: self-update-daily-workflow-read-only - The ordinary daily workflow remains read-only, runs the owner loop, and uploads evidence artifacts.
 - pass: self-update-self-update-workflow - A separate gated workflow can reproduce the owner loop with production env, verify it with gate env, and persist allowlisted changes.
 - pass: self-update-post-self-update-deploy - Pages redeploys after the gated self-update workflow, then repeats deployability and post-deploy smoke checks.
-- pass: self-update-safe-path-allowlist - 64 safe pending file(s), 0 unsafe pending file(s).
+- pass: self-update-safe-path-allowlist - 63 safe pending file(s), 0 unsafe pending file(s).
 - pass: self-update-repository-optional - Git worktree is available on main.
 - pass: self-update-remote-push-gated - Remote push remains held until GitHub credentials and AGL_AUTONOMOUS_SELF_UPDATE_DIRECT=1 are configured.
 - pass: self-update-zero-spend-controls - Self-update owner-loop verification includes browser smoke coverage and does not create accounts, stores, ads, paid traffic, or revenue.

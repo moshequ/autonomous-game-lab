@@ -1,6 +1,6 @@
 # Autonomous Owner Loop
 
-Generated: 2026-05-20T11:09:30.472Z
+Generated: 2026-05-20T11:40:52.304Z
 Status: owner-loop-ready
 Mode: zero-spend-web-ready
 Autonomy score: 38/39 (97%)
@@ -11,7 +11,7 @@ Autonomy score: 38/39 (97%)
 - Command: npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop
 - Rationale: Under-measured playable games need free organic/internal traffic before quality judgment.
 - Last executed action: refresh-organic-seed-loop
-- Recent executed actions: refresh-organic-seed-loop, refresh-autonomous-cadence, measure-pwa-install-loop
+- Recent executed actions: refresh-organic-seed-loop
 
 ## Systems
 
@@ -22,7 +22,7 @@ Autonomy score: 38/39 (97%)
 - ready: analytics-ingest - Active source: fixture-sample; event ingest: idle-no-files; collector smoke: pass.
 - ready: local-event-bridge - Bridge bridge-waiting-for-export; inbox 0 event(s); imported 0 event(s).
 - ready: autonomous-cadence - Cadence cadence-ready; Codex active-confirmed; GitHub scheduled.
-- ready: autonomous-self-update - Self-update self-update-ready; safe pending 64; unsafe pending 0; remote push held.
+- ready: autonomous-self-update - Self-update self-update-ready; safe pending 63; unsafe pending 0; remote push held.
 - ready: portfolio-loop - Daily challenge: Canopy Bloom; seed traffic: canopy-bloom, grove-engine, metro-loom, pocket-draft.
 - ready: traffic-seeding - 4 seed campaign(s); max cost $0.
 - ready: acquisition-learning - 4 campaign(s); 0 attributed start(s); candidate canopy-bloom.
@@ -41,12 +41,12 @@ Autonomy score: 38/39 (97%)
 - ready: repository-channel - Repository moshequ/autonomous-game-lab; git worktree ready; workflow dispatch ready.
 - ready: repository-bootstrap - Bootstrap repository-bootstrap-ready; mode plan-only; helper ops/github/bootstrap-repository.sh; local git ready.
 - ready: web-deployment - Deployment ready-for-pages; web readiness ready-after-build; promotion promotable-internal.
-- ready: release-candidate - Candidate pwa-a642e8d7c656; status release-candidate-ready; files 44; smoke URLs 14.
-- ready: post-deploy-smoke - Smoke blocked-missing-origin; origin missing; candidate pwa-a642e8d7c656; checks 0/15 passed; local artifact predeploy-artifact-smoke-passed 15/15 passed.
+- ready: release-candidate - Candidate pwa-59bd009c27ce; status release-candidate-ready; files 44; smoke URLs 14.
+- ready: post-deploy-smoke - Smoke blocked-missing-origin; origin missing; candidate pwa-59bd009c27ce; checks 0/15 passed; local artifact predeploy-artifact-smoke-passed 15/15 passed.
 - ready: production-bootstrap - Bootstrap production-bootstrap-ready; mode can-apply-configured-actions; external blockers 15.
 - ready: production-activation - Activation activation-ready; mode dry-run; execution dry-run; gh ready.
 - ready: autonomous-operator - Operator operator-plan-ready; selected seed-portfolio-traffic; execution not-requested.
-- ready: operator-history - History operator-history-ready; records 40; executed 3.
+- ready: operator-history - History operator-history-ready; records 40; executed 1.
 - ready: objective-audit - Audit objective-in-progress; met 6/8; external blockers 12.
 - ready: store-listing-optimizer - Focus canopy-bloom; lead screenshot phone-canopy-bloom-generated; candidate changed yes.
 - ready: store-compliance - Rating Everyone; target audience general; blockers 3.
