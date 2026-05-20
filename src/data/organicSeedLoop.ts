@@ -1,5 +1,5 @@
 export const organicSeedLoop = {
-  "generatedAt": "2026-05-20T09:02:56.097Z",
+  "generatedAt": "2026-05-20T10:53:08.017Z",
   "status": "organic-seed-loop-ready",
   "sourceStatus": {
     "analyticsSource": "fixture-sample",
@@ -29,6 +29,46 @@ export const organicSeedLoop = {
       "share": "share_clicked",
       "started": "game_started"
     }
+  },
+  "runtimeProgressPolicy": {
+    "status": "active",
+    "source": "browser-local-analytics",
+    "storageKey": "agl.analytics.events",
+    "campaignMatchProperties": [
+      "acquisitionCampaign",
+      "campaignId",
+      "campaign",
+      "utm_campaign"
+    ],
+    "progressEvents": [
+      "organic_seed_card_viewed",
+      "seed_campaign_clicked",
+      "organic_seed_share_clicked",
+      "share_clicked",
+      "organic_entry_opened",
+      "game_started",
+      "level_completed",
+      "analytics_exported"
+    ],
+    "decisionThresholds": {
+      "minimumAttributedStartsBeforeJudgment": 40,
+      "evidenceExportRequiresUnexportedEvents": true
+    },
+    "exportSurface": "organic-seed-campaign",
+    "exportProperties": [
+      "localCampaignEvents",
+      "localCardViews",
+      "localSeedClicks",
+      "localOrganicEntries",
+      "localShareActions",
+      "localStarts",
+      "localCompletions",
+      "localAnalyticsExports",
+      "localStartsRemaining",
+      "localEvidenceDropReady",
+      "localSampleDecisionReady",
+      "localProgressStatus"
+    ]
   },
   "guardrails": {
     "maxCostUsd": 0,

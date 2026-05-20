@@ -244,6 +244,7 @@ const growthOptimizer = JSON.parse(await readFile(path.join(root, 'data', 'growt
 const portfolioPolicy = JSON.parse(await readFile(path.join(root, 'data', 'portfolio-policy.json'), 'utf8'))
 const trafficSeeding = JSON.parse(await readFile(path.join(root, 'data', 'traffic-seeding.json'), 'utf8'))
 const acquisitionLearning = JSON.parse(await readFile(path.join(root, 'data', 'acquisition-learning.json'), 'utf8'))
+const organicSeedLoop = JSON.parse(await readFile(path.join(root, 'data', 'organic-seed-loop.json'), 'utf8'))
 const retentionLoop = JSON.parse(await readFile(path.join(root, 'data', 'retention-loop.json'), 'utf8'))
 const pwaInstallLoop = JSON.parse(await readFile(path.join(root, 'data', 'pwa-install-loop.json'), 'utf8'))
 const performanceBudget = JSON.parse(await readFile(path.join(root, 'data', 'performance-budget.json'), 'utf8'))
@@ -813,12 +814,16 @@ if (
 if (
   !appSource.includes('resolveRuntimeCampaignUrl') ||
   !appSource.includes('replaceHistoryWithCampaignUrl') ||
+  !appSource.includes('trafficProgressForCampaign') ||
+  !appSource.includes('exportTrafficCampaignEvidence') ||
+  !appSource.includes('Export seed evidence') ||
+  !appSource.includes('localStartsRemaining') ||
   !appSource.includes('autonomous-game-lab.example.com') ||
   !appSource.includes('window.location.origin') ||
   !appSource.includes('navigator.clipboard.writeText(resolvedShareUrl)') ||
   !appSource.includes('replaceHistoryWithCampaignUrl(campaign.playPath')
 ) {
-  fail('Traffic seeding runtime must resolve generated placeholder URLs to the active PWA origin before navigation or sharing.')
+  fail('Traffic seeding runtime must resolve generated placeholder URLs, track local campaign progress, and export seed evidence before navigation or sharing.')
 }
 
 const acquisitionCampaigns = acquisitionLearning.campaigns ?? []
@@ -860,6 +865,61 @@ if (
   !acquisitionLearning.nextActions?.length
 ) {
   fail('Acquisition learning must connect seed campaigns to zero-spend attributed-start decisions.')
+}
+
+const organicCampaigns = organicSeedLoop.campaigns ?? []
+const organicCampaignIds = new Set(organicCampaigns.map((campaign) => campaign.id))
+const missingOrganicCampaign = trafficCampaigns.find((campaign) => !organicCampaignIds.has(campaign.id))
+const staleOrganicCampaign = organicCampaigns.find(
+  (campaign) => !trafficCampaigns.some((trafficCampaign) => trafficCampaign.id === campaign.id),
+)
+const targetOrganicCampaign = organicCampaigns.find(
+  (campaign) => campaign.id === organicSeedLoop.target?.campaignId,
+)
+const invalidOrganicCampaign = organicCampaigns.find(
+  (campaign) =>
+    !trafficCampaigns.some((trafficCampaign) => trafficCampaign.id === campaign.id) ||
+    !playableIds.has(campaign.gameId) ||
+    campaign.costUsd !== 0 ||
+    campaign.shareReadiness !== 'ready' ||
+    campaign.metrics?.targetStarts < trafficSeeding.guardrails?.minimumStartsBeforeQualityJudgment ||
+    typeof campaign.metrics?.sampleProgress !== 'number' ||
+    typeof campaign.metrics?.opportunityScore !== 'number' ||
+    typeof campaign.attribution?.observedStarts !== 'number',
+)
+
+if (
+  organicSeedLoop.status !== 'organic-seed-loop-ready' ||
+  organicSeedLoop.sourceStatus?.trafficSeeding !== trafficSeeding.status ||
+  organicSeedLoop.sourceStatus?.acquisitionLearning !== acquisitionLearning.status ||
+  organicSeedLoop.runtimeSurface?.status !== 'armed' ||
+  organicSeedLoop.runtimeSurface?.telemetry?.viewed !== 'organic_seed_card_viewed' ||
+  organicSeedLoop.runtimeSurface?.telemetry?.opened !== 'seed_campaign_clicked' ||
+  organicSeedLoop.runtimeSurface?.telemetry?.shared !== 'organic_seed_share_clicked' ||
+  organicSeedLoop.runtimeSurface?.telemetry?.share !== 'share_clicked' ||
+  organicSeedLoop.runtimeProgressPolicy?.status !== 'active' ||
+  organicSeedLoop.runtimeProgressPolicy?.source !== 'browser-local-analytics' ||
+  organicSeedLoop.runtimeProgressPolicy?.storageKey !== 'agl.analytics.events' ||
+  organicSeedLoop.runtimeProgressPolicy?.exportSurface !== 'organic-seed-campaign' ||
+  organicSeedLoop.runtimeProgressPolicy?.decisionThresholds?.minimumAttributedStartsBeforeJudgment <
+    trafficSeeding.guardrails?.minimumStartsBeforeQualityJudgment ||
+  organicSeedLoop.runtimeProgressPolicy?.decisionThresholds?.evidenceExportRequiresUnexportedEvents !== true ||
+  !organicSeedLoop.runtimeProgressPolicy?.campaignMatchProperties?.includes('acquisitionCampaign') ||
+  !organicSeedLoop.runtimeProgressPolicy?.campaignMatchProperties?.includes('campaignId') ||
+  !organicSeedLoop.runtimeProgressPolicy?.progressEvents?.includes('game_started') ||
+  !organicSeedLoop.runtimeProgressPolicy?.progressEvents?.includes('organic_seed_share_clicked') ||
+  !organicSeedLoop.runtimeProgressPolicy?.exportProperties?.includes('localStartsRemaining') ||
+  !organicSeedLoop.runtimeProgressPolicy?.exportProperties?.includes('localSampleDecisionReady') ||
+  organicSeedLoop.guardrails?.maxCostUsd !== 0 ||
+  organicSeedLoop.guardrails?.playerInitiatedSharingOnly !== true ||
+  organicSeedLoop.guardrails?.requireCampaignAttribution !== true ||
+  organicSeedLoop.campaigns?.length !== trafficCampaigns.length ||
+  missingOrganicCampaign ||
+  staleOrganicCampaign ||
+  !targetOrganicCampaign ||
+  invalidOrganicCampaign
+) {
+  fail('Organic seed loop must expose a zero-spend runtime card with local campaign progress and exportable browser evidence.')
 }
 
 const retentionMissionIds = new Set((retentionLoop.missions ?? []).map((mission) => mission.id))

@@ -1,6 +1,6 @@
 # Organic Seed Loop
 
-Generated: 2026-05-20T09:02:56.097Z
+Generated: 2026-05-20T10:53:08.017Z
 Status: organic-seed-loop-ready
 Analytics source: fixture-sample
 Target: canopy-bloom
@@ -25,6 +25,13 @@ Max cost: $0.00
 - requireCampaignAttribution: true
 - minimumStartsBeforeQualityJudgment: 40
 - shareCooldownHours: 12
+
+## Runtime Progress
+
+- Source: browser-local-analytics
+- Storage: agl.analytics.events
+- Export surface: organic-seed-campaign
+- Target starts: 40
 
 ## Next Actions
 

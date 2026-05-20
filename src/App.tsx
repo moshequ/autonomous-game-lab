@@ -190,9 +190,16 @@ const readStringStorage = (key: string) => {
 }
 
 type ProductGateSampleMission = (typeof productGateSamplePlan.missions)[number]
+type TrafficCampaign = (typeof trafficSeeding.campaigns)[number]
 
 const matchesGateSampleCampaign = (event: AnalyticsEvent, campaignId: string) =>
   event.properties.acquisitionCampaign === campaignId || event.properties.campaignId === campaignId
+
+const matchesTrafficCampaign = (event: AnalyticsEvent, campaignId: string) =>
+  event.properties.acquisitionCampaign === campaignId ||
+  event.properties.campaignId === campaignId ||
+  event.properties.campaign === campaignId ||
+  event.properties.utm_campaign === campaignId
 
 const countEventsNamed = (events: AnalyticsEvent[], names: readonly string[]) => {
   const wanted = new Set(names)
@@ -237,6 +244,54 @@ const sampleProgressForMission = (
         : sampleDecisionReady
           ? 'ready-to-export'
           : 'collecting-local-events',
+  }
+}
+
+const trafficProgressForCampaign = (campaign: TrafficCampaign, events: AnalyticsEvent[]) => {
+  const campaignEvents = events.filter((event) => matchesTrafficCampaign(event, campaign.id))
+  const gameEvents = campaignEvents.filter(
+    (event) =>
+      event.properties.gameId === campaign.gameId ||
+      event.properties.acquisitionGameId === campaign.gameId,
+  )
+  const cardViews = countEventsNamed(campaignEvents, ['organic_seed_card_viewed'])
+  const seedClicks = countEventsNamed(campaignEvents, ['seed_campaign_clicked'])
+  const organicEntries = countEventsNamed(campaignEvents, ['organic_entry_opened'])
+  const shareActions = countEventsNamed(campaignEvents, [
+    'organic_seed_share_clicked',
+    'share_clicked',
+  ])
+  const starts = countEventsNamed(gameEvents, ['game_started'])
+  const completions = countEventsNamed(gameEvents, ['level_completed'])
+  const analyticsExports = campaignEvents.filter(
+    (event) =>
+      event.name === 'analytics_exported' &&
+      event.properties.exportSurface === 'organic-seed-campaign',
+  ).length
+  const targetStarts = campaign.measurement.targetStartsBeforeJudgment
+  const startsRemaining = Math.max(0, targetStarts - starts)
+  const sampleDecisionReady = startsRemaining === 0
+  const evidenceDropReady = campaignEvents.length > analyticsExports
+
+  return {
+    campaignEvents: campaignEvents.length,
+    cardViews,
+    seedClicks,
+    organicEntries,
+    shareActions,
+    starts,
+    completions,
+    analyticsExports,
+    targetStarts,
+    startsRemaining,
+    evidenceDropReady,
+    sampleDecisionReady,
+    status:
+      campaignEvents.length === 0
+        ? 'waiting-for-local-events'
+        : sampleDecisionReady
+          ? 'ready-to-judge'
+          : 'collecting-local-starts',
   }
 }
 
@@ -599,6 +654,28 @@ function App() {
   const organicSeedSurface = organicSeedLoop.runtimeSurface.surface
   const organicSeedPlacement = organicSeedLoop.runtimeSurface.placement
   const acquisitionCampaigns = acquisitionLearning.campaigns.slice(0, 3)
+  const trafficCampaignProgress = useMemo(
+    () =>
+      new Map(
+        trafficCampaigns.map((campaign) => [
+          campaign.id,
+          trafficProgressForCampaign(campaign, events),
+        ]),
+      ),
+    [events, trafficCampaigns],
+  )
+  const organicSeedProgress = organicSeedTargetCampaign
+    ? trafficCampaignProgress.get(organicSeedTargetCampaign.id)
+    : null
+  const localTrafficStarts = [...trafficCampaignProgress.values()].reduce(
+    (sum, progress) => sum + progress.starts,
+    0,
+  )
+  const localTrafficSignals = [...trafficCampaignProgress.values()].reduce(
+    (sum, progress) =>
+      sum + progress.seedClicks + progress.shareActions + progress.organicEntries,
+    0,
+  )
   const dailyChallengeGame = playableGames.find(
     (game) => game.id === retentionLoop.dailyChallenge.gameId,
   )
@@ -1378,6 +1455,31 @@ function App() {
       localEvidenceDropReady: progress.evidenceDropReady,
       localSampleDecisionReady: progress.sampleDecisionReady,
       noSyntheticEvents: mission.controls.noSyntheticEvents,
+    })
+  }
+  const exportTrafficCampaignEvidence = (campaign: TrafficCampaign) => {
+    const progress = trafficProgressForCampaign(campaign, getBufferedEvents())
+
+    exportLocalAnalytics({
+      exportSurface: 'organic-seed-campaign',
+      gameId: campaign.gameId,
+      campaignId: campaign.id,
+      priority: campaign.priority,
+      costUsd: campaign.costUsd,
+      noPaidPromotion: campaign.noPaidPromotion,
+      targetStartsBeforeJudgment: campaign.measurement.targetStartsBeforeJudgment,
+      localCampaignEvents: progress.campaignEvents,
+      localCardViews: progress.cardViews,
+      localSeedClicks: progress.seedClicks,
+      localOrganicEntries: progress.organicEntries,
+      localShareActions: progress.shareActions,
+      localStarts: progress.starts,
+      localCompletions: progress.completions,
+      localAnalyticsExports: progress.analyticsExports,
+      localStartsRemaining: progress.startsRemaining,
+      localEvidenceDropReady: progress.evidenceDropReady,
+      localSampleDecisionReady: progress.sampleDecisionReady,
+      localProgressStatus: progress.status,
     })
   }
   const resetRun = () => {
@@ -2781,6 +2883,12 @@ function App() {
                   <span>Target sample</span>
                   <strong>{trafficSeeding.guardrails.minimumStartsBeforeQualityJudgment} starts</strong>
                 </div>
+                <div className="factRow">
+                  <span>Local traffic</span>
+                  <strong>
+                    {localTrafficStarts} starts / {localTrafficSignals} signals
+                  </strong>
+                </div>
                 {organicSeedCardVisible && organicSeedTargetCampaign ? (
                   <div className="organicSeedCard" aria-label="Organic Seed Loop">
                     <div>
@@ -2792,6 +2900,27 @@ function App() {
                       <strong>
                         {formatPercent(organicSeedLoop.target?.sampleProgress)} sample
                       </strong>
+                    </div>
+                    <div>
+                      <span>Local sample</span>
+                      <strong>
+                        {organicSeedProgress?.starts ?? 0}/
+                        {organicSeedProgress?.targetStarts ??
+                          organicSeedTargetCampaign.measurement.targetStartsBeforeJudgment}{' '}
+                        starts
+                      </strong>
+                    </div>
+                    <div>
+                      <span>Local actions</span>
+                      <strong>
+                        {(organicSeedProgress?.seedClicks ?? 0) +
+                          (organicSeedProgress?.shareActions ?? 0)}{' '}
+                        signals
+                      </strong>
+                    </div>
+                    <div>
+                      <span>Export state</span>
+                      <strong>{organicSeedProgress?.evidenceDropReady ? 'ready' : 'waiting'}</strong>
                     </div>
                     <div className="organicSeedActions">
                       <button
@@ -2808,25 +2937,39 @@ function App() {
                       >
                         {organicSeedLoop.runtimeSurface.secondaryCtaLabel}
                       </button>
+                      <button
+                        className="tinyButton"
+                        type="button"
+                        onClick={() => exportTrafficCampaignEvidence(organicSeedTargetCampaign)}
+                      >
+                        Export seed evidence
+                      </button>
                     </div>
                   </div>
                 ) : null}
-                {trafficCampaigns.map((campaign) => (
-                  <div className="campaignRow" key={campaign.id}>
-                    <div>
-                      <span>{campaign.title}</span>
-                      <strong>{campaign.dataConfidence}</strong>
+                {trafficCampaigns.map((campaign) => {
+                  const progress = trafficCampaignProgress.get(campaign.id)
+
+                  return (
+                    <div className="campaignRow" key={campaign.id}>
+                      <div>
+                        <span>{campaign.title}</span>
+                        <strong>
+                          {campaign.dataConfidence} · {progress?.starts ?? 0}/
+                          {campaign.measurement.targetStartsBeforeJudgment} local starts
+                        </strong>
+                      </div>
+                      <button
+                        aria-label={`Seed traffic for ${campaign.title}`}
+                        className="tinyButton"
+                        type="button"
+                        onClick={() => openSeedCampaign(campaign)}
+                      >
+                        {campaign.copy.cta}
+                      </button>
                     </div>
-                    <button
-                      aria-label={`Seed traffic for ${campaign.title}`}
-                      className="tinyButton"
-                      type="button"
-                      onClick={() => openSeedCampaign(campaign)}
-                    >
-                      {campaign.copy.cta}
-                    </button>
-                  </div>
-                ))}
+                  )
+                })}
               </div>
               <div className="trafficSeedingPanel" aria-label="Acquisition Learning">
                 <div className="factRow">
@@ -2844,6 +2987,10 @@ function App() {
                 <div className="factRow">
                   <span>Attributed starts</span>
                   <strong>{acquisitionLearning.summary.totalAttributedStarts}</strong>
+                </div>
+                <div className="factRow">
+                  <span>Local starts</span>
+                  <strong>{localTrafficStarts}</strong>
                 </div>
                 <div className="factRow">
                   <span>Next focus</span>

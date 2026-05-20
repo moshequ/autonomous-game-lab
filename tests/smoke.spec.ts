@@ -141,6 +141,12 @@ test('organic seed loop records player-initiated seed and share telemetry', asyn
       secondaryCtaLabel: string
       telemetry: { viewed: string; shared: string; opened: string; share: string }
     }
+    runtimeProgressPolicy: {
+      status: string
+      storageKey: string
+      exportSurface: string
+      exportProperties: string[]
+    }
   }
 
   await page.addInitScript(() => {
@@ -163,6 +169,13 @@ test('organic seed loop records player-initiated seed and share telemetry', asyn
   const seedPanel = page.getByLabel('Organic Seed Loop')
   await expect(seedPanel).toContainText(loop.status)
   await expect(seedPanel).toContainText(loop.target.title)
+  await expect(seedPanel).toContainText('Local sample')
+  await expect(seedPanel).toContainText('Export state')
+  expect(loop.runtimeProgressPolicy.status).toBe('active')
+  expect(loop.runtimeProgressPolicy.storageKey).toBe('agl.analytics.events')
+  expect(loop.runtimeProgressPolicy.exportSurface).toBe('organic-seed-campaign')
+  expect(loop.runtimeProgressPolicy.exportProperties).toContain('localStartsRemaining')
+  expect(loop.runtimeProgressPolicy.exportProperties).toContain('localSampleDecisionReady')
   await seedPanel.getByRole('button', { name: loop.runtimeSurface.primaryCtaLabel }).click()
   await expect(page.getByLabel('Autonomy cockpit')).toContainText(loop.target.title)
   const openedSeedUrl = new URL(page.url())
@@ -191,6 +204,8 @@ test('organic seed loop records player-initiated seed and share telemetry', asyn
     )
     .toBe(true)
 
+  await expect(seedPanel).toContainText(/1\/40 starts|1\/\d+ starts/)
+
   const events = await page.evaluate(() => {
     const raw = window.localStorage.getItem('agl.analytics.events')
     return raw ? JSON.parse(raw) : []
@@ -207,6 +222,42 @@ test('organic seed loop records player-initiated seed and share telemetry', asyn
   expect(shared.properties.campaignId).toBe(loop.target.campaignId)
   expect(shared.properties.channel).toBe('player-share')
   expect(share.properties.seeded).toBe(true)
+
+  const downloadPromise = page.waitForEvent('download')
+  await seedPanel.getByRole('button', { name: 'Export seed evidence' }).click()
+  const download = await downloadPromise
+  const downloadPath = await download.path()
+
+  expect(download.suggestedFilename()).toMatch(/^player-events-\d{4}-\d{2}-\d{2}\.json$/)
+  expect(downloadPath).toBeTruthy()
+
+  if (downloadPath) {
+    const exportedEvents = JSON.parse(await readFile(downloadPath, 'utf8')) as Array<{
+      name: string
+      properties: Record<string, string | number | boolean>
+    }>
+    const exportEvent = exportedEvents.findLast(
+      (event) =>
+        event.name === 'analytics_exported' &&
+        event.properties.exportSurface === loop.runtimeProgressPolicy.exportSurface,
+    )
+
+    expect(exportEvent?.properties).toMatchObject({
+      gameId: loop.target.gameId,
+      campaignId: loop.target.campaignId,
+      exportSurface: loop.runtimeProgressPolicy.exportSurface,
+      noPaidPromotion: true,
+      costUsd: 0,
+      localEvidenceDropReady: true,
+      acquisitionCampaign: loop.target.campaignId,
+      acquisitionSource: 'seed_share',
+      acquisitionChannel: 'player-share',
+    })
+    expect(Number(exportEvent?.properties.localCampaignEvents ?? 0)).toBeGreaterThanOrEqual(3)
+    expect(Number(exportEvent?.properties.localSeedClicks ?? 0)).toBeGreaterThanOrEqual(1)
+    expect(Number(exportEvent?.properties.localShareActions ?? 0)).toBeGreaterThanOrEqual(1)
+    expect(Number(exportEvent?.properties.localStartsRemaining ?? -1)).toBeGreaterThanOrEqual(0)
+  }
 })
 
 test('PWA install loop records browser prompt telemetry', async ({ page }) => {
