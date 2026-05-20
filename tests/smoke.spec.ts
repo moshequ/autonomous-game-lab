@@ -1,6 +1,6 @@
 import { expect, test, type Page } from '@playwright/test'
 import { execFile } from 'node:child_process'
-import { mkdtemp, readFile, rm, writeFile } from 'node:fs/promises'
+import { mkdir, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import path from 'node:path'
 
@@ -1234,6 +1234,175 @@ test('product optimizer applies one guarded tuning step from product-gate eviden
   await expect(page.getByLabel('Product Gate Sample Plan')).toContainText('firstGameCompletion')
 })
 
+test('product gate recovery marks passing gates as monitoring instead of collecting sample', async () => {
+  const tempRoot = await mkdtemp(path.join(tmpdir(), 'agl-gate-recovery-'))
+  const dataDir = path.join(tempRoot, 'data')
+
+  try {
+    await mkdir(dataDir, { recursive: true })
+    await writeFile(
+      path.join(dataDir, 'analytics-rollup.json'),
+      JSON.stringify(
+        {
+          sourceStatus: { activeSource: 'temp-observed-sample' },
+          totals: {
+            counts: {
+              game_started: 10,
+              level_completed: 8,
+              replay_clicked: 3,
+              replay_prompt_viewed: 4,
+              replay_prompt_clicked: 3,
+              daily_return_prompt_viewed: 2,
+              daily_return_intent_started: 2,
+            },
+            metrics: {
+              firstGameCompletion: 0.8,
+              replayRate: 0.375,
+              d1Retention: 0.25,
+            },
+          },
+          retention: {
+            source: 'temp-retention',
+            eligibleUsers: 8,
+            retainedUsers: 2,
+          },
+        },
+        null,
+        2,
+      ),
+    )
+    await writeFile(
+      path.join(dataDir, 'production-gates.json'),
+      JSON.stringify(
+        {
+          monetization: {
+            minFirstGameCompletion: 0.55,
+            minReplayRate: 0.35,
+            minD1Retention: 0.18,
+          },
+        },
+        null,
+        2,
+      ),
+    )
+    await writeFile(
+      path.join(dataDir, 'product-optimization.json'),
+      JSON.stringify(
+        {
+          status: 'product-optimization-ready',
+          productGates: {
+            firstGameCompletion: { actual: 0.8 },
+            replayRate: { actual: 0.375 },
+            d1Retention: { actual: 0.25 },
+          },
+        },
+        null,
+        2,
+      ),
+    )
+    await writeFile(
+      path.join(dataDir, 'completion-loop.json'),
+      JSON.stringify(
+        {
+          status: 'completion-loop-ready',
+          promptPolicy: {
+            surface: 'mid-run',
+            telemetry: {
+              viewed: 'completion_nudge_viewed',
+              clicked: 'completion_nudge_clicked',
+            },
+          },
+          finishLinePolicy: {
+            telemetry: {
+              viewed: 'finish_line_coach_viewed',
+              clicked: 'finish_line_coach_clicked',
+            },
+          },
+        },
+        null,
+        2,
+      ),
+    )
+    await writeFile(
+      path.join(dataDir, 'replay-loop.json'),
+      JSON.stringify(
+        {
+          status: 'replay-loop-ready',
+          promptPolicy: {
+            surface: 'completed-run',
+            telemetry: {
+              viewed: 'replay_prompt_viewed',
+              clicked: 'replay_prompt_clicked',
+              dismissed: 'replay_prompt_dismissed',
+            },
+          },
+        },
+        null,
+        2,
+      ),
+    )
+    await writeFile(
+      path.join(dataDir, 'retention-loop.json'),
+      JSON.stringify(
+        {
+          status: 'retention-loop-ready',
+          promptPolicy: {
+            telemetry: {
+              viewed: 'daily_return_prompt_viewed',
+              clicked: 'daily_return_prompt_clicked',
+              dismissed: 'daily_return_prompt_dismissed',
+            },
+          },
+          returnIntentPolicy: {
+            surface: 'daily-return',
+            telemetry: {
+              viewed: 'daily_return_intent_viewed',
+              started: 'daily_return_intent_started',
+              cleared: 'daily_return_intent_cleared',
+            },
+          },
+        },
+        null,
+        2,
+      ),
+    )
+    await writeFile(
+      path.join(dataDir, 'first-move-coach.json'),
+      JSON.stringify({ status: 'first-move-coach-ready' }, null, 2),
+    )
+    await writeFile(
+      path.join(dataDir, 'monetization-plan.json'),
+      JSON.stringify({ status: 'blocked-by-product-gates', revenueEnabled: false }, null, 2),
+    )
+
+    await execFileAsync('node', [path.join(process.cwd(), 'scripts/product-gate-recovery.mjs')], {
+      cwd: tempRoot,
+    })
+
+    const recovery = JSON.parse(await readFile(path.join(dataDir, 'product-gate-recovery.json'), 'utf8')) as {
+      summary: { failingGates: number; passingGates: number; primaryExperimentStatus: string }
+      gates: Array<{
+        id: string
+        pass: boolean
+        status: string
+        experimentStatus: string
+        recommendedChange: string
+        promptViewsNeeded: number
+      }>
+    }
+
+    expect(recovery.summary.failingGates).toBe(0)
+    expect(recovery.summary.passingGates).toBe(3)
+    expect(recovery.summary.primaryExperimentStatus).toBe('gate-passing')
+    expect(recovery.gates.every((gate) => gate.pass)).toBe(true)
+    expect(recovery.gates.every((gate) => gate.status === 'passing')).toBe(true)
+    expect(recovery.gates.every((gate) => gate.experimentStatus === 'gate-passing')).toBe(true)
+    expect(recovery.gates.every((gate) => gate.recommendedChange === 'monitor-gate')).toBe(true)
+  } finally {
+    await rm(tempRoot, { recursive: true, force: true })
+  }
+})
+
 test('product gate sample mission starts an attributed zero-spend evidence run', async ({ page }) => {
   const samplePlan = JSON.parse(await readFile('data/product-gate-sample-plan.json', 'utf8')) as {
     missions: Array<{
@@ -1684,7 +1853,7 @@ test('autonomous operator history keeps a capped audit trail', async ({ page }) 
       'refresh-product-gate-recovery',
       'refresh-product-gate-sample-plan',
     ],
-    'collect-live-events': ['refresh-product-gate-recovery'],
+    'collect-live-events': ['refresh-product-gate-recovery', 'refresh-product-gate-sample-plan'],
   }
   const recentlySatisfiedActionIds = [
     ...new Set(recentExecutedActionIds.flatMap((actionId) => compositeActionSatisfiedActionIds[actionId] ?? [])),

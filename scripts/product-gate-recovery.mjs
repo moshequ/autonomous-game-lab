@@ -103,6 +103,7 @@ const gateRows = [
 ].map((row) => {
   const neededSuccesses = clampNeeded(Math.ceil(row.gate * row.denominator) - row.successes)
   const gap = Math.max(0, row.gate - (row.actual ?? 0))
+  const pass = (row.actual ?? 0) >= row.gate
   const currentPromptViews = row.viewTelemetry.reduce((sum, eventName) => sum + (counts[eventName] ?? 0), 0)
   const currentPromptActions = row.actionTelemetry.reduce((sum, eventName) => sum + (counts[eventName] ?? 0), 0)
   const currentPromptFailures = row.failureTelemetry.reduce((sum, eventName) => sum + (counts[eventName] ?? 0), 0)
@@ -110,7 +111,7 @@ const gateRows = [
   const promptViewsNeeded = clampNeeded(minimumPromptViewsForDecision - currentPromptViews)
   const sampleReady = promptViewsNeeded === 0
   const actionRate = ratio(currentPromptActions, currentPromptViews)
-  const experimentStatus = row.pass
+  const experimentStatus = pass
     ? 'gate-passing'
     : !sampleReady
       ? 'collecting-sample'
@@ -130,7 +131,7 @@ const gateRows = [
     ...row,
     actual: roundMetric(row.actual),
     gate: roundMetric(row.gate),
-    pass: (row.actual ?? 0) >= row.gate,
+    pass,
     gap: roundMetric(gap),
     neededSuccesses,
     minimumPromptViewsForDecision,

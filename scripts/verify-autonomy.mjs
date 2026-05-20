@@ -1668,7 +1668,7 @@ if (
   !autonomousOperator.allowlist?.includes('npm run autonomous:sample-plan') ||
   !autonomousOperator.allowlist?.includes('npm run autonomous:collect-sample-downloads') ||
   !autonomousOperator.allowlist?.includes(
-    'npm run autonomous:local-event-bridge && npm run autonomous:import-events && npm run autonomous:analytics && npm run autonomous:gate-recovery',
+    'npm run autonomous:local-event-bridge && npm run autonomous:import-events && npm run autonomous:analytics && npm run autonomous:gate-recovery && npm run autonomous:sample-plan',
   ) ||
   !autonomousOperator.blockedFragments?.includes('gh workflow run') ||
   !autonomousOperator.blockedActions?.some((action) => action.reason === 'daily-loop-recursion-blocked') ||
@@ -3750,7 +3750,7 @@ const ownerCompositeActionSatisfiedActionIds = {
     'refresh-product-gate-recovery',
     'refresh-product-gate-sample-plan',
   ],
-  'collect-live-events': ['refresh-product-gate-recovery'],
+  'collect-live-events': ['refresh-product-gate-recovery', 'refresh-product-gate-sample-plan'],
 }
 const ownerRecentlySatisfiedActionIds = [
   ...new Set(
@@ -4057,8 +4057,9 @@ if (
     (action) =>
       action.id === 'collect-live-events' &&
       action.command ===
-        'npm run autonomous:local-event-bridge && npm run autonomous:import-events && npm run autonomous:analytics && npm run autonomous:gate-recovery' &&
-      action.costUsd === 0,
+        'npm run autonomous:local-event-bridge && npm run autonomous:import-events && npm run autonomous:analytics && npm run autonomous:gate-recovery && npm run autonomous:sample-plan' &&
+      action.costUsd === 0 &&
+      action.targets?.includes(productGateSamplePlan.summary?.primaryGateId),
   ) ||
   !ownerGuardrailIds.has('zero-paid-spend') ||
   !ownerGuardrailIds.has('no-revenue-before-product-gates') ||

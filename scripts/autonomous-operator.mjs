@@ -63,6 +63,7 @@ const allowedLocalCommands = [
   'npm run autonomous:experiments && npm run autonomous:improve && npm run autonomous:sync-experiments',
   'npm run autonomous:import-events && npm run autonomous:analytics',
   'npm run autonomous:local-event-bridge && npm run autonomous:import-events && npm run autonomous:analytics && npm run autonomous:gate-recovery',
+  'npm run autonomous:local-event-bridge && npm run autonomous:import-events && npm run autonomous:analytics && npm run autonomous:gate-recovery && npm run autonomous:sample-plan',
   'npm run autonomous:deploy-plan && npm run autonomous:bootstrap',
   'npm run autonomous:release-candidate && npm run autonomous:deploy-plan && npm run autonomous:bootstrap',
 ]

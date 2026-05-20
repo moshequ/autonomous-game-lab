@@ -1085,10 +1085,11 @@ const safeAutonomousActions = [
     status: liveAnalytics || localEventBridgeReady ? 'armed' : 'blocked-needs-collector-or-posthog',
     costUsd: 0,
     command:
-      'npm run autonomous:local-event-bridge && npm run autonomous:import-events && npm run autonomous:analytics && npm run autonomous:gate-recovery',
+      'npm run autonomous:local-event-bridge && npm run autonomous:import-events && npm run autonomous:analytics && npm run autonomous:gate-recovery && npm run autonomous:sample-plan',
+    targets: gateSampleCollectionTargets,
     reason: liveAnalytics
-      ? 'Live/player event data is available for autonomous rollups and product-gate recovery.'
-      : 'Keeps the zero-spend local event-drop bridge active until production collector or PostHog credentials exist.',
+      ? 'Live/player event data is available for autonomous rollups, product-gate recovery, and sample-plan refresh.'
+      : 'Keeps the zero-spend local event-drop bridge active and refreshes recovery/sample planning until production collector or PostHog credentials exist.',
   },
 ]
 
@@ -1135,7 +1136,7 @@ const compositeActionSatisfiedActionIds = {
     'refresh-product-gate-recovery',
     'refresh-product-gate-sample-plan',
   ],
-  'collect-live-events': ['refresh-product-gate-recovery'],
+  'collect-live-events': ['refresh-product-gate-recovery', 'refresh-product-gate-sample-plan'],
 }
 const recentlySatisfiedActionIds = [
   ...new Set(
@@ -1154,9 +1155,9 @@ const preferredActionOrder = [
   'bootstrap-production-setup',
   'optimize-product-gates',
   'collect-gate-sample-downloads',
+  'collect-live-events',
   'refresh-product-gate-sample-plan',
   'refresh-product-gate-recovery',
-  'collect-live-events',
   'optimize-daily-retention',
   'measure-pwa-install-loop',
   'refresh-autonomous-cadence',
