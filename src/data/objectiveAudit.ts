@@ -1,5 +1,5 @@
 export const objectiveAudit = {
-  "generatedAt": "2026-05-20T15:45:53.324Z",
+  "generatedAt": "2026-05-20T15:52:06.571Z",
   "status": "objective-in-progress",
   "objective": "Build a bootstrapped autonomous web/PWA game portal that can generate original board-game-inspired games, measure user behavior, propose and apply data-driven improvements, and prepare a path to monetization and app-store distribution with minimal manual intervention.",
   "summary": {
@@ -95,13 +95,12 @@ export const objectiveAudit = {
         "Repository bootstrap: repository-bootstrap-ready; helper ops/github/bootstrap-repository.sh",
         "Release candidate: release-candidate-ready; smoke URLs 14",
         "Post-deploy smoke: post-deploy-smoke-observed-live; origin https://moshequ.github.io/autonomous-game-lab; checks 15/15; local artifact predeploy-artifact-smoke-passed 15/15",
-        "Strict deploy artifact sync: post-deploy-artifact-sync-passed; run 26171799929; live matches artifact true; candidate pwa-7f57ad8adae7",
+        "Strict deploy artifact sync: post-deploy-artifact-sync-passed; run 26173636848; live matches artifact true; candidate pwa-90283660bcc1",
         "Repository channel: repository-channel-ready; repository moshequ/autonomous-game-lab; git worktree true",
-        "Autonomy score: 95%",
+        "Autonomy score: 98%",
         "Credential-gated actions: 10"
       ],
       "blockers": [
-        "Commit current generated changes before pushing to GitHub Pages.",
         "AGL_SUPPORT_EMAIL: Production support contact for privacy and store listings.",
         "VITE_POSTHOG_KEY: Optional browser-side PostHog analytics forwarding.",
         "POSTHOG_PROJECT_ID + POSTHOG_PERSONAL_API_KEY: Optional autonomous production analytics and experiment result rollups from PostHog.",
@@ -232,8 +231,8 @@ export const objectiveAudit = {
     "zeroSpendGuard": true,
     "noRevenueEnablementUntilGatesPass": true,
     "noStoreSubmissionUntilExternalAccounts": true,
-    "currentWorktreeClean": true,
-    "currentWorktreeDirtyFiles": 0
+    "currentWorktreeClean": false,
+    "currentWorktreeDirtyFiles": 32
   },
   "completion": {
     "canMarkGoalComplete": false,
