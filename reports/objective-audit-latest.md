@@ -1,10 +1,10 @@
 # Objective Audit
 
-Generated: 2026-05-20T20:21:34.863Z
+Generated: 2026-05-20T20:28:54.737Z
 Status: objective-in-progress
 Can mark goal complete: false
 Reason: The local autonomous PWA system is largely prepared with strict live deploy evidence synced from GitHub Actions, but production credentials, live data, monetization gates, and store account/signing blockers remain.
-Next best action: refresh-organic-seed-loop
+Next best action: refresh-first-move-coach
 
 ## Summary
 
@@ -12,7 +12,7 @@ Next best action: refresh-organic-seed-loop
 - Met: 6
 - Prepared: 2
 - Incomplete: 0
-- External blockers: 12
+- External blockers: 13
 - Product blockers: 6
 
 ## Requirements
@@ -36,6 +36,7 @@ Next best action: refresh-organic-seed-loop
 
 ## Top Blockers
 
+- Commit current generated changes before pushing to GitHub Pages.
 - Set AGL_SUPPORT_EMAIL to a real support inbox before public store submission.
 - Set VITE_EVENT_COLLECTOR_URL or VITE_POSTHOG_KEY to forward browser analytics in production.
 - Set AGL_EVENT_COLLECTOR_EXPORT_URL + AGL_EVENT_COLLECTOR_ADMIN_TOKEN or PostHog server credentials for autonomous production rollups.
@@ -51,4 +52,3 @@ Next best action: refresh-organic-seed-loop
 - apple-developer-account: Apple Developer account remains deferred until iOS spend is justified.
 - native-package-ready: Native package is blocked-draft-ready.
 - store-package-draft: Store package is blocked; data safety is draft-ready.
-- google-play-account: Google Play account is not connected.

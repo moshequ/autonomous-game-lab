@@ -2849,6 +2849,7 @@ test('autonomous operator history keeps a capped audit trail', async ({ page }) 
     .map((record) => record.selectedActionId)
     .filter(Boolean)
   const compositeActionSatisfiedActionIds: Record<string, string[]> = {
+    'seed-portfolio-traffic': ['refresh-organic-seed-loop'],
     'collect-gate-sample-downloads': [
       'collect-live-events',
       'refresh-product-gate-recovery',

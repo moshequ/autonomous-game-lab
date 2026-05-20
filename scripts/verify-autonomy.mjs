@@ -4626,6 +4626,7 @@ const ownerRecentExecutedActionIds = [
   ...new Set(ownerRecentExecutedRecords.map((record) => record.selectedActionId).filter(Boolean)),
 ].slice(0, 8)
 const ownerCompositeActionSatisfiedActionIds = {
+  'seed-portfolio-traffic': ['refresh-organic-seed-loop'],
   'collect-gate-sample-downloads': [
     'collect-live-events',
     'refresh-product-gate-recovery',
