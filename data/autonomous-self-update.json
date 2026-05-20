@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-20T11:40:47.317Z",
+  "generatedAt": "2026-05-20T11:54:09.309Z",
   "status": "self-update-ready",
   "mode": "plan-and-assert",
   "envFiles": {
@@ -432,13 +432,6 @@
       },
       {
         "code": "M",
-        "path": "src/data/autonomousOperatorHistory.ts",
-        "raw": " M src/data/autonomousOperatorHistory.ts",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
         "path": "src/data/autonomousSelfUpdate.ts",
         "raw": " M src/data/autonomousSelfUpdate.ts",
         "safe": true,
@@ -462,6 +455,13 @@
         "code": "M",
         "path": "src/data/objectiveAudit.ts",
         "raw": " M src/data/objectiveAudit.ts",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
+        "path": "src/data/performanceBudget.ts",
+        "raw": " M src/data/performanceBudget.ts",
         "safe": true,
         "reason": "allowlisted-generated-artifact"
       },
@@ -580,11 +580,11 @@
       "reports/repository-readiness-latest.md",
       "reports/retention-loop-latest.md",
       "src/data/autonomousCadence.ts",
-      "src/data/autonomousOperatorHistory.ts",
       "src/data/autonomousSelfUpdate.ts",
       "src/data/eventCollectorDeployment.ts",
       "src/data/localEventBridge.ts",
       "src/data/objectiveAudit.ts",
+      "src/data/performanceBudget.ts",
       "src/data/postDeploySmoke.ts",
       "src/data/productGateRecovery.ts",
       "src/data/productGateSamplePlan.ts",

@@ -1,6 +1,6 @@
 # Autonomous Owner Loop
 
-Generated: 2026-05-20T11:40:52.304Z
+Generated: 2026-05-20T11:54:14.295Z
 Status: owner-loop-ready
 Mode: zero-spend-web-ready
 Autonomy score: 38/39 (97%)
@@ -29,7 +29,7 @@ Autonomy score: 38/39 (97%)
 - ready: organic-seed-loop - Target canopy-bloom; surface portal-growth-loop; share telemetry organic_seed_share_clicked.
 - ready: retention-loop - Daily canopy-bloom; D1 17%; streak variant daily-streak; return prompt armed; return intent armed.
 - ready: pwa-install-loop - Prompt autonomy-cockpit; installs 0; launch events 0; sample collecting-sample needs 20 prompt(s) and 10 launch event(s).
-- ready: performance-budget - Initial JS 621.5 KB; gzip 170.7 KB; deferred chunks 1.
+- ready: performance-budget - Initial JS 625.4 KB; gzip 171.6 KB; deferred chunks 1.
 - ready: product-optimization - Completion 40% / gate 55%; latest already-applied.
 - ready: product-gate-recovery - Recovery product-gate-recovery-ready; primary firstGameCompletion; experiment collecting-sample; failing gates 3; next lift 58.
 - ready: product-gate-sample-plan - Sample plan product-gate-sample-plan-ready; primary firstGameCompletion; prompt views needed 70.
@@ -41,8 +41,8 @@ Autonomy score: 38/39 (97%)
 - ready: repository-channel - Repository moshequ/autonomous-game-lab; git worktree ready; workflow dispatch ready.
 - ready: repository-bootstrap - Bootstrap repository-bootstrap-ready; mode plan-only; helper ops/github/bootstrap-repository.sh; local git ready.
 - ready: web-deployment - Deployment ready-for-pages; web readiness ready-after-build; promotion promotable-internal.
-- ready: release-candidate - Candidate pwa-59bd009c27ce; status release-candidate-ready; files 44; smoke URLs 14.
-- ready: post-deploy-smoke - Smoke blocked-missing-origin; origin missing; candidate pwa-59bd009c27ce; checks 0/15 passed; local artifact predeploy-artifact-smoke-passed 15/15 passed.
+- ready: release-candidate - Candidate pwa-836eb5c68aa8; status release-candidate-ready; files 44; smoke URLs 14.
+- ready: post-deploy-smoke - Smoke blocked-missing-origin; origin missing; candidate pwa-836eb5c68aa8; checks 0/15 passed; local artifact predeploy-artifact-smoke-passed 15/15 passed.
 - ready: production-bootstrap - Bootstrap production-bootstrap-ready; mode can-apply-configured-actions; external blockers 15.
 - ready: production-activation - Activation activation-ready; mode dry-run; execution dry-run; gh ready.
 - ready: autonomous-operator - Operator operator-plan-ready; selected seed-portfolio-traffic; execution not-requested.
