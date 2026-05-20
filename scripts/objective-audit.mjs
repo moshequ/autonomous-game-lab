@@ -161,6 +161,8 @@ const rawObjectiveBlockers = [
   ]),
 ]
 const transientLocalStateBlockers = [/^Commit current generated changes before pushing to GitHub Pages\.$/]
+const filterTransientLocalStateBlockers = (blockers) =>
+  blockers.filter((blocker) => !transientLocalStateBlockers.some((pattern) => pattern.test(blocker)))
 const objectiveBlockers = rawObjectiveBlockers.filter(
   (blocker) => !transientLocalStateBlockers.some((pattern) => pattern.test(blocker)),
 )
@@ -456,8 +458,8 @@ const requirements = [
       ...(autonomousCadence.blockers ?? []),
       ...(autonomousSelfUpdate.blockers ?? []),
       ...(postDeployArtifactSyncReady ? [] : ['Strict deploy artifact sync is not yet proven against the live release manifest.']),
-      ...(repositoryReadiness.blockers ?? []),
-      ...(repositoryBootstrap.blockers ?? []),
+      ...filterTransientLocalStateBlockers(repositoryReadiness.blockers ?? []),
+      ...filterTransientLocalStateBlockers(repositoryBootstrap.blockers ?? []),
       ...(autonomousOwnerLoop.credentialRequiredActions?.map((action) => `${action.target}: ${action.purpose}`) ?? []),
     ],
     nextAction: 'Keep the operator dry-run plan ready and execute one local action only when explicitly requested.',
