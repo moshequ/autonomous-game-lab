@@ -2,7 +2,7 @@ export const autonomousOwnerLoop = {
   "status": "owner-loop-ready",
   "mode": "zero-spend-web-ready",
   "autonomyScore": {
-    "percent": 97
+    "percent": 98
   },
   "controls": {
     "externalAccountInterventionRequired": true

@@ -1,0 +1,183 @@
+{
+  "generatedAt": "2026-05-20T13:45:21.971Z",
+  "status": "post-deploy-artifact-sync-passed",
+  "envFiles": {
+    "loaded": true,
+    "loadedFiles": [
+      {
+        "path": "ops/production.env.local",
+        "keys": [
+          "AGL_ANDROID_PACKAGE_NAME",
+          "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
+          "AGL_ANDROID_KEYSTORE_BASE64",
+          "AGL_ANDROID_KEYSTORE_PASSWORD",
+          "AGL_ANDROID_KEY_ALIAS"
+        ]
+      }
+    ],
+    "loadedKeys": [
+      "AGL_ANDROID_PACKAGE_NAME",
+      "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
+      "AGL_ANDROID_KEYSTORE_BASE64",
+      "AGL_ANDROID_KEYSTORE_PASSWORD",
+      "AGL_ANDROID_KEY_ALIAS"
+    ],
+    "skippedExistingKeys": [],
+    "skippedProtectedKeys": [],
+    "overwrittenEnvFileKeys": [],
+    "supportedFiles": [
+      ".env",
+      ".env.local",
+      ".env.production",
+      ".env.production.local",
+      "ops/production.env",
+      "ops/production.env.local"
+    ],
+    "candidateFiles": [
+      ".env",
+      ".env.local",
+      ".env.production",
+      ".env.production.local",
+      "ops/production.env",
+      "ops/production.env.local"
+    ],
+    "shellEnvPrecedence": true,
+    "valuesRedacted": true,
+    "controls": {
+      "shellEnvPrecedence": true,
+      "laterEnvFilesOverrideEarlierEnvFiles": true,
+      "protectedMutationKeysRequireShellEnv": true,
+      "noSecretValuesInReports": true,
+      "gitIgnoredLocalEnvFiles": true
+    }
+  },
+  "repository": {
+    "target": "moshequ/autonomous-game-lab",
+    "source": "origin-remote"
+  },
+  "workflow": {
+    "workflowFile": "web-pwa-deploy.yml",
+    "artifactName": "post-deploy-smoke",
+    "runId": 26165708578,
+    "headSha": "dfb65874c2894c86917f0607b26c2bf8c174c08d",
+    "createdAt": "2026-05-20T13:28:48Z",
+    "url": "https://github.com/moshequ/autonomous-game-lab/actions/runs/26165708578",
+    "source": "latest-successful-run",
+    "runListAvailable": true
+  },
+  "artifact": {
+    "status": "post-deploy-smoke-passed",
+    "generatedAt": "2026-05-20T13:32:50.875Z",
+    "target": {
+      "origin": "https://moshequ.github.io/autonomous-game-lab/",
+      "originSource": "agl-deployed-pwa-origin",
+      "provider": "github-pages",
+      "candidateId": "pwa-19b1a2f35fe7",
+      "aggregateHash": "19b1a2f35fe76d60cf67ef6e148bb8a9211f7cb917da231e48b8b9c4fa148635",
+      "strictManifestComparison": true
+    },
+    "sourceStatus": {
+      "deployment": "ready-for-pages",
+      "releaseCandidate": "release-candidate-ready",
+      "productionResponse": "guarded-operations"
+    },
+    "summary": {
+      "planned": 15,
+      "passed": 15,
+      "failed": 0,
+      "blocked": 0
+    },
+    "liveRelease": {
+      "status": "release-candidate-ready",
+      "candidateId": "pwa-19b1a2f35fe7",
+      "aggregateHash": "19b1a2f35fe76d60cf67ef6e148bb8a9211f7cb917da231e48b8b9c4fa148635",
+      "localCandidateMatches": true,
+      "strictManifestComparison": true
+    },
+    "controls": {
+      "zeroPaidSpend": true,
+      "noStoreSubmission": true,
+      "noRevenueEnablement": true,
+      "noAccountCreation": true,
+      "readOnlyHttpChecks": true,
+      "localArtifactSmokeRequired": true,
+      "manifestHashComparisonRequired": true,
+      "strictManifestComparison": true,
+      "inferredLiveObservationAllowed": false
+    },
+    "reportSha256": "cae373be80d093c2f316e5c0fcb5c1c14c17a75b2a266620e40a8606dec80da5"
+  },
+  "live": {
+    "origin": "https://moshequ.github.io/autonomous-game-lab/",
+    "manifestUrl": "https://moshequ.github.io/autonomous-game-lab/release-candidate.json",
+    "status": 200,
+    "finalUrl": "https://moshequ.github.io/autonomous-game-lab/release-candidate.json",
+    "contentType": "application/json; charset=utf-8",
+    "bytes": 19425,
+    "textSha256": "d5e418c144bdf35e4d713e78932c76081da3cd24dd899703ea33ab2121f24522",
+    "releaseStatus": "release-candidate-ready",
+    "candidateId": "pwa-19b1a2f35fe7",
+    "aggregateHash": "19b1a2f35fe76d60cf67ef6e148bb8a9211f7cb917da231e48b8b9c4fa148635",
+    "matchesArtifact": true
+  },
+  "validation": {
+    "artifactPassed": true,
+    "artifactStrict": true,
+    "artifactControlsReady": true,
+    "artifactSummaryPassed": true,
+    "liveMatchesArtifact": true
+  },
+  "summary": {
+    "planned": 6,
+    "passed": 6,
+    "failed": 0,
+    "blocked": 0
+  },
+  "controls": {
+    "zeroPaidSpend": true,
+    "noWorkflowDispatch": true,
+    "noStoreSubmission": true,
+    "noRevenueEnablement": true,
+    "noAccountCreation": true,
+    "readOnlyGithubArtifactDownload": true,
+    "readOnlyHttpChecks": true,
+    "strictManifestComparisonRequired": true,
+    "separateFromLocalCandidate": true
+  },
+  "checks": [
+    {
+      "id": "gh-cli",
+      "status": "pass",
+      "detail": "gh version 2.92.0 (2026-04-28)"
+    },
+    {
+      "id": "github-repository",
+      "status": "pass",
+      "detail": "Target repository is moshequ/autonomous-game-lab."
+    },
+    {
+      "id": "successful-pages-run",
+      "status": "pass",
+      "detail": "Latest successful web-pwa-deploy.yml run is 26165708578."
+    },
+    {
+      "id": "post-deploy-smoke-artifact",
+      "status": "pass",
+      "detail": "Downloaded post-deploy-smoke artifact from run 26165708578."
+    },
+    {
+      "id": "strict-smoke-artifact",
+      "status": "pass",
+      "detail": "Artifact status post-deploy-smoke-passed; strict manifest comparison true; checks 15/15."
+    },
+    {
+      "id": "live-release-manifest",
+      "status": "pass",
+      "detail": "Live release-candidate.json still matches the strict smoke artifact."
+    }
+  ],
+  "nextActions": [
+    "Keep this strict deploy artifact as live-production evidence while local candidates continue to iterate.",
+    "Keep revenue, paid acquisition, and store submission disabled until product, credential, and account gates pass."
+  ]
+}

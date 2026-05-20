@@ -1,6 +1,6 @@
 # Autonomous Operator
 
-Generated: 2026-05-20T13:27:44.216Z
+Generated: 2026-05-20T13:46:42.503Z
 Status: operator-plan-ready
 Mode: plan-only
 Owner decision: bootstrap-production-setup
@@ -55,5 +55,5 @@ Execution: not-requested
 - check-performance-budget: not-selected-this-run
 - prepare-release-candidate: not-selected-this-run
 - run-post-deploy-smoke: not-selected-this-run
+- sync-post-deploy-artifact: status-monitor
 - optimize-product-gates: not-selected-this-run
-- refresh-product-gate-recovery: not-selected-this-run

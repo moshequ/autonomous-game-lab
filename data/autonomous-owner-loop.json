@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2026-05-20T13:27:43.978Z",
+  "generatedAt": "2026-05-20T13:46:42.263Z",
   "status": "owner-loop-ready",
   "mode": "zero-spend-web-ready",
   "autonomyScore": {
-    "readySystems": 38,
-    "totalSystems": 39,
-    "percent": 97
+    "readySystems": 39,
+    "totalSystems": 40,
+    "percent": 98
   },
   "controls": {
     "localLoopCanRunWithoutExternalAccounts": true,
@@ -39,7 +39,7 @@
     "objectiveAuditFreshness": {
       "fresh": true,
       "structurallyReady": true,
-      "auditGeneratedAt": "2026-05-20T13:27:43.761Z",
+      "auditGeneratedAt": "2026-05-20T13:46:13.781Z",
       "evaluatedInputIds": [
         "analytics-rollup",
         "event-ingest",
@@ -69,6 +69,7 @@
     "preferredActionOrder": [
       "prepare-repository-channel",
       "deploy-web-pwa",
+      "sync-post-deploy-artifact",
       "seed-portfolio-traffic",
       "bootstrap-production-setup",
       "activate-production-when-configured",
@@ -294,6 +295,13 @@
       "nextAction": "Live Pages is reachable and serving pwa-ba894ae4ec8e; run the deploy workflow for strict proof of the current local candidate if needed."
     },
     {
+      "id": "post-deploy-artifact-sync",
+      "status": "ready",
+      "autonomy": "read-only-actions-artifact-import",
+      "evidence": "Artifact sync post-deploy-artifact-sync-passed; run 26165708578; live matches artifact true; strict true.",
+      "nextAction": "Keep this strict deploy artifact as live-production evidence while local candidates continue to iterate."
+    },
+    {
       "id": "production-bootstrap",
       "status": "ready",
       "autonomy": "zero-spend-setup-orchestration",
@@ -326,7 +334,7 @@
       "status": "ready",
       "autonomy": "completion-evidence-ledger",
       "evidence": "Audit objective-in-progress; met 6/8; external blockers 12.",
-      "nextAction": "The local autonomous PWA system is largely prepared, but production credentials, live data, monetization gates, hosted compliance URLs, and store account/signing blockers remain."
+      "nextAction": "The local autonomous PWA system is largely prepared with strict live deploy evidence synced from GitHub Actions, but production credentials, live data, monetization gates, and store account/signing blockers remain."
     },
     {
       "id": "store-listing-optimizer",
@@ -474,6 +482,17 @@
         "release-candidate-manifest"
       ],
       "reason": "Verifies the live Pages URL with read-only smoke checks and release-manifest hash comparison."
+    },
+    {
+      "id": "sync-post-deploy-artifact",
+      "status": "monitor",
+      "costUsd": 0,
+      "command": "npm run autonomous:post-deploy-artifact-sync",
+      "targets": [
+        26165708578,
+        "release-candidate-manifest"
+      ],
+      "reason": "Strict deploy artifact evidence is already synced from the latest successful Pages workflow."
     },
     {
       "id": "optimize-product-gates",
@@ -814,6 +833,7 @@
     "repositoryHandoffPrepared": false,
     "releaseCandidateStatus": "release-candidate-ready",
     "postDeploySmokeStatus": "post-deploy-smoke-observed-live",
+    "postDeployArtifactSyncStatus": "post-deploy-artifact-sync-passed",
     "productOptimizationStatus": "product-optimization-ready",
     "productGateSamplePlanStatus": "product-gate-sample-plan-ready",
     "firstMoveCoachStatus": "first-move-coach-ready",

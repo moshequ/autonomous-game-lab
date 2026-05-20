@@ -76,6 +76,16 @@ const postDeploySmoke = await readOptionalJson(path.join(dataDir, 'post-deploy-s
   controls: {},
   checks: [],
 })
+const postDeployArtifactSync = await readOptionalJson(path.join(dataDir, 'post-deploy-artifact-sync.json'), {
+  status: 'missing',
+  workflow: {},
+  artifact: {},
+  live: {},
+  validation: {},
+  summary: {},
+  controls: {},
+  checks: [],
+})
 const productOptimization = await readOptionalJson(path.join(dataDir, 'product-optimization.json'), {
   status: 'missing',
   productGates: {},
@@ -286,6 +296,15 @@ const postDeploySmokeRunnerReady =
   postDeploySmoke.controls?.localArtifactSmokeRequired === true &&
   postDeploySmoke.controls?.manifestHashComparisonRequired === true &&
   (postDeploySmoke.checks?.length ?? 0) >= (releaseCandidate.postDeploySmoke?.length ?? 0) + 1
+const postDeployArtifactSyncReady =
+  postDeployArtifactSync.status === 'post-deploy-artifact-sync-passed' &&
+  postDeployArtifactSync.validation?.artifactPassed === true &&
+  postDeployArtifactSync.validation?.artifactStrict === true &&
+  postDeployArtifactSync.validation?.liveMatchesArtifact === true &&
+  postDeployArtifactSync.controls?.readOnlyGithubArtifactDownload === true &&
+  postDeployArtifactSync.controls?.readOnlyHttpChecks === true &&
+  postDeployArtifactSync.controls?.strictManifestComparisonRequired === true &&
+  postDeployArtifactSync.controls?.separateFromLocalCandidate === true
 const productionActivationReady =
   ['activation-waiting-for-credentials', 'activation-ready', 'activation-applied'].includes(
     productionActivation.status,
@@ -718,6 +737,19 @@ const systems = [
       'Run the smoke runner with the deployed Pages URL after the workflow publishes the PWA.',
   },
   {
+    id: 'post-deploy-artifact-sync',
+    status: systemStatus(postDeployArtifactSyncReady, 'waiting-for-strict-workflow-artifact'),
+    autonomy: 'read-only-actions-artifact-import',
+    evidence: `Artifact sync ${postDeployArtifactSync.status}; run ${
+      postDeployArtifactSync.workflow?.runId ?? 'missing'
+    }; live matches artifact ${postDeployArtifactSync.live?.matchesArtifact === true}; strict ${
+      postDeployArtifactSync.validation?.artifactStrict === true
+    }.`,
+    nextAction:
+      postDeployArtifactSync.nextActions?.[0] ??
+      'Import the latest successful Pages smoke artifact and compare it to the live release manifest.',
+  },
+  {
     id: 'production-bootstrap',
     status: systemStatus(
       productionBootstrap.status === 'production-bootstrap-ready' &&
@@ -1056,6 +1088,16 @@ const safeAutonomousActions = [
       : 'Waits for a deployed Pages origin, then verifies the live PWA matches the exact release candidate.',
   },
   {
+    id: 'sync-post-deploy-artifact',
+    status: postDeployArtifactSyncReady ? 'monitor' : 'armed',
+    costUsd: 0,
+    command: 'npm run autonomous:post-deploy-artifact-sync',
+    targets: [postDeployArtifactSync.workflow?.runId ?? 'latest-successful-pages-run', 'release-candidate-manifest'],
+    reason: postDeployArtifactSyncReady
+      ? 'Strict deploy artifact evidence is already synced from the latest successful Pages workflow.'
+      : 'Downloads the latest successful Pages smoke artifact and validates it against the live release manifest.',
+  },
+  {
     id: 'optimize-product-gates',
     status: productOptimization.status === 'product-optimization-ready' ? 'armed' : 'monitor',
     costUsd: 0,
@@ -1294,6 +1336,7 @@ const prioritizedExecutableNow =
 const preferredActionOrder = [
   'prepare-repository-channel',
   'deploy-web-pwa',
+  'sync-post-deploy-artifact',
   'seed-portfolio-traffic',
   'bootstrap-production-setup',
   'activate-production-when-configured',
@@ -1414,6 +1457,7 @@ const payload = {
     repositoryHandoffPrepared,
     releaseCandidateStatus: releaseCandidate.status,
     postDeploySmokeStatus: postDeploySmoke.status,
+    postDeployArtifactSyncStatus: postDeployArtifactSync.status,
     productOptimizationStatus: productOptimization.status,
     productGateSamplePlanStatus: productGateSamplePlan.status,
     firstMoveCoachStatus: firstMoveCoach.status,

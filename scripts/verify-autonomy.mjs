@@ -32,6 +32,7 @@ const requiredFiles = [
   'data/performance-budget.json',
   'data/release-candidate.json',
   'data/post-deploy-smoke.json',
+  'data/post-deploy-artifact-sync.json',
   'data/repository-readiness.json',
   'data/repository-bootstrap.json',
   'data/product-optimization.json',
@@ -79,6 +80,7 @@ const requiredFiles = [
   'src/data/performanceBudget.ts',
   'src/data/releaseCandidate.ts',
   'src/data/postDeploySmoke.ts',
+  'src/data/postDeployArtifactSync.ts',
   'src/data/repositoryReadiness.ts',
   'src/data/repositoryBootstrap.ts',
   'src/data/productOptimization.ts',
@@ -126,6 +128,7 @@ const requiredFiles = [
   'reports/performance-budget-latest.md',
   'reports/release-candidate-latest.md',
   'reports/post-deploy-smoke-latest.md',
+  'reports/post-deploy-artifact-sync-latest.md',
   'reports/repository-readiness-latest.md',
   'reports/repository-bootstrap-latest.md',
   'reports/product-optimization-latest.md',
@@ -172,6 +175,7 @@ const requiredFiles = [
   'ops/cloudflare/README.md',
   'ops/cloudflare/wrangler.toml.example',
   'scripts/post-deploy-smoke.mjs',
+  'scripts/post-deploy-artifact-sync.mjs',
   'scripts/lib/env-loader.mjs',
   'scripts/repository-readiness.mjs',
   'scripts/repository-bootstrap.mjs',
@@ -250,6 +254,9 @@ const pwaInstallLoop = JSON.parse(await readFile(path.join(root, 'data', 'pwa-in
 const performanceBudget = JSON.parse(await readFile(path.join(root, 'data', 'performance-budget.json'), 'utf8'))
 const releaseCandidate = JSON.parse(await readFile(path.join(root, 'data', 'release-candidate.json'), 'utf8'))
 const postDeploySmoke = JSON.parse(await readFile(path.join(root, 'data', 'post-deploy-smoke.json'), 'utf8'))
+const postDeployArtifactSync = JSON.parse(
+  await readFile(path.join(root, 'data', 'post-deploy-artifact-sync.json'), 'utf8'),
+)
 const localArtifactSmoke = postDeploySmoke.localArtifactSmoke ?? {}
 const repositoryReadiness = JSON.parse(await readFile(path.join(root, 'data', 'repository-readiness.json'), 'utf8'))
 const repositoryBootstrap = JSON.parse(await readFile(path.join(root, 'data', 'repository-bootstrap.json'), 'utf8'))
@@ -332,6 +339,10 @@ const eventCollectorDeployPlanSource = await readFile(
 const productionBootstrapSource = await readFile(path.join(root, 'scripts', 'production-bootstrap.mjs'), 'utf8')
 const productionActivationSource = await readFile(path.join(root, 'scripts', 'production-activation.mjs'), 'utf8')
 const postDeploySmokeSource = await readFile(path.join(root, 'scripts', 'post-deploy-smoke.mjs'), 'utf8')
+const postDeployArtifactSyncSource = await readFile(
+  path.join(root, 'scripts', 'post-deploy-artifact-sync.mjs'),
+  'utf8',
+)
 const repositoryReadinessSource = await readFile(path.join(root, 'scripts', 'repository-readiness.mjs'), 'utf8')
 const repositoryBootstrapSource = await readFile(path.join(root, 'scripts', 'repository-bootstrap.mjs'), 'utf8')
 const portfolioPolicySource = await readFile(path.join(root, 'scripts', 'portfolio-policy.mjs'), 'utf8')
@@ -1695,6 +1706,7 @@ const envAwareArtifacts = [
   androidSigning,
   eventCollectorDeployment,
   postDeploySmoke,
+  postDeployArtifactSync,
 ]
 const envAwareSources = [
   productionEnvironmentSource,
@@ -1705,6 +1717,7 @@ const envAwareSources = [
   androidSigningSource,
   eventCollectorDeployPlanSource,
   postDeploySmokeSource,
+  postDeployArtifactSyncSource,
 ]
 const loadedEnvFileMetadataLeaksValues = envAwareArtifacts.some((artifact) =>
   (artifact.envFiles?.loadedFiles ?? []).some((file) => Object.hasOwn(file, 'value')),
@@ -1893,6 +1906,7 @@ if (
   !autonomousOperator.allowlist?.includes('npm run autonomous:completion-loop') ||
   !autonomousOperator.allowlist?.includes('npm run autonomous:replay-loop') ||
   !autonomousOperator.allowlist?.includes('npm run autonomous:post-deploy-smoke') ||
+  !autonomousOperator.allowlist?.includes('npm run autonomous:post-deploy-artifact-sync') ||
   !autonomousOperator.allowlist?.includes('npm run autonomous:repo-readiness') ||
   !autonomousOperator.allowlist?.includes('npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap') ||
   !autonomousOperator.allowlist?.includes('npm run autonomous:repo-bootstrap') ||
@@ -3698,6 +3712,43 @@ if (
 }
 
 if (
+  postDeployArtifactSync.status !== 'post-deploy-artifact-sync-passed' ||
+  postDeployArtifactSync.workflow?.workflowFile !== 'web-pwa-deploy.yml' ||
+  postDeployArtifactSync.workflow?.artifactName !== 'post-deploy-smoke' ||
+  typeof postDeployArtifactSync.workflow?.runId !== 'number' ||
+  postDeployArtifactSync.artifact?.status !== 'post-deploy-smoke-passed' ||
+  postDeployArtifactSync.artifact?.target?.strictManifestComparison !== true ||
+  postDeployArtifactSync.artifact?.summary?.passed !== postDeployArtifactSync.artifact?.summary?.planned ||
+  postDeployArtifactSync.artifact?.summary?.failed !== 0 ||
+  postDeployArtifactSync.artifact?.summary?.blocked !== 0 ||
+  postDeployArtifactSync.validation?.artifactPassed !== true ||
+  postDeployArtifactSync.validation?.artifactStrict !== true ||
+  postDeployArtifactSync.validation?.artifactControlsReady !== true ||
+  postDeployArtifactSync.validation?.artifactSummaryPassed !== true ||
+  postDeployArtifactSync.validation?.liveMatchesArtifact !== true ||
+  postDeployArtifactSync.live?.matchesArtifact !== true ||
+  postDeployArtifactSync.live?.candidateId !== postDeployArtifactSync.artifact?.target?.candidateId ||
+  postDeployArtifactSync.live?.aggregateHash !== postDeployArtifactSync.artifact?.target?.aggregateHash ||
+  postDeployArtifactSync.controls?.zeroPaidSpend !== true ||
+  postDeployArtifactSync.controls?.noWorkflowDispatch !== true ||
+  postDeployArtifactSync.controls?.noStoreSubmission !== true ||
+  postDeployArtifactSync.controls?.noRevenueEnablement !== true ||
+  postDeployArtifactSync.controls?.readOnlyGithubArtifactDownload !== true ||
+  postDeployArtifactSync.controls?.readOnlyHttpChecks !== true ||
+  postDeployArtifactSync.controls?.strictManifestComparisonRequired !== true ||
+  postDeployArtifactSync.controls?.separateFromLocalCandidate !== true ||
+  packageJson.scripts?.['autonomous:post-deploy-artifact-sync'] !==
+    'node scripts/post-deploy-artifact-sync.mjs' ||
+  !postDeployArtifactSyncSource.includes('gh') ||
+  !postDeployArtifactSyncSource.includes('run') ||
+  !postDeployArtifactSyncSource.includes('download') ||
+  !postDeployArtifactSyncSource.includes('readOnlyGithubArtifactDownload') ||
+  !postDeployArtifactSyncSource.includes('separateFromLocalCandidate')
+) {
+  fail('Post-deploy artifact sync must preserve strict GitHub Actions smoke evidence and compare it to the live release manifest.')
+}
+
+if (
   !readiness.webPwa?.checks?.some((check) => check.id === 'post-deploy-smoke-runner' && check.status === 'pass') ||
   readiness.postDeploySmoke?.status !== postDeploySmoke.status ||
   readiness.postDeploySmoke?.target?.candidateId !== releaseCandidate.candidateId ||
@@ -3707,7 +3758,11 @@ if (
     readiness.postDeploySmoke?.localArtifactSmoke?.summary?.planned ||
   readiness.postDeploySmoke?.controls?.readOnlyHttpChecks !== true ||
   readiness.postDeploySmoke?.controls?.localArtifactSmokeRequired !== true ||
-  readiness.postDeploySmoke?.controls?.manifestHashComparisonRequired !== true
+  readiness.postDeploySmoke?.controls?.manifestHashComparisonRequired !== true ||
+  readiness.postDeployArtifactSync?.status !== postDeployArtifactSync.status ||
+  readiness.postDeployArtifactSync?.live?.matchesArtifact !== true ||
+  readiness.postDeployArtifactSync?.controls?.readOnlyGithubArtifactDownload !== true ||
+  readiness.postDeployArtifactSync?.controls?.separateFromLocalCandidate !== true
 ) {
   fail('Production readiness must include the post-deploy smoke runner and release-manifest comparison evidence.')
 }
@@ -4217,6 +4272,7 @@ const requiredOwnerSystems = [
   'web-deployment',
   'release-candidate',
   'post-deploy-smoke',
+  'post-deploy-artifact-sync',
   'first-move-coach',
   'completion-loop',
   'replay-loop',
@@ -4242,6 +4298,7 @@ const requiredOwnerActions = [
   'check-performance-budget',
   'prepare-release-candidate',
   'run-post-deploy-smoke',
+  'sync-post-deploy-artifact',
   'prepare-repository-channel',
   'refresh-first-move-coach',
   'collect-gate-sample-downloads',
@@ -4447,6 +4504,7 @@ if (
   autonomousOwnerLoop.evidence?.repositoryHandoffPrepared !== ownerRepositoryHandoffPrepared ||
   autonomousOwnerLoop.evidence?.releaseCandidateStatus !== releaseCandidate.status ||
   autonomousOwnerLoop.evidence?.postDeploySmokeStatus !== postDeploySmoke.status ||
+  autonomousOwnerLoop.evidence?.postDeployArtifactSyncStatus !== postDeployArtifactSync.status ||
   autonomousOwnerLoop.evidence?.firstMoveCoachStatus !== firstMoveCoach.status ||
   autonomousOwnerLoop.evidence?.productGateSamplePlanStatus !== productGateSamplePlan.status ||
   autonomousOwnerLoop.evidence?.completionLoopStatus !== completionLoop.status ||
@@ -4599,6 +4657,13 @@ if (
     (action) =>
       action.id === 'run-post-deploy-smoke' &&
       action.command === 'npm run autonomous:post-deploy-smoke' &&
+      action.costUsd === 0 &&
+      action.targets?.includes('release-candidate-manifest'),
+  ) ||
+  !autonomousOwnerLoop.safeAutonomousActions?.some(
+    (action) =>
+      action.id === 'sync-post-deploy-artifact' &&
+      action.command === 'npm run autonomous:post-deploy-artifact-sync' &&
       action.costUsd === 0 &&
       action.targets?.includes('release-candidate-manifest'),
   ) ||

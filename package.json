@@ -56,6 +56,7 @@
     "autonomous:incident-drill": "node scripts/incident-drill.mjs",
     "autonomous:release-candidate": "node scripts/release-candidate.mjs",
     "autonomous:post-deploy-smoke": "node scripts/post-deploy-smoke.mjs",
+    "autonomous:post-deploy-artifact-sync": "node scripts/post-deploy-artifact-sync.mjs",
     "autonomous:repo-readiness": "node scripts/repository-readiness.mjs",
     "autonomous:repo-bootstrap": "node scripts/repository-bootstrap.mjs",
     "autonomous:deploy-plan": "node scripts/deployment-plan.mjs",

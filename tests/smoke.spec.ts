@@ -1067,6 +1067,84 @@ test('post-deploy smoke runner is wired to the release manifest and Pages workfl
   expect(workflow).toContain('data/post-deploy-smoke.json')
 })
 
+test('post-deploy artifact sync preserves strict Pages workflow evidence', async () => {
+  const sync = JSON.parse(await readFile('data/post-deploy-artifact-sync.json', 'utf8')) as {
+    status: string
+    workflow: { workflowFile: string; artifactName: string; runId: number | null; url: string | null }
+    artifact: {
+      status: string
+      target: { candidateId: string; aggregateHash: string; strictManifestComparison: boolean } | null
+      summary: { planned: number; passed: number; failed: number; blocked: number } | null
+      controls: { zeroPaidSpend: boolean; readOnlyHttpChecks: boolean } | null
+    }
+    live: {
+      origin: string | null
+      candidateId: string | null
+      aggregateHash: string | null
+      matchesArtifact: boolean
+    }
+    validation: {
+      artifactPassed: boolean
+      artifactStrict: boolean
+      artifactControlsReady: boolean
+      artifactSummaryPassed: boolean
+      liveMatchesArtifact: boolean
+    }
+    controls: {
+      zeroPaidSpend: boolean
+      noWorkflowDispatch: boolean
+      noStoreSubmission: boolean
+      noRevenueEnablement: boolean
+      readOnlyGithubArtifactDownload: boolean
+      readOnlyHttpChecks: boolean
+      strictManifestComparisonRequired: boolean
+      separateFromLocalCandidate: boolean
+    }
+    checks: Array<{ id: string; status: string }>
+  }
+  const packageJson = JSON.parse(await readFile('package.json', 'utf8')) as {
+    scripts: Record<string, string>
+  }
+  const script = await readFile('scripts/post-deploy-artifact-sync.mjs', 'utf8')
+
+  expect(sync.status).toBe('post-deploy-artifact-sync-passed')
+  expect(sync.workflow.workflowFile).toBe('web-pwa-deploy.yml')
+  expect(sync.workflow.artifactName).toBe('post-deploy-smoke')
+  expect(sync.workflow.runId).toBeGreaterThan(0)
+  expect(sync.artifact.status).toBe('post-deploy-smoke-passed')
+  expect(sync.artifact.target?.strictManifestComparison).toBe(true)
+  expect(sync.artifact.summary?.passed).toBe(sync.artifact.summary?.planned)
+  expect(sync.artifact.summary?.failed).toBe(0)
+  expect(sync.artifact.summary?.blocked).toBe(0)
+  expect(sync.live.matchesArtifact).toBe(true)
+  expect(sync.live.candidateId).toBe(sync.artifact.target?.candidateId)
+  expect(sync.live.aggregateHash).toBe(sync.artifact.target?.aggregateHash)
+  expect(sync.validation.artifactPassed).toBe(true)
+  expect(sync.validation.artifactStrict).toBe(true)
+  expect(sync.validation.artifactControlsReady).toBe(true)
+  expect(sync.validation.artifactSummaryPassed).toBe(true)
+  expect(sync.validation.liveMatchesArtifact).toBe(true)
+  expect(sync.controls.zeroPaidSpend).toBe(true)
+  expect(sync.controls.noWorkflowDispatch).toBe(true)
+  expect(sync.controls.noStoreSubmission).toBe(true)
+  expect(sync.controls.noRevenueEnablement).toBe(true)
+  expect(sync.controls.readOnlyGithubArtifactDownload).toBe(true)
+  expect(sync.controls.readOnlyHttpChecks).toBe(true)
+  expect(sync.controls.strictManifestComparisonRequired).toBe(true)
+  expect(sync.controls.separateFromLocalCandidate).toBe(true)
+  expect(sync.checks.some((check) => check.id === 'post-deploy-smoke-artifact' && check.status === 'pass')).toBe(
+    true,
+  )
+  expect(sync.checks.some((check) => check.id === 'live-release-manifest' && check.status === 'pass')).toBe(true)
+  expect(packageJson.scripts['autonomous:post-deploy-artifact-sync']).toBe(
+    'node scripts/post-deploy-artifact-sync.mjs',
+  )
+  expect(script).toContain("'run'")
+  expect(script).toContain("'download'")
+  expect(script).toContain('readOnlyGithubArtifactDownload')
+  expect(script).toContain('separateFromLocalCandidate')
+})
+
 test('production scripts load git-ignored env files without leaking values or mutation gates', async () => {
   const artifactPaths = [
     'data/production-environment.json',

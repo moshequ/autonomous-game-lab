@@ -18,6 +18,7 @@ const pwaInstallLoopPath = path.join(root, 'data', 'pwa-install-loop.json')
 const performanceBudgetPath = path.join(root, 'data', 'performance-budget.json')
 const releaseCandidatePath = path.join(root, 'data', 'release-candidate.json')
 const postDeploySmokePath = path.join(root, 'data', 'post-deploy-smoke.json')
+const postDeployArtifactSyncPath = path.join(root, 'data', 'post-deploy-artifact-sync.json')
 const productOptimizationPath = path.join(root, 'data', 'product-optimization.json')
 const firstMoveCoachPath = path.join(root, 'data', 'first-move-coach.json')
 const completionLoopPath = path.join(root, 'data', 'completion-loop.json')
@@ -121,6 +122,16 @@ const postDeploySmoke = await readOptionalJson(postDeploySmokePath, {
   status: 'missing',
   target: {},
   sourceStatus: {},
+  summary: {},
+  controls: {},
+  checks: [],
+})
+const postDeployArtifactSync = await readOptionalJson(postDeployArtifactSyncPath, {
+  status: 'missing',
+  workflow: {},
+  artifact: {},
+  live: {},
+  validation: {},
   summary: {},
   controls: {},
   checks: [],
@@ -1117,6 +1128,16 @@ const payload = {
     controls: postDeploySmoke.controls,
     checks: postDeploySmokeChecks,
   },
+  postDeployArtifactSync: {
+    status: postDeployArtifactSync.status,
+    workflow: postDeployArtifactSync.workflow,
+    artifact: postDeployArtifactSync.artifact,
+    live: postDeployArtifactSync.live,
+    validation: postDeployArtifactSync.validation,
+    summary: postDeployArtifactSync.summary,
+    controls: postDeployArtifactSync.controls,
+    checks: postDeployArtifactSync.checks ?? [],
+  },
   productOptimization: {
     status: productOptimization.status,
     sourceStatus: productOptimization.sourceStatus,
@@ -1375,6 +1396,17 @@ const report = [
   `Local artifact: ${payload.postDeploySmoke.localArtifactSmoke?.status ?? 'missing'} (${payload.postDeploySmoke.localArtifactSmoke?.summary?.passed ?? 0}/${payload.postDeploySmoke.localArtifactSmoke?.summary?.planned ?? 0} passed)`,
   ...(payload.postDeploySmoke.checks ?? []).map(
     (item) => `- ${item.status}: smoke-${item.id} - ${item.detail}`,
+  ),
+  '',
+  '## Post-Deploy Artifact Sync',
+  '',
+  `Status: ${payload.postDeployArtifactSync.status}`,
+  `Workflow run: ${payload.postDeployArtifactSync.workflow?.runId ?? 'missing'}`,
+  `Artifact candidate: ${payload.postDeployArtifactSync.artifact?.target?.candidateId ?? 'missing'}`,
+  `Live candidate: ${payload.postDeployArtifactSync.live?.candidateId ?? 'missing'}`,
+  `Live matches artifact: ${payload.postDeployArtifactSync.live?.matchesArtifact ?? 'missing'}`,
+  ...(payload.postDeployArtifactSync.checks ?? []).map(
+    (item) => `- ${item.status}: artifact-sync-${item.id} - ${item.detail}`,
   ),
   '',
   '## Product Optimization',

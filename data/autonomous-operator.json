@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-20T13:27:44.216Z",
+  "generatedAt": "2026-05-20T13:46:42.503Z",
   "status": "operator-plan-ready",
   "mode": "plan-only",
   "ownerDecision": {
@@ -104,6 +104,12 @@
       "status": "armed",
       "command": "npm run autonomous:post-deploy-smoke",
       "reason": "not-selected-this-run"
+    },
+    {
+      "id": "sync-post-deploy-artifact",
+      "status": "monitor",
+      "command": "npm run autonomous:post-deploy-artifact-sync",
+      "reason": "status-monitor"
     },
     {
       "id": "optimize-product-gates",
@@ -252,6 +258,7 @@
     "npm run build && npm run autonomous:performance",
     "npm run autonomous:release-candidate",
     "npm run autonomous:post-deploy-smoke",
+    "npm run autonomous:post-deploy-artifact-sync",
     "npm run autonomous:repo-readiness",
     "npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap",
     "npm run autonomous:repo-bootstrap",

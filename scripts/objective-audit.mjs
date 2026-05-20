@@ -59,6 +59,7 @@ const [
   androidRelease,
   releaseCandidate,
   postDeploySmoke,
+  postDeployArtifactSync,
   repositoryReadiness,
   repositoryBootstrap,
   deployment,
@@ -103,6 +104,7 @@ const [
   readJson(path.join(dataDir, 'android-release.json')),
   readJson(path.join(dataDir, 'release-candidate.json')),
   readJson(path.join(dataDir, 'post-deploy-smoke.json')),
+  readJson(path.join(dataDir, 'post-deploy-artifact-sync.json')),
   readJson(path.join(dataDir, 'repository-readiness.json')),
   readJson(path.join(dataDir, 'repository-bootstrap.json')),
   readJson(path.join(dataDir, 'deployment-plan.json')),
@@ -169,6 +171,15 @@ const postDeploySmokeReady =
   postDeploySmoke.controls?.readOnlyHttpChecks === true &&
   postDeploySmoke.controls?.localArtifactSmokeRequired === true &&
   postDeploySmoke.controls?.manifestHashComparisonRequired === true
+const postDeployArtifactSyncReady =
+  postDeployArtifactSync.status === 'post-deploy-artifact-sync-passed' &&
+  postDeployArtifactSync.validation?.artifactPassed === true &&
+  postDeployArtifactSync.validation?.artifactStrict === true &&
+  postDeployArtifactSync.validation?.liveMatchesArtifact === true &&
+  postDeployArtifactSync.controls?.readOnlyGithubArtifactDownload === true &&
+  postDeployArtifactSync.controls?.readOnlyHttpChecks === true &&
+  postDeployArtifactSync.controls?.strictManifestComparisonRequired === true &&
+  postDeployArtifactSync.controls?.separateFromLocalCandidate === true
 const repositoryChannelReady = ['repository-channel-ready', 'waiting-for-gh-auth'].includes(
   repositoryReadiness.status,
 )
@@ -336,6 +347,7 @@ const requirements = [
       autonomousOperatorHistoryReady &&
       releaseCandidate.status === 'release-candidate-ready' &&
       postDeploySmokeReady &&
+      postDeployArtifactSyncReady &&
       repositoryChannelReady &&
       repositoryBootstrap.status !== 'missing' &&
       productionBootstrap.status === 'production-bootstrap-ready' &&
@@ -348,6 +360,7 @@ const requirements = [
           autonomousOperatorHistoryReady &&
           releaseCandidate.status === 'release-candidate-ready' &&
           postDeploySmokeReady &&
+          postDeployArtifactSyncReady &&
           !repositoryChannelReady &&
           repositoryBootstrap.status !== 'missing' &&
           productionBootstrap.status === 'production-bootstrap-ready'
@@ -359,6 +372,7 @@ const requirements = [
           autonomousOperatorHistoryReady &&
           releaseCandidate.status === 'release-candidate-ready' &&
           postDeploySmokeReady &&
+          postDeployArtifactSyncReady &&
           repositoryChannelReady &&
           repositoryBootstrap.status !== 'missing' &&
           productionBootstrap.status === 'production-bootstrap-ready'
@@ -390,6 +404,11 @@ const requirements = [
         postDeploySmoke.localArtifactSmoke?.status ?? 'missing'
       } ${postDeploySmoke.localArtifactSmoke?.summary?.passed ?? 0}/${
         postDeploySmoke.localArtifactSmoke?.summary?.planned ?? 0}`,
+      `Strict deploy artifact sync: ${postDeployArtifactSync.status}; run ${
+        postDeployArtifactSync.workflow?.runId ?? 'missing'
+      }; live matches artifact ${postDeployArtifactSync.live?.matchesArtifact === true}; candidate ${
+        postDeployArtifactSync.artifact?.target?.candidateId ?? 'missing'
+      }`,
       `Repository channel: ${repositoryReadiness.status}; repository ${
         repositoryReadiness.repository?.target ?? 'missing'
       }; git worktree ${repositoryReadiness.workspace?.insideWorkTree === true}`,
@@ -399,6 +418,7 @@ const requirements = [
     blockers: [
       ...(autonomousCadence.blockers ?? []),
       ...(autonomousSelfUpdate.blockers ?? []),
+      ...(postDeployArtifactSyncReady ? [] : ['Strict deploy artifact sync is not yet proven against the live release manifest.']),
       ...(repositoryReadiness.blockers ?? []),
       ...(repositoryBootstrap.blockers ?? []),
       ...(autonomousOwnerLoop.credentialRequiredActions?.map((action) => `${action.target}: ${action.purpose}`) ?? []),
@@ -523,7 +543,9 @@ const payload = {
     canMarkGoalComplete,
     reason: canMarkGoalComplete
       ? 'All objective requirements are proven with no remaining blockers.'
-      : 'The local autonomous PWA system is largely prepared, but production credentials, live data, monetization gates, hosted compliance URLs, and store account/signing blockers remain.',
+      : `The local autonomous PWA system is largely prepared${
+          postDeployArtifactSyncReady ? ' with strict live deploy evidence synced from GitHub Actions' : ''
+        }, but production credentials, live data, monetization gates, and store account/signing blockers remain.`,
     nextBestAction: autonomousOwnerLoop.ownerDecision?.nextBestActionId ?? 'run-autonomous-daily',
   },
 }

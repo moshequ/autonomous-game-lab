@@ -45,6 +45,7 @@ const allowedLocalCommands = [
   'npm run build && npm run autonomous:performance',
   'npm run autonomous:release-candidate',
   'npm run autonomous:post-deploy-smoke',
+  'npm run autonomous:post-deploy-artifact-sync',
   'npm run autonomous:repo-readiness',
   'npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap',
   'npm run autonomous:repo-bootstrap',
