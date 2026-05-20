@@ -1,5 +1,5 @@
 export const performanceBudget = {
-  "generatedAt": "2026-05-20T00:46:39.670Z",
+  "generatedAt": "2026-05-20T00:53:04.806Z",
   "status": "performance-budget-ready",
   "sourceBuild": "dist",
   "budgets": {
@@ -14,20 +14,20 @@ export const performanceBudget = {
   },
   "initial": {
     "entryScripts": [
-      "index-mpm8OnpU.js",
+      "index-Dt8HusZ0.js",
       "registerSW.js"
     ],
     "scriptPaths": [
-      "assets/index-mpm8OnpU.js",
+      "assets/index-Dt8HusZ0.js",
       "registerSW.js"
     ],
     "jsFiles": [
       {
-        "file": "index-mpm8OnpU.js",
-        "path": "assets/index-mpm8OnpU.js",
-        "bytes": 680178,
-        "kb": 664.2,
-        "gzipBytes": 179516,
+        "file": "index-Dt8HusZ0.js",
+        "path": "assets/index-Dt8HusZ0.js",
+        "bytes": 678725,
+        "kb": 662.8,
+        "gzipBytes": 179506,
         "gzipKb": 175.3
       },
       {
@@ -39,9 +39,9 @@ export const performanceBudget = {
         "gzipKb": 0.1
       }
     ],
-    "jsBytes": 680312,
-    "jsKb": 664.4,
-    "gzipBytes": 179642,
+    "jsBytes": 678859,
+    "jsKb": 662.9,
+    "gzipBytes": 179632,
     "gzipKb": 175.4,
     "cssFiles": [
       {
@@ -61,8 +61,8 @@ export const performanceBudget = {
   "deferred": {
     "chunks": [
       {
-        "file": "GameCanvas-PPvsOJob.js",
-        "path": "assets/GameCanvas-PPvsOJob.js",
+        "file": "GameCanvas-C3xMFPx1.js",
+        "path": "assets/GameCanvas-C3xMFPx1.js",
         "bytes": 1393468,
         "kb": 1360.8,
         "gzipBytes": 356094,
@@ -70,24 +70,24 @@ export const performanceBudget = {
       }
     ],
     "gameChunk": {
-      "file": "GameCanvas-PPvsOJob.js",
-      "path": "assets/GameCanvas-PPvsOJob.js",
+      "file": "GameCanvas-C3xMFPx1.js",
+      "path": "assets/GameCanvas-C3xMFPx1.js",
       "bytes": 1393468,
       "kb": 1360.8,
       "gzipBytes": 356094,
       "gzipKb": 347.7
     },
     "largestDeferredChunk": {
-      "file": "GameCanvas-PPvsOJob.js",
-      "path": "assets/GameCanvas-PPvsOJob.js",
+      "file": "GameCanvas-C3xMFPx1.js",
+      "path": "assets/GameCanvas-C3xMFPx1.js",
       "bytes": 1393468,
       "kb": 1360.8,
       "gzipBytes": 356094,
       "gzipKb": 347.7
     },
     "largestJsChunk": {
-      "file": "GameCanvas-PPvsOJob.js",
-      "path": "assets/GameCanvas-PPvsOJob.js",
+      "file": "GameCanvas-C3xMFPx1.js",
+      "path": "assets/GameCanvas-C3xMFPx1.js",
       "bytes": 1393468,
       "kb": 1360.8,
       "gzipBytes": 356094,
@@ -99,19 +99,19 @@ export const performanceBudget = {
   "assets": {
     "js": [
       {
-        "file": "GameCanvas-PPvsOJob.js",
-        "path": "assets/GameCanvas-PPvsOJob.js",
+        "file": "GameCanvas-C3xMFPx1.js",
+        "path": "assets/GameCanvas-C3xMFPx1.js",
         "bytes": 1393468,
         "kb": 1360.8,
         "gzipBytes": 356094,
         "gzipKb": 347.7
       },
       {
-        "file": "index-mpm8OnpU.js",
-        "path": "assets/index-mpm8OnpU.js",
-        "bytes": 680178,
-        "kb": 664.2,
-        "gzipBytes": 179516,
+        "file": "index-Dt8HusZ0.js",
+        "path": "assets/index-Dt8HusZ0.js",
+        "bytes": 678725,
+        "kb": 662.8,
+        "gzipBytes": 179506,
         "gzipKb": 175.3
       },
       {
@@ -149,7 +149,7 @@ export const performanceBudget = {
     {
       "id": "initial-js-budget",
       "status": "pass",
-      "detail": "Initial JS is 664.4 KB; budget is 675 KB."
+      "detail": "Initial JS is 662.9 KB; budget is 675 KB."
     },
     {
       "id": "initial-js-gzip-budget",
@@ -174,12 +174,12 @@ export const performanceBudget = {
     {
       "id": "game-runtime-deferred",
       "status": "pass",
-      "detail": "GameCanvas-PPvsOJob.js is deferred from the initial shell."
+      "detail": "GameCanvas-C3xMFPx1.js is deferred from the initial shell."
     },
     {
       "id": "largest-js-deferred",
       "status": "pass",
-      "detail": "Largest JS chunk is GameCanvas-PPvsOJob.js at 1360.8 KB."
+      "detail": "Largest JS chunk is GameCanvas-C3xMFPx1.js at 1360.8 KB."
     },
     {
       "id": "deferred-game-budget",

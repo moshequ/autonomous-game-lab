@@ -2279,6 +2279,10 @@ if (!testAutomationScript.includes('event-collector-smoke')) {
   fail('Autonomous verification must run the isolated event collector smoke check.')
 }
 
+if (!testAutomationScript.includes('autonomous:collector-deploy-plan')) {
+  fail('Autonomous verification must refresh the event collector deployment plan after collector smoke.')
+}
+
 if (!testAutomationScript.includes('event-ingest-smoke')) {
   fail('Autonomous verification must run the isolated event ingest smoke check.')
 }
@@ -2291,6 +2295,14 @@ if (
   testAutomationScript.indexOf('event-collector-smoke') > testAutomationScript.indexOf('verify-autonomy')
 ) {
   fail('Autonomous verification must generate event collector smoke artifacts before verifying them.')
+}
+
+if (
+  testAutomationScript.indexOf('event-collector-smoke') >
+    testAutomationScript.indexOf('autonomous:collector-deploy-plan') ||
+  testAutomationScript.indexOf('autonomous:collector-deploy-plan') > testAutomationScript.indexOf('verify-autonomy')
+) {
+  fail('Autonomous verification must regenerate the event collector deployment plan after smoke and before verifying it.')
 }
 
 if (
