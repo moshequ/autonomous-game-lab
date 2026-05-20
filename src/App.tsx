@@ -1926,6 +1926,14 @@ function App() {
                   <strong>{repositoryReadiness.repository.target ?? 'missing'}</strong>
                 </div>
                 <div>
+                  <span>Planned target</span>
+                  <strong>{repositoryReadiness.repositoryTargetPlan.plannedTarget}</strong>
+                </div>
+                <div>
+                  <span>Pages origin</span>
+                  <strong>{repositoryReadiness.repositoryTargetPlan.pages?.origin ?? 'missing'}</strong>
+                </div>
+                <div>
                   <span>Workflow dispatch</span>
                   <strong>{repositoryReadiness.githubAutomation.workflowDispatchReady ? 'ready' : 'blocked'}</strong>
                 </div>
@@ -1942,6 +1950,10 @@ function App() {
                 <div>
                   <span>Helper</span>
                   <strong>{repositoryBootstrap.helper.path}</strong>
+                </div>
+                <div>
+                  <span>Create URL</span>
+                  <strong>{repositoryBootstrap.repositoryTargetPlan.githubNewRepositoryUrl}</strong>
                 </div>
                 <div>
                   <span>Local git</span>

@@ -1,7 +1,7 @@
 export const releaseCandidate = {
-  "generatedAt": "2026-05-20T04:53:19.913Z",
+  "generatedAt": "2026-05-20T05:01:29.046Z",
   "status": "release-candidate-ready",
-  "candidateId": "pwa-cb9fb614e017",
+  "candidateId": "pwa-a2e35511b315",
   "target": {
     "provider": "github-pages",
     "artifactPath": "dist",
@@ -12,8 +12,8 @@ export const releaseCandidate = {
   },
   "summary": {
     "totalFiles": 43,
-    "totalBytes": 3686462,
-    "totalKb": 3600.1,
+    "totalBytes": 3693116,
+    "totalKb": 3606.6,
     "assetFiles": 3,
     "htmlFiles": 16,
     "gamePages": 10,
@@ -22,7 +22,7 @@ export const releaseCandidate = {
   },
   "integrity": {
     "algorithm": "sha256",
-    "aggregateHash": "cb9fb614e01728f17bd2030ee45b97e4bc669cbca00e5bdc85481b3f0478bdcc",
+    "aggregateHash": "a2e35511b315b70451f4acb25df804ffed29934b0dee835d5a7eeb3ed1769634",
     "files": [
       {
         "path": ".well-known/assetlinks.json",
@@ -39,9 +39,9 @@ export const releaseCandidate = {
         "cacheControl": "public, max-age=3600"
       },
       {
-        "path": "assets/GameCanvas-DSwHM5JD.js",
+        "path": "assets/GameCanvas-rAMLFEhG.js",
         "bytes": 1393468,
-        "sha256": "b5dbad39cf781dac6c0e1614db31bbeaf6b45e7b60f3f27f81c10851991b5e5d",
+        "sha256": "353cc8192c07fd7f9a3fcabf51a43bf0f5bed38eaeb0957631b50c0892e4c7d7",
         "contentType": "text/javascript; charset=utf-8",
         "cacheControl": "public, max-age=31536000, immutable"
       },
@@ -53,9 +53,9 @@ export const releaseCandidate = {
         "cacheControl": "public, max-age=31536000, immutable"
       },
       {
-        "path": "assets/index-WwFQs-AN.js",
-        "bytes": 678726,
-        "sha256": "9edfe82813fd7844cf45a40bd6e4fb3a032cff4a250cf6f7378caa986311b4fe",
+        "path": "assets/index-CQ6UEFEn.js",
+        "bytes": 685380,
+        "sha256": "382ed7b665f504066a8e66b6b6ad064fd03a5d5e34f9bb7a0061673a87e51dbf",
         "contentType": "text/javascript; charset=utf-8",
         "cacheControl": "public, max-age=31536000, immutable"
       },
@@ -209,7 +209,7 @@ export const releaseCandidate = {
       {
         "path": "index.html",
         "bytes": 803,
-        "sha256": "8151ec4a10d52fda746e25a22bd3c9e606efe025c2654a9d25199c4b8fc07b3a",
+        "sha256": "f67109b58f834de979e22777101a78efc2c71fd627cbd22aecc6db3116538450",
         "contentType": "text/html; charset=utf-8",
         "cacheControl": "no-cache"
       },
@@ -314,7 +314,7 @@ export const releaseCandidate = {
       {
         "path": "sw.js",
         "bytes": 3735,
-        "sha256": "66743bb32173836c1fb84db1f907293e352ca5fa34979d6b131d35cf5656138a",
+        "sha256": "7cccdb7900bb7318c30a1ffc6eb0be764ddffca532b7be9ebbd13b6440e7cdf5",
         "contentType": "text/javascript; charset=utf-8",
         "cacheControl": "no-cache"
       },

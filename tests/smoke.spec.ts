@@ -1006,6 +1006,16 @@ test('repository readiness surfaces the GitHub Pages deployment channel without 
     }
     githubAutomation: { workflowDispatchReady: boolean; ghAuthAvailable: boolean; ghCredentialReady: boolean }
     pages: { workflowPath: string; deployWorkflowIncludesSmoke: boolean; releaseCandidateId: string }
+    repositoryTargetPlan: {
+      repositoryName: string
+      plannedTarget: string
+      githubNewRepositoryUrl: string
+      httpsOriginUrl: string
+      sshOriginUrl: string
+      pages: { origin: string; basePath: string }
+      explicitCommands: { createRepository: string; attachOrigin: string; pushSnapshot: string }
+      controls: { zeroPaidSpend: boolean; remoteMutationRequiresExplicitEnv: boolean; workflowDispatchBlocked: boolean }
+    }
     controls: {
       zeroPaidSpend: boolean
       readOnlyLocalInspection: boolean
@@ -1034,6 +1044,12 @@ test('repository readiness surfaces the GitHub Pages deployment channel without 
     }
     helper: { path: string; noWorkflowDispatch: boolean }
     workspace: { after: { nonGeneratedDirtyFiles: number } }
+    repositoryTargetPlan: {
+      plannedTarget: string
+      githubNewRepositoryUrl: string
+      explicitCommands: { createRepository: string; attachOrigin: string; pushSnapshot: string }
+      controls: { remoteMutationRequiresExplicitEnv: boolean; workflowDispatchBlocked: boolean }
+    }
     actions: Array<{ id: string; status: string }>
     blockers: string[]
   }
@@ -1059,6 +1075,17 @@ test('repository readiness surfaces the GitHub Pages deployment channel without 
     readiness.repository.source,
   )
   expect(readiness.repository.inferredRepositoryName).toBe(packageJson.name)
+  expect(readiness.repositoryTargetPlan.repositoryName).toBe(readiness.repository.inferredRepositoryName)
+  expect(readiness.repositoryTargetPlan.plannedTarget).toContain('/')
+  expect(readiness.repositoryTargetPlan.githubNewRepositoryUrl).toContain('https://github.com/new?name=')
+  expect(readiness.repositoryTargetPlan.httpsOriginUrl).toContain(readiness.repositoryTargetPlan.plannedTarget)
+  expect(readiness.repositoryTargetPlan.sshOriginUrl).toContain(readiness.repositoryTargetPlan.plannedTarget)
+  expect(readiness.repositoryTargetPlan.pages.origin).toMatch(/^https:\/\//)
+  expect(readiness.repositoryTargetPlan.explicitCommands.createRepository).toContain('AGL_ALLOW_GITHUB_REPO_CREATE=1')
+  expect(readiness.repositoryTargetPlan.explicitCommands.attachOrigin).toContain('AGL_ALLOW_ORIGIN_REMOTE=1')
+  expect(readiness.repositoryTargetPlan.controls.zeroPaidSpend).toBe(true)
+  expect(readiness.repositoryTargetPlan.controls.remoteMutationRequiresExplicitEnv).toBe(true)
+  expect(readiness.repositoryTargetPlan.controls.workflowDispatchBlocked).toBe(true)
   expect(readiness.repository.remoteParsing.supportsSshUrl).toBe(true)
   expect(readiness.repository.remoteParsing.supportsDottedRepositoryNames).toBe(true)
   expect(readiness.repository.remoteParsing.supportsOwnerHint).toBe(true)
@@ -1089,6 +1116,13 @@ test('repository readiness surfaces the GitHub Pages deployment channel without 
   expect(repositoryBootstrap.controls.noWorkflowDispatch).toBe(true)
   expect(repositoryBootstrap.helper.path).toBe('ops/github/bootstrap-repository.sh')
   expect(repositoryBootstrap.helper.noWorkflowDispatch).toBe(true)
+  expect(repositoryBootstrap.repositoryTargetPlan.plannedTarget).toBe(readiness.repositoryTargetPlan.plannedTarget)
+  expect(repositoryBootstrap.repositoryTargetPlan.githubNewRepositoryUrl).toBe(
+    readiness.repositoryTargetPlan.githubNewRepositoryUrl,
+  )
+  expect(repositoryBootstrap.repositoryTargetPlan.explicitCommands.pushSnapshot).toContain('AGL_ALLOW_PUSH=1')
+  expect(repositoryBootstrap.repositoryTargetPlan.controls.remoteMutationRequiresExplicitEnv).toBe(true)
+  expect(repositoryBootstrap.repositoryTargetPlan.controls.workflowDispatchBlocked).toBe(true)
   expect(typeof repositoryBootstrap.workspace.after.nonGeneratedDirtyFiles).toBe('number')
   if (repositoryBootstrap.workspace.after.nonGeneratedDirtyFiles === 0) {
     expect(repositoryBootstrap.blockers.some((blocker) => blocker.includes('Commit current generated changes'))).toBe(false)

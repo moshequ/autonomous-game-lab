@@ -1,9 +1,11 @@
 # Repository Readiness
 
-Generated: 2026-05-20T04:54:10.389Z
+Generated: 2026-05-20T05:01:29.699Z
 Status: waiting-for-github-repository
 Workspace: /Users/moshequ/Documents/Codex/2026-05-18/i-want-to-have-a-new
 Repository: missing
+Planned target: OWNER/autonomous-game-lab
+Planned Pages origin: https://OWNER.github.io/autonomous-game-lab
 
 ## Checks
 
@@ -27,6 +29,9 @@ Repository: missing
 
 ## Setup Required Once
 
+- Create or attach repository target: OWNER/autonomous-game-lab
+- GitHub create URL: https://github.com/new?name=autonomous-game-lab&visibility=public
+- Attach origin command: GITHUB_REPOSITORY=OWNER/autonomous-game-lab AGL_ALLOW_REPOSITORY_BOOTSTRAP=1 AGL_ALLOW_ORIGIN_REMOTE=1 ./ops/github/bootstrap-repository.sh
 - Add a GitHub origin remote, set GITHUB_REPOSITORY/GH_REPO to owner/repo, set AGL_GITHUB_OWNER to infer owner/package-name, or authenticate gh.
 - Authenticate GitHub CLI or provide GH_TOKEN/GITHUB_TOKEN before non-interactive workflow dispatch.
 - Let the production bootstrap helper enable GitHub Pages with GitHub Actions as the source once gh credentials exist.

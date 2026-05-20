@@ -984,6 +984,7 @@ const payload = {
     controls: repositoryReadiness.controls ?? {},
     checks: repositoryReadiness.checks ?? [],
     blockers: repositoryReadiness.blockers ?? [],
+    repositoryTargetPlan: repositoryReadiness.repositoryTargetPlan ?? {},
   },
   repositoryBootstrap: {
     status: repositoryBootstrap.status,
@@ -992,6 +993,7 @@ const payload = {
     repository: repositoryBootstrap.repository,
     controls: repositoryBootstrap.controls,
     helper: repositoryBootstrap.helper,
+    repositoryTargetPlan: repositoryBootstrap.repositoryTargetPlan ?? {},
     actions: repositoryBootstrap.actions ?? [],
     blockers: repositoryBootstrap.blockers ?? [],
   },

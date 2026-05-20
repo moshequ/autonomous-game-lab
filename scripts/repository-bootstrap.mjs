@@ -58,6 +58,18 @@ const repositoryFromOwnerHint = (owner, repositoryName) => {
 
   return cleanOwner ? `${cleanOwner}/${repositoryName}` : null
 }
+const parseGithubRepository = (value) => {
+  const raw = String(value ?? '').trim()
+  const match = raw.match(/^([A-Za-z0-9](?:[A-Za-z0-9-]{0,37}[A-Za-z0-9])?)\/([A-Za-z0-9._-]+)$/)
+
+  return match ? { owner: match[1], repository: match[2], target: `${match[1]}/${match[2]}` } : null
+}
+const pagesBasePathFor = ({ owner, repository }) =>
+  repository.toLowerCase() === `${owner.toLowerCase()}.github.io` ? '/' : `/${repository}/`
+const pagesOriginFor = ({ owner, repository }) =>
+  repository.toLowerCase() === `${owner.toLowerCase()}.github.io`
+    ? `https://${owner}.github.io`
+    : `https://${owner}.github.io/${repository}`
 
 const parseDirtyPaths = (stdout) =>
   stdout
@@ -200,6 +212,47 @@ const targetRepositorySource = process.env.GITHUB_REPOSITORY || process.env.GH_R
         : inferredRepository
           ? 'gh-auth-user-and-package-name'
           : 'missing'
+const plannedRepositoryTarget = targetRepository ?? `OWNER/${inferredRepositoryName}`
+const parsedPlannedRepository = parseGithubRepository(plannedRepositoryTarget)
+const plannedPages = parsedPlannedRepository
+  ? {
+      origin: pagesOriginFor(parsedPlannedRepository),
+      basePath: pagesBasePathFor(parsedPlannedRepository),
+      privacyUrl: `${pagesOriginFor(parsedPlannedRepository)}/privacy.html`,
+      supportUrl: `${pagesOriginFor(parsedPlannedRepository)}/support.html`,
+    }
+  : null
+const repositoryTargetPlan = {
+  status: targetRepository ? 'target-known' : 'needs-owner-or-auth',
+  repositoryName: inferredRepositoryName,
+  target: targetRepository,
+  targetSource: targetRepositorySource,
+  placeholderTarget: `OWNER/${inferredRepositoryName}`,
+  plannedTarget: plannedRepositoryTarget,
+  ownerRequired: !targetRepository,
+  githubNewRepositoryUrl: `https://github.com/new?name=${encodeURIComponent(inferredRepositoryName)}&visibility=public`,
+  httpsOriginUrl: `https://github.com/${plannedRepositoryTarget}.git`,
+  sshOriginUrl: `git@github.com:${plannedRepositoryTarget}.git`,
+  pages: plannedPages,
+  explicitCommands: {
+    createRepository:
+      `GITHUB_REPOSITORY=${plannedRepositoryTarget} AGL_ALLOW_REPOSITORY_BOOTSTRAP=1 ` +
+      'AGL_ALLOW_GITHUB_REPO_CREATE=1 ./ops/github/bootstrap-repository.sh',
+    attachOrigin:
+      `GITHUB_REPOSITORY=${plannedRepositoryTarget} AGL_ALLOW_REPOSITORY_BOOTSTRAP=1 ` +
+      'AGL_ALLOW_ORIGIN_REMOTE=1 ./ops/github/bootstrap-repository.sh',
+    pushSnapshot:
+      `GITHUB_REPOSITORY=${plannedRepositoryTarget} AGL_ALLOW_REPOSITORY_BOOTSTRAP=1 ` +
+      'AGL_ALLOW_SNAPSHOT_COMMIT=1 AGL_ALLOW_PUSH=1 ./ops/github/bootstrap-repository.sh',
+  },
+  controls: {
+    zeroPaidSpend: true,
+    publicRepositoryRecommended: true,
+    noAccountCreation: true,
+    remoteMutationRequiresExplicitEnv: true,
+    workflowDispatchBlocked: true,
+  },
+}
 const ghTokenConfigured = configured(process.env.GH_TOKEN) || configured(process.env.GITHUB_TOKEN)
 const ghReady = Boolean(ghVersionResult.ok && (ghTokenConfigured || ghAuthResult.ok))
 const helperExists = await exists(helperPath)
@@ -408,6 +461,7 @@ const payload = {
     releaseCandidateId: releaseCandidate.candidateId,
     postDeploySmoke: postDeploySmoke.status,
   },
+  repositoryTargetPlan,
   execution: {
     applyLocalGitRequested: applyLocalGit,
     appliedLocalGit,
@@ -450,6 +504,7 @@ const payload = {
     supportsDottedRepositoryNames: true,
     supportsOwnerHint: true,
     noWorkflowDispatch: true,
+    emitsRepositoryTargetPlan: true,
   },
   nextActions: [
     gitAfter.insideWorkTree
@@ -467,6 +522,8 @@ const report = [
   `Mode: ${payload.mode}`,
   `Workspace git: ${payload.workspace.after.insideWorkTree ? 'ready' : 'missing'}`,
   `Repository: ${payload.repository.target ?? 'missing'}`,
+  `Planned target: ${payload.repositoryTargetPlan.plannedTarget}`,
+  `Planned Pages origin: ${payload.repositoryTargetPlan.pages?.origin ?? 'missing'}`,
   `Origin: ${payload.repository.remoteRepository ?? 'missing'}`,
   '',
   '## Actions',
@@ -480,6 +537,12 @@ const report = [
   '## Blockers',
   '',
   ...(blockers.length ? blockers.map((blocker) => `- ${blocker}`) : ['- none']),
+  '',
+  '## Explicit Repository Target Commands',
+  '',
+  `- Create repository: ${payload.repositoryTargetPlan.explicitCommands.createRepository}`,
+  `- Attach origin: ${payload.repositoryTargetPlan.explicitCommands.attachOrigin}`,
+  `- Push snapshot: ${payload.repositoryTargetPlan.explicitCommands.pushSnapshot}`,
   '',
 ]
 

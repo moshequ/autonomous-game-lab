@@ -3427,6 +3427,17 @@ if (
   repositoryReadiness.repository?.remoteParsing?.supportsSshUrl !== true ||
   repositoryReadiness.repository?.remoteParsing?.supportsDottedRepositoryNames !== true ||
   repositoryReadiness.repository?.remoteParsing?.supportsOwnerHint !== true ||
+  repositoryReadiness.repositoryTargetPlan?.repositoryName !== repositoryReadiness.repository?.inferredRepositoryName ||
+  !repositoryReadiness.repositoryTargetPlan?.plannedTarget?.includes('/') ||
+  !repositoryReadiness.repositoryTargetPlan?.githubNewRepositoryUrl?.includes('https://github.com/new?name=') ||
+  !repositoryReadiness.repositoryTargetPlan?.httpsOriginUrl?.startsWith('https://github.com/') ||
+  !repositoryReadiness.repositoryTargetPlan?.sshOriginUrl?.startsWith('git@github.com:') ||
+  !repositoryReadiness.repositoryTargetPlan?.explicitCommands?.createRepository?.includes('AGL_ALLOW_GITHUB_REPO_CREATE=1') ||
+  !repositoryReadiness.repositoryTargetPlan?.explicitCommands?.attachOrigin?.includes('AGL_ALLOW_ORIGIN_REMOTE=1') ||
+  !repositoryReadiness.repositoryTargetPlan?.pages?.origin?.startsWith('https://') ||
+  repositoryReadiness.repositoryTargetPlan?.controls?.zeroPaidSpend !== true ||
+  repositoryReadiness.repositoryTargetPlan?.controls?.remoteMutationRequiresExplicitEnv !== true ||
+  repositoryReadiness.repositoryTargetPlan?.controls?.workflowDispatchBlocked !== true ||
   typeof repositoryReadiness.githubAutomation?.ghAuthAvailable !== 'boolean' ||
   typeof repositoryReadiness.githubAutomation?.ghCredentialReady !== 'boolean' ||
   typeof repositoryReadiness.workspace?.nonGeneratedDirtyFiles !== 'number' ||
@@ -3451,9 +3462,13 @@ if (
   !repositoryReadinessSource.includes('gh-auth-user-and-package-name') ||
   !repositoryReadinessSource.includes('ghCredentialReady') ||
   !repositoryReadinessSource.includes('repositoryNameFromPackage') ||
+  !repositoryReadinessSource.includes('repositoryTargetPlan') ||
+  !repositoryReadinessSource.includes('githubNewRepositoryUrl') ||
+  !repositoryReadinessSource.includes('pagesOriginFor') ||
   !repositoryReadinessSource.includes('ssh:\\/\\/git@github\\.com') ||
   !repositoryReadinessSource.includes('noGitMutation') ||
   !repositoryReadinessSource.includes('noWorkflowDispatch') ||
+  !appSource.includes('Planned target') ||
   !appSource.includes('Repository Channel')
 ) {
   fail('Repository readiness must inspect the git/GitHub Pages deployment channel without mutating git or dispatching workflows.')
@@ -3464,6 +3479,8 @@ if (
   readiness.repositoryChannel?.insideWorkTree !== repositoryReadiness.workspace?.insideWorkTree ||
   readiness.repositoryChannel?.workflowDispatchReady !==
     repositoryReadiness.githubAutomation?.workflowDispatchReady ||
+  readiness.repositoryChannel?.repositoryTargetPlan?.plannedTarget !==
+    repositoryReadiness.repositoryTargetPlan?.plannedTarget ||
   readiness.repositoryChannel?.controls?.noWorkflowDispatch !== true
 ) {
   fail('Production readiness must include repository-channel blockers separately from build artifact readiness.')
@@ -3497,6 +3514,11 @@ if (
   repositoryBootstrap.repository?.remoteParsing?.supportsSshUrl !== true ||
   repositoryBootstrap.repository?.remoteParsing?.supportsDottedRepositoryNames !== true ||
   repositoryBootstrap.repository?.remoteParsing?.supportsOwnerHint !== true ||
+  repositoryBootstrap.repositoryTargetPlan?.plannedTarget !==
+    repositoryReadiness.repositoryTargetPlan?.plannedTarget ||
+  !repositoryBootstrap.repositoryTargetPlan?.explicitCommands?.pushSnapshot?.includes('AGL_ALLOW_PUSH=1') ||
+  repositoryBootstrap.repositoryTargetPlan?.controls?.remoteMutationRequiresExplicitEnv !== true ||
+  repositoryBootstrap.repositoryTargetPlan?.controls?.workflowDispatchBlocked !== true ||
   typeof repositoryBootstrap.githubAutomation?.ghAuthAvailable !== 'boolean' ||
   typeof repositoryBootstrap.githubAutomation?.ghCredentialReady !== 'boolean' ||
   !repositoryBootstrap.actions?.some((action) => action.id === 'initialize-local-git') ||
@@ -3526,6 +3548,9 @@ if (
   !repositoryBootstrapSource.includes('gh-auth-user-and-package-name') ||
   !repositoryBootstrapSource.includes('AGL_ALLOW_GH_INFER_REPOSITORY') ||
   !repositoryBootstrapSource.includes('repositoryNameFromPackage') ||
+  !repositoryBootstrapSource.includes('repositoryTargetPlan') ||
+  !repositoryBootstrapSource.includes('githubNewRepositoryUrl') ||
+  !repositoryBootstrapSource.includes('emitsRepositoryTargetPlan') ||
   !repositoryBootstrapSource.includes('ssh:\\/\\/git@github\\.com') ||
   !repositoryBootstrapSource.includes('AGL_ALLOW_LOCAL_GIT_BOOTSTRAP') ||
   !githubRepositoryBootstrapScript.includes('AGL_ALLOW_GH_INFER_REPOSITORY') ||
@@ -3545,6 +3570,8 @@ if (
 if (
   readiness.repositoryBootstrap?.status !== repositoryBootstrap.status ||
   readiness.repositoryBootstrap?.controls?.dryRunByDefault !== true ||
+  readiness.repositoryBootstrap?.repositoryTargetPlan?.plannedTarget !==
+    repositoryBootstrap.repositoryTargetPlan?.plannedTarget ||
   readiness.repositoryBootstrap?.helper?.path !== 'ops/github/bootstrap-repository.sh'
 ) {
   fail('Production readiness must include repository-bootstrap transport evidence and controls.')
