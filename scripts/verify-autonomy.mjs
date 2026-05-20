@@ -1151,6 +1151,9 @@ if (
 const samplePrimaryMission = productGateSamplePlan.missions?.find(
   (mission) => mission.gateId === productGateRecovery.summary?.primaryBottleneck,
 )
+const sampleFastestMission = productGateSamplePlan.missions?.find(
+  (mission) => mission.gateId === productGateRecovery.summary?.quickestGateTest,
+)
 const sampleRetentionMission = productGateSamplePlan.missions?.find((mission) => mission.gateId === 'd1Retention')
 
 if (
@@ -1171,6 +1174,7 @@ if (
   productGateSamplePlan.publicSamplePage?.path !== '/gate-sample.html' ||
   productGateSamplePlan.publicSamplePage?.missionCount !== productGateSamplePlan.missions?.length ||
   productGateSamplePlan.publicSamplePage?.primaryCampaignId !== samplePrimaryMission?.campaignId ||
+  productGateSamplePlan.publicSamplePage?.fastestCampaignId !== sampleFastestMission?.campaignId ||
   productGateSamplePlan.publicSamplePage?.zeroPaidSpend !== true ||
   productGateSamplePlan.publicSamplePage?.playerInitiatedOnly !== true ||
   productGateSamplePlan.publicSamplePage?.noSyntheticEvents !== true ||
@@ -1189,12 +1193,15 @@ if (
   !samplePrimaryMission?.evidence?.status ||
   samplePrimaryMission?.needed?.promptViews !== recoveryCompletionGate?.promptViewsNeeded ||
   samplePrimaryMission?.needed?.successes !== recoveryCompletionGate?.neededSuccesses ||
+  !samplePrimaryMission?.sampleRole?.includes('primary-bottleneck') ||
   samplePrimaryMission?.controls?.costUsd !== 0 ||
   samplePrimaryMission?.controls?.noSyntheticEvents !== true ||
   sampleRetentionMission?.gameId !== retentionLoop.dailyChallenge?.gameId ||
+  !sampleRetentionMission?.sampleRole?.includes('fastest-validation') ||
   !productGateSamplePlanSource.includes('localEventBridge') ||
   !productGateSamplePlanSource.includes('productGateRecovery') ||
   !productGateSamplePlanSource.includes('gateSamplePagePath') ||
+  !productGateSamplePlanSource.includes('sampleRoleForMission') ||
   !packageJson.scripts?.['autonomous:sample-plan']?.includes('product-gate-sample-planner') ||
   !packageJson.scripts?.['autonomous:collect-sample-downloads']?.includes('AGL_LOCAL_EVENT_IMPORT_DOWNLOADS=true') ||
   !packageJson.scripts?.['autonomous:collect-sample-downloads']?.includes('autonomous:gate-recovery') ||
@@ -1218,8 +1225,11 @@ if (
 if (
   !gateSampleHtml.includes('Autonomous Game Lab Gate Sample Missions') ||
   !gateSampleHtml.includes('$0.00') ||
+  !gateSampleHtml.includes('Fastest gate') ||
   !gateSampleHtml.includes('data-gate-id="firstGameCompletion"') ||
+  !gateSampleHtml.includes('data-sample-role="fastest-validation"') ||
   !gateSampleHtml.includes(samplePrimaryMission?.campaignId ?? 'missing') ||
+  !gateSampleHtml.includes(sampleFastestMission?.campaignId ?? 'missing') ||
   gateSampleHtml.includes('autonomous-game-lab.example.com')
 ) {
   fail('Product gate sample plan must publish a runtime-relative zero-spend mission page for real player evidence collection.')

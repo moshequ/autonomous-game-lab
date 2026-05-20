@@ -69,7 +69,7 @@
 
       .summary {
         display: grid;
-        grid-template-columns: repeat(4, minmax(0, 1fr));
+        grid-template-columns: repeat(5, minmax(0, 1fr));
         gap: 12px;
         padding: 18px 0 26px;
       }
@@ -100,6 +100,18 @@
         display: block;
         margin: 4px 0 0;
         font-size: 1.1rem;
+      }
+
+      .badge {
+        display: inline-flex;
+        width: fit-content;
+        margin-bottom: 10px;
+        padding: 5px 8px;
+        border-radius: 6px;
+        background: #edf4f2;
+        color: #17211f;
+        font-size: 0.75rem;
+        font-weight: 800;
       }
 
       .missions {
@@ -171,14 +183,16 @@
     <main>
       <section class="summary" aria-label="Sample requirements">
         <div class="metric"><span>Primary gate</span><strong>firstGameCompletion</strong></div>
+        <div class="metric"><span>Fastest gate</span><strong>d1Retention</strong></div>
         <div class="metric"><span>Prompt views needed</span><strong>70</strong></div>
         <div class="metric"><span>Observed successes</span><strong>66</strong></div>
         <div class="metric"><span>Cost</span><strong>$0.00</strong></div>
       </section>
       <section class="missions" aria-label="Gate sample missions">
-        <article class="mission" data-mission-id="collect-firstGameCompletion-sample" data-gate-id="firstGameCompletion" data-campaign-id="gate-sample-20260520-firstGameCompletion">
+        <article class="mission" data-mission-id="collect-firstGameCompletion-sample" data-gate-id="firstGameCompletion" data-campaign-id="gate-sample-20260520-firstGameCompletion" data-sample-role="primary-bottleneck">
         <div>
           <p class="eyebrow">First game completion</p>
+          <span class="badge">Primary bottleneck</span>
           <h2>Harbor Rings</h2>
           <p>completion-loop needs real player evidence before the automation changes copy, placement, rules, revenue, or store distribution.</p>
         </div>
@@ -190,9 +204,10 @@
         </dl>
         <a class="play" href="./?game=harbor-rings&amp;utm_source=gate_sample&amp;utm_campaign=gate-sample-20260520-firstGameCompletion">Start mission</a>
       </article>
-<article class="mission" data-mission-id="collect-replayRate-sample" data-gate-id="replayRate" data-campaign-id="gate-sample-20260520-replayRate">
+<article class="mission" data-mission-id="collect-replayRate-sample" data-gate-id="replayRate" data-campaign-id="gate-sample-20260520-replayRate" data-sample-role="supporting-sample">
         <div>
           <p class="eyebrow">Replay rate</p>
+          <span class="badge">Supporting sample</span>
           <h2>Harbor Rings</h2>
           <p>replay-loop needs real player evidence before the automation changes copy, placement, rules, revenue, or store distribution.</p>
         </div>
@@ -204,9 +219,10 @@
         </dl>
         <a class="play" href="./?game=harbor-rings&amp;utm_source=gate_sample&amp;utm_campaign=gate-sample-20260520-replayRate">Start mission</a>
       </article>
-<article class="mission" data-mission-id="collect-d1Retention-sample" data-gate-id="d1Retention" data-campaign-id="gate-sample-20260520-d1Retention">
+<article class="mission" data-mission-id="collect-d1Retention-sample" data-gate-id="d1Retention" data-campaign-id="gate-sample-20260520-d1Retention" data-sample-role="fastest-validation">
         <div>
           <p class="eyebrow">D1 retention</p>
+          <span class="badge">Fastest validation</span>
           <h2>Canopy Bloom</h2>
           <p>retention-loop needs real player evidence before the automation changes copy, placement, rules, revenue, or store distribution.</p>
         </div>

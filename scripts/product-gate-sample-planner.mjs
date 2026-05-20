@@ -218,8 +218,18 @@ const evidenceForMission = (mission) => {
   }
 }
 
+const sampleRoleForMission = (mission) => {
+  const roles = [
+    mission.gateId === primaryMission?.gateId ? 'primary-bottleneck' : null,
+    mission.gateId === fastestMission?.gateId ? 'fastest-validation' : null,
+  ].filter(Boolean)
+
+  return roles.length ? roles.join(' ') : 'supporting-sample'
+}
+
 const missionsWithEvidence = missions.map((mission) => ({
   ...mission,
+  sampleRole: sampleRoleForMission(mission),
   evidence: evidenceForMission(mission),
 }))
 const evidenceReadyCount = missionsWithEvidence.filter(
@@ -338,13 +348,30 @@ const report = [
   '',
 ].join('\n')
 
+const sampleRoleLabel = (mission) => {
+  if (mission.sampleRole.includes('primary-bottleneck') && mission.sampleRole.includes('fastest-validation')) {
+    return 'Primary + fastest'
+  }
+
+  if (mission.sampleRole.includes('fastest-validation')) {
+    return 'Fastest validation'
+  }
+
+  if (mission.sampleRole.includes('primary-bottleneck')) {
+    return 'Primary bottleneck'
+  }
+
+  return 'Supporting sample'
+}
+
 const missionCards = payload.missions
   .map(
     (mission) => `<article class="mission" data-mission-id="${escapeHtml(mission.id)}" data-gate-id="${escapeHtml(
       mission.gateId,
-    )}" data-campaign-id="${escapeHtml(mission.campaignId)}">
+    )}" data-campaign-id="${escapeHtml(mission.campaignId)}" data-sample-role="${escapeHtml(mission.sampleRole)}">
         <div>
           <p class="eyebrow">${escapeHtml(mission.label)}</p>
+          <span class="badge">${escapeHtml(sampleRoleLabel(mission))}</span>
           <h2>${escapeHtml(mission.title)}</h2>
           <p>${escapeHtml(mission.ownerLoop)} needs real player evidence before the automation changes copy, placement, rules, revenue, or store distribution.</p>
         </div>
@@ -430,7 +457,7 @@ const gateSamplePage = `<!doctype html>
 
       .summary {
         display: grid;
-        grid-template-columns: repeat(4, minmax(0, 1fr));
+        grid-template-columns: repeat(5, minmax(0, 1fr));
         gap: 12px;
         padding: 18px 0 26px;
       }
@@ -461,6 +488,18 @@ const gateSamplePage = `<!doctype html>
         display: block;
         margin: 4px 0 0;
         font-size: 1.1rem;
+      }
+
+      .badge {
+        display: inline-flex;
+        width: fit-content;
+        margin-bottom: 10px;
+        padding: 5px 8px;
+        border-radius: 6px;
+        background: #edf4f2;
+        color: #17211f;
+        font-size: 0.75rem;
+        font-weight: 800;
       }
 
       .missions {
@@ -532,6 +571,7 @@ const gateSamplePage = `<!doctype html>
     <main>
       <section class="summary" aria-label="Sample requirements">
         <div class="metric"><span>Primary gate</span><strong>${escapeHtml(payload.summary.primaryGateId ?? 'none')}</strong></div>
+        <div class="metric"><span>Fastest gate</span><strong>${escapeHtml(payload.summary.fastestGateId ?? 'none')}</strong></div>
         <div class="metric"><span>Prompt views needed</span><strong>${payload.summary.totalPromptViewsNeeded}</strong></div>
         <div class="metric"><span>Observed successes</span><strong>${payload.summary.totalObservedSuccessesNeeded}</strong></div>
         <div class="metric"><span>Cost</span><strong>$0.00</strong></div>

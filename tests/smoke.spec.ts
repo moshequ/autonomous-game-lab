@@ -2853,13 +2853,22 @@ test('zero-spend gate sample page is reachable and uses runtime-relative mission
       path: string
       missionCount: number
       primaryCampaignId: string
+      fastestCampaignId: string
       zeroPaidSpend: boolean
       playerInitiatedOnly: boolean
       noSyntheticEvents: boolean
     }
-    missions: Array<{ id: string; gateId: string; campaignId: string; title: string; playPath: string }>
+    missions: Array<{
+      id: string
+      gateId: string
+      campaignId: string
+      title: string
+      playPath: string
+      sampleRole: string
+    }>
   }
   const mission = samplePlan.missions[0]
+  const fastestMission = samplePlan.missions.find((item) => item.sampleRole.includes('fastest-validation'))
 
   await page.goto('/gate-sample.html')
 
@@ -2868,6 +2877,7 @@ test('zero-spend gate sample page is reachable and uses runtime-relative mission
   expect(samplePlan.publicSamplePage.path).toBe('/gate-sample.html')
   expect(samplePlan.publicSamplePage.missionCount).toBe(samplePlan.missions.length)
   expect(samplePlan.publicSamplePage.primaryCampaignId).toBe(mission.campaignId)
+  expect(samplePlan.publicSamplePage.fastestCampaignId).toBe(fastestMission?.campaignId)
   expect(samplePlan.publicSamplePage.zeroPaidSpend).toBe(true)
   expect(samplePlan.publicSamplePage.playerInitiatedOnly).toBe(true)
   expect(samplePlan.publicSamplePage.noSyntheticEvents).toBe(true)
@@ -2880,6 +2890,16 @@ test('zero-spend gate sample page is reachable and uses runtime-relative mission
     'href',
     `.${mission.playPath}`,
   )
+  expect(fastestMission).toBeTruthy()
+
+  if (fastestMission) {
+    const fastestCard = page.locator(`[data-mission-id="${fastestMission.id}"]`)
+    await expect(page.getByText('Fastest gate')).toBeVisible()
+    await expect(fastestCard).toContainText('Fastest validation')
+    await expect(fastestCard).toHaveAttribute('data-sample-role', /fastest-validation/)
+    await expect(fastestCard).toHaveAttribute('data-campaign-id', fastestMission.campaignId)
+  }
+
   expect(await page.content()).not.toContain('autonomous-game-lab.example.com')
 })
 

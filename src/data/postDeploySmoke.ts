@@ -1,5 +1,5 @@
 export const postDeploySmoke = {
-  "generatedAt": "2026-05-20T03:13:11.464Z",
+  "generatedAt": "2026-05-20T03:20:02.440Z",
   "status": "blocked-missing-origin",
   "envFiles": {
     "loaded": true,
@@ -54,8 +54,8 @@ export const postDeploySmoke = {
   "target": {
     "origin": null,
     "provider": "github-pages",
-    "candidateId": "pwa-cb30316d7e55",
-    "aggregateHash": "cb30316d7e5570f6ba937c35afb921a7faae2346fa53c759a77c0376217fb5a1"
+    "candidateId": "pwa-943dd5024c70",
+    "aggregateHash": "943dd5024c70a0cbe66642a396de8874ef231cb6bb84a3b319300588e61a0538"
   },
   "sourceStatus": {
     "deployment": "ready-for-pages",
@@ -179,7 +179,7 @@ export const postDeploySmoke = {
         "file": "dist/gate-sample.html",
         "expectedStatus": 200,
         "status": "pass",
-        "bytes": 6883,
+        "bytes": 7523,
         "textMatched": true,
         "detail": "Local production artifact matched required text."
       },
@@ -222,8 +222,8 @@ export const postDeploySmoke = {
         "bytes": 18168,
         "candidateMatches": true,
         "hashMatches": true,
-        "localCandidateId": "pwa-cb30316d7e55",
-        "localAggregateHash": "cb30316d7e5570f6ba937c35afb921a7faae2346fa53c759a77c0376217fb5a1",
+        "localCandidateId": "pwa-943dd5024c70",
+        "localAggregateHash": "943dd5024c70a0cbe66642a396de8874ef231cb6bb84a3b319300588e61a0538",
         "detail": "Local release manifest matches the release candidate."
       }
     ]
@@ -360,7 +360,7 @@ export const postDeploySmoke = {
       "path": "/release-candidate.json",
       "url": "${DEPLOYED_PWA_ORIGIN}/release-candidate.json",
       "expectedStatus": 200,
-      "requiredText": "pwa-cb30316d7e55",
+      "requiredText": "pwa-943dd5024c70",
       "status": "blocked",
       "detail": "No deployed origin configured."
     }
