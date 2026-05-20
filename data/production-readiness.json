@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-20T03:32:52.073Z",
+  "generatedAt": "2026-05-20T03:34:25.227Z",
   "environment": {
     "status": "production-env-missing",
     "publicOrigin": null,
@@ -75,85 +75,92 @@
         "originRemote": null,
         "remoteRepository": null,
         "hasCommit": true,
-        "dirtyFiles": 35,
+        "dirtyFiles": 39,
         "dirtyPaths": [
           "data/autonomous-operator-history.json",
           "data/autonomous-operator.json",
+          "data/autonomous-owner-loop.json",
           "data/deployment-plan.json",
+          "data/event-collector-deployment.json",
+          "data/event-collector-smoke.json",
+          "data/event-ingest-smoke.json",
+          "data/local-event-bridge.json",
+          "data/objective-audit.json",
           "data/performance-budget.json",
           "data/post-deploy-smoke.json",
-          "data/pwa-install-loop.json",
+          "data/production-readiness.json",
           "data/release-candidate.json",
+          "data/repository-bootstrap.json",
           "data/repository-readiness.json",
           "reports/autonomous-operator-history-latest.md",
           "reports/autonomous-operator-latest.md",
+          "reports/autonomous-owner-loop-latest.md",
           "reports/deployment-plan-latest.md",
+          "reports/event-collector-deployment-latest.md",
+          "reports/event-collector-smoke-latest.md",
+          "reports/event-ingest-smoke-latest.md",
+          "reports/local-event-bridge-latest.md",
+          "reports/objective-audit-latest.md",
           "reports/performance-budget-latest.md",
           "reports/post-deploy-smoke-latest.md",
-          "reports/pwa-install-loop-latest.md",
+          "reports/production-readiness-latest.md",
           "reports/release-candidate-latest.md",
+          "reports/repository-bootstrap-latest.md",
           "reports/repository-readiness-latest.md",
-          "scripts/autonomous-self-update.mjs",
-          "scripts/deployment-plan.mjs",
-          "scripts/production-readiness.mjs",
-          "scripts/pwa-install-loop.mjs",
-          "scripts/release-candidate.mjs",
-          "scripts/repository-bootstrap.mjs",
-          "scripts/repository-readiness.mjs",
-          "scripts/verify-autonomy.mjs",
-          "src/data/autonomousOperator.ts",
-          "src/data/autonomousOperatorHistory.ts",
           "src/data/deploymentPlan.ts",
+          "src/data/eventCollectorDeployment.ts",
+          "src/data/localEventBridge.ts",
+          "src/data/objectiveAudit.ts",
           "src/data/performanceBudget.ts",
           "src/data/postDeploySmoke.ts",
-          "src/data/pwaInstallLoop.ts",
           "src/data/releaseCandidate.ts",
-          "src/data/repositoryReadiness.ts",
-          "src/lib/analytics.ts",
-          "tests/smoke.spec.ts",
-          "public/install.html"
+          "src/data/repositoryBootstrap.ts",
+          "src/data/repositoryReadiness.ts"
         ],
-        "generatedEvidenceDirtyFiles": 25,
+        "generatedEvidenceDirtyFiles": 39,
         "generatedEvidenceDirtyPaths": [
           "data/autonomous-operator-history.json",
           "data/autonomous-operator.json",
+          "data/autonomous-owner-loop.json",
           "data/deployment-plan.json",
+          "data/event-collector-deployment.json",
+          "data/event-collector-smoke.json",
+          "data/event-ingest-smoke.json",
+          "data/local-event-bridge.json",
+          "data/objective-audit.json",
           "data/performance-budget.json",
           "data/post-deploy-smoke.json",
-          "data/pwa-install-loop.json",
+          "data/production-readiness.json",
           "data/release-candidate.json",
+          "data/repository-bootstrap.json",
           "data/repository-readiness.json",
           "reports/autonomous-operator-history-latest.md",
           "reports/autonomous-operator-latest.md",
+          "reports/autonomous-owner-loop-latest.md",
           "reports/deployment-plan-latest.md",
+          "reports/event-collector-deployment-latest.md",
+          "reports/event-collector-smoke-latest.md",
+          "reports/event-ingest-smoke-latest.md",
+          "reports/local-event-bridge-latest.md",
+          "reports/objective-audit-latest.md",
           "reports/performance-budget-latest.md",
           "reports/post-deploy-smoke-latest.md",
-          "reports/pwa-install-loop-latest.md",
+          "reports/production-readiness-latest.md",
           "reports/release-candidate-latest.md",
+          "reports/repository-bootstrap-latest.md",
           "reports/repository-readiness-latest.md",
-          "src/data/autonomousOperator.ts",
-          "src/data/autonomousOperatorHistory.ts",
           "src/data/deploymentPlan.ts",
+          "src/data/eventCollectorDeployment.ts",
+          "src/data/localEventBridge.ts",
+          "src/data/objectiveAudit.ts",
           "src/data/performanceBudget.ts",
           "src/data/postDeploySmoke.ts",
-          "src/data/pwaInstallLoop.ts",
           "src/data/releaseCandidate.ts",
-          "src/data/repositoryReadiness.ts",
-          "public/install.html"
+          "src/data/repositoryBootstrap.ts",
+          "src/data/repositoryReadiness.ts"
         ],
-        "nonGeneratedDirtyFiles": 10,
-        "nonGeneratedDirtyPaths": [
-          "scripts/autonomous-self-update.mjs",
-          "scripts/deployment-plan.mjs",
-          "scripts/production-readiness.mjs",
-          "scripts/pwa-install-loop.mjs",
-          "scripts/release-candidate.mjs",
-          "scripts/repository-bootstrap.mjs",
-          "scripts/repository-readiness.mjs",
-          "scripts/verify-autonomy.mjs",
-          "src/lib/analytics.ts",
-          "tests/smoke.spec.ts"
-        ]
+        "nonGeneratedDirtyFiles": 0,
+        "nonGeneratedDirtyPaths": []
       },
       "after": {
         "insideWorkTree": true,
@@ -162,85 +169,92 @@
         "originRemote": null,
         "remoteRepository": null,
         "hasCommit": true,
-        "dirtyFiles": 35,
+        "dirtyFiles": 39,
         "dirtyPaths": [
           "data/autonomous-operator-history.json",
           "data/autonomous-operator.json",
+          "data/autonomous-owner-loop.json",
           "data/deployment-plan.json",
+          "data/event-collector-deployment.json",
+          "data/event-collector-smoke.json",
+          "data/event-ingest-smoke.json",
+          "data/local-event-bridge.json",
+          "data/objective-audit.json",
           "data/performance-budget.json",
           "data/post-deploy-smoke.json",
-          "data/pwa-install-loop.json",
+          "data/production-readiness.json",
           "data/release-candidate.json",
+          "data/repository-bootstrap.json",
           "data/repository-readiness.json",
           "reports/autonomous-operator-history-latest.md",
           "reports/autonomous-operator-latest.md",
+          "reports/autonomous-owner-loop-latest.md",
           "reports/deployment-plan-latest.md",
+          "reports/event-collector-deployment-latest.md",
+          "reports/event-collector-smoke-latest.md",
+          "reports/event-ingest-smoke-latest.md",
+          "reports/local-event-bridge-latest.md",
+          "reports/objective-audit-latest.md",
           "reports/performance-budget-latest.md",
           "reports/post-deploy-smoke-latest.md",
-          "reports/pwa-install-loop-latest.md",
+          "reports/production-readiness-latest.md",
           "reports/release-candidate-latest.md",
+          "reports/repository-bootstrap-latest.md",
           "reports/repository-readiness-latest.md",
-          "scripts/autonomous-self-update.mjs",
-          "scripts/deployment-plan.mjs",
-          "scripts/production-readiness.mjs",
-          "scripts/pwa-install-loop.mjs",
-          "scripts/release-candidate.mjs",
-          "scripts/repository-bootstrap.mjs",
-          "scripts/repository-readiness.mjs",
-          "scripts/verify-autonomy.mjs",
-          "src/data/autonomousOperator.ts",
-          "src/data/autonomousOperatorHistory.ts",
           "src/data/deploymentPlan.ts",
+          "src/data/eventCollectorDeployment.ts",
+          "src/data/localEventBridge.ts",
+          "src/data/objectiveAudit.ts",
           "src/data/performanceBudget.ts",
           "src/data/postDeploySmoke.ts",
-          "src/data/pwaInstallLoop.ts",
           "src/data/releaseCandidate.ts",
-          "src/data/repositoryReadiness.ts",
-          "src/lib/analytics.ts",
-          "tests/smoke.spec.ts",
-          "public/install.html"
+          "src/data/repositoryBootstrap.ts",
+          "src/data/repositoryReadiness.ts"
         ],
-        "generatedEvidenceDirtyFiles": 25,
+        "generatedEvidenceDirtyFiles": 39,
         "generatedEvidenceDirtyPaths": [
           "data/autonomous-operator-history.json",
           "data/autonomous-operator.json",
+          "data/autonomous-owner-loop.json",
           "data/deployment-plan.json",
+          "data/event-collector-deployment.json",
+          "data/event-collector-smoke.json",
+          "data/event-ingest-smoke.json",
+          "data/local-event-bridge.json",
+          "data/objective-audit.json",
           "data/performance-budget.json",
           "data/post-deploy-smoke.json",
-          "data/pwa-install-loop.json",
+          "data/production-readiness.json",
           "data/release-candidate.json",
+          "data/repository-bootstrap.json",
           "data/repository-readiness.json",
           "reports/autonomous-operator-history-latest.md",
           "reports/autonomous-operator-latest.md",
+          "reports/autonomous-owner-loop-latest.md",
           "reports/deployment-plan-latest.md",
+          "reports/event-collector-deployment-latest.md",
+          "reports/event-collector-smoke-latest.md",
+          "reports/event-ingest-smoke-latest.md",
+          "reports/local-event-bridge-latest.md",
+          "reports/objective-audit-latest.md",
           "reports/performance-budget-latest.md",
           "reports/post-deploy-smoke-latest.md",
-          "reports/pwa-install-loop-latest.md",
+          "reports/production-readiness-latest.md",
           "reports/release-candidate-latest.md",
+          "reports/repository-bootstrap-latest.md",
           "reports/repository-readiness-latest.md",
-          "src/data/autonomousOperator.ts",
-          "src/data/autonomousOperatorHistory.ts",
           "src/data/deploymentPlan.ts",
+          "src/data/eventCollectorDeployment.ts",
+          "src/data/localEventBridge.ts",
+          "src/data/objectiveAudit.ts",
           "src/data/performanceBudget.ts",
           "src/data/postDeploySmoke.ts",
-          "src/data/pwaInstallLoop.ts",
           "src/data/releaseCandidate.ts",
-          "src/data/repositoryReadiness.ts",
-          "public/install.html"
+          "src/data/repositoryBootstrap.ts",
+          "src/data/repositoryReadiness.ts"
         ],
-        "nonGeneratedDirtyFiles": 10,
-        "nonGeneratedDirtyPaths": [
-          "scripts/autonomous-self-update.mjs",
-          "scripts/deployment-plan.mjs",
-          "scripts/production-readiness.mjs",
-          "scripts/pwa-install-loop.mjs",
-          "scripts/release-candidate.mjs",
-          "scripts/repository-bootstrap.mjs",
-          "scripts/repository-readiness.mjs",
-          "scripts/verify-autonomy.mjs",
-          "src/lib/analytics.ts",
-          "tests/smoke.spec.ts"
-        ]
+        "nonGeneratedDirtyFiles": 0,
+        "nonGeneratedDirtyPaths": []
       }
     },
     "repository": {
@@ -325,13 +339,13 @@
       },
       {
         "id": "commit-current-snapshot",
-        "status": "ready-for-explicit-snapshot-commit",
+        "status": "ready",
         "costUsd": 0,
         "command": "AGL_ALLOW_REPOSITORY_BOOTSTRAP=1 AGL_ALLOW_SNAPSHOT_COMMIT=1 ./ops/github/bootstrap-repository.sh",
         "mutatesLocalGit": true,
         "mutatesRemoteGitHub": false,
         "requiresExplicitEnv": true,
-        "detail": "10 non-generated source or artifact file(s) are not committed yet."
+        "detail": "39 repository evidence file(s) changed during this dry run; the outer verified commit will persist them."
       },
       {
         "id": "set-or-create-origin",
@@ -361,11 +375,10 @@
         "mutatesLocalGit": false,
         "mutatesRemoteGitHub": true,
         "requiresExplicitEnv": true,
-        "detail": "Push stays held until a committed local snapshot and origin remote exist."
+        "detail": "Push stays held until an origin remote exists and AGL_ALLOW_PUSH=1 is set."
       }
     ],
     "blockers": [
-      "Commit current generated changes before pushing to GitHub Pages.",
       "Set GITHUB_REPOSITORY/GH_REPO, AGL_GITHUB_OWNER, or authenticate gh so the intended owner/repo can be inferred.",
       "Attach a GitHub origin remote or create the target repository.",
       "Authenticate GitHub CLI or provide GH_TOKEN/GITHUB_TOKEN for remote repository bootstrap."
@@ -469,7 +482,7 @@
       {
         "id": "performance-budget",
         "status": "pass",
-        "detail": "Performance budget is performance-budget-ready; initial JS 658.1 KB / 175.4 KB gzip; deferred game chunk GameCanvas-DWqg25hT.js."
+        "detail": "Performance budget is performance-budget-ready; initial JS 658.2 KB / 175.4 KB gzip; deferred game chunk GameCanvas-sTJM-SPj.js."
       },
       {
         "id": "release-candidate",
@@ -961,20 +974,20 @@
     },
     "initial": {
       "entryScripts": [
-        "index-BPkv2vpc.js",
+        "index-CilffzVr.js",
         "registerSW.js"
       ],
       "scriptPaths": [
-        "assets/index-BPkv2vpc.js",
+        "assets/index-CilffzVr.js",
         "registerSW.js"
       ],
       "jsFiles": [
         {
-          "file": "index-BPkv2vpc.js",
-          "path": "assets/index-BPkv2vpc.js",
-          "bytes": 673757,
-          "kb": 658,
-          "gzipBytes": 179461,
+          "file": "index-CilffzVr.js",
+          "path": "assets/index-CilffzVr.js",
+          "bytes": 673869,
+          "kb": 658.1,
+          "gzipBytes": 179499,
           "gzipKb": 175.3
         },
         {
@@ -986,9 +999,9 @@
           "gzipKb": 0.1
         }
       ],
-      "jsBytes": 673891,
-      "jsKb": 658.1,
-      "gzipBytes": 179587,
+      "jsBytes": 674003,
+      "jsKb": 658.2,
+      "gzipBytes": 179625,
       "gzipKb": 175.4,
       "cssFiles": [
         {
@@ -1008,8 +1021,8 @@
     "deferred": {
       "chunks": [
         {
-          "file": "GameCanvas-DWqg25hT.js",
-          "path": "assets/GameCanvas-DWqg25hT.js",
+          "file": "GameCanvas-sTJM-SPj.js",
+          "path": "assets/GameCanvas-sTJM-SPj.js",
           "bytes": 1393468,
           "kb": 1360.8,
           "gzipBytes": 356094,
@@ -1017,24 +1030,24 @@
         }
       ],
       "gameChunk": {
-        "file": "GameCanvas-DWqg25hT.js",
-        "path": "assets/GameCanvas-DWqg25hT.js",
+        "file": "GameCanvas-sTJM-SPj.js",
+        "path": "assets/GameCanvas-sTJM-SPj.js",
         "bytes": 1393468,
         "kb": 1360.8,
         "gzipBytes": 356094,
         "gzipKb": 347.7
       },
       "largestDeferredChunk": {
-        "file": "GameCanvas-DWqg25hT.js",
-        "path": "assets/GameCanvas-DWqg25hT.js",
+        "file": "GameCanvas-sTJM-SPj.js",
+        "path": "assets/GameCanvas-sTJM-SPj.js",
         "bytes": 1393468,
         "kb": 1360.8,
         "gzipBytes": 356094,
         "gzipKb": 347.7
       },
       "largestJsChunk": {
-        "file": "GameCanvas-DWqg25hT.js",
-        "path": "assets/GameCanvas-DWqg25hT.js",
+        "file": "GameCanvas-sTJM-SPj.js",
+        "path": "assets/GameCanvas-sTJM-SPj.js",
         "bytes": 1393468,
         "kb": 1360.8,
         "gzipBytes": 356094,
@@ -1055,7 +1068,7 @@
       {
         "id": "initial-js-budget",
         "status": "pass",
-        "detail": "Initial JS is 658.1 KB; budget is 675 KB."
+        "detail": "Initial JS is 658.2 KB; budget is 675 KB."
       },
       {
         "id": "initial-js-gzip-budget",
@@ -1080,12 +1093,12 @@
       {
         "id": "game-runtime-deferred",
         "status": "pass",
-        "detail": "GameCanvas-DWqg25hT.js is deferred from the initial shell."
+        "detail": "GameCanvas-sTJM-SPj.js is deferred from the initial shell."
       },
       {
         "id": "largest-js-deferred",
         "status": "pass",
-        "detail": "Largest JS chunk is GameCanvas-DWqg25hT.js at 1360.8 KB."
+        "detail": "Largest JS chunk is GameCanvas-sTJM-SPj.js at 1360.8 KB."
       },
       {
         "id": "deferred-game-budget",
@@ -1096,7 +1109,7 @@
   },
   "releaseCandidate": {
     "status": "release-candidate-ready",
-    "candidateId": "pwa-85b35fefb474",
+    "candidateId": "pwa-6d354e77d7b7",
     "target": {
       "provider": "github-pages",
       "artifactPath": "dist",
@@ -1107,8 +1120,8 @@
     },
     "summary": {
       "totalFiles": 43,
-      "totalBytes": 3681391,
-      "totalKb": 3595.1,
+      "totalBytes": 3681503,
+      "totalKb": 3595.2,
       "assetFiles": 3,
       "htmlFiles": 16,
       "gamePages": 10,
@@ -1117,7 +1130,7 @@
     },
     "integrity": {
       "algorithm": "sha256",
-      "aggregateHash": "85b35fefb474307b973fe5a66a8355e5fcfd65aa69c156f12d34dfd97880e2eb",
+      "aggregateHash": "6d354e77d7b7ba059de9875c7ab37cda1caa1c70071a876c648c8acb2aa5ee54",
       "requiredFileChecks": [
         {
           "path": "index.html",
@@ -1350,8 +1363,8 @@
     "target": {
       "origin": null,
       "provider": "github-pages",
-      "candidateId": "pwa-85b35fefb474",
-      "aggregateHash": "85b35fefb474307b973fe5a66a8355e5fcfd65aa69c156f12d34dfd97880e2eb"
+      "candidateId": "pwa-6d354e77d7b7",
+      "aggregateHash": "6d354e77d7b7ba059de9875c7ab37cda1caa1c70071a876c648c8acb2aa5ee54"
     },
     "sourceStatus": {
       "deployment": "ready-for-pages",
@@ -1528,8 +1541,8 @@
           "bytes": 18683,
           "candidateMatches": true,
           "hashMatches": true,
-          "localCandidateId": "pwa-85b35fefb474",
-          "localAggregateHash": "85b35fefb474307b973fe5a66a8355e5fcfd65aa69c156f12d34dfd97880e2eb",
+          "localCandidateId": "pwa-6d354e77d7b7",
+          "localAggregateHash": "6d354e77d7b7ba059de9875c7ab37cda1caa1c70071a876c648c8acb2aa5ee54",
           "detail": "Local release manifest matches the release candidate."
         }
       ]
@@ -1675,7 +1688,7 @@
         "path": "/release-candidate.json",
         "url": "${DEPLOYED_PWA_ORIGIN}/release-candidate.json",
         "expectedStatus": 200,
-        "requiredText": "pwa-85b35fefb474",
+        "requiredText": "pwa-6d354e77d7b7",
         "status": "blocked",
         "detail": "No deployed origin configured."
       }
@@ -3339,7 +3352,7 @@
       "met": 5,
       "prepared": 2,
       "incomplete": 1,
-      "externalBlockers": 20,
+      "externalBlockers": 19,
       "productBlockers": 6
     },
     "controls": {
@@ -3446,7 +3459,6 @@
         "blockers": [
           "Add a GitHub origin remote, set GITHUB_REPOSITORY/GH_REPO, set AGL_GITHUB_OWNER, or authenticate gh to infer the target repository.",
           "Authenticate GitHub CLI or configure GH_TOKEN/GITHUB_TOKEN for workflow dispatch and repository settings sync.",
-          "Commit current generated changes before pushing to GitHub Pages.",
           "Set GITHUB_REPOSITORY/GH_REPO, AGL_GITHUB_OWNER, or authenticate gh so the intended owner/repo can be inferred.",
           "Attach a GitHub origin remote or create the target repository.",
           "Authenticate GitHub CLI or provide GH_TOKEN/GITHUB_TOKEN for remote repository bootstrap.",

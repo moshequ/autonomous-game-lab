@@ -1,6 +1,6 @@
 # Local Event Bridge
 
-Generated: 2026-05-20T03:32:59.982Z
+Generated: 2026-05-20T03:34:32.373Z
 Status: bridge-waiting-for-export
 Mode: local-zero-spend-event-drop-bridge
 
