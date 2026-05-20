@@ -799,6 +799,7 @@ test('post-deploy smoke runner is wired to the release manifest and Pages workfl
   expect(packageJson.scripts['autonomous:post-deploy-smoke']).toBe('node scripts/post-deploy-smoke.mjs')
   expect(packageJson.scripts['autonomous:daily']).toContain('autonomous:post-deploy-smoke')
   expect(workflow).toContain('npm run autonomous:operate')
+  expect(workflow).toContain('actions/upload-pages-artifact@v5')
   expect(workflow).toContain('include-hidden-files: true')
   expect(workflow).toContain('AGL_DEPLOYED_PWA_ORIGIN')
   expect(workflow).toContain('npm run autonomous:post-deploy-smoke -- --assert')
