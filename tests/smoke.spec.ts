@@ -2078,6 +2078,13 @@ test('autonomous operator history keeps a capped audit trail', async ({ page }) 
       recentlySatisfiedActionIds: string[]
       skippedRecentlyExecutedActionIds: string[]
       skippedRecentlySatisfiedActionIds: string[]
+      objectiveAuditFreshness: {
+        fresh: boolean
+        structurallyReady: boolean
+        auditGeneratedAt: string | null
+        evaluatedInputIds: string[]
+        staleInputIds: string[]
+      }
       gateSampleDownloadsBackoff: {
         enabled: boolean
         cooldownHours: number
@@ -2152,6 +2159,7 @@ test('autonomous operator history keeps a capped audit trail', async ({ page }) 
   const collectGateSampleAction = ownerLoop.safeAutonomousActions.find((action) => action.id === 'collect-gate-sample-downloads')
   const refreshSamplePlanAction = ownerLoop.safeAutonomousActions.find((action) => action.id === 'refresh-product-gate-sample-plan')
   const prepareRepositoryAction = ownerLoop.safeAutonomousActions.find((action) => action.id === 'prepare-repository-channel')
+  const objectiveAuditAction = ownerLoop.safeAutonomousActions.find((action) => action.id === 'refresh-objective-audit')
 
   expect(history.status).toBe('operator-history-ready')
   expect(history.retention.maxRecords).toBe(40)
@@ -2180,6 +2188,14 @@ test('autonomous operator history keeps a capped audit trail', async ({ page }) 
     localEventBridge.explicitDownloadsScan?.status ?? null,
   )
   expect(ownerLoop.executionMemory.gateSampleDownloadsBackoff.evidenceReadyNow).toBe(gateSampleEvidenceReadyNow)
+  expect(typeof ownerLoop.executionMemory.objectiveAuditFreshness.fresh).toBe('boolean')
+  expect(ownerLoop.executionMemory.objectiveAuditFreshness.evaluatedInputIds).toContain('analytics-rollup')
+  expect(ownerLoop.executionMemory.objectiveAuditFreshness.evaluatedInputIds).toContain('local-event-bridge')
+  expect(ownerLoop.executionMemory.objectiveAuditFreshness.evaluatedInputIds).toContain('production-activation')
+  if (ownerLoop.executionMemory.objectiveAuditFreshness.fresh && hasExecutableAlternativeOutsideCovered) {
+    expect(objectiveAuditAction?.status).toBe('monitor')
+    expect(ownerLoop.ownerDecision.nextBestActionId).not.toBe('refresh-objective-audit')
+  }
   expect(ownerLoop.executionMemory.repositoryHandoff.targetPlanReady).toBe(true)
   expect(ownerLoop.executionMemory.repositoryHandoff.plannedTarget).toContain('/')
   if (ownerLoop.executionMemory.repositoryHandoff.prepared) {

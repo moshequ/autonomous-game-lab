@@ -19,6 +19,11 @@ const systemStatus = (condition, fallback = 'needs-attention') => (condition ? '
 
 const configuredCount = (items = []) => items.filter((item) => item.configured).length
 
+const generatedAtMs = (artifact) => {
+  const value = Date.parse(artifact?.generatedAt ?? '')
+  return Number.isFinite(value) ? value : null
+}
+
 const productionEnvironment = await readJson(path.join(dataDir, 'production-environment.json'))
 const playable = await readJson(path.join(dataDir, 'playable-games.json'))
 const generatedPlayable = await readJson(path.join(dataDir, 'generated-playable-games.json'))
@@ -902,6 +907,33 @@ const gateSampleCollectionTargets = [
   productGateSamplePlan.summary?.primaryGateId ?? productGateRecovery.summary?.primaryBottleneck ?? 'product-gates',
   ...gateSampleMissions.map((mission) => mission.campaignId).filter(Boolean).slice(0, 2),
 ]
+const objectiveAuditFreshnessInputs = [
+  { id: 'analytics-rollup', generatedAt: analytics.generatedAt },
+  { id: 'event-ingest', generatedAt: eventIngest.generatedAt },
+  { id: 'local-event-bridge', generatedAt: localEventBridge.generatedAt },
+  { id: 'product-gate-recovery', generatedAt: productGateRecovery.generatedAt },
+  { id: 'product-gate-sample-plan', generatedAt: productGateSamplePlan.generatedAt },
+  { id: 'production-activation', generatedAt: productionActivation.generatedAt },
+  { id: 'repository-readiness', generatedAt: repositoryReadiness.generatedAt },
+  { id: 'repository-bootstrap', generatedAt: repositoryBootstrap.generatedAt },
+  { id: 'monetization-plan', generatedAt: monetization.generatedAt },
+  { id: 'android-release', generatedAt: androidRelease.generatedAt },
+]
+const objectiveAuditGeneratedAtMs = generatedAtMs(objectiveAudit)
+const objectiveAuditStaleInputs = objectiveAuditFreshnessInputs.filter((artifact) => {
+  const artifactGeneratedAtMs = generatedAtMs(artifact)
+
+  return (
+    typeof artifactGeneratedAtMs === 'number' &&
+    (typeof objectiveAuditGeneratedAtMs !== 'number' || artifactGeneratedAtMs > objectiveAuditGeneratedAtMs)
+  )
+})
+const objectiveAuditStructurallyReady =
+  objectiveAudit.status === 'objective-in-progress' &&
+  objectiveAudit.controls?.preserveOriginalScope === true &&
+  objectiveAudit.completion?.canMarkGoalComplete === false &&
+  (objectiveAudit.requirements?.length ?? 0) >= 8
+const objectiveAuditFresh = objectiveAuditStructurallyReady && objectiveAuditStaleInputs.length === 0
 
 const safeAutonomousActions = [
   {
@@ -1110,11 +1142,13 @@ const safeAutonomousActions = [
   },
   {
     id: 'refresh-objective-audit',
-    status: objectiveAudit.status === 'objective-in-progress' ? 'armed' : 'monitor',
+    status: objectiveAuditFresh ? 'monitor' : 'armed',
     costUsd: 0,
     command: 'npm run autonomous:objective-audit',
     targets: ['objective-evidence', 'production-blockers'],
-    reason: 'Keeps the original objective mapped to current evidence and prevents false completion claims.',
+    reason: objectiveAuditFresh
+      ? 'Objective audit already covers the current upstream evidence; keep it monitored while product and data actions run.'
+      : 'Keeps the original objective mapped to current evidence and prevents false completion claims.',
   },
   {
     id: 'optimize-store-listing',
@@ -1232,10 +1266,16 @@ const preferredActionOrder = [
   'optimize-product-gates',
   'collect-gate-sample-downloads',
   'collect-live-events',
+  'refresh-organic-seed-loop',
   'refresh-product-gate-sample-plan',
   'refresh-product-gate-recovery',
+  'refresh-first-move-coach',
+  'refresh-completion-loop',
+  'refresh-replay-loop',
   'optimize-daily-retention',
   'measure-pwa-install-loop',
+  'apply-safe-improvements',
+  'optimize-store-listing',
   'refresh-autonomous-cadence',
   'refresh-autonomous-self-update',
   'refresh-objective-audit',
@@ -1283,6 +1323,13 @@ const payload = {
     lastExecutedStatus: lastExecutedRecord?.execution?.status ?? null,
     lastRecordExecutionStatus: autonomousOperatorHistory.summary?.lastExecutionStatus ?? null,
     recentlySatisfiedActionIds,
+    objectiveAuditFreshness: {
+      fresh: objectiveAuditFresh,
+      structurallyReady: objectiveAuditStructurallyReady,
+      auditGeneratedAt: objectiveAudit.generatedAt ?? null,
+      evaluatedInputIds: objectiveAuditFreshnessInputs.map((artifact) => artifact.id),
+      staleInputIds: objectiveAuditStaleInputs.map((artifact) => artifact.id),
+    },
     gateSampleDownloadsBackoff: {
       enabled: true,
       cooldownHours: gateSampleDownloadsBackoffHours,

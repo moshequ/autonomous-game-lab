@@ -4177,6 +4177,44 @@ const ownerRefreshSamplePlanAction = autonomousOwnerLoop.safeAutonomousActions?.
 const ownerPrepareRepositoryAction = autonomousOwnerLoop.safeAutonomousActions?.find(
   (action) => action.id === 'prepare-repository-channel',
 )
+const ownerObjectiveAuditAction = autonomousOwnerLoop.safeAutonomousActions?.find(
+  (action) => action.id === 'refresh-objective-audit',
+)
+const ownerGeneratedAtMs = (artifact) => {
+  const value = Date.parse(artifact?.generatedAt ?? '')
+  return Number.isFinite(value) ? value : null
+}
+const ownerObjectiveAuditInputs = [
+  { id: 'analytics-rollup', generatedAt: analytics.generatedAt },
+  { id: 'event-ingest', generatedAt: eventIngest.generatedAt },
+  { id: 'local-event-bridge', generatedAt: localEventBridge.generatedAt },
+  { id: 'product-gate-recovery', generatedAt: productGateRecovery.generatedAt },
+  { id: 'product-gate-sample-plan', generatedAt: productGateSamplePlan.generatedAt },
+  { id: 'production-activation', generatedAt: productionActivation.generatedAt },
+  { id: 'repository-readiness', generatedAt: repositoryReadiness.generatedAt },
+  { id: 'repository-bootstrap', generatedAt: repositoryBootstrap.generatedAt },
+  { id: 'monetization-plan', generatedAt: monetizationPlan.generatedAt },
+  { id: 'android-release', generatedAt: androidRelease.generatedAt },
+]
+const ownerObjectiveAuditGeneratedAtMs = ownerGeneratedAtMs(objectiveAudit)
+const ownerObjectiveAuditStaleInputIds = ownerObjectiveAuditInputs
+  .filter((artifact) => {
+    const artifactGeneratedAtMs = ownerGeneratedAtMs(artifact)
+
+    return (
+      typeof artifactGeneratedAtMs === 'number' &&
+      (typeof ownerObjectiveAuditGeneratedAtMs !== 'number' ||
+        artifactGeneratedAtMs > ownerObjectiveAuditGeneratedAtMs)
+    )
+  })
+  .map((artifact) => artifact.id)
+const ownerObjectiveAuditStructurallyReady =
+  objectiveAudit.status === 'objective-in-progress' &&
+  objectiveAudit.controls?.preserveOriginalScope === true &&
+  objectiveAudit.completion?.canMarkGoalComplete === false &&
+  (objectiveAudit.requirements?.length ?? 0) >= 8
+const ownerObjectiveAuditFresh =
+  ownerObjectiveAuditStructurallyReady && ownerObjectiveAuditStaleInputIds.length === 0
 const ownerRepositoryTargetPlan = repositoryReadiness.repositoryTargetPlan ?? repositoryBootstrap.repositoryTargetPlan ?? null
 const ownerRepositoryTargetPlanReady =
   typeof ownerRepositoryTargetPlan?.plannedTarget === 'string' &&
@@ -4266,10 +4304,20 @@ if (
   ownerGateSampleBackoff?.evidenceReadyNow !== ownerGateSampleEvidenceReadyNow ||
   !autonomousOwnerLoopSource.includes('gateSampleDownloadsBackoff') ||
   !autonomousOwnerLoopSource.includes('productionActivationRunnable') ||
+  !autonomousOwnerLoopSource.includes('objectiveAuditFreshness') ||
   JSON.stringify(autonomousOwnerLoop.executionMemory?.recentExecutedActionIds ?? []) !==
     JSON.stringify(ownerRecentExecutedActionIds) ||
   JSON.stringify(autonomousOwnerLoop.executionMemory?.recentlySatisfiedActionIds ?? []) !==
     JSON.stringify(ownerRecentlySatisfiedActionIds) ||
+  autonomousOwnerLoop.executionMemory?.objectiveAuditFreshness?.fresh !== ownerObjectiveAuditFresh ||
+  autonomousOwnerLoop.executionMemory?.objectiveAuditFreshness?.structurallyReady !==
+    ownerObjectiveAuditStructurallyReady ||
+  autonomousOwnerLoop.executionMemory?.objectiveAuditFreshness?.auditGeneratedAt !==
+    (objectiveAudit.generatedAt ?? null) ||
+  JSON.stringify(autonomousOwnerLoop.executionMemory?.objectiveAuditFreshness?.evaluatedInputIds ?? []) !==
+    JSON.stringify(ownerObjectiveAuditInputs.map((artifact) => artifact.id)) ||
+  JSON.stringify(autonomousOwnerLoop.executionMemory?.objectiveAuditFreshness?.staleInputIds ?? []) !==
+    JSON.stringify(ownerObjectiveAuditStaleInputIds) ||
   autonomousOwnerLoop.executionMemory?.repositoryHandoff?.prepared !== ownerRepositoryHandoffPrepared ||
   autonomousOwnerLoop.executionMemory?.repositoryHandoff?.targetPlanReady !== ownerRepositoryTargetPlanReady ||
   autonomousOwnerLoop.executionMemory?.repositoryHandoff?.plannedTarget !==
@@ -4309,7 +4357,11 @@ if (
     ownerRefreshSamplePlanAction?.status !== 'monitor') ||
   (ownerGateSampleDownloadsCoolingDown &&
     ownerProductGateSamplePlanFreshAfterDownloadsScan &&
-    autonomousOwnerLoop.ownerDecision?.nextBestActionId === 'refresh-product-gate-sample-plan')
+    autonomousOwnerLoop.ownerDecision?.nextBestActionId === 'refresh-product-gate-sample-plan') ||
+  (ownerObjectiveAuditFresh && ownerObjectiveAuditAction?.status !== 'monitor') ||
+  (ownerObjectiveAuditFresh &&
+    ownerHasExecutableAlternativeOutsideCovered &&
+    autonomousOwnerLoop.ownerDecision?.nextBestActionId === 'refresh-objective-audit')
 ) {
   fail('Autonomous owner loop must synthesize current production state, safe actions, and credential-gated blockers.')
 }
