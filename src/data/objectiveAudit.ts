@@ -1,5 +1,5 @@
 export const objectiveAudit = {
-  "generatedAt": "2026-05-20T02:35:04.408Z",
+  "generatedAt": "2026-05-20T02:37:06.506Z",
   "status": "objective-in-progress",
   "objective": "Build a bootstrapped autonomous web/PWA game portal that can generate original board-game-inspired games, measure user behavior, propose and apply data-driven improvements, and prepare a path to monetization and app-store distribution with minimal manual intervention.",
   "summary": {
@@ -102,7 +102,6 @@ export const objectiveAudit = {
       "blockers": [
         "Add a GitHub origin remote, set GITHUB_REPOSITORY/GH_REPO, set AGL_GITHUB_OWNER, or authenticate gh to infer the target repository.",
         "Authenticate GitHub CLI or configure GH_TOKEN/GITHUB_TOKEN for workflow dispatch and repository settings sync.",
-        "Commit current generated changes before pushing to GitHub Pages.",
         "Set GITHUB_REPOSITORY/GH_REPO, AGL_GITHUB_OWNER, or authenticate gh so the intended owner/repo can be inferred.",
         "Attach a GitHub origin remote or create the target repository.",
         "Authenticate GitHub CLI or provide GH_TOKEN/GITHUB_TOKEN for remote repository bootstrap.",
@@ -191,7 +190,6 @@ export const objectiveAudit = {
     "external": [
       "Add a GitHub origin remote, set GITHUB_REPOSITORY/GH_REPO, set AGL_GITHUB_OWNER, or authenticate gh to infer the target repository.",
       "Authenticate GitHub CLI or configure GH_TOKEN/GITHUB_TOKEN for workflow dispatch and repository settings sync.",
-      "Commit current generated changes before pushing to GitHub Pages.",
       "Set GITHUB_REPOSITORY/GH_REPO, AGL_GITHUB_OWNER, or authenticate gh so the intended owner/repo can be inferred.",
       "Attach a GitHub origin remote or create the target repository.",
       "Authenticate GitHub CLI or provide GH_TOKEN/GITHUB_TOKEN for remote repository bootstrap.",
@@ -208,6 +206,7 @@ export const objectiveAudit = {
       "apple-developer-account: Apple Developer account remains deferred until iOS spend is justified.",
       "google-play-account: Google Play account is not connected.",
       "play-service-account: Google Play service account upload credentials are available to CI.",
+      "Commit current generated changes before pushing to GitHub Pages.",
       "Collector environment is not configured."
     ],
     "product": [
@@ -221,7 +220,6 @@ export const objectiveAudit = {
     "all": [
       "Add a GitHub origin remote, set GITHUB_REPOSITORY/GH_REPO, set AGL_GITHUB_OWNER, or authenticate gh to infer the target repository.",
       "Authenticate GitHub CLI or configure GH_TOKEN/GITHUB_TOKEN for workflow dispatch and repository settings sync.",
-      "Commit current generated changes before pushing to GitHub Pages.",
       "Set GITHUB_REPOSITORY/GH_REPO, AGL_GITHUB_OWNER, or authenticate gh so the intended owner/repo can be inferred.",
       "Attach a GitHub origin remote or create the target repository.",
       "Authenticate GitHub CLI or provide GH_TOKEN/GITHUB_TOKEN for remote repository bootstrap.",
@@ -245,6 +243,7 @@ export const objectiveAudit = {
       "play-service-account: Google Play service account upload credentials are available to CI.",
       "unit-economics-store-spend: Store spend allowed is false; spend mode is no-spend.",
       "promotion-gate: Android promotion status is blocked.",
+      "Commit current generated changes before pushing to GitHub Pages.",
       "Collector environment is not configured."
     ]
   },
