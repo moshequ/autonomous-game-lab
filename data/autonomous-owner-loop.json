@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2026-05-20T22:27:35.061Z",
+  "generatedAt": "2026-05-20T22:30:13.717Z",
   "status": "owner-loop-ready",
-  "mode": "zero-spend-web-ready",
+  "mode": "repository-channel-needed",
   "autonomyScore": {
-    "readySystems": 39,
+    "readySystems": 38,
     "totalSystems": 42,
-    "percent": 93
+    "percent": 90
   },
   "controls": {
     "localLoopCanRunWithoutExternalAccounts": true,
@@ -21,10 +21,10 @@
     "repositoryHandoffPrepared": false
   },
   "ownerDecision": {
-    "nextBestActionId": "refresh-support-feedback",
-    "nextBestAction": "npm run autonomous:support-feedback",
+    "nextBestActionId": "prepare-repository-channel",
+    "nextBestAction": "npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap",
     "canExecuteWithoutSpend": true,
-    "rationale": "Reads public GitHub issue intake and turns player reports into redacted improvement signals."
+    "rationale": "Surfaces and prepares the missing git/GitHub deployment-channel blockers before web deploy."
   },
   "executionMemory": {
     "avoidImmediateRepeat": true,
@@ -50,7 +50,7 @@
     "objectiveAuditFreshness": {
       "fresh": true,
       "structurallyReady": true,
-      "auditGeneratedAt": "2026-05-20T22:27:34.814Z",
+      "auditGeneratedAt": "2026-05-20T22:30:13.462Z",
       "evaluatedInputIds": [
         "analytics-rollup",
         "event-ingest",
@@ -225,6 +225,7 @@
     },
     "skippedRecentlyExecutedActionIds": [
       "refresh-autonomous-cadence",
+      "refresh-autonomous-self-update",
       "optimize-daily-retention",
       "measure-pwa-install-loop",
       "optimize-store-listing",
@@ -261,11 +262,11 @@
       "prepared": false,
       "targetPlanReady": true,
       "plannedTarget": "moshequ/autonomous-game-lab",
-      "status": "repository-channel-ready"
+      "status": "needs-local-repository-handoff"
     },
     "productionBootstrapFreshness": {
       "fresh": true,
-      "bootstrapGeneratedAt": "2026-05-20T22:24:19.086Z",
+      "bootstrapGeneratedAt": "2026-05-20T22:30:12.780Z",
       "evaluatedInputIds": [
         "release-candidate",
         "deployment-plan",
@@ -329,10 +330,10 @@
     },
     {
       "id": "autonomous-self-update",
-      "status": "needs-self-update-evidence",
+      "status": "ready",
       "autonomy": "gated-generated-change-persistence",
-      "evidence": "Self-update self-update-needs-attention; safe pending 64; unsafe pending 5; remote push held.",
-      "nextAction": "Fix self-update workflow or allowlist blockers before enabling autonomous persistence."
+      "evidence": "Self-update self-update-ready; safe pending 0; unsafe pending 0; remote push held.",
+      "nextAction": "When a GitHub repository is connected, set AGL_AUTONOMOUS_SELF_UPDATE=1 and AGL_AUTONOMOUS_SELF_UPDATE_DIRECT=1 to let verified generated changes persist."
     },
     {
       "id": "portfolio-loop",
@@ -380,7 +381,7 @@
       "id": "performance-budget",
       "status": "ready",
       "autonomy": "automatic-build-budget",
-      "evidence": "Initial JS 649 KB; gzip 177.8 KB; deferred chunks 1.",
+      "evidence": "Initial JS 649.2 KB; gzip 177.8 KB; deferred chunks 1.",
       "nextAction": "Keep Phaser and game scenes outside the initial PWA shell."
     },
     {
@@ -448,10 +449,10 @@
     },
     {
       "id": "repository-channel",
-      "status": "ready",
-      "autonomy": "workflow-dispatch-ready",
-      "evidence": "Repository moshequ/autonomous-game-lab; git worktree ready; workflow dispatch ready.",
-      "nextAction": "Use production bootstrap to sync configured repository variables/secrets, then dispatch the Web PWA Deploy workflow."
+      "status": "waiting-for-repository-channel",
+      "autonomy": "read-only-repository-preflight",
+      "evidence": "Repository moshequ/autonomous-game-lab; git worktree ready; workflow dispatch blocked.",
+      "nextAction": "Prepare the GitHub repository channel before treating the web deploy as runnable."
     },
     {
       "id": "repository-bootstrap",
@@ -476,7 +477,7 @@
     },
     {
       "id": "post-deploy-smoke",
-      "status": "ready",
+      "status": "waiting-for-origin",
       "autonomy": "read-only-live-deploy-verification",
       "evidence": "Smoke post-deploy-smoke-observed-live; origin https://moshequ.github.io/autonomous-game-lab; manifest comparison required; checks 15/15 passed; local artifact predeploy-artifact-smoke-passed 15/15 passed.",
       "nextAction": "Live Pages is reachable and serving pwa-20309e6830ac; run the deploy workflow for strict proof of the current local candidate if needed."
@@ -493,7 +494,7 @@
       "status": "ready",
       "autonomy": "zero-spend-setup-orchestration",
       "evidence": "Bootstrap production-bootstrap-ready; mode can-apply-configured-actions; external blockers 17.",
-      "nextAction": "gh workflow run web-pwa-deploy.yml"
+      "nextAction": "AGL_SYNC_PAGES_SETTINGS=1 ./ops/github/setup-production.sh"
     },
     {
       "id": "production-activation",
@@ -513,14 +514,14 @@
       "id": "autonomous-operator",
       "status": "ready",
       "autonomy": "one-safe-action-runner",
-      "evidence": "Operator operator-plan-ready; selected refresh-support-feedback; execution not-requested.",
+      "evidence": "Operator operator-plan-ready; selected prepare-repository-channel; execution not-requested.",
       "nextAction": "Keep a dry-run operator plan ready, then execute only one allowlisted local action when explicitly requested."
     },
     {
       "id": "operator-history",
       "status": "ready",
       "autonomy": "operator-audit-trail",
-      "evidence": "History operator-history-ready; records 40; executed 18.",
+      "evidence": "History operator-history-ready; records 40; executed 17.",
       "nextAction": "Keep a capped durable record of operator plans and one-action executions."
     },
     {
@@ -594,7 +595,7 @@
     },
     {
       "id": "refresh-autonomous-self-update",
-      "status": "monitor",
+      "status": "armed",
       "costUsd": 0,
       "command": "npm run autonomous:self-update",
       "targets": [
@@ -662,7 +663,7 @@
       "command": "npm run build && npm run autonomous:performance",
       "targets": [
         "pwa-shell",
-        "GameCanvas-D-Wp-e3m.js"
+        "GameCanvas-CclI24lR.js"
       ],
       "reason": "Keeps the PWA shell fast while Phaser and game scenes stay deferred."
     },
@@ -772,13 +773,13 @@
     },
     {
       "id": "prepare-repository-channel",
-      "status": "monitor",
+      "status": "armed",
       "costUsd": 0,
       "command": "npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap",
       "targets": [
         "moshequ/autonomous-game-lab"
       ],
-      "reason": "Keeps the GitHub Pages deployment channel evidence fresh."
+      "reason": "Surfaces and prepares the missing git/GitHub deployment-channel blockers before web deploy."
     },
     {
       "id": "bootstrap-production-setup",
@@ -810,7 +811,7 @@
       "costUsd": 0,
       "command": "npm run autonomous:operator",
       "targets": [
-        "refresh-support-feedback"
+        "prepare-repository-channel"
       ],
       "reason": "Publishes the one-action local execution plan with allowlist, zero-spend, and audit controls."
     },
@@ -820,7 +821,7 @@
       "costUsd": 0,
       "command": "npm run autonomous:operator",
       "targets": [
-        "refresh-support-feedback"
+        "prepare-repository-channel"
       ],
       "reason": "Refreshes the capped operator history so safe actions remain auditable over time."
     },
@@ -865,10 +866,10 @@
     },
     {
       "id": "deploy-web-pwa",
-      "status": "ready-when-repository-pages-enabled",
+      "status": "blocked-needs-repository-channel",
       "costUsd": 0,
       "command": "Run the Web PWA Deploy workflow after GitHub Pages is enabled for the repository.",
-      "reason": "Connect a free static host or GitHub Pages environment, then publish dist."
+      "reason": "Git/GitHub repository channel is not ready for workflow dispatch yet."
     },
     {
       "id": "collect-live-events",
@@ -1016,9 +1017,9 @@
     "retentionLoopStatus": "retention-loop-ready",
     "pwaInstallLoopStatus": "pwa-install-loop-ready",
     "autonomousCadenceStatus": "cadence-ready",
-    "autonomousSelfUpdateStatus": "self-update-needs-attention",
+    "autonomousSelfUpdateStatus": "self-update-ready",
     "performanceBudgetStatus": "performance-budget-ready",
-    "repositoryReadinessStatus": "repository-channel-ready",
+    "repositoryReadinessStatus": "waiting-for-repository-channel",
     "repositoryBootstrapStatus": "repository-bootstrap-ready",
     "repositoryHandoffPrepared": false,
     "releaseCandidateStatus": "release-candidate-ready",

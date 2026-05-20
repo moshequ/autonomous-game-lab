@@ -1,10 +1,10 @@
 # Autonomous Operator
 
-Generated: 2026-05-20T22:27:35.295Z
+Generated: 2026-05-20T22:30:13.937Z
 Status: operator-plan-ready
 Mode: plan-only
-Owner decision: refresh-support-feedback
-Selected action: refresh-support-feedback
+Owner decision: prepare-repository-channel
+Selected action: prepare-repository-channel
 Execution: not-requested
 
 ## Controls
@@ -18,11 +18,12 @@ Execution: not-requested
 
 ## Selected Action
 
-- refresh-support-feedback: npm run autonomous:support-feedback
+- prepare-repository-channel: npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap
 
 ## Eligible Local Actions
 
 - refresh-autonomous-cadence
+- refresh-autonomous-self-update
 - refresh-support-feedback
 - optimize-daily-retention
 - measure-pwa-install-loop
@@ -30,6 +31,7 @@ Execution: not-requested
 - prepare-release-candidate
 - run-post-deploy-smoke
 - refresh-product-gate-recovery
+- prepare-repository-channel
 - optimize-store-listing
 - collect-live-events
 
@@ -37,13 +39,13 @@ Execution: not-requested
 
 - run-daily-owner-loop: daily-loop-recursion-blocked
 - refresh-autonomous-cadence: not-selected-this-run
-- refresh-autonomous-self-update: status-monitor
+- refresh-autonomous-self-update: not-selected-this-run
 - seed-portfolio-traffic: status-monitor
 - refresh-organic-seed-loop: status-monitor
+- refresh-support-feedback: not-selected-this-run
 - optimize-daily-retention: not-selected-this-run
 - measure-pwa-install-loop: not-selected-this-run
 - check-performance-budget: not-selected-this-run
 - prepare-release-candidate: not-selected-this-run
 - run-post-deploy-smoke: not-selected-this-run
 - sync-post-deploy-artifact: status-monitor
-- optimize-product-gates: status-monitor

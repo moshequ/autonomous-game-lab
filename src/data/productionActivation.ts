@@ -1,5 +1,5 @@
 export const productionActivation = {
-  "generatedAt": "2026-05-20T22:24:19.306Z",
+  "generatedAt": "2026-05-20T22:30:12.997Z",
   "status": "activation-ready",
   "mode": "dry-run",
   "envFiles": {
@@ -53,7 +53,7 @@ export const productionActivation = {
     }
   },
   "sourceStatus": {
-    "repositoryReadiness": "repository-channel-ready",
+    "repositoryReadiness": "waiting-for-repository-channel",
     "repositoryBootstrap": "repository-bootstrap-ready",
     "productionBootstrap": "production-bootstrap-ready",
     "deployment": "ready-for-pages",

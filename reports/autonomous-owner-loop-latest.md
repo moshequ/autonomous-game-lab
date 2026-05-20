@@ -1,15 +1,15 @@
 # Autonomous Owner Loop
 
-Generated: 2026-05-20T22:27:35.061Z
+Generated: 2026-05-20T22:30:13.717Z
 Status: owner-loop-ready
-Mode: zero-spend-web-ready
-Autonomy score: 39/42 (93%)
+Mode: repository-channel-needed
+Autonomy score: 38/42 (90%)
 
 ## Owner Decision
 
-- Next action: refresh-support-feedback
-- Command: npm run autonomous:support-feedback
-- Rationale: Reads public GitHub issue intake and turns player reports into redacted improvement signals.
+- Next action: prepare-repository-channel
+- Command: npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap
+- Rationale: Surfaces and prepares the missing git/GitHub deployment-channel blockers before web deploy.
 - Last executed action: refresh-autonomous-self-update
 - Recent executed actions: refresh-autonomous-self-update, collect-live-events, seed-portfolio-traffic, measure-pwa-install-loop, refresh-autonomous-cadence, optimize-daily-retention, optimize-store-listing, refresh-completion-loop
 
@@ -22,14 +22,14 @@ Autonomy score: 39/42 (93%)
 - ready: analytics-ingest - Active source: fixture-sample; event ingest: idle-no-files; collector smoke: pass.
 - ready: local-event-bridge - Bridge bridge-waiting-for-export; inbox 0 event(s); imported 0 event(s).
 - ready: autonomous-cadence - Cadence cadence-ready; Codex active-confirmed; GitHub scheduled.
-- needs-self-update-evidence: autonomous-self-update - Self-update self-update-needs-attention; safe pending 64; unsafe pending 5; remote push held.
+- ready: autonomous-self-update - Self-update self-update-ready; safe pending 0; unsafe pending 0; remote push held.
 - ready: portfolio-loop - Daily challenge: Canopy Bloom; seed traffic: canopy-bloom, grove-engine, metro-loom, pocket-draft.
 - ready: traffic-seeding - 4 seed campaign(s); max cost $0.
 - ready: acquisition-learning - 4 campaign(s); 0 attributed start(s); candidate canopy-bloom.
 - ready: organic-seed-loop - Target canopy-bloom; surface portal-growth-loop; share telemetry organic_seed_share_clicked.
 - ready: retention-loop - Daily canopy-bloom; D1 17%; streak variant daily-streak; return prompt armed; return intent armed.
 - ready: pwa-install-loop - Prompt autonomy-cockpit; installs 0; launch events 0; sample collecting-sample needs 20 prompt(s) and 10 launch event(s).
-- ready: performance-budget - Initial JS 649 KB; gzip 177.8 KB; deferred chunks 1.
+- ready: performance-budget - Initial JS 649.2 KB; gzip 177.8 KB; deferred chunks 1.
 - ready: product-optimization - Completion 40% / gate 55%; latest already-applied.
 - ready: support-feedback - Support feedback support-feedback-empty; issues 0; routable signals 0.
 - ready: product-gate-recovery - Recovery product-gate-recovery-ready; primary firstGameCompletion; experiment collecting-sample; failing gates 3; next lift 58.
@@ -39,17 +39,17 @@ Autonomy score: 39/42 (93%)
 - ready: replay-loop - Replay loop replay-loop-ready; prompt armed; target harbor-rings; replay 31%.
 - ready: improvement-loop - improvement-backlog-ready; 4 backlog item(s); 3 experiment recommendation(s); applied status actions-ready; source a738f73a0160.
 - ready: organic-growth - 10 SEO/share pages; optimization 5 page(s).
-- ready: repository-channel - Repository moshequ/autonomous-game-lab; git worktree ready; workflow dispatch ready.
+- waiting-for-repository-channel: repository-channel - Repository moshequ/autonomous-game-lab; git worktree ready; workflow dispatch blocked.
 - ready: repository-bootstrap - Bootstrap repository-bootstrap-ready; mode plan-only; helper ops/github/bootstrap-repository.sh; local git ready.
 - blocked: web-deployment - Deployment ready-for-pages; web readiness blocked; promotion promotable-internal.
 - ready: release-candidate - Release candidate release-candidate-ready; files 44; smoke URLs 14.
-- ready: post-deploy-smoke - Smoke post-deploy-smoke-observed-live; origin https://moshequ.github.io/autonomous-game-lab; manifest comparison required; checks 15/15 passed; local artifact predeploy-artifact-smoke-passed 15/15 passed.
+- waiting-for-origin: post-deploy-smoke - Smoke post-deploy-smoke-observed-live; origin https://moshequ.github.io/autonomous-game-lab; manifest comparison required; checks 15/15 passed; local artifact predeploy-artifact-smoke-passed 15/15 passed.
 - ready: post-deploy-artifact-sync - Artifact sync post-deploy-artifact-sync-passed; run 26193142076; live matches artifact true; strict true.
 - ready: production-bootstrap - Bootstrap production-bootstrap-ready; mode can-apply-configured-actions; external blockers 17.
 - ready: production-activation - Activation activation-ready; mode dry-run; execution dry-run; gh ready.
 - ready: support-channel - Support channel support-channel-ready; repository moshequ/autonomous-game-lab; public intake ready.
-- ready: autonomous-operator - Operator operator-plan-ready; selected refresh-support-feedback; execution not-requested.
-- ready: operator-history - History operator-history-ready; records 40; executed 18.
+- ready: autonomous-operator - Operator operator-plan-ready; selected prepare-repository-channel; execution not-requested.
+- ready: operator-history - History operator-history-ready; records 40; executed 17.
 - ready: objective-audit - Audit objective-in-progress; met 4/8; external blockers 12.
 - ready: store-listing-optimizer - Focus canopy-bloom; lead screenshot phone-canopy-bloom-generated; candidate changed no.
 - ready: store-compliance - Rating Everyone; target audience general; blockers 3.
@@ -62,7 +62,7 @@ Autonomy score: 39/42 (93%)
 
 - armed: run-daily-owner-loop - npm run autonomous:daily
 - armed: refresh-autonomous-cadence - npm run autonomous:cadence
-- monitor: refresh-autonomous-self-update - npm run autonomous:self-update
+- armed: refresh-autonomous-self-update - npm run autonomous:self-update
 - monitor: seed-portfolio-traffic - npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop
 - monitor: refresh-organic-seed-loop - npm run autonomous:organic-seed-loop
 - armed: refresh-support-feedback - npm run autonomous:support-feedback
@@ -79,7 +79,7 @@ Autonomy score: 39/42 (93%)
 - monitor: refresh-first-move-coach - npm run autonomous:first-move-coach
 - monitor: refresh-completion-loop - npm run autonomous:completion-loop
 - monitor: refresh-replay-loop - npm run autonomous:replay-loop
-- monitor: prepare-repository-channel - npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap
+- armed: prepare-repository-channel - npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap
 - monitor: bootstrap-production-setup - npm run autonomous:release-candidate && npm run autonomous:deploy-plan && npm run autonomous:bootstrap
 - monitor: activate-production-when-configured - npm run autonomous:activate-production
 - armed: run-autonomous-operator - npm run autonomous:operator
@@ -88,7 +88,7 @@ Autonomy score: 39/42 (93%)
 - armed: optimize-store-listing - npm run autonomous:store-listing-optimize && npm run autonomous:store-compliance
 - monitor: prepare-android-signing - npm run autonomous:android-signing
 - monitor: apply-safe-improvements - npm run autonomous:experiments && npm run autonomous:improve && npm run autonomous:sync-experiments
-- ready-when-repository-pages-enabled: deploy-web-pwa - Run the Web PWA Deploy workflow after GitHub Pages is enabled for the repository.
+- blocked-needs-repository-channel: deploy-web-pwa - Run the Web PWA Deploy workflow after GitHub Pages is enabled for the repository.
 - armed: collect-live-events - npm run autonomous:local-event-bridge && npm run autonomous:import-events && npm run autonomous:analytics && npm run autonomous:gate-recovery && npm run autonomous:sample-plan
 
 ## Credential Required Actions

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-20T22:27:34.814Z",
+  "generatedAt": "2026-05-20T22:30:13.462Z",
   "status": "objective-in-progress",
   "objective": "Build a bootstrapped autonomous web/PWA game portal that can generate original board-game-inspired games, measure user behavior, propose and apply data-driven improvements, and prepare a path to monetization and app-store distribution with minimal manual intervention.",
   "summary": {
@@ -23,7 +23,7 @@
         "Deployment plan: ready-for-pages"
       ],
       "blockers": [
-        "Autonomous self-update is self-update-needs-attention; safe pending 64; unsafe pending 5; remote push held."
+        "Post-deploy smoke is post-deploy-smoke-observed-live; origin https://moshequ.github.io/autonomous-game-lab; checks 15/15 passed, 0 blocked; local artifact predeploy-artifact-smoke-passed 15/15 passed."
       ],
       "nextAction": "Connect a free static host or GitHub Pages environment, then publish dist.",
       "completionCritical": true
@@ -78,7 +78,7 @@
         "Backlog: improvement-backlog-ready; items 4; hash a738f73a0160",
         "Support feedback: support-feedback-empty; issues 0; routable signals 0",
         "Applied/deferred actions: 7",
-        "Operator selected: refresh-support-feedback; status operator-plan-ready; execution not-requested"
+        "Operator selected: prepare-repository-channel; status operator-plan-ready; execution not-requested"
       ],
       "blockers": [],
       "nextAction": "Keep collecting starts until a safe product-gate tuning action is justified.",
@@ -86,25 +86,25 @@
     },
     {
       "id": "minimal-intervention-autonomy",
-      "status": "incomplete",
+      "status": "needs-repository-channel",
       "summary": "A scheduled local loop, owner state, bootstrap handoff, and dry-run operator reduce manual maintenance.",
       "evidence": [
         "Owner loop: owner-loop-ready",
         "Autonomous cadence: cadence-ready; Codex active-confirmed; GitHub scheduled",
-        "Autonomous self-update: self-update-needs-attention; workflow .github/workflows/autonomous-self-update.yml; unsafe pending 5",
+        "Autonomous self-update: self-update-ready; workflow .github/workflows/autonomous-self-update.yml; unsafe pending 0",
         "Operator: operator-plan-ready",
-        "Operator history: operator-history-ready; records 40; executed 18",
+        "Operator history: operator-history-ready; records 40; executed 17",
         "Bootstrap: production-bootstrap-ready",
         "Repository bootstrap: repository-bootstrap-ready; helper ops/github/bootstrap-repository.sh",
         "Release candidate: release-candidate-ready; smoke URLs 14",
         "Post-deploy smoke: post-deploy-smoke-observed-live; origin https://moshequ.github.io/autonomous-game-lab; checks 15/15; local artifact predeploy-artifact-smoke-passed 15/15",
         "Strict deploy artifact sync: post-deploy-artifact-sync-passed; run 26193142076; live matches artifact true; candidate pwa-20309e6830ac",
-        "Repository channel: repository-channel-ready; repository moshequ/autonomous-game-lab; git worktree true",
+        "Repository channel: waiting-for-repository-channel; repository moshequ/autonomous-game-lab; git worktree true",
         "Autonomy score: 93%",
         "Credential-gated actions: 10"
       ],
       "blockers": [
-        "safe-path-allowlist: 64 safe pending file(s), 5 unsafe pending file(s).",
+        "Refresh build, release candidate, post-deploy smoke, and deployment plan artifacts.",
         "AGL_SUPPORT_EMAIL: Production support contact for privacy and store listings.",
         "VITE_POSTHOG_KEY: Optional browser-side PostHog analytics forwarding.",
         "POSTHOG_PROJECT_ID + POSTHOG_PERSONAL_API_KEY: Optional autonomous production analytics and experiment result rollups from PostHog.",
@@ -207,6 +207,7 @@
       "Web/PWA or native ad provider is not configured for gated revenue tests."
     ],
     "all": [
+      "Refresh build, release candidate, post-deploy smoke, and deployment plan artifacts.",
       "Set AGL_SUPPORT_EMAIL to a real support inbox before public store submission.",
       "Set VITE_EVENT_COLLECTOR_URL or VITE_POSTHOG_KEY to forward browser analytics in production.",
       "Set AGL_EVENT_COLLECTOR_EXPORT_URL + AGL_EVENT_COLLECTOR_ADMIN_TOKEN or PostHog server credentials for autonomous production rollups.",
@@ -236,7 +237,7 @@
     "noRevenueEnablementUntilGatesPass": true,
     "noStoreSubmissionUntilExternalAccounts": true,
     "currentWorktreeClean": false,
-    "currentWorktreeDirtyFiles": 72,
+    "currentWorktreeDirtyFiles": 38,
     "productionBootstrapFresh": true,
     "productionBootstrapStaleInputIds": [],
     "objectiveNextBestActionSource": "owner-loop"
@@ -244,6 +245,6 @@
   "completion": {
     "canMarkGoalComplete": false,
     "reason": "The local autonomous PWA system is largely prepared with strict live deploy evidence synced from GitHub Actions, but production credentials, live data, monetization gates, and store account/signing blockers remain.",
-    "nextBestAction": "refresh-support-feedback"
+    "nextBestAction": "prepare-repository-channel"
   }
 }

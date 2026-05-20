@@ -1,27 +1,28 @@
 {
-  "generatedAt": "2026-05-20T22:27:35.295Z",
+  "generatedAt": "2026-05-20T22:30:13.937Z",
   "status": "operator-plan-ready",
   "mode": "plan-only",
   "ownerDecision": {
-    "actionId": "refresh-support-feedback",
-    "command": "npm run autonomous:support-feedback",
+    "actionId": "prepare-repository-channel",
+    "command": "npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap",
     "locallyExecutable": true,
     "rejectionReason": null
   },
   "requestedActionId": null,
   "selectedAction": {
-    "id": "refresh-support-feedback",
+    "id": "prepare-repository-channel",
     "status": "armed",
-    "command": "npm run autonomous:support-feedback",
+    "command": "npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap",
     "targets": [
       "moshequ/autonomous-game-lab"
     ],
-    "reason": "Reads public GitHub issue intake and turns player reports into redacted improvement signals.",
+    "reason": "Surfaces and prepares the missing git/GitHub deployment-channel blockers before web deploy.",
     "costUsd": 0
   },
   "selectedRejection": null,
   "eligibleActionIds": [
     "refresh-autonomous-cadence",
+    "refresh-autonomous-self-update",
     "refresh-support-feedback",
     "optimize-daily-retention",
     "measure-pwa-install-loop",
@@ -29,6 +30,7 @@
     "prepare-release-candidate",
     "run-post-deploy-smoke",
     "refresh-product-gate-recovery",
+    "prepare-repository-channel",
     "optimize-store-listing",
     "collect-live-events"
   ],
@@ -47,9 +49,9 @@
     },
     {
       "id": "refresh-autonomous-self-update",
-      "status": "monitor",
+      "status": "armed",
       "command": "npm run autonomous:self-update",
-      "reason": "status-monitor"
+      "reason": "not-selected-this-run"
     },
     {
       "id": "seed-portfolio-traffic",
@@ -62,6 +64,12 @@
       "status": "monitor",
       "command": "npm run autonomous:organic-seed-loop",
       "reason": "status-monitor"
+    },
+    {
+      "id": "refresh-support-feedback",
+      "status": "armed",
+      "command": "npm run autonomous:support-feedback",
+      "reason": "not-selected-this-run"
     },
     {
       "id": "optimize-daily-retention",
@@ -142,12 +150,6 @@
       "reason": "status-monitor"
     },
     {
-      "id": "prepare-repository-channel",
-      "status": "monitor",
-      "command": "npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap",
-      "reason": "status-monitor"
-    },
-    {
       "id": "bootstrap-production-setup",
       "status": "monitor",
       "command": "npm run autonomous:release-candidate && npm run autonomous:deploy-plan && npm run autonomous:bootstrap",
@@ -197,9 +199,9 @@
     },
     {
       "id": "deploy-web-pwa",
-      "status": "ready-when-repository-pages-enabled",
+      "status": "blocked-needs-repository-channel",
       "command": "Run the Web PWA Deploy workflow after GitHub Pages is enabled for the repository.",
-      "reason": "status-ready-when-repository-pages-enabled"
+      "reason": "status-blocked-needs-repository-channel"
     },
     {
       "id": "collect-live-events",
@@ -210,8 +212,12 @@
   ],
   "commandPlan": [
     {
-      "segment": "npm run autonomous:support-feedback",
-      "script": "autonomous:support-feedback"
+      "segment": "npm run autonomous:repo-readiness",
+      "script": "autonomous:repo-readiness"
+    },
+    {
+      "segment": "npm run autonomous:repo-bootstrap",
+      "script": "autonomous:repo-bootstrap"
     }
   ],
   "execution": {
@@ -281,7 +287,7 @@
     "RUN_WORKFLOWS=1"
   ],
   "nextActions": [
-    "Run npm run autonomous:operator -- --execute --action=refresh-support-feedback to execute exactly one allowed local action.",
+    "Run npm run autonomous:operator -- --execute --action=prepare-repository-channel to execute exactly one allowed local action.",
     "Do not execute GitHub workflow, store, paid ads, or account setup commands from the local operator."
   ]
 }
