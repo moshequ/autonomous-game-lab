@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-20T15:36:06.903Z",
+  "generatedAt": "2026-05-20T15:38:32.080Z",
   "status": "owner-loop-ready",
   "mode": "zero-spend-web-ready",
   "autonomyScore": {
@@ -39,7 +39,7 @@
     "objectiveAuditFreshness": {
       "fresh": true,
       "structurallyReady": true,
-      "auditGeneratedAt": "2026-05-20T15:36:06.685Z",
+      "auditGeneratedAt": "2026-05-20T15:38:31.862Z",
       "evaluatedInputIds": [
         "analytics-rollup",
         "event-ingest",
@@ -152,7 +152,7 @@
       "id": "autonomous-self-update",
       "status": "ready",
       "autonomy": "gated-generated-change-persistence",
-      "evidence": "Self-update self-update-ready; safe pending 0; unsafe pending 0; remote push held.",
+      "evidence": "Self-update self-update-ready; safe pending 14; unsafe pending 0; remote push held.",
       "nextAction": "When a GitHub repository is connected, set AGL_AUTONOMOUS_SELF_UPDATE=1 and AGL_AUTONOMOUS_SELF_UPDATE_DIRECT=1 to let verified generated changes persist."
     },
     {
@@ -306,7 +306,7 @@
       "id": "production-bootstrap",
       "status": "ready",
       "autonomy": "zero-spend-setup-orchestration",
-      "evidence": "Bootstrap production-bootstrap-ready; mode can-apply-configured-actions; external blockers 17.",
+      "evidence": "Bootstrap production-bootstrap-ready; mode can-apply-configured-actions; external blockers 16.",
       "nextAction": "gh workflow run web-pwa-deploy.yml"
     },
     {
@@ -341,7 +341,7 @@
       "id": "objective-audit",
       "status": "ready",
       "autonomy": "completion-evidence-ledger",
-      "evidence": "Audit objective-in-progress; met 6/8; external blockers 13.",
+      "evidence": "Audit objective-in-progress; met 6/8; external blockers 12.",
       "nextAction": "The local autonomous PWA system is largely prepared with strict live deploy evidence synced from GitHub Actions, but production credentials, live data, monetization gates, and store account/signing blockers remain."
     },
     {

@@ -1,6 +1,6 @@
 # Autonomous Owner Loop
 
-Generated: 2026-05-20T15:36:06.903Z
+Generated: 2026-05-20T15:38:32.080Z
 Status: owner-loop-ready
 Mode: zero-spend-web-ready
 Autonomy score: 40/41 (98%)
@@ -22,7 +22,7 @@ Autonomy score: 40/41 (98%)
 - ready: analytics-ingest - Active source: fixture-sample; event ingest: idle-no-files; collector smoke: pass.
 - ready: local-event-bridge - Bridge bridge-waiting-for-export; inbox 0 event(s); imported 0 event(s).
 - ready: autonomous-cadence - Cadence cadence-ready; Codex active-confirmed; GitHub scheduled.
-- ready: autonomous-self-update - Self-update self-update-ready; safe pending 0; unsafe pending 0; remote push held.
+- ready: autonomous-self-update - Self-update self-update-ready; safe pending 14; unsafe pending 0; remote push held.
 - ready: portfolio-loop - Daily challenge: Canopy Bloom; seed traffic: canopy-bloom, grove-engine, metro-loom, pocket-draft.
 - ready: traffic-seeding - 4 seed campaign(s); max cost $0.
 - ready: acquisition-learning - 4 campaign(s); 0 attributed start(s); candidate canopy-bloom.
@@ -44,12 +44,12 @@ Autonomy score: 40/41 (98%)
 - ready: release-candidate - Release candidate release-candidate-ready; files 44; smoke URLs 14.
 - ready: post-deploy-smoke - Smoke post-deploy-smoke-observed-live; origin https://moshequ.github.io/autonomous-game-lab; manifest comparison required; checks 15/15 passed; local artifact predeploy-artifact-smoke-passed 15/15 passed.
 - ready: post-deploy-artifact-sync - Artifact sync post-deploy-artifact-sync-passed; run 26171799929; live matches artifact true; strict true.
-- ready: production-bootstrap - Bootstrap production-bootstrap-ready; mode can-apply-configured-actions; external blockers 17.
+- ready: production-bootstrap - Bootstrap production-bootstrap-ready; mode can-apply-configured-actions; external blockers 16.
 - ready: production-activation - Activation activation-ready; mode dry-run; execution dry-run; gh ready.
 - ready: support-channel - Support channel support-channel-ready; repository moshequ/autonomous-game-lab; public intake ready.
 - ready: autonomous-operator - Operator operator-plan-ready; selected bootstrap-production-setup; execution not-requested.
 - ready: operator-history - History operator-history-ready; records 40; executed 1.
-- ready: objective-audit - Audit objective-in-progress; met 6/8; external blockers 13.
+- ready: objective-audit - Audit objective-in-progress; met 6/8; external blockers 12.
 - ready: store-listing-optimizer - Focus canopy-bloom; lead screenshot phone-canopy-bloom-generated; candidate changed yes.
 - ready: store-compliance - Rating Everyone; target audience general; blockers 3.
 - ready: android-signing - Signing signing-prepared; fingerprint available; local secrets configured.
