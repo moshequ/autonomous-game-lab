@@ -1,6 +1,6 @@
 # Event Ingest
 
-Generated: 2026-05-20T14:05:06.831Z
+Generated: 2026-05-20T14:28:01.736Z
 Status: idle-no-files
 Output directory: data/player-events
 
@@ -13,6 +13,7 @@ Output directory: data/player-events
 - none
 - Existing imported events before run: 0
 - Duplicate events skipped: 0
+- Sensitive properties stripped: 0
 
 ## Skipped
 

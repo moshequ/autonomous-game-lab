@@ -72,6 +72,8 @@ try {
         anonymousId: 'anon-smoke',
         sessionId: 'session-smoke-a',
         sessionDate: '2026-05-17',
+        email: 'remove-local@example.com',
+        ipAddress: '203.0.113.10',
       },
       createdAt: '2026-05-17T10:00:00.000Z',
     },
@@ -161,9 +163,17 @@ try {
     bridge.copiedFiles.length !== 1 ||
     bridge.inbox.validEvents !== 6 ||
     bridge.controls.noSyntheticEvents !== true ||
-    bridge.controls.noExternalUpload !== true
+    bridge.controls.noExternalUpload !== true ||
+    bridge.controls.piiStrippingEnabled !== true ||
+    bridge.privacy.sensitivePropertiesDropped < 2
   ) {
     fail(`Expected local bridge to copy one explicit event drop into the inbox, got ${JSON.stringify(bridge)}`)
+  }
+
+  const sanitizedBridgeEvents = JSON.parse(await readFile(path.resolve(root, bridge.copiedFiles[0].targetPath), 'utf8'))
+
+  if (sanitizedBridgeEvents.some((event) => event.properties.email || event.properties.ipAddress)) {
+    fail(`Expected local bridge inbox copy to strip sensitive properties, got ${JSON.stringify(sanitizedBridgeEvents)}`)
   }
 
   await run(process.execPath, ['scripts/event-ingestor.mjs'], {
@@ -289,6 +299,7 @@ try {
         anonymousId: 'anon-smoke',
         sessionId: 'session-smoke-c',
         sessionDate: '2026-05-18',
+        phone: '+1-555-0100',
       },
       createdAt: '2026-05-18T11:00:00.000Z',
     },
@@ -347,6 +358,8 @@ try {
     downloadsBridge.explicitDownloadsScan?.status !== 'evidence-found' ||
     downloadsBridge.explicitDownloadsScan?.evidenceFound !== true ||
     downloadsBridge.explicitDownloadsScan?.copiedFiles !== 1 ||
+    downloadsBridge.explicitDownloadsScan?.sensitivePropertiesDropped < 1 ||
+    downloadsBridge.privacy.sensitivePropertiesDropped < 1 ||
     !downloadsBridge.sourceDirectories.some((directory) => directory.role === 'downloads-opt-in') ||
     downloadsBridge.gateSampleEvidence.inbox.events < downloadedGateSampleEvents.length ||
     downloadsBridge.gateSampleEvidence.inbox.campaigns[0]?.campaignId !==
@@ -391,6 +404,9 @@ try {
       noSyntheticEvents: bridge.controls.noSyntheticEvents,
       noExternalUpload: bridge.controls.noExternalUpload,
       downloadsOptInCommand: bridge.eventDropContract.downloadsImportCommand,
+      sensitivePropertiesDropped: bridge.privacy.sensitivePropertiesDropped,
+      piiStrippingEnabled: bridge.privacy.piiStrippingEnabled,
+      inboxWritesSanitizedEvents: bridge.privacy.inboxWritesSanitizedEvents,
     },
     downloadsBridge: {
       copiedFiles: downloadsBridge.copiedFiles.length,
@@ -398,6 +414,7 @@ try {
       explicitScanStatus: downloadsBridge.explicitDownloadsScan.status,
       explicitScanEvidenceFound: downloadsBridge.explicitDownloadsScan.evidenceFound,
       explicitScanCopiedFiles: downloadsBridge.explicitDownloadsScan.copiedFiles,
+      sensitivePropertiesDropped: downloadsBridge.privacy.sensitivePropertiesDropped,
       gateSampleEvents: downloadsBridge.gateSampleEvidence.inbox.events,
       campaignId: downloadsBridge.gateSampleEvidence.inbox.campaigns[0]?.campaignId,
     },
@@ -412,6 +429,8 @@ try {
       importedEvents: ingest.importedEvents,
       importedFiles: ingest.importedFiles.length,
       outputDirectory: ingest.outputDirectory,
+      piiStrippingEnabled: ingest.privacy.piiStrippingEnabled,
+      importedFilesAreSanitized: ingest.privacy.importedFilesAreSanitized,
     },
     incrementalIngest: {
       status: incrementalIngest.status,
@@ -451,6 +470,7 @@ try {
     '',
     `- Bridge status: ${smoke.bridge.status}`,
     `- Bridge copied files: ${smoke.bridge.copiedFiles}`,
+    `- Bridge sensitive properties stripped: ${smoke.bridge.sensitivePropertiesDropped}`,
     `- Status: ${smoke.ingest.status}`,
     `- Imported events: ${smoke.ingest.importedEvents}`,
     `- Imported files: ${smoke.ingest.importedFiles}`,
@@ -458,6 +478,7 @@ try {
     `- Incremental duplicate events skipped: ${smoke.incrementalIngest.duplicateEvents}`,
     `- Downloads opt-in copied files: ${smoke.downloadsBridge.copiedFiles}`,
     `- Downloads explicit scan: ${smoke.downloadsBridge.explicitScanStatus}`,
+    `- Downloads sensitive properties stripped: ${smoke.downloadsBridge.sensitivePropertiesDropped}`,
     `- Follow-up preserved scan: ${smoke.followupBridge.explicitScanStatus}`,
     `- Downloads gate-sample events: ${smoke.downloadsBridge.gateSampleEvents}`,
     '',

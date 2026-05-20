@@ -10,6 +10,83 @@ const outputJsonPath = path.resolve(root, process.env.AGL_EVENT_INGEST_OUTPUT ??
 const reportPath = path.resolve(root, process.env.AGL_EVENT_INGEST_REPORT ?? 'reports/event-ingest-latest.md')
 const collectorExportUrl = process.env.AGL_EVENT_COLLECTOR_EXPORT_URL?.trim()
 const collectorAdminToken = process.env.AGL_EVENT_COLLECTOR_ADMIN_TOKEN?.trim()
+const allowedEventNames = new Set([
+  'app_loaded',
+  'runtime_error',
+  'game_viewed',
+  'game_started',
+  'first_move_coach_shown',
+  'first_move_coach_used',
+  'first_move_coach_skipped',
+  'tutorial_completed',
+  'turn_taken',
+  'level_completed',
+  'first_loss',
+  'game_abandoned',
+  'experiment_assigned',
+  'analytics_exported',
+  'improvement_requested',
+  'prototype_card_viewed',
+  'prototype_started',
+  'privacy_choice_updated',
+  'rewarded_ad_available',
+  'rewarded_ad_started',
+  'rewarded_ad_completed',
+  'cosmetic_offer_viewed',
+  'cosmetic_offer_clicked',
+  'revenue_cents',
+  'replay_clicked',
+  'replay_prompt_viewed',
+  'replay_prompt_clicked',
+  'replay_prompt_dismissed',
+  'completion_nudge_viewed',
+  'completion_nudge_clicked',
+  'completion_nudge_dismissed',
+  'finish_line_coach_viewed',
+  'finish_line_coach_clicked',
+  'finish_line_coach_dismissed',
+  'store_gate_viewed',
+  'organic_entry_opened',
+  'share_clicked',
+  'organic_seed_card_viewed',
+  'organic_seed_share_clicked',
+  'seed_campaign_clicked',
+  'gate_sample_mission_clicked',
+  'daily_challenge_viewed',
+  'daily_challenge_started',
+  'daily_challenge_completed',
+  'daily_return_prompt_viewed',
+  'daily_return_prompt_clicked',
+  'daily_return_prompt_dismissed',
+  'daily_return_intent_viewed',
+  'daily_return_intent_started',
+  'daily_return_intent_cleared',
+  'streak_updated',
+  'pwa_install_prompt_available',
+  'pwa_install_prompt_viewed',
+  'pwa_install_prompt_clicked',
+  'pwa_install_prompt_accepted',
+  'pwa_install_prompt_dismissed',
+  'pwa_install_prompt_cooldown',
+  'pwa_installed',
+  'pwa_launch_mode_detected',
+  'local_router_card_viewed',
+  'local_router_choice_clicked',
+  'local_router_choice_dismissed',
+])
+const sensitivePropertyKeys = new Set([
+  'email',
+  'phone',
+  'name',
+  'firstName',
+  'lastName',
+  'address',
+  'ip',
+  'ipAddress',
+  'preciseLocation',
+  'latitude',
+  'longitude',
+])
 
 const exists = async (filePath) =>
   access(filePath)
@@ -54,14 +131,42 @@ const eventIdFor = (event) =>
     .digest('hex')
     .slice(0, 16)
 
-const normalizeEvent = (event) => {
-  const name = event.name ?? event.event
+const sanitizeProperties = (properties) => {
+  if (!properties || typeof properties !== 'object' || Array.isArray(properties)) {
+    return { properties: {}, sensitivePropertiesDropped: 0 }
+  }
 
-  if (typeof name !== 'string' || !name) {
+  let sensitivePropertiesDropped = 0
+  const sanitized = {}
+
+  for (const [key, value] of Object.entries(properties)) {
+    if (sensitivePropertyKeys.has(key)) {
+      sensitivePropertiesDropped += 1
+      continue
+    }
+
+    const type = typeof value
+
+    if (type === 'string' || type === 'number' || type === 'boolean' || value === null) {
+      sanitized[key] = typeof value === 'string' ? value.slice(0, 240) : value
+    }
+  }
+
+  return { properties: sanitized, sensitivePropertiesDropped }
+}
+
+const normalizeEvent = (event) => {
+  if (!event || typeof event !== 'object') {
     return null
   }
 
-  const properties = event.properties && typeof event.properties === 'object' ? event.properties : {}
+  const name = event.name ?? event.event
+
+  if (typeof name !== 'string' || !allowedEventNames.has(name)) {
+    return null
+  }
+
+  const sanitized = sanitizeProperties(event.properties)
   const createdAt =
     typeof event.createdAt === 'string'
       ? event.createdAt
@@ -70,27 +175,40 @@ const normalizeEvent = (event) => {
         : new Date().toISOString()
 
   return {
-    id: eventIdFor({ ...event, name, properties, createdAt }),
-    name,
-    properties,
-    createdAt,
+    event: {
+      id: eventIdFor({ ...event, name, properties: sanitized.properties, createdAt }),
+      name,
+      properties: sanitized.properties,
+      createdAt,
+    },
+    sensitivePropertiesDropped: sanitized.sensitivePropertiesDropped,
   }
 }
 
 const parseEvents = (raw) => {
   const payload = JSON.parse(raw)
   const rawEvents = Array.isArray(payload) ? payload : Array.isArray(payload.events) ? payload.events : []
-  const events = rawEvents.map(normalizeEvent).filter(Boolean)
+  let sensitivePropertiesDropped = 0
+  const events = rawEvents
+    .map(normalizeEvent)
+    .filter(Boolean)
+    .map((normalized) => {
+      sensitivePropertiesDropped += normalized.sensitivePropertiesDropped
+      return normalized.event
+    })
   const seen = new Set()
 
-  return events.filter((event) => {
-    if (seen.has(event.id)) {
-      return false
-    }
+  return {
+    sensitivePropertiesDropped,
+    events: events.filter((event) => {
+      if (seen.has(event.id)) {
+        return false
+      }
 
-    seen.add(event.id)
-    return true
-  })
+      seen.add(event.id)
+      return true
+    }),
+  }
 }
 
 const eventBatchHash = (events) =>
@@ -113,7 +231,7 @@ const importedFiles = []
 const skippedFiles = []
 let knownEventIds = new Set()
 
-const importBatch = async (events, sourcePath) => {
+const importBatch = async (events, sourcePath, privacy = {}) => {
   if (!events.length) {
     skippedFiles.push({ sourcePath, reason: 'no valid events' })
     return
@@ -128,6 +246,7 @@ const importBatch = async (events, sourcePath) => {
       reason: 'duplicate events',
       events: events.length,
       duplicateEvents,
+      sensitivePropertiesDropped: privacy.sensitivePropertiesDropped ?? 0,
     })
     return
   }
@@ -136,7 +255,12 @@ const importBatch = async (events, sourcePath) => {
   const targetPath = path.join(outputDir, `imported-${hash}.json`)
 
   if (await exists(targetPath)) {
-    skippedFiles.push({ sourcePath, reason: 'duplicate batch', targetPath })
+    skippedFiles.push({
+      sourcePath,
+      reason: 'duplicate batch',
+      targetPath,
+      sensitivePropertiesDropped: privacy.sensitivePropertiesDropped ?? 0,
+    })
     return
   }
 
@@ -151,6 +275,8 @@ const importBatch = async (events, sourcePath) => {
     sourceEvents: events.length,
     duplicateEvents,
     hash,
+    sensitivePropertiesDropped: privacy.sensitivePropertiesDropped ?? 0,
+    privacyStripped: true,
   })
 }
 
@@ -160,7 +286,7 @@ const loadKnownEventIds = async () => {
 
   for (const file of files.filter((candidate) => importedPattern.test(candidate))) {
     try {
-      const events = parseEvents(await readFile(path.join(outputDir, file), 'utf8'))
+      const { events } = parseEvents(await readFile(path.join(outputDir, file), 'utf8'))
 
       for (const event of events) {
         ids.add(event.id)
@@ -199,15 +325,18 @@ if (collectorExportUrl) {
       })
     } else {
       const raw = await response.text()
-      const events = parseEvents(raw)
+      const parsed = parseEvents(raw)
 
       remoteCollectors.push({
         url: collectorExportUrl,
-        status: events.length ? 'available' : 'empty',
-        events: events.length,
+        status: parsed.events.length ? 'available' : 'empty',
+        events: parsed.events.length,
+        sensitivePropertiesDropped: parsed.sensitivePropertiesDropped,
       })
 
-      await importBatch(events, collectorExportUrl)
+      await importBatch(parsed.events, collectorExportUrl, {
+        sensitivePropertiesDropped: parsed.sensitivePropertiesDropped,
+      })
     }
   } catch (error) {
     remoteCollectors.push({
@@ -234,8 +363,10 @@ for (const directory of importDirs) {
     const sourcePath = path.join(directory, file)
 
     try {
-      const events = parseEvents(await readFile(sourcePath, 'utf8'))
-      await importBatch(events, sourcePath)
+      const parsed = parseEvents(await readFile(sourcePath, 'utf8'))
+      await importBatch(parsed.events, sourcePath, {
+        sensitivePropertiesDropped: parsed.sensitivePropertiesDropped,
+      })
     } catch (error) {
       skippedFiles.push({
         sourcePath,
@@ -272,6 +403,16 @@ const payload = {
     ...importedFiles.map((file) => file.duplicateEvents ?? 0),
     ...skippedFiles.map((file) => file.duplicateEvents ?? 0),
   ].reduce((sum, value) => sum + value, 0),
+  privacy: {
+    piiStrippingEnabled: true,
+    importedFilesAreSanitized: importedFiles.every((file) => file.privacyStripped === true),
+    rawPlayerEventDropsStayLocal: true,
+    sensitivePropertiesDropped: [
+      ...importedFiles.map((file) => file.sensitivePropertiesDropped ?? 0),
+      ...skippedFiles.map((file) => file.sensitivePropertiesDropped ?? 0),
+    ].reduce((sum, value) => sum + value, 0),
+    strippedPropertyKeys: [...sensitivePropertyKeys].sort(),
+  },
 }
 
 const report = [
@@ -303,6 +444,7 @@ const report = [
     : ['- none']),
   `- Existing imported events before run: ${payload.existingImportedEvents}`,
   `- Duplicate events skipped: ${payload.duplicateEvents}`,
+  `- Sensitive properties stripped: ${payload.privacy.sensitivePropertiesDropped}`,
   '',
   '## Skipped',
   '',

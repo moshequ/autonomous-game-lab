@@ -2411,7 +2411,12 @@ test('local event bridge keeps browser analytics drops importable without extern
     status: string
     inbox: { directory: string; validEvents: number }
     imported: { directory: string; events: number }
-    eventDropContract: { filenamePattern: string; importCommand: string; rollupCommand: string }
+    eventDropContract: {
+      filenamePattern: string
+      importCommand: string
+      rollupCommand: string
+      strippedPropertyKeys: string[]
+    }
     gateSampleEvidence: {
       inbox: { events: number; campaigns: unknown[] }
       imported: { events: number; campaigns: unknown[] }
@@ -2429,9 +2434,18 @@ test('local event bridge keeps browser analytics drops importable without extern
       localOnly: boolean
       noExternalUpload: boolean
       noSyntheticEvents: boolean
+      piiStrippingEnabled: boolean
+      rawEventDropsStayLocal: boolean
       copyOnlyExplicitDropPaths: boolean
       downloadsFolderOptInOnly: boolean
       downloadsFolderRequiresExplicitEnv: boolean
+    }
+    privacy: {
+      piiStrippingEnabled: boolean
+      rawDropsStayLocal: boolean
+      inboxWritesSanitizedEvents: boolean
+      sensitivePropertiesDropped: number
+      strippedPropertyKeys: string[]
     }
   }
 
@@ -2443,10 +2457,13 @@ test('local event bridge keeps browser analytics drops importable without extern
   expect(bridge.eventDropContract.filenamePattern).toBe('player-events*.json')
   expect(bridge.eventDropContract.importCommand).toBe('npm run autonomous:import-events')
   expect(bridge.eventDropContract.rollupCommand).toBe('npm run autonomous:analytics')
+  expect(bridge.eventDropContract.strippedPropertyKeys).toContain('email')
   expect(bridge.controls.zeroPaidSpend).toBe(true)
   expect(bridge.controls.localOnly).toBe(true)
   expect(bridge.controls.noExternalUpload).toBe(true)
   expect(bridge.controls.noSyntheticEvents).toBe(true)
+  expect(bridge.controls.piiStrippingEnabled).toBe(true)
+  expect(bridge.controls.rawEventDropsStayLocal).toBe(true)
   expect(bridge.controls.copyOnlyExplicitDropPaths).toBe(true)
   expect(bridge.controls.downloadsFolderOptInOnly).toBe(true)
   expect(bridge.controls.downloadsFolderRequiresExplicitEnv).toBe(true)
@@ -2455,6 +2472,11 @@ test('local event bridge keeps browser analytics drops importable without extern
   expect(typeof bridge.explicitDownloadsScanPolicy.coolingDown).toBe('boolean')
   expect(typeof bridge.explicitDownloadsScanPolicy.evidenceReadyNow).toBe('boolean')
   expect(bridge.explicitDownloadsScanPolicy.nextRecommendedScanAt).toBeTruthy()
+  expect(bridge.privacy.piiStrippingEnabled).toBe(true)
+  expect(bridge.privacy.rawDropsStayLocal).toBe(true)
+  expect(bridge.privacy.inboxWritesSanitizedEvents).toBe(true)
+  expect(typeof bridge.privacy.sensitivePropertiesDropped).toBe('number')
+  expect(bridge.privacy.strippedPropertyKeys).toContain('email')
   expect(bridge.gateSampleEvidence.localEvidenceAvailable).toBe(false)
   expect(bridge.gateSampleEvidence.inbox.campaigns).toHaveLength(0)
 
@@ -2863,6 +2885,11 @@ test('autonomous self-update persists only verified allowlisted generated change
       directPushRequiresExplicitVariable: boolean
       doesNotStageSourceOrWorkflowChanges: boolean
     }
+    privacy: {
+      rawEventDropsCommitBlocked: boolean
+      localEventRollupsOnly: boolean
+      blockedRawEventDropPrefix: string
+    }
     checks: Array<{ id: string; status: string }>
   }
   const workflow = await readFile('.github/workflows/autonomous-self-update.yml', 'utf8')
@@ -2882,6 +2909,10 @@ test('autonomous self-update persists only verified allowlisted generated change
   expect(selfUpdate.controls.commitRequiresSafePathAllowlist).toBe(true)
   expect(selfUpdate.controls.directPushRequiresExplicitVariable).toBe(true)
   expect(selfUpdate.controls.doesNotStageSourceOrWorkflowChanges).toBe(true)
+  expect(selfUpdate.privacy.rawEventDropsCommitBlocked).toBe(true)
+  expect(selfUpdate.privacy.localEventRollupsOnly).toBe(true)
+  expect(selfUpdate.privacy.blockedRawEventDropPrefix).toBe('data/player-events/')
+  expect(selfUpdate.commitPlan.stagePaths.some((stagePath) => stagePath.startsWith('data/player-events/'))).toBe(false)
   expect(selfUpdate.checks.every((check) => check.status === 'pass')).toBe(true)
   expect(workflow).toContain("vars.AGL_AUTONOMOUS_SELF_UPDATE == '1'")
   expect(workflow).toContain('contents: write')

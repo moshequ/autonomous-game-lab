@@ -1,5 +1,5 @@
 export const localEventBridge = {
-  "generatedAt": "2026-05-20T14:05:06.586Z",
+  "generatedAt": "2026-05-20T14:28:01.425Z",
   "status": "bridge-waiting-for-export",
   "mode": "local-zero-spend-event-drop-bridge",
   "inbox": {
@@ -43,6 +43,19 @@ export const localEventBridge = {
       "properties.anonymousId",
       "properties.sessionDate"
     ],
+    "strippedPropertyKeys": [
+      "address",
+      "email",
+      "firstName",
+      "ip",
+      "ipAddress",
+      "lastName",
+      "latitude",
+      "longitude",
+      "name",
+      "phone",
+      "preciseLocation"
+    ],
     "inboxDirectory": "data/player-events/inbox",
     "downloadsDirectory": "../../../../Downloads",
     "importCommand": "npm run autonomous:import-events",
@@ -67,7 +80,7 @@ export const localEventBridge = {
     "evidenceReadyNow": false,
     "lastScanAt": "2026-05-20T05:52:52.843Z",
     "lastScanStatus": "no-evidence-found",
-    "scanAgeHours": 8.2,
+    "scanAgeHours": 8.59,
     "cooldownRemainingHours": 0,
     "nextRecommendedScanAt": "2026-05-20T09:52:52.843Z"
   },
@@ -91,12 +104,33 @@ export const localEventBridge = {
     "localEvidenceAvailable": false,
     "readyForIngest": false
   },
+  "privacy": {
+    "piiStrippingEnabled": true,
+    "rawDropsStayLocal": true,
+    "inboxWritesSanitizedEvents": true,
+    "sensitivePropertiesDropped": 0,
+    "strippedPropertyKeys": [
+      "address",
+      "email",
+      "firstName",
+      "ip",
+      "ipAddress",
+      "lastName",
+      "latitude",
+      "longitude",
+      "name",
+      "phone",
+      "preciseLocation"
+    ]
+  },
   "controls": {
     "zeroPaidSpend": true,
     "localOnly": true,
     "noExternalUpload": true,
     "noSyntheticEvents": true,
     "noPiiRequired": true,
+    "piiStrippingEnabled": true,
+    "rawEventDropsStayLocal": true,
     "copyOnlyExplicitDropPaths": true,
     "downloadsFolderOptInOnly": true,
     "downloadsFolderImportEnabled": false,

@@ -1,5 +1,5 @@
 import crypto from 'node:crypto'
-import { access, copyFile, mkdir, readdir, readFile, stat, writeFile } from 'node:fs/promises'
+import { access, mkdir, readdir, readFile, stat, writeFile } from 'node:fs/promises'
 import os from 'node:os'
 import path from 'node:path'
 
@@ -11,6 +11,83 @@ const outputTsPath = path.resolve(root, process.env.AGL_LOCAL_EVENT_BRIDGE_TS_OU
 const reportPath = path.resolve(root, process.env.AGL_LOCAL_EVENT_BRIDGE_REPORT ?? 'reports/local-event-bridge-latest.md')
 const filePattern = /^player-events.*\.json$/i
 const importedPattern = /^imported-.*\.json$/i
+const allowedEventNames = new Set([
+  'app_loaded',
+  'runtime_error',
+  'game_viewed',
+  'game_started',
+  'first_move_coach_shown',
+  'first_move_coach_used',
+  'first_move_coach_skipped',
+  'tutorial_completed',
+  'turn_taken',
+  'level_completed',
+  'first_loss',
+  'game_abandoned',
+  'experiment_assigned',
+  'analytics_exported',
+  'improvement_requested',
+  'prototype_card_viewed',
+  'prototype_started',
+  'privacy_choice_updated',
+  'rewarded_ad_available',
+  'rewarded_ad_started',
+  'rewarded_ad_completed',
+  'cosmetic_offer_viewed',
+  'cosmetic_offer_clicked',
+  'revenue_cents',
+  'replay_clicked',
+  'replay_prompt_viewed',
+  'replay_prompt_clicked',
+  'replay_prompt_dismissed',
+  'completion_nudge_viewed',
+  'completion_nudge_clicked',
+  'completion_nudge_dismissed',
+  'finish_line_coach_viewed',
+  'finish_line_coach_clicked',
+  'finish_line_coach_dismissed',
+  'store_gate_viewed',
+  'organic_entry_opened',
+  'share_clicked',
+  'organic_seed_card_viewed',
+  'organic_seed_share_clicked',
+  'seed_campaign_clicked',
+  'gate_sample_mission_clicked',
+  'daily_challenge_viewed',
+  'daily_challenge_started',
+  'daily_challenge_completed',
+  'daily_return_prompt_viewed',
+  'daily_return_prompt_clicked',
+  'daily_return_prompt_dismissed',
+  'daily_return_intent_viewed',
+  'daily_return_intent_started',
+  'daily_return_intent_cleared',
+  'streak_updated',
+  'pwa_install_prompt_available',
+  'pwa_install_prompt_viewed',
+  'pwa_install_prompt_clicked',
+  'pwa_install_prompt_accepted',
+  'pwa_install_prompt_dismissed',
+  'pwa_install_prompt_cooldown',
+  'pwa_installed',
+  'pwa_launch_mode_detected',
+  'local_router_card_viewed',
+  'local_router_choice_clicked',
+  'local_router_choice_dismissed',
+])
+const sensitivePropertyKeys = new Set([
+  'email',
+  'phone',
+  'name',
+  'firstName',
+  'lastName',
+  'address',
+  'ip',
+  'ipAddress',
+  'preciseLocation',
+  'latitude',
+  'longitude',
+])
 
 const exists = async (filePath) =>
   access(filePath)
@@ -22,7 +99,7 @@ const readOptionalJson = async (filePath, fallback) =>
     .catch(() => fallback)
 
 const hashText = (value) => crypto.createHash('sha256').update(value).digest('hex').slice(0, 16)
-const hashFile = async (filePath) => hashText(await readFile(filePath, 'utf8'))
+const stableJson = (value) => JSON.stringify(value, Object.keys(value).sort())
 
 const relativeToRoot = (value) => {
   if (!value) {
@@ -67,28 +144,64 @@ const eventIdFor = (event) =>
       properties: event.properties ?? {},
     }),
   )
+const sanitizeProperties = (properties) => {
+  if (!properties || typeof properties !== 'object' || Array.isArray(properties)) {
+    return { properties: {}, sensitivePropertiesDropped: 0 }
+  }
+
+  let sensitivePropertiesDropped = 0
+  const sanitized = {}
+
+  for (const [key, value] of Object.entries(properties)) {
+    if (sensitivePropertyKeys.has(key)) {
+      sensitivePropertiesDropped += 1
+      continue
+    }
+
+    const type = typeof value
+
+    if (type === 'string' || type === 'number' || type === 'boolean' || value === null) {
+      sanitized[key] = typeof value === 'string' ? value.slice(0, 240) : value
+    }
+  }
+
+  return { properties: sanitized, sensitivePropertiesDropped }
+}
 const parseEvents = (raw) => {
   const payload = JSON.parse(raw)
   const rawEvents = Array.isArray(payload) ? payload : Array.isArray(payload.events) ? payload.events : []
+  let sensitivePropertiesDropped = 0
 
-  const validEvents = rawEvents.filter((event) => {
+  const validEvents = rawEvents.map((event) => {
     if (!event || typeof event !== 'object') {
-      return false
+      return null
     }
 
     const eventName = eventNameFor(event)
-    const properties = event.properties
+    const createdAt =
+      typeof event.createdAt === 'string'
+        ? event.createdAt
+        : typeof event.timestamp === 'string'
+          ? event.timestamp
+          : null
 
-    return (
-      typeof eventName === 'string' &&
-      eventName.length > 0 &&
-      (!properties || typeof properties === 'object') &&
-      (typeof event.createdAt === 'string' || typeof event.timestamp === 'string')
-    )
-  })
+    if (typeof eventName !== 'string' || !allowedEventNames.has(eventName) || !createdAt) {
+      return null
+    }
+
+    const sanitized = sanitizeProperties(event.properties)
+    sensitivePropertiesDropped += sanitized.sensitivePropertiesDropped
+
+    return {
+      id: typeof event.id === 'string' ? event.id.slice(0, 96) : eventIdFor({ ...event, properties: sanitized.properties }),
+      name: eventName,
+      properties: sanitized.properties,
+      createdAt,
+    }
+  }).filter(Boolean)
   const seen = new Set()
 
-  return validEvents.filter((event) => {
+  const events = validEvents.filter((event) => {
     const id = eventIdFor(event)
 
     if (seen.has(id)) {
@@ -98,7 +211,21 @@ const parseEvents = (raw) => {
     seen.add(id)
     return true
   })
+
+  return { events, sensitivePropertiesDropped }
 }
+const eventBatchHash = (events) =>
+  hashText(
+    JSON.stringify(
+      events.map((event) => ({
+        id: event.id,
+        name: event.name,
+        createdAt: event.createdAt,
+        properties: stableJson(event.properties),
+      })),
+    ),
+  )
+const hashFile = async (filePath) => eventBatchHash(parseEvents(await readFile(filePath, 'utf8')).events)
 
 const summarizeGateSampleEvents = async (files) => {
   const campaigns = new Map()
@@ -108,7 +235,7 @@ const summarizeGateSampleEvents = async (files) => {
     let events = []
 
     try {
-      events = parseEvents(await readFile(file.filePath, 'utf8'))
+      events = parseEvents(await readFile(file.filePath, 'utf8')).events
     } catch {
       events = []
     }
@@ -199,15 +326,17 @@ const summarizeGateSampleEvents = async (files) => {
 const inspectEventFile = async (filePath) => {
   try {
     const raw = await readFile(filePath, 'utf8')
-    const events = parseEvents(raw)
+    const parsed = parseEvents(raw)
     const fileStat = await stat(filePath)
 
     return {
       filePath,
       exists: true,
-      valid: events.length > 0,
-      events: events.length,
-      hash: hashText(raw),
+      valid: parsed.events.length > 0,
+      events: parsed.events.length,
+      hash: eventBatchHash(parsed.events),
+      sanitizedEvents: parsed.events,
+      sensitivePropertiesDropped: parsed.sensitivePropertiesDropped,
       bytes: fileStat.size,
       modifiedAt: fileStat.mtime.toISOString(),
     }
@@ -218,6 +347,8 @@ const inspectEventFile = async (filePath) => {
       valid: false,
       events: 0,
       hash: null,
+      sanitizedEvents: [],
+      sensitivePropertiesDropped: 0,
       bytes: 0,
       modifiedAt: null,
       error: error instanceof Error ? error.message : String(error),
@@ -275,6 +406,8 @@ for (const filePath of sourceFiles) {
           valid: false,
           events: 0,
           hash: null,
+          sanitizedEvents: [],
+          sensitivePropertiesDropped: 0,
           bytes: 0,
           modifiedAt: null,
           error: 'filename does not match player-events*.json',
@@ -317,7 +450,7 @@ for (const candidate of candidateFiles.filter((file) => file.valid)) {
   }
 
   const targetPath = path.join(inboxDir, `player-events-bridge-${candidate.hash}.json`)
-  await copyFile(sourcePath, targetPath)
+  await writeFile(targetPath, JSON.stringify(candidate.sanitizedEvents, null, 2) + '\n')
   inboxHashes.add(candidate.hash)
   copiedFiles.push({
     sourcePath: relativeToRoot(sourcePath),
@@ -325,6 +458,8 @@ for (const candidate of candidateFiles.filter((file) => file.valid)) {
     targetPath: relativeToRoot(targetPath),
     events: candidate.events,
     hash: candidate.hash,
+    sensitivePropertiesDropped: candidate.sensitivePropertiesDropped ?? 0,
+    privacyStripped: true,
   })
 }
 
@@ -356,6 +491,10 @@ const explicitDownloadsScan = downloadsImportEnabled
       validFiles: downloadsDirectorySummary?.validFiles ?? 0,
       validEvents: downloadsDirectorySummary?.validEvents ?? 0,
       copiedFiles: copiedDownloadsFiles.length,
+      sensitivePropertiesDropped: copiedDownloadsFiles.reduce(
+        (sum, file) => sum + (file.sensitivePropertiesDropped ?? 0),
+        0,
+      ),
       evidenceFound: (downloadsDirectorySummary?.validEvents ?? 0) > 0 || copiedDownloadsFiles.length > 0,
     }
   : (previousBridge.explicitDownloadsScan ?? null)
@@ -427,6 +566,7 @@ const payload = {
     acceptedPayloads: ['Array<AnalyticsEvent>', '{ "events": Array<AnalyticsEvent> }'],
     requiredFields: ['name or event', 'createdAt or timestamp'],
     recommendedFields: ['properties.gameId', 'properties.anonymousId', 'properties.sessionDate'],
+    strippedPropertyKeys: [...sensitivePropertyKeys].sort(),
     inboxDirectory: relativeToRoot(inboxDir),
     downloadsDirectory: relativeToRoot(downloadsDir),
     importCommand: 'npm run autonomous:import-events',
@@ -441,12 +581,21 @@ const payload = {
     localEvidenceAvailable: gateSampleEvidence.imported.events > 0,
     readyForIngest: gateSampleEvidence.inbox.events > 0,
   },
+  privacy: {
+    piiStrippingEnabled: true,
+    rawDropsStayLocal: true,
+    inboxWritesSanitizedEvents: true,
+    sensitivePropertiesDropped: copiedFiles.reduce((sum, file) => sum + (file.sensitivePropertiesDropped ?? 0), 0),
+    strippedPropertyKeys: [...sensitivePropertyKeys].sort(),
+  },
   controls: {
     zeroPaidSpend: true,
     localOnly: true,
     noExternalUpload: true,
     noSyntheticEvents: true,
     noPiiRequired: true,
+    piiStrippingEnabled: true,
+    rawEventDropsStayLocal: true,
     copyOnlyExplicitDropPaths: true,
     downloadsFolderOptInOnly: true,
     downloadsFolderImportEnabled: downloadsImportEnabled,
@@ -499,6 +648,7 @@ const report = [
   `- Imported events: ${payload.imported.events}`,
   `- Gate sample inbox events: ${payload.gateSampleEvidence.inbox.events}`,
   `- Gate sample imported events: ${payload.gateSampleEvidence.imported.events}`,
+  `- Sensitive properties stripped: ${payload.privacy.sensitivePropertiesDropped}`,
   `- Last explicit Downloads scan: ${payload.explicitDownloadsScan?.status ?? 'none'}`,
   `- Downloads scan cooling down: ${payload.explicitDownloadsScanPolicy.coolingDown}`,
   `- Next recommended Downloads scan: ${payload.explicitDownloadsScanPolicy.nextRecommendedScanAt}`,

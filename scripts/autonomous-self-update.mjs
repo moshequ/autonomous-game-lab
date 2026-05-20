@@ -113,6 +113,7 @@ const allowedExactPaths = new Set([
 ])
 const blockedPrefixes = [
   '.github/workflows/',
+  'data/player-events/',
   'scripts/',
   'src/App.tsx',
   'src/components/',
@@ -336,6 +337,11 @@ const payload = {
     blockedPrefixes,
     blockedExactPaths: [...blockedExactPaths].sort(),
     selfReportPaths,
+  },
+  privacy: {
+    rawEventDropsCommitBlocked: blockedPrefixes.includes('data/player-events/'),
+    localEventRollupsOnly: true,
+    blockedRawEventDropPrefix: 'data/player-events/',
   },
   controls: {
     zeroPaidSpend: true,

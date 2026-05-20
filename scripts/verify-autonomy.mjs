@@ -479,9 +479,13 @@ if (
   !['imported', 'idle-duplicates', 'idle-no-files'].includes(eventIngest.status) ||
   eventIngest.outputDirectory !== 'data/player-events' ||
   !Array.isArray(eventIngest.sourceDirectories) ||
-  !eventIngest.sourceDirectories.length
+  !eventIngest.sourceDirectories.length ||
+  eventIngest.privacy?.piiStrippingEnabled !== true ||
+  eventIngest.privacy?.rawPlayerEventDropsStayLocal !== true ||
+  !Array.isArray(eventIngest.privacy?.strippedPropertyKeys) ||
+  !eventIngest.privacy.strippedPropertyKeys.includes('email')
 ) {
-  fail('Event ingestor must publish local player-event import status and source directories.')
+  fail('Event ingestor must publish local player-event import status, source directories, and privacy-safe import controls.')
 }
 
 const localExplicitDownloadsScan = localEventBridge.explicitDownloadsScan
@@ -511,6 +515,8 @@ if (
   localEventBridge.controls?.localOnly !== true ||
   localEventBridge.controls?.noExternalUpload !== true ||
   localEventBridge.controls?.noSyntheticEvents !== true ||
+  localEventBridge.controls?.piiStrippingEnabled !== true ||
+  localEventBridge.controls?.rawEventDropsStayLocal !== true ||
   localEventBridge.controls?.copyOnlyExplicitDropPaths !== true ||
   localEventBridge.controls?.downloadsFolderOptInOnly !== true ||
   localEventBridge.controls?.downloadsFolderRequiresExplicitEnv !== true ||
@@ -521,6 +527,11 @@ if (
   typeof localEventBridge.explicitDownloadsScanPolicy?.nextRecommendedScanAt !== 'string' ||
   typeof localEventBridge.gateSampleEvidence?.imported?.events !== 'number' ||
   typeof localEventBridge.gateSampleEvidence?.inbox?.events !== 'number' ||
+  localEventBridge.privacy?.piiStrippingEnabled !== true ||
+  localEventBridge.privacy?.rawDropsStayLocal !== true ||
+  localEventBridge.privacy?.inboxWritesSanitizedEvents !== true ||
+  typeof localEventBridge.privacy?.sensitivePropertiesDropped !== 'number' ||
+  !localEventBridge.eventDropContract?.strippedPropertyKeys?.includes('email') ||
   !localEventBridgeHasExplicitDownloadsScan ||
   !localExplicitDownloadsScanValid ||
   !Array.isArray(localEventBridge.sourceDirectories) ||
@@ -532,10 +543,12 @@ if (
   !localEventBridgeSource.includes('downloadsScanCooldownHours') ||
   !localEventBridgeSource.includes('previousBridge') ||
   !localEventBridgeSource.includes('AGL_LOCAL_EVENT_DROP_DIRS') ||
-  !localEventBridgeSource.includes('copyFile') ||
+  !localEventBridgeSource.includes('sanitizeProperties') ||
+  !localEventBridgeSource.includes('sensitivePropertyKeys') ||
+  !localEventBridgeSource.includes('writeFile(targetPath, JSON.stringify(candidate.sanitizedEvents') ||
   !appSource.includes('Local Event Bridge')
 ) {
-  fail('Local event bridge must validate browser event drops, preserve zero-spend local-only controls, and surface the ingest contract.')
+  fail('Local event bridge must validate and sanitize browser event drops, preserve zero-spend local-only controls, and surface the ingest contract.')
 }
 
 for (const importedFile of eventIngest.importedFiles ?? []) {
@@ -560,12 +573,16 @@ if (
   eventIngestSmoke.bridge?.inboxValidEvents < 6 ||
   eventIngestSmoke.bridge?.noSyntheticEvents !== true ||
   eventIngestSmoke.bridge?.noExternalUpload !== true ||
+  eventIngestSmoke.bridge?.piiStrippingEnabled !== true ||
+  eventIngestSmoke.bridge?.inboxWritesSanitizedEvents !== true ||
+  eventIngestSmoke.bridge?.sensitivePropertiesDropped < 2 ||
   !eventIngestSmoke.bridge?.downloadsOptInCommand?.includes('AGL_LOCAL_EVENT_IMPORT_DOWNLOADS=true') ||
   eventIngestSmoke.downloadsBridge?.copiedFiles !== 1 ||
   eventIngestSmoke.downloadsBridge?.downloadsImportEnabled !== true ||
   eventIngestSmoke.downloadsBridge?.explicitScanStatus !== 'evidence-found' ||
   eventIngestSmoke.downloadsBridge?.explicitScanEvidenceFound !== true ||
   eventIngestSmoke.downloadsBridge?.explicitScanCopiedFiles !== 1 ||
+  eventIngestSmoke.downloadsBridge?.sensitivePropertiesDropped < 1 ||
   eventIngestSmoke.followupBridge?.downloadsImportEnabled !== false ||
   eventIngestSmoke.followupBridge?.explicitScanStatus !== 'evidence-found' ||
   eventIngestSmoke.followupBridge?.explicitScanEvidenceFound !== true ||
@@ -573,6 +590,8 @@ if (
   eventIngestSmoke.downloadsBridge?.campaignId !== 'gate-sample-smoke-firstGameCompletion' ||
   eventIngestSmoke.ingest?.status !== 'imported' ||
   eventIngestSmoke.ingest?.importedEvents < 6 ||
+  eventIngestSmoke.ingest?.piiStrippingEnabled !== true ||
+  eventIngestSmoke.ingest?.importedFilesAreSanitized !== true ||
   eventIngestSmoke.incrementalIngest?.status !== 'imported' ||
   eventIngestSmoke.incrementalIngest?.importedEvents !== 1 ||
   eventIngestSmoke.incrementalIngest?.duplicateEvents < 12 ||
@@ -2077,6 +2096,9 @@ if (
   autonomousSelfUpdate.controls?.commitRequiresSafePathAllowlist !== true ||
   autonomousSelfUpdate.controls?.directPushRequiresExplicitVariable !== true ||
   autonomousSelfUpdate.controls?.doesNotStageSourceOrWorkflowChanges !== true ||
+  autonomousSelfUpdate.privacy?.rawEventDropsCommitBlocked !== true ||
+  autonomousSelfUpdate.privacy?.localEventRollupsOnly !== true ||
+  autonomousSelfUpdate.privacy?.blockedRawEventDropPrefix !== 'data/player-events/' ||
   !(autonomousSelfUpdate.checks ?? []).every((check) => check.status === 'pass') ||
   !selfUpdateWorkflow.includes("vars.AGL_AUTONOMOUS_SELF_UPDATE == '1'") ||
   !selfUpdateWorkflow.includes('contents: write') ||
@@ -2094,9 +2116,10 @@ if (
   !autonomousSelfUpdateSource.includes('public/install.html') ||
   !autonomousSelfUpdateSource.includes('public/seed-kit.html') ||
   !autonomousSelfUpdateSource.includes('blockedPrefixes') ||
+  !autonomousSelfUpdateSource.includes("'data/player-events/'") ||
   !appSource.includes('Autonomous Self Update')
 ) {
-  fail('Autonomous self-update must persist only verified allowlisted generated artifacts behind explicit repository gates.')
+  fail('Autonomous self-update must persist only verified generated artifacts, block raw event drops, and stay behind explicit repository gates.')
 }
 
 const objectiveRequirementIds = new Set((objectiveAudit.requirements ?? []).map((item) => item.id))

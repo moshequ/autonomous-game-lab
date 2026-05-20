@@ -1,6 +1,6 @@
 # Local Event Bridge
 
-Generated: 2026-05-20T14:05:06.586Z
+Generated: 2026-05-20T14:28:01.425Z
 Status: bridge-waiting-for-export
 Mode: local-zero-spend-event-drop-bridge
 
@@ -24,6 +24,7 @@ Mode: local-zero-spend-event-drop-bridge
 - Imported events: 0
 - Gate sample inbox events: 0
 - Gate sample imported events: 0
+- Sensitive properties stripped: 0
 - Last explicit Downloads scan: no-evidence-found
 - Downloads scan cooling down: false
 - Next recommended Downloads scan: 2026-05-20T09:52:52.843Z
@@ -44,6 +45,8 @@ Mode: local-zero-spend-event-drop-bridge
 - noExternalUpload: true
 - noSyntheticEvents: true
 - noPiiRequired: true
+- piiStrippingEnabled: true
+- rawEventDropsStayLocal: true
 - copyOnlyExplicitDropPaths: true
 - downloadsFolderOptInOnly: true
 - downloadsFolderImportEnabled: false
