@@ -217,6 +217,71 @@ const ghTokenConfigured = configured(process.env.GH_TOKEN) || configured(process
 const ghAuthAvailable = ghAuthResult.ok
 const ghCredentialReady = ghTokenConfigured || ghAuthAvailable
 const ghAutomationReady = Boolean(targetRepository && ghVersionResult.ok && ghCredentialReady)
+const livePagesInspectionControls = {
+  readOnlyGhApi: true,
+  noPagesMutation: true,
+  noWorkflowDispatch: true,
+}
+const summarizePagesApiError = (value) => {
+  const message = String(value ?? 'pages-api-unavailable').replace(/\s+/g, ' ').trim()
+
+  return message.length > 240 ? `${message.slice(0, 237)}...` : message || 'pages-api-unavailable'
+}
+
+const readLivePagesSettings = async (repository) => {
+  if (!repository || !ghVersionResult.ok || !ghCredentialReady) {
+    return {
+      status: 'unavailable',
+      repository,
+      error: repository ? 'gh-credentials-unavailable' : 'repository-target-missing',
+      controls: livePagesInspectionControls,
+    }
+  }
+
+  const pagesResult = await run('gh', ['api', `repos/${repository}/pages`])
+
+  if (!pagesResult.ok) {
+    return {
+      status: 'unavailable',
+      repository,
+      error: summarizePagesApiError(pagesResult.stderr || pagesResult.stdout),
+      controls: livePagesInspectionControls,
+    }
+  }
+
+  try {
+    const pages = JSON.parse(pagesResult.stdout || '{}')
+
+    return {
+      status: 'inspected',
+      repository,
+      htmlUrl: pages.html_url ?? null,
+      buildType: pages.build_type ?? null,
+      httpsEnforced: pages.https_enforced === true,
+      public: pages.public === true,
+      cname: pages.cname ?? null,
+      pagesStatus: pages.status ?? null,
+      source: {
+        branch: pages.source?.branch ?? null,
+        path: pages.source?.path ?? null,
+      },
+      controls: livePagesInspectionControls,
+    }
+  } catch (parseError) {
+    return {
+      status: 'unavailable',
+      repository,
+      error: summarizePagesApiError(parseError instanceof Error ? parseError.message : String(parseError)),
+      controls: livePagesInspectionControls,
+    }
+  }
+}
+
+const livePagesSettings = await readLivePagesSettings(targetRepository)
+const livePagesSettingsReady =
+  livePagesSettings.status === 'inspected' &&
+  livePagesSettings.buildType === 'workflow' &&
+  livePagesSettings.httpsEnforced === true
 const deploymentArtifactsReady =
   deployment.status === 'ready-for-pages' &&
   releaseCandidate.status === 'release-candidate-ready' &&
@@ -224,7 +289,7 @@ const deploymentArtifactsReady =
     postDeploySmoke.status,
   )
 const repositoryChannelReady = Boolean(
-  insideWorkTree && targetRepository && pagesWorkflowExists && deploymentArtifactsReady,
+  insideWorkTree && targetRepository && pagesWorkflowExists && deploymentArtifactsReady && livePagesSettingsReady,
 )
 const workflowDispatchReady = repositoryChannelReady && ghAutomationReady
 
@@ -277,6 +342,18 @@ const checks = [
       : 'Web PWA Deploy workflow is missing.',
   },
   {
+    id: 'pages-settings',
+    status: livePagesSettingsReady
+      ? 'pass'
+      : livePagesSettings.status === 'unavailable'
+        ? 'external-blocker'
+        : 'blocker',
+    detail:
+      livePagesSettings.status === 'inspected'
+        ? `GitHub Pages build type is ${livePagesSettings.buildType}; HTTPS enforced ${livePagesSettings.httpsEnforced}.`
+        : `GitHub Pages settings could not be inspected: ${livePagesSettings.error}.`,
+  },
+  {
     id: 'deployable-artifact',
     status: deploymentArtifactsReady ? 'pass' : 'blocker',
     detail: `Deployment ${deployment.status}; release candidate ${releaseCandidate.status}; smoke ${postDeploySmoke.status}.`,
@@ -305,6 +382,7 @@ const blockers = [
     ? []
     : ['Authenticate GitHub CLI or configure GH_TOKEN/GITHUB_TOKEN for workflow dispatch and repository settings sync.']),
   ...(pagesWorkflowExists ? [] : ['Add .github/workflows/web-pwa-deploy.yml.']),
+  ...(livePagesSettingsReady ? [] : ['Configure GitHub Pages to use GitHub Actions workflow deployments with HTTPS enforced.']),
   ...(deploymentArtifactsReady ? [] : ['Refresh build, release candidate, post-deploy smoke, and deployment plan artifacts.']),
 ]
 
@@ -346,10 +424,10 @@ const payload = {
     remoteParsing: {
       supportsHttps: true,
       supportsSshScp: true,
-    supportsSshUrl: true,
-    supportsDottedRepositoryNames: true,
-    supportsOwnerHint: true,
-  },
+      supportsSshUrl: true,
+      supportsDottedRepositoryNames: true,
+      supportsOwnerHint: true,
+    },
   },
   githubAutomation: {
     ghCliAvailable: ghVersionResult.ok,
@@ -367,6 +445,7 @@ const payload = {
     deploymentStatus: deployment.status,
     releaseCandidateId: releaseCandidate.candidateId,
     postDeploySmokeStatus: postDeploySmoke.status,
+    liveSettings: livePagesSettings,
   },
   repositoryTargetPlan,
   controls: {
@@ -405,6 +484,9 @@ const report = [
   `Repository: ${payload.repository.target ?? 'missing'}`,
   `Planned target: ${payload.repositoryTargetPlan.plannedTarget}`,
   `Planned Pages origin: ${payload.repositoryTargetPlan.pages?.origin ?? 'missing'}`,
+  `Live Pages build: ${payload.pages.liveSettings.buildType ?? 'unknown'}`,
+  `Live Pages HTTPS: ${payload.pages.liveSettings.httpsEnforced === true ? 'enforced' : 'not-enforced'}`,
+  `Live Pages URL: ${payload.pages.liveSettings.htmlUrl ?? 'unknown'}`,
   '',
   '## Checks',
   '',
@@ -446,6 +528,14 @@ const appPayload = {
   },
   githubAutomation: {
     workflowDispatchReady: payload.githubAutomation.workflowDispatchReady,
+  },
+  pages: {
+    liveSettings: {
+      status: payload.pages.liveSettings.status,
+      buildType: payload.pages.liveSettings.buildType ?? null,
+      httpsEnforced: payload.pages.liveSettings.httpsEnforced ?? false,
+      htmlUrl: payload.pages.liveSettings.htmlUrl ?? null,
+    },
   },
 }
 await writeFile(outputJsonPath, JSON.stringify(payload, null, 2) + '\n')

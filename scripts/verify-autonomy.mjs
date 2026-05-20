@@ -3964,6 +3964,12 @@ if (
   repositoryReadiness.pages?.deployWorkflowIncludesSmoke !== true ||
   repositoryReadiness.pages?.releaseCandidateId !== releaseCandidate.candidateId ||
   repositoryReadiness.pages?.postDeploySmokeStatus !== postDeploySmoke.status ||
+  repositoryReadiness.pages?.liveSettings?.status !== 'inspected' ||
+  repositoryReadiness.pages?.liveSettings?.buildType !== 'workflow' ||
+  repositoryReadiness.pages?.liveSettings?.httpsEnforced !== true ||
+  repositoryReadiness.pages?.liveSettings?.controls?.readOnlyGhApi !== true ||
+  repositoryReadiness.pages?.liveSettings?.controls?.noPagesMutation !== true ||
+  repositoryReadiness.pages?.liveSettings?.controls?.noWorkflowDispatch !== true ||
   !['environment', 'origin-remote', 'owner-hint-and-package-name', 'gh-auth-user-and-package-name', 'missing'].includes(
     repositoryReadiness.repository?.source,
   ) ||
@@ -3987,6 +3993,7 @@ if (
   typeof repositoryReadiness.workspace?.nonGeneratedDirtyFiles !== 'number' ||
   !repositoryReadiness.checks?.some((check) => check.id === 'local-git-worktree') ||
   !repositoryReadiness.checks?.some((check) => check.id === 'pages-workflow' && check.status === 'pass') ||
+  !repositoryReadiness.checks?.some((check) => check.id === 'pages-settings' && check.status === 'pass') ||
   !repositoryReadiness.checks?.some((check) => check.id === 'deployable-artifact' && check.status === 'pass') ||
   (repositoryChannelReady && repositoryReadiness.workspace?.insideWorkTree !== true) ||
   (!repositoryChannelReady && (repositoryReadiness.blockers?.length ?? 0) < 1) ||
@@ -4009,10 +4016,16 @@ if (
   !repositoryReadinessSource.includes('repositoryTargetPlan') ||
   !repositoryReadinessSource.includes('githubNewRepositoryUrl') ||
   !repositoryReadinessSource.includes('pagesOriginFor') ||
+  !repositoryReadinessSource.includes('repos/${repository}/pages') ||
+  !repositoryReadinessSource.includes('build_type') ||
+  !repositoryReadinessSource.includes('https_enforced') ||
+  !repositoryReadinessSource.includes('readOnlyGhApi') ||
+  !repositoryReadinessSource.includes('noPagesMutation') ||
   !repositoryReadinessSource.includes('ssh:\\/\\/git@github\\.com') ||
   !repositoryReadinessSource.includes('noGitMutation') ||
   !repositoryReadinessSource.includes('noWorkflowDispatch') ||
   !appSource.includes('Planned target') ||
+  !appSource.includes('Pages build') ||
   !appSource.includes('Repository Channel')
 ) {
   fail('Repository readiness must inspect the git/GitHub Pages deployment channel without mutating git or dispatching workflows.')

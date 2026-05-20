@@ -14,6 +14,14 @@ export const repositoryReadiness = {
   },
   "githubAutomation": {
     "workflowDispatchReady": true
+  },
+  "pages": {
+    "liveSettings": {
+      "status": "inspected",
+      "buildType": "workflow",
+      "httpsEnforced": true,
+      "htmlUrl": "https://moshequ.github.io/autonomous-game-lab/"
+    }
   }
 } as const
 

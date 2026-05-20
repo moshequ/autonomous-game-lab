@@ -2508,6 +2508,14 @@ function App() {
                   <strong>{repositoryReadiness.repositoryTargetPlan.pages?.origin ?? 'missing'}</strong>
                 </div>
                 <div>
+                  <span>Pages build</span>
+                  <strong>{repositoryReadiness.pages.liveSettings.buildType ?? 'unknown'}</strong>
+                </div>
+                <div>
+                  <span>Pages HTTPS</span>
+                  <strong>{repositoryReadiness.pages.liveSettings.httpsEnforced ? 'enforced' : 'blocked'}</strong>
+                </div>
+                <div>
                   <span>Workflow dispatch</span>
                   <strong>{repositoryReadiness.githubAutomation.workflowDispatchReady ? 'ready' : 'blocked'}</strong>
                 </div>

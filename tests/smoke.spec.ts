@@ -1548,7 +1548,18 @@ test('repository readiness surfaces the GitHub Pages deployment channel without 
       }
     }
     githubAutomation: { workflowDispatchReady: boolean; ghAuthAvailable: boolean; ghCredentialReady: boolean }
-    pages: { workflowPath: string; deployWorkflowIncludesSmoke: boolean; releaseCandidateId: string }
+    pages: {
+      workflowPath: string
+      deployWorkflowIncludesSmoke: boolean
+      releaseCandidateId: string
+      liveSettings: {
+        status: string
+        buildType: string | null
+        httpsEnforced: boolean
+        htmlUrl: string | null
+        controls: { readOnlyGhApi: boolean; noPagesMutation: boolean; noWorkflowDispatch: boolean }
+      }
+    }
     repositoryTargetPlan: {
       repositoryName: string
       plannedTarget: string
@@ -1638,8 +1649,16 @@ test('repository readiness surfaces the GitHub Pages deployment channel without 
   expect(readiness.pages.workflowPath).toBe('.github/workflows/web-pwa-deploy.yml')
   expect(readiness.pages.deployWorkflowIncludesSmoke).toBe(true)
   expect(readiness.pages.releaseCandidateId).toBe(candidate.candidateId)
+  expect(readiness.pages.liveSettings.status).toBe('inspected')
+  expect(readiness.pages.liveSettings.buildType).toBe('workflow')
+  expect(readiness.pages.liveSettings.httpsEnforced).toBe(true)
+  expect(readiness.pages.liveSettings.htmlUrl).toMatch(/^https:\/\//)
+  expect(readiness.pages.liveSettings.controls.readOnlyGhApi).toBe(true)
+  expect(readiness.pages.liveSettings.controls.noPagesMutation).toBe(true)
+  expect(readiness.pages.liveSettings.controls.noWorkflowDispatch).toBe(true)
   expect(readiness.checks.some((check) => check.id === 'local-git-worktree')).toBe(true)
   expect(readiness.checks.some((check) => check.id === 'pages-workflow' && check.status === 'pass')).toBe(true)
+  expect(readiness.checks.some((check) => check.id === 'pages-settings' && check.status === 'pass')).toBe(true)
   expect(readiness.workspace.insideWorkTree || readiness.blockers.length > 0).toBe(true)
   expect(typeof readiness.workspace.nonGeneratedDirtyFiles).toBe('number')
   if (readiness.workspace.nonGeneratedDirtyFiles === 0) {
