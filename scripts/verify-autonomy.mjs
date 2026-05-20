@@ -1921,6 +1921,7 @@ if (
   autonomousOperatorHistory.status !== 'operator-history-ready' ||
   autonomousOperatorHistory.retention?.maxRecords !== 40 ||
   autonomousOperatorHistory.retention?.appendOnlyWhenPlanChangesOrExecutes !== true ||
+  autonomousOperatorHistory.retention?.preserveLatestExecutedRecord !== true ||
   autonomousOperatorHistory.summary?.totalRecords < 1 ||
   autonomousOperatorHistory.summary?.totalRecords > 40 ||
   autonomousOperatorHistory.summary?.plannedRecords < 1 ||

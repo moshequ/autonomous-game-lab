@@ -2375,6 +2375,7 @@ test('autonomous operator history keeps a capped audit trail', async ({ page }) 
     retention: {
       maxRecords: number
       appendOnlyWhenPlanChangesOrExecutes: boolean
+      preserveLatestExecutedRecord: boolean
       compactedDuplicateDryRuns?: number
     }
     summary: {
@@ -2499,6 +2500,7 @@ test('autonomous operator history keeps a capped audit trail', async ({ page }) 
   expect(history.status).toBe('operator-history-ready')
   expect(history.retention.maxRecords).toBe(40)
   expect(history.retention.appendOnlyWhenPlanChangesOrExecutes).toBe(true)
+  expect(history.retention.preserveLatestExecutedRecord).toBe(true)
   expect(history.summary.totalRecords).toBeGreaterThanOrEqual(1)
   expect(history.summary.totalRecords).toBeLessThanOrEqual(40)
   expect(history.summary.plannedRecords).toBeGreaterThanOrEqual(1)

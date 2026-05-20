@@ -370,7 +370,16 @@ const historyRecord = {
     maxActionsPerRun: payload.controls.maxActionsPerRun,
   },
 }
-const records = shouldAppendHistory ? [...compactedPriorRecords, historyRecord].slice(-40) : compactedPriorRecords.slice(-40)
+const nextRecords = shouldAppendHistory ? [...compactedPriorRecords, historyRecord] : compactedPriorRecords
+const cappedRecords = nextRecords.slice(-40)
+const latestExecutedRecord = [...nextRecords].reverse().find((record) => record.execution?.requested)
+const records =
+  cappedRecords.some((record) => record.execution?.requested) || !latestExecutedRecord
+    ? cappedRecords
+    : [
+        latestExecutedRecord,
+        ...cappedRecords.filter((record) => record.id !== latestExecutedRecord.id).slice(-(40 - 1)),
+      ]
 const executedRecords = records.filter((record) => record.execution?.requested)
 const failedRecords = records.filter((record) => record.execution?.status === 'failed')
 const historyPayload = {
@@ -379,6 +388,7 @@ const historyPayload = {
   retention: {
     maxRecords: 40,
     appendOnlyWhenPlanChangesOrExecutes: true,
+    preserveLatestExecutedRecord: true,
     latestRunAppended: shouldAppendHistory,
     compactedDuplicateDryRuns,
   },
