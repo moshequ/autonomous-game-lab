@@ -1,11 +1,12 @@
 {
-  "generatedAt": "2026-05-20T21:44:24.434Z",
+  "generatedAt": "2026-05-20T22:11:31.468Z",
   "status": "retention-loop-ready",
+  "sourceDataHash": "e8d25812b66b",
   "dailyChallenge": {
-    "date": "2026-05-20",
+    "date": "2026-05-21",
     "gameId": "canopy-bloom",
     "title": "Canopy Bloom",
-    "seed": "daily-20260520-2mi",
+    "seed": "daily-20260521-13f",
     "reason": "Canopy Bloom has the strongest blended portfolio score (51.912)."
   },
   "sourceStatus": {
@@ -64,7 +65,7 @@
     "ctaLabel": "Queue tomorrow",
     "dismissLabel": "Not today",
     "copy": "Queue tomorrow's board to protect your local daily streak.",
-    "nextChallengeDate": "2026-05-21",
+    "nextChallengeDate": "2026-05-22",
     "cooldown": "one prompt per daily challenge date",
     "reason": "D1 retention is 17% and the gate is 18%; ask for a local return intent after a completed run.",
     "telemetry": {
@@ -154,8 +155,8 @@
       "evidenceReadyNow": false,
       "lastScanAt": "2026-05-20T19:03:48.635Z",
       "lastScanStatus": "no-evidence-found",
-      "scanAgeHours": 1.79,
-      "cooldownRemainingHours": 2.21,
+      "scanAgeHours": 2.81,
+      "cooldownRemainingHours": 1.19,
       "nextRecommendedScanAt": "2026-05-20T23:03:48.635Z"
     },
     "commandPlan": {
@@ -203,7 +204,7 @@
     },
     {
       "id": "confirm-return-intent",
-      "label": "Queue 2026-05-21 board intent",
+      "label": "Queue 2026-05-22 board intent",
       "event": "daily_return_prompt_clicked",
       "gameId": "canopy-bloom",
       "reward": "local-return-intent",

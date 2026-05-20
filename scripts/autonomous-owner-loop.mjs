@@ -25,6 +25,10 @@ const generatedAtMs = (artifact) => {
   const value = Date.parse(artifact?.generatedAt ?? '')
   return Number.isFinite(value) ? value : null
 }
+const localIsoDate = (date = new Date()) => {
+  const localDate = new Date(date.getTime() - date.getTimezoneOffset() * 60_000)
+  return localDate.toISOString().slice(0, 10)
+}
 
 const productionEnvironment = await readJson(path.join(dataDir, 'production-environment.json'))
 const trendSignals = await readJson(path.join(dataDir, 'trend-signals.json'))
@@ -1054,6 +1058,26 @@ const gateSampleCollectionTargets = [
   productGateSamplePlan.summary?.primaryGateId ?? productGateRecovery.summary?.primaryBottleneck ?? 'product-gates',
   ...gateSampleMissions.map((mission) => mission.campaignId).filter(Boolean).slice(0, 2),
 ]
+const retentionDailyChallenge = portfolioPolicy.dailyChallenge
+const retentionRewardExperiment = experimentResults.recommendations?.find(
+  (recommendation) => recommendation.experiment === 'reward_offer',
+)
+const retentionRewardPolicy = experimentPolicy.experiments?.reward_offer
+const retentionRewardExperimentDetail = experimentResults.experiments?.find(
+  (experiment) => experiment.id === 'reward_offer',
+)
+const retentionD1Gate = productGateRecovery.gates?.find((gate) => gate.id === 'd1Retention') ?? null
+const retentionDownloadsScanPolicy = localEventBridge.explicitDownloadsScanPolicy ?? {
+  explicitOptInRequired: true,
+  cooldownHours: 4,
+  coolingDown: false,
+  evidenceReadyNow: false,
+  lastScanAt: localEventBridge.explicitDownloadsScan?.scannedAt ?? null,
+  lastScanStatus: localEventBridge.explicitDownloadsScan?.status ?? null,
+  scanAgeHours: null,
+  cooldownRemainingHours: 0,
+  nextRecommendedScanAt: new Date().toISOString(),
+}
 const objectiveAuditFreshnessInputs = [
   { id: 'analytics-rollup', generatedAt: analytics.generatedAt },
   { id: 'event-ingest', generatedAt: eventIngest.generatedAt },
@@ -1113,6 +1137,33 @@ const productOptimizationSourceEvidence = {
   })),
   gates: productOptimizationSourceGates,
 }
+const retentionSourceEvidence = {
+  today: localIsoDate(),
+  dailyChallenge: retentionDailyChallenge,
+  analyticsSource: analytics.sourceStatus?.activeSource ?? 'unknown',
+  retention: analytics.retention,
+  metrics: analytics.totals?.metrics ?? {},
+  experiment: {
+    recommendation: retentionRewardExperiment,
+    rewardPolicy: retentionRewardPolicy,
+    rewardExperimentDetail: retentionRewardExperimentDetail,
+  },
+  releaseHealth: {
+    status: releaseHealth.status,
+    canApplyExperimentChanges: releaseHealth.controls?.canApplyExperimentChanges,
+  },
+  playableGames: playable.games ?? [],
+  productGateRecovery: {
+    status: productGateRecovery.status,
+    summary: productGateRecovery.summary,
+    d1Gate: retentionD1Gate,
+  },
+  localEventBridge: {
+    status: localEventBridge.status,
+    explicitDownloadsScanPolicy: retentionDownloadsScanPolicy,
+    gateSampleEvidence: localEventBridge.gateSampleEvidence,
+  },
+}
 const productOptimizationFreshness = sourceFreshness({
   artifact: productOptimization,
   readyStatuses: ['product-optimization-ready'],
@@ -1122,6 +1173,21 @@ const productOptimizationFreshness = sourceFreshness({
     { id: 'playable-games', data: playable },
   ],
   sourceDataHash: hashRawSourceData(productOptimizationSourceEvidence),
+})
+const retentionLoopFreshness = sourceFreshness({
+  artifact: retention,
+  readyStatuses: ['retention-loop-ready', 'blocked-missing-daily-game'],
+  inputs: [
+    { id: 'analytics-rollup', data: analytics },
+    { id: 'portfolio-policy', data: portfolioPolicy },
+    { id: 'experiment-policy', data: experimentPolicy },
+    { id: 'experiment-results', data: experimentResults },
+    { id: 'release-health', data: releaseHealth },
+    { id: 'playable-games', data: playable },
+    { id: 'product-gate-recovery', data: productGateRecovery },
+    { id: 'local-event-bridge', data: localEventBridge },
+  ],
+  sourceDataHash: hashRawSourceData(retentionSourceEvidence),
 })
 const firstMoveCoachFreshness = sourceFreshness({
   artifact: firstMoveCoach,
@@ -1251,11 +1317,13 @@ const safeAutonomousActions = [
   },
   {
     id: 'optimize-daily-retention',
-    status: retention.status === 'retention-loop-ready' ? 'armed' : 'monitor',
+    status: retentionLoopFreshness.current ? 'monitor' : retention.status === 'retention-loop-ready' ? 'armed' : 'monitor',
     costUsd: 0,
     command: 'npm run autonomous:retention',
     targets: retention.dailyChallenge?.gameId ? [retention.dailyChallenge.gameId] : [],
-    reason: 'Keeps daily challenge, local streak prompts, and retention-safe missions aligned with behavior data.',
+    reason: retentionLoopFreshness.current
+      ? 'Daily challenge, return-intent, and D1 sample policies already reflect current retention evidence.'
+      : 'Keeps daily challenge, local streak prompts, and retention-safe missions aligned with behavior data.',
   },
   {
     id: 'measure-pwa-install-loop',
@@ -1634,6 +1702,7 @@ const payload = {
     },
     sourceFreshness: {
       productOptimization: productOptimizationFreshness,
+      retentionLoop: retentionLoopFreshness,
       firstMoveCoach: firstMoveCoachFreshness,
       completionLoop: completionLoopFreshness,
       replayLoop: replayLoopFreshness,

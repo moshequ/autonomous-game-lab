@@ -1,6 +1,6 @@
 # Retention Loop
 
-Generated: 2026-05-20T21:44:24.434Z
+Generated: 2026-05-20T22:11:31.468Z
 Status: retention-loop-ready
 Daily challenge: Canopy Bloom (canopy-bloom)
 D1 retention: 17%
@@ -10,7 +10,7 @@ Replay rate: 31%
 
 - armed: finish-daily-challenge - Finish Canopy Bloom
 - armed: return-tomorrow - Return tomorrow for a fresh board
-- armed: confirm-return-intent - Queue 2026-05-21 board intent
+- armed: confirm-return-intent - Queue 2026-05-22 board intent
 - armed: activate-return-intent - Start a queued return board
 - armed: share-daily-seed - Share the daily seed after a run
 
@@ -26,7 +26,7 @@ Replay rate: 31%
 - Status: armed
 - Surface: autonomy-cockpit-retention-card
 - Copy: Queue tomorrow's board to protect your local daily streak.
-- Next challenge date: 2026-05-21
+- Next challenge date: 2026-05-22
 - Telemetry: daily_return_prompt_viewed, daily_return_prompt_clicked, daily_return_prompt_dismissed
 
 ## Return Intent Activation

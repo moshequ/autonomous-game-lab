@@ -1,17 +1,17 @@
 # Autonomous Owner Loop
 
-Generated: 2026-05-20T22:05:24.102Z
+Generated: 2026-05-20T22:14:03.713Z
 Status: owner-loop-ready
 Mode: zero-spend-web-ready
 Autonomy score: 41/42 (98%)
 
 ## Owner Decision
 
-- Next action: optimize-daily-retention
-- Command: npm run autonomous:retention
-- Rationale: Keeps daily challenge, local streak prompts, and retention-safe missions aligned with behavior data.
-- Last executed action: optimize-store-listing
-- Recent executed actions: optimize-store-listing, refresh-completion-loop, apply-safe-improvements, refresh-replay-loop, collect-live-events, seed-portfolio-traffic, measure-pwa-install-loop, optimize-product-gates
+- Next action: seed-portfolio-traffic
+- Command: npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop
+- Rationale: Under-measured playable games need free organic/internal traffic before quality judgment.
+- Last executed action: measure-pwa-install-loop
+- Recent executed actions: measure-pwa-install-loop, refresh-autonomous-cadence, optimize-daily-retention, optimize-store-listing, refresh-completion-loop, apply-safe-improvements, refresh-replay-loop, collect-live-events
 
 ## Systems
 
@@ -44,11 +44,11 @@ Autonomy score: 41/42 (98%)
 - ready: web-deployment - Deployment ready-for-pages; web readiness ready-after-build; promotion promotable-internal.
 - ready: release-candidate - Release candidate release-candidate-ready; files 44; smoke URLs 14.
 - ready: post-deploy-smoke - Smoke post-deploy-smoke-observed-live; origin https://moshequ.github.io/autonomous-game-lab; manifest comparison required; checks 15/15 passed; local artifact predeploy-artifact-smoke-passed 15/15 passed.
-- ready: post-deploy-artifact-sync - Artifact sync post-deploy-artifact-sync-passed; run 26192262357; live matches artifact true; strict true.
-- ready: production-bootstrap - Bootstrap production-bootstrap-ready; mode can-apply-configured-actions; external blockers 16.
+- ready: post-deploy-artifact-sync - Artifact sync post-deploy-artifact-sync-passed; run 26192728014; live matches artifact true; strict true.
+- ready: production-bootstrap - Bootstrap production-bootstrap-ready; mode can-apply-configured-actions; external blockers 17.
 - ready: production-activation - Activation activation-ready; mode dry-run; execution dry-run; gh ready.
 - ready: support-channel - Support channel support-channel-ready; repository moshequ/autonomous-game-lab; public intake ready.
-- ready: autonomous-operator - Operator operator-plan-ready; selected optimize-daily-retention; execution not-requested.
+- ready: autonomous-operator - Operator operator-plan-ready; selected seed-portfolio-traffic; execution not-requested.
 - ready: operator-history - History operator-history-ready; records 40; executed 17.
 - ready: objective-audit - Audit objective-in-progress; met 6/8; external blockers 12.
 - ready: store-listing-optimizer - Focus canopy-bloom; lead screenshot phone-canopy-bloom-generated; candidate changed no.
@@ -66,7 +66,7 @@ Autonomy score: 41/42 (98%)
 - armed: seed-portfolio-traffic - npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop
 - armed: refresh-organic-seed-loop - npm run autonomous:organic-seed-loop
 - armed: refresh-support-feedback - npm run autonomous:support-feedback
-- armed: optimize-daily-retention - npm run autonomous:retention
+- monitor: optimize-daily-retention - npm run autonomous:retention
 - armed: measure-pwa-install-loop - npm run autonomous:pwa-install
 - armed: check-performance-budget - npm run build && npm run autonomous:performance
 - armed: prepare-release-candidate - npm run autonomous:release-candidate

@@ -1,5 +1,6 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises'
 import path from 'node:path'
+import { hashRawSourceData } from './lib/source-hash.mjs'
 
 const root = process.cwd()
 const dataDir = path.join(root, 'data')
@@ -109,6 +110,34 @@ const d1SampleStatus = d1Gate?.pass
   : d1Gate?.sampleReady
     ? 'ready-for-recovery-decision'
     : 'collecting-sample'
+const retentionSourceEvidence = {
+  today,
+  dailyChallenge,
+  analyticsSource: analytics.sourceStatus?.activeSource ?? 'unknown',
+  retention: analytics.retention,
+  metrics,
+  experiment: {
+    recommendation: rewardExperiment,
+    rewardPolicy,
+    rewardExperimentDetail,
+  },
+  releaseHealth: {
+    status: releaseHealth.status,
+    canApplyExperimentChanges: releaseHealth.controls?.canApplyExperimentChanges,
+  },
+  playableGames: [...playableIds],
+  productGateRecovery: {
+    status: productGateRecovery.status,
+    summary: productGateRecovery.summary,
+    d1Gate,
+  },
+  localEventBridge: {
+    status: localEventBridge.status,
+    explicitDownloadsScanPolicy: downloadsScanPolicy,
+    gateSampleEvidence: localEventBridge.gateSampleEvidence,
+  },
+}
+const sourceDataHash = hashRawSourceData(retentionSourceEvidence)
 const sampleNextAction = !d1Gate
   ? 'Refresh product gate recovery before collecting a D1 retention sample.'
   : d1Gate.pass
@@ -169,6 +198,7 @@ const missions = [
 const payload = {
   generatedAt: new Date().toISOString(),
   status: dailyChallengePlayable ? 'retention-loop-ready' : 'blocked-missing-daily-game',
+  sourceDataHash,
   dailyChallenge: {
     ...dailyChallenge,
     date: challengeDate,

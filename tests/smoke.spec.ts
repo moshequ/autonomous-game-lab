@@ -2796,7 +2796,12 @@ test('autonomous operator history keeps a capped audit trail', async ({ page }) 
         staleInputIds: string[]
       }
       sourceFreshness: Record<
-        'productOptimization' | 'firstMoveCoach' | 'completionLoop' | 'replayLoop' | 'appliedImprovements',
+        | 'productOptimization'
+        | 'retentionLoop'
+        | 'firstMoveCoach'
+        | 'completionLoop'
+        | 'replayLoop'
+        | 'appliedImprovements',
         {
           current: boolean
           ready: boolean
@@ -2896,6 +2901,7 @@ test('autonomous operator history keeps a capped audit trail', async ({ page }) 
   const bootstrapProductionAction = ownerLoop.safeAutonomousActions.find((action) => action.id === 'bootstrap-production-setup')
   const sourceFreshnessActionPairs = [
     { actionId: 'optimize-product-gates', freshness: ownerLoop.executionMemory.sourceFreshness.productOptimization },
+    { actionId: 'optimize-daily-retention', freshness: ownerLoop.executionMemory.sourceFreshness.retentionLoop },
     { actionId: 'refresh-first-move-coach', freshness: ownerLoop.executionMemory.sourceFreshness.firstMoveCoach },
     { actionId: 'refresh-completion-loop', freshness: ownerLoop.executionMemory.sourceFreshness.completionLoop },
     { actionId: 'refresh-replay-loop', freshness: ownerLoop.executionMemory.sourceFreshness.replayLoop },
