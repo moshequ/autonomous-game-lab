@@ -762,6 +762,8 @@ test('production scripts load git-ignored env files without leaking values or mu
 
   const gitignore = await readFile('.gitignore', 'utf8')
   const envLoader = await readFile('scripts/lib/env-loader.mjs', 'utf8')
+  const productionEnvExample = await readFile('ops/production.env.example', 'utf8')
+  const cloudflareReadme = await readFile('ops/cloudflare/README.md', 'utf8')
   const envAwareScripts = [
     'scripts/production-environment.mjs',
     'scripts/repository-readiness.mjs',
@@ -769,6 +771,46 @@ test('production scripts load git-ignored env files without leaking values or mu
     'scripts/production-bootstrap.mjs',
     'scripts/event-collector-deploy-plan.mjs',
     'scripts/post-deploy-smoke.mjs',
+  ]
+  const requiredProductionEnvExampleKeys = [
+    'GITHUB_REPOSITORY=',
+    'GH_REPO=',
+    'AGL_GITHUB_OWNER=',
+    'AGL_GITHUB_VISIBILITY=',
+    'AGL_DEFAULT_BRANCH=',
+    'AGL_INFER_GITHUB_PAGES_ORIGIN=',
+    'AGL_SYNC_PAGES_SETTINGS=',
+    'AGL_ALLOW_GH_INFER_REPOSITORY=',
+    'AGL_ALLOW_LOCAL_GIT_BOOTSTRAP=',
+    'AGL_ALLOW_REPOSITORY_BOOTSTRAP=',
+    'AGL_ALLOW_INITIAL_COMMIT=',
+    'AGL_ALLOW_SNAPSHOT_COMMIT=',
+    'AGL_ALLOW_ORIGIN_REMOTE=',
+    'AGL_ALLOW_GITHUB_REPO_CREATE=',
+    'AGL_ALLOW_PUSH=',
+    'RUN_WORKFLOWS=',
+    'ALLOW_ANDROID_RELEASE_WORKFLOW=',
+    'GH_TOKEN=',
+    'GITHUB_TOKEN=',
+    'CLOUDFLARE_ACCOUNT_ID=',
+    'CLOUDFLARE_API_TOKEN=',
+    'AGL_EVENT_COLLECTOR_R2_BUCKET=',
+    'AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS=',
+    'AGL_ANDROID_KEYSTORE_BASE64=',
+    'AGL_ANDROID_KEYSTORE_PASSWORD=',
+    'AGL_ANDROID_KEY_ALIAS=',
+    'GOOGLE_PLAY_SERVICE_ACCOUNT_JSON=',
+  ]
+  const defaultOffProductionGates = [
+    'AGL_ALLOW_LOCAL_GIT_BOOTSTRAP=0',
+    'AGL_ALLOW_REPOSITORY_BOOTSTRAP=0',
+    'AGL_ALLOW_INITIAL_COMMIT=0',
+    'AGL_ALLOW_SNAPSHOT_COMMIT=0',
+    'AGL_ALLOW_ORIGIN_REMOTE=0',
+    'AGL_ALLOW_GITHUB_REPO_CREATE=0',
+    'AGL_ALLOW_PUSH=0',
+    'RUN_WORKFLOWS=0',
+    'ALLOW_ANDROID_RELEASE_WORKFLOW=0',
   ]
 
   expect(gitignore).toContain('.env')
@@ -781,6 +823,21 @@ test('production scripts load git-ignored env files without leaking values or mu
 
   for (const scriptPath of envAwareScripts) {
     expect(await readFile(scriptPath, 'utf8')).toContain('loadLocalEnv')
+  }
+
+  for (const key of requiredProductionEnvExampleKeys) {
+    expect(productionEnvExample).toContain(key)
+  }
+  for (const gate of defaultOffProductionGates) {
+    expect(productionEnvExample).toContain(gate)
+  }
+  for (const key of [
+    'CLOUDFLARE_ACCOUNT_ID',
+    'CLOUDFLARE_API_TOKEN',
+    'AGL_EVENT_COLLECTOR_R2_BUCKET',
+    'AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS',
+  ]) {
+    expect(cloudflareReadme).toContain(key)
   }
 })
 

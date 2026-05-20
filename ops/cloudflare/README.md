@@ -17,9 +17,13 @@ This Worker is a zero-cost-friendly production analytics path for the PWA when P
 
 ## Environment
 
-Set these in the PWA host and CI/daily environment:
+Set these in the PWA host, CI/daily environment, and GitHub repository variables/secrets. The same keys are listed in `ops/production.env.example`.
 
 ```sh
+CLOUDFLARE_ACCOUNT_ID=your_cloudflare_account_id
+CLOUDFLARE_API_TOKEN=replace_with_cloudflare_api_token
+AGL_EVENT_COLLECTOR_R2_BUCKET=autonomous-game-lab-events
+AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS=https://your-domain.example
 VITE_EVENT_COLLECTOR_URL=https://events.your-domain.example/events
 VITE_EVENT_COLLECTOR_WRITE_TOKEN=public-write-token
 AGL_EVENT_COLLECTOR_EXPORT_URL=https://events.your-domain.example/events/export?limit=1000

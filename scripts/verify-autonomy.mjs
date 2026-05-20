@@ -337,6 +337,8 @@ const objectiveAuditSource = await readFile(path.join(root, 'scripts', 'objectiv
 const githubRepositoryBootstrapScript = await readFile(path.join(root, 'ops', 'github', 'bootstrap-repository.sh'), 'utf8')
 const githubSetupScript = await readFile(path.join(root, 'ops', 'github', 'setup-production.sh'), 'utf8')
 const githubSetupReadme = await readFile(path.join(root, 'ops', 'github', 'README.md'), 'utf8')
+const productionEnvExampleSource = await readFile(path.join(root, 'ops', 'production.env.example'), 'utf8')
+const cloudflareReadmeSource = await readFile(path.join(root, 'ops', 'cloudflare', 'README.md'), 'utf8')
 const codexAutomationManifest = JSON.parse(
   await readFile(path.join(root, 'ops', 'codex', 'autonomous-game-lab-daily-owner-loop.json'), 'utf8'),
 )
@@ -1440,6 +1442,52 @@ const expectedEnvFiles = [
   'ops/production.env',
   'ops/production.env.local',
 ]
+const requiredProductionEnvExampleKeys = [
+  'GITHUB_REPOSITORY=',
+  'GH_REPO=',
+  'AGL_GITHUB_OWNER=',
+  'AGL_GITHUB_VISIBILITY=',
+  'AGL_DEFAULT_BRANCH=',
+  'AGL_INFER_GITHUB_PAGES_ORIGIN=',
+  'AGL_SYNC_PAGES_SETTINGS=',
+  'AGL_ALLOW_GH_INFER_REPOSITORY=',
+  'AGL_ALLOW_LOCAL_GIT_BOOTSTRAP=',
+  'AGL_ALLOW_REPOSITORY_BOOTSTRAP=',
+  'AGL_ALLOW_INITIAL_COMMIT=',
+  'AGL_ALLOW_SNAPSHOT_COMMIT=',
+  'AGL_ALLOW_ORIGIN_REMOTE=',
+  'AGL_ALLOW_GITHUB_REPO_CREATE=',
+  'AGL_ALLOW_PUSH=',
+  'RUN_WORKFLOWS=',
+  'ALLOW_ANDROID_RELEASE_WORKFLOW=',
+  'GH_TOKEN=',
+  'GITHUB_TOKEN=',
+  'CLOUDFLARE_ACCOUNT_ID=',
+  'CLOUDFLARE_API_TOKEN=',
+  'AGL_EVENT_COLLECTOR_R2_BUCKET=',
+  'AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS=',
+  'AGL_ANDROID_KEYSTORE_BASE64=',
+  'AGL_ANDROID_KEYSTORE_PASSWORD=',
+  'AGL_ANDROID_KEY_ALIAS=',
+  'GOOGLE_PLAY_SERVICE_ACCOUNT_JSON=',
+]
+const defaultOffProductionGates = [
+  'AGL_ALLOW_LOCAL_GIT_BOOTSTRAP=0',
+  'AGL_ALLOW_REPOSITORY_BOOTSTRAP=0',
+  'AGL_ALLOW_INITIAL_COMMIT=0',
+  'AGL_ALLOW_SNAPSHOT_COMMIT=0',
+  'AGL_ALLOW_ORIGIN_REMOTE=0',
+  'AGL_ALLOW_GITHUB_REPO_CREATE=0',
+  'AGL_ALLOW_PUSH=0',
+  'RUN_WORKFLOWS=0',
+  'ALLOW_ANDROID_RELEASE_WORKFLOW=0',
+]
+const requiredCloudflareReadmeKeys = [
+  'CLOUDFLARE_ACCOUNT_ID',
+  'CLOUDFLARE_API_TOKEN',
+  'AGL_EVENT_COLLECTOR_R2_BUCKET',
+  'AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS',
+]
 const envAwareArtifacts = [
   productionEnvironment,
   repositoryReadiness,
@@ -1482,7 +1530,10 @@ if (
   !gitignoreSource.includes('.env.*') ||
   !gitignoreSource.includes('ops/production.env') ||
   !gitignoreSource.includes('ops/*.env.local') ||
-  !gitignoreSource.includes('!ops/production.env.example')
+  !gitignoreSource.includes('!ops/production.env.example') ||
+  !requiredProductionEnvExampleKeys.every((key) => productionEnvExampleSource.includes(key)) ||
+  !defaultOffProductionGates.every((gate) => productionEnvExampleSource.includes(gate)) ||
+  !requiredCloudflareReadmeKeys.every((key) => cloudflareReadmeSource.includes(key))
 ) {
   fail('Production env-file loading must support git-ignored local config without leaking values or enabling mutation gates.')
 }
