@@ -584,6 +584,8 @@ if (
   !localEventBridge.eventDropContract?.downloadsImportCommand?.includes('AGL_LOCAL_EVENT_IMPORT_DOWNLOADS=true') ||
   !localEventBridge.eventDropContract?.recommendedFields?.includes('properties.eventCountAtExport') ||
   !localEventBridge.eventDropContract?.recommendedFields?.includes('properties.unexportedEventsBeforeExport') ||
+  localEventBridge.eventDropContract?.browserFolderDrop?.supported !== true ||
+  localEventBridge.eventDropContract?.browserFolderDrop?.mode !== 'browser-selected-local-folder' ||
   localEventBridge.controls?.zeroPaidSpend !== true ||
   localEventBridge.controls?.localOnly !== true ||
   localEventBridge.controls?.noExternalUpload !== true ||
@@ -596,6 +598,8 @@ if (
   localEventBridge.controls?.localExportCoverageReceipts !== true ||
   localEventBridge.controls?.staleExportDebtVisibleInApp !== true ||
   localEventBridge.controls?.bridgeReadsExportReceipts !== true ||
+  localEventBridge.controls?.browserSelectedDropFolderSupported !== true ||
+  localEventBridge.controls?.folderHandleStoredInBrowserOnly !== true ||
   localEventBridge.explicitDownloadsScanPolicy?.explicitOptInRequired !== true ||
   localEventBridge.explicitDownloadsScanPolicy?.cooldownHours !== 4 ||
   typeof localEventBridge.explicitDownloadsScanPolicy?.coolingDown !== 'boolean' ||
@@ -634,6 +638,9 @@ if (
   !localEventBridgeSource.includes('writeFile(targetPath, JSON.stringify(candidate.sanitizedEvents') ||
   !appSource.includes('Local Event Bridge') ||
   !appSource.includes('Export debt') ||
+  !appSource.includes('showDirectoryPicker') ||
+  !appSource.includes('writeEventDropFile') ||
+  !appSource.includes('eventDropHandleDbName') ||
   !analyticsLibSource.includes('localExportReceiptKey') ||
   !analyticsLibSource.includes('getLocalAnalyticsExportCoverage') ||
   !analyticsLibSource.includes('markLocalAnalyticsExported')

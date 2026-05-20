@@ -61,6 +61,9 @@ const allowedEventNames = new Set([
   'pwa_install_prompt_cooldown',
   'pwa_installed',
   'pwa_launch_mode_detected',
+  'local_event_drop_folder_connected',
+  'local_event_drop_folder_exported',
+  'local_event_drop_folder_failed',
 ])
 
 const sensitivePropertyKeys = new Set([

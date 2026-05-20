@@ -1,6 +1,6 @@
 # Local Event Bridge
 
-Generated: 2026-05-20T18:03:47.120Z
+Generated: 2026-05-20T18:25:51.639Z
 Status: bridge-waiting-for-export
 Mode: local-zero-spend-event-drop-bridge
 
@@ -10,6 +10,7 @@ Mode: local-zero-spend-event-drop-bridge
 - Inbox: data/player-events/inbox
 - Import: npm run autonomous:import-events
 - Rollup: npm run autonomous:analytics
+- Browser folder drop: true
 
 ## Sources
 
@@ -57,11 +58,14 @@ Mode: local-zero-spend-event-drop-bridge
 - localExportCoverageReceipts: true
 - staleExportDebtVisibleInApp: true
 - bridgeReadsExportReceipts: true
+- browserSelectedDropFolderSupported: true
+- folderHandleStoredInBrowserOnly: true
 - doesNotMutateProductGates: true
 
 ## Next Actions
 
 - Use the in-app Export local analytics control after playtesting.
+- Connect a browser-selected local event drop folder to send future exports directly to the bridge inbox folder.
 - Prefer fresh PWA exports because they include event-count receipts for stale-export debt.
 - Place the downloaded player-events file in data/player-events/inbox or pass AGL_LOCAL_EVENT_DROP_DIRS to copy from an explicit folder.
 - Optionally run AGL_LOCAL_EVENT_IMPORT_DOWNLOADS=true npm run autonomous:local-event-bridge to scan Downloads explicitly.

@@ -64,6 +64,9 @@ export type AnalyticsEventName =
   | 'local_router_card_viewed'
   | 'local_router_choice_clicked'
   | 'local_router_choice_dismissed'
+  | 'local_event_drop_folder_connected'
+  | 'local_event_drop_folder_exported'
+  | 'local_event_drop_folder_failed'
 
 export type AnalyticsProperties = Record<string, string | number | boolean | null>
 

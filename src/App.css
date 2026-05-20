@@ -357,7 +357,8 @@
 .monetizationRuntime .completionActions,
 .monetizationRuntime .retentionActions,
 .monetizationRuntime .replayActions,
-.monetizationRuntime .sampleActions {
+.monetizationRuntime .sampleActions,
+.monetizationRuntime .eventDropActions {
   justify-content: flex-end;
   flex-wrap: wrap;
 }

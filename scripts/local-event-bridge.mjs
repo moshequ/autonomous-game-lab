@@ -74,6 +74,9 @@ const allowedEventNames = new Set([
   'local_router_card_viewed',
   'local_router_choice_clicked',
   'local_router_choice_dismissed',
+  'local_event_drop_folder_connected',
+  'local_event_drop_folder_exported',
+  'local_event_drop_folder_failed',
 ])
 const sensitivePropertyKeys = new Set([
   'email',
@@ -659,6 +662,12 @@ const payload = {
     rollupCommand: 'npm run autonomous:analytics',
     recoveryCommand: 'npm run autonomous:gate-recovery',
     downloadsImportCommand,
+    browserFolderDrop: {
+      supported: true,
+      mode: 'browser-selected-local-folder',
+      fallback: 'download',
+      privacy: 'local-only-no-external-upload',
+    },
   },
   explicitDownloadsScan,
   explicitDownloadsScanPolicy,
@@ -703,6 +712,8 @@ const payload = {
     localExportCoverageReceipts: true,
     staleExportDebtVisibleInApp: true,
     bridgeReadsExportReceipts: true,
+    browserSelectedDropFolderSupported: true,
+    folderHandleStoredInBrowserOnly: true,
     doesNotMutateProductGates: true,
   },
   nextActions:
@@ -713,6 +724,7 @@ const payload = {
         ]
       : [
           'Use the in-app Export local analytics control after playtesting.',
+          'Connect a browser-selected local event drop folder to send future exports directly to the bridge inbox folder.',
           'Prefer fresh PWA exports because they include event-count receipts for stale-export debt.',
           `Place the downloaded player-events file in ${relativeToRoot(inboxDir)} or pass AGL_LOCAL_EVENT_DROP_DIRS to copy from an explicit folder.`,
           `Optionally run ${downloadsImportCommand} to scan Downloads explicitly.`,
@@ -733,6 +745,7 @@ const report = [
   `- Inbox: ${payload.eventDropContract.inboxDirectory}`,
   `- Import: ${payload.eventDropContract.importCommand}`,
   `- Rollup: ${payload.eventDropContract.rollupCommand}`,
+  `- Browser folder drop: ${payload.eventDropContract.browserFolderDrop.supported}`,
   '',
   '## Sources',
   '',

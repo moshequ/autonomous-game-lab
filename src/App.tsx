@@ -5,6 +5,7 @@ import {
   Bot,
   Coins,
   Download,
+  FolderInput,
   Gauge,
   Gamepad2,
   Play,
@@ -192,6 +193,143 @@ const readStringStorage = (key: string) => {
 
   return window.localStorage.getItem(key) ?? ''
 }
+
+type LocalEventDropFolderStatus =
+  | 'unsupported'
+  | 'not-connected'
+  | 'permission-needed'
+  | 'connected'
+  | 'saved'
+  | 'failed'
+
+type LocalEventDropPermissionState = 'granted' | 'denied' | 'prompt'
+type LocalEventDropPermissionDescriptor = { mode: 'readwrite' }
+type LocalEventDropWritable = {
+  write: (data: string | Blob) => Promise<void> | void
+  close: () => Promise<void> | void
+}
+type LocalEventDropFileHandle = {
+  createWritable: () => Promise<LocalEventDropWritable>
+}
+type LocalEventDropDirectoryHandle = {
+  name?: string
+  queryPermission?: (descriptor: LocalEventDropPermissionDescriptor) => Promise<LocalEventDropPermissionState>
+  requestPermission?: (descriptor: LocalEventDropPermissionDescriptor) => Promise<LocalEventDropPermissionState>
+  getFileHandle: (name: string, options: { create: boolean }) => Promise<LocalEventDropFileHandle>
+}
+type LocalEventDropWindow = Window & {
+  showDirectoryPicker?: (options?: {
+    id?: string
+    mode?: 'read' | 'readwrite'
+    startIn?: 'desktop' | 'documents' | 'downloads'
+  }) => Promise<LocalEventDropDirectoryHandle>
+}
+
+const eventDropHandleDbName = 'agl.localEventDrops'
+const eventDropHandleStoreName = 'handles'
+const eventDropDirectoryKey = 'drop-directory'
+
+const localEventDropFolderSupported = () =>
+  typeof window !== 'undefined' &&
+  typeof (window as LocalEventDropWindow).showDirectoryPicker === 'function'
+
+const openEventDropHandleDb = () =>
+  new Promise<IDBDatabase | null>((resolve) => {
+    if (typeof indexedDB === 'undefined') {
+      resolve(null)
+      return
+    }
+
+    const request = indexedDB.open(eventDropHandleDbName, 1)
+
+    request.onupgradeneeded = () => {
+      if (!request.result.objectStoreNames.contains(eventDropHandleStoreName)) {
+        request.result.createObjectStore(eventDropHandleStoreName)
+      }
+    }
+    request.onsuccess = () => resolve(request.result)
+    request.onerror = () => resolve(null)
+    request.onblocked = () => resolve(null)
+  })
+
+const getStoredEventDropDirectoryHandle = async () => {
+  const db = await openEventDropHandleDb()
+
+  if (!db) {
+    return null
+  }
+
+  return new Promise<LocalEventDropDirectoryHandle | null>((resolve) => {
+    const transaction = db.transaction(eventDropHandleStoreName, 'readonly')
+    const request = transaction.objectStore(eventDropHandleStoreName).get(eventDropDirectoryKey)
+
+    request.onsuccess = () => resolve((request.result as LocalEventDropDirectoryHandle | undefined) ?? null)
+    request.onerror = () => resolve(null)
+    transaction.oncomplete = () => db.close()
+    transaction.onerror = () => {
+      db.close()
+      resolve(null)
+    }
+  })
+}
+
+const storeEventDropDirectoryHandle = async (handle: LocalEventDropDirectoryHandle) => {
+  const db = await openEventDropHandleDb()
+
+  if (!db) {
+    return false
+  }
+
+  return new Promise<boolean>((resolve) => {
+    const transaction = db.transaction(eventDropHandleStoreName, 'readwrite')
+
+    try {
+      transaction.objectStore(eventDropHandleStoreName).put(handle, eventDropDirectoryKey)
+    } catch {
+      db.close()
+      resolve(false)
+      return
+    }
+
+    transaction.oncomplete = () => {
+      db.close()
+      resolve(true)
+    }
+    transaction.onerror = () => {
+      db.close()
+      resolve(false)
+    }
+  })
+}
+
+const ensureEventDropFolderPermission = async (handle: LocalEventDropDirectoryHandle) => {
+  const descriptor: LocalEventDropPermissionDescriptor = { mode: 'readwrite' }
+  const current = handle.queryPermission ? await handle.queryPermission(descriptor) : 'granted'
+
+  if (current === 'granted') {
+    return true
+  }
+
+  if (!handle.requestPermission) {
+    return false
+  }
+
+  return (await handle.requestPermission(descriptor)) === 'granted'
+}
+
+const writeEventDropFile = async (
+  handle: LocalEventDropDirectoryHandle,
+  fileName: string,
+  payload: string,
+) => {
+  const fileHandle = await handle.getFileHandle(fileName, { create: true })
+  const writable = await fileHandle.createWritable()
+  await writable.write(payload)
+  await writable.close()
+}
+
+const eventDropFileName = (exportSurface: string, timestamp: string) =>
+  `player-events-${timestamp.replace(/[:.]/g, '-')}-${exportSurface}.json`
 
 type ProductGateSampleMission = (typeof productGateSamplePlan.missions)[number]
 type TrafficCampaign = (typeof trafficSeeding.campaigns)[number]
@@ -414,6 +552,10 @@ function App() {
   const [pwaInstalledAt, setPwaInstalledAt] = useState(() =>
     readStringStorage(pwaInstallLoop.localState.installedKey),
   )
+  const [localEventDropFolderStatus, setLocalEventDropFolderStatus] =
+    useState<LocalEventDropFolderStatus>(() =>
+      localEventDropFolderSupported() ? 'not-connected' : 'unsupported',
+    )
   const monetizationGateEventRef = useRef('')
   const dailyChallengeCompletionRef = useRef('')
   const dailyReturnPromptRef = useRef('')
@@ -424,6 +566,7 @@ function App() {
   const organicSeedCardRef = useRef('')
   const localRouterCardRef = useRef('')
   const pwaPromptViewedRef = useRef(false)
+  const localEventDropDirectoryRef = useRef<LocalEventDropDirectoryHandle | null>(null)
   const pacingVariant = useMemo(() => getExperimentVariant('first_session_pacing'), [])
   const rewardVariant = useMemo(() => getExperimentVariant('reward_offer'), [])
   const thumbnailVariant = useMemo(() => getExperimentVariant('thumbnail_board_state_v2'), [])
@@ -480,6 +623,38 @@ function App() {
 
     return () => window.removeEventListener('agl:analytics', onAnalytics)
   }, [rewardVariant.id])
+
+  useEffect(() => {
+    if (!localEventDropFolderSupported()) {
+      return
+    }
+
+    let active = true
+
+    void getStoredEventDropDirectoryHandle().then(async (handle) => {
+      if (!active || !handle) {
+        return
+      }
+
+      localEventDropDirectoryRef.current = handle
+      const permission = handle.queryPermission
+        ? await handle
+            .queryPermission({ mode: 'readwrite' })
+            .catch((): LocalEventDropPermissionState => 'prompt')
+        : 'granted'
+      const granted = !handle.queryPermission || permission === 'granted'
+
+      if (!active) {
+        return
+      }
+
+      setLocalEventDropFolderStatus(granted ? 'connected' : 'permission-needed')
+    })
+
+    return () => {
+      active = false
+    }
+  }, [])
 
   useEffect(() => {
     const onPrivacy = () => setExternalAnalyticsOptedOutState(isExternalAnalyticsOptedOut())
@@ -1699,14 +1874,63 @@ function App() {
       revenueCents: 0,
     })
   }
-  const exportLocalAnalytics = (properties: Record<string, string | number | boolean | null> = {}) => {
+  const connectLocalEventDropFolder = async () => {
+    const picker = (window as LocalEventDropWindow).showDirectoryPicker
+
+    if (!picker) {
+      setLocalEventDropFolderStatus('unsupported')
+      return
+    }
+
+    try {
+      const handle = await picker({
+        id: 'autonomous-game-lab-event-drops',
+        mode: 'readwrite',
+        startIn: 'downloads',
+      })
+      const granted = await ensureEventDropFolderPermission(handle)
+
+      if (!granted) {
+        setLocalEventDropFolderStatus('permission-needed')
+        trackEvent('local_event_drop_folder_failed', {
+          reason: 'permission-denied',
+          noExternalUpload: true,
+          noPiiRequired: true,
+        })
+        return
+      }
+
+      localEventDropDirectoryRef.current = handle
+      setLocalEventDropFolderStatus('connected')
+      void storeEventDropDirectoryHandle(handle)
+      trackEvent('local_event_drop_folder_connected', {
+        persistentHandleRequested: true,
+        noExternalUpload: true,
+        noPiiRequired: true,
+      })
+    } catch (error) {
+      const reason = error instanceof DOMException && error.name === 'AbortError' ? 'cancelled' : 'connect-failed'
+      setLocalEventDropFolderStatus(reason === 'cancelled' ? 'not-connected' : 'failed')
+      trackEvent('local_event_drop_folder_failed', {
+        reason,
+        noExternalUpload: true,
+        noPiiRequired: true,
+      })
+    }
+  }
+  const exportLocalAnalytics = async (properties: Record<string, string | number | boolean | null> = {}) => {
     const eventsBeforeExport = getBufferedEvents()
     const coverageBeforeExport = getLocalAnalyticsExportCoverage(eventsBeforeExport)
     const exportSurface = typeof properties.exportSurface === 'string' ? properties.exportSurface : 'manual'
+    const exportTimestamp = new Date().toISOString()
+    const folderFileName = eventDropFileName(exportSurface, exportTimestamp)
     trackEvent('analytics_exported', {
       destination: 'local_file',
       ...properties,
       exportSurface,
+      eventDropMode: localEventDropDirectoryRef.current ? 'folder-preferred' : 'download',
+      eventDropFileName: folderFileName,
+      eventDropFolderStatus: localEventDropFolderStatus,
       eventCountAtExport: eventsBeforeExport.length + 1,
       unexportedEventsBeforeExport: coverageBeforeExport.unexportedEvents,
       exportedEventCountBeforeExport: coverageBeforeExport.exportedEventCount,
@@ -1719,6 +1943,35 @@ function App() {
     markLocalAnalyticsExported(exportedEvents, exportSurface)
     setEvents(exportedEvents)
     const payload = JSON.stringify(exportedEvents, null, 2)
+    let wroteToLocalFolder = false
+    const dropDirectory = localEventDropDirectoryRef.current
+
+    if (dropDirectory) {
+      try {
+        const granted = await ensureEventDropFolderPermission(dropDirectory)
+
+        if (granted) {
+          await writeEventDropFile(dropDirectory, folderFileName, payload)
+          wroteToLocalFolder = true
+          setLocalEventDropFolderStatus('saved')
+        } else {
+          setLocalEventDropFolderStatus('permission-needed')
+        }
+      } catch {
+        setLocalEventDropFolderStatus('failed')
+        trackEvent('local_event_drop_folder_failed', {
+          reason: 'write-failed',
+          exportSurface,
+          noExternalUpload: true,
+          noPiiRequired: true,
+        })
+      }
+    }
+
+    if (wroteToLocalFolder) {
+      return
+    }
+
     const blob = new Blob([payload], { type: 'application/json' })
     const url = URL.createObjectURL(blob)
     const anchor = document.createElement('a')
@@ -2604,6 +2857,21 @@ function App() {
                 <div>
                   <span>Last export</span>
                   <strong>{localAnalyticsCoverage.lastExportedAt?.slice(0, 10) ?? 'never'}</strong>
+                </div>
+                <div>
+                  <span>Drop folder</span>
+                  <strong>{localEventDropFolderStatus}</strong>
+                </div>
+                <div className="eventDropActions">
+                  <button
+                    className="tinyButton"
+                    type="button"
+                    onClick={connectLocalEventDropFolder}
+                    disabled={localEventDropFolderStatus === 'unsupported'}
+                  >
+                    <FolderInput size={14} aria-hidden="true" />
+                    Connect folder
+                  </button>
                 </div>
                 <div>
                   <span>External upload</span>
