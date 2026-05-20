@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-20T09:19:57.656Z",
+  "generatedAt": "2026-05-20T09:35:53.136Z",
   "status": "owner-loop-ready",
   "mode": "zero-spend-web-ready",
   "autonomyScore": {
@@ -50,7 +50,7 @@
     "objectiveAuditFreshness": {
       "fresh": true,
       "structurallyReady": true,
-      "auditGeneratedAt": "2026-05-20T09:19:57.166Z",
+      "auditGeneratedAt": "2026-05-20T09:35:52.911Z",
       "evaluatedInputIds": [
         "analytics-rollup",
         "event-ingest",
@@ -170,7 +170,7 @@
       "id": "autonomous-self-update",
       "status": "ready",
       "autonomy": "verified-generated-change-persistence",
-      "evidence": "Self-update self-update-ready; safe pending 28; unsafe pending 0; remote push ready.",
+      "evidence": "Self-update self-update-ready; safe pending 14; unsafe pending 0; remote push ready.",
       "nextAction": "When a GitHub repository is connected, set AGL_AUTONOMOUS_SELF_UPDATE=1 and AGL_AUTONOMOUS_SELF_UPDATE_DIRECT=1 to let verified generated changes persist."
     },
     {
@@ -219,7 +219,7 @@
       "id": "performance-budget",
       "status": "ready",
       "autonomy": "automatic-build-budget",
-      "evidence": "Initial JS 613.6 KB; gzip 168.9 KB; deferred chunks 1.",
+      "evidence": "Initial JS 614.7 KB; gzip 169.1 KB; deferred chunks 1.",
       "nextAction": "Keep Phaser and game scenes outside the initial PWA shell."
     },
     {
@@ -303,21 +303,21 @@
       "id": "release-candidate",
       "status": "ready",
       "autonomy": "content-hashed-deploy-evidence",
-      "evidence": "Candidate pwa-a1af8a59eece; status release-candidate-ready; files 44; smoke URLs 14.",
+      "evidence": "Candidate pwa-e258f0b5ee1b; status release-candidate-ready; files 44; smoke URLs 14.",
       "nextAction": "Regenerate the release candidate after every production build before deploy or rollback decisions."
     },
     {
       "id": "post-deploy-smoke",
       "status": "ready",
       "autonomy": "read-only-live-deploy-verification",
-      "evidence": "Smoke blocked-missing-origin; origin missing; candidate pwa-a1af8a59eece; checks 0/15 passed; local artifact predeploy-artifact-smoke-passed 15/15 passed.",
+      "evidence": "Smoke blocked-missing-origin; origin missing; candidate pwa-e258f0b5ee1b; checks 0/15 passed; local artifact predeploy-artifact-smoke-passed 15/15 passed.",
       "nextAction": "Run this after deployment with AGL_DEPLOYED_PWA_ORIGIN set to the Pages URL."
     },
     {
       "id": "production-bootstrap",
       "status": "ready",
       "autonomy": "zero-spend-setup-orchestration",
-      "evidence": "Bootstrap production-bootstrap-ready; mode can-apply-configured-actions; external blockers 16.",
+      "evidence": "Bootstrap production-bootstrap-ready; mode can-apply-configured-actions; external blockers 15.",
       "nextAction": "gh workflow run web-pwa-deploy.yml"
     },
     {
@@ -470,7 +470,7 @@
       "command": "npm run build && npm run autonomous:performance",
       "targets": [
         "pwa-shell",
-        "GameCanvas-DhkpQlmQ.js"
+        "GameCanvas-DOkzGS_k.js"
       ],
       "reason": "Keeps the PWA shell fast while Phaser and game scenes stay deferred."
     },
@@ -480,7 +480,7 @@
       "costUsd": 0,
       "command": "npm run autonomous:release-candidate",
       "targets": [
-        "pwa-a1af8a59eece"
+        "pwa-e258f0b5ee1b"
       ],
       "reason": "Records a content-hashed dist inventory and post-deploy smoke plan for the exact PWA build."
     },
@@ -491,7 +491,7 @@
       "command": "npm run autonomous:post-deploy-smoke",
       "targets": [
         "deployed-pages-url",
-        "pwa-a1af8a59eece"
+        "pwa-e258f0b5ee1b"
       ],
       "reason": "Waits for a deployed Pages origin, then verifies the live PWA matches the exact release candidate."
     },
@@ -735,6 +735,20 @@
       "status": "credential-required",
       "target": "CLOUDFLARE_API_TOKEN",
       "purpose": "Repository secret sourced from CLOUDFLARE_API_TOKEN.",
+      "source": "production-bootstrap"
+    },
+    {
+      "id": "secret-vite-event-collector-write-token",
+      "status": "credential-required",
+      "target": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
+      "purpose": "Repository secret sourced from VITE_EVENT_COLLECTOR_WRITE_TOKEN.",
+      "source": "production-bootstrap"
+    },
+    {
+      "id": "secret-agl-event-collector-admin-token",
+      "status": "credential-required",
+      "target": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
+      "purpose": "Repository secret sourced from AGL_EVENT_COLLECTOR_ADMIN_TOKEN.",
       "source": "production-bootstrap"
     },
     {

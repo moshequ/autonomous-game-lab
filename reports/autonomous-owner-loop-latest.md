@@ -1,6 +1,6 @@
 # Autonomous Owner Loop
 
-Generated: 2026-05-20T09:19:57.656Z
+Generated: 2026-05-20T09:35:53.136Z
 Status: owner-loop-ready
 Mode: zero-spend-web-ready
 Autonomy score: 38/39 (97%)
@@ -22,14 +22,14 @@ Autonomy score: 38/39 (97%)
 - ready: analytics-ingest - Active source: fixture-sample; event ingest: idle-no-files; collector smoke: pass.
 - ready: local-event-bridge - Bridge bridge-waiting-for-export; inbox 0 event(s); imported 0 event(s).
 - ready: autonomous-cadence - Cadence cadence-ready; Codex active-confirmed; GitHub scheduled.
-- ready: autonomous-self-update - Self-update self-update-ready; safe pending 28; unsafe pending 0; remote push ready.
+- ready: autonomous-self-update - Self-update self-update-ready; safe pending 14; unsafe pending 0; remote push ready.
 - ready: portfolio-loop - Daily challenge: Canopy Bloom; seed traffic: canopy-bloom, grove-engine, metro-loom, pocket-draft.
 - ready: traffic-seeding - 4 seed campaign(s); max cost $0.
 - ready: acquisition-learning - 4 campaign(s); 0 attributed start(s); candidate canopy-bloom.
 - ready: organic-seed-loop - Target canopy-bloom; surface portal-growth-loop; share telemetry organic_seed_share_clicked.
 - ready: retention-loop - Daily canopy-bloom; D1 17%; streak variant daily-streak; return prompt armed; return intent armed.
 - ready: pwa-install-loop - Prompt autonomy-cockpit; installs 0; launch events 0; sample collecting-sample needs 20 prompt(s) and 10 launch event(s).
-- ready: performance-budget - Initial JS 613.6 KB; gzip 168.9 KB; deferred chunks 1.
+- ready: performance-budget - Initial JS 614.7 KB; gzip 169.1 KB; deferred chunks 1.
 - ready: product-optimization - Completion 40% / gate 55%; latest already-applied.
 - ready: product-gate-recovery - Recovery product-gate-recovery-ready; primary firstGameCompletion; experiment collecting-sample; failing gates 3; next lift 58.
 - ready: product-gate-sample-plan - Sample plan product-gate-sample-plan-ready; primary firstGameCompletion; prompt views needed 70.
@@ -41,9 +41,9 @@ Autonomy score: 38/39 (97%)
 - ready: repository-channel - Repository moshequ/autonomous-game-lab; git worktree ready; workflow dispatch ready.
 - ready: repository-bootstrap - Bootstrap repository-bootstrap-ready; mode plan-only; helper ops/github/bootstrap-repository.sh; local git ready.
 - ready: web-deployment - Deployment ready-for-pages; web readiness ready-after-build; promotion promotable-internal.
-- ready: release-candidate - Candidate pwa-a1af8a59eece; status release-candidate-ready; files 44; smoke URLs 14.
-- ready: post-deploy-smoke - Smoke blocked-missing-origin; origin missing; candidate pwa-a1af8a59eece; checks 0/15 passed; local artifact predeploy-artifact-smoke-passed 15/15 passed.
-- ready: production-bootstrap - Bootstrap production-bootstrap-ready; mode can-apply-configured-actions; external blockers 16.
+- ready: release-candidate - Candidate pwa-e258f0b5ee1b; status release-candidate-ready; files 44; smoke URLs 14.
+- ready: post-deploy-smoke - Smoke blocked-missing-origin; origin missing; candidate pwa-e258f0b5ee1b; checks 0/15 passed; local artifact predeploy-artifact-smoke-passed 15/15 passed.
+- ready: production-bootstrap - Bootstrap production-bootstrap-ready; mode can-apply-configured-actions; external blockers 15.
 - ready: production-activation - Activation activation-ready; mode dry-run; execution dry-run; gh ready.
 - ready: autonomous-operator - Operator operator-plan-ready; selected seed-portfolio-traffic; execution not-requested.
 - ready: operator-history - History operator-history-ready; records 40; executed 9.
@@ -96,6 +96,8 @@ Autonomy score: 38/39 (97%)
 - ADMOB_PUBLISHER_ID: Native app seller line for app-ads.txt and Android rewarded tests after app-store gates pass.
 - AGL_GOOGLE_PLAY_ACCOUNT_CONNECTED: Allows native packaging gates to treat Play Console access as connected.
 - CLOUDFLARE_API_TOKEN: Repository secret sourced from CLOUDFLARE_API_TOKEN.
+- VITE_EVENT_COLLECTOR_WRITE_TOKEN: Repository secret sourced from VITE_EVENT_COLLECTOR_WRITE_TOKEN.
+- AGL_EVENT_COLLECTOR_ADMIN_TOKEN: Repository secret sourced from AGL_EVENT_COLLECTOR_ADMIN_TOKEN.
 - POSTHOG_PERSONAL_API_KEY: Repository secret sourced from POSTHOG_PERSONAL_API_KEY.
 - GOOGLE_PLAY_SERVICE_ACCOUNT_JSON: Repository secret sourced from GOOGLE_PLAY_SERVICE_ACCOUNT_JSON.
 
