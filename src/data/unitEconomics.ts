@@ -1,5 +1,5 @@
 export const unitEconomics = {
-  "generatedAt": "2026-05-19T02:57:32.845Z",
+  "generatedAt": "2026-05-20T09:02:17.313Z",
   "status": "no-spend",
   "analyticsSource": "fixture-sample",
   "projectionConfidence": "low-fixture-or-zero",
@@ -45,7 +45,6 @@ export const unitEconomics = {
       "allowed": false,
       "paybackDays": null,
       "blockers": [
-        "Hosted privacy policy URL is missing.",
         "Google Play developer account is not connected.",
         "Native package is blocked-draft-ready.",
         "No live revenue signal yet.",
@@ -60,7 +59,6 @@ export const unitEconomics = {
       "blockers": [
         "Revenue signal is $0.00, below $99.00.",
         "Apple Developer account is not connected.",
-        "Hosted privacy policy URL is missing.",
         "Projected annual revenue is $0.00, below $99.00.",
         "Projected Apple fee payback is not within 90 days."
       ]

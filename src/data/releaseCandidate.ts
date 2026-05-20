@@ -1,7 +1,7 @@
 export const releaseCandidate = {
-  "generatedAt": "2026-05-20T07:52:13.920Z",
+  "generatedAt": "2026-05-20T09:03:22.875Z",
   "status": "release-candidate-ready",
-  "candidateId": "pwa-ec4b42e939bc",
+  "candidateId": "pwa-1fb14b4f3fc0",
   "target": {
     "provider": "github-pages",
     "artifactPath": "dist",
@@ -12,8 +12,8 @@ export const releaseCandidate = {
   },
   "summary": {
     "totalFiles": 44,
-    "totalBytes": 3632977,
-    "totalKb": 3547.8,
+    "totalBytes": 3629363,
+    "totalKb": 3544.3,
     "assetFiles": 3,
     "htmlFiles": 16,
     "gamePages": 10,
@@ -22,7 +22,7 @@ export const releaseCandidate = {
   },
   "integrity": {
     "algorithm": "sha256",
-    "aggregateHash": "ec4b42e939bc4f67253f47b5903d00df63a3955b00d9f9df5845cc4ea9467b2b",
+    "aggregateHash": "1fb14b4f3fc0469baad927d9eb137cc29ced0f3dcffa3f5ed4cefe980cda969c",
     "files": [
       {
         "path": ".nojekyll",
@@ -46,9 +46,9 @@ export const releaseCandidate = {
         "cacheControl": "public, max-age=3600"
       },
       {
-        "path": "assets/GameCanvas-BD3MWcMW.js",
+        "path": "assets/GameCanvas-DxtSZy9L.js",
         "bytes": 1393468,
-        "sha256": "d55b1b2519abc21cbc5a1d8d0e7501894dca0bfe1176deec764fc0b9ec3727f5",
+        "sha256": "8822fe9c8be1312c50bb084e127fe4c473ffafced6c6781139a8df42e4e4ac77",
         "contentType": "text/javascript; charset=utf-8",
         "cacheControl": "public, max-age=31536000, immutable"
       },
@@ -60,16 +60,16 @@ export const releaseCandidate = {
         "cacheControl": "public, max-age=31536000, immutable"
       },
       {
-        "path": "assets/index-BM8B7wZZ.js",
-        "bytes": 627724,
-        "sha256": "04557e5ff09698975245f77ddda3c0d4664399dbde3ca728eee3dcc6f3bb5923",
+        "path": "assets/index-Cp_L5fQL.js",
+        "bytes": 628243,
+        "sha256": "e261d7d87d36afc287613eaae68cdddcefa31ef271085606d2ebe6c1210679cf",
         "contentType": "text/javascript; charset=utf-8",
         "cacheControl": "public, max-age=31536000, immutable"
       },
       {
         "path": "compliance.json",
         "bytes": 2838,
-        "sha256": "382d4997a0f56201d2921697b49336fb5c6f9b9c17cc0646e257b3e55d8d82fc",
+        "sha256": "074a1471963a50de5ecd6599fd19ca21a7f35ef659f93fa4894c454439a45ee6",
         "contentType": "application/json; charset=utf-8",
         "cacheControl": "public, max-age=3600"
       },
@@ -82,71 +82,71 @@ export const releaseCandidate = {
       },
       {
         "path": "games/canopy-bloom.html",
-        "bytes": 4867,
-        "sha256": "f0286a369123f8c36fd6ae63e2d896663b6c3ccb6d13edc2e0574cbded24f642",
+        "bytes": 5079,
+        "sha256": "62fdb7fb4392e3bf28866bc2463b90d526ced292ab4994f99fe0c2aab5f9a1bc",
         "contentType": "text/html; charset=utf-8",
         "cacheControl": "no-cache"
       },
       {
         "path": "games/foundry-ledger.html",
-        "bytes": 5091,
-        "sha256": "a029e9629ab3b60be3963621fc402430ab16fa74ec9f21cf797205c4bd3bea98",
+        "bytes": 5307,
+        "sha256": "7b5ec27635501ce5f4855162cf6a7b08bcba5943f8a1751c70fe6b408b3a4ea0",
         "contentType": "text/html; charset=utf-8",
         "cacheControl": "no-cache"
       },
       {
         "path": "games/grove-engine.html",
-        "bytes": 4886,
-        "sha256": "c2272408bd3d13b4171f562d9c6f9018702da74957de74f6b1fd7a5b1c33c40c",
+        "bytes": 5098,
+        "sha256": "a0f22d187079d5d55572a89417629655e412148546d522f8f6f6dccb75c1b625",
         "contentType": "text/html; charset=utf-8",
         "cacheControl": "no-cache"
       },
       {
         "path": "games/harbor-circuit.html",
-        "bytes": 5087,
-        "sha256": "cb6f614b4c9a31185b0f675ce890cc1de86a383306f12bf0eded01ec84d5f4b1",
+        "bytes": 5303,
+        "sha256": "1d22660fccaf44c7ac5a9b9216c7d89fea563b697d82a8a2da756e9c7741a5b4",
         "contentType": "text/html; charset=utf-8",
         "cacheControl": "no-cache"
       },
       {
         "path": "games/harbor-rings.html",
-        "bytes": 4876,
-        "sha256": "b75da0532608779369139647da1fd38745d6ed335a2e63fcb0ab584a2340d8eb",
+        "bytes": 5088,
+        "sha256": "1da9035a5d7b434bed2ade26b390ac187a30aa76f1b0b21554c4016f88784935",
         "contentType": "text/html; charset=utf-8",
         "cacheControl": "no-cache"
       },
       {
         "path": "games/lantern-relay.html",
-        "bytes": 5050,
-        "sha256": "abb33e90d4a3aa19044397b196be2e08aac611e1dc670a453e8363fb1696a750",
+        "bytes": 5264,
+        "sha256": "79c7f18367899d483ae620b8be49ecf72745b3c9c0b94a5b17d00f8fba8a980a",
         "contentType": "text/html; charset=utf-8",
         "cacheControl": "no-cache"
       },
       {
         "path": "games/metro-loom.html",
-        "bytes": 4851,
-        "sha256": "4275a98cee28f9feb9a048aa05ed560f555af6edc39af3d97e411eedcff761d2",
+        "bytes": 5059,
+        "sha256": "b15bd06d36e90190cd890f1224e54547baa0d4719720fc1a980223230b8042ba",
         "contentType": "text/html; charset=utf-8",
         "cacheControl": "no-cache"
       },
       {
         "path": "games/mosaic-haven.html",
-        "bytes": 4751,
-        "sha256": "2595e6f01059555c2dc66e7bcd33ebfd03ce3d41c80037a75d2148f7fe49db9d",
+        "bytes": 4963,
+        "sha256": "5cfd518b7e327b2be26a0681e8ea3a4a7ffdc7fd2ab2badd1c030afb0906886d",
         "contentType": "text/html; charset=utf-8",
         "cacheControl": "no-cache"
       },
       {
         "path": "games/orbit-atlas.html",
-        "bytes": 5200,
-        "sha256": "a3a3bc9ed4d0d2df1b8cf48b92f81cf43a166c28660ddba978460917e85e8056",
+        "bytes": 5410,
+        "sha256": "a5f4a34486539f1073064cec4540b8c1e9ea26e50ff3e9126edd1305acf41ab1",
         "contentType": "text/html; charset=utf-8",
         "cacheControl": "no-cache"
       },
       {
         "path": "games/pocket-draft.html",
-        "bytes": 4775,
-        "sha256": "80d913b644c49c6d69614f4396c0c6e5b078cb092358263739ca64ef6d7bebfb",
+        "bytes": 4987,
+        "sha256": "b2ef0df445c4d814d365b15cd71364cc961f1c50b671d24385b84eb075456d06",
         "contentType": "text/html; charset=utf-8",
         "cacheControl": "no-cache"
       },
@@ -216,7 +216,7 @@ export const releaseCandidate = {
       {
         "path": "index.html",
         "bytes": 903,
-        "sha256": "6be76924968c4a4710b85d55a3b03f9009b20e6f842eabb5859b174d518b14fd",
+        "sha256": "5fbfacd3822a7b71afd6d8fb33fc9f4196da1684d024ead1c9bff05c5c816138",
         "contentType": "text/html; charset=utf-8",
         "cacheControl": "no-cache"
       },
@@ -237,7 +237,7 @@ export const releaseCandidate = {
       {
         "path": "monetization.json",
         "bytes": 878,
-        "sha256": "b0865ae33834124d0073db5f8cf53fe1048aa3f2de4d6dd113dbd0b45460eb7d",
+        "sha256": "bde34e813ceff76409364a1f5243a2088d81a7583c46eb3e527ff0564e34ed4f",
         "contentType": "application/json; charset=utf-8",
         "cacheControl": "public, max-age=3600"
       },
@@ -257,8 +257,8 @@ export const releaseCandidate = {
       },
       {
         "path": "robots.txt",
-        "bytes": 68,
-        "sha256": "65d7390ef9d08bad3b41a5537911baa11d2d866b82a12829511919db1f765f88",
+        "bytes": 91,
+        "sha256": "40471e1e8b52a6a92f4ad2e8aaa2828eee89e640bf1ab6557a8c62cade270177",
         "contentType": "text/plain; charset=utf-8",
         "cacheControl": "public, max-age=3600"
       },
@@ -271,43 +271,43 @@ export const releaseCandidate = {
       },
       {
         "path": "share-manifest.json",
-        "bytes": 6385,
-        "sha256": "6bfe0f803fccc988bd17e713571f5cba8d21abec011aac8e1baa7a7092b1326b",
+        "bytes": 7282,
+        "sha256": "e02e23f907f20d6d05cdfd21c34623d2b447c9f86704b4273620224bbf919c11",
         "contentType": "application/json; charset=utf-8",
         "cacheControl": "public, max-age=3600"
       },
       {
         "path": "sitemap.xml",
-        "bytes": 1562,
-        "sha256": "69ab32eb61b81ea48f9abbb4bba0c079c006187c518fa410a1c77b98db64f4f8",
+        "bytes": 1861,
+        "sha256": "50bf3b27fe506bbb847f62ef03ddd7420c69b2cd31a436dbee8940071589e1f5",
         "contentType": "application/xml; charset=utf-8",
         "cacheControl": "public, max-age=3600"
       },
       {
         "path": "store-assets/screenshots/desktop-growth-page.png",
-        "bytes": 63651,
-        "sha256": "faadb62bcd5862fc4873f8be1052b0f4a7638a94ed06aaa427142bde3c8a88d7",
+        "bytes": 65811,
+        "sha256": "1692a26c971c060a8793ff4c81c7a92c5f30210abdc99e2a16b1aa90894a796a",
         "contentType": "image/png",
         "cacheControl": "public, max-age=3600"
       },
       {
         "path": "store-assets/screenshots/phone-canopy-bloom-generated.png",
-        "bytes": 194824,
-        "sha256": "4468815c99b603f6a0619d204688d13452c57f083ec9228851f18845b8939c88",
+        "bytes": 196908,
+        "sha256": "69ad850a54420c83049f9033c9a206a8e1279b6a47afe2eebfbc8a4045ae6fce",
         "contentType": "image/png",
         "cacheControl": "public, max-age=3600"
       },
       {
         "path": "store-assets/screenshots/phone-lantern-relay-game.png",
-        "bytes": 195907,
-        "sha256": "1ce576b25dc43c90a2004186f943c070bf2ba2cd61a1626254735604b0c42561",
+        "bytes": 196575,
+        "sha256": "9c9745aebccf98a925dbd675ca3f49978c87ed572f83d7c4f6e41e1ad2f45acd",
         "contentType": "image/png",
         "cacheControl": "public, max-age=3600"
       },
       {
         "path": "store-assets/screenshots/phone-portal-home.png",
-        "bytes": 269918,
-        "sha256": "90ce0fa9c05dee2264f430ad4ca107c3b1cb71da96abf80206f4ae824028d59b",
+        "bytes": 257530,
+        "sha256": "da31e6db7d22c1264a77648f49492ea5267c04c69966ad4ef0b5437abd77fcb6",
         "contentType": "image/png",
         "cacheControl": "public, max-age=3600"
       },
@@ -321,7 +321,7 @@ export const releaseCandidate = {
       {
         "path": "sw.js",
         "bytes": 3735,
-        "sha256": "5312c3d5327e0eccc881e333aca4bab66e2072a15f19d6934e0595f30c81b6fa",
+        "sha256": "8a5907767c1ced7e552da51201c34a662cb74cbfe22929a64a0529e83ab630fe",
         "contentType": "text/javascript; charset=utf-8",
         "cacheControl": "no-cache"
       },

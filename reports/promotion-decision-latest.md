@@ -1,6 +1,6 @@
 # Promotion Decision
 
-Generated: 2026-05-19T03:15:02.769Z
+Generated: 2026-05-20T09:02:17.030Z
 Analytics source: fixture-sample
 Release health: monitoring
 Cost posture: no-new-spend
@@ -30,7 +30,6 @@ Cost posture: no-new-spend
 - Decision: Keep Android packaging blocked.
 - Next action: Host privacy URL, create signing assets, and connect Google Play account.
 - Blockers:
-  - Hosted privacy policy URL is missing.
   - Google Play developer account is not connected.
   - Native package is blocked-draft-ready.
 
@@ -42,4 +41,3 @@ Cost posture: no-new-spend
 - Blockers:
   - Revenue signal is $0.00, below $99.00.
   - Apple Developer account is not connected.
-  - Hosted privacy policy URL is missing.

@@ -1,5 +1,5 @@
 export const productionEnvironment = {
-  "generatedAt": "2026-05-20T07:38:50.631Z",
+  "generatedAt": "2026-05-20T09:01:42.563Z",
   "status": "production-env-missing",
   "envFiles": {
     "loaded": true,
@@ -15,14 +15,14 @@ export const productionEnvironment = {
         ]
       }
     ],
-    "loadedKeys": [
+    "loadedKeys": [],
+    "skippedExistingKeys": [
       "AGL_ANDROID_PACKAGE_NAME",
       "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
       "AGL_ANDROID_KEYSTORE_BASE64",
       "AGL_ANDROID_KEYSTORE_PASSWORD",
       "AGL_ANDROID_KEY_ALIAS"
     ],
-    "skippedExistingKeys": [],
     "skippedProtectedKeys": [],
     "overwrittenEnvFileKeys": [],
     "supportedFiles": [
@@ -59,7 +59,7 @@ export const productionEnvironment = {
     "explicitOriginConfigured": true,
     "githubPagesCandidate": {
       "repository": "moshequ/autonomous-game-lab",
-      "source": "origin-remote",
+      "source": "environment",
       "origin": "https://moshequ.github.io/autonomous-game-lab",
       "host": "moshequ.github.io",
       "basePath": "/autonomous-game-lab/",
@@ -83,8 +83,8 @@ export const productionEnvironment = {
       "serverExportConfigured": false,
       "url": null,
       "exportUrl": null,
-      "writeTokenConfigured": false,
-      "adminTokenConfigured": false,
+      "writeTokenConfigured": true,
+      "adminTokenConfigured": true,
       "provider": "cloudflare-worker-r2"
     },
     "host": "https://us.posthog.com",

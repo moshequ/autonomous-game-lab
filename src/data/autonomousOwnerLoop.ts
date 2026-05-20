@@ -8,7 +8,7 @@ export const autonomousOwnerLoop = {
     "externalAccountInterventionRequired": true
   },
   "ownerDecision": {
-    "nextBestActionId": "refresh-organic-seed-loop"
+    "nextBestActionId": "seed-portfolio-traffic"
   },
   "systems": [
     {
@@ -30,7 +30,7 @@ export const autonomousOwnerLoop = {
   ],
   "safeAutonomousActions": [
     {
-      "id": "refresh-organic-seed-loop",
+      "id": "seed-portfolio-traffic",
       "status": "armed"
     },
     {

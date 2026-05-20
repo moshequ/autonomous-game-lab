@@ -1,5 +1,5 @@
 export const productGateSamplePlan = {
-  "generatedAt": "2026-05-20T06:53:11.479Z",
+  "generatedAt": "2026-05-20T09:03:15.112Z",
   "status": "product-gate-sample-plan-ready",
   "sourceStatus": {
     "analyticsSource": "fixture-sample",
@@ -34,8 +34,8 @@ export const productGateSamplePlan = {
     "evidenceReadyNow": false,
     "lastScanAt": "2026-05-20T05:52:52.843Z",
     "lastScanStatus": "no-evidence-found",
-    "scanAgeHours": 1,
-    "cooldownRemainingHours": 3,
+    "scanAgeHours": 3.17,
+    "cooldownRemainingHours": 0.83,
     "nextRecommendedScanAt": "2026-05-20T09:52:52.843Z"
   },
   "publicSamplePage": {

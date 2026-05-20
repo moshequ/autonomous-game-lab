@@ -1,8 +1,8 @@
 # Growth Plan
 
-Generated: 2026-05-20T05:50:08.908Z
+Generated: 2026-05-20T09:01:46.745Z
 Status: growth-assets-ready
-Site URL: runtime-relative (no public origin configured)
+Site URL: https://moshequ.github.io/autonomous-game-lab
 
 ## Game Pages
 

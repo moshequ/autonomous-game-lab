@@ -1,22 +1,25 @@
 {
-  "generatedAt": "2026-05-20T08:53:51.405Z",
+  "generatedAt": "2026-05-20T09:03:29.344Z",
   "status": "operator-plan-ready",
   "mode": "plan-only",
   "ownerDecision": {
-    "actionId": "refresh-organic-seed-loop",
-    "command": "npm run autonomous:organic-seed-loop",
+    "actionId": "seed-portfolio-traffic",
+    "command": "npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop",
     "locallyExecutable": true,
     "rejectionReason": null
   },
   "requestedActionId": null,
   "selectedAction": {
-    "id": "refresh-organic-seed-loop",
+    "id": "seed-portfolio-traffic",
     "status": "armed",
-    "command": "npm run autonomous:organic-seed-loop",
+    "command": "npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop",
     "targets": [
-      "canopy-bloom"
+      "canopy-bloom",
+      "grove-engine",
+      "metro-loom",
+      "pocket-draft"
     ],
-    "reason": "Refreshes the player-initiated zero-cost share surface for the highest-opportunity seed campaign.",
+    "reason": "Under-measured playable games need free organic/internal traffic before quality judgment.",
     "costUsd": 0
   },
   "selectedRejection": null,
@@ -59,9 +62,9 @@
       "reason": "not-selected-this-run"
     },
     {
-      "id": "seed-portfolio-traffic",
+      "id": "refresh-organic-seed-loop",
       "status": "armed",
-      "command": "npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop",
+      "command": "npm run autonomous:organic-seed-loop",
       "reason": "not-selected-this-run"
     },
     {
@@ -205,6 +208,22 @@
   ],
   "commandPlan": [
     {
+      "segment": "npm run autonomous:growth",
+      "script": "autonomous:growth"
+    },
+    {
+      "segment": "npm run autonomous:portfolio",
+      "script": "autonomous:portfolio"
+    },
+    {
+      "segment": "npm run autonomous:traffic",
+      "script": "autonomous:traffic"
+    },
+    {
+      "segment": "npm run autonomous:acquisition",
+      "script": "autonomous:acquisition"
+    },
+    {
       "segment": "npm run autonomous:organic-seed-loop",
       "script": "autonomous:organic-seed-loop"
     }
@@ -274,7 +293,7 @@
     "RUN_WORKFLOWS=1"
   ],
   "nextActions": [
-    "Run npm run autonomous:operator -- --execute --action=refresh-organic-seed-loop to execute exactly one allowed local action.",
+    "Run npm run autonomous:operator -- --execute --action=seed-portfolio-traffic to execute exactly one allowed local action.",
     "Do not execute GitHub workflow, store, paid ads, or account setup commands from the local operator."
   ]
 }

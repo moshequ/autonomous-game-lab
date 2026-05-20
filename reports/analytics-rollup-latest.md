@@ -1,6 +1,6 @@
 # Analytics Rollup
 
-Generated: 2026-05-20T06:53:10.488Z
+Generated: 2026-05-20T09:03:14.538Z
 Active source: fixture-sample
 
 ## Totals

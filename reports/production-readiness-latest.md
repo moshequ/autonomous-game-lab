@@ -1,6 +1,6 @@
 # Production Readiness
 
-Generated: 2026-05-20T08:59:42.630Z
+Generated: 2026-05-20T09:03:29.499Z
 
 ## Environment
 
@@ -14,11 +14,11 @@ Status: repository-channel-ready
 Repository: moshequ/autonomous-game-lab
 Git worktree: true
 Workflow dispatch ready: true
-- pass: repository-local-git-worktree - Git worktree detected at /Users/moshequ/Documents/Codex/2026-05-18/i-want-to-have-a-new.
+- pass: repository-local-git-worktree - Git worktree detected at /home/runner/work/autonomous-game-lab/autonomous-game-lab.
 - pass: repository-github-target - Target repository is moshequ/autonomous-game-lab.
 - pass: repository-origin-remote - Origin remote resolves to moshequ/autonomous-game-lab.
 - pass: repository-gh-cli - gh version 2.92.0 (2026-04-28)
-- pass: repository-gh-token - GitHub CLI authentication is available for repository operations.
+- pass: repository-gh-token - GitHub token is present in the current environment.
 - pass: repository-pages-workflow - Web PWA Deploy workflow exists and includes post-deploy smoke.
 - pass: repository-deployable-artifact - Deployment ready-for-pages; release candidate release-candidate-ready; smoke blocked-missing-origin.
 
@@ -29,12 +29,12 @@ Mode: plan-only
 Helper: ops/github/bootstrap-repository.sh
 Local git: true
 - done: repo-bootstrap-inspect-repository-channel - Repository readiness is repository-channel-ready.
-- ready: repo-bootstrap-initialize-local-git - Git worktree is available at /Users/moshequ/Documents/Codex/2026-05-18/i-want-to-have-a-new.
+- ready: repo-bootstrap-initialize-local-git - Git worktree is available at /home/runner/work/autonomous-game-lab/autonomous-game-lab.
 - ready: repo-bootstrap-create-initial-commit - The local repository has at least one commit.
-- ready: repo-bootstrap-commit-current-snapshot - 5 repository evidence file(s) changed during this dry run; the outer verified commit will persist them.
+- ready-for-explicit-snapshot-commit: repo-bootstrap-commit-current-snapshot - 8 non-generated source or artifact file(s) are not committed yet.
 - ready: repo-bootstrap-set-or-create-origin - Origin remote resolves to moshequ/autonomous-game-lab.
 - ready-for-explicit-create-or-attach: repo-bootstrap-create-github-repository - GitHub CLI can create or attach moshequ/autonomous-game-lab when explicitly allowed.
-- ready-for-explicit-push: repo-bootstrap-push-initial-snapshot - Push stays held until an origin remote exists and AGL_ALLOW_PUSH=1 is set.
+- waiting-for-clean-snapshot: repo-bootstrap-push-initial-snapshot - Push stays held until a committed local snapshot and origin remote exist.
 
 ## Web/PWA
 
@@ -56,7 +56,7 @@ Status: ready-after-build
 - pass: organic-seed-loop - Organic seed loop is organic-seed-loop-ready; target canopy-bloom; player-initiated share guard active.
 - pass: retention-loop - Retention loop is retention-loop-ready; daily challenge canopy-bloom; no-push/no-account guardrails active.
 - pass: pwa-install-loop - PWA install loop is pwa-install-loop-ready; prompt surface autonomy-cockpit; cost $0.
-- pass: performance-budget - Performance budget is performance-budget-ready; initial JS 613.2 KB / 169.2 KB gzip; deferred game chunk GameCanvas-BD3MWcMW.js.
+- pass: performance-budget - Performance budget is performance-budget-ready; initial JS 613.7 KB / 169 KB gzip; deferred game chunk GameCanvas-DxtSZy9L.js.
 - pass: release-candidate - Release candidate is release-candidate-ready; files 44; smoke URLs 14.
 - pass: post-deploy-smoke-runner - Post-deploy smoke is blocked-missing-origin; origin missing; checks 0/15 passed, 15 blocked; local artifact predeploy-artifact-smoke-passed 15/15 passed.
 - pass: product-optimization - Product optimizer is product-optimization-ready; completion 0.397 vs gate 0.55; latest action already-applied.
@@ -65,12 +65,12 @@ Status: ready-after-build
 - pass: replay-loop - Replay loop is replay-loop-ready; prompt armed; target harbor-rings.
 - pass: release-health - Release health guard is monitoring.
 - pass: production-environment - Production environment status is production-env-missing.
-- pass: production-bootstrap - Production bootstrap is production-bootstrap-ready; mode can-apply-configured-actions; external blockers 15.
+- pass: production-bootstrap - Production bootstrap is production-bootstrap-ready; mode can-apply-configured-actions; external blockers 16.
 - pass: production-activation - Production activation is activation-ready; mode dry-run; execution dry-run.
-- pass: autonomous-operator - Autonomous operator is operator-plan-ready; selected refresh-organic-seed-loop; execution not-requested.
-- pass: autonomous-operator-history - Autonomous operator history is operator-history-ready; records 40; executed 11.
-- pass: autonomous-cadence - Autonomous cadence is cadence-ready; Codex active-confirmed; GitHub scheduled.
-- pass: autonomous-self-update - Autonomous self-update is self-update-ready; safe pending 3; unsafe pending 0; remote push ready.
+- pass: autonomous-operator - Autonomous operator is operator-plan-ready; selected seed-portfolio-traffic; execution not-requested.
+- pass: autonomous-operator-history - Autonomous operator history is operator-history-ready; records 40; executed 9.
+- pass: autonomous-cadence - Autonomous cadence is cadence-ready; Codex active-declared-unverified; GitHub scheduled.
+- pass: autonomous-self-update - Autonomous self-update is self-update-ready; safe pending 185; unsafe pending 0; remote push ready.
 - pass: objective-audit - Objective audit is objective-in-progress; met 6 / 8; can complete false.
 
 ## Monetization
@@ -111,23 +111,23 @@ Installs: 0
 ## Performance Budget
 
 Status: performance-budget-ready
-Initial JS: 613.2 KB (169.2 KB gzip)
-Deferred game chunk: GameCanvas-BD3MWcMW.js
-- pass: performance-initial-js-budget - Initial JS is 613.2 KB; budget is 675 KB.
-- pass: performance-initial-js-gzip-budget - Initial JS gzip is 169.2 KB; budget is 200 KB.
+Initial JS: 613.7 KB (169 KB gzip)
+Deferred game chunk: GameCanvas-DxtSZy9L.js
+- pass: performance-initial-js-budget - Initial JS is 613.7 KB; budget is 675 KB.
+- pass: performance-initial-js-gzip-budget - Initial JS gzip is 169 KB; budget is 200 KB.
 - pass: performance-initial-css-budget - Initial CSS is 9.6 KB; budget is 40 KB.
 - pass: performance-manifest - PWA manifest exists in dist.
 - pass: performance-service-worker - Service worker exists in dist.
-- pass: performance-game-runtime-deferred - GameCanvas-BD3MWcMW.js is deferred from the initial shell.
-- pass: performance-largest-js-deferred - Largest JS chunk is GameCanvas-BD3MWcMW.js at 1360.8 KB.
+- pass: performance-game-runtime-deferred - GameCanvas-DxtSZy9L.js is deferred from the initial shell.
+- pass: performance-largest-js-deferred - Largest JS chunk is GameCanvas-DxtSZy9L.js at 1360.8 KB.
 - pass: performance-deferred-game-budget - Deferred game chunk is 1360.8 KB; monitor budget is 1600 KB.
 
 ## Release Candidate
 
 Status: release-candidate-ready
-Candidate: pwa-ec4b42e939bc
+Candidate: pwa-1fb14b4f3fc0
 Files: 44
-Aggregate SHA-256: ec4b42e939bc4f67253f47b5903d00df63a3955b00d9f9df5845cc4ea9467b2b
+Aggregate SHA-256: 1fb14b4f3fc0469baad927d9eb137cc29ced0f3dcffa3f5ed4cefe980cda969c
 - pass: release-dist-inventory - 44 dist files inventoried.
 - pass: release-required-files - 19/19 required files present.
 - pass: release-game-pages - 10 generated game page(s) in dist.
@@ -141,7 +141,7 @@ Aggregate SHA-256: ec4b42e939bc4f67253f47b5903d00df63a3955b00d9f9df5845cc4ea9467
 
 Status: blocked-missing-origin
 Origin: missing
-Candidate: pwa-ec4b42e939bc
+Candidate: pwa-1fb14b4f3fc0
 Checks: 0/15 passed (15 blocked)
 Local artifact: predeploy-artifact-smoke-passed (15/15 passed)
 - blocked: smoke-app-shell - No deployed origin configured.
@@ -221,8 +221,8 @@ Setup script: ops/github/setup-production.sh
 - ready-for-actions-pages: bootstrap-github-pages-hosting - Deployment plan is ready-for-pages; Pages workflow is .github/workflows/web-pwa-deploy.yml.
 - ready-to-sync: bootstrap-github-pages-settings - GitHub CLI can configure Pages to use the Actions workflow source.
 - ready-for-direct-persistence: bootstrap-autonomous-self-update - Self-update gate configured; direct push configured.
-- partially-configured: bootstrap-github-actions-variables - 8/24 repository variable value(s) present in this environment.
-- partially-configured: bootstrap-github-actions-secrets - 3/8 repository secret value(s) present in this environment.
+- partially-configured: bootstrap-github-actions-variables - 10/24 repository variable value(s) present in this environment.
+- partially-configured: bootstrap-github-actions-secrets - 5/8 repository secret value(s) present in this environment.
 - blocked-needs-cloudflare-env: bootstrap-event-collector - Collector deployment is blocked-needs-cloudflare-env; provider cloudflare-worker-r2.
 - held-by-product-gates: bootstrap-monetization-gate - Revenue disabled; spend mode no-spend.
 - draft-ready-external-blockers: bootstrap-store-compliance-unblock - 3 store compliance blocker(s) remain.
@@ -232,24 +232,24 @@ Setup script: ops/github/setup-production.sh
 
 Status: operator-plan-ready
 Mode: plan-only
-Selected action: refresh-organic-seed-loop
+Selected action: seed-portfolio-traffic
 Execution: not-requested
 
 ## Autonomous Operator History
 
 Status: operator-history-ready
 Records: 40
-Executed: 11
+Executed: 9
 
 ## Autonomous Cadence
 
 Status: cadence-ready
 Cadence: daily
-Codex app: active-confirmed
+Codex app: active-declared-unverified
 GitHub Actions: scheduled
 Freshness: fresh; stale artifacts 0
 - pass: cadence-codex-automation-manifest - Codex app automation manifest declares autonomous-game-lab-daily-owner-loop.
-- pass: cadence-codex-automation-installed - Codex app automation autonomous-game-lab-daily-owner-loop is active, scheduled, local, and pointed at this workspace.
+- pass: cadence-codex-automation-installed - Codex automation storage is unavailable in this environment; GitHub Actions remains the CI scheduler.
 - pass: cadence-codex-automation-single-active-owner-loop - No duplicate active Codex owner-loop automations share this workspace.
 - pass: cadence-local-operate-script - autonomous:operate is npm run autonomous:daily && npm run autonomous:operator -- --execute && npm run autonomous:after-action && npm run test:e2e; autonomous:after-action is npm run autonomous:owner-loop && npm run autonomous:operator && npm run autonomous:local-event-bridge && npm run autonomous:import-events && npm run autonomous:analytics && npm run autonomous:gate-recovery && npm run autonomous:sample-plan && npm run build && npm run autonomous:performance && npm run autonomous:release-candidate && npm run autonomous:post-deploy-smoke && npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap && npm run autonomous:deploy-plan && npm run autonomous:bootstrap && npm run autonomous:activate-production && npm run autonomous:readiness && npm run autonomous:repo-readiness && npm run autonomous:deploy-plan && npm run autonomous:readiness && npm run autonomous:owner-loop && npm run autonomous:operator && npm run autonomous:objective-audit && npm run autonomous:readiness && npm run autonomous:deploy-plan && npm run autonomous:post-deploy-smoke && npm run autonomous:readiness && npm run autonomous:repo-readiness && npm run autonomous:deploy-plan && npm run autonomous:post-deploy-smoke && npm run autonomous:readiness && npm run autonomous:repo-readiness && npm run autonomous:deploy-plan && npm run autonomous:readiness && npm run autonomous:objective-audit && npm run autonomous:readiness && npm run autonomous:owner-loop && npm run autonomous:operator && npm run test:automation.
 - pass: cadence-cadence-refresh-script - autonomous:cadence is node scripts/autonomous-cadence.mjs.
@@ -268,7 +268,7 @@ Freshness: fresh; stale artifacts 0
 
 Status: self-update-ready
 Workflow: .github/workflows/autonomous-self-update.yml
-Safe pending: 3
+Safe pending: 185
 Unsafe pending: 0
 Remote push ready: true
 - pass: self-update-script-registered - autonomous:self-update is node scripts/autonomous-self-update.mjs.
@@ -276,7 +276,7 @@ Remote push ready: true
 - pass: self-update-daily-workflow-read-only - The ordinary daily workflow remains read-only, runs the owner loop, and uploads evidence artifacts.
 - pass: self-update-self-update-workflow - A separate gated workflow can reproduce the owner loop with production env, verify it with gate env, and persist allowlisted changes.
 - pass: self-update-post-self-update-deploy - Pages redeploys after the gated self-update workflow, then repeats deployability and post-deploy smoke checks.
-- pass: self-update-safe-path-allowlist - 3 safe pending file(s), 0 unsafe pending file(s).
+- pass: self-update-safe-path-allowlist - 185 safe pending file(s), 0 unsafe pending file(s).
 - pass: self-update-repository-optional - Git worktree is available on main.
 - pass: self-update-remote-push-gated - Direct push is configured for moshequ/autonomous-game-lab.
 - pass: self-update-zero-spend-controls - Self-update owner-loop verification includes browser smoke coverage and does not create accounts, stores, ads, paid traffic, or revenue.

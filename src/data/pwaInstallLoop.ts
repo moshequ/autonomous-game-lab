@@ -1,12 +1,12 @@
 export const pwaInstallLoop = {
-  "generatedAt": "2026-05-20T06:53:10.971Z",
+  "generatedAt": "2026-05-20T09:03:14.823Z",
   "status": "pwa-install-loop-ready",
   "sourceStatus": {
     "analyticsSource": "fixture-sample",
     "acquisitionLearning": "acquisition-learning-ready",
     "retentionLoop": "retention-loop-ready",
     "releaseHealth": "monitoring",
-    "publicOrigin": "missing"
+    "publicOrigin": "configured"
   },
   "channel": {
     "id": "pwa-install",
@@ -54,7 +54,7 @@ export const pwaInstallLoop = {
     "playerInitiatedOnly": true,
     "browserPromptControlled": true,
     "nativePromptRequired": true,
-    "hostedOriginRequired": true
+    "hostedOriginRequired": false
   },
   "localState": {
     "dismissalKey": "agl.pwa.installDismissedAt",
@@ -64,7 +64,7 @@ export const pwaInstallLoop = {
   "controls": {
     "canMeasureInstall": true,
     "canPromptInstall": true,
-    "hostRequiredForProductionInstall": true,
+    "hostRequiredForProductionInstall": false,
     "noPaidInstallIncentive": true,
     "noNotificationPermissionPrompt": true
   },
@@ -118,9 +118,9 @@ export const pwaInstallLoop = {
       "launch": "pwa_launch_mode_detected"
     },
     "hostPolicy": {
-      "publicOriginStatus": "missing",
+      "publicOriginStatus": "configured",
       "stableHttpsRequired": true,
-      "hostedOriginRequired": true,
+      "hostedOriginRequired": false,
       "productionInstallClaimsAllowed": false
     },
     "controls": {
@@ -135,7 +135,7 @@ export const pwaInstallLoop = {
       "noRevenueEnablement": true,
       "noStoreSubmission": true
     },
-    "nextAction": "Publish to a stable HTTPS host before treating PWA install evidence as production-ready."
+    "nextAction": "Route zero-spend install traffic through /?game=canopy-bloom&utm_source=pwa_install&utm_campaign=pwa-install-canopy-bloom until 20 prompt view(s) and 10 launch-mode event(s) are collected."
   },
   "guardrails": {
     "noForcedPrompt": true,
@@ -146,10 +146,10 @@ export const pwaInstallLoop = {
     "noPaidInstallReward": true
   },
   "nextActions": [
-    "Publish to a stable HTTPS host before treating PWA install evidence as production-ready.",
+    "Route zero-spend install traffic through /?game=canopy-bloom&utm_source=pwa_install&utm_campaign=pwa-install-canopy-bloom until 20 prompt view(s) and 10 launch-mode event(s) are collected.",
     "Start measuring native install prompt availability and standalone launches.",
     "Route install traffic through /?game=canopy-bloom&utm_source=pwa_install&utm_campaign=pwa-install-canopy-bloom so prompt events carry pwa-install attribution.",
-    "Publish to a stable HTTPS host before using PWA install data for store-readiness claims.",
+    "Keep install links pointed at the stable HTTPS production origin.",
     "Keep install prompts optional, non-blocking, and separated from paid rewards."
   ]
 } as const

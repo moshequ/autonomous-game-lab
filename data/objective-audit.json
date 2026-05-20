@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-20T08:53:51.629Z",
+  "generatedAt": "2026-05-20T09:03:29.033Z",
   "status": "objective-in-progress",
   "objective": "Build a bootstrapped autonomous web/PWA game portal that can generate original board-game-inspired games, measure user behavior, propose and apply data-driven improvements, and prepare a path to monetization and app-store distribution with minimal manual intervention.",
   "summary": {
@@ -7,7 +7,7 @@
     "met": 6,
     "prepared": 2,
     "incomplete": 0,
-    "externalBlockers": 12,
+    "externalBlockers": 13,
     "productBlockers": 6
   },
   "requirements": [
@@ -75,7 +75,7 @@
         "Experiment results: evaluated",
         "Backlog: improvement-backlog-ready; items 4; hash 392ebb719e0e",
         "Applied/deferred actions: 6",
-        "Operator selected: refresh-organic-seed-loop; status operator-plan-ready; execution not-requested"
+        "Operator selected: seed-portfolio-traffic; status operator-plan-ready; execution not-requested"
       ],
       "blockers": [],
       "nextAction": "Keep collecting starts until a safe product-gate tuning action is justified.",
@@ -87,19 +87,20 @@
       "summary": "A scheduled local loop, owner state, bootstrap handoff, and dry-run operator reduce manual maintenance.",
       "evidence": [
         "Owner loop: owner-loop-ready",
-        "Autonomous cadence: cadence-ready; Codex active-confirmed; GitHub scheduled",
+        "Autonomous cadence: cadence-ready; Codex active-declared-unverified; GitHub scheduled",
         "Autonomous self-update: self-update-ready; workflow .github/workflows/autonomous-self-update.yml; unsafe pending 0",
         "Operator: operator-plan-ready",
-        "Operator history: operator-history-ready; records 40; executed 11",
+        "Operator history: operator-history-ready; records 40; executed 9",
         "Bootstrap: production-bootstrap-ready",
         "Repository bootstrap: repository-bootstrap-ready; helper ops/github/bootstrap-repository.sh",
         "Release candidate: release-candidate-ready; smoke URLs 14",
         "Post-deploy smoke: blocked-missing-origin; origin missing; checks 0/15; local artifact predeploy-artifact-smoke-passed 15/15",
         "Repository channel: repository-channel-ready; repository moshequ/autonomous-game-lab; git worktree true",
         "Autonomy score: 97%",
-        "Credential-gated actions: 12"
+        "Credential-gated actions: 10"
       ],
       "blockers": [
+        "Commit current generated changes before pushing to GitHub Pages.",
         "AGL_SUPPORT_EMAIL: Production support contact for privacy and store listings.",
         "VITE_POSTHOG_KEY: Optional browser-side PostHog analytics forwarding.",
         "POSTHOG_PROJECT_ID + POSTHOG_PERSONAL_API_KEY: Optional autonomous production analytics and experiment result rollups from PostHog.",
@@ -108,8 +109,6 @@
         "ADMOB_PUBLISHER_ID: Native app seller line for app-ads.txt and Android rewarded tests after app-store gates pass.",
         "AGL_GOOGLE_PLAY_ACCOUNT_CONNECTED: Allows native packaging gates to treat Play Console access as connected.",
         "CLOUDFLARE_API_TOKEN: Repository secret sourced from CLOUDFLARE_API_TOKEN.",
-        "VITE_EVENT_COLLECTOR_WRITE_TOKEN: Repository secret sourced from VITE_EVENT_COLLECTOR_WRITE_TOKEN.",
-        "AGL_EVENT_COLLECTOR_ADMIN_TOKEN: Repository secret sourced from AGL_EVENT_COLLECTOR_ADMIN_TOKEN.",
         "POSTHOG_PERSONAL_API_KEY: Repository secret sourced from POSTHOG_PERSONAL_API_KEY.",
         "GOOGLE_PLAY_SERVICE_ACCOUNT_JSON: Repository secret sourced from GOOGLE_PLAY_SERVICE_ACCOUNT_JSON."
       ],
@@ -158,8 +157,7 @@
         "unit-economics-store-spend: Store spend allowed is false; spend mode is no-spend.",
         "promotion-gate: Android promotion status is blocked.",
         "Revenue signal is $0.00, below $99.00.",
-        "Apple Developer account is not connected.",
-        "Hosted privacy policy URL is missing."
+        "Apple Developer account is not connected."
       ],
       "nextAction": "Host privacy URL, create signing assets, and connect Google Play account.",
       "completionCritical": true
@@ -181,6 +179,7 @@
   ],
   "blockers": {
     "external": [
+      "Commit current generated changes before pushing to GitHub Pages.",
       "Set AGL_SUPPORT_EMAIL to a real support inbox before public store submission.",
       "Set VITE_EVENT_COLLECTOR_URL or VITE_POSTHOG_KEY to forward browser analytics in production.",
       "Set AGL_EVENT_COLLECTOR_EXPORT_URL + AGL_EVENT_COLLECTOR_ADMIN_TOKEN or PostHog server credentials for autonomous production rollups.",
@@ -203,6 +202,7 @@
       "Web/PWA or native ad provider is not configured for gated revenue tests."
     ],
     "all": [
+      "Commit current generated changes before pushing to GitHub Pages.",
       "Set AGL_SUPPORT_EMAIL to a real support inbox before public store submission.",
       "Set VITE_EVENT_COLLECTOR_URL or VITE_POSTHOG_KEY to forward browser analytics in production.",
       "Set AGL_EVENT_COLLECTOR_EXPORT_URL + AGL_EVENT_COLLECTOR_ADMIN_TOKEN or PostHog server credentials for autonomous production rollups.",
@@ -234,6 +234,6 @@
   "completion": {
     "canMarkGoalComplete": false,
     "reason": "The local autonomous PWA system is largely prepared, but production credentials, live data, monetization gates, hosted compliance URLs, and store account/signing blockers remain.",
-    "nextBestAction": "refresh-organic-seed-loop"
+    "nextBestAction": "seed-portfolio-traffic"
   }
 }

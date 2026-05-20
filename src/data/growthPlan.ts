@@ -1,11 +1,11 @@
 export const growthPlan = {
-  "generatedAt": "2026-05-20T05:50:08.908Z",
-  "siteUrl": null,
-  "publicUrlMode": "runtime-relative",
+  "generatedAt": "2026-05-20T09:01:46.745Z",
+  "siteUrl": "https://moshequ.github.io/autonomous-game-lab",
+  "publicUrlMode": "absolute-origin",
   "publicOrigin": {
-    "source": "missing",
-    "status": "missing-runtime-relative",
-    "origin": null
+    "source": "PUBLIC_SITE_URL",
+    "status": "configured",
+    "origin": "https://moshequ.github.io/autonomous-game-lab"
   },
   "status": "growth-assets-ready",
   "gamePages": [
@@ -27,8 +27,8 @@ export const growthPlan = {
       ],
       "playPath": "/?game=harbor-rings&utm_source=organic_game_page&utm_campaign=harbor-rings",
       "pagePath": "/games/harbor-rings.html",
-      "canonicalUrl": null,
-      "shareUrl": "/?game=harbor-rings&utm_source=share&utm_campaign=harbor-rings",
+      "canonicalUrl": "https://moshequ.github.io/autonomous-game-lab/games/harbor-rings.html",
+      "shareUrl": "https://moshequ.github.io/autonomous-game-lab/?game=harbor-rings&utm_source=share&utm_campaign=harbor-rings",
       "metrics": {
         "startRate": 0.676,
         "completionRate": 0.394,
@@ -64,8 +64,8 @@ export const growthPlan = {
       ],
       "playPath": "/?game=lantern-relay&utm_source=organic_game_page&utm_campaign=lantern-relay",
       "pagePath": "/games/lantern-relay.html",
-      "canonicalUrl": null,
-      "shareUrl": "/?game=lantern-relay&utm_source=share&utm_campaign=lantern-relay",
+      "canonicalUrl": "https://moshequ.github.io/autonomous-game-lab/games/lantern-relay.html",
+      "shareUrl": "https://moshequ.github.io/autonomous-game-lab/?game=lantern-relay&utm_source=share&utm_campaign=lantern-relay",
       "metrics": {
         "startRate": null,
         "completionRate": null,
@@ -101,8 +101,8 @@ export const growthPlan = {
       ],
       "playPath": "/?game=harbor-circuit&utm_source=organic_game_page&utm_campaign=harbor-circuit",
       "pagePath": "/games/harbor-circuit.html",
-      "canonicalUrl": null,
-      "shareUrl": "/?game=harbor-circuit&utm_source=share&utm_campaign=harbor-circuit",
+      "canonicalUrl": "https://moshequ.github.io/autonomous-game-lab/games/harbor-circuit.html",
+      "shareUrl": "https://moshequ.github.io/autonomous-game-lab/?game=harbor-circuit&utm_source=share&utm_campaign=harbor-circuit",
       "metrics": {
         "startRate": null,
         "completionRate": null,
@@ -138,8 +138,8 @@ export const growthPlan = {
       ],
       "playPath": "/?game=foundry-ledger&utm_source=organic_game_page&utm_campaign=foundry-ledger",
       "pagePath": "/games/foundry-ledger.html",
-      "canonicalUrl": null,
-      "shareUrl": "/?game=foundry-ledger&utm_source=share&utm_campaign=foundry-ledger",
+      "canonicalUrl": "https://moshequ.github.io/autonomous-game-lab/games/foundry-ledger.html",
+      "shareUrl": "https://moshequ.github.io/autonomous-game-lab/?game=foundry-ledger&utm_source=share&utm_campaign=foundry-ledger",
       "metrics": {
         "startRate": null,
         "completionRate": null,
@@ -175,8 +175,8 @@ export const growthPlan = {
       ],
       "playPath": "/?game=orbit-atlas&utm_source=organic_game_page&utm_campaign=orbit-atlas",
       "pagePath": "/games/orbit-atlas.html",
-      "canonicalUrl": null,
-      "shareUrl": "/?game=orbit-atlas&utm_source=share&utm_campaign=orbit-atlas",
+      "canonicalUrl": "https://moshequ.github.io/autonomous-game-lab/games/orbit-atlas.html",
+      "shareUrl": "https://moshequ.github.io/autonomous-game-lab/?game=orbit-atlas&utm_source=share&utm_campaign=orbit-atlas",
       "metrics": {
         "startRate": null,
         "completionRate": null,
@@ -211,8 +211,8 @@ export const growthPlan = {
       ],
       "playPath": "/?game=mosaic-haven&utm_source=organic_game_page&utm_campaign=mosaic-haven",
       "pagePath": "/games/mosaic-haven.html",
-      "canonicalUrl": null,
-      "shareUrl": "/?game=mosaic-haven&utm_source=share&utm_campaign=mosaic-haven",
+      "canonicalUrl": "https://moshequ.github.io/autonomous-game-lab/games/mosaic-haven.html",
+      "shareUrl": "https://moshequ.github.io/autonomous-game-lab/?game=mosaic-haven&utm_source=share&utm_campaign=mosaic-haven",
       "metrics": {
         "startRate": null,
         "completionRate": null,
@@ -247,8 +247,8 @@ export const growthPlan = {
       ],
       "playPath": "/?game=pocket-draft&utm_source=organic_game_page&utm_campaign=pocket-draft",
       "pagePath": "/games/pocket-draft.html",
-      "canonicalUrl": null,
-      "shareUrl": "/?game=pocket-draft&utm_source=share&utm_campaign=pocket-draft",
+      "canonicalUrl": "https://moshequ.github.io/autonomous-game-lab/games/pocket-draft.html",
+      "shareUrl": "https://moshequ.github.io/autonomous-game-lab/?game=pocket-draft&utm_source=share&utm_campaign=pocket-draft",
       "metrics": {
         "startRate": null,
         "completionRate": null,
@@ -283,8 +283,8 @@ export const growthPlan = {
       ],
       "playPath": "/?game=metro-loom&utm_source=organic_game_page&utm_campaign=metro-loom",
       "pagePath": "/games/metro-loom.html",
-      "canonicalUrl": null,
-      "shareUrl": "/?game=metro-loom&utm_source=share&utm_campaign=metro-loom",
+      "canonicalUrl": "https://moshequ.github.io/autonomous-game-lab/games/metro-loom.html",
+      "shareUrl": "https://moshequ.github.io/autonomous-game-lab/?game=metro-loom&utm_source=share&utm_campaign=metro-loom",
       "metrics": {
         "startRate": null,
         "completionRate": null,
@@ -319,8 +319,8 @@ export const growthPlan = {
       ],
       "playPath": "/?game=grove-engine&utm_source=organic_game_page&utm_campaign=grove-engine",
       "pagePath": "/games/grove-engine.html",
-      "canonicalUrl": null,
-      "shareUrl": "/?game=grove-engine&utm_source=share&utm_campaign=grove-engine",
+      "canonicalUrl": "https://moshequ.github.io/autonomous-game-lab/games/grove-engine.html",
+      "shareUrl": "https://moshequ.github.io/autonomous-game-lab/?game=grove-engine&utm_source=share&utm_campaign=grove-engine",
       "metrics": {
         "startRate": null,
         "completionRate": null,
@@ -355,8 +355,8 @@ export const growthPlan = {
       ],
       "playPath": "/?game=canopy-bloom&utm_source=organic_game_page&utm_campaign=canopy-bloom",
       "pagePath": "/games/canopy-bloom.html",
-      "canonicalUrl": null,
-      "shareUrl": "/?game=canopy-bloom&utm_source=share&utm_campaign=canopy-bloom",
+      "canonicalUrl": "https://moshequ.github.io/autonomous-game-lab/games/canopy-bloom.html",
+      "shareUrl": "https://moshequ.github.io/autonomous-game-lab/?game=canopy-bloom&utm_source=share&utm_campaign=canopy-bloom",
       "metrics": {
         "startRate": null,
         "completionRate": null,

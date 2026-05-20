@@ -1,5 +1,5 @@
 export const promotionDecision = {
-  "generatedAt": "2026-05-19T03:15:02.769Z",
+  "generatedAt": "2026-05-20T09:02:17.030Z",
   "analyticsSource": "fixture-sample",
   "releaseHealth": {
     "status": "monitoring",
@@ -31,7 +31,6 @@ export const promotionDecision = {
       "status": "blocked",
       "decision": "Keep Android packaging blocked.",
       "blockers": [
-        "Hosted privacy policy URL is missing.",
         "Google Play developer account is not connected.",
         "Native package is blocked-draft-ready."
       ],
@@ -43,8 +42,7 @@ export const promotionDecision = {
       "decision": "Defer iOS spend.",
       "blockers": [
         "Revenue signal is $0.00, below $99.00.",
-        "Apple Developer account is not connected.",
-        "Hosted privacy policy URL is missing."
+        "Apple Developer account is not connected."
       ],
       "nextAction": "Wait for revenue signal and hosted compliance URLs before paying annual Apple cost."
     }

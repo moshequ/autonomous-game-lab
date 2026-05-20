@@ -1,6 +1,6 @@
 # Trend Radar Report
 
-Generated: 2026-05-18T23:36:38.427Z
+Generated: 2026-05-20T09:01:39.445Z
 
 Active source: fixture
 Source note: BGG_XML_API_TOKEN is not set; using fixture trends.

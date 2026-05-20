@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-20T07:52:14.166Z",
+  "generatedAt": "2026-05-20T09:03:25.987Z",
   "status": "blocked-missing-origin",
   "envFiles": {
     "loaded": true,
@@ -15,14 +15,14 @@
         ]
       }
     ],
-    "loadedKeys": [
+    "loadedKeys": [],
+    "skippedExistingKeys": [
       "AGL_ANDROID_PACKAGE_NAME",
       "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
       "AGL_ANDROID_KEYSTORE_BASE64",
       "AGL_ANDROID_KEYSTORE_PASSWORD",
       "AGL_ANDROID_KEY_ALIAS"
     ],
-    "skippedExistingKeys": [],
     "skippedProtectedKeys": [],
     "overwrittenEnvFileKeys": [],
     "supportedFiles": [
@@ -54,8 +54,8 @@
   "target": {
     "origin": null,
     "provider": "github-pages",
-    "candidateId": "pwa-ec4b42e939bc",
-    "aggregateHash": "ec4b42e939bc4f67253f47b5903d00df63a3955b00d9f9df5845cc4ea9467b2b"
+    "candidateId": "pwa-1fb14b4f3fc0",
+    "aggregateHash": "1fb14b4f3fc0469baad927d9eb137cc29ced0f3dcffa3f5ed4cefe980cda969c"
   },
   "sourceStatus": {
     "deployment": "ready-for-pages",
@@ -209,7 +209,7 @@
         "file": "dist/sitemap.xml",
         "expectedStatus": 200,
         "status": "pass",
-        "bytes": 1562,
+        "bytes": 1861,
         "textMatched": true,
         "detail": "Local production artifact matched required text."
       },
@@ -219,7 +219,7 @@
         "file": "dist/games/canopy-bloom.html",
         "expectedStatus": 200,
         "status": "pass",
-        "bytes": 4867,
+        "bytes": 5079,
         "textMatched": true,
         "detail": "Local production artifact matched required text."
       },
@@ -232,8 +232,8 @@
         "bytes": 19424,
         "candidateMatches": true,
         "hashMatches": true,
-        "localCandidateId": "pwa-ec4b42e939bc",
-        "localAggregateHash": "ec4b42e939bc4f67253f47b5903d00df63a3955b00d9f9df5845cc4ea9467b2b",
+        "localCandidateId": "pwa-1fb14b4f3fc0",
+        "localAggregateHash": "1fb14b4f3fc0469baad927d9eb137cc29ced0f3dcffa3f5ed4cefe980cda969c",
         "detail": "Local release manifest matches the release candidate."
       }
     ]
@@ -379,7 +379,7 @@
       "path": "/release-candidate.json",
       "url": "${DEPLOYED_PWA_ORIGIN}/release-candidate.json",
       "expectedStatus": 200,
-      "requiredText": "pwa-ec4b42e939bc",
+      "requiredText": "pwa-1fb14b4f3fc0",
       "status": "blocked",
       "detail": "No deployed origin configured."
     }
