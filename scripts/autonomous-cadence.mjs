@@ -87,6 +87,16 @@ const freshnessRequiredArtifacts = [
     path: 'data/local-event-bridge.json',
   },
   {
+    id: 'analytics-rollup',
+    label: 'Analytics rollup',
+    path: 'data/analytics-rollup.json',
+  },
+  {
+    id: 'experiment-results',
+    label: 'Experiment results',
+    path: 'data/experiment-results.json',
+  },
+  {
     id: 'growth-plan',
     label: 'Growth pages and organic routes',
     path: 'data/growth-plan.json',
@@ -112,6 +122,11 @@ const freshnessRequiredArtifacts = [
     path: 'data/organic-seed-loop.json',
   },
   {
+    id: 'retention-loop',
+    label: 'Retention loop',
+    path: 'data/retention-loop.json',
+  },
+  {
     id: 'release-candidate',
     label: 'Release candidate',
     path: 'data/release-candidate.json',
@@ -122,14 +137,54 @@ const freshnessRequiredArtifacts = [
     path: 'data/post-deploy-smoke.json',
   },
   {
+    id: 'release-health',
+    label: 'Release health guard',
+    path: 'data/release-health.json',
+  },
+  {
+    id: 'product-optimization',
+    label: 'Product optimization',
+    path: 'data/product-optimization.json',
+  },
+  {
+    id: 'product-gate-recovery',
+    label: 'Product gate recovery',
+    path: 'data/product-gate-recovery.json',
+  },
+  {
     id: 'product-gate-sample-plan',
     label: 'Product gate sample plan',
     path: 'data/product-gate-sample-plan.json',
   },
   {
+    id: 'completion-loop',
+    label: 'Completion loop',
+    path: 'data/completion-loop.json',
+  },
+  {
+    id: 'replay-loop',
+    label: 'Replay loop',
+    path: 'data/replay-loop.json',
+  },
+  {
+    id: 'first-move-coach',
+    label: 'First move coach',
+    path: 'data/first-move-coach.json',
+  },
+  {
     id: 'pwa-install-loop',
     label: 'PWA install loop',
     path: 'data/pwa-install-loop.json',
+  },
+  {
+    id: 'applied-improvements',
+    label: 'Applied improvements',
+    path: 'data/applied-improvements.json',
+  },
+  {
+    id: 'improvement-routing',
+    label: 'Improvement routing',
+    path: 'data/improvement-routing.json',
   },
   {
     id: 'objective-audit',
