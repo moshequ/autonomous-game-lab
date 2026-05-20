@@ -428,10 +428,28 @@ const report = [
 await mkdir(path.dirname(outputJsonPath), { recursive: true })
 await mkdir(path.dirname(outputTsPath), { recursive: true })
 await mkdir(path.dirname(reportPath), { recursive: true })
+const appPayload = {
+  status: payload.status,
+  workspace: {
+    insideWorkTree: payload.workspace.insideWorkTree,
+  },
+  repository: {
+    target: payload.repository.target,
+  },
+  repositoryTargetPlan: {
+    plannedTarget: payload.repositoryTargetPlan.plannedTarget,
+    pages: {
+      origin: payload.repositoryTargetPlan.pages?.origin ?? null,
+    },
+  },
+  githubAutomation: {
+    workflowDispatchReady: payload.githubAutomation.workflowDispatchReady,
+  },
+}
 await writeFile(outputJsonPath, JSON.stringify(payload, null, 2) + '\n')
 await writeFile(
   outputTsPath,
-  `export const repositoryReadiness = ${JSON.stringify(payload, null, 2)} as const\n\nexport type RepositoryReadiness = typeof repositoryReadiness\n`,
+  `export const repositoryReadiness = ${JSON.stringify(appPayload, null, 2)} as const\n\nexport type RepositoryReadiness = typeof repositoryReadiness\n`,
 )
 await writeFile(reportPath, report.join('\n'))
 

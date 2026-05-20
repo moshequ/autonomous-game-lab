@@ -1,22 +1,22 @@
 {
-  "generatedAt": "2026-05-20T05:03:09.755Z",
+  "generatedAt": "2026-05-20T05:17:05.629Z",
   "status": "operator-plan-ready",
   "mode": "plan-only",
   "ownerDecision": {
-    "actionId": "prepare-repository-channel",
-    "command": "npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap",
+    "actionId": "optimize-product-gates",
+    "command": "npm run autonomous:analyze && npm run autonomous:product-optimize && npm run autonomous:sync-config && npm run autonomous:simulate",
     "locallyExecutable": true,
     "rejectionReason": null
   },
   "requestedActionId": null,
   "selectedAction": {
-    "id": "prepare-repository-channel",
+    "id": "optimize-product-gates",
     "status": "armed",
-    "command": "npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap",
+    "command": "npm run autonomous:analyze && npm run autonomous:product-optimize && npm run autonomous:sync-config && npm run autonomous:simulate",
     "targets": [
-      "github-repository-channel"
+      "harbor-rings"
     ],
-    "reason": "Surfaces and prepares the missing git/GitHub deployment-channel blockers before web deploy.",
+    "reason": "Applies one guarded target-score or telemetry improvement when product gates block monetization.",
     "costUsd": 0
   },
   "selectedRejection": null,
@@ -34,7 +34,6 @@
     "refresh-first-move-coach",
     "refresh-completion-loop",
     "refresh-replay-loop",
-    "prepare-repository-channel",
     "bootstrap-production-setup",
     "refresh-objective-audit",
     "optimize-store-listing",
@@ -103,12 +102,6 @@
       "reason": "status-monitor"
     },
     {
-      "id": "optimize-product-gates",
-      "status": "armed",
-      "command": "npm run autonomous:analyze && npm run autonomous:product-optimize && npm run autonomous:sync-config && npm run autonomous:simulate",
-      "reason": "not-selected-this-run"
-    },
-    {
       "id": "refresh-product-gate-recovery",
       "status": "armed",
       "command": "npm run autonomous:gate-recovery",
@@ -143,6 +136,12 @@
       "status": "armed",
       "command": "npm run autonomous:replay-loop",
       "reason": "not-selected-this-run"
+    },
+    {
+      "id": "prepare-repository-channel",
+      "status": "monitor",
+      "command": "npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap",
+      "reason": "status-monitor"
     },
     {
       "id": "bootstrap-production-setup",
@@ -201,12 +200,20 @@
   ],
   "commandPlan": [
     {
-      "segment": "npm run autonomous:repo-readiness",
-      "script": "autonomous:repo-readiness"
+      "segment": "npm run autonomous:analyze",
+      "script": "autonomous:analyze"
     },
     {
-      "segment": "npm run autonomous:repo-bootstrap",
-      "script": "autonomous:repo-bootstrap"
+      "segment": "npm run autonomous:product-optimize",
+      "script": "autonomous:product-optimize"
+    },
+    {
+      "segment": "npm run autonomous:sync-config",
+      "script": "autonomous:sync-config"
+    },
+    {
+      "segment": "npm run autonomous:simulate",
+      "script": "autonomous:simulate"
     }
   ],
   "execution": {
@@ -273,7 +280,7 @@
     "RUN_WORKFLOWS=1"
   ],
   "nextActions": [
-    "Run npm run autonomous:operator -- --execute --action=prepare-repository-channel to execute exactly one allowed local action.",
+    "Run npm run autonomous:operator -- --execute --action=optimize-product-gates to execute exactly one allowed local action.",
     "Do not execute GitHub workflow, store, paid ads, or account setup commands from the local operator."
   ]
 }

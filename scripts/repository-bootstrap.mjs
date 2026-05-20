@@ -727,10 +727,25 @@ await mkdir(path.dirname(outputJsonPath), { recursive: true })
 await mkdir(path.dirname(outputTsPath), { recursive: true })
 await mkdir(path.dirname(reportPath), { recursive: true })
 await mkdir(opsGithubDir, { recursive: true })
+const appPayload = {
+  status: payload.status,
+  mode: payload.mode,
+  helper: {
+    path: payload.helper.path,
+  },
+  repositoryTargetPlan: {
+    githubNewRepositoryUrl: payload.repositoryTargetPlan.githubNewRepositoryUrl,
+  },
+  workspace: {
+    after: {
+      insideWorkTree: payload.workspace.after.insideWorkTree,
+    },
+  },
+}
 await writeFile(outputJsonPath, JSON.stringify(payload, null, 2) + '\n')
 await writeFile(
   outputTsPath,
-  `export const repositoryBootstrap = ${JSON.stringify(payload, null, 2)} as const\n\nexport type RepositoryBootstrap = typeof repositoryBootstrap\n`,
+  `export const repositoryBootstrap = ${JSON.stringify(appPayload, null, 2)} as const\n\nexport type RepositoryBootstrap = typeof repositoryBootstrap\n`,
 )
 await writeFile(reportPath, report.join('\n'))
 await writeFile(helperPath, helperScript, { mode: 0o755 })

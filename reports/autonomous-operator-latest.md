@@ -1,10 +1,10 @@
 # Autonomous Operator
 
-Generated: 2026-05-20T05:03:09.755Z
+Generated: 2026-05-20T05:17:05.629Z
 Status: operator-plan-ready
 Mode: plan-only
-Owner decision: prepare-repository-channel
-Selected action: prepare-repository-channel
+Owner decision: optimize-product-gates
+Selected action: optimize-product-gates
 Execution: not-requested
 
 ## Controls
@@ -18,7 +18,7 @@ Execution: not-requested
 
 ## Selected Action
 
-- prepare-repository-channel: npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap
+- optimize-product-gates: npm run autonomous:analyze && npm run autonomous:product-optimize && npm run autonomous:sync-config && npm run autonomous:simulate
 
 ## Eligible Local Actions
 
@@ -35,7 +35,6 @@ Execution: not-requested
 - refresh-first-move-coach
 - refresh-completion-loop
 - refresh-replay-loop
-- prepare-repository-channel
 - bootstrap-production-setup
 - refresh-objective-audit
 - optimize-store-listing
@@ -54,5 +53,5 @@ Execution: not-requested
 - check-performance-budget: not-selected-this-run
 - prepare-release-candidate: not-selected-this-run
 - run-post-deploy-smoke: status-monitor
-- optimize-product-gates: not-selected-this-run
 - refresh-product-gate-recovery: not-selected-this-run
+- collect-gate-sample-downloads: status-monitor

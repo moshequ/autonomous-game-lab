@@ -219,6 +219,28 @@ const repositoryBootstrapPrepared =
   repositoryBootstrap.status !== 'missing' &&
   repositoryBootstrap.controls?.dryRunByDefault === true &&
   repositoryBootstrap.helper?.path === 'ops/github/bootstrap-repository.sh'
+const repositoryTargetPlan = repositoryReadiness.repositoryTargetPlan ?? repositoryBootstrap.repositoryTargetPlan ?? null
+const repositoryTargetPlanReady =
+  typeof repositoryTargetPlan?.plannedTarget === 'string' &&
+  repositoryTargetPlan.plannedTarget.includes('/') &&
+  typeof repositoryTargetPlan.githubNewRepositoryUrl === 'string' &&
+  typeof repositoryTargetPlan.httpsOriginUrl === 'string' &&
+  typeof repositoryTargetPlan.sshOriginUrl === 'string' &&
+  typeof repositoryTargetPlan.pages?.origin === 'string' &&
+  typeof repositoryTargetPlan.pages?.basePath === 'string' &&
+  repositoryTargetPlan.controls?.zeroPaidSpend === true &&
+  repositoryTargetPlan.controls?.noAccountCreation === true &&
+  repositoryTargetPlan.controls?.remoteMutationRequiresExplicitEnv === true
+const repositoryHandoffPrepared =
+  !repositoryChannelReady &&
+  repositoryTargetPlanReady &&
+  repositoryBootstrapPrepared &&
+  repositoryReadiness.controls?.noGitMutation === true &&
+  repositoryReadiness.controls?.noWorkflowDispatch === true &&
+  repositoryBootstrap.controls?.remoteGitHubMutationRequiresExplicitEnv === true &&
+  repositoryBootstrap.controls?.zeroPaidSpend === true &&
+  (repositoryReadiness.blockers ?? []).some((blocker) => /GitHub|repository|origin|auth/i.test(blocker)) &&
+  (repositoryBootstrap.blockers ?? []).some((blocker) => /GitHub|repository|origin|auth/i.test(blocker))
 const ownerMode = releaseHealth.controls?.rollbackRequired
   ? 'incident-response'
   : deployment.status === 'ready-for-pages' && !repositoryChannelReady
@@ -1008,13 +1030,15 @@ const safeAutonomousActions = [
   },
   {
     id: 'prepare-repository-channel',
-    status: repositoryChannelReady ? 'monitor' : 'armed',
+    status: repositoryChannelReady || repositoryHandoffPrepared ? 'monitor' : 'armed',
     costUsd: 0,
     command: 'npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap',
     targets: [repositoryReadiness.repository?.target ?? 'github-repository-channel'],
     reason: repositoryChannelReady
       ? 'Keeps the GitHub Pages deployment channel evidence fresh.'
-      : 'Surfaces and prepares the missing git/GitHub deployment-channel blockers before web deploy.',
+      : repositoryHandoffPrepared
+        ? 'Repository handoff is prepared with explicit zero-spend commands and now waits only for owner/auth, so the operator should continue product and data work.'
+        : 'Surfaces and prepares the missing git/GitHub deployment-channel blockers before web deploy.',
   },
   {
     id: 'bootstrap-production-setup',
@@ -1200,6 +1224,7 @@ const payload = {
     revenueEnabled: monetization.revenueEnabled === true,
     deployAllowed: productionResponse.controls?.deployAllowed === true,
     rollbackRequired: productionResponse.controls?.rollbackRequired === true,
+    repositoryHandoffPrepared,
   },
   ownerDecision: {
     nextBestActionId: nextBestAction.id,
@@ -1232,6 +1257,16 @@ const payload = {
       .filter((action) => recentlySatisfiedActionIds.includes(action.id) && action.id !== nextBestAction.id)
       .map((action) => action.id),
     preferredActionOrder,
+    repositoryHandoff: {
+      prepared: repositoryHandoffPrepared,
+      targetPlanReady: repositoryTargetPlanReady,
+      plannedTarget: repositoryTargetPlan?.plannedTarget ?? null,
+      status: repositoryHandoffPrepared
+        ? 'external-owner-or-auth-required'
+        : repositoryChannelReady
+          ? 'repository-channel-ready'
+          : 'needs-local-repository-handoff',
+    },
   },
   systems,
   safeAutonomousActions,
@@ -1252,6 +1287,7 @@ const payload = {
     performanceBudgetStatus: performanceBudget.status,
     repositoryReadinessStatus: repositoryReadiness.status,
     repositoryBootstrapStatus: repositoryBootstrap.status,
+    repositoryHandoffPrepared,
     releaseCandidateStatus: releaseCandidate.status,
     postDeploySmokeStatus: postDeploySmoke.status,
     productOptimizationStatus: productOptimization.status,

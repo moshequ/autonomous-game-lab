@@ -291,7 +291,10 @@ const report = [
   '',
 ]
 
-const tsOutput = `export const deploymentPlan = ${JSON.stringify(payload, null, 2)} as const\n\nexport type DeploymentPlan = typeof deploymentPlan\n`
+const appPayload = {
+  status: payload.status,
+}
+const tsOutput = `export const deploymentPlan = ${JSON.stringify(appPayload, null, 2)} as const\n\nexport type DeploymentPlan = typeof deploymentPlan\n`
 
 await mkdir(path.dirname(outputJsonPath), { recursive: true })
 await mkdir(path.dirname(outputTsPath), { recursive: true })

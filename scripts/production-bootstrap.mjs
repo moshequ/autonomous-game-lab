@@ -753,10 +753,19 @@ await mkdir(path.dirname(outputJsonPath), { recursive: true })
 await mkdir(path.dirname(outputTsPath), { recursive: true })
 await mkdir(path.dirname(reportPath), { recursive: true })
 await mkdir(opsGithubDir, { recursive: true })
+const appPayload = {
+  status: payload.status,
+  mode: payload.mode,
+  summary: {
+    readyGroups: payload.summary.readyGroups,
+    totalGroups: payload.summary.totalGroups,
+    externalBlockers: payload.summary.externalBlockers,
+  },
+}
 await writeFile(outputJsonPath, JSON.stringify(payload, null, 2) + '\n')
 await writeFile(
   outputTsPath,
-  `export const productionBootstrap = ${JSON.stringify(payload, null, 2)} as const\n\nexport type ProductionBootstrap = typeof productionBootstrap\n`,
+  `export const productionBootstrap = ${JSON.stringify(appPayload, null, 2)} as const\n\nexport type ProductionBootstrap = typeof productionBootstrap\n`,
 )
 await writeFile(reportPath, report.join('\n'))
 await writeFile(setupScriptPath, setupScript, { mode: 0o755 })

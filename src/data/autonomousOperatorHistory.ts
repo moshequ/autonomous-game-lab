@@ -2,12 +2,12 @@ export const autonomousOperatorHistory = {
   "status": "operator-history-ready",
   "summary": {
     "totalRecords": 40,
-    "plannedRecords": 20,
-    "executedRecords": 20,
+    "plannedRecords": 21,
+    "executedRecords": 19,
     "failedRecords": 0,
-    "lastActionId": "prepare-repository-channel",
+    "lastActionId": "optimize-product-gates",
     "lastExecutionStatus": "not-requested",
-    "lastExecutedActionId": "refresh-autonomous-cadence"
+    "lastExecutedActionId": "bootstrap-production-setup"
   }
 } as const
 

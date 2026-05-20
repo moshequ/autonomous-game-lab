@@ -226,10 +226,23 @@ const report = [
 await mkdir(path.dirname(outputJsonPath), { recursive: true })
 await mkdir(path.dirname(outputTsPath), { recursive: true })
 await mkdir(path.dirname(reportPath), { recursive: true })
+const appPayload = {
+  status: payload.status,
+  initial: {
+    jsKb: payload.initial.jsKb,
+    gzipKb: payload.initial.gzipKb,
+  },
+  deferred: {
+    gameChunk: payload.deferred.gameChunk ? { kb: payload.deferred.gameChunk.kb } : null,
+    largestDeferredChunk: payload.deferred.largestDeferredChunk
+      ? { kb: payload.deferred.largestDeferredChunk.kb }
+      : null,
+  },
+}
 await writeFile(outputJsonPath, JSON.stringify(payload, null, 2) + '\n')
 await writeFile(
   outputTsPath,
-  `export const performanceBudget = ${JSON.stringify(payload, null, 2)} as const\n\nexport type PerformanceBudget = typeof performanceBudget\n`,
+  `export const performanceBudget = ${JSON.stringify(appPayload, null, 2)} as const\n\nexport type PerformanceBudget = typeof performanceBudget\n`,
 )
 await writeFile(reportPath, report.join('\n'))
 

@@ -2004,7 +2004,8 @@ test('autonomous operator history keeps a capped audit trail', async ({ page }) 
   }
   const ownerLoop = JSON.parse(await readFile('data/autonomous-owner-loop.json', 'utf8')) as {
     ownerDecision: { nextBestActionId: string }
-    safeAutonomousActions: Array<{ id: string; status: string }>
+    controls: { repositoryHandoffPrepared: boolean }
+    safeAutonomousActions: Array<{ id: string; status: string; reason?: string }>
     executionMemory: {
       avoidImmediateRepeat: boolean
       recentExecutionWindow: number
@@ -2022,6 +2023,12 @@ test('autonomous operator history keeps a capped audit trail', async ({ page }) 
         lastExplicitScanAt: string | null
         lastExplicitScanStatus: string | null
         evidenceReadyNow: boolean
+      }
+      repositoryHandoff: {
+        prepared: boolean
+        targetPlanReady: boolean
+        plannedTarget: string | null
+        status: string
       }
     }
   }
@@ -2082,6 +2089,7 @@ test('autonomous operator history keeps a capped audit trail', async ({ page }) 
     Date.parse(productGateSamplePlan.generatedAt) >= explicitDownloadsScanAt
   const collectGateSampleAction = ownerLoop.safeAutonomousActions.find((action) => action.id === 'collect-gate-sample-downloads')
   const refreshSamplePlanAction = ownerLoop.safeAutonomousActions.find((action) => action.id === 'refresh-product-gate-sample-plan')
+  const prepareRepositoryAction = ownerLoop.safeAutonomousActions.find((action) => action.id === 'prepare-repository-channel')
 
   expect(history.status).toBe('operator-history-ready')
   expect(history.retention.maxRecords).toBe(40)
@@ -2110,6 +2118,15 @@ test('autonomous operator history keeps a capped audit trail', async ({ page }) 
     localEventBridge.explicitDownloadsScan?.status ?? null,
   )
   expect(ownerLoop.executionMemory.gateSampleDownloadsBackoff.evidenceReadyNow).toBe(gateSampleEvidenceReadyNow)
+  expect(ownerLoop.executionMemory.repositoryHandoff.targetPlanReady).toBe(true)
+  expect(ownerLoop.executionMemory.repositoryHandoff.plannedTarget).toContain('/')
+  if (ownerLoop.executionMemory.repositoryHandoff.prepared) {
+    expect(ownerLoop.controls.repositoryHandoffPrepared).toBe(true)
+    expect(ownerLoop.executionMemory.repositoryHandoff.status).toBe('external-owner-or-auth-required')
+    expect(prepareRepositoryAction?.status).toBe('monitor')
+    expect(prepareRepositoryAction?.reason).toContain('waits only for owner/auth')
+    expect(ownerLoop.ownerDecision.nextBestActionId).not.toBe('prepare-repository-channel')
+  }
   if (gateSampleDownloadsCoolingDown) {
     expect(collectGateSampleAction?.status).toBe('monitor')
     expect(ownerLoop.ownerDecision.nextBestActionId).not.toBe('collect-gate-sample-downloads')

@@ -4022,12 +4022,47 @@ const ownerCollectGateSampleAction = autonomousOwnerLoop.safeAutonomousActions?.
 const ownerRefreshSamplePlanAction = autonomousOwnerLoop.safeAutonomousActions?.find(
   (action) => action.id === 'refresh-product-gate-sample-plan',
 )
+const ownerPrepareRepositoryAction = autonomousOwnerLoop.safeAutonomousActions?.find(
+  (action) => action.id === 'prepare-repository-channel',
+)
+const ownerRepositoryTargetPlan = repositoryReadiness.repositoryTargetPlan ?? repositoryBootstrap.repositoryTargetPlan ?? null
+const ownerRepositoryTargetPlanReady =
+  typeof ownerRepositoryTargetPlan?.plannedTarget === 'string' &&
+  ownerRepositoryTargetPlan.plannedTarget.includes('/') &&
+  typeof ownerRepositoryTargetPlan.githubNewRepositoryUrl === 'string' &&
+  typeof ownerRepositoryTargetPlan.httpsOriginUrl === 'string' &&
+  typeof ownerRepositoryTargetPlan.sshOriginUrl === 'string' &&
+  typeof ownerRepositoryTargetPlan.pages?.origin === 'string' &&
+  typeof ownerRepositoryTargetPlan.pages?.basePath === 'string' &&
+  ownerRepositoryTargetPlan.controls?.zeroPaidSpend === true &&
+  ownerRepositoryTargetPlan.controls?.noAccountCreation === true &&
+  ownerRepositoryTargetPlan.controls?.remoteMutationRequiresExplicitEnv === true
+const ownerRepositoryBootstrapPrepared =
+  repositoryBootstrap.status !== 'missing' &&
+  repositoryBootstrap.controls?.dryRunByDefault === true &&
+  repositoryBootstrap.helper?.path === 'ops/github/bootstrap-repository.sh'
+const ownerRepositoryHandoffPrepared =
+  !repositoryChannelReady &&
+  ownerRepositoryTargetPlanReady &&
+  ownerRepositoryBootstrapPrepared &&
+  repositoryReadiness.controls?.noGitMutation === true &&
+  repositoryReadiness.controls?.noWorkflowDispatch === true &&
+  repositoryBootstrap.controls?.remoteGitHubMutationRequiresExplicitEnv === true &&
+  repositoryBootstrap.controls?.zeroPaidSpend === true &&
+  (repositoryReadiness.blockers ?? []).some((blocker) => /GitHub|repository|origin|auth/i.test(blocker)) &&
+  (repositoryBootstrap.blockers ?? []).some((blocker) => /GitHub|repository|origin|auth/i.test(blocker))
+const ownerRepositoryHandoffStatus = ownerRepositoryHandoffPrepared
+  ? 'external-owner-or-auth-required'
+  : repositoryChannelReady
+    ? 'repository-channel-ready'
+    : 'needs-local-repository-handoff'
 
 if (
   autonomousOwnerLoop.status !== 'owner-loop-ready' ||
   !['zero-spend-web-ready', 'guarded-local-automation', 'incident-response', 'repository-channel-needed'].includes(autonomousOwnerLoop.mode) ||
   autonomousOwnerLoop.controls?.localLoopCanRunWithoutExternalAccounts !== true ||
   autonomousOwnerLoop.controls?.zeroPaidSpend !== true ||
+  autonomousOwnerLoop.controls?.repositoryHandoffPrepared !== ownerRepositoryHandoffPrepared ||
   autonomousOwnerLoop.controls?.paidAcquisitionAllowed !== unitEconomics.controls?.paidAcquisitionAllowed ||
   autonomousOwnerLoop.controls?.storeSpendAllowed !== unitEconomics.controls?.storeSpendAllowed ||
   autonomousOwnerLoop.controls?.deployAllowed !== productionResponse.controls?.deployAllowed ||
@@ -4043,6 +4078,7 @@ if (
   autonomousOwnerLoop.evidence?.performanceBudgetStatus !== performanceBudget.status ||
   autonomousOwnerLoop.evidence?.repositoryReadinessStatus !== repositoryReadiness.status ||
   autonomousOwnerLoop.evidence?.repositoryBootstrapStatus !== repositoryBootstrap.status ||
+  autonomousOwnerLoop.evidence?.repositoryHandoffPrepared !== ownerRepositoryHandoffPrepared ||
   autonomousOwnerLoop.evidence?.releaseCandidateStatus !== releaseCandidate.status ||
   autonomousOwnerLoop.evidence?.postDeploySmokeStatus !== postDeploySmoke.status ||
   autonomousOwnerLoop.evidence?.firstMoveCoachStatus !== firstMoveCoach.status ||
@@ -4080,6 +4116,15 @@ if (
     JSON.stringify(ownerRecentExecutedActionIds) ||
   JSON.stringify(autonomousOwnerLoop.executionMemory?.recentlySatisfiedActionIds ?? []) !==
     JSON.stringify(ownerRecentlySatisfiedActionIds) ||
+  autonomousOwnerLoop.executionMemory?.repositoryHandoff?.prepared !== ownerRepositoryHandoffPrepared ||
+  autonomousOwnerLoop.executionMemory?.repositoryHandoff?.targetPlanReady !== ownerRepositoryTargetPlanReady ||
+  autonomousOwnerLoop.executionMemory?.repositoryHandoff?.plannedTarget !==
+    (ownerRepositoryTargetPlan?.plannedTarget ?? null) ||
+  autonomousOwnerLoop.executionMemory?.repositoryHandoff?.status !== ownerRepositoryHandoffStatus ||
+  (ownerRepositoryHandoffPrepared && ownerPrepareRepositoryAction?.status !== 'monitor') ||
+  (ownerRepositoryHandoffPrepared &&
+    autonomousOwnerLoop.ownerDecision?.nextBestActionId === 'prepare-repository-channel') ||
+  !autonomousOwnerLoopSource.includes('repositoryHandoffPrepared') ||
   (ownerHasExecutedAction &&
     ownerHasExecutableAlternativeOutsideRecent &&
     ownerRecentExecutedActionIds.includes(autonomousOwnerLoop.ownerDecision?.nextBestActionId)) ||
