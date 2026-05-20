@@ -1,5 +1,5 @@
 export const organicSeedLoop = {
-  "generatedAt": "2026-05-20T05:08:12.570Z",
+  "generatedAt": "2026-05-20T05:31:01.336Z",
   "status": "organic-seed-loop-ready",
   "sourceStatus": {
     "analyticsSource": "fixture-sample",
@@ -52,9 +52,9 @@ export const organicSeedLoop = {
       "action": "seed-traffic",
       "dataConfidence": "seed-needed",
       "costUsd": 0,
-      "playUrl": "https://autonomous-game-lab.example.com/?game=canopy-bloom&utm_source=seed_internal&utm_campaign=seed-20260520-canopy-bloom",
-      "shareUrl": "https://autonomous-game-lab.example.com/?game=canopy-bloom&utm_source=seed_share&utm_campaign=seed-20260520-canopy-bloom",
-      "pageUrl": "https://autonomous-game-lab.example.com/games/canopy-bloom.html",
+      "playUrl": "/?game=canopy-bloom&utm_source=seed_internal&utm_campaign=seed-20260520-canopy-bloom",
+      "shareUrl": "/?game=canopy-bloom&utm_source=seed_share&utm_campaign=seed-20260520-canopy-bloom",
+      "pageUrl": "/games/canopy-bloom.html",
       "copy": {
         "title": "Play Canopy Bloom",
         "text": "A generated roll and write puzzle with quick science desk decisions.",
@@ -85,9 +85,9 @@ export const organicSeedLoop = {
       "action": "seed-traffic",
       "dataConfidence": "seed-needed",
       "costUsd": 0,
-      "playUrl": "https://autonomous-game-lab.example.com/?game=grove-engine&utm_source=seed_internal&utm_campaign=seed-20260520-grove-engine",
-      "shareUrl": "https://autonomous-game-lab.example.com/?game=grove-engine&utm_source=seed_share&utm_campaign=seed-20260520-grove-engine",
-      "pageUrl": "https://autonomous-game-lab.example.com/games/grove-engine.html",
+      "playUrl": "/?game=grove-engine&utm_source=seed_internal&utm_campaign=seed-20260520-grove-engine",
+      "shareUrl": "/?game=grove-engine&utm_source=seed_share&utm_campaign=seed-20260520-grove-engine",
+      "pageUrl": "/games/grove-engine.html",
       "copy": {
         "title": "Play Grove Engine",
         "text": "A generated engine building puzzle with quick expedition planning decisions.",
@@ -118,9 +118,9 @@ export const organicSeedLoop = {
       "action": "seed-traffic",
       "dataConfidence": "seed-needed",
       "costUsd": 0,
-      "playUrl": "https://autonomous-game-lab.example.com/?game=metro-loom&utm_source=seed_internal&utm_campaign=seed-20260520-metro-loom",
-      "shareUrl": "https://autonomous-game-lab.example.com/?game=metro-loom&utm_source=seed_share&utm_campaign=seed-20260520-metro-loom",
-      "pageUrl": "https://autonomous-game-lab.example.com/games/metro-loom.html",
+      "playUrl": "/?game=metro-loom&utm_source=seed_internal&utm_campaign=seed-20260520-metro-loom",
+      "shareUrl": "/?game=metro-loom&utm_source=seed_share&utm_campaign=seed-20260520-metro-loom",
+      "pageUrl": "/games/metro-loom.html",
       "copy": {
         "title": "Play Metro Loom",
         "text": "A generated route building puzzle with quick merchant timing decisions.",
@@ -151,9 +151,9 @@ export const organicSeedLoop = {
       "action": "seed-traffic",
       "dataConfidence": "seed-needed",
       "costUsd": 0,
-      "playUrl": "https://autonomous-game-lab.example.com/?game=pocket-draft&utm_source=seed_internal&utm_campaign=seed-20260520-pocket-draft",
-      "shareUrl": "https://autonomous-game-lab.example.com/?game=pocket-draft&utm_source=seed_share&utm_campaign=seed-20260520-pocket-draft",
-      "pageUrl": "https://autonomous-game-lab.example.com/games/pocket-draft.html",
+      "playUrl": "/?game=pocket-draft&utm_source=seed_internal&utm_campaign=seed-20260520-pocket-draft",
+      "shareUrl": "/?game=pocket-draft&utm_source=seed_share&utm_campaign=seed-20260520-pocket-draft",
+      "pageUrl": "/games/pocket-draft.html",
       "copy": {
         "title": "Play Pocket Draft",
         "text": "A generated card drafting puzzle with quick compact city logistics decisions.",

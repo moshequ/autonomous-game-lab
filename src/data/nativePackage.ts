@@ -1,5 +1,5 @@
 export const nativePackage = {
-  "generatedAt": "2026-05-20T02:19:06.103Z",
+  "generatedAt": "2026-05-20T05:35:53.176Z",
   "status": "blocked-draft-ready",
   "platform": "android-trusted-web-activity",
   "costGate": {
@@ -7,7 +7,7 @@ export const nativePackage = {
     "spendAllowed": false
   },
   "packageName": "app.autonomousgamelab.portal",
-  "host": "autonomous-game-lab.example.com",
+  "host": null,
   "publicOrigin": null,
   "startUrl": "/",
   "launcherName": "Game Lab",

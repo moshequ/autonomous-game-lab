@@ -26,12 +26,43 @@ const readOptionalJson = async (filePath, fallback) =>
 const environment = await readOptionalJson(environmentPath, {
   publicOrigin: { origin: null },
 })
-const siteUrl = (
-  process.env.PUBLIC_SITE_URL ??
-  process.env.AGL_PUBLIC_ORIGIN ??
-  environment.publicOrigin?.origin ??
-  'https://autonomous-game-lab.example.com'
-).replace(/\/$/, '')
+
+const normalizePublicOrigin = (value) => {
+  const candidate = String(value ?? '').trim()
+
+  if (!candidate) {
+    return null
+  }
+
+  try {
+    const url = new URL(candidate)
+    const hostname = url.hostname.toLowerCase()
+
+    if (
+      hostname === 'autonomous-game-lab.example.com' ||
+      hostname.endsWith('.example.com') ||
+      hostname === 'owner.github.io'
+    ) {
+      return null
+    }
+
+    const basePath = url.pathname === '/' ? '' : url.pathname.replace(/\/$/, '')
+    return `${url.origin}${basePath}`
+  } catch {
+    return null
+  }
+}
+
+const publicOriginCandidates = [
+  { source: 'PUBLIC_SITE_URL', value: process.env.PUBLIC_SITE_URL },
+  { source: 'AGL_PUBLIC_ORIGIN', value: process.env.AGL_PUBLIC_ORIGIN },
+  { source: environment.publicOrigin?.source ?? 'production-environment', value: environment.publicOrigin?.origin },
+]
+const publicOrigin = publicOriginCandidates
+  .map((candidate) => ({ ...candidate, origin: normalizePublicOrigin(candidate.value) }))
+  .find((candidate) => candidate.origin)
+const siteUrl = publicOrigin?.origin ?? null
+const publicUrlMode = siteUrl ? 'absolute-origin' : 'runtime-relative'
 
 const fallbackGames = {
   'harbor-rings': {
@@ -55,7 +86,11 @@ const escapeHtml = (value) =>
 
 const pct = (value) => (typeof value === 'number' ? `${Math.round(value * 100)}%` : 'learning')
 
-const absoluteUrl = (pathname) => `${siteUrl}${pathname.startsWith('/') ? pathname : `/${pathname}`}`
+const rootPath = (pathname) => (String(pathname).startsWith('/') ? String(pathname) : `/${pathname}`)
+const publicUrl = (pathname) => (siteUrl ? `${siteUrl}${rootPath(pathname)}` : rootPath(pathname))
+const canonicalUrl = (pathname) => (siteUrl ? publicUrl(pathname) : null)
+const sitemapUrl = (pathname) =>
+  siteUrl ? publicUrl(pathname) : `\${DEPLOYED_PWA_ORIGIN}${rootPath(pathname)}`
 
 const titleCase = (value) =>
   value
@@ -153,8 +188,8 @@ const gamePages = (playable.games ?? []).map((gameId, index) => {
       gameId,
     )}`,
     pagePath: `/games/${gameId}.html`,
-    canonicalUrl: absoluteUrl(`/games/${gameId}.html`),
-    shareUrl: absoluteUrl(
+    canonicalUrl: canonicalUrl(`/games/${gameId}.html`),
+    shareUrl: publicUrl(
       `/?game=${encodeURIComponent(gameId)}&utm_source=share&utm_campaign=${encodeURIComponent(gameId)}`,
     ),
     metrics: {
@@ -182,6 +217,7 @@ const gamePages = (playable.games ?? []).map((gameId, index) => {
 const shareManifest = {
   generatedAt: new Date().toISOString(),
   siteUrl,
+  publicUrlMode,
   shares: gamePages.map((game) => ({
     gameId: game.gameId,
     title: `Play ${game.title}`,
@@ -225,6 +261,12 @@ const weeklyLoop = [
 const payload = {
   generatedAt: new Date().toISOString(),
   siteUrl,
+  publicUrlMode,
+  publicOrigin: {
+    source: publicOrigin?.source ?? environment.publicOrigin?.source ?? 'missing',
+    status: siteUrl ? 'configured' : 'missing-runtime-relative',
+    origin: siteUrl,
+  },
   status: gamePages.length ? 'growth-assets-ready' : 'blocked',
   gamePages,
   channels,
@@ -250,11 +292,15 @@ const gamePageHtml = (game, index) => `<!doctype html>
     <title>${escapeHtml(game.title)} | Autonomous Game Lab</title>
     <meta name="description" content="${escapeHtml(game.shortDescription)}" />
     <meta name="keywords" content="${escapeHtml(game.keywords.join(', '))}" />
-    <link rel="canonical" href="${escapeHtml(game.canonicalUrl)}" />
+    ${
+      game.canonicalUrl
+        ? `<link rel="canonical" href="${escapeHtml(game.canonicalUrl)}" />
+    <meta property="og:url" content="${escapeHtml(game.canonicalUrl)}" />`
+        : ''
+    }
     <meta property="og:title" content="${escapeHtml(game.title)}" />
     <meta property="og:description" content="${escapeHtml(game.shortDescription)}" />
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="${escapeHtml(game.canonicalUrl)}" />
     <style>
       :root {
         color: #191713;
@@ -420,7 +466,7 @@ const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
   ${['/', '/privacy.html', '/support.html', ...gamePages.map((game) => game.pagePath)]
     .map(
       (pathname) => `<url>
-    <loc>${escapeHtml(absoluteUrl(pathname))}</loc>
+    <loc>${escapeHtml(sitemapUrl(pathname))}</loc>
     <changefreq>weekly</changefreq>
   </url>`,
     )
@@ -431,7 +477,7 @@ const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 const robots = `User-agent: *
 Allow: /
 
-Sitemap: ${absoluteUrl('/sitemap.xml')}
+Sitemap: ${sitemapUrl('/sitemap.xml')}
 `
 
 const report = [
@@ -439,7 +485,7 @@ const report = [
   '',
   `Generated: ${payload.generatedAt}`,
   `Status: ${payload.status}`,
-  `Site URL: ${payload.siteUrl}`,
+  `Site URL: ${payload.siteUrl ?? 'runtime-relative (no public origin configured)'}`,
   '',
   '## Game Pages',
   '',

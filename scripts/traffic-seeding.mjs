@@ -21,7 +21,58 @@ const localIsoDate = (date = new Date()) => {
 }
 const slugDate = () => localIsoDate().replaceAll('-', '')
 
-const absoluteUrl = (siteUrl, pathname) => `${siteUrl.replace(/\/$/, '')}${pathname.startsWith('/') ? pathname : `/${pathname}`}`
+const rootPath = (pathname) => (String(pathname).startsWith('/') ? String(pathname) : `/${pathname}`)
+const normalizePublicOrigin = (value) => {
+  const candidate = String(value ?? '').trim()
+
+  if (!candidate) {
+    return null
+  }
+
+  try {
+    const url = new URL(candidate)
+    const hostname = url.hostname.toLowerCase()
+
+    if (
+      hostname === 'autonomous-game-lab.example.com' ||
+      hostname.endsWith('.example.com') ||
+      hostname === 'owner.github.io'
+    ) {
+      return null
+    }
+
+    const basePath = url.pathname === '/' ? '' : url.pathname.replace(/\/$/, '')
+    return `${url.origin}${basePath}`
+  } catch {
+    return null
+  }
+}
+const safePublicUrl = (value, fallbackPath, siteUrl) => {
+  if (!value) {
+    return siteUrl ? `${siteUrl}${rootPath(fallbackPath)}` : rootPath(fallbackPath)
+  }
+
+  if (String(value).startsWith('/')) {
+    return String(value)
+  }
+
+  try {
+    const url = new URL(value)
+    const hostname = url.hostname.toLowerCase()
+
+    if (
+      hostname === 'autonomous-game-lab.example.com' ||
+      hostname.endsWith('.example.com') ||
+      hostname === 'owner.github.io'
+    ) {
+      return siteUrl ? `${siteUrl}${url.pathname}${url.search}${url.hash}` : `${url.pathname}${url.search}${url.hash}`
+    }
+
+    return url.toString()
+  } catch {
+    return siteUrl ? `${siteUrl}${rootPath(fallbackPath)}` : rootPath(fallbackPath)
+  }
+}
 const escapeHtml = (value) =>
   String(value ?? '')
     .replaceAll('&', '&amp;')
@@ -47,7 +98,9 @@ const playableIds = new Set(playable.games ?? [])
 const growthById = new Map((growth.gamePages ?? []).map((game) => [game.gameId, game]))
 const portfolioById = new Map((portfolio.games ?? []).map((game) => [game.gameId, game]))
 const analyticsById = new Map((analytics.games ?? []).map((game) => [game.gameId, game]))
-const siteUrl = growth.siteUrl ?? shareManifest.siteUrl ?? 'https://autonomous-game-lab.example.com'
+const siteUrl = normalizePublicOrigin(growth.siteUrl) ?? normalizePublicOrigin(shareManifest.siteUrl)
+const publicUrlMode = siteUrl ? 'absolute-origin' : 'runtime-relative'
+const publicUrl = (pathname) => (siteUrl ? `${siteUrl}${rootPath(pathname)}` : rootPath(pathname))
 const runDate = slugDate()
 const seedIds = (portfolio.rotation?.seedTrafficGameIds ?? []).filter((gameId) => playableIds.has(gameId))
 const campaignIds = seedIds.length ? seedIds : (portfolio.games ?? []).slice(0, 4).map((game) => game.gameId)
@@ -98,10 +151,10 @@ const campaigns = campaignIds
       reason: game?.recommendation ?? 'Seed this playable game before judging quality.',
       playPath,
       sharePath,
-      playUrl: absoluteUrl(siteUrl, playPath),
+      playUrl: publicUrl(playPath),
       pagePath: page?.pagePath ?? `/games/${gameId}.html`,
-      pageUrl: page?.canonicalUrl ?? absoluteUrl(siteUrl, `/games/${gameId}.html`),
-      shareUrl: absoluteUrl(siteUrl, sharePath),
+      pageUrl: safePublicUrl(page?.canonicalUrl, page?.pagePath ?? `/games/${gameId}.html`, siteUrl),
+      shareUrl: publicUrl(sharePath),
       copy: {
         title: `Play ${game?.title ?? page?.title ?? gameId}`,
         text: page?.shortDescription ?? 'Play an original board-game-inspired strategy puzzle.',
@@ -124,11 +177,25 @@ const sitemapPriority = campaigns.map((campaign) => ({
   pagePath: campaign.pagePath,
   priority: Math.max(0.55, Math.round((0.95 - (campaign.priority - 1) * 0.05) * 100) / 100),
 }))
+const normalizedShares = (shareManifest.shares ?? []).map((share) => {
+  const page = growthById.get(share.gameId)
+  const fallbackPath =
+    page?.shareUrl && String(page.shareUrl).startsWith('/')
+      ? page.shareUrl
+      : `/?game=${encodeURIComponent(share.gameId)}&utm_source=share&utm_campaign=${encodeURIComponent(share.gameId)}`
+
+  return {
+    ...share,
+    url: safePublicUrl(share.url, fallbackPath, siteUrl),
+  }
+})
 
 const payload = {
   generatedAt: new Date().toISOString(),
   status: campaigns.length ? 'traffic-seeding-ready' : 'blocked-no-seed-games',
   analyticsSource: analytics.sourceStatus?.activeSource ?? 'unknown',
+  publicUrlMode,
+  siteUrl,
   portfolioGeneratedAt: portfolio.generatedAt,
   guardrails: {
     maxCostUsd: 0,
@@ -154,9 +221,11 @@ const nextShareManifest = {
   ...shareManifest,
   generatedAt: payload.generatedAt,
   siteUrl,
+  publicUrlMode,
+  shares: normalizedShares,
   seedKit: {
     path: '/seed-kit.html',
-    url: absoluteUrl(siteUrl, '/seed-kit.html'),
+    url: publicUrl('/seed-kit.html'),
     campaignCount: campaigns.length,
     costUsd: 0,
     playerInitiatedSharingOnly: true,

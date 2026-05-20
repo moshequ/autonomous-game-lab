@@ -1,8 +1,8 @@
 # Growth Plan
 
-Generated: 2026-05-20T05:08:11.648Z
+Generated: 2026-05-20T05:30:47.114Z
 Status: growth-assets-ready
-Site URL: https://autonomous-game-lab.example.com
+Site URL: runtime-relative (no public origin configured)
 
 ## Game Pages
 

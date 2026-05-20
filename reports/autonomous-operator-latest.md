@@ -1,6 +1,6 @@
 # Autonomous Operator
 
-Generated: 2026-05-20T05:23:32.363Z
+Generated: 2026-05-20T05:45:01.148Z
 Status: operator-plan-ready
 Mode: plan-only
 Owner decision: seed-portfolio-traffic
@@ -32,6 +32,8 @@ Execution: not-requested
 - prepare-release-candidate
 - optimize-product-gates
 - refresh-product-gate-recovery
+- collect-gate-sample-downloads
+- refresh-product-gate-sample-plan
 - refresh-first-move-coach
 - refresh-completion-loop
 - refresh-replay-loop
@@ -54,4 +56,4 @@ Execution: not-requested
 - run-post-deploy-smoke: status-monitor
 - optimize-product-gates: not-selected-this-run
 - refresh-product-gate-recovery: not-selected-this-run
-- collect-gate-sample-downloads: status-monitor
+- collect-gate-sample-downloads: not-selected-this-run

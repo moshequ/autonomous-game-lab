@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-19T08:14:32.635Z",
+  "generatedAt": "2026-05-20T05:35:32.680Z",
   "launchCandidate": {
     "id": "canopy-bloom",
     "title": "Canopy Bloom",
@@ -9,7 +9,7 @@
     "path": "/privacy.html",
     "productionUrl": null,
     "productionUrlStatus": "needs-hosted-domain",
-    "updatedAt": "2026-05-19",
+    "updatedAt": "2026-05-20",
     "summary": "Autonomous Game Lab collects anonymous gameplay events to improve game balance, onboarding, and replay quality. Accounts, paid purchases, and advertising are disabled until production gates pass.",
     "dataCollected": [
       {
@@ -284,7 +284,7 @@
     "recommendedFirstNativePath": "Android Trusted Web Activity after web retention gates pass",
     "androidTwaManifest": {
       "packageName": "app.autonomousgamelab.portal",
-      "host": "autonomous-game-lab.example.com",
+      "host": null,
       "startUrl": "/",
       "launcherName": "Game Lab",
       "displayMode": "standalone",
@@ -303,7 +303,7 @@
     "applePrivacyLabels": "https://developer.apple.com/app-store/app-privacy-details/"
   },
   "storeListingOptimization": {
-    "generatedAt": "2026-05-19T08:16:27.228Z",
+    "generatedAt": "2026-05-20T05:35:44.546Z",
     "status": "store-listing-optimizer-ready",
     "previousLaunchCandidateId": "lantern-relay",
     "recommendedFocusGameId": "canopy-bloom",

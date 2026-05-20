@@ -1,12 +1,13 @@
 {
-  "generatedAt": "2026-05-20T05:08:12.110Z",
-  "siteUrl": "https://autonomous-game-lab.example.com",
+  "generatedAt": "2026-05-20T05:30:54.843Z",
+  "siteUrl": null,
+  "publicUrlMode": "runtime-relative",
   "shares": [
     {
       "gameId": "harbor-rings",
       "title": "Play Harbor Rings",
       "text": "A quick original tile-placement puzzle about completing harbor rings.",
-      "url": "https://autonomous-game-lab.example.com/?game=harbor-rings&utm_source=share&utm_campaign=harbor-rings",
+      "url": "/?game=harbor-rings&utm_source=share&utm_campaign=harbor-rings",
       "tags": [
         "daily puzzle",
         "tile placement",
@@ -19,7 +20,7 @@
       "gameId": "lantern-relay",
       "title": "Play Lantern Relay",
       "text": "5-minute original tile placement game for daily mobile play.",
-      "url": "https://autonomous-game-lab.example.com/?game=lantern-relay&utm_source=share&utm_campaign=lantern-relay",
+      "url": "/?game=lantern-relay&utm_source=share&utm_campaign=lantern-relay",
       "tags": [
         "tile placement",
         "cozy production",
@@ -32,7 +33,7 @@
       "gameId": "harbor-circuit",
       "title": "Play Harbor Circuit",
       "text": "9-minute original card drafting game for daily mobile play.",
-      "url": "https://autonomous-game-lab.example.com/?game=harbor-circuit&utm_source=share&utm_campaign=harbor-circuit",
+      "url": "/?game=harbor-circuit&utm_source=share&utm_campaign=harbor-circuit",
       "tags": [
         "card drafting",
         "compact city logistics",
@@ -45,7 +46,7 @@
       "gameId": "foundry-ledger",
       "title": "Play Foundry Ledger",
       "text": "5-minute original route building game for daily mobile play.",
-      "url": "https://autonomous-game-lab.example.com/?game=foundry-ledger&utm_source=share&utm_campaign=foundry-ledger",
+      "url": "/?game=foundry-ledger&utm_source=share&utm_campaign=foundry-ledger",
       "tags": [
         "route building",
         "merchant timing",
@@ -58,7 +59,7 @@
       "gameId": "orbit-atlas",
       "title": "Play Orbit Atlas",
       "text": "7-minute original engine building game for daily mobile play.",
-      "url": "https://autonomous-game-lab.example.com/?game=orbit-atlas&utm_source=share&utm_campaign=orbit-atlas",
+      "url": "/?game=orbit-atlas&utm_source=share&utm_campaign=orbit-atlas",
       "tags": [
         "engine building",
         "expedition planning",
@@ -71,7 +72,7 @@
       "gameId": "mosaic-haven",
       "title": "Play Mosaic Haven",
       "text": "A generated tile placement puzzle with quick cozy production decisions.",
-      "url": "https://autonomous-game-lab.example.com/?game=mosaic-haven&utm_source=share&utm_campaign=mosaic-haven",
+      "url": "/?game=mosaic-haven&utm_source=share&utm_campaign=mosaic-haven",
       "tags": [
         "tile placement",
         "cozy production",
@@ -84,7 +85,7 @@
       "gameId": "pocket-draft",
       "title": "Play Pocket Draft",
       "text": "A generated card drafting puzzle with quick compact city logistics decisions.",
-      "url": "https://autonomous-game-lab.example.com/?game=pocket-draft&utm_source=share&utm_campaign=pocket-draft",
+      "url": "/?game=pocket-draft&utm_source=share&utm_campaign=pocket-draft",
       "tags": [
         "card drafting",
         "compact city logistics",
@@ -97,7 +98,7 @@
       "gameId": "metro-loom",
       "title": "Play Metro Loom",
       "text": "A generated route building puzzle with quick merchant timing decisions.",
-      "url": "https://autonomous-game-lab.example.com/?game=metro-loom&utm_source=share&utm_campaign=metro-loom",
+      "url": "/?game=metro-loom&utm_source=share&utm_campaign=metro-loom",
       "tags": [
         "route building",
         "merchant timing",
@@ -110,7 +111,7 @@
       "gameId": "grove-engine",
       "title": "Play Grove Engine",
       "text": "A generated engine building puzzle with quick expedition planning decisions.",
-      "url": "https://autonomous-game-lab.example.com/?game=grove-engine&utm_source=share&utm_campaign=grove-engine",
+      "url": "/?game=grove-engine&utm_source=share&utm_campaign=grove-engine",
       "tags": [
         "engine building",
         "expedition planning",
@@ -123,7 +124,7 @@
       "gameId": "canopy-bloom",
       "title": "Play Canopy Bloom",
       "text": "A generated roll and write puzzle with quick science desk decisions.",
-      "url": "https://autonomous-game-lab.example.com/?game=canopy-bloom&utm_source=share&utm_campaign=canopy-bloom",
+      "url": "/?game=canopy-bloom&utm_source=share&utm_campaign=canopy-bloom",
       "tags": [
         "roll and write",
         "science desk",
@@ -135,12 +136,12 @@
   ],
   "seedKit": {
     "path": "/seed-kit.html",
-    "url": "https://autonomous-game-lab.example.com/seed-kit.html",
+    "url": "/seed-kit.html",
     "campaignCount": 4,
     "costUsd": 0,
     "playerInitiatedSharingOnly": true,
     "copyShareControls": true,
-    "generatedAt": "2026-05-20T05:08:12.110Z"
+    "generatedAt": "2026-05-20T05:30:54.843Z"
   },
   "seedCampaigns": [
     {
@@ -148,8 +149,8 @@
       "gameId": "canopy-bloom",
       "title": "Play Canopy Bloom",
       "text": "A generated roll and write puzzle with quick science desk decisions.",
-      "url": "https://autonomous-game-lab.example.com/?game=canopy-bloom&utm_source=seed_share&utm_campaign=seed-20260520-canopy-bloom",
-      "pageUrl": "https://autonomous-game-lab.example.com/games/canopy-bloom.html",
+      "url": "/?game=canopy-bloom&utm_source=seed_share&utm_campaign=seed-20260520-canopy-bloom",
+      "pageUrl": "/games/canopy-bloom.html",
       "priority": 1,
       "costUsd": 0,
       "tags": [
@@ -163,8 +164,8 @@
       "gameId": "grove-engine",
       "title": "Play Grove Engine",
       "text": "A generated engine building puzzle with quick expedition planning decisions.",
-      "url": "https://autonomous-game-lab.example.com/?game=grove-engine&utm_source=seed_share&utm_campaign=seed-20260520-grove-engine",
-      "pageUrl": "https://autonomous-game-lab.example.com/games/grove-engine.html",
+      "url": "/?game=grove-engine&utm_source=seed_share&utm_campaign=seed-20260520-grove-engine",
+      "pageUrl": "/games/grove-engine.html",
       "priority": 2,
       "costUsd": 0,
       "tags": [
@@ -178,8 +179,8 @@
       "gameId": "metro-loom",
       "title": "Play Metro Loom",
       "text": "A generated route building puzzle with quick merchant timing decisions.",
-      "url": "https://autonomous-game-lab.example.com/?game=metro-loom&utm_source=seed_share&utm_campaign=seed-20260520-metro-loom",
-      "pageUrl": "https://autonomous-game-lab.example.com/games/metro-loom.html",
+      "url": "/?game=metro-loom&utm_source=seed_share&utm_campaign=seed-20260520-metro-loom",
+      "pageUrl": "/games/metro-loom.html",
       "priority": 3,
       "costUsd": 0,
       "tags": [
@@ -193,8 +194,8 @@
       "gameId": "pocket-draft",
       "title": "Play Pocket Draft",
       "text": "A generated card drafting puzzle with quick compact city logistics decisions.",
-      "url": "https://autonomous-game-lab.example.com/?game=pocket-draft&utm_source=seed_share&utm_campaign=seed-20260520-pocket-draft",
-      "pageUrl": "https://autonomous-game-lab.example.com/games/pocket-draft.html",
+      "url": "/?game=pocket-draft&utm_source=seed_share&utm_campaign=seed-20260520-pocket-draft",
+      "pageUrl": "/games/pocket-draft.html",
       "priority": 4,
       "costUsd": 0,
       "tags": [

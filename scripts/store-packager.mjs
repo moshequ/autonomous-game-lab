@@ -130,7 +130,7 @@ const dataSafetyDraft = {
 
 const twaManifest = {
   packageName: environment.android?.packageName ?? 'app.autonomousgamelab.portal',
-  host: environment.publicOrigin?.host ?? 'autonomous-game-lab.example.com',
+  host: environment.publicOrigin?.host ?? null,
   startUrl: '/',
   launcherName: 'Game Lab',
   displayMode: 'standalone',

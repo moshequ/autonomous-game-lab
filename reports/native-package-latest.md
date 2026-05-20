@@ -1,10 +1,10 @@
 # Native Package
 
-Generated: 2026-05-20T02:19:06.103Z
+Generated: 2026-05-20T05:35:53.176Z
 Status: blocked-draft-ready
 Platform: android-trusted-web-activity
 Package: app.autonomousgamelab.portal
-Host: autonomous-game-lab.example.com
+Host: production host not configured
 
 ## Checks
 

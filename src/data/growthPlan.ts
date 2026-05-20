@@ -1,6 +1,12 @@
 export const growthPlan = {
-  "generatedAt": "2026-05-20T05:08:11.648Z",
-  "siteUrl": "https://autonomous-game-lab.example.com",
+  "generatedAt": "2026-05-20T05:30:47.114Z",
+  "siteUrl": null,
+  "publicUrlMode": "runtime-relative",
+  "publicOrigin": {
+    "source": "missing",
+    "status": "missing-runtime-relative",
+    "origin": null
+  },
   "status": "growth-assets-ready",
   "gamePages": [
     {
@@ -21,8 +27,8 @@ export const growthPlan = {
       ],
       "playPath": "/?game=harbor-rings&utm_source=organic_game_page&utm_campaign=harbor-rings",
       "pagePath": "/games/harbor-rings.html",
-      "canonicalUrl": "https://autonomous-game-lab.example.com/games/harbor-rings.html",
-      "shareUrl": "https://autonomous-game-lab.example.com/?game=harbor-rings&utm_source=share&utm_campaign=harbor-rings",
+      "canonicalUrl": null,
+      "shareUrl": "/?game=harbor-rings&utm_source=share&utm_campaign=harbor-rings",
       "metrics": {
         "startRate": 0.676,
         "completionRate": 0.394,
@@ -58,8 +64,8 @@ export const growthPlan = {
       ],
       "playPath": "/?game=lantern-relay&utm_source=organic_game_page&utm_campaign=lantern-relay",
       "pagePath": "/games/lantern-relay.html",
-      "canonicalUrl": "https://autonomous-game-lab.example.com/games/lantern-relay.html",
-      "shareUrl": "https://autonomous-game-lab.example.com/?game=lantern-relay&utm_source=share&utm_campaign=lantern-relay",
+      "canonicalUrl": null,
+      "shareUrl": "/?game=lantern-relay&utm_source=share&utm_campaign=lantern-relay",
       "metrics": {
         "startRate": null,
         "completionRate": null,
@@ -95,8 +101,8 @@ export const growthPlan = {
       ],
       "playPath": "/?game=harbor-circuit&utm_source=organic_game_page&utm_campaign=harbor-circuit",
       "pagePath": "/games/harbor-circuit.html",
-      "canonicalUrl": "https://autonomous-game-lab.example.com/games/harbor-circuit.html",
-      "shareUrl": "https://autonomous-game-lab.example.com/?game=harbor-circuit&utm_source=share&utm_campaign=harbor-circuit",
+      "canonicalUrl": null,
+      "shareUrl": "/?game=harbor-circuit&utm_source=share&utm_campaign=harbor-circuit",
       "metrics": {
         "startRate": null,
         "completionRate": null,
@@ -132,8 +138,8 @@ export const growthPlan = {
       ],
       "playPath": "/?game=foundry-ledger&utm_source=organic_game_page&utm_campaign=foundry-ledger",
       "pagePath": "/games/foundry-ledger.html",
-      "canonicalUrl": "https://autonomous-game-lab.example.com/games/foundry-ledger.html",
-      "shareUrl": "https://autonomous-game-lab.example.com/?game=foundry-ledger&utm_source=share&utm_campaign=foundry-ledger",
+      "canonicalUrl": null,
+      "shareUrl": "/?game=foundry-ledger&utm_source=share&utm_campaign=foundry-ledger",
       "metrics": {
         "startRate": null,
         "completionRate": null,
@@ -169,8 +175,8 @@ export const growthPlan = {
       ],
       "playPath": "/?game=orbit-atlas&utm_source=organic_game_page&utm_campaign=orbit-atlas",
       "pagePath": "/games/orbit-atlas.html",
-      "canonicalUrl": "https://autonomous-game-lab.example.com/games/orbit-atlas.html",
-      "shareUrl": "https://autonomous-game-lab.example.com/?game=orbit-atlas&utm_source=share&utm_campaign=orbit-atlas",
+      "canonicalUrl": null,
+      "shareUrl": "/?game=orbit-atlas&utm_source=share&utm_campaign=orbit-atlas",
       "metrics": {
         "startRate": null,
         "completionRate": null,
@@ -205,8 +211,8 @@ export const growthPlan = {
       ],
       "playPath": "/?game=mosaic-haven&utm_source=organic_game_page&utm_campaign=mosaic-haven",
       "pagePath": "/games/mosaic-haven.html",
-      "canonicalUrl": "https://autonomous-game-lab.example.com/games/mosaic-haven.html",
-      "shareUrl": "https://autonomous-game-lab.example.com/?game=mosaic-haven&utm_source=share&utm_campaign=mosaic-haven",
+      "canonicalUrl": null,
+      "shareUrl": "/?game=mosaic-haven&utm_source=share&utm_campaign=mosaic-haven",
       "metrics": {
         "startRate": null,
         "completionRate": null,
@@ -241,8 +247,8 @@ export const growthPlan = {
       ],
       "playPath": "/?game=pocket-draft&utm_source=organic_game_page&utm_campaign=pocket-draft",
       "pagePath": "/games/pocket-draft.html",
-      "canonicalUrl": "https://autonomous-game-lab.example.com/games/pocket-draft.html",
-      "shareUrl": "https://autonomous-game-lab.example.com/?game=pocket-draft&utm_source=share&utm_campaign=pocket-draft",
+      "canonicalUrl": null,
+      "shareUrl": "/?game=pocket-draft&utm_source=share&utm_campaign=pocket-draft",
       "metrics": {
         "startRate": null,
         "completionRate": null,
@@ -277,8 +283,8 @@ export const growthPlan = {
       ],
       "playPath": "/?game=metro-loom&utm_source=organic_game_page&utm_campaign=metro-loom",
       "pagePath": "/games/metro-loom.html",
-      "canonicalUrl": "https://autonomous-game-lab.example.com/games/metro-loom.html",
-      "shareUrl": "https://autonomous-game-lab.example.com/?game=metro-loom&utm_source=share&utm_campaign=metro-loom",
+      "canonicalUrl": null,
+      "shareUrl": "/?game=metro-loom&utm_source=share&utm_campaign=metro-loom",
       "metrics": {
         "startRate": null,
         "completionRate": null,
@@ -313,8 +319,8 @@ export const growthPlan = {
       ],
       "playPath": "/?game=grove-engine&utm_source=organic_game_page&utm_campaign=grove-engine",
       "pagePath": "/games/grove-engine.html",
-      "canonicalUrl": "https://autonomous-game-lab.example.com/games/grove-engine.html",
-      "shareUrl": "https://autonomous-game-lab.example.com/?game=grove-engine&utm_source=share&utm_campaign=grove-engine",
+      "canonicalUrl": null,
+      "shareUrl": "/?game=grove-engine&utm_source=share&utm_campaign=grove-engine",
       "metrics": {
         "startRate": null,
         "completionRate": null,
@@ -349,8 +355,8 @@ export const growthPlan = {
       ],
       "playPath": "/?game=canopy-bloom&utm_source=organic_game_page&utm_campaign=canopy-bloom",
       "pagePath": "/games/canopy-bloom.html",
-      "canonicalUrl": "https://autonomous-game-lab.example.com/games/canopy-bloom.html",
-      "shareUrl": "https://autonomous-game-lab.example.com/?game=canopy-bloom&utm_source=share&utm_campaign=canopy-bloom",
+      "canonicalUrl": null,
+      "shareUrl": "/?game=canopy-bloom&utm_source=share&utm_campaign=canopy-bloom",
       "metrics": {
         "startRate": null,
         "completionRate": null,

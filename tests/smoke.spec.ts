@@ -1255,6 +1255,9 @@ test('product optimizer applies one guarded tuning step from product-gate eviden
       requireObservedTelemetryBeforeRecoveryChange: boolean
     }
   }
+  const packageJson = JSON.parse(await readFile('package.json', 'utf8')) as {
+    scripts: Record<string, string>
+  }
   const targetAction = optimization.actions.find((action) => action.actionType === 'target-score-curve')
   const completionAction = optimization.actions.find(
     (action) => action.actionType === 'runtime-completion-nudge',
@@ -1336,6 +1339,8 @@ test('product optimizer applies one guarded tuning step from product-gate eviden
   expect(samplePlan.commandPlan.refreshPlan).toBe('npm run autonomous:sample-plan')
   expect(samplePlan.commandPlan.collectAndRefresh).toContain('autonomous:gate-recovery')
   expect(samplePlan.commandPlan.collectDownloadsAndRefresh).toBe('npm run autonomous:collect-sample-downloads')
+  expect(packageJson.scripts['test:automation']).toContain('autonomous:gate-recovery')
+  expect(packageJson.scripts['test:automation']).toContain('autonomous:sample-plan')
   expect(samplePlan.downloadsScan.explicitOptInRequired).toBe(true)
   expect(samplePlan.downloadsScan.cooldownHours).toBe(4)
   expect(samplePlan.summary.downloadsScanCoolingDown).toBe(samplePlan.downloadsScan.coolingDown)
@@ -3027,6 +3032,66 @@ test('generated organic game page is reachable and links into the PWA', async ({
     'href',
     '../?game=harbor-rings&utm_source=organic_game_page&utm_campaign=harbor-rings',
   )
+})
+
+test('growth and traffic artifacts avoid placeholder origins before hosting is configured', async () => {
+  const growth = JSON.parse(await readFile('data/growth-plan.json', 'utf8')) as {
+    siteUrl: string | null
+    publicUrlMode: string
+    gamePages: Array<{ canonicalUrl: string | null; shareUrl: string; pagePath: string }>
+  }
+  const traffic = JSON.parse(await readFile('data/traffic-seeding.json', 'utf8')) as {
+    siteUrl: string | null
+    publicUrlMode: string
+    campaigns: Array<{ playUrl: string; shareUrl: string; pageUrl: string; pagePath: string }>
+  }
+  const shareManifest = JSON.parse(await readFile('public/share-manifest.json', 'utf8')) as {
+    siteUrl: string | null
+    publicUrlMode: string
+    seedKit: { url: string }
+    shares: Array<{ url: string }>
+    seedCampaigns: Array<{ url: string; pageUrl: string }>
+  }
+  const environment = JSON.parse(await readFile('data/production-environment.json', 'utf8')) as {
+    publicOrigin: { origin: string | null }
+  }
+  const storePackage = JSON.parse(await readFile('data/store-package.json', 'utf8')) as {
+    nativePackaging: { androidTwaManifest: { host: string | null } }
+  }
+  const nativePackage = JSON.parse(await readFile('data/native-package.json', 'utf8')) as {
+    host: string | null
+    publicOrigin: string | null
+  }
+  const publicAssets = [
+    await readFile('public/robots.txt', 'utf8'),
+    await readFile('public/sitemap.xml', 'utf8'),
+    await readFile('public/games/harbor-rings.html', 'utf8'),
+  ].join('\n')
+
+  expect(JSON.stringify({ growth, traffic, shareManifest, storePackage, nativePackage })).not.toContain(
+    'autonomous-game-lab.example.com',
+  )
+  expect(publicAssets).not.toContain('autonomous-game-lab.example.com')
+
+  if (!environment.publicOrigin.origin) {
+    expect(growth.siteUrl).toBeNull()
+    expect(growth.publicUrlMode).toBe('runtime-relative')
+    expect(traffic.siteUrl).toBeNull()
+    expect(traffic.publicUrlMode).toBe('runtime-relative')
+    expect(shareManifest.siteUrl).toBeNull()
+    expect(shareManifest.publicUrlMode).toBe('runtime-relative')
+    expect(growth.gamePages.every((game) => game.canonicalUrl === null && game.shareUrl.startsWith('/'))).toBe(true)
+    expect(traffic.campaigns.every((campaign) => campaign.playUrl.startsWith('/') && campaign.shareUrl.startsWith('/'))).toBe(true)
+    expect(traffic.campaigns.every((campaign) => campaign.pageUrl === campaign.pagePath)).toBe(true)
+    expect(shareManifest.seedKit.url).toBe('/seed-kit.html')
+    expect(shareManifest.shares.every((share) => share.url.startsWith('/'))).toBe(true)
+    expect(shareManifest.seedCampaigns.every((campaign) => campaign.url.startsWith('/') && campaign.pageUrl.startsWith('/'))).toBe(
+      true,
+    )
+    expect(storePackage.nativePackaging.androidTwaManifest.host).toBeNull()
+    expect(nativePackage.host).toBeNull()
+    expect(nativePackage.publicOrigin).toBeNull()
+  }
 })
 
 test('zero-spend seed kit is reachable and uses runtime-relative campaign links', async ({ page }) => {

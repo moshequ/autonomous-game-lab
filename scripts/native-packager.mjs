@@ -61,7 +61,7 @@ const publicOrigin =
   process.env.VITE_PUBLIC_ORIGIN ??
   environment.publicOrigin?.origin ??
   (process.env.AGL_PUBLIC_HOST ? `https://${process.env.AGL_PUBLIC_HOST}` : null)
-const host = sanitizeHost(publicOrigin ?? storePackage.nativePackaging?.androidTwaManifest?.host)
+const host = sanitizeHost(publicOrigin ?? storePackage.nativePackaging?.androidTwaManifest?.host) || null
 const startUrl = process.env.AGL_START_URL ?? storePackage.nativePackaging?.androidTwaManifest?.startUrl ?? '/'
 const launcherName = process.env.AGL_APP_NAME ?? storePackage.nativePackaging?.androidTwaManifest?.launcherName ?? 'Game Lab'
 const certificateFingerprint =
@@ -73,7 +73,7 @@ const googlePlayConnected =
   ['1', 'true', 'yes'].includes(String(process.env.AGL_GOOGLE_PLAY_ACCOUNT_CONNECTED ?? '').toLowerCase()) ||
   environment.android?.googlePlayAccountConnected === true
 const hostedPrivacyReady = storePackage.privacyPolicy?.productionUrlStatus === 'hosted'
-const realHostReady = host && !host.includes('example.com') && host.includes('.')
+const realHostReady = Boolean(host && !host.includes('example.com') && host.includes('.'))
 const signingReady = Boolean(certificateFingerprint)
 const screenshotsReady = storeAssets.status === 'screenshots-ready' && (storeAssets.screenshots?.length ?? 0) >= 4
 const iconsReady = iconAssets.status === 'icons-ready' && (iconAssets.storeIcons?.length ?? 0) >= 1
@@ -274,7 +274,7 @@ const report = [
   `Status: ${payload.status}`,
   `Platform: ${payload.platform}`,
   `Package: ${payload.packageName}`,
-  `Host: ${payload.host}`,
+  `Host: ${payload.host ?? 'production host not configured'}`,
   '',
   '## Checks',
   '',

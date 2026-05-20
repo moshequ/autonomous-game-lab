@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-20T05:22:37.889Z",
+  "generatedAt": "2026-05-20T05:44:24.402Z",
   "status": "blocked-missing-origin",
   "envFiles": {
     "loaded": true,
@@ -54,8 +54,8 @@
   "target": {
     "origin": null,
     "provider": "github-pages",
-    "candidateId": "pwa-376d196bf59c",
-    "aggregateHash": "376d196bf59ce1166ed6720edf6601fc881d34cc05633042205f491df8d65230"
+    "candidateId": "pwa-fb8966f35fdb",
+    "aggregateHash": "fb8966f35fdbf01c5c100bbaf6324bcadaa9acd9c712996dbf757a85ec63829b"
   },
   "sourceStatus": {
     "deployment": "ready-for-pages",
@@ -209,7 +209,7 @@
         "file": "dist/sitemap.xml",
         "expectedStatus": 200,
         "status": "pass",
-        "bytes": 1783,
+        "bytes": 1562,
         "textMatched": true,
         "detail": "Local production artifact matched required text."
       },
@@ -219,7 +219,7 @@
         "file": "dist/games/canopy-bloom.html",
         "expectedStatus": 200,
         "status": "pass",
-        "bytes": 5067,
+        "bytes": 4867,
         "textMatched": true,
         "detail": "Local production artifact matched required text."
       },
@@ -232,8 +232,8 @@
         "bytes": 18683,
         "candidateMatches": true,
         "hashMatches": true,
-        "localCandidateId": "pwa-376d196bf59c",
-        "localAggregateHash": "376d196bf59ce1166ed6720edf6601fc881d34cc05633042205f491df8d65230",
+        "localCandidateId": "pwa-fb8966f35fdb",
+        "localAggregateHash": "fb8966f35fdbf01c5c100bbaf6324bcadaa9acd9c712996dbf757a85ec63829b",
         "detail": "Local release manifest matches the release candidate."
       }
     ]
@@ -379,7 +379,7 @@
       "path": "/release-candidate.json",
       "url": "${DEPLOYED_PWA_ORIGIN}/release-candidate.json",
       "expectedStatus": 200,
-      "requiredText": "pwa-376d196bf59c",
+      "requiredText": "pwa-fb8966f35fdb",
       "status": "blocked",
       "detail": "No deployed origin configured."
     }

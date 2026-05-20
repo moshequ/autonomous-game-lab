@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-05-20T02:19:06.100Z",
+  "generatedAt": "2026-05-20T05:35:53.175Z",
   "source": "Autonomous Game Lab native packager",
   "status": "blocked-draft-ready",
   "initCommand": "npx @bubblewrap/cli init --manifest https://YOUR_HOST/manifest.webmanifest",
   "buildCommand": "npx @bubblewrap/cli build",
   "validateCommand": "npx @bubblewrap/cli validate",
   "packageId": "app.autonomousgamelab.portal",
-  "host": "autonomous-game-lab.example.com",
+  "host": null,
   "startUrl": "/",
   "signing": {
     "status": "fingerprint-configured",

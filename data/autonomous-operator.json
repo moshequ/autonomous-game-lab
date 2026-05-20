@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-20T05:23:32.363Z",
+  "generatedAt": "2026-05-20T05:45:01.148Z",
   "status": "operator-plan-ready",
   "mode": "plan-only",
   "ownerDecision": {
@@ -34,6 +34,8 @@
     "prepare-release-candidate",
     "optimize-product-gates",
     "refresh-product-gate-recovery",
+    "collect-gate-sample-downloads",
+    "refresh-product-gate-sample-plan",
     "refresh-first-move-coach",
     "refresh-completion-loop",
     "refresh-replay-loop",
@@ -112,15 +114,15 @@
     },
     {
       "id": "collect-gate-sample-downloads",
-      "status": "monitor",
+      "status": "armed",
       "command": "npm run autonomous:collect-sample-downloads",
-      "reason": "status-monitor"
+      "reason": "not-selected-this-run"
     },
     {
       "id": "refresh-product-gate-sample-plan",
-      "status": "monitor",
+      "status": "armed",
       "command": "npm run autonomous:sample-plan",
-      "reason": "status-monitor"
+      "reason": "not-selected-this-run"
     },
     {
       "id": "refresh-first-move-coach",

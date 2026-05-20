@@ -1,5 +1,5 @@
 export const storeAssets = {
-  "generatedAt": "2026-05-19T08:16:20.657Z",
+  "generatedAt": "2026-05-20T05:35:40.339Z",
   "status": "screenshots-ready",
   "sourceBuild": "dist",
   "screenshots": [
@@ -39,7 +39,7 @@ export const storeAssets = {
       "distPath": "dist/store-assets/screenshots/phone-canopy-bloom-generated.png",
       "width": 1170,
       "height": 2532,
-      "bytes": 194824,
+      "bytes": 204980,
       "platformUse": [
         "Google Play phone",
         "Apple iPhone draft"
