@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-20T23:14:20.265Z",
+  "generatedAt": "2026-05-20T23:22:51.307Z",
   "status": "owner-loop-ready",
   "mode": "zero-spend-web-ready",
   "autonomyScore": {
@@ -21,37 +21,37 @@
     "repositoryHandoffPrepared": false
   },
   "ownerDecision": {
-    "nextBestActionId": "optimize-store-listing",
-    "nextBestAction": "npm run autonomous:store-listing-optimize && npm run autonomous:store-compliance",
+    "nextBestActionId": "refresh-autonomous-cadence",
+    "nextBestAction": "npm run autonomous:cadence",
     "canExecuteWithoutSpend": true,
-    "rationale": "Keeps store copy, keyword themes, screenshots, and compliance drafts aligned with behavior signals."
+    "rationale": "Keeps the unattended daily operating cadence, recovery policy, and verification chain auditable."
   },
   "executionMemory": {
     "avoidImmediateRepeat": true,
     "recentExecutionWindow": 8,
     "recentExecutedActionIds": [
+      "prepare-release-candidate",
+      "seed-portfolio-traffic",
+      "measure-pwa-install-loop",
+      "optimize-store-listing",
       "collect-gate-sample-downloads",
       "check-performance-budget",
       "refresh-support-feedback",
-      "refresh-autonomous-self-update",
-      "refresh-autonomous-cadence",
-      "collect-live-events",
-      "seed-portfolio-traffic",
-      "measure-pwa-install-loop"
+      "refresh-autonomous-self-update"
     ],
-    "lastExecutedActionId": "collect-gate-sample-downloads",
+    "lastExecutedActionId": "prepare-release-candidate",
     "lastExecutedStatus": "executed",
     "lastRecordExecutionStatus": "not-requested",
     "recentlySatisfiedActionIds": [
+      "refresh-organic-seed-loop",
       "collect-live-events",
       "refresh-product-gate-recovery",
-      "refresh-product-gate-sample-plan",
-      "refresh-organic-seed-loop"
+      "refresh-product-gate-sample-plan"
     ],
     "objectiveAuditFreshness": {
       "fresh": true,
       "structurallyReady": true,
-      "auditGeneratedAt": "2026-05-20T23:14:20.027Z",
+      "auditGeneratedAt": "2026-05-20T23:22:51.065Z",
       "evaluatedInputIds": [
         "analytics-rollup",
         "event-ingest",
@@ -104,7 +104,7 @@
         "current": true,
         "ready": true,
         "status": "traffic-seeding-ready",
-        "artifactGeneratedAt": "2026-05-20T22:47:00.495Z",
+        "artifactGeneratedAt": "2026-05-20T23:16:41.382Z",
         "artifactSourceDataHash": "44334d19b778",
         "sourceDataHash": "44334d19b778",
         "evaluatedInputIds": [
@@ -119,9 +119,9 @@
         "current": true,
         "ready": true,
         "status": "acquisition-learning-ready",
-        "artifactGeneratedAt": "2026-05-20T22:47:00.766Z",
-        "artifactSourceDataHash": "f80274745f5b",
-        "sourceDataHash": "f80274745f5b",
+        "artifactGeneratedAt": "2026-05-20T23:16:41.648Z",
+        "artifactSourceDataHash": "7e0bdaca566c",
+        "sourceDataHash": "7e0bdaca566c",
         "evaluatedInputIds": [
           "analytics-rollup",
           "traffic-seeding",
@@ -131,12 +131,12 @@
         ]
       },
       "organicSeedLoop": {
-        "current": false,
-        "ready": false,
+        "current": true,
+        "ready": true,
         "status": "organic-seed-loop-ready",
-        "artifactGeneratedAt": "2026-05-20T22:47:01.024Z",
-        "artifactSourceDataHash": "246b7951e43c",
-        "sourceDataHash": "30a9c3a4ec79",
+        "artifactGeneratedAt": "2026-05-20T23:16:41.919Z",
+        "artifactSourceDataHash": "7e84e2d7b4ac",
+        "sourceDataHash": "7e84e2d7b4ac",
         "evaluatedInputIds": [
           "playable-games",
           "analytics-rollup",
@@ -241,15 +241,14 @@
       "staleInputIds": []
     },
     "skippedRecentlyExecutedActionIds": [
-      "refresh-autonomous-cadence",
       "refresh-autonomous-self-update",
-      "seed-portfolio-traffic",
       "refresh-support-feedback",
       "measure-pwa-install-loop",
-      "check-performance-budget"
+      "check-performance-budget",
+      "prepare-release-candidate",
+      "optimize-store-listing"
     ],
     "skippedRecentlySatisfiedActionIds": [
-      "refresh-organic-seed-loop",
       "refresh-product-gate-recovery"
     ],
     "preferredActionOrder": [
@@ -284,7 +283,7 @@
     },
     "productionBootstrapFreshness": {
       "fresh": true,
-      "bootstrapGeneratedAt": "2026-05-20T23:10:38.462Z",
+      "bootstrapGeneratedAt": "2026-05-20T23:22:50.390Z",
       "evaluatedInputIds": [
         "release-candidate",
         "deployment-plan",
@@ -498,7 +497,7 @@
       "status": "ready",
       "autonomy": "read-only-live-deploy-verification",
       "evidence": "Smoke post-deploy-smoke-observed-live; origin https://moshequ.github.io/autonomous-game-lab; manifest comparison required; checks 15/15 passed; local artifact predeploy-artifact-smoke-passed 15/15 passed.",
-      "nextAction": "Live Pages is reachable and serving pwa-62aaa5bb3a31; run the deploy workflow for strict proof of the current local candidate if needed."
+      "nextAction": "Live Pages is reachable and serving pwa-a5fe83e7cfb7; run the deploy workflow for strict proof of the current local candidate if needed."
     },
     {
       "id": "post-deploy-artifact-sync",
@@ -511,7 +510,7 @@
       "id": "production-bootstrap",
       "status": "ready",
       "autonomy": "zero-spend-setup-orchestration",
-      "evidence": "Bootstrap production-bootstrap-ready; mode can-apply-configured-actions; external blockers 17.",
+      "evidence": "Bootstrap production-bootstrap-ready; mode can-apply-configured-actions; external blockers 16.",
       "nextAction": "gh workflow run web-pwa-deploy.yml"
     },
     {
@@ -532,7 +531,7 @@
       "id": "autonomous-operator",
       "status": "ready",
       "autonomy": "one-safe-action-runner",
-      "evidence": "Operator operator-plan-ready; selected optimize-store-listing; execution not-requested.",
+      "evidence": "Operator operator-plan-ready; selected refresh-autonomous-cadence; execution not-requested.",
       "nextAction": "Keep a dry-run operator plan ready, then execute only one allowlisted local action when explicitly requested."
     },
     {
@@ -623,7 +622,7 @@
     },
     {
       "id": "seed-portfolio-traffic",
-      "status": "armed",
+      "status": "monitor",
       "costUsd": 0,
       "command": "npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop",
       "targets": [
@@ -632,17 +631,17 @@
         "metro-loom",
         "pocket-draft"
       ],
-      "reason": "Under-measured playable games need free organic/internal traffic before quality judgment."
+      "reason": "Traffic campaigns, acquisition learning, and organic seed surface already reflect the current inputs."
     },
     {
       "id": "refresh-organic-seed-loop",
-      "status": "armed",
+      "status": "monitor",
       "costUsd": 0,
       "command": "npm run autonomous:organic-seed-loop",
       "targets": [
         "canopy-bloom"
       ],
-      "reason": "Refreshes the player-initiated zero-cost share surface for the highest-opportunity seed campaign."
+      "reason": "Organic seed surface already reflects current traffic, acquisition, retention, and analytics inputs."
     },
     {
       "id": "refresh-support-feedback",
@@ -681,7 +680,7 @@
       "command": "npm run build && npm run autonomous:performance",
       "targets": [
         "pwa-shell",
-        "GameCanvas-DxPYmxwm.js"
+        "GameCanvas-zgdG9FkN.js"
       ],
       "reason": "Keeps the PWA shell fast while Phaser and game scenes stay deferred."
     },
@@ -829,7 +828,7 @@
       "costUsd": 0,
       "command": "npm run autonomous:operator",
       "targets": [
-        "optimize-store-listing"
+        "refresh-autonomous-cadence"
       ],
       "reason": "Publishes the one-action local execution plan with allowlist, zero-spend, and audit controls."
     },
@@ -839,7 +838,7 @@
       "costUsd": 0,
       "command": "npm run autonomous:operator",
       "targets": [
-        "optimize-store-listing"
+        "refresh-autonomous-cadence"
       ],
       "reason": "Refreshes the capped operator history so safe actions remain auditable over time."
     },
