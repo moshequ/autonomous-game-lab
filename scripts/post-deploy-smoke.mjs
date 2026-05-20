@@ -17,12 +17,14 @@ const assertMode = argv.includes('--assert')
 const assertLocalMode = argv.includes('--assert-local')
 const timeoutMs = Number(argValue('--timeout-ms=') ?? process.env.AGL_POST_DEPLOY_TIMEOUT_MS ?? 12_000)
 const explicitOrigin = argValue('--origin=')
+const allowPlannedPublicOrigin = ['1', 'true', 'yes'].includes(
+  String(process.env.AGL_POST_DEPLOY_USE_PUBLIC_ORIGIN ?? '').toLowerCase(),
+)
 const deployedOrigin =
   explicitOrigin ??
   process.env.AGL_DEPLOYED_PWA_ORIGIN ??
   process.env.DEPLOYED_PWA_ORIGIN ??
-  process.env.AGL_PUBLIC_ORIGIN ??
-  process.env.PUBLIC_SITE_URL ??
+  (allowPlannedPublicOrigin ? (process.env.AGL_PUBLIC_ORIGIN ?? process.env.PUBLIC_SITE_URL) : null) ??
   ''
 
 const normalizeOrigin = (value) => {

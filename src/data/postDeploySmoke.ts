@@ -1,5 +1,5 @@
 export const postDeploySmoke = {
-  "generatedAt": "2026-05-20T07:15:38.282Z",
+  "generatedAt": "2026-05-20T07:29:20.798Z",
   "status": "blocked-missing-origin",
   "envFiles": {
     "loaded": true,
