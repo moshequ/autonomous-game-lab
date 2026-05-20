@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-05-20T03:49:06.563Z",
+  "generatedAt": "2026-05-20T03:53:03.672Z",
   "status": "cadence-ready",
   "cadence": "daily",
   "workspace": {
     "path": "/Users/moshequ/Documents/Codex/2026-05-18/i-want-to-have-a-new",
     "repositoryStatus": "waiting-for-github-repository",
     "repository": null,
-    "gitDirtyFiles": 50
+    "gitDirtyFiles": 0
   },
   "schedulers": {
     "codexDesktop": {
@@ -108,8 +108,8 @@
     "staleArtifactCount": 0,
     "missingGeneratedAtCount": 0,
     "invalidArtifactCount": 0,
-    "oldestAgeHours": 0.5,
-    "latestGeneratedAt": "2026-05-20T03:48:50.344Z",
+    "oldestAgeHours": 0.57,
+    "latestGeneratedAt": "2026-05-20T03:52:58.494Z",
     "oldestGeneratedAt": "2026-05-20T03:18:59.766Z",
     "staleArtifactIds": []
   },
@@ -119,27 +119,27 @@
       "label": "Owner loop decision",
       "path": "data/autonomous-owner-loop.json",
       "status": "fresh",
-      "generatedAt": "2026-05-20T03:48:27.186Z",
-      "ageHours": 0.01,
+      "generatedAt": "2026-05-20T03:52:54.337Z",
+      "ageHours": 0,
       "staleAfterHours": 36,
-      "detail": "data/autonomous-owner-loop.json is 0.01h old."
+      "detail": "data/autonomous-owner-loop.json is 0h old."
     },
     {
       "id": "operator",
       "label": "Operator execution",
       "path": "data/autonomous-operator.json",
       "status": "fresh",
-      "generatedAt": "2026-05-20T03:48:30.355Z",
-      "ageHours": 0.01,
+      "generatedAt": "2026-05-20T03:52:58.494Z",
+      "ageHours": 0,
       "staleAfterHours": 36,
-      "detail": "data/autonomous-operator.json is 0.01h old."
+      "detail": "data/autonomous-operator.json is 0h old."
     },
     {
       "id": "production-readiness",
       "label": "Production readiness",
       "path": "data/production-readiness.json",
       "status": "fresh",
-      "generatedAt": "2026-05-20T03:45:26.027Z",
+      "generatedAt": "2026-05-20T03:49:09.875Z",
       "ageHours": 0.06,
       "staleAfterHours": 36,
       "detail": "data/production-readiness.json is 0.06h old."
@@ -150,9 +150,9 @@
       "path": "data/release-candidate.json",
       "status": "fresh",
       "generatedAt": "2026-05-20T03:48:47.002Z",
-      "ageHours": 0.01,
+      "ageHours": 0.07,
       "staleAfterHours": 36,
-      "detail": "data/release-candidate.json is 0.01h old."
+      "detail": "data/release-candidate.json is 0.07h old."
     },
     {
       "id": "post-deploy-smoke",
@@ -160,9 +160,9 @@
       "path": "data/post-deploy-smoke.json",
       "status": "fresh",
       "generatedAt": "2026-05-20T03:48:50.344Z",
-      "ageHours": 0,
+      "ageHours": 0.07,
       "staleAfterHours": 36,
-      "detail": "data/post-deploy-smoke.json is 0h old."
+      "detail": "data/post-deploy-smoke.json is 0.07h old."
     },
     {
       "id": "product-gate-sample-plan",
@@ -170,9 +170,9 @@
       "path": "data/product-gate-sample-plan.json",
       "status": "fresh",
       "generatedAt": "2026-05-20T03:18:59.766Z",
-      "ageHours": 0.5,
+      "ageHours": 0.57,
       "staleAfterHours": 36,
-      "detail": "data/product-gate-sample-plan.json is 0.5h old."
+      "detail": "data/product-gate-sample-plan.json is 0.57h old."
     },
     {
       "id": "pwa-install-loop",
@@ -180,16 +180,16 @@
       "path": "data/pwa-install-loop.json",
       "status": "fresh",
       "generatedAt": "2026-05-20T03:30:11.388Z",
-      "ageHours": 0.32,
+      "ageHours": 0.38,
       "staleAfterHours": 36,
-      "detail": "data/pwa-install-loop.json is 0.32h old."
+      "detail": "data/pwa-install-loop.json is 0.38h old."
     },
     {
       "id": "objective-audit",
       "label": "Objective audit",
       "path": "data/objective-audit.json",
       "status": "fresh",
-      "generatedAt": "2026-05-20T03:45:29.118Z",
+      "generatedAt": "2026-05-20T03:49:14.268Z",
       "ageHours": 0.06,
       "staleAfterHours": 36,
       "detail": "data/objective-audit.json is 0.06h old."

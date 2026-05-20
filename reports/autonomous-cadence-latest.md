@@ -1,6 +1,6 @@
 # Autonomous Cadence
 
-Generated: 2026-05-20T03:49:06.563Z
+Generated: 2026-05-20T03:53:03.672Z
 Status: cadence-ready
 Cadence: daily
 
@@ -28,15 +28,15 @@ Cadence: daily
 - Fresh artifacts: 8
 - Stale/invalid artifacts: 0
 - Stale after: 36h
-- Oldest age: 0.5h
+- Oldest age: 0.57h
 
-- fresh: owner-loop - data/autonomous-owner-loop.json is 0.01h old.
-- fresh: operator - data/autonomous-operator.json is 0.01h old.
+- fresh: owner-loop - data/autonomous-owner-loop.json is 0h old.
+- fresh: operator - data/autonomous-operator.json is 0h old.
 - fresh: production-readiness - data/production-readiness.json is 0.06h old.
-- fresh: release-candidate - data/release-candidate.json is 0.01h old.
-- fresh: post-deploy-smoke - data/post-deploy-smoke.json is 0h old.
-- fresh: product-gate-sample-plan - data/product-gate-sample-plan.json is 0.5h old.
-- fresh: pwa-install-loop - data/pwa-install-loop.json is 0.32h old.
+- fresh: release-candidate - data/release-candidate.json is 0.07h old.
+- fresh: post-deploy-smoke - data/post-deploy-smoke.json is 0.07h old.
+- fresh: product-gate-sample-plan - data/product-gate-sample-plan.json is 0.57h old.
+- fresh: pwa-install-loop - data/pwa-install-loop.json is 0.38h old.
 - fresh: objective-audit - data/objective-audit.json is 0.06h old.
 
 ## Checks
