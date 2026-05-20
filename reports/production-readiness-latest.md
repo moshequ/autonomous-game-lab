@@ -1,6 +1,6 @@
 # Production Readiness
 
-Generated: 2026-05-20T09:03:29.499Z
+Generated: 2026-05-20T09:11:01.859Z
 
 ## Environment
 
@@ -14,11 +14,11 @@ Status: repository-channel-ready
 Repository: moshequ/autonomous-game-lab
 Git worktree: true
 Workflow dispatch ready: true
-- pass: repository-local-git-worktree - Git worktree detected at /home/runner/work/autonomous-game-lab/autonomous-game-lab.
+- pass: repository-local-git-worktree - Git worktree detected at /Users/moshequ/Documents/Codex/2026-05-18/i-want-to-have-a-new.
 - pass: repository-github-target - Target repository is moshequ/autonomous-game-lab.
 - pass: repository-origin-remote - Origin remote resolves to moshequ/autonomous-game-lab.
 - pass: repository-gh-cli - gh version 2.92.0 (2026-04-28)
-- pass: repository-gh-token - GitHub token is present in the current environment.
+- pass: repository-gh-token - GitHub CLI authentication is available for repository operations.
 - pass: repository-pages-workflow - Web PWA Deploy workflow exists and includes post-deploy smoke.
 - pass: repository-deployable-artifact - Deployment ready-for-pages; release candidate release-candidate-ready; smoke blocked-missing-origin.
 
@@ -56,7 +56,7 @@ Status: ready-after-build
 - pass: organic-seed-loop - Organic seed loop is organic-seed-loop-ready; target canopy-bloom; player-initiated share guard active.
 - pass: retention-loop - Retention loop is retention-loop-ready; daily challenge canopy-bloom; no-push/no-account guardrails active.
 - pass: pwa-install-loop - PWA install loop is pwa-install-loop-ready; prompt surface autonomy-cockpit; cost $0.
-- pass: performance-budget - Performance budget is performance-budget-ready; initial JS 613.7 KB / 169 KB gzip; deferred game chunk GameCanvas-DxtSZy9L.js.
+- pass: performance-budget - Performance budget is performance-budget-ready; initial JS 613.6 KB / 168.9 KB gzip; deferred game chunk GameCanvas-DhkpQlmQ.js.
 - pass: release-candidate - Release candidate is release-candidate-ready; files 44; smoke URLs 14.
 - pass: post-deploy-smoke-runner - Post-deploy smoke is blocked-missing-origin; origin missing; checks 0/15 passed, 15 blocked; local artifact predeploy-artifact-smoke-passed 15/15 passed.
 - pass: product-optimization - Product optimizer is product-optimization-ready; completion 0.397 vs gate 0.55; latest action already-applied.
@@ -111,23 +111,23 @@ Installs: 0
 ## Performance Budget
 
 Status: performance-budget-ready
-Initial JS: 613.7 KB (169 KB gzip)
-Deferred game chunk: GameCanvas-DxtSZy9L.js
-- pass: performance-initial-js-budget - Initial JS is 613.7 KB; budget is 675 KB.
-- pass: performance-initial-js-gzip-budget - Initial JS gzip is 169 KB; budget is 200 KB.
+Initial JS: 613.6 KB (168.9 KB gzip)
+Deferred game chunk: GameCanvas-DhkpQlmQ.js
+- pass: performance-initial-js-budget - Initial JS is 613.6 KB; budget is 675 KB.
+- pass: performance-initial-js-gzip-budget - Initial JS gzip is 168.9 KB; budget is 200 KB.
 - pass: performance-initial-css-budget - Initial CSS is 9.6 KB; budget is 40 KB.
 - pass: performance-manifest - PWA manifest exists in dist.
 - pass: performance-service-worker - Service worker exists in dist.
-- pass: performance-game-runtime-deferred - GameCanvas-DxtSZy9L.js is deferred from the initial shell.
-- pass: performance-largest-js-deferred - Largest JS chunk is GameCanvas-DxtSZy9L.js at 1360.8 KB.
+- pass: performance-game-runtime-deferred - GameCanvas-DhkpQlmQ.js is deferred from the initial shell.
+- pass: performance-largest-js-deferred - Largest JS chunk is GameCanvas-DhkpQlmQ.js at 1360.8 KB.
 - pass: performance-deferred-game-budget - Deferred game chunk is 1360.8 KB; monitor budget is 1600 KB.
 
 ## Release Candidate
 
 Status: release-candidate-ready
-Candidate: pwa-1fb14b4f3fc0
+Candidate: pwa-a1af8a59eece
 Files: 44
-Aggregate SHA-256: 1fb14b4f3fc0469baad927d9eb137cc29ced0f3dcffa3f5ed4cefe980cda969c
+Aggregate SHA-256: a1af8a59eeced3de66d0ad597aac3458836961f9bf19ea516d941fb26bd0f8d8
 - pass: release-dist-inventory - 44 dist files inventoried.
 - pass: release-required-files - 19/19 required files present.
 - pass: release-game-pages - 10 generated game page(s) in dist.
@@ -141,7 +141,7 @@ Aggregate SHA-256: 1fb14b4f3fc0469baad927d9eb137cc29ced0f3dcffa3f5ed4cefe980cda9
 
 Status: blocked-missing-origin
 Origin: missing
-Candidate: pwa-1fb14b4f3fc0
+Candidate: pwa-a1af8a59eece
 Checks: 0/15 passed (15 blocked)
 Local artifact: predeploy-artifact-smoke-passed (15/15 passed)
 - blocked: smoke-app-shell - No deployed origin configured.

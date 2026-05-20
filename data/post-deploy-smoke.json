@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-20T09:03:25.987Z",
+  "generatedAt": "2026-05-20T09:10:59.671Z",
   "status": "blocked-missing-origin",
   "envFiles": {
     "loaded": true,
@@ -15,14 +15,14 @@
         ]
       }
     ],
-    "loadedKeys": [],
-    "skippedExistingKeys": [
+    "loadedKeys": [
       "AGL_ANDROID_PACKAGE_NAME",
       "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
       "AGL_ANDROID_KEYSTORE_BASE64",
       "AGL_ANDROID_KEYSTORE_PASSWORD",
       "AGL_ANDROID_KEY_ALIAS"
     ],
+    "skippedExistingKeys": [],
     "skippedProtectedKeys": [],
     "overwrittenEnvFileKeys": [],
     "supportedFiles": [
@@ -54,8 +54,8 @@
   "target": {
     "origin": null,
     "provider": "github-pages",
-    "candidateId": "pwa-1fb14b4f3fc0",
-    "aggregateHash": "1fb14b4f3fc0469baad927d9eb137cc29ced0f3dcffa3f5ed4cefe980cda969c"
+    "candidateId": "pwa-a1af8a59eece",
+    "aggregateHash": "a1af8a59eeced3de66d0ad597aac3458836961f9bf19ea516d941fb26bd0f8d8"
   },
   "sourceStatus": {
     "deployment": "ready-for-pages",
@@ -89,7 +89,7 @@
         "file": "dist/index.html",
         "expectedStatus": 200,
         "status": "pass",
-        "bytes": 903,
+        "bytes": 803,
         "textMatched": true,
         "detail": "Local production artifact matched required text."
       },
@@ -99,7 +99,7 @@
         "file": "dist/manifest.webmanifest",
         "expectedStatus": 200,
         "status": "pass",
-        "bytes": 853,
+        "bytes": 713,
         "textMatched": true,
         "detail": "Local production artifact matched required text."
       },
@@ -229,11 +229,11 @@
         "file": "dist/release-candidate.json",
         "expectedStatus": 200,
         "status": "pass",
-        "bytes": 19424,
+        "bytes": 19422,
         "candidateMatches": true,
         "hashMatches": true,
-        "localCandidateId": "pwa-1fb14b4f3fc0",
-        "localAggregateHash": "1fb14b4f3fc0469baad927d9eb137cc29ced0f3dcffa3f5ed4cefe980cda969c",
+        "localCandidateId": "pwa-a1af8a59eece",
+        "localAggregateHash": "a1af8a59eeced3de66d0ad597aac3458836961f9bf19ea516d941fb26bd0f8d8",
         "detail": "Local release manifest matches the release candidate."
       }
     ]
@@ -379,7 +379,7 @@
       "path": "/release-candidate.json",
       "url": "${DEPLOYED_PWA_ORIGIN}/release-candidate.json",
       "expectedStatus": 200,
-      "requiredText": "pwa-1fb14b4f3fc0",
+      "requiredText": "pwa-a1af8a59eece",
       "status": "blocked",
       "detail": "No deployed origin configured."
     }
