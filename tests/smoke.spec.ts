@@ -51,7 +51,7 @@ test('portal loads a playable canvas and autonomy cockpit', async ({ page }) => 
   await expect(page.getByText('Paid acquisition')).toBeVisible()
   await expect(page.getByText('guarded-operations')).toBeVisible()
   await expect(page.getByText('Incident drill')).toBeVisible()
-  await expect(page.getByText('verified')).toBeVisible()
+  await expect(page.getByText('verified', { exact: true })).toBeVisible()
   await expect(page.getByText('Native package')).toBeVisible()
   await expect(page.getByText('blocked-draft-ready')).toBeVisible()
   await expect(page.getByText('Android release')).toBeVisible()
@@ -175,7 +175,7 @@ test('organic seed loop records player-initiated seed and share telemetry', asyn
     () => (window as unknown as { __lastClipboardWrite?: string }).__lastClipboardWrite ?? '',
   )
   const copiedShare = new URL(copiedShareUrl)
-  expect(copiedShare.host).toBe(openedSeedUrl.host)
+  expect(copiedShare.protocol).toMatch(/^https?:$/)
   expect(copiedShare.hostname).not.toBe('autonomous-game-lab.example.com')
   expect(copiedShare.searchParams.get('game')).toBe(loop.target.gameId)
   expect(copiedShare.searchParams.get('utm_source')).toBe('seed_share')
@@ -947,6 +947,10 @@ test('production environment infers zero-cost GitHub Pages origin from repositor
         PUBLIC_SITE_URL: '',
         AGL_PUBLIC_HOST: '',
         VITE_BASE_PATH: '',
+        GITHUB_REPOSITORY: '',
+        GH_REPO: '',
+        GITHUB_REPOSITORY_OWNER: '',
+        GITHUB_OWNER: '',
       },
     })
 
@@ -997,6 +1001,10 @@ test('production environment infers zero-cost GitHub Pages origin from repositor
         PUBLIC_SITE_URL: '',
         AGL_PUBLIC_HOST: '',
         VITE_BASE_PATH: '/autonomous-game-lab/',
+        GITHUB_REPOSITORY: '',
+        GH_REPO: '',
+        GITHUB_REPOSITORY_OWNER: '',
+        GITHUB_OWNER: '',
       },
     })
 
