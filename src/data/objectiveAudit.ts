@@ -1,30 +1,28 @@
 export const objectiveAudit = {
-  "generatedAt": "2026-05-20T15:44:45.511Z",
+  "generatedAt": "2026-05-20T15:45:53.324Z",
   "status": "objective-in-progress",
   "objective": "Build a bootstrapped autonomous web/PWA game portal that can generate original board-game-inspired games, measure user behavior, propose and apply data-driven improvements, and prepare a path to monetization and app-store distribution with minimal manual intervention.",
   "summary": {
     "requirements": 8,
-    "met": 5,
+    "met": 6,
     "prepared": 2,
-    "incomplete": 1,
-    "externalBlockers": 13,
+    "incomplete": 0,
+    "externalBlockers": 12,
     "productBlockers": 6
   },
   "requirements": [
     {
       "id": "web-pwa-game-portal",
-      "status": "incomplete",
+      "status": "met",
       "summary": "A playable web/PWA portal exists and passes the production web readiness gate.",
       "evidence": [
-        "Web readiness: blocked",
+        "Web readiness: ready-after-build",
         "Manifest in dist: true",
         "Service worker in dist: true",
         "Release candidate: release-candidate-ready; 44 files",
         "Deployment plan: ready-for-pages"
       ],
-      "blockers": [
-        "Autonomous self-update is self-update-needs-attention; safe pending 29; unsafe pending 2; remote push held."
-      ],
+      "blockers": [],
       "nextAction": "Connect a free static host or GitHub Pages environment, then publish dist.",
       "completionCritical": true
     },
@@ -184,7 +182,6 @@ export const objectiveAudit = {
   ],
   "blockers": {
     "external": [
-      "Commit current generated changes before pushing to GitHub Pages.",
       "Set AGL_SUPPORT_EMAIL to a real support inbox before public store submission.",
       "Set VITE_EVENT_COLLECTOR_URL or VITE_POSTHOG_KEY to forward browser analytics in production.",
       "Set AGL_EVENT_COLLECTOR_EXPORT_URL + AGL_EVENT_COLLECTOR_ADMIN_TOKEN or PostHog server credentials for autonomous production rollups.",
@@ -207,7 +204,6 @@ export const objectiveAudit = {
       "Web/PWA or native ad provider is not configured for gated revenue tests."
     ],
     "all": [
-      "Commit current generated changes before pushing to GitHub Pages.",
       "Set AGL_SUPPORT_EMAIL to a real support inbox before public store submission.",
       "Set VITE_EVENT_COLLECTOR_URL or VITE_POSTHOG_KEY to forward browser analytics in production.",
       "Set AGL_EVENT_COLLECTOR_EXPORT_URL + AGL_EVENT_COLLECTOR_ADMIN_TOKEN or PostHog server credentials for autonomous production rollups.",
@@ -236,8 +232,8 @@ export const objectiveAudit = {
     "zeroSpendGuard": true,
     "noRevenueEnablementUntilGatesPass": true,
     "noStoreSubmissionUntilExternalAccounts": true,
-    "currentWorktreeClean": false,
-    "currentWorktreeDirtyFiles": 10
+    "currentWorktreeClean": true,
+    "currentWorktreeDirtyFiles": 0
   },
   "completion": {
     "canMarkGoalComplete": false,

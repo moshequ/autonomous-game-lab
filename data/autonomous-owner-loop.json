@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2026-05-20T15:44:45.745Z",
+  "generatedAt": "2026-05-20T15:45:53.548Z",
   "status": "owner-loop-ready",
   "mode": "zero-spend-web-ready",
   "autonomyScore": {
-    "readySystems": 39,
+    "readySystems": 40,
     "totalSystems": 41,
-    "percent": 95
+    "percent": 98
   },
   "controls": {
     "localLoopCanRunWithoutExternalAccounts": true,
@@ -39,7 +39,7 @@
     "objectiveAuditFreshness": {
       "fresh": true,
       "structurallyReady": true,
-      "auditGeneratedAt": "2026-05-20T15:44:45.511Z",
+      "auditGeneratedAt": "2026-05-20T15:45:53.324Z",
       "evaluatedInputIds": [
         "analytics-rollup",
         "event-ingest",
@@ -276,9 +276,9 @@
     },
     {
       "id": "web-deployment",
-      "status": "blocked",
+      "status": "ready",
       "autonomy": "workflow-gated",
-      "evidence": "Deployment ready-for-pages; web readiness blocked; promotion promotable-internal.",
+      "evidence": "Deployment ready-for-pages; web readiness ready-after-build; promotion promotable-internal.",
       "nextAction": "Connect a free static host or GitHub Pages environment, then publish dist."
     },
     {
@@ -341,7 +341,7 @@
       "id": "objective-audit",
       "status": "ready",
       "autonomy": "completion-evidence-ledger",
-      "evidence": "Audit objective-in-progress; met 5/8; external blockers 13.",
+      "evidence": "Audit objective-in-progress; met 6/8; external blockers 12.",
       "nextAction": "The local autonomous PWA system is largely prepared with strict live deploy evidence synced from GitHub Actions, but production credentials, live data, monetization gates, and store account/signing blockers remain."
     },
     {
