@@ -82,9 +82,24 @@ const freshnessRequiredArtifacts = [
     path: 'data/event-collector-deployment.json',
   },
   {
+    id: 'event-collector-smoke',
+    label: 'Event collector smoke',
+    path: 'data/event-collector-smoke.json',
+  },
+  {
     id: 'local-event-bridge',
     label: 'Local event bridge',
     path: 'data/local-event-bridge.json',
+  },
+  {
+    id: 'event-ingest',
+    label: 'Event ingest',
+    path: 'data/event-ingest.json',
+  },
+  {
+    id: 'event-ingest-smoke',
+    label: 'Event ingest smoke',
+    path: 'data/event-ingest-smoke.json',
   },
   {
     id: 'analytics-rollup',
