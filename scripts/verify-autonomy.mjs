@@ -2768,6 +2768,9 @@ const testAutomationOperatorRuns = [...testAutomationScript.matchAll(/autonomous
 const testAutomationObjectiveAuditRuns = [...testAutomationScript.matchAll(/autonomous:objective-audit/g)].map(
   (match) => match.index ?? -1,
 )
+const testAutomationFinalOwnerLoopRun = testAutomationOwnerLoopRuns.at(-1) ?? -1
+const testAutomationPenultimateOwnerLoopRun = testAutomationOwnerLoopRuns.at(-2) ?? -1
+const testAutomationFinalOperatorRun = testAutomationOperatorRuns.at(-1) ?? -1
 
 if (
   testAutomationDeployPlanRuns.length < 2 ||
@@ -2800,16 +2803,17 @@ if (
 }
 
 if (
-  testAutomationOwnerLoopRuns.length < 2 ||
+  testAutomationOwnerLoopRuns.length < 3 ||
   testAutomationOperatorRuns.length < 2 ||
   testAutomationObjectiveAuditRuns.length < 1 ||
-  testAutomationObjectiveAuditRuns.at(-1) > testAutomationOwnerLoopRuns.at(-1) ||
-  testAutomationOwnerLoopRuns.at(-1) > testAutomationOperatorRuns.at(-1) ||
-  testAutomationOperatorRuns.at(-1) > testAutomationReadinessRuns.at(-1) ||
+  testAutomationObjectiveAuditRuns.at(-1) > testAutomationPenultimateOwnerLoopRun ||
+  testAutomationPenultimateOwnerLoopRun > testAutomationFinalOperatorRun ||
+  testAutomationFinalOperatorRun > testAutomationFinalOwnerLoopRun ||
+  testAutomationFinalOwnerLoopRun > testAutomationReadinessRuns.at(-1) ||
   testAutomationReadinessRuns.at(-1) > testAutomationVerifyIndex ||
-  testAutomationOperatorRuns.at(-1) > testAutomationVerifyIndex
+  testAutomationFinalOperatorRun > testAutomationVerifyIndex
 ) {
-  fail('Autonomous verification must refresh objective, regenerate owner/operator evidence, then refresh readiness before verify-autonomy.')
+  fail('Autonomous verification must refresh objective, regenerate owner/operator evidence, settle owner memory after operator history, then refresh readiness before verify-autonomy.')
 }
 
 if (
