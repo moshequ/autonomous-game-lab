@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-20T15:38:32.080Z",
+  "generatedAt": "2026-05-20T15:39:03.817Z",
   "status": "owner-loop-ready",
   "mode": "zero-spend-web-ready",
   "autonomyScore": {
@@ -39,7 +39,7 @@
     "objectiveAuditFreshness": {
       "fresh": true,
       "structurallyReady": true,
-      "auditGeneratedAt": "2026-05-20T15:38:31.862Z",
+      "auditGeneratedAt": "2026-05-20T15:39:03.592Z",
       "evaluatedInputIds": [
         "analytics-rollup",
         "event-ingest",
@@ -152,7 +152,7 @@
       "id": "autonomous-self-update",
       "status": "ready",
       "autonomy": "gated-generated-change-persistence",
-      "evidence": "Self-update self-update-ready; safe pending 14; unsafe pending 0; remote push held.",
+      "evidence": "Self-update self-update-ready; safe pending 0; unsafe pending 0; remote push held.",
       "nextAction": "When a GitHub repository is connected, set AGL_AUTONOMOUS_SELF_UPDATE=1 and AGL_AUTONOMOUS_SELF_UPDATE_DIRECT=1 to let verified generated changes persist."
     },
     {

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-20T15:38:31.627Z",
+  "generatedAt": "2026-05-20T15:39:03.352Z",
   "status": "operator-plan-ready",
   "mode": "plan-only",
   "ownerDecision": {
@@ -40,7 +40,6 @@
     "refresh-completion-loop",
     "refresh-replay-loop",
     "bootstrap-production-setup",
-    "refresh-objective-audit",
     "optimize-store-listing",
     "apply-safe-improvements",
     "collect-live-events"
@@ -180,9 +179,9 @@
     },
     {
       "id": "refresh-objective-audit",
-      "status": "armed",
+      "status": "monitor",
       "command": "npm run autonomous:objective-audit",
-      "reason": "not-selected-this-run"
+      "reason": "status-monitor"
     },
     {
       "id": "optimize-store-listing",
