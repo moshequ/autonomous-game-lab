@@ -1,5 +1,5 @@
 export const objectiveAudit = {
-  "generatedAt": "2026-05-20T13:19:47.220Z",
+  "generatedAt": "2026-05-20T13:27:43.761Z",
   "status": "objective-in-progress",
   "objective": "Build a bootstrapped autonomous web/PWA game portal that can generate original board-game-inspired games, measure user behavior, propose and apply data-driven improvements, and prepare a path to monetization and app-store distribution with minimal manual intervention.",
   "summary": {
@@ -230,7 +230,7 @@ export const objectiveAudit = {
     "noRevenueEnablementUntilGatesPass": true,
     "noStoreSubmissionUntilExternalAccounts": true,
     "currentWorktreeClean": false,
-    "currentWorktreeDirtyFiles": 62
+    "currentWorktreeDirtyFiles": 61
   },
   "completion": {
     "canMarkGoalComplete": false,

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-20T13:19:47.438Z",
+  "generatedAt": "2026-05-20T13:27:43.978Z",
   "status": "owner-loop-ready",
   "mode": "zero-spend-web-ready",
   "autonomyScore": {
@@ -39,7 +39,7 @@
     "objectiveAuditFreshness": {
       "fresh": true,
       "structurallyReady": true,
-      "auditGeneratedAt": "2026-05-20T13:19:47.220Z",
+      "auditGeneratedAt": "2026-05-20T13:27:43.761Z",
       "evaluatedInputIds": [
         "analytics-rollup",
         "event-ingest",
@@ -450,7 +450,7 @@
       "command": "npm run build && npm run autonomous:performance",
       "targets": [
         "pwa-shell",
-        "GameCanvas-C_fHN1OZ.js"
+        "GameCanvas-C2OnXCTf.js"
       ],
       "reason": "Keeps the PWA shell fast while Phaser and game scenes stay deferred."
     },
