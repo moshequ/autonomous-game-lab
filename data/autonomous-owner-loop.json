@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-20T13:48:07.357Z",
+  "generatedAt": "2026-05-20T13:55:28.444Z",
   "status": "owner-loop-ready",
   "mode": "zero-spend-web-ready",
   "autonomyScore": {
@@ -39,7 +39,7 @@
     "objectiveAuditFreshness": {
       "fresh": true,
       "structurallyReady": true,
-      "auditGeneratedAt": "2026-05-20T13:48:07.128Z",
+      "auditGeneratedAt": "2026-05-20T13:55:28.218Z",
       "evaluatedInputIds": [
         "analytics-rollup",
         "event-ingest",
@@ -298,7 +298,7 @@
       "id": "post-deploy-artifact-sync",
       "status": "ready",
       "autonomy": "read-only-actions-artifact-import",
-      "evidence": "Artifact sync post-deploy-artifact-sync-passed; run 26165708578; live matches artifact true; strict true.",
+      "evidence": "Artifact sync post-deploy-artifact-sync-passed; run 26166932960; live matches artifact true; strict true.",
       "nextAction": "Keep this strict deploy artifact as live-production evidence while local candidates continue to iterate."
     },
     {
@@ -489,7 +489,7 @@
       "costUsd": 0,
       "command": "npm run autonomous:post-deploy-artifact-sync",
       "targets": [
-        26165708578,
+        26166932960,
         "release-candidate-manifest"
       ],
       "reason": "Strict deploy artifact evidence is already synced from the latest successful Pages workflow."
