@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-20T14:16:15.149Z",
+  "generatedAt": "2026-05-20T14:33:16.565Z",
   "environment": {
     "status": "production-env-missing",
     "publicOrigin": "https://moshequ.github.io/autonomous-game-lab",
@@ -107,33 +107,137 @@
         "originRemote": "git@github.com:moshequ/autonomous-game-lab.git",
         "remoteRepository": "moshequ/autonomous-game-lab",
         "hasCommit": true,
-        "dirtyFiles": 11,
+        "dirtyFiles": 63,
         "dirtyPaths": [
+          "data/analytics-rollup.json",
+          "data/autonomous-cadence.json",
+          "data/autonomous-operator-history.json",
+          "data/autonomous-operator.json",
+          "data/autonomous-owner-loop.json",
+          "data/autonomous-self-update.json",
+          "data/deployment-plan.json",
+          "data/event-collector-deployment.json",
+          "data/event-collector-smoke.json",
+          "data/event-ingest-smoke.json",
+          "data/event-ingest.json",
+          "data/local-event-bridge.json",
+          "data/objective-audit.json",
           "data/performance-budget.json",
           "data/post-deploy-smoke.json",
+          "data/product-gate-recovery.json",
+          "data/product-gate-sample-plan.json",
+          "data/production-activation.json",
+          "data/production-bootstrap.json",
+          "data/production-readiness.json",
+          "data/pwa-install-loop.json",
           "data/release-candidate.json",
+          "data/repository-bootstrap.json",
           "data/repository-readiness.json",
+          "data/retention-loop.json",
+          "reports/analytics-rollup-latest.md",
+          "reports/autonomous-cadence-latest.md",
+          "reports/autonomous-operator-history-latest.md",
+          "reports/autonomous-operator-latest.md",
+          "reports/autonomous-owner-loop-latest.md",
+          "reports/autonomous-self-update-latest.md",
+          "reports/deployment-plan-latest.md",
+          "reports/event-collector-deployment-latest.md",
+          "reports/event-collector-smoke-latest.md",
+          "reports/event-ingest-latest.md",
+          "reports/event-ingest-smoke-latest.md",
+          "reports/local-event-bridge-latest.md",
+          "reports/objective-audit-latest.md",
           "reports/performance-budget-latest.md",
           "reports/post-deploy-smoke-latest.md",
+          "reports/product-gate-recovery-latest.md",
+          "reports/product-gate-sample-plan-latest.md",
+          "reports/production-activation-latest.md",
+          "reports/production-bootstrap-latest.md",
+          "reports/production-readiness-latest.md",
+          "reports/pwa-install-loop-latest.md",
           "reports/release-candidate-latest.md",
+          "reports/repository-bootstrap-latest.md",
           "reports/repository-readiness-latest.md",
+          "reports/retention-loop-latest.md",
+          "src/data/autonomousCadence.ts",
+          "src/data/autonomousSelfUpdate.ts",
+          "src/data/eventCollectorDeployment.ts",
+          "src/data/localEventBridge.ts",
+          "src/data/objectiveAudit.ts",
           "src/data/performanceBudget.ts",
           "src/data/postDeploySmoke.ts",
-          "src/data/releaseCandidate.ts"
+          "src/data/productGateRecovery.ts",
+          "src/data/productGateSamplePlan.ts",
+          "src/data/productionActivation.ts",
+          "src/data/pwaInstallLoop.ts",
+          "src/data/releaseCandidate.ts",
+          "src/data/retentionLoop.ts"
         ],
-        "generatedEvidenceDirtyFiles": 11,
+        "generatedEvidenceDirtyFiles": 63,
         "generatedEvidenceDirtyPaths": [
+          "data/analytics-rollup.json",
+          "data/autonomous-cadence.json",
+          "data/autonomous-operator-history.json",
+          "data/autonomous-operator.json",
+          "data/autonomous-owner-loop.json",
+          "data/autonomous-self-update.json",
+          "data/deployment-plan.json",
+          "data/event-collector-deployment.json",
+          "data/event-collector-smoke.json",
+          "data/event-ingest-smoke.json",
+          "data/event-ingest.json",
+          "data/local-event-bridge.json",
+          "data/objective-audit.json",
           "data/performance-budget.json",
           "data/post-deploy-smoke.json",
+          "data/product-gate-recovery.json",
+          "data/product-gate-sample-plan.json",
+          "data/production-activation.json",
+          "data/production-bootstrap.json",
+          "data/production-readiness.json",
+          "data/pwa-install-loop.json",
           "data/release-candidate.json",
+          "data/repository-bootstrap.json",
           "data/repository-readiness.json",
+          "data/retention-loop.json",
+          "reports/analytics-rollup-latest.md",
+          "reports/autonomous-cadence-latest.md",
+          "reports/autonomous-operator-history-latest.md",
+          "reports/autonomous-operator-latest.md",
+          "reports/autonomous-owner-loop-latest.md",
+          "reports/autonomous-self-update-latest.md",
+          "reports/deployment-plan-latest.md",
+          "reports/event-collector-deployment-latest.md",
+          "reports/event-collector-smoke-latest.md",
+          "reports/event-ingest-latest.md",
+          "reports/event-ingest-smoke-latest.md",
+          "reports/local-event-bridge-latest.md",
+          "reports/objective-audit-latest.md",
           "reports/performance-budget-latest.md",
           "reports/post-deploy-smoke-latest.md",
+          "reports/product-gate-recovery-latest.md",
+          "reports/product-gate-sample-plan-latest.md",
+          "reports/production-activation-latest.md",
+          "reports/production-bootstrap-latest.md",
+          "reports/production-readiness-latest.md",
+          "reports/pwa-install-loop-latest.md",
           "reports/release-candidate-latest.md",
+          "reports/repository-bootstrap-latest.md",
           "reports/repository-readiness-latest.md",
+          "reports/retention-loop-latest.md",
+          "src/data/autonomousCadence.ts",
+          "src/data/autonomousSelfUpdate.ts",
+          "src/data/eventCollectorDeployment.ts",
+          "src/data/localEventBridge.ts",
+          "src/data/objectiveAudit.ts",
           "src/data/performanceBudget.ts",
           "src/data/postDeploySmoke.ts",
-          "src/data/releaseCandidate.ts"
+          "src/data/productGateRecovery.ts",
+          "src/data/productGateSamplePlan.ts",
+          "src/data/productionActivation.ts",
+          "src/data/pwaInstallLoop.ts",
+          "src/data/releaseCandidate.ts",
+          "src/data/retentionLoop.ts"
         ],
         "nonGeneratedDirtyFiles": 0,
         "nonGeneratedDirtyPaths": []
@@ -145,33 +249,137 @@
         "originRemote": "git@github.com:moshequ/autonomous-game-lab.git",
         "remoteRepository": "moshequ/autonomous-game-lab",
         "hasCommit": true,
-        "dirtyFiles": 11,
+        "dirtyFiles": 63,
         "dirtyPaths": [
+          "data/analytics-rollup.json",
+          "data/autonomous-cadence.json",
+          "data/autonomous-operator-history.json",
+          "data/autonomous-operator.json",
+          "data/autonomous-owner-loop.json",
+          "data/autonomous-self-update.json",
+          "data/deployment-plan.json",
+          "data/event-collector-deployment.json",
+          "data/event-collector-smoke.json",
+          "data/event-ingest-smoke.json",
+          "data/event-ingest.json",
+          "data/local-event-bridge.json",
+          "data/objective-audit.json",
           "data/performance-budget.json",
           "data/post-deploy-smoke.json",
+          "data/product-gate-recovery.json",
+          "data/product-gate-sample-plan.json",
+          "data/production-activation.json",
+          "data/production-bootstrap.json",
+          "data/production-readiness.json",
+          "data/pwa-install-loop.json",
           "data/release-candidate.json",
+          "data/repository-bootstrap.json",
           "data/repository-readiness.json",
+          "data/retention-loop.json",
+          "reports/analytics-rollup-latest.md",
+          "reports/autonomous-cadence-latest.md",
+          "reports/autonomous-operator-history-latest.md",
+          "reports/autonomous-operator-latest.md",
+          "reports/autonomous-owner-loop-latest.md",
+          "reports/autonomous-self-update-latest.md",
+          "reports/deployment-plan-latest.md",
+          "reports/event-collector-deployment-latest.md",
+          "reports/event-collector-smoke-latest.md",
+          "reports/event-ingest-latest.md",
+          "reports/event-ingest-smoke-latest.md",
+          "reports/local-event-bridge-latest.md",
+          "reports/objective-audit-latest.md",
           "reports/performance-budget-latest.md",
           "reports/post-deploy-smoke-latest.md",
+          "reports/product-gate-recovery-latest.md",
+          "reports/product-gate-sample-plan-latest.md",
+          "reports/production-activation-latest.md",
+          "reports/production-bootstrap-latest.md",
+          "reports/production-readiness-latest.md",
+          "reports/pwa-install-loop-latest.md",
           "reports/release-candidate-latest.md",
+          "reports/repository-bootstrap-latest.md",
           "reports/repository-readiness-latest.md",
+          "reports/retention-loop-latest.md",
+          "src/data/autonomousCadence.ts",
+          "src/data/autonomousSelfUpdate.ts",
+          "src/data/eventCollectorDeployment.ts",
+          "src/data/localEventBridge.ts",
+          "src/data/objectiveAudit.ts",
           "src/data/performanceBudget.ts",
           "src/data/postDeploySmoke.ts",
-          "src/data/releaseCandidate.ts"
+          "src/data/productGateRecovery.ts",
+          "src/data/productGateSamplePlan.ts",
+          "src/data/productionActivation.ts",
+          "src/data/pwaInstallLoop.ts",
+          "src/data/releaseCandidate.ts",
+          "src/data/retentionLoop.ts"
         ],
-        "generatedEvidenceDirtyFiles": 11,
+        "generatedEvidenceDirtyFiles": 63,
         "generatedEvidenceDirtyPaths": [
+          "data/analytics-rollup.json",
+          "data/autonomous-cadence.json",
+          "data/autonomous-operator-history.json",
+          "data/autonomous-operator.json",
+          "data/autonomous-owner-loop.json",
+          "data/autonomous-self-update.json",
+          "data/deployment-plan.json",
+          "data/event-collector-deployment.json",
+          "data/event-collector-smoke.json",
+          "data/event-ingest-smoke.json",
+          "data/event-ingest.json",
+          "data/local-event-bridge.json",
+          "data/objective-audit.json",
           "data/performance-budget.json",
           "data/post-deploy-smoke.json",
+          "data/product-gate-recovery.json",
+          "data/product-gate-sample-plan.json",
+          "data/production-activation.json",
+          "data/production-bootstrap.json",
+          "data/production-readiness.json",
+          "data/pwa-install-loop.json",
           "data/release-candidate.json",
+          "data/repository-bootstrap.json",
           "data/repository-readiness.json",
+          "data/retention-loop.json",
+          "reports/analytics-rollup-latest.md",
+          "reports/autonomous-cadence-latest.md",
+          "reports/autonomous-operator-history-latest.md",
+          "reports/autonomous-operator-latest.md",
+          "reports/autonomous-owner-loop-latest.md",
+          "reports/autonomous-self-update-latest.md",
+          "reports/deployment-plan-latest.md",
+          "reports/event-collector-deployment-latest.md",
+          "reports/event-collector-smoke-latest.md",
+          "reports/event-ingest-latest.md",
+          "reports/event-ingest-smoke-latest.md",
+          "reports/local-event-bridge-latest.md",
+          "reports/objective-audit-latest.md",
           "reports/performance-budget-latest.md",
           "reports/post-deploy-smoke-latest.md",
+          "reports/product-gate-recovery-latest.md",
+          "reports/product-gate-sample-plan-latest.md",
+          "reports/production-activation-latest.md",
+          "reports/production-bootstrap-latest.md",
+          "reports/production-readiness-latest.md",
+          "reports/pwa-install-loop-latest.md",
           "reports/release-candidate-latest.md",
+          "reports/repository-bootstrap-latest.md",
           "reports/repository-readiness-latest.md",
+          "reports/retention-loop-latest.md",
+          "src/data/autonomousCadence.ts",
+          "src/data/autonomousSelfUpdate.ts",
+          "src/data/eventCollectorDeployment.ts",
+          "src/data/localEventBridge.ts",
+          "src/data/objectiveAudit.ts",
           "src/data/performanceBudget.ts",
           "src/data/postDeploySmoke.ts",
-          "src/data/releaseCandidate.ts"
+          "src/data/productGateRecovery.ts",
+          "src/data/productGateSamplePlan.ts",
+          "src/data/productionActivation.ts",
+          "src/data/pwaInstallLoop.ts",
+          "src/data/releaseCandidate.ts",
+          "src/data/retentionLoop.ts"
         ],
         "nonGeneratedDirtyFiles": 0,
         "nonGeneratedDirtyPaths": []
@@ -296,7 +504,7 @@
         "mutatesLocalGit": true,
         "mutatesRemoteGitHub": false,
         "requiresExplicitEnv": true,
-        "detail": "11 repository evidence file(s) changed during this dry run; the outer verified commit will persist them."
+        "detail": "63 repository evidence file(s) changed during this dry run; the outer verified commit will persist them."
       },
       {
         "id": "set-or-create-origin",
@@ -429,7 +637,7 @@
       {
         "id": "performance-budget",
         "status": "pass",
-        "detail": "Performance budget is performance-budget-ready; initial JS 628.5 KB / 172.5 KB gzip; deferred game chunk GameCanvas-uLvVsGlZ.js."
+        "detail": "Performance budget is performance-budget-ready; initial JS 629.4 KB / 172.7 KB gzip; deferred game chunk GameCanvas-mJi3dbI5.js."
       },
       {
         "id": "release-candidate",
@@ -499,7 +707,7 @@
       {
         "id": "autonomous-self-update",
         "status": "pass",
-        "detail": "Autonomous self-update is self-update-ready; safe pending 50; unsafe pending 0; remote push held."
+        "detail": "Autonomous self-update is self-update-ready; safe pending 63; unsafe pending 0; remote push held."
       },
       {
         "id": "objective-audit",
@@ -984,21 +1192,21 @@
     },
     "initial": {
       "entryScripts": [
-        "index-0M-PlzNb.js",
+        "index-D_aTxLTy.js",
         "registerSW.js"
       ],
       "scriptPaths": [
-        "assets/index-0M-PlzNb.js",
+        "assets/index-D_aTxLTy.js",
         "registerSW.js"
       ],
       "jsFiles": [
         {
-          "file": "index-0M-PlzNb.js",
-          "path": "assets/index-0M-PlzNb.js",
-          "bytes": 643361,
-          "kb": 628.3,
-          "gzipBytes": 176513,
-          "gzipKb": 172.4
+          "file": "index-D_aTxLTy.js",
+          "path": "assets/index-D_aTxLTy.js",
+          "bytes": 644341,
+          "kb": 629.2,
+          "gzipBytes": 176683,
+          "gzipKb": 172.5
         },
         {
           "file": "registerSW.js",
@@ -1009,10 +1217,10 @@
           "gzipKb": 0.1
         }
       ],
-      "jsBytes": 643535,
-      "jsKb": 628.5,
-      "gzipBytes": 176654,
-      "gzipKb": 172.5,
+      "jsBytes": 644515,
+      "jsKb": 629.4,
+      "gzipBytes": 176824,
+      "gzipKb": 172.7,
       "cssFiles": [
         {
           "file": "index-DS8AZlnD.css",
@@ -1031,8 +1239,8 @@
     "deferred": {
       "chunks": [
         {
-          "file": "GameCanvas-uLvVsGlZ.js",
-          "path": "assets/GameCanvas-uLvVsGlZ.js",
+          "file": "GameCanvas-mJi3dbI5.js",
+          "path": "assets/GameCanvas-mJi3dbI5.js",
           "bytes": 1393554,
           "kb": 1360.9,
           "gzipBytes": 356110,
@@ -1040,24 +1248,24 @@
         }
       ],
       "gameChunk": {
-        "file": "GameCanvas-uLvVsGlZ.js",
-        "path": "assets/GameCanvas-uLvVsGlZ.js",
+        "file": "GameCanvas-mJi3dbI5.js",
+        "path": "assets/GameCanvas-mJi3dbI5.js",
         "bytes": 1393554,
         "kb": 1360.9,
         "gzipBytes": 356110,
         "gzipKb": 347.8
       },
       "largestDeferredChunk": {
-        "file": "GameCanvas-uLvVsGlZ.js",
-        "path": "assets/GameCanvas-uLvVsGlZ.js",
+        "file": "GameCanvas-mJi3dbI5.js",
+        "path": "assets/GameCanvas-mJi3dbI5.js",
         "bytes": 1393554,
         "kb": 1360.9,
         "gzipBytes": 356110,
         "gzipKb": 347.8
       },
       "largestJsChunk": {
-        "file": "GameCanvas-uLvVsGlZ.js",
-        "path": "assets/GameCanvas-uLvVsGlZ.js",
+        "file": "GameCanvas-mJi3dbI5.js",
+        "path": "assets/GameCanvas-mJi3dbI5.js",
         "bytes": 1393554,
         "kb": 1360.9,
         "gzipBytes": 356110,
@@ -1078,12 +1286,12 @@
       {
         "id": "initial-js-budget",
         "status": "pass",
-        "detail": "Initial JS is 628.5 KB; budget is 675 KB."
+        "detail": "Initial JS is 629.4 KB; budget is 675 KB."
       },
       {
         "id": "initial-js-gzip-budget",
         "status": "pass",
-        "detail": "Initial JS gzip is 172.5 KB; budget is 200 KB."
+        "detail": "Initial JS gzip is 172.7 KB; budget is 200 KB."
       },
       {
         "id": "initial-css-budget",
@@ -1103,12 +1311,12 @@
       {
         "id": "game-runtime-deferred",
         "status": "pass",
-        "detail": "GameCanvas-uLvVsGlZ.js is deferred from the initial shell."
+        "detail": "GameCanvas-mJi3dbI5.js is deferred from the initial shell."
       },
       {
         "id": "largest-js-deferred",
         "status": "pass",
-        "detail": "Largest JS chunk is GameCanvas-uLvVsGlZ.js at 1360.9 KB."
+        "detail": "Largest JS chunk is GameCanvas-mJi3dbI5.js at 1360.9 KB."
       },
       {
         "id": "deferred-game-budget",
@@ -1119,7 +1327,7 @@
   },
   "releaseCandidate": {
     "status": "release-candidate-ready",
-    "candidateId": "pwa-542748240937",
+    "candidateId": "pwa-e5ece72f2340",
     "target": {
       "provider": "github-pages",
       "artifactPath": "dist",
@@ -1130,8 +1338,8 @@
     },
     "summary": {
       "totalFiles": 44,
-      "totalBytes": 3645283,
-      "totalKb": 3559.8,
+      "totalBytes": 3646263,
+      "totalKb": 3560.8,
       "assetFiles": 3,
       "htmlFiles": 16,
       "gamePages": 10,
@@ -1140,7 +1348,7 @@
     },
     "integrity": {
       "algorithm": "sha256",
-      "aggregateHash": "542748240937a3fdb61b2b11ec74f2fd6558d148936743774da2df8fece17dae",
+      "aggregateHash": "e5ece72f23401272eab9eebabfaeb9461ae46150dfe21c35f5d69c4a7ad4f588",
       "requiredFileChecks": [
         {
           "path": "index.html",
@@ -1378,8 +1586,8 @@
       "origin": "https://moshequ.github.io/autonomous-game-lab",
       "originSource": "release-candidate-public-origin",
       "provider": "github-pages",
-      "candidateId": "pwa-542748240937",
-      "aggregateHash": "542748240937a3fdb61b2b11ec74f2fd6558d148936743774da2df8fece17dae",
+      "candidateId": "pwa-e5ece72f2340",
+      "aggregateHash": "e5ece72f23401272eab9eebabfaeb9461ae46150dfe21c35f5d69c4a7ad4f588",
       "strictManifestComparison": false
     },
     "sourceStatus": {
@@ -1557,8 +1765,8 @@
           "bytes": 19425,
           "candidateMatches": true,
           "hashMatches": true,
-          "localCandidateId": "pwa-542748240937",
-          "localAggregateHash": "542748240937a3fdb61b2b11ec74f2fd6558d148936743774da2df8fece17dae",
+          "localCandidateId": "pwa-e5ece72f2340",
+          "localAggregateHash": "e5ece72f23401272eab9eebabfaeb9461ae46150dfe21c35f5d69c4a7ad4f588",
           "detail": "Local release manifest matches the release candidate."
         }
       ]
@@ -1776,7 +1984,7 @@
         "path": "/release-candidate.json",
         "url": "https://moshequ.github.io/autonomous-game-lab/release-candidate.json",
         "expectedStatus": 200,
-        "requiredText": "pwa-542748240937",
+        "requiredText": "pwa-e5ece72f2340",
         "status": "pass",
         "detail": "Live release manifest is reachable; it does not match the current local release candidate.",
         "actualStatus": 200,
@@ -3134,8 +3342,8 @@
     },
     "recentRecords": [
       {
-        "id": "20260520140556-bootstrap-production-setup",
-        "generatedAt": "2026-05-20T14:05:56.887Z",
+        "id": "20260520143104-bootstrap-production-setup",
+        "generatedAt": "2026-05-20T14:31:04.010Z",
         "runFingerprint": "d734769da823d74d",
         "mode": "plan-only",
         "status": "operator-plan-ready",
@@ -3179,8 +3387,8 @@
         }
       },
       {
-        "id": "20260520141248-bootstrap-production-setup",
-        "generatedAt": "2026-05-20T14:12:48.814Z",
+        "id": "20260520143248-bootstrap-production-setup",
+        "generatedAt": "2026-05-20T14:32:48.570Z",
         "runFingerprint": "2fd624cd97877b08",
         "mode": "plan-only",
         "status": "operator-plan-ready",
@@ -3225,8 +3433,8 @@
         }
       },
       {
-        "id": "20260520141249-bootstrap-production-setup",
-        "generatedAt": "2026-05-20T14:12:49.523Z",
+        "id": "20260520143249-bootstrap-production-setup",
+        "generatedAt": "2026-05-20T14:32:49.392Z",
         "runFingerprint": "d734769da823d74d",
         "mode": "plan-only",
         "status": "operator-plan-ready",
@@ -3270,8 +3478,8 @@
         }
       },
       {
-        "id": "20260520141426-bootstrap-production-setup",
-        "generatedAt": "2026-05-20T14:14:26.321Z",
+        "id": "20260520143304-bootstrap-production-setup",
+        "generatedAt": "2026-05-20T14:33:04.060Z",
         "runFingerprint": "2fd624cd97877b08",
         "mode": "plan-only",
         "status": "operator-plan-ready",
@@ -3316,8 +3524,8 @@
         }
       },
       {
-        "id": "20260520141426-bootstrap-production-setup",
-        "generatedAt": "2026-05-20T14:14:26.817Z",
+        "id": "20260520143316-bootstrap-production-setup",
+        "generatedAt": "2026-05-20T14:33:16.315Z",
         "runFingerprint": "d734769da823d74d",
         "mode": "plan-only",
         "status": "operator-plan-ready",
@@ -3494,8 +3702,8 @@
       "staleArtifactCount": 0,
       "missingGeneratedAtCount": 0,
       "invalidArtifactCount": 0,
-      "oldestAgeHours": 5.24,
-      "latestGeneratedAt": "2026-05-20T14:16:14.618Z",
+      "oldestAgeHours": 5.52,
+      "latestGeneratedAt": "2026-05-20T14:32:47.502Z",
       "oldestGeneratedAt": "2026-05-20T09:01:42.563Z",
       "staleArtifactIds": []
     },
@@ -3505,47 +3713,47 @@
         "label": "Owner loop decision",
         "path": "data/autonomous-owner-loop.json",
         "status": "fresh",
-        "generatedAt": "2026-05-20T14:14:26.658Z",
-        "ageHours": 0.03,
+        "generatedAt": "2026-05-20T14:31:51.996Z",
+        "ageHours": 0.02,
         "staleAfterHours": 36,
-        "detail": "data/autonomous-owner-loop.json is 0.03h old."
+        "detail": "data/autonomous-owner-loop.json is 0.02h old."
       },
       {
         "id": "operator",
         "label": "Operator execution",
         "path": "data/autonomous-operator.json",
         "status": "fresh",
-        "generatedAt": "2026-05-20T14:14:26.817Z",
-        "ageHours": 0.03,
+        "generatedAt": "2026-05-20T14:31:52.248Z",
+        "ageHours": 0.02,
         "staleAfterHours": 36,
-        "detail": "data/autonomous-operator.json is 0.03h old."
+        "detail": "data/autonomous-operator.json is 0.02h old."
       },
       {
         "id": "autonomous-self-update",
         "label": "Autonomous self-update",
         "path": "data/autonomous-self-update.json",
         "status": "fresh",
-        "generatedAt": "2026-05-20T14:05:28.015Z",
-        "ageHours": 0.18,
+        "generatedAt": "2026-05-20T14:31:52.776Z",
+        "ageHours": 0.02,
         "staleAfterHours": 36,
-        "detail": "data/autonomous-self-update.json is 0.18h old."
+        "detail": "data/autonomous-self-update.json is 0.02h old."
       },
       {
         "id": "production-readiness",
         "label": "Production readiness",
         "path": "data/production-readiness.json",
         "status": "fresh",
-        "generatedAt": "2026-05-20T14:14:25.992Z",
-        "ageHours": 0.03,
+        "generatedAt": "2026-05-20T14:32:47.502Z",
+        "ageHours": 0,
         "staleAfterHours": 36,
-        "detail": "data/production-readiness.json is 0.03h old."
+        "detail": "data/production-readiness.json is 0h old."
       },
       {
         "id": "deployment-plan",
         "label": "Deployment plan",
         "path": "data/deployment-plan.json",
         "status": "fresh",
-        "generatedAt": "2026-05-20T14:16:14.097Z",
+        "generatedAt": "2026-05-20T14:32:43.045Z",
         "ageHours": 0,
         "staleAfterHours": 36,
         "detail": "data/deployment-plan.json is 0h old."
@@ -3555,7 +3763,7 @@
         "label": "Repository readiness",
         "path": "data/repository-readiness.json",
         "status": "fresh",
-        "generatedAt": "2026-05-20T14:16:12.524Z",
+        "generatedAt": "2026-05-20T14:32:45.941Z",
         "ageHours": 0,
         "staleAfterHours": 36,
         "detail": "data/repository-readiness.json is 0h old."
@@ -3565,7 +3773,7 @@
         "label": "Repository bootstrap",
         "path": "data/repository-bootstrap.json",
         "status": "fresh",
-        "generatedAt": "2026-05-20T14:16:13.859Z",
+        "generatedAt": "2026-05-20T14:32:47.024Z",
         "ageHours": 0,
         "staleAfterHours": 36,
         "detail": "data/repository-bootstrap.json is 0h old."
@@ -3575,7 +3783,7 @@
         "label": "Production bootstrap",
         "path": "data/production-bootstrap.json",
         "status": "fresh",
-        "generatedAt": "2026-05-20T14:16:14.385Z",
+        "generatedAt": "2026-05-20T14:32:43.307Z",
         "ageHours": 0,
         "staleAfterHours": 36,
         "detail": "data/production-bootstrap.json is 0h old."
@@ -3585,7 +3793,7 @@
         "label": "Production activation",
         "path": "data/production-activation.json",
         "status": "fresh",
-        "generatedAt": "2026-05-20T14:16:14.618Z",
+        "generatedAt": "2026-05-20T14:32:47.270Z",
         "ageHours": 0,
         "staleAfterHours": 36,
         "detail": "data/production-activation.json is 0h old."
@@ -3596,69 +3804,69 @@
         "path": "data/production-environment.json",
         "status": "fresh",
         "generatedAt": "2026-05-20T09:01:42.563Z",
-        "ageHours": 5.24,
+        "ageHours": 5.52,
         "staleAfterHours": 36,
-        "detail": "data/production-environment.json is 5.24h old."
+        "detail": "data/production-environment.json is 5.52h old."
       },
       {
         "id": "event-collector-deployment",
         "label": "Event collector deployment",
         "path": "data/event-collector-deployment.json",
         "status": "fresh",
-        "generatedAt": "2026-05-20T14:05:05.711Z",
-        "ageHours": 0.19,
+        "generatedAt": "2026-05-20T14:32:28.405Z",
+        "ageHours": 0.01,
         "staleAfterHours": 36,
-        "detail": "data/event-collector-deployment.json is 0.19h old."
+        "detail": "data/event-collector-deployment.json is 0.01h old."
       },
       {
         "id": "event-collector-smoke",
         "label": "Event collector smoke",
         "path": "data/event-collector-smoke.json",
         "status": "fresh",
-        "generatedAt": "2026-05-20T14:05:05.459Z",
-        "ageHours": 0.19,
+        "generatedAt": "2026-05-20T14:32:28.191Z",
+        "ageHours": 0.01,
         "staleAfterHours": 36,
-        "detail": "data/event-collector-smoke.json is 0.19h old."
+        "detail": "data/event-collector-smoke.json is 0.01h old."
       },
       {
         "id": "local-event-bridge",
         "label": "Local event bridge",
         "path": "data/local-event-bridge.json",
         "status": "fresh",
-        "generatedAt": "2026-05-20T14:05:06.586Z",
-        "ageHours": 0.19,
+        "generatedAt": "2026-05-20T14:32:29.218Z",
+        "ageHours": 0.01,
         "staleAfterHours": 36,
-        "detail": "data/local-event-bridge.json is 0.19h old."
+        "detail": "data/local-event-bridge.json is 0.01h old."
       },
       {
         "id": "event-ingest",
         "label": "Event ingest",
         "path": "data/event-ingest.json",
         "status": "fresh",
-        "generatedAt": "2026-05-20T14:05:06.831Z",
-        "ageHours": 0.19,
+        "generatedAt": "2026-05-20T14:32:29.443Z",
+        "ageHours": 0.01,
         "staleAfterHours": 36,
-        "detail": "data/event-ingest.json is 0.19h old."
+        "detail": "data/event-ingest.json is 0.01h old."
       },
       {
         "id": "event-ingest-smoke",
         "label": "Event ingest smoke",
         "path": "data/event-ingest-smoke.json",
         "status": "fresh",
-        "generatedAt": "2026-05-20T14:05:06.502Z",
-        "ageHours": 0.19,
+        "generatedAt": "2026-05-20T14:32:29.136Z",
+        "ageHours": 0.01,
         "staleAfterHours": 36,
-        "detail": "data/event-ingest-smoke.json is 0.19h old."
+        "detail": "data/event-ingest-smoke.json is 0.01h old."
       },
       {
         "id": "analytics-rollup",
         "label": "Analytics rollup",
         "path": "data/analytics-rollup.json",
         "status": "fresh",
-        "generatedAt": "2026-05-20T14:05:07.080Z",
-        "ageHours": 0.19,
+        "generatedAt": "2026-05-20T14:32:29.666Z",
+        "ageHours": 0.01,
         "staleAfterHours": 36,
-        "detail": "data/analytics-rollup.json is 0.19h old."
+        "detail": "data/analytics-rollup.json is 0.01h old."
       },
       {
         "id": "experiment-results",
@@ -3666,9 +3874,9 @@
         "path": "data/experiment-results.json",
         "status": "fresh",
         "generatedAt": "2026-05-20T12:33:37.312Z",
-        "ageHours": 1.71,
+        "ageHours": 1.99,
         "staleAfterHours": 36,
-        "detail": "data/experiment-results.json is 1.71h old."
+        "detail": "data/experiment-results.json is 1.99h old."
       },
       {
         "id": "growth-plan",
@@ -3676,9 +3884,9 @@
         "path": "data/growth-plan.json",
         "status": "fresh",
         "generatedAt": "2026-05-20T12:00:54.684Z",
-        "ageHours": 2.26,
+        "ageHours": 2.53,
         "staleAfterHours": 36,
-        "detail": "data/growth-plan.json is 2.26h old."
+        "detail": "data/growth-plan.json is 2.53h old."
       },
       {
         "id": "portfolio-policy",
@@ -3686,9 +3894,9 @@
         "path": "data/portfolio-policy.json",
         "status": "fresh",
         "generatedAt": "2026-05-20T12:00:54.941Z",
-        "ageHours": 2.26,
+        "ageHours": 2.53,
         "staleAfterHours": 36,
-        "detail": "data/portfolio-policy.json is 2.26h old."
+        "detail": "data/portfolio-policy.json is 2.53h old."
       },
       {
         "id": "traffic-seeding",
@@ -3696,9 +3904,9 @@
         "path": "data/traffic-seeding.json",
         "status": "fresh",
         "generatedAt": "2026-05-20T12:00:55.247Z",
-        "ageHours": 2.26,
+        "ageHours": 2.53,
         "staleAfterHours": 36,
-        "detail": "data/traffic-seeding.json is 2.26h old."
+        "detail": "data/traffic-seeding.json is 2.53h old."
       },
       {
         "id": "acquisition-learning",
@@ -3706,9 +3914,9 @@
         "path": "data/acquisition-learning.json",
         "status": "fresh",
         "generatedAt": "2026-05-20T12:00:55.496Z",
-        "ageHours": 2.26,
+        "ageHours": 2.53,
         "staleAfterHours": 36,
-        "detail": "data/acquisition-learning.json is 2.26h old."
+        "detail": "data/acquisition-learning.json is 2.53h old."
       },
       {
         "id": "organic-seed-loop",
@@ -3716,26 +3924,26 @@
         "path": "data/organic-seed-loop.json",
         "status": "fresh",
         "generatedAt": "2026-05-20T12:00:55.742Z",
-        "ageHours": 2.26,
+        "ageHours": 2.53,
         "staleAfterHours": 36,
-        "detail": "data/organic-seed-loop.json is 2.26h old."
+        "detail": "data/organic-seed-loop.json is 2.53h old."
       },
       {
         "id": "retention-loop",
         "label": "Retention loop",
         "path": "data/retention-loop.json",
         "status": "fresh",
-        "generatedAt": "2026-05-20T14:05:07.331Z",
-        "ageHours": 0.19,
+        "generatedAt": "2026-05-20T14:32:29.887Z",
+        "ageHours": 0,
         "staleAfterHours": 36,
-        "detail": "data/retention-loop.json is 0.19h old."
+        "detail": "data/retention-loop.json is 0h old."
       },
       {
         "id": "release-candidate",
         "label": "Release candidate",
         "path": "data/release-candidate.json",
         "status": "fresh",
-        "generatedAt": "2026-05-20T14:16:07.889Z",
+        "generatedAt": "2026-05-20T14:32:36.052Z",
         "ageHours": 0,
         "staleAfterHours": 36,
         "detail": "data/release-candidate.json is 0h old."
@@ -3745,7 +3953,7 @@
         "label": "Post-deploy smoke",
         "path": "data/post-deploy-smoke.json",
         "status": "fresh",
-        "generatedAt": "2026-05-20T14:16:11.001Z",
+        "generatedAt": "2026-05-20T14:32:44.795Z",
         "ageHours": 0,
         "staleAfterHours": 36,
         "detail": "data/post-deploy-smoke.json is 0h old."
@@ -3756,9 +3964,9 @@
         "path": "data/post-deploy-artifact-sync.json",
         "status": "fresh",
         "generatedAt": "2026-05-20T14:14:14.266Z",
-        "ageHours": 0.03,
+        "ageHours": 0.31,
         "staleAfterHours": 36,
-        "detail": "data/post-deploy-artifact-sync.json is 0.03h old."
+        "detail": "data/post-deploy-artifact-sync.json is 0.31h old."
       },
       {
         "id": "release-health",
@@ -3766,9 +3974,9 @@
         "path": "data/release-health.json",
         "status": "fresh",
         "generatedAt": "2026-05-20T09:01:53.567Z",
-        "ageHours": 5.24,
+        "ageHours": 5.52,
         "staleAfterHours": 36,
-        "detail": "data/release-health.json is 5.24h old."
+        "detail": "data/release-health.json is 5.52h old."
       },
       {
         "id": "product-optimization",
@@ -3776,29 +3984,29 @@
         "path": "data/product-optimization.json",
         "status": "fresh",
         "generatedAt": "2026-05-20T09:01:49.958Z",
-        "ageHours": 5.24,
+        "ageHours": 5.52,
         "staleAfterHours": 36,
-        "detail": "data/product-optimization.json is 5.24h old."
+        "detail": "data/product-optimization.json is 5.52h old."
       },
       {
         "id": "product-gate-recovery",
         "label": "Product gate recovery",
         "path": "data/product-gate-recovery.json",
         "status": "fresh",
-        "generatedAt": "2026-05-20T14:05:07.829Z",
-        "ageHours": 0.19,
+        "generatedAt": "2026-05-20T14:32:30.332Z",
+        "ageHours": 0,
         "staleAfterHours": 36,
-        "detail": "data/product-gate-recovery.json is 0.19h old."
+        "detail": "data/product-gate-recovery.json is 0h old."
       },
       {
         "id": "product-gate-sample-plan",
         "label": "Product gate sample plan",
         "path": "data/product-gate-sample-plan.json",
         "status": "fresh",
-        "generatedAt": "2026-05-20T14:05:08.076Z",
-        "ageHours": 0.19,
+        "generatedAt": "2026-05-20T14:32:30.559Z",
+        "ageHours": 0,
         "staleAfterHours": 36,
-        "detail": "data/product-gate-sample-plan.json is 0.19h old."
+        "detail": "data/product-gate-sample-plan.json is 0h old."
       },
       {
         "id": "completion-loop",
@@ -3806,9 +4014,9 @@
         "path": "data/completion-loop.json",
         "status": "fresh",
         "generatedAt": "2026-05-20T10:53:06.723Z",
-        "ageHours": 3.39,
+        "ageHours": 3.66,
         "staleAfterHours": 36,
-        "detail": "data/completion-loop.json is 3.39h old."
+        "detail": "data/completion-loop.json is 3.66h old."
       },
       {
         "id": "replay-loop",
@@ -3816,9 +4024,9 @@
         "path": "data/replay-loop.json",
         "status": "fresh",
         "generatedAt": "2026-05-20T10:53:06.958Z",
-        "ageHours": 3.39,
+        "ageHours": 3.66,
         "staleAfterHours": 36,
-        "detail": "data/replay-loop.json is 3.39h old."
+        "detail": "data/replay-loop.json is 3.66h old."
       },
       {
         "id": "first-move-coach",
@@ -3826,19 +4034,19 @@
         "path": "data/first-move-coach.json",
         "status": "fresh",
         "generatedAt": "2026-05-20T09:02:18.368Z",
-        "ageHours": 5.23,
+        "ageHours": 5.51,
         "staleAfterHours": 36,
-        "detail": "data/first-move-coach.json is 5.23h old."
+        "detail": "data/first-move-coach.json is 5.51h old."
       },
       {
         "id": "pwa-install-loop",
         "label": "PWA install loop",
         "path": "data/pwa-install-loop.json",
         "status": "fresh",
-        "generatedAt": "2026-05-20T14:05:07.572Z",
-        "ageHours": 0.19,
+        "generatedAt": "2026-05-20T14:32:30.113Z",
+        "ageHours": 0,
         "staleAfterHours": 36,
-        "detail": "data/pwa-install-loop.json is 0.19h old."
+        "detail": "data/pwa-install-loop.json is 0h old."
       },
       {
         "id": "applied-improvements",
@@ -3846,9 +4054,9 @@
         "path": "data/applied-improvements.json",
         "status": "fresh",
         "generatedAt": "2026-05-20T12:33:37.550Z",
-        "ageHours": 1.71,
+        "ageHours": 1.99,
         "staleAfterHours": 36,
-        "detail": "data/applied-improvements.json is 1.71h old."
+        "detail": "data/applied-improvements.json is 1.99h old."
       },
       {
         "id": "improvement-backlog",
@@ -3856,9 +4064,9 @@
         "path": "data/improvement-backlog-summary.json",
         "status": "fresh",
         "generatedAt": "2026-05-20T09:01:49.816Z",
-        "ageHours": 5.24,
+        "ageHours": 5.52,
         "staleAfterHours": 36,
-        "detail": "data/improvement-backlog-summary.json is 5.24h old."
+        "detail": "data/improvement-backlog-summary.json is 5.52h old."
       },
       {
         "id": "improvement-routing",
@@ -3866,19 +4074,19 @@
         "path": "data/improvement-routing.json",
         "status": "fresh",
         "generatedAt": "2026-05-20T09:01:49.816Z",
-        "ageHours": 5.24,
+        "ageHours": 5.52,
         "staleAfterHours": 36,
-        "detail": "data/improvement-routing.json is 5.24h old."
+        "detail": "data/improvement-routing.json is 5.52h old."
       },
       {
         "id": "objective-audit",
         "label": "Objective audit",
         "path": "data/objective-audit.json",
         "status": "fresh",
-        "generatedAt": "2026-05-20T14:14:26.491Z",
-        "ageHours": 0.03,
+        "generatedAt": "2026-05-20T14:31:51.758Z",
+        "ageHours": 0.02,
         "staleAfterHours": 36,
-        "detail": "data/objective-audit.json is 0.03h old."
+        "detail": "data/objective-audit.json is 0.02h old."
       }
     ],
     "checks": [
@@ -3980,7 +4188,7 @@
       "remotePushReady": false
     },
     "pendingChanges": {
-      "total": 50,
+      "total": 63,
       "safe": [
         {
           "code": "M",
@@ -3993,6 +4201,34 @@
           "code": "M",
           "path": "data/autonomous-cadence.json",
           "raw": " M data/autonomous-cadence.json",
+          "safe": true,
+          "reason": "allowlisted-generated-artifact"
+        },
+        {
+          "code": "M",
+          "path": "data/autonomous-operator-history.json",
+          "raw": " M data/autonomous-operator-history.json",
+          "safe": true,
+          "reason": "allowlisted-generated-artifact"
+        },
+        {
+          "code": "M",
+          "path": "data/autonomous-operator.json",
+          "raw": " M data/autonomous-operator.json",
+          "safe": true,
+          "reason": "allowlisted-generated-artifact"
+        },
+        {
+          "code": "M",
+          "path": "data/autonomous-owner-loop.json",
+          "raw": " M data/autonomous-owner-loop.json",
+          "safe": true,
+          "reason": "allowlisted-generated-artifact"
+        },
+        {
+          "code": "M",
+          "path": "data/autonomous-self-update.json",
+          "raw": " M data/autonomous-self-update.json",
           "safe": true,
           "reason": "allowlisted-generated-artifact"
         },
@@ -4035,6 +4271,13 @@
           "code": "M",
           "path": "data/local-event-bridge.json",
           "raw": " M data/local-event-bridge.json",
+          "safe": true,
+          "reason": "allowlisted-generated-artifact"
+        },
+        {
+          "code": "M",
+          "path": "data/objective-audit.json",
+          "raw": " M data/objective-audit.json",
           "safe": true,
           "reason": "allowlisted-generated-artifact"
         },
@@ -4138,6 +4381,34 @@
         },
         {
           "code": "M",
+          "path": "reports/autonomous-operator-history-latest.md",
+          "raw": " M reports/autonomous-operator-history-latest.md",
+          "safe": true,
+          "reason": "allowlisted-generated-artifact"
+        },
+        {
+          "code": "M",
+          "path": "reports/autonomous-operator-latest.md",
+          "raw": " M reports/autonomous-operator-latest.md",
+          "safe": true,
+          "reason": "allowlisted-generated-artifact"
+        },
+        {
+          "code": "M",
+          "path": "reports/autonomous-owner-loop-latest.md",
+          "raw": " M reports/autonomous-owner-loop-latest.md",
+          "safe": true,
+          "reason": "allowlisted-generated-artifact"
+        },
+        {
+          "code": "M",
+          "path": "reports/autonomous-self-update-latest.md",
+          "raw": " M reports/autonomous-self-update-latest.md",
+          "safe": true,
+          "reason": "allowlisted-generated-artifact"
+        },
+        {
+          "code": "M",
           "path": "reports/deployment-plan-latest.md",
           "raw": " M reports/deployment-plan-latest.md",
           "safe": true,
@@ -4175,6 +4446,13 @@
           "code": "M",
           "path": "reports/local-event-bridge-latest.md",
           "raw": " M reports/local-event-bridge-latest.md",
+          "safe": true,
+          "reason": "allowlisted-generated-artifact"
+        },
+        {
+          "code": "M",
+          "path": "reports/objective-audit-latest.md",
+          "raw": " M reports/objective-audit-latest.md",
           "safe": true,
           "reason": "allowlisted-generated-artifact"
         },
@@ -4271,6 +4549,13 @@
         },
         {
           "code": "M",
+          "path": "src/data/autonomousSelfUpdate.ts",
+          "raw": " M src/data/autonomousSelfUpdate.ts",
+          "safe": true,
+          "reason": "allowlisted-generated-artifact"
+        },
+        {
+          "code": "M",
           "path": "src/data/eventCollectorDeployment.ts",
           "raw": " M src/data/eventCollectorDeployment.ts",
           "safe": true,
@@ -4280,6 +4565,20 @@
           "code": "M",
           "path": "src/data/localEventBridge.ts",
           "raw": " M src/data/localEventBridge.ts",
+          "safe": true,
+          "reason": "allowlisted-generated-artifact"
+        },
+        {
+          "code": "M",
+          "path": "src/data/objectiveAudit.ts",
+          "raw": " M src/data/objectiveAudit.ts",
+          "safe": true,
+          "reason": "allowlisted-generated-artifact"
+        },
+        {
+          "code": "M",
+          "path": "src/data/performanceBudget.ts",
+          "raw": " M src/data/performanceBudget.ts",
           "safe": true,
           "reason": "allowlisted-generated-artifact"
         },
@@ -4334,7 +4633,7 @@
         }
       ],
       "unsafe": [],
-      "safeCount": 50,
+      "safeCount": 63,
       "unsafeCount": 0
     },
     "commitPlan": {
@@ -4349,12 +4648,17 @@
       "stagePaths": [
         "data/analytics-rollup.json",
         "data/autonomous-cadence.json",
+        "data/autonomous-operator-history.json",
+        "data/autonomous-operator.json",
+        "data/autonomous-owner-loop.json",
+        "data/autonomous-self-update.json",
         "data/deployment-plan.json",
         "data/event-collector-deployment.json",
         "data/event-collector-smoke.json",
         "data/event-ingest-smoke.json",
         "data/event-ingest.json",
         "data/local-event-bridge.json",
+        "data/objective-audit.json",
         "data/performance-budget.json",
         "data/post-deploy-smoke.json",
         "data/product-gate-recovery.json",
@@ -4369,12 +4673,17 @@
         "data/retention-loop.json",
         "reports/analytics-rollup-latest.md",
         "reports/autonomous-cadence-latest.md",
+        "reports/autonomous-operator-history-latest.md",
+        "reports/autonomous-operator-latest.md",
+        "reports/autonomous-owner-loop-latest.md",
+        "reports/autonomous-self-update-latest.md",
         "reports/deployment-plan-latest.md",
         "reports/event-collector-deployment-latest.md",
         "reports/event-collector-smoke-latest.md",
         "reports/event-ingest-latest.md",
         "reports/event-ingest-smoke-latest.md",
         "reports/local-event-bridge-latest.md",
+        "reports/objective-audit-latest.md",
         "reports/performance-budget-latest.md",
         "reports/post-deploy-smoke-latest.md",
         "reports/product-gate-recovery-latest.md",
@@ -4388,18 +4697,18 @@
         "reports/repository-readiness-latest.md",
         "reports/retention-loop-latest.md",
         "src/data/autonomousCadence.ts",
+        "src/data/autonomousSelfUpdate.ts",
         "src/data/eventCollectorDeployment.ts",
         "src/data/localEventBridge.ts",
+        "src/data/objectiveAudit.ts",
+        "src/data/performanceBudget.ts",
         "src/data/postDeploySmoke.ts",
         "src/data/productGateRecovery.ts",
         "src/data/productGateSamplePlan.ts",
         "src/data/productionActivation.ts",
         "src/data/pwaInstallLoop.ts",
         "src/data/releaseCandidate.ts",
-        "src/data/retentionLoop.ts",
-        "data/autonomous-self-update.json",
-        "src/data/autonomousSelfUpdate.ts",
-        "reports/autonomous-self-update-latest.md"
+        "src/data/retentionLoop.ts"
       ],
       "commitMessage": "Autonomous daily self-update",
       "skipWhenNoAllowlistedChanges": true
@@ -4447,7 +4756,7 @@
       {
         "id": "safe-path-allowlist",
         "status": "pass",
-        "detail": "50 safe pending file(s), 0 unsafe pending file(s)."
+        "detail": "63 safe pending file(s), 0 unsafe pending file(s)."
       },
       {
         "id": "repository-optional",
@@ -4484,7 +4793,7 @@
       "noRevenueEnablementUntilGatesPass": true,
       "noStoreSubmissionUntilExternalAccounts": true,
       "currentWorktreeClean": false,
-      "currentWorktreeDirtyFiles": 32
+      "currentWorktreeDirtyFiles": 63
     },
     "completion": {
       "canMarkGoalComplete": false,
@@ -4579,7 +4888,7 @@
           "Strict deploy artifact sync: post-deploy-artifact-sync-passed; run 26166932960; live matches artifact true; candidate pwa-6ed95c5ff53b",
           "Repository channel: repository-channel-ready; repository moshequ/autonomous-game-lab; git worktree true",
           "Autonomy score: 98%",
-          "Credential-gated actions: 10"
+          "Credential-gated actions: 12"
         ],
         "blockers": [
           "AGL_SUPPORT_EMAIL: Production support contact for privacy and store listings.",
@@ -4590,6 +4899,8 @@
           "ADMOB_PUBLISHER_ID: Native app seller line for app-ads.txt and Android rewarded tests after app-store gates pass.",
           "AGL_GOOGLE_PLAY_ACCOUNT_CONNECTED: Allows native packaging gates to treat Play Console access as connected.",
           "CLOUDFLARE_API_TOKEN: Repository secret sourced from CLOUDFLARE_API_TOKEN.",
+          "VITE_EVENT_COLLECTOR_WRITE_TOKEN: Repository secret sourced from VITE_EVENT_COLLECTOR_WRITE_TOKEN.",
+          "AGL_EVENT_COLLECTOR_ADMIN_TOKEN: Repository secret sourced from AGL_EVENT_COLLECTOR_ADMIN_TOKEN.",
           "POSTHOG_PERSONAL_API_KEY: Repository secret sourced from POSTHOG_PERSONAL_API_KEY.",
           "GOOGLE_PLAY_SERVICE_ACCOUNT_JSON: Repository secret sourced from GOOGLE_PLAY_SERVICE_ACCOUNT_JSON."
         ],
