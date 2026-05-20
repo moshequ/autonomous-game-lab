@@ -1,5 +1,5 @@
 export const objectiveAudit = {
-  "generatedAt": "2026-05-20T06:53:27.865Z",
+  "generatedAt": "2026-05-20T07:01:46.085Z",
   "status": "objective-in-progress",
   "objective": "Build a bootstrapped autonomous web/PWA game portal that can generate original board-game-inspired games, measure user behavior, propose and apply data-driven improvements, and prepare a path to monetization and app-store distribution with minimal manual intervention.",
   "summary": {
@@ -7,7 +7,7 @@ export const objectiveAudit = {
     "met": 6,
     "prepared": 2,
     "incomplete": 0,
-    "externalBlockers": 15,
+    "externalBlockers": 13,
     "productBlockers": 6
   },
   "requirements": [
@@ -92,7 +92,7 @@ export const objectiveAudit = {
         "Operator: operator-plan-ready",
         "Operator history: operator-history-ready; records 40; executed 15",
         "Bootstrap: production-bootstrap-ready",
-        "Repository bootstrap: waiting-for-origin-remote; helper ops/github/bootstrap-repository.sh",
+        "Repository bootstrap: repository-bootstrap-ready; helper ops/github/bootstrap-repository.sh",
         "Release candidate: release-candidate-ready; smoke URLs 14",
         "Post-deploy smoke: blocked-missing-origin; origin missing; checks 0/15; local artifact predeploy-artifact-smoke-passed 15/15",
         "Repository channel: repository-channel-ready; repository moshequ/autonomous-game-lab; git worktree true",
@@ -100,7 +100,6 @@ export const objectiveAudit = {
         "Credential-gated actions: 13"
       ],
       "blockers": [
-        "Attach a GitHub origin remote or create the target repository.",
         "AGL_PUBLIC_ORIGIN: HTTPS origin used for hosted privacy/support URLs, sitemap, TWA host, and Digital Asset Links. If no custom origin is set, the setup helper can infer the zero-cost GitHub Pages origin from the repository target.",
         "AGL_SUPPORT_EMAIL: Production support contact for privacy and store listings.",
         "VITE_POSTHOG_KEY: Optional browser-side PostHog analytics forwarding.",
@@ -184,8 +183,6 @@ export const objectiveAudit = {
   ],
   "blockers": {
     "external": [
-      "Attach a GitHub origin remote or create the target repository.",
-      "Set AGL_PUBLIC_ORIGIN or PUBLIC_SITE_URL to a real HTTPS production origin.",
       "Set AGL_SUPPORT_EMAIL to a real support inbox before public store submission.",
       "Set VITE_EVENT_COLLECTOR_URL or VITE_POSTHOG_KEY to forward browser analytics in production.",
       "Set AGL_EVENT_COLLECTOR_EXPORT_URL + AGL_EVENT_COLLECTOR_ADMIN_TOKEN or PostHog server credentials for autonomous production rollups.",
@@ -209,8 +206,6 @@ export const objectiveAudit = {
       "Web/PWA or native ad provider is not configured for gated revenue tests."
     ],
     "all": [
-      "Attach a GitHub origin remote or create the target repository.",
-      "Set AGL_PUBLIC_ORIGIN or PUBLIC_SITE_URL to a real HTTPS production origin.",
       "Set AGL_SUPPORT_EMAIL to a real support inbox before public store submission.",
       "Set VITE_EVENT_COLLECTOR_URL or VITE_POSTHOG_KEY to forward browser analytics in production.",
       "Set AGL_EVENT_COLLECTOR_EXPORT_URL + AGL_EVENT_COLLECTOR_ADMIN_TOKEN or PostHog server credentials for autonomous production rollups.",

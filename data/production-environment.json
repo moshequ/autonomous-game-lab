@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-20T04:07:39.698Z",
+  "generatedAt": "2026-05-20T06:59:40.444Z",
   "status": "production-env-missing",
   "envFiles": {
     "loaded": true,
@@ -52,15 +52,24 @@
     }
   },
   "publicOrigin": {
-    "origin": null,
-    "host": null,
-    "basePath": "/",
-    "source": "missing",
+    "origin": "https://moshequ.github.io/autonomous-game-lab",
+    "host": "moshequ.github.io",
+    "basePath": "/autonomous-game-lab/",
+    "source": "github-pages-target",
     "explicitOriginConfigured": false,
-    "githubPagesCandidate": null,
-    "status": "missing",
-    "privacyUrl": null,
-    "supportUrl": null
+    "githubPagesCandidate": {
+      "repository": "moshequ/autonomous-game-lab",
+      "source": "origin-remote",
+      "origin": "https://moshequ.github.io/autonomous-game-lab",
+      "host": "moshequ.github.io",
+      "basePath": "/autonomous-game-lab/",
+      "privacyUrl": "https://moshequ.github.io/autonomous-game-lab/privacy.html",
+      "supportUrl": "https://moshequ.github.io/autonomous-game-lab/support.html",
+      "costUsd": 0
+    },
+    "status": "inferred-github-pages",
+    "privacyUrl": "https://moshequ.github.io/autonomous-game-lab/privacy.html",
+    "supportUrl": "https://moshequ.github.io/autonomous-game-lab/support.html"
   },
   "support": {
     "email": null,
@@ -105,7 +114,6 @@
     "status": "deferred"
   },
   "blockers": [
-    "Set AGL_PUBLIC_ORIGIN or PUBLIC_SITE_URL to a real HTTPS production origin.",
     "Set AGL_SUPPORT_EMAIL to a real support inbox before public store submission.",
     "Set VITE_EVENT_COLLECTOR_URL or VITE_POSTHOG_KEY to forward browser analytics in production.",
     "Set AGL_EVENT_COLLECTOR_EXPORT_URL + AGL_EVENT_COLLECTOR_ADMIN_TOKEN or PostHog server credentials for autonomous production rollups.",
@@ -117,9 +125,9 @@
     {
       "name": "AGL_PUBLIC_ORIGIN",
       "purpose": "HTTPS origin used for hosted privacy/support URLs, sitemap, TWA host, and Digital Asset Links. If no custom origin is set, the setup helper can infer the zero-cost GitHub Pages origin from the repository target.",
-      "configured": false,
-      "source": "missing",
-      "fallback": null
+      "configured": true,
+      "source": "github-pages-target",
+      "fallback": "github-pages-target"
     },
     {
       "name": "AGL_SUPPORT_EMAIL",

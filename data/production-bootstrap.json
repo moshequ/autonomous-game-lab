@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-20T06:53:22.714Z",
+  "generatedAt": "2026-05-20T07:00:45.380Z",
   "status": "production-bootstrap-ready",
   "mode": "can-apply-configured-actions",
   "envFiles": {
@@ -54,7 +54,7 @@
   },
   "repository": {
     "githubRepository": "moshequ/autonomous-game-lab",
-    "githubRepositorySource": "gh-auth-user-and-package-name",
+    "githubRepositorySource": "origin-remote",
     "inferredRepository": "moshequ/autonomous-game-lab",
     "ghCliAvailable": true,
     "ghTokenConfigured": false,
@@ -62,7 +62,7 @@
     "ghCredentialReady": true,
     "canUseGh": true,
     "repositoryReadinessStatus": "repository-channel-ready",
-    "repositoryBootstrapStatus": "waiting-for-origin-remote",
+    "repositoryBootstrapStatus": "repository-bootstrap-ready",
     "insideWorkTree": true,
     "workflowDispatchReady": true,
     "bootstrapHelperPath": "ops/github/bootstrap-repository.sh"
@@ -83,11 +83,11 @@
   "summary": {
     "readyGroups": 3,
     "totalGroups": 12,
-    "configuredVariables": 3,
+    "configuredVariables": 6,
     "totalVariables": 24,
     "configuredSecrets": 3,
     "totalSecrets": 8,
-    "externalBlockers": 18
+    "externalBlockers": 16
   },
   "stages": [
     {
@@ -101,14 +101,12 @@
     },
     {
       "id": "repository-bootstrap",
-      "status": "waiting-for-origin-remote",
+      "status": "repository-bootstrap-ready",
       "canAutoRun": false,
       "costUsd": 0,
       "command": "npm run autonomous:repo-bootstrap",
-      "evidence": "Repository bootstrap waiting-for-origin-remote; helper ops/github/bootstrap-repository.sh; local git ready.",
-      "requires": [
-        "Attach a GitHub origin remote or create the target repository."
-      ]
+      "evidence": "Repository bootstrap repository-bootstrap-ready; helper ops/github/bootstrap-repository.sh; local git ready.",
+      "requires": []
     },
     {
       "id": "production-environment",
@@ -116,9 +114,8 @@
       "canAutoRun": false,
       "costUsd": 0,
       "command": "npm run autonomous:env",
-      "evidence": "Environment production-env-missing; public origin missing; support missing-production-address.",
+      "evidence": "Environment production-env-missing; public origin inferred-github-pages; support missing-production-address.",
       "requires": [
-        "Set AGL_PUBLIC_ORIGIN or PUBLIC_SITE_URL to a real HTTPS production origin.",
         "Set AGL_SUPPORT_EMAIL to a real support inbox before public store submission.",
         "Set VITE_EVENT_COLLECTOR_URL or VITE_POSTHOG_KEY to forward browser analytics in production.",
         "Set AGL_EVENT_COLLECTOR_EXPORT_URL + AGL_EVENT_COLLECTOR_ADMIN_TOKEN or PostHog server credentials for autonomous production rollups.",
@@ -170,13 +167,13 @@
       "canAutoRun": true,
       "costUsd": 0,
       "command": "./ops/github/setup-production.sh",
-      "evidence": "3/24 repository variable value(s) present in this environment.",
+      "evidence": "6/24 repository variable value(s) present in this environment.",
       "requires": [
-        "AGL_PUBLIC_ORIGIN",
-        "AGL_PUBLIC_ORIGIN",
-        "AGL_PUBLIC_ORIGIN",
         "AGL_SUPPORT_EMAIL",
-        "VITE_POSTHOG_KEY"
+        "VITE_POSTHOG_KEY",
+        "VITE_POSTHOG_HOST",
+        "POSTHOG_PROJECT_ID",
+        "POSTHOG_HOST"
       ]
     },
     {
@@ -264,14 +261,12 @@
     },
     {
       "id": "repository-bootstrap",
-      "status": "waiting-for-origin-remote",
+      "status": "repository-bootstrap-ready",
       "canAutoRun": false,
       "costUsd": 0,
       "command": "npm run autonomous:repo-bootstrap",
-      "evidence": "Repository bootstrap waiting-for-origin-remote; helper ops/github/bootstrap-repository.sh; local git ready.",
-      "requires": [
-        "Attach a GitHub origin remote or create the target repository."
-      ]
+      "evidence": "Repository bootstrap repository-bootstrap-ready; helper ops/github/bootstrap-repository.sh; local git ready.",
+      "requires": []
     },
     {
       "id": "production-environment",
@@ -279,9 +274,8 @@
       "canAutoRun": false,
       "costUsd": 0,
       "command": "npm run autonomous:env",
-      "evidence": "Environment production-env-missing; public origin missing; support missing-production-address.",
+      "evidence": "Environment production-env-missing; public origin inferred-github-pages; support missing-production-address.",
       "requires": [
-        "Set AGL_PUBLIC_ORIGIN or PUBLIC_SITE_URL to a real HTTPS production origin.",
         "Set AGL_SUPPORT_EMAIL to a real support inbox before public store submission.",
         "Set VITE_EVENT_COLLECTOR_URL or VITE_POSTHOG_KEY to forward browser analytics in production.",
         "Set AGL_EVENT_COLLECTOR_EXPORT_URL + AGL_EVENT_COLLECTOR_ADMIN_TOKEN or PostHog server credentials for autonomous production rollups.",
@@ -333,13 +327,13 @@
       "canAutoRun": true,
       "costUsd": 0,
       "command": "./ops/github/setup-production.sh",
-      "evidence": "3/24 repository variable value(s) present in this environment.",
+      "evidence": "6/24 repository variable value(s) present in this environment.",
       "requires": [
-        "AGL_PUBLIC_ORIGIN",
-        "AGL_PUBLIC_ORIGIN",
-        "AGL_PUBLIC_ORIGIN",
         "AGL_SUPPORT_EMAIL",
-        "VITE_POSTHOG_KEY"
+        "VITE_POSTHOG_KEY",
+        "VITE_POSTHOG_HOST",
+        "POSTHOG_PROJECT_ID",
+        "POSTHOG_HOST"
       ]
     },
     {
@@ -421,7 +415,7 @@
       "kind": "github-variable",
       "repositoryVariable": "VITE_BASE_PATH",
       "envName": "VITE_BASE_PATH",
-      "valueSource": "production-environment",
+      "valueSource": "inferred-github-pages",
       "configured": true,
       "command": "gh variable set VITE_BASE_PATH --body \"$VITE_BASE_PATH\""
     },
@@ -430,8 +424,8 @@
       "kind": "github-variable",
       "repositoryVariable": "AGL_PUBLIC_ORIGIN",
       "envName": "AGL_PUBLIC_ORIGIN",
-      "valueSource": "missing",
-      "configured": false,
+      "valueSource": "inferred-github-pages",
+      "configured": true,
       "command": "gh variable set AGL_PUBLIC_ORIGIN --body \"$AGL_PUBLIC_ORIGIN\""
     },
     {
@@ -439,8 +433,8 @@
       "kind": "github-variable",
       "repositoryVariable": "VITE_PUBLIC_ORIGIN",
       "envName": "AGL_PUBLIC_ORIGIN",
-      "valueSource": "missing",
-      "configured": false,
+      "valueSource": "inferred-github-pages",
+      "configured": true,
       "command": "gh variable set VITE_PUBLIC_ORIGIN --body \"$AGL_PUBLIC_ORIGIN\""
     },
     {
@@ -448,8 +442,8 @@
       "kind": "github-variable",
       "repositoryVariable": "PUBLIC_SITE_URL",
       "envName": "AGL_PUBLIC_ORIGIN",
-      "valueSource": "missing",
-      "configured": false,
+      "valueSource": "inferred-github-pages",
+      "configured": true,
       "command": "gh variable set PUBLIC_SITE_URL --body \"$AGL_PUBLIC_ORIGIN\""
     },
     {
@@ -705,7 +699,7 @@
       "kind": "github-variable",
       "repositoryVariable": "VITE_BASE_PATH",
       "envName": "VITE_BASE_PATH",
-      "valueSource": "production-environment",
+      "valueSource": "inferred-github-pages",
       "configured": true,
       "command": "gh variable set VITE_BASE_PATH --body \"$VITE_BASE_PATH\""
     },
@@ -714,8 +708,8 @@
       "kind": "github-variable",
       "repositoryVariable": "AGL_PUBLIC_ORIGIN",
       "envName": "AGL_PUBLIC_ORIGIN",
-      "valueSource": "missing",
-      "configured": false,
+      "valueSource": "inferred-github-pages",
+      "configured": true,
       "command": "gh variable set AGL_PUBLIC_ORIGIN --body \"$AGL_PUBLIC_ORIGIN\""
     },
     {
@@ -723,8 +717,8 @@
       "kind": "github-variable",
       "repositoryVariable": "VITE_PUBLIC_ORIGIN",
       "envName": "AGL_PUBLIC_ORIGIN",
-      "valueSource": "missing",
-      "configured": false,
+      "valueSource": "inferred-github-pages",
+      "configured": true,
       "command": "gh variable set VITE_PUBLIC_ORIGIN --body \"$AGL_PUBLIC_ORIGIN\""
     },
     {
@@ -732,8 +726,8 @@
       "kind": "github-variable",
       "repositoryVariable": "PUBLIC_SITE_URL",
       "envName": "AGL_PUBLIC_ORIGIN",
-      "valueSource": "missing",
-      "configured": false,
+      "valueSource": "inferred-github-pages",
+      "configured": true,
       "command": "gh variable set PUBLIC_SITE_URL --body \"$AGL_PUBLIC_ORIGIN\""
     },
     {
@@ -1061,14 +1055,6 @@
     "ops/github/README.md"
   ],
   "externalBlockers": [
-    {
-      "source": "repository-bootstrap",
-      "blocker": "Attach a GitHub origin remote or create the target repository."
-    },
-    {
-      "source": "production-environment",
-      "blocker": "Set AGL_PUBLIC_ORIGIN or PUBLIC_SITE_URL to a real HTTPS production origin."
-    },
     {
       "source": "production-environment",
       "blocker": "Set AGL_SUPPORT_EMAIL to a real support inbox before public store submission."

@@ -1,8 +1,8 @@
 # Production Environment
 
-Generated: 2026-05-20T04:07:39.698Z
+Generated: 2026-05-20T06:59:40.444Z
 Status: production-env-missing
-Public origin: missing
+Public origin: https://moshequ.github.io/autonomous-game-lab
 Analytics: local-or-fixture
 Monetization: disabled
 Android: blocked-needs-host-signing-account
@@ -16,7 +16,7 @@ Android: blocked-needs-host-signing-account
 
 ## Required Environment
 
-- missing: AGL_PUBLIC_ORIGIN - HTTPS origin used for hosted privacy/support URLs, sitemap, TWA host, and Digital Asset Links. If no custom origin is set, the setup helper can infer the zero-cost GitHub Pages origin from the repository target.
+- configured: AGL_PUBLIC_ORIGIN - HTTPS origin used for hosted privacy/support URLs, sitemap, TWA host, and Digital Asset Links. If no custom origin is set, the setup helper can infer the zero-cost GitHub Pages origin from the repository target.
 - missing: AGL_SUPPORT_EMAIL - Production support contact for privacy and store listings.
 - missing: VITE_POSTHOG_KEY - Optional browser-side PostHog analytics forwarding.
 - missing: POSTHOG_PROJECT_ID + POSTHOG_PERSONAL_API_KEY - Optional autonomous production analytics and experiment result rollups from PostHog.
@@ -28,7 +28,6 @@ Android: blocked-needs-host-signing-account
 
 ## Blockers
 
-- Set AGL_PUBLIC_ORIGIN or PUBLIC_SITE_URL to a real HTTPS production origin.
 - Set AGL_SUPPORT_EMAIL to a real support inbox before public store submission.
 - Set VITE_EVENT_COLLECTOR_URL or VITE_POSTHOG_KEY to forward browser analytics in production.
 - Set AGL_EVENT_COLLECTOR_EXPORT_URL + AGL_EVENT_COLLECTOR_ADMIN_TOKEN or PostHog server credentials for autonomous production rollups.

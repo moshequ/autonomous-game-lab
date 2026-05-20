@@ -157,11 +157,13 @@ sync_pages_settings() {
   fi
 
   if gh api "repos/$repo/pages" >/dev/null 2>&1; then
-    gh api --method PUT "repos/$repo/pages" -f build_type=workflow -F https_enforced=true >/dev/null
+    gh api --method PUT "repos/$repo/pages" -f build_type=workflow -F https_enforced=true >/dev/null ||
+      echo "GitHub Pages HTTPS enforcement pending for $repo; certificate may still be provisioning."
     echo "GitHub Pages source set to Actions workflow for $repo"
   else
     gh api --method POST "repos/$repo/pages" -f build_type=workflow >/dev/null
-    gh api --method PUT "repos/$repo/pages" -f build_type=workflow -F https_enforced=true >/dev/null || true
+    gh api --method PUT "repos/$repo/pages" -f build_type=workflow -F https_enforced=true >/dev/null ||
+      echo "GitHub Pages HTTPS enforcement pending for $repo; certificate may still be provisioning."
     echo "GitHub Pages site created for workflow deployment on $repo"
   fi
 }

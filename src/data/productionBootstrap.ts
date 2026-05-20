@@ -4,7 +4,7 @@ export const productionBootstrap = {
   "summary": {
     "readyGroups": 3,
     "totalGroups": 12,
-    "externalBlockers": 18
+    "externalBlockers": 16
   }
 } as const
 

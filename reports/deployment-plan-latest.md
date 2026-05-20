@@ -1,6 +1,6 @@
 # Deployment Plan
 
-Generated: 2026-05-20T06:53:22.366Z
+Generated: 2026-05-20T06:59:43.690Z
 Status: ready-for-pages
 Target: github-pages
 Cost: $0 platform hosting for public/internal experiment traffic
@@ -18,7 +18,7 @@ Cost: $0 platform hosting for public/internal experiment traffic
 - pass: dist-install - PWA install handoff page is included in the deployable build.
 - pass: release-candidate - Release candidate is release-candidate-ready; candidate pwa-d9d4c243d0c4.
 - pass: deploy-workflow - GitHub Pages deployment workflow exists.
-- pass: production-environment - Environment status is production-env-missing; public origin is missing.
+- pass: production-environment - Environment status is production-env-missing; public origin is https://moshequ.github.io/autonomous-game-lab.
 - pass: event-collector-deployment - Event collector deployment is blocked-needs-cloudflare-env.
 
 ## Spend Guard
@@ -53,7 +53,7 @@ Cost: $0 platform hosting for public/internal experiment traffic
 ## Environment
 
 - Status: production-env-missing
-- Public origin: missing
+- Public origin: https://moshequ.github.io/autonomous-game-lab
 - Analytics: local-or-fixture
 - Event collector: blocked-needs-cloudflare-env
 

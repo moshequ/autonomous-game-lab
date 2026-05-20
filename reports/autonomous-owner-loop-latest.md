@@ -1,6 +1,6 @@
 # Autonomous Owner Loop
 
-Generated: 2026-05-20T06:53:28.138Z
+Generated: 2026-05-20T07:01:46.357Z
 Status: owner-loop-ready
 Mode: zero-spend-web-ready
 Autonomy score: 35/36 (97%)
@@ -36,15 +36,15 @@ Autonomy score: 35/36 (97%)
 - ready: improvement-loop - improvement-backlog-ready; 4 backlog item(s); 2 experiment recommendation(s); applied status actions-ready; source 392ebb719e0e.
 - ready: organic-growth - 10 SEO/share pages; optimization 5 page(s).
 - ready: repository-channel - Repository moshequ/autonomous-game-lab; git worktree ready; workflow dispatch ready.
-- ready: repository-bootstrap - Bootstrap waiting-for-origin-remote; mode plan-only; helper ops/github/bootstrap-repository.sh; local git ready.
+- ready: repository-bootstrap - Bootstrap repository-bootstrap-ready; mode plan-only; helper ops/github/bootstrap-repository.sh; local git ready.
 - ready: web-deployment - Deployment ready-for-pages; web readiness ready-after-build; promotion promotable-internal.
 - ready: release-candidate - Candidate pwa-d9d4c243d0c4; status release-candidate-ready; files 43; smoke URLs 14.
 - ready: post-deploy-smoke - Smoke blocked-missing-origin; origin missing; candidate pwa-d9d4c243d0c4; checks 0/15 passed; local artifact predeploy-artifact-smoke-passed 15/15 passed.
-- ready: production-bootstrap - Bootstrap production-bootstrap-ready; mode can-apply-configured-actions; external blockers 18.
-- ready: production-activation - Activation activation-ready; mode dry-run; execution dry-run; gh ready.
+- ready: production-bootstrap - Bootstrap production-bootstrap-ready; mode can-apply-configured-actions; external blockers 16.
+- ready: production-activation - Activation activation-applied; mode apply-configured-actions; execution executed; gh ready.
 - ready: autonomous-operator - Operator operator-plan-ready; selected refresh-organic-seed-loop; execution not-requested.
 - ready: operator-history - History operator-history-ready; records 40; executed 15.
-- ready: objective-audit - Audit objective-in-progress; met 6/8; external blockers 15.
+- ready: objective-audit - Audit objective-in-progress; met 6/8; external blockers 13.
 - ready: store-listing-optimizer - Focus canopy-bloom; lead screenshot phone-canopy-bloom-generated; candidate changed yes.
 - ready: store-compliance - Rating Everyone; target audience general; blockers 4.
 - ready: android-signing - Signing signing-prepared; fingerprint available; local secrets configured.
@@ -85,7 +85,6 @@ Autonomy score: 35/36 (97%)
 
 ## Credential Required Actions
 
-- AGL_PUBLIC_ORIGIN: HTTPS origin used for hosted privacy/support URLs, sitemap, TWA host, and Digital Asset Links. If no custom origin is set, the setup helper can infer the zero-cost GitHub Pages origin from the repository target.
 - AGL_SUPPORT_EMAIL: Production support contact for privacy and store listings.
 - VITE_POSTHOG_KEY: Optional browser-side PostHog analytics forwarding.
 - POSTHOG_PROJECT_ID + POSTHOG_PERSONAL_API_KEY: Optional autonomous production analytics and experiment result rollups from PostHog.

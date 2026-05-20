@@ -1,11 +1,11 @@
 # Production Readiness
 
-Generated: 2026-05-20T06:53:28.721Z
+Generated: 2026-05-20T07:01:46.905Z
 
 ## Environment
 
 Status: production-env-missing
-Public origin: missing
+Public origin: https://moshequ.github.io/autonomous-game-lab
 Analytics: local-or-fixture
 
 ## Repository Channel
@@ -16,7 +16,7 @@ Git worktree: true
 Workflow dispatch ready: true
 - pass: repository-local-git-worktree - Git worktree detected at /Users/moshequ/Documents/Codex/2026-05-18/i-want-to-have-a-new.
 - pass: repository-github-target - Target repository is moshequ/autonomous-game-lab.
-- blocker: repository-origin-remote - No GitHub origin remote is available from this workspace.
+- pass: repository-origin-remote - Origin remote resolves to moshequ/autonomous-game-lab.
 - pass: repository-gh-cli - gh version 2.92.0 (2026-04-28)
 - pass: repository-gh-token - GitHub CLI authentication is available for repository operations.
 - pass: repository-pages-workflow - Web PWA Deploy workflow exists and includes post-deploy smoke.
@@ -24,17 +24,17 @@ Workflow dispatch ready: true
 
 ## Repository Bootstrap
 
-Status: waiting-for-origin-remote
+Status: repository-bootstrap-ready
 Mode: plan-only
 Helper: ops/github/bootstrap-repository.sh
 Local git: true
 - done: repo-bootstrap-inspect-repository-channel - Repository readiness is repository-channel-ready.
 - ready: repo-bootstrap-initialize-local-git - Git worktree is available at /Users/moshequ/Documents/Codex/2026-05-18/i-want-to-have-a-new.
 - ready: repo-bootstrap-create-initial-commit - The local repository has at least one commit.
-- ready: repo-bootstrap-commit-current-snapshot - 69 repository evidence file(s) changed during this dry run; the outer verified commit will persist them.
-- ready-for-explicit-origin-attach: repo-bootstrap-set-or-create-origin - Target moshequ/autonomous-game-lab can be attached as origin when explicitly allowed.
+- ready: repo-bootstrap-commit-current-snapshot - 16 repository evidence file(s) changed during this dry run; the outer verified commit will persist them.
+- ready: repo-bootstrap-set-or-create-origin - Origin remote resolves to moshequ/autonomous-game-lab.
 - ready-for-explicit-create-or-attach: repo-bootstrap-create-github-repository - GitHub CLI can create or attach moshequ/autonomous-game-lab when explicitly allowed.
-- waiting-for-commit-and-origin: repo-bootstrap-push-initial-snapshot - Push stays held until an origin remote exists and AGL_ALLOW_PUSH=1 is set.
+- ready-for-explicit-push: repo-bootstrap-push-initial-snapshot - Push stays held until an origin remote exists and AGL_ALLOW_PUSH=1 is set.
 
 ## Web/PWA
 
@@ -65,8 +65,8 @@ Status: ready-after-build
 - pass: replay-loop - Replay loop is replay-loop-ready; prompt armed; target harbor-rings.
 - pass: release-health - Release health guard is monitoring.
 - pass: production-environment - Production environment status is production-env-missing.
-- pass: production-bootstrap - Production bootstrap is production-bootstrap-ready; mode can-apply-configured-actions; external blockers 18.
-- pass: production-activation - Production activation is activation-ready; mode dry-run; execution dry-run.
+- pass: production-bootstrap - Production bootstrap is production-bootstrap-ready; mode can-apply-configured-actions; external blockers 16.
+- pass: production-activation - Production activation is activation-applied; mode apply-configured-actions; execution executed.
 - pass: autonomous-operator - Autonomous operator is operator-plan-ready; selected refresh-organic-seed-loop; execution not-requested.
 - pass: autonomous-operator-history - Autonomous operator history is operator-history-ready; records 40; executed 15.
 - pass: autonomous-cadence - Autonomous cadence is cadence-ready; Codex active-confirmed; GitHub scheduled.
@@ -216,12 +216,12 @@ Status: production-bootstrap-ready
 Mode: can-apply-configured-actions
 Setup script: ops/github/setup-production.sh
 - repository-channel-ready: bootstrap-repository-channel - Repository moshequ/autonomous-game-lab; git worktree ready; workflow dispatch ready.
-- waiting-for-origin-remote: bootstrap-repository-bootstrap - Repository bootstrap waiting-for-origin-remote; helper ops/github/bootstrap-repository.sh; local git ready.
-- waiting-for-origin-support: bootstrap-production-environment - Environment production-env-missing; public origin missing; support missing-production-address.
+- repository-bootstrap-ready: bootstrap-repository-bootstrap - Repository bootstrap repository-bootstrap-ready; helper ops/github/bootstrap-repository.sh; local git ready.
+- waiting-for-origin-support: bootstrap-production-environment - Environment production-env-missing; public origin inferred-github-pages; support missing-production-address.
 - ready-for-actions-pages: bootstrap-github-pages-hosting - Deployment plan is ready-for-pages; Pages workflow is .github/workflows/web-pwa-deploy.yml.
 - ready-to-sync: bootstrap-github-pages-settings - GitHub CLI can configure Pages to use the Actions workflow source.
 - waiting-for-self-update-gate: bootstrap-autonomous-self-update - Self-update gate missing; direct push held.
-- partially-configured: bootstrap-github-actions-variables - 3/24 repository variable value(s) present in this environment.
+- partially-configured: bootstrap-github-actions-variables - 6/24 repository variable value(s) present in this environment.
 - partially-configured: bootstrap-github-actions-secrets - 3/8 repository secret value(s) present in this environment.
 - blocked-needs-cloudflare-env: bootstrap-event-collector - Collector deployment is blocked-needs-cloudflare-env; provider cloudflare-worker-r2.
 - held-by-product-gates: bootstrap-monetization-gate - Revenue disabled; spend mode no-spend.
