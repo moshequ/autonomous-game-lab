@@ -1,6 +1,6 @@
 # Autonomous Operator
 
-Generated: 2026-05-20T22:47:58.674Z
+Generated: 2026-05-20T22:50:41.016Z
 Status: operator-plan-ready
 Mode: plan-only
 Owner decision: collect-live-events
@@ -30,6 +30,7 @@ Execution: not-requested
 - prepare-release-candidate
 - run-post-deploy-smoke
 - refresh-product-gate-recovery
+- bootstrap-production-setup
 - optimize-store-listing
 - collect-live-events
 

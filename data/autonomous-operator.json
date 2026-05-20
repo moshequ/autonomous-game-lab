@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-20T22:47:58.674Z",
+  "generatedAt": "2026-05-20T22:50:41.016Z",
   "status": "operator-plan-ready",
   "mode": "plan-only",
   "ownerDecision": {
@@ -31,6 +31,7 @@
     "prepare-release-candidate",
     "run-post-deploy-smoke",
     "refresh-product-gate-recovery",
+    "bootstrap-production-setup",
     "optimize-store-listing",
     "collect-live-events"
   ],
@@ -157,9 +158,9 @@
     },
     {
       "id": "bootstrap-production-setup",
-      "status": "monitor",
+      "status": "armed",
       "command": "npm run autonomous:release-candidate && npm run autonomous:deploy-plan && npm run autonomous:bootstrap",
-      "reason": "status-monitor"
+      "reason": "not-selected-this-run"
     },
     {
       "id": "activate-production-when-configured",

@@ -1,6 +1,6 @@
 # Autonomous Owner Loop
 
-Generated: 2026-05-20T22:47:58.453Z
+Generated: 2026-05-20T22:50:40.795Z
 Status: owner-loop-ready
 Mode: zero-spend-web-ready
 Autonomy score: 41/42 (98%)
@@ -44,7 +44,7 @@ Autonomy score: 41/42 (98%)
 - ready: web-deployment - Deployment ready-for-pages; web readiness ready-after-build; promotion promotable-internal.
 - ready: release-candidate - Release candidate release-candidate-ready; files 44; smoke URLs 14.
 - ready: post-deploy-smoke - Smoke post-deploy-smoke-observed-live; origin https://moshequ.github.io/autonomous-game-lab; manifest comparison required; checks 15/15 passed; local artifact predeploy-artifact-smoke-passed 15/15 passed.
-- ready: post-deploy-artifact-sync - Artifact sync post-deploy-artifact-sync-passed; run 26194100863; live matches artifact true; strict true.
+- ready: post-deploy-artifact-sync - Artifact sync post-deploy-artifact-sync-passed; run 26194463521; live matches artifact true; strict true.
 - ready: production-bootstrap - Bootstrap production-bootstrap-ready; mode can-apply-configured-actions; external blockers 16.
 - ready: production-activation - Activation activation-ready; mode dry-run; execution dry-run; gh ready.
 - ready: support-channel - Support channel support-channel-ready; repository moshequ/autonomous-game-lab; public intake ready.
@@ -80,7 +80,7 @@ Autonomy score: 41/42 (98%)
 - monitor: refresh-completion-loop - npm run autonomous:completion-loop
 - monitor: refresh-replay-loop - npm run autonomous:replay-loop
 - monitor: prepare-repository-channel - npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap
-- monitor: bootstrap-production-setup - npm run autonomous:release-candidate && npm run autonomous:deploy-plan && npm run autonomous:bootstrap
+- armed: bootstrap-production-setup - npm run autonomous:release-candidate && npm run autonomous:deploy-plan && npm run autonomous:bootstrap
 - monitor: activate-production-when-configured - npm run autonomous:activate-production
 - armed: run-autonomous-operator - npm run autonomous:operator
 - armed: review-operator-history - npm run autonomous:operator

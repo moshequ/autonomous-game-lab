@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-20T22:47:58.453Z",
+  "generatedAt": "2026-05-20T22:50:40.795Z",
   "status": "owner-loop-ready",
   "mode": "zero-spend-web-ready",
   "autonomyScore": {
@@ -48,7 +48,7 @@
     "objectiveAuditFreshness": {
       "fresh": true,
       "structurallyReady": true,
-      "auditGeneratedAt": "2026-05-20T22:47:58.212Z",
+      "auditGeneratedAt": "2026-05-20T22:50:40.547Z",
       "evaluatedInputIds": [
         "analytics-rollup",
         "event-ingest",
@@ -226,6 +226,7 @@
       "refresh-support-feedback",
       "measure-pwa-install-loop",
       "check-performance-budget",
+      "bootstrap-production-setup",
       "optimize-store-listing"
     ],
     "skippedRecentlySatisfiedActionIds": [],
@@ -260,7 +261,7 @@
       "status": "repository-channel-ready"
     },
     "productionBootstrapFreshness": {
-      "fresh": true,
+      "fresh": false,
       "bootstrapGeneratedAt": "2026-05-20T22:47:57.512Z",
       "evaluatedInputIds": [
         "release-candidate",
@@ -270,7 +271,10 @@
         "production-environment",
         "event-collector-deployment"
       ],
-      "staleInputIds": []
+      "staleInputIds": [
+        "release-candidate",
+        "deployment-plan"
+      ]
     }
   },
   "systems": [
@@ -481,7 +485,7 @@
       "id": "post-deploy-artifact-sync",
       "status": "ready",
       "autonomy": "read-only-actions-artifact-import",
-      "evidence": "Artifact sync post-deploy-artifact-sync-passed; run 26194100863; live matches artifact true; strict true.",
+      "evidence": "Artifact sync post-deploy-artifact-sync-passed; run 26194463521; live matches artifact true; strict true.",
       "nextAction": "Keep this strict deploy artifact as live-production evidence while local candidates continue to iterate."
     },
     {
@@ -689,7 +693,7 @@
       "costUsd": 0,
       "command": "npm run autonomous:post-deploy-artifact-sync",
       "targets": [
-        26194100863,
+        26194463521,
         "release-candidate-manifest"
       ],
       "reason": "Strict deploy artifact evidence is already synced from the latest successful Pages workflow."
@@ -778,7 +782,7 @@
     },
     {
       "id": "bootstrap-production-setup",
-      "status": "monitor",
+      "status": "armed",
       "costUsd": 0,
       "command": "npm run autonomous:release-candidate && npm run autonomous:deploy-plan && npm run autonomous:bootstrap",
       "targets": [
@@ -786,7 +790,7 @@
         "repository-config",
         "event-collector"
       ],
-      "reason": "Production bootstrap handoff is fresh, so the operator should prioritize product learning and local event collection."
+      "reason": "Regenerates the zero-spend production setup handoff and exact GitHub variable/secret commands."
     },
     {
       "id": "activate-production-when-configured",
