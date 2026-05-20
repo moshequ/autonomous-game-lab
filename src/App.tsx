@@ -3049,6 +3049,10 @@ function App() {
                   <span>Can complete</span>
                   <strong>{objectiveAudit.completion.canMarkGoalComplete ? 'yes' : 'blocked'}</strong>
                 </div>
+                <div>
+                  <span>Next action</span>
+                  <strong>{objectiveAudit.completion.nextBestAction}</strong>
+                </div>
               </div>
               {ownerSystems.map((system) => (
                 <div className="backlogRow" key={system.id}>

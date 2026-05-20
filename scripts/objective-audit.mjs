@@ -66,6 +66,7 @@ const [
   repositoryBootstrap,
   deployment,
   productionBootstrap,
+  eventCollectorDeployment,
   autonomousOwnerLoop,
   autonomousOperator,
   autonomousOperatorHistory,
@@ -113,6 +114,7 @@ const [
   readJson(path.join(dataDir, 'repository-bootstrap.json')),
   readJson(path.join(dataDir, 'deployment-plan.json')),
   readJson(path.join(dataDir, 'production-bootstrap.json')),
+  readJson(path.join(dataDir, 'event-collector-deployment.json')),
   readJson(path.join(dataDir, 'autonomous-owner-loop.json')),
   readJson(path.join(dataDir, 'autonomous-operator.json')),
   readJson(path.join(dataDir, 'autonomous-operator-history.json')),
@@ -128,6 +130,10 @@ const currentWorktreeDirtyFiles = gitStatusResult.ok
   ? gitStatusResult.stdout.split('\n').filter(Boolean).length
   : null
 const currentWorktreeClean = currentWorktreeDirtyFiles === 0
+const generatedAtMs = (artifact) => {
+  const value = Date.parse(artifact?.generatedAt ?? '')
+  return Number.isFinite(value) ? value : null
+}
 const webDecision = promotion.decisions?.find((decision) => decision.channel === 'web-pwa')
 const monetizationDecision = promotion.decisions?.find((decision) => decision.channel === 'monetization')
 const androidDecision = promotion.decisions?.find((decision) => decision.channel === 'android-google-play')
@@ -184,6 +190,31 @@ const postDeployArtifactSyncReady =
   postDeployArtifactSync.controls?.readOnlyHttpChecks === true &&
   postDeployArtifactSync.controls?.strictManifestComparisonRequired === true &&
   postDeployArtifactSync.controls?.separateFromLocalCandidate === true
+const productionBootstrapFreshnessInputs = [
+  { id: 'release-candidate', generatedAt: releaseCandidate.generatedAt },
+  { id: 'deployment-plan', generatedAt: deployment.generatedAt },
+  { id: 'repository-readiness', generatedAt: repositoryReadiness.generatedAt },
+  { id: 'repository-bootstrap', generatedAt: repositoryBootstrap.generatedAt },
+  { id: 'production-environment', generatedAt: environment.generatedAt },
+  { id: 'event-collector-deployment', generatedAt: eventCollectorDeployment.generatedAt },
+]
+const productionBootstrapGeneratedAtMs = generatedAtMs(productionBootstrap)
+const productionBootstrapStaleInputIds = productionBootstrapFreshnessInputs
+  .filter((artifact) => {
+    const artifactGeneratedAtMs = generatedAtMs(artifact)
+
+    return (
+      typeof artifactGeneratedAtMs === 'number' &&
+      (typeof productionBootstrapGeneratedAtMs !== 'number' ||
+        artifactGeneratedAtMs > productionBootstrapGeneratedAtMs)
+    )
+  })
+  .map((artifact) => artifact.id)
+const productionBootstrapFresh =
+  productionBootstrap.status === 'production-bootstrap-ready' &&
+  productionBootstrap.controls?.zeroSpendGuard === true &&
+  productionBootstrap.controls?.noPaidResourcesCreated === true &&
+  productionBootstrapStaleInputIds.length === 0
 const repositoryChannelReady = ['repository-channel-ready', 'waiting-for-gh-auth'].includes(
   repositoryReadiness.status,
 )
@@ -518,6 +549,28 @@ const externalBlockers = objectiveBlockers.filter((blocker) =>
 const productBlockers = objectiveBlockers.filter((blocker) =>
   /completion|Replay|D1 retention|retention|revenue|payback/i.test(blocker),
 )
+const ownerNextBestActionId = autonomousOwnerLoop.ownerDecision?.nextBestActionId
+const ownerNextBestActionSuppressed =
+  (productionBootstrapFresh && ownerNextBestActionId === 'bootstrap-production-setup') ||
+  (repositoryChannelReady && ownerNextBestActionId === 'prepare-repository-channel')
+const ownerNextBestActionUsable =
+  typeof ownerNextBestActionId === 'string' &&
+  ownerNextBestActionId.length > 0 &&
+  !ownerNextBestActionSuppressed
+const objectiveNextBestAction = ownerNextBestActionUsable
+  ? ownerNextBestActionId
+  : !productionBootstrapFresh
+    ? 'bootstrap-production-setup'
+    : !liveAnalytics
+      ? 'collect-live-events'
+      : productBlockers.length > 0
+        ? 'optimize-product-gates'
+        : 'run-autonomous-daily'
+const objectiveNextBestActionSource = ownerNextBestActionUsable
+  ? 'owner-loop'
+  : ownerNextBestActionSuppressed
+    ? 'freshness-guard'
+    : 'objective-fallback'
 const canMarkGoalComplete =
   incompleteRequirements.length === 0 &&
   preparedRequirements.length === 0 &&
@@ -552,6 +605,9 @@ const payload = {
     noStoreSubmissionUntilExternalAccounts: true,
     currentWorktreeClean,
     currentWorktreeDirtyFiles,
+    productionBootstrapFresh,
+    productionBootstrapStaleInputIds,
+    objectiveNextBestActionSource,
   },
   completion: {
     canMarkGoalComplete,
@@ -560,7 +616,7 @@ const payload = {
       : `The local autonomous PWA system is largely prepared${
           postDeployArtifactSyncReady ? ' with strict live deploy evidence synced from GitHub Actions' : ''
         }, but production credentials, live data, monetization gates, and store account/signing blockers remain.`,
-    nextBestAction: autonomousOwnerLoop.ownerDecision?.nextBestActionId ?? 'run-autonomous-daily',
+    nextBestAction: objectiveNextBestAction,
   },
 }
 
@@ -571,6 +627,7 @@ const report = [
   `Status: ${payload.status}`,
   `Can mark goal complete: ${payload.completion.canMarkGoalComplete}`,
   `Reason: ${payload.completion.reason}`,
+  `Next best action: ${payload.completion.nextBestAction}`,
   '',
   '## Summary',
   '',

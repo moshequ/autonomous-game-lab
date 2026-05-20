@@ -2275,6 +2275,35 @@ const objectiveExpectedAutonomyStatus = ['repository-channel-ready', 'waiting-fo
 )
   ? 'met-local'
   : 'needs-repository-channel'
+const objectiveGeneratedAtMs = (artifact) => {
+  const value = Date.parse(artifact?.generatedAt ?? '')
+  return Number.isFinite(value) ? value : null
+}
+const objectiveProductionBootstrapInputs = [
+  { id: 'release-candidate', generatedAt: releaseCandidate.generatedAt },
+  { id: 'deployment-plan', generatedAt: deployment.generatedAt },
+  { id: 'repository-readiness', generatedAt: repositoryReadiness.generatedAt },
+  { id: 'repository-bootstrap', generatedAt: repositoryBootstrap.generatedAt },
+  { id: 'production-environment', generatedAt: productionEnvironment.generatedAt },
+  { id: 'event-collector-deployment', generatedAt: eventCollectorDeployment.generatedAt },
+]
+const objectiveProductionBootstrapGeneratedAtMs = objectiveGeneratedAtMs(productionBootstrap)
+const objectiveProductionBootstrapStaleInputIds = objectiveProductionBootstrapInputs
+  .filter((artifact) => {
+    const artifactGeneratedAtMs = objectiveGeneratedAtMs(artifact)
+
+    return (
+      typeof artifactGeneratedAtMs === 'number' &&
+      (typeof objectiveProductionBootstrapGeneratedAtMs !== 'number' ||
+        artifactGeneratedAtMs > objectiveProductionBootstrapGeneratedAtMs)
+    )
+  })
+  .map((artifact) => artifact.id)
+const objectiveProductionBootstrapFresh =
+  productionBootstrap.status === 'production-bootstrap-ready' &&
+  productionBootstrap.controls?.zeroSpendGuard === true &&
+  productionBootstrap.controls?.noPaidResourcesCreated === true &&
+  objectiveProductionBootstrapStaleInputIds.length === 0
 const requiredObjectiveRequirements = [
   'web-pwa-game-portal',
   'original-trend-driven-game-generation',
@@ -2292,6 +2321,11 @@ if (
   objectiveAudit.controls?.preserveOriginalScope !== true ||
   objectiveAudit.controls?.doNotMarkGoalCompleteWhileBlocked !== true ||
   objectiveAudit.controls?.zeroSpendGuard !== true ||
+  objectiveAudit.controls?.productionBootstrapFresh !== objectiveProductionBootstrapFresh ||
+  JSON.stringify(objectiveAudit.controls?.productionBootstrapStaleInputIds ?? []) !==
+    JSON.stringify(objectiveProductionBootstrapStaleInputIds) ||
+  !objectiveAudit.completion?.nextBestAction ||
+  (objectiveProductionBootstrapFresh && objectiveAudit.completion?.nextBestAction === 'bootstrap-production-setup') ||
   objectiveAudit.summary?.requirements < requiredObjectiveRequirements.length ||
   !requiredObjectiveRequirements.every((id) => objectiveRequirementIds.has(id)) ||
   objectiveAudit.requirements?.find((item) => item.id === 'web-pwa-game-portal')?.status !== 'met' ||
@@ -2330,6 +2364,9 @@ if (
   (objectiveAudit.blockers?.product?.length ?? 0) === 0 ||
   !objectiveAuditSource.includes('canMarkGoalComplete') ||
   !objectiveAuditSource.includes('preserveOriginalScope') ||
+  !objectiveAuditSource.includes('objectiveNextBestAction') ||
+  !objectiveAuditSource.includes('objectiveNextBestActionSource') ||
+  !objectiveAuditSource.includes('productionBootstrapFreshnessInputs') ||
   !appSource.includes('Objective Audit')
 ) {
   fail('Objective audit must map the original goal to concrete evidence, prepared states, blockers, and a false completion claim while gates remain blocked.')

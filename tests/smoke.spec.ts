@@ -29,6 +29,10 @@ test('portal loads a playable canvas and autonomy cockpit', async ({ page }) => 
     mode: string
     ownerDecision: { nextBestActionId: string }
   }
+  const objectiveAudit = JSON.parse(await readFile('data/objective-audit.json', 'utf8')) as {
+    completion: { nextBestAction: string }
+    controls: { productionBootstrapFresh?: boolean }
+  }
 
   await page.goto('/')
 
@@ -93,6 +97,11 @@ test('portal loads a playable canvas and autonomy cockpit', async ({ page }) => 
   await expect(page.getByLabel('Operator History')).toContainText('Records')
   await expect(page.getByLabel('Objective Audit')).toContainText('objective-in-progress')
   await expect(page.getByLabel('Objective Audit')).toContainText('Can complete')
+  await expect(page.getByLabel('Objective Audit')).toContainText('Next action')
+  await expect(page.getByLabel('Objective Audit')).toContainText(objectiveAudit.completion.nextBestAction)
+  if (objectiveAudit.controls.productionBootstrapFresh) {
+    expect(objectiveAudit.completion.nextBestAction).not.toBe('bootstrap-production-setup')
+  }
   await expect(page.getByLabel('Product Optimization')).toContainText('product-optimization-ready')
   await expect(page.getByLabel('Product Optimization')).toContainText('Completion gate')
   await expect(page.getByLabel('First Move Coach')).toContainText('first-move-coach-ready')
