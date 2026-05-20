@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-20T21:44:56.080Z",
+  "generatedAt": "2026-05-20T21:46:44.001Z",
   "status": "owner-loop-ready",
   "mode": "zero-spend-web-ready",
   "autonomyScore": {
@@ -50,7 +50,7 @@
     "objectiveAuditFreshness": {
       "fresh": true,
       "structurallyReady": true,
-      "auditGeneratedAt": "2026-05-20T21:44:55.842Z",
+      "auditGeneratedAt": "2026-05-20T21:46:43.766Z",
       "evaluatedInputIds": [
         "analytics-rollup",
         "event-ingest",
@@ -188,7 +188,7 @@
     },
     "productionBootstrapFreshness": {
       "fresh": true,
-      "bootstrapGeneratedAt": "2026-05-20T21:44:55.167Z",
+      "bootstrapGeneratedAt": "2026-05-20T21:46:43.087Z",
       "evaluatedInputIds": [
         "release-candidate",
         "deployment-plan",
@@ -415,7 +415,7 @@
       "id": "production-bootstrap",
       "status": "ready",
       "autonomy": "zero-spend-setup-orchestration",
-      "evidence": "Bootstrap production-bootstrap-ready; mode can-apply-configured-actions; external blockers 17.",
+      "evidence": "Bootstrap production-bootstrap-ready; mode can-apply-configured-actions; external blockers 16.",
       "nextAction": "gh workflow run web-pwa-deploy.yml"
     },
     {
