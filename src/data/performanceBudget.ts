@@ -1,5 +1,5 @@
 export const performanceBudget = {
-  "generatedAt": "2026-05-20T01:37:21.346Z",
+  "generatedAt": "2026-05-20T01:38:46.191Z",
   "status": "performance-budget-ready",
   "sourceBuild": "dist",
   "budgets": {
@@ -14,20 +14,20 @@ export const performanceBudget = {
   },
   "initial": {
     "entryScripts": [
-      "index-DpelQ_nl.js",
+      "index-alDRF5Mb.js",
       "registerSW.js"
     ],
     "scriptPaths": [
-      "assets/index-DpelQ_nl.js",
+      "assets/index-alDRF5Mb.js",
       "registerSW.js"
     ],
     "jsFiles": [
       {
-        "file": "index-DpelQ_nl.js",
-        "path": "assets/index-DpelQ_nl.js",
-        "bytes": 679045,
-        "kb": 663.1,
-        "gzipBytes": 179579,
+        "file": "index-alDRF5Mb.js",
+        "path": "assets/index-alDRF5Mb.js",
+        "bytes": 679557,
+        "kb": 663.6,
+        "gzipBytes": 179602,
         "gzipKb": 175.4
       },
       {
@@ -39,9 +39,9 @@ export const performanceBudget = {
         "gzipKb": 0.1
       }
     ],
-    "jsBytes": 679179,
-    "jsKb": 663.3,
-    "gzipBytes": 179705,
+    "jsBytes": 679691,
+    "jsKb": 663.8,
+    "gzipBytes": 179728,
     "gzipKb": 175.5,
     "cssFiles": [
       {
@@ -61,8 +61,8 @@ export const performanceBudget = {
   "deferred": {
     "chunks": [
       {
-        "file": "GameCanvas-DXEpkul8.js",
-        "path": "assets/GameCanvas-DXEpkul8.js",
+        "file": "GameCanvas-97-yCk2P.js",
+        "path": "assets/GameCanvas-97-yCk2P.js",
         "bytes": 1393468,
         "kb": 1360.8,
         "gzipBytes": 356094,
@@ -70,24 +70,24 @@ export const performanceBudget = {
       }
     ],
     "gameChunk": {
-      "file": "GameCanvas-DXEpkul8.js",
-      "path": "assets/GameCanvas-DXEpkul8.js",
+      "file": "GameCanvas-97-yCk2P.js",
+      "path": "assets/GameCanvas-97-yCk2P.js",
       "bytes": 1393468,
       "kb": 1360.8,
       "gzipBytes": 356094,
       "gzipKb": 347.7
     },
     "largestDeferredChunk": {
-      "file": "GameCanvas-DXEpkul8.js",
-      "path": "assets/GameCanvas-DXEpkul8.js",
+      "file": "GameCanvas-97-yCk2P.js",
+      "path": "assets/GameCanvas-97-yCk2P.js",
       "bytes": 1393468,
       "kb": 1360.8,
       "gzipBytes": 356094,
       "gzipKb": 347.7
     },
     "largestJsChunk": {
-      "file": "GameCanvas-DXEpkul8.js",
-      "path": "assets/GameCanvas-DXEpkul8.js",
+      "file": "GameCanvas-97-yCk2P.js",
+      "path": "assets/GameCanvas-97-yCk2P.js",
       "bytes": 1393468,
       "kb": 1360.8,
       "gzipBytes": 356094,
@@ -99,19 +99,19 @@ export const performanceBudget = {
   "assets": {
     "js": [
       {
-        "file": "GameCanvas-DXEpkul8.js",
-        "path": "assets/GameCanvas-DXEpkul8.js",
+        "file": "GameCanvas-97-yCk2P.js",
+        "path": "assets/GameCanvas-97-yCk2P.js",
         "bytes": 1393468,
         "kb": 1360.8,
         "gzipBytes": 356094,
         "gzipKb": 347.7
       },
       {
-        "file": "index-DpelQ_nl.js",
-        "path": "assets/index-DpelQ_nl.js",
-        "bytes": 679045,
-        "kb": 663.1,
-        "gzipBytes": 179579,
+        "file": "index-alDRF5Mb.js",
+        "path": "assets/index-alDRF5Mb.js",
+        "bytes": 679557,
+        "kb": 663.6,
+        "gzipBytes": 179602,
         "gzipKb": 175.4
       },
       {
@@ -149,7 +149,7 @@ export const performanceBudget = {
     {
       "id": "initial-js-budget",
       "status": "pass",
-      "detail": "Initial JS is 663.3 KB; budget is 675 KB."
+      "detail": "Initial JS is 663.8 KB; budget is 675 KB."
     },
     {
       "id": "initial-js-gzip-budget",
@@ -174,12 +174,12 @@ export const performanceBudget = {
     {
       "id": "game-runtime-deferred",
       "status": "pass",
-      "detail": "GameCanvas-DXEpkul8.js is deferred from the initial shell."
+      "detail": "GameCanvas-97-yCk2P.js is deferred from the initial shell."
     },
     {
       "id": "largest-js-deferred",
       "status": "pass",
-      "detail": "Largest JS chunk is GameCanvas-DXEpkul8.js at 1360.8 KB."
+      "detail": "Largest JS chunk is GameCanvas-97-yCk2P.js at 1360.8 KB."
     },
     {
       "id": "deferred-game-budget",
