@@ -1,25 +1,22 @@
 {
-  "generatedAt": "2026-05-20T05:46:54.616Z",
+  "generatedAt": "2026-05-20T05:55:36.158Z",
   "status": "operator-plan-ready",
   "mode": "plan-only",
   "ownerDecision": {
-    "actionId": "seed-portfolio-traffic",
-    "command": "npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop",
+    "actionId": "refresh-autonomous-self-update",
+    "command": "npm run autonomous:self-update",
     "locallyExecutable": true,
     "rejectionReason": null
   },
   "requestedActionId": null,
   "selectedAction": {
-    "id": "seed-portfolio-traffic",
+    "id": "refresh-autonomous-self-update",
     "status": "armed",
-    "command": "npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop",
+    "command": "npm run autonomous:self-update",
     "targets": [
-      "canopy-bloom",
-      "grove-engine",
-      "metro-loom",
-      "pocket-draft"
+      ".github/workflows/autonomous-self-update.yml"
     ],
-    "reason": "Under-measured playable games need free organic/internal traffic before quality judgment.",
+    "reason": "Keeps verified generated-change persistence gated, allowlisted, and ready for the scheduled production repository.",
     "costUsd": 0
   },
   "selectedRejection": null,
@@ -34,8 +31,6 @@
     "prepare-release-candidate",
     "optimize-product-gates",
     "refresh-product-gate-recovery",
-    "collect-gate-sample-downloads",
-    "refresh-product-gate-sample-plan",
     "refresh-first-move-coach",
     "refresh-completion-loop",
     "refresh-replay-loop",
@@ -59,9 +54,9 @@
       "reason": "not-selected-this-run"
     },
     {
-      "id": "refresh-autonomous-self-update",
+      "id": "seed-portfolio-traffic",
       "status": "armed",
-      "command": "npm run autonomous:self-update",
+      "command": "npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop",
       "reason": "not-selected-this-run"
     },
     {
@@ -114,15 +109,15 @@
     },
     {
       "id": "collect-gate-sample-downloads",
-      "status": "armed",
+      "status": "monitor",
       "command": "npm run autonomous:collect-sample-downloads",
-      "reason": "not-selected-this-run"
+      "reason": "status-monitor"
     },
     {
       "id": "refresh-product-gate-sample-plan",
-      "status": "armed",
+      "status": "monitor",
       "command": "npm run autonomous:sample-plan",
-      "reason": "not-selected-this-run"
+      "reason": "status-monitor"
     },
     {
       "id": "refresh-first-move-coach",
@@ -205,24 +200,8 @@
   ],
   "commandPlan": [
     {
-      "segment": "npm run autonomous:growth",
-      "script": "autonomous:growth"
-    },
-    {
-      "segment": "npm run autonomous:portfolio",
-      "script": "autonomous:portfolio"
-    },
-    {
-      "segment": "npm run autonomous:traffic",
-      "script": "autonomous:traffic"
-    },
-    {
-      "segment": "npm run autonomous:acquisition",
-      "script": "autonomous:acquisition"
-    },
-    {
-      "segment": "npm run autonomous:organic-seed-loop",
-      "script": "autonomous:organic-seed-loop"
+      "segment": "npm run autonomous:self-update",
+      "script": "autonomous:self-update"
     }
   ],
   "execution": {
@@ -289,7 +268,7 @@
     "RUN_WORKFLOWS=1"
   ],
   "nextActions": [
-    "Run npm run autonomous:operator -- --execute --action=seed-portfolio-traffic to execute exactly one allowed local action.",
+    "Run npm run autonomous:operator -- --execute --action=refresh-autonomous-self-update to execute exactly one allowed local action.",
     "Do not execute GitHub workflow, store, paid ads, or account setup commands from the local operator."
   ]
 }

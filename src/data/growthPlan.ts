@@ -1,5 +1,5 @@
 export const growthPlan = {
-  "generatedAt": "2026-05-20T05:30:47.114Z",
+  "generatedAt": "2026-05-20T05:50:08.908Z",
   "siteUrl": null,
   "publicUrlMode": "runtime-relative",
   "publicOrigin": {
