@@ -658,6 +658,9 @@ const checks = [
       postDeployEvidenceSyncWorkflow.includes("workflows: ['Web PWA Deploy']") &&
       postDeployEvidenceSyncWorkflow.includes('actions: read') &&
       postDeployEvidenceSyncWorkflow.includes('contents: write') &&
+      postDeployEvidenceSyncWorkflow.includes('npm run build') &&
+      postDeployEvidenceSyncWorkflow.includes('autonomous:release-candidate') &&
+      postDeployEvidenceSyncWorkflow.includes('autonomous:post-deploy-smoke') &&
       postDeployEvidenceSyncWorkflow.includes('autonomous:post-deploy-artifact-sync') &&
       postDeployEvidenceSyncWorkflow.includes('node scripts/verify-autonomy.mjs') &&
       postDeployEvidenceSyncWorkflow.includes('AGL_AUTONOMOUS_SELF_UPDATE_DIRECT') &&
@@ -739,6 +742,7 @@ const payload = {
       trigger: 'workflow_run: Web PWA Deploy',
       permission: 'actions: read, contents: write',
       evidenceGate: 'npm run autonomous:post-deploy-artifact-sync -- --assert',
+      localBuildGate: 'npm run build && npm run autonomous:release-candidate && npm run autonomous:post-deploy-smoke',
       verificationGate: 'node scripts/verify-autonomy.mjs',
       directPushRequiresRepositoryVariable: 'AGL_AUTONOMOUS_SELF_UPDATE_DIRECT=1',
     },

@@ -1149,6 +1149,9 @@ test('post-deploy artifact sync preserves strict Pages workflow evidence', async
   expect(workflow).toContain("workflows: ['Web PWA Deploy']")
   expect(workflow).toContain('actions: read')
   expect(workflow).toContain('contents: write')
+  expect(workflow).toContain('npm run build')
+  expect(workflow).toContain('autonomous:release-candidate')
+  expect(workflow).toContain('autonomous:post-deploy-smoke')
   expect(workflow).toContain('autonomous:post-deploy-artifact-sync')
   expect(workflow).toContain('node scripts/verify-autonomy.mjs')
   expect(workflow).toContain('AGL_AUTONOMOUS_SELF_UPDATE_DIRECT')
@@ -2703,6 +2706,7 @@ test('autonomous cadence keeps unattended operation auditable and guarded', asyn
         workflow: string
         trigger: string
         evidenceGate: string
+        localBuildGate: string
         verificationGate: string
       }
     }
@@ -2762,6 +2766,9 @@ test('autonomous cadence keeps unattended operation auditable and guarded', asyn
   expect(cadence.schedulers.githubPostDeployEvidenceSync.trigger).toBe('workflow_run: Web PWA Deploy')
   expect(cadence.schedulers.githubPostDeployEvidenceSync.evidenceGate).toBe(
     'npm run autonomous:post-deploy-artifact-sync -- --assert',
+  )
+  expect(cadence.schedulers.githubPostDeployEvidenceSync.localBuildGate).toBe(
+    'npm run build && npm run autonomous:release-candidate && npm run autonomous:post-deploy-smoke',
   )
   expect(cadence.schedulers.githubPostDeployEvidenceSync.verificationGate).toBe('node scripts/verify-autonomy.mjs')
   expect(cadence.commandPlan.operate).toBe('npm run autonomous:operate')
