@@ -108,6 +108,7 @@ const requiredFiles = [
   'share-manifest.json',
   'monetization.json',
   'app-ads.txt',
+  '.nojekyll',
   '.well-known/assetlinks.json',
   'icons/icon-192.png',
   'icons/icon-512.png',

@@ -3491,6 +3491,7 @@ if (
   !releaseCandidateRequiredFiles.has('compliance.json') ||
   !releaseCandidateRequiredFiles.has('install.html') ||
   !releaseCandidateRequiredFiles.has('gate-sample.html') ||
+  !releaseCandidateRequiredFiles.has('.nojekyll') ||
   !releaseCandidateRequiredFiles.has('.well-known/assetlinks.json') ||
   distReleaseCandidate.candidateId !== releaseCandidate.candidateId ||
   packageJson.scripts?.['autonomous:daily']?.includes('autonomous:release-candidate') !== true ||

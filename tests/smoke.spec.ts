@@ -717,6 +717,7 @@ test('release candidate records the exact deployable PWA artifact', async () => 
   expect(candidate.integrity.files.some((file) => file.path === 'sw.js')).toBe(true)
   expect(candidate.integrity.files.some((file) => file.path === 'gate-sample.html')).toBe(true)
   expect(candidate.integrity.files.some((file) => file.path === 'seed-kit.html')).toBe(true)
+  expect(candidate.integrity.files.some((file) => file.path === '.nojekyll')).toBe(true)
   expect(candidate.integrity.files.some((file) => file.path === '.well-known/assetlinks.json')).toBe(true)
   expect(candidate.integrity.files.some((file) => file.cacheControl.includes('immutable'))).toBe(true)
   expect(candidate.integrity.requiredFileChecks.every((check) => check.status === 'pass')).toBe(true)

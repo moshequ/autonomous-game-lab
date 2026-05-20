@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-20T07:38:53.631Z",
+  "generatedAt": "2026-05-20T07:52:56.741Z",
   "environment": {
     "status": "production-env-missing",
     "publicOrigin": "https://moshequ.github.io/autonomous-game-lab",
@@ -605,12 +605,12 @@
       {
         "id": "performance-budget",
         "status": "pass",
-        "detail": "Performance budget is performance-budget-ready; initial JS 613.6 KB / 169.3 KB gzip; deferred game chunk GameCanvas-C-7I0-QB.js."
+        "detail": "Performance budget is performance-budget-ready; initial JS 613.2 KB / 169.2 KB gzip; deferred game chunk GameCanvas-BD3MWcMW.js."
       },
       {
         "id": "release-candidate",
         "status": "pass",
-        "detail": "Release candidate is release-candidate-ready; files 43; smoke URLs 14."
+        "detail": "Release candidate is release-candidate-ready; files 44; smoke URLs 14."
       },
       {
         "id": "post-deploy-smoke-runner",
@@ -665,7 +665,7 @@
       {
         "id": "autonomous-operator-history",
         "status": "pass",
-        "detail": "Autonomous operator history is operator-history-ready; records 40; executed 13."
+        "detail": "Autonomous operator history is operator-history-ready; records 40; executed 12."
       },
       {
         "id": "autonomous-cadence",
@@ -1158,20 +1158,20 @@
     },
     "initial": {
       "entryScripts": [
-        "index-C4OKE3jP.js",
+        "index-BM8B7wZZ.js",
         "registerSW.js"
       ],
       "scriptPaths": [
-        "assets/index-C4OKE3jP.js",
+        "assets/index-BM8B7wZZ.js",
         "registerSW.js"
       ],
       "jsFiles": [
         {
-          "file": "index-C4OKE3jP.js",
-          "path": "assets/index-C4OKE3jP.js",
-          "bytes": 628107,
-          "kb": 613.4,
-          "gzipBytes": 173176,
+          "file": "index-BM8B7wZZ.js",
+          "path": "assets/index-BM8B7wZZ.js",
+          "bytes": 627724,
+          "kb": 613,
+          "gzipBytes": 173121,
           "gzipKb": 169.1
         },
         {
@@ -1183,10 +1183,10 @@
           "gzipKb": 0.1
         }
       ],
-      "jsBytes": 628281,
-      "jsKb": 613.6,
-      "gzipBytes": 173317,
-      "gzipKb": 169.3,
+      "jsBytes": 627898,
+      "jsKb": 613.2,
+      "gzipBytes": 173262,
+      "gzipKb": 169.2,
       "cssFiles": [
         {
           "file": "index-BA4sddeG.css",
@@ -1205,8 +1205,8 @@
     "deferred": {
       "chunks": [
         {
-          "file": "GameCanvas-C-7I0-QB.js",
-          "path": "assets/GameCanvas-C-7I0-QB.js",
+          "file": "GameCanvas-BD3MWcMW.js",
+          "path": "assets/GameCanvas-BD3MWcMW.js",
           "bytes": 1393468,
           "kb": 1360.8,
           "gzipBytes": 356095,
@@ -1214,24 +1214,24 @@
         }
       ],
       "gameChunk": {
-        "file": "GameCanvas-C-7I0-QB.js",
-        "path": "assets/GameCanvas-C-7I0-QB.js",
+        "file": "GameCanvas-BD3MWcMW.js",
+        "path": "assets/GameCanvas-BD3MWcMW.js",
         "bytes": 1393468,
         "kb": 1360.8,
         "gzipBytes": 356095,
         "gzipKb": 347.7
       },
       "largestDeferredChunk": {
-        "file": "GameCanvas-C-7I0-QB.js",
-        "path": "assets/GameCanvas-C-7I0-QB.js",
+        "file": "GameCanvas-BD3MWcMW.js",
+        "path": "assets/GameCanvas-BD3MWcMW.js",
         "bytes": 1393468,
         "kb": 1360.8,
         "gzipBytes": 356095,
         "gzipKb": 347.7
       },
       "largestJsChunk": {
-        "file": "GameCanvas-C-7I0-QB.js",
-        "path": "assets/GameCanvas-C-7I0-QB.js",
+        "file": "GameCanvas-BD3MWcMW.js",
+        "path": "assets/GameCanvas-BD3MWcMW.js",
         "bytes": 1393468,
         "kb": 1360.8,
         "gzipBytes": 356095,
@@ -1252,12 +1252,12 @@
       {
         "id": "initial-js-budget",
         "status": "pass",
-        "detail": "Initial JS is 613.6 KB; budget is 675 KB."
+        "detail": "Initial JS is 613.2 KB; budget is 675 KB."
       },
       {
         "id": "initial-js-gzip-budget",
         "status": "pass",
-        "detail": "Initial JS gzip is 169.3 KB; budget is 200 KB."
+        "detail": "Initial JS gzip is 169.2 KB; budget is 200 KB."
       },
       {
         "id": "initial-css-budget",
@@ -1277,12 +1277,12 @@
       {
         "id": "game-runtime-deferred",
         "status": "pass",
-        "detail": "GameCanvas-C-7I0-QB.js is deferred from the initial shell."
+        "detail": "GameCanvas-BD3MWcMW.js is deferred from the initial shell."
       },
       {
         "id": "largest-js-deferred",
         "status": "pass",
-        "detail": "Largest JS chunk is GameCanvas-C-7I0-QB.js at 1360.8 KB."
+        "detail": "Largest JS chunk is GameCanvas-BD3MWcMW.js at 1360.8 KB."
       },
       {
         "id": "deferred-game-budget",
@@ -1293,19 +1293,19 @@
   },
   "releaseCandidate": {
     "status": "release-candidate-ready",
-    "candidateId": "pwa-8597ede06758",
+    "candidateId": "pwa-ec4b42e939bc",
     "target": {
       "provider": "github-pages",
       "artifactPath": "dist",
       "manifestPath": "dist/release-candidate.json",
       "publicOrigin": "https://moshequ.github.io/autonomous-game-lab",
-      "publicOriginStatus": "inferred-github-pages",
+      "publicOriginStatus": "configured",
       "basePath": "/autonomous-game-lab/"
     },
     "summary": {
-      "totalFiles": 43,
-      "totalBytes": 3633142,
-      "totalKb": 3548,
+      "totalFiles": 44,
+      "totalBytes": 3632977,
+      "totalKb": 3547.8,
       "assetFiles": 3,
       "htmlFiles": 16,
       "gamePages": 10,
@@ -1314,7 +1314,7 @@
     },
     "integrity": {
       "algorithm": "sha256",
-      "aggregateHash": "8597ede06758dcde177a0b54f8b7ab1ba3b951e82924fc7d401811fa593e81dc",
+      "aggregateHash": "ec4b42e939bc4f67253f47b5903d00df63a3955b00d9f9df5845cc4ea9467b2b",
       "requiredFileChecks": [
         {
           "path": "index.html",
@@ -1370,6 +1370,10 @@
         },
         {
           "path": "app-ads.txt",
+          "status": "pass"
+        },
+        {
+          "path": ".nojekyll",
           "status": "pass"
         },
         {
@@ -1503,12 +1507,12 @@
       {
         "id": "dist-inventory",
         "status": "pass",
-        "detail": "43 dist files inventoried."
+        "detail": "44 dist files inventoried."
       },
       {
         "id": "required-files",
         "status": "pass",
-        "detail": "18/18 required files present."
+        "detail": "19/19 required files present."
       },
       {
         "id": "game-pages",
@@ -1547,8 +1551,8 @@
     "target": {
       "origin": null,
       "provider": "github-pages",
-      "candidateId": "pwa-8597ede06758",
-      "aggregateHash": "8597ede06758dcde177a0b54f8b7ab1ba3b951e82924fc7d401811fa593e81dc"
+      "candidateId": "pwa-ec4b42e939bc",
+      "aggregateHash": "ec4b42e939bc4f67253f47b5903d00df63a3955b00d9f9df5845cc4ea9467b2b"
     },
     "sourceStatus": {
       "deployment": "ready-for-pages",
@@ -1642,7 +1646,7 @@
           "file": "dist/compliance.json",
           "expectedStatus": 200,
           "status": "pass",
-          "bytes": 2716,
+          "bytes": 2838,
           "textMatched": true,
           "detail": "Local production artifact matched required text."
         },
@@ -1722,11 +1726,11 @@
           "file": "dist/release-candidate.json",
           "expectedStatus": 200,
           "status": "pass",
-          "bytes": 19124,
+          "bytes": 19424,
           "candidateMatches": true,
           "hashMatches": true,
-          "localCandidateId": "pwa-8597ede06758",
-          "localAggregateHash": "8597ede06758dcde177a0b54f8b7ab1ba3b951e82924fc7d401811fa593e81dc",
+          "localCandidateId": "pwa-ec4b42e939bc",
+          "localAggregateHash": "ec4b42e939bc4f67253f47b5903d00df63a3955b00d9f9df5845cc4ea9467b2b",
           "detail": "Local release manifest matches the release candidate."
         }
       ]
@@ -1872,7 +1876,7 @@
         "path": "/release-candidate.json",
         "url": "${DEPLOYED_PWA_ORIGIN}/release-candidate.json",
         "expectedStatus": 200,
-        "requiredText": "pwa-8597ede06758",
+        "requiredText": "pwa-ec4b42e939bc",
         "status": "blocked",
         "detail": "No deployed origin configured."
       }
@@ -3094,8 +3098,8 @@
     "status": "operator-history-ready",
     "summary": {
       "totalRecords": 40,
-      "plannedRecords": 27,
-      "executedRecords": 13,
+      "plannedRecords": 28,
+      "executedRecords": 12,
       "failedRecords": 0,
       "lastActionId": "refresh-organic-seed-loop",
       "lastExecutionStatus": "not-requested",
@@ -3111,95 +3115,10 @@
     "retention": {
       "maxRecords": 40,
       "appendOnlyWhenPlanChangesOrExecutes": true,
-      "latestRunAppended": false,
+      "latestRunAppended": true,
       "compactedDuplicateDryRuns": 0
     },
     "recentRecords": [
-      {
-        "id": "20260520065327-refresh-organic-seed-loop",
-        "generatedAt": "2026-05-20T06:53:27.602Z",
-        "runFingerprint": "4671ac30afe010c9",
-        "mode": "plan-only",
-        "status": "operator-plan-ready",
-        "selectedActionId": "refresh-organic-seed-loop",
-        "selectedCommand": "npm run autonomous:organic-seed-loop",
-        "eligibleActionIds": [
-          "refresh-autonomous-cadence",
-          "refresh-autonomous-self-update",
-          "seed-portfolio-traffic",
-          "refresh-organic-seed-loop",
-          "optimize-daily-retention",
-          "measure-pwa-install-loop",
-          "check-performance-budget",
-          "prepare-release-candidate",
-          "optimize-product-gates",
-          "refresh-product-gate-recovery",
-          "refresh-first-move-coach",
-          "refresh-completion-loop",
-          "refresh-replay-loop",
-          "bootstrap-production-setup",
-          "refresh-objective-audit",
-          "optimize-store-listing",
-          "apply-safe-improvements",
-          "collect-live-events"
-        ],
-        "blockedActionCount": 27,
-        "execution": {
-          "requested": false,
-          "status": "not-requested",
-          "attemptedActionId": null,
-          "resultCount": 0,
-          "failedScripts": []
-        },
-        "controls": {
-          "zeroPaidSpend": true,
-          "localCommandAllowlistEnforced": true,
-          "externalWorkflowExecutionBlockedByDefault": true,
-          "maxActionsPerRun": 1
-        }
-      },
-      {
-        "id": "20260520065328-refresh-organic-seed-loop",
-        "generatedAt": "2026-05-20T06:53:28.414Z",
-        "runFingerprint": "0173db42a1f50d3a",
-        "mode": "plan-only",
-        "status": "operator-plan-ready",
-        "selectedActionId": "refresh-organic-seed-loop",
-        "selectedCommand": "npm run autonomous:organic-seed-loop",
-        "eligibleActionIds": [
-          "refresh-autonomous-cadence",
-          "refresh-autonomous-self-update",
-          "seed-portfolio-traffic",
-          "refresh-organic-seed-loop",
-          "optimize-daily-retention",
-          "measure-pwa-install-loop",
-          "check-performance-budget",
-          "prepare-release-candidate",
-          "optimize-product-gates",
-          "refresh-product-gate-recovery",
-          "refresh-first-move-coach",
-          "refresh-completion-loop",
-          "refresh-replay-loop",
-          "bootstrap-production-setup",
-          "optimize-store-listing",
-          "apply-safe-improvements",
-          "collect-live-events"
-        ],
-        "blockedActionCount": 27,
-        "execution": {
-          "requested": false,
-          "status": "not-requested",
-          "attemptedActionId": null,
-          "resultCount": 0,
-          "failedScripts": []
-        },
-        "controls": {
-          "zeroPaidSpend": true,
-          "localCommandAllowlistEnforced": true,
-          "externalWorkflowExecutionBlockedByDefault": true,
-          "maxActionsPerRun": 1
-        }
-      },
       {
         "id": "20260520071243-refresh-organic-seed-loop",
         "generatedAt": "2026-05-20T07:12:43.292Z",
@@ -3289,6 +3208,91 @@
       {
         "id": "20260520071513-refresh-organic-seed-loop",
         "generatedAt": "2026-05-20T07:15:13.480Z",
+        "runFingerprint": "0173db42a1f50d3a",
+        "mode": "plan-only",
+        "status": "operator-plan-ready",
+        "selectedActionId": "refresh-organic-seed-loop",
+        "selectedCommand": "npm run autonomous:organic-seed-loop",
+        "eligibleActionIds": [
+          "refresh-autonomous-cadence",
+          "refresh-autonomous-self-update",
+          "seed-portfolio-traffic",
+          "refresh-organic-seed-loop",
+          "optimize-daily-retention",
+          "measure-pwa-install-loop",
+          "check-performance-budget",
+          "prepare-release-candidate",
+          "optimize-product-gates",
+          "refresh-product-gate-recovery",
+          "refresh-first-move-coach",
+          "refresh-completion-loop",
+          "refresh-replay-loop",
+          "bootstrap-production-setup",
+          "optimize-store-listing",
+          "apply-safe-improvements",
+          "collect-live-events"
+        ],
+        "blockedActionCount": 27,
+        "execution": {
+          "requested": false,
+          "status": "not-requested",
+          "attemptedActionId": null,
+          "resultCount": 0,
+          "failedScripts": []
+        },
+        "controls": {
+          "zeroPaidSpend": true,
+          "localCommandAllowlistEnforced": true,
+          "externalWorkflowExecutionBlockedByDefault": true,
+          "maxActionsPerRun": 1
+        }
+      },
+      {
+        "id": "20260520075216-refresh-organic-seed-loop",
+        "generatedAt": "2026-05-20T07:52:16.641Z",
+        "runFingerprint": "4671ac30afe010c9",
+        "mode": "plan-only",
+        "status": "operator-plan-ready",
+        "selectedActionId": "refresh-organic-seed-loop",
+        "selectedCommand": "npm run autonomous:organic-seed-loop",
+        "eligibleActionIds": [
+          "refresh-autonomous-cadence",
+          "refresh-autonomous-self-update",
+          "seed-portfolio-traffic",
+          "refresh-organic-seed-loop",
+          "optimize-daily-retention",
+          "measure-pwa-install-loop",
+          "check-performance-budget",
+          "prepare-release-candidate",
+          "optimize-product-gates",
+          "refresh-product-gate-recovery",
+          "refresh-first-move-coach",
+          "refresh-completion-loop",
+          "refresh-replay-loop",
+          "bootstrap-production-setup",
+          "refresh-objective-audit",
+          "optimize-store-listing",
+          "apply-safe-improvements",
+          "collect-live-events"
+        ],
+        "blockedActionCount": 27,
+        "execution": {
+          "requested": false,
+          "status": "not-requested",
+          "attemptedActionId": null,
+          "resultCount": 0,
+          "failedScripts": []
+        },
+        "controls": {
+          "zeroPaidSpend": true,
+          "localCommandAllowlistEnforced": true,
+          "externalWorkflowExecutionBlockedByDefault": true,
+          "maxActionsPerRun": 1
+        }
+      },
+      {
+        "id": "20260520075256-refresh-organic-seed-loop",
+        "generatedAt": "2026-05-20T07:52:56.515Z",
         "runFingerprint": "0173db42a1f50d3a",
         "mode": "plan-only",
         "status": "operator-plan-ready",
@@ -4313,7 +4317,7 @@
           "Web readiness: ready-after-build",
           "Manifest in dist: true",
           "Service worker in dist: true",
-          "Release candidate: release-candidate-ready; 43 files",
+          "Release candidate: release-candidate-ready; 44 files",
           "Deployment plan: ready-for-pages"
         ],
         "blockers": [],

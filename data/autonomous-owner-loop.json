@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-20T07:38:53.187Z",
+  "generatedAt": "2026-05-20T07:52:56.279Z",
   "status": "owner-loop-ready",
   "mode": "zero-spend-web-ready",
   "autonomyScore": {
@@ -50,7 +50,7 @@
     "objectiveAuditFreshness": {
       "fresh": true,
       "structurallyReady": true,
-      "auditGeneratedAt": "2026-05-20T07:38:52.955Z",
+      "auditGeneratedAt": "2026-05-20T07:52:16.865Z",
       "evaluatedInputIds": [
         "analytics-rollup",
         "event-ingest",
@@ -198,7 +198,7 @@
       "id": "performance-budget",
       "status": "ready",
       "autonomy": "automatic-build-budget",
-      "evidence": "Initial JS 613.6 KB; gzip 169.3 KB; deferred chunks 1.",
+      "evidence": "Initial JS 613.2 KB; gzip 169.2 KB; deferred chunks 1.",
       "nextAction": "Keep Phaser and game scenes outside the initial PWA shell."
     },
     {
@@ -282,14 +282,14 @@
       "id": "release-candidate",
       "status": "ready",
       "autonomy": "content-hashed-deploy-evidence",
-      "evidence": "Candidate pwa-8597ede06758; status release-candidate-ready; files 43; smoke URLs 14.",
+      "evidence": "Candidate pwa-ec4b42e939bc; status release-candidate-ready; files 44; smoke URLs 14.",
       "nextAction": "Regenerate the release candidate after every production build before deploy or rollback decisions."
     },
     {
       "id": "post-deploy-smoke",
       "status": "ready",
       "autonomy": "read-only-live-deploy-verification",
-      "evidence": "Smoke blocked-missing-origin; origin missing; candidate pwa-8597ede06758; checks 0/15 passed; local artifact predeploy-artifact-smoke-passed 15/15 passed.",
+      "evidence": "Smoke blocked-missing-origin; origin missing; candidate pwa-ec4b42e939bc; checks 0/15 passed; local artifact predeploy-artifact-smoke-passed 15/15 passed.",
       "nextAction": "Run this after deployment with AGL_DEPLOYED_PWA_ORIGIN set to the Pages URL."
     },
     {
@@ -449,7 +449,7 @@
       "command": "npm run build && npm run autonomous:performance",
       "targets": [
         "pwa-shell",
-        "GameCanvas-C-7I0-QB.js"
+        "GameCanvas-BD3MWcMW.js"
       ],
       "reason": "Keeps the PWA shell fast while Phaser and game scenes stay deferred."
     },
@@ -459,7 +459,7 @@
       "costUsd": 0,
       "command": "npm run autonomous:release-candidate",
       "targets": [
-        "pwa-8597ede06758"
+        "pwa-ec4b42e939bc"
       ],
       "reason": "Records a content-hashed dist inventory and post-deploy smoke plan for the exact PWA build."
     },
@@ -470,7 +470,7 @@
       "command": "npm run autonomous:post-deploy-smoke",
       "targets": [
         "deployed-pages-url",
-        "pwa-8597ede06758"
+        "pwa-ec4b42e939bc"
       ],
       "reason": "Waits for a deployed Pages origin, then verifies the live PWA matches the exact release candidate."
     },

@@ -1,19 +1,19 @@
 {
-  "generatedAt": "2026-05-20T07:12:38.850Z",
+  "generatedAt": "2026-05-20T07:52:13.920Z",
   "status": "release-candidate-ready",
-  "candidateId": "pwa-8597ede06758",
+  "candidateId": "pwa-ec4b42e939bc",
   "target": {
     "provider": "github-pages",
     "artifactPath": "dist",
     "manifestPath": "dist/release-candidate.json",
     "publicOrigin": "https://moshequ.github.io/autonomous-game-lab",
-    "publicOriginStatus": "inferred-github-pages",
+    "publicOriginStatus": "configured",
     "basePath": "/autonomous-game-lab/"
   },
   "summary": {
-    "totalFiles": 43,
-    "totalBytes": 3633142,
-    "totalKb": 3548,
+    "totalFiles": 44,
+    "totalBytes": 3632977,
+    "totalKb": 3547.8,
     "assetFiles": 3,
     "htmlFiles": 16,
     "gamePages": 10,
@@ -22,8 +22,15 @@
   },
   "integrity": {
     "algorithm": "sha256",
-    "aggregateHash": "8597ede06758dcde177a0b54f8b7ab1ba3b951e82924fc7d401811fa593e81dc",
+    "aggregateHash": "ec4b42e939bc4f67253f47b5903d00df63a3955b00d9f9df5845cc4ea9467b2b",
     "files": [
+      {
+        "path": ".nojekyll",
+        "bytes": 96,
+        "sha256": "d049d4808d36a774c15ee93189d75fe50831b7efd62526eb7b5feae399fd9592",
+        "contentType": "application/octet-stream",
+        "cacheControl": "public, max-age=3600"
+      },
       {
         "path": ".well-known/assetlinks.json",
         "bytes": 348,
@@ -39,9 +46,9 @@
         "cacheControl": "public, max-age=3600"
       },
       {
-        "path": "assets/GameCanvas-C-7I0-QB.js",
+        "path": "assets/GameCanvas-BD3MWcMW.js",
         "bytes": 1393468,
-        "sha256": "43f6288477dfd22c003b33b8c57df41e0773e1480cfb2959b2f5c0a9e03b2394",
+        "sha256": "d55b1b2519abc21cbc5a1d8d0e7501894dca0bfe1176deec764fc0b9ec3727f5",
         "contentType": "text/javascript; charset=utf-8",
         "cacheControl": "public, max-age=31536000, immutable"
       },
@@ -53,16 +60,16 @@
         "cacheControl": "public, max-age=31536000, immutable"
       },
       {
-        "path": "assets/index-C4OKE3jP.js",
-        "bytes": 628107,
-        "sha256": "e0b426cc6d9b3d7d5032d428cf39b5b92d354e92eaac20e6cd5b91592e524810",
+        "path": "assets/index-BM8B7wZZ.js",
+        "bytes": 627724,
+        "sha256": "04557e5ff09698975245f77ddda3c0d4664399dbde3ca728eee3dcc6f3bb5923",
         "contentType": "text/javascript; charset=utf-8",
         "cacheControl": "public, max-age=31536000, immutable"
       },
       {
         "path": "compliance.json",
-        "bytes": 2716,
-        "sha256": "334bee53f175fdd7f2a84e1554abbbc6e617df5526a3ebdc4a856f49639e5433",
+        "bytes": 2838,
+        "sha256": "382d4997a0f56201d2921697b49336fb5c6f9b9c17cc0646e257b3e55d8d82fc",
         "contentType": "application/json; charset=utf-8",
         "cacheControl": "public, max-age=3600"
       },
@@ -209,7 +216,7 @@
       {
         "path": "index.html",
         "bytes": 903,
-        "sha256": "bd595f6ee5423118ea84b9a8650ac4daee68ced8aa3dbfcec4621550dbb1e469",
+        "sha256": "6be76924968c4a4710b85d55a3b03f9009b20e6f842eabb5859b174d518b14fd",
         "contentType": "text/html; charset=utf-8",
         "cacheControl": "no-cache"
       },
@@ -314,7 +321,7 @@
       {
         "path": "sw.js",
         "bytes": 3735,
-        "sha256": "004f2f0cd2a953740d2fd71bcc99448e17d9406b138bfe5b326b9c5fea17f006",
+        "sha256": "5312c3d5327e0eccc881e333aca4bab66e2072a15f19d6934e0595f30c81b6fa",
         "contentType": "text/javascript; charset=utf-8",
         "cacheControl": "no-cache"
       },
@@ -381,6 +388,10 @@
       },
       {
         "path": "app-ads.txt",
+        "status": "pass"
+      },
+      {
+        "path": ".nojekyll",
         "status": "pass"
       },
       {
@@ -531,7 +542,7 @@
   "complianceUrls": {
     "privacy": "https://moshequ.github.io/autonomous-game-lab/privacy.html",
     "support": "https://moshequ.github.io/autonomous-game-lab/support.html",
-    "hostedPrivacyStatus": "needs-hosted-domain"
+    "hostedPrivacyStatus": "hosted"
   },
   "controls": {
     "zeroPaidSpend": true,
@@ -546,12 +557,12 @@
     {
       "id": "dist-inventory",
       "status": "pass",
-      "detail": "43 dist files inventoried."
+      "detail": "44 dist files inventoried."
     },
     {
       "id": "required-files",
       "status": "pass",
-      "detail": "18/18 required files present."
+      "detail": "19/19 required files present."
     },
     {
       "id": "game-pages",

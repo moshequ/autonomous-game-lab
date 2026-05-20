@@ -1,16 +1,16 @@
 # Release Candidate
 
-Generated: 2026-05-20T07:12:38.850Z
+Generated: 2026-05-20T07:52:13.920Z
 Status: release-candidate-ready
-Candidate: pwa-8597ede06758
-Files: 43
-Size: 3548 KB
-Aggregate SHA-256: 8597ede06758dcde177a0b54f8b7ab1ba3b951e82924fc7d401811fa593e81dc
+Candidate: pwa-ec4b42e939bc
+Files: 44
+Size: 3547.8 KB
+Aggregate SHA-256: ec4b42e939bc4f67253f47b5903d00df63a3955b00d9f9df5845cc4ea9467b2b
 
 ## Checks
 
-- pass: dist-inventory - 43 dist files inventoried.
-- pass: required-files - 18/18 required files present.
+- pass: dist-inventory - 44 dist files inventoried.
+- pass: required-files - 19/19 required files present.
 - pass: game-pages - 10 generated game page(s) in dist.
 - pass: performance-budget - Performance budget is performance-budget-ready.
 - pass: release-health - Release health is monitoring.
@@ -34,6 +34,7 @@ Aggregate SHA-256: 8597ede06758dcde177a0b54f8b7ab1ba3b951e82924fc7d401811fa593e8
 - pass: share-manifest.json
 - pass: monetization.json
 - pass: app-ads.txt
+- pass: .nojekyll
 - pass: .well-known/assetlinks.json
 - pass: icons/icon-192.png
 - pass: icons/icon-512.png
