@@ -1,10 +1,27 @@
 {
-  "generatedAt": "2026-05-20T16:56:51.756Z",
+  "generatedAt": "2026-05-20T17:03:07.246Z",
   "status": "post-deploy-smoke-observed-live",
   "envFiles": {
-    "loaded": false,
-    "loadedFiles": [],
-    "loadedKeys": [],
+    "loaded": true,
+    "loadedFiles": [
+      {
+        "path": "ops/production.env.local",
+        "keys": [
+          "AGL_ANDROID_PACKAGE_NAME",
+          "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
+          "AGL_ANDROID_KEYSTORE_BASE64",
+          "AGL_ANDROID_KEYSTORE_PASSWORD",
+          "AGL_ANDROID_KEY_ALIAS"
+        ]
+      }
+    ],
+    "loadedKeys": [
+      "AGL_ANDROID_PACKAGE_NAME",
+      "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
+      "AGL_ANDROID_KEYSTORE_BASE64",
+      "AGL_ANDROID_KEYSTORE_PASSWORD",
+      "AGL_ANDROID_KEY_ALIAS"
+    ],
     "skippedExistingKeys": [],
     "skippedProtectedKeys": [],
     "overwrittenEnvFileKeys": [],
@@ -38,8 +55,8 @@
     "origin": "https://moshequ.github.io/autonomous-game-lab",
     "originSource": "release-candidate-public-origin",
     "provider": "github-pages",
-    "candidateId": "pwa-443affa9eff5",
-    "aggregateHash": "443affa9eff5eda431824ca6186d83d88a30e8d79f950f69e41a624c621f1f54",
+    "candidateId": "pwa-5d246dceb0bb",
+    "aggregateHash": "5d246dceb0bb2aff2dc09ce7bf7ce133e7cc14589800294f73dcd63c510ad4f9",
     "strictManifestComparison": false
   },
   "liveRelease": {
@@ -221,11 +238,11 @@
         "file": "dist/release-candidate.json",
         "expectedStatus": 200,
         "status": "pass",
-        "bytes": 19426,
+        "bytes": 19424,
         "candidateMatches": true,
         "hashMatches": true,
-        "localCandidateId": "pwa-443affa9eff5",
-        "localAggregateHash": "443affa9eff5eda431824ca6186d83d88a30e8d79f950f69e41a624c621f1f54",
+        "localCandidateId": "pwa-5d246dceb0bb",
+        "localAggregateHash": "5d246dceb0bb2aff2dc09ce7bf7ce133e7cc14589800294f73dcd63c510ad4f9",
         "detail": "Local release manifest matches the release candidate."
       }
     ]
@@ -443,7 +460,7 @@
       "path": "/release-candidate.json",
       "url": "https://moshequ.github.io/autonomous-game-lab/release-candidate.json",
       "expectedStatus": 200,
-      "requiredText": "pwa-443affa9eff5",
+      "requiredText": "pwa-5d246dceb0bb",
       "status": "pass",
       "detail": "Live release manifest is reachable; it does not match the current local release candidate.",
       "actualStatus": 200,

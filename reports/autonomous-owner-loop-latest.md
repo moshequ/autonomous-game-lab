@@ -1,17 +1,17 @@
 # Autonomous Owner Loop
 
-Generated: 2026-05-20T16:56:54.533Z
+Generated: 2026-05-20T17:03:11.952Z
 Status: owner-loop-ready
 Mode: zero-spend-web-ready
 Autonomy score: 41/42 (98%)
 
 ## Owner Decision
 
-- Next action: seed-portfolio-traffic
-- Command: npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop
-- Rationale: Under-measured playable games need free organic/internal traffic before quality judgment.
-- Last executed action: apply-safe-improvements
-- Recent executed actions: apply-safe-improvements, optimize-product-gates
+- Next action: bootstrap-production-setup
+- Command: npm run autonomous:release-candidate && npm run autonomous:deploy-plan && npm run autonomous:bootstrap
+- Rationale: Regenerates the zero-spend production setup handoff and exact GitHub variable/secret commands.
+- Last executed action: seed-portfolio-traffic
+- Recent executed actions: seed-portfolio-traffic, apply-safe-improvements, optimize-product-gates
 
 ## Systems
 
@@ -29,7 +29,7 @@ Autonomy score: 41/42 (98%)
 - ready: organic-seed-loop - Target canopy-bloom; surface portal-growth-loop; share telemetry organic_seed_share_clicked.
 - ready: retention-loop - Daily canopy-bloom; D1 17%; streak variant daily-streak; return prompt armed; return intent armed.
 - ready: pwa-install-loop - Prompt autonomy-cockpit; installs 0; launch events 0; sample collecting-sample needs 20 prompt(s) and 10 launch event(s).
-- ready: performance-budget - Initial JS 639.7 KB; gzip 174.9 KB; deferred chunks 1.
+- ready: performance-budget - Initial JS 639.4 KB; gzip 174.8 KB; deferred chunks 1.
 - ready: product-optimization - Completion 40% / gate 55%; latest already-applied.
 - ready: support-feedback - Support feedback support-feedback-empty; issues 0; routable signals 0.
 - ready: product-gate-recovery - Recovery product-gate-recovery-ready; primary firstGameCompletion; experiment collecting-sample; failing gates 3; next lift 58.
@@ -48,8 +48,8 @@ Autonomy score: 41/42 (98%)
 - ready: production-bootstrap - Bootstrap production-bootstrap-ready; mode can-apply-configured-actions; external blockers 16.
 - ready: production-activation - Activation activation-ready; mode dry-run; execution dry-run; gh ready.
 - ready: support-channel - Support channel support-channel-ready; repository moshequ/autonomous-game-lab; public intake ready.
-- ready: autonomous-operator - Operator operator-plan-ready; selected seed-portfolio-traffic; execution not-requested.
-- ready: operator-history - History operator-history-ready; records 40; executed 2.
+- ready: autonomous-operator - Operator operator-plan-ready; selected bootstrap-production-setup; execution not-requested.
+- ready: operator-history - History operator-history-ready; records 40; executed 3.
 - ready: objective-audit - Audit objective-in-progress; met 6/8; external blockers 12.
 - ready: store-listing-optimizer - Focus canopy-bloom; lead screenshot phone-canopy-bloom-generated; candidate changed yes.
 - ready: store-compliance - Rating Everyone; target audience general; blockers 3.
