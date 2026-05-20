@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-20T08:54:54.508Z",
+  "generatedAt": "2026-05-20T08:59:56.478Z",
   "status": "self-update-ready",
   "mode": "plan-and-assert",
   "envFiles": {
@@ -71,33 +71,12 @@
     "ownerLoop": "owner-loop-ready"
   },
   "pendingChanges": {
-    "total": 28,
+    "total": 8,
     "safe": [
       {
         "code": "M",
         "path": "data/autonomous-cadence.json",
         "raw": " M data/autonomous-cadence.json",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "data/autonomous-operator-history.json",
-        "raw": " M data/autonomous-operator-history.json",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "data/autonomous-operator.json",
-        "raw": " M data/autonomous-operator.json",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "data/autonomous-owner-loop.json",
-        "raw": " M data/autonomous-owner-loop.json",
         "safe": true,
         "reason": "allowlisted-generated-artifact"
       },
@@ -110,43 +89,8 @@
       },
       {
         "code": "M",
-        "path": "data/objective-audit.json",
-        "raw": " M data/objective-audit.json",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "data/production-activation.json",
-        "raw": " M data/production-activation.json",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "data/production-bootstrap.json",
-        "raw": " M data/production-bootstrap.json",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
         "path": "data/production-readiness.json",
         "raw": " M data/production-readiness.json",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "data/repository-bootstrap.json",
-        "raw": " M data/repository-bootstrap.json",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "data/repository-readiness.json",
-        "raw": " M data/repository-readiness.json",
         "safe": true,
         "reason": "allowlisted-generated-artifact"
       },
@@ -159,50 +103,8 @@
       },
       {
         "code": "M",
-        "path": "reports/autonomous-operator-history-latest.md",
-        "raw": " M reports/autonomous-operator-history-latest.md",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "reports/autonomous-operator-latest.md",
-        "raw": " M reports/autonomous-operator-latest.md",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "reports/autonomous-owner-loop-latest.md",
-        "raw": " M reports/autonomous-owner-loop-latest.md",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
         "path": "reports/autonomous-self-update-latest.md",
         "raw": " M reports/autonomous-self-update-latest.md",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "reports/objective-audit-latest.md",
-        "raw": " M reports/objective-audit-latest.md",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "reports/production-activation-latest.md",
-        "raw": " M reports/production-activation-latest.md",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "reports/production-bootstrap-latest.md",
-        "raw": " M reports/production-bootstrap-latest.md",
         "safe": true,
         "reason": "allowlisted-generated-artifact"
       },
@@ -215,36 +117,8 @@
       },
       {
         "code": "M",
-        "path": "reports/repository-bootstrap-latest.md",
-        "raw": " M reports/repository-bootstrap-latest.md",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "reports/repository-readiness-latest.md",
-        "raw": " M reports/repository-readiness-latest.md",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
         "path": "src/data/autonomousCadence.ts",
         "raw": " M src/data/autonomousCadence.ts",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "src/data/autonomousOperatorHistory.ts",
-        "raw": " M src/data/autonomousOperatorHistory.ts",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "src/data/autonomousOwnerLoop.ts",
-        "raw": " M src/data/autonomousOwnerLoop.ts",
         "safe": true,
         "reason": "allowlisted-generated-artifact"
       },
@@ -254,24 +128,10 @@
         "raw": " M src/data/autonomousSelfUpdate.ts",
         "safe": true,
         "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "src/data/objectiveAudit.ts",
-        "raw": " M src/data/objectiveAudit.ts",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "src/data/productionActivation.ts",
-        "raw": " M src/data/productionActivation.ts",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
       }
     ],
     "unsafe": [],
-    "safeCount": 28,
+    "safeCount": 8,
     "unsafeCount": 0
   },
   "commitPlan": {
@@ -285,33 +145,13 @@
     ],
     "stagePaths": [
       "data/autonomous-cadence.json",
-      "data/autonomous-operator-history.json",
-      "data/autonomous-operator.json",
-      "data/autonomous-owner-loop.json",
       "data/autonomous-self-update.json",
-      "data/objective-audit.json",
-      "data/production-activation.json",
-      "data/production-bootstrap.json",
       "data/production-readiness.json",
-      "data/repository-bootstrap.json",
-      "data/repository-readiness.json",
       "reports/autonomous-cadence-latest.md",
-      "reports/autonomous-operator-history-latest.md",
-      "reports/autonomous-operator-latest.md",
-      "reports/autonomous-owner-loop-latest.md",
       "reports/autonomous-self-update-latest.md",
-      "reports/objective-audit-latest.md",
-      "reports/production-activation-latest.md",
-      "reports/production-bootstrap-latest.md",
       "reports/production-readiness-latest.md",
-      "reports/repository-bootstrap-latest.md",
-      "reports/repository-readiness-latest.md",
       "src/data/autonomousCadence.ts",
-      "src/data/autonomousOperatorHistory.ts",
-      "src/data/autonomousOwnerLoop.ts",
-      "src/data/autonomousSelfUpdate.ts",
-      "src/data/objectiveAudit.ts",
-      "src/data/productionActivation.ts"
+      "src/data/autonomousSelfUpdate.ts"
     ],
     "commitMessage": "Autonomous daily self-update",
     "skipWhenNoAllowlistedChanges": true
@@ -400,7 +240,7 @@
     {
       "id": "self-update-workflow",
       "status": "pass",
-      "detail": "A separate gated workflow can reproduce the owner loop, verify it with gate env, and persist allowlisted changes."
+      "detail": "A separate gated workflow can reproduce the owner loop with production env, verify it with gate env, and persist allowlisted changes."
     },
     {
       "id": "post-self-update-deploy",
@@ -410,7 +250,7 @@
     {
       "id": "safe-path-allowlist",
       "status": "pass",
-      "detail": "28 safe pending file(s), 0 unsafe pending file(s)."
+      "detail": "8 safe pending file(s), 0 unsafe pending file(s)."
     },
     {
       "id": "repository-optional",
