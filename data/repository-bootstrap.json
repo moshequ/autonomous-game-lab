@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-20T18:42:07.606Z",
+  "generatedAt": "2026-05-20T18:55:00.056Z",
   "status": "repository-bootstrap-ready",
   "mode": "plan-only",
   "envFiles": {
@@ -61,7 +61,7 @@
       "originRemote": "git@github.com:moshequ/autonomous-game-lab.git",
       "remoteRepository": "moshequ/autonomous-game-lab",
       "hasCommit": true,
-      "dirtyFiles": 37,
+      "dirtyFiles": 34,
       "dirtyPaths": [
         "data/autonomous-cadence.json",
         "data/autonomous-operator-history.json",
@@ -92,16 +92,13 @@
         "reports/repository-bootstrap-latest.md",
         "reports/repository-readiness-latest.md",
         "src/data/autonomousCadence.ts",
-        "src/data/autonomousOwnerLoop.ts",
         "src/data/objectiveAudit.ts",
         "src/data/performanceBudget.ts",
         "src/data/postDeploySmoke.ts",
         "src/data/productionActivation.ts",
-        "src/data/productionBootstrap.ts",
-        "src/data/releaseCandidate.ts",
-        "src/data/repositoryReadiness.ts"
+        "src/data/releaseCandidate.ts"
       ],
-      "generatedEvidenceDirtyFiles": 37,
+      "generatedEvidenceDirtyFiles": 34,
       "generatedEvidenceDirtyPaths": [
         "data/autonomous-cadence.json",
         "data/autonomous-operator-history.json",
@@ -132,14 +129,11 @@
         "reports/repository-bootstrap-latest.md",
         "reports/repository-readiness-latest.md",
         "src/data/autonomousCadence.ts",
-        "src/data/autonomousOwnerLoop.ts",
         "src/data/objectiveAudit.ts",
         "src/data/performanceBudget.ts",
         "src/data/postDeploySmoke.ts",
         "src/data/productionActivation.ts",
-        "src/data/productionBootstrap.ts",
-        "src/data/releaseCandidate.ts",
-        "src/data/repositoryReadiness.ts"
+        "src/data/releaseCandidate.ts"
       ],
       "nonGeneratedDirtyFiles": 0,
       "nonGeneratedDirtyPaths": []
@@ -151,7 +145,7 @@
       "originRemote": "git@github.com:moshequ/autonomous-game-lab.git",
       "remoteRepository": "moshequ/autonomous-game-lab",
       "hasCommit": true,
-      "dirtyFiles": 37,
+      "dirtyFiles": 34,
       "dirtyPaths": [
         "data/autonomous-cadence.json",
         "data/autonomous-operator-history.json",
@@ -182,16 +176,13 @@
         "reports/repository-bootstrap-latest.md",
         "reports/repository-readiness-latest.md",
         "src/data/autonomousCadence.ts",
-        "src/data/autonomousOwnerLoop.ts",
         "src/data/objectiveAudit.ts",
         "src/data/performanceBudget.ts",
         "src/data/postDeploySmoke.ts",
         "src/data/productionActivation.ts",
-        "src/data/productionBootstrap.ts",
-        "src/data/releaseCandidate.ts",
-        "src/data/repositoryReadiness.ts"
+        "src/data/releaseCandidate.ts"
       ],
-      "generatedEvidenceDirtyFiles": 37,
+      "generatedEvidenceDirtyFiles": 34,
       "generatedEvidenceDirtyPaths": [
         "data/autonomous-cadence.json",
         "data/autonomous-operator-history.json",
@@ -222,14 +213,11 @@
         "reports/repository-bootstrap-latest.md",
         "reports/repository-readiness-latest.md",
         "src/data/autonomousCadence.ts",
-        "src/data/autonomousOwnerLoop.ts",
         "src/data/objectiveAudit.ts",
         "src/data/performanceBudget.ts",
         "src/data/postDeploySmoke.ts",
         "src/data/productionActivation.ts",
-        "src/data/productionBootstrap.ts",
-        "src/data/releaseCandidate.ts",
-        "src/data/repositoryReadiness.ts"
+        "src/data/releaseCandidate.ts"
       ],
       "nonGeneratedDirtyFiles": 0,
       "nonGeneratedDirtyPaths": []
@@ -267,7 +255,7 @@
     "repositoryReadiness": "repository-channel-ready",
     "deployment": "ready-for-pages",
     "releaseCandidate": "release-candidate-ready",
-    "releaseCandidateId": "pwa-2745009d248c",
+    "releaseCandidateId": "pwa-d5240c7d211f",
     "postDeploySmoke": "post-deploy-smoke-observed-live"
   },
   "repositoryTargetPlan": {
@@ -357,7 +345,7 @@
       "mutatesLocalGit": true,
       "mutatesRemoteGitHub": false,
       "requiresExplicitEnv": true,
-      "detail": "37 repository evidence file(s) changed during this dry run; the outer verified commit will persist them."
+      "detail": "34 repository evidence file(s) changed during this dry run; the outer verified commit will persist them."
     },
     {
       "id": "set-or-create-origin",

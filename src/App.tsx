@@ -73,6 +73,7 @@ import {
   setAcquisitionAttribution,
   trackEvent,
   type AnalyticsEvent,
+  type AnalyticsEventName,
 } from './lib/analytics'
 import { getExperimentVariant } from './lib/experiments'
 import {
@@ -225,9 +226,33 @@ type LocalEventDropWindow = Window & {
   }) => Promise<LocalEventDropDirectoryHandle>
 }
 
+type LocalAnalyticsExportOptions = {
+  fallbackToDownload?: boolean
+}
+
 const eventDropHandleDbName = 'agl.localEventDrops'
 const eventDropHandleStoreName = 'handles'
 const eventDropDirectoryKey = 'drop-directory'
+const localEventDropAutosaveDelayMs = 400
+const localEventDropAutosaveSurface = 'local-event-drop-autosave'
+const localEventDropAutosaveEvents = new Set<AnalyticsEventName>([
+  'first_move_coach_shown',
+  'first_move_coach_used',
+  'tutorial_completed',
+  'completion_nudge_viewed',
+  'completion_nudge_clicked',
+  'finish_line_coach_viewed',
+  'finish_line_coach_clicked',
+  'level_completed',
+  'game_abandoned',
+  'replay_prompt_viewed',
+  'replay_prompt_clicked',
+  'replay_clicked',
+  'daily_return_prompt_viewed',
+  'daily_return_prompt_clicked',
+  'daily_return_intent_viewed',
+  'daily_return_intent_started',
+])
 
 const localEventDropFolderSupported = () =>
   typeof window !== 'undefined' &&
@@ -567,11 +592,15 @@ function App() {
   const localRouterCardRef = useRef('')
   const pwaPromptViewedRef = useRef(false)
   const localEventDropDirectoryRef = useRef<LocalEventDropDirectoryHandle | null>(null)
+  const localEventDropAutosaveTimerRef = useRef<number | null>(null)
+  const localEventDropAutosaveEventIdRef = useRef('')
   const pacingVariant = useMemo(() => getExperimentVariant('first_session_pacing'), [])
   const rewardVariant = useMemo(() => getExperimentVariant('reward_offer'), [])
   const thumbnailVariant = useMemo(() => getExperimentVariant('thumbnail_board_state_v2'), [])
   const activeRunId = useMemo(() => `${selectedGameId}-${crypto.randomUUID()}`, [selectedGameId])
   const localAnalyticsCoverage = useMemo(() => getLocalAnalyticsExportCoverage(events), [events])
+  const localEventDropAutosaveStatus =
+    localEventDropFolderStatus === 'connected' || localEventDropFolderStatus === 'saved' ? 'armed' : 'manual'
 
   useEffect(() => {
     initAnalytics()
@@ -1918,7 +1947,11 @@ function App() {
       })
     }
   }
-  const exportLocalAnalytics = async (properties: Record<string, string | number | boolean | null> = {}) => {
+  const exportLocalAnalytics = useCallback(async (
+    properties: Record<string, string | number | boolean | null> = {},
+    options: LocalAnalyticsExportOptions = {},
+  ) => {
+    const fallbackToDownload = options.fallbackToDownload ?? true
     const eventsBeforeExport = getBufferedEvents()
     const coverageBeforeExport = getLocalAnalyticsExportCoverage(eventsBeforeExport)
     const exportSurface = typeof properties.exportSurface === 'string' ? properties.exportSurface : 'manual'
@@ -1940,8 +1973,6 @@ function App() {
       exportAgeThresholdHours: coverageBeforeExport.exportAgeThresholdHours,
     })
     const exportedEvents = getBufferedEvents()
-    markLocalAnalyticsExported(exportedEvents, exportSurface)
-    setEvents(exportedEvents)
     const payload = JSON.stringify(exportedEvents, null, 2)
     let wroteToLocalFolder = false
     const dropDirectory = localEventDropDirectoryRef.current
@@ -1969,7 +2000,13 @@ function App() {
     }
 
     if (wroteToLocalFolder) {
-      return
+      markLocalAnalyticsExported(exportedEvents, exportSurface)
+      setEvents(exportedEvents)
+      return true
+    }
+
+    if (!fallbackToDownload) {
+      return false
     }
 
     const blob = new Blob([payload], { type: 'application/json' })
@@ -1979,7 +2016,56 @@ function App() {
     anchor.download = `player-events-${new Date().toISOString().slice(0, 10)}.json`
     anchor.click()
     URL.revokeObjectURL(url)
-  }
+    markLocalAnalyticsExported(exportedEvents, exportSurface)
+    setEvents(exportedEvents)
+    return true
+  }, [localEventDropFolderStatus])
+
+  useEffect(() => {
+    const onAnalytics = (event: Event) => {
+      const analyticsEvent = (event as CustomEvent<AnalyticsEvent>).detail
+
+      if (
+        !analyticsEvent ||
+        !localEventDropAutosaveEvents.has(analyticsEvent.name) ||
+        !localEventDropDirectoryRef.current
+      ) {
+        return
+      }
+
+      localEventDropAutosaveEventIdRef.current = analyticsEvent.id
+
+      if (localEventDropAutosaveTimerRef.current) {
+        window.clearTimeout(localEventDropAutosaveTimerRef.current)
+      }
+
+      localEventDropAutosaveTimerRef.current = window.setTimeout(() => {
+        localEventDropAutosaveTimerRef.current = null
+        void exportLocalAnalytics(
+          {
+            exportSurface: localEventDropAutosaveSurface,
+            autoExportTrigger: analyticsEvent.name,
+            autoExportEventId: localEventDropAutosaveEventIdRef.current,
+            fallbackDownloadEnabled: false,
+            noExternalUpload: true,
+          },
+          { fallbackToDownload: false },
+        )
+      }, localEventDropAutosaveDelayMs)
+    }
+
+    window.addEventListener('agl:analytics', onAnalytics)
+
+    return () => {
+      window.removeEventListener('agl:analytics', onAnalytics)
+
+      if (localEventDropAutosaveTimerRef.current) {
+        window.clearTimeout(localEventDropAutosaveTimerRef.current)
+        localEventDropAutosaveTimerRef.current = null
+      }
+    }
+  }, [exportLocalAnalytics])
+
   const exportGateSampleEvidence = (mission: (typeof productGateSamplePlan.missions)[number]) => {
     const progress = sampleProgressForMission(mission, getBufferedEvents())
 
@@ -2861,6 +2947,10 @@ function App() {
                 <div>
                   <span>Drop folder</span>
                   <strong>{localEventDropFolderStatus}</strong>
+                </div>
+                <div>
+                  <span>Autosave</span>
+                  <strong>{localEventDropAutosaveStatus}</strong>
                 </div>
                 <div className="eventDropActions">
                   <button

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-20T18:42:06.259Z",
+  "generatedAt": "2026-05-20T18:54:58.671Z",
   "status": "repository-channel-ready",
   "envFiles": {
     "loaded": true,
@@ -56,7 +56,7 @@
     "insideWorkTree": true,
     "gitRoot": "/Users/moshequ/Documents/Codex/2026-05-18/i-want-to-have-a-new",
     "currentBranch": "main",
-    "dirtyFiles": 37,
+    "dirtyFiles": 34,
     "dirtyPaths": [
       "data/autonomous-cadence.json",
       "data/autonomous-operator-history.json",
@@ -87,16 +87,13 @@
       "reports/repository-bootstrap-latest.md",
       "reports/repository-readiness-latest.md",
       "src/data/autonomousCadence.ts",
-      "src/data/autonomousOwnerLoop.ts",
       "src/data/objectiveAudit.ts",
       "src/data/performanceBudget.ts",
       "src/data/postDeploySmoke.ts",
       "src/data/productionActivation.ts",
-      "src/data/productionBootstrap.ts",
-      "src/data/releaseCandidate.ts",
-      "src/data/repositoryReadiness.ts"
+      "src/data/releaseCandidate.ts"
     ],
-    "generatedEvidenceDirtyFiles": 37,
+    "generatedEvidenceDirtyFiles": 34,
     "generatedEvidenceDirtyPaths": [
       "data/autonomous-cadence.json",
       "data/autonomous-operator-history.json",
@@ -127,14 +124,11 @@
       "reports/repository-bootstrap-latest.md",
       "reports/repository-readiness-latest.md",
       "src/data/autonomousCadence.ts",
-      "src/data/autonomousOwnerLoop.ts",
       "src/data/objectiveAudit.ts",
       "src/data/performanceBudget.ts",
       "src/data/postDeploySmoke.ts",
       "src/data/productionActivation.ts",
-      "src/data/productionBootstrap.ts",
-      "src/data/releaseCandidate.ts",
-      "src/data/repositoryReadiness.ts"
+      "src/data/releaseCandidate.ts"
     ],
     "nonGeneratedDirtyFiles": 0,
     "nonGeneratedDirtyPaths": []
@@ -173,7 +167,7 @@
     "workflowExists": true,
     "deployWorkflowIncludesSmoke": true,
     "deploymentStatus": "ready-for-pages",
-    "releaseCandidateId": "pwa-2745009d248c",
+    "releaseCandidateId": "pwa-d5240c7d211f",
     "postDeploySmokeStatus": "post-deploy-smoke-observed-live",
     "liveSettings": {
       "status": "inspected",

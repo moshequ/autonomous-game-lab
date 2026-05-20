@@ -586,6 +586,8 @@ if (
   !localEventBridge.eventDropContract?.recommendedFields?.includes('properties.unexportedEventsBeforeExport') ||
   localEventBridge.eventDropContract?.browserFolderDrop?.supported !== true ||
   localEventBridge.eventDropContract?.browserFolderDrop?.mode !== 'browser-selected-local-folder' ||
+  localEventBridge.eventDropContract?.browserFolderDrop?.autosaveSurface !== 'local-event-drop-autosave' ||
+  !localEventBridge.eventDropContract?.browserFolderDrop?.autosaveTriggers?.includes('level_completed') ||
   localEventBridge.controls?.zeroPaidSpend !== true ||
   localEventBridge.controls?.localOnly !== true ||
   localEventBridge.controls?.noExternalUpload !== true ||
@@ -599,6 +601,9 @@ if (
   localEventBridge.controls?.staleExportDebtVisibleInApp !== true ||
   localEventBridge.controls?.bridgeReadsExportReceipts !== true ||
   localEventBridge.controls?.browserSelectedDropFolderSupported !== true ||
+  localEventBridge.controls?.browserSelectedDropFolderAutosave !== true ||
+  localEventBridge.controls?.autosaveRequiresConnectedFolder !== true ||
+  localEventBridge.controls?.autosaveNeverDownloadsWithoutManualClick !== true ||
   localEventBridge.controls?.folderHandleStoredInBrowserOnly !== true ||
   localEventBridge.explicitDownloadsScanPolicy?.explicitOptInRequired !== true ||
   localEventBridge.explicitDownloadsScanPolicy?.cooldownHours !== 4 ||
@@ -641,6 +646,8 @@ if (
   !appSource.includes('showDirectoryPicker') ||
   !appSource.includes('writeEventDropFile') ||
   !appSource.includes('eventDropHandleDbName') ||
+  !appSource.includes('localEventDropAutosaveEvents') ||
+  !appSource.includes('local-event-drop-autosave') ||
   !analyticsLibSource.includes('localExportReceiptKey') ||
   !analyticsLibSource.includes('getLocalAnalyticsExportCoverage') ||
   !analyticsLibSource.includes('markLocalAnalyticsExported')

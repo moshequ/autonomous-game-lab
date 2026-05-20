@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-20T18:25:51.639Z",
+  "generatedAt": "2026-05-20T18:52:35.958Z",
   "status": "bridge-waiting-for-export",
   "mode": "local-zero-spend-event-drop-bridge",
   "inbox": {
@@ -68,7 +68,18 @@
       "supported": true,
       "mode": "browser-selected-local-folder",
       "fallback": "download",
-      "privacy": "local-only-no-external-upload"
+      "privacy": "local-only-no-external-upload",
+      "autosaveSurface": "local-event-drop-autosave",
+      "autosaveTriggers": [
+        "first_move_coach_shown",
+        "tutorial_completed",
+        "completion_nudge_viewed",
+        "finish_line_coach_viewed",
+        "level_completed",
+        "replay_prompt_viewed",
+        "replay_clicked",
+        "daily_return_intent_started"
+      ]
     }
   },
   "explicitDownloadsScan": {
@@ -88,7 +99,7 @@
     "evidenceReadyNow": false,
     "lastScanAt": "2026-05-20T05:52:52.843Z",
     "lastScanStatus": "no-evidence-found",
-    "scanAgeHours": 12.55,
+    "scanAgeHours": 13,
     "cooldownRemainingHours": 0,
     "nextRecommendedScanAt": "2026-05-20T09:52:52.843Z"
   },
@@ -178,12 +189,16 @@
     "staleExportDebtVisibleInApp": true,
     "bridgeReadsExportReceipts": true,
     "browserSelectedDropFolderSupported": true,
+    "browserSelectedDropFolderAutosave": true,
+    "autosaveRequiresConnectedFolder": true,
+    "autosaveNeverDownloadsWithoutManualClick": true,
     "folderHandleStoredInBrowserOnly": true,
     "doesNotMutateProductGates": true
   },
   "nextActions": [
     "Use the in-app Export local analytics control after playtesting.",
     "Connect a browser-selected local event drop folder to send future exports directly to the bridge inbox folder.",
+    "After the folder is connected, play milestones autosave event drops locally without external upload.",
     "Prefer fresh PWA exports because they include event-count receipts for stale-export debt.",
     "Place the downloaded player-events file in data/player-events/inbox or pass AGL_LOCAL_EVENT_DROP_DIRS to copy from an explicit folder.",
     "Optionally run AGL_LOCAL_EVENT_IMPORT_DOWNLOADS=true npm run autonomous:local-event-bridge to scan Downloads explicitly.",

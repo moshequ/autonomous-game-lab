@@ -2602,6 +2602,8 @@ test('local event bridge keeps browser analytics drops importable without extern
         mode: string
         fallback: string
         privacy: string
+        autosaveSurface: string
+        autosaveTriggers: string[]
       }
     }
     gateSampleEvidence: {
@@ -2645,6 +2647,9 @@ test('local event bridge keeps browser analytics drops importable without extern
       staleExportDebtVisibleInApp: boolean
       bridgeReadsExportReceipts: boolean
       browserSelectedDropFolderSupported: boolean
+      browserSelectedDropFolderAutosave: boolean
+      autosaveRequiresConnectedFolder: boolean
+      autosaveNeverDownloadsWithoutManualClick: boolean
       folderHandleStoredInBrowserOnly: boolean
     }
     privacy: {
@@ -2672,7 +2677,9 @@ test('local event bridge keeps browser analytics drops importable without extern
     mode: 'browser-selected-local-folder',
     fallback: 'download',
     privacy: 'local-only-no-external-upload',
+    autosaveSurface: 'local-event-drop-autosave',
   })
+  expect(bridge.eventDropContract.browserFolderDrop.autosaveTriggers).toContain('level_completed')
   expect(bridge.controls.zeroPaidSpend).toBe(true)
   expect(bridge.controls.localOnly).toBe(true)
   expect(bridge.controls.noExternalUpload).toBe(true)
@@ -2686,6 +2693,9 @@ test('local event bridge keeps browser analytics drops importable without extern
   expect(bridge.controls.staleExportDebtVisibleInApp).toBe(true)
   expect(bridge.controls.bridgeReadsExportReceipts).toBe(true)
   expect(bridge.controls.browserSelectedDropFolderSupported).toBe(true)
+  expect(bridge.controls.browserSelectedDropFolderAutosave).toBe(true)
+  expect(bridge.controls.autosaveRequiresConnectedFolder).toBe(true)
+  expect(bridge.controls.autosaveNeverDownloadsWithoutManualClick).toBe(true)
   expect(bridge.controls.folderHandleStoredInBrowserOnly).toBe(true)
   expect(bridge.explicitDownloadsScanPolicy.explicitOptInRequired).toBe(true)
   expect(bridge.explicitDownloadsScanPolicy.cooldownHours).toBe(4)
@@ -2717,6 +2727,7 @@ test('local event bridge keeps browser analytics drops importable without extern
   await expect(page.getByLabel('Local Event Bridge')).toContainText('Export debt')
   await expect(page.getByLabel('Local Event Bridge')).toContainText('Export coverage')
   await expect(page.getByLabel('Local Event Bridge')).toContainText('Drop folder')
+  await expect(page.getByLabel('Local Event Bridge')).toContainText('Autosave')
 })
 
 test('autonomous operator history keeps a capped audit trail', async ({ page }) => {
@@ -3691,6 +3702,78 @@ test('local event drop folder writes export files without external upload', asyn
     exportSurface: 'manual',
     eventDropMode: 'folder-preferred',
     eventDropFolderStatus: 'connected',
+  })
+  expect(exportEvent?.properties.eventDropFileName).toBe(drop.name)
+  await expect(bridge).toContainText('saved')
+})
+
+test('local event drop folder autosaves play milestones without a manual download', async ({ page }) => {
+  await page.addInitScript(() => {
+    const state = window as unknown as {
+      __eventDropWrites: Array<{ name: string; text: string }>
+    }
+    state.__eventDropWrites = []
+
+    Object.defineProperty(window, 'showDirectoryPicker', {
+      configurable: true,
+      value: async () => ({
+        queryPermission: async () => 'granted',
+        requestPermission: async () => 'granted',
+        getFileHandle: async (name: string) => ({
+          createWritable: async () => ({
+            write: async (chunk: string | Blob) => {
+              state.__eventDropWrites.push({
+                name,
+                text: typeof chunk === 'string' ? chunk : await chunk.text(),
+              })
+            },
+            close: async () => {},
+          }),
+        }),
+      }),
+    })
+  })
+
+  await page.goto('/')
+
+  const bridge = page.getByLabel('Local Event Bridge')
+  await bridge.getByRole('button', { name: 'Connect folder' }).click()
+  await expect(bridge).toContainText('armed')
+
+  const canvas = page.locator('canvas').first()
+  const box = await canvas.boundingBox()
+  expect(box).not.toBeNull()
+
+  if (!box) {
+    return
+  }
+
+  await page.mouse.click(box.x + (85 / 560) * box.width, box.y + (183 / 500) * box.height)
+  await page.waitForFunction(() => {
+    const state = window as unknown as { __eventDropWrites?: unknown[] }
+    return (state.__eventDropWrites?.length ?? 0) > 0
+  })
+
+  const drop = await page.evaluate(() => {
+    const state = window as unknown as {
+      __eventDropWrites: Array<{ name: string; text: string }>
+    }
+    return state.__eventDropWrites.at(-1)
+  })
+  const events = JSON.parse(drop.text) as Array<{
+    name: string
+    properties: Record<string, string | number | boolean | null>
+  }>
+  const exportEvent = events.findLast((event) => event.name === 'analytics_exported')
+
+  expect(drop.name).toMatch(/^player-events-\d{4}-\d{2}-\d{2}T.*-local-event-drop-autosave\.json$/)
+  expect(events.some((event) => event.name === 'tutorial_completed')).toBe(true)
+  expect(exportEvent?.properties).toMatchObject({
+    destination: 'local_file',
+    exportSurface: 'local-event-drop-autosave',
+    autoExportTrigger: 'tutorial_completed',
+    fallbackDownloadEnabled: false,
+    eventDropMode: 'folder-preferred',
   })
   expect(exportEvent?.properties.eventDropFileName).toBe(drop.name)
   await expect(bridge).toContainText('saved')
