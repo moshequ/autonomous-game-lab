@@ -42,13 +42,31 @@ jobs:
 
       - name: Run autonomous owner loop
         env:
+          AGL_ANDROID_KEYSTORE_BASE64: ${{ secrets.AGL_ANDROID_KEYSTORE_BASE64 }}
+          AGL_ANDROID_KEYSTORE_PASSWORD: ${{ secrets.AGL_ANDROID_KEYSTORE_PASSWORD }}
+          AGL_ANDROID_KEY_ALIAS: ${{ secrets.AGL_ANDROID_KEY_ALIAS }}
+          AGL_ANDROID_PACKAGE_NAME: ${{ vars.AGL_ANDROID_PACKAGE_NAME }}
+          AGL_ANDROID_SHA256_CERT_FINGERPRINT: ${{ vars.AGL_ANDROID_SHA256_CERT_FINGERPRINT }}
+          AGL_PUBLIC_ORIGIN: ${{ vars.AGL_PUBLIC_ORIGIN }}
+          PUBLIC_SITE_URL: ${{ vars.PUBLIC_SITE_URL }}
           VITE_BASE_PATH: ${{ vars.VITE_BASE_PATH }}
+          VITE_PUBLIC_ORIGIN: ${{ vars.VITE_PUBLIC_ORIGIN }}
         run: npm run autonomous:operate
 
       - name: Prepare release candidate
+        env:
+          AGL_PUBLIC_ORIGIN: ${{ vars.AGL_PUBLIC_ORIGIN }}
+          PUBLIC_SITE_URL: ${{ vars.PUBLIC_SITE_URL }}
+          VITE_BASE_PATH: ${{ vars.VITE_BASE_PATH }}
+          VITE_PUBLIC_ORIGIN: ${{ vars.VITE_PUBLIC_ORIGIN }}
         run: npm run autonomous:release-candidate
 
       - name: Assert deployment gate
+        env:
+          AGL_PUBLIC_ORIGIN: ${{ vars.AGL_PUBLIC_ORIGIN }}
+          PUBLIC_SITE_URL: ${{ vars.PUBLIC_SITE_URL }}
+          VITE_BASE_PATH: ${{ vars.VITE_BASE_PATH }}
+          VITE_PUBLIC_ORIGIN: ${{ vars.VITE_PUBLIC_ORIGIN }}
         run: npm run autonomous:assert-deployable
 
       - name: Configure Pages
