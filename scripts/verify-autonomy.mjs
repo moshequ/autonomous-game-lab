@@ -2771,6 +2771,13 @@ const testAutomationObjectiveAuditRuns = [...testAutomationScript.matchAll(/auto
 const testAutomationFinalOwnerLoopRun = testAutomationOwnerLoopRuns.at(-1) ?? -1
 const testAutomationPenultimateOwnerLoopRun = testAutomationOwnerLoopRuns.at(-2) ?? -1
 const testAutomationFinalOperatorRun = testAutomationOperatorRuns.at(-1) ?? -1
+const testAutomationFinalDeployPlanRun = testAutomationDeployPlanRuns.at(-1) ?? -1
+const testAutomationPenultimateDeployPlanRun = testAutomationDeployPlanRuns.at(-2) ?? -1
+const testAutomationFinalRepoReadinessRun = testAutomationRepoReadinessRuns.at(-1) ?? -1
+const testAutomationFinalRepoBootstrapRun = testAutomationRepoBootstrapRuns.at(-1) ?? -1
+const testAutomationFinalReadinessRun = testAutomationReadinessRuns.at(-1) ?? -1
+const testAutomationPenultimateReadinessRun = testAutomationReadinessRuns.at(-2) ?? -1
+const testAutomationFinalObjectiveAuditRun = testAutomationObjectiveAuditRuns.at(-1) ?? -1
 
 if (
   testAutomationDeployPlanRuns.length < 2 ||
@@ -2790,15 +2797,16 @@ if (
   testAutomationReleaseIndex > testAutomationDeployPlanRuns[0] ||
   testAutomationDeployPlanRuns[0] > testAutomationPostSmokeRuns[0] ||
   testAutomationPostSmokeRuns[0] > testAutomationReadinessRuns[0] ||
-  testAutomationReadinessRuns[0] > testAutomationDeployPlanRuns.at(-1) ||
-  testAutomationDeployPlanRuns.at(-1) > testAutomationPostSmokeRuns.at(-1) ||
-  testAutomationPostSmokeRuns.at(-1) > testAutomationRepoReadinessRuns.at(-1) ||
-  testAutomationRepoReadinessRuns.at(-1) > testAutomationRepoBootstrapRuns.at(-1) ||
-  testAutomationRepoBootstrapRuns.at(-1) > testAutomationReadinessRuns.at(-1) ||
-  testAutomationReadinessRuns.at(-1) > testAutomationVerifyIndex
+  testAutomationPostSmokeRuns.at(-1) > testAutomationPenultimateReadinessRun ||
+  testAutomationPenultimateReadinessRun > testAutomationPenultimateDeployPlanRun ||
+  testAutomationPenultimateDeployPlanRun > testAutomationFinalRepoReadinessRun ||
+  testAutomationFinalRepoReadinessRun > testAutomationFinalRepoBootstrapRun ||
+  testAutomationFinalRepoBootstrapRun > testAutomationFinalDeployPlanRun ||
+  testAutomationFinalDeployPlanRun > testAutomationFinalReadinessRun ||
+  testAutomationFinalReadinessRun > testAutomationVerifyIndex
 ) {
   fail(
-    'Autonomous verification must rebuild dist, refresh performance, release candidate, deployment, smoke, repository readiness, and readiness before verify-autonomy.',
+    'Autonomous verification must rebuild dist, refresh performance, release candidate, smoke, final deployment, repository readiness, and readiness before verify-autonomy.',
   )
 }
 
@@ -2806,14 +2814,15 @@ if (
   testAutomationOwnerLoopRuns.length < 3 ||
   testAutomationOperatorRuns.length < 2 ||
   testAutomationObjectiveAuditRuns.length < 1 ||
-  testAutomationObjectiveAuditRuns.at(-1) > testAutomationPenultimateOwnerLoopRun ||
   testAutomationPenultimateOwnerLoopRun > testAutomationFinalOperatorRun ||
-  testAutomationFinalOperatorRun > testAutomationFinalOwnerLoopRun ||
-  testAutomationFinalOwnerLoopRun > testAutomationReadinessRuns.at(-1) ||
-  testAutomationReadinessRuns.at(-1) > testAutomationVerifyIndex ||
+  testAutomationFinalOperatorRun > testAutomationFinalDeployPlanRun ||
+  testAutomationFinalDeployPlanRun > testAutomationFinalObjectiveAuditRun ||
+  testAutomationFinalObjectiveAuditRun > testAutomationFinalOwnerLoopRun ||
+  testAutomationFinalOwnerLoopRun > testAutomationFinalReadinessRun ||
+  testAutomationFinalReadinessRun > testAutomationVerifyIndex ||
   testAutomationFinalOperatorRun > testAutomationVerifyIndex
 ) {
-  fail('Autonomous verification must refresh objective, regenerate owner/operator evidence, settle owner memory after operator history, then refresh readiness before verify-autonomy.')
+  fail('Autonomous verification must refresh objective after final deploy evidence, settle owner memory after operator history, then refresh readiness before verify-autonomy.')
 }
 
 if (
