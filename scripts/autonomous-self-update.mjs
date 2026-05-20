@@ -185,6 +185,8 @@ const githubTokenConfigured =
   repositoryReadiness.githubAutomation?.ghTokenConfigured === true ||
   configured(process.env.GH_TOKEN) ||
   configured(process.env.GITHUB_TOKEN)
+const githubCredentialConfigured =
+  githubTokenConfigured || repositoryReadiness.githubAutomation?.ghCredentialReady === true
 const directPushConfigured = ['1', 'true', 'yes'].includes(
   String(process.env.AGL_AUTONOMOUS_SELF_UPDATE_DIRECT ?? '').toLowerCase(),
 )
@@ -261,7 +263,7 @@ const checks = [
   {
     id: 'remote-push-gated',
     status: 'pass',
-    detail: githubTokenConfigured && directPushConfigured
+    detail: githubCredentialConfigured && directPushConfigured
       ? `Direct push is configured for ${targetRepository ?? 'the current repository'}.`
       : 'Remote push remains held until GitHub credentials and AGL_AUTONOMOUS_SELF_UPDATE_DIRECT=1 are configured.',
   },
@@ -295,9 +297,10 @@ const payload = {
     currentBranch: gitBranchResult.ok ? gitBranchResult.stdout || null : null,
     insideWorkTree,
     githubTokenConfigured,
+    githubCredentialConfigured,
     directPushConfigured,
     selfUpdateEnabled,
-    remotePushReady: Boolean(targetRepository && githubTokenConfigured && directPushConfigured),
+    remotePushReady: Boolean(targetRepository && githubCredentialConfigured && directPushConfigured),
   },
   sourceStatus: {
     repositoryReadiness: repositoryReadiness.status,

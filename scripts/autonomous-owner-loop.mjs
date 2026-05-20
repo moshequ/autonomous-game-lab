@@ -25,6 +25,9 @@ const generatedAtMs = (artifact) => {
 }
 
 const productionEnvironment = await readJson(path.join(dataDir, 'production-environment.json'))
+const trendSignals = await readJson(path.join(dataDir, 'trend-signals.json'))
+const generatedConcepts = await readJson(path.join(dataDir, 'generated-concepts.json'))
+const prototypePipeline = await readJson(path.join(dataDir, 'prototype-pipeline.json'))
 const playable = await readJson(path.join(dataDir, 'playable-games.json'))
 const generatedPlayable = await readJson(path.join(dataDir, 'generated-playable-games.json'))
 const analytics = await readJson(path.join(dataDir, 'analytics-rollup.json'))
@@ -211,6 +214,11 @@ const readiness = await readOptionalJson(path.join(dataDir, 'production-readines
 
 const playableCount = playable.games?.length ?? 0
 const generatedCount = generatedPlayable.games?.length ?? 0
+const trendMechanicCount = trendSignals.signals?.mechanics?.length ?? 0
+const trendThemeCount = trendSignals.signals?.themes?.length ?? 0
+const trendAudienceCount = trendSignals.signals?.audiences?.length ?? 0
+const conceptCount = generatedConcepts.concepts?.length ?? 0
+const prototypeCount = prototypePipeline.prototypes?.length ?? 0
 const analyticsSource = analytics.sourceStatus?.activeSource ?? 'unknown'
 const liveAnalytics = ['posthog', 'local-event-drops'].includes(analyticsSource)
 const localEventBridgeReady =
@@ -288,6 +296,27 @@ const productionActivationRunnable =
   productionActivation.status === 'activation-ready' && productionActivation.configuration?.activationRequested === true
 
 const systems = [
+  {
+    id: 'trend-radar',
+    status: systemStatus(trendMechanicCount > 0 && trendThemeCount > 0 && trendAudienceCount > 0),
+    autonomy: 'automatic',
+    evidence: `${trendMechanicCount} mechanic signal(s), ${trendThemeCount} theme signal(s), ${trendAudienceCount} audience signal(s).`,
+    nextAction: 'Keep refreshing zero-cost trend inputs before concept generation.',
+  },
+  {
+    id: 'concept-generator',
+    status: systemStatus(conceptCount >= 4),
+    autonomy: 'automatic-original-design',
+    evidence: `${conceptCount} generated original concept(s) from current trend signals.`,
+    nextAction: 'Keep generating original concepts without cloning protected board-game IP.',
+  },
+  {
+    id: 'prototype-generator',
+    status: systemStatus(prototypeCount >= 4),
+    autonomy: 'automatic',
+    evidence: `${prototypeCount} prototype candidate(s) prepared for playable runtime generation.`,
+    nextAction: 'Keep promoting only prototype candidates that pass the local gates.',
+  },
   {
     id: 'game-factory',
     status: systemStatus(
