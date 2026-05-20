@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-20T06:19:12.505Z",
+  "generatedAt": "2026-05-20T06:39:44.441Z",
   "status": "waiting-for-github-target",
   "mode": "plan-only",
   "envFiles": {
@@ -61,7 +61,7 @@
       "originRemote": null,
       "remoteRepository": null,
       "hasCommit": true,
-      "dirtyFiles": 63,
+      "dirtyFiles": 64,
       "dirtyPaths": [
         "data/analytics-rollup.json",
         "data/autonomous-cadence.json",
@@ -112,9 +112,7 @@
         "reports/repository-readiness-latest.md",
         "reports/retention-loop-latest.md",
         "src/data/autonomousCadence.ts",
-        "src/data/autonomousOperator.ts",
         "src/data/autonomousOperatorHistory.ts",
-        "src/data/autonomousOwnerLoop.ts",
         "src/data/autonomousSelfUpdate.ts",
         "src/data/eventCollectorDeployment.ts",
         "src/data/localEventBridge.ts",
@@ -125,9 +123,12 @@
         "src/data/productGateSamplePlan.ts",
         "src/data/pwaInstallLoop.ts",
         "src/data/releaseCandidate.ts",
-        "src/data/retentionLoop.ts"
+        "src/data/retentionLoop.ts",
+        "data/production-activation.json",
+        "reports/production-activation-latest.md",
+        "src/data/productionActivation.ts"
       ],
-      "generatedEvidenceDirtyFiles": 63,
+      "generatedEvidenceDirtyFiles": 64,
       "generatedEvidenceDirtyPaths": [
         "data/analytics-rollup.json",
         "data/autonomous-cadence.json",
@@ -178,9 +179,7 @@
         "reports/repository-readiness-latest.md",
         "reports/retention-loop-latest.md",
         "src/data/autonomousCadence.ts",
-        "src/data/autonomousOperator.ts",
         "src/data/autonomousOperatorHistory.ts",
-        "src/data/autonomousOwnerLoop.ts",
         "src/data/autonomousSelfUpdate.ts",
         "src/data/eventCollectorDeployment.ts",
         "src/data/localEventBridge.ts",
@@ -191,7 +190,10 @@
         "src/data/productGateSamplePlan.ts",
         "src/data/pwaInstallLoop.ts",
         "src/data/releaseCandidate.ts",
-        "src/data/retentionLoop.ts"
+        "src/data/retentionLoop.ts",
+        "data/production-activation.json",
+        "reports/production-activation-latest.md",
+        "src/data/productionActivation.ts"
       ],
       "nonGeneratedDirtyFiles": 0,
       "nonGeneratedDirtyPaths": []
@@ -203,7 +205,7 @@
       "originRemote": null,
       "remoteRepository": null,
       "hasCommit": true,
-      "dirtyFiles": 63,
+      "dirtyFiles": 64,
       "dirtyPaths": [
         "data/analytics-rollup.json",
         "data/autonomous-cadence.json",
@@ -254,9 +256,7 @@
         "reports/repository-readiness-latest.md",
         "reports/retention-loop-latest.md",
         "src/data/autonomousCadence.ts",
-        "src/data/autonomousOperator.ts",
         "src/data/autonomousOperatorHistory.ts",
-        "src/data/autonomousOwnerLoop.ts",
         "src/data/autonomousSelfUpdate.ts",
         "src/data/eventCollectorDeployment.ts",
         "src/data/localEventBridge.ts",
@@ -267,9 +267,12 @@
         "src/data/productGateSamplePlan.ts",
         "src/data/pwaInstallLoop.ts",
         "src/data/releaseCandidate.ts",
-        "src/data/retentionLoop.ts"
+        "src/data/retentionLoop.ts",
+        "data/production-activation.json",
+        "reports/production-activation-latest.md",
+        "src/data/productionActivation.ts"
       ],
-      "generatedEvidenceDirtyFiles": 63,
+      "generatedEvidenceDirtyFiles": 64,
       "generatedEvidenceDirtyPaths": [
         "data/analytics-rollup.json",
         "data/autonomous-cadence.json",
@@ -320,9 +323,7 @@
         "reports/repository-readiness-latest.md",
         "reports/retention-loop-latest.md",
         "src/data/autonomousCadence.ts",
-        "src/data/autonomousOperator.ts",
         "src/data/autonomousOperatorHistory.ts",
-        "src/data/autonomousOwnerLoop.ts",
         "src/data/autonomousSelfUpdate.ts",
         "src/data/eventCollectorDeployment.ts",
         "src/data/localEventBridge.ts",
@@ -333,7 +334,10 @@
         "src/data/productGateSamplePlan.ts",
         "src/data/pwaInstallLoop.ts",
         "src/data/releaseCandidate.ts",
-        "src/data/retentionLoop.ts"
+        "src/data/retentionLoop.ts",
+        "data/production-activation.json",
+        "reports/production-activation-latest.md",
+        "src/data/productionActivation.ts"
       ],
       "nonGeneratedDirtyFiles": 0,
       "nonGeneratedDirtyPaths": []
@@ -371,7 +375,7 @@
     "repositoryReadiness": "waiting-for-github-repository",
     "deployment": "ready-for-pages",
     "releaseCandidate": "release-candidate-ready",
-    "releaseCandidateId": "pwa-7d1fe869960f",
+    "releaseCandidateId": "pwa-c06baf83a04a",
     "postDeploySmoke": "blocked-missing-origin"
   },
   "repositoryTargetPlan": {
@@ -461,7 +465,7 @@
       "mutatesLocalGit": true,
       "mutatesRemoteGitHub": false,
       "requiresExplicitEnv": true,
-      "detail": "63 repository evidence file(s) changed during this dry run; the outer verified commit will persist them."
+      "detail": "64 repository evidence file(s) changed during this dry run; the outer verified commit will persist them."
     },
     {
       "id": "set-or-create-origin",

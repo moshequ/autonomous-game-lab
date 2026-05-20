@@ -1,6 +1,6 @@
 # Production Bootstrap
 
-Generated: 2026-05-20T06:19:11.397Z
+Generated: 2026-05-20T06:39:43.302Z
 Status: production-bootstrap-ready
 Mode: waiting-for-external-credentials
 GitHub repository: missing
@@ -36,6 +36,7 @@ gh CLI available: true
 - local-gate: npm run autonomous:operate && npm run autonomous:assert-deployable
 - sync-pages-settings: AGL_SYNC_PAGES_SETTINGS=1 ./ops/github/setup-production.sh
 - sync-repository-config: ./ops/github/setup-production.sh
+- production-activation: npm run autonomous:activate-production
 - run-web-workflow: RUN_WORKFLOWS=1 ./ops/github/setup-production.sh
 - run-android-workflow: RUN_WORKFLOWS=1 ALLOW_ANDROID_RELEASE_WORKFLOW=1 ./ops/github/setup-production.sh
 

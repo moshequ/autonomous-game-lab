@@ -1,9 +1,9 @@
 # Autonomous Owner Loop
 
-Generated: 2026-05-20T06:19:13.577Z
+Generated: 2026-05-20T06:39:45.788Z
 Status: owner-loop-ready
 Mode: repository-channel-needed
-Autonomy score: 33/35 (94%)
+Autonomy score: 34/36 (94%)
 
 ## Owner Decision
 
@@ -19,14 +19,14 @@ Autonomy score: 33/35 (94%)
 - ready: analytics-ingest - Active source: fixture-sample; event ingest: idle-no-files; collector smoke: pass.
 - ready: local-event-bridge - Bridge bridge-waiting-for-export; inbox 0 event(s); imported 0 event(s).
 - ready: autonomous-cadence - Cadence cadence-ready; Codex active-confirmed; GitHub scheduled.
-- ready: autonomous-self-update - Self-update self-update-ready; safe pending 63; unsafe pending 0; remote push held.
+- ready: autonomous-self-update - Self-update self-update-ready; safe pending 64; unsafe pending 0; remote push held.
 - ready: portfolio-loop - Daily challenge: Canopy Bloom; seed traffic: canopy-bloom, grove-engine, metro-loom, pocket-draft.
 - ready: traffic-seeding - 4 seed campaign(s); max cost $0.
 - ready: acquisition-learning - 4 campaign(s); 0 attributed start(s); candidate canopy-bloom.
 - ready: organic-seed-loop - Target canopy-bloom; surface portal-growth-loop; share telemetry organic_seed_share_clicked.
 - ready: retention-loop - Daily canopy-bloom; D1 17%; streak variant daily-streak; return prompt armed; return intent armed.
 - ready: pwa-install-loop - Prompt autonomy-cockpit; installs 0; launch events 0; sample collecting-sample needs 20 prompt(s) and 10 launch event(s).
-- ready: performance-budget - Initial JS 610.5 KB; gzip 168.5 KB; deferred chunks 1.
+- ready: performance-budget - Initial JS 613.7 KB; gzip 169.2 KB; deferred chunks 1.
 - ready: product-optimization - Completion 40% / gate 55%; latest already-applied.
 - ready: product-gate-recovery - Recovery product-gate-recovery-ready; primary firstGameCompletion; experiment collecting-sample; failing gates 3; next lift 58.
 - ready: product-gate-sample-plan - Sample plan product-gate-sample-plan-ready; primary firstGameCompletion; prompt views needed 70.
@@ -38,11 +38,12 @@ Autonomy score: 33/35 (94%)
 - waiting-for-github-repository: repository-channel - Repository missing; git worktree ready; workflow dispatch blocked.
 - ready: repository-bootstrap - Bootstrap waiting-for-github-target; mode plan-only; helper ops/github/bootstrap-repository.sh; local git ready.
 - ready: web-deployment - Deployment ready-for-pages; web readiness ready-after-build; promotion promotable-internal.
-- ready: release-candidate - Candidate pwa-7d1fe869960f; status release-candidate-ready; files 43; smoke URLs 14.
-- ready: post-deploy-smoke - Smoke blocked-missing-origin; origin missing; candidate pwa-7d1fe869960f; checks 0/15 passed; local artifact predeploy-artifact-smoke-passed 15/15 passed.
+- ready: release-candidate - Candidate pwa-c06baf83a04a; status release-candidate-ready; files 43; smoke URLs 14.
+- ready: post-deploy-smoke - Smoke blocked-missing-origin; origin missing; candidate pwa-c06baf83a04a; checks 0/15 passed; local artifact predeploy-artifact-smoke-passed 15/15 passed.
 - ready: production-bootstrap - Bootstrap production-bootstrap-ready; mode waiting-for-external-credentials; external blockers 22.
+- ready: production-activation - Activation activation-waiting-for-credentials; mode dry-run; execution dry-run; gh blocked.
 - ready: autonomous-operator - Operator operator-plan-ready; selected refresh-objective-audit; execution not-requested.
-- ready: operator-history - History operator-history-ready; records 40; executed 18.
+- ready: operator-history - History operator-history-ready; records 40; executed 17.
 - ready: objective-audit - Audit objective-in-progress; met 5/8; external blockers 19.
 - ready: store-listing-optimizer - Focus canopy-bloom; lead screenshot phone-canopy-bloom-generated; candidate changed yes.
 - ready: store-compliance - Rating Everyone; target audience general; blockers 4.
@@ -72,6 +73,7 @@ Autonomy score: 33/35 (94%)
 - armed: refresh-replay-loop - npm run autonomous:replay-loop
 - monitor: prepare-repository-channel - npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap
 - armed: bootstrap-production-setup - npm run autonomous:release-candidate && npm run autonomous:deploy-plan && npm run autonomous:bootstrap
+- monitor: activate-production-when-configured - npm run autonomous:activate-production
 - armed: run-autonomous-operator - npm run autonomous:operator
 - armed: review-operator-history - npm run autonomous:operator
 - armed: refresh-objective-audit - npm run autonomous:objective-audit

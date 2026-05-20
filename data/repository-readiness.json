@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-20T06:19:12.069Z",
+  "generatedAt": "2026-05-20T06:39:43.958Z",
   "status": "waiting-for-github-repository",
   "envFiles": {
     "loaded": true,
@@ -56,7 +56,7 @@
     "insideWorkTree": true,
     "gitRoot": "/Users/moshequ/Documents/Codex/2026-05-18/i-want-to-have-a-new",
     "currentBranch": "main",
-    "dirtyFiles": 63,
+    "dirtyFiles": 64,
     "dirtyPaths": [
       "data/analytics-rollup.json",
       "data/autonomous-cadence.json",
@@ -107,9 +107,7 @@
       "reports/repository-readiness-latest.md",
       "reports/retention-loop-latest.md",
       "src/data/autonomousCadence.ts",
-      "src/data/autonomousOperator.ts",
       "src/data/autonomousOperatorHistory.ts",
-      "src/data/autonomousOwnerLoop.ts",
       "src/data/autonomousSelfUpdate.ts",
       "src/data/eventCollectorDeployment.ts",
       "src/data/localEventBridge.ts",
@@ -120,9 +118,12 @@
       "src/data/productGateSamplePlan.ts",
       "src/data/pwaInstallLoop.ts",
       "src/data/releaseCandidate.ts",
-      "src/data/retentionLoop.ts"
+      "src/data/retentionLoop.ts",
+      "data/production-activation.json",
+      "reports/production-activation-latest.md",
+      "src/data/productionActivation.ts"
     ],
-    "generatedEvidenceDirtyFiles": 63,
+    "generatedEvidenceDirtyFiles": 64,
     "generatedEvidenceDirtyPaths": [
       "data/analytics-rollup.json",
       "data/autonomous-cadence.json",
@@ -173,9 +174,7 @@
       "reports/repository-readiness-latest.md",
       "reports/retention-loop-latest.md",
       "src/data/autonomousCadence.ts",
-      "src/data/autonomousOperator.ts",
       "src/data/autonomousOperatorHistory.ts",
-      "src/data/autonomousOwnerLoop.ts",
       "src/data/autonomousSelfUpdate.ts",
       "src/data/eventCollectorDeployment.ts",
       "src/data/localEventBridge.ts",
@@ -186,7 +185,10 @@
       "src/data/productGateSamplePlan.ts",
       "src/data/pwaInstallLoop.ts",
       "src/data/releaseCandidate.ts",
-      "src/data/retentionLoop.ts"
+      "src/data/retentionLoop.ts",
+      "data/production-activation.json",
+      "reports/production-activation-latest.md",
+      "src/data/productionActivation.ts"
     ],
     "nonGeneratedDirtyFiles": 0,
     "nonGeneratedDirtyPaths": []
@@ -225,7 +227,7 @@
     "workflowExists": true,
     "deployWorkflowIncludesSmoke": true,
     "deploymentStatus": "ready-for-pages",
-    "releaseCandidateId": "pwa-7d1fe869960f",
+    "releaseCandidateId": "pwa-c06baf83a04a",
     "postDeploySmokeStatus": "blocked-missing-origin"
   },
   "repositoryTargetPlan": {

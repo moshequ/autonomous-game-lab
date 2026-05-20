@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-20T06:19:11.397Z",
+  "generatedAt": "2026-05-20T06:39:43.302Z",
   "status": "production-bootstrap-ready",
   "mode": "waiting-for-external-credentials",
   "envFiles": {
@@ -1025,6 +1025,12 @@
       "costUsd": 0
     },
     {
+      "id": "production-activation",
+      "command": "npm run autonomous:activate-production",
+      "safeToRunAutomatically": true,
+      "costUsd": 0
+    },
+    {
       "id": "run-web-workflow",
       "command": "RUN_WORKFLOWS=1 ./ops/github/setup-production.sh",
       "safeToRunAutomatically": false,
@@ -1052,8 +1058,11 @@
   },
   "generatedArtifacts": [
     "data/production-bootstrap.json",
+    "data/production-activation.json",
     "src/data/productionBootstrap.ts",
+    "src/data/productionActivation.ts",
     "reports/production-bootstrap-latest.md",
+    "reports/production-activation-latest.md",
     "data/repository-bootstrap.json",
     "src/data/repositoryBootstrap.ts",
     "reports/repository-bootstrap-latest.md",

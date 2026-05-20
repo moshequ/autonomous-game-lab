@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2026-05-20T06:19:13.577Z",
+  "generatedAt": "2026-05-20T06:39:45.788Z",
   "status": "owner-loop-ready",
   "mode": "repository-channel-needed",
   "autonomyScore": {
-    "readySystems": 33,
-    "totalSystems": 35,
+    "readySystems": 34,
+    "totalSystems": 36,
     "percent": 94
   },
   "controls": {
@@ -73,6 +73,7 @@
       "deploy-web-pwa",
       "seed-portfolio-traffic",
       "bootstrap-production-setup",
+      "activate-production-when-configured",
       "optimize-product-gates",
       "collect-gate-sample-downloads",
       "collect-live-events",
@@ -124,7 +125,7 @@
       "id": "autonomous-self-update",
       "status": "ready",
       "autonomy": "gated-generated-change-persistence",
-      "evidence": "Self-update self-update-ready; safe pending 63; unsafe pending 0; remote push held.",
+      "evidence": "Self-update self-update-ready; safe pending 64; unsafe pending 0; remote push held.",
       "nextAction": "When a GitHub repository is connected, set AGL_AUTONOMOUS_SELF_UPDATE=1 and AGL_AUTONOMOUS_SELF_UPDATE_DIRECT=1 to let verified generated changes persist."
     },
     {
@@ -173,7 +174,7 @@
       "id": "performance-budget",
       "status": "ready",
       "autonomy": "automatic-build-budget",
-      "evidence": "Initial JS 610.5 KB; gzip 168.5 KB; deferred chunks 1.",
+      "evidence": "Initial JS 613.7 KB; gzip 169.2 KB; deferred chunks 1.",
       "nextAction": "Keep Phaser and game scenes outside the initial PWA shell."
     },
     {
@@ -257,14 +258,14 @@
       "id": "release-candidate",
       "status": "ready",
       "autonomy": "content-hashed-deploy-evidence",
-      "evidence": "Candidate pwa-7d1fe869960f; status release-candidate-ready; files 43; smoke URLs 14.",
+      "evidence": "Candidate pwa-c06baf83a04a; status release-candidate-ready; files 43; smoke URLs 14.",
       "nextAction": "Regenerate the release candidate after every production build before deploy or rollback decisions."
     },
     {
       "id": "post-deploy-smoke",
       "status": "ready",
       "autonomy": "read-only-live-deploy-verification",
-      "evidence": "Smoke blocked-missing-origin; origin missing; candidate pwa-7d1fe869960f; checks 0/15 passed; local artifact predeploy-artifact-smoke-passed 15/15 passed.",
+      "evidence": "Smoke blocked-missing-origin; origin missing; candidate pwa-c06baf83a04a; checks 0/15 passed; local artifact predeploy-artifact-smoke-passed 15/15 passed.",
       "nextAction": "Run this after deployment with AGL_DEPLOYED_PWA_ORIGIN set to the Pages URL."
     },
     {
@@ -273,6 +274,13 @@
       "autonomy": "zero-spend-setup-orchestration",
       "evidence": "Bootstrap production-bootstrap-ready; mode waiting-for-external-credentials; external blockers 22.",
       "nextAction": "Fill required environment values, then run npm run autonomous:bootstrap."
+    },
+    {
+      "id": "production-activation",
+      "status": "ready",
+      "autonomy": "guarded-credential-activated-setup",
+      "evidence": "Activation activation-waiting-for-credentials; mode dry-run; execution dry-run; gh blocked.",
+      "nextAction": "Provide an existing GitHub repository target and gh credentials before production activation can apply setup."
     },
     {
       "id": "autonomous-operator",
@@ -285,7 +293,7 @@
       "id": "operator-history",
       "status": "ready",
       "autonomy": "operator-audit-trail",
-      "evidence": "History operator-history-ready; records 40; executed 18.",
+      "evidence": "History operator-history-ready; records 40; executed 17.",
       "nextAction": "Keep a capped durable record of operator plans and one-action executions."
     },
     {
@@ -417,7 +425,7 @@
       "command": "npm run build && npm run autonomous:performance",
       "targets": [
         "pwa-shell",
-        "GameCanvas-CrAGEVsQ.js"
+        "GameCanvas-BlkHbrEf.js"
       ],
       "reason": "Keeps the PWA shell fast while Phaser and game scenes stay deferred."
     },
@@ -427,7 +435,7 @@
       "costUsd": 0,
       "command": "npm run autonomous:release-candidate",
       "targets": [
-        "pwa-7d1fe869960f"
+        "pwa-c06baf83a04a"
       ],
       "reason": "Records a content-hashed dist inventory and post-deploy smoke plan for the exact PWA build."
     },
@@ -438,7 +446,7 @@
       "command": "npm run autonomous:post-deploy-smoke",
       "targets": [
         "deployed-pages-url",
-        "pwa-7d1fe869960f"
+        "pwa-c06baf83a04a"
       ],
       "reason": "Waits for a deployed Pages origin, then verifies the live PWA matches the exact release candidate."
     },
@@ -535,6 +543,18 @@
         "event-collector"
       ],
       "reason": "Regenerates the zero-spend production setup handoff and exact GitHub variable/secret commands."
+    },
+    {
+      "id": "activate-production-when-configured",
+      "status": "monitor",
+      "costUsd": 0,
+      "command": "npm run autonomous:activate-production",
+      "targets": [
+        "github-pages",
+        "repository-config",
+        "web-workflow"
+      ],
+      "reason": "Dry-runs production activation until existing credentials and explicit activation gates are present."
     },
     {
       "id": "run-autonomous-operator",
@@ -782,6 +802,7 @@
     "completionLoopStatus": "completion-loop-ready",
     "replayLoopStatus": "replay-loop-ready",
     "productionBootstrapStatus": "production-bootstrap-ready",
+    "productionActivationStatus": "activation-waiting-for-credentials",
     "autonomousOperatorStatus": "operator-plan-ready",
     "autonomousOperatorHistoryStatus": "operator-history-ready",
     "objectiveAuditStatus": "objective-in-progress",

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-20T06:19:13.835Z",
+  "generatedAt": "2026-05-20T06:39:46.053Z",
   "status": "operator-plan-ready",
   "mode": "plan-only",
   "ownerDecision": {
@@ -157,6 +157,12 @@
       "reason": "not-selected-this-run"
     },
     {
+      "id": "activate-production-when-configured",
+      "status": "monitor",
+      "command": "npm run autonomous:activate-production",
+      "reason": "status-monitor"
+    },
+    {
       "id": "run-autonomous-operator",
       "status": "armed",
       "command": "npm run autonomous:operator",
@@ -255,7 +261,8 @@
     "npm run autonomous:local-event-bridge && npm run autonomous:import-events && npm run autonomous:analytics && npm run autonomous:gate-recovery",
     "npm run autonomous:local-event-bridge && npm run autonomous:import-events && npm run autonomous:analytics && npm run autonomous:gate-recovery && npm run autonomous:sample-plan",
     "npm run autonomous:deploy-plan && npm run autonomous:bootstrap",
-    "npm run autonomous:release-candidate && npm run autonomous:deploy-plan && npm run autonomous:bootstrap"
+    "npm run autonomous:release-candidate && npm run autonomous:deploy-plan && npm run autonomous:bootstrap",
+    "npm run autonomous:activate-production"
   ],
   "blockedFragments": [
     "gh workflow run",
