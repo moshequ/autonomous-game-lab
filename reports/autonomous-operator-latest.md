@@ -1,10 +1,10 @@
 # Autonomous Operator
 
-Generated: 2026-05-19T23:57:53.448Z
+Generated: 2026-05-19T23:59:56.826Z
 Status: operator-plan-ready
 Mode: plan-only
-Owner decision: collect-live-events
-Selected action: collect-live-events
+Owner decision: prepare-repository-channel
+Selected action: prepare-repository-channel
 Execution: not-requested
 
 ## Controls
@@ -18,7 +18,7 @@ Execution: not-requested
 
 ## Selected Action
 
-- collect-live-events: npm run autonomous:local-event-bridge && npm run autonomous:import-events && npm run autonomous:analytics && npm run autonomous:gate-recovery
+- prepare-repository-channel: npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap
 
 ## Eligible Local Actions
 
