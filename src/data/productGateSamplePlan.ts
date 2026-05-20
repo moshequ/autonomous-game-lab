@@ -1,5 +1,5 @@
 export const productGateSamplePlan = {
-  "generatedAt": "2026-05-20T20:51:02.304Z",
+  "generatedAt": "2026-05-20T21:44:24.205Z",
   "status": "product-gate-sample-plan-ready",
   "sourceStatus": {
     "analyticsSource": "fixture-sample",
@@ -42,8 +42,8 @@ export const productGateSamplePlan = {
     "path": "/gate-sample.html",
     "file": "public/gate-sample.html",
     "missionCount": 3,
-    "primaryCampaignId": "gate-sample-20260520-firstGameCompletion",
-    "fastestCampaignId": "gate-sample-20260520-d1Retention",
+    "primaryCampaignId": "gate-sample-20260521-firstGameCompletion",
+    "fastestCampaignId": "gate-sample-20260521-d1Retention",
     "localProgressEnabled": true,
     "playerInitiatedExportEnabled": true,
     "exportSurface": "product-gate-sample",
@@ -119,8 +119,8 @@ export const productGateSamplePlan = {
       "gameId": "harbor-rings",
       "title": "Harbor Rings",
       "surface": "autonomy-cockpit-completion-card",
-      "campaignId": "gate-sample-20260520-firstGameCompletion",
-      "playPath": "/?game=harbor-rings&utm_source=gate_sample&utm_campaign=gate-sample-20260520-firstGameCompletion",
+      "campaignId": "gate-sample-20260521-firstGameCompletion",
+      "playPath": "/?game=harbor-rings&utm_source=gate_sample&utm_campaign=gate-sample-20260521-firstGameCompletion",
       "organicSeedCampaignId": null,
       "current": {
         "actual": 0.397,
@@ -199,8 +199,8 @@ export const productGateSamplePlan = {
       "gameId": "harbor-rings",
       "title": "Harbor Rings",
       "surface": "autonomy-cockpit-replay-card",
-      "campaignId": "gate-sample-20260520-replayRate",
-      "playPath": "/?game=harbor-rings&utm_source=gate_sample&utm_campaign=gate-sample-20260520-replayRate",
+      "campaignId": "gate-sample-20260521-replayRate",
+      "playPath": "/?game=harbor-rings&utm_source=gate_sample&utm_campaign=gate-sample-20260521-replayRate",
       "organicSeedCampaignId": null,
       "current": {
         "actual": 0.309,
@@ -271,8 +271,8 @@ export const productGateSamplePlan = {
       "gameId": "canopy-bloom",
       "title": "Canopy Bloom",
       "surface": "autonomy-cockpit-return-intent-card",
-      "campaignId": "gate-sample-20260520-d1Retention",
-      "playPath": "/?game=canopy-bloom&utm_source=gate_sample&utm_campaign=gate-sample-20260520-d1Retention",
+      "campaignId": "gate-sample-20260521-d1Retention",
+      "playPath": "/?game=canopy-bloom&utm_source=gate_sample&utm_campaign=gate-sample-20260521-d1Retention",
       "organicSeedCampaignId": "seed-20260520-canopy-bloom",
       "current": {
         "actual": 0.167,
@@ -359,7 +359,7 @@ export const productGateSamplePlan = {
     "requireObservedTelemetryBeforeRecoveryChange": true
   },
   "nextActions": [
-    "First game completion needs 30 more prompt exposure(s) and 58 observed success(es); feature Harbor Rings via /?game=harbor-rings&utm_source=gate_sample&utm_campaign=gate-sample-20260520-firstGameCompletion.",
+    "First game completion needs 30 more prompt exposure(s) and 58 observed success(es); feature Harbor Rings via /?game=harbor-rings&utm_source=gate_sample&utm_campaign=gate-sample-20260521-firstGameCompletion.",
     "D1 retention is the fastest gate sample: 10 prompt exposure(s), 1 observed success(es).",
     "Wait until 2026-05-20T23:03:48.635Z before the next explicit Downloads scan unless an inbox event drop appears."
   ]

@@ -1,10 +1,10 @@
 # Autonomous Operator
 
-Generated: 2026-05-20T21:35:08.445Z
+Generated: 2026-05-20T21:44:56.297Z
 Status: operator-plan-ready
 Mode: plan-only
-Owner decision: optimize-daily-retention
-Selected action: optimize-daily-retention
+Owner decision: measure-pwa-install-loop
+Selected action: measure-pwa-install-loop
 Execution: not-requested
 
 ## Controls
@@ -18,7 +18,7 @@ Execution: not-requested
 
 ## Selected Action
 
-- optimize-daily-retention: npm run autonomous:retention
+- measure-pwa-install-loop: npm run autonomous:pwa-install
 
 ## Eligible Local Actions
 
@@ -32,7 +32,6 @@ Execution: not-requested
 - check-performance-budget
 - prepare-release-candidate
 - run-post-deploy-smoke
-- optimize-product-gates
 - refresh-product-gate-recovery
 - optimize-store-listing
 - apply-safe-improvements
@@ -46,9 +45,9 @@ Execution: not-requested
 - seed-portfolio-traffic: not-selected-this-run
 - refresh-organic-seed-loop: not-selected-this-run
 - refresh-support-feedback: not-selected-this-run
-- measure-pwa-install-loop: not-selected-this-run
+- optimize-daily-retention: not-selected-this-run
 - check-performance-budget: not-selected-this-run
 - prepare-release-candidate: not-selected-this-run
 - run-post-deploy-smoke: not-selected-this-run
 - sync-post-deploy-artifact: status-monitor
-- optimize-product-gates: not-selected-this-run
+- optimize-product-gates: status-monitor

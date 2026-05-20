@@ -20,8 +20,12 @@ const normalizeSourceValue = (value) => {
 export const hashSourceData = (value) =>
   createHash('sha256').update(JSON.stringify(normalizeSourceValue(value))).digest('hex').slice(0, 12)
 
-export const sourceFreshness = ({ artifact, readyStatuses, inputs }) => {
-  const sourceDataHash = hashSourceData(Object.fromEntries(inputs.map((input) => [input.id, input.data])))
+export const hashRawSourceData = (value) =>
+  createHash('sha256').update(JSON.stringify(value)).digest('hex').slice(0, 12)
+
+export const sourceFreshness = ({ artifact, readyStatuses, inputs, sourceDataHash: providedSourceDataHash }) => {
+  const sourceDataHash =
+    providedSourceDataHash ?? hashSourceData(Object.fromEntries(inputs.map((input) => [input.id, input.data])))
   const artifactSourceDataHash = artifact?.sourceDataHash ?? null
   const current = artifactSourceDataHash === sourceDataHash && artifact?.status !== 'missing'
 

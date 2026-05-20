@@ -1,6 +1,6 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises'
 import path from 'node:path'
-import { sourceFreshness } from './lib/source-hash.mjs'
+import { hashRawSourceData, sourceFreshness } from './lib/source-hash.mjs'
 
 const root = process.cwd()
 const dataDir = path.join(root, 'data')
@@ -15,6 +15,7 @@ const readOptionalJson = async (filePath, fallback) =>
     .catch(() => fallback)
 
 const percent = (value) => (typeof value === 'number' ? Math.round(value * 100) : null)
+const roundMetric = (value) => (typeof value === 'number' ? Math.round(value * 1000) / 1000 : null)
 
 const systemStatus = (condition, fallback = 'needs-attention') => (condition ? 'ready' : fallback)
 
@@ -1081,6 +1082,46 @@ const objectiveAuditStructurallyReady =
   objectiveAudit.completion?.canMarkGoalComplete === false &&
   (objectiveAudit.requirements?.length ?? 0) >= 8
 const objectiveAuditFresh = objectiveAuditStructurallyReady && objectiveAuditStaleInputs.length === 0
+const productOptimizationSourceGates = {
+  firstGameCompletion: {
+    actual: roundMetric(analytics.totals?.metrics?.firstGameCompletion),
+    gate: productionGates.monetization?.minFirstGameCompletion,
+    pass: (analytics.totals?.metrics?.firstGameCompletion ?? 0) >= productionGates.monetization?.minFirstGameCompletion,
+  },
+  replayRate: {
+    actual: roundMetric(analytics.totals?.metrics?.replayRate),
+    gate: productionGates.monetization?.minReplayRate,
+    pass: (analytics.totals?.metrics?.replayRate ?? 0) >= productionGates.monetization?.minReplayRate,
+  },
+  d1Retention: {
+    actual: roundMetric(analytics.totals?.metrics?.d1Retention),
+    gate: productionGates.monetization?.minD1Retention,
+    pass: (analytics.totals?.metrics?.d1Retention ?? 0) >= productionGates.monetization?.minD1Retention,
+  },
+}
+const productOptimizationPlayableIds = new Set(playable.games ?? [])
+const productOptimizationSourceEvidence = {
+  analyticsSource: analytics.sourceStatus?.activeSource,
+  retentionSource: analytics.retention?.source ?? analytics.sourceStatus?.retention?.source ?? null,
+  totals: analytics.totals?.metrics,
+  games: (analytics.games ?? []).map((game) => ({
+    gameId: game.gameId,
+    playable: productOptimizationPlayableIds.has(game.gameId),
+    starts: game.counts?.game_started ?? 0,
+    metrics: game.metrics,
+  })),
+  gates: productOptimizationSourceGates,
+}
+const productOptimizationFreshness = sourceFreshness({
+  artifact: productOptimization,
+  readyStatuses: ['product-optimization-ready'],
+  inputs: [
+    { id: 'analytics-rollup', data: analytics },
+    { id: 'production-gates', data: productionGates },
+    { id: 'playable-games', data: playable },
+  ],
+  sourceDataHash: hashRawSourceData(productOptimizationSourceEvidence),
+})
 const firstMoveCoachFreshness = sourceFreshness({
   artifact: firstMoveCoach,
   readyStatuses: ['first-move-coach-ready'],
@@ -1232,14 +1273,16 @@ const safeAutonomousActions = [
   },
   {
     id: 'optimize-product-gates',
-    status: productOptimization.status === 'product-optimization-ready' ? 'armed' : 'monitor',
+    status: productOptimizationFreshness.current ? 'monitor' : 'armed',
     costUsd: 0,
     command:
       'npm run autonomous:analyze && npm run autonomous:product-optimize && npm run autonomous:sync-config && npm run autonomous:simulate',
     targets: productOptimization.actions
       ?.filter((action) => action.gameId)
       .map((action) => action.gameId) ?? ['product-gates'],
-    reason: 'Applies one guarded target-score or telemetry improvement when product gates block monetization.',
+    reason: productOptimizationFreshness.current
+      ? 'Product-gate optimizer already matches the current analytics evidence; collect player data or use dedicated runtime loops before rerunning.'
+      : 'Applies one guarded target-score or telemetry improvement when product gates block monetization.',
   },
   {
     id: 'refresh-product-gate-recovery',
@@ -1554,6 +1597,7 @@ const payload = {
       staleInputIds: objectiveAuditStaleInputs.map((artifact) => artifact.id),
     },
     sourceFreshness: {
+      productOptimization: productOptimizationFreshness,
       firstMoveCoach: firstMoveCoachFreshness,
       completionLoop: completionLoopFreshness,
       replayLoop: replayLoopFreshness,

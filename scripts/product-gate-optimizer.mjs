@@ -1,6 +1,6 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises'
-import crypto from 'node:crypto'
 import path from 'node:path'
+import { hashRawSourceData } from './lib/source-hash.mjs'
 
 const root = process.cwd()
 const dataDir = path.join(root, 'data')
@@ -68,7 +68,7 @@ const sourceEvidence = {
   })),
   gates: productGates,
 }
-const sourceDataHash = crypto.createHash('sha256').update(JSON.stringify(sourceEvidence)).digest('hex').slice(0, 12)
+const sourceDataHash = hashRawSourceData(sourceEvidence)
 const history = previous.history ?? []
 const alreadyApplied = ({ gameId, actionType }) =>
   history.some(
