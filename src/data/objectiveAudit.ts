@@ -1,5 +1,5 @@
 export const objectiveAudit = {
-  "generatedAt": "2026-05-20T07:29:21.321Z",
+  "generatedAt": "2026-05-20T07:38:52.955Z",
   "status": "objective-in-progress",
   "objective": "Build a bootstrapped autonomous web/PWA game portal that can generate original board-game-inspired games, measure user behavior, propose and apply data-driven improvements, and prepare a path to monetization and app-store distribution with minimal manual intervention.",
   "summary": {
@@ -142,7 +142,7 @@ export const objectiveAudit = {
       "status": "prepared-external-blockers",
       "summary": "Store listing, compliance drafts, screenshots, and Android TWA handoff are prepared while store release stays gated.",
       "evidence": [
-        "Store package privacy URL: needs-hosted-domain",
+        "Store package privacy URL: hosted",
         "Store assets: screenshots-ready",
         "Store compliance: draft-ready-external-blockers",
         "Android signing: signing-prepared; fingerprint available",
@@ -150,7 +150,6 @@ export const objectiveAudit = {
         "Android release: blocked-needs-host-signing-play"
       ],
       "blockers": [
-        "hosted-privacy-url: Hosted privacy policy URL is required before public store submission.",
         "support-contact: Production support email is required before public store submission.",
         "google-play-account: Google Play developer account must be connected before Android submission.",
         "apple-developer-account: Apple Developer account remains deferred until iOS spend is justified.",
@@ -190,13 +189,13 @@ export const objectiveAudit = {
       "Set VITE_ADSENSE_CLIENT_ID + VITE_ADSENSE_REWARDED_SLOT_ID for web/PWA revenue tests or ADMOB_PUBLISHER_ID for native app placements.",
       "Connect Google Play credentials or set AGL_GOOGLE_PLAY_ACCOUNT_CONNECTED=true.",
       "Connect Apple Developer account only after revenue justifies iOS spend.",
-      "hosted-privacy-url: Hosted privacy policy URL is required before public store submission.",
       "support-contact: Production support email is required before public store submission.",
       "google-play-account: Google Play developer account must be connected before Android submission.",
       "apple-developer-account: Apple Developer account remains deferred until iOS spend is justified.",
       "google-play-account: Google Play account is not connected.",
       "play-service-account: Google Play service account upload credentials are available to CI.",
-      "Collector environment is not configured."
+      "Collector environment is not configured.",
+      "hosted-privacy-url: Hosted privacy policy URL is required before public store submission."
     ],
     "product": [
       "Set VITE_ADSENSE_CLIENT_ID + VITE_ADSENSE_REWARDED_SLOT_ID for web/PWA revenue tests or ADMOB_PUBLISHER_ID for native app placements.",
@@ -218,7 +217,6 @@ export const objectiveAudit = {
       "Replay rate is 31%; gate is 35%.",
       "D1 retention is 17%; gate is 18%; source is fixture-retention.",
       "Web/PWA or native ad provider is not configured for gated revenue tests.",
-      "hosted-privacy-url: Hosted privacy policy URL is required before public store submission.",
       "support-contact: Production support email is required before public store submission.",
       "google-play-account: Google Play developer account must be connected before Android submission.",
       "apple-developer-account: Apple Developer account remains deferred until iOS spend is justified.",
@@ -227,7 +225,8 @@ export const objectiveAudit = {
       "play-service-account: Google Play service account upload credentials are available to CI.",
       "unit-economics-store-spend: Store spend allowed is false; spend mode is no-spend.",
       "promotion-gate: Android promotion status is blocked.",
-      "Collector environment is not configured."
+      "Collector environment is not configured.",
+      "hosted-privacy-url: Hosted privacy policy URL is required before public store submission."
     ]
   },
   "controls": {

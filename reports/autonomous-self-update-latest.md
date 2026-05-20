@@ -1,21 +1,21 @@
 # Autonomous Self Update
 
-Generated: 2026-05-20T06:53:27.066Z
+Generated: 2026-05-20T07:38:52.509Z
 Status: self-update-ready
 Mode: plan-and-assert
 
 ## Repository
 
 - Target: moshequ/autonomous-game-lab
-- Origin: missing
+- Origin: moshequ/autonomous-game-lab
 - Branch: main
 - Self-update enabled: false
 - Direct push ready: false
 
 ## Pending Changes
 
-- Total: 69
-- Safe: 69
+- Total: 37
+- Safe: 37
 - Unsafe: 0
 
 ## Commit Plan
@@ -31,7 +31,7 @@ Mode: plan-and-assert
 - pass: daily-loop-refresh - autonomous:daily refreshes self-update evidence before owner/audit evidence.
 - pass: daily-workflow-read-only - The ordinary daily workflow remains read-only, runs the owner loop, and uploads evidence artifacts.
 - pass: self-update-workflow - A separate gated workflow can reproduce the owner loop, verify it, and persist allowlisted changes.
-- pass: safe-path-allowlist - 69 safe pending file(s), 0 unsafe pending file(s).
+- pass: safe-path-allowlist - 37 safe pending file(s), 0 unsafe pending file(s).
 - pass: repository-optional - Git worktree is available on main.
 - pass: remote-push-gated - Remote push remains held until GitHub credentials and AGL_AUTONOMOUS_SELF_UPDATE_DIRECT=1 are configured.
 - pass: zero-spend-controls - Self-update owner-loop verification includes browser smoke coverage and does not create accounts, stores, ads, paid traffic, or revenue.

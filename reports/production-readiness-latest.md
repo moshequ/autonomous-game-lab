@@ -1,6 +1,6 @@
 # Production Readiness
 
-Generated: 2026-05-20T07:29:22.101Z
+Generated: 2026-05-20T07:38:53.631Z
 
 ## Environment
 
@@ -70,7 +70,7 @@ Status: ready-after-build
 - pass: autonomous-operator - Autonomous operator is operator-plan-ready; selected refresh-organic-seed-loop; execution not-requested.
 - pass: autonomous-operator-history - Autonomous operator history is operator-history-ready; records 40; executed 13.
 - pass: autonomous-cadence - Autonomous cadence is cadence-ready; Codex active-confirmed; GitHub scheduled.
-- pass: autonomous-self-update - Autonomous self-update is self-update-ready; safe pending 69; unsafe pending 0; remote push held.
+- pass: autonomous-self-update - Autonomous self-update is self-update-ready; safe pending 37; unsafe pending 0; remote push held.
 - pass: objective-audit - Objective audit is objective-in-progress; met 6 / 8; can complete false.
 
 ## Monetization
@@ -267,14 +267,14 @@ Freshness: fresh; stale artifacts 0
 
 Status: self-update-ready
 Workflow: .github/workflows/autonomous-self-update.yml
-Safe pending: 69
+Safe pending: 37
 Unsafe pending: 0
 Remote push ready: false
 - pass: self-update-script-registered - autonomous:self-update is node scripts/autonomous-self-update.mjs.
 - pass: self-update-daily-loop-refresh - autonomous:daily refreshes self-update evidence before owner/audit evidence.
 - pass: self-update-daily-workflow-read-only - The ordinary daily workflow remains read-only, runs the owner loop, and uploads evidence artifacts.
 - pass: self-update-self-update-workflow - A separate gated workflow can reproduce the owner loop, verify it, and persist allowlisted changes.
-- pass: self-update-safe-path-allowlist - 69 safe pending file(s), 0 unsafe pending file(s).
+- pass: self-update-safe-path-allowlist - 37 safe pending file(s), 0 unsafe pending file(s).
 - pass: self-update-repository-optional - Git worktree is available on main.
 - pass: self-update-remote-push-gated - Remote push remains held until GitHub credentials and AGL_AUTONOMOUS_SELF_UPDATE_DIRECT=1 are configured.
 - pass: self-update-zero-spend-controls - Self-update owner-loop verification includes browser smoke coverage and does not create accounts, stores, ads, paid traffic, or revenue.
@@ -311,14 +311,14 @@ Store compliance: draft-ready-external-blockers
 - pass: compliance-app-access - Reviewer access does not require credentials because accounts are disabled.
 - pass: compliance-compliance-publication - Deployable compliance manifest ties privacy, support, and post-deploy smoke checks together.
 - pass: compliance-store-screenshots - 4 generated screenshot asset(s) are available.
-- external-blocker: compliance-hosted-privacy-url - Hosted privacy policy URL is required before public store submission.
+- pass: compliance-hosted-privacy-url - Hosted privacy policy URL is required before public store submission.
 - external-blocker: compliance-support-contact - Production support email is required before public store submission.
 - external-blocker: compliance-google-play-account - Google Play developer account must be connected before Android submission.
 - external-blocker: compliance-apple-developer-account - Apple Developer account remains deferred until iOS spend is justified.
 
 Native package: blocked-draft-ready
 - pass: native-production-host - Host is moshequ.github.io.
-- blocker: native-hosted-privacy - Privacy URL status is needs-hosted-domain.
+- pass: native-hosted-privacy - Privacy URL status is hosted.
 - pass: native-android-signing-fingerprint - SHA-256 certificate fingerprint is configured.
 - pass: native-store-screenshots - 4 screenshot asset(s) available.
 - pass: native-icon-assets - 6 icon asset(s) available.

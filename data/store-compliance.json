@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-20T07:12:37.840Z",
+  "generatedAt": "2026-05-20T07:38:51.299Z",
   "status": "draft-ready-external-blockers",
   "launchCandidate": {
     "id": "canopy-bloom",
@@ -83,7 +83,7 @@
   "privacyAndData": {
     "status": "draft-ready",
     "privacyPolicyPath": "/privacy.html",
-    "productionPrivacyUrlStatus": "needs-hosted-domain",
+    "productionPrivacyUrlStatus": "hosted",
     "supportEmailStatus": "needs-production-address",
     "googleDataSafetyStatus": "draft-ready",
     "applePrivacyLabelStatus": "draft-ready",
@@ -138,7 +138,7 @@
     },
     {
       "id": "hosted-privacy-url",
-      "status": "external-blocker",
+      "status": "pass",
       "detail": "Hosted privacy policy URL is required before public store submission."
     },
     {
@@ -158,7 +158,6 @@
     }
   ],
   "blockers": [
-    "hosted-privacy-url: Hosted privacy policy URL is required before public store submission.",
     "support-contact: Production support email is required before public store submission.",
     "google-play-account: Google Play developer account must be connected before Android submission.",
     "apple-developer-account: Apple Developer account remains deferred until iOS spend is justified."
@@ -170,7 +169,7 @@
     "Native app submission must wait for hosted privacy/support URLs, signing assets, store accounts, and final review."
   ],
   "nextActions": [
-    "Resolve external blocker: Hosted privacy policy URL is required before public store submission.",
+    "Resolve external blocker: Production support email is required before public store submission.",
     "Keep ads disabled until retention and ad-provider gates pass.",
     "Regenerate store compliance after every store package, monetization, or production-environment change."
   ]

@@ -1,6 +1,6 @@
 # Android TWA Handoff
 
-Generated: 2026-05-20T07:12:38.087Z
+Generated: 2026-05-20T07:38:51.518Z
 Status: blocked-draft-ready
 
 ## Files
@@ -27,5 +27,4 @@ Status: blocked-draft-ready
 
 ## Blockers
 
-- Hosted privacy policy URL is missing.
 - Google Play developer account is not connected.

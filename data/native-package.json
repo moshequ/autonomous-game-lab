@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-20T07:12:38.087Z",
+  "generatedAt": "2026-05-20T07:38:51.518Z",
   "status": "blocked-draft-ready",
   "platform": "android-trusted-web-activity",
   "costGate": {
@@ -100,8 +100,8 @@
     },
     {
       "id": "hosted-privacy",
-      "status": "blocker",
-      "detail": "Privacy URL status is needs-hosted-domain."
+      "status": "pass",
+      "detail": "Privacy URL status is hosted."
     },
     {
       "id": "android-signing-fingerprint",
@@ -125,7 +125,6 @@
     }
   ],
   "blockers": [
-    "Hosted privacy policy URL is missing.",
     "Google Play developer account is not connected."
   ],
   "commands": {

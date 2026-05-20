@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-20T05:35:32.680Z",
+  "generatedAt": "2026-05-20T07:38:50.849Z",
   "launchCandidate": {
     "id": "canopy-bloom",
     "title": "Canopy Bloom",
@@ -7,8 +7,8 @@
   },
   "privacyPolicy": {
     "path": "/privacy.html",
-    "productionUrl": null,
-    "productionUrlStatus": "needs-hosted-domain",
+    "productionUrl": "https://moshequ.github.io/autonomous-game-lab/privacy.html",
+    "productionUrlStatus": "hosted",
     "updatedAt": "2026-05-20",
     "summary": "Autonomous Game Lab collects anonymous gameplay events to improve game balance, onboarding, and replay quality. Accounts, paid purchases, and advertising are disabled until production gates pass.",
     "dataCollected": [
@@ -51,8 +51,8 @@
   },
   "supportPage": {
     "path": "/support.html",
-    "productionUrl": null,
-    "productionUrlStatus": "needs-hosted-domain",
+    "productionUrl": "https://moshequ.github.io/autonomous-game-lab/support.html",
+    "productionUrlStatus": "hosted",
     "supportEmail": null,
     "supportEmailStatus": "needs-production-address",
     "topics": [
@@ -65,13 +65,13 @@
   "compliancePublication": {
     "status": "waiting-for-production-inputs",
     "publicPath": "/compliance.json",
-    "productionUrl": null,
+    "productionUrl": "https://moshequ.github.io/autonomous-game-lab/compliance.json",
     "localArtifacts": [
       {
         "id": "privacy-policy",
         "path": "/privacy.html",
-        "productionUrl": null,
-        "status": "needs-hosted-domain",
+        "productionUrl": "https://moshequ.github.io/autonomous-game-lab/privacy.html",
+        "status": "hosted",
         "requiredText": [
           "Autonomous Game Lab Privacy Policy",
           "Gameplay analytics",
@@ -81,8 +81,8 @@
       {
         "id": "support-page",
         "path": "/support.html",
-        "productionUrl": null,
-        "status": "needs-hosted-domain",
+        "productionUrl": "https://moshequ.github.io/autonomous-game-lab/support.html",
+        "status": "hosted",
         "requiredText": [
           "Autonomous Game Lab Support",
           "Support Topics"
@@ -91,8 +91,8 @@
       {
         "id": "compliance-manifest",
         "path": "/compliance.json",
-        "productionUrl": null,
-        "status": "needs-hosted-domain",
+        "productionUrl": "https://moshequ.github.io/autonomous-game-lab/compliance.json",
+        "status": "hosted-after-deploy",
         "requiredText": [
           "store-compliance",
           "privacyPolicy",
@@ -121,7 +121,6 @@
       }
     ],
     "blockers": [
-      "production-origin",
       "support-email"
     ],
     "controls": {
@@ -284,7 +283,7 @@
     "recommendedFirstNativePath": "Android Trusted Web Activity after web retention gates pass",
     "androidTwaManifest": {
       "packageName": "app.autonomousgamelab.portal",
-      "host": null,
+      "host": "moshequ.github.io",
       "startUrl": "/",
       "launcherName": "Game Lab",
       "displayMode": "standalone",
@@ -303,9 +302,9 @@
     "applePrivacyLabels": "https://developer.apple.com/app-store/app-privacy-details/"
   },
   "storeListingOptimization": {
-    "generatedAt": "2026-05-20T07:12:37.604Z",
+    "generatedAt": "2026-05-20T07:38:51.068Z",
     "status": "store-listing-optimizer-ready",
-    "previousLaunchCandidateId": "canopy-bloom",
+    "previousLaunchCandidateId": "lantern-relay",
     "recommendedFocusGameId": "canopy-bloom",
     "leadScreenshotId": "phone-canopy-bloom-generated"
   }

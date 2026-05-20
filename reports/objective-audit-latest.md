@@ -1,6 +1,6 @@
 # Objective Audit
 
-Generated: 2026-05-20T07:29:21.321Z
+Generated: 2026-05-20T07:38:52.955Z
 Status: objective-in-progress
 Can mark goal complete: false
 Reason: The local autonomous PWA system is largely prepared, but production credentials, live data, monetization gates, hosted compliance URLs, and store account/signing blockers remain.
@@ -46,8 +46,8 @@ Reason: The local autonomous PWA system is largely prepared, but production cred
 - Replay rate is 31%; gate is 35%.
 - D1 retention is 17%; gate is 18%; source is fixture-retention.
 - Web/PWA or native ad provider is not configured for gated revenue tests.
-- hosted-privacy-url: Hosted privacy policy URL is required before public store submission.
 - support-contact: Production support email is required before public store submission.
 - google-play-account: Google Play developer account must be connected before Android submission.
 - apple-developer-account: Apple Developer account remains deferred until iOS spend is justified.
 - native-package-ready: Native package is blocked-draft-ready.
+- google-play-account: Google Play account is not connected.

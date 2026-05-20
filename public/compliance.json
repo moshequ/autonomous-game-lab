@@ -1,17 +1,17 @@
 {
-  "generatedAt": "2026-05-20T05:35:32.680Z",
+  "generatedAt": "2026-05-20T07:38:50.849Z",
   "id": "store-compliance-publication",
   "appName": "Autonomous Game Lab",
   "status": "waiting-for-production-inputs",
   "publicOrigin": {
-    "origin": null,
-    "host": null,
-    "status": "missing"
+    "origin": "https://moshequ.github.io/autonomous-game-lab",
+    "host": "moshequ.github.io",
+    "status": "configured"
   },
   "privacyPolicy": {
     "path": "/privacy.html",
-    "productionUrl": null,
-    "productionUrlStatus": "needs-hosted-domain",
+    "productionUrl": "https://moshequ.github.io/autonomous-game-lab/privacy.html",
+    "productionUrlStatus": "hosted",
     "updatedAt": "2026-05-20",
     "dataCollected": [
       {
@@ -46,8 +46,8 @@
   },
   "supportPage": {
     "path": "/support.html",
-    "productionUrl": null,
-    "productionUrlStatus": "needs-hosted-domain",
+    "productionUrl": "https://moshequ.github.io/autonomous-game-lab/support.html",
+    "productionUrlStatus": "hosted",
     "supportEmail": null,
     "supportEmailStatus": "needs-production-address",
     "topics": [
@@ -87,7 +87,6 @@
     }
   ],
   "blockers": [
-    "production-origin",
     "support-email"
   ],
   "controls": {

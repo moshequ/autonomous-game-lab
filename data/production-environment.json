@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-20T06:59:40.444Z",
+  "generatedAt": "2026-05-20T07:38:50.631Z",
   "status": "production-env-missing",
   "envFiles": {
     "loaded": true,
@@ -55,8 +55,8 @@
     "origin": "https://moshequ.github.io/autonomous-game-lab",
     "host": "moshequ.github.io",
     "basePath": "/autonomous-game-lab/",
-    "source": "github-pages-target",
-    "explicitOriginConfigured": false,
+    "source": "environment",
+    "explicitOriginConfigured": true,
     "githubPagesCandidate": {
       "repository": "moshequ/autonomous-game-lab",
       "source": "origin-remote",
@@ -67,7 +67,7 @@
       "supportUrl": "https://moshequ.github.io/autonomous-game-lab/support.html",
       "costUsd": 0
     },
-    "status": "inferred-github-pages",
+    "status": "configured",
     "privacyUrl": "https://moshequ.github.io/autonomous-game-lab/privacy.html",
     "supportUrl": "https://moshequ.github.io/autonomous-game-lab/support.html"
   },
@@ -126,7 +126,7 @@
       "name": "AGL_PUBLIC_ORIGIN",
       "purpose": "HTTPS origin used for hosted privacy/support URLs, sitemap, TWA host, and Digital Asset Links. If no custom origin is set, the setup helper can infer the zero-cost GitHub Pages origin from the repository target.",
       "configured": true,
-      "source": "github-pages-target",
+      "source": "environment",
       "fallback": "github-pages-target"
     },
     {

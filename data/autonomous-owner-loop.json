@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-20T07:29:21.600Z",
+  "generatedAt": "2026-05-20T07:38:53.187Z",
   "status": "owner-loop-ready",
   "mode": "zero-spend-web-ready",
   "autonomyScore": {
@@ -50,7 +50,7 @@
     "objectiveAuditFreshness": {
       "fresh": true,
       "structurallyReady": true,
-      "auditGeneratedAt": "2026-05-20T07:29:21.321Z",
+      "auditGeneratedAt": "2026-05-20T07:38:52.955Z",
       "evaluatedInputIds": [
         "analytics-rollup",
         "event-ingest",
@@ -149,7 +149,7 @@
       "id": "autonomous-self-update",
       "status": "ready",
       "autonomy": "gated-generated-change-persistence",
-      "evidence": "Self-update self-update-ready; safe pending 69; unsafe pending 0; remote push held.",
+      "evidence": "Self-update self-update-ready; safe pending 37; unsafe pending 0; remote push held.",
       "nextAction": "When a GitHub repository is connected, set AGL_AUTONOMOUS_SELF_UPDATE=1 and AGL_AUTONOMOUS_SELF_UPDATE_DIRECT=1 to let verified generated changes persist."
     },
     {
@@ -331,15 +331,15 @@
       "id": "store-listing-optimizer",
       "status": "ready",
       "autonomy": "automatic-aso-draft",
-      "evidence": "Focus canopy-bloom; lead screenshot phone-canopy-bloom-generated; candidate changed no.",
-      "nextAction": "Keep Canopy Bloom as the store listing focus."
+      "evidence": "Focus canopy-bloom; lead screenshot phone-canopy-bloom-generated; candidate changed yes.",
+      "nextAction": "Use Canopy Bloom as the store listing focus instead of lantern-relay."
     },
     {
       "id": "store-compliance",
       "status": "ready",
       "autonomy": "automatic-draft-held-by-external-review",
-      "evidence": "Rating Everyone; target audience general; blockers 4.",
-      "nextAction": "Resolve external blocker: Hosted privacy policy URL is required before public store submission."
+      "evidence": "Rating Everyone; target audience general; blockers 3.",
+      "nextAction": "Resolve external blocker: Production support email is required before public store submission."
     },
     {
       "id": "android-signing",

@@ -1,6 +1,6 @@
 # Store Compliance
 
-Generated: 2026-05-20T07:12:37.840Z
+Generated: 2026-05-20T07:38:51.299Z
 Status: draft-ready-external-blockers
 Policy posture: no-accounts-no-ugc-no-gambling-no-paid-spend
 
@@ -26,7 +26,7 @@ Policy posture: no-accounts-no-ugc-no-gambling-no-paid-spend
 - pass: app-access - Reviewer access does not require credentials because accounts are disabled.
 - pass: compliance-publication - Deployable compliance manifest ties privacy, support, and post-deploy smoke checks together.
 - pass: store-screenshots - 4 generated screenshot asset(s) are available.
-- external-blocker: hosted-privacy-url - Hosted privacy policy URL is required before public store submission.
+- pass: hosted-privacy-url - Hosted privacy policy URL is required before public store submission.
 - external-blocker: support-contact - Production support email is required before public store submission.
 - external-blocker: google-play-account - Google Play developer account must be connected before Android submission.
 - external-blocker: apple-developer-account - Apple Developer account remains deferred until iOS spend is justified.
@@ -40,6 +40,6 @@ Policy posture: no-accounts-no-ugc-no-gambling-no-paid-spend
 
 ## Next Actions
 
-- Resolve external blocker: Hosted privacy policy URL is required before public store submission.
+- Resolve external blocker: Production support email is required before public store submission.
 - Keep ads disabled until retention and ad-provider gates pass.
 - Regenerate store compliance after every store package, monetization, or production-environment change.

@@ -1,6 +1,6 @@
 # Autonomous Owner Loop
 
-Generated: 2026-05-20T07:29:21.600Z
+Generated: 2026-05-20T07:38:53.187Z
 Status: owner-loop-ready
 Mode: zero-spend-web-ready
 Autonomy score: 35/36 (97%)
@@ -19,7 +19,7 @@ Autonomy score: 35/36 (97%)
 - ready: analytics-ingest - Active source: fixture-sample; event ingest: idle-no-files; collector smoke: pass.
 - ready: local-event-bridge - Bridge bridge-waiting-for-export; inbox 0 event(s); imported 0 event(s).
 - ready: autonomous-cadence - Cadence cadence-ready; Codex active-confirmed; GitHub scheduled.
-- ready: autonomous-self-update - Self-update self-update-ready; safe pending 69; unsafe pending 0; remote push held.
+- ready: autonomous-self-update - Self-update self-update-ready; safe pending 37; unsafe pending 0; remote push held.
 - ready: portfolio-loop - Daily challenge: Canopy Bloom; seed traffic: canopy-bloom, grove-engine, metro-loom, pocket-draft.
 - ready: traffic-seeding - 4 seed campaign(s); max cost $0.
 - ready: acquisition-learning - 4 campaign(s); 0 attributed start(s); candidate canopy-bloom.
@@ -45,8 +45,8 @@ Autonomy score: 35/36 (97%)
 - ready: autonomous-operator - Operator operator-plan-ready; selected refresh-organic-seed-loop; execution not-requested.
 - ready: operator-history - History operator-history-ready; records 40; executed 13.
 - ready: objective-audit - Audit objective-in-progress; met 6/8; external blockers 14.
-- ready: store-listing-optimizer - Focus canopy-bloom; lead screenshot phone-canopy-bloom-generated; candidate changed no.
-- ready: store-compliance - Rating Everyone; target audience general; blockers 4.
+- ready: store-listing-optimizer - Focus canopy-bloom; lead screenshot phone-canopy-bloom-generated; candidate changed yes.
+- ready: store-compliance - Rating Everyone; target audience general; blockers 3.
 - ready: android-signing - Signing signing-prepared; fingerprint available; local secrets configured.
 - ready: production-safety - Response guarded-operations; incident drill pass; spend mode no-spend.
 - held-by-product-gates: monetization-path - Revenue disabled; promotion blocked; completion 40%.

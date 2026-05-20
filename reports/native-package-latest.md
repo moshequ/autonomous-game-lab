@@ -1,6 +1,6 @@
 # Native Package
 
-Generated: 2026-05-20T07:12:38.087Z
+Generated: 2026-05-20T07:38:51.518Z
 Status: blocked-draft-ready
 Platform: android-trusted-web-activity
 Package: app.autonomousgamelab.portal
@@ -9,7 +9,7 @@ Host: moshequ.github.io
 ## Checks
 
 - pass: production-host - Host is moshequ.github.io.
-- blocker: hosted-privacy - Privacy URL status is needs-hosted-domain.
+- pass: hosted-privacy - Privacy URL status is hosted.
 - pass: android-signing-fingerprint - SHA-256 certificate fingerprint is configured.
 - pass: store-screenshots - 4 screenshot asset(s) available.
 - pass: icon-assets - 6 icon asset(s) available.
