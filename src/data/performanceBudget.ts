@@ -1,5 +1,5 @@
 export const performanceBudget = {
-  "generatedAt": "2026-05-20T00:41:57.724Z",
+  "generatedAt": "2026-05-20T00:46:39.670Z",
   "status": "performance-budget-ready",
   "sourceBuild": "dist",
   "budgets": {
@@ -14,21 +14,21 @@ export const performanceBudget = {
   },
   "initial": {
     "entryScripts": [
-      "index-J9Ugg6Xh.js",
+      "index-mpm8OnpU.js",
       "registerSW.js"
     ],
     "scriptPaths": [
-      "assets/index-J9Ugg6Xh.js",
+      "assets/index-mpm8OnpU.js",
       "registerSW.js"
     ],
     "jsFiles": [
       {
-        "file": "index-J9Ugg6Xh.js",
-        "path": "assets/index-J9Ugg6Xh.js",
-        "bytes": 678330,
-        "kb": 662.4,
-        "gzipBytes": 179441,
-        "gzipKb": 175.2
+        "file": "index-mpm8OnpU.js",
+        "path": "assets/index-mpm8OnpU.js",
+        "bytes": 680178,
+        "kb": 664.2,
+        "gzipBytes": 179516,
+        "gzipKb": 175.3
       },
       {
         "file": "registerSW.js",
@@ -39,9 +39,9 @@ export const performanceBudget = {
         "gzipKb": 0.1
       }
     ],
-    "jsBytes": 678464,
-    "jsKb": 662.6,
-    "gzipBytes": 179567,
+    "jsBytes": 680312,
+    "jsKb": 664.4,
+    "gzipBytes": 179642,
     "gzipKb": 175.4,
     "cssFiles": [
       {
@@ -61,36 +61,36 @@ export const performanceBudget = {
   "deferred": {
     "chunks": [
       {
-        "file": "GameCanvas-BvEZP_W5.js",
-        "path": "assets/GameCanvas-BvEZP_W5.js",
+        "file": "GameCanvas-PPvsOJob.js",
+        "path": "assets/GameCanvas-PPvsOJob.js",
         "bytes": 1393468,
         "kb": 1360.8,
-        "gzipBytes": 356095,
+        "gzipBytes": 356094,
         "gzipKb": 347.7
       }
     ],
     "gameChunk": {
-      "file": "GameCanvas-BvEZP_W5.js",
-      "path": "assets/GameCanvas-BvEZP_W5.js",
+      "file": "GameCanvas-PPvsOJob.js",
+      "path": "assets/GameCanvas-PPvsOJob.js",
       "bytes": 1393468,
       "kb": 1360.8,
-      "gzipBytes": 356095,
+      "gzipBytes": 356094,
       "gzipKb": 347.7
     },
     "largestDeferredChunk": {
-      "file": "GameCanvas-BvEZP_W5.js",
-      "path": "assets/GameCanvas-BvEZP_W5.js",
+      "file": "GameCanvas-PPvsOJob.js",
+      "path": "assets/GameCanvas-PPvsOJob.js",
       "bytes": 1393468,
       "kb": 1360.8,
-      "gzipBytes": 356095,
+      "gzipBytes": 356094,
       "gzipKb": 347.7
     },
     "largestJsChunk": {
-      "file": "GameCanvas-BvEZP_W5.js",
-      "path": "assets/GameCanvas-BvEZP_W5.js",
+      "file": "GameCanvas-PPvsOJob.js",
+      "path": "assets/GameCanvas-PPvsOJob.js",
       "bytes": 1393468,
       "kb": 1360.8,
-      "gzipBytes": 356095,
+      "gzipBytes": 356094,
       "gzipKb": 347.7
     },
     "chunksBytes": 1393468,
@@ -99,20 +99,20 @@ export const performanceBudget = {
   "assets": {
     "js": [
       {
-        "file": "GameCanvas-BvEZP_W5.js",
-        "path": "assets/GameCanvas-BvEZP_W5.js",
+        "file": "GameCanvas-PPvsOJob.js",
+        "path": "assets/GameCanvas-PPvsOJob.js",
         "bytes": 1393468,
         "kb": 1360.8,
-        "gzipBytes": 356095,
+        "gzipBytes": 356094,
         "gzipKb": 347.7
       },
       {
-        "file": "index-J9Ugg6Xh.js",
-        "path": "assets/index-J9Ugg6Xh.js",
-        "bytes": 678330,
-        "kb": 662.4,
-        "gzipBytes": 179441,
-        "gzipKb": 175.2
+        "file": "index-mpm8OnpU.js",
+        "path": "assets/index-mpm8OnpU.js",
+        "bytes": 680178,
+        "kb": 664.2,
+        "gzipBytes": 179516,
+        "gzipKb": 175.3
       },
       {
         "file": "registerSW.js",
@@ -149,7 +149,7 @@ export const performanceBudget = {
     {
       "id": "initial-js-budget",
       "status": "pass",
-      "detail": "Initial JS is 662.6 KB; budget is 675 KB."
+      "detail": "Initial JS is 664.4 KB; budget is 675 KB."
     },
     {
       "id": "initial-js-gzip-budget",
@@ -174,12 +174,12 @@ export const performanceBudget = {
     {
       "id": "game-runtime-deferred",
       "status": "pass",
-      "detail": "GameCanvas-BvEZP_W5.js is deferred from the initial shell."
+      "detail": "GameCanvas-PPvsOJob.js is deferred from the initial shell."
     },
     {
       "id": "largest-js-deferred",
       "status": "pass",
-      "detail": "Largest JS chunk is GameCanvas-BvEZP_W5.js at 1360.8 KB."
+      "detail": "Largest JS chunk is GameCanvas-PPvsOJob.js at 1360.8 KB."
     },
     {
       "id": "deferred-game-budget",
