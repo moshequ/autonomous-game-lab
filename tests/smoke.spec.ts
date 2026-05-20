@@ -2162,6 +2162,9 @@ test('autonomous cadence keeps unattended operation auditable and guarded', asyn
   expect(cadence.freshnessPolicy.staleArtifactIds).toEqual([])
   expect(cadence.artifactFreshness.every((artifact) => artifact.status === 'fresh')).toBe(true)
   expect(cadence.artifactFreshness.some((artifact) => artifact.id === 'objective-audit')).toBe(true)
+  expect(cadence.artifactFreshness.some((artifact) => artifact.id === 'traffic-seeding')).toBe(true)
+  expect(cadence.artifactFreshness.some((artifact) => artifact.id === 'acquisition-learning')).toBe(true)
+  expect(cadence.artifactFreshness.some((artifact) => artifact.id === 'organic-seed-loop')).toBe(true)
   expect(cadence.checks.some((check) => check.id === 'fresh-generated-evidence')).toBe(true)
   expect(cadence.checks.every((check) => check.status === 'pass')).toBe(true)
   if (cadence.schedulers.codexDesktop.status === 'active-confirmed') {

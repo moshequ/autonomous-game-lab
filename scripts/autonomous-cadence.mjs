@@ -47,6 +47,31 @@ const freshnessRequiredArtifacts = [
     path: 'data/production-readiness.json',
   },
   {
+    id: 'growth-plan',
+    label: 'Growth pages and organic routes',
+    path: 'data/growth-plan.json',
+  },
+  {
+    id: 'portfolio-policy',
+    label: 'Portfolio traffic policy',
+    path: 'data/portfolio-policy.json',
+  },
+  {
+    id: 'traffic-seeding',
+    label: 'Zero-spend traffic seeding',
+    path: 'data/traffic-seeding.json',
+  },
+  {
+    id: 'acquisition-learning',
+    label: 'Acquisition learning',
+    path: 'data/acquisition-learning.json',
+  },
+  {
+    id: 'organic-seed-loop',
+    label: 'Organic seed loop',
+    path: 'data/organic-seed-loop.json',
+  },
+  {
     id: 'release-candidate',
     label: 'Release candidate',
     path: 'data/release-candidate.json',

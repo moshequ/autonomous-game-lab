@@ -1,6 +1,6 @@
 # Autonomous Cadence
 
-Generated: 2026-05-20T03:53:03.672Z
+Generated: 2026-05-20T03:59:26.817Z
 Status: cadence-ready
 Cadence: daily
 
@@ -24,20 +24,25 @@ Cadence: daily
 ## Freshness
 
 - Status: fresh
-- Required artifacts: 8
-- Fresh artifacts: 8
+- Required artifacts: 13
+- Fresh artifacts: 13
 - Stale/invalid artifacts: 0
 - Stale after: 36h
-- Oldest age: 0.57h
+- Oldest age: 0.67h
 
 - fresh: owner-loop - data/autonomous-owner-loop.json is 0h old.
 - fresh: operator - data/autonomous-operator.json is 0h old.
-- fresh: production-readiness - data/production-readiness.json is 0.06h old.
-- fresh: release-candidate - data/release-candidate.json is 0.07h old.
-- fresh: post-deploy-smoke - data/post-deploy-smoke.json is 0.07h old.
-- fresh: product-gate-sample-plan - data/product-gate-sample-plan.json is 0.57h old.
-- fresh: pwa-install-loop - data/pwa-install-loop.json is 0.38h old.
-- fresh: objective-audit - data/objective-audit.json is 0.06h old.
+- fresh: production-readiness - data/production-readiness.json is 0h old.
+- fresh: growth-plan - data/growth-plan.json is 0.05h old.
+- fresh: portfolio-policy - data/portfolio-policy.json is 0.05h old.
+- fresh: traffic-seeding - data/traffic-seeding.json is 0.05h old.
+- fresh: acquisition-learning - data/acquisition-learning.json is 0.05h old.
+- fresh: organic-seed-loop - data/organic-seed-loop.json is 0.05h old.
+- fresh: release-candidate - data/release-candidate.json is 0h old.
+- fresh: post-deploy-smoke - data/post-deploy-smoke.json is 0h old.
+- fresh: product-gate-sample-plan - data/product-gate-sample-plan.json is 0.67h old.
+- fresh: pwa-install-loop - data/pwa-install-loop.json is 0.49h old.
+- fresh: objective-audit - data/objective-audit.json is 0h old.
 
 ## Checks
 
@@ -51,7 +56,7 @@ Cadence: daily
 - pass: daily-loop-script - autonomous:daily regenerates game, analytics, readiness, cadence, audit, and automation evidence.
 - pass: automation-verifier - test:automation is node scripts/event-collector-smoke.mjs && npm run autonomous:collector-deploy-plan && node scripts/event-ingest-smoke.mjs && node scripts/local-event-bridge.mjs && node scripts/verify-autonomy.mjs.
 - pass: browser-smoke - test:e2e is playwright test.
-- pass: fresh-generated-evidence - All 8 required generated evidence artifacts are fresh within 36h.
+- pass: fresh-generated-evidence - All 13 required generated evidence artifacts are fresh within 36h.
 - pass: github-scheduled-workflow - GitHub Actions daily workflow can run the full autonomous owner loop and upload evidence artifacts.
 - pass: github-self-update-workflow - Gated GitHub workflow can persist allowlisted verified generated changes when explicitly enabled.
 - pass: zero-spend-operation - Cadence is local/CI execution only; it does not enable paid spend, stores, ads, or revenue.
