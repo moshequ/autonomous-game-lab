@@ -1232,6 +1232,7 @@ test('product optimizer applies one guarded tuning step from product-gate eviden
   await expect(page.getByLabel('Product Gate Recovery')).toContainText('collecting-sample')
   await expect(page.getByLabel('Product Gate Sample Plan')).toContainText('product-gate-sample-plan-ready')
   await expect(page.getByLabel('Product Gate Sample Plan')).toContainText('firstGameCompletion')
+  await expect(page.getByLabel('Product Gate Sample Plan')).toContainText('d1Retention')
 })
 
 test('product gate recovery marks passing gates as monitoring instead of collecting sample', async () => {
@@ -1405,17 +1406,19 @@ test('product gate recovery marks passing gates as monitoring instead of collect
 
 test('product gate sample mission starts an attributed zero-spend evidence run', async ({ page }) => {
   const samplePlan = JSON.parse(await readFile('data/product-gate-sample-plan.json', 'utf8')) as {
+    summary: { fastestGateId: string }
     missions: Array<{
       gateId: string
       gameId: string
       title: string
       campaignId: string
       needed: { promptViews: number; successes: number }
-    controls: { costUsd: number; noSyntheticEvents: boolean; noRuleChange: boolean; noRevenueEnablement: boolean }
-    evidence: { status: string }
+      controls: { costUsd: number; noSyntheticEvents: boolean; noRuleChange: boolean; noRevenueEnablement: boolean }
+      evidence: { status: string }
     }>
   }
   const mission = samplePlan.missions[0]
+  const fastestMission = samplePlan.missions.find((item) => item.gateId === samplePlan.summary.fastestGateId)
 
   await page.goto('/')
 
@@ -1495,6 +1498,62 @@ test('product gate sample mission starts an attributed zero-spend evidence run',
       acquisitionCampaign: mission.campaignId,
       acquisitionSource: 'gate_sample',
     })
+  }
+
+  expect(fastestMission).toBeTruthy()
+
+  if (fastestMission && fastestMission.campaignId !== mission.campaignId) {
+    await samplePanel.getByRole('button', { name: `Start fastest sample for ${fastestMission.title}` }).click()
+
+    await expect(page.getByLabel('Autonomy cockpit').getByRole('heading', { name: fastestMission.title })).toBeVisible()
+    expect(page.url()).toContain(`game=${fastestMission.gameId}`)
+    expect(page.url()).toContain(`utm_campaign=${fastestMission.campaignId}`)
+
+    const fastestMissionClick = await page.evaluate((campaignId) => {
+      const raw = window.localStorage.getItem('agl.analytics.events')
+      const events = raw ? JSON.parse(raw) : []
+
+      return events.findLast(
+        (event: { name: string; properties: Record<string, string | number | boolean> }) =>
+          event.name === 'gate_sample_mission_clicked' && event.properties.campaignId === campaignId,
+      )?.properties
+    }, fastestMission.campaignId)
+
+    expect(fastestMissionClick).toMatchObject({
+      gameId: fastestMission.gameId,
+      gateId: fastestMission.gateId,
+      campaignId: fastestMission.campaignId,
+      acquisitionSource: 'gate_sample',
+      acquisitionCampaign: fastestMission.campaignId,
+      acquisitionChannel: 'product-gate-sample',
+      promptViewsNeeded: fastestMission.needed.promptViews,
+      observedSuccessesNeeded: fastestMission.needed.successes,
+    })
+
+    const fastestDownloadPromise = page.waitForEvent('download')
+    await samplePanel.getByRole('button', { name: `Export fastest evidence for ${fastestMission.title}` }).click()
+    const fastestDownload = await fastestDownloadPromise
+    const fastestDownloadPath = await fastestDownload.path()
+
+    expect(fastestDownload.suggestedFilename()).toMatch(/^player-events-\d{4}-\d{2}-\d{2}\.json$/)
+    expect(fastestDownloadPath).toBeTruthy()
+
+    if (fastestDownloadPath) {
+      const fastestEvents = JSON.parse(await readFile(fastestDownloadPath, 'utf8')) as Array<{
+        name: string
+        properties: Record<string, string | number | boolean>
+      }>
+      const fastestExportEvent = fastestEvents.findLast((event) => event.name === 'analytics_exported')
+
+      expect(fastestExportEvent?.properties).toMatchObject({
+        exportSurface: 'product-gate-sample',
+        gateId: fastestMission.gateId,
+        gameId: fastestMission.gameId,
+        campaignId: fastestMission.campaignId,
+        acquisitionCampaign: fastestMission.campaignId,
+        acquisitionSource: 'gate_sample',
+      })
+    }
   }
 })
 

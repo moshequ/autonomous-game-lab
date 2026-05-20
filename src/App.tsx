@@ -501,6 +501,12 @@ function App() {
       (gate) => gate.id === productGateRecovery.summary.primaryBottleneck,
     ) ?? productGateRecovery.gates[0]
   const productGateSamplePrimary = productGateSamplePlan.missions[0]
+  const productGateSampleFastest =
+    productGateSamplePlan.missions.find(
+      (mission) => mission.gateId === productGateSamplePlan.summary.fastestGateId,
+    ) ?? productGateSamplePrimary
+  const productGateSampleFastestDistinct =
+    productGateSampleFastest?.campaignId !== productGateSamplePrimary?.campaignId ? productGateSampleFastest : null
   const firstMoveCoachPrimary =
     firstMoveCoach.targets.find((target) => target.gameId === firstMoveCoach.summary.primaryTargetId) ??
     firstMoveCoach.targets.find((target) => target.enabled)
@@ -1278,6 +1284,17 @@ function App() {
     anchor.download = `player-events-${new Date().toISOString().slice(0, 10)}.json`
     anchor.click()
     URL.revokeObjectURL(url)
+  }
+  const exportGateSampleEvidence = (mission: (typeof productGateSamplePlan.missions)[number]) => {
+    exportLocalAnalytics({
+      exportSurface: 'product-gate-sample',
+      gateId: mission.gateId,
+      gameId: mission.gameId,
+      campaignId: mission.campaignId,
+      promptViewsNeeded: mission.needed.promptViews,
+      observedSuccessesNeeded: mission.needed.successes,
+      noSyntheticEvents: mission.controls.noSyntheticEvents,
+    })
   }
   const resetRun = () => {
     trackEvent('replay_clicked', {
@@ -2175,6 +2192,10 @@ function App() {
                   <strong>{productGateSamplePrimary?.gateId ?? 'none'}</strong>
                 </div>
                 <div>
+                  <span>Fastest mission</span>
+                  <strong>{productGateSampleFastest?.gateId ?? 'none'}</strong>
+                </div>
+                <div>
                   <span>Prompt debt</span>
                   <strong>{productGateSamplePlan.summary.totalPromptViewsNeeded} views</strong>
                 </div>
@@ -2198,20 +2219,28 @@ function App() {
                     <button
                       className="tinyButton"
                       type="button"
-                      onClick={() =>
-                        exportLocalAnalytics({
-                          exportSurface: 'product-gate-sample',
-                          gateId: productGateSamplePrimary.gateId,
-                          gameId: productGateSamplePrimary.gameId,
-                          campaignId: productGateSamplePrimary.campaignId,
-                          promptViewsNeeded: productGateSamplePrimary.needed.promptViews,
-                          observedSuccessesNeeded: productGateSamplePrimary.needed.successes,
-                          noSyntheticEvents: productGateSamplePrimary.controls.noSyntheticEvents,
-                        })
-                      }
+                      onClick={() => exportGateSampleEvidence(productGateSamplePrimary)}
                     >
                       Export sample evidence for {productGateSamplePrimary.title}
                     </button>
+                    {productGateSampleFastestDistinct ? (
+                      <>
+                        <button
+                          className="tinyButton"
+                          type="button"
+                          onClick={() => startGateSampleMission(productGateSampleFastestDistinct)}
+                        >
+                          Start fastest sample for {productGateSampleFastestDistinct.title}
+                        </button>
+                        <button
+                          className="tinyButton"
+                          type="button"
+                          onClick={() => exportGateSampleEvidence(productGateSampleFastestDistinct)}
+                        >
+                          Export fastest evidence for {productGateSampleFastestDistinct.title}
+                        </button>
+                      </>
+                    ) : null}
                   </div>
                 ) : null}
               </div>
