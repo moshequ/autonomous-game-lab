@@ -1,5 +1,5 @@
 export const androidRelease = {
-  "generatedAt": "2026-05-20T09:02:17.462Z",
+  "generatedAt": "2026-05-20T15:35:59.346Z",
   "status": "blocked-needs-host-signing-play",
   "envFiles": {
     "loaded": true,
@@ -15,14 +15,14 @@ export const androidRelease = {
         ]
       }
     ],
-    "loadedKeys": [],
-    "skippedExistingKeys": [
+    "loadedKeys": [
       "AGL_ANDROID_PACKAGE_NAME",
       "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
       "AGL_ANDROID_KEYSTORE_BASE64",
       "AGL_ANDROID_KEYSTORE_PASSWORD",
       "AGL_ANDROID_KEY_ALIAS"
     ],
+    "skippedExistingKeys": [],
     "skippedProtectedKeys": [],
     "overwrittenEnvFileKeys": [],
     "supportedFiles": [
@@ -91,8 +91,8 @@ export const androidRelease = {
     },
     {
       "id": "store-package-draft",
-      "status": "pass",
-      "detail": "Store package is draft-ready; data safety is draft-ready."
+      "status": "blocker",
+      "detail": "Store package is blocked; data safety is draft-ready."
     },
     {
       "id": "store-compliance-draft",
@@ -147,6 +147,7 @@ export const androidRelease = {
   ],
   "blockers": [
     "native-package-ready: Native package is blocked-draft-ready.",
+    "store-package-draft: Store package is blocked; data safety is draft-ready.",
     "google-play-account: Google Play account is not connected.",
     "play-service-account: Google Play service account upload credentials are available to CI.",
     "unit-economics-store-spend: Store spend allowed is false; spend mode is no-spend.",

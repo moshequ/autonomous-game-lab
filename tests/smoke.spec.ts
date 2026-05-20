@@ -75,6 +75,8 @@ test('portal loads a playable canvas and autonomy cockpit', async ({ page }) => 
   await expect(page.getByLabel('Production Bootstrap')).toContainText('External blockers')
   await expect(page.getByLabel('Production Activation')).toContainText(/activation-waiting-for-credentials|activation-ready|activation-applied/)
   await expect(page.getByLabel('Production Activation')).toContainText(/dry-run|apply-configured-actions/)
+  await expect(page.getByLabel('Support Channel')).toContainText(/support-channel-ready|support-channel-planned/)
+  await expect(page.getByLabel('Support Channel')).toContainText('github-issues')
   await expect(page.getByLabel('Repository Channel')).toContainText(/blocked-no-local-git|waiting-for-gh-auth|repository-channel-ready|waiting-for-github-repository|waiting-for-repository-channel/)
   await expect(page.getByLabel('Repository Channel')).toContainText('Workflow dispatch')
   await expect(page.getByLabel('Repository Bootstrap')).toContainText(/needs-local-git-bootstrap|waiting-for-github-target|waiting-for-origin-remote|waiting-for-gh-auth|repository-bootstrap-ready/)
@@ -1165,6 +1167,7 @@ test('production scripts load git-ignored env files without leaking values or mu
     'data/production-environment.json',
     'data/repository-readiness.json',
     'data/repository-bootstrap.json',
+    'data/support-channel.json',
     'data/production-bootstrap.json',
     'data/event-collector-deployment.json',
     'data/post-deploy-smoke.json',
@@ -1213,6 +1216,7 @@ test('production scripts load git-ignored env files without leaking values or mu
     'scripts/production-environment.mjs',
     'scripts/repository-readiness.mjs',
     'scripts/repository-bootstrap.mjs',
+    'scripts/support-channel.mjs',
     'scripts/production-bootstrap.mjs',
     'scripts/event-collector-deploy-plan.mjs',
     'scripts/post-deploy-smoke.mjs',
@@ -4023,7 +4027,62 @@ test('generated support page is reachable', async ({ page }) => {
 
   await expect(page.getByRole('heading', { name: 'Autonomous Game Lab Support' })).toBeVisible()
   await expect(page.getByText('internal web/PWA experiment mode')).toBeVisible()
-  await expect(page.getByText('production support email')).toBeVisible()
+  await expect(page.getByText('A production support email is required before public app-store submission.')).toBeVisible()
+})
+
+test('support channel publishes zero-spend public issue intake with privacy warnings', async ({ page }) => {
+  const supportChannel = JSON.parse(await readFile('data/support-channel.json', 'utf8')) as {
+    status: string
+    provider: string
+    repository: { target: string | null; publicIssuesReady: boolean }
+    links: {
+      supportUrl: string | null
+      gameplayFeedbackUrl: string | null
+      bugReportUrl: string | null
+      analyticsEvidenceUrl: string | null
+    }
+    issueTemplates: Array<{ exists: boolean; containsPrivacyWarning: boolean; url: string | null }>
+    controls: {
+      zeroPaidSpend: boolean
+      noAccountCreation: boolean
+      noStoreSubmission: boolean
+      playerInitiatedOnly: boolean
+      noPrivateDataInPrefilledUrls: boolean
+      noRawEventEmbeddingInUrls: boolean
+      supportEmailStillRequiredForStoreSubmission: boolean
+    }
+  }
+  const storePackage = JSON.parse(await readFile('data/store-package.json', 'utf8')) as {
+    supportPage: { supportChannel: { status: string; provider: string; supportUrl: string | null } }
+  }
+
+  expect(['support-channel-ready', 'support-channel-planned']).toContain(supportChannel.status)
+  expect(supportChannel.provider).toBe('github-issues')
+  expect(supportChannel.links.supportUrl).toContain('/issues')
+  expect(supportChannel.links.gameplayFeedbackUrl).toContain('player-feedback.yml')
+  expect(supportChannel.links.bugReportUrl).toContain('bug-report.yml')
+  expect(supportChannel.links.analyticsEvidenceUrl).toContain('analytics-evidence.yml')
+  expect(supportChannel.issueTemplates.every((template) => template.exists)).toBe(true)
+  expect(supportChannel.issueTemplates.every((template) => template.containsPrivacyWarning)).toBe(true)
+  expect(supportChannel.controls.zeroPaidSpend).toBe(true)
+  expect(supportChannel.controls.noAccountCreation).toBe(true)
+  expect(supportChannel.controls.noStoreSubmission).toBe(true)
+  expect(supportChannel.controls.playerInitiatedOnly).toBe(true)
+  expect(supportChannel.controls.noPrivateDataInPrefilledUrls).toBe(true)
+  expect(supportChannel.controls.noRawEventEmbeddingInUrls).toBe(true)
+  expect(supportChannel.controls.supportEmailStillRequiredForStoreSubmission).toBe(true)
+  expect(storePackage.supportPage.supportChannel.status).toBe(supportChannel.status)
+  expect(storePackage.supportPage.supportChannel.provider).toBe('github-issues')
+
+  await page.goto('/support.html')
+  await expect(page.getByRole('heading', { name: 'Public Support Channel' })).toBeVisible()
+  await expect(page.getByRole('link', { name: 'Open the public support intake' })).toHaveAttribute(
+    'href',
+    supportChannel.links.supportUrl ?? '#',
+  )
+  await expect(page.getByText('GitHub Issues are public')).toBeVisible()
+  await expect(page.getByText('Do not paste private information')).toBeVisible()
+  await expect(page.getByText('does not replace the production support email')).toBeVisible()
 })
 
 test('generated compliance manifest is reachable', async ({ page }) => {

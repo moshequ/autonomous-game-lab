@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-05-20T15:20:38.141Z",
+  "generatedAt": "2026-05-20T15:35:59.590Z",
   "status": "release-candidate-ready",
-  "candidateId": "pwa-2c551aab6b03",
+  "candidateId": "pwa-841c64d737d8",
   "target": {
     "provider": "github-pages",
     "artifactPath": "dist",
@@ -12,8 +12,8 @@
   },
   "summary": {
     "totalFiles": 44,
-    "totalBytes": 3657973,
-    "totalKb": 3572.2,
+    "totalBytes": 3678086,
+    "totalKb": 3591.9,
     "assetFiles": 3,
     "htmlFiles": 16,
     "gamePages": 10,
@@ -22,7 +22,7 @@
   },
   "integrity": {
     "algorithm": "sha256",
-    "aggregateHash": "2c551aab6b0369e2e668eb6787ba452398872356df4784dae5300d8d2af3af52",
+    "aggregateHash": "841c64d737d8b129bfed78ee7fb70040b67c514a8ef06ed477f1d60537073f01",
     "files": [
       {
         "path": ".nojekyll",
@@ -46,16 +46,16 @@
         "cacheControl": "public, max-age=3600"
       },
       {
-        "path": "assets/GameCanvas-CVG6IrIn.js",
+        "path": "assets/GameCanvas-CWMcr1aA.js",
         "bytes": 1393554,
-        "sha256": "4f5f6f48564a0834472a3375bb6e0a83b257bccf26cc598c0b6608993b0da520",
+        "sha256": "e2f69ee25b1da6bc47028ceb767d7d9a5f064bc95b22055257713aff9bb979d6",
         "contentType": "text/javascript; charset=utf-8",
         "cacheControl": "public, max-age=31536000, immutable"
       },
       {
-        "path": "assets/index-3k6pqjSP.js",
-        "bytes": 645764,
-        "sha256": "4a3e07540a4f718db2d097669c1b5957b47d5501ef2e7a55e33e30f21c52bb6e",
+        "path": "assets/index-Dd_B3Mv9.js",
+        "bytes": 653338,
+        "sha256": "f1521c3a5af851110d9c1dfcd7baaf5d235bf81073f8257ae072f596cdc85485",
         "contentType": "text/javascript; charset=utf-8",
         "cacheControl": "public, max-age=31536000, immutable"
       },
@@ -68,8 +68,8 @@
       },
       {
         "path": "compliance.json",
-        "bytes": 2838,
-        "sha256": "074a1471963a50de5ecd6599fd19ca21a7f35ef659f93fa4894c454439a45ee6",
+        "bytes": 5370,
+        "sha256": "96c957597573f91f4907a00e47c636aee9e8583512b46604be033b785db4c718",
         "contentType": "application/json; charset=utf-8",
         "cacheControl": "public, max-age=3600"
       },
@@ -216,7 +216,7 @@
       {
         "path": "index.html",
         "bytes": 903,
-        "sha256": "e1892a35997a6448d48f8ee20d4c11d46d974e807f6020a107e18b7862b64346",
+        "sha256": "b6c6776185b7c7bb7509cf7eba42f204001c8fd02e8b8984c0d1b4da227d1587",
         "contentType": "text/html; charset=utf-8",
         "cacheControl": "no-cache"
       },
@@ -243,8 +243,8 @@
       },
       {
         "path": "privacy.html",
-        "bytes": 2648,
-        "sha256": "a451a96be82aedad644ba1178d1f9ee6ace9d2c42ede2f13996c9e593875fc95",
+        "bytes": 2649,
+        "sha256": "54adbc25afb0ce141c8d5cd50e26328706e804446b23df22668d2f4a92348d05",
         "contentType": "text/html; charset=utf-8",
         "cacheControl": "no-cache"
       },
@@ -285,43 +285,43 @@
       },
       {
         "path": "store-assets/screenshots/desktop-growth-page.png",
-        "bytes": 65811,
-        "sha256": "1692a26c971c060a8793ff4c81c7a92c5f30210abdc99e2a16b1aa90894a796a",
+        "bytes": 63651,
+        "sha256": "faadb62bcd5862fc4873f8be1052b0f4a7638a94ed06aaa427142bde3c8a88d7",
         "contentType": "image/png",
         "cacheControl": "public, max-age=3600"
       },
       {
         "path": "store-assets/screenshots/phone-canopy-bloom-generated.png",
-        "bytes": 196908,
-        "sha256": "69ad850a54420c83049f9033c9a206a8e1279b6a47afe2eebfbc8a4045ae6fce",
+        "bytes": 194824,
+        "sha256": "4468815c99b603f6a0619d204688d13452c57f083ec9228851f18845b8939c88",
         "contentType": "image/png",
         "cacheControl": "public, max-age=3600"
       },
       {
         "path": "store-assets/screenshots/phone-lantern-relay-game.png",
-        "bytes": 196575,
-        "sha256": "9c9745aebccf98a925dbd675ca3f49978c87ed572f83d7c4f6e41e1ad2f45acd",
+        "bytes": 195907,
+        "sha256": "1ce576b25dc43c90a2004186f943c070bf2ba2cd61a1626254735604b0c42561",
         "contentType": "image/png",
         "cacheControl": "public, max-age=3600"
       },
       {
         "path": "store-assets/screenshots/phone-portal-home.png",
-        "bytes": 257530,
-        "sha256": "da31e6db7d22c1264a77648f49492ea5267c04c69966ad4ef0b5437abd77fcb6",
+        "bytes": 269918,
+        "sha256": "90ce0fa9c05dee2264f430ad4ca107c3b1cb71da96abf80206f4ae824028d59b",
         "contentType": "image/png",
         "cacheControl": "public, max-age=3600"
       },
       {
         "path": "support.html",
-        "bytes": 1475,
-        "sha256": "6e57689b9acf3a2a482e53dbd7953f134d7cf6617f0a3d6d7499a8b9b7820843",
+        "bytes": 4005,
+        "sha256": "b5f82a46bbe0173ebe566d893dcfaecba817ffa92a7f15a6e002a4af3d8a42e8",
         "contentType": "text/html; charset=utf-8",
         "cacheControl": "no-cache"
       },
       {
         "path": "sw.js",
         "bytes": 3735,
-        "sha256": "c2200aeb4f07acb746a7ebdb893958ab742d22d0bc0e0b33157cecc2d94a9ee7",
+        "sha256": "86a82cfb41a6b43bd6550cc406c8499a708639768805b18feeef867737d3124e",
         "contentType": "text/javascript; charset=utf-8",
         "cacheControl": "no-cache"
       },

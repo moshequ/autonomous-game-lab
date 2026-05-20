@@ -1,0 +1,37 @@
+name: Web/PWA bug report
+description: Report a reproducible issue in the web or installable PWA experience.
+title: "[Bug] "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        GitHub Issues are public. Do not paste private information or raw analytics exports into this issue. Share only details you are comfortable making public.
+  - type: input
+    id: page
+    attributes:
+      label: Page or game
+      description: Which page, URL, or game showed the issue?
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: What did you do before the issue appeared?
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Browser and device
+      description: For example, Chrome on Android, Safari on iPhone, or desktop browser.

@@ -6,6 +6,7 @@ const pipelinePath = path.join(root, 'data', 'prototype-pipeline.json')
 const gatesPath = path.join(root, 'data', 'production-gates.json')
 const analyticsPath = path.join(root, 'data', 'analytics-rollup.json')
 const environmentPath = path.join(root, 'data', 'production-environment.json')
+const supportChannelPath = path.join(root, 'data', 'support-channel.json')
 const outputJsonPath = path.join(root, 'data', 'store-package.json')
 const outputReportPath = path.join(root, 'reports', 'store-package-latest.md')
 const privacyPath = path.join(root, 'public', 'privacy.html')
@@ -26,6 +27,26 @@ const environment = await readOptionalJson(environmentPath, {
   support: { email: null, status: 'missing-production-address' },
   analytics: { browserPosthogConfigured: false },
   android: { packageName: 'app.autonomousgamelab.portal' },
+})
+const supportChannel = await readOptionalJson(supportChannelPath, {
+  status: 'support-channel-missing-target',
+  provider: 'github-issues',
+  repository: { target: null, url: null, publicIssuesReady: false },
+  links: {
+    supportUrl: null,
+    gameplayFeedbackUrl: null,
+    bugReportUrl: null,
+    analyticsEvidenceUrl: null,
+  },
+  privacy: {
+    publicIssueWarning:
+      'GitHub Issues are public; do not paste private information or raw analytics exports into public issue bodies.',
+  },
+  controls: {
+    zeroPaidSpend: true,
+    playerInitiatedOnly: true,
+    supportEmailStillRequiredForStoreSubmission: true,
+  },
 })
 const externalAnalyticsConfigured =
   analytics.sourceStatus.activeSource === 'posthog' ||
@@ -81,11 +102,24 @@ const supportPage = {
   productionUrlStatus: environment.publicOrigin?.supportUrl ? 'hosted' : 'needs-hosted-domain',
   supportEmail: environment.support?.email ?? null,
   supportEmailStatus: environment.support?.status === 'configured' ? 'configured' : 'needs-production-address',
+  supportChannel: {
+    status: supportChannel.status,
+    provider: supportChannel.provider,
+    repository: supportChannel.repository?.target ?? null,
+    publicIssuesReady: supportChannel.repository?.publicIssuesReady === true,
+    supportUrl: supportChannel.links?.supportUrl ?? null,
+    gameplayFeedbackUrl: supportChannel.links?.gameplayFeedbackUrl ?? null,
+    bugReportUrl: supportChannel.links?.bugReportUrl ?? null,
+    analyticsEvidenceUrl: supportChannel.links?.analyticsEvidenceUrl ?? null,
+    publicIssueWarning: supportChannel.privacy?.publicIssueWarning ?? null,
+    controls: supportChannel.controls ?? {},
+  },
   topics: [
     'Gameplay feedback',
     'Privacy questions',
     'Store listing support contact',
     'Bug reports for web/PWA builds',
+    'Player-initiated analytics export notes',
   ],
 }
 
@@ -266,6 +300,7 @@ const complianceManifest = {
     productionUrlStatus: supportPage.productionUrlStatus,
     supportEmail: supportPage.supportEmail,
     supportEmailStatus: supportPage.supportEmailStatus,
+    supportChannel: supportPage.supportChannel,
     topics: supportPage.topics,
   },
   storeCompliance: {
@@ -316,6 +351,7 @@ const privacyHtml = `<!doctype html>
         padding: 16px 0;
         border-top: 1px solid #d9d0bf;
       }
+
     </style>
   </head>
   <body>
@@ -387,6 +423,10 @@ const supportHtml = `<!doctype html>
         padding: 16px 0;
         border-top: 1px solid #d9d0bf;
       }
+
+      a {
+        color: #187f7a;
+      }
     </style>
   </head>
   <body>
@@ -404,6 +444,19 @@ const supportHtml = `<!doctype html>
         <ul>
           ${supportPage.topics.map((topic) => `<li>${topic}</li>`).join('\n          ')}
         </ul>
+      </section>
+
+      <section>
+        <h2>Public Support Channel</h2>
+        <p>GitHub Issues can collect gameplay feedback, web/PWA bug reports, and player-initiated evidence notes while the project stays bootstrapped.</p>
+        <ul>
+          <li><a href="${supportPage.supportChannel.supportUrl ?? '#'}">Open the public support intake</a></li>
+          <li><a href="${supportPage.supportChannel.gameplayFeedbackUrl ?? supportPage.supportChannel.supportUrl ?? '#'}">Share gameplay feedback</a></li>
+          <li><a href="${supportPage.supportChannel.bugReportUrl ?? supportPage.supportChannel.supportUrl ?? '#'}">Report a web/PWA bug</a></li>
+          <li><a href="${supportPage.supportChannel.analyticsEvidenceUrl ?? supportPage.supportChannel.supportUrl ?? '#'}">Describe a player analytics export</a></li>
+        </ul>
+        <p>GitHub Issues are public. Do not paste private information or raw analytics exports into public issues; review any exported player-events file before choosing to attach it.</p>
+        <p>This zero-cost channel does not replace the production support email required before public app-store submission.</p>
       </section>
 
       <section>
@@ -434,6 +487,7 @@ const report = [
   `- Privacy production URL: ${privacyPolicy.productionUrl ?? 'not configured'}`,
   `- Support page path: ${supportPage.path}`,
   `- Support email: ${supportPage.supportEmail ?? 'not configured'}`,
+  `- Support channel: ${supportPage.supportChannel.status}`,
   `- Compliance manifest path: ${compliancePublication.publicPath}`,
   `- Compliance publish status: ${compliancePublication.status}`,
   `- Production URL status: ${privacyPolicy.productionUrlStatus}`,

@@ -1,6 +1,6 @@
 # Android Release
 
-Generated: 2026-05-20T09:02:17.462Z
+Generated: 2026-05-20T15:35:59.346Z
 Status: blocked-needs-host-signing-play
 Channel: android-google-play
 Package: app.autonomousgamelab.portal
@@ -10,7 +10,7 @@ Cost posture: zero-paid-spend-until-live-revenue-and-retention-pass
 ## Checks
 
 - blocker: native-package-ready - Native package is blocked-draft-ready.
-- pass: store-package-draft - Store package is draft-ready; data safety is draft-ready.
+- blocker: store-package-draft - Store package is blocked; data safety is draft-ready.
 - pass: store-compliance-draft - Store compliance is draft-ready-external-blockers.
 - pass: store-screenshots - 4 screenshot asset(s) are available.
 - pass: asset-links - Digital Asset Links are generated at public/.well-known/assetlinks.json.

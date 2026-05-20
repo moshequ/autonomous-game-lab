@@ -26,6 +26,7 @@ const replayLoopPath = path.join(root, 'data', 'replay-loop.json')
 const nativePackagePath = path.join(root, 'data', 'native-package.json')
 const androidSigningPath = path.join(root, 'data', 'android-signing.json')
 const environmentPath = path.join(root, 'data', 'production-environment.json')
+const supportChannelPath = path.join(root, 'data', 'support-channel.json')
 const repositoryReadinessPath = path.join(root, 'data', 'repository-readiness.json')
 const repositoryBootstrapPath = path.join(root, 'data', 'repository-bootstrap.json')
 const productionBootstrapPath = path.join(root, 'data', 'production-bootstrap.json')
@@ -183,6 +184,12 @@ const androidSigning = await readOptionalJson(androidSigningPath, {
 const environment = await readOptionalJson(environmentPath, {
   status: 'missing',
   publicOrigin: { origin: null, status: 'missing' },
+})
+const supportChannel = await readOptionalJson(supportChannelPath, {
+  status: 'missing',
+  repository: {},
+  controls: {},
+  links: {},
 })
 const repositoryReadiness = await readOptionalJson(repositoryReadinessPath, {
   status: 'missing',
@@ -422,6 +429,14 @@ const pwaInstallReady =
   pwaInstallGuardrails.respectBrowserPromptAvailability === true &&
   pwaInstallGuardrails.noInstallWall === true &&
   pwaInstallGuardrails.noPaidInstallReward === true
+const supportChannelReady =
+  ['support-channel-ready', 'support-channel-planned'].includes(supportChannel.status) &&
+  supportChannel.provider === 'github-issues' &&
+  supportChannel.controls?.zeroPaidSpend === true &&
+  supportChannel.controls?.playerInitiatedOnly === true &&
+  supportChannel.controls?.noPrivateDataInPrefilledUrls === true &&
+  supportChannel.controls?.supportEmailStillRequiredForStoreSubmission === true &&
+  storePackage.supportPage?.supportChannel?.status === supportChannel.status
 const performanceBudgetReady =
   performanceBudget.status === 'performance-budget-ready' &&
   performanceBudget.initial?.jsBytes <= performanceBudget.budgets?.initialJsMaxBytes &&
@@ -716,6 +731,13 @@ const webChecks = [
       (await exists(path.join(root, 'dist', 'support.html'))) &&
       storePackage.supportPage?.path === '/support.html',
     'Generated support page is included in public assets and production build.',
+  ),
+  check(
+    'support-channel',
+    supportChannelReady,
+    `Support channel is ${supportChannel.status}; repository ${
+      supportChannel.repository?.target ?? 'missing'
+    }; public intake ${supportChannel.repository?.publicIssuesReady === true ? 'ready' : 'planned'}.`,
   ),
   check(
     'compliance-manifest',

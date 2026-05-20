@@ -204,6 +204,13 @@ const improvementBacklog = await readJson(path.join(dataDir, 'improvement-backlo
 const improvementBacklogSummary = await readJson(path.join(dataDir, 'improvement-backlog-summary.json'))
 const appliedImprovements = await readJson(path.join(dataDir, 'applied-improvements.json'))
 const storePackage = await readJson(path.join(dataDir, 'store-package.json'))
+const supportChannel = await readOptionalJson(path.join(dataDir, 'support-channel.json'), {
+  status: 'missing',
+  provider: 'github-issues',
+  repository: {},
+  controls: {},
+  links: {},
+})
 const storeAssets = await readJson(path.join(dataDir, 'store-assets.json'))
 const storeListingOptimizer = await readJson(path.join(dataDir, 'store-listing-optimizer.json'))
 const storeCompliance = await readJson(path.join(dataDir, 'store-compliance.json'))
@@ -779,6 +786,24 @@ const systems = [
       'Apply configured production setup automatically once repository credentials and activation gates exist.',
   },
   {
+    id: 'support-channel',
+    status: systemStatus(
+      ['support-channel-ready', 'support-channel-planned'].includes(supportChannel.status) &&
+        supportChannel.provider === 'github-issues' &&
+        supportChannel.controls?.zeroPaidSpend === true &&
+        supportChannel.controls?.playerInitiatedOnly === true &&
+        supportChannel.controls?.supportEmailStillRequiredForStoreSubmission === true,
+      'needs-support-intake',
+    ),
+    autonomy: 'zero-spend-public-feedback-intake',
+    evidence: `Support channel ${supportChannel.status}; repository ${
+      supportChannel.repository?.target ?? 'missing'
+    }; public intake ${supportChannel.repository?.publicIssuesReady === true ? 'ready' : 'planned'}.`,
+    nextAction:
+      supportChannel.nextActions?.[0] ??
+      'Keep public issue intake ready while retaining the app-store support email blocker.',
+  },
+  {
     id: 'autonomous-operator',
     status: systemStatus(
       ['operator-plan-ready', 'operator-executed'].includes(autonomousOperator.status) &&
@@ -979,6 +1004,7 @@ const objectiveAuditFreshnessInputs = [
   { id: 'product-gate-recovery', generatedAt: productGateRecovery.generatedAt },
   { id: 'product-gate-sample-plan', generatedAt: productGateSamplePlan.generatedAt },
   { id: 'production-activation', generatedAt: productionActivation.generatedAt },
+  { id: 'support-channel', generatedAt: supportChannel.generatedAt },
   { id: 'repository-readiness', generatedAt: repositoryReadiness.generatedAt },
   { id: 'repository-bootstrap', generatedAt: repositoryBootstrap.generatedAt },
   { id: 'monetization-plan', generatedAt: monetization.generatedAt },
@@ -1465,6 +1491,7 @@ const payload = {
     replayLoopStatus: replayLoop.status,
     productionBootstrapStatus: productionBootstrap.status,
     productionActivationStatus: productionActivation.status,
+    supportChannelStatus: supportChannel.status,
     autonomousOperatorStatus: autonomousOperator.status,
     autonomousOperatorHistoryStatus: autonomousOperatorHistory.status,
     objectiveAuditStatus: objectiveAudit.status,

@@ -1,0 +1,27 @@
+name: Gameplay feedback
+description: Share what felt fun, confusing, too easy, too hard, or worth improving.
+title: "[Feedback] "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for helping improve Autonomous Game Lab.
+
+        GitHub Issues are public. Do not paste private information or raw analytics exports into this issue. If you decide to share an exported player-events file, review it first and attach it only when you are comfortable sharing it publicly.
+  - type: input
+    id: game
+    attributes:
+      label: Game or page
+      description: Which game, route, or support page were you using?
+  - type: textarea
+    id: feedback
+    attributes:
+      label: Feedback
+      description: What felt fun, confusing, too easy, too hard, or worth changing?
+    validations:
+      required: true
+  - type: textarea
+    id: context
+    attributes:
+      label: Optional context
+      description: Browser, device, URL, or session details you are comfortable sharing publicly.

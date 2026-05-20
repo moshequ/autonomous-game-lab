@@ -50,6 +50,7 @@ const requiredFiles = [
   'data/objective-audit.json',
   'data/autonomous-owner-loop.json',
   'data/production-environment.json',
+  'data/support-channel.json',
   'data/icon-assets.json',
   'data/monetization-plan.json',
   'data/unit-economics.json',
@@ -96,6 +97,7 @@ const requiredFiles = [
   'src/data/autonomousCadence.ts',
   'src/data/autonomousSelfUpdate.ts',
   'src/data/objectiveAudit.ts',
+  'src/data/supportChannel.ts',
   'src/data/localEventBridge.ts',
   'src/data/storeListingOptimizer.ts',
   'src/data/storeCompliance.ts',
@@ -107,6 +109,9 @@ const requiredFiles = [
   '.github/workflows/event-collector-deploy.yml',
   '.github/workflows/web-pwa-deploy.yml',
   '.github/workflows/post-deploy-evidence-sync.yml',
+  '.github/ISSUE_TEMPLATE/player-feedback.yml',
+  '.github/ISSUE_TEMPLATE/bug-report.yml',
+  '.github/ISSUE_TEMPLATE/analytics-evidence.yml',
   'reports/trend-radar-latest.md',
   'reports/trend-source-readiness-latest.md',
   'reports/concepts-latest.md',
@@ -147,6 +152,7 @@ const requiredFiles = [
   'reports/objective-audit-latest.md',
   'reports/autonomous-owner-loop-latest.md',
   'reports/production-environment-latest.md',
+  'reports/support-channel-latest.md',
   'reports/icon-assets-latest.md',
   'reports/monetization-plan-latest.md',
   'reports/unit-economics-latest.md',
@@ -180,6 +186,7 @@ const requiredFiles = [
   'scripts/lib/env-loader.mjs',
   'scripts/repository-readiness.mjs',
   'scripts/repository-bootstrap.mjs',
+  'scripts/support-channel.mjs',
   'scripts/production-activation.mjs',
   'scripts/autonomous-cadence.mjs',
   'scripts/autonomous-self-update.mjs',
@@ -284,6 +291,7 @@ const autonomousOwnerLoop = JSON.parse(
   await readFile(path.join(root, 'data', 'autonomous-owner-loop.json'), 'utf8'),
 )
 const productionEnvironment = JSON.parse(await readFile(path.join(root, 'data', 'production-environment.json'), 'utf8'))
+const supportChannel = JSON.parse(await readFile(path.join(root, 'data', 'support-channel.json'), 'utf8'))
 const iconAssets = JSON.parse(await readFile(path.join(root, 'data', 'icon-assets.json'), 'utf8'))
 const monetizationPlan = JSON.parse(await readFile(path.join(root, 'data', 'monetization-plan.json'), 'utf8'))
 const unitEconomics = JSON.parse(await readFile(path.join(root, 'data', 'unit-economics.json'), 'utf8'))
@@ -323,6 +331,7 @@ const shareManifest = JSON.parse(await readFile(path.join(root, 'public', 'share
 const gateSampleHtml = await readFile(path.join(root, 'public', 'gate-sample.html'), 'utf8')
 const installHtml = await readFile(path.join(root, 'public', 'install.html'), 'utf8')
 const seedKitHtml = await readFile(path.join(root, 'public', 'seed-kit.html'), 'utf8')
+const supportHtml = await readFile(path.join(root, 'public', 'support.html'), 'utf8')
 const packageJson = JSON.parse(await readFile(path.join(root, 'package.json'), 'utf8'))
 const appSource = await readFile(path.join(root, 'src', 'App.tsx'), 'utf8')
 const gameCanvasSource = await readFile(path.join(root, 'src', 'components', 'GameCanvas.tsx'), 'utf8')
@@ -333,6 +342,7 @@ const analyticsLibSource = await readFile(path.join(root, 'src', 'lib', 'analyti
 const analyticsRollupSource = await readFile(path.join(root, 'scripts', 'analytics-rollup.mjs'), 'utf8')
 const envLoaderSource = await readFile(path.join(root, 'scripts', 'lib', 'env-loader.mjs'), 'utf8')
 const productionEnvironmentSource = await readFile(path.join(root, 'scripts', 'production-environment.mjs'), 'utf8')
+const supportChannelSource = await readFile(path.join(root, 'scripts', 'support-channel.mjs'), 'utf8')
 const eventCollectorWorkerSource = await readFile(
   path.join(root, 'ops', 'cloudflare', 'event-collector-worker.mjs'),
   'utf8',
@@ -395,6 +405,35 @@ const corePlayableIds = new Set([
   'foundry-ledger',
   'orbit-atlas',
 ])
+
+if (
+  !['support-channel-ready', 'support-channel-planned', 'support-channel-blocked'].includes(supportChannel.status) ||
+  supportChannel.provider !== 'github-issues' ||
+  !supportChannel.links?.supportUrl?.includes('/issues') ||
+  (supportChannel.issueTemplates?.length ?? 0) < 3 ||
+  !supportChannel.issueTemplates?.every((template) => template.exists && template.containsPrivacyWarning) ||
+  supportChannel.controls?.zeroPaidSpend !== true ||
+  supportChannel.controls?.noAccountCreation !== true ||
+  supportChannel.controls?.noStoreSubmission !== true ||
+  supportChannel.controls?.playerInitiatedOnly !== true ||
+  supportChannel.controls?.noPrivateDataInPrefilledUrls !== true ||
+  supportChannel.controls?.noRawEventEmbeddingInUrls !== true ||
+  supportChannel.controls?.supportEmailStillRequiredForStoreSubmission !== true ||
+  supportChannel.privacy?.prefilledUrlsContainRawEvents !== false ||
+  supportChannel.privacy?.rawEventUploadsAutomated !== false ||
+  storePackage.supportPage?.supportChannel?.status !== supportChannel.status ||
+  storePackage.supportPage?.supportChannel?.provider !== 'github-issues' ||
+  !supportHtml.includes('Public Support Channel') ||
+  !supportHtml.includes('GitHub Issues are public') ||
+  !supportHtml.includes('Do not paste private information') ||
+  !appSource.includes('Support Channel') ||
+  !supportChannelSource.includes('readOnlyRepositoryInspection') ||
+  !supportChannelSource.includes('noRawEventEmbeddingInUrls') ||
+  packageJson.scripts?.['autonomous:support-channel'] !== 'node scripts/support-channel.mjs' ||
+  !packageJson.scripts?.['autonomous:daily']?.includes('autonomous:support-channel')
+) {
+  fail('Support channel must publish zero-spend GitHub Issues intake with privacy warnings while preserving the app-store support email blocker.')
+}
 
 if (!trend.signals?.mechanics?.length) {
   fail('Trend radar did not produce mechanic signals.')
@@ -4527,6 +4566,7 @@ const ownerObjectiveAuditInputs = [
   { id: 'product-gate-recovery', generatedAt: productGateRecovery.generatedAt },
   { id: 'product-gate-sample-plan', generatedAt: productGateSamplePlan.generatedAt },
   { id: 'production-activation', generatedAt: productionActivation.generatedAt },
+  { id: 'support-channel', generatedAt: supportChannel.generatedAt },
   { id: 'repository-readiness', generatedAt: repositoryReadiness.generatedAt },
   { id: 'repository-bootstrap', generatedAt: repositoryBootstrap.generatedAt },
   { id: 'monetization-plan', generatedAt: monetizationPlan.generatedAt },
@@ -4615,6 +4655,7 @@ if (
   autonomousOwnerLoop.evidence?.productOptimizationStatus !== productOptimization.status ||
   autonomousOwnerLoop.evidence?.productionBootstrapStatus !== productionBootstrap.status ||
   autonomousOwnerLoop.evidence?.productionActivationStatus !== productionActivation.status ||
+  autonomousOwnerLoop.evidence?.supportChannelStatus !== supportChannel.status ||
   autonomousOwnerLoop.evidence?.autonomousOperatorStatus !== autonomousOperator.status ||
   autonomousOwnerLoop.evidence?.autonomousOperatorHistoryStatus !== autonomousOperatorHistory.status ||
   autonomousOwnerLoop.evidence?.objectiveAuditStatus !== objectiveAudit.status ||

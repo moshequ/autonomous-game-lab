@@ -1,5 +1,5 @@
 export const objectiveAudit = {
-  "generatedAt": "2026-05-20T15:20:45.955Z",
+  "generatedAt": "2026-05-20T15:36:06.685Z",
   "status": "objective-in-progress",
   "objective": "Build a bootstrapped autonomous web/PWA game portal that can generate original board-game-inspired games, measure user behavior, propose and apply data-driven improvements, and prepare a path to monetization and app-store distribution with minimal manual intervention.",
   "summary": {
@@ -7,7 +7,7 @@ export const objectiveAudit = {
     "met": 6,
     "prepared": 2,
     "incomplete": 0,
-    "externalBlockers": 12,
+    "externalBlockers": 13,
     "productBlockers": 6
   },
   "requirements": [
@@ -101,6 +101,7 @@ export const objectiveAudit = {
         "Credential-gated actions: 10"
       ],
       "blockers": [
+        "Commit current generated changes before pushing to GitHub Pages.",
         "AGL_SUPPORT_EMAIL: Production support contact for privacy and store listings.",
         "VITE_POSTHOG_KEY: Optional browser-side PostHog analytics forwarding.",
         "POSTHOG_PROJECT_ID + POSTHOG_PERSONAL_API_KEY: Optional autonomous production analytics and experiment result rollups from PostHog.",
@@ -141,6 +142,7 @@ export const objectiveAudit = {
       "summary": "Store listing, compliance drafts, screenshots, and Android TWA handoff are prepared while store release stays gated.",
       "evidence": [
         "Store package privacy URL: hosted",
+        "Support channel: support-channel-ready; provider github-issues; store email still required true",
         "Store assets: screenshots-ready",
         "Store compliance: draft-ready-external-blockers",
         "Android signing: signing-prepared; fingerprint available",
@@ -152,6 +154,7 @@ export const objectiveAudit = {
         "google-play-account: Google Play developer account must be connected before Android submission.",
         "apple-developer-account: Apple Developer account remains deferred until iOS spend is justified.",
         "native-package-ready: Native package is blocked-draft-ready.",
+        "store-package-draft: Store package is blocked; data safety is draft-ready.",
         "google-play-account: Google Play account is not connected.",
         "play-service-account: Google Play service account upload credentials are available to CI.",
         "unit-economics-store-spend: Store spend allowed is false; spend mode is no-spend.",
@@ -179,6 +182,7 @@ export const objectiveAudit = {
   ],
   "blockers": {
     "external": [
+      "Commit current generated changes before pushing to GitHub Pages.",
       "Set AGL_SUPPORT_EMAIL to a real support inbox before public store submission.",
       "Set VITE_EVENT_COLLECTOR_URL or VITE_POSTHOG_KEY to forward browser analytics in production.",
       "Set AGL_EVENT_COLLECTOR_EXPORT_URL + AGL_EVENT_COLLECTOR_ADMIN_TOKEN or PostHog server credentials for autonomous production rollups.",
@@ -201,6 +205,7 @@ export const objectiveAudit = {
       "Web/PWA or native ad provider is not configured for gated revenue tests."
     ],
     "all": [
+      "Commit current generated changes before pushing to GitHub Pages.",
       "Set AGL_SUPPORT_EMAIL to a real support inbox before public store submission.",
       "Set VITE_EVENT_COLLECTOR_URL or VITE_POSTHOG_KEY to forward browser analytics in production.",
       "Set AGL_EVENT_COLLECTOR_EXPORT_URL + AGL_EVENT_COLLECTOR_ADMIN_TOKEN or PostHog server credentials for autonomous production rollups.",
@@ -215,6 +220,7 @@ export const objectiveAudit = {
       "google-play-account: Google Play developer account must be connected before Android submission.",
       "apple-developer-account: Apple Developer account remains deferred until iOS spend is justified.",
       "native-package-ready: Native package is blocked-draft-ready.",
+      "store-package-draft: Store package is blocked; data safety is draft-ready.",
       "google-play-account: Google Play account is not connected.",
       "play-service-account: Google Play service account upload credentials are available to CI.",
       "unit-economics-store-spend: Store spend allowed is false; spend mode is no-spend.",
@@ -229,7 +235,7 @@ export const objectiveAudit = {
     "noRevenueEnablementUntilGatesPass": true,
     "noStoreSubmissionUntilExternalAccounts": true,
     "currentWorktreeClean": false,
-    "currentWorktreeDirtyFiles": 34
+    "currentWorktreeDirtyFiles": 73
   },
   "completion": {
     "canMarkGoalComplete": false,

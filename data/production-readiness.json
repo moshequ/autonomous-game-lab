@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-20T15:20:45.417Z",
+  "generatedAt": "2026-05-20T15:36:05.989Z",
   "environment": {
     "status": "production-env-missing",
     "publicOrigin": "https://moshequ.github.io/autonomous-game-lab",
@@ -107,66 +107,159 @@
         "originRemote": "git@github.com:moshequ/autonomous-game-lab.git",
         "remoteRepository": "moshequ/autonomous-game-lab",
         "hasCommit": true,
-        "dirtyFiles": 26,
+        "dirtyFiles": 72,
         "dirtyPaths": [
+          "data/android-release.json",
           "data/autonomous-operator-history.json",
           "data/autonomous-operator.json",
           "data/autonomous-owner-loop.json",
           "data/deployment-plan.json",
+          "data/native-package.json",
           "data/objective-audit.json",
           "data/performance-budget.json",
           "data/post-deploy-smoke.json",
+          "data/production-activation.json",
+          "data/production-bootstrap.json",
           "data/production-readiness.json",
           "data/release-candidate.json",
           "data/repository-bootstrap.json",
           "data/repository-readiness.json",
+          "data/store-assets.json",
+          "data/store-compliance.json",
+          "data/store-listing-optimizer.json",
+          "data/store-package.json",
+          "native/android/README.md",
+          "native/android/bubblewrap.config.json",
+          "package.json",
+          "public/compliance.json",
+          "public/privacy.html",
+          "public/store-assets/screenshots/desktop-growth-page.png",
+          "public/store-assets/screenshots/phone-canopy-bloom-generated.png",
+          "public/store-assets/screenshots/phone-lantern-relay-game.png",
+          "public/store-assets/screenshots/phone-portal-home.png",
+          "public/support.html",
+          "reports/android-release-latest.md",
           "reports/autonomous-operator-history-latest.md",
           "reports/autonomous-operator-latest.md",
           "reports/autonomous-owner-loop-latest.md",
           "reports/deployment-plan-latest.md",
+          "reports/native-package-latest.md",
           "reports/objective-audit-latest.md",
           "reports/performance-budget-latest.md",
           "reports/post-deploy-smoke-latest.md",
+          "reports/production-activation-latest.md",
+          "reports/production-bootstrap-latest.md",
           "reports/production-readiness-latest.md",
           "reports/release-candidate-latest.md",
           "reports/repository-bootstrap-latest.md",
           "reports/repository-readiness-latest.md",
+          "reports/store-assets-latest.md",
+          "reports/store-compliance-latest.md",
+          "reports/store-listing-optimizer-latest.md",
+          "reports/store-package-latest.md",
+          "scripts/autonomous-owner-loop.mjs",
+          "scripts/objective-audit.mjs",
+          "scripts/production-readiness.mjs",
+          "scripts/store-packager.mjs",
+          "scripts/verify-autonomy.mjs",
+          "src/App.tsx",
+          "src/data/androidRelease.ts",
+          "src/data/autonomousOwnerLoop.ts",
+          "src/data/nativePackage.ts",
           "src/data/objectiveAudit.ts",
           "src/data/performanceBudget.ts",
           "src/data/postDeploySmoke.ts",
-          "src/data/releaseCandidate.ts"
+          "src/data/productionActivation.ts",
+          "src/data/productionBootstrap.ts",
+          "src/data/releaseCandidate.ts",
+          "src/data/storeAssets.ts",
+          "src/data/storeCompliance.ts",
+          "src/data/storeListingOptimizer.ts",
+          "tests/smoke.spec.ts",
+          ".github/ISSUE_TEMPLATE/",
+          "data/support-channel.json",
+          "reports/support-channel-latest.md",
+          "scripts/support-channel.mjs",
+          "src/data/supportChannel.ts"
         ],
-        "generatedEvidenceDirtyFiles": 26,
+        "generatedEvidenceDirtyFiles": 53,
         "generatedEvidenceDirtyPaths": [
+          "data/android-release.json",
           "data/autonomous-operator-history.json",
           "data/autonomous-operator.json",
           "data/autonomous-owner-loop.json",
           "data/deployment-plan.json",
+          "data/native-package.json",
           "data/objective-audit.json",
           "data/performance-budget.json",
           "data/post-deploy-smoke.json",
+          "data/production-activation.json",
+          "data/production-bootstrap.json",
           "data/production-readiness.json",
           "data/release-candidate.json",
           "data/repository-bootstrap.json",
           "data/repository-readiness.json",
+          "data/store-assets.json",
+          "data/store-compliance.json",
+          "data/store-listing-optimizer.json",
+          "data/store-package.json",
+          "reports/android-release-latest.md",
           "reports/autonomous-operator-history-latest.md",
           "reports/autonomous-operator-latest.md",
           "reports/autonomous-owner-loop-latest.md",
           "reports/deployment-plan-latest.md",
+          "reports/native-package-latest.md",
           "reports/objective-audit-latest.md",
           "reports/performance-budget-latest.md",
           "reports/post-deploy-smoke-latest.md",
+          "reports/production-activation-latest.md",
+          "reports/production-bootstrap-latest.md",
           "reports/production-readiness-latest.md",
           "reports/release-candidate-latest.md",
           "reports/repository-bootstrap-latest.md",
           "reports/repository-readiness-latest.md",
+          "reports/store-assets-latest.md",
+          "reports/store-compliance-latest.md",
+          "reports/store-listing-optimizer-latest.md",
+          "reports/store-package-latest.md",
+          "src/data/androidRelease.ts",
+          "src/data/autonomousOwnerLoop.ts",
+          "src/data/nativePackage.ts",
           "src/data/objectiveAudit.ts",
           "src/data/performanceBudget.ts",
           "src/data/postDeploySmoke.ts",
-          "src/data/releaseCandidate.ts"
+          "src/data/productionActivation.ts",
+          "src/data/productionBootstrap.ts",
+          "src/data/releaseCandidate.ts",
+          "src/data/storeAssets.ts",
+          "src/data/storeCompliance.ts",
+          "src/data/storeListingOptimizer.ts",
+          "data/support-channel.json",
+          "reports/support-channel-latest.md",
+          "src/data/supportChannel.ts"
         ],
-        "nonGeneratedDirtyFiles": 0,
-        "nonGeneratedDirtyPaths": []
+        "nonGeneratedDirtyFiles": 19,
+        "nonGeneratedDirtyPaths": [
+          "native/android/README.md",
+          "native/android/bubblewrap.config.json",
+          "package.json",
+          "public/compliance.json",
+          "public/privacy.html",
+          "public/store-assets/screenshots/desktop-growth-page.png",
+          "public/store-assets/screenshots/phone-canopy-bloom-generated.png",
+          "public/store-assets/screenshots/phone-lantern-relay-game.png",
+          "public/store-assets/screenshots/phone-portal-home.png",
+          "public/support.html",
+          "scripts/autonomous-owner-loop.mjs",
+          "scripts/objective-audit.mjs",
+          "scripts/production-readiness.mjs",
+          "scripts/store-packager.mjs",
+          "scripts/verify-autonomy.mjs",
+          "src/App.tsx",
+          "tests/smoke.spec.ts",
+          ".github/ISSUE_TEMPLATE/",
+          "scripts/support-channel.mjs"
+        ]
       },
       "after": {
         "insideWorkTree": true,
@@ -175,66 +268,159 @@
         "originRemote": "git@github.com:moshequ/autonomous-game-lab.git",
         "remoteRepository": "moshequ/autonomous-game-lab",
         "hasCommit": true,
-        "dirtyFiles": 26,
+        "dirtyFiles": 72,
         "dirtyPaths": [
+          "data/android-release.json",
           "data/autonomous-operator-history.json",
           "data/autonomous-operator.json",
           "data/autonomous-owner-loop.json",
           "data/deployment-plan.json",
+          "data/native-package.json",
           "data/objective-audit.json",
           "data/performance-budget.json",
           "data/post-deploy-smoke.json",
+          "data/production-activation.json",
+          "data/production-bootstrap.json",
           "data/production-readiness.json",
           "data/release-candidate.json",
           "data/repository-bootstrap.json",
           "data/repository-readiness.json",
+          "data/store-assets.json",
+          "data/store-compliance.json",
+          "data/store-listing-optimizer.json",
+          "data/store-package.json",
+          "native/android/README.md",
+          "native/android/bubblewrap.config.json",
+          "package.json",
+          "public/compliance.json",
+          "public/privacy.html",
+          "public/store-assets/screenshots/desktop-growth-page.png",
+          "public/store-assets/screenshots/phone-canopy-bloom-generated.png",
+          "public/store-assets/screenshots/phone-lantern-relay-game.png",
+          "public/store-assets/screenshots/phone-portal-home.png",
+          "public/support.html",
+          "reports/android-release-latest.md",
           "reports/autonomous-operator-history-latest.md",
           "reports/autonomous-operator-latest.md",
           "reports/autonomous-owner-loop-latest.md",
           "reports/deployment-plan-latest.md",
+          "reports/native-package-latest.md",
           "reports/objective-audit-latest.md",
           "reports/performance-budget-latest.md",
           "reports/post-deploy-smoke-latest.md",
+          "reports/production-activation-latest.md",
+          "reports/production-bootstrap-latest.md",
           "reports/production-readiness-latest.md",
           "reports/release-candidate-latest.md",
           "reports/repository-bootstrap-latest.md",
           "reports/repository-readiness-latest.md",
+          "reports/store-assets-latest.md",
+          "reports/store-compliance-latest.md",
+          "reports/store-listing-optimizer-latest.md",
+          "reports/store-package-latest.md",
+          "scripts/autonomous-owner-loop.mjs",
+          "scripts/objective-audit.mjs",
+          "scripts/production-readiness.mjs",
+          "scripts/store-packager.mjs",
+          "scripts/verify-autonomy.mjs",
+          "src/App.tsx",
+          "src/data/androidRelease.ts",
+          "src/data/autonomousOwnerLoop.ts",
+          "src/data/nativePackage.ts",
           "src/data/objectiveAudit.ts",
           "src/data/performanceBudget.ts",
           "src/data/postDeploySmoke.ts",
-          "src/data/releaseCandidate.ts"
+          "src/data/productionActivation.ts",
+          "src/data/productionBootstrap.ts",
+          "src/data/releaseCandidate.ts",
+          "src/data/storeAssets.ts",
+          "src/data/storeCompliance.ts",
+          "src/data/storeListingOptimizer.ts",
+          "tests/smoke.spec.ts",
+          ".github/ISSUE_TEMPLATE/",
+          "data/support-channel.json",
+          "reports/support-channel-latest.md",
+          "scripts/support-channel.mjs",
+          "src/data/supportChannel.ts"
         ],
-        "generatedEvidenceDirtyFiles": 26,
+        "generatedEvidenceDirtyFiles": 53,
         "generatedEvidenceDirtyPaths": [
+          "data/android-release.json",
           "data/autonomous-operator-history.json",
           "data/autonomous-operator.json",
           "data/autonomous-owner-loop.json",
           "data/deployment-plan.json",
+          "data/native-package.json",
           "data/objective-audit.json",
           "data/performance-budget.json",
           "data/post-deploy-smoke.json",
+          "data/production-activation.json",
+          "data/production-bootstrap.json",
           "data/production-readiness.json",
           "data/release-candidate.json",
           "data/repository-bootstrap.json",
           "data/repository-readiness.json",
+          "data/store-assets.json",
+          "data/store-compliance.json",
+          "data/store-listing-optimizer.json",
+          "data/store-package.json",
+          "reports/android-release-latest.md",
           "reports/autonomous-operator-history-latest.md",
           "reports/autonomous-operator-latest.md",
           "reports/autonomous-owner-loop-latest.md",
           "reports/deployment-plan-latest.md",
+          "reports/native-package-latest.md",
           "reports/objective-audit-latest.md",
           "reports/performance-budget-latest.md",
           "reports/post-deploy-smoke-latest.md",
+          "reports/production-activation-latest.md",
+          "reports/production-bootstrap-latest.md",
           "reports/production-readiness-latest.md",
           "reports/release-candidate-latest.md",
           "reports/repository-bootstrap-latest.md",
           "reports/repository-readiness-latest.md",
+          "reports/store-assets-latest.md",
+          "reports/store-compliance-latest.md",
+          "reports/store-listing-optimizer-latest.md",
+          "reports/store-package-latest.md",
+          "src/data/androidRelease.ts",
+          "src/data/autonomousOwnerLoop.ts",
+          "src/data/nativePackage.ts",
           "src/data/objectiveAudit.ts",
           "src/data/performanceBudget.ts",
           "src/data/postDeploySmoke.ts",
-          "src/data/releaseCandidate.ts"
+          "src/data/productionActivation.ts",
+          "src/data/productionBootstrap.ts",
+          "src/data/releaseCandidate.ts",
+          "src/data/storeAssets.ts",
+          "src/data/storeCompliance.ts",
+          "src/data/storeListingOptimizer.ts",
+          "data/support-channel.json",
+          "reports/support-channel-latest.md",
+          "src/data/supportChannel.ts"
         ],
-        "nonGeneratedDirtyFiles": 0,
-        "nonGeneratedDirtyPaths": []
+        "nonGeneratedDirtyFiles": 19,
+        "nonGeneratedDirtyPaths": [
+          "native/android/README.md",
+          "native/android/bubblewrap.config.json",
+          "package.json",
+          "public/compliance.json",
+          "public/privacy.html",
+          "public/store-assets/screenshots/desktop-growth-page.png",
+          "public/store-assets/screenshots/phone-canopy-bloom-generated.png",
+          "public/store-assets/screenshots/phone-lantern-relay-game.png",
+          "public/store-assets/screenshots/phone-portal-home.png",
+          "public/support.html",
+          "scripts/autonomous-owner-loop.mjs",
+          "scripts/objective-audit.mjs",
+          "scripts/production-readiness.mjs",
+          "scripts/store-packager.mjs",
+          "scripts/verify-autonomy.mjs",
+          "src/App.tsx",
+          "tests/smoke.spec.ts",
+          ".github/ISSUE_TEMPLATE/",
+          "scripts/support-channel.mjs"
+        ]
       }
     },
     "repository": {
@@ -350,13 +536,13 @@
       },
       {
         "id": "commit-current-snapshot",
-        "status": "ready",
+        "status": "ready-for-explicit-snapshot-commit",
         "costUsd": 0,
         "command": "AGL_ALLOW_REPOSITORY_BOOTSTRAP=1 AGL_ALLOW_SNAPSHOT_COMMIT=1 ./ops/github/bootstrap-repository.sh",
         "mutatesLocalGit": true,
         "mutatesRemoteGitHub": false,
         "requiresExplicitEnv": true,
-        "detail": "26 repository evidence file(s) changed during this dry run; the outer verified commit will persist them."
+        "detail": "19 non-generated source or artifact file(s) are not committed yet."
       },
       {
         "id": "set-or-create-origin",
@@ -380,16 +566,18 @@
       },
       {
         "id": "push-initial-snapshot",
-        "status": "ready-for-explicit-push",
+        "status": "waiting-for-clean-snapshot",
         "costUsd": 0,
         "command": "AGL_ALLOW_REPOSITORY_BOOTSTRAP=1 AGL_ALLOW_PUSH=1 ./ops/github/bootstrap-repository.sh",
         "mutatesLocalGit": false,
         "mutatesRemoteGitHub": true,
         "requiresExplicitEnv": true,
-        "detail": "Push stays held until an origin remote exists and AGL_ALLOW_PUSH=1 is set."
+        "detail": "Push stays held until a committed local snapshot and origin remote exist."
       }
     ],
-    "blockers": []
+    "blockers": [
+      "Commit current generated changes before pushing to GitHub Pages."
+    ]
   },
   "webPwa": {
     "status": "ready-after-build",
@@ -430,6 +618,11 @@
         "id": "support-page",
         "status": "pass",
         "detail": "Generated support page is included in public assets and production build."
+      },
+      {
+        "id": "support-channel",
+        "status": "pass",
+        "detail": "Support channel is support-channel-ready; repository moshequ/autonomous-game-lab; public intake ready."
       },
       {
         "id": "compliance-manifest",
@@ -489,7 +682,7 @@
       {
         "id": "performance-budget",
         "status": "pass",
-        "detail": "Performance budget is performance-budget-ready; initial JS 630.8 KB / 173 KB gzip; deferred game chunk GameCanvas-CVG6IrIn.js."
+        "detail": "Performance budget is performance-budget-ready; initial JS 638.2 KB / 174.4 KB gzip; deferred game chunk GameCanvas-CWMcr1aA.js."
       },
       {
         "id": "release-candidate",
@@ -534,7 +727,7 @@
       {
         "id": "production-bootstrap",
         "status": "pass",
-        "detail": "Production bootstrap is production-bootstrap-ready; mode can-apply-configured-actions; external blockers 15."
+        "detail": "Production bootstrap is production-bootstrap-ready; mode can-apply-configured-actions; external blockers 17."
       },
       {
         "id": "production-activation",
@@ -559,7 +752,7 @@
       {
         "id": "autonomous-self-update",
         "status": "pass",
-        "detail": "Autonomous self-update is self-update-ready; safe pending 31; unsafe pending 0; remote push held."
+        "detail": "Autonomous self-update is self-update-ready; safe pending 0; unsafe pending 0; remote push held."
       },
       {
         "id": "objective-audit",
@@ -1044,21 +1237,21 @@
     },
     "initial": {
       "entryScripts": [
-        "index-3k6pqjSP.js",
+        "index-Dd_B3Mv9.js",
         "registerSW.js"
       ],
       "scriptPaths": [
-        "assets/index-3k6pqjSP.js",
+        "assets/index-Dd_B3Mv9.js",
         "registerSW.js"
       ],
       "jsFiles": [
         {
-          "file": "index-3k6pqjSP.js",
-          "path": "assets/index-3k6pqjSP.js",
-          "bytes": 645764,
-          "kb": 630.6,
-          "gzipBytes": 176999,
-          "gzipKb": 172.9
+          "file": "index-Dd_B3Mv9.js",
+          "path": "assets/index-Dd_B3Mv9.js",
+          "bytes": 653338,
+          "kb": 638,
+          "gzipBytes": 178470,
+          "gzipKb": 174.3
         },
         {
           "file": "registerSW.js",
@@ -1069,10 +1262,10 @@
           "gzipKb": 0.1
         }
       ],
-      "jsBytes": 645938,
-      "jsKb": 630.8,
-      "gzipBytes": 177140,
-      "gzipKb": 173,
+      "jsBytes": 653512,
+      "jsKb": 638.2,
+      "gzipBytes": 178611,
+      "gzipKb": 174.4,
       "cssFiles": [
         {
           "file": "index-DS8AZlnD.css",
@@ -1091,36 +1284,36 @@
     "deferred": {
       "chunks": [
         {
-          "file": "GameCanvas-CVG6IrIn.js",
-          "path": "assets/GameCanvas-CVG6IrIn.js",
+          "file": "GameCanvas-CWMcr1aA.js",
+          "path": "assets/GameCanvas-CWMcr1aA.js",
           "bytes": 1393554,
           "kb": 1360.9,
-          "gzipBytes": 356111,
+          "gzipBytes": 356110,
           "gzipKb": 347.8
         }
       ],
       "gameChunk": {
-        "file": "GameCanvas-CVG6IrIn.js",
-        "path": "assets/GameCanvas-CVG6IrIn.js",
+        "file": "GameCanvas-CWMcr1aA.js",
+        "path": "assets/GameCanvas-CWMcr1aA.js",
         "bytes": 1393554,
         "kb": 1360.9,
-        "gzipBytes": 356111,
+        "gzipBytes": 356110,
         "gzipKb": 347.8
       },
       "largestDeferredChunk": {
-        "file": "GameCanvas-CVG6IrIn.js",
-        "path": "assets/GameCanvas-CVG6IrIn.js",
+        "file": "GameCanvas-CWMcr1aA.js",
+        "path": "assets/GameCanvas-CWMcr1aA.js",
         "bytes": 1393554,
         "kb": 1360.9,
-        "gzipBytes": 356111,
+        "gzipBytes": 356110,
         "gzipKb": 347.8
       },
       "largestJsChunk": {
-        "file": "GameCanvas-CVG6IrIn.js",
-        "path": "assets/GameCanvas-CVG6IrIn.js",
+        "file": "GameCanvas-CWMcr1aA.js",
+        "path": "assets/GameCanvas-CWMcr1aA.js",
         "bytes": 1393554,
         "kb": 1360.9,
-        "gzipBytes": 356111,
+        "gzipBytes": 356110,
         "gzipKb": 347.8
       },
       "chunksBytes": 1393554,
@@ -1138,12 +1331,12 @@
       {
         "id": "initial-js-budget",
         "status": "pass",
-        "detail": "Initial JS is 630.8 KB; budget is 675 KB."
+        "detail": "Initial JS is 638.2 KB; budget is 675 KB."
       },
       {
         "id": "initial-js-gzip-budget",
         "status": "pass",
-        "detail": "Initial JS gzip is 173 KB; budget is 200 KB."
+        "detail": "Initial JS gzip is 174.4 KB; budget is 200 KB."
       },
       {
         "id": "initial-css-budget",
@@ -1163,12 +1356,12 @@
       {
         "id": "game-runtime-deferred",
         "status": "pass",
-        "detail": "GameCanvas-CVG6IrIn.js is deferred from the initial shell."
+        "detail": "GameCanvas-CWMcr1aA.js is deferred from the initial shell."
       },
       {
         "id": "largest-js-deferred",
         "status": "pass",
-        "detail": "Largest JS chunk is GameCanvas-CVG6IrIn.js at 1360.9 KB."
+        "detail": "Largest JS chunk is GameCanvas-CWMcr1aA.js at 1360.9 KB."
       },
       {
         "id": "deferred-game-budget",
@@ -1179,7 +1372,7 @@
   },
   "releaseCandidate": {
     "status": "release-candidate-ready",
-    "candidateId": "pwa-2c551aab6b03",
+    "candidateId": "pwa-841c64d737d8",
     "target": {
       "provider": "github-pages",
       "artifactPath": "dist",
@@ -1190,8 +1383,8 @@
     },
     "summary": {
       "totalFiles": 44,
-      "totalBytes": 3657973,
-      "totalKb": 3572.2,
+      "totalBytes": 3678086,
+      "totalKb": 3591.9,
       "assetFiles": 3,
       "htmlFiles": 16,
       "gamePages": 10,
@@ -1200,7 +1393,7 @@
     },
     "integrity": {
       "algorithm": "sha256",
-      "aggregateHash": "2c551aab6b0369e2e668eb6787ba452398872356df4784dae5300d8d2af3af52",
+      "aggregateHash": "841c64d737d8b129bfed78ee7fb70040b67c514a8ef06ed477f1d60537073f01",
       "requiredFileChecks": [
         {
           "path": "index.html",
@@ -1438,8 +1631,8 @@
       "origin": "https://moshequ.github.io/autonomous-game-lab",
       "originSource": "release-candidate-public-origin",
       "provider": "github-pages",
-      "candidateId": "pwa-2c551aab6b03",
-      "aggregateHash": "2c551aab6b0369e2e668eb6787ba452398872356df4784dae5300d8d2af3af52",
+      "candidateId": "pwa-841c64d737d8",
+      "aggregateHash": "841c64d737d8b129bfed78ee7fb70040b67c514a8ef06ed477f1d60537073f01",
       "strictManifestComparison": false
     },
     "sourceStatus": {
@@ -1504,7 +1697,7 @@
           "file": "dist/privacy.html",
           "expectedStatus": 200,
           "status": "pass",
-          "bytes": 2648,
+          "bytes": 2649,
           "textMatched": true,
           "detail": "Local production artifact matched required text."
         },
@@ -1514,7 +1707,7 @@
           "file": "dist/support.html",
           "expectedStatus": 200,
           "status": "pass",
-          "bytes": 1475,
+          "bytes": 4005,
           "textMatched": true,
           "detail": "Local production artifact matched required text."
         },
@@ -1534,7 +1727,7 @@
           "file": "dist/compliance.json",
           "expectedStatus": 200,
           "status": "pass",
-          "bytes": 2838,
+          "bytes": 5370,
           "textMatched": true,
           "detail": "Local production artifact matched required text."
         },
@@ -1617,8 +1810,8 @@
           "bytes": 19426,
           "candidateMatches": true,
           "hashMatches": true,
-          "localCandidateId": "pwa-2c551aab6b03",
-          "localAggregateHash": "2c551aab6b0369e2e668eb6787ba452398872356df4784dae5300d8d2af3af52",
+          "localCandidateId": "pwa-841c64d737d8",
+          "localAggregateHash": "841c64d737d8b129bfed78ee7fb70040b67c514a8ef06ed477f1d60537073f01",
           "detail": "Local release manifest matches the release candidate."
         }
       ]
@@ -1836,7 +2029,7 @@
         "path": "/release-candidate.json",
         "url": "https://moshequ.github.io/autonomous-game-lab/release-candidate.json",
         "expectedStatus": 200,
-        "requiredText": "pwa-2c551aab6b03",
+        "requiredText": "pwa-841c64d737d8",
         "status": "pass",
         "detail": "Live release manifest is reachable; it does not match the current local release candidate.",
         "actualStatus": 200,
@@ -2568,7 +2761,7 @@
       "totalVariables": 24,
       "configuredSecrets": 5,
       "totalSecrets": 8,
-      "externalBlockers": 15
+      "externalBlockers": 17
     },
     "controls": {
       "zeroSpendGuard": true,
@@ -2613,7 +2806,9 @@
         "costUsd": 0,
         "command": "npm run autonomous:repo-bootstrap",
         "evidence": "Repository bootstrap repository-bootstrap-ready; helper ops/github/bootstrap-repository.sh; local git ready.",
-        "requires": []
+        "requires": [
+          "Commit current generated changes before pushing to GitHub Pages."
+        ]
       },
       {
         "id": "production-environment",
@@ -2746,6 +2941,7 @@
         "evidence": "Native package blocked-draft-ready; Android release blocked-needs-host-signing-play.",
         "requires": [
           "native-package-ready: Native package is blocked-draft-ready.",
+          "store-package-draft: Store package is blocked; data safety is draft-ready.",
           "google-play-account: Google Play account is not connected.",
           "play-service-account: Google Play service account upload credentials are available to CI.",
           "unit-economics-store-spend: Store spend allowed is false; spend mode is no-spend.",
@@ -2805,6 +3001,10 @@
     ],
     "externalBlockers": [
       {
+        "source": "repository-bootstrap",
+        "blocker": "Commit current generated changes before pushing to GitHub Pages."
+      },
+      {
         "source": "production-environment",
         "blocker": "Set AGL_SUPPORT_EMAIL to a real support inbox before public store submission."
       },
@@ -2847,6 +3047,10 @@
       {
         "source": "android-release",
         "blocker": "native-package-ready: Native package is blocked-draft-ready."
+      },
+      {
+        "source": "android-release",
+        "blocker": "store-package-draft: Store package is blocked; data safety is draft-ready."
       },
       {
         "source": "android-release",
@@ -2990,6 +3194,7 @@
       "refresh-completion-loop",
       "refresh-replay-loop",
       "bootstrap-production-setup",
+      "refresh-objective-audit",
       "optimize-store-listing",
       "apply-safe-improvements",
       "collect-live-events"
@@ -3129,9 +3334,9 @@
       },
       {
         "id": "refresh-objective-audit",
-        "status": "monitor",
+        "status": "armed",
         "command": "npm run autonomous:objective-audit",
-        "reason": "status-monitor"
+        "reason": "not-selected-this-run"
       },
       {
         "id": "optimize-store-listing",
@@ -3187,55 +3392,10 @@
       "maxRecords": 40,
       "appendOnlyWhenPlanChangesOrExecutes": true,
       "preserveLatestExecutedRecord": true,
-      "latestRunAppended": false,
+      "latestRunAppended": true,
       "compactedDuplicateDryRuns": 0
     },
     "recentRecords": [
-      {
-        "id": "20260520151313-bootstrap-production-setup",
-        "generatedAt": "2026-05-20T15:13:13.221Z",
-        "runFingerprint": "d734769da823d74d",
-        "mode": "plan-only",
-        "status": "operator-plan-ready",
-        "selectedActionId": "bootstrap-production-setup",
-        "selectedCommand": "npm run autonomous:release-candidate && npm run autonomous:deploy-plan && npm run autonomous:bootstrap",
-        "eligibleActionIds": [
-          "refresh-autonomous-cadence",
-          "refresh-autonomous-self-update",
-          "seed-portfolio-traffic",
-          "refresh-organic-seed-loop",
-          "optimize-daily-retention",
-          "measure-pwa-install-loop",
-          "check-performance-budget",
-          "prepare-release-candidate",
-          "run-post-deploy-smoke",
-          "optimize-product-gates",
-          "refresh-product-gate-recovery",
-          "collect-gate-sample-downloads",
-          "refresh-product-gate-sample-plan",
-          "refresh-first-move-coach",
-          "refresh-completion-loop",
-          "refresh-replay-loop",
-          "bootstrap-production-setup",
-          "optimize-store-listing",
-          "apply-safe-improvements",
-          "collect-live-events"
-        ],
-        "blockedActionCount": 28,
-        "execution": {
-          "requested": false,
-          "status": "not-requested",
-          "attemptedActionId": null,
-          "resultCount": 0,
-          "failedScripts": []
-        },
-        "controls": {
-          "zeroPaidSpend": true,
-          "localCommandAllowlistEnforced": true,
-          "externalWorkflowExecutionBlockedByDefault": true,
-          "maxActionsPerRun": 1
-        }
-      },
       {
         "id": "20260520151937-bootstrap-production-setup",
         "generatedAt": "2026-05-20T15:19:37.479Z",
@@ -3399,6 +3559,52 @@
           "refresh-completion-loop",
           "refresh-replay-loop",
           "bootstrap-production-setup",
+          "optimize-store-listing",
+          "apply-safe-improvements",
+          "collect-live-events"
+        ],
+        "blockedActionCount": 28,
+        "execution": {
+          "requested": false,
+          "status": "not-requested",
+          "attemptedActionId": null,
+          "resultCount": 0,
+          "failedScripts": []
+        },
+        "controls": {
+          "zeroPaidSpend": true,
+          "localCommandAllowlistEnforced": true,
+          "externalWorkflowExecutionBlockedByDefault": true,
+          "maxActionsPerRun": 1
+        }
+      },
+      {
+        "id": "20260520153417-bootstrap-production-setup",
+        "generatedAt": "2026-05-20T15:34:17.014Z",
+        "runFingerprint": "2fd624cd97877b08",
+        "mode": "plan-only",
+        "status": "operator-plan-ready",
+        "selectedActionId": "bootstrap-production-setup",
+        "selectedCommand": "npm run autonomous:release-candidate && npm run autonomous:deploy-plan && npm run autonomous:bootstrap",
+        "eligibleActionIds": [
+          "refresh-autonomous-cadence",
+          "refresh-autonomous-self-update",
+          "seed-portfolio-traffic",
+          "refresh-organic-seed-loop",
+          "optimize-daily-retention",
+          "measure-pwa-install-loop",
+          "check-performance-budget",
+          "prepare-release-candidate",
+          "run-post-deploy-smoke",
+          "optimize-product-gates",
+          "refresh-product-gate-recovery",
+          "collect-gate-sample-downloads",
+          "refresh-product-gate-sample-plan",
+          "refresh-first-move-coach",
+          "refresh-completion-loop",
+          "refresh-replay-loop",
+          "bootstrap-production-setup",
+          "refresh-objective-audit",
           "optimize-store-listing",
           "apply-safe-improvements",
           "collect-live-events"
@@ -4038,228 +4244,10 @@
       "remotePushReady": false
     },
     "pendingChanges": {
-      "total": 31,
-      "safe": [
-        {
-          "code": "M",
-          "path": "data/autonomous-operator-history.json",
-          "raw": " M data/autonomous-operator-history.json",
-          "safe": true,
-          "reason": "allowlisted-generated-artifact"
-        },
-        {
-          "code": "M",
-          "path": "data/autonomous-operator.json",
-          "raw": " M data/autonomous-operator.json",
-          "safe": true,
-          "reason": "allowlisted-generated-artifact"
-        },
-        {
-          "code": "M",
-          "path": "data/autonomous-owner-loop.json",
-          "raw": " M data/autonomous-owner-loop.json",
-          "safe": true,
-          "reason": "allowlisted-generated-artifact"
-        },
-        {
-          "code": "M",
-          "path": "data/deployment-plan.json",
-          "raw": " M data/deployment-plan.json",
-          "safe": true,
-          "reason": "allowlisted-generated-artifact"
-        },
-        {
-          "code": "M",
-          "path": "data/objective-audit.json",
-          "raw": " M data/objective-audit.json",
-          "safe": true,
-          "reason": "allowlisted-generated-artifact"
-        },
-        {
-          "code": "M",
-          "path": "data/performance-budget.json",
-          "raw": " M data/performance-budget.json",
-          "safe": true,
-          "reason": "allowlisted-generated-artifact"
-        },
-        {
-          "code": "M",
-          "path": "data/post-deploy-smoke.json",
-          "raw": " M data/post-deploy-smoke.json",
-          "safe": true,
-          "reason": "allowlisted-generated-artifact"
-        },
-        {
-          "code": "M",
-          "path": "data/production-activation.json",
-          "raw": " M data/production-activation.json",
-          "safe": true,
-          "reason": "allowlisted-generated-artifact"
-        },
-        {
-          "code": "M",
-          "path": "data/production-bootstrap.json",
-          "raw": " M data/production-bootstrap.json",
-          "safe": true,
-          "reason": "allowlisted-generated-artifact"
-        },
-        {
-          "code": "M",
-          "path": "data/production-readiness.json",
-          "raw": " M data/production-readiness.json",
-          "safe": true,
-          "reason": "allowlisted-generated-artifact"
-        },
-        {
-          "code": "M",
-          "path": "data/release-candidate.json",
-          "raw": " M data/release-candidate.json",
-          "safe": true,
-          "reason": "allowlisted-generated-artifact"
-        },
-        {
-          "code": "M",
-          "path": "data/repository-bootstrap.json",
-          "raw": " M data/repository-bootstrap.json",
-          "safe": true,
-          "reason": "allowlisted-generated-artifact"
-        },
-        {
-          "code": "M",
-          "path": "data/repository-readiness.json",
-          "raw": " M data/repository-readiness.json",
-          "safe": true,
-          "reason": "allowlisted-generated-artifact"
-        },
-        {
-          "code": "M",
-          "path": "reports/autonomous-operator-history-latest.md",
-          "raw": " M reports/autonomous-operator-history-latest.md",
-          "safe": true,
-          "reason": "allowlisted-generated-artifact"
-        },
-        {
-          "code": "M",
-          "path": "reports/autonomous-operator-latest.md",
-          "raw": " M reports/autonomous-operator-latest.md",
-          "safe": true,
-          "reason": "allowlisted-generated-artifact"
-        },
-        {
-          "code": "M",
-          "path": "reports/autonomous-owner-loop-latest.md",
-          "raw": " M reports/autonomous-owner-loop-latest.md",
-          "safe": true,
-          "reason": "allowlisted-generated-artifact"
-        },
-        {
-          "code": "M",
-          "path": "reports/deployment-plan-latest.md",
-          "raw": " M reports/deployment-plan-latest.md",
-          "safe": true,
-          "reason": "allowlisted-generated-artifact"
-        },
-        {
-          "code": "M",
-          "path": "reports/objective-audit-latest.md",
-          "raw": " M reports/objective-audit-latest.md",
-          "safe": true,
-          "reason": "allowlisted-generated-artifact"
-        },
-        {
-          "code": "M",
-          "path": "reports/performance-budget-latest.md",
-          "raw": " M reports/performance-budget-latest.md",
-          "safe": true,
-          "reason": "allowlisted-generated-artifact"
-        },
-        {
-          "code": "M",
-          "path": "reports/post-deploy-smoke-latest.md",
-          "raw": " M reports/post-deploy-smoke-latest.md",
-          "safe": true,
-          "reason": "allowlisted-generated-artifact"
-        },
-        {
-          "code": "M",
-          "path": "reports/production-activation-latest.md",
-          "raw": " M reports/production-activation-latest.md",
-          "safe": true,
-          "reason": "allowlisted-generated-artifact"
-        },
-        {
-          "code": "M",
-          "path": "reports/production-bootstrap-latest.md",
-          "raw": " M reports/production-bootstrap-latest.md",
-          "safe": true,
-          "reason": "allowlisted-generated-artifact"
-        },
-        {
-          "code": "M",
-          "path": "reports/production-readiness-latest.md",
-          "raw": " M reports/production-readiness-latest.md",
-          "safe": true,
-          "reason": "allowlisted-generated-artifact"
-        },
-        {
-          "code": "M",
-          "path": "reports/release-candidate-latest.md",
-          "raw": " M reports/release-candidate-latest.md",
-          "safe": true,
-          "reason": "allowlisted-generated-artifact"
-        },
-        {
-          "code": "M",
-          "path": "reports/repository-bootstrap-latest.md",
-          "raw": " M reports/repository-bootstrap-latest.md",
-          "safe": true,
-          "reason": "allowlisted-generated-artifact"
-        },
-        {
-          "code": "M",
-          "path": "reports/repository-readiness-latest.md",
-          "raw": " M reports/repository-readiness-latest.md",
-          "safe": true,
-          "reason": "allowlisted-generated-artifact"
-        },
-        {
-          "code": "M",
-          "path": "src/data/objectiveAudit.ts",
-          "raw": " M src/data/objectiveAudit.ts",
-          "safe": true,
-          "reason": "allowlisted-generated-artifact"
-        },
-        {
-          "code": "M",
-          "path": "src/data/performanceBudget.ts",
-          "raw": " M src/data/performanceBudget.ts",
-          "safe": true,
-          "reason": "allowlisted-generated-artifact"
-        },
-        {
-          "code": "M",
-          "path": "src/data/postDeploySmoke.ts",
-          "raw": " M src/data/postDeploySmoke.ts",
-          "safe": true,
-          "reason": "allowlisted-generated-artifact"
-        },
-        {
-          "code": "M",
-          "path": "src/data/productionActivation.ts",
-          "raw": " M src/data/productionActivation.ts",
-          "safe": true,
-          "reason": "allowlisted-generated-artifact"
-        },
-        {
-          "code": "M",
-          "path": "src/data/releaseCandidate.ts",
-          "raw": " M src/data/releaseCandidate.ts",
-          "safe": true,
-          "reason": "allowlisted-generated-artifact"
-        }
-      ],
+      "total": 0,
+      "safe": [],
       "unsafe": [],
-      "safeCount": 31,
+      "safeCount": 0,
       "unsafeCount": 0
     },
     "commitPlan": {
@@ -4272,37 +4260,6 @@
         "npm run autonomous:self-update -- --assert-safe"
       ],
       "stagePaths": [
-        "data/autonomous-operator-history.json",
-        "data/autonomous-operator.json",
-        "data/autonomous-owner-loop.json",
-        "data/deployment-plan.json",
-        "data/objective-audit.json",
-        "data/performance-budget.json",
-        "data/post-deploy-smoke.json",
-        "data/production-activation.json",
-        "data/production-bootstrap.json",
-        "data/production-readiness.json",
-        "data/release-candidate.json",
-        "data/repository-bootstrap.json",
-        "data/repository-readiness.json",
-        "reports/autonomous-operator-history-latest.md",
-        "reports/autonomous-operator-latest.md",
-        "reports/autonomous-owner-loop-latest.md",
-        "reports/deployment-plan-latest.md",
-        "reports/objective-audit-latest.md",
-        "reports/performance-budget-latest.md",
-        "reports/post-deploy-smoke-latest.md",
-        "reports/production-activation-latest.md",
-        "reports/production-bootstrap-latest.md",
-        "reports/production-readiness-latest.md",
-        "reports/release-candidate-latest.md",
-        "reports/repository-bootstrap-latest.md",
-        "reports/repository-readiness-latest.md",
-        "src/data/objectiveAudit.ts",
-        "src/data/performanceBudget.ts",
-        "src/data/postDeploySmoke.ts",
-        "src/data/productionActivation.ts",
-        "src/data/releaseCandidate.ts",
         "data/autonomous-self-update.json",
         "src/data/autonomousSelfUpdate.ts",
         "reports/autonomous-self-update-latest.md"
@@ -4353,7 +4310,7 @@
       {
         "id": "safe-path-allowlist",
         "status": "pass",
-        "detail": "31 safe pending file(s), 0 unsafe pending file(s)."
+        "detail": "0 safe pending file(s), 0 unsafe pending file(s)."
       },
       {
         "id": "repository-optional",
@@ -4380,7 +4337,7 @@
       "met": 6,
       "prepared": 2,
       "incomplete": 0,
-      "externalBlockers": 12,
+      "externalBlockers": 13,
       "productBlockers": 6
     },
     "controls": {
@@ -4390,7 +4347,7 @@
       "noRevenueEnablementUntilGatesPass": true,
       "noStoreSubmissionUntilExternalAccounts": true,
       "currentWorktreeClean": false,
-      "currentWorktreeDirtyFiles": 34
+      "currentWorktreeDirtyFiles": 50
     },
     "completion": {
       "canMarkGoalComplete": false,
@@ -4484,10 +4441,11 @@
           "Post-deploy smoke: post-deploy-smoke-observed-live; origin https://moshequ.github.io/autonomous-game-lab; checks 15/15; local artifact predeploy-artifact-smoke-passed 15/15",
           "Strict deploy artifact sync: post-deploy-artifact-sync-passed; run 26171799929; live matches artifact true; candidate pwa-7f57ad8adae7",
           "Repository channel: repository-channel-ready; repository moshequ/autonomous-game-lab; git worktree true",
-          "Autonomy score: 98%",
+          "Autonomy score: 95%",
           "Credential-gated actions: 10"
         ],
         "blockers": [
+          "Commit current generated changes before pushing to GitHub Pages.",
           "AGL_SUPPORT_EMAIL: Production support contact for privacy and store listings.",
           "VITE_POSTHOG_KEY: Optional browser-side PostHog analytics forwarding.",
           "POSTHOG_PROJECT_ID + POSTHOG_PERSONAL_API_KEY: Optional autonomous production analytics and experiment result rollups from PostHog.",
@@ -4528,6 +4486,7 @@
         "summary": "Store listing, compliance drafts, screenshots, and Android TWA handoff are prepared while store release stays gated.",
         "evidence": [
           "Store package privacy URL: hosted",
+          "Support channel: support-channel-ready; provider github-issues; store email still required true",
           "Store assets: screenshots-ready",
           "Store compliance: draft-ready-external-blockers",
           "Android signing: signing-prepared; fingerprint available",

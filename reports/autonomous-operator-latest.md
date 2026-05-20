@@ -1,6 +1,6 @@
 # Autonomous Operator
 
-Generated: 2026-05-20T15:20:45.178Z
+Generated: 2026-05-20T15:36:06.447Z
 Status: operator-plan-ready
 Mode: plan-only
 Owner decision: bootstrap-production-setup
@@ -39,6 +39,7 @@ Execution: not-requested
 - refresh-completion-loop
 - refresh-replay-loop
 - bootstrap-production-setup
+- refresh-objective-audit
 - optimize-store-listing
 - apply-safe-improvements
 - collect-live-events

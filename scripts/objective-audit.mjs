@@ -52,6 +52,7 @@ const [
   monetization,
   unitEconomics,
   storePackage,
+  supportChannel,
   storeAssets,
   storeCompliance,
   nativePackage,
@@ -97,6 +98,7 @@ const [
   readJson(path.join(dataDir, 'monetization-plan.json')),
   readJson(path.join(dataDir, 'unit-economics.json')),
   readJson(path.join(dataDir, 'store-package.json')),
+  readJson(path.join(dataDir, 'support-channel.json')),
   readJson(path.join(dataDir, 'store-assets.json')),
   readJson(path.join(dataDir, 'store-compliance.json')),
   readJson(path.join(dataDir, 'native-package.json')),
@@ -443,6 +445,7 @@ const requirements = [
     id: 'app-store-distribution-path',
     status:
       storePackage.storeListing?.shortDescription &&
+      ['support-channel-ready', 'support-channel-planned'].includes(supportChannel.status) &&
       storeCompliance.status === 'draft-ready-external-blockers' &&
       nativePackage.status !== 'missing' &&
       androidRelease.status
@@ -451,6 +454,9 @@ const requirements = [
     summary: 'Store listing, compliance drafts, screenshots, and Android TWA handoff are prepared while store release stays gated.',
     evidence: [
       `Store package privacy URL: ${storePackage.privacyPolicy?.productionUrlStatus}`,
+      `Support channel: ${supportChannel.status}; provider ${supportChannel.provider}; store email still required ${
+        supportChannel.controls?.supportEmailStillRequiredForStoreSubmission === true
+      }`,
       `Store assets: ${storeAssets.status}`,
       `Store compliance: ${storeCompliance.status}`,
       `Android signing: ${androidSigning.status}; fingerprint ${

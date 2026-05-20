@@ -59,6 +59,7 @@ import { replayLoop } from './data/replayLoop'
 import { retentionLoop } from './data/retentionLoop'
 import { storeCompliance } from './data/storeCompliance'
 import { storeListingOptimizer } from './data/storeListingOptimizer'
+import { supportChannel } from './data/supportChannel'
 import { trafficSeeding } from './data/trafficSeeding'
 import { unitEconomics } from './data/unitEconomics'
 import type { GameSnapshot } from './game/gameTypes'
@@ -653,6 +654,9 @@ function App() {
   const productionActivationRunnableActions = productionActivation.plannedActions.filter(
     (action) => action.runnableNow,
   ).length
+  const supportChannelStatus = supportChannel.status
+  const supportChannelRepository = supportChannel.repository.target ?? 'missing'
+  const supportChannelReady = supportChannel.status === 'support-channel-ready'
   const operatorSelectedAction = autonomousOperator.selectedAction
   const operatorHistorySummary = autonomousOperatorHistory.summary
   const objectiveAuditSummary = objectiveAudit.summary
@@ -2434,6 +2438,32 @@ function App() {
                 <div>
                   <span>Runnable actions</span>
                   <strong>{productionActivationRunnableActions}</strong>
+                </div>
+              </div>
+              <div className="monetizationRuntime" aria-label="Support Channel">
+                <div>
+                  <span>Support Channel</span>
+                  <strong>{supportChannelStatus}</strong>
+                </div>
+                <div>
+                  <span>Provider</span>
+                  <strong>{supportChannel.provider}</strong>
+                </div>
+                <div>
+                  <span>Repository</span>
+                  <strong>{supportChannelRepository}</strong>
+                </div>
+                <div>
+                  <span>Public intake</span>
+                  <strong>{supportChannelReady ? 'ready' : 'planned'}</strong>
+                </div>
+                <div>
+                  <span>Store email</span>
+                  <strong>
+                    {supportChannel.controls.supportEmailStillRequiredForStoreSubmission
+                      ? 'still required'
+                      : 'review'}
+                  </strong>
                 </div>
               </div>
               <div className="monetizationRuntime" aria-label="Repository Channel">

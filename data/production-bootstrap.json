@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-20T15:20:42.367Z",
+  "generatedAt": "2026-05-20T15:36:05.544Z",
   "status": "production-bootstrap-ready",
   "mode": "can-apply-configured-actions",
   "envFiles": {
@@ -87,7 +87,7 @@
     "totalVariables": 24,
     "configuredSecrets": 5,
     "totalSecrets": 8,
-    "externalBlockers": 15
+    "externalBlockers": 17
   },
   "stages": [
     {
@@ -106,7 +106,9 @@
       "costUsd": 0,
       "command": "npm run autonomous:repo-bootstrap",
       "evidence": "Repository bootstrap repository-bootstrap-ready; helper ops/github/bootstrap-repository.sh; local git ready.",
-      "requires": []
+      "requires": [
+        "Commit current generated changes before pushing to GitHub Pages."
+      ]
     },
     {
       "id": "production-environment",
@@ -239,6 +241,7 @@
       "evidence": "Native package blocked-draft-ready; Android release blocked-needs-host-signing-play.",
       "requires": [
         "native-package-ready: Native package is blocked-draft-ready.",
+        "store-package-draft: Store package is blocked; data safety is draft-ready.",
         "google-play-account: Google Play account is not connected.",
         "play-service-account: Google Play service account upload credentials are available to CI.",
         "unit-economics-store-spend: Store spend allowed is false; spend mode is no-spend.",
@@ -263,7 +266,9 @@
       "costUsd": 0,
       "command": "npm run autonomous:repo-bootstrap",
       "evidence": "Repository bootstrap repository-bootstrap-ready; helper ops/github/bootstrap-repository.sh; local git ready.",
-      "requires": []
+      "requires": [
+        "Commit current generated changes before pushing to GitHub Pages."
+      ]
     },
     {
       "id": "production-environment",
@@ -396,6 +401,7 @@
       "evidence": "Native package blocked-draft-ready; Android release blocked-needs-host-signing-play.",
       "requires": [
         "native-package-ready: Native package is blocked-draft-ready.",
+        "store-package-draft: Store package is blocked; data safety is draft-ready.",
         "google-play-account: Google Play account is not connected.",
         "play-service-account: Google Play service account upload credentials are available to CI.",
         "unit-economics-store-spend: Store spend allowed is false; spend mode is no-spend.",
@@ -1066,6 +1072,10 @@
   ],
   "externalBlockers": [
     {
+      "source": "repository-bootstrap",
+      "blocker": "Commit current generated changes before pushing to GitHub Pages."
+    },
+    {
       "source": "production-environment",
       "blocker": "Set AGL_SUPPORT_EMAIL to a real support inbox before public store submission."
     },
@@ -1108,6 +1118,10 @@
     {
       "source": "android-release",
       "blocker": "native-package-ready: Native package is blocked-draft-ready."
+    },
+    {
+      "source": "android-release",
+      "blocker": "store-package-draft: Store package is blocked; data safety is draft-ready."
     },
     {
       "source": "android-release",

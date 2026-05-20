@@ -1,0 +1,144 @@
+export const supportChannel = {
+  "generatedAt": "2026-05-20T15:32:48.832Z",
+  "status": "support-channel-ready",
+  "provider": "github-issues",
+  "envFiles": {
+    "loaded": true,
+    "loadedFiles": [
+      {
+        "path": "ops/production.env.local",
+        "keys": [
+          "AGL_ANDROID_PACKAGE_NAME",
+          "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
+          "AGL_ANDROID_KEYSTORE_BASE64",
+          "AGL_ANDROID_KEYSTORE_PASSWORD",
+          "AGL_ANDROID_KEY_ALIAS"
+        ]
+      }
+    ],
+    "loadedKeys": [
+      "AGL_ANDROID_PACKAGE_NAME",
+      "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
+      "AGL_ANDROID_KEYSTORE_BASE64",
+      "AGL_ANDROID_KEYSTORE_PASSWORD",
+      "AGL_ANDROID_KEY_ALIAS"
+    ],
+    "skippedExistingKeys": [],
+    "skippedProtectedKeys": [],
+    "overwrittenEnvFileKeys": [],
+    "supportedFiles": [
+      ".env",
+      ".env.local",
+      ".env.production",
+      ".env.production.local",
+      "ops/production.env",
+      "ops/production.env.local"
+    ],
+    "candidateFiles": [
+      ".env",
+      ".env.local",
+      ".env.production",
+      ".env.production.local",
+      "ops/production.env",
+      "ops/production.env.local"
+    ],
+    "shellEnvPrecedence": true,
+    "valuesRedacted": true,
+    "controls": {
+      "shellEnvPrecedence": true,
+      "laterEnvFilesOverrideEarlierEnvFiles": true,
+      "protectedMutationKeysRequireShellEnv": true,
+      "noSecretValuesInReports": true,
+      "gitIgnoredLocalEnvFiles": true
+    }
+  },
+  "repository": {
+    "target": "moshequ/autonomous-game-lab",
+    "source": "origin-remote",
+    "owner": "moshequ",
+    "name": "autonomous-game-lab",
+    "url": "https://github.com/moshequ/autonomous-game-lab",
+    "metadata": {
+      "status": "inspected",
+      "nameWithOwner": "moshequ/autonomous-game-lab",
+      "url": "https://github.com/moshequ/autonomous-game-lab",
+      "visibility": "PUBLIC",
+      "hasIssuesEnabled": true,
+      "hasDiscussionsEnabled": false,
+      "homepageUrl": "",
+      "isArchived": false,
+      "errors": [],
+      "controls": {
+        "readOnlyInspection": true,
+        "noMutation": true,
+        "secretValuesNeverRead": true
+      }
+    },
+    "publicIssuesReady": true
+  },
+  "issueTemplates": [
+    {
+      "id": "player-feedback",
+      "path": ".github/ISSUE_TEMPLATE/player-feedback.yml",
+      "template": "player-feedback.yml",
+      "title": "[Feedback] Gameplay feedback",
+      "requiredText": "Gameplay feedback",
+      "exists": true,
+      "containsPrivacyWarning": true,
+      "url": "https://github.com/moshequ/autonomous-game-lab/issues/new?template=player-feedback.yml&title=%5BFeedback%5D+Gameplay+feedback&body=Thanks+for+helping+improve+Autonomous+Game+Lab.%0A%0AGitHub+Issues+are+public.+Do+not+paste+private+information+or+raw+analytics+exports+into+this+issue.%0AIf+you+use+Export+local+analytics%2C+review+the+file+first+and+attach+it+only+when+you+are+comfortable+sharing+it+publicly.%0A%0ASupport+type%3A+player-feedback%0AGame+or+page%3A%0AURL%3A%0AWhat+happened%3A%0AWhat+you+expected%3A"
+    },
+    {
+      "id": "bug-report",
+      "path": ".github/ISSUE_TEMPLATE/bug-report.yml",
+      "template": "bug-report.yml",
+      "title": "[Bug] Web/PWA issue",
+      "requiredText": "Web/PWA bug report",
+      "exists": true,
+      "containsPrivacyWarning": true,
+      "url": "https://github.com/moshequ/autonomous-game-lab/issues/new?template=bug-report.yml&title=%5BBug%5D+Web%2FPWA+issue&body=Thanks+for+helping+improve+Autonomous+Game+Lab.%0A%0AGitHub+Issues+are+public.+Do+not+paste+private+information+or+raw+analytics+exports+into+this+issue.%0AIf+you+use+Export+local+analytics%2C+review+the+file+first+and+attach+it+only+when+you+are+comfortable+sharing+it+publicly.%0A%0ASupport+type%3A+bug-report%0AGame+or+page%3A%0AURL%3A%0AWhat+happened%3A%0AWhat+you+expected%3A"
+    },
+    {
+      "id": "analytics-evidence",
+      "path": ".github/ISSUE_TEMPLATE/analytics-evidence.yml",
+      "template": "analytics-evidence.yml",
+      "title": "[Evidence] Player event export note",
+      "requiredText": "Analytics evidence note",
+      "exists": true,
+      "containsPrivacyWarning": true,
+      "url": "https://github.com/moshequ/autonomous-game-lab/issues/new?template=analytics-evidence.yml&title=%5BEvidence%5D+Player+event+export+note&body=Thanks+for+helping+improve+Autonomous+Game+Lab.%0A%0AGitHub+Issues+are+public.+Do+not+paste+private+information+or+raw+analytics+exports+into+this+issue.%0AIf+you+use+Export+local+analytics%2C+review+the+file+first+and+attach+it+only+when+you+are+comfortable+sharing+it+publicly.%0A%0ASupport+type%3A+analytics-evidence%0AGame+or+page%3A%0AURL%3A%0AWhat+happened%3A%0AWhat+you+expected%3A"
+    }
+  ],
+  "links": {
+    "supportUrl": "https://github.com/moshequ/autonomous-game-lab/issues/new/choose",
+    "issueListUrl": "https://github.com/moshequ/autonomous-game-lab/issues",
+    "gameplayFeedbackUrl": "https://github.com/moshequ/autonomous-game-lab/issues/new?template=player-feedback.yml&title=%5BFeedback%5D+Gameplay+feedback&body=Thanks+for+helping+improve+Autonomous+Game+Lab.%0A%0AGitHub+Issues+are+public.+Do+not+paste+private+information+or+raw+analytics+exports+into+this+issue.%0AIf+you+use+Export+local+analytics%2C+review+the+file+first+and+attach+it+only+when+you+are+comfortable+sharing+it+publicly.%0A%0ASupport+type%3A+player-feedback%0AGame+or+page%3A%0AURL%3A%0AWhat+happened%3A%0AWhat+you+expected%3A",
+    "bugReportUrl": "https://github.com/moshequ/autonomous-game-lab/issues/new?template=bug-report.yml&title=%5BBug%5D+Web%2FPWA+issue&body=Thanks+for+helping+improve+Autonomous+Game+Lab.%0A%0AGitHub+Issues+are+public.+Do+not+paste+private+information+or+raw+analytics+exports+into+this+issue.%0AIf+you+use+Export+local+analytics%2C+review+the+file+first+and+attach+it+only+when+you+are+comfortable+sharing+it+publicly.%0A%0ASupport+type%3A+bug-report%0AGame+or+page%3A%0AURL%3A%0AWhat+happened%3A%0AWhat+you+expected%3A",
+    "analyticsEvidenceUrl": "https://github.com/moshequ/autonomous-game-lab/issues/new?template=analytics-evidence.yml&title=%5BEvidence%5D+Player+event+export+note&body=Thanks+for+helping+improve+Autonomous+Game+Lab.%0A%0AGitHub+Issues+are+public.+Do+not+paste+private+information+or+raw+analytics+exports+into+this+issue.%0AIf+you+use+Export+local+analytics%2C+review+the+file+first+and+attach+it+only+when+you+are+comfortable+sharing+it+publicly.%0A%0ASupport+type%3A+analytics-evidence%0AGame+or+page%3A%0AURL%3A%0AWhat+happened%3A%0AWhat+you+expected%3A"
+  },
+  "privacy": {
+    "publicIssueWarning": "GitHub Issues are public; do not paste private information or raw analytics exports into public issue bodies.",
+    "exportedEventFilePolicy": "Player event exports are player-initiated and should be reviewed before voluntary public attachment.",
+    "prefilledUrlsContainRawEvents": false,
+    "rawEventUploadsAutomated": false
+  },
+  "controls": {
+    "zeroPaidSpend": true,
+    "noAccountCreation": true,
+    "noStoreSubmission": true,
+    "noRevenueEnablement": true,
+    "readOnlyRepositoryInspection": true,
+    "noMutation": true,
+    "playerInitiatedOnly": true,
+    "noPrivateDataInPrefilledUrls": true,
+    "noRawEventEmbeddingInUrls": true,
+    "supportEmailStillRequiredForStoreSubmission": true
+  },
+  "blockers": [],
+  "nextActions": [
+    "Link the generated support page to GitHub Issues and review public support reports before applying product changes.",
+    "Keep a real support email as a separate app-store blocker.",
+    "Keep player analytics exports voluntary, reviewed by the player, and never uploaded automatically."
+  ]
+} as const
+
+export type SupportChannel = typeof supportChannel
