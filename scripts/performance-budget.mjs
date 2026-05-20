@@ -26,6 +26,16 @@ const normalizeAssetPath = (assetPath) => {
     return normalizedAssetPath.slice(normalizedBasePath.length)
   }
 
+  const assetsIndex = normalizedAssetPath.indexOf('assets/')
+
+  if (assetsIndex > 0) {
+    return normalizedAssetPath.slice(assetsIndex)
+  }
+
+  if (normalizedAssetPath.includes('/')) {
+    return path.posix.basename(normalizedAssetPath)
+  }
+
   return normalizedAssetPath
 }
 

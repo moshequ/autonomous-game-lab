@@ -905,6 +905,16 @@ test('release candidate records the exact deployable PWA artifact', async () => 
     candidateId: string
     integrity: { aggregateHash: string }
   }
+  const productionEnvironment = JSON.parse(await readFile('data/production-environment.json', 'utf8')) as {
+    publicOrigin: { basePath: string; status: string }
+  }
+  const distIndex = await readFile('dist/index.html', 'utf8')
+  const distManifest = JSON.parse(await readFile('dist/manifest.webmanifest', 'utf8')) as {
+    start_url: string
+    scope: string
+    icons: Array<{ src: string }>
+  }
+  const productionBasePath = productionEnvironment.publicOrigin.basePath
 
   expect(candidate.status).toBe('release-candidate-ready')
   expect(candidate.candidateId).toMatch(/^pwa-[a-f0-9]{12}$/)
@@ -938,6 +948,16 @@ test('release candidate records the exact deployable PWA artifact', async () => 
   expect(candidate.controls.postDeploySmokeRequired).toBe(true)
   expect(distCandidate.candidateId).toBe(candidate.candidateId)
   expect(distCandidate.integrity.aggregateHash).toBe(candidate.integrity.aggregateHash)
+  expect(productionEnvironment.publicOrigin.status).toMatch(/configured|inferred-github-pages/)
+  expect(productionBasePath).toMatch(/^\/.*\/$/)
+  expect(distManifest.start_url).toBe(productionBasePath)
+  expect(distManifest.scope).toBe(productionBasePath)
+  expect(distManifest.icons.every((icon) => icon.src.startsWith(productionBasePath))).toBe(true)
+
+  if (productionBasePath !== '/') {
+    expect(distIndex).toContain(`src="${productionBasePath}assets/`)
+    expect(distIndex).toContain(`href="${productionBasePath}assets/`)
+  }
 })
 
 test('post-deploy smoke runner is wired to the release manifest and Pages workflow', async () => {
