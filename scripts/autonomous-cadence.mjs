@@ -398,18 +398,18 @@ const codexAutomationStorageAvailable = Boolean(codexAutomationsDir && (await ex
 
 const codexAutomationManifest = {
   id: 'autonomous-game-lab-daily-owner-loop',
-  name: 'Autonomous Game Lab daily owner loop',
+  name: 'Autonomous Game Lab owner loop',
   kind: 'cron',
   status: 'active-declared',
   schedule: {
-    rrule: 'FREQ=HOURLY;INTERVAL=24',
+    rrule: 'FREQ=HOURLY;INTERVAL=12',
     timezone: 'local',
-    cadence: 'daily',
+    cadence: 'twice-daily',
   },
   workspace: root,
   executionEnvironment: 'local',
   expectedPrompt:
-    'Operate the Autonomous Game Lab as a zero-spend autonomous owner, run the owner/verification loop, apply only bounded local improvements, commit verified changes, and keep external production mutations gated.',
+    "Act as zero-spend production owner for the autonomous-game-lab PWA game portal. Inspect the current repository state, live GitHub Pages release, local generated evidence, and recent GitHub Actions runs. Run the repo's autonomous improvement pipeline, prioritize fixes or small improvements supported by available behavior/performance/evidence data, keep changes original and compliant, run the relevant verification commands, commit and push safe improvements, and trigger or confirm deployment when the deployment gate passes. Do not enable paid spend, store submission, revenue, external posting, or legal/account changes unless credentials and product gates already prove they are configured. Avoid paid services or paid APIs unless already configured by the owner. If external credentials, app-store accounts, tax/payment setup, or legal approval are required, record the blocker clearly and continue with the best no-cost development or evidence-gathering step.",
   verification: {
     source: 'codex-app-automation-card',
     lastKnownAutomationId: 'autonomous-game-lab-daily-owner-loop',
@@ -451,6 +451,7 @@ const installedCodexAutomationWorkspaceMatches = automationUsesWorkspace(install
 const installedCodexAutomationPromptGuarded =
   String(installedCodexAutomation?.prompt ?? '').includes('zero-spend') &&
   String(installedCodexAutomation?.prompt ?? '').includes('Do not enable paid spend') &&
+  String(installedCodexAutomation?.prompt ?? '').includes('product gates') &&
   String(installedCodexAutomation?.prompt ?? '').includes('commit')
 const installedCodexAutomationEnvironmentMatches = installedCodexAutomation?.execution_environment === 'local'
 const installedCodexAutomationConfirmed =
@@ -655,7 +656,7 @@ const status = blockers.length ? 'cadence-needs-attention' : 'cadence-ready'
 const payload = {
   generatedAt: generatedAt.toISOString(),
   status,
-  cadence: 'daily',
+  cadence: 'twice-daily-local-daily-ci',
   workspace: {
     path: root,
     repositoryStatus: repositoryReadiness.status,
