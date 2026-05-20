@@ -4712,6 +4712,34 @@ const ownerRepositoryHandoffStatus = ownerRepositoryHandoffPrepared
   : repositoryChannelReady
     ? 'repository-channel-ready'
     : 'needs-local-repository-handoff'
+const ownerProductionBootstrapInputs = [
+  { id: 'release-candidate', generatedAt: releaseCandidate.generatedAt },
+  { id: 'deployment-plan', generatedAt: deployment.generatedAt },
+  { id: 'repository-readiness', generatedAt: repositoryReadiness.generatedAt },
+  { id: 'repository-bootstrap', generatedAt: repositoryBootstrap.generatedAt },
+  { id: 'production-environment', generatedAt: productionEnvironment.generatedAt },
+  { id: 'event-collector-deployment', generatedAt: eventCollectorDeployment.generatedAt },
+]
+const ownerProductionBootstrapGeneratedAtMs = ownerGeneratedAtMs(productionBootstrap)
+const ownerProductionBootstrapStaleInputIds = ownerProductionBootstrapInputs
+  .filter((artifact) => {
+    const artifactGeneratedAtMs = ownerGeneratedAtMs(artifact)
+
+    return (
+      typeof artifactGeneratedAtMs === 'number' &&
+      (typeof ownerProductionBootstrapGeneratedAtMs !== 'number' ||
+        artifactGeneratedAtMs > ownerProductionBootstrapGeneratedAtMs)
+    )
+  })
+  .map((artifact) => artifact.id)
+const ownerProductionBootstrapFresh =
+  productionBootstrap.status === 'production-bootstrap-ready' &&
+  productionBootstrap.controls?.zeroSpendGuard === true &&
+  productionBootstrap.controls?.noPaidResourcesCreated === true &&
+  ownerProductionBootstrapStaleInputIds.length === 0
+const ownerBootstrapProductionAction = autonomousOwnerLoop.safeAutonomousActions?.find(
+  (action) => action.id === 'bootstrap-production-setup',
+)
 
 if (
   autonomousOwnerLoop.status !== 'owner-loop-ready' ||
@@ -4791,10 +4819,21 @@ if (
   autonomousOwnerLoop.executionMemory?.repositoryHandoff?.plannedTarget !==
     (ownerRepositoryTargetPlan?.plannedTarget ?? null) ||
   autonomousOwnerLoop.executionMemory?.repositoryHandoff?.status !== ownerRepositoryHandoffStatus ||
+  autonomousOwnerLoop.executionMemory?.productionBootstrapFreshness?.fresh !== ownerProductionBootstrapFresh ||
+  autonomousOwnerLoop.executionMemory?.productionBootstrapFreshness?.bootstrapGeneratedAt !==
+    (productionBootstrap.generatedAt ?? null) ||
+  JSON.stringify(autonomousOwnerLoop.executionMemory?.productionBootstrapFreshness?.evaluatedInputIds ?? []) !==
+    JSON.stringify(ownerProductionBootstrapInputs.map((artifact) => artifact.id)) ||
+  JSON.stringify(autonomousOwnerLoop.executionMemory?.productionBootstrapFreshness?.staleInputIds ?? []) !==
+    JSON.stringify(ownerProductionBootstrapStaleInputIds) ||
   (ownerRepositoryHandoffPrepared && ownerPrepareRepositoryAction?.status !== 'monitor') ||
   (ownerRepositoryHandoffPrepared &&
     autonomousOwnerLoop.ownerDecision?.nextBestActionId === 'prepare-repository-channel') ||
   !autonomousOwnerLoopSource.includes('repositoryHandoffPrepared') ||
+  !autonomousOwnerLoopSource.includes('productionBootstrapFreshness') ||
+  (ownerProductionBootstrapFresh && ownerBootstrapProductionAction?.status !== 'monitor') ||
+  (ownerProductionBootstrapFresh &&
+    autonomousOwnerLoop.ownerDecision?.nextBestActionId === 'bootstrap-production-setup') ||
   (ownerHasExecutedAction &&
     ownerHasExecutableAlternativeOutsideRecent &&
     ownerRecentExecutedActionIds.includes(autonomousOwnerLoop.ownerDecision?.nextBestActionId)) ||

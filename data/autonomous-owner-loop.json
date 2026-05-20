@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-20T18:55:35.657Z",
+  "generatedAt": "2026-05-20T19:15:34.583Z",
   "status": "owner-loop-ready",
   "mode": "zero-spend-web-ready",
   "autonomyScore": {
@@ -21,27 +21,32 @@
     "repositoryHandoffPrepared": false
   },
   "ownerDecision": {
-    "nextBestActionId": "bootstrap-production-setup",
-    "nextBestAction": "npm run autonomous:release-candidate && npm run autonomous:deploy-plan && npm run autonomous:bootstrap",
+    "nextBestActionId": "refresh-organic-seed-loop",
+    "nextBestAction": "npm run autonomous:organic-seed-loop",
     "canExecuteWithoutSpend": true,
-    "rationale": "Regenerates the zero-spend production setup handoff and exact GitHub variable/secret commands."
+    "rationale": "Refreshes the player-initiated zero-cost share surface for the highest-opportunity seed campaign."
   },
   "executionMemory": {
     "avoidImmediateRepeat": true,
     "recentExecutionWindow": 8,
     "recentExecutedActionIds": [
+      "collect-gate-sample-downloads",
       "seed-portfolio-traffic",
       "apply-safe-improvements",
       "optimize-product-gates"
     ],
-    "lastExecutedActionId": "seed-portfolio-traffic",
+    "lastExecutedActionId": "collect-gate-sample-downloads",
     "lastExecutedStatus": "executed",
     "lastRecordExecutionStatus": "not-requested",
-    "recentlySatisfiedActionIds": [],
+    "recentlySatisfiedActionIds": [
+      "collect-live-events",
+      "refresh-product-gate-recovery",
+      "refresh-product-gate-sample-plan"
+    ],
     "objectiveAuditFreshness": {
       "fresh": true,
       "structurallyReady": true,
-      "auditGeneratedAt": "2026-05-20T18:55:35.401Z",
+      "auditGeneratedAt": "2026-05-20T19:15:34.351Z",
       "evaluatedInputIds": [
         "analytics-rollup",
         "event-ingest",
@@ -61,8 +66,8 @@
     "gateSampleDownloadsBackoff": {
       "enabled": true,
       "cooldownHours": 4,
-      "coolingDown": false,
-      "lastExplicitScanAt": "2026-05-20T05:52:52.843Z",
+      "coolingDown": true,
+      "lastExplicitScanAt": "2026-05-20T19:03:48.635Z",
       "lastExplicitScanStatus": "no-evidence-found",
       "evidenceReadyNow": false
     },
@@ -71,7 +76,10 @@
       "optimize-product-gates",
       "apply-safe-improvements"
     ],
-    "skippedRecentlySatisfiedActionIds": [],
+    "skippedRecentlySatisfiedActionIds": [
+      "refresh-product-gate-recovery",
+      "collect-live-events"
+    ],
     "preferredActionOrder": [
       "prepare-repository-channel",
       "deploy-web-pwa",
@@ -101,6 +109,19 @@
       "targetPlanReady": true,
       "plannedTarget": "moshequ/autonomous-game-lab",
       "status": "repository-channel-ready"
+    },
+    "productionBootstrapFreshness": {
+      "fresh": true,
+      "bootstrapGeneratedAt": "2026-05-20T19:15:33.900Z",
+      "evaluatedInputIds": [
+        "release-candidate",
+        "deployment-plan",
+        "repository-readiness",
+        "repository-bootstrap",
+        "production-environment",
+        "event-collector-deployment"
+      ],
+      "staleInputIds": []
     }
   },
   "systems": [
@@ -157,7 +178,7 @@
       "id": "autonomous-self-update",
       "status": "ready",
       "autonomy": "gated-generated-change-persistence",
-      "evidence": "Self-update self-update-ready; safe pending 52; unsafe pending 0; remote push held.",
+      "evidence": "Self-update self-update-ready; safe pending 0; unsafe pending 0; remote push held.",
       "nextAction": "When a GitHub repository is connected, set AGL_AUTONOMOUS_SELF_UPDATE=1 and AGL_AUTONOMOUS_SELF_UPDATE_DIRECT=1 to let verified generated changes persist."
     },
     {
@@ -206,7 +227,7 @@
       "id": "performance-budget",
       "status": "ready",
       "autonomy": "automatic-build-budget",
-      "evidence": "Initial JS 648.7 KB; gzip 177.6 KB; deferred chunks 1.",
+      "evidence": "Initial JS 649.1 KB; gzip 177.7 KB; deferred chunks 1.",
       "nextAction": "Keep Phaser and game scenes outside the initial PWA shell."
     },
     {
@@ -305,13 +326,13 @@
       "status": "ready",
       "autonomy": "read-only-live-deploy-verification",
       "evidence": "Smoke post-deploy-smoke-observed-live; origin https://moshequ.github.io/autonomous-game-lab; manifest comparison required; checks 15/15 passed; local artifact predeploy-artifact-smoke-passed 15/15 passed.",
-      "nextAction": "Live Pages is reachable and serving pwa-f9b522424726; run the deploy workflow for strict proof of the current local candidate if needed."
+      "nextAction": "Live Pages is reachable and serving pwa-34e81af9e2db; run the deploy workflow for strict proof of the current local candidate if needed."
     },
     {
       "id": "post-deploy-artifact-sync",
       "status": "ready",
       "autonomy": "read-only-actions-artifact-import",
-      "evidence": "Artifact sync post-deploy-artifact-sync-passed; run 26182778008; live matches artifact true; strict true.",
+      "evidence": "Artifact sync post-deploy-artifact-sync-passed; run 26183415907; live matches artifact true; strict true.",
       "nextAction": "Keep this strict deploy artifact as live-production evidence while local candidates continue to iterate."
     },
     {
@@ -339,14 +360,14 @@
       "id": "autonomous-operator",
       "status": "ready",
       "autonomy": "one-safe-action-runner",
-      "evidence": "Operator operator-plan-ready; selected bootstrap-production-setup; execution not-requested.",
+      "evidence": "Operator operator-plan-ready; selected prepare-repository-channel; execution not-requested.",
       "nextAction": "Keep a dry-run operator plan ready, then execute only one allowlisted local action when explicitly requested."
     },
     {
       "id": "operator-history",
       "status": "ready",
       "autonomy": "operator-audit-trail",
-      "evidence": "History operator-history-ready; records 40; executed 3.",
+      "evidence": "History operator-history-ready; records 40; executed 4.",
       "nextAction": "Keep a capped durable record of operator plans and one-action executions."
     },
     {
@@ -488,7 +509,7 @@
       "command": "npm run build && npm run autonomous:performance",
       "targets": [
         "pwa-shell",
-        "GameCanvas-DKaI3PRw.js"
+        "GameCanvas-pevR95Vr.js"
       ],
       "reason": "Keeps the PWA shell fast while Phaser and game scenes stay deferred."
     },
@@ -519,7 +540,7 @@
       "costUsd": 0,
       "command": "npm run autonomous:post-deploy-artifact-sync",
       "targets": [
-        26182778008,
+        26183415907,
         "release-candidate-manifest"
       ],
       "reason": "Strict deploy artifact evidence is already synced from the latest successful Pages workflow."
@@ -546,7 +567,7 @@
     },
     {
       "id": "collect-gate-sample-downloads",
-      "status": "armed",
+      "status": "monitor",
       "costUsd": 0,
       "command": "npm run autonomous:collect-sample-downloads",
       "targets": [
@@ -554,11 +575,11 @@
         "gate-sample-20260520-firstGameCompletion",
         "gate-sample-20260520-replayRate"
       ],
-      "reason": "Opt-in scans local browser Downloads and the event inbox for real player exports, imports them, refreshes analytics and recovery, then regenerates the sample plan."
+      "reason": "Recent explicit Downloads scan found no player exports; retry after 4 hours or when an inbox event drop appears."
     },
     {
       "id": "refresh-product-gate-sample-plan",
-      "status": "armed",
+      "status": "monitor",
       "costUsd": 0,
       "command": "npm run autonomous:sample-plan",
       "targets": [
@@ -608,7 +629,7 @@
     },
     {
       "id": "bootstrap-production-setup",
-      "status": "armed",
+      "status": "monitor",
       "costUsd": 0,
       "command": "npm run autonomous:release-candidate && npm run autonomous:deploy-plan && npm run autonomous:bootstrap",
       "targets": [
@@ -616,7 +637,7 @@
         "repository-config",
         "event-collector"
       ],
-      "reason": "Regenerates the zero-spend production setup handoff and exact GitHub variable/secret commands."
+      "reason": "Production bootstrap handoff is fresh, so the operator should prioritize product learning and local event collection."
     },
     {
       "id": "activate-production-when-configured",
@@ -636,7 +657,7 @@
       "costUsd": 0,
       "command": "npm run autonomous:operator",
       "targets": [
-        "bootstrap-production-setup"
+        "prepare-repository-channel"
       ],
       "reason": "Publishes the one-action local execution plan with allowlist, zero-spend, and audit controls."
     },
@@ -646,7 +667,7 @@
       "costUsd": 0,
       "command": "npm run autonomous:operator",
       "targets": [
-        "bootstrap-production-setup"
+        "prepare-repository-channel"
       ],
       "reason": "Refreshes the capped operator history so safe actions remain auditable over time."
     },

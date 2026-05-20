@@ -319,6 +319,29 @@ const postDeployArtifactSyncReady =
   postDeployArtifactSync.controls?.readOnlyHttpChecks === true &&
   postDeployArtifactSync.controls?.strictManifestComparisonRequired === true &&
   postDeployArtifactSync.controls?.separateFromLocalCandidate === true
+const productionBootstrapFreshnessInputs = [
+  { id: 'release-candidate', generatedAt: releaseCandidate.generatedAt },
+  { id: 'deployment-plan', generatedAt: deployment.generatedAt },
+  { id: 'repository-readiness', generatedAt: repositoryReadiness.generatedAt },
+  { id: 'repository-bootstrap', generatedAt: repositoryBootstrap.generatedAt },
+  { id: 'production-environment', generatedAt: productionEnvironment.generatedAt },
+  { id: 'event-collector-deployment', generatedAt: eventCollectorDeployment.generatedAt },
+]
+const productionBootstrapGeneratedAtMs = generatedAtMs(productionBootstrap)
+const productionBootstrapStaleInputs = productionBootstrapFreshnessInputs.filter((artifact) => {
+  const artifactGeneratedAtMs = generatedAtMs(artifact)
+
+  return (
+    typeof artifactGeneratedAtMs === 'number' &&
+    (typeof productionBootstrapGeneratedAtMs !== 'number' ||
+      artifactGeneratedAtMs > productionBootstrapGeneratedAtMs)
+  )
+})
+const productionBootstrapFresh =
+  productionBootstrap.status === 'production-bootstrap-ready' &&
+  productionBootstrap.controls?.zeroSpendGuard === true &&
+  productionBootstrap.controls?.noPaidResourcesCreated === true &&
+  productionBootstrapStaleInputs.length === 0
 const productionActivationReady =
   ['activation-waiting-for-credentials', 'activation-ready', 'activation-applied'].includes(
     productionActivation.status,
@@ -1244,11 +1267,17 @@ const safeAutonomousActions = [
   },
   {
     id: 'bootstrap-production-setup',
-    status: productionBootstrap.status === 'production-bootstrap-ready' ? 'armed' : 'monitor',
+    status: productionBootstrapFresh
+      ? 'monitor'
+      : productionBootstrap.status === 'production-bootstrap-ready'
+        ? 'armed'
+        : 'monitor',
     costUsd: 0,
     command: 'npm run autonomous:release-candidate && npm run autonomous:deploy-plan && npm run autonomous:bootstrap',
     targets: ['github-pages', 'repository-config', 'event-collector'],
-    reason: 'Regenerates the zero-spend production setup handoff and exact GitHub variable/secret commands.',
+    reason: productionBootstrapFresh
+      ? 'Production bootstrap handoff is fresh, so the operator should prioritize product learning and local event collection.'
+      : 'Regenerates the zero-spend production setup handoff and exact GitHub variable/secret commands.',
   },
   {
     id: 'activate-production-when-configured',
@@ -1496,6 +1525,12 @@ const payload = {
         : repositoryChannelReady
           ? 'repository-channel-ready'
           : 'needs-local-repository-handoff',
+    },
+    productionBootstrapFreshness: {
+      fresh: productionBootstrapFresh,
+      bootstrapGeneratedAt: productionBootstrap.generatedAt ?? null,
+      evaluatedInputIds: productionBootstrapFreshnessInputs.map((artifact) => artifact.id),
+      staleInputIds: productionBootstrapStaleInputs.map((artifact) => artifact.id),
     },
   },
   systems,

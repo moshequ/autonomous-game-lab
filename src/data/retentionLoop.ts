@@ -1,5 +1,5 @@
 export const retentionLoop = {
-  "generatedAt": "2026-05-20T16:45:37.880Z",
+  "generatedAt": "2026-05-20T19:11:29.264Z",
   "status": "retention-loop-ready",
   "dailyChallenge": {
     "date": "2026-05-20",
@@ -150,13 +150,13 @@ export const retentionLoop = {
     "downloadsScan": {
       "explicitOptInRequired": true,
       "cooldownHours": 4,
-      "coolingDown": false,
+      "coolingDown": true,
       "evidenceReadyNow": false,
-      "lastScanAt": "2026-05-20T05:52:52.843Z",
+      "lastScanAt": "2026-05-20T19:03:48.635Z",
       "lastScanStatus": "no-evidence-found",
-      "scanAgeHours": 10.88,
-      "cooldownRemainingHours": 0,
-      "nextRecommendedScanAt": "2026-05-20T09:52:52.843Z"
+      "scanAgeHours": 0.13,
+      "cooldownRemainingHours": 3.87,
+      "nextRecommendedScanAt": "2026-05-20T23:03:48.635Z"
     },
     "commandPlan": {
       "refreshRetention": "npm run autonomous:retention",
@@ -173,7 +173,7 @@ export const retentionLoop = {
       "downloadsImportRequiresExplicitOptIn": true,
       "downloadsScanBackoffRequired": true
     },
-    "nextAction": "Feature the daily challenge via /?game=canopy-bloom&utm_source=gate_sample&utm_campaign=gate-sample-20260520-d1Retention and collect 10 prompt exposure(s) plus 1 retained start(s)."
+    "nextAction": "Wait until 2026-05-20T23:03:48.635Z before another explicit Downloads scan, unless an inbox event drop appears."
   },
   "controls": {
     "canNudgeRetention": true,
@@ -228,7 +228,7 @@ export const retentionLoop = {
   ],
   "nextActions": [
     "Improve D1 retention from 17% toward 18% with local streak prompts.",
-    "Feature the daily challenge via /?game=canopy-bloom&utm_source=gate_sample&utm_campaign=gate-sample-20260520-d1Retention and collect 10 prompt exposure(s) plus 1 retained start(s).",
+    "Wait until 2026-05-20T23:03:48.635Z before another explicit Downloads scan, unless an inbox event drop appears.",
     "Improve replay rate from 31% toward 35% with the daily return mission.",
     "Do not use push notifications, accounts, paid rewards, or ads for retention until gates pass."
   ]

@@ -8,7 +8,7 @@ export const autonomousOwnerLoop = {
     "externalAccountInterventionRequired": true
   },
   "ownerDecision": {
-    "nextBestActionId": "bootstrap-production-setup"
+    "nextBestActionId": "refresh-organic-seed-loop"
   },
   "systems": [
     {
@@ -30,7 +30,7 @@ export const autonomousOwnerLoop = {
   ],
   "safeAutonomousActions": [
     {
-      "id": "bootstrap-production-setup",
+      "id": "refresh-organic-seed-loop",
       "status": "armed"
     },
     {

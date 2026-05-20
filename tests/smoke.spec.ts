@@ -2796,6 +2796,12 @@ test('autonomous operator history keeps a capped audit trail', async ({ page }) 
         plannedTarget: string | null
         status: string
       }
+      productionBootstrapFreshness: {
+        fresh: boolean
+        bootstrapGeneratedAt: string | null
+        evaluatedInputIds: string[]
+        staleInputIds: string[]
+      }
     }
   }
   const localEventBridge = JSON.parse(await readFile('data/local-event-bridge.json', 'utf8')) as {
@@ -2857,6 +2863,7 @@ test('autonomous operator history keeps a capped audit trail', async ({ page }) 
   const refreshSamplePlanAction = ownerLoop.safeAutonomousActions.find((action) => action.id === 'refresh-product-gate-sample-plan')
   const prepareRepositoryAction = ownerLoop.safeAutonomousActions.find((action) => action.id === 'prepare-repository-channel')
   const objectiveAuditAction = ownerLoop.safeAutonomousActions.find((action) => action.id === 'refresh-objective-audit')
+  const bootstrapProductionAction = ownerLoop.safeAutonomousActions.find((action) => action.id === 'bootstrap-production-setup')
 
   expect(history.status).toBe('operator-history-ready')
   expect(history.retention.maxRecords).toBe(40)
@@ -2890,6 +2897,15 @@ test('autonomous operator history keeps a capped audit trail', async ({ page }) 
   expect(ownerLoop.executionMemory.objectiveAuditFreshness.evaluatedInputIds).toContain('analytics-rollup')
   expect(ownerLoop.executionMemory.objectiveAuditFreshness.evaluatedInputIds).toContain('local-event-bridge')
   expect(ownerLoop.executionMemory.objectiveAuditFreshness.evaluatedInputIds).toContain('production-activation')
+  expect(typeof ownerLoop.executionMemory.productionBootstrapFreshness.fresh).toBe('boolean')
+  expect(ownerLoop.executionMemory.productionBootstrapFreshness.evaluatedInputIds).toContain('release-candidate')
+  expect(ownerLoop.executionMemory.productionBootstrapFreshness.evaluatedInputIds).toContain('deployment-plan')
+  expect(ownerLoop.executionMemory.productionBootstrapFreshness.evaluatedInputIds).toContain('repository-readiness')
+  if (ownerLoop.executionMemory.productionBootstrapFreshness.fresh) {
+    expect(bootstrapProductionAction?.status).toBe('monitor')
+    expect(bootstrapProductionAction?.reason).toContain('prioritize product learning')
+    expect(ownerLoop.ownerDecision.nextBestActionId).not.toBe('bootstrap-production-setup')
+  }
   if (ownerLoop.executionMemory.objectiveAuditFreshness.fresh && hasExecutableAlternativeOutsideCovered) {
     expect(objectiveAuditAction?.status).toBe('monitor')
     expect(ownerLoop.ownerDecision.nextBestActionId).not.toBe('refresh-objective-audit')

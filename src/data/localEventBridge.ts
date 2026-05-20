@@ -1,5 +1,5 @@
 export const localEventBridge = {
-  "generatedAt": "2026-05-20T18:52:35.958Z",
+  "generatedAt": "2026-05-20T19:11:28.601Z",
   "status": "bridge-waiting-for-export",
   "mode": "local-zero-spend-event-drop-bridge",
   "inbox": {
@@ -83,25 +83,26 @@ export const localEventBridge = {
     }
   },
   "explicitDownloadsScan": {
-    "scannedAt": "2026-05-20T05:52:52.843Z",
+    "scannedAt": "2026-05-20T19:03:48.635Z",
     "status": "no-evidence-found",
     "directory": "../../../../Downloads",
     "matchedFiles": 0,
     "validFiles": 0,
     "validEvents": 0,
     "copiedFiles": 0,
+    "sensitivePropertiesDropped": 0,
     "evidenceFound": false
   },
   "explicitDownloadsScanPolicy": {
     "explicitOptInRequired": true,
     "cooldownHours": 4,
-    "coolingDown": false,
+    "coolingDown": true,
     "evidenceReadyNow": false,
-    "lastScanAt": "2026-05-20T05:52:52.843Z",
+    "lastScanAt": "2026-05-20T19:03:48.635Z",
     "lastScanStatus": "no-evidence-found",
-    "scanAgeHours": 13,
-    "cooldownRemainingHours": 0,
-    "nextRecommendedScanAt": "2026-05-20T09:52:52.843Z"
+    "scanAgeHours": 0.13,
+    "cooldownRemainingHours": 3.87,
+    "nextRecommendedScanAt": "2026-05-20T23:03:48.635Z"
   },
   "gateSampleEvidence": {
     "inbox": {
