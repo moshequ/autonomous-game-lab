@@ -2814,8 +2814,8 @@ if (
   testAutomationOwnerLoopRuns.length < 3 ||
   testAutomationOperatorRuns.length < 2 ||
   testAutomationObjectiveAuditRuns.length < 1 ||
-  testAutomationPenultimateOwnerLoopRun > testAutomationFinalOperatorRun ||
-  testAutomationFinalOperatorRun > testAutomationFinalDeployPlanRun ||
+  testAutomationFinalOperatorRun > testAutomationPenultimateOwnerLoopRun ||
+  testAutomationPenultimateOwnerLoopRun > testAutomationFinalDeployPlanRun ||
   testAutomationFinalDeployPlanRun > testAutomationFinalObjectiveAuditRun ||
   testAutomationFinalObjectiveAuditRun > testAutomationFinalOwnerLoopRun ||
   testAutomationFinalOwnerLoopRun > testAutomationFinalReadinessRun ||
