@@ -13,6 +13,7 @@ const outputTsPath = path.join(srcDataDir, 'autonomousSelfUpdate.ts')
 const reportPath = path.join(reportsDir, 'autonomous-self-update-latest.md')
 const dailyWorkflowPath = path.join(root, '.github', 'workflows', 'autonomous-daily.yml')
 const selfUpdateWorkflowPath = path.join(root, '.github', 'workflows', 'autonomous-self-update.yml')
+const webDeployWorkflowPath = path.join(root, '.github', 'workflows', 'web-pwa-deploy.yml')
 
 const argv = process.argv.slice(2)
 const assertSafe = argv.includes('--assert-safe')
@@ -162,8 +163,10 @@ const ownerLoop = await readOptionalJson(path.join(dataDir, 'autonomous-owner-lo
 })
 const dailyWorkflow = await readOptionalText(dailyWorkflowPath)
 const selfUpdateWorkflow = await readOptionalText(selfUpdateWorkflowPath)
+const webDeployWorkflow = await readOptionalText(webDeployWorkflowPath)
 const dailyWorkflowExists = await exists(dailyWorkflowPath)
 const selfUpdateWorkflowExists = await exists(selfUpdateWorkflowPath)
+const webDeployWorkflowExists = await exists(webDeployWorkflowPath)
 
 const gitInsideResult = await run('git', ['rev-parse', '--is-inside-work-tree'])
 const insideWorkTree = gitInsideResult.ok && gitInsideResult.stdout === 'true'
@@ -227,6 +230,19 @@ const checks = [
         ? 'pass'
         : 'blocker',
     detail: 'A separate gated workflow can reproduce the owner loop, verify it, and persist allowlisted changes.',
+  },
+  {
+    id: 'post-self-update-deploy',
+    status:
+      webDeployWorkflowExists &&
+      webDeployWorkflow.includes("workflows: ['Autonomous Daily Studio', 'Autonomous Self Update']") &&
+      webDeployWorkflow.includes('npm run autonomous:assert-deployable') &&
+      webDeployWorkflow.includes('npm run autonomous:post-deploy-smoke -- --assert')
+        ? 'pass'
+        : 'blocker',
+    detail: webDeployWorkflowExists
+      ? 'Pages redeploys after the gated self-update workflow, then repeats deployability and post-deploy smoke checks.'
+      : 'Web PWA deploy workflow is missing.',
   },
   {
     id: 'safe-path-allowlist',
@@ -298,6 +314,7 @@ const payload = {
     workflow: '.github/workflows/autonomous-self-update.yml',
     enabledByRepositoryVariable: 'AGL_AUTONOMOUS_SELF_UPDATE=1',
     directPushRequiresRepositoryVariable: 'AGL_AUTONOMOUS_SELF_UPDATE_DIRECT=1',
+    deployAfterCommit: '.github/workflows/web-pwa-deploy.yml',
     verificationBeforeCommit: ['npm run autonomous:operate', 'npm run autonomous:self-update -- --assert-safe'],
     stagePaths,
     commitMessage: 'Autonomous daily self-update',
@@ -343,6 +360,7 @@ const appPayload = {
   },
   commitPlan: {
     workflow: payload.commitPlan.workflow,
+    deployAfterCommit: payload.commitPlan.deployAfterCommit,
   },
 }
 
@@ -372,6 +390,7 @@ const report = [
   `- Workflow: ${payload.commitPlan.workflow}`,
   `- Gate: ${payload.commitPlan.enabledByRepositoryVariable}`,
   `- Direct push gate: ${payload.commitPlan.directPushRequiresRepositoryVariable}`,
+  `- Deploy after commit: ${payload.commitPlan.deployAfterCommit}`,
   `- Message: ${payload.commitPlan.commitMessage}`,
   '',
   '## Checks',

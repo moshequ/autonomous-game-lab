@@ -8,6 +8,7 @@ const reportsDir = path.join(root, 'reports')
 const codexOpsDir = path.join(root, 'ops', 'codex')
 const workflowPath = path.join(root, '.github', 'workflows', 'autonomous-daily.yml')
 const selfUpdateWorkflowPath = path.join(root, '.github', 'workflows', 'autonomous-self-update.yml')
+const webDeployWorkflowPath = path.join(root, '.github', 'workflows', 'web-pwa-deploy.yml')
 const outputJsonPath = path.join(dataDir, 'autonomous-cadence.json')
 const outputTsPath = path.join(srcDataDir, 'autonomousCadence.ts')
 const reportPath = path.join(reportsDir, 'autonomous-cadence-latest.md')
@@ -333,6 +334,7 @@ const loadCodexAutomations = async (automationsDir) => {
 const packageJson = await readJson(path.join(root, 'package.json'))
 const workflow = await readOptionalText(workflowPath)
 const selfUpdateWorkflow = await readOptionalText(selfUpdateWorkflowPath)
+const webDeployWorkflow = await readOptionalText(webDeployWorkflowPath)
 const repositoryReadiness = await readOptionalJson(path.join(dataDir, 'repository-readiness.json'), {
   status: 'missing',
   workspace: {},
@@ -381,6 +383,7 @@ const freshnessPolicy = {
 const script = (name) => packageJson.scripts?.[name] ?? ''
 const workflowExists = await exists(workflowPath)
 const selfUpdateWorkflowExists = await exists(selfUpdateWorkflowPath)
+const webDeployWorkflowExists = await exists(webDeployWorkflowPath)
 const dailyScript = script('autonomous:daily')
 const operateScript = script('autonomous:operate')
 const afterActionScript = script('autonomous:after-action')
@@ -621,6 +624,19 @@ const checks = [
       : 'Autonomous self-update GitHub workflow is missing.',
   },
   {
+    id: 'post-self-update-deploy',
+    status:
+      webDeployWorkflowExists &&
+      webDeployWorkflow.includes("workflows: ['Autonomous Daily Studio', 'Autonomous Self Update']") &&
+      webDeployWorkflow.includes('npm run autonomous:assert-deployable') &&
+      webDeployWorkflow.includes('npm run autonomous:post-deploy-smoke -- --assert')
+        ? 'pass'
+        : 'blocker',
+    detail: webDeployWorkflowExists
+      ? 'Pages deployment also follows the gated self-update workflow, so persisted generated improvements can publish without manual dispatch.'
+      : 'Web PWA deploy workflow is missing.',
+  },
+  {
     id: 'zero-spend-operation',
     status: 'pass',
     detail: 'Cadence is local/CI execution only; it does not enable paid spend, stores, ads, or revenue.',
@@ -669,6 +685,17 @@ const payload = {
       permission: 'contents: write',
       enabledByRepositoryVariable: 'AGL_AUTONOMOUS_SELF_UPDATE=1',
       directPushRequiresRepositoryVariable: 'AGL_AUTONOMOUS_SELF_UPDATE_DIRECT=1',
+      followedByDeployWorkflow: '.github/workflows/web-pwa-deploy.yml',
+    },
+    githubPostSelfUpdateDeploy: {
+      status:
+        checks.find((check) => check.id === 'post-self-update-deploy')?.status === 'pass'
+          ? 'scheduled'
+          : 'missing',
+      workflow: '.github/workflows/web-pwa-deploy.yml',
+      trigger: 'workflow_run: Autonomous Self Update',
+      deployabilityGate: 'npm run autonomous:assert-deployable',
+      smokeGate: 'npm run autonomous:post-deploy-smoke -- --assert',
     },
   },
   commandPlan: {
@@ -758,6 +785,7 @@ const report = [
   }; workspace matches ${payload.schedulers.codexDesktop.actual.workspaceMatches}`,
   `- GitHub Actions: ${payload.schedulers.githubActions.status} (${payload.schedulers.githubActions.cron})`,
   `- GitHub self-update: ${payload.schedulers.githubSelfUpdate.status} (${payload.schedulers.githubSelfUpdate.workflow})`,
+  `- GitHub post-self-update deploy: ${payload.schedulers.githubPostSelfUpdateDeploy.status} (${payload.schedulers.githubPostSelfUpdateDeploy.workflow})`,
   '',
   '## Commands',
   '',
