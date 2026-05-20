@@ -799,6 +799,12 @@ function App() {
       : pwaPromptEvent
         ? pwaInstallLoop.promptPolicy.ctaLabel
         : 'Install unavailable'
+  const fastestGateSampleShouldRoute =
+    Boolean(productGateSampleFastestDistinct) &&
+    productGateSampleFastestProgress?.sampleDecisionReady !== true &&
+    productGateSamplePrimaryProgress?.sampleDecisionReady !== true &&
+    (productGateSampleFastestProgress?.successesRemaining ?? Number.POSITIVE_INFINITY) <
+      (productGateSamplePrimaryProgress?.successesRemaining ?? Number.POSITIVE_INFINITY)
   const localRouterRecommendation = useMemo<LocalRouterRecommendation>(() => {
     if (dailyReturnIntentVisible) {
       return {
@@ -834,6 +840,27 @@ function App() {
       }
     }
 
+    if (
+      productGateSampleFastestDistinct &&
+      productGateSampleFastestProgress &&
+      fastestGateSampleShouldRoute
+    ) {
+      return {
+        id: 'fastest-gate-sample',
+        actionType: 'gate-sample',
+        label: 'Fastest gate sample',
+        ctaLabel: 'Start fastest sample',
+        gameId: productGateSampleFastestDistinct.gameId,
+        campaignId: productGateSampleFastestDistinct.campaignId,
+        gateId: productGateSampleFastestDistinct.gateId,
+        reason: `${productGateSampleFastestDistinct.label} needs the fewest real successes before revenue gates can move.`,
+        source: 'gate_sample',
+        channel: 'product-gate-sample',
+        sampleStatus: productGateSampleFastestProgress.status,
+        priority: 3,
+      }
+    }
+
     if (productGateSamplePrimary && productGateSamplePrimaryProgress?.sampleDecisionReady !== true) {
       return {
         id: 'first-completion-sample',
@@ -847,7 +874,7 @@ function App() {
         source: 'gate_sample',
         channel: 'product-gate-sample',
         sampleStatus: productGateSamplePrimary.status,
-        priority: 3,
+        priority: 4,
       }
     }
 
@@ -864,7 +891,7 @@ function App() {
         source: 'seed_internal',
         channel: 'internal-rotation',
         sampleStatus: organicSeedProgress?.status ?? 'waiting-for-local-events',
-        priority: 4,
+        priority: 5,
       }
     }
 
@@ -880,13 +907,16 @@ function App() {
       source: 'local_router',
       channel: 'retention',
       sampleStatus: retentionLoop.status,
-      priority: 5,
+      priority: 6,
     }
   }, [
     dailyReturnIntentVisible,
+    fastestGateSampleShouldRoute,
     organicSeedProgress?.sampleDecisionReady,
     organicSeedProgress?.status,
     organicSeedTargetCampaign,
+    productGateSampleFastestDistinct,
+    productGateSampleFastestProgress,
     productGateSamplePrimary,
     productGateSamplePrimaryProgress?.sampleDecisionReady,
     replayPromptVisible,
@@ -1353,8 +1383,15 @@ function App() {
       return
     }
 
-    if (recommendation.actionType === 'gate-sample' && productGateSamplePrimary) {
-      startGateSampleMission(productGateSamplePrimary)
+    if (recommendation.actionType === 'gate-sample') {
+      const gateMission =
+        productGateSamplePlan.missions.find((mission) => mission.campaignId === recommendation.campaignId) ??
+        productGateSamplePrimary
+
+      if (gateMission) {
+        startGateSampleMission(gateMission)
+      }
+
       trackEvent('local_router_choice_clicked', localRouterEventProperties())
       return
     }

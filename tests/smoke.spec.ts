@@ -184,16 +184,39 @@ test('local learning router routes players to the next zero-spend evidence actio
       gameId: string
       gateId: string
       campaignId: string
+      label: string
+      needed: { successes: number }
     }>
+    summary: { fastestGateId: string }
   }
   const primaryMission = samplePlan.missions[0]
+  const fastestMission =
+    samplePlan.missions.find((mission) => mission.gateId === samplePlan.summary.fastestGateId) ??
+    primaryMission
+  const routedMission =
+    fastestMission.campaignId !== primaryMission.campaignId &&
+    fastestMission.needed.successes < primaryMission.needed.successes
+      ? fastestMission
+      : primaryMission
+  const routedLabel =
+    routedMission.campaignId === fastestMission.campaignId &&
+    routedMission.campaignId !== primaryMission.campaignId
+      ? 'Fastest gate sample'
+      : 'First finish sample'
+  const routedReason =
+    routedLabel === 'Fastest gate sample'
+      ? `${routedMission.label} needs the fewest real successes before revenue gates can move.`
+      : 'First-game completion is the largest revenue-blocking gap.'
+  const routedCta = routedLabel === 'Fastest gate sample' ? 'Start fastest sample' : 'Start measured run'
+  const routedRecommendationId =
+    routedLabel === 'Fastest gate sample' ? 'fastest-gate-sample' : 'first-completion-sample'
 
   await page.goto('/')
 
   const router = page.getByLabel('Local Learning Router')
   await expect(router).toContainText('local-play-router')
-  await expect(router).toContainText('First finish sample')
-  await expect(router).toContainText('First-game completion is the largest revenue-blocking gap.')
+  await expect(router).toContainText(routedLabel)
+  await expect(router).toContainText(routedReason)
 
   await expect
     .poll(async () =>
@@ -205,13 +228,13 @@ test('local learning router routes players to the next zero-spend evidence actio
     )
     .toBe(true)
 
-  await router.getByRole('button', { name: 'Start measured run' }).click()
-  await expect(page.getByLabel('Autonomy cockpit')).toContainText(primaryMission.title)
+  await router.getByRole('button', { name: routedCta }).click()
+  await expect(page.getByLabel('Autonomy cockpit')).toContainText(routedMission.title)
 
   const routedUrl = new URL(page.url())
-  expect(routedUrl.searchParams.get('game')).toBe(primaryMission.gameId)
+  expect(routedUrl.searchParams.get('game')).toBe(routedMission.gameId)
   expect(routedUrl.searchParams.get('utm_source')).toBe('gate_sample')
-  expect(routedUrl.searchParams.get('utm_campaign')).toBe(primaryMission.campaignId)
+  expect(routedUrl.searchParams.get('utm_campaign')).toBe(routedMission.campaignId)
 
   const events = await page.evaluate(() => {
     const raw = window.localStorage.getItem('agl.analytics.events')
@@ -222,15 +245,15 @@ test('local learning router routes players to the next zero-spend evidence actio
   )
 
   expect(routerChoice?.properties).toMatchObject({
-    recommendationId: 'first-completion-sample',
+    recommendationId: routedRecommendationId,
     actionType: 'gate-sample',
-    gameId: primaryMission.gameId,
-    campaignId: primaryMission.campaignId,
-    gateId: primaryMission.gateId,
+    gameId: routedMission.gameId,
+    campaignId: routedMission.campaignId,
+    gateId: routedMission.gateId,
     zeroPaidSpend: true,
     noSyntheticEvents: true,
     noRevenueEnablement: true,
-    acquisitionCampaign: primaryMission.campaignId,
+    acquisitionCampaign: routedMission.campaignId,
     acquisitionSource: 'gate_sample',
     acquisitionChannel: 'product-gate-sample',
   })
