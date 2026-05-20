@@ -1,6 +1,6 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises'
-import crypto from 'node:crypto'
 import path from 'node:path'
+import { hashTextSourceData } from './lib/source-hash.mjs'
 
 const root = process.cwd()
 const backlogPath = path.join(root, 'data', 'improvement-backlog.json')
@@ -52,7 +52,7 @@ const stableAnalyticsInput = JSON.stringify({
     })),
   })),
 })
-const sourceDataHash = crypto.createHash('sha256').update(`${stableAnalyticsInput}\n${rawBacklog}`).digest('hex').slice(0, 12)
+const sourceDataHash = hashTextSourceData(`${stableAnalyticsInput}\n${rawBacklog}`)
 const history = previous.history ?? []
 const actions = []
 const touchedExperiments = new Set()
@@ -390,6 +390,7 @@ const nextHistory = dedupeHistory([
 
 const payload = {
   generatedAt: new Date().toISOString(),
+  status: 'applied-improvements-ready',
   sourceDataHash,
   releaseHealthStatus: releaseHealth.status,
   experimentResultsStatus: experimentResults.status,

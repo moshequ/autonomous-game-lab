@@ -1,6 +1,6 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises'
 import path from 'node:path'
-import { hashRawSourceData, sourceFreshness } from './lib/source-hash.mjs'
+import { hashRawSourceData, hashTextSourceData, sourceFreshness } from './lib/source-hash.mjs'
 
 const root = process.cwd()
 const dataDir = path.join(root, 'data')
@@ -205,7 +205,8 @@ const objectiveAudit = await readOptionalJson(path.join(dataDir, 'objective-audi
 const releaseHealth = await readJson(path.join(dataDir, 'release-health.json'))
 const experimentPolicy = await readJson(path.join(dataDir, 'experiment-policy.json'))
 const experimentResults = await readJson(path.join(dataDir, 'experiment-results.json'))
-const improvementBacklog = await readJson(path.join(dataDir, 'improvement-backlog.json'))
+const rawImprovementBacklog = await readFile(path.join(dataDir, 'improvement-backlog.json'), 'utf8')
+const improvementBacklog = JSON.parse(rawImprovementBacklog)
 const improvementBacklogSummary = await readJson(path.join(dataDir, 'improvement-backlog-summary.json'))
 const appliedImprovements = await readJson(path.join(dataDir, 'applied-improvements.json'))
 const storePackage = await readJson(path.join(dataDir, 'store-package.json'))
@@ -1165,6 +1166,35 @@ const replayLoopFreshness = sourceFreshness({
     { id: 'experiment-results', data: experimentResults },
   ],
 })
+const appliedImprovementsStableInput = JSON.stringify({
+  source: analytics.sourceStatus?.activeSource,
+  totals: analytics.totals?.counts,
+  games: analytics.games?.map((game) => ({
+    gameId: game.gameId,
+    counts: game.counts,
+    metrics: game.metrics,
+  })),
+  playableGames: [...productOptimizationPlayableIds],
+  experimentResults: experimentResults.experiments?.map((experiment) => ({
+    id: experiment.id,
+    variants: experiment.variants?.map((variant) => ({
+      variantId: variant.variantId,
+      counts: variant.counts,
+      metrics: variant.metrics,
+    })),
+  })),
+})
+const appliedImprovementsFreshness = sourceFreshness({
+  artifact: appliedImprovements,
+  readyStatuses: ['applied-improvements-ready'],
+  inputs: [
+    { id: 'analytics-rollup', data: analytics },
+    { id: 'improvement-backlog', data: improvementBacklog },
+    { id: 'playable-games', data: playable },
+    { id: 'experiment-results', data: experimentResults },
+  ],
+  sourceDataHash: hashTextSourceData(`${appliedImprovementsStableInput}\n${rawImprovementBacklog}`),
+})
 
 const safeAutonomousActions = [
   {
@@ -1431,12 +1461,18 @@ const safeAutonomousActions = [
   },
   {
     id: 'apply-safe-improvements',
-    status: releaseHealth.controls?.canApplyExperimentChanges ? 'armed' : 'held',
+    status: appliedImprovementsFreshness.current
+      ? 'monitor'
+      : releaseHealth.controls?.canApplyExperimentChanges
+        ? 'armed'
+        : 'held',
     costUsd: 0,
     command: 'npm run autonomous:experiments && npm run autonomous:improve && npm run autonomous:sync-experiments',
-    reason: releaseHealth.controls?.canApplyExperimentChanges
-      ? 'Release health allows bounded improvement policy updates.'
-      : 'Release health is holding experiment changes.',
+    reason: appliedImprovementsFreshness.current
+      ? 'Applied improvements already reflect the current analytics, experiment, and backlog evidence.'
+      : releaseHealth.controls?.canApplyExperimentChanges
+        ? 'Release health allows bounded improvement policy updates.'
+        : 'Release health is holding experiment changes.',
   },
   {
     id: 'deploy-web-pwa',
@@ -1601,6 +1637,7 @@ const payload = {
       firstMoveCoach: firstMoveCoachFreshness,
       completionLoop: completionLoopFreshness,
       replayLoop: replayLoopFreshness,
+      appliedImprovements: appliedImprovementsFreshness,
     },
     gateSampleDownloadsBackoff: {
       enabled: true,

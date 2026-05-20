@@ -1,6 +1,6 @@
 # Store Listing Optimizer
 
-Generated: 2026-05-20T21:07:57.156Z
+Generated: 2026-05-20T22:03:31.499Z
 Status: store-listing-optimizer-ready
 Focus: Canopy Bloom (canopy-bloom)
 Previous candidate: canopy-bloom

@@ -5,9 +5,9 @@ export const autonomousOperatorHistory = {
     "plannedRecords": 23,
     "executedRecords": 17,
     "failedRecords": 0,
-    "lastActionId": "refresh-replay-loop",
+    "lastActionId": "optimize-daily-retention",
     "lastExecutionStatus": "not-requested",
-    "lastExecutedActionId": "collect-live-events"
+    "lastExecutedActionId": "optimize-store-listing"
   }
 } as const
 

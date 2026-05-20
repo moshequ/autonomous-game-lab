@@ -23,6 +23,8 @@ export const hashSourceData = (value) =>
 export const hashRawSourceData = (value) =>
   createHash('sha256').update(JSON.stringify(value)).digest('hex').slice(0, 12)
 
+export const hashTextSourceData = (value) => createHash('sha256').update(value).digest('hex').slice(0, 12)
+
 export const sourceFreshness = ({ artifact, readyStatuses, inputs, sourceDataHash: providedSourceDataHash }) => {
   const sourceDataHash =
     providedSourceDataHash ?? hashSourceData(Object.fromEntries(inputs.map((input) => [input.id, input.data])))
