@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-20T22:50:40.795Z",
+  "generatedAt": "2026-05-20T22:56:01.058Z",
   "status": "owner-loop-ready",
   "mode": "zero-spend-web-ready",
   "autonomyScore": {
@@ -21,34 +21,36 @@
     "repositoryHandoffPrepared": false
   },
   "ownerDecision": {
-    "nextBestActionId": "collect-live-events",
-    "nextBestAction": "npm run autonomous:local-event-bridge && npm run autonomous:import-events && npm run autonomous:analytics && npm run autonomous:gate-recovery && npm run autonomous:sample-plan",
+    "nextBestActionId": "refresh-autonomous-cadence",
+    "nextBestAction": "npm run autonomous:cadence",
     "canExecuteWithoutSpend": true,
-    "rationale": "Keeps the zero-spend local event-drop bridge active and refreshes recovery/sample planning until production collector or PostHog credentials exist."
+    "rationale": "Keeps the unattended daily operating cadence, recovery policy, and verification chain auditable."
   },
   "executionMemory": {
     "avoidImmediateRepeat": true,
     "recentExecutionWindow": 8,
     "recentExecutedActionIds": [
+      "collect-live-events",
       "seed-portfolio-traffic",
       "measure-pwa-install-loop",
       "optimize-store-listing",
       "optimize-daily-retention",
       "bootstrap-production-setup",
       "check-performance-budget",
-      "refresh-support-feedback",
-      "refresh-autonomous-self-update"
+      "refresh-support-feedback"
     ],
-    "lastExecutedActionId": "seed-portfolio-traffic",
+    "lastExecutedActionId": "collect-live-events",
     "lastExecutedStatus": "executed",
     "lastRecordExecutionStatus": "not-requested",
     "recentlySatisfiedActionIds": [
+      "refresh-product-gate-recovery",
+      "refresh-product-gate-sample-plan",
       "refresh-organic-seed-loop"
     ],
     "objectiveAuditFreshness": {
       "fresh": true,
       "structurallyReady": true,
-      "auditGeneratedAt": "2026-05-20T22:50:40.547Z",
+      "auditGeneratedAt": "2026-05-20T22:56:00.821Z",
       "evaluatedInputIds": [
         "analytics-rollup",
         "event-ingest",
@@ -80,12 +82,12 @@
         ]
       },
       "retentionLoop": {
-        "current": true,
-        "ready": true,
+        "current": false,
+        "ready": false,
         "status": "retention-loop-ready",
         "artifactGeneratedAt": "2026-05-20T22:45:47.236Z",
         "artifactSourceDataHash": "ce56ddbe487e",
-        "sourceDataHash": "ce56ddbe487e",
+        "sourceDataHash": "05a8f31db893",
         "evaluatedInputIds": [
           "analytics-rollup",
           "portfolio-policy",
@@ -221,15 +223,32 @@
       "lastExplicitScanStatus": "no-evidence-found",
       "evidenceReadyNow": false
     },
+    "localEventCollectionFreshness": {
+      "current": true,
+      "ready": true,
+      "status": "bridge-waiting-for-export",
+      "bridgeGeneratedAt": "2026-05-20T22:52:25.183Z",
+      "analyticsSource": "fixture-sample",
+      "evidenceReadyNow": false,
+      "evaluatedInputIds": [
+        "local-event-bridge",
+        "event-ingest",
+        "analytics-rollup",
+        "product-gate-recovery",
+        "product-gate-sample-plan"
+      ],
+      "staleInputIds": []
+    },
     "skippedRecentlyExecutedActionIds": [
-      "refresh-autonomous-self-update",
       "refresh-support-feedback",
+      "optimize-daily-retention",
       "measure-pwa-install-loop",
       "check-performance-budget",
-      "bootstrap-production-setup",
       "optimize-store-listing"
     ],
-    "skippedRecentlySatisfiedActionIds": [],
+    "skippedRecentlySatisfiedActionIds": [
+      "refresh-product-gate-recovery"
+    ],
     "preferredActionOrder": [
       "prepare-repository-channel",
       "deploy-web-pwa",
@@ -261,8 +280,8 @@
       "status": "repository-channel-ready"
     },
     "productionBootstrapFreshness": {
-      "fresh": false,
-      "bootstrapGeneratedAt": "2026-05-20T22:47:57.512Z",
+      "fresh": true,
+      "bootstrapGeneratedAt": "2026-05-20T22:56:00.137Z",
       "evaluatedInputIds": [
         "release-candidate",
         "deployment-plan",
@@ -271,10 +290,7 @@
         "production-environment",
         "event-collector-deployment"
       ],
-      "staleInputIds": [
-        "release-candidate",
-        "deployment-plan"
-      ]
+      "staleInputIds": []
     }
   },
   "systems": [
@@ -380,7 +396,7 @@
       "id": "performance-budget",
       "status": "ready",
       "autonomy": "automatic-build-budget",
-      "evidence": "Initial JS 648.9 KB; gzip 177.7 KB; deferred chunks 1.",
+      "evidence": "Initial JS 649 KB; gzip 177.8 KB; deferred chunks 1.",
       "nextAction": "Keep Phaser and game scenes outside the initial PWA shell."
     },
     {
@@ -479,7 +495,7 @@
       "status": "ready",
       "autonomy": "read-only-live-deploy-verification",
       "evidence": "Smoke post-deploy-smoke-observed-live; origin https://moshequ.github.io/autonomous-game-lab; manifest comparison required; checks 15/15 passed; local artifact predeploy-artifact-smoke-passed 15/15 passed.",
-      "nextAction": "Live Pages is reachable and serving pwa-91032c49e7eb; run the deploy workflow for strict proof of the current local candidate if needed."
+      "nextAction": "Live Pages is reachable and serving pwa-952bdd1e7815; run the deploy workflow for strict proof of the current local candidate if needed."
     },
     {
       "id": "post-deploy-artifact-sync",
@@ -492,7 +508,7 @@
       "id": "production-bootstrap",
       "status": "ready",
       "autonomy": "zero-spend-setup-orchestration",
-      "evidence": "Bootstrap production-bootstrap-ready; mode can-apply-configured-actions; external blockers 16.",
+      "evidence": "Bootstrap production-bootstrap-ready; mode can-apply-configured-actions; external blockers 17.",
       "nextAction": "gh workflow run web-pwa-deploy.yml"
     },
     {
@@ -513,14 +529,14 @@
       "id": "autonomous-operator",
       "status": "ready",
       "autonomy": "one-safe-action-runner",
-      "evidence": "Operator operator-plan-ready; selected collect-live-events; execution not-requested.",
+      "evidence": "Operator operator-plan-ready; selected refresh-autonomous-cadence; execution not-requested.",
       "nextAction": "Keep a dry-run operator plan ready, then execute only one allowlisted local action when explicitly requested."
     },
     {
       "id": "operator-history",
       "status": "ready",
       "autonomy": "operator-audit-trail",
-      "evidence": "History operator-history-ready; records 40; executed 17.",
+      "evidence": "History operator-history-ready; records 40; executed 15.",
       "nextAction": "Keep a capped durable record of operator plans and one-action executions."
     },
     {
@@ -637,13 +653,13 @@
     },
     {
       "id": "optimize-daily-retention",
-      "status": "monitor",
+      "status": "armed",
       "costUsd": 0,
       "command": "npm run autonomous:retention",
       "targets": [
         "canopy-bloom"
       ],
-      "reason": "Daily challenge, return-intent, and D1 sample policies already reflect current retention evidence."
+      "reason": "Keeps daily challenge, local streak prompts, and retention-safe missions aligned with behavior data."
     },
     {
       "id": "measure-pwa-install-loop",
@@ -662,7 +678,7 @@
       "command": "npm run build && npm run autonomous:performance",
       "targets": [
         "pwa-shell",
-        "GameCanvas-DkyL16h0.js"
+        "GameCanvas-yBByWBAz.js"
       ],
       "reason": "Keeps the PWA shell fast while Phaser and game scenes stay deferred."
     },
@@ -782,7 +798,7 @@
     },
     {
       "id": "bootstrap-production-setup",
-      "status": "armed",
+      "status": "monitor",
       "costUsd": 0,
       "command": "npm run autonomous:release-candidate && npm run autonomous:deploy-plan && npm run autonomous:bootstrap",
       "targets": [
@@ -790,7 +806,7 @@
         "repository-config",
         "event-collector"
       ],
-      "reason": "Regenerates the zero-spend production setup handoff and exact GitHub variable/secret commands."
+      "reason": "Production bootstrap handoff is fresh, so the operator should prioritize product learning and local event collection."
     },
     {
       "id": "activate-production-when-configured",
@@ -810,7 +826,7 @@
       "costUsd": 0,
       "command": "npm run autonomous:operator",
       "targets": [
-        "collect-live-events"
+        "refresh-autonomous-cadence"
       ],
       "reason": "Publishes the one-action local execution plan with allowlist, zero-spend, and audit controls."
     },
@@ -820,7 +836,7 @@
       "costUsd": 0,
       "command": "npm run autonomous:operator",
       "targets": [
-        "collect-live-events"
+        "refresh-autonomous-cadence"
       ],
       "reason": "Refreshes the capped operator history so safe actions remain auditable over time."
     },
@@ -872,7 +888,7 @@
     },
     {
       "id": "collect-live-events",
-      "status": "armed",
+      "status": "monitor",
       "costUsd": 0,
       "command": "npm run autonomous:local-event-bridge && npm run autonomous:import-events && npm run autonomous:analytics && npm run autonomous:gate-recovery && npm run autonomous:sample-plan",
       "targets": [
@@ -880,7 +896,7 @@
         "gate-sample-20260521-firstGameCompletion",
         "gate-sample-20260521-replayRate"
       ],
-      "reason": "Keeps the zero-spend local event-drop bridge active and refreshes recovery/sample planning until production collector or PostHog credentials exist."
+      "reason": "Local event bridge, import, analytics, gate recovery, and sample plan already reflect the latest no-event collection."
     }
   ],
   "credentialRequiredActions": [

@@ -2840,6 +2840,16 @@ test('autonomous operator history keeps a capped audit trail', async ({ page }) 
         lastExplicitScanStatus: string | null
         evidenceReadyNow: boolean
       }
+      localEventCollectionFreshness: {
+        current: boolean
+        ready: boolean
+        status: string
+        bridgeGeneratedAt: string | null
+        analyticsSource: string
+        evidenceReadyNow: boolean
+        evaluatedInputIds: string[]
+        staleInputIds: string[]
+      }
       repositoryHandoff: {
         prepared: boolean
         targetPlanReady: boolean
@@ -2855,6 +2865,8 @@ test('autonomous operator history keeps a capped audit trail', async ({ page }) 
     }
   }
   const localEventBridge = JSON.parse(await readFile('data/local-event-bridge.json', 'utf8')) as {
+    generatedAt: string
+    status: string
     explicitDownloadsScan: {
       scannedAt: string
       status: string
@@ -2921,6 +2933,7 @@ test('autonomous operator history keeps a capped audit trail', async ({ page }) 
   const objectiveAuditAction = ownerLoop.safeAutonomousActions.find((action) => action.id === 'refresh-objective-audit')
   const bootstrapProductionAction = ownerLoop.safeAutonomousActions.find((action) => action.id === 'bootstrap-production-setup')
   const seedPortfolioAction = ownerLoop.safeAutonomousActions.find((action) => action.id === 'seed-portfolio-traffic')
+  const collectLiveEventsAction = ownerLoop.safeAutonomousActions.find((action) => action.id === 'collect-live-events')
   const sourceFreshnessActionPairs = [
     { actionId: 'optimize-product-gates', freshness: ownerLoop.executionMemory.sourceFreshness.productOptimization },
     { actionId: 'optimize-daily-retention', freshness: ownerLoop.executionMemory.sourceFreshness.retentionLoop },
@@ -2963,6 +2976,18 @@ test('autonomous operator history keeps a capped audit trail', async ({ page }) 
     localEventBridge.explicitDownloadsScan?.status ?? null,
   )
   expect(ownerLoop.executionMemory.gateSampleDownloadsBackoff.evidenceReadyNow).toBe(gateSampleEvidenceReadyNow)
+  expect(ownerLoop.executionMemory.localEventCollectionFreshness.status).toBe(localEventBridge.status)
+  expect(ownerLoop.executionMemory.localEventCollectionFreshness.bridgeGeneratedAt).toBe(localEventBridge.generatedAt)
+  expect(ownerLoop.executionMemory.localEventCollectionFreshness.evidenceReadyNow).toBe(gateSampleEvidenceReadyNow)
+  expect(ownerLoop.executionMemory.localEventCollectionFreshness.evaluatedInputIds).toContain('local-event-bridge')
+  expect(ownerLoop.executionMemory.localEventCollectionFreshness.evaluatedInputIds).toContain('event-ingest')
+  expect(ownerLoop.executionMemory.localEventCollectionFreshness.evaluatedInputIds).toContain('analytics-rollup')
+  expect(ownerLoop.executionMemory.localEventCollectionFreshness.evaluatedInputIds).toContain('product-gate-recovery')
+  expect(ownerLoop.executionMemory.localEventCollectionFreshness.evaluatedInputIds).toContain('product-gate-sample-plan')
+  if (ownerLoop.executionMemory.localEventCollectionFreshness.current) {
+    expect(collectLiveEventsAction?.status).toBe('monitor')
+    expect(ownerLoop.ownerDecision.nextBestActionId).not.toBe('collect-live-events')
+  }
   expect(typeof ownerLoop.executionMemory.objectiveAuditFreshness.fresh).toBe('boolean')
   expect(ownerLoop.executionMemory.objectiveAuditFreshness.evaluatedInputIds).toContain('analytics-rollup')
   expect(ownerLoop.executionMemory.objectiveAuditFreshness.evaluatedInputIds).toContain('local-event-bridge')

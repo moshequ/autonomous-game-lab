@@ -1076,6 +1076,29 @@ const productGateSamplePlanFreshAfterDownloadsScan =
   Number.isFinite(explicitDownloadsScanAt) &&
   Number.isFinite(Date.parse(productGateSamplePlan.generatedAt ?? '')) &&
   Date.parse(productGateSamplePlan.generatedAt) >= explicitDownloadsScanAt
+const localEventCollectionFreshnessInputs = [
+  { id: 'event-ingest', generatedAt: eventIngest.generatedAt },
+  { id: 'analytics-rollup', generatedAt: analytics.generatedAt },
+  { id: 'product-gate-recovery', generatedAt: productGateRecovery.generatedAt },
+  { id: 'product-gate-sample-plan', generatedAt: productGateSamplePlan.generatedAt },
+]
+const localEventBridgeGeneratedAtMs = generatedAtMs(localEventBridge)
+const localEventCollectionStaleInputs = localEventCollectionFreshnessInputs.filter((artifact) => {
+  const artifactGeneratedAtMs = generatedAtMs(artifact)
+
+  return (
+    typeof localEventBridgeGeneratedAtMs === 'number' &&
+    (typeof artifactGeneratedAtMs !== 'number' || artifactGeneratedAtMs < localEventBridgeGeneratedAtMs)
+  )
+})
+const localEventCollectionNoEventCurrent =
+  localEventBridgeReady &&
+  !liveAnalytics &&
+  !gateSampleEvidenceReadyNow &&
+  localEventBridge.status === 'bridge-waiting-for-export' &&
+  (localEventBridge.inbox?.validEvents ?? 0) === 0 &&
+  (localEventBridge.imported?.events ?? 0) === 0 &&
+  localEventCollectionStaleInputs.length === 0
 const gateSampleCollectionTargets = [
   productGateSamplePlan.summary?.primaryGateId ?? productGateRecovery.summary?.primaryBottleneck ?? 'product-gates',
   ...gateSampleMissions.map((mission) => mission.campaignId).filter(Boolean).slice(0, 2),
@@ -1656,14 +1679,24 @@ const safeAutonomousActions = [
   },
   {
     id: 'collect-live-events',
-    status: liveAnalytics || localEventBridgeReady ? 'armed' : 'blocked-needs-collector-or-posthog',
+    status:
+      liveAnalytics || gateSampleEvidenceReadyNow
+        ? 'armed'
+        : localEventCollectionNoEventCurrent
+          ? 'monitor'
+          : localEventBridgeReady
+            ? 'armed'
+            : 'blocked-needs-collector-or-posthog',
     costUsd: 0,
     command:
       'npm run autonomous:local-event-bridge && npm run autonomous:import-events && npm run autonomous:analytics && npm run autonomous:gate-recovery && npm run autonomous:sample-plan',
     targets: gateSampleCollectionTargets,
-    reason: liveAnalytics
-      ? 'Live/player event data is available for autonomous rollups, product-gate recovery, and sample-plan refresh.'
-      : 'Keeps the zero-spend local event-drop bridge active and refreshes recovery/sample planning until production collector or PostHog credentials exist.',
+    reason:
+      liveAnalytics || gateSampleEvidenceReadyNow
+        ? 'Live/player event data is available for autonomous rollups, product-gate recovery, and sample-plan refresh.'
+        : localEventCollectionNoEventCurrent
+          ? 'Local event bridge, import, analytics, gate recovery, and sample plan already reflect the latest no-event collection.'
+          : 'Keeps the zero-spend local event-drop bridge active and refreshes recovery/sample planning until production collector or PostHog credentials exist.',
   },
 ]
 
@@ -1818,6 +1851,16 @@ const payload = {
         : null,
       lastExplicitScanStatus: localEventBridge.explicitDownloadsScan?.status ?? null,
       evidenceReadyNow: gateSampleEvidenceReadyNow,
+    },
+    localEventCollectionFreshness: {
+      current: localEventCollectionNoEventCurrent,
+      ready: localEventBridgeReady,
+      status: localEventBridge.status,
+      bridgeGeneratedAt: localEventBridge.generatedAt ?? null,
+      analyticsSource,
+      evidenceReadyNow: gateSampleEvidenceReadyNow,
+      evaluatedInputIds: ['local-event-bridge', ...localEventCollectionFreshnessInputs.map((artifact) => artifact.id)],
+      staleInputIds: localEventCollectionStaleInputs.map((artifact) => artifact.id),
     },
     skippedRecentlyExecutedActionIds: locallyExecutableNow
       .filter((action) => recentlyExecutedActionIds.has(action.id) && action.id !== nextBestAction.id)
