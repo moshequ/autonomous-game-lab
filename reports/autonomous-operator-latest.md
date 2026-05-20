@@ -1,6 +1,6 @@
 # Autonomous Operator
 
-Generated: 2026-05-20T14:53:58.713Z
+Generated: 2026-05-20T14:55:17.631Z
 Status: operator-plan-ready
 Mode: plan-only
 Owner decision: bootstrap-production-setup
@@ -23,6 +23,7 @@ Execution: not-requested
 ## Eligible Local Actions
 
 - refresh-autonomous-cadence
+- refresh-autonomous-self-update
 - seed-portfolio-traffic
 - refresh-organic-seed-loop
 - optimize-daily-retention
@@ -46,7 +47,7 @@ Execution: not-requested
 
 - run-daily-owner-loop: daily-loop-recursion-blocked
 - refresh-autonomous-cadence: not-selected-this-run
-- refresh-autonomous-self-update: status-monitor
+- refresh-autonomous-self-update: not-selected-this-run
 - seed-portfolio-traffic: not-selected-this-run
 - refresh-organic-seed-loop: not-selected-this-run
 - optimize-daily-retention: not-selected-this-run

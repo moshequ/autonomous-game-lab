@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-20T14:53:58.713Z",
+  "generatedAt": "2026-05-20T14:55:17.631Z",
   "status": "operator-plan-ready",
   "mode": "plan-only",
   "ownerDecision": {
@@ -24,6 +24,7 @@
   "selectedRejection": null,
   "eligibleActionIds": [
     "refresh-autonomous-cadence",
+    "refresh-autonomous-self-update",
     "seed-portfolio-traffic",
     "refresh-organic-seed-loop",
     "optimize-daily-retention",
@@ -58,9 +59,9 @@
     },
     {
       "id": "refresh-autonomous-self-update",
-      "status": "monitor",
+      "status": "armed",
       "command": "npm run autonomous:self-update",
-      "reason": "status-monitor"
+      "reason": "not-selected-this-run"
     },
     {
       "id": "seed-portfolio-traffic",
