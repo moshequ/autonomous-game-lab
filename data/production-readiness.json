@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-20T04:06:00.368Z",
+  "generatedAt": "2026-05-20T04:07:43.050Z",
   "environment": {
     "status": "production-env-missing",
     "publicOrigin": null,
@@ -75,91 +75,38 @@
         "originRemote": null,
         "remoteRepository": null,
         "hasCommit": true,
-        "dirtyFiles": 38,
+        "dirtyFiles": 12,
         "dirtyPaths": [
-          "data/autonomous-cadence.json",
-          "data/autonomous-operator-history.json",
-          "data/autonomous-operator.json",
-          "data/autonomous-owner-loop.json",
-          "data/deployment-plan.json",
-          "data/objective-audit.json",
-          "data/performance-budget.json",
-          "data/post-deploy-smoke.json",
-          "data/production-bootstrap.json",
-          "data/production-readiness.json",
-          "data/release-candidate.json",
+          "data/event-collector-deployment.json",
+          "data/local-event-bridge.json",
+          "data/production-environment.json",
           "data/repository-readiness.json",
-          "reports/autonomous-cadence-latest.md",
-          "reports/autonomous-operator-history-latest.md",
-          "reports/autonomous-operator-latest.md",
-          "reports/autonomous-owner-loop-latest.md",
-          "reports/deployment-plan-latest.md",
-          "reports/objective-audit-latest.md",
-          "reports/performance-budget-latest.md",
-          "reports/post-deploy-smoke-latest.md",
-          "reports/production-bootstrap-latest.md",
-          "reports/production-readiness-latest.md",
-          "reports/release-candidate-latest.md",
+          "reports/event-collector-deployment-latest.md",
+          "reports/local-event-bridge-latest.md",
+          "reports/production-environment-latest.md",
           "reports/repository-readiness-latest.md",
-          "scripts/autonomous-cadence.mjs",
-          "scripts/verify-autonomy.mjs",
-          "src/data/autonomousCadence.ts",
-          "src/data/autonomousOperator.ts",
-          "src/data/autonomousOperatorHistory.ts",
-          "src/data/autonomousOwnerLoop.ts",
-          "src/data/deploymentPlan.ts",
-          "src/data/objectiveAudit.ts",
-          "src/data/performanceBudget.ts",
-          "src/data/postDeploySmoke.ts",
-          "src/data/productionBootstrap.ts",
-          "src/data/releaseCandidate.ts",
-          "src/data/repositoryReadiness.ts",
-          "tests/smoke.spec.ts"
-        ],
-        "generatedEvidenceDirtyFiles": 35,
-        "generatedEvidenceDirtyPaths": [
-          "data/autonomous-cadence.json",
-          "data/autonomous-operator-history.json",
-          "data/autonomous-operator.json",
-          "data/autonomous-owner-loop.json",
-          "data/deployment-plan.json",
-          "data/objective-audit.json",
-          "data/performance-budget.json",
-          "data/post-deploy-smoke.json",
-          "data/production-bootstrap.json",
-          "data/production-readiness.json",
-          "data/release-candidate.json",
-          "data/repository-readiness.json",
-          "reports/autonomous-cadence-latest.md",
-          "reports/autonomous-operator-history-latest.md",
-          "reports/autonomous-operator-latest.md",
-          "reports/autonomous-owner-loop-latest.md",
-          "reports/deployment-plan-latest.md",
-          "reports/objective-audit-latest.md",
-          "reports/performance-budget-latest.md",
-          "reports/post-deploy-smoke-latest.md",
-          "reports/production-bootstrap-latest.md",
-          "reports/production-readiness-latest.md",
-          "reports/release-candidate-latest.md",
-          "reports/repository-readiness-latest.md",
-          "src/data/autonomousCadence.ts",
-          "src/data/autonomousOperator.ts",
-          "src/data/autonomousOperatorHistory.ts",
-          "src/data/autonomousOwnerLoop.ts",
-          "src/data/deploymentPlan.ts",
-          "src/data/objectiveAudit.ts",
-          "src/data/performanceBudget.ts",
-          "src/data/postDeploySmoke.ts",
-          "src/data/productionBootstrap.ts",
-          "src/data/releaseCandidate.ts",
+          "src/data/eventCollectorDeployment.ts",
+          "src/data/localEventBridge.ts",
+          "src/data/productionEnvironment.ts",
           "src/data/repositoryReadiness.ts"
         ],
-        "nonGeneratedDirtyFiles": 3,
-        "nonGeneratedDirtyPaths": [
-          "scripts/autonomous-cadence.mjs",
-          "scripts/verify-autonomy.mjs",
-          "tests/smoke.spec.ts"
-        ]
+        "generatedEvidenceDirtyFiles": 12,
+        "generatedEvidenceDirtyPaths": [
+          "data/event-collector-deployment.json",
+          "data/local-event-bridge.json",
+          "data/production-environment.json",
+          "data/repository-readiness.json",
+          "reports/event-collector-deployment-latest.md",
+          "reports/local-event-bridge-latest.md",
+          "reports/production-environment-latest.md",
+          "reports/repository-readiness-latest.md",
+          "src/data/eventCollectorDeployment.ts",
+          "src/data/localEventBridge.ts",
+          "src/data/productionEnvironment.ts",
+          "src/data/repositoryReadiness.ts"
+        ],
+        "nonGeneratedDirtyFiles": 0,
+        "nonGeneratedDirtyPaths": []
       },
       "after": {
         "insideWorkTree": true,
@@ -168,91 +115,38 @@
         "originRemote": null,
         "remoteRepository": null,
         "hasCommit": true,
-        "dirtyFiles": 38,
+        "dirtyFiles": 12,
         "dirtyPaths": [
-          "data/autonomous-cadence.json",
-          "data/autonomous-operator-history.json",
-          "data/autonomous-operator.json",
-          "data/autonomous-owner-loop.json",
-          "data/deployment-plan.json",
-          "data/objective-audit.json",
-          "data/performance-budget.json",
-          "data/post-deploy-smoke.json",
-          "data/production-bootstrap.json",
-          "data/production-readiness.json",
-          "data/release-candidate.json",
+          "data/event-collector-deployment.json",
+          "data/local-event-bridge.json",
+          "data/production-environment.json",
           "data/repository-readiness.json",
-          "reports/autonomous-cadence-latest.md",
-          "reports/autonomous-operator-history-latest.md",
-          "reports/autonomous-operator-latest.md",
-          "reports/autonomous-owner-loop-latest.md",
-          "reports/deployment-plan-latest.md",
-          "reports/objective-audit-latest.md",
-          "reports/performance-budget-latest.md",
-          "reports/post-deploy-smoke-latest.md",
-          "reports/production-bootstrap-latest.md",
-          "reports/production-readiness-latest.md",
-          "reports/release-candidate-latest.md",
+          "reports/event-collector-deployment-latest.md",
+          "reports/local-event-bridge-latest.md",
+          "reports/production-environment-latest.md",
           "reports/repository-readiness-latest.md",
-          "scripts/autonomous-cadence.mjs",
-          "scripts/verify-autonomy.mjs",
-          "src/data/autonomousCadence.ts",
-          "src/data/autonomousOperator.ts",
-          "src/data/autonomousOperatorHistory.ts",
-          "src/data/autonomousOwnerLoop.ts",
-          "src/data/deploymentPlan.ts",
-          "src/data/objectiveAudit.ts",
-          "src/data/performanceBudget.ts",
-          "src/data/postDeploySmoke.ts",
-          "src/data/productionBootstrap.ts",
-          "src/data/releaseCandidate.ts",
-          "src/data/repositoryReadiness.ts",
-          "tests/smoke.spec.ts"
-        ],
-        "generatedEvidenceDirtyFiles": 35,
-        "generatedEvidenceDirtyPaths": [
-          "data/autonomous-cadence.json",
-          "data/autonomous-operator-history.json",
-          "data/autonomous-operator.json",
-          "data/autonomous-owner-loop.json",
-          "data/deployment-plan.json",
-          "data/objective-audit.json",
-          "data/performance-budget.json",
-          "data/post-deploy-smoke.json",
-          "data/production-bootstrap.json",
-          "data/production-readiness.json",
-          "data/release-candidate.json",
-          "data/repository-readiness.json",
-          "reports/autonomous-cadence-latest.md",
-          "reports/autonomous-operator-history-latest.md",
-          "reports/autonomous-operator-latest.md",
-          "reports/autonomous-owner-loop-latest.md",
-          "reports/deployment-plan-latest.md",
-          "reports/objective-audit-latest.md",
-          "reports/performance-budget-latest.md",
-          "reports/post-deploy-smoke-latest.md",
-          "reports/production-bootstrap-latest.md",
-          "reports/production-readiness-latest.md",
-          "reports/release-candidate-latest.md",
-          "reports/repository-readiness-latest.md",
-          "src/data/autonomousCadence.ts",
-          "src/data/autonomousOperator.ts",
-          "src/data/autonomousOperatorHistory.ts",
-          "src/data/autonomousOwnerLoop.ts",
-          "src/data/deploymentPlan.ts",
-          "src/data/objectiveAudit.ts",
-          "src/data/performanceBudget.ts",
-          "src/data/postDeploySmoke.ts",
-          "src/data/productionBootstrap.ts",
-          "src/data/releaseCandidate.ts",
+          "src/data/eventCollectorDeployment.ts",
+          "src/data/localEventBridge.ts",
+          "src/data/productionEnvironment.ts",
           "src/data/repositoryReadiness.ts"
         ],
-        "nonGeneratedDirtyFiles": 3,
-        "nonGeneratedDirtyPaths": [
-          "scripts/autonomous-cadence.mjs",
-          "scripts/verify-autonomy.mjs",
-          "tests/smoke.spec.ts"
-        ]
+        "generatedEvidenceDirtyFiles": 12,
+        "generatedEvidenceDirtyPaths": [
+          "data/event-collector-deployment.json",
+          "data/local-event-bridge.json",
+          "data/production-environment.json",
+          "data/repository-readiness.json",
+          "reports/event-collector-deployment-latest.md",
+          "reports/local-event-bridge-latest.md",
+          "reports/production-environment-latest.md",
+          "reports/repository-readiness-latest.md",
+          "src/data/eventCollectorDeployment.ts",
+          "src/data/localEventBridge.ts",
+          "src/data/productionEnvironment.ts",
+          "src/data/repositoryReadiness.ts"
+        ],
+        "nonGeneratedDirtyFiles": 0,
+        "nonGeneratedDirtyPaths": []
       }
     },
     "repository": {
@@ -337,13 +231,13 @@
       },
       {
         "id": "commit-current-snapshot",
-        "status": "ready-for-explicit-snapshot-commit",
+        "status": "ready",
         "costUsd": 0,
         "command": "AGL_ALLOW_REPOSITORY_BOOTSTRAP=1 AGL_ALLOW_SNAPSHOT_COMMIT=1 ./ops/github/bootstrap-repository.sh",
         "mutatesLocalGit": true,
         "mutatesRemoteGitHub": false,
         "requiresExplicitEnv": true,
-        "detail": "3 non-generated source or artifact file(s) are not committed yet."
+        "detail": "12 repository evidence file(s) changed during this dry run; the outer verified commit will persist them."
       },
       {
         "id": "set-or-create-origin",
@@ -373,11 +267,10 @@
         "mutatesLocalGit": false,
         "mutatesRemoteGitHub": true,
         "requiresExplicitEnv": true,
-        "detail": "Push stays held until a committed local snapshot and origin remote exist."
+        "detail": "Push stays held until an origin remote exists and AGL_ALLOW_PUSH=1 is set."
       }
     ],
     "blockers": [
-      "Commit current generated changes before pushing to GitHub Pages.",
       "Set GITHUB_REPOSITORY/GH_REPO, AGL_GITHUB_OWNER, or authenticate gh so the intended owner/repo can be inferred.",
       "Attach a GitHub origin remote or create the target repository.",
       "Authenticate GitHub CLI or provide GH_TOKEN/GITHUB_TOKEN for remote repository bootstrap."
@@ -2850,7 +2743,7 @@
     "retention": {
       "maxRecords": 40,
       "appendOnlyWhenPlanChangesOrExecutes": true,
-      "latestRunAppended": true,
+      "latestRunAppended": false,
       "compactedDuplicateDryRuns": 0
     },
     "recentRecords": [
@@ -3189,9 +3082,9 @@
       "staleArtifactCount": 0,
       "missingGeneratedAtCount": 0,
       "invalidArtifactCount": 0,
-      "oldestAgeHours": 1.37,
-      "latestGeneratedAt": "2026-05-20T04:05:59.861Z",
-      "oldestGeneratedAt": "2026-05-20T02:43:54.985Z",
+      "oldestAgeHours": 0.81,
+      "latestGeneratedAt": "2026-05-20T04:07:42.611Z",
+      "oldestGeneratedAt": "2026-05-20T03:18:59.766Z",
       "staleArtifactIds": []
     },
     "artifactFreshness": [
@@ -3200,7 +3093,7 @@
         "label": "Owner loop decision",
         "path": "data/autonomous-owner-loop.json",
         "status": "fresh",
-        "generatedAt": "2026-05-20T04:05:59.180Z",
+        "generatedAt": "2026-05-20T04:07:41.930Z",
         "ageHours": 0,
         "staleAfterHours": 36,
         "detail": "data/autonomous-owner-loop.json is 0h old."
@@ -3210,7 +3103,7 @@
         "label": "Operator execution",
         "path": "data/autonomous-operator.json",
         "status": "fresh",
-        "generatedAt": "2026-05-20T04:05:58.961Z",
+        "generatedAt": "2026-05-20T04:07:41.707Z",
         "ageHours": 0,
         "staleAfterHours": 36,
         "detail": "data/autonomous-operator.json is 0h old."
@@ -3221,16 +3114,16 @@
         "path": "data/autonomous-self-update.json",
         "status": "fresh",
         "generatedAt": "2026-05-20T04:01:45.009Z",
-        "ageHours": 0.07,
+        "ageHours": 0.1,
         "staleAfterHours": 36,
-        "detail": "data/autonomous-self-update.json is 0.07h old."
+        "detail": "data/autonomous-self-update.json is 0.1h old."
       },
       {
         "id": "production-readiness",
         "label": "Production readiness",
         "path": "data/production-readiness.json",
         "status": "fresh",
-        "generatedAt": "2026-05-20T04:05:59.624Z",
+        "generatedAt": "2026-05-20T04:07:42.389Z",
         "ageHours": 0,
         "staleAfterHours": 36,
         "detail": "data/production-readiness.json is 0h old."
@@ -3240,7 +3133,7 @@
         "label": "Deployment plan",
         "path": "data/deployment-plan.json",
         "status": "fresh",
-        "generatedAt": "2026-05-20T04:05:48.848Z",
+        "generatedAt": "2026-05-20T04:07:41.245Z",
         "ageHours": 0,
         "staleAfterHours": 36,
         "detail": "data/deployment-plan.json is 0h old."
@@ -3250,7 +3143,7 @@
         "label": "Repository readiness",
         "path": "data/repository-readiness.json",
         "status": "fresh",
-        "generatedAt": "2026-05-20T04:05:48.278Z",
+        "generatedAt": "2026-05-20T04:07:40.637Z",
         "ageHours": 0,
         "staleAfterHours": 36,
         "detail": "data/repository-readiness.json is 0h old."
@@ -3260,7 +3153,7 @@
         "label": "Repository bootstrap",
         "path": "data/repository-bootstrap.json",
         "status": "fresh",
-        "generatedAt": "2026-05-20T04:05:48.638Z",
+        "generatedAt": "2026-05-20T04:07:41.013Z",
         "ageHours": 0,
         "staleAfterHours": 36,
         "detail": "data/repository-bootstrap.json is 0h old."
@@ -3271,39 +3164,39 @@
         "path": "data/production-bootstrap.json",
         "status": "fresh",
         "generatedAt": "2026-05-20T04:03:14.294Z",
-        "ageHours": 0.05,
+        "ageHours": 0.07,
         "staleAfterHours": 36,
-        "detail": "data/production-bootstrap.json is 0.05h old."
+        "detail": "data/production-bootstrap.json is 0.07h old."
       },
       {
         "id": "production-environment",
         "label": "Production environment",
         "path": "data/production-environment.json",
         "status": "fresh",
-        "generatedAt": "2026-05-20T02:43:54.985Z",
-        "ageHours": 1.37,
+        "generatedAt": "2026-05-20T04:07:39.698Z",
+        "ageHours": 0,
         "staleAfterHours": 36,
-        "detail": "data/production-environment.json is 1.37h old."
+        "detail": "data/production-environment.json is 0h old."
       },
       {
         "id": "event-collector-deployment",
         "label": "Event collector deployment",
         "path": "data/event-collector-deployment.json",
         "status": "fresh",
-        "generatedAt": "2026-05-20T04:01:09.461Z",
-        "ageHours": 0.08,
+        "generatedAt": "2026-05-20T04:07:39.921Z",
+        "ageHours": 0,
         "staleAfterHours": 36,
-        "detail": "data/event-collector-deployment.json is 0.08h old."
+        "detail": "data/event-collector-deployment.json is 0h old."
       },
       {
         "id": "local-event-bridge",
         "label": "Local event bridge",
         "path": "data/local-event-bridge.json",
         "status": "fresh",
-        "generatedAt": "2026-05-20T04:01:10.286Z",
-        "ageHours": 0.08,
+        "generatedAt": "2026-05-20T04:07:40.152Z",
+        "ageHours": 0,
         "staleAfterHours": 36,
-        "detail": "data/local-event-bridge.json is 0.08h old."
+        "detail": "data/local-event-bridge.json is 0h old."
       },
       {
         "id": "growth-plan",
@@ -3311,9 +3204,9 @@
         "path": "data/growth-plan.json",
         "status": "fresh",
         "generatedAt": "2026-05-20T03:56:25.698Z",
-        "ageHours": 0.16,
+        "ageHours": 0.19,
         "staleAfterHours": 36,
-        "detail": "data/growth-plan.json is 0.16h old."
+        "detail": "data/growth-plan.json is 0.19h old."
       },
       {
         "id": "portfolio-policy",
@@ -3321,9 +3214,9 @@
         "path": "data/portfolio-policy.json",
         "status": "fresh",
         "generatedAt": "2026-05-20T03:56:25.985Z",
-        "ageHours": 0.16,
+        "ageHours": 0.19,
         "staleAfterHours": 36,
-        "detail": "data/portfolio-policy.json is 0.16h old."
+        "detail": "data/portfolio-policy.json is 0.19h old."
       },
       {
         "id": "traffic-seeding",
@@ -3331,9 +3224,9 @@
         "path": "data/traffic-seeding.json",
         "status": "fresh",
         "generatedAt": "2026-05-20T03:56:26.249Z",
-        "ageHours": 0.16,
+        "ageHours": 0.19,
         "staleAfterHours": 36,
-        "detail": "data/traffic-seeding.json is 0.16h old."
+        "detail": "data/traffic-seeding.json is 0.19h old."
       },
       {
         "id": "acquisition-learning",
@@ -3341,9 +3234,9 @@
         "path": "data/acquisition-learning.json",
         "status": "fresh",
         "generatedAt": "2026-05-20T03:56:26.499Z",
-        "ageHours": 0.16,
+        "ageHours": 0.19,
         "staleAfterHours": 36,
-        "detail": "data/acquisition-learning.json is 0.16h old."
+        "detail": "data/acquisition-learning.json is 0.19h old."
       },
       {
         "id": "organic-seed-loop",
@@ -3351,9 +3244,9 @@
         "path": "data/organic-seed-loop.json",
         "status": "fresh",
         "generatedAt": "2026-05-20T03:56:26.740Z",
-        "ageHours": 0.16,
+        "ageHours": 0.19,
         "staleAfterHours": 36,
-        "detail": "data/organic-seed-loop.json is 0.16h old."
+        "detail": "data/organic-seed-loop.json is 0.19h old."
       },
       {
         "id": "release-candidate",
@@ -3361,9 +3254,9 @@
         "path": "data/release-candidate.json",
         "status": "fresh",
         "generatedAt": "2026-05-20T04:05:47.641Z",
-        "ageHours": 0,
+        "ageHours": 0.03,
         "staleAfterHours": 36,
-        "detail": "data/release-candidate.json is 0h old."
+        "detail": "data/release-candidate.json is 0.03h old."
       },
       {
         "id": "post-deploy-smoke",
@@ -3371,9 +3264,9 @@
         "path": "data/post-deploy-smoke.json",
         "status": "fresh",
         "generatedAt": "2026-05-20T04:05:47.861Z",
-        "ageHours": 0,
+        "ageHours": 0.03,
         "staleAfterHours": 36,
-        "detail": "data/post-deploy-smoke.json is 0h old."
+        "detail": "data/post-deploy-smoke.json is 0.03h old."
       },
       {
         "id": "product-gate-sample-plan",
@@ -3381,9 +3274,9 @@
         "path": "data/product-gate-sample-plan.json",
         "status": "fresh",
         "generatedAt": "2026-05-20T03:18:59.766Z",
-        "ageHours": 0.78,
+        "ageHours": 0.81,
         "staleAfterHours": 36,
-        "detail": "data/product-gate-sample-plan.json is 0.78h old."
+        "detail": "data/product-gate-sample-plan.json is 0.81h old."
       },
       {
         "id": "pwa-install-loop",
@@ -3391,16 +3284,16 @@
         "path": "data/pwa-install-loop.json",
         "status": "fresh",
         "generatedAt": "2026-05-20T03:30:11.388Z",
-        "ageHours": 0.6,
+        "ageHours": 0.63,
         "staleAfterHours": 36,
-        "detail": "data/pwa-install-loop.json is 0.6h old."
+        "detail": "data/pwa-install-loop.json is 0.63h old."
       },
       {
         "id": "objective-audit",
         "label": "Objective audit",
         "path": "data/objective-audit.json",
         "status": "fresh",
-        "generatedAt": "2026-05-20T04:05:59.861Z",
+        "generatedAt": "2026-05-20T04:07:42.611Z",
         "ageHours": 0,
         "staleAfterHours": 36,
         "detail": "data/objective-audit.json is 0h old."
@@ -3581,7 +3474,7 @@
       "met": 5,
       "prepared": 2,
       "incomplete": 1,
-      "externalBlockers": 20,
+      "externalBlockers": 19,
       "productBlockers": 6
     },
     "controls": {
@@ -3688,7 +3581,6 @@
         "blockers": [
           "Add a GitHub origin remote, set GITHUB_REPOSITORY/GH_REPO, set AGL_GITHUB_OWNER, or authenticate gh to infer the target repository.",
           "Authenticate GitHub CLI or configure GH_TOKEN/GITHUB_TOKEN for workflow dispatch and repository settings sync.",
-          "Commit current generated changes before pushing to GitHub Pages.",
           "Set GITHUB_REPOSITORY/GH_REPO, AGL_GITHUB_OWNER, or authenticate gh so the intended owner/repo can be inferred.",
           "Attach a GitHub origin remote or create the target repository.",
           "Authenticate GitHub CLI or provide GH_TOKEN/GITHUB_TOKEN for remote repository bootstrap.",
