@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-20T02:21:52.157Z",
+  "generatedAt": "2026-05-20T02:24:50.835Z",
   "status": "self-update-ready",
   "mode": "plan-and-assert",
   "envFiles": {
@@ -70,81 +70,10 @@
     "ownerLoop": "owner-loop-ready"
   },
   "pendingChanges": {
-    "total": 10,
-    "safe": [
-      {
-        "code": "M",
-        "path": "data/event-collector-deployment.json",
-        "raw": " M data/event-collector-deployment.json",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "data/event-collector-smoke.json",
-        "raw": " M data/event-collector-smoke.json",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "data/event-ingest-smoke.json",
-        "raw": " M data/event-ingest-smoke.json",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "data/local-event-bridge.json",
-        "raw": " M data/local-event-bridge.json",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "reports/event-collector-deployment-latest.md",
-        "raw": " M reports/event-collector-deployment-latest.md",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "reports/event-collector-smoke-latest.md",
-        "raw": " M reports/event-collector-smoke-latest.md",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "reports/event-ingest-smoke-latest.md",
-        "raw": " M reports/event-ingest-smoke-latest.md",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "reports/local-event-bridge-latest.md",
-        "raw": " M reports/local-event-bridge-latest.md",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "src/data/eventCollectorDeployment.ts",
-        "raw": " M src/data/eventCollectorDeployment.ts",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "src/data/localEventBridge.ts",
-        "raw": " M src/data/localEventBridge.ts",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      }
-    ],
+    "total": 0,
+    "safe": [],
     "unsafe": [],
-    "safeCount": 10,
+    "safeCount": 0,
     "unsafeCount": 0
   },
   "commitPlan": {
@@ -156,16 +85,6 @@
       "npm run autonomous:self-update -- --assert-safe"
     ],
     "stagePaths": [
-      "data/event-collector-deployment.json",
-      "data/event-collector-smoke.json",
-      "data/event-ingest-smoke.json",
-      "data/local-event-bridge.json",
-      "reports/event-collector-deployment-latest.md",
-      "reports/event-collector-smoke-latest.md",
-      "reports/event-ingest-smoke-latest.md",
-      "reports/local-event-bridge-latest.md",
-      "src/data/eventCollectorDeployment.ts",
-      "src/data/localEventBridge.ts",
       "data/autonomous-self-update.json",
       "src/data/autonomousSelfUpdate.ts",
       "reports/autonomous-self-update-latest.md"
@@ -259,7 +178,7 @@
     {
       "id": "safe-path-allowlist",
       "status": "pass",
-      "detail": "10 safe pending file(s), 0 unsafe pending file(s)."
+      "detail": "0 safe pending file(s), 0 unsafe pending file(s)."
     },
     {
       "id": "repository-optional",
