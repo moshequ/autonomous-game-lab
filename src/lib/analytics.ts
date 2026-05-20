@@ -295,6 +295,33 @@ const collectorEndpoint = () => {
   return endpoint ? new URL(endpoint, window.location.origin).toString() : null
 }
 
+const eventCollectorPayload = (events: AnalyticsEvent[]) => {
+  const writeToken = eventCollectorWriteToken()
+
+  return {
+    source: 'web-pwa',
+    ...(writeToken ? { writeToken } : {}),
+    events,
+  }
+}
+
+const beaconEventsToEventCollector = (events: AnalyticsEvent[]) => {
+  if (!events.length || isExternalAnalyticsOptedOut() || typeof window === 'undefined') {
+    return false
+  }
+
+  const endpoint = collectorEndpoint()
+
+  if (!endpoint || !window.navigator.sendBeacon) {
+    return false
+  }
+
+  const body = JSON.stringify(eventCollectorPayload(events))
+  const payload = new Blob([body], { type: 'application/json' })
+
+  return window.navigator.sendBeacon(endpoint, payload)
+}
+
 const postEventsToEventCollector = async (events: AnalyticsEvent[]) => {
   if (!events.length || isExternalAnalyticsOptedOut()) {
     return false
@@ -320,16 +347,13 @@ const postEventsToEventCollector = async (events: AnalyticsEvent[]) => {
     mode: 'cors',
     keepalive: true,
     headers,
-    body: JSON.stringify({
-      source: 'web-pwa',
-      events,
-    }),
+    body: JSON.stringify(eventCollectorPayload(events)),
   })
 
   return response.ok
 }
 
-export const flushBufferedEventsToCollector = () => {
+export const flushBufferedEventsToCollector = (options: { preferBeacon?: boolean } = {}) => {
   if (typeof window === 'undefined' || collectorFlushInFlight || isExternalAnalyticsOptedOut()) {
     return
   }
@@ -340,6 +364,10 @@ export const flushBufferedEventsToCollector = () => {
     .slice(-50)
 
   if (!pendingEvents.length) {
+    return
+  }
+
+  if (options.preferBeacon && beaconEventsToEventCollector(pendingEvents)) {
     return
   }
 
@@ -397,10 +425,15 @@ export const initAnalytics = () => {
     }
   })
 
-  window.addEventListener('online', flushBufferedEventsToCollector)
+  window.addEventListener('online', () => {
+    flushBufferedEventsToCollector()
+  })
+  window.addEventListener('pagehide', () => {
+    flushBufferedEventsToCollector({ preferBeacon: true })
+  })
   window.addEventListener('visibilitychange', () => {
     if (document.visibilityState === 'hidden' || document.visibilityState === 'visible') {
-      flushBufferedEventsToCollector()
+      flushBufferedEventsToCollector({ preferBeacon: document.visibilityState === 'hidden' })
     }
   })
 

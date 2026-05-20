@@ -538,8 +538,10 @@ if (
 if (
   missingCollectorEventNames.length > 0 ||
   eventCollectorSmoke.status !== 'pass' ||
-  eventCollectorSmoke.collector?.postStatus !== 'accepted' ||
-  eventCollectorSmoke.collector?.storedEvents < 5 ||
+	  eventCollectorSmoke.collector?.postStatus !== 'accepted' ||
+	  eventCollectorSmoke.collector?.beaconStatus !== 'accepted' ||
+	  eventCollectorSmoke.collector?.acceptsBeaconBodyToken !== true ||
+	  eventCollectorSmoke.collector?.storedEvents < 5 ||
   eventCollectorSmoke.collector?.exportedEvents < 5 ||
   eventCollectorSmoke.collector?.piiStripped !== true ||
   eventCollectorSmoke.ingest?.status !== 'imported' ||
@@ -2316,10 +2318,12 @@ if (testAutomationScript.indexOf('local-event-bridge') > testAutomationScript.in
 }
 
 if (
-  !analyticsLibSource.includes('flushBufferedEventsToCollector') ||
-  !analyticsLibSource.includes('forwardedIdsKey') ||
-  !analyticsLibSource.includes("window.addEventListener('online', flushBufferedEventsToCollector)") ||
-  !analyticsLibSource.includes("window.addEventListener('visibilitychange'") ||
+	  !analyticsLibSource.includes('flushBufferedEventsToCollector') ||
+	  !analyticsLibSource.includes('forwardedIdsKey') ||
+	  !analyticsLibSource.includes('navigator.sendBeacon') ||
+	  !analyticsLibSource.includes("window.addEventListener('pagehide'") ||
+	  !analyticsLibSource.includes("window.addEventListener('online'") ||
+	  !analyticsLibSource.includes("window.addEventListener('visibilitychange'") ||
   !analyticsLibSource.includes('postEventsToEventCollector(pendingEvents)') ||
   !analyticsLibSource.includes('.slice(-50)')
 ) {

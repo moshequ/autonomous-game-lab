@@ -258,6 +258,38 @@ if (postResponse.status !== 202 || postPayload.status !== 'accepted' || postPayl
   fail(`Expected accepted collector POST, got ${postResponse.status} ${JSON.stringify(postPayload)}`)
 }
 
+const beaconEvents = [
+  {
+    id: 'collector-beacon-abandoned',
+    name: 'game_abandoned',
+    properties: {
+      gameId: 'mosaic-haven',
+      anonymousId: 'anon-collector',
+      sessionId: 'session-collector-a',
+      sessionDate: '2026-05-17',
+    },
+    createdAt: '2026-05-17T09:08:00.000Z',
+  },
+]
+const beaconResponse = await worker.fetch(
+  new Request('https://collector.example/events', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'text/plain;charset=UTF-8',
+      Origin: 'https://autonomous.example',
+    },
+    body: JSON.stringify({ source: 'web-pwa-beacon', writeToken: env.PUBLIC_WRITE_TOKEN, events: beaconEvents }),
+  }),
+  env,
+)
+const beaconPayload = await beaconResponse.json()
+
+if (beaconResponse.status !== 202 || beaconPayload.status !== 'accepted' || beaconPayload.events !== beaconEvents.length) {
+  fail(`Expected accepted collector beacon POST, got ${beaconResponse.status} ${JSON.stringify(beaconPayload)}`)
+}
+
+const expectedCollectorEvents = exportedEvents.length + beaconEvents.length
+
 const exportResponse = await worker.fetch(
   new Request('https://collector.example/events/export?limit=20', {
     headers: {
@@ -268,8 +300,8 @@ const exportResponse = await worker.fetch(
 )
 const exportPayload = await exportResponse.json()
 
-if (exportResponse.status !== 200 || exportPayload.events?.length !== exportedEvents.length) {
-  fail(`Expected collector export with ${exportedEvents.length} events, got ${JSON.stringify(exportPayload)}`)
+if (exportResponse.status !== 200 || exportPayload.events?.length !== expectedCollectorEvents) {
+  fail(`Expected collector export with ${expectedCollectorEvents} events, got ${JSON.stringify(exportPayload)}`)
 }
 
 if (exportPayload.events.some((event) => event.properties?.email)) {
@@ -326,7 +358,7 @@ try {
 
   const ingest = JSON.parse(await readFile(ingestOutput, 'utf8'))
 
-  if (ingest.status !== 'imported' || ingest.importedEvents !== exportedEvents.length) {
+  if (ingest.status !== 'imported' || ingest.importedEvents !== expectedCollectorEvents) {
     fail(`Expected collector events to import, got ${JSON.stringify(ingest)}`)
   }
 
@@ -360,13 +392,15 @@ try {
   const smoke = {
     generatedAt: new Date().toISOString(),
     status: 'pass',
-    collector: {
-      postStatus: postPayload.status,
-      storedEvents: postPayload.events,
-      exportedEvents: exportPayload.events.length,
-      files: exportPayload.files.length,
-      piiStripped: true,
-    },
+	    collector: {
+	      postStatus: postPayload.status,
+	      beaconStatus: beaconPayload.status,
+	      storedEvents: postPayload.events + beaconPayload.events,
+	      exportedEvents: exportPayload.events.length,
+	      files: exportPayload.files.length,
+	      piiStripped: true,
+	      acceptsBeaconBodyToken: true,
+	    },
     ingest: {
       status: ingest.status,
       importedEvents: ingest.importedEvents,
@@ -401,8 +435,9 @@ try {
     '',
     '## Collector',
     '',
-    `- Post status: ${smoke.collector.postStatus}`,
-    `- Stored events: ${smoke.collector.storedEvents}`,
+	    `- Post status: ${smoke.collector.postStatus}`,
+	    `- Beacon status: ${smoke.collector.beaconStatus}`,
+	    `- Stored events: ${smoke.collector.storedEvents}`,
     `- Exported events: ${smoke.collector.exportedEvents}`,
     `- PII stripped: ${smoke.collector.piiStripped}`,
     '',

@@ -173,14 +173,17 @@ const normalizeEvent = (event) => {
   }
 }
 
-const eventsFromPayload = async (request) => {
+const payloadFromRequest = async (request) => {
   const text = await request.text()
 
   if (text.length > 64_000) {
     throw new Error('payload too large')
   }
 
-  const payload = JSON.parse(text)
+  return JSON.parse(text)
+}
+
+const eventsFromPayload = (payload) => {
   const rawEvents = Array.isArray(payload) ? payload : Array.isArray(payload.events) ? payload.events : []
   const seen = new Set()
 
@@ -211,14 +214,16 @@ const handlePostEvents = async (request, env, headers) => {
     return json({ status: 'error', error: 'origin not allowed' }, 403, headers)
   }
 
+  const payload = await payloadFromRequest(request)
   const writeToken = env.PUBLIC_WRITE_TOKEN || env.AGL_EVENT_COLLECTOR_WRITE_TOKEN
+  const payloadWriteToken = typeof payload?.writeToken === 'string' ? payload.writeToken : null
 
-  if (writeToken && request.headers.get('X-AGL-Write-Token') !== writeToken) {
+  if (writeToken && request.headers.get('X-AGL-Write-Token') !== writeToken && payloadWriteToken !== writeToken) {
     return json({ status: 'error', error: 'invalid write token' }, 401, headers)
   }
 
   const bucket = requireBucket(env)
-  const events = await eventsFromPayload(request)
+  const events = eventsFromPayload(payload)
 
   if (!events.length) {
     return json({ status: 'ignored', events: 0 }, 202, headers)

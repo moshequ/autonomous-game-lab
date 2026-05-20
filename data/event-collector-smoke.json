@@ -1,16 +1,18 @@
 {
-  "generatedAt": "2026-05-20T02:00:41.450Z",
+  "generatedAt": "2026-05-20T02:07:52.701Z",
   "status": "pass",
   "collector": {
     "postStatus": "accepted",
-    "storedEvents": 13,
-    "exportedEvents": 13,
-    "files": 1,
-    "piiStripped": true
+    "beaconStatus": "accepted",
+    "storedEvents": 14,
+    "exportedEvents": 14,
+    "files": 2,
+    "piiStripped": true,
+    "acceptsBeaconBodyToken": true
   },
   "ingest": {
     "status": "imported",
-    "importedEvents": 13,
+    "importedEvents": 14,
     "remoteCollectorStatus": "available"
   },
   "analytics": {
