@@ -1,6 +1,6 @@
 # Production Readiness
 
-Generated: 2026-05-20T22:39:08.756Z
+Generated: 2026-05-20T22:42:38.558Z
 
 ## Environment
 
@@ -32,10 +32,10 @@ Local git: true
 - done: repo-bootstrap-inspect-repository-channel - Repository readiness is repository-channel-ready.
 - ready: repo-bootstrap-initialize-local-git - Git worktree is available at /Users/moshequ/Documents/Codex/2026-05-18/i-want-to-have-a-new.
 - ready: repo-bootstrap-create-initial-commit - The local repository has at least one commit.
-- ready-for-explicit-snapshot-commit: repo-bootstrap-commit-current-snapshot - 2 non-generated source or artifact file(s) are not committed yet.
+- ready: repo-bootstrap-commit-current-snapshot - 6 repository evidence file(s) changed during this dry run; the outer verified commit will persist them.
 - ready: repo-bootstrap-set-or-create-origin - Origin remote resolves to moshequ/autonomous-game-lab.
 - ready-for-explicit-create-or-attach: repo-bootstrap-create-github-repository - GitHub CLI can create or attach moshequ/autonomous-game-lab when explicitly allowed.
-- waiting-for-clean-snapshot: repo-bootstrap-push-initial-snapshot - Push stays held until a committed local snapshot and origin remote exist.
+- ready-for-explicit-push: repo-bootstrap-push-initial-snapshot - Push stays held until an origin remote exists and AGL_ALLOW_PUSH=1 is set.
 
 ## Web/PWA
 
@@ -68,9 +68,9 @@ Status: ready-after-build
 - pass: replay-loop - Replay loop is replay-loop-ready; prompt armed; target harbor-rings.
 - pass: release-health - Release health guard is monitoring.
 - pass: production-environment - Production environment status is production-env-missing.
-- pass: production-bootstrap - Production bootstrap is production-bootstrap-ready; mode can-apply-configured-actions; external blockers 17.
+- pass: production-bootstrap - Production bootstrap is production-bootstrap-ready; mode can-apply-configured-actions; external blockers 16.
 - pass: production-activation - Production activation is activation-ready; mode dry-run; execution dry-run.
-- pass: autonomous-operator - Autonomous operator is operator-plan-ready; selected bootstrap-production-setup; execution not-requested.
+- pass: autonomous-operator - Autonomous operator is operator-plan-ready; selected refresh-support-feedback; execution not-requested.
 - pass: autonomous-operator-history - Autonomous operator history is operator-history-ready; records 40; executed 16.
 - pass: autonomous-cadence - Autonomous cadence is cadence-ready; Codex active-confirmed; GitHub scheduled.
 - pass: autonomous-self-update - Autonomous self-update is self-update-ready; safe pending 0; unsafe pending 0; remote push held.
@@ -166,14 +166,14 @@ Local artifact: predeploy-artifact-smoke-passed (15/15 passed)
 ## Post-Deploy Artifact Sync
 
 Status: post-deploy-artifact-sync-passed
-Workflow run: 26193142076
-Artifact candidate: pwa-20309e6830ac
-Live candidate: pwa-20309e6830ac
+Workflow run: 26194100863
+Artifact candidate: pwa-91032c49e7eb
+Live candidate: pwa-91032c49e7eb
 Live matches artifact: true
 - pass: artifact-sync-gh-cli - gh version 2.92.0 (2026-04-28)
 - pass: artifact-sync-github-repository - Target repository is moshequ/autonomous-game-lab.
-- pass: artifact-sync-explicit-pages-run - Explicit web-pwa-deploy.yml run is 26193142076.
-- pass: artifact-sync-post-deploy-smoke-artifact - Downloaded post-deploy-smoke artifact from run 26193142076.
+- pass: artifact-sync-explicit-pages-run - Explicit web-pwa-deploy.yml run is 26194100863.
+- pass: artifact-sync-post-deploy-smoke-artifact - Downloaded post-deploy-smoke artifact from run 26194100863.
 - pass: artifact-sync-strict-smoke-artifact - Artifact status post-deploy-smoke-passed; strict manifest comparison true; checks 15/15.
 - pass: artifact-sync-live-release-manifest - Live release-candidate.json still matches the strict smoke artifact.
 
@@ -249,7 +249,7 @@ Setup script: ops/github/setup-production.sh
 
 Status: operator-plan-ready
 Mode: plan-only
-Selected action: bootstrap-production-setup
+Selected action: refresh-support-feedback
 Execution: not-requested
 
 ## Autonomous Operator History

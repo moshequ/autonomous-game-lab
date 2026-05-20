@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-20T22:38:19.255Z",
+  "generatedAt": "2026-05-20T22:41:50.756Z",
   "status": "repository-channel-ready",
   "envFiles": {
     "loaded": true,
@@ -56,43 +56,18 @@
     "insideWorkTree": true,
     "gitRoot": "/Users/moshequ/Documents/Codex/2026-05-18/i-want-to-have-a-new",
     "currentBranch": "main",
-    "dirtyFiles": 14,
+    "dirtyFiles": 2,
     "dirtyPaths": [
-      "data/deployment-plan.json",
-      "data/performance-budget.json",
-      "data/post-deploy-smoke.json",
-      "data/production-readiness.json",
-      "data/release-candidate.json",
-      "reports/deployment-plan-latest.md",
-      "reports/performance-budget-latest.md",
-      "reports/post-deploy-smoke-latest.md",
-      "reports/production-readiness-latest.md",
-      "reports/release-candidate-latest.md",
-      "scripts/deployment-plan.mjs",
-      "src/data/postDeploySmoke.ts",
-      "src/data/releaseCandidate.ts",
-      "tests/smoke.spec.ts"
+      "data/autonomous-self-update.json",
+      "reports/autonomous-self-update-latest.md"
     ],
-    "generatedEvidenceDirtyFiles": 12,
+    "generatedEvidenceDirtyFiles": 2,
     "generatedEvidenceDirtyPaths": [
-      "data/deployment-plan.json",
-      "data/performance-budget.json",
-      "data/post-deploy-smoke.json",
-      "data/production-readiness.json",
-      "data/release-candidate.json",
-      "reports/deployment-plan-latest.md",
-      "reports/performance-budget-latest.md",
-      "reports/post-deploy-smoke-latest.md",
-      "reports/production-readiness-latest.md",
-      "reports/release-candidate-latest.md",
-      "src/data/postDeploySmoke.ts",
-      "src/data/releaseCandidate.ts"
+      "data/autonomous-self-update.json",
+      "reports/autonomous-self-update-latest.md"
     ],
-    "nonGeneratedDirtyFiles": 2,
-    "nonGeneratedDirtyPaths": [
-      "scripts/deployment-plan.mjs",
-      "tests/smoke.spec.ts"
-    ]
+    "nonGeneratedDirtyFiles": 0,
+    "nonGeneratedDirtyPaths": []
   },
   "repository": {
     "target": "moshequ/autonomous-game-lab",
@@ -128,7 +103,7 @@
     "workflowExists": true,
     "deployWorkflowIncludesSmoke": true,
     "deploymentStatus": "ready-for-pages",
-    "releaseCandidateId": "pwa-49d3c41966bc",
+    "releaseCandidateId": "pwa-cfb56843d531",
     "postDeploySmokeStatus": "post-deploy-smoke-observed-live",
     "liveSettings": {
       "status": "inspected",

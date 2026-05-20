@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-20T22:38:21.855Z",
+  "generatedAt": "2026-05-20T22:41:53.337Z",
   "status": "objective-in-progress",
   "objective": "Build a bootstrapped autonomous web/PWA game portal that can generate original board-game-inspired games, measure user behavior, propose and apply data-driven improvements, and prepare a path to monetization and app-store distribution with minimal manual intervention.",
   "summary": {
@@ -76,7 +76,7 @@
         "Backlog: improvement-backlog-ready; items 4; hash a738f73a0160",
         "Support feedback: support-feedback-empty; issues 0; routable signals 0",
         "Applied/deferred actions: 7",
-        "Operator selected: refresh-support-feedback; status operator-plan-ready; execution not-requested"
+        "Operator selected: bootstrap-production-setup; status operator-plan-ready; execution not-requested"
       ],
       "blockers": [],
       "nextAction": "Keep collecting starts until a safe product-gate tuning action is justified.",
@@ -96,9 +96,9 @@
         "Repository bootstrap: repository-bootstrap-ready; helper ops/github/bootstrap-repository.sh",
         "Release candidate: release-candidate-ready; smoke URLs 14",
         "Post-deploy smoke: post-deploy-smoke-observed-live; origin https://moshequ.github.io/autonomous-game-lab; checks 15/15; local artifact predeploy-artifact-smoke-passed 15/15",
-        "Strict deploy artifact sync: post-deploy-artifact-sync-passed; run 26193142076; live matches artifact true; candidate pwa-20309e6830ac",
+        "Strict deploy artifact sync: post-deploy-artifact-sync-passed; run 26194100863; live matches artifact true; candidate pwa-91032c49e7eb",
         "Repository channel: repository-channel-ready; repository moshequ/autonomous-game-lab; git worktree true",
-        "Autonomy score: 93%",
+        "Autonomy score: 98%",
         "Credential-gated actions: 10"
       ],
       "blockers": [
@@ -233,16 +233,14 @@
     "noRevenueEnablementUntilGatesPass": true,
     "noStoreSubmissionUntilExternalAccounts": true,
     "currentWorktreeClean": false,
-    "currentWorktreeDirtyFiles": 23,
-    "productionBootstrapFresh": false,
-    "productionBootstrapStaleInputIds": [
-      "deployment-plan"
-    ],
-    "objectiveNextBestActionSource": "owner-loop"
+    "currentWorktreeDirtyFiles": 16,
+    "productionBootstrapFresh": true,
+    "productionBootstrapStaleInputIds": [],
+    "objectiveNextBestActionSource": "freshness-guard"
   },
   "completion": {
     "canMarkGoalComplete": false,
     "reason": "The local autonomous PWA system is largely prepared with strict live deploy evidence synced from GitHub Actions, but production credentials, live data, monetization gates, and store account/signing blockers remain.",
-    "nextBestAction": "refresh-support-feedback"
+    "nextBestAction": "collect-live-events"
   }
 }
