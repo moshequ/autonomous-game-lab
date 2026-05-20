@@ -105,6 +105,8 @@ test('portal loads a playable canvas and autonomy cockpit', async ({ page }) => 
   await expect(page.getByLabel('Daily Retention')).toContainText('Canopy Bloom')
   await expect(page.getByLabel('Daily Retention')).toContainText('Return intent')
   await expect(page.getByLabel('PWA Install Loop')).toContainText('pwa-install-loop-ready')
+  await expect(page.getByLabel('Local Learning Router')).toContainText('local-play-router')
+  await expect(page.getByLabel('Local Learning Router')).toContainText('Next route')
   await expect(page.getByLabel('Revenue runtime')).toContainText('guarded-disabled')
 
   const canvas = page.locator('canvas').first()
@@ -129,6 +131,65 @@ test('portal loads a playable canvas and autonomy cockpit', async ({ page }) => 
   })
 
   expect(sample).toBeGreaterThan(100)
+})
+
+test('local learning router routes players to the next zero-spend evidence action', async ({ page }) => {
+  const samplePlan = JSON.parse(await readFile('data/product-gate-sample-plan.json', 'utf8')) as {
+    missions: Array<{
+      title: string
+      gameId: string
+      gateId: string
+      campaignId: string
+    }>
+  }
+  const primaryMission = samplePlan.missions[0]
+
+  await page.goto('/')
+
+  const router = page.getByLabel('Local Learning Router')
+  await expect(router).toContainText('local-play-router')
+  await expect(router).toContainText('First finish sample')
+  await expect(router).toContainText('First-game completion is the largest revenue-blocking gap.')
+
+  await expect
+    .poll(async () =>
+      page.evaluate(() => {
+        const raw = window.localStorage.getItem('agl.analytics.events')
+        const events = raw ? JSON.parse(raw) : []
+        return events.some((event: { name: string }) => event.name === 'local_router_card_viewed')
+      }),
+    )
+    .toBe(true)
+
+  await router.getByRole('button', { name: 'Start measured run' }).click()
+  await expect(page.getByLabel('Autonomy cockpit')).toContainText(primaryMission.title)
+
+  const routedUrl = new URL(page.url())
+  expect(routedUrl.searchParams.get('game')).toBe(primaryMission.gameId)
+  expect(routedUrl.searchParams.get('utm_source')).toBe('gate_sample')
+  expect(routedUrl.searchParams.get('utm_campaign')).toBe(primaryMission.campaignId)
+
+  const events = await page.evaluate(() => {
+    const raw = window.localStorage.getItem('agl.analytics.events')
+    return raw ? JSON.parse(raw) : []
+  })
+  const routerChoice = events.findLast(
+    (event: { name: string }) => event.name === 'local_router_choice_clicked',
+  )
+
+  expect(routerChoice?.properties).toMatchObject({
+    recommendationId: 'first-completion-sample',
+    actionType: 'gate-sample',
+    gameId: primaryMission.gameId,
+    campaignId: primaryMission.campaignId,
+    gateId: primaryMission.gateId,
+    zeroPaidSpend: true,
+    noSyntheticEvents: true,
+    noRevenueEnablement: true,
+    acquisitionCampaign: primaryMission.campaignId,
+    acquisitionSource: 'gate_sample',
+    acquisitionChannel: 'product-gate-sample',
+  })
 })
 
 test('organic seed loop records player-initiated seed and share telemetry', async ({ page }) => {

@@ -61,6 +61,9 @@ export type AnalyticsEventName =
   | 'pwa_install_prompt_cooldown'
   | 'pwa_installed'
   | 'pwa_launch_mode_detected'
+  | 'local_router_card_viewed'
+  | 'local_router_choice_clicked'
+  | 'local_router_choice_dismissed'
 
 export type AnalyticsProperties = Record<string, string | number | boolean | null>
 

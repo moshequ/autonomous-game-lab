@@ -191,6 +191,20 @@ const readStringStorage = (key: string) => {
 
 type ProductGateSampleMission = (typeof productGateSamplePlan.missions)[number]
 type TrafficCampaign = (typeof trafficSeeding.campaigns)[number]
+type LocalRouterRecommendation = {
+  id: string
+  actionType: 'gate-sample' | 'organic-seed' | 'daily-challenge' | 'queued-return' | 'replay'
+  label: string
+  ctaLabel: string
+  gameId: string
+  campaignId: string | null
+  gateId: string | null
+  reason: string
+  source: string
+  channel: string
+  sampleStatus: string
+  priority: number
+}
 
 const matchesGateSampleCampaign = (event: AnalyticsEvent, campaignId: string) =>
   event.properties.acquisitionCampaign === campaignId || event.properties.campaignId === campaignId
@@ -404,6 +418,7 @@ function App() {
   const completionNudgeRef = useRef('')
   const finishLineCoachRef = useRef('')
   const organicSeedCardRef = useRef('')
+  const localRouterCardRef = useRef('')
   const pwaPromptViewedRef = useRef(false)
   const pacingVariant = useMemo(() => getExperimentVariant('first_session_pacing'), [])
   const rewardVariant = useMemo(() => getExperimentVariant('reward_offer'), [])
@@ -741,10 +756,105 @@ function App() {
       : pwaPromptEvent
         ? pwaInstallLoop.promptPolicy.ctaLabel
         : 'Install unavailable'
+  const localRouterRecommendation = useMemo<LocalRouterRecommendation>(() => {
+    if (dailyReturnIntentVisible) {
+      return {
+        id: 'queued-return-intent',
+        actionType: 'queued-return',
+        label: 'Queued return',
+        ctaLabel: retentionLoop.returnIntentPolicy.ctaLabel,
+        gameId: retentionLoop.dailyChallenge.gameId,
+        campaignId: retentionLoop.samplePolicy.campaignId,
+        gateId: retentionLoop.samplePolicy.gateId,
+        reason: 'A local return intent is waiting, so this is the fastest D1 retention signal.',
+        source: 'local_router',
+        channel: 'retention',
+        sampleStatus: retentionLoop.samplePolicy.status,
+        priority: 1,
+      }
+    }
+
+    if (replayPromptVisible) {
+      return {
+        id: 'completed-run-replay',
+        actionType: 'replay',
+        label: 'Replay signal',
+        ctaLabel: replayLoop.promptPolicy.ctaLabel,
+        gameId: selectedGameId,
+        campaignId: null,
+        gateId: 'replayRate',
+        reason: 'This completed run can become a real replay signal without paid rewards.',
+        source: 'local_router',
+        channel: 'replay',
+        sampleStatus: replayLoop.promptPolicy.status,
+        priority: 2,
+      }
+    }
+
+    if (productGateSamplePrimary && productGateSamplePrimaryProgress?.sampleDecisionReady !== true) {
+      return {
+        id: 'first-completion-sample',
+        actionType: 'gate-sample',
+        label: 'First finish sample',
+        ctaLabel: 'Start measured run',
+        gameId: productGateSamplePrimary.gameId,
+        campaignId: productGateSamplePrimary.campaignId,
+        gateId: productGateSamplePrimary.gateId,
+        reason: 'First-game completion is the largest revenue-blocking gap.',
+        source: 'gate_sample',
+        channel: 'product-gate-sample',
+        sampleStatus: productGateSamplePrimary.status,
+        priority: 3,
+      }
+    }
+
+    if (organicSeedTargetCampaign && organicSeedProgress?.sampleDecisionReady !== true) {
+      return {
+        id: 'organic-seed-sample',
+        actionType: 'organic-seed',
+        label: 'Seed a new game',
+        ctaLabel: organicSeedLoop.runtimeSurface.primaryCtaLabel,
+        gameId: organicSeedTargetCampaign.gameId,
+        campaignId: organicSeedTargetCampaign.id,
+        gateId: null,
+        reason: 'The portfolio still needs player-initiated starts before judging generated games.',
+        source: 'seed_internal',
+        channel: 'internal-rotation',
+        sampleStatus: organicSeedProgress?.status ?? 'waiting-for-local-events',
+        priority: 4,
+      }
+    }
+
+    return {
+      id: 'daily-challenge',
+      actionType: 'daily-challenge',
+      label: 'Daily board',
+      ctaLabel: 'Play daily challenge',
+      gameId: retentionLoop.dailyChallenge.gameId,
+      campaignId: retentionLoop.samplePolicy.campaignId,
+      gateId: retentionLoop.samplePolicy.gateId,
+      reason: 'The daily board keeps retention measurement moving without push notifications.',
+      source: 'local_router',
+      channel: 'retention',
+      sampleStatus: retentionLoop.status,
+      priority: 5,
+    }
+  }, [
+    dailyReturnIntentVisible,
+    organicSeedProgress?.sampleDecisionReady,
+    organicSeedProgress?.status,
+    organicSeedTargetCampaign,
+    productGateSamplePrimary,
+    productGateSamplePrimaryProgress?.sampleDecisionReady,
+    replayPromptVisible,
+    selectedGameId,
+  ])
   const eventCounts = events.reduce<Record<string, number>>((counts, event) => {
     counts[event.name] = (counts[event.name] ?? 0) + 1
     return counts
   }, {})
+  const localRouterViews = eventCounts.local_router_card_viewed ?? 0
+  const localRouterChoices = eventCounts.local_router_choice_clicked ?? 0
   const toggleExternalAnalytics = () => {
     const next = !externalAnalyticsOptedOut
     setExternalAnalyticsOptOut(next)
@@ -1158,6 +1268,63 @@ function App() {
       })
     }
   }
+  const localRouterEventProperties = useCallback(() => ({
+    recommendationId: localRouterRecommendation.id,
+    actionType: localRouterRecommendation.actionType,
+    label: localRouterRecommendation.label,
+    gameId: localRouterRecommendation.gameId,
+    campaignId: localRouterRecommendation.campaignId,
+    gateId: localRouterRecommendation.gateId,
+    source: localRouterRecommendation.source,
+    channel: localRouterRecommendation.channel,
+    sampleStatus: localRouterRecommendation.sampleStatus,
+    priority: localRouterRecommendation.priority,
+    localEvents: events.length,
+    localRouterViews,
+    localRouterChoices,
+    localTrafficStarts,
+    localTrafficSignals,
+    zeroPaidSpend: true,
+    noSyntheticEvents: true,
+    noRevenueEnablement: true,
+  }), [
+    events.length,
+    localRouterChoices,
+    localRouterRecommendation,
+    localRouterViews,
+    localTrafficSignals,
+    localTrafficStarts,
+  ])
+  const chooseLocalRouterRecommendation = () => {
+    const recommendation = localRouterRecommendation
+
+    if (recommendation.actionType === 'queued-return') {
+      startQueuedReturnIntent()
+      trackEvent('local_router_choice_clicked', localRouterEventProperties())
+      return
+    }
+
+    if (recommendation.actionType === 'replay') {
+      trackEvent('local_router_choice_clicked', localRouterEventProperties())
+      playAgainFromReplayPrompt()
+      return
+    }
+
+    if (recommendation.actionType === 'gate-sample' && productGateSamplePrimary) {
+      startGateSampleMission(productGateSamplePrimary)
+      trackEvent('local_router_choice_clicked', localRouterEventProperties())
+      return
+    }
+
+    if (recommendation.actionType === 'organic-seed' && organicSeedTargetCampaign) {
+      openSeedCampaign(organicSeedTargetCampaign)
+      trackEvent('local_router_choice_clicked', localRouterEventProperties())
+      return
+    }
+
+    startDailyChallenge()
+    trackEvent('local_router_choice_clicked', localRouterEventProperties())
+  }
   useEffect(() => {
     if (!organicSeedCardVisible || !organicSeedCampaignId) {
       return
@@ -1186,6 +1353,27 @@ function App() {
     organicSeedPlacement,
     organicSeedPriority,
     organicSeedSurface,
+  ])
+  useEffect(() => {
+    const routerKey = `${localRouterRecommendation.id}:${localRouterRecommendation.gameId}:${localRouterRecommendation.sampleStatus}`
+
+    if (localRouterCardRef.current === routerKey) {
+      return
+    }
+
+    localRouterCardRef.current = routerKey
+    trackEvent('local_router_card_viewed', {
+      ...localRouterEventProperties(),
+      surface: 'autonomy-cockpit-local-router',
+    })
+  }, [
+    events.length,
+    localRouterChoices,
+    localRouterEventProperties,
+    localRouterRecommendation,
+    localRouterViews,
+    localTrafficSignals,
+    localTrafficStarts,
   ])
   useEffect(() => {
     if (selectedGameId !== retentionLoop.dailyChallenge.gameId || !snapshot.completed) {
@@ -1897,6 +2085,37 @@ function App() {
               </button>
             </div>
 
+            <div className="monetizationRuntime" aria-label="Local Learning Router">
+              <div>
+                <span>Local Learning</span>
+                <strong>local-play-router</strong>
+              </div>
+              <div>
+                <span>Next route</span>
+                <strong>{localRouterRecommendation.label}</strong>
+              </div>
+              <div>
+                <span>Target</span>
+                <strong>
+                  {playableGameCatalogById.get(localRouterRecommendation.gameId as PlayableGameId)?.title ??
+                    localRouterRecommendation.gameId}
+                </strong>
+              </div>
+              <div>
+                <span>Why</span>
+                <strong>{localRouterRecommendation.reason}</strong>
+              </div>
+              <div>
+                <span>Local proof</span>
+                <strong>
+                  {localRouterChoices} choices / {localRouterViews} views
+                </strong>
+              </div>
+              <button className="tinyButton" type="button" onClick={chooseLocalRouterRecommendation}>
+                {localRouterRecommendation.ctaLabel}
+              </button>
+            </div>
+
             <div>
               <div className="panelHeader">
                 <h2>Events</h2>
@@ -1917,6 +2136,7 @@ function App() {
                   'daily_return_intent_started',
                   'pwa_install_prompt_available',
                   'pwa_installed',
+                  'local_router_choice_clicked',
                 ].map((name) => (
                   <div className="eventRow" key={name}>
                     <span>{name}</span>
