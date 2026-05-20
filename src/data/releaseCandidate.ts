@@ -1,7 +1,7 @@
 export const releaseCandidate = {
-  "generatedAt": "2026-05-20T13:48:00.258Z",
+  "generatedAt": "2026-05-20T14:05:49.943Z",
   "status": "release-candidate-ready",
-  "candidateId": "pwa-4a75f7f7c461",
+  "candidateId": "pwa-259d275c65fb",
   "target": {
     "provider": "github-pages",
     "artifactPath": "dist",
@@ -12,7 +12,7 @@ export const releaseCandidate = {
   },
   "summary": {
     "totalFiles": 44,
-    "totalBytes": 3645825,
+    "totalBytes": 3645822,
     "totalKb": 3560.4,
     "assetFiles": 3,
     "htmlFiles": 16,
@@ -22,7 +22,7 @@ export const releaseCandidate = {
   },
   "integrity": {
     "algorithm": "sha256",
-    "aggregateHash": "4a75f7f7c46174780378705e923b0e4e82f8ed7325f53ff5c0acf627c304eac4",
+    "aggregateHash": "259d275c65fb2bf2c8ef574381571059da3169e0011f9a7a6314b11e75ae9bca",
     "files": [
       {
         "path": ".nojekyll",
@@ -46,16 +46,9 @@ export const releaseCandidate = {
         "cacheControl": "public, max-age=3600"
       },
       {
-        "path": "assets/GameCanvas-Bzekom0_.js",
+        "path": "assets/GameCanvas-EdAec8eL.js",
         "bytes": 1393554,
-        "sha256": "54c4888e20fe33a9bf211db18327f50a0e68b04e737433e3af47d25f73508f20",
-        "contentType": "text/javascript; charset=utf-8",
-        "cacheControl": "public, max-age=31536000, immutable"
-      },
-      {
-        "path": "assets/index-BOFISZb7.js",
-        "bytes": 643903,
-        "sha256": "95e45994d33cb96b9826a8a4906f491f6bdf9004346856aca182c7f3294ca6c9",
+        "sha256": "1bf8dac9454073fcb12149e3c9b7157ac03b9400b641707bf6c1d6e89aae0ab5",
         "contentType": "text/javascript; charset=utf-8",
         "cacheControl": "public, max-age=31536000, immutable"
       },
@@ -64,6 +57,13 @@ export const releaseCandidate = {
         "bytes": 10589,
         "sha256": "5a2780ee310dde3468aed2e6b2416822e26a5e2f90f8026c8a8d95c40d2f12a7",
         "contentType": "text/css; charset=utf-8",
+        "cacheControl": "public, max-age=31536000, immutable"
+      },
+      {
+        "path": "assets/index-DZxs5Apf.js",
+        "bytes": 643900,
+        "sha256": "87ecc7af185f43220a3d75508e07cf9dddebe58779afc70370e8979be81955f8",
+        "contentType": "text/javascript; charset=utf-8",
         "cacheControl": "public, max-age=31536000, immutable"
       },
       {
@@ -216,7 +216,7 @@ export const releaseCandidate = {
       {
         "path": "index.html",
         "bytes": 903,
-        "sha256": "e09cf6b8b266057b8cdda10cc0db4c6e930f5cbf2debffae6449a2455fa1cf98",
+        "sha256": "8e6ea7bf2e0b34ec159f573e6a21ec1520b8abfe15517612f0c45b88e9aca68c",
         "contentType": "text/html; charset=utf-8",
         "cacheControl": "no-cache"
       },
@@ -321,7 +321,7 @@ export const releaseCandidate = {
       {
         "path": "sw.js",
         "bytes": 3735,
-        "sha256": "5038debff41c01f8d06653e084de63a23e8570764dff922152eecff705eca7d5",
+        "sha256": "bb84a892579003835ff3bcec44733b47f0ddeffc362c9c4542a435bdc1072ce5",
         "contentType": "text/javascript; charset=utf-8",
         "cacheControl": "no-cache"
       },
