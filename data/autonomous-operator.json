@@ -1,22 +1,22 @@
 {
-  "generatedAt": "2026-05-20T20:43:49.813Z",
+  "generatedAt": "2026-05-20T20:52:46.172Z",
   "status": "operator-plan-ready",
   "mode": "plan-only",
   "ownerDecision": {
-    "actionId": "optimize-daily-retention",
-    "command": "npm run autonomous:retention",
+    "actionId": "refresh-first-move-coach",
+    "command": "npm run autonomous:first-move-coach",
     "locallyExecutable": true,
     "rejectionReason": null
   },
   "requestedActionId": null,
   "selectedAction": {
-    "id": "optimize-daily-retention",
+    "id": "refresh-first-move-coach",
     "status": "armed",
-    "command": "npm run autonomous:retention",
+    "command": "npm run autonomous:first-move-coach",
     "targets": [
-      "canopy-bloom"
+      "harbor-rings"
     ],
-    "reason": "Keeps daily challenge, local streak prompts, and retention-safe missions aligned with behavior data.",
+    "reason": "Refreshes the first-turn coach policy from product-gate, onboarding, and release-health evidence.",
     "costUsd": 0
   },
   "selectedRejection": null,
@@ -78,6 +78,12 @@
       "reason": "not-selected-this-run"
     },
     {
+      "id": "optimize-daily-retention",
+      "status": "armed",
+      "command": "npm run autonomous:retention",
+      "reason": "not-selected-this-run"
+    },
+    {
       "id": "measure-pwa-install-loop",
       "status": "armed",
       "command": "npm run autonomous:pwa-install",
@@ -130,12 +136,6 @@
       "status": "monitor",
       "command": "npm run autonomous:sample-plan",
       "reason": "status-monitor"
-    },
-    {
-      "id": "refresh-first-move-coach",
-      "status": "armed",
-      "command": "npm run autonomous:first-move-coach",
-      "reason": "not-selected-this-run"
     },
     {
       "id": "refresh-completion-loop",
@@ -218,8 +218,8 @@
   ],
   "commandPlan": [
     {
-      "segment": "npm run autonomous:retention",
-      "script": "autonomous:retention"
+      "segment": "npm run autonomous:first-move-coach",
+      "script": "autonomous:first-move-coach"
     }
   ],
   "execution": {
@@ -289,7 +289,7 @@
     "RUN_WORKFLOWS=1"
   ],
   "nextActions": [
-    "Run npm run autonomous:operator -- --execute --action=optimize-daily-retention to execute exactly one allowed local action.",
+    "Run npm run autonomous:operator -- --execute --action=refresh-first-move-coach to execute exactly one allowed local action.",
     "Do not execute GitHub workflow, store, paid ads, or account setup commands from the local operator."
   ]
 }

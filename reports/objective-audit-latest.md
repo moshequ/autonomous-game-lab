@@ -1,10 +1,10 @@
 # Objective Audit
 
-Generated: 2026-05-20T20:43:49.372Z
+Generated: 2026-05-20T20:52:45.728Z
 Status: objective-in-progress
 Can mark goal complete: false
 Reason: The local autonomous PWA system is largely prepared with strict live deploy evidence synced from GitHub Actions, but production credentials, live data, monetization gates, and store account/signing blockers remain.
-Next best action: optimize-daily-retention
+Next best action: refresh-first-move-coach
 
 ## Summary
 

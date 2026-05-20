@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-20T20:43:49.589Z",
+  "generatedAt": "2026-05-20T20:52:45.943Z",
   "status": "owner-loop-ready",
   "mode": "zero-spend-web-ready",
   "autonomyScore": {
@@ -21,25 +21,25 @@
     "repositoryHandoffPrepared": false
   },
   "ownerDecision": {
-    "nextBestActionId": "optimize-daily-retention",
-    "nextBestAction": "npm run autonomous:retention",
+    "nextBestActionId": "refresh-first-move-coach",
+    "nextBestAction": "npm run autonomous:first-move-coach",
     "canExecuteWithoutSpend": true,
-    "rationale": "Keeps daily challenge, local streak prompts, and retention-safe missions aligned with behavior data."
+    "rationale": "Refreshes the first-turn coach policy from product-gate, onboarding, and release-health evidence."
   },
   "executionMemory": {
     "avoidImmediateRepeat": true,
     "recentExecutionWindow": 8,
     "recentExecutedActionIds": [
-      "refresh-replay-loop",
-      "refresh-completion-loop",
-      "refresh-first-move-coach",
       "apply-safe-improvements",
       "collect-live-events",
       "seed-portfolio-traffic",
       "measure-pwa-install-loop",
-      "optimize-product-gates"
+      "optimize-product-gates",
+      "optimize-daily-retention",
+      "refresh-replay-loop",
+      "refresh-completion-loop"
     ],
-    "lastExecutedActionId": "refresh-replay-loop",
+    "lastExecutedActionId": "apply-safe-improvements",
     "lastExecutedStatus": "executed",
     "lastRecordExecutionStatus": "not-requested",
     "recentlySatisfiedActionIds": [
@@ -50,7 +50,7 @@
     "objectiveAuditFreshness": {
       "fresh": true,
       "structurallyReady": true,
-      "auditGeneratedAt": "2026-05-20T20:43:49.372Z",
+      "auditGeneratedAt": "2026-05-20T20:52:45.728Z",
       "evaluatedInputIds": [
         "analytics-rollup",
         "event-ingest",
@@ -77,9 +77,9 @@
     },
     "skippedRecentlyExecutedActionIds": [
       "seed-portfolio-traffic",
+      "optimize-daily-retention",
       "measure-pwa-install-loop",
       "optimize-product-gates",
-      "refresh-first-move-coach",
       "refresh-completion-loop",
       "refresh-replay-loop",
       "apply-safe-improvements",
@@ -121,7 +121,7 @@
     },
     "productionBootstrapFreshness": {
       "fresh": true,
-      "bootstrapGeneratedAt": "2026-05-20T20:43:48.706Z",
+      "bootstrapGeneratedAt": "2026-05-20T20:52:45.057Z",
       "evaluatedInputIds": [
         "release-candidate",
         "deployment-plan",
@@ -236,7 +236,7 @@
       "id": "performance-budget",
       "status": "ready",
       "autonomy": "automatic-build-budget",
-      "evidence": "Initial JS 648.8 KB; gzip 177.7 KB; deferred chunks 1.",
+      "evidence": "Initial JS 648.8 KB; gzip 177.6 KB; deferred chunks 1.",
       "nextAction": "Keep Phaser and game scenes outside the initial PWA shell."
     },
     {
@@ -335,20 +335,20 @@
       "status": "ready",
       "autonomy": "read-only-live-deploy-verification",
       "evidence": "Smoke post-deploy-smoke-observed-live; origin https://moshequ.github.io/autonomous-game-lab; manifest comparison required; checks 15/15 passed; local artifact predeploy-artifact-smoke-passed 15/15 passed.",
-      "nextAction": "Live Pages is reachable and serving pwa-e7731f6e5814; run the deploy workflow for strict proof of the current local candidate if needed."
+      "nextAction": "Live Pages is reachable and serving pwa-59b679929cee; run the deploy workflow for strict proof of the current local candidate if needed."
     },
     {
       "id": "post-deploy-artifact-sync",
       "status": "ready",
       "autonomy": "read-only-actions-artifact-import",
-      "evidence": "Artifact sync post-deploy-artifact-sync-passed; run 26188455748; live matches artifact true; strict true.",
+      "evidence": "Artifact sync post-deploy-artifact-sync-passed; run 26188932909; live matches artifact true; strict true.",
       "nextAction": "Keep this strict deploy artifact as live-production evidence while local candidates continue to iterate."
     },
     {
       "id": "production-bootstrap",
       "status": "ready",
       "autonomy": "zero-spend-setup-orchestration",
-      "evidence": "Bootstrap production-bootstrap-ready; mode can-apply-configured-actions; external blockers 17.",
+      "evidence": "Bootstrap production-bootstrap-ready; mode can-apply-configured-actions; external blockers 16.",
       "nextAction": "gh workflow run web-pwa-deploy.yml"
     },
     {
@@ -369,14 +369,14 @@
       "id": "autonomous-operator",
       "status": "ready",
       "autonomy": "one-safe-action-runner",
-      "evidence": "Operator operator-plan-ready; selected optimize-daily-retention; execution not-requested.",
+      "evidence": "Operator operator-plan-ready; selected refresh-first-move-coach; execution not-requested.",
       "nextAction": "Keep a dry-run operator plan ready, then execute only one allowlisted local action when explicitly requested."
     },
     {
       "id": "operator-history",
       "status": "ready",
       "autonomy": "operator-audit-trail",
-      "evidence": "History operator-history-ready; records 40; executed 16.",
+      "evidence": "History operator-history-ready; records 40; executed 18.",
       "nextAction": "Keep a capped durable record of operator plans and one-action executions."
     },
     {
@@ -518,7 +518,7 @@
       "command": "npm run build && npm run autonomous:performance",
       "targets": [
         "pwa-shell",
-        "GameCanvas-2RbAlQIR.js"
+        "GameCanvas-CwSnMNcX.js"
       ],
       "reason": "Keeps the PWA shell fast while Phaser and game scenes stay deferred."
     },
@@ -549,7 +549,7 @@
       "costUsd": 0,
       "command": "npm run autonomous:post-deploy-artifact-sync",
       "targets": [
-        26188455748,
+        26188932909,
         "release-candidate-manifest"
       ],
       "reason": "Strict deploy artifact evidence is already synced from the latest successful Pages workflow."
@@ -666,7 +666,7 @@
       "costUsd": 0,
       "command": "npm run autonomous:operator",
       "targets": [
-        "optimize-daily-retention"
+        "refresh-first-move-coach"
       ],
       "reason": "Publishes the one-action local execution plan with allowlist, zero-spend, and audit controls."
     },
@@ -676,7 +676,7 @@
       "costUsd": 0,
       "command": "npm run autonomous:operator",
       "targets": [
-        "optimize-daily-retention"
+        "refresh-first-move-coach"
       ],
       "reason": "Refreshes the capped operator history so safe actions remain auditable over time."
     },
