@@ -1,6 +1,6 @@
 # Autonomous Owner Loop
 
-Generated: 2026-05-20T16:38:12.805Z
+Generated: 2026-05-20T16:39:29.796Z
 Status: owner-loop-ready
 Mode: zero-spend-web-ready
 Autonomy score: 41/42 (98%)
@@ -84,7 +84,7 @@ Autonomy score: 41/42 (98%)
 - monitor: activate-production-when-configured - npm run autonomous:activate-production
 - armed: run-autonomous-operator - npm run autonomous:operator
 - armed: review-operator-history - npm run autonomous:operator
-- monitor: refresh-objective-audit - npm run autonomous:objective-audit
+- armed: refresh-objective-audit - npm run autonomous:objective-audit
 - armed: optimize-store-listing - npm run autonomous:store-listing-optimize && npm run autonomous:store-compliance
 - monitor: prepare-android-signing - npm run autonomous:android-signing
 - armed: apply-safe-improvements - npm run autonomous:experiments && npm run autonomous:improve && npm run autonomous:sync-experiments
