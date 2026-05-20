@@ -630,11 +630,13 @@ test('release candidate records the exact deployable PWA artifact', async () => 
   expect(candidate.integrity.files.some((file) => file.path === 'index.html')).toBe(true)
   expect(candidate.integrity.files.some((file) => file.path === 'sw.js')).toBe(true)
   expect(candidate.integrity.files.some((file) => file.path === 'seed-kit.html')).toBe(true)
+  expect(candidate.integrity.files.some((file) => file.path === '.well-known/assetlinks.json')).toBe(true)
   expect(candidate.integrity.files.some((file) => file.cacheControl.includes('immutable'))).toBe(true)
   expect(candidate.integrity.requiredFileChecks.every((check) => check.status === 'pass')).toBe(true)
   expect(candidate.postDeploySmoke.some((check) => check.path === '/' && check.expectedStatus === 200)).toBe(true)
   expect(candidate.postDeploySmoke.some((check) => check.path === '/seed-kit.html')).toBe(true)
   expect(candidate.postDeploySmoke.some((check) => check.path === '/privacy.html')).toBe(true)
+  expect(candidate.postDeploySmoke.some((check) => check.path === '/.well-known/assetlinks.json')).toBe(true)
   expect(candidate.controls.zeroPaidSpend).toBe(true)
   expect(candidate.controls.noWorkflowExecution).toBe(true)
   expect(candidate.controls.noStoreSubmission).toBe(true)
@@ -1854,6 +1856,35 @@ test('android signing prep creates redacted zero-spend TWA signing evidence', as
 
   await page.goto('/')
   await expect(page.getByLabel('Android Signing')).toContainText('signing-prepared')
+})
+
+test('generated Digital Asset Links are reachable for Android TWA handoff', async ({ page }) => {
+  const nativePackage = JSON.parse(await readFile('data/native-package.json', 'utf8')) as {
+    packageName: string
+    handoff: { publicAssetLinksPath: string }
+    assetLinks: { publicGenerated: boolean; status: string }
+    signing: { sha256CertFingerprint: string }
+  }
+  const androidRelease = JSON.parse(await readFile('data/android-release.json', 'utf8')) as {
+    checks: Array<{ id: string; status: string }>
+    blockers: string[]
+  }
+  const assetLinks = JSON.parse(await readFile('public/.well-known/assetlinks.json', 'utf8')) as Array<{
+    relation: string[]
+    target: { package_name: string; sha256_cert_fingerprints: string[] }
+  }>
+
+  expect(nativePackage.handoff.publicAssetLinksPath).toBe('public/.well-known/assetlinks.json')
+  expect(nativePackage.assetLinks.publicGenerated).toBe(true)
+  expect(assetLinks[0].relation).toContain('delegate_permission/common.handle_all_urls')
+  expect(assetLinks[0].target.package_name).toBe(nativePackage.packageName)
+  expect(assetLinks[0].target.sha256_cert_fingerprints[0]).toBe(nativePackage.signing.sha256CertFingerprint)
+  expect(androidRelease.checks.find((check) => check.id === 'asset-links')?.status).toBe('pass')
+  expect(androidRelease.blockers.some((blocker) => blocker.startsWith('asset-links:'))).toBe(false)
+
+  const response = await page.goto('/.well-known/assetlinks.json')
+  expect(response?.ok()).toBeTruthy()
+  await expect(page.locator('body')).toContainText(nativePackage.packageName)
 })
 
 test('objective audit maps the goal to evidence and remaining blockers', async ({ page }) => {
