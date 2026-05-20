@@ -1,22 +1,22 @@
 # Repository Bootstrap
 
-Generated: 2026-05-20T06:39:44.441Z
-Status: waiting-for-github-target
+Generated: 2026-05-20T06:53:25.917Z
+Status: waiting-for-origin-remote
 Mode: plan-only
 Workspace git: ready
-Repository: missing
-Planned target: OWNER/autonomous-game-lab
-Planned Pages origin: https://OWNER.github.io/autonomous-game-lab
+Repository: moshequ/autonomous-game-lab
+Planned target: moshequ/autonomous-game-lab
+Planned Pages origin: https://moshequ.github.io/autonomous-game-lab
 Origin: missing
 
 ## Actions
 
-- done: inspect-repository-channel; Repository readiness is waiting-for-github-repository.
+- done: inspect-repository-channel; Repository readiness is repository-channel-ready.
 - ready: initialize-local-git; Git worktree is available at /Users/moshequ/Documents/Codex/2026-05-18/i-want-to-have-a-new.
 - ready: create-initial-commit; The local repository has at least one commit.
-- ready: commit-current-snapshot; 64 repository evidence file(s) changed during this dry run; the outer verified commit will persist them.
-- waiting-for-github-target: set-or-create-origin; Set GITHUB_REPOSITORY/GH_REPO, set AGL_GITHUB_OWNER, or authenticate gh so the target can be inferred before attaching origin.
-- waiting-for-github-target: create-github-repository; Set GITHUB_REPOSITORY/GH_REPO, set AGL_GITHUB_OWNER, or authenticate gh so the target can be inferred before creating a GitHub repository.
+- ready: commit-current-snapshot; 69 repository evidence file(s) changed during this dry run; the outer verified commit will persist them.
+- ready-for-explicit-origin-attach: set-or-create-origin; Target moshequ/autonomous-game-lab can be attached as origin when explicitly allowed.
+- ready-for-explicit-create-or-attach: create-github-repository; GitHub CLI can create or attach moshequ/autonomous-game-lab when explicitly allowed.
 - waiting-for-commit-and-origin: push-initial-snapshot; Push stays held until an origin remote exists and AGL_ALLOW_PUSH=1 is set.
 
 ## Controls
@@ -36,12 +36,10 @@ Origin: missing
 
 ## Blockers
 
-- Set GITHUB_REPOSITORY/GH_REPO, AGL_GITHUB_OWNER, or authenticate gh so the intended owner/repo can be inferred.
 - Attach a GitHub origin remote or create the target repository.
-- Authenticate GitHub CLI or provide GH_TOKEN/GITHUB_TOKEN for remote repository bootstrap.
 
 ## Explicit Repository Target Commands
 
-- Create repository: GITHUB_REPOSITORY=OWNER/autonomous-game-lab AGL_ALLOW_REPOSITORY_BOOTSTRAP=1 AGL_ALLOW_GITHUB_REPO_CREATE=1 ./ops/github/bootstrap-repository.sh
-- Attach origin: GITHUB_REPOSITORY=OWNER/autonomous-game-lab AGL_ALLOW_REPOSITORY_BOOTSTRAP=1 AGL_ALLOW_ORIGIN_REMOTE=1 ./ops/github/bootstrap-repository.sh
-- Push snapshot: GITHUB_REPOSITORY=OWNER/autonomous-game-lab AGL_ALLOW_REPOSITORY_BOOTSTRAP=1 AGL_ALLOW_SNAPSHOT_COMMIT=1 AGL_ALLOW_PUSH=1 ./ops/github/bootstrap-repository.sh
+- Create repository: GITHUB_REPOSITORY=moshequ/autonomous-game-lab AGL_ALLOW_REPOSITORY_BOOTSTRAP=1 AGL_ALLOW_GITHUB_REPO_CREATE=1 ./ops/github/bootstrap-repository.sh
+- Attach origin: GITHUB_REPOSITORY=moshequ/autonomous-game-lab AGL_ALLOW_REPOSITORY_BOOTSTRAP=1 AGL_ALLOW_ORIGIN_REMOTE=1 ./ops/github/bootstrap-repository.sh
+- Push snapshot: GITHUB_REPOSITORY=moshequ/autonomous-game-lab AGL_ALLOW_REPOSITORY_BOOTSTRAP=1 AGL_ALLOW_SNAPSHOT_COMMIT=1 AGL_ALLOW_PUSH=1 ./ops/github/bootstrap-repository.sh

@@ -1,6 +1,6 @@
 # Objective Audit
 
-Generated: 2026-05-20T06:39:46.315Z
+Generated: 2026-05-20T06:53:27.865Z
 Status: objective-in-progress
 Can mark goal complete: false
 Reason: The local autonomous PWA system is largely prepared, but production credentials, live data, monetization gates, hosted compliance URLs, and store account/signing blockers remain.
@@ -8,10 +8,10 @@ Reason: The local autonomous PWA system is largely prepared, but production cred
 ## Summary
 
 - Requirements: 8
-- Met: 5
+- Met: 6
 - Prepared: 2
-- Incomplete: 1
-- External blockers: 19
+- Incomplete: 0
+- External blockers: 15
 - Product blockers: 6
 
 ## Requirements
@@ -24,7 +24,7 @@ Reason: The local autonomous PWA system is largely prepared, but production cred
   - next: Connect the first-party collector or PostHog when production credentials exist.
 - met: data-driven-improvement-loop - Analytics drive product-gate optimization, experiment evaluation, backlog routing, and one safe local operator action.
   - next: Keep collecting starts until a safe product-gate tuning action is justified.
-- needs-repository-channel: minimal-intervention-autonomy - A scheduled local loop, owner state, bootstrap handoff, and dry-run operator reduce manual maintenance.
+- met-local: minimal-intervention-autonomy - A scheduled local loop, owner state, bootstrap handoff, and dry-run operator reduce manual maintenance.
   - next: Keep the operator dry-run plan ready and execute one local action only when explicitly requested.
 - prepared-blocked-by-gates: monetization-path - Revenue path exists with guarded rewarded/cosmetic tests, app-ads output, and unit-economics spend controls.
   - next: Collect live completion, replay, and retention data until gates pass.
@@ -35,11 +35,7 @@ Reason: The local autonomous PWA system is largely prepared, but production cred
 
 ## Top Blockers
 
-- Add a GitHub origin remote, set GITHUB_REPOSITORY/GH_REPO, set AGL_GITHUB_OWNER, or authenticate gh to infer the target repository.
-- Authenticate GitHub CLI or configure GH_TOKEN/GITHUB_TOKEN for workflow dispatch and repository settings sync.
-- Set GITHUB_REPOSITORY/GH_REPO, AGL_GITHUB_OWNER, or authenticate gh so the intended owner/repo can be inferred.
 - Attach a GitHub origin remote or create the target repository.
-- Authenticate GitHub CLI or provide GH_TOKEN/GITHUB_TOKEN for remote repository bootstrap.
 - Set AGL_PUBLIC_ORIGIN or PUBLIC_SITE_URL to a real HTTPS production origin.
 - Set AGL_SUPPORT_EMAIL to a real support inbox before public store submission.
 - Set VITE_EVENT_COLLECTOR_URL or VITE_POSTHOG_KEY to forward browser analytics in production.
@@ -51,3 +47,7 @@ Reason: The local autonomous PWA system is largely prepared, but production cred
 - Replay rate is 31%; gate is 35%.
 - D1 retention is 17%; gate is 18%; source is fixture-retention.
 - Web/PWA or native ad provider is not configured for gated revenue tests.
+- hosted-privacy-url: Hosted privacy policy URL is required before public store submission.
+- support-contact: Production support email is required before public store submission.
+- google-play-account: Google Play developer account must be connected before Android submission.
+- apple-developer-account: Apple Developer account remains deferred until iOS spend is justified.

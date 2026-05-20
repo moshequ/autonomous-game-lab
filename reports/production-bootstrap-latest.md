@@ -1,10 +1,10 @@
 # Production Bootstrap
 
-Generated: 2026-05-20T06:39:43.302Z
+Generated: 2026-05-20T06:53:22.714Z
 Status: production-bootstrap-ready
-Mode: waiting-for-external-credentials
-GitHub repository: missing
-Repository channel: waiting-for-github-repository
+Mode: can-apply-configured-actions
+GitHub repository: moshequ/autonomous-game-lab
+Repository channel: repository-channel-ready
 gh CLI available: true
 
 ## Local Env Files
@@ -16,14 +16,14 @@ gh CLI available: true
 
 ## Setup Groups
 
-- waiting-for-github-repository: repository-channel; auto-run no; Repository missing; git worktree ready; workflow dispatch blocked.
-- waiting-for-github-target: repository-bootstrap; auto-run no; Repository bootstrap waiting-for-github-target; helper ops/github/bootstrap-repository.sh; local git ready.
+- repository-channel-ready: repository-channel; auto-run no; Repository moshequ/autonomous-game-lab; git worktree ready; workflow dispatch ready.
+- waiting-for-origin-remote: repository-bootstrap; auto-run no; Repository bootstrap waiting-for-origin-remote; helper ops/github/bootstrap-repository.sh; local git ready.
 - waiting-for-origin-support: production-environment; auto-run no; Environment production-env-missing; public origin missing; support missing-production-address.
-- ready-for-actions-pages: github-pages-hosting; auto-run no; Deployment plan is ready-for-pages; Pages workflow is .github/workflows/web-pwa-deploy.yml.
-- waiting-for-gh-auth: github-pages-settings; auto-run no; GitHub CLI authentication is required before Pages settings can be synced.
+- ready-for-actions-pages: github-pages-hosting; auto-run yes; Deployment plan is ready-for-pages; Pages workflow is .github/workflows/web-pwa-deploy.yml.
+- ready-to-sync: github-pages-settings; auto-run yes; GitHub CLI can configure Pages to use the Actions workflow source.
 - waiting-for-self-update-gate: autonomous-self-update; auto-run no; Self-update gate missing; direct push held.
-- partially-configured: github-actions-variables; auto-run no; 3/24 repository variable value(s) present in this environment.
-- partially-configured: github-actions-secrets; auto-run no; 3/8 repository secret value(s) present in this environment.
+- partially-configured: github-actions-variables; auto-run yes; 3/24 repository variable value(s) present in this environment.
+- partially-configured: github-actions-secrets; auto-run yes; 3/8 repository secret value(s) present in this environment.
 - blocked-needs-cloudflare-env: event-collector; auto-run no; Collector deployment is blocked-needs-cloudflare-env; provider cloudflare-worker-r2.
 - held-by-product-gates: monetization-gate; auto-run no; Revenue disabled; spend mode no-spend.
 - draft-ready-external-blockers: store-compliance-unblock; auto-run no; 4 store compliance blocker(s) remain.
@@ -80,11 +80,7 @@ gh CLI available: true
 
 ## External Blockers
 
-- repository-readiness: Add a GitHub origin remote, set GITHUB_REPOSITORY/GH_REPO, set AGL_GITHUB_OWNER, or authenticate gh to infer the target repository.
-- repository-readiness: Authenticate GitHub CLI or configure GH_TOKEN/GITHUB_TOKEN for workflow dispatch and repository settings sync.
-- repository-bootstrap: Set GITHUB_REPOSITORY/GH_REPO, AGL_GITHUB_OWNER, or authenticate gh so the intended owner/repo can be inferred.
 - repository-bootstrap: Attach a GitHub origin remote or create the target repository.
-- repository-bootstrap: Authenticate GitHub CLI or provide GH_TOKEN/GITHUB_TOKEN for remote repository bootstrap.
 - production-environment: Set AGL_PUBLIC_ORIGIN or PUBLIC_SITE_URL to a real HTTPS production origin.
 - production-environment: Set AGL_SUPPORT_EMAIL to a real support inbox before public store submission.
 - production-environment: Set VITE_EVENT_COLLECTOR_URL or VITE_POSTHOG_KEY to forward browser analytics in production.
@@ -92,3 +88,7 @@ gh CLI available: true
 - production-environment: Set VITE_ADSENSE_CLIENT_ID + VITE_ADSENSE_REWARDED_SLOT_ID for web/PWA revenue tests or ADMOB_PUBLISHER_ID for native app placements.
 - production-environment: Connect Google Play credentials or set AGL_GOOGLE_PLAY_ACCOUNT_CONNECTED=true.
 - production-environment: Connect Apple Developer account only after revenue justifies iOS spend.
+- event-collector: Collector environment is not configured.
+- store-compliance: hosted-privacy-url: Hosted privacy policy URL is required before public store submission.
+- store-compliance: support-contact: Production support email is required before public store submission.
+- store-compliance: google-play-account: Google Play developer account must be connected before Android submission.

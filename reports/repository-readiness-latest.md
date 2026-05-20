@@ -1,19 +1,19 @@
 # Repository Readiness
 
-Generated: 2026-05-20T06:39:43.958Z
-Status: waiting-for-github-repository
+Generated: 2026-05-20T06:53:24.361Z
+Status: repository-channel-ready
 Workspace: /Users/moshequ/Documents/Codex/2026-05-18/i-want-to-have-a-new
-Repository: missing
-Planned target: OWNER/autonomous-game-lab
-Planned Pages origin: https://OWNER.github.io/autonomous-game-lab
+Repository: moshequ/autonomous-game-lab
+Planned target: moshequ/autonomous-game-lab
+Planned Pages origin: https://moshequ.github.io/autonomous-game-lab
 
 ## Checks
 
 - pass: local-git-worktree - Git worktree detected at /Users/moshequ/Documents/Codex/2026-05-18/i-want-to-have-a-new.
-- blocker: github-target - Set GITHUB_REPOSITORY/GH_REPO, add a GitHub origin remote, or authenticate gh so the target can be inferred.
+- pass: github-target - Target repository is moshequ/autonomous-game-lab.
 - blocker: origin-remote - No GitHub origin remote is available from this workspace.
-- pass: gh-cli - gh version 2.90.0 (2026-04-16)
-- external-blocker: gh-token - Authenticate GitHub CLI or configure GH_TOKEN/GITHUB_TOKEN for non-interactive workflow dispatch.
+- pass: gh-cli - gh version 2.92.0 (2026-04-28)
+- pass: gh-token - GitHub CLI authentication is available for repository operations.
 - pass: pages-workflow - Web PWA Deploy workflow exists and includes post-deploy smoke.
 - pass: deployable-artifact - Deployment ready-for-pages; release candidate release-candidate-ready; smoke blocked-missing-origin.
 
@@ -29,14 +29,11 @@ Planned Pages origin: https://OWNER.github.io/autonomous-game-lab
 
 ## Setup Required Once
 
-- Create or attach repository target: OWNER/autonomous-game-lab
+- Create or attach repository target: moshequ/autonomous-game-lab
 - GitHub create URL: https://github.com/new?name=autonomous-game-lab&visibility=public
-- Attach origin command: GITHUB_REPOSITORY=OWNER/autonomous-game-lab AGL_ALLOW_REPOSITORY_BOOTSTRAP=1 AGL_ALLOW_ORIGIN_REMOTE=1 ./ops/github/bootstrap-repository.sh
-- Add a GitHub origin remote, set GITHUB_REPOSITORY/GH_REPO to owner/repo, set AGL_GITHUB_OWNER to infer owner/package-name, or authenticate gh.
-- Authenticate GitHub CLI or provide GH_TOKEN/GITHUB_TOKEN before non-interactive workflow dispatch.
+- Attach origin command: GITHUB_REPOSITORY=moshequ/autonomous-game-lab AGL_ALLOW_REPOSITORY_BOOTSTRAP=1 AGL_ALLOW_ORIGIN_REMOTE=1 ./ops/github/bootstrap-repository.sh
 - Let the production bootstrap helper enable GitHub Pages with GitHub Actions as the source once gh credentials exist.
 
 ## Blockers
 
-- Add a GitHub origin remote, set GITHUB_REPOSITORY/GH_REPO, set AGL_GITHUB_OWNER, or authenticate gh to infer the target repository.
-- Authenticate GitHub CLI or configure GH_TOKEN/GITHUB_TOKEN for workflow dispatch and repository settings sync.
+- none

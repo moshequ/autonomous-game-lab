@@ -1,14 +1,14 @@
 export const autonomousOwnerLoop = {
   "status": "owner-loop-ready",
-  "mode": "repository-channel-needed",
+  "mode": "zero-spend-web-ready",
   "autonomyScore": {
-    "percent": 94
+    "percent": 97
   },
   "controls": {
     "externalAccountInterventionRequired": true
   },
   "ownerDecision": {
-    "nextBestActionId": "refresh-objective-audit"
+    "nextBestActionId": "refresh-organic-seed-loop"
   },
   "systems": [
     {
@@ -30,7 +30,7 @@ export const autonomousOwnerLoop = {
   ],
   "safeAutonomousActions": [
     {
-      "id": "refresh-objective-audit",
+      "id": "refresh-organic-seed-loop",
       "status": "armed"
     },
     {

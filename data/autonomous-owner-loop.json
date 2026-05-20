@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2026-05-20T06:39:45.788Z",
+  "generatedAt": "2026-05-20T06:53:28.138Z",
   "status": "owner-loop-ready",
-  "mode": "repository-channel-needed",
+  "mode": "zero-spend-web-ready",
   "autonomyScore": {
-    "readySystems": 34,
+    "readySystems": 35,
     "totalSystems": 36,
-    "percent": 94
+    "percent": 97
   },
   "controls": {
     "localLoopCanRunWithoutExternalAccounts": true,
@@ -18,13 +18,13 @@
     "revenueEnabled": false,
     "deployAllowed": true,
     "rollbackRequired": false,
-    "repositoryHandoffPrepared": true
+    "repositoryHandoffPrepared": false
   },
   "ownerDecision": {
-    "nextBestActionId": "refresh-objective-audit",
-    "nextBestAction": "npm run autonomous:objective-audit",
+    "nextBestActionId": "refresh-organic-seed-loop",
+    "nextBestAction": "npm run autonomous:organic-seed-loop",
     "canExecuteWithoutSpend": true,
-    "rationale": "Keeps the original objective mapped to current evidence and prevents false completion claims."
+    "rationale": "Refreshes the player-initiated zero-cost share surface for the highest-opportunity seed campaign."
   },
   "executionMemory": {
     "avoidImmediateRepeat": true,
@@ -47,6 +47,24 @@
       "refresh-product-gate-recovery",
       "refresh-product-gate-sample-plan"
     ],
+    "objectiveAuditFreshness": {
+      "fresh": true,
+      "structurallyReady": true,
+      "auditGeneratedAt": "2026-05-20T06:53:27.865Z",
+      "evaluatedInputIds": [
+        "analytics-rollup",
+        "event-ingest",
+        "local-event-bridge",
+        "product-gate-recovery",
+        "product-gate-sample-plan",
+        "production-activation",
+        "repository-readiness",
+        "repository-bootstrap",
+        "monetization-plan",
+        "android-release"
+      ],
+      "staleInputIds": []
+    },
     "gateSampleDownloadsBackoff": {
       "enabled": true,
       "cooldownHours": 4,
@@ -77,19 +95,25 @@
       "optimize-product-gates",
       "collect-gate-sample-downloads",
       "collect-live-events",
+      "refresh-organic-seed-loop",
       "refresh-product-gate-sample-plan",
       "refresh-product-gate-recovery",
+      "refresh-first-move-coach",
+      "refresh-completion-loop",
+      "refresh-replay-loop",
       "optimize-daily-retention",
       "measure-pwa-install-loop",
+      "apply-safe-improvements",
+      "optimize-store-listing",
       "refresh-autonomous-cadence",
       "refresh-autonomous-self-update",
       "refresh-objective-audit"
     ],
     "repositoryHandoff": {
-      "prepared": true,
+      "prepared": false,
       "targetPlanReady": true,
-      "plannedTarget": "OWNER/autonomous-game-lab",
-      "status": "external-owner-or-auth-required"
+      "plannedTarget": "moshequ/autonomous-game-lab",
+      "status": "repository-channel-ready"
     }
   },
   "systems": [
@@ -125,7 +149,7 @@
       "id": "autonomous-self-update",
       "status": "ready",
       "autonomy": "gated-generated-change-persistence",
-      "evidence": "Self-update self-update-ready; safe pending 64; unsafe pending 0; remote push held.",
+      "evidence": "Self-update self-update-ready; safe pending 69; unsafe pending 0; remote push held.",
       "nextAction": "When a GitHub repository is connected, set AGL_AUTONOMOUS_SELF_UPDATE=1 and AGL_AUTONOMOUS_SELF_UPDATE_DIRECT=1 to let verified generated changes persist."
     },
     {
@@ -174,7 +198,7 @@
       "id": "performance-budget",
       "status": "ready",
       "autonomy": "automatic-build-budget",
-      "evidence": "Initial JS 613.7 KB; gzip 169.2 KB; deferred chunks 1.",
+      "evidence": "Initial JS 612.4 KB; gzip 168.9 KB; deferred chunks 1.",
       "nextAction": "Keep Phaser and game scenes outside the initial PWA shell."
     },
     {
@@ -235,16 +259,16 @@
     },
     {
       "id": "repository-channel",
-      "status": "waiting-for-github-repository",
-      "autonomy": "read-only-repository-preflight",
-      "evidence": "Repository missing; git worktree ready; workflow dispatch blocked.",
-      "nextAction": "Prepare the GitHub repository channel before treating the web deploy as runnable."
+      "status": "ready",
+      "autonomy": "workflow-dispatch-ready",
+      "evidence": "Repository moshequ/autonomous-game-lab; git worktree ready; workflow dispatch ready.",
+      "nextAction": "Use production bootstrap to sync configured repository variables/secrets, then dispatch the Web PWA Deploy workflow."
     },
     {
       "id": "repository-bootstrap",
       "status": "ready",
       "autonomy": "guarded-git-transport-bootstrap",
-      "evidence": "Bootstrap waiting-for-github-target; mode plan-only; helper ops/github/bootstrap-repository.sh; local git ready.",
+      "evidence": "Bootstrap waiting-for-origin-remote; mode plan-only; helper ops/github/bootstrap-repository.sh; local git ready.",
       "nextAction": "Set GITHUB_REPOSITORY/GH_REPO, set AGL_GITHUB_OWNER, or authenticate gh, then run repository bootstrap with explicit remote flags when credentials exist."
     },
     {
@@ -258,49 +282,49 @@
       "id": "release-candidate",
       "status": "ready",
       "autonomy": "content-hashed-deploy-evidence",
-      "evidence": "Candidate pwa-c06baf83a04a; status release-candidate-ready; files 43; smoke URLs 14.",
+      "evidence": "Candidate pwa-d9d4c243d0c4; status release-candidate-ready; files 43; smoke URLs 14.",
       "nextAction": "Regenerate the release candidate after every production build before deploy or rollback decisions."
     },
     {
       "id": "post-deploy-smoke",
       "status": "ready",
       "autonomy": "read-only-live-deploy-verification",
-      "evidence": "Smoke blocked-missing-origin; origin missing; candidate pwa-c06baf83a04a; checks 0/15 passed; local artifact predeploy-artifact-smoke-passed 15/15 passed.",
+      "evidence": "Smoke blocked-missing-origin; origin missing; candidate pwa-d9d4c243d0c4; checks 0/15 passed; local artifact predeploy-artifact-smoke-passed 15/15 passed.",
       "nextAction": "Run this after deployment with AGL_DEPLOYED_PWA_ORIGIN set to the Pages URL."
     },
     {
       "id": "production-bootstrap",
       "status": "ready",
       "autonomy": "zero-spend-setup-orchestration",
-      "evidence": "Bootstrap production-bootstrap-ready; mode waiting-for-external-credentials; external blockers 22.",
-      "nextAction": "Fill required environment values, then run npm run autonomous:bootstrap."
+      "evidence": "Bootstrap production-bootstrap-ready; mode can-apply-configured-actions; external blockers 18.",
+      "nextAction": "gh workflow run web-pwa-deploy.yml"
     },
     {
       "id": "production-activation",
       "status": "ready",
       "autonomy": "guarded-credential-activated-setup",
-      "evidence": "Activation activation-waiting-for-credentials; mode dry-run; execution dry-run; gh blocked.",
-      "nextAction": "Provide an existing GitHub repository target and gh credentials before production activation can apply setup."
+      "evidence": "Activation activation-ready; mode dry-run; execution dry-run; gh ready.",
+      "nextAction": "Set AGL_PRODUCTION_ACTIVATE=1 in the production automation environment to apply configured zero-spend GitHub/Pages setup."
     },
     {
       "id": "autonomous-operator",
       "status": "ready",
       "autonomy": "one-safe-action-runner",
-      "evidence": "Operator operator-plan-ready; selected refresh-objective-audit; execution not-requested.",
+      "evidence": "Operator operator-plan-ready; selected refresh-organic-seed-loop; execution not-requested.",
       "nextAction": "Keep a dry-run operator plan ready, then execute only one allowlisted local action when explicitly requested."
     },
     {
       "id": "operator-history",
       "status": "ready",
       "autonomy": "operator-audit-trail",
-      "evidence": "History operator-history-ready; records 40; executed 17.",
+      "evidence": "History operator-history-ready; records 40; executed 15.",
       "nextAction": "Keep a capped durable record of operator plans and one-action executions."
     },
     {
       "id": "objective-audit",
       "status": "ready",
       "autonomy": "completion-evidence-ledger",
-      "evidence": "Audit objective-in-progress; met 5/8; external blockers 19.",
+      "evidence": "Audit objective-in-progress; met 6/8; external blockers 15.",
       "nextAction": "The local autonomous PWA system is largely prepared, but production credentials, live data, monetization gates, hosted compliance URLs, and store account/signing blockers remain."
     },
     {
@@ -425,7 +449,7 @@
       "command": "npm run build && npm run autonomous:performance",
       "targets": [
         "pwa-shell",
-        "GameCanvas-BlkHbrEf.js"
+        "GameCanvas-DYV6RVPa.js"
       ],
       "reason": "Keeps the PWA shell fast while Phaser and game scenes stay deferred."
     },
@@ -435,7 +459,7 @@
       "costUsd": 0,
       "command": "npm run autonomous:release-candidate",
       "targets": [
-        "pwa-c06baf83a04a"
+        "pwa-d9d4c243d0c4"
       ],
       "reason": "Records a content-hashed dist inventory and post-deploy smoke plan for the exact PWA build."
     },
@@ -446,7 +470,7 @@
       "command": "npm run autonomous:post-deploy-smoke",
       "targets": [
         "deployed-pages-url",
-        "pwa-c06baf83a04a"
+        "pwa-d9d4c243d0c4"
       ],
       "reason": "Waits for a deployed Pages origin, then verifies the live PWA matches the exact release candidate."
     },
@@ -528,9 +552,9 @@
       "costUsd": 0,
       "command": "npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap",
       "targets": [
-        "github-repository-channel"
+        "moshequ/autonomous-game-lab"
       ],
-      "reason": "Repository handoff is prepared with explicit zero-spend commands and now waits only for owner/auth, so the operator should continue product and data work."
+      "reason": "Keeps the GitHub Pages deployment channel evidence fresh."
     },
     {
       "id": "bootstrap-production-setup",
@@ -562,7 +586,7 @@
       "costUsd": 0,
       "command": "npm run autonomous:operator",
       "targets": [
-        "refresh-objective-audit"
+        "refresh-organic-seed-loop"
       ],
       "reason": "Publishes the one-action local execution plan with allowlist, zero-spend, and audit controls."
     },
@@ -572,20 +596,20 @@
       "costUsd": 0,
       "command": "npm run autonomous:operator",
       "targets": [
-        "refresh-objective-audit"
+        "refresh-organic-seed-loop"
       ],
       "reason": "Refreshes the capped operator history so safe actions remain auditable over time."
     },
     {
       "id": "refresh-objective-audit",
-      "status": "armed",
+      "status": "monitor",
       "costUsd": 0,
       "command": "npm run autonomous:objective-audit",
       "targets": [
         "objective-evidence",
         "production-blockers"
       ],
-      "reason": "Keeps the original objective mapped to current evidence and prevents false completion claims."
+      "reason": "Objective audit already covers the current upstream evidence; keep it monitored while product and data actions run."
     },
     {
       "id": "optimize-store-listing",
@@ -617,10 +641,10 @@
     },
     {
       "id": "deploy-web-pwa",
-      "status": "blocked-needs-repository-channel",
+      "status": "ready-when-repository-pages-enabled",
       "costUsd": 0,
       "command": "Run the Web PWA Deploy workflow after GitHub Pages is enabled for the repository.",
-      "reason": "Git/GitHub repository channel is not ready for workflow dispatch yet."
+      "reason": "Connect a free static host or GitHub Pages environment, then publish dist."
     },
     {
       "id": "collect-live-events",
@@ -791,9 +815,9 @@
     "autonomousCadenceStatus": "cadence-ready",
     "autonomousSelfUpdateStatus": "self-update-ready",
     "performanceBudgetStatus": "performance-budget-ready",
-    "repositoryReadinessStatus": "waiting-for-github-repository",
-    "repositoryBootstrapStatus": "waiting-for-github-target",
-    "repositoryHandoffPrepared": true,
+    "repositoryReadinessStatus": "repository-channel-ready",
+    "repositoryBootstrapStatus": "waiting-for-origin-remote",
+    "repositoryHandoffPrepared": false,
     "releaseCandidateStatus": "release-candidate-ready",
     "postDeploySmokeStatus": "blocked-missing-origin",
     "productOptimizationStatus": "product-optimization-ready",
@@ -802,7 +826,7 @@
     "completionLoopStatus": "completion-loop-ready",
     "replayLoopStatus": "replay-loop-ready",
     "productionBootstrapStatus": "production-bootstrap-ready",
-    "productionActivationStatus": "activation-waiting-for-credentials",
+    "productionActivationStatus": "activation-ready",
     "autonomousOperatorStatus": "operator-plan-ready",
     "autonomousOperatorHistoryStatus": "operator-history-ready",
     "objectiveAuditStatus": "objective-in-progress",

@@ -1,5 +1,5 @@
 export const repositoryBootstrap = {
-  "status": "waiting-for-github-target",
+  "status": "waiting-for-origin-remote",
   "mode": "plan-only",
   "helper": {
     "path": "ops/github/bootstrap-repository.sh"

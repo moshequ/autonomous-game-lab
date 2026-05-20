@@ -1,19 +1,19 @@
 export const repositoryReadiness = {
-  "status": "waiting-for-github-repository",
+  "status": "repository-channel-ready",
   "workspace": {
     "insideWorkTree": true
   },
   "repository": {
-    "target": null
+    "target": "moshequ/autonomous-game-lab"
   },
   "repositoryTargetPlan": {
-    "plannedTarget": "OWNER/autonomous-game-lab",
+    "plannedTarget": "moshequ/autonomous-game-lab",
     "pages": {
-      "origin": "https://OWNER.github.io/autonomous-game-lab"
+      "origin": "https://moshequ.github.io/autonomous-game-lab"
     }
   },
   "githubAutomation": {
-    "workflowDispatchReady": false
+    "workflowDispatchReady": true
   }
 } as const
 

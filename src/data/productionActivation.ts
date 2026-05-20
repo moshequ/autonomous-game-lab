@@ -1,6 +1,6 @@
 export const productionActivation = {
-  "generatedAt": "2026-05-20T06:39:44.703Z",
-  "status": "activation-waiting-for-credentials",
+  "generatedAt": "2026-05-20T06:53:26.199Z",
+  "status": "activation-ready",
   "mode": "dry-run",
   "envFiles": {
     "loaded": true,
@@ -53,16 +53,16 @@ export const productionActivation = {
     }
   },
   "sourceStatus": {
-    "repositoryReadiness": "waiting-for-github-repository",
-    "repositoryBootstrap": "waiting-for-github-target",
+    "repositoryReadiness": "repository-channel-ready",
+    "repositoryBootstrap": "waiting-for-origin-remote",
     "productionBootstrap": "production-bootstrap-ready",
     "deployment": "ready-for-pages",
     "postDeploySmoke": "blocked-missing-origin"
   },
   "configuration": {
     "activationRequested": false,
-    "repositoryTargetKnown": false,
-    "ghCredentialReady": false,
+    "repositoryTargetKnown": true,
+    "ghCredentialReady": true,
     "deploymentReady": true,
     "runWebWorkflows": false,
     "allowRepositoryBootstrap": false,
@@ -98,11 +98,11 @@ export const productionActivation = {
     {
       "id": "sync-production-settings",
       "command": "ops/github/setup-production.sh",
-      "status": "waiting-for-github-credentials",
+      "status": "ready",
       "canRun": false,
       "costUsd": 0,
       "mutatesExternalState": true,
-      "reason": "Held until an existing GitHub repository target and gh credentials are available.",
+      "reason": "GitHub credentials and repository target are available; setup can sync configured variables, secrets, and Pages settings.",
       "args": [],
       "runnableNow": false
     }
@@ -114,7 +114,7 @@ export const productionActivation = {
     "results": []
   },
   "nextActions": [
-    "Provide an existing GitHub repository target and gh credentials before production activation can apply setup.",
+    "Set AGL_PRODUCTION_ACTIVATE=1 in the production automation environment to apply configured zero-spend GitHub/Pages setup.",
     "Set AGL_PRODUCTION_RUN_WORKFLOWS=1 only after Pages settings and repository variables are configured.",
     "Android workflow dispatch stays held until store economics, signing, and Play credentials clear."
   ]

@@ -1,23 +1,22 @@
 {
-  "generatedAt": "2026-05-20T06:39:46.053Z",
+  "generatedAt": "2026-05-20T06:53:28.414Z",
   "status": "operator-plan-ready",
   "mode": "plan-only",
   "ownerDecision": {
-    "actionId": "refresh-objective-audit",
-    "command": "npm run autonomous:objective-audit",
+    "actionId": "refresh-organic-seed-loop",
+    "command": "npm run autonomous:organic-seed-loop",
     "locallyExecutable": true,
     "rejectionReason": null
   },
   "requestedActionId": null,
   "selectedAction": {
-    "id": "refresh-objective-audit",
+    "id": "refresh-organic-seed-loop",
     "status": "armed",
-    "command": "npm run autonomous:objective-audit",
+    "command": "npm run autonomous:organic-seed-loop",
     "targets": [
-      "objective-evidence",
-      "production-blockers"
+      "canopy-bloom"
     ],
-    "reason": "Keeps the original objective mapped to current evidence and prevents false completion claims.",
+    "reason": "Refreshes the player-initiated zero-cost share surface for the highest-opportunity seed campaign.",
     "costUsd": 0
   },
   "selectedRejection": null,
@@ -36,7 +35,6 @@
     "refresh-completion-loop",
     "refresh-replay-loop",
     "bootstrap-production-setup",
-    "refresh-objective-audit",
     "optimize-store-listing",
     "apply-safe-improvements",
     "collect-live-events"
@@ -64,12 +62,6 @@
       "id": "seed-portfolio-traffic",
       "status": "armed",
       "command": "npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop",
-      "reason": "not-selected-this-run"
-    },
-    {
-      "id": "refresh-organic-seed-loop",
-      "status": "armed",
-      "command": "npm run autonomous:organic-seed-loop",
       "reason": "not-selected-this-run"
     },
     {
@@ -175,6 +167,12 @@
       "reason": "command-not-in-local-allowlist"
     },
     {
+      "id": "refresh-objective-audit",
+      "status": "monitor",
+      "command": "npm run autonomous:objective-audit",
+      "reason": "status-monitor"
+    },
+    {
       "id": "optimize-store-listing",
       "status": "armed",
       "command": "npm run autonomous:store-listing-optimize && npm run autonomous:store-compliance",
@@ -194,9 +192,9 @@
     },
     {
       "id": "deploy-web-pwa",
-      "status": "blocked-needs-repository-channel",
+      "status": "ready-when-repository-pages-enabled",
       "command": "Run the Web PWA Deploy workflow after GitHub Pages is enabled for the repository.",
-      "reason": "status-blocked-needs-repository-channel"
+      "reason": "status-ready-when-repository-pages-enabled"
     },
     {
       "id": "collect-live-events",
@@ -207,8 +205,8 @@
   ],
   "commandPlan": [
     {
-      "segment": "npm run autonomous:objective-audit",
-      "script": "autonomous:objective-audit"
+      "segment": "npm run autonomous:organic-seed-loop",
+      "script": "autonomous:organic-seed-loop"
     }
   ],
   "execution": {
@@ -276,7 +274,7 @@
     "RUN_WORKFLOWS=1"
   ],
   "nextActions": [
-    "Run npm run autonomous:operator -- --execute --action=refresh-objective-audit to execute exactly one allowed local action.",
+    "Run npm run autonomous:operator -- --execute --action=refresh-organic-seed-loop to execute exactly one allowed local action.",
     "Do not execute GitHub workflow, store, paid ads, or account setup commands from the local operator."
   ]
 }
