@@ -1,5 +1,5 @@
 export const nativePackage = {
-  "generatedAt": "2026-05-20T05:35:53.176Z",
+  "generatedAt": "2026-05-20T07:12:38.087Z",
   "status": "blocked-draft-ready",
   "platform": "android-trusted-web-activity",
   "costGate": {
@@ -7,8 +7,8 @@ export const nativePackage = {
     "spendAllowed": false
   },
   "packageName": "app.autonomousgamelab.portal",
-  "host": null,
-  "publicOrigin": null,
+  "host": "moshequ.github.io",
+  "publicOrigin": "https://moshequ.github.io",
   "startUrl": "/",
   "launcherName": "Game Lab",
   "handoff": {
@@ -26,7 +26,7 @@ export const nativePackage = {
     "localSecretsConfigured": true
   },
   "assetLinks": {
-    "status": "public-file-ready",
+    "status": "ready",
     "template": [
       {
         "relation": [
@@ -42,7 +42,7 @@ export const nativePackage = {
       }
     ],
     "publicGenerated": true,
-    "hostReady": false,
+    "hostReady": true,
     "hostedPath": "/.well-known/assetlinks.json"
   },
   "icons": {
@@ -95,8 +95,8 @@ export const nativePackage = {
   "checks": [
     {
       "id": "production-host",
-      "status": "blocker",
-      "detail": "Production host is not configured."
+      "status": "pass",
+      "detail": "Host is moshequ.github.io."
     },
     {
       "id": "hosted-privacy",
@@ -125,12 +125,11 @@ export const nativePackage = {
     }
   ],
   "blockers": [
-    "Production host is missing or still uses example.com.",
     "Hosted privacy policy URL is missing.",
     "Google Play developer account is not connected."
   ],
   "commands": {
-    "init": "npx @bubblewrap/cli init --manifest https://YOUR_HOST/manifest.webmanifest",
+    "init": "npx @bubblewrap/cli init --manifest https://moshequ.github.io/manifest.webmanifest",
     "validate": "npx @bubblewrap/cli validate",
     "build": "npx @bubblewrap/cli build"
   }

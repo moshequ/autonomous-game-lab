@@ -1,5 +1,5 @@
 export const storeListingOptimizer = {
-  "generatedAt": "2026-05-20T05:35:44.546Z",
+  "generatedAt": "2026-05-20T07:12:37.604Z",
   "status": "store-listing-optimizer-ready",
   "sourceStatus": {
     "growthPlan": "growth-assets-ready",
@@ -13,8 +13,8 @@ export const storeListingOptimizer = {
   "recommendation": {
     "focusGameId": "canopy-bloom",
     "title": "Canopy Bloom",
-    "previousLaunchCandidateId": "lantern-relay",
-    "changedLaunchCandidate": true,
+    "previousLaunchCandidateId": "canopy-bloom",
+    "changedLaunchCandidate": false,
     "rationale": [
       "Growth quality 78",
       "Portfolio score 51.912",
@@ -323,7 +323,7 @@ export const storeListingOptimizer = {
     "revenueClaimsAllowed": false
   },
   "nextActions": [
-    "Use Canopy Bloom as the store listing focus instead of lantern-relay.",
+    "Keep Canopy Bloom as the store listing focus.",
     "Lead screenshots with Generated Canopy Bloom board.",
     "Regenerate store compliance after every listing, screenshot, monetization, or privacy change."
   ]

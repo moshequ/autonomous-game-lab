@@ -1,9 +1,9 @@
 # Post-Deploy Smoke
 
-Generated: 2026-05-20T06:53:22.991Z
+Generated: 2026-05-20T07:15:38.282Z
 Status: blocked-missing-origin
 Origin: missing
-Candidate: pwa-d9d4c243d0c4
+Candidate: pwa-8597ede06758
 
 ## Summary
 
@@ -35,20 +35,20 @@ Checks: 15/15 passed
 
 ## Checks
 
-- blocked: app-shell - ${DEPLOYED_PWA_ORIGIN}/ - No deployed origin configured.
-- blocked: manifest-webmanifest - ${DEPLOYED_PWA_ORIGIN}/manifest.webmanifest - No deployed origin configured.
-- blocked: sw-js - ${DEPLOYED_PWA_ORIGIN}/sw.js - No deployed origin configured.
-- blocked: privacy-html - ${DEPLOYED_PWA_ORIGIN}/privacy.html - No deployed origin configured.
-- blocked: support-html - ${DEPLOYED_PWA_ORIGIN}/support.html - No deployed origin configured.
-- blocked: install-html - ${DEPLOYED_PWA_ORIGIN}/install.html - No deployed origin configured.
-- blocked: compliance-json - ${DEPLOYED_PWA_ORIGIN}/compliance.json - No deployed origin configured.
-- blocked: monetization-json - ${DEPLOYED_PWA_ORIGIN}/monetization.json - No deployed origin configured.
-- blocked: app-ads-txt - ${DEPLOYED_PWA_ORIGIN}/app-ads.txt - No deployed origin configured.
-- blocked: well-known-assetlinks-json - ${DEPLOYED_PWA_ORIGIN}/.well-known/assetlinks.json - No deployed origin configured.
-- blocked: gate-sample-html - ${DEPLOYED_PWA_ORIGIN}/gate-sample.html - No deployed origin configured.
-- blocked: seed-kit-html - ${DEPLOYED_PWA_ORIGIN}/seed-kit.html - No deployed origin configured.
-- blocked: sitemap-xml - ${DEPLOYED_PWA_ORIGIN}/sitemap.xml - No deployed origin configured.
-- blocked: games-canopy-bloom-html - ${DEPLOYED_PWA_ORIGIN}/games/canopy-bloom.html - No deployed origin configured.
+- blocked: app-shell - https://moshequ.github.io/autonomous-game-lab/ - No deployed origin configured.
+- blocked: manifest-webmanifest - https://moshequ.github.io/autonomous-game-lab/manifest.webmanifest - No deployed origin configured.
+- blocked: sw-js - https://moshequ.github.io/autonomous-game-lab/sw.js - No deployed origin configured.
+- blocked: privacy-html - https://moshequ.github.io/autonomous-game-lab/privacy.html - No deployed origin configured.
+- blocked: support-html - https://moshequ.github.io/autonomous-game-lab/support.html - No deployed origin configured.
+- blocked: install-html - https://moshequ.github.io/autonomous-game-lab/install.html - No deployed origin configured.
+- blocked: compliance-json - https://moshequ.github.io/autonomous-game-lab/compliance.json - No deployed origin configured.
+- blocked: monetization-json - https://moshequ.github.io/autonomous-game-lab/monetization.json - No deployed origin configured.
+- blocked: app-ads-txt - https://moshequ.github.io/autonomous-game-lab/app-ads.txt - No deployed origin configured.
+- blocked: well-known-assetlinks-json - https://moshequ.github.io/autonomous-game-lab/.well-known/assetlinks.json - No deployed origin configured.
+- blocked: gate-sample-html - https://moshequ.github.io/autonomous-game-lab/gate-sample.html - No deployed origin configured.
+- blocked: seed-kit-html - https://moshequ.github.io/autonomous-game-lab/seed-kit.html - No deployed origin configured.
+- blocked: sitemap-xml - https://moshequ.github.io/autonomous-game-lab/sitemap.xml - No deployed origin configured.
+- blocked: games-canopy-bloom-html - https://moshequ.github.io/autonomous-game-lab/games/canopy-bloom.html - No deployed origin configured.
 - blocked: release-candidate-manifest - ${DEPLOYED_PWA_ORIGIN}/release-candidate.json - No deployed origin configured.
 
 ## Controls

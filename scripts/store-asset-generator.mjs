@@ -13,6 +13,57 @@ const reportPath = path.join(root, 'reports', 'store-assets-latest.md')
 const publicScreenshotDir = path.join(root, 'public', 'store-assets', 'screenshots')
 const distScreenshotDir = path.join(root, 'dist', 'store-assets', 'screenshots')
 
+const normalizeBasePath = (basePath) => {
+  if (!basePath || basePath === '/') {
+    return '/'
+  }
+
+  return `/${String(basePath).replace(/^\/|\/$/g, '')}/`
+}
+
+const inferBuiltBasePath = async () => {
+  try {
+    const html = await readFile(path.join(distDir, 'index.html'), 'utf8')
+    const match = html.match(/(?:src|href)="\/([^/]+)\/(?:assets\/|manifest\.webmanifest|registerSW\.js|icons\/)/)
+
+    return match ? `/${match[1]}/` : '/'
+  } catch {
+    return '/'
+  }
+}
+
+const configuredBasePath = normalizeBasePath(process.env.VITE_BASE_PATH || (await inferBuiltBasePath()))
+
+const stripConfiguredBasePath = (requestPath) => {
+  if (configuredBasePath === '/') {
+    return requestPath
+  }
+
+  const baseWithoutTrailingSlash = configuredBasePath.replace(/\/$/, '')
+
+  if (requestPath === baseWithoutTrailingSlash || requestPath === configuredBasePath) {
+    return '/'
+  }
+
+  if (requestPath.startsWith(configuredBasePath)) {
+    return `/${requestPath.slice(configuredBasePath.length)}`
+  }
+
+  return requestPath
+}
+
+const routeWithBasePath = (route) => {
+  if (configuredBasePath === '/') {
+    return route
+  }
+
+  const routeUrl = new URL(route, 'http://local.test')
+  const routePath = routeUrl.pathname === '/' ? '' : routeUrl.pathname.replace(/^\//, '')
+  routeUrl.pathname = `${configuredBasePath}${routePath}`.replace(/\/{2,}/g, '/')
+
+  return `${routeUrl.pathname}${routeUrl.search}${routeUrl.hash}`
+}
+
 const contentTypes = {
   '.css': 'text/css; charset=utf-8',
   '.html': 'text/html; charset=utf-8',
@@ -25,7 +76,7 @@ const contentTypes = {
 }
 
 const safeJoin = (base, requestPath) => {
-  const decoded = decodeURIComponent(requestPath.split('?')[0])
+  const decoded = decodeURIComponent(stripConfiguredBasePath(requestPath).split('?')[0])
   const normalized = path.normalize(decoded).replace(/^[/\\]+/, '')
   const target = path.resolve(base, normalized === '' || normalized === '.' ? 'index.html' : normalized)
   const resolvedBase = path.resolve(base)
@@ -163,7 +214,9 @@ try {
     const publicPath = path.join(publicScreenshotDir, `${shot.id}.png`)
     const distPath = path.join(distScreenshotDir, `${shot.id}.png`)
 
-    await page.goto(`${server.origin}${shot.route}`, { waitUntil: 'networkidle' })
+    const screenshotRoute = routeWithBasePath(shot.route)
+
+    await page.goto(`${server.origin}${screenshotRoute}`, { waitUntil: 'networkidle' })
     await page.getByText(shot.waitForText).first().waitFor({ state: 'visible' })
     if (shot.hideStickyNavigation) {
       await page.addStyleTag({
@@ -204,6 +257,7 @@ try {
       id: shot.id,
       label: shot.label,
       route: shot.route,
+      servedRoute: screenshotRoute,
       path: `/store-assets/screenshots/${shot.id}.png`,
       distPath: `dist/store-assets/screenshots/${shot.id}.png`,
       width: dimensions.width,
@@ -231,6 +285,7 @@ storePackage.storeListing.screenshotAssets = screenshots.map((screenshot) => ({
 const payload = {
   generatedAt: new Date().toISOString(),
   status: screenshots.length >= 4 ? 'screenshots-ready' : 'blocked',
+  basePath: configuredBasePath,
   sourceBuild: 'dist',
   screenshots,
   storePackageUpdated: true,

@@ -1,19 +1,19 @@
 export const releaseCandidate = {
-  "generatedAt": "2026-05-20T06:53:17.251Z",
+  "generatedAt": "2026-05-20T07:12:38.850Z",
   "status": "release-candidate-ready",
-  "candidateId": "pwa-d9d4c243d0c4",
+  "candidateId": "pwa-8597ede06758",
   "target": {
     "provider": "github-pages",
     "artifactPath": "dist",
     "manifestPath": "dist/release-candidate.json",
-    "publicOrigin": null,
-    "publicOriginStatus": "missing",
-    "basePath": "/"
+    "publicOrigin": "https://moshequ.github.io/autonomous-game-lab",
+    "publicOriginStatus": "inferred-github-pages",
+    "basePath": "/autonomous-game-lab/"
   },
   "summary": {
     "totalFiles": 43,
-    "totalBytes": 3641836,
-    "totalKb": 3556.5,
+    "totalBytes": 3633142,
+    "totalKb": 3548,
     "assetFiles": 3,
     "htmlFiles": 16,
     "gamePages": 10,
@@ -22,7 +22,7 @@ export const releaseCandidate = {
   },
   "integrity": {
     "algorithm": "sha256",
-    "aggregateHash": "d9d4c243d0c4580a7a63c5ab4dc753a8cf866dfd8e4e68ac5bb2987fd8695b29",
+    "aggregateHash": "8597ede06758dcde177a0b54f8b7ab1ba3b951e82924fc7d401811fa593e81dc",
     "files": [
       {
         "path": ".well-known/assetlinks.json",
@@ -39,9 +39,9 @@ export const releaseCandidate = {
         "cacheControl": "public, max-age=3600"
       },
       {
-        "path": "assets/GameCanvas-DYV6RVPa.js",
+        "path": "assets/GameCanvas-C-7I0-QB.js",
         "bytes": 1393468,
-        "sha256": "ea0a1de6fd11a81b8c13f124c370eb54ebf37d5c2cc3e227dacbf2a12672d593",
+        "sha256": "43f6288477dfd22c003b33b8c57df41e0773e1480cfb2959b2f5c0a9e03b2394",
         "contentType": "text/javascript; charset=utf-8",
         "cacheControl": "public, max-age=31536000, immutable"
       },
@@ -53,9 +53,9 @@ export const releaseCandidate = {
         "cacheControl": "public, max-age=31536000, immutable"
       },
       {
-        "path": "assets/index-BPeIJLhC.js",
-        "bytes": 626925,
-        "sha256": "dc0898d5413b40b7a97603aa2449dc3cc54139c5fdcdbf214218930f9ac65bf4",
+        "path": "assets/index-C4OKE3jP.js",
+        "bytes": 628107,
+        "sha256": "e0b426cc6d9b3d7d5032d428cf39b5b92d354e92eaac20e6cd5b91592e524810",
         "contentType": "text/javascript; charset=utf-8",
         "cacheControl": "public, max-age=31536000, immutable"
       },
@@ -208,8 +208,8 @@ export const releaseCandidate = {
       },
       {
         "path": "index.html",
-        "bytes": 803,
-        "sha256": "219f2dbd096503e7848018e6476fe10b229b517d23caa9a6589da15fc2f30e11",
+        "bytes": 903,
+        "sha256": "bd595f6ee5423118ea84b9a8650ac4daee68ced8aa3dbfcec4621550dbb1e469",
         "contentType": "text/html; charset=utf-8",
         "cacheControl": "no-cache"
       },
@@ -222,8 +222,8 @@ export const releaseCandidate = {
       },
       {
         "path": "manifest.webmanifest",
-        "bytes": 713,
-        "sha256": "c3b20d619f77b6523383e6c042a841e38774e7cd1f41661fa14100090d9eb6aa",
+        "bytes": 853,
+        "sha256": "caada44fb47a5c7bc6f2740988f483bd87acec88ef9e9bf36f7b2edc26f62bfb",
         "contentType": "application/manifest+json",
         "cacheControl": "public, max-age=3600"
       },
@@ -243,8 +243,8 @@ export const releaseCandidate = {
       },
       {
         "path": "registerSW.js",
-        "bytes": 134,
-        "sha256": "9742073ef7fc795e7673d98f272992843298426a0ffd8cb3507784df5143608b",
+        "bytes": 174,
+        "sha256": "73360f1fc3b13493893add265594214b06292dfd34429def9e10ab045514d82f",
         "contentType": "text/javascript; charset=utf-8",
         "cacheControl": "no-cache"
       },
@@ -285,8 +285,8 @@ export const releaseCandidate = {
       },
       {
         "path": "store-assets/screenshots/phone-canopy-bloom-generated.png",
-        "bytes": 204980,
-        "sha256": "9cc44dece3b124e1d672195a07da4d947b07d2214658490eff37ab04a49f5af6",
+        "bytes": 194824,
+        "sha256": "4468815c99b603f6a0619d204688d13452c57f083ec9228851f18845b8939c88",
         "contentType": "image/png",
         "cacheControl": "public, max-age=3600"
       },
@@ -314,7 +314,7 @@ export const releaseCandidate = {
       {
         "path": "sw.js",
         "bytes": 3735,
-        "sha256": "f78931b6d325d4df6339d799fc4b05ee64a317ba004c380d0db68c0717da2d06",
+        "sha256": "004f2f0cd2a953740d2fd71bcc99448e17d9406b138bfe5b326b9c5fea17f006",
         "contentType": "text/javascript; charset=utf-8",
         "cacheControl": "no-cache"
       },
@@ -405,98 +405,98 @@ export const releaseCandidate = {
     {
       "id": "app-shell",
       "path": "/",
-      "url": "${DEPLOYED_PWA_ORIGIN}/",
+      "url": "https://moshequ.github.io/autonomous-game-lab/",
       "expectedStatus": 200,
       "requiredText": "Autonomous Game Lab"
     },
     {
       "id": "manifest-webmanifest",
       "path": "/manifest.webmanifest",
-      "url": "${DEPLOYED_PWA_ORIGIN}/manifest.webmanifest",
+      "url": "https://moshequ.github.io/autonomous-game-lab/manifest.webmanifest",
       "expectedStatus": 200,
       "requiredText": null
     },
     {
       "id": "sw-js",
       "path": "/sw.js",
-      "url": "${DEPLOYED_PWA_ORIGIN}/sw.js",
+      "url": "https://moshequ.github.io/autonomous-game-lab/sw.js",
       "expectedStatus": 200,
       "requiredText": null
     },
     {
       "id": "privacy-html",
       "path": "/privacy.html",
-      "url": "${DEPLOYED_PWA_ORIGIN}/privacy.html",
+      "url": "https://moshequ.github.io/autonomous-game-lab/privacy.html",
       "expectedStatus": 200,
       "requiredText": "Autonomous Game Lab"
     },
     {
       "id": "support-html",
       "path": "/support.html",
-      "url": "${DEPLOYED_PWA_ORIGIN}/support.html",
+      "url": "https://moshequ.github.io/autonomous-game-lab/support.html",
       "expectedStatus": 200,
       "requiredText": "Autonomous Game Lab"
     },
     {
       "id": "install-html",
       "path": "/install.html",
-      "url": "${DEPLOYED_PWA_ORIGIN}/install.html",
+      "url": "https://moshequ.github.io/autonomous-game-lab/install.html",
       "expectedStatus": 200,
       "requiredText": "Autonomous Game Lab"
     },
     {
       "id": "compliance-json",
       "path": "/compliance.json",
-      "url": "${DEPLOYED_PWA_ORIGIN}/compliance.json",
+      "url": "https://moshequ.github.io/autonomous-game-lab/compliance.json",
       "expectedStatus": 200,
       "requiredText": "store-compliance"
     },
     {
       "id": "monetization-json",
       "path": "/monetization.json",
-      "url": "${DEPLOYED_PWA_ORIGIN}/monetization.json",
+      "url": "https://moshequ.github.io/autonomous-game-lab/monetization.json",
       "expectedStatus": 200,
       "requiredText": "blocked-by-product-gates"
     },
     {
       "id": "app-ads-txt",
       "path": "/app-ads.txt",
-      "url": "${DEPLOYED_PWA_ORIGIN}/app-ads.txt",
+      "url": "https://moshequ.github.io/autonomous-game-lab/app-ads.txt",
       "expectedStatus": 200,
       "requiredText": "Revenue features are disabled"
     },
     {
       "id": "well-known-assetlinks-json",
       "path": "/.well-known/assetlinks.json",
-      "url": "${DEPLOYED_PWA_ORIGIN}/.well-known/assetlinks.json",
+      "url": "https://moshequ.github.io/autonomous-game-lab/.well-known/assetlinks.json",
       "expectedStatus": 200,
       "requiredText": "delegate_permission/common.handle_all_urls"
     },
     {
       "id": "gate-sample-html",
       "path": "/gate-sample.html",
-      "url": "${DEPLOYED_PWA_ORIGIN}/gate-sample.html",
+      "url": "https://moshequ.github.io/autonomous-game-lab/gate-sample.html",
       "expectedStatus": 200,
       "requiredText": "Autonomous Game Lab"
     },
     {
       "id": "seed-kit-html",
       "path": "/seed-kit.html",
-      "url": "${DEPLOYED_PWA_ORIGIN}/seed-kit.html",
+      "url": "https://moshequ.github.io/autonomous-game-lab/seed-kit.html",
       "expectedStatus": 200,
       "requiredText": "Autonomous Game Lab"
     },
     {
       "id": "sitemap-xml",
       "path": "/sitemap.xml",
-      "url": "${DEPLOYED_PWA_ORIGIN}/sitemap.xml",
+      "url": "https://moshequ.github.io/autonomous-game-lab/sitemap.xml",
       "expectedStatus": 200,
       "requiredText": null
     },
     {
       "id": "games-canopy-bloom-html",
       "path": "/games/canopy-bloom.html",
-      "url": "${DEPLOYED_PWA_ORIGIN}/games/canopy-bloom.html",
+      "url": "https://moshequ.github.io/autonomous-game-lab/games/canopy-bloom.html",
       "expectedStatus": 200,
       "requiredText": "Autonomous Game Lab"
     }
@@ -529,8 +529,8 @@ export const releaseCandidate = {
     "trigger": "runtime health, smoke failure, or deploy gate regression"
   },
   "complianceUrls": {
-    "privacy": "${DEPLOYED_PWA_ORIGIN}/privacy.html",
-    "support": "${DEPLOYED_PWA_ORIGIN}/support.html",
+    "privacy": "https://moshequ.github.io/autonomous-game-lab/privacy.html",
+    "support": "https://moshequ.github.io/autonomous-game-lab/support.html",
     "hostedPrivacyStatus": "needs-hosted-domain"
   },
   "controls": {
@@ -585,7 +585,7 @@ export const releaseCandidate = {
     }
   ],
   "nextActions": [
-    "After the Pages workflow deploys, replace ${DEPLOYED_PWA_ORIGIN} with the Pages URL and run the smoke plan.",
+    "After the Pages workflow deploys, run the smoke URLs under https://moshequ.github.io/autonomous-game-lab.",
     "Keep revenue, paid acquisition, and app-store submission disabled until their gates pass."
   ]
 } as const

@@ -1,11 +1,11 @@
 # Release Candidate
 
-Generated: 2026-05-20T06:53:17.251Z
+Generated: 2026-05-20T07:12:38.850Z
 Status: release-candidate-ready
-Candidate: pwa-d9d4c243d0c4
+Candidate: pwa-8597ede06758
 Files: 43
-Size: 3556.5 KB
-Aggregate SHA-256: d9d4c243d0c4580a7a63c5ab4dc753a8cf866dfd8e4e68ac5bb2987fd8695b29
+Size: 3548 KB
+Aggregate SHA-256: 8597ede06758dcde177a0b54f8b7ab1ba3b951e82924fc7d401811fa593e81dc
 
 ## Checks
 
@@ -41,20 +41,20 @@ Aggregate SHA-256: d9d4c243d0c4580a7a63c5ab4dc753a8cf866dfd8e4e68ac5bb2987fd8695
 
 ## Post-Deploy Smoke
 
-- 200: ${DEPLOYED_PWA_ORIGIN}/
-- 200: ${DEPLOYED_PWA_ORIGIN}/manifest.webmanifest
-- 200: ${DEPLOYED_PWA_ORIGIN}/sw.js
-- 200: ${DEPLOYED_PWA_ORIGIN}/privacy.html
-- 200: ${DEPLOYED_PWA_ORIGIN}/support.html
-- 200: ${DEPLOYED_PWA_ORIGIN}/install.html
-- 200: ${DEPLOYED_PWA_ORIGIN}/compliance.json
-- 200: ${DEPLOYED_PWA_ORIGIN}/monetization.json
-- 200: ${DEPLOYED_PWA_ORIGIN}/app-ads.txt
-- 200: ${DEPLOYED_PWA_ORIGIN}/.well-known/assetlinks.json
-- 200: ${DEPLOYED_PWA_ORIGIN}/gate-sample.html
-- 200: ${DEPLOYED_PWA_ORIGIN}/seed-kit.html
-- 200: ${DEPLOYED_PWA_ORIGIN}/sitemap.xml
-- 200: ${DEPLOYED_PWA_ORIGIN}/games/canopy-bloom.html
+- 200: https://moshequ.github.io/autonomous-game-lab/
+- 200: https://moshequ.github.io/autonomous-game-lab/manifest.webmanifest
+- 200: https://moshequ.github.io/autonomous-game-lab/sw.js
+- 200: https://moshequ.github.io/autonomous-game-lab/privacy.html
+- 200: https://moshequ.github.io/autonomous-game-lab/support.html
+- 200: https://moshequ.github.io/autonomous-game-lab/install.html
+- 200: https://moshequ.github.io/autonomous-game-lab/compliance.json
+- 200: https://moshequ.github.io/autonomous-game-lab/monetization.json
+- 200: https://moshequ.github.io/autonomous-game-lab/app-ads.txt
+- 200: https://moshequ.github.io/autonomous-game-lab/.well-known/assetlinks.json
+- 200: https://moshequ.github.io/autonomous-game-lab/gate-sample.html
+- 200: https://moshequ.github.io/autonomous-game-lab/seed-kit.html
+- 200: https://moshequ.github.io/autonomous-game-lab/sitemap.xml
+- 200: https://moshequ.github.io/autonomous-game-lab/games/canopy-bloom.html
 
 ## Controls
 

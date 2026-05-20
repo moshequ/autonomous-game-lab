@@ -1,6 +1,6 @@
 # Android TWA Handoff
 
-Generated: 2026-05-20T05:35:53.176Z
+Generated: 2026-05-20T07:12:38.087Z
 Status: blocked-draft-ready
 
 ## Files
@@ -21,12 +21,11 @@ Status: blocked-draft-ready
 
 ## Commands
 
-- Init: `npx @bubblewrap/cli init --manifest https://YOUR_HOST/manifest.webmanifest`
+- Init: `npx @bubblewrap/cli init --manifest https://moshequ.github.io/manifest.webmanifest`
 - Validate: `npx @bubblewrap/cli validate`
 - Build: `npx @bubblewrap/cli build`
 
 ## Blockers
 
-- Production host is missing or still uses example.com.
 - Hosted privacy policy URL is missing.
 - Google Play developer account is not connected.

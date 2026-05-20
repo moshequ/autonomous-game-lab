@@ -1,19 +1,19 @@
 {
-  "generatedAt": "2026-05-20T05:35:53.175Z",
+  "generatedAt": "2026-05-20T07:12:38.086Z",
   "source": "Autonomous Game Lab native packager",
   "status": "blocked-draft-ready",
-  "initCommand": "npx @bubblewrap/cli init --manifest https://YOUR_HOST/manifest.webmanifest",
+  "initCommand": "npx @bubblewrap/cli init --manifest https://moshequ.github.io/manifest.webmanifest",
   "buildCommand": "npx @bubblewrap/cli build",
   "validateCommand": "npx @bubblewrap/cli validate",
   "packageId": "app.autonomousgamelab.portal",
-  "host": null,
+  "host": "moshequ.github.io",
   "startUrl": "/",
   "signing": {
     "status": "fingerprint-configured",
     "sha256CertFingerprint": "FC:92:04:44:5B:93:78:92:A9:8C:08:50:BF:97:7A:90:A5:62:61:81:53:E7:A9:AA:A9:39:86:74:AE:D3:52:C2"
   },
   "assetLinks": {
-    "status": "public-file-ready",
+    "status": "ready",
     "hostedPath": "/.well-known/assetlinks.json",
     "templatePath": "native/android/assetlinks.template.json",
     "publicPath": "public/.well-known/assetlinks.json"

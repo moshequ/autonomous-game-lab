@@ -1,5 +1,5 @@
 export const androidRelease = {
-  "generatedAt": "2026-05-20T05:35:56.478Z",
+  "generatedAt": "2026-05-20T07:12:38.334Z",
   "status": "blocked-needs-host-signing-play",
   "envFiles": {
     "loaded": true,
@@ -79,7 +79,7 @@ export const androidRelease = {
     "googlePlayFeeAllowed": false,
     "paybackDays": null,
     "hostedPrivacyStatus": "needs-hosted-domain",
-    "assetLinksStatus": "public-file-ready",
+    "assetLinksStatus": "ready",
     "signingFingerprint": "FC:92:04:44:5B:93:78:92:A9:8C:08:50:BF:97:7A:90:A5:62:61:81:53:E7:A9:AA:A9:39:86:74:AE:D3:52:C2",
     "localSigningSecretsConfigured": true
   },

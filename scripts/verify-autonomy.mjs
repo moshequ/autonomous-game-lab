@@ -2939,10 +2939,14 @@ if (
 
 const nativeSigningFingerprintReady = Boolean(androidSigning.signing?.sha256CertFingerprint)
 const nativeSigningFingerprintBlocker = 'Android signing certificate SHA-256 fingerprint is missing.'
+const nativeExternalGateBlockerReady =
+  nativePackage.blockers?.includes('Production host is missing or still uses example.com.') ||
+  nativePackage.blockers?.includes('Hosted privacy policy URL is missing.') ||
+  nativePackage.blockers?.includes('Google Play developer account is not connected.')
 
 if (
   nativePackage.status === 'blocked-draft-ready' &&
-  (!nativePackage.blockers?.includes('Production host is missing or still uses example.com.') ||
+  (!nativeExternalGateBlockerReady ||
     (nativeSigningFingerprintReady
       ? nativePackage.blockers?.includes(nativeSigningFingerprintBlocker)
       : !nativePackage.blockers?.includes(nativeSigningFingerprintBlocker)) ||
@@ -3078,6 +3082,14 @@ if (storeAssets.status !== 'screenshots-ready' || storeScreenshotAssets.length <
   fail('Store asset generator must produce at least four ready screenshots.')
 }
 
+if (
+  typeof storeAssets.basePath !== 'string' ||
+  !storeAssets.basePath.startsWith('/') ||
+  !storeAssets.basePath.endsWith('/')
+) {
+  fail('Store asset generator must record the normalized deployment base path used for screenshot capture.')
+}
+
 for (const screenshot of storeScreenshotAssets) {
   try {
     const publicInfo = await pngInfo(path.join('public', screenshot.path.replace(/^\//, '')))
@@ -3090,7 +3102,9 @@ for (const screenshot of storeScreenshotAssets) {
       distInfo.height !== screenshot.height ||
       publicInfo.bytes < 20_000 ||
       distInfo.bytes < 20_000 ||
-      !storePackageScreenshotIds.has(screenshot.id)
+      !storePackageScreenshotIds.has(screenshot.id) ||
+      typeof screenshot.servedRoute !== 'string' ||
+      (storeAssets.basePath !== '/' && !screenshot.servedRoute.startsWith(storeAssets.basePath))
     ) {
       fail(`Store screenshot asset is invalid or detached from store package: ${screenshot.id}`)
     }

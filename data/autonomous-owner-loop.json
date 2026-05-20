@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-20T07:01:46.357Z",
+  "generatedAt": "2026-05-20T07:15:39.055Z",
   "status": "owner-loop-ready",
   "mode": "zero-spend-web-ready",
   "autonomyScore": {
@@ -50,7 +50,7 @@
     "objectiveAuditFreshness": {
       "fresh": true,
       "structurallyReady": true,
-      "auditGeneratedAt": "2026-05-20T07:01:46.085Z",
+      "auditGeneratedAt": "2026-05-20T07:15:38.799Z",
       "evaluatedInputIds": [
         "analytics-rollup",
         "event-ingest",
@@ -198,7 +198,7 @@
       "id": "performance-budget",
       "status": "ready",
       "autonomy": "automatic-build-budget",
-      "evidence": "Initial JS 612.4 KB; gzip 168.9 KB; deferred chunks 1.",
+      "evidence": "Initial JS 613.6 KB; gzip 169.3 KB; deferred chunks 1.",
       "nextAction": "Keep Phaser and game scenes outside the initial PWA shell."
     },
     {
@@ -282,21 +282,21 @@
       "id": "release-candidate",
       "status": "ready",
       "autonomy": "content-hashed-deploy-evidence",
-      "evidence": "Candidate pwa-d9d4c243d0c4; status release-candidate-ready; files 43; smoke URLs 14.",
+      "evidence": "Candidate pwa-8597ede06758; status release-candidate-ready; files 43; smoke URLs 14.",
       "nextAction": "Regenerate the release candidate after every production build before deploy or rollback decisions."
     },
     {
       "id": "post-deploy-smoke",
       "status": "ready",
       "autonomy": "read-only-live-deploy-verification",
-      "evidence": "Smoke blocked-missing-origin; origin missing; candidate pwa-d9d4c243d0c4; checks 0/15 passed; local artifact predeploy-artifact-smoke-passed 15/15 passed.",
+      "evidence": "Smoke blocked-missing-origin; origin missing; candidate pwa-8597ede06758; checks 0/15 passed; local artifact predeploy-artifact-smoke-passed 15/15 passed.",
       "nextAction": "Run this after deployment with AGL_DEPLOYED_PWA_ORIGIN set to the Pages URL."
     },
     {
       "id": "production-bootstrap",
       "status": "ready",
       "autonomy": "zero-spend-setup-orchestration",
-      "evidence": "Bootstrap production-bootstrap-ready; mode can-apply-configured-actions; external blockers 16.",
+      "evidence": "Bootstrap production-bootstrap-ready; mode can-apply-configured-actions; external blockers 17.",
       "nextAction": "gh workflow run web-pwa-deploy.yml"
     },
     {
@@ -317,22 +317,22 @@
       "id": "operator-history",
       "status": "ready",
       "autonomy": "operator-audit-trail",
-      "evidence": "History operator-history-ready; records 40; executed 15.",
+      "evidence": "History operator-history-ready; records 40; executed 13.",
       "nextAction": "Keep a capped durable record of operator plans and one-action executions."
     },
     {
       "id": "objective-audit",
       "status": "ready",
       "autonomy": "completion-evidence-ledger",
-      "evidence": "Audit objective-in-progress; met 6/8; external blockers 13.",
+      "evidence": "Audit objective-in-progress; met 6/8; external blockers 14.",
       "nextAction": "The local autonomous PWA system is largely prepared, but production credentials, live data, monetization gates, hosted compliance URLs, and store account/signing blockers remain."
     },
     {
       "id": "store-listing-optimizer",
       "status": "ready",
       "autonomy": "automatic-aso-draft",
-      "evidence": "Focus canopy-bloom; lead screenshot phone-canopy-bloom-generated; candidate changed yes.",
-      "nextAction": "Use Canopy Bloom as the store listing focus instead of lantern-relay."
+      "evidence": "Focus canopy-bloom; lead screenshot phone-canopy-bloom-generated; candidate changed no.",
+      "nextAction": "Keep Canopy Bloom as the store listing focus."
     },
     {
       "id": "store-compliance",
@@ -449,7 +449,7 @@
       "command": "npm run build && npm run autonomous:performance",
       "targets": [
         "pwa-shell",
-        "GameCanvas-DYV6RVPa.js"
+        "GameCanvas-C-7I0-QB.js"
       ],
       "reason": "Keeps the PWA shell fast while Phaser and game scenes stay deferred."
     },
@@ -459,7 +459,7 @@
       "costUsd": 0,
       "command": "npm run autonomous:release-candidate",
       "targets": [
-        "pwa-d9d4c243d0c4"
+        "pwa-8597ede06758"
       ],
       "reason": "Records a content-hashed dist inventory and post-deploy smoke plan for the exact PWA build."
     },
@@ -470,7 +470,7 @@
       "command": "npm run autonomous:post-deploy-smoke",
       "targets": [
         "deployed-pages-url",
-        "pwa-d9d4c243d0c4"
+        "pwa-8597ede06758"
       ],
       "reason": "Waits for a deployed Pages origin, then verifies the live PWA matches the exact release candidate."
     },

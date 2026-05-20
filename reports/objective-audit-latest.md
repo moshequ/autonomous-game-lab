@@ -1,6 +1,6 @@
 # Objective Audit
 
-Generated: 2026-05-20T07:01:46.085Z
+Generated: 2026-05-20T07:15:38.799Z
 Status: objective-in-progress
 Can mark goal complete: false
 Reason: The local autonomous PWA system is largely prepared, but production credentials, live data, monetization gates, hosted compliance URLs, and store account/signing blockers remain.
@@ -11,7 +11,7 @@ Reason: The local autonomous PWA system is largely prepared, but production cred
 - Met: 6
 - Prepared: 2
 - Incomplete: 0
-- External blockers: 13
+- External blockers: 14
 - Product blockers: 6
 
 ## Requirements
@@ -35,6 +35,7 @@ Reason: The local autonomous PWA system is largely prepared, but production cred
 
 ## Top Blockers
 
+- Commit current generated changes before pushing to GitHub Pages.
 - Set AGL_SUPPORT_EMAIL to a real support inbox before public store submission.
 - Set VITE_EVENT_COLLECTOR_URL or VITE_POSTHOG_KEY to forward browser analytics in production.
 - Set AGL_EVENT_COLLECTOR_EXPORT_URL + AGL_EVENT_COLLECTOR_ADMIN_TOKEN or PostHog server credentials for autonomous production rollups.
@@ -50,4 +51,3 @@ Reason: The local autonomous PWA system is largely prepared, but production cred
 - google-play-account: Google Play developer account must be connected before Android submission.
 - apple-developer-account: Apple Developer account remains deferred until iOS spend is justified.
 - native-package-ready: Native package is blocked-draft-ready.
-- google-play-account: Google Play account is not connected.
