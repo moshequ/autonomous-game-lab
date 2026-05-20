@@ -81,6 +81,11 @@ jobs:
           npm run autonomous:performance
           npm run autonomous:release-candidate
           npm run autonomous:post-deploy-smoke
+          npm run autonomous:repo-readiness
+          npm run autonomous:repo-bootstrap
+          npm run autonomous:deploy-plan
+          npm run autonomous:bootstrap
+          npm run autonomous:activate-production
           npm run autonomous:readiness
           npm run autonomous:owner-loop
           npm run autonomous:operator
@@ -112,6 +117,21 @@ jobs:
             data/post-deploy-smoke.json \
             src/data/postDeploySmoke.ts \
             reports/post-deploy-smoke-latest.md \
+            data/repository-readiness.json \
+            src/data/repositoryReadiness.ts \
+            reports/repository-readiness-latest.md \
+            data/repository-bootstrap.json \
+            src/data/repositoryBootstrap.ts \
+            reports/repository-bootstrap-latest.md \
+            data/deployment-plan.json \
+            src/data/deploymentPlan.ts \
+            reports/deployment-plan-latest.md \
+            data/production-bootstrap.json \
+            src/data/productionBootstrap.ts \
+            reports/production-bootstrap-latest.md \
+            data/production-activation.json \
+            src/data/productionActivation.ts \
+            reports/production-activation-latest.md \
             data/production-readiness.json \
             reports/production-readiness-latest.md \
             data/autonomous-owner-loop.json \

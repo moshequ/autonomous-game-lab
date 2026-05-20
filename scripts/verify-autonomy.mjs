@@ -2441,6 +2441,8 @@ if (
   !postDeployEvidenceSyncWorkflow.includes('npm run build') ||
   !postDeployEvidenceSyncWorkflow.includes('autonomous:release-candidate') ||
   !postDeployEvidenceSyncWorkflow.includes('autonomous:post-deploy-smoke') ||
+  !postDeployEvidenceSyncWorkflow.includes('autonomous:repo-readiness') ||
+  !postDeployEvidenceSyncWorkflow.includes('autonomous:deploy-plan') ||
   !postDeployEvidenceSyncWorkflow.includes('autonomous:post-deploy-artifact-sync') ||
   !postDeployEvidenceSyncWorkflow.includes('node scripts/verify-autonomy.mjs') ||
   !postDeployEvidenceSyncWorkflow.includes('AGL_AUTONOMOUS_SELF_UPDATE_DIRECT') ||
@@ -3780,6 +3782,8 @@ if (
   !postDeployEvidenceSyncWorkflow.includes('npm run build') ||
   !postDeployEvidenceSyncWorkflow.includes('autonomous:release-candidate') ||
   !postDeployEvidenceSyncWorkflow.includes('autonomous:post-deploy-smoke') ||
+  !postDeployEvidenceSyncWorkflow.includes('autonomous:repo-readiness') ||
+  !postDeployEvidenceSyncWorkflow.includes('autonomous:deploy-plan') ||
   !postDeployEvidenceSyncWorkflow.includes('autonomous:post-deploy-artifact-sync') ||
   !postDeployEvidenceSyncWorkflow.includes('node scripts/verify-autonomy.mjs') ||
   !postDeployEvidenceSyncWorkflow.includes('AGL_AUTONOMOUS_SELF_UPDATE_DIRECT') ||

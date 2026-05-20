@@ -1152,6 +1152,8 @@ test('post-deploy artifact sync preserves strict Pages workflow evidence', async
   expect(workflow).toContain('npm run build')
   expect(workflow).toContain('autonomous:release-candidate')
   expect(workflow).toContain('autonomous:post-deploy-smoke')
+  expect(workflow).toContain('autonomous:repo-readiness')
+  expect(workflow).toContain('autonomous:deploy-plan')
   expect(workflow).toContain('autonomous:post-deploy-artifact-sync')
   expect(workflow).toContain('node scripts/verify-autonomy.mjs')
   expect(workflow).toContain('AGL_AUTONOMOUS_SELF_UPDATE_DIRECT')
