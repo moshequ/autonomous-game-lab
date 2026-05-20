@@ -2604,6 +2604,12 @@ const testAutomationDeployPlanRuns = [...testAutomationScript.matchAll(/autonomo
 const testAutomationPostSmokeRuns = [...testAutomationScript.matchAll(/autonomous:post-deploy-smoke/g)].map(
   (match) => match.index ?? -1,
 )
+const testAutomationRepoReadinessRuns = [...testAutomationScript.matchAll(/autonomous:repo-readiness/g)].map(
+  (match) => match.index ?? -1,
+)
+const testAutomationRepoBootstrapRuns = [...testAutomationScript.matchAll(/autonomous:repo-bootstrap/g)].map(
+  (match) => match.index ?? -1,
+)
 const testAutomationReadinessRuns = [...testAutomationScript.matchAll(/autonomous:readiness/g)].map(
   (match) => match.index ?? -1,
 )
@@ -2611,9 +2617,13 @@ const testAutomationReadinessRuns = [...testAutomationScript.matchAll(/autonomou
 if (
   testAutomationDeployPlanRuns.length < 2 ||
   testAutomationPostSmokeRuns.length < 2 ||
+  testAutomationRepoReadinessRuns.length < 2 ||
+  testAutomationRepoBootstrapRuns.length < 2 ||
   testAutomationReadinessRuns.length < 2
 ) {
-  fail('Autonomous verification must settle deployment, post-deploy smoke, and readiness with two refresh passes.')
+  fail(
+    'Autonomous verification must settle deployment, post-deploy smoke, repository readiness, and readiness with two refresh passes.',
+  )
 }
 
 if (
@@ -2624,11 +2634,13 @@ if (
   testAutomationPostSmokeRuns[0] > testAutomationReadinessRuns[0] ||
   testAutomationReadinessRuns[0] > testAutomationDeployPlanRuns.at(-1) ||
   testAutomationDeployPlanRuns.at(-1) > testAutomationPostSmokeRuns.at(-1) ||
-  testAutomationPostSmokeRuns.at(-1) > testAutomationReadinessRuns.at(-1) ||
+  testAutomationPostSmokeRuns.at(-1) > testAutomationRepoReadinessRuns.at(-1) ||
+  testAutomationRepoReadinessRuns.at(-1) > testAutomationRepoBootstrapRuns.at(-1) ||
+  testAutomationRepoBootstrapRuns.at(-1) > testAutomationReadinessRuns.at(-1) ||
   testAutomationReadinessRuns.at(-1) > testAutomationVerifyIndex
 ) {
   fail(
-    'Autonomous verification must rebuild dist, refresh performance, release candidate, deployment, smoke, and readiness before verify-autonomy.',
+    'Autonomous verification must rebuild dist, refresh performance, release candidate, deployment, smoke, repository readiness, and readiness before verify-autonomy.',
   )
 }
 
