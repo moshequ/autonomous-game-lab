@@ -1,6 +1,6 @@
 # Autonomous Operator
 
-Generated: 2026-05-20T23:11:06.318Z
+Generated: 2026-05-20T23:14:20.488Z
 Status: operator-plan-ready
 Mode: plan-only
 Owner decision: optimize-store-listing
@@ -32,7 +32,6 @@ Execution: not-requested
 - prepare-release-candidate
 - run-post-deploy-smoke
 - refresh-product-gate-recovery
-- refresh-objective-audit
 - optimize-store-listing
 
 ## Blocked Actions

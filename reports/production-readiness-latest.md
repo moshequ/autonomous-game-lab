@@ -1,6 +1,6 @@
 # Production Readiness
 
-Generated: 2026-05-20T23:11:06.536Z
+Generated: 2026-05-20T23:14:20.714Z
 
 ## Environment
 
@@ -71,7 +71,7 @@ Status: ready-after-build
 - pass: production-bootstrap - Production bootstrap is production-bootstrap-ready; mode can-apply-configured-actions; external blockers 17.
 - pass: production-activation - Production activation is activation-ready; mode dry-run; execution dry-run.
 - pass: autonomous-operator - Autonomous operator is operator-plan-ready; selected optimize-store-listing; execution not-requested.
-- pass: autonomous-operator-history - Autonomous operator history is operator-history-ready; records 40; executed 14.
+- pass: autonomous-operator-history - Autonomous operator history is operator-history-ready; records 40; executed 13.
 - pass: autonomous-cadence - Autonomous cadence is cadence-ready; Codex active-confirmed; GitHub scheduled.
 - pass: autonomous-self-update - Autonomous self-update is self-update-ready; safe pending 17; unsafe pending 0; remote push held.
 - pass: objective-audit - Objective audit is objective-in-progress; met 6 / 8; can complete false.
@@ -166,14 +166,14 @@ Local artifact: predeploy-artifact-smoke-passed (15/15 passed)
 ## Post-Deploy Artifact Sync
 
 Status: post-deploy-artifact-sync-passed
-Workflow run: 26194780728
-Artifact candidate: pwa-62aaa5bb3a31
-Live candidate: pwa-62aaa5bb3a31
+Workflow run: 26195349100
+Artifact candidate: pwa-a5fe83e7cfb7
+Live candidate: pwa-a5fe83e7cfb7
 Live matches artifact: true
 - pass: artifact-sync-gh-cli - gh version 2.92.0 (2026-04-28)
 - pass: artifact-sync-github-repository - Target repository is moshequ/autonomous-game-lab.
-- pass: artifact-sync-explicit-pages-run - Explicit web-pwa-deploy.yml run is 26194780728.
-- pass: artifact-sync-post-deploy-smoke-artifact - Downloaded post-deploy-smoke artifact from run 26194780728.
+- pass: artifact-sync-explicit-pages-run - Explicit web-pwa-deploy.yml run is 26195349100.
+- pass: artifact-sync-post-deploy-smoke-artifact - Downloaded post-deploy-smoke artifact from run 26195349100.
 - pass: artifact-sync-strict-smoke-artifact - Artifact status post-deploy-smoke-passed; strict manifest comparison true; checks 15/15.
 - pass: artifact-sync-live-release-manifest - Live release-candidate.json still matches the strict smoke artifact.
 
@@ -256,7 +256,7 @@ Execution: not-requested
 
 Status: operator-history-ready
 Records: 40
-Executed: 14
+Executed: 13
 
 ## Autonomous Cadence
 

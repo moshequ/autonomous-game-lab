@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-20T23:11:06.318Z",
+  "generatedAt": "2026-05-20T23:14:20.488Z",
   "status": "operator-history-ready",
   "retention": {
     "maxRecords": 40,
@@ -23,8 +23,8 @@
   },
   "summary": {
     "totalRecords": 40,
-    "plannedRecords": 26,
-    "executedRecords": 14,
+    "plannedRecords": 27,
+    "executedRecords": 13,
     "failedRecords": 0,
     "lastActionId": "optimize-store-listing",
     "lastExecutionStatus": "not-requested",
@@ -38,42 +38,6 @@
     "historyIsCapped": true
   },
   "records": [
-    {
-      "id": "20260520222454-refresh-autonomous-self-update",
-      "generatedAt": "2026-05-20T22:24:54.909Z",
-      "runFingerprint": "7497bc879ba70870",
-      "mode": "execute-one-action",
-      "status": "operator-executed",
-      "selectedActionId": "refresh-autonomous-self-update",
-      "selectedCommand": "npm run autonomous:self-update",
-      "eligibleActionIds": [
-        "refresh-autonomous-cadence",
-        "refresh-autonomous-self-update",
-        "refresh-support-feedback",
-        "optimize-daily-retention",
-        "measure-pwa-install-loop",
-        "check-performance-budget",
-        "prepare-release-candidate",
-        "run-post-deploy-smoke",
-        "refresh-product-gate-recovery",
-        "optimize-store-listing",
-        "collect-live-events"
-      ],
-      "blockedActionCount": 29,
-      "execution": {
-        "requested": true,
-        "status": "executed",
-        "attemptedActionId": "refresh-autonomous-self-update",
-        "resultCount": 1,
-        "failedScripts": []
-      },
-      "controls": {
-        "zeroPaidSpend": true,
-        "localCommandAllowlistEnforced": true,
-        "externalWorkflowExecutionBlockedByDefault": true,
-        "maxActionsPerRun": 1
-      }
-    },
     {
       "id": "20260520222546-refresh-support-feedback",
       "generatedAt": "2026-05-20T22:25:46.251Z",
@@ -1472,6 +1436,42 @@
         "run-post-deploy-smoke",
         "refresh-product-gate-recovery",
         "refresh-objective-audit",
+        "optimize-store-listing"
+      ],
+      "blockedActionCount": 29,
+      "execution": {
+        "requested": false,
+        "status": "not-requested",
+        "attemptedActionId": null,
+        "resultCount": 0,
+        "failedScripts": []
+      },
+      "controls": {
+        "zeroPaidSpend": true,
+        "localCommandAllowlistEnforced": true,
+        "externalWorkflowExecutionBlockedByDefault": true,
+        "maxActionsPerRun": 1
+      }
+    },
+    {
+      "id": "20260520231420-optimize-store-listing",
+      "generatedAt": "2026-05-20T23:14:20.488Z",
+      "runFingerprint": "a1eeba77825a5434",
+      "mode": "plan-only",
+      "status": "operator-plan-ready",
+      "selectedActionId": "optimize-store-listing",
+      "selectedCommand": "npm run autonomous:store-listing-optimize && npm run autonomous:store-compliance",
+      "eligibleActionIds": [
+        "refresh-autonomous-cadence",
+        "refresh-autonomous-self-update",
+        "seed-portfolio-traffic",
+        "refresh-organic-seed-loop",
+        "refresh-support-feedback",
+        "measure-pwa-install-loop",
+        "check-performance-budget",
+        "prepare-release-candidate",
+        "run-post-deploy-smoke",
+        "refresh-product-gate-recovery",
         "optimize-store-listing"
       ],
       "blockedActionCount": 29,
