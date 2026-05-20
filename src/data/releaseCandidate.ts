@@ -1,7 +1,7 @@
 export const releaseCandidate = {
-  "generatedAt": "2026-05-20T15:35:59.590Z",
+  "generatedAt": "2026-05-20T15:43:50.447Z",
   "status": "release-candidate-ready",
-  "candidateId": "pwa-841c64d737d8",
+  "candidateId": "pwa-2f17ab92ddbf",
   "target": {
     "provider": "github-pages",
     "artifactPath": "dist",
@@ -12,8 +12,8 @@ export const releaseCandidate = {
   },
   "summary": {
     "totalFiles": 44,
-    "totalBytes": 3678086,
-    "totalKb": 3591.9,
+    "totalBytes": 3688564,
+    "totalKb": 3602.1,
     "assetFiles": 3,
     "htmlFiles": 16,
     "gamePages": 10,
@@ -22,7 +22,7 @@ export const releaseCandidate = {
   },
   "integrity": {
     "algorithm": "sha256",
-    "aggregateHash": "841c64d737d8b129bfed78ee7fb70040b67c514a8ef06ed477f1d60537073f01",
+    "aggregateHash": "2f17ab92ddbf1fb6da3c407b0516f794f3b3115e6778591f4a6637c13c6cc9d7",
     "files": [
       {
         "path": ".nojekyll",
@@ -46,16 +46,16 @@ export const releaseCandidate = {
         "cacheControl": "public, max-age=3600"
       },
       {
-        "path": "assets/GameCanvas-CWMcr1aA.js",
+        "path": "assets/GameCanvas-DW9Fb1q8.js",
         "bytes": 1393554,
-        "sha256": "e2f69ee25b1da6bc47028ceb767d7d9a5f064bc95b22055257713aff9bb979d6",
+        "sha256": "35e82d58f0e189116bf8f5892044670e5631e4d1517f9052d0245e8519d1d1d8",
         "contentType": "text/javascript; charset=utf-8",
         "cacheControl": "public, max-age=31536000, immutable"
       },
       {
-        "path": "assets/index-Dd_B3Mv9.js",
-        "bytes": 653338,
-        "sha256": "f1521c3a5af851110d9c1dfcd7baaf5d235bf81073f8257ae072f596cdc85485",
+        "path": "assets/index-D7iV8T53.js",
+        "bytes": 653660,
+        "sha256": "1d2cab3e4a0fd90106739e54880b00b4b9930481088bbeb950f03e26da64544e",
         "contentType": "text/javascript; charset=utf-8",
         "cacheControl": "public, max-age=31536000, immutable"
       },
@@ -69,7 +69,7 @@ export const releaseCandidate = {
       {
         "path": "compliance.json",
         "bytes": 5370,
-        "sha256": "96c957597573f91f4907a00e47c636aee9e8583512b46604be033b785db4c718",
+        "sha256": "e2c59c9fd7d9d26f52429b55b93494f82e1fe0a63b4b24507b69b77fd7275c8e",
         "contentType": "application/json; charset=utf-8",
         "cacheControl": "public, max-age=3600"
       },
@@ -216,7 +216,7 @@ export const releaseCandidate = {
       {
         "path": "index.html",
         "bytes": 903,
-        "sha256": "b6c6776185b7c7bb7509cf7eba42f204001c8fd02e8b8984c0d1b4da227d1587",
+        "sha256": "2fce53075815828c98971e77a3ac59b73287a29c289be9802bba9846ae7ac6a1",
         "contentType": "text/html; charset=utf-8",
         "cacheControl": "no-cache"
       },
@@ -292,8 +292,8 @@ export const releaseCandidate = {
       },
       {
         "path": "store-assets/screenshots/phone-canopy-bloom-generated.png",
-        "bytes": 194824,
-        "sha256": "4468815c99b603f6a0619d204688d13452c57f083ec9228851f18845b8939c88",
+        "bytes": 204980,
+        "sha256": "9cc44dece3b124e1d672195a07da4d947b07d2214658490eff37ab04a49f5af6",
         "contentType": "image/png",
         "cacheControl": "public, max-age=3600"
       },
@@ -321,7 +321,7 @@ export const releaseCandidate = {
       {
         "path": "sw.js",
         "bytes": 3735,
-        "sha256": "86a82cfb41a6b43bd6550cc406c8499a708639768805b18feeef867737d3124e",
+        "sha256": "3c2c3db70978e5e1bdadce96347065b3c3fb37aabcf5c38696e334d67f3a8350",
         "contentType": "text/javascript; charset=utf-8",
         "cacheControl": "no-cache"
       },

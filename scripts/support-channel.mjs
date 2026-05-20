@@ -291,7 +291,7 @@ const blockers = [
 const status = supportChannelReady
   ? 'support-channel-ready'
   : parsedRepository
-    ? issuesEnabled === false || repositoryArchived
+    ? repositoryArchived
       ? 'support-channel-blocked'
       : 'support-channel-planned'
     : 'support-channel-missing-target'

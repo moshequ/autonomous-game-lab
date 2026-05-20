@@ -654,9 +654,9 @@ function App() {
   const productionActivationRunnableActions = productionActivation.plannedActions.filter(
     (action) => action.runnableNow,
   ).length
-  const supportChannelStatus = supportChannel.status
+  const supportChannelStatus = supportChannel.status as string
   const supportChannelRepository = supportChannel.repository.target ?? 'missing'
-  const supportChannelReady = supportChannel.status === 'support-channel-ready'
+  const supportChannelReady = supportChannelStatus === 'support-channel-ready'
   const operatorSelectedAction = autonomousOperator.selectedAction
   const operatorHistorySummary = autonomousOperatorHistory.summary
   const objectiveAuditSummary = objectiveAudit.summary
