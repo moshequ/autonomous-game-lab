@@ -2558,6 +2558,14 @@ if (!testAutomationScript.includes('autonomous:post-deploy-smoke')) {
   fail('Autonomous verification must refresh post-deploy smoke evidence before verifying release readiness.')
 }
 
+if (!testAutomationScript.includes('autonomous:deploy-plan')) {
+  fail('Autonomous verification must refresh the deployment plan before post-deploy smoke evidence.')
+}
+
+if (!testAutomationScript.includes('autonomous:bootstrap')) {
+  fail('Autonomous verification must refresh production bootstrap evidence before final readiness.')
+}
+
 if (!testAutomationScript.includes('autonomous:readiness')) {
   fail('Autonomous verification must refresh production readiness before verifying release evidence.')
 }
@@ -2586,17 +2594,41 @@ if (testAutomationScript.indexOf('local-event-bridge') > testAutomationScript.in
   fail('Autonomous verification must refresh local event bridge artifacts before verifying them.')
 }
 
+const testAutomationBuildIndex = testAutomationScript.indexOf('npm run build')
+const testAutomationPerformanceIndex = testAutomationScript.indexOf('autonomous:performance')
+const testAutomationReleaseIndex = testAutomationScript.indexOf('autonomous:release-candidate')
+const testAutomationVerifyIndex = testAutomationScript.indexOf('verify-autonomy')
+const testAutomationDeployPlanRuns = [...testAutomationScript.matchAll(/autonomous:deploy-plan/g)].map(
+  (match) => match.index ?? -1,
+)
+const testAutomationPostSmokeRuns = [...testAutomationScript.matchAll(/autonomous:post-deploy-smoke/g)].map(
+  (match) => match.index ?? -1,
+)
+const testAutomationReadinessRuns = [...testAutomationScript.matchAll(/autonomous:readiness/g)].map(
+  (match) => match.index ?? -1,
+)
+
 if (
-  testAutomationScript.indexOf('npm run build') > testAutomationScript.indexOf('autonomous:performance') ||
-  testAutomationScript.indexOf('autonomous:performance') > testAutomationScript.indexOf('autonomous:release-candidate') ||
-  testAutomationScript.indexOf('autonomous:release-candidate') >
-    testAutomationScript.indexOf('autonomous:post-deploy-smoke') ||
-  testAutomationScript.indexOf('autonomous:post-deploy-smoke') >
-    testAutomationScript.indexOf('autonomous:readiness') ||
-  testAutomationScript.lastIndexOf('autonomous:readiness') > testAutomationScript.indexOf('verify-autonomy')
+  testAutomationDeployPlanRuns.length < 2 ||
+  testAutomationPostSmokeRuns.length < 2 ||
+  testAutomationReadinessRuns.length < 2
+) {
+  fail('Autonomous verification must settle deployment, post-deploy smoke, and readiness with two refresh passes.')
+}
+
+if (
+  testAutomationBuildIndex > testAutomationPerformanceIndex ||
+  testAutomationPerformanceIndex > testAutomationReleaseIndex ||
+  testAutomationReleaseIndex > testAutomationDeployPlanRuns[0] ||
+  testAutomationDeployPlanRuns[0] > testAutomationPostSmokeRuns[0] ||
+  testAutomationPostSmokeRuns[0] > testAutomationReadinessRuns[0] ||
+  testAutomationReadinessRuns[0] > testAutomationDeployPlanRuns.at(-1) ||
+  testAutomationDeployPlanRuns.at(-1) > testAutomationPostSmokeRuns.at(-1) ||
+  testAutomationPostSmokeRuns.at(-1) > testAutomationReadinessRuns.at(-1) ||
+  testAutomationReadinessRuns.at(-1) > testAutomationVerifyIndex
 ) {
   fail(
-    'Autonomous verification must rebuild dist, refresh performance, release candidate, smoke, and readiness before verify-autonomy.',
+    'Autonomous verification must rebuild dist, refresh performance, release candidate, deployment, smoke, and readiness before verify-autonomy.',
   )
 }
 

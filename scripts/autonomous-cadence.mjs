@@ -561,6 +561,8 @@ const checks = [
       testAutomationScript.includes('event-collector-smoke') &&
       testAutomationScript.includes('event-ingest-smoke') &&
       testAutomationScript.includes('autonomous:release-candidate') &&
+      testAutomationScript.includes('autonomous:deploy-plan') &&
+      testAutomationScript.includes('autonomous:bootstrap') &&
       testAutomationScript.includes('autonomous:post-deploy-smoke') &&
       testAutomationScript.includes('autonomous:readiness') &&
       testAutomationScript.includes('verify-autonomy')
