@@ -1,5 +1,5 @@
 export const retentionLoop = {
-  "generatedAt": "2026-05-20T19:21:32.858Z",
+  "generatedAt": "2026-05-20T20:14:26.665Z",
   "status": "retention-loop-ready",
   "dailyChallenge": {
     "date": "2026-05-20",
@@ -154,8 +154,8 @@ export const retentionLoop = {
       "evidenceReadyNow": false,
       "lastScanAt": "2026-05-20T19:03:48.635Z",
       "lastScanStatus": "no-evidence-found",
-      "scanAgeHours": 0.13,
-      "cooldownRemainingHours": 3.87,
+      "scanAgeHours": 0.33,
+      "cooldownRemainingHours": 3.67,
       "nextRecommendedScanAt": "2026-05-20T23:03:48.635Z"
     },
     "commandPlan": {
