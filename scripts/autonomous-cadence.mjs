@@ -9,6 +9,7 @@ const codexOpsDir = path.join(root, 'ops', 'codex')
 const workflowPath = path.join(root, '.github', 'workflows', 'autonomous-daily.yml')
 const selfUpdateWorkflowPath = path.join(root, '.github', 'workflows', 'autonomous-self-update.yml')
 const webDeployWorkflowPath = path.join(root, '.github', 'workflows', 'web-pwa-deploy.yml')
+const postDeployEvidenceSyncWorkflowPath = path.join(root, '.github', 'workflows', 'post-deploy-evidence-sync.yml')
 const outputJsonPath = path.join(dataDir, 'autonomous-cadence.json')
 const outputTsPath = path.join(srcDataDir, 'autonomousCadence.ts')
 const reportPath = path.join(reportsDir, 'autonomous-cadence-latest.md')
@@ -156,6 +157,11 @@ const freshnessRequiredArtifacts = [
     id: 'post-deploy-smoke',
     label: 'Post-deploy smoke',
     path: 'data/post-deploy-smoke.json',
+  },
+  {
+    id: 'post-deploy-artifact-sync',
+    label: 'Post-deploy artifact sync',
+    path: 'data/post-deploy-artifact-sync.json',
   },
   {
     id: 'release-health',
@@ -335,6 +341,7 @@ const packageJson = await readJson(path.join(root, 'package.json'))
 const workflow = await readOptionalText(workflowPath)
 const selfUpdateWorkflow = await readOptionalText(selfUpdateWorkflowPath)
 const webDeployWorkflow = await readOptionalText(webDeployWorkflowPath)
+const postDeployEvidenceSyncWorkflow = await readOptionalText(postDeployEvidenceSyncWorkflowPath)
 const repositoryReadiness = await readOptionalJson(path.join(dataDir, 'repository-readiness.json'), {
   status: 'missing',
   workspace: {},
@@ -384,6 +391,7 @@ const script = (name) => packageJson.scripts?.[name] ?? ''
 const workflowExists = await exists(workflowPath)
 const selfUpdateWorkflowExists = await exists(selfUpdateWorkflowPath)
 const webDeployWorkflowExists = await exists(webDeployWorkflowPath)
+const postDeployEvidenceSyncWorkflowExists = await exists(postDeployEvidenceSyncWorkflowPath)
 const dailyScript = script('autonomous:daily')
 const operateScript = script('autonomous:operate')
 const afterActionScript = script('autonomous:after-action')
@@ -644,6 +652,24 @@ const checks = [
       : 'Web PWA deploy workflow is missing.',
   },
   {
+    id: 'post-deploy-evidence-sync-workflow',
+    status:
+      postDeployEvidenceSyncWorkflowExists &&
+      postDeployEvidenceSyncWorkflow.includes("workflows: ['Web PWA Deploy']") &&
+      postDeployEvidenceSyncWorkflow.includes('actions: read') &&
+      postDeployEvidenceSyncWorkflow.includes('contents: write') &&
+      postDeployEvidenceSyncWorkflow.includes('autonomous:post-deploy-artifact-sync') &&
+      postDeployEvidenceSyncWorkflow.includes('node scripts/verify-autonomy.mjs') &&
+      postDeployEvidenceSyncWorkflow.includes('AGL_AUTONOMOUS_SELF_UPDATE_DIRECT') &&
+      postDeployEvidenceSyncWorkflow.includes('data/post-deploy-artifact-sync.json') &&
+      postDeployEvidenceSyncWorkflow.includes('reports/post-deploy-artifact-sync-latest.md')
+        ? 'pass'
+        : 'blocker',
+    detail: postDeployEvidenceSyncWorkflowExists
+      ? 'Post-deploy evidence sync imports the strict Pages smoke artifact and persists allowlisted generated evidence after verification.'
+      : 'Post-deploy evidence sync workflow is missing.',
+  },
+  {
     id: 'zero-spend-operation',
     status: 'pass',
     detail: 'Cadence is local/CI execution only; it does not enable paid spend, stores, ads, or revenue.',
@@ -704,6 +730,18 @@ const payload = {
       deployabilityGate: 'npm run autonomous:assert-deployable',
       smokeGate: 'npm run autonomous:post-deploy-smoke -- --assert',
     },
+    githubPostDeployEvidenceSync: {
+      status:
+        checks.find((check) => check.id === 'post-deploy-evidence-sync-workflow')?.status === 'pass'
+          ? 'gated'
+          : 'missing',
+      workflow: '.github/workflows/post-deploy-evidence-sync.yml',
+      trigger: 'workflow_run: Web PWA Deploy',
+      permission: 'actions: read, contents: write',
+      evidenceGate: 'npm run autonomous:post-deploy-artifact-sync -- --assert',
+      verificationGate: 'node scripts/verify-autonomy.mjs',
+      directPushRequiresRepositoryVariable: 'AGL_AUTONOMOUS_SELF_UPDATE_DIRECT=1',
+    },
   },
   commandPlan: {
     operate: 'npm run autonomous:operate',
@@ -743,6 +781,7 @@ const payload = {
     staleEvidenceBlocksUnattendedTrust: true,
     githubWorkflowReadOnlyByDefault: true,
     selfUpdateWorkflowWritePermissionGated: true,
+    postDeployEvidenceSyncWritePermissionGated: true,
     selfUpdateStagesAllowlistedGeneratedFilesOnly: true,
   },
   checks,
@@ -793,6 +832,7 @@ const report = [
   `- GitHub Actions: ${payload.schedulers.githubActions.status} (${payload.schedulers.githubActions.cron})`,
   `- GitHub self-update: ${payload.schedulers.githubSelfUpdate.status} (${payload.schedulers.githubSelfUpdate.workflow})`,
   `- GitHub post-self-update deploy: ${payload.schedulers.githubPostSelfUpdateDeploy.status} (${payload.schedulers.githubPostSelfUpdateDeploy.workflow})`,
+  `- GitHub post-deploy evidence sync: ${payload.schedulers.githubPostDeployEvidenceSync.status} (${payload.schedulers.githubPostDeployEvidenceSync.workflow})`,
   '',
   '## Commands',
   '',

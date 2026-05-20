@@ -155,10 +155,52 @@ let selectedRun = null
 let runListRaw = null
 if (ghVersion.ok && repository) {
   if (explicitRunId) {
-    selectedRun = {
-      databaseId: Number(explicitRunId),
-      source: 'explicit-run-id',
+    const runView = await run(
+      'gh',
+      [
+        'run',
+        'view',
+        explicitRunId,
+        '--json',
+        'databaseId,headSha,createdAt,conclusion,status,url,workflowName',
+        ...repoArgs,
+      ],
+      20_000,
+    )
+
+    if (runView.ok) {
+      try {
+        const runDetails = JSON.parse(runView.stdout)
+        selectedRun = {
+          ...runDetails,
+          source: 'explicit-run-id',
+        }
+      } catch {
+        selectedRun = {
+          databaseId: Number(explicitRunId),
+          source: 'explicit-run-id',
+        }
+      }
+    } else {
+      selectedRun = {
+        databaseId: Number(explicitRunId),
+        source: 'explicit-run-id',
+      }
     }
+
+    checks.push({
+      id: 'explicit-pages-run',
+      status:
+        selectedRun?.databaseId &&
+        (selectedRun.conclusion === undefined ||
+          selectedRun.conclusion === 'success' ||
+          selectedRun.conclusion === null)
+          ? 'pass'
+          : 'blocker',
+      detail: runView.ok
+        ? `Explicit ${workflowFile} run is ${selectedRun.databaseId}.`
+        : `Using explicit run ${explicitRunId}; metadata lookup failed: ${runView.stderr || runView.stdout}`,
+    })
   } else {
     const runList = await run(
       'gh',

@@ -106,6 +106,7 @@ const requiredFiles = [
   '.github/workflows/android-twa-release.yml',
   '.github/workflows/event-collector-deploy.yml',
   '.github/workflows/web-pwa-deploy.yml',
+  '.github/workflows/post-deploy-evidence-sync.yml',
   'reports/trend-radar-latest.md',
   'reports/trend-source-readiness-latest.md',
   'reports/concepts-latest.md',
@@ -314,6 +315,10 @@ const selfUpdateWorkflow = await readFile(path.join(root, '.github', 'workflows'
 const androidWorkflow = await readFile(path.join(root, '.github', 'workflows', 'android-twa-release.yml'), 'utf8')
 const collectorWorkflow = await readFile(path.join(root, '.github', 'workflows', 'event-collector-deploy.yml'), 'utf8')
 const webDeployWorkflow = await readFile(path.join(root, '.github', 'workflows', 'web-pwa-deploy.yml'), 'utf8')
+const postDeployEvidenceSyncWorkflow = await readFile(
+  path.join(root, '.github', 'workflows', 'post-deploy-evidence-sync.yml'),
+  'utf8',
+)
 const shareManifest = JSON.parse(await readFile(path.join(root, 'public', 'share-manifest.json'), 'utf8'))
 const gateSampleHtml = await readFile(path.join(root, 'public', 'gate-sample.html'), 'utf8')
 const installHtml = await readFile(path.join(root, 'public', 'install.html'), 'utf8')
@@ -355,6 +360,7 @@ const productGateSamplePlanSource = await readFile(
 )
 const autonomousOperatorSource = await readFile(path.join(root, 'scripts', 'autonomous-operator.mjs'), 'utf8')
 const autonomousOwnerLoopSource = await readFile(path.join(root, 'scripts', 'autonomous-owner-loop.mjs'), 'utf8')
+const autonomousCadenceSource = await readFile(path.join(root, 'scripts', 'autonomous-cadence.mjs'), 'utf8')
 const autonomousSelfUpdateSource = await readFile(path.join(root, 'scripts', 'autonomous-self-update.mjs'), 'utf8')
 const localEventBridgeSource = await readFile(path.join(root, 'scripts', 'local-event-bridge.mjs'), 'utf8')
 const androidSigningSource = await readFile(path.join(root, 'scripts', 'android-signing-prep.mjs'), 'utf8')
@@ -2000,6 +2006,7 @@ const cadenceRequiredFreshnessIds = [
   'retention-loop',
   'release-candidate',
   'post-deploy-smoke',
+  'post-deploy-artifact-sync',
   'release-health',
   'product-optimization',
   'product-gate-recovery',
@@ -2388,6 +2395,12 @@ if (
   autonomousCadence.schedulers?.githubActions?.artifactUpload !== true ||
   autonomousCadence.schedulers?.githubSelfUpdate?.status !== 'gated' ||
   autonomousCadence.schedulers?.githubSelfUpdate?.workflow !== '.github/workflows/autonomous-self-update.yml' ||
+  autonomousCadence.schedulers?.githubPostDeployEvidenceSync?.status !== 'gated' ||
+  autonomousCadence.schedulers?.githubPostDeployEvidenceSync?.workflow !==
+    '.github/workflows/post-deploy-evidence-sync.yml' ||
+  autonomousCadence.schedulers?.githubPostDeployEvidenceSync?.trigger !== 'workflow_run: Web PWA Deploy' ||
+  autonomousCadence.schedulers?.githubPostDeployEvidenceSync?.evidenceGate !==
+    'npm run autonomous:post-deploy-artifact-sync -- --assert' ||
 	  autonomousCadence.commandPlan?.operate !== 'npm run autonomous:operate' ||
 	  autonomousCadence.commandPlan?.daily !== 'npm run autonomous:daily' ||
 	  autonomousCadence.commandPlan?.executeOneLocalAction !== 'npm run autonomous:operator -- --execute' ||
@@ -2402,7 +2415,8 @@ if (
 	  autonomousCadence.controls?.scheduledExecutionUsesOperatorAllowlist !== true ||
 	  autonomousCadence.controls?.postActionBuildRefresh !== true ||
 	  autonomousCadence.controls?.postActionVerification !== true ||
-	  autonomousCadence.controls?.codexAutomationExpectedActive !== true ||
+  autonomousCadence.controls?.codexAutomationExpectedActive !== true ||
+  autonomousCadence.controls?.postDeployEvidenceSyncWritePermissionGated !== true ||
   autonomousCadence.controls?.codexAutomationActualStatusAudited !== true ||
   autonomousCadence.controls?.staleEvidenceBlocksUnattendedTrust !== true ||
   autonomousCadence.freshnessPolicy?.status !== 'fresh' ||
@@ -2418,7 +2432,16 @@ if (
   codexAutomationManifest.status !== 'active-declared' ||
   codexAutomationManifest.guardrails?.zeroPaidSpend !== true ||
   codexAutomationManifest.guardrails?.noStoreSubmission !== true ||
-  codexAutomationManifest.guardrails?.noRevenueEnablement !== true
+  codexAutomationManifest.guardrails?.noRevenueEnablement !== true ||
+  !postDeployEvidenceSyncWorkflow.includes("workflows: ['Web PWA Deploy']") ||
+  !postDeployEvidenceSyncWorkflow.includes('actions: read') ||
+  !postDeployEvidenceSyncWorkflow.includes('contents: write') ||
+  !postDeployEvidenceSyncWorkflow.includes('autonomous:post-deploy-artifact-sync') ||
+  !postDeployEvidenceSyncWorkflow.includes('node scripts/verify-autonomy.mjs') ||
+  !postDeployEvidenceSyncWorkflow.includes('AGL_AUTONOMOUS_SELF_UPDATE_DIRECT') ||
+  !postDeployEvidenceSyncWorkflow.includes('data/post-deploy-artifact-sync.json') ||
+  !postDeployEvidenceSyncWorkflow.includes('reports/post-deploy-artifact-sync-latest.md') ||
+  !autonomousCadenceSource.includes('postDeployEvidenceSyncWorkflow')
 ) {
   fail('Autonomous cadence must publish the daily Codex/GitHub schedule, guarded operate command, and zero-spend controls.')
 }
@@ -3716,6 +3739,7 @@ if (
   postDeployArtifactSync.workflow?.workflowFile !== 'web-pwa-deploy.yml' ||
   postDeployArtifactSync.workflow?.artifactName !== 'post-deploy-smoke' ||
   typeof postDeployArtifactSync.workflow?.runId !== 'number' ||
+  !/^[a-f0-9]{40}$/.test(postDeployArtifactSync.workflow?.headSha ?? '') ||
   postDeployArtifactSync.artifact?.status !== 'post-deploy-smoke-passed' ||
   postDeployArtifactSync.artifact?.target?.strictManifestComparison !== true ||
   postDeployArtifactSync.artifact?.summary?.passed !== postDeployArtifactSync.artifact?.summary?.planned ||
@@ -3741,9 +3765,18 @@ if (
     'node scripts/post-deploy-artifact-sync.mjs' ||
   !postDeployArtifactSyncSource.includes('gh') ||
   !postDeployArtifactSyncSource.includes('run') ||
+  !postDeployArtifactSyncSource.includes('view') ||
   !postDeployArtifactSyncSource.includes('download') ||
   !postDeployArtifactSyncSource.includes('readOnlyGithubArtifactDownload') ||
-  !postDeployArtifactSyncSource.includes('separateFromLocalCandidate')
+  !postDeployArtifactSyncSource.includes('separateFromLocalCandidate') ||
+  !postDeployEvidenceSyncWorkflow.includes("workflows: ['Web PWA Deploy']") ||
+  !postDeployEvidenceSyncWorkflow.includes('actions: read') ||
+  !postDeployEvidenceSyncWorkflow.includes('contents: write') ||
+  !postDeployEvidenceSyncWorkflow.includes('autonomous:post-deploy-artifact-sync') ||
+  !postDeployEvidenceSyncWorkflow.includes('node scripts/verify-autonomy.mjs') ||
+  !postDeployEvidenceSyncWorkflow.includes('AGL_AUTONOMOUS_SELF_UPDATE_DIRECT') ||
+  !postDeployEvidenceSyncWorkflow.includes('data/post-deploy-artifact-sync.json') ||
+  !postDeployEvidenceSyncWorkflow.includes('reports/post-deploy-artifact-sync-latest.md')
 ) {
   fail('Post-deploy artifact sync must preserve strict GitHub Actions smoke evidence and compare it to the live release manifest.')
 }

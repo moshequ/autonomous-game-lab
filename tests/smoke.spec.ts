@@ -1070,7 +1070,7 @@ test('post-deploy smoke runner is wired to the release manifest and Pages workfl
 test('post-deploy artifact sync preserves strict Pages workflow evidence', async () => {
   const sync = JSON.parse(await readFile('data/post-deploy-artifact-sync.json', 'utf8')) as {
     status: string
-    workflow: { workflowFile: string; artifactName: string; runId: number | null; url: string | null }
+    workflow: { workflowFile: string; artifactName: string; runId: number | null; headSha: string | null; url: string | null }
     artifact: {
       status: string
       target: { candidateId: string; aggregateHash: string; strictManifestComparison: boolean } | null
@@ -1106,11 +1106,13 @@ test('post-deploy artifact sync preserves strict Pages workflow evidence', async
     scripts: Record<string, string>
   }
   const script = await readFile('scripts/post-deploy-artifact-sync.mjs', 'utf8')
+  const workflow = await readFile('.github/workflows/post-deploy-evidence-sync.yml', 'utf8')
 
   expect(sync.status).toBe('post-deploy-artifact-sync-passed')
   expect(sync.workflow.workflowFile).toBe('web-pwa-deploy.yml')
   expect(sync.workflow.artifactName).toBe('post-deploy-smoke')
   expect(sync.workflow.runId).toBeGreaterThan(0)
+  expect(sync.workflow.headSha).toMatch(/^[a-f0-9]{40}$/)
   expect(sync.artifact.status).toBe('post-deploy-smoke-passed')
   expect(sync.artifact.target?.strictManifestComparison).toBe(true)
   expect(sync.artifact.summary?.passed).toBe(sync.artifact.summary?.planned)
@@ -1140,9 +1142,17 @@ test('post-deploy artifact sync preserves strict Pages workflow evidence', async
     'node scripts/post-deploy-artifact-sync.mjs',
   )
   expect(script).toContain("'run'")
+  expect(script).toContain("'view'")
   expect(script).toContain("'download'")
   expect(script).toContain('readOnlyGithubArtifactDownload')
   expect(script).toContain('separateFromLocalCandidate')
+  expect(workflow).toContain("workflows: ['Web PWA Deploy']")
+  expect(workflow).toContain('actions: read')
+  expect(workflow).toContain('contents: write')
+  expect(workflow).toContain('autonomous:post-deploy-artifact-sync')
+  expect(workflow).toContain('node scripts/verify-autonomy.mjs')
+  expect(workflow).toContain('AGL_AUTONOMOUS_SELF_UPDATE_DIRECT')
+  expect(workflow).toContain('data/post-deploy-artifact-sync.json')
 })
 
 test('production scripts load git-ignored env files without leaking values or mutation gates', async () => {
@@ -2688,6 +2698,13 @@ test('autonomous cadence keeps unattended operation auditable and guarded', asyn
         }
       }
       githubActions: { status: string; workflow: string; command: string; artifactUpload: boolean }
+      githubPostDeployEvidenceSync: {
+        status: string
+        workflow: string
+        trigger: string
+        evidenceGate: string
+        verificationGate: string
+      }
     }
     commandPlan: {
       operate: string
@@ -2708,6 +2725,7 @@ test('autonomous cadence keeps unattended operation auditable and guarded', asyn
       codexAutomationExpectedActive: boolean
       codexAutomationActualStatusAudited: boolean
       staleEvidenceBlocksUnattendedTrust: boolean
+      postDeployEvidenceSyncWritePermissionGated: boolean
     }
     freshnessPolicy: {
       status: string
@@ -2737,6 +2755,15 @@ test('autonomous cadence keeps unattended operation auditable and guarded', asyn
   expect(cadence.schedulers.githubActions.workflow).toBe('.github/workflows/autonomous-daily.yml')
   expect(cadence.schedulers.githubActions.command).toBe('npm run autonomous:operate')
   expect(cadence.schedulers.githubActions.artifactUpload).toBe(true)
+  expect(cadence.schedulers.githubPostDeployEvidenceSync.status).toBe('gated')
+  expect(cadence.schedulers.githubPostDeployEvidenceSync.workflow).toBe(
+    '.github/workflows/post-deploy-evidence-sync.yml',
+  )
+  expect(cadence.schedulers.githubPostDeployEvidenceSync.trigger).toBe('workflow_run: Web PWA Deploy')
+  expect(cadence.schedulers.githubPostDeployEvidenceSync.evidenceGate).toBe(
+    'npm run autonomous:post-deploy-artifact-sync -- --assert',
+  )
+  expect(cadence.schedulers.githubPostDeployEvidenceSync.verificationGate).toBe('node scripts/verify-autonomy.mjs')
   expect(cadence.commandPlan.operate).toBe('npm run autonomous:operate')
   expect(cadence.commandPlan.daily).toBe('npm run autonomous:daily')
   expect(cadence.commandPlan.executeOneLocalAction).toBe('npm run autonomous:operator -- --execute')
@@ -2753,6 +2780,7 @@ test('autonomous cadence keeps unattended operation auditable and guarded', asyn
   expect(cadence.controls.codexAutomationExpectedActive).toBe(true)
   expect(cadence.controls.codexAutomationActualStatusAudited).toBe(true)
   expect(cadence.controls.staleEvidenceBlocksUnattendedTrust).toBe(true)
+  expect(cadence.controls.postDeployEvidenceSyncWritePermissionGated).toBe(true)
   expect(cadence.freshnessPolicy.status).toBe('fresh')
   expect(cadence.freshnessPolicy.staleAfterHours).toBeGreaterThanOrEqual(24)
   expect(cadence.freshnessPolicy.requiredArtifactCount).toBe(cadence.artifactFreshness.length)
@@ -2767,6 +2795,7 @@ test('autonomous cadence keeps unattended operation auditable and guarded', asyn
   expect(cadence.artifactFreshness.some((artifact) => artifact.id === 'event-collector-deployment')).toBe(true)
   expect(cadence.artifactFreshness.some((artifact) => artifact.id === 'event-collector-smoke')).toBe(true)
   expect(cadence.artifactFreshness.some((artifact) => artifact.id === 'autonomous-self-update')).toBe(true)
+  expect(cadence.artifactFreshness.some((artifact) => artifact.id === 'post-deploy-artifact-sync')).toBe(true)
   expect(cadence.artifactFreshness.some((artifact) => artifact.id === 'event-ingest')).toBe(true)
   expect(cadence.artifactFreshness.some((artifact) => artifact.id === 'event-ingest-smoke')).toBe(true)
   expect(cadence.artifactFreshness.some((artifact) => artifact.id === 'traffic-seeding')).toBe(true)

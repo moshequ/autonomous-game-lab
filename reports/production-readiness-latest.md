@@ -1,6 +1,6 @@
 # Production Readiness
 
-Generated: 2026-05-20T13:55:27.497Z
+Generated: 2026-05-20T14:03:59.056Z
 
 ## Environment
 
@@ -169,7 +169,7 @@ Live candidate: pwa-6ed95c5ff53b
 Live matches artifact: true
 - pass: artifact-sync-gh-cli - gh version 2.92.0 (2026-04-28)
 - pass: artifact-sync-github-repository - Target repository is moshequ/autonomous-game-lab.
-- pass: artifact-sync-successful-pages-run - Latest successful web-pwa-deploy.yml run is 26166932960.
+- pass: artifact-sync-explicit-pages-run - Explicit web-pwa-deploy.yml run is 26166932960.
 - pass: artifact-sync-post-deploy-smoke-artifact - Downloaded post-deploy-smoke artifact from run 26166932960.
 - pass: artifact-sync-strict-smoke-artifact - Artifact status post-deploy-smoke-passed; strict manifest comparison true; checks 15/15.
 - pass: artifact-sync-live-release-manifest - Live release-candidate.json still matches the strict smoke artifact.
@@ -272,10 +272,11 @@ Freshness: fresh; stale artifacts 0
 - pass: cadence-daily-loop-script - autonomous:daily regenerates game, analytics, readiness, cadence, audit, and automation evidence.
 - pass: cadence-automation-verifier - test:automation is node scripts/event-collector-smoke.mjs && npm run autonomous:collector-deploy-plan && node scripts/event-ingest-smoke.mjs && node scripts/local-event-bridge.mjs && npm run autonomous:import-events && npm run autonomous:analytics && npm run autonomous:retention && npm run autonomous:pwa-install && npm run autonomous:gate-recovery && npm run autonomous:sample-plan && npm run build && npm run autonomous:performance && npm run autonomous:release-candidate && npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap && npm run autonomous:deploy-plan && npm run autonomous:bootstrap && npm run autonomous:post-deploy-smoke && npm run autonomous:readiness && npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap && npm run autonomous:deploy-plan && npm run autonomous:bootstrap && npm run autonomous:post-deploy-smoke && npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap && npm run autonomous:activate-production && npm run autonomous:readiness && npm run autonomous:cadence && npm run autonomous:self-update && npm run autonomous:owner-loop && npm run autonomous:operator && npm run autonomous:objective-audit && npm run autonomous:owner-loop && npm run autonomous:operator && npm run autonomous:owner-loop && npm run autonomous:readiness && npm run autonomous:deploy-plan && npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap && npm run autonomous:deploy-plan && npm run autonomous:objective-audit && npm run autonomous:owner-loop && npm run autonomous:readiness && npm run autonomous:bundle-sync && node scripts/verify-autonomy.mjs.
 - pass: cadence-browser-smoke - test:e2e is playwright test.
-- pass: cadence-fresh-generated-evidence - All 37 required generated evidence artifacts are fresh within 36h.
+- pass: cadence-fresh-generated-evidence - All 38 required generated evidence artifacts are fresh within 36h.
 - pass: cadence-github-scheduled-workflow - GitHub Actions daily workflow can run the full autonomous owner loop and upload evidence artifacts.
 - pass: cadence-github-self-update-workflow - Gated GitHub workflow can persist allowlisted verified generated changes with production env and workflow token evidence when explicitly enabled.
 - pass: cadence-post-self-update-deploy - Pages deployment also follows the gated self-update workflow, so persisted generated improvements can publish without manual dispatch.
+- pass: cadence-post-deploy-evidence-sync-workflow - Post-deploy evidence sync imports the strict Pages smoke artifact and persists allowlisted generated evidence after verification.
 - pass: cadence-zero-spend-operation - Cadence is local/CI execution only; it does not enable paid spend, stores, ads, or revenue.
 
 ## Autonomous Self Update
