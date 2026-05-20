@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-20T13:27:41.536Z",
+  "generatedAt": "2026-05-20T13:48:04.540Z",
   "status": "repository-channel-ready",
   "envFiles": {
     "loaded": true,
@@ -56,7 +56,7 @@
     "insideWorkTree": true,
     "gitRoot": "/Users/moshequ/Documents/Codex/2026-05-18/i-want-to-have-a-new",
     "currentBranch": "main",
-    "dirtyFiles": 61,
+    "dirtyFiles": 63,
     "dirtyPaths": [
       "data/analytics-rollup.json",
       "data/autonomous-cadence.json",
@@ -109,9 +109,11 @@
       "reports/repository-readiness-latest.md",
       "reports/retention-loop-latest.md",
       "src/data/autonomousCadence.ts",
+      "src/data/autonomousSelfUpdate.ts",
       "src/data/eventCollectorDeployment.ts",
       "src/data/localEventBridge.ts",
       "src/data/objectiveAudit.ts",
+      "src/data/performanceBudget.ts",
       "src/data/postDeploySmoke.ts",
       "src/data/productGateRecovery.ts",
       "src/data/productGateSamplePlan.ts",
@@ -120,7 +122,7 @@
       "src/data/releaseCandidate.ts",
       "src/data/retentionLoop.ts"
     ],
-    "generatedEvidenceDirtyFiles": 61,
+    "generatedEvidenceDirtyFiles": 63,
     "generatedEvidenceDirtyPaths": [
       "data/analytics-rollup.json",
       "data/autonomous-cadence.json",
@@ -173,9 +175,11 @@
       "reports/repository-readiness-latest.md",
       "reports/retention-loop-latest.md",
       "src/data/autonomousCadence.ts",
+      "src/data/autonomousSelfUpdate.ts",
       "src/data/eventCollectorDeployment.ts",
       "src/data/localEventBridge.ts",
       "src/data/objectiveAudit.ts",
+      "src/data/performanceBudget.ts",
       "src/data/postDeploySmoke.ts",
       "src/data/productGateRecovery.ts",
       "src/data/productGateSamplePlan.ts",
@@ -221,7 +225,7 @@
     "workflowExists": true,
     "deployWorkflowIncludesSmoke": true,
     "deploymentStatus": "ready-for-pages",
-    "releaseCandidateId": "pwa-1a9236538636",
+    "releaseCandidateId": "pwa-4a75f7f7c461",
     "postDeploySmokeStatus": "post-deploy-smoke-observed-live"
   },
   "repositoryTargetPlan": {

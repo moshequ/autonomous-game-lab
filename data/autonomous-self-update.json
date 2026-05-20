@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-20T13:27:17.924Z",
+  "generatedAt": "2026-05-20T13:47:39.353Z",
   "status": "self-update-ready",
   "mode": "plan-and-assert",
   "envFiles": {
@@ -71,7 +71,7 @@
     "ownerLoop": "owner-loop-ready"
   },
   "pendingChanges": {
-    "total": 59,
+    "total": 51,
     "safe": [
       {
         "code": "M",
@@ -84,27 +84,6 @@
         "code": "M",
         "path": "data/autonomous-cadence.json",
         "raw": " M data/autonomous-cadence.json",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "data/autonomous-operator-history.json",
-        "raw": " M data/autonomous-operator-history.json",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "data/autonomous-operator.json",
-        "raw": " M data/autonomous-operator.json",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "data/autonomous-owner-loop.json",
-        "raw": " M data/autonomous-owner-loop.json",
         "safe": true,
         "reason": "allowlisted-generated-artifact"
       },
@@ -147,13 +126,6 @@
         "code": "M",
         "path": "data/local-event-bridge.json",
         "raw": " M data/local-event-bridge.json",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "data/objective-audit.json",
-        "raw": " M data/objective-audit.json",
         "safe": true,
         "reason": "allowlisted-generated-artifact"
       },
@@ -257,27 +229,6 @@
       },
       {
         "code": "M",
-        "path": "reports/autonomous-operator-history-latest.md",
-        "raw": " M reports/autonomous-operator-history-latest.md",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "reports/autonomous-operator-latest.md",
-        "raw": " M reports/autonomous-operator-latest.md",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "reports/autonomous-owner-loop-latest.md",
-        "raw": " M reports/autonomous-owner-loop-latest.md",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
         "path": "reports/deployment-plan-latest.md",
         "raw": " M reports/deployment-plan-latest.md",
         "safe": true,
@@ -315,13 +266,6 @@
         "code": "M",
         "path": "reports/local-event-bridge-latest.md",
         "raw": " M reports/local-event-bridge-latest.md",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "reports/objective-audit-latest.md",
-        "raw": " M reports/objective-audit-latest.md",
         "safe": true,
         "reason": "allowlisted-generated-artifact"
       },
@@ -432,8 +376,8 @@
       },
       {
         "code": "M",
-        "path": "src/data/objectiveAudit.ts",
-        "raw": " M src/data/objectiveAudit.ts",
+        "path": "src/data/performanceBudget.ts",
+        "raw": " M src/data/performanceBudget.ts",
         "safe": true,
         "reason": "allowlisted-generated-artifact"
       },
@@ -488,7 +432,7 @@
       }
     ],
     "unsafe": [],
-    "safeCount": 59,
+    "safeCount": 51,
     "unsafeCount": 0
   },
   "commitPlan": {
@@ -503,16 +447,12 @@
     "stagePaths": [
       "data/analytics-rollup.json",
       "data/autonomous-cadence.json",
-      "data/autonomous-operator-history.json",
-      "data/autonomous-operator.json",
-      "data/autonomous-owner-loop.json",
       "data/deployment-plan.json",
       "data/event-collector-deployment.json",
       "data/event-collector-smoke.json",
       "data/event-ingest-smoke.json",
       "data/event-ingest.json",
       "data/local-event-bridge.json",
-      "data/objective-audit.json",
       "data/performance-budget.json",
       "data/post-deploy-smoke.json",
       "data/product-gate-recovery.json",
@@ -527,16 +467,12 @@
       "data/retention-loop.json",
       "reports/analytics-rollup-latest.md",
       "reports/autonomous-cadence-latest.md",
-      "reports/autonomous-operator-history-latest.md",
-      "reports/autonomous-operator-latest.md",
-      "reports/autonomous-owner-loop-latest.md",
       "reports/deployment-plan-latest.md",
       "reports/event-collector-deployment-latest.md",
       "reports/event-collector-smoke-latest.md",
       "reports/event-ingest-latest.md",
       "reports/event-ingest-smoke-latest.md",
       "reports/local-event-bridge-latest.md",
-      "reports/objective-audit-latest.md",
       "reports/performance-budget-latest.md",
       "reports/post-deploy-smoke-latest.md",
       "reports/product-gate-recovery-latest.md",
@@ -552,7 +488,7 @@
       "src/data/autonomousCadence.ts",
       "src/data/eventCollectorDeployment.ts",
       "src/data/localEventBridge.ts",
-      "src/data/objectiveAudit.ts",
+      "src/data/performanceBudget.ts",
       "src/data/postDeploySmoke.ts",
       "src/data/productGateRecovery.ts",
       "src/data/productGateSamplePlan.ts",
@@ -661,7 +597,7 @@
     {
       "id": "safe-path-allowlist",
       "status": "pass",
-      "detail": "59 safe pending file(s), 0 unsafe pending file(s)."
+      "detail": "51 safe pending file(s), 0 unsafe pending file(s)."
     },
     {
       "id": "repository-optional",
