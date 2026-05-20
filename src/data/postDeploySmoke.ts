@@ -1,5 +1,5 @@
 export const postDeploySmoke = {
-  "generatedAt": "2026-05-20T02:20:50.163Z",
+  "generatedAt": "2026-05-20T02:35:02.251Z",
   "status": "blocked-missing-origin",
   "envFiles": {
     "loaded": true,
@@ -54,8 +54,8 @@ export const postDeploySmoke = {
   "target": {
     "origin": null,
     "provider": "github-pages",
-    "candidateId": "pwa-8010349b10c6",
-    "aggregateHash": "8010349b10c65a69b25552a7c94adbfdf48ad192759f6705a530e13677e00bfb"
+    "candidateId": "pwa-15516d5d49e8",
+    "aggregateHash": "15516d5d49e8739f7b07eb6c90545df3cfab6050e1a17f24c84168ac8275a40c"
   },
   "sourceStatus": {
     "deployment": "ready-for-pages",
@@ -63,17 +63,17 @@ export const postDeploySmoke = {
     "productionResponse": "guarded-operations"
   },
   "summary": {
-    "planned": 13,
+    "planned": 14,
     "passed": 0,
     "failed": 0,
-    "blocked": 13
+    "blocked": 14
   },
   "localArtifactSmoke": {
     "status": "predeploy-artifact-smoke-passed",
     "artifactPath": "dist",
     "summary": {
-      "planned": 13,
-      "passed": 13,
+      "planned": 14,
+      "passed": 14,
       "failed": 0
     },
     "controls": {
@@ -109,7 +109,7 @@ export const postDeploySmoke = {
         "file": "dist/sw.js",
         "expectedStatus": 200,
         "status": "pass",
-        "bytes": 3599,
+        "bytes": 3668,
         "textMatched": true,
         "detail": "Local production artifact matched required text."
       },
@@ -174,6 +174,16 @@ export const postDeploySmoke = {
         "detail": "Local production artifact matched required text."
       },
       {
+        "id": "gate-sample-html",
+        "path": "/gate-sample.html",
+        "file": "dist/gate-sample.html",
+        "expectedStatus": 200,
+        "status": "pass",
+        "bytes": 6883,
+        "textMatched": true,
+        "detail": "Local production artifact matched required text."
+      },
+      {
         "id": "seed-kit-html",
         "path": "/seed-kit.html",
         "file": "dist/seed-kit.html",
@@ -209,11 +219,11 @@ export const postDeploySmoke = {
         "file": "dist/release-candidate.json",
         "expectedStatus": 200,
         "status": "pass",
-        "bytes": 17633,
+        "bytes": 18168,
         "candidateMatches": true,
         "hashMatches": true,
-        "localCandidateId": "pwa-8010349b10c6",
-        "localAggregateHash": "8010349b10c65a69b25552a7c94adbfdf48ad192759f6705a530e13677e00bfb",
+        "localCandidateId": "pwa-15516d5d49e8",
+        "localAggregateHash": "15516d5d49e8739f7b07eb6c90545df3cfab6050e1a17f24c84168ac8275a40c",
         "detail": "Local release manifest matches the release candidate."
       }
     ]
@@ -310,6 +320,15 @@ export const postDeploySmoke = {
       "detail": "No deployed origin configured."
     },
     {
+      "id": "gate-sample-html",
+      "path": "/gate-sample.html",
+      "url": "${DEPLOYED_PWA_ORIGIN}/gate-sample.html",
+      "expectedStatus": 200,
+      "requiredText": "Autonomous Game Lab",
+      "status": "blocked",
+      "detail": "No deployed origin configured."
+    },
+    {
       "id": "seed-kit-html",
       "path": "/seed-kit.html",
       "url": "${DEPLOYED_PWA_ORIGIN}/seed-kit.html",
@@ -341,7 +360,7 @@ export const postDeploySmoke = {
       "path": "/release-candidate.json",
       "url": "${DEPLOYED_PWA_ORIGIN}/release-candidate.json",
       "expectedStatus": 200,
-      "requiredText": "pwa-8010349b10c6",
+      "requiredText": "pwa-15516d5d49e8",
       "status": "blocked",
       "detail": "No deployed origin configured."
     }

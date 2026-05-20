@@ -1,6 +1,6 @@
 # Product Gate Sample Plan
 
-Generated: 2026-05-20T02:11:12.420Z
+Generated: 2026-05-20T02:34:56.186Z
 Status: product-gate-sample-plan-ready
 Analytics source: fixture-sample
 Primary gate: firstGameCompletion
@@ -8,6 +8,7 @@ Prompt views needed: 70
 Observed successes needed: 66
 Imported gate-sample events: 0
 Inbox gate-sample events: 0
+Public sample page: /gate-sample.html
 
 ## Missions
 

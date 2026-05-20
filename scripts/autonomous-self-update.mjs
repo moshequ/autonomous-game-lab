@@ -93,6 +93,7 @@ const allowedPrefixes = [
 ]
 const allowedExactPaths = new Set([
   'public/app-ads.txt',
+  'public/gate-sample.html',
   'public/monetization.json',
   'public/privacy.html',
   'public/.well-known/assetlinks.json',

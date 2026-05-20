@@ -1,22 +1,22 @@
 # Post-Deploy Smoke
 
-Generated: 2026-05-20T02:20:50.163Z
+Generated: 2026-05-20T02:35:02.251Z
 Status: blocked-missing-origin
 Origin: missing
-Candidate: pwa-8010349b10c6
+Candidate: pwa-15516d5d49e8
 
 ## Summary
 
-- Planned: 13
+- Planned: 14
 - Passed: 0
 - Failed: 0
-- Blocked: 13
+- Blocked: 14
 
 ## Local Artifact Smoke
 
 Status: predeploy-artifact-smoke-passed
 Artifact path: dist
-Checks: 13/13 passed
+Checks: 14/14 passed
 - pass: app-shell - dist/index.html - Local production artifact matched required text.
 - pass: manifest-webmanifest - dist/manifest.webmanifest - Local production artifact matched required text.
 - pass: sw-js - dist/sw.js - Local production artifact matched required text.
@@ -26,6 +26,7 @@ Checks: 13/13 passed
 - pass: monetization-json - dist/monetization.json - Local production artifact matched required text.
 - pass: app-ads-txt - dist/app-ads.txt - Local production artifact matched required text.
 - pass: well-known-assetlinks-json - dist/.well-known/assetlinks.json - Local production artifact matched required text.
+- pass: gate-sample-html - dist/gate-sample.html - Local production artifact matched required text.
 - pass: seed-kit-html - dist/seed-kit.html - Local production artifact matched required text.
 - pass: sitemap-xml - dist/sitemap.xml - Local production artifact matched required text.
 - pass: games-canopy-bloom-html - dist/games/canopy-bloom.html - Local production artifact matched required text.
@@ -42,6 +43,7 @@ Checks: 13/13 passed
 - blocked: monetization-json - ${DEPLOYED_PWA_ORIGIN}/monetization.json - No deployed origin configured.
 - blocked: app-ads-txt - ${DEPLOYED_PWA_ORIGIN}/app-ads.txt - No deployed origin configured.
 - blocked: well-known-assetlinks-json - ${DEPLOYED_PWA_ORIGIN}/.well-known/assetlinks.json - No deployed origin configured.
+- blocked: gate-sample-html - ${DEPLOYED_PWA_ORIGIN}/gate-sample.html - No deployed origin configured.
 - blocked: seed-kit-html - ${DEPLOYED_PWA_ORIGIN}/seed-kit.html - No deployed origin configured.
 - blocked: sitemap-xml - ${DEPLOYED_PWA_ORIGIN}/sitemap.xml - No deployed origin configured.
 - blocked: games-canopy-bloom-html - ${DEPLOYED_PWA_ORIGIN}/games/canopy-bloom.html - No deployed origin configured.

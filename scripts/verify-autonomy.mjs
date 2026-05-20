@@ -182,6 +182,7 @@ const requiredFiles = [
   'public/icons/maskable-512.png',
   'public/icons/apple-touch-icon.png',
   'public/icons/store-icon-1024.png',
+  'public/gate-sample.html',
   'public/robots.txt',
   'public/seed-kit.html',
   'public/sitemap.xml',
@@ -192,6 +193,7 @@ const requiredFiles = [
   'public/.well-known/assetlinks.json',
   'dist/compliance.json',
   'dist/.well-known/assetlinks.json',
+  'dist/gate-sample.html',
   'dist/seed-kit.html',
   'native/android/twa-manifest.json',
   'native/android/bubblewrap.config.json',
@@ -295,6 +297,7 @@ const androidWorkflow = await readFile(path.join(root, '.github', 'workflows', '
 const collectorWorkflow = await readFile(path.join(root, '.github', 'workflows', 'event-collector-deploy.yml'), 'utf8')
 const webDeployWorkflow = await readFile(path.join(root, '.github', 'workflows', 'web-pwa-deploy.yml'), 'utf8')
 const shareManifest = JSON.parse(await readFile(path.join(root, 'public', 'share-manifest.json'), 'utf8'))
+const gateSampleHtml = await readFile(path.join(root, 'public', 'gate-sample.html'), 'utf8')
 const seedKitHtml = await readFile(path.join(root, 'public', 'seed-kit.html'), 'utf8')
 const packageJson = JSON.parse(await readFile(path.join(root, 'package.json'), 'utf8'))
 const appSource = await readFile(path.join(root, 'src', 'App.tsx'), 'utf8')
@@ -1163,6 +1166,12 @@ if (
   !productGateSamplePlan.commandPlan?.collectAndRefresh?.includes('autonomous:gate-recovery') ||
   !productGateSamplePlan.commandPlan?.collectAndRefresh?.includes('autonomous:sample-plan') ||
   productGateSamplePlan.commandPlan?.collectDownloadsAndRefresh !== 'npm run autonomous:collect-sample-downloads' ||
+  productGateSamplePlan.publicSamplePage?.path !== '/gate-sample.html' ||
+  productGateSamplePlan.publicSamplePage?.missionCount !== productGateSamplePlan.missions?.length ||
+  productGateSamplePlan.publicSamplePage?.primaryCampaignId !== samplePrimaryMission?.campaignId ||
+  productGateSamplePlan.publicSamplePage?.zeroPaidSpend !== true ||
+  productGateSamplePlan.publicSamplePage?.playerInitiatedOnly !== true ||
+  productGateSamplePlan.publicSamplePage?.noSyntheticEvents !== true ||
   typeof productGateSamplePlan.summary?.importedGateSampleEvents !== 'number' ||
   typeof productGateSamplePlan.summary?.inboxGateSampleEvents !== 'number' ||
   productGateSamplePlan.controls?.zeroPaidSpend !== true ||
@@ -1183,6 +1192,7 @@ if (
   sampleRetentionMission?.gameId !== retentionLoop.dailyChallenge?.gameId ||
   !productGateSamplePlanSource.includes('localEventBridge') ||
   !productGateSamplePlanSource.includes('productGateRecovery') ||
+  !productGateSamplePlanSource.includes('gateSamplePagePath') ||
   !packageJson.scripts?.['autonomous:sample-plan']?.includes('product-gate-sample-planner') ||
   !packageJson.scripts?.['autonomous:collect-sample-downloads']?.includes('AGL_LOCAL_EVENT_IMPORT_DOWNLOADS=true') ||
   !packageJson.scripts?.['autonomous:collect-sample-downloads']?.includes('autonomous:gate-recovery') ||
@@ -1196,9 +1206,21 @@ if (
   !appSource.includes('startGateSampleMission') ||
   !appSource.includes('Export sample evidence') ||
   !appSource.includes("'gate_sample_mission_clicked'") ||
+  !appSource.includes("entrySource === 'gate_sample'") ||
+  !appSource.includes('direct-gate-sample-link') ||
   !appSource.includes('product-gate-sample')
 ) {
   fail('Product gate sample plan must turn recovery deficits into zero-spend sample missions before copy, rule, or revenue changes.')
+}
+
+if (
+  !gateSampleHtml.includes('Autonomous Game Lab Gate Sample Missions') ||
+  !gateSampleHtml.includes('$0.00') ||
+  !gateSampleHtml.includes('data-gate-id="firstGameCompletion"') ||
+  !gateSampleHtml.includes(samplePrimaryMission?.campaignId ?? 'missing') ||
+  gateSampleHtml.includes('autonomous-game-lab.example.com')
+) {
+  fail('Product gate sample plan must publish a runtime-relative zero-spend mission page for real player evidence collection.')
 }
 
 const firstMoveCoachEvents = [
@@ -1703,6 +1725,7 @@ if (
   !selfUpdateWorkflow.includes('npm run autonomous:self-update -- --assert-safe') ||
   !workflow.includes('contents: read') ||
   !autonomousSelfUpdateSource.includes('allowedPrefixes') ||
+  !autonomousSelfUpdateSource.includes('public/gate-sample.html') ||
   !autonomousSelfUpdateSource.includes('public/seed-kit.html') ||
   !autonomousSelfUpdateSource.includes('blockedPrefixes') ||
   !appSource.includes('Autonomous Self Update')
@@ -3043,6 +3066,7 @@ if (
   releaseCandidate.controls?.postDeploySmokeRequired !== true ||
   !releaseCandidate.postDeploySmoke?.some((item) => item.path === '/' && item.expectedStatus === 200) ||
   !releaseCandidate.postDeploySmoke?.some((item) => item.path === '/privacy.html') ||
+  !releaseCandidate.postDeploySmoke?.some((item) => item.path === '/gate-sample.html') ||
   !releaseCandidate.postDeploySmoke?.some(
     (item) => item.path === '/compliance.json' && item.requiredText === 'store-compliance',
   ) ||
@@ -3055,6 +3079,7 @@ if (
   !releaseCandidateRequiredFiles.has('sw.js') ||
   !releaseCandidateRequiredFiles.has('manifest.webmanifest') ||
   !releaseCandidateRequiredFiles.has('compliance.json') ||
+  !releaseCandidateRequiredFiles.has('gate-sample.html') ||
   !releaseCandidateRequiredFiles.has('.well-known/assetlinks.json') ||
   distReleaseCandidate.candidateId !== releaseCandidate.candidateId ||
   packageJson.scripts?.['autonomous:daily']?.includes('autonomous:release-candidate') !== true ||
@@ -3186,6 +3211,7 @@ if (
   !repositoryReadinessSource.includes('generatedEvidenceDirtyFiles') ||
   !repositoryReadinessSource.includes('generatedEvidencePrefixes') ||
   !repositoryReadinessSource.includes('public/share-manifest.json') ||
+  !repositoryReadinessSource.includes('public/gate-sample.html') ||
   !repositoryReadinessSource.includes('public/seed-kit.html') ||
   !repositoryReadinessSource.includes('AGL_GITHUB_OWNER') ||
   !repositoryReadinessSource.includes('owner-hint-and-package-name') ||
@@ -3259,6 +3285,7 @@ if (
   !repositoryBootstrapSource.includes('generatedEvidenceDirtyFiles') ||
   !repositoryBootstrapSource.includes('generatedEvidencePrefixes') ||
   !repositoryBootstrapSource.includes('public/share-manifest.json') ||
+  !repositoryBootstrapSource.includes('public/gate-sample.html') ||
   !repositoryBootstrapSource.includes('public/seed-kit.html') ||
   !repositoryBootstrapSource.includes('AGL_GITHUB_OWNER') ||
   !repositoryBootstrapSource.includes('owner-hint-and-package-name') ||

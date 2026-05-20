@@ -1,6 +1,6 @@
 # Deployment Plan
 
-Generated: 2026-05-20T02:20:35.996Z
+Generated: 2026-05-20T02:35:03.247Z
 Status: ready-for-pages
 Target: github-pages
 Cost: $0 platform hosting for public/internal experiment traffic
@@ -15,7 +15,7 @@ Cost: $0 platform hosting for public/internal experiment traffic
 - pass: dist-index - Production index.html exists.
 - pass: dist-service-worker - Production service worker exists.
 - pass: dist-privacy - Privacy policy is included in the deployable build.
-- pass: release-candidate - Release candidate is release-candidate-ready; candidate pwa-8010349b10c6.
+- pass: release-candidate - Release candidate is release-candidate-ready; candidate pwa-15516d5d49e8.
 - pass: deploy-workflow - GitHub Pages deployment workflow exists.
 - pass: production-environment - Environment status is production-env-missing; public origin is missing.
 - pass: event-collector-deployment - Event collector deployment is blocked-needs-cloudflare-env.
@@ -37,10 +37,10 @@ Cost: $0 platform hosting for public/internal experiment traffic
 ## Release Candidate
 
 - Status: release-candidate-ready
-- Candidate: pwa-8010349b10c6
-- Files: 41
-- Aggregate SHA-256: 8010349b10c65a69b25552a7c94adbfdf48ad192759f6705a530e13677e00bfb
-- Post-deploy smoke URLs: 12
+- Candidate: pwa-15516d5d49e8
+- Files: 42
+- Aggregate SHA-256: 15516d5d49e8739f7b07eb6c90545df3cfab6050e1a17f24c84168ac8275a40c
+- Post-deploy smoke URLs: 13
 
 ## Repository Channel
 

@@ -6,6 +6,7 @@ const dataDir = path.join(root, 'data')
 const outputJsonPath = path.join(dataDir, 'product-gate-sample-plan.json')
 const outputTsPath = path.join(root, 'src', 'data', 'productGateSamplePlan.ts')
 const reportPath = path.join(root, 'reports', 'product-gate-sample-plan-latest.md')
+const gateSamplePagePath = path.join(root, 'public', 'gate-sample.html')
 
 const readJson = async (filePath) => JSON.parse(await readFile(filePath, 'utf8'))
 const readOptionalJson = async (filePath, fallback) =>
@@ -19,6 +20,19 @@ const localIsoDate = (date = new Date()) => {
 }
 const todaySlug = () => localIsoDate().replaceAll('-', '')
 const pct = (value) => (typeof value === 'number' ? `${Math.round(value * 100)}%` : 'n/a')
+const escapeHtml = (value) =>
+  String(value)
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+const runtimeHref = (value) => {
+  if (!value) {
+    return './'
+  }
+
+  return value.startsWith('/') ? `.${value}` : value
+}
 
 const routeFor = ({ gameId, gateId }) => {
   const campaignId = `gate-sample-${todaySlug()}-${gateId}`
@@ -242,6 +256,16 @@ const payload = {
     inboxReadyCount,
     nextOwnerAction: missions.length ? 'collect-gate-sample-downloads' : 'refresh-product-gate-sample-plan',
   },
+  publicSamplePage: {
+    path: '/gate-sample.html',
+    file: 'public/gate-sample.html',
+    missionCount: missionsWithEvidence.length,
+    primaryCampaignId: primaryMission?.campaignId ?? null,
+    fastestCampaignId: fastestMission?.campaignId ?? null,
+    zeroPaidSpend: true,
+    playerInitiatedOnly: true,
+    noSyntheticEvents: true,
+  },
   missions: missionsWithEvidence,
   commandPlan: {
     refreshPlan: 'npm run autonomous:sample-plan',
@@ -289,6 +313,7 @@ const report = [
   `Observed successes needed: ${payload.summary.totalObservedSuccessesNeeded}`,
   `Imported gate-sample events: ${payload.summary.importedGateSampleEvents}`,
   `Inbox gate-sample events: ${payload.summary.inboxGateSampleEvents}`,
+  `Public sample page: ${payload.publicSamplePage.path}`,
   '',
   '## Missions',
   '',
@@ -313,16 +338,229 @@ const report = [
   '',
 ].join('\n')
 
+const missionCards = payload.missions
+  .map(
+    (mission) => `<article class="mission" data-mission-id="${escapeHtml(mission.id)}" data-gate-id="${escapeHtml(
+      mission.gateId,
+    )}" data-campaign-id="${escapeHtml(mission.campaignId)}">
+        <div>
+          <p class="eyebrow">${escapeHtml(mission.label)}</p>
+          <h2>${escapeHtml(mission.title)}</h2>
+          <p>${escapeHtml(mission.ownerLoop)} needs real player evidence before the automation changes copy, placement, rules, revenue, or store distribution.</p>
+        </div>
+        <dl>
+          <div><dt>Campaign</dt><dd>${escapeHtml(mission.campaignId)}</dd></div>
+          <div><dt>Prompt views</dt><dd>${mission.needed.promptViews}</dd></div>
+          <div><dt>Observed successes</dt><dd>${mission.needed.successes}</dd></div>
+          <div><dt>Evidence</dt><dd>${escapeHtml(mission.evidence.status)}</dd></div>
+        </dl>
+        <a class="play" href="${escapeHtml(runtimeHref(mission.playPath))}">Start mission</a>
+      </article>`,
+  )
+  .join('\n')
+
+const gateSamplePage = `<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Autonomous Game Lab Gate Sample Missions</title>
+    <style>
+      :root {
+        color: #17211f;
+        background: #f5f7f6;
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+      }
+
+      header,
+      main {
+        width: min(1120px, calc(100% - 32px));
+        margin: 0 auto;
+      }
+
+      header {
+        padding: 42px 0 22px;
+      }
+
+      h1,
+      h2,
+      p {
+        margin: 0;
+      }
+
+      h1 {
+        max-width: 760px;
+        font-size: clamp(2rem, 5vw, 4.5rem);
+        line-height: 0.95;
+        letter-spacing: 0;
+      }
+
+      h2 {
+        font-size: 1.25rem;
+        letter-spacing: 0;
+      }
+
+      p {
+        color: #4a5753;
+        line-height: 1.55;
+      }
+
+      header p:not(.eyebrow) {
+        max-width: 700px;
+        margin-top: 16px;
+        font-size: 1.05rem;
+      }
+
+      .eyebrow {
+        margin-bottom: 10px;
+        color: #0f766e;
+        font-size: 0.76rem;
+        font-weight: 800;
+        letter-spacing: 0;
+        text-transform: uppercase;
+      }
+
+      .summary {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 12px;
+        padding: 18px 0 26px;
+      }
+
+      .metric,
+      .mission,
+      .handoff {
+        border: 1px solid #cbd8d4;
+        border-radius: 8px;
+        background: #ffffff;
+      }
+
+      .metric {
+        padding: 16px;
+      }
+
+      .metric span,
+      dt {
+        display: block;
+        color: #68726f;
+        font-size: 0.76rem;
+        font-weight: 700;
+        text-transform: uppercase;
+      }
+
+      .metric strong,
+      dd {
+        display: block;
+        margin: 4px 0 0;
+        font-size: 1.1rem;
+      }
+
+      .missions {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 14px;
+      }
+
+      .mission {
+        display: grid;
+        gap: 18px;
+        padding: 18px;
+      }
+
+      .mission:nth-child(1) {
+        border-top: 4px solid #0f766e;
+      }
+
+      .mission:nth-child(2) {
+        border-top: 4px solid #bd4d38;
+      }
+
+      .mission:nth-child(3) {
+        border-top: 4px solid #b87b16;
+      }
+
+      dl {
+        display: grid;
+        gap: 10px;
+        margin: 0;
+      }
+
+      .play {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 44px;
+        padding: 0 16px;
+        border-radius: 7px;
+        background: #0f766e;
+        color: #fff;
+        font-weight: 800;
+        text-decoration: none;
+      }
+
+      .handoff {
+        margin: 18px 0 42px;
+        padding: 18px;
+      }
+
+      .handoff h2 {
+        margin-bottom: 8px;
+      }
+
+      @media (max-width: 860px) {
+        .summary,
+        .missions {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <p class="eyebrow">Zero spend product evidence</p>
+      <h1>Autonomous Game Lab Gate Sample Missions</h1>
+      <p>Player-initiated missions collect real completion, replay, and return-intent telemetry before the owner loop changes product copy or unlocks revenue.</p>
+    </header>
+    <main>
+      <section class="summary" aria-label="Sample requirements">
+        <div class="metric"><span>Primary gate</span><strong>${escapeHtml(payload.summary.primaryGateId ?? 'none')}</strong></div>
+        <div class="metric"><span>Prompt views needed</span><strong>${payload.summary.totalPromptViewsNeeded}</strong></div>
+        <div class="metric"><span>Observed successes</span><strong>${payload.summary.totalObservedSuccessesNeeded}</strong></div>
+        <div class="metric"><span>Cost</span><strong>$0.00</strong></div>
+      </section>
+      <section class="missions" aria-label="Gate sample missions">
+        ${missionCards}
+      </section>
+      <section class="handoff" aria-label="Evidence handoff">
+        <h2>Evidence handoff</h2>
+        <p>The app buffers anonymous gameplay events locally, forwards them when a production collector exists, and keeps revenue disabled until observed samples clear every product gate.</p>
+      </section>
+    </main>
+  </body>
+</html>
+`
+
 await mkdir(path.dirname(outputJsonPath), { recursive: true })
 await mkdir(path.dirname(outputTsPath), { recursive: true })
 await mkdir(path.dirname(reportPath), { recursive: true })
+await mkdir(path.dirname(gateSamplePagePath), { recursive: true })
 await writeFile(outputJsonPath, JSON.stringify(payload, null, 2) + '\n')
 await writeFile(
   outputTsPath,
   `export const productGateSamplePlan = ${JSON.stringify(payload, null, 2)} as const\n\nexport type ProductGateSamplePlan = typeof productGateSamplePlan\n`,
 )
 await writeFile(reportPath, report)
+await writeFile(gateSamplePagePath, gateSamplePage)
 
 console.log(`Wrote ${path.relative(root, outputJsonPath)}`)
 console.log(`Wrote ${path.relative(root, outputTsPath)}`)
 console.log(`Wrote ${path.relative(root, reportPath)}`)
+console.log(`Wrote ${path.relative(root, gateSamplePagePath)}`)

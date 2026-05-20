@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-20T02:11:12.420Z",
+  "generatedAt": "2026-05-20T02:34:56.186Z",
   "status": "product-gate-sample-plan-ready",
   "sourceStatus": {
     "analyticsSource": "fixture-sample",
@@ -23,6 +23,16 @@
     "evidenceReadyCount": 0,
     "inboxReadyCount": 0,
     "nextOwnerAction": "collect-gate-sample-downloads"
+  },
+  "publicSamplePage": {
+    "path": "/gate-sample.html",
+    "file": "public/gate-sample.html",
+    "missionCount": 3,
+    "primaryCampaignId": "gate-sample-20260520-firstGameCompletion",
+    "fastestCampaignId": "gate-sample-20260520-d1Retention",
+    "zeroPaidSpend": true,
+    "playerInitiatedOnly": true,
+    "noSyntheticEvents": true
   },
   "missions": [
     {

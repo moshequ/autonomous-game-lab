@@ -318,13 +318,36 @@ function App() {
     const entryParams = new URLSearchParams(window.location.search)
     const entryGameId = entryParams.get('game')
     const entrySource = entryParams.get('utm_source')
+    const entryCampaign = entryParams.get('utm_campaign')
 
     if (isPlayableGameId(entryGameId) || entrySource) {
       trackEvent('organic_entry_opened', {
         gameId: isPlayableGameId(entryGameId) ? entryGameId : null,
         source: entrySource ?? 'direct',
-        campaign: entryParams.get('utm_campaign') ?? null,
+        campaign: entryCampaign ?? null,
       })
+    }
+
+    if (entrySource === 'gate_sample') {
+      const mission =
+        productGateSamplePlan.missions.find((item) => item.campaignId === entryCampaign) ??
+        productGateSamplePlan.missions.find((item) => item.gameId === entryGameId)
+
+      if (mission) {
+        trackEvent('gate_sample_mission_clicked', {
+          gameId: mission.gameId,
+          gateId: mission.gateId,
+          campaignId: mission.campaignId,
+          ownerLoop: mission.ownerLoop,
+          surface: 'direct-gate-sample-link',
+          promptViewsNeeded: mission.needed.promptViews,
+          observedSuccessesNeeded: mission.needed.successes,
+          costUsd: mission.controls.costUsd,
+          noSyntheticEvents: mission.controls.noSyntheticEvents,
+          noRuleChange: mission.controls.noRuleChange,
+          noRevenueEnablement: mission.controls.noRevenueEnablement,
+        })
+      }
     }
 
     return () => window.removeEventListener('agl:analytics', onAnalytics)

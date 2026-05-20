@@ -629,11 +629,13 @@ test('release candidate records the exact deployable PWA artifact', async () => 
   expect(candidate.integrity.files.every((file) => file.sha256.match(/^[a-f0-9]{64}$/))).toBe(true)
   expect(candidate.integrity.files.some((file) => file.path === 'index.html')).toBe(true)
   expect(candidate.integrity.files.some((file) => file.path === 'sw.js')).toBe(true)
+  expect(candidate.integrity.files.some((file) => file.path === 'gate-sample.html')).toBe(true)
   expect(candidate.integrity.files.some((file) => file.path === 'seed-kit.html')).toBe(true)
   expect(candidate.integrity.files.some((file) => file.path === '.well-known/assetlinks.json')).toBe(true)
   expect(candidate.integrity.files.some((file) => file.cacheControl.includes('immutable'))).toBe(true)
   expect(candidate.integrity.requiredFileChecks.every((check) => check.status === 'pass')).toBe(true)
   expect(candidate.postDeploySmoke.some((check) => check.path === '/' && check.expectedStatus === 200)).toBe(true)
+  expect(candidate.postDeploySmoke.some((check) => check.path === '/gate-sample.html')).toBe(true)
   expect(candidate.postDeploySmoke.some((check) => check.path === '/seed-kit.html')).toBe(true)
   expect(candidate.postDeploySmoke.some((check) => check.path === '/privacy.html')).toBe(true)
   expect(candidate.postDeploySmoke.some((check) => check.path === '/.well-known/assetlinks.json')).toBe(true)
@@ -1042,17 +1044,28 @@ test('product optimizer applies one guarded tuning step from product-gate eviden
       totalObservedSuccessesNeeded: number
     }
     missions: Array<{
+      campaignId: string
       gateId: string
       status: string
       gameId: string
       needed: { promptViews: number; successes: number }
       controls: { costUsd: number; noSyntheticEvents: boolean; noRuleChange: boolean }
     }>
-    commandPlan: { refreshPlan: string; collectAndRefresh: string }
+    commandPlan: { refreshPlan: string; collectAndRefresh: string; collectDownloadsAndRefresh: string }
+    publicSamplePage: {
+      path: string
+      missionCount: number
+      primaryCampaignId: string
+      zeroPaidSpend: boolean
+      playerInitiatedOnly: boolean
+      noSyntheticEvents: boolean
+    }
     controls: {
       zeroPaidSpend: boolean
       noPaidTraffic: boolean
       noSyntheticGatePasses: boolean
+      realEventDropsOnly: boolean
+      downloadsImportRequiresExplicitOptIn: boolean
       noAutomaticRuleChanges: boolean
       requireObservedTelemetryBeforeRecoveryChange: boolean
     }
@@ -1138,6 +1151,12 @@ test('product optimizer applies one guarded tuning step from product-gate eviden
   expect(samplePlan.commandPlan.refreshPlan).toBe('npm run autonomous:sample-plan')
   expect(samplePlan.commandPlan.collectAndRefresh).toContain('autonomous:gate-recovery')
   expect(samplePlan.commandPlan.collectDownloadsAndRefresh).toBe('npm run autonomous:collect-sample-downloads')
+  expect(samplePlan.publicSamplePage.path).toBe('/gate-sample.html')
+  expect(samplePlan.publicSamplePage.missionCount).toBe(samplePlan.missions.length)
+  expect(samplePlan.publicSamplePage.primaryCampaignId).toBe(samplePlan.missions[0].campaignId)
+  expect(samplePlan.publicSamplePage.zeroPaidSpend).toBe(true)
+  expect(samplePlan.publicSamplePage.playerInitiatedOnly).toBe(true)
+  expect(samplePlan.publicSamplePage.noSyntheticEvents).toBe(true)
   expect(samplePlan.controls.zeroPaidSpend).toBe(true)
   expect(samplePlan.controls.noPaidTraffic).toBe(true)
   expect(samplePlan.controls.noSyntheticGatePasses).toBe(true)
@@ -1251,6 +1270,50 @@ test('product gate sample mission starts an attributed zero-spend evidence run',
       acquisitionSource: 'gate_sample',
     })
   }
+})
+
+test('direct gate sample links self-attribute the mission start', async ({ page }) => {
+  const samplePlan = JSON.parse(await readFile('data/product-gate-sample-plan.json', 'utf8')) as {
+    missions: Array<{
+      gateId: string
+      gameId: string
+      title: string
+      campaignId: string
+      playPath: string
+      needed: { promptViews: number; successes: number }
+      controls: { costUsd: number; noSyntheticEvents: boolean; noRuleChange: boolean; noRevenueEnablement: boolean }
+    }>
+  }
+  const mission = samplePlan.missions[0]
+
+  await page.goto(mission.playPath)
+  await expect(page.getByLabel('Autonomy cockpit').getByRole('heading', { name: mission.title })).toBeVisible()
+
+  const missionClick = await page.evaluate((campaignId) => {
+    const raw = window.localStorage.getItem('agl.analytics.events')
+    const events = raw ? JSON.parse(raw) : []
+
+    return events.findLast(
+      (event: { name: string; properties: Record<string, string | number | boolean> }) =>
+        event.name === 'gate_sample_mission_clicked' && event.properties.campaignId === campaignId,
+    )?.properties
+  }, mission.campaignId)
+
+  expect(missionClick).toMatchObject({
+    gameId: mission.gameId,
+    gateId: mission.gateId,
+    campaignId: mission.campaignId,
+    acquisitionSource: 'gate_sample',
+    acquisitionCampaign: mission.campaignId,
+    acquisitionChannel: 'product-gate-sample',
+    surface: 'direct-gate-sample-link',
+    costUsd: mission.controls.costUsd,
+    noSyntheticEvents: mission.controls.noSyntheticEvents,
+    noRuleChange: mission.controls.noRuleChange,
+    noRevenueEnablement: mission.controls.noRevenueEnablement,
+    promptViewsNeeded: mission.needed.promptViews,
+    observedSuccessesNeeded: mission.needed.successes,
+  })
 })
 
 test('first move coach highlights a safe opening and records coach telemetry', async ({ page }) => {
@@ -2496,6 +2559,42 @@ test('zero-spend seed kit is reachable and uses runtime-relative campaign links'
   await expect(page.getByRole('button', { name: 'Copy share text' }).first()).toBeVisible()
   await expect(page.getByRole('button', { name: 'Share' }).first()).toBeVisible()
   expect(firstCampaign.sharePath).toContain('utm_source=seed_share')
+  expect(await page.content()).not.toContain('autonomous-game-lab.example.com')
+})
+
+test('zero-spend gate sample page is reachable and uses runtime-relative mission links', async ({ page }) => {
+  const samplePlan = JSON.parse(await readFile('data/product-gate-sample-plan.json', 'utf8')) as {
+    publicSamplePage: {
+      path: string
+      missionCount: number
+      primaryCampaignId: string
+      zeroPaidSpend: boolean
+      playerInitiatedOnly: boolean
+      noSyntheticEvents: boolean
+    }
+    missions: Array<{ id: string; gateId: string; campaignId: string; title: string; playPath: string }>
+  }
+  const mission = samplePlan.missions[0]
+
+  await page.goto('/gate-sample.html')
+
+  await expect(page.getByRole('heading', { name: 'Autonomous Game Lab Gate Sample Missions' })).toBeVisible()
+  await expect(page.getByText('$0.00')).toBeVisible()
+  expect(samplePlan.publicSamplePage.path).toBe('/gate-sample.html')
+  expect(samplePlan.publicSamplePage.missionCount).toBe(samplePlan.missions.length)
+  expect(samplePlan.publicSamplePage.primaryCampaignId).toBe(mission.campaignId)
+  expect(samplePlan.publicSamplePage.zeroPaidSpend).toBe(true)
+  expect(samplePlan.publicSamplePage.playerInitiatedOnly).toBe(true)
+  expect(samplePlan.publicSamplePage.noSyntheticEvents).toBe(true)
+
+  const firstMission = page.locator(`[data-mission-id="${mission.id}"]`)
+  await expect(firstMission).toContainText(mission.title)
+  await expect(firstMission).toHaveAttribute('data-gate-id', mission.gateId)
+  await expect(firstMission).toHaveAttribute('data-campaign-id', mission.campaignId)
+  await expect(firstMission.getByRole('link', { name: 'Start mission' })).toHaveAttribute(
+    'href',
+    `.${mission.playPath}`,
+  )
   expect(await page.content()).not.toContain('autonomous-game-lab.example.com')
 })
 

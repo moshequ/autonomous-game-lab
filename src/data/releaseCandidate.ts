@@ -1,7 +1,7 @@
 export const releaseCandidate = {
-  "generatedAt": "2026-05-20T02:20:35.794Z",
+  "generatedAt": "2026-05-20T02:35:02.019Z",
   "status": "release-candidate-ready",
-  "candidateId": "pwa-8010349b10c6",
+  "candidateId": "pwa-15516d5d49e8",
   "target": {
     "provider": "github-pages",
     "artifactPath": "dist",
@@ -11,18 +11,18 @@ export const releaseCandidate = {
     "basePath": "/"
   },
   "summary": {
-    "totalFiles": 41,
-    "totalBytes": 3677066,
-    "totalKb": 3590.9,
+    "totalFiles": 42,
+    "totalBytes": 3681075,
+    "totalKb": 3594.8,
     "assetFiles": 3,
-    "htmlFiles": 14,
+    "htmlFiles": 15,
     "gamePages": 10,
     "requiredFilesPresent": true,
-    "postDeploySmokeUrls": 12
+    "postDeploySmokeUrls": 13
   },
   "integrity": {
     "algorithm": "sha256",
-    "aggregateHash": "8010349b10c65a69b25552a7c94adbfdf48ad192759f6705a530e13677e00bfb",
+    "aggregateHash": "15516d5d49e8739f7b07eb6c90545df3cfab6050e1a17f24c84168ac8275a40c",
     "files": [
       {
         "path": ".well-known/assetlinks.json",
@@ -39,9 +39,9 @@ export const releaseCandidate = {
         "cacheControl": "public, max-age=3600"
       },
       {
-        "path": "assets/GameCanvas-BUDhJaf2.js",
+        "path": "assets/GameCanvas-DFOIkmR2.js",
         "bytes": 1393468,
-        "sha256": "23881b7b987a248063dc8046d5682683db1fbae4fd3f093caf18661dd1c3fdb1",
+        "sha256": "ae9ccf5e0a7e24931b5cd17ea770e16068653ef1ba3552bfa836d0ea8c531eee",
         "contentType": "text/javascript; charset=utf-8",
         "cacheControl": "public, max-age=31536000, immutable"
       },
@@ -53,9 +53,9 @@ export const releaseCandidate = {
         "cacheControl": "public, max-age=31536000, immutable"
       },
       {
-        "path": "assets/index-M4IZcTmZ.js",
-        "bytes": 680185,
-        "sha256": "991910dae7fefca57219a67bfa8979543cd480032fa4dd258396a72407068e7a",
+        "path": "assets/index-BIzoeWEJ.js",
+        "bytes": 677242,
+        "sha256": "2c5dc694a4392d218d2477929b4dc9a4f9f43fe1be291dca092979f2cbb9cbcd",
         "contentType": "text/javascript; charset=utf-8",
         "cacheControl": "public, max-age=31536000, immutable"
       },
@@ -144,6 +144,13 @@ export const releaseCandidate = {
         "cacheControl": "no-cache"
       },
       {
+        "path": "gate-sample.html",
+        "bytes": 6883,
+        "sha256": "36976455cf9ca538d4b4e834dbb4b9413965d8a6921d2b2e8c0d2ee63131f0fe",
+        "contentType": "text/html; charset=utf-8",
+        "cacheControl": "no-cache"
+      },
+      {
         "path": "icons.svg",
         "bytes": 5031,
         "sha256": "b45fa506195cfcdef406ba9f0c77b36ddc1a7c224040926ec70abc2fdea7b93a",
@@ -202,7 +209,7 @@ export const releaseCandidate = {
       {
         "path": "index.html",
         "bytes": 803,
-        "sha256": "1e026cafc737b32f68b04f78b82b2bad2544cf1346728063f6732d5d1fcfdeef",
+        "sha256": "d520ab0993979fed7a98da347492915e2a5ee4297cd5fd8bbdd67050a780ea9b",
         "contentType": "text/html; charset=utf-8",
         "cacheControl": "no-cache"
       },
@@ -299,8 +306,8 @@ export const releaseCandidate = {
       },
       {
         "path": "sw.js",
-        "bytes": 3601,
-        "sha256": "ec6fe0af4e141582b87d5d1af654ccac47dc76f1d91d61c6b787fd67e50fec0c",
+        "bytes": 3670,
+        "sha256": "8b491adbd4d541c44ed19307d3770d0cfb79e922a8a83a267353e01718b06568",
         "contentType": "text/javascript; charset=utf-8",
         "cacheControl": "no-cache"
       },
@@ -343,6 +350,10 @@ export const releaseCandidate = {
       },
       {
         "path": "robots.txt",
+        "status": "pass"
+      },
+      {
+        "path": "gate-sample.html",
         "status": "pass"
       },
       {
@@ -444,6 +455,13 @@ export const releaseCandidate = {
       "requiredText": "delegate_permission/common.handle_all_urls"
     },
     {
+      "id": "gate-sample-html",
+      "path": "/gate-sample.html",
+      "url": "${DEPLOYED_PWA_ORIGIN}/gate-sample.html",
+      "expectedStatus": 200,
+      "requiredText": "Autonomous Game Lab"
+    },
+    {
       "id": "seed-kit-html",
       "path": "/seed-kit.html",
       "url": "${DEPLOYED_PWA_ORIGIN}/seed-kit.html",
@@ -510,12 +528,12 @@ export const releaseCandidate = {
     {
       "id": "dist-inventory",
       "status": "pass",
-      "detail": "41 dist files inventoried."
+      "detail": "42 dist files inventoried."
     },
     {
       "id": "required-files",
       "status": "pass",
-      "detail": "16/16 required files present."
+      "detail": "17/17 required files present."
     },
     {
       "id": "game-pages",
@@ -545,7 +563,7 @@ export const releaseCandidate = {
     {
       "id": "post-deploy-smoke-plan",
       "status": "pass",
-      "detail": "12 post-deploy smoke URL(s) planned."
+      "detail": "13 post-deploy smoke URL(s) planned."
     }
   ],
   "nextActions": [

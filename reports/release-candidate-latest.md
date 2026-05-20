@@ -1,22 +1,22 @@
 # Release Candidate
 
-Generated: 2026-05-20T02:20:35.794Z
+Generated: 2026-05-20T02:35:02.019Z
 Status: release-candidate-ready
-Candidate: pwa-8010349b10c6
-Files: 41
-Size: 3590.9 KB
-Aggregate SHA-256: 8010349b10c65a69b25552a7c94adbfdf48ad192759f6705a530e13677e00bfb
+Candidate: pwa-15516d5d49e8
+Files: 42
+Size: 3594.8 KB
+Aggregate SHA-256: 15516d5d49e8739f7b07eb6c90545df3cfab6050e1a17f24c84168ac8275a40c
 
 ## Checks
 
-- pass: dist-inventory - 41 dist files inventoried.
-- pass: required-files - 16/16 required files present.
+- pass: dist-inventory - 42 dist files inventoried.
+- pass: required-files - 17/17 required files present.
 - pass: game-pages - 10 generated game page(s) in dist.
 - pass: performance-budget - Performance budget is performance-budget-ready.
 - pass: release-health - Release health is monitoring.
 - pass: production-response - Deploy allowed is true.
 - pass: spend-guard - Spend mode is no-spend.
-- pass: post-deploy-smoke-plan - 12 post-deploy smoke URL(s) planned.
+- pass: post-deploy-smoke-plan - 13 post-deploy smoke URL(s) planned.
 
 ## Required Files
 
@@ -28,6 +28,7 @@ Aggregate SHA-256: 8010349b10c65a69b25552a7c94adbfdf48ad192759f6705a530e13677e00
 - pass: compliance.json
 - pass: sitemap.xml
 - pass: robots.txt
+- pass: gate-sample.html
 - pass: seed-kit.html
 - pass: share-manifest.json
 - pass: monetization.json
@@ -48,6 +49,7 @@ Aggregate SHA-256: 8010349b10c65a69b25552a7c94adbfdf48ad192759f6705a530e13677e00
 - 200: ${DEPLOYED_PWA_ORIGIN}/monetization.json
 - 200: ${DEPLOYED_PWA_ORIGIN}/app-ads.txt
 - 200: ${DEPLOYED_PWA_ORIGIN}/.well-known/assetlinks.json
+- 200: ${DEPLOYED_PWA_ORIGIN}/gate-sample.html
 - 200: ${DEPLOYED_PWA_ORIGIN}/seed-kit.html
 - 200: ${DEPLOYED_PWA_ORIGIN}/sitemap.xml
 - 200: ${DEPLOYED_PWA_ORIGIN}/games/canopy-bloom.html

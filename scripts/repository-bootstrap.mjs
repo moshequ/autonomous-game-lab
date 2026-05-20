@@ -76,6 +76,7 @@ const generatedEvidencePaths = new Set([
   'src/data/repositoryBootstrap.ts',
   'reports/repository-bootstrap-latest.md',
   'ops/github/bootstrap-repository.sh',
+  'public/gate-sample.html',
   'public/robots.txt',
   'public/sitemap.xml',
   'public/seed-kit.html',
