@@ -2891,7 +2891,11 @@ if (
   !storeComplianceCheckIds.has('privacy-data') ||
   !storeComplianceCheckIds.has('app-access') ||
   !storeComplianceCheckIds.has('compliance-publication') ||
-  !storeCompliance.blockers?.some((blocker) => blocker.includes('hosted-privacy-url')) ||
+  !storeCompliance.blockers?.some((blocker) =>
+    ['hosted-privacy-url', 'support-contact', 'google-play-account', 'apple-developer-account'].some((id) =>
+      blocker.includes(id),
+    ),
+  ) ||
   !storeCompliance.reviewerNotes?.length
 ) {
   fail('Store compliance must publish content-rating, audience, ads, privacy, and reviewer-access drafts with external blockers.')
