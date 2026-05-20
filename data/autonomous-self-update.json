@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-20T07:38:52.509Z",
+  "generatedAt": "2026-05-20T08:54:54.508Z",
   "status": "self-update-ready",
   "mode": "plan-and-assert",
   "envFiles": {
@@ -59,9 +59,10 @@
     "currentBranch": "main",
     "insideWorkTree": true,
     "githubTokenConfigured": false,
-    "directPushConfigured": false,
-    "selfUpdateEnabled": false,
-    "remotePushReady": false
+    "githubCredentialConfigured": true,
+    "directPushConfigured": true,
+    "selfUpdateEnabled": true,
+    "remotePushReady": true
   },
   "sourceStatus": {
     "repositoryReadiness": "repository-channel-ready",
@@ -70,15 +71,8 @@
     "ownerLoop": "owner-loop-ready"
   },
   "pendingChanges": {
-    "total": 37,
+    "total": 28,
     "safe": [
-      {
-        "code": "M",
-        "path": "data/android-release.json",
-        "raw": " M data/android-release.json",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
       {
         "code": "M",
         "path": "data/autonomous-cadence.json",
@@ -116,13 +110,6 @@
       },
       {
         "code": "M",
-        "path": "data/native-package.json",
-        "raw": " M data/native-package.json",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
         "path": "data/objective-audit.json",
         "raw": " M data/objective-audit.json",
         "safe": true,
@@ -130,8 +117,15 @@
       },
       {
         "code": "M",
-        "path": "data/production-environment.json",
-        "raw": " M data/production-environment.json",
+        "path": "data/production-activation.json",
+        "raw": " M data/production-activation.json",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
+        "path": "data/production-bootstrap.json",
+        "raw": " M data/production-bootstrap.json",
         "safe": true,
         "reason": "allowlisted-generated-artifact"
       },
@@ -144,50 +138,15 @@
       },
       {
         "code": "M",
-        "path": "data/store-compliance.json",
-        "raw": " M data/store-compliance.json",
+        "path": "data/repository-bootstrap.json",
+        "raw": " M data/repository-bootstrap.json",
         "safe": true,
         "reason": "allowlisted-generated-artifact"
       },
       {
         "code": "M",
-        "path": "data/store-listing-optimizer.json",
-        "raw": " M data/store-listing-optimizer.json",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "data/store-package.json",
-        "raw": " M data/store-package.json",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "native/android/README.md",
-        "raw": " M native/android/README.md",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "native/android/bubblewrap.config.json",
-        "raw": " M native/android/bubblewrap.config.json",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "public/compliance.json",
-        "raw": " M public/compliance.json",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "reports/android-release-latest.md",
-        "raw": " M reports/android-release-latest.md",
+        "path": "data/repository-readiness.json",
+        "raw": " M data/repository-readiness.json",
         "safe": true,
         "reason": "allowlisted-generated-artifact"
       },
@@ -228,13 +187,6 @@
       },
       {
         "code": "M",
-        "path": "reports/native-package-latest.md",
-        "raw": " M reports/native-package-latest.md",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
         "path": "reports/objective-audit-latest.md",
         "raw": " M reports/objective-audit-latest.md",
         "safe": true,
@@ -242,8 +194,15 @@
       },
       {
         "code": "M",
-        "path": "reports/production-environment-latest.md",
-        "raw": " M reports/production-environment-latest.md",
+        "path": "reports/production-activation-latest.md",
+        "raw": " M reports/production-activation-latest.md",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
+        "path": "reports/production-bootstrap-latest.md",
+        "raw": " M reports/production-bootstrap-latest.md",
         "safe": true,
         "reason": "allowlisted-generated-artifact"
       },
@@ -256,29 +215,15 @@
       },
       {
         "code": "M",
-        "path": "reports/store-compliance-latest.md",
-        "raw": " M reports/store-compliance-latest.md",
+        "path": "reports/repository-bootstrap-latest.md",
+        "raw": " M reports/repository-bootstrap-latest.md",
         "safe": true,
         "reason": "allowlisted-generated-artifact"
       },
       {
         "code": "M",
-        "path": "reports/store-listing-optimizer-latest.md",
-        "raw": " M reports/store-listing-optimizer-latest.md",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "reports/store-package-latest.md",
-        "raw": " M reports/store-package-latest.md",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "src/data/androidRelease.ts",
-        "raw": " M src/data/androidRelease.ts",
+        "path": "reports/repository-readiness-latest.md",
+        "raw": " M reports/repository-readiness-latest.md",
         "safe": true,
         "reason": "allowlisted-generated-artifact"
       },
@@ -291,15 +236,22 @@
       },
       {
         "code": "M",
-        "path": "src/data/autonomousSelfUpdate.ts",
-        "raw": " M src/data/autonomousSelfUpdate.ts",
+        "path": "src/data/autonomousOperatorHistory.ts",
+        "raw": " M src/data/autonomousOperatorHistory.ts",
         "safe": true,
         "reason": "allowlisted-generated-artifact"
       },
       {
         "code": "M",
-        "path": "src/data/nativePackage.ts",
-        "raw": " M src/data/nativePackage.ts",
+        "path": "src/data/autonomousOwnerLoop.ts",
+        "raw": " M src/data/autonomousOwnerLoop.ts",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
+        "path": "src/data/autonomousSelfUpdate.ts",
+        "raw": " M src/data/autonomousSelfUpdate.ts",
         "safe": true,
         "reason": "allowlisted-generated-artifact"
       },
@@ -312,76 +264,54 @@
       },
       {
         "code": "M",
-        "path": "src/data/productionEnvironment.ts",
-        "raw": " M src/data/productionEnvironment.ts",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "src/data/storeCompliance.ts",
-        "raw": " M src/data/storeCompliance.ts",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "src/data/storeListingOptimizer.ts",
-        "raw": " M src/data/storeListingOptimizer.ts",
+        "path": "src/data/productionActivation.ts",
+        "raw": " M src/data/productionActivation.ts",
         "safe": true,
         "reason": "allowlisted-generated-artifact"
       }
     ],
     "unsafe": [],
-    "safeCount": 37,
+    "safeCount": 28,
     "unsafeCount": 0
   },
   "commitPlan": {
     "workflow": ".github/workflows/autonomous-self-update.yml",
     "enabledByRepositoryVariable": "AGL_AUTONOMOUS_SELF_UPDATE=1",
     "directPushRequiresRepositoryVariable": "AGL_AUTONOMOUS_SELF_UPDATE_DIRECT=1",
+    "deployAfterCommit": ".github/workflows/web-pwa-deploy.yml",
     "verificationBeforeCommit": [
       "npm run autonomous:operate",
       "npm run autonomous:self-update -- --assert-safe"
     ],
     "stagePaths": [
-      "data/android-release.json",
       "data/autonomous-cadence.json",
       "data/autonomous-operator-history.json",
       "data/autonomous-operator.json",
       "data/autonomous-owner-loop.json",
       "data/autonomous-self-update.json",
-      "data/native-package.json",
       "data/objective-audit.json",
-      "data/production-environment.json",
+      "data/production-activation.json",
+      "data/production-bootstrap.json",
       "data/production-readiness.json",
-      "data/store-compliance.json",
-      "data/store-listing-optimizer.json",
-      "data/store-package.json",
-      "native/android/README.md",
-      "native/android/bubblewrap.config.json",
-      "public/compliance.json",
-      "reports/android-release-latest.md",
+      "data/repository-bootstrap.json",
+      "data/repository-readiness.json",
       "reports/autonomous-cadence-latest.md",
       "reports/autonomous-operator-history-latest.md",
       "reports/autonomous-operator-latest.md",
       "reports/autonomous-owner-loop-latest.md",
       "reports/autonomous-self-update-latest.md",
-      "reports/native-package-latest.md",
       "reports/objective-audit-latest.md",
-      "reports/production-environment-latest.md",
+      "reports/production-activation-latest.md",
+      "reports/production-bootstrap-latest.md",
       "reports/production-readiness-latest.md",
-      "reports/store-compliance-latest.md",
-      "reports/store-listing-optimizer-latest.md",
-      "reports/store-package-latest.md",
-      "src/data/androidRelease.ts",
+      "reports/repository-bootstrap-latest.md",
+      "reports/repository-readiness-latest.md",
       "src/data/autonomousCadence.ts",
+      "src/data/autonomousOperatorHistory.ts",
+      "src/data/autonomousOwnerLoop.ts",
       "src/data/autonomousSelfUpdate.ts",
-      "src/data/nativePackage.ts",
       "src/data/objectiveAudit.ts",
-      "src/data/productionEnvironment.ts",
-      "src/data/storeCompliance.ts",
-      "src/data/storeListingOptimizer.ts"
+      "src/data/productionActivation.ts"
     ],
     "commitMessage": "Autonomous daily self-update",
     "skipWhenNoAllowlistedChanges": true
@@ -470,12 +400,17 @@
     {
       "id": "self-update-workflow",
       "status": "pass",
-      "detail": "A separate gated workflow can reproduce the owner loop, verify it, and persist allowlisted changes."
+      "detail": "A separate gated workflow can reproduce the owner loop, verify it with gate env, and persist allowlisted changes."
+    },
+    {
+      "id": "post-self-update-deploy",
+      "status": "pass",
+      "detail": "Pages redeploys after the gated self-update workflow, then repeats deployability and post-deploy smoke checks."
     },
     {
       "id": "safe-path-allowlist",
       "status": "pass",
-      "detail": "37 safe pending file(s), 0 unsafe pending file(s)."
+      "detail": "28 safe pending file(s), 0 unsafe pending file(s)."
     },
     {
       "id": "repository-optional",
@@ -485,7 +420,7 @@
     {
       "id": "remote-push-gated",
       "status": "pass",
-      "detail": "Remote push remains held until GitHub credentials and AGL_AUTONOMOUS_SELF_UPDATE_DIRECT=1 are configured."
+      "detail": "Direct push is configured for moshequ/autonomous-game-lab."
     },
     {
       "id": "zero-spend-controls",

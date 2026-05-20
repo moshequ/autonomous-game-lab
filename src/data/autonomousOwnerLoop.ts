@@ -12,19 +12,19 @@ export const autonomousOwnerLoop = {
   },
   "systems": [
     {
+      "id": "trend-radar",
+      "status": "ready"
+    },
+    {
+      "id": "concept-generator",
+      "status": "ready"
+    },
+    {
+      "id": "prototype-generator",
+      "status": "ready"
+    },
+    {
       "id": "game-factory",
-      "status": "ready"
-    },
-    {
-      "id": "analytics-ingest",
-      "status": "ready"
-    },
-    {
-      "id": "local-event-bridge",
-      "status": "ready"
-    },
-    {
-      "id": "autonomous-cadence",
       "status": "ready"
     }
   ],

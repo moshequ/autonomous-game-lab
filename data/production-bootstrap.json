@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-20T08:40:21.455Z",
+  "generatedAt": "2026-05-20T08:48:59.678Z",
   "status": "production-bootstrap-ready",
   "mode": "can-apply-configured-actions",
   "envFiles": {
@@ -83,7 +83,7 @@
   "summary": {
     "readyGroups": 3,
     "totalGroups": 12,
-    "configuredVariables": 6,
+    "configuredVariables": 8,
     "totalVariables": 24,
     "configuredSecrets": 3,
     "totalSecrets": 8,
@@ -151,11 +151,11 @@
     },
     {
       "id": "autonomous-self-update",
-      "status": "waiting-for-self-update-gate",
-      "canAutoRun": false,
+      "status": "ready-for-direct-persistence",
+      "canAutoRun": true,
       "costUsd": 0,
       "command": "Run Autonomous Self Update after the daily workflow succeeds.",
-      "evidence": "Self-update gate missing; direct push held.",
+      "evidence": "Self-update gate configured; direct push configured.",
       "requires": [
         "Set AGL_AUTONOMOUS_SELF_UPDATE=1 to allow the self-update workflow to run after verified daily builds.",
         "Set AGL_AUTONOMOUS_SELF_UPDATE_DIRECT=1 only when direct generated-artifact commits to the default branch are acceptable."
@@ -167,7 +167,7 @@
       "canAutoRun": true,
       "costUsd": 0,
       "command": "./ops/github/setup-production.sh",
-      "evidence": "6/24 repository variable value(s) present in this environment.",
+      "evidence": "8/24 repository variable value(s) present in this environment.",
       "requires": [
         "AGL_SUPPORT_EMAIL",
         "VITE_POSTHOG_KEY",
@@ -310,11 +310,11 @@
     },
     {
       "id": "autonomous-self-update",
-      "status": "waiting-for-self-update-gate",
-      "canAutoRun": false,
+      "status": "ready-for-direct-persistence",
+      "canAutoRun": true,
       "costUsd": 0,
       "command": "Run Autonomous Self Update after the daily workflow succeeds.",
-      "evidence": "Self-update gate missing; direct push held.",
+      "evidence": "Self-update gate configured; direct push configured.",
       "requires": [
         "Set AGL_AUTONOMOUS_SELF_UPDATE=1 to allow the self-update workflow to run after verified daily builds.",
         "Set AGL_AUTONOMOUS_SELF_UPDATE_DIRECT=1 only when direct generated-artifact commits to the default branch are acceptable."
@@ -326,7 +326,7 @@
       "canAutoRun": true,
       "costUsd": 0,
       "command": "./ops/github/setup-production.sh",
-      "evidence": "6/24 repository variable value(s) present in this environment.",
+      "evidence": "8/24 repository variable value(s) present in this environment.",
       "requires": [
         "AGL_SUPPORT_EMAIL",
         "VITE_POSTHOG_KEY",
@@ -611,8 +611,8 @@
       "kind": "github-variable",
       "repositoryVariable": "AGL_AUTONOMOUS_SELF_UPDATE",
       "envName": "AGL_AUTONOMOUS_SELF_UPDATE",
-      "valueSource": "missing",
-      "configured": false,
+      "valueSource": "environment",
+      "configured": true,
       "command": "gh variable set AGL_AUTONOMOUS_SELF_UPDATE --body \"$AGL_AUTONOMOUS_SELF_UPDATE\""
     },
     {
@@ -620,8 +620,8 @@
       "kind": "github-variable",
       "repositoryVariable": "AGL_AUTONOMOUS_SELF_UPDATE_DIRECT",
       "envName": "AGL_AUTONOMOUS_SELF_UPDATE_DIRECT",
-      "valueSource": "missing",
-      "configured": false,
+      "valueSource": "environment",
+      "configured": true,
       "command": "gh variable set AGL_AUTONOMOUS_SELF_UPDATE_DIRECT --body \"$AGL_AUTONOMOUS_SELF_UPDATE_DIRECT\""
     }
   ],
@@ -895,8 +895,8 @@
       "kind": "github-variable",
       "repositoryVariable": "AGL_AUTONOMOUS_SELF_UPDATE",
       "envName": "AGL_AUTONOMOUS_SELF_UPDATE",
-      "valueSource": "missing",
-      "configured": false,
+      "valueSource": "environment",
+      "configured": true,
       "command": "gh variable set AGL_AUTONOMOUS_SELF_UPDATE --body \"$AGL_AUTONOMOUS_SELF_UPDATE\""
     },
     {
@@ -904,8 +904,8 @@
       "kind": "github-variable",
       "repositoryVariable": "AGL_AUTONOMOUS_SELF_UPDATE_DIRECT",
       "envName": "AGL_AUTONOMOUS_SELF_UPDATE_DIRECT",
-      "valueSource": "missing",
-      "configured": false,
+      "valueSource": "environment",
+      "configured": true,
       "command": "gh variable set AGL_AUTONOMOUS_SELF_UPDATE_DIRECT --body \"$AGL_AUTONOMOUS_SELF_UPDATE_DIRECT\""
     }
   ],

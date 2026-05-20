@@ -1,23 +1,23 @@
 # Production Activation
 
-Generated: 2026-05-20T07:15:12.105Z
-Status: activation-applied
-Mode: apply-configured-actions
-Execution: executed
+Generated: 2026-05-20T08:48:59.900Z
+Status: activation-ready
+Mode: dry-run
+Execution: dry-run
 
 ## Configuration
 
-- Activation requested: true
+- Activation requested: false
 - Repository target known: true
 - GitHub credentials ready: true
 - Deployment ready: true
-- Configured variables: 6
+- Configured variables: 8
 - Configured secrets: 3
 
 ## Planned Actions
 
 - waiting-for-explicit-bootstrap-gate: repository-bootstrap; runnable no; ops/github/bootstrap-repository.sh; Held until AGL_ALLOW_REPOSITORY_BOOTSTRAP=1 and the specific repository mutation gates are present.
-- ready: sync-production-settings; runnable yes; ops/github/setup-production.sh; GitHub credentials and repository target are available; setup can sync configured variables, secrets, and Pages settings.
+- ready: sync-production-settings; runnable no; ops/github/setup-production.sh; GitHub credentials and repository target are available; setup can sync configured variables, secrets, and Pages settings.
 
 ## Controls
 
@@ -35,7 +35,7 @@ Execution: executed
 
 ## Execution Results
 
-- sync-production-settings: exit 0
+- none
 
 ## Next Actions
 

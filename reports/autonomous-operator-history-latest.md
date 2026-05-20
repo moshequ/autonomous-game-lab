@@ -1,9 +1,9 @@
 # Autonomous Operator History
 
-Generated: 2026-05-20T08:40:22.487Z
+Generated: 2026-05-20T08:53:51.405Z
 Status: operator-history-ready
 Records: 40
-Executed records: 12
+Executed records: 11
 Failed records: 0
 Latest run appended: false
 Compacted duplicate dry-runs: 0
@@ -17,8 +17,6 @@ Compacted duplicate dry-runs: 0
 
 ## Recent Records
 
-- 2026-05-20T06:48:25.765Z: refresh-organic-seed-loop; not-requested; appended fingerprint 0173db42a1f50d3a
-- 2026-05-20T06:50:11.097Z: refresh-autonomous-cadence; not-requested; appended fingerprint aa9c165a136f8c41
 - 2026-05-20T06:51:46.014Z: refresh-organic-seed-loop; not-requested; appended fingerprint 0173db42a1f50d3a
 - 2026-05-20T06:53:27.602Z: refresh-organic-seed-loop; not-requested; appended fingerprint 4671ac30afe010c9
 - 2026-05-20T06:53:28.414Z: refresh-organic-seed-loop; not-requested; appended fingerprint 0173db42a1f50d3a
@@ -27,3 +25,5 @@ Compacted duplicate dry-runs: 0
 - 2026-05-20T07:15:13.480Z: refresh-organic-seed-loop; not-requested; appended fingerprint 0173db42a1f50d3a
 - 2026-05-20T07:52:16.641Z: refresh-organic-seed-loop; not-requested; appended fingerprint 4671ac30afe010c9
 - 2026-05-20T07:52:56.515Z: refresh-organic-seed-loop; not-requested; appended fingerprint 0173db42a1f50d3a
+- 2026-05-20T08:49:00.922Z: refresh-organic-seed-loop; not-requested; appended fingerprint 4671ac30afe010c9
+- 2026-05-20T08:49:11.070Z: refresh-organic-seed-loop; not-requested; appended fingerprint 0173db42a1f50d3a

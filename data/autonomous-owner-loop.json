@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2026-05-20T08:40:22.220Z",
+  "generatedAt": "2026-05-20T08:53:51.860Z",
   "status": "owner-loop-ready",
   "mode": "zero-spend-web-ready",
   "autonomyScore": {
-    "readySystems": 35,
-    "totalSystems": 36,
+    "readySystems": 38,
+    "totalSystems": 39,
     "percent": 97
   },
   "controls": {
@@ -50,7 +50,7 @@
     "objectiveAuditFreshness": {
       "fresh": true,
       "structurallyReady": true,
-      "auditGeneratedAt": "2026-05-20T08:40:21.956Z",
+      "auditGeneratedAt": "2026-05-20T08:53:51.629Z",
       "evaluatedInputIds": [
         "analytics-rollup",
         "event-ingest",
@@ -118,6 +118,27 @@
   },
   "systems": [
     {
+      "id": "trend-radar",
+      "status": "ready",
+      "autonomy": "automatic",
+      "evidence": "7 mechanic signal(s), 5 theme signal(s), 3 audience signal(s).",
+      "nextAction": "Keep refreshing zero-cost trend inputs before concept generation."
+    },
+    {
+      "id": "concept-generator",
+      "status": "ready",
+      "autonomy": "automatic-original-design",
+      "evidence": "4 generated original concept(s) from current trend signals.",
+      "nextAction": "Keep generating original concepts without cloning protected board-game IP."
+    },
+    {
+      "id": "prototype-generator",
+      "status": "ready",
+      "autonomy": "automatic",
+      "evidence": "4 prototype candidate(s) prepared for playable runtime generation.",
+      "nextAction": "Keep promoting only prototype candidates that pass the local gates."
+    },
+    {
       "id": "game-factory",
       "status": "ready",
       "autonomy": "automatic",
@@ -149,7 +170,7 @@
       "id": "autonomous-self-update",
       "status": "ready",
       "autonomy": "gated-generated-change-persistence",
-      "evidence": "Self-update self-update-ready; safe pending 37; unsafe pending 0; remote push held.",
+      "evidence": "Self-update self-update-ready; safe pending 27; unsafe pending 0; remote push held.",
       "nextAction": "When a GitHub repository is connected, set AGL_AUTONOMOUS_SELF_UPDATE=1 and AGL_AUTONOMOUS_SELF_UPDATE_DIRECT=1 to let verified generated changes persist."
     },
     {
@@ -303,7 +324,7 @@
       "id": "production-activation",
       "status": "ready",
       "autonomy": "guarded-credential-activated-setup",
-      "evidence": "Activation activation-applied; mode apply-configured-actions; execution executed; gh ready.",
+      "evidence": "Activation activation-ready; mode dry-run; execution dry-run; gh ready.",
       "nextAction": "Set AGL_PRODUCTION_ACTIVATE=1 in the production automation environment to apply configured zero-spend GitHub/Pages setup."
     },
     {
@@ -317,7 +338,7 @@
       "id": "operator-history",
       "status": "ready",
       "autonomy": "operator-audit-trail",
-      "evidence": "History operator-history-ready; records 40; executed 12.",
+      "evidence": "History operator-history-ready; records 40; executed 11.",
       "nextAction": "Keep a capped durable record of operator plans and one-action executions."
     },
     {
@@ -819,7 +840,7 @@
     "completionLoopStatus": "completion-loop-ready",
     "replayLoopStatus": "replay-loop-ready",
     "productionBootstrapStatus": "production-bootstrap-ready",
-    "productionActivationStatus": "activation-applied",
+    "productionActivationStatus": "activation-ready",
     "autonomousOperatorStatus": "operator-plan-ready",
     "autonomousOperatorHistoryStatus": "operator-history-ready",
     "objectiveAuditStatus": "objective-in-progress",

@@ -1,6 +1,6 @@
 # Production Readiness
 
-Generated: 2026-05-20T08:40:22.739Z
+Generated: 2026-05-20T08:54:54.209Z
 
 ## Environment
 
@@ -31,7 +31,7 @@ Local git: true
 - done: repo-bootstrap-inspect-repository-channel - Repository readiness is repository-channel-ready.
 - ready: repo-bootstrap-initialize-local-git - Git worktree is available at /Users/moshequ/Documents/Codex/2026-05-18/i-want-to-have-a-new.
 - ready: repo-bootstrap-create-initial-commit - The local repository has at least one commit.
-- ready: repo-bootstrap-commit-current-snapshot - The current generated production snapshot is committed.
+- ready: repo-bootstrap-commit-current-snapshot - 5 repository evidence file(s) changed during this dry run; the outer verified commit will persist them.
 - ready: repo-bootstrap-set-or-create-origin - Origin remote resolves to moshequ/autonomous-game-lab.
 - ready-for-explicit-create-or-attach: repo-bootstrap-create-github-repository - GitHub CLI can create or attach moshequ/autonomous-game-lab when explicitly allowed.
 - ready-for-explicit-push: repo-bootstrap-push-initial-snapshot - Push stays held until an origin remote exists and AGL_ALLOW_PUSH=1 is set.
@@ -66,11 +66,11 @@ Status: ready-after-build
 - pass: release-health - Release health guard is monitoring.
 - pass: production-environment - Production environment status is production-env-missing.
 - pass: production-bootstrap - Production bootstrap is production-bootstrap-ready; mode can-apply-configured-actions; external blockers 15.
-- pass: production-activation - Production activation is activation-applied; mode apply-configured-actions; execution executed.
+- pass: production-activation - Production activation is activation-ready; mode dry-run; execution dry-run.
 - pass: autonomous-operator - Autonomous operator is operator-plan-ready; selected refresh-organic-seed-loop; execution not-requested.
-- pass: autonomous-operator-history - Autonomous operator history is operator-history-ready; records 40; executed 12.
+- pass: autonomous-operator-history - Autonomous operator history is operator-history-ready; records 40; executed 11.
 - pass: autonomous-cadence - Autonomous cadence is cadence-ready; Codex active-confirmed; GitHub scheduled.
-- pass: autonomous-self-update - Autonomous self-update is self-update-ready; safe pending 37; unsafe pending 0; remote push held.
+- pass: autonomous-self-update - Autonomous self-update is self-update-ready; safe pending 28; unsafe pending 0; remote push ready.
 - pass: objective-audit - Objective audit is objective-in-progress; met 6 / 8; can complete false.
 
 ## Monetization
@@ -220,8 +220,8 @@ Setup script: ops/github/setup-production.sh
 - waiting-for-origin-support: bootstrap-production-environment - Environment production-env-missing; public origin configured; support missing-production-address.
 - ready-for-actions-pages: bootstrap-github-pages-hosting - Deployment plan is ready-for-pages; Pages workflow is .github/workflows/web-pwa-deploy.yml.
 - ready-to-sync: bootstrap-github-pages-settings - GitHub CLI can configure Pages to use the Actions workflow source.
-- waiting-for-self-update-gate: bootstrap-autonomous-self-update - Self-update gate missing; direct push held.
-- partially-configured: bootstrap-github-actions-variables - 6/24 repository variable value(s) present in this environment.
+- ready-for-direct-persistence: bootstrap-autonomous-self-update - Self-update gate configured; direct push configured.
+- partially-configured: bootstrap-github-actions-variables - 8/24 repository variable value(s) present in this environment.
 - partially-configured: bootstrap-github-actions-secrets - 3/8 repository secret value(s) present in this environment.
 - blocked-needs-cloudflare-env: bootstrap-event-collector - Collector deployment is blocked-needs-cloudflare-env; provider cloudflare-worker-r2.
 - held-by-product-gates: bootstrap-monetization-gate - Revenue disabled; spend mode no-spend.
@@ -239,7 +239,7 @@ Execution: not-requested
 
 Status: operator-history-ready
 Records: 40
-Executed: 12
+Executed: 11
 
 ## Autonomous Cadence
 
@@ -260,23 +260,25 @@ Freshness: fresh; stale artifacts 0
 - pass: cadence-browser-smoke - test:e2e is playwright test.
 - pass: cadence-fresh-generated-evidence - All 37 required generated evidence artifacts are fresh within 36h.
 - pass: cadence-github-scheduled-workflow - GitHub Actions daily workflow can run the full autonomous owner loop and upload evidence artifacts.
-- pass: cadence-github-self-update-workflow - Gated GitHub workflow can persist allowlisted verified generated changes when explicitly enabled.
+- pass: cadence-github-self-update-workflow - Gated GitHub workflow can persist allowlisted verified generated changes with workflow token evidence when explicitly enabled.
+- pass: cadence-post-self-update-deploy - Pages deployment also follows the gated self-update workflow, so persisted generated improvements can publish without manual dispatch.
 - pass: cadence-zero-spend-operation - Cadence is local/CI execution only; it does not enable paid spend, stores, ads, or revenue.
 
 ## Autonomous Self Update
 
 Status: self-update-ready
 Workflow: .github/workflows/autonomous-self-update.yml
-Safe pending: 37
+Safe pending: 28
 Unsafe pending: 0
-Remote push ready: false
+Remote push ready: true
 - pass: self-update-script-registered - autonomous:self-update is node scripts/autonomous-self-update.mjs.
 - pass: self-update-daily-loop-refresh - autonomous:daily refreshes self-update evidence before owner/audit evidence.
 - pass: self-update-daily-workflow-read-only - The ordinary daily workflow remains read-only, runs the owner loop, and uploads evidence artifacts.
-- pass: self-update-self-update-workflow - A separate gated workflow can reproduce the owner loop, verify it, and persist allowlisted changes.
-- pass: self-update-safe-path-allowlist - 37 safe pending file(s), 0 unsafe pending file(s).
+- pass: self-update-self-update-workflow - A separate gated workflow can reproduce the owner loop, verify it with gate env, and persist allowlisted changes.
+- pass: self-update-post-self-update-deploy - Pages redeploys after the gated self-update workflow, then repeats deployability and post-deploy smoke checks.
+- pass: self-update-safe-path-allowlist - 28 safe pending file(s), 0 unsafe pending file(s).
 - pass: self-update-repository-optional - Git worktree is available on main.
-- pass: self-update-remote-push-gated - Remote push remains held until GitHub credentials and AGL_AUTONOMOUS_SELF_UPDATE_DIRECT=1 are configured.
+- pass: self-update-remote-push-gated - Direct push is configured for moshequ/autonomous-game-lab.
 - pass: self-update-zero-spend-controls - Self-update owner-loop verification includes browser smoke coverage and does not create accounts, stores, ads, paid traffic, or revenue.
 
 ## Objective Audit

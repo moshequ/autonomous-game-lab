@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-20T07:52:15.688Z",
+  "generatedAt": "2026-05-20T08:48:58.284Z",
   "status": "repository-channel-ready",
   "envFiles": {
     "loaded": true,
@@ -56,45 +56,20 @@
     "insideWorkTree": true,
     "gitRoot": "/Users/moshequ/Documents/Codex/2026-05-18/i-want-to-have-a-new",
     "currentBranch": "main",
-    "dirtyFiles": 15,
+    "dirtyFiles": 3,
     "dirtyPaths": [
-      "data/performance-budget.json",
-      "data/post-deploy-smoke.json",
-      "data/production-readiness.json",
-      "data/release-candidate.json",
-      "reports/performance-budget-latest.md",
-      "reports/post-deploy-smoke-latest.md",
-      "reports/production-readiness-latest.md",
-      "reports/release-candidate-latest.md",
-      "scripts/release-candidate.mjs",
-      "scripts/verify-autonomy.mjs",
-      "src/data/performanceBudget.ts",
-      "src/data/postDeploySmoke.ts",
-      "src/data/releaseCandidate.ts",
-      "tests/smoke.spec.ts",
-      "public/.nojekyll"
+      "data/autonomous-cadence.json",
+      "reports/autonomous-cadence-latest.md",
+      "src/data/autonomousCadence.ts"
     ],
-    "generatedEvidenceDirtyFiles": 11,
+    "generatedEvidenceDirtyFiles": 3,
     "generatedEvidenceDirtyPaths": [
-      "data/performance-budget.json",
-      "data/post-deploy-smoke.json",
-      "data/production-readiness.json",
-      "data/release-candidate.json",
-      "reports/performance-budget-latest.md",
-      "reports/post-deploy-smoke-latest.md",
-      "reports/production-readiness-latest.md",
-      "reports/release-candidate-latest.md",
-      "src/data/performanceBudget.ts",
-      "src/data/postDeploySmoke.ts",
-      "src/data/releaseCandidate.ts"
+      "data/autonomous-cadence.json",
+      "reports/autonomous-cadence-latest.md",
+      "src/data/autonomousCadence.ts"
     ],
-    "nonGeneratedDirtyFiles": 4,
-    "nonGeneratedDirtyPaths": [
-      "scripts/release-candidate.mjs",
-      "scripts/verify-autonomy.mjs",
-      "tests/smoke.spec.ts",
-      "public/.nojekyll"
-    ]
+    "nonGeneratedDirtyFiles": 0,
+    "nonGeneratedDirtyPaths": []
   },
   "repository": {
     "target": "moshequ/autonomous-game-lab",

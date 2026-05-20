@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-20T08:40:21.160Z",
+  "generatedAt": "2026-05-20T08:48:59.388Z",
   "status": "repository-bootstrap-ready",
   "mode": "plan-only",
   "envFiles": {
@@ -61,10 +61,22 @@
       "originRemote": "git@github.com:moshequ/autonomous-game-lab.git",
       "remoteRepository": "moshequ/autonomous-game-lab",
       "hasCommit": true,
-      "dirtyFiles": 0,
-      "dirtyPaths": [],
-      "generatedEvidenceDirtyFiles": 0,
-      "generatedEvidenceDirtyPaths": [],
+      "dirtyFiles": 5,
+      "dirtyPaths": [
+        "data/autonomous-cadence.json",
+        "data/repository-readiness.json",
+        "reports/autonomous-cadence-latest.md",
+        "reports/repository-readiness-latest.md",
+        "src/data/autonomousCadence.ts"
+      ],
+      "generatedEvidenceDirtyFiles": 5,
+      "generatedEvidenceDirtyPaths": [
+        "data/autonomous-cadence.json",
+        "data/repository-readiness.json",
+        "reports/autonomous-cadence-latest.md",
+        "reports/repository-readiness-latest.md",
+        "src/data/autonomousCadence.ts"
+      ],
       "nonGeneratedDirtyFiles": 0,
       "nonGeneratedDirtyPaths": []
     },
@@ -75,10 +87,22 @@
       "originRemote": "git@github.com:moshequ/autonomous-game-lab.git",
       "remoteRepository": "moshequ/autonomous-game-lab",
       "hasCommit": true,
-      "dirtyFiles": 0,
-      "dirtyPaths": [],
-      "generatedEvidenceDirtyFiles": 0,
-      "generatedEvidenceDirtyPaths": [],
+      "dirtyFiles": 5,
+      "dirtyPaths": [
+        "data/autonomous-cadence.json",
+        "data/repository-readiness.json",
+        "reports/autonomous-cadence-latest.md",
+        "reports/repository-readiness-latest.md",
+        "src/data/autonomousCadence.ts"
+      ],
+      "generatedEvidenceDirtyFiles": 5,
+      "generatedEvidenceDirtyPaths": [
+        "data/autonomous-cadence.json",
+        "data/repository-readiness.json",
+        "reports/autonomous-cadence-latest.md",
+        "reports/repository-readiness-latest.md",
+        "src/data/autonomousCadence.ts"
+      ],
       "nonGeneratedDirtyFiles": 0,
       "nonGeneratedDirtyPaths": []
     }
@@ -205,7 +229,7 @@
       "mutatesLocalGit": true,
       "mutatesRemoteGitHub": false,
       "requiresExplicitEnv": true,
-      "detail": "The current generated production snapshot is committed."
+      "detail": "5 repository evidence file(s) changed during this dry run; the outer verified commit will persist them."
     },
     {
       "id": "set-or-create-origin",

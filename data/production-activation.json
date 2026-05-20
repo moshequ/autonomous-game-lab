@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-05-20T07:15:12.105Z",
-  "status": "activation-applied",
-  "mode": "apply-configured-actions",
+  "generatedAt": "2026-05-20T08:48:59.900Z",
+  "status": "activation-ready",
+  "mode": "dry-run",
   "envFiles": {
     "loaded": true,
     "loadedFiles": [
@@ -60,14 +60,14 @@
     "postDeploySmoke": "blocked-missing-origin"
   },
   "configuration": {
-    "activationRequested": true,
+    "activationRequested": false,
     "repositoryTargetKnown": true,
     "ghCredentialReady": true,
     "deploymentReady": true,
     "runWebWorkflows": false,
     "allowRepositoryBootstrap": false,
     "allowAndroidWorkflow": false,
-    "configuredVariables": 6,
+    "configuredVariables": 8,
     "configuredSecrets": 3
   },
   "controls": {
@@ -99,41 +99,19 @@
       "id": "sync-production-settings",
       "command": "ops/github/setup-production.sh",
       "status": "ready",
-      "canRun": true,
+      "canRun": false,
       "costUsd": 0,
       "mutatesExternalState": true,
       "reason": "GitHub credentials and repository target are available; setup can sync configured variables, secrets, and Pages settings.",
       "args": [],
-      "runnableNow": true
+      "runnableNow": false
     }
   ],
   "execution": {
-    "requested": true,
-    "status": "executed",
-    "attemptedActions": [
-      "sync-production-settings"
-    ],
-    "results": [
-      {
-        "id": "sync-production-settings",
-        "exitCode": 0,
-        "stdoutTail": [
-          "skip variable AGL_AUTONOMOUS_SELF_UPDATE: AGL_AUTONOMOUS_SELF_UPDATE is not set",
-          "skip variable AGL_AUTONOMOUS_SELF_UPDATE_DIRECT: AGL_AUTONOMOUS_SELF_UPDATE_DIRECT is not set",
-          "skip secret CLOUDFLARE_API_TOKEN: CLOUDFLARE_API_TOKEN is not set",
-          "skip secret VITE_EVENT_COLLECTOR_WRITE_TOKEN: VITE_EVENT_COLLECTOR_WRITE_TOKEN is not set",
-          "skip secret AGL_EVENT_COLLECTOR_ADMIN_TOKEN: AGL_EVENT_COLLECTOR_ADMIN_TOKEN is not set",
-          "skip secret POSTHOG_PERSONAL_API_KEY: POSTHOG_PERSONAL_API_KEY is not set",
-          "skip secret GOOGLE_PLAY_SERVICE_ACCOUNT_JSON: GOOGLE_PLAY_SERVICE_ACCOUNT_JSON is not set",
-          "Production GitHub variables/secrets sync complete for configured values.",
-          "GitHub Pages HTTPS enforcement pending for moshequ/autonomous-game-lab; certificate may still be provisioning.",
-          "GitHub Pages source set to Actions workflow for moshequ/autonomous-game-lab"
-        ],
-        "stderrTail": [
-          "gh: The certificate does not exist yet (HTTP 404)"
-        ]
-      }
-    ]
+    "requested": false,
+    "status": "dry-run",
+    "attemptedActions": [],
+    "results": []
   },
   "nextActions": [
     "Set AGL_PRODUCTION_ACTIVATE=1 in the production automation environment to apply configured zero-spend GitHub/Pages setup.",

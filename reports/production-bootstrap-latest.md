@@ -1,6 +1,6 @@
 # Production Bootstrap
 
-Generated: 2026-05-20T08:40:21.455Z
+Generated: 2026-05-20T08:48:59.678Z
 Status: production-bootstrap-ready
 Mode: can-apply-configured-actions
 GitHub repository: moshequ/autonomous-game-lab
@@ -21,8 +21,8 @@ gh CLI available: true
 - waiting-for-origin-support: production-environment; auto-run no; Environment production-env-missing; public origin configured; support missing-production-address.
 - ready-for-actions-pages: github-pages-hosting; auto-run yes; Deployment plan is ready-for-pages; Pages workflow is .github/workflows/web-pwa-deploy.yml.
 - ready-to-sync: github-pages-settings; auto-run yes; GitHub CLI can configure Pages to use the Actions workflow source.
-- waiting-for-self-update-gate: autonomous-self-update; auto-run no; Self-update gate missing; direct push held.
-- partially-configured: github-actions-variables; auto-run yes; 6/24 repository variable value(s) present in this environment.
+- ready-for-direct-persistence: autonomous-self-update; auto-run yes; Self-update gate configured; direct push configured.
+- partially-configured: github-actions-variables; auto-run yes; 8/24 repository variable value(s) present in this environment.
 - partially-configured: github-actions-secrets; auto-run yes; 3/8 repository secret value(s) present in this environment.
 - blocked-needs-cloudflare-env: event-collector; auto-run no; Collector deployment is blocked-needs-cloudflare-env; provider cloudflare-worker-r2.
 - held-by-product-gates: monetization-gate; auto-run no; Revenue disabled; spend mode no-spend.
@@ -64,8 +64,8 @@ gh CLI available: true
 - ready: AGL_ANDROID_SHA256_CERT_FINGERPRINT from AGL_ANDROID_SHA256_CERT_FINGERPRINT (environment)
 - missing: AGL_GOOGLE_PLAY_ACCOUNT_CONNECTED from AGL_GOOGLE_PLAY_ACCOUNT_CONNECTED (missing)
 - missing: AGL_APPLE_DEVELOPER_ACCOUNT_CONNECTED from AGL_APPLE_DEVELOPER_ACCOUNT_CONNECTED (missing)
-- missing: AGL_AUTONOMOUS_SELF_UPDATE from AGL_AUTONOMOUS_SELF_UPDATE (missing)
-- missing: AGL_AUTONOMOUS_SELF_UPDATE_DIRECT from AGL_AUTONOMOUS_SELF_UPDATE_DIRECT (missing)
+- ready: AGL_AUTONOMOUS_SELF_UPDATE from AGL_AUTONOMOUS_SELF_UPDATE (environment)
+- ready: AGL_AUTONOMOUS_SELF_UPDATE_DIRECT from AGL_AUTONOMOUS_SELF_UPDATE_DIRECT (environment)
 
 ## Repository Secrets
 

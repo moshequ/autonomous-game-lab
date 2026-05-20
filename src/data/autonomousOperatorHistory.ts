@@ -2,8 +2,8 @@ export const autonomousOperatorHistory = {
   "status": "operator-history-ready",
   "summary": {
     "totalRecords": 40,
-    "plannedRecords": 28,
-    "executedRecords": 12,
+    "plannedRecords": 29,
+    "executedRecords": 11,
     "failedRecords": 0,
     "lastActionId": "refresh-organic-seed-loop",
     "lastExecutionStatus": "not-requested",

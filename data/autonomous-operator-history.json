@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-20T08:40:22.487Z",
+  "generatedAt": "2026-05-20T08:53:51.405Z",
   "status": "operator-history-ready",
   "retention": {
     "maxRecords": 40,
@@ -9,8 +9,8 @@
   },
   "summary": {
     "totalRecords": 40,
-    "plannedRecords": 28,
-    "executedRecords": 12,
+    "plannedRecords": 29,
+    "executedRecords": 11,
     "failedRecords": 0,
     "lastActionId": "refresh-organic-seed-loop",
     "lastExecutionStatus": "not-requested",
@@ -24,92 +24,6 @@
     "historyIsCapped": true
   },
   "records": [
-    {
-      "id": "20260520052059-optimize-daily-retention",
-      "generatedAt": "2026-05-20T05:20:59.834Z",
-      "runFingerprint": "d31adc7b673b14bf",
-      "mode": "plan-only",
-      "status": "operator-plan-ready",
-      "selectedActionId": "optimize-daily-retention",
-      "selectedCommand": "npm run autonomous:retention",
-      "eligibleActionIds": [
-        "refresh-autonomous-cadence",
-        "refresh-autonomous-self-update",
-        "seed-portfolio-traffic",
-        "refresh-organic-seed-loop",
-        "optimize-daily-retention",
-        "measure-pwa-install-loop",
-        "check-performance-budget",
-        "prepare-release-candidate",
-        "optimize-product-gates",
-        "refresh-product-gate-recovery",
-        "refresh-first-move-coach",
-        "refresh-completion-loop",
-        "refresh-replay-loop",
-        "bootstrap-production-setup",
-        "refresh-objective-audit",
-        "optimize-store-listing",
-        "apply-safe-improvements",
-        "collect-live-events"
-      ],
-      "blockedActionCount": 26,
-      "execution": {
-        "requested": false,
-        "status": "not-requested",
-        "attemptedActionId": null,
-        "resultCount": 0,
-        "failedScripts": []
-      },
-      "controls": {
-        "zeroPaidSpend": true,
-        "localCommandAllowlistEnforced": true,
-        "externalWorkflowExecutionBlockedByDefault": true,
-        "maxActionsPerRun": 1
-      }
-    },
-    {
-      "id": "20260520052111-optimize-daily-retention",
-      "generatedAt": "2026-05-20T05:21:11.042Z",
-      "runFingerprint": "ca0813dcf38fa693",
-      "mode": "execute-one-action",
-      "status": "operator-executed",
-      "selectedActionId": "optimize-daily-retention",
-      "selectedCommand": "npm run autonomous:retention",
-      "eligibleActionIds": [
-        "refresh-autonomous-cadence",
-        "refresh-autonomous-self-update",
-        "seed-portfolio-traffic",
-        "refresh-organic-seed-loop",
-        "optimize-daily-retention",
-        "measure-pwa-install-loop",
-        "check-performance-budget",
-        "prepare-release-candidate",
-        "optimize-product-gates",
-        "refresh-product-gate-recovery",
-        "refresh-first-move-coach",
-        "refresh-completion-loop",
-        "refresh-replay-loop",
-        "bootstrap-production-setup",
-        "refresh-objective-audit",
-        "optimize-store-listing",
-        "apply-safe-improvements",
-        "collect-live-events"
-      ],
-      "blockedActionCount": 26,
-      "execution": {
-        "requested": true,
-        "status": "executed",
-        "attemptedActionId": "optimize-daily-retention",
-        "resultCount": 1,
-        "failedScripts": []
-      },
-      "controls": {
-        "zeroPaidSpend": true,
-        "localCommandAllowlistEnforced": true,
-        "externalWorkflowExecutionBlockedByDefault": true,
-        "maxActionsPerRun": 1
-      }
-    },
     {
       "id": "20260520052111-measure-pwa-install-loop",
       "generatedAt": "2026-05-20T05:21:11.579Z",
@@ -1714,6 +1628,91 @@
     {
       "id": "20260520075256-refresh-organic-seed-loop",
       "generatedAt": "2026-05-20T07:52:56.515Z",
+      "runFingerprint": "0173db42a1f50d3a",
+      "mode": "plan-only",
+      "status": "operator-plan-ready",
+      "selectedActionId": "refresh-organic-seed-loop",
+      "selectedCommand": "npm run autonomous:organic-seed-loop",
+      "eligibleActionIds": [
+        "refresh-autonomous-cadence",
+        "refresh-autonomous-self-update",
+        "seed-portfolio-traffic",
+        "refresh-organic-seed-loop",
+        "optimize-daily-retention",
+        "measure-pwa-install-loop",
+        "check-performance-budget",
+        "prepare-release-candidate",
+        "optimize-product-gates",
+        "refresh-product-gate-recovery",
+        "refresh-first-move-coach",
+        "refresh-completion-loop",
+        "refresh-replay-loop",
+        "bootstrap-production-setup",
+        "optimize-store-listing",
+        "apply-safe-improvements",
+        "collect-live-events"
+      ],
+      "blockedActionCount": 27,
+      "execution": {
+        "requested": false,
+        "status": "not-requested",
+        "attemptedActionId": null,
+        "resultCount": 0,
+        "failedScripts": []
+      },
+      "controls": {
+        "zeroPaidSpend": true,
+        "localCommandAllowlistEnforced": true,
+        "externalWorkflowExecutionBlockedByDefault": true,
+        "maxActionsPerRun": 1
+      }
+    },
+    {
+      "id": "20260520084900-refresh-organic-seed-loop",
+      "generatedAt": "2026-05-20T08:49:00.922Z",
+      "runFingerprint": "4671ac30afe010c9",
+      "mode": "plan-only",
+      "status": "operator-plan-ready",
+      "selectedActionId": "refresh-organic-seed-loop",
+      "selectedCommand": "npm run autonomous:organic-seed-loop",
+      "eligibleActionIds": [
+        "refresh-autonomous-cadence",
+        "refresh-autonomous-self-update",
+        "seed-portfolio-traffic",
+        "refresh-organic-seed-loop",
+        "optimize-daily-retention",
+        "measure-pwa-install-loop",
+        "check-performance-budget",
+        "prepare-release-candidate",
+        "optimize-product-gates",
+        "refresh-product-gate-recovery",
+        "refresh-first-move-coach",
+        "refresh-completion-loop",
+        "refresh-replay-loop",
+        "bootstrap-production-setup",
+        "refresh-objective-audit",
+        "optimize-store-listing",
+        "apply-safe-improvements",
+        "collect-live-events"
+      ],
+      "blockedActionCount": 27,
+      "execution": {
+        "requested": false,
+        "status": "not-requested",
+        "attemptedActionId": null,
+        "resultCount": 0,
+        "failedScripts": []
+      },
+      "controls": {
+        "zeroPaidSpend": true,
+        "localCommandAllowlistEnforced": true,
+        "externalWorkflowExecutionBlockedByDefault": true,
+        "maxActionsPerRun": 1
+      }
+    },
+    {
+      "id": "20260520084911-refresh-organic-seed-loop",
+      "generatedAt": "2026-05-20T08:49:11.070Z",
       "runFingerprint": "0173db42a1f50d3a",
       "mode": "plan-only",
       "status": "operator-plan-ready",

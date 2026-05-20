@@ -1,9 +1,9 @@
 # Autonomous Owner Loop
 
-Generated: 2026-05-20T08:40:22.220Z
+Generated: 2026-05-20T08:53:51.860Z
 Status: owner-loop-ready
 Mode: zero-spend-web-ready
-Autonomy score: 35/36 (97%)
+Autonomy score: 38/39 (97%)
 
 ## Owner Decision
 
@@ -15,11 +15,14 @@ Autonomy score: 35/36 (97%)
 
 ## Systems
 
+- ready: trend-radar - 7 mechanic signal(s), 5 theme signal(s), 3 audience signal(s).
+- ready: concept-generator - 4 generated original concept(s) from current trend signals.
+- ready: prototype-generator - 4 prototype candidate(s) prepared for playable runtime generation.
 - ready: game-factory - 10 playable games; 5 generated runtime games.
 - ready: analytics-ingest - Active source: fixture-sample; event ingest: idle-no-files; collector smoke: pass.
 - ready: local-event-bridge - Bridge bridge-waiting-for-export; inbox 0 event(s); imported 0 event(s).
 - ready: autonomous-cadence - Cadence cadence-ready; Codex active-confirmed; GitHub scheduled.
-- ready: autonomous-self-update - Self-update self-update-ready; safe pending 37; unsafe pending 0; remote push held.
+- ready: autonomous-self-update - Self-update self-update-ready; safe pending 27; unsafe pending 0; remote push held.
 - ready: portfolio-loop - Daily challenge: Canopy Bloom; seed traffic: canopy-bloom, grove-engine, metro-loom, pocket-draft.
 - ready: traffic-seeding - 4 seed campaign(s); max cost $0.
 - ready: acquisition-learning - 4 campaign(s); 0 attributed start(s); candidate canopy-bloom.
@@ -41,9 +44,9 @@ Autonomy score: 35/36 (97%)
 - ready: release-candidate - Candidate pwa-ec4b42e939bc; status release-candidate-ready; files 44; smoke URLs 14.
 - ready: post-deploy-smoke - Smoke blocked-missing-origin; origin missing; candidate pwa-ec4b42e939bc; checks 0/15 passed; local artifact predeploy-artifact-smoke-passed 15/15 passed.
 - ready: production-bootstrap - Bootstrap production-bootstrap-ready; mode can-apply-configured-actions; external blockers 15.
-- ready: production-activation - Activation activation-applied; mode apply-configured-actions; execution executed; gh ready.
+- ready: production-activation - Activation activation-ready; mode dry-run; execution dry-run; gh ready.
 - ready: autonomous-operator - Operator operator-plan-ready; selected refresh-organic-seed-loop; execution not-requested.
-- ready: operator-history - History operator-history-ready; records 40; executed 12.
+- ready: operator-history - History operator-history-ready; records 40; executed 11.
 - ready: objective-audit - Audit objective-in-progress; met 6/8; external blockers 12.
 - ready: store-listing-optimizer - Focus canopy-bloom; lead screenshot phone-canopy-bloom-generated; candidate changed yes.
 - ready: store-compliance - Rating Everyone; target audience general; blockers 3.
