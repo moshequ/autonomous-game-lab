@@ -136,6 +136,13 @@ for (const command of requiredReadinessRefreshCommands) {
   }
 }
 
+const finalReadinessRefreshIndex = postDeployReadinessSyncScript.lastIndexOf('node scripts/production-readiness.mjs')
+const finalDeployPlanRefreshIndex = postDeployReadinessSyncScript.lastIndexOf('autonomous:deploy-plan')
+
+if (finalDeployPlanRefreshIndex < finalReadinessRefreshIndex) {
+  fail('autonomous:post-deploy-readiness-sync must regenerate the deployment plan after the final readiness refresh.')
+}
+
 if (
   !workflow.includes("workflows: ['Web PWA Deploy']") ||
   !workflow.includes('actions: read') ||
