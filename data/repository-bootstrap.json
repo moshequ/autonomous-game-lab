@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-21T01:19:49.394Z",
+  "generatedAt": "2026-05-21T01:32:40.188Z",
   "status": "repository-bootstrap-ready",
   "mode": "plan-only",
   "envFiles": {
@@ -61,8 +61,9 @@
       "originRemote": "git@github.com:moshequ/autonomous-game-lab.git",
       "remoteRepository": "moshequ/autonomous-game-lab",
       "hasCommit": true,
-      "dirtyFiles": 53,
+      "dirtyFiles": 56,
       "dirtyPaths": [
+        "data/autonomous-cadence.json",
         "data/autonomous-operator-history.json",
         "data/autonomous-operator.json",
         "data/autonomous-owner-loop.json",
@@ -83,6 +84,7 @@
         "data/store-listing-optimizer.json",
         "data/store-package.json",
         "data/support-feedback.json",
+        "reports/autonomous-cadence-latest.md",
         "reports/autonomous-operator-history-latest.md",
         "reports/autonomous-operator-latest.md",
         "reports/autonomous-owner-loop-latest.md",
@@ -102,6 +104,7 @@
         "reports/store-compliance-latest.md",
         "reports/store-listing-optimizer-latest.md",
         "reports/support-feedback-latest.md",
+        "src/data/autonomousCadence.ts",
         "src/data/autonomousOperator.ts",
         "src/data/autonomousOperatorHistory.ts",
         "src/data/autonomousOwnerLoop.ts",
@@ -117,8 +120,9 @@
         "src/data/storeListingOptimizer.ts",
         "src/data/supportFeedback.ts"
       ],
-      "generatedEvidenceDirtyFiles": 53,
+      "generatedEvidenceDirtyFiles": 56,
       "generatedEvidenceDirtyPaths": [
+        "data/autonomous-cadence.json",
         "data/autonomous-operator-history.json",
         "data/autonomous-operator.json",
         "data/autonomous-owner-loop.json",
@@ -139,6 +143,7 @@
         "data/store-listing-optimizer.json",
         "data/store-package.json",
         "data/support-feedback.json",
+        "reports/autonomous-cadence-latest.md",
         "reports/autonomous-operator-history-latest.md",
         "reports/autonomous-operator-latest.md",
         "reports/autonomous-owner-loop-latest.md",
@@ -158,6 +163,7 @@
         "reports/store-compliance-latest.md",
         "reports/store-listing-optimizer-latest.md",
         "reports/support-feedback-latest.md",
+        "src/data/autonomousCadence.ts",
         "src/data/autonomousOperator.ts",
         "src/data/autonomousOperatorHistory.ts",
         "src/data/autonomousOwnerLoop.ts",
@@ -183,8 +189,9 @@
       "originRemote": "git@github.com:moshequ/autonomous-game-lab.git",
       "remoteRepository": "moshequ/autonomous-game-lab",
       "hasCommit": true,
-      "dirtyFiles": 53,
+      "dirtyFiles": 56,
       "dirtyPaths": [
+        "data/autonomous-cadence.json",
         "data/autonomous-operator-history.json",
         "data/autonomous-operator.json",
         "data/autonomous-owner-loop.json",
@@ -205,6 +212,7 @@
         "data/store-listing-optimizer.json",
         "data/store-package.json",
         "data/support-feedback.json",
+        "reports/autonomous-cadence-latest.md",
         "reports/autonomous-operator-history-latest.md",
         "reports/autonomous-operator-latest.md",
         "reports/autonomous-owner-loop-latest.md",
@@ -224,6 +232,7 @@
         "reports/store-compliance-latest.md",
         "reports/store-listing-optimizer-latest.md",
         "reports/support-feedback-latest.md",
+        "src/data/autonomousCadence.ts",
         "src/data/autonomousOperator.ts",
         "src/data/autonomousOperatorHistory.ts",
         "src/data/autonomousOwnerLoop.ts",
@@ -239,8 +248,9 @@
         "src/data/storeListingOptimizer.ts",
         "src/data/supportFeedback.ts"
       ],
-      "generatedEvidenceDirtyFiles": 53,
+      "generatedEvidenceDirtyFiles": 56,
       "generatedEvidenceDirtyPaths": [
+        "data/autonomous-cadence.json",
         "data/autonomous-operator-history.json",
         "data/autonomous-operator.json",
         "data/autonomous-owner-loop.json",
@@ -261,6 +271,7 @@
         "data/store-listing-optimizer.json",
         "data/store-package.json",
         "data/support-feedback.json",
+        "reports/autonomous-cadence-latest.md",
         "reports/autonomous-operator-history-latest.md",
         "reports/autonomous-operator-latest.md",
         "reports/autonomous-owner-loop-latest.md",
@@ -280,6 +291,7 @@
         "reports/store-compliance-latest.md",
         "reports/store-listing-optimizer-latest.md",
         "reports/support-feedback-latest.md",
+        "src/data/autonomousCadence.ts",
         "src/data/autonomousOperator.ts",
         "src/data/autonomousOperatorHistory.ts",
         "src/data/autonomousOwnerLoop.ts",
@@ -331,7 +343,7 @@
     "repositoryReadiness": "repository-channel-ready",
     "deployment": "ready-for-pages",
     "releaseCandidate": "release-candidate-ready",
-    "releaseCandidateId": "pwa-4e2de5699c8d",
+    "releaseCandidateId": "pwa-001dd97106f1",
     "postDeploySmoke": "post-deploy-smoke-observed-live"
   },
   "repositoryTargetPlan": {
@@ -421,7 +433,7 @@
       "mutatesLocalGit": true,
       "mutatesRemoteGitHub": false,
       "requiresExplicitEnv": true,
-      "detail": "53 repository evidence file(s) changed during this dry run; the outer verified commit will persist them."
+      "detail": "56 repository evidence file(s) changed during this dry run; the outer verified commit will persist them."
     },
     {
       "id": "set-or-create-origin",
