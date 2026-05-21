@@ -1,10 +1,27 @@
 {
-  "generatedAt": "2026-05-21T23:17:52.248Z",
+  "generatedAt": "2026-05-21T23:21:11.437Z",
   "status": "post-deploy-smoke-observed-live",
   "envFiles": {
-    "loaded": false,
-    "loadedFiles": [],
-    "loadedKeys": [],
+    "loaded": true,
+    "loadedFiles": [
+      {
+        "path": "ops/production.env.local",
+        "keys": [
+          "AGL_ANDROID_PACKAGE_NAME",
+          "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
+          "AGL_ANDROID_KEYSTORE_BASE64",
+          "AGL_ANDROID_KEYSTORE_PASSWORD",
+          "AGL_ANDROID_KEY_ALIAS"
+        ]
+      }
+    ],
+    "loadedKeys": [
+      "AGL_ANDROID_PACKAGE_NAME",
+      "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
+      "AGL_ANDROID_KEYSTORE_BASE64",
+      "AGL_ANDROID_KEYSTORE_PASSWORD",
+      "AGL_ANDROID_KEY_ALIAS"
+    ],
     "skippedExistingKeys": [],
     "skippedProtectedKeys": [],
     "overwrittenEnvFileKeys": [],
@@ -38,8 +55,8 @@
     "origin": "https://moshequ.github.io/autonomous-game-lab",
     "originSource": "release-candidate-public-origin",
     "provider": "github-pages",
-    "candidateId": "pwa-a9e06fefba16",
-    "aggregateHash": "a9e06fefba167b32ef9ffcab989f1e27cfe5d22e44380ccc5f7e9d477cad970b",
+    "candidateId": "pwa-4e3e9f2967ef",
+    "aggregateHash": "4e3e9f2967ef65d8110418692a33be7c950b374b9e5d45ab6e7c4b209ef096b0",
     "strictManifestComparison": false
   },
   "liveRelease": {
@@ -244,8 +261,8 @@
         "bytes": 20920,
         "candidateMatches": true,
         "hashMatches": true,
-        "localCandidateId": "pwa-a9e06fefba16",
-        "localAggregateHash": "a9e06fefba167b32ef9ffcab989f1e27cfe5d22e44380ccc5f7e9d477cad970b",
+        "localCandidateId": "pwa-4e3e9f2967ef",
+        "localAggregateHash": "4e3e9f2967ef65d8110418692a33be7c950b374b9e5d45ab6e7c4b209ef096b0",
         "detail": "Local release manifest matches the release candidate."
       }
     ]
@@ -491,7 +508,7 @@
       "path": "/release-candidate.json",
       "url": "https://moshequ.github.io/autonomous-game-lab/release-candidate.json",
       "expectedStatus": 200,
-      "requiredText": "pwa-a9e06fefba16",
+      "requiredText": "pwa-4e3e9f2967ef",
       "status": "pass",
       "detail": "Live release manifest is reachable; it does not match the current local release candidate.",
       "actualStatus": 200,

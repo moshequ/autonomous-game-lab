@@ -1,6 +1,6 @@
 export const storeCompliance = {
-  "generatedAt": "2026-05-21T23:15:10.232Z",
-  "sourceDataHash": "44574e370f55",
+  "generatedAt": "2026-05-21T23:21:16.637Z",
+  "sourceDataHash": "1c29ed4820f3",
   "status": "draft-ready-external-blockers",
   "launchCandidate": {
     "id": "canopy-bloom",
