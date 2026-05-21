@@ -1,9 +1,9 @@
 # Autonomous Owner Loop
 
-Generated: 2026-05-21T11:48:04.401Z
+Generated: 2026-05-21T11:50:10.031Z
 Status: owner-loop-ready
 Mode: zero-spend-web-ready
-Autonomy score: 41/44 (93%)
+Autonomy score: 43/44 (98%)
 
 ## Owner Decision
 
@@ -41,17 +41,17 @@ Autonomy score: 41/44 (93%)
 - ready: organic-growth - 10 SEO/share pages; optimization 5 page(s).
 - ready: repository-channel - Repository moshequ/autonomous-game-lab; git worktree ready; workflow dispatch ready.
 - ready: repository-bootstrap - Bootstrap repository-bootstrap-ready; mode plan-only; helper ops/github/bootstrap-repository.sh; local git ready.
-- blocked: web-deployment - Deployment ready-for-pages; web readiness blocked; promotion promotable-internal.
+- ready: web-deployment - Deployment ready-for-pages; web readiness ready-after-build; promotion promotable-internal.
 - ready: release-candidate - Release candidate release-candidate-ready; files 44; smoke URLs 14.
-- waiting-for-origin: post-deploy-smoke - Smoke post-deploy-smoke-observed-live; origin https://moshequ.github.io/autonomous-game-lab; manifest comparison required; checks 15/15 passed; local artifact predeploy-artifact-smoke-passed 15/15 passed.
+- ready: post-deploy-smoke - Smoke post-deploy-smoke-observed-live; origin https://moshequ.github.io/autonomous-game-lab; manifest comparison required; checks 15/15 passed; local artifact predeploy-artifact-smoke-passed 15/15 passed.
 - ready: post-deploy-artifact-sync - Artifact sync post-deploy-artifact-sync-passed; run 26223969555; live matches artifact true; strict true.
 - ready: live-site-monitor - Live monitor live-site-monitor-passed; origin https://moshequ.github.io/autonomous-game-lab; checks 15/15; live matches synced deploy true.
-- ready: production-bootstrap - Bootstrap production-bootstrap-ready; mode can-apply-configured-actions; external blockers 16.
+- ready: production-bootstrap - Bootstrap production-bootstrap-ready; mode can-apply-configured-actions; external blockers 15.
 - ready: production-activation - Activation activation-ready; mode dry-run; execution dry-run; gh ready.
 - ready: production-blocker-handoff - Handoff handoff-waiting-on-owner-inputs; next support-contact; owner inputs 5; missing env 7; missing secrets 3.
 - ready: support-channel - Support channel support-channel-ready; repository moshequ/autonomous-game-lab; public intake ready; aggregate evidence only true.
-- ready: autonomous-operator - Operator operator-executed; selected collect-gate-sample-downloads; execution executed.
-- ready: operator-history - History operator-history-ready; records 40; executed 9.
+- ready: autonomous-operator - Operator operator-plan-ready; selected seed-portfolio-traffic; execution not-requested.
+- ready: operator-history - History operator-history-ready; records 40; executed 8.
 - ready: objective-audit - Audit objective-in-progress; met 6/8; external blockers 15.
 - ready: store-listing-optimizer - Focus canopy-bloom; lead screenshot phone-canopy-bloom-generated; candidate changed yes.
 - ready: store-compliance - Rating Everyone; target audience general; blockers 3.
@@ -72,8 +72,8 @@ Autonomy score: 41/44 (93%)
 - monitor: optimize-daily-retention - npm run autonomous:retention
 - monitor: measure-pwa-install-loop - npm run autonomous:pwa-install
 - monitor: check-performance-budget - npm run build && npm run autonomous:performance && npm run autonomous:release-candidate
-- armed: prepare-release-candidate - npm run autonomous:release-candidate && npm run autonomous:post-deploy-smoke && npm run autonomous:live-monitor
-- armed: run-post-deploy-smoke - npm run autonomous:post-deploy-smoke
+- monitor: prepare-release-candidate - npm run autonomous:release-candidate && npm run autonomous:post-deploy-smoke && npm run autonomous:live-monitor
+- monitor: run-post-deploy-smoke - npm run autonomous:post-deploy-smoke
 - monitor: sync-post-deploy-artifact - npm run autonomous:post-deploy-artifact-sync
 - monitor: refresh-live-site-monitor - npm run autonomous:live-monitor
 - monitor: optimize-product-gates - npm run autonomous:analyze && npm run autonomous:product-optimize && npm run autonomous:sync-config && npm run autonomous:simulate

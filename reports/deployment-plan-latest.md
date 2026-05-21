@@ -1,6 +1,6 @@
 # Deployment Plan
 
-Generated: 2026-05-21T11:43:53.357Z
+Generated: 2026-05-21T11:50:09.491Z
 Status: ready-for-pages
 Target: github-pages
 Cost: $0 platform hosting for public/internal experiment traffic
@@ -8,7 +8,7 @@ Cost: $0 platform hosting for public/internal experiment traffic
 ## Checks
 
 - pass: web-promotion - Promote the current PWA build to an internal/public web experiment when hosting is connected.
-- pass: web-readiness - Pre-deploy web readiness passed; live post-deploy smoke remains blocked.
+- pass: web-readiness - Pre-deploy web readiness passed; live post-deploy smoke remains ready-after-build.
 - pass: release-health - Release health is monitoring.
 - pass: unit-economics-guard - Spend mode is no-spend; max daily paid spend is $0.00.
 - pass: production-response - Production response is guarded-operations; rollback required is false.

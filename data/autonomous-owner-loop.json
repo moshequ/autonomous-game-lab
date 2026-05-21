@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2026-05-21T11:48:04.401Z",
+  "generatedAt": "2026-05-21T11:50:10.031Z",
   "status": "owner-loop-ready",
   "mode": "zero-spend-web-ready",
   "autonomyScore": {
-    "readySystems": 41,
+    "readySystems": 43,
     "totalSystems": 44,
-    "percent": 93
+    "percent": 98
   },
   "controls": {
     "localLoopCanRunWithoutExternalAccounts": true,
@@ -45,7 +45,7 @@
     ],
     "lastExecutedActionId": "collect-gate-sample-downloads",
     "lastExecutedStatus": "executed",
-    "lastRecordExecutionStatus": "executed",
+    "lastRecordExecutionStatus": "not-requested",
     "recentlySatisfiedActionIds": [
       "collect-live-events",
       "refresh-product-gate-recovery",
@@ -54,7 +54,7 @@
     "objectiveAuditFreshness": {
       "fresh": true,
       "structurallyReady": true,
-      "auditGeneratedAt": "2026-05-21T11:43:10.415Z",
+      "auditGeneratedAt": "2026-05-21T11:50:09.755Z",
       "evaluatedInputIds": [
         "analytics-rollup",
         "event-ingest",
@@ -78,7 +78,7 @@
         "ready": true,
         "status": "cadence-ready",
         "artifactGeneratedAt": "2026-05-21T10:34:23.515Z",
-        "ageHours": 1.228,
+        "ageHours": 1.263,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -89,7 +89,7 @@
         "ready": true,
         "status": "self-update-ready",
         "artifactGeneratedAt": "2026-05-21T07:50:13.570Z",
-        "ageHours": 3.964,
+        "ageHours": 3.999,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -100,7 +100,7 @@
         "ready": true,
         "status": "support-feedback-empty",
         "artifactGeneratedAt": "2026-05-21T09:46:35.479Z",
-        "ageHours": 2.025,
+        "ageHours": 2.06,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -111,7 +111,7 @@
         "ready": true,
         "status": "performance-budget-ready",
         "artifactGeneratedAt": "2026-05-21T11:43:52.177Z",
-        "ageHours": 0.07,
+        "ageHours": 0.105,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -121,8 +121,8 @@
         "fresh": true,
         "ready": true,
         "status": "live-site-monitor-passed",
-        "artifactGeneratedAt": "2026-05-21T11:48:04.085Z",
-        "ageHours": 0,
+        "artifactGeneratedAt": "2026-05-21T11:50:01.779Z",
+        "ageHours": 0.002,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -410,11 +410,11 @@
       "staleInputIds": []
     },
     "liveDeployEvidence": {
-      "localSmokeFresh": false,
+      "localSmokeFresh": true,
       "strictArtifactSyncFresh": true,
       "liveSiteMonitorFresh": true,
-      "smokeActionFresh": false,
-      "releaseCandidateActionFresh": false,
+      "smokeActionFresh": true,
+      "releaseCandidateActionFresh": true,
       "liveCandidateId": "pwa-5a1bd4612209",
       "artifactCandidateId": "pwa-5a1bd4612209"
     },
@@ -456,7 +456,7 @@
     },
     "productionBootstrapFreshness": {
       "fresh": false,
-      "bootstrapGeneratedAt": "2026-05-21T11:42:09.728Z",
+      "bootstrapGeneratedAt": "2026-05-21T11:50:06.845Z",
       "evaluatedInputIds": [
         "release-candidate",
         "deployment-plan",
@@ -466,7 +466,6 @@
         "event-collector-deployment"
       ],
       "staleInputIds": [
-        "release-candidate",
         "deployment-plan"
       ]
     },
@@ -474,7 +473,7 @@
       "current": true,
       "ready": true,
       "status": "handoff-waiting-on-owner-inputs",
-      "generatedAt": "2026-05-21T11:43:53.031Z",
+      "generatedAt": "2026-05-21T11:50:09.156Z",
       "nextBestUnlockId": "support-contact",
       "ownerActionRequired": 5,
       "missingEnv": 7,
@@ -678,9 +677,9 @@
     },
     {
       "id": "web-deployment",
-      "status": "blocked",
+      "status": "ready",
       "autonomy": "workflow-gated",
-      "evidence": "Deployment ready-for-pages; web readiness blocked; promotion promotable-internal.",
+      "evidence": "Deployment ready-for-pages; web readiness ready-after-build; promotion promotable-internal.",
       "nextAction": "Connect a free static host or GitHub Pages environment, then publish dist."
     },
     {
@@ -692,10 +691,10 @@
     },
     {
       "id": "post-deploy-smoke",
-      "status": "waiting-for-origin",
+      "status": "ready",
       "autonomy": "read-only-live-deploy-verification",
       "evidence": "Smoke post-deploy-smoke-observed-live; origin https://moshequ.github.io/autonomous-game-lab; manifest comparison required; checks 15/15 passed; local artifact predeploy-artifact-smoke-passed 15/15 passed.",
-      "nextAction": "Live Pages is reachable and serving pwa-1f4ba8d9a5e6; run the deploy workflow for strict proof of the current local candidate if needed."
+      "nextAction": "Live Pages is reachable and serving pwa-5a1bd4612209; run the deploy workflow for strict proof of the current local candidate if needed."
     },
     {
       "id": "post-deploy-artifact-sync",
@@ -715,7 +714,7 @@
       "id": "production-bootstrap",
       "status": "ready",
       "autonomy": "zero-spend-setup-orchestration",
-      "evidence": "Bootstrap production-bootstrap-ready; mode can-apply-configured-actions; external blockers 16.",
+      "evidence": "Bootstrap production-bootstrap-ready; mode can-apply-configured-actions; external blockers 15.",
       "nextAction": "gh workflow run web-pwa-deploy.yml"
     },
     {
@@ -743,14 +742,14 @@
       "id": "autonomous-operator",
       "status": "ready",
       "autonomy": "one-safe-action-runner",
-      "evidence": "Operator operator-executed; selected collect-gate-sample-downloads; execution executed.",
+      "evidence": "Operator operator-plan-ready; selected seed-portfolio-traffic; execution not-requested.",
       "nextAction": "Keep a dry-run operator plan ready, then execute only one allowlisted local action when explicitly requested."
     },
     {
       "id": "operator-history",
       "status": "ready",
       "autonomy": "operator-audit-trail",
-      "evidence": "History operator-history-ready; records 40; executed 9.",
+      "evidence": "History operator-history-ready; records 40; executed 8.",
       "nextAction": "Keep a capped durable record of operator plans and one-action executions."
     },
     {
@@ -910,25 +909,25 @@
     },
     {
       "id": "prepare-release-candidate",
-      "status": "armed",
+      "status": "monitor",
       "costUsd": 0,
       "command": "npm run autonomous:release-candidate && npm run autonomous:post-deploy-smoke && npm run autonomous:live-monitor",
       "targets": [
         "dist-release-candidate",
         "release-candidate-manifest"
       ],
-      "reason": "Records a content-hashed dist inventory, refreshes post-deploy smoke evidence, and checks the currently live PWA against the synced deploy."
+      "reason": "Local release manifest smoke and strict synced live deploy evidence are fresh; continue product learning."
     },
     {
       "id": "run-post-deploy-smoke",
-      "status": "armed",
+      "status": "monitor",
       "costUsd": 0,
       "command": "npm run autonomous:post-deploy-smoke",
       "targets": [
         "https://moshequ.github.io/autonomous-game-lab",
         "release-candidate-manifest"
       ],
-      "reason": "Verifies the live Pages URL with read-only smoke checks and release-manifest hash comparison."
+      "reason": "Local smoke and strict CI artifact sync already prove the current deploy evidence; continue product learning."
     },
     {
       "id": "sync-post-deploy-artifact",
@@ -1074,7 +1073,7 @@
       "costUsd": 0,
       "command": "npm run autonomous:operator",
       "targets": [
-        "collect-gate-sample-downloads"
+        "seed-portfolio-traffic"
       ],
       "reason": "One-action operator plan is already published; avoid cycling on meta-operator refreshes."
     },
@@ -1084,7 +1083,7 @@
       "costUsd": 0,
       "command": "npm run autonomous:operator",
       "targets": [
-        "collect-gate-sample-downloads"
+        "seed-portfolio-traffic"
       ],
       "reason": "Operator history is already capped and published; keep attention on product evidence."
     },
@@ -1299,7 +1298,7 @@
     "productionBlockerHandoffStatus": "handoff-waiting-on-owner-inputs",
     "supportChannelStatus": "support-channel-ready",
     "supportFeedbackStatus": "support-feedback-empty",
-    "autonomousOperatorStatus": "operator-executed",
+    "autonomousOperatorStatus": "operator-plan-ready",
     "autonomousOperatorHistoryStatus": "operator-history-ready",
     "objectiveAuditStatus": "objective-in-progress",
     "storeListingOptimizerStatus": "store-listing-optimizer-ready",

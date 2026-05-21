@@ -1,6 +1,6 @@
 # Production Readiness
 
-Generated: 2026-05-21T11:43:53.128Z
+Generated: 2026-05-21T11:50:09.250Z
 
 ## Environment
 
@@ -32,14 +32,14 @@ Local git: true
 - done: repo-bootstrap-inspect-repository-channel - Repository readiness is repository-channel-ready.
 - ready: repo-bootstrap-initialize-local-git - Git worktree is available at /Users/moshequ/Documents/Codex/2026-05-18/i-want-to-have-a-new.
 - ready: repo-bootstrap-create-initial-commit - The local repository has at least one commit.
-- ready-for-explicit-snapshot-commit: repo-bootstrap-commit-current-snapshot - 10 non-generated source or artifact file(s) are not committed yet.
+- ready: repo-bootstrap-commit-current-snapshot - 34 repository evidence file(s) changed during this dry run; the outer verified commit will persist them.
 - ready: repo-bootstrap-set-or-create-origin - Origin remote resolves to moshequ/autonomous-game-lab.
 - ready-for-explicit-create-or-attach: repo-bootstrap-create-github-repository - GitHub CLI can create or attach moshequ/autonomous-game-lab when explicitly allowed.
-- waiting-for-clean-snapshot: repo-bootstrap-push-initial-snapshot - Push stays held until a committed local snapshot and origin remote exist.
+- ready-for-explicit-push: repo-bootstrap-push-initial-snapshot - Push stays held until an origin remote exists and AGL_ALLOW_PUSH=1 is set.
 
 ## Web/PWA
 
-Status: blocked
+Status: ready-after-build
 - pass: manifest - PWA manifest exists in the production build.
 - pass: install-icons - Generated install/store icons are icons-ready; 6 icons checked.
 - pass: service-worker - Offline service worker exists.
@@ -61,7 +61,7 @@ Status: blocked
 - pass: pwa-install-loop - PWA install loop is pwa-install-loop-ready; prompt surface autonomy-cockpit; cost $0.
 - pass: performance-budget - Performance budget is performance-budget-ready; initial JS 674.4 KB / 183.2 KB gzip; deferred game chunk GameCanvas-bSnqwu4f.js.
 - pass: release-candidate - Release candidate is release-candidate-ready; files 44; smoke URLs 14.
-- blocker: post-deploy-smoke-runner - Post-deploy smoke is post-deploy-smoke-observed-live; origin https://moshequ.github.io/autonomous-game-lab; checks 15/15 passed, 0 blocked; local artifact predeploy-artifact-smoke-passed 15/15 passed.
+- pass: post-deploy-smoke-runner - Post-deploy smoke is post-deploy-smoke-observed-live; origin https://moshequ.github.io/autonomous-game-lab; checks 15/15 passed, 0 blocked; local artifact predeploy-artifact-smoke-passed 15/15 passed.
 - pass: live-site-monitor - Live monitor is live-site-monitor-passed; origin https://moshequ.github.io/autonomous-game-lab; checks 15/15 passed; live matches synced deploy true.
 - pass: product-optimization - Product optimizer is product-optimization-ready; completion 0.397 vs gate 0.55; latest action already-applied.
 - pass: first-move-coach - First-move coach is first-move-coach-ready; enabled targets 6; primary harbor-rings.
@@ -69,11 +69,11 @@ Status: blocked
 - pass: replay-loop - Replay loop is replay-loop-ready; prompt armed; target harbor-rings.
 - pass: release-health - Release health guard is monitoring.
 - pass: production-environment - Production environment status is production-env-missing.
-- pass: production-bootstrap - Production bootstrap is production-bootstrap-ready; mode can-apply-configured-actions; external blockers 16.
+- pass: production-bootstrap - Production bootstrap is production-bootstrap-ready; mode can-apply-configured-actions; external blockers 15.
 - pass: production-blocker-handoff - Production blocker handoff is handoff-waiting-on-owner-inputs; owner inputs 5; next unlock support-contact.
 - pass: production-activation - Production activation is activation-ready; mode dry-run; execution dry-run.
-- pass: autonomous-operator - Autonomous operator is operator-executed; selected collect-gate-sample-downloads; execution executed.
-- pass: autonomous-operator-history - Autonomous operator history is operator-history-ready; records 40; executed 9.
+- pass: autonomous-operator - Autonomous operator is operator-plan-ready; selected seed-portfolio-traffic; execution not-requested.
+- pass: autonomous-operator-history - Autonomous operator history is operator-history-ready; records 40; executed 8.
 - pass: autonomous-cadence - Autonomous cadence is cadence-ready; Codex active-confirmed; GitHub scheduled.
 - pass: autonomous-self-update - Autonomous self-update is self-update-ready; safe pending 17; unsafe pending 0; remote push held.
 - pass: objective-audit - Objective audit is objective-in-progress; met 6 / 8; can complete false.
@@ -146,7 +146,7 @@ Aggregate SHA-256: 545418073d24f77f80c916bbcb8520a3f708af7c364a7cddc5647e8122870
 
 Status: post-deploy-smoke-observed-live
 Origin: https://moshequ.github.io/autonomous-game-lab
-Candidate: pwa-d2f466eecf66
+Candidate: pwa-545418073d24
 Checks: 15/15 passed (0 blocked)
 Local artifact: predeploy-artifact-smoke-passed (15/15 passed)
 - pass: smoke-app-shell - Live URL matched status and required text.
@@ -168,14 +168,14 @@ Local artifact: predeploy-artifact-smoke-passed (15/15 passed)
 ## Post-Deploy Artifact Sync
 
 Status: post-deploy-artifact-sync-passed
-Workflow run: 26222742776
-Artifact candidate: pwa-1f4ba8d9a5e6
-Live candidate: pwa-1f4ba8d9a5e6
+Workflow run: 26223969555
+Artifact candidate: pwa-5a1bd4612209
+Live candidate: pwa-5a1bd4612209
 Live matches artifact: true
 - pass: artifact-sync-gh-cli - gh version 2.92.0 (2026-04-28)
 - pass: artifact-sync-github-repository - Target repository is moshequ/autonomous-game-lab.
-- pass: artifact-sync-successful-pages-run - Latest successful web-pwa-deploy.yml run is 26222742776.
-- pass: artifact-sync-post-deploy-smoke-artifact - Downloaded post-deploy-smoke artifact from run 26222742776.
+- pass: artifact-sync-explicit-pages-run - Explicit web-pwa-deploy.yml run is 26223969555.
+- pass: artifact-sync-post-deploy-smoke-artifact - Downloaded post-deploy-smoke artifact from run 26223969555.
 - pass: artifact-sync-strict-smoke-artifact - Artifact status post-deploy-smoke-passed; strict manifest comparison true; checks 15/15.
 - pass: artifact-sync-live-release-manifest - Live release-candidate.json still matches the strict smoke artifact.
 
@@ -184,7 +184,7 @@ Live matches artifact: true
 Status: live-site-monitor-passed
 Origin: https://moshequ.github.io/autonomous-game-lab
 Checks: 15/15 passed (0 failed)
-Live candidate: pwa-1f4ba8d9a5e6
+Live candidate: pwa-5a1bd4612209
 Live matches synced deploy: true
 - pass: live-monitor-app-shell - Live read-only check passed.
 - pass: live-monitor-manifest-webmanifest - Live read-only check passed.
@@ -279,16 +279,16 @@ Next unlock: support-contact
 
 ## Autonomous Operator
 
-Status: operator-executed
-Mode: execute-one-action
-Selected action: collect-gate-sample-downloads
-Execution: executed
+Status: operator-plan-ready
+Mode: plan-only
+Selected action: seed-portfolio-traffic
+Execution: not-requested
 
 ## Autonomous Operator History
 
 Status: operator-history-ready
 Records: 40
-Executed: 9
+Executed: 8
 
 ## Autonomous Cadence
 
