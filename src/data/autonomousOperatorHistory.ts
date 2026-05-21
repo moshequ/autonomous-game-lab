@@ -5,7 +5,7 @@ export const autonomousOperatorHistory = {
     "plannedRecords": 37,
     "executedRecords": 3,
     "failedRecords": 0,
-    "lastActionId": "seed-portfolio-traffic",
+    "lastActionId": "optimize-daily-retention",
     "lastExecutionStatus": "not-requested",
     "lastExecutedActionId": "refresh-organic-seed-loop"
   }
