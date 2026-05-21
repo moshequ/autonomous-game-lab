@@ -1,17 +1,32 @@
 {
-  "generatedAt": "2026-05-21T18:45:11.156Z",
-  "status": "operator-held",
+  "generatedAt": "2026-05-21T19:01:52.848Z",
+  "status": "operator-plan-ready",
   "mode": "plan-only",
   "ownerDecision": {
-    "actionId": "hold-for-external-input",
-    "command": "No local command is available until external inputs, configured credentials, or new player evidence arrive.",
-    "locallyExecutable": false,
-    "rejectionReason": "status-monitor"
+    "actionId": "optimize-store-listing",
+    "command": "npm run autonomous:store-package && npm run autonomous:store-listing-optimize && npm run autonomous:store-compliance",
+    "locallyExecutable": true,
+    "rejectionReason": null
   },
   "requestedActionId": null,
-  "selectedAction": null,
+  "selectedAction": {
+    "id": "optimize-store-listing",
+    "status": "armed",
+    "command": "npm run autonomous:store-package && npm run autonomous:store-listing-optimize && npm run autonomous:store-compliance",
+    "targets": [
+      "canopy-bloom"
+    ],
+    "reason": "Refreshes the base store package, optimized copy, screenshot priority, and compliance drafts from behavior signals.",
+    "costUsd": 0
+  },
   "selectedRejection": null,
-  "eligibleActionIds": [],
+  "eligibleActionIds": [
+    "seed-portfolio-traffic",
+    "refresh-organic-seed-loop",
+    "refresh-product-gate-recovery",
+    "refresh-replay-loop",
+    "optimize-store-listing"
+  ],
   "blockedActions": [
     {
       "id": "run-daily-owner-loop",
@@ -39,15 +54,15 @@
     },
     {
       "id": "seed-portfolio-traffic",
-      "status": "monitor",
+      "status": "armed",
       "command": "npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop",
-      "reason": "status-monitor"
+      "reason": "not-selected-this-run"
     },
     {
       "id": "refresh-organic-seed-loop",
-      "status": "monitor",
+      "status": "armed",
       "command": "npm run autonomous:organic-seed-loop",
-      "reason": "status-monitor"
+      "reason": "not-selected-this-run"
     },
     {
       "id": "refresh-support-feedback",
@@ -105,9 +120,9 @@
     },
     {
       "id": "refresh-product-gate-recovery",
-      "status": "monitor",
+      "status": "armed",
       "command": "npm run autonomous:gate-recovery && npm run autonomous:sample-plan",
-      "reason": "status-monitor"
+      "reason": "not-selected-this-run"
     },
     {
       "id": "collect-gate-sample-downloads",
@@ -135,9 +150,9 @@
     },
     {
       "id": "refresh-replay-loop",
-      "status": "monitor",
+      "status": "armed",
       "command": "npm run autonomous:replay-loop",
-      "reason": "status-monitor"
+      "reason": "not-selected-this-run"
     },
     {
       "id": "prepare-repository-channel",
@@ -182,12 +197,6 @@
       "reason": "status-monitor"
     },
     {
-      "id": "optimize-store-listing",
-      "status": "monitor",
-      "command": "npm run autonomous:store-package && npm run autonomous:store-listing-optimize && npm run autonomous:store-compliance",
-      "reason": "status-monitor"
-    },
-    {
       "id": "prepare-android-signing",
       "status": "monitor",
       "command": "npm run autonomous:android-signing",
@@ -212,7 +221,20 @@
       "reason": "status-monitor"
     }
   ],
-  "commandPlan": [],
+  "commandPlan": [
+    {
+      "segment": "npm run autonomous:store-package",
+      "script": "autonomous:store-package"
+    },
+    {
+      "segment": "npm run autonomous:store-listing-optimize",
+      "script": "autonomous:store-listing-optimize"
+    },
+    {
+      "segment": "npm run autonomous:store-compliance",
+      "script": "autonomous:store-compliance"
+    }
+  ],
   "execution": {
     "requested": false,
     "status": "not-requested",
@@ -284,7 +306,7 @@
     "RUN_WORKFLOWS=1"
   ],
   "nextActions": [
-    "Keep reporting external blockers until a safe local action is eligible.",
+    "Run npm run autonomous:operator -- --execute --action=optimize-store-listing to execute exactly one allowed local action.",
     "Do not execute GitHub workflow, store, paid ads, or account setup commands from the local operator."
   ]
 }

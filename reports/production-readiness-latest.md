@@ -1,6 +1,6 @@
 # Production Readiness
 
-Generated: 2026-05-21T18:45:11.417Z
+Generated: 2026-05-21T19:01:53.090Z
 
 ## Environment
 
@@ -32,10 +32,10 @@ Local git: true
 - done: repo-bootstrap-inspect-repository-channel - Repository readiness is repository-channel-ready.
 - ready: repo-bootstrap-initialize-local-git - Git worktree is available at /home/runner/work/autonomous-game-lab/autonomous-game-lab.
 - ready: repo-bootstrap-create-initial-commit - The local repository has at least one commit.
-- ready: repo-bootstrap-commit-current-snapshot - 25 repository evidence file(s) changed during this dry run; the outer verified commit will persist them.
+- ready-for-explicit-snapshot-commit: repo-bootstrap-commit-current-snapshot - 1 non-generated source or artifact file(s) are not committed yet.
 - ready: repo-bootstrap-set-or-create-origin - Origin remote resolves to moshequ/autonomous-game-lab.
 - ready-for-explicit-create-or-attach: repo-bootstrap-create-github-repository - GitHub CLI can create or attach moshequ/autonomous-game-lab when explicitly allowed.
-- ready-for-explicit-push: repo-bootstrap-push-initial-snapshot - Push stays held until an origin remote exists and AGL_ALLOW_PUSH=1 is set.
+- waiting-for-clean-snapshot: repo-bootstrap-push-initial-snapshot - Push stays held until a committed local snapshot and origin remote exist.
 
 ## Web/PWA
 
@@ -59,20 +59,20 @@ Status: ready-after-build
 - pass: organic-seed-loop - Organic seed loop is organic-seed-loop-ready; target canopy-bloom; player-initiated share guard active.
 - pass: retention-loop - Retention loop is retention-loop-ready; daily challenge canopy-bloom; no-push/no-account guardrails active.
 - pass: pwa-install-loop - PWA install loop is pwa-install-loop-ready; prompt surface autonomy-cockpit; cost $0.
-- pass: performance-budget - Performance budget is performance-budget-ready; initial JS 675.6 KB / 183.6 KB gzip; deferred game chunk GameCanvas-D-wT1Rhp.js.
-- pass: release-candidate - Release candidate is release-candidate-ready; files 45; smoke URLs 14.
-- pass: post-deploy-smoke-runner - Post-deploy smoke is post-deploy-smoke-observed-live; origin https://moshequ.github.io/autonomous-game-lab; checks 15/15 passed, 0 blocked; local artifact predeploy-artifact-smoke-passed 15/15 passed.
-- pass: live-site-monitor - Live monitor is live-site-monitor-passed; origin https://moshequ.github.io/autonomous-game-lab; checks 15/15 passed; live matches synced deploy true.
+- pass: performance-budget - Performance budget is performance-budget-ready; initial JS 675.7 KB / 183.6 KB gzip; deferred game chunk GameCanvas-BFjOvqQg.js.
+- pass: release-candidate - Release candidate is release-candidate-ready; files 47; smoke URLs 16.
+- pass: post-deploy-smoke-runner - Post-deploy smoke is post-deploy-smoke-observed-live; origin https://moshequ.github.io/autonomous-game-lab; checks 17/17 passed, 0 blocked; local artifact predeploy-artifact-smoke-passed 17/17 passed.
+- pass: live-site-monitor - Live monitor is live-site-monitor-passed; origin https://moshequ.github.io/autonomous-game-lab; checks 17/17 passed; live matches synced deploy true.
 - pass: product-optimization - Product optimizer is product-optimization-ready; completion 0.397 vs gate 0.55; latest action already-applied.
 - pass: first-move-coach - First-move coach is first-move-coach-ready; enabled targets 6; primary harbor-rings.
 - pass: completion-loop - Completion loop is completion-loop-ready; prompt armed; target harbor-rings.
 - pass: replay-loop - Replay loop is replay-loop-ready; prompt armed; target harbor-rings.
 - pass: release-health - Release health guard is monitoring.
 - pass: production-environment - Production environment status is production-env-missing.
-- pass: production-bootstrap - Production bootstrap is production-bootstrap-ready; mode can-apply-configured-actions; external blockers 15.
+- pass: production-bootstrap - Production bootstrap is production-bootstrap-ready; mode can-apply-configured-actions; external blockers 16.
 - pass: production-blocker-handoff - Production blocker handoff is handoff-waiting-on-owner-inputs; owner inputs 4; next unlock production-analytics-browser.
 - pass: production-activation - Production activation is activation-ready; mode dry-run; execution dry-run.
-- pass: autonomous-operator - Autonomous operator is operator-held; selected none; execution not-requested.
+- pass: autonomous-operator - Autonomous operator is operator-plan-ready; selected optimize-store-listing; execution not-requested.
 - pass: autonomous-operator-history - Autonomous operator history is operator-history-ready; records 40; executed 7.
 - pass: autonomous-cadence - Autonomous cadence is cadence-ready; Codex active-confirmed; GitHub scheduled.
 - pass: autonomous-self-update - Autonomous self-update is self-update-ready; safe pending 94; unsafe pending 0; remote push held.
@@ -116,44 +116,46 @@ Installs: 0
 ## Performance Budget
 
 Status: performance-budget-ready
-Initial JS: 675.6 KB (183.6 KB gzip)
-Deferred game chunk: GameCanvas-D-wT1Rhp.js
-- pass: performance-initial-js-budget - Initial JS is 675.6 KB; budget is 676 KB.
+Initial JS: 675.7 KB (183.6 KB gzip)
+Deferred game chunk: GameCanvas-BFjOvqQg.js
+- pass: performance-initial-js-budget - Initial JS is 675.7 KB; budget is 676 KB.
 - pass: performance-initial-js-gzip-budget - Initial JS gzip is 183.6 KB; budget is 200 KB.
 - pass: performance-initial-css-budget - Initial CSS is 10.5 KB; budget is 40 KB.
 - pass: performance-manifest - PWA manifest exists in dist.
 - pass: performance-service-worker - Service worker exists in dist.
-- pass: performance-game-runtime-deferred - GameCanvas-D-wT1Rhp.js is deferred from the initial shell.
-- pass: performance-largest-js-deferred - Largest JS chunk is GameCanvas-D-wT1Rhp.js at 1361.1 KB.
+- pass: performance-game-runtime-deferred - GameCanvas-BFjOvqQg.js is deferred from the initial shell.
+- pass: performance-largest-js-deferred - Largest JS chunk is GameCanvas-BFjOvqQg.js at 1361.1 KB.
 - pass: performance-deferred-game-budget - Deferred game chunk is 1361.1 KB; monitor budget is 1600 KB.
 
 ## Release Candidate
 
 Status: release-candidate-ready
-Candidate: pwa-973aadff64bf
-Files: 45
-Aggregate SHA-256: 973aadff64bf92b76be7e0b2fa7b03a6c1939f4fd1e60b04b8de2ac6840aa53b
-- pass: release-dist-inventory - 45 dist files inventoried.
-- pass: release-required-files - 19/19 required files present.
+Candidate: pwa-f4215e36bff6
+Files: 47
+Aggregate SHA-256: f4215e36bff649562ab97d207eabffad2415c86bd26a7a79a137cbd598001bac
+- pass: release-dist-inventory - 47 dist files inventoried.
+- pass: release-required-files - 21/21 required files present.
 - pass: release-game-pages - 10 generated game page(s) in dist.
 - pass: release-performance-budget - Performance budget is performance-budget-ready.
 - pass: release-release-health - Release health is monitoring.
 - pass: release-production-response - Deploy allowed is true.
 - pass: release-spend-guard - Spend mode is no-spend.
-- pass: release-post-deploy-smoke-plan - 14 post-deploy smoke URL(s) planned.
+- pass: release-post-deploy-smoke-plan - 16 post-deploy smoke URL(s) planned.
 
 ## Post-Deploy Smoke
 
 Status: post-deploy-smoke-observed-live
 Origin: https://moshequ.github.io/autonomous-game-lab
-Candidate: pwa-973aadff64bf
-Checks: 15/15 passed (0 blocked)
-Local artifact: predeploy-artifact-smoke-passed (15/15 passed)
+Candidate: pwa-f4215e36bff6
+Checks: 17/17 passed (0 blocked)
+Local artifact: predeploy-artifact-smoke-passed (17/17 passed)
 - pass: smoke-app-shell - Live URL matched status and required text.
 - pass: smoke-manifest-webmanifest - Live URL matched status and required text.
 - pass: smoke-sw-js - Live URL matched status and required text.
 - pass: smoke-privacy-html - Live URL matched status and required text.
 - pass: smoke-support-html - Live URL matched status and required text.
+- pass: smoke-measurement-status-html - Live URL matched status and required text.
+- pass: smoke-measurement-status-json - Live URL matched status and required text.
 - pass: smoke-install-html - Live URL matched status and required text.
 - pass: smoke-compliance-json - Live URL matched status and required text.
 - pass: smoke-monetization-json - Live URL matched status and required text.
@@ -168,32 +170,32 @@ Local artifact: predeploy-artifact-smoke-passed (15/15 passed)
 ## Post-Deploy Artifact Sync
 
 Status: post-deploy-artifact-sync-passed
-Workflow run: 26246059343
-Artifact candidate: pwa-5da9e135a9d6
-Live candidate: pwa-5da9e135a9d6
+Workflow run: 26246911671
+Artifact candidate: pwa-422c56366d2b
+Live candidate: pwa-422c56366d2b
 Live matches artifact: true
 - pass: artifact-sync-gh-cli - gh version 2.92.0 (2026-04-28)
 - pass: artifact-sync-github-repository - Target repository is moshequ/autonomous-game-lab.
-- pass: artifact-sync-explicit-pages-run - Explicit web-pwa-deploy.yml run is 26246059343.
-- pass: artifact-sync-post-deploy-smoke-artifact - Downloaded post-deploy-smoke artifact from run 26246059343.
-- pass: artifact-sync-strict-smoke-artifact - Artifact status post-deploy-smoke-passed; strict manifest comparison true; checks 15/15.
+- pass: artifact-sync-explicit-pages-run - Explicit web-pwa-deploy.yml run is 26246911671.
+- pass: artifact-sync-post-deploy-smoke-artifact - Downloaded post-deploy-smoke artifact from run 26246911671.
+- pass: artifact-sync-strict-smoke-artifact - Artifact status post-deploy-smoke-passed; strict manifest comparison true; checks 17/17.
 - pass: artifact-sync-live-release-manifest - Live release-candidate.json still matches the strict smoke artifact.
 
 ## Live Site Monitor
 
 Status: live-site-monitor-passed
 Origin: https://moshequ.github.io/autonomous-game-lab
-Checks: 15/15 passed (0 failed)
-Live candidate: pwa-5da9e135a9d6
+Checks: 17/17 passed (0 failed)
+Live candidate: pwa-422c56366d2b
 Live matches synced deploy: true
 - pass: live-monitor-app-shell - Live read-only check passed.
 - pass: live-monitor-manifest-webmanifest - Live read-only check passed.
 - pass: live-monitor-sw-js - Live read-only check passed.
 - pass: live-monitor-privacy-html - Live read-only check passed.
 - pass: live-monitor-support-html - Live read-only check passed.
+- pass: live-monitor-measurement-status-html - Live read-only check passed.
+- pass: live-monitor-measurement-status-json - Live read-only check passed.
 - pass: live-monitor-install-html - Live read-only check passed.
-- pass: live-monitor-compliance-json - Live read-only check passed.
-- pass: live-monitor-monetization-json - Live read-only check passed.
 
 ## Product Optimization
 
@@ -279,9 +281,9 @@ Next unlock: production-analytics-browser
 
 ## Autonomous Operator
 
-Status: operator-held
+Status: operator-plan-ready
 Mode: plan-only
-Selected action: none
+Selected action: optimize-store-listing
 Execution: not-requested
 
 ## Autonomous Operator History
@@ -339,16 +341,16 @@ Can mark complete: false
 
 ## Distribution
 
-Store package: draft-ready
+Store package: blocked
 - pass: store-listing - Generated store listing copy exists and fits Google Play short-description limits.
-- pass: store-listing-optimizer - Store listing optimizer is store-listing-optimizer-ready; focus canopy-bloom.
+- blocker: store-listing-optimizer - Store listing optimizer is store-listing-optimizer-ready; focus canopy-bloom.
 - pass: google-data-safety - Google Play data safety draft exists.
 - pass: apple-privacy-labels - Apple App Privacy label draft exists.
 - pass: native-packaging-path - Android TWA packaging draft exists while signing remains blocked.
 - pass: native-package-handoff - Android native handoff is blocked-draft-ready.
 - pass: ios-app-store-handoff - iOS App Store handoff is deferred-until-ios-payback.
 - pass: android-signing-prep - Android signing is signing-prepared; fingerprint available.
-- pass: store-screenshots - Generated store screenshot assets are screenshots-ready; 4 screenshots attached.
+- blocker: store-screenshots - Generated store screenshot assets are screenshots-ready; 4 screenshots attached.
 - pass: store-compliance - Store compliance is draft-ready-external-blockers.
 - pass: compliance-publication-pack - Compliance publication is waiting-for-production-inputs.
 

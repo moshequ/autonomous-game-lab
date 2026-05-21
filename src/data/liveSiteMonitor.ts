@@ -1,5 +1,5 @@
 export const liveSiteMonitor = {
-  "generatedAt": "2026-05-21T18:45:09.552Z",
+  "generatedAt": "2026-05-21T19:01:51.321Z",
   "status": "live-site-monitor-passed",
   "origin": {
     "origin": "https://moshequ.github.io/autonomous-game-lab",
@@ -8,16 +8,16 @@ export const liveSiteMonitor = {
     "basePath": "/autonomous-game-lab"
   },
   "summary": {
-    "planned": 15,
-    "passed": 15,
+    "planned": 17,
+    "passed": 17,
     "failed": 0,
     "blocked": 0,
     "passRate": 100,
-    "latencyP50Ms": 61,
-    "latencyP95Ms": 102,
-    "liveCandidateId": "pwa-5da9e135a9d6",
-    "syncedCandidateId": "pwa-5da9e135a9d6",
-    "localCandidateId": "pwa-973aadff64bf",
+    "latencyP50Ms": 63,
+    "latencyP95Ms": 101,
+    "liveCandidateId": "pwa-422c56366d2b",
+    "syncedCandidateId": "pwa-422c56366d2b",
+    "localCandidateId": "pwa-f4215e36bff6",
     "liveMatchesSyncedDeploy": true,
     "liveMatchesCurrentLocalCandidate": false
   },
@@ -37,42 +37,42 @@ export const liveSiteMonitor = {
       "path": "/",
       "status": "pass",
       "httpStatus": 200,
-      "durationMs": 102
+      "durationMs": 101
     },
     {
       "id": "manifest-webmanifest",
       "path": "/manifest.webmanifest",
       "status": "pass",
       "httpStatus": 200,
-      "durationMs": 69
+      "durationMs": 70
     },
     {
       "id": "sw-js",
       "path": "/sw.js",
       "status": "pass",
       "httpStatus": 200,
-      "durationMs": 65
+      "durationMs": 68
     },
     {
       "id": "privacy-html",
       "path": "/privacy.html",
       "status": "pass",
       "httpStatus": 200,
-      "durationMs": 58
+      "durationMs": 64
     },
     {
       "id": "support-html",
       "path": "/support.html",
       "status": "pass",
       "httpStatus": 200,
-      "durationMs": 68
+      "durationMs": 66
     },
     {
-      "id": "install-html",
-      "path": "/install.html",
+      "id": "measurement-status-html",
+      "path": "/measurement-status.html",
       "status": "pass",
       "httpStatus": 200,
-      "durationMs": 63
+      "durationMs": 66
     }
   ]
 } as const

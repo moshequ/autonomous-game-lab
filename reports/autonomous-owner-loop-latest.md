@@ -1,15 +1,15 @@
 # Autonomous Owner Loop
 
-Generated: 2026-05-21T18:45:11.356Z
+Generated: 2026-05-21T19:01:53.033Z
 Status: owner-loop-ready
 Mode: zero-spend-web-ready
-Autonomy score: 43/44 (98%)
+Autonomy score: 42/44 (95%)
 
 ## Owner Decision
 
-- Next action: hold-for-external-input
-- Command: No local command is available until external inputs, configured credentials, or new player evidence arrive.
-- Rationale: All safe local refresh actions are current; hold execution until owner-provided inputs, production analytics, or real player evidence changes the state.
+- Next action: optimize-store-listing
+- Command: npm run autonomous:store-package && npm run autonomous:store-listing-optimize && npm run autonomous:store-compliance
+- Rationale: Refreshes the base store package, optimized copy, screenshot priority, and compliance drafts from behavior signals.
 - Last executed action: seed-portfolio-traffic
 - Recent executed actions: seed-portfolio-traffic, refresh-product-gate-recovery, refresh-replay-loop, refresh-completion-loop, bootstrap-production-setup
 
@@ -29,7 +29,7 @@ Autonomy score: 43/44 (98%)
 - ready: organic-seed-loop - Target canopy-bloom; surface portal-growth-loop; share telemetry organic_seed_share_clicked.
 - ready: retention-loop - Daily canopy-bloom; D1 17%; streak variant daily-streak; return prompt armed; return intent armed.
 - ready: pwa-install-loop - Prompt autonomy-cockpit; installs 0; launch events 0; sample collecting-sample needs 20 prompt(s) and 10 launch event(s).
-- ready: performance-budget - Initial JS 675.6 KB; gzip 183.6 KB; deferred chunks 2.
+- ready: performance-budget - Initial JS 675.7 KB; gzip 183.6 KB; deferred chunks 2.
 - ready: product-optimization - Completion 40% / gate 55%; latest already-applied.
 - ready: support-feedback - Support feedback support-feedback-empty; issues 0; routable signals 0; aggregate notes 0.
 - ready: product-gate-recovery - Recovery product-gate-recovery-ready; primary firstGameCompletion; experiment collecting-sample; failing gates 3; next lift 128.
@@ -42,18 +42,18 @@ Autonomy score: 43/44 (98%)
 - ready: repository-channel - Repository moshequ/autonomous-game-lab; git worktree ready; workflow dispatch ready.
 - ready: repository-bootstrap - Bootstrap repository-bootstrap-ready; mode plan-only; helper ops/github/bootstrap-repository.sh; local git ready.
 - ready: web-deployment - Deployment ready-for-pages; web readiness ready-after-build; promotion promotable-internal.
-- ready: release-candidate - Release candidate release-candidate-ready; files 45; smoke URLs 14.
-- ready: post-deploy-smoke - Smoke post-deploy-smoke-observed-live; origin https://moshequ.github.io/autonomous-game-lab; manifest comparison required; checks 15/15 passed; local artifact predeploy-artifact-smoke-passed 15/15 passed.
-- ready: post-deploy-artifact-sync - Artifact sync post-deploy-artifact-sync-passed; run 26246059343; live matches artifact true; strict true.
-- ready: live-site-monitor - Live monitor live-site-monitor-passed; origin https://moshequ.github.io/autonomous-game-lab; checks 15/15; live matches synced deploy true.
-- ready: production-bootstrap - Bootstrap production-bootstrap-ready; mode can-apply-configured-actions; external blockers 15.
+- ready: release-candidate - Release candidate release-candidate-ready; files 47; smoke URLs 16.
+- ready: post-deploy-smoke - Smoke post-deploy-smoke-observed-live; origin https://moshequ.github.io/autonomous-game-lab; manifest comparison required; checks 17/17 passed; local artifact predeploy-artifact-smoke-passed 17/17 passed.
+- ready: post-deploy-artifact-sync - Artifact sync post-deploy-artifact-sync-passed; run 26246911671; live matches artifact true; strict true.
+- ready: live-site-monitor - Live monitor live-site-monitor-passed; origin https://moshequ.github.io/autonomous-game-lab; checks 17/17; live matches synced deploy true.
+- ready: production-bootstrap - Bootstrap production-bootstrap-ready; mode can-apply-configured-actions; external blockers 16.
 - ready: production-activation - Activation activation-ready; mode dry-run; execution dry-run; gh ready.
 - ready: production-blocker-handoff - Handoff handoff-waiting-on-owner-inputs; next production-analytics-browser; owner inputs 4; missing env 7; missing secrets 3.
 - ready: support-channel - Support channel support-channel-ready; repository moshequ/autonomous-game-lab; public intake ready; aggregate evidence only true.
-- ready: autonomous-operator - Operator operator-held; selected none; execution not-requested.
+- ready: autonomous-operator - Operator operator-plan-ready; selected optimize-store-listing; execution not-requested.
 - ready: operator-history - History operator-history-ready; records 40; executed 7.
 - ready: objective-audit - Audit objective-in-progress; met 6/8; external blockers 15.
-- ready: store-listing-optimizer - Focus canopy-bloom; lead screenshot phone-canopy-bloom-generated; candidate changed yes.
+- needs-attention: store-listing-optimizer - Focus canopy-bloom; lead screenshot phone-canopy-bloom-generated; candidate changed yes.
 - ready: store-compliance - Rating Everyone; target audience general; blockers 3.
 - ready: android-signing - Signing signing-prepared; fingerprint available; local secrets configured.
 - ready: production-safety - Response guarded-operations; incident drill pass; spend mode no-spend.
@@ -66,8 +66,8 @@ Autonomy score: 43/44 (98%)
 - monitor: hold-for-external-input - No local command is available until external inputs, configured credentials, or new player evidence arrive.
 - monitor: refresh-autonomous-cadence - npm run autonomous:cadence
 - monitor: refresh-autonomous-self-update - npm run autonomous:self-update
-- monitor: seed-portfolio-traffic - npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop
-- monitor: refresh-organic-seed-loop - npm run autonomous:organic-seed-loop
+- armed: seed-portfolio-traffic - npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop
+- armed: refresh-organic-seed-loop - npm run autonomous:organic-seed-loop
 - monitor: refresh-support-feedback - npm run autonomous:support-feedback
 - monitor: optimize-daily-retention - npm run autonomous:retention
 - monitor: measure-pwa-install-loop - npm run autonomous:pwa-install
@@ -77,12 +77,12 @@ Autonomy score: 43/44 (98%)
 - monitor: sync-post-deploy-artifact - npm run autonomous:post-deploy-artifact-sync
 - monitor: refresh-live-site-monitor - npm run autonomous:live-monitor
 - monitor: optimize-product-gates - npm run autonomous:analyze && npm run autonomous:product-optimize && npm run autonomous:sync-config && npm run autonomous:simulate
-- monitor: refresh-product-gate-recovery - npm run autonomous:gate-recovery && npm run autonomous:sample-plan
+- armed: refresh-product-gate-recovery - npm run autonomous:gate-recovery && npm run autonomous:sample-plan
 - monitor: collect-gate-sample-downloads - npm run autonomous:collect-sample-downloads
 - monitor: refresh-product-gate-sample-plan - npm run autonomous:sample-plan
 - monitor: refresh-first-move-coach - npm run autonomous:first-move-coach
 - monitor: refresh-completion-loop - npm run autonomous:completion-loop
-- monitor: refresh-replay-loop - npm run autonomous:replay-loop
+- armed: refresh-replay-loop - npm run autonomous:replay-loop
 - monitor: prepare-repository-channel - npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap
 - monitor: bootstrap-production-setup - npm run autonomous:release-candidate && npm run autonomous:deploy-plan && npm run autonomous:bootstrap
 - monitor: activate-production-when-configured - npm run autonomous:activate-production
@@ -90,7 +90,7 @@ Autonomy score: 43/44 (98%)
 - monitor: run-autonomous-operator - npm run autonomous:operator
 - monitor: review-operator-history - npm run autonomous:operator
 - monitor: refresh-objective-audit - npm run autonomous:objective-audit
-- monitor: optimize-store-listing - npm run autonomous:store-package && npm run autonomous:store-listing-optimize && npm run autonomous:store-compliance
+- armed: optimize-store-listing - npm run autonomous:store-package && npm run autonomous:store-listing-optimize && npm run autonomous:store-compliance
 - monitor: prepare-android-signing - npm run autonomous:android-signing
 - monitor: apply-safe-improvements - npm run autonomous:experiments && npm run autonomous:improve && npm run autonomous:sync-experiments
 - ready-when-repository-pages-enabled: deploy-web-pwa - Run the Web PWA Deploy workflow after GitHub Pages is enabled for the repository.

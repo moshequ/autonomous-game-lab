@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-21T18:45:08.047Z",
+  "generatedAt": "2026-05-21T19:01:49.989Z",
   "status": "repository-channel-ready",
   "envFiles": {
     "loaded": false,
@@ -39,7 +39,7 @@
     "insideWorkTree": true,
     "gitRoot": "/home/runner/work/autonomous-game-lab/autonomous-game-lab",
     "currentBranch": "main",
-    "dirtyFiles": 25,
+    "dirtyFiles": 29,
     "dirtyPaths": [
       "data/deployment-plan.json",
       "data/live-site-monitor.json",
@@ -47,16 +47,19 @@
       "data/post-deploy-artifact-sync.json",
       "data/post-deploy-smoke.json",
       "data/production-blocker-handoff.json",
+      "data/production-measurement-status.json",
       "data/production-readiness.json",
       "data/release-candidate.json",
       "data/repository-bootstrap.json",
       "data/repository-readiness.json",
+      "public/measurement-status.json",
       "reports/deployment-plan-latest.md",
       "reports/live-site-monitor-latest.md",
       "reports/performance-budget-latest.md",
       "reports/post-deploy-artifact-sync-latest.md",
       "reports/post-deploy-smoke-latest.md",
       "reports/production-blocker-handoff-latest.md",
+      "reports/production-measurement-status-latest.md",
       "reports/production-readiness-latest.md",
       "reports/release-candidate-latest.md",
       "reports/repository-bootstrap-latest.md",
@@ -65,9 +68,10 @@
       "src/data/performanceBudget.ts",
       "src/data/postDeployArtifactSync.ts",
       "src/data/postDeploySmoke.ts",
+      "src/data/productionMeasurementStatus.ts",
       "src/data/releaseCandidate.ts"
     ],
-    "generatedEvidenceDirtyFiles": 25,
+    "generatedEvidenceDirtyFiles": 28,
     "generatedEvidenceDirtyPaths": [
       "data/deployment-plan.json",
       "data/live-site-monitor.json",
@@ -75,6 +79,7 @@
       "data/post-deploy-artifact-sync.json",
       "data/post-deploy-smoke.json",
       "data/production-blocker-handoff.json",
+      "data/production-measurement-status.json",
       "data/production-readiness.json",
       "data/release-candidate.json",
       "data/repository-bootstrap.json",
@@ -85,6 +90,7 @@
       "reports/post-deploy-artifact-sync-latest.md",
       "reports/post-deploy-smoke-latest.md",
       "reports/production-blocker-handoff-latest.md",
+      "reports/production-measurement-status-latest.md",
       "reports/production-readiness-latest.md",
       "reports/release-candidate-latest.md",
       "reports/repository-bootstrap-latest.md",
@@ -93,10 +99,13 @@
       "src/data/performanceBudget.ts",
       "src/data/postDeployArtifactSync.ts",
       "src/data/postDeploySmoke.ts",
+      "src/data/productionMeasurementStatus.ts",
       "src/data/releaseCandidate.ts"
     ],
-    "nonGeneratedDirtyFiles": 0,
-    "nonGeneratedDirtyPaths": []
+    "nonGeneratedDirtyFiles": 1,
+    "nonGeneratedDirtyPaths": [
+      "public/measurement-status.json"
+    ]
   },
   "repository": {
     "target": "moshequ/autonomous-game-lab",
@@ -132,7 +141,7 @@
     "workflowExists": true,
     "deployWorkflowIncludesSmoke": true,
     "deploymentStatus": "ready-for-pages",
-    "releaseCandidateId": "pwa-973aadff64bf",
+    "releaseCandidateId": "pwa-f4215e36bff6",
     "postDeploySmokeStatus": "post-deploy-smoke-observed-live",
     "liveSettings": {
       "status": "inspected",

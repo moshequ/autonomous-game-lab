@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-21T18:45:08.886Z",
+  "generatedAt": "2026-05-21T19:01:50.739Z",
   "status": "repository-bootstrap-ready",
   "mode": "plan-only",
   "envFiles": {
@@ -44,7 +44,7 @@
       "originRemote": "https://github.com/moshequ/autonomous-game-lab",
       "remoteRepository": "moshequ/autonomous-game-lab",
       "hasCommit": true,
-      "dirtyFiles": 25,
+      "dirtyFiles": 29,
       "dirtyPaths": [
         "data/deployment-plan.json",
         "data/live-site-monitor.json",
@@ -52,16 +52,19 @@
         "data/post-deploy-artifact-sync.json",
         "data/post-deploy-smoke.json",
         "data/production-blocker-handoff.json",
+        "data/production-measurement-status.json",
         "data/production-readiness.json",
         "data/release-candidate.json",
         "data/repository-bootstrap.json",
         "data/repository-readiness.json",
+        "public/measurement-status.json",
         "reports/deployment-plan-latest.md",
         "reports/live-site-monitor-latest.md",
         "reports/performance-budget-latest.md",
         "reports/post-deploy-artifact-sync-latest.md",
         "reports/post-deploy-smoke-latest.md",
         "reports/production-blocker-handoff-latest.md",
+        "reports/production-measurement-status-latest.md",
         "reports/production-readiness-latest.md",
         "reports/release-candidate-latest.md",
         "reports/repository-bootstrap-latest.md",
@@ -70,9 +73,10 @@
         "src/data/performanceBudget.ts",
         "src/data/postDeployArtifactSync.ts",
         "src/data/postDeploySmoke.ts",
+        "src/data/productionMeasurementStatus.ts",
         "src/data/releaseCandidate.ts"
       ],
-      "generatedEvidenceDirtyFiles": 25,
+      "generatedEvidenceDirtyFiles": 28,
       "generatedEvidenceDirtyPaths": [
         "data/deployment-plan.json",
         "data/live-site-monitor.json",
@@ -80,6 +84,7 @@
         "data/post-deploy-artifact-sync.json",
         "data/post-deploy-smoke.json",
         "data/production-blocker-handoff.json",
+        "data/production-measurement-status.json",
         "data/production-readiness.json",
         "data/release-candidate.json",
         "data/repository-bootstrap.json",
@@ -90,6 +95,7 @@
         "reports/post-deploy-artifact-sync-latest.md",
         "reports/post-deploy-smoke-latest.md",
         "reports/production-blocker-handoff-latest.md",
+        "reports/production-measurement-status-latest.md",
         "reports/production-readiness-latest.md",
         "reports/release-candidate-latest.md",
         "reports/repository-bootstrap-latest.md",
@@ -98,10 +104,13 @@
         "src/data/performanceBudget.ts",
         "src/data/postDeployArtifactSync.ts",
         "src/data/postDeploySmoke.ts",
+        "src/data/productionMeasurementStatus.ts",
         "src/data/releaseCandidate.ts"
       ],
-      "nonGeneratedDirtyFiles": 0,
-      "nonGeneratedDirtyPaths": []
+      "nonGeneratedDirtyFiles": 1,
+      "nonGeneratedDirtyPaths": [
+        "public/measurement-status.json"
+      ]
     },
     "after": {
       "insideWorkTree": true,
@@ -110,7 +119,7 @@
       "originRemote": "https://github.com/moshequ/autonomous-game-lab",
       "remoteRepository": "moshequ/autonomous-game-lab",
       "hasCommit": true,
-      "dirtyFiles": 25,
+      "dirtyFiles": 29,
       "dirtyPaths": [
         "data/deployment-plan.json",
         "data/live-site-monitor.json",
@@ -118,16 +127,19 @@
         "data/post-deploy-artifact-sync.json",
         "data/post-deploy-smoke.json",
         "data/production-blocker-handoff.json",
+        "data/production-measurement-status.json",
         "data/production-readiness.json",
         "data/release-candidate.json",
         "data/repository-bootstrap.json",
         "data/repository-readiness.json",
+        "public/measurement-status.json",
         "reports/deployment-plan-latest.md",
         "reports/live-site-monitor-latest.md",
         "reports/performance-budget-latest.md",
         "reports/post-deploy-artifact-sync-latest.md",
         "reports/post-deploy-smoke-latest.md",
         "reports/production-blocker-handoff-latest.md",
+        "reports/production-measurement-status-latest.md",
         "reports/production-readiness-latest.md",
         "reports/release-candidate-latest.md",
         "reports/repository-bootstrap-latest.md",
@@ -136,9 +148,10 @@
         "src/data/performanceBudget.ts",
         "src/data/postDeployArtifactSync.ts",
         "src/data/postDeploySmoke.ts",
+        "src/data/productionMeasurementStatus.ts",
         "src/data/releaseCandidate.ts"
       ],
-      "generatedEvidenceDirtyFiles": 25,
+      "generatedEvidenceDirtyFiles": 28,
       "generatedEvidenceDirtyPaths": [
         "data/deployment-plan.json",
         "data/live-site-monitor.json",
@@ -146,6 +159,7 @@
         "data/post-deploy-artifact-sync.json",
         "data/post-deploy-smoke.json",
         "data/production-blocker-handoff.json",
+        "data/production-measurement-status.json",
         "data/production-readiness.json",
         "data/release-candidate.json",
         "data/repository-bootstrap.json",
@@ -156,6 +170,7 @@
         "reports/post-deploy-artifact-sync-latest.md",
         "reports/post-deploy-smoke-latest.md",
         "reports/production-blocker-handoff-latest.md",
+        "reports/production-measurement-status-latest.md",
         "reports/production-readiness-latest.md",
         "reports/release-candidate-latest.md",
         "reports/repository-bootstrap-latest.md",
@@ -164,10 +179,13 @@
         "src/data/performanceBudget.ts",
         "src/data/postDeployArtifactSync.ts",
         "src/data/postDeploySmoke.ts",
+        "src/data/productionMeasurementStatus.ts",
         "src/data/releaseCandidate.ts"
       ],
-      "nonGeneratedDirtyFiles": 0,
-      "nonGeneratedDirtyPaths": []
+      "nonGeneratedDirtyFiles": 1,
+      "nonGeneratedDirtyPaths": [
+        "public/measurement-status.json"
+      ]
     }
   },
   "repository": {
@@ -202,7 +220,7 @@
     "repositoryReadiness": "repository-channel-ready",
     "deployment": "ready-for-pages",
     "releaseCandidate": "release-candidate-ready",
-    "releaseCandidateId": "pwa-973aadff64bf",
+    "releaseCandidateId": "pwa-f4215e36bff6",
     "postDeploySmoke": "post-deploy-smoke-observed-live"
   },
   "repositoryTargetPlan": {
@@ -286,13 +304,13 @@
     },
     {
       "id": "commit-current-snapshot",
-      "status": "ready",
+      "status": "ready-for-explicit-snapshot-commit",
       "costUsd": 0,
       "command": "AGL_ALLOW_REPOSITORY_BOOTSTRAP=1 AGL_ALLOW_SNAPSHOT_COMMIT=1 ./ops/github/bootstrap-repository.sh",
       "mutatesLocalGit": true,
       "mutatesRemoteGitHub": false,
       "requiresExplicitEnv": true,
-      "detail": "25 repository evidence file(s) changed during this dry run; the outer verified commit will persist them."
+      "detail": "1 non-generated source or artifact file(s) are not committed yet."
     },
     {
       "id": "set-or-create-origin",
@@ -316,16 +334,18 @@
     },
     {
       "id": "push-initial-snapshot",
-      "status": "ready-for-explicit-push",
+      "status": "waiting-for-clean-snapshot",
       "costUsd": 0,
       "command": "AGL_ALLOW_REPOSITORY_BOOTSTRAP=1 AGL_ALLOW_PUSH=1 ./ops/github/bootstrap-repository.sh",
       "mutatesLocalGit": false,
       "mutatesRemoteGitHub": true,
       "requiresExplicitEnv": true,
-      "detail": "Push stays held until an origin remote exists and AGL_ALLOW_PUSH=1 is set."
+      "detail": "Push stays held until a committed local snapshot and origin remote exist."
     }
   ],
-  "blockers": [],
+  "blockers": [
+    "Commit current generated changes before pushing to GitHub Pages."
+  ],
   "helper": {
     "path": "ops/github/bootstrap-repository.sh",
     "status": "generated",

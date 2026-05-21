@@ -1,16 +1,16 @@
 # Post-Deploy Smoke
 
-Generated: 2026-05-21T18:45:09.401Z
+Generated: 2026-05-21T19:01:51.183Z
 Status: post-deploy-smoke-observed-live
 Origin: https://moshequ.github.io/autonomous-game-lab
 Origin source: release-candidate-public-origin
-Candidate: pwa-973aadff64bf
-Live candidate: pwa-5da9e135a9d6
+Candidate: pwa-f4215e36bff6
+Live candidate: pwa-422c56366d2b
 
 ## Summary
 
-- Planned: 15
-- Passed: 15
+- Planned: 17
+- Passed: 17
 - Failed: 0
 - Blocked: 0
 
@@ -18,12 +18,14 @@ Live candidate: pwa-5da9e135a9d6
 
 Status: predeploy-artifact-smoke-passed
 Artifact path: dist
-Checks: 15/15 passed
+Checks: 17/17 passed
 - pass: app-shell - dist/index.html - Local production artifact matched required text.
 - pass: manifest-webmanifest - dist/manifest.webmanifest - Local production artifact matched required text.
 - pass: sw-js - dist/sw.js - Local production artifact matched required text.
 - pass: privacy-html - dist/privacy.html - Local production artifact matched required text.
 - pass: support-html - dist/support.html - Local production artifact matched required text.
+- pass: measurement-status-html - dist/measurement-status.html - Local production artifact matched required text.
+- pass: measurement-status-json - dist/measurement-status.json - Local production artifact matched required text.
 - pass: install-html - dist/install.html - Local production artifact matched required text.
 - pass: compliance-json - dist/compliance.json - Local production artifact matched required text.
 - pass: monetization-json - dist/monetization.json - Local production artifact matched required text.
@@ -42,6 +44,8 @@ Checks: 15/15 passed
 - pass: sw-js - https://moshequ.github.io/autonomous-game-lab/sw.js - Live URL matched status and required text.
 - pass: privacy-html - https://moshequ.github.io/autonomous-game-lab/privacy.html - Live URL matched status and required text.
 - pass: support-html - https://moshequ.github.io/autonomous-game-lab/support.html - Live URL matched status and required text.
+- pass: measurement-status-html - https://moshequ.github.io/autonomous-game-lab/measurement-status.html - Live URL matched status and required text.
+- pass: measurement-status-json - https://moshequ.github.io/autonomous-game-lab/measurement-status.json - Live URL matched status and required text.
 - pass: install-html - https://moshequ.github.io/autonomous-game-lab/install.html - Live URL matched status and required text.
 - pass: compliance-json - https://moshequ.github.io/autonomous-game-lab/compliance.json - Live URL matched status and required text.
 - pass: monetization-json - https://moshequ.github.io/autonomous-game-lab/monetization.json - Live URL matched status and required text.
@@ -67,5 +71,5 @@ Checks: 15/15 passed
 
 ## Next Actions
 
-- Live Pages is reachable and serving pwa-5da9e135a9d6; run the deploy workflow for strict proof of the current local candidate if needed.
+- Live Pages is reachable and serving pwa-422c56366d2b; run the deploy workflow for strict proof of the current local candidate if needed.
 - Keep revenue, paid acquisition, and app-store submission disabled until product and credential gates pass.
