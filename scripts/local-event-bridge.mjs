@@ -26,6 +26,7 @@ const allowedEventNames = new Set([
   'game_abandoned',
   'experiment_assigned',
   'analytics_exported',
+  'analytics_evidence_issue_opened',
   'improvement_requested',
   'prototype_card_viewed',
   'prototype_started',

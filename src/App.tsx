@@ -2252,6 +2252,7 @@ function App() {
       gameId: selectedGameId,
       gameTitle: activeGame.title,
       repository: supportChannel.repository.target ?? null,
+      gateSampleCampaignId: activeGateSampleCampaignId,
     })
 
     if (!evidenceIssue) {

@@ -4790,7 +4790,8 @@ test('aggregate evidence issue link summarizes local analytics without raw event
     }) as typeof window.open
   })
 
-  await page.getByRole('button', { name: 'Share aggregate evidence' }).click()
+  const localEventBridge = page.getByLabel('Local Event Bridge')
+  await localEventBridge.getByRole('button', { name: 'Share aggregate evidence' }).click()
   await page.waitForFunction(
     () => Boolean((window as Window & { __aggregateEvidenceUrl?: string }).__aggregateEvidenceUrl),
   )
@@ -4821,8 +4822,13 @@ test('aggregate evidence issue link summarizes local analytics without raw event
   expect(openedUrl.searchParams.get('summary')).toContain('Aggregate-only browser summary')
   expect(openedText).not.toContain('anon-player')
   expect(openedText).not.toContain('evt-')
+  expect(Number(evidenceEvent?.properties.localCampaignEvents ?? 0)).toBeGreaterThanOrEqual(seedEvents.length)
   expect(evidenceEvent?.properties).toMatchObject({
+    surface: 'autonomy-cockpit-local-event-bridge',
+    channel: 'local-aggregate-evidence',
     gameId: 'harbor-rings',
+    gateId: null,
+    campaignId: null,
     starts: 3,
     completions: 1,
     replays: 1,
@@ -4831,10 +4837,133 @@ test('aggregate evidence issue link summarizes local analytics without raw event
     publicAggregateOnly: true,
     rawEventsIncluded: false,
     identifiersIncluded: false,
+    aggregateEvidenceDoesNotPassGates: true,
     destination: 'github-issues',
+    zeroPaidSpend: true,
+    noRevenueEnablement: true,
   })
 
-  await expect(page.getByLabel('Local Event Bridge')).toContainText('Share aggregate evidence')
+  await expect(localEventBridge).toContainText('Share aggregate evidence')
+})
+
+test('aggregate evidence issue scopes runtime gate sample campaigns', async ({ page }) => {
+  const samplePlan = JSON.parse(await readFile('data/product-gate-sample-plan.json', 'utf8')) as {
+    missions: Array<{
+      id: string
+      gateId: string
+      campaignId: string
+      title: string
+      gameId: string
+    }>
+  }
+  const mission = samplePlan.missions[0]
+  const otherCampaign = 'gate-sample-other-campaign'
+  const seedEvents = [
+    {
+      id: 'evt-scoped-start',
+      name: 'game_started',
+      createdAt: '2026-05-20T10:00:00.000Z',
+      properties: {
+        gameId: mission.gameId,
+        acquisitionCampaign: mission.campaignId,
+        anonymousId: 'anon-scoped-player',
+      },
+    },
+    {
+      id: 'evt-scoped-complete',
+      name: 'level_completed',
+      createdAt: '2026-05-20T10:08:00.000Z',
+      properties: {
+        gameId: mission.gameId,
+        acquisitionCampaign: mission.campaignId,
+        anonymousId: 'anon-scoped-player',
+      },
+    },
+    {
+      id: 'evt-scoped-replay',
+      name: 'replay_clicked',
+      createdAt: '2026-05-20T10:12:00.000Z',
+      properties: {
+        gameId: mission.gameId,
+        acquisitionCampaign: mission.campaignId,
+        anonymousId: 'anon-scoped-player',
+      },
+    },
+    {
+      id: 'evt-other-start',
+      name: 'game_started',
+      createdAt: '2026-05-20T11:00:00.000Z',
+      properties: {
+        gameId: mission.gameId,
+        acquisitionCampaign: otherCampaign,
+        anonymousId: 'anon-other-player',
+      },
+    },
+  ]
+
+  await page.addInitScript((events) => {
+    window.localStorage.setItem('agl.analytics.events', JSON.stringify(events))
+  }, seedEvents)
+  await page.goto(`/?game=${mission.gameId}&utm_source=gate_sample&utm_campaign=${mission.campaignId}`, {
+    waitUntil: 'domcontentloaded',
+  })
+  await page.evaluate(() => {
+    const target = window as Window & { __aggregateEvidenceUrl?: string }
+    target.__aggregateEvidenceUrl = ''
+    window.open = ((url?: string | URL) => {
+      target.__aggregateEvidenceUrl = String(url)
+      return window
+    }) as typeof window.open
+  })
+
+  await page.getByLabel('Local Event Bridge').getByRole('button', { name: 'Share aggregate evidence' }).click()
+  await page.waitForFunction(
+    () => Boolean((window as Window & { __aggregateEvidenceUrl?: string }).__aggregateEvidenceUrl),
+  )
+
+  const opened = await page.evaluate(
+    () => (window as Window & { __aggregateEvidenceUrl?: string }).__aggregateEvidenceUrl ?? '',
+  )
+  const openedUrl = new URL(opened)
+  const openedText = decodeURIComponent(opened)
+  const evidenceEvent = await page.evaluate(() => {
+    const events = JSON.parse(window.localStorage.getItem('agl.analytics.events') ?? '[]') as Array<{
+      name: string
+      properties: Record<string, string | number | boolean | null>
+    }>
+
+    return events.findLast((event) => event.name === 'analytics_evidence_issue_opened')
+  })
+
+  expect(openedUrl.searchParams.get('title')).toContain('gate sample aggregate counts')
+  expect(openedUrl.searchParams.get('game')).toContain(mission.title)
+  expect(openedUrl.searchParams.get('game')).toContain(mission.gateId)
+  expect(openedUrl.searchParams.get('game')).toContain(mission.campaignId)
+  expect(Number(openedUrl.searchParams.get('starts'))).toBeGreaterThanOrEqual(1)
+  expect(Number(openedUrl.searchParams.get('starts'))).toBeLessThan(3)
+  expect(openedUrl.searchParams.get('completions')).toBe('1')
+  expect(openedUrl.searchParams.get('replays')).toBe('1')
+  expect(openedUrl.searchParams.get('summary')).toContain(mission.campaignId)
+  expect(openedUrl.searchParams.get('summary')).toContain('does not pass product gates')
+  expect(openedText).not.toContain(otherCampaign)
+  expect(openedText).not.toContain('anon-scoped-player')
+  expect(openedText).not.toContain('evt-scoped')
+  expect(evidenceEvent?.properties).toMatchObject({
+    surface: 'runtime-gate-sample-handoff',
+    channel: 'product-gate-sample',
+    gameId: mission.gameId,
+    gateId: mission.gateId,
+    campaignId: mission.campaignId,
+    completions: 1,
+    replays: 1,
+    publicAggregateOnly: true,
+    rawEventsIncluded: false,
+    identifiersIncluded: false,
+    aggregateEvidenceDoesNotPassGates: true,
+    destination: 'github-issues',
+    zeroPaidSpend: true,
+    noRevenueEnablement: true,
+  })
 })
 
 test('local event drop folder writes export files without external upload', async ({ page }) => {

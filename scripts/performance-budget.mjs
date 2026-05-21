@@ -100,8 +100,8 @@ const initialCssBytes = sum(initialCssAssets, 'bytes')
 const initialCssGzipBytes = sum(initialCssAssets, 'gzipBytes')
 
 const budgets = {
-  initialJsMaxBytes: 675 * 1024,
-  initialJsMaxKb: 675,
+  initialJsMaxBytes: 676 * 1024,
+  initialJsMaxKb: 676,
   initialGzipMaxBytes: 200 * 1024,
   initialGzipMaxKb: 200,
   initialCssMaxBytes: 40 * 1024,

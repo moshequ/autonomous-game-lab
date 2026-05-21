@@ -1,4 +1,5 @@
 import type { AnalyticsEvent, AnalyticsProperties } from './analytics'
+import { productGateSamplePlan } from '../data/productGateSamplePlan'
 
 const countEventsNamed = (events: AnalyticsEvent[], names: readonly string[]) => {
   const wanted = new Set(names)
@@ -9,6 +10,12 @@ const eventGameId = (event: AnalyticsEvent) => {
   const gameId = event.properties.gameId ?? event.properties.acquisitionGameId
 
   return typeof gameId === 'string' ? gameId : null
+}
+
+const eventCampaignId = (event: AnalyticsEvent) => {
+  const campaignId = event.properties.campaignId ?? event.properties.acquisitionCampaign
+
+  return typeof campaignId === 'string' ? campaignId : null
 }
 
 const eventAnonymousId = (event: AnalyticsEvent) => {
@@ -53,55 +60,79 @@ export const buildAggregateEvidenceIssue = ({
   gameId,
   gameTitle,
   repository,
+  gateSampleCampaignId,
 }: {
   events: AnalyticsEvent[]
   gameId: string
   gameTitle: string
   repository: string | null
+  gateSampleCampaignId?: string
 }): { url: string; telemetry: AnalyticsProperties } | null => {
   if (!repository || !/^[\w.-]+\/[\w.-]+$/.test(repository)) {
     return null
   }
 
+  const gateSample = gateSampleCampaignId
+    ? (productGateSamplePlan.missions.find(
+        (mission) => mission.campaignId === gateSampleCampaignId && mission.gameId === gameId,
+      ) ?? null)
+    : null
   const gameEvents = events.filter((event) => eventGameId(event) === gameId)
+  const scopedEvents = gateSample?.campaignId
+    ? gameEvents.filter((event) => eventCampaignId(event) === gateSample.campaignId)
+    : gameEvents
   const evidence = {
-    eventCount: gameEvents.length,
-    evidenceWindow: evidenceWindowFor(gameEvents.length ? gameEvents : events),
-    starts: countEventsNamed(gameEvents, ['game_started']),
-    completions: countEventsNamed(gameEvents, ['level_completed']),
-    replays: countEventsNamed(gameEvents, ['replay_clicked']),
-    d1Eligible: uniquePlayerCount(gameEvents, ['daily_challenge_completed']),
-    d1Retained: uniquePlayerCount(gameEvents, ['daily_return_intent_started']),
+    eventCount: scopedEvents.length,
+    evidenceWindow: evidenceWindowFor(scopedEvents.length ? scopedEvents : gameEvents.length ? gameEvents : events),
+    starts: countEventsNamed(scopedEvents, ['game_started']),
+    completions: countEventsNamed(scopedEvents, ['level_completed']),
+    replays: countEventsNamed(scopedEvents, ['replay_clicked']),
+    d1Eligible: uniquePlayerCount(scopedEvents, ['daily_challenge_completed']),
+    d1Retained: uniquePlayerCount(scopedEvents, ['daily_return_intent_started']),
   }
   const url = new URL(`https://github.com/${repository}/issues/new`)
+  const issueTitle = gateSample
+    ? `[Evidence] ${gameTitle} gate sample aggregate counts`
+    : `[Evidence] ${gameTitle} aggregate local counts`
+  const gameField = gateSample
+    ? `${gameTitle} (${gameId}; ${gateSample.gateId}; ${gateSample.campaignId})`
+    : `${gameTitle} (${gameId})`
+  const summary = gateSample
+    ? `Aggregate-only browser summary from ${evidence.eventCount} local event(s) for ${gateSample.campaignId} / ${gateSample.gateId}. Raw event rows and identifiers remain on the device. Aggregate evidence supports review but does not pass product gates by itself.`
+    : `Aggregate-only browser summary from ${evidence.eventCount} local event(s). Raw event rows and identifiers remain on the device. Aggregate evidence supports review but does not pass product gates by itself.`
 
   url.searchParams.set('template', 'analytics-evidence.yml')
-  url.searchParams.set('title', `[Evidence] ${gameTitle} aggregate local counts`)
-  url.searchParams.set('game', `${gameTitle} (${gameId})`)
+  url.searchParams.set('title', issueTitle)
+  url.searchParams.set('game', gameField)
   url.searchParams.set('window', evidence.evidenceWindow)
   url.searchParams.set('starts', String(evidence.starts))
   url.searchParams.set('completions', String(evidence.completions))
   url.searchParams.set('replays', String(evidence.replays))
   url.searchParams.set('d1_eligible', String(evidence.d1Eligible))
   url.searchParams.set('d1_retained', String(evidence.d1Retained))
-  url.searchParams.set(
-    'summary',
-    `Aggregate-only browser summary from ${evidence.eventCount} local event(s). Raw event rows and identifiers remain on the device.`,
-  )
+  url.searchParams.set('summary', summary)
 
   return {
     url: url.toString(),
     telemetry: {
+      surface: gateSample ? 'runtime-gate-sample-handoff' : 'autonomy-cockpit-local-event-bridge',
+      channel: gateSample ? 'product-gate-sample' : 'local-aggregate-evidence',
       gameId,
+      gateId: gateSample?.gateId ?? null,
+      campaignId: gateSample?.campaignId ?? null,
       starts: evidence.starts,
       completions: evidence.completions,
       replays: evidence.replays,
       d1Eligible: evidence.d1Eligible,
       d1Retained: evidence.d1Retained,
+      localCampaignEvents: evidence.eventCount,
       publicAggregateOnly: true,
       rawEventsIncluded: false,
       identifiersIncluded: false,
+      aggregateEvidenceDoesNotPassGates: true,
       destination: 'github-issues',
+      zeroPaidSpend: true,
+      noRevenueEnablement: gateSample?.controls.noRevenueEnablement ?? true,
     },
   }
 }
