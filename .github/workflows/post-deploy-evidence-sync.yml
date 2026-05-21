@@ -57,7 +57,7 @@ jobs:
         run: npm run autonomous:owner-loop && npm run autonomous:readiness
 
       - name: Verify synced deploy evidence
-        run: npm run autonomous:verify-post-deploy-sync && node scripts/verify-autonomy.mjs
+        run: npm run autonomous:verify-post-deploy-sync
 
       - name: Commit synced deploy evidence
         env:

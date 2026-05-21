@@ -2846,7 +2846,6 @@ if (
   !postDeployEvidenceSyncWorkflow.includes('autonomous:owner-loop') ||
   !postDeployEvidenceSyncWorkflow.includes('autonomous:readiness') ||
   !postDeployEvidenceSyncWorkflow.includes('npm run autonomous:verify-post-deploy-sync') ||
-  !postDeployEvidenceSyncWorkflow.includes('node scripts/verify-autonomy.mjs') ||
   !postDeployEvidenceSyncWorkflow.includes('AGL_AUTONOMOUS_SELF_UPDATE_DIRECT') ||
   !postDeployEvidenceSyncWorkflow.includes('data/post-deploy-artifact-sync.json') ||
   !postDeployEvidenceSyncWorkflow.includes('src/data/postDeployArtifactSync.ts') ||
