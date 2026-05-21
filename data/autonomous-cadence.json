@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-05-21T23:00:29.255Z",
+  "generatedAt": "2026-05-21T23:07:34.699Z",
   "status": "cadence-ready",
   "cadence": "twice-daily-local-daily-ci",
   "workspace": {
     "path": "/Users/moshequ/Documents/Codex/2026-05-18/i-want-to-have-a-new",
     "repositoryStatus": "repository-channel-ready",
     "repository": "moshequ/autonomous-game-lab",
-    "gitDirtyFiles": 74
+    "gitDirtyFiles": 87
   },
   "schedulers": {
     "codexDesktop": {
@@ -126,8 +126,8 @@
     "staleArtifactCount": 0,
     "missingGeneratedAtCount": 0,
     "invalidArtifactCount": 0,
-    "oldestAgeHours": 5.19,
-    "latestGeneratedAt": "2026-05-21T23:00:28.997Z",
+    "oldestAgeHours": 5.31,
+    "latestGeneratedAt": "2026-05-21T23:07:34.357Z",
     "oldestGeneratedAt": "2026-05-21T17:48:58.103Z",
     "staleArtifactIds": []
   },
@@ -137,7 +137,7 @@
       "label": "Owner loop decision",
       "path": "data/autonomous-owner-loop.json",
       "status": "fresh",
-      "generatedAt": "2026-05-21T22:59:59.738Z",
+      "generatedAt": "2026-05-21T23:07:05.676Z",
       "ageHours": 0.01,
       "staleAfterHours": 36,
       "detail": "data/autonomous-owner-loop.json is 0.01h old."
@@ -147,7 +147,7 @@
       "label": "Operator execution",
       "path": "data/autonomous-operator.json",
       "status": "fresh",
-      "generatedAt": "2026-05-21T23:00:00.046Z",
+      "generatedAt": "2026-05-21T23:07:05.925Z",
       "ageHours": 0.01,
       "staleAfterHours": 36,
       "detail": "data/autonomous-operator.json is 0.01h old."
@@ -157,17 +157,17 @@
       "label": "Autonomous self-update",
       "path": "data/autonomous-self-update.json",
       "status": "fresh",
-      "generatedAt": "2026-05-21T22:52:42.472Z",
-      "ageHours": 0.13,
+      "generatedAt": "2026-05-21T23:00:29.558Z",
+      "ageHours": 0.12,
       "staleAfterHours": 36,
-      "detail": "data/autonomous-self-update.json is 0.13h old."
+      "detail": "data/autonomous-self-update.json is 0.12h old."
     },
     {
       "id": "production-readiness",
       "label": "Production readiness",
       "path": "data/production-readiness.json",
       "status": "fresh",
-      "generatedAt": "2026-05-21T23:00:28.747Z",
+      "generatedAt": "2026-05-21T23:07:34.105Z",
       "ageHours": 0,
       "staleAfterHours": 36,
       "detail": "data/production-readiness.json is 0h old."
@@ -177,7 +177,7 @@
       "label": "Deployment plan",
       "path": "data/deployment-plan.json",
       "status": "fresh",
-      "generatedAt": "2026-05-21T23:00:28.997Z",
+      "generatedAt": "2026-05-21T23:07:34.357Z",
       "ageHours": 0,
       "staleAfterHours": 36,
       "detail": "data/deployment-plan.json is 0h old."
@@ -187,7 +187,7 @@
       "label": "Repository readiness",
       "path": "data/repository-readiness.json",
       "status": "fresh",
-      "generatedAt": "2026-05-21T23:00:26.408Z",
+      "generatedAt": "2026-05-21T23:07:31.730Z",
       "ageHours": 0,
       "staleAfterHours": 36,
       "detail": "data/repository-readiness.json is 0h old."
@@ -197,7 +197,7 @@
       "label": "Repository bootstrap",
       "path": "data/repository-bootstrap.json",
       "status": "fresh",
-      "generatedAt": "2026-05-21T23:00:27.451Z",
+      "generatedAt": "2026-05-21T23:07:32.800Z",
       "ageHours": 0,
       "staleAfterHours": 36,
       "detail": "data/repository-bootstrap.json is 0h old."
@@ -207,7 +207,7 @@
       "label": "Production bootstrap",
       "path": "data/production-bootstrap.json",
       "status": "fresh",
-      "generatedAt": "2026-05-21T23:00:22.902Z",
+      "generatedAt": "2026-05-21T23:07:28.263Z",
       "ageHours": 0,
       "staleAfterHours": 36,
       "detail": "data/production-bootstrap.json is 0h old."
@@ -217,7 +217,7 @@
       "label": "Production activation",
       "path": "data/production-activation.json",
       "status": "fresh",
-      "generatedAt": "2026-05-21T23:00:27.697Z",
+      "generatedAt": "2026-05-21T23:07:33.049Z",
       "ageHours": 0,
       "staleAfterHours": 36,
       "detail": "data/production-activation.json is 0h old."
@@ -228,16 +228,16 @@
       "path": "data/production-environment.json",
       "status": "fresh",
       "generatedAt": "2026-05-21T17:48:58.103Z",
-      "ageHours": 5.19,
+      "ageHours": 5.31,
       "staleAfterHours": 36,
-      "detail": "data/production-environment.json is 5.19h old."
+      "detail": "data/production-environment.json is 5.31h old."
     },
     {
       "id": "event-collector-deployment",
       "label": "Event collector deployment",
       "path": "data/event-collector-deployment.json",
       "status": "fresh",
-      "generatedAt": "2026-05-21T23:00:00.841Z",
+      "generatedAt": "2026-05-21T23:07:06.656Z",
       "ageHours": 0.01,
       "staleAfterHours": 36,
       "detail": "data/event-collector-deployment.json is 0.01h old."
@@ -247,7 +247,7 @@
       "label": "Event collector smoke",
       "path": "data/event-collector-smoke.json",
       "status": "fresh",
-      "generatedAt": "2026-05-21T23:00:00.572Z",
+      "generatedAt": "2026-05-21T23:07:06.412Z",
       "ageHours": 0.01,
       "staleAfterHours": 36,
       "detail": "data/event-collector-smoke.json is 0.01h old."
@@ -257,7 +257,7 @@
       "label": "Local event bridge",
       "path": "data/local-event-bridge.json",
       "status": "fresh",
-      "generatedAt": "2026-05-21T23:00:01.723Z",
+      "generatedAt": "2026-05-21T23:07:07.584Z",
       "ageHours": 0.01,
       "staleAfterHours": 36,
       "detail": "data/local-event-bridge.json is 0.01h old."
@@ -267,7 +267,7 @@
       "label": "Event ingest",
       "path": "data/event-ingest.json",
       "status": "fresh",
-      "generatedAt": "2026-05-21T23:00:01.965Z",
+      "generatedAt": "2026-05-21T23:07:07.830Z",
       "ageHours": 0.01,
       "staleAfterHours": 36,
       "detail": "data/event-ingest.json is 0.01h old."
@@ -277,7 +277,7 @@
       "label": "Event ingest smoke",
       "path": "data/event-ingest-smoke.json",
       "status": "fresh",
-      "generatedAt": "2026-05-21T23:00:01.632Z",
+      "generatedAt": "2026-05-21T23:07:07.495Z",
       "ageHours": 0.01,
       "staleAfterHours": 36,
       "detail": "data/event-ingest-smoke.json is 0.01h old."
@@ -287,7 +287,7 @@
       "label": "Analytics rollup",
       "path": "data/analytics-rollup.json",
       "status": "fresh",
-      "generatedAt": "2026-05-21T23:00:02.209Z",
+      "generatedAt": "2026-05-21T23:07:08.086Z",
       "ageHours": 0.01,
       "staleAfterHours": 36,
       "detail": "data/analytics-rollup.json is 0.01h old."
@@ -298,56 +298,56 @@
       "path": "data/experiment-results.json",
       "status": "fresh",
       "generatedAt": "2026-05-21T17:49:12.511Z",
-      "ageHours": 5.19,
+      "ageHours": 5.31,
       "staleAfterHours": 36,
-      "detail": "data/experiment-results.json is 5.19h old."
+      "detail": "data/experiment-results.json is 5.31h old."
     },
     {
       "id": "growth-plan",
       "label": "Growth pages and organic routes",
       "path": "data/growth-plan.json",
       "status": "fresh",
-      "generatedAt": "2026-05-21T22:51:08.333Z",
-      "ageHours": 0.16,
+      "generatedAt": "2026-05-21T23:06:23.156Z",
+      "ageHours": 0.02,
       "staleAfterHours": 36,
-      "detail": "data/growth-plan.json is 0.16h old."
+      "detail": "data/growth-plan.json is 0.02h old."
     },
     {
       "id": "portfolio-policy",
       "label": "Portfolio traffic policy",
       "path": "data/portfolio-policy.json",
       "status": "fresh",
-      "generatedAt": "2026-05-21T22:51:08.594Z",
-      "ageHours": 0.16,
+      "generatedAt": "2026-05-21T23:06:23.434Z",
+      "ageHours": 0.02,
       "staleAfterHours": 36,
-      "detail": "data/portfolio-policy.json is 0.16h old."
+      "detail": "data/portfolio-policy.json is 0.02h old."
     },
     {
       "id": "traffic-seeding",
       "label": "Zero-spend traffic seeding",
       "path": "data/traffic-seeding.json",
       "status": "fresh",
-      "generatedAt": "2026-05-21T22:51:08.886Z",
-      "ageHours": 0.16,
+      "generatedAt": "2026-05-21T23:06:23.720Z",
+      "ageHours": 0.02,
       "staleAfterHours": 36,
-      "detail": "data/traffic-seeding.json is 0.16h old."
+      "detail": "data/traffic-seeding.json is 0.02h old."
     },
     {
       "id": "acquisition-learning",
       "label": "Acquisition learning",
       "path": "data/acquisition-learning.json",
       "status": "fresh",
-      "generatedAt": "2026-05-21T22:51:09.169Z",
-      "ageHours": 0.16,
+      "generatedAt": "2026-05-21T23:06:24.008Z",
+      "ageHours": 0.02,
       "staleAfterHours": 36,
-      "detail": "data/acquisition-learning.json is 0.16h old."
+      "detail": "data/acquisition-learning.json is 0.02h old."
     },
     {
       "id": "organic-seed-loop",
       "label": "Organic seed loop",
       "path": "data/organic-seed-loop.json",
       "status": "fresh",
-      "generatedAt": "2026-05-21T22:59:20.702Z",
+      "generatedAt": "2026-05-21T23:06:24.343Z",
       "ageHours": 0.02,
       "staleAfterHours": 36,
       "detail": "data/organic-seed-loop.json is 0.02h old."
@@ -357,7 +357,7 @@
       "label": "Retention loop",
       "path": "data/retention-loop.json",
       "status": "fresh",
-      "generatedAt": "2026-05-21T23:00:02.467Z",
+      "generatedAt": "2026-05-21T23:07:08.340Z",
       "ageHours": 0.01,
       "staleAfterHours": 36,
       "detail": "data/retention-loop.json is 0.01h old."
@@ -367,7 +367,7 @@
       "label": "Release candidate",
       "path": "data/release-candidate.json",
       "status": "fresh",
-      "generatedAt": "2026-05-21T23:00:11.531Z",
+      "generatedAt": "2026-05-21T23:07:17.045Z",
       "ageHours": 0,
       "staleAfterHours": 36,
       "detail": "data/release-candidate.json is 0h old."
@@ -377,7 +377,7 @@
       "label": "Post-deploy smoke",
       "path": "data/post-deploy-smoke.json",
       "status": "fresh",
-      "generatedAt": "2026-05-21T23:00:24.491Z",
+      "generatedAt": "2026-05-21T23:07:29.876Z",
       "ageHours": 0,
       "staleAfterHours": 36,
       "detail": "data/post-deploy-smoke.json is 0h old."
@@ -387,17 +387,17 @@
       "label": "Post-deploy artifact sync",
       "path": "data/post-deploy-artifact-sync.json",
       "status": "fresh",
-      "generatedAt": "2026-05-21T22:57:46.342Z",
-      "ageHours": 0.05,
+      "generatedAt": "2026-05-21T23:03:45.639Z",
+      "ageHours": 0.06,
       "staleAfterHours": 36,
-      "detail": "data/post-deploy-artifact-sync.json is 0.05h old."
+      "detail": "data/post-deploy-artifact-sync.json is 0.06h old."
     },
     {
       "id": "live-site-monitor",
       "label": "Continuous live site monitor",
       "path": "data/live-site-monitor.json",
       "status": "fresh",
-      "generatedAt": "2026-05-21T23:00:24.754Z",
+      "generatedAt": "2026-05-21T23:07:30.137Z",
       "ageHours": 0,
       "staleAfterHours": 36,
       "detail": "data/live-site-monitor.json is 0h old."
@@ -408,9 +408,9 @@
       "path": "data/release-health.json",
       "status": "fresh",
       "generatedAt": "2026-05-21T17:49:12.288Z",
-      "ageHours": 5.19,
+      "ageHours": 5.31,
       "staleAfterHours": 36,
-      "detail": "data/release-health.json is 5.19h old."
+      "detail": "data/release-health.json is 5.31h old."
     },
     {
       "id": "product-optimization",
@@ -418,16 +418,16 @@
       "path": "data/product-optimization.json",
       "status": "fresh",
       "generatedAt": "2026-05-21T17:49:06.826Z",
-      "ageHours": 5.19,
+      "ageHours": 5.31,
       "staleAfterHours": 36,
-      "detail": "data/product-optimization.json is 5.19h old."
+      "detail": "data/product-optimization.json is 5.31h old."
     },
     {
       "id": "product-gate-recovery",
       "label": "Product gate recovery",
       "path": "data/product-gate-recovery.json",
       "status": "fresh",
-      "generatedAt": "2026-05-21T23:00:03.090Z",
+      "generatedAt": "2026-05-21T23:07:08.863Z",
       "ageHours": 0.01,
       "staleAfterHours": 36,
       "detail": "data/product-gate-recovery.json is 0.01h old."
@@ -437,7 +437,7 @@
       "label": "Product gate sample plan",
       "path": "data/product-gate-sample-plan.json",
       "status": "fresh",
-      "generatedAt": "2026-05-21T23:00:03.346Z",
+      "generatedAt": "2026-05-21T23:07:09.126Z",
       "ageHours": 0.01,
       "staleAfterHours": 36,
       "detail": "data/product-gate-sample-plan.json is 0.01h old."
@@ -448,9 +448,9 @@
       "path": "data/completion-loop.json",
       "status": "fresh",
       "generatedAt": "2026-05-21T21:23:14.679Z",
-      "ageHours": 1.62,
+      "ageHours": 1.74,
       "staleAfterHours": 36,
-      "detail": "data/completion-loop.json is 1.62h old."
+      "detail": "data/completion-loop.json is 1.74h old."
     },
     {
       "id": "replay-loop",
@@ -458,9 +458,9 @@
       "path": "data/replay-loop.json",
       "status": "fresh",
       "generatedAt": "2026-05-21T21:31:47.759Z",
-      "ageHours": 1.48,
+      "ageHours": 1.6,
       "staleAfterHours": 36,
-      "detail": "data/replay-loop.json is 1.48h old."
+      "detail": "data/replay-loop.json is 1.6h old."
     },
     {
       "id": "first-move-coach",
@@ -468,16 +468,16 @@
       "path": "data/first-move-coach.json",
       "status": "fresh",
       "generatedAt": "2026-05-21T17:49:38.072Z",
-      "ageHours": 5.18,
+      "ageHours": 5.3,
       "staleAfterHours": 36,
-      "detail": "data/first-move-coach.json is 5.18h old."
+      "detail": "data/first-move-coach.json is 5.3h old."
     },
     {
       "id": "pwa-install-loop",
       "label": "PWA install loop",
       "path": "data/pwa-install-loop.json",
       "status": "fresh",
-      "generatedAt": "2026-05-21T23:00:02.736Z",
+      "generatedAt": "2026-05-21T23:07:08.601Z",
       "ageHours": 0.01,
       "staleAfterHours": 36,
       "detail": "data/pwa-install-loop.json is 0.01h old."
@@ -488,9 +488,9 @@
       "path": "data/applied-improvements.json",
       "status": "fresh",
       "generatedAt": "2026-05-21T17:49:12.738Z",
-      "ageHours": 5.19,
+      "ageHours": 5.31,
       "staleAfterHours": 36,
-      "detail": "data/applied-improvements.json is 5.19h old."
+      "detail": "data/applied-improvements.json is 5.31h old."
     },
     {
       "id": "improvement-backlog",
@@ -498,9 +498,9 @@
       "path": "data/improvement-backlog-summary.json",
       "status": "fresh",
       "generatedAt": "2026-05-21T17:49:06.605Z",
-      "ageHours": 5.19,
+      "ageHours": 5.31,
       "staleAfterHours": 36,
-      "detail": "data/improvement-backlog-summary.json is 5.19h old."
+      "detail": "data/improvement-backlog-summary.json is 5.31h old."
     },
     {
       "id": "improvement-routing",
@@ -508,16 +508,16 @@
       "path": "data/improvement-routing.json",
       "status": "fresh",
       "generatedAt": "2026-05-21T17:49:06.605Z",
-      "ageHours": 5.19,
+      "ageHours": 5.31,
       "staleAfterHours": 36,
-      "detail": "data/improvement-routing.json is 5.19h old."
+      "detail": "data/improvement-routing.json is 5.31h old."
     },
     {
       "id": "objective-audit",
       "label": "Objective audit",
       "path": "data/objective-audit.json",
       "status": "fresh",
-      "generatedAt": "2026-05-21T22:59:58.136Z",
+      "generatedAt": "2026-05-21T23:07:04.070Z",
       "ageHours": 0.01,
       "staleAfterHours": 36,
       "detail": "data/objective-audit.json is 0.01h old."
