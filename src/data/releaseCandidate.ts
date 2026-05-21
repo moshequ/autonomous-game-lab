@@ -1,7 +1,7 @@
 export const releaseCandidate = {
-  "generatedAt": "2026-05-21T05:06:10.375Z",
+  "generatedAt": "2026-05-21T05:13:20.372Z",
   "status": "release-candidate-ready",
-  "candidateId": "pwa-a33073a40bb3",
+  "candidateId": "pwa-52ec41fc6f78",
   "target": {
     "provider": "github-pages",
     "artifactPath": "dist",
@@ -12,7 +12,7 @@ export const releaseCandidate = {
   },
   "summary": {
     "totalFiles": 44,
-    "totalBytes": 3704845,
+    "totalBytes": 3704843,
     "totalKb": 3618,
     "assetFiles": 3,
     "htmlFiles": 16,
@@ -22,7 +22,7 @@ export const releaseCandidate = {
   },
   "integrity": {
     "algorithm": "sha256",
-    "aggregateHash": "a33073a40bb34861405cfbb54f0ecb78a7ba6c37f1a6a6fd1ac70b5d536c5479",
+    "aggregateHash": "52ec41fc6f7867eda6d351306151b51dd617d3d804de6a7df80a5d8cbde9f65e",
     "files": [
       {
         "path": ".nojekyll",
@@ -46,16 +46,16 @@ export const releaseCandidate = {
         "cacheControl": "public, max-age=3600"
       },
       {
-        "path": "assets/GameCanvas-czB84Gpu.js",
+        "path": "assets/GameCanvas-CpRZHHNS.js",
         "bytes": 1393755,
-        "sha256": "2def80fc1676a3f3390e58b4dd50cbdcd9525551f435aeaac07461a89ee1356f",
+        "sha256": "af8db3d67f422e79fcdcbef80a14851709539c67879a266c1e367283f1eaeff2",
         "contentType": "text/javascript; charset=utf-8",
         "cacheControl": "public, max-age=31536000, immutable"
       },
       {
-        "path": "assets/index-CukO-c-w.js",
-        "bytes": 670489,
-        "sha256": "9dac575c28a5769e7dfb97306d9e84476d74d7b7266d9099c855d7dc2bf240fe",
+        "path": "assets/index-BycRWCV1.js",
+        "bytes": 670487,
+        "sha256": "02b84d556905457914a8b60223a46d600a277e3e5be0f6dc69735d05cb3c0c1a",
         "contentType": "text/javascript; charset=utf-8",
         "cacheControl": "public, max-age=31536000, immutable"
       },
@@ -216,7 +216,7 @@ export const releaseCandidate = {
       {
         "path": "index.html",
         "bytes": 903,
-        "sha256": "f327ec6dde6c85fcda17bb4e1797bd54d942808b43fc03b11a374afe2b2c39fd",
+        "sha256": "d38be103fe410d3f8b4e4dfb9539c61d12f89f0da8a7042dad36380572b8d686",
         "contentType": "text/html; charset=utf-8",
         "cacheControl": "no-cache"
       },
@@ -321,7 +321,7 @@ export const releaseCandidate = {
       {
         "path": "sw.js",
         "bytes": 3735,
-        "sha256": "bbd780c02cccbcc8459627c12f4d7fe8d05404c53dfc7092e8bc92be450f35a6",
+        "sha256": "0cc7742815c77d2f90d06ed60c0f34419b60fedfa99d1aa3367f0b8fd2ac05ee",
         "contentType": "text/javascript; charset=utf-8",
         "cacheControl": "no-cache"
       },

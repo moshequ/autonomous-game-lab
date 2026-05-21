@@ -1,23 +1,22 @@
 {
-  "generatedAt": "2026-05-21T05:06:37.505Z",
+  "generatedAt": "2026-05-21T05:13:48.893Z",
   "status": "operator-plan-ready",
   "mode": "plan-only",
   "ownerDecision": {
-    "actionId": "refresh-autonomous-cadence",
-    "command": "npm run autonomous:cadence",
+    "actionId": "measure-pwa-install-loop",
+    "command": "npm run autonomous:pwa-install",
     "locallyExecutable": true,
     "rejectionReason": null
   },
   "requestedActionId": null,
   "selectedAction": {
-    "id": "refresh-autonomous-cadence",
+    "id": "measure-pwa-install-loop",
     "status": "armed",
-    "command": "npm run autonomous:cadence",
+    "command": "npm run autonomous:pwa-install",
     "targets": [
-      "autonomous-game-lab-daily-owner-loop",
-      ".github/workflows/autonomous-daily.yml"
+      "pwa-install"
     ],
-    "reason": "Keeps the unattended daily operating cadence, recovery policy, and verification chain auditable.",
+    "reason": "Measures optional PWA install prompts and standalone launches as the zero-cost distribution path.",
     "costUsd": 0
   },
   "selectedRejection": null,
@@ -38,6 +37,12 @@
       "status": "armed",
       "command": "npm run autonomous:daily",
       "reason": "daily-loop-recursion-blocked"
+    },
+    {
+      "id": "refresh-autonomous-cadence",
+      "status": "armed",
+      "command": "npm run autonomous:cadence",
+      "reason": "not-selected-this-run"
     },
     {
       "id": "refresh-autonomous-self-update",
@@ -68,12 +73,6 @@
       "status": "monitor",
       "command": "npm run autonomous:retention",
       "reason": "status-monitor"
-    },
-    {
-      "id": "measure-pwa-install-loop",
-      "status": "armed",
-      "command": "npm run autonomous:pwa-install",
-      "reason": "not-selected-this-run"
     },
     {
       "id": "check-performance-budget",
@@ -210,8 +209,8 @@
   ],
   "commandPlan": [
     {
-      "segment": "npm run autonomous:cadence",
-      "script": "autonomous:cadence"
+      "segment": "npm run autonomous:pwa-install",
+      "script": "autonomous:pwa-install"
     }
   ],
   "execution": {
@@ -281,7 +280,7 @@
     "RUN_WORKFLOWS=1"
   ],
   "nextActions": [
-    "Run npm run autonomous:operator -- --execute --action=refresh-autonomous-cadence to execute exactly one allowed local action.",
+    "Run npm run autonomous:operator -- --execute --action=measure-pwa-install-loop to execute exactly one allowed local action.",
     "Do not execute GitHub workflow, store, paid ads, or account setup commands from the local operator."
   ]
 }
