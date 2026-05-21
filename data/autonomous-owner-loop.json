@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-21T19:13:51.728Z",
+  "generatedAt": "2026-05-21T19:16:33.132Z",
   "status": "owner-loop-ready",
   "mode": "zero-spend-web-ready",
   "autonomyScore": {
@@ -43,14 +43,14 @@
     ],
     "lastExecutedActionId": "refresh-replay-loop",
     "lastExecutedStatus": "executed",
-    "lastRecordExecutionStatus": "executed",
+    "lastRecordExecutionStatus": "not-requested",
     "recentlySatisfiedActionIds": [
       "refresh-organic-seed-loop"
     ],
     "objectiveAuditFreshness": {
       "fresh": true,
       "structurallyReady": true,
-      "auditGeneratedAt": "2026-05-21T19:12:21.794Z",
+      "auditGeneratedAt": "2026-05-21T19:16:32.576Z",
       "evaluatedInputIds": [
         "analytics-rollup",
         "event-ingest",
@@ -74,7 +74,7 @@
         "ready": true,
         "status": "cadence-ready",
         "artifactGeneratedAt": "2026-05-21T17:52:12.741Z",
-        "ageHours": 1.361,
+        "ageHours": 1.406,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -85,7 +85,7 @@
         "ready": true,
         "status": "self-update-ready",
         "artifactGeneratedAt": "2026-05-21T18:05:44.615Z",
-        "ageHours": 1.135,
+        "ageHours": 1.18,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -96,7 +96,7 @@
         "ready": true,
         "status": "support-feedback-empty",
         "artifactGeneratedAt": "2026-05-21T17:48:59.987Z",
-        "ageHours": 1.414,
+        "ageHours": 1.459,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -106,8 +106,8 @@
         "fresh": true,
         "ready": true,
         "status": "performance-budget-ready",
-        "artifactGeneratedAt": "2026-05-21T19:12:14.535Z",
-        "ageHours": 0.027,
+        "artifactGeneratedAt": "2026-05-21T19:16:22.153Z",
+        "ageHours": 0.003,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -117,8 +117,8 @@
         "fresh": true,
         "ready": true,
         "status": "live-site-monitor-passed",
-        "artifactGeneratedAt": "2026-05-21T19:12:20.615Z",
-        "ageHours": 0.025,
+        "artifactGeneratedAt": "2026-05-21T19:16:31.363Z",
+        "ageHours": 0,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -411,8 +411,8 @@
       "liveSiteMonitorFresh": true,
       "smokeActionFresh": true,
       "releaseCandidateActionFresh": true,
-      "liveCandidateId": "pwa-58a3b5126fbb",
-      "artifactCandidateId": "pwa-58a3b5126fbb"
+      "liveCandidateId": "pwa-6c59dc5918b1",
+      "artifactCandidateId": "pwa-6c59dc5918b1"
     },
     "skippedRecentlyExecutedActionIds": [
       "optimize-store-listing"
@@ -452,7 +452,7 @@
     },
     "productionBootstrapFreshness": {
       "fresh": true,
-      "bootstrapGeneratedAt": "2026-05-21T19:12:20.933Z",
+      "bootstrapGeneratedAt": "2026-05-21T19:16:31.738Z",
       "evaluatedInputIds": [
         "release-candidate",
         "deployment-plan",
@@ -467,7 +467,7 @@
       "current": true,
       "ready": true,
       "status": "handoff-waiting-on-owner-inputs",
-      "generatedAt": "2026-05-21T19:12:21.241Z",
+      "generatedAt": "2026-05-21T19:16:32.034Z",
       "nextBestUnlockId": "production-analytics-browser",
       "ownerActionRequired": 4,
       "missingEnv": 7,
@@ -688,13 +688,13 @@
       "status": "ready",
       "autonomy": "read-only-live-deploy-verification",
       "evidence": "Smoke post-deploy-smoke-observed-live; origin https://moshequ.github.io/autonomous-game-lab; manifest comparison required; checks 17/17 passed; local artifact predeploy-artifact-smoke-passed 17/17 passed.",
-      "nextAction": "Live Pages is reachable and serving pwa-58a3b5126fbb; run the deploy workflow for strict proof of the current local candidate if needed."
+      "nextAction": "Live Pages is reachable and serving pwa-6c59dc5918b1; run the deploy workflow for strict proof of the current local candidate if needed."
     },
     {
       "id": "post-deploy-artifact-sync",
       "status": "ready",
       "autonomy": "read-only-actions-artifact-import",
-      "evidence": "Artifact sync post-deploy-artifact-sync-passed; run 26247437202; live matches artifact true; strict true.",
+      "evidence": "Artifact sync post-deploy-artifact-sync-passed; run 26247631191; live matches artifact true; strict true.",
       "nextAction": "Keep this strict deploy artifact as live-production evidence while local candidates continue to iterate."
     },
     {
@@ -736,7 +736,7 @@
       "id": "autonomous-operator",
       "status": "ready",
       "autonomy": "one-safe-action-runner",
-      "evidence": "Operator operator-executed; selected refresh-replay-loop; execution executed.",
+      "evidence": "Operator operator-plan-ready; selected refresh-product-gate-recovery; execution not-requested.",
       "nextAction": "Keep a dry-run operator plan ready, then execute only one allowlisted local action when explicitly requested."
     },
     {
@@ -896,7 +896,7 @@
       "command": "npm run build && npm run autonomous:performance && npm run autonomous:release-candidate",
       "targets": [
         "pwa-shell",
-        "GameCanvas-DzHoo58v.js",
+        "GameCanvas-BOW81JOU.js",
         "dist-release-candidate"
       ],
       "reason": "Performance budget and release-candidate evidence are already fresh for the current guarded build."
@@ -929,7 +929,7 @@
       "costUsd": 0,
       "command": "npm run autonomous:post-deploy-artifact-sync",
       "targets": [
-        26247437202,
+        26247631191,
         "release-candidate-manifest"
       ],
       "reason": "Strict deploy artifact evidence is already synced from the latest successful Pages workflow."
@@ -1067,7 +1067,7 @@
       "costUsd": 0,
       "command": "npm run autonomous:operator",
       "targets": [
-        "refresh-replay-loop"
+        "refresh-product-gate-recovery"
       ],
       "reason": "One-action operator plan is already published; avoid cycling on meta-operator refreshes."
     },
@@ -1077,7 +1077,7 @@
       "costUsd": 0,
       "command": "npm run autonomous:operator",
       "targets": [
-        "refresh-replay-loop"
+        "refresh-product-gate-recovery"
       ],
       "reason": "Operator history is already capped and published; keep attention on product evidence."
     },
@@ -1292,7 +1292,7 @@
     "productionBlockerHandoffStatus": "handoff-waiting-on-owner-inputs",
     "supportChannelStatus": "support-channel-ready",
     "supportFeedbackStatus": "support-feedback-empty",
-    "autonomousOperatorStatus": "operator-executed",
+    "autonomousOperatorStatus": "operator-plan-ready",
     "autonomousOperatorHistoryStatus": "operator-history-ready",
     "objectiveAuditStatus": "objective-in-progress",
     "storeListingOptimizerStatus": "store-listing-optimizer-ready",

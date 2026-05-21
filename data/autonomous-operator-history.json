@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-21T19:13:51.975Z",
+  "generatedAt": "2026-05-21T19:16:32.950Z",
   "status": "operator-history-ready",
   "retention": {
     "maxRecords": 40,
@@ -38,67 +38,6 @@
     "historyIsCapped": true
   },
   "records": [
-    {
-      "id": "20260521175213-prepare-repository-channel",
-      "generatedAt": "2026-05-21T17:52:13.787Z",
-      "runFingerprint": "fc255419a6b605c5",
-      "mode": "plan-only",
-      "status": "operator-plan-ready",
-      "selectedActionId": "prepare-repository-channel",
-      "selectedCommand": "npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap",
-      "eligibleActionIds": [
-        "refresh-autonomous-self-update",
-        "seed-portfolio-traffic",
-        "refresh-organic-seed-loop",
-        "refresh-completion-loop",
-        "prepare-repository-channel",
-        "bootstrap-production-setup"
-      ],
-      "blockedActionCount": 32,
-      "execution": {
-        "requested": false,
-        "status": "not-requested",
-        "attemptedActionId": null,
-        "resultCount": 0,
-        "failedScripts": []
-      },
-      "controls": {
-        "zeroPaidSpend": true,
-        "localCommandAllowlistEnforced": true,
-        "externalWorkflowExecutionBlockedByDefault": true,
-        "maxActionsPerRun": 1
-      }
-    },
-    {
-      "id": "20260521175444-prepare-repository-channel",
-      "generatedAt": "2026-05-21T17:54:44.486Z",
-      "runFingerprint": "5f605a70203390e9",
-      "mode": "plan-only",
-      "status": "operator-plan-ready",
-      "selectedActionId": "prepare-repository-channel",
-      "selectedCommand": "npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap",
-      "eligibleActionIds": [
-        "seed-portfolio-traffic",
-        "refresh-organic-seed-loop",
-        "refresh-completion-loop",
-        "prepare-repository-channel",
-        "bootstrap-production-setup"
-      ],
-      "blockedActionCount": 32,
-      "execution": {
-        "requested": false,
-        "status": "not-requested",
-        "attemptedActionId": null,
-        "resultCount": 0,
-        "failedScripts": []
-      },
-      "controls": {
-        "zeroPaidSpend": true,
-        "localCommandAllowlistEnforced": true,
-        "externalWorkflowExecutionBlockedByDefault": true,
-        "maxActionsPerRun": 1
-      }
-    },
     {
       "id": "20260521175622-refresh-completion-loop",
       "generatedAt": "2026-05-21T17:56:22.327Z",
@@ -1143,6 +1082,61 @@
     {
       "id": "20260521191351-refresh-product-gate-recovery",
       "generatedAt": "2026-05-21T19:13:51.975Z",
+      "runFingerprint": "d2cff3d09b6aa1e5",
+      "mode": "plan-only",
+      "status": "operator-plan-ready",
+      "selectedActionId": "refresh-product-gate-recovery",
+      "selectedCommand": "npm run autonomous:gate-recovery && npm run autonomous:sample-plan",
+      "eligibleActionIds": [
+        "refresh-product-gate-recovery",
+        "optimize-store-listing"
+      ],
+      "blockedActionCount": 32,
+      "execution": {
+        "requested": false,
+        "status": "not-requested",
+        "attemptedActionId": null,
+        "resultCount": 0,
+        "failedScripts": []
+      },
+      "controls": {
+        "zeroPaidSpend": true,
+        "localCommandAllowlistEnforced": true,
+        "externalWorkflowExecutionBlockedByDefault": true,
+        "maxActionsPerRun": 1
+      }
+    },
+    {
+      "id": "20260521191632-refresh-product-gate-recovery",
+      "generatedAt": "2026-05-21T19:16:32.413Z",
+      "runFingerprint": "1e39fae0b1141b03",
+      "mode": "plan-only",
+      "status": "operator-plan-ready",
+      "selectedActionId": "refresh-product-gate-recovery",
+      "selectedCommand": "npm run autonomous:gate-recovery && npm run autonomous:sample-plan",
+      "eligibleActionIds": [
+        "refresh-product-gate-recovery",
+        "refresh-objective-audit",
+        "optimize-store-listing"
+      ],
+      "blockedActionCount": 32,
+      "execution": {
+        "requested": false,
+        "status": "not-requested",
+        "attemptedActionId": null,
+        "resultCount": 0,
+        "failedScripts": []
+      },
+      "controls": {
+        "zeroPaidSpend": true,
+        "localCommandAllowlistEnforced": true,
+        "externalWorkflowExecutionBlockedByDefault": true,
+        "maxActionsPerRun": 1
+      }
+    },
+    {
+      "id": "20260521191632-refresh-product-gate-recovery",
+      "generatedAt": "2026-05-21T19:16:32.950Z",
       "runFingerprint": "d2cff3d09b6aa1e5",
       "mode": "plan-only",
       "status": "operator-plan-ready",

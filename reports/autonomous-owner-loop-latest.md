@@ -1,6 +1,6 @@
 # Autonomous Owner Loop
 
-Generated: 2026-05-21T19:13:51.728Z
+Generated: 2026-05-21T19:16:33.132Z
 Status: owner-loop-ready
 Mode: zero-spend-web-ready
 Autonomy score: 43/44 (98%)
@@ -44,13 +44,13 @@ Autonomy score: 43/44 (98%)
 - ready: web-deployment - Deployment ready-for-pages; web readiness ready-after-build; promotion promotable-internal.
 - ready: release-candidate - Release candidate release-candidate-ready; files 47; smoke URLs 16.
 - ready: post-deploy-smoke - Smoke post-deploy-smoke-observed-live; origin https://moshequ.github.io/autonomous-game-lab; manifest comparison required; checks 17/17 passed; local artifact predeploy-artifact-smoke-passed 17/17 passed.
-- ready: post-deploy-artifact-sync - Artifact sync post-deploy-artifact-sync-passed; run 26247437202; live matches artifact true; strict true.
+- ready: post-deploy-artifact-sync - Artifact sync post-deploy-artifact-sync-passed; run 26247631191; live matches artifact true; strict true.
 - ready: live-site-monitor - Live monitor live-site-monitor-passed; origin https://moshequ.github.io/autonomous-game-lab; checks 17/17; live matches synced deploy true.
 - ready: production-bootstrap - Bootstrap production-bootstrap-ready; mode can-apply-configured-actions; external blockers 16.
 - ready: production-activation - Activation activation-ready; mode dry-run; execution dry-run; gh ready.
 - ready: production-blocker-handoff - Handoff handoff-waiting-on-owner-inputs; next production-analytics-browser; owner inputs 4; missing env 7; missing secrets 3.
 - ready: support-channel - Support channel support-channel-ready; repository moshequ/autonomous-game-lab; public intake ready; aggregate evidence only true.
-- ready: autonomous-operator - Operator operator-executed; selected refresh-replay-loop; execution executed.
+- ready: autonomous-operator - Operator operator-plan-ready; selected refresh-product-gate-recovery; execution not-requested.
 - ready: operator-history - History operator-history-ready; records 40; executed 10.
 - ready: objective-audit - Audit objective-in-progress; met 6/8; external blockers 15.
 - ready: store-listing-optimizer - Focus canopy-bloom; lead screenshot phone-canopy-bloom-generated; candidate changed yes.
