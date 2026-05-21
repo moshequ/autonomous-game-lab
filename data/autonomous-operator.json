@@ -1,22 +1,23 @@
 {
-  "generatedAt": "2026-05-21T01:10:32.925Z",
+  "generatedAt": "2026-05-21T01:19:51.171Z",
   "status": "operator-plan-ready",
   "mode": "plan-only",
   "ownerDecision": {
-    "actionId": "refresh-support-feedback",
-    "command": "npm run autonomous:support-feedback",
+    "actionId": "refresh-autonomous-cadence",
+    "command": "npm run autonomous:cadence",
     "locallyExecutable": true,
     "rejectionReason": null
   },
   "requestedActionId": null,
   "selectedAction": {
-    "id": "refresh-support-feedback",
+    "id": "refresh-autonomous-cadence",
     "status": "armed",
-    "command": "npm run autonomous:support-feedback",
+    "command": "npm run autonomous:cadence",
     "targets": [
-      "moshequ/autonomous-game-lab"
+      "autonomous-game-lab-daily-owner-loop",
+      ".github/workflows/autonomous-daily.yml"
     ],
-    "reason": "Reads public GitHub issue intake and turns player reports into redacted improvement signals.",
+    "reason": "Keeps the unattended daily operating cadence, recovery policy, and verification chain auditable.",
     "costUsd": 0
   },
   "selectedRejection": null,
@@ -39,12 +40,6 @@
       "reason": "daily-loop-recursion-blocked"
     },
     {
-      "id": "refresh-autonomous-cadence",
-      "status": "armed",
-      "command": "npm run autonomous:cadence",
-      "reason": "not-selected-this-run"
-    },
-    {
       "id": "refresh-autonomous-self-update",
       "status": "armed",
       "command": "npm run autonomous:self-update",
@@ -61,6 +56,12 @@
       "status": "monitor",
       "command": "npm run autonomous:organic-seed-loop",
       "reason": "status-monitor"
+    },
+    {
+      "id": "refresh-support-feedback",
+      "status": "armed",
+      "command": "npm run autonomous:support-feedback",
+      "reason": "not-selected-this-run"
     },
     {
       "id": "optimize-daily-retention",
@@ -209,8 +210,8 @@
   ],
   "commandPlan": [
     {
-      "segment": "npm run autonomous:support-feedback",
-      "script": "autonomous:support-feedback"
+      "segment": "npm run autonomous:cadence",
+      "script": "autonomous:cadence"
     }
   ],
   "execution": {
@@ -280,7 +281,7 @@
     "RUN_WORKFLOWS=1"
   ],
   "nextActions": [
-    "Run npm run autonomous:operator -- --execute --action=refresh-support-feedback to execute exactly one allowed local action.",
+    "Run npm run autonomous:operator -- --execute --action=refresh-autonomous-cadence to execute exactly one allowed local action.",
     "Do not execute GitHub workflow, store, paid ads, or account setup commands from the local operator."
   ]
 }

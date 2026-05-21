@@ -1,11 +1,11 @@
 # Release Candidate
 
-Generated: 2026-05-21T01:02:45.080Z
+Generated: 2026-05-21T01:19:15.497Z
 Status: release-candidate-ready
-Candidate: pwa-bccc464c35b4
+Candidate: pwa-4e2de5699c8d
 Files: 44
 Size: 3604.4 KB
-Aggregate SHA-256: bccc464c35b4e8defec28238d3280a62a3fad385be4e8f4839c35cc1d2eccf48
+Aggregate SHA-256: 4e2de5699c8d095363c16308699e0694bb46de2493e56990b578708db69b8e5f
 
 ## Checks
 

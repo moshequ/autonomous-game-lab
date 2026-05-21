@@ -8,7 +8,7 @@ export const autonomousOwnerLoop = {
     "externalAccountInterventionRequired": true
   },
   "ownerDecision": {
-    "nextBestActionId": "refresh-support-feedback"
+    "nextBestActionId": "refresh-autonomous-cadence"
   },
   "systems": [
     {
@@ -30,7 +30,7 @@ export const autonomousOwnerLoop = {
   ],
   "safeAutonomousActions": [
     {
-      "id": "refresh-support-feedback",
+      "id": "refresh-autonomous-cadence",
       "status": "armed"
     },
     {
@@ -38,12 +38,12 @@ export const autonomousOwnerLoop = {
       "status": "armed"
     },
     {
-      "id": "refresh-autonomous-cadence",
+      "id": "refresh-autonomous-self-update",
       "status": "armed"
     },
     {
-      "id": "refresh-autonomous-self-update",
-      "status": "armed"
+      "id": "seed-portfolio-traffic",
+      "status": "monitor"
     }
   ]
 } as const

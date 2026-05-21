@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-21T01:10:33.193Z",
+  "generatedAt": "2026-05-21T01:19:51.450Z",
   "status": "owner-loop-ready",
   "mode": "zero-spend-web-ready",
   "autonomyScore": {
@@ -21,32 +21,32 @@
     "repositoryHandoffPrepared": false
   },
   "ownerDecision": {
-    "nextBestActionId": "refresh-support-feedback",
-    "nextBestAction": "npm run autonomous:support-feedback",
+    "nextBestActionId": "refresh-autonomous-cadence",
+    "nextBestAction": "npm run autonomous:cadence",
     "canExecuteWithoutSpend": true,
-    "rationale": "Reads public GitHub issue intake and turns player reports into redacted improvement signals."
+    "rationale": "Keeps the unattended daily operating cadence, recovery policy, and verification chain auditable."
   },
   "executionMemory": {
     "avoidImmediateRepeat": true,
     "recentExecutionWindow": 8,
     "recentExecutedActionIds": [
-      "refresh-autonomous-self-update",
-      "refresh-autonomous-cadence",
       "run-post-deploy-smoke",
       "prepare-release-candidate",
       "measure-pwa-install-loop",
       "optimize-store-listing",
       "refresh-product-gate-recovery",
-      "check-performance-budget"
+      "check-performance-budget",
+      "refresh-support-feedback",
+      "refresh-autonomous-self-update"
     ],
-    "lastExecutedActionId": "refresh-autonomous-self-update",
+    "lastExecutedActionId": "run-post-deploy-smoke",
     "lastExecutedStatus": "executed",
     "lastRecordExecutionStatus": "not-requested",
     "recentlySatisfiedActionIds": [],
     "objectiveAuditFreshness": {
       "fresh": true,
       "structurallyReady": true,
-      "auditGeneratedAt": "2026-05-21T01:06:43.533Z",
+      "auditGeneratedAt": "2026-05-21T01:19:50.660Z",
       "evaluatedInputIds": [
         "analytics-rollup",
         "event-ingest",
@@ -236,8 +236,8 @@
       "staleInputIds": []
     },
     "skippedRecentlyExecutedActionIds": [
-      "refresh-autonomous-cadence",
       "refresh-autonomous-self-update",
+      "refresh-support-feedback",
       "measure-pwa-install-loop",
       "check-performance-budget",
       "prepare-release-candidate",
@@ -278,7 +278,7 @@
     },
     "productionBootstrapFreshness": {
       "fresh": true,
-      "bootstrapGeneratedAt": "2026-05-21T01:06:42.789Z",
+      "bootstrapGeneratedAt": "2026-05-21T01:19:49.917Z",
       "evaluatedInputIds": [
         "release-candidate",
         "deployment-plan",
@@ -344,7 +344,7 @@
       "id": "autonomous-self-update",
       "status": "ready",
       "autonomy": "gated-generated-change-persistence",
-      "evidence": "Self-update self-update-ready; safe pending 17; unsafe pending 0; remote push held.",
+      "evidence": "Self-update self-update-ready; safe pending 52; unsafe pending 0; remote push held.",
       "nextAction": "When a GitHub repository is connected, set AGL_AUTONOMOUS_SELF_UPDATE=1 and AGL_AUTONOMOUS_SELF_UPDATE_DIRECT=1 to let verified generated changes persist."
     },
     {
@@ -393,7 +393,7 @@
       "id": "performance-budget",
       "status": "ready",
       "autonomy": "automatic-build-budget",
-      "evidence": "Initial JS 649 KB; gzip 177.8 KB; deferred chunks 1.",
+      "evidence": "Initial JS 649 KB; gzip 177.7 KB; deferred chunks 1.",
       "nextAction": "Keep Phaser and game scenes outside the initial PWA shell."
     },
     {
@@ -526,14 +526,14 @@
       "id": "autonomous-operator",
       "status": "ready",
       "autonomy": "one-safe-action-runner",
-      "evidence": "Operator operator-plan-ready; selected refresh-support-feedback; execution not-requested.",
+      "evidence": "Operator operator-plan-ready; selected refresh-autonomous-cadence; execution not-requested.",
       "nextAction": "Keep a dry-run operator plan ready, then execute only one allowlisted local action when explicitly requested."
     },
     {
       "id": "operator-history",
       "status": "ready",
       "autonomy": "operator-audit-trail",
-      "evidence": "History operator-history-ready; records 40; executed 19.",
+      "evidence": "History operator-history-ready; records 40; executed 20.",
       "nextAction": "Keep a capped durable record of operator plans and one-action executions."
     },
     {
@@ -547,8 +547,8 @@
       "id": "store-listing-optimizer",
       "status": "ready",
       "autonomy": "automatic-aso-draft",
-      "evidence": "Focus canopy-bloom; lead screenshot phone-canopy-bloom-generated; candidate changed yes.",
-      "nextAction": "Use Canopy Bloom as the store listing focus instead of lantern-relay."
+      "evidence": "Focus canopy-bloom; lead screenshot phone-canopy-bloom-generated; candidate changed no.",
+      "nextAction": "Keep Canopy Bloom as the store listing focus."
     },
     {
       "id": "store-compliance",
@@ -675,7 +675,7 @@
       "command": "npm run build && npm run autonomous:performance",
       "targets": [
         "pwa-shell",
-        "GameCanvas-BoZPFgor.js"
+        "GameCanvas-B6BcpfZ4.js"
       ],
       "reason": "Keeps the PWA shell fast while Phaser and game scenes stay deferred."
     },
@@ -823,7 +823,7 @@
       "costUsd": 0,
       "command": "npm run autonomous:operator",
       "targets": [
-        "refresh-support-feedback"
+        "refresh-autonomous-cadence"
       ],
       "reason": "Publishes the one-action local execution plan with allowlist, zero-spend, and audit controls."
     },
@@ -833,7 +833,7 @@
       "costUsd": 0,
       "command": "npm run autonomous:operator",
       "targets": [
-        "refresh-support-feedback"
+        "refresh-autonomous-cadence"
       ],
       "reason": "Refreshes the capped operator history so safe actions remain auditable over time."
     },
