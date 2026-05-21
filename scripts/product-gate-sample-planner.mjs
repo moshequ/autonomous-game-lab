@@ -233,6 +233,8 @@ const gateSampleCampaigns = [
 ]
 const gateSampleCampaignById = new Map(gateSampleCampaigns.map((campaign) => [campaign.campaignId, campaign]))
 const aggregateEvidenceNotesByGame = new Map()
+const aggregateEvidenceNotesByCampaign = new Map()
+const aggregateEvidenceNotesByGateGame = new Map()
 
 for (const note of supportFeedback.aggregateEvidenceNotes ?? []) {
   if (!note.gameId) {
@@ -242,6 +244,19 @@ for (const note of supportFeedback.aggregateEvidenceNotes ?? []) {
   const existing = aggregateEvidenceNotesByGame.get(note.gameId) ?? []
   existing.push(note)
   aggregateEvidenceNotesByGame.set(note.gameId, existing)
+
+  if (note.campaignId) {
+    const campaignNotes = aggregateEvidenceNotesByCampaign.get(note.campaignId) ?? []
+    campaignNotes.push(note)
+    aggregateEvidenceNotesByCampaign.set(note.campaignId, campaignNotes)
+  }
+
+  if (note.gateId) {
+    const gateGameKey = `${note.gameId}:${note.gateId}`
+    const gateGameNotes = aggregateEvidenceNotesByGateGame.get(gateGameKey) ?? []
+    gateGameNotes.push(note)
+    aggregateEvidenceNotesByGateGame.set(gateGameKey, gateGameNotes)
+  }
 }
 
 const evidenceForMission = (mission) => {
@@ -269,14 +284,21 @@ const evidenceForMission = (mission) => {
 }
 
 const supportingAggregateEvidenceForMission = (mission) => {
-  const notes = (aggregateEvidenceNotesByGame.get(mission.gameId) ?? []).slice(0, 5)
+  const campaignNotes = aggregateEvidenceNotesByCampaign.get(mission.campaignId) ?? []
+  const gateGameNotes = aggregateEvidenceNotesByGateGame.get(`${mission.gameId}:${mission.gateId}`) ?? []
+  const gameNotes = aggregateEvidenceNotesByGame.get(mission.gameId) ?? []
+  const notes = [...new Map([...campaignNotes, ...gateGameNotes, ...gameNotes].map((note) => [note.number, note])).values()].slice(0, 5)
   const total = (field) =>
     notes.reduce((sum, note) => sum + (typeof note.counts?.[field] === 'number' ? note.counts[field] : 0), 0)
+  const matchScope = campaignNotes.length ? 'campaign' : gateGameNotes.length ? 'gate-game' : notes.length ? 'game' : 'none'
 
   return {
     status: notes.length ? 'supporting-public-aggregate-notes' : 'none',
     source: 'support-feedback-public-issues',
+    matchScope,
     noteCount: notes.length,
+    campaignNoteCount: campaignNotes.length,
+    gateGameNoteCount: gateGameNotes.length,
     starts: total('starts'),
     completions: total('completions'),
     replays: total('replays'),
@@ -288,6 +310,8 @@ const supportingAggregateEvidenceForMission = (mission) => {
       number: note.number,
       status: note.status,
       url: note.url,
+      gateId: note.gateId ?? null,
+      campaignId: note.campaignId ?? null,
       evidenceWindow: note.evidenceWindow,
     })),
   }
@@ -1115,7 +1139,7 @@ const gateSamplePage = `<!doctype html>
 
           url.searchParams.set('template', support.template || 'analytics-evidence.yml')
           url.searchParams.set('title', \`[Evidence] \${mission.title} gate sample aggregate counts\`)
-          url.searchParams.set('game', \`\${mission.title} (\${mission.gameId}; \${mission.gateId})\`)
+          url.searchParams.set('game', \`\${mission.title} (\${mission.gameId}; \${mission.gateId}; \${mission.campaignId})\`)
           url.searchParams.set('window', evidenceWindowFor(scoped))
           url.searchParams.set('starts', String(counts.starts))
           url.searchParams.set('completions', String(counts.completions))

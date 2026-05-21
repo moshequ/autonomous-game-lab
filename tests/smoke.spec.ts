@@ -2143,7 +2143,14 @@ test('product optimizer applies one guarded tuning step from product-gate eviden
       status: string
       gameId: string
       needed: { promptViews: number; successes: number }
-      supportingAggregateEvidence: { gateDecisionEligible: boolean; manualReviewRequired: boolean; noteCount: number }
+      supportingAggregateEvidence: {
+        gateDecisionEligible: boolean
+        manualReviewRequired: boolean
+        noteCount: number
+        campaignNoteCount: number
+        gateGameNoteCount: number
+        matchScope: string
+      }
       controls: { costUsd: number; noSyntheticEvents: boolean; noRuleChange: boolean }
     }>
     commandPlan: { refreshPlan: string; collectAndRefresh: string; collectDownloadsAndRefresh: string }
@@ -2383,6 +2390,9 @@ test('product optimizer applies one guarded tuning step from product-gate eviden
   expect(samplePlan.controls.aggregateEvidenceDoesNotPassGates).toBe(true)
   expect(samplePlan.missions.every((mission) => mission.supportingAggregateEvidence.gateDecisionEligible === false)).toBe(true)
   expect(samplePlan.missions.every((mission) => mission.supportingAggregateEvidence.manualReviewRequired === true)).toBe(true)
+  expect(samplePlan.missions.every((mission) => typeof mission.supportingAggregateEvidence.matchScope === 'string')).toBe(true)
+  expect(samplePlan.missions.every((mission) => typeof mission.supportingAggregateEvidence.campaignNoteCount === 'number')).toBe(true)
+  expect(samplePlan.missions.every((mission) => typeof mission.supportingAggregateEvidence.gateGameNoteCount === 'number')).toBe(true)
   expect(samplePlan.controls.downloadsImportRequiresExplicitOptIn).toBe(true)
   expect(samplePlan.controls.downloadsScanBackoffRequired).toBe(true)
   expect(samplePlan.controls.directTrafficSampleRouting).toBe(true)
@@ -5800,6 +5810,7 @@ test('public gate sample opens aggregate evidence issue without raw events', asy
   expect(openedUrl.searchParams.get('template')).toBe(samplePlan.publicSamplePage.aggregateEvidenceIssueTemplate)
   expect(openedUrl.searchParams.get('game')).toContain(mission.title)
   expect(openedUrl.searchParams.get('game')).toContain(mission.gateId)
+  expect(openedUrl.searchParams.get('game')).toContain(mission.campaignId)
   expect(openedUrl.searchParams.get('starts')).toBe('1')
   expect(openedUrl.searchParams.get('completions')).toBe('1')
   expect(openedUrl.searchParams.get('replays')).toBe('1')
@@ -5966,6 +5977,7 @@ test('support feedback ingests public issues as redacted improvement evidence', 
       routableSignals: number
       aggregateEvidenceNotes: number
       aggregateEvidenceGames: number
+      aggregateEvidenceCampaigns: number
       aggregateStarts: number
       aggregateCompletions: number
       aggregateReplays: number
@@ -5985,7 +5997,12 @@ test('support feedback ingests public issues as redacted improvement evidence', 
       aggregateEvidenceRequiresManualReviewForGateDecisions: boolean
     }
     issueRecords: Array<{ title: string; excerpt: string; matchedSignals: string[] }>
-    aggregateEvidenceNotes: Array<{ status: string; counts: { starts: number | null } }>
+    aggregateEvidenceNotes: Array<{
+      status: string
+      gateId: string | null
+      campaignId: string | null
+      counts: { starts: number | null }
+    }>
     improvementSignals: Array<{ status: string; experiment: string; issueNumbers: number[] }>
   }
   const backlogSummary = JSON.parse(await readFile('data/improvement-backlog-summary.json', 'utf8')) as {
@@ -6046,6 +6063,8 @@ test('support feedback ingests public issues as redacted improvement evidence', 
   expect(script).toContain('readOnlyGithubIssueList')
   expect(script).toContain('noAttachmentsDownloaded')
   expect(script).toContain('issueFormField')
+  expect(script).toContain('parseMissionMetadata')
+  expect(script).toContain('campaignId')
   expect(script).toContain('aggregateEvidenceNeverMarksProductGatePass')
 
   await page.goto('/')

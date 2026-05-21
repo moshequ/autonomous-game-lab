@@ -1,5 +1,5 @@
 export const supportFeedback = {
-  "generatedAt": "2026-05-21T09:46:35.479Z",
+  "generatedAt": "2026-05-21T17:24:33.037Z",
   "status": "support-feedback-empty",
   "provider": "github-issues",
   "repository": "moshequ/autonomous-game-lab",
@@ -13,6 +13,7 @@ export const supportFeedback = {
     "routableSignals": 0,
     "aggregateEvidenceNotes": 0,
     "aggregateEvidenceGames": 0,
+    "aggregateEvidenceCampaigns": 0,
     "aggregateStarts": 0,
     "aggregateCompletions": 0,
     "aggregateReplays": 0,
@@ -38,6 +39,7 @@ export const supportFeedback = {
   "aggregateEvidence": {
     "notes": 0,
     "games": 0,
+    "campaigns": 0,
     "starts": 0,
     "completions": 0,
     "replays": 0,

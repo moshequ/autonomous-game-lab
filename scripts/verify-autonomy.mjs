@@ -507,6 +507,7 @@ if (
   supportFeedback.controls?.aggregateEvidenceNeverMarksProductGatePass !== true ||
   supportFeedback.controls?.aggregateEvidenceRequiresManualReviewForGateDecisions !== true ||
   typeof supportFeedback.summary?.aggregateEvidenceNotes !== 'number' ||
+  typeof supportFeedback.summary?.aggregateEvidenceCampaigns !== 'number' ||
   !Array.isArray(supportFeedback.issueRecords) ||
   !Array.isArray(supportFeedback.aggregateEvidenceNotes) ||
   !Array.isArray(supportFeedback.improvementSignals) ||
@@ -515,6 +516,8 @@ if (
   !supportFeedbackSource.includes('readOnlyGithubIssueList') ||
   !supportFeedbackSource.includes('noAttachmentsDownloaded') ||
   !supportFeedbackSource.includes('issueFormField') ||
+  !supportFeedbackSource.includes('parseMissionMetadata') ||
+  !supportFeedbackSource.includes('campaignId') ||
   !supportFeedbackSource.includes('aggregateEvidenceNeverMarksProductGatePass') ||
   packageJson.scripts?.['autonomous:support-feedback'] !== 'node scripts/support-feedback-ingestor.mjs' ||
   !packageJson.scripts?.['autonomous:daily']?.includes('autonomous:support-feedback') ||
@@ -1743,6 +1746,9 @@ if (
   !samplePrimaryMission?.evidence?.status ||
   samplePrimaryMission?.supportingAggregateEvidence?.gateDecisionEligible !== false ||
   samplePrimaryMission?.supportingAggregateEvidence?.manualReviewRequired !== true ||
+  typeof samplePrimaryMission?.supportingAggregateEvidence?.campaignNoteCount !== 'number' ||
+  typeof samplePrimaryMission?.supportingAggregateEvidence?.gateGameNoteCount !== 'number' ||
+  typeof samplePrimaryMission?.supportingAggregateEvidence?.matchScope !== 'string' ||
   samplePrimaryMission?.needed?.promptViews !== recoveryCompletionGate?.promptViewsNeeded ||
   samplePrimaryMission?.needed?.successes !== recoveryCompletionGate?.neededSuccesses ||
   !samplePrimaryMission?.sampleRole?.includes('primary-bottleneck') ||
@@ -1752,6 +1758,8 @@ if (
   !sampleRetentionMission?.sampleRole?.includes('fastest-validation') ||
   !productGateSamplePlanSource.includes('localEventBridge') ||
   !productGateSamplePlanSource.includes('supportFeedback') ||
+  !productGateSamplePlanSource.includes('aggregateEvidenceNotesByCampaign') ||
+  !productGateSamplePlanSource.includes('campaignNoteCount') ||
   !productGateSamplePlanSource.includes('aggregateEvidenceDoesNotPassGates') ||
   !productGateSamplePlanSource.includes('buildExplicitDownloadsScanPolicy') ||
   !productGateSamplePlanSource.includes('stableDownloadsScanPolicySource') ||

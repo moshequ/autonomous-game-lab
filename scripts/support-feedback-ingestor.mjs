@@ -80,6 +80,28 @@ const issueFormNumber = (body, labels) => {
 
   return Number.isFinite(parsed) && parsed >= 0 ? parsed : null
 }
+const parseMissionMetadata = (gameField, summary, body) => {
+  const source = `${gameField ?? ''}\n${summary ?? ''}\n${body ?? ''}`
+  const parenthetical = String(gameField ?? '').match(/\(([^)]+)\)/)?.[1] ?? ''
+  const parts = parenthetical
+    .split(';')
+    .map((part) => normalizeText(part))
+    .filter(Boolean)
+  const gameId = parts.find((part) => /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(part)) ?? null
+  const gateId =
+    parts.find((part) => /^(?:firstGameCompletion|replayRate|d1Retention|pwaInstall|organicSeed)$/i.test(part)) ??
+    null
+  const campaignId =
+    parts.find((part) => /^(?:gate-sample|seed|pwa-install)-[a-z0-9-]+$/i.test(part)) ??
+    source.match(/\b(?:gate-sample|seed|pwa-install)-[a-z0-9-]+\b/i)?.[0] ??
+    null
+
+  return {
+    gameId,
+    gateId,
+    campaignId,
+  }
+}
 const ratio = (numerator, denominator) =>
   typeof numerator === 'number' && typeof denominator === 'number' && denominator > 0 ? numerator / denominator : null
 const issueKindFor = (issue) => {
@@ -200,6 +222,7 @@ const aggregateEvidenceForIssue = (issue) => {
   const replays = issueFormNumber(body, ['Aggregate replays', 'Replays'])
   const d1Eligible = issueFormNumber(body, ['Aggregate D1 eligible players', 'D1 eligible players', 'D1 eligible'])
   const d1Retained = issueFormNumber(body, ['Aggregate D1 retained players', 'D1 retained players', 'D1 retained'])
+  const missionMetadata = parseMissionMetadata(gameField, summary, body)
   const aggregateCounts = {
     starts,
     completions,
@@ -210,17 +233,20 @@ const aggregateEvidenceForIssue = (issue) => {
   const hasAggregateCount = Object.values(aggregateCounts).some((value) => typeof value === 'number' && value > 0)
   const game = gameForIssue({
     ...issue,
-    body: `${body}\n${gameField ?? ''}`,
+    body: `${body}\n${gameField ?? ''}\n${missionMetadata.gameId ?? ''}`,
   })
+  const gameId = game?.id ?? (playableIds.has(missionMetadata.gameId) ? missionMetadata.gameId : null)
 
   return {
     number: issue.number,
     url: issue.url,
     state: issue.state,
     source: 'public-github-issue-aggregate',
-    status: game && hasAggregateCount ? 'supporting-evidence' : hasAggregateCount ? 'needs-game-match' : 'needs-aggregate-counts',
-    gameId: game?.id ?? null,
+    status: gameId && hasAggregateCount ? 'supporting-evidence' : hasAggregateCount ? 'needs-game-match' : 'needs-aggregate-counts',
+    gameId,
     gameTitle: game?.title ?? null,
+    gateId: missionMetadata.gateId,
+    campaignId: missionMetadata.campaignId,
     gameField: excerpt(gameField ?? 'not provided', 90),
     evidenceWindow: excerpt(evidenceWindow ?? 'not provided', 90),
     summary: excerpt(summary ?? body, 160),
@@ -331,6 +357,8 @@ const sourceDataHash = hashText(
       state: note.state,
       status: note.status,
       gameId: note.gameId,
+      gateId: note.gateId,
+      campaignId: note.campaignId,
       counts: note.counts,
     })),
   }),
@@ -363,6 +391,7 @@ const payload = {
     routableSignals: improvementSignals.filter((signal) => signal.status === 'routable').length,
     aggregateEvidenceNotes: aggregateEvidenceNotes.length,
     aggregateEvidenceGames: aggregateEvidenceGames.length,
+    aggregateEvidenceCampaigns: new Set(aggregateEvidenceNotes.map((note) => note.campaignId).filter(Boolean)).size,
     aggregateStarts: aggregateTotal('starts'),
     aggregateCompletions: aggregateTotal('completions'),
     aggregateReplays: aggregateTotal('replays'),
@@ -408,6 +437,7 @@ const appPayload = {
   aggregateEvidence: {
     notes: payload.summary.aggregateEvidenceNotes,
     games: payload.summary.aggregateEvidenceGames,
+    campaigns: payload.summary.aggregateEvidenceCampaigns,
     starts: payload.summary.aggregateStarts,
     completions: payload.summary.aggregateCompletions,
     replays: payload.summary.aggregateReplays,
@@ -415,6 +445,8 @@ const appPayload = {
       number: note.number,
       status: note.status,
       gameId: note.gameId,
+      gateId: note.gateId,
+      campaignId: note.campaignId,
       starts: note.counts.starts,
       completions: note.counts.completions,
       replays: note.counts.replays,
@@ -438,6 +470,7 @@ const report = [
   `Issues inspected: ${payload.summary.issuesInspected}`,
   `Improvement signals: ${payload.summary.improvementSignals}`,
   `Aggregate evidence notes: ${payload.summary.aggregateEvidenceNotes}`,
+  `Aggregate evidence campaigns: ${payload.summary.aggregateEvidenceCampaigns}`,
   `Aggregate starts: ${payload.summary.aggregateStarts}`,
   '',
   '## Controls',
@@ -459,7 +492,7 @@ const report = [
         .slice(0, 12)
         .map(
           (note) =>
-            `- ${note.status}: #${note.number}; ${note.gameId ?? 'unassigned'}; starts ${note.counts.starts ?? 0}; completions ${note.counts.completions ?? 0}; replays ${note.counts.replays ?? 0}; ${note.evidenceWindow}.`,
+            `- ${note.status}: #${note.number}; ${note.gameId ?? 'unassigned'}; gate ${note.gateId ?? 'n/a'}; campaign ${note.campaignId ?? 'n/a'}; starts ${note.counts.starts ?? 0}; completions ${note.counts.completions ?? 0}; replays ${note.counts.replays ?? 0}; ${note.evidenceWindow}.`,
         )
     : ['- none']),
   '',

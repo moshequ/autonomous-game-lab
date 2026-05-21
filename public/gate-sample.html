@@ -540,7 +540,7 @@
 
           url.searchParams.set('template', support.template || 'analytics-evidence.yml')
           url.searchParams.set('title', `[Evidence] ${mission.title} gate sample aggregate counts`)
-          url.searchParams.set('game', `${mission.title} (${mission.gameId}; ${mission.gateId})`)
+          url.searchParams.set('game', `${mission.title} (${mission.gameId}; ${mission.gateId}; ${mission.campaignId})`)
           url.searchParams.set('window', evidenceWindowFor(scoped))
           url.searchParams.set('starts', String(counts.starts))
           url.searchParams.set('completions', String(counts.completions))

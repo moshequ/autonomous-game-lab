@@ -1,11 +1,12 @@
 # Support Feedback
 
-Generated: 2026-05-21T09:46:35.479Z
+Generated: 2026-05-21T17:24:33.037Z
 Status: support-feedback-empty
 Repository: moshequ/autonomous-game-lab
 Issues inspected: 0
 Improvement signals: 0
 Aggregate evidence notes: 0
+Aggregate evidence campaigns: 0
 Aggregate starts: 0
 
 ## Controls
