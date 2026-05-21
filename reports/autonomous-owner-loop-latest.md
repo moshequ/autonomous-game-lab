@@ -1,6 +1,6 @@
 # Autonomous Owner Loop
 
-Generated: 2026-05-21T17:57:24.738Z
+Generated: 2026-05-21T18:00:15.384Z
 Status: owner-loop-ready
 Mode: zero-spend-web-ready
 Autonomy score: 43/44 (98%)
@@ -11,7 +11,7 @@ Autonomy score: 43/44 (98%)
 - Command: npm run autonomous:completion-loop
 - Rationale: Refreshes optional completion nudges and behind-pace finish-line coaching from product-gate evidence.
 - Last executed action: bootstrap-production-setup
-- Recent executed actions: bootstrap-production-setup, seed-portfolio-traffic, refresh-objective-audit, refresh-product-gate-recovery
+- Recent executed actions: bootstrap-production-setup, seed-portfolio-traffic, refresh-objective-audit
 
 ## Systems
 
@@ -29,7 +29,7 @@ Autonomy score: 43/44 (98%)
 - ready: organic-seed-loop - Target canopy-bloom; surface portal-growth-loop; share telemetry organic_seed_share_clicked.
 - ready: retention-loop - Daily canopy-bloom; D1 17%; streak variant daily-streak; return prompt armed; return intent armed.
 - ready: pwa-install-loop - Prompt autonomy-cockpit; installs 0; launch events 0; sample collecting-sample needs 20 prompt(s) and 10 launch event(s).
-- ready: performance-budget - Initial JS 675.7 KB; gzip 183.3 KB; deferred chunks 2.
+- ready: performance-budget - Initial JS 675.3 KB; gzip 183.4 KB; deferred chunks 2.
 - ready: product-optimization - Completion 40% / gate 55%; latest already-applied.
 - ready: support-feedback - Support feedback support-feedback-empty; issues 0; routable signals 0; aggregate notes 0.
 - ready: product-gate-recovery - Recovery product-gate-recovery-ready; primary firstGameCompletion; experiment collecting-sample; failing gates 3; next lift 128.
@@ -44,14 +44,14 @@ Autonomy score: 43/44 (98%)
 - ready: web-deployment - Deployment ready-for-pages; web readiness ready-after-build; promotion promotable-internal.
 - ready: release-candidate - Release candidate release-candidate-ready; files 45; smoke URLs 14.
 - ready: post-deploy-smoke - Smoke post-deploy-smoke-observed-live; origin https://moshequ.github.io/autonomous-game-lab; manifest comparison required; checks 15/15 passed; local artifact predeploy-artifact-smoke-passed 15/15 passed.
-- ready: post-deploy-artifact-sync - Artifact sync post-deploy-artifact-sync-passed; run 26242230090; live matches artifact true; strict true.
+- ready: post-deploy-artifact-sync - Artifact sync post-deploy-artifact-sync-passed; run 26243774018; live matches artifact true; strict true.
 - ready: live-site-monitor - Live monitor live-site-monitor-passed; origin https://moshequ.github.io/autonomous-game-lab; checks 15/15; live matches synced deploy true.
-- ready: production-bootstrap - Bootstrap production-bootstrap-ready; mode can-apply-configured-actions; external blockers 16.
+- ready: production-bootstrap - Bootstrap production-bootstrap-ready; mode can-apply-configured-actions; external blockers 15.
 - ready: production-activation - Activation activation-ready; mode dry-run; execution dry-run; gh ready.
 - ready: production-blocker-handoff - Handoff handoff-waiting-on-owner-inputs; next production-analytics-browser; owner inputs 4; missing env 7; missing secrets 3.
 - ready: support-channel - Support channel support-channel-ready; repository moshequ/autonomous-game-lab; public intake ready; aggregate evidence only true.
 - ready: autonomous-operator - Operator operator-plan-ready; selected refresh-completion-loop; execution not-requested.
-- ready: operator-history - History operator-history-ready; records 40; executed 5.
+- ready: operator-history - History operator-history-ready; records 40; executed 3.
 - ready: objective-audit - Audit objective-in-progress; met 6/8; external blockers 15.
 - ready: store-listing-optimizer - Focus canopy-bloom; lead screenshot phone-canopy-bloom-generated; candidate changed yes.
 - ready: store-compliance - Rating Everyone; target audience general; blockers 3.
@@ -84,7 +84,7 @@ Autonomy score: 43/44 (98%)
 - armed: refresh-completion-loop - npm run autonomous:completion-loop
 - monitor: refresh-replay-loop - npm run autonomous:replay-loop
 - monitor: prepare-repository-channel - npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap
-- armed: bootstrap-production-setup - npm run autonomous:release-candidate && npm run autonomous:deploy-plan && npm run autonomous:bootstrap
+- monitor: bootstrap-production-setup - npm run autonomous:release-candidate && npm run autonomous:deploy-plan && npm run autonomous:bootstrap
 - monitor: activate-production-when-configured - npm run autonomous:activate-production
 - monitor: refresh-production-blocker-handoff - npm run autonomous:blocker-handoff
 - monitor: run-autonomous-operator - npm run autonomous:operator

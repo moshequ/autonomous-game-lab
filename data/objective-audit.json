@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-21T17:57:23.982Z",
+  "generatedAt": "2026-05-21T18:00:14.806Z",
   "status": "objective-in-progress",
   "objective": "Build a bootstrapped autonomous web/PWA game portal that can generate original board-game-inspired games, measure user behavior, propose and apply data-driven improvements, and prepare a path to monetization and app-store distribution with minimal manual intervention.",
   "summary": {
@@ -91,12 +91,12 @@
         "Autonomous cadence: cadence-ready; Codex active-confirmed; GitHub scheduled",
         "Autonomous self-update: self-update-ready; workflow .github/workflows/autonomous-self-update.yml; unsafe pending 0",
         "Operator: operator-plan-ready",
-        "Operator history: operator-history-ready; records 40; executed 5",
+        "Operator history: operator-history-ready; records 40; executed 4",
         "Bootstrap: production-bootstrap-ready",
         "Repository bootstrap: repository-bootstrap-ready; helper ops/github/bootstrap-repository.sh",
         "Release candidate: release-candidate-ready; smoke URLs 14",
         "Post-deploy smoke: post-deploy-smoke-observed-live; origin https://moshequ.github.io/autonomous-game-lab; checks 15/15; local artifact predeploy-artifact-smoke-passed 15/15",
-        "Strict deploy artifact sync: post-deploy-artifact-sync-passed; run 26242230090; live matches artifact true; candidate pwa-4b7280b36bef",
+        "Strict deploy artifact sync: post-deploy-artifact-sync-passed; run 26243774018; live matches artifact true; candidate pwa-259d46692e6d",
         "Live site monitor: live-site-monitor-passed; checks 15/15; live matches synced deploy true",
         "Repository channel: repository-channel-ready; repository moshequ/autonomous-game-lab; git worktree true",
         "Autonomy score: 98%",
@@ -244,11 +244,9 @@
     "noRevenueEnablementUntilGatesPass": true,
     "noStoreSubmissionUntilExternalAccounts": true,
     "currentWorktreeClean": false,
-    "currentWorktreeDirtyFiles": 2,
-    "productionBootstrapFresh": false,
-    "productionBootstrapStaleInputIds": [
-      "deployment-plan"
-    ],
+    "currentWorktreeDirtyFiles": 38,
+    "productionBootstrapFresh": true,
+    "productionBootstrapStaleInputIds": [],
     "objectiveNextBestActionSource": "owner-loop"
   },
   "completion": {
