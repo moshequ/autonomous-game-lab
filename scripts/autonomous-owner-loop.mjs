@@ -209,6 +209,15 @@ const productionActivation = await readOptionalJson(path.join(dataDir, 'producti
   execution: {},
   nextActions: [],
 })
+const productionBlockerHandoff = await readOptionalJson(path.join(dataDir, 'production-blocker-handoff.json'), {
+  status: 'missing',
+  statusDetail: 'missing',
+  summary: {},
+  sourceStatus: {},
+  controls: {},
+  handoffItems: [],
+  unlocks: [],
+})
 const repositoryReadiness = await readOptionalJson(path.join(dataDir, 'repository-readiness.json'), {
   status: 'missing',
   workspace: {},
@@ -427,6 +436,39 @@ const productionActivationReady =
   productionActivation.controls?.workflowDispatchRequiresReadyDeployment === true
 const productionActivationRunnable =
   productionActivation.status === 'activation-ready' && productionActivation.configuration?.activationRequested === true
+const productionBlockerHandoffItems = productionBlockerHandoff.handoffItems ?? productionBlockerHandoff.unlocks ?? []
+const productionBlockerOwnerInputItems = productionBlockerHandoffItems.filter((item) => item.ownerInputRequired)
+const productionBlockerMissingEnvCount = (productionEnvironment.requiredEnv ?? []).filter((item) => !item.configured).length
+const productionBlockerMissingSecretCount = (productionBootstrap.requiredSecrets ?? []).filter((item) => !item.configured).length
+const productionBlockerNextOwnerInput = productionBlockerOwnerInputItems[0] ?? null
+const productionBlockerHandoffSourceFresh =
+  productionBlockerHandoff.sourceStatus?.productionEnvironment === productionEnvironment.status &&
+  productionBlockerHandoff.sourceStatus?.productionBootstrap === productionBootstrap.status &&
+  productionBlockerHandoff.sourceStatus?.objectiveAudit === objectiveAudit.status &&
+  productionBlockerHandoff.sourceStatus?.monetization === monetization.status &&
+  productionBlockerHandoff.sourceStatus?.storeCompliance === storeCompliance.status &&
+  productionBlockerHandoff.sourceStatus?.androidRelease === androidRelease.status &&
+  productionBlockerHandoff.sourceStatus?.unitEconomics === unitEconomics.status &&
+  productionBlockerHandoff.sourceStatus?.postDeployArtifactSync === postDeployArtifactSync.status
+const productionBlockerHandoffReady =
+  ['handoff-waiting-on-owner-inputs', 'handoff-clear'].includes(productionBlockerHandoff.status) &&
+  productionBlockerHandoff.controls?.zeroPaidSpend === true &&
+  productionBlockerHandoff.controls?.noSecretValues === true &&
+  productionBlockerHandoff.controls?.noMutation === true &&
+  productionBlockerHandoff.controls?.noAccountCreation === true &&
+  productionBlockerHandoff.controls?.noStoreSubmission === true &&
+  productionBlockerHandoff.controls?.noRevenueEnablement === true &&
+  productionBlockerHandoffItems.some((item) => item.id === 'support-contact') &&
+  productionBlockerHandoffItems.some((item) => item.id === 'product-gate-sample')
+const productionBlockerHandoffCurrent =
+  productionBlockerHandoffReady &&
+  productionBlockerHandoffSourceFresh &&
+  productionBlockerHandoff.summary?.missingEnv === productionBlockerMissingEnvCount &&
+  productionBlockerHandoff.summary?.missingEnvironmentItems === productionBlockerMissingEnvCount &&
+  productionBlockerHandoff.summary?.missingSecrets === productionBlockerMissingSecretCount &&
+  productionBlockerHandoff.summary?.ownerActionRequired === productionBlockerOwnerInputItems.length &&
+  productionBlockerHandoff.summary?.externalOwnerActions === productionBlockerOwnerInputItems.length &&
+  productionBlockerHandoff.summary?.nextBestUnlockId === (productionBlockerNextOwnerInput?.id ?? null)
 
 const systems = [
   {
@@ -910,6 +952,19 @@ const systems = [
     nextAction:
       productionActivation.nextActions?.[0] ??
       'Apply configured production setup automatically once repository credentials and activation gates exist.',
+  },
+  {
+    id: 'production-blocker-handoff',
+    status: systemStatus(productionBlockerHandoffCurrent, 'needs-handoff-refresh'),
+    autonomy: 'ranked-external-unlock-router',
+    evidence: `Handoff ${productionBlockerHandoff.status}; next ${
+      productionBlockerHandoff.summary?.nextBestUnlockId ?? 'none'
+    }; owner inputs ${productionBlockerHandoff.summary?.ownerActionRequired ?? 0}; missing env ${
+      productionBlockerHandoff.summary?.missingEnv ?? 0
+    }; missing secrets ${productionBlockerHandoff.summary?.missingSecrets ?? 0}.`,
+    nextAction:
+      productionBlockerHandoff.nextActions?.[0] ??
+      'Keep the ranked production blocker handoff current as external inputs and product gates change.',
   },
   {
     id: 'support-channel',
@@ -1954,6 +2009,16 @@ const safeAutonomousActions = [
       : 'Dry-runs production activation until existing credentials and explicit activation gates are present.',
   },
   {
+    id: 'refresh-production-blocker-handoff',
+    status: productionBlockerHandoffCurrent ? 'monitor' : 'armed',
+    costUsd: 0,
+    command: 'npm run autonomous:blocker-handoff',
+    targets: [productionBlockerNextOwnerInput?.id ?? 'production-blocker-handoff'],
+    reason: productionBlockerHandoffCurrent
+      ? `Production blocker handoff already ranks ${productionBlockerOwnerInputItems.length} owner input(s), ${productionBlockerMissingEnvCount} env blocker(s), and ${productionBlockerMissingSecretCount} secret blocker(s).`
+      : 'Refreshes the ranked external/product blocker handoff before owner, operator, readiness, and production decisions rely on it.',
+  },
+  {
     id: 'run-autonomous-operator',
     status: operatorPlanPublished ? 'monitor' : 'armed',
     costUsd: 0,
@@ -2127,6 +2192,7 @@ const preferredActionOrder = [
   'sync-post-deploy-artifact',
   'seed-portfolio-traffic',
   'bootstrap-production-setup',
+  'refresh-production-blocker-handoff',
   'activate-production-when-configured',
   'optimize-product-gates',
   'collect-gate-sample-downloads',
@@ -2269,6 +2335,27 @@ const payload = {
       evaluatedInputIds: productionBootstrapFreshnessInputs.map((artifact) => artifact.id),
       staleInputIds: productionBootstrapStaleInputs.map((artifact) => artifact.id),
     },
+    productionBlockerHandoffFreshness: {
+      current: productionBlockerHandoffCurrent,
+      ready: productionBlockerHandoffReady,
+      status: productionBlockerHandoff.status,
+      generatedAt: productionBlockerHandoff.generatedAt ?? null,
+      nextBestUnlockId: productionBlockerHandoff.summary?.nextBestUnlockId ?? null,
+      ownerActionRequired: productionBlockerHandoff.summary?.ownerActionRequired ?? 0,
+      missingEnv: productionBlockerHandoff.summary?.missingEnv ?? 0,
+      missingSecrets: productionBlockerHandoff.summary?.missingSecrets ?? 0,
+      sourceStatusesFresh: productionBlockerHandoffSourceFresh,
+      evaluatedSourceStatuses: [
+        'production-environment',
+        'production-bootstrap',
+        'objective-audit',
+        'monetization-plan',
+        'store-compliance',
+        'android-release',
+        'unit-economics',
+        'post-deploy-artifact-sync',
+      ],
+    },
   },
   systems,
   safeAutonomousActions,
@@ -2300,6 +2387,7 @@ const payload = {
     replayLoopStatus: replayLoop.status,
     productionBootstrapStatus: productionBootstrap.status,
     productionActivationStatus: productionActivation.status,
+    productionBlockerHandoffStatus: productionBlockerHandoff.status,
     supportChannelStatus: supportChannel.status,
     supportFeedbackStatus: supportFeedback.status,
     autonomousOperatorStatus: autonomousOperator.status,

@@ -1,9 +1,9 @@
 # Autonomous Owner Loop
 
-Generated: 2026-05-21T08:51:50.493Z
+Generated: 2026-05-21T09:02:32.852Z
 Status: owner-loop-ready
 Mode: zero-spend-web-ready
-Autonomy score: 41/42 (98%)
+Autonomy score: 42/43 (98%)
 
 ## Owner Decision
 
@@ -47,6 +47,7 @@ Autonomy score: 41/42 (98%)
 - ready: post-deploy-artifact-sync - Artifact sync post-deploy-artifact-sync-passed; run 26215762309; live matches artifact true; strict true.
 - ready: production-bootstrap - Bootstrap production-bootstrap-ready; mode can-apply-configured-actions; external blockers 16.
 - ready: production-activation - Activation activation-ready; mode dry-run; execution dry-run; gh ready.
+- ready: production-blocker-handoff - Handoff handoff-waiting-on-owner-inputs; next support-contact; owner inputs 5; missing env 7; missing secrets 3.
 - ready: support-channel - Support channel support-channel-ready; repository moshequ/autonomous-game-lab; public intake ready.
 - ready: autonomous-operator - Operator operator-held; selected none; execution not-requested.
 - ready: operator-history - History operator-history-ready; records 39; executed 13.
@@ -82,6 +83,7 @@ Autonomy score: 41/42 (98%)
 - monitor: prepare-repository-channel - npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap
 - monitor: bootstrap-production-setup - npm run autonomous:release-candidate && npm run autonomous:deploy-plan && npm run autonomous:bootstrap
 - monitor: activate-production-when-configured - npm run autonomous:activate-production
+- monitor: refresh-production-blocker-handoff - npm run autonomous:blocker-handoff
 - monitor: run-autonomous-operator - npm run autonomous:operator
 - monitor: review-operator-history - npm run autonomous:operator
 - monitor: refresh-objective-audit - npm run autonomous:objective-audit

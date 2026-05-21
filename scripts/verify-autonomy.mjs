@@ -2416,6 +2416,7 @@ if (
   !autonomousOperator.allowlist?.includes('npm run autonomous:objective-audit') ||
   !autonomousOperator.allowlist?.includes('npm run autonomous:android-signing') ||
   !autonomousOperator.allowlist?.includes('npm run autonomous:activate-production') ||
+  !autonomousOperator.allowlist?.includes('npm run autonomous:blocker-handoff') ||
   !autonomousOperator.allowlist?.includes('npm run autonomous:gate-recovery && npm run autonomous:sample-plan') ||
   !autonomousOperator.allowlist?.includes('npm run autonomous:sample-plan') ||
   !autonomousOperator.allowlist?.includes('npm run autonomous:collect-sample-downloads') ||
@@ -5039,6 +5040,7 @@ const requiredOwnerSystems = [
   'replay-loop',
   'production-bootstrap',
   'production-activation',
+  'production-blocker-handoff',
   'autonomous-operator',
   'operator-history',
   'objective-audit',
@@ -5068,6 +5070,7 @@ const requiredOwnerActions = [
   'refresh-replay-loop',
   'optimize-product-gates',
   'bootstrap-production-setup',
+  'refresh-production-blocker-handoff',
   'activate-production-when-configured',
   'run-autonomous-operator',
   'review-operator-history',
@@ -5402,6 +5405,49 @@ const ownerProductionBootstrapFresh =
 const ownerBootstrapProductionAction = autonomousOwnerLoop.safeAutonomousActions?.find(
   (action) => action.id === 'bootstrap-production-setup',
 )
+const ownerProductionBlockerHandoffItems =
+  productionBlockerHandoff.handoffItems ?? productionBlockerHandoff.unlocks ?? []
+const ownerProductionBlockerOwnerInputItems = ownerProductionBlockerHandoffItems.filter(
+  (item) => item.ownerInputRequired,
+)
+const ownerProductionBlockerMissingEnvCount = (productionEnvironment.requiredEnv ?? []).filter(
+  (item) => !item.configured,
+).length
+const ownerProductionBlockerMissingSecretCount = (productionBootstrap.requiredSecrets ?? []).filter(
+  (item) => !item.configured,
+).length
+const ownerProductionBlockerSourceFresh =
+  productionBlockerHandoff.sourceStatus?.productionEnvironment === productionEnvironment.status &&
+  productionBlockerHandoff.sourceStatus?.productionBootstrap === productionBootstrap.status &&
+  productionBlockerHandoff.sourceStatus?.objectiveAudit === objectiveAudit.status &&
+  productionBlockerHandoff.sourceStatus?.monetization === monetizationPlan.status &&
+  productionBlockerHandoff.sourceStatus?.storeCompliance === storeCompliance.status &&
+  productionBlockerHandoff.sourceStatus?.androidRelease === androidRelease.status &&
+  productionBlockerHandoff.sourceStatus?.unitEconomics === unitEconomics.status &&
+  productionBlockerHandoff.sourceStatus?.postDeployArtifactSync === postDeployArtifactSync.status
+const ownerProductionBlockerHandoffReady =
+  ['handoff-waiting-on-owner-inputs', 'handoff-clear'].includes(productionBlockerHandoff.status) &&
+  productionBlockerHandoff.controls?.zeroPaidSpend === true &&
+  productionBlockerHandoff.controls?.noSecretValues === true &&
+  productionBlockerHandoff.controls?.noMutation === true &&
+  productionBlockerHandoff.controls?.noAccountCreation === true &&
+  productionBlockerHandoff.controls?.noStoreSubmission === true &&
+  productionBlockerHandoff.controls?.noRevenueEnablement === true &&
+  ownerProductionBlockerHandoffItems.some((item) => item.id === 'support-contact') &&
+  ownerProductionBlockerHandoffItems.some((item) => item.id === 'product-gate-sample')
+const ownerProductionBlockerHandoffCurrent =
+  ownerProductionBlockerHandoffReady &&
+  ownerProductionBlockerSourceFresh &&
+  productionBlockerHandoff.summary?.missingEnv === ownerProductionBlockerMissingEnvCount &&
+  productionBlockerHandoff.summary?.missingEnvironmentItems === ownerProductionBlockerMissingEnvCount &&
+  productionBlockerHandoff.summary?.missingSecrets === ownerProductionBlockerMissingSecretCount &&
+  productionBlockerHandoff.summary?.ownerActionRequired === ownerProductionBlockerOwnerInputItems.length &&
+  productionBlockerHandoff.summary?.externalOwnerActions === ownerProductionBlockerOwnerInputItems.length &&
+  productionBlockerHandoff.summary?.nextBestUnlockId ===
+    (ownerProductionBlockerOwnerInputItems[0]?.id ?? null)
+const ownerRefreshProductionBlockerHandoffAction = autonomousOwnerLoop.safeAutonomousActions?.find(
+  (action) => action.id === 'refresh-production-blocker-handoff',
+)
 
 if (
   autonomousOwnerLoop.status !== 'owner-loop-ready' ||
@@ -5435,6 +5481,7 @@ if (
   autonomousOwnerLoop.evidence?.productOptimizationStatus !== productOptimization.status ||
   autonomousOwnerLoop.evidence?.productionBootstrapStatus !== productionBootstrap.status ||
   autonomousOwnerLoop.evidence?.productionActivationStatus !== productionActivation.status ||
+  autonomousOwnerLoop.evidence?.productionBlockerHandoffStatus !== productionBlockerHandoff.status ||
   autonomousOwnerLoop.evidence?.supportChannelStatus !== supportChannel.status ||
   autonomousOwnerLoop.evidence?.autonomousOperatorStatus !== autonomousOperator.status ||
   autonomousOwnerLoop.evidence?.autonomousOperatorHistoryStatus !== autonomousOperatorHistory.status ||
@@ -5545,6 +5592,22 @@ if (
   autonomousOwnerLoop.executionMemory?.productionBootstrapFreshness?.fresh !== ownerProductionBootstrapFresh ||
   autonomousOwnerLoop.executionMemory?.productionBootstrapFreshness?.bootstrapGeneratedAt !==
     (productionBootstrap.generatedAt ?? null) ||
+  autonomousOwnerLoop.executionMemory?.productionBlockerHandoffFreshness?.current !==
+    ownerProductionBlockerHandoffCurrent ||
+  autonomousOwnerLoop.executionMemory?.productionBlockerHandoffFreshness?.ready !==
+    ownerProductionBlockerHandoffReady ||
+  autonomousOwnerLoop.executionMemory?.productionBlockerHandoffFreshness?.status !==
+    productionBlockerHandoff.status ||
+  autonomousOwnerLoop.executionMemory?.productionBlockerHandoffFreshness?.nextBestUnlockId !==
+    (productionBlockerHandoff.summary?.nextBestUnlockId ?? null) ||
+  autonomousOwnerLoop.executionMemory?.productionBlockerHandoffFreshness?.ownerActionRequired !==
+    (productionBlockerHandoff.summary?.ownerActionRequired ?? 0) ||
+  autonomousOwnerLoop.executionMemory?.productionBlockerHandoffFreshness?.missingEnv !==
+    (productionBlockerHandoff.summary?.missingEnv ?? 0) ||
+  autonomousOwnerLoop.executionMemory?.productionBlockerHandoffFreshness?.missingSecrets !==
+    (productionBlockerHandoff.summary?.missingSecrets ?? 0) ||
+  autonomousOwnerLoop.executionMemory?.productionBlockerHandoffFreshness?.sourceStatusesFresh !==
+    ownerProductionBlockerSourceFresh ||
   autonomousOwnerLoop.executionMemory?.sourceFreshness?.pwaInstallLoop?.artifactSourceDataHash !==
     pwaInstallLoop.sourceDataHash ||
   autonomousOwnerLoop.executionMemory?.sourceFreshness?.pwaInstallLoop?.sourceDataHash !== pwaInstallSourceDataHash ||
@@ -5605,9 +5668,14 @@ if (
     autonomousOwnerLoop.ownerDecision?.nextBestActionId === 'prepare-repository-channel') ||
   !autonomousOwnerLoopSource.includes('repositoryHandoffPrepared') ||
   !autonomousOwnerLoopSource.includes('productionBootstrapFreshness') ||
+  !autonomousOwnerLoopSource.includes('productionBlockerHandoffFreshness') ||
+  !autonomousOwnerLoopSource.includes('productionBlockerHandoffCurrent') ||
   (ownerProductionBootstrapFresh && ownerBootstrapProductionAction?.status !== 'monitor') ||
   (ownerProductionBootstrapFresh &&
     autonomousOwnerLoop.ownerDecision?.nextBestActionId === 'bootstrap-production-setup') ||
+  (ownerProductionBlockerHandoffCurrent && ownerRefreshProductionBlockerHandoffAction?.status !== 'monitor') ||
+  (ownerProductionBlockerHandoffCurrent &&
+    autonomousOwnerLoop.ownerDecision?.nextBestActionId === 'refresh-production-blocker-handoff') ||
   (ownerPostDeploySmokeActionFresh && ownerRunPostDeploySmokeAction?.status !== 'monitor') ||
   (ownerPostDeploySmokeActionFresh &&
     autonomousOwnerLoop.ownerDecision?.nextBestActionId === 'run-post-deploy-smoke') ||
@@ -5800,6 +5868,13 @@ if (
       action.command?.includes('autonomous:bootstrap') &&
       action.command?.includes('autonomous:deploy-plan') &&
       action.costUsd === 0,
+  ) ||
+  !autonomousOwnerLoop.safeAutonomousActions?.some(
+    (action) =>
+      action.id === 'refresh-production-blocker-handoff' &&
+      action.command === 'npm run autonomous:blocker-handoff' &&
+      action.costUsd === 0 &&
+      action.targets?.includes(productionBlockerHandoff.summary?.nextBestUnlockId ?? 'production-blocker-handoff'),
   ) ||
   !autonomousOwnerLoop.safeAutonomousActions?.some(
     (action) =>

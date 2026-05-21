@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-21T08:48:14.772Z",
+  "generatedAt": "2026-05-21T09:02:33.330Z",
   "environment": {
     "status": "production-env-missing",
     "publicOrigin": "https://moshequ.github.io/autonomous-game-lab",
@@ -112,7 +112,7 @@
         "originRemote": "git@github.com:moshequ/autonomous-game-lab.git",
         "remoteRepository": "moshequ/autonomous-game-lab",
         "hasCommit": true,
-        "dirtyFiles": 40,
+        "dirtyFiles": 36,
         "dirtyPaths": [
           "data/autonomous-operator-history.json",
           "data/autonomous-operator.json",
@@ -122,12 +122,12 @@
           "data/performance-budget.json",
           "data/post-deploy-smoke.json",
           "data/production-activation.json",
+          "data/production-blocker-handoff.json",
           "data/production-bootstrap.json",
           "data/production-readiness.json",
           "data/release-candidate.json",
           "data/repository-bootstrap.json",
           "data/repository-readiness.json",
-          "package.json",
           "reports/autonomous-operator-history-latest.md",
           "reports/autonomous-operator-latest.md",
           "reports/autonomous-owner-loop-latest.md",
@@ -136,26 +136,22 @@
           "reports/performance-budget-latest.md",
           "reports/post-deploy-smoke-latest.md",
           "reports/production-activation-latest.md",
+          "reports/production-blocker-handoff-latest.md",
           "reports/production-bootstrap-latest.md",
           "reports/production-readiness-latest.md",
           "reports/release-candidate-latest.md",
           "reports/repository-bootstrap-latest.md",
           "reports/repository-readiness-latest.md",
-          "scripts/production-readiness.mjs",
+          "scripts/autonomous-operator.mjs",
+          "scripts/autonomous-owner-loop.mjs",
           "scripts/verify-autonomy.mjs",
-          "src/App.tsx",
           "src/data/objectiveAudit.ts",
-          "src/data/performanceBudget.ts",
           "src/data/postDeploySmoke.ts",
           "src/data/productionActivation.ts",
           "src/data/releaseCandidate.ts",
-          "tests/smoke.spec.ts",
-          "data/production-blocker-handoff.json",
-          "reports/production-blocker-handoff-latest.md",
-          "scripts/production-blocker-handoff.mjs",
-          "src/data/productionBlockerHandoff.ts"
+          "tests/smoke.spec.ts"
         ],
-        "generatedEvidenceDirtyFiles": 34,
+        "generatedEvidenceDirtyFiles": 32,
         "generatedEvidenceDirtyPaths": [
           "data/autonomous-operator-history.json",
           "data/autonomous-operator.json",
@@ -165,6 +161,7 @@
           "data/performance-budget.json",
           "data/post-deploy-smoke.json",
           "data/production-activation.json",
+          "data/production-blocker-handoff.json",
           "data/production-bootstrap.json",
           "data/production-readiness.json",
           "data/release-candidate.json",
@@ -178,28 +175,23 @@
           "reports/performance-budget-latest.md",
           "reports/post-deploy-smoke-latest.md",
           "reports/production-activation-latest.md",
+          "reports/production-blocker-handoff-latest.md",
           "reports/production-bootstrap-latest.md",
           "reports/production-readiness-latest.md",
           "reports/release-candidate-latest.md",
           "reports/repository-bootstrap-latest.md",
           "reports/repository-readiness-latest.md",
           "src/data/objectiveAudit.ts",
-          "src/data/performanceBudget.ts",
           "src/data/postDeploySmoke.ts",
           "src/data/productionActivation.ts",
-          "src/data/releaseCandidate.ts",
-          "data/production-blocker-handoff.json",
-          "reports/production-blocker-handoff-latest.md",
-          "src/data/productionBlockerHandoff.ts"
+          "src/data/releaseCandidate.ts"
         ],
-        "nonGeneratedDirtyFiles": 6,
+        "nonGeneratedDirtyFiles": 4,
         "nonGeneratedDirtyPaths": [
-          "package.json",
-          "scripts/production-readiness.mjs",
+          "scripts/autonomous-operator.mjs",
+          "scripts/autonomous-owner-loop.mjs",
           "scripts/verify-autonomy.mjs",
-          "src/App.tsx",
-          "tests/smoke.spec.ts",
-          "scripts/production-blocker-handoff.mjs"
+          "tests/smoke.spec.ts"
         ]
       },
       "after": {
@@ -209,7 +201,7 @@
         "originRemote": "git@github.com:moshequ/autonomous-game-lab.git",
         "remoteRepository": "moshequ/autonomous-game-lab",
         "hasCommit": true,
-        "dirtyFiles": 40,
+        "dirtyFiles": 36,
         "dirtyPaths": [
           "data/autonomous-operator-history.json",
           "data/autonomous-operator.json",
@@ -219,12 +211,12 @@
           "data/performance-budget.json",
           "data/post-deploy-smoke.json",
           "data/production-activation.json",
+          "data/production-blocker-handoff.json",
           "data/production-bootstrap.json",
           "data/production-readiness.json",
           "data/release-candidate.json",
           "data/repository-bootstrap.json",
           "data/repository-readiness.json",
-          "package.json",
           "reports/autonomous-operator-history-latest.md",
           "reports/autonomous-operator-latest.md",
           "reports/autonomous-owner-loop-latest.md",
@@ -233,26 +225,22 @@
           "reports/performance-budget-latest.md",
           "reports/post-deploy-smoke-latest.md",
           "reports/production-activation-latest.md",
+          "reports/production-blocker-handoff-latest.md",
           "reports/production-bootstrap-latest.md",
           "reports/production-readiness-latest.md",
           "reports/release-candidate-latest.md",
           "reports/repository-bootstrap-latest.md",
           "reports/repository-readiness-latest.md",
-          "scripts/production-readiness.mjs",
+          "scripts/autonomous-operator.mjs",
+          "scripts/autonomous-owner-loop.mjs",
           "scripts/verify-autonomy.mjs",
-          "src/App.tsx",
           "src/data/objectiveAudit.ts",
-          "src/data/performanceBudget.ts",
           "src/data/postDeploySmoke.ts",
           "src/data/productionActivation.ts",
           "src/data/releaseCandidate.ts",
-          "tests/smoke.spec.ts",
-          "data/production-blocker-handoff.json",
-          "reports/production-blocker-handoff-latest.md",
-          "scripts/production-blocker-handoff.mjs",
-          "src/data/productionBlockerHandoff.ts"
+          "tests/smoke.spec.ts"
         ],
-        "generatedEvidenceDirtyFiles": 34,
+        "generatedEvidenceDirtyFiles": 32,
         "generatedEvidenceDirtyPaths": [
           "data/autonomous-operator-history.json",
           "data/autonomous-operator.json",
@@ -262,6 +250,7 @@
           "data/performance-budget.json",
           "data/post-deploy-smoke.json",
           "data/production-activation.json",
+          "data/production-blocker-handoff.json",
           "data/production-bootstrap.json",
           "data/production-readiness.json",
           "data/release-candidate.json",
@@ -275,28 +264,23 @@
           "reports/performance-budget-latest.md",
           "reports/post-deploy-smoke-latest.md",
           "reports/production-activation-latest.md",
+          "reports/production-blocker-handoff-latest.md",
           "reports/production-bootstrap-latest.md",
           "reports/production-readiness-latest.md",
           "reports/release-candidate-latest.md",
           "reports/repository-bootstrap-latest.md",
           "reports/repository-readiness-latest.md",
           "src/data/objectiveAudit.ts",
-          "src/data/performanceBudget.ts",
           "src/data/postDeploySmoke.ts",
           "src/data/productionActivation.ts",
-          "src/data/releaseCandidate.ts",
-          "data/production-blocker-handoff.json",
-          "reports/production-blocker-handoff-latest.md",
-          "src/data/productionBlockerHandoff.ts"
+          "src/data/releaseCandidate.ts"
         ],
-        "nonGeneratedDirtyFiles": 6,
+        "nonGeneratedDirtyFiles": 4,
         "nonGeneratedDirtyPaths": [
-          "package.json",
-          "scripts/production-readiness.mjs",
+          "scripts/autonomous-operator.mjs",
+          "scripts/autonomous-owner-loop.mjs",
           "scripts/verify-autonomy.mjs",
-          "src/App.tsx",
-          "tests/smoke.spec.ts",
-          "scripts/production-blocker-handoff.mjs"
+          "tests/smoke.spec.ts"
         ]
       }
     },
@@ -419,7 +403,7 @@
         "mutatesLocalGit": true,
         "mutatesRemoteGitHub": false,
         "requiresExplicitEnv": true,
-        "detail": "6 non-generated source or artifact file(s) are not committed yet."
+        "detail": "4 non-generated source or artifact file(s) are not committed yet."
       },
       {
         "id": "set-or-create-origin",
@@ -564,7 +548,7 @@
       {
         "id": "performance-budget",
         "status": "pass",
-        "detail": "Performance budget is performance-budget-ready; initial JS 657.6 KB / 179.5 KB gzip; deferred game chunk GameCanvas-DYJ7yVyv.js."
+        "detail": "Performance budget is performance-budget-ready; initial JS 657.6 KB / 179.5 KB gzip; deferred game chunk GameCanvas-DcjCpA5G.js."
       },
       {
         "id": "release-candidate",
@@ -1134,20 +1118,20 @@
     },
     "initial": {
       "entryScripts": [
-        "index-xiueVmC0.js",
+        "index-BOCh7GFp.js",
         "registerSW.js"
       ],
       "scriptPaths": [
-        "assets/index-xiueVmC0.js",
+        "assets/index-BOCh7GFp.js",
         "registerSW.js"
       ],
       "jsFiles": [
         {
-          "file": "index-xiueVmC0.js",
-          "path": "assets/index-xiueVmC0.js",
+          "file": "index-BOCh7GFp.js",
+          "path": "assets/index-BOCh7GFp.js",
           "bytes": 673241,
           "kb": 657.5,
-          "gzipBytes": 183686,
+          "gzipBytes": 183685,
           "gzipKb": 179.4
         },
         {
@@ -1161,7 +1145,7 @@
       ],
       "jsBytes": 673415,
       "jsKb": 657.6,
-      "gzipBytes": 183827,
+      "gzipBytes": 183826,
       "gzipKb": 179.5,
       "cssFiles": [
         {
@@ -1181,8 +1165,8 @@
     "deferred": {
       "chunks": [
         {
-          "file": "GameCanvas-DYJ7yVyv.js",
-          "path": "assets/GameCanvas-DYJ7yVyv.js",
+          "file": "GameCanvas-DcjCpA5G.js",
+          "path": "assets/GameCanvas-DcjCpA5G.js",
           "bytes": 1393755,
           "kb": 1361.1,
           "gzipBytes": 356175,
@@ -1190,24 +1174,24 @@
         }
       ],
       "gameChunk": {
-        "file": "GameCanvas-DYJ7yVyv.js",
-        "path": "assets/GameCanvas-DYJ7yVyv.js",
+        "file": "GameCanvas-DcjCpA5G.js",
+        "path": "assets/GameCanvas-DcjCpA5G.js",
         "bytes": 1393755,
         "kb": 1361.1,
         "gzipBytes": 356175,
         "gzipKb": 347.8
       },
       "largestDeferredChunk": {
-        "file": "GameCanvas-DYJ7yVyv.js",
-        "path": "assets/GameCanvas-DYJ7yVyv.js",
+        "file": "GameCanvas-DcjCpA5G.js",
+        "path": "assets/GameCanvas-DcjCpA5G.js",
         "bytes": 1393755,
         "kb": 1361.1,
         "gzipBytes": 356175,
         "gzipKb": 347.8
       },
       "largestJsChunk": {
-        "file": "GameCanvas-DYJ7yVyv.js",
-        "path": "assets/GameCanvas-DYJ7yVyv.js",
+        "file": "GameCanvas-DcjCpA5G.js",
+        "path": "assets/GameCanvas-DcjCpA5G.js",
         "bytes": 1393755,
         "kb": 1361.1,
         "gzipBytes": 356175,
@@ -1253,12 +1237,12 @@
       {
         "id": "game-runtime-deferred",
         "status": "pass",
-        "detail": "GameCanvas-DYJ7yVyv.js is deferred from the initial shell."
+        "detail": "GameCanvas-DcjCpA5G.js is deferred from the initial shell."
       },
       {
         "id": "largest-js-deferred",
         "status": "pass",
-        "detail": "Largest JS chunk is GameCanvas-DYJ7yVyv.js at 1361.1 KB."
+        "detail": "Largest JS chunk is GameCanvas-DcjCpA5G.js at 1361.1 KB."
       },
       {
         "id": "deferred-game-budget",
@@ -1269,7 +1253,7 @@
   },
   "releaseCandidate": {
     "status": "release-candidate-ready",
-    "candidateId": "pwa-bb270901b58a",
+    "candidateId": "pwa-41582add31c2",
     "target": {
       "provider": "github-pages",
       "artifactPath": "dist",
@@ -1290,7 +1274,7 @@
     },
     "integrity": {
       "algorithm": "sha256",
-      "aggregateHash": "bb270901b58ae79a99fd32e2a196a717c30062757c4c1aabb52b3ec2b0040cbd",
+      "aggregateHash": "41582add31c2c61710e4a9393534c5e989b6aea776bf9714ec6226aeaf24f7cc",
       "requiredFileChecks": [
         {
           "path": "index.html",
@@ -1528,8 +1512,8 @@
       "origin": "https://moshequ.github.io/autonomous-game-lab",
       "originSource": "release-candidate-public-origin",
       "provider": "github-pages",
-      "candidateId": "pwa-bb270901b58a",
-      "aggregateHash": "bb270901b58ae79a99fd32e2a196a717c30062757c4c1aabb52b3ec2b0040cbd",
+      "candidateId": "pwa-41582add31c2",
+      "aggregateHash": "41582add31c2c61710e4a9393534c5e989b6aea776bf9714ec6226aeaf24f7cc",
       "strictManifestComparison": false
     },
     "sourceStatus": {
@@ -1707,8 +1691,8 @@
           "bytes": 19426,
           "candidateMatches": true,
           "hashMatches": true,
-          "localCandidateId": "pwa-bb270901b58a",
-          "localAggregateHash": "bb270901b58ae79a99fd32e2a196a717c30062757c4c1aabb52b3ec2b0040cbd",
+          "localCandidateId": "pwa-41582add31c2",
+          "localAggregateHash": "41582add31c2c61710e4a9393534c5e989b6aea776bf9714ec6226aeaf24f7cc",
           "detail": "Local release manifest matches the release candidate."
         }
       ]
@@ -1926,7 +1910,7 @@
         "path": "/release-candidate.json",
         "url": "https://moshequ.github.io/autonomous-game-lab/release-candidate.json",
         "expectedStatus": 200,
-        "requiredText": "pwa-bb270901b58a",
+        "requiredText": "pwa-41582add31c2",
         "status": "pass",
         "detail": "Live release manifest is reachable; it does not match the current local release candidate.",
         "actualStatus": 200,
@@ -1938,8 +1922,8 @@
         "localCandidateMatches": false,
         "strictManifestComparison": false,
         "deployedReleaseStatus": "release-candidate-ready",
-        "deployedCandidateId": "pwa-3e34ae3a6f7b",
-        "deployedAggregateHash": "3e34ae3a6f7bb44837469035caabf7925f9f858a45f25ddf9f466740e910bf6e"
+        "deployedCandidateId": "pwa-2d7f4fbd39b6",
+        "deployedAggregateHash": "2d7f4fbd39b6986656360eacc7ab1d45c2fbc522a36c60756d0eb58fd959c72c"
       }
     ]
   },
@@ -1948,22 +1932,22 @@
     "workflow": {
       "workflowFile": "web-pwa-deploy.yml",
       "artifactName": "post-deploy-smoke",
-      "runId": 26214923317,
-      "headSha": "63c45b20b89cc9d011b6aca782409c1bceb72ca2",
-      "createdAt": "2026-05-21T08:33:00Z",
-      "url": "https://github.com/moshequ/autonomous-game-lab/actions/runs/26214923317",
+      "runId": 26215762309,
+      "headSha": "d9cb1f6506b7a302a18ceba58fc3d5e1d2d7de6d",
+      "createdAt": "2026-05-21T08:50:32Z",
+      "url": "https://github.com/moshequ/autonomous-game-lab/actions/runs/26215762309",
       "source": "explicit-run-id",
       "runListAvailable": false
     },
     "artifact": {
       "status": "post-deploy-smoke-passed",
-      "generatedAt": "2026-05-21T08:33:42.601Z",
+      "generatedAt": "2026-05-21T08:51:20.713Z",
       "target": {
         "origin": "https://moshequ.github.io/autonomous-game-lab/",
         "originSource": "agl-deployed-pwa-origin",
         "provider": "github-pages",
-        "candidateId": "pwa-3e34ae3a6f7b",
-        "aggregateHash": "3e34ae3a6f7bb44837469035caabf7925f9f858a45f25ddf9f466740e910bf6e",
+        "candidateId": "pwa-2d7f4fbd39b6",
+        "aggregateHash": "2d7f4fbd39b6986656360eacc7ab1d45c2fbc522a36c60756d0eb58fd959c72c",
         "strictManifestComparison": true
       },
       "sourceStatus": {
@@ -1979,8 +1963,8 @@
       },
       "liveRelease": {
         "status": "release-candidate-ready",
-        "candidateId": "pwa-3e34ae3a6f7b",
-        "aggregateHash": "3e34ae3a6f7bb44837469035caabf7925f9f858a45f25ddf9f466740e910bf6e",
+        "candidateId": "pwa-2d7f4fbd39b6",
+        "aggregateHash": "2d7f4fbd39b6986656360eacc7ab1d45c2fbc522a36c60756d0eb58fd959c72c",
         "localCandidateMatches": true,
         "strictManifestComparison": true
       },
@@ -1995,7 +1979,7 @@
         "strictManifestComparison": true,
         "inferredLiveObservationAllowed": false
       },
-      "reportSha256": "2801df56df8b92a31423cc40f38e33882cbe29bdb02721c3bdc2a67a0d869ec3"
+      "reportSha256": "b0045a0908c7406133aa50226adbf63d24b8a2e1d691245ce31ee050644a23e5"
     },
     "live": {
       "origin": "https://moshequ.github.io/autonomous-game-lab",
@@ -2004,10 +1988,10 @@
       "finalUrl": "https://moshequ.github.io/autonomous-game-lab/release-candidate.json",
       "contentType": "application/json; charset=utf-8",
       "bytes": 19426,
-      "textSha256": "f19fdc73fe5d9cc6f6113a92ec33af36c5ac20a61f9b2136f95d7c8131daca75",
+      "textSha256": "b75c9be14e6c2eb6f5498c62013071d80b4e22ca394d906651fb1a0b1b6ad231",
       "releaseStatus": "release-candidate-ready",
-      "candidateId": "pwa-3e34ae3a6f7b",
-      "aggregateHash": "3e34ae3a6f7bb44837469035caabf7925f9f858a45f25ddf9f466740e910bf6e",
+      "candidateId": "pwa-2d7f4fbd39b6",
+      "aggregateHash": "2d7f4fbd39b6986656360eacc7ab1d45c2fbc522a36c60756d0eb58fd959c72c",
       "matchesArtifact": true
     },
     "validation": {
@@ -2049,12 +2033,12 @@
       {
         "id": "explicit-pages-run",
         "status": "pass",
-        "detail": "Explicit web-pwa-deploy.yml run is 26214923317."
+        "detail": "Explicit web-pwa-deploy.yml run is 26215762309."
       },
       {
         "id": "post-deploy-smoke-artifact",
         "status": "pass",
-        "detail": "Downloaded post-deploy-smoke artifact from run 26214923317."
+        "detail": "Downloaded post-deploy-smoke artifact from run 26215762309."
       },
       {
         "id": "strict-smoke-artifact",
@@ -3560,6 +3544,12 @@
         "reason": "status-monitor"
       },
       {
+        "id": "refresh-production-blocker-handoff",
+        "status": "monitor",
+        "command": "npm run autonomous:blocker-handoff",
+        "reason": "status-monitor"
+      },
+      {
         "id": "run-autonomous-operator",
         "status": "monitor",
         "command": "npm run autonomous:operator",
@@ -4653,7 +4643,7 @@
       "noRevenueEnablementUntilGatesPass": true,
       "noStoreSubmissionUntilExternalAccounts": true,
       "currentWorktreeClean": false,
-      "currentWorktreeDirtyFiles": 40,
+      "currentWorktreeDirtyFiles": 36,
       "productionBootstrapFresh": true,
       "productionBootstrapStaleInputIds": [],
       "objectiveNextBestActionSource": "owner-loop"
@@ -4749,7 +4739,7 @@
           "Repository bootstrap: repository-bootstrap-ready; helper ops/github/bootstrap-repository.sh",
           "Release candidate: release-candidate-ready; smoke URLs 14",
           "Post-deploy smoke: post-deploy-smoke-observed-live; origin https://moshequ.github.io/autonomous-game-lab; checks 15/15; local artifact predeploy-artifact-smoke-passed 15/15",
-          "Strict deploy artifact sync: post-deploy-artifact-sync-passed; run 26214923317; live matches artifact true; candidate pwa-3e34ae3a6f7b",
+          "Strict deploy artifact sync: post-deploy-artifact-sync-passed; run 26215762309; live matches artifact true; candidate pwa-2d7f4fbd39b6",
           "Repository channel: repository-channel-ready; repository moshequ/autonomous-game-lab; git worktree true",
           "Autonomy score: 98%",
           "Credential-gated actions: 10"

@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2026-05-21T08:51:50.493Z",
+  "generatedAt": "2026-05-21T09:02:32.852Z",
   "status": "owner-loop-ready",
   "mode": "zero-spend-web-ready",
   "autonomyScore": {
-    "readySystems": 41,
-    "totalSystems": 42,
+    "readySystems": 42,
+    "totalSystems": 43,
     "percent": 98
   },
   "controls": {
@@ -51,7 +51,7 @@
     "objectiveAuditFreshness": {
       "fresh": true,
       "structurallyReady": true,
-      "auditGeneratedAt": "2026-05-21T08:48:13.578Z",
+      "auditGeneratedAt": "2026-05-21T09:02:32.092Z",
       "evaluatedInputIds": [
         "analytics-rollup",
         "event-ingest",
@@ -74,7 +74,7 @@
         "ready": true,
         "status": "cadence-ready",
         "artifactGeneratedAt": "2026-05-21T07:49:17.786Z",
-        "ageHours": 1.042,
+        "ageHours": 1.221,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -85,7 +85,7 @@
         "ready": true,
         "status": "self-update-ready",
         "artifactGeneratedAt": "2026-05-21T07:50:13.570Z",
-        "ageHours": 1.027,
+        "ageHours": 1.205,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -96,7 +96,7 @@
         "ready": true,
         "status": "support-feedback-empty",
         "artifactGeneratedAt": "2026-05-21T07:51:05.296Z",
-        "ageHours": 1.013,
+        "ageHours": 1.191,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -106,8 +106,8 @@
         "fresh": true,
         "ready": true,
         "status": "performance-budget-ready",
-        "artifactGeneratedAt": "2026-05-21T08:47:27.391Z",
-        "ageHours": 0.073,
+        "artifactGeneratedAt": "2026-05-21T09:01:38.755Z",
+        "ageHours": 0.015,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -409,6 +409,7 @@
       "sync-post-deploy-artifact",
       "seed-portfolio-traffic",
       "bootstrap-production-setup",
+      "refresh-production-blocker-handoff",
       "activate-production-when-configured",
       "optimize-product-gates",
       "collect-gate-sample-downloads",
@@ -435,7 +436,7 @@
     },
     "productionBootstrapFreshness": {
       "fresh": true,
-      "bootstrapGeneratedAt": "2026-05-21T08:48:13.126Z",
+      "bootstrapGeneratedAt": "2026-05-21T09:02:31.633Z",
       "evaluatedInputIds": [
         "release-candidate",
         "deployment-plan",
@@ -445,6 +446,27 @@
         "event-collector-deployment"
       ],
       "staleInputIds": []
+    },
+    "productionBlockerHandoffFreshness": {
+      "current": true,
+      "ready": true,
+      "status": "handoff-waiting-on-owner-inputs",
+      "generatedAt": "2026-05-21T09:01:42.557Z",
+      "nextBestUnlockId": "support-contact",
+      "ownerActionRequired": 5,
+      "missingEnv": 7,
+      "missingSecrets": 3,
+      "sourceStatusesFresh": true,
+      "evaluatedSourceStatuses": [
+        "production-environment",
+        "production-bootstrap",
+        "objective-audit",
+        "monetization-plan",
+        "store-compliance",
+        "android-release",
+        "unit-economics",
+        "post-deploy-artifact-sync"
+      ]
     }
   },
   "systems": [
@@ -649,7 +671,7 @@
       "status": "ready",
       "autonomy": "read-only-live-deploy-verification",
       "evidence": "Smoke post-deploy-smoke-observed-live; origin https://moshequ.github.io/autonomous-game-lab; manifest comparison required; checks 15/15 passed; local artifact predeploy-artifact-smoke-passed 15/15 passed.",
-      "nextAction": "Live Pages is reachable and serving pwa-3e34ae3a6f7b; run the deploy workflow for strict proof of the current local candidate if needed."
+      "nextAction": "Live Pages is reachable and serving pwa-2d7f4fbd39b6; run the deploy workflow for strict proof of the current local candidate if needed."
     },
     {
       "id": "post-deploy-artifact-sync",
@@ -671,6 +693,13 @@
       "autonomy": "guarded-credential-activated-setup",
       "evidence": "Activation activation-ready; mode dry-run; execution dry-run; gh ready.",
       "nextAction": "Set AGL_PRODUCTION_ACTIVATE=1 in the production automation environment to apply configured zero-spend GitHub/Pages setup."
+    },
+    {
+      "id": "production-blocker-handoff",
+      "status": "ready",
+      "autonomy": "ranked-external-unlock-router",
+      "evidence": "Handoff handoff-waiting-on-owner-inputs; next support-contact; owner inputs 5; missing env 7; missing secrets 3.",
+      "nextAction": "Start with Production support email; it is the highest-priority zero-spend owner input."
     },
     {
       "id": "support-channel",
@@ -832,7 +861,7 @@
       "command": "npm run build && npm run autonomous:performance && npm run autonomous:release-candidate",
       "targets": [
         "pwa-shell",
-        "GameCanvas-DYJ7yVyv.js",
+        "GameCanvas-DcjCpA5G.js",
         "dist-release-candidate"
       ],
       "reason": "Performance budget and release-candidate evidence are already fresh for the current guarded build."
@@ -976,6 +1005,16 @@
         "web-workflow"
       ],
       "reason": "Dry-runs production activation until existing credentials and explicit activation gates are present."
+    },
+    {
+      "id": "refresh-production-blocker-handoff",
+      "status": "monitor",
+      "costUsd": 0,
+      "command": "npm run autonomous:blocker-handoff",
+      "targets": [
+        "support-contact"
+      ],
+      "reason": "Production blocker handoff already ranks 5 owner input(s), 7 env blocker(s), and 3 secret blocker(s)."
     },
     {
       "id": "run-autonomous-operator",
@@ -1204,6 +1243,7 @@
     "replayLoopStatus": "replay-loop-ready",
     "productionBootstrapStatus": "production-bootstrap-ready",
     "productionActivationStatus": "activation-ready",
+    "productionBlockerHandoffStatus": "handoff-waiting-on-owner-inputs",
     "supportChannelStatus": "support-channel-ready",
     "supportFeedbackStatus": "support-feedback-empty",
     "autonomousOperatorStatus": "operator-held",

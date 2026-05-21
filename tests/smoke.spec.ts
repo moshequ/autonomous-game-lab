@@ -2844,6 +2844,7 @@ test('autonomous operator plans or executes one allowlisted zero-spend local act
   expect(operator.execution.requested).toBe(operator.status === 'operator-executed')
   expect(['not-requested', 'executed']).toContain(operator.execution.status)
   expect(operator.execution.maxActionsPerRun).toBe(1)
+  expect(operator.allowlist).toContain('npm run autonomous:blocker-handoff')
   expect(operator.blockedFragments).toContain('gh workflow run')
   expect(operator.blockedActions.some((action) => action.reason === 'daily-loop-recursion-blocked')).toBe(true)
 
@@ -3148,6 +3149,18 @@ test('autonomous operator history keeps a capped audit trail', async ({ page }) 
         evaluatedInputIds: string[]
         staleInputIds: string[]
       }
+      productionBlockerHandoffFreshness: {
+        current: boolean
+        ready: boolean
+        status: string
+        generatedAt: string | null
+        nextBestUnlockId: string | null
+        ownerActionRequired: number
+        missingEnv: number
+        missingSecrets: number
+        sourceStatusesFresh: boolean
+        evaluatedSourceStatuses: string[]
+      }
     }
   }
   const localEventBridge = JSON.parse(await readFile('data/local-event-bridge.json', 'utf8')) as {
@@ -3242,6 +3255,9 @@ test('autonomous operator history keeps a capped audit trail', async ({ page }) 
   const prepareRepositoryAction = ownerLoop.safeAutonomousActions.find((action) => action.id === 'prepare-repository-channel')
   const objectiveAuditAction = ownerLoop.safeAutonomousActions.find((action) => action.id === 'refresh-objective-audit')
   const bootstrapProductionAction = ownerLoop.safeAutonomousActions.find((action) => action.id === 'bootstrap-production-setup')
+  const refreshProductionBlockerHandoffAction = ownerLoop.safeAutonomousActions.find(
+    (action) => action.id === 'refresh-production-blocker-handoff',
+  )
   const refreshCadenceAction = ownerLoop.safeAutonomousActions.find((action) => action.id === 'refresh-autonomous-cadence')
   const refreshSelfUpdateAction = ownerLoop.safeAutonomousActions.find(
     (action) => action.id === 'refresh-autonomous-self-update',
@@ -3395,6 +3411,23 @@ test('autonomous operator history keeps a capped audit trail', async ({ page }) 
     expect(bootstrapProductionAction?.status).toBe('monitor')
     expect(bootstrapProductionAction?.reason).toContain('prioritize product learning')
     expect(ownerLoop.ownerDecision.nextBestActionId).not.toBe('bootstrap-production-setup')
+  }
+  expect(ownerLoop.executionMemory.productionBlockerHandoffFreshness.ready).toBe(true)
+  expect(ownerLoop.executionMemory.productionBlockerHandoffFreshness.status).toMatch(
+    /handoff-waiting-on-owner-inputs|handoff-clear/,
+  )
+  expect(ownerLoop.executionMemory.productionBlockerHandoffFreshness.evaluatedSourceStatuses).toContain(
+    'production-environment',
+  )
+  expect(ownerLoop.executionMemory.productionBlockerHandoffFreshness.evaluatedSourceStatuses).toContain(
+    'post-deploy-artifact-sync',
+  )
+  if (ownerLoop.executionMemory.productionBlockerHandoffFreshness.current) {
+    expect(refreshProductionBlockerHandoffAction?.status).toBe('monitor')
+    expect(refreshProductionBlockerHandoffAction?.reason).toContain('already ranks')
+    expect(ownerLoop.ownerDecision.nextBestActionId).not.toBe('refresh-production-blocker-handoff')
+  } else {
+    expect(refreshProductionBlockerHandoffAction?.status).toBe('armed')
   }
   if (ownerLoop.executionMemory.objectiveAuditFreshness.fresh && hasExecutableAlternativeOutsideCovered) {
     expect(objectiveAuditAction?.status).toBe('monitor')
