@@ -1,10 +1,10 @@
 # Post-Deploy Smoke
 
-Generated: 2026-05-21T18:27:02.544Z
+Generated: 2026-05-21T18:34:10.039Z
 Status: post-deploy-smoke-observed-live
 Origin: https://moshequ.github.io/autonomous-game-lab
 Origin source: release-candidate-public-origin
-Candidate: pwa-df5aecaa5c1c
+Candidate: pwa-4edf79b33258
 Live candidate: pwa-49cdcd4c0c08
 
 ## Summary

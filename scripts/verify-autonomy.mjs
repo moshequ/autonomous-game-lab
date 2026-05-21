@@ -367,6 +367,8 @@ const gateSampleHtml = await readFile(path.join(root, 'public', 'gate-sample.htm
 const installHtml = await readFile(path.join(root, 'public', 'install.html'), 'utf8')
 const seedKitHtml = await readFile(path.join(root, 'public', 'seed-kit.html'), 'utf8')
 const supportHtml = await readFile(path.join(root, 'public', 'support.html'), 'utf8')
+const sitemapXml = await readFile(path.join(root, 'public', 'sitemap.xml'), 'utf8')
+const indexHtmlSource = await readFile(path.join(root, 'index.html'), 'utf8')
 const packageJson = JSON.parse(await readFile(path.join(root, 'package.json'), 'utf8'))
 const viteConfig = await readFile(path.join(root, 'vite.config.ts'), 'utf8')
 const appSource = await readFile(path.join(root, 'src', 'App.tsx'), 'utf8')
@@ -837,10 +839,21 @@ if (analytics.sourceStatus.activeSource === 'fixture-sample' && analytics.source
 if (
   growth.status !== 'growth-assets-ready' ||
   !growth.gamePages?.length ||
+  !growth.utilityPages?.some((page) => page.path === '/gate-sample.html' && page.channel === 'player-evidence') ||
+  !growth.utilityPages?.some((page) => page.path === '/seed-kit.html' && page.channel === 'player-sharing') ||
+  !growth.utilityPages?.some((page) => page.path === '/install.html' && page.channel === 'pwa-install') ||
   !growth.channels?.some((channel) => channel.id === 'organic-search') ||
-  !growth.channels?.some((channel) => channel.id === 'player-sharing')
+  !growth.channels?.some((channel) => channel.id === 'player-sharing') ||
+  !sitemapXml.includes('/gate-sample.html') ||
+  !sitemapXml.includes('/seed-kit.html') ||
+  !sitemapXml.includes('/install.html') ||
+  !indexHtmlSource.includes('application/ld+json') ||
+  !indexHtmlSource.includes('og:image') ||
+  !indexHtmlSource.includes('twitter:card') ||
+  !distIndexHtml.includes('application/ld+json') ||
+  !distIndexHtml.includes('og:image')
 ) {
-  fail('Growth planner must produce search and sharing assets for playable games.')
+  fail('Growth planner must produce search, sharing, indexed evidence pages, and homepage metadata for playable games.')
 }
 
 const growthPageIds = new Set(growth.gamePages.map((game) => game.gameId))

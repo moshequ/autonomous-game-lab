@@ -1,5 +1,5 @@
 export const objectiveAudit = {
-  "generatedAt": "2026-05-21T18:27:03.870Z",
+  "generatedAt": "2026-05-21T18:34:14.058Z",
   "status": "objective-in-progress",
   "objective": "Build a bootstrapped autonomous web/PWA game portal that can generate original board-game-inspired games, measure user behavior, propose and apply data-driven improvements, and prepare a path to monetization and app-store distribution with minimal manual intervention.",
   "summary": {
@@ -76,7 +76,7 @@ export const objectiveAudit = {
         "Backlog: improvement-backlog-ready; items 4; hash 6f06a35d0fd9",
         "Support feedback: support-feedback-empty; issues 0; routable signals 0; aggregate notes 0",
         "Applied/deferred actions: 7",
-        "Operator selected: refresh-objective-audit; status operator-plan-ready; execution not-requested"
+        "Operator selected: refresh-replay-loop; status operator-plan-ready; execution not-requested"
       ],
       "blockers": [],
       "nextAction": "Keep collecting starts until a safe product-gate tuning action is justified.",
@@ -244,15 +244,19 @@ export const objectiveAudit = {
     "noRevenueEnablementUntilGatesPass": true,
     "noStoreSubmissionUntilExternalAccounts": true,
     "currentWorktreeClean": false,
-    "currentWorktreeDirtyFiles": 40,
-    "productionBootstrapFresh": true,
-    "productionBootstrapStaleInputIds": [],
+    "currentWorktreeDirtyFiles": 58,
+    "productionBootstrapFresh": false,
+    "productionBootstrapStaleInputIds": [
+      "release-candidate",
+      "deployment-plan",
+      "repository-readiness"
+    ],
     "objectiveNextBestActionSource": "owner-loop"
   },
   "completion": {
     "canMarkGoalComplete": false,
     "reason": "The local autonomous PWA system is largely prepared with strict live deploy evidence synced from GitHub Actions, but production credentials, live data, monetization gates, and store account/signing blockers remain.",
-    "nextBestAction": "refresh-objective-audit"
+    "nextBestAction": "refresh-replay-loop"
   }
 } as const
 

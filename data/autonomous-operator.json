@@ -1,17 +1,32 @@
 {
-  "generatedAt": "2026-05-21T18:27:04.261Z",
-  "status": "operator-held",
+  "generatedAt": "2026-05-21T18:34:13.796Z",
+  "status": "operator-plan-ready",
   "mode": "plan-only",
   "ownerDecision": {
-    "actionId": "hold-for-external-input",
-    "command": "No local command is available until external inputs, configured credentials, or new player evidence arrive.",
-    "locallyExecutable": false,
-    "rejectionReason": "status-monitor"
+    "actionId": "refresh-replay-loop",
+    "command": "npm run autonomous:replay-loop",
+    "locallyExecutable": true,
+    "rejectionReason": null
   },
   "requestedActionId": null,
-  "selectedAction": null,
+  "selectedAction": {
+    "id": "refresh-replay-loop",
+    "status": "armed",
+    "command": "npm run autonomous:replay-loop",
+    "targets": [
+      "harbor-rings"
+    ],
+    "reason": "Refreshes the optional completed-run replay prompt from product-gate and replay telemetry evidence.",
+    "costUsd": 0
+  },
   "selectedRejection": null,
-  "eligibleActionIds": [],
+  "eligibleActionIds": [
+    "seed-portfolio-traffic",
+    "refresh-organic-seed-loop",
+    "refresh-replay-loop",
+    "bootstrap-production-setup",
+    "refresh-objective-audit"
+  ],
   "blockedActions": [
     {
       "id": "run-daily-owner-loop",
@@ -39,15 +54,15 @@
     },
     {
       "id": "seed-portfolio-traffic",
-      "status": "monitor",
+      "status": "armed",
       "command": "npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop",
-      "reason": "status-monitor"
+      "reason": "not-selected-this-run"
     },
     {
       "id": "refresh-organic-seed-loop",
-      "status": "monitor",
+      "status": "armed",
       "command": "npm run autonomous:organic-seed-loop",
-      "reason": "status-monitor"
+      "reason": "not-selected-this-run"
     },
     {
       "id": "refresh-support-feedback",
@@ -134,12 +149,6 @@
       "reason": "status-monitor"
     },
     {
-      "id": "refresh-replay-loop",
-      "status": "monitor",
-      "command": "npm run autonomous:replay-loop",
-      "reason": "status-monitor"
-    },
-    {
       "id": "prepare-repository-channel",
       "status": "monitor",
       "command": "npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap",
@@ -147,9 +156,9 @@
     },
     {
       "id": "bootstrap-production-setup",
-      "status": "monitor",
+      "status": "armed",
       "command": "npm run autonomous:release-candidate && npm run autonomous:deploy-plan && npm run autonomous:bootstrap",
-      "reason": "status-monitor"
+      "reason": "not-selected-this-run"
     },
     {
       "id": "activate-production-when-configured",
@@ -177,9 +186,9 @@
     },
     {
       "id": "refresh-objective-audit",
-      "status": "monitor",
+      "status": "armed",
       "command": "npm run autonomous:objective-audit",
-      "reason": "status-monitor"
+      "reason": "not-selected-this-run"
     },
     {
       "id": "optimize-store-listing",
@@ -212,7 +221,12 @@
       "reason": "status-monitor"
     }
   ],
-  "commandPlan": [],
+  "commandPlan": [
+    {
+      "segment": "npm run autonomous:replay-loop",
+      "script": "autonomous:replay-loop"
+    }
+  ],
   "execution": {
     "requested": false,
     "status": "not-requested",
@@ -284,7 +298,7 @@
     "RUN_WORKFLOWS=1"
   ],
   "nextActions": [
-    "Keep reporting external blockers until a safe local action is eligible.",
+    "Run npm run autonomous:operator -- --execute --action=refresh-replay-loop to execute exactly one allowed local action.",
     "Do not execute GitHub workflow, store, paid ads, or account setup commands from the local operator."
   ]
 }

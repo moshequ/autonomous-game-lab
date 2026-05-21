@@ -1,10 +1,10 @@
 # Autonomous Operator
 
-Generated: 2026-05-21T18:27:04.261Z
-Status: operator-held
+Generated: 2026-05-21T18:34:13.796Z
+Status: operator-plan-ready
 Mode: plan-only
-Owner decision: hold-for-external-input
-Selected action: none
+Owner decision: refresh-replay-loop
+Selected action: refresh-replay-loop
 Execution: not-requested
 
 ## Controls
@@ -18,11 +18,15 @@ Execution: not-requested
 
 ## Selected Action
 
-- none: no eligible local actions
+- refresh-replay-loop: npm run autonomous:replay-loop
 
 ## Eligible Local Actions
 
-- none
+- seed-portfolio-traffic
+- refresh-organic-seed-loop
+- refresh-replay-loop
+- bootstrap-production-setup
+- refresh-objective-audit
 
 ## Blocked Actions
 
@@ -30,8 +34,8 @@ Execution: not-requested
 - hold-for-external-input: status-monitor
 - refresh-autonomous-cadence: status-monitor
 - refresh-autonomous-self-update: status-monitor
-- seed-portfolio-traffic: status-monitor
-- refresh-organic-seed-loop: status-monitor
+- seed-portfolio-traffic: not-selected-this-run
+- refresh-organic-seed-loop: not-selected-this-run
 - refresh-support-feedback: status-monitor
 - optimize-daily-retention: status-monitor
 - measure-pwa-install-loop: status-monitor

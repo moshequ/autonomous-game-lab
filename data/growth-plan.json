@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-21T18:04:44.683Z",
+  "generatedAt": "2026-05-21T18:31:22.299Z",
   "siteUrl": "https://moshequ.github.io/autonomous-game-lab",
   "publicUrlMode": "absolute-origin",
   "publicOrigin": {
@@ -373,6 +373,44 @@
       "channelFocus": "evergreen-search-page"
     }
   ],
+  "utilityPages": [
+    {
+      "path": "/",
+      "role": "pwa-home",
+      "channel": "organic-search",
+      "changefreq": "weekly"
+    },
+    {
+      "path": "/privacy.html",
+      "role": "privacy-policy",
+      "channel": "store-readiness",
+      "changefreq": "weekly"
+    },
+    {
+      "path": "/support.html",
+      "role": "public-support",
+      "channel": "support-feedback",
+      "changefreq": "weekly"
+    },
+    {
+      "path": "/gate-sample.html",
+      "role": "product-gate-sample",
+      "channel": "player-evidence",
+      "changefreq": "daily"
+    },
+    {
+      "path": "/seed-kit.html",
+      "role": "organic-seed-kit",
+      "channel": "player-sharing",
+      "changefreq": "daily"
+    },
+    {
+      "path": "/install.html",
+      "role": "pwa-install",
+      "channel": "pwa-install",
+      "changefreq": "weekly"
+    }
+  ],
   "channels": [
     {
       "id": "organic-search",
@@ -381,7 +419,8 @@
       "assets": [
         "public/robots.txt",
         "public/sitemap.xml",
-        "public/games/*.html"
+        "public/games/*.html",
+        "public/gate-sample.html"
       ],
       "metric": "organic_entry_opened -> game_started"
     },

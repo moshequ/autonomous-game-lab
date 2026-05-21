@@ -226,13 +226,51 @@ const shareManifest = {
     tags: game.keywords.slice(0, 5),
   })),
 }
+const utilityPages = [
+  {
+    path: '/',
+    role: 'pwa-home',
+    channel: 'organic-search',
+    changefreq: 'weekly',
+  },
+  {
+    path: '/privacy.html',
+    role: 'privacy-policy',
+    channel: 'store-readiness',
+    changefreq: 'weekly',
+  },
+  {
+    path: '/support.html',
+    role: 'public-support',
+    channel: 'support-feedback',
+    changefreq: 'weekly',
+  },
+  {
+    path: '/gate-sample.html',
+    role: 'product-gate-sample',
+    channel: 'player-evidence',
+    changefreq: 'daily',
+  },
+  {
+    path: '/seed-kit.html',
+    role: 'organic-seed-kit',
+    channel: 'player-sharing',
+    changefreq: 'daily',
+  },
+  {
+    path: '/install.html',
+    role: 'pwa-install',
+    channel: 'pwa-install',
+    changefreq: 'weekly',
+  },
+]
 
 const channels = [
   {
     id: 'organic-search',
     status: 'generated',
     cost: '$0',
-    assets: ['public/robots.txt', 'public/sitemap.xml', 'public/games/*.html'],
+    assets: ['public/robots.txt', 'public/sitemap.xml', 'public/games/*.html', 'public/gate-sample.html'],
     metric: 'organic_entry_opened -> game_started',
   },
   {
@@ -269,6 +307,7 @@ const payload = {
   },
   status: gamePages.length ? 'growth-assets-ready' : 'blocked',
   gamePages,
+  utilityPages,
   channels,
   optimization: {
     optimizedGames: Object.keys(growthPolicy.games ?? {}).length,
@@ -463,11 +502,11 @@ const gamePageHtml = (game, index) => `<!doctype html>
 
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  ${['/', '/privacy.html', '/support.html', ...gamePages.map((game) => game.pagePath)]
+  ${[...utilityPages, ...gamePages.map((game) => ({ path: game.pagePath, changefreq: 'weekly' }))]
     .map(
-      (pathname) => `<url>
-    <loc>${escapeHtml(sitemapUrl(pathname))}</loc>
-    <changefreq>weekly</changefreq>
+      (page) => `<url>
+    <loc>${escapeHtml(sitemapUrl(page.path))}</loc>
+    <changefreq>${escapeHtml(page.changefreq)}</changefreq>
   </url>`,
     )
     .join('\n  ')}
@@ -486,6 +525,7 @@ const report = [
   `Generated: ${payload.generatedAt}`,
   `Status: ${payload.status}`,
   `Site URL: ${payload.siteUrl ?? 'runtime-relative (no public origin configured)'}`,
+  `Indexed utility pages: ${payload.utilityPages.length}`,
   '',
   '## Game Pages',
   '',
