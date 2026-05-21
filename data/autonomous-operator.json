@@ -1,22 +1,23 @@
 {
-  "generatedAt": "2026-05-21T01:32:41.808Z",
+  "generatedAt": "2026-05-21T01:38:14.485Z",
   "status": "operator-plan-ready",
   "mode": "plan-only",
   "ownerDecision": {
-    "actionId": "prepare-release-candidate",
-    "command": "npm run autonomous:release-candidate",
+    "actionId": "refresh-autonomous-cadence",
+    "command": "npm run autonomous:cadence",
     "locallyExecutable": true,
     "rejectionReason": null
   },
   "requestedActionId": null,
   "selectedAction": {
-    "id": "prepare-release-candidate",
+    "id": "refresh-autonomous-cadence",
     "status": "armed",
-    "command": "npm run autonomous:release-candidate",
+    "command": "npm run autonomous:cadence",
     "targets": [
-      "dist-release-candidate"
+      "autonomous-game-lab-daily-owner-loop",
+      ".github/workflows/autonomous-daily.yml"
     ],
-    "reason": "Records a content-hashed dist inventory and post-deploy smoke plan for the exact PWA build.",
+    "reason": "Keeps the unattended daily operating cadence, recovery policy, and verification chain auditable.",
     "costUsd": 0
   },
   "selectedRejection": null,
@@ -37,12 +38,6 @@
       "status": "armed",
       "command": "npm run autonomous:daily",
       "reason": "daily-loop-recursion-blocked"
-    },
-    {
-      "id": "refresh-autonomous-cadence",
-      "status": "armed",
-      "command": "npm run autonomous:cadence",
-      "reason": "not-selected-this-run"
     },
     {
       "id": "refresh-autonomous-self-update",
@@ -84,6 +79,12 @@
       "id": "check-performance-budget",
       "status": "armed",
       "command": "npm run build && npm run autonomous:performance",
+      "reason": "not-selected-this-run"
+    },
+    {
+      "id": "prepare-release-candidate",
+      "status": "armed",
+      "command": "npm run autonomous:release-candidate",
       "reason": "not-selected-this-run"
     },
     {
@@ -209,8 +210,8 @@
   ],
   "commandPlan": [
     {
-      "segment": "npm run autonomous:release-candidate",
-      "script": "autonomous:release-candidate"
+      "segment": "npm run autonomous:cadence",
+      "script": "autonomous:cadence"
     }
   ],
   "execution": {
@@ -280,7 +281,7 @@
     "RUN_WORKFLOWS=1"
   ],
   "nextActions": [
-    "Run npm run autonomous:operator -- --execute --action=prepare-release-candidate to execute exactly one allowed local action.",
+    "Run npm run autonomous:operator -- --execute --action=refresh-autonomous-cadence to execute exactly one allowed local action.",
     "Do not execute GitHub workflow, store, paid ads, or account setup commands from the local operator."
   ]
 }
