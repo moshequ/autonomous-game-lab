@@ -8,7 +8,7 @@ export const autonomousOwnerLoop = {
     "externalAccountInterventionRequired": true
   },
   "ownerDecision": {
-    "nextBestActionId": "refresh-first-move-coach"
+    "nextBestActionId": "hold-for-external-input"
   },
   "systems": [
     {
@@ -30,19 +30,19 @@ export const autonomousOwnerLoop = {
   ],
   "safeAutonomousActions": [
     {
-      "id": "refresh-first-move-coach",
-      "status": "armed"
+      "id": "hold-for-external-input",
+      "status": "monitor"
     },
     {
       "id": "run-daily-owner-loop",
       "status": "armed"
     },
     {
-      "id": "hold-for-external-input",
+      "id": "refresh-autonomous-cadence",
       "status": "monitor"
     },
     {
-      "id": "refresh-autonomous-cadence",
+      "id": "refresh-autonomous-self-update",
       "status": "monitor"
     }
   ]

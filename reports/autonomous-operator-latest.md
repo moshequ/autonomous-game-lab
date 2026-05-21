@@ -1,10 +1,10 @@
 # Autonomous Operator
 
-Generated: 2026-05-21T15:15:08.387Z
-Status: operator-plan-ready
+Generated: 2026-05-21T15:26:23.014Z
+Status: operator-held
 Mode: plan-only
-Owner decision: refresh-first-move-coach
-Selected action: refresh-first-move-coach
+Owner decision: hold-for-external-input
+Selected action: none
 Execution: not-requested
 
 ## Controls
@@ -18,14 +18,11 @@ Execution: not-requested
 
 ## Selected Action
 
-- refresh-first-move-coach: npm run autonomous:first-move-coach
+- none: no eligible local actions
 
 ## Eligible Local Actions
 
-- refresh-first-move-coach
-- refresh-completion-loop
-- refresh-replay-loop
-- apply-safe-improvements
+- none
 
 ## Blocked Actions
 

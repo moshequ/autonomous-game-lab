@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-21T15:15:08.573Z",
+  "generatedAt": "2026-05-21T15:26:23.279Z",
   "status": "owner-loop-ready",
   "mode": "zero-spend-web-ready",
   "autonomyScore": {
@@ -19,37 +19,37 @@
     "deployAllowed": true,
     "rollbackRequired": false,
     "repositoryHandoffPrepared": false,
-    "localActionAvailable": true,
-    "heldForExternalInput": false
+    "localActionAvailable": false,
+    "heldForExternalInput": true
   },
   "ownerDecision": {
-    "nextBestActionId": "refresh-first-move-coach",
-    "nextBestAction": "npm run autonomous:first-move-coach",
+    "nextBestActionId": "hold-for-external-input",
+    "nextBestAction": "No local command is available until external inputs, configured credentials, or new player evidence arrive.",
     "canExecuteWithoutSpend": true,
-    "localActionAvailable": true,
-    "holdReason": null,
-    "rationale": "Refreshes the first-turn coach policy from product-gate, onboarding, and release-health evidence."
+    "localActionAvailable": false,
+    "holdReason": "All safe local actions are current; remaining progress requires external inputs or new player evidence.",
+    "rationale": "All safe local refresh actions are current; hold execution until owner-provided inputs, production analytics, or real player evidence changes the state."
   },
   "executionMemory": {
     "avoidImmediateRepeat": true,
     "recentExecutionWindow": 8,
     "recentExecutedActionIds": [
+      "refresh-objective-audit",
       "refresh-product-gate-recovery",
-      "optimize-store-listing",
       "refresh-replay-loop",
-      "bootstrap-production-setup",
       "apply-safe-improvements",
       "refresh-completion-loop",
-      "refresh-first-move-coach"
+      "refresh-first-move-coach",
+      "optimize-store-listing"
     ],
-    "lastExecutedActionId": "refresh-product-gate-recovery",
+    "lastExecutedActionId": "refresh-objective-audit",
     "lastExecutedStatus": "executed",
-    "lastRecordExecutionStatus": "not-requested",
+    "lastRecordExecutionStatus": "executed",
     "recentlySatisfiedActionIds": [],
     "objectiveAuditFreshness": {
       "fresh": true,
       "structurallyReady": true,
-      "auditGeneratedAt": "2026-05-21T15:15:08.008Z",
+      "auditGeneratedAt": "2026-05-21T15:26:22.522Z",
       "evaluatedInputIds": [
         "analytics-rollup",
         "event-ingest",
@@ -72,8 +72,8 @@
         "fresh": true,
         "ready": true,
         "status": "cadence-ready",
-        "artifactGeneratedAt": "2026-05-21T15:10:12.461Z",
-        "ageHours": 0.082,
+        "artifactGeneratedAt": "2026-05-21T15:25:35.187Z",
+        "ageHours": 0.013,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -84,7 +84,7 @@
         "ready": true,
         "status": "self-update-ready",
         "artifactGeneratedAt": "2026-05-21T07:50:13.570Z",
-        "ageHours": 7.415,
+        "ageHours": 7.603,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -95,7 +95,7 @@
         "ready": true,
         "status": "support-feedback-empty",
         "artifactGeneratedAt": "2026-05-21T09:46:35.479Z",
-        "ageHours": 5.476,
+        "ageHours": 5.663,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -105,8 +105,8 @@
         "fresh": true,
         "ready": true,
         "status": "performance-budget-ready",
-        "artifactGeneratedAt": "2026-05-21T15:14:57.361Z",
-        "ageHours": 0.003,
+        "artifactGeneratedAt": "2026-05-21T15:26:14.640Z",
+        "ageHours": 0.002,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -116,8 +116,8 @@
         "fresh": true,
         "ready": true,
         "status": "live-site-monitor-passed",
-        "artifactGeneratedAt": "2026-05-21T15:15:06.835Z",
-        "ageHours": 0,
+        "artifactGeneratedAt": "2026-05-21T15:26:18.275Z",
+        "ageHours": 0.001,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -224,7 +224,7 @@
         "current": true,
         "ready": true,
         "status": "product-gate-recovery-ready",
-        "artifactGeneratedAt": "2026-05-21T15:09:17.338Z",
+        "artifactGeneratedAt": "2026-05-21T15:22:24.438Z",
         "artifactSourceDataHash": "117dcf88ca39",
         "sourceDataHash": "117dcf88ca39",
         "evaluatedInputIds": [
@@ -242,9 +242,9 @@
         "current": true,
         "ready": true,
         "status": "product-gate-sample-plan-ready",
-        "artifactGeneratedAt": "2026-05-21T15:09:17.603Z",
-        "artifactSourceDataHash": "d37225351ba7",
-        "sourceDataHash": "d37225351ba7",
+        "artifactGeneratedAt": "2026-05-21T15:22:24.689Z",
+        "artifactSourceDataHash": "1bb9b0e62247",
+        "sourceDataHash": "1bb9b0e62247",
         "evaluatedInputIds": [
           "sample-date",
           "product-gate-recovery",
@@ -311,11 +311,11 @@
         ]
       },
       "firstMoveCoach": {
-        "current": false,
-        "ready": false,
+        "current": true,
+        "ready": true,
         "status": "first-move-coach-ready",
-        "artifactGeneratedAt": "2026-05-21T11:56:21.252Z",
-        "artifactSourceDataHash": "9bf5fe249c5c",
+        "artifactGeneratedAt": "2026-05-21T15:18:34.260Z",
+        "artifactSourceDataHash": "b12bb39d5332",
         "sourceDataHash": "b12bb39d5332",
         "evaluatedInputIds": [
           "analytics-rollup",
@@ -329,12 +329,12 @@
         ]
       },
       "completionLoop": {
-        "current": false,
-        "ready": false,
+        "current": true,
+        "ready": true,
         "status": "completion-loop-ready",
-        "artifactGeneratedAt": "2026-05-21T11:57:09.718Z",
-        "artifactSourceDataHash": "2def4353a3aa",
-        "sourceDataHash": "a349278ad8f2",
+        "artifactGeneratedAt": "2026-05-21T15:19:16.148Z",
+        "artifactSourceDataHash": "3ca92c3e1739",
+        "sourceDataHash": "3ca92c3e1739",
         "evaluatedInputIds": [
           "analytics-rollup",
           "production-gates",
@@ -347,11 +347,11 @@
         ]
       },
       "replayLoop": {
-        "current": false,
-        "ready": false,
+        "current": true,
+        "ready": true,
         "status": "replay-loop-ready",
-        "artifactGeneratedAt": "2026-05-21T12:12:28.489Z",
-        "artifactSourceDataHash": "b9220532d9bf",
+        "artifactGeneratedAt": "2026-05-21T15:21:47.402Z",
+        "artifactSourceDataHash": "887eb6c89b98",
         "sourceDataHash": "887eb6c89b98",
         "evaluatedInputIds": [
           "analytics-rollup",
@@ -366,11 +366,11 @@
         ]
       },
       "appliedImprovements": {
-        "current": false,
-        "ready": false,
+        "current": true,
+        "ready": true,
         "status": "applied-improvements-ready",
-        "artifactGeneratedAt": "2026-05-21T12:05:27.684Z",
-        "artifactSourceDataHash": "e86851113f21",
+        "artifactGeneratedAt": "2026-05-21T15:21:00.919Z",
+        "artifactSourceDataHash": "e6cbef4e8512",
         "sourceDataHash": "e6cbef4e8512",
         "evaluatedInputIds": [
           "analytics-rollup",
@@ -413,11 +413,7 @@
       "liveCandidateId": "pwa-e48d0f4ab6e9",
       "artifactCandidateId": "pwa-e48d0f4ab6e9"
     },
-    "skippedRecentlyExecutedActionIds": [
-      "refresh-completion-loop",
-      "refresh-replay-loop",
-      "apply-safe-improvements"
-    ],
+    "skippedRecentlyExecutedActionIds": [],
     "skippedRecentlySatisfiedActionIds": [],
     "preferredActionOrder": [
       "prepare-repository-channel",
@@ -453,7 +449,7 @@
     },
     "productionBootstrapFreshness": {
       "fresh": true,
-      "bootstrapGeneratedAt": "2026-05-21T15:15:07.150Z",
+      "bootstrapGeneratedAt": "2026-05-21T15:26:22.053Z",
       "evaluatedInputIds": [
         "release-candidate",
         "deployment-plan",
@@ -468,7 +464,7 @@
       "current": true,
       "ready": true,
       "status": "handoff-waiting-on-owner-inputs",
-      "generatedAt": "2026-05-21T15:15:07.455Z",
+      "generatedAt": "2026-05-21T15:25:34.827Z",
       "nextBestUnlockId": "production-analytics-browser",
       "ownerActionRequired": 4,
       "missingEnv": 7,
@@ -590,7 +586,7 @@
       "id": "performance-budget",
       "status": "ready",
       "autonomy": "automatic-build-budget",
-      "evidence": "Initial JS 674.5 KB; gzip 183.4 KB; deferred chunks 2.",
+      "evidence": "Initial JS 674.4 KB; gzip 183.1 KB; deferred chunks 2.",
       "nextAction": "Keep Phaser and game scenes outside the initial PWA shell."
     },
     {
@@ -737,14 +733,14 @@
       "id": "autonomous-operator",
       "status": "ready",
       "autonomy": "one-safe-action-runner",
-      "evidence": "Operator operator-plan-ready; selected refresh-first-move-coach; execution not-requested.",
+      "evidence": "Operator operator-held; selected none; execution not-requested.",
       "nextAction": "Keep a dry-run operator plan ready, then execute only one allowlisted local action when explicitly requested."
     },
     {
       "id": "operator-history",
       "status": "ready",
       "autonomy": "operator-audit-trail",
-      "evidence": "History operator-history-ready; records 40; executed 8.",
+      "evidence": "History operator-history-ready; records 40; executed 11.",
       "nextAction": "Keep a capped durable record of operator plans and one-action executions."
     },
     {
@@ -897,7 +893,7 @@
       "command": "npm run build && npm run autonomous:performance && npm run autonomous:release-candidate",
       "targets": [
         "pwa-shell",
-        "GameCanvas-tzJ99zin.js",
+        "GameCanvas-D9vuxsP_.js",
         "dist-release-candidate"
       ],
       "reason": "Performance budget and release-candidate evidence are already fresh for the current guarded build."
@@ -990,33 +986,33 @@
     },
     {
       "id": "refresh-first-move-coach",
-      "status": "armed",
+      "status": "monitor",
       "costUsd": 0,
       "command": "npm run autonomous:first-move-coach",
       "targets": [
         "harbor-rings"
       ],
-      "reason": "Refreshes the first-turn coach policy from product-gate, onboarding, and release-health evidence."
+      "reason": "First-turn coach already matches the current source evidence; wait for new product-gate or onboarding data."
     },
     {
       "id": "refresh-completion-loop",
-      "status": "armed",
+      "status": "monitor",
       "costUsd": 0,
       "command": "npm run autonomous:completion-loop",
       "targets": [
         "harbor-rings"
       ],
-      "reason": "Refreshes optional completion nudges and behind-pace finish-line coaching from product-gate evidence."
+      "reason": "Completion loop already matches the current source evidence; wait for new completion or coach data."
     },
     {
       "id": "refresh-replay-loop",
-      "status": "armed",
+      "status": "monitor",
       "costUsd": 0,
       "command": "npm run autonomous:replay-loop",
       "targets": [
         "harbor-rings"
       ],
-      "reason": "Refreshes the optional completed-run replay prompt from product-gate and replay telemetry evidence."
+      "reason": "Replay loop already matches the current source evidence; wait for new replay or experiment data."
     },
     {
       "id": "prepare-repository-channel",
@@ -1068,7 +1064,7 @@
       "costUsd": 0,
       "command": "npm run autonomous:operator",
       "targets": [
-        "refresh-first-move-coach"
+        "owner-loop-safe-actions"
       ],
       "reason": "One-action operator plan is already published; avoid cycling on meta-operator refreshes."
     },
@@ -1078,7 +1074,7 @@
       "costUsd": 0,
       "command": "npm run autonomous:operator",
       "targets": [
-        "refresh-first-move-coach"
+        "refresh-objective-audit"
       ],
       "reason": "Operator history is already capped and published; keep attention on product evidence."
     },
@@ -1116,10 +1112,10 @@
     },
     {
       "id": "apply-safe-improvements",
-      "status": "armed",
+      "status": "monitor",
       "costUsd": 0,
       "command": "npm run autonomous:experiments && npm run autonomous:improve && npm run autonomous:sync-experiments",
-      "reason": "Release health allows bounded improvement policy updates."
+      "reason": "Applied improvements already reflect the current analytics, experiment, and backlog evidence."
     },
     {
       "id": "deploy-web-pwa",
@@ -1293,7 +1289,7 @@
     "productionBlockerHandoffStatus": "handoff-waiting-on-owner-inputs",
     "supportChannelStatus": "support-channel-ready",
     "supportFeedbackStatus": "support-feedback-empty",
-    "autonomousOperatorStatus": "operator-plan-ready",
+    "autonomousOperatorStatus": "operator-held",
     "autonomousOperatorHistoryStatus": "operator-history-ready",
     "objectiveAuditStatus": "objective-in-progress",
     "storeListingOptimizerStatus": "store-listing-optimizer-ready",
