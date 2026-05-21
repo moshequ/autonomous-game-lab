@@ -1,10 +1,10 @@
 # Autonomous Operator
 
-Generated: 2026-05-21T02:55:14.160Z
+Generated: 2026-05-21T03:11:28.585Z
 Status: operator-plan-ready
 Mode: plan-only
-Owner decision: apply-safe-improvements
-Selected action: apply-safe-improvements
+Owner decision: collect-gate-sample-downloads
+Selected action: collect-gate-sample-downloads
 Execution: not-requested
 
 ## Controls
@@ -18,7 +18,7 @@ Execution: not-requested
 
 ## Selected Action
 
-- apply-safe-improvements: npm run autonomous:experiments && npm run autonomous:improve && npm run autonomous:sync-experiments
+- collect-gate-sample-downloads: npm run autonomous:collect-sample-downloads
 
 ## Eligible Local Actions
 
@@ -32,8 +32,11 @@ Execution: not-requested
 - prepare-release-candidate
 - run-post-deploy-smoke
 - refresh-product-gate-recovery
+- collect-gate-sample-downloads
+- refresh-product-gate-sample-plan
+- refresh-first-move-coach
+- refresh-replay-loop
 - optimize-store-listing
-- apply-safe-improvements
 
 ## Blocked Actions
 

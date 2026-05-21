@@ -1,20 +1,24 @@
 {
-  "generatedAt": "2026-05-21T02:55:14.160Z",
+  "generatedAt": "2026-05-21T03:11:28.585Z",
   "status": "operator-plan-ready",
   "mode": "plan-only",
   "ownerDecision": {
-    "actionId": "apply-safe-improvements",
-    "command": "npm run autonomous:experiments && npm run autonomous:improve && npm run autonomous:sync-experiments",
+    "actionId": "collect-gate-sample-downloads",
+    "command": "npm run autonomous:collect-sample-downloads",
     "locallyExecutable": true,
     "rejectionReason": null
   },
   "requestedActionId": null,
   "selectedAction": {
-    "id": "apply-safe-improvements",
+    "id": "collect-gate-sample-downloads",
     "status": "armed",
-    "command": "npm run autonomous:experiments && npm run autonomous:improve && npm run autonomous:sync-experiments",
-    "targets": [],
-    "reason": "Release health allows bounded improvement policy updates.",
+    "command": "npm run autonomous:collect-sample-downloads",
+    "targets": [
+      "firstGameCompletion",
+      "gate-sample-20260521-firstGameCompletion",
+      "gate-sample-20260521-replayRate"
+    ],
+    "reason": "Opt-in scans local browser Downloads and the event inbox for real player exports, imports them, refreshes analytics and recovery, then regenerates the sample plan.",
     "costUsd": 0
   },
   "selectedRejection": null,
@@ -29,8 +33,11 @@
     "prepare-release-candidate",
     "run-post-deploy-smoke",
     "refresh-product-gate-recovery",
-    "optimize-store-listing",
-    "apply-safe-improvements"
+    "collect-gate-sample-downloads",
+    "refresh-product-gate-sample-plan",
+    "refresh-first-move-coach",
+    "refresh-replay-loop",
+    "optimize-store-listing"
   ],
   "blockedActions": [
     {
@@ -118,22 +125,16 @@
       "reason": "not-selected-this-run"
     },
     {
-      "id": "collect-gate-sample-downloads",
-      "status": "monitor",
-      "command": "npm run autonomous:collect-sample-downloads",
-      "reason": "status-monitor"
-    },
-    {
       "id": "refresh-product-gate-sample-plan",
-      "status": "monitor",
+      "status": "armed",
       "command": "npm run autonomous:sample-plan",
-      "reason": "status-monitor"
+      "reason": "not-selected-this-run"
     },
     {
       "id": "refresh-first-move-coach",
-      "status": "monitor",
+      "status": "armed",
       "command": "npm run autonomous:first-move-coach",
-      "reason": "status-monitor"
+      "reason": "not-selected-this-run"
     },
     {
       "id": "refresh-completion-loop",
@@ -143,9 +144,9 @@
     },
     {
       "id": "refresh-replay-loop",
-      "status": "monitor",
+      "status": "armed",
       "command": "npm run autonomous:replay-loop",
-      "reason": "status-monitor"
+      "reason": "not-selected-this-run"
     },
     {
       "id": "prepare-repository-channel",
@@ -196,6 +197,12 @@
       "reason": "status-monitor"
     },
     {
+      "id": "apply-safe-improvements",
+      "status": "monitor",
+      "command": "npm run autonomous:experiments && npm run autonomous:improve && npm run autonomous:sync-experiments",
+      "reason": "status-monitor"
+    },
+    {
       "id": "deploy-web-pwa",
       "status": "ready-when-repository-pages-enabled",
       "command": "Run the Web PWA Deploy workflow after GitHub Pages is enabled for the repository.",
@@ -210,16 +217,8 @@
   ],
   "commandPlan": [
     {
-      "segment": "npm run autonomous:experiments",
-      "script": "autonomous:experiments"
-    },
-    {
-      "segment": "npm run autonomous:improve",
-      "script": "autonomous:improve"
-    },
-    {
-      "segment": "npm run autonomous:sync-experiments",
-      "script": "autonomous:sync-experiments"
+      "segment": "npm run autonomous:collect-sample-downloads",
+      "script": "autonomous:collect-sample-downloads"
     }
   ],
   "execution": {
@@ -289,7 +288,7 @@
     "RUN_WORKFLOWS=1"
   ],
   "nextActions": [
-    "Run npm run autonomous:operator -- --execute --action=apply-safe-improvements to execute exactly one allowed local action.",
+    "Run npm run autonomous:operator -- --execute --action=collect-gate-sample-downloads to execute exactly one allowed local action.",
     "Do not execute GitHub workflow, store, paid ads, or account setup commands from the local operator."
   ]
 }

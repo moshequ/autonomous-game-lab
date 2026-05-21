@@ -8,7 +8,7 @@ export const autonomousOwnerLoop = {
     "externalAccountInterventionRequired": true
   },
   "ownerDecision": {
-    "nextBestActionId": "apply-safe-improvements"
+    "nextBestActionId": "collect-gate-sample-downloads"
   },
   "systems": [
     {
@@ -30,7 +30,7 @@ export const autonomousOwnerLoop = {
   ],
   "safeAutonomousActions": [
     {
-      "id": "apply-safe-improvements",
+      "id": "collect-gate-sample-downloads",
       "status": "armed"
     },
     {

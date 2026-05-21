@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-20T12:33:37.549Z",
+  "generatedAt": "2026-05-21T03:00:22.339Z",
   "guardrails": {
     "minVariantWeight": 15,
     "maxVariantWeight": 85,
@@ -48,12 +48,12 @@
         {
           "id": "board-state",
           "label": "Show a stronger board-state preview",
-          "weight": 60
+          "weight": 70
         },
         {
           "id": "title-first",
           "label": "Keep the title-led card treatment",
-          "weight": 40
+          "weight": 30
         }
       ]
     }

@@ -2691,6 +2691,27 @@ if (!packageJson.scripts?.['autonomous:performance']?.includes('performance-budg
   fail('Autonomous scripts must expose the performance budget generator.')
 }
 
+if (
+  !packageJson.scripts?.['test:e2e']?.includes('npm run build') ||
+  !packageJson.scripts?.['test:e2e']?.includes('autonomous:release-candidate') ||
+  !packageJson.scripts?.['test:e2e']?.includes('autonomous:post-deploy-smoke') ||
+  !packageJson.scripts?.['test:e2e']?.includes('autonomous:repo-readiness') ||
+  !packageJson.scripts?.['test:e2e']?.includes('autonomous:deploy-plan') ||
+  !packageJson.scripts?.['test:e2e']?.includes('autonomous:owner-loop') ||
+  !packageJson.scripts?.['test:e2e']?.includes('autonomous:operator') ||
+  !packageJson.scripts?.['test:e2e']?.includes('autonomous:readiness') ||
+  packageJson.scripts['test:e2e'].indexOf('npm run build') >
+    packageJson.scripts['test:e2e'].indexOf('autonomous:release-candidate') ||
+  packageJson.scripts['test:e2e'].indexOf('autonomous:release-candidate') >
+    packageJson.scripts['test:e2e'].indexOf('autonomous:repo-readiness') ||
+  packageJson.scripts['test:e2e'].lastIndexOf('autonomous:owner-loop') >
+    packageJson.scripts['test:e2e'].indexOf('autonomous:readiness') ||
+  packageJson.scripts['test:e2e'].indexOf('autonomous:readiness') >
+    packageJson.scripts['test:e2e'].indexOf('playwright test')
+) {
+  fail('Browser e2e tests must rebuild dist, regenerate release evidence, and settle owner/deploy artifacts before previewing it.')
+}
+
 const dailyScript = packageJson.scripts?.['autonomous:daily'] ?? ''
 const performanceRuns = [...dailyScript.matchAll(/autonomous:performance/g)].map((match) => match.index ?? -1)
 const buildRuns = [...dailyScript.matchAll(/npm run build/g)].map((match) => match.index ?? -1)
