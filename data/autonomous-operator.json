@@ -1,31 +1,29 @@
 {
-  "generatedAt": "2026-05-21T21:35:19.115Z",
+  "generatedAt": "2026-05-21T21:37:57.138Z",
   "status": "operator-plan-ready",
   "mode": "plan-only",
   "ownerDecision": {
-    "actionId": "seed-portfolio-traffic",
-    "command": "npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop",
+    "actionId": "optimize-daily-retention",
+    "command": "npm run autonomous:retention",
     "locallyExecutable": true,
     "rejectionReason": null
   },
   "requestedActionId": null,
   "selectedAction": {
-    "id": "seed-portfolio-traffic",
+    "id": "optimize-daily-retention",
     "status": "armed",
-    "command": "npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop",
+    "command": "npm run autonomous:retention",
     "targets": [
-      "canopy-bloom",
-      "grove-engine",
-      "mosaic-haven",
-      "metro-loom"
+      "canopy-bloom"
     ],
-    "reason": "Under-measured playable games need free organic/internal traffic before quality judgment.",
+    "reason": "Keeps daily challenge, local streak prompts, and retention-safe missions aligned with behavior data.",
     "costUsd": 0
   },
   "selectedRejection": null,
   "eligibleActionIds": [
     "seed-portfolio-traffic",
-    "refresh-organic-seed-loop"
+    "refresh-organic-seed-loop",
+    "optimize-daily-retention"
   ],
   "blockedActions": [
     {
@@ -53,6 +51,12 @@
       "reason": "status-monitor"
     },
     {
+      "id": "seed-portfolio-traffic",
+      "status": "armed",
+      "command": "npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop",
+      "reason": "not-selected-this-run"
+    },
+    {
       "id": "refresh-organic-seed-loop",
       "status": "armed",
       "command": "npm run autonomous:organic-seed-loop",
@@ -62,12 +66,6 @@
       "id": "refresh-support-feedback",
       "status": "monitor",
       "command": "npm run autonomous:support-feedback",
-      "reason": "status-monitor"
-    },
-    {
-      "id": "optimize-daily-retention",
-      "status": "monitor",
-      "command": "npm run autonomous:retention",
       "reason": "status-monitor"
     },
     {
@@ -229,24 +227,8 @@
   ],
   "commandPlan": [
     {
-      "segment": "npm run autonomous:growth",
-      "script": "autonomous:growth"
-    },
-    {
-      "segment": "npm run autonomous:portfolio",
-      "script": "autonomous:portfolio"
-    },
-    {
-      "segment": "npm run autonomous:traffic",
-      "script": "autonomous:traffic"
-    },
-    {
-      "segment": "npm run autonomous:acquisition",
-      "script": "autonomous:acquisition"
-    },
-    {
-      "segment": "npm run autonomous:organic-seed-loop",
-      "script": "autonomous:organic-seed-loop"
+      "segment": "npm run autonomous:retention",
+      "script": "autonomous:retention"
     }
   ],
   "execution": {
@@ -321,7 +303,7 @@
     "RUN_WORKFLOWS=1"
   ],
   "nextActions": [
-    "Run npm run autonomous:operator -- --execute --action=seed-portfolio-traffic to execute exactly one allowed local action.",
+    "Run npm run autonomous:operator -- --execute --action=optimize-daily-retention to execute exactly one allowed local action.",
     "Do not execute GitHub workflow, store, paid ads, or account setup commands from the local operator."
   ]
 }
