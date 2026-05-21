@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-21T08:31:16.354Z",
+  "generatedAt": "2026-05-21T08:48:11.188Z",
   "status": "repository-channel-ready",
   "envFiles": {
     "loaded": true,
@@ -56,7 +56,7 @@
     "insideWorkTree": true,
     "gitRoot": "/Users/moshequ/Documents/Codex/2026-05-18/i-want-to-have-a-new",
     "currentBranch": "main",
-    "dirtyFiles": 41,
+    "dirtyFiles": 40,
     "dirtyPaths": [
       "data/autonomous-operator-history.json",
       "data/autonomous-operator.json",
@@ -71,6 +71,7 @@
       "data/release-candidate.json",
       "data/repository-bootstrap.json",
       "data/repository-readiness.json",
+      "package.json",
       "reports/autonomous-operator-history-latest.md",
       "reports/autonomous-operator-latest.md",
       "reports/autonomous-owner-loop-latest.md",
@@ -84,21 +85,19 @@
       "reports/release-candidate-latest.md",
       "reports/repository-bootstrap-latest.md",
       "reports/repository-readiness-latest.md",
-      "scripts/autonomous-operator.mjs",
-      "scripts/autonomous-owner-loop.mjs",
-      "scripts/objective-audit.mjs",
       "scripts/production-readiness.mjs",
       "scripts/verify-autonomy.mjs",
       "src/App.tsx",
-      "src/data/autonomousOperator.ts",
-      "src/data/autonomousOperatorHistory.ts",
-      "src/data/autonomousOwnerLoop.ts",
       "src/data/objectiveAudit.ts",
       "src/data/performanceBudget.ts",
       "src/data/postDeploySmoke.ts",
       "src/data/productionActivation.ts",
       "src/data/releaseCandidate.ts",
-      "tests/smoke.spec.ts"
+      "tests/smoke.spec.ts",
+      "data/production-blocker-handoff.json",
+      "reports/production-blocker-handoff-latest.md",
+      "scripts/production-blocker-handoff.mjs",
+      "src/data/productionBlockerHandoff.ts"
     ],
     "generatedEvidenceDirtyFiles": 34,
     "generatedEvidenceDirtyPaths": [
@@ -128,24 +127,23 @@
       "reports/release-candidate-latest.md",
       "reports/repository-bootstrap-latest.md",
       "reports/repository-readiness-latest.md",
-      "src/data/autonomousOperator.ts",
-      "src/data/autonomousOperatorHistory.ts",
-      "src/data/autonomousOwnerLoop.ts",
       "src/data/objectiveAudit.ts",
       "src/data/performanceBudget.ts",
       "src/data/postDeploySmoke.ts",
       "src/data/productionActivation.ts",
-      "src/data/releaseCandidate.ts"
+      "src/data/releaseCandidate.ts",
+      "data/production-blocker-handoff.json",
+      "reports/production-blocker-handoff-latest.md",
+      "src/data/productionBlockerHandoff.ts"
     ],
-    "nonGeneratedDirtyFiles": 7,
+    "nonGeneratedDirtyFiles": 6,
     "nonGeneratedDirtyPaths": [
-      "scripts/autonomous-operator.mjs",
-      "scripts/autonomous-owner-loop.mjs",
-      "scripts/objective-audit.mjs",
+      "package.json",
       "scripts/production-readiness.mjs",
       "scripts/verify-autonomy.mjs",
       "src/App.tsx",
-      "tests/smoke.spec.ts"
+      "tests/smoke.spec.ts",
+      "scripts/production-blocker-handoff.mjs"
     ]
   },
   "repository": {
@@ -182,7 +180,7 @@
     "workflowExists": true,
     "deployWorkflowIncludesSmoke": true,
     "deploymentStatus": "ready-for-pages",
-    "releaseCandidateId": "pwa-0b0a677bae1b",
+    "releaseCandidateId": "pwa-bb270901b58a",
     "postDeploySmokeStatus": "post-deploy-smoke-observed-live",
     "liveSettings": {
       "status": "inspected",

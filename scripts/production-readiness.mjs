@@ -32,6 +32,7 @@ const repositoryReadinessPath = path.join(root, 'data', 'repository-readiness.js
 const repositoryBootstrapPath = path.join(root, 'data', 'repository-bootstrap.json')
 const productionBootstrapPath = path.join(root, 'data', 'production-bootstrap.json')
 const productionActivationPath = path.join(root, 'data', 'production-activation.json')
+const productionBlockerHandoffPath = path.join(root, 'data', 'production-blocker-handoff.json')
 const autonomousOperatorPath = path.join(root, 'data', 'autonomous-operator.json')
 const autonomousOperatorHistoryPath = path.join(root, 'data', 'autonomous-operator-history.json')
 const autonomousCadencePath = path.join(root, 'data', 'autonomous-cadence.json')
@@ -231,6 +232,15 @@ const productionBootstrap = await readOptionalJson(productionBootstrapPath, {
   setupCommands: [],
   requiredVariables: [],
   requiredSecrets: [],
+})
+const productionBlockerHandoff = await readOptionalJson(productionBlockerHandoffPath, {
+  status: 'missing',
+  summary: {},
+  controls: {},
+  sourceStatus: {},
+  handoffItems: [],
+  unlocks: [],
+  nextActions: [],
 })
 const autonomousOperator = await readOptionalJson(autonomousOperatorPath, {
   status: 'missing',
@@ -712,6 +722,17 @@ const objectiveAuditReady =
     (objectiveAudit.requirements ?? []).some((item) => item.id === 'web-pwa-game-portal') &&
     (objectiveAudit.requirements ?? []).some((item) => item.id === 'monetization-path') &&
     (objectiveAudit.requirements ?? []).some((item) => item.id === 'app-store-distribution-path'))
+const productionBlockerHandoffReady =
+  ['handoff-waiting-on-owner-inputs', 'handoff-clear'].includes(productionBlockerHandoff.status) &&
+  productionBlockerHandoff.controls?.zeroPaidSpend === true &&
+  productionBlockerHandoff.controls?.noSecretValues === true &&
+  productionBlockerHandoff.controls?.noMutation === true &&
+  productionBlockerHandoff.controls?.noAccountCreation === true &&
+  productionBlockerHandoff.sourceStatus?.productionEnvironment === environment.status &&
+  productionBlockerHandoff.sourceStatus?.productionBootstrap === productionBootstrap.status &&
+  productionBlockerHandoff.sourceStatus?.objectiveAudit === objectiveAudit.status &&
+  (productionBlockerHandoff.handoffItems ?? []).some((item) => item.id === 'support-contact') &&
+  (productionBlockerHandoff.handoffItems ?? []).some((item) => item.id === 'product-gate-sample')
 
 const check = (id, passed, detail) => ({
   id,
@@ -917,6 +938,13 @@ const webChecks = [
     `Production bootstrap is ${productionBootstrap.status}; mode ${
       productionBootstrap.mode ?? 'missing'
     }; external blockers ${productionBootstrap.summary?.externalBlockers ?? 'n/a'}.`,
+  ),
+  check(
+    'production-blocker-handoff',
+    productionBlockerHandoffReady,
+    `Production blocker handoff is ${productionBlockerHandoff.status}; owner inputs ${
+      productionBlockerHandoff.summary?.ownerActionRequired ?? 'n/a'
+    }; next unlock ${productionBlockerHandoff.summary?.nextBestUnlockId ?? 'none'}.`,
   ),
   check(
     'production-activation',
@@ -1239,6 +1267,15 @@ const payload = {
     setupCommands: productionBootstrap.setupCommands ?? [],
     externalBlockers: productionBootstrap.externalBlockers ?? [],
   },
+  productionBlockerHandoff: {
+    status: productionBlockerHandoff.status,
+    statusDetail: productionBlockerHandoff.statusDetail,
+    summary: productionBlockerHandoff.summary,
+    sourceStatus: productionBlockerHandoff.sourceStatus,
+    controls: productionBlockerHandoff.controls,
+    topHandoffItems: (productionBlockerHandoff.handoffItems ?? []).slice(0, 5),
+    nextActions: productionBlockerHandoff.nextActions ?? [],
+  },
   productionActivation: {
     status: productionActivation.status,
     mode: productionActivation.mode,
@@ -1508,6 +1545,18 @@ const report = [
   `Setup script: ${payload.productionBootstrap.setupScript?.path ?? 'missing'}`,
   ...(payload.productionBootstrap.stages ?? []).map(
     (stage) => `- ${stage.status}: bootstrap-${stage.id} - ${stage.evidence}`,
+  ),
+  '',
+  '## Production Blocker Handoff',
+  '',
+  `Status: ${payload.productionBlockerHandoff.status}`,
+  `Detail: ${payload.productionBlockerHandoff.statusDetail ?? 'missing'}`,
+  `Owner inputs: ${payload.productionBlockerHandoff.summary?.ownerActionRequired ?? 'n/a'}`,
+  `Missing env: ${payload.productionBlockerHandoff.summary?.missingEnv ?? 'n/a'}`,
+  `Missing secrets: ${payload.productionBlockerHandoff.summary?.missingSecrets ?? 'n/a'}`,
+  `Next unlock: ${payload.productionBlockerHandoff.summary?.nextBestUnlockId ?? 'none'}`,
+  ...(payload.productionBlockerHandoff.topHandoffItems ?? []).map(
+    (item) => `- ${item.status}: handoff-${item.id} - ${item.title}`,
   ),
   '',
   '## Autonomous Operator',

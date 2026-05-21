@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-21T08:34:10.111Z",
+  "generatedAt": "2026-05-21T08:48:14.290Z",
   "status": "owner-loop-ready",
   "mode": "zero-spend-web-ready",
   "autonomyScore": {
@@ -51,7 +51,7 @@
     "objectiveAuditFreshness": {
       "fresh": true,
       "structurallyReady": true,
-      "auditGeneratedAt": "2026-05-21T08:31:38.151Z",
+      "auditGeneratedAt": "2026-05-21T08:48:13.578Z",
       "evaluatedInputIds": [
         "analytics-rollup",
         "event-ingest",
@@ -74,7 +74,7 @@
         "ready": true,
         "status": "cadence-ready",
         "artifactGeneratedAt": "2026-05-21T07:49:17.786Z",
-        "ageHours": 0.748,
+        "ageHours": 0.982,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -85,7 +85,7 @@
         "ready": true,
         "status": "self-update-ready",
         "artifactGeneratedAt": "2026-05-21T07:50:13.570Z",
-        "ageHours": 0.732,
+        "ageHours": 0.967,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -96,7 +96,7 @@
         "ready": true,
         "status": "support-feedback-empty",
         "artifactGeneratedAt": "2026-05-21T07:51:05.296Z",
-        "ageHours": 0.718,
+        "ageHours": 0.952,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -106,8 +106,8 @@
         "fresh": true,
         "ready": true,
         "status": "performance-budget-ready",
-        "artifactGeneratedAt": "2026-05-21T08:31:11.218Z",
-        "ageHours": 0.05,
+        "artifactGeneratedAt": "2026-05-21T08:47:27.391Z",
+        "ageHours": 0.013,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -435,7 +435,7 @@
     },
     "productionBootstrapFreshness": {
       "fresh": true,
-      "bootstrapGeneratedAt": "2026-05-21T08:31:18.373Z",
+      "bootstrapGeneratedAt": "2026-05-21T08:48:13.126Z",
       "evaluatedInputIds": [
         "release-candidate",
         "deployment-plan",
@@ -550,7 +550,7 @@
       "id": "performance-budget",
       "status": "ready",
       "autonomy": "automatic-build-budget",
-      "evidence": "Initial JS 655.1 KB; gzip 178.9 KB; deferred chunks 1.",
+      "evidence": "Initial JS 657.6 KB; gzip 179.5 KB; deferred chunks 1.",
       "nextAction": "Keep Phaser and game scenes outside the initial PWA shell."
     },
     {
@@ -649,7 +649,7 @@
       "status": "ready",
       "autonomy": "read-only-live-deploy-verification",
       "evidence": "Smoke post-deploy-smoke-observed-live; origin https://moshequ.github.io/autonomous-game-lab; manifest comparison required; checks 15/15 passed; local artifact predeploy-artifact-smoke-passed 15/15 passed.",
-      "nextAction": "Live Pages is reachable and serving pwa-6e5c07a0bc4b; run the deploy workflow for strict proof of the current local candidate if needed."
+      "nextAction": "Live Pages is reachable and serving pwa-3e34ae3a6f7b; run the deploy workflow for strict proof of the current local candidate if needed."
     },
     {
       "id": "post-deploy-artifact-sync",
@@ -832,7 +832,7 @@
       "command": "npm run build && npm run autonomous:performance && npm run autonomous:release-candidate",
       "targets": [
         "pwa-shell",
-        "GameCanvas-D9WAU3SX.js",
+        "GameCanvas-DYJ7yVyv.js",
         "dist-release-candidate"
       ],
       "reason": "Performance budget and release-candidate evidence are already fresh for the current guarded build."

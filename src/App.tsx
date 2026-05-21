@@ -42,6 +42,7 @@ import { prototypePipeline } from './data/prototypePipeline'
 import { productionResponse } from './data/productionResponse'
 import { productionEnvironment } from './data/productionEnvironment'
 import { productionBootstrap } from './data/productionBootstrap'
+import { productionBlockerHandoff } from './data/productionBlockerHandoff'
 import { productionActivation } from './data/productionActivation'
 import { autonomousOperator } from './data/autonomousOperator'
 import { autonomousOperatorHistory } from './data/autonomousOperatorHistory'
@@ -866,6 +867,7 @@ function App() {
     firstMoveCoach.targets.find((target) => target.gameId === firstMoveCoach.summary.primaryTargetId) ??
     firstMoveCoach.targets.find((target) => target.enabled)
   const productionBootstrapReadyGroups = productionBootstrap.summary.readyGroups ?? 0
+  const productionBlockerTopHandoff = productionBlockerHandoff.topHandoffItems[0]
   const productionActivationRunnableActions = productionActivation.plannedActions.filter(
     (action) => action.runnableNow,
   ).length
@@ -2821,6 +2823,26 @@ function App() {
                 <div>
                   <span>External blockers</span>
                   <strong>{productionBootstrap.summary.externalBlockers}</strong>
+                </div>
+              </div>
+              <div className="monetizationRuntime" aria-label="Production Blocker Handoff">
+                <div>
+                  <span>Production Handoff</span>
+                  <strong>{productionBlockerHandoff.status}</strong>
+                </div>
+                <div>
+                  <span>Next unlock</span>
+                  <strong>{productionBlockerTopHandoff?.id ?? 'none'}</strong>
+                </div>
+                <div>
+                  <span>Owner inputs</span>
+                  <strong>{productionBlockerHandoff.summary.ownerActionRequired}</strong>
+                </div>
+                <div>
+                  <span>Missing config</span>
+                  <strong>
+                    {productionBlockerHandoff.summary.missingEnv}/{productionBlockerHandoff.summary.missingSecrets}
+                  </strong>
                 </div>
               </div>
               <div className="monetizationRuntime" aria-label="Production Activation">

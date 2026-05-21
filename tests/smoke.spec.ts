@@ -77,6 +77,8 @@ test('portal loads a playable canvas and autonomy cockpit', async ({ page }) => 
   await expect(page.getByLabel('Performance Budget')).toContainText('Initial JS')
   await expect(page.getByLabel('Production Bootstrap')).toContainText('production-bootstrap-ready')
   await expect(page.getByLabel('Production Bootstrap')).toContainText('External blockers')
+  await expect(page.getByLabel('Production Blocker Handoff')).toContainText(/handoff-waiting-on-owner-inputs|handoff-clear/)
+  await expect(page.getByLabel('Production Blocker Handoff')).toContainText('Next unlock')
   await expect(page.getByLabel('Production Activation')).toContainText(/activation-waiting-for-credentials|activation-ready|activation-applied/)
   await expect(page.getByLabel('Production Activation')).toContainText(/dry-run|apply-configured-actions/)
   await expect(page.getByLabel('Support Channel')).toContainText(/support-channel-ready|support-channel-planned/)
@@ -3811,6 +3813,78 @@ test('objective audit maps the goal to evidence and remaining blockers', async (
 
   await page.goto('/')
   await expect(page.getByLabel('Objective Audit')).toContainText('objective-in-progress')
+})
+
+test('production blocker handoff ranks remaining external unlocks', async ({ page }) => {
+  const handoff = JSON.parse(await readFile('data/production-blocker-handoff.json', 'utf8')) as {
+    status: string
+    sourceStatus: {
+      productionEnvironment: string
+      productionBootstrap: string
+      objectiveAudit: string
+      monetization: string
+    }
+    summary: {
+      ownerActionRequired: number
+      externalOwnerActions: number
+      zeroCostFirstActions: number
+      missingEnv: number
+      missingEnvironmentItems: number
+      missingSecrets: number
+      nextBestUnlockId: string | null
+      nextBestUnlock: string | null
+    }
+    controls: {
+      zeroPaidSpend: boolean
+      noSecretValues: boolean
+      noMutation: boolean
+      noAccountCreation: boolean
+      noStoreSubmission: boolean
+      noRevenueEnablement: boolean
+    }
+    environmentPlan: Array<{ name: string; configured: boolean }>
+    secretPlan: Array<{ repositorySecret: string; configured: boolean; value?: string }>
+    handoffItems: Array<{ id: string; status: string; ownerInputRequired: boolean }>
+  }
+  const readiness = JSON.parse(await readFile('data/production-readiness.json', 'utf8')) as {
+    productionBlockerHandoff?: { status: string; summary: { nextBestUnlockId: string | null } }
+  }
+  const packageJson = JSON.parse(await readFile('package.json', 'utf8')) as {
+    scripts: Record<string, string>
+  }
+  const itemIds = handoff.handoffItems.map((item) => item.id)
+
+  expect(handoff.status).toMatch(/handoff-waiting-on-owner-inputs|handoff-clear/)
+  expect(handoff.summary.externalOwnerActions).toBe(handoff.summary.ownerActionRequired)
+  expect(handoff.summary.missingEnvironmentItems).toBe(handoff.summary.missingEnv)
+  expect(handoff.summary.nextBestUnlock).toBe(handoff.summary.nextBestUnlockId)
+  expect(handoff.summary.ownerActionRequired).toBeGreaterThan(0)
+  expect(handoff.summary.zeroCostFirstActions).toBeGreaterThan(0)
+  expect(handoff.controls.zeroPaidSpend).toBe(true)
+  expect(handoff.controls.noSecretValues).toBe(true)
+  expect(handoff.controls.noMutation).toBe(true)
+  expect(handoff.controls.noAccountCreation).toBe(true)
+  expect(handoff.controls.noStoreSubmission).toBe(true)
+  expect(handoff.controls.noRevenueEnablement).toBe(true)
+  expect(itemIds).toContain('support-contact')
+  expect(itemIds).toContain('production-analytics-browser')
+  expect(itemIds).toContain('product-gate-sample')
+  expect(itemIds).toContain('google-play-account')
+  expect(handoff.environmentPlan.some((item) => item.name === 'AGL_SUPPORT_EMAIL' && !item.configured)).toBe(true)
+  expect(
+    handoff.secretPlan.some(
+      (item) => item.repositorySecret === 'GOOGLE_PLAY_SERVICE_ACCOUNT_JSON' && !item.configured,
+    ),
+  ).toBe(true)
+  expect(handoff.secretPlan.some((item) => Object.hasOwn(item, 'value'))).toBe(false)
+  expect(readiness.productionBlockerHandoff?.status).toBe(handoff.status)
+  expect(readiness.productionBlockerHandoff?.summary.nextBestUnlockId).toBe(handoff.summary.nextBestUnlockId)
+  expect(packageJson.scripts['autonomous:blocker-handoff']).toBe('node scripts/production-blocker-handoff.mjs')
+  expect(packageJson.scripts['autonomous:readiness']).toContain('autonomous:blocker-handoff')
+
+  await page.goto('/')
+  await expect(page.getByLabel('Production Blocker Handoff')).toContainText(handoff.status)
+  await expect(page.getByLabel('Production Blocker Handoff')).toContainText(handoff.summary.nextBestUnlockId ?? 'none')
 })
 
 test('daily challenge starts the retained game and records retention telemetry', async ({ page }) => {

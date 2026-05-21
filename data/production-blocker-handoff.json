@@ -1,0 +1,816 @@
+{
+  "generatedAt": "2026-05-21T08:48:14.683Z",
+  "sourceDataHash": "1a6fbbce6f6b",
+  "status": "handoff-waiting-on-owner-inputs",
+  "statusDetail": "blocked-external-inputs",
+  "liveCandidate": "pwa-3e34ae3a6f7b",
+  "sourceStatus": {
+    "productionEnvironment": "production-env-missing",
+    "productionBootstrap": "production-bootstrap-ready",
+    "objectiveAudit": "objective-in-progress",
+    "autonomousOwnerLoop": "owner-loop-ready",
+    "monetization": "blocked-by-product-gates",
+    "storeCompliance": "draft-ready-external-blockers",
+    "androidRelease": "blocked-needs-host-signing-play",
+    "unitEconomics": "no-spend",
+    "postDeployArtifactSync": "post-deploy-artifact-sync-passed"
+  },
+  "summary": {
+    "totalItems": 8,
+    "ownerActionRequired": 5,
+    "externalOwnerActions": 5,
+    "zeroCostFirstActions": 1,
+    "missingEnv": 7,
+    "missingEnvironmentItems": 7,
+    "missingSecrets": 3,
+    "productGateBlockers": 3,
+    "nextBestUnlockId": "support-contact",
+    "nextBestUnlock": "support-contact",
+    "nextBestZeroCostUnlockId": "support-contact"
+  },
+  "controls": {
+    "zeroPaidSpend": true,
+    "noSecretValues": true,
+    "noSecretValuesStored": true,
+    "noMutation": true,
+    "noAccountCreation": true,
+    "noStoreSubmission": true,
+    "noRevenueEnablement": true,
+    "productGatesStillRequiredForRevenue": true,
+    "storeSpendStillBlockedByUnitEconomics": true
+  },
+  "environmentPlan": [
+    {
+      "name": "AGL_PUBLIC_ORIGIN",
+      "purpose": "HTTPS origin used for hosted privacy/support URLs, sitemap, TWA host, and Digital Asset Links. If no custom origin is set, the setup helper can infer the zero-cost GitHub Pages origin from the repository target.",
+      "configured": true,
+      "source": "github-variable",
+      "fallback": "github-pages-target"
+    },
+    {
+      "name": "AGL_SUPPORT_EMAIL",
+      "purpose": "Production support contact for privacy and store listings.",
+      "configured": false,
+      "source": "missing",
+      "fallback": null
+    },
+    {
+      "name": "VITE_POSTHOG_KEY",
+      "purpose": "Optional browser-side PostHog analytics forwarding.",
+      "configured": false,
+      "source": "missing",
+      "fallback": null
+    },
+    {
+      "name": "POSTHOG_PROJECT_ID + POSTHOG_PERSONAL_API_KEY",
+      "purpose": "Optional autonomous production analytics and experiment result rollups from PostHog.",
+      "configured": false,
+      "source": "missing",
+      "fallback": null
+    },
+    {
+      "name": "VITE_EVENT_COLLECTOR_URL + AGL_EVENT_COLLECTOR_EXPORT_URL",
+      "purpose": "Optional zero-cost Worker/R2 event collector for browser analytics and autonomous rollups.",
+      "configured": false,
+      "source": "missing",
+      "fallback": null
+    },
+    {
+      "name": "VITE_ADSENSE_CLIENT_ID + VITE_ADSENSE_REWARDED_SLOT_ID",
+      "purpose": "Web/PWA rewarded or display-ad test configuration after product and privacy gates pass.",
+      "configured": false,
+      "source": "missing",
+      "fallback": null
+    },
+    {
+      "name": "ADMOB_PUBLISHER_ID",
+      "purpose": "Native app seller line for app-ads.txt and Android rewarded tests after app-store gates pass.",
+      "configured": false,
+      "source": "missing",
+      "fallback": null
+    },
+    {
+      "name": "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
+      "purpose": "Android signing fingerprint for Digital Asset Links.",
+      "configured": true,
+      "source": "missing",
+      "fallback": null
+    },
+    {
+      "name": "AGL_GOOGLE_PLAY_ACCOUNT_CONNECTED",
+      "purpose": "Allows native packaging gates to treat Play Console access as connected.",
+      "configured": false,
+      "source": "missing",
+      "fallback": null
+    }
+  ],
+  "secretPlan": [
+    {
+      "id": "secret-cloudflare-api-token",
+      "repositorySecret": "CLOUDFLARE_API_TOKEN",
+      "envName": "CLOUDFLARE_API_TOKEN",
+      "configured": false,
+      "valueSource": "missing",
+      "command": "printf \"%s\" \"$CLOUDFLARE_API_TOKEN\" | gh secret set CLOUDFLARE_API_TOKEN"
+    },
+    {
+      "id": "secret-vite-event-collector-write-token",
+      "repositorySecret": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
+      "envName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
+      "configured": true,
+      "valueSource": "github-secret",
+      "command": "printf \"%s\" \"$VITE_EVENT_COLLECTOR_WRITE_TOKEN\" | gh secret set VITE_EVENT_COLLECTOR_WRITE_TOKEN"
+    },
+    {
+      "id": "secret-agl-event-collector-admin-token",
+      "repositorySecret": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
+      "envName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
+      "configured": true,
+      "valueSource": "github-secret",
+      "command": "printf \"%s\" \"$AGL_EVENT_COLLECTOR_ADMIN_TOKEN\" | gh secret set AGL_EVENT_COLLECTOR_ADMIN_TOKEN"
+    },
+    {
+      "id": "secret-posthog-personal-api-key",
+      "repositorySecret": "POSTHOG_PERSONAL_API_KEY",
+      "envName": "POSTHOG_PERSONAL_API_KEY",
+      "configured": false,
+      "valueSource": "missing",
+      "command": "printf \"%s\" \"$POSTHOG_PERSONAL_API_KEY\" | gh secret set POSTHOG_PERSONAL_API_KEY"
+    },
+    {
+      "id": "secret-agl-android-keystore-base64",
+      "repositorySecret": "AGL_ANDROID_KEYSTORE_BASE64",
+      "envName": "AGL_ANDROID_KEYSTORE_BASE64",
+      "configured": true,
+      "valueSource": "environment",
+      "command": "printf \"%s\" \"$AGL_ANDROID_KEYSTORE_BASE64\" | gh secret set AGL_ANDROID_KEYSTORE_BASE64"
+    },
+    {
+      "id": "secret-agl-android-keystore-password",
+      "repositorySecret": "AGL_ANDROID_KEYSTORE_PASSWORD",
+      "envName": "AGL_ANDROID_KEYSTORE_PASSWORD",
+      "configured": true,
+      "valueSource": "environment",
+      "command": "printf \"%s\" \"$AGL_ANDROID_KEYSTORE_PASSWORD\" | gh secret set AGL_ANDROID_KEYSTORE_PASSWORD"
+    },
+    {
+      "id": "secret-agl-android-key-alias",
+      "repositorySecret": "AGL_ANDROID_KEY_ALIAS",
+      "envName": "AGL_ANDROID_KEY_ALIAS",
+      "configured": true,
+      "valueSource": "environment",
+      "command": "printf \"%s\" \"$AGL_ANDROID_KEY_ALIAS\" | gh secret set AGL_ANDROID_KEY_ALIAS"
+    },
+    {
+      "id": "secret-google-play-service-account-json",
+      "repositorySecret": "GOOGLE_PLAY_SERVICE_ACCOUNT_JSON",
+      "envName": "GOOGLE_PLAY_SERVICE_ACCOUNT_JSON",
+      "configured": false,
+      "valueSource": "missing",
+      "command": "printf \"%s\" \"$GOOGLE_PLAY_SERVICE_ACCOUNT_JSON\" | gh secret set GOOGLE_PLAY_SERVICE_ACCOUNT_JSON"
+    }
+  ],
+  "missingEnv": [
+    {
+      "name": "AGL_SUPPORT_EMAIL",
+      "purpose": "Production support contact for privacy and store listings.",
+      "configured": false,
+      "source": "missing",
+      "fallback": null
+    },
+    {
+      "name": "VITE_POSTHOG_KEY",
+      "purpose": "Optional browser-side PostHog analytics forwarding.",
+      "configured": false,
+      "source": "missing",
+      "fallback": null
+    },
+    {
+      "name": "POSTHOG_PROJECT_ID + POSTHOG_PERSONAL_API_KEY",
+      "purpose": "Optional autonomous production analytics and experiment result rollups from PostHog.",
+      "configured": false,
+      "source": "missing",
+      "fallback": null
+    },
+    {
+      "name": "VITE_EVENT_COLLECTOR_URL + AGL_EVENT_COLLECTOR_EXPORT_URL",
+      "purpose": "Optional zero-cost Worker/R2 event collector for browser analytics and autonomous rollups.",
+      "configured": false,
+      "source": "missing",
+      "fallback": null
+    },
+    {
+      "name": "VITE_ADSENSE_CLIENT_ID + VITE_ADSENSE_REWARDED_SLOT_ID",
+      "purpose": "Web/PWA rewarded or display-ad test configuration after product and privacy gates pass.",
+      "configured": false,
+      "source": "missing",
+      "fallback": null
+    },
+    {
+      "name": "ADMOB_PUBLISHER_ID",
+      "purpose": "Native app seller line for app-ads.txt and Android rewarded tests after app-store gates pass.",
+      "configured": false,
+      "source": "missing",
+      "fallback": null
+    },
+    {
+      "name": "AGL_GOOGLE_PLAY_ACCOUNT_CONNECTED",
+      "purpose": "Allows native packaging gates to treat Play Console access as connected.",
+      "configured": false,
+      "source": "missing",
+      "fallback": null
+    }
+  ],
+  "missingSecrets": [
+    {
+      "id": "secret-cloudflare-api-token",
+      "repositorySecret": "CLOUDFLARE_API_TOKEN",
+      "envName": "CLOUDFLARE_API_TOKEN",
+      "configured": false,
+      "valueSource": "missing",
+      "command": "printf \"%s\" \"$CLOUDFLARE_API_TOKEN\" | gh secret set CLOUDFLARE_API_TOKEN"
+    },
+    {
+      "id": "secret-posthog-personal-api-key",
+      "repositorySecret": "POSTHOG_PERSONAL_API_KEY",
+      "envName": "POSTHOG_PERSONAL_API_KEY",
+      "configured": false,
+      "valueSource": "missing",
+      "command": "printf \"%s\" \"$POSTHOG_PERSONAL_API_KEY\" | gh secret set POSTHOG_PERSONAL_API_KEY"
+    },
+    {
+      "id": "secret-google-play-service-account-json",
+      "repositorySecret": "GOOGLE_PLAY_SERVICE_ACCOUNT_JSON",
+      "envName": "GOOGLE_PLAY_SERVICE_ACCOUNT_JSON",
+      "configured": false,
+      "valueSource": "missing",
+      "command": "printf \"%s\" \"$GOOGLE_PLAY_SERVICE_ACCOUNT_JSON\" | gh secret set GOOGLE_PLAY_SERVICE_ACCOUNT_JSON"
+    }
+  ],
+  "handoffItems": [
+    {
+      "id": "support-contact",
+      "title": "Production support email",
+      "category": "store-compliance",
+      "status": "owner-input-required",
+      "priority": 100,
+      "costMode": "zero-spend-if-existing-inbox",
+      "ownerInputRequired": true,
+      "requiredEnv": [
+        {
+          "name": "AGL_SUPPORT_EMAIL",
+          "purpose": "Production support contact for privacy and store listings.",
+          "configured": false
+        }
+      ],
+      "requiredSecrets": [],
+      "blockers": [
+        "Set AGL_SUPPORT_EMAIL to a real support inbox before public store submission.",
+        "support-contact: Production support email is required before public store submission."
+      ],
+      "unlocks": [
+        "Hosted privacy/support pages can satisfy public store listing support-contact checks."
+      ],
+      "afterUnlockCommands": [
+        "npm run autonomous:env",
+        "npm run autonomous:store-package",
+        "npm run autonomous:store-compliance",
+        "npm run autonomous:readiness"
+      ]
+    },
+    {
+      "id": "production-analytics-browser",
+      "title": "Browser production analytics",
+      "category": "measurement",
+      "status": "owner-input-required",
+      "priority": 95,
+      "costMode": "use-existing-free-tier-or-first-party-collector",
+      "ownerInputRequired": true,
+      "requiredEnv": [
+        {
+          "name": "VITE_POSTHOG_KEY",
+          "purpose": "Optional browser-side PostHog analytics forwarding.",
+          "configured": false
+        },
+        {
+          "name": "VITE_EVENT_COLLECTOR_URL + AGL_EVENT_COLLECTOR_EXPORT_URL",
+          "purpose": "Optional zero-cost Worker/R2 event collector for browser analytics and autonomous rollups.",
+          "configured": false
+        }
+      ],
+      "requiredSecrets": [
+        {
+          "id": "secret-vite-event-collector-write-token",
+          "kind": "github-secret",
+          "repositorySecret": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
+          "envName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
+          "valueSource": "github-secret",
+          "configured": true,
+          "command": "printf \"%s\" \"$VITE_EVENT_COLLECTOR_WRITE_TOKEN\" | gh secret set VITE_EVENT_COLLECTOR_WRITE_TOKEN"
+        },
+        {
+          "id": "secret-cloudflare-api-token",
+          "kind": "github-secret",
+          "repositorySecret": "CLOUDFLARE_API_TOKEN",
+          "envName": "CLOUDFLARE_API_TOKEN",
+          "valueSource": "missing",
+          "configured": false,
+          "command": "printf \"%s\" \"$CLOUDFLARE_API_TOKEN\" | gh secret set CLOUDFLARE_API_TOKEN"
+        }
+      ],
+      "blockers": [
+        "Set VITE_EVENT_COLLECTOR_URL or VITE_POSTHOG_KEY to forward browser analytics in production.",
+        "Collector environment is not configured."
+      ],
+      "unlocks": [
+        "Real player events can replace fixture/local-only evidence for product gates and retention decisions."
+      ],
+      "afterUnlockCommands": [
+        "npm run autonomous:env",
+        "npm run autonomous:local-event-bridge",
+        "npm run autonomous:import-events",
+        "npm run autonomous:analytics",
+        "npm run autonomous:gate-recovery",
+        "npm run autonomous:sample-plan"
+      ]
+    },
+    {
+      "id": "autonomous-rollup-credentials",
+      "title": "Autonomous production rollups",
+      "category": "measurement",
+      "status": "owner-input-required",
+      "priority": 90,
+      "costMode": "use-existing-collector-or-posthog-project",
+      "ownerInputRequired": true,
+      "requiredEnv": [
+        {
+          "name": "VITE_EVENT_COLLECTOR_URL + AGL_EVENT_COLLECTOR_EXPORT_URL",
+          "purpose": "Optional zero-cost Worker/R2 event collector for browser analytics and autonomous rollups.",
+          "configured": false
+        },
+        {
+          "name": "POSTHOG_PROJECT_ID + POSTHOG_PERSONAL_API_KEY",
+          "purpose": "Optional autonomous production analytics and experiment result rollups from PostHog.",
+          "configured": false
+        }
+      ],
+      "requiredSecrets": [
+        {
+          "id": "secret-agl-event-collector-admin-token",
+          "kind": "github-secret",
+          "repositorySecret": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
+          "envName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
+          "valueSource": "github-secret",
+          "configured": true,
+          "command": "printf \"%s\" \"$AGL_EVENT_COLLECTOR_ADMIN_TOKEN\" | gh secret set AGL_EVENT_COLLECTOR_ADMIN_TOKEN"
+        },
+        {
+          "id": "secret-posthog-personal-api-key",
+          "kind": "github-secret",
+          "repositorySecret": "POSTHOG_PERSONAL_API_KEY",
+          "envName": "POSTHOG_PERSONAL_API_KEY",
+          "valueSource": "missing",
+          "configured": false,
+          "command": "printf \"%s\" \"$POSTHOG_PERSONAL_API_KEY\" | gh secret set POSTHOG_PERSONAL_API_KEY"
+        }
+      ],
+      "blockers": [
+        "Set AGL_EVENT_COLLECTOR_EXPORT_URL + AGL_EVENT_COLLECTOR_ADMIN_TOKEN or PostHog server credentials for autonomous production rollups.",
+        "Collector environment is not configured."
+      ],
+      "unlocks": [
+        "Scheduled owner loops can evaluate production behavior without manual event exports."
+      ],
+      "afterUnlockCommands": [
+        "npm run autonomous:import-events",
+        "npm run autonomous:analytics",
+        "npm run autonomous:objective-audit"
+      ]
+    },
+    {
+      "id": "product-gate-sample",
+      "title": "Product-gate live sample",
+      "category": "product-gates",
+      "status": "needs-live-sample",
+      "priority": 80,
+      "costMode": "zero-paid-acquisition-only",
+      "ownerInputRequired": false,
+      "requiredEnv": [],
+      "requiredSecrets": [],
+      "blockers": [
+        "First-game completion is 40%; gate is 55%.",
+        "Replay rate is 31%; gate is 35%.",
+        "D1 retention is 17%; gate is 18%; source is fixture-retention."
+      ],
+      "unlocks": [
+        "Completion, replay, and D1 gates decide whether monetization and store spend can be justified."
+      ],
+      "afterUnlockCommands": [
+        "npm run autonomous:collect-sample-downloads",
+        "npm run autonomous:gate-recovery",
+        "npm run autonomous:sample-plan",
+        "npm run autonomous:monetization"
+      ]
+    },
+    {
+      "id": "ad-provider-config",
+      "title": "Ad provider configuration",
+      "category": "monetization",
+      "status": "blocked-by-product-gates",
+      "priority": 55,
+      "costMode": "disabled-until-product-gates-pass",
+      "ownerInputRequired": false,
+      "requiredEnv": [
+        {
+          "name": "VITE_ADSENSE_CLIENT_ID + VITE_ADSENSE_REWARDED_SLOT_ID",
+          "purpose": "Web/PWA rewarded or display-ad test configuration after product and privacy gates pass.",
+          "configured": false
+        },
+        {
+          "name": "ADMOB_PUBLISHER_ID",
+          "purpose": "Native app seller line for app-ads.txt and Android rewarded tests after app-store gates pass.",
+          "configured": false
+        }
+      ],
+      "requiredSecrets": [],
+      "blockers": [
+        "Set VITE_ADSENSE_CLIENT_ID + VITE_ADSENSE_REWARDED_SLOT_ID for web/PWA revenue tests or ADMOB_PUBLISHER_ID for native app placements.",
+        "Web/PWA or native ad provider is not configured for gated revenue tests."
+      ],
+      "unlocks": [
+        "Rewarded/display revenue tests can be enabled only after privacy, retention, and provider gates pass."
+      ],
+      "afterUnlockCommands": [
+        "npm run autonomous:monetization",
+        "npm run autonomous:unit-economics"
+      ]
+    },
+    {
+      "id": "google-play-account",
+      "title": "Google Play developer account",
+      "category": "app-store",
+      "status": "owner-account-required",
+      "priority": 45,
+      "costMode": "paid-store-fee-blocked-by-unit-economics",
+      "ownerInputRequired": true,
+      "requiredEnv": [
+        {
+          "name": "AGL_GOOGLE_PLAY_ACCOUNT_CONNECTED",
+          "purpose": "Allows native packaging gates to treat Play Console access as connected.",
+          "configured": false
+        }
+      ],
+      "requiredSecrets": [],
+      "blockers": [
+        "Connect Apple Developer account only after revenue justifies iOS spend.",
+        "google-play-account: Google Play developer account must be connected before Android submission.",
+        "apple-developer-account: Apple Developer account remains deferred until iOS spend is justified.",
+        "google-play-account: Google Play account is not connected."
+      ],
+      "unlocks": [
+        "Android submission checks can progress after product economics justify store spend."
+      ],
+      "afterUnlockCommands": [
+        "npm run autonomous:native-package",
+        "npm run autonomous:android-release-plan"
+      ]
+    },
+    {
+      "id": "google-play-service-account",
+      "title": "Google Play service account",
+      "category": "app-store",
+      "status": "blocked-by-play-account",
+      "priority": 35,
+      "costMode": "requires-existing-play-console-access",
+      "ownerInputRequired": true,
+      "requiredEnv": [],
+      "requiredSecrets": [
+        {
+          "id": "secret-google-play-service-account-json",
+          "kind": "github-secret",
+          "repositorySecret": "GOOGLE_PLAY_SERVICE_ACCOUNT_JSON",
+          "envName": "GOOGLE_PLAY_SERVICE_ACCOUNT_JSON",
+          "valueSource": "missing",
+          "configured": false,
+          "command": "printf \"%s\" \"$GOOGLE_PLAY_SERVICE_ACCOUNT_JSON\" | gh secret set GOOGLE_PLAY_SERVICE_ACCOUNT_JSON"
+        }
+      ],
+      "blockers": [
+        "play-service-account: Google Play service account upload credentials are not available to CI."
+      ],
+      "unlocks": [
+        "CI can prepare upload handoff only after Play Console service-account credentials exist."
+      ],
+      "afterUnlockCommands": [
+        "npm run autonomous:android-release-plan"
+      ]
+    },
+    {
+      "id": "apple-developer-account",
+      "title": "Apple Developer account",
+      "category": "app-store",
+      "status": "deferred-until-ios-payback",
+      "priority": 10,
+      "costMode": "paid-annual-fee-deferred",
+      "ownerInputRequired": false,
+      "requiredEnv": [],
+      "requiredSecrets": [],
+      "blockers": [
+        "Connect Apple Developer account only after revenue justifies iOS spend.",
+        "apple-developer-account: Apple Developer account remains deferred until iOS spend is justified."
+      ],
+      "unlocks": [
+        "iOS submission remains intentionally deferred until revenue justifies annual spend."
+      ],
+      "afterUnlockCommands": [
+        "npm run autonomous:unit-economics",
+        "npm run autonomous:promote"
+      ]
+    }
+  ],
+  "unlocks": [
+    {
+      "id": "support-contact",
+      "title": "Production support email",
+      "category": "store-compliance",
+      "status": "owner-input-required",
+      "priority": 100,
+      "costMode": "zero-spend-if-existing-inbox",
+      "ownerInputRequired": true,
+      "requiredEnv": [
+        {
+          "name": "AGL_SUPPORT_EMAIL",
+          "purpose": "Production support contact for privacy and store listings.",
+          "configured": false
+        }
+      ],
+      "requiredSecrets": [],
+      "blockers": [
+        "Set AGL_SUPPORT_EMAIL to a real support inbox before public store submission.",
+        "support-contact: Production support email is required before public store submission."
+      ],
+      "unlocks": [
+        "Hosted privacy/support pages can satisfy public store listing support-contact checks."
+      ],
+      "afterUnlockCommands": [
+        "npm run autonomous:env",
+        "npm run autonomous:store-package",
+        "npm run autonomous:store-compliance",
+        "npm run autonomous:readiness"
+      ]
+    },
+    {
+      "id": "production-analytics-browser",
+      "title": "Browser production analytics",
+      "category": "measurement",
+      "status": "owner-input-required",
+      "priority": 95,
+      "costMode": "use-existing-free-tier-or-first-party-collector",
+      "ownerInputRequired": true,
+      "requiredEnv": [
+        {
+          "name": "VITE_POSTHOG_KEY",
+          "purpose": "Optional browser-side PostHog analytics forwarding.",
+          "configured": false
+        },
+        {
+          "name": "VITE_EVENT_COLLECTOR_URL + AGL_EVENT_COLLECTOR_EXPORT_URL",
+          "purpose": "Optional zero-cost Worker/R2 event collector for browser analytics and autonomous rollups.",
+          "configured": false
+        }
+      ],
+      "requiredSecrets": [
+        {
+          "id": "secret-vite-event-collector-write-token",
+          "kind": "github-secret",
+          "repositorySecret": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
+          "envName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
+          "valueSource": "github-secret",
+          "configured": true,
+          "command": "printf \"%s\" \"$VITE_EVENT_COLLECTOR_WRITE_TOKEN\" | gh secret set VITE_EVENT_COLLECTOR_WRITE_TOKEN"
+        },
+        {
+          "id": "secret-cloudflare-api-token",
+          "kind": "github-secret",
+          "repositorySecret": "CLOUDFLARE_API_TOKEN",
+          "envName": "CLOUDFLARE_API_TOKEN",
+          "valueSource": "missing",
+          "configured": false,
+          "command": "printf \"%s\" \"$CLOUDFLARE_API_TOKEN\" | gh secret set CLOUDFLARE_API_TOKEN"
+        }
+      ],
+      "blockers": [
+        "Set VITE_EVENT_COLLECTOR_URL or VITE_POSTHOG_KEY to forward browser analytics in production.",
+        "Collector environment is not configured."
+      ],
+      "unlocks": [
+        "Real player events can replace fixture/local-only evidence for product gates and retention decisions."
+      ],
+      "afterUnlockCommands": [
+        "npm run autonomous:env",
+        "npm run autonomous:local-event-bridge",
+        "npm run autonomous:import-events",
+        "npm run autonomous:analytics",
+        "npm run autonomous:gate-recovery",
+        "npm run autonomous:sample-plan"
+      ]
+    },
+    {
+      "id": "autonomous-rollup-credentials",
+      "title": "Autonomous production rollups",
+      "category": "measurement",
+      "status": "owner-input-required",
+      "priority": 90,
+      "costMode": "use-existing-collector-or-posthog-project",
+      "ownerInputRequired": true,
+      "requiredEnv": [
+        {
+          "name": "VITE_EVENT_COLLECTOR_URL + AGL_EVENT_COLLECTOR_EXPORT_URL",
+          "purpose": "Optional zero-cost Worker/R2 event collector for browser analytics and autonomous rollups.",
+          "configured": false
+        },
+        {
+          "name": "POSTHOG_PROJECT_ID + POSTHOG_PERSONAL_API_KEY",
+          "purpose": "Optional autonomous production analytics and experiment result rollups from PostHog.",
+          "configured": false
+        }
+      ],
+      "requiredSecrets": [
+        {
+          "id": "secret-agl-event-collector-admin-token",
+          "kind": "github-secret",
+          "repositorySecret": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
+          "envName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
+          "valueSource": "github-secret",
+          "configured": true,
+          "command": "printf \"%s\" \"$AGL_EVENT_COLLECTOR_ADMIN_TOKEN\" | gh secret set AGL_EVENT_COLLECTOR_ADMIN_TOKEN"
+        },
+        {
+          "id": "secret-posthog-personal-api-key",
+          "kind": "github-secret",
+          "repositorySecret": "POSTHOG_PERSONAL_API_KEY",
+          "envName": "POSTHOG_PERSONAL_API_KEY",
+          "valueSource": "missing",
+          "configured": false,
+          "command": "printf \"%s\" \"$POSTHOG_PERSONAL_API_KEY\" | gh secret set POSTHOG_PERSONAL_API_KEY"
+        }
+      ],
+      "blockers": [
+        "Set AGL_EVENT_COLLECTOR_EXPORT_URL + AGL_EVENT_COLLECTOR_ADMIN_TOKEN or PostHog server credentials for autonomous production rollups.",
+        "Collector environment is not configured."
+      ],
+      "unlocks": [
+        "Scheduled owner loops can evaluate production behavior without manual event exports."
+      ],
+      "afterUnlockCommands": [
+        "npm run autonomous:import-events",
+        "npm run autonomous:analytics",
+        "npm run autonomous:objective-audit"
+      ]
+    },
+    {
+      "id": "product-gate-sample",
+      "title": "Product-gate live sample",
+      "category": "product-gates",
+      "status": "needs-live-sample",
+      "priority": 80,
+      "costMode": "zero-paid-acquisition-only",
+      "ownerInputRequired": false,
+      "requiredEnv": [],
+      "requiredSecrets": [],
+      "blockers": [
+        "First-game completion is 40%; gate is 55%.",
+        "Replay rate is 31%; gate is 35%.",
+        "D1 retention is 17%; gate is 18%; source is fixture-retention."
+      ],
+      "unlocks": [
+        "Completion, replay, and D1 gates decide whether monetization and store spend can be justified."
+      ],
+      "afterUnlockCommands": [
+        "npm run autonomous:collect-sample-downloads",
+        "npm run autonomous:gate-recovery",
+        "npm run autonomous:sample-plan",
+        "npm run autonomous:monetization"
+      ]
+    },
+    {
+      "id": "ad-provider-config",
+      "title": "Ad provider configuration",
+      "category": "monetization",
+      "status": "blocked-by-product-gates",
+      "priority": 55,
+      "costMode": "disabled-until-product-gates-pass",
+      "ownerInputRequired": false,
+      "requiredEnv": [
+        {
+          "name": "VITE_ADSENSE_CLIENT_ID + VITE_ADSENSE_REWARDED_SLOT_ID",
+          "purpose": "Web/PWA rewarded or display-ad test configuration after product and privacy gates pass.",
+          "configured": false
+        },
+        {
+          "name": "ADMOB_PUBLISHER_ID",
+          "purpose": "Native app seller line for app-ads.txt and Android rewarded tests after app-store gates pass.",
+          "configured": false
+        }
+      ],
+      "requiredSecrets": [],
+      "blockers": [
+        "Set VITE_ADSENSE_CLIENT_ID + VITE_ADSENSE_REWARDED_SLOT_ID for web/PWA revenue tests or ADMOB_PUBLISHER_ID for native app placements.",
+        "Web/PWA or native ad provider is not configured for gated revenue tests."
+      ],
+      "unlocks": [
+        "Rewarded/display revenue tests can be enabled only after privacy, retention, and provider gates pass."
+      ],
+      "afterUnlockCommands": [
+        "npm run autonomous:monetization",
+        "npm run autonomous:unit-economics"
+      ]
+    },
+    {
+      "id": "google-play-account",
+      "title": "Google Play developer account",
+      "category": "app-store",
+      "status": "owner-account-required",
+      "priority": 45,
+      "costMode": "paid-store-fee-blocked-by-unit-economics",
+      "ownerInputRequired": true,
+      "requiredEnv": [
+        {
+          "name": "AGL_GOOGLE_PLAY_ACCOUNT_CONNECTED",
+          "purpose": "Allows native packaging gates to treat Play Console access as connected.",
+          "configured": false
+        }
+      ],
+      "requiredSecrets": [],
+      "blockers": [
+        "Connect Apple Developer account only after revenue justifies iOS spend.",
+        "google-play-account: Google Play developer account must be connected before Android submission.",
+        "apple-developer-account: Apple Developer account remains deferred until iOS spend is justified.",
+        "google-play-account: Google Play account is not connected."
+      ],
+      "unlocks": [
+        "Android submission checks can progress after product economics justify store spend."
+      ],
+      "afterUnlockCommands": [
+        "npm run autonomous:native-package",
+        "npm run autonomous:android-release-plan"
+      ]
+    },
+    {
+      "id": "google-play-service-account",
+      "title": "Google Play service account",
+      "category": "app-store",
+      "status": "blocked-by-play-account",
+      "priority": 35,
+      "costMode": "requires-existing-play-console-access",
+      "ownerInputRequired": true,
+      "requiredEnv": [],
+      "requiredSecrets": [
+        {
+          "id": "secret-google-play-service-account-json",
+          "kind": "github-secret",
+          "repositorySecret": "GOOGLE_PLAY_SERVICE_ACCOUNT_JSON",
+          "envName": "GOOGLE_PLAY_SERVICE_ACCOUNT_JSON",
+          "valueSource": "missing",
+          "configured": false,
+          "command": "printf \"%s\" \"$GOOGLE_PLAY_SERVICE_ACCOUNT_JSON\" | gh secret set GOOGLE_PLAY_SERVICE_ACCOUNT_JSON"
+        }
+      ],
+      "blockers": [
+        "play-service-account: Google Play service account upload credentials are not available to CI."
+      ],
+      "unlocks": [
+        "CI can prepare upload handoff only after Play Console service-account credentials exist."
+      ],
+      "afterUnlockCommands": [
+        "npm run autonomous:android-release-plan"
+      ]
+    },
+    {
+      "id": "apple-developer-account",
+      "title": "Apple Developer account",
+      "category": "app-store",
+      "status": "deferred-until-ios-payback",
+      "priority": 10,
+      "costMode": "paid-annual-fee-deferred",
+      "ownerInputRequired": false,
+      "requiredEnv": [],
+      "requiredSecrets": [],
+      "blockers": [
+        "Connect Apple Developer account only after revenue justifies iOS spend.",
+        "apple-developer-account: Apple Developer account remains deferred until iOS spend is justified."
+      ],
+      "unlocks": [
+        "iOS submission remains intentionally deferred until revenue justifies annual spend."
+      ],
+      "afterUnlockCommands": [
+        "npm run autonomous:unit-economics",
+        "npm run autonomous:promote"
+      ]
+    }
+  ],
+  "nextActions": [
+    "Start with Production support email; it is the highest-priority zero-spend owner input.",
+    "After any owner-provided variable or secret changes, run npm run autonomous:readiness and npm run test:e2e."
+  ]
+}

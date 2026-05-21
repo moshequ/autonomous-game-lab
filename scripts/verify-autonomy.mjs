@@ -49,6 +49,7 @@ const requiredFiles = [
   'data/replay-loop.json',
   'data/production-bootstrap.json',
   'data/production-activation.json',
+  'data/production-blocker-handoff.json',
   'data/autonomous-operator.json',
   'data/autonomous-operator-history.json',
   'data/autonomous-cadence.json',
@@ -99,6 +100,7 @@ const requiredFiles = [
   'src/data/replayLoop.ts',
   'src/data/productionBootstrap.ts',
   'src/data/productionActivation.ts',
+  'src/data/productionBlockerHandoff.ts',
   'src/data/autonomousOperator.ts',
   'src/data/autonomousOperatorHistory.ts',
   'src/data/autonomousCadence.ts',
@@ -153,6 +155,7 @@ const requiredFiles = [
   'reports/replay-loop-latest.md',
   'reports/production-bootstrap-latest.md',
   'reports/production-activation-latest.md',
+  'reports/production-blocker-handoff-latest.md',
   'reports/autonomous-operator-latest.md',
   'reports/autonomous-operator-history-latest.md',
   'reports/autonomous-cadence-latest.md',
@@ -198,6 +201,7 @@ const requiredFiles = [
   'scripts/support-channel.mjs',
   'scripts/support-feedback-ingestor.mjs',
   'scripts/production-activation.mjs',
+  'scripts/production-blocker-handoff.mjs',
   'scripts/autonomous-cadence.mjs',
   'scripts/autonomous-self-update.mjs',
   'scripts/android-signing-prep.mjs',
@@ -289,6 +293,9 @@ const completionLoop = JSON.parse(await readFile(path.join(root, 'data', 'comple
 const replayLoop = JSON.parse(await readFile(path.join(root, 'data', 'replay-loop.json'), 'utf8'))
 const productionBootstrap = JSON.parse(await readFile(path.join(root, 'data', 'production-bootstrap.json'), 'utf8'))
 const productionActivation = JSON.parse(await readFile(path.join(root, 'data', 'production-activation.json'), 'utf8'))
+const productionBlockerHandoff = JSON.parse(
+  await readFile(path.join(root, 'data', 'production-blocker-handoff.json'), 'utf8'),
+)
 const autonomousOperator = JSON.parse(await readFile(path.join(root, 'data', 'autonomous-operator.json'), 'utf8'))
 const autonomousOperatorHistory = JSON.parse(
   await readFile(path.join(root, 'data', 'autonomous-operator-history.json'), 'utf8'),
@@ -367,6 +374,10 @@ const eventCollectorDeployPlanSource = await readFile(
 )
 const productionBootstrapSource = await readFile(path.join(root, 'scripts', 'production-bootstrap.mjs'), 'utf8')
 const productionActivationSource = await readFile(path.join(root, 'scripts', 'production-activation.mjs'), 'utf8')
+const productionBlockerHandoffSource = await readFile(
+  path.join(root, 'scripts', 'production-blocker-handoff.mjs'),
+  'utf8',
+)
 const postDeploySmokeSource = await readFile(path.join(root, 'scripts', 'post-deploy-smoke.mjs'), 'utf8')
 const postDeployArtifactSyncSource = await readFile(
   path.join(root, 'scripts', 'post-deploy-artifact-sync.mjs'),
@@ -2269,6 +2280,61 @@ if (
   fail('Production bootstrap must generate zero-spend GitHub setup stages, sanitized variable/secret commands, and guarded workflow triggers.')
 }
 
+const productionBlockerHandoffIds = new Set(
+  (productionBlockerHandoff.handoffItems ?? productionBlockerHandoff.unlocks ?? []).map((item) => item.id),
+)
+const productionBlockerMissingEnv = (productionEnvironment.requiredEnv ?? []).filter((item) => !item.configured)
+const productionBlockerMissingSecrets = (productionBootstrap.requiredSecrets ?? []).filter((item) => !item.configured)
+const requiredProductionBlockerHandoffIds = [
+  'support-contact',
+  'production-analytics-browser',
+  'autonomous-rollup-credentials',
+  'product-gate-sample',
+  'ad-provider-config',
+  'google-play-account',
+  'google-play-service-account',
+  'apple-developer-account',
+]
+
+if (
+  !['handoff-waiting-on-owner-inputs', 'handoff-clear'].includes(productionBlockerHandoff.status) ||
+  productionBlockerHandoff.sourceStatus?.productionEnvironment !== productionEnvironment.status ||
+  productionBlockerHandoff.sourceStatus?.productionBootstrap !== productionBootstrap.status ||
+  productionBlockerHandoff.sourceStatus?.objectiveAudit !== objectiveAudit.status ||
+  productionBlockerHandoff.sourceStatus?.autonomousOwnerLoop !== autonomousOwnerLoop.status ||
+  productionBlockerHandoff.sourceStatus?.monetization !== monetizationPlan.status ||
+  productionBlockerHandoff.sourceStatus?.storeCompliance !== storeCompliance.status ||
+  productionBlockerHandoff.sourceStatus?.androidRelease !== androidRelease.status ||
+  productionBlockerHandoff.sourceStatus?.unitEconomics !== unitEconomics.status ||
+  productionBlockerHandoff.controls?.zeroPaidSpend !== true ||
+  productionBlockerHandoff.controls?.noSecretValues !== true ||
+  productionBlockerHandoff.controls?.noMutation !== true ||
+  productionBlockerHandoff.controls?.noAccountCreation !== true ||
+  productionBlockerHandoff.controls?.noStoreSubmission !== true ||
+  productionBlockerHandoff.controls?.noRevenueEnablement !== true ||
+  productionBlockerHandoff.controls?.productGatesStillRequiredForRevenue !== true ||
+  !requiredProductionBlockerHandoffIds.every((id) => productionBlockerHandoffIds.has(id)) ||
+  productionBlockerHandoff.summary?.missingEnv !== productionBlockerMissingEnv.length ||
+  productionBlockerHandoff.summary?.missingEnvironmentItems !== productionBlockerMissingEnv.length ||
+  productionBlockerHandoff.summary?.missingSecrets !== productionBlockerMissingSecrets.length ||
+  productionBlockerHandoff.summary?.externalOwnerActions !==
+    productionBlockerHandoff.summary?.ownerActionRequired ||
+  productionBlockerHandoff.summary?.nextBestUnlock !== productionBlockerHandoff.summary?.nextBestUnlockId ||
+  !productionBlockerHandoff.environmentPlan?.some(
+    (item) => item.name === 'AGL_SUPPORT_EMAIL' && item.configured === false,
+  ) ||
+  !productionBlockerHandoff.secretPlan?.some(
+    (item) => item.repositorySecret === 'GOOGLE_PLAY_SERVICE_ACCOUNT_JSON' && item.configured === false,
+  ) ||
+  productionBlockerHandoff.secretPlan?.some((item) => Object.hasOwn(item, 'value')) ||
+  !productionBlockerHandoffSource.includes('hashSourceData') ||
+  !productionBlockerHandoffSource.includes('noSecretValues') ||
+  !productionBlockerHandoffSource.includes('noMutation') ||
+  !productionBlockerHandoffSource.includes('zeroPaidSpend')
+) {
+  fail('Production blocker handoff must rank remaining external unlocks without mutation, spend, or secret values.')
+}
+
 if (
   !['activation-waiting-for-credentials', 'activation-ready', 'activation-applied'].includes(
     productionActivation.status,
@@ -2815,6 +2881,15 @@ if (
 
 if (!packageJson.scripts?.['autonomous:performance']?.includes('performance-budget')) {
   fail('Autonomous scripts must expose the performance budget generator.')
+}
+
+if (
+  packageJson.scripts?.['autonomous:blocker-handoff'] !== 'node scripts/production-blocker-handoff.mjs' ||
+  !packageJson.scripts?.['autonomous:readiness']?.includes('autonomous:blocker-handoff') ||
+  packageJson.scripts['autonomous:readiness'].indexOf('autonomous:blocker-handoff') >
+    packageJson.scripts['autonomous:readiness'].indexOf('production-readiness')
+) {
+  fail('Autonomous readiness must regenerate the production blocker handoff before production readiness.')
 }
 
 const e2eScript = packageJson.scripts?.['test:e2e'] ?? ''
@@ -4682,6 +4757,20 @@ if (
   !readiness.productionBootstrap?.setupCommands?.some((command) => command.id === 'sync-repository-config')
 ) {
   fail('Production readiness must include the zero-spend production bootstrap handoff and setup script gate.')
+}
+
+if (
+  !readiness.webPwa?.checks?.some((check) => check.id === 'production-blocker-handoff' && check.status === 'pass') ||
+  readiness.productionBlockerHandoff?.status !== productionBlockerHandoff.status ||
+  readiness.productionBlockerHandoff?.summary?.nextBestUnlockId !==
+    productionBlockerHandoff.summary?.nextBestUnlockId ||
+  readiness.productionBlockerHandoff?.sourceStatus?.productionEnvironment !== productionEnvironment.status ||
+  readiness.productionBlockerHandoff?.controls?.noSecretValues !== true ||
+  !readiness.productionBlockerHandoff?.topHandoffItems?.some((item) => item.id === 'support-contact') ||
+  !appSource.includes('Production Blocker Handoff') ||
+  !appSource.includes('productionBlockerHandoff')
+) {
+  fail('Production readiness and app shell must surface the ranked production blocker handoff.')
 }
 
 if (

@@ -1,5 +1,5 @@
 export const objectiveAudit = {
-  "generatedAt": "2026-05-21T08:31:38.151Z",
+  "generatedAt": "2026-05-21T08:48:13.578Z",
   "status": "objective-in-progress",
   "objective": "Build a bootstrapped autonomous web/PWA game portal that can generate original board-game-inspired games, measure user behavior, propose and apply data-driven improvements, and prepare a path to monetization and app-store distribution with minimal manual intervention.",
   "summary": {
@@ -96,7 +96,7 @@ export const objectiveAudit = {
         "Repository bootstrap: repository-bootstrap-ready; helper ops/github/bootstrap-repository.sh",
         "Release candidate: release-candidate-ready; smoke URLs 14",
         "Post-deploy smoke: post-deploy-smoke-observed-live; origin https://moshequ.github.io/autonomous-game-lab; checks 15/15; local artifact predeploy-artifact-smoke-passed 15/15",
-        "Strict deploy artifact sync: post-deploy-artifact-sync-passed; run 26213848462; live matches artifact true; candidate pwa-6e5c07a0bc4b",
+        "Strict deploy artifact sync: post-deploy-artifact-sync-passed; run 26214923317; live matches artifact true; candidate pwa-3e34ae3a6f7b",
         "Repository channel: repository-channel-ready; repository moshequ/autonomous-game-lab; git worktree true",
         "Autonomy score: 98%",
         "Credential-gated actions: 10"
@@ -231,7 +231,7 @@ export const objectiveAudit = {
     "noRevenueEnablementUntilGatesPass": true,
     "noStoreSubmissionUntilExternalAccounts": true,
     "currentWorktreeClean": false,
-    "currentWorktreeDirtyFiles": 41,
+    "currentWorktreeDirtyFiles": 40,
     "productionBootstrapFresh": true,
     "productionBootstrapStaleInputIds": [],
     "objectiveNextBestActionSource": "owner-loop"
