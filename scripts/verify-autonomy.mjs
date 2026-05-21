@@ -5462,6 +5462,36 @@ const ownerProductGateSamplePlanFreshAfterDownloadsScan =
   Number.isFinite(ownerExplicitDownloadsScanAt) &&
   Number.isFinite(Date.parse(productGateSamplePlan.generatedAt ?? '')) &&
   Date.parse(productGateSamplePlan.generatedAt) >= ownerExplicitDownloadsScanAt
+const ownerProductGateSamplePlanRefreshInputs = [
+  { id: 'product-gate-recovery', generatedAt: productGateRecovery.generatedAt },
+  { id: 'product-optimization', generatedAt: productOptimization.generatedAt },
+  { id: 'analytics-rollup', generatedAt: analytics.generatedAt },
+  { id: 'traffic-seeding', generatedAt: trafficSeeding.generatedAt },
+  { id: 'organic-seed-loop', generatedAt: organicSeedLoop.generatedAt },
+  { id: 'retention-loop', generatedAt: retentionLoop.generatedAt },
+  { id: 'completion-loop', generatedAt: completionLoop.generatedAt },
+  { id: 'replay-loop', generatedAt: replayLoop.generatedAt },
+  { id: 'unit-economics', generatedAt: unitEconomics.generatedAt },
+  { id: 'support-feedback', generatedAt: supportFeedback.generatedAt },
+  { id: 'support-channel', generatedAt: supportChannel.generatedAt },
+]
+const ownerProductGateSamplePlanGeneratedAtMs = Date.parse(productGateSamplePlan.generatedAt ?? '')
+const ownerProductGateSamplePlanGeneratedDate = Number.isFinite(ownerProductGateSamplePlanGeneratedAtMs)
+  ? localIsoDate(new Date(ownerProductGateSamplePlanGeneratedAtMs))
+  : null
+const ownerProductGateSamplePlanSampleDateCurrent =
+  ownerProductGateSamplePlanGeneratedDate === localIsoDate()
+const ownerProductGateSamplePlanStaleInputIds = ownerProductGateSamplePlanRefreshInputs
+  .filter((artifact) => {
+    const artifactGeneratedAtMs = Date.parse(artifact.generatedAt ?? '')
+
+    return (
+      Number.isFinite(artifactGeneratedAtMs) &&
+      (!Number.isFinite(ownerProductGateSamplePlanGeneratedAtMs) ||
+        artifactGeneratedAtMs > ownerProductGateSamplePlanGeneratedAtMs)
+    )
+  })
+  .map((artifact) => artifact.id)
 const ownerProductGateSamplePlanSourceDataHash = hashSourceData({
   sampleDate: localIsoDate(),
   productGateRecovery,
@@ -5486,6 +5516,26 @@ const ownerProductGateSamplePlanSourceDataHash = hashSourceData({
     analyticsEvidenceAggregateOnly: supportChannel.controls?.analyticsEvidenceAggregateOnly === true,
   },
 })
+const ownerProductGateRecoveryCurrent =
+  productGateRecovery.sourceDataHash === productGateRecoverySourceDataHash && productGateRecovery.status !== 'missing'
+const ownerProductGateSamplePlanCurrent =
+  productGateSamplePlan.sourceDataHash === ownerProductGateSamplePlanSourceDataHash &&
+  productGateSamplePlan.status !== 'missing'
+const ownerProductGateSamplePlanNeedsRefresh =
+  productGateSamplePlan.status === 'product-gate-sample-plan-ready' && !ownerProductGateSamplePlanCurrent
+const ownerProductGateSamplePlanMaterialRefreshNeeded =
+  !ownerProductGateSamplePlanSampleDateCurrent ||
+  ownerProductGateSamplePlanStaleInputIds.length > 0 ||
+  ownerGateSampleEvidenceReadyNow
+const ownerProductGateSamplePlanCooldownOnlyStale =
+  ownerProductGateSamplePlanNeedsRefresh &&
+  ownerGateSampleDownloadsCoolingDown &&
+  ownerProductGateSamplePlanFreshAfterDownloadsScan &&
+  !ownerProductGateSamplePlanMaterialRefreshNeeded
+const ownerProductGateSamplePlanShouldRefresh =
+  ownerProductGateRecoveryCurrent &&
+  ownerProductGateSamplePlanNeedsRefresh &&
+  !ownerProductGateSamplePlanCooldownOnlyStale
 const ownerCollectGateSampleAction = autonomousOwnerLoop.safeAutonomousActions?.find(
   (action) => action.id === 'collect-gate-sample-downloads',
 )
@@ -5992,14 +6042,27 @@ if (
     storeComplianceSourceDataHash ||
   autonomousOwnerLoop.executionMemory?.sourceFreshness?.storeCompliance?.current !==
     (storeCompliance.sourceDataHash === storeComplianceSourceDataHash && storeCompliance.status !== 'missing') ||
-  (productGateRecovery.sourceDataHash === productGateRecoverySourceDataHash &&
-    productGateSamplePlan.sourceDataHash === ownerProductGateSamplePlanSourceDataHash &&
-    ownerRefreshGateRecoveryAction?.status !== 'monitor') ||
-  (productGateSamplePlan.sourceDataHash === ownerProductGateSamplePlanSourceDataHash &&
-    ownerRefreshSamplePlanAction?.status !== 'monitor') ||
-  (productGateRecovery.sourceDataHash === productGateRecoverySourceDataHash &&
-    productGateSamplePlan.sourceDataHash === ownerProductGateSamplePlanSourceDataHash &&
+  (ownerProductGateRecoveryCurrent && ownerRefreshGateRecoveryAction?.status !== 'monitor') ||
+  (ownerProductGateRecoveryCurrent &&
     autonomousOwnerLoop.ownerDecision?.nextBestActionId === 'refresh-product-gate-recovery') ||
+  (ownerProductGateSamplePlanShouldRefresh && ownerRefreshSamplePlanAction?.status !== 'armed') ||
+  (!ownerProductGateSamplePlanShouldRefresh && ownerRefreshSamplePlanAction?.status !== 'monitor') ||
+  (ownerProductGateSamplePlanCurrent &&
+    autonomousOwnerLoop.ownerDecision?.nextBestActionId === 'refresh-product-gate-sample-plan') ||
+  autonomousOwnerLoop.executionMemory?.productGateSamplePlanRefreshPolicy?.recoveryCurrent !==
+    ownerProductGateRecoveryCurrent ||
+  autonomousOwnerLoop.executionMemory?.productGateSamplePlanRefreshPolicy?.samplePlanNeedsRefresh !==
+    ownerProductGateSamplePlanNeedsRefresh ||
+  autonomousOwnerLoop.executionMemory?.productGateSamplePlanRefreshPolicy?.cooldownOnlyStale !==
+    ownerProductGateSamplePlanCooldownOnlyStale ||
+  autonomousOwnerLoop.executionMemory?.productGateSamplePlanRefreshPolicy?.materialRefreshNeeded !==
+    ownerProductGateSamplePlanMaterialRefreshNeeded ||
+  autonomousOwnerLoop.executionMemory?.productGateSamplePlanRefreshPolicy?.sampleDateCurrent !==
+    ownerProductGateSamplePlanSampleDateCurrent ||
+  autonomousOwnerLoop.executionMemory?.productGateSamplePlanRefreshPolicy?.freshAfterLastDownloadsScan !==
+    ownerProductGateSamplePlanFreshAfterDownloadsScan ||
+  JSON.stringify(autonomousOwnerLoop.executionMemory?.productGateSamplePlanRefreshPolicy?.staleInputIds ?? []) !==
+    JSON.stringify(ownerProductGateSamplePlanStaleInputIds) ||
   (storePackage.sourceDataHash === storePackageSourceDataHash &&
     storeListingOptimizer.sourceDataHash === storeListingOptimizerSourceDataHash &&
     storeCompliance.sourceDataHash === storeComplianceSourceDataHash &&
@@ -6019,6 +6082,8 @@ if (
   !autonomousOwnerLoopSource.includes('productionBootstrapFreshness') ||
   !autonomousOwnerLoopSource.includes('productionBlockerHandoffFreshness') ||
   !autonomousOwnerLoopSource.includes('productionBlockerHandoffCurrent') ||
+  !autonomousOwnerLoopSource.includes('productGateSamplePlanRefreshPolicy') ||
+  !autonomousOwnerLoopSource.includes('productGateSamplePlanCooldownOnlyStale') ||
   (ownerProductionBootstrapFresh && ownerBootstrapProductionAction?.status !== 'monitor') ||
   (ownerProductionBootstrapFresh &&
     autonomousOwnerLoop.ownerDecision?.nextBestActionId === 'bootstrap-production-setup') ||
@@ -6077,11 +6142,8 @@ if (
   (ownerGateSampleDownloadsCoolingDown && ownerCollectGateSampleAction?.status !== 'monitor') ||
   (ownerGateSampleDownloadsCoolingDown &&
     autonomousOwnerLoop.ownerDecision?.nextBestActionId === 'collect-gate-sample-downloads') ||
-  (ownerGateSampleDownloadsCoolingDown &&
-    ownerProductGateSamplePlanFreshAfterDownloadsScan &&
-    ownerRefreshSamplePlanAction?.status !== 'monitor') ||
-  (ownerGateSampleDownloadsCoolingDown &&
-    ownerProductGateSamplePlanFreshAfterDownloadsScan &&
+  (ownerProductGateSamplePlanCooldownOnlyStale && ownerRefreshSamplePlanAction?.status !== 'monitor') ||
+  (ownerProductGateSamplePlanCooldownOnlyStale &&
     autonomousOwnerLoop.ownerDecision?.nextBestActionId === 'refresh-product-gate-sample-plan') ||
   (ownerObjectiveAuditFresh && ownerObjectiveAuditAction?.status !== 'monitor') ||
   (ownerObjectiveAuditFresh &&
@@ -6304,11 +6366,11 @@ if (
 }
 
 if (
-  !appSource.includes('ownerDecisionAction') ||
   !appSource.includes('autonomousOwnerLoop.ownerDecision.nextBestActionId') ||
-  !appSource.includes('[ownerDecisionAction]')
+  appSource.includes('ownerDecisionAction') ||
+  appSource.includes('autonomousOwnerLoop.safeAutonomousActions')
 ) {
-  fail('Autonomy cockpit must always surface the owner loop next action even when it is outside the top action slice.')
+  fail('Autonomy cockpit must surface the owner loop next action without shipping the full safe-action list in the initial shell.')
 }
 
 if (

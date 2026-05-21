@@ -1,10 +1,10 @@
 # Autonomous Operator
 
-Generated: 2026-05-21T19:16:32.950Z
+Generated: 2026-05-21T19:33:12.552Z
 Status: operator-plan-ready
 Mode: plan-only
-Owner decision: refresh-product-gate-recovery
-Selected action: refresh-product-gate-recovery
+Owner decision: bootstrap-production-setup
+Selected action: bootstrap-production-setup
 Execution: not-requested
 
 ## Controls
@@ -18,12 +18,13 @@ Execution: not-requested
 
 ## Selected Action
 
-- refresh-product-gate-recovery: npm run autonomous:gate-recovery && npm run autonomous:sample-plan
+- bootstrap-production-setup: npm run autonomous:release-candidate && npm run autonomous:deploy-plan && npm run autonomous:bootstrap
 
 ## Eligible Local Actions
 
-- refresh-product-gate-recovery
-- optimize-store-listing
+- seed-portfolio-traffic
+- refresh-organic-seed-loop
+- bootstrap-production-setup
 
 ## Blocked Actions
 
@@ -31,8 +32,8 @@ Execution: not-requested
 - hold-for-external-input: status-monitor
 - refresh-autonomous-cadence: status-monitor
 - refresh-autonomous-self-update: status-monitor
-- seed-portfolio-traffic: status-monitor
-- refresh-organic-seed-loop: status-monitor
+- seed-portfolio-traffic: not-selected-this-run
+- refresh-organic-seed-loop: not-selected-this-run
 - refresh-support-feedback: status-monitor
 - optimize-daily-retention: status-monitor
 - measure-pwa-install-loop: status-monitor

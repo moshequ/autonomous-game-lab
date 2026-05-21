@@ -8,44 +8,8 @@ export const autonomousOwnerLoop = {
     "externalAccountInterventionRequired": true
   },
   "ownerDecision": {
-    "nextBestActionId": "refresh-product-gate-recovery"
-  },
-  "systems": [
-    {
-      "id": "trend-radar",
-      "status": "ready"
-    },
-    {
-      "id": "concept-generator",
-      "status": "ready"
-    },
-    {
-      "id": "prototype-generator",
-      "status": "ready"
-    },
-    {
-      "id": "game-factory",
-      "status": "ready"
-    }
-  ],
-  "safeAutonomousActions": [
-    {
-      "id": "refresh-product-gate-recovery",
-      "status": "armed"
-    },
-    {
-      "id": "run-daily-owner-loop",
-      "status": "armed"
-    },
-    {
-      "id": "hold-for-external-input",
-      "status": "monitor"
-    },
-    {
-      "id": "refresh-autonomous-cadence",
-      "status": "monitor"
-    }
-  ]
+    "nextBestActionId": "bootstrap-production-setup"
+  }
 } as const
 
 export type AutonomousOwnerLoop = typeof autonomousOwnerLoop

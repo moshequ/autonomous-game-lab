@@ -1219,6 +1219,36 @@ const productGateSamplePlanFreshAfterDownloadsScan =
   Number.isFinite(explicitDownloadsScanAt) &&
   Number.isFinite(Date.parse(productGateSamplePlan.generatedAt ?? '')) &&
   Date.parse(productGateSamplePlan.generatedAt) >= explicitDownloadsScanAt
+const productGateSamplePlanRefreshInputs = [
+  { id: 'product-gate-recovery', generatedAt: productGateRecovery.generatedAt },
+  { id: 'product-optimization', generatedAt: productOptimization.generatedAt },
+  { id: 'analytics-rollup', generatedAt: analytics.generatedAt },
+  { id: 'traffic-seeding', generatedAt: traffic.generatedAt },
+  { id: 'organic-seed-loop', generatedAt: organicSeedLoop.generatedAt },
+  { id: 'retention-loop', generatedAt: retention.generatedAt },
+  { id: 'completion-loop', generatedAt: completionLoop.generatedAt },
+  { id: 'replay-loop', generatedAt: replayLoop.generatedAt },
+  { id: 'unit-economics', generatedAt: unitEconomics.generatedAt },
+  { id: 'support-feedback', generatedAt: supportFeedback.generatedAt },
+  { id: 'support-channel', generatedAt: supportChannel.generatedAt },
+]
+const productGateSamplePlanGeneratedAtMs = generatedAtMs(productGateSamplePlan)
+const productGateSamplePlanGeneratedDate =
+  typeof productGateSamplePlanGeneratedAtMs === 'number'
+    ? localIsoDate(new Date(productGateSamplePlanGeneratedAtMs))
+    : null
+const productGateSamplePlanSampleDateCurrent = productGateSamplePlanGeneratedDate === localIsoDate()
+const productGateSamplePlanStaleInputIds = productGateSamplePlanRefreshInputs
+  .filter((artifact) => {
+    const artifactGeneratedAtMs = generatedAtMs(artifact)
+
+    return (
+      typeof artifactGeneratedAtMs === 'number' &&
+      (typeof productGateSamplePlanGeneratedAtMs !== 'number' ||
+        artifactGeneratedAtMs > productGateSamplePlanGeneratedAtMs)
+    )
+  })
+  .map((artifact) => artifact.id)
 const localEventCollectionFreshnessInputs = [
   { id: 'event-ingest', generatedAt: eventIngest.generatedAt },
   { id: 'analytics-rollup', generatedAt: analytics.generatedAt },
@@ -1628,6 +1658,17 @@ const productGateSamplePlanFreshness = sourceFreshness({
   ],
   sourceDataHash: hashSourceData(productGateSamplePlanSourceEvidence),
 })
+const productGateSamplePlanNeedsRefresh =
+  productGateSamplePlan.status === 'product-gate-sample-plan-ready' && !productGateSamplePlanFreshness.current
+const productGateSamplePlanMaterialRefreshNeeded =
+  !productGateSamplePlanSampleDateCurrent ||
+  productGateSamplePlanStaleInputIds.length > 0 ||
+  gateSampleEvidenceReadyNow
+const productGateSamplePlanCooldownOnlyStale =
+  productGateSamplePlanNeedsRefresh &&
+  gateSampleDownloadsScanCoolingDown &&
+  productGateSamplePlanFreshAfterDownloadsScan &&
+  !productGateSamplePlanMaterialRefreshNeeded
 const storePackageFreshness = sourceFreshness({
   artifact: storePackage,
   readyStatuses: ['store-package-ready'],
@@ -1990,21 +2031,20 @@ const safeAutonomousActions = [
   {
     id: 'refresh-product-gate-recovery',
     status:
-      productGateRecoveryFreshness.current && productGateSamplePlanFreshness.current
-        ? 'monitor'
-        : productGateRecovery.status === 'product-gate-recovery-ready'
-          ? 'armed'
-          : 'monitor',
+      productGateRecovery.status === 'product-gate-recovery-ready' && !productGateRecoveryFreshness.current
+        ? 'armed'
+        : 'monitor',
     costUsd: 0,
     command: 'npm run autonomous:gate-recovery && npm run autonomous:sample-plan',
     targets: [
       productGateRecovery.summary?.primaryBottleneck ?? 'product-gate-recovery',
       productGateSamplePlan.summary?.primaryGateId ?? 'product-gate-sample-plan',
     ],
-    reason:
-      productGateRecoveryFreshness.current && productGateSamplePlanFreshness.current
-        ? 'Product-gate recovery and sample missions already match current gate, analytics, loop, and event-bridge evidence.'
-        : 'Ranks the exact observed lift and immediately refreshes the zero-spend sample missions before revenue gates can open.',
+    reason: productGateRecoveryFreshness.current
+      ? productGateSamplePlanNeedsRefresh
+        ? 'Product-gate recovery is current; the dedicated sample-plan action owns sample-only refreshes to avoid rerunning recovery without new recovery evidence.'
+        : 'Product-gate recovery and sample missions already match current gate, analytics, loop, and event-bridge evidence.'
+      : 'Ranks the exact observed lift and immediately refreshes the zero-spend sample missions before revenue gates can open.',
   },
   {
     id: 'collect-gate-sample-downloads',
@@ -2024,9 +2064,9 @@ const safeAutonomousActions = [
   {
     id: 'refresh-product-gate-sample-plan',
     status:
-      productGateSamplePlan.status === 'product-gate-sample-plan-ready' &&
-      !productGateSamplePlanFreshness.current &&
-      !(gateSampleDownloadsScanCoolingDown && productGateSamplePlanFreshAfterDownloadsScan)
+      productGateRecoveryFreshness.current &&
+      productGateSamplePlanNeedsRefresh &&
+      !productGateSamplePlanCooldownOnlyStale
         ? 'armed'
         : 'monitor',
     costUsd: 0,
@@ -2034,6 +2074,10 @@ const safeAutonomousActions = [
     targets: [productGateSamplePlan.summary?.primaryGateId ?? productGateRecovery.summary?.primaryBottleneck ?? 'product-gates'],
     reason: productGateSamplePlanFreshness.current
       ? 'Product-gate sample plan already matches current recovery, traffic, event-bridge, and daily sample-date inputs.'
+      : !productGateRecoveryFreshness.current
+        ? 'Waits for product-gate recovery to refresh first, then regenerates missions from the updated recovery evidence.'
+        : productGateSamplePlanCooldownOnlyStale
+          ? `Sample plan already captured the latest no-evidence Downloads scan; retry after ${gateSampleDownloadsBackoffHours} hours or when real player evidence appears.`
       : 'Turns gate deficits into zero-cost player-initiated sample missions and exact refresh commands.',
   },
   {
@@ -2399,6 +2443,15 @@ const payload = {
       lastExplicitScanStatus: localEventBridge.explicitDownloadsScan?.status ?? null,
       evidenceReadyNow: gateSampleEvidenceReadyNow,
     },
+    productGateSamplePlanRefreshPolicy: {
+      recoveryCurrent: productGateRecoveryFreshness.current,
+      samplePlanNeedsRefresh: productGateSamplePlanNeedsRefresh,
+      cooldownOnlyStale: productGateSamplePlanCooldownOnlyStale,
+      materialRefreshNeeded: productGateSamplePlanMaterialRefreshNeeded,
+      sampleDateCurrent: productGateSamplePlanSampleDateCurrent,
+      freshAfterLastDownloadsScan: productGateSamplePlanFreshAfterDownloadsScan,
+      staleInputIds: productGateSamplePlanStaleInputIds,
+    },
     localEventCollectionFreshness: {
       current: localEventCollectionNoEventCurrent,
       ready: localEventBridgeReady,
@@ -2521,13 +2574,6 @@ const payload = {
   },
 }
 
-const appSafeAutonomousActions = [
-  ...payload.safeAutonomousActions.filter((action) => action.id === payload.ownerDecision.nextBestActionId),
-  ...payload.safeAutonomousActions
-    .filter((action) => action.id !== payload.ownerDecision.nextBestActionId)
-    .slice(0, 3),
-]
-
 const appPayload = {
   status: payload.status,
   mode: payload.mode,
@@ -2540,14 +2586,6 @@ const appPayload = {
   ownerDecision: {
     nextBestActionId: payload.ownerDecision.nextBestActionId,
   },
-  systems: payload.systems.slice(0, 4).map((system) => ({
-    id: system.id,
-    status: system.status,
-  })),
-  safeAutonomousActions: appSafeAutonomousActions.map((action) => ({
-    id: action.id,
-    status: action.status,
-  })),
 }
 
 const report = [

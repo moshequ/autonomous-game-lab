@@ -906,17 +906,6 @@ function App() {
     .filter((action) => ['active', 'applied', 'monitoring'].includes(action.status))
     .slice(0, 3)
   const portfolioTopGames = portfolioPolicy.games.slice(0, 4)
-  const ownerSystems = autonomousOwnerLoop.systems.slice(0, 4)
-  const ownerSafeActions = autonomousOwnerLoop.safeAutonomousActions as unknown as ReadonlyArray<{
-    id: string
-    status: string
-  }>
-  const ownerNextActionId = autonomousOwnerLoop.ownerDecision.nextBestActionId as string
-  const ownerDecisionAction = ownerSafeActions.find((action) => action.id === ownerNextActionId)
-  const ownerActions = [
-    ...(ownerDecisionAction ? [ownerDecisionAction] : []),
-    ...ownerSafeActions.filter((action) => action.id !== ownerNextActionId).slice(0, 3),
-  ]
   const performanceGameChunk = performanceBudget.deferred.gameChunk ?? performanceBudget.deferred.largestDeferredChunk
   const productOptimizationAction = productOptimization.actions[0]
   const productGateRecoveryPrimary = productGateRecovery.priorities[0]
@@ -3445,18 +3434,6 @@ function App() {
                   <strong>{objectiveAudit.completion.nextBestAction}</strong>
                 </div>
               </div>
-              {ownerSystems.map((system) => (
-                <div className="backlogRow" key={system.id}>
-                  <span>{system.id}</span>
-                  <strong>{system.status}</strong>
-                </div>
-              ))}
-              {ownerActions.map((action) => (
-                <div className="backlogRow" key={action.id}>
-                  <span>{action.id}</span>
-                  <strong>{action.status}</strong>
-                </div>
-              ))}
             </div>
           </div>
 
