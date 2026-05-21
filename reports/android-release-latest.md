@@ -1,6 +1,6 @@
 # Android Release
 
-Generated: 2026-05-20T15:43:50.214Z
+Generated: 2026-05-21T01:44:59.572Z
 Status: blocked-needs-host-signing-play
 Channel: android-google-play
 Package: app.autonomousgamelab.portal
@@ -10,14 +10,14 @@ Cost posture: zero-paid-spend-until-live-revenue-and-retention-pass
 ## Checks
 
 - blocker: native-package-ready - Native package is blocked-draft-ready.
-- blocker: store-package-draft - Store package is blocked; data safety is draft-ready.
+- pass: store-package-draft - Store package is draft-ready; data safety is draft-ready.
 - pass: store-compliance-draft - Store compliance is draft-ready-external-blockers.
 - pass: store-screenshots - 4 screenshot asset(s) are available.
 - pass: asset-links - Digital Asset Links are generated at public/.well-known/assetlinks.json.
 - pass: signing-fingerprint - Android signing fingerprint is configured.
 - pass: signing-secrets - Android keystore, password, and alias are available to CI.
 - missing-env: google-play-account - Google Play account is not connected.
-- missing-env: play-service-account - Google Play service account upload credentials are available to CI.
+- missing-env: play-service-account - Google Play service account upload credentials are not available to CI.
 - held-by-economics: unit-economics-store-spend - Store spend allowed is false; spend mode is no-spend.
 - blocker: promotion-gate - Android promotion status is blocked.
 - pass: release-workflow - Android TWA release workflow exists.

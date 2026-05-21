@@ -1,5 +1,5 @@
 export const androidRelease = {
-  "generatedAt": "2026-05-20T15:43:50.214Z",
+  "generatedAt": "2026-05-21T01:44:59.572Z",
   "status": "blocked-needs-host-signing-play",
   "envFiles": {
     "loaded": true,
@@ -91,8 +91,8 @@ export const androidRelease = {
     },
     {
       "id": "store-package-draft",
-      "status": "blocker",
-      "detail": "Store package is blocked; data safety is draft-ready."
+      "status": "pass",
+      "detail": "Store package is draft-ready; data safety is draft-ready."
     },
     {
       "id": "store-compliance-draft",
@@ -127,7 +127,7 @@ export const androidRelease = {
     {
       "id": "play-service-account",
       "status": "missing-env",
-      "detail": "Google Play service account upload credentials are available to CI."
+      "detail": "Google Play service account upload credentials are not available to CI."
     },
     {
       "id": "unit-economics-store-spend",
@@ -147,9 +147,8 @@ export const androidRelease = {
   ],
   "blockers": [
     "native-package-ready: Native package is blocked-draft-ready.",
-    "store-package-draft: Store package is blocked; data safety is draft-ready.",
     "google-play-account: Google Play account is not connected.",
-    "play-service-account: Google Play service account upload credentials are available to CI.",
+    "play-service-account: Google Play service account upload credentials are not available to CI.",
     "unit-economics-store-spend: Store spend allowed is false; spend mode is no-spend.",
     "promotion-gate: Android promotion status is blocked."
   ],

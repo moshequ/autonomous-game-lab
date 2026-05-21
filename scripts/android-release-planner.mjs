@@ -108,7 +108,9 @@ const checks = [
   {
     id: 'signing-secrets',
     status: signingSecretsConfigured ? 'pass' : 'missing-env',
-    detail: 'Android keystore, password, and alias are available to CI.',
+    detail: signingSecretsConfigured
+      ? 'Android keystore, password, and alias are available to CI.'
+      : 'Android keystore, password, or alias is not available to CI.',
   },
   {
     id: 'google-play-account',
@@ -118,7 +120,9 @@ const checks = [
   {
     id: 'play-service-account',
     status: playServiceAccountConfigured ? 'pass' : 'missing-env',
-    detail: 'Google Play service account upload credentials are available to CI.',
+    detail: playServiceAccountConfigured
+      ? 'Google Play service account upload credentials are available to CI.'
+      : 'Google Play service account upload credentials are not available to CI.',
   },
   {
     id: 'unit-economics-store-spend',
