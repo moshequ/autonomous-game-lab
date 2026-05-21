@@ -1,6 +1,7 @@
 import { readdir, readFile } from 'node:fs/promises'
 import path from 'node:path'
 import { buildExplicitDownloadsScanPolicy, stableDownloadsScanPolicySource } from './lib/downloads-scan-policy.mjs'
+import { productionBootstrapSourceDataHash } from './lib/production-bootstrap-source.mjs'
 import { hashSourceData } from './lib/source-hash.mjs'
 import { stableTrafficSeedingForSamplePlan } from './lib/traffic-sample-source.mjs'
 
@@ -2277,6 +2278,19 @@ const bootstrapVariableNames = new Set(
 const bootstrapSecretNames = new Set(
   (productionBootstrap.requiredSecrets ?? []).map((action) => action.repositorySecret),
 )
+const productionBootstrapExpectedSourceDataHash = productionBootstrapSourceDataHash({
+  releaseCandidate,
+  deployment,
+  repositoryReadiness,
+  repositoryBootstrap,
+  productionEnvironment,
+  eventCollectorDeployment,
+  storeCompliance,
+  nativePackage,
+  androidRelease,
+  monetization: monetizationPlan,
+  unitEconomics,
+})
 const requiredBootstrapStages = [
   'repository-channel',
   'repository-bootstrap',
@@ -2308,6 +2322,7 @@ const requiredBootstrapSecrets = [
 
 if (
   productionBootstrap.status !== 'production-bootstrap-ready' ||
+  productionBootstrap.sourceDataHash !== productionBootstrapExpectedSourceDataHash ||
   !['waiting-for-external-credentials', 'can-apply-configured-actions'].includes(productionBootstrap.mode) ||
   productionBootstrap.controls?.zeroSpendGuard !== true ||
   productionBootstrap.controls?.noPaidResourcesCreated !== true ||
@@ -2703,6 +2718,7 @@ if (
   !autonomousSelfUpdateSource.includes('allowedPrefixes') ||
   !autonomousSelfUpdateSource.includes('public/gate-sample.html') ||
   !autonomousSelfUpdateSource.includes('public/install.html') ||
+  !autonomousSelfUpdateSource.includes('public/measurement-status.json') ||
   !autonomousSelfUpdateSource.includes('public/seed-kit.html') ||
   !autonomousSelfUpdateSource.includes('blockedPrefixes') ||
   !autonomousSelfUpdateSource.includes("'data/player-events/'") ||
@@ -2735,8 +2751,24 @@ const objectiveProductionBootstrapInputs = [
   { id: 'production-environment', generatedAt: productionEnvironment.generatedAt },
   { id: 'event-collector-deployment', generatedAt: eventCollectorDeployment.generatedAt },
 ]
+const objectiveProductionBootstrapSourceDataHash = productionBootstrapSourceDataHash({
+  releaseCandidate,
+  deployment,
+  repositoryReadiness,
+  repositoryBootstrap,
+  productionEnvironment,
+  eventCollectorDeployment,
+  storeCompliance,
+  nativePackage,
+  androidRelease,
+  monetization: monetizationPlan,
+  unitEconomics,
+})
+const objectiveProductionBootstrapSourceCurrent =
+  productionBootstrap.sourceDataHash === objectiveProductionBootstrapSourceDataHash &&
+  productionBootstrap.status !== 'missing'
 const objectiveProductionBootstrapGeneratedAtMs = objectiveGeneratedAtMs(productionBootstrap)
-const objectiveProductionBootstrapStaleInputIds = objectiveProductionBootstrapInputs
+const objectiveProductionBootstrapTimestampStaleInputIds = objectiveProductionBootstrapInputs
   .filter((artifact) => {
     const artifactGeneratedAtMs = objectiveGeneratedAtMs(artifact)
 
@@ -2747,11 +2779,14 @@ const objectiveProductionBootstrapStaleInputIds = objectiveProductionBootstrapIn
     )
   })
   .map((artifact) => artifact.id)
+const objectiveProductionBootstrapStaleInputIds = objectiveProductionBootstrapSourceCurrent
+  ? []
+  : objectiveProductionBootstrapTimestampStaleInputIds
 const objectiveProductionBootstrapFresh =
   productionBootstrap.status === 'production-bootstrap-ready' &&
   productionBootstrap.controls?.zeroSpendGuard === true &&
   productionBootstrap.controls?.noPaidResourcesCreated === true &&
-  objectiveProductionBootstrapStaleInputIds.length === 0
+  objectiveProductionBootstrapSourceCurrent
 const requiredObjectiveRequirements = [
   'web-pwa-game-portal',
   'original-trend-driven-game-generation',
@@ -2770,6 +2805,7 @@ if (
   objectiveAudit.controls?.doNotMarkGoalCompleteWhileBlocked !== true ||
   objectiveAudit.controls?.zeroSpendGuard !== true ||
   objectiveAudit.controls?.productionBootstrapFresh !== objectiveProductionBootstrapFresh ||
+  objectiveAudit.controls?.productionBootstrapSourceDataHash !== objectiveProductionBootstrapSourceDataHash ||
   JSON.stringify(objectiveAudit.controls?.productionBootstrapStaleInputIds ?? []) !==
     JSON.stringify(objectiveProductionBootstrapStaleInputIds) ||
   !objectiveAudit.completion?.nextBestAction ||
@@ -5758,8 +5794,24 @@ const ownerProductionBootstrapInputs = [
   { id: 'production-environment', generatedAt: productionEnvironment.generatedAt },
   { id: 'event-collector-deployment', generatedAt: eventCollectorDeployment.generatedAt },
 ]
+const ownerProductionBootstrapSourceDataHash = productionBootstrapSourceDataHash({
+  releaseCandidate,
+  deployment,
+  repositoryReadiness,
+  repositoryBootstrap,
+  productionEnvironment,
+  eventCollectorDeployment,
+  storeCompliance,
+  nativePackage,
+  androidRelease,
+  monetization: monetizationPlan,
+  unitEconomics,
+})
+const ownerProductionBootstrapSourceCurrent =
+  productionBootstrap.sourceDataHash === ownerProductionBootstrapSourceDataHash &&
+  productionBootstrap.status !== 'missing'
 const ownerProductionBootstrapGeneratedAtMs = ownerGeneratedAtMs(productionBootstrap)
-const ownerProductionBootstrapStaleInputIds = ownerProductionBootstrapInputs
+const ownerProductionBootstrapTimestampStaleInputIds = ownerProductionBootstrapInputs
   .filter((artifact) => {
     const artifactGeneratedAtMs = ownerGeneratedAtMs(artifact)
 
@@ -5770,11 +5822,14 @@ const ownerProductionBootstrapStaleInputIds = ownerProductionBootstrapInputs
     )
   })
   .map((artifact) => artifact.id)
+const ownerProductionBootstrapStaleInputIds = ownerProductionBootstrapSourceCurrent
+  ? []
+  : ownerProductionBootstrapTimestampStaleInputIds
 const ownerProductionBootstrapFresh =
   productionBootstrap.status === 'production-bootstrap-ready' &&
   productionBootstrap.controls?.zeroSpendGuard === true &&
   productionBootstrap.controls?.noPaidResourcesCreated === true &&
-  ownerProductionBootstrapStaleInputIds.length === 0
+  ownerProductionBootstrapSourceCurrent
 const ownerBootstrapProductionAction = autonomousOwnerLoop.safeAutonomousActions?.find(
   (action) => action.id === 'bootstrap-production-setup',
 )
@@ -5991,6 +6046,10 @@ if (
   autonomousOwnerLoop.executionMemory?.productionBootstrapFreshness?.fresh !== ownerProductionBootstrapFresh ||
   autonomousOwnerLoop.executionMemory?.productionBootstrapFreshness?.bootstrapGeneratedAt !==
     (productionBootstrap.generatedAt ?? null) ||
+  autonomousOwnerLoop.executionMemory?.productionBootstrapFreshness?.artifactSourceDataHash !==
+    (productionBootstrap.sourceDataHash ?? null) ||
+  autonomousOwnerLoop.executionMemory?.productionBootstrapFreshness?.sourceDataHash !==
+    ownerProductionBootstrapSourceDataHash ||
   autonomousOwnerLoop.executionMemory?.productionBlockerHandoffFreshness?.current !==
     ownerProductionBlockerHandoffCurrent ||
   autonomousOwnerLoop.executionMemory?.productionBlockerHandoffFreshness?.ready !==

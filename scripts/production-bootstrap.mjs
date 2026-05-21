@@ -1,6 +1,7 @@
 import { chmod, mkdir, readFile, writeFile } from 'node:fs/promises'
 import path from 'node:path'
 import { loadLocalEnv } from './lib/env-loader.mjs'
+import { productionBootstrapSourceDataHash } from './lib/production-bootstrap-source.mjs'
 
 const root = process.cwd()
 const localEnv = await loadLocalEnv({ root })
@@ -67,6 +68,19 @@ const nativePackage = await readJson(nativePackagePath)
 const androidRelease = await readJson(androidReleasePath)
 const monetization = await readJson(monetizationPath)
 const unitEconomics = await readJson(unitEconomicsPath)
+const sourceDataHash = productionBootstrapSourceDataHash({
+  releaseCandidate: await readOptionalJson(path.join(dataDir, 'release-candidate.json'), { status: 'missing' }),
+  deployment,
+  repositoryReadiness,
+  repositoryBootstrap,
+  productionEnvironment: environment,
+  eventCollectorDeployment: collector,
+  storeCompliance,
+  nativePackage,
+  androidRelease,
+  monetization,
+  unitEconomics,
+})
 
 const githubRepository =
   repositoryReadiness.repository?.target ??
@@ -403,6 +417,7 @@ const setupCommands = [
 
 const payload = {
   generatedAt: new Date().toISOString(),
+  sourceDataHash,
   status: 'production-bootstrap-ready',
   mode: nextRunnable ? 'can-apply-configured-actions' : 'waiting-for-external-credentials',
   envFiles: localEnv,

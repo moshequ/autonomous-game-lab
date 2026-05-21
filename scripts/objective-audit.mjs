@@ -1,6 +1,7 @@
 import { execFile } from 'node:child_process'
 import { access, mkdir, readFile, writeFile } from 'node:fs/promises'
 import path from 'node:path'
+import { productionBootstrapSourceDataHash } from './lib/production-bootstrap-source.mjs'
 
 const root = process.cwd()
 const dataDir = path.join(root, 'data')
@@ -208,8 +209,24 @@ const productionBootstrapFreshnessInputs = [
   { id: 'production-environment', generatedAt: environment.generatedAt },
   { id: 'event-collector-deployment', generatedAt: eventCollectorDeployment.generatedAt },
 ]
+const currentProductionBootstrapSourceDataHash = productionBootstrapSourceDataHash({
+  releaseCandidate,
+  deployment,
+  repositoryReadiness,
+  repositoryBootstrap,
+  productionEnvironment: environment,
+  eventCollectorDeployment,
+  storeCompliance,
+  nativePackage,
+  androidRelease,
+  monetization,
+  unitEconomics,
+})
+const productionBootstrapSourceCurrent =
+  productionBootstrap.sourceDataHash === currentProductionBootstrapSourceDataHash &&
+  productionBootstrap.status !== 'missing'
 const productionBootstrapGeneratedAtMs = generatedAtMs(productionBootstrap)
-const productionBootstrapStaleInputIds = productionBootstrapFreshnessInputs
+const productionBootstrapTimestampStaleInputIds = productionBootstrapFreshnessInputs
   .filter((artifact) => {
     const artifactGeneratedAtMs = generatedAtMs(artifact)
 
@@ -220,11 +237,12 @@ const productionBootstrapStaleInputIds = productionBootstrapFreshnessInputs
     )
   })
   .map((artifact) => artifact.id)
+const productionBootstrapStaleInputIds = productionBootstrapSourceCurrent ? [] : productionBootstrapTimestampStaleInputIds
 const productionBootstrapFresh =
   productionBootstrap.status === 'production-bootstrap-ready' &&
   productionBootstrap.controls?.zeroSpendGuard === true &&
   productionBootstrap.controls?.noPaidResourcesCreated === true &&
-  productionBootstrapStaleInputIds.length === 0
+  productionBootstrapSourceCurrent
 const repositoryChannelReady = ['repository-channel-ready', 'waiting-for-gh-auth'].includes(
   repositoryReadiness.status,
 )
@@ -644,6 +662,7 @@ const payload = {
     currentWorktreeClean,
     currentWorktreeDirtyFiles,
     productionBootstrapFresh,
+    productionBootstrapSourceDataHash: currentProductionBootstrapSourceDataHash,
     productionBootstrapStaleInputIds,
     objectiveNextBestActionSource,
   },

@@ -1,6 +1,7 @@
 import { mkdir, readdir, readFile, writeFile } from 'node:fs/promises'
 import path from 'node:path'
 import { buildExplicitDownloadsScanPolicy, stableDownloadsScanPolicySource } from './lib/downloads-scan-policy.mjs'
+import { productionBootstrapSourceDataHash } from './lib/production-bootstrap-source.mjs'
 import { hashRawSourceData, hashSourceData, hashTextSourceData, sourceFreshness } from './lib/source-hash.mjs'
 import { stableTrafficSeedingForSamplePlan } from './lib/traffic-sample-source.mjs'
 
@@ -432,8 +433,24 @@ const productionBootstrapFreshnessInputs = [
   { id: 'production-environment', generatedAt: productionEnvironment.generatedAt },
   { id: 'event-collector-deployment', generatedAt: eventCollectorDeployment.generatedAt },
 ]
+const currentProductionBootstrapSourceDataHash = productionBootstrapSourceDataHash({
+  releaseCandidate,
+  deployment,
+  repositoryReadiness,
+  repositoryBootstrap,
+  productionEnvironment,
+  eventCollectorDeployment,
+  storeCompliance,
+  nativePackage,
+  androidRelease,
+  monetization,
+  unitEconomics,
+})
+const productionBootstrapSourceCurrent =
+  productionBootstrap.sourceDataHash === currentProductionBootstrapSourceDataHash &&
+  productionBootstrap.status !== 'missing'
 const productionBootstrapGeneratedAtMs = generatedAtMs(productionBootstrap)
-const productionBootstrapStaleInputs = productionBootstrapFreshnessInputs.filter((artifact) => {
+const productionBootstrapTimestampStaleInputs = productionBootstrapFreshnessInputs.filter((artifact) => {
   const artifactGeneratedAtMs = generatedAtMs(artifact)
 
   return (
@@ -442,11 +459,12 @@ const productionBootstrapStaleInputs = productionBootstrapFreshnessInputs.filter
       artifactGeneratedAtMs > productionBootstrapGeneratedAtMs)
   )
 })
+const productionBootstrapStaleInputs = productionBootstrapSourceCurrent ? [] : productionBootstrapTimestampStaleInputs
 const productionBootstrapFresh =
   productionBootstrap.status === 'production-bootstrap-ready' &&
   productionBootstrap.controls?.zeroSpendGuard === true &&
   productionBootstrap.controls?.noPaidResourcesCreated === true &&
-  productionBootstrapStaleInputs.length === 0
+  productionBootstrapSourceCurrent
 const productionActivationReady =
   ['activation-waiting-for-credentials', 'activation-ready', 'activation-applied'].includes(
     productionActivation.status,
@@ -2491,6 +2509,8 @@ const payload = {
     productionBootstrapFreshness: {
       fresh: productionBootstrapFresh,
       bootstrapGeneratedAt: productionBootstrap.generatedAt ?? null,
+      artifactSourceDataHash: productionBootstrap.sourceDataHash ?? null,
+      sourceDataHash: currentProductionBootstrapSourceDataHash,
       evaluatedInputIds: productionBootstrapFreshnessInputs.map((artifact) => artifact.id),
       staleInputIds: productionBootstrapStaleInputs.map((artifact) => artifact.id),
     },

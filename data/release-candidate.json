@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-05-21T19:36:06.949Z",
+  "generatedAt": "2026-05-21T19:43:41.448Z",
   "status": "release-candidate-ready",
-  "candidateId": "pwa-c8abb3e1da9d",
+  "candidateId": "pwa-3c79a9a79a35",
   "target": {
     "provider": "github-pages",
     "artifactPath": "dist",
@@ -12,7 +12,7 @@
   },
   "summary": {
     "totalFiles": 47,
-    "totalBytes": 3698452,
+    "totalBytes": 3698505,
     "totalKb": 3611.8,
     "assetFiles": 4,
     "htmlFiles": 17,
@@ -22,7 +22,7 @@
   },
   "integrity": {
     "algorithm": "sha256",
-    "aggregateHash": "c8abb3e1da9d34c8269270ce7b0f844bdcfb315d79f2ecf9c39b17865ee2c88b",
+    "aggregateHash": "3c79a9a79a35c5cdf7937af3c780d49d8bbfcd84f029ef71d5b9d7259d4139e0",
     "files": [
       {
         "path": ".nojekyll",
@@ -46,23 +46,23 @@
         "cacheControl": "public, max-age=3600"
       },
       {
-        "path": "assets/aggregateEvidenceIssue-CxMBxQbL.js",
+        "path": "assets/aggregateEvidenceIssue-CCq2ri_t.js",
         "bytes": 2978,
-        "sha256": "440fcdd3ca3675931c91a834324c367036199e2a8dd7a72068e9081694871998",
+        "sha256": "12e8ed5ed948ca4857b785b137e844b3ddbd5bf2733ed6221ebee76b97dcd94a",
         "contentType": "text/javascript; charset=utf-8",
         "cacheControl": "public, max-age=31536000, immutable"
       },
       {
-        "path": "assets/GameCanvas-CX7lbG5-.js",
+        "path": "assets/GameCanvas-CqHcc6p6.js",
         "bytes": 1393760,
-        "sha256": "72615ac93f2c80dd91a2cd2275971a766a09ae1ddb09373f6ff93b4b0cd23db9",
+        "sha256": "8b412445b7515b4daf211eb68906d36b36224cc794b2f9ca046dfdc32966c6aa",
         "contentType": "text/javascript; charset=utf-8",
         "cacheControl": "public, max-age=31536000, immutable"
       },
       {
-        "path": "assets/index-Chg3wtB6.js",
-        "bytes": 691361,
-        "sha256": "b768f00f5784cb27598f8beda0de6a71f820b86e67925847cb4a396a78c25aac",
+        "path": "assets/index-DeD1tv-p.js",
+        "bytes": 691414,
+        "sha256": "539968ac7d29b63cad0c3ba08c548af78f4de630c326ae648f022920a58540d0",
         "contentType": "text/javascript; charset=utf-8",
         "cacheControl": "public, max-age=31536000, immutable"
       },
@@ -76,7 +76,7 @@
       {
         "path": "compliance.json",
         "bytes": 5625,
-        "sha256": "c4c39c196d711c71538f2fd8ea7e57f0d7c69b2cff2cc5bbef3422c7536cd6ce",
+        "sha256": "3d0ebe3d1eb353d4e1c47fe8ed3c75f79543c00ff6c451bed71bbd13c501605e",
         "contentType": "application/json; charset=utf-8",
         "cacheControl": "public, max-age=3600"
       },
@@ -223,7 +223,7 @@
       {
         "path": "index.html",
         "bytes": 2846,
-        "sha256": "63fb5414e3251890f423ed127724aa919130a1798024c28ce38d6f02eeeb4c42",
+        "sha256": "96fc559edb3914af7d27e2ea813a1ddc9869fd5d9d405fc6b451bd5a798768e2",
         "contentType": "text/html; charset=utf-8",
         "cacheControl": "no-cache"
       },
@@ -251,7 +251,7 @@
       {
         "path": "measurement-status.json",
         "bytes": 3459,
-        "sha256": "fefff0322540d9c906583569817b8b5b1d18ccf1a6743bb4f500cd818ca43777",
+        "sha256": "b7cfe47b574d73ecdc488ac4990ff480b0238fb958fafd2bbfc88783caef39a2",
         "contentType": "application/json; charset=utf-8",
         "cacheControl": "public, max-age=3600"
       },
@@ -293,7 +293,7 @@
       {
         "path": "share-manifest.json",
         "bytes": 10648,
-        "sha256": "456be201a8ede71c02cae2d7218a9c52208d9a673629c3fe27d15f514552da82",
+        "sha256": "58224e63e1b56ae35cc1999caf4afbbe1a0061c98d41133c3817b18f932b6a22",
         "contentType": "application/json; charset=utf-8",
         "cacheControl": "public, max-age=3600"
       },
@@ -342,7 +342,7 @@
       {
         "path": "sw.js",
         "bytes": 3875,
-        "sha256": "07ae354b54b5b460bb27a6adacdce806b1a2fff726b518d62f519b3d123f97bb",
+        "sha256": "71ebb41311189e0520d184c20b08b35531fdf9c9db38c4d42c03d3dac601113e",
         "contentType": "text/javascript; charset=utf-8",
         "cacheControl": "no-cache"
       },
