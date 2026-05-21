@@ -1,10 +1,10 @@
 # Autonomous Operator
 
-Generated: 2026-05-20T23:37:55.558Z
+Generated: 2026-05-21T00:16:17.419Z
 Status: operator-plan-ready
 Mode: plan-only
-Owner decision: refresh-autonomous-cadence
-Selected action: refresh-autonomous-cadence
+Owner decision: refresh-support-feedback
+Selected action: refresh-support-feedback
 Execution: not-requested
 
 ## Controls
@@ -18,7 +18,7 @@ Execution: not-requested
 
 ## Selected Action
 
-- refresh-autonomous-cadence: npm run autonomous:cadence
+- refresh-support-feedback: npm run autonomous:support-feedback
 
 ## Eligible Local Actions
 
@@ -35,10 +35,10 @@ Execution: not-requested
 ## Blocked Actions
 
 - run-daily-owner-loop: daily-loop-recursion-blocked
+- refresh-autonomous-cadence: not-selected-this-run
 - refresh-autonomous-self-update: not-selected-this-run
 - seed-portfolio-traffic: status-monitor
 - refresh-organic-seed-loop: status-monitor
-- refresh-support-feedback: not-selected-this-run
 - optimize-daily-retention: status-monitor
 - measure-pwa-install-loop: not-selected-this-run
 - check-performance-budget: not-selected-this-run

@@ -1,17 +1,17 @@
 # Autonomous Owner Loop
 
-Generated: 2026-05-20T23:37:55.318Z
+Generated: 2026-05-21T00:16:17.151Z
 Status: owner-loop-ready
 Mode: zero-spend-web-ready
 Autonomy score: 41/42 (98%)
 
 ## Owner Decision
 
-- Next action: refresh-autonomous-cadence
-- Command: npm run autonomous:cadence
-- Rationale: Keeps the unattended daily operating cadence, recovery policy, and verification chain auditable.
-- Last executed action: seed-portfolio-traffic
-- Recent executed actions: seed-portfolio-traffic, run-post-deploy-smoke, measure-pwa-install-loop, optimize-store-listing, refresh-product-gate-recovery, check-performance-budget, refresh-support-feedback, refresh-autonomous-self-update
+- Next action: refresh-support-feedback
+- Command: npm run autonomous:support-feedback
+- Rationale: Reads public GitHub issue intake and turns player reports into redacted improvement signals.
+- Last executed action: refresh-autonomous-self-update
+- Recent executed actions: refresh-autonomous-self-update, refresh-autonomous-cadence, seed-portfolio-traffic, run-post-deploy-smoke, measure-pwa-install-loop, optimize-store-listing, refresh-product-gate-recovery, check-performance-budget
 
 ## Systems
 
@@ -22,14 +22,14 @@ Autonomy score: 41/42 (98%)
 - ready: analytics-ingest - Active source: fixture-sample; event ingest: idle-no-files; collector smoke: pass.
 - ready: local-event-bridge - Bridge bridge-waiting-for-export; inbox 0 event(s); imported 0 event(s).
 - ready: autonomous-cadence - Cadence cadence-ready; Codex active-confirmed; GitHub scheduled.
-- ready: autonomous-self-update - Self-update self-update-ready; safe pending 78; unsafe pending 0; remote push held.
+- ready: autonomous-self-update - Self-update self-update-ready; safe pending 40; unsafe pending 0; remote push held.
 - ready: portfolio-loop - Daily challenge: Canopy Bloom; seed traffic: canopy-bloom, grove-engine, metro-loom, pocket-draft.
 - ready: traffic-seeding - 4 seed campaign(s); max cost $0.
 - ready: acquisition-learning - 4 campaign(s); 0 attributed start(s); candidate canopy-bloom.
 - ready: organic-seed-loop - Target canopy-bloom; surface portal-growth-loop; share telemetry organic_seed_share_clicked.
 - ready: retention-loop - Daily canopy-bloom; D1 17%; streak variant daily-streak; return prompt armed; return intent armed.
 - ready: pwa-install-loop - Prompt autonomy-cockpit; installs 0; launch events 0; sample collecting-sample needs 20 prompt(s) and 10 launch event(s).
-- ready: performance-budget - Initial JS 649 KB; gzip 177.7 KB; deferred chunks 1.
+- ready: performance-budget - Initial JS 649.3 KB; gzip 177.8 KB; deferred chunks 1.
 - ready: product-optimization - Completion 40% / gate 55%; latest already-applied.
 - ready: support-feedback - Support feedback support-feedback-empty; issues 0; routable signals 0.
 - ready: product-gate-recovery - Recovery product-gate-recovery-ready; primary firstGameCompletion; experiment collecting-sample; failing gates 3; next lift 58.
@@ -44,12 +44,12 @@ Autonomy score: 41/42 (98%)
 - ready: web-deployment - Deployment ready-for-pages; web readiness ready-after-build; promotion promotable-internal.
 - ready: release-candidate - Release candidate release-candidate-ready; files 44; smoke URLs 14.
 - ready: post-deploy-smoke - Smoke post-deploy-smoke-observed-live; origin https://moshequ.github.io/autonomous-game-lab; manifest comparison required; checks 15/15 passed; local artifact predeploy-artifact-smoke-passed 15/15 passed.
-- ready: post-deploy-artifact-sync - Artifact sync post-deploy-artifact-sync-passed; run 26195773008; live matches artifact true; strict true.
+- ready: post-deploy-artifact-sync - Artifact sync post-deploy-artifact-sync-passed; run 26196306078; live matches artifact true; strict true.
 - ready: production-bootstrap - Bootstrap production-bootstrap-ready; mode can-apply-configured-actions; external blockers 16.
 - ready: production-activation - Activation activation-ready; mode dry-run; execution dry-run; gh ready.
 - ready: support-channel - Support channel support-channel-ready; repository moshequ/autonomous-game-lab; public intake ready.
-- ready: autonomous-operator - Operator operator-plan-ready; selected refresh-autonomous-cadence; execution not-requested.
-- ready: operator-history - History operator-history-ready; records 40; executed 14.
+- ready: autonomous-operator - Operator operator-plan-ready; selected refresh-support-feedback; execution not-requested.
+- ready: operator-history - History operator-history-ready; records 40; executed 15.
 - ready: objective-audit - Audit objective-in-progress; met 6/8; external blockers 12.
 - ready: store-listing-optimizer - Focus canopy-bloom; lead screenshot phone-canopy-bloom-generated; candidate changed no.
 - ready: store-compliance - Rating Everyone; target audience general; blockers 3.
