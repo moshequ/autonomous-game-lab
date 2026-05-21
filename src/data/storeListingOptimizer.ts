@@ -1,5 +1,5 @@
 export const storeListingOptimizer = {
-  "generatedAt": "2026-05-21T06:39:19.331Z",
+  "generatedAt": "2026-05-21T07:42:53.077Z",
   "status": "store-listing-optimizer-ready",
   "sourceStatus": {
     "growthPlan": "growth-assets-ready",
