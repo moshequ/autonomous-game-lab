@@ -2,7 +2,7 @@ export const autonomousOperator = {
   "status": "operator-plan-ready",
   "mode": "plan-only",
   "selectedAction": {
-    "id": "seed-portfolio-traffic",
+    "id": "measure-pwa-install-loop",
     "status": "armed",
     "costUsd": 0
   },

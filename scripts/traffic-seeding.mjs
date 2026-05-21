@@ -240,6 +240,8 @@ const nextShareManifest = {
     costUsd: 0,
     playerInitiatedSharingOnly: true,
     copyShareControls: true,
+    localAnalyticsEvents: true,
+    localAnalyticsStorageKey: 'agl.analytics.events',
     generatedAt: payload.generatedAt,
   },
   seedCampaigns: campaigns.map((campaign) => ({
@@ -260,14 +262,16 @@ const seedKitCards = campaigns
     (campaign) => `
       <article class="campaign" data-campaign-id="${escapeHtml(campaign.id)}" data-share-path="${escapeHtml(
         campaign.sharePath,
-      )}" data-share-title="${escapeHtml(campaign.copy.title)}" data-share-text="${escapeHtml(campaign.copy.text)}">
+      )}" data-game-id="${escapeHtml(campaign.gameId)}" data-share-title="${escapeHtml(
+        campaign.copy.title,
+      )}" data-share-text="${escapeHtml(campaign.copy.text)}">
         <div>
           <p class="eyebrow">Priority ${campaign.priority} · ${escapeHtml(campaign.dataConfidence)}</p>
           <h2>${escapeHtml(campaign.title)}</h2>
           <p>${escapeHtml(campaign.copy.text)}</p>
         </div>
         <div class="actions">
-          <a href="${escapeHtml(campaign.sharePath)}">Seed link</a>
+          <a href="${escapeHtml(campaign.sharePath)}" data-seed-link>Seed link</a>
           <a class="secondary" href="${escapeHtml(campaign.pagePath)}">Organic page</a>
           <button type="button" data-seed-action="copy">Copy share text</button>
           <button class="secondary" type="button" data-seed-action="share">Share</button>
@@ -338,6 +342,40 @@ const seedKitHtml = `<!doctype html>
     </main>
     <script>
       (() => {
+        const analyticsKey = 'agl.analytics.events'
+        const readEvents = () => {
+          try {
+            const raw = window.localStorage.getItem(analyticsKey)
+            const events = raw ? JSON.parse(raw) : []
+            return Array.isArray(events) ? events : []
+          } catch {
+            return []
+          }
+        }
+        const createId = (prefix) =>
+          window.crypto?.randomUUID
+            ? \`\${prefix}-\${window.crypto.randomUUID()}\`
+            : \`\${prefix}-\${Date.now()}-\${Math.random().toString(16).slice(2)}\`
+        const trackSeedEvent = (name, card, properties = {}) => {
+          const event = {
+            id: createId('seed'),
+            name,
+            properties: {
+              gameId: card.dataset.gameId,
+              campaignId: card.dataset.campaignId,
+              acquisitionCampaign: card.dataset.campaignId,
+              acquisitionSource: 'seed_share',
+              acquisitionChannel: 'player-share',
+              surface: 'seed-kit',
+              zeroPaidSpend: true,
+              playerInitiated: true,
+              ...properties,
+            },
+            createdAt: new Date().toISOString(),
+          }
+          const events = [...readEvents(), event].slice(-300)
+          window.localStorage.setItem(analyticsKey, JSON.stringify(events))
+        }
         const writeClipboard = async (text, textarea) => {
           if (navigator.clipboard && navigator.clipboard.writeText) {
             await navigator.clipboard.writeText(text)
@@ -349,6 +387,23 @@ const seedKitHtml = `<!doctype html>
           return document.execCommand('copy')
         }
 
+        document.querySelectorAll('[data-campaign-id]').forEach((card) => {
+          trackSeedEvent('organic_seed_card_viewed', card, {
+            sharePath: card.dataset.sharePath,
+            source: 'seed-kit-page-view',
+          })
+        })
+
+        document.querySelectorAll('[data-seed-link]').forEach((link) => {
+          link.addEventListener('click', () => {
+            const card = link.closest('[data-campaign-id]')
+            trackSeedEvent('seed_campaign_clicked', card, {
+              sharePath: card.dataset.sharePath,
+              linkType: 'seed-link',
+            })
+          })
+        })
+
         document.querySelectorAll('[data-seed-action]').forEach((button) => {
           const originalLabel = button.textContent
           button.addEventListener('click', async () => {
@@ -359,18 +414,36 @@ const seedKitHtml = `<!doctype html>
             const title = card.dataset.shareTitle
             const text = card.dataset.shareText
             const copy = [title, text, url].join('\\n')
+            const method = button.dataset.seedAction === 'share' && navigator.share ? 'native' : 'clipboard'
 
             try {
-              if (button.dataset.seedAction === 'share' && navigator.share) {
+              if (method === 'native') {
                 await navigator.share({ title, text, url })
                 status.textContent = 'Share sheet opened.'
               } else {
                 await writeClipboard(copy, textarea)
                 status.textContent = 'Share text copied.'
               }
+              trackSeedEvent('organic_seed_share_clicked', card, {
+                method,
+                succeeded: true,
+                shareUrl: url,
+              })
+              trackSeedEvent('share_clicked', card, {
+                method,
+                succeeded: true,
+                shareUrl: url,
+                seeded: true,
+              })
               button.textContent = 'Done'
             } catch {
               status.textContent = 'Copy the share text manually.'
+              trackSeedEvent('share_clicked', card, {
+                method,
+                succeeded: false,
+                shareUrl: url,
+                seeded: true,
+              })
             }
 
             window.setTimeout(() => {

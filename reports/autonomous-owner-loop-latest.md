@@ -1,17 +1,17 @@
 # Autonomous Owner Loop
 
-Generated: 2026-05-21T02:07:10.542Z
+Generated: 2026-05-21T02:16:56.395Z
 Status: owner-loop-ready
 Mode: zero-spend-web-ready
 Autonomy score: 41/42 (98%)
 
 ## Owner Decision
 
-- Next action: seed-portfolio-traffic
-- Command: npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop
-- Rationale: Under-measured playable games need free organic/internal traffic before quality judgment.
-- Last executed action: optimize-daily-retention
-- Recent executed actions: optimize-daily-retention, refresh-product-gate-recovery, check-performance-budget, refresh-support-feedback, refresh-autonomous-self-update, refresh-autonomous-cadence, run-post-deploy-smoke, prepare-release-candidate
+- Next action: measure-pwa-install-loop
+- Command: npm run autonomous:pwa-install
+- Rationale: Measures optional PWA install prompts and standalone launches as the zero-cost distribution path.
+- Last executed action: seed-portfolio-traffic
+- Recent executed actions: seed-portfolio-traffic, optimize-daily-retention, refresh-product-gate-recovery, check-performance-budget, refresh-support-feedback, refresh-autonomous-self-update, refresh-autonomous-cadence, run-post-deploy-smoke
 
 ## Systems
 
@@ -44,11 +44,11 @@ Autonomy score: 41/42 (98%)
 - ready: web-deployment - Deployment ready-for-pages; web readiness ready-after-build; promotion promotable-internal.
 - ready: release-candidate - Release candidate release-candidate-ready; files 44; smoke URLs 14.
 - ready: post-deploy-smoke - Smoke post-deploy-smoke-observed-live; origin https://moshequ.github.io/autonomous-game-lab; manifest comparison required; checks 15/15 passed; local artifact predeploy-artifact-smoke-passed 15/15 passed.
-- ready: post-deploy-artifact-sync - Artifact sync post-deploy-artifact-sync-passed; run 26200871820; live matches artifact true; strict true.
+- ready: post-deploy-artifact-sync - Artifact sync post-deploy-artifact-sync-passed; run 26201263495; live matches artifact true; strict true.
 - ready: production-bootstrap - Bootstrap production-bootstrap-ready; mode can-apply-configured-actions; external blockers 16.
 - ready: production-activation - Activation activation-ready; mode dry-run; execution dry-run; gh ready.
 - ready: support-channel - Support channel support-channel-ready; repository moshequ/autonomous-game-lab; public intake ready.
-- ready: autonomous-operator - Operator operator-plan-ready; selected seed-portfolio-traffic; execution not-requested.
+- ready: autonomous-operator - Operator operator-plan-ready; selected measure-pwa-install-loop; execution not-requested.
 - ready: operator-history - History operator-history-ready; records 40; executed 20.
 - ready: objective-audit - Audit objective-in-progress; met 6/8; external blockers 12.
 - ready: store-listing-optimizer - Focus canopy-bloom; lead screenshot phone-canopy-bloom-generated; candidate changed no.
@@ -63,8 +63,8 @@ Autonomy score: 41/42 (98%)
 - armed: run-daily-owner-loop - npm run autonomous:daily
 - armed: refresh-autonomous-cadence - npm run autonomous:cadence
 - armed: refresh-autonomous-self-update - npm run autonomous:self-update
-- armed: seed-portfolio-traffic - npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop
-- armed: refresh-organic-seed-loop - npm run autonomous:organic-seed-loop
+- monitor: seed-portfolio-traffic - npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop
+- monitor: refresh-organic-seed-loop - npm run autonomous:organic-seed-loop
 - armed: refresh-support-feedback - npm run autonomous:support-feedback
 - monitor: optimize-daily-retention - npm run autonomous:retention
 - armed: measure-pwa-install-loop - npm run autonomous:pwa-install

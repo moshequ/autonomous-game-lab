@@ -943,10 +943,16 @@ if (
   shareManifest.seedKit?.costUsd !== 0 ||
   shareManifest.seedKit?.playerInitiatedSharingOnly !== true ||
   shareManifest.seedKit?.copyShareControls !== true ||
+  shareManifest.seedKit?.localAnalyticsEvents !== true ||
+  shareManifest.seedKit?.localAnalyticsStorageKey !== 'agl.analytics.events' ||
   !seedKitHtml.includes('Autonomous Game Lab Seed Kit') ||
   !seedKitHtml.includes('$0.00 spend') ||
   !seedKitHtml.includes('data-seed-action="copy"') ||
   !seedKitHtml.includes('data-seed-action="share"') ||
+  !seedKitHtml.includes('trackSeedEvent') ||
+  !seedKitHtml.includes('organic_seed_card_viewed') ||
+  !seedKitHtml.includes('organic_seed_share_clicked') ||
+  !seedKitHtml.includes('seed_campaign_clicked') ||
   !seedKitHtml.includes('navigator.share') ||
   seedKitHtml.includes('autonomous-game-lab.example.com')
 ) {

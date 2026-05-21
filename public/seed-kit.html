@@ -46,14 +46,14 @@
       </header>
       <section class="grid" aria-label="Seed campaigns">
         
-      <article class="campaign" data-campaign-id="seed-20260521-canopy-bloom" data-share-path="/?game=canopy-bloom&amp;utm_source=seed_share&amp;utm_campaign=seed-20260521-canopy-bloom" data-share-title="Play Canopy Bloom" data-share-text="A generated roll and write puzzle with quick science desk decisions.">
+      <article class="campaign" data-campaign-id="seed-20260521-canopy-bloom" data-share-path="/?game=canopy-bloom&amp;utm_source=seed_share&amp;utm_campaign=seed-20260521-canopy-bloom" data-game-id="canopy-bloom" data-share-title="Play Canopy Bloom" data-share-text="A generated roll and write puzzle with quick science desk decisions.">
         <div>
           <p class="eyebrow">Priority 1 · seed-needed</p>
           <h2>Canopy Bloom</h2>
           <p>A generated roll and write puzzle with quick science desk decisions.</p>
         </div>
         <div class="actions">
-          <a href="/?game=canopy-bloom&amp;utm_source=seed_share&amp;utm_campaign=seed-20260521-canopy-bloom">Seed link</a>
+          <a href="/?game=canopy-bloom&amp;utm_source=seed_share&amp;utm_campaign=seed-20260521-canopy-bloom" data-seed-link>Seed link</a>
           <a class="secondary" href="/games/canopy-bloom.html">Organic page</a>
           <button type="button" data-seed-action="copy">Copy share text</button>
           <button class="secondary" type="button" data-seed-action="share">Share</button>
@@ -72,14 +72,14 @@ A generated roll and write puzzle with quick science desk decisions.
         <p class="status" data-seed-status aria-live="polite"></p>
       </article>
 
-      <article class="campaign" data-campaign-id="seed-20260521-grove-engine" data-share-path="/?game=grove-engine&amp;utm_source=seed_share&amp;utm_campaign=seed-20260521-grove-engine" data-share-title="Play Grove Engine" data-share-text="A generated engine building puzzle with quick expedition planning decisions.">
+      <article class="campaign" data-campaign-id="seed-20260521-grove-engine" data-share-path="/?game=grove-engine&amp;utm_source=seed_share&amp;utm_campaign=seed-20260521-grove-engine" data-game-id="grove-engine" data-share-title="Play Grove Engine" data-share-text="A generated engine building puzzle with quick expedition planning decisions.">
         <div>
           <p class="eyebrow">Priority 2 · seed-needed</p>
           <h2>Grove Engine</h2>
           <p>A generated engine building puzzle with quick expedition planning decisions.</p>
         </div>
         <div class="actions">
-          <a href="/?game=grove-engine&amp;utm_source=seed_share&amp;utm_campaign=seed-20260521-grove-engine">Seed link</a>
+          <a href="/?game=grove-engine&amp;utm_source=seed_share&amp;utm_campaign=seed-20260521-grove-engine" data-seed-link>Seed link</a>
           <a class="secondary" href="/games/grove-engine.html">Organic page</a>
           <button type="button" data-seed-action="copy">Copy share text</button>
           <button class="secondary" type="button" data-seed-action="share">Share</button>
@@ -98,14 +98,14 @@ A generated engine building puzzle with quick expedition planning decisions.
         <p class="status" data-seed-status aria-live="polite"></p>
       </article>
 
-      <article class="campaign" data-campaign-id="seed-20260521-metro-loom" data-share-path="/?game=metro-loom&amp;utm_source=seed_share&amp;utm_campaign=seed-20260521-metro-loom" data-share-title="Play Metro Loom" data-share-text="A generated route building puzzle with quick merchant timing decisions.">
+      <article class="campaign" data-campaign-id="seed-20260521-metro-loom" data-share-path="/?game=metro-loom&amp;utm_source=seed_share&amp;utm_campaign=seed-20260521-metro-loom" data-game-id="metro-loom" data-share-title="Play Metro Loom" data-share-text="A generated route building puzzle with quick merchant timing decisions.">
         <div>
           <p class="eyebrow">Priority 3 · seed-needed</p>
           <h2>Metro Loom</h2>
           <p>A generated route building puzzle with quick merchant timing decisions.</p>
         </div>
         <div class="actions">
-          <a href="/?game=metro-loom&amp;utm_source=seed_share&amp;utm_campaign=seed-20260521-metro-loom">Seed link</a>
+          <a href="/?game=metro-loom&amp;utm_source=seed_share&amp;utm_campaign=seed-20260521-metro-loom" data-seed-link>Seed link</a>
           <a class="secondary" href="/games/metro-loom.html">Organic page</a>
           <button type="button" data-seed-action="copy">Copy share text</button>
           <button class="secondary" type="button" data-seed-action="share">Share</button>
@@ -124,14 +124,14 @@ A generated route building puzzle with quick merchant timing decisions.
         <p class="status" data-seed-status aria-live="polite"></p>
       </article>
 
-      <article class="campaign" data-campaign-id="seed-20260521-pocket-draft" data-share-path="/?game=pocket-draft&amp;utm_source=seed_share&amp;utm_campaign=seed-20260521-pocket-draft" data-share-title="Play Pocket Draft" data-share-text="A generated card drafting puzzle with quick compact city logistics decisions.">
+      <article class="campaign" data-campaign-id="seed-20260521-pocket-draft" data-share-path="/?game=pocket-draft&amp;utm_source=seed_share&amp;utm_campaign=seed-20260521-pocket-draft" data-game-id="pocket-draft" data-share-title="Play Pocket Draft" data-share-text="A generated card drafting puzzle with quick compact city logistics decisions.">
         <div>
           <p class="eyebrow">Priority 4 · seed-needed</p>
           <h2>Pocket Draft</h2>
           <p>A generated card drafting puzzle with quick compact city logistics decisions.</p>
         </div>
         <div class="actions">
-          <a href="/?game=pocket-draft&amp;utm_source=seed_share&amp;utm_campaign=seed-20260521-pocket-draft">Seed link</a>
+          <a href="/?game=pocket-draft&amp;utm_source=seed_share&amp;utm_campaign=seed-20260521-pocket-draft" data-seed-link>Seed link</a>
           <a class="secondary" href="/games/pocket-draft.html">Organic page</a>
           <button type="button" data-seed-action="copy">Copy share text</button>
           <button class="secondary" type="button" data-seed-action="share">Share</button>
@@ -153,6 +153,40 @@ A generated card drafting puzzle with quick compact city logistics decisions.
     </main>
     <script>
       (() => {
+        const analyticsKey = 'agl.analytics.events'
+        const readEvents = () => {
+          try {
+            const raw = window.localStorage.getItem(analyticsKey)
+            const events = raw ? JSON.parse(raw) : []
+            return Array.isArray(events) ? events : []
+          } catch {
+            return []
+          }
+        }
+        const createId = (prefix) =>
+          window.crypto?.randomUUID
+            ? `${prefix}-${window.crypto.randomUUID()}`
+            : `${prefix}-${Date.now()}-${Math.random().toString(16).slice(2)}`
+        const trackSeedEvent = (name, card, properties = {}) => {
+          const event = {
+            id: createId('seed'),
+            name,
+            properties: {
+              gameId: card.dataset.gameId,
+              campaignId: card.dataset.campaignId,
+              acquisitionCampaign: card.dataset.campaignId,
+              acquisitionSource: 'seed_share',
+              acquisitionChannel: 'player-share',
+              surface: 'seed-kit',
+              zeroPaidSpend: true,
+              playerInitiated: true,
+              ...properties,
+            },
+            createdAt: new Date().toISOString(),
+          }
+          const events = [...readEvents(), event].slice(-300)
+          window.localStorage.setItem(analyticsKey, JSON.stringify(events))
+        }
         const writeClipboard = async (text, textarea) => {
           if (navigator.clipboard && navigator.clipboard.writeText) {
             await navigator.clipboard.writeText(text)
@@ -164,6 +198,23 @@ A generated card drafting puzzle with quick compact city logistics decisions.
           return document.execCommand('copy')
         }
 
+        document.querySelectorAll('[data-campaign-id]').forEach((card) => {
+          trackSeedEvent('organic_seed_card_viewed', card, {
+            sharePath: card.dataset.sharePath,
+            source: 'seed-kit-page-view',
+          })
+        })
+
+        document.querySelectorAll('[data-seed-link]').forEach((link) => {
+          link.addEventListener('click', () => {
+            const card = link.closest('[data-campaign-id]')
+            trackSeedEvent('seed_campaign_clicked', card, {
+              sharePath: card.dataset.sharePath,
+              linkType: 'seed-link',
+            })
+          })
+        })
+
         document.querySelectorAll('[data-seed-action]').forEach((button) => {
           const originalLabel = button.textContent
           button.addEventListener('click', async () => {
@@ -174,18 +225,36 @@ A generated card drafting puzzle with quick compact city logistics decisions.
             const title = card.dataset.shareTitle
             const text = card.dataset.shareText
             const copy = [title, text, url].join('\n')
+            const method = button.dataset.seedAction === 'share' && navigator.share ? 'native' : 'clipboard'
 
             try {
-              if (button.dataset.seedAction === 'share' && navigator.share) {
+              if (method === 'native') {
                 await navigator.share({ title, text, url })
                 status.textContent = 'Share sheet opened.'
               } else {
                 await writeClipboard(copy, textarea)
                 status.textContent = 'Share text copied.'
               }
+              trackSeedEvent('organic_seed_share_clicked', card, {
+                method,
+                succeeded: true,
+                shareUrl: url,
+              })
+              trackSeedEvent('share_clicked', card, {
+                method,
+                succeeded: true,
+                shareUrl: url,
+                seeded: true,
+              })
               button.textContent = 'Done'
             } catch {
               status.textContent = 'Copy the share text manually.'
+              trackSeedEvent('share_clicked', card, {
+                method,
+                succeeded: false,
+                shareUrl: url,
+                seeded: true,
+              })
             }
 
             window.setTimeout(() => {

@@ -4242,7 +4242,7 @@ test('growth and traffic artifacts avoid placeholder origins before hosting is c
 test('zero-spend seed kit is reachable and uses runtime-relative campaign links', async ({ page }) => {
   const traffic = JSON.parse(await readFile('data/traffic-seeding.json', 'utf8')) as {
     guardrails: { maxCostUsd: number; playerInitiatedSharingOnly: boolean; noAutomatedExternalPosting: boolean }
-    campaigns: Array<{ id: string; sharePath: string; title: string }>
+    campaigns: Array<{ id: string; gameId: string; sharePath: string; title: string }>
   }
   const shareManifest = JSON.parse(await readFile('public/share-manifest.json', 'utf8')) as {
     seedKit: {
@@ -4251,6 +4251,8 @@ test('zero-spend seed kit is reachable and uses runtime-relative campaign links'
       costUsd: number
       playerInitiatedSharingOnly: boolean
       copyShareControls: boolean
+      localAnalyticsEvents: boolean
+      localAnalyticsStorageKey: string
     }
   }
 
@@ -4265,11 +4267,14 @@ test('zero-spend seed kit is reachable and uses runtime-relative campaign links'
   expect(traffic.guardrails.noAutomatedExternalPosting).toBe(true)
   expect(shareManifest.seedKit.playerInitiatedSharingOnly).toBe(true)
   expect(shareManifest.seedKit.copyShareControls).toBe(true)
+  expect(shareManifest.seedKit.localAnalyticsEvents).toBe(true)
+  expect(shareManifest.seedKit.localAnalyticsStorageKey).toBe('agl.analytics.events')
 
   const firstCampaign = traffic.campaigns[0]
   const firstCard = page.locator(`[data-campaign-id="${firstCampaign.id}"]`)
   await expect(firstCard).toContainText(firstCampaign.title)
   await expect(firstCard).toHaveAttribute('data-share-path', firstCampaign.sharePath)
+  await expect(firstCard).toHaveAttribute('data-game-id', firstCampaign.gameId)
   await expect(page.getByRole('link', { name: 'Seed link' }).first()).toHaveAttribute(
     'href',
     firstCampaign.sharePath,
@@ -4278,6 +4283,31 @@ test('zero-spend seed kit is reachable and uses runtime-relative campaign links'
   await expect(page.getByRole('button', { name: 'Share' }).first()).toBeVisible()
   expect(firstCampaign.sharePath).toContain('utm_source=seed_share')
   expect(await page.content()).not.toContain('autonomous-game-lab.example.com')
+
+  await page.getByRole('button', { name: 'Copy share text' }).first().click()
+  await expect(firstCard.locator('[data-seed-status]')).toContainText(/copied|manually/i)
+  const events = await page.evaluate(() =>
+    JSON.parse(window.localStorage.getItem('agl.analytics.events') ?? '[]') as Array<{
+      name: string
+      properties: Record<string, string | number | boolean>
+    }>,
+  )
+  expect(
+    events.some(
+      (event) =>
+        event.name === 'organic_seed_card_viewed' &&
+        event.properties.campaignId === firstCampaign.id &&
+        event.properties.surface === 'seed-kit',
+    ),
+  ).toBe(true)
+  expect(
+    events.some(
+      (event) =>
+        event.name === 'share_clicked' &&
+        event.properties.campaignId === firstCampaign.id &&
+        event.properties.acquisitionChannel === 'player-share',
+    ),
+  ).toBe(true)
 })
 
 test('zero-spend gate sample page is reachable and uses runtime-relative mission links', async ({ page }) => {
