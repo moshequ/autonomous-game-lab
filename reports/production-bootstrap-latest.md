@@ -1,6 +1,6 @@
 # Production Bootstrap
 
-Generated: 2026-05-21T01:38:13.178Z
+Generated: 2026-05-21T01:47:35.411Z
 Status: production-bootstrap-ready
 Mode: can-apply-configured-actions
 GitHub repository: moshequ/autonomous-game-lab
@@ -91,4 +91,4 @@ gh CLI available: true
 - store-compliance: google-play-account: Google Play developer account must be connected before Android submission.
 - store-compliance: apple-developer-account: Apple Developer account remains deferred until iOS spend is justified.
 - android-release: native-package-ready: Native package is blocked-draft-ready.
-- android-release: store-package-draft: Store package is blocked; data safety is draft-ready.
+- android-release: google-play-account: Google Play account is not connected.

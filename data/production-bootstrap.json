@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-21T01:38:13.178Z",
+  "generatedAt": "2026-05-21T01:47:35.411Z",
   "status": "production-bootstrap-ready",
   "mode": "can-apply-configured-actions",
   "envFiles": {
@@ -87,7 +87,7 @@
     "totalVariables": 24,
     "configuredSecrets": 5,
     "totalSecrets": 8,
-    "externalBlockers": 16
+    "externalBlockers": 15
   },
   "stages": [
     {
@@ -239,9 +239,8 @@
       "evidence": "Native package blocked-draft-ready; Android release blocked-needs-host-signing-play.",
       "requires": [
         "native-package-ready: Native package is blocked-draft-ready.",
-        "store-package-draft: Store package is blocked; data safety is draft-ready.",
         "google-play-account: Google Play account is not connected.",
-        "play-service-account: Google Play service account upload credentials are available to CI.",
+        "play-service-account: Google Play service account upload credentials are not available to CI.",
         "unit-economics-store-spend: Store spend allowed is false; spend mode is no-spend.",
         "promotion-gate: Android promotion status is blocked."
       ]
@@ -397,9 +396,8 @@
       "evidence": "Native package blocked-draft-ready; Android release blocked-needs-host-signing-play.",
       "requires": [
         "native-package-ready: Native package is blocked-draft-ready.",
-        "store-package-draft: Store package is blocked; data safety is draft-ready.",
         "google-play-account: Google Play account is not connected.",
-        "play-service-account: Google Play service account upload credentials are available to CI.",
+        "play-service-account: Google Play service account upload credentials are not available to CI.",
         "unit-economics-store-spend: Store spend allowed is false; spend mode is no-spend.",
         "promotion-gate: Android promotion status is blocked."
       ]
@@ -1113,15 +1111,11 @@
     },
     {
       "source": "android-release",
-      "blocker": "store-package-draft: Store package is blocked; data safety is draft-ready."
-    },
-    {
-      "source": "android-release",
       "blocker": "google-play-account: Google Play account is not connected."
     },
     {
       "source": "android-release",
-      "blocker": "play-service-account: Google Play service account upload credentials are available to CI."
+      "blocker": "play-service-account: Google Play service account upload credentials are not available to CI."
     },
     {
       "source": "android-release",

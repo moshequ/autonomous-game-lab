@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-21T01:32:03.939Z",
+  "generatedAt": "2026-05-21T01:46:56.212Z",
   "status": "self-update-ready",
   "mode": "plan-and-assert",
   "envFiles": {
@@ -71,7 +71,7 @@
     "ownerLoop": "owner-loop-ready"
   },
   "pendingChanges": {
-    "total": 56,
+    "total": 43,
     "safe": [
       {
         "code": "M",
@@ -138,13 +138,6 @@
       },
       {
         "code": "M",
-        "path": "data/product-gate-recovery.json",
-        "raw": " M data/product-gate-recovery.json",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
         "path": "data/production-activation.json",
         "raw": " M data/production-activation.json",
         "safe": true,
@@ -166,13 +159,6 @@
       },
       {
         "code": "M",
-        "path": "data/pwa-install-loop.json",
-        "raw": " M data/pwa-install-loop.json",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
         "path": "data/release-candidate.json",
         "raw": " M data/release-candidate.json",
         "safe": true,
@@ -189,27 +175,6 @@
         "code": "M",
         "path": "data/repository-readiness.json",
         "raw": " M data/repository-readiness.json",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "data/store-compliance.json",
-        "raw": " M data/store-compliance.json",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "data/store-listing-optimizer.json",
-        "raw": " M data/store-listing-optimizer.json",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "data/store-package.json",
-        "raw": " M data/store-package.json",
         "safe": true,
         "reason": "allowlisted-generated-artifact"
       },
@@ -285,13 +250,6 @@
       },
       {
         "code": "M",
-        "path": "reports/product-gate-recovery-latest.md",
-        "raw": " M reports/product-gate-recovery-latest.md",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
         "path": "reports/production-activation-latest.md",
         "raw": " M reports/production-activation-latest.md",
         "safe": true,
@@ -313,13 +271,6 @@
       },
       {
         "code": "M",
-        "path": "reports/pwa-install-loop-latest.md",
-        "raw": " M reports/pwa-install-loop-latest.md",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
         "path": "reports/release-candidate-latest.md",
         "raw": " M reports/release-candidate-latest.md",
         "safe": true,
@@ -336,20 +287,6 @@
         "code": "M",
         "path": "reports/repository-readiness-latest.md",
         "raw": " M reports/repository-readiness-latest.md",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "reports/store-compliance-latest.md",
-        "raw": " M reports/store-compliance-latest.md",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "reports/store-listing-optimizer-latest.md",
-        "raw": " M reports/store-listing-optimizer-latest.md",
         "safe": true,
         "reason": "allowlisted-generated-artifact"
       },
@@ -418,22 +355,8 @@
       },
       {
         "code": "M",
-        "path": "src/data/productGateRecovery.ts",
-        "raw": " M src/data/productGateRecovery.ts",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
         "path": "src/data/productionActivation.ts",
         "raw": " M src/data/productionActivation.ts",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "src/data/pwaInstallLoop.ts",
-        "raw": " M src/data/pwaInstallLoop.ts",
         "safe": true,
         "reason": "allowlisted-generated-artifact"
       },
@@ -446,20 +369,6 @@
       },
       {
         "code": "M",
-        "path": "src/data/storeCompliance.ts",
-        "raw": " M src/data/storeCompliance.ts",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "src/data/storeListingOptimizer.ts",
-        "raw": " M src/data/storeListingOptimizer.ts",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
         "path": "src/data/supportFeedback.ts",
         "raw": " M src/data/supportFeedback.ts",
         "safe": true,
@@ -467,7 +376,7 @@
       }
     ],
     "unsafe": [],
-    "safeCount": 56,
+    "safeCount": 43,
     "unsafeCount": 0
   },
   "commitPlan": {
@@ -489,17 +398,12 @@
       "data/objective-audit.json",
       "data/performance-budget.json",
       "data/post-deploy-smoke.json",
-      "data/product-gate-recovery.json",
       "data/production-activation.json",
       "data/production-bootstrap.json",
       "data/production-readiness.json",
-      "data/pwa-install-loop.json",
       "data/release-candidate.json",
       "data/repository-bootstrap.json",
       "data/repository-readiness.json",
-      "data/store-compliance.json",
-      "data/store-listing-optimizer.json",
-      "data/store-package.json",
       "data/support-feedback.json",
       "reports/autonomous-cadence-latest.md",
       "reports/autonomous-operator-history-latest.md",
@@ -510,16 +414,12 @@
       "reports/objective-audit-latest.md",
       "reports/performance-budget-latest.md",
       "reports/post-deploy-smoke-latest.md",
-      "reports/product-gate-recovery-latest.md",
       "reports/production-activation-latest.md",
       "reports/production-bootstrap-latest.md",
       "reports/production-readiness-latest.md",
-      "reports/pwa-install-loop-latest.md",
       "reports/release-candidate-latest.md",
       "reports/repository-bootstrap-latest.md",
       "reports/repository-readiness-latest.md",
-      "reports/store-compliance-latest.md",
-      "reports/store-listing-optimizer-latest.md",
       "reports/support-feedback-latest.md",
       "src/data/autonomousCadence.ts",
       "src/data/autonomousOperator.ts",
@@ -529,12 +429,8 @@
       "src/data/objectiveAudit.ts",
       "src/data/performanceBudget.ts",
       "src/data/postDeploySmoke.ts",
-      "src/data/productGateRecovery.ts",
       "src/data/productionActivation.ts",
-      "src/data/pwaInstallLoop.ts",
       "src/data/releaseCandidate.ts",
-      "src/data/storeCompliance.ts",
-      "src/data/storeListingOptimizer.ts",
       "src/data/supportFeedback.ts"
     ],
     "commitMessage": "Autonomous daily self-update",
@@ -640,7 +536,7 @@
     {
       "id": "safe-path-allowlist",
       "status": "pass",
-      "detail": "56 safe pending file(s), 0 unsafe pending file(s)."
+      "detail": "43 safe pending file(s), 0 unsafe pending file(s)."
     },
     {
       "id": "repository-optional",

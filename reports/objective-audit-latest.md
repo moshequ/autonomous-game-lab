@@ -1,10 +1,10 @@
 # Objective Audit
 
-Generated: 2026-05-21T01:38:13.965Z
+Generated: 2026-05-21T01:47:36.089Z
 Status: objective-in-progress
 Can mark goal complete: false
 Reason: The local autonomous PWA system is largely prepared with strict live deploy evidence synced from GitHub Actions, but production credentials, live data, monetization gates, and store account/signing blockers remain.
-Next best action: run-post-deploy-smoke
+Next best action: check-performance-budget
 
 ## Summary
 
@@ -50,5 +50,5 @@ Next best action: run-post-deploy-smoke
 - google-play-account: Google Play developer account must be connected before Android submission.
 - apple-developer-account: Apple Developer account remains deferred until iOS spend is justified.
 - native-package-ready: Native package is blocked-draft-ready.
-- store-package-draft: Store package is blocked; data safety is draft-ready.
 - google-play-account: Google Play account is not connected.
+- play-service-account: Google Play service account upload credentials are not available to CI.
