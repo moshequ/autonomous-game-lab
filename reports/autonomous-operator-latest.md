@@ -1,10 +1,10 @@
 # Autonomous Operator
 
-Generated: 2026-05-21T00:22:50.255Z
+Generated: 2026-05-21T00:25:11.744Z
 Status: operator-plan-ready
 Mode: plan-only
-Owner decision: refresh-product-gate-recovery
-Selected action: refresh-product-gate-recovery
+Owner decision: optimize-store-listing
+Selected action: optimize-store-listing
 Execution: not-requested
 
 ## Controls
@@ -18,7 +18,7 @@ Execution: not-requested
 
 ## Selected Action
 
-- refresh-product-gate-recovery: npm run autonomous:gate-recovery
+- optimize-store-listing: npm run autonomous:store-listing-optimize && npm run autonomous:store-compliance
 
 ## Eligible Local Actions
 
