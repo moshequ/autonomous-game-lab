@@ -1,23 +1,22 @@
 {
-  "generatedAt": "2026-05-21T07:44:48.321Z",
+  "generatedAt": "2026-05-21T07:55:39.262Z",
   "status": "operator-plan-ready",
   "mode": "plan-only",
   "ownerDecision": {
-    "actionId": "refresh-autonomous-cadence",
-    "command": "npm run autonomous:cadence",
+    "actionId": "optimize-store-listing",
+    "command": "npm run autonomous:store-package && npm run autonomous:store-listing-optimize && npm run autonomous:store-compliance",
     "locallyExecutable": true,
     "rejectionReason": null
   },
   "requestedActionId": null,
   "selectedAction": {
-    "id": "refresh-autonomous-cadence",
+    "id": "optimize-store-listing",
     "status": "armed",
-    "command": "npm run autonomous:cadence",
+    "command": "npm run autonomous:store-package && npm run autonomous:store-listing-optimize && npm run autonomous:store-compliance",
     "targets": [
-      "autonomous-game-lab-daily-owner-loop",
-      ".github/workflows/autonomous-daily.yml"
+      "canopy-bloom"
     ],
-    "reason": "Keeps the unattended daily operating cadence, recovery policy, and verification chain auditable.",
+    "reason": "Refreshes the base store package, optimized copy, screenshot priority, and compliance drafts from behavior signals.",
     "costUsd": 0
   },
   "selectedRejection": null,
@@ -34,6 +33,12 @@
       "status": "armed",
       "command": "npm run autonomous:daily",
       "reason": "daily-loop-recursion-blocked"
+    },
+    {
+      "id": "refresh-autonomous-cadence",
+      "status": "armed",
+      "command": "npm run autonomous:cadence",
+      "reason": "not-selected-this-run"
     },
     {
       "id": "refresh-autonomous-self-update",
@@ -174,12 +179,6 @@
       "reason": "status-monitor"
     },
     {
-      "id": "optimize-store-listing",
-      "status": "armed",
-      "command": "npm run autonomous:store-package && npm run autonomous:store-listing-optimize && npm run autonomous:store-compliance",
-      "reason": "not-selected-this-run"
-    },
-    {
       "id": "prepare-android-signing",
       "status": "monitor",
       "command": "npm run autonomous:android-signing",
@@ -206,8 +205,16 @@
   ],
   "commandPlan": [
     {
-      "segment": "npm run autonomous:cadence",
-      "script": "autonomous:cadence"
+      "segment": "npm run autonomous:store-package",
+      "script": "autonomous:store-package"
+    },
+    {
+      "segment": "npm run autonomous:store-listing-optimize",
+      "script": "autonomous:store-listing-optimize"
+    },
+    {
+      "segment": "npm run autonomous:store-compliance",
+      "script": "autonomous:store-compliance"
     }
   ],
   "execution": {
@@ -278,7 +285,7 @@
     "RUN_WORKFLOWS=1"
   ],
   "nextActions": [
-    "Run npm run autonomous:operator -- --execute --action=refresh-autonomous-cadence to execute exactly one allowed local action.",
+    "Run npm run autonomous:operator -- --execute --action=optimize-store-listing to execute exactly one allowed local action.",
     "Do not execute GitHub workflow, store, paid ads, or account setup commands from the local operator."
   ]
 }
