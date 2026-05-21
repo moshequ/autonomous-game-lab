@@ -1,5 +1,5 @@
 export const localEventBridge = {
-  "generatedAt": "2026-05-20T23:32:45.013Z",
+  "generatedAt": "2026-05-21T03:15:21.477Z",
   "status": "bridge-waiting-for-export",
   "mode": "local-zero-spend-event-drop-bridge",
   "inbox": {
@@ -18,6 +18,14 @@ export const localEventBridge = {
     {
       "path": "data/player-events/inbox",
       "role": "inbox",
+      "exists": true,
+      "matchedFiles": 0,
+      "validFiles": 0,
+      "validEvents": 0
+    },
+    {
+      "path": "../../../../Downloads",
+      "role": "downloads-opt-in",
       "exists": true,
       "matchedFiles": 0,
       "validFiles": 0,
@@ -83,7 +91,7 @@ export const localEventBridge = {
     }
   },
   "explicitDownloadsScan": {
-    "scannedAt": "2026-05-20T23:03:31.409Z",
+    "scannedAt": "2026-05-21T03:15:21.477Z",
     "status": "no-evidence-found",
     "directory": "../../../../Downloads",
     "matchedFiles": 0,
@@ -98,11 +106,11 @@ export const localEventBridge = {
     "cooldownHours": 4,
     "coolingDown": true,
     "evidenceReadyNow": false,
-    "lastScanAt": "2026-05-20T23:03:31.409Z",
+    "lastScanAt": "2026-05-21T03:15:21.477Z",
     "lastScanStatus": "no-evidence-found",
-    "scanAgeHours": 0.49,
-    "cooldownRemainingHours": 3.51,
-    "nextRecommendedScanAt": "2026-05-21T03:03:31.409Z"
+    "scanAgeHours": 0,
+    "cooldownRemainingHours": 4,
+    "nextRecommendedScanAt": "2026-05-21T07:15:21.477Z"
   },
   "gateSampleEvidence": {
     "inbox": {
@@ -184,7 +192,7 @@ export const localEventBridge = {
     "rawEventDropsStayLocal": true,
     "copyOnlyExplicitDropPaths": true,
     "downloadsFolderOptInOnly": true,
-    "downloadsFolderImportEnabled": false,
+    "downloadsFolderImportEnabled": true,
     "downloadsFolderRequiresExplicitEnv": true,
     "localExportCoverageReceipts": true,
     "staleExportDebtVisibleInApp": true,

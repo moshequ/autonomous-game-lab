@@ -2691,25 +2691,46 @@ if (!packageJson.scripts?.['autonomous:performance']?.includes('performance-budg
   fail('Autonomous scripts must expose the performance budget generator.')
 }
 
+const e2eScript = packageJson.scripts?.['test:e2e'] ?? ''
+const e2eBuildIndex = e2eScript.indexOf('npm run build')
+const e2ePerformanceIndex = e2eScript.indexOf('autonomous:performance')
+const e2eReleaseIndex = e2eScript.indexOf('autonomous:release-candidate')
+const e2ePostSmokeIndex = e2eScript.indexOf('autonomous:post-deploy-smoke')
+const e2eFirstRepoIndex = e2eScript.indexOf('autonomous:repo-readiness')
+const e2ePostBuildRepoIndex = e2eScript.indexOf('autonomous:repo-readiness', e2eReleaseIndex)
+const e2eFirstObjectiveIndex = e2eScript.indexOf('autonomous:objective-audit')
+const e2eFirstOwnerIndex = e2eScript.indexOf('autonomous:owner-loop')
+const e2ePlaywrightIndex = e2eScript.indexOf('playwright test')
+const e2ePrePlaywrightReadinessIndex = e2eScript.lastIndexOf('autonomous:readiness', e2ePlaywrightIndex)
+const e2eFinalObjectiveIndex = e2eScript.lastIndexOf('autonomous:objective-audit')
+const e2eFinalOwnerIndex = e2eScript.lastIndexOf('autonomous:owner-loop')
+const e2eFinalReadinessIndex = e2eScript.lastIndexOf('autonomous:readiness')
+
 if (
-  !packageJson.scripts?.['test:e2e']?.includes('npm run build') ||
-  !packageJson.scripts?.['test:e2e']?.includes('autonomous:release-candidate') ||
-  !packageJson.scripts?.['test:e2e']?.includes('autonomous:post-deploy-smoke') ||
-  !packageJson.scripts?.['test:e2e']?.includes('autonomous:repo-readiness') ||
-  !packageJson.scripts?.['test:e2e']?.includes('autonomous:deploy-plan') ||
-  !packageJson.scripts?.['test:e2e']?.includes('autonomous:owner-loop') ||
-  !packageJson.scripts?.['test:e2e']?.includes('autonomous:operator') ||
-  !packageJson.scripts?.['test:e2e']?.includes('autonomous:readiness') ||
-  packageJson.scripts['test:e2e'].indexOf('npm run build') >
-    packageJson.scripts['test:e2e'].indexOf('autonomous:release-candidate') ||
-  packageJson.scripts['test:e2e'].indexOf('autonomous:release-candidate') >
-    packageJson.scripts['test:e2e'].indexOf('autonomous:repo-readiness') ||
-  packageJson.scripts['test:e2e'].lastIndexOf('autonomous:owner-loop') >
-    packageJson.scripts['test:e2e'].indexOf('autonomous:readiness') ||
-  packageJson.scripts['test:e2e'].indexOf('autonomous:readiness') >
-    packageJson.scripts['test:e2e'].indexOf('playwright test')
+  !e2eScript.includes('npm run build') ||
+  !e2eScript.includes('autonomous:release-candidate') ||
+  !e2eScript.includes('autonomous:post-deploy-smoke') ||
+  !e2eScript.includes('autonomous:repo-readiness') ||
+  !e2eScript.includes('autonomous:deploy-plan') ||
+  !e2eScript.includes('autonomous:owner-loop') ||
+  !e2eScript.includes('autonomous:operator') ||
+  !e2eScript.includes('autonomous:readiness') ||
+  e2eFirstRepoIndex > e2eFirstObjectiveIndex ||
+  e2eFirstObjectiveIndex > e2eFirstOwnerIndex ||
+  e2eFirstOwnerIndex > e2eBuildIndex ||
+  e2eBuildIndex > e2ePerformanceIndex ||
+  e2ePerformanceIndex > e2eReleaseIndex ||
+  e2eReleaseIndex > e2ePostSmokeIndex ||
+  e2ePostSmokeIndex > e2ePostBuildRepoIndex ||
+  e2ePostBuildRepoIndex > e2ePrePlaywrightReadinessIndex ||
+  e2ePrePlaywrightReadinessIndex > e2ePlaywrightIndex ||
+  e2ePlaywrightIndex > e2eFinalObjectiveIndex ||
+  e2eFinalObjectiveIndex > e2eFinalOwnerIndex ||
+  e2eFinalOwnerIndex > e2eFinalReadinessIndex
 ) {
-  fail('Browser e2e tests must rebuild dist, regenerate release evidence, and settle owner/deploy artifacts before previewing it.')
+  fail(
+    'Browser e2e tests must settle app-facing owner data before build, refresh release evidence before preview, and settle audit data after Playwright.',
+  )
 }
 
 const dailyScript = packageJson.scripts?.['autonomous:daily'] ?? ''

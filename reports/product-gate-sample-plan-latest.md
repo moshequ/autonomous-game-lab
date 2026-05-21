@@ -1,6 +1,6 @@
 # Product Gate Sample Plan
 
-Generated: 2026-05-21T02:06:19.497Z
+Generated: 2026-05-21T03:16:19.092Z
 Status: product-gate-sample-plan-ready
 Analytics source: fixture-sample
 Primary gate: firstGameCompletion
@@ -9,7 +9,7 @@ Observed successes needed: 139
 Imported gate-sample events: 0
 Inbox gate-sample events: 0
 Downloads scan: no-evidence-found; cooling down true
-Next recommended Downloads scan: 2026-05-21T03:03:31.409Z
+Next recommended Downloads scan: 2026-05-21T07:15:21.477Z
 Public sample page: /gate-sample.html
 Runtime evidence policy: active
 
@@ -44,4 +44,4 @@ Runtime evidence policy: active
 
 - First game completion needs 30 more prompt exposure(s) and 128 observed success(es); feature Harbor Rings via /?game=harbor-rings&utm_source=gate_sample&utm_campaign=gate-sample-20260521-firstGameCompletion.
 - D1 retention is the fastest gate sample: 10 prompt exposure(s), 1 observed success(es).
-- Wait until 2026-05-21T03:03:31.409Z before the next explicit Downloads scan unless an inbox event drop appears.
+- Wait until 2026-05-21T07:15:21.477Z before the next explicit Downloads scan unless an inbox event drop appears.

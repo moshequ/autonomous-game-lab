@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-21T03:11:28.827Z",
+  "generatedAt": "2026-05-21T03:21:24.051Z",
   "status": "owner-loop-ready",
   "mode": "zero-spend-web-ready",
   "autonomyScore": {
@@ -21,34 +21,37 @@
     "repositoryHandoffPrepared": false
   },
   "ownerDecision": {
-    "nextBestActionId": "collect-gate-sample-downloads",
-    "nextBestAction": "npm run autonomous:collect-sample-downloads",
+    "nextBestActionId": "refresh-autonomous-cadence",
+    "nextBestAction": "npm run autonomous:cadence",
     "canExecuteWithoutSpend": true,
-    "rationale": "Opt-in scans local browser Downloads and the event inbox for real player exports, imports them, refreshes analytics and recovery, then regenerates the sample plan."
+    "rationale": "Keeps the unattended daily operating cadence, recovery policy, and verification chain auditable."
   },
   "executionMemory": {
     "avoidImmediateRepeat": true,
     "recentExecutionWindow": 8,
     "recentExecutedActionIds": [
+      "optimize-store-listing",
+      "collect-gate-sample-downloads",
       "apply-safe-improvements",
       "refresh-replay-loop",
       "refresh-completion-loop",
       "refresh-first-move-coach",
       "measure-pwa-install-loop",
-      "seed-portfolio-traffic",
-      "optimize-daily-retention",
-      "refresh-product-gate-recovery"
+      "seed-portfolio-traffic"
     ],
-    "lastExecutedActionId": "apply-safe-improvements",
+    "lastExecutedActionId": "optimize-store-listing",
     "lastExecutedStatus": "executed",
     "lastRecordExecutionStatus": "not-requested",
     "recentlySatisfiedActionIds": [
+      "collect-live-events",
+      "refresh-product-gate-recovery",
+      "refresh-product-gate-sample-plan",
       "refresh-organic-seed-loop"
     ],
     "objectiveAuditFreshness": {
       "fresh": true,
       "structurallyReady": true,
-      "auditGeneratedAt": "2026-05-21T03:11:28.124Z",
+      "auditGeneratedAt": "2026-05-21T03:21:23.321Z",
       "evaluatedInputIds": [
         "analytics-rollup",
         "event-ingest",
@@ -83,9 +86,9 @@
         "current": true,
         "ready": true,
         "status": "retention-loop-ready",
-        "artifactGeneratedAt": "2026-05-21T02:06:03.527Z",
-        "artifactSourceDataHash": "9bac2961a435",
-        "sourceDataHash": "9bac2961a435",
+        "artifactGeneratedAt": "2026-05-21T03:16:18.341Z",
+        "artifactSourceDataHash": "3e9c3d8b3466",
+        "sourceDataHash": "3e9c3d8b3466",
         "evaluatedInputIds": [
           "analytics-rollup",
           "portfolio-policy",
@@ -133,7 +136,7 @@
         "status": "organic-seed-loop-ready",
         "artifactGeneratedAt": "2026-05-21T02:14:42.949Z",
         "artifactSourceDataHash": "51066dfff003",
-        "sourceDataHash": "e47ed8db7e49",
+        "sourceDataHash": "1202a7faadd5",
         "evaluatedInputIds": [
           "playable-games",
           "analytics-rollup",
@@ -216,8 +219,8 @@
     "gateSampleDownloadsBackoff": {
       "enabled": true,
       "cooldownHours": 4,
-      "coolingDown": false,
-      "lastExplicitScanAt": "2026-05-20T23:03:31.409Z",
+      "coolingDown": true,
+      "lastExplicitScanAt": "2026-05-21T03:15:21.477Z",
       "lastExplicitScanStatus": "no-evidence-found",
       "evidenceReadyNow": false
     },
@@ -225,7 +228,7 @@
       "current": true,
       "ready": true,
       "status": "bridge-waiting-for-export",
-      "bridgeGeneratedAt": "2026-05-20T23:32:45.013Z",
+      "bridgeGeneratedAt": "2026-05-21T03:15:21.477Z",
       "analyticsSource": "fixture-sample",
       "evidenceReadyNow": false,
       "evaluatedInputIds": [
@@ -240,12 +243,13 @@
     "skippedRecentlyExecutedActionIds": [
       "seed-portfolio-traffic",
       "measure-pwa-install-loop",
-      "refresh-product-gate-recovery",
       "refresh-first-move-coach",
-      "refresh-replay-loop"
+      "refresh-replay-loop",
+      "optimize-store-listing"
     ],
     "skippedRecentlySatisfiedActionIds": [
-      "refresh-organic-seed-loop"
+      "refresh-organic-seed-loop",
+      "refresh-product-gate-recovery"
     ],
     "preferredActionOrder": [
       "prepare-repository-channel",
@@ -279,7 +283,7 @@
     },
     "productionBootstrapFreshness": {
       "fresh": true,
-      "bootstrapGeneratedAt": "2026-05-21T03:11:27.652Z",
+      "bootstrapGeneratedAt": "2026-05-21T03:21:02.802Z",
       "evaluatedInputIds": [
         "release-candidate",
         "deployment-plan",
@@ -493,13 +497,13 @@
       "status": "ready",
       "autonomy": "read-only-live-deploy-verification",
       "evidence": "Smoke post-deploy-smoke-observed-live; origin https://moshequ.github.io/autonomous-game-lab; manifest comparison required; checks 15/15 passed; local artifact predeploy-artifact-smoke-passed 15/15 passed.",
-      "nextAction": "Live Pages is reachable and serving pwa-0a07ba399ae6; run the deploy workflow for strict proof of the current local candidate if needed."
+      "nextAction": "Live Pages is reachable and serving pwa-9053754a5d62; run the deploy workflow for strict proof of the current local candidate if needed."
     },
     {
       "id": "post-deploy-artifact-sync",
       "status": "ready",
       "autonomy": "read-only-actions-artifact-import",
-      "evidence": "Artifact sync post-deploy-artifact-sync-passed; run 26202744235; live matches artifact true; strict true.",
+      "evidence": "Artifact sync post-deploy-artifact-sync-passed; run 26203193575; live matches artifact true; strict true.",
       "nextAction": "Keep this strict deploy artifact as live-production evidence while local candidates continue to iterate."
     },
     {
@@ -527,7 +531,7 @@
       "id": "autonomous-operator",
       "status": "ready",
       "autonomy": "one-safe-action-runner",
-      "evidence": "Operator operator-plan-ready; selected collect-gate-sample-downloads; execution not-requested.",
+      "evidence": "Operator operator-plan-ready; selected refresh-autonomous-cadence; execution not-requested.",
       "nextAction": "Keep a dry-run operator plan ready, then execute only one allowlisted local action when explicitly requested."
     },
     {
@@ -676,7 +680,7 @@
       "command": "npm run build && npm run autonomous:performance",
       "targets": [
         "pwa-shell",
-        "GameCanvas-B6sHkgS9.js"
+        "GameCanvas-BhziJlic.js"
       ],
       "reason": "Keeps the PWA shell fast while Phaser and game scenes stay deferred."
     },
@@ -707,7 +711,7 @@
       "costUsd": 0,
       "command": "npm run autonomous:post-deploy-artifact-sync",
       "targets": [
-        26202744235,
+        26203193575,
         "release-candidate-manifest"
       ],
       "reason": "Strict deploy artifact evidence is already synced from the latest successful Pages workflow."
@@ -734,7 +738,7 @@
     },
     {
       "id": "collect-gate-sample-downloads",
-      "status": "armed",
+      "status": "monitor",
       "costUsd": 0,
       "command": "npm run autonomous:collect-sample-downloads",
       "targets": [
@@ -742,11 +746,11 @@
         "gate-sample-20260521-firstGameCompletion",
         "gate-sample-20260521-replayRate"
       ],
-      "reason": "Opt-in scans local browser Downloads and the event inbox for real player exports, imports them, refreshes analytics and recovery, then regenerates the sample plan."
+      "reason": "Recent explicit Downloads scan found no player exports; retry after 4 hours or when an inbox event drop appears."
     },
     {
       "id": "refresh-product-gate-sample-plan",
-      "status": "armed",
+      "status": "monitor",
       "costUsd": 0,
       "command": "npm run autonomous:sample-plan",
       "targets": [
@@ -824,7 +828,7 @@
       "costUsd": 0,
       "command": "npm run autonomous:operator",
       "targets": [
-        "collect-gate-sample-downloads"
+        "refresh-autonomous-cadence"
       ],
       "reason": "Publishes the one-action local execution plan with allowlist, zero-spend, and audit controls."
     },
@@ -834,7 +838,7 @@
       "costUsd": 0,
       "command": "npm run autonomous:operator",
       "targets": [
-        "collect-gate-sample-downloads"
+        "refresh-autonomous-cadence"
       ],
       "reason": "Refreshes the capped operator history so safe actions remain auditable over time."
     },

@@ -1,17 +1,17 @@
 # Autonomous Owner Loop
 
-Generated: 2026-05-21T03:11:28.827Z
+Generated: 2026-05-21T03:21:24.051Z
 Status: owner-loop-ready
 Mode: zero-spend-web-ready
 Autonomy score: 41/42 (98%)
 
 ## Owner Decision
 
-- Next action: collect-gate-sample-downloads
-- Command: npm run autonomous:collect-sample-downloads
-- Rationale: Opt-in scans local browser Downloads and the event inbox for real player exports, imports them, refreshes analytics and recovery, then regenerates the sample plan.
-- Last executed action: apply-safe-improvements
-- Recent executed actions: apply-safe-improvements, refresh-replay-loop, refresh-completion-loop, refresh-first-move-coach, measure-pwa-install-loop, seed-portfolio-traffic, optimize-daily-retention, refresh-product-gate-recovery
+- Next action: refresh-autonomous-cadence
+- Command: npm run autonomous:cadence
+- Rationale: Keeps the unattended daily operating cadence, recovery policy, and verification chain auditable.
+- Last executed action: optimize-store-listing
+- Recent executed actions: optimize-store-listing, collect-gate-sample-downloads, apply-safe-improvements, refresh-replay-loop, refresh-completion-loop, refresh-first-move-coach, measure-pwa-install-loop, seed-portfolio-traffic
 
 ## Systems
 
@@ -44,11 +44,11 @@ Autonomy score: 41/42 (98%)
 - ready: web-deployment - Deployment ready-for-pages; web readiness ready-after-build; promotion promotable-internal.
 - ready: release-candidate - Release candidate release-candidate-ready; files 44; smoke URLs 14.
 - ready: post-deploy-smoke - Smoke post-deploy-smoke-observed-live; origin https://moshequ.github.io/autonomous-game-lab; manifest comparison required; checks 15/15 passed; local artifact predeploy-artifact-smoke-passed 15/15 passed.
-- ready: post-deploy-artifact-sync - Artifact sync post-deploy-artifact-sync-passed; run 26202744235; live matches artifact true; strict true.
+- ready: post-deploy-artifact-sync - Artifact sync post-deploy-artifact-sync-passed; run 26203193575; live matches artifact true; strict true.
 - ready: production-bootstrap - Bootstrap production-bootstrap-ready; mode can-apply-configured-actions; external blockers 16.
 - ready: production-activation - Activation activation-ready; mode dry-run; execution dry-run; gh ready.
 - ready: support-channel - Support channel support-channel-ready; repository moshequ/autonomous-game-lab; public intake ready.
-- ready: autonomous-operator - Operator operator-plan-ready; selected collect-gate-sample-downloads; execution not-requested.
+- ready: autonomous-operator - Operator operator-plan-ready; selected refresh-autonomous-cadence; execution not-requested.
 - ready: operator-history - History operator-history-ready; records 40; executed 19.
 - ready: objective-audit - Audit objective-in-progress; met 6/8; external blockers 12.
 - ready: store-listing-optimizer - Focus canopy-bloom; lead screenshot phone-canopy-bloom-generated; candidate changed no.
@@ -74,8 +74,8 @@ Autonomy score: 41/42 (98%)
 - monitor: sync-post-deploy-artifact - npm run autonomous:post-deploy-artifact-sync
 - monitor: optimize-product-gates - npm run autonomous:analyze && npm run autonomous:product-optimize && npm run autonomous:sync-config && npm run autonomous:simulate
 - armed: refresh-product-gate-recovery - npm run autonomous:gate-recovery
-- armed: collect-gate-sample-downloads - npm run autonomous:collect-sample-downloads
-- armed: refresh-product-gate-sample-plan - npm run autonomous:sample-plan
+- monitor: collect-gate-sample-downloads - npm run autonomous:collect-sample-downloads
+- monitor: refresh-product-gate-sample-plan - npm run autonomous:sample-plan
 - armed: refresh-first-move-coach - npm run autonomous:first-move-coach
 - monitor: refresh-completion-loop - npm run autonomous:completion-loop
 - armed: refresh-replay-loop - npm run autonomous:replay-loop
