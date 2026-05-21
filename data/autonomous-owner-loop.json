@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-21T06:45:40.365Z",
+  "generatedAt": "2026-05-21T06:52:39.686Z",
   "status": "owner-loop-ready",
   "mode": "zero-spend-web-ready",
   "autonomyScore": {
@@ -21,32 +21,32 @@
     "repositoryHandoffPrepared": false
   },
   "ownerDecision": {
-    "nextBestActionId": "refresh-autonomous-self-update",
-    "nextBestAction": "npm run autonomous:self-update",
+    "nextBestActionId": "prepare-release-candidate",
+    "nextBestAction": "npm run autonomous:release-candidate && npm run autonomous:post-deploy-smoke",
     "canExecuteWithoutSpend": true,
-    "rationale": "Keeps verified generated-change persistence gated, allowlisted, and ready for the scheduled production repository."
+    "rationale": "Records a content-hashed dist inventory and immediately refreshes the post-deploy smoke plan for the exact PWA build."
   },
   "executionMemory": {
     "avoidImmediateRepeat": true,
     "recentExecutionWindow": 8,
     "recentExecutedActionIds": [
+      "check-performance-budget",
+      "refresh-support-feedback",
+      "measure-pwa-install-loop",
+      "refresh-autonomous-self-update",
       "refresh-autonomous-cadence",
       "optimize-store-listing",
       "refresh-product-gate-recovery",
-      "refresh-objective-audit",
-      "prepare-release-candidate",
-      "check-performance-budget",
-      "refresh-support-feedback",
-      "measure-pwa-install-loop"
+      "refresh-objective-audit"
     ],
-    "lastExecutedActionId": "refresh-autonomous-cadence",
+    "lastExecutedActionId": "check-performance-budget",
     "lastExecutedStatus": "executed",
     "lastRecordExecutionStatus": "not-requested",
     "recentlySatisfiedActionIds": [],
     "objectiveAuditFreshness": {
       "fresh": true,
       "structurallyReady": true,
-      "auditGeneratedAt": "2026-05-21T06:42:08.857Z",
+      "auditGeneratedAt": "2026-05-21T06:52:38.901Z",
       "evaluatedInputIds": [
         "analytics-rollup",
         "event-ingest",
@@ -244,10 +244,10 @@
     },
     "skippedRecentlyExecutedActionIds": [
       "refresh-autonomous-cadence",
+      "refresh-autonomous-self-update",
       "refresh-support-feedback",
       "measure-pwa-install-loop",
       "check-performance-budget",
-      "prepare-release-candidate",
       "refresh-product-gate-recovery",
       "optimize-store-listing"
     ],
@@ -284,7 +284,7 @@
     },
     "productionBootstrapFreshness": {
       "fresh": true,
-      "bootstrapGeneratedAt": "2026-05-21T06:41:46.985Z",
+      "bootstrapGeneratedAt": "2026-05-21T06:52:16.437Z",
       "evaluatedInputIds": [
         "release-candidate",
         "deployment-plan",
@@ -350,7 +350,7 @@
       "id": "autonomous-self-update",
       "status": "ready",
       "autonomy": "gated-generated-change-persistence",
-      "evidence": "Self-update self-update-ready; safe pending 17; unsafe pending 0; remote push held.",
+      "evidence": "Self-update self-update-ready; safe pending 0; unsafe pending 0; remote push held.",
       "nextAction": "When a GitHub repository is connected, set AGL_AUTONOMOUS_SELF_UPDATE=1 and AGL_AUTONOMOUS_SELF_UPDATE_DIRECT=1 to let verified generated changes persist."
     },
     {
@@ -498,7 +498,7 @@
       "status": "ready",
       "autonomy": "read-only-live-deploy-verification",
       "evidence": "Smoke post-deploy-smoke-observed-live; origin https://moshequ.github.io/autonomous-game-lab; manifest comparison required; checks 15/15 passed; local artifact predeploy-artifact-smoke-passed 15/15 passed.",
-      "nextAction": "Live Pages is reachable and serving pwa-9a28998c70ef; run the deploy workflow for strict proof of the current local candidate if needed."
+      "nextAction": "Live Pages is reachable and serving pwa-58c0c90b316f; run the deploy workflow for strict proof of the current local candidate if needed."
     },
     {
       "id": "post-deploy-artifact-sync",
@@ -511,7 +511,7 @@
       "id": "production-bootstrap",
       "status": "ready",
       "autonomy": "zero-spend-setup-orchestration",
-      "evidence": "Bootstrap production-bootstrap-ready; mode can-apply-configured-actions; external blockers 16.",
+      "evidence": "Bootstrap production-bootstrap-ready; mode can-apply-configured-actions; external blockers 15.",
       "nextAction": "gh workflow run web-pwa-deploy.yml"
     },
     {
@@ -532,14 +532,14 @@
       "id": "autonomous-operator",
       "status": "ready",
       "autonomy": "one-safe-action-runner",
-      "evidence": "Operator operator-plan-ready; selected refresh-autonomous-self-update; execution not-requested.",
+      "evidence": "Operator operator-plan-ready; selected prepare-release-candidate; execution not-requested.",
       "nextAction": "Keep a dry-run operator plan ready, then execute only one allowlisted local action when explicitly requested."
     },
     {
       "id": "operator-history",
       "status": "ready",
       "autonomy": "operator-audit-trail",
-      "evidence": "History operator-history-ready; records 40; executed 19.",
+      "evidence": "History operator-history-ready; records 40; executed 18.",
       "nextAction": "Keep a capped durable record of operator plans and one-action executions."
     },
     {
@@ -681,7 +681,7 @@
       "command": "npm run build && npm run autonomous:performance && npm run autonomous:release-candidate",
       "targets": [
         "pwa-shell",
-        "GameCanvas-El5rLl6T.js",
+        "GameCanvas-CmbRESPH.js",
         "dist-release-candidate"
       ],
       "reason": "Keeps the PWA shell fast while Phaser and game scenes stay deferred, then refreshes the deployable manifest for the rebuilt dist."
@@ -832,7 +832,7 @@
       "costUsd": 0,
       "command": "npm run autonomous:operator",
       "targets": [
-        "refresh-autonomous-self-update"
+        "prepare-release-candidate"
       ],
       "reason": "One-action operator plan is already published; avoid cycling on meta-operator refreshes."
     },
@@ -842,7 +842,7 @@
       "costUsd": 0,
       "command": "npm run autonomous:operator",
       "targets": [
-        "refresh-autonomous-self-update"
+        "prepare-release-candidate"
       ],
       "reason": "Operator history is already capped and published; keep attention on product evidence."
     },

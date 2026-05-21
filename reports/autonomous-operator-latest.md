@@ -1,10 +1,10 @@
 # Autonomous Operator
 
-Generated: 2026-05-21T06:42:09.342Z
+Generated: 2026-05-21T06:52:39.414Z
 Status: operator-plan-ready
 Mode: plan-only
-Owner decision: refresh-autonomous-self-update
-Selected action: refresh-autonomous-self-update
+Owner decision: prepare-release-candidate
+Selected action: prepare-release-candidate
 Execution: not-requested
 
 ## Controls
@@ -18,7 +18,7 @@ Execution: not-requested
 
 ## Selected Action
 
-- refresh-autonomous-self-update: npm run autonomous:self-update
+- prepare-release-candidate: npm run autonomous:release-candidate && npm run autonomous:post-deploy-smoke
 
 ## Eligible Local Actions
 
@@ -35,13 +35,13 @@ Execution: not-requested
 
 - run-daily-owner-loop: daily-loop-recursion-blocked
 - refresh-autonomous-cadence: not-selected-this-run
+- refresh-autonomous-self-update: not-selected-this-run
 - seed-portfolio-traffic: status-monitor
 - refresh-organic-seed-loop: status-monitor
 - refresh-support-feedback: not-selected-this-run
 - optimize-daily-retention: status-monitor
 - measure-pwa-install-loop: not-selected-this-run
 - check-performance-budget: not-selected-this-run
-- prepare-release-candidate: not-selected-this-run
 - run-post-deploy-smoke: status-monitor
 - sync-post-deploy-artifact: status-monitor
 - optimize-product-gates: status-monitor

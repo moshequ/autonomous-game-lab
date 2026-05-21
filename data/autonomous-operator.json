@@ -1,22 +1,23 @@
 {
-  "generatedAt": "2026-05-21T06:42:09.342Z",
+  "generatedAt": "2026-05-21T06:52:39.414Z",
   "status": "operator-plan-ready",
   "mode": "plan-only",
   "ownerDecision": {
-    "actionId": "refresh-autonomous-self-update",
-    "command": "npm run autonomous:self-update",
+    "actionId": "prepare-release-candidate",
+    "command": "npm run autonomous:release-candidate && npm run autonomous:post-deploy-smoke",
     "locallyExecutable": true,
     "rejectionReason": null
   },
   "requestedActionId": null,
   "selectedAction": {
-    "id": "refresh-autonomous-self-update",
+    "id": "prepare-release-candidate",
     "status": "armed",
-    "command": "npm run autonomous:self-update",
+    "command": "npm run autonomous:release-candidate && npm run autonomous:post-deploy-smoke",
     "targets": [
-      ".github/workflows/autonomous-self-update.yml"
+      "dist-release-candidate",
+      "release-candidate-manifest"
     ],
-    "reason": "Keeps verified generated-change persistence gated, allowlisted, and ready for the scheduled production repository.",
+    "reason": "Records a content-hashed dist inventory and immediately refreshes the post-deploy smoke plan for the exact PWA build.",
     "costUsd": 0
   },
   "selectedRejection": null,
@@ -41,6 +42,12 @@
       "id": "refresh-autonomous-cadence",
       "status": "armed",
       "command": "npm run autonomous:cadence",
+      "reason": "not-selected-this-run"
+    },
+    {
+      "id": "refresh-autonomous-self-update",
+      "status": "armed",
+      "command": "npm run autonomous:self-update",
       "reason": "not-selected-this-run"
     },
     {
@@ -77,12 +84,6 @@
       "id": "check-performance-budget",
       "status": "armed",
       "command": "npm run build && npm run autonomous:performance && npm run autonomous:release-candidate",
-      "reason": "not-selected-this-run"
-    },
-    {
-      "id": "prepare-release-candidate",
-      "status": "armed",
-      "command": "npm run autonomous:release-candidate && npm run autonomous:post-deploy-smoke",
       "reason": "not-selected-this-run"
     },
     {
@@ -208,8 +209,12 @@
   ],
   "commandPlan": [
     {
-      "segment": "npm run autonomous:self-update",
-      "script": "autonomous:self-update"
+      "segment": "npm run autonomous:release-candidate",
+      "script": "autonomous:release-candidate"
+    },
+    {
+      "segment": "npm run autonomous:post-deploy-smoke",
+      "script": "autonomous:post-deploy-smoke"
     }
   ],
   "execution": {
@@ -280,7 +285,7 @@
     "RUN_WORKFLOWS=1"
   ],
   "nextActions": [
-    "Run npm run autonomous:operator -- --execute --action=refresh-autonomous-self-update to execute exactly one allowed local action.",
+    "Run npm run autonomous:operator -- --execute --action=prepare-release-candidate to execute exactly one allowed local action.",
     "Do not execute GitHub workflow, store, paid ads, or account setup commands from the local operator."
   ]
 }
