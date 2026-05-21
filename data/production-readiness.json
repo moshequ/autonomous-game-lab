@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-21T21:17:04.231Z",
+  "generatedAt": "2026-05-21T21:20:28.907Z",
   "environment": {
     "status": "production-env-missing",
     "publicOrigin": "https://moshequ.github.io/autonomous-game-lab",
@@ -8,10 +8,10 @@
     "analyticsStatus": "local-or-fixture"
   },
   "repositoryChannel": {
-    "status": "waiting-for-repository-channel",
+    "status": "repository-channel-ready",
     "repository": "moshequ/autonomous-game-lab",
     "insideWorkTree": true,
-    "workflowDispatchReady": false,
+    "workflowDispatchReady": true,
     "controls": {
       "zeroPaidSpend": true,
       "readOnlyLocalInspection": true,
@@ -25,7 +25,7 @@
       {
         "id": "local-git-worktree",
         "status": "pass",
-        "detail": "Git worktree detected at /Users/moshequ/Documents/Codex/2026-05-18/i-want-to-have-a-new."
+        "detail": "Git worktree detected at /home/runner/work/autonomous-game-lab/autonomous-game-lab."
       },
       {
         "id": "github-target",
@@ -45,7 +45,7 @@
       {
         "id": "gh-token",
         "status": "pass",
-        "detail": "GitHub CLI authentication is available for repository operations."
+        "detail": "GitHub token is present in the current environment."
       },
       {
         "id": "pages-workflow",
@@ -59,18 +59,16 @@
       },
       {
         "id": "deployable-artifact",
-        "status": "blocker",
-        "detail": "Deployment blocked; release candidate release-candidate-ready; smoke post-deploy-smoke-observed-live."
+        "status": "pass",
+        "detail": "Deployment ready-for-pages; release candidate release-candidate-ready; smoke post-deploy-smoke-observed-live."
       }
     ],
-    "blockers": [
-      "Refresh build, release candidate, post-deploy smoke, and deployment plan artifacts."
-    ],
+    "blockers": [],
     "repositoryTargetPlan": {
       "status": "target-known",
       "repositoryName": "autonomous-game-lab",
       "target": "moshequ/autonomous-game-lab",
-      "targetSource": "origin-remote",
+      "targetSource": "environment",
       "placeholderTarget": "OWNER/autonomous-game-lab",
       "plannedTarget": "moshequ/autonomous-game-lab",
       "ownerRequired": false,
@@ -106,480 +104,252 @@
     "status": "repository-bootstrap-ready",
     "mode": "plan-only",
     "workspace": {
-      "path": "/Users/moshequ/Documents/Codex/2026-05-18/i-want-to-have-a-new",
+      "path": "/home/runner/work/autonomous-game-lab/autonomous-game-lab",
       "before": {
         "insideWorkTree": true,
-        "gitRoot": "/Users/moshequ/Documents/Codex/2026-05-18/i-want-to-have-a-new",
+        "gitRoot": "/home/runner/work/autonomous-game-lab/autonomous-game-lab",
         "currentBranch": "main",
-        "originRemote": "git@github.com:moshequ/autonomous-game-lab.git",
+        "originRemote": "https://github.com/moshequ/autonomous-game-lab",
         "remoteRepository": "moshequ/autonomous-game-lab",
         "hasCommit": true,
-        "dirtyFiles": 107,
+        "dirtyFiles": 50,
         "dirtyPaths": [
-          "data/acquisition-learning.json",
-          "data/analytics-rollup.json",
-          "data/autonomous-cadence.json",
           "data/autonomous-operator-history.json",
           "data/autonomous-operator.json",
           "data/autonomous-owner-loop.json",
-          "data/autonomous-self-update.json",
           "data/deployment-plan.json",
-          "data/event-collector-deployment.json",
-          "data/event-collector-smoke.json",
-          "data/event-ingest-smoke.json",
-          "data/event-ingest.json",
-          "data/growth-plan.json",
           "data/live-site-monitor.json",
-          "data/local-event-bridge.json",
           "data/objective-audit.json",
-          "data/organic-seed-loop.json",
           "data/performance-budget.json",
-          "data/portfolio-policy.json",
+          "data/post-deploy-artifact-sync.json",
           "data/post-deploy-smoke.json",
-          "data/product-gate-recovery.json",
-          "data/product-gate-sample-plan.json",
           "data/production-activation.json",
           "data/production-blocker-handoff.json",
           "data/production-bootstrap.json",
           "data/production-measurement-status.json",
           "data/production-readiness.json",
           "data/production-unlock-runner.json",
-          "data/pwa-install-loop.json",
           "data/release-candidate.json",
           "data/repository-bootstrap.json",
           "data/repository-readiness.json",
-          "data/retention-loop.json",
-          "data/store-compliance.json",
-          "data/store-listing-optimizer.json",
-          "data/store-package.json",
-          "data/traffic-seeding.json",
-          "package.json",
-          "public/compliance.json",
           "public/measurement-status.json",
-          "public/seed-kit.html",
-          "public/share-manifest.json",
-          "reports/acquisition-learning-latest.md",
-          "reports/analytics-rollup-latest.md",
-          "reports/autonomous-cadence-latest.md",
           "reports/autonomous-operator-history-latest.md",
           "reports/autonomous-operator-latest.md",
           "reports/autonomous-owner-loop-latest.md",
-          "reports/autonomous-self-update-latest.md",
           "reports/deployment-plan-latest.md",
-          "reports/event-collector-deployment-latest.md",
-          "reports/event-collector-smoke-latest.md",
-          "reports/event-ingest-latest.md",
-          "reports/event-ingest-smoke-latest.md",
-          "reports/growth-plan-latest.md",
           "reports/live-site-monitor-latest.md",
-          "reports/local-event-bridge-latest.md",
           "reports/objective-audit-latest.md",
-          "reports/organic-seed-loop-latest.md",
           "reports/performance-budget-latest.md",
-          "reports/portfolio-policy-latest.md",
+          "reports/post-deploy-artifact-sync-latest.md",
           "reports/post-deploy-smoke-latest.md",
-          "reports/product-gate-recovery-latest.md",
-          "reports/product-gate-sample-plan-latest.md",
           "reports/production-activation-latest.md",
           "reports/production-blocker-handoff-latest.md",
           "reports/production-bootstrap-latest.md",
           "reports/production-measurement-status-latest.md",
           "reports/production-readiness-latest.md",
           "reports/production-unlock-runner-latest.md",
-          "reports/pwa-install-loop-latest.md",
           "reports/release-candidate-latest.md",
           "reports/repository-bootstrap-latest.md",
           "reports/repository-readiness-latest.md",
-          "reports/retention-loop-latest.md",
-          "reports/store-compliance-latest.md",
-          "reports/store-listing-optimizer-latest.md",
-          "reports/store-package-latest.md",
-          "reports/traffic-seeding-latest.md",
-          "src/data/acquisitionLearning.ts",
-          "src/data/autonomousCadence.ts",
           "src/data/autonomousOperator.ts",
           "src/data/autonomousOperatorHistory.ts",
           "src/data/autonomousOwnerLoop.ts",
-          "src/data/autonomousSelfUpdate.ts",
-          "src/data/deploymentPlan.ts",
-          "src/data/eventCollectorDeployment.ts",
-          "src/data/growthPlan.ts",
           "src/data/liveSiteMonitor.ts",
-          "src/data/localEventBridge.ts",
           "src/data/objectiveAudit.ts",
-          "src/data/organicSeedLoop.ts",
           "src/data/performanceBudget.ts",
-          "src/data/portfolioPolicy.ts",
+          "src/data/postDeployArtifactSync.ts",
           "src/data/postDeploySmoke.ts",
-          "src/data/productGateRecovery.ts",
-          "src/data/productGateSamplePlan.ts",
           "src/data/productionActivation.ts",
           "src/data/productionBootstrap.ts",
           "src/data/productionMeasurementStatus.ts",
-          "src/data/pwaInstallLoop.ts",
           "src/data/releaseCandidate.ts",
-          "src/data/repositoryReadiness.ts",
-          "src/data/retentionLoop.ts",
-          "src/data/storeCompliance.ts",
-          "src/data/storeListingOptimizer.ts",
-          "src/data/trafficSeeding.ts"
+          "src/data/repositoryReadiness.ts"
         ],
-        "generatedEvidenceDirtyFiles": 104,
+        "generatedEvidenceDirtyFiles": 49,
         "generatedEvidenceDirtyPaths": [
-          "data/acquisition-learning.json",
-          "data/analytics-rollup.json",
-          "data/autonomous-cadence.json",
           "data/autonomous-operator-history.json",
           "data/autonomous-operator.json",
           "data/autonomous-owner-loop.json",
-          "data/autonomous-self-update.json",
           "data/deployment-plan.json",
-          "data/event-collector-deployment.json",
-          "data/event-collector-smoke.json",
-          "data/event-ingest-smoke.json",
-          "data/event-ingest.json",
-          "data/growth-plan.json",
           "data/live-site-monitor.json",
-          "data/local-event-bridge.json",
           "data/objective-audit.json",
-          "data/organic-seed-loop.json",
           "data/performance-budget.json",
-          "data/portfolio-policy.json",
+          "data/post-deploy-artifact-sync.json",
           "data/post-deploy-smoke.json",
-          "data/product-gate-recovery.json",
-          "data/product-gate-sample-plan.json",
           "data/production-activation.json",
           "data/production-blocker-handoff.json",
           "data/production-bootstrap.json",
           "data/production-measurement-status.json",
           "data/production-readiness.json",
           "data/production-unlock-runner.json",
-          "data/pwa-install-loop.json",
           "data/release-candidate.json",
           "data/repository-bootstrap.json",
           "data/repository-readiness.json",
-          "data/retention-loop.json",
-          "data/store-compliance.json",
-          "data/store-listing-optimizer.json",
-          "data/store-package.json",
-          "data/traffic-seeding.json",
-          "public/seed-kit.html",
-          "public/share-manifest.json",
-          "reports/acquisition-learning-latest.md",
-          "reports/analytics-rollup-latest.md",
-          "reports/autonomous-cadence-latest.md",
           "reports/autonomous-operator-history-latest.md",
           "reports/autonomous-operator-latest.md",
           "reports/autonomous-owner-loop-latest.md",
-          "reports/autonomous-self-update-latest.md",
           "reports/deployment-plan-latest.md",
-          "reports/event-collector-deployment-latest.md",
-          "reports/event-collector-smoke-latest.md",
-          "reports/event-ingest-latest.md",
-          "reports/event-ingest-smoke-latest.md",
-          "reports/growth-plan-latest.md",
           "reports/live-site-monitor-latest.md",
-          "reports/local-event-bridge-latest.md",
           "reports/objective-audit-latest.md",
-          "reports/organic-seed-loop-latest.md",
           "reports/performance-budget-latest.md",
-          "reports/portfolio-policy-latest.md",
+          "reports/post-deploy-artifact-sync-latest.md",
           "reports/post-deploy-smoke-latest.md",
-          "reports/product-gate-recovery-latest.md",
-          "reports/product-gate-sample-plan-latest.md",
           "reports/production-activation-latest.md",
           "reports/production-blocker-handoff-latest.md",
           "reports/production-bootstrap-latest.md",
           "reports/production-measurement-status-latest.md",
           "reports/production-readiness-latest.md",
           "reports/production-unlock-runner-latest.md",
-          "reports/pwa-install-loop-latest.md",
           "reports/release-candidate-latest.md",
           "reports/repository-bootstrap-latest.md",
           "reports/repository-readiness-latest.md",
-          "reports/retention-loop-latest.md",
-          "reports/store-compliance-latest.md",
-          "reports/store-listing-optimizer-latest.md",
-          "reports/store-package-latest.md",
-          "reports/traffic-seeding-latest.md",
-          "src/data/acquisitionLearning.ts",
-          "src/data/autonomousCadence.ts",
           "src/data/autonomousOperator.ts",
           "src/data/autonomousOperatorHistory.ts",
           "src/data/autonomousOwnerLoop.ts",
-          "src/data/autonomousSelfUpdate.ts",
-          "src/data/deploymentPlan.ts",
-          "src/data/eventCollectorDeployment.ts",
-          "src/data/growthPlan.ts",
           "src/data/liveSiteMonitor.ts",
-          "src/data/localEventBridge.ts",
           "src/data/objectiveAudit.ts",
-          "src/data/organicSeedLoop.ts",
           "src/data/performanceBudget.ts",
-          "src/data/portfolioPolicy.ts",
+          "src/data/postDeployArtifactSync.ts",
           "src/data/postDeploySmoke.ts",
-          "src/data/productGateRecovery.ts",
-          "src/data/productGateSamplePlan.ts",
           "src/data/productionActivation.ts",
           "src/data/productionBootstrap.ts",
           "src/data/productionMeasurementStatus.ts",
-          "src/data/pwaInstallLoop.ts",
           "src/data/releaseCandidate.ts",
-          "src/data/repositoryReadiness.ts",
-          "src/data/retentionLoop.ts",
-          "src/data/storeCompliance.ts",
-          "src/data/storeListingOptimizer.ts",
-          "src/data/trafficSeeding.ts"
+          "src/data/repositoryReadiness.ts"
         ],
-        "nonGeneratedDirtyFiles": 3,
+        "nonGeneratedDirtyFiles": 1,
         "nonGeneratedDirtyPaths": [
-          "package.json",
-          "public/compliance.json",
           "public/measurement-status.json"
         ]
       },
       "after": {
         "insideWorkTree": true,
-        "gitRoot": "/Users/moshequ/Documents/Codex/2026-05-18/i-want-to-have-a-new",
+        "gitRoot": "/home/runner/work/autonomous-game-lab/autonomous-game-lab",
         "currentBranch": "main",
-        "originRemote": "git@github.com:moshequ/autonomous-game-lab.git",
+        "originRemote": "https://github.com/moshequ/autonomous-game-lab",
         "remoteRepository": "moshequ/autonomous-game-lab",
         "hasCommit": true,
-        "dirtyFiles": 107,
+        "dirtyFiles": 50,
         "dirtyPaths": [
-          "data/acquisition-learning.json",
-          "data/analytics-rollup.json",
-          "data/autonomous-cadence.json",
           "data/autonomous-operator-history.json",
           "data/autonomous-operator.json",
           "data/autonomous-owner-loop.json",
-          "data/autonomous-self-update.json",
           "data/deployment-plan.json",
-          "data/event-collector-deployment.json",
-          "data/event-collector-smoke.json",
-          "data/event-ingest-smoke.json",
-          "data/event-ingest.json",
-          "data/growth-plan.json",
           "data/live-site-monitor.json",
-          "data/local-event-bridge.json",
           "data/objective-audit.json",
-          "data/organic-seed-loop.json",
           "data/performance-budget.json",
-          "data/portfolio-policy.json",
+          "data/post-deploy-artifact-sync.json",
           "data/post-deploy-smoke.json",
-          "data/product-gate-recovery.json",
-          "data/product-gate-sample-plan.json",
           "data/production-activation.json",
           "data/production-blocker-handoff.json",
           "data/production-bootstrap.json",
           "data/production-measurement-status.json",
           "data/production-readiness.json",
           "data/production-unlock-runner.json",
-          "data/pwa-install-loop.json",
           "data/release-candidate.json",
           "data/repository-bootstrap.json",
           "data/repository-readiness.json",
-          "data/retention-loop.json",
-          "data/store-compliance.json",
-          "data/store-listing-optimizer.json",
-          "data/store-package.json",
-          "data/traffic-seeding.json",
-          "package.json",
-          "public/compliance.json",
           "public/measurement-status.json",
-          "public/seed-kit.html",
-          "public/share-manifest.json",
-          "reports/acquisition-learning-latest.md",
-          "reports/analytics-rollup-latest.md",
-          "reports/autonomous-cadence-latest.md",
           "reports/autonomous-operator-history-latest.md",
           "reports/autonomous-operator-latest.md",
           "reports/autonomous-owner-loop-latest.md",
-          "reports/autonomous-self-update-latest.md",
           "reports/deployment-plan-latest.md",
-          "reports/event-collector-deployment-latest.md",
-          "reports/event-collector-smoke-latest.md",
-          "reports/event-ingest-latest.md",
-          "reports/event-ingest-smoke-latest.md",
-          "reports/growth-plan-latest.md",
           "reports/live-site-monitor-latest.md",
-          "reports/local-event-bridge-latest.md",
           "reports/objective-audit-latest.md",
-          "reports/organic-seed-loop-latest.md",
           "reports/performance-budget-latest.md",
-          "reports/portfolio-policy-latest.md",
+          "reports/post-deploy-artifact-sync-latest.md",
           "reports/post-deploy-smoke-latest.md",
-          "reports/product-gate-recovery-latest.md",
-          "reports/product-gate-sample-plan-latest.md",
           "reports/production-activation-latest.md",
           "reports/production-blocker-handoff-latest.md",
           "reports/production-bootstrap-latest.md",
           "reports/production-measurement-status-latest.md",
           "reports/production-readiness-latest.md",
           "reports/production-unlock-runner-latest.md",
-          "reports/pwa-install-loop-latest.md",
           "reports/release-candidate-latest.md",
           "reports/repository-bootstrap-latest.md",
           "reports/repository-readiness-latest.md",
-          "reports/retention-loop-latest.md",
-          "reports/store-compliance-latest.md",
-          "reports/store-listing-optimizer-latest.md",
-          "reports/store-package-latest.md",
-          "reports/traffic-seeding-latest.md",
-          "src/data/acquisitionLearning.ts",
-          "src/data/autonomousCadence.ts",
           "src/data/autonomousOperator.ts",
           "src/data/autonomousOperatorHistory.ts",
           "src/data/autonomousOwnerLoop.ts",
-          "src/data/autonomousSelfUpdate.ts",
-          "src/data/deploymentPlan.ts",
-          "src/data/eventCollectorDeployment.ts",
-          "src/data/growthPlan.ts",
           "src/data/liveSiteMonitor.ts",
-          "src/data/localEventBridge.ts",
           "src/data/objectiveAudit.ts",
-          "src/data/organicSeedLoop.ts",
           "src/data/performanceBudget.ts",
-          "src/data/portfolioPolicy.ts",
+          "src/data/postDeployArtifactSync.ts",
           "src/data/postDeploySmoke.ts",
-          "src/data/productGateRecovery.ts",
-          "src/data/productGateSamplePlan.ts",
           "src/data/productionActivation.ts",
           "src/data/productionBootstrap.ts",
           "src/data/productionMeasurementStatus.ts",
-          "src/data/pwaInstallLoop.ts",
           "src/data/releaseCandidate.ts",
-          "src/data/repositoryReadiness.ts",
-          "src/data/retentionLoop.ts",
-          "src/data/storeCompliance.ts",
-          "src/data/storeListingOptimizer.ts",
-          "src/data/trafficSeeding.ts"
+          "src/data/repositoryReadiness.ts"
         ],
-        "generatedEvidenceDirtyFiles": 104,
+        "generatedEvidenceDirtyFiles": 49,
         "generatedEvidenceDirtyPaths": [
-          "data/acquisition-learning.json",
-          "data/analytics-rollup.json",
-          "data/autonomous-cadence.json",
           "data/autonomous-operator-history.json",
           "data/autonomous-operator.json",
           "data/autonomous-owner-loop.json",
-          "data/autonomous-self-update.json",
           "data/deployment-plan.json",
-          "data/event-collector-deployment.json",
-          "data/event-collector-smoke.json",
-          "data/event-ingest-smoke.json",
-          "data/event-ingest.json",
-          "data/growth-plan.json",
           "data/live-site-monitor.json",
-          "data/local-event-bridge.json",
           "data/objective-audit.json",
-          "data/organic-seed-loop.json",
           "data/performance-budget.json",
-          "data/portfolio-policy.json",
+          "data/post-deploy-artifact-sync.json",
           "data/post-deploy-smoke.json",
-          "data/product-gate-recovery.json",
-          "data/product-gate-sample-plan.json",
           "data/production-activation.json",
           "data/production-blocker-handoff.json",
           "data/production-bootstrap.json",
           "data/production-measurement-status.json",
           "data/production-readiness.json",
           "data/production-unlock-runner.json",
-          "data/pwa-install-loop.json",
           "data/release-candidate.json",
           "data/repository-bootstrap.json",
           "data/repository-readiness.json",
-          "data/retention-loop.json",
-          "data/store-compliance.json",
-          "data/store-listing-optimizer.json",
-          "data/store-package.json",
-          "data/traffic-seeding.json",
-          "public/seed-kit.html",
-          "public/share-manifest.json",
-          "reports/acquisition-learning-latest.md",
-          "reports/analytics-rollup-latest.md",
-          "reports/autonomous-cadence-latest.md",
           "reports/autonomous-operator-history-latest.md",
           "reports/autonomous-operator-latest.md",
           "reports/autonomous-owner-loop-latest.md",
-          "reports/autonomous-self-update-latest.md",
           "reports/deployment-plan-latest.md",
-          "reports/event-collector-deployment-latest.md",
-          "reports/event-collector-smoke-latest.md",
-          "reports/event-ingest-latest.md",
-          "reports/event-ingest-smoke-latest.md",
-          "reports/growth-plan-latest.md",
           "reports/live-site-monitor-latest.md",
-          "reports/local-event-bridge-latest.md",
           "reports/objective-audit-latest.md",
-          "reports/organic-seed-loop-latest.md",
           "reports/performance-budget-latest.md",
-          "reports/portfolio-policy-latest.md",
+          "reports/post-deploy-artifact-sync-latest.md",
           "reports/post-deploy-smoke-latest.md",
-          "reports/product-gate-recovery-latest.md",
-          "reports/product-gate-sample-plan-latest.md",
           "reports/production-activation-latest.md",
           "reports/production-blocker-handoff-latest.md",
           "reports/production-bootstrap-latest.md",
           "reports/production-measurement-status-latest.md",
           "reports/production-readiness-latest.md",
           "reports/production-unlock-runner-latest.md",
-          "reports/pwa-install-loop-latest.md",
           "reports/release-candidate-latest.md",
           "reports/repository-bootstrap-latest.md",
           "reports/repository-readiness-latest.md",
-          "reports/retention-loop-latest.md",
-          "reports/store-compliance-latest.md",
-          "reports/store-listing-optimizer-latest.md",
-          "reports/store-package-latest.md",
-          "reports/traffic-seeding-latest.md",
-          "src/data/acquisitionLearning.ts",
-          "src/data/autonomousCadence.ts",
           "src/data/autonomousOperator.ts",
           "src/data/autonomousOperatorHistory.ts",
           "src/data/autonomousOwnerLoop.ts",
-          "src/data/autonomousSelfUpdate.ts",
-          "src/data/deploymentPlan.ts",
-          "src/data/eventCollectorDeployment.ts",
-          "src/data/growthPlan.ts",
           "src/data/liveSiteMonitor.ts",
-          "src/data/localEventBridge.ts",
           "src/data/objectiveAudit.ts",
-          "src/data/organicSeedLoop.ts",
           "src/data/performanceBudget.ts",
-          "src/data/portfolioPolicy.ts",
+          "src/data/postDeployArtifactSync.ts",
           "src/data/postDeploySmoke.ts",
-          "src/data/productGateRecovery.ts",
-          "src/data/productGateSamplePlan.ts",
           "src/data/productionActivation.ts",
           "src/data/productionBootstrap.ts",
           "src/data/productionMeasurementStatus.ts",
-          "src/data/pwaInstallLoop.ts",
           "src/data/releaseCandidate.ts",
-          "src/data/repositoryReadiness.ts",
-          "src/data/retentionLoop.ts",
-          "src/data/storeCompliance.ts",
-          "src/data/storeListingOptimizer.ts",
-          "src/data/trafficSeeding.ts"
+          "src/data/repositoryReadiness.ts"
         ],
-        "nonGeneratedDirtyFiles": 3,
+        "nonGeneratedDirtyFiles": 1,
         "nonGeneratedDirtyPaths": [
-          "package.json",
-          "public/compliance.json",
           "public/measurement-status.json"
         ]
       }
     },
     "repository": {
       "target": "moshequ/autonomous-game-lab",
-      "source": "origin-remote",
-      "originRemote": "git@github.com:moshequ/autonomous-game-lab.git",
+      "source": "environment",
+      "originRemote": "https://github.com/moshequ/autonomous-game-lab",
       "remoteRepository": "moshequ/autonomous-game-lab",
-      "ownerHint": null,
-      "ownerHintEnv": null,
-      "ownerHintTarget": null,
-      "inferredTarget": "moshequ/autonomous-game-lab",
-      "inferredTargetSource": "gh-auth-user-and-package-name",
+      "ownerHint": "moshequ",
+      "ownerHintEnv": "GITHUB_REPOSITORY_OWNER",
+      "ownerHintTarget": "moshequ/autonomous-game-lab",
+      "inferredTarget": null,
+      "inferredTargetSource": null,
       "packageName": "autonomous-game-lab",
       "inferredRepositoryName": "autonomous-game-lab",
       "remoteParsing": {
@@ -625,7 +395,7 @@
       "status": "target-known",
       "repositoryName": "autonomous-game-lab",
       "target": "moshequ/autonomous-game-lab",
-      "targetSource": "origin-remote",
+      "targetSource": "environment",
       "placeholderTarget": "OWNER/autonomous-game-lab",
       "plannedTarget": "moshequ/autonomous-game-lab",
       "ownerRequired": false,
@@ -659,7 +429,7 @@
         "command": "npm run autonomous:repo-readiness",
         "mutatesLocalGit": false,
         "mutatesRemoteGitHub": false,
-        "detail": "Repository readiness is waiting-for-repository-channel."
+        "detail": "Repository readiness is repository-channel-ready."
       },
       {
         "id": "initialize-local-git",
@@ -669,7 +439,7 @@
         "mutatesLocalGit": true,
         "mutatesRemoteGitHub": false,
         "requiresExplicitFlag": true,
-        "detail": "Git worktree is available at /Users/moshequ/Documents/Codex/2026-05-18/i-want-to-have-a-new."
+        "detail": "Git worktree is available at /home/runner/work/autonomous-game-lab/autonomous-game-lab."
       },
       {
         "id": "create-initial-commit",
@@ -689,7 +459,7 @@
         "mutatesLocalGit": true,
         "mutatesRemoteGitHub": false,
         "requiresExplicitEnv": true,
-        "detail": "3 non-generated source or artifact file(s) are not committed yet."
+        "detail": "1 non-generated source or artifact file(s) are not committed yet."
       },
       {
         "id": "set-or-create-origin",
@@ -727,7 +497,7 @@
     ]
   },
   "webPwa": {
-    "status": "blocked",
+    "status": "ready-after-build",
     "required": [
       "manifest",
       "offline-capable build",
@@ -834,7 +604,7 @@
       {
         "id": "performance-budget",
         "status": "pass",
-        "detail": "Performance budget is performance-budget-ready; initial JS 675.6 KB / 183.3 KB gzip; deferred game chunk GameCanvas-BNBnQo_h.js."
+        "detail": "Performance budget is performance-budget-ready; initial JS 675.6 KB / 183.5 KB gzip; deferred game chunk GameCanvas-BMrHTT7z.js."
       },
       {
         "id": "release-candidate",
@@ -843,7 +613,7 @@
       },
       {
         "id": "post-deploy-smoke-runner",
-        "status": "blocker",
+        "status": "pass",
         "detail": "Post-deploy smoke is post-deploy-smoke-observed-live; origin https://moshequ.github.io/autonomous-game-lab; checks 17/17 passed, 0 blocked; local artifact predeploy-artifact-smoke-passed 17/17 passed."
       },
       {
@@ -884,7 +654,7 @@
       {
         "id": "production-bootstrap",
         "status": "pass",
-        "detail": "Production bootstrap is production-bootstrap-ready; mode can-apply-configured-actions; external blockers 17."
+        "detail": "Production bootstrap is production-bootstrap-ready; mode can-apply-configured-actions; external blockers 16."
       },
       {
         "id": "production-blocker-handoff",
@@ -904,7 +674,7 @@
       {
         "id": "autonomous-operator",
         "status": "pass",
-        "detail": "Autonomous operator is operator-plan-ready; selected prepare-repository-channel; execution not-requested."
+        "detail": "Autonomous operator is operator-plan-ready; selected refresh-completion-loop; execution not-requested."
       },
       {
         "id": "autonomous-operator-history",
@@ -924,7 +694,7 @@
       {
         "id": "objective-audit",
         "status": "pass",
-        "detail": "Objective audit is objective-in-progress; met 5 / 8; can complete false."
+        "detail": "Objective audit is objective-in-progress; met 6 / 8; can complete false."
       }
     ]
   },
@@ -1414,92 +1184,92 @@
     },
     "initial": {
       "entryScripts": [
-        "index-Rnqtt4Jt.js",
+        "index-ClTb7KXJ.js",
         "registerSW.js"
       ],
       "scriptPaths": [
-        "assets/index-Rnqtt4Jt.js",
+        "assets/index-ClTb7KXJ.js",
         "registerSW.js"
       ],
       "jsFiles": [
         {
-          "file": "index-Rnqtt4Jt.js",
-          "path": "assets/index-Rnqtt4Jt.js",
-          "bytes": 691672,
-          "kb": 675.5,
-          "gzipBytes": 187576,
-          "gzipKb": 183.2
+          "file": "index-ClTb7KXJ.js",
+          "path": "assets/index-ClTb7KXJ.js",
+          "bytes": 691611,
+          "kb": 675.4,
+          "gzipBytes": 187806,
+          "gzipKb": 183.4
         },
         {
           "file": "registerSW.js",
           "path": "registerSW.js",
           "bytes": 174,
           "kb": 0.2,
-          "gzipBytes": 141,
+          "gzipBytes": 142,
           "gzipKb": 0.1
         }
       ],
-      "jsBytes": 691846,
+      "jsBytes": 691785,
       "jsKb": 675.6,
-      "gzipBytes": 187717,
-      "gzipKb": 183.3,
+      "gzipBytes": 187948,
+      "gzipKb": 183.5,
       "cssFiles": [
         {
           "file": "index-JrT_Yeu7.css",
           "path": "assets/index-JrT_Yeu7.css",
           "bytes": 10738,
           "kb": 10.5,
-          "gzipBytes": 2878,
+          "gzipBytes": 2883,
           "gzipKb": 2.8
         }
       ],
       "cssBytes": 10738,
       "cssKb": 10.5,
-      "cssGzipBytes": 2878,
+      "cssGzipBytes": 2883,
       "cssGzipKb": 2.8
     },
     "deferred": {
       "chunks": [
         {
-          "file": "aggregateEvidenceIssue-0FZ4NGNv.js",
-          "path": "assets/aggregateEvidenceIssue-0FZ4NGNv.js",
+          "file": "aggregateEvidenceIssue-Dx3MSY2f.js",
+          "path": "assets/aggregateEvidenceIssue-Dx3MSY2f.js",
           "bytes": 2978,
           "kb": 2.9,
           "gzipBytes": 1237,
           "gzipKb": 1.2
         },
         {
-          "file": "GameCanvas-BNBnQo_h.js",
-          "path": "assets/GameCanvas-BNBnQo_h.js",
+          "file": "GameCanvas-BMrHTT7z.js",
+          "path": "assets/GameCanvas-BMrHTT7z.js",
           "bytes": 1393760,
           "kb": 1361.1,
-          "gzipBytes": 356185,
-          "gzipKb": 347.8
+          "gzipBytes": 357391,
+          "gzipKb": 349
         }
       ],
       "gameChunk": {
-        "file": "GameCanvas-BNBnQo_h.js",
-        "path": "assets/GameCanvas-BNBnQo_h.js",
+        "file": "GameCanvas-BMrHTT7z.js",
+        "path": "assets/GameCanvas-BMrHTT7z.js",
         "bytes": 1393760,
         "kb": 1361.1,
-        "gzipBytes": 356185,
-        "gzipKb": 347.8
+        "gzipBytes": 357391,
+        "gzipKb": 349
       },
       "largestDeferredChunk": {
-        "file": "GameCanvas-BNBnQo_h.js",
-        "path": "assets/GameCanvas-BNBnQo_h.js",
+        "file": "GameCanvas-BMrHTT7z.js",
+        "path": "assets/GameCanvas-BMrHTT7z.js",
         "bytes": 1393760,
         "kb": 1361.1,
-        "gzipBytes": 356185,
-        "gzipKb": 347.8
+        "gzipBytes": 357391,
+        "gzipKb": 349
       },
       "largestJsChunk": {
-        "file": "GameCanvas-BNBnQo_h.js",
-        "path": "assets/GameCanvas-BNBnQo_h.js",
+        "file": "GameCanvas-BMrHTT7z.js",
+        "path": "assets/GameCanvas-BMrHTT7z.js",
         "bytes": 1393760,
         "kb": 1361.1,
-        "gzipBytes": 356185,
-        "gzipKb": 347.8
+        "gzipBytes": 357391,
+        "gzipKb": 349
       },
       "chunksBytes": 1396738,
       "chunksKb": 1364
@@ -1521,7 +1291,7 @@
       {
         "id": "initial-js-gzip-budget",
         "status": "pass",
-        "detail": "Initial JS gzip is 183.3 KB; budget is 200 KB."
+        "detail": "Initial JS gzip is 183.5 KB; budget is 200 KB."
       },
       {
         "id": "initial-css-budget",
@@ -1541,12 +1311,12 @@
       {
         "id": "game-runtime-deferred",
         "status": "pass",
-        "detail": "GameCanvas-BNBnQo_h.js is deferred from the initial shell."
+        "detail": "GameCanvas-BMrHTT7z.js is deferred from the initial shell."
       },
       {
         "id": "largest-js-deferred",
         "status": "pass",
-        "detail": "Largest JS chunk is GameCanvas-BNBnQo_h.js at 1361.1 KB."
+        "detail": "Largest JS chunk is GameCanvas-BMrHTT7z.js at 1361.1 KB."
       },
       {
         "id": "deferred-game-budget",
@@ -1557,7 +1327,7 @@
   },
   "releaseCandidate": {
     "status": "release-candidate-ready",
-    "candidateId": "pwa-03a328b22ac3",
+    "candidateId": "pwa-f9086d71b0d3",
     "target": {
       "provider": "github-pages",
       "artifactPath": "dist",
@@ -1568,8 +1338,8 @@
     },
     "summary": {
       "totalFiles": 47,
-      "totalBytes": 3698763,
-      "totalKb": 3612.1,
+      "totalBytes": 3698702,
+      "totalKb": 3612,
       "assetFiles": 4,
       "htmlFiles": 17,
       "gamePages": 10,
@@ -1578,7 +1348,7 @@
     },
     "integrity": {
       "algorithm": "sha256",
-      "aggregateHash": "03a328b22ac3c7dc091f61ba46f64e86b577ad483da856c485a8380c9b2c28bf",
+      "aggregateHash": "f9086d71b0d3323cbaa01ef9cbaab56e3d4cc786d388ad0a41a09a4deb6a9a67",
       "requiredFileChecks": [
         {
           "path": "index.html",
@@ -1838,12 +1608,12 @@
       "origin": "https://moshequ.github.io/autonomous-game-lab",
       "originSource": "release-candidate-public-origin",
       "provider": "github-pages",
-      "candidateId": "pwa-03a328b22ac3",
-      "aggregateHash": "03a328b22ac3c7dc091f61ba46f64e86b577ad483da856c485a8380c9b2c28bf",
+      "candidateId": "pwa-f9086d71b0d3",
+      "aggregateHash": "f9086d71b0d3323cbaa01ef9cbaab56e3d4cc786d388ad0a41a09a4deb6a9a67",
       "strictManifestComparison": false
     },
     "sourceStatus": {
-      "deployment": "blocked",
+      "deployment": "ready-for-pages",
       "releaseCandidate": "release-candidate-ready",
       "productionResponse": "guarded-operations"
     },
@@ -2034,11 +1804,11 @@
           "file": "dist/release-candidate.json",
           "expectedStatus": 200,
           "status": "pass",
-          "bytes": 20922,
+          "bytes": 20920,
           "candidateMatches": true,
           "hashMatches": true,
-          "localCandidateId": "pwa-03a328b22ac3",
-          "localAggregateHash": "03a328b22ac3c7dc091f61ba46f64e86b577ad483da856c485a8380c9b2c28bf",
+          "localCandidateId": "pwa-f9086d71b0d3",
+          "localAggregateHash": "f9086d71b0d3323cbaa01ef9cbaab56e3d4cc786d388ad0a41a09a4deb6a9a67",
           "detail": "Local release manifest matches the release candidate."
         }
       ]
@@ -2284,7 +2054,7 @@
         "path": "/release-candidate.json",
         "url": "https://moshequ.github.io/autonomous-game-lab/release-candidate.json",
         "expectedStatus": 200,
-        "requiredText": "pwa-03a328b22ac3",
+        "requiredText": "pwa-f9086d71b0d3",
         "status": "pass",
         "detail": "Live release manifest is reachable; it does not match the current local release candidate.",
         "actualStatus": 200,
@@ -2296,8 +2066,8 @@
         "localCandidateMatches": false,
         "strictManifestComparison": false,
         "deployedReleaseStatus": "release-candidate-ready",
-        "deployedCandidateId": "pwa-c634755cfa9f",
-        "deployedAggregateHash": "c634755cfa9f797c407a108333e0745f8214e7482b162b18703a9cabed425caa"
+        "deployedCandidateId": "pwa-d63f209d8bb5",
+        "deployedAggregateHash": "d63f209d8bb5618924515f7d0d3604c8b3847c9e7c84bd858dbc31893bb39e27"
       }
     ]
   },
@@ -2306,22 +2076,22 @@
     "workflow": {
       "workflowFile": "web-pwa-deploy.yml",
       "artifactName": "post-deploy-smoke",
-      "runId": 26252998333,
-      "headSha": "f656c19a9404d9b06f1aa3f1e2180c9cc50e4200",
-      "createdAt": "2026-05-21T21:03:54Z",
-      "url": "https://github.com/moshequ/autonomous-game-lab/actions/runs/26252998333",
+      "runId": 26253701981,
+      "headSha": "869a0c19a15e1e0d8b0a0b8927d736c881a600ba",
+      "createdAt": "2026-05-21T21:18:50Z",
+      "url": "https://github.com/moshequ/autonomous-game-lab/actions/runs/26253701981",
       "source": "explicit-run-id",
       "runListAvailable": false
     },
     "artifact": {
       "status": "post-deploy-smoke-passed",
-      "generatedAt": "2026-05-21T21:04:33.307Z",
+      "generatedAt": "2026-05-21T21:19:29.153Z",
       "target": {
         "origin": "https://moshequ.github.io/autonomous-game-lab/",
         "originSource": "agl-deployed-pwa-origin",
         "provider": "github-pages",
-        "candidateId": "pwa-c634755cfa9f",
-        "aggregateHash": "c634755cfa9f797c407a108333e0745f8214e7482b162b18703a9cabed425caa",
+        "candidateId": "pwa-d63f209d8bb5",
+        "aggregateHash": "d63f209d8bb5618924515f7d0d3604c8b3847c9e7c84bd858dbc31893bb39e27",
         "strictManifestComparison": true
       },
       "sourceStatus": {
@@ -2337,8 +2107,8 @@
       },
       "liveRelease": {
         "status": "release-candidate-ready",
-        "candidateId": "pwa-c634755cfa9f",
-        "aggregateHash": "c634755cfa9f797c407a108333e0745f8214e7482b162b18703a9cabed425caa",
+        "candidateId": "pwa-d63f209d8bb5",
+        "aggregateHash": "d63f209d8bb5618924515f7d0d3604c8b3847c9e7c84bd858dbc31893bb39e27",
         "localCandidateMatches": true,
         "strictManifestComparison": true
       },
@@ -2353,7 +2123,7 @@
         "strictManifestComparison": true,
         "inferredLiveObservationAllowed": false
       },
-      "reportSha256": "317bcee635a3edd5725cc4c5413120280a7245260580d05a1c8ddaa4336f6d59"
+      "reportSha256": "5ebffefaa0716655b4cc11976bd00ddd234b9e7924727b49f658132f5c36a0d1"
     },
     "live": {
       "origin": "https://moshequ.github.io/autonomous-game-lab",
@@ -2362,10 +2132,10 @@
       "finalUrl": "https://moshequ.github.io/autonomous-game-lab/release-candidate.json",
       "contentType": "application/json; charset=utf-8",
       "bytes": 20922,
-      "textSha256": "245bc82df8c4c2cd8118ae197ff36e57ea7f2d0033b6978d5e25a1d01b307913",
+      "textSha256": "fbaa7f832b2d75055034b31ff1f7b28f24d5ce9242d6ceaae3cc153ee498f283",
       "releaseStatus": "release-candidate-ready",
-      "candidateId": "pwa-c634755cfa9f",
-      "aggregateHash": "c634755cfa9f797c407a108333e0745f8214e7482b162b18703a9cabed425caa",
+      "candidateId": "pwa-d63f209d8bb5",
+      "aggregateHash": "d63f209d8bb5618924515f7d0d3604c8b3847c9e7c84bd858dbc31893bb39e27",
       "matchesArtifact": true
     },
     "validation": {
@@ -2407,12 +2177,12 @@
       {
         "id": "explicit-pages-run",
         "status": "pass",
-        "detail": "Explicit web-pwa-deploy.yml run is 26252998333."
+        "detail": "Explicit web-pwa-deploy.yml run is 26253701981."
       },
       {
         "id": "post-deploy-smoke-artifact",
         "status": "pass",
-        "detail": "Downloaded post-deploy-smoke artifact from run 26252998333."
+        "detail": "Downloaded post-deploy-smoke artifact from run 26253701981."
       },
       {
         "id": "strict-smoke-artifact",
@@ -2447,11 +2217,11 @@
       "failed": 0,
       "blocked": 0,
       "passRate": 100,
-      "latencyP50Ms": 218,
-      "latencyP95Ms": 262,
-      "liveCandidateId": "pwa-c634755cfa9f",
-      "syncedCandidateId": "pwa-c634755cfa9f",
-      "localCandidateId": "pwa-03a328b22ac3",
+      "latencyP50Ms": 67,
+      "latencyP95Ms": 107,
+      "liveCandidateId": "pwa-d63f209d8bb5",
+      "syncedCandidateId": "pwa-d63f209d8bb5",
+      "localCandidateId": "pwa-f9086d71b0d3",
       "liveMatchesSyncedDeploy": true,
       "liveMatchesCurrentLocalCandidate": false
     },
@@ -2475,9 +2245,9 @@
         "url": "https://moshequ.github.io/autonomous-game-lab/",
         "status": "pass",
         "httpStatus": 200,
-        "durationMs": 262,
+        "durationMs": 107,
         "bytes": 2846,
-        "contentSha256": "51aa1f3e20dac667cd6a83f5ec39dc81496cc920fcfe6f3ddb1cf69eb39ad202",
+        "contentSha256": "6157f55d8a9535b72766deb59ce691961a8173908d635d27219455d68d700e21",
         "contentType": "text/html; charset=utf-8",
         "finalUrl": "https://moshequ.github.io/autonomous-game-lab/",
         "textMatched": true,
@@ -2493,7 +2263,7 @@
         "url": "https://moshequ.github.io/autonomous-game-lab/manifest.webmanifest",
         "status": "pass",
         "httpStatus": 200,
-        "durationMs": 218,
+        "durationMs": 71,
         "bytes": 853,
         "contentSha256": "caada44fb47a5c7bc6f2740988f483bd87acec88ef9e9bf36f7b2edc26f62bfb",
         "contentType": "application/manifest+json; charset=utf-8",
@@ -2511,9 +2281,9 @@
         "url": "https://moshequ.github.io/autonomous-game-lab/sw.js",
         "status": "pass",
         "httpStatus": 200,
-        "durationMs": 219,
+        "durationMs": 73,
         "bytes": 3873,
-        "contentSha256": "400adbda3b491ac31d733775a2714fe3fd50d794c3160a01320b0a4fd2a3d384",
+        "contentSha256": "28c30ef92815ee63a70e56d48cd5cbd2f02eb27fe9208f133173b1090a7b425b",
         "contentType": "application/javascript; charset=utf-8",
         "finalUrl": "https://moshequ.github.io/autonomous-game-lab/sw.js",
         "textMatched": true,
@@ -2529,7 +2299,7 @@
         "url": "https://moshequ.github.io/autonomous-game-lab/privacy.html",
         "status": "pass",
         "httpStatus": 200,
-        "durationMs": 217,
+        "durationMs": 67,
         "bytes": 2649,
         "contentSha256": "cc454717dcc9f3df5ce32aa9cae0648b6918d4edb71169c665c7c429ccd2d9c8",
         "contentType": "text/html; charset=utf-8",
@@ -2547,7 +2317,7 @@
         "url": "https://moshequ.github.io/autonomous-game-lab/support.html",
         "status": "pass",
         "httpStatus": 200,
-        "durationMs": 218,
+        "durationMs": 70,
         "bytes": 4241,
         "contentSha256": "64a99ddffbb933295c8c9956a52e2f92446d59db0617d69a91b87baf976f3858",
         "contentType": "text/html; charset=utf-8",
@@ -2565,7 +2335,7 @@
         "url": "https://moshequ.github.io/autonomous-game-lab/measurement-status.html",
         "status": "pass",
         "httpStatus": 200,
-        "durationMs": 218,
+        "durationMs": 69,
         "bytes": 6125,
         "contentSha256": "4583702c783ea9f06292edbbb037a82331957c70ac7577cc941c48d66276abcf",
         "contentType": "text/html; charset=utf-8",
@@ -2583,9 +2353,9 @@
         "url": "https://moshequ.github.io/autonomous-game-lab/measurement-status.json",
         "status": "pass",
         "httpStatus": 200,
-        "durationMs": 217,
+        "durationMs": 69,
         "bytes": 3459,
-        "contentSha256": "8a551e5d4a1024f0183abb79f1bd2d52fdfc20f222aaae8de029e60ffd406ca6",
+        "contentSha256": "b4ac73c082ba8cc0f36ded20ae1c73535f9d188a40c315496f0fc8939ce87633",
         "contentType": "application/json; charset=utf-8",
         "finalUrl": "https://moshequ.github.io/autonomous-game-lab/measurement-status.json",
         "textMatched": true,
@@ -2601,7 +2371,7 @@
         "url": "https://moshequ.github.io/autonomous-game-lab/install.html",
         "status": "pass",
         "httpStatus": 200,
-        "durationMs": 218,
+        "durationMs": 68,
         "bytes": 7967,
         "contentSha256": "46e635c36f0b11abe624c56488dee7750409572f39da3259c433d0aa67070fa0",
         "contentType": "text/html; charset=utf-8",
@@ -2619,9 +2389,9 @@
         "url": "https://moshequ.github.io/autonomous-game-lab/compliance.json",
         "status": "pass",
         "httpStatus": 200,
-        "durationMs": 219,
+        "durationMs": 67,
         "bytes": 5625,
-        "contentSha256": "e85dacf4af73e806bf4936c34af18f38fb7ea6dbbfebd23862e31ed63cbd186a",
+        "contentSha256": "f74b6c0df6e2438a43f0ad2324d0dd394368930decb7853e51dca6742b64acdc",
         "contentType": "application/json; charset=utf-8",
         "finalUrl": "https://moshequ.github.io/autonomous-game-lab/compliance.json",
         "textMatched": true,
@@ -2637,7 +2407,7 @@
         "url": "https://moshequ.github.io/autonomous-game-lab/monetization.json",
         "status": "pass",
         "httpStatus": 200,
-        "durationMs": 217,
+        "durationMs": 63,
         "bytes": 878,
         "contentSha256": "bd076ff9ea673b671ead322070c596130c947347b9c46990b991c7400112846e",
         "contentType": "application/json; charset=utf-8",
@@ -2655,7 +2425,7 @@
         "url": "https://moshequ.github.io/autonomous-game-lab/app-ads.txt",
         "status": "pass",
         "httpStatus": 200,
-        "durationMs": 216,
+        "durationMs": 51,
         "bytes": 187,
         "contentSha256": "fca4b9f6094448086cc698a391365b26e773f287e82eee093ce073cdf26d677e",
         "contentType": "text/plain; charset=utf-8",
@@ -2673,7 +2443,7 @@
         "url": "https://moshequ.github.io/autonomous-game-lab/.well-known/assetlinks.json",
         "status": "pass",
         "httpStatus": 200,
-        "durationMs": 216,
+        "durationMs": 67,
         "bytes": 348,
         "contentSha256": "5410e9b0a583a5aa4ff2d791895c4f71e25230be9d88b9e851b55998e6a32cdc",
         "contentType": "application/json; charset=utf-8",
@@ -2691,7 +2461,7 @@
         "url": "https://moshequ.github.io/autonomous-game-lab/gate-sample.html",
         "status": "pass",
         "httpStatus": 200,
-        "durationMs": 218,
+        "durationMs": 68,
         "bytes": 26496,
         "contentSha256": "af8a275ffcfbb4db3f94a364fdfd99289b6bfae80f63c7daf2750a659ec1463c",
         "contentType": "text/html; charset=utf-8",
@@ -2709,9 +2479,9 @@
         "url": "https://moshequ.github.io/autonomous-game-lab/seed-kit.html",
         "status": "pass",
         "httpStatus": 200,
-        "durationMs": 218,
+        "durationMs": 67,
         "bytes": 14853,
-        "contentSha256": "15cf7a22dac6160115f7089b4e8f195e84c8837f4b6ede5b19b12d5bdf1032d8",
+        "contentSha256": "28f258dc2bcde05dfa6a57bb657315d0b75f74b41e7bf45f47ea04bc99ae8bdf",
         "contentType": "text/html; charset=utf-8",
         "finalUrl": "https://moshequ.github.io/autonomous-game-lab/seed-kit.html",
         "textMatched": true,
@@ -2727,7 +2497,7 @@
         "url": "https://moshequ.github.io/autonomous-game-lab/sitemap.xml",
         "status": "pass",
         "httpStatus": 200,
-        "durationMs": 217,
+        "durationMs": 58,
         "bytes": 2382,
         "contentSha256": "9899a6c1681ee14d08c33d30bf177a8e5cb3e75ca0dacb384c294cdaad7dc6f9",
         "contentType": "application/xml",
@@ -2745,7 +2515,7 @@
         "url": "https://moshequ.github.io/autonomous-game-lab/games/canopy-bloom.html",
         "status": "pass",
         "httpStatus": 200,
-        "durationMs": 217,
+        "durationMs": 64,
         "bytes": 5079,
         "contentSha256": "62fdb7fb4392e3bf28866bc2463b90d526ced292ab4994f99fe0c2aab5f9a1bc",
         "contentType": "text/html; charset=utf-8",
@@ -2758,22 +2528,22 @@
         "id": "release-candidate-manifest-live",
         "path": "/release-candidate.json",
         "expectedStatus": 200,
-        "requiredText": "pwa-c634755cfa9f",
+        "requiredText": "pwa-d63f209d8bb5",
         "kind": "release-manifest",
         "url": "https://moshequ.github.io/autonomous-game-lab/release-candidate.json",
         "status": "pass",
         "httpStatus": 200,
-        "durationMs": 220,
+        "durationMs": 65,
         "bytes": 20922,
-        "contentSha256": "245bc82df8c4c2cd8118ae197ff36e57ea7f2d0033b6978d5e25a1d01b307913",
+        "contentSha256": "fbaa7f832b2d75055034b31ff1f7b28f24d5ce9242d6ceaae3cc153ee498f283",
         "contentType": "application/json; charset=utf-8",
         "finalUrl": "https://moshequ.github.io/autonomous-game-lab/release-candidate.json",
         "textMatched": true,
         "manifest": {
           "parsed": true,
           "status": "release-candidate-ready",
-          "candidateId": "pwa-c634755cfa9f",
-          "aggregateHash": "c634755cfa9f797c407a108333e0745f8214e7482b162b18703a9cabed425caa",
+          "candidateId": "pwa-d63f209d8bb5",
+          "aggregateHash": "d63f209d8bb5618924515f7d0d3604c8b3847c9e7c84bd858dbc31893bb39e27",
           "matchesSyncedDeploy": true,
           "matchesCurrentLocalCandidate": false
         },
@@ -3503,13 +3273,13 @@
     "status": "production-bootstrap-ready",
     "mode": "can-apply-configured-actions",
     "summary": {
-      "readyGroups": 2,
+      "readyGroups": 3,
       "totalGroups": 12,
       "configuredVariables": 10,
       "totalVariables": 24,
       "configuredSecrets": 5,
       "totalSecrets": 8,
-      "externalBlockers": 17
+      "externalBlockers": 16
     },
     "controls": {
       "zeroSpendGuard": true,
@@ -3540,14 +3310,12 @@
     "stages": [
       {
         "id": "repository-channel",
-        "status": "waiting-for-repository-channel",
+        "status": "repository-channel-ready",
         "canAutoRun": false,
         "costUsd": 0,
         "command": "npm run autonomous:repo-readiness",
-        "evidence": "Repository moshequ/autonomous-game-lab; git worktree ready; workflow dispatch blocked.",
-        "requires": [
-          "Refresh build, release candidate, post-deploy smoke, and deployment plan artifacts."
-        ]
+        "evidence": "Repository moshequ/autonomous-game-lab; git worktree ready; workflow dispatch ready.",
+        "requires": []
       },
       {
         "id": "repository-bootstrap",
@@ -3578,11 +3346,11 @@
       },
       {
         "id": "github-pages-hosting",
-        "status": "blocked",
-        "canAutoRun": false,
+        "status": "ready-for-actions-pages",
+        "canAutoRun": true,
         "costUsd": 0,
         "command": "gh workflow run web-pwa-deploy.yml",
-        "evidence": "Deployment plan is blocked; Pages workflow is .github/workflows/web-pwa-deploy.yml.",
+        "evidence": "Deployment plan is ready-for-pages; Pages workflow is .github/workflows/web-pwa-deploy.yml.",
         "requires": [
           "Repository exists on GitHub.",
           "GitHub Pages source is set to GitHub Actions.",
@@ -3738,7 +3506,7 @@
       {
         "id": "run-web-workflow",
         "command": "RUN_WORKFLOWS=1 ./ops/github/setup-production.sh",
-        "safeToRunAutomatically": false,
+        "safeToRunAutomatically": true,
         "costUsd": 0
       },
       {
@@ -3749,10 +3517,6 @@
       }
     ],
     "externalBlockers": [
-      {
-        "source": "repository-readiness",
-        "blocker": "Refresh build, release candidate, post-deploy smoke, and deployment plan artifacts."
-      },
       {
         "source": "repository-bootstrap",
         "blocker": "Commit current generated changes before pushing to GitHub Pages."
@@ -4071,7 +3835,7 @@
     "mode": "execute-unlocked-local-followups",
     "sourceStatus": {
       "productionBlockerHandoff": "handoff-waiting-on-owner-inputs",
-      "productionBlockerHandoffSourceDataHash": "9cb1f7f3ad09"
+      "productionBlockerHandoffSourceDataHash": "7547ff3eaf71"
     },
     "summary": {
       "handoffItems": 8,
@@ -4111,17 +3875,17 @@
     "status": "activation-ready",
     "mode": "dry-run",
     "sourceStatus": {
-      "repositoryReadiness": "waiting-for-repository-channel",
+      "repositoryReadiness": "repository-channel-ready",
       "repositoryBootstrap": "repository-bootstrap-ready",
       "productionBootstrap": "production-bootstrap-ready",
-      "deployment": "blocked",
+      "deployment": "ready-for-pages",
       "postDeploySmoke": "post-deploy-smoke-observed-live"
     },
     "configuration": {
       "activationRequested": false,
       "repositoryTargetKnown": true,
       "ghCredentialReady": true,
-      "deploymentReady": false,
+      "deploymentReady": true,
       "runWebWorkflows": false,
       "allowRepositoryBootstrap": false,
       "allowAndroidWorkflow": false,
@@ -4181,13 +3945,13 @@
     "status": "operator-plan-ready",
     "mode": "plan-only",
     "selectedAction": {
-      "id": "prepare-repository-channel",
+      "id": "refresh-completion-loop",
       "status": "armed",
-      "command": "npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap",
+      "command": "npm run autonomous:completion-loop",
       "targets": [
-        "moshequ/autonomous-game-lab"
+        "harbor-rings"
       ],
-      "reason": "Surfaces and prepares the missing git/GitHub deployment-channel blockers before web deploy.",
+      "reason": "Refreshes optional completion nudges and behind-pace finish-line coaching from product-gate evidence.",
       "costUsd": 0
     },
     "controls": {
@@ -4214,12 +3978,9 @@
     "eligibleActionIds": [
       "seed-portfolio-traffic",
       "refresh-organic-seed-loop",
-      "prepare-release-candidate",
-      "run-post-deploy-smoke",
+      "optimize-daily-retention",
       "refresh-completion-loop",
-      "refresh-replay-loop",
-      "prepare-repository-channel",
-      "bootstrap-production-setup"
+      "refresh-replay-loop"
     ],
     "blockedActions": [
       {
@@ -4266,9 +4027,9 @@
       },
       {
         "id": "optimize-daily-retention",
-        "status": "monitor",
+        "status": "armed",
         "command": "npm run autonomous:retention",
-        "reason": "status-monitor"
+        "reason": "not-selected-this-run"
       },
       {
         "id": "measure-pwa-install-loop",
@@ -4284,15 +4045,15 @@
       },
       {
         "id": "prepare-release-candidate",
-        "status": "armed",
+        "status": "monitor",
         "command": "npm run autonomous:release-candidate && npm run autonomous:post-deploy-smoke && npm run autonomous:live-monitor",
-        "reason": "not-selected-this-run"
+        "reason": "status-monitor"
       },
       {
         "id": "run-post-deploy-smoke",
-        "status": "armed",
+        "status": "monitor",
         "command": "npm run autonomous:post-deploy-smoke",
-        "reason": "not-selected-this-run"
+        "reason": "status-monitor"
       },
       {
         "id": "sync-post-deploy-artifact",
@@ -4337,22 +4098,22 @@
         "reason": "status-monitor"
       },
       {
-        "id": "refresh-completion-loop",
-        "status": "armed",
-        "command": "npm run autonomous:completion-loop",
-        "reason": "not-selected-this-run"
-      },
-      {
         "id": "refresh-replay-loop",
         "status": "armed",
         "command": "npm run autonomous:replay-loop",
         "reason": "not-selected-this-run"
       },
       {
+        "id": "prepare-repository-channel",
+        "status": "monitor",
+        "command": "npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap",
+        "reason": "status-monitor"
+      },
+      {
         "id": "bootstrap-production-setup",
-        "status": "armed",
+        "status": "monitor",
         "command": "npm run autonomous:release-candidate && npm run autonomous:deploy-plan && npm run autonomous:bootstrap",
-        "reason": "not-selected-this-run"
+        "reason": "status-monitor"
       },
       {
         "id": "activate-production-when-configured",
@@ -4410,9 +4171,9 @@
       },
       {
         "id": "deploy-web-pwa",
-        "status": "blocked-needs-repository-channel",
+        "status": "ready-when-repository-pages-enabled",
         "command": "Run the Web PWA Deploy workflow after GitHub Pages is enabled for the repository.",
-        "reason": "status-blocked-needs-repository-channel"
+        "reason": "status-ready-when-repository-pages-enabled"
       },
       {
         "id": "collect-live-events",
@@ -4429,7 +4190,7 @@
       "plannedRecords": 34,
       "executedRecords": 6,
       "failedRecords": 0,
-      "lastActionId": "prepare-repository-channel",
+      "lastActionId": "refresh-completion-loop",
       "lastExecutionStatus": "not-requested",
       "lastExecutedActionId": "seed-portfolio-traffic"
     },
@@ -4460,137 +4221,6 @@
     },
     "recentRecords": [
       {
-        "id": "20260521211152-prepare-repository-channel",
-        "generatedAt": "2026-05-21T21:11:52.738Z",
-        "runFingerprint": "5a0b21c18152522e",
-        "mode": "plan-only",
-        "status": "operator-plan-ready",
-        "selectedActionId": "prepare-repository-channel",
-        "selectedCommand": "npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap",
-        "eligibleActionIds": [
-          "optimize-daily-retention",
-          "measure-pwa-install-loop",
-          "refresh-completion-loop",
-          "refresh-replay-loop",
-          "prepare-repository-channel",
-          "bootstrap-production-setup",
-          "run-production-unlock-runner",
-          "optimize-store-listing"
-        ],
-        "blockedActionCount": 33,
-        "execution": {
-          "requested": false,
-          "status": "not-requested",
-          "attemptedActionId": null,
-          "resultCount": 0,
-          "failedScripts": []
-        },
-        "controls": {
-          "zeroPaidSpend": true,
-          "localCommandAllowlistEnforced": true,
-          "externalWorkflowExecutionBlockedByDefault": true,
-          "maxActionsPerRun": 1
-        }
-      },
-      {
-        "id": "20260521211222-prepare-repository-channel",
-        "generatedAt": "2026-05-21T21:12:22.940Z",
-        "runFingerprint": "b6a150da8c9b9b89",
-        "mode": "plan-only",
-        "status": "operator-plan-ready",
-        "selectedActionId": "prepare-repository-channel",
-        "selectedCommand": "npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap",
-        "eligibleActionIds": [
-          "seed-portfolio-traffic",
-          "refresh-organic-seed-loop",
-          "refresh-completion-loop",
-          "refresh-replay-loop",
-          "prepare-repository-channel",
-          "run-production-unlock-runner",
-          "refresh-objective-audit",
-          "optimize-store-listing"
-        ],
-        "blockedActionCount": 33,
-        "execution": {
-          "requested": false,
-          "status": "not-requested",
-          "attemptedActionId": null,
-          "resultCount": 0,
-          "failedScripts": []
-        },
-        "controls": {
-          "zeroPaidSpend": true,
-          "localCommandAllowlistEnforced": true,
-          "externalWorkflowExecutionBlockedByDefault": true,
-          "maxActionsPerRun": 1
-        }
-      },
-      {
-        "id": "20260521211223-prepare-repository-channel",
-        "generatedAt": "2026-05-21T21:12:23.764Z",
-        "runFingerprint": "67f2611c99a58301",
-        "mode": "plan-only",
-        "status": "operator-plan-ready",
-        "selectedActionId": "prepare-repository-channel",
-        "selectedCommand": "npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap",
-        "eligibleActionIds": [
-          "seed-portfolio-traffic",
-          "refresh-organic-seed-loop",
-          "refresh-completion-loop",
-          "refresh-replay-loop",
-          "prepare-repository-channel",
-          "run-production-unlock-runner",
-          "optimize-store-listing"
-        ],
-        "blockedActionCount": 33,
-        "execution": {
-          "requested": false,
-          "status": "not-requested",
-          "attemptedActionId": null,
-          "resultCount": 0,
-          "failedScripts": []
-        },
-        "controls": {
-          "zeroPaidSpend": true,
-          "localCommandAllowlistEnforced": true,
-          "externalWorkflowExecutionBlockedByDefault": true,
-          "maxActionsPerRun": 1
-        }
-      },
-      {
-        "id": "20260521211503-prepare-repository-channel",
-        "generatedAt": "2026-05-21T21:15:03.491Z",
-        "runFingerprint": "e67a09506b79c012",
-        "mode": "plan-only",
-        "status": "operator-plan-ready",
-        "selectedActionId": "prepare-repository-channel",
-        "selectedCommand": "npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap",
-        "eligibleActionIds": [
-          "seed-portfolio-traffic",
-          "refresh-organic-seed-loop",
-          "refresh-completion-loop",
-          "refresh-replay-loop",
-          "prepare-repository-channel",
-          "bootstrap-production-setup",
-          "run-production-unlock-runner",
-          "optimize-store-listing"
-        ],
-        "blockedActionCount": 33,
-        "execution": {
-          "requested": false,
-          "status": "not-requested",
-          "attemptedActionId": null,
-          "resultCount": 0,
-          "failedScripts": []
-        },
-        "controls": {
-          "zeroPaidSpend": true,
-          "localCommandAllowlistEnforced": true,
-          "externalWorkflowExecutionBlockedByDefault": true,
-          "maxActionsPerRun": 1
-        }
-      },
-      {
         "id": "20260521211703-prepare-repository-channel",
         "generatedAt": "2026-05-21T21:17:03.169Z",
         "runFingerprint": "7969a90e0b981a0d",
@@ -4607,6 +4237,128 @@
           "refresh-replay-loop",
           "prepare-repository-channel",
           "bootstrap-production-setup"
+        ],
+        "blockedActionCount": 33,
+        "execution": {
+          "requested": false,
+          "status": "not-requested",
+          "attemptedActionId": null,
+          "resultCount": 0,
+          "failedScripts": []
+        },
+        "controls": {
+          "zeroPaidSpend": true,
+          "localCommandAllowlistEnforced": true,
+          "externalWorkflowExecutionBlockedByDefault": true,
+          "maxActionsPerRun": 1
+        }
+      },
+      {
+        "id": "20260521212022-refresh-completion-loop",
+        "generatedAt": "2026-05-21T21:20:22.827Z",
+        "runFingerprint": "d62fbd75b0cfd269",
+        "mode": "plan-only",
+        "status": "operator-plan-ready",
+        "selectedActionId": "refresh-completion-loop",
+        "selectedCommand": "npm run autonomous:completion-loop",
+        "eligibleActionIds": [
+          "seed-portfolio-traffic",
+          "refresh-organic-seed-loop",
+          "optimize-daily-retention",
+          "refresh-completion-loop",
+          "refresh-replay-loop",
+          "refresh-objective-audit"
+        ],
+        "blockedActionCount": 33,
+        "execution": {
+          "requested": false,
+          "status": "not-requested",
+          "attemptedActionId": null,
+          "resultCount": 0,
+          "failedScripts": []
+        },
+        "controls": {
+          "zeroPaidSpend": true,
+          "localCommandAllowlistEnforced": true,
+          "externalWorkflowExecutionBlockedByDefault": true,
+          "maxActionsPerRun": 1
+        }
+      },
+      {
+        "id": "20260521212023-refresh-completion-loop",
+        "generatedAt": "2026-05-21T21:20:23.496Z",
+        "runFingerprint": "9ebb309baf55b3fa",
+        "mode": "plan-only",
+        "status": "operator-plan-ready",
+        "selectedActionId": "refresh-completion-loop",
+        "selectedCommand": "npm run autonomous:completion-loop",
+        "eligibleActionIds": [
+          "seed-portfolio-traffic",
+          "refresh-organic-seed-loop",
+          "optimize-daily-retention",
+          "refresh-completion-loop",
+          "refresh-replay-loop"
+        ],
+        "blockedActionCount": 33,
+        "execution": {
+          "requested": false,
+          "status": "not-requested",
+          "attemptedActionId": null,
+          "resultCount": 0,
+          "failedScripts": []
+        },
+        "controls": {
+          "zeroPaidSpend": true,
+          "localCommandAllowlistEnforced": true,
+          "externalWorkflowExecutionBlockedByDefault": true,
+          "maxActionsPerRun": 1
+        }
+      },
+      {
+        "id": "20260521212027-refresh-completion-loop",
+        "generatedAt": "2026-05-21T21:20:27.746Z",
+        "runFingerprint": "d62fbd75b0cfd269",
+        "mode": "plan-only",
+        "status": "operator-plan-ready",
+        "selectedActionId": "refresh-completion-loop",
+        "selectedCommand": "npm run autonomous:completion-loop",
+        "eligibleActionIds": [
+          "seed-portfolio-traffic",
+          "refresh-organic-seed-loop",
+          "optimize-daily-retention",
+          "refresh-completion-loop",
+          "refresh-replay-loop",
+          "refresh-objective-audit"
+        ],
+        "blockedActionCount": 33,
+        "execution": {
+          "requested": false,
+          "status": "not-requested",
+          "attemptedActionId": null,
+          "resultCount": 0,
+          "failedScripts": []
+        },
+        "controls": {
+          "zeroPaidSpend": true,
+          "localCommandAllowlistEnforced": true,
+          "externalWorkflowExecutionBlockedByDefault": true,
+          "maxActionsPerRun": 1
+        }
+      },
+      {
+        "id": "20260521212028-refresh-completion-loop",
+        "generatedAt": "2026-05-21T21:20:28.274Z",
+        "runFingerprint": "9ebb309baf55b3fa",
+        "mode": "plan-only",
+        "status": "operator-plan-ready",
+        "selectedActionId": "refresh-completion-loop",
+        "selectedCommand": "npm run autonomous:completion-loop",
+        "eligibleActionIds": [
+          "seed-portfolio-traffic",
+          "refresh-organic-seed-loop",
+          "optimize-daily-retention",
+          "refresh-completion-loop",
+          "refresh-replay-loop"
         ],
         "blockedActionCount": 33,
         "execution": {
@@ -6080,9 +5832,9 @@
     "status": "objective-in-progress",
     "summary": {
       "requirements": 8,
-      "met": 5,
+      "met": 6,
       "prepared": 2,
-      "incomplete": 1,
+      "incomplete": 0,
       "externalBlockers": 15,
       "productBlockers": 7
     },
@@ -6093,18 +5845,16 @@
       "noRevenueEnablementUntilGatesPass": true,
       "noStoreSubmissionUntilExternalAccounts": true,
       "currentWorktreeClean": false,
-      "currentWorktreeDirtyFiles": 106,
-      "productionBootstrapFresh": false,
-      "productionBootstrapSourceDataHash": "ccf6eeabb3ea",
-      "productionBootstrapStaleInputIds": [
-        "deployment-plan"
-      ],
+      "currentWorktreeDirtyFiles": 50,
+      "productionBootstrapFresh": true,
+      "productionBootstrapSourceDataHash": "af98c000f2be",
+      "productionBootstrapStaleInputIds": [],
       "objectiveNextBestActionSource": "owner-loop"
     },
     "completion": {
       "canMarkGoalComplete": false,
       "reason": "The local autonomous PWA system is largely prepared with strict live deploy evidence synced from GitHub Actions, but production credentials, live data, monetization gates, and store account/signing blockers remain.",
-      "nextBestAction": "prepare-repository-channel"
+      "nextBestAction": "refresh-completion-loop"
     },
     "requirements": [
       {
@@ -6172,7 +5922,7 @@
           "Backlog: improvement-backlog-ready; items 4; hash 6f06a35d0fd9",
           "Support feedback: support-feedback-empty; issues 0; routable signals 0; aggregate notes 0",
           "Applied/deferred actions: 7",
-          "Operator selected: prepare-repository-channel; status operator-plan-ready; execution not-requested"
+          "Operator selected: refresh-completion-loop; status operator-plan-ready; execution not-requested"
         ],
         "blockers": [],
         "nextAction": "Keep collecting starts until a safe product-gate tuning action is justified.",
@@ -6180,7 +5930,7 @@
       },
       {
         "id": "minimal-intervention-autonomy",
-        "status": "needs-repository-channel",
+        "status": "met-local",
         "summary": "A scheduled local loop, owner state, bootstrap handoff, and dry-run operator reduce manual maintenance.",
         "evidence": [
           "Owner loop: owner-loop-ready",
@@ -6193,14 +5943,13 @@
           "Repository bootstrap: repository-bootstrap-ready; helper ops/github/bootstrap-repository.sh",
           "Release candidate: release-candidate-ready; smoke URLs 16",
           "Post-deploy smoke: post-deploy-smoke-observed-live; origin https://moshequ.github.io/autonomous-game-lab; checks 17/17; local artifact predeploy-artifact-smoke-passed 17/17",
-          "Strict deploy artifact sync: post-deploy-artifact-sync-passed; run 26252998333; live matches artifact true; candidate pwa-c634755cfa9f",
+          "Strict deploy artifact sync: post-deploy-artifact-sync-passed; run 26253701981; live matches artifact true; candidate pwa-d63f209d8bb5",
           "Live site monitor: live-site-monitor-passed; checks 17/17; live matches synced deploy true",
-          "Repository channel: waiting-for-repository-channel; repository moshequ/autonomous-game-lab; git worktree true",
-          "Autonomy score: 91%",
+          "Repository channel: repository-channel-ready; repository moshequ/autonomous-game-lab; git worktree true",
+          "Autonomy score: 98%",
           "Credential-gated actions: 10"
         ],
         "blockers": [
-          "Refresh build, release candidate, post-deploy smoke, and deployment plan artifacts.",
           "AGL_SUPPORT_EMAIL: Production support contact for privacy and store listings.",
           "VITE_POSTHOG_KEY: Optional browser-side PostHog analytics forwarding.",
           "POSTHOG_PROJECT_ID + POSTHOG_PERSONAL_API_KEY: Optional autonomous production analytics and experiment result rollups from PostHog.",
@@ -6892,7 +6641,7 @@
     }
   },
   "promotion": {
-    "nextAction": "Fix web/PWA blockers before external traffic.",
+    "nextAction": "Deploy web/PWA experiment when hosting credentials exist.",
     "storeRule": "Do not package native apps until retention gates, privacy URL, and account credentials exist."
   }
 }

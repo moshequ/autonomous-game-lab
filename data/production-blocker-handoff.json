@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-05-21T21:17:03.598Z",
-  "sourceDataHash": "9cb1f7f3ad09",
+  "generatedAt": "2026-05-21T21:20:27.187Z",
+  "sourceDataHash": "7547ff3eaf71",
   "status": "handoff-waiting-on-owner-inputs",
   "statusDetail": "blocked-external-inputs",
-  "liveCandidate": "pwa-c634755cfa9f",
+  "liveCandidate": "pwa-d63f209d8bb5",
   "sourceStatus": {
     "productionEnvironment": "production-env-missing",
     "productionBootstrap": "production-bootstrap-ready",
@@ -146,7 +146,7 @@
       "repositorySecret": "AGL_ANDROID_KEYSTORE_BASE64",
       "envName": "AGL_ANDROID_KEYSTORE_BASE64",
       "configured": true,
-      "valueSource": "environment",
+      "valueSource": "github-secret",
       "command": "printf \"%s\" \"$AGL_ANDROID_KEYSTORE_BASE64\" | gh secret set AGL_ANDROID_KEYSTORE_BASE64"
     },
     {
@@ -154,7 +154,7 @@
       "repositorySecret": "AGL_ANDROID_KEYSTORE_PASSWORD",
       "envName": "AGL_ANDROID_KEYSTORE_PASSWORD",
       "configured": true,
-      "valueSource": "environment",
+      "valueSource": "github-secret",
       "command": "printf \"%s\" \"$AGL_ANDROID_KEYSTORE_PASSWORD\" | gh secret set AGL_ANDROID_KEYSTORE_PASSWORD"
     },
     {
@@ -162,7 +162,7 @@
       "repositorySecret": "AGL_ANDROID_KEY_ALIAS",
       "envName": "AGL_ANDROID_KEY_ALIAS",
       "configured": true,
-      "valueSource": "environment",
+      "valueSource": "github-secret",
       "command": "printf \"%s\" \"$AGL_ANDROID_KEY_ALIAS\" | gh secret set AGL_ANDROID_KEY_ALIAS"
     },
     {

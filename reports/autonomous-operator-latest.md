@@ -1,10 +1,10 @@
 # Autonomous Operator
 
-Generated: 2026-05-21T21:17:03.169Z
+Generated: 2026-05-21T21:20:28.274Z
 Status: operator-plan-ready
 Mode: plan-only
-Owner decision: prepare-repository-channel
-Selected action: prepare-repository-channel
+Owner decision: refresh-completion-loop
+Selected action: refresh-completion-loop
 Execution: not-requested
 
 ## Controls
@@ -18,18 +18,15 @@ Execution: not-requested
 
 ## Selected Action
 
-- prepare-repository-channel: npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap
+- refresh-completion-loop: npm run autonomous:completion-loop
 
 ## Eligible Local Actions
 
 - seed-portfolio-traffic
 - refresh-organic-seed-loop
-- prepare-release-candidate
-- run-post-deploy-smoke
+- optimize-daily-retention
 - refresh-completion-loop
 - refresh-replay-loop
-- prepare-repository-channel
-- bootstrap-production-setup
 
 ## Blocked Actions
 
@@ -40,8 +37,8 @@ Execution: not-requested
 - seed-portfolio-traffic: not-selected-this-run
 - refresh-organic-seed-loop: not-selected-this-run
 - refresh-support-feedback: status-monitor
-- optimize-daily-retention: status-monitor
+- optimize-daily-retention: not-selected-this-run
 - measure-pwa-install-loop: status-monitor
 - check-performance-budget: status-monitor
-- prepare-release-candidate: not-selected-this-run
-- run-post-deploy-smoke: not-selected-this-run
+- prepare-release-candidate: status-monitor
+- run-post-deploy-smoke: status-monitor
