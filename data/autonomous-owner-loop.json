@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-21T00:41:13.770Z",
+  "generatedAt": "2026-05-21T00:44:20.539Z",
   "status": "owner-loop-ready",
   "mode": "zero-spend-web-ready",
   "autonomyScore": {
@@ -21,32 +21,32 @@
     "repositoryHandoffPrepared": false
   },
   "ownerDecision": {
-    "nextBestActionId": "refresh-support-feedback",
-    "nextBestAction": "npm run autonomous:support-feedback",
+    "nextBestActionId": "check-performance-budget",
+    "nextBestAction": "npm run build && npm run autonomous:performance",
     "canExecuteWithoutSpend": true,
-    "rationale": "Reads public GitHub issue intake and turns player reports into redacted improvement signals."
+    "rationale": "Keeps the PWA shell fast while Phaser and game scenes stay deferred."
   },
   "executionMemory": {
     "avoidImmediateRepeat": true,
     "recentExecutionWindow": 8,
     "recentExecutedActionIds": [
+      "refresh-support-feedback",
       "refresh-autonomous-self-update",
       "refresh-autonomous-cadence",
       "run-post-deploy-smoke",
       "prepare-release-candidate",
       "measure-pwa-install-loop",
       "optimize-store-listing",
-      "refresh-product-gate-recovery",
-      "check-performance-budget"
+      "refresh-product-gate-recovery"
     ],
-    "lastExecutedActionId": "refresh-autonomous-self-update",
+    "lastExecutedActionId": "refresh-support-feedback",
     "lastExecutedStatus": "executed",
     "lastRecordExecutionStatus": "not-requested",
     "recentlySatisfiedActionIds": [],
     "objectiveAuditFreshness": {
       "fresh": true,
       "structurallyReady": true,
-      "auditGeneratedAt": "2026-05-21T00:40:54.628Z",
+      "auditGeneratedAt": "2026-05-21T00:44:02.744Z",
       "evaluatedInputIds": [
         "analytics-rollup",
         "event-ingest",
@@ -238,8 +238,8 @@
     "skippedRecentlyExecutedActionIds": [
       "refresh-autonomous-cadence",
       "refresh-autonomous-self-update",
+      "refresh-support-feedback",
       "measure-pwa-install-loop",
-      "check-performance-budget",
       "prepare-release-candidate",
       "run-post-deploy-smoke",
       "refresh-product-gate-recovery",
@@ -526,7 +526,7 @@
       "id": "autonomous-operator",
       "status": "ready",
       "autonomy": "one-safe-action-runner",
-      "evidence": "Operator operator-plan-ready; selected refresh-support-feedback; execution not-requested.",
+      "evidence": "Operator operator-plan-ready; selected check-performance-budget; execution not-requested.",
       "nextAction": "Keep a dry-run operator plan ready, then execute only one allowlisted local action when explicitly requested."
     },
     {
@@ -823,7 +823,7 @@
       "costUsd": 0,
       "command": "npm run autonomous:operator",
       "targets": [
-        "refresh-support-feedback"
+        "check-performance-budget"
       ],
       "reason": "Publishes the one-action local execution plan with allowlist, zero-spend, and audit controls."
     },
@@ -833,7 +833,7 @@
       "costUsd": 0,
       "command": "npm run autonomous:operator",
       "targets": [
-        "refresh-support-feedback"
+        "check-performance-budget"
       ],
       "reason": "Refreshes the capped operator history so safe actions remain auditable over time."
     },
