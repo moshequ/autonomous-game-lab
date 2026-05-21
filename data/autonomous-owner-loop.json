@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-21T09:32:41.615Z",
+  "generatedAt": "2026-05-21T09:34:48.386Z",
   "status": "owner-loop-ready",
   "mode": "zero-spend-web-ready",
   "autonomyScore": {
@@ -79,7 +79,7 @@
         "ready": true,
         "status": "cadence-ready",
         "artifactGeneratedAt": "2026-05-21T07:49:17.786Z",
-        "ageHours": 1.723,
+        "ageHours": 1.759,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -90,7 +90,7 @@
         "ready": true,
         "status": "self-update-ready",
         "artifactGeneratedAt": "2026-05-21T07:50:13.570Z",
-        "ageHours": 1.708,
+        "ageHours": 1.743,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -101,7 +101,7 @@
         "ready": true,
         "status": "support-feedback-empty",
         "artifactGeneratedAt": "2026-05-21T07:51:05.296Z",
-        "ageHours": 1.693,
+        "ageHours": 1.729,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -112,7 +112,7 @@
         "ready": true,
         "status": "performance-budget-ready",
         "artifactGeneratedAt": "2026-05-21T09:32:34.222Z",
-        "ageHours": 0.002,
+        "ageHours": 0.037,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -403,8 +403,8 @@
       "strictArtifactSyncFresh": true,
       "smokeActionFresh": true,
       "releaseCandidateActionFresh": true,
-      "liveCandidateId": "pwa-4f507a7415c1",
-      "artifactCandidateId": "pwa-4f507a7415c1"
+      "liveCandidateId": "pwa-7325f1c6ba83",
+      "artifactCandidateId": "pwa-7325f1c6ba83"
     },
     "skippedRecentlyExecutedActionIds": [],
     "skippedRecentlySatisfiedActionIds": [],
@@ -456,7 +456,7 @@
       "current": true,
       "ready": true,
       "status": "handoff-waiting-on-owner-inputs",
-      "generatedAt": "2026-05-21T09:32:36.529Z",
+      "generatedAt": "2026-05-21T09:32:41.980Z",
       "nextBestUnlockId": "support-contact",
       "ownerActionRequired": 5,
       "missingEnv": 7,
@@ -683,7 +683,7 @@
       "id": "post-deploy-artifact-sync",
       "status": "ready",
       "autonomy": "read-only-actions-artifact-import",
-      "evidence": "Artifact sync post-deploy-artifact-sync-passed; run 26217013143; live matches artifact true; strict true.",
+      "evidence": "Artifact sync post-deploy-artifact-sync-passed; run 26217871035; live matches artifact true; strict true.",
       "nextAction": "Keep this strict deploy artifact as live-production evidence while local candidates continue to iterate."
     },
     {
@@ -911,7 +911,7 @@
       "costUsd": 0,
       "command": "npm run autonomous:post-deploy-artifact-sync",
       "targets": [
-        26217013143,
+        26217871035,
         "release-candidate-manifest"
       ],
       "reason": "Strict deploy artifact evidence is already synced from the latest successful Pages workflow."
