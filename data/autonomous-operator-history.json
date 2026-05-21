@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-21T16:00:38.624Z",
+  "generatedAt": "2026-05-21T16:03:43.314Z",
   "status": "operator-history-ready",
   "retention": {
     "maxRecords": 40,
@@ -26,7 +26,7 @@
     "plannedRecords": 31,
     "executedRecords": 9,
     "failedRecords": 0,
-    "lastActionId": "bootstrap-production-setup",
+    "lastActionId": "refresh-objective-audit",
     "lastExecutionStatus": "not-requested",
     "lastExecutedActionId": "refresh-objective-audit"
   },
@@ -38,35 +38,6 @@
     "historyIsCapped": true
   },
   "records": [
-    {
-      "id": "20260521151132-refresh-first-move-coach",
-      "generatedAt": "2026-05-21T15:11:32.571Z",
-      "runFingerprint": "3448f9f06597fba4",
-      "mode": "plan-only",
-      "status": "operator-plan-ready",
-      "selectedActionId": "refresh-first-move-coach",
-      "selectedCommand": "npm run autonomous:first-move-coach",
-      "eligibleActionIds": [
-        "refresh-first-move-coach",
-        "refresh-completion-loop",
-        "refresh-replay-loop",
-        "apply-safe-improvements"
-      ],
-      "blockedActionCount": 32,
-      "execution": {
-        "requested": false,
-        "status": "not-requested",
-        "attemptedActionId": null,
-        "resultCount": 0,
-        "failedScripts": []
-      },
-      "controls": {
-        "zeroPaidSpend": true,
-        "localCommandAllowlistEnforced": true,
-        "externalWorkflowExecutionBlockedByDefault": true,
-        "maxActionsPerRun": 1
-      }
-    },
     {
       "id": "20260521151507-refresh-objective-audit",
       "generatedAt": "2026-05-21T15:15:07.849Z",
@@ -1121,6 +1092,32 @@
       "selectedCommand": "npm run autonomous:release-candidate && npm run autonomous:deploy-plan && npm run autonomous:bootstrap",
       "eligibleActionIds": [
         "bootstrap-production-setup"
+      ],
+      "blockedActionCount": 32,
+      "execution": {
+        "requested": false,
+        "status": "not-requested",
+        "attemptedActionId": null,
+        "resultCount": 0,
+        "failedScripts": []
+      },
+      "controls": {
+        "zeroPaidSpend": true,
+        "localCommandAllowlistEnforced": true,
+        "externalWorkflowExecutionBlockedByDefault": true,
+        "maxActionsPerRun": 1
+      }
+    },
+    {
+      "id": "20260521160342-refresh-objective-audit",
+      "generatedAt": "2026-05-21T16:03:42.781Z",
+      "runFingerprint": "52fab05ba88b5388",
+      "mode": "plan-only",
+      "status": "operator-plan-ready",
+      "selectedActionId": "refresh-objective-audit",
+      "selectedCommand": "npm run autonomous:objective-audit",
+      "eligibleActionIds": [
+        "refresh-objective-audit"
       ],
       "blockedActionCount": 32,
       "execution": {
