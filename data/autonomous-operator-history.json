@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-21T04:56:56.815Z",
+  "generatedAt": "2026-05-21T05:06:37.505Z",
   "status": "operator-history-ready",
   "retention": {
     "maxRecords": 40,
@@ -9,14 +9,14 @@
     "recentExecutedRecordWindow": 8,
     "preservedExecutedRecords": 8,
     "recentExecutedActionIds": [
-      "bootstrap-production-setup",
-      "refresh-product-gate-recovery",
-      "optimize-store-listing",
-      "refresh-autonomous-cadence",
       "refresh-autonomous-self-update",
       "measure-pwa-install-loop",
       "refresh-support-feedback",
-      "check-performance-budget"
+      "check-performance-budget",
+      "prepare-release-candidate",
+      "bootstrap-production-setup",
+      "refresh-product-gate-recovery",
+      "optimize-store-listing"
     ],
     "latestRunAppended": false,
     "compactedDuplicateDryRuns": 0
@@ -26,9 +26,9 @@
     "plannedRecords": 20,
     "executedRecords": 20,
     "failedRecords": 0,
-    "lastActionId": "prepare-release-candidate",
+    "lastActionId": "refresh-autonomous-cadence",
     "lastExecutionStatus": "not-requested",
-    "lastExecutedActionId": "check-performance-budget"
+    "lastExecutedActionId": "optimize-store-listing"
   },
   "controls": {
     "zeroPaidSpend": true,
@@ -38,280 +38,6 @@
     "historyIsCapped": true
   },
   "records": [
-    {
-      "id": "20260521043227-check-performance-budget",
-      "generatedAt": "2026-05-21T04:32:27.959Z",
-      "runFingerprint": "fd49fcc02b412e90",
-      "mode": "execute-one-action",
-      "status": "operator-executed",
-      "selectedActionId": "check-performance-budget",
-      "selectedCommand": "npm run build && npm run autonomous:performance",
-      "eligibleActionIds": [
-        "refresh-autonomous-cadence",
-        "refresh-autonomous-self-update",
-        "refresh-support-feedback",
-        "measure-pwa-install-loop",
-        "check-performance-budget",
-        "prepare-release-candidate",
-        "run-post-deploy-smoke",
-        "refresh-product-gate-recovery",
-        "optimize-store-listing"
-      ],
-      "blockedActionCount": 29,
-      "execution": {
-        "requested": true,
-        "status": "executed",
-        "attemptedActionId": "check-performance-budget",
-        "resultCount": 2,
-        "failedScripts": []
-      },
-      "controls": {
-        "zeroPaidSpend": true,
-        "localCommandAllowlistEnforced": true,
-        "externalWorkflowExecutionBlockedByDefault": true,
-        "maxActionsPerRun": 1
-      }
-    },
-    {
-      "id": "20260521043241-run-post-deploy-smoke",
-      "generatedAt": "2026-05-21T04:32:41.141Z",
-      "runFingerprint": "1b2b68d362c96440",
-      "mode": "plan-only",
-      "status": "operator-plan-ready",
-      "selectedActionId": "run-post-deploy-smoke",
-      "selectedCommand": "npm run autonomous:post-deploy-smoke",
-      "eligibleActionIds": [
-        "refresh-autonomous-cadence",
-        "refresh-autonomous-self-update",
-        "refresh-support-feedback",
-        "measure-pwa-install-loop",
-        "check-performance-budget",
-        "prepare-release-candidate",
-        "run-post-deploy-smoke",
-        "refresh-product-gate-recovery",
-        "optimize-store-listing"
-      ],
-      "blockedActionCount": 29,
-      "execution": {
-        "requested": false,
-        "status": "not-requested",
-        "attemptedActionId": null,
-        "resultCount": 0,
-        "failedScripts": []
-      },
-      "controls": {
-        "zeroPaidSpend": true,
-        "localCommandAllowlistEnforced": true,
-        "externalWorkflowExecutionBlockedByDefault": true,
-        "maxActionsPerRun": 1
-      }
-    },
-    {
-      "id": "20260521043334-run-post-deploy-smoke",
-      "generatedAt": "2026-05-21T04:33:34.404Z",
-      "runFingerprint": "6c5baac33fb31dbc",
-      "mode": "execute-one-action",
-      "status": "operator-executed",
-      "selectedActionId": "run-post-deploy-smoke",
-      "selectedCommand": "npm run autonomous:post-deploy-smoke",
-      "eligibleActionIds": [
-        "refresh-autonomous-cadence",
-        "refresh-autonomous-self-update",
-        "refresh-support-feedback",
-        "measure-pwa-install-loop",
-        "check-performance-budget",
-        "prepare-release-candidate",
-        "run-post-deploy-smoke",
-        "refresh-product-gate-recovery",
-        "optimize-store-listing"
-      ],
-      "blockedActionCount": 29,
-      "execution": {
-        "requested": true,
-        "status": "executed",
-        "attemptedActionId": "run-post-deploy-smoke",
-        "resultCount": 1,
-        "failedScripts": []
-      },
-      "controls": {
-        "zeroPaidSpend": true,
-        "localCommandAllowlistEnforced": true,
-        "externalWorkflowExecutionBlockedByDefault": true,
-        "maxActionsPerRun": 1
-      }
-    },
-    {
-      "id": "20260521043401-prepare-release-candidate",
-      "generatedAt": "2026-05-21T04:34:01.624Z",
-      "runFingerprint": "73c57a231dcb63a8",
-      "mode": "plan-only",
-      "status": "operator-plan-ready",
-      "selectedActionId": "prepare-release-candidate",
-      "selectedCommand": "npm run autonomous:release-candidate",
-      "eligibleActionIds": [
-        "refresh-autonomous-cadence",
-        "refresh-autonomous-self-update",
-        "refresh-support-feedback",
-        "measure-pwa-install-loop",
-        "check-performance-budget",
-        "prepare-release-candidate",
-        "run-post-deploy-smoke",
-        "refresh-product-gate-recovery",
-        "optimize-store-listing"
-      ],
-      "blockedActionCount": 29,
-      "execution": {
-        "requested": false,
-        "status": "not-requested",
-        "attemptedActionId": null,
-        "resultCount": 0,
-        "failedScripts": []
-      },
-      "controls": {
-        "zeroPaidSpend": true,
-        "localCommandAllowlistEnforced": true,
-        "externalWorkflowExecutionBlockedByDefault": true,
-        "maxActionsPerRun": 1
-      }
-    },
-    {
-      "id": "20260521043426-prepare-release-candidate",
-      "generatedAt": "2026-05-21T04:34:26.303Z",
-      "runFingerprint": "e19ec53da76d1885",
-      "mode": "execute-one-action",
-      "status": "operator-executed",
-      "selectedActionId": "prepare-release-candidate",
-      "selectedCommand": "npm run autonomous:release-candidate",
-      "eligibleActionIds": [
-        "refresh-autonomous-cadence",
-        "refresh-autonomous-self-update",
-        "refresh-support-feedback",
-        "measure-pwa-install-loop",
-        "check-performance-budget",
-        "prepare-release-candidate",
-        "run-post-deploy-smoke",
-        "refresh-product-gate-recovery",
-        "optimize-store-listing"
-      ],
-      "blockedActionCount": 29,
-      "execution": {
-        "requested": true,
-        "status": "executed",
-        "attemptedActionId": "prepare-release-candidate",
-        "resultCount": 1,
-        "failedScripts": []
-      },
-      "controls": {
-        "zeroPaidSpend": true,
-        "localCommandAllowlistEnforced": true,
-        "externalWorkflowExecutionBlockedByDefault": true,
-        "maxActionsPerRun": 1
-      }
-    },
-    {
-      "id": "20260521043432-bootstrap-production-setup",
-      "generatedAt": "2026-05-21T04:34:32.071Z",
-      "runFingerprint": "0be646e44db324e4",
-      "mode": "plan-only",
-      "status": "operator-plan-ready",
-      "selectedActionId": "bootstrap-production-setup",
-      "selectedCommand": "npm run autonomous:release-candidate && npm run autonomous:deploy-plan && npm run autonomous:bootstrap",
-      "eligibleActionIds": [
-        "refresh-autonomous-cadence",
-        "refresh-autonomous-self-update",
-        "refresh-support-feedback",
-        "measure-pwa-install-loop",
-        "check-performance-budget",
-        "prepare-release-candidate",
-        "run-post-deploy-smoke",
-        "refresh-product-gate-recovery",
-        "bootstrap-production-setup",
-        "optimize-store-listing"
-      ],
-      "blockedActionCount": 29,
-      "execution": {
-        "requested": false,
-        "status": "not-requested",
-        "attemptedActionId": null,
-        "resultCount": 0,
-        "failedScripts": []
-      },
-      "controls": {
-        "zeroPaidSpend": true,
-        "localCommandAllowlistEnforced": true,
-        "externalWorkflowExecutionBlockedByDefault": true,
-        "maxActionsPerRun": 1
-      }
-    },
-    {
-      "id": "20260521043454-bootstrap-production-setup",
-      "generatedAt": "2026-05-21T04:34:54.693Z",
-      "runFingerprint": "a9bc0c651005bd43",
-      "mode": "execute-one-action",
-      "status": "operator-executed",
-      "selectedActionId": "bootstrap-production-setup",
-      "selectedCommand": "npm run autonomous:release-candidate && npm run autonomous:deploy-plan && npm run autonomous:bootstrap",
-      "eligibleActionIds": [
-        "refresh-autonomous-cadence",
-        "refresh-autonomous-self-update",
-        "refresh-support-feedback",
-        "measure-pwa-install-loop",
-        "check-performance-budget",
-        "prepare-release-candidate",
-        "run-post-deploy-smoke",
-        "refresh-product-gate-recovery",
-        "bootstrap-production-setup",
-        "optimize-store-listing"
-      ],
-      "blockedActionCount": 29,
-      "execution": {
-        "requested": true,
-        "status": "executed",
-        "attemptedActionId": "bootstrap-production-setup",
-        "resultCount": 3,
-        "failedScripts": []
-      },
-      "controls": {
-        "zeroPaidSpend": true,
-        "localCommandAllowlistEnforced": true,
-        "externalWorkflowExecutionBlockedByDefault": true,
-        "maxActionsPerRun": 1
-      }
-    },
-    {
-      "id": "20260521043507-refresh-product-gate-recovery",
-      "generatedAt": "2026-05-21T04:35:07.643Z",
-      "runFingerprint": "05347e31ca9d4b55",
-      "mode": "plan-only",
-      "status": "operator-plan-ready",
-      "selectedActionId": "refresh-product-gate-recovery",
-      "selectedCommand": "npm run autonomous:gate-recovery",
-      "eligibleActionIds": [
-        "refresh-autonomous-cadence",
-        "refresh-autonomous-self-update",
-        "refresh-support-feedback",
-        "measure-pwa-install-loop",
-        "check-performance-budget",
-        "prepare-release-candidate",
-        "run-post-deploy-smoke",
-        "refresh-product-gate-recovery",
-        "optimize-store-listing"
-      ],
-      "blockedActionCount": 29,
-      "execution": {
-        "requested": false,
-        "status": "not-requested",
-        "attemptedActionId": null,
-        "resultCount": 0,
-        "failedScripts": []
-      },
-      "controls": {
-        "zeroPaidSpend": true,
-        "localCommandAllowlistEnforced": true,
-        "externalWorkflowExecutionBlockedByDefault": true,
-        "maxActionsPerRun": 1
-      }
-    },
     {
       "id": "20260521043530-refresh-product-gate-recovery",
       "generatedAt": "2026-05-21T04:35:30.338Z",
@@ -1376,6 +1102,280 @@
       "status": "operator-plan-ready",
       "selectedActionId": "prepare-release-candidate",
       "selectedCommand": "npm run autonomous:release-candidate",
+      "eligibleActionIds": [
+        "refresh-autonomous-cadence",
+        "refresh-autonomous-self-update",
+        "refresh-support-feedback",
+        "measure-pwa-install-loop",
+        "check-performance-budget",
+        "prepare-release-candidate",
+        "run-post-deploy-smoke",
+        "refresh-product-gate-recovery",
+        "optimize-store-listing"
+      ],
+      "blockedActionCount": 29,
+      "execution": {
+        "requested": false,
+        "status": "not-requested",
+        "attemptedActionId": null,
+        "resultCount": 0,
+        "failedScripts": []
+      },
+      "controls": {
+        "zeroPaidSpend": true,
+        "localCommandAllowlistEnforced": true,
+        "externalWorkflowExecutionBlockedByDefault": true,
+        "maxActionsPerRun": 1
+      }
+    },
+    {
+      "id": "20260521050121-prepare-release-candidate",
+      "generatedAt": "2026-05-21T05:01:21.563Z",
+      "runFingerprint": "e19ec53da76d1885",
+      "mode": "execute-one-action",
+      "status": "operator-executed",
+      "selectedActionId": "prepare-release-candidate",
+      "selectedCommand": "npm run autonomous:release-candidate",
+      "eligibleActionIds": [
+        "refresh-autonomous-cadence",
+        "refresh-autonomous-self-update",
+        "refresh-support-feedback",
+        "measure-pwa-install-loop",
+        "check-performance-budget",
+        "prepare-release-candidate",
+        "run-post-deploy-smoke",
+        "refresh-product-gate-recovery",
+        "optimize-store-listing"
+      ],
+      "blockedActionCount": 29,
+      "execution": {
+        "requested": true,
+        "status": "executed",
+        "attemptedActionId": "prepare-release-candidate",
+        "resultCount": 1,
+        "failedScripts": []
+      },
+      "controls": {
+        "zeroPaidSpend": true,
+        "localCommandAllowlistEnforced": true,
+        "externalWorkflowExecutionBlockedByDefault": true,
+        "maxActionsPerRun": 1
+      }
+    },
+    {
+      "id": "20260521050140-bootstrap-production-setup",
+      "generatedAt": "2026-05-21T05:01:40.416Z",
+      "runFingerprint": "0be646e44db324e4",
+      "mode": "plan-only",
+      "status": "operator-plan-ready",
+      "selectedActionId": "bootstrap-production-setup",
+      "selectedCommand": "npm run autonomous:release-candidate && npm run autonomous:deploy-plan && npm run autonomous:bootstrap",
+      "eligibleActionIds": [
+        "refresh-autonomous-cadence",
+        "refresh-autonomous-self-update",
+        "refresh-support-feedback",
+        "measure-pwa-install-loop",
+        "check-performance-budget",
+        "prepare-release-candidate",
+        "run-post-deploy-smoke",
+        "refresh-product-gate-recovery",
+        "bootstrap-production-setup",
+        "optimize-store-listing"
+      ],
+      "blockedActionCount": 29,
+      "execution": {
+        "requested": false,
+        "status": "not-requested",
+        "attemptedActionId": null,
+        "resultCount": 0,
+        "failedScripts": []
+      },
+      "controls": {
+        "zeroPaidSpend": true,
+        "localCommandAllowlistEnforced": true,
+        "externalWorkflowExecutionBlockedByDefault": true,
+        "maxActionsPerRun": 1
+      }
+    },
+    {
+      "id": "20260521050219-bootstrap-production-setup",
+      "generatedAt": "2026-05-21T05:02:19.085Z",
+      "runFingerprint": "a9bc0c651005bd43",
+      "mode": "execute-one-action",
+      "status": "operator-executed",
+      "selectedActionId": "bootstrap-production-setup",
+      "selectedCommand": "npm run autonomous:release-candidate && npm run autonomous:deploy-plan && npm run autonomous:bootstrap",
+      "eligibleActionIds": [
+        "refresh-autonomous-cadence",
+        "refresh-autonomous-self-update",
+        "refresh-support-feedback",
+        "measure-pwa-install-loop",
+        "check-performance-budget",
+        "prepare-release-candidate",
+        "run-post-deploy-smoke",
+        "refresh-product-gate-recovery",
+        "bootstrap-production-setup",
+        "optimize-store-listing"
+      ],
+      "blockedActionCount": 29,
+      "execution": {
+        "requested": true,
+        "status": "executed",
+        "attemptedActionId": "bootstrap-production-setup",
+        "resultCount": 3,
+        "failedScripts": []
+      },
+      "controls": {
+        "zeroPaidSpend": true,
+        "localCommandAllowlistEnforced": true,
+        "externalWorkflowExecutionBlockedByDefault": true,
+        "maxActionsPerRun": 1
+      }
+    },
+    {
+      "id": "20260521050240-refresh-product-gate-recovery",
+      "generatedAt": "2026-05-21T05:02:40.039Z",
+      "runFingerprint": "05347e31ca9d4b55",
+      "mode": "plan-only",
+      "status": "operator-plan-ready",
+      "selectedActionId": "refresh-product-gate-recovery",
+      "selectedCommand": "npm run autonomous:gate-recovery",
+      "eligibleActionIds": [
+        "refresh-autonomous-cadence",
+        "refresh-autonomous-self-update",
+        "refresh-support-feedback",
+        "measure-pwa-install-loop",
+        "check-performance-budget",
+        "prepare-release-candidate",
+        "run-post-deploy-smoke",
+        "refresh-product-gate-recovery",
+        "optimize-store-listing"
+      ],
+      "blockedActionCount": 29,
+      "execution": {
+        "requested": false,
+        "status": "not-requested",
+        "attemptedActionId": null,
+        "resultCount": 0,
+        "failedScripts": []
+      },
+      "controls": {
+        "zeroPaidSpend": true,
+        "localCommandAllowlistEnforced": true,
+        "externalWorkflowExecutionBlockedByDefault": true,
+        "maxActionsPerRun": 1
+      }
+    },
+    {
+      "id": "20260521050310-refresh-product-gate-recovery",
+      "generatedAt": "2026-05-21T05:03:10.486Z",
+      "runFingerprint": "a69468b1ab27f661",
+      "mode": "execute-one-action",
+      "status": "operator-executed",
+      "selectedActionId": "refresh-product-gate-recovery",
+      "selectedCommand": "npm run autonomous:gate-recovery",
+      "eligibleActionIds": [
+        "refresh-autonomous-cadence",
+        "refresh-autonomous-self-update",
+        "refresh-support-feedback",
+        "measure-pwa-install-loop",
+        "check-performance-budget",
+        "prepare-release-candidate",
+        "run-post-deploy-smoke",
+        "refresh-product-gate-recovery",
+        "optimize-store-listing"
+      ],
+      "blockedActionCount": 29,
+      "execution": {
+        "requested": true,
+        "status": "executed",
+        "attemptedActionId": "refresh-product-gate-recovery",
+        "resultCount": 1,
+        "failedScripts": []
+      },
+      "controls": {
+        "zeroPaidSpend": true,
+        "localCommandAllowlistEnforced": true,
+        "externalWorkflowExecutionBlockedByDefault": true,
+        "maxActionsPerRun": 1
+      }
+    },
+    {
+      "id": "20260521050319-optimize-store-listing",
+      "generatedAt": "2026-05-21T05:03:19.000Z",
+      "runFingerprint": "dacb80b3be06e966",
+      "mode": "plan-only",
+      "status": "operator-plan-ready",
+      "selectedActionId": "optimize-store-listing",
+      "selectedCommand": "npm run autonomous:store-listing-optimize && npm run autonomous:store-compliance",
+      "eligibleActionIds": [
+        "refresh-autonomous-cadence",
+        "refresh-autonomous-self-update",
+        "refresh-support-feedback",
+        "measure-pwa-install-loop",
+        "check-performance-budget",
+        "prepare-release-candidate",
+        "run-post-deploy-smoke",
+        "refresh-product-gate-recovery",
+        "optimize-store-listing"
+      ],
+      "blockedActionCount": 29,
+      "execution": {
+        "requested": false,
+        "status": "not-requested",
+        "attemptedActionId": null,
+        "resultCount": 0,
+        "failedScripts": []
+      },
+      "controls": {
+        "zeroPaidSpend": true,
+        "localCommandAllowlistEnforced": true,
+        "externalWorkflowExecutionBlockedByDefault": true,
+        "maxActionsPerRun": 1
+      }
+    },
+    {
+      "id": "20260521050357-optimize-store-listing",
+      "generatedAt": "2026-05-21T05:03:57.026Z",
+      "runFingerprint": "33d7a88e0500d977",
+      "mode": "execute-one-action",
+      "status": "operator-executed",
+      "selectedActionId": "optimize-store-listing",
+      "selectedCommand": "npm run autonomous:store-listing-optimize && npm run autonomous:store-compliance",
+      "eligibleActionIds": [
+        "refresh-autonomous-cadence",
+        "refresh-autonomous-self-update",
+        "refresh-support-feedback",
+        "measure-pwa-install-loop",
+        "check-performance-budget",
+        "prepare-release-candidate",
+        "run-post-deploy-smoke",
+        "refresh-product-gate-recovery",
+        "optimize-store-listing"
+      ],
+      "blockedActionCount": 29,
+      "execution": {
+        "requested": true,
+        "status": "executed",
+        "attemptedActionId": "optimize-store-listing",
+        "resultCount": 2,
+        "failedScripts": []
+      },
+      "controls": {
+        "zeroPaidSpend": true,
+        "localCommandAllowlistEnforced": true,
+        "externalWorkflowExecutionBlockedByDefault": true,
+        "maxActionsPerRun": 1
+      }
+    },
+    {
+      "id": "20260521050404-refresh-autonomous-cadence",
+      "generatedAt": "2026-05-21T05:04:04.381Z",
+      "runFingerprint": "951c86e32c11c5c9",
+      "mode": "plan-only",
+      "status": "operator-plan-ready",
+      "selectedActionId": "refresh-autonomous-cadence",
+      "selectedCommand": "npm run autonomous:cadence",
       "eligibleActionIds": [
         "refresh-autonomous-cadence",
         "refresh-autonomous-self-update",
