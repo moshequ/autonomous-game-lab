@@ -1,5 +1,5 @@
 export const releaseCandidate = {
-  "generatedAt": "2026-05-21T00:46:55.139Z",
+  "generatedAt": "2026-05-21T01:02:45.080Z",
   "status": "release-candidate-ready",
   "candidateId": "pwa-bccc464c35b4",
   "target": {

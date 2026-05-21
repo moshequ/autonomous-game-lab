@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-21T00:46:58.166Z",
+  "generatedAt": "2026-05-21T01:03:12.833Z",
   "status": "post-deploy-smoke-observed-live",
   "envFiles": {
     "loaded": true,
@@ -61,8 +61,8 @@
   },
   "liveRelease": {
     "status": "release-candidate-ready",
-    "candidateId": "pwa-2062a20deca0",
-    "aggregateHash": "2062a20deca0d5946f852f727be231129aea2d85128e09fd12900261514d51a5",
+    "candidateId": "pwa-fb7aa2638782",
+    "aggregateHash": "fb7aa2638782832edb7c546a243cbf6bf49f8c5f4a40b032e8efcc634ff51cdd",
     "localCandidateMatches": false,
     "strictManifestComparison": false
   },
@@ -472,12 +472,12 @@
       "localCandidateMatches": false,
       "strictManifestComparison": false,
       "deployedReleaseStatus": "release-candidate-ready",
-      "deployedCandidateId": "pwa-2062a20deca0",
-      "deployedAggregateHash": "2062a20deca0d5946f852f727be231129aea2d85128e09fd12900261514d51a5"
+      "deployedCandidateId": "pwa-fb7aa2638782",
+      "deployedAggregateHash": "fb7aa2638782832edb7c546a243cbf6bf49f8c5f4a40b032e8efcc634ff51cdd"
     }
   ],
   "nextActions": [
-    "Live Pages is reachable and serving pwa-2062a20deca0; run the deploy workflow for strict proof of the current local candidate if needed.",
+    "Live Pages is reachable and serving pwa-fb7aa2638782; run the deploy workflow for strict proof of the current local candidate if needed.",
     "Keep revenue, paid acquisition, and app-store submission disabled until product and credential gates pass."
   ]
 }

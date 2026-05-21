@@ -8,7 +8,7 @@ export const autonomousOwnerLoop = {
     "externalAccountInterventionRequired": true
   },
   "ownerDecision": {
-    "nextBestActionId": "prepare-release-candidate"
+    "nextBestActionId": "run-post-deploy-smoke"
   },
   "systems": [
     {
@@ -30,7 +30,7 @@ export const autonomousOwnerLoop = {
   ],
   "safeAutonomousActions": [
     {
-      "id": "prepare-release-candidate",
+      "id": "run-post-deploy-smoke",
       "status": "armed"
     },
     {

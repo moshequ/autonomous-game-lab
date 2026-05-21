@@ -1,6 +1,6 @@
 # Autonomous Cadence
 
-Generated: 2026-05-21T00:59:40.937Z
+Generated: 2026-05-21T01:03:18.310Z
 Status: cadence-ready
 Cadence: twice-daily-local-daily-ci
 
@@ -30,45 +30,45 @@ Cadence: twice-daily-local-daily-ci
 - Fresh artifacts: 38
 - Stale/invalid artifacts: 0
 - Stale after: 36h
-- Oldest age: 15.96h
+- Oldest age: 16.02h
 
 - fresh: owner-loop - data/autonomous-owner-loop.json is 0h old.
 - fresh: operator - data/autonomous-operator.json is 0h old.
-- fresh: autonomous-self-update - data/autonomous-self-update.json is 0h old.
+- fresh: autonomous-self-update - data/autonomous-self-update.json is 0.06h old.
 - fresh: production-readiness - data/production-readiness.json is 0h old.
-- fresh: deployment-plan - data/deployment-plan.json is 0.21h old.
-- fresh: repository-readiness - data/repository-readiness.json is 0.21h old.
-- fresh: repository-bootstrap - data/repository-bootstrap.json is 0.21h old.
-- fresh: production-bootstrap - data/production-bootstrap.json is 0.21h old.
-- fresh: production-activation - data/production-activation.json is 0.21h old.
-- fresh: production-environment - data/production-environment.json is 10.15h old.
-- fresh: event-collector-deployment - data/event-collector-deployment.json is 1.45h old.
-- fresh: event-collector-smoke - data/event-collector-smoke.json is 1.45h old.
-- fresh: local-event-bridge - data/local-event-bridge.json is 1.45h old.
-- fresh: event-ingest - data/event-ingest.json is 1.45h old.
-- fresh: event-ingest-smoke - data/event-ingest-smoke.json is 1.45h old.
-- fresh: analytics-rollup - data/analytics-rollup.json is 1.45h old.
-- fresh: experiment-results - data/experiment-results.json is 3.02h old.
-- fresh: growth-plan - data/growth-plan.json is 1.42h old.
-- fresh: portfolio-policy - data/portfolio-policy.json is 1.42h old.
-- fresh: traffic-seeding - data/traffic-seeding.json is 1.42h old.
-- fresh: acquisition-learning - data/acquisition-learning.json is 1.42h old.
-- fresh: organic-seed-loop - data/organic-seed-loop.json is 1.42h old.
-- fresh: retention-loop - data/retention-loop.json is 1.45h old.
-- fresh: release-candidate - data/release-candidate.json is 0.21h old.
-- fresh: post-deploy-smoke - data/post-deploy-smoke.json is 0.21h old.
-- fresh: post-deploy-artifact-sync - data/post-deploy-artifact-sync.json is 0.14h old.
-- fresh: release-health - data/release-health.json is 15.96h old.
-- fresh: product-optimization - data/product-optimization.json is 3.29h old.
-- fresh: product-gate-recovery - data/product-gate-recovery.json is 0.12h old.
-- fresh: product-gate-sample-plan - data/product-gate-sample-plan.json is 0.11h old.
-- fresh: completion-loop - data/completion-loop.json is 2.96h old.
-- fresh: replay-loop - data/replay-loop.json is 3.02h old.
-- fresh: first-move-coach - data/first-move-coach.json is 3.58h old.
-- fresh: pwa-install-loop - data/pwa-install-loop.json is 0.01h old.
-- fresh: applied-improvements - data/applied-improvements.json is 2.97h old.
-- fresh: improvement-backlog - data/improvement-backlog-summary.json is 3.34h old.
-- fresh: improvement-routing - data/improvement-routing.json is 3.34h old.
+- fresh: deployment-plan - data/deployment-plan.json is 0h old.
+- fresh: repository-readiness - data/repository-readiness.json is 0h old.
+- fresh: repository-bootstrap - data/repository-bootstrap.json is 0h old.
+- fresh: production-bootstrap - data/production-bootstrap.json is 0h old.
+- fresh: production-activation - data/production-activation.json is 0h old.
+- fresh: production-environment - data/production-environment.json is 10.21h old.
+- fresh: event-collector-deployment - data/event-collector-deployment.json is 1.51h old.
+- fresh: event-collector-smoke - data/event-collector-smoke.json is 1.51h old.
+- fresh: local-event-bridge - data/local-event-bridge.json is 1.51h old.
+- fresh: event-ingest - data/event-ingest.json is 1.51h old.
+- fresh: event-ingest-smoke - data/event-ingest-smoke.json is 1.51h old.
+- fresh: analytics-rollup - data/analytics-rollup.json is 1.51h old.
+- fresh: experiment-results - data/experiment-results.json is 3.08h old.
+- fresh: growth-plan - data/growth-plan.json is 1.48h old.
+- fresh: portfolio-policy - data/portfolio-policy.json is 1.48h old.
+- fresh: traffic-seeding - data/traffic-seeding.json is 1.48h old.
+- fresh: acquisition-learning - data/acquisition-learning.json is 1.48h old.
+- fresh: organic-seed-loop - data/organic-seed-loop.json is 1.48h old.
+- fresh: retention-loop - data/retention-loop.json is 1.51h old.
+- fresh: release-candidate - data/release-candidate.json is 0.01h old.
+- fresh: post-deploy-smoke - data/post-deploy-smoke.json is 0h old.
+- fresh: post-deploy-artifact-sync - data/post-deploy-artifact-sync.json is 0.2h old.
+- fresh: release-health - data/release-health.json is 16.02h old.
+- fresh: product-optimization - data/product-optimization.json is 3.35h old.
+- fresh: product-gate-recovery - data/product-gate-recovery.json is 0.18h old.
+- fresh: product-gate-sample-plan - data/product-gate-sample-plan.json is 0.17h old.
+- fresh: completion-loop - data/completion-loop.json is 3.02h old.
+- fresh: replay-loop - data/replay-loop.json is 3.08h old.
+- fresh: first-move-coach - data/first-move-coach.json is 3.64h old.
+- fresh: pwa-install-loop - data/pwa-install-loop.json is 0.07h old.
+- fresh: applied-improvements - data/applied-improvements.json is 3.03h old.
+- fresh: improvement-backlog - data/improvement-backlog-summary.json is 3.4h old.
+- fresh: improvement-routing - data/improvement-routing.json is 3.4h old.
 - fresh: objective-audit - data/objective-audit.json is 0h old.
 
 ## Checks
