@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-21T01:07:07.710Z",
+  "generatedAt": "2026-05-21T01:10:33.193Z",
   "status": "owner-loop-ready",
   "mode": "zero-spend-web-ready",
   "autonomyScore": {
@@ -21,25 +21,25 @@
     "repositoryHandoffPrepared": false
   },
   "ownerDecision": {
-    "nextBestActionId": "refresh-autonomous-cadence",
-    "nextBestAction": "npm run autonomous:cadence",
+    "nextBestActionId": "refresh-support-feedback",
+    "nextBestAction": "npm run autonomous:support-feedback",
     "canExecuteWithoutSpend": true,
-    "rationale": "Keeps the unattended daily operating cadence, recovery policy, and verification chain auditable."
+    "rationale": "Reads public GitHub issue intake and turns player reports into redacted improvement signals."
   },
   "executionMemory": {
     "avoidImmediateRepeat": true,
     "recentExecutionWindow": 8,
     "recentExecutedActionIds": [
+      "refresh-autonomous-self-update",
+      "refresh-autonomous-cadence",
       "run-post-deploy-smoke",
       "prepare-release-candidate",
       "measure-pwa-install-loop",
       "optimize-store-listing",
       "refresh-product-gate-recovery",
-      "check-performance-budget",
-      "refresh-support-feedback",
-      "refresh-autonomous-self-update"
+      "check-performance-budget"
     ],
-    "lastExecutedActionId": "run-post-deploy-smoke",
+    "lastExecutedActionId": "refresh-autonomous-self-update",
     "lastExecutedStatus": "executed",
     "lastRecordExecutionStatus": "not-requested",
     "recentlySatisfiedActionIds": [],
@@ -236,8 +236,8 @@
       "staleInputIds": []
     },
     "skippedRecentlyExecutedActionIds": [
+      "refresh-autonomous-cadence",
       "refresh-autonomous-self-update",
-      "refresh-support-feedback",
       "measure-pwa-install-loop",
       "check-performance-budget",
       "prepare-release-candidate",
@@ -344,7 +344,7 @@
       "id": "autonomous-self-update",
       "status": "ready",
       "autonomy": "gated-generated-change-persistence",
-      "evidence": "Self-update self-update-ready; safe pending 28; unsafe pending 0; remote push held.",
+      "evidence": "Self-update self-update-ready; safe pending 17; unsafe pending 0; remote push held.",
       "nextAction": "When a GitHub repository is connected, set AGL_AUTONOMOUS_SELF_UPDATE=1 and AGL_AUTONOMOUS_SELF_UPDATE_DIRECT=1 to let verified generated changes persist."
     },
     {
@@ -526,14 +526,14 @@
       "id": "autonomous-operator",
       "status": "ready",
       "autonomy": "one-safe-action-runner",
-      "evidence": "Operator operator-plan-ready; selected refresh-autonomous-cadence; execution not-requested.",
+      "evidence": "Operator operator-plan-ready; selected refresh-support-feedback; execution not-requested.",
       "nextAction": "Keep a dry-run operator plan ready, then execute only one allowlisted local action when explicitly requested."
     },
     {
       "id": "operator-history",
       "status": "ready",
       "autonomy": "operator-audit-trail",
-      "evidence": "History operator-history-ready; records 40; executed 18.",
+      "evidence": "History operator-history-ready; records 40; executed 19.",
       "nextAction": "Keep a capped durable record of operator plans and one-action executions."
     },
     {
@@ -823,7 +823,7 @@
       "costUsd": 0,
       "command": "npm run autonomous:operator",
       "targets": [
-        "refresh-autonomous-cadence"
+        "refresh-support-feedback"
       ],
       "reason": "Publishes the one-action local execution plan with allowlist, zero-spend, and audit controls."
     },
@@ -833,7 +833,7 @@
       "costUsd": 0,
       "command": "npm run autonomous:operator",
       "targets": [
-        "refresh-autonomous-cadence"
+        "refresh-support-feedback"
       ],
       "reason": "Refreshes the capped operator history so safe actions remain auditable over time."
     },
