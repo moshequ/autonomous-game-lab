@@ -1,6 +1,6 @@
 # Production Readiness
 
-Generated: 2026-05-21T06:30:43.526Z
+Generated: 2026-05-21T06:32:14.542Z
 
 ## Environment
 
@@ -39,28 +39,28 @@ Local git: true
 
 ## Web/PWA
 
-Status: blocked
-- blocker: manifest - PWA manifest exists in the production build.
-- blocker: install-icons - Generated install/store icons are icons-ready; 6 icons checked.
-- blocker: service-worker - Offline service worker exists.
+Status: ready-after-build
+- pass: manifest - PWA manifest exists in the production build.
+- pass: install-icons - Generated install/store icons are icons-ready; 6 icons checked.
+- pass: service-worker - Offline service worker exists.
 - pass: privacy-control - External analytics opt-out is exposed in the app shell.
-- blocker: privacy-page - Generated privacy policy page is included in public assets and production build.
-- blocker: support-page - Generated support page is included in public assets and production build.
+- pass: privacy-page - Generated privacy policy page is included in public assets and production build.
+- pass: support-page - Generated support page is included in public assets and production build.
 - pass: support-channel - Support channel is support-channel-ready; repository moshequ/autonomous-game-lab; public intake ready.
 - pass: support-feedback - Support feedback is support-feedback-empty; issues 0; routable signals 0.
-- blocker: compliance-manifest - Generated compliance manifest is included in public assets, production build, and post-deploy smoke handoff.
+- pass: compliance-manifest - Generated compliance manifest is included in public assets, production build, and post-deploy smoke handoff.
 - pass: playable-prototypes - Every currently accepted generated concept is playable.
 - pass: generated-runtime - Generated game factory has a concept-first portfolio of no-handoff playable runtime configs.
 - pass: balance-severity - Bot simulator has no high-severity balance findings.
 - pass: scheduled-ci-runner - Scheduled CI runner exists for the full autonomous loop and browser smoke tests.
 - pass: organic-growth-plan - Generated growth plan has game pages for zero-cost discovery tests.
 - pass: organic-growth-optimizer - Growth optimizer produced guarded acquisition actions that feed generated pages.
-- blocker: organic-growth-assets - Sitemap, robots, share manifest, and generated game pages are included in the production build.
+- pass: organic-growth-assets - Sitemap, robots, share manifest, and generated game pages are included in the production build.
 - pass: organic-seed-loop - Organic seed loop is organic-seed-loop-ready; target canopy-bloom; player-initiated share guard active.
 - pass: retention-loop - Retention loop is retention-loop-ready; daily challenge canopy-bloom; no-push/no-account guardrails active.
 - pass: pwa-install-loop - PWA install loop is pwa-install-loop-ready; prompt surface autonomy-cockpit; cost $0.
 - pass: performance-budget - Performance budget is performance-budget-ready; initial JS 654.9 KB / 178.8 KB gzip; deferred game chunk GameCanvas-Byr1b9J2.js.
-- blocker: release-candidate - Release candidate is release-candidate-ready; files 44; smoke URLs 14.
+- pass: release-candidate - Release candidate is release-candidate-ready; files 44; smoke URLs 14.
 - pass: post-deploy-smoke-runner - Post-deploy smoke is post-deploy-smoke-observed-live; origin https://moshequ.github.io/autonomous-game-lab; checks 15/15 passed, 0 blocked; local artifact predeploy-artifact-smoke-passed 15/15 passed.
 - pass: product-optimization - Product optimizer is product-optimization-ready; completion 0.397 vs gate 0.55; latest action already-applied.
 - pass: first-move-coach - First-move coach is first-move-coach-ready; enabled targets 6; primary harbor-rings.
@@ -307,7 +307,7 @@ Can mark complete: false
 
 ## Distribution
 
-Store package: blocked
+Store package: draft-ready
 - pass: store-listing - Generated store listing copy exists and fits Google Play short-description limits.
 - pass: store-listing-optimizer - Store listing optimizer is store-listing-optimizer-ready; focus canopy-bloom.
 - pass: google-data-safety - Google Play data safety draft exists.
@@ -315,7 +315,7 @@ Store package: blocked
 - pass: native-packaging-path - Android TWA packaging draft exists while signing remains blocked.
 - pass: native-package-handoff - Android native handoff is blocked-draft-ready.
 - pass: android-signing-prep - Android signing is signing-prepared; fingerprint available.
-- blocker: store-screenshots - Generated store screenshot assets are screenshots-ready; 4 screenshots attached.
+- pass: store-screenshots - Generated store screenshot assets are screenshots-ready; 4 screenshots attached.
 - pass: store-compliance - Store compliance is draft-ready-external-blockers.
 - pass: compliance-publication-pack - Compliance publication is waiting-for-production-inputs.
 

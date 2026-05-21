@@ -54,7 +54,7 @@ jobs:
         run: npm run autonomous:post-deploy-artifact-sync -- --run-id="${POST_DEPLOY_RUN_ID}" --assert
 
       - name: Refresh owner deploy evidence
-        run: npm run autonomous:owner-loop && npm run autonomous:readiness
+        run: npm run autonomous:owner-loop
 
       - name: Verify synced deploy evidence
         run: npm run autonomous:verify-post-deploy-sync
@@ -75,9 +75,7 @@ jobs:
             reports/post-deploy-artifact-sync-latest.md \
             data/autonomous-owner-loop.json \
             src/data/autonomousOwnerLoop.ts \
-            reports/autonomous-owner-loop-latest.md \
-            data/production-readiness.json \
-            reports/production-readiness-latest.md
+            reports/autonomous-owner-loop-latest.md
 
           if git diff --cached --quiet; then
             echo "no synced deploy evidence changes to commit"
@@ -99,6 +97,4 @@ jobs:
             reports/post-deploy-artifact-sync-latest.md
             data/autonomous-owner-loop.json
             reports/autonomous-owner-loop-latest.md
-            data/production-readiness.json
-            reports/production-readiness-latest.md
           if-no-files-found: ignore

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-21T06:30:43.526Z",
+  "generatedAt": "2026-05-21T06:32:14.542Z",
   "environment": {
     "status": "production-env-missing",
     "publicOrigin": "https://moshequ.github.io/autonomous-game-lab",
@@ -425,7 +425,7 @@
     ]
   },
   "webPwa": {
-    "status": "blocked",
+    "status": "ready-after-build",
     "required": [
       "manifest",
       "offline-capable build",
@@ -436,17 +436,17 @@
     "checks": [
       {
         "id": "manifest",
-        "status": "blocker",
+        "status": "pass",
         "detail": "PWA manifest exists in the production build."
       },
       {
         "id": "install-icons",
-        "status": "blocker",
+        "status": "pass",
         "detail": "Generated install/store icons are icons-ready; 6 icons checked."
       },
       {
         "id": "service-worker",
-        "status": "blocker",
+        "status": "pass",
         "detail": "Offline service worker exists."
       },
       {
@@ -456,12 +456,12 @@
       },
       {
         "id": "privacy-page",
-        "status": "blocker",
+        "status": "pass",
         "detail": "Generated privacy policy page is included in public assets and production build."
       },
       {
         "id": "support-page",
-        "status": "blocker",
+        "status": "pass",
         "detail": "Generated support page is included in public assets and production build."
       },
       {
@@ -476,7 +476,7 @@
       },
       {
         "id": "compliance-manifest",
-        "status": "blocker",
+        "status": "pass",
         "detail": "Generated compliance manifest is included in public assets, production build, and post-deploy smoke handoff."
       },
       {
@@ -511,7 +511,7 @@
       },
       {
         "id": "organic-growth-assets",
-        "status": "blocker",
+        "status": "pass",
         "detail": "Sitemap, robots, share manifest, and generated game pages are included in the production build."
       },
       {
@@ -536,7 +536,7 @@
       },
       {
         "id": "release-candidate",
-        "status": "blocker",
+        "status": "pass",
         "detail": "Release candidate is release-candidate-ready; files 44; smoke URLs 14."
       },
       {
@@ -4601,7 +4601,7 @@
         "data safety form",
         "ad disclosure when ads are enabled"
       ],
-      "storePackageStatus": "blocked",
+      "storePackageStatus": "draft-ready",
       "nativePackageStatus": "blocked-draft-ready"
     },
     "iosAppStore": {
@@ -4615,10 +4615,10 @@
         "privacy nutrition labels",
         "in-app purchase setup for digital purchases"
       ],
-      "storePackageStatus": "blocked"
+      "storePackageStatus": "draft-ready"
     },
     "storePackage": {
-      "status": "blocked",
+      "status": "draft-ready",
       "privacyPolicyPath": "/privacy.html",
       "productionPrivacyUrlStatus": "hosted",
       "compliancePublication": {
@@ -4727,7 +4727,7 @@
         },
         {
           "id": "store-screenshots",
-          "status": "blocker",
+          "status": "pass",
           "detail": "Generated store screenshot assets are screenshots-ready; 4 screenshots attached."
         },
         {
@@ -5065,44 +5065,44 @@
         {
           "id": "pwa-192",
           "publicExists": true,
-          "distExists": false,
+          "distExists": true,
           "hasDimensions": true
         },
         {
           "id": "pwa-512",
           "publicExists": true,
-          "distExists": false,
+          "distExists": true,
           "hasDimensions": true
         },
         {
           "id": "maskable-192",
           "publicExists": true,
-          "distExists": false,
+          "distExists": true,
           "hasDimensions": true
         },
         {
           "id": "maskable-512",
           "publicExists": true,
-          "distExists": false,
+          "distExists": true,
           "hasDimensions": true
         },
         {
           "id": "apple-touch-180",
           "publicExists": true,
-          "distExists": false,
+          "distExists": true,
           "hasDimensions": true
         },
         {
           "id": "store-1024",
           "publicExists": true,
-          "distExists": false,
+          "distExists": true,
           "hasDimensions": true
         }
       ]
     }
   },
   "promotion": {
-    "nextAction": "Fix web/PWA blockers before external traffic.",
+    "nextAction": "Deploy web/PWA experiment when hosting credentials exist.",
     "storeRule": "Do not package native apps until retention gates, privacy URL, and account credentials exist."
   }
 }

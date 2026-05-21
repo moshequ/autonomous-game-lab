@@ -9,10 +9,9 @@ const fail = (message) => {
 const readJson = async (filePath) => JSON.parse(await readFile(path.join(root, filePath), 'utf8'))
 const readText = async (filePath) => readFile(path.join(root, filePath), 'utf8')
 
-const [sync, ownerLoop, readiness, packageJson, workflow] = await Promise.all([
+const [sync, ownerLoop, packageJson, workflow] = await Promise.all([
   readJson('data/post-deploy-artifact-sync.json'),
   readJson('data/autonomous-owner-loop.json'),
-  readJson('data/production-readiness.json'),
   readJson('package.json'),
   readText('.github/workflows/post-deploy-evidence-sync.yml'),
 ])
@@ -61,7 +60,7 @@ if (
   !workflow.includes('actions: read') ||
   !workflow.includes('contents: write') ||
   !workflow.includes('npm run autonomous:post-deploy-artifact-sync -- --run-id="${POST_DEPLOY_RUN_ID}" --assert') ||
-  !workflow.includes('npm run autonomous:owner-loop && npm run autonomous:readiness') ||
+  !workflow.includes('npm run autonomous:owner-loop') ||
   !workflow.includes('npm run autonomous:verify-post-deploy-sync') ||
   !workflow.includes('AGL_AUTONOMOUS_SELF_UPDATE_DIRECT') ||
   !workflow.includes('data/post-deploy-artifact-sync.json') ||
@@ -69,11 +68,9 @@ if (
   !workflow.includes('reports/post-deploy-artifact-sync-latest.md') ||
   !workflow.includes('data/autonomous-owner-loop.json') ||
   !workflow.includes('src/data/autonomousOwnerLoop.ts') ||
-  !workflow.includes('reports/autonomous-owner-loop-latest.md') ||
-  !workflow.includes('data/production-readiness.json') ||
-  !workflow.includes('reports/production-readiness-latest.md')
+  !workflow.includes('reports/autonomous-owner-loop-latest.md')
 ) {
-  fail('Post-deploy evidence sync workflow must import strict deployed smoke evidence and refresh dependent owner/readiness evidence.')
+  fail('Post-deploy evidence sync workflow must import strict deployed smoke evidence and refresh dependent owner evidence.')
 }
 
 const forbiddenRefreshCommands = [
@@ -98,6 +95,7 @@ const forbiddenStagedArtifacts = [
   'src/data/performanceBudget.ts',
   'data/post-deploy-smoke.json',
   'src/data/postDeploySmoke.ts',
+  'data/production-readiness.json',
   'data/objective-audit.json',
 ]
 
@@ -111,12 +109,9 @@ if (
   ownerLoop.executionMemory?.liveDeployEvidence?.strictArtifactSyncFresh !== true ||
   ownerLoop.executionMemory?.liveDeployEvidence?.liveCandidateId !== sync.live?.candidateId ||
   ownerLoop.executionMemory?.liveDeployEvidence?.artifactCandidateId !== sync.artifact?.target?.candidateId ||
-  ownerLoop.evidence?.postDeployArtifactSyncStatus !== sync.status ||
-  readiness.postDeployArtifactSync?.status !== sync.status ||
-  readiness.postDeployArtifactSync?.live?.matchesArtifact !== true ||
-  readiness.postDeployArtifactSync?.live?.candidateId !== sync.live?.candidateId
+  ownerLoop.evidence?.postDeployArtifactSyncStatus !== sync.status
 ) {
-  fail('Post-deploy evidence sync must refresh owner/readiness deploy evidence to the synced live artifact.')
+  fail('Post-deploy evidence sync must refresh owner deploy evidence to the synced live artifact.')
 }
 
 if (!process.exitCode) {
