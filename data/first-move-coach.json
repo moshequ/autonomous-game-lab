@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-05-20T21:24:51.392Z",
-  "sourceDataHash": "83720afddcbf",
+  "generatedAt": "2026-05-21T02:36:55.757Z",
+  "sourceDataHash": "d53d5e6dbfa9",
   "status": "first-move-coach-ready",
   "sourceStatus": {
     "analyticsSource": "fixture-sample",
@@ -37,7 +37,55 @@
     "enabledTargets": 6,
     "primaryTargetId": "harbor-rings",
     "completionGap": 0.153,
-    "tutorialGap": 0.097
+    "tutorialGap": 0.097,
+    "coachSampleStatus": "collecting-sample",
+    "coachDecision": "active"
+  },
+  "metrics": {
+    "shown": 0,
+    "used": 0,
+    "skipped": 0,
+    "resolved": 0,
+    "usageRate": 0,
+    "skipRate": 0
+  },
+  "samplePolicy": {
+    "status": "collecting-sample",
+    "minimumShownForDecision": 30,
+    "minimumResolvedForDecision": 20,
+    "current": {
+      "shown": 0,
+      "used": 0,
+      "skipped": 0,
+      "resolved": 0,
+      "usageRate": 0,
+      "skipRate": 0
+    },
+    "needed": {
+      "shown": 30,
+      "resolved": 20
+    },
+    "telemetry": {
+      "shown": "first_move_coach_shown",
+      "used": "first_move_coach_used",
+      "skipped": "first_move_coach_skipped"
+    },
+    "decisionReady": false,
+    "source": "fixture-sample"
+  },
+  "decisionPolicy": {
+    "currentDecision": "active",
+    "sampleReady": false,
+    "productGatesStable": false,
+    "softenWhen": {
+      "minimumSkipRate": 0.65,
+      "maximumUsageRate": 0.35
+    },
+    "retireWhen": {
+      "sampleReady": true,
+      "productGatesStable": true
+    },
+    "fallbackWhenSampleSmall": "collect-more-real-first-turn-coach-events"
   },
   "controls": {
     "zeroPaidSpend": true,
@@ -46,7 +94,8 @@
     "noForcedTutorial": true,
     "noRevenueEnablement": true,
     "respectsExperimentPolicy": true,
-    "requiresReleaseHealth": true
+    "requiresReleaseHealth": true,
+    "noDecisionWithoutSample": true
   },
   "telemetry": {
     "shown": "first_move_coach_shown",
@@ -81,6 +130,16 @@
       "generatedRuntime": false,
       "runtimeSupported": true,
       "priorityScore": 1998,
+      "evidence": {
+        "shown": 0,
+        "used": 0,
+        "skipped": 0,
+        "resolved": 0,
+        "usageRate": 0,
+        "skipRate": 0,
+        "sampleReady": false
+      },
+      "decision": "active",
       "sourceReason": "completion 39% and tutorial 67%",
       "copy": "Start here",
       "telemetryId": "first-move-coach-harbor-rings"
@@ -103,6 +162,16 @@
       "generatedRuntime": true,
       "runtimeSupported": true,
       "priorityScore": 0,
+      "evidence": {
+        "shown": 0,
+        "used": 0,
+        "skipped": 0,
+        "resolved": 0,
+        "usageRate": 0,
+        "skipRate": 0,
+        "sampleReady": false
+      },
+      "decision": "active",
       "sourceReason": "generated daily/portfolio game without live row yet",
       "copy": "Start here",
       "telemetryId": "first-move-coach-canopy-bloom"
@@ -125,6 +194,16 @@
       "generatedRuntime": false,
       "runtimeSupported": false,
       "priorityScore": 0,
+      "evidence": {
+        "shown": 0,
+        "used": 0,
+        "skipped": 0,
+        "resolved": 0,
+        "usageRate": 0,
+        "skipRate": 0,
+        "sampleReady": false
+      },
+      "decision": "active",
       "sourceReason": "playable game without live row yet",
       "copy": "Start here",
       "telemetryId": "first-move-coach-foundry-ledger"
@@ -147,6 +226,16 @@
       "generatedRuntime": true,
       "runtimeSupported": true,
       "priorityScore": 0,
+      "evidence": {
+        "shown": 0,
+        "used": 0,
+        "skipped": 0,
+        "resolved": 0,
+        "usageRate": 0,
+        "skipRate": 0,
+        "sampleReady": false
+      },
+      "decision": "active",
       "sourceReason": "generated daily/portfolio game without live row yet",
       "copy": "Start here",
       "telemetryId": "first-move-coach-grove-engine"
@@ -169,6 +258,16 @@
       "generatedRuntime": false,
       "runtimeSupported": false,
       "priorityScore": 0,
+      "evidence": {
+        "shown": 0,
+        "used": 0,
+        "skipped": 0,
+        "resolved": 0,
+        "usageRate": 0,
+        "skipRate": 0,
+        "sampleReady": false
+      },
+      "decision": "active",
       "sourceReason": "playable game without live row yet",
       "copy": "Start here",
       "telemetryId": "first-move-coach-harbor-circuit"
@@ -191,6 +290,16 @@
       "generatedRuntime": false,
       "runtimeSupported": false,
       "priorityScore": 0,
+      "evidence": {
+        "shown": 0,
+        "used": 0,
+        "skipped": 0,
+        "resolved": 0,
+        "usageRate": 0,
+        "skipRate": 0,
+        "sampleReady": false
+      },
+      "decision": "active",
       "sourceReason": "playable game without live row yet",
       "copy": "Start here",
       "telemetryId": "first-move-coach-lantern-relay"
@@ -213,6 +322,16 @@
       "generatedRuntime": true,
       "runtimeSupported": true,
       "priorityScore": 0,
+      "evidence": {
+        "shown": 0,
+        "used": 0,
+        "skipped": 0,
+        "resolved": 0,
+        "usageRate": 0,
+        "skipRate": 0,
+        "sampleReady": false
+      },
+      "decision": "active",
       "sourceReason": "generated daily/portfolio game without live row yet",
       "copy": "Start here",
       "telemetryId": "first-move-coach-metro-loom"
@@ -235,6 +354,16 @@
       "generatedRuntime": true,
       "runtimeSupported": true,
       "priorityScore": 0,
+      "evidence": {
+        "shown": 0,
+        "used": 0,
+        "skipped": 0,
+        "resolved": 0,
+        "usageRate": 0,
+        "skipRate": 0,
+        "sampleReady": false
+      },
+      "decision": "active",
       "sourceReason": "generated daily/portfolio game without live row yet",
       "copy": "Start here",
       "telemetryId": "first-move-coach-mosaic-haven"
@@ -257,6 +386,16 @@
       "generatedRuntime": false,
       "runtimeSupported": false,
       "priorityScore": 0,
+      "evidence": {
+        "shown": 0,
+        "used": 0,
+        "skipped": 0,
+        "resolved": 0,
+        "usageRate": 0,
+        "skipRate": 0,
+        "sampleReady": false
+      },
+      "decision": "active",
       "sourceReason": "playable game without live row yet",
       "copy": "Start here",
       "telemetryId": "first-move-coach-orbit-atlas"
@@ -279,13 +418,23 @@
       "generatedRuntime": true,
       "runtimeSupported": true,
       "priorityScore": 0,
+      "evidence": {
+        "shown": 0,
+        "used": 0,
+        "skipped": 0,
+        "resolved": 0,
+        "usageRate": 0,
+        "skipRate": 0,
+        "sampleReady": false
+      },
+      "decision": "active",
       "sourceReason": "generated daily/portfolio game without live row yet",
       "copy": "Start here",
       "telemetryId": "first-move-coach-pocket-draft"
     }
   ],
   "nextActions": [
-    "Measure first_move_coach_used against first-game completion before increasing revenue gates.",
+    "Collect 30 shown event(s) and 20 resolved event(s) before changing coach intensity.",
     "Retire or soften the coach after live data shows tutorial and completion gates are stable."
   ]
 }

@@ -3314,8 +3314,23 @@ function App() {
                   <strong>{firstMoveCoach.summary.enabledTargets}</strong>
                 </div>
                 <div>
+                  <span>Coach sample</span>
+                  <strong>{firstMoveCoach.samplePolicy.status}</strong>
+                </div>
+                <div>
+                  <span>Usage / skip</span>
+                  <strong>
+                    {formatPercent(firstMoveCoach.metrics.usageRate)} /{' '}
+                    {formatPercent(firstMoveCoach.metrics.skipRate)}
+                  </strong>
+                </div>
+                <div>
                   <span>Primary target</span>
                   <strong>{firstMoveCoachPrimary?.title ?? 'none'}</strong>
+                </div>
+                <div>
+                  <span>Decision</span>
+                  <strong>{firstMoveCoach.decisionPolicy.currentDecision}</strong>
                 </div>
                 <div>
                   <span>Runtime guard</span>

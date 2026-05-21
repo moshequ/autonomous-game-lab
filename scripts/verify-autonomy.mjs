@@ -1622,6 +1622,13 @@ const firstMoveCoachEvents = [
   'first_move_coach_used',
   'first_move_coach_skipped',
 ]
+const firstMoveCoachShown = analytics.totals.counts.first_move_coach_shown ?? 0
+const firstMoveCoachUsed = analytics.totals.counts.first_move_coach_used ?? 0
+const firstMoveCoachSkipped = analytics.totals.counts.first_move_coach_skipped ?? 0
+const firstMoveCoachResolved = firstMoveCoachUsed + firstMoveCoachSkipped
+const firstMoveCoachSampleReady = firstMoveCoachShown >= 30 && firstMoveCoachResolved >= 20
+const firstMoveCoachExpectedDecision = firstMoveCoachSampleReady ? firstMoveCoach.decisionPolicy?.currentDecision : 'active'
+const harborRingsCoachRow = analytics.games.find((game) => game.gameId === 'harbor-rings')
 
 if (
   firstMoveCoach.status !== 'first-move-coach-ready' ||
@@ -1630,6 +1637,20 @@ if (
   firstMoveCoach.summary?.enabled !== true ||
   firstMoveCoach.summary?.enabledTargets < 1 ||
   firstMoveCoach.summary?.primaryTargetId !== 'harbor-rings' ||
+  firstMoveCoach.metrics?.shown !== firstMoveCoachShown ||
+  firstMoveCoach.metrics?.used !== firstMoveCoachUsed ||
+  firstMoveCoach.metrics?.skipped !== firstMoveCoachSkipped ||
+  firstMoveCoach.samplePolicy?.status !==
+    (firstMoveCoachSampleReady ? 'ready-for-coach-decision' : 'collecting-sample') ||
+  firstMoveCoach.samplePolicy?.minimumShownForDecision !== 30 ||
+  firstMoveCoach.samplePolicy?.minimumResolvedForDecision !== 20 ||
+  firstMoveCoach.samplePolicy?.needed?.shown !==
+    Math.max(0, 30 - firstMoveCoachShown) ||
+  firstMoveCoach.samplePolicy?.needed?.resolved !== Math.max(0, 20 - firstMoveCoachResolved) ||
+  firstMoveCoach.samplePolicy?.telemetry?.shown !== 'first_move_coach_shown' ||
+  firstMoveCoach.samplePolicy?.decisionReady !== firstMoveCoachSampleReady ||
+  firstMoveCoach.decisionPolicy?.currentDecision !== firstMoveCoachExpectedDecision ||
+  firstMoveCoach.decisionPolicy?.fallbackWhenSampleSmall !== 'collect-more-real-first-turn-coach-events' ||
   firstMoveCoach.controls?.zeroPaidSpend !== true ||
   firstMoveCoach.controls?.firstTurnOnly !== true ||
   firstMoveCoach.controls?.noAutoMove !== true ||
@@ -1637,6 +1658,7 @@ if (
   firstMoveCoach.controls?.noRevenueEnablement !== true ||
   firstMoveCoach.controls?.respectsExperimentPolicy !== true ||
   firstMoveCoach.controls?.requiresReleaseHealth !== true ||
+  firstMoveCoach.controls?.noDecisionWithoutSample !== true ||
   firstMoveCoach.telemetry?.shown !== 'first_move_coach_shown' ||
   firstMoveCoach.telemetry?.used !== 'first_move_coach_used' ||
   firstMoveCoach.telemetry?.skipped !== 'first_move_coach_skipped' ||
@@ -1645,7 +1667,8 @@ if (
       target.gameId === 'harbor-rings' &&
       target.enabled === true &&
       target.recommendedCell?.row === 2 &&
-      target.recommendedCell?.col === 2,
+      target.recommendedCell?.col === 2 &&
+      target.evidence?.shown === (harborRingsCoachRow?.counts?.first_move_coach_shown ?? 0),
   ) ||
   !firstMoveCoach.targets?.some((target) => target.generatedRuntime === true && target.enabled === true) ||
   firstMoveCoach.targets?.some((target) => target.enabled === true && target.runtimeSupported !== true) ||
@@ -1653,6 +1676,8 @@ if (
   firstMoveCoachEvents.some((eventName) => !analyticsRollupSource.includes(`'${eventName}'`)) ||
   !gameCanvasSource.includes('firstMoveCoach') ||
   !appSource.includes('First Move Coach') ||
+  !appSource.includes('Coach sample') ||
+  !appSource.includes('Usage / skip') ||
   !harborRingsSource.includes('first_move_coach_shown') ||
   !harborRingsSource.includes('first_move_coach_used') ||
   !harborRingsSource.includes('first_move_coach_skipped') ||

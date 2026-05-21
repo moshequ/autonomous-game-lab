@@ -8,7 +8,7 @@ export const autonomousOwnerLoop = {
     "externalAccountInterventionRequired": true
   },
   "ownerDecision": {
-    "nextBestActionId": "refresh-first-move-coach"
+    "nextBestActionId": "refresh-completion-loop"
   },
   "systems": [
     {
@@ -30,7 +30,7 @@ export const autonomousOwnerLoop = {
   ],
   "safeAutonomousActions": [
     {
-      "id": "refresh-first-move-coach",
+      "id": "refresh-completion-loop",
       "status": "armed"
     },
     {

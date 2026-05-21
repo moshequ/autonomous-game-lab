@@ -1,10 +1,10 @@
 # Autonomous Operator
 
-Generated: 2026-05-21T02:29:44.396Z
+Generated: 2026-05-21T02:38:28.218Z
 Status: operator-plan-ready
 Mode: plan-only
-Owner decision: refresh-first-move-coach
-Selected action: refresh-first-move-coach
+Owner decision: refresh-completion-loop
+Selected action: refresh-completion-loop
 Execution: not-requested
 
 ## Controls
@@ -18,7 +18,7 @@ Execution: not-requested
 
 ## Selected Action
 
-- refresh-first-move-coach: npm run autonomous:first-move-coach
+- refresh-completion-loop: npm run autonomous:completion-loop
 
 ## Eligible Local Actions
 
@@ -32,7 +32,6 @@ Execution: not-requested
 - prepare-release-candidate
 - run-post-deploy-smoke
 - refresh-product-gate-recovery
-- refresh-first-move-coach
 - refresh-completion-loop
 - refresh-replay-loop
 - optimize-store-listing

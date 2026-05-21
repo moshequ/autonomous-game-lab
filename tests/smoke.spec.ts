@@ -2479,26 +2479,59 @@ test('direct gate sample links self-attribute the mission start', async ({ page 
 test('first move coach highlights a safe opening and records coach telemetry', async ({ page }) => {
   const coach = JSON.parse(await readFile('data/first-move-coach.json', 'utf8')) as {
     status: string
-    summary: { enabledTargets: number }
-    controls: { firstTurnOnly: boolean; noAutoMove: boolean }
+    summary: { enabledTargets: number; coachSampleStatus: string; coachDecision: string }
+    metrics: { shown: number; used: number; skipped: number; usageRate: number; skipRate: number }
+    samplePolicy: {
+      status: string
+      minimumShownForDecision: number
+      minimumResolvedForDecision: number
+      current: { shown: number; used: number; skipped: number; resolved: number }
+      needed: { shown: number; resolved: number }
+      telemetry: { shown: string; used: string; skipped: string }
+      decisionReady: boolean
+    }
+    decisionPolicy: { currentDecision: string; fallbackWhenSampleSmall: string }
+    controls: { firstTurnOnly: boolean; noAutoMove: boolean; noDecisionWithoutSample: boolean }
     targets: Array<{
       gameId: string
       enabled: boolean
       variantId: string
       runtimeSupported: boolean
       recommendedCell: { row: number; col: number }
+      evidence: { shown: number; used: number; skipped: number; sampleReady: boolean }
     }>
   }
   const harborTarget = coach.targets.find((target) => target.gameId === 'harbor-rings')
 
   expect(coach.status).toBe('first-move-coach-ready')
   expect(coach.summary.enabledTargets).toBeGreaterThan(0)
+  expect(coach.summary.coachSampleStatus).toBe(coach.samplePolicy.status)
+  expect(coach.summary.coachDecision).toBe(coach.decisionPolicy.currentDecision)
+  expect(coach.metrics).toMatchObject({ shown: 0, used: 0, skipped: 0 })
+  expect(coach.samplePolicy).toMatchObject({
+    status: 'collecting-sample',
+    minimumShownForDecision: 30,
+    minimumResolvedForDecision: 20,
+    needed: { shown: 30, resolved: 20 },
+    decisionReady: false,
+  })
+  expect(coach.samplePolicy.telemetry).toMatchObject({
+    shown: 'first_move_coach_shown',
+    used: 'first_move_coach_used',
+    skipped: 'first_move_coach_skipped',
+  })
+  expect(coach.decisionPolicy.currentDecision).toBe('active')
+  expect(coach.decisionPolicy.fallbackWhenSampleSmall).toBe(
+    'collect-more-real-first-turn-coach-events',
+  )
   expect(coach.controls.firstTurnOnly).toBe(true)
   expect(coach.controls.noAutoMove).toBe(true)
+  expect(coach.controls.noDecisionWithoutSample).toBe(true)
   expect(harborTarget?.enabled).toBe(true)
   expect(harborTarget?.runtimeSupported).toBe(true)
   expect(harborTarget?.variantId).toBe('fast-start')
   expect(harborTarget?.recommendedCell).toMatchObject({ row: 2, col: 2 })
+  expect(harborTarget?.evidence).toMatchObject({ shown: 0, used: 0, skipped: 0, sampleReady: false })
 
   await page.addInitScript(() => {
     window.localStorage.setItem('agl.experiment.first_session_pacing', 'fast-start')
@@ -2507,6 +2540,8 @@ test('first move coach highlights a safe opening and records coach telemetry', a
   await expect(
     page.getByLabel('Autonomy cockpit').getByRole('heading', { name: 'Harbor Rings' }),
   ).toBeVisible()
+  await expect(page.getByLabel('First Move Coach')).toContainText(coach.samplePolicy.status)
+  await expect(page.getByLabel('First Move Coach')).toContainText(coach.decisionPolicy.currentDecision)
 
   const canvas = page.locator('canvas').first()
   await expect(canvas).toBeVisible()

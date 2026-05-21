@@ -15,6 +15,7 @@ const readOptionalJson = async (filePath, fallback) =>
     .catch(() => fallback)
 const roundMetric = (value) => (typeof value === 'number' ? Math.round(value * 1000) / 1000 : null)
 const pct = (value) => (typeof value === 'number' ? `${Math.round(value * 100)}%` : 'n/a')
+const countFor = (counts, eventName) => Number(counts?.[eventName] ?? 0)
 
 const [
   analytics,
@@ -61,6 +62,20 @@ const completionGap = Math.max(
   (productGates.firstGameCompletion?.gate ?? 0.55) - (productGates.firstGameCompletion?.actual ?? 0),
 )
 const tutorialGap = Math.max(0, 0.75 - (analytics.totals?.metrics?.tutorialCompletion ?? 0))
+const coachShown = countFor(analytics.totals?.counts, 'first_move_coach_shown')
+const coachUsed = countFor(analytics.totals?.counts, 'first_move_coach_used')
+const coachSkipped = countFor(analytics.totals?.counts, 'first_move_coach_skipped')
+const coachResolved = coachUsed + coachSkipped
+const coachUsageRate = coachResolved ? coachUsed / coachResolved : 0
+const coachSkipRate = coachResolved ? coachSkipped / coachResolved : 0
+const minimumShownForDecision = 30
+const minimumResolvedForDecision = 20
+const shownNeeded = Math.max(0, minimumShownForDecision - coachShown)
+const resolvedNeeded = Math.max(0, minimumResolvedForDecision - coachResolved)
+const coachSampleReady = shownNeeded === 0 && resolvedNeeded === 0
+const productGatesStable =
+  productGates.firstGameCompletion?.pass === true &&
+  (analytics.totals?.metrics?.tutorialCompletion ?? 0) >= 0.75
 const backlogSignals = backlog.filter((item) =>
   ['first_session_pacing', 'target_score_curve'].includes(item.experiment),
 )
@@ -68,6 +83,16 @@ const shouldCoach =
   releaseHealth.controls?.canApplyExperimentChanges !== false &&
   (completionGap > 0 || tutorialGap > 0 || backlogSignals.length > 0) &&
   fastStartWeight >= guidedWeight
+const coachDecision = !shouldCoach
+  ? 'dormant'
+  : coachSampleReady && productGatesStable
+    ? 'retire'
+    : coachSampleReady && coachSkipRate >= 0.65 && coachUsageRate < 0.35
+      ? 'soften'
+      : 'active'
+const effectiveCoachEnabled = shouldCoach && coachDecision !== 'retire'
+const coachCopy = coachDecision === 'soften' ? 'Try this start' : 'Start here'
+const coachSampleStatus = coachSampleReady ? 'ready-for-coach-decision' : 'collecting-sample'
 
 const boardShapeFor = (gameId) => {
   const balance = gameBalance.games?.[gameId]
@@ -94,6 +119,24 @@ const scoreTarget = (gameId) => {
   return Math.round((rowCompletionGap * 60 + rowTutorialGap * 30 + completionGap * 10) * Math.min(1.5, starts / 100) * 100)
 }
 
+const targetEvidenceFor = (gameId) => {
+  const row = analyticsRows.get(gameId)
+  const shown = countFor(row?.counts, 'first_move_coach_shown')
+  const used = countFor(row?.counts, 'first_move_coach_used')
+  const skipped = countFor(row?.counts, 'first_move_coach_skipped')
+  const resolved = used + skipped
+
+  return {
+    shown,
+    used,
+    skipped,
+    resolved,
+    usageRate: roundMetric(resolved ? used / resolved : 0),
+    skipRate: roundMetric(resolved ? skipped / resolved : 0),
+    sampleReady: shown >= minimumShownForDecision && resolved >= minimumResolvedForDecision,
+  }
+}
+
 const targets = [...playableIds]
   .map((gameId) => {
     const shape = boardShapeFor(gameId)
@@ -105,6 +148,7 @@ const targets = [...playableIds]
     const generatedRuntime = Boolean(generated)
     const runtimeSupported = gameId === 'harbor-rings' || generatedRuntime
     const priorityScore = scoreTarget(gameId)
+    const evidence = targetEvidenceFor(gameId)
     const sourceReason = analyticsRow
       ? `completion ${pct(analyticsRow.metrics?.firstGameCompletion)} and tutorial ${pct(
           analyticsRow.metrics?.tutorialCompletion,
@@ -116,7 +160,7 @@ const targets = [...playableIds]
     return {
       gameId,
       title: balance?.title ?? generated?.title ?? gameId,
-      enabled: shouldCoach && runtimeSupported,
+      enabled: effectiveCoachEnabled && runtimeSupported,
       variantId: 'fast-start',
       surface: 'game-board-first-turn',
       recommendedCell: {
@@ -128,8 +172,10 @@ const targets = [...playableIds]
       generatedRuntime,
       runtimeSupported,
       priorityScore,
+      evidence,
+      decision: coachDecision,
       sourceReason,
-      copy: 'Start here',
+      copy: coachCopy,
       telemetryId: `first-move-coach-${gameId}`,
     }
   })
@@ -163,6 +209,54 @@ const payload = {
     primaryTargetId: targets[0]?.gameId ?? null,
     completionGap: roundMetric(completionGap),
     tutorialGap: roundMetric(tutorialGap),
+    coachSampleStatus,
+    coachDecision,
+  },
+  metrics: {
+    shown: coachShown,
+    used: coachUsed,
+    skipped: coachSkipped,
+    resolved: coachResolved,
+    usageRate: roundMetric(coachUsageRate),
+    skipRate: roundMetric(coachSkipRate),
+  },
+  samplePolicy: {
+    status: coachSampleStatus,
+    minimumShownForDecision,
+    minimumResolvedForDecision,
+    current: {
+      shown: coachShown,
+      used: coachUsed,
+      skipped: coachSkipped,
+      resolved: coachResolved,
+      usageRate: roundMetric(coachUsageRate),
+      skipRate: roundMetric(coachSkipRate),
+    },
+    needed: {
+      shown: shownNeeded,
+      resolved: resolvedNeeded,
+    },
+    telemetry: {
+      shown: 'first_move_coach_shown',
+      used: 'first_move_coach_used',
+      skipped: 'first_move_coach_skipped',
+    },
+    decisionReady: coachSampleReady,
+    source: analytics.sourceStatus?.activeSource,
+  },
+  decisionPolicy: {
+    currentDecision: coachDecision,
+    sampleReady: coachSampleReady,
+    productGatesStable,
+    softenWhen: {
+      minimumSkipRate: 0.65,
+      maximumUsageRate: 0.35,
+    },
+    retireWhen: {
+      sampleReady: true,
+      productGatesStable: true,
+    },
+    fallbackWhenSampleSmall: 'collect-more-real-first-turn-coach-events',
   },
   controls: {
     zeroPaidSpend: true,
@@ -172,6 +266,7 @@ const payload = {
     noRevenueEnablement: true,
     respectsExperimentPolicy: true,
     requiresReleaseHealth: true,
+    noDecisionWithoutSample: true,
   },
   telemetry: {
     shown: 'first_move_coach_shown',
@@ -182,7 +277,9 @@ const payload = {
   targets,
   nextActions: [
     shouldCoach
-      ? 'Measure first_move_coach_used against first-game completion before increasing revenue gates.'
+      ? coachSampleReady
+        ? `Apply the ${coachDecision} coach decision while monitoring first-game completion.`
+        : `Collect ${shownNeeded} shown event(s) and ${resolvedNeeded} resolved event(s) before changing coach intensity.`
       : 'Keep the coach dormant while product gates or release health do not justify first-turn help.',
     'Retire or soften the coach after live data shows tutorial and completion gates are stable.',
   ],
@@ -197,6 +294,10 @@ const report = [
   `Primary target: ${payload.summary.primaryTargetId ?? 'none'}`,
   `Completion gap: ${pct(payload.summary.completionGap)}`,
   `Tutorial gap: ${pct(payload.summary.tutorialGap)}`,
+  `Coach sample: ${payload.samplePolicy.status}`,
+  `Coach decision: ${payload.decisionPolicy.currentDecision}`,
+  `Usage rate: ${pct(payload.metrics.usageRate)}`,
+  `Skip rate: ${pct(payload.metrics.skipRate)}`,
   '',
   '## Targets',
   '',
@@ -207,10 +308,18 @@ const report = [
         `- ${target.enabled ? 'enabled' : 'monitor'}: ${target.gameId} row ${target.recommendedCell.row}, col ${target.recommendedCell.col}; ${target.sourceReason}.`,
     ),
   '',
+  '## Sample Policy',
+  '',
+  `- Shown: ${payload.samplePolicy.current.shown} / ${payload.samplePolicy.minimumShownForDecision}`,
+  `- Resolved: ${payload.samplePolicy.current.resolved} / ${payload.samplePolicy.minimumResolvedForDecision}`,
+  `- Needed: ${payload.samplePolicy.needed.shown} shown, ${payload.samplePolicy.needed.resolved} resolved`,
+  `- Decision ready: ${payload.samplePolicy.decisionReady}`,
+  '',
   '## Controls',
   '',
   `- First turn only: ${payload.controls.firstTurnOnly}`,
   `- No auto move: ${payload.controls.noAutoMove}`,
+  `- No decision without sample: ${payload.controls.noDecisionWithoutSample}`,
   `- Zero paid spend: ${payload.controls.zeroPaidSpend}`,
   `- Telemetry: ${payload.telemetry.shown}, ${payload.telemetry.used}, ${payload.telemetry.skipped}`,
   '',

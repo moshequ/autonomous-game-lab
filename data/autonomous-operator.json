@@ -1,22 +1,22 @@
 {
-  "generatedAt": "2026-05-21T02:29:44.396Z",
+  "generatedAt": "2026-05-21T02:38:28.218Z",
   "status": "operator-plan-ready",
   "mode": "plan-only",
   "ownerDecision": {
-    "actionId": "refresh-first-move-coach",
-    "command": "npm run autonomous:first-move-coach",
+    "actionId": "refresh-completion-loop",
+    "command": "npm run autonomous:completion-loop",
     "locallyExecutable": true,
     "rejectionReason": null
   },
   "requestedActionId": null,
   "selectedAction": {
-    "id": "refresh-first-move-coach",
+    "id": "refresh-completion-loop",
     "status": "armed",
-    "command": "npm run autonomous:first-move-coach",
+    "command": "npm run autonomous:completion-loop",
     "targets": [
       "harbor-rings"
     ],
-    "reason": "Refreshes the first-turn coach policy from product-gate, onboarding, and release-health evidence.",
+    "reason": "Refreshes optional completion nudges and behind-pace finish-line coaching from product-gate evidence.",
     "costUsd": 0
   },
   "selectedRejection": null,
@@ -31,7 +31,6 @@
     "prepare-release-candidate",
     "run-post-deploy-smoke",
     "refresh-product-gate-recovery",
-    "refresh-first-move-coach",
     "refresh-completion-loop",
     "refresh-replay-loop",
     "optimize-store-listing",
@@ -135,10 +134,10 @@
       "reason": "status-monitor"
     },
     {
-      "id": "refresh-completion-loop",
-      "status": "armed",
-      "command": "npm run autonomous:completion-loop",
-      "reason": "not-selected-this-run"
+      "id": "refresh-first-move-coach",
+      "status": "monitor",
+      "command": "npm run autonomous:first-move-coach",
+      "reason": "status-monitor"
     },
     {
       "id": "refresh-replay-loop",
@@ -215,8 +214,8 @@
   ],
   "commandPlan": [
     {
-      "segment": "npm run autonomous:first-move-coach",
-      "script": "autonomous:first-move-coach"
+      "segment": "npm run autonomous:completion-loop",
+      "script": "autonomous:completion-loop"
     }
   ],
   "execution": {
@@ -286,7 +285,7 @@
     "RUN_WORKFLOWS=1"
   ],
   "nextActions": [
-    "Run npm run autonomous:operator -- --execute --action=refresh-first-move-coach to execute exactly one allowed local action.",
+    "Run npm run autonomous:operator -- --execute --action=refresh-completion-loop to execute exactly one allowed local action.",
     "Do not execute GitHub workflow, store, paid ads, or account setup commands from the local operator."
   ]
 }
