@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-21T00:38:36.404Z",
+  "generatedAt": "2026-05-21T00:41:23.523Z",
   "status": "self-update-ready",
   "mode": "plan-and-assert",
   "envFiles": {
@@ -71,7 +71,7 @@
     "ownerLoop": "owner-loop-ready"
   },
   "pendingChanges": {
-    "total": 20,
+    "total": 19,
     "safe": [
       {
         "code": "M",
@@ -201,13 +201,6 @@
       },
       {
         "code": "M",
-        "path": "src/data/autonomousSelfUpdate.ts",
-        "raw": " M src/data/autonomousSelfUpdate.ts",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
         "path": "src/data/objectiveAudit.ts",
         "raw": " M src/data/objectiveAudit.ts",
         "safe": true,
@@ -215,7 +208,7 @@
       }
     ],
     "unsafe": [],
-    "safeCount": 20,
+    "safeCount": 19,
     "unsafeCount": 0
   },
   "commitPlan": {
@@ -246,8 +239,8 @@
       "src/data/autonomousOperator.ts",
       "src/data/autonomousOperatorHistory.ts",
       "src/data/autonomousOwnerLoop.ts",
-      "src/data/autonomousSelfUpdate.ts",
-      "src/data/objectiveAudit.ts"
+      "src/data/objectiveAudit.ts",
+      "src/data/autonomousSelfUpdate.ts"
     ],
     "commitMessage": "Autonomous daily self-update",
     "skipWhenNoAllowlistedChanges": true
@@ -352,7 +345,7 @@
     {
       "id": "safe-path-allowlist",
       "status": "pass",
-      "detail": "20 safe pending file(s), 0 unsafe pending file(s)."
+      "detail": "19 safe pending file(s), 0 unsafe pending file(s)."
     },
     {
       "id": "repository-optional",

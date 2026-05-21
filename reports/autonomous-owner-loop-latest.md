@@ -1,17 +1,17 @@
 # Autonomous Owner Loop
 
-Generated: 2026-05-21T00:38:29.984Z
+Generated: 2026-05-21T00:41:13.770Z
 Status: owner-loop-ready
 Mode: zero-spend-web-ready
 Autonomy score: 41/42 (98%)
 
 ## Owner Decision
 
-- Next action: refresh-autonomous-self-update
-- Command: npm run autonomous:self-update
-- Rationale: Keeps verified generated-change persistence gated, allowlisted, and ready for the scheduled production repository.
-- Last executed action: refresh-autonomous-cadence
-- Recent executed actions: refresh-autonomous-cadence, run-post-deploy-smoke, prepare-release-candidate, measure-pwa-install-loop, optimize-store-listing, refresh-product-gate-recovery, check-performance-budget, refresh-support-feedback
+- Next action: refresh-support-feedback
+- Command: npm run autonomous:support-feedback
+- Rationale: Reads public GitHub issue intake and turns player reports into redacted improvement signals.
+- Last executed action: refresh-autonomous-self-update
+- Recent executed actions: refresh-autonomous-self-update, refresh-autonomous-cadence, run-post-deploy-smoke, prepare-release-candidate, measure-pwa-install-loop, optimize-store-listing, refresh-product-gate-recovery, check-performance-budget
 
 ## Systems
 
@@ -22,7 +22,7 @@ Autonomy score: 41/42 (98%)
 - ready: analytics-ingest - Active source: fixture-sample; event ingest: idle-no-files; collector smoke: pass.
 - ready: local-event-bridge - Bridge bridge-waiting-for-export; inbox 0 event(s); imported 0 event(s).
 - ready: autonomous-cadence - Cadence cadence-ready; Codex active-confirmed; GitHub scheduled.
-- ready: autonomous-self-update - Self-update self-update-ready; safe pending 15; unsafe pending 0; remote push held.
+- ready: autonomous-self-update - Self-update self-update-ready; safe pending 18; unsafe pending 0; remote push held.
 - ready: portfolio-loop - Daily challenge: Canopy Bloom; seed traffic: canopy-bloom, grove-engine, metro-loom, pocket-draft.
 - ready: traffic-seeding - 4 seed campaign(s); max cost $0.
 - ready: acquisition-learning - 4 campaign(s); 0 attributed start(s); candidate canopy-bloom.
@@ -48,7 +48,7 @@ Autonomy score: 41/42 (98%)
 - ready: production-bootstrap - Bootstrap production-bootstrap-ready; mode can-apply-configured-actions; external blockers 16.
 - ready: production-activation - Activation activation-ready; mode dry-run; execution dry-run; gh ready.
 - ready: support-channel - Support channel support-channel-ready; repository moshequ/autonomous-game-lab; public intake ready.
-- ready: autonomous-operator - Operator operator-plan-ready; selected refresh-autonomous-self-update; execution not-requested.
+- ready: autonomous-operator - Operator operator-plan-ready; selected refresh-support-feedback; execution not-requested.
 - ready: operator-history - History operator-history-ready; records 40; executed 17.
 - ready: objective-audit - Audit objective-in-progress; met 6/8; external blockers 12.
 - ready: store-listing-optimizer - Focus canopy-bloom; lead screenshot phone-canopy-bloom-generated; candidate changed yes.

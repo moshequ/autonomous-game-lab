@@ -1,22 +1,22 @@
 {
-  "generatedAt": "2026-05-21T00:38:09.384Z",
+  "generatedAt": "2026-05-21T00:40:55.136Z",
   "status": "operator-plan-ready",
   "mode": "plan-only",
   "ownerDecision": {
-    "actionId": "refresh-autonomous-self-update",
-    "command": "npm run autonomous:self-update",
+    "actionId": "refresh-support-feedback",
+    "command": "npm run autonomous:support-feedback",
     "locallyExecutable": true,
     "rejectionReason": null
   },
   "requestedActionId": null,
   "selectedAction": {
-    "id": "refresh-autonomous-self-update",
+    "id": "refresh-support-feedback",
     "status": "armed",
-    "command": "npm run autonomous:self-update",
+    "command": "npm run autonomous:support-feedback",
     "targets": [
-      ".github/workflows/autonomous-self-update.yml"
+      "moshequ/autonomous-game-lab"
     ],
-    "reason": "Keeps verified generated-change persistence gated, allowlisted, and ready for the scheduled production repository.",
+    "reason": "Reads public GitHub issue intake and turns player reports into redacted improvement signals.",
     "costUsd": 0
   },
   "selectedRejection": null,
@@ -45,6 +45,12 @@
       "reason": "not-selected-this-run"
     },
     {
+      "id": "refresh-autonomous-self-update",
+      "status": "armed",
+      "command": "npm run autonomous:self-update",
+      "reason": "not-selected-this-run"
+    },
+    {
       "id": "seed-portfolio-traffic",
       "status": "monitor",
       "command": "npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop",
@@ -55,12 +61,6 @@
       "status": "monitor",
       "command": "npm run autonomous:organic-seed-loop",
       "reason": "status-monitor"
-    },
-    {
-      "id": "refresh-support-feedback",
-      "status": "armed",
-      "command": "npm run autonomous:support-feedback",
-      "reason": "not-selected-this-run"
     },
     {
       "id": "optimize-daily-retention",
@@ -209,8 +209,8 @@
   ],
   "commandPlan": [
     {
-      "segment": "npm run autonomous:self-update",
-      "script": "autonomous:self-update"
+      "segment": "npm run autonomous:support-feedback",
+      "script": "autonomous:support-feedback"
     }
   ],
   "execution": {
@@ -280,7 +280,7 @@
     "RUN_WORKFLOWS=1"
   ],
   "nextActions": [
-    "Run npm run autonomous:operator -- --execute --action=refresh-autonomous-self-update to execute exactly one allowed local action.",
+    "Run npm run autonomous:operator -- --execute --action=refresh-support-feedback to execute exactly one allowed local action.",
     "Do not execute GitHub workflow, store, paid ads, or account setup commands from the local operator."
   ]
 }
