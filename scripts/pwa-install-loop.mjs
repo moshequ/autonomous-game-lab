@@ -43,6 +43,8 @@ const iconCoverageReady =
   iconAssets.assets?.some((asset) => asset.id === 'store-1024')
 const serviceWorkerConfigured = viteConfig.includes('registerType') && viteConfig.includes('autoUpdate')
 const promptAvailable = metric('pwa_install_prompt_available')
+const installPageViews = metric('pwa_install_page_viewed')
+const installOpenClicks = metric('pwa_install_open_clicked')
 const promptViews = metric('pwa_install_prompt_viewed')
 const promptClicks = metric('pwa_install_prompt_clicked')
 const accepted = metric('pwa_install_prompt_accepted')
@@ -50,6 +52,7 @@ const dismissed = metric('pwa_install_prompt_dismissed')
 const cooldownSuppressions = metric('pwa_install_prompt_cooldown')
 const installed = metric('pwa_installed')
 const launchModes = metric('pwa_launch_mode_detected')
+const installPageOpenRate = installPageViews ? installOpenClicks / installPageViews : 0
 const installRate = promptViews ? installed / promptViews : 0
 const acceptanceRate = promptClicks ? accepted / promptClicks : 0
 const dismissalRate = promptClicks ? dismissed / promptClicks : 0
@@ -96,10 +99,13 @@ const payload = {
     status: growthInstallChannel?.status ?? 'missing',
     costUsd: 0,
     assets: ['manifest.webmanifest', 'service worker', 'install icons', 'standalone launch telemetry'],
-    metric: 'pwa_install_prompt_viewed -> pwa_installed -> pwa_launch_mode_detected',
+    metric:
+      'pwa_install_page_viewed -> pwa_install_open_clicked -> pwa_install_prompt_viewed -> pwa_installed -> pwa_launch_mode_detected',
   },
   metrics: {
     promptAvailable,
+    installPageViews,
+    installOpenClicks,
     promptViews,
     promptClicks,
     accepted,
@@ -107,6 +113,7 @@ const payload = {
     cooldownSuppressions,
     installed,
     launchModes,
+    installPageOpenRate: roundMetric(installPageOpenRate),
     promptSurfaceRate: roundMetric(promptSurfaceRate),
     installRate: roundMetric(installRate),
     acceptanceRate: roundMetric(acceptanceRate),
@@ -129,6 +136,8 @@ const payload = {
     playPath: installPlayPath,
     priorityGameId,
     zeroPaidSpend: true,
+    localAnalyticsEvents: true,
+    localAnalyticsStorageKey: 'agl.analytics.events',
     playerInitiatedOnly: true,
     browserPromptControlled: true,
     nativePromptRequired: true,
@@ -147,6 +156,8 @@ const payload = {
     noNotificationPermissionPrompt: true,
   },
   measurementPolicy: {
+    installPageViewEvent: 'pwa_install_page_viewed',
+    installOpenClickEvent: 'pwa_install_open_clicked',
     availableEvent: 'pwa_install_prompt_available',
     surfacedEvent: 'pwa_install_prompt_viewed',
     clickedEvent: 'pwa_install_prompt_clicked',
@@ -168,6 +179,8 @@ const payload = {
     source: analytics.sourceStatus?.activeSource ?? 'unknown',
     current: {
       promptAvailable,
+      installPageViews,
+      installOpenClicks,
       promptViews,
       promptClicks,
       accepted,
@@ -175,6 +188,7 @@ const payload = {
       cooldownSuppressions,
       installed,
       launchModes,
+      installPageOpenRate: roundMetric(installPageOpenRate),
       promptSurfaceRate: roundMetric(promptSurfaceRate),
       installRate: roundMetric(installRate),
       acceptanceRate: roundMetric(acceptanceRate),
@@ -186,6 +200,8 @@ const payload = {
       minimumLaunchModesForDecision,
     },
     telemetry: {
+      installPageView: 'pwa_install_page_viewed',
+      installOpenClick: 'pwa_install_open_clicked',
       availability: 'pwa_install_prompt_available',
       view: 'pwa_install_prompt_viewed',
       click: 'pwa_install_prompt_clicked',
@@ -244,6 +260,8 @@ const report = [
   `Generated: ${payload.generatedAt}`,
   `Status: ${payload.status}`,
   `Channel: ${payload.channel.id} (${payload.channel.status})`,
+  `Install page views: ${payload.metrics.installPageViews}`,
+  `Open-app clicks: ${payload.metrics.installOpenClicks}`,
   `Prompt available: ${payload.metrics.promptAvailable}`,
   `Prompt views: ${payload.metrics.promptViews}`,
   `Cooldown suppressions: ${payload.metrics.cooldownSuppressions}`,
@@ -258,6 +276,7 @@ const report = [
   `- Priority game: ${payload.promptPolicy.priorityGameId ?? 'none'}`,
   `- Public install page: ${payload.publicInstallPage.path}`,
   `- Campaign: ${payload.publicInstallPage.campaignId}`,
+  `- Local analytics: ${payload.publicInstallPage.localAnalyticsStorageKey}`,
   '',
   '## Install Sample Policy',
   '',
@@ -275,6 +294,8 @@ const report = [
   '',
   '## Measurement',
   '',
+  `- Install page view: ${payload.measurementPolicy.installPageViewEvent}`,
+  `- Open-app click: ${payload.measurementPolicy.installOpenClickEvent}`,
   `- Availability: ${payload.measurementPolicy.availableEvent}`,
   `- User-visible prompt: ${payload.measurementPolicy.surfacedEvent}`,
   `- Cooldown: ${payload.measurementPolicy.cooldownEvent}`,
@@ -395,7 +416,14 @@ const installPage = `<!doctype html>
     </style>
   </head>
   <body>
-    <main data-campaign-id="${escapeHtml(payload.publicInstallPage.campaignId)}" data-channel-id="pwa-install">
+    <main
+      data-campaign-id="${escapeHtml(payload.publicInstallPage.campaignId)}"
+      data-channel-id="pwa-install"
+      data-game-id="${escapeHtml(payload.publicInstallPage.priorityGameId ?? '')}"
+      data-play-path="${escapeHtml(payload.publicInstallPage.playPath)}"
+      data-local-analytics="true"
+      data-storage-key="${escapeHtml(payload.publicInstallPage.localAnalyticsStorageKey)}"
+    >
       <p class="eyebrow">Zero-spend install path</p>
       <h1>Autonomous Game Lab Install</h1>
       <p>Open the PWA from this player-initiated link so install prompt availability, acceptance, and standalone launches can be measured without paid incentives.</p>
@@ -405,8 +433,135 @@ const installPage = `<!doctype html>
         <div class="metric"><span>Sample target</span><strong>${payload.samplePolicy.needed.promptViews} prompts / ${payload.samplePolicy.needed.launchModes} launches</strong></div>
         <div class="metric"><span>Cost</span><strong>$0.00</strong></div>
       </section>
-      <a class="play" href="${escapeHtml(runtimeHref(payload.publicInstallPage.playPath))}">Open app</a>
+      <a class="play" data-install-open-link href="${escapeHtml(runtimeHref(payload.publicInstallPage.playPath))}">Open app</a>
     </main>
+    <script>
+      (() => {
+        const main = document.querySelector('[data-channel-id="pwa-install"]')
+        if (!main || main.dataset.localAnalytics !== 'true') {
+          return
+        }
+
+        const storageKey = main.dataset.storageKey || 'agl.analytics.events'
+        const campaignId = main.dataset.campaignId || 'pwa-install-portal'
+        const channelId = main.dataset.channelId || 'pwa-install'
+        const gameId = main.dataset.gameId || 'portal'
+        const playPath = main.dataset.playPath || '/'
+        const acquisitionSource = 'pwa_install'
+        const idFor = (prefix) => {
+          const randomValue =
+            window.crypto && typeof window.crypto.randomUUID === 'function'
+              ? window.crypto.randomUUID()
+              : String(Date.now()) + '-' + Math.random().toString(36).slice(2)
+          return prefix + '-' + randomValue
+        }
+        const getOrCreateStoredId = (storage, key, prefix) => {
+          try {
+            const stored = storage.getItem(key)
+            if (stored) {
+              return stored
+            }
+
+            const nextValue = idFor(prefix)
+            storage.setItem(key, nextValue)
+            return nextValue
+          } catch {
+            return idFor(prefix)
+          }
+        }
+        const displayModeForPage = () => {
+          const standaloneQuery =
+            window.matchMedia &&
+            window.matchMedia('(display-mode: standalone)').matches
+          const iosStandalone = window.navigator.standalone === true
+          return standaloneQuery || iosStandalone ? 'standalone' : 'browser'
+        }
+        const readEvents = () => {
+          try {
+            const raw = window.localStorage.getItem(storageKey)
+            const parsed = raw ? JSON.parse(raw) : []
+            return Array.isArray(parsed) ? parsed : []
+          } catch {
+            return []
+          }
+        }
+        const writeEvents = (events) => {
+          try {
+            window.localStorage.setItem(storageKey, JSON.stringify(events.slice(-500)))
+          } catch {
+            // The page should still route players into the app when local storage is unavailable.
+          }
+        }
+        const setSessionAttribution = () => {
+          try {
+            window.sessionStorage.setItem('agl.analytics.acquisitionSource', acquisitionSource)
+            window.sessionStorage.setItem('agl.analytics.acquisitionCampaign', campaignId)
+            window.sessionStorage.setItem('agl.analytics.acquisitionGameId', gameId)
+            window.sessionStorage.setItem('agl.analytics.acquisitionChannel', channelId)
+          } catch {
+            // URL attribution still carries the campaign into the app.
+          }
+        }
+        const analyticsContext = () => ({
+          anonymousId: getOrCreateStoredId(
+            window.localStorage,
+            'agl.analytics.anonymousId',
+            'anon',
+          ),
+          sessionId: getOrCreateStoredId(
+            window.sessionStorage,
+            'agl.analytics.sessionId',
+            'session',
+          ),
+          sessionDate: new Date().toISOString().slice(0, 10),
+        })
+        const acquisitionContext = {
+          acquisitionSource,
+          acquisitionCampaign: campaignId,
+          acquisitionGameId: gameId,
+          acquisitionChannel: channelId,
+        }
+        const trackLocalEvent = (name, properties) => {
+          const event = {
+            id: idFor('install'),
+            name,
+            properties: {
+              ...properties,
+              ...analyticsContext(),
+              ...acquisitionContext,
+            },
+            createdAt: new Date().toISOString(),
+          }
+
+          writeEvents([...readEvents(), event])
+        }
+
+        setSessionAttribution()
+        trackLocalEvent('pwa_install_page_viewed', {
+          gameId,
+          campaignId,
+          channelId,
+          playPath,
+          displayMode: displayModeForPage(),
+          surface: 'install-page',
+          zeroPaidSpend: true,
+          playerInitiated: false,
+        })
+
+        document.querySelector('[data-install-open-link]')?.addEventListener('click', () => {
+          trackLocalEvent('pwa_install_open_clicked', {
+            gameId,
+            campaignId,
+            channelId,
+            playPath,
+            displayMode: displayModeForPage(),
+            surface: 'install-page',
+            zeroPaidSpend: true,
+            playerInitiated: true,
+          })
+        })
+      })()
+    </script>
   </body>
 </html>
 `

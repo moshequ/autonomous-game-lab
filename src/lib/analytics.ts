@@ -53,6 +53,8 @@ export type AnalyticsEventName =
   | 'daily_return_intent_started'
   | 'daily_return_intent_cleared'
   | 'streak_updated'
+  | 'pwa_install_page_viewed'
+  | 'pwa_install_open_clicked'
   | 'pwa_install_prompt_available'
   | 'pwa_install_prompt_viewed'
   | 'pwa_install_prompt_clicked'

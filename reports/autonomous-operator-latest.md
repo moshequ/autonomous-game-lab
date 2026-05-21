@@ -1,10 +1,10 @@
 # Autonomous Operator
 
-Generated: 2026-05-21T02:16:56.150Z
+Generated: 2026-05-21T02:29:44.396Z
 Status: operator-plan-ready
 Mode: plan-only
-Owner decision: measure-pwa-install-loop
-Selected action: measure-pwa-install-loop
+Owner decision: refresh-first-move-coach
+Selected action: refresh-first-move-coach
 Execution: not-requested
 
 ## Controls
@@ -18,31 +18,37 @@ Execution: not-requested
 
 ## Selected Action
 
-- measure-pwa-install-loop: npm run autonomous:pwa-install
+- refresh-first-move-coach: npm run autonomous:first-move-coach
 
 ## Eligible Local Actions
 
 - refresh-autonomous-cadence
 - refresh-autonomous-self-update
+- seed-portfolio-traffic
+- refresh-organic-seed-loop
 - refresh-support-feedback
 - measure-pwa-install-loop
 - check-performance-budget
 - prepare-release-candidate
 - run-post-deploy-smoke
 - refresh-product-gate-recovery
+- refresh-first-move-coach
+- refresh-completion-loop
+- refresh-replay-loop
 - optimize-store-listing
+- apply-safe-improvements
 
 ## Blocked Actions
 
 - run-daily-owner-loop: daily-loop-recursion-blocked
 - refresh-autonomous-cadence: not-selected-this-run
 - refresh-autonomous-self-update: not-selected-this-run
-- seed-portfolio-traffic: status-monitor
-- refresh-organic-seed-loop: status-monitor
+- seed-portfolio-traffic: not-selected-this-run
+- refresh-organic-seed-loop: not-selected-this-run
 - refresh-support-feedback: not-selected-this-run
 - optimize-daily-retention: status-monitor
+- measure-pwa-install-loop: not-selected-this-run
 - check-performance-budget: not-selected-this-run
 - prepare-release-candidate: not-selected-this-run
 - run-post-deploy-smoke: not-selected-this-run
 - sync-post-deploy-artifact: status-monitor
-- optimize-product-gates: status-monitor

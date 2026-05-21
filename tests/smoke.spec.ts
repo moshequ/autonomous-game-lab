@@ -523,8 +523,10 @@ test('generated PWA install page routes attributed install traffic into the app'
       path: string
       campaignId: string
       playPath: string
-      priorityGameId: string
+      priorityGameId: string | null
       zeroPaidSpend: boolean
+      localAnalyticsEvents: boolean
+      localAnalyticsStorageKey: string
       playerInitiatedOnly: boolean
       browserPromptControlled: boolean
     }
@@ -548,18 +550,83 @@ test('generated PWA install page routes attributed install traffic into the app'
     'data-campaign-id',
     installLoop.publicInstallPage.campaignId,
   )
+  await expect(page.locator('[data-channel-id="pwa-install"]')).toHaveAttribute(
+    'data-game-id',
+    installLoop.publicInstallPage.priorityGameId ?? '',
+  )
+  await expect(page.locator('[data-channel-id="pwa-install"]')).toHaveAttribute(
+    'data-play-path',
+    installLoop.publicInstallPage.playPath,
+  )
+  await expect(page.locator('[data-channel-id="pwa-install"]')).toHaveAttribute(
+    'data-local-analytics',
+    'true',
+  )
+  await expect(page.locator('[data-channel-id="pwa-install"]')).toHaveAttribute(
+    'data-storage-key',
+    installLoop.publicInstallPage.localAnalyticsStorageKey,
+  )
   await expect(page.getByRole('link', { name: 'Open app' })).toHaveAttribute(
     'href',
     `.${installLoop.publicInstallPage.playPath}`,
   )
   expect(installLoop.publicInstallPage.zeroPaidSpend).toBe(true)
+  expect(installLoop.publicInstallPage.localAnalyticsEvents).toBe(true)
+  expect(installLoop.publicInstallPage.localAnalyticsStorageKey).toBe('agl.analytics.events')
   expect(installLoop.publicInstallPage.playerInitiatedOnly).toBe(true)
   expect(installLoop.publicInstallPage.browserPromptControlled).toBe(true)
   expect(installLoop.samplePolicy.controls.zeroPaidSpend).toBe(true)
   expect(installLoop.samplePolicy.controls.noSyntheticInstalls).toBe(true)
   expect(await page.content()).not.toContain('autonomous-game-lab.example.com')
 
-  await page.goto(installLoop.publicInstallPage.playPath)
+  const installPageTelemetry = await page.evaluate(() => {
+    const raw = window.localStorage.getItem('agl.analytics.events')
+    const events = raw ? JSON.parse(raw) : []
+
+    return {
+      pageView: events.findLast(
+        (event: { name: string }) => event.name === 'pwa_install_page_viewed',
+      ),
+      openClicked: events.findLast(
+        (event: { name: string }) => event.name === 'pwa_install_open_clicked',
+      ),
+    }
+  })
+
+  expect(installPageTelemetry.pageView.properties.surface).toBe('install-page')
+  expect(installPageTelemetry.pageView.properties.playerInitiated).toBe(false)
+  expect(installPageTelemetry.pageView.properties.zeroPaidSpend).toBe(true)
+  expect(installPageTelemetry.pageView.properties.acquisitionSource).toBe('pwa_install')
+  expect(installPageTelemetry.pageView.properties.acquisitionCampaign).toBe(
+    installLoop.publicInstallPage.campaignId,
+  )
+  expect(installPageTelemetry.pageView.properties.acquisitionChannel).toBe('pwa-install')
+  expect(installPageTelemetry.pageView.properties.gameId).toBe(
+    installLoop.publicInstallPage.priorityGameId ?? 'portal',
+  )
+  expect(installPageTelemetry.openClicked).toBeUndefined()
+
+  await Promise.all([
+    page.waitForURL(
+      (url) => url.searchParams.get('utm_campaign') === installLoop.publicInstallPage.campaignId,
+    ),
+    page.getByRole('link', { name: 'Open app' }).click(),
+  ])
+
+  const installOpenTelemetry = await page.evaluate(() => {
+    const raw = window.localStorage.getItem('agl.analytics.events')
+    const events = raw ? JSON.parse(raw) : []
+
+    return events.findLast((event: { name: string }) => event.name === 'pwa_install_open_clicked')
+  })
+
+  expect(installOpenTelemetry.properties.surface).toBe('install-page')
+  expect(installOpenTelemetry.properties.playerInitiated).toBe(true)
+  expect(installOpenTelemetry.properties.zeroPaidSpend).toBe(true)
+  expect(installOpenTelemetry.properties.acquisitionCampaign).toBe(
+    installLoop.publicInstallPage.campaignId,
+  )
+
   await page.evaluate(() => {
     const event = new Event('beforeinstallprompt') as Event & {
       prompt: () => Promise<void>
@@ -581,7 +648,9 @@ test('generated PWA install page routes attributed install traffic into the app'
   expect(clicked.properties.acquisitionSource).toBe('pwa_install')
   expect(clicked.properties.acquisitionCampaign).toBe(installLoop.publicInstallPage.campaignId)
   expect(clicked.properties.acquisitionChannel).toBe('pwa-install')
-  expect(clicked.properties.acquisitionGameId).toBe(installLoop.publicInstallPage.priorityGameId)
+  expect(clicked.properties.acquisitionGameId).toBe(
+    installLoop.publicInstallPage.priorityGameId ?? 'portal',
+  )
 })
 
 test('reset run records replay telemetry for the product optimizer', async ({ page }) => {

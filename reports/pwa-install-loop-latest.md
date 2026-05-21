@@ -1,8 +1,10 @@
 # PWA Install Loop
 
-Generated: 2026-05-21T01:30:36.682Z
+Generated: 2026-05-21T02:27:47.502Z
 Status: pwa-install-loop-ready
 Channel: pwa-install (ready-after-hosting)
+Install page views: 0
+Open-app clicks: 0
 Prompt available: 0
 Prompt views: 0
 Cooldown suppressions: 0
@@ -17,6 +19,7 @@ Acceptance: 0%
 - Priority game: canopy-bloom
 - Public install page: /install.html
 - Campaign: pwa-install-canopy-bloom
+- Local analytics: agl.analytics.events
 
 ## Install Sample Policy
 
@@ -39,6 +42,8 @@ Acceptance: 0%
 
 ## Measurement
 
+- Install page view: pwa_install_page_viewed
+- Open-app click: pwa_install_open_clicked
 - Availability: pwa_install_prompt_available
 - User-visible prompt: pwa_install_prompt_viewed
 - Cooldown: pwa_install_prompt_cooldown

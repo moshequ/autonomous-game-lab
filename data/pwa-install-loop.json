@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-21T01:30:36.682Z",
+  "generatedAt": "2026-05-21T02:27:47.502Z",
   "status": "pwa-install-loop-ready",
   "sourceStatus": {
     "analyticsSource": "fixture-sample",
@@ -18,10 +18,12 @@
       "install icons",
       "standalone launch telemetry"
     ],
-    "metric": "pwa_install_prompt_viewed -> pwa_installed -> pwa_launch_mode_detected"
+    "metric": "pwa_install_page_viewed -> pwa_install_open_clicked -> pwa_install_prompt_viewed -> pwa_installed -> pwa_launch_mode_detected"
   },
   "metrics": {
     "promptAvailable": 0,
+    "installPageViews": 0,
+    "installOpenClicks": 0,
     "promptViews": 0,
     "promptClicks": 0,
     "accepted": 0,
@@ -29,6 +31,7 @@
     "cooldownSuppressions": 0,
     "installed": 0,
     "launchModes": 0,
+    "installPageOpenRate": 0,
     "promptSurfaceRate": 0,
     "installRate": 0,
     "acceptanceRate": 0,
@@ -51,6 +54,8 @@
     "playPath": "/?game=canopy-bloom&utm_source=pwa_install&utm_campaign=pwa-install-canopy-bloom",
     "priorityGameId": "canopy-bloom",
     "zeroPaidSpend": true,
+    "localAnalyticsEvents": true,
+    "localAnalyticsStorageKey": "agl.analytics.events",
     "playerInitiatedOnly": true,
     "browserPromptControlled": true,
     "nativePromptRequired": true,
@@ -69,6 +74,8 @@
     "noNotificationPermissionPrompt": true
   },
   "measurementPolicy": {
+    "installPageViewEvent": "pwa_install_page_viewed",
+    "installOpenClickEvent": "pwa_install_open_clicked",
     "availableEvent": "pwa_install_prompt_available",
     "surfacedEvent": "pwa_install_prompt_viewed",
     "clickedEvent": "pwa_install_prompt_clicked",
@@ -90,6 +97,8 @@
     "source": "fixture-sample",
     "current": {
       "promptAvailable": 0,
+      "installPageViews": 0,
+      "installOpenClicks": 0,
       "promptViews": 0,
       "promptClicks": 0,
       "accepted": 0,
@@ -97,6 +106,7 @@
       "cooldownSuppressions": 0,
       "installed": 0,
       "launchModes": 0,
+      "installPageOpenRate": 0,
       "promptSurfaceRate": 0,
       "installRate": 0,
       "acceptanceRate": 0
@@ -108,6 +118,8 @@
       "minimumLaunchModesForDecision": 10
     },
     "telemetry": {
+      "installPageView": "pwa_install_page_viewed",
+      "installOpenClick": "pwa_install_open_clicked",
       "availability": "pwa_install_prompt_available",
       "view": "pwa_install_prompt_viewed",
       "click": "pwa_install_prompt_clicked",

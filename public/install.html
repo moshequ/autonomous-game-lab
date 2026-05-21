@@ -107,7 +107,14 @@
     </style>
   </head>
   <body>
-    <main data-campaign-id="pwa-install-canopy-bloom" data-channel-id="pwa-install">
+    <main
+      data-campaign-id="pwa-install-canopy-bloom"
+      data-channel-id="pwa-install"
+      data-game-id="canopy-bloom"
+      data-play-path="/?game=canopy-bloom&amp;utm_source=pwa_install&amp;utm_campaign=pwa-install-canopy-bloom"
+      data-local-analytics="true"
+      data-storage-key="agl.analytics.events"
+    >
       <p class="eyebrow">Zero-spend install path</p>
       <h1>Autonomous Game Lab Install</h1>
       <p>Open the PWA from this player-initiated link so install prompt availability, acceptance, and standalone launches can be measured without paid incentives.</p>
@@ -117,7 +124,134 @@
         <div class="metric"><span>Sample target</span><strong>20 prompts / 10 launches</strong></div>
         <div class="metric"><span>Cost</span><strong>$0.00</strong></div>
       </section>
-      <a class="play" href="./?game=canopy-bloom&amp;utm_source=pwa_install&amp;utm_campaign=pwa-install-canopy-bloom">Open app</a>
+      <a class="play" data-install-open-link href="./?game=canopy-bloom&amp;utm_source=pwa_install&amp;utm_campaign=pwa-install-canopy-bloom">Open app</a>
     </main>
+    <script>
+      (() => {
+        const main = document.querySelector('[data-channel-id="pwa-install"]')
+        if (!main || main.dataset.localAnalytics !== 'true') {
+          return
+        }
+
+        const storageKey = main.dataset.storageKey || 'agl.analytics.events'
+        const campaignId = main.dataset.campaignId || 'pwa-install-portal'
+        const channelId = main.dataset.channelId || 'pwa-install'
+        const gameId = main.dataset.gameId || 'portal'
+        const playPath = main.dataset.playPath || '/'
+        const acquisitionSource = 'pwa_install'
+        const idFor = (prefix) => {
+          const randomValue =
+            window.crypto && typeof window.crypto.randomUUID === 'function'
+              ? window.crypto.randomUUID()
+              : String(Date.now()) + '-' + Math.random().toString(36).slice(2)
+          return prefix + '-' + randomValue
+        }
+        const getOrCreateStoredId = (storage, key, prefix) => {
+          try {
+            const stored = storage.getItem(key)
+            if (stored) {
+              return stored
+            }
+
+            const nextValue = idFor(prefix)
+            storage.setItem(key, nextValue)
+            return nextValue
+          } catch {
+            return idFor(prefix)
+          }
+        }
+        const displayModeForPage = () => {
+          const standaloneQuery =
+            window.matchMedia &&
+            window.matchMedia('(display-mode: standalone)').matches
+          const iosStandalone = window.navigator.standalone === true
+          return standaloneQuery || iosStandalone ? 'standalone' : 'browser'
+        }
+        const readEvents = () => {
+          try {
+            const raw = window.localStorage.getItem(storageKey)
+            const parsed = raw ? JSON.parse(raw) : []
+            return Array.isArray(parsed) ? parsed : []
+          } catch {
+            return []
+          }
+        }
+        const writeEvents = (events) => {
+          try {
+            window.localStorage.setItem(storageKey, JSON.stringify(events.slice(-500)))
+          } catch {
+            // The page should still route players into the app when local storage is unavailable.
+          }
+        }
+        const setSessionAttribution = () => {
+          try {
+            window.sessionStorage.setItem('agl.analytics.acquisitionSource', acquisitionSource)
+            window.sessionStorage.setItem('agl.analytics.acquisitionCampaign', campaignId)
+            window.sessionStorage.setItem('agl.analytics.acquisitionGameId', gameId)
+            window.sessionStorage.setItem('agl.analytics.acquisitionChannel', channelId)
+          } catch {
+            // URL attribution still carries the campaign into the app.
+          }
+        }
+        const analyticsContext = () => ({
+          anonymousId: getOrCreateStoredId(
+            window.localStorage,
+            'agl.analytics.anonymousId',
+            'anon',
+          ),
+          sessionId: getOrCreateStoredId(
+            window.sessionStorage,
+            'agl.analytics.sessionId',
+            'session',
+          ),
+          sessionDate: new Date().toISOString().slice(0, 10),
+        })
+        const acquisitionContext = {
+          acquisitionSource,
+          acquisitionCampaign: campaignId,
+          acquisitionGameId: gameId,
+          acquisitionChannel: channelId,
+        }
+        const trackLocalEvent = (name, properties) => {
+          const event = {
+            id: idFor('install'),
+            name,
+            properties: {
+              ...properties,
+              ...analyticsContext(),
+              ...acquisitionContext,
+            },
+            createdAt: new Date().toISOString(),
+          }
+
+          writeEvents([...readEvents(), event])
+        }
+
+        setSessionAttribution()
+        trackLocalEvent('pwa_install_page_viewed', {
+          gameId,
+          campaignId,
+          channelId,
+          playPath,
+          displayMode: displayModeForPage(),
+          surface: 'install-page',
+          zeroPaidSpend: true,
+          playerInitiated: false,
+        })
+
+        document.querySelector('[data-install-open-link]')?.addEventListener('click', () => {
+          trackLocalEvent('pwa_install_open_clicked', {
+            gameId,
+            campaignId,
+            channelId,
+            playPath,
+            displayMode: displayModeForPage(),
+            surface: 'install-page',
+            zeroPaidSpend: true,
+            playerInitiated: true,
+          })
+        })
+      })()
+    </script>
   </body>
 </html>

@@ -1202,6 +1202,8 @@ if (
 }
 
 const pwaInstallEvents = [
+  'pwa_install_page_viewed',
+  'pwa_install_open_clicked',
   'pwa_install_prompt_available',
   'pwa_install_prompt_viewed',
   'pwa_install_prompt_clicked',
@@ -1223,6 +1225,8 @@ if (
   pwaInstallLoop.sourceStatus?.retentionLoop !== retentionLoop.status ||
   pwaInstallLoop.channel?.id !== 'pwa-install' ||
   pwaInstallLoop.channel?.costUsd !== 0 ||
+  pwaInstallLoop.metrics?.installPageViews !== (analytics.totals.counts.pwa_install_page_viewed ?? 0) ||
+  pwaInstallLoop.metrics?.installOpenClicks !== (analytics.totals.counts.pwa_install_open_clicked ?? 0) ||
   pwaInstallLoop.metrics?.promptAvailable !== (analytics.totals.counts.pwa_install_prompt_available ?? 0) ||
   pwaInstallLoop.metrics?.promptViews !== (analytics.totals.counts.pwa_install_prompt_viewed ?? 0) ||
   pwaInstallLoop.metrics?.promptClicks !== (analytics.totals.counts.pwa_install_prompt_clicked ?? 0) ||
@@ -1240,8 +1244,12 @@ if (
   !pwaInstallLoop.publicInstallPage?.campaignId?.startsWith('pwa-install-') ||
   !pwaInstallLoop.publicInstallPage?.playPath?.includes('utm_source=pwa_install') ||
   pwaInstallLoop.publicInstallPage?.zeroPaidSpend !== true ||
+  pwaInstallLoop.publicInstallPage?.localAnalyticsEvents !== true ||
+  pwaInstallLoop.publicInstallPage?.localAnalyticsStorageKey !== 'agl.analytics.events' ||
   pwaInstallLoop.publicInstallPage?.playerInitiatedOnly !== true ||
   pwaInstallLoop.publicInstallPage?.browserPromptControlled !== true ||
+  pwaInstallLoop.measurementPolicy?.installPageViewEvent !== 'pwa_install_page_viewed' ||
+  pwaInstallLoop.measurementPolicy?.installOpenClickEvent !== 'pwa_install_open_clicked' ||
   pwaInstallLoop.measurementPolicy?.availableEvent !== 'pwa_install_prompt_available' ||
   pwaInstallLoop.measurementPolicy?.cooldownEvent !== 'pwa_install_prompt_cooldown' ||
   pwaInstallLoop.measurementPolicy?.cooldownStorageKey !== 'agl.pwa.installDismissedAt' ||
@@ -1250,6 +1258,8 @@ if (
   pwaInstallLoop.samplePolicy?.campaignId !== pwaInstallLoop.publicInstallPage?.campaignId ||
   pwaInstallLoop.samplePolicy?.playPath !== pwaInstallLoop.publicInstallPage?.playPath ||
   pwaInstallLoop.samplePolicy?.publicInstallPath !== pwaInstallLoop.publicInstallPage?.path ||
+  pwaInstallLoop.samplePolicy?.current?.installPageViews !== pwaInstallLoop.metrics?.installPageViews ||
+  pwaInstallLoop.samplePolicy?.current?.installOpenClicks !== pwaInstallLoop.metrics?.installOpenClicks ||
   pwaInstallLoop.samplePolicy?.current?.promptViews !== pwaInstallLoop.metrics?.promptViews ||
   pwaInstallLoop.samplePolicy?.current?.installed !== pwaInstallLoop.metrics?.installed ||
   pwaInstallLoop.samplePolicy?.current?.launchModes !== pwaInstallLoop.metrics?.launchModes ||
@@ -1259,6 +1269,8 @@ if (
     Math.max(0, 20 - (analytics.totals.counts.pwa_install_prompt_viewed ?? 0)) ||
   pwaInstallLoop.samplePolicy?.needed?.launchModes !==
     Math.max(0, 10 - (analytics.totals.counts.pwa_launch_mode_detected ?? 0)) ||
+  pwaInstallLoop.samplePolicy?.telemetry?.installPageView !== 'pwa_install_page_viewed' ||
+  pwaInstallLoop.samplePolicy?.telemetry?.installOpenClick !== 'pwa_install_open_clicked' ||
   pwaInstallLoop.samplePolicy?.telemetry?.view !== 'pwa_install_prompt_viewed' ||
   pwaInstallLoop.samplePolicy?.telemetry?.launch !== 'pwa_launch_mode_detected' ||
   pwaInstallLoop.samplePolicy?.hostPolicy?.stableHttpsRequired !== true ||
@@ -1284,6 +1296,10 @@ if (
   !analyticsLibSource.includes("'pwa-install'") ||
   !installHtml.includes('Autonomous Game Lab Install') ||
   !installHtml.includes('data-channel-id="pwa-install"') ||
+  !installHtml.includes('data-local-analytics="true"') ||
+  !installHtml.includes('agl.analytics.events') ||
+  !installHtml.includes('pwa_install_page_viewed') ||
+  !installHtml.includes('pwa_install_open_clicked') ||
   !installHtml.includes(pwaInstallLoop.publicInstallPage?.campaignId ?? 'missing') ||
   !installHtml.includes('utm_source=pwa_install') ||
   !installHtml.includes('Sample target') ||
@@ -1294,6 +1310,7 @@ if (
   !appSource.includes('Install sample') ||
   !pwaInstallLoopSource.includes('minimumPromptViewsForDecision') ||
   !pwaInstallLoopSource.includes('installSampleNextAction') ||
+  !pwaInstallLoopSource.includes('installPageOpenRate') ||
   !pwaInstallLoopSource.includes('noSyntheticInstalls')
 ) {
   fail('PWA install loop must instrument browser-controlled install prompts, standalone launches, concrete sample targets, and no-pressure install guardrails.')

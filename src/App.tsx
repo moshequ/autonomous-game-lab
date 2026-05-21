@@ -252,6 +252,13 @@ const localEventDropAutosaveEvents = new Set<AnalyticsEventName>([
   'daily_return_prompt_clicked',
   'daily_return_intent_viewed',
   'daily_return_intent_started',
+  'pwa_install_page_viewed',
+  'pwa_install_open_clicked',
+  'pwa_install_prompt_viewed',
+  'pwa_install_prompt_clicked',
+  'pwa_install_prompt_accepted',
+  'pwa_install_prompt_dismissed',
+  'pwa_installed',
 ])
 
 const localEventDropFolderSupported = () =>
