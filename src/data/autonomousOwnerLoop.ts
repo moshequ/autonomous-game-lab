@@ -8,7 +8,7 @@ export const autonomousOwnerLoop = {
     "externalAccountInterventionRequired": true
   },
   "ownerDecision": {
-    "nextBestActionId": "refresh-organic-seed-loop"
+    "nextBestActionId": "optimize-daily-retention"
   }
 } as const
 

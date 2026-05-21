@@ -1,28 +1,29 @@
 {
-  "generatedAt": "2026-05-21T22:40:50.437Z",
+  "generatedAt": "2026-05-21T22:43:30.603Z",
   "status": "operator-plan-ready",
   "mode": "plan-only",
   "ownerDecision": {
-    "actionId": "refresh-organic-seed-loop",
-    "command": "npm run autonomous:organic-seed-loop",
+    "actionId": "optimize-daily-retention",
+    "command": "npm run autonomous:retention",
     "locallyExecutable": true,
     "rejectionReason": null
   },
   "requestedActionId": null,
   "selectedAction": {
-    "id": "refresh-organic-seed-loop",
+    "id": "optimize-daily-retention",
     "status": "armed",
-    "command": "npm run autonomous:organic-seed-loop",
+    "command": "npm run autonomous:retention",
     "targets": [
       "canopy-bloom"
     ],
-    "reason": "Refreshes the player-initiated zero-cost share surface for the highest-opportunity seed campaign.",
+    "reason": "Keeps daily challenge, local streak prompts, and retention-safe missions aligned with behavior data.",
     "costUsd": 0
   },
   "selectedRejection": null,
   "eligibleActionIds": [
     "seed-portfolio-traffic",
-    "refresh-organic-seed-loop"
+    "refresh-organic-seed-loop",
+    "optimize-daily-retention"
   ],
   "blockedActions": [
     {
@@ -56,15 +57,15 @@
       "reason": "not-selected-this-run"
     },
     {
+      "id": "refresh-organic-seed-loop",
+      "status": "armed",
+      "command": "npm run autonomous:organic-seed-loop",
+      "reason": "not-selected-this-run"
+    },
+    {
       "id": "refresh-support-feedback",
       "status": "monitor",
       "command": "npm run autonomous:support-feedback",
-      "reason": "status-monitor"
-    },
-    {
-      "id": "optimize-daily-retention",
-      "status": "monitor",
-      "command": "npm run autonomous:retention",
       "reason": "status-monitor"
     },
     {
@@ -226,8 +227,8 @@
   ],
   "commandPlan": [
     {
-      "segment": "npm run autonomous:organic-seed-loop",
-      "script": "autonomous:organic-seed-loop"
+      "segment": "npm run autonomous:retention",
+      "script": "autonomous:retention"
     }
   ],
   "execution": {
@@ -302,7 +303,7 @@
     "RUN_WORKFLOWS=1"
   ],
   "nextActions": [
-    "Run npm run autonomous:operator -- --execute --action=refresh-organic-seed-loop to execute exactly one allowed local action.",
+    "Run npm run autonomous:operator -- --execute --action=optimize-daily-retention to execute exactly one allowed local action.",
     "Do not execute GitHub workflow, store, paid ads, or account setup commands from the local operator."
   ]
 }
