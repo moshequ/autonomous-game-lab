@@ -53,8 +53,11 @@ jobs:
           POST_DEPLOY_RUN_ID: ${{ github.event.workflow_run.id || inputs.run_id }}
         run: npm run autonomous:post-deploy-artifact-sync -- --run-id="${POST_DEPLOY_RUN_ID}" --assert
 
+      - name: Refresh owner deploy evidence
+        run: npm run autonomous:owner-loop && npm run autonomous:readiness
+
       - name: Verify synced deploy evidence
-        run: npm run autonomous:verify-post-deploy-sync
+        run: npm run autonomous:verify-post-deploy-sync && node scripts/verify-autonomy.mjs
 
       - name: Commit synced deploy evidence
         env:
@@ -69,7 +72,12 @@ jobs:
           git add -- \
             data/post-deploy-artifact-sync.json \
             src/data/postDeployArtifactSync.ts \
-            reports/post-deploy-artifact-sync-latest.md
+            reports/post-deploy-artifact-sync-latest.md \
+            data/autonomous-owner-loop.json \
+            src/data/autonomousOwnerLoop.ts \
+            reports/autonomous-owner-loop-latest.md \
+            data/production-readiness.json \
+            reports/production-readiness-latest.md
 
           if git diff --cached --quiet; then
             echo "no synced deploy evidence changes to commit"
@@ -89,4 +97,8 @@ jobs:
           path: |
             data/post-deploy-artifact-sync.json
             reports/post-deploy-artifact-sync-latest.md
+            data/autonomous-owner-loop.json
+            reports/autonomous-owner-loop-latest.md
+            data/production-readiness.json
+            reports/production-readiness-latest.md
           if-no-files-found: ignore

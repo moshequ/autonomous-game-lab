@@ -2843,11 +2843,19 @@ if (
   !postDeployEvidenceSyncWorkflow.includes('actions: read') ||
   !postDeployEvidenceSyncWorkflow.includes('contents: write') ||
   !postDeployEvidenceSyncWorkflow.includes('autonomous:post-deploy-artifact-sync') ||
+  !postDeployEvidenceSyncWorkflow.includes('autonomous:owner-loop') ||
+  !postDeployEvidenceSyncWorkflow.includes('autonomous:readiness') ||
   !postDeployEvidenceSyncWorkflow.includes('npm run autonomous:verify-post-deploy-sync') ||
+  !postDeployEvidenceSyncWorkflow.includes('node scripts/verify-autonomy.mjs') ||
   !postDeployEvidenceSyncWorkflow.includes('AGL_AUTONOMOUS_SELF_UPDATE_DIRECT') ||
   !postDeployEvidenceSyncWorkflow.includes('data/post-deploy-artifact-sync.json') ||
   !postDeployEvidenceSyncWorkflow.includes('src/data/postDeployArtifactSync.ts') ||
   !postDeployEvidenceSyncWorkflow.includes('reports/post-deploy-artifact-sync-latest.md') ||
+  !postDeployEvidenceSyncWorkflow.includes('data/autonomous-owner-loop.json') ||
+  !postDeployEvidenceSyncWorkflow.includes('src/data/autonomousOwnerLoop.ts') ||
+  !postDeployEvidenceSyncWorkflow.includes('reports/autonomous-owner-loop-latest.md') ||
+  !postDeployEvidenceSyncWorkflow.includes('data/production-readiness.json') ||
+  !postDeployEvidenceSyncWorkflow.includes('reports/production-readiness-latest.md') ||
   postDeployEvidenceSyncWorkflow.includes('autonomous:release-candidate') ||
   postDeployEvidenceSyncWorkflow.includes('autonomous:post-deploy-smoke') ||
   !autonomousCadenceSource.includes('postDeployEvidenceSyncWorkflow')
