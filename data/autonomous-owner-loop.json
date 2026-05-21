@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-21T00:47:27.797Z",
+  "generatedAt": "2026-05-21T00:53:19.139Z",
   "status": "owner-loop-ready",
   "mode": "zero-spend-web-ready",
   "autonomyScore": {
@@ -21,32 +21,32 @@
     "repositoryHandoffPrepared": false
   },
   "ownerDecision": {
-    "nextBestActionId": "refresh-product-gate-recovery",
-    "nextBestAction": "npm run autonomous:gate-recovery",
+    "nextBestActionId": "optimize-store-listing",
+    "nextBestAction": "npm run autonomous:store-listing-optimize && npm run autonomous:store-compliance",
     "canExecuteWithoutSpend": true,
-    "rationale": "Ranks the exact observed lift and prompt sample still needed before revenue gates can open."
+    "rationale": "Keeps store copy, keyword themes, screenshots, and compliance drafts aligned with behavior signals."
   },
   "executionMemory": {
     "avoidImmediateRepeat": true,
     "recentExecutionWindow": 8,
     "recentExecutedActionIds": [
+      "refresh-product-gate-recovery",
       "check-performance-budget",
       "refresh-support-feedback",
       "refresh-autonomous-self-update",
       "refresh-autonomous-cadence",
       "run-post-deploy-smoke",
       "prepare-release-candidate",
-      "measure-pwa-install-loop",
-      "optimize-store-listing"
+      "measure-pwa-install-loop"
     ],
-    "lastExecutedActionId": "check-performance-budget",
+    "lastExecutedActionId": "refresh-product-gate-recovery",
     "lastExecutedStatus": "executed",
     "lastRecordExecutionStatus": "not-requested",
     "recentlySatisfiedActionIds": [],
     "objectiveAuditFreshness": {
       "fresh": true,
       "structurallyReady": true,
-      "auditGeneratedAt": "2026-05-21T00:47:02.913Z",
+      "auditGeneratedAt": "2026-05-21T00:52:59.905Z",
       "evaluatedInputIds": [
         "analytics-rollup",
         "event-ingest",
@@ -243,7 +243,7 @@
       "check-performance-budget",
       "prepare-release-candidate",
       "run-post-deploy-smoke",
-      "optimize-store-listing"
+      "refresh-product-gate-recovery"
     ],
     "skippedRecentlySatisfiedActionIds": [],
     "preferredActionOrder": [
@@ -344,7 +344,7 @@
       "id": "autonomous-self-update",
       "status": "ready",
       "autonomy": "gated-generated-change-persistence",
-      "evidence": "Self-update self-update-ready; safe pending 36; unsafe pending 0; remote push held.",
+      "evidence": "Self-update self-update-ready; safe pending 21; unsafe pending 0; remote push held.",
       "nextAction": "When a GitHub repository is connected, set AGL_AUTONOMOUS_SELF_UPDATE=1 and AGL_AUTONOMOUS_SELF_UPDATE_DIRECT=1 to let verified generated changes persist."
     },
     {
@@ -498,7 +498,7 @@
       "id": "post-deploy-artifact-sync",
       "status": "ready",
       "autonomy": "read-only-actions-artifact-import",
-      "evidence": "Artifact sync post-deploy-artifact-sync-passed; run 26196306078; live matches artifact true; strict true.",
+      "evidence": "Artifact sync post-deploy-artifact-sync-passed; run 26198732122; live matches artifact true; strict true.",
       "nextAction": "Keep this strict deploy artifact as live-production evidence while local candidates continue to iterate."
     },
     {
@@ -526,7 +526,7 @@
       "id": "autonomous-operator",
       "status": "ready",
       "autonomy": "one-safe-action-runner",
-      "evidence": "Operator operator-plan-ready; selected refresh-product-gate-recovery; execution not-requested.",
+      "evidence": "Operator operator-plan-ready; selected optimize-store-listing; execution not-requested.",
       "nextAction": "Keep a dry-run operator plan ready, then execute only one allowlisted local action when explicitly requested."
     },
     {
@@ -706,7 +706,7 @@
       "costUsd": 0,
       "command": "npm run autonomous:post-deploy-artifact-sync",
       "targets": [
-        26196306078,
+        26198732122,
         "release-candidate-manifest"
       ],
       "reason": "Strict deploy artifact evidence is already synced from the latest successful Pages workflow."
@@ -823,7 +823,7 @@
       "costUsd": 0,
       "command": "npm run autonomous:operator",
       "targets": [
-        "refresh-product-gate-recovery"
+        "optimize-store-listing"
       ],
       "reason": "Publishes the one-action local execution plan with allowlist, zero-spend, and audit controls."
     },
@@ -833,7 +833,7 @@
       "costUsd": 0,
       "command": "npm run autonomous:operator",
       "targets": [
-        "refresh-product-gate-recovery"
+        "optimize-store-listing"
       ],
       "reason": "Refreshes the capped operator history so safe actions remain auditable over time."
     },
