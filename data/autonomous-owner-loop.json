@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-21T00:44:20.539Z",
+  "generatedAt": "2026-05-21T00:47:27.797Z",
   "status": "owner-loop-ready",
   "mode": "zero-spend-web-ready",
   "autonomyScore": {
@@ -21,32 +21,32 @@
     "repositoryHandoffPrepared": false
   },
   "ownerDecision": {
-    "nextBestActionId": "check-performance-budget",
-    "nextBestAction": "npm run build && npm run autonomous:performance",
+    "nextBestActionId": "refresh-product-gate-recovery",
+    "nextBestAction": "npm run autonomous:gate-recovery",
     "canExecuteWithoutSpend": true,
-    "rationale": "Keeps the PWA shell fast while Phaser and game scenes stay deferred."
+    "rationale": "Ranks the exact observed lift and prompt sample still needed before revenue gates can open."
   },
   "executionMemory": {
     "avoidImmediateRepeat": true,
     "recentExecutionWindow": 8,
     "recentExecutedActionIds": [
+      "check-performance-budget",
       "refresh-support-feedback",
       "refresh-autonomous-self-update",
       "refresh-autonomous-cadence",
       "run-post-deploy-smoke",
       "prepare-release-candidate",
       "measure-pwa-install-loop",
-      "optimize-store-listing",
-      "refresh-product-gate-recovery"
+      "optimize-store-listing"
     ],
-    "lastExecutedActionId": "refresh-support-feedback",
+    "lastExecutedActionId": "check-performance-budget",
     "lastExecutedStatus": "executed",
     "lastRecordExecutionStatus": "not-requested",
     "recentlySatisfiedActionIds": [],
     "objectiveAuditFreshness": {
       "fresh": true,
       "structurallyReady": true,
-      "auditGeneratedAt": "2026-05-21T00:44:02.744Z",
+      "auditGeneratedAt": "2026-05-21T00:47:02.913Z",
       "evaluatedInputIds": [
         "analytics-rollup",
         "event-ingest",
@@ -240,9 +240,9 @@
       "refresh-autonomous-self-update",
       "refresh-support-feedback",
       "measure-pwa-install-loop",
+      "check-performance-budget",
       "prepare-release-candidate",
       "run-post-deploy-smoke",
-      "refresh-product-gate-recovery",
       "optimize-store-listing"
     ],
     "skippedRecentlySatisfiedActionIds": [],
@@ -278,7 +278,7 @@
     },
     "productionBootstrapFreshness": {
       "fresh": true,
-      "bootstrapGeneratedAt": "2026-05-21T00:33:42.422Z",
+      "bootstrapGeneratedAt": "2026-05-21T00:47:02.165Z",
       "evaluatedInputIds": [
         "release-candidate",
         "deployment-plan",
@@ -344,7 +344,7 @@
       "id": "autonomous-self-update",
       "status": "ready",
       "autonomy": "gated-generated-change-persistence",
-      "evidence": "Self-update self-update-ready; safe pending 18; unsafe pending 0; remote push held.",
+      "evidence": "Self-update self-update-ready; safe pending 36; unsafe pending 0; remote push held.",
       "nextAction": "When a GitHub repository is connected, set AGL_AUTONOMOUS_SELF_UPDATE=1 and AGL_AUTONOMOUS_SELF_UPDATE_DIRECT=1 to let verified generated changes persist."
     },
     {
@@ -526,7 +526,7 @@
       "id": "autonomous-operator",
       "status": "ready",
       "autonomy": "one-safe-action-runner",
-      "evidence": "Operator operator-plan-ready; selected check-performance-budget; execution not-requested.",
+      "evidence": "Operator operator-plan-ready; selected refresh-product-gate-recovery; execution not-requested.",
       "nextAction": "Keep a dry-run operator plan ready, then execute only one allowlisted local action when explicitly requested."
     },
     {
@@ -675,7 +675,7 @@
       "command": "npm run build && npm run autonomous:performance",
       "targets": [
         "pwa-shell",
-        "GameCanvas-B-S8aljq.js"
+        "GameCanvas-BoZPFgor.js"
       ],
       "reason": "Keeps the PWA shell fast while Phaser and game scenes stay deferred."
     },
@@ -823,7 +823,7 @@
       "costUsd": 0,
       "command": "npm run autonomous:operator",
       "targets": [
-        "check-performance-budget"
+        "refresh-product-gate-recovery"
       ],
       "reason": "Publishes the one-action local execution plan with allowlist, zero-spend, and audit controls."
     },
@@ -833,7 +833,7 @@
       "costUsd": 0,
       "command": "npm run autonomous:operator",
       "targets": [
-        "check-performance-budget"
+        "refresh-product-gate-recovery"
       ],
       "reason": "Refreshes the capped operator history so safe actions remain auditable over time."
     },

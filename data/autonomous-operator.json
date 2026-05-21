@@ -1,23 +1,22 @@
 {
-  "generatedAt": "2026-05-21T00:44:03.320Z",
+  "generatedAt": "2026-05-21T00:47:03.412Z",
   "status": "operator-plan-ready",
   "mode": "plan-only",
   "ownerDecision": {
-    "actionId": "check-performance-budget",
-    "command": "npm run build && npm run autonomous:performance",
+    "actionId": "refresh-product-gate-recovery",
+    "command": "npm run autonomous:gate-recovery",
     "locallyExecutable": true,
     "rejectionReason": null
   },
   "requestedActionId": null,
   "selectedAction": {
-    "id": "check-performance-budget",
+    "id": "refresh-product-gate-recovery",
     "status": "armed",
-    "command": "npm run build && npm run autonomous:performance",
+    "command": "npm run autonomous:gate-recovery",
     "targets": [
-      "pwa-shell",
-      "GameCanvas-B-S8aljq.js"
+      "firstGameCompletion"
     ],
-    "reason": "Keeps the PWA shell fast while Phaser and game scenes stay deferred.",
+    "reason": "Ranks the exact observed lift and prompt sample still needed before revenue gates can open.",
     "costUsd": 0
   },
   "selectedRejection": null,
@@ -82,6 +81,12 @@
       "reason": "not-selected-this-run"
     },
     {
+      "id": "check-performance-budget",
+      "status": "armed",
+      "command": "npm run build && npm run autonomous:performance",
+      "reason": "not-selected-this-run"
+    },
+    {
       "id": "prepare-release-candidate",
       "status": "armed",
       "command": "npm run autonomous:release-candidate",
@@ -104,12 +109,6 @@
       "status": "monitor",
       "command": "npm run autonomous:analyze && npm run autonomous:product-optimize && npm run autonomous:sync-config && npm run autonomous:simulate",
       "reason": "status-monitor"
-    },
-    {
-      "id": "refresh-product-gate-recovery",
-      "status": "armed",
-      "command": "npm run autonomous:gate-recovery",
-      "reason": "not-selected-this-run"
     },
     {
       "id": "collect-gate-sample-downloads",
@@ -210,12 +209,8 @@
   ],
   "commandPlan": [
     {
-      "segment": "npm run build",
-      "script": "build"
-    },
-    {
-      "segment": "npm run autonomous:performance",
-      "script": "autonomous:performance"
+      "segment": "npm run autonomous:gate-recovery",
+      "script": "autonomous:gate-recovery"
     }
   ],
   "execution": {
@@ -285,7 +280,7 @@
     "RUN_WORKFLOWS=1"
   ],
   "nextActions": [
-    "Run npm run autonomous:operator -- --execute --action=check-performance-budget to execute exactly one allowed local action.",
+    "Run npm run autonomous:operator -- --execute --action=refresh-product-gate-recovery to execute exactly one allowed local action.",
     "Do not execute GitHub workflow, store, paid ads, or account setup commands from the local operator."
   ]
 }
