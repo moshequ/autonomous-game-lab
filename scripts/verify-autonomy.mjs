@@ -5053,6 +5053,7 @@ const requiredOwnerSystems = [
 ]
 const requiredOwnerActions = [
   'run-daily-owner-loop',
+  'hold-for-external-input',
   'refresh-autonomous-cadence',
   'refresh-autonomous-self-update',
   'seed-portfolio-traffic',
@@ -5123,6 +5124,7 @@ const ownerRecentlySatisfiedActionIds = [
 ]
 const ownerRecentlyCoveredActionIds = new Set([...ownerRecentExecutedActionIds, ...ownerRecentlySatisfiedActionIds])
 const ownerActionLocallySelectable = (action) => action.status === 'armed' && action.id !== 'run-daily-owner-loop'
+const ownerLocalSelectableActions = (autonomousOwnerLoop.safeAutonomousActions ?? []).filter(ownerActionLocallySelectable)
 const ownerRecentlyExecutedActionStillExecutable = (autonomousOwnerLoop.safeAutonomousActions ?? []).some(
   (action) => action.id === ownerLastExecutedActionId && ownerActionLocallySelectable(action),
 )
@@ -5458,6 +5460,13 @@ if (
   autonomousOwnerLoop.controls?.paidAcquisitionAllowed !== unitEconomics.controls?.paidAcquisitionAllowed ||
   autonomousOwnerLoop.controls?.storeSpendAllowed !== unitEconomics.controls?.storeSpendAllowed ||
   autonomousOwnerLoop.controls?.deployAllowed !== productionResponse.controls?.deployAllowed ||
+  autonomousOwnerLoop.controls?.localActionAvailable !== (ownerLocalSelectableActions.length > 0) ||
+  autonomousOwnerLoop.controls?.heldForExternalInput !== (ownerLocalSelectableActions.length === 0) ||
+  autonomousOwnerLoop.ownerDecision?.localActionAvailable !== (ownerLocalSelectableActions.length > 0) ||
+  (ownerLocalSelectableActions.length === 0 &&
+    autonomousOwnerLoop.ownerDecision?.nextBestActionId !== 'hold-for-external-input') ||
+  (ownerLocalSelectableActions.length === 0 && typeof autonomousOwnerLoop.ownerDecision?.holdReason !== 'string') ||
+  (ownerLocalSelectableActions.length > 0 && autonomousOwnerLoop.ownerDecision?.holdReason !== null) ||
   autonomousOwnerLoop.evidence?.analyticsSource !== analytics.sourceStatus.activeSource ||
   autonomousOwnerLoop.evidence?.localEventBridgeStatus !== localEventBridge.status ||
   autonomousOwnerLoop.evidence?.dailyChallenge?.gameId !== portfolioPolicy.dailyChallenge?.gameId ||
@@ -5739,6 +5748,14 @@ if (
 if (
   !autonomousOwnerLoop.safeAutonomousActions?.some(
     (action) => action.id === 'run-daily-owner-loop' && action.command === 'npm run autonomous:daily',
+  ) ||
+  !autonomousOwnerLoop.safeAutonomousActions?.some(
+    (action) =>
+      action.id === 'hold-for-external-input' &&
+      action.status === 'monitor' &&
+      action.costUsd === 0 &&
+      action.command?.includes('No local command is available') &&
+      action.targets?.includes(productionBlockerHandoff.summary?.nextBestUnlockId ?? 'external-input'),
   ) ||
   !autonomousOwnerLoop.safeAutonomousActions?.some(
     (action) =>

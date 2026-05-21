@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-21T09:02:31.106Z",
+  "generatedAt": "2026-05-21T09:15:06.088Z",
   "status": "repository-bootstrap-ready",
   "mode": "plan-only",
   "envFiles": {
@@ -91,16 +91,16 @@
         "reports/release-candidate-latest.md",
         "reports/repository-bootstrap-latest.md",
         "reports/repository-readiness-latest.md",
-        "scripts/autonomous-operator.mjs",
         "scripts/autonomous-owner-loop.mjs",
         "scripts/verify-autonomy.mjs",
+        "src/data/autonomousOwnerLoop.ts",
         "src/data/objectiveAudit.ts",
         "src/data/postDeploySmoke.ts",
         "src/data/productionActivation.ts",
         "src/data/releaseCandidate.ts",
         "tests/smoke.spec.ts"
       ],
-      "generatedEvidenceDirtyFiles": 32,
+      "generatedEvidenceDirtyFiles": 33,
       "generatedEvidenceDirtyPaths": [
         "data/autonomous-operator-history.json",
         "data/autonomous-operator.json",
@@ -130,14 +130,14 @@
         "reports/release-candidate-latest.md",
         "reports/repository-bootstrap-latest.md",
         "reports/repository-readiness-latest.md",
+        "src/data/autonomousOwnerLoop.ts",
         "src/data/objectiveAudit.ts",
         "src/data/postDeploySmoke.ts",
         "src/data/productionActivation.ts",
         "src/data/releaseCandidate.ts"
       ],
-      "nonGeneratedDirtyFiles": 4,
+      "nonGeneratedDirtyFiles": 3,
       "nonGeneratedDirtyPaths": [
-        "scripts/autonomous-operator.mjs",
         "scripts/autonomous-owner-loop.mjs",
         "scripts/verify-autonomy.mjs",
         "tests/smoke.spec.ts"
@@ -180,16 +180,16 @@
         "reports/release-candidate-latest.md",
         "reports/repository-bootstrap-latest.md",
         "reports/repository-readiness-latest.md",
-        "scripts/autonomous-operator.mjs",
         "scripts/autonomous-owner-loop.mjs",
         "scripts/verify-autonomy.mjs",
+        "src/data/autonomousOwnerLoop.ts",
         "src/data/objectiveAudit.ts",
         "src/data/postDeploySmoke.ts",
         "src/data/productionActivation.ts",
         "src/data/releaseCandidate.ts",
         "tests/smoke.spec.ts"
       ],
-      "generatedEvidenceDirtyFiles": 32,
+      "generatedEvidenceDirtyFiles": 33,
       "generatedEvidenceDirtyPaths": [
         "data/autonomous-operator-history.json",
         "data/autonomous-operator.json",
@@ -219,14 +219,14 @@
         "reports/release-candidate-latest.md",
         "reports/repository-bootstrap-latest.md",
         "reports/repository-readiness-latest.md",
+        "src/data/autonomousOwnerLoop.ts",
         "src/data/objectiveAudit.ts",
         "src/data/postDeploySmoke.ts",
         "src/data/productionActivation.ts",
         "src/data/releaseCandidate.ts"
       ],
-      "nonGeneratedDirtyFiles": 4,
+      "nonGeneratedDirtyFiles": 3,
       "nonGeneratedDirtyPaths": [
-        "scripts/autonomous-operator.mjs",
         "scripts/autonomous-owner-loop.mjs",
         "scripts/verify-autonomy.mjs",
         "tests/smoke.spec.ts"
@@ -265,7 +265,7 @@
     "repositoryReadiness": "repository-channel-ready",
     "deployment": "ready-for-pages",
     "releaseCandidate": "release-candidate-ready",
-    "releaseCandidateId": "pwa-41582add31c2",
+    "releaseCandidateId": "pwa-8a00f75e9023",
     "postDeploySmoke": "post-deploy-smoke-observed-live"
   },
   "repositoryTargetPlan": {
@@ -355,7 +355,7 @@
       "mutatesLocalGit": true,
       "mutatesRemoteGitHub": false,
       "requiresExplicitEnv": true,
-      "detail": "4 non-generated source or artifact file(s) are not committed yet."
+      "detail": "3 non-generated source or artifact file(s) are not committed yet."
     },
     {
       "id": "set-or-create-origin",

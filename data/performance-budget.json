@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-21T09:01:38.755Z",
+  "generatedAt": "2026-05-21T09:14:48.190Z",
   "status": "performance-budget-ready",
   "sourceBuild": "dist",
   "basePath": "/",
@@ -15,20 +15,20 @@
   },
   "initial": {
     "entryScripts": [
-      "index-BOCh7GFp.js",
+      "index-CK4OrftM.js",
       "registerSW.js"
     ],
     "scriptPaths": [
-      "assets/index-BOCh7GFp.js",
+      "assets/index-CK4OrftM.js",
       "registerSW.js"
     ],
     "jsFiles": [
       {
-        "file": "index-BOCh7GFp.js",
-        "path": "assets/index-BOCh7GFp.js",
-        "bytes": 673241,
+        "file": "index-CK4OrftM.js",
+        "path": "assets/index-CK4OrftM.js",
+        "bytes": 673248,
         "kb": 657.5,
-        "gzipBytes": 183685,
+        "gzipBytes": 183683,
         "gzipKb": 179.4
       },
       {
@@ -40,9 +40,9 @@
         "gzipKb": 0.1
       }
     ],
-    "jsBytes": 673415,
+    "jsBytes": 673422,
     "jsKb": 657.6,
-    "gzipBytes": 183826,
+    "gzipBytes": 183824,
     "gzipKb": 179.5,
     "cssFiles": [
       {
@@ -62,8 +62,8 @@
   "deferred": {
     "chunks": [
       {
-        "file": "GameCanvas-DcjCpA5G.js",
-        "path": "assets/GameCanvas-DcjCpA5G.js",
+        "file": "GameCanvas-DVNWOWNa.js",
+        "path": "assets/GameCanvas-DVNWOWNa.js",
         "bytes": 1393755,
         "kb": 1361.1,
         "gzipBytes": 356175,
@@ -71,24 +71,24 @@
       }
     ],
     "gameChunk": {
-      "file": "GameCanvas-DcjCpA5G.js",
-      "path": "assets/GameCanvas-DcjCpA5G.js",
+      "file": "GameCanvas-DVNWOWNa.js",
+      "path": "assets/GameCanvas-DVNWOWNa.js",
       "bytes": 1393755,
       "kb": 1361.1,
       "gzipBytes": 356175,
       "gzipKb": 347.8
     },
     "largestDeferredChunk": {
-      "file": "GameCanvas-DcjCpA5G.js",
-      "path": "assets/GameCanvas-DcjCpA5G.js",
+      "file": "GameCanvas-DVNWOWNa.js",
+      "path": "assets/GameCanvas-DVNWOWNa.js",
       "bytes": 1393755,
       "kb": 1361.1,
       "gzipBytes": 356175,
       "gzipKb": 347.8
     },
     "largestJsChunk": {
-      "file": "GameCanvas-DcjCpA5G.js",
-      "path": "assets/GameCanvas-DcjCpA5G.js",
+      "file": "GameCanvas-DVNWOWNa.js",
+      "path": "assets/GameCanvas-DVNWOWNa.js",
       "bytes": 1393755,
       "kb": 1361.1,
       "gzipBytes": 356175,
@@ -100,19 +100,19 @@
   "assets": {
     "js": [
       {
-        "file": "GameCanvas-DcjCpA5G.js",
-        "path": "assets/GameCanvas-DcjCpA5G.js",
+        "file": "GameCanvas-DVNWOWNa.js",
+        "path": "assets/GameCanvas-DVNWOWNa.js",
         "bytes": 1393755,
         "kb": 1361.1,
         "gzipBytes": 356175,
         "gzipKb": 347.8
       },
       {
-        "file": "index-BOCh7GFp.js",
-        "path": "assets/index-BOCh7GFp.js",
-        "bytes": 673241,
+        "file": "index-CK4OrftM.js",
+        "path": "assets/index-CK4OrftM.js",
+        "bytes": 673248,
         "kb": 657.5,
-        "gzipBytes": 183685,
+        "gzipBytes": 183683,
         "gzipKb": 179.4
       },
       {
@@ -175,12 +175,12 @@
     {
       "id": "game-runtime-deferred",
       "status": "pass",
-      "detail": "GameCanvas-DcjCpA5G.js is deferred from the initial shell."
+      "detail": "GameCanvas-DVNWOWNa.js is deferred from the initial shell."
     },
     {
       "id": "largest-js-deferred",
       "status": "pass",
-      "detail": "Largest JS chunk is GameCanvas-DcjCpA5G.js at 1361.1 KB."
+      "detail": "Largest JS chunk is GameCanvas-DVNWOWNa.js at 1361.1 KB."
     },
     {
       "id": "deferred-game-budget",

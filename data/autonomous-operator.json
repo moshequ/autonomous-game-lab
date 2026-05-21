@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-05-21T09:02:32.561Z",
+  "generatedAt": "2026-05-21T09:15:07.595Z",
   "status": "operator-held",
   "mode": "plan-only",
   "ownerDecision": {
-    "actionId": "run-daily-owner-loop",
-    "command": "npm run autonomous:daily",
+    "actionId": "hold-for-external-input",
+    "command": "No local command is available until external inputs, configured credentials, or new player evidence arrive.",
     "locallyExecutable": false,
-    "rejectionReason": "daily-loop-recursion-blocked"
+    "rejectionReason": "status-monitor"
   },
   "requestedActionId": null,
   "selectedAction": null,
@@ -18,6 +18,12 @@
       "status": "armed",
       "command": "npm run autonomous:daily",
       "reason": "daily-loop-recursion-blocked"
+    },
+    {
+      "id": "hold-for-external-input",
+      "status": "monitor",
+      "command": "No local command is available until external inputs, configured credentials, or new player evidence arrive.",
+      "reason": "status-monitor"
     },
     {
       "id": "refresh-autonomous-cadence",

@@ -3032,8 +3032,16 @@ test('autonomous operator history keeps a capped audit trail', async ({ page }) 
     }>
   }
   const ownerLoop = JSON.parse(await readFile('data/autonomous-owner-loop.json', 'utf8')) as {
-    ownerDecision: { nextBestActionId: string }
-    controls: { repositoryHandoffPrepared: boolean }
+    ownerDecision: {
+      nextBestActionId: string
+      localActionAvailable: boolean
+      holdReason: string | null
+    }
+    controls: {
+      repositoryHandoffPrepared: boolean
+      localActionAvailable: boolean
+      heldForExternalInput: boolean
+    }
     safeAutonomousActions: Array<{ id: string; status: string; reason?: string }>
     executionMemory: {
       avoidImmediateRepeat: boolean
@@ -3223,6 +3231,7 @@ test('autonomous operator history keeps a capped audit trail', async ({ page }) 
   const recentlyCoveredActionIds = new Set([...recentExecutedActionIds, ...recentlySatisfiedActionIds])
   const isLocalSelectableAction = (action: { id: string; status: string }) =>
     action.status === 'armed' && action.id !== 'run-daily-owner-loop'
+  const localSelectableActions = ownerLoop.safeAutonomousActions.filter(isLocalSelectableAction)
   const hasExecutableAlternativeOutsideRecent = ownerLoop.safeAutonomousActions.some(
     (action) => isLocalSelectableAction(action) && !recentExecutedActionIds.includes(action.id),
   )
@@ -3250,6 +3259,7 @@ test('autonomous operator history keeps a capped audit trail', async ({ page }) 
     Number.isFinite(Date.parse(productGateSamplePlan.generatedAt ?? '')) &&
     Date.parse(productGateSamplePlan.generatedAt) >= explicitDownloadsScanAt
   const collectGateSampleAction = ownerLoop.safeAutonomousActions.find((action) => action.id === 'collect-gate-sample-downloads')
+  const holdForExternalInputAction = ownerLoop.safeAutonomousActions.find((action) => action.id === 'hold-for-external-input')
   const refreshGateRecoveryAction = ownerLoop.safeAutonomousActions.find((action) => action.id === 'refresh-product-gate-recovery')
   const refreshSamplePlanAction = ownerLoop.safeAutonomousActions.find((action) => action.id === 'refresh-product-gate-sample-plan')
   const prepareRepositoryAction = ownerLoop.safeAutonomousActions.find((action) => action.id === 'prepare-repository-channel')
@@ -3303,6 +3313,17 @@ test('autonomous operator history keeps a capped audit trail', async ({ page }) 
   expect(ownerLoop.executionMemory.lastExecutedActionId).toBe(history.summary.lastExecutedActionId)
   expect(ownerLoop.executionMemory.lastExecutedStatus).toBe(lastExecutedRecord?.execution.status)
   expect(ownerLoop.executionMemory.lastRecordExecutionStatus).toBe(history.summary.lastExecutionStatus)
+  expect(ownerLoop.controls.localActionAvailable).toBe(localSelectableActions.length > 0)
+  expect(ownerLoop.controls.heldForExternalInput).toBe(localSelectableActions.length === 0)
+  expect(ownerLoop.ownerDecision.localActionAvailable).toBe(localSelectableActions.length > 0)
+  expect(holdForExternalInputAction?.status).toBe('monitor')
+  expect(holdForExternalInputAction?.reason).toContain('All safe local refresh actions are current')
+  if (localSelectableActions.length === 0) {
+    expect(ownerLoop.ownerDecision.nextBestActionId).toBe('hold-for-external-input')
+    expect(ownerLoop.ownerDecision.holdReason).toContain('All safe local actions are current')
+  } else {
+    expect(ownerLoop.ownerDecision.holdReason).toBeNull()
+  }
   expect(ownerLoop.executionMemory.gateSampleDownloadsBackoff.enabled).toBe(true)
   expect(ownerLoop.executionMemory.gateSampleDownloadsBackoff.cooldownHours).toBe(4)
   expect(ownerLoop.executionMemory.gateSampleDownloadsBackoff.coolingDown).toBe(gateSampleDownloadsCoolingDown)

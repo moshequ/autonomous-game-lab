@@ -1751,6 +1751,18 @@ const safeAutonomousActions = [
     reason: 'Regenerates trend, game, analytics, growth, safety, monetization, deployment, and owner-loop state.',
   },
   {
+    id: 'hold-for-external-input',
+    status: 'monitor',
+    costUsd: 0,
+    command: 'No local command is available until external inputs, configured credentials, or new player evidence arrive.',
+    targets: [
+      productionBlockerHandoff.summary?.nextBestUnlockId ?? 'external-input',
+      productGateSamplePlan.summary?.primaryGateId ?? 'product-gate-data',
+    ],
+    reason:
+      'All safe local refresh actions are current; hold execution until owner-provided inputs, production analytics, or real player evidence changes the state.',
+  },
+  {
     id: 'refresh-autonomous-cadence',
     status: cadenceOperationalFreshness.fresh ? 'monitor' : 'armed',
     costUsd: 0,
@@ -2211,11 +2223,13 @@ const preferredActionOrder = [
   'refresh-autonomous-self-update',
   'refresh-objective-audit',
 ]
+const holdForExternalInputAction = safeAutonomousActions.find((action) => action.id === 'hold-for-external-input')
 const nextBestAction =
   preferredActionOrder
     .map((actionId) => prioritizedExecutableNow.find((action) => action.id === actionId))
     .find(Boolean) ??
   prioritizedExecutableNow[0] ??
+  holdForExternalInputAction ??
   safeAutonomousActions[0]
 
 const payload = {
@@ -2239,11 +2253,18 @@ const payload = {
     deployAllowed: productionResponse.controls?.deployAllowed === true,
     rollbackRequired: productionResponse.controls?.rollbackRequired === true,
     repositoryHandoffPrepared,
+    localActionAvailable: ownerSelectableNow.length > 0,
+    heldForExternalInput: ownerSelectableNow.length === 0,
   },
   ownerDecision: {
     nextBestActionId: nextBestAction.id,
     nextBestAction: nextBestAction.command,
     canExecuteWithoutSpend: nextBestAction.costUsd === 0,
+    localActionAvailable: ownerSelectableNow.length > 0,
+    holdReason:
+      ownerSelectableNow.length === 0
+        ? 'All safe local actions are current; remaining progress requires external inputs or new player evidence.'
+        : null,
     rationale: nextBestAction.reason,
   },
   executionMemory: {

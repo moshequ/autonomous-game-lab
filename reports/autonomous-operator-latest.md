@@ -1,9 +1,9 @@
 # Autonomous Operator
 
-Generated: 2026-05-21T09:02:32.561Z
+Generated: 2026-05-21T09:15:07.595Z
 Status: operator-held
 Mode: plan-only
-Owner decision: run-daily-owner-loop
+Owner decision: hold-for-external-input
 Selected action: none
 Execution: not-requested
 
@@ -27,6 +27,7 @@ Execution: not-requested
 ## Blocked Actions
 
 - run-daily-owner-loop: daily-loop-recursion-blocked
+- hold-for-external-input: status-monitor
 - refresh-autonomous-cadence: status-monitor
 - refresh-autonomous-self-update: status-monitor
 - seed-portfolio-traffic: status-monitor
@@ -37,4 +38,3 @@ Execution: not-requested
 - check-performance-budget: status-monitor
 - prepare-release-candidate: status-monitor
 - run-post-deploy-smoke: status-monitor
-- sync-post-deploy-artifact: status-monitor
