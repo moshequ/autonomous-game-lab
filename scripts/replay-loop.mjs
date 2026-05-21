@@ -12,6 +12,7 @@ const readJson = async (filePath) => JSON.parse(await readFile(filePath, 'utf8')
 
 const roundMetric = (value) => (typeof value === 'number' ? Math.round(value * 1000) / 1000 : null)
 const pct = (value) => (typeof value === 'number' ? `${Math.round(value * 100)}%` : 'n/a')
+const countFor = (eventName) => Number(counts[eventName] ?? 0)
 
 const analytics = await readJson(path.join(dataDir, 'analytics-rollup.json'))
 const gates = await readJson(path.join(dataDir, 'production-gates.json'))
@@ -45,6 +46,18 @@ const retentionReady = (metrics.d1Retention ?? 0) >= gates.monetization.minD1Ret
 const replayReady = replayRate >= replayGate
 const canNudgeReplay =
   releaseHealth.controls?.canApplyExperimentChanges !== false && releaseHealth.controls?.rollbackRequired !== true
+const promptViews = countFor('replay_prompt_viewed')
+const promptClicks = countFor('replay_prompt_clicked')
+const promptDismissals = countFor('replay_prompt_dismissed')
+const promptDecisions = promptClicks + promptDismissals
+const promptClickRate = promptViews ? promptClicks / promptViews : 0
+const promptDismissalRate = promptDecisions ? promptDismissals / promptDecisions : 0
+const minimumPromptViewsForDecision = 30
+const minimumPromptDecisionsForDecision = 20
+const promptViewsNeeded = Math.max(0, minimumPromptViewsForDecision - promptViews)
+const promptDecisionsNeeded = Math.max(0, minimumPromptDecisionsForDecision - promptDecisions)
+const promptSampleReady = promptViewsNeeded === 0 && promptDecisionsNeeded === 0
+const sampleStatus = promptSampleReady ? 'ready-for-replay-decision' : 'collecting-sample'
 const rewardExperiment = experimentResults.recommendations?.find(
   (recommendation) => recommendation.experiment === 'reward_offer',
 )
@@ -95,6 +108,16 @@ const targetGameId = replayCandidate?.gameId ?? null
 const targetTitle = targetGameId ? titleById.get(targetGameId) ?? targetGameId : null
 const targetPlayable = targetGameId ? playableIds.has(targetGameId) : false
 const promptStatus = canNudgeReplay && targetPlayable && replayGap > 0 ? 'armed' : 'monitor'
+const replayDecision =
+  promptStatus !== 'armed'
+    ? 'monitor'
+    : promptSampleReady && replayReady
+      ? 'monitor'
+      : promptSampleReady && promptClickRate < 0.2 && promptDismissalRate >= 0.6
+        ? 'soften-replay-copy'
+        : promptSampleReady && promptClickRate >= 0.4
+          ? 'keep-active'
+          : 'collect-sample'
 
 const missions = [
   {
@@ -155,9 +178,53 @@ const payload = {
     d1Retention: roundMetric(metrics.d1Retention),
     levelCompletions: counts.level_completed ?? 0,
     replayClicks: counts.replay_clicked ?? 0,
-    promptViews: counts.replay_prompt_viewed ?? 0,
-    promptClicks: counts.replay_prompt_clicked ?? 0,
-    promptDismissals: counts.replay_prompt_dismissed ?? 0,
+    promptViews,
+    promptClicks,
+    promptDismissals,
+    promptDecisions,
+    promptClickRate: roundMetric(promptClickRate),
+    promptDismissalRate: roundMetric(promptDismissalRate),
+  },
+  samplePolicy: {
+    status: sampleStatus,
+    source: analytics.sourceStatus?.activeSource ?? 'unknown',
+    minimumViewsForDecision: minimumPromptViewsForDecision,
+    minimumDecisionsForDecision: minimumPromptDecisionsForDecision,
+    current: {
+      views: promptViews,
+      clicks: promptClicks,
+      dismissals: promptDismissals,
+      decisions: promptDecisions,
+      clickRate: roundMetric(promptClickRate),
+      dismissalRate: roundMetric(promptDismissalRate),
+    },
+    needed: {
+      views: promptViewsNeeded,
+      decisions: promptDecisionsNeeded,
+    },
+    ready: promptSampleReady,
+    telemetry: {
+      viewed: 'replay_prompt_viewed',
+      clicked: 'replay_prompt_clicked',
+      dismissed: 'replay_prompt_dismissed',
+      replay: 'replay_clicked',
+      completed: 'level_completed',
+    },
+  },
+  decisionPolicy: {
+    currentDecision: replayDecision,
+    sampleReady: promptSampleReady,
+    softenCopyWhen: {
+      maximumClickRate: 0.2,
+      minimumDismissalRate: 0.6,
+    },
+    keepActiveWhen: {
+      minimumClickRate: 0.4,
+    },
+    monitorWhen: {
+      replayGatePassed: true,
+    },
+    fallbackWhenSampleSmall: 'collect-more-real-replay-prompt-events',
   },
   promptPolicy: {
     id: 'completed-run-replay-prompt',
@@ -217,6 +284,8 @@ const payload = {
     noRevenueEnablement: true,
     noDarkPatterns: true,
     requireCompletedRunTelemetry: true,
+    requirePromptRunLink: true,
+    noDecisionWithoutSample: true,
     canNudgeReplay,
     completionReady,
     retentionReady,
@@ -240,6 +309,8 @@ const report = [
   `Status: ${payload.status}`,
   `Target: ${payload.target.title ?? 'missing'} (${payload.target.gameId ?? 'missing'})`,
   `Replay rate: ${pct(payload.metrics.replayRate)} / ${pct(payload.metrics.replayGate)}`,
+  `Sample: ${payload.samplePolicy.status}`,
+  `Decision: ${payload.decisionPolicy.currentDecision}`,
   '',
   '## Prompt Policy',
   '',
@@ -248,6 +319,7 @@ const report = [
   `- Trigger: ${payload.promptPolicy.trigger}`,
   `- Copy: ${payload.promptPolicy.copy}`,
   `- Telemetry: ${payload.promptPolicy.telemetry.viewed}, ${payload.promptPolicy.telemetry.clicked}, ${payload.promptPolicy.telemetry.dismissed}, ${payload.promptPolicy.telemetry.replay}`,
+  `- Sample: ${payload.samplePolicy.current.views} view(s), ${payload.samplePolicy.current.decisions} decision(s), ${payload.samplePolicy.needed.views} view(s) needed`,
   '',
   '## Reward Framing',
   '',

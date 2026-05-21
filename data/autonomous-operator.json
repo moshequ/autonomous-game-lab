@@ -1,22 +1,20 @@
 {
-  "generatedAt": "2026-05-21T02:47:58.844Z",
+  "generatedAt": "2026-05-21T02:55:14.160Z",
   "status": "operator-plan-ready",
   "mode": "plan-only",
   "ownerDecision": {
-    "actionId": "refresh-replay-loop",
-    "command": "npm run autonomous:replay-loop",
+    "actionId": "apply-safe-improvements",
+    "command": "npm run autonomous:experiments && npm run autonomous:improve && npm run autonomous:sync-experiments",
     "locallyExecutable": true,
     "rejectionReason": null
   },
   "requestedActionId": null,
   "selectedAction": {
-    "id": "refresh-replay-loop",
+    "id": "apply-safe-improvements",
     "status": "armed",
-    "command": "npm run autonomous:replay-loop",
-    "targets": [
-      "harbor-rings"
-    ],
-    "reason": "Refreshes the optional completed-run replay prompt from product-gate and replay telemetry evidence.",
+    "command": "npm run autonomous:experiments && npm run autonomous:improve && npm run autonomous:sync-experiments",
+    "targets": [],
+    "reason": "Release health allows bounded improvement policy updates.",
     "costUsd": 0
   },
   "selectedRejection": null,
@@ -31,7 +29,6 @@
     "prepare-release-candidate",
     "run-post-deploy-smoke",
     "refresh-product-gate-recovery",
-    "refresh-replay-loop",
     "optimize-store-listing",
     "apply-safe-improvements"
   ],
@@ -145,6 +142,12 @@
       "reason": "status-monitor"
     },
     {
+      "id": "refresh-replay-loop",
+      "status": "monitor",
+      "command": "npm run autonomous:replay-loop",
+      "reason": "status-monitor"
+    },
+    {
       "id": "prepare-repository-channel",
       "status": "monitor",
       "command": "npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap",
@@ -193,12 +196,6 @@
       "reason": "status-monitor"
     },
     {
-      "id": "apply-safe-improvements",
-      "status": "armed",
-      "command": "npm run autonomous:experiments && npm run autonomous:improve && npm run autonomous:sync-experiments",
-      "reason": "not-selected-this-run"
-    },
-    {
       "id": "deploy-web-pwa",
       "status": "ready-when-repository-pages-enabled",
       "command": "Run the Web PWA Deploy workflow after GitHub Pages is enabled for the repository.",
@@ -213,8 +210,16 @@
   ],
   "commandPlan": [
     {
-      "segment": "npm run autonomous:replay-loop",
-      "script": "autonomous:replay-loop"
+      "segment": "npm run autonomous:experiments",
+      "script": "autonomous:experiments"
+    },
+    {
+      "segment": "npm run autonomous:improve",
+      "script": "autonomous:improve"
+    },
+    {
+      "segment": "npm run autonomous:sync-experiments",
+      "script": "autonomous:sync-experiments"
     }
   ],
   "execution": {
@@ -284,7 +289,7 @@
     "RUN_WORKFLOWS=1"
   ],
   "nextActions": [
-    "Run npm run autonomous:operator -- --execute --action=refresh-replay-loop to execute exactly one allowed local action.",
+    "Run npm run autonomous:operator -- --execute --action=apply-safe-improvements to execute exactly one allowed local action.",
     "Do not execute GitHub workflow, store, paid ads, or account setup commands from the local operator."
   ]
 }

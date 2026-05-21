@@ -1478,10 +1478,13 @@ function App() {
     })
     trackEvent('replay_clicked', {
       gameId: selectedGameId,
+      runKey: replayRunKey,
       score: snapshot.score,
       moves: snapshot.moves,
       result: snapshot.result,
       surface: replayLoop.promptPolicy.surface,
+      promptId: replayLoop.promptPolicy.id,
+      trigger: replayLoop.promptPolicy.trigger,
       variantId: pacingVariant.id,
       rewardVariantId: rewardVariant.id,
     })
@@ -2409,6 +2412,17 @@ function App() {
               <div>
                 <span>Prompt</span>
                 <strong>{replayLoop.promptPolicy.status}</strong>
+              </div>
+              <div>
+                <span>Replay sample</span>
+                <strong>
+                  {replayLoop.samplePolicy.current.views}/
+                  {replayLoop.samplePolicy.minimumViewsForDecision}
+                </strong>
+              </div>
+              <div>
+                <span>Decision</span>
+                <strong>{replayLoop.decisionPolicy.currentDecision}</strong>
               </div>
               <div>
                 <span>Prompt copy</span>

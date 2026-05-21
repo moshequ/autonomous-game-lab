@@ -1822,6 +1822,17 @@ if (
 }
 
 const replayPromptEvents = ['replay_prompt_viewed', 'replay_prompt_clicked', 'replay_prompt_dismissed']
+const replayPromptViews = analytics.totals.counts.replay_prompt_viewed ?? 0
+const replayPromptClicks = analytics.totals.counts.replay_prompt_clicked ?? 0
+const replayPromptDismissals = analytics.totals.counts.replay_prompt_dismissed ?? 0
+const replayPromptDecisions = replayPromptClicks + replayPromptDismissals
+const replayPromptSampleReady = replayPromptViews >= 30 && replayPromptDecisions >= 20
+const replayExpectedDecision =
+  replayLoop.promptPolicy?.status !== 'armed'
+    ? 'monitor'
+    : replayPromptSampleReady
+      ? replayLoop.decisionPolicy?.currentDecision
+      : 'collect-sample'
 
 if (
   replayLoop.status !== 'replay-loop-ready' ||
@@ -1831,6 +1842,20 @@ if (
   replayLoop.metrics?.replayRate !== roundMetric(analytics.totals.metrics.replayRate) ||
   replayLoop.metrics?.replayGate !== 0.35 ||
   replayLoop.metrics?.replayClicks !== analytics.totals.counts.replay_clicked ||
+  replayLoop.metrics?.promptViews !== replayPromptViews ||
+  replayLoop.metrics?.promptClicks !== replayPromptClicks ||
+  replayLoop.metrics?.promptDismissals !== replayPromptDismissals ||
+  replayLoop.metrics?.promptDecisions !== replayPromptDecisions ||
+  replayLoop.samplePolicy?.status !==
+    (replayPromptSampleReady ? 'ready-for-replay-decision' : 'collecting-sample') ||
+  replayLoop.samplePolicy?.minimumViewsForDecision !== 30 ||
+  replayLoop.samplePolicy?.minimumDecisionsForDecision !== 20 ||
+  replayLoop.samplePolicy?.needed?.views !== Math.max(0, 30 - replayPromptViews) ||
+  replayLoop.samplePolicy?.needed?.decisions !== Math.max(0, 20 - replayPromptDecisions) ||
+  replayLoop.samplePolicy?.telemetry?.viewed !== 'replay_prompt_viewed' ||
+  replayLoop.samplePolicy?.telemetry?.replay !== 'replay_clicked' ||
+  replayLoop.decisionPolicy?.currentDecision !== replayExpectedDecision ||
+  replayLoop.decisionPolicy?.fallbackWhenSampleSmall !== 'collect-more-real-replay-prompt-events' ||
   replayLoop.controls?.zeroPaidSpend !== true ||
   replayLoop.controls?.afterCompletedRunOnly !== true ||
   replayLoop.controls?.onePromptPerCompletedRun !== true ||
@@ -1839,6 +1864,8 @@ if (
   replayLoop.controls?.noPaidRewards !== true ||
   replayLoop.controls?.noRevenueEnablement !== true ||
   replayLoop.controls?.requireCompletedRunTelemetry !== true ||
+  replayLoop.controls?.requirePromptRunLink !== true ||
+  replayLoop.controls?.noDecisionWithoutSample !== true ||
   !['armed', 'monitor'].includes(replayLoop.promptPolicy?.status) ||
   replayLoop.promptPolicy?.surface !== 'autonomy-cockpit-replay-card' ||
   replayLoop.promptPolicy?.trigger !== 'after-completed-run' ||
@@ -1858,7 +1885,10 @@ if (
   replayPromptEvents.some((eventName) => !analyticsRollupSource.includes(`'${eventName}'`)) ||
   replayPromptEvents.some((eventName) => !appSource.includes(`'${eventName}'`)) ||
   !appSource.includes('Replay Loop') ||
+  !appSource.includes('Replay sample') ||
+  !appSource.includes('replayLoop.decisionPolicy.currentDecision') ||
   !appSource.includes('playAgainFromReplayPrompt') ||
+  !appSource.includes('promptId: replayLoop.promptPolicy.id') ||
   packageJson.scripts?.['autonomous:replay-loop'] !== 'node scripts/replay-loop.mjs' ||
   packageJson.scripts?.['autonomous:daily']?.includes('autonomous:replay-loop') !== true
 ) {

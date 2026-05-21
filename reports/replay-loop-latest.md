@@ -1,9 +1,11 @@
 # Replay Loop
 
-Generated: 2026-05-20T21:58:15.328Z
+Generated: 2026-05-21T02:53:45.596Z
 Status: replay-loop-ready
 Target: Harbor Rings (harbor-rings)
 Replay rate: 31% / 35%
+Sample: collecting-sample
+Decision: collect-sample
 
 ## Prompt Policy
 
@@ -12,6 +14,7 @@ Replay rate: 31% / 35%
 - Trigger: after-completed-run
 - Copy: Start one more board to keep today's local streak alive.
 - Telemetry: replay_prompt_viewed, replay_prompt_clicked, replay_prompt_dismissed, replay_clicked
+- Sample: 0 view(s), 0 decision(s), 30 view(s) needed
 
 ## Reward Framing
 
@@ -37,6 +40,8 @@ Replay rate: 31% / 35%
 - noRevenueEnablement: true
 - noDarkPatterns: true
 - requireCompletedRunTelemetry: true
+- requirePromptRunLink: true
+- noDecisionWithoutSample: true
 - canNudgeReplay: true
 - completionReady: false
 - retentionReady: false

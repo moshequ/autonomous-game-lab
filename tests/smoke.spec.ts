@@ -891,6 +891,17 @@ test('completed-run replay prompt starts a fresh run and records replay-loop tel
   page,
 }) => {
   const replayLoop = JSON.parse(await readFile('data/replay-loop.json', 'utf8')) as {
+    metrics: { promptViews: number; promptClicks: number; promptDismissals: number }
+    samplePolicy: {
+      status: string
+      minimumViewsForDecision: number
+      minimumDecisionsForDecision: number
+      current: { views: number; clicks: number; dismissals: number; decisions: number }
+      needed: { views: number; decisions: number }
+      telemetry: { viewed: string; clicked: string; dismissed: string; replay: string }
+    }
+    decisionPolicy: { currentDecision: string; fallbackWhenSampleSmall: string }
+    controls: { noDecisionWithoutSample: boolean; requirePromptRunLink: boolean }
     promptPolicy: { ctaLabel: string; copy: string; surface: string; telemetry: { viewed: string; clicked: string } }
     rewardFraming: {
       status: string
@@ -899,6 +910,25 @@ test('completed-run replay prompt starts a fresh run and records replay-loop tel
       controls: { noPaidRewards: boolean; noAds: boolean; noRevenueEnablement: boolean }
     }
   }
+
+  expect(replayLoop.metrics).toMatchObject({ promptViews: 0, promptClicks: 0, promptDismissals: 0 })
+  expect(replayLoop.samplePolicy.status).toBe('collecting-sample')
+  expect(replayLoop.samplePolicy.minimumViewsForDecision).toBe(30)
+  expect(replayLoop.samplePolicy.minimumDecisionsForDecision).toBe(20)
+  expect(replayLoop.samplePolicy.current).toMatchObject({ views: 0, clicks: 0, dismissals: 0, decisions: 0 })
+  expect(replayLoop.samplePolicy.needed).toMatchObject({ views: 30, decisions: 20 })
+  expect(replayLoop.samplePolicy.telemetry).toMatchObject({
+    viewed: 'replay_prompt_viewed',
+    clicked: 'replay_prompt_clicked',
+    dismissed: 'replay_prompt_dismissed',
+    replay: 'replay_clicked',
+  })
+  expect(replayLoop.decisionPolicy.currentDecision).toBe('collect-sample')
+  expect(replayLoop.decisionPolicy.fallbackWhenSampleSmall).toBe(
+    'collect-more-real-replay-prompt-events',
+  )
+  expect(replayLoop.controls.noDecisionWithoutSample).toBe(true)
+  expect(replayLoop.controls.requirePromptRunLink).toBe(true)
   const balance = JSON.parse(await readFile('data/game-balance.json', 'utf8')) as {
     games: { 'harbor-rings': { maxMoves: number } }
   }
@@ -965,6 +995,8 @@ test('completed-run replay prompt starts a fresh run and records replay-loop tel
 
   const replayPanel = page.getByLabel('Replay Loop')
   await expect(replayPanel).toContainText('Fresh run')
+  await expect(replayPanel).toContainText('Replay sample')
+  await expect(replayPanel).toContainText(replayLoop.decisionPolicy.currentDecision)
   await expect(replayPanel).toContainText(replayLoop.promptPolicy.copy)
   expect(replayLoop.rewardFraming.status).toBe('active')
   expect(replayLoop.rewardFraming.recommendedVariant).toBe('daily-streak')
@@ -987,6 +1019,9 @@ test('completed-run replay prompt starts a fresh run and records replay-loop tel
   expect(clicked.properties.surface).toBe(replayLoop.promptPolicy.surface)
   expect(replay.properties.surface).toBe(replayLoop.promptPolicy.surface)
   expect(replay.properties.gameId).toBe('harbor-rings')
+  expect(replay.properties.runKey).toBe(clicked.properties.runKey)
+  expect(replay.properties.promptId).toBe('completed-run-replay-prompt')
+  expect(replay.properties.trigger).toBe('after-completed-run')
 })
 
 test('performance budget keeps the game runtime deferred from the initial shell', async ({ page }) => {
