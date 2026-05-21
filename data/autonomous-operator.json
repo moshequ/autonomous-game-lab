@@ -1,29 +1,27 @@
 {
-  "generatedAt": "2026-05-21T19:09:30.320Z",
-  "status": "operator-executed",
-  "mode": "execute-one-action",
+  "generatedAt": "2026-05-21T19:12:22.179Z",
+  "status": "operator-plan-ready",
+  "mode": "plan-only",
   "ownerDecision": {
-    "actionId": "refresh-objective-audit",
-    "command": "npm run autonomous:objective-audit",
+    "actionId": "refresh-replay-loop",
+    "command": "npm run autonomous:replay-loop",
     "locallyExecutable": true,
     "rejectionReason": null
   },
-  "requestedActionId": "refresh-objective-audit",
+  "requestedActionId": null,
   "selectedAction": {
-    "id": "refresh-objective-audit",
+    "id": "refresh-replay-loop",
     "status": "armed",
-    "command": "npm run autonomous:objective-audit",
+    "command": "npm run autonomous:replay-loop",
     "targets": [
-      "objective-evidence",
-      "production-blockers"
+      "harbor-rings"
     ],
-    "reason": "Keeps the original objective mapped to current evidence and prevents false completion claims.",
+    "reason": "Refreshes the optional completed-run replay prompt from product-gate and replay telemetry evidence.",
     "costUsd": 0
   },
   "selectedRejection": null,
   "eligibleActionIds": [
     "refresh-replay-loop",
-    "refresh-objective-audit",
     "optimize-store-listing"
   ],
   "blockedActions": [
@@ -148,12 +146,6 @@
       "reason": "status-monitor"
     },
     {
-      "id": "refresh-replay-loop",
-      "status": "armed",
-      "command": "npm run autonomous:replay-loop",
-      "reason": "not-selected-this-run"
-    },
-    {
       "id": "prepare-repository-channel",
       "status": "monitor",
       "command": "npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap",
@@ -190,6 +182,12 @@
       "reason": "status-monitor"
     },
     {
+      "id": "refresh-objective-audit",
+      "status": "monitor",
+      "command": "npm run autonomous:objective-audit",
+      "reason": "status-monitor"
+    },
+    {
       "id": "optimize-store-listing",
       "status": "armed",
       "command": "npm run autonomous:store-package && npm run autonomous:store-listing-optimize && npm run autonomous:store-compliance",
@@ -222,29 +220,16 @@
   ],
   "commandPlan": [
     {
-      "segment": "npm run autonomous:objective-audit",
-      "script": "autonomous:objective-audit"
+      "segment": "npm run autonomous:replay-loop",
+      "script": "autonomous:replay-loop"
     }
   ],
   "execution": {
-    "requested": true,
-    "status": "executed",
+    "requested": false,
+    "status": "not-requested",
     "maxActionsPerRun": 1,
-    "attemptedActionId": "refresh-objective-audit",
-    "results": [
-      {
-        "script": "autonomous:objective-audit",
-        "exitCode": 0,
-        "stdoutTail": [
-          "> autonomous-game-lab@0.0.0 autonomous:objective-audit",
-          "> node scripts/objective-audit.mjs",
-          "Wrote data/objective-audit.json",
-          "Wrote src/data/objectiveAudit.ts",
-          "Wrote reports/objective-audit-latest.md"
-        ],
-        "stderrTail": []
-      }
-    ]
+    "attemptedActionId": null,
+    "results": []
   },
   "controls": {
     "zeroPaidSpend": true,
@@ -310,7 +295,7 @@
     "RUN_WORKFLOWS=1"
   ],
   "nextActions": [
-    "Review refresh-objective-audit execution results before another operator run.",
+    "Run npm run autonomous:operator -- --execute --action=refresh-replay-loop to execute exactly one allowed local action.",
     "Do not execute GitHub workflow, store, paid ads, or account setup commands from the local operator."
   ]
 }

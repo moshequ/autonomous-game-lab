@@ -1,11 +1,11 @@
 # Autonomous Operator
 
-Generated: 2026-05-21T19:09:30.320Z
-Status: operator-executed
-Mode: execute-one-action
-Owner decision: refresh-objective-audit
-Selected action: refresh-objective-audit
-Execution: executed
+Generated: 2026-05-21T19:12:22.179Z
+Status: operator-plan-ready
+Mode: plan-only
+Owner decision: refresh-replay-loop
+Selected action: refresh-replay-loop
+Execution: not-requested
 
 ## Controls
 
@@ -18,12 +18,11 @@ Execution: executed
 
 ## Selected Action
 
-- refresh-objective-audit: npm run autonomous:objective-audit
+- refresh-replay-loop: npm run autonomous:replay-loop
 
 ## Eligible Local Actions
 
 - refresh-replay-loop
-- refresh-objective-audit
 - optimize-store-listing
 
 ## Blocked Actions

@@ -1,17 +1,17 @@
 # Autonomous Owner Loop
 
-Generated: 2026-05-21T19:09:15.269Z
+Generated: 2026-05-21T19:12:22.367Z
 Status: owner-loop-ready
 Mode: zero-spend-web-ready
 Autonomy score: 43/44 (98%)
 
 ## Owner Decision
 
-- Next action: refresh-objective-audit
-- Command: npm run autonomous:objective-audit
-- Rationale: Keeps the original objective mapped to current evidence and prevents false completion claims.
-- Last executed action: refresh-product-gate-recovery
-- Recent executed actions: refresh-product-gate-recovery, seed-portfolio-traffic, optimize-store-listing, refresh-replay-loop, refresh-completion-loop, bootstrap-production-setup
+- Next action: refresh-replay-loop
+- Command: npm run autonomous:replay-loop
+- Rationale: Refreshes the optional completed-run replay prompt from product-gate and replay telemetry evidence.
+- Last executed action: refresh-objective-audit
+- Recent executed actions: refresh-objective-audit, refresh-product-gate-recovery, seed-portfolio-traffic, optimize-store-listing, refresh-replay-loop, refresh-completion-loop
 
 ## Systems
 
@@ -29,7 +29,7 @@ Autonomy score: 43/44 (98%)
 - ready: organic-seed-loop - Target canopy-bloom; surface portal-growth-loop; share telemetry organic_seed_share_clicked.
 - ready: retention-loop - Daily canopy-bloom; D1 17%; streak variant daily-streak; return prompt armed; return intent armed.
 - ready: pwa-install-loop - Prompt autonomy-cockpit; installs 0; launch events 0; sample collecting-sample needs 20 prompt(s) and 10 launch event(s).
-- ready: performance-budget - Initial JS 675.7 KB; gzip 183.7 KB; deferred chunks 2.
+- ready: performance-budget - Initial JS 675.7 KB; gzip 183.6 KB; deferred chunks 2.
 - ready: product-optimization - Completion 40% / gate 55%; latest already-applied.
 - ready: support-feedback - Support feedback support-feedback-empty; issues 0; routable signals 0; aggregate notes 0.
 - ready: product-gate-recovery - Recovery product-gate-recovery-ready; primary firstGameCompletion; experiment collecting-sample; failing gates 3; next lift 128.
@@ -44,13 +44,13 @@ Autonomy score: 43/44 (98%)
 - ready: web-deployment - Deployment ready-for-pages; web readiness ready-after-build; promotion promotable-internal.
 - ready: release-candidate - Release candidate release-candidate-ready; files 47; smoke URLs 16.
 - ready: post-deploy-smoke - Smoke post-deploy-smoke-observed-live; origin https://moshequ.github.io/autonomous-game-lab; manifest comparison required; checks 17/17 passed; local artifact predeploy-artifact-smoke-passed 17/17 passed.
-- ready: post-deploy-artifact-sync - Artifact sync post-deploy-artifact-sync-passed; run 26247102516; live matches artifact true; strict true.
+- ready: post-deploy-artifact-sync - Artifact sync post-deploy-artifact-sync-passed; run 26247437202; live matches artifact true; strict true.
 - ready: live-site-monitor - Live monitor live-site-monitor-passed; origin https://moshequ.github.io/autonomous-game-lab; checks 17/17; live matches synced deploy true.
 - ready: production-bootstrap - Bootstrap production-bootstrap-ready; mode can-apply-configured-actions; external blockers 16.
 - ready: production-activation - Activation activation-ready; mode dry-run; execution dry-run; gh ready.
 - ready: production-blocker-handoff - Handoff handoff-waiting-on-owner-inputs; next production-analytics-browser; owner inputs 4; missing env 7; missing secrets 3.
 - ready: support-channel - Support channel support-channel-ready; repository moshequ/autonomous-game-lab; public intake ready; aggregate evidence only true.
-- ready: autonomous-operator - Operator operator-executed; selected refresh-product-gate-recovery; execution executed.
+- ready: autonomous-operator - Operator operator-plan-ready; selected refresh-replay-loop; execution not-requested.
 - ready: operator-history - History operator-history-ready; records 40; executed 9.
 - ready: objective-audit - Audit objective-in-progress; met 6/8; external blockers 15.
 - ready: store-listing-optimizer - Focus canopy-bloom; lead screenshot phone-canopy-bloom-generated; candidate changed yes.
@@ -89,7 +89,7 @@ Autonomy score: 43/44 (98%)
 - monitor: refresh-production-blocker-handoff - npm run autonomous:blocker-handoff
 - monitor: run-autonomous-operator - npm run autonomous:operator
 - monitor: review-operator-history - npm run autonomous:operator
-- armed: refresh-objective-audit - npm run autonomous:objective-audit
+- monitor: refresh-objective-audit - npm run autonomous:objective-audit
 - armed: optimize-store-listing - npm run autonomous:store-package && npm run autonomous:store-listing-optimize && npm run autonomous:store-compliance
 - monitor: prepare-android-signing - npm run autonomous:android-signing
 - monitor: apply-safe-improvements - npm run autonomous:experiments && npm run autonomous:improve && npm run autonomous:sync-experiments
