@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-21T18:34:13.796Z",
+  "generatedAt": "2026-05-21T18:36:55.162Z",
   "status": "operator-plan-ready",
   "mode": "plan-only",
   "ownerDecision": {
@@ -23,9 +23,7 @@
   "eligibleActionIds": [
     "seed-portfolio-traffic",
     "refresh-organic-seed-loop",
-    "refresh-replay-loop",
-    "bootstrap-production-setup",
-    "refresh-objective-audit"
+    "refresh-replay-loop"
   ],
   "blockedActions": [
     {
@@ -156,9 +154,9 @@
     },
     {
       "id": "bootstrap-production-setup",
-      "status": "armed",
+      "status": "monitor",
       "command": "npm run autonomous:release-candidate && npm run autonomous:deploy-plan && npm run autonomous:bootstrap",
-      "reason": "not-selected-this-run"
+      "reason": "status-monitor"
     },
     {
       "id": "activate-production-when-configured",
@@ -186,9 +184,9 @@
     },
     {
       "id": "refresh-objective-audit",
-      "status": "armed",
+      "status": "monitor",
       "command": "npm run autonomous:objective-audit",
-      "reason": "not-selected-this-run"
+      "reason": "status-monitor"
     },
     {
       "id": "optimize-store-listing",
