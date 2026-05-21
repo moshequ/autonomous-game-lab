@@ -1,11 +1,11 @@
 export const trafficSeeding = {
-  "generatedAt": "2026-05-21T15:07:34.462Z",
+  "generatedAt": "2026-05-21T15:57:14.170Z",
   "status": "traffic-seeding-ready",
   "sourceDataHash": "6e501f9bd6d9",
   "analyticsSource": "fixture-sample",
   "publicUrlMode": "absolute-origin",
   "siteUrl": "https://moshequ.github.io/autonomous-game-lab",
-  "portfolioGeneratedAt": "2026-05-21T15:07:34.200Z",
+  "portfolioGeneratedAt": "2026-05-21T15:57:13.899Z",
   "guardrails": {
     "maxCostUsd": 0,
     "noPaidPromotion": true,

@@ -1,9 +1,9 @@
 # Store Listing Optimizer
 
-Generated: 2026-05-21T15:08:31.380Z
+Generated: 2026-05-21T15:58:02.248Z
 Status: store-listing-optimizer-ready
 Focus: Canopy Bloom (canopy-bloom)
-Previous candidate: lantern-relay
+Previous candidate: canopy-bloom
 
 ## Copy
 
@@ -40,6 +40,6 @@ Previous candidate: lantern-relay
 
 ## Next Actions
 
-- Use Canopy Bloom as the store listing focus instead of lantern-relay.
+- Keep Canopy Bloom as the store listing focus.
 - Lead screenshots with Generated Canopy Bloom board.
 - Regenerate store compliance after every listing, screenshot, monetization, or privacy change.

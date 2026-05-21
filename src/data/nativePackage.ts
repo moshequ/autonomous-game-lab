@@ -1,5 +1,5 @@
 export const nativePackage = {
-  "generatedAt": "2026-05-21T14:56:56.010Z",
+  "generatedAt": "2026-05-21T15:58:02.755Z",
   "status": "blocked-draft-ready",
   "platform": "android-trusted-web-activity",
   "costGate": {
