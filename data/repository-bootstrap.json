@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-21T01:03:16.263Z",
+  "generatedAt": "2026-05-21T01:06:42.254Z",
   "status": "repository-bootstrap-ready",
   "mode": "plan-only",
   "envFiles": {
@@ -61,39 +61,33 @@
       "originRemote": "git@github.com:moshequ/autonomous-game-lab.git",
       "remoteRepository": "moshequ/autonomous-game-lab",
       "hasCommit": true,
-      "dirtyFiles": 14,
+      "dirtyFiles": 11,
       "dirtyPaths": [
         "data/autonomous-operator-history.json",
         "data/autonomous-operator.json",
         "data/post-deploy-smoke.json",
-        "data/release-candidate.json",
         "data/repository-readiness.json",
         "reports/autonomous-operator-history-latest.md",
         "reports/autonomous-operator-latest.md",
         "reports/post-deploy-smoke-latest.md",
-        "reports/release-candidate-latest.md",
         "reports/repository-readiness-latest.md",
         "src/data/autonomousOperator.ts",
         "src/data/autonomousOperatorHistory.ts",
-        "src/data/postDeploySmoke.ts",
-        "src/data/releaseCandidate.ts"
+        "src/data/postDeploySmoke.ts"
       ],
-      "generatedEvidenceDirtyFiles": 14,
+      "generatedEvidenceDirtyFiles": 11,
       "generatedEvidenceDirtyPaths": [
         "data/autonomous-operator-history.json",
         "data/autonomous-operator.json",
         "data/post-deploy-smoke.json",
-        "data/release-candidate.json",
         "data/repository-readiness.json",
         "reports/autonomous-operator-history-latest.md",
         "reports/autonomous-operator-latest.md",
         "reports/post-deploy-smoke-latest.md",
-        "reports/release-candidate-latest.md",
         "reports/repository-readiness-latest.md",
         "src/data/autonomousOperator.ts",
         "src/data/autonomousOperatorHistory.ts",
-        "src/data/postDeploySmoke.ts",
-        "src/data/releaseCandidate.ts"
+        "src/data/postDeploySmoke.ts"
       ],
       "nonGeneratedDirtyFiles": 0,
       "nonGeneratedDirtyPaths": []
@@ -105,39 +99,33 @@
       "originRemote": "git@github.com:moshequ/autonomous-game-lab.git",
       "remoteRepository": "moshequ/autonomous-game-lab",
       "hasCommit": true,
-      "dirtyFiles": 14,
+      "dirtyFiles": 11,
       "dirtyPaths": [
         "data/autonomous-operator-history.json",
         "data/autonomous-operator.json",
         "data/post-deploy-smoke.json",
-        "data/release-candidate.json",
         "data/repository-readiness.json",
         "reports/autonomous-operator-history-latest.md",
         "reports/autonomous-operator-latest.md",
         "reports/post-deploy-smoke-latest.md",
-        "reports/release-candidate-latest.md",
         "reports/repository-readiness-latest.md",
         "src/data/autonomousOperator.ts",
         "src/data/autonomousOperatorHistory.ts",
-        "src/data/postDeploySmoke.ts",
-        "src/data/releaseCandidate.ts"
+        "src/data/postDeploySmoke.ts"
       ],
-      "generatedEvidenceDirtyFiles": 14,
+      "generatedEvidenceDirtyFiles": 11,
       "generatedEvidenceDirtyPaths": [
         "data/autonomous-operator-history.json",
         "data/autonomous-operator.json",
         "data/post-deploy-smoke.json",
-        "data/release-candidate.json",
         "data/repository-readiness.json",
         "reports/autonomous-operator-history-latest.md",
         "reports/autonomous-operator-latest.md",
         "reports/post-deploy-smoke-latest.md",
-        "reports/release-candidate-latest.md",
         "reports/repository-readiness-latest.md",
         "src/data/autonomousOperator.ts",
         "src/data/autonomousOperatorHistory.ts",
-        "src/data/postDeploySmoke.ts",
-        "src/data/releaseCandidate.ts"
+        "src/data/postDeploySmoke.ts"
       ],
       "nonGeneratedDirtyFiles": 0,
       "nonGeneratedDirtyPaths": []
@@ -265,7 +253,7 @@
       "mutatesLocalGit": true,
       "mutatesRemoteGitHub": false,
       "requiresExplicitEnv": true,
-      "detail": "14 repository evidence file(s) changed during this dry run; the outer verified commit will persist them."
+      "detail": "11 repository evidence file(s) changed during this dry run; the outer verified commit will persist them."
     },
     {
       "id": "set-or-create-origin",

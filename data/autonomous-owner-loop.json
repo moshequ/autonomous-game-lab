@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-21T01:04:32.161Z",
+  "generatedAt": "2026-05-21T01:07:07.710Z",
   "status": "owner-loop-ready",
   "mode": "zero-spend-web-ready",
   "autonomyScore": {
@@ -21,32 +21,32 @@
     "repositoryHandoffPrepared": false
   },
   "ownerDecision": {
-    "nextBestActionId": "run-post-deploy-smoke",
-    "nextBestAction": "npm run autonomous:post-deploy-smoke",
+    "nextBestActionId": "refresh-autonomous-cadence",
+    "nextBestAction": "npm run autonomous:cadence",
     "canExecuteWithoutSpend": true,
-    "rationale": "Verifies the live Pages URL with read-only smoke checks and release-manifest hash comparison."
+    "rationale": "Keeps the unattended daily operating cadence, recovery policy, and verification chain auditable."
   },
   "executionMemory": {
     "avoidImmediateRepeat": true,
     "recentExecutionWindow": 8,
     "recentExecutedActionIds": [
+      "run-post-deploy-smoke",
       "prepare-release-candidate",
       "measure-pwa-install-loop",
       "optimize-store-listing",
       "refresh-product-gate-recovery",
       "check-performance-budget",
       "refresh-support-feedback",
-      "refresh-autonomous-self-update",
-      "refresh-autonomous-cadence"
+      "refresh-autonomous-self-update"
     ],
-    "lastExecutedActionId": "prepare-release-candidate",
+    "lastExecutedActionId": "run-post-deploy-smoke",
     "lastExecutedStatus": "executed",
     "lastRecordExecutionStatus": "not-requested",
     "recentlySatisfiedActionIds": [],
     "objectiveAuditFreshness": {
       "fresh": true,
       "structurallyReady": true,
-      "auditGeneratedAt": "2026-05-21T01:03:17.527Z",
+      "auditGeneratedAt": "2026-05-21T01:06:43.533Z",
       "evaluatedInputIds": [
         "analytics-rollup",
         "event-ingest",
@@ -236,12 +236,12 @@
       "staleInputIds": []
     },
     "skippedRecentlyExecutedActionIds": [
-      "refresh-autonomous-cadence",
       "refresh-autonomous-self-update",
       "refresh-support-feedback",
       "measure-pwa-install-loop",
       "check-performance-budget",
       "prepare-release-candidate",
+      "run-post-deploy-smoke",
       "refresh-product-gate-recovery",
       "optimize-store-listing"
     ],
@@ -278,7 +278,7 @@
     },
     "productionBootstrapFreshness": {
       "fresh": true,
-      "bootstrapGeneratedAt": "2026-05-21T01:03:16.793Z",
+      "bootstrapGeneratedAt": "2026-05-21T01:06:42.789Z",
       "evaluatedInputIds": [
         "release-candidate",
         "deployment-plan",
@@ -344,7 +344,7 @@
       "id": "autonomous-self-update",
       "status": "ready",
       "autonomy": "gated-generated-change-persistence",
-      "evidence": "Self-update self-update-ready; safe pending 37; unsafe pending 0; remote push held.",
+      "evidence": "Self-update self-update-ready; safe pending 28; unsafe pending 0; remote push held.",
       "nextAction": "When a GitHub repository is connected, set AGL_AUTONOMOUS_SELF_UPDATE=1 and AGL_AUTONOMOUS_SELF_UPDATE_DIRECT=1 to let verified generated changes persist."
     },
     {
@@ -526,7 +526,7 @@
       "id": "autonomous-operator",
       "status": "ready",
       "autonomy": "one-safe-action-runner",
-      "evidence": "Operator operator-plan-ready; selected run-post-deploy-smoke; execution not-requested.",
+      "evidence": "Operator operator-plan-ready; selected refresh-autonomous-cadence; execution not-requested.",
       "nextAction": "Keep a dry-run operator plan ready, then execute only one allowlisted local action when explicitly requested."
     },
     {
@@ -823,7 +823,7 @@
       "costUsd": 0,
       "command": "npm run autonomous:operator",
       "targets": [
-        "run-post-deploy-smoke"
+        "refresh-autonomous-cadence"
       ],
       "reason": "Publishes the one-action local execution plan with allowlist, zero-spend, and audit controls."
     },
@@ -833,7 +833,7 @@
       "costUsd": 0,
       "command": "npm run autonomous:operator",
       "targets": [
-        "run-post-deploy-smoke"
+        "refresh-autonomous-cadence"
       ],
       "reason": "Refreshes the capped operator history so safe actions remain auditable over time."
     },
