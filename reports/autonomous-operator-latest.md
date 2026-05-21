@@ -1,10 +1,10 @@
 # Autonomous Operator
 
-Generated: 2026-05-21T00:53:00.451Z
+Generated: 2026-05-21T00:56:07.458Z
 Status: operator-plan-ready
 Mode: plan-only
-Owner decision: optimize-store-listing
-Selected action: optimize-store-listing
+Owner decision: measure-pwa-install-loop
+Selected action: measure-pwa-install-loop
 Execution: not-requested
 
 ## Controls
@@ -18,7 +18,7 @@ Execution: not-requested
 
 ## Selected Action
 
-- optimize-store-listing: npm run autonomous:store-listing-optimize && npm run autonomous:store-compliance
+- measure-pwa-install-loop: npm run autonomous:pwa-install
 
 ## Eligible Local Actions
 
@@ -41,8 +41,8 @@ Execution: not-requested
 - refresh-organic-seed-loop: status-monitor
 - refresh-support-feedback: not-selected-this-run
 - optimize-daily-retention: status-monitor
-- measure-pwa-install-loop: not-selected-this-run
 - check-performance-budget: not-selected-this-run
 - prepare-release-candidate: not-selected-this-run
 - run-post-deploy-smoke: not-selected-this-run
 - sync-post-deploy-artifact: status-monitor
+- optimize-product-gates: status-monitor
