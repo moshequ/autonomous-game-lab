@@ -1,5 +1,5 @@
 export const portfolioPolicy = {
-  "generatedAt": "2026-05-21T19:38:43.672Z",
+  "generatedAt": "2026-05-21T21:10:54.096Z",
   "status": "portfolio-policy-ready",
   "analyticsSource": "fixture-sample",
   "releaseHealthStatus": "monitoring",
@@ -10,10 +10,10 @@ export const portfolioPolicy = {
     "preserveIpGuardrails": true
   },
   "dailyChallenge": {
-    "date": "2026-05-21",
+    "date": "2026-05-22",
     "gameId": "canopy-bloom",
     "title": "Canopy Bloom",
-    "seed": "daily-20260521-13f",
+    "seed": "daily-20260522-79d",
     "reason": "Canopy Bloom has the strongest blended portfolio score (51.912)."
   },
   "rotation": {

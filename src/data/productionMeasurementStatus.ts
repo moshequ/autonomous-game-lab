@@ -1,8 +1,8 @@
 export const productionMeasurementStatus = {
-  "generatedAt": "2026-05-21T20:59:54.202Z",
+  "generatedAt": "2026-05-21T21:17:04.137Z",
   "status": "production-measurement-local-intake-ready",
   "activePath": "local-browser-buffer",
-  "liveCandidate": "pwa-19f7ff4c852c",
+  "liveCandidate": "pwa-c634755cfa9f",
   "analytics": {
     "activeRollupSource": "fixture-sample",
     "retentionSource": "fixture-retention",
@@ -40,7 +40,7 @@ export const productionMeasurementStatus = {
       "id": "collect-firstGameCompletion-sample",
       "title": "Harbor Rings",
       "gateId": "firstGameCompletion",
-      "campaignId": "gate-sample-20260521-firstGameCompletion",
+      "campaignId": "gate-sample-20260522-firstGameCompletion",
       "gameId": "harbor-rings",
       "needed": {
         "promptViews": 30,

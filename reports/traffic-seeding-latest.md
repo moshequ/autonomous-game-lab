@@ -1,16 +1,16 @@
 # Traffic Seeding
 
-Generated: 2026-05-21T19:38:43.951Z
+Generated: 2026-05-21T21:10:54.372Z
 Status: traffic-seeding-ready
 Analytics source: fixture-sample
 Max cost: $0.00
 
 ## Campaigns
 
-- #1 Canopy Bloom: armed, seed-needed, /?game=canopy-bloom&utm_source=seed_internal&utm_campaign=seed-20260521-canopy-bloom
-- #2 Grove Engine: armed, seed-needed, /?game=grove-engine&utm_source=seed_internal&utm_campaign=seed-20260521-grove-engine
-- #3 Mosaic Haven: armed, seed-needed, /?game=mosaic-haven&utm_source=seed_internal&utm_campaign=seed-20260521-mosaic-haven
-- #4 Metro Loom: armed, seed-needed, /?game=metro-loom&utm_source=seed_internal&utm_campaign=seed-20260521-metro-loom
+- #1 Canopy Bloom: armed, seed-needed, /?game=canopy-bloom&utm_source=seed_internal&utm_campaign=seed-20260522-canopy-bloom
+- #2 Grove Engine: armed, seed-needed, /?game=grove-engine&utm_source=seed_internal&utm_campaign=seed-20260522-grove-engine
+- #3 Mosaic Haven: armed, seed-needed, /?game=mosaic-haven&utm_source=seed_internal&utm_campaign=seed-20260522-mosaic-haven
+- #4 Metro Loom: armed, seed-needed, /?game=metro-loom&utm_source=seed_internal&utm_campaign=seed-20260522-metro-loom
 
 ## Channels
 
@@ -22,7 +22,7 @@ Max cost: $0.00
 ## Seed Kit
 
 - /seed-kit.html with 4 zero-spend seed campaign links and player-initiated copy/share controls.
-- /gate-sample.html with 3 product-gate sample link(s); default gate-sample-20260521-d1Retention.
+- /gate-sample.html with 3 product-gate sample link(s); default gate-sample-20260522-d1Retention.
 
 ## Next Actions
 

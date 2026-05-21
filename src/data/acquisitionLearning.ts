@@ -1,7 +1,7 @@
 export const acquisitionLearning = {
-  "generatedAt": "2026-05-21T19:38:44.231Z",
+  "generatedAt": "2026-05-21T21:10:54.640Z",
   "status": "acquisition-learning-ready",
-  "sourceDataHash": "f8070b9f3150",
+  "sourceDataHash": "b2f16fa2af1b",
   "sourceStatus": {
     "analyticsSource": "fixture-sample",
     "localEventFiles": 0,
@@ -18,7 +18,7 @@ export const acquisitionLearning = {
     "campaigns": 4,
     "collectingCount": 4,
     "blockedCount": 0,
-    "featuredCandidateId": "seed-20260521-canopy-bloom",
+    "featuredCandidateId": "seed-20260522-canopy-bloom",
     "featuredGameId": "canopy-bloom",
     "totalAttributedStarts": 0,
     "totalAggregateStarts": 0
@@ -67,7 +67,7 @@ export const acquisitionLearning = {
   ],
   "campaigns": [
     {
-      "id": "seed-20260521-canopy-bloom",
+      "id": "seed-20260522-canopy-bloom",
       "gameId": "canopy-bloom",
       "title": "Canopy Bloom",
       "status": "collecting-attribution",
@@ -96,7 +96,7 @@ export const acquisitionLearning = {
       "nextAction": "Collect campaign-attributed events for Canopy Bloom; aggregate starts are 0."
     },
     {
-      "id": "seed-20260521-grove-engine",
+      "id": "seed-20260522-grove-engine",
       "gameId": "grove-engine",
       "title": "Grove Engine",
       "status": "collecting-attribution",
@@ -125,7 +125,7 @@ export const acquisitionLearning = {
       "nextAction": "Collect campaign-attributed events for Grove Engine; aggregate starts are 0."
     },
     {
-      "id": "seed-20260521-mosaic-haven",
+      "id": "seed-20260522-mosaic-haven",
       "gameId": "mosaic-haven",
       "title": "Mosaic Haven",
       "status": "collecting-attribution",
@@ -154,7 +154,7 @@ export const acquisitionLearning = {
       "nextAction": "Collect campaign-attributed events for Mosaic Haven; aggregate starts are 0."
     },
     {
-      "id": "seed-20260521-metro-loom",
+      "id": "seed-20260522-metro-loom",
       "gameId": "metro-loom",
       "title": "Metro Loom",
       "status": "collecting-attribution",

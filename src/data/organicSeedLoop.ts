@@ -1,7 +1,7 @@
 export const organicSeedLoop = {
-  "generatedAt": "2026-05-21T19:38:44.497Z",
+  "generatedAt": "2026-05-21T21:10:54.912Z",
   "status": "organic-seed-loop-ready",
-  "sourceDataHash": "3b67bf659d4d",
+  "sourceDataHash": "3d09c28de1bc",
   "sourceStatus": {
     "analyticsSource": "fixture-sample",
     "trafficSeeding": "traffic-seeding-ready",
@@ -9,7 +9,7 @@ export const organicSeedLoop = {
     "rawAttributionAvailable": false
   },
   "target": {
-    "campaignId": "seed-20260521-canopy-bloom",
+    "campaignId": "seed-20260522-canopy-bloom",
     "gameId": "canopy-bloom",
     "title": "Canopy Bloom",
     "priority": 1,
@@ -85,7 +85,7 @@ export const organicSeedLoop = {
   },
   "campaigns": [
     {
-      "id": "seed-20260521-canopy-bloom",
+      "id": "seed-20260522-canopy-bloom",
       "gameId": "canopy-bloom",
       "title": "Canopy Bloom",
       "priority": 1,
@@ -93,8 +93,8 @@ export const organicSeedLoop = {
       "action": "seed-traffic",
       "dataConfidence": "seed-needed",
       "costUsd": 0,
-      "playUrl": "https://moshequ.github.io/autonomous-game-lab/?game=canopy-bloom&utm_source=seed_internal&utm_campaign=seed-20260521-canopy-bloom",
-      "shareUrl": "https://moshequ.github.io/autonomous-game-lab/?game=canopy-bloom&utm_source=seed_share&utm_campaign=seed-20260521-canopy-bloom",
+      "playUrl": "https://moshequ.github.io/autonomous-game-lab/?game=canopy-bloom&utm_source=seed_internal&utm_campaign=seed-20260522-canopy-bloom",
+      "shareUrl": "https://moshequ.github.io/autonomous-game-lab/?game=canopy-bloom&utm_source=seed_share&utm_campaign=seed-20260522-canopy-bloom",
       "pageUrl": "https://moshequ.github.io/autonomous-game-lab/games/canopy-bloom.html",
       "copy": {
         "title": "Play Canopy Bloom",
@@ -118,7 +118,7 @@ export const organicSeedLoop = {
       "nextAction": "Collect player-initiated starts and shares for Canopy Bloom before quality judgment."
     },
     {
-      "id": "seed-20260521-grove-engine",
+      "id": "seed-20260522-grove-engine",
       "gameId": "grove-engine",
       "title": "Grove Engine",
       "priority": 2,
@@ -126,8 +126,8 @@ export const organicSeedLoop = {
       "action": "seed-traffic",
       "dataConfidence": "seed-needed",
       "costUsd": 0,
-      "playUrl": "https://moshequ.github.io/autonomous-game-lab/?game=grove-engine&utm_source=seed_internal&utm_campaign=seed-20260521-grove-engine",
-      "shareUrl": "https://moshequ.github.io/autonomous-game-lab/?game=grove-engine&utm_source=seed_share&utm_campaign=seed-20260521-grove-engine",
+      "playUrl": "https://moshequ.github.io/autonomous-game-lab/?game=grove-engine&utm_source=seed_internal&utm_campaign=seed-20260522-grove-engine",
+      "shareUrl": "https://moshequ.github.io/autonomous-game-lab/?game=grove-engine&utm_source=seed_share&utm_campaign=seed-20260522-grove-engine",
       "pageUrl": "https://moshequ.github.io/autonomous-game-lab/games/grove-engine.html",
       "copy": {
         "title": "Play Grove Engine",
@@ -151,7 +151,7 @@ export const organicSeedLoop = {
       "nextAction": "Collect player-initiated starts and shares for Grove Engine before quality judgment."
     },
     {
-      "id": "seed-20260521-mosaic-haven",
+      "id": "seed-20260522-mosaic-haven",
       "gameId": "mosaic-haven",
       "title": "Mosaic Haven",
       "priority": 3,
@@ -159,8 +159,8 @@ export const organicSeedLoop = {
       "action": "seed-traffic",
       "dataConfidence": "seed-needed",
       "costUsd": 0,
-      "playUrl": "https://moshequ.github.io/autonomous-game-lab/?game=mosaic-haven&utm_source=seed_internal&utm_campaign=seed-20260521-mosaic-haven",
-      "shareUrl": "https://moshequ.github.io/autonomous-game-lab/?game=mosaic-haven&utm_source=seed_share&utm_campaign=seed-20260521-mosaic-haven",
+      "playUrl": "https://moshequ.github.io/autonomous-game-lab/?game=mosaic-haven&utm_source=seed_internal&utm_campaign=seed-20260522-mosaic-haven",
+      "shareUrl": "https://moshequ.github.io/autonomous-game-lab/?game=mosaic-haven&utm_source=seed_share&utm_campaign=seed-20260522-mosaic-haven",
       "pageUrl": "https://moshequ.github.io/autonomous-game-lab/games/mosaic-haven.html",
       "copy": {
         "title": "Play Mosaic Haven",
@@ -184,7 +184,7 @@ export const organicSeedLoop = {
       "nextAction": "Collect player-initiated starts and shares for Mosaic Haven before quality judgment."
     },
     {
-      "id": "seed-20260521-metro-loom",
+      "id": "seed-20260522-metro-loom",
       "gameId": "metro-loom",
       "title": "Metro Loom",
       "priority": 4,
@@ -192,8 +192,8 @@ export const organicSeedLoop = {
       "action": "seed-traffic",
       "dataConfidence": "seed-needed",
       "costUsd": 0,
-      "playUrl": "https://moshequ.github.io/autonomous-game-lab/?game=metro-loom&utm_source=seed_internal&utm_campaign=seed-20260521-metro-loom",
-      "shareUrl": "https://moshequ.github.io/autonomous-game-lab/?game=metro-loom&utm_source=seed_share&utm_campaign=seed-20260521-metro-loom",
+      "playUrl": "https://moshequ.github.io/autonomous-game-lab/?game=metro-loom&utm_source=seed_internal&utm_campaign=seed-20260522-metro-loom",
+      "shareUrl": "https://moshequ.github.io/autonomous-game-lab/?game=metro-loom&utm_source=seed_share&utm_campaign=seed-20260522-metro-loom",
       "pageUrl": "https://moshequ.github.io/autonomous-game-lab/games/metro-loom.html",
       "copy": {
         "title": "Play Metro Loom",
