@@ -33,6 +33,7 @@ import { experimentResults } from './data/experimentResults'
 import { generatedPlayableGames } from './data/generatedPlayableGames'
 import { growthPlan } from './data/growthPlan'
 import { incidentDrill } from './data/incidentDrill'
+import { iosRelease } from './data/iosRelease'
 import { localEventBridge } from './data/localEventBridge'
 import { monetizationPlan } from './data/monetizationPlan'
 import { nativePackage } from './data/nativePackage'
@@ -3651,6 +3652,28 @@ function App() {
               <div className="factRow">
                 <span>iOS cost gate</span>
                 <strong>${monetizationReference.distribution.iosAppStore.estimatedCostUsd}/yr</strong>
+              </div>
+              <div className="factRow">
+                <span>iOS release</span>
+                <strong>{iosRelease.status}</strong>
+              </div>
+              <div className="monetizationRuntime" aria-label="iOS Release Handoff">
+                <div>
+                  <span>iOS handoff</span>
+                  <strong>{iosRelease.platform}</strong>
+                </div>
+                <div>
+                  <span>Bundle ID</span>
+                  <strong>{iosRelease.bundleId}</strong>
+                </div>
+                <div>
+                  <span>Native project</span>
+                  <strong>{iosRelease.strategy.nativeProjectDeferred ? 'deferred' : 'ready'}</strong>
+                </div>
+                <div>
+                  <span>Store submit</span>
+                  <strong>{iosRelease.controls.noStoreSubmission ? 'blocked' : 'ready'}</strong>
+                </div>
               </div>
               <div className="factRow">
                 <span>Apple payback</span>

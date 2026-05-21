@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-05-21T09:14:48.420Z",
+  "generatedAt": "2026-05-21T09:32:34.466Z",
   "status": "release-candidate-ready",
-  "candidateId": "pwa-8a00f75e9023",
+  "candidateId": "pwa-6b1fc69517cf",
   "target": {
     "provider": "github-pages",
     "artifactPath": "dist",
@@ -12,8 +12,8 @@
   },
   "summary": {
     "totalFiles": 44,
-    "totalBytes": 3707640,
-    "totalKb": 3620.7,
+    "totalBytes": 3713321,
+    "totalKb": 3626.3,
     "assetFiles": 3,
     "htmlFiles": 16,
     "gamePages": 10,
@@ -22,7 +22,7 @@
   },
   "integrity": {
     "algorithm": "sha256",
-    "aggregateHash": "8a00f75e90231010d4597997cb0c6a9de253854f49ec464f5da77d190bc6ce3e",
+    "aggregateHash": "6b1fc69517cf2539a01048aac754fe6a7237415ba0c77145bc28ea904133de6c",
     "files": [
       {
         "path": ".nojekyll",
@@ -46,16 +46,16 @@
         "cacheControl": "public, max-age=3600"
       },
       {
-        "path": "assets/GameCanvas-DVNWOWNa.js",
+        "path": "assets/GameCanvas-DQqNrmLd.js",
         "bytes": 1393755,
-        "sha256": "6ddb0f6e061d8c53d69d8c28b3411d6971353ca8b2c745e1530c45eb463eb24c",
+        "sha256": "a99f543cb4b977c2cb86fb6d63b770d73a90a02250957b1519c3ab7667836ed2",
         "contentType": "text/javascript; charset=utf-8",
         "cacheControl": "public, max-age=31536000, immutable"
       },
       {
-        "path": "assets/index-CK4OrftM.js",
-        "bytes": 673248,
-        "sha256": "5de63d5b2ac0de22657a8c850a5d5bd3ba84dba271394a9b7e358a92f7b8da7b",
+        "path": "assets/index-BC_m9hDS.js",
+        "bytes": 678929,
+        "sha256": "b623e37b8b687cab06f3ca5ab40b0ed2f848b840c5d4ac0a1d9220d054a4b806",
         "contentType": "text/javascript; charset=utf-8",
         "cacheControl": "public, max-age=31536000, immutable"
       },
@@ -216,7 +216,7 @@
       {
         "path": "index.html",
         "bytes": 903,
-        "sha256": "f9d81380a01dba1105e76ce9613018f2e3b7729270fc24c1ec9950e59c3a6164",
+        "sha256": "902a1e2cf75997f48c736133560e585b80f89d54a25a14602dba93ffb88b9950",
         "contentType": "text/html; charset=utf-8",
         "cacheControl": "no-cache"
       },
@@ -321,7 +321,7 @@
       {
         "path": "sw.js",
         "bytes": 3735,
-        "sha256": "d7c7ffb58f1f2ca6699dae03362a370675fa735c18e4a00dbb98d993fc8e5af2",
+        "sha256": "b73ed1505de5ad37597db6b7d8c381fda51a6d9f613f38435df7bbee2897446f",
         "contentType": "text/javascript; charset=utf-8",
         "cacheControl": "no-cache"
       },

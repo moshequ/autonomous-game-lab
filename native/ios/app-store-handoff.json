@@ -1,0 +1,98 @@
+{
+  "platform": "ios-app-store",
+  "status": "deferred-until-ios-payback",
+  "bundleId": "app.autonomousgamelab.portal",
+  "appName": "Autonomous Game Lab",
+  "productionOrigin": "https://moshequ.github.io/autonomous-game-lab",
+  "privacyUrl": "https://moshequ.github.io/autonomous-game-lab/privacy.html",
+  "supportUrl": "https://moshequ.github.io/autonomous-game-lab/support.html",
+  "listing": {
+    "subtitle": "Original daily strategy puzzles led by Canopy Bloom. Quick solo board-game play.",
+    "fullDescription": "Autonomous Game Lab is a web-first collection of original board-game-inspired solo strategy puzzles. Canopy Bloom is the current data-led store focus: A generated roll and write puzzle with quick science desk decisions. Every game is built for short touch-first sessions, clear scoring, daily replay, and measured improvements from anonymous gameplay signals. Accounts, user-generated content, purchases, gambling, and ads remain disabled until production gates and store review requirements pass.",
+    "keywords": [],
+    "launchCandidate": {
+      "id": "canopy-bloom",
+      "title": "Canopy Bloom",
+      "status": "generated-playable"
+    }
+  },
+  "privacy": {
+    "labels": [
+      {
+        "dataType": "Product Interaction",
+        "purpose": "Analytics",
+        "linkedToUser": false,
+        "usedForTracking": false
+      }
+    ],
+    "policyUrl": "https://moshequ.github.io/autonomous-game-lab/privacy.html",
+    "supportUrl": "https://moshequ.github.io/autonomous-game-lab/support.html"
+  },
+  "screenshots": [
+    {
+      "id": "phone-portal-home",
+      "publicPath": "/store-assets/screenshots/phone-portal-home.png",
+      "width": 1170,
+      "height": 2532
+    },
+    {
+      "id": "phone-lantern-relay-game",
+      "publicPath": "/store-assets/screenshots/phone-lantern-relay-game.png",
+      "width": 1170,
+      "height": 2532
+    },
+    {
+      "id": "phone-canopy-bloom-generated",
+      "publicPath": "/store-assets/screenshots/phone-canopy-bloom-generated.png",
+      "width": 1170,
+      "height": 2532
+    },
+    {
+      "id": "desktop-growth-page",
+      "publicPath": "/store-assets/screenshots/desktop-growth-page.png",
+      "width": 1440,
+      "height": 900
+    }
+  ],
+  "appReview": {
+    "loginRequired": false,
+    "accountDeletionRequired": false,
+    "notes": "Reviewer can open the PWA/TWA directly. Accounts, purchases, ads, chat, and UGC are disabled until gates pass.",
+    "ageRating": {
+      "ageRatingStatus": "draft-ready",
+      "expectedRating": "4+",
+      "answers": {
+        "cartoonViolence": "none",
+        "realisticViolence": "none",
+        "profanity": "none",
+        "matureThemes": "none",
+        "simulatedGambling": "none",
+        "contests": "none",
+        "unrestrictedWebAccess": false,
+        "userGeneratedContent": false,
+        "gamblingAndContests": false
+      },
+      "evidence": [
+        "No gambling",
+        "No real-money prizes",
+        "No user-generated content in first release",
+        "Ads disabled until retention gates pass"
+      ]
+    },
+    "appLikeValueEvidence": [
+      "10 playable original games in the catalog.",
+      "PWA install loop is pwa-install-loop-ready.",
+      "Retention loop is retention-loop-ready.",
+      "Completion loop is completion-loop-ready.",
+      "Replay loop is replay-loop-ready.",
+      "Native shell is deferred until payback and Apple account gates clear to avoid a thin-wrapper submission."
+    ]
+  },
+  "controls": {
+    "zeroPaidSpend": true,
+    "noAppleAccountCreation": true,
+    "noStoreSubmission": true,
+    "noIapSetupUntilDigitalPurchases": true,
+    "noXcodeProjectGenerated": true
+  }
+}

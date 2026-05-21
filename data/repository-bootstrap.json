@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-21T09:15:06.088Z",
+  "generatedAt": "2026-05-21T09:32:39.965Z",
   "status": "repository-bootstrap-ready",
   "mode": "plan-only",
   "envFiles": {
@@ -61,8 +61,9 @@
       "originRemote": "git@github.com:moshequ/autonomous-game-lab.git",
       "remoteRepository": "moshequ/autonomous-game-lab",
       "hasCommit": true,
-      "dirtyFiles": 36,
+      "dirtyFiles": 50,
       "dirtyPaths": [
+        "README.md",
         "data/autonomous-operator-history.json",
         "data/autonomous-operator.json",
         "data/autonomous-owner-loop.json",
@@ -77,6 +78,8 @@
         "data/release-candidate.json",
         "data/repository-bootstrap.json",
         "data/repository-readiness.json",
+        "docs/AUTONOMOUS_STUDIO.md",
+        "package.json",
         "reports/autonomous-operator-history-latest.md",
         "reports/autonomous-operator-latest.md",
         "reports/autonomous-owner-loop-latest.md",
@@ -92,15 +95,26 @@
         "reports/repository-bootstrap-latest.md",
         "reports/repository-readiness-latest.md",
         "scripts/autonomous-owner-loop.mjs",
+        "scripts/objective-audit.mjs",
+        "scripts/production-blocker-handoff.mjs",
+        "scripts/production-readiness.mjs",
         "scripts/verify-autonomy.mjs",
-        "src/data/autonomousOwnerLoop.ts",
+        "src/App.tsx",
+        "src/data/autonomousOperatorHistory.ts",
         "src/data/objectiveAudit.ts",
+        "src/data/performanceBudget.ts",
         "src/data/postDeploySmoke.ts",
         "src/data/productionActivation.ts",
+        "src/data/productionBlockerHandoff.ts",
         "src/data/releaseCandidate.ts",
-        "tests/smoke.spec.ts"
+        "tests/smoke.spec.ts",
+        "data/ios-release.json",
+        "native/ios/",
+        "reports/ios-release-latest.md",
+        "scripts/ios-release-planner.mjs",
+        "src/data/iosRelease.ts"
       ],
-      "generatedEvidenceDirtyFiles": 33,
+      "generatedEvidenceDirtyFiles": 38,
       "generatedEvidenceDirtyPaths": [
         "data/autonomous-operator-history.json",
         "data/autonomous-operator.json",
@@ -130,17 +144,31 @@
         "reports/release-candidate-latest.md",
         "reports/repository-bootstrap-latest.md",
         "reports/repository-readiness-latest.md",
-        "src/data/autonomousOwnerLoop.ts",
+        "src/data/autonomousOperatorHistory.ts",
         "src/data/objectiveAudit.ts",
+        "src/data/performanceBudget.ts",
         "src/data/postDeploySmoke.ts",
         "src/data/productionActivation.ts",
-        "src/data/releaseCandidate.ts"
+        "src/data/productionBlockerHandoff.ts",
+        "src/data/releaseCandidate.ts",
+        "data/ios-release.json",
+        "reports/ios-release-latest.md",
+        "src/data/iosRelease.ts"
       ],
-      "nonGeneratedDirtyFiles": 3,
+      "nonGeneratedDirtyFiles": 12,
       "nonGeneratedDirtyPaths": [
+        "README.md",
+        "docs/AUTONOMOUS_STUDIO.md",
+        "package.json",
         "scripts/autonomous-owner-loop.mjs",
+        "scripts/objective-audit.mjs",
+        "scripts/production-blocker-handoff.mjs",
+        "scripts/production-readiness.mjs",
         "scripts/verify-autonomy.mjs",
-        "tests/smoke.spec.ts"
+        "src/App.tsx",
+        "tests/smoke.spec.ts",
+        "native/ios/",
+        "scripts/ios-release-planner.mjs"
       ]
     },
     "after": {
@@ -150,8 +178,9 @@
       "originRemote": "git@github.com:moshequ/autonomous-game-lab.git",
       "remoteRepository": "moshequ/autonomous-game-lab",
       "hasCommit": true,
-      "dirtyFiles": 36,
+      "dirtyFiles": 50,
       "dirtyPaths": [
+        "README.md",
         "data/autonomous-operator-history.json",
         "data/autonomous-operator.json",
         "data/autonomous-owner-loop.json",
@@ -166,6 +195,8 @@
         "data/release-candidate.json",
         "data/repository-bootstrap.json",
         "data/repository-readiness.json",
+        "docs/AUTONOMOUS_STUDIO.md",
+        "package.json",
         "reports/autonomous-operator-history-latest.md",
         "reports/autonomous-operator-latest.md",
         "reports/autonomous-owner-loop-latest.md",
@@ -181,15 +212,26 @@
         "reports/repository-bootstrap-latest.md",
         "reports/repository-readiness-latest.md",
         "scripts/autonomous-owner-loop.mjs",
+        "scripts/objective-audit.mjs",
+        "scripts/production-blocker-handoff.mjs",
+        "scripts/production-readiness.mjs",
         "scripts/verify-autonomy.mjs",
-        "src/data/autonomousOwnerLoop.ts",
+        "src/App.tsx",
+        "src/data/autonomousOperatorHistory.ts",
         "src/data/objectiveAudit.ts",
+        "src/data/performanceBudget.ts",
         "src/data/postDeploySmoke.ts",
         "src/data/productionActivation.ts",
+        "src/data/productionBlockerHandoff.ts",
         "src/data/releaseCandidate.ts",
-        "tests/smoke.spec.ts"
+        "tests/smoke.spec.ts",
+        "data/ios-release.json",
+        "native/ios/",
+        "reports/ios-release-latest.md",
+        "scripts/ios-release-planner.mjs",
+        "src/data/iosRelease.ts"
       ],
-      "generatedEvidenceDirtyFiles": 33,
+      "generatedEvidenceDirtyFiles": 38,
       "generatedEvidenceDirtyPaths": [
         "data/autonomous-operator-history.json",
         "data/autonomous-operator.json",
@@ -219,17 +261,31 @@
         "reports/release-candidate-latest.md",
         "reports/repository-bootstrap-latest.md",
         "reports/repository-readiness-latest.md",
-        "src/data/autonomousOwnerLoop.ts",
+        "src/data/autonomousOperatorHistory.ts",
         "src/data/objectiveAudit.ts",
+        "src/data/performanceBudget.ts",
         "src/data/postDeploySmoke.ts",
         "src/data/productionActivation.ts",
-        "src/data/releaseCandidate.ts"
+        "src/data/productionBlockerHandoff.ts",
+        "src/data/releaseCandidate.ts",
+        "data/ios-release.json",
+        "reports/ios-release-latest.md",
+        "src/data/iosRelease.ts"
       ],
-      "nonGeneratedDirtyFiles": 3,
+      "nonGeneratedDirtyFiles": 12,
       "nonGeneratedDirtyPaths": [
+        "README.md",
+        "docs/AUTONOMOUS_STUDIO.md",
+        "package.json",
         "scripts/autonomous-owner-loop.mjs",
+        "scripts/objective-audit.mjs",
+        "scripts/production-blocker-handoff.mjs",
+        "scripts/production-readiness.mjs",
         "scripts/verify-autonomy.mjs",
-        "tests/smoke.spec.ts"
+        "src/App.tsx",
+        "tests/smoke.spec.ts",
+        "native/ios/",
+        "scripts/ios-release-planner.mjs"
       ]
     }
   },
@@ -265,7 +321,7 @@
     "repositoryReadiness": "repository-channel-ready",
     "deployment": "ready-for-pages",
     "releaseCandidate": "release-candidate-ready",
-    "releaseCandidateId": "pwa-8a00f75e9023",
+    "releaseCandidateId": "pwa-6b1fc69517cf",
     "postDeploySmoke": "post-deploy-smoke-observed-live"
   },
   "repositoryTargetPlan": {
@@ -355,7 +411,7 @@
       "mutatesLocalGit": true,
       "mutatesRemoteGitHub": false,
       "requiresExplicitEnv": true,
-      "detail": "3 non-generated source or artifact file(s) are not committed yet."
+      "detail": "12 non-generated source or artifact file(s) are not committed yet."
     },
     {
       "id": "set-or-create-origin",

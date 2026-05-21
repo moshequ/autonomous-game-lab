@@ -59,6 +59,7 @@ const [
   nativePackage,
   androidSigning,
   androidRelease,
+  iosRelease,
   releaseCandidate,
   postDeploySmoke,
   postDeployArtifactSync,
@@ -107,6 +108,7 @@ const [
   readJson(path.join(dataDir, 'native-package.json')),
   readJson(path.join(dataDir, 'android-signing.json')),
   readJson(path.join(dataDir, 'android-release.json')),
+  readJson(path.join(dataDir, 'ios-release.json')),
   readJson(path.join(dataDir, 'release-candidate.json')),
   readJson(path.join(dataDir, 'post-deploy-smoke.json')),
   readJson(path.join(dataDir, 'post-deploy-artifact-sync.json')),
@@ -157,6 +159,7 @@ const rawObjectiveBlockers = [
     ...(monetization.blockers ?? []),
     ...(storeCompliance.blockers ?? []),
     ...(androidRelease.blockers ?? []),
+    ...(iosRelease.blockers ?? []),
     ...(productionBootstrap.externalBlockers ?? []).map((item) => item.blocker),
   ]),
 ]
@@ -492,10 +495,13 @@ const requirements = [
       ['support-channel-ready', 'support-channel-planned'].includes(supportChannel.status) &&
       storeCompliance.status === 'draft-ready-external-blockers' &&
       nativePackage.status !== 'missing' &&
-      androidRelease.status
+      androidRelease.status &&
+      iosRelease.status &&
+      iosRelease.status !== 'missing'
         ? 'prepared-external-blockers'
         : 'incomplete',
-    summary: 'Store listing, compliance drafts, screenshots, and Android TWA handoff are prepared while store release stays gated.',
+    summary:
+      'Store listing, compliance drafts, screenshots, Android TWA handoff, and iOS App Store handoff are prepared while store release stays gated.',
     evidence: [
       `Store package privacy URL: ${storePackage.privacyPolicy?.productionUrlStatus}`,
       `Support channel: ${supportChannel.status}; provider ${supportChannel.provider}; store email still required ${
@@ -508,10 +514,14 @@ const requirements = [
       }`,
       `Native package: ${nativePackage.status}`,
       `Android release: ${androidRelease.status}`,
+      `iOS release: ${iosRelease.status}; native project deferred ${
+        iosRelease.strategy?.nativeProjectDeferred === true
+      }`,
     ],
     blockers: [
       ...(storeCompliance.blockers ?? []),
       ...(androidRelease.blockers ?? []),
+      ...(iosRelease.blockers ?? []),
       ...(iosDecision?.blockers ?? []),
     ],
     nextAction: androidDecision?.nextAction ?? 'Keep native releases blocked until host, signing, account, and payback gates pass.',

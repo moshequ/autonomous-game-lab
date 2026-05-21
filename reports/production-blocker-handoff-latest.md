@@ -1,10 +1,10 @@
 # Production Blocker Handoff
 
-Generated: 2026-05-21T09:15:08.213Z
+Generated: 2026-05-21T09:32:41.980Z
 Status: handoff-waiting-on-owner-inputs
 Detail: blocked-external-inputs
-Live candidate: pwa-be1d91c63d8b
-Source hash: 9ad90021eea5
+Live candidate: pwa-4f507a7415c1
+Source hash: 1b42a012f402
 
 ## Summary
 
@@ -24,6 +24,7 @@ Source hash: 9ad90021eea5
 - monetization: blocked-by-product-gates
 - storeCompliance: draft-ready-external-blockers
 - androidRelease: blocked-needs-host-signing-play
+- iosRelease: deferred-until-ios-payback
 - unitEconomics: no-spend
 - postDeployArtifactSync: post-deploy-artifact-sync-passed
 

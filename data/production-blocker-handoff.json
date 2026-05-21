@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-05-21T09:15:08.213Z",
-  "sourceDataHash": "9ad90021eea5",
+  "generatedAt": "2026-05-21T09:32:41.980Z",
+  "sourceDataHash": "1b42a012f402",
   "status": "handoff-waiting-on-owner-inputs",
   "statusDetail": "blocked-external-inputs",
-  "liveCandidate": "pwa-be1d91c63d8b",
+  "liveCandidate": "pwa-4f507a7415c1",
   "sourceStatus": {
     "productionEnvironment": "production-env-missing",
     "productionBootstrap": "production-bootstrap-ready",
@@ -12,6 +12,7 @@
     "monetization": "blocked-by-product-gates",
     "storeCompliance": "draft-ready-external-blockers",
     "androidRelease": "blocked-needs-host-signing-play",
+    "iosRelease": "deferred-until-ios-payback",
     "unitEconomics": "no-spend",
     "postDeployArtifactSync": "post-deploy-artifact-sync-passed"
   },
@@ -517,7 +518,8 @@
       "requiredSecrets": [],
       "blockers": [
         "Connect Apple Developer account only after revenue justifies iOS spend.",
-        "apple-developer-account: Apple Developer account remains deferred until iOS spend is justified."
+        "apple-developer-account: Apple Developer account remains deferred until iOS spend is justified.",
+        "apple-developer-account: Apple Developer Program account is not connected."
       ],
       "unlocks": [
         "iOS submission remains intentionally deferred until revenue justifies annual spend."
@@ -798,7 +800,8 @@
       "requiredSecrets": [],
       "blockers": [
         "Connect Apple Developer account only after revenue justifies iOS spend.",
-        "apple-developer-account: Apple Developer account remains deferred until iOS spend is justified."
+        "apple-developer-account: Apple Developer account remains deferred until iOS spend is justified.",
+        "apple-developer-account: Apple Developer Program account is not connected."
       ],
       "unlocks": [
         "iOS submission remains intentionally deferred until revenue justifies annual spend."

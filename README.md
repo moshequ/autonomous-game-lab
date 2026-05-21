@@ -27,6 +27,7 @@ npm run autonomous:store-assets
 npm run autonomous:store-compliance
 npm run autonomous:native-package
 npm run autonomous:android-release-plan
+npm run autonomous:ios-release-plan
 npm run autonomous:sync-config
 npm run autonomous:sync-experiments
 npm run autonomous:simulate
@@ -93,6 +94,7 @@ Without that token, the trend radar uses fixture trends and still produces build
 - Store asset generator for real PWA screenshots captured from the production build
 - Store compliance generator for content rating, target audience, ads disclosure, privacy, and reviewer-access drafts
 - Native Android TWA handoff generator with Bubblewrap config and Digital Asset Links template
+- iOS App Store handoff planner with Capacitor metadata, App Privacy labels, screenshot checklist, and zero-spend Apple account gates
 - Performance budget automation that keeps Phaser/GameCanvas out of the initial PWA shell
 - Bot simulator for pre-release balance checks
 - Balance auto-tuner for safe target-score adjustments
@@ -191,6 +193,8 @@ Store compliance drafts live in `data/store-compliance.json`, `src/data/storeCom
 Android signing prep lives in `data/android-signing.json`, `src/data/androidSigning.ts`, `reports/android-signing-latest.md`, and git-ignored local files under `ops/android/signing/` plus `ops/production.env.local`. `npm run autonomous:android-signing` uses keytool when available, falls back to OpenSSL PKCS#12 material when needed, writes only redacted readiness evidence to committed artifacts, and gives native packaging a public SHA-256 certificate fingerprint for Digital Asset Links.
 
 Native app handoff assets live in `data/native-package.json`, `src/data/nativePackage.ts`, `reports/native-package-latest.md`, and `native/android/`. `npm run autonomous:native-package` generates a Trusted Web Activity manifest, Bubblewrap command config, and Digital Asset Links template; it keeps Android distribution blocked until a real production host, hosted privacy URL, screenshots, and Google Play account exist even when local signing is prepared. Android release planning lives in `data/android-release.json`, `src/data/androidRelease.ts`, and `reports/android-release-latest.md`; `npm run autonomous:android-release-plan` gates Bubblewrap packaging and internal testing behind native readiness, CI signing secret sync, Play credentials, and the unit-economics store-spend guard.
+
+iOS App Store handoff assets live in `data/ios-release.json`, `src/data/iosRelease.ts`, `reports/ios-release-latest.md`, and `native/ios/`. `npm run autonomous:ios-release-plan` prepares Capacitor metadata, App Store checklist data, privacy labels, screenshot references, and native-value evidence while blocking Apple account creation, Xcode project generation, TestFlight, IAP setup, and store submission until payback and account gates clear.
 
 Growth assets live in `data/growth-plan.json`, `data/growth-policy.json`, `data/growth-optimizer.json`, `reports/growth-plan-latest.md`, `reports/growth-optimizer-latest.md`, `public/games/`, `public/sitemap.xml`, `public/robots.txt`, and `public/share-manifest.json`. `npm run autonomous:growth-optimize` adjusts guarded page copy and CTA policy from acquisition/share analytics; `npm run autonomous:growth` gives every playable game an indexable page, share URL, channel focus, and no-cost acquisition metric.
 

@@ -63,6 +63,7 @@ const requiredFiles = [
   'data/monetization-plan.json',
   'data/unit-economics.json',
   'data/android-release.json',
+  'data/ios-release.json',
   'data/production-response.json',
   'data/incident-drill.json',
   'data/store-package.json',
@@ -112,6 +113,7 @@ const requiredFiles = [
   'src/data/storeListingOptimizer.ts',
   'src/data/storeCompliance.ts',
   'src/data/androidSigning.ts',
+  'src/data/iosRelease.ts',
   'src/data/autonomousOwnerLoop.ts',
   '.github/workflows/autonomous-daily.yml',
   '.github/workflows/autonomous-self-update.yml',
@@ -169,6 +171,7 @@ const requiredFiles = [
   'reports/monetization-plan-latest.md',
   'reports/unit-economics-latest.md',
   'reports/android-release-latest.md',
+  'reports/ios-release-latest.md',
   'reports/production-response-latest.md',
   'reports/incident-drill-latest.md',
   'reports/store-package-latest.md',
@@ -231,6 +234,10 @@ const requiredFiles = [
   'native/android/bubblewrap.config.json',
   'native/android/assetlinks.template.json',
   'native/android/README.md',
+  'native/ios/capacitor.config.json',
+  'native/ios/app-store-handoff.json',
+  'native/ios/README.md',
+  'scripts/ios-release-planner.mjs',
 ]
 
 const fail = (message) => {
@@ -315,6 +322,7 @@ const iconAssets = JSON.parse(await readFile(path.join(root, 'data', 'icon-asset
 const monetizationPlan = JSON.parse(await readFile(path.join(root, 'data', 'monetization-plan.json'), 'utf8'))
 const unitEconomics = JSON.parse(await readFile(path.join(root, 'data', 'unit-economics.json'), 'utf8'))
 const androidRelease = JSON.parse(await readFile(path.join(root, 'data', 'android-release.json'), 'utf8'))
+const iosRelease = JSON.parse(await readFile(path.join(root, 'data', 'ios-release.json'), 'utf8'))
 const productionResponse = JSON.parse(await readFile(path.join(root, 'data', 'production-response.json'), 'utf8'))
 const incidentDrill = JSON.parse(await readFile(path.join(root, 'data', 'incident-drill.json'), 'utf8'))
 const deployment = JSON.parse(await readFile(path.join(root, 'data', 'deployment-plan.json'), 'utf8'))
@@ -346,6 +354,9 @@ const postDeployEvidenceSyncWorkflow = await readFile(
   path.join(root, '.github', 'workflows', 'post-deploy-evidence-sync.yml'),
   'utf8',
 )
+const iosCapacitorConfig = JSON.parse(await readFile(path.join(root, 'native', 'ios', 'capacitor.config.json'), 'utf8'))
+const iosAppStoreHandoff = JSON.parse(await readFile(path.join(root, 'native', 'ios', 'app-store-handoff.json'), 'utf8'))
+const iosReadme = await readFile(path.join(root, 'native', 'ios', 'README.md'), 'utf8')
 const shareManifest = JSON.parse(await readFile(path.join(root, 'public', 'share-manifest.json'), 'utf8'))
 const gateSampleHtml = await readFile(path.join(root, 'public', 'gate-sample.html'), 'utf8')
 const installHtml = await readFile(path.join(root, 'public', 'install.html'), 'utf8')
@@ -2305,6 +2316,7 @@ if (
   productionBlockerHandoff.sourceStatus?.monetization !== monetizationPlan.status ||
   productionBlockerHandoff.sourceStatus?.storeCompliance !== storeCompliance.status ||
   productionBlockerHandoff.sourceStatus?.androidRelease !== androidRelease.status ||
+  productionBlockerHandoff.sourceStatus?.iosRelease !== iosRelease.status ||
   productionBlockerHandoff.sourceStatus?.unitEconomics !== unitEconomics.status ||
   productionBlockerHandoff.controls?.zeroPaidSpend !== true ||
   productionBlockerHandoff.controls?.noSecretValues !== true ||
@@ -2709,6 +2721,9 @@ if (
   !objectiveAudit.requirements
     ?.find((item) => item.id === 'app-store-distribution-path')
     ?.evidence?.some((item) => item.includes(`Android signing: ${androidSigning.status}`)) ||
+  !objectiveAudit.requirements
+    ?.find((item) => item.id === 'app-store-distribution-path')
+    ?.evidence?.some((item) => item.includes(`iOS release: ${iosRelease.status}`)) ||
   objectiveAudit.requirements?.find((item) => item.id === 'monetization-path')?.status !== 'prepared-blocked-by-gates' ||
   objectiveAudit.requirements?.find((item) => item.id === 'app-store-distribution-path')?.status !== 'prepared-external-blockers' ||
   (objectiveAudit.blockers?.external?.length ?? 0) === 0 ||
@@ -3592,6 +3607,14 @@ if (!packageJson.scripts?.['autonomous:daily']?.includes('autonomous:android-rel
   fail('Autonomous daily loop must generate the Android release plan.')
 }
 
+if (!packageJson.scripts?.['autonomous:ios-release-plan']?.includes('ios-release-planner')) {
+  fail('Autonomous scripts must expose the iOS release plan.')
+}
+
+if (!packageJson.scripts?.['autonomous:daily']?.includes('autonomous:ios-release-plan')) {
+  fail('Autonomous daily loop must generate the iOS App Store handoff plan.')
+}
+
 if (!packageJson.scripts?.['autonomous:daily']?.includes('autonomous:release-health')) {
   fail('Autonomous daily loop must run the release health guard.')
 }
@@ -3819,6 +3842,44 @@ if (
 
 if (unitEconomics.controls?.storeSpendAllowed === false && androidRelease.status === 'ready-for-internal-testing') {
   fail('Android release must not become ready while store spend is blocked.')
+}
+
+if (
+  ![
+    'ready-for-testflight-handoff',
+    'blocked-needs-app-store-connect-api',
+    'deferred-until-ios-payback',
+    'needs-ios-draft-inputs',
+  ].includes(iosRelease.status) ||
+  iosRelease.platform !== 'ios-app-store' ||
+  iosRelease.bundleId !== iosCapacitorConfig.appId ||
+  iosRelease.bundleId !== iosAppStoreHandoff.bundleId ||
+  iosRelease.handoff?.capacitorConfigPath !== 'native/ios/capacitor.config.json' ||
+  iosRelease.handoff?.appStoreHandoffPath !== 'native/ios/app-store-handoff.json' ||
+  iosRelease.strategy?.packageStrategy !== 'capacitor-pwa-shell-after-payback' ||
+  iosRelease.strategy?.nativeProjectDeferred !== true ||
+  iosRelease.strategy?.xcodeProjectCreated !== false ||
+  iosRelease.controls?.zeroPaidSpend !== true ||
+  iosRelease.controls?.noAppleAccountCreation !== true ||
+  iosRelease.controls?.noStoreSubmission !== true ||
+  iosRelease.controls?.noXcodeProjectGenerated !== true ||
+  iosRelease.costGate?.appleDeveloperProgramAnnualUsd !== productionGates.iosAppStore?.annualCostUsd ||
+  iosRelease.costGate?.spendAllowed !== unitEconomics.controls?.storeSpendAllowed ||
+  !iosRelease.checks?.some((check) => check.id === 'apple-privacy-labels' && check.status === 'pass') ||
+  !iosRelease.checks?.some((check) => check.id === 'age-rating' && check.status === 'pass') ||
+  !iosRelease.checks?.some((check) => check.id === 'native-app-like-value' && check.status === 'pass') ||
+  !iosRelease.checks?.some((check) => check.id === 'annual-fee-payback' && check.status === 'held-by-economics') ||
+  iosCapacitorConfig.webDir !== 'dist' ||
+  iosCapacitorConfig.metadata?.nativeProjectGenerated !== false ||
+  iosAppStoreHandoff.controls?.noStoreSubmission !== true ||
+  !iosAppStoreHandoff.appReview?.appLikeValueEvidence?.some((item) => item.includes('playable original games')) ||
+  !iosReadme.includes('No Xcode project is generated in the zero-spend path.')
+) {
+  fail('iOS release planner must publish a zero-spend App Store handoff while deferring Apple account, Xcode, and store submission gates.')
+}
+
+if (unitEconomics.controls?.storeSpendAllowed === false && iosRelease.status === 'ready-for-testflight-handoff') {
+  fail('iOS release must not become ready while store spend is blocked.')
 }
 
 const twaManifest = JSON.parse(await readFile(path.join(root, 'native', 'android', 'twa-manifest.json'), 'utf8'))
@@ -4901,6 +4962,21 @@ if (
   fail('Production readiness must include generated native app packaging handoff assets.')
 }
 
+if (
+  readiness.distribution?.iosAppStore?.status !== iosRelease.status ||
+  readiness.distribution?.iosRelease?.status !== iosRelease.status ||
+  readiness.distribution?.iosRelease?.bundleId !== iosRelease.bundleId ||
+  readiness.distribution?.iosRelease?.controls?.noStoreSubmission !== true ||
+  !readiness.distribution?.storePackage?.checks?.some(
+    (check) => check.id === 'ios-app-store-handoff' && check.status === 'pass',
+  ) ||
+  !readiness.distribution?.iosRelease?.checks?.some(
+    (check) => check.id === 'annual-fee-payback' && check.status === 'held-by-economics',
+  )
+) {
+  fail('Production readiness must include the iOS App Store handoff while keeping Apple spend and submission blocked.')
+}
+
 if (readiness.monetization?.status !== 'blocked') {
   fail('Monetization must remain blocked until completion, replay, and retention gates pass.')
 }
@@ -5252,6 +5328,7 @@ const ownerObjectiveAuditInputs = [
   { id: 'repository-bootstrap', generatedAt: repositoryBootstrap.generatedAt },
   { id: 'monetization-plan', generatedAt: monetizationPlan.generatedAt },
   { id: 'android-release', generatedAt: androidRelease.generatedAt },
+  { id: 'ios-release', generatedAt: iosRelease.generatedAt },
 ]
 const ownerObjectiveAuditGeneratedAtMs = ownerGeneratedAtMs(objectiveAudit)
 const ownerObjectiveAuditStaleInputIds = ownerObjectiveAuditInputs
@@ -5425,6 +5502,7 @@ const ownerProductionBlockerSourceFresh =
   productionBlockerHandoff.sourceStatus?.monetization === monetizationPlan.status &&
   productionBlockerHandoff.sourceStatus?.storeCompliance === storeCompliance.status &&
   productionBlockerHandoff.sourceStatus?.androidRelease === androidRelease.status &&
+  productionBlockerHandoff.sourceStatus?.iosRelease === iosRelease.status &&
   productionBlockerHandoff.sourceStatus?.unitEconomics === unitEconomics.status &&
   productionBlockerHandoff.sourceStatus?.postDeployArtifactSync === postDeployArtifactSync.status
 const ownerProductionBlockerHandoffReady =

@@ -1,0 +1,18 @@
+{
+  "appId": "app.autonomousgamelab.portal",
+  "appName": "Autonomous Game Lab",
+  "webDir": "dist",
+  "bundledWebRuntime": false,
+  "ios": {
+    "scheme": "AutonomousGameLab",
+    "contentInset": "automatic"
+  },
+  "metadata": {
+    "status": "deferred-until-ios-payback",
+    "productionOrigin": "https://moshequ.github.io/autonomous-game-lab",
+    "privacyUrl": "https://moshequ.github.io/autonomous-game-lab/privacy.html",
+    "supportUrl": "https://moshequ.github.io/autonomous-game-lab/support.html",
+    "nativeProjectGenerated": false,
+    "reason": "Draft config only; do not run Capacitor/Xcode packaging until Apple, payback, and review gates pass."
+  }
+}

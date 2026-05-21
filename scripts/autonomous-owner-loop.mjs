@@ -304,6 +304,7 @@ const promotion = await readJson(path.join(dataDir, 'promotion-decision.json'))
 const monetization = await readJson(path.join(dataDir, 'monetization-plan.json'))
 const unitEconomics = await readJson(path.join(dataDir, 'unit-economics.json'))
 const androidRelease = await readJson(path.join(dataDir, 'android-release.json'))
+const iosRelease = await readJson(path.join(dataDir, 'ios-release.json'))
 const productionResponse = await readJson(path.join(dataDir, 'production-response.json'))
 const incidentDrill = await readJson(path.join(dataDir, 'incident-drill.json'))
 const deployment = await readJson(path.join(dataDir, 'deployment-plan.json'))
@@ -448,6 +449,7 @@ const productionBlockerHandoffSourceFresh =
   productionBlockerHandoff.sourceStatus?.monetization === monetization.status &&
   productionBlockerHandoff.sourceStatus?.storeCompliance === storeCompliance.status &&
   productionBlockerHandoff.sourceStatus?.androidRelease === androidRelease.status &&
+  productionBlockerHandoff.sourceStatus?.iosRelease === iosRelease.status &&
   productionBlockerHandoff.sourceStatus?.unitEconomics === unitEconomics.status &&
   productionBlockerHandoff.sourceStatus?.postDeployArtifactSync === postDeployArtifactSync.status
 const productionBlockerHandoffReady =
@@ -1093,11 +1095,14 @@ const systems = [
   },
   {
     id: 'app-store-path',
-    status: androidRelease.status,
+    status:
+      androidRelease.status === 'ready-for-internal-testing' && iosRelease.status === 'ready-for-testflight-handoff'
+        ? 'ready'
+        : androidRelease.status,
     autonomy: 'draft-ready-held-by-economics',
     evidence: `Native package ${nativePackage.status}; Android promotion ${androidDecision?.status ?? 'missing'}; screenshots ${
       storeAssets.screenshots?.length ?? 0
-    }.`,
+    }; iOS ${iosRelease.status}.`,
     nextAction: 'Keep Android/iOS distribution prepared but blocked until host, signing, account, and payback gates clear.',
   },
 ]
@@ -1234,6 +1239,7 @@ const objectiveAuditFreshnessInputs = [
   { id: 'repository-bootstrap', generatedAt: repositoryBootstrap.generatedAt },
   { id: 'monetization-plan', generatedAt: monetization.generatedAt },
   { id: 'android-release', generatedAt: androidRelease.generatedAt },
+  { id: 'ios-release', generatedAt: iosRelease.generatedAt },
 ]
 const objectiveAuditGeneratedAtMs = generatedAtMs(objectiveAudit)
 const objectiveAuditStaleInputs = objectiveAuditFreshnessInputs.filter((artifact) => {
@@ -2373,6 +2379,7 @@ const payload = {
         'monetization-plan',
         'store-compliance',
         'android-release',
+        'ios-release',
         'unit-economics',
         'post-deploy-artifact-sync',
       ],
@@ -2421,6 +2428,7 @@ const payload = {
     storePackageStatus: storePackage.status,
     storeComplianceStatus: storeCompliance.status,
     androidSigningStatus: androidSigning.status,
+    iosReleaseStatus: iosRelease.status,
     supportEmailStatus: storePackage.supportPage?.supportEmailStatus,
   },
   commands: {

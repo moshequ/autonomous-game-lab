@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-21T09:17:16.997Z",
+  "generatedAt": "2026-05-21T09:32:41.615Z",
   "status": "owner-loop-ready",
   "mode": "zero-spend-web-ready",
   "autonomyScore": {
@@ -55,7 +55,7 @@
     "objectiveAuditFreshness": {
       "fresh": true,
       "structurallyReady": true,
-      "auditGeneratedAt": "2026-05-21T09:15:07.063Z",
+      "auditGeneratedAt": "2026-05-21T09:32:40.891Z",
       "evaluatedInputIds": [
         "analytics-rollup",
         "event-ingest",
@@ -68,7 +68,8 @@
         "repository-readiness",
         "repository-bootstrap",
         "monetization-plan",
-        "android-release"
+        "android-release",
+        "ios-release"
       ],
       "staleInputIds": []
     },
@@ -78,7 +79,7 @@
         "ready": true,
         "status": "cadence-ready",
         "artifactGeneratedAt": "2026-05-21T07:49:17.786Z",
-        "ageHours": 1.466,
+        "ageHours": 1.723,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -89,7 +90,7 @@
         "ready": true,
         "status": "self-update-ready",
         "artifactGeneratedAt": "2026-05-21T07:50:13.570Z",
-        "ageHours": 1.451,
+        "ageHours": 1.708,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -100,7 +101,7 @@
         "ready": true,
         "status": "support-feedback-empty",
         "artifactGeneratedAt": "2026-05-21T07:51:05.296Z",
-        "ageHours": 1.437,
+        "ageHours": 1.693,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -110,8 +111,8 @@
         "fresh": true,
         "ready": true,
         "status": "performance-budget-ready",
-        "artifactGeneratedAt": "2026-05-21T09:14:48.190Z",
-        "ageHours": 0.041,
+        "artifactGeneratedAt": "2026-05-21T09:32:34.222Z",
+        "ageHours": 0.002,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -440,7 +441,7 @@
     },
     "productionBootstrapFreshness": {
       "fresh": true,
-      "bootstrapGeneratedAt": "2026-05-21T09:15:06.582Z",
+      "bootstrapGeneratedAt": "2026-05-21T09:32:40.449Z",
       "evaluatedInputIds": [
         "release-candidate",
         "deployment-plan",
@@ -455,7 +456,7 @@
       "current": true,
       "ready": true,
       "status": "handoff-waiting-on-owner-inputs",
-      "generatedAt": "2026-05-21T09:15:08.213Z",
+      "generatedAt": "2026-05-21T09:32:36.529Z",
       "nextBestUnlockId": "support-contact",
       "ownerActionRequired": 5,
       "missingEnv": 7,
@@ -468,6 +469,7 @@
         "monetization-plan",
         "store-compliance",
         "android-release",
+        "ios-release",
         "unit-economics",
         "post-deploy-artifact-sync"
       ]
@@ -576,7 +578,7 @@
       "id": "performance-budget",
       "status": "ready",
       "autonomy": "automatic-build-budget",
-      "evidence": "Initial JS 657.6 KB; gzip 179.5 KB; deferred chunks 1.",
+      "evidence": "Initial JS 663.2 KB; gzip 180.9 KB; deferred chunks 1.",
       "nextAction": "Keep Phaser and game scenes outside the initial PWA shell."
     },
     {
@@ -675,7 +677,7 @@
       "status": "ready",
       "autonomy": "read-only-live-deploy-verification",
       "evidence": "Smoke post-deploy-smoke-observed-live; origin https://moshequ.github.io/autonomous-game-lab; manifest comparison required; checks 15/15 passed; local artifact predeploy-artifact-smoke-passed 15/15 passed.",
-      "nextAction": "Live Pages is reachable and serving pwa-be1d91c63d8b; run the deploy workflow for strict proof of the current local candidate if needed."
+      "nextAction": "Live Pages is reachable and serving pwa-4f507a7415c1; run the deploy workflow for strict proof of the current local candidate if needed."
     },
     {
       "id": "post-deploy-artifact-sync",
@@ -723,14 +725,14 @@
       "id": "operator-history",
       "status": "ready",
       "autonomy": "operator-audit-trail",
-      "evidence": "History operator-history-ready; records 39; executed 13.",
+      "evidence": "History operator-history-ready; records 40; executed 13.",
       "nextAction": "Keep a capped durable record of operator plans and one-action executions."
     },
     {
       "id": "objective-audit",
       "status": "ready",
       "autonomy": "completion-evidence-ledger",
-      "evidence": "Audit objective-in-progress; met 6/8; external blockers 12.",
+      "evidence": "Audit objective-in-progress; met 6/8; external blockers 15.",
       "nextAction": "The local autonomous PWA system is largely prepared with strict live deploy evidence synced from GitHub Actions, but production credentials, live data, monetization gates, and store account/signing blockers remain."
     },
     {
@@ -772,7 +774,7 @@
       "id": "app-store-path",
       "status": "blocked-needs-host-signing-play",
       "autonomy": "draft-ready-held-by-economics",
-      "evidence": "Native package blocked-draft-ready; Android promotion blocked; screenshots 4.",
+      "evidence": "Native package blocked-draft-ready; Android promotion blocked; screenshots 4; iOS deferred-until-ios-payback.",
       "nextAction": "Keep Android/iOS distribution prepared but blocked until host, signing, account, and payback gates clear."
     }
   ],
@@ -876,7 +878,7 @@
       "command": "npm run build && npm run autonomous:performance && npm run autonomous:release-candidate",
       "targets": [
         "pwa-shell",
-        "GameCanvas-DVNWOWNa.js",
+        "GameCanvas-DQqNrmLd.js",
         "dist-release-candidate"
       ],
       "reason": "Performance budget and release-candidate evidence are already fresh for the current guarded build."
@@ -1047,7 +1049,7 @@
       "costUsd": 0,
       "command": "npm run autonomous:operator",
       "targets": [
-        "check-performance-budget"
+        "refresh-production-blocker-handoff"
       ],
       "reason": "Operator history is already capped and published; keep attention on product evidence."
     },
@@ -1271,6 +1273,7 @@
     "storePackageStatus": "store-package-ready",
     "storeComplianceStatus": "draft-ready-external-blockers",
     "androidSigningStatus": "signing-prepared",
+    "iosReleaseStatus": "deferred-until-ios-payback",
     "supportEmailStatus": "needs-production-address"
   },
   "commands": {

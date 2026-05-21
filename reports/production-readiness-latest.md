@@ -1,6 +1,6 @@
 # Production Readiness
 
-Generated: 2026-05-21T09:15:08.296Z
+Generated: 2026-05-21T09:32:42.065Z
 
 ## Environment
 
@@ -32,7 +32,7 @@ Local git: true
 - done: repo-bootstrap-inspect-repository-channel - Repository readiness is repository-channel-ready.
 - ready: repo-bootstrap-initialize-local-git - Git worktree is available at /Users/moshequ/Documents/Codex/2026-05-18/i-want-to-have-a-new.
 - ready: repo-bootstrap-create-initial-commit - The local repository has at least one commit.
-- ready-for-explicit-snapshot-commit: repo-bootstrap-commit-current-snapshot - 3 non-generated source or artifact file(s) are not committed yet.
+- ready-for-explicit-snapshot-commit: repo-bootstrap-commit-current-snapshot - 12 non-generated source or artifact file(s) are not committed yet.
 - ready: repo-bootstrap-set-or-create-origin - Origin remote resolves to moshequ/autonomous-game-lab.
 - ready-for-explicit-create-or-attach: repo-bootstrap-create-github-repository - GitHub CLI can create or attach moshequ/autonomous-game-lab when explicitly allowed.
 - waiting-for-clean-snapshot: repo-bootstrap-push-initial-snapshot - Push stays held until a committed local snapshot and origin remote exist.
@@ -59,7 +59,7 @@ Status: ready-after-build
 - pass: organic-seed-loop - Organic seed loop is organic-seed-loop-ready; target canopy-bloom; player-initiated share guard active.
 - pass: retention-loop - Retention loop is retention-loop-ready; daily challenge canopy-bloom; no-push/no-account guardrails active.
 - pass: pwa-install-loop - PWA install loop is pwa-install-loop-ready; prompt surface autonomy-cockpit; cost $0.
-- pass: performance-budget - Performance budget is performance-budget-ready; initial JS 657.6 KB / 179.5 KB gzip; deferred game chunk GameCanvas-DVNWOWNa.js.
+- pass: performance-budget - Performance budget is performance-budget-ready; initial JS 663.2 KB / 180.9 KB gzip; deferred game chunk GameCanvas-DQqNrmLd.js.
 - pass: release-candidate - Release candidate is release-candidate-ready; files 44; smoke URLs 14.
 - pass: post-deploy-smoke-runner - Post-deploy smoke is post-deploy-smoke-observed-live; origin https://moshequ.github.io/autonomous-game-lab; checks 15/15 passed, 0 blocked; local artifact predeploy-artifact-smoke-passed 15/15 passed.
 - pass: product-optimization - Product optimizer is product-optimization-ready; completion 0.397 vs gate 0.55; latest action already-applied.
@@ -72,7 +72,7 @@ Status: ready-after-build
 - pass: production-blocker-handoff - Production blocker handoff is handoff-waiting-on-owner-inputs; owner inputs 5; next unlock support-contact.
 - pass: production-activation - Production activation is activation-ready; mode dry-run; execution dry-run.
 - pass: autonomous-operator - Autonomous operator is operator-held; selected none; execution not-requested.
-- pass: autonomous-operator-history - Autonomous operator history is operator-history-ready; records 39; executed 13.
+- pass: autonomous-operator-history - Autonomous operator history is operator-history-ready; records 40; executed 13.
 - pass: autonomous-cadence - Autonomous cadence is cadence-ready; Codex active-confirmed; GitHub scheduled.
 - pass: autonomous-self-update - Autonomous self-update is self-update-ready; safe pending 17; unsafe pending 0; remote push held.
 - pass: objective-audit - Objective audit is objective-in-progress; met 6 / 8; can complete false.
@@ -115,23 +115,23 @@ Installs: 0
 ## Performance Budget
 
 Status: performance-budget-ready
-Initial JS: 657.6 KB (179.5 KB gzip)
-Deferred game chunk: GameCanvas-DVNWOWNa.js
-- pass: performance-initial-js-budget - Initial JS is 657.6 KB; budget is 675 KB.
-- pass: performance-initial-js-gzip-budget - Initial JS gzip is 179.5 KB; budget is 200 KB.
+Initial JS: 663.2 KB (180.9 KB gzip)
+Deferred game chunk: GameCanvas-DQqNrmLd.js
+- pass: performance-initial-js-budget - Initial JS is 663.2 KB; budget is 675 KB.
+- pass: performance-initial-js-gzip-budget - Initial JS gzip is 180.9 KB; budget is 200 KB.
 - pass: performance-initial-css-budget - Initial CSS is 10.4 KB; budget is 40 KB.
 - pass: performance-manifest - PWA manifest exists in dist.
 - pass: performance-service-worker - Service worker exists in dist.
-- pass: performance-game-runtime-deferred - GameCanvas-DVNWOWNa.js is deferred from the initial shell.
-- pass: performance-largest-js-deferred - Largest JS chunk is GameCanvas-DVNWOWNa.js at 1361.1 KB.
+- pass: performance-game-runtime-deferred - GameCanvas-DQqNrmLd.js is deferred from the initial shell.
+- pass: performance-largest-js-deferred - Largest JS chunk is GameCanvas-DQqNrmLd.js at 1361.1 KB.
 - pass: performance-deferred-game-budget - Deferred game chunk is 1361.1 KB; monitor budget is 1600 KB.
 
 ## Release Candidate
 
 Status: release-candidate-ready
-Candidate: pwa-8a00f75e9023
+Candidate: pwa-6b1fc69517cf
 Files: 44
-Aggregate SHA-256: 8a00f75e90231010d4597997cb0c6a9de253854f49ec464f5da77d190bc6ce3e
+Aggregate SHA-256: 6b1fc69517cf2539a01048aac754fe6a7237415ba0c77145bc28ea904133de6c
 - pass: release-dist-inventory - 44 dist files inventoried.
 - pass: release-required-files - 19/19 required files present.
 - pass: release-game-pages - 10 generated game page(s) in dist.
@@ -145,7 +145,7 @@ Aggregate SHA-256: 8a00f75e90231010d4597997cb0c6a9de253854f49ec464f5da77d190bc6c
 
 Status: post-deploy-smoke-observed-live
 Origin: https://moshequ.github.io/autonomous-game-lab
-Candidate: pwa-8a00f75e9023
+Candidate: pwa-6b1fc69517cf
 Checks: 15/15 passed (0 blocked)
 Local artifact: predeploy-artifact-smoke-passed (15/15 passed)
 - pass: smoke-app-shell - Live URL matched status and required text.
@@ -167,14 +167,14 @@ Local artifact: predeploy-artifact-smoke-passed (15/15 passed)
 ## Post-Deploy Artifact Sync
 
 Status: post-deploy-artifact-sync-passed
-Workflow run: 26216454138
-Artifact candidate: pwa-be1d91c63d8b
-Live candidate: pwa-be1d91c63d8b
+Workflow run: 26217013143
+Artifact candidate: pwa-4f507a7415c1
+Live candidate: pwa-4f507a7415c1
 Live matches artifact: true
 - pass: artifact-sync-gh-cli - gh version 2.92.0 (2026-04-28)
 - pass: artifact-sync-github-repository - Target repository is moshequ/autonomous-game-lab.
-- pass: artifact-sync-explicit-pages-run - Explicit web-pwa-deploy.yml run is 26216454138.
-- pass: artifact-sync-post-deploy-smoke-artifact - Downloaded post-deploy-smoke artifact from run 26216454138.
+- pass: artifact-sync-explicit-pages-run - Explicit web-pwa-deploy.yml run is 26217013143.
+- pass: artifact-sync-post-deploy-smoke-artifact - Downloaded post-deploy-smoke artifact from run 26217013143.
 - pass: artifact-sync-strict-smoke-artifact - Artifact status post-deploy-smoke-passed; strict manifest comparison true; checks 15/15.
 - pass: artifact-sync-live-release-manifest - Live release-candidate.json still matches the strict smoke artifact.
 
@@ -270,7 +270,7 @@ Execution: not-requested
 ## Autonomous Operator History
 
 Status: operator-history-ready
-Records: 39
+Records: 40
 Executed: 13
 
 ## Autonomous Cadence
@@ -329,6 +329,7 @@ Store package: draft-ready
 - pass: apple-privacy-labels - Apple App Privacy label draft exists.
 - pass: native-packaging-path - Android TWA packaging draft exists while signing remains blocked.
 - pass: native-package-handoff - Android native handoff is blocked-draft-ready.
+- pass: ios-app-store-handoff - iOS App Store handoff is deferred-until-ios-payback.
 - pass: android-signing-prep - Android signing is signing-prepared; fingerprint available.
 - pass: store-screenshots - Generated store screenshot assets are screenshots-ready; 4 screenshots attached.
 - pass: store-compliance - Store compliance is draft-ready-external-blockers.
@@ -359,6 +360,18 @@ Native package: blocked-draft-ready
 - pass: native-icon-assets - 6 icon asset(s) available.
 - blocker: native-google-play-account - Google Play developer account is not connected.
 
+iOS release: deferred-until-ios-payback
+- pass: ios-store-listing - Store listing metadata is ready for App Store Connect draft entry.
+- pass: ios-apple-privacy-labels - Apple App Privacy labels are drafted from the store package.
+- pass: ios-age-rating - Apple 4+ age-rating answers are drafted.
+- pass: ios-store-screenshots - 4 screenshot asset(s) are available.
+- pass: ios-hosted-privacy-url - Hosted privacy policy URL is available for App Review.
+- external-blocker: ios-support-contact - Production support email is required before public store submission.
+- pass: ios-native-app-like-value - PWA install, daily challenge, completion, replay, and multi-game catalog evidence prepare the native-value review story.
+- deferred-paid-account: ios-apple-developer-account - Apple Developer Program account is not connected.
+- missing-env: ios-app-store-connect-api - App Store Connect API credentials are not available to CI.
+- held-by-economics: ios-annual-fee-payback - Store spend allowed is false; projected Apple payback is not available.
+
 Android signing: signing-prepared
 - fingerprint: FC:92:04:44:5B:93:78:92:A9:8C:08:50:BF:97:7A:90:A5:62:61:81:53:E7:A9:AA:A9:39:86:74:AE:D3:52:C2
 - local secrets configured: true
@@ -370,7 +383,7 @@ Icon assets: icons-ready
 - manifest icon: /icons/maskable-512.png (512x512, maskable)
 
 - Google Play: blocked, $25 cost gate.
-- iOS App Store: defer, $99/year cost gate.
+- iOS App Store: deferred-until-ios-payback, $99/year cost gate.
 
 ## Promotion Rule
 

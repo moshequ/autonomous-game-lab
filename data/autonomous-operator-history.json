@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-21T09:15:07.595Z",
+  "generatedAt": "2026-05-21T09:32:41.370Z",
   "status": "operator-history-ready",
   "retention": {
     "maxRecords": 40,
@@ -22,11 +22,11 @@
     "compactedDuplicateDryRuns": 0
   },
   "summary": {
-    "totalRecords": 39,
-    "plannedRecords": 26,
+    "totalRecords": 40,
+    "plannedRecords": 27,
     "executedRecords": 13,
     "failedRecords": 0,
-    "lastActionId": "check-performance-budget",
+    "lastActionId": "refresh-production-blocker-handoff",
     "lastExecutionStatus": "not-requested",
     "lastExecutedActionId": "check-performance-budget"
   },
@@ -1245,6 +1245,32 @@
         "check-performance-budget"
       ],
       "blockedActionCount": 29,
+      "execution": {
+        "requested": false,
+        "status": "not-requested",
+        "attemptedActionId": null,
+        "resultCount": 0,
+        "failedScripts": []
+      },
+      "controls": {
+        "zeroPaidSpend": true,
+        "localCommandAllowlistEnforced": true,
+        "externalWorkflowExecutionBlockedByDefault": true,
+        "maxActionsPerRun": 1
+      }
+    },
+    {
+      "id": "20260521092906-refresh-production-blocker-handoff",
+      "generatedAt": "2026-05-21T09:29:06.951Z",
+      "runFingerprint": "3ec1ba2886d68209",
+      "mode": "plan-only",
+      "status": "operator-plan-ready",
+      "selectedActionId": "refresh-production-blocker-handoff",
+      "selectedCommand": "npm run autonomous:blocker-handoff",
+      "eligibleActionIds": [
+        "refresh-production-blocker-handoff"
+      ],
+      "blockedActionCount": 31,
       "execution": {
         "requested": false,
         "status": "not-requested",

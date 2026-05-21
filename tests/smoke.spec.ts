@@ -3799,6 +3799,95 @@ test('android signing prep creates redacted zero-spend TWA signing evidence', as
   await expect(page.getByLabel('Android Signing')).toContainText('signing-prepared')
 })
 
+test('iOS App Store handoff stays prepared and deferred without paid account work', async ({ page }) => {
+  const iosRelease = JSON.parse(await readFile('data/ios-release.json', 'utf8')) as {
+    status: string
+    platform: string
+    bundleId: string
+    strategy: {
+      packageStrategy: string
+      nativeProjectDeferred: boolean
+      xcodeProjectCreated: boolean
+    }
+    costGate: {
+      appleDeveloperProgramAnnualUsd: number
+      spendAllowed: boolean
+    }
+    controls: {
+      zeroPaidSpend: boolean
+      noAppleAccountCreation: boolean
+      noStoreSubmission: boolean
+      noXcodeProjectGenerated: boolean
+    }
+    handoff: {
+      capacitorConfigPath: string
+      appStoreHandoffPath: string
+    }
+    checks: Array<{ id: string; status: string }>
+    blockers: string[]
+    appLikeValueEvidence: string[]
+  }
+  const capacitorConfig = JSON.parse(await readFile('native/ios/capacitor.config.json', 'utf8')) as {
+    appId: string
+    webDir: string
+    metadata: { nativeProjectGenerated: boolean }
+  }
+  const appStoreHandoff = JSON.parse(await readFile('native/ios/app-store-handoff.json', 'utf8')) as {
+    bundleId: string
+    controls: { noStoreSubmission: boolean }
+    appReview: { appLikeValueEvidence: string[] }
+  }
+  const readiness = JSON.parse(await readFile('data/production-readiness.json', 'utf8')) as {
+    distribution: {
+      iosAppStore: { status: string; handoffStatus: string }
+      iosRelease: {
+        status: string
+        bundleId: string
+        controls: { noStoreSubmission: boolean }
+        checks: Array<{ id: string; status: string }>
+      }
+      storePackage: { checks: Array<{ id: string; status: string }> }
+    }
+  }
+
+  expect(iosRelease.status).toBe('deferred-until-ios-payback')
+  expect(iosRelease.platform).toBe('ios-app-store')
+  expect(iosRelease.strategy.packageStrategy).toBe('capacitor-pwa-shell-after-payback')
+  expect(iosRelease.strategy.nativeProjectDeferred).toBe(true)
+  expect(iosRelease.strategy.xcodeProjectCreated).toBe(false)
+  expect(iosRelease.costGate.appleDeveloperProgramAnnualUsd).toBe(99)
+  expect(iosRelease.costGate.spendAllowed).toBe(false)
+  expect(iosRelease.controls.zeroPaidSpend).toBe(true)
+  expect(iosRelease.controls.noAppleAccountCreation).toBe(true)
+  expect(iosRelease.controls.noStoreSubmission).toBe(true)
+  expect(iosRelease.controls.noXcodeProjectGenerated).toBe(true)
+  expect(iosRelease.handoff.capacitorConfigPath).toBe('native/ios/capacitor.config.json')
+  expect(iosRelease.handoff.appStoreHandoffPath).toBe('native/ios/app-store-handoff.json')
+  expect(iosRelease.checks.find((check) => check.id === 'apple-privacy-labels')?.status).toBe('pass')
+  expect(iosRelease.checks.find((check) => check.id === 'age-rating')?.status).toBe('pass')
+  expect(iosRelease.checks.find((check) => check.id === 'native-app-like-value')?.status).toBe('pass')
+  expect(iosRelease.checks.find((check) => check.id === 'annual-fee-payback')?.status).toBe('held-by-economics')
+  expect(iosRelease.blockers.some((blocker) => blocker.startsWith('annual-fee-payback:'))).toBe(true)
+  expect(iosRelease.appLikeValueEvidence.some((item) => item.includes('playable original games'))).toBe(true)
+  expect(capacitorConfig.appId).toBe(iosRelease.bundleId)
+  expect(capacitorConfig.webDir).toBe('dist')
+  expect(capacitorConfig.metadata.nativeProjectGenerated).toBe(false)
+  expect(appStoreHandoff.bundleId).toBe(iosRelease.bundleId)
+  expect(appStoreHandoff.controls.noStoreSubmission).toBe(true)
+  expect(appStoreHandoff.appReview.appLikeValueEvidence).toEqual(iosRelease.appLikeValueEvidence)
+  expect(readiness.distribution.iosAppStore.status).toBe(iosRelease.status)
+  expect(readiness.distribution.iosAppStore.handoffStatus).toBe(iosRelease.status)
+  expect(readiness.distribution.iosRelease.bundleId).toBe(iosRelease.bundleId)
+  expect(readiness.distribution.iosRelease.controls.noStoreSubmission).toBe(true)
+  expect(readiness.distribution.storePackage.checks.find((check) => check.id === 'ios-app-store-handoff')?.status).toBe(
+    'pass',
+  )
+
+  await page.goto('/')
+  await expect(page.getByLabel('iOS Release Handoff')).toContainText('deferred')
+  await expect(page.getByLabel('iOS Release Handoff')).toContainText(iosRelease.bundleId)
+})
+
 test('generated Digital Asset Links are reachable for Android TWA handoff', async ({ page }) => {
   const nativePackage = JSON.parse(await readFile('data/native-package.json', 'utf8')) as {
     packageName: string
@@ -3858,6 +3947,11 @@ test('objective audit maps the goal to evidence and remaining blockers', async (
   expect(audit.requirements.find((item) => item.id === 'app-store-distribution-path')?.status).toBe(
     'prepared-external-blockers',
   )
+  expect(
+    audit.requirements
+      .find((item) => item.id === 'app-store-distribution-path')
+      ?.evidence.some((item) => item.includes('iOS release:')),
+  ).toBe(true)
   expect(audit.controls.preserveOriginalScope).toBe(true)
   expect(audit.controls.doNotMarkGoalCompleteWhileBlocked).toBe(true)
   expect(audit.controls.zeroSpendGuard).toBe(true)

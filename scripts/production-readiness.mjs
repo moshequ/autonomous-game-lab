@@ -25,6 +25,7 @@ const completionLoopPath = path.join(root, 'data', 'completion-loop.json')
 const replayLoopPath = path.join(root, 'data', 'replay-loop.json')
 const nativePackagePath = path.join(root, 'data', 'native-package.json')
 const androidSigningPath = path.join(root, 'data', 'android-signing.json')
+const iosReleasePath = path.join(root, 'data', 'ios-release.json')
 const environmentPath = path.join(root, 'data', 'production-environment.json')
 const supportChannelPath = path.join(root, 'data', 'support-channel.json')
 const supportFeedbackPath = path.join(root, 'data', 'support-feedback.json')
@@ -182,6 +183,14 @@ const androidSigning = await readOptionalJson(androidSigningPath, {
   ciSecrets: {},
   controls: {},
   checks: [],
+})
+const iosRelease = await readOptionalJson(iosReleasePath, {
+  status: 'missing',
+  platform: 'ios-app-store',
+  handoff: {},
+  checks: [],
+  blockers: [],
+  controls: {},
 })
 const environment = await readOptionalJson(environmentPath, {
   status: 'missing',
@@ -1060,6 +1069,15 @@ const storePackageChecks = [
     `Android native handoff is ${nativePackage.status}.`,
   ),
   check(
+    'ios-app-store-handoff',
+    iosRelease.status !== 'missing' &&
+      iosRelease.platform === 'ios-app-store' &&
+      iosRelease.handoff?.capacitorConfigPath === 'native/ios/capacitor.config.json' &&
+      iosRelease.handoff?.appStoreHandoffPath === 'native/ios/app-store-handoff.json' &&
+      iosRelease.controls?.noStoreSubmission === true,
+    `iOS App Store handoff is ${iosRelease.status}.`,
+  ),
+  check(
     'android-signing-prep',
     androidSigning.status === 'signing-prepared' &&
       androidSigning.controls?.noSecretValuesInReports === true &&
@@ -1338,10 +1356,11 @@ const payload = {
       nativePackageStatus: nativePackage.status,
     },
     iosAppStore: {
-      status: 'defer',
+      status: iosRelease.status === 'missing' ? 'defer' : iosRelease.status,
       estimatedCostUsd: gates.iosAppStore.annualCostUsd,
-      blockers: gates.iosAppStore.required,
+      blockers: iosRelease.blockers?.length ? iosRelease.blockers : gates.iosAppStore.required,
       storePackageStatus: statusFromChecks(storePackageChecks, 'draft-ready'),
+      handoffStatus: iosRelease.status,
     },
     storePackage: {
       status: statusFromChecks(storePackageChecks, 'draft-ready'),
@@ -1373,6 +1392,17 @@ const payload = {
       assetLinksStatus: nativePackage.assetLinks?.status,
       blockers: nativePackage.blockers ?? [],
       checks: nativePackage.checks ?? [],
+    },
+    iosRelease: {
+      status: iosRelease.status,
+      platform: iosRelease.platform,
+      bundleId: iosRelease.bundleId,
+      strategy: iosRelease.strategy,
+      costGate: iosRelease.costGate,
+      handoff: iosRelease.handoff,
+      controls: iosRelease.controls,
+      blockers: iosRelease.blockers ?? [],
+      checks: iosRelease.checks ?? [],
     },
     androidSigning: {
       status: androidSigning.status,
@@ -1619,6 +1649,11 @@ const report = [
   `Native package: ${payload.distribution.nativePackage.status}`,
   ...(payload.distribution.nativePackage.checks ?? []).map(
     (item) => `- ${item.status}: native-${item.id} - ${item.detail}`,
+  ),
+  '',
+  `iOS release: ${payload.distribution.iosRelease.status}`,
+  ...(payload.distribution.iosRelease.checks ?? []).map(
+    (item) => `- ${item.status}: ios-${item.id} - ${item.detail}`,
   ),
   '',
   `Android signing: ${payload.distribution.androidSigning.status}`,

@@ -1,6 +1,6 @@
 # Autonomous Owner Loop
 
-Generated: 2026-05-21T09:17:16.997Z
+Generated: 2026-05-21T09:32:41.615Z
 Status: owner-loop-ready
 Mode: zero-spend-web-ready
 Autonomy score: 42/43 (98%)
@@ -29,7 +29,7 @@ Autonomy score: 42/43 (98%)
 - ready: organic-seed-loop - Target canopy-bloom; surface portal-growth-loop; share telemetry organic_seed_share_clicked.
 - ready: retention-loop - Daily canopy-bloom; D1 17%; streak variant daily-streak; return prompt armed; return intent armed.
 - ready: pwa-install-loop - Prompt autonomy-cockpit; installs 0; launch events 0; sample collecting-sample needs 20 prompt(s) and 10 launch event(s).
-- ready: performance-budget - Initial JS 657.6 KB; gzip 179.5 KB; deferred chunks 1.
+- ready: performance-budget - Initial JS 663.2 KB; gzip 180.9 KB; deferred chunks 1.
 - ready: product-optimization - Completion 40% / gate 55%; latest already-applied.
 - ready: support-feedback - Support feedback support-feedback-empty; issues 0; routable signals 0.
 - ready: product-gate-recovery - Recovery product-gate-recovery-ready; primary firstGameCompletion; experiment collecting-sample; failing gates 3; next lift 128.
@@ -50,14 +50,14 @@ Autonomy score: 42/43 (98%)
 - ready: production-blocker-handoff - Handoff handoff-waiting-on-owner-inputs; next support-contact; owner inputs 5; missing env 7; missing secrets 3.
 - ready: support-channel - Support channel support-channel-ready; repository moshequ/autonomous-game-lab; public intake ready.
 - ready: autonomous-operator - Operator operator-held; selected none; execution not-requested.
-- ready: operator-history - History operator-history-ready; records 39; executed 13.
-- ready: objective-audit - Audit objective-in-progress; met 6/8; external blockers 12.
+- ready: operator-history - History operator-history-ready; records 40; executed 13.
+- ready: objective-audit - Audit objective-in-progress; met 6/8; external blockers 15.
 - ready: store-listing-optimizer - Focus canopy-bloom; lead screenshot phone-canopy-bloom-generated; candidate changed yes.
 - ready: store-compliance - Rating Everyone; target audience general; blockers 3.
 - ready: android-signing - Signing signing-prepared; fingerprint available; local secrets configured.
 - ready: production-safety - Response guarded-operations; incident drill pass; spend mode no-spend.
 - held-by-product-gates: monetization-path - Revenue disabled; promotion blocked; completion 40%.
-- blocked-needs-host-signing-play: app-store-path - Native package blocked-draft-ready; Android promotion blocked; screenshots 4.
+- blocked-needs-host-signing-play: app-store-path - Native package blocked-draft-ready; Android promotion blocked; screenshots 4; iOS deferred-until-ios-payback.
 
 ## Safe Autonomous Actions
 

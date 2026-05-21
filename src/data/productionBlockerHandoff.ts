@@ -33,6 +33,7 @@ export const productionBlockerHandoff = {
     "monetization": "blocked-by-product-gates",
     "storeCompliance": "draft-ready-external-blockers",
     "androidRelease": "blocked-needs-host-signing-play",
+    "iosRelease": "deferred-until-ios-payback",
     "unitEconomics": "no-spend",
     "postDeployArtifactSync": "post-deploy-artifact-sync-passed"
   },

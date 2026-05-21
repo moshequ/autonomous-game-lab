@@ -22,6 +22,7 @@ const autonomousOwnerLoop = await readJson(path.join(dataDir, 'autonomous-owner-
 const monetization = await readJson(path.join(dataDir, 'monetization-plan.json'))
 const storeCompliance = await readJson(path.join(dataDir, 'store-compliance.json'))
 const androidRelease = await readJson(path.join(dataDir, 'android-release.json'))
+const iosRelease = await readJson(path.join(dataDir, 'ios-release.json'))
 const unitEconomics = await readJson(path.join(dataDir, 'unit-economics.json'))
 const postDeployArtifactSync = await readOptionalJson(path.join(dataDir, 'post-deploy-artifact-sync.json'), {
   status: 'missing',
@@ -58,6 +59,7 @@ const allBlockers = unique([
   ...(monetization.blockers ?? []),
   ...(storeCompliance.blockers ?? []),
   ...(androidRelease.blockers ?? []),
+  ...(iosRelease.blockers ?? []),
 ])
 const blockersMatching = (patterns) => allBlockers.filter((blocker) => patterns.some((pattern) => pattern.test(blocker)))
 const envConfigured = (name) => envByName.get(name)?.configured === true
@@ -229,9 +231,10 @@ const sourceDataHash = hashSourceData({
   objectiveAudit,
   autonomousOwnerLoop,
   monetization,
-  storeCompliance,
-  androidRelease,
-  unitEconomics,
+    storeCompliance,
+    androidRelease,
+    iosRelease,
+    unitEconomics,
   postDeployArtifactSync,
 })
 const ownerActionRequired = sortedHandoffItems.filter((item) => item.ownerInputRequired)
@@ -255,6 +258,7 @@ const payload = {
     monetization: monetization.status,
     storeCompliance: storeCompliance.status,
     androidRelease: androidRelease.status,
+    iosRelease: iosRelease.status,
     unitEconomics: unitEconomics.status,
     postDeployArtifactSync: postDeployArtifactSync.status,
   },
