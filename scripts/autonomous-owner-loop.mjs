@@ -2,6 +2,7 @@ import { mkdir, readdir, readFile, writeFile } from 'node:fs/promises'
 import path from 'node:path'
 import { buildExplicitDownloadsScanPolicy, stableDownloadsScanPolicySource } from './lib/downloads-scan-policy.mjs'
 import { hashRawSourceData, hashSourceData, hashTextSourceData, sourceFreshness } from './lib/source-hash.mjs'
+import { stableTrafficSeedingForSamplePlan } from './lib/traffic-sample-source.mjs'
 
 const root = process.cwd()
 const dataDir = path.join(root, 'data')
@@ -1453,7 +1454,7 @@ const productGateSamplePlanSourceEvidence = {
   productGateRecovery,
   productOptimization,
   analytics,
-  trafficSeeding: traffic,
+  trafficSeeding: stableTrafficSeedingForSamplePlan(traffic),
   organicSeedLoop,
   retentionLoop: productGateSamplePlanRetentionSourceEvidence,
   completionLoop,

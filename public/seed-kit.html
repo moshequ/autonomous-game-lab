@@ -17,6 +17,7 @@
       .summary { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 12px; }
       .pill { border: 1px solid #c7d0c6; border-radius: 999px; padding: 8px 12px; background: #ffffff; font-weight: 700; }
       .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 14px; }
+      .sampleStrip { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 16px; align-items: center; margin-bottom: 18px; background: #ffffff; border: 1px solid #d6ded2; border-radius: 8px; padding: 18px; box-shadow: 0 10px 24px rgba(22, 36, 26, 0.08); }
       .campaign { display: grid; gap: 14px; background: #ffffff; border: 1px solid #d6ded2; border-radius: 8px; padding: 18px; box-shadow: 0 10px 24px rgba(22, 36, 26, 0.08); }
       .eyebrow { color: #496858; font-size: 0.78rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em; }
       .campaign p:not(.eyebrow) { color: #4e5c54; line-height: 1.45; }
@@ -30,6 +31,7 @@
       label { display: grid; gap: 6px; color: #5d6b63; font-weight: 700; }
       textarea { min-height: 96px; resize: vertical; border: 1px solid #cfd8cd; border-radius: 6px; padding: 10px; font: inherit; color: #1c2a21; background: #fbfcfa; }
       .status { min-height: 1.25rem; color: #496858; font-size: 0.9rem; font-weight: 700; }
+      @media (max-width: 760px) { .sampleStrip { grid-template-columns: 1fr; } }
     </style>
   </head>
   <body>
@@ -44,6 +46,22 @@
           <span class="pill">40 starts before judgment</span>
         </div>
       </header>
+      <section class="sampleStrip" aria-label="Product gate sample kit">
+        <div>
+          <p class="eyebrow">Product gate sample</p>
+          <h2>Sample D1 retention</h2>
+          <p>Canopy Bloom needs real zero-spend player evidence before revenue or store gates move.</p>
+        </div>
+        <div class="actions">
+          <a href="./gate-sample.html">Open gate missions</a>
+          <a class="secondary" href="./?game=canopy-bloom&amp;utm_source=gate_sample&amp;utm_campaign=gate-sample-20260521-d1Retention">Start default sample</a>
+        </div>
+        <dl>
+          <div><dt>Campaign</dt><dd>gate-sample-20260521-d1Retention</dd></div>
+          <div><dt>Need</dt><dd>10 views / 1 wins</dd></div>
+          <div><dt>Cost</dt><dd>$0.00</dd></div>
+        </dl>
+      </section>
       <section class="grid" aria-label="Seed campaigns">
         
       <article class="campaign" data-campaign-id="seed-20260521-canopy-bloom" data-share-path="/?game=canopy-bloom&amp;utm_source=seed_share&amp;utm_campaign=seed-20260521-canopy-bloom" data-game-id="canopy-bloom" data-share-title="Play Canopy Bloom" data-share-text="A generated roll and write puzzle with quick science desk decisions.">

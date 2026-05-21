@@ -1,5 +1,5 @@
 export const trafficSeeding = {
-  "generatedAt": "2026-05-21T07:41:12.492Z",
+  "generatedAt": "2026-05-21T11:17:00.250Z",
   "status": "traffic-seeding-ready",
   "sourceDataHash": "ed32eff95364",
   "analyticsSource": "fixture-sample",
@@ -12,6 +12,7 @@ export const trafficSeeding = {
     "noExternalPostingWithoutCredentials": true,
     "noAutomatedExternalPosting": true,
     "playerInitiatedSharingOnly": true,
+    "productGateSampleSharingOnly": true,
     "minimumStartsBeforeQualityJudgment": 40
   },
   "channels": [
@@ -45,6 +46,17 @@ export const trafficSeeding = {
         "share_clicked",
         "organic_entry_opened",
         "game_started"
+      ]
+    },
+    {
+      "id": "product-gate-sample",
+      "status": "armed",
+      "costUsd": 0,
+      "surface": "gate-sample-page",
+      "telemetry": [
+        "gate_sample_mission_clicked",
+        "share_clicked",
+        "analytics_exported"
       ]
     }
   ],
@@ -86,7 +98,8 @@ export const trafficSeeding = {
       "channels": [
         "internal-rotation",
         "organic-page",
-        "player-share"
+        "player-share",
+        "product-gate-sample"
       ]
     },
     {
@@ -126,7 +139,8 @@ export const trafficSeeding = {
       "channels": [
         "internal-rotation",
         "organic-page",
-        "player-share"
+        "player-share",
+        "product-gate-sample"
       ]
     },
     {
@@ -166,7 +180,8 @@ export const trafficSeeding = {
       "channels": [
         "internal-rotation",
         "organic-page",
-        "player-share"
+        "player-share",
+        "product-gate-sample"
       ]
     },
     {
@@ -206,10 +221,24 @@ export const trafficSeeding = {
       "channels": [
         "internal-rotation",
         "organic-page",
-        "player-share"
+        "player-share",
+        "product-gate-sample"
       ]
     }
   ],
+  "sampleDistribution": {
+    "status": "gate-sample-sharing-ready",
+    "kitPath": "/gate-sample.html",
+    "defaultCampaignId": "gate-sample-20260521-d1Retention",
+    "defaultGateId": "d1Retention",
+    "missionCount": 3,
+    "costUsd": 0,
+    "playerInitiatedSharingOnly": true,
+    "noAutomatedExternalPosting": true,
+    "noSyntheticEvents": true,
+    "exportControls": true,
+    "shareControls": true
+  },
   "sitemapPriority": [
     {
       "gameId": "canopy-bloom",
@@ -234,6 +263,7 @@ export const trafficSeeding = {
   ],
   "nextActions": [
     "Feature Canopy Bloom in the internal growth loop and share manifest.",
+    "Feature Sample D1 retention as the default product-gate sample share link.",
     "Keep traffic sources organic/internal until paid acquisition gates pass.",
     "Judge seeded games only after each reaches the target start sample."
   ]

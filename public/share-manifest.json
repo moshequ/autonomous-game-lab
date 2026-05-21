@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-21T07:41:12.492Z",
+  "generatedAt": "2026-05-21T11:17:00.250Z",
   "siteUrl": "https://moshequ.github.io/autonomous-game-lab",
   "publicUrlMode": "absolute-origin",
   "shares": [
@@ -143,7 +143,7 @@
     "copyShareControls": true,
     "localAnalyticsEvents": true,
     "localAnalyticsStorageKey": "agl.analytics.events",
-    "generatedAt": "2026-05-21T07:41:12.492Z"
+    "generatedAt": "2026-05-21T11:17:00.250Z"
   },
   "seedCampaigns": [
     {
@@ -203,6 +203,90 @@
       "tags": [
         "seed-traffic",
         "seed-needed",
+        "zero-spend"
+      ]
+    }
+  ],
+  "gateSampleKit": {
+    "path": "/gate-sample.html",
+    "url": "https://moshequ.github.io/autonomous-game-lab/gate-sample.html",
+    "campaignCount": 3,
+    "defaultCampaignId": "gate-sample-20260521-d1Retention",
+    "costUsd": 0,
+    "playerInitiatedSharingOnly": true,
+    "copyShareControls": true,
+    "exportControls": true,
+    "localAnalyticsEvents": true,
+    "localAnalyticsStorageKey": "agl.analytics.events",
+    "generatedAt": "2026-05-21T11:17:00.250Z"
+  },
+  "gateSampleMissions": [
+    {
+      "id": "gate-sample-20260521-firstGameCompletion",
+      "campaignId": "gate-sample-20260521-firstGameCompletion",
+      "gateId": "firstGameCompletion",
+      "gameId": "harbor-rings",
+      "title": "Sample First game completion",
+      "text": "Harbor Rings needs real zero-spend player evidence before revenue or store gates move.",
+      "url": "https://moshequ.github.io/autonomous-game-lab/?game=harbor-rings&utm_source=gate_sample&utm_campaign=gate-sample-20260521-firstGameCompletion",
+      "playPath": "/?game=harbor-rings&utm_source=gate_sample&utm_campaign=gate-sample-20260521-firstGameCompletion",
+      "pageUrl": "https://moshequ.github.io/autonomous-game-lab/gate-sample.html",
+      "priority": 1,
+      "costUsd": 0,
+      "needed": {
+        "promptViews": 30,
+        "successes": 128
+      },
+      "tags": [
+        "product-gate-sample",
+        "firstGameCompletion",
+        "primary-bottleneck",
+        "zero-spend"
+      ]
+    },
+    {
+      "id": "gate-sample-20260521-replayRate",
+      "campaignId": "gate-sample-20260521-replayRate",
+      "gateId": "replayRate",
+      "gameId": "harbor-rings",
+      "title": "Sample Replay rate",
+      "text": "Harbor Rings needs real zero-spend player evidence before revenue or store gates move.",
+      "url": "https://moshequ.github.io/autonomous-game-lab/?game=harbor-rings&utm_source=gate_sample&utm_campaign=gate-sample-20260521-replayRate",
+      "playPath": "/?game=harbor-rings&utm_source=gate_sample&utm_campaign=gate-sample-20260521-replayRate",
+      "pageUrl": "https://moshequ.github.io/autonomous-game-lab/gate-sample.html",
+      "priority": 2,
+      "costUsd": 0,
+      "needed": {
+        "promptViews": 30,
+        "successes": 10
+      },
+      "tags": [
+        "product-gate-sample",
+        "replayRate",
+        "supporting-sample",
+        "zero-spend"
+      ]
+    },
+    {
+      "id": "gate-sample-20260521-d1Retention",
+      "campaignId": "gate-sample-20260521-d1Retention",
+      "gateId": "d1Retention",
+      "gameId": "canopy-bloom",
+      "title": "Sample D1 retention",
+      "text": "Canopy Bloom needs real zero-spend player evidence before revenue or store gates move.",
+      "url": "https://moshequ.github.io/autonomous-game-lab/?game=canopy-bloom&utm_source=gate_sample&utm_campaign=gate-sample-20260521-d1Retention",
+      "playPath": "/?game=canopy-bloom&utm_source=gate_sample&utm_campaign=gate-sample-20260521-d1Retention",
+      "pageUrl": "https://moshequ.github.io/autonomous-game-lab/gate-sample.html",
+      "priority": 3,
+      "costUsd": 0,
+      "needed": {
+        "promptViews": 10,
+        "successes": 1
+      },
+      "tags": [
+        "product-gate-sample",
+        "d1Retention",
+        "fastest-validation",
         "zero-spend"
       ]
     }

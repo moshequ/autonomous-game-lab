@@ -2,6 +2,7 @@ import { readdir, readFile } from 'node:fs/promises'
 import path from 'node:path'
 import { buildExplicitDownloadsScanPolicy, stableDownloadsScanPolicySource } from './lib/downloads-scan-policy.mjs'
 import { hashSourceData } from './lib/source-hash.mjs'
+import { stableTrafficSeedingForSamplePlan } from './lib/traffic-sample-source.mjs'
 
 const root = process.cwd()
 const localIsoDate = (date = new Date()) => {
@@ -1592,7 +1593,7 @@ const productGateSamplePlanSourceDataHash = hashSourceData({
   productGateRecovery,
   productOptimization,
   analytics,
-  trafficSeeding,
+  trafficSeeding: stableTrafficSeedingForSamplePlan(trafficSeeding),
   organicSeedLoop,
   retentionLoop: productGateSamplePlanRetentionSourceEvidence,
   completionLoop,
@@ -5362,7 +5363,7 @@ const ownerProductGateSamplePlanSourceDataHash = hashSourceData({
   productGateRecovery,
   productOptimization,
   analytics,
-  trafficSeeding,
+  trafficSeeding: stableTrafficSeedingForSamplePlan(trafficSeeding),
   organicSeedLoop,
   retentionLoop: productGateSamplePlanRetentionSourceEvidence,
   completionLoop,

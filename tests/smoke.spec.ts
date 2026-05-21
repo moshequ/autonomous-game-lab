@@ -5017,14 +5017,17 @@ test('growth and traffic artifacts avoid placeholder origins before hosting is c
   const traffic = JSON.parse(await readFile('data/traffic-seeding.json', 'utf8')) as {
     siteUrl: string | null
     publicUrlMode: string
+    sampleDistribution: { kitPath: string }
     campaigns: Array<{ playUrl: string; shareUrl: string; pageUrl: string; pagePath: string }>
   }
   const shareManifest = JSON.parse(await readFile('public/share-manifest.json', 'utf8')) as {
     siteUrl: string | null
     publicUrlMode: string
     seedKit: { url: string }
+    gateSampleKit: { url: string }
     shares: Array<{ url: string }>
     seedCampaigns: Array<{ url: string; pageUrl: string }>
+    gateSampleMissions: Array<{ url: string; pageUrl: string }>
   }
   const environment = JSON.parse(await readFile('data/production-environment.json', 'utf8')) as {
     publicOrigin: { origin: string | null }
@@ -5058,8 +5061,12 @@ test('growth and traffic artifacts avoid placeholder origins before hosting is c
     expect(traffic.campaigns.every((campaign) => campaign.playUrl.startsWith('/') && campaign.shareUrl.startsWith('/'))).toBe(true)
     expect(traffic.campaigns.every((campaign) => campaign.pageUrl === campaign.pagePath)).toBe(true)
     expect(shareManifest.seedKit.url).toBe('/seed-kit.html')
+    expect(shareManifest.gateSampleKit.url).toBe(traffic.sampleDistribution.kitPath)
     expect(shareManifest.shares.every((share) => share.url.startsWith('/'))).toBe(true)
     expect(shareManifest.seedCampaigns.every((campaign) => campaign.url.startsWith('/') && campaign.pageUrl.startsWith('/'))).toBe(
+      true,
+    )
+    expect(shareManifest.gateSampleMissions.every((mission) => mission.url.startsWith('/') && mission.pageUrl.startsWith('/'))).toBe(
       true,
     )
     expect(storePackage.nativePackaging.androidTwaManifest.host).toBeNull()
@@ -5070,7 +5077,23 @@ test('growth and traffic artifacts avoid placeholder origins before hosting is c
 
 test('zero-spend seed kit is reachable and uses runtime-relative campaign links', async ({ page }) => {
   const traffic = JSON.parse(await readFile('data/traffic-seeding.json', 'utf8')) as {
-    guardrails: { maxCostUsd: number; playerInitiatedSharingOnly: boolean; noAutomatedExternalPosting: boolean }
+    guardrails: {
+      maxCostUsd: number
+      playerInitiatedSharingOnly: boolean
+      productGateSampleSharingOnly: boolean
+      noAutomatedExternalPosting: boolean
+    }
+    sampleDistribution: {
+      status: string
+      kitPath: string
+      defaultCampaignId: string
+      missionCount: number
+      playerInitiatedSharingOnly: boolean
+      noAutomatedExternalPosting: boolean
+      noSyntheticEvents: boolean
+      exportControls: boolean
+      shareControls: boolean
+    }
     campaigns: Array<{ id: string; gameId: string; sharePath: string; title: string }>
   }
   const shareManifest = JSON.parse(await readFile('public/share-manifest.json', 'utf8')) as {
@@ -5083,6 +5106,25 @@ test('zero-spend seed kit is reachable and uses runtime-relative campaign links'
       localAnalyticsEvents: boolean
       localAnalyticsStorageKey: string
     }
+    gateSampleKit: {
+      path: string
+      campaignCount: number
+      defaultCampaignId: string
+      costUsd: number
+      playerInitiatedSharingOnly: boolean
+      copyShareControls: boolean
+      exportControls: boolean
+      localAnalyticsEvents: boolean
+      localAnalyticsStorageKey: string
+    }
+    gateSampleMissions: Array<{
+      campaignId: string
+      gateId: string
+      title: string
+      playPath: string
+      needed: { promptViews: number; successes: number }
+      costUsd: number
+    }>
   }
 
   await page.goto('/seed-kit.html')
@@ -5093,13 +5135,30 @@ test('zero-spend seed kit is reachable and uses runtime-relative campaign links'
   expect(shareManifest.seedKit.campaignCount).toBe(traffic.campaigns.length)
   expect(shareManifest.seedKit.costUsd).toBe(traffic.guardrails.maxCostUsd)
   expect(traffic.guardrails.playerInitiatedSharingOnly).toBe(true)
+  expect(traffic.guardrails.productGateSampleSharingOnly).toBe(true)
   expect(traffic.guardrails.noAutomatedExternalPosting).toBe(true)
   expect(shareManifest.seedKit.playerInitiatedSharingOnly).toBe(true)
   expect(shareManifest.seedKit.copyShareControls).toBe(true)
   expect(shareManifest.seedKit.localAnalyticsEvents).toBe(true)
   expect(shareManifest.seedKit.localAnalyticsStorageKey).toBe('agl.analytics.events')
+  expect(traffic.sampleDistribution.status).toBe('gate-sample-sharing-ready')
+  expect(traffic.sampleDistribution.missionCount).toBe(shareManifest.gateSampleMissions.length)
+  expect(traffic.sampleDistribution.playerInitiatedSharingOnly).toBe(true)
+  expect(traffic.sampleDistribution.noAutomatedExternalPosting).toBe(true)
+  expect(traffic.sampleDistribution.noSyntheticEvents).toBe(true)
+  expect(traffic.sampleDistribution.exportControls).toBe(true)
+  expect(traffic.sampleDistribution.shareControls).toBe(true)
+  expect(shareManifest.gateSampleKit.path).toBe(traffic.sampleDistribution.kitPath)
+  expect(shareManifest.gateSampleKit.defaultCampaignId).toBe(traffic.sampleDistribution.defaultCampaignId)
+  expect(shareManifest.gateSampleKit.playerInitiatedSharingOnly).toBe(true)
+  expect(shareManifest.gateSampleKit.copyShareControls).toBe(true)
+  expect(shareManifest.gateSampleKit.exportControls).toBe(true)
+  expect(shareManifest.gateSampleKit.localAnalyticsStorageKey).toBe('agl.analytics.events')
 
   const firstCampaign = traffic.campaigns[0]
+  const defaultSample = shareManifest.gateSampleMissions.find(
+    (mission) => mission.campaignId === shareManifest.gateSampleKit.defaultCampaignId,
+  )
   const firstCard = page.locator(`[data-campaign-id="${firstCampaign.id}"]`)
   await expect(firstCard).toContainText(firstCampaign.title)
   await expect(firstCard).toHaveAttribute('data-share-path', firstCampaign.sharePath)
@@ -5110,6 +5169,17 @@ test('zero-spend seed kit is reachable and uses runtime-relative campaign links'
   )
   await expect(page.getByRole('button', { name: 'Copy share text' }).first()).toBeVisible()
   await expect(page.getByRole('button', { name: 'Share' }).first()).toBeVisible()
+  await expect(page.getByRole('link', { name: 'Open gate missions' })).toHaveAttribute('href', './gate-sample.html')
+  expect(defaultSample).toBeTruthy()
+  if (defaultSample) {
+    await expect(page.getByLabel('Product gate sample kit')).toContainText(defaultSample.title)
+    await expect(page.getByRole('link', { name: 'Start default sample' })).toHaveAttribute(
+      'href',
+      `.${defaultSample.playPath}`,
+    )
+    expect(defaultSample.costUsd).toBe(0)
+    expect(defaultSample.needed.promptViews).toBeGreaterThan(0)
+  }
   expect(firstCampaign.sharePath).toContain('utm_source=seed_share')
   expect(await page.content()).not.toContain('autonomous-game-lab.example.com')
 

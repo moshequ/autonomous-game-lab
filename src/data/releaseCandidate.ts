@@ -1,7 +1,7 @@
 export const releaseCandidate = {
-  "generatedAt": "2026-05-21T10:51:02.895Z",
+  "generatedAt": "2026-05-21T11:17:47.323Z",
   "status": "release-candidate-ready",
-  "candidateId": "pwa-36393b6472f8",
+  "candidateId": "pwa-417c97f3bc34",
   "target": {
     "provider": "github-pages",
     "artifactPath": "dist",
@@ -12,8 +12,8 @@ export const releaseCandidate = {
   },
   "summary": {
     "totalFiles": 44,
-    "totalBytes": 3723632,
-    "totalKb": 3636.4,
+    "totalBytes": 3728841,
+    "totalKb": 3641.4,
     "assetFiles": 3,
     "htmlFiles": 16,
     "gamePages": 10,
@@ -22,7 +22,7 @@ export const releaseCandidate = {
   },
   "integrity": {
     "algorithm": "sha256",
-    "aggregateHash": "36393b6472f8630f74f867c13bddba0c03d79910ea1014b656a708d3d19152a4",
+    "aggregateHash": "417c97f3bc34965ae0f32808413c4008a38583d89bceeb1eb1abc2e06c0ec984",
     "files": [
       {
         "path": ".nojekyll",
@@ -46,9 +46,16 @@ export const releaseCandidate = {
         "cacheControl": "public, max-age=3600"
       },
       {
-        "path": "assets/GameCanvas-BAN3hBj4.js",
+        "path": "assets/GameCanvas-wrVirmPR.js",
         "bytes": 1393755,
-        "sha256": "26668c87782fe53e5d382e26bdc7ed7aa4c8fb8f314edae77d084e2ad919eefe",
+        "sha256": "e12144c4d5eede2e4342dde5692f290e9b043976bf56dbe62c693f221188cbc6",
+        "contentType": "text/javascript; charset=utf-8",
+        "cacheControl": "public, max-age=31536000, immutable"
+      },
+      {
+        "path": "assets/index-Dh1S_sTI.js",
+        "bytes": 686486,
+        "sha256": "4e438588539a448d10499b832d3391e249c9faea08685ac06a0cb095caaeb13c",
         "contentType": "text/javascript; charset=utf-8",
         "cacheControl": "public, max-age=31536000, immutable"
       },
@@ -60,16 +67,9 @@ export const releaseCandidate = {
         "cacheControl": "public, max-age=31536000, immutable"
       },
       {
-        "path": "assets/index-ViYY3qAH.js",
-        "bytes": 685716,
-        "sha256": "24269a4e4996f23e017d8d73882fee40129447965a87f7d993aa17d1422e21ab",
-        "contentType": "text/javascript; charset=utf-8",
-        "cacheControl": "public, max-age=31536000, immutable"
-      },
-      {
         "path": "compliance.json",
         "bytes": 5625,
-        "sha256": "32f53c050e34374d99eebec81ab96b4e655996b1f4cb248681814f04822ca72c",
+        "sha256": "0bcf172e7ee2894791b1b36dba8e84ad36810b149de570c4050777b22f3d1cf7",
         "contentType": "application/json; charset=utf-8",
         "cacheControl": "public, max-age=3600"
       },
@@ -216,7 +216,7 @@ export const releaseCandidate = {
       {
         "path": "index.html",
         "bytes": 903,
-        "sha256": "d0c9db020c0777d0613b87ff53d53de59185e402f6b5326d62d3d731f3028008",
+        "sha256": "d1480a17ead8b9adf9862d5a76d147700b526010567bb9a9d25a90f561a41586",
         "contentType": "text/html; charset=utf-8",
         "cacheControl": "no-cache"
       },
@@ -264,15 +264,15 @@ export const releaseCandidate = {
       },
       {
         "path": "seed-kit.html",
-        "bytes": 13716,
-        "sha256": "79d39ad83cefa8afc3a79560b5f4c0ce6701ebab782fbcd8ae47714949dbe2c4",
+        "bytes": 14863,
+        "sha256": "7c4fea6b6e87965831e75f9ebef4d86117639cd98ec066534c92649d8aa2e015",
         "contentType": "text/html; charset=utf-8",
         "cacheControl": "no-cache"
       },
       {
         "path": "share-manifest.json",
-        "bytes": 7372,
-        "sha256": "159c2355be5523b08d1202d1966132352db65de60ba5e9b70e46ec0013186c80",
+        "bytes": 10664,
+        "sha256": "2dffc5abd2f203b673778f7c9f3f06021e7781aa27e3de697a08c76901b6bacd",
         "contentType": "application/json; charset=utf-8",
         "cacheControl": "public, max-age=3600"
       },
@@ -321,7 +321,7 @@ export const releaseCandidate = {
       {
         "path": "sw.js",
         "bytes": 3735,
-        "sha256": "30a740ca127dbf5341de5f74d9a20f7b2765bcacc9d7453476718c8a392e577a",
+        "sha256": "f3f36f43186a8790e9b22f6da00244737e7c1ff0a1be5d3f87638e4d06f7a920",
         "contentType": "text/javascript; charset=utf-8",
         "cacheControl": "no-cache"
       },

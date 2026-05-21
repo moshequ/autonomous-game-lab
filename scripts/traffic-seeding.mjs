@@ -89,6 +89,13 @@ const analytics = await readJson(path.join(dataDir, 'analytics-rollup.json'))
 const unitEconomics = await readOptionalJson(path.join(dataDir, 'unit-economics.json'), {
   controls: { paidAcquisitionAllowed: false, maxDailySpendUsd: 0 },
 })
+const productGateSamplePlan = await readOptionalJson(path.join(dataDir, 'product-gate-sample-plan.json'), {
+  status: 'missing',
+  summary: {},
+  publicSamplePage: { path: '/gate-sample.html' },
+  missions: [],
+  controls: {},
+})
 const shareManifest = await readOptionalJson(shareManifestPath, {
   generatedAt: new Date().toISOString(),
   siteUrl: growth.siteUrl,
@@ -102,6 +109,7 @@ const analyticsById = new Map((analytics.games ?? []).map((game) => [game.gameId
 const siteUrl = normalizePublicOrigin(growth.siteUrl) ?? normalizePublicOrigin(shareManifest.siteUrl)
 const publicUrlMode = siteUrl ? 'absolute-origin' : 'runtime-relative'
 const publicUrl = (pathname) => (siteUrl ? `${siteUrl}${rootPath(pathname)}` : rootPath(pathname))
+const runtimeHref = (value) => (String(value).startsWith('/') ? `.${value}` : value)
 const runDate = slugDate()
 const seedIds = (portfolio.rotation?.seedTrafficGameIds ?? []).filter((gameId) => playableIds.has(gameId))
 const campaignIds = seedIds.length ? seedIds : (portfolio.games ?? []).slice(0, 4).map((game) => game.gameId)
@@ -135,6 +143,13 @@ const channels = [
     costUsd: 0,
     surface: 'share-manifest',
     telemetry: ['share_clicked', 'organic_entry_opened', 'game_started'],
+  },
+  {
+    id: 'product-gate-sample',
+    status: productGateSamplePlan.status === 'product-gate-sample-plan-ready' ? 'armed' : 'waiting',
+    costUsd: 0,
+    surface: 'gate-sample-page',
+    telemetry: ['gate_sample_mission_clicked', 'share_clicked', 'analytics_exported'],
   },
 ]
 
@@ -198,6 +213,37 @@ const normalizedShares = (shareManifest.shares ?? []).map((share) => {
     url: safePublicUrl(share.url, fallbackPath, siteUrl),
   }
 })
+const gateSampleKitPath = productGateSamplePlan.publicSamplePage?.path ?? '/gate-sample.html'
+const gateSampleMissions = (productGateSamplePlan.missions ?? []).map((mission, index) => {
+  const playPath =
+    mission.playPath ??
+    `/?game=${encodeURIComponent(mission.gameId)}&utm_source=gate_sample&utm_campaign=${encodeURIComponent(
+      mission.campaignId,
+    )}`
+
+  return {
+    id: mission.campaignId,
+    campaignId: mission.campaignId,
+    gateId: mission.gateId,
+    gameId: mission.gameId,
+    title: `Sample ${mission.label ?? mission.gateId}`,
+    text: `${mission.title} needs real zero-spend player evidence before revenue or store gates move.`,
+    url: publicUrl(playPath),
+    playPath,
+    pageUrl: publicUrl(gateSampleKitPath),
+    priority: mission.rank ?? index + 1,
+    costUsd: mission.controls?.costUsd ?? 0,
+    needed: {
+      promptViews: mission.needed?.promptViews ?? 0,
+      successes: mission.needed?.successes ?? 0,
+    },
+    tags: ['product-gate-sample', mission.gateId, mission.sampleRole, 'zero-spend'].filter(Boolean),
+  }
+})
+const defaultGateSampleMission =
+  gateSampleMissions.find((mission) => mission.campaignId === productGateSamplePlan.summary?.defaultRouteCampaignId) ??
+  gateSampleMissions[0] ??
+  null
 
 const payload = {
   generatedAt: new Date().toISOString(),
@@ -213,15 +259,32 @@ const payload = {
     noExternalPostingWithoutCredentials: true,
     noAutomatedExternalPosting: true,
     playerInitiatedSharingOnly: true,
+    productGateSampleSharingOnly: true,
     minimumStartsBeforeQualityJudgment: 40,
   },
   channels,
   campaigns,
+  sampleDistribution: {
+    status: gateSampleMissions.length ? 'gate-sample-sharing-ready' : 'waiting-for-sample-plan',
+    kitPath: gateSampleKitPath,
+    defaultCampaignId: defaultGateSampleMission?.campaignId ?? null,
+    defaultGateId: defaultGateSampleMission?.gateId ?? null,
+    missionCount: gateSampleMissions.length,
+    costUsd: 0,
+    playerInitiatedSharingOnly: true,
+    noAutomatedExternalPosting: true,
+    noSyntheticEvents: productGateSamplePlan.controls?.noSyntheticGatePasses === true,
+    exportControls: productGateSamplePlan.publicSamplePage?.playerInitiatedExportEnabled === true,
+    shareControls: productGateSamplePlan.publicSamplePage?.playerInitiatedShareEnabled === true,
+  },
   sitemapPriority,
   nextActions: [
     ...(campaigns.length
       ? [`Feature ${campaigns[0].title} in the internal growth loop and share manifest.`]
       : ['Wait for portfolio policy to identify seed games.']),
+    ...(defaultGateSampleMission
+      ? [`Feature ${defaultGateSampleMission.title} as the default product-gate sample share link.`]
+      : []),
     'Keep traffic sources organic/internal until paid acquisition gates pass.',
     'Judge seeded games only after each reaches the target start sample.',
   ],
@@ -244,6 +307,19 @@ const nextShareManifest = {
     localAnalyticsStorageKey: 'agl.analytics.events',
     generatedAt: payload.generatedAt,
   },
+  gateSampleKit: {
+    path: gateSampleKitPath,
+    url: publicUrl(gateSampleKitPath),
+    campaignCount: gateSampleMissions.length,
+    defaultCampaignId: defaultGateSampleMission?.campaignId ?? null,
+    costUsd: 0,
+    playerInitiatedSharingOnly: true,
+    copyShareControls: true,
+    exportControls: productGateSamplePlan.publicSamplePage?.playerInitiatedExportEnabled === true,
+    localAnalyticsEvents: true,
+    localAnalyticsStorageKey: 'agl.analytics.events',
+    generatedAt: payload.generatedAt,
+  },
   seedCampaigns: campaigns.map((campaign) => ({
     id: campaign.id,
     gameId: campaign.gameId,
@@ -255,6 +331,7 @@ const nextShareManifest = {
     costUsd: campaign.costUsd,
     tags: [campaign.action, campaign.dataConfidence, 'zero-spend'].filter(Boolean),
   })),
+  gateSampleMissions,
 }
 
 const seedKitCards = campaigns
@@ -289,6 +366,24 @@ const seedKitCards = campaigns
       </article>`,
   )
   .join('\n')
+const gateSampleStrip = defaultGateSampleMission
+  ? `<section class="sampleStrip" aria-label="Product gate sample kit">
+        <div>
+          <p class="eyebrow">Product gate sample</p>
+          <h2>${escapeHtml(defaultGateSampleMission.title)}</h2>
+          <p>${escapeHtml(defaultGateSampleMission.text)}</p>
+        </div>
+        <div class="actions">
+          <a href="${escapeHtml(runtimeHref(gateSampleKitPath))}">Open gate missions</a>
+          <a class="secondary" href="${escapeHtml(runtimeHref(defaultGateSampleMission.playPath))}">Start default sample</a>
+        </div>
+        <dl>
+          <div><dt>Campaign</dt><dd>${escapeHtml(defaultGateSampleMission.campaignId)}</dd></div>
+          <div><dt>Need</dt><dd>${defaultGateSampleMission.needed.promptViews} views / ${defaultGateSampleMission.needed.successes} wins</dd></div>
+          <div><dt>Cost</dt><dd>$${defaultGateSampleMission.costUsd.toFixed(2)}</dd></div>
+        </dl>
+      </section>`
+  : ''
 
 const seedKitHtml = `<!doctype html>
 <html lang="en">
@@ -309,6 +404,7 @@ const seedKitHtml = `<!doctype html>
       .summary { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 12px; }
       .pill { border: 1px solid #c7d0c6; border-radius: 999px; padding: 8px 12px; background: #ffffff; font-weight: 700; }
       .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 14px; }
+      .sampleStrip { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 16px; align-items: center; margin-bottom: 18px; background: #ffffff; border: 1px solid #d6ded2; border-radius: 8px; padding: 18px; box-shadow: 0 10px 24px rgba(22, 36, 26, 0.08); }
       .campaign { display: grid; gap: 14px; background: #ffffff; border: 1px solid #d6ded2; border-radius: 8px; padding: 18px; box-shadow: 0 10px 24px rgba(22, 36, 26, 0.08); }
       .eyebrow { color: #496858; font-size: 0.78rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em; }
       .campaign p:not(.eyebrow) { color: #4e5c54; line-height: 1.45; }
@@ -322,6 +418,7 @@ const seedKitHtml = `<!doctype html>
       label { display: grid; gap: 6px; color: #5d6b63; font-weight: 700; }
       textarea { min-height: 96px; resize: vertical; border: 1px solid #cfd8cd; border-radius: 6px; padding: 10px; font: inherit; color: #1c2a21; background: #fbfcfa; }
       .status { min-height: 1.25rem; color: #496858; font-size: 0.9rem; font-weight: 700; }
+      @media (max-width: 760px) { .sampleStrip { grid-template-columns: 1fr; } }
     </style>
   </head>
   <body>
@@ -335,7 +432,7 @@ const seedKitHtml = `<!doctype html>
           <span class="pill">$0.00 spend</span>
           <span class="pill">${payload.guardrails.minimumStartsBeforeQualityJudgment} starts before judgment</span>
         </div>
-      </header>
+      </header>${gateSampleStrip ? `\n      ${gateSampleStrip}` : ''}
       <section class="grid" aria-label="Seed campaigns">
         ${seedKitCards}
       </section>
@@ -479,6 +576,7 @@ const report = [
   '## Seed Kit',
   '',
   `- /seed-kit.html with ${payload.campaigns.length} zero-spend seed campaign links and player-initiated copy/share controls.`,
+  `- ${payload.sampleDistribution.kitPath} with ${payload.sampleDistribution.missionCount} product-gate sample link(s); default ${payload.sampleDistribution.defaultCampaignId ?? 'none'}.`,
   '',
   '## Next Actions',
   '',
