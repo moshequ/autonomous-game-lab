@@ -1,6 +1,6 @@
 # Production Bootstrap
 
-Generated: 2026-05-21T21:01:59.011Z
+Generated: 2026-05-21T21:05:25.062Z
 Status: production-bootstrap-ready
 Mode: can-apply-configured-actions
 GitHub repository: moshequ/autonomous-game-lab
@@ -9,7 +9,7 @@ gh CLI available: true
 
 ## Local Env Files
 
-- ops/production.env.local: AGL_ANDROID_PACKAGE_NAME, AGL_ANDROID_SHA256_CERT_FINGERPRINT, AGL_ANDROID_KEYSTORE_BASE64, AGL_ANDROID_KEYSTORE_PASSWORD, AGL_ANDROID_KEY_ALIAS
+- none loaded
 - shell env precedence: true
 - protected mutation keys require shell env: true
 - values redacted: true
@@ -42,10 +42,10 @@ gh CLI available: true
 
 ## Repository Variables
 
-- ready: VITE_BASE_PATH from VITE_BASE_PATH (github-variable)
-- ready: AGL_PUBLIC_ORIGIN from AGL_PUBLIC_ORIGIN (github-variable)
-- ready: VITE_PUBLIC_ORIGIN from AGL_PUBLIC_ORIGIN (github-variable)
-- ready: PUBLIC_SITE_URL from AGL_PUBLIC_ORIGIN (github-variable)
+- ready: VITE_BASE_PATH from VITE_BASE_PATH (environment)
+- ready: AGL_PUBLIC_ORIGIN from AGL_PUBLIC_ORIGIN (environment)
+- ready: VITE_PUBLIC_ORIGIN from AGL_PUBLIC_ORIGIN (environment)
+- ready: PUBLIC_SITE_URL from AGL_PUBLIC_ORIGIN (environment)
 - missing: AGL_SUPPORT_EMAIL from AGL_SUPPORT_EMAIL (missing)
 - missing: VITE_POSTHOG_KEY from VITE_POSTHOG_KEY (missing)
 - missing: VITE_POSTHOG_HOST from VITE_POSTHOG_HOST (missing)
@@ -60,8 +60,8 @@ gh CLI available: true
 - missing: VITE_ADSENSE_REWARDED_SLOT_ID from VITE_ADSENSE_REWARDED_SLOT_ID (missing)
 - missing: ADMOB_PUBLISHER_ID from ADMOB_PUBLISHER_ID (missing)
 - missing: AD_NETWORK_PROVIDER from AD_NETWORK_PROVIDER (missing)
-- ready: AGL_ANDROID_PACKAGE_NAME from AGL_ANDROID_PACKAGE_NAME (environment)
-- ready: AGL_ANDROID_SHA256_CERT_FINGERPRINT from AGL_ANDROID_SHA256_CERT_FINGERPRINT (environment)
+- ready: AGL_ANDROID_PACKAGE_NAME from AGL_ANDROID_PACKAGE_NAME (github-variable)
+- ready: AGL_ANDROID_SHA256_CERT_FINGERPRINT from AGL_ANDROID_SHA256_CERT_FINGERPRINT (github-variable)
 - missing: AGL_GOOGLE_PLAY_ACCOUNT_CONNECTED from AGL_GOOGLE_PLAY_ACCOUNT_CONNECTED (missing)
 - missing: AGL_APPLE_DEVELOPER_ACCOUNT_CONNECTED from AGL_APPLE_DEVELOPER_ACCOUNT_CONNECTED (missing)
 - ready: AGL_AUTONOMOUS_SELF_UPDATE from AGL_AUTONOMOUS_SELF_UPDATE (github-variable)

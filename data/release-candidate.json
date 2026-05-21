@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-05-21T20:59:43.652Z",
+  "generatedAt": "2026-05-21T21:05:14.611Z",
   "status": "release-candidate-ready",
-  "candidateId": "pwa-8726143ce51b",
+  "candidateId": "pwa-dc9a4177d7ce",
   "target": {
     "provider": "github-pages",
     "artifactPath": "dist",
@@ -12,8 +12,8 @@
   },
   "summary": {
     "totalFiles": 47,
-    "totalBytes": 3698217,
-    "totalKb": 3611.5,
+    "totalBytes": 3698555,
+    "totalKb": 3611.9,
     "assetFiles": 4,
     "htmlFiles": 17,
     "gamePages": 10,
@@ -22,7 +22,7 @@
   },
   "integrity": {
     "algorithm": "sha256",
-    "aggregateHash": "8726143ce51b750d629b226f710fedaa572d7887395d108be67dc2ec3b1e9bfa",
+    "aggregateHash": "dc9a4177d7ce95b81ee612cb58e0694a6b2618983b22a2ef839f9a2aa614eecc",
     "files": [
       {
         "path": ".nojekyll",
@@ -46,23 +46,23 @@
         "cacheControl": "public, max-age=3600"
       },
       {
-        "path": "assets/aggregateEvidenceIssue-BZ0kkt7I.js",
+        "path": "assets/aggregateEvidenceIssue-Bz2u_-xe.js",
         "bytes": 2978,
-        "sha256": "d24a27f24f055cf142d698603ad7561f95278cebad6c64d4854c11275480fdb2",
+        "sha256": "bab3af5888ce7899cb161dd059782c0acbf76a0f55b932aec724a233ce3d1d8a",
         "contentType": "text/javascript; charset=utf-8",
         "cacheControl": "public, max-age=31536000, immutable"
       },
       {
-        "path": "assets/GameCanvas-8cI7bELQ.js",
+        "path": "assets/GameCanvas-SaeExd_W.js",
         "bytes": 1393760,
-        "sha256": "1c30630be05395ae194373767e8ca94034c7050530b19f9e72a25c36d885634b",
+        "sha256": "96b0edc48f071f70910f4da2c9dffdb9c594fd27c4d5d1cd4a6dc0ace803bcfa",
         "contentType": "text/javascript; charset=utf-8",
         "cacheControl": "public, max-age=31536000, immutable"
       },
       {
-        "path": "assets/index-D4oE4t-e.js",
-        "bytes": 691126,
-        "sha256": "40cf7c531ab3b3a54c36ad23eafb6e25a51b1d8654cfae299597ad6bc90fc065",
+        "path": "assets/index-BKFXK4rg.js",
+        "bytes": 691464,
+        "sha256": "c5fe673985f98bff894c56f40ede2c21c8c42fd6e8dfdd05ae636c0e54d919b6",
         "contentType": "text/javascript; charset=utf-8",
         "cacheControl": "public, max-age=31536000, immutable"
       },
@@ -76,7 +76,7 @@
       {
         "path": "compliance.json",
         "bytes": 5625,
-        "sha256": "da761b722d12a68a449cceea67a58358a2f8eb8ffd9f56a57eef9978b85f1b13",
+        "sha256": "e85dacf4af73e806bf4936c34af18f38fb7ea6dbbfebd23862e31ed63cbd186a",
         "contentType": "application/json; charset=utf-8",
         "cacheControl": "public, max-age=3600"
       },
@@ -160,7 +160,7 @@
       {
         "path": "gate-sample.html",
         "bytes": 26496,
-        "sha256": "72153b1d8bf60212e0eac35be5ef0963810bedca941dfb6ad85b7ed32782b9cd",
+        "sha256": "af8a275ffcfbb4db3f94a364fdfd99289b6bfae80f63c7daf2750a659ec1463c",
         "contentType": "text/html; charset=utf-8",
         "cacheControl": "no-cache"
       },
@@ -223,7 +223,7 @@
       {
         "path": "index.html",
         "bytes": 2846,
-        "sha256": "1f25f77b01121ed2ac153d222b294dac858692d7b1ae456985aeef7044a0bffa",
+        "sha256": "04529900b62eb8d0cff584cb174d5198fb7fd8ce8905f0e8e200b1bb2e5f7253",
         "contentType": "text/html; charset=utf-8",
         "cacheControl": "no-cache"
       },
@@ -251,7 +251,7 @@
       {
         "path": "measurement-status.json",
         "bytes": 3459,
-        "sha256": "d70717ecec0f2455a1a0c5f8c251704848b743ed867641b631879c324ae862c3",
+        "sha256": "8a551e5d4a1024f0183abb79f1bd2d52fdfc20f222aaae8de029e60ffd406ca6",
         "contentType": "application/json; charset=utf-8",
         "cacheControl": "public, max-age=3600"
       },
@@ -342,7 +342,7 @@
       {
         "path": "sw.js",
         "bytes": 3875,
-        "sha256": "1b7ed2462f9fbd8d813eed727db471a5cc6255d9ebea7678b3dfc16353eabb5e",
+        "sha256": "a800a6404202c17db8bd3b459e467e21159dc0c64be42a626e43e8162cff9bf1",
         "contentType": "text/javascript; charset=utf-8",
         "cacheControl": "no-cache"
       },

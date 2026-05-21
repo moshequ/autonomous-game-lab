@@ -1,5 +1,5 @@
 export const objectiveAudit = {
-  "generatedAt": "2026-05-21T21:02:01.000Z",
+  "generatedAt": "2026-05-21T21:05:26.750Z",
   "status": "objective-in-progress",
   "objective": "Build a bootstrapped autonomous web/PWA game portal that can generate original board-game-inspired games, measure user behavior, propose and apply data-driven improvements, and prepare a path to monetization and app-store distribution with minimal manual intervention.",
   "summary": {
@@ -76,7 +76,7 @@ export const objectiveAudit = {
         "Backlog: improvement-backlog-ready; items 4; hash 6f06a35d0fd9",
         "Support feedback: support-feedback-empty; issues 0; routable signals 0; aggregate notes 0",
         "Applied/deferred actions: 7",
-        "Operator selected: seed-portfolio-traffic; status operator-plan-ready; execution not-requested"
+        "Operator selected: optimize-daily-retention; status operator-plan-ready; execution not-requested"
       ],
       "blockers": [],
       "nextAction": "Keep collecting starts until a safe product-gate tuning action is justified.",
@@ -97,7 +97,7 @@ export const objectiveAudit = {
         "Repository bootstrap: repository-bootstrap-ready; helper ops/github/bootstrap-repository.sh",
         "Release candidate: release-candidate-ready; smoke URLs 16",
         "Post-deploy smoke: post-deploy-smoke-observed-live; origin https://moshequ.github.io/autonomous-game-lab; checks 17/17; local artifact predeploy-artifact-smoke-passed 17/17",
-        "Strict deploy artifact sync: post-deploy-artifact-sync-passed; run 26252593864; live matches artifact true; candidate pwa-19f7ff4c852c",
+        "Strict deploy artifact sync: post-deploy-artifact-sync-passed; run 26252998333; live matches artifact true; candidate pwa-c634755cfa9f",
         "Live site monitor: live-site-monitor-passed; checks 17/17; live matches synced deploy true",
         "Repository channel: repository-channel-ready; repository moshequ/autonomous-game-lab; git worktree true",
         "Autonomy score: 98%",
@@ -245,16 +245,16 @@ export const objectiveAudit = {
     "noRevenueEnablementUntilGatesPass": true,
     "noStoreSubmissionUntilExternalAccounts": true,
     "currentWorktreeClean": false,
-    "currentWorktreeDirtyFiles": 60,
+    "currentWorktreeDirtyFiles": 48,
     "productionBootstrapFresh": true,
-    "productionBootstrapSourceDataHash": "6600bd6608ff",
+    "productionBootstrapSourceDataHash": "791f3acf84b2",
     "productionBootstrapStaleInputIds": [],
     "objectiveNextBestActionSource": "owner-loop"
   },
   "completion": {
     "canMarkGoalComplete": false,
     "reason": "The local autonomous PWA system is largely prepared with strict live deploy evidence synced from GitHub Actions, but production credentials, live data, monetization gates, and store account/signing blockers remain.",
-    "nextBestAction": "seed-portfolio-traffic"
+    "nextBestAction": "optimize-daily-retention"
   }
 } as const
 
