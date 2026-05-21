@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-21T06:30:43.222Z",
+  "generatedAt": "2026-05-21T06:34:14.601Z",
   "status": "post-deploy-artifact-sync-passed",
   "envFiles": {
     "loaded": false,
@@ -41,16 +41,16 @@
   "workflow": {
     "workflowFile": "web-pwa-deploy.yml",
     "artifactName": "post-deploy-smoke",
-    "runId": 26209501041,
-    "headSha": "950088b4b5fe90765b44ea349c3ce0b9997fa14e",
-    "createdAt": "2026-05-21T06:29:30Z",
-    "url": "https://github.com/moshequ/autonomous-game-lab/actions/runs/26209501041",
+    "runId": 26209646102,
+    "headSha": "91fc5d265fe96dd26e511c2ce6a4ad0ae74701aa",
+    "createdAt": "2026-05-21T06:33:08Z",
+    "url": "https://github.com/moshequ/autonomous-game-lab/actions/runs/26209646102",
     "source": "explicit-run-id",
     "runListAvailable": false
   },
   "artifact": {
     "status": "post-deploy-smoke-passed",
-    "generatedAt": "2026-05-21T06:30:13.475Z",
+    "generatedAt": "2026-05-21T06:33:49.073Z",
     "target": {
       "origin": "https://moshequ.github.io/autonomous-game-lab/",
       "originSource": "agl-deployed-pwa-origin",
@@ -88,7 +88,7 @@
       "strictManifestComparison": true,
       "inferredLiveObservationAllowed": false
     },
-    "reportSha256": "e3bba9e0794e9d7c6ff9ff859d469fa62bc85eb500c38e8838f355b7b9d2ba25"
+    "reportSha256": "b489b59effb82a652ed4e4c2534141afd1e6e07869259ef2a7570a0049255162"
   },
   "live": {
     "origin": "https://moshequ.github.io/autonomous-game-lab",
@@ -97,7 +97,7 @@
     "finalUrl": "https://moshequ.github.io/autonomous-game-lab/release-candidate.json",
     "contentType": "application/json; charset=utf-8",
     "bytes": 19424,
-    "textSha256": "02bd52ce671cd3fd93dab345eed6e99b52a4eff0ae7c1689d2e50d0e2bae9800",
+    "textSha256": "98b5c4f9f713a38def9d9088398d616025259a07d39f8137cb65b6cf9bbc72b7",
     "releaseStatus": "release-candidate-ready",
     "candidateId": "pwa-9a28998c70ef",
     "aggregateHash": "9a28998c70ef392a8d4db6685611c50ca71471cc0e773b86cb12c37d0d31f2d1",
@@ -142,12 +142,12 @@
     {
       "id": "explicit-pages-run",
       "status": "pass",
-      "detail": "Explicit web-pwa-deploy.yml run is 26209501041."
+      "detail": "Explicit web-pwa-deploy.yml run is 26209646102."
     },
     {
       "id": "post-deploy-smoke-artifact",
       "status": "pass",
-      "detail": "Downloaded post-deploy-smoke artifact from run 26209501041."
+      "detail": "Downloaded post-deploy-smoke artifact from run 26209646102."
     },
     {
       "id": "strict-smoke-artifact",
