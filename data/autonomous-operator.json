@@ -1,17 +1,37 @@
 {
-  "generatedAt": "2026-05-21T14:36:56.266Z",
-  "status": "operator-held",
+  "generatedAt": "2026-05-21T15:00:21.531Z",
+  "status": "operator-plan-ready",
   "mode": "plan-only",
   "ownerDecision": {
-    "actionId": "hold-for-external-input",
-    "command": "No local command is available until external inputs, configured credentials, or new player evidence arrive.",
-    "locallyExecutable": false,
-    "rejectionReason": "status-monitor"
+    "actionId": "prepare-release-candidate",
+    "command": "npm run autonomous:release-candidate && npm run autonomous:post-deploy-smoke && npm run autonomous:live-monitor",
+    "locallyExecutable": true,
+    "rejectionReason": null
   },
   "requestedActionId": null,
-  "selectedAction": null,
+  "selectedAction": {
+    "id": "prepare-release-candidate",
+    "status": "armed",
+    "command": "npm run autonomous:release-candidate && npm run autonomous:post-deploy-smoke && npm run autonomous:live-monitor",
+    "targets": [
+      "dist-release-candidate",
+      "release-candidate-manifest"
+    ],
+    "reason": "Records a content-hashed dist inventory, refreshes post-deploy smoke evidence, and checks the currently live PWA against the synced deploy.",
+    "costUsd": 0
+  },
   "selectedRejection": null,
-  "eligibleActionIds": [],
+  "eligibleActionIds": [
+    "seed-portfolio-traffic",
+    "refresh-organic-seed-loop",
+    "prepare-release-candidate",
+    "run-post-deploy-smoke",
+    "refresh-first-move-coach",
+    "refresh-completion-loop",
+    "refresh-replay-loop",
+    "bootstrap-production-setup",
+    "apply-safe-improvements"
+  ],
   "blockedActions": [
     {
       "id": "run-daily-owner-loop",
@@ -39,15 +59,15 @@
     },
     {
       "id": "seed-portfolio-traffic",
-      "status": "monitor",
+      "status": "armed",
       "command": "npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop",
-      "reason": "status-monitor"
+      "reason": "not-selected-this-run"
     },
     {
       "id": "refresh-organic-seed-loop",
-      "status": "monitor",
+      "status": "armed",
       "command": "npm run autonomous:organic-seed-loop",
-      "reason": "status-monitor"
+      "reason": "not-selected-this-run"
     },
     {
       "id": "refresh-support-feedback",
@@ -74,16 +94,10 @@
       "reason": "status-monitor"
     },
     {
-      "id": "prepare-release-candidate",
-      "status": "monitor",
-      "command": "npm run autonomous:release-candidate && npm run autonomous:post-deploy-smoke && npm run autonomous:live-monitor",
-      "reason": "status-monitor"
-    },
-    {
       "id": "run-post-deploy-smoke",
-      "status": "monitor",
+      "status": "armed",
       "command": "npm run autonomous:post-deploy-smoke",
-      "reason": "status-monitor"
+      "reason": "not-selected-this-run"
     },
     {
       "id": "sync-post-deploy-artifact",
@@ -123,21 +137,21 @@
     },
     {
       "id": "refresh-first-move-coach",
-      "status": "monitor",
+      "status": "armed",
       "command": "npm run autonomous:first-move-coach",
-      "reason": "status-monitor"
+      "reason": "not-selected-this-run"
     },
     {
       "id": "refresh-completion-loop",
-      "status": "monitor",
+      "status": "armed",
       "command": "npm run autonomous:completion-loop",
-      "reason": "status-monitor"
+      "reason": "not-selected-this-run"
     },
     {
       "id": "refresh-replay-loop",
-      "status": "monitor",
+      "status": "armed",
       "command": "npm run autonomous:replay-loop",
-      "reason": "status-monitor"
+      "reason": "not-selected-this-run"
     },
     {
       "id": "prepare-repository-channel",
@@ -147,9 +161,9 @@
     },
     {
       "id": "bootstrap-production-setup",
-      "status": "monitor",
+      "status": "armed",
       "command": "npm run autonomous:release-candidate && npm run autonomous:deploy-plan && npm run autonomous:bootstrap",
-      "reason": "status-monitor"
+      "reason": "not-selected-this-run"
     },
     {
       "id": "activate-production-when-configured",
@@ -195,9 +209,9 @@
     },
     {
       "id": "apply-safe-improvements",
-      "status": "monitor",
+      "status": "armed",
       "command": "npm run autonomous:experiments && npm run autonomous:improve && npm run autonomous:sync-experiments",
-      "reason": "status-monitor"
+      "reason": "not-selected-this-run"
     },
     {
       "id": "deploy-web-pwa",
@@ -212,7 +226,20 @@
       "reason": "status-monitor"
     }
   ],
-  "commandPlan": [],
+  "commandPlan": [
+    {
+      "segment": "npm run autonomous:release-candidate",
+      "script": "autonomous:release-candidate"
+    },
+    {
+      "segment": "npm run autonomous:post-deploy-smoke",
+      "script": "autonomous:post-deploy-smoke"
+    },
+    {
+      "segment": "npm run autonomous:live-monitor",
+      "script": "autonomous:live-monitor"
+    }
+  ],
   "execution": {
     "requested": false,
     "status": "not-requested",
@@ -284,7 +311,7 @@
     "RUN_WORKFLOWS=1"
   ],
   "nextActions": [
-    "Keep reporting external blockers until a safe local action is eligible.",
+    "Run npm run autonomous:operator -- --execute --action=prepare-release-candidate to execute exactly one allowed local action.",
     "Do not execute GitHub workflow, store, paid ads, or account setup commands from the local operator."
   ]
 }

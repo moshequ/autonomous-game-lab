@@ -1,10 +1,10 @@
 # Autonomous Operator
 
-Generated: 2026-05-21T14:36:56.266Z
-Status: operator-held
+Generated: 2026-05-21T15:00:21.531Z
+Status: operator-plan-ready
 Mode: plan-only
-Owner decision: hold-for-external-input
-Selected action: none
+Owner decision: prepare-release-candidate
+Selected action: prepare-release-candidate
 Execution: not-requested
 
 ## Controls
@@ -18,11 +18,19 @@ Execution: not-requested
 
 ## Selected Action
 
-- none: no eligible local actions
+- prepare-release-candidate: npm run autonomous:release-candidate && npm run autonomous:post-deploy-smoke && npm run autonomous:live-monitor
 
 ## Eligible Local Actions
 
-- none
+- seed-portfolio-traffic
+- refresh-organic-seed-loop
+- prepare-release-candidate
+- run-post-deploy-smoke
+- refresh-first-move-coach
+- refresh-completion-loop
+- refresh-replay-loop
+- bootstrap-production-setup
+- apply-safe-improvements
 
 ## Blocked Actions
 
@@ -30,11 +38,11 @@ Execution: not-requested
 - hold-for-external-input: status-monitor
 - refresh-autonomous-cadence: status-monitor
 - refresh-autonomous-self-update: status-monitor
-- seed-portfolio-traffic: status-monitor
-- refresh-organic-seed-loop: status-monitor
+- seed-portfolio-traffic: not-selected-this-run
+- refresh-organic-seed-loop: not-selected-this-run
 - refresh-support-feedback: status-monitor
 - optimize-daily-retention: status-monitor
 - measure-pwa-install-loop: status-monitor
 - check-performance-budget: status-monitor
-- prepare-release-candidate: status-monitor
-- run-post-deploy-smoke: status-monitor
+- run-post-deploy-smoke: not-selected-this-run
+- sync-post-deploy-artifact: status-monitor

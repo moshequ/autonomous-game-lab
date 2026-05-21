@@ -4731,6 +4731,106 @@ test('local analytics export produces an event drop file', async ({ page }) => {
   ).toBe(true)
 })
 
+test('aggregate evidence issue link summarizes local analytics without raw events', async ({ page }) => {
+  const seedEvents = [
+    {
+      id: 'evt-start-one',
+      name: 'game_started',
+      createdAt: '2026-05-20T10:00:00.000Z',
+      properties: { gameId: 'harbor-rings', anonymousId: 'anon-player-one' },
+    },
+    {
+      id: 'evt-start-two',
+      name: 'game_started',
+      createdAt: '2026-05-20T10:05:00.000Z',
+      properties: { gameId: 'harbor-rings', anonymousId: 'anon-player-two' },
+    },
+    {
+      id: 'evt-complete-one',
+      name: 'level_completed',
+      createdAt: '2026-05-20T10:08:00.000Z',
+      properties: { gameId: 'harbor-rings', anonymousId: 'anon-player-one' },
+    },
+    {
+      id: 'evt-replay-one',
+      name: 'replay_clicked',
+      createdAt: '2026-05-20T10:12:00.000Z',
+      properties: { gameId: 'harbor-rings', anonymousId: 'anon-player-one' },
+    },
+    {
+      id: 'evt-d1-eligible',
+      name: 'daily_challenge_completed',
+      createdAt: '2026-05-21T10:12:00.000Z',
+      properties: { gameId: 'harbor-rings', anonymousId: 'anon-player-one' },
+    },
+    {
+      id: 'evt-d1-retained',
+      name: 'daily_return_intent_started',
+      createdAt: '2026-05-21T10:14:00.000Z',
+      properties: { gameId: 'harbor-rings', anonymousId: 'anon-player-one' },
+    },
+  ]
+
+  await page.addInitScript((events) => {
+    window.localStorage.setItem('agl.analytics.events', JSON.stringify(events))
+  }, seedEvents)
+  await page.goto('/?game=harbor-rings')
+  await page.evaluate(() => {
+    const target = window as Window & { __aggregateEvidenceUrl?: string }
+    target.__aggregateEvidenceUrl = ''
+    window.open = ((url?: string | URL) => {
+      target.__aggregateEvidenceUrl = String(url)
+      return window
+    }) as typeof window.open
+  })
+
+  await page.getByRole('button', { name: 'Share aggregate evidence' }).click()
+  await page.waitForFunction(
+    () => Boolean((window as Window & { __aggregateEvidenceUrl?: string }).__aggregateEvidenceUrl),
+  )
+
+  const opened = await page.evaluate(
+    () => (window as Window & { __aggregateEvidenceUrl?: string }).__aggregateEvidenceUrl ?? '',
+  )
+  const openedUrl = new URL(opened)
+  const openedText = decodeURIComponent(opened)
+  const evidenceEvent = await page.evaluate(() => {
+    const events = JSON.parse(window.localStorage.getItem('agl.analytics.events') ?? '[]') as Array<{
+      name: string
+      properties: Record<string, string | number | boolean | null>
+    }>
+
+    return events.findLast((event) => event.name === 'analytics_evidence_issue_opened')
+  })
+
+  expect(openedUrl.hostname).toBe('github.com')
+  expect(openedUrl.pathname).toBe('/moshequ/autonomous-game-lab/issues/new')
+  expect(openedUrl.searchParams.get('template')).toBe('analytics-evidence.yml')
+  expect(openedUrl.searchParams.get('game')).toContain('Harbor Rings')
+  expect(openedUrl.searchParams.get('starts')).toBe('3')
+  expect(openedUrl.searchParams.get('completions')).toBe('1')
+  expect(openedUrl.searchParams.get('replays')).toBe('1')
+  expect(openedUrl.searchParams.get('d1_eligible')).toBe('1')
+  expect(openedUrl.searchParams.get('d1_retained')).toBe('1')
+  expect(openedUrl.searchParams.get('summary')).toContain('Aggregate-only browser summary')
+  expect(openedText).not.toContain('anon-player')
+  expect(openedText).not.toContain('evt-')
+  expect(evidenceEvent?.properties).toMatchObject({
+    gameId: 'harbor-rings',
+    starts: 3,
+    completions: 1,
+    replays: 1,
+    d1Eligible: 1,
+    d1Retained: 1,
+    publicAggregateOnly: true,
+    rawEventsIncluded: false,
+    identifiersIncluded: false,
+    destination: 'github-issues',
+  })
+
+  await expect(page.getByLabel('Local Event Bridge')).toContainText('Share aggregate evidence')
+})
+
 test('local event drop folder writes export files without external upload', async ({ page }) => {
   await page.addInitScript(() => {
     const state = window as unknown as {

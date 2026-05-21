@@ -2245,6 +2245,23 @@ function App() {
     return true
   }, [localEventDropFolderStatus])
 
+  const openAggregateEvidenceIssue = async () => {
+    const { buildAggregateEvidenceIssue } = await import('./lib/aggregateEvidenceIssue')
+    const evidenceIssue = buildAggregateEvidenceIssue({
+      events: getBufferedEvents(),
+      gameId: selectedGameId,
+      gameTitle: activeGame.title,
+      repository: supportChannel.repository.target ?? null,
+    })
+
+    if (!evidenceIssue) {
+      return
+    }
+
+    trackEvent('analytics_evidence_issue_opened', evidenceIssue.telemetry)
+    window.open(evidenceIssue.url, '_blank', 'noopener,noreferrer')
+  }
+
   useEffect(() => {
     const onAnalytics = (event: Event) => {
       const analyticsEvent = (event as CustomEvent<AnalyticsEvent>).detail
@@ -2459,10 +2476,6 @@ function App() {
             Web-first autonomous studio
           </span>
           <h1>Original board-game-inspired releases, measured from the first move.</h1>
-          <p className="introCopy">
-            This is the production skeleton: playable prototypes, analytics capture, experiment
-            assignment, improvement backlog, PWA packaging, and a daily analyst script.
-          </p>
           <div className="gameSwitcher" aria-label="Playable games">
             {playableGames.map((game) => (
               <button
@@ -3330,6 +3343,15 @@ function App() {
                     <FolderInput size={14} aria-hidden="true" />
                     Connect folder
                   </button>
+                  <button
+                    className="tinyButton"
+                    type="button"
+                    onClick={openAggregateEvidenceIssue}
+                    disabled={!supportChannel.repository.target}
+                  >
+                    <Share2 size={14} aria-hidden="true" />
+                    Share aggregate evidence
+                  </button>
                 </div>
                 <div>
                   <span>External upload</span>
@@ -3741,7 +3763,6 @@ function App() {
             <div className="sectionHeader">
               <div>
                 <h2>Experiment Learning</h2>
-                <p>Variant results are evaluated before the next safe policy shift is applied.</p>
               </div>
               <BarChart3 size={24} aria-hidden="true" />
             </div>
@@ -3767,7 +3788,6 @@ function App() {
             <div className="sectionHeader">
               <div>
                 <h2>Production Response</h2>
-                <p>Health, revenue, and spend gates trigger automatic holds or safe-mode changes.</p>
               </div>
               <Bot size={24} aria-hidden="true" />
             </div>
@@ -3809,7 +3829,6 @@ function App() {
             <div className="sectionHeader">
               <div>
                 <h2>Monetization Path</h2>
-                <p>Revenue work waits for retention signals, then starts with ads and optional perks.</p>
               </div>
               <Coins size={24} aria-hidden="true" />
             </div>
@@ -4034,7 +4053,6 @@ function App() {
             <div className="sectionHeader">
               <div>
                 <h2>Growth Loop</h2>
-                <p>Generated pages and share links turn each playable game into a no-cost traffic test.</p>
               </div>
               <Share2 size={24} aria-hidden="true" />
             </div>
@@ -4230,7 +4248,6 @@ function App() {
             <div className="sectionHeader">
               <div>
                 <h2>Balance Lab</h2>
-                <p>Bot simulations tune score targets before the next web experiment ships.</p>
               </div>
               <Gauge size={24} aria-hidden="true" />
             </div>

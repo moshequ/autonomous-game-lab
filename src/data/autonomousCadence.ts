@@ -16,7 +16,7 @@ export const autonomousCadence = {
   "freshness": {
     "status": "fresh",
     "staleArtifacts": 0,
-    "oldestAgeHours": 29.51,
+    "oldestAgeHours": 29.97,
     "staleAfterHours": 36
   }
 } as const

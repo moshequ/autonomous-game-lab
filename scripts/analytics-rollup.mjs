@@ -68,6 +68,7 @@ const countedEvents = [
   'local_router_card_viewed',
   'local_router_choice_clicked',
   'local_router_choice_dismissed',
+  'analytics_evidence_issue_opened',
 ]
 
 const retentionEvents = [
