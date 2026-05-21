@@ -1,6 +1,6 @@
 # Autonomous Cadence
 
-Generated: 2026-05-21T23:20:21.410Z
+Generated: 2026-05-21T23:26:36.355Z
 Status: cadence-ready
 Cadence: twice-daily-local-daily-ci
 
@@ -30,7 +30,7 @@ Cadence: twice-daily-local-daily-ci
 - Fresh artifacts: 39
 - Stale/invalid artifacts: 0
 - Stale after: 36h
-- Oldest age: 5.52h
+- Oldest age: 5.63h
 
 - fresh: owner-loop - data/autonomous-owner-loop.json is 0.01h old.
 - fresh: operator - data/autonomous-operator.json is 0.01h old.
@@ -41,35 +41,35 @@ Cadence: twice-daily-local-daily-ci
 - fresh: repository-bootstrap - data/repository-bootstrap.json is 0h old.
 - fresh: production-bootstrap - data/production-bootstrap.json is 0h old.
 - fresh: production-activation - data/production-activation.json is 0h old.
-- fresh: production-environment - data/production-environment.json is 5.52h old.
+- fresh: production-environment - data/production-environment.json is 5.63h old.
 - fresh: event-collector-deployment - data/event-collector-deployment.json is 0.01h old.
 - fresh: event-collector-smoke - data/event-collector-smoke.json is 0.01h old.
 - fresh: local-event-bridge - data/local-event-bridge.json is 0.01h old.
 - fresh: event-ingest - data/event-ingest.json is 0.01h old.
 - fresh: event-ingest-smoke - data/event-ingest-smoke.json is 0.01h old.
 - fresh: analytics-rollup - data/analytics-rollup.json is 0.01h old.
-- fresh: experiment-results - data/experiment-results.json is 5.52h old.
-- fresh: growth-plan - data/growth-plan.json is 0.23h old.
-- fresh: portfolio-policy - data/portfolio-policy.json is 0.23h old.
-- fresh: traffic-seeding - data/traffic-seeding.json is 0.23h old.
-- fresh: acquisition-learning - data/acquisition-learning.json is 0.23h old.
-- fresh: organic-seed-loop - data/organic-seed-loop.json is 0.12h old.
+- fresh: experiment-results - data/experiment-results.json is 5.62h old.
+- fresh: growth-plan - data/growth-plan.json is 0.02h old.
+- fresh: portfolio-policy - data/portfolio-policy.json is 0.02h old.
+- fresh: traffic-seeding - data/traffic-seeding.json is 0.02h old.
+- fresh: acquisition-learning - data/acquisition-learning.json is 0.02h old.
+- fresh: organic-seed-loop - data/organic-seed-loop.json is 0.02h old.
 - fresh: retention-loop - data/retention-loop.json is 0.01h old.
-- fresh: release-candidate - data/release-candidate.json is 0.01h old.
+- fresh: release-candidate - data/release-candidate.json is 0h old.
 - fresh: post-deploy-smoke - data/post-deploy-smoke.json is 0h old.
 - fresh: post-deploy-artifact-sync - data/post-deploy-artifact-sync.json is 0.05h old.
 - fresh: live-site-monitor - data/live-site-monitor.json is 0h old.
-- fresh: release-health - data/release-health.json is 5.52h old.
-- fresh: product-optimization - data/product-optimization.json is 5.52h old.
+- fresh: release-health - data/release-health.json is 5.62h old.
+- fresh: product-optimization - data/product-optimization.json is 5.62h old.
 - fresh: product-gate-recovery - data/product-gate-recovery.json is 0.01h old.
 - fresh: product-gate-sample-plan - data/product-gate-sample-plan.json is 0.01h old.
-- fresh: completion-loop - data/completion-loop.json is 1.95h old.
-- fresh: replay-loop - data/replay-loop.json is 1.81h old.
-- fresh: first-move-coach - data/first-move-coach.json is 5.51h old.
+- fresh: completion-loop - data/completion-loop.json is 2.06h old.
+- fresh: replay-loop - data/replay-loop.json is 1.91h old.
+- fresh: first-move-coach - data/first-move-coach.json is 5.62h old.
 - fresh: pwa-install-loop - data/pwa-install-loop.json is 0.01h old.
-- fresh: applied-improvements - data/applied-improvements.json is 5.52h old.
-- fresh: improvement-backlog - data/improvement-backlog-summary.json is 5.52h old.
-- fresh: improvement-routing - data/improvement-routing.json is 5.52h old.
+- fresh: applied-improvements - data/applied-improvements.json is 5.62h old.
+- fresh: improvement-backlog - data/improvement-backlog-summary.json is 5.62h old.
+- fresh: improvement-routing - data/improvement-routing.json is 5.62h old.
 - fresh: objective-audit - data/objective-audit.json is 0.01h old.
 
 ## Checks
