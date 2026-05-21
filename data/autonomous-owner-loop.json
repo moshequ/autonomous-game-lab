@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-21T17:12:37.350Z",
+  "generatedAt": "2026-05-21T17:16:04.564Z",
   "status": "owner-loop-ready",
   "mode": "zero-spend-web-ready",
   "autonomyScore": {
@@ -47,7 +47,7 @@
     "objectiveAuditFreshness": {
       "fresh": true,
       "structurallyReady": true,
-      "auditGeneratedAt": "2026-05-21T17:11:51.534Z",
+      "auditGeneratedAt": "2026-05-21T17:16:03.995Z",
       "evaluatedInputIds": [
         "analytics-rollup",
         "event-ingest",
@@ -71,7 +71,7 @@
         "ready": true,
         "status": "cadence-ready",
         "artifactGeneratedAt": "2026-05-21T17:01:55.936Z",
-        "ageHours": 0.178,
+        "ageHours": 0.236,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -82,7 +82,7 @@
         "ready": true,
         "status": "self-update-ready",
         "artifactGeneratedAt": "2026-05-21T07:50:13.570Z",
-        "ageHours": 9.373,
+        "ageHours": 9.431,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -93,7 +93,7 @@
         "ready": true,
         "status": "support-feedback-empty",
         "artifactGeneratedAt": "2026-05-21T09:46:35.479Z",
-        "ageHours": 7.434,
+        "ageHours": 7.491,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -103,8 +103,8 @@
         "fresh": true,
         "ready": true,
         "status": "performance-budget-ready",
-        "artifactGeneratedAt": "2026-05-21T17:10:04.754Z",
-        "ageHours": 0.042,
+        "artifactGeneratedAt": "2026-05-21T17:15:54.215Z",
+        "ageHours": 0.003,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -114,8 +114,8 @@
         "fresh": true,
         "ready": true,
         "status": "live-site-monitor-passed",
-        "artifactGeneratedAt": "2026-05-21T17:10:12.994Z",
-        "ageHours": 0.04,
+        "artifactGeneratedAt": "2026-05-21T17:16:02.833Z",
+        "ageHours": 0,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -408,8 +408,8 @@
       "liveSiteMonitorFresh": true,
       "smokeActionFresh": true,
       "releaseCandidateActionFresh": true,
-      "liveCandidateId": "pwa-6f7745536b46",
-      "artifactCandidateId": "pwa-6f7745536b46"
+      "liveCandidateId": "pwa-2d7b45a0b9d4",
+      "artifactCandidateId": "pwa-2d7b45a0b9d4"
     },
     "skippedRecentlyExecutedActionIds": [],
     "skippedRecentlySatisfiedActionIds": [],
@@ -447,7 +447,7 @@
     },
     "productionBootstrapFreshness": {
       "fresh": true,
-      "bootstrapGeneratedAt": "2026-05-21T17:11:50.620Z",
+      "bootstrapGeneratedAt": "2026-05-21T17:16:03.141Z",
       "evaluatedInputIds": [
         "release-candidate",
         "deployment-plan",
@@ -462,7 +462,7 @@
       "current": true,
       "ready": true,
       "status": "handoff-waiting-on-owner-inputs",
-      "generatedAt": "2026-05-21T17:11:51.135Z",
+      "generatedAt": "2026-05-21T17:16:03.440Z",
       "nextBestUnlockId": "production-analytics-browser",
       "ownerActionRequired": 4,
       "missingEnv": 7,
@@ -584,7 +584,7 @@
       "id": "performance-budget",
       "status": "ready",
       "autonomy": "automatic-build-budget",
-      "evidence": "Initial JS 674.9 KB; gzip 183.2 KB; deferred chunks 2.",
+      "evidence": "Initial JS 674.9 KB; gzip 183.4 KB; deferred chunks 2.",
       "nextAction": "Keep Phaser and game scenes outside the initial PWA shell."
     },
     {
@@ -683,13 +683,13 @@
       "status": "ready",
       "autonomy": "read-only-live-deploy-verification",
       "evidence": "Smoke post-deploy-smoke-observed-live; origin https://moshequ.github.io/autonomous-game-lab; manifest comparison required; checks 15/15 passed; local artifact predeploy-artifact-smoke-passed 15/15 passed.",
-      "nextAction": "Live Pages is reachable and serving pwa-6f7745536b46; run the deploy workflow for strict proof of the current local candidate if needed."
+      "nextAction": "Live Pages is reachable and serving pwa-2d7b45a0b9d4; run the deploy workflow for strict proof of the current local candidate if needed."
     },
     {
       "id": "post-deploy-artifact-sync",
       "status": "ready",
       "autonomy": "read-only-actions-artifact-import",
-      "evidence": "Artifact sync post-deploy-artifact-sync-passed; run 26237628720; live matches artifact true; strict true.",
+      "evidence": "Artifact sync post-deploy-artifact-sync-passed; run 26241439746; live matches artifact true; strict true.",
       "nextAction": "Keep this strict deploy artifact as live-production evidence while local candidates continue to iterate."
     },
     {
@@ -703,7 +703,7 @@
       "id": "production-bootstrap",
       "status": "ready",
       "autonomy": "zero-spend-setup-orchestration",
-      "evidence": "Bootstrap production-bootstrap-ready; mode can-apply-configured-actions; external blockers 16.",
+      "evidence": "Bootstrap production-bootstrap-ready; mode can-apply-configured-actions; external blockers 15.",
       "nextAction": "gh workflow run web-pwa-deploy.yml"
     },
     {
@@ -891,7 +891,7 @@
       "command": "npm run build && npm run autonomous:performance && npm run autonomous:release-candidate",
       "targets": [
         "pwa-shell",
-        "GameCanvas-BPYR0A2Z.js",
+        "GameCanvas-BIFyc2SW.js",
         "dist-release-candidate"
       ],
       "reason": "Performance budget and release-candidate evidence are already fresh for the current guarded build."
@@ -924,7 +924,7 @@
       "costUsd": 0,
       "command": "npm run autonomous:post-deploy-artifact-sync",
       "targets": [
-        26237628720,
+        26241439746,
         "release-candidate-manifest"
       ],
       "reason": "Strict deploy artifact evidence is already synced from the latest successful Pages workflow."
@@ -1072,7 +1072,7 @@
       "costUsd": 0,
       "command": "npm run autonomous:operator",
       "targets": [
-        "bootstrap-production-setup"
+        "refresh-objective-audit"
       ],
       "reason": "Operator history is already capped and published; keep attention on product evidence."
     },
