@@ -1,29 +1,29 @@
 {
-  "generatedAt": "2026-05-21T18:00:15.192Z",
+  "generatedAt": "2026-05-21T18:05:45.408Z",
   "status": "operator-plan-ready",
   "mode": "plan-only",
   "ownerDecision": {
-    "actionId": "refresh-completion-loop",
-    "command": "npm run autonomous:completion-loop",
+    "actionId": "bootstrap-production-setup",
+    "command": "npm run autonomous:release-candidate && npm run autonomous:deploy-plan && npm run autonomous:bootstrap",
     "locallyExecutable": true,
     "rejectionReason": null
   },
   "requestedActionId": null,
   "selectedAction": {
-    "id": "refresh-completion-loop",
+    "id": "bootstrap-production-setup",
     "status": "armed",
-    "command": "npm run autonomous:completion-loop",
+    "command": "npm run autonomous:release-candidate && npm run autonomous:deploy-plan && npm run autonomous:bootstrap",
     "targets": [
-      "harbor-rings"
+      "github-pages",
+      "repository-config",
+      "event-collector"
     ],
-    "reason": "Refreshes optional completion nudges and behind-pace finish-line coaching from product-gate evidence.",
+    "reason": "Regenerates the zero-spend production setup handoff and exact GitHub variable/secret commands.",
     "costUsd": 0
   },
   "selectedRejection": null,
   "eligibleActionIds": [
-    "seed-portfolio-traffic",
-    "refresh-organic-seed-loop",
-    "refresh-completion-loop"
+    "bootstrap-production-setup"
   ],
   "blockedActions": [
     {
@@ -52,15 +52,15 @@
     },
     {
       "id": "seed-portfolio-traffic",
-      "status": "armed",
+      "status": "monitor",
       "command": "npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop",
-      "reason": "not-selected-this-run"
+      "reason": "status-monitor"
     },
     {
       "id": "refresh-organic-seed-loop",
-      "status": "armed",
+      "status": "monitor",
       "command": "npm run autonomous:organic-seed-loop",
-      "reason": "not-selected-this-run"
+      "reason": "status-monitor"
     },
     {
       "id": "refresh-support-feedback",
@@ -141,6 +141,12 @@
       "reason": "status-monitor"
     },
     {
+      "id": "refresh-completion-loop",
+      "status": "monitor",
+      "command": "npm run autonomous:completion-loop",
+      "reason": "status-monitor"
+    },
+    {
       "id": "refresh-replay-loop",
       "status": "monitor",
       "command": "npm run autonomous:replay-loop",
@@ -150,12 +156,6 @@
       "id": "prepare-repository-channel",
       "status": "monitor",
       "command": "npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap",
-      "reason": "status-monitor"
-    },
-    {
-      "id": "bootstrap-production-setup",
-      "status": "monitor",
-      "command": "npm run autonomous:release-candidate && npm run autonomous:deploy-plan && npm run autonomous:bootstrap",
       "reason": "status-monitor"
     },
     {
@@ -221,8 +221,16 @@
   ],
   "commandPlan": [
     {
-      "segment": "npm run autonomous:completion-loop",
-      "script": "autonomous:completion-loop"
+      "segment": "npm run autonomous:release-candidate",
+      "script": "autonomous:release-candidate"
+    },
+    {
+      "segment": "npm run autonomous:deploy-plan",
+      "script": "autonomous:deploy-plan"
+    },
+    {
+      "segment": "npm run autonomous:bootstrap",
+      "script": "autonomous:bootstrap"
     }
   ],
   "execution": {
@@ -296,7 +304,7 @@
     "RUN_WORKFLOWS=1"
   ],
   "nextActions": [
-    "Run npm run autonomous:operator -- --execute --action=refresh-completion-loop to execute exactly one allowed local action.",
+    "Run npm run autonomous:operator -- --execute --action=bootstrap-production-setup to execute exactly one allowed local action.",
     "Do not execute GitHub workflow, store, paid ads, or account setup commands from the local operator."
   ]
 }

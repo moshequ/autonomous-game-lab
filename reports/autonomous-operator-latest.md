@@ -1,10 +1,10 @@
 # Autonomous Operator
 
-Generated: 2026-05-21T18:00:15.192Z
+Generated: 2026-05-21T18:05:45.408Z
 Status: operator-plan-ready
 Mode: plan-only
-Owner decision: refresh-completion-loop
-Selected action: refresh-completion-loop
+Owner decision: bootstrap-production-setup
+Selected action: bootstrap-production-setup
 Execution: not-requested
 
 ## Controls
@@ -18,13 +18,11 @@ Execution: not-requested
 
 ## Selected Action
 
-- refresh-completion-loop: npm run autonomous:completion-loop
+- bootstrap-production-setup: npm run autonomous:release-candidate && npm run autonomous:deploy-plan && npm run autonomous:bootstrap
 
 ## Eligible Local Actions
 
-- seed-portfolio-traffic
-- refresh-organic-seed-loop
-- refresh-completion-loop
+- bootstrap-production-setup
 
 ## Blocked Actions
 
@@ -32,8 +30,8 @@ Execution: not-requested
 - hold-for-external-input: status-monitor
 - refresh-autonomous-cadence: status-monitor
 - refresh-autonomous-self-update: status-monitor
-- seed-portfolio-traffic: not-selected-this-run
-- refresh-organic-seed-loop: not-selected-this-run
+- seed-portfolio-traffic: status-monitor
+- refresh-organic-seed-loop: status-monitor
 - refresh-support-feedback: status-monitor
 - optimize-daily-retention: status-monitor
 - measure-pwa-install-loop: status-monitor
