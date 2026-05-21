@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-21T21:37:57.635Z",
+  "generatedAt": "2026-05-21T21:41:52.033Z",
   "status": "owner-loop-ready",
   "mode": "zero-spend-web-ready",
   "autonomyScore": {
@@ -23,22 +23,23 @@
     "heldForExternalInput": false
   },
   "ownerDecision": {
-    "nextBestActionId": "optimize-daily-retention",
-    "nextBestAction": "npm run autonomous:retention",
+    "nextBestActionId": "seed-portfolio-traffic",
+    "nextBestAction": "npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop",
     "canExecuteWithoutSpend": true,
     "localActionAvailable": true,
     "holdReason": null,
-    "rationale": "Keeps daily challenge, local streak prompts, and retention-safe missions aligned with behavior data."
+    "rationale": "Under-measured playable games need free organic/internal traffic before quality judgment."
   },
   "executionMemory": {
     "avoidImmediateRepeat": true,
     "recentExecutionWindow": 8,
     "recentExecutedActionIds": [
+      "optimize-daily-retention",
       "refresh-replay-loop",
       "refresh-completion-loop",
       "seed-portfolio-traffic"
     ],
-    "lastExecutedActionId": "refresh-replay-loop",
+    "lastExecutedActionId": "optimize-daily-retention",
     "lastExecutedStatus": "executed",
     "lastRecordExecutionStatus": "not-requested",
     "recentlySatisfiedActionIds": [
@@ -47,7 +48,7 @@
     "objectiveAuditFreshness": {
       "fresh": true,
       "structurallyReady": true,
-      "auditGeneratedAt": "2026-05-21T21:37:57.481Z",
+      "auditGeneratedAt": "2026-05-21T21:41:51.730Z",
       "evaluatedInputIds": [
         "analytics-rollup",
         "event-ingest",
@@ -70,8 +71,8 @@
         "fresh": true,
         "ready": true,
         "status": "cadence-ready",
-        "artifactGeneratedAt": "2026-05-21T21:33:15.084Z",
-        "ageHours": 0.078,
+        "artifactGeneratedAt": "2026-05-21T21:40:50.444Z",
+        "ageHours": 0.017,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -81,8 +82,8 @@
         "fresh": true,
         "ready": true,
         "status": "self-update-ready",
-        "artifactGeneratedAt": "2026-05-21T21:33:15.399Z",
-        "ageHours": 0.078,
+        "artifactGeneratedAt": "2026-05-21T21:40:50.751Z",
+        "ageHours": 0.017,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -93,7 +94,7 @@
         "ready": true,
         "status": "support-feedback-empty",
         "artifactGeneratedAt": "2026-05-21T17:48:59.987Z",
-        "ageHours": 3.816,
+        "ageHours": 3.881,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -103,8 +104,8 @@
         "fresh": true,
         "ready": true,
         "status": "performance-budget-ready",
-        "artifactGeneratedAt": "2026-05-21T21:37:45.937Z",
-        "ageHours": 0.003,
+        "artifactGeneratedAt": "2026-05-21T21:41:38.381Z",
+        "ageHours": 0.004,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -114,8 +115,8 @@
         "fresh": true,
         "ready": true,
         "status": "live-site-monitor-passed",
-        "artifactGeneratedAt": "2026-05-21T21:37:51.744Z",
-        "ageHours": 0.002,
+        "artifactGeneratedAt": "2026-05-21T21:41:40.834Z",
+        "ageHours": 0.003,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -137,12 +138,12 @@
         ]
       },
       "retentionLoop": {
-        "current": false,
-        "ready": false,
+        "current": true,
+        "ready": true,
         "status": "retention-loop-ready",
-        "artifactGeneratedAt": "2026-05-21T21:32:49.205Z",
-        "artifactSourceDataHash": "b2651e922e16",
-        "sourceDataHash": "323ce5e8e8d0",
+        "artifactGeneratedAt": "2026-05-21T21:40:24.514Z",
+        "artifactSourceDataHash": "d3813a8c6291",
+        "sourceDataHash": "d3813a8c6291",
         "evaluatedInputIds": [
           "analytics-rollup",
           "portfolio-policy",
@@ -155,12 +156,12 @@
         ]
       },
       "trafficSeeding": {
-        "current": false,
-        "ready": false,
+        "current": true,
+        "ready": true,
         "status": "traffic-seeding-ready",
         "artifactGeneratedAt": "2026-05-21T21:10:54.372Z",
         "artifactSourceDataHash": "ef9d9b83ebe7",
-        "sourceDataHash": "0c07ae9ffa72",
+        "sourceDataHash": "ef9d9b83ebe7",
         "evaluatedInputIds": [
           "playable-games",
           "portfolio-policy",
@@ -190,7 +191,7 @@
         "status": "organic-seed-loop-ready",
         "artifactGeneratedAt": "2026-05-21T21:10:54.912Z",
         "artifactSourceDataHash": "3d09c28de1bc",
-        "sourceDataHash": "d8aa377a77a5",
+        "sourceDataHash": "2b5222866dc5",
         "evaluatedInputIds": [
           "playable-games",
           "analytics-rollup",
@@ -204,7 +205,7 @@
         "current": true,
         "ready": true,
         "status": "pwa-install-loop-ready",
-        "artifactGeneratedAt": "2026-05-21T21:32:49.465Z",
+        "artifactGeneratedAt": "2026-05-21T21:40:24.779Z",
         "artifactSourceDataHash": "a2b9949d5e16",
         "sourceDataHash": "a2b9949d5e16",
         "evaluatedInputIds": [
@@ -222,7 +223,7 @@
         "current": true,
         "ready": true,
         "status": "product-gate-recovery-ready",
-        "artifactGeneratedAt": "2026-05-21T21:32:49.759Z",
+        "artifactGeneratedAt": "2026-05-21T21:40:25.063Z",
         "artifactSourceDataHash": "117dcf88ca39",
         "sourceDataHash": "117dcf88ca39",
         "evaluatedInputIds": [
@@ -237,12 +238,12 @@
         ]
       },
       "productGateSamplePlan": {
-        "current": false,
-        "ready": false,
+        "current": true,
+        "ready": true,
         "status": "product-gate-sample-plan-ready",
-        "artifactGeneratedAt": "2026-05-21T21:32:50.018Z",
-        "artifactSourceDataHash": "d3309848a14e",
-        "sourceDataHash": "d2c0d4128122",
+        "artifactGeneratedAt": "2026-05-21T21:40:25.352Z",
+        "artifactSourceDataHash": "4921f271c1c0",
+        "sourceDataHash": "4921f271c1c0",
         "evaluatedInputIds": [
           "sample-date",
           "product-gate-recovery",
@@ -262,7 +263,7 @@
         "current": true,
         "ready": true,
         "status": "store-package-ready",
-        "artifactGeneratedAt": "2026-05-21T21:35:12.221Z",
+        "artifactGeneratedAt": "2026-05-21T21:41:45.257Z",
         "artifactSourceDataHash": "1fe2ff1fcc27",
         "sourceDataHash": "1fe2ff1fcc27",
         "evaluatedInputIds": [
@@ -277,9 +278,9 @@
         "current": true,
         "ready": true,
         "status": "store-listing-optimizer-ready",
-        "artifactGeneratedAt": "2026-05-21T21:35:12.503Z",
-        "artifactSourceDataHash": "bb2ccbd2fcb1",
-        "sourceDataHash": "bb2ccbd2fcb1",
+        "artifactGeneratedAt": "2026-05-21T21:41:45.552Z",
+        "artifactSourceDataHash": "e3e290e2dedb",
+        "sourceDataHash": "e3e290e2dedb",
         "evaluatedInputIds": [
           "store-package",
           "store-assets",
@@ -297,9 +298,9 @@
         "current": true,
         "ready": true,
         "status": "draft-ready-external-blockers",
-        "artifactGeneratedAt": "2026-05-21T21:35:12.769Z",
-        "artifactSourceDataHash": "7749bd646432",
-        "sourceDataHash": "7749bd646432",
+        "artifactGeneratedAt": "2026-05-21T21:41:45.815Z",
+        "artifactSourceDataHash": "54700ef4c56f",
+        "sourceDataHash": "54700ef4c56f",
         "evaluatedInputIds": [
           "store-package",
           "monetization-plan",
@@ -388,8 +389,8 @@
     },
     "productGateSamplePlanRefreshPolicy": {
       "recoveryCurrent": true,
-      "samplePlanNeedsRefresh": true,
-      "cooldownOnlyStale": true,
+      "samplePlanNeedsRefresh": false,
+      "cooldownOnlyStale": false,
       "materialRefreshNeeded": false,
       "sampleDateCurrent": true,
       "freshAfterLastDownloadsScan": true,
@@ -399,7 +400,7 @@
       "current": true,
       "ready": true,
       "status": "bridge-waiting-for-export",
-      "bridgeGeneratedAt": "2026-05-21T21:32:48.429Z",
+      "bridgeGeneratedAt": "2026-05-21T21:40:23.765Z",
       "analyticsSource": "fixture-sample",
       "evidenceReadyNow": false,
       "evaluatedInputIds": [
@@ -420,9 +421,7 @@
       "liveCandidateId": "pwa-4f0340f870bc",
       "artifactCandidateId": "pwa-4f0340f870bc"
     },
-    "skippedRecentlyExecutedActionIds": [
-      "seed-portfolio-traffic"
-    ],
+    "skippedRecentlyExecutedActionIds": [],
     "skippedRecentlySatisfiedActionIds": [
       "refresh-organic-seed-loop"
     ],
@@ -461,9 +460,9 @@
     },
     "productionBootstrapFreshness": {
       "fresh": true,
-      "bootstrapGeneratedAt": "2026-05-21T21:37:55.877Z",
-      "artifactSourceDataHash": "67dd40e3a724",
-      "sourceDataHash": "67dd40e3a724",
+      "bootstrapGeneratedAt": "2026-05-21T21:41:49.901Z",
+      "artifactSourceDataHash": "0b0c174ba2f4",
+      "sourceDataHash": "0b0c174ba2f4",
       "evaluatedInputIds": [
         "release-candidate",
         "deployment-plan",
@@ -478,7 +477,7 @@
       "current": true,
       "ready": true,
       "status": "handoff-waiting-on-owner-inputs",
-      "generatedAt": "2026-05-21T21:37:56.146Z",
+      "generatedAt": "2026-05-21T21:41:50.563Z",
       "nextBestUnlockId": "production-analytics-browser",
       "ownerActionRequired": 4,
       "missingEnv": 7,
@@ -551,7 +550,7 @@
       "id": "autonomous-self-update",
       "status": "ready",
       "autonomy": "gated-generated-change-persistence",
-      "evidence": "Self-update self-update-ready; safe pending 77; unsafe pending 0; remote push held.",
+      "evidence": "Self-update self-update-ready; safe pending 74; unsafe pending 0; remote push held.",
       "nextAction": "When a GitHub repository is connected, set AGL_AUTONOMOUS_SELF_UPDATE=1 and AGL_AUTONOMOUS_SELF_UPDATE_DIRECT=1 to let verified generated changes persist."
     },
     {
@@ -600,7 +599,7 @@
       "id": "performance-budget",
       "status": "ready",
       "autonomy": "automatic-build-budget",
-      "evidence": "Initial JS 675.3 KB; gzip 183.5 KB; deferred chunks 2.",
+      "evidence": "Initial JS 675.3 KB; gzip 183.3 KB; deferred chunks 2.",
       "nextAction": "Keep Phaser and game scenes outside the initial PWA shell."
     },
     {
@@ -754,14 +753,14 @@
       "id": "autonomous-operator",
       "status": "ready",
       "autonomy": "one-safe-action-runner",
-      "evidence": "Operator operator-plan-ready; selected optimize-daily-retention; execution not-requested.",
+      "evidence": "Operator operator-plan-ready; selected bootstrap-production-setup; execution not-requested.",
       "nextAction": "Keep a dry-run operator plan ready, then execute only one allowlisted local action when explicitly requested."
     },
     {
       "id": "operator-history",
       "status": "ready",
       "autonomy": "operator-audit-trail",
-      "evidence": "History operator-history-ready; records 40; executed 3.",
+      "evidence": "History operator-history-ready; records 40; executed 4.",
       "nextAction": "Keep a capped durable record of operator plans and one-action executions."
     },
     {
@@ -889,13 +888,13 @@
     },
     {
       "id": "optimize-daily-retention",
-      "status": "armed",
+      "status": "monitor",
       "costUsd": 0,
       "command": "npm run autonomous:retention",
       "targets": [
         "canopy-bloom"
       ],
-      "reason": "Keeps daily challenge, local streak prompts, and retention-safe missions aligned with behavior data."
+      "reason": "Daily challenge, return-intent, and D1 sample policies already reflect current retention evidence."
     },
     {
       "id": "measure-pwa-install-loop",
@@ -914,7 +913,7 @@
       "command": "npm run build && npm run autonomous:performance && npm run autonomous:release-candidate",
       "targets": [
         "pwa-shell",
-        "GameCanvas-Di9bZ8_C.js",
+        "GameCanvas-Cj1b9q0d.js",
         "dist-release-candidate"
       ],
       "reason": "Performance budget and release-candidate evidence are already fresh for the current guarded build."
@@ -981,7 +980,7 @@
         "firstGameCompletion",
         "firstGameCompletion"
       ],
-      "reason": "Product-gate recovery is current; the dedicated sample-plan action owns sample-only refreshes to avoid rerunning recovery without new recovery evidence."
+      "reason": "Product-gate recovery and sample missions already match current gate, analytics, loop, and event-bridge evidence."
     },
     {
       "id": "collect-gate-sample-downloads",
@@ -1003,7 +1002,7 @@
       "targets": [
         "firstGameCompletion"
       ],
-      "reason": "Sample plan already captured the latest no-evidence Downloads scan; retry after 4 hours or when real player evidence appears."
+      "reason": "Product-gate sample plan already matches current recovery, traffic, event-bridge, and daily sample-date inputs."
     },
     {
       "id": "refresh-first-move-coach",
@@ -1096,7 +1095,7 @@
       "costUsd": 0,
       "command": "npm run autonomous:operator",
       "targets": [
-        "optimize-daily-retention"
+        "bootstrap-production-setup"
       ],
       "reason": "One-action operator plan is already published; avoid cycling on meta-operator refreshes."
     },
@@ -1106,7 +1105,7 @@
       "costUsd": 0,
       "command": "npm run autonomous:operator",
       "targets": [
-        "optimize-daily-retention"
+        "bootstrap-production-setup"
       ],
       "reason": "Operator history is already capped and published; keep attention on product evidence."
     },

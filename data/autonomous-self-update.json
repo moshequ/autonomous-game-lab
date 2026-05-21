@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-21T21:33:15.399Z",
+  "generatedAt": "2026-05-21T21:40:50.751Z",
   "status": "self-update-ready",
   "mode": "plan-and-assert",
   "envFiles": {
@@ -71,7 +71,7 @@
     "ownerLoop": "owner-loop-ready"
   },
   "pendingChanges": {
-    "total": 77,
+    "total": 74,
     "safe": [
       {
         "code": "M",
@@ -245,13 +245,6 @@
         "code": "M",
         "path": "data/release-candidate.json",
         "raw": " M data/release-candidate.json",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "data/replay-loop.json",
-        "raw": " M data/replay-loop.json",
         "safe": true,
         "reason": "allowlisted-generated-artifact"
       },
@@ -460,13 +453,6 @@
       },
       {
         "code": "M",
-        "path": "reports/replay-loop-latest.md",
-        "raw": " M reports/replay-loop-latest.md",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
         "path": "reports/repository-bootstrap-latest.md",
         "raw": " M reports/repository-bootstrap-latest.md",
         "safe": true,
@@ -600,13 +586,6 @@
       },
       {
         "code": "M",
-        "path": "src/data/replayLoop.ts",
-        "raw": " M src/data/replayLoop.ts",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
         "path": "src/data/retentionLoop.ts",
         "raw": " M src/data/retentionLoop.ts",
         "safe": true,
@@ -614,7 +593,7 @@
       }
     ],
     "unsafe": [],
-    "safeCount": 77,
+    "safeCount": 74,
     "unsafeCount": 0
   },
   "commitPlan": {
@@ -652,7 +631,6 @@
       "data/production-unlock-runner.json",
       "data/pwa-install-loop.json",
       "data/release-candidate.json",
-      "data/replay-loop.json",
       "data/repository-bootstrap.json",
       "data/repository-readiness.json",
       "data/retention-loop.json",
@@ -682,7 +660,6 @@
       "reports/production-unlock-runner-latest.md",
       "reports/pwa-install-loop-latest.md",
       "reports/release-candidate-latest.md",
-      "reports/replay-loop-latest.md",
       "reports/repository-bootstrap-latest.md",
       "reports/repository-readiness-latest.md",
       "reports/retention-loop-latest.md",
@@ -702,7 +679,6 @@
       "src/data/productionMeasurementStatus.ts",
       "src/data/pwaInstallLoop.ts",
       "src/data/releaseCandidate.ts",
-      "src/data/replayLoop.ts",
       "src/data/retentionLoop.ts",
       "data/autonomous-self-update.json",
       "src/data/autonomousSelfUpdate.ts",
@@ -813,7 +789,7 @@
     {
       "id": "safe-path-allowlist",
       "status": "pass",
-      "detail": "77 safe pending file(s), 0 unsafe pending file(s)."
+      "detail": "74 safe pending file(s), 0 unsafe pending file(s)."
     },
     {
       "id": "repository-optional",
