@@ -1,7 +1,7 @@
 # Applied Improvements
 
-Generated: 2026-05-21T03:00:22.339Z
-Source data hash: 01f8ebcc4f9f
+Generated: 2026-05-21T12:05:27.684Z
+Source data hash: e86851113f21
 Release health: monitoring
 Experiment results: evaluated
 Playable targets: harbor-rings, lantern-relay, harbor-circuit, foundry-ledger, orbit-atlas, mosaic-haven, pocket-draft, metro-loom, grove-engine, canopy-bloom
@@ -12,7 +12,7 @@ Playable targets: harbor-rings, lantern-relay, harbor-circuit, foundry-ledger, o
 - skipped: reward_offer for all-games; same experiment result already produced an applied change.
 - skipped: thumbnail_board_state_v2 for all-games; same experiment result already produced an applied change.
 - skipped: first_session_pacing for harbor-rings; same diagnosed issue already produced an applied change.
-- applied: thumbnail_board_state_v2 for harbor-rings; shifted 10 weight points from title-first to board-state.
+- skipped: thumbnail_board_state_v2 for harbor-rings; same diagnosed issue already produced an applied change.
 - deferred: target_score_curve for harbor-rings; confidence 69% is below 70% guardrail.
 - skipped: reward_offer for harbor-rings; same diagnosed issue already produced an applied change.
 
