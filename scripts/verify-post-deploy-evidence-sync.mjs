@@ -132,6 +132,10 @@ if (
   !workflow.includes('npm run autonomous:post-deploy-artifact-sync -- --run-id="${POST_DEPLOY_RUN_ID}" --assert') ||
   !workflow.includes('npm run autonomous:live-monitor') ||
   !workflow.includes('npm run autonomous:post-deploy-readiness-sync') ||
+  !workflow.includes('GH_TOKEN: ${{ github.token }}') ||
+  !workflow.includes('GITHUB_REPOSITORY: ${{ github.repository }}') ||
+  !workflow.includes('GITHUB_TOKEN: ${{ github.token }}') ||
+  !workflow.includes('AGL_PUBLIC_ORIGIN: ${{ vars.AGL_PUBLIC_ORIGIN }}') ||
   !workflow.includes('npm run autonomous:verify-post-deploy-sync') ||
   !workflow.includes('AGL_AUTONOMOUS_SELF_UPDATE_DIRECT') ||
   !workflow.includes('data/post-deploy-artifact-sync.json') ||

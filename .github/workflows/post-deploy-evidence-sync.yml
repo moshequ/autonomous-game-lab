@@ -59,6 +59,15 @@ jobs:
         run: npm run autonomous:live-monitor
 
       - name: Refresh production readiness evidence
+        env:
+          AGL_PUBLIC_ORIGIN: ${{ vars.AGL_PUBLIC_ORIGIN }}
+          GH_TOKEN: ${{ github.token }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          GITHUB_REPOSITORY_OWNER: ${{ github.repository_owner }}
+          GITHUB_TOKEN: ${{ github.token }}
+          PUBLIC_SITE_URL: ${{ vars.PUBLIC_SITE_URL }}
+          VITE_BASE_PATH: ${{ vars.VITE_BASE_PATH }}
+          VITE_PUBLIC_ORIGIN: ${{ vars.VITE_PUBLIC_ORIGIN }}
         run: npm run autonomous:post-deploy-readiness-sync
 
       - name: Verify synced deploy evidence

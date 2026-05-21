@@ -671,6 +671,10 @@ const checks = [
       postDeployEvidenceSyncWorkflow.includes('autonomous:post-deploy-artifact-sync') &&
       postDeployEvidenceSyncWorkflow.includes('autonomous:live-monitor') &&
       postDeployEvidenceSyncWorkflow.includes('autonomous:post-deploy-readiness-sync') &&
+      postDeployEvidenceSyncWorkflow.includes('GH_TOKEN: ${{ github.token }}') &&
+      postDeployEvidenceSyncWorkflow.includes('GITHUB_REPOSITORY: ${{ github.repository }}') &&
+      postDeployEvidenceSyncWorkflow.includes('GITHUB_TOKEN: ${{ github.token }}') &&
+      postDeployEvidenceSyncWorkflow.includes('AGL_PUBLIC_ORIGIN: ${{ vars.AGL_PUBLIC_ORIGIN }}') &&
       postDeployReadinessSyncScript.includes('autonomous:repo-readiness') &&
       postDeployReadinessSyncScript.includes('autonomous:repo-bootstrap') &&
       postDeployReadinessSyncScript.includes('autonomous:deploy-plan') &&
