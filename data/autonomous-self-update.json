@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-21T21:24:42.997Z",
+  "generatedAt": "2026-05-21T21:33:15.399Z",
   "status": "self-update-ready",
   "mode": "plan-and-assert",
   "envFiles": {
@@ -105,13 +105,6 @@
         "code": "M",
         "path": "data/autonomous-owner-loop.json",
         "raw": " M data/autonomous-owner-loop.json",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "data/completion-loop.json",
-        "raw": " M data/completion-loop.json",
         "safe": true,
         "reason": "allowlisted-generated-artifact"
       },
@@ -257,6 +250,13 @@
       },
       {
         "code": "M",
+        "path": "data/replay-loop.json",
+        "raw": " M data/replay-loop.json",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
         "path": "data/repository-bootstrap.json",
         "raw": " M data/repository-bootstrap.json",
         "safe": true,
@@ -315,13 +315,6 @@
         "code": "M",
         "path": "reports/autonomous-owner-loop-latest.md",
         "raw": " M reports/autonomous-owner-loop-latest.md",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "reports/completion-loop-latest.md",
-        "raw": " M reports/completion-loop-latest.md",
         "safe": true,
         "reason": "allowlisted-generated-artifact"
       },
@@ -467,6 +460,13 @@
       },
       {
         "code": "M",
+        "path": "reports/replay-loop-latest.md",
+        "raw": " M reports/replay-loop-latest.md",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
         "path": "reports/repository-bootstrap-latest.md",
         "raw": " M reports/repository-bootstrap-latest.md",
         "safe": true,
@@ -511,13 +511,6 @@
         "code": "M",
         "path": "src/data/autonomousOwnerLoop.ts",
         "raw": " M src/data/autonomousOwnerLoop.ts",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "src/data/completionLoop.ts",
-        "raw": " M src/data/completionLoop.ts",
         "safe": true,
         "reason": "allowlisted-generated-artifact"
       },
@@ -607,6 +600,13 @@
       },
       {
         "code": "M",
+        "path": "src/data/replayLoop.ts",
+        "raw": " M src/data/replayLoop.ts",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
         "path": "src/data/retentionLoop.ts",
         "raw": " M src/data/retentionLoop.ts",
         "safe": true,
@@ -632,7 +632,6 @@
       "data/autonomous-operator-history.json",
       "data/autonomous-operator.json",
       "data/autonomous-owner-loop.json",
-      "data/completion-loop.json",
       "data/deployment-plan.json",
       "data/event-collector-deployment.json",
       "data/event-collector-smoke.json",
@@ -653,6 +652,7 @@
       "data/production-unlock-runner.json",
       "data/pwa-install-loop.json",
       "data/release-candidate.json",
+      "data/replay-loop.json",
       "data/repository-bootstrap.json",
       "data/repository-readiness.json",
       "data/retention-loop.json",
@@ -662,7 +662,6 @@
       "reports/autonomous-operator-history-latest.md",
       "reports/autonomous-operator-latest.md",
       "reports/autonomous-owner-loop-latest.md",
-      "reports/completion-loop-latest.md",
       "reports/deployment-plan-latest.md",
       "reports/event-collector-deployment-latest.md",
       "reports/event-collector-smoke-latest.md",
@@ -683,6 +682,7 @@
       "reports/production-unlock-runner-latest.md",
       "reports/pwa-install-loop-latest.md",
       "reports/release-candidate-latest.md",
+      "reports/replay-loop-latest.md",
       "reports/repository-bootstrap-latest.md",
       "reports/repository-readiness-latest.md",
       "reports/retention-loop-latest.md",
@@ -690,7 +690,6 @@
       "src/data/autonomousOperator.ts",
       "src/data/autonomousOperatorHistory.ts",
       "src/data/autonomousOwnerLoop.ts",
-      "src/data/completionLoop.ts",
       "src/data/eventCollectorDeployment.ts",
       "src/data/liveSiteMonitor.ts",
       "src/data/localEventBridge.ts",
@@ -703,6 +702,7 @@
       "src/data/productionMeasurementStatus.ts",
       "src/data/pwaInstallLoop.ts",
       "src/data/releaseCandidate.ts",
+      "src/data/replayLoop.ts",
       "src/data/retentionLoop.ts",
       "data/autonomous-self-update.json",
       "src/data/autonomousSelfUpdate.ts",
