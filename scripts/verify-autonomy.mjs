@@ -859,6 +859,8 @@ if (
   !sitemapXml.includes('/gate-sample.html') ||
   !sitemapXml.includes('/seed-kit.html') ||
   !sitemapXml.includes('/install.html') ||
+  seedKitHtml.includes('content="noindex"') ||
+  !seedKitHtml.includes('content="index,follow"') ||
   !indexHtmlSource.includes('application/ld+json') ||
   !indexHtmlSource.includes('og:image') ||
   !indexHtmlSource.includes('twitter:card') ||
