@@ -1,11 +1,11 @@
 # Autonomous Operator History
 
-Generated: 2026-05-21T15:03:57.144Z
+Generated: 2026-05-21T15:11:55.305Z
 Status: operator-history-ready
 Records: 40
 Executed records: 8
 Failed records: 0
-Latest run appended: true
+Latest run appended: false
 Compacted duplicate dry-runs: 0
 
 ## Controls
@@ -17,13 +17,13 @@ Compacted duplicate dry-runs: 0
 
 ## Recent Records
 
-- 2026-05-21T14:15:01.808Z: refresh-objective-audit; not-requested; appended fingerprint 18511ce62c037e93
-- 2026-05-21T14:15:02.699Z: prepare-release-candidate; not-requested; appended fingerprint da8fe969ce643460
-- 2026-05-21T14:16:29.985Z: refresh-objective-audit; not-requested; appended fingerprint 52fab05ba88b5388
-- 2026-05-21T14:51:45.299Z: optimize-store-listing; not-requested; appended fingerprint fb0a69e5b10da7bd
-- 2026-05-21T14:55:50.190Z: optimize-store-listing; not-requested; appended fingerprint 7b4b9b603335dad0
-- 2026-05-21T14:57:01.050Z: prepare-release-candidate; not-requested; appended fingerprint 83258cbd7f51687f
 - 2026-05-21T14:57:22.076Z: check-performance-budget; not-requested; appended fingerprint 3b73802fca3589d3
 - 2026-05-21T15:00:21.531Z: prepare-release-candidate; not-requested; appended fingerprint 83258cbd7f51687f
 - 2026-05-21T15:03:56.579Z: refresh-objective-audit; not-requested; appended fingerprint e258314d3ea35ca6
 - 2026-05-21T15:03:57.144Z: seed-portfolio-traffic; not-requested; appended fingerprint 99a6ee35283d98d6
+- 2026-05-21T15:08:15.381Z: optimize-store-listing; not-requested; appended fingerprint 67ed2cac71746bad
+- 2026-05-21T15:08:31.656Z: optimize-store-listing; executed; appended fingerprint 6e9ba0c13234409e
+- 2026-05-21T15:08:58.176Z: refresh-product-gate-recovery; not-requested; appended fingerprint 11ab48b549719d98
+- 2026-05-21T15:09:17.628Z: refresh-product-gate-recovery; executed; appended fingerprint 8436e6198f7dab50
+- 2026-05-21T15:10:11.368Z: bootstrap-production-setup; not-requested; appended fingerprint 1caf320750cef0c4
+- 2026-05-21T15:11:32.571Z: refresh-first-move-coach; not-requested; appended fingerprint 3448f9f06597fba4

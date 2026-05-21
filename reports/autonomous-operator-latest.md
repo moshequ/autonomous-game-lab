@@ -1,10 +1,10 @@
 # Autonomous Operator
 
-Generated: 2026-05-21T15:03:57.144Z
+Generated: 2026-05-21T15:11:55.305Z
 Status: operator-plan-ready
 Mode: plan-only
-Owner decision: seed-portfolio-traffic
-Selected action: seed-portfolio-traffic
+Owner decision: refresh-first-move-coach
+Selected action: refresh-first-move-coach
 Execution: not-requested
 
 ## Controls
@@ -18,12 +18,10 @@ Execution: not-requested
 
 ## Selected Action
 
-- seed-portfolio-traffic: npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop
+- refresh-first-move-coach: npm run autonomous:first-move-coach
 
 ## Eligible Local Actions
 
-- seed-portfolio-traffic
-- refresh-organic-seed-loop
 - refresh-first-move-coach
 - refresh-completion-loop
 - refresh-replay-loop
@@ -35,11 +33,11 @@ Execution: not-requested
 - hold-for-external-input: status-monitor
 - refresh-autonomous-cadence: status-monitor
 - refresh-autonomous-self-update: status-monitor
-- refresh-organic-seed-loop: not-selected-this-run
+- seed-portfolio-traffic: status-monitor
+- refresh-organic-seed-loop: status-monitor
 - refresh-support-feedback: status-monitor
 - optimize-daily-retention: status-monitor
 - measure-pwa-install-loop: status-monitor
 - check-performance-budget: status-monitor
 - prepare-release-candidate: status-monitor
 - run-post-deploy-smoke: status-monitor
-- sync-post-deploy-artifact: status-monitor

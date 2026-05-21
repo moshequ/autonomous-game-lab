@@ -1,5 +1,5 @@
 export const objectiveAudit = {
-  "generatedAt": "2026-05-21T15:03:56.789Z",
+  "generatedAt": "2026-05-21T15:11:54.767Z",
   "status": "objective-in-progress",
   "objective": "Build a bootstrapped autonomous web/PWA game portal that can generate original board-game-inspired games, measure user behavior, propose and apply data-driven improvements, and prepare a path to monetization and app-store distribution with minimal manual intervention.",
   "summary": {
@@ -76,7 +76,7 @@ export const objectiveAudit = {
         "Backlog: improvement-backlog-ready; items 4; hash 8b7b0546cd7d",
         "Support feedback: support-feedback-empty; issues 0; routable signals 0; aggregate notes 0",
         "Applied/deferred actions: 7",
-        "Operator selected: refresh-objective-audit; status operator-plan-ready; execution not-requested"
+        "Operator selected: refresh-first-move-coach; status operator-plan-ready; execution not-requested"
       ],
       "blockers": [],
       "nextAction": "Keep collecting starts until a safe product-gate tuning action is justified.",
@@ -244,7 +244,7 @@ export const objectiveAudit = {
     "noRevenueEnablementUntilGatesPass": true,
     "noStoreSubmissionUntilExternalAccounts": true,
     "currentWorktreeClean": false,
-    "currentWorktreeDirtyFiles": 40,
+    "currentWorktreeDirtyFiles": 74,
     "productionBootstrapFresh": true,
     "productionBootstrapStaleInputIds": [],
     "objectiveNextBestActionSource": "owner-loop"
@@ -252,7 +252,7 @@ export const objectiveAudit = {
   "completion": {
     "canMarkGoalComplete": false,
     "reason": "The local autonomous PWA system is largely prepared with strict live deploy evidence synced from GitHub Actions, but production credentials, live data, monetization gates, and store account/signing blockers remain.",
-    "nextBestAction": "refresh-objective-audit"
+    "nextBestAction": "refresh-first-move-coach"
   }
 } as const
 

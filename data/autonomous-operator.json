@@ -1,31 +1,26 @@
 {
-  "generatedAt": "2026-05-21T15:03:57.144Z",
+  "generatedAt": "2026-05-21T15:11:55.305Z",
   "status": "operator-plan-ready",
   "mode": "plan-only",
   "ownerDecision": {
-    "actionId": "seed-portfolio-traffic",
-    "command": "npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop",
+    "actionId": "refresh-first-move-coach",
+    "command": "npm run autonomous:first-move-coach",
     "locallyExecutable": true,
     "rejectionReason": null
   },
   "requestedActionId": null,
   "selectedAction": {
-    "id": "seed-portfolio-traffic",
+    "id": "refresh-first-move-coach",
     "status": "armed",
-    "command": "npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop",
+    "command": "npm run autonomous:first-move-coach",
     "targets": [
-      "canopy-bloom",
-      "grove-engine",
-      "metro-loom",
-      "pocket-draft"
+      "harbor-rings"
     ],
-    "reason": "Under-measured playable games need free organic/internal traffic before quality judgment.",
+    "reason": "Refreshes the first-turn coach policy from product-gate, onboarding, and release-health evidence.",
     "costUsd": 0
   },
   "selectedRejection": null,
   "eligibleActionIds": [
-    "seed-portfolio-traffic",
-    "refresh-organic-seed-loop",
     "refresh-first-move-coach",
     "refresh-completion-loop",
     "refresh-replay-loop",
@@ -57,10 +52,16 @@
       "reason": "status-monitor"
     },
     {
+      "id": "seed-portfolio-traffic",
+      "status": "monitor",
+      "command": "npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop",
+      "reason": "status-monitor"
+    },
+    {
       "id": "refresh-organic-seed-loop",
-      "status": "armed",
+      "status": "monitor",
       "command": "npm run autonomous:organic-seed-loop",
-      "reason": "not-selected-this-run"
+      "reason": "status-monitor"
     },
     {
       "id": "refresh-support-feedback",
@@ -133,12 +134,6 @@
       "status": "monitor",
       "command": "npm run autonomous:sample-plan",
       "reason": "status-monitor"
-    },
-    {
-      "id": "refresh-first-move-coach",
-      "status": "armed",
-      "command": "npm run autonomous:first-move-coach",
-      "reason": "not-selected-this-run"
     },
     {
       "id": "refresh-completion-loop",
@@ -227,24 +222,8 @@
   ],
   "commandPlan": [
     {
-      "segment": "npm run autonomous:growth",
-      "script": "autonomous:growth"
-    },
-    {
-      "segment": "npm run autonomous:portfolio",
-      "script": "autonomous:portfolio"
-    },
-    {
-      "segment": "npm run autonomous:traffic",
-      "script": "autonomous:traffic"
-    },
-    {
-      "segment": "npm run autonomous:acquisition",
-      "script": "autonomous:acquisition"
-    },
-    {
-      "segment": "npm run autonomous:organic-seed-loop",
-      "script": "autonomous:organic-seed-loop"
+      "segment": "npm run autonomous:first-move-coach",
+      "script": "autonomous:first-move-coach"
     }
   ],
   "execution": {
@@ -318,7 +297,7 @@
     "RUN_WORKFLOWS=1"
   ],
   "nextActions": [
-    "Run npm run autonomous:operator -- --execute --action=seed-portfolio-traffic to execute exactly one allowed local action.",
+    "Run npm run autonomous:operator -- --execute --action=refresh-first-move-coach to execute exactly one allowed local action.",
     "Do not execute GitHub workflow, store, paid ads, or account setup commands from the local operator."
   ]
 }
