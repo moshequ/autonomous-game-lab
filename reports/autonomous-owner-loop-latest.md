@@ -1,17 +1,17 @@
 # Autonomous Owner Loop
 
-Generated: 2026-05-21T03:27:51.653Z
+Generated: 2026-05-21T03:36:02.837Z
 Status: owner-loop-ready
 Mode: zero-spend-web-ready
 Autonomy score: 41/42 (98%)
 
 ## Owner Decision
 
-- Next action: measure-pwa-install-loop
-- Command: npm run autonomous:pwa-install
-- Rationale: Measures optional PWA install prompts and standalone launches as the zero-cost distribution path.
-- Last executed action: seed-portfolio-traffic
-- Recent executed actions: seed-portfolio-traffic, refresh-autonomous-cadence, optimize-store-listing, collect-gate-sample-downloads, apply-safe-improvements, refresh-replay-loop, refresh-completion-loop, refresh-first-move-coach
+- Next action: refresh-replay-loop
+- Command: npm run autonomous:replay-loop
+- Rationale: Refreshes the optional completed-run replay prompt from product-gate and replay telemetry evidence.
+- Last executed action: refresh-completion-loop
+- Recent executed actions: refresh-completion-loop, refresh-first-move-coach, measure-pwa-install-loop, seed-portfolio-traffic, refresh-autonomous-cadence, optimize-store-listing, collect-gate-sample-downloads, apply-safe-improvements
 
 ## Systems
 
@@ -29,7 +29,7 @@ Autonomy score: 41/42 (98%)
 - ready: organic-seed-loop - Target canopy-bloom; surface portal-growth-loop; share telemetry organic_seed_share_clicked.
 - ready: retention-loop - Daily canopy-bloom; D1 17%; streak variant daily-streak; return prompt armed; return intent armed.
 - ready: pwa-install-loop - Prompt autonomy-cockpit; installs 0; launch events 0; sample collecting-sample needs 20 prompt(s) and 10 launch event(s).
-- ready: performance-budget - Initial JS 654.9 KB; gzip 178.7 KB; deferred chunks 1.
+- ready: performance-budget - Initial JS 654.9 KB; gzip 178.8 KB; deferred chunks 1.
 - ready: product-optimization - Completion 40% / gate 55%; latest already-applied.
 - ready: support-feedback - Support feedback support-feedback-empty; issues 0; routable signals 0.
 - ready: product-gate-recovery - Recovery product-gate-recovery-ready; primary firstGameCompletion; experiment collecting-sample; failing gates 3; next lift 128.
@@ -44,11 +44,11 @@ Autonomy score: 41/42 (98%)
 - ready: web-deployment - Deployment ready-for-pages; web readiness ready-after-build; promotion promotable-internal.
 - ready: release-candidate - Release candidate release-candidate-ready; files 44; smoke URLs 14.
 - ready: post-deploy-smoke - Smoke post-deploy-smoke-observed-live; origin https://moshequ.github.io/autonomous-game-lab; manifest comparison required; checks 15/15 passed; local artifact predeploy-artifact-smoke-passed 15/15 passed.
-- ready: post-deploy-artifact-sync - Artifact sync post-deploy-artifact-sync-passed; run 26203492530; live matches artifact true; strict true.
+- ready: post-deploy-artifact-sync - Artifact sync post-deploy-artifact-sync-passed; run 26203706991; live matches artifact true; strict true.
 - ready: production-bootstrap - Bootstrap production-bootstrap-ready; mode can-apply-configured-actions; external blockers 15.
 - ready: production-activation - Activation activation-ready; mode dry-run; execution dry-run; gh ready.
 - ready: support-channel - Support channel support-channel-ready; repository moshequ/autonomous-game-lab; public intake ready.
-- ready: autonomous-operator - Operator operator-plan-ready; selected measure-pwa-install-loop; execution not-requested.
+- ready: autonomous-operator - Operator operator-plan-ready; selected refresh-replay-loop; execution not-requested.
 - ready: operator-history - History operator-history-ready; records 40; executed 19.
 - ready: objective-audit - Audit objective-in-progress; met 6/8; external blockers 12.
 - ready: store-listing-optimizer - Focus canopy-bloom; lead screenshot phone-canopy-bloom-generated; candidate changed no.
@@ -76,7 +76,7 @@ Autonomy score: 41/42 (98%)
 - armed: refresh-product-gate-recovery - npm run autonomous:gate-recovery
 - monitor: collect-gate-sample-downloads - npm run autonomous:collect-sample-downloads
 - monitor: refresh-product-gate-sample-plan - npm run autonomous:sample-plan
-- armed: refresh-first-move-coach - npm run autonomous:first-move-coach
+- monitor: refresh-first-move-coach - npm run autonomous:first-move-coach
 - monitor: refresh-completion-loop - npm run autonomous:completion-loop
 - armed: refresh-replay-loop - npm run autonomous:replay-loop
 - monitor: prepare-repository-channel - npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap

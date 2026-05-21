@@ -1,22 +1,22 @@
 {
-  "generatedAt": "2026-05-21T03:27:51.390Z",
+  "generatedAt": "2026-05-21T03:36:02.566Z",
   "status": "operator-plan-ready",
   "mode": "plan-only",
   "ownerDecision": {
-    "actionId": "measure-pwa-install-loop",
-    "command": "npm run autonomous:pwa-install",
+    "actionId": "refresh-replay-loop",
+    "command": "npm run autonomous:replay-loop",
     "locallyExecutable": true,
     "rejectionReason": null
   },
   "requestedActionId": null,
   "selectedAction": {
-    "id": "measure-pwa-install-loop",
+    "id": "refresh-replay-loop",
     "status": "armed",
-    "command": "npm run autonomous:pwa-install",
+    "command": "npm run autonomous:replay-loop",
     "targets": [
-      "pwa-install"
+      "harbor-rings"
     ],
-    "reason": "Measures optional PWA install prompts and standalone launches as the zero-cost distribution path.",
+    "reason": "Refreshes the optional completed-run replay prompt from product-gate and replay telemetry evidence.",
     "costUsd": 0
   },
   "selectedRejection": null,
@@ -29,7 +29,6 @@
     "prepare-release-candidate",
     "run-post-deploy-smoke",
     "refresh-product-gate-recovery",
-    "refresh-first-move-coach",
     "refresh-replay-loop",
     "optimize-store-listing"
   ],
@@ -75,6 +74,12 @@
       "status": "monitor",
       "command": "npm run autonomous:retention",
       "reason": "status-monitor"
+    },
+    {
+      "id": "measure-pwa-install-loop",
+      "status": "armed",
+      "command": "npm run autonomous:pwa-install",
+      "reason": "not-selected-this-run"
     },
     {
       "id": "check-performance-budget",
@@ -126,21 +131,15 @@
     },
     {
       "id": "refresh-first-move-coach",
-      "status": "armed",
+      "status": "monitor",
       "command": "npm run autonomous:first-move-coach",
-      "reason": "not-selected-this-run"
+      "reason": "status-monitor"
     },
     {
       "id": "refresh-completion-loop",
       "status": "monitor",
       "command": "npm run autonomous:completion-loop",
       "reason": "status-monitor"
-    },
-    {
-      "id": "refresh-replay-loop",
-      "status": "armed",
-      "command": "npm run autonomous:replay-loop",
-      "reason": "not-selected-this-run"
     },
     {
       "id": "prepare-repository-channel",
@@ -211,8 +210,8 @@
   ],
   "commandPlan": [
     {
-      "segment": "npm run autonomous:pwa-install",
-      "script": "autonomous:pwa-install"
+      "segment": "npm run autonomous:replay-loop",
+      "script": "autonomous:replay-loop"
     }
   ],
   "execution": {
@@ -282,7 +281,7 @@
     "RUN_WORKFLOWS=1"
   ],
   "nextActions": [
-    "Run npm run autonomous:operator -- --execute --action=measure-pwa-install-loop to execute exactly one allowed local action.",
+    "Run npm run autonomous:operator -- --execute --action=refresh-replay-loop to execute exactly one allowed local action.",
     "Do not execute GitHub workflow, store, paid ads, or account setup commands from the local operator."
   ]
 }
