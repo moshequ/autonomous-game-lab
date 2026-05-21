@@ -64,6 +64,28 @@ const quantile = (values, q) => {
   return sorted[index]
 }
 
+const isNetworkBlockedError = (error) => {
+  if (!error) {
+    return false
+  }
+
+  const message = error instanceof Error ? error.message : String(error)
+  const normalized = message.toLowerCase()
+
+  return (
+    normalized.includes('fetch failed') ||
+    normalized.includes('enotfound') ||
+    normalized.includes('eai_again') ||
+    normalized.includes('getaddrinfo') ||
+    normalized.includes('dns') ||
+    normalized.includes('network') ||
+    normalized.includes('socket') ||
+    normalized.includes('timed out') ||
+    normalized.includes('timeout') ||
+    normalized.includes('could not resolve')
+  )
+}
+
 const releaseCandidate = await readOptionalJson(path.join(dataDir, 'release-candidate.json'), {
   status: 'missing',
   postDeploySmoke: [],
@@ -227,7 +249,7 @@ const runCheck = async (check) => {
     return {
       ...check,
       url,
-      status: 'fail',
+      status: isNetworkBlockedError(error) ? 'blocked' : 'fail',
       httpStatus: null,
       durationMs: null,
       bytes: 0,

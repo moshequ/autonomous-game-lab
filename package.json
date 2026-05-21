@@ -39,7 +39,7 @@
     "autonomous:simulate": "node scripts/bot-simulator.mjs",
     "autonomous:tune": "node scripts/balance-auto-tuner.mjs",
     "autonomous:blocker-handoff": "node scripts/production-blocker-handoff.mjs",
-    "autonomous:readiness": "npm run autonomous:blocker-handoff && node scripts/production-readiness.mjs",
+    "autonomous:readiness": "npm run autonomous:blocker-handoff && node scripts/production-readiness.mjs && npm run autonomous:deploy-plan",
     "autonomous:release-health": "node scripts/release-health-guard.mjs",
     "autonomous:experiments": "node scripts/experiment-evaluator.mjs",
     "autonomous:portfolio": "node scripts/portfolio-policy.mjs",

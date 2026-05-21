@@ -1,17 +1,31 @@
 {
-  "generatedAt": "2026-05-21T11:18:23.287Z",
-  "status": "operator-held",
-  "mode": "plan-only",
+  "generatedAt": "2026-05-21T11:42:55.368Z",
+  "status": "operator-executed",
+  "mode": "execute-one-action",
   "ownerDecision": {
-    "actionId": "hold-for-external-input",
-    "command": "No local command is available until external inputs, configured credentials, or new player evidence arrive.",
-    "locallyExecutable": false,
-    "rejectionReason": "status-monitor"
+    "actionId": "collect-gate-sample-downloads",
+    "command": "npm run autonomous:collect-sample-downloads",
+    "locallyExecutable": true,
+    "rejectionReason": null
   },
-  "requestedActionId": null,
-  "selectedAction": null,
+  "requestedActionId": "collect-gate-sample-downloads",
+  "selectedAction": {
+    "id": "collect-gate-sample-downloads",
+    "status": "armed",
+    "command": "npm run autonomous:collect-sample-downloads",
+    "targets": [
+      "firstGameCompletion",
+      "gate-sample-20260521-firstGameCompletion",
+      "gate-sample-20260521-replayRate"
+    ],
+    "reason": "Opt-in scans local browser Downloads and the event inbox for real player exports, imports them, refreshes analytics and recovery, then regenerates the sample plan.",
+    "costUsd": 0
+  },
   "selectedRejection": null,
-  "eligibleActionIds": [],
+  "eligibleActionIds": [
+    "collect-gate-sample-downloads",
+    "bootstrap-production-setup"
+  ],
   "blockedActions": [
     {
       "id": "run-daily-owner-loop",
@@ -110,12 +124,6 @@
       "reason": "status-monitor"
     },
     {
-      "id": "collect-gate-sample-downloads",
-      "status": "monitor",
-      "command": "npm run autonomous:collect-sample-downloads",
-      "reason": "status-monitor"
-    },
-    {
       "id": "refresh-product-gate-sample-plan",
       "status": "monitor",
       "command": "npm run autonomous:sample-plan",
@@ -147,9 +155,9 @@
     },
     {
       "id": "bootstrap-production-setup",
-      "status": "monitor",
+      "status": "armed",
       "command": "npm run autonomous:release-candidate && npm run autonomous:deploy-plan && npm run autonomous:bootstrap",
-      "reason": "status-monitor"
+      "reason": "not-selected-this-run"
     },
     {
       "id": "activate-production-when-configured",
@@ -212,13 +220,38 @@
       "reason": "status-monitor"
     }
   ],
-  "commandPlan": [],
+  "commandPlan": [
+    {
+      "segment": "npm run autonomous:collect-sample-downloads",
+      "script": "autonomous:collect-sample-downloads"
+    }
+  ],
   "execution": {
-    "requested": false,
-    "status": "not-requested",
+    "requested": true,
+    "status": "executed",
     "maxActionsPerRun": 1,
-    "attemptedActionId": null,
-    "results": []
+    "attemptedActionId": "collect-gate-sample-downloads",
+    "results": [
+      {
+        "script": "autonomous:collect-sample-downloads",
+        "exitCode": 0,
+        "stdoutTail": [
+          "Wrote reports/product-gate-recovery-latest.md",
+          "> autonomous-game-lab@0.0.0 autonomous:sample-plan",
+          "> node scripts/product-gate-sample-planner.mjs",
+          "Wrote data/product-gate-sample-plan.json",
+          "Wrote src/data/productGateSamplePlan.ts",
+          "Wrote reports/product-gate-sample-plan-latest.md",
+          "Wrote public/gate-sample.html",
+          "> autonomous-game-lab@0.0.0 autonomous:retention",
+          "> node scripts/retention-loop.mjs",
+          "Wrote data/retention-loop.json",
+          "Wrote src/data/retentionLoop.ts",
+          "Wrote reports/retention-loop-latest.md"
+        ],
+        "stderrTail": []
+      }
+    ]
   },
   "controls": {
     "zeroPaidSpend": true,
@@ -284,7 +317,7 @@
     "RUN_WORKFLOWS=1"
   ],
   "nextActions": [
-    "Keep reporting external blockers until a safe local action is eligible.",
+    "Review collect-gate-sample-downloads execution results before another operator run.",
     "Do not execute GitHub workflow, store, paid ads, or account setup commands from the local operator."
   ]
 }

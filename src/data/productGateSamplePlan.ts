@@ -1,6 +1,6 @@
 export const productGateSamplePlan = {
-  "generatedAt": "2026-05-21T11:14:53.900Z",
-  "sourceDataHash": "d5a6c5abb08f",
+  "generatedAt": "2026-05-21T11:42:55.103Z",
+  "sourceDataHash": "3aadf4806f02",
   "status": "product-gate-sample-plan-ready",
   "sourceStatus": {
     "analyticsSource": "fixture-sample",
@@ -28,7 +28,7 @@ export const productGateSamplePlan = {
     "supportingAggregateEvidenceNotes": 0,
     "downloadsScanStatus": "no-evidence-found",
     "downloadsScanCoolingDown": true,
-    "downloadsScanNextRecommendedAt": "2026-05-21T11:28:33.578Z",
+    "downloadsScanNextRecommendedAt": "2026-05-21T15:42:54.167Z",
     "nextOwnerAction": "collect-gate-sample-downloads"
   },
   "downloadsScan": {
@@ -36,11 +36,11 @@ export const productGateSamplePlan = {
     "cooldownHours": 4,
     "coolingDown": true,
     "evidenceReadyNow": false,
-    "lastScanAt": "2026-05-21T07:28:33.578Z",
+    "lastScanAt": "2026-05-21T11:42:54.167Z",
     "lastScanStatus": "no-evidence-found",
-    "scanAgeHours": 3.77,
-    "cooldownRemainingHours": 0.23,
-    "nextRecommendedScanAt": "2026-05-21T11:28:33.578Z"
+    "scanAgeHours": 0,
+    "cooldownRemainingHours": 4,
+    "nextRecommendedScanAt": "2026-05-21T15:42:54.167Z"
   },
   "publicSamplePage": {
     "path": "/gate-sample.html",
@@ -439,7 +439,7 @@ export const productGateSamplePlan = {
   "nextActions": [
     "First game completion needs 30 more prompt exposure(s) and 128 observed success(es); feature Harbor Rings via /?game=harbor-rings&utm_source=gate_sample&utm_campaign=gate-sample-20260521-firstGameCompletion.",
     "D1 retention is the fastest gate sample: 10 prompt exposure(s), 1 observed success(es).",
-    "Wait until 2026-05-21T11:28:33.578Z before the next explicit Downloads scan unless an inbox event drop appears."
+    "Wait until 2026-05-21T15:42:54.167Z before the next explicit Downloads scan unless an inbox event drop appears."
   ]
 } as const
 

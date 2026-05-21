@@ -2606,6 +2606,54 @@ test('product gate sample mission starts an attributed zero-spend evidence run',
     )
     .toBe(mission.gameId)
 
+  const handoff = page.getByLabel('Gate Sample Evidence Handoff')
+  await expect(handoff).toContainText(mission.title)
+  await expect(handoff).toContainText('export-ready')
+  await expect(handoff.getByRole('button', { name: `Export evidence for ${mission.title}` })).toBeVisible()
+
+  const handoffDownloadPromise = page.waitForEvent('download')
+  await handoff.getByRole('button', { name: `Export evidence for ${mission.title}` }).click()
+  const handoffDownload = await handoffDownloadPromise
+  const handoffDownloadPath = await handoffDownload.path()
+
+  expect(handoffDownload.suggestedFilename()).toMatch(/^player-events-\d{4}-\d{2}-\d{2}\.json$/)
+  expect(handoffDownloadPath).toBeTruthy()
+
+  if (handoffDownloadPath) {
+    const handoffEvents = JSON.parse(await readFile(handoffDownloadPath, 'utf8')) as Array<{
+      name: string
+      properties: Record<string, string | number | boolean>
+    }>
+    const promptView = handoffEvents.findLast((event) => event.name === 'gate_sample_export_prompt_viewed')
+    const promptClick = handoffEvents.findLast((event) => event.name === 'gate_sample_export_prompt_clicked')
+    const exportEvent = handoffEvents.findLast((event) => event.name === 'analytics_exported')
+
+    expect(promptView?.properties).toMatchObject({
+      surface: 'runtime-gate-sample-handoff',
+      exportSurface: 'product-gate-sample',
+      status: 'export-ready',
+      campaignId: mission.campaignId,
+      gateId: mission.gateId,
+      gameId: mission.gameId,
+      zeroPaidSpend: true,
+      noSyntheticEvents: mission.controls.noSyntheticEvents,
+    })
+    expect(promptClick?.properties).toMatchObject({
+      exportSurface: 'product-gate-sample',
+      exportSurfaceDetail: 'runtime-gate-sample-handoff',
+      campaignId: mission.campaignId,
+      localEvidenceDropReady: true,
+      localSampleDecisionReady: false,
+    })
+    expect(exportEvent?.properties).toMatchObject({
+      exportSurface: 'product-gate-sample',
+      exportSurfaceDetail: 'runtime-gate-sample-handoff',
+      campaignId: mission.campaignId,
+      acquisitionCampaign: mission.campaignId,
+      acquisitionSource: 'gate_sample',
+    })
+  }
+
   const downloadPromise = page.waitForEvent('download')
   await samplePanel.getByRole('button', { name: `Export sample evidence for ${mission.title}` }).click()
   const download = await downloadPromise

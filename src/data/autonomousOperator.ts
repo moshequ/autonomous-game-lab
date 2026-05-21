@@ -1,9 +1,13 @@
 export const autonomousOperator = {
-  "status": "operator-held",
-  "mode": "plan-only",
-  "selectedAction": null,
+  "status": "operator-executed",
+  "mode": "execute-one-action",
+  "selectedAction": {
+    "id": "collect-gate-sample-downloads",
+    "status": "armed",
+    "costUsd": 0
+  },
   "execution": {
-    "status": "not-requested"
+    "status": "executed"
   }
 } as const
 

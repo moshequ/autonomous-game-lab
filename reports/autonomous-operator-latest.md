@@ -1,11 +1,11 @@
 # Autonomous Operator
 
-Generated: 2026-05-21T11:18:23.287Z
-Status: operator-held
-Mode: plan-only
-Owner decision: hold-for-external-input
-Selected action: none
-Execution: not-requested
+Generated: 2026-05-21T11:42:55.368Z
+Status: operator-executed
+Mode: execute-one-action
+Owner decision: collect-gate-sample-downloads
+Selected action: collect-gate-sample-downloads
+Execution: executed
 
 ## Controls
 
@@ -18,11 +18,12 @@ Execution: not-requested
 
 ## Selected Action
 
-- none: no eligible local actions
+- collect-gate-sample-downloads: npm run autonomous:collect-sample-downloads
 
 ## Eligible Local Actions
 
-- none
+- collect-gate-sample-downloads
+- bootstrap-production-setup
 
 ## Blocked Actions
 

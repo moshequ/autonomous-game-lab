@@ -72,6 +72,28 @@ const fetchText = async (url) => {
   }
 }
 
+const isNetworkBlockedError = (error) => {
+  if (!error) {
+    return false
+  }
+
+  const message = error instanceof Error ? error.message : String(error)
+  const normalized = message.toLowerCase()
+
+  return (
+    normalized.includes('fetch failed') ||
+    normalized.includes('enotfound') ||
+    normalized.includes('eai_again') ||
+    normalized.includes('getaddrinfo') ||
+    normalized.includes('dns') ||
+    normalized.includes('network') ||
+    normalized.includes('socket') ||
+    normalized.includes('timed out') ||
+    normalized.includes('timeout') ||
+    normalized.includes('could not resolve')
+  )
+}
+
 const releaseCandidate = await readJson(path.join(dataDir, 'release-candidate.json'))
 const deployment = await readJson(path.join(dataDir, 'deployment-plan.json'))
 const productionResponse = await readJson(path.join(dataDir, 'production-response.json'))
@@ -280,7 +302,7 @@ const runChecks = async () => {
     } catch (error) {
       smokeResults.push({
         ...check,
-        status: 'fail',
+        status: isNetworkBlockedError(error) ? 'blocked' : 'fail',
         actualStatus: null,
         finalUrl: check.url,
         contentType: null,
@@ -336,7 +358,7 @@ const runChecks = async () => {
   } catch (error) {
     smokeResults.push({
       ...manifestCheck,
-      status: 'fail',
+      status: isNetworkBlockedError(error) ? 'blocked' : 'fail',
       actualStatus: null,
       finalUrl: manifestCheck.url,
       contentType: null,
@@ -375,13 +397,20 @@ const observedDifferentLiveCandidate = Boolean(
     liveRelease?.aggregateHash &&
     liveRelease.localCandidateMatches === false,
 )
+const liveChecksBlocked =
+  origin &&
+  blockedChecks.length > 0 &&
+  failedChecks.length === 0 &&
+  passedChecks.length === 0
 const status = !origin
   ? 'blocked-missing-origin'
-  : failedChecks.length
-    ? 'post-deploy-smoke-failed'
-    : observedDifferentLiveCandidate
-      ? 'post-deploy-smoke-observed-live'
-      : 'post-deploy-smoke-passed'
+  : liveChecksBlocked
+    ? 'blocked-missing-origin'
+    : failedChecks.length
+      ? 'post-deploy-smoke-failed'
+      : observedDifferentLiveCandidate
+        ? 'post-deploy-smoke-observed-live'
+        : 'post-deploy-smoke-passed'
 
 const payload = {
   generatedAt: new Date().toISOString(),

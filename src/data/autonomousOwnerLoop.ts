@@ -8,7 +8,7 @@ export const autonomousOwnerLoop = {
     "externalAccountInterventionRequired": true
   },
   "ownerDecision": {
-    "nextBestActionId": "hold-for-external-input"
+    "nextBestActionId": "collect-gate-sample-downloads"
   },
   "systems": [
     {
@@ -30,19 +30,19 @@ export const autonomousOwnerLoop = {
   ],
   "safeAutonomousActions": [
     {
-      "id": "hold-for-external-input",
-      "status": "monitor"
+      "id": "collect-gate-sample-downloads",
+      "status": "armed"
     },
     {
       "id": "run-daily-owner-loop",
       "status": "armed"
     },
     {
-      "id": "refresh-autonomous-cadence",
+      "id": "hold-for-external-input",
       "status": "monitor"
     },
     {
-      "id": "refresh-autonomous-self-update",
+      "id": "refresh-autonomous-cadence",
       "status": "monitor"
     }
   ]

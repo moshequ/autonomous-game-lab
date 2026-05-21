@@ -1,5 +1,5 @@
 export const localEventBridge = {
-  "generatedAt": "2026-05-21T07:28:33.578Z",
+  "generatedAt": "2026-05-21T11:42:54.167Z",
   "status": "bridge-waiting-for-export",
   "mode": "local-zero-spend-event-drop-bridge",
   "inbox": {
@@ -91,7 +91,7 @@ export const localEventBridge = {
     }
   },
   "explicitDownloadsScan": {
-    "scannedAt": "2026-05-21T07:28:33.578Z",
+    "scannedAt": "2026-05-21T11:42:54.167Z",
     "status": "no-evidence-found",
     "directory": "../../../../Downloads",
     "matchedFiles": 0,
@@ -106,11 +106,11 @@ export const localEventBridge = {
     "cooldownHours": 4,
     "coolingDown": true,
     "evidenceReadyNow": false,
-    "lastScanAt": "2026-05-21T07:28:33.578Z",
+    "lastScanAt": "2026-05-21T11:42:54.167Z",
     "lastScanStatus": "no-evidence-found",
     "scanAgeHours": 0,
     "cooldownRemainingHours": 4,
-    "nextRecommendedScanAt": "2026-05-21T11:28:33.578Z"
+    "nextRecommendedScanAt": "2026-05-21T15:42:54.167Z"
   },
   "gateSampleEvidence": {
     "inbox": {

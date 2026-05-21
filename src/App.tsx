@@ -161,7 +161,32 @@ const getInitialGameId = () => {
       ? autonomousSampleGameId
     : isPlayableGameId(portfolioPick)
       ? portfolioPick
-      : 'harbor-rings'
+    : 'harbor-rings'
+}
+
+const getInitialGateSampleCampaignId = () => {
+  if (typeof window === 'undefined') {
+    return ''
+  }
+
+  const entryParams = new URLSearchParams(window.location.search)
+  const entryCampaign = entryParams.get('utm_campaign')
+  const entrySource = entryParams.get('utm_source')
+  const entryGameId = entryParams.get('game')
+
+  if (entrySource === 'gate_sample') {
+    const entryMission =
+      productGateSamplePlan.missions.find((mission) => mission.campaignId === entryCampaign) ??
+      productGateSamplePlan.missions.find((mission) => mission.gameId === entryGameId)
+
+    return entryMission?.campaignId ?? entryCampaign ?? ''
+  }
+
+  if (hasExplicitEntryRoute(entryParams)) {
+    return ''
+  }
+
+  return getAutonomousDefaultGateSampleMission()?.campaignId ?? ''
 }
 
 const defaultSnapshot: GameSnapshot = {
@@ -549,6 +574,9 @@ const getPwaDisplayMode = () => {
 
 function App() {
   const [selectedGameId, setSelectedGameId] = useState<PlayableGameId>(() => getInitialGameId())
+  const [activeGateSampleCampaignId, setActiveGateSampleCampaignId] = useState(() =>
+    getInitialGateSampleCampaignId(),
+  )
   const [snapshot, setSnapshot] = useState<GameSnapshot>(defaultSnapshot)
   const [events, setEvents] = useState<AnalyticsEvent[]>(() => getBufferedEvents())
   const [rewardOfferConsumed, setRewardOfferConsumed] = useState(() =>
@@ -629,6 +657,7 @@ function App() {
   const finishLineCoachRef = useRef('')
   const organicSeedCardRef = useRef('')
   const localRouterCardRef = useRef('')
+  const gateSampleEvidenceHandoffRef = useRef('')
   const pwaPromptViewedRef = useRef(false)
   const localEventDropDirectoryRef = useRef<LocalEventDropDirectoryHandle | null>(null)
   const localEventDropAutosaveTimerRef = useRef<number | null>(null)
@@ -919,6 +948,41 @@ function App() {
   const productGateSampleFastestProgress = productGateSampleFastest
     ? productGateSampleProgress.get(productGateSampleFastest.campaignId)
     : null
+  const productGateSampleEvidenceHandoff = useMemo(() => {
+    const rankedMissions = productGateSamplePlan.missions
+      .flatMap((mission, index) => {
+        const progress = productGateSampleProgress.get(mission.campaignId)
+
+        if (
+          !progress ||
+          !progress.evidenceDropReady ||
+          progress.campaignEvents <= 0 ||
+          localAnalyticsCoverage.unexportedEvents <= 0
+        ) {
+          return []
+        }
+
+        return [{ mission, progress, index }]
+      })
+      .sort(
+        (left, right) =>
+          Number(right.mission.campaignId === activeGateSampleCampaignId) -
+            Number(left.mission.campaignId === activeGateSampleCampaignId) ||
+          Number(right.mission.gameId === selectedGameId) - Number(left.mission.gameId === selectedGameId) ||
+          Number(right.progress.sampleDecisionReady) - Number(left.progress.sampleDecisionReady) ||
+          left.progress.successesRemaining - right.progress.successesRemaining ||
+          right.progress.collectionEvents - left.progress.collectionEvents ||
+          right.progress.campaignEvents - left.progress.campaignEvents ||
+          left.index - right.index,
+      )
+
+    return rankedMissions[0] ?? null
+  }, [activeGateSampleCampaignId, localAnalyticsCoverage.unexportedEvents, productGateSampleProgress, selectedGameId])
+  const productGateSampleEvidenceHandoffStatus = productGateSampleEvidenceHandoff
+    ? productGateSampleEvidenceHandoff.progress.sampleDecisionReady
+      ? 'decision-ready'
+      : 'export-ready'
+    : 'idle'
   const firstMoveCoachPrimary =
     firstMoveCoach.targets.find((target) => target.gameId === firstMoveCoach.summary.primaryTargetId) ??
     firstMoveCoach.targets.find((target) => target.enabled)
@@ -1251,6 +1315,7 @@ function App() {
     }
   }
   const openSeedCampaign = (campaign: (typeof trafficCampaigns)[number]) => {
+    setActiveGateSampleCampaignId('')
     setAcquisitionAttribution({
       source: 'seed_internal',
       campaign: campaign.id,
@@ -1274,6 +1339,7 @@ function App() {
     })
   }
   const startGateSampleMission = (mission: (typeof productGateSamplePlan.missions)[number]) => {
+    setActiveGateSampleCampaignId(mission.campaignId)
     setAcquisitionAttribution({
       source: 'gate_sample',
       campaign: mission.campaignId,
@@ -1783,6 +1849,45 @@ function App() {
     localTrafficStarts,
   ])
   useEffect(() => {
+    if (!productGateSampleEvidenceHandoff) {
+      return
+    }
+
+    const { mission, progress } = productGateSampleEvidenceHandoff
+    const handoffKey = [
+      mission.campaignId,
+      progress.campaignEvents,
+      progress.analyticsExports,
+      productGateSampleEvidenceHandoffStatus,
+      localAnalyticsCoverage.unexportedEvents,
+    ].join(':')
+
+    if (gateSampleEvidenceHandoffRef.current === handoffKey) {
+      return
+    }
+
+    gateSampleEvidenceHandoffRef.current = handoffKey
+    trackEvent('gate_sample_export_prompt_viewed', {
+      gameId: mission.gameId,
+      gateId: mission.gateId,
+      campaignId: mission.campaignId,
+      surface: 'runtime-gate-sample-handoff',
+      exportSurface: 'product-gate-sample',
+      status: productGateSampleEvidenceHandoffStatus,
+      localCampaignEvents: progress.campaignEvents,
+      localCollectionEvents: progress.collectionEvents,
+      localObservedSuccesses: progress.successEvents,
+      localAnalyticsExports: progress.analyticsExports,
+      localPromptViewsRemaining: progress.promptViewsRemaining,
+      localSuccessesRemaining: progress.successesRemaining,
+      unexportedEvents: localAnalyticsCoverage.unexportedEvents,
+      exportCoverageStatus: localAnalyticsCoverage.status,
+      zeroPaidSpend: true,
+      noSyntheticEvents: mission.controls.noSyntheticEvents,
+      noRevenueEnablement: mission.controls.noRevenueEnablement,
+    })
+  }, [localAnalyticsCoverage, productGateSampleEvidenceHandoff, productGateSampleEvidenceHandoffStatus])
+  useEffect(() => {
     if (selectedGameId !== retentionLoop.dailyChallenge.gameId || !snapshot.completed) {
       return
     }
@@ -2180,11 +2285,33 @@ function App() {
     }
   }, [exportLocalAnalytics])
 
-  const exportGateSampleEvidence = (mission: (typeof productGateSamplePlan.missions)[number]) => {
+  const exportGateSampleEvidence = (
+    mission: (typeof productGateSamplePlan.missions)[number],
+    exportSurfaceDetail = 'product-gate-sample-plan-card',
+  ) => {
     const progress = sampleProgressForMission(mission, getBufferedEvents())
 
+    trackEvent('gate_sample_export_prompt_clicked', {
+      exportSurface: 'product-gate-sample',
+      exportSurfaceDetail,
+      gateId: mission.gateId,
+      gameId: mission.gameId,
+      campaignId: mission.campaignId,
+      localCampaignEvents: progress.campaignEvents,
+      localCollectionEvents: progress.collectionEvents,
+      localObservedSuccesses: progress.successEvents,
+      localAnalyticsExports: progress.analyticsExports,
+      localPromptViewsRemaining: progress.promptViewsRemaining,
+      localSuccessesRemaining: progress.successesRemaining,
+      localEvidenceDropReady: progress.evidenceDropReady,
+      localSampleDecisionReady: progress.sampleDecisionReady,
+      zeroPaidSpend: true,
+      noSyntheticEvents: mission.controls.noSyntheticEvents,
+      noRevenueEnablement: mission.controls.noRevenueEnablement,
+    })
     exportLocalAnalytics({
       exportSurface: 'product-gate-sample',
+      exportSurfaceDetail,
       gateId: mission.gateId,
       gameId: mission.gameId,
       campaignId: mission.campaignId,
@@ -2706,6 +2833,53 @@ function App() {
               </button>
             </div>
 
+            {productGateSampleEvidenceHandoff ? (
+              <div className="monetizationRuntime" aria-label="Gate Sample Evidence Handoff">
+                <div>
+                  <span>Gate sample</span>
+                  <strong>{productGateSampleEvidenceHandoff.mission.title}</strong>
+                </div>
+                <div>
+                  <span>State</span>
+                  <strong>{productGateSampleEvidenceHandoffStatus}</strong>
+                </div>
+                <div>
+                  <span>Local events</span>
+                  <strong>{productGateSampleEvidenceHandoff.progress.campaignEvents}</strong>
+                </div>
+                <div>
+                  <span>Observed wins</span>
+                  <strong>{productGateSampleEvidenceHandoff.progress.successEvents}</strong>
+                </div>
+                <div>
+                  <span>Export debt</span>
+                  <strong>{localAnalyticsCoverage.unexportedEvents}</strong>
+                </div>
+                <div className="sampleActions">
+                  <button
+                    className="tinyButton"
+                    type="button"
+                    onClick={() =>
+                      exportGateSampleEvidence(
+                        productGateSampleEvidenceHandoff.mission,
+                        'runtime-gate-sample-handoff',
+                      )
+                    }
+                  >
+                    <Download size={14} aria-hidden="true" />
+                    Export evidence for {productGateSampleEvidenceHandoff.mission.title}
+                  </button>
+                  <button
+                    className="tinyButton subtleButton"
+                    type="button"
+                    onClick={() => startGateSampleMission(productGateSampleEvidenceHandoff.mission)}
+                  >
+                    Continue sample for {productGateSampleEvidenceHandoff.mission.title}
+                  </button>
+                </div>
+              </div>
+            ) : null}
+
             <div>
               <div className="panelHeader">
                 <h2>Events</h2>
@@ -2727,6 +2901,7 @@ function App() {
                   'pwa_install_prompt_available',
                   'pwa_installed',
                   'local_router_choice_clicked',
+                  'gate_sample_export_prompt_clicked',
                 ].map((name) => (
                   <div className="eventRow" key={name}>
                     <span>{name}</span>
