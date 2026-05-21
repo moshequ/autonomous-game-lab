@@ -1,5 +1,5 @@
 export const growthPlan = {
-  "generatedAt": "2026-05-21T18:41:16.746Z",
+  "generatedAt": "2026-05-21T18:55:02.085Z",
   "siteUrl": "https://moshequ.github.io/autonomous-game-lab",
   "publicUrlMode": "absolute-origin",
   "publicOrigin": {
@@ -391,6 +391,12 @@ export const growthPlan = {
       "role": "public-support",
       "channel": "support-feedback",
       "changefreq": "weekly"
+    },
+    {
+      "path": "/measurement-status.html",
+      "role": "public-measurement-status",
+      "channel": "player-evidence",
+      "changefreq": "daily"
     },
     {
       "path": "/gate-sample.html",

@@ -1,0 +1,90 @@
+{
+  "generatedAt": "2026-05-21T18:59:31.080Z",
+  "status": "production-measurement-local-intake-ready",
+  "activePath": "local-browser-buffer",
+  "liveCandidate": "pwa-5da9e135a9d6",
+  "analytics": {
+    "activeRollupSource": "fixture-sample",
+    "retentionSource": "fixture-retention",
+    "totals": {
+      "events": 0,
+      "gameStarted": 375,
+      "levelCompleted": 149,
+      "analyticsExported": 0,
+      "evidenceIssuesOpened": 0
+    },
+    "browserForwarding": {
+      "configured": false,
+      "path": "local-browser-buffer",
+      "posthogConfigured": false,
+      "firstPartyCollectorConfigured": false,
+      "optOutAvailable": true
+    },
+    "autonomousRollups": {
+      "configured": false,
+      "posthogServerConfigured": false,
+      "firstPartyCollectorExportConfigured": false
+    },
+    "localEvidence": {
+      "ready": true,
+      "bridgeStatus": "bridge-waiting-for-export",
+      "inboxEvents": 0,
+      "importedEvents": 0,
+      "supportStatus": "support-channel-ready",
+      "aggregateEvidenceNotes": 0
+    }
+  },
+  "productGateEvidence": {
+    "status": "product-gate-sample-plan-ready",
+    "primaryMission": {
+      "id": "collect-firstGameCompletion-sample",
+      "title": "Harbor Rings",
+      "gateId": "firstGameCompletion",
+      "campaignId": "gate-sample-20260521-firstGameCompletion",
+      "gameId": "harbor-rings",
+      "needed": {
+        "promptViews": 30,
+        "successes": 128,
+        "minimumPromptViewsForDecision": 30
+      },
+      "evidenceStatus": "waiting-for-player-export"
+    },
+    "missionCount": 3,
+    "fastestGateId": "d1Retention"
+  },
+  "publicRoutes": {
+    "statusPage": "/measurement-status.html",
+    "statusJson": "/measurement-status.json",
+    "gateSample": "/gate-sample.html",
+    "support": "/support.html",
+    "privacy": "/privacy.html",
+    "analyticsEvidenceIssue": "https://github.com/moshequ/autonomous-game-lab/issues/new?template=analytics-evidence.yml&title=%5BEvidence%5D+Player+event+export+note&body=Thanks+for+helping+improve+Autonomous+Game+Lab.%0A%0AGitHub+Issues+are+public.+Share+aggregate+counts+only.%0ADo+not+paste+private+information%2C+raw+analytics+exports%2C+event+rows%2C+private+identifiers%2C+or+uploaded+event+files+into+this+issue.%0A%0ASupport+type%3A+analytics-evidence%0AGame+or+mission%3A%0AEvidence+window%3A%0AAggregate+starts%3A%0AAggregate+completions%3A%0AAggregate+replays%3A%0AAggregate+D1+eligible+players%3A%0AAggregate+D1+retained+players%3A%0AWhat+changed+or+looked+unusual%3A"
+  },
+  "blockers": {
+    "browserProductionAnalytics": {
+      "status": "owner-input-required",
+      "ownerInputRequired": true,
+      "costMode": "zero-spend-use-existing-free-tier-or-first-party-collector"
+    },
+    "autonomousRollups": {
+      "status": "owner-input-required",
+      "ownerInputRequired": true,
+      "costMode": "use-existing-collector-or-posthog-project"
+    }
+  },
+  "controls": {
+    "publicArtifact": true,
+    "zeroPaidSpend": true,
+    "noSecretValues": true,
+    "noRawAnalyticsRows": true,
+    "aggregateOnlyEvidence": true,
+    "playerInitiatedExportsOnly": true,
+    "noAutomaticPublicUpload": true,
+    "noStoreSubmission": true,
+    "noRevenueEnablement": true
+  },
+  "nextActions": [
+    "Use the player-initiated local evidence route until PostHog or the first-party collector is configured.",
+    "Keep product gates blocked until real player evidence clears completion, replay, and D1 retention thresholds."
+  ]
+}

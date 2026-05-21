@@ -1,22 +1,22 @@
 # Release Candidate
 
-Generated: 2026-05-21T18:45:03.460Z
+Generated: 2026-05-21T18:59:41.677Z
 Status: release-candidate-ready
-Candidate: pwa-973aadff64bf
-Files: 45
-Size: 3602.4 KB
-Aggregate SHA-256: 973aadff64bf92b76be7e0b2fa7b03a6c1939f4fd1e60b04b8de2ac6840aa53b
+Candidate: pwa-fea723365128
+Files: 47
+Size: 3612.1 KB
+Aggregate SHA-256: fea72336512842f1109216a301550cea6470b693cdc5f87002091258fdf4ba29
 
 ## Checks
 
-- pass: dist-inventory - 45 dist files inventoried.
-- pass: required-files - 19/19 required files present.
+- pass: dist-inventory - 47 dist files inventoried.
+- pass: required-files - 21/21 required files present.
 - pass: game-pages - 10 generated game page(s) in dist.
 - pass: performance-budget - Performance budget is performance-budget-ready.
 - pass: release-health - Release health is monitoring.
 - pass: production-response - Deploy allowed is true.
 - pass: spend-guard - Spend mode is no-spend.
-- pass: post-deploy-smoke-plan - 14 post-deploy smoke URL(s) planned.
+- pass: post-deploy-smoke-plan - 16 post-deploy smoke URL(s) planned.
 
 ## Required Files
 
@@ -25,6 +25,8 @@ Aggregate SHA-256: 973aadff64bf92b76be7e0b2fa7b03a6c1939f4fd1e60b04b8de2ac6840aa
 - pass: sw.js
 - pass: privacy.html
 - pass: support.html
+- pass: measurement-status.html
+- pass: measurement-status.json
 - pass: install.html
 - pass: compliance.json
 - pass: sitemap.xml
@@ -47,6 +49,8 @@ Aggregate SHA-256: 973aadff64bf92b76be7e0b2fa7b03a6c1939f4fd1e60b04b8de2ac6840aa
 - 200: https://moshequ.github.io/autonomous-game-lab/sw.js
 - 200: https://moshequ.github.io/autonomous-game-lab/privacy.html
 - 200: https://moshequ.github.io/autonomous-game-lab/support.html
+- 200: https://moshequ.github.io/autonomous-game-lab/measurement-status.html
+- 200: https://moshequ.github.io/autonomous-game-lab/measurement-status.json
 - 200: https://moshequ.github.io/autonomous-game-lab/install.html
 - 200: https://moshequ.github.io/autonomous-game-lab/compliance.json
 - 200: https://moshequ.github.io/autonomous-game-lab/monetization.json

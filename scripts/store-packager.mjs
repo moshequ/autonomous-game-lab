@@ -465,6 +465,7 @@ const supportHtml = `<!doctype html>
           <li><a href="${supportPage.supportChannel.gameplayFeedbackUrl ?? supportPage.supportChannel.supportUrl ?? '#'}">Share gameplay feedback</a></li>
           <li><a href="${supportPage.supportChannel.bugReportUrl ?? supportPage.supportChannel.supportUrl ?? '#'}">Report a web/PWA bug</a></li>
           <li><a href="${supportPage.supportChannel.analyticsEvidenceUrl ?? supportPage.supportChannel.supportUrl ?? '#'}">Describe a player analytics export</a></li>
+          <li><a href="/measurement-status.html">Check production measurement status</a></li>
         </ul>
         <p>GitHub Issues are public. Do not paste private information, raw analytics exports, event rows, or uploaded event files into public issues; analytics evidence issues accept aggregate counts only.</p>
         <p>This zero-cost channel does not replace the production support email required before public app-store submission.</p>

@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Production Measurement Status | Autonomous Game Lab</title>
+    <style>
+      :root {
+        color: #191713;
+        background: #fbf7ef;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        line-height: 1.5;
+      }
+
+      body {
+        margin: 0;
+      }
+
+      main {
+        width: min(960px, calc(100% - 32px));
+        margin: 0 auto;
+        padding: 44px 0;
+      }
+
+      h1,
+      h2 {
+        line-height: 1.08;
+        margin: 0;
+      }
+
+      h1 {
+        font-size: clamp(2rem, 6vw, 4.2rem);
+        max-width: 780px;
+      }
+
+      p {
+        max-width: 760px;
+      }
+
+      a {
+        color: #187f7a;
+        font-weight: 700;
+      }
+
+      .eyebrow {
+        color: #7d2f18;
+        font-size: 0.82rem;
+        font-weight: 800;
+        letter-spacing: 0;
+        text-transform: uppercase;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 12px;
+        margin: 28px 0;
+      }
+
+      .card {
+        border: 1px solid #d9d0bf;
+        border-radius: 8px;
+        background: #fffdf7;
+        padding: 16px;
+      }
+
+      .card span {
+        display: block;
+        color: #6d675c;
+        font-size: 0.78rem;
+        font-weight: 800;
+        text-transform: uppercase;
+      }
+
+      .card strong {
+        display: block;
+        margin-top: 8px;
+        overflow-wrap: anywhere;
+        font-size: 1.05rem;
+      }
+
+      section {
+        border-top: 1px solid #d9d0bf;
+        padding: 22px 0;
+      }
+
+      ul {
+        padding-left: 20px;
+      }
+
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .actions a {
+        border: 1px solid #187f7a;
+        border-radius: 8px;
+        padding: 10px 12px;
+        text-decoration: none;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <p class="eyebrow">Autonomous Game Lab</p>
+      <h1>Production Measurement Status</h1>
+      <p>This generated page exposes the current measurement route without secrets, raw event rows, account changes, paid services, store submission, or revenue enablement.</p>
+
+      <div class="grid" aria-label="Measurement status">
+        <div class="card">
+          <span>Status</span>
+          <strong>production-measurement-local-intake-ready</strong>
+        </div>
+        <div class="card">
+          <span>Active path</span>
+          <strong>local-browser-buffer</strong>
+        </div>
+        <div class="card">
+          <span>Browser forwarding</span>
+          <strong>local buffer only</strong>
+        </div>
+        <div class="card">
+          <span>Autonomous rollups</span>
+          <strong>credential gated</strong>
+        </div>
+      </div>
+
+      <section>
+        <h2>Local Browser Evidence</h2>
+        <div class="grid" aria-label="Local browser evidence">
+          <div class="card">
+            <span>Events on this device</span>
+            <strong id="local-event-count">checking</strong>
+          </div>
+          <div class="card">
+            <span>Last local event</span>
+            <strong id="local-event-latest">checking</strong>
+          </div>
+          <div class="card">
+            <span>Last export</span>
+            <strong id="local-export-latest">checking</strong>
+          </div>
+          <div class="card">
+            <span>Bridge</span>
+            <strong>bridge-waiting-for-export</strong>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2>Product Evidence</h2>
+        <div class="grid" aria-label="Product evidence">
+          <div class="card">
+            <span>Sample plan</span>
+            <strong>product-gate-sample-plan-ready</strong>
+          </div>
+          <div class="card">
+            <span>Primary mission</span>
+            <strong>Harbor Rings</strong>
+          </div>
+          <div class="card">
+            <span>Gate</span>
+            <strong>firstGameCompletion</strong>
+          </div>
+          <div class="card">
+            <span>Aggregate notes</span>
+            <strong>0</strong>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2>Controls</h2>
+        <ul>
+          <li>Zero paid spend: true</li>
+          <li>No secret values: true</li>
+          <li>No raw analytics rows: true</li>
+          <li>Player-initiated exports only: true</li>
+          <li>No revenue enablement: true</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>Next Actions</h2>
+        <ul>
+          <li>Use the player-initiated local evidence route until PostHog or the first-party collector is configured.</li>
+          <li>Keep product gates blocked until real player evidence clears completion, replay, and D1 retention thresholds.</li>
+        </ul>
+        <div class="actions">
+          <a href="/gate-sample.html">Open gate sample</a>
+          <a href="/support.html">Open support</a>
+          <a href="/measurement-status.json">Open status JSON</a>
+        </div>
+      </section>
+    </main>
+    <script>
+      (() => {
+        const readJson = (key, fallback) => {
+          try {
+            const raw = window.localStorage.getItem(key)
+            return raw ? JSON.parse(raw) : fallback
+          } catch {
+            return fallback
+          }
+        }
+        const events = readJson('agl.analytics.events', [])
+        const receipt = readJson('agl.analytics.localExportReceipt', null)
+        const latest = Array.isArray(events) && events.length ? events[events.length - 1] : null
+        document.getElementById('local-event-count').textContent = Array.isArray(events) ? String(events.length) : '0'
+        document.getElementById('local-event-latest').textContent = latest?.createdAt ? latest.createdAt.slice(0, 19) : 'none'
+        document.getElementById('local-export-latest').textContent = receipt?.exportedAt ? receipt.exportedAt.slice(0, 19) : 'never'
+      })()
+    </script>
+  </body>
+</html>

@@ -1,0 +1,488 @@
+import { mkdir, readFile, writeFile } from 'node:fs/promises'
+import path from 'node:path'
+import { hashSourceData } from './lib/source-hash.mjs'
+
+const root = process.cwd()
+const dataDir = path.join(root, 'data')
+const publicDir = path.join(root, 'public')
+const reportsDir = path.join(root, 'reports')
+const outputJsonPath = path.join(dataDir, 'production-measurement-status.json')
+const outputTsPath = path.join(root, 'src', 'data', 'productionMeasurementStatus.ts')
+const publicJsonPath = path.join(publicDir, 'measurement-status.json')
+const publicHtmlPath = path.join(publicDir, 'measurement-status.html')
+const reportPath = path.join(reportsDir, 'production-measurement-status-latest.md')
+
+const readJson = async (filePath) => JSON.parse(await readFile(filePath, 'utf8'))
+const readOptionalJson = async (filePath, fallback) =>
+  readFile(filePath, 'utf8')
+    .then((raw) => JSON.parse(raw))
+    .catch(() => fallback)
+
+const escapeHtml = (value) =>
+  String(value ?? '')
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&#39;')
+
+const productionEnvironment = await readJson(path.join(dataDir, 'production-environment.json'))
+const analytics = await readJson(path.join(dataDir, 'analytics-rollup.json'))
+const localEventBridge = await readJson(path.join(dataDir, 'local-event-bridge.json'))
+const supportChannel = await readJson(path.join(dataDir, 'support-channel.json'))
+const supportFeedback = await readJson(path.join(dataDir, 'support-feedback.json'))
+const productGateSamplePlan = await readJson(path.join(dataDir, 'product-gate-sample-plan.json'))
+const productionBlockerHandoff = await readJson(path.join(dataDir, 'production-blocker-handoff.json'))
+const eventCollectorSmoke = await readJson(path.join(dataDir, 'event-collector-smoke.json'))
+const postDeployArtifactSync = await readOptionalJson(path.join(dataDir, 'post-deploy-artifact-sync.json'), {
+  status: 'missing',
+  live: {},
+})
+
+const browserPosthogConfigured = productionEnvironment.analytics?.browserPosthogConfigured === true
+const browserCollectorConfigured = productionEnvironment.analytics?.eventCollector?.browserConfigured === true
+const serverPosthogConfigured = productionEnvironment.analytics?.serverPosthogConfigured === true
+const serverCollectorConfigured = productionEnvironment.analytics?.eventCollector?.serverExportConfigured === true
+const browserForwardingConfigured = browserPosthogConfigured || browserCollectorConfigured
+const autonomousRollupsConfigured = serverPosthogConfigured || serverCollectorConfigured
+const supportReady =
+  supportChannel.status === 'support-channel-ready' &&
+  supportChannel.repository?.publicIssuesReady === true &&
+  supportChannel.controls?.analyticsEvidenceAggregateOnly === true
+const localEvidenceReady =
+  supportReady &&
+  ['bridge-waiting-for-export', 'bridge-ready', 'bridge-imported-events'].includes(localEventBridge.status)
+const productionAnalyticsHandoff =
+  (productionBlockerHandoff.handoffItems ?? []).find((item) => item.id === 'production-analytics-browser') ?? null
+const rollupHandoff =
+  (productionBlockerHandoff.handoffItems ?? []).find((item) => item.id === 'autonomous-rollup-credentials') ?? null
+const primaryMission = productGateSamplePlan.missions?.[0] ?? null
+const activePath = browserCollectorConfigured
+  ? 'first-party-event-collector'
+  : browserPosthogConfigured
+    ? 'posthog-browser'
+    : 'local-browser-buffer'
+const status = browserForwardingConfigured
+  ? autonomousRollupsConfigured
+    ? 'production-measurement-configured'
+    : 'production-measurement-browser-ready'
+  : localEvidenceReady
+    ? 'production-measurement-local-intake-ready'
+    : 'production-measurement-blocked'
+const nextAction = browserForwardingConfigured
+  ? autonomousRollupsConfigured
+    ? 'Keep live rollups and product gates refreshed from production data.'
+    : 'Connect a server export credential before scheduled owner loops can roll up production behavior.'
+  : localEvidenceReady
+    ? 'Use the player-initiated local evidence route until PostHog or the first-party collector is configured.'
+    : 'Repair the support or local event bridge route before relying on production evidence.'
+
+const sourceDataHash = hashSourceData({
+  productionEnvironment,
+  analytics,
+  localEventBridge,
+  supportChannel,
+  supportFeedback,
+  productGateSamplePlan,
+  productionBlockerHandoff,
+  eventCollectorSmoke,
+  postDeployArtifactSync,
+})
+
+const payload = {
+  generatedAt: new Date().toISOString(),
+  sourceDataHash,
+  status,
+  activePath,
+  liveCandidate: postDeployArtifactSync.live?.candidateId ?? null,
+  analytics: {
+    activeRollupSource: analytics.sourceStatus?.activeSource ?? 'unknown',
+    retentionSource: analytics.retention?.source ?? analytics.sourceStatus?.retention?.source ?? 'unknown',
+    totals: {
+      events: analytics.totals?.events ?? analytics.totals?.counts?.events ?? 0,
+      gameStarted: analytics.totals?.counts?.game_started ?? 0,
+      levelCompleted: analytics.totals?.counts?.level_completed ?? 0,
+      analyticsExported: analytics.totals?.counts?.analytics_exported ?? 0,
+      evidenceIssuesOpened: analytics.totals?.counts?.analytics_evidence_issue_opened ?? 0,
+    },
+    browserForwarding: {
+      configured: browserForwardingConfigured,
+      path: activePath,
+      posthogConfigured: browserPosthogConfigured,
+      firstPartyCollectorConfigured: browserCollectorConfigured,
+      optOutAvailable: true,
+    },
+    autonomousRollups: {
+      configured: autonomousRollupsConfigured,
+      posthogServerConfigured: serverPosthogConfigured,
+      firstPartyCollectorExportConfigured: serverCollectorConfigured,
+    },
+    localEvidence: {
+      ready: localEvidenceReady,
+      bridgeStatus: localEventBridge.status,
+      inboxEvents: localEventBridge.inbox?.validEvents ?? 0,
+      importedEvents: localEventBridge.imported?.events ?? 0,
+      supportStatus: supportChannel.status,
+      aggregateEvidenceNotes: supportFeedback.summary?.aggregateEvidenceNotes ?? 0,
+    },
+  },
+  productGateEvidence: {
+    status: productGateSamplePlan.status,
+    primaryMission: primaryMission
+      ? {
+          id: primaryMission.id,
+          title: primaryMission.title,
+          gateId: primaryMission.gateId,
+          campaignId: primaryMission.campaignId,
+          gameId: primaryMission.gameId,
+          needed: primaryMission.needed,
+          evidenceStatus: primaryMission.evidence?.status ?? 'waiting',
+        }
+      : null,
+    missionCount: productGateSamplePlan.missions?.length ?? 0,
+    fastestGateId: productGateSamplePlan.summary?.fastestGateId ?? null,
+  },
+  publicRoutes: {
+    statusPage: '/measurement-status.html',
+    statusJson: '/measurement-status.json',
+    gateSample: '/gate-sample.html',
+    support: '/support.html',
+    privacy: '/privacy.html',
+    analyticsEvidenceIssue: supportChannel.links?.analyticsEvidenceUrl ?? null,
+  },
+  blockers: {
+    browserProductionAnalytics: productionAnalyticsHandoff
+      ? {
+          status: productionAnalyticsHandoff.status,
+          ownerInputRequired: productionAnalyticsHandoff.ownerInputRequired === true,
+          costMode: productionAnalyticsHandoff.costMode,
+        }
+      : null,
+    autonomousRollups: rollupHandoff
+      ? {
+          status: rollupHandoff.status,
+          ownerInputRequired: rollupHandoff.ownerInputRequired === true,
+          costMode: rollupHandoff.costMode,
+        }
+      : null,
+  },
+  sourceStatus: {
+    productionEnvironment: productionEnvironment.status,
+    analyticsRollup: analytics.status,
+    localEventBridge: localEventBridge.status,
+    supportChannel: supportChannel.status,
+    supportFeedback: supportFeedback.status,
+    productGateSamplePlan: productGateSamplePlan.status,
+    productionBlockerHandoff: productionBlockerHandoff.status,
+    eventCollectorSmoke: eventCollectorSmoke.status,
+    postDeployArtifactSync: postDeployArtifactSync.status,
+  },
+  controls: {
+    publicArtifact: true,
+    zeroPaidSpend: true,
+    noSecretValues: true,
+    noRawAnalyticsRows: true,
+    aggregateOnlyEvidence: true,
+    playerInitiatedExportsOnly: true,
+    noAutomaticPublicUpload: true,
+    noStoreSubmission: true,
+    noRevenueEnablement: true,
+  },
+  nextActions: [
+    nextAction,
+    'Keep product gates blocked until real player evidence clears completion, replay, and D1 retention thresholds.',
+  ],
+}
+
+const appPayload = {
+  generatedAt: payload.generatedAt,
+  status: payload.status,
+  activePath: payload.activePath,
+  liveCandidate: payload.liveCandidate,
+  analytics: payload.analytics,
+  productGateEvidence: payload.productGateEvidence,
+  publicRoutes: payload.publicRoutes,
+  blockers: payload.blockers,
+  controls: payload.controls,
+  nextActions: payload.nextActions,
+}
+
+const publicPayload = {
+  generatedAt: payload.generatedAt,
+  status: payload.status,
+  activePath: payload.activePath,
+  liveCandidate: payload.liveCandidate,
+  analytics: payload.analytics,
+  productGateEvidence: payload.productGateEvidence,
+  publicRoutes: payload.publicRoutes,
+  blockers: payload.blockers,
+  controls: payload.controls,
+  nextActions: payload.nextActions,
+}
+
+const html = `<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Production Measurement Status | Autonomous Game Lab</title>
+    <style>
+      :root {
+        color: #191713;
+        background: #fbf7ef;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        line-height: 1.5;
+      }
+
+      body {
+        margin: 0;
+      }
+
+      main {
+        width: min(960px, calc(100% - 32px));
+        margin: 0 auto;
+        padding: 44px 0;
+      }
+
+      h1,
+      h2 {
+        line-height: 1.08;
+        margin: 0;
+      }
+
+      h1 {
+        font-size: clamp(2rem, 6vw, 4.2rem);
+        max-width: 780px;
+      }
+
+      p {
+        max-width: 760px;
+      }
+
+      a {
+        color: #187f7a;
+        font-weight: 700;
+      }
+
+      .eyebrow {
+        color: #7d2f18;
+        font-size: 0.82rem;
+        font-weight: 800;
+        letter-spacing: 0;
+        text-transform: uppercase;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 12px;
+        margin: 28px 0;
+      }
+
+      .card {
+        border: 1px solid #d9d0bf;
+        border-radius: 8px;
+        background: #fffdf7;
+        padding: 16px;
+      }
+
+      .card span {
+        display: block;
+        color: #6d675c;
+        font-size: 0.78rem;
+        font-weight: 800;
+        text-transform: uppercase;
+      }
+
+      .card strong {
+        display: block;
+        margin-top: 8px;
+        overflow-wrap: anywhere;
+        font-size: 1.05rem;
+      }
+
+      section {
+        border-top: 1px solid #d9d0bf;
+        padding: 22px 0;
+      }
+
+      ul {
+        padding-left: 20px;
+      }
+
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .actions a {
+        border: 1px solid #187f7a;
+        border-radius: 8px;
+        padding: 10px 12px;
+        text-decoration: none;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <p class="eyebrow">Autonomous Game Lab</p>
+      <h1>Production Measurement Status</h1>
+      <p>This generated page exposes the current measurement route without secrets, raw event rows, account changes, paid services, store submission, or revenue enablement.</p>
+
+      <div class="grid" aria-label="Measurement status">
+        <div class="card">
+          <span>Status</span>
+          <strong>${escapeHtml(payload.status)}</strong>
+        </div>
+        <div class="card">
+          <span>Active path</span>
+          <strong>${escapeHtml(payload.activePath)}</strong>
+        </div>
+        <div class="card">
+          <span>Browser forwarding</span>
+          <strong>${payload.analytics.browserForwarding.configured ? 'configured' : 'local buffer only'}</strong>
+        </div>
+        <div class="card">
+          <span>Autonomous rollups</span>
+          <strong>${payload.analytics.autonomousRollups.configured ? 'configured' : 'credential gated'}</strong>
+        </div>
+      </div>
+
+      <section>
+        <h2>Local Browser Evidence</h2>
+        <div class="grid" aria-label="Local browser evidence">
+          <div class="card">
+            <span>Events on this device</span>
+            <strong id="local-event-count">checking</strong>
+          </div>
+          <div class="card">
+            <span>Last local event</span>
+            <strong id="local-event-latest">checking</strong>
+          </div>
+          <div class="card">
+            <span>Last export</span>
+            <strong id="local-export-latest">checking</strong>
+          </div>
+          <div class="card">
+            <span>Bridge</span>
+            <strong>${escapeHtml(payload.analytics.localEvidence.bridgeStatus)}</strong>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2>Product Evidence</h2>
+        <div class="grid" aria-label="Product evidence">
+          <div class="card">
+            <span>Sample plan</span>
+            <strong>${escapeHtml(payload.productGateEvidence.status)}</strong>
+          </div>
+          <div class="card">
+            <span>Primary mission</span>
+            <strong>${escapeHtml(payload.productGateEvidence.primaryMission?.title ?? 'waiting')}</strong>
+          </div>
+          <div class="card">
+            <span>Gate</span>
+            <strong>${escapeHtml(payload.productGateEvidence.primaryMission?.gateId ?? 'waiting')}</strong>
+          </div>
+          <div class="card">
+            <span>Aggregate notes</span>
+            <strong>${payload.analytics.localEvidence.aggregateEvidenceNotes}</strong>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2>Controls</h2>
+        <ul>
+          <li>Zero paid spend: ${payload.controls.zeroPaidSpend}</li>
+          <li>No secret values: ${payload.controls.noSecretValues}</li>
+          <li>No raw analytics rows: ${payload.controls.noRawAnalyticsRows}</li>
+          <li>Player-initiated exports only: ${payload.controls.playerInitiatedExportsOnly}</li>
+          <li>No revenue enablement: ${payload.controls.noRevenueEnablement}</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>Next Actions</h2>
+        <ul>
+          ${payload.nextActions.map((action) => `<li>${escapeHtml(action)}</li>`).join('\n          ')}
+        </ul>
+        <div class="actions">
+          <a href="/gate-sample.html">Open gate sample</a>
+          <a href="/support.html">Open support</a>
+          <a href="/measurement-status.json">Open status JSON</a>
+        </div>
+      </section>
+    </main>
+    <script>
+      (() => {
+        const readJson = (key, fallback) => {
+          try {
+            const raw = window.localStorage.getItem(key)
+            return raw ? JSON.parse(raw) : fallback
+          } catch {
+            return fallback
+          }
+        }
+        const events = readJson('agl.analytics.events', [])
+        const receipt = readJson('agl.analytics.localExportReceipt', null)
+        const latest = Array.isArray(events) && events.length ? events[events.length - 1] : null
+        document.getElementById('local-event-count').textContent = Array.isArray(events) ? String(events.length) : '0'
+        document.getElementById('local-event-latest').textContent = latest?.createdAt ? latest.createdAt.slice(0, 19) : 'none'
+        document.getElementById('local-export-latest').textContent = receipt?.exportedAt ? receipt.exportedAt.slice(0, 19) : 'never'
+      })()
+    </script>
+  </body>
+</html>
+`
+
+const report = [
+  '# Production Measurement Status',
+  '',
+  `Generated: ${payload.generatedAt}`,
+  `Status: ${payload.status}`,
+  `Active path: ${payload.activePath}`,
+  `Live candidate: ${payload.liveCandidate ?? 'missing'}`,
+  `Source hash: ${payload.sourceDataHash}`,
+  '',
+  '## Analytics',
+  '',
+  `- rollup source: ${payload.analytics.activeRollupSource}`,
+  `- browser forwarding configured: ${payload.analytics.browserForwarding.configured}`,
+  `- autonomous rollups configured: ${payload.analytics.autonomousRollups.configured}`,
+  `- local evidence ready: ${payload.analytics.localEvidence.ready}`,
+  '',
+  '## Public Routes',
+  '',
+  ...Object.entries(payload.publicRoutes).map(([key, value]) => `- ${key}: ${value ?? 'missing'}`),
+  '',
+  '## Controls',
+  '',
+  ...Object.entries(payload.controls).map(([key, value]) => `- ${key}: ${value}`),
+  '',
+  '## Next Actions',
+  '',
+  ...payload.nextActions.map((action) => `- ${action}`),
+  '',
+]
+
+await mkdir(path.dirname(outputJsonPath), { recursive: true })
+await mkdir(path.dirname(outputTsPath), { recursive: true })
+await mkdir(path.dirname(publicJsonPath), { recursive: true })
+await mkdir(path.dirname(reportPath), { recursive: true })
+await writeFile(outputJsonPath, JSON.stringify(payload, null, 2) + '\n')
+await writeFile(
+  outputTsPath,
+  `export const productionMeasurementStatus = ${JSON.stringify(appPayload, null, 2)} as const\n\nexport type ProductionMeasurementStatus = typeof productionMeasurementStatus\n`,
+)
+await writeFile(publicJsonPath, JSON.stringify(publicPayload, null, 2) + '\n')
+await writeFile(publicHtmlPath, html)
+await writeFile(reportPath, report.join('\n'))
+
+console.log(`Wrote ${path.relative(root, outputJsonPath)}`)
+console.log(`Wrote ${path.relative(root, outputTsPath)}`)
+console.log(`Wrote ${path.relative(root, publicJsonPath)}`)
+console.log(`Wrote ${path.relative(root, publicHtmlPath)}`)
+console.log(`Wrote ${path.relative(root, reportPath)}`)

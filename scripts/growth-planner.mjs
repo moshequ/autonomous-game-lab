@@ -246,6 +246,12 @@ const utilityPages = [
     changefreq: 'weekly',
   },
   {
+    path: '/measurement-status.html',
+    role: 'public-measurement-status',
+    channel: 'player-evidence',
+    changefreq: 'daily',
+  },
+  {
     path: '/gate-sample.html',
     role: 'product-gate-sample',
     channel: 'player-evidence',

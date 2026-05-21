@@ -1,7 +1,7 @@
 export const releaseCandidate = {
-  "generatedAt": "2026-05-21T18:45:03.460Z",
+  "generatedAt": "2026-05-21T18:59:41.677Z",
   "status": "release-candidate-ready",
-  "candidateId": "pwa-973aadff64bf",
+  "candidateId": "pwa-fea723365128",
   "target": {
     "provider": "github-pages",
     "artifactPath": "dist",
@@ -11,18 +11,18 @@ export const releaseCandidate = {
     "basePath": "/autonomous-game-lab/"
   },
   "summary": {
-    "totalFiles": 45,
-    "totalBytes": 3688878,
-    "totalKb": 3602.4,
+    "totalFiles": 47,
+    "totalBytes": 3698771,
+    "totalKb": 3612.1,
     "assetFiles": 4,
-    "htmlFiles": 16,
+    "htmlFiles": 17,
     "gamePages": 10,
     "requiredFilesPresent": true,
-    "postDeploySmokeUrls": 14
+    "postDeploySmokeUrls": 16
   },
   "integrity": {
     "algorithm": "sha256",
-    "aggregateHash": "973aadff64bf92b76be7e0b2fa7b03a6c1939f4fd1e60b04b8de2ac6840aa53b",
+    "aggregateHash": "fea72336512842f1109216a301550cea6470b693cdc5f87002091258fdf4ba29",
     "files": [
       {
         "path": ".nojekyll",
@@ -46,23 +46,23 @@ export const releaseCandidate = {
         "cacheControl": "public, max-age=3600"
       },
       {
-        "path": "assets/aggregateEvidenceIssue-DEq1vXyq.js",
+        "path": "assets/aggregateEvidenceIssue-DSv9ytuo.js",
         "bytes": 2978,
-        "sha256": "e4fcd05808a046d261293865eddaedaae3053138e5a7294451adc8c0c0adf15d",
+        "sha256": "f432e75bd92826da2ad61edc976e8ab5faf243187ccdf72ca56b40a726bbad38",
         "contentType": "text/javascript; charset=utf-8",
         "cacheControl": "public, max-age=31536000, immutable"
       },
       {
-        "path": "assets/GameCanvas-D-wT1Rhp.js",
+        "path": "assets/GameCanvas-DrQkWHEm.js",
         "bytes": 1393760,
-        "sha256": "417c144b47d72dd9e97fa6b3a49cdbd5441b117dcd3d74022773a29653047b1c",
+        "sha256": "50ab96bc95b886370cf545df58975722656f640d539c7ce39a7bdc165c0e7339",
         "contentType": "text/javascript; charset=utf-8",
         "cacheControl": "public, max-age=31536000, immutable"
       },
       {
-        "path": "assets/index-Cm5INpLS.js",
-        "bytes": 691678,
-        "sha256": "2b47255ff7f1f26ee856c01bd47b3004f46e453ae6857412a612c13dba85b03c",
+        "path": "assets/index-BNhuGPS5.js",
+        "bytes": 691680,
+        "sha256": "ec7024762b9591ec9a355a577fac1067bf8993b2a34dc043ddff05cc69e16ef4",
         "contentType": "text/javascript; charset=utf-8",
         "cacheControl": "public, max-age=31536000, immutable"
       },
@@ -76,7 +76,7 @@ export const releaseCandidate = {
       {
         "path": "compliance.json",
         "bytes": 5625,
-        "sha256": "e7e2a89f511aff55c4d70d256621c236d6a3f8e37507ea21154fce5f3142e61a",
+        "sha256": "ad6144d7ed552ab9bb332682103dec653f7a7806df11b57122d3f72f5db804bf",
         "contentType": "application/json; charset=utf-8",
         "cacheControl": "public, max-age=3600"
       },
@@ -223,7 +223,7 @@ export const releaseCandidate = {
       {
         "path": "index.html",
         "bytes": 2846,
-        "sha256": "07deb4503bbdc6656bcb483d06f1eef167147138f66c56a5eb275b9a21c2aec7",
+        "sha256": "7aafac26b810593dd3b02fd6cefd75861e417f879d496e5d98785f8e2fff1c86",
         "contentType": "text/html; charset=utf-8",
         "cacheControl": "no-cache"
       },
@@ -239,6 +239,20 @@ export const releaseCandidate = {
         "bytes": 853,
         "sha256": "caada44fb47a5c7bc6f2740988f483bd87acec88ef9e9bf36f7b2edc26f62bfb",
         "contentType": "application/manifest+json",
+        "cacheControl": "public, max-age=3600"
+      },
+      {
+        "path": "measurement-status.html",
+        "bytes": 6125,
+        "sha256": "4583702c783ea9f06292edbbb037a82331957c70ac7577cc941c48d66276abcf",
+        "contentType": "text/html; charset=utf-8",
+        "cacheControl": "no-cache"
+      },
+      {
+        "path": "measurement-status.json",
+        "bytes": 3459,
+        "sha256": "77420bc1e70d5f3764d2e835f8761fa66fbfccad72d2c2643a2d7f24cd529fb3",
+        "contentType": "application/json; charset=utf-8",
         "cacheControl": "public, max-age=3600"
       },
       {
@@ -279,14 +293,14 @@ export const releaseCandidate = {
       {
         "path": "share-manifest.json",
         "bytes": 10648,
-        "sha256": "3d1ff9ab1ffc2357a59a08e39a39dd9542fe2aa868e9b6d95a626e78d297d423",
+        "sha256": "8411edac0f9a91467b0f43b0fc0de037b8c3f48f17f7e91056db06af5c4a5795",
         "contentType": "application/json; charset=utf-8",
         "cacheControl": "public, max-age=3600"
       },
       {
         "path": "sitemap.xml",
-        "bytes": 2245,
-        "sha256": "043ae779819a702de9a71c8396bead83c718da2d4ba3a0daa117a0357457f5c5",
+        "bytes": 2382,
+        "sha256": "9899a6c1681ee14d08c33d30bf177a8e5cb3e75ca0dacb384c294cdaad7dc6f9",
         "contentType": "application/xml; charset=utf-8",
         "cacheControl": "public, max-age=3600"
       },
@@ -320,15 +334,15 @@ export const releaseCandidate = {
       },
       {
         "path": "support.html",
-        "bytes": 4147,
-        "sha256": "ce95f615ba9f6ac00eb9ba996220ebdd47cd187741bd8ee63a2b73e316251426",
+        "bytes": 4241,
+        "sha256": "64a99ddffbb933295c8c9956a52e2f92446d59db0617d69a91b87baf976f3858",
         "contentType": "text/html; charset=utf-8",
         "cacheControl": "no-cache"
       },
       {
         "path": "sw.js",
-        "bytes": 3799,
-        "sha256": "1f43aa191ea3b947eeebcd7f6947515eda391c657b58a7d77efff7a7803c16e2",
+        "bytes": 3875,
+        "sha256": "d56d80df2cbba819fbd4b8e658e0c9820bba27a2c4025632bc5d8b92b108faf3",
         "contentType": "text/javascript; charset=utf-8",
         "cacheControl": "no-cache"
       },
@@ -359,6 +373,14 @@ export const releaseCandidate = {
       },
       {
         "path": "support.html",
+        "status": "pass"
+      },
+      {
+        "path": "measurement-status.html",
+        "status": "pass"
+      },
+      {
+        "path": "measurement-status.json",
         "status": "pass"
       },
       {
@@ -454,6 +476,20 @@ export const releaseCandidate = {
       "url": "https://moshequ.github.io/autonomous-game-lab/support.html",
       "expectedStatus": 200,
       "requiredText": "Autonomous Game Lab"
+    },
+    {
+      "id": "measurement-status-html",
+      "path": "/measurement-status.html",
+      "url": "https://moshequ.github.io/autonomous-game-lab/measurement-status.html",
+      "expectedStatus": 200,
+      "requiredText": "Autonomous Game Lab"
+    },
+    {
+      "id": "measurement-status-json",
+      "path": "/measurement-status.json",
+      "url": "https://moshequ.github.io/autonomous-game-lab/measurement-status.json",
+      "expectedStatus": 200,
+      "requiredText": null
     },
     {
       "id": "install-html",
@@ -564,12 +600,12 @@ export const releaseCandidate = {
     {
       "id": "dist-inventory",
       "status": "pass",
-      "detail": "45 dist files inventoried."
+      "detail": "47 dist files inventoried."
     },
     {
       "id": "required-files",
       "status": "pass",
-      "detail": "19/19 required files present."
+      "detail": "21/21 required files present."
     },
     {
       "id": "game-pages",
@@ -599,7 +635,7 @@ export const releaseCandidate = {
     {
       "id": "post-deploy-smoke-plan",
       "status": "pass",
-      "detail": "14 post-deploy smoke URL(s) planned."
+      "detail": "16 post-deploy smoke URL(s) planned."
     }
   ],
   "nextActions": [

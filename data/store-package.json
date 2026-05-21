@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2026-05-21T18:41:48.707Z",
+  "generatedAt": "2026-05-21T18:55:01.856Z",
   "sourceDataHash": "1fe2ff1fcc27",
   "status": "store-package-ready",
   "launchCandidate": {
-    "id": "canopy-bloom",
-    "title": "Canopy Bloom",
-    "status": "generated-playable"
+    "id": "lantern-relay",
+    "title": "Lantern Relay",
+    "status": "playable"
   },
   "privacyPolicy": {
     "path": "/privacy.html",
@@ -204,101 +204,23 @@
     }
   },
   "storeListing": {
-    "source": "store-listing-optimizer",
-    "sourceGameId": "canopy-bloom",
+    "sourcePrototypeId": "lantern-relay",
     "appName": "Autonomous Game Lab",
-    "googlePlay": {
-      "title": "Autonomous Game Lab",
-      "shortDescription": "Original daily strategy puzzles led by Canopy Bloom. Quick solo board-game play.",
-      "fullDescription": "Autonomous Game Lab is a web-first collection of original board-game-inspired solo strategy puzzles. Canopy Bloom is the current data-led store focus: A generated roll and write puzzle with quick science desk decisions. Every game is built for short touch-first sessions, clear scoring, daily replay, and measured improvements from anonymous gameplay signals. Accounts, user-generated content, purchases, gambling, and ads remain disabled until production gates and store review requirements pass.",
-      "keywordThemes": [
-        "roll and write",
-        "science desk",
-        "daily puzzle",
-        "solo board game",
-        "generated strategy game",
-        "board-game-inspired",
-        "engine building",
-        "expedition planning",
-        "tile placement",
-        "compact city logistics",
-        "route building",
-        "strategy puzzle"
-      ]
-    },
-    "appleAppStore": {
-      "name": "Autonomous Game Lab",
-      "subtitle": "Canopy Bloom daily strategy",
-      "promotionalText": "Play Canopy Bloom, today's data-led solo strategy puzzle.",
-      "keywords": "roll and write,science desk,daily puzzle,solo board game,generated strategy game,board-game-inspired"
-    },
-    "shortDescription": "Original daily strategy puzzles led by Canopy Bloom. Quick solo board-game play.",
-    "fullDescription": "Autonomous Game Lab is a web-first collection of original board-game-inspired solo strategy puzzles. Canopy Bloom is the current data-led store focus: A generated roll and write puzzle with quick science desk decisions. Every game is built for short touch-first sessions, clear scoring, daily replay, and measured improvements from anonymous gameplay signals. Accounts, user-generated content, purchases, gambling, and ads remain disabled until production gates and store review requirements pass.",
+    "shortDescription": "Original board-game-inspired daily strategy puzzles built for quick mobile play.",
+    "fullDescription": "Autonomous Game Lab is a web-first collection of original board-game-inspired solo puzzles. Each game focuses on short sessions, touch-first decisions, clear scoring, and measured improvements from anonymous gameplay signals. Current launch candidate: Lantern Relay. Lantern Relay is an original mobile-first board-game-inspired puzzle set in tiny seasonal workshops. A complete tactical board-game feeling in 7 minutes, tuned for touch screens. Core loop: chain comforting orders by making one strong card drafting decision per turn. The first release focuses on solo daily play, clear scoring, replayable seeds, and measured improvements from player behavior.",
     "keywords": [
-      "roll and write",
-      "science desk",
       "daily puzzle",
+      "strategy puzzle",
       "solo board game",
-      "generated strategy game",
-      "board-game-inspired",
-      "engine building",
-      "expedition planning",
-      "tile placement",
-      "compact city logistics",
-      "route building",
-      "strategy puzzle"
+      "card drafting",
+      "cozy production",
+      "families"
     ],
     "screenshots": [
-      "lead gameplay board",
-      "daily challenge and streak surface",
-      "multi-game portal",
-      "generated public game page"
-    ],
-    "screenshotAssets": [
-      {
-        "id": "phone-canopy-bloom-generated",
-        "label": "Generated Canopy Bloom board",
-        "path": "/store-assets/screenshots/phone-canopy-bloom-generated.png",
-        "width": 1170,
-        "height": 2532,
-        "platformUse": [
-          "Google Play phone",
-          "Apple iPhone draft"
-        ]
-      },
-      {
-        "id": "phone-lantern-relay-game",
-        "label": "Lantern Relay playable board",
-        "path": "/store-assets/screenshots/phone-lantern-relay-game.png",
-        "width": 1170,
-        "height": 2532,
-        "platformUse": [
-          "Google Play phone",
-          "Apple iPhone draft"
-        ]
-      },
-      {
-        "id": "phone-portal-home",
-        "label": "Mobile portal home",
-        "path": "/store-assets/screenshots/phone-portal-home.png",
-        "width": 1170,
-        "height": 2532,
-        "platformUse": [
-          "Google Play phone",
-          "Apple iPhone draft"
-        ]
-      },
-      {
-        "id": "desktop-growth-page",
-        "label": "Generated public game landing page",
-        "path": "/store-assets/screenshots/desktop-growth-page.png",
-        "width": 1440,
-        "height": 900,
-        "platformUse": [
-          "Web/PWA listing",
-          "press kit"
-        ]
-      }
+      "first move tutorial",
+      "mid-game board state",
+      "result screen",
+      "daily challenge panel"
     ],
     "contentRatingNotes": [
       "No gambling",
@@ -328,13 +250,5 @@
     "googlePlayDataSafety": "https://support.google.com/googleplay/android-developer/answer/10787469",
     "appleDeveloperProgram": "https://developer.apple.com/programs/",
     "applePrivacyLabels": "https://developer.apple.com/app-store/app-privacy-details/"
-  },
-  "storeListingOptimization": {
-    "generatedAt": "2026-05-21T18:41:48.972Z",
-    "sourceDataHash": "173e7332eb0d",
-    "status": "store-listing-optimizer-ready",
-    "previousLaunchCandidateId": "lantern-relay",
-    "recommendedFocusGameId": "canopy-bloom",
-    "leadScreenshotId": "phone-canopy-bloom-generated"
   }
 }
