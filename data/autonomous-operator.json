@@ -1,22 +1,23 @@
 {
-  "generatedAt": "2026-05-21T00:16:17.419Z",
+  "generatedAt": "2026-05-21T00:18:42.798Z",
   "status": "operator-plan-ready",
   "mode": "plan-only",
   "ownerDecision": {
-    "actionId": "refresh-support-feedback",
-    "command": "npm run autonomous:support-feedback",
+    "actionId": "check-performance-budget",
+    "command": "npm run build && npm run autonomous:performance",
     "locallyExecutable": true,
     "rejectionReason": null
   },
   "requestedActionId": null,
   "selectedAction": {
-    "id": "refresh-support-feedback",
+    "id": "check-performance-budget",
     "status": "armed",
-    "command": "npm run autonomous:support-feedback",
+    "command": "npm run build && npm run autonomous:performance",
     "targets": [
-      "moshequ/autonomous-game-lab"
+      "pwa-shell",
+      "GameCanvas-BsqfiOBp.js"
     ],
-    "reason": "Reads public GitHub issue intake and turns player reports into redacted improvement signals.",
+    "reason": "Keeps the PWA shell fast while Phaser and game scenes stay deferred.",
     "costUsd": 0
   },
   "selectedRejection": null,
@@ -63,6 +64,12 @@
       "reason": "status-monitor"
     },
     {
+      "id": "refresh-support-feedback",
+      "status": "armed",
+      "command": "npm run autonomous:support-feedback",
+      "reason": "not-selected-this-run"
+    },
+    {
       "id": "optimize-daily-retention",
       "status": "monitor",
       "command": "npm run autonomous:retention",
@@ -72,12 +79,6 @@
       "id": "measure-pwa-install-loop",
       "status": "armed",
       "command": "npm run autonomous:pwa-install",
-      "reason": "not-selected-this-run"
-    },
-    {
-      "id": "check-performance-budget",
-      "status": "armed",
-      "command": "npm run build && npm run autonomous:performance",
       "reason": "not-selected-this-run"
     },
     {
@@ -209,8 +210,12 @@
   ],
   "commandPlan": [
     {
-      "segment": "npm run autonomous:support-feedback",
-      "script": "autonomous:support-feedback"
+      "segment": "npm run build",
+      "script": "build"
+    },
+    {
+      "segment": "npm run autonomous:performance",
+      "script": "autonomous:performance"
     }
   ],
   "execution": {
@@ -280,7 +285,7 @@
     "RUN_WORKFLOWS=1"
   ],
   "nextActions": [
-    "Run npm run autonomous:operator -- --execute --action=refresh-support-feedback to execute exactly one allowed local action.",
+    "Run npm run autonomous:operator -- --execute --action=check-performance-budget to execute exactly one allowed local action.",
     "Do not execute GitHub workflow, store, paid ads, or account setup commands from the local operator."
   ]
 }
