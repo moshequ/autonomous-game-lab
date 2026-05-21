@@ -3111,6 +3111,11 @@ if (
   !postDeployEvidenceSyncWorkflow.includes('GITHUB_REPOSITORY: ${{ github.repository }}') ||
   !postDeployEvidenceSyncWorkflow.includes('GITHUB_TOKEN: ${{ github.token }}') ||
   !postDeployEvidenceSyncWorkflow.includes('AGL_PUBLIC_ORIGIN: ${{ vars.AGL_PUBLIC_ORIGIN }}') ||
+  !postDeployReadinessSyncScript.includes('npm run build') ||
+  !postDeployReadinessSyncScript.includes('autonomous:performance') ||
+  !postDeployReadinessSyncScript.includes('autonomous:release-candidate') ||
+  !postDeployReadinessSyncScript.includes('autonomous:post-deploy-smoke') ||
+  !postDeployReadinessSyncScript.includes('autonomous:live-monitor') ||
   !postDeployReadinessSyncScript.includes('autonomous:repo-readiness') ||
   !postDeployReadinessSyncScript.includes('autonomous:repo-bootstrap') ||
   !postDeployReadinessSyncScript.includes('autonomous:deploy-plan') ||
@@ -3125,6 +3130,9 @@ if (
   !postDeployEvidenceSyncWorkflow.includes('data/post-deploy-artifact-sync.json') ||
   !postDeployEvidenceSyncWorkflow.includes('src/data/postDeployArtifactSync.ts') ||
   !postDeployEvidenceSyncWorkflow.includes('reports/post-deploy-artifact-sync-latest.md') ||
+  !postDeployEvidenceSyncWorkflow.includes('data/performance-budget.json') ||
+  !postDeployEvidenceSyncWorkflow.includes('data/release-candidate.json') ||
+  !postDeployEvidenceSyncWorkflow.includes('data/post-deploy-smoke.json') ||
   !postDeployEvidenceSyncWorkflow.includes('data/live-site-monitor.json') ||
   !postDeployEvidenceSyncWorkflow.includes('src/data/liveSiteMonitor.ts') ||
   !postDeployEvidenceSyncWorkflow.includes('reports/live-site-monitor-latest.md') ||
@@ -3140,11 +3148,8 @@ if (
   !postDeployEvidenceSyncWorkflow.includes('data/autonomous-owner-loop.json') ||
   !postDeployEvidenceSyncWorkflow.includes('src/data/autonomousOwnerLoop.ts') ||
   !postDeployEvidenceSyncWorkflow.includes('reports/autonomous-owner-loop-latest.md') ||
-  postDeployReadinessSyncScript.includes('npm run build') ||
   postDeployEvidenceSyncWorkflow.includes('autonomous:release-candidate') ||
-  postDeployReadinessSyncScript.includes('autonomous:release-candidate') ||
   postDeployEvidenceSyncWorkflow.includes('autonomous:post-deploy-smoke') ||
-  postDeployReadinessSyncScript.includes('autonomous:post-deploy-smoke') ||
   !autonomousCadenceSource.includes('postDeployEvidenceSyncWorkflow')
 ) {
   fail('Autonomous cadence must publish the daily Codex/GitHub schedule, guarded operate command, and zero-spend controls.')
@@ -4634,6 +4639,11 @@ if (
     'node scripts/post-deploy-artifact-sync.mjs' ||
   packageJson.scripts?.['autonomous:verify-post-deploy-sync'] !==
     'node scripts/verify-post-deploy-evidence-sync.mjs' ||
+  !postDeployReadinessSyncScript.includes('npm run build') ||
+  !postDeployReadinessSyncScript.includes('autonomous:performance') ||
+  !postDeployReadinessSyncScript.includes('autonomous:release-candidate') ||
+  !postDeployReadinessSyncScript.includes('autonomous:post-deploy-smoke') ||
+  !postDeployReadinessSyncScript.includes('autonomous:live-monitor') ||
   !postDeployReadinessSyncScript.includes('autonomous:repo-readiness') ||
   !postDeployReadinessSyncScript.includes('autonomous:repo-bootstrap') ||
   !postDeployReadinessSyncScript.includes('autonomous:deploy-plan') ||
@@ -4643,9 +4653,6 @@ if (
   !postDeployReadinessSyncScript.includes('autonomous:owner-loop') ||
   !postDeployReadinessSyncScript.includes('autonomous:operator') ||
   !postDeployReadinessSyncScript.includes('autonomous:objective-audit') ||
-  postDeployReadinessSyncScript.includes('npm run build') ||
-  postDeployReadinessSyncScript.includes('autonomous:release-candidate') ||
-  postDeployReadinessSyncScript.includes('autonomous:post-deploy-smoke') ||
   !postDeployArtifactSyncSource.includes('gh') ||
   !postDeployArtifactSyncSource.includes('run') ||
   !postDeployArtifactSyncSource.includes('view') ||
@@ -4668,6 +4675,9 @@ if (
   !postDeployEvidenceSyncWorkflow.includes('data/post-deploy-artifact-sync.json') ||
   !postDeployEvidenceSyncWorkflow.includes('src/data/postDeployArtifactSync.ts') ||
   !postDeployEvidenceSyncWorkflow.includes('reports/post-deploy-artifact-sync-latest.md') ||
+  !postDeployEvidenceSyncWorkflow.includes('data/performance-budget.json') ||
+  !postDeployEvidenceSyncWorkflow.includes('data/release-candidate.json') ||
+  !postDeployEvidenceSyncWorkflow.includes('data/post-deploy-smoke.json') ||
   !postDeployEvidenceSyncWorkflow.includes('data/live-site-monitor.json') ||
   !postDeployEvidenceSyncWorkflow.includes('src/data/liveSiteMonitor.ts') ||
   !postDeployEvidenceSyncWorkflow.includes('reports/live-site-monitor-latest.md') ||

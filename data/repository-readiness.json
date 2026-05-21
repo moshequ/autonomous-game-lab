@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-21T14:04:52.663Z",
+  "generatedAt": "2026-05-21T14:16:23.541Z",
   "status": "repository-channel-ready",
   "envFiles": {
     "loaded": true,
@@ -56,7 +56,7 @@
     "insideWorkTree": true,
     "gitRoot": "/Users/moshequ/Documents/Codex/2026-05-18/i-want-to-have-a-new",
     "currentBranch": "main",
-    "dirtyFiles": 52,
+    "dirtyFiles": 53,
     "dirtyPaths": [
       ".github/workflows/post-deploy-evidence-sync.yml",
       "data/autonomous-cadence.json",
@@ -76,6 +76,7 @@
       "data/release-candidate.json",
       "data/repository-bootstrap.json",
       "data/repository-readiness.json",
+      "package.json",
       "reports/autonomous-cadence-latest.md",
       "reports/autonomous-operator-history-latest.md",
       "reports/autonomous-operator-latest.md",
@@ -161,9 +162,10 @@
       "src/data/releaseCandidate.ts",
       "src/data/repositoryReadiness.ts"
     ],
-    "nonGeneratedDirtyFiles": 5,
+    "nonGeneratedDirtyFiles": 6,
     "nonGeneratedDirtyPaths": [
       ".github/workflows/post-deploy-evidence-sync.yml",
+      "package.json",
       "scripts/autonomous-cadence.mjs",
       "scripts/verify-autonomy.mjs",
       "scripts/verify-post-deploy-evidence-sync.mjs",
@@ -204,7 +206,7 @@
     "workflowExists": true,
     "deployWorkflowIncludesSmoke": true,
     "deploymentStatus": "ready-for-pages",
-    "releaseCandidateId": "pwa-3d4083eb4f8f",
+    "releaseCandidateId": "pwa-ed6213f6347e",
     "postDeploySmokeStatus": "post-deploy-smoke-observed-live",
     "liveSettings": {
       "status": "inspected",

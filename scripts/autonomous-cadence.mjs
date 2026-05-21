@@ -675,6 +675,11 @@ const checks = [
       postDeployEvidenceSyncWorkflow.includes('GITHUB_REPOSITORY: ${{ github.repository }}') &&
       postDeployEvidenceSyncWorkflow.includes('GITHUB_TOKEN: ${{ github.token }}') &&
       postDeployEvidenceSyncWorkflow.includes('AGL_PUBLIC_ORIGIN: ${{ vars.AGL_PUBLIC_ORIGIN }}') &&
+      postDeployReadinessSyncScript.includes('npm run build') &&
+      postDeployReadinessSyncScript.includes('autonomous:performance') &&
+      postDeployReadinessSyncScript.includes('autonomous:release-candidate') &&
+      postDeployReadinessSyncScript.includes('autonomous:post-deploy-smoke') &&
+      postDeployReadinessSyncScript.includes('autonomous:live-monitor') &&
       postDeployReadinessSyncScript.includes('autonomous:repo-readiness') &&
       postDeployReadinessSyncScript.includes('autonomous:repo-bootstrap') &&
       postDeployReadinessSyncScript.includes('autonomous:deploy-plan') &&
@@ -689,6 +694,9 @@ const checks = [
       postDeployEvidenceSyncWorkflow.includes('data/post-deploy-artifact-sync.json') &&
       postDeployEvidenceSyncWorkflow.includes('src/data/postDeployArtifactSync.ts') &&
       postDeployEvidenceSyncWorkflow.includes('reports/post-deploy-artifact-sync-latest.md') &&
+      postDeployEvidenceSyncWorkflow.includes('data/performance-budget.json') &&
+      postDeployEvidenceSyncWorkflow.includes('data/release-candidate.json') &&
+      postDeployEvidenceSyncWorkflow.includes('data/post-deploy-smoke.json') &&
       postDeployEvidenceSyncWorkflow.includes('data/live-site-monitor.json') &&
       postDeployEvidenceSyncWorkflow.includes('src/data/liveSiteMonitor.ts') &&
       postDeployEvidenceSyncWorkflow.includes('reports/live-site-monitor-latest.md') &&
@@ -703,11 +711,8 @@ const checks = [
       postDeployEvidenceSyncWorkflow.includes('data/autonomous-operator.json') &&
       postDeployEvidenceSyncWorkflow.includes('data/autonomous-owner-loop.json') &&
       !postDeployEvidenceSyncWorkflow.includes('npm run build') &&
-      !postDeployReadinessSyncScript.includes('npm run build') &&
       !postDeployEvidenceSyncWorkflow.includes('autonomous:release-candidate') &&
-      !postDeployReadinessSyncScript.includes('autonomous:release-candidate') &&
-      !postDeployEvidenceSyncWorkflow.includes('autonomous:post-deploy-smoke') &&
-      !postDeployReadinessSyncScript.includes('autonomous:post-deploy-smoke')
+      !postDeployEvidenceSyncWorkflow.includes('autonomous:post-deploy-smoke')
         ? 'pass'
         : 'blocker',
     detail: postDeployEvidenceSyncWorkflowExists

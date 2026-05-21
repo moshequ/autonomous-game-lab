@@ -87,6 +87,15 @@ jobs:
             data/post-deploy-artifact-sync.json \
             src/data/postDeployArtifactSync.ts \
             reports/post-deploy-artifact-sync-latest.md \
+            data/performance-budget.json \
+            src/data/performanceBudget.ts \
+            reports/performance-budget-latest.md \
+            data/release-candidate.json \
+            src/data/releaseCandidate.ts \
+            reports/release-candidate-latest.md \
+            data/post-deploy-smoke.json \
+            src/data/postDeploySmoke.ts \
+            reports/post-deploy-smoke-latest.md \
             data/live-site-monitor.json \
             src/data/liveSiteMonitor.ts \
             reports/live-site-monitor-latest.md \
@@ -144,6 +153,12 @@ jobs:
           path: |
             data/post-deploy-artifact-sync.json
             reports/post-deploy-artifact-sync-latest.md
+            data/performance-budget.json
+            reports/performance-budget-latest.md
+            data/release-candidate.json
+            reports/release-candidate-latest.md
+            data/post-deploy-smoke.json
+            reports/post-deploy-smoke-latest.md
             data/live-site-monitor.json
             reports/live-site-monitor-latest.md
             data/repository-readiness.json

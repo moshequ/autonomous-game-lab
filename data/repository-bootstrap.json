@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-21T14:04:54.016Z",
+  "generatedAt": "2026-05-21T14:16:25.202Z",
   "status": "repository-bootstrap-ready",
   "mode": "plan-only",
   "envFiles": {
@@ -61,7 +61,7 @@
       "originRemote": "git@github.com:moshequ/autonomous-game-lab.git",
       "remoteRepository": "moshequ/autonomous-game-lab",
       "hasCommit": true,
-      "dirtyFiles": 51,
+      "dirtyFiles": 52,
       "dirtyPaths": [
         ".github/workflows/post-deploy-evidence-sync.yml",
         "data/autonomous-cadence.json",
@@ -81,6 +81,7 @@
         "data/release-candidate.json",
         "data/repository-bootstrap.json",
         "data/repository-readiness.json",
+        "package.json",
         "reports/autonomous-cadence-latest.md",
         "reports/autonomous-operator-history-latest.md",
         "reports/autonomous-operator-latest.md",
@@ -164,9 +165,10 @@
         "src/data/productionBootstrap.ts",
         "src/data/releaseCandidate.ts"
       ],
-      "nonGeneratedDirtyFiles": 5,
+      "nonGeneratedDirtyFiles": 6,
       "nonGeneratedDirtyPaths": [
         ".github/workflows/post-deploy-evidence-sync.yml",
+        "package.json",
         "scripts/autonomous-cadence.mjs",
         "scripts/verify-autonomy.mjs",
         "scripts/verify-post-deploy-evidence-sync.mjs",
@@ -180,7 +182,7 @@
       "originRemote": "git@github.com:moshequ/autonomous-game-lab.git",
       "remoteRepository": "moshequ/autonomous-game-lab",
       "hasCommit": true,
-      "dirtyFiles": 51,
+      "dirtyFiles": 52,
       "dirtyPaths": [
         ".github/workflows/post-deploy-evidence-sync.yml",
         "data/autonomous-cadence.json",
@@ -200,6 +202,7 @@
         "data/release-candidate.json",
         "data/repository-bootstrap.json",
         "data/repository-readiness.json",
+        "package.json",
         "reports/autonomous-cadence-latest.md",
         "reports/autonomous-operator-history-latest.md",
         "reports/autonomous-operator-latest.md",
@@ -283,9 +286,10 @@
         "src/data/productionBootstrap.ts",
         "src/data/releaseCandidate.ts"
       ],
-      "nonGeneratedDirtyFiles": 5,
+      "nonGeneratedDirtyFiles": 6,
       "nonGeneratedDirtyPaths": [
         ".github/workflows/post-deploy-evidence-sync.yml",
+        "package.json",
         "scripts/autonomous-cadence.mjs",
         "scripts/verify-autonomy.mjs",
         "scripts/verify-post-deploy-evidence-sync.mjs",
@@ -325,7 +329,7 @@
     "repositoryReadiness": "repository-channel-ready",
     "deployment": "ready-for-pages",
     "releaseCandidate": "release-candidate-ready",
-    "releaseCandidateId": "pwa-3d4083eb4f8f",
+    "releaseCandidateId": "pwa-ed6213f6347e",
     "postDeploySmoke": "post-deploy-smoke-observed-live"
   },
   "repositoryTargetPlan": {
@@ -415,7 +419,7 @@
       "mutatesLocalGit": true,
       "mutatesRemoteGitHub": false,
       "requiresExplicitEnv": true,
-      "detail": "5 non-generated source or artifact file(s) are not committed yet."
+      "detail": "6 non-generated source or artifact file(s) are not committed yet."
     },
     {
       "id": "set-or-create-origin",

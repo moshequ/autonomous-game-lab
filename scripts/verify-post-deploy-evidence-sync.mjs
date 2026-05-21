@@ -12,6 +12,9 @@ const readText = async (filePath) => readFile(path.join(root, filePath), 'utf8')
 const [
   sync,
   liveSiteMonitor,
+  performanceBudget,
+  releaseCandidate,
+  postDeploySmoke,
   repositoryReadiness,
   repositoryBootstrap,
   deploymentPlan,
@@ -28,6 +31,9 @@ const [
 ] = await Promise.all([
   readJson('data/post-deploy-artifact-sync.json'),
   readJson('data/live-site-monitor.json'),
+  readJson('data/performance-budget.json'),
+  readJson('data/release-candidate.json'),
+  readJson('data/post-deploy-smoke.json'),
   readJson('data/repository-readiness.json'),
   readJson('data/repository-bootstrap.json'),
   readJson('data/deployment-plan.json'),
@@ -107,6 +113,11 @@ if (
 }
 
 const requiredReadinessRefreshCommands = [
+  'npm run build',
+  'autonomous:performance',
+  'autonomous:release-candidate',
+  'autonomous:post-deploy-smoke',
+  'autonomous:live-monitor',
   'autonomous:repo-readiness',
   'autonomous:repo-bootstrap',
   'autonomous:deploy-plan',
@@ -141,6 +152,15 @@ if (
   !workflow.includes('data/post-deploy-artifact-sync.json') ||
   !workflow.includes('src/data/postDeployArtifactSync.ts') ||
   !workflow.includes('reports/post-deploy-artifact-sync-latest.md') ||
+  !workflow.includes('data/performance-budget.json') ||
+  !workflow.includes('src/data/performanceBudget.ts') ||
+  !workflow.includes('reports/performance-budget-latest.md') ||
+  !workflow.includes('data/release-candidate.json') ||
+  !workflow.includes('src/data/releaseCandidate.ts') ||
+  !workflow.includes('reports/release-candidate-latest.md') ||
+  !workflow.includes('data/post-deploy-smoke.json') ||
+  !workflow.includes('src/data/postDeploySmoke.ts') ||
+  !workflow.includes('reports/post-deploy-smoke-latest.md') ||
   !workflow.includes('data/live-site-monitor.json') ||
   !workflow.includes('src/data/liveSiteMonitor.ts') ||
   !workflow.includes('reports/live-site-monitor-latest.md') ||
@@ -184,9 +204,6 @@ if (
 }
 
 const forbiddenRefreshCommands = [
-  'npm run build',
-  'autonomous:release-candidate',
-  'autonomous:post-deploy-smoke',
   'node scripts/verify-autonomy.mjs',
 ]
 
@@ -196,22 +213,16 @@ for (const command of forbiddenRefreshCommands) {
   }
 }
 
-const forbiddenStagedArtifacts = [
-  'data/release-candidate.json',
-  'src/data/releaseCandidate.ts',
-  'data/performance-budget.json',
-  'src/data/performanceBudget.ts',
-  'data/post-deploy-smoke.json',
-  'src/data/postDeploySmoke.ts',
-]
-
-for (const artifact of forbiddenStagedArtifacts) {
-  if (workflow.includes(artifact)) {
-    fail(`Post-deploy evidence sync must not stage ${artifact}; only strict deployed evidence is allowed.`)
-  }
-}
-
 if (
+  performanceBudget.status !== 'performance-budget-ready' ||
+  performanceBudget.controls?.phaserDeferredFromInitialShell !== true ||
+  releaseCandidate.status !== 'release-candidate-ready' ||
+  releaseCandidate.controls?.contentHashesRecorded !== true ||
+  !['blocked-missing-origin', 'post-deploy-smoke-passed', 'post-deploy-smoke-observed-live'].includes(
+    postDeploySmoke.status,
+  ) ||
+  postDeploySmoke.target?.candidateId !== releaseCandidate.candidateId ||
+  postDeploySmoke.target?.aggregateHash !== releaseCandidate.integrity?.aggregateHash ||
   repositoryReadiness.status !== 'repository-channel-ready' ||
   repositoryReadiness.controls?.noGitMutation !== true ||
   repositoryReadiness.controls?.noWorkflowDispatch !== true ||
