@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-21T07:55:18.633Z",
+  "generatedAt": "2026-05-21T08:08:50.734Z",
   "status": "production-bootstrap-ready",
   "mode": "can-apply-configured-actions",
   "envFiles": {
@@ -87,7 +87,7 @@
     "totalVariables": 24,
     "configuredSecrets": 5,
     "totalSecrets": 8,
-    "externalBlockers": 15
+    "externalBlockers": 16
   },
   "stages": [
     {
@@ -106,7 +106,9 @@
       "costUsd": 0,
       "command": "npm run autonomous:repo-bootstrap",
       "evidence": "Repository bootstrap repository-bootstrap-ready; helper ops/github/bootstrap-repository.sh; local git ready.",
-      "requires": []
+      "requires": [
+        "Commit current generated changes before pushing to GitHub Pages."
+      ]
     },
     {
       "id": "production-environment",
@@ -263,7 +265,9 @@
       "costUsd": 0,
       "command": "npm run autonomous:repo-bootstrap",
       "evidence": "Repository bootstrap repository-bootstrap-ready; helper ops/github/bootstrap-repository.sh; local git ready.",
-      "requires": []
+      "requires": [
+        "Commit current generated changes before pushing to GitHub Pages."
+      ]
     },
     {
       "id": "production-environment",
@@ -1065,6 +1069,10 @@
     "ops/github/README.md"
   ],
   "externalBlockers": [
+    {
+      "source": "repository-bootstrap",
+      "blocker": "Commit current generated changes before pushing to GitHub Pages."
+    },
     {
       "source": "production-environment",
       "blocker": "Set AGL_SUPPORT_EMAIL to a real support inbox before public store submission."

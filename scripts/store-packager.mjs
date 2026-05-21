@@ -1,5 +1,6 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises'
 import path from 'node:path'
+import { hashSourceData } from './lib/source-hash.mjs'
 
 const root = process.cwd()
 const pipelinePath = path.join(root, 'data', 'prototype-pipeline.json')
@@ -64,6 +65,13 @@ const sourceReferences = {
   appleDeveloperProgram: 'https://developer.apple.com/programs/',
   applePrivacyLabels: 'https://developer.apple.com/app-store/app-privacy-details/',
 }
+const sourceDataHash = hashSourceData({
+  pipeline,
+  gates,
+  analytics,
+  environment,
+  supportChannel,
+})
 
 const privacyPolicy = {
   path: '/privacy.html',
@@ -252,6 +260,8 @@ const storeListing = launchCandidate
 
 const payload = {
   generatedAt,
+  sourceDataHash,
+  status: 'store-package-ready',
   launchCandidate: launchCandidate
     ? {
         id: launchCandidate.id,
@@ -278,6 +288,7 @@ const payload = {
 
 const complianceManifest = {
   generatedAt,
+  sourceDataHash,
   id: 'store-compliance-publication',
   appName: 'Autonomous Game Lab',
   status: compliancePublication.status,

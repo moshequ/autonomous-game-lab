@@ -1,5 +1,6 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises'
 import path from 'node:path'
+import { hashSourceData } from './lib/source-hash.mjs'
 
 const root = process.cwd()
 const dataDir = path.join(root, 'data')
@@ -43,6 +44,13 @@ const compliancePublicationReady =
   storePackage.compliancePublication?.publicPath === '/compliance.json' &&
   storePackage.compliancePublication?.controls?.postDeploySmokeRequired === true &&
   (storePackage.compliancePublication?.smokeChecks?.length ?? 0) >= 3
+const sourceDataHash = hashSourceData({
+  storePackage,
+  monetization,
+  productionEnvironment,
+  unitEconomics,
+  storeAssets,
+})
 
 const contentRating = {
   googlePlay: {
@@ -211,6 +219,7 @@ const status = hardBlockers.length
 
 const payload = {
   generatedAt: new Date().toISOString(),
+  sourceDataHash,
   status,
   launchCandidate,
   policyPosture: 'no-accounts-no-ugc-no-gambling-no-paid-spend',

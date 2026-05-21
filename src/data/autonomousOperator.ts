@@ -2,7 +2,7 @@ export const autonomousOperator = {
   "status": "operator-plan-ready",
   "mode": "plan-only",
   "selectedAction": {
-    "id": "optimize-store-listing",
+    "id": "refresh-autonomous-cadence",
     "status": "armed",
     "costUsd": 0
   },

@@ -1,10 +1,10 @@
 # Autonomous Operator
 
-Generated: 2026-05-21T07:55:39.262Z
+Generated: 2026-05-21T08:09:12.124Z
 Status: operator-plan-ready
 Mode: plan-only
-Owner decision: optimize-store-listing
-Selected action: optimize-store-listing
+Owner decision: refresh-autonomous-cadence
+Selected action: refresh-autonomous-cadence
 Execution: not-requested
 
 ## Controls
@@ -18,7 +18,7 @@ Execution: not-requested
 
 ## Selected Action
 
-- optimize-store-listing: npm run autonomous:store-package && npm run autonomous:store-listing-optimize && npm run autonomous:store-compliance
+- refresh-autonomous-cadence: npm run autonomous:cadence
 
 ## Eligible Local Actions
 
@@ -26,12 +26,10 @@ Execution: not-requested
 - refresh-autonomous-self-update
 - refresh-support-feedback
 - check-performance-budget
-- optimize-store-listing
 
 ## Blocked Actions
 
 - run-daily-owner-loop: daily-loop-recursion-blocked
-- refresh-autonomous-cadence: not-selected-this-run
 - refresh-autonomous-self-update: not-selected-this-run
 - seed-portfolio-traffic: status-monitor
 - refresh-organic-seed-loop: status-monitor
@@ -42,3 +40,4 @@ Execution: not-requested
 - prepare-release-candidate: status-monitor
 - run-post-deploy-smoke: status-monitor
 - sync-post-deploy-artifact: status-monitor
+- optimize-product-gates: status-monitor

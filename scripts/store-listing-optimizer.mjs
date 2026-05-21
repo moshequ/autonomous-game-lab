@@ -1,5 +1,6 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises'
 import path from 'node:path'
+import { hashSourceData } from './lib/source-hash.mjs'
 
 const root = process.cwd()
 const dataDir = path.join(root, 'data')
@@ -60,6 +61,17 @@ const portfolioById = new Map((portfolio.games ?? []).map((game) => [game.gameId
 const acquisitionFeaturedId = acquisition.summary?.featuredGameId
 const dailyGameId = retention.dailyChallenge?.gameId
 const screenshotAssets = storeAssets.screenshots ?? []
+const buildStorePackageListingSource = (packageData) => ({
+  sourceDataHash: packageData.sourceDataHash ?? null,
+  launchCandidate: packageData.launchCandidate ?? null,
+  privacyPolicy: packageData.privacyPolicy ?? null,
+  supportPage: packageData.supportPage ?? null,
+  compliancePublication: packageData.compliancePublication ?? null,
+  dataSafetyDraft: packageData.dataSafetyDraft ?? null,
+  nativePackaging: packageData.nativePackaging ?? null,
+  costGates: packageData.costGates ?? null,
+  storeListingContentRatingNotes: packageData.storeListing?.contentRatingNotes ?? null,
+})
 
 const candidateSignals = (growth.gamePages ?? []).map((game) => {
   const portfolioGame = portfolioById.get(game.gameId)
@@ -198,8 +210,23 @@ storePackage.launchCandidate = {
   status: focus.status ?? 'generated-playable',
 }
 storePackage.storeListing = optimizedListing
+const sourceDataHash = hashSourceData({
+  storePackage: buildStorePackageListingSource(storePackage),
+  storeAssets,
+  growth,
+  portfolio,
+  acquisition,
+  retention,
+  pwaInstall,
+  monetization,
+  generatedPlayable,
+  storeCompliance: {
+    status: storeCompliance.status,
+  },
+})
 storePackage.storeListingOptimization = {
   generatedAt: new Date().toISOString(),
+  sourceDataHash,
   status: 'store-listing-optimizer-ready',
   previousLaunchCandidateId,
   recommendedFocusGameId: focus.gameId,
@@ -208,6 +235,7 @@ storePackage.storeListingOptimization = {
 
 const payload = {
   generatedAt: storePackage.storeListingOptimization.generatedAt,
+  sourceDataHash,
   status: 'store-listing-optimizer-ready',
   sourceStatus: {
     growthPlan: growth.status,

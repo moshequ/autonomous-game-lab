@@ -3053,6 +3053,9 @@ test('autonomous operator history keeps a capped audit trail', async ({ page }) 
         | 'pwaInstallLoop'
         | 'productGateRecovery'
         | 'productGateSamplePlan'
+        | 'storePackage'
+        | 'storeListingOptimizer'
+        | 'storeCompliance'
         | 'firstMoveCoach'
         | 'completionLoop'
         | 'replayLoop'
@@ -3201,6 +3204,7 @@ test('autonomous operator history keeps a capped audit trail', async ({ page }) 
   const seedPortfolioAction = ownerLoop.safeAutonomousActions.find((action) => action.id === 'seed-portfolio-traffic')
   const collectLiveEventsAction = ownerLoop.safeAutonomousActions.find((action) => action.id === 'collect-live-events')
   const prepareReleaseAction = ownerLoop.safeAutonomousActions.find((action) => action.id === 'prepare-release-candidate')
+  const optimizeStoreListingAction = ownerLoop.safeAutonomousActions.find((action) => action.id === 'optimize-store-listing')
   const sourceFreshnessActionPairs = [
     { actionId: 'optimize-product-gates', freshness: ownerLoop.executionMemory.sourceFreshness.productOptimization },
     { actionId: 'optimize-daily-retention', freshness: ownerLoop.executionMemory.sourceFreshness.retentionLoop },
@@ -3288,6 +3292,11 @@ test('autonomous operator history keeps a capped audit trail', async ({ page }) 
     ownerLoop.executionMemory.sourceFreshness.acquisitionLearning,
     ownerLoop.executionMemory.sourceFreshness.organicSeedLoop,
   ]
+  const storeListingFreshnesses = [
+    ownerLoop.executionMemory.sourceFreshness.storePackage,
+    ownerLoop.executionMemory.sourceFreshness.storeListingOptimizer,
+    ownerLoop.executionMemory.sourceFreshness.storeCompliance,
+  ]
   for (const freshness of seedPortfolioFreshnesses) {
     expect(freshness.sourceDataHash).toMatch(/^[a-f0-9]{12}$/)
     expect(freshness.evaluatedInputIds.length).toBeGreaterThan(0)
@@ -3295,6 +3304,15 @@ test('autonomous operator history keeps a capped audit trail', async ({ page }) 
   if (seedPortfolioFreshnesses.every((freshness) => freshness.current)) {
     expect(seedPortfolioAction?.status).toBe('monitor')
     expect(ownerLoop.ownerDecision.nextBestActionId).not.toBe('seed-portfolio-traffic')
+  }
+  for (const freshness of storeListingFreshnesses) {
+    expect(freshness.sourceDataHash).toMatch(/^[a-f0-9]{12}$/)
+    expect(freshness.evaluatedInputIds.length).toBeGreaterThan(0)
+  }
+  if (storeListingFreshnesses.every((freshness) => freshness.current)) {
+    expect(optimizeStoreListingAction?.status).toBe('monitor')
+    expect(optimizeStoreListingAction?.reason).toContain('already match current growth')
+    expect(ownerLoop.ownerDecision.nextBestActionId).not.toBe('optimize-store-listing')
   }
   expect(typeof ownerLoop.executionMemory.productionBootstrapFreshness.fresh).toBe('boolean')
   expect(ownerLoop.executionMemory.productionBootstrapFreshness.evaluatedInputIds).toContain('release-candidate')
@@ -4965,26 +4983,36 @@ test('store listing optimizer promotes the data-led store focus', async ({ page 
   const optimizer = JSON.parse(await readFile('data/store-listing-optimizer.json', 'utf8')) as {
     generatedAt: string
     status: string
+    sourceDataHash: string
     recommendation: { focusGameId: string; changedLaunchCandidate: boolean }
     listing: { shortDescription: string; keywords: string[] }
     screenshotPriorities: Array<{ id: string }>
     copyGuardrails: { googleShortDescriptionMaxChars: number; noMonetizationClaimsBeforeEnabled: boolean }
   }
   const storePackage = JSON.parse(await readFile('data/store-package.json', 'utf8')) as {
+    sourceDataHash: string
     launchCandidate: { id: string }
     storeListing: { shortDescription: string; screenshotAssets: Array<{ id: string }> }
     storeListingOptimization: {
       generatedAt: string
       status: string
+      sourceDataHash: string
       recommendedFocusGameId: string
     }
   }
+  const storeCompliance = JSON.parse(await readFile('data/store-compliance.json', 'utf8')) as {
+    sourceDataHash: string
+  }
 
   expect(optimizer.status).toBe('store-listing-optimizer-ready')
+  expect(optimizer.sourceDataHash).toMatch(/^[a-f0-9]{12}$/)
+  expect(storePackage.sourceDataHash).toMatch(/^[a-f0-9]{12}$/)
+  expect(storeCompliance.sourceDataHash).toMatch(/^[a-f0-9]{12}$/)
   expect(optimizer.recommendation.focusGameId).toBe('canopy-bloom')
   expect(storePackage.launchCandidate.id).toBe(optimizer.recommendation.focusGameId)
   expect(storePackage.storeListingOptimization.status).toBe(optimizer.status)
   expect(storePackage.storeListingOptimization.generatedAt).toBe(optimizer.generatedAt)
+  expect(storePackage.storeListingOptimization.sourceDataHash).toBe(optimizer.sourceDataHash)
   expect(storePackage.storeListingOptimization.recommendedFocusGameId).toBe(optimizer.recommendation.focusGameId)
   expect(storePackage.storeListing.shortDescription.length).toBeLessThanOrEqual(
     optimizer.copyGuardrails.googleShortDescriptionMaxChars,

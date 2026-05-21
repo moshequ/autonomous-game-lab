@@ -1331,6 +1331,45 @@ const productGateSamplePlanSourceEvidence = {
   downloadsScanPolicy: gateSampleDownloadsPolicySource,
   unitEconomics,
 }
+const storePackageSourceEvidence = {
+  pipeline: prototypePipeline,
+  gates: productionGates,
+  analytics,
+  environment: productionEnvironment,
+  supportChannel,
+}
+const storePackageListingSource = {
+  sourceDataHash: storePackage.sourceDataHash ?? null,
+  launchCandidate: storePackage.launchCandidate ?? null,
+  privacyPolicy: storePackage.privacyPolicy ?? null,
+  supportPage: storePackage.supportPage ?? null,
+  compliancePublication: storePackage.compliancePublication ?? null,
+  dataSafetyDraft: storePackage.dataSafetyDraft ?? null,
+  nativePackaging: storePackage.nativePackaging ?? null,
+  costGates: storePackage.costGates ?? null,
+  storeListingContentRatingNotes: storePackage.storeListing?.contentRatingNotes ?? null,
+}
+const storeListingOptimizerSourceEvidence = {
+  storePackage: storePackageListingSource,
+  storeAssets,
+  growth,
+  portfolio: portfolioPolicy,
+  acquisition,
+  retention,
+  pwaInstall,
+  monetization,
+  generatedPlayable,
+  storeCompliance: {
+    status: storeCompliance.status,
+  },
+}
+const storeComplianceSourceEvidence = {
+  storePackage,
+  monetization,
+  productionEnvironment,
+  unitEconomics,
+  storeAssets,
+}
 const productOptimizationFreshness = sourceFreshness({
   artifact: productOptimization,
   readyStatuses: ['product-optimization-ready'],
@@ -1440,6 +1479,47 @@ const productGateSamplePlanFreshness = sourceFreshness({
     { id: 'unit-economics', data: unitEconomics },
   ],
   sourceDataHash: hashSourceData(productGateSamplePlanSourceEvidence),
+})
+const storePackageFreshness = sourceFreshness({
+  artifact: storePackage,
+  readyStatuses: ['store-package-ready'],
+  inputs: [
+    { id: 'prototype-pipeline', data: prototypePipeline },
+    { id: 'production-gates', data: productionGates },
+    { id: 'analytics-rollup', data: analytics },
+    { id: 'production-environment', data: productionEnvironment },
+    { id: 'support-channel', data: supportChannel },
+  ],
+  sourceDataHash: hashSourceData(storePackageSourceEvidence),
+})
+const storeListingOptimizerFreshness = sourceFreshness({
+  artifact: storeListingOptimizer,
+  readyStatuses: ['store-listing-optimizer-ready'],
+  inputs: [
+    { id: 'store-package', data: storePackage },
+    { id: 'store-assets', data: storeAssets },
+    { id: 'growth-plan', data: growth },
+    { id: 'portfolio-policy', data: portfolioPolicy },
+    { id: 'acquisition-learning', data: acquisition },
+    { id: 'retention-loop', data: retention },
+    { id: 'pwa-install-loop', data: pwaInstall },
+    { id: 'monetization-plan', data: monetization },
+    { id: 'generated-playable-games', data: generatedPlayable },
+    { id: 'store-compliance', data: storeCompliance },
+  ],
+  sourceDataHash: hashSourceData(storeListingOptimizerSourceEvidence),
+})
+const storeComplianceFreshness = sourceFreshness({
+  artifact: storeCompliance,
+  readyStatuses: ['draft-ready-external-blockers', 'needs-store-assets', 'needs-compliance-draft'],
+  inputs: [
+    { id: 'store-package', data: storePackage },
+    { id: 'monetization-plan', data: monetization },
+    { id: 'production-environment', data: productionEnvironment },
+    { id: 'unit-economics', data: unitEconomics },
+    { id: 'store-assets', data: storeAssets },
+  ],
+  sourceDataHash: hashSourceData(storeComplianceSourceEvidence),
 })
 const firstMoveCoachFreshness = sourceFreshness({
   artifact: firstMoveCoach,
@@ -1801,11 +1881,19 @@ const safeAutonomousActions = [
   },
   {
     id: 'optimize-store-listing',
-    status: storeListingOptimizer.status === 'store-listing-optimizer-ready' ? 'armed' : 'monitor',
+    status:
+      storePackageFreshness.current && storeListingOptimizerFreshness.current && storeComplianceFreshness.current
+        ? 'monitor'
+        : storeListingOptimizer.status === 'store-listing-optimizer-ready'
+          ? 'armed'
+          : 'monitor',
     costUsd: 0,
     command: 'npm run autonomous:store-package && npm run autonomous:store-listing-optimize && npm run autonomous:store-compliance',
     targets: [storeListingOptimizer.recommendation?.focusGameId ?? storePackage.launchCandidate?.id ?? 'store-listing'],
-    reason: 'Refreshes the base store package, optimized copy, screenshot priority, and compliance drafts from behavior signals.',
+    reason:
+      storePackageFreshness.current && storeListingOptimizerFreshness.current && storeComplianceFreshness.current
+        ? 'Store package, listing copy, screenshot priority, and compliance drafts already match current growth, support, monetization, and store evidence.'
+        : 'Refreshes the base store package, optimized copy, screenshot priority, and compliance drafts from behavior signals.',
   },
   {
     id: 'prepare-android-signing',
@@ -2012,6 +2100,9 @@ const payload = {
       pwaInstallLoop: pwaInstallFreshness,
       productGateRecovery: productGateRecoveryFreshness,
       productGateSamplePlan: productGateSamplePlanFreshness,
+      storePackage: storePackageFreshness,
+      storeListingOptimizer: storeListingOptimizerFreshness,
+      storeCompliance: storeComplianceFreshness,
       firstMoveCoach: firstMoveCoachFreshness,
       completionLoop: completionLoopFreshness,
       replayLoop: replayLoopFreshness,

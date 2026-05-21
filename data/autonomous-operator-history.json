@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-21T07:55:39.262Z",
+  "generatedAt": "2026-05-21T08:09:12.124Z",
   "status": "operator-history-ready",
   "retention": {
     "maxRecords": 40,
@@ -26,7 +26,7 @@
     "plannedRecords": 25,
     "executedRecords": 15,
     "failedRecords": 0,
-    "lastActionId": "optimize-store-listing",
+    "lastActionId": "refresh-autonomous-cadence",
     "lastExecutionStatus": "not-requested",
     "lastExecutedActionId": "check-performance-budget"
   },
@@ -38,39 +38,6 @@
     "historyIsCapped": true
   },
   "records": [
-    {
-      "id": "20260521063943-refresh-autonomous-cadence",
-      "generatedAt": "2026-05-21T06:39:43.038Z",
-      "runFingerprint": "b059c3672eebae3e",
-      "mode": "plan-only",
-      "status": "operator-plan-ready",
-      "selectedActionId": "refresh-autonomous-cadence",
-      "selectedCommand": "npm run autonomous:cadence",
-      "eligibleActionIds": [
-        "refresh-autonomous-cadence",
-        "refresh-autonomous-self-update",
-        "refresh-support-feedback",
-        "measure-pwa-install-loop",
-        "check-performance-budget",
-        "prepare-release-candidate",
-        "refresh-product-gate-recovery",
-        "optimize-store-listing"
-      ],
-      "blockedActionCount": 29,
-      "execution": {
-        "requested": false,
-        "status": "not-requested",
-        "attemptedActionId": null,
-        "resultCount": 0,
-        "failedScripts": []
-      },
-      "controls": {
-        "zeroPaidSpend": true,
-        "localCommandAllowlistEnforced": true,
-        "externalWorkflowExecutionBlockedByDefault": true,
-        "maxActionsPerRun": 1
-      }
-    },
     {
       "id": "20260521064014-refresh-autonomous-cadence",
       "generatedAt": "2026-05-21T06:40:14.509Z",
@@ -1293,6 +1260,35 @@
         "refresh-support-feedback",
         "check-performance-budget",
         "optimize-store-listing"
+      ],
+      "blockedActionCount": 29,
+      "execution": {
+        "requested": false,
+        "status": "not-requested",
+        "attemptedActionId": null,
+        "resultCount": 0,
+        "failedScripts": []
+      },
+      "controls": {
+        "zeroPaidSpend": true,
+        "localCommandAllowlistEnforced": true,
+        "externalWorkflowExecutionBlockedByDefault": true,
+        "maxActionsPerRun": 1
+      }
+    },
+    {
+      "id": "20260521080751-refresh-autonomous-cadence",
+      "generatedAt": "2026-05-21T08:07:51.918Z",
+      "runFingerprint": "8feafbcb3d282933",
+      "mode": "plan-only",
+      "status": "operator-plan-ready",
+      "selectedActionId": "refresh-autonomous-cadence",
+      "selectedCommand": "npm run autonomous:cadence",
+      "eligibleActionIds": [
+        "refresh-autonomous-cadence",
+        "refresh-autonomous-self-update",
+        "refresh-support-feedback",
+        "check-performance-budget"
       ],
       "blockedActionCount": 29,
       "execution": {

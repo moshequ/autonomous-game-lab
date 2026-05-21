@@ -3524,7 +3524,49 @@ for (const game of growth.gamePages ?? []) {
   }
 }
 
+const storePackageSourceDataHash = hashSourceData({
+  pipeline,
+  gates: productionGates,
+  analytics,
+  environment: productionEnvironment,
+  supportChannel,
+})
+const storePackageListingSource = {
+  sourceDataHash: storePackage.sourceDataHash ?? null,
+  launchCandidate: storePackage.launchCandidate ?? null,
+  privacyPolicy: storePackage.privacyPolicy ?? null,
+  supportPage: storePackage.supportPage ?? null,
+  compliancePublication: storePackage.compliancePublication ?? null,
+  dataSafetyDraft: storePackage.dataSafetyDraft ?? null,
+  nativePackaging: storePackage.nativePackaging ?? null,
+  costGates: storePackage.costGates ?? null,
+  storeListingContentRatingNotes: storePackage.storeListing?.contentRatingNotes ?? null,
+}
+const storeListingOptimizerSourceDataHash = hashSourceData({
+  storePackage: storePackageListingSource,
+  storeAssets,
+  growth,
+  portfolio: portfolioPolicy,
+  acquisition: acquisitionLearning,
+  retention: retentionLoop,
+  pwaInstall: pwaInstallLoop,
+  monetization: monetizationPlan,
+  generatedPlayable,
+  storeCompliance: {
+    status: storeCompliance.status,
+  },
+})
+const storeComplianceSourceDataHash = hashSourceData({
+  storePackage,
+  monetization: monetizationPlan,
+  productionEnvironment,
+  unitEconomics,
+  storeAssets,
+})
+
 if (
+  storePackage.status !== 'store-package-ready' ||
+  storePackage.sourceDataHash !== storePackageSourceDataHash ||
   storePackage.privacyPolicy?.path !== '/privacy.html' ||
   storePackage.supportPage?.path !== '/support.html' ||
   storePackage.dataSafetyDraft?.googlePlay?.status !== 'draft-ready' ||
@@ -3538,6 +3580,7 @@ if (
 
 if (
   storeListingOptimizer.status !== 'store-listing-optimizer-ready' ||
+  storeListingOptimizer.sourceDataHash !== storeListingOptimizerSourceDataHash ||
   storeListingOptimizer.sourceStatus?.growthPlan !== growth.status ||
   storeListingOptimizer.sourceStatus?.acquisitionLearning !== acquisitionLearning.status ||
   storeListingOptimizer.sourceStatus?.retentionLoop !== retentionLoop.status ||
@@ -3548,6 +3591,7 @@ if (
   storeListingOptimizer.listing?.sourceGameId !== storePackage.launchCandidate?.id ||
   storePackage.storeListingOptimization?.status !== storeListingOptimizer.status ||
   storePackage.storeListingOptimization?.generatedAt !== storeListingOptimizer.generatedAt ||
+  storePackage.storeListingOptimization?.sourceDataHash !== storeListingOptimizer.sourceDataHash ||
   storePackage.storeListingOptimization?.recommendedFocusGameId !==
     storeListingOptimizer.recommendation?.focusGameId ||
   storePackage.storeListing?.source !== 'store-listing-optimizer' ||
@@ -3573,6 +3617,7 @@ const storeComplianceCheckIds = new Set((storeCompliance.checks ?? []).map((chec
 
 if (
   storeCompliance.status !== 'draft-ready-external-blockers' ||
+  storeCompliance.sourceDataHash !== storeComplianceSourceDataHash ||
   storeCompliance.launchCandidate?.id !== storePackage.launchCandidate?.id ||
   storeCompliance.policyPosture !== 'no-accounts-no-ugc-no-gambling-no-paid-spend' ||
   storeCompliance.contentRating?.googlePlay?.questionnaireStatus !== 'draft-ready' ||
@@ -5051,6 +5096,9 @@ const ownerRunPostDeploySmokeAction = autonomousOwnerLoop.safeAutonomousActions?
 const ownerMeasurePwaInstallAction = autonomousOwnerLoop.safeAutonomousActions?.find(
   (action) => action.id === 'measure-pwa-install-loop',
 )
+const ownerOptimizeStoreListingAction = autonomousOwnerLoop.safeAutonomousActions?.find(
+  (action) => action.id === 'optimize-store-listing',
+)
 const ownerPrepareReleaseAction = autonomousOwnerLoop.safeAutonomousActions?.find(
   (action) => action.id === 'prepare-release-candidate',
 )
@@ -5267,6 +5315,25 @@ if (
     productGateSamplePlan.sourceDataHash ||
   autonomousOwnerLoop.executionMemory?.sourceFreshness?.productGateSamplePlan?.sourceDataHash !==
     ownerProductGateSamplePlanSourceDataHash ||
+  autonomousOwnerLoop.executionMemory?.sourceFreshness?.storePackage?.artifactSourceDataHash !==
+    storePackage.sourceDataHash ||
+  autonomousOwnerLoop.executionMemory?.sourceFreshness?.storePackage?.sourceDataHash !==
+    storePackageSourceDataHash ||
+  autonomousOwnerLoop.executionMemory?.sourceFreshness?.storePackage?.current !==
+    (storePackage.sourceDataHash === storePackageSourceDataHash && storePackage.status !== 'missing') ||
+  autonomousOwnerLoop.executionMemory?.sourceFreshness?.storeListingOptimizer?.artifactSourceDataHash !==
+    storeListingOptimizer.sourceDataHash ||
+  autonomousOwnerLoop.executionMemory?.sourceFreshness?.storeListingOptimizer?.sourceDataHash !==
+    storeListingOptimizerSourceDataHash ||
+  autonomousOwnerLoop.executionMemory?.sourceFreshness?.storeListingOptimizer?.current !==
+    (storeListingOptimizer.sourceDataHash === storeListingOptimizerSourceDataHash &&
+      storeListingOptimizer.status !== 'missing') ||
+  autonomousOwnerLoop.executionMemory?.sourceFreshness?.storeCompliance?.artifactSourceDataHash !==
+    storeCompliance.sourceDataHash ||
+  autonomousOwnerLoop.executionMemory?.sourceFreshness?.storeCompliance?.sourceDataHash !==
+    storeComplianceSourceDataHash ||
+  autonomousOwnerLoop.executionMemory?.sourceFreshness?.storeCompliance?.current !==
+    (storeCompliance.sourceDataHash === storeComplianceSourceDataHash && storeCompliance.status !== 'missing') ||
   (productGateRecovery.sourceDataHash === productGateRecoverySourceDataHash &&
     productGateSamplePlan.sourceDataHash === ownerProductGateSamplePlanSourceDataHash &&
     ownerRefreshGateRecoveryAction?.status !== 'monitor') ||
@@ -5275,6 +5342,14 @@ if (
   (productGateRecovery.sourceDataHash === productGateRecoverySourceDataHash &&
     productGateSamplePlan.sourceDataHash === ownerProductGateSamplePlanSourceDataHash &&
     autonomousOwnerLoop.ownerDecision?.nextBestActionId === 'refresh-product-gate-recovery') ||
+  (storePackage.sourceDataHash === storePackageSourceDataHash &&
+    storeListingOptimizer.sourceDataHash === storeListingOptimizerSourceDataHash &&
+    storeCompliance.sourceDataHash === storeComplianceSourceDataHash &&
+    ownerOptimizeStoreListingAction?.status !== 'monitor') ||
+  (storePackage.sourceDataHash === storePackageSourceDataHash &&
+    storeListingOptimizer.sourceDataHash === storeListingOptimizerSourceDataHash &&
+    storeCompliance.sourceDataHash === storeComplianceSourceDataHash &&
+    autonomousOwnerLoop.ownerDecision?.nextBestActionId === 'optimize-store-listing') ||
   JSON.stringify(autonomousOwnerLoop.executionMemory?.productionBootstrapFreshness?.evaluatedInputIds ?? []) !==
     JSON.stringify(ownerProductionBootstrapInputs.map((artifact) => artifact.id)) ||
   JSON.stringify(autonomousOwnerLoop.executionMemory?.productionBootstrapFreshness?.staleInputIds ?? []) !==
