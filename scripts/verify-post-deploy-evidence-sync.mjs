@@ -136,8 +136,26 @@ for (const command of requiredReadinessRefreshCommands) {
   }
 }
 
-const finalReadinessRefreshIndex = postDeployReadinessSyncScript.lastIndexOf('node scripts/production-readiness.mjs')
 const finalDeployPlanRefreshIndex = postDeployReadinessSyncScript.lastIndexOf('autonomous:deploy-plan')
+const finalReadinessRefreshIndex = postDeployReadinessSyncScript.lastIndexOf('node scripts/production-readiness.mjs')
+const finalRepoReadinessIndex = postDeployReadinessSyncScript.lastIndexOf('autonomous:repo-readiness')
+const finalRepoBootstrapIndex = postDeployReadinessSyncScript.lastIndexOf('autonomous:repo-bootstrap')
+const deployPlanBeforeFinalRepoReadinessIndex = postDeployReadinessSyncScript.lastIndexOf(
+  'autonomous:deploy-plan',
+  finalRepoReadinessIndex,
+)
+
+if (deployPlanBeforeFinalRepoReadinessIndex === -1) {
+  fail('autonomous:post-deploy-readiness-sync must refresh the deployment plan before the final repository readiness check.')
+}
+
+if (finalRepoBootstrapIndex < finalRepoReadinessIndex) {
+  fail('autonomous:post-deploy-readiness-sync must refresh repository bootstrap after the final repository readiness check.')
+}
+
+if (finalReadinessRefreshIndex < finalRepoBootstrapIndex) {
+  fail('autonomous:post-deploy-readiness-sync must refresh production readiness after the final repository bootstrap check.')
+}
 
 if (finalDeployPlanRefreshIndex < finalReadinessRefreshIndex) {
   fail('autonomous:post-deploy-readiness-sync must regenerate the deployment plan after the final readiness refresh.')
