@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-21T19:01:52.848Z",
+  "generatedAt": "2026-05-21T19:03:03.065Z",
   "status": "operator-history-ready",
   "retention": {
     "maxRecords": 40,
@@ -7,7 +7,7 @@
     "preserveLatestExecutedRecord": true,
     "preserveRecentExecutedRecords": true,
     "recentExecutedRecordWindow": 8,
-    "preservedExecutedRecords": 7,
+    "preservedExecutedRecords": 8,
     "recentExecutedActionIds": [
       "seed-portfolio-traffic",
       "bootstrap-production-setup",
@@ -15,19 +15,20 @@
       "seed-portfolio-traffic",
       "refresh-replay-loop",
       "refresh-product-gate-recovery",
-      "seed-portfolio-traffic"
+      "seed-portfolio-traffic",
+      "optimize-store-listing"
     ],
     "latestRunAppended": true,
     "compactedDuplicateDryRuns": 0
   },
   "summary": {
     "totalRecords": 40,
-    "plannedRecords": 33,
-    "executedRecords": 7,
+    "plannedRecords": 32,
+    "executedRecords": 8,
     "failedRecords": 0,
     "lastActionId": "optimize-store-listing",
-    "lastExecutionStatus": "not-requested",
-    "lastExecutedActionId": "seed-portfolio-traffic"
+    "lastExecutionStatus": "executed",
+    "lastExecutedActionId": "optimize-store-listing"
   },
   "controls": {
     "zeroPaidSpend": true,
@@ -37,39 +38,6 @@
     "historyIsCapped": true
   },
   "records": [
-    {
-      "id": "20260521174309-seed-portfolio-traffic",
-      "generatedAt": "2026-05-21T17:43:09.170Z",
-      "runFingerprint": "04741ec32b7e6856",
-      "mode": "plan-only",
-      "status": "operator-plan-ready",
-      "selectedActionId": "seed-portfolio-traffic",
-      "selectedCommand": "npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop",
-      "eligibleActionIds": [
-        "seed-portfolio-traffic",
-        "refresh-organic-seed-loop",
-        "optimize-daily-retention",
-        "refresh-first-move-coach",
-        "refresh-completion-loop",
-        "refresh-replay-loop",
-        "optimize-store-listing",
-        "apply-safe-improvements"
-      ],
-      "blockedActionCount": 32,
-      "execution": {
-        "requested": false,
-        "status": "not-requested",
-        "attemptedActionId": null,
-        "resultCount": 0,
-        "failedScripts": []
-      },
-      "controls": {
-        "zeroPaidSpend": true,
-        "localCommandAllowlistEnforced": true,
-        "externalWorkflowExecutionBlockedByDefault": true,
-        "maxActionsPerRun": 1
-      }
-    },
     {
       "id": "20260521174342-refresh-first-move-coach",
       "generatedAt": "2026-05-21T17:43:42.109Z",
@@ -1192,6 +1160,36 @@
         "status": "not-requested",
         "attemptedActionId": null,
         "resultCount": 0,
+        "failedScripts": []
+      },
+      "controls": {
+        "zeroPaidSpend": true,
+        "localCommandAllowlistEnforced": true,
+        "externalWorkflowExecutionBlockedByDefault": true,
+        "maxActionsPerRun": 1
+      }
+    },
+    {
+      "id": "20260521190303-optimize-store-listing",
+      "generatedAt": "2026-05-21T19:03:03.065Z",
+      "runFingerprint": "0dbe790c89f8d0c6",
+      "mode": "execute-one-action",
+      "status": "operator-executed",
+      "selectedActionId": "optimize-store-listing",
+      "selectedCommand": "npm run autonomous:store-package && npm run autonomous:store-listing-optimize && npm run autonomous:store-compliance",
+      "eligibleActionIds": [
+        "seed-portfolio-traffic",
+        "refresh-organic-seed-loop",
+        "refresh-product-gate-recovery",
+        "refresh-replay-loop",
+        "optimize-store-listing"
+      ],
+      "blockedActionCount": 32,
+      "execution": {
+        "requested": true,
+        "status": "executed",
+        "attemptedActionId": "optimize-store-listing",
+        "resultCount": 3,
         "failedScripts": []
       },
       "controls": {

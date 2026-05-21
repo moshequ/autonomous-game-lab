@@ -1,14 +1,14 @@
 {
-  "generatedAt": "2026-05-21T19:01:52.848Z",
-  "status": "operator-plan-ready",
-  "mode": "plan-only",
+  "generatedAt": "2026-05-21T19:03:03.065Z",
+  "status": "operator-executed",
+  "mode": "execute-one-action",
   "ownerDecision": {
     "actionId": "optimize-store-listing",
     "command": "npm run autonomous:store-package && npm run autonomous:store-listing-optimize && npm run autonomous:store-compliance",
     "locallyExecutable": true,
     "rejectionReason": null
   },
-  "requestedActionId": null,
+  "requestedActionId": "optimize-store-listing",
   "selectedAction": {
     "id": "optimize-store-listing",
     "status": "armed",
@@ -236,11 +236,51 @@
     }
   ],
   "execution": {
-    "requested": false,
-    "status": "not-requested",
+    "requested": true,
+    "status": "executed",
     "maxActionsPerRun": 1,
-    "attemptedActionId": null,
-    "results": []
+    "attemptedActionId": "optimize-store-listing",
+    "results": [
+      {
+        "script": "autonomous:store-package",
+        "exitCode": 0,
+        "stdoutTail": [
+          "> autonomous-game-lab@0.0.0 autonomous:store-package",
+          "> node scripts/store-packager.mjs",
+          "Wrote data/store-package.json",
+          "Wrote reports/store-package-latest.md",
+          "Wrote public/privacy.html",
+          "Wrote public/support.html",
+          "Wrote public/compliance.json"
+        ],
+        "stderrTail": []
+      },
+      {
+        "script": "autonomous:store-listing-optimize",
+        "exitCode": 0,
+        "stdoutTail": [
+          "> autonomous-game-lab@0.0.0 autonomous:store-listing-optimize",
+          "> node scripts/store-listing-optimizer.mjs",
+          "Updated data/store-package.json",
+          "Wrote data/store-listing-optimizer.json",
+          "Wrote src/data/storeListingOptimizer.ts",
+          "Wrote reports/store-listing-optimizer-latest.md"
+        ],
+        "stderrTail": []
+      },
+      {
+        "script": "autonomous:store-compliance",
+        "exitCode": 0,
+        "stdoutTail": [
+          "> autonomous-game-lab@0.0.0 autonomous:store-compliance",
+          "> node scripts/store-compliance.mjs",
+          "Wrote data/store-compliance.json",
+          "Wrote src/data/storeCompliance.ts",
+          "Wrote reports/store-compliance-latest.md"
+        ],
+        "stderrTail": []
+      }
+    ]
   },
   "controls": {
     "zeroPaidSpend": true,
@@ -306,7 +346,7 @@
     "RUN_WORKFLOWS=1"
   ],
   "nextActions": [
-    "Run npm run autonomous:operator -- --execute --action=optimize-store-listing to execute exactly one allowed local action.",
+    "Review optimize-store-listing execution results before another operator run.",
     "Do not execute GitHub workflow, store, paid ads, or account setup commands from the local operator."
   ]
 }

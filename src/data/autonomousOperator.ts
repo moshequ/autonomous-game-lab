@@ -1,13 +1,13 @@
 export const autonomousOperator = {
-  "status": "operator-plan-ready",
-  "mode": "plan-only",
+  "status": "operator-executed",
+  "mode": "execute-one-action",
   "selectedAction": {
     "id": "optimize-store-listing",
     "status": "armed",
     "costUsd": 0
   },
   "execution": {
-    "status": "not-requested"
+    "status": "executed"
   }
 } as const
 
