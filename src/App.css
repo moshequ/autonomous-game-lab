@@ -354,6 +354,15 @@
   overflow-wrap: anywhere;
 }
 
+.priorityRuntime {
+  border-color: rgba(31, 109, 92, 0.42);
+  background: #f0faf5;
+}
+
+.priorityRuntime .tinyButton {
+  justify-self: flex-end;
+}
+
 .monetizationRuntime .completionActions,
 .monetizationRuntime .retentionActions,
 .monetizationRuntime .replayActions,

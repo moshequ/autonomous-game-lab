@@ -1861,10 +1861,10 @@ function App() {
     const { mission, progress } = productGateSampleEvidenceHandoff
     const handoffKey = [
       mission.campaignId,
-      progress.campaignEvents,
+      progress.collectionEvents,
+      progress.successEvents,
       progress.analyticsExports,
       productGateSampleEvidenceHandoffStatus,
-      localAnalyticsCoverage.unexportedEvents,
     ].join(':')
 
     if (gateSampleEvidenceHandoffRef.current === handoffKey) {
@@ -2567,6 +2567,37 @@ function App() {
               </div>
             </div>
 
+            <div className="monetizationRuntime priorityRuntime" aria-label="Local Learning Router">
+              <div>
+                <span>Local Learning</span>
+                <strong>local-play-router</strong>
+              </div>
+              <div>
+                <span>Next route</span>
+                <strong>{localRouterRecommendation.label}</strong>
+              </div>
+              <div>
+                <span>Target</span>
+                <strong>
+                  {playableGameCatalogById.get(localRouterRecommendation.gameId as PlayableGameId)?.title ??
+                    localRouterRecommendation.gameId}
+                </strong>
+              </div>
+              <div>
+                <span>Why</span>
+                <strong>{localRouterRecommendation.reason}</strong>
+              </div>
+              <div>
+                <span>Local proof</span>
+                <strong>
+                  {localRouterChoices} choices / {localRouterViews} views
+                </strong>
+              </div>
+              <button className="tinyButton" type="button" onClick={chooseLocalRouterRecommendation}>
+                {localRouterRecommendation.ctaLabel}
+              </button>
+            </div>
+
             <div className="monetizationRuntime" aria-label="Completion Loop">
               <div>
                 <span>Completion Loop</span>
@@ -2818,37 +2849,6 @@ function App() {
                 onClick={promptPwaInstall}
               >
                 {pwaInstallButtonLabel}
-              </button>
-            </div>
-
-            <div className="monetizationRuntime" aria-label="Local Learning Router">
-              <div>
-                <span>Local Learning</span>
-                <strong>local-play-router</strong>
-              </div>
-              <div>
-                <span>Next route</span>
-                <strong>{localRouterRecommendation.label}</strong>
-              </div>
-              <div>
-                <span>Target</span>
-                <strong>
-                  {playableGameCatalogById.get(localRouterRecommendation.gameId as PlayableGameId)?.title ??
-                    localRouterRecommendation.gameId}
-                </strong>
-              </div>
-              <div>
-                <span>Why</span>
-                <strong>{localRouterRecommendation.reason}</strong>
-              </div>
-              <div>
-                <span>Local proof</span>
-                <strong>
-                  {localRouterChoices} choices / {localRouterViews} views
-                </strong>
-              </div>
-              <button className="tinyButton" type="button" onClick={chooseLocalRouterRecommendation}>
-                {localRouterRecommendation.ctaLabel}
               </button>
             </div>
 
