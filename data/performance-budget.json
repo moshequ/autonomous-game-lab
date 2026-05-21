@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-21T03:47:59.475Z",
+  "generatedAt": "2026-05-21T03:55:03.455Z",
   "status": "performance-budget-ready",
   "sourceBuild": "dist",
   "basePath": "/",
@@ -15,20 +15,20 @@
   },
   "initial": {
     "entryScripts": [
-      "index-BOmi-oOa.js",
+      "index-BEUY_xx_.js",
       "registerSW.js"
     ],
     "scriptPaths": [
-      "assets/index-BOmi-oOa.js",
+      "assets/index-BEUY_xx_.js",
       "registerSW.js"
     ],
     "jsFiles": [
       {
-        "file": "index-BOmi-oOa.js",
-        "path": "assets/index-BOmi-oOa.js",
-        "bytes": 670481,
+        "file": "index-BEUY_xx_.js",
+        "path": "assets/index-BEUY_xx_.js",
+        "bytes": 670489,
         "kb": 654.8,
-        "gzipBytes": 182892,
+        "gzipBytes": 182903,
         "gzipKb": 178.6
       },
       {
@@ -40,10 +40,10 @@
         "gzipKb": 0.1
       }
     ],
-    "jsBytes": 670655,
+    "jsBytes": 670663,
     "jsKb": 654.9,
-    "gzipBytes": 183033,
-    "gzipKb": 178.7,
+    "gzipBytes": 183044,
+    "gzipKb": 178.8,
     "cssFiles": [
       {
         "file": "index-hJ0YgyRJ.css",
@@ -62,36 +62,36 @@
   "deferred": {
     "chunks": [
       {
-        "file": "GameCanvas-DvbwnpPw.js",
-        "path": "assets/GameCanvas-DvbwnpPw.js",
+        "file": "GameCanvas-BkghCpXd.js",
+        "path": "assets/GameCanvas-BkghCpXd.js",
         "bytes": 1393755,
         "kb": 1361.1,
-        "gzipBytes": 356174,
+        "gzipBytes": 356176,
         "gzipKb": 347.8
       }
     ],
     "gameChunk": {
-      "file": "GameCanvas-DvbwnpPw.js",
-      "path": "assets/GameCanvas-DvbwnpPw.js",
+      "file": "GameCanvas-BkghCpXd.js",
+      "path": "assets/GameCanvas-BkghCpXd.js",
       "bytes": 1393755,
       "kb": 1361.1,
-      "gzipBytes": 356174,
+      "gzipBytes": 356176,
       "gzipKb": 347.8
     },
     "largestDeferredChunk": {
-      "file": "GameCanvas-DvbwnpPw.js",
-      "path": "assets/GameCanvas-DvbwnpPw.js",
+      "file": "GameCanvas-BkghCpXd.js",
+      "path": "assets/GameCanvas-BkghCpXd.js",
       "bytes": 1393755,
       "kb": 1361.1,
-      "gzipBytes": 356174,
+      "gzipBytes": 356176,
       "gzipKb": 347.8
     },
     "largestJsChunk": {
-      "file": "GameCanvas-DvbwnpPw.js",
-      "path": "assets/GameCanvas-DvbwnpPw.js",
+      "file": "GameCanvas-BkghCpXd.js",
+      "path": "assets/GameCanvas-BkghCpXd.js",
       "bytes": 1393755,
       "kb": 1361.1,
-      "gzipBytes": 356174,
+      "gzipBytes": 356176,
       "gzipKb": 347.8
     },
     "chunksBytes": 1393755,
@@ -100,19 +100,19 @@
   "assets": {
     "js": [
       {
-        "file": "GameCanvas-DvbwnpPw.js",
-        "path": "assets/GameCanvas-DvbwnpPw.js",
+        "file": "GameCanvas-BkghCpXd.js",
+        "path": "assets/GameCanvas-BkghCpXd.js",
         "bytes": 1393755,
         "kb": 1361.1,
-        "gzipBytes": 356174,
+        "gzipBytes": 356176,
         "gzipKb": 347.8
       },
       {
-        "file": "index-BOmi-oOa.js",
-        "path": "assets/index-BOmi-oOa.js",
-        "bytes": 670481,
+        "file": "index-BEUY_xx_.js",
+        "path": "assets/index-BEUY_xx_.js",
+        "bytes": 670489,
         "kb": 654.8,
-        "gzipBytes": 182892,
+        "gzipBytes": 182903,
         "gzipKb": 178.6
       },
       {
@@ -155,7 +155,7 @@
     {
       "id": "initial-js-gzip-budget",
       "status": "pass",
-      "detail": "Initial JS gzip is 178.7 KB; budget is 200 KB."
+      "detail": "Initial JS gzip is 178.8 KB; budget is 200 KB."
     },
     {
       "id": "initial-css-budget",
@@ -175,12 +175,12 @@
     {
       "id": "game-runtime-deferred",
       "status": "pass",
-      "detail": "GameCanvas-DvbwnpPw.js is deferred from the initial shell."
+      "detail": "GameCanvas-BkghCpXd.js is deferred from the initial shell."
     },
     {
       "id": "largest-js-deferred",
       "status": "pass",
-      "detail": "Largest JS chunk is GameCanvas-DvbwnpPw.js at 1361.1 KB."
+      "detail": "Largest JS chunk is GameCanvas-BkghCpXd.js at 1361.1 KB."
     },
     {
       "id": "deferred-game-budget",
