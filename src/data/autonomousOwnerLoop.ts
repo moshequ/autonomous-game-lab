@@ -2,13 +2,13 @@ export const autonomousOwnerLoop = {
   "status": "owner-loop-ready",
   "mode": "zero-spend-web-ready",
   "autonomyScore": {
-    "percent": 95
+    "percent": 98
   },
   "controls": {
     "externalAccountInterventionRequired": true
   },
   "ownerDecision": {
-    "nextBestActionId": "prepare-release-candidate"
+    "nextBestActionId": "seed-portfolio-traffic"
   },
   "systems": [
     {
@@ -30,7 +30,7 @@ export const autonomousOwnerLoop = {
   ],
   "safeAutonomousActions": [
     {
-      "id": "prepare-release-candidate",
+      "id": "seed-portfolio-traffic",
       "status": "armed"
     },
     {

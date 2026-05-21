@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2026-05-21T15:00:21.297Z",
+  "generatedAt": "2026-05-21T15:03:57.321Z",
   "status": "owner-loop-ready",
   "mode": "zero-spend-web-ready",
   "autonomyScore": {
-    "readySystems": 42,
+    "readySystems": 43,
     "totalSystems": 44,
-    "percent": 95
+    "percent": 98
   },
   "controls": {
     "localLoopCanRunWithoutExternalAccounts": true,
@@ -23,12 +23,12 @@
     "heldForExternalInput": false
   },
   "ownerDecision": {
-    "nextBestActionId": "prepare-release-candidate",
-    "nextBestAction": "npm run autonomous:release-candidate && npm run autonomous:post-deploy-smoke && npm run autonomous:live-monitor",
+    "nextBestActionId": "seed-portfolio-traffic",
+    "nextBestAction": "npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop",
     "canExecuteWithoutSpend": true,
     "localActionAvailable": true,
     "holdReason": null,
-    "rationale": "Records a content-hashed dist inventory, refreshes post-deploy smoke evidence, and checks the currently live PWA against the synced deploy."
+    "rationale": "Under-measured playable games need free organic/internal traffic before quality judgment."
   },
   "executionMemory": {
     "avoidImmediateRepeat": true,
@@ -54,7 +54,7 @@
     "objectiveAuditFreshness": {
       "fresh": true,
       "structurallyReady": true,
-      "auditGeneratedAt": "2026-05-21T15:00:21.037Z",
+      "auditGeneratedAt": "2026-05-21T15:03:56.789Z",
       "evaluatedInputIds": [
         "analytics-rollup",
         "event-ingest",
@@ -77,8 +77,8 @@
         "fresh": true,
         "ready": true,
         "status": "cadence-ready",
-        "artifactGeneratedAt": "2026-05-21T14:57:23.029Z",
-        "ageHours": 0.05,
+        "artifactGeneratedAt": "2026-05-21T15:00:22.465Z",
+        "ageHours": 0.06,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -89,7 +89,7 @@
         "ready": true,
         "status": "self-update-ready",
         "artifactGeneratedAt": "2026-05-21T07:50:13.570Z",
-        "ageHours": 7.169,
+        "ageHours": 7.229,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -100,7 +100,7 @@
         "ready": true,
         "status": "support-feedback-empty",
         "artifactGeneratedAt": "2026-05-21T09:46:35.479Z",
-        "ageHours": 5.229,
+        "ageHours": 5.289,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -110,8 +110,8 @@
         "fresh": true,
         "ready": true,
         "status": "performance-budget-ready",
-        "artifactGeneratedAt": "2026-05-21T14:59:44.070Z",
-        "ageHours": 0.01,
+        "artifactGeneratedAt": "2026-05-21T15:03:45.601Z",
+        "ageHours": 0.003,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -121,8 +121,8 @@
         "fresh": true,
         "ready": true,
         "status": "live-site-monitor-passed",
-        "artifactGeneratedAt": "2026-05-21T15:00:19.706Z",
-        "ageHours": 0,
+        "artifactGeneratedAt": "2026-05-21T15:03:55.513Z",
+        "ageHours": 0.001,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -410,20 +410,18 @@
       "staleInputIds": []
     },
     "liveDeployEvidence": {
-      "localSmokeFresh": false,
+      "localSmokeFresh": true,
       "strictArtifactSyncFresh": true,
       "liveSiteMonitorFresh": true,
-      "smokeActionFresh": false,
-      "releaseCandidateActionFresh": false,
-      "liveCandidateId": "pwa-8e3905c9744f",
-      "artifactCandidateId": "pwa-8e3905c9744f"
+      "smokeActionFresh": true,
+      "releaseCandidateActionFresh": true,
+      "liveCandidateId": "pwa-e50173fd5d71",
+      "artifactCandidateId": "pwa-e50173fd5d71"
     },
     "skippedRecentlyExecutedActionIds": [
-      "seed-portfolio-traffic",
       "refresh-first-move-coach",
       "refresh-completion-loop",
       "refresh-replay-loop",
-      "bootstrap-production-setup",
       "apply-safe-improvements"
     ],
     "skippedRecentlySatisfiedActionIds": [
@@ -462,8 +460,8 @@
       "status": "repository-channel-ready"
     },
     "productionBootstrapFreshness": {
-      "fresh": false,
-      "bootstrapGeneratedAt": "2026-05-21T14:56:59.255Z",
+      "fresh": true,
+      "bootstrapGeneratedAt": "2026-05-21T15:03:55.806Z",
       "evaluatedInputIds": [
         "release-candidate",
         "deployment-plan",
@@ -472,16 +470,13 @@
         "production-environment",
         "event-collector-deployment"
       ],
-      "staleInputIds": [
-        "release-candidate",
-        "deployment-plan"
-      ]
+      "staleInputIds": []
     },
     "productionBlockerHandoffFreshness": {
       "current": true,
       "ready": true,
       "status": "handoff-waiting-on-owner-inputs",
-      "generatedAt": "2026-05-21T15:00:20.417Z",
+      "generatedAt": "2026-05-21T15:03:56.156Z",
       "nextBestUnlockId": "production-analytics-browser",
       "ownerActionRequired": 4,
       "missingEnv": 7,
@@ -603,7 +598,7 @@
       "id": "performance-budget",
       "status": "ready",
       "autonomy": "automatic-build-budget",
-      "evidence": "Initial JS 674.7 KB; gzip 183.3 KB; deferred chunks 2.",
+      "evidence": "Initial JS 674.5 KB; gzip 183.4 KB; deferred chunks 2.",
       "nextAction": "Keep Phaser and game scenes outside the initial PWA shell."
     },
     {
@@ -699,16 +694,16 @@
     },
     {
       "id": "post-deploy-smoke",
-      "status": "waiting-for-origin",
+      "status": "ready",
       "autonomy": "read-only-live-deploy-verification",
       "evidence": "Smoke post-deploy-smoke-observed-live; origin https://moshequ.github.io/autonomous-game-lab; manifest comparison required; checks 15/15 passed; local artifact predeploy-artifact-smoke-passed 15/15 passed.",
-      "nextAction": "Live Pages is reachable and serving pwa-8e3905c9744f; run the deploy workflow for strict proof of the current local candidate if needed."
+      "nextAction": "Live Pages is reachable and serving pwa-e50173fd5d71; run the deploy workflow for strict proof of the current local candidate if needed."
     },
     {
       "id": "post-deploy-artifact-sync",
       "status": "ready",
       "autonomy": "read-only-actions-artifact-import",
-      "evidence": "Artifact sync post-deploy-artifact-sync-passed; run 26232709458; live matches artifact true; strict true.",
+      "evidence": "Artifact sync post-deploy-artifact-sync-passed; run 26234251843; live matches artifact true; strict true.",
       "nextAction": "Keep this strict deploy artifact as live-production evidence while local candidates continue to iterate."
     },
     {
@@ -722,7 +717,7 @@
       "id": "production-bootstrap",
       "status": "ready",
       "autonomy": "zero-spend-setup-orchestration",
-      "evidence": "Bootstrap production-bootstrap-ready; mode can-apply-configured-actions; external blockers 16.",
+      "evidence": "Bootstrap production-bootstrap-ready; mode can-apply-configured-actions; external blockers 15.",
       "nextAction": "gh workflow run web-pwa-deploy.yml"
     },
     {
@@ -750,7 +745,7 @@
       "id": "autonomous-operator",
       "status": "ready",
       "autonomy": "one-safe-action-runner",
-      "evidence": "Operator operator-plan-ready; selected check-performance-budget; execution not-requested.",
+      "evidence": "Operator operator-plan-ready; selected seed-portfolio-traffic; execution not-requested.",
       "nextAction": "Keep a dry-run operator plan ready, then execute only one allowlisted local action when explicitly requested."
     },
     {
@@ -910,32 +905,32 @@
       "command": "npm run build && npm run autonomous:performance && npm run autonomous:release-candidate",
       "targets": [
         "pwa-shell",
-        "GameCanvas-Cd5TMOQW.js",
+        "GameCanvas-BOa-IkD3.js",
         "dist-release-candidate"
       ],
       "reason": "Performance budget and release-candidate evidence are already fresh for the current guarded build."
     },
     {
       "id": "prepare-release-candidate",
-      "status": "armed",
+      "status": "monitor",
       "costUsd": 0,
       "command": "npm run autonomous:release-candidate && npm run autonomous:post-deploy-smoke && npm run autonomous:live-monitor",
       "targets": [
         "dist-release-candidate",
         "release-candidate-manifest"
       ],
-      "reason": "Records a content-hashed dist inventory, refreshes post-deploy smoke evidence, and checks the currently live PWA against the synced deploy."
+      "reason": "Local release manifest smoke and strict synced live deploy evidence are fresh; continue product learning."
     },
     {
       "id": "run-post-deploy-smoke",
-      "status": "armed",
+      "status": "monitor",
       "costUsd": 0,
       "command": "npm run autonomous:post-deploy-smoke",
       "targets": [
         "https://moshequ.github.io/autonomous-game-lab",
         "release-candidate-manifest"
       ],
-      "reason": "Verifies the live Pages URL with read-only smoke checks and release-manifest hash comparison."
+      "reason": "Local smoke and strict CI artifact sync already prove the current deploy evidence; continue product learning."
     },
     {
       "id": "sync-post-deploy-artifact",
@@ -943,7 +938,7 @@
       "costUsd": 0,
       "command": "npm run autonomous:post-deploy-artifact-sync",
       "targets": [
-        26232709458,
+        26234251843,
         "release-candidate-manifest"
       ],
       "reason": "Strict deploy artifact evidence is already synced from the latest successful Pages workflow."
@@ -1043,7 +1038,7 @@
     },
     {
       "id": "bootstrap-production-setup",
-      "status": "armed",
+      "status": "monitor",
       "costUsd": 0,
       "command": "npm run autonomous:release-candidate && npm run autonomous:deploy-plan && npm run autonomous:bootstrap",
       "targets": [
@@ -1051,7 +1046,7 @@
         "repository-config",
         "event-collector"
       ],
-      "reason": "Regenerates the zero-spend production setup handoff and exact GitHub variable/secret commands."
+      "reason": "Production bootstrap handoff is fresh, so the operator should prioritize product learning and local event collection."
     },
     {
       "id": "activate-production-when-configured",
@@ -1081,7 +1076,7 @@
       "costUsd": 0,
       "command": "npm run autonomous:operator",
       "targets": [
-        "check-performance-budget"
+        "seed-portfolio-traffic"
       ],
       "reason": "One-action operator plan is already published; avoid cycling on meta-operator refreshes."
     },
@@ -1091,7 +1086,7 @@
       "costUsd": 0,
       "command": "npm run autonomous:operator",
       "targets": [
-        "check-performance-budget"
+        "seed-portfolio-traffic"
       ],
       "reason": "Operator history is already capped and published; keep attention on product evidence."
     },

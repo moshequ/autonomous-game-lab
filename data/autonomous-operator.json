@@ -1,35 +1,34 @@
 {
-  "generatedAt": "2026-05-21T15:00:21.531Z",
+  "generatedAt": "2026-05-21T15:03:57.144Z",
   "status": "operator-plan-ready",
   "mode": "plan-only",
   "ownerDecision": {
-    "actionId": "prepare-release-candidate",
-    "command": "npm run autonomous:release-candidate && npm run autonomous:post-deploy-smoke && npm run autonomous:live-monitor",
+    "actionId": "seed-portfolio-traffic",
+    "command": "npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop",
     "locallyExecutable": true,
     "rejectionReason": null
   },
   "requestedActionId": null,
   "selectedAction": {
-    "id": "prepare-release-candidate",
+    "id": "seed-portfolio-traffic",
     "status": "armed",
-    "command": "npm run autonomous:release-candidate && npm run autonomous:post-deploy-smoke && npm run autonomous:live-monitor",
+    "command": "npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop",
     "targets": [
-      "dist-release-candidate",
-      "release-candidate-manifest"
+      "canopy-bloom",
+      "grove-engine",
+      "metro-loom",
+      "pocket-draft"
     ],
-    "reason": "Records a content-hashed dist inventory, refreshes post-deploy smoke evidence, and checks the currently live PWA against the synced deploy.",
+    "reason": "Under-measured playable games need free organic/internal traffic before quality judgment.",
     "costUsd": 0
   },
   "selectedRejection": null,
   "eligibleActionIds": [
     "seed-portfolio-traffic",
     "refresh-organic-seed-loop",
-    "prepare-release-candidate",
-    "run-post-deploy-smoke",
     "refresh-first-move-coach",
     "refresh-completion-loop",
     "refresh-replay-loop",
-    "bootstrap-production-setup",
     "apply-safe-improvements"
   ],
   "blockedActions": [
@@ -56,12 +55,6 @@
       "status": "monitor",
       "command": "npm run autonomous:self-update",
       "reason": "status-monitor"
-    },
-    {
-      "id": "seed-portfolio-traffic",
-      "status": "armed",
-      "command": "npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop",
-      "reason": "not-selected-this-run"
     },
     {
       "id": "refresh-organic-seed-loop",
@@ -94,10 +87,16 @@
       "reason": "status-monitor"
     },
     {
+      "id": "prepare-release-candidate",
+      "status": "monitor",
+      "command": "npm run autonomous:release-candidate && npm run autonomous:post-deploy-smoke && npm run autonomous:live-monitor",
+      "reason": "status-monitor"
+    },
+    {
       "id": "run-post-deploy-smoke",
-      "status": "armed",
+      "status": "monitor",
       "command": "npm run autonomous:post-deploy-smoke",
-      "reason": "not-selected-this-run"
+      "reason": "status-monitor"
     },
     {
       "id": "sync-post-deploy-artifact",
@@ -161,9 +160,9 @@
     },
     {
       "id": "bootstrap-production-setup",
-      "status": "armed",
+      "status": "monitor",
       "command": "npm run autonomous:release-candidate && npm run autonomous:deploy-plan && npm run autonomous:bootstrap",
-      "reason": "not-selected-this-run"
+      "reason": "status-monitor"
     },
     {
       "id": "activate-production-when-configured",
@@ -228,16 +227,24 @@
   ],
   "commandPlan": [
     {
-      "segment": "npm run autonomous:release-candidate",
-      "script": "autonomous:release-candidate"
+      "segment": "npm run autonomous:growth",
+      "script": "autonomous:growth"
     },
     {
-      "segment": "npm run autonomous:post-deploy-smoke",
-      "script": "autonomous:post-deploy-smoke"
+      "segment": "npm run autonomous:portfolio",
+      "script": "autonomous:portfolio"
     },
     {
-      "segment": "npm run autonomous:live-monitor",
-      "script": "autonomous:live-monitor"
+      "segment": "npm run autonomous:traffic",
+      "script": "autonomous:traffic"
+    },
+    {
+      "segment": "npm run autonomous:acquisition",
+      "script": "autonomous:acquisition"
+    },
+    {
+      "segment": "npm run autonomous:organic-seed-loop",
+      "script": "autonomous:organic-seed-loop"
     }
   ],
   "execution": {
@@ -311,7 +318,7 @@
     "RUN_WORKFLOWS=1"
   ],
   "nextActions": [
-    "Run npm run autonomous:operator -- --execute --action=prepare-release-candidate to execute exactly one allowed local action.",
+    "Run npm run autonomous:operator -- --execute --action=seed-portfolio-traffic to execute exactly one allowed local action.",
     "Do not execute GitHub workflow, store, paid ads, or account setup commands from the local operator."
   ]
 }
