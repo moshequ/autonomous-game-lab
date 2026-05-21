@@ -3,16 +3,18 @@ export const productionBlockerHandoff = {
   "statusDetail": "blocked-external-inputs",
   "summary": {
     "totalItems": 8,
-    "ownerActionRequired": 5,
-    "externalOwnerActions": 5,
+    "ownerActionRequired": 4,
+    "externalOwnerActions": 4,
     "zeroCostFirstActions": 1,
     "missingEnv": 7,
     "missingEnvironmentItems": 7,
     "missingSecrets": 3,
     "productGateBlockers": 3,
-    "nextBestUnlockId": "support-contact",
-    "nextBestUnlock": "support-contact",
-    "nextBestZeroCostUnlockId": "support-contact"
+    "publicSupportChannelReady": true,
+    "storeSupportEmailNeededNow": false,
+    "nextBestUnlockId": "production-analytics-browser",
+    "nextBestUnlock": "production-analytics-browser",
+    "nextBestZeroCostUnlockId": "production-analytics-browser"
   },
   "controls": {
     "zeroPaidSpend": true,
@@ -30,6 +32,7 @@ export const productionBlockerHandoff = {
     "productionBootstrap": "production-bootstrap-ready",
     "objectiveAudit": "objective-in-progress",
     "autonomousOwnerLoop": "owner-loop-ready",
+    "supportChannel": "support-channel-ready",
     "monetization": "blocked-by-product-gates",
     "storeCompliance": "draft-ready-external-blockers",
     "androidRelease": "blocked-needs-host-signing-play",
@@ -40,18 +43,18 @@ export const productionBlockerHandoff = {
   "topHandoffItems": [
     {
       "id": "support-contact",
-      "title": "Production support email",
-      "status": "owner-input-required",
+      "title": "Web support channel and store support email",
+      "status": "web-support-ready-store-email-deferred",
       "category": "store-compliance",
-      "costMode": "zero-spend-if-existing-inbox",
-      "ownerInputRequired": true
+      "costMode": "zero-spend-public-issues-ready",
+      "ownerInputRequired": false
     },
     {
       "id": "production-analytics-browser",
       "title": "Browser production analytics",
       "status": "owner-input-required",
       "category": "measurement",
-      "costMode": "use-existing-free-tier-or-first-party-collector",
+      "costMode": "zero-spend-use-existing-free-tier-or-first-party-collector",
       "ownerInputRequired": true
     },
     {
@@ -72,7 +75,7 @@ export const productionBlockerHandoff = {
     }
   ],
   "nextActions": [
-    "Start with Production support email; it is the highest-priority zero-spend owner input.",
+    "Start with Browser production analytics; it is the highest-priority zero-spend owner input.",
     "After any owner-provided variable or secret changes, run npm run autonomous:readiness and npm run test:e2e."
   ]
 } as const

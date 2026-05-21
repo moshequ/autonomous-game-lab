@@ -2336,6 +2336,9 @@ const productionBlockerHandoffIds = new Set(
 )
 const productionBlockerMissingEnv = (productionEnvironment.requiredEnv ?? []).filter((item) => !item.configured)
 const productionBlockerMissingSecrets = (productionBootstrap.requiredSecrets ?? []).filter((item) => !item.configured)
+const productionBlockerSupportItem = (productionBlockerHandoff.handoffItems ?? productionBlockerHandoff.unlocks ?? []).find(
+  (item) => item.id === 'support-contact',
+)
 const requiredProductionBlockerHandoffIds = [
   'support-contact',
   'production-analytics-browser',
@@ -2353,6 +2356,7 @@ if (
   productionBlockerHandoff.sourceStatus?.productionBootstrap !== productionBootstrap.status ||
   productionBlockerHandoff.sourceStatus?.objectiveAudit !== objectiveAudit.status ||
   productionBlockerHandoff.sourceStatus?.autonomousOwnerLoop !== autonomousOwnerLoop.status ||
+  productionBlockerHandoff.sourceStatus?.supportChannel !== supportChannel.status ||
   productionBlockerHandoff.sourceStatus?.monetization !== monetizationPlan.status ||
   productionBlockerHandoff.sourceStatus?.storeCompliance !== storeCompliance.status ||
   productionBlockerHandoff.sourceStatus?.androidRelease !== androidRelease.status ||
@@ -2372,6 +2376,10 @@ if (
   productionBlockerHandoff.summary?.externalOwnerActions !==
     productionBlockerHandoff.summary?.ownerActionRequired ||
   productionBlockerHandoff.summary?.nextBestUnlock !== productionBlockerHandoff.summary?.nextBestUnlockId ||
+  productionBlockerHandoff.summary?.publicSupportChannelReady !== true ||
+  productionBlockerHandoff.summary?.storeSupportEmailNeededNow !== false ||
+  productionBlockerSupportItem?.status !== 'web-support-ready-store-email-deferred' ||
+  productionBlockerSupportItem?.ownerInputRequired !== false ||
   !productionBlockerHandoff.environmentPlan?.some(
     (item) => item.name === 'AGL_SUPPORT_EMAIL' && item.configured === false,
   ) ||
@@ -5007,6 +5015,7 @@ if (
   readiness.productionBlockerHandoff?.summary?.nextBestUnlockId !==
     productionBlockerHandoff.summary?.nextBestUnlockId ||
   readiness.productionBlockerHandoff?.sourceStatus?.productionEnvironment !== productionEnvironment.status ||
+  readiness.productionBlockerHandoff?.sourceStatus?.supportChannel !== supportChannel.status ||
   readiness.productionBlockerHandoff?.controls?.noSecretValues !== true ||
   !readiness.productionBlockerHandoff?.topHandoffItems?.some((item) => item.id === 'support-contact') ||
   !appSource.includes('Production Blocker Handoff') ||
@@ -5697,6 +5706,7 @@ const ownerProductionBlockerSourceFresh =
   productionBlockerHandoff.sourceStatus?.productionEnvironment === productionEnvironment.status &&
   productionBlockerHandoff.sourceStatus?.productionBootstrap === productionBootstrap.status &&
   productionBlockerHandoff.sourceStatus?.objectiveAudit === objectiveAudit.status &&
+  productionBlockerHandoff.sourceStatus?.supportChannel === supportChannel.status &&
   productionBlockerHandoff.sourceStatus?.monetization === monetizationPlan.status &&
   productionBlockerHandoff.sourceStatus?.storeCompliance === storeCompliance.status &&
   productionBlockerHandoff.sourceStatus?.androidRelease === androidRelease.status &&

@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-05-21T14:19:48.683Z",
-  "sourceDataHash": "dc47076b87b0",
+  "generatedAt": "2026-05-21T14:32:30.085Z",
+  "sourceDataHash": "bdaf51498469",
   "status": "handoff-waiting-on-owner-inputs",
   "statusDetail": "blocked-external-inputs",
   "liveCandidate": "pwa-76ac5c7a0a98",
@@ -9,6 +9,7 @@
     "productionBootstrap": "production-bootstrap-ready",
     "objectiveAudit": "objective-in-progress",
     "autonomousOwnerLoop": "owner-loop-ready",
+    "supportChannel": "support-channel-ready",
     "monetization": "blocked-by-product-gates",
     "storeCompliance": "draft-ready-external-blockers",
     "androidRelease": "blocked-needs-host-signing-play",
@@ -18,16 +19,18 @@
   },
   "summary": {
     "totalItems": 8,
-    "ownerActionRequired": 5,
-    "externalOwnerActions": 5,
+    "ownerActionRequired": 4,
+    "externalOwnerActions": 4,
     "zeroCostFirstActions": 1,
     "missingEnv": 7,
     "missingEnvironmentItems": 7,
     "missingSecrets": 3,
     "productGateBlockers": 3,
-    "nextBestUnlockId": "support-contact",
-    "nextBestUnlock": "support-contact",
-    "nextBestZeroCostUnlockId": "support-contact"
+    "publicSupportChannelReady": true,
+    "storeSupportEmailNeededNow": false,
+    "nextBestUnlockId": "production-analytics-browser",
+    "nextBestUnlock": "production-analytics-browser",
+    "nextBestZeroCostUnlockId": "production-analytics-browser"
   },
   "controls": {
     "zeroPaidSpend": true,
@@ -143,7 +146,7 @@
       "repositorySecret": "AGL_ANDROID_KEYSTORE_BASE64",
       "envName": "AGL_ANDROID_KEYSTORE_BASE64",
       "configured": true,
-      "valueSource": "github-secret",
+      "valueSource": "environment",
       "command": "printf \"%s\" \"$AGL_ANDROID_KEYSTORE_BASE64\" | gh secret set AGL_ANDROID_KEYSTORE_BASE64"
     },
     {
@@ -151,7 +154,7 @@
       "repositorySecret": "AGL_ANDROID_KEYSTORE_PASSWORD",
       "envName": "AGL_ANDROID_KEYSTORE_PASSWORD",
       "configured": true,
-      "valueSource": "github-secret",
+      "valueSource": "environment",
       "command": "printf \"%s\" \"$AGL_ANDROID_KEYSTORE_PASSWORD\" | gh secret set AGL_ANDROID_KEYSTORE_PASSWORD"
     },
     {
@@ -159,7 +162,7 @@
       "repositorySecret": "AGL_ANDROID_KEY_ALIAS",
       "envName": "AGL_ANDROID_KEY_ALIAS",
       "configured": true,
-      "valueSource": "github-secret",
+      "valueSource": "environment",
       "command": "printf \"%s\" \"$AGL_ANDROID_KEY_ALIAS\" | gh secret set AGL_ANDROID_KEY_ALIAS"
     },
     {
@@ -251,12 +254,12 @@
   "handoffItems": [
     {
       "id": "support-contact",
-      "title": "Production support email",
+      "title": "Web support channel and store support email",
       "category": "store-compliance",
-      "status": "owner-input-required",
+      "status": "web-support-ready-store-email-deferred",
       "priority": 100,
-      "costMode": "zero-spend-if-existing-inbox",
-      "ownerInputRequired": true,
+      "costMode": "zero-spend-public-issues-ready",
+      "ownerInputRequired": false,
       "requiredEnv": [
         {
           "name": "AGL_SUPPORT_EMAIL",
@@ -270,7 +273,8 @@
         "support-contact: Production support email is required before public store submission."
       ],
       "unlocks": [
-        "Hosted privacy/support pages can satisfy public store listing support-contact checks."
+        "Hosted privacy/support pages already route web/PWA support to public GitHub Issues.",
+        "A real support email remains deferred until store submission is economically justified."
       ],
       "afterUnlockCommands": [
         "npm run autonomous:env",
@@ -285,7 +289,7 @@
       "category": "measurement",
       "status": "owner-input-required",
       "priority": 95,
-      "costMode": "use-existing-free-tier-or-first-party-collector",
+      "costMode": "zero-spend-use-existing-free-tier-or-first-party-collector",
       "ownerInputRequired": true,
       "requiredEnv": [
         {
@@ -533,12 +537,12 @@
   "unlocks": [
     {
       "id": "support-contact",
-      "title": "Production support email",
+      "title": "Web support channel and store support email",
       "category": "store-compliance",
-      "status": "owner-input-required",
+      "status": "web-support-ready-store-email-deferred",
       "priority": 100,
-      "costMode": "zero-spend-if-existing-inbox",
-      "ownerInputRequired": true,
+      "costMode": "zero-spend-public-issues-ready",
+      "ownerInputRequired": false,
       "requiredEnv": [
         {
           "name": "AGL_SUPPORT_EMAIL",
@@ -552,7 +556,8 @@
         "support-contact: Production support email is required before public store submission."
       ],
       "unlocks": [
-        "Hosted privacy/support pages can satisfy public store listing support-contact checks."
+        "Hosted privacy/support pages already route web/PWA support to public GitHub Issues.",
+        "A real support email remains deferred until store submission is economically justified."
       ],
       "afterUnlockCommands": [
         "npm run autonomous:env",
@@ -567,7 +572,7 @@
       "category": "measurement",
       "status": "owner-input-required",
       "priority": 95,
-      "costMode": "use-existing-free-tier-or-first-party-collector",
+      "costMode": "zero-spend-use-existing-free-tier-or-first-party-collector",
       "ownerInputRequired": true,
       "requiredEnv": [
         {
@@ -813,7 +818,7 @@
     }
   ],
   "nextActions": [
-    "Start with Production support email; it is the highest-priority zero-spend owner input.",
+    "Start with Browser production analytics; it is the highest-priority zero-spend owner input.",
     "After any owner-provided variable or secret changes, run npm run autonomous:readiness and npm run test:e2e."
   ]
 }

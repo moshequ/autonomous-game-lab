@@ -1,19 +1,19 @@
 # Production Blocker Handoff
 
-Generated: 2026-05-21T14:19:48.683Z
+Generated: 2026-05-21T14:32:30.085Z
 Status: handoff-waiting-on-owner-inputs
 Detail: blocked-external-inputs
 Live candidate: pwa-76ac5c7a0a98
-Source hash: dc47076b87b0
+Source hash: bdaf51498469
 
 ## Summary
 
-- Owner inputs required: 5
+- Owner inputs required: 4
 - Zero-cost first actions: 1
 - Missing environment entries: 7
 - Missing repository secrets: 3
 - Product-gate blockers: 3
-- Next best unlock: support-contact
+- Next best unlock: production-analytics-browser
 
 ## Source Status
 
@@ -21,6 +21,7 @@ Source hash: dc47076b87b0
 - productionBootstrap: production-bootstrap-ready
 - objectiveAudit: objective-in-progress
 - autonomousOwnerLoop: owner-loop-ready
+- supportChannel: support-channel-ready
 - monetization: blocked-by-product-gates
 - storeCompliance: draft-ready-external-blockers
 - androidRelease: blocked-needs-host-signing-play
@@ -30,14 +31,14 @@ Source hash: dc47076b87b0
 
 ## Handoff Items
 
-- owner-input-required: support-contact - Production support email
+- web-support-ready-store-email-deferred: support-contact - Web support channel and store support email
   - category: store-compliance
-  - cost: zero-spend-if-existing-inbox
-  - owner input required: true
-  - unlocks: Hosted privacy/support pages can satisfy public store listing support-contact checks.
+  - cost: zero-spend-public-issues-ready
+  - owner input required: false
+  - unlocks: Hosted privacy/support pages already route web/PWA support to public GitHub Issues. A real support email remains deferred until store submission is economically justified.
 - owner-input-required: production-analytics-browser - Browser production analytics
   - category: measurement
-  - cost: use-existing-free-tier-or-first-party-collector
+  - cost: zero-spend-use-existing-free-tier-or-first-party-collector
   - owner input required: true
   - unlocks: Real player events can replace fixture/local-only evidence for product gates and retention decisions.
 - owner-input-required: autonomous-rollup-credentials - Autonomous production rollups

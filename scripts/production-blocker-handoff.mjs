@@ -24,6 +24,12 @@ const storeCompliance = await readJson(path.join(dataDir, 'store-compliance.json
 const androidRelease = await readJson(path.join(dataDir, 'android-release.json'))
 const iosRelease = await readJson(path.join(dataDir, 'ios-release.json'))
 const unitEconomics = await readJson(path.join(dataDir, 'unit-economics.json'))
+const supportChannel = await readOptionalJson(path.join(dataDir, 'support-channel.json'), {
+  status: 'missing',
+  repository: {},
+  controls: {},
+  links: {},
+})
 const postDeployArtifactSync = await readOptionalJson(path.join(dataDir, 'post-deploy-artifact-sync.json'), {
   status: 'missing',
   live: {},
@@ -71,20 +77,38 @@ const productGateBlockers = blockersMatching([
   /d1 retention/i,
   /product gates/i,
 ])
+const publicSupportChannelReady =
+  ['support-channel-ready', 'support-channel-planned'].includes(supportChannel.status) &&
+  supportChannel.provider === 'github-issues' &&
+  supportChannel.repository?.publicIssuesReady === true &&
+  supportChannel.controls?.zeroPaidSpend === true &&
+  supportChannel.controls?.playerInitiatedOnly === true &&
+  typeof supportChannel.links?.supportUrl === 'string'
+const storeSupportEmailNeededNow =
+  storeCompliance.status === 'ready-for-store-review' || unitEconomics.controls?.storeSpendAllowed === true
 
 const handoffItems = [
   {
     id: 'support-contact',
-    title: 'Production support email',
+    title: 'Web support channel and store support email',
     category: 'store-compliance',
-    status: envConfigured('AGL_SUPPORT_EMAIL') ? 'configured' : 'owner-input-required',
+    status: envConfigured('AGL_SUPPORT_EMAIL')
+      ? 'configured'
+      : publicSupportChannelReady && !storeSupportEmailNeededNow
+        ? 'web-support-ready-store-email-deferred'
+        : 'owner-input-required',
     priority: 100,
-    costMode: 'zero-spend-if-existing-inbox',
-    ownerInputRequired: !envConfigured('AGL_SUPPORT_EMAIL'),
+    costMode: publicSupportChannelReady ? 'zero-spend-public-issues-ready' : 'zero-spend-if-existing-inbox',
+    ownerInputRequired: !envConfigured('AGL_SUPPORT_EMAIL') && (!publicSupportChannelReady || storeSupportEmailNeededNow),
     requiredEnv: requiredEnv(['AGL_SUPPORT_EMAIL']),
     requiredSecrets: [],
     blockers: blockersMatching([/support email/i, /support-contact/i, /support inbox/i]),
-    unlocks: ['Hosted privacy/support pages can satisfy public store listing support-contact checks.'],
+    unlocks: publicSupportChannelReady
+      ? [
+          'Hosted privacy/support pages already route web/PWA support to public GitHub Issues.',
+          'A real support email remains deferred until store submission is economically justified.',
+        ]
+      : ['Hosted privacy/support pages can satisfy public store listing support-contact checks.'],
     afterUnlockCommands: [
       'npm run autonomous:env',
       'npm run autonomous:store-package',
@@ -100,7 +124,7 @@ const handoffItems = [
       ? 'configured'
       : 'owner-input-required',
     priority: 95,
-    costMode: 'use-existing-free-tier-or-first-party-collector',
+    costMode: 'zero-spend-use-existing-free-tier-or-first-party-collector',
     ownerInputRequired: !anyEnvConfigured(['VITE_POSTHOG_KEY', 'VITE_EVENT_COLLECTOR_URL + AGL_EVENT_COLLECTOR_EXPORT_URL']),
     requiredEnv: requiredEnv(['VITE_POSTHOG_KEY', 'VITE_EVENT_COLLECTOR_URL + AGL_EVENT_COLLECTOR_EXPORT_URL']),
     requiredSecrets: requiredSecrets(['VITE_EVENT_COLLECTOR_WRITE_TOKEN', 'CLOUDFLARE_API_TOKEN']),
@@ -230,11 +254,12 @@ const sourceDataHash = hashSourceData({
   productionBootstrap,
   objectiveAudit,
   autonomousOwnerLoop,
+  supportChannel,
   monetization,
-    storeCompliance,
-    androidRelease,
-    iosRelease,
-    unitEconomics,
+  storeCompliance,
+  androidRelease,
+  iosRelease,
+  unitEconomics,
   postDeployArtifactSync,
 })
 const ownerActionRequired = sortedHandoffItems.filter((item) => item.ownerInputRequired)
@@ -255,6 +280,7 @@ const payload = {
     productionBootstrap: productionBootstrap.status,
     objectiveAudit: objectiveAudit.status,
     autonomousOwnerLoop: autonomousOwnerLoop.status,
+    supportChannel: supportChannel.status,
     monetization: monetization.status,
     storeCompliance: storeCompliance.status,
     androidRelease: androidRelease.status,
@@ -271,6 +297,8 @@ const payload = {
     missingEnvironmentItems: missingEnv.length,
     missingSecrets: missingSecrets.length,
     productGateBlockers: productGateBlockers.length,
+    publicSupportChannelReady,
+    storeSupportEmailNeededNow,
     nextBestUnlockId: ownerActionRequired[0]?.id ?? null,
     nextBestUnlock: ownerActionRequired[0]?.id ?? null,
     nextBestZeroCostUnlockId: zeroCostFirstActions[0]?.id ?? null,

@@ -987,7 +987,12 @@ function App() {
     firstMoveCoach.targets.find((target) => target.gameId === firstMoveCoach.summary.primaryTargetId) ??
     firstMoveCoach.targets.find((target) => target.enabled)
   const productionBootstrapReadyGroups = productionBootstrap.summary.readyGroups ?? 0
-  const productionBlockerTopHandoff = productionBlockerHandoff.topHandoffItems[0]
+  const productionBlockerNextHandoff =
+    productionBlockerHandoff.topHandoffItems.find(
+      (item) => item.id === productionBlockerHandoff.summary.nextBestUnlockId,
+    ) ??
+    productionBlockerHandoff.topHandoffItems.find((item) => item.ownerInputRequired) ??
+    productionBlockerHandoff.topHandoffItems[0]
   const productionActivationRunnableActions = productionActivation.plannedActions.filter(
     (action) => action.runnableNow,
   ).length
@@ -3129,7 +3134,7 @@ function App() {
                 </div>
                 <div>
                   <span>Next unlock</span>
-                  <strong>{productionBlockerTopHandoff?.id ?? 'none'}</strong>
+                  <strong>{productionBlockerNextHandoff?.id ?? 'none'}</strong>
                 </div>
                 <div>
                   <span>Owner inputs</span>

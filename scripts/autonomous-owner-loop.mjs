@@ -466,6 +466,7 @@ const productionBlockerHandoffSourceFresh =
   productionBlockerHandoff.sourceStatus?.productionEnvironment === productionEnvironment.status &&
   productionBlockerHandoff.sourceStatus?.productionBootstrap === productionBootstrap.status &&
   productionBlockerHandoff.sourceStatus?.objectiveAudit === objectiveAudit.status &&
+  productionBlockerHandoff.sourceStatus?.supportChannel === supportChannel.status &&
   productionBlockerHandoff.sourceStatus?.monetization === monetization.status &&
   productionBlockerHandoff.sourceStatus?.storeCompliance === storeCompliance.status &&
   productionBlockerHandoff.sourceStatus?.androidRelease === androidRelease.status &&

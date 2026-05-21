@@ -4314,6 +4314,8 @@ test('production blocker handoff ranks remaining external unlocks', async ({ pag
       missingEnv: number
       missingEnvironmentItems: number
       missingSecrets: number
+      publicSupportChannelReady: boolean
+      storeSupportEmailNeededNow: boolean
       nextBestUnlockId: string | null
       nextBestUnlock: string | null
     }
@@ -4327,7 +4329,7 @@ test('production blocker handoff ranks remaining external unlocks', async ({ pag
     }
     environmentPlan: Array<{ name: string; configured: boolean }>
     secretPlan: Array<{ repositorySecret: string; configured: boolean; value?: string }>
-    handoffItems: Array<{ id: string; status: string; ownerInputRequired: boolean }>
+    handoffItems: Array<{ id: string; status: string; ownerInputRequired: boolean; costMode: string }>
   }
   const readiness = JSON.parse(await readFile('data/production-readiness.json', 'utf8')) as {
     productionBlockerHandoff?: { status: string; summary: { nextBestUnlockId: string | null } }
@@ -4343,6 +4345,8 @@ test('production blocker handoff ranks remaining external unlocks', async ({ pag
   expect(handoff.summary.nextBestUnlock).toBe(handoff.summary.nextBestUnlockId)
   expect(handoff.summary.ownerActionRequired).toBeGreaterThan(0)
   expect(handoff.summary.zeroCostFirstActions).toBeGreaterThan(0)
+  expect(handoff.summary.publicSupportChannelReady).toBe(true)
+  expect(handoff.summary.storeSupportEmailNeededNow).toBe(false)
   expect(handoff.controls.zeroPaidSpend).toBe(true)
   expect(handoff.controls.noSecretValues).toBe(true)
   expect(handoff.controls.noMutation).toBe(true)
@@ -4353,6 +4357,11 @@ test('production blocker handoff ranks remaining external unlocks', async ({ pag
   expect(itemIds).toContain('production-analytics-browser')
   expect(itemIds).toContain('product-gate-sample')
   expect(itemIds).toContain('google-play-account')
+  const supportItem = handoff.handoffItems.find((item) => item.id === 'support-contact')
+  expect(supportItem?.status).toBe('web-support-ready-store-email-deferred')
+  expect(supportItem?.ownerInputRequired).toBe(false)
+  expect(supportItem?.costMode).toBe('zero-spend-public-issues-ready')
+  expect(handoff.summary.nextBestUnlockId).toBe('production-analytics-browser')
   expect(handoff.environmentPlan.some((item) => item.name === 'AGL_SUPPORT_EMAIL' && !item.configured)).toBe(true)
   expect(
     handoff.secretPlan.some(

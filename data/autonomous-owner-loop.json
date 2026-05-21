@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-21T14:19:49.792Z",
+  "generatedAt": "2026-05-21T14:32:32.027Z",
   "status": "owner-loop-ready",
   "mode": "zero-spend-web-ready",
   "autonomyScore": {
@@ -54,7 +54,7 @@
     "objectiveAuditFreshness": {
       "fresh": true,
       "structurallyReady": true,
-      "auditGeneratedAt": "2026-05-21T14:19:49.228Z",
+      "auditGeneratedAt": "2026-05-21T14:32:31.159Z",
       "evaluatedInputIds": [
         "analytics-rollup",
         "event-ingest",
@@ -77,8 +77,8 @@
         "fresh": true,
         "ready": true,
         "status": "cadence-ready",
-        "artifactGeneratedAt": "2026-05-21T14:16:31.527Z",
-        "ageHours": 0.055,
+        "artifactGeneratedAt": "2026-05-21T14:30:08.462Z",
+        "ageHours": 0.04,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -89,7 +89,7 @@
         "ready": true,
         "status": "self-update-ready",
         "artifactGeneratedAt": "2026-05-21T07:50:13.570Z",
-        "ageHours": 6.493,
+        "ageHours": 6.705,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -100,7 +100,7 @@
         "ready": true,
         "status": "support-feedback-empty",
         "artifactGeneratedAt": "2026-05-21T09:46:35.479Z",
-        "ageHours": 4.554,
+        "ageHours": 4.766,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -110,7 +110,7 @@
         "fresh": true,
         "ready": true,
         "status": "performance-budget-ready",
-        "artifactGeneratedAt": "2026-05-21T14:19:32.279Z",
+        "artifactGeneratedAt": "2026-05-21T14:32:14.058Z",
         "ageHours": 0.005,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
@@ -121,8 +121,8 @@
         "fresh": true,
         "ready": true,
         "status": "live-site-monitor-passed",
-        "artifactGeneratedAt": "2026-05-21T14:19:48.024Z",
-        "ageHours": 0,
+        "artifactGeneratedAt": "2026-05-21T14:32:28.908Z",
+        "ageHours": 0.001,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -454,7 +454,7 @@
     },
     "productionBootstrapFreshness": {
       "fresh": true,
-      "bootstrapGeneratedAt": "2026-05-21T14:19:48.386Z",
+      "bootstrapGeneratedAt": "2026-05-21T14:32:29.584Z",
       "evaluatedInputIds": [
         "release-candidate",
         "deployment-plan",
@@ -469,9 +469,9 @@
       "current": true,
       "ready": true,
       "status": "handoff-waiting-on-owner-inputs",
-      "generatedAt": "2026-05-21T14:19:48.683Z",
-      "nextBestUnlockId": "support-contact",
-      "ownerActionRequired": 5,
+      "generatedAt": "2026-05-21T14:32:30.085Z",
+      "nextBestUnlockId": "production-analytics-browser",
+      "ownerActionRequired": 4,
       "missingEnv": 7,
       "missingSecrets": 3,
       "sourceStatusesFresh": true,
@@ -591,7 +591,7 @@
       "id": "performance-budget",
       "status": "ready",
       "autonomy": "automatic-build-budget",
-      "evidence": "Initial JS 674.3 KB; gzip 183.4 KB; deferred chunks 1.",
+      "evidence": "Initial JS 674.6 KB; gzip 183.3 KB; deferred chunks 1.",
       "nextAction": "Keep Phaser and game scenes outside the initial PWA shell."
     },
     {
@@ -710,7 +710,7 @@
       "id": "production-bootstrap",
       "status": "ready",
       "autonomy": "zero-spend-setup-orchestration",
-      "evidence": "Bootstrap production-bootstrap-ready; mode can-apply-configured-actions; external blockers 15.",
+      "evidence": "Bootstrap production-bootstrap-ready; mode can-apply-configured-actions; external blockers 16.",
       "nextAction": "gh workflow run web-pwa-deploy.yml"
     },
     {
@@ -724,8 +724,8 @@
       "id": "production-blocker-handoff",
       "status": "ready",
       "autonomy": "ranked-external-unlock-router",
-      "evidence": "Handoff handoff-waiting-on-owner-inputs; next support-contact; owner inputs 5; missing env 7; missing secrets 3.",
-      "nextAction": "Start with Production support email; it is the highest-priority zero-spend owner input."
+      "evidence": "Handoff handoff-waiting-on-owner-inputs; next production-analytics-browser; owner inputs 4; missing env 7; missing secrets 3.",
+      "nextAction": "Start with Browser production analytics; it is the highest-priority zero-spend owner input."
     },
     {
       "id": "support-channel",
@@ -812,7 +812,7 @@
       "costUsd": 0,
       "command": "No local command is available until external inputs, configured credentials, or new player evidence arrive.",
       "targets": [
-        "support-contact",
+        "production-analytics-browser",
         "firstGameCompletion"
       ],
       "reason": "All safe local refresh actions are current; hold execution until owner-provided inputs, production analytics, or real player evidence changes the state."
@@ -898,7 +898,7 @@
       "command": "npm run build && npm run autonomous:performance && npm run autonomous:release-candidate",
       "targets": [
         "pwa-shell",
-        "GameCanvas-CH08NaYp.js",
+        "GameCanvas-CLRMU9qV.js",
         "dist-release-candidate"
       ],
       "reason": "Performance budget and release-candidate evidence are already fresh for the current guarded build."
@@ -1059,9 +1059,9 @@
       "costUsd": 0,
       "command": "npm run autonomous:blocker-handoff",
       "targets": [
-        "support-contact"
+        "production-analytics-browser"
       ],
-      "reason": "Production blocker handoff already ranks 5 owner input(s), 7 env blocker(s), and 3 secret blocker(s)."
+      "reason": "Production blocker handoff already ranks 4 owner input(s), 7 env blocker(s), and 3 secret blocker(s)."
     },
     {
       "id": "run-autonomous-operator",
