@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-21T04:45:10.086Z",
+  "generatedAt": "2026-05-21T04:56:28.975Z",
   "status": "performance-budget-ready",
   "sourceBuild": "dist",
   "basePath": "/",
@@ -15,20 +15,20 @@
   },
   "initial": {
     "entryScripts": [
-      "index-xoSEsxGI.js",
+      "index-D58649Go.js",
       "registerSW.js"
     ],
     "scriptPaths": [
-      "assets/index-xoSEsxGI.js",
+      "assets/index-D58649Go.js",
       "registerSW.js"
     ],
     "jsFiles": [
       {
-        "file": "index-xoSEsxGI.js",
-        "path": "assets/index-xoSEsxGI.js",
+        "file": "index-D58649Go.js",
+        "path": "assets/index-D58649Go.js",
         "bytes": 670487,
         "kb": 654.8,
-        "gzipBytes": 182918,
+        "gzipBytes": 182912,
         "gzipKb": 178.6
       },
       {
@@ -42,7 +42,7 @@
     ],
     "jsBytes": 670661,
     "jsKb": 654.9,
-    "gzipBytes": 183059,
+    "gzipBytes": 183053,
     "gzipKb": 178.8,
     "cssFiles": [
       {
@@ -62,8 +62,8 @@
   "deferred": {
     "chunks": [
       {
-        "file": "GameCanvas-DgVvnsAF.js",
-        "path": "assets/GameCanvas-DgVvnsAF.js",
+        "file": "GameCanvas-DIrouxQp.js",
+        "path": "assets/GameCanvas-DIrouxQp.js",
         "bytes": 1393755,
         "kb": 1361.1,
         "gzipBytes": 356175,
@@ -71,24 +71,24 @@
       }
     ],
     "gameChunk": {
-      "file": "GameCanvas-DgVvnsAF.js",
-      "path": "assets/GameCanvas-DgVvnsAF.js",
+      "file": "GameCanvas-DIrouxQp.js",
+      "path": "assets/GameCanvas-DIrouxQp.js",
       "bytes": 1393755,
       "kb": 1361.1,
       "gzipBytes": 356175,
       "gzipKb": 347.8
     },
     "largestDeferredChunk": {
-      "file": "GameCanvas-DgVvnsAF.js",
-      "path": "assets/GameCanvas-DgVvnsAF.js",
+      "file": "GameCanvas-DIrouxQp.js",
+      "path": "assets/GameCanvas-DIrouxQp.js",
       "bytes": 1393755,
       "kb": 1361.1,
       "gzipBytes": 356175,
       "gzipKb": 347.8
     },
     "largestJsChunk": {
-      "file": "GameCanvas-DgVvnsAF.js",
-      "path": "assets/GameCanvas-DgVvnsAF.js",
+      "file": "GameCanvas-DIrouxQp.js",
+      "path": "assets/GameCanvas-DIrouxQp.js",
       "bytes": 1393755,
       "kb": 1361.1,
       "gzipBytes": 356175,
@@ -100,19 +100,19 @@
   "assets": {
     "js": [
       {
-        "file": "GameCanvas-DgVvnsAF.js",
-        "path": "assets/GameCanvas-DgVvnsAF.js",
+        "file": "GameCanvas-DIrouxQp.js",
+        "path": "assets/GameCanvas-DIrouxQp.js",
         "bytes": 1393755,
         "kb": 1361.1,
         "gzipBytes": 356175,
         "gzipKb": 347.8
       },
       {
-        "file": "index-xoSEsxGI.js",
-        "path": "assets/index-xoSEsxGI.js",
+        "file": "index-D58649Go.js",
+        "path": "assets/index-D58649Go.js",
         "bytes": 670487,
         "kb": 654.8,
-        "gzipBytes": 182918,
+        "gzipBytes": 182912,
         "gzipKb": 178.6
       },
       {
@@ -175,12 +175,12 @@
     {
       "id": "game-runtime-deferred",
       "status": "pass",
-      "detail": "GameCanvas-DgVvnsAF.js is deferred from the initial shell."
+      "detail": "GameCanvas-DIrouxQp.js is deferred from the initial shell."
     },
     {
       "id": "largest-js-deferred",
       "status": "pass",
-      "detail": "Largest JS chunk is GameCanvas-DgVvnsAF.js at 1361.1 KB."
+      "detail": "Largest JS chunk is GameCanvas-DIrouxQp.js at 1361.1 KB."
     },
     {
       "id": "deferred-game-budget",
