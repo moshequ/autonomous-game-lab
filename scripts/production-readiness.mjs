@@ -35,6 +35,7 @@ const repositoryBootstrapPath = path.join(root, 'data', 'repository-bootstrap.js
 const productionBootstrapPath = path.join(root, 'data', 'production-bootstrap.json')
 const productionActivationPath = path.join(root, 'data', 'production-activation.json')
 const productionBlockerHandoffPath = path.join(root, 'data', 'production-blocker-handoff.json')
+const productionUnlockRunnerPath = path.join(root, 'data', 'production-unlock-runner.json')
 const autonomousOperatorPath = path.join(root, 'data', 'autonomous-operator.json')
 const autonomousOperatorHistoryPath = path.join(root, 'data', 'autonomous-operator-history.json')
 const autonomousCadencePath = path.join(root, 'data', 'autonomous-cadence.json')
@@ -258,6 +259,16 @@ const productionBlockerHandoff = await readOptionalJson(productionBlockerHandoff
   sourceStatus: {},
   handoffItems: [],
   unlocks: [],
+  nextActions: [],
+})
+const productionUnlockRunner = await readOptionalJson(productionUnlockRunnerPath, {
+  status: 'missing',
+  mode: 'missing',
+  sourceStatus: {},
+  summary: {},
+  controls: {},
+  commandQueue: [],
+  execution: {},
   nextActions: [],
 })
 const autonomousOperator = await readOptionalJson(autonomousOperatorPath, {
@@ -766,6 +777,19 @@ const productionBlockerHandoffReady =
   productionBlockerHandoff.sourceStatus?.objectiveAudit === objectiveAudit.status &&
   (productionBlockerHandoff.handoffItems ?? []).some((item) => item.id === 'support-contact') &&
   (productionBlockerHandoff.handoffItems ?? []).some((item) => item.id === 'product-gate-sample')
+const productionUnlockRunnerReady =
+  ['unlock-runner-idle', 'unlock-runner-plan-ready', 'unlock-runner-executed'].includes(productionUnlockRunner.status) &&
+  ['plan-only', 'execute-unlocked-local-followups'].includes(productionUnlockRunner.mode) &&
+  productionUnlockRunner.sourceStatus?.productionBlockerHandoff === productionBlockerHandoff.status &&
+  productionUnlockRunner.sourceStatus?.productionBlockerHandoffSourceDataHash ===
+    (productionBlockerHandoff.sourceDataHash ?? null) &&
+  productionUnlockRunner.controls?.zeroPaidSpend === true &&
+  productionUnlockRunner.controls?.noAccountCreation === true &&
+  productionUnlockRunner.controls?.noStoreSubmission === true &&
+  productionUnlockRunner.controls?.noRevenueEnablement === true &&
+  productionUnlockRunner.controls?.noWorkflowDispatch === true &&
+  productionUnlockRunner.controls?.staticCommandAllowlist === true &&
+  (productionUnlockRunner.summary?.blockedUnsafeUnlocks ?? 0) === 0
 
 const check = (id, passed, detail) => ({
   id,
@@ -989,6 +1013,15 @@ const webChecks = [
     `Production blocker handoff is ${productionBlockerHandoff.status}; owner inputs ${
       productionBlockerHandoff.summary?.ownerActionRequired ?? 'n/a'
     }; next unlock ${productionBlockerHandoff.summary?.nextBestUnlockId ?? 'none'}.`,
+  ),
+  check(
+    'production-unlock-runner',
+    productionUnlockRunnerReady,
+    `Production unlock runner is ${productionUnlockRunner.status}; runnable ${
+      productionUnlockRunner.summary?.runnableUnlocks ?? 'n/a'
+    }; queued ${productionUnlockRunner.summary?.queuedCommands ?? 'n/a'}; unsafe ${
+      productionUnlockRunner.summary?.blockedUnsafeUnlocks ?? 'n/a'
+    }.`,
   ),
   check(
     'production-activation',
@@ -1337,6 +1370,16 @@ const payload = {
     topHandoffItems: (productionBlockerHandoff.handoffItems ?? []).slice(0, 5),
     nextActions: productionBlockerHandoff.nextActions ?? [],
   },
+  productionUnlockRunner: {
+    status: productionUnlockRunner.status,
+    mode: productionUnlockRunner.mode,
+    sourceStatus: productionUnlockRunner.sourceStatus,
+    summary: productionUnlockRunner.summary,
+    controls: productionUnlockRunner.controls,
+    commandQueue: productionUnlockRunner.commandQueue ?? [],
+    execution: productionUnlockRunner.execution ?? {},
+    nextActions: productionUnlockRunner.nextActions ?? [],
+  },
   productionActivation: {
     status: productionActivation.status,
     mode: productionActivation.mode,
@@ -1642,6 +1685,16 @@ const report = [
   ...(payload.productionBlockerHandoff.topHandoffItems ?? []).map(
     (item) => `- ${item.status}: handoff-${item.id} - ${item.title}`,
   ),
+  '',
+  '## Production Unlock Runner',
+  '',
+  `Status: ${payload.productionUnlockRunner.status}`,
+  `Mode: ${payload.productionUnlockRunner.mode ?? 'missing'}`,
+  `Runnable unlocks: ${payload.productionUnlockRunner.summary?.runnableUnlocks ?? 'n/a'}`,
+  `Queued commands: ${payload.productionUnlockRunner.summary?.queuedCommands ?? 'n/a'}`,
+  `Unsafe unlocks: ${payload.productionUnlockRunner.summary?.blockedUnsafeUnlocks ?? 'n/a'}`,
+  `Execution: ${payload.productionUnlockRunner.execution?.status ?? 'missing'}`,
+  ...(payload.productionUnlockRunner.commandQueue ?? []).map((command) => `- queue: ${command}`),
   '',
   '## Autonomous Operator',
   '',

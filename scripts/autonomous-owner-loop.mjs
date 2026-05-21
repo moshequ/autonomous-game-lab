@@ -228,6 +228,16 @@ const productionBlockerHandoff = await readOptionalJson(path.join(dataDir, 'prod
   handoffItems: [],
   unlocks: [],
 })
+const productionUnlockRunner = await readOptionalJson(path.join(dataDir, 'production-unlock-runner.json'), {
+  status: 'missing',
+  mode: 'missing',
+  sourceStatus: {},
+  summary: {},
+  controls: {},
+  commandQueue: [],
+  execution: {},
+  nextActions: [],
+})
 const repositoryReadiness = await readOptionalJson(path.join(dataDir, 'repository-readiness.json'), {
   status: 'missing',
   workspace: {},
@@ -510,6 +520,24 @@ const productionBlockerHandoffCurrent =
   productionBlockerHandoff.summary?.ownerActionRequired === productionBlockerOwnerInputItems.length &&
   productionBlockerHandoff.summary?.externalOwnerActions === productionBlockerOwnerInputItems.length &&
   productionBlockerHandoff.summary?.nextBestUnlockId === (productionBlockerNextOwnerInput?.id ?? null)
+const productionUnlockRunnerReady =
+  ['unlock-runner-idle', 'unlock-runner-plan-ready', 'unlock-runner-executed'].includes(productionUnlockRunner.status) &&
+  ['plan-only', 'execute-unlocked-local-followups'].includes(productionUnlockRunner.mode) &&
+  productionUnlockRunner.controls?.zeroPaidSpend === true &&
+  productionUnlockRunner.controls?.noAccountCreation === true &&
+  productionUnlockRunner.controls?.noStoreSubmission === true &&
+  productionUnlockRunner.controls?.noRevenueEnablement === true &&
+  productionUnlockRunner.controls?.noWorkflowDispatch === true &&
+  productionUnlockRunner.controls?.staticCommandAllowlist === true &&
+  (productionUnlockRunner.summary?.blockedUnsafeUnlocks ?? 0) === 0
+const productionUnlockRunnerSourceFresh =
+  productionUnlockRunner.sourceStatus?.productionBlockerHandoff === productionBlockerHandoff.status &&
+  productionUnlockRunner.sourceStatus?.productionBlockerHandoffSourceDataHash ===
+    (productionBlockerHandoff.sourceDataHash ?? null)
+const productionUnlockRunnerCurrent = productionUnlockRunnerReady && productionUnlockRunnerSourceFresh
+const productionUnlockRunnerRunnable =
+  productionUnlockRunnerCurrent &&
+  ((productionUnlockRunner.summary?.runnableUnlocks ?? 0) > 0 || (productionUnlockRunner.commandQueue?.length ?? 0) > 0)
 
 const systems = [
   {
@@ -1022,6 +1050,19 @@ const systems = [
     nextAction:
       productionBlockerHandoff.nextActions?.[0] ??
       'Keep the ranked production blocker handoff current as external inputs and product gates change.',
+  },
+  {
+    id: 'production-unlock-runner',
+    status: systemStatus(productionUnlockRunnerCurrent, 'needs-unlock-runner-refresh'),
+    autonomy: 'allowlisted-unlock-followup-runner',
+    evidence: `Unlock runner ${productionUnlockRunner.status}; runnable ${
+      productionUnlockRunner.summary?.runnableUnlocks ?? 0
+    }; queued commands ${productionUnlockRunner.summary?.queuedCommands ?? productionUnlockRunner.commandQueue?.length ?? 0}; unsafe ${
+      productionUnlockRunner.summary?.blockedUnsafeUnlocks ?? 0
+    }.`,
+    nextAction:
+      productionUnlockRunner.nextActions?.[0] ??
+      'Run the unlock runner only after a blocker handoff becomes configured or clear.',
   },
   {
     id: 'support-channel',
@@ -2175,6 +2216,21 @@ const safeAutonomousActions = [
       : 'Refreshes the ranked external/product blocker handoff before owner, operator, readiness, and production decisions rely on it.',
   },
   {
+    id: 'run-production-unlock-runner',
+    status: productionUnlockRunnerCurrent && !productionUnlockRunnerRunnable ? 'monitor' : 'armed',
+    costUsd: 0,
+    command: 'npm run autonomous:unlock-runner -- --execute',
+    targets: [
+      productionBlockerHandoff.summary?.nextBestUnlockId ?? 'production-unlock-runner',
+      `${productionUnlockRunner.summary?.queuedCommands ?? 0}-queued-command(s)`,
+    ],
+    reason: productionUnlockRunnerRunnable
+      ? 'Executes the allowlisted zero-spend local follow-up queue for newly unlocked production handoff items.'
+      : productionUnlockRunnerCurrent
+        ? 'Unlock runner is current and idle until credentials, product gates, or live sample evidence unlock follow-up commands.'
+        : 'Refreshes the unlock runner against the latest blocker handoff and executes only configured/clear allowlisted local follow-ups.',
+  },
+  {
     id: 'run-autonomous-operator',
     status: operatorPlanPublished ? 'monitor' : 'armed',
     costUsd: 0,
@@ -2350,6 +2406,7 @@ const preferredActionOrder = [
   'seed-portfolio-traffic',
   'bootstrap-production-setup',
   'refresh-production-blocker-handoff',
+  'run-production-unlock-runner',
   'activate-production-when-configured',
   'optimize-product-gates',
   'collect-gate-sample-downloads',
@@ -2569,6 +2626,7 @@ const payload = {
     productionBootstrapStatus: productionBootstrap.status,
     productionActivationStatus: productionActivation.status,
     productionBlockerHandoffStatus: productionBlockerHandoff.status,
+    productionUnlockRunnerStatus: productionUnlockRunner.status,
     supportChannelStatus: supportChannel.status,
     supportFeedbackStatus: supportFeedback.status,
     autonomousOperatorStatus: autonomousOperator.status,

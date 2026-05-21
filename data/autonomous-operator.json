@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-21T20:09:49.182Z",
+  "generatedAt": "2026-05-21T20:17:39.504Z",
   "status": "operator-held",
   "mode": "plan-only",
   "ownerDecision": {
@@ -164,6 +164,12 @@
       "reason": "status-monitor"
     },
     {
+      "id": "run-production-unlock-runner",
+      "status": "monitor",
+      "command": "npm run autonomous:unlock-runner -- --execute",
+      "reason": "status-monitor"
+    },
+    {
       "id": "run-autonomous-operator",
       "status": "monitor",
       "command": "npm run autonomous:operator",
@@ -270,7 +276,8 @@
     "npm run autonomous:deploy-plan && npm run autonomous:bootstrap",
     "npm run autonomous:release-candidate && npm run autonomous:deploy-plan && npm run autonomous:bootstrap",
     "npm run autonomous:activate-production",
-    "npm run autonomous:blocker-handoff"
+    "npm run autonomous:blocker-handoff",
+    "npm run autonomous:unlock-runner -- --execute"
   ],
   "blockedFragments": [
     "gh workflow run",

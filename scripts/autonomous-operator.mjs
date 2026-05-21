@@ -73,6 +73,7 @@ const allowedLocalCommands = [
   'npm run autonomous:release-candidate && npm run autonomous:deploy-plan && npm run autonomous:bootstrap',
   'npm run autonomous:activate-production',
   'npm run autonomous:blocker-handoff',
+  'npm run autonomous:unlock-runner -- --execute',
 ]
 const blockedFragments = [
   'gh workflow run',

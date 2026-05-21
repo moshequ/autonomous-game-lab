@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-21T20:09:48.786Z",
+  "generatedAt": "2026-05-21T20:17:38.870Z",
   "status": "objective-in-progress",
   "objective": "Build a bootstrapped autonomous web/PWA game portal that can generate original board-game-inspired games, measure user behavior, propose and apply data-driven improvements, and prepare a path to monetization and app-store distribution with minimal manual intervention.",
   "summary": {
@@ -93,6 +93,7 @@
         "Operator: operator-plan-ready",
         "Operator history: operator-history-ready; records 40; executed 9",
         "Bootstrap: production-bootstrap-ready",
+        "Unlock runner: unlock-runner-idle; runnable 0; queued 0; unsafe 0",
         "Repository bootstrap: repository-bootstrap-ready; helper ops/github/bootstrap-repository.sh",
         "Release candidate: release-candidate-ready; smoke URLs 16",
         "Post-deploy smoke: post-deploy-smoke-observed-live; origin https://moshequ.github.io/autonomous-game-lab; checks 17/17; local artifact predeploy-artifact-smoke-passed 17/17",
@@ -246,7 +247,7 @@
     "currentWorktreeClean": false,
     "currentWorktreeDirtyFiles": 45,
     "productionBootstrapFresh": true,
-    "productionBootstrapSourceDataHash": "abee2a71227a",
+    "productionBootstrapSourceDataHash": "bd4688278058",
     "productionBootstrapStaleInputIds": [],
     "objectiveNextBestActionSource": "owner-loop"
   },

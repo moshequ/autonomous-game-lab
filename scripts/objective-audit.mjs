@@ -69,6 +69,7 @@ const [
   repositoryBootstrap,
   deployment,
   productionBootstrap,
+  productionUnlockRunner,
   eventCollectorDeployment,
   autonomousOwnerLoop,
   autonomousOperator,
@@ -119,6 +120,7 @@ const [
   readJson(path.join(dataDir, 'repository-bootstrap.json')),
   readJson(path.join(dataDir, 'deployment-plan.json')),
   readJson(path.join(dataDir, 'production-bootstrap.json')),
+  readJson(path.join(dataDir, 'production-unlock-runner.json')),
   readJson(path.join(dataDir, 'event-collector-deployment.json')),
   readJson(path.join(dataDir, 'autonomous-owner-loop.json')),
   readJson(path.join(dataDir, 'autonomous-operator.json')),
@@ -243,6 +245,14 @@ const productionBootstrapFresh =
   productionBootstrap.controls?.zeroSpendGuard === true &&
   productionBootstrap.controls?.noPaidResourcesCreated === true &&
   productionBootstrapSourceCurrent
+const productionUnlockRunnerReady =
+  ['unlock-runner-idle', 'unlock-runner-plan-ready', 'unlock-runner-executed'].includes(productionUnlockRunner.status) &&
+  productionUnlockRunner.controls?.zeroPaidSpend === true &&
+  productionUnlockRunner.controls?.noAccountCreation === true &&
+  productionUnlockRunner.controls?.noStoreSubmission === true &&
+  productionUnlockRunner.controls?.noRevenueEnablement === true &&
+  productionUnlockRunner.controls?.staticCommandAllowlist === true &&
+  (productionUnlockRunner.summary?.blockedUnsafeUnlocks ?? 0) === 0
 const repositoryChannelReady = ['repository-channel-ready', 'waiting-for-gh-auth'].includes(
   repositoryReadiness.status,
 )
@@ -433,6 +443,7 @@ const requirements = [
       repositoryChannelReady &&
       repositoryBootstrap.status !== 'missing' &&
       productionBootstrap.status === 'production-bootstrap-ready' &&
+      productionUnlockRunnerReady &&
       packageJson.scripts?.['autonomous:daily']?.includes('autonomous:objective-audit') !== true
         ? 'needs-daily-audit-wiring'
       : autonomousOwnerLoop.status === 'owner-loop-ready' &&
@@ -446,7 +457,8 @@ const requirements = [
           liveSiteMonitorReady &&
           !repositoryChannelReady &&
           repositoryBootstrap.status !== 'missing' &&
-          productionBootstrap.status === 'production-bootstrap-ready'
+          productionBootstrap.status === 'production-bootstrap-ready' &&
+          productionUnlockRunnerReady
         ? 'needs-repository-channel'
       : autonomousOwnerLoop.status === 'owner-loop-ready' &&
           autonomousCadence.status === 'cadence-ready' &&
@@ -459,7 +471,8 @@ const requirements = [
           liveSiteMonitorReady &&
           repositoryChannelReady &&
           repositoryBootstrap.status !== 'missing' &&
-          productionBootstrap.status === 'production-bootstrap-ready'
+          productionBootstrap.status === 'production-bootstrap-ready' &&
+          productionUnlockRunnerReady
         ? 'met-local'
         : 'incomplete',
     summary: 'A scheduled local loop, owner state, bootstrap handoff, and dry-run operator reduce manual maintenance.',
@@ -476,6 +489,11 @@ const requirements = [
         autonomousOperatorHistory.summary?.totalRecords ?? 0
       }; executed ${autonomousOperatorHistory.summary?.executedRecords ?? 0}`,
       `Bootstrap: ${productionBootstrap.status}`,
+      `Unlock runner: ${productionUnlockRunner.status}; runnable ${
+        productionUnlockRunner.summary?.runnableUnlocks ?? 0
+      }; queued ${productionUnlockRunner.summary?.queuedCommands ?? 0}; unsafe ${
+        productionUnlockRunner.summary?.blockedUnsafeUnlocks ?? 0
+      }`,
       `Repository bootstrap: ${repositoryBootstrap.status}; helper ${
         repositoryBootstrap.helper?.path ?? 'missing'
       }`,
@@ -507,6 +525,7 @@ const requirements = [
     blockers: [
       ...(autonomousCadence.blockers ?? []),
       ...(autonomousSelfUpdate.blockers ?? []),
+      ...(productionUnlockRunnerReady ? [] : ['Production unlock runner is not ready to apply configured blocker follow-ups.']),
       ...(postDeployArtifactSyncReady ? [] : ['Strict deploy artifact sync is not yet proven against the live release manifest.']),
       ...(liveSiteMonitorReady ? [] : ['Live site monitor is not yet proving the public PWA between deploys.']),
       ...filterTransientLocalStateBlockers(repositoryReadiness.blockers ?? []),

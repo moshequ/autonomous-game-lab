@@ -2580,6 +2580,7 @@ if (
   !autonomousOperator.allowlist?.includes('npm run autonomous:android-signing') ||
   !autonomousOperator.allowlist?.includes('npm run autonomous:activate-production') ||
   !autonomousOperator.allowlist?.includes('npm run autonomous:blocker-handoff') ||
+  !autonomousOperator.allowlist?.includes('npm run autonomous:unlock-runner -- --execute') ||
   !autonomousOperator.allowlist?.includes('npm run autonomous:gate-recovery && npm run autonomous:sample-plan') ||
   !autonomousOperator.allowlist?.includes('npm run autonomous:sample-plan') ||
   !autonomousOperator.allowlist?.includes('npm run autonomous:collect-sample-downloads') ||
@@ -2786,9 +2787,15 @@ const objectiveDataDrivenRequirement = objectiveAudit.requirements?.find(
 const objectiveAutonomyRequirement = objectiveAudit.requirements?.find(
   (item) => item.id === 'minimal-intervention-autonomy',
 )
+const objectiveProductionUnlockRunnerReady =
+  ['unlock-runner-idle', 'unlock-runner-plan-ready', 'unlock-runner-executed'].includes(productionUnlockRunner.status) &&
+  productionUnlockRunner.controls?.zeroPaidSpend === true &&
+  productionUnlockRunner.controls?.staticCommandAllowlist === true &&
+  (productionUnlockRunner.summary?.blockedUnsafeUnlocks ?? 0) === 0
 const objectiveExpectedAutonomyStatus = ['repository-channel-ready', 'waiting-for-gh-auth'].includes(
   repositoryReadiness.status,
 )
+  && objectiveProductionUnlockRunnerReady
   ? 'met-local'
   : 'needs-repository-channel'
 const objectiveGeneratedAtMs = (artifact) => {
@@ -2884,6 +2891,9 @@ if (
   ) ||
   !objectiveAutonomyRequirement?.evidence?.some((item) =>
     item.includes(`Autonomous self-update: ${autonomousSelfUpdate.status}`),
+  ) ||
+  !objectiveAutonomyRequirement?.evidence?.some((item) =>
+    item.includes(`Unlock runner: ${productionUnlockRunner.status}`),
   ) ||
   !objectiveAutonomyRequirement?.evidence?.some((item) =>
     item.includes(`Repository channel: ${repositoryReadiness.status}`),
@@ -5146,6 +5156,19 @@ if (
 }
 
 if (
+  !readiness.webPwa?.checks?.some((check) => check.id === 'production-unlock-runner' && check.status === 'pass') ||
+  readiness.productionUnlockRunner?.status !== productionUnlockRunner.status ||
+  readiness.productionUnlockRunner?.sourceStatus?.productionBlockerHandoff !== productionBlockerHandoff.status ||
+  readiness.productionUnlockRunner?.summary?.runnableUnlocks !== productionUnlockRunner.summary?.runnableUnlocks ||
+  readiness.productionUnlockRunner?.summary?.queuedCommands !== productionUnlockRunner.summary?.queuedCommands ||
+  readiness.productionUnlockRunner?.controls?.staticCommandAllowlist !== true ||
+  readiness.productionUnlockRunner?.controls?.noWorkflowDispatch !== true ||
+  readiness.productionUnlockRunner?.controls?.noRevenueEnablement !== true
+) {
+  fail('Production readiness must include the guarded production unlock runner and its allowlisted follow-up queue state.')
+}
+
+if (
   !readiness.webPwa?.checks?.some((check) => check.id === 'production-activation' && check.status === 'pass') ||
   readiness.productionActivation?.status !== productionActivation.status ||
   readiness.productionActivation?.controls?.dryRunByDefault !== true ||
@@ -5428,6 +5451,7 @@ const requiredOwnerSystems = [
   'production-bootstrap',
   'production-activation',
   'production-blocker-handoff',
+  'production-unlock-runner',
   'autonomous-operator',
   'operator-history',
   'objective-audit',
@@ -5460,6 +5484,7 @@ const requiredOwnerActions = [
   'optimize-product-gates',
   'bootstrap-production-setup',
   'refresh-production-blocker-handoff',
+  'run-production-unlock-runner',
   'activate-production-when-configured',
   'run-autonomous-operator',
   'review-operator-history',
@@ -5973,6 +5998,7 @@ if (
   autonomousOwnerLoop.evidence?.productionBootstrapStatus !== productionBootstrap.status ||
   autonomousOwnerLoop.evidence?.productionActivationStatus !== productionActivation.status ||
   autonomousOwnerLoop.evidence?.productionBlockerHandoffStatus !== productionBlockerHandoff.status ||
+  autonomousOwnerLoop.evidence?.productionUnlockRunnerStatus !== productionUnlockRunner.status ||
   autonomousOwnerLoop.evidence?.supportChannelStatus !== supportChannel.status ||
   autonomousOwnerLoop.evidence?.autonomousOperatorStatus !== autonomousOperator.status ||
   autonomousOwnerLoop.evidence?.autonomousOperatorHistoryStatus !== autonomousOperatorHistory.status ||
