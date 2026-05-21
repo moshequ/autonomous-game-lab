@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-21T05:43:42.972Z",
+  "generatedAt": "2026-05-21T05:51:26.817Z",
   "status": "repository-bootstrap-ready",
   "mode": "plan-only",
   "envFiles": {
@@ -61,7 +61,7 @@
       "originRemote": "git@github.com:moshequ/autonomous-game-lab.git",
       "remoteRepository": "moshequ/autonomous-game-lab",
       "hasCommit": true,
-      "dirtyFiles": 33,
+      "dirtyFiles": 34,
       "dirtyPaths": [
         "data/autonomous-operator-history.json",
         "data/autonomous-operator.json",
@@ -89,15 +89,16 @@
         "reports/release-candidate-latest.md",
         "reports/repository-bootstrap-latest.md",
         "reports/repository-readiness-latest.md",
-        "src/data/autonomousOperator.ts",
-        "src/data/autonomousOperatorHistory.ts",
-        "src/data/autonomousOwnerLoop.ts",
+        "scripts/autonomous-operator.mjs",
+        "scripts/autonomous-owner-loop.mjs",
+        "scripts/verify-autonomy.mjs",
         "src/data/objectiveAudit.ts",
         "src/data/postDeploySmoke.ts",
         "src/data/productionActivation.ts",
+        "src/data/productionBootstrap.ts",
         "src/data/releaseCandidate.ts"
       ],
-      "generatedEvidenceDirtyFiles": 33,
+      "generatedEvidenceDirtyFiles": 31,
       "generatedEvidenceDirtyPaths": [
         "data/autonomous-operator-history.json",
         "data/autonomous-operator.json",
@@ -125,16 +126,18 @@
         "reports/release-candidate-latest.md",
         "reports/repository-bootstrap-latest.md",
         "reports/repository-readiness-latest.md",
-        "src/data/autonomousOperator.ts",
-        "src/data/autonomousOperatorHistory.ts",
-        "src/data/autonomousOwnerLoop.ts",
         "src/data/objectiveAudit.ts",
         "src/data/postDeploySmoke.ts",
         "src/data/productionActivation.ts",
+        "src/data/productionBootstrap.ts",
         "src/data/releaseCandidate.ts"
       ],
-      "nonGeneratedDirtyFiles": 0,
-      "nonGeneratedDirtyPaths": []
+      "nonGeneratedDirtyFiles": 3,
+      "nonGeneratedDirtyPaths": [
+        "scripts/autonomous-operator.mjs",
+        "scripts/autonomous-owner-loop.mjs",
+        "scripts/verify-autonomy.mjs"
+      ]
     },
     "after": {
       "insideWorkTree": true,
@@ -143,7 +146,7 @@
       "originRemote": "git@github.com:moshequ/autonomous-game-lab.git",
       "remoteRepository": "moshequ/autonomous-game-lab",
       "hasCommit": true,
-      "dirtyFiles": 33,
+      "dirtyFiles": 34,
       "dirtyPaths": [
         "data/autonomous-operator-history.json",
         "data/autonomous-operator.json",
@@ -171,15 +174,16 @@
         "reports/release-candidate-latest.md",
         "reports/repository-bootstrap-latest.md",
         "reports/repository-readiness-latest.md",
-        "src/data/autonomousOperator.ts",
-        "src/data/autonomousOperatorHistory.ts",
-        "src/data/autonomousOwnerLoop.ts",
+        "scripts/autonomous-operator.mjs",
+        "scripts/autonomous-owner-loop.mjs",
+        "scripts/verify-autonomy.mjs",
         "src/data/objectiveAudit.ts",
         "src/data/postDeploySmoke.ts",
         "src/data/productionActivation.ts",
+        "src/data/productionBootstrap.ts",
         "src/data/releaseCandidate.ts"
       ],
-      "generatedEvidenceDirtyFiles": 33,
+      "generatedEvidenceDirtyFiles": 31,
       "generatedEvidenceDirtyPaths": [
         "data/autonomous-operator-history.json",
         "data/autonomous-operator.json",
@@ -207,16 +211,18 @@
         "reports/release-candidate-latest.md",
         "reports/repository-bootstrap-latest.md",
         "reports/repository-readiness-latest.md",
-        "src/data/autonomousOperator.ts",
-        "src/data/autonomousOperatorHistory.ts",
-        "src/data/autonomousOwnerLoop.ts",
         "src/data/objectiveAudit.ts",
         "src/data/postDeploySmoke.ts",
         "src/data/productionActivation.ts",
+        "src/data/productionBootstrap.ts",
         "src/data/releaseCandidate.ts"
       ],
-      "nonGeneratedDirtyFiles": 0,
-      "nonGeneratedDirtyPaths": []
+      "nonGeneratedDirtyFiles": 3,
+      "nonGeneratedDirtyPaths": [
+        "scripts/autonomous-operator.mjs",
+        "scripts/autonomous-owner-loop.mjs",
+        "scripts/verify-autonomy.mjs"
+      ]
     }
   },
   "repository": {
@@ -251,7 +257,7 @@
     "repositoryReadiness": "repository-channel-ready",
     "deployment": "ready-for-pages",
     "releaseCandidate": "release-candidate-ready",
-    "releaseCandidateId": "pwa-44035e0f3f2e",
+    "releaseCandidateId": "pwa-3a9f1700a831",
     "postDeploySmoke": "post-deploy-smoke-observed-live"
   },
   "repositoryTargetPlan": {
@@ -335,13 +341,13 @@
     },
     {
       "id": "commit-current-snapshot",
-      "status": "ready",
+      "status": "ready-for-explicit-snapshot-commit",
       "costUsd": 0,
       "command": "AGL_ALLOW_REPOSITORY_BOOTSTRAP=1 AGL_ALLOW_SNAPSHOT_COMMIT=1 ./ops/github/bootstrap-repository.sh",
       "mutatesLocalGit": true,
       "mutatesRemoteGitHub": false,
       "requiresExplicitEnv": true,
-      "detail": "33 repository evidence file(s) changed during this dry run; the outer verified commit will persist them."
+      "detail": "3 non-generated source or artifact file(s) are not committed yet."
     },
     {
       "id": "set-or-create-origin",
@@ -365,16 +371,18 @@
     },
     {
       "id": "push-initial-snapshot",
-      "status": "ready-for-explicit-push",
+      "status": "waiting-for-clean-snapshot",
       "costUsd": 0,
       "command": "AGL_ALLOW_REPOSITORY_BOOTSTRAP=1 AGL_ALLOW_PUSH=1 ./ops/github/bootstrap-repository.sh",
       "mutatesLocalGit": false,
       "mutatesRemoteGitHub": true,
       "requiresExplicitEnv": true,
-      "detail": "Push stays held until an origin remote exists and AGL_ALLOW_PUSH=1 is set."
+      "detail": "Push stays held until a committed local snapshot and origin remote exist."
     }
   ],
-  "blockers": [],
+  "blockers": [
+    "Commit current generated changes before pushing to GitHub Pages."
+  ],
   "helper": {
     "path": "ops/github/bootstrap-repository.sh",
     "status": "generated",

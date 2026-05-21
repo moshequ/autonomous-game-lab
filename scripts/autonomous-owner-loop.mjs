@@ -1458,9 +1458,9 @@ const safeAutonomousActions = [
     id: 'check-performance-budget',
     status: performanceBudget.status === 'performance-budget-ready' ? 'armed' : 'monitor',
     costUsd: 0,
-    command: 'npm run build && npm run autonomous:performance',
-    targets: ['pwa-shell', performanceBudget.deferred?.gameChunk?.file ?? 'game-runtime'],
-    reason: 'Keeps the PWA shell fast while Phaser and game scenes stay deferred.',
+    command: 'npm run build && npm run autonomous:performance && npm run autonomous:release-candidate',
+    targets: ['pwa-shell', performanceBudget.deferred?.gameChunk?.file ?? 'game-runtime', 'dist-release-candidate'],
+    reason: 'Keeps the PWA shell fast while Phaser and game scenes stay deferred, then refreshes the deployable manifest for the rebuilt dist.',
   },
   {
     id: 'prepare-release-candidate',

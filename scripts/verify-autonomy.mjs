@@ -5153,9 +5153,10 @@ if (
   !autonomousOwnerLoop.safeAutonomousActions?.some(
     (action) =>
       action.id === 'check-performance-budget' &&
-      action.command === 'npm run build && npm run autonomous:performance' &&
+      action.command === 'npm run build && npm run autonomous:performance && npm run autonomous:release-candidate' &&
       action.costUsd === 0 &&
-      action.targets?.includes('pwa-shell'),
+      action.targets?.includes('pwa-shell') &&
+      action.targets?.includes('dist-release-candidate'),
   ) ||
   !autonomousOwnerLoop.safeAutonomousActions?.some(
     (action) =>

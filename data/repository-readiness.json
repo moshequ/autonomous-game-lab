@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-21T05:43:41.579Z",
+  "generatedAt": "2026-05-21T05:51:25.369Z",
   "status": "repository-channel-ready",
   "envFiles": {
     "loaded": true,
@@ -56,7 +56,7 @@
     "insideWorkTree": true,
     "gitRoot": "/Users/moshequ/Documents/Codex/2026-05-18/i-want-to-have-a-new",
     "currentBranch": "main",
-    "dirtyFiles": 33,
+    "dirtyFiles": 34,
     "dirtyPaths": [
       "data/autonomous-operator-history.json",
       "data/autonomous-operator.json",
@@ -84,15 +84,16 @@
       "reports/release-candidate-latest.md",
       "reports/repository-bootstrap-latest.md",
       "reports/repository-readiness-latest.md",
-      "src/data/autonomousOperator.ts",
-      "src/data/autonomousOperatorHistory.ts",
-      "src/data/autonomousOwnerLoop.ts",
+      "scripts/autonomous-operator.mjs",
+      "scripts/autonomous-owner-loop.mjs",
+      "scripts/verify-autonomy.mjs",
       "src/data/objectiveAudit.ts",
       "src/data/postDeploySmoke.ts",
       "src/data/productionActivation.ts",
+      "src/data/productionBootstrap.ts",
       "src/data/releaseCandidate.ts"
     ],
-    "generatedEvidenceDirtyFiles": 33,
+    "generatedEvidenceDirtyFiles": 31,
     "generatedEvidenceDirtyPaths": [
       "data/autonomous-operator-history.json",
       "data/autonomous-operator.json",
@@ -120,16 +121,18 @@
       "reports/release-candidate-latest.md",
       "reports/repository-bootstrap-latest.md",
       "reports/repository-readiness-latest.md",
-      "src/data/autonomousOperator.ts",
-      "src/data/autonomousOperatorHistory.ts",
-      "src/data/autonomousOwnerLoop.ts",
       "src/data/objectiveAudit.ts",
       "src/data/postDeploySmoke.ts",
       "src/data/productionActivation.ts",
+      "src/data/productionBootstrap.ts",
       "src/data/releaseCandidate.ts"
     ],
-    "nonGeneratedDirtyFiles": 0,
-    "nonGeneratedDirtyPaths": []
+    "nonGeneratedDirtyFiles": 3,
+    "nonGeneratedDirtyPaths": [
+      "scripts/autonomous-operator.mjs",
+      "scripts/autonomous-owner-loop.mjs",
+      "scripts/verify-autonomy.mjs"
+    ]
   },
   "repository": {
     "target": "moshequ/autonomous-game-lab",
@@ -165,7 +168,7 @@
     "workflowExists": true,
     "deployWorkflowIncludesSmoke": true,
     "deploymentStatus": "ready-for-pages",
-    "releaseCandidateId": "pwa-44035e0f3f2e",
+    "releaseCandidateId": "pwa-3a9f1700a831",
     "postDeploySmokeStatus": "post-deploy-smoke-observed-live",
     "liveSettings": {
       "status": "inspected",
