@@ -1,9 +1,9 @@
 # Autonomous Operator History
 
-Generated: 2026-05-21T20:17:39.504Z
+Generated: 2026-05-21T20:37:17.632Z
 Status: operator-history-ready
 Records: 40
-Executed records: 9
+Executed records: 8
 Failed records: 0
 Latest run appended: false
 Compacted duplicate dry-runs: 0
@@ -17,8 +17,6 @@ Compacted duplicate dry-runs: 0
 
 ## Recent Records
 
-- 2026-05-21T19:41:05.352Z: refresh-autonomous-self-update; not-requested; appended fingerprint b3c8fe13f82e33e3
-- 2026-05-21T19:42:01.093Z: prepare-repository-channel; not-requested; appended fingerprint 1e73f3fb9e42e074
 - 2026-05-21T19:42:51.553Z: prepare-repository-channel; not-requested; appended fingerprint f9e6256336baba85
 - 2026-05-21T19:42:53.390Z: prepare-repository-channel; not-requested; appended fingerprint 5f57e99b77791945
 - 2026-05-21T19:43:19.022Z: bootstrap-production-setup; not-requested; appended fingerprint 0c619dd93134654a
@@ -27,3 +25,5 @@ Compacted duplicate dry-runs: 0
 - 2026-05-21T19:52:29.006Z: refresh-objective-audit; not-requested; appended fingerprint 52fab05ba88b5388
 - 2026-05-21T20:01:38.521Z: bootstrap-production-setup; not-requested; appended fingerprint 0c619dd93134654a
 - 2026-05-21T20:09:48.605Z: refresh-objective-audit; not-requested; appended fingerprint 52fab05ba88b5388
+- 2026-05-21T20:34:24.444Z: run-production-unlock-runner; not-requested; appended fingerprint aaa1cb5b2b3d3bfa
+- 2026-05-21T20:36:01.056Z: prepare-repository-channel; not-requested; appended fingerprint 33d4f30cde7d9951

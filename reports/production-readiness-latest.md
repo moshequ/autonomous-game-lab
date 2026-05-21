@@ -1,6 +1,6 @@
 # Production Readiness
 
-Generated: 2026-05-21T20:18:02.309Z
+Generated: 2026-05-21T20:37:18.011Z
 
 ## Environment
 
@@ -32,7 +32,7 @@ Local git: true
 - done: repo-bootstrap-inspect-repository-channel - Repository readiness is repository-channel-ready.
 - ready: repo-bootstrap-initialize-local-git - Git worktree is available at /Users/moshequ/Documents/Codex/2026-05-18/i-want-to-have-a-new.
 - ready: repo-bootstrap-create-initial-commit - The local repository has at least one commit.
-- ready-for-explicit-snapshot-commit: repo-bootstrap-commit-current-snapshot - 5 non-generated source or artifact file(s) are not committed yet.
+- ready-for-explicit-snapshot-commit: repo-bootstrap-commit-current-snapshot - 1 non-generated source or artifact file(s) are not committed yet.
 - ready: repo-bootstrap-set-or-create-origin - Origin remote resolves to moshequ/autonomous-game-lab.
 - ready-for-explicit-create-or-attach: repo-bootstrap-create-github-repository - GitHub CLI can create or attach moshequ/autonomous-game-lab when explicitly allowed.
 - waiting-for-clean-snapshot: repo-bootstrap-push-initial-snapshot - Push stays held until a committed local snapshot and origin remote exist.
@@ -59,7 +59,7 @@ Status: ready-after-build
 - pass: organic-seed-loop - Organic seed loop is organic-seed-loop-ready; target canopy-bloom; player-initiated share guard active.
 - pass: retention-loop - Retention loop is retention-loop-ready; daily challenge canopy-bloom; no-push/no-account guardrails active.
 - pass: pwa-install-loop - PWA install loop is pwa-install-loop-ready; prompt surface autonomy-cockpit; cost $0.
-- pass: performance-budget - Performance budget is performance-budget-ready; initial JS 674.9 KB / 183.3 KB gzip; deferred game chunk GameCanvas-BXdazfpt.js.
+- pass: performance-budget - Performance budget is performance-budget-ready; initial JS 675.4 KB / 183.3 KB gzip; deferred game chunk GameCanvas-DocTlz4A.js.
 - pass: release-candidate - Release candidate is release-candidate-ready; files 47; smoke URLs 16.
 - pass: post-deploy-smoke-runner - Post-deploy smoke is post-deploy-smoke-observed-live; origin https://moshequ.github.io/autonomous-game-lab; checks 17/17 passed, 0 blocked; local artifact predeploy-artifact-smoke-passed 17/17 passed.
 - pass: live-site-monitor - Live monitor is live-site-monitor-passed; origin https://moshequ.github.io/autonomous-game-lab; checks 17/17 passed; live matches synced deploy true.
@@ -74,7 +74,7 @@ Status: ready-after-build
 - pass: production-unlock-runner - Production unlock runner is unlock-runner-idle; runnable 0; queued 0; unsafe 0.
 - pass: production-activation - Production activation is activation-ready; mode dry-run; execution dry-run.
 - pass: autonomous-operator - Autonomous operator is operator-held; selected none; execution not-requested.
-- pass: autonomous-operator-history - Autonomous operator history is operator-history-ready; records 40; executed 9.
+- pass: autonomous-operator-history - Autonomous operator history is operator-history-ready; records 40; executed 8.
 - pass: autonomous-cadence - Autonomous cadence is cadence-ready; Codex active-confirmed; GitHub scheduled.
 - pass: autonomous-self-update - Autonomous self-update is self-update-ready; safe pending 0; unsafe pending 0; remote push held.
 - pass: objective-audit - Objective audit is objective-in-progress; met 6 / 8; can complete false.
@@ -117,23 +117,23 @@ Installs: 0
 ## Performance Budget
 
 Status: performance-budget-ready
-Initial JS: 674.9 KB (183.3 KB gzip)
-Deferred game chunk: GameCanvas-BXdazfpt.js
-- pass: performance-initial-js-budget - Initial JS is 674.9 KB; budget is 676 KB.
+Initial JS: 675.4 KB (183.3 KB gzip)
+Deferred game chunk: GameCanvas-DocTlz4A.js
+- pass: performance-initial-js-budget - Initial JS is 675.4 KB; budget is 676 KB.
 - pass: performance-initial-js-gzip-budget - Initial JS gzip is 183.3 KB; budget is 200 KB.
 - pass: performance-initial-css-budget - Initial CSS is 10.5 KB; budget is 40 KB.
 - pass: performance-manifest - PWA manifest exists in dist.
 - pass: performance-service-worker - Service worker exists in dist.
-- pass: performance-game-runtime-deferred - GameCanvas-BXdazfpt.js is deferred from the initial shell.
-- pass: performance-largest-js-deferred - Largest JS chunk is GameCanvas-BXdazfpt.js at 1361.1 KB.
+- pass: performance-game-runtime-deferred - GameCanvas-DocTlz4A.js is deferred from the initial shell.
+- pass: performance-largest-js-deferred - Largest JS chunk is GameCanvas-DocTlz4A.js at 1361.1 KB.
 - pass: performance-deferred-game-budget - Deferred game chunk is 1361.1 KB; monitor budget is 1600 KB.
 
 ## Release Candidate
 
 Status: release-candidate-ready
-Candidate: pwa-4e02967d644f
+Candidate: pwa-d3624426bb37
 Files: 47
-Aggregate SHA-256: 4e02967d644f7db44d858daa6509e5dd6338e4456a3729ce504114f939512f49
+Aggregate SHA-256: d3624426bb378b221a9acafb0c62bf25bba20e86659be6be2eb10a793d1aa2ea
 - pass: release-dist-inventory - 47 dist files inventoried.
 - pass: release-required-files - 21/21 required files present.
 - pass: release-game-pages - 10 generated game page(s) in dist.
@@ -147,7 +147,7 @@ Aggregate SHA-256: 4e02967d644f7db44d858daa6509e5dd6338e4456a3729ce504114f939512
 
 Status: post-deploy-smoke-observed-live
 Origin: https://moshequ.github.io/autonomous-game-lab
-Candidate: pwa-4e02967d644f
+Candidate: pwa-d3624426bb37
 Checks: 17/17 passed (0 blocked)
 Local artifact: predeploy-artifact-smoke-passed (17/17 passed)
 - pass: smoke-app-shell - Live URL matched status and required text.
@@ -300,7 +300,7 @@ Execution: not-requested
 
 Status: operator-history-ready
 Records: 40
-Executed: 9
+Executed: 8
 
 ## Autonomous Cadence
 
