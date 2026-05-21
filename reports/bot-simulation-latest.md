@@ -1,6 +1,6 @@
 # Bot Simulation Report
 
-Generated: 2026-05-20T21:39:35.522Z
+Generated: 2026-05-21T17:49:09.174Z
 
 ## Harbor Rings
 
@@ -94,14 +94,14 @@ Simulations: 1260
 
 ## Metro Loom
 
-Target: 88 in 10 moves
+Target: 96 in 12 moves
 Simulations: 1260
 
 ### Strategy Results
 
-- random: avg 69.3, p50 68, p90 85, win 8%
-- center: avg 126.6, p50 127, p90 133, win 100%
-- greedy: avg 135.9, p50 136, p90 147, win 100%
+- random: avg 96.4, p50 96, p90 115, win 51%
+- center: avg 151.6, p50 152, p90 158, win 100%
+- greedy: avg 165.2, p50 165, p90 174, win 100%
 
 ### Recommendations
 
@@ -124,14 +124,14 @@ Simulations: 1260
 
 ## Pocket Draft
 
-Target: 136 in 12 moves
+Target: 130 in 11 moves
 Simulations: 1260
 
 ### Strategy Results
 
-- random: avg 120.6, p50 121, p90 136, win 11%
-- center: avg 136.2, p50 137, p90 151, win 55%
-- greedy: avg 148.2, p50 147, p90 161, win 94%
+- random: avg 104.3, p50 104, p90 119, win 1%
+- center: avg 117.8, p50 118, p90 131, win 13%
+- greedy: avg 134.2, p50 133, p90 148, win 59%
 
 ### Recommendations
 

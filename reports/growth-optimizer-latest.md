@@ -1,8 +1,8 @@
 # Growth Optimizer
 
-Generated: 2026-05-20T09:01:46.607Z
+Generated: 2026-05-21T17:49:03.517Z
 Source: fixture-sample
-Source data hash: 5cff86cdbfc3
+Source data hash: 59aa1e6384f7
 
 ## Observed
 
@@ -12,9 +12,8 @@ Source data hash: 5cff86cdbfc3
 
 ## Actions
 
-- skipped: canopy-bloom; same growth diagnosis already applied for this source data.
-- skipped: grove-engine; same growth diagnosis already applied for this source data.
-- skipped: harbor-rings; same growth diagnosis already applied for this source data.
+- applied: canopy-bloom; No organic entry data yet; seed strongest pages with daily challenge copy.; CTA daily-challenge; message daily.
+- applied: grove-engine; No organic entry data yet; seed strongest pages with daily challenge copy.; CTA daily-challenge; message daily.
 
 ## Active Policy
 

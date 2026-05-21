@@ -1,6 +1,6 @@
 # Traffic Seeding
 
-Generated: 2026-05-21T17:09:37.241Z
+Generated: 2026-05-21T17:49:10.198Z
 Status: traffic-seeding-ready
 Analytics source: fixture-sample
 Max cost: $0.00
@@ -9,8 +9,8 @@ Max cost: $0.00
 
 - #1 Canopy Bloom: armed, seed-needed, /?game=canopy-bloom&utm_source=seed_internal&utm_campaign=seed-20260521-canopy-bloom
 - #2 Grove Engine: armed, seed-needed, /?game=grove-engine&utm_source=seed_internal&utm_campaign=seed-20260521-grove-engine
-- #3 Metro Loom: armed, seed-needed, /?game=metro-loom&utm_source=seed_internal&utm_campaign=seed-20260521-metro-loom
-- #4 Pocket Draft: armed, seed-needed, /?game=pocket-draft&utm_source=seed_internal&utm_campaign=seed-20260521-pocket-draft
+- #3 Mosaic Haven: armed, seed-needed, /?game=mosaic-haven&utm_source=seed_internal&utm_campaign=seed-20260521-mosaic-haven
+- #4 Metro Loom: armed, seed-needed, /?game=metro-loom&utm_source=seed_internal&utm_campaign=seed-20260521-metro-loom
 
 ## Channels
 

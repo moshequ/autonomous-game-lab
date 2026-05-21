@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-21T10:33:53.139Z",
+  "generatedAt": "2026-05-21T17:49:36.836Z",
   "status": "guarded-operations",
   "releaseHealthStatus": "monitoring",
   "liveSiteMonitorStatus": "live-site-monitor-passed",
@@ -20,7 +20,7 @@
   },
   "actions": [
     {
-      "generatedAt": "2026-05-21T10:33:53.139Z",
+      "generatedAt": "2026-05-21T17:49:36.836Z",
       "id": "deployment-watch",
       "status": "monitoring",
       "type": "deployment-safety",
@@ -29,7 +29,7 @@
       "command": "Allow gated web deployment."
     },
     {
-      "generatedAt": "2026-05-21T10:33:53.139Z",
+      "generatedAt": "2026-05-21T17:49:36.836Z",
       "id": "experiment-learning",
       "status": "armed",
       "type": "experiment-safety",
@@ -38,7 +38,7 @@
       "command": "Allow bounded improvement applier to consume experiment evidence."
     },
     {
-      "generatedAt": "2026-05-21T10:33:53.139Z",
+      "generatedAt": "2026-05-21T17:49:36.836Z",
       "id": "disable-revenue-features",
       "status": "active",
       "type": "monetization-safety",
@@ -47,7 +47,7 @@
       "command": "Keep ad placements, purchases, and subscriptions disabled."
     },
     {
-      "generatedAt": "2026-05-21T10:33:53.139Z",
+      "generatedAt": "2026-05-21T17:49:36.836Z",
       "id": "enforce-zero-paid-spend",
       "status": "active",
       "type": "spend-safety",
@@ -58,17 +58,6 @@
   ],
   "policyDiff": null,
   "history": [
-    {
-      "generatedAt": "2026-05-18T21:35:51.223Z",
-      "mode": "guarded-operations",
-      "releaseHealthStatus": "monitoring",
-      "deploymentStatus": "ready-for-pages",
-      "activeActionIds": [
-        "disable-revenue-features",
-        "enforce-zero-paid-spend"
-      ],
-      "policyChanged": false
-    },
     {
       "generatedAt": "2026-05-18T21:45:40.576Z",
       "mode": "guarded-operations",
@@ -273,6 +262,18 @@
     },
     {
       "generatedAt": "2026-05-21T10:33:53.139Z",
+      "mode": "guarded-operations",
+      "releaseHealthStatus": "monitoring",
+      "liveSiteMonitorStatus": "live-site-monitor-passed",
+      "deploymentStatus": "ready-for-pages",
+      "activeActionIds": [
+        "disable-revenue-features",
+        "enforce-zero-paid-spend"
+      ],
+      "policyChanged": false
+    },
+    {
+      "generatedAt": "2026-05-21T17:49:36.836Z",
       "mode": "guarded-operations",
       "releaseHealthStatus": "monitoring",
       "liveSiteMonitorStatus": "live-site-monitor-passed",

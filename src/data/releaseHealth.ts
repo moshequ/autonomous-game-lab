@@ -1,5 +1,5 @@
 export const releaseHealth = {
-  "generatedAt": "2026-05-20T09:01:53.567Z",
+  "generatedAt": "2026-05-21T17:49:12.288Z",
   "status": "monitoring",
   "analyticsSource": "fixture-sample",
   "retentionSource": "fixture-retention",
@@ -86,6 +86,16 @@ export const releaseHealth = {
       {
         "id": "score-booster",
         "weight": 20
+      }
+    ],
+    "thumbnail_board_state_v2": [
+      {
+        "id": "board-state",
+        "weight": 70
+      },
+      {
+        "id": "title-first",
+        "weight": 30
       }
     ]
   }

@@ -214,7 +214,7 @@ Core KPIs:
 - `npm run autonomous:analyze` ranks data-driven fixes and next build candidates.
 - `npm run autonomous:daily` runs the full local production loop.
 
-The BGG XML API requires bearer authorization. Set `BGG_XML_API_TOKEN` to use live BGG hotness; otherwise the radar uses fixture trends so development can continue without external credentials.
+The BGG XML API requires bearer authorization. Set `BGG_XML_API_TOKEN` to use live BGG hotness; otherwise the radar uses zero-cost public RSS/Atom board-game feeds when reachable, then a fresh trend cache, then fixture trends so development can continue without external credentials.
 
 ## Current Gap
 

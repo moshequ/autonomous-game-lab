@@ -1,15 +1,15 @@
 # Store Listing Optimizer
 
-Generated: 2026-05-21T17:09:57.341Z
+Generated: 2026-05-21T17:52:07.784Z
 Status: store-listing-optimizer-ready
 Focus: Canopy Bloom (canopy-bloom)
-Previous candidate: canopy-bloom
+Previous candidate: lantern-relay
 
 ## Copy
 
 - Short description: Original daily strategy puzzles led by Canopy Bloom. Quick solo board-game play.
 - Apple subtitle: Canopy Bloom daily strategy
-- Keywords: roll and write, science desk, daily puzzle, solo board game, generated strategy game, board-game-inspired, engine building, expedition planning, route building, merchant timing, card drafting, compact city logistics
+- Keywords: roll and write, science desk, daily puzzle, solo board game, generated strategy game, board-game-inspired, engine building, expedition planning, tile placement, compact city logistics, route building, strategy puzzle
 
 ## Screenshot Priorities
 
@@ -22,9 +22,9 @@ Previous candidate: canopy-bloom
 
 - canopy-bloom: score 171.912, growth 78
 - grove-engine: score 128.232, growth 74
-- metro-loom: score 122.552, growth 70
-- pocket-draft: score 116.872, growth 66
-- mosaic-haven: score 111.192, growth 62
+- mosaic-haven: score 122.552, growth 70
+- metro-loom: score 116.872, growth 66
+- pocket-draft: score 111.192, growth 62
 - orbit-atlas: score 101.512, growth 58
 
 ## Guardrails
@@ -40,6 +40,6 @@ Previous candidate: canopy-bloom
 
 ## Next Actions
 
-- Keep Canopy Bloom as the store listing focus.
+- Use Canopy Bloom as the store listing focus instead of lantern-relay.
 - Lead screenshots with Generated Canopy Bloom board.
 - Regenerate store compliance after every listing, screenshot, monetization, or privacy change.

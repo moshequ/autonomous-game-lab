@@ -1,5 +1,5 @@
 export const iconAssets = {
-  "generatedAt": "2026-05-20T09:01:45.314Z",
+  "generatedAt": "2026-05-21T17:49:01.475Z",
   "status": "icons-ready",
   "sourceSvgPath": "public/icons/app-icon.svg",
   "manifestIcons": [

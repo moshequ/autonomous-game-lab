@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-21T17:31:03.522Z",
+  "generatedAt": "2026-05-21T17:53:34.602Z",
   "status": "operator-history-ready",
   "retention": {
     "maxRecords": 40,
@@ -9,26 +9,26 @@
     "recentExecutedRecordWindow": 8,
     "preservedExecutedRecords": 8,
     "recentExecutedActionIds": [
-      "refresh-completion-loop",
-      "refresh-product-gate-recovery",
       "refresh-objective-audit",
       "apply-safe-improvements",
       "refresh-replay-loop",
       "refresh-product-gate-recovery",
       "refresh-objective-audit",
-      "refresh-objective-audit"
+      "refresh-objective-audit",
+      "seed-portfolio-traffic",
+      "bootstrap-production-setup"
     ],
     "latestRunAppended": false,
     "compactedDuplicateDryRuns": 0
   },
   "summary": {
     "totalRecords": 40,
-    "plannedRecords": 32,
-    "executedRecords": 8,
+    "plannedRecords": 33,
+    "executedRecords": 7,
     "failedRecords": 0,
-    "lastActionId": "refresh-objective-audit",
+    "lastActionId": "prepare-repository-channel",
     "lastExecutionStatus": "not-requested",
-    "lastExecutedActionId": "refresh-objective-audit"
+    "lastExecutedActionId": "bootstrap-production-setup"
   },
   "controls": {
     "zeroPaidSpend": true,
@@ -38,90 +38,6 @@
     "historyIsCapped": true
   },
   "records": [
-    {
-      "id": "20260521151916-refresh-completion-loop",
-      "generatedAt": "2026-05-21T15:19:16.165Z",
-      "runFingerprint": "b49de6fa0f8ed603",
-      "mode": "execute-one-action",
-      "status": "operator-executed",
-      "selectedActionId": "refresh-completion-loop",
-      "selectedCommand": "npm run autonomous:completion-loop",
-      "eligibleActionIds": [
-        "refresh-completion-loop",
-        "refresh-replay-loop",
-        "apply-safe-improvements"
-      ],
-      "blockedActionCount": 32,
-      "execution": {
-        "requested": true,
-        "status": "executed",
-        "attemptedActionId": "refresh-completion-loop",
-        "resultCount": 1,
-        "failedScripts": []
-      },
-      "controls": {
-        "zeroPaidSpend": true,
-        "localCommandAllowlistEnforced": true,
-        "externalWorkflowExecutionBlockedByDefault": true,
-        "maxActionsPerRun": 1
-      }
-    },
-    {
-      "id": "20260521151959-refresh-product-gate-recovery",
-      "generatedAt": "2026-05-21T15:19:59.844Z",
-      "runFingerprint": "49bb0a486d1bb9e5",
-      "mode": "execute-one-action",
-      "status": "operator-executed",
-      "selectedActionId": "refresh-product-gate-recovery",
-      "selectedCommand": "npm run autonomous:gate-recovery && npm run autonomous:sample-plan",
-      "eligibleActionIds": [
-        "refresh-product-gate-recovery",
-        "refresh-replay-loop",
-        "apply-safe-improvements"
-      ],
-      "blockedActionCount": 32,
-      "execution": {
-        "requested": true,
-        "status": "executed",
-        "attemptedActionId": "refresh-product-gate-recovery",
-        "resultCount": 2,
-        "failedScripts": []
-      },
-      "controls": {
-        "zeroPaidSpend": true,
-        "localCommandAllowlistEnforced": true,
-        "externalWorkflowExecutionBlockedByDefault": true,
-        "maxActionsPerRun": 1
-      }
-    },
-    {
-      "id": "20260521152033-refresh-objective-audit",
-      "generatedAt": "2026-05-21T15:20:33.847Z",
-      "runFingerprint": "2ad3176ac0613c0e",
-      "mode": "execute-one-action",
-      "status": "operator-executed",
-      "selectedActionId": "refresh-objective-audit",
-      "selectedCommand": "npm run autonomous:objective-audit",
-      "eligibleActionIds": [
-        "refresh-replay-loop",
-        "refresh-objective-audit",
-        "apply-safe-improvements"
-      ],
-      "blockedActionCount": 32,
-      "execution": {
-        "requested": true,
-        "status": "executed",
-        "attemptedActionId": "refresh-objective-audit",
-        "resultCount": 1,
-        "failedScripts": []
-      },
-      "controls": {
-        "zeroPaidSpend": true,
-        "localCommandAllowlistEnforced": true,
-        "externalWorkflowExecutionBlockedByDefault": true,
-        "maxActionsPerRun": 1
-      }
-    },
     {
       "id": "20260521152101-apply-safe-improvements",
       "generatedAt": "2026-05-21T15:21:01.256Z",
@@ -244,288 +160,6 @@
         "status": "executed",
         "attemptedActionId": "refresh-objective-audit",
         "resultCount": 1,
-        "failedScripts": []
-      },
-      "controls": {
-        "zeroPaidSpend": true,
-        "localCommandAllowlistEnforced": true,
-        "externalWorkflowExecutionBlockedByDefault": true,
-        "maxActionsPerRun": 1
-      }
-    },
-    {
-      "id": "20260521152920-refresh-objective-audit",
-      "generatedAt": "2026-05-21T15:29:20.555Z",
-      "runFingerprint": "52fab05ba88b5388",
-      "mode": "plan-only",
-      "status": "operator-plan-ready",
-      "selectedActionId": "refresh-objective-audit",
-      "selectedCommand": "npm run autonomous:objective-audit",
-      "eligibleActionIds": [
-        "refresh-objective-audit"
-      ],
-      "blockedActionCount": 32,
-      "execution": {
-        "requested": false,
-        "status": "not-requested",
-        "attemptedActionId": null,
-        "resultCount": 0,
-        "failedScripts": []
-      },
-      "controls": {
-        "zeroPaidSpend": true,
-        "localCommandAllowlistEnforced": true,
-        "externalWorkflowExecutionBlockedByDefault": true,
-        "maxActionsPerRun": 1
-      }
-    },
-    {
-      "id": "20260521153756-refresh-product-gate-recovery",
-      "generatedAt": "2026-05-21T15:37:56.863Z",
-      "runFingerprint": "a84142514b52bc01",
-      "mode": "plan-only",
-      "status": "operator-plan-ready",
-      "selectedActionId": "refresh-product-gate-recovery",
-      "selectedCommand": "npm run autonomous:gate-recovery && npm run autonomous:sample-plan",
-      "eligibleActionIds": [
-        "refresh-product-gate-recovery"
-      ],
-      "blockedActionCount": 32,
-      "execution": {
-        "requested": false,
-        "status": "not-requested",
-        "attemptedActionId": null,
-        "resultCount": 0,
-        "failedScripts": []
-      },
-      "controls": {
-        "zeroPaidSpend": true,
-        "localCommandAllowlistEnforced": true,
-        "externalWorkflowExecutionBlockedByDefault": true,
-        "maxActionsPerRun": 1
-      }
-    },
-    {
-      "id": "20260521153828-bootstrap-production-setup",
-      "generatedAt": "2026-05-21T15:38:28.121Z",
-      "runFingerprint": "a8fb8b3c46c6faa1",
-      "mode": "plan-only",
-      "status": "operator-plan-ready",
-      "selectedActionId": "bootstrap-production-setup",
-      "selectedCommand": "npm run autonomous:release-candidate && npm run autonomous:deploy-plan && npm run autonomous:bootstrap",
-      "eligibleActionIds": [
-        "refresh-product-gate-recovery",
-        "bootstrap-production-setup"
-      ],
-      "blockedActionCount": 32,
-      "execution": {
-        "requested": false,
-        "status": "not-requested",
-        "attemptedActionId": null,
-        "resultCount": 0,
-        "failedScripts": []
-      },
-      "controls": {
-        "zeroPaidSpend": true,
-        "localCommandAllowlistEnforced": true,
-        "externalWorkflowExecutionBlockedByDefault": true,
-        "maxActionsPerRun": 1
-      }
-    },
-    {
-      "id": "20260521153841-prepare-repository-channel",
-      "generatedAt": "2026-05-21T15:38:41.457Z",
-      "runFingerprint": "83f60b458625a99d",
-      "mode": "plan-only",
-      "status": "operator-plan-ready",
-      "selectedActionId": "prepare-repository-channel",
-      "selectedCommand": "npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap",
-      "eligibleActionIds": [
-        "check-performance-budget",
-        "run-post-deploy-smoke",
-        "refresh-product-gate-recovery",
-        "prepare-repository-channel",
-        "bootstrap-production-setup"
-      ],
-      "blockedActionCount": 32,
-      "execution": {
-        "requested": false,
-        "status": "not-requested",
-        "attemptedActionId": null,
-        "resultCount": 0,
-        "failedScripts": []
-      },
-      "controls": {
-        "zeroPaidSpend": true,
-        "localCommandAllowlistEnforced": true,
-        "externalWorkflowExecutionBlockedByDefault": true,
-        "maxActionsPerRun": 1
-      }
-    },
-    {
-      "id": "20260521154008-prepare-repository-channel",
-      "generatedAt": "2026-05-21T15:40:08.425Z",
-      "runFingerprint": "0e6c552c50e60748",
-      "mode": "plan-only",
-      "status": "operator-plan-ready",
-      "selectedActionId": "prepare-repository-channel",
-      "selectedCommand": "npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap",
-      "eligibleActionIds": [
-        "check-performance-budget",
-        "refresh-product-gate-recovery",
-        "prepare-repository-channel",
-        "bootstrap-production-setup"
-      ],
-      "blockedActionCount": 32,
-      "execution": {
-        "requested": false,
-        "status": "not-requested",
-        "attemptedActionId": null,
-        "resultCount": 0,
-        "failedScripts": []
-      },
-      "controls": {
-        "zeroPaidSpend": true,
-        "localCommandAllowlistEnforced": true,
-        "externalWorkflowExecutionBlockedByDefault": true,
-        "maxActionsPerRun": 1
-      }
-    },
-    {
-      "id": "20260521154107-prepare-repository-channel",
-      "generatedAt": "2026-05-21T15:41:07.470Z",
-      "runFingerprint": "dcfae27e1c576c19",
-      "mode": "plan-only",
-      "status": "operator-plan-ready",
-      "selectedActionId": "prepare-repository-channel",
-      "selectedCommand": "npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap",
-      "eligibleActionIds": [
-        "check-performance-budget",
-        "refresh-product-gate-recovery",
-        "prepare-repository-channel"
-      ],
-      "blockedActionCount": 32,
-      "execution": {
-        "requested": false,
-        "status": "not-requested",
-        "attemptedActionId": null,
-        "resultCount": 0,
-        "failedScripts": []
-      },
-      "controls": {
-        "zeroPaidSpend": true,
-        "localCommandAllowlistEnforced": true,
-        "externalWorkflowExecutionBlockedByDefault": true,
-        "maxActionsPerRun": 1
-      }
-    },
-    {
-      "id": "20260521154603-prepare-repository-channel",
-      "generatedAt": "2026-05-21T15:46:03.889Z",
-      "runFingerprint": "702a3ad1cc68dc50",
-      "mode": "plan-only",
-      "status": "operator-plan-ready",
-      "selectedActionId": "prepare-repository-channel",
-      "selectedCommand": "npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap",
-      "eligibleActionIds": [
-        "prepare-release-candidate",
-        "run-post-deploy-smoke",
-        "refresh-product-gate-recovery",
-        "collect-gate-sample-downloads",
-        "refresh-product-gate-sample-plan",
-        "prepare-repository-channel",
-        "bootstrap-production-setup"
-      ],
-      "blockedActionCount": 32,
-      "execution": {
-        "requested": false,
-        "status": "not-requested",
-        "attemptedActionId": null,
-        "resultCount": 0,
-        "failedScripts": []
-      },
-      "controls": {
-        "zeroPaidSpend": true,
-        "localCommandAllowlistEnforced": true,
-        "externalWorkflowExecutionBlockedByDefault": true,
-        "maxActionsPerRun": 1
-      }
-    },
-    {
-      "id": "20260521154718-collect-gate-sample-downloads",
-      "generatedAt": "2026-05-21T15:47:18.610Z",
-      "runFingerprint": "386acfd5de089a1e",
-      "mode": "plan-only",
-      "status": "operator-plan-ready",
-      "selectedActionId": "collect-gate-sample-downloads",
-      "selectedCommand": "npm run autonomous:collect-sample-downloads",
-      "eligibleActionIds": [
-        "prepare-release-candidate",
-        "run-post-deploy-smoke",
-        "refresh-product-gate-recovery",
-        "collect-gate-sample-downloads",
-        "refresh-product-gate-sample-plan"
-      ],
-      "blockedActionCount": 32,
-      "execution": {
-        "requested": false,
-        "status": "not-requested",
-        "attemptedActionId": null,
-        "resultCount": 0,
-        "failedScripts": []
-      },
-      "controls": {
-        "zeroPaidSpend": true,
-        "localCommandAllowlistEnforced": true,
-        "externalWorkflowExecutionBlockedByDefault": true,
-        "maxActionsPerRun": 1
-      }
-    },
-    {
-      "id": "20260521154835-collect-gate-sample-downloads",
-      "generatedAt": "2026-05-21T15:48:35.532Z",
-      "runFingerprint": "8aa2f5045fa5e80e",
-      "mode": "plan-only",
-      "status": "operator-plan-ready",
-      "selectedActionId": "collect-gate-sample-downloads",
-      "selectedCommand": "npm run autonomous:collect-sample-downloads",
-      "eligibleActionIds": [
-        "refresh-product-gate-recovery",
-        "collect-gate-sample-downloads",
-        "refresh-product-gate-sample-plan"
-      ],
-      "blockedActionCount": 32,
-      "execution": {
-        "requested": false,
-        "status": "not-requested",
-        "attemptedActionId": null,
-        "resultCount": 0,
-        "failedScripts": []
-      },
-      "controls": {
-        "zeroPaidSpend": true,
-        "localCommandAllowlistEnforced": true,
-        "externalWorkflowExecutionBlockedByDefault": true,
-        "maxActionsPerRun": 1
-      }
-    },
-    {
-      "id": "20260521155004-collect-gate-sample-downloads",
-      "generatedAt": "2026-05-21T15:50:04.218Z",
-      "runFingerprint": "664fbe9f965c0eba",
-      "mode": "plan-only",
-      "status": "operator-plan-ready",
-      "selectedActionId": "collect-gate-sample-downloads",
-      "selectedCommand": "npm run autonomous:collect-sample-downloads",
-      "eligibleActionIds": [
-        "collect-gate-sample-downloads"
-      ],
-      "blockedActionCount": 32,
-      "execution": {
-        "requested": false,
-        "status": "not-requested",
-        "attemptedActionId": null,
-        "resultCount": 0,
         "failedScripts": []
       },
       "controls": {
@@ -1119,6 +753,411 @@
       "selectedCommand": "npm run autonomous:objective-audit",
       "eligibleActionIds": [
         "refresh-objective-audit"
+      ],
+      "blockedActionCount": 32,
+      "execution": {
+        "requested": false,
+        "status": "not-requested",
+        "attemptedActionId": null,
+        "resultCount": 0,
+        "failedScripts": []
+      },
+      "controls": {
+        "zeroPaidSpend": true,
+        "localCommandAllowlistEnforced": true,
+        "externalWorkflowExecutionBlockedByDefault": true,
+        "maxActionsPerRun": 1
+      }
+    },
+    {
+      "id": "20260521174309-seed-portfolio-traffic",
+      "generatedAt": "2026-05-21T17:43:09.170Z",
+      "runFingerprint": "04741ec32b7e6856",
+      "mode": "plan-only",
+      "status": "operator-plan-ready",
+      "selectedActionId": "seed-portfolio-traffic",
+      "selectedCommand": "npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop",
+      "eligibleActionIds": [
+        "seed-portfolio-traffic",
+        "refresh-organic-seed-loop",
+        "optimize-daily-retention",
+        "refresh-first-move-coach",
+        "refresh-completion-loop",
+        "refresh-replay-loop",
+        "optimize-store-listing",
+        "apply-safe-improvements"
+      ],
+      "blockedActionCount": 32,
+      "execution": {
+        "requested": false,
+        "status": "not-requested",
+        "attemptedActionId": null,
+        "resultCount": 0,
+        "failedScripts": []
+      },
+      "controls": {
+        "zeroPaidSpend": true,
+        "localCommandAllowlistEnforced": true,
+        "externalWorkflowExecutionBlockedByDefault": true,
+        "maxActionsPerRun": 1
+      }
+    },
+    {
+      "id": "20260521174342-refresh-first-move-coach",
+      "generatedAt": "2026-05-21T17:43:42.109Z",
+      "runFingerprint": "91f62bba55d0a817",
+      "mode": "plan-only",
+      "status": "operator-plan-ready",
+      "selectedActionId": "refresh-first-move-coach",
+      "selectedCommand": "npm run autonomous:first-move-coach",
+      "eligibleActionIds": [
+        "optimize-daily-retention",
+        "refresh-product-gate-recovery",
+        "refresh-first-move-coach",
+        "refresh-completion-loop",
+        "refresh-replay-loop",
+        "optimize-store-listing",
+        "apply-safe-improvements"
+      ],
+      "blockedActionCount": 32,
+      "execution": {
+        "requested": false,
+        "status": "not-requested",
+        "attemptedActionId": null,
+        "resultCount": 0,
+        "failedScripts": []
+      },
+      "controls": {
+        "zeroPaidSpend": true,
+        "localCommandAllowlistEnforced": true,
+        "externalWorkflowExecutionBlockedByDefault": true,
+        "maxActionsPerRun": 1
+      }
+    },
+    {
+      "id": "20260521174400-optimize-daily-retention",
+      "generatedAt": "2026-05-21T17:44:00.788Z",
+      "runFingerprint": "266f9989483efd0f",
+      "mode": "plan-only",
+      "status": "operator-plan-ready",
+      "selectedActionId": "optimize-daily-retention",
+      "selectedCommand": "npm run autonomous:retention",
+      "eligibleActionIds": [
+        "optimize-daily-retention",
+        "refresh-product-gate-recovery",
+        "refresh-completion-loop",
+        "refresh-replay-loop",
+        "optimize-store-listing",
+        "apply-safe-improvements"
+      ],
+      "blockedActionCount": 32,
+      "execution": {
+        "requested": false,
+        "status": "not-requested",
+        "attemptedActionId": null,
+        "resultCount": 0,
+        "failedScripts": []
+      },
+      "controls": {
+        "zeroPaidSpend": true,
+        "localCommandAllowlistEnforced": true,
+        "externalWorkflowExecutionBlockedByDefault": true,
+        "maxActionsPerRun": 1
+      }
+    },
+    {
+      "id": "20260521174417-seed-portfolio-traffic",
+      "generatedAt": "2026-05-21T17:44:17.213Z",
+      "runFingerprint": "ddd14f1ca6345461",
+      "mode": "plan-only",
+      "status": "operator-plan-ready",
+      "selectedActionId": "seed-portfolio-traffic",
+      "selectedCommand": "npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop",
+      "eligibleActionIds": [
+        "seed-portfolio-traffic",
+        "refresh-organic-seed-loop",
+        "refresh-product-gate-recovery",
+        "refresh-completion-loop",
+        "refresh-replay-loop",
+        "optimize-store-listing",
+        "apply-safe-improvements"
+      ],
+      "blockedActionCount": 32,
+      "execution": {
+        "requested": false,
+        "status": "not-requested",
+        "attemptedActionId": null,
+        "resultCount": 0,
+        "failedScripts": []
+      },
+      "controls": {
+        "zeroPaidSpend": true,
+        "localCommandAllowlistEnforced": true,
+        "externalWorkflowExecutionBlockedByDefault": true,
+        "maxActionsPerRun": 1
+      }
+    },
+    {
+      "id": "20260521174454-seed-portfolio-traffic",
+      "generatedAt": "2026-05-21T17:44:54.344Z",
+      "runFingerprint": "ae5315c534e20f67",
+      "mode": "execute-one-action",
+      "status": "operator-executed",
+      "selectedActionId": "seed-portfolio-traffic",
+      "selectedCommand": "npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop",
+      "eligibleActionIds": [
+        "seed-portfolio-traffic",
+        "refresh-organic-seed-loop",
+        "refresh-product-gate-recovery",
+        "refresh-completion-loop",
+        "refresh-replay-loop",
+        "optimize-store-listing",
+        "apply-safe-improvements"
+      ],
+      "blockedActionCount": 32,
+      "execution": {
+        "requested": true,
+        "status": "executed",
+        "attemptedActionId": "seed-portfolio-traffic",
+        "resultCount": 5,
+        "failedScripts": []
+      },
+      "controls": {
+        "zeroPaidSpend": true,
+        "localCommandAllowlistEnforced": true,
+        "externalWorkflowExecutionBlockedByDefault": true,
+        "maxActionsPerRun": 1
+      }
+    },
+    {
+      "id": "20260521174605-bootstrap-production-setup",
+      "generatedAt": "2026-05-21T17:46:05.779Z",
+      "runFingerprint": "d58b81c406911cf0",
+      "mode": "plan-only",
+      "status": "operator-plan-ready",
+      "selectedActionId": "bootstrap-production-setup",
+      "selectedCommand": "npm run autonomous:release-candidate && npm run autonomous:deploy-plan && npm run autonomous:bootstrap",
+      "eligibleActionIds": [
+        "refresh-product-gate-recovery",
+        "refresh-completion-loop",
+        "refresh-replay-loop",
+        "bootstrap-production-setup",
+        "optimize-store-listing",
+        "apply-safe-improvements"
+      ],
+      "blockedActionCount": 32,
+      "execution": {
+        "requested": false,
+        "status": "not-requested",
+        "attemptedActionId": null,
+        "resultCount": 0,
+        "failedScripts": []
+      },
+      "controls": {
+        "zeroPaidSpend": true,
+        "localCommandAllowlistEnforced": true,
+        "externalWorkflowExecutionBlockedByDefault": true,
+        "maxActionsPerRun": 1
+      }
+    },
+    {
+      "id": "20260521174627-bootstrap-production-setup",
+      "generatedAt": "2026-05-21T17:46:27.723Z",
+      "runFingerprint": "45883254483f26c9",
+      "mode": "execute-one-action",
+      "status": "operator-executed",
+      "selectedActionId": "bootstrap-production-setup",
+      "selectedCommand": "npm run autonomous:release-candidate && npm run autonomous:deploy-plan && npm run autonomous:bootstrap",
+      "eligibleActionIds": [
+        "refresh-product-gate-recovery",
+        "refresh-completion-loop",
+        "refresh-replay-loop",
+        "bootstrap-production-setup",
+        "optimize-store-listing",
+        "apply-safe-improvements"
+      ],
+      "blockedActionCount": 32,
+      "execution": {
+        "requested": true,
+        "status": "executed",
+        "attemptedActionId": "bootstrap-production-setup",
+        "resultCount": 3,
+        "failedScripts": []
+      },
+      "controls": {
+        "zeroPaidSpend": true,
+        "localCommandAllowlistEnforced": true,
+        "externalWorkflowExecutionBlockedByDefault": true,
+        "maxActionsPerRun": 1
+      }
+    },
+    {
+      "id": "20260521174746-refresh-completion-loop",
+      "generatedAt": "2026-05-21T17:47:46.319Z",
+      "runFingerprint": "55ada78cb00853aa",
+      "mode": "plan-only",
+      "status": "operator-plan-ready",
+      "selectedActionId": "refresh-completion-loop",
+      "selectedCommand": "npm run autonomous:completion-loop",
+      "eligibleActionIds": [
+        "refresh-completion-loop",
+        "refresh-replay-loop",
+        "apply-safe-improvements"
+      ],
+      "blockedActionCount": 32,
+      "execution": {
+        "requested": false,
+        "status": "not-requested",
+        "attemptedActionId": null,
+        "resultCount": 0,
+        "failedScripts": []
+      },
+      "controls": {
+        "zeroPaidSpend": true,
+        "localCommandAllowlistEnforced": true,
+        "externalWorkflowExecutionBlockedByDefault": true,
+        "maxActionsPerRun": 1
+      }
+    },
+    {
+      "id": "20260521174945-refresh-completion-loop",
+      "generatedAt": "2026-05-21T17:49:45.621Z",
+      "runFingerprint": "617cd44611e463a4",
+      "mode": "plan-only",
+      "status": "operator-plan-ready",
+      "selectedActionId": "refresh-completion-loop",
+      "selectedCommand": "npm run autonomous:completion-loop",
+      "eligibleActionIds": [
+        "refresh-autonomous-self-update",
+        "refresh-completion-loop",
+        "refresh-objective-audit"
+      ],
+      "blockedActionCount": 32,
+      "execution": {
+        "requested": false,
+        "status": "not-requested",
+        "attemptedActionId": null,
+        "resultCount": 0,
+        "failedScripts": []
+      },
+      "controls": {
+        "zeroPaidSpend": true,
+        "localCommandAllowlistEnforced": true,
+        "externalWorkflowExecutionBlockedByDefault": true,
+        "maxActionsPerRun": 1
+      }
+    },
+    {
+      "id": "20260521175004-refresh-completion-loop",
+      "generatedAt": "2026-05-21T17:50:04.058Z",
+      "runFingerprint": "384e054c11374a2a",
+      "mode": "plan-only",
+      "status": "operator-plan-ready",
+      "selectedActionId": "refresh-completion-loop",
+      "selectedCommand": "npm run autonomous:completion-loop",
+      "eligibleActionIds": [
+        "refresh-autonomous-self-update",
+        "prepare-release-candidate",
+        "run-post-deploy-smoke",
+        "refresh-completion-loop",
+        "bootstrap-production-setup",
+        "refresh-objective-audit"
+      ],
+      "blockedActionCount": 32,
+      "execution": {
+        "requested": false,
+        "status": "not-requested",
+        "attemptedActionId": null,
+        "resultCount": 0,
+        "failedScripts": []
+      },
+      "controls": {
+        "zeroPaidSpend": true,
+        "localCommandAllowlistEnforced": true,
+        "externalWorkflowExecutionBlockedByDefault": true,
+        "maxActionsPerRun": 1
+      }
+    },
+    {
+      "id": "20260521175030-prepare-repository-channel",
+      "generatedAt": "2026-05-21T17:50:30.030Z",
+      "runFingerprint": "2dbe178181346d21",
+      "mode": "plan-only",
+      "status": "operator-plan-ready",
+      "selectedActionId": "prepare-repository-channel",
+      "selectedCommand": "npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap",
+      "eligibleActionIds": [
+        "refresh-autonomous-self-update",
+        "seed-portfolio-traffic",
+        "refresh-organic-seed-loop",
+        "refresh-completion-loop",
+        "prepare-repository-channel",
+        "bootstrap-production-setup",
+        "refresh-objective-audit",
+        "optimize-store-listing"
+      ],
+      "blockedActionCount": 32,
+      "execution": {
+        "requested": false,
+        "status": "not-requested",
+        "attemptedActionId": null,
+        "resultCount": 0,
+        "failedScripts": []
+      },
+      "controls": {
+        "zeroPaidSpend": true,
+        "localCommandAllowlistEnforced": true,
+        "externalWorkflowExecutionBlockedByDefault": true,
+        "maxActionsPerRun": 1
+      }
+    },
+    {
+      "id": "20260521175030-prepare-repository-channel",
+      "generatedAt": "2026-05-21T17:50:30.754Z",
+      "runFingerprint": "0bfcb9f9718ba8cd",
+      "mode": "plan-only",
+      "status": "operator-plan-ready",
+      "selectedActionId": "prepare-repository-channel",
+      "selectedCommand": "npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap",
+      "eligibleActionIds": [
+        "refresh-autonomous-self-update",
+        "seed-portfolio-traffic",
+        "refresh-organic-seed-loop",
+        "refresh-completion-loop",
+        "prepare-repository-channel",
+        "bootstrap-production-setup",
+        "optimize-store-listing"
+      ],
+      "blockedActionCount": 32,
+      "execution": {
+        "requested": false,
+        "status": "not-requested",
+        "attemptedActionId": null,
+        "resultCount": 0,
+        "failedScripts": []
+      },
+      "controls": {
+        "zeroPaidSpend": true,
+        "localCommandAllowlistEnforced": true,
+        "externalWorkflowExecutionBlockedByDefault": true,
+        "maxActionsPerRun": 1
+      }
+    },
+    {
+      "id": "20260521175213-prepare-repository-channel",
+      "generatedAt": "2026-05-21T17:52:13.787Z",
+      "runFingerprint": "fc255419a6b605c5",
+      "mode": "plan-only",
+      "status": "operator-plan-ready",
+      "selectedActionId": "prepare-repository-channel",
+      "selectedCommand": "npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap",
+      "eligibleActionIds": [
+        "refresh-autonomous-self-update",
+        "seed-portfolio-traffic",
+        "refresh-organic-seed-loop",
+        "refresh-completion-loop",
+        "prepare-repository-channel",
+        "bootstrap-production-setup"
       ],
       "blockedActionCount": 32,
       "execution": {

@@ -1,6 +1,6 @@
 # Growth Plan
 
-Generated: 2026-05-21T17:09:36.712Z
+Generated: 2026-05-21T17:49:03.738Z
 Status: growth-assets-ready
 Site URL: https://moshequ.github.io/autonomous-game-lab
 
@@ -11,9 +11,9 @@ Site URL: https://moshequ.github.io/autonomous-game-lab
 - Harbor Circuit: /games/harbor-circuit.html, focus evergreen-search-page, score 50, CTA play-free
 - Foundry Ledger: /games/foundry-ledger.html, focus evergreen-search-page, score 54, CTA play-free
 - Orbit Atlas: /games/orbit-atlas.html, focus evergreen-search-page, score 58, CTA daily-challenge
-- Mosaic Haven: /games/mosaic-haven.html, focus evergreen-search-page, score 62, CTA play-free
-- Pocket Draft: /games/pocket-draft.html, focus evergreen-search-page, score 66, CTA play-free
-- Metro Loom: /games/metro-loom.html, focus evergreen-search-page, score 70, CTA daily-challenge
+- Pocket Draft: /games/pocket-draft.html, focus evergreen-search-page, score 62, CTA play-free
+- Metro Loom: /games/metro-loom.html, focus evergreen-search-page, score 66, CTA daily-challenge
+- Mosaic Haven: /games/mosaic-haven.html, focus evergreen-search-page, score 70, CTA play-free
 - Grove Engine: /games/grove-engine.html, focus evergreen-search-page, score 74, CTA daily-challenge
 - Canopy Bloom: /games/canopy-bloom.html, focus evergreen-search-page, score 78, CTA daily-challenge
 

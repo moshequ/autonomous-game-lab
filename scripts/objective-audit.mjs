@@ -282,7 +282,9 @@ const requirements = [
   requirement({
     id: 'original-trend-driven-game-generation',
     status:
-      ['live-licensed', 'cached-licensed', 'fixture-safe'].includes(trendSourceReadiness.status) &&
+      ['live-licensed', 'cached-licensed', 'live-public', 'cached-public', 'fixture-safe'].includes(
+        trendSourceReadiness.status,
+      ) &&
       acceptedConcepts.length >= 2 &&
       acceptedConcepts.length === lowRiskConcepts.length &&
       generatedPlayable.status === 'generated-runtime-ready' &&
@@ -302,7 +304,7 @@ const requirements = [
       acceptedConcepts.length !== lowRiskConcepts.length
         ? ['At least one accepted concept is not low IP-risk.']
         : [],
-    nextAction: 'Keep licensed/cache/fixture trend inputs feeding original concept generation.',
+    nextAction: 'Keep licensed, public feed, cache, or fixture trend inputs feeding original concept generation.',
   }),
   requirement({
     id: 'behavior-measurement-loop',

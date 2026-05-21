@@ -1,5 +1,5 @@
 export const repositoryReadiness = {
-  "status": "repository-channel-ready",
+  "status": "waiting-for-repository-channel",
   "workspace": {
     "insideWorkTree": true
   },
@@ -13,7 +13,7 @@ export const repositoryReadiness = {
     }
   },
   "githubAutomation": {
-    "workflowDispatchReady": true
+    "workflowDispatchReady": false
   },
   "pages": {
     "liveSettings": {

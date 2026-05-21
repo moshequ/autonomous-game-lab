@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-21T17:09:37.241Z",
+  "generatedAt": "2026-05-21T17:49:10.198Z",
   "siteUrl": "https://moshequ.github.io/autonomous-game-lab",
   "publicUrlMode": "absolute-origin",
   "shares": [
@@ -19,12 +19,12 @@
     {
       "gameId": "lantern-relay",
       "title": "Play Lantern Relay",
-      "text": "5-minute original tile placement game for daily mobile play.",
+      "text": "7-minute original card drafting game for daily mobile play.",
       "url": "https://moshequ.github.io/autonomous-game-lab/?game=lantern-relay&utm_source=share&utm_campaign=lantern-relay",
       "tags": [
-        "tile placement",
+        "card drafting",
         "cozy production",
-        "mobile puzzle",
+        "families",
         "daily puzzle",
         "solo board game"
       ]
@@ -32,11 +32,11 @@
     {
       "gameId": "harbor-circuit",
       "title": "Play Harbor Circuit",
-      "text": "9-minute original card drafting game for daily mobile play.",
+      "text": "9-minute original route building game for daily mobile play.",
       "url": "https://moshequ.github.io/autonomous-game-lab/?game=harbor-circuit&utm_source=share&utm_campaign=harbor-circuit",
       "tags": [
-        "card drafting",
-        "compact city logistics",
+        "route building",
+        "science desk",
         "strategy solo",
         "daily puzzle",
         "solo board game"
@@ -45,21 +45,8 @@
     {
       "gameId": "foundry-ledger",
       "title": "Play Foundry Ledger",
-      "text": "5-minute original route building game for daily mobile play.",
-      "url": "https://moshequ.github.io/autonomous-game-lab/?game=foundry-ledger&utm_source=share&utm_campaign=foundry-ledger",
-      "tags": [
-        "route building",
-        "merchant timing",
-        "mobile puzzle",
-        "daily puzzle",
-        "solo board game"
-      ]
-    },
-    {
-      "gameId": "orbit-atlas",
-      "title": "Play Orbit Atlas",
       "text": "7-minute original engine building game for daily mobile play.",
-      "url": "https://moshequ.github.io/autonomous-game-lab/?game=orbit-atlas&utm_source=share&utm_campaign=orbit-atlas",
+      "url": "https://moshequ.github.io/autonomous-game-lab/?game=foundry-ledger&utm_source=share&utm_campaign=foundry-ledger",
       "tags": [
         "engine building",
         "expedition planning",
@@ -69,26 +56,26 @@
       ]
     },
     {
-      "gameId": "mosaic-haven",
-      "title": "Play Mosaic Haven",
-      "text": "A generated tile placement puzzle with quick cozy production decisions.",
-      "url": "https://moshequ.github.io/autonomous-game-lab/?game=mosaic-haven&utm_source=share&utm_campaign=mosaic-haven",
+      "gameId": "orbit-atlas",
+      "title": "Play Orbit Atlas",
+      "text": "5-minute original tile placement game for daily mobile play.",
+      "url": "https://moshequ.github.io/autonomous-game-lab/?game=orbit-atlas&utm_source=share&utm_campaign=orbit-atlas",
       "tags": [
         "tile placement",
-        "cozy production",
+        "compact city logistics",
+        "mobile puzzle",
         "daily puzzle",
-        "solo board game",
-        "generated strategy game"
+        "solo board game"
       ]
     },
     {
       "gameId": "pocket-draft",
       "title": "Play Pocket Draft",
-      "text": "A generated card drafting puzzle with quick compact city logistics decisions.",
+      "text": "A generated card drafting puzzle with quick cozy production decisions.",
       "url": "https://moshequ.github.io/autonomous-game-lab/?game=pocket-draft&utm_source=share&utm_campaign=pocket-draft",
       "tags": [
         "card drafting",
-        "compact city logistics",
+        "cozy production",
         "daily puzzle",
         "solo board game",
         "generated strategy game"
@@ -97,11 +84,24 @@
     {
       "gameId": "metro-loom",
       "title": "Play Metro Loom",
-      "text": "A generated route building puzzle with quick merchant timing decisions.",
+      "text": "A generated route building puzzle with quick science desk decisions.",
       "url": "https://moshequ.github.io/autonomous-game-lab/?game=metro-loom&utm_source=share&utm_campaign=metro-loom",
       "tags": [
         "route building",
-        "merchant timing",
+        "science desk",
+        "daily puzzle",
+        "solo board game",
+        "generated strategy game"
+      ]
+    },
+    {
+      "gameId": "mosaic-haven",
+      "title": "Play Mosaic Haven",
+      "text": "A generated tile placement puzzle with quick compact city logistics decisions.",
+      "url": "https://moshequ.github.io/autonomous-game-lab/?game=mosaic-haven&utm_source=share&utm_campaign=mosaic-haven",
+      "tags": [
+        "tile placement",
+        "compact city logistics",
         "daily puzzle",
         "solo board game",
         "generated strategy game"
@@ -143,7 +143,7 @@
     "copyShareControls": true,
     "localAnalyticsEvents": true,
     "localAnalyticsStorageKey": "agl.analytics.events",
-    "generatedAt": "2026-05-21T17:09:37.241Z"
+    "generatedAt": "2026-05-21T17:49:10.198Z"
   },
   "gateSampleKit": {
     "path": "/gate-sample.html",
@@ -156,7 +156,7 @@
     "exportControls": true,
     "localAnalyticsEvents": true,
     "localAnalyticsStorageKey": "agl.analytics.events",
-    "generatedAt": "2026-05-21T17:09:37.241Z"
+    "generatedAt": "2026-05-21T17:49:10.198Z"
   },
   "seedCampaigns": [
     {
@@ -190,12 +190,12 @@
       ]
     },
     {
-      "id": "seed-20260521-metro-loom",
-      "gameId": "metro-loom",
-      "title": "Play Metro Loom",
-      "text": "A generated route building puzzle with quick merchant timing decisions.",
-      "url": "https://moshequ.github.io/autonomous-game-lab/?game=metro-loom&utm_source=seed_share&utm_campaign=seed-20260521-metro-loom",
-      "pageUrl": "https://moshequ.github.io/autonomous-game-lab/games/metro-loom.html",
+      "id": "seed-20260521-mosaic-haven",
+      "gameId": "mosaic-haven",
+      "title": "Play Mosaic Haven",
+      "text": "A generated tile placement puzzle with quick compact city logistics decisions.",
+      "url": "https://moshequ.github.io/autonomous-game-lab/?game=mosaic-haven&utm_source=seed_share&utm_campaign=seed-20260521-mosaic-haven",
+      "pageUrl": "https://moshequ.github.io/autonomous-game-lab/games/mosaic-haven.html",
       "priority": 3,
       "costUsd": 0,
       "tags": [
@@ -205,12 +205,12 @@
       ]
     },
     {
-      "id": "seed-20260521-pocket-draft",
-      "gameId": "pocket-draft",
-      "title": "Play Pocket Draft",
-      "text": "A generated card drafting puzzle with quick compact city logistics decisions.",
-      "url": "https://moshequ.github.io/autonomous-game-lab/?game=pocket-draft&utm_source=seed_share&utm_campaign=seed-20260521-pocket-draft",
-      "pageUrl": "https://moshequ.github.io/autonomous-game-lab/games/pocket-draft.html",
+      "id": "seed-20260521-metro-loom",
+      "gameId": "metro-loom",
+      "title": "Play Metro Loom",
+      "text": "A generated route building puzzle with quick science desk decisions.",
+      "url": "https://moshequ.github.io/autonomous-game-lab/?game=metro-loom&utm_source=seed_share&utm_campaign=seed-20260521-metro-loom",
+      "pageUrl": "https://moshequ.github.io/autonomous-game-lab/games/metro-loom.html",
       "priority": 4,
       "costUsd": 0,
       "tags": [

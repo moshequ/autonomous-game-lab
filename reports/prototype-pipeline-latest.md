@@ -1,6 +1,6 @@
 # Prototype Pipeline
 
-Generated: 2026-05-20T09:01:39.727Z
+Generated: 2026-05-21T17:48:56.872Z
 
 ## Next Build
 
@@ -8,10 +8,10 @@ All current generated candidates are playable.
 
 ## Queue
 
-- 1. Lantern Relay (playable) - grid-puzzle, 2 days, monetization instrument-first, Google Play blocked
-- 2. Harbor Circuit (playable) - tableau, 3 days, monetization instrument-first, Google Play blocked
-- 3. Foundry Ledger (playable) - line-drawing, 3 days, monetization instrument-first, Google Play blocked
-- 4. Orbit Atlas (playable) - tableau, 3 days, monetization instrument-first, Google Play blocked
+- 1. Lantern Relay (playable) - tableau, 3 days, monetization instrument-first, Google Play blocked
+- 2. Harbor Circuit (playable) - line-drawing, 3 days, monetization instrument-first, Google Play blocked
+- 3. Orbit Atlas (playable) - grid-puzzle, 2 days, monetization instrument-first, Google Play blocked
+- 4. Foundry Ledger (playable) - tableau, 3 days, monetization instrument-first, Google Play blocked
 
 ## Store Gates
 

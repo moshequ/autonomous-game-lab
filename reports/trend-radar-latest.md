@@ -1,31 +1,32 @@
 # Trend Radar Report
 
-Generated: 2026-05-20T09:01:39.445Z
+Generated: 2026-05-21T17:48:56.225Z
 
-Active source: fixture
-Source note: BGG_XML_API_TOKEN is not set; using fixture trends.
-Cache: empty; usable false
+Active source: public-rss-live
+BGG note: BGG_XML_API_TOKEN is not set; trying public trend feeds before fixtures.
+Public feed note: Fetched 36 public trend item(s) from 3/3 RSS/Atom feed(s).
+Cache: fresh; usable true
 
 ## Top Mechanics
 
-1. tile placement - score 163, mobile fit 88, template grid-puzzle
-2. card drafting - score 120, mobile fit 82, template tableau
-3. engine building - score 99, mobile fit 78, template tableau
-4. route building - score 83, mobile fit 90, template line-drawing
-5. roll and write - score 81, mobile fit 86, template daily-sheet
+1. card drafting - score 288, mobile fit 82, template tableau
+2. route building - score 226, mobile fit 90, template line-drawing
+3. tile placement - score 202, mobile fit 88, template grid-puzzle
+4. engine building - score 34, mobile fit 78, template tableau
+5. roll and write - score 12, mobile fit 86, template daily-sheet
 
 ## Top Themes
 
-1. cozy production - score 69, ad safety 96
-2. compact city logistics - score 67, ad safety 93
-3. expedition planning - score 59, ad safety 89
-4. merchant timing - score 32, ad safety 91
-5. science desk - score 31, ad safety 95
+1. cozy production - score 138, ad safety 96
+2. science desk - score 78, ad safety 95
+3. compact city logistics - score 61, ad safety 93
+4. expedition planning - score 35, ad safety 89
 
 ## Sample Items
 
-- #1 Hot modular-map campaign game: tile placement, worker placement, card drafting
-- #2 Hot cozy tableau game: card drafting, engine building, tile placement
-- #3 Hot route puzzle game: route building, tile placement, card drafting
-- #4 Hot auction duel game: auction, worker placement, tile placement
-- #5 Hot roll-and-write combo game: roll and write, engine building, tile placement
+- #1 Race for the Galaxy vs Terraforming Mars: tile placement, card drafting, route building
+- #2 My buddy turns a 2-hour Euro into a 4-hour hostage situation and I am losing my mind: tile placement, card drafting, route building
+- #3 SFG posts AI "photos" as in production photos?: tile placement, card drafting, route building
+- #4 Operation Barclay Review: card drafting, tile placement, route building
+- #5 About culling your collection: tile placement, card drafting, route building
+- #6 So, quick question about Emberheart…: tile placement, card drafting, route building

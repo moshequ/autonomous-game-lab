@@ -1,34 +1,34 @@
 {
-  "generatedAt": "2026-05-20T21:42:26.812Z",
+  "generatedAt": "2026-05-21T17:49:06.828Z",
   "status": "generated-runtime-ready",
   "games": [
     {
-      "id": "mosaic-haven",
-      "title": "Mosaic Haven",
+      "id": "pocket-draft",
+      "title": "Pocket Draft",
       "status": "generated-playable",
       "source": {
-        "mechanic": "tile placement",
+        "mechanic": "card drafting",
         "theme": "cozy production",
-        "audience": "mobile puzzle",
+        "audience": "families",
         "generatedFrom": [
           "trend-signals",
           "generated-concepts"
         ],
-        "trendScore": 357,
+        "trendScore": 513,
         "conceptId": "lantern-relay",
         "conceptTitle": "Lantern Relay",
-        "conceptScore": 357,
-        "representedPrototypeTemplates": 1
+        "conceptScore": 513,
+        "representedPrototypeTemplates": 2
       },
       "sourceDistance": {
         "copiedExpressionRisk": "low",
         "ruleText": "generated from local scoring template only; no source rule text used",
         "art": "procedural board colors and layout; no source art used"
       },
-      "boardRows": 4,
-      "boardCols": 4,
-      "maxMoves": 10,
-      "targetScore": 90,
+      "boardRows": 3,
+      "boardCols": 5,
+      "maxMoves": 11,
+      "targetScore": 130,
       "pieces": [
         {
           "id": "sprout",
@@ -51,21 +51,21 @@
           "fill": "#6b5bb8"
         }
       ],
-      "tutorial": "Mark one cell per turn. Build tile placement combos across cozy production to beat 90.",
-      "playerPromise": "A complete tactical board-game feeling in 5 minutes, tuned for touch screens.",
+      "tutorial": "Mark one cell per turn. Build card drafting combos across cozy production to beat 130.",
+      "playerPromise": "A complete tactical board-game feeling in 7 minutes, tuned for touch screens.",
       "scoring": {
-        "base": 3,
-        "sameNeighbor": 5,
-        "occupiedNeighbor": 3,
-        "rowDiversity": 5,
-        "columnDiversity": 5,
-        "center": 3,
+        "base": 4,
+        "sameNeighbor": 6,
+        "occupiedNeighbor": 1,
+        "rowDiversity": 7,
+        "columnDiversity": 3,
+        "center": 2,
         "corner": 2
       },
       "storeListing": {
-        "shortDescription": "A generated tile placement puzzle with quick cozy production decisions.",
+        "shortDescription": "A generated card drafting puzzle with quick cozy production decisions.",
         "keywords": [
-          "tile placement",
+          "card drafting",
           "cozy production",
           "daily puzzle",
           "solo board game",
@@ -74,32 +74,32 @@
       }
     },
     {
-      "id": "pocket-draft",
-      "title": "Pocket Draft",
+      "id": "metro-loom",
+      "title": "Metro Loom",
       "status": "generated-playable",
       "source": {
-        "mechanic": "card drafting",
-        "theme": "compact city logistics",
+        "mechanic": "route building",
+        "theme": "science desk",
         "audience": "strategy solo",
         "generatedFrom": [
           "trend-signals",
           "generated-concepts"
         ],
-        "trendScore": 253,
+        "trendScore": 375,
         "conceptId": "harbor-circuit",
         "conceptTitle": "Harbor Circuit",
-        "conceptScore": 253,
-        "representedPrototypeTemplates": 2
+        "conceptScore": 375,
+        "representedPrototypeTemplates": 1
       },
       "sourceDistance": {
         "copiedExpressionRisk": "low",
         "ruleText": "generated from local scoring template only; no source rule text used",
         "art": "procedural board colors and layout; no source art used"
       },
-      "boardRows": 3,
+      "boardRows": 5,
       "boardCols": 5,
       "maxMoves": 12,
-      "targetScore": 136,
+      "targetScore": 96,
       "pieces": [
         {
           "id": "station",
@@ -122,22 +122,22 @@
           "fill": "#4d6f3a"
         }
       ],
-      "tutorial": "Mark one cell per turn. Build card drafting combos across compact city logistics to beat 136.",
+      "tutorial": "Mark one cell per turn. Build route building combos across science desk to beat 96.",
       "playerPromise": "A complete tactical board-game feeling in 9 minutes, tuned for touch screens.",
       "scoring": {
-        "base": 4,
-        "sameNeighbor": 6,
-        "occupiedNeighbor": 1,
-        "rowDiversity": 7,
-        "columnDiversity": 3,
+        "base": 2,
+        "sameNeighbor": 3,
+        "occupiedNeighbor": 5,
+        "rowDiversity": 3,
+        "columnDiversity": 7,
         "center": 2,
-        "corner": 2
+        "corner": 1
       },
       "storeListing": {
-        "shortDescription": "A generated card drafting puzzle with quick compact city logistics decisions.",
+        "shortDescription": "A generated route building puzzle with quick science desk decisions.",
         "keywords": [
-          "card drafting",
-          "compact city logistics",
+          "route building",
+          "science desk",
           "daily puzzle",
           "solo board game",
           "generated strategy game"
@@ -145,21 +145,21 @@
       }
     },
     {
-      "id": "metro-loom",
-      "title": "Metro Loom",
+      "id": "mosaic-haven",
+      "title": "Mosaic Haven",
       "status": "generated-playable",
       "source": {
-        "mechanic": "route building",
-        "theme": "merchant timing",
+        "mechanic": "tile placement",
+        "theme": "compact city logistics",
         "audience": "mobile puzzle",
         "generatedFrom": [
           "trend-signals",
           "generated-concepts"
         ],
-        "trendScore": 240,
-        "conceptId": "foundry-ledger",
-        "conceptTitle": "Foundry Ledger",
-        "conceptScore": 240,
+        "trendScore": 331,
+        "conceptId": "orbit-atlas",
+        "conceptTitle": "Orbit Atlas",
+        "conceptScore": 331,
         "representedPrototypeTemplates": 1
       },
       "sourceDistance": {
@@ -167,10 +167,10 @@
         "ruleText": "generated from local scoring template only; no source rule text used",
         "art": "procedural board colors and layout; no source art used"
       },
-      "boardRows": 5,
-      "boardCols": 5,
+      "boardRows": 4,
+      "boardCols": 4,
       "maxMoves": 10,
-      "targetScore": 88,
+      "targetScore": 90,
       "pieces": [
         {
           "id": "stall",
@@ -193,22 +193,22 @@
           "fill": "#b85b4b"
         }
       ],
-      "tutorial": "Mark one cell per turn. Build route building combos across merchant timing to beat 88.",
+      "tutorial": "Mark one cell per turn. Build tile placement combos across compact city logistics to beat 90.",
       "playerPromise": "A complete tactical board-game feeling in 5 minutes, tuned for touch screens.",
       "scoring": {
-        "base": 2,
-        "sameNeighbor": 3,
-        "occupiedNeighbor": 5,
-        "rowDiversity": 3,
-        "columnDiversity": 7,
-        "center": 2,
-        "corner": 1
+        "base": 3,
+        "sameNeighbor": 5,
+        "occupiedNeighbor": 3,
+        "rowDiversity": 5,
+        "columnDiversity": 5,
+        "center": 3,
+        "corner": 2
       },
       "storeListing": {
-        "shortDescription": "A generated route building puzzle with quick merchant timing decisions.",
+        "shortDescription": "A generated tile placement puzzle with quick compact city logistics decisions.",
         "keywords": [
-          "route building",
-          "merchant timing",
+          "tile placement",
+          "compact city logistics",
           "daily puzzle",
           "solo board game",
           "generated strategy game"
@@ -227,10 +227,10 @@
           "trend-signals",
           "generated-concepts"
         ],
-        "trendScore": 207,
-        "conceptId": "orbit-atlas",
-        "conceptTitle": "Orbit Atlas",
-        "conceptScore": 207,
+        "trendScore": 156,
+        "conceptId": "foundry-ledger",
+        "conceptTitle": "Foundry Ledger",
+        "conceptScore": 156,
         "representedPrototypeTemplates": 2
       },
       "sourceDistance": {
@@ -297,7 +297,7 @@
         "generatedFrom": [
           "trend-signals"
         ],
-        "trendScore": 81,
+        "trendScore": 12,
         "conceptId": null,
         "conceptTitle": null,
         "conceptScore": null,

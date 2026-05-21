@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-05-21T17:09:37.518Z",
+  "generatedAt": "2026-05-21T17:49:10.442Z",
   "status": "acquisition-learning-ready",
-  "sourceDataHash": "35f4a6c090e7",
+  "sourceDataHash": "3d48626856b6",
   "sourceStatus": {
     "analyticsSource": "fixture-sample",
     "localEventFiles": 0,
@@ -125,9 +125,9 @@
       "nextAction": "Collect campaign-attributed events for Grove Engine; aggregate starts are 0."
     },
     {
-      "id": "seed-20260521-metro-loom",
-      "gameId": "metro-loom",
-      "title": "Metro Loom",
+      "id": "seed-20260521-mosaic-haven",
+      "gameId": "mosaic-haven",
+      "title": "Mosaic Haven",
       "status": "collecting-attribution",
       "priority": 3,
       "costUsd": 0,
@@ -151,12 +151,12 @@
         "completionRate": null,
         "growthQualityScore": 70
       },
-      "nextAction": "Collect campaign-attributed events for Metro Loom; aggregate starts are 0."
+      "nextAction": "Collect campaign-attributed events for Mosaic Haven; aggregate starts are 0."
     },
     {
-      "id": "seed-20260521-pocket-draft",
-      "gameId": "pocket-draft",
-      "title": "Pocket Draft",
+      "id": "seed-20260521-metro-loom",
+      "gameId": "metro-loom",
+      "title": "Metro Loom",
       "status": "collecting-attribution",
       "priority": 4,
       "costUsd": 0,
@@ -180,7 +180,7 @@
         "completionRate": null,
         "growthQualityScore": 66
       },
-      "nextAction": "Collect campaign-attributed events for Pocket Draft; aggregate starts are 0."
+      "nextAction": "Collect campaign-attributed events for Metro Loom; aggregate starts are 0."
     }
   ],
   "nextActions": [

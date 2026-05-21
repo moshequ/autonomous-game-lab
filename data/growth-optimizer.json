@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-05-20T09:01:46.607Z",
-  "sourceDataHash": "5cff86cdbfc3",
+  "generatedAt": "2026-05-21T17:49:03.517Z",
+  "sourceDataHash": "59aa1e6384f7",
   "source": "fixture-sample",
   "observed": {
     "organicEntries": 0,
@@ -9,22 +9,46 @@
   },
   "actions": [
     {
-      "status": "skipped",
+      "status": "applied",
       "gameId": "canopy-bloom",
-      "reason": "same growth diagnosis already applied for this source data",
-      "sourceDataHash": "5cff86cdbfc3"
+      "reason": "No organic entry data yet; seed strongest pages with daily challenge copy.",
+      "confidence": 73,
+      "sourceDataHash": "59aa1e6384f7",
+      "before": {
+        "ctaVariant": "daily-challenge",
+        "messageVariant": "daily",
+        "reason": "No organic entry data yet; seed strongest pages with daily challenge copy.",
+        "confidence": 73,
+        "updatedAt": "2026-05-18T20:09:31.689Z"
+      },
+      "after": {
+        "ctaVariant": "daily-challenge",
+        "messageVariant": "daily",
+        "reason": "No organic entry data yet; seed strongest pages with daily challenge copy.",
+        "confidence": 73,
+        "updatedAt": "2026-05-21T17:49:03.516Z"
+      }
     },
     {
-      "status": "skipped",
+      "status": "applied",
       "gameId": "grove-engine",
-      "reason": "same growth diagnosis already applied for this source data",
-      "sourceDataHash": "5cff86cdbfc3"
-    },
-    {
-      "status": "skipped",
-      "gameId": "harbor-rings",
-      "reason": "same growth diagnosis already applied for this source data",
-      "sourceDataHash": "5cff86cdbfc3"
+      "reason": "No organic entry data yet; seed strongest pages with daily challenge copy.",
+      "confidence": 73,
+      "sourceDataHash": "59aa1e6384f7",
+      "before": {
+        "ctaVariant": "daily-challenge",
+        "messageVariant": "daily",
+        "reason": "No organic entry data yet; seed strongest pages with daily challenge copy.",
+        "confidence": 73,
+        "updatedAt": "2026-05-18T20:09:31.690Z"
+      },
+      "after": {
+        "ctaVariant": "daily-challenge",
+        "messageVariant": "daily",
+        "reason": "No organic entry data yet; seed strongest pages with daily challenge copy.",
+        "confidence": 73,
+        "updatedAt": "2026-05-21T17:49:03.517Z"
+      }
     }
   ],
   "policySummary": {

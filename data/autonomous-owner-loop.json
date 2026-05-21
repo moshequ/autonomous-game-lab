@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2026-05-21T17:31:03.708Z",
+  "generatedAt": "2026-05-21T17:52:14.122Z",
   "status": "owner-loop-ready",
-  "mode": "zero-spend-web-ready",
+  "mode": "guarded-local-automation",
   "autonomyScore": {
-    "readySystems": 43,
+    "readySystems": 39,
     "totalSystems": 44,
-    "percent": 98
+    "percent": 89
   },
   "controls": {
     "localLoopCanRunWithoutExternalAccounts": true,
@@ -19,35 +19,38 @@
     "deployAllowed": true,
     "rollbackRequired": false,
     "repositoryHandoffPrepared": false,
-    "localActionAvailable": false,
-    "heldForExternalInput": true
+    "localActionAvailable": true,
+    "heldForExternalInput": false
   },
   "ownerDecision": {
-    "nextBestActionId": "hold-for-external-input",
-    "nextBestAction": "No local command is available until external inputs, configured credentials, or new player evidence arrive.",
+    "nextBestActionId": "prepare-repository-channel",
+    "nextBestAction": "npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap",
     "canExecuteWithoutSpend": true,
-    "localActionAvailable": false,
-    "holdReason": "All safe local actions are current; remaining progress requires external inputs or new player evidence.",
-    "rationale": "All safe local refresh actions are current; hold execution until owner-provided inputs, production analytics, or real player evidence changes the state."
+    "localActionAvailable": true,
+    "holdReason": null,
+    "rationale": "Surfaces and prepares the missing git/GitHub deployment-channel blockers before web deploy."
   },
   "executionMemory": {
     "avoidImmediateRepeat": true,
     "recentExecutionWindow": 8,
     "recentExecutedActionIds": [
+      "bootstrap-production-setup",
+      "seed-portfolio-traffic",
       "refresh-objective-audit",
       "refresh-product-gate-recovery",
       "refresh-replay-loop",
-      "apply-safe-improvements",
-      "refresh-completion-loop"
+      "apply-safe-improvements"
     ],
-    "lastExecutedActionId": "refresh-objective-audit",
+    "lastExecutedActionId": "bootstrap-production-setup",
     "lastExecutedStatus": "executed",
     "lastRecordExecutionStatus": "not-requested",
-    "recentlySatisfiedActionIds": [],
+    "recentlySatisfiedActionIds": [
+      "refresh-organic-seed-loop"
+    ],
     "objectiveAuditFreshness": {
       "fresh": true,
       "structurallyReady": true,
-      "auditGeneratedAt": "2026-05-21T17:31:03.137Z",
+      "auditGeneratedAt": "2026-05-21T17:52:13.307Z",
       "evaluatedInputIds": [
         "analytics-rollup",
         "event-ingest",
@@ -70,30 +73,30 @@
         "fresh": true,
         "ready": true,
         "status": "cadence-ready",
-        "artifactGeneratedAt": "2026-05-21T17:01:55.936Z",
-        "ageHours": 0.485,
+        "artifactGeneratedAt": "2026-05-21T17:52:12.741Z",
+        "ageHours": 0,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
         "extraReady": true
       },
       "selfUpdate": {
-        "fresh": true,
-        "ready": true,
-        "status": "self-update-ready",
-        "artifactGeneratedAt": "2026-05-21T07:50:13.570Z",
-        "ageHours": 9.681,
+        "fresh": false,
+        "ready": false,
+        "status": "self-update-needs-attention",
+        "artifactGeneratedAt": "2026-05-21T17:52:13.065Z",
+        "ageHours": 0,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
-        "checksPass": true,
-        "extraReady": true
+        "checksPass": false,
+        "extraReady": false
       },
       "supportFeedback": {
         "fresh": true,
         "ready": true,
         "status": "support-feedback-empty",
-        "artifactGeneratedAt": "2026-05-21T17:24:33.037Z",
-        "ageHours": 0.109,
+        "artifactGeneratedAt": "2026-05-21T17:48:59.987Z",
+        "ageHours": 0.054,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -103,8 +106,8 @@
         "fresh": true,
         "ready": true,
         "status": "performance-budget-ready",
-        "artifactGeneratedAt": "2026-05-21T17:30:44.904Z",
-        "ageHours": 0.005,
+        "artifactGeneratedAt": "2026-05-21T17:51:08.489Z",
+        "ageHours": 0.018,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -114,8 +117,8 @@
         "fresh": true,
         "ready": true,
         "status": "live-site-monitor-passed",
-        "artifactGeneratedAt": "2026-05-21T17:31:01.976Z",
-        "ageHours": 0,
+        "artifactGeneratedAt": "2026-05-21T17:51:10.666Z",
+        "ageHours": 0.018,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -127,7 +130,7 @@
         "current": true,
         "ready": true,
         "status": "product-optimization-ready",
-        "artifactGeneratedAt": "2026-05-20T21:42:26.809Z",
+        "artifactGeneratedAt": "2026-05-21T17:49:06.826Z",
         "artifactSourceDataHash": "325bce2331ba",
         "sourceDataHash": "325bce2331ba",
         "evaluatedInputIds": [
@@ -140,9 +143,9 @@
         "current": true,
         "ready": true,
         "status": "retention-loop-ready",
-        "artifactGeneratedAt": "2026-05-21T17:09:56.511Z",
-        "artifactSourceDataHash": "66ff92094bbe",
-        "sourceDataHash": "66ff92094bbe",
+        "artifactGeneratedAt": "2026-05-21T17:50:07.449Z",
+        "artifactSourceDataHash": "1ce09648d2fd",
+        "sourceDataHash": "1ce09648d2fd",
         "evaluatedInputIds": [
           "analytics-rollup",
           "portfolio-policy",
@@ -158,9 +161,9 @@
         "current": true,
         "ready": true,
         "status": "traffic-seeding-ready",
-        "artifactGeneratedAt": "2026-05-21T17:09:37.241Z",
-        "artifactSourceDataHash": "6e501f9bd6d9",
-        "sourceDataHash": "6e501f9bd6d9",
+        "artifactGeneratedAt": "2026-05-21T17:49:10.198Z",
+        "artifactSourceDataHash": "516f7e7a1f85",
+        "sourceDataHash": "516f7e7a1f85",
         "evaluatedInputIds": [
           "playable-games",
           "portfolio-policy",
@@ -173,9 +176,9 @@
         "current": true,
         "ready": true,
         "status": "acquisition-learning-ready",
-        "artifactGeneratedAt": "2026-05-21T17:09:37.518Z",
-        "artifactSourceDataHash": "35f4a6c090e7",
-        "sourceDataHash": "35f4a6c090e7",
+        "artifactGeneratedAt": "2026-05-21T17:49:10.442Z",
+        "artifactSourceDataHash": "3d48626856b6",
+        "sourceDataHash": "3d48626856b6",
         "evaluatedInputIds": [
           "analytics-rollup",
           "traffic-seeding",
@@ -185,12 +188,12 @@
         ]
       },
       "organicSeedLoop": {
-        "current": true,
-        "ready": true,
+        "current": false,
+        "ready": false,
         "status": "organic-seed-loop-ready",
-        "artifactGeneratedAt": "2026-05-21T17:09:37.795Z",
-        "artifactSourceDataHash": "e65d2f491bfc",
-        "sourceDataHash": "e65d2f491bfc",
+        "artifactGeneratedAt": "2026-05-21T17:49:38.305Z",
+        "artifactSourceDataHash": "71d0a4d1234c",
+        "sourceDataHash": "85ddeefb66e9",
         "evaluatedInputIds": [
           "playable-games",
           "analytics-rollup",
@@ -204,7 +207,7 @@
         "current": true,
         "ready": true,
         "status": "pwa-install-loop-ready",
-        "artifactGeneratedAt": "2026-05-21T14:51:43.624Z",
+        "artifactGeneratedAt": "2026-05-21T17:50:07.691Z",
         "artifactSourceDataHash": "caaee222d56d",
         "sourceDataHash": "caaee222d56d",
         "evaluatedInputIds": [
@@ -222,7 +225,7 @@
         "current": true,
         "ready": true,
         "status": "product-gate-recovery-ready",
-        "artifactGeneratedAt": "2026-05-21T17:24:33.559Z",
+        "artifactGeneratedAt": "2026-05-21T17:50:07.924Z",
         "artifactSourceDataHash": "117dcf88ca39",
         "sourceDataHash": "117dcf88ca39",
         "evaluatedInputIds": [
@@ -240,9 +243,9 @@
         "current": true,
         "ready": true,
         "status": "product-gate-sample-plan-ready",
-        "artifactGeneratedAt": "2026-05-21T17:24:33.812Z",
-        "artifactSourceDataHash": "0d4baed859a0",
-        "sourceDataHash": "0d4baed859a0",
+        "artifactGeneratedAt": "2026-05-21T17:50:08.147Z",
+        "artifactSourceDataHash": "0af5ebeb5e81",
+        "sourceDataHash": "0af5ebeb5e81",
         "evaluatedInputIds": [
           "sample-date",
           "product-gate-recovery",
@@ -262,9 +265,9 @@
         "current": true,
         "ready": true,
         "status": "store-package-ready",
-        "artifactGeneratedAt": "2026-05-21T17:02:42.595Z",
-        "artifactSourceDataHash": "b0ba7535e6a8",
-        "sourceDataHash": "b0ba7535e6a8",
+        "artifactGeneratedAt": "2026-05-21T17:52:02.984Z",
+        "artifactSourceDataHash": "1fe2ff1fcc27",
+        "sourceDataHash": "1fe2ff1fcc27",
         "evaluatedInputIds": [
           "prototype-pipeline",
           "production-gates",
@@ -277,9 +280,9 @@
         "current": true,
         "ready": true,
         "status": "store-listing-optimizer-ready",
-        "artifactGeneratedAt": "2026-05-21T17:09:57.341Z",
-        "artifactSourceDataHash": "622c83a46896",
-        "sourceDataHash": "622c83a46896",
+        "artifactGeneratedAt": "2026-05-21T17:52:07.784Z",
+        "artifactSourceDataHash": "0b3201bafe72",
+        "sourceDataHash": "0b3201bafe72",
         "evaluatedInputIds": [
           "store-package",
           "store-assets",
@@ -297,9 +300,9 @@
         "current": true,
         "ready": true,
         "status": "draft-ready-external-blockers",
-        "artifactGeneratedAt": "2026-05-21T17:09:57.610Z",
-        "artifactSourceDataHash": "5ca8f3a64660",
-        "sourceDataHash": "5ca8f3a64660",
+        "artifactGeneratedAt": "2026-05-21T17:52:08.015Z",
+        "artifactSourceDataHash": "e416af0154a2",
+        "sourceDataHash": "e416af0154a2",
         "evaluatedInputIds": [
           "store-package",
           "monetization-plan",
@@ -312,9 +315,9 @@
         "current": true,
         "ready": true,
         "status": "first-move-coach-ready",
-        "artifactGeneratedAt": "2026-05-21T15:18:34.260Z",
-        "artifactSourceDataHash": "b12bb39d5332",
-        "sourceDataHash": "b12bb39d5332",
+        "artifactGeneratedAt": "2026-05-21T17:49:38.072Z",
+        "artifactSourceDataHash": "6b9c4b878e75",
+        "sourceDataHash": "6b9c4b878e75",
         "evaluatedInputIds": [
           "analytics-rollup",
           "product-optimization",
@@ -327,12 +330,12 @@
         ]
       },
       "completionLoop": {
-        "current": true,
-        "ready": true,
+        "current": false,
+        "ready": false,
         "status": "completion-loop-ready",
-        "artifactGeneratedAt": "2026-05-21T15:19:16.148Z",
-        "artifactSourceDataHash": "3ca92c3e1739",
-        "sourceDataHash": "3ca92c3e1739",
+        "artifactGeneratedAt": "2026-05-21T17:49:37.602Z",
+        "artifactSourceDataHash": "a491713e2dcd",
+        "sourceDataHash": "cc040b495a06",
         "evaluatedInputIds": [
           "analytics-rollup",
           "production-gates",
@@ -348,9 +351,9 @@
         "current": true,
         "ready": true,
         "status": "replay-loop-ready",
-        "artifactGeneratedAt": "2026-05-21T15:21:47.402Z",
-        "artifactSourceDataHash": "887eb6c89b98",
-        "sourceDataHash": "887eb6c89b98",
+        "artifactGeneratedAt": "2026-05-21T17:49:37.836Z",
+        "artifactSourceDataHash": "b1b1338e95b2",
+        "sourceDataHash": "b1b1338e95b2",
         "evaluatedInputIds": [
           "analytics-rollup",
           "production-gates",
@@ -367,9 +370,9 @@
         "current": true,
         "ready": true,
         "status": "applied-improvements-ready",
-        "artifactGeneratedAt": "2026-05-21T15:21:00.919Z",
-        "artifactSourceDataHash": "e6cbef4e8512",
-        "sourceDataHash": "e6cbef4e8512",
+        "artifactGeneratedAt": "2026-05-21T17:49:12.738Z",
+        "artifactSourceDataHash": "271978ab5630",
+        "sourceDataHash": "271978ab5630",
         "evaluatedInputIds": [
           "analytics-rollup",
           "improvement-backlog",
@@ -390,7 +393,7 @@
       "current": true,
       "ready": true,
       "status": "bridge-waiting-for-export",
-      "bridgeGeneratedAt": "2026-05-21T16:40:54.541Z",
+      "bridgeGeneratedAt": "2026-05-21T17:50:06.709Z",
       "analyticsSource": "fixture-sample",
       "evidenceReadyNow": false,
       "evaluatedInputIds": [
@@ -411,8 +414,13 @@
       "liveCandidateId": "pwa-4b7280b36bef",
       "artifactCandidateId": "pwa-4b7280b36bef"
     },
-    "skippedRecentlyExecutedActionIds": [],
-    "skippedRecentlySatisfiedActionIds": [],
+    "skippedRecentlyExecutedActionIds": [
+      "seed-portfolio-traffic",
+      "bootstrap-production-setup"
+    ],
+    "skippedRecentlySatisfiedActionIds": [
+      "refresh-organic-seed-loop"
+    ],
     "preferredActionOrder": [
       "prepare-repository-channel",
       "deploy-web-pwa",
@@ -443,11 +451,11 @@
       "prepared": false,
       "targetPlanReady": true,
       "plannedTarget": "moshequ/autonomous-game-lab",
-      "status": "repository-channel-ready"
+      "status": "needs-local-repository-handoff"
     },
     "productionBootstrapFreshness": {
-      "fresh": true,
-      "bootstrapGeneratedAt": "2026-05-21T17:31:02.269Z",
+      "fresh": false,
+      "bootstrapGeneratedAt": "2026-05-21T17:52:11.603Z",
       "evaluatedInputIds": [
         "release-candidate",
         "deployment-plan",
@@ -456,13 +464,15 @@
         "production-environment",
         "event-collector-deployment"
       ],
-      "staleInputIds": []
+      "staleInputIds": [
+        "deployment-plan"
+      ]
     },
     "productionBlockerHandoffFreshness": {
       "current": true,
       "ready": true,
       "status": "handoff-waiting-on-owner-inputs",
-      "generatedAt": "2026-05-21T17:31:02.574Z",
+      "generatedAt": "2026-05-21T17:52:12.213Z",
       "nextBestUnlockId": "production-analytics-browser",
       "ownerActionRequired": 4,
       "missingEnv": 7,
@@ -486,7 +496,7 @@
       "id": "trend-radar",
       "status": "ready",
       "autonomy": "automatic",
-      "evidence": "7 mechanic signal(s), 5 theme signal(s), 3 audience signal(s).",
+      "evidence": "6 mechanic signal(s), 4 theme signal(s), 3 audience signal(s).",
       "nextAction": "Keep refreshing zero-cost trend inputs before concept generation."
     },
     {
@@ -533,17 +543,17 @@
     },
     {
       "id": "autonomous-self-update",
-      "status": "ready",
+      "status": "needs-self-update-evidence",
       "autonomy": "gated-generated-change-persistence",
-      "evidence": "Self-update self-update-ready; safe pending 17; unsafe pending 0; remote push held.",
-      "nextAction": "When a GitHub repository is connected, set AGL_AUTONOMOUS_SELF_UPDATE=1 and AGL_AUTONOMOUS_SELF_UPDATE_DIRECT=1 to let verified generated changes persist."
+      "evidence": "Self-update self-update-needs-attention; safe pending 201; unsafe pending 6; remote push held.",
+      "nextAction": "Fix self-update workflow or allowlist blockers before enabling autonomous persistence."
     },
     {
       "id": "portfolio-loop",
       "status": "ready",
       "autonomy": "automatic",
-      "evidence": "Daily challenge: Canopy Bloom; seed traffic: canopy-bloom, grove-engine, metro-loom, pocket-draft.",
-      "nextAction": "Seed traffic to Canopy Bloom, Grove Engine, Metro Loom, Pocket Draft before judging quality."
+      "evidence": "Daily challenge: Canopy Bloom; seed traffic: canopy-bloom, grove-engine, mosaic-haven, metro-loom.",
+      "nextAction": "Seed traffic to Canopy Bloom, Grove Engine, Mosaic Haven, Metro Loom before judging quality."
     },
     {
       "id": "traffic-seeding",
@@ -584,7 +594,7 @@
       "id": "performance-budget",
       "status": "ready",
       "autonomy": "automatic-build-budget",
-      "evidence": "Initial JS 675.1 KB; gzip 183.4 KB; deferred chunks 2.",
+      "evidence": "Initial JS 675.7 KB; gzip 183.3 KB; deferred chunks 2.",
       "nextAction": "Keep Phaser and game scenes outside the initial PWA shell."
     },
     {
@@ -640,7 +650,7 @@
       "id": "improvement-loop",
       "status": "ready",
       "autonomy": "bounded-automatic",
-      "evidence": "improvement-backlog-ready; 4 backlog item(s); 3 experiment recommendation(s); applied status actions-ready; source f32ee73563e4.",
+      "evidence": "improvement-backlog-ready; 4 backlog item(s); 3 experiment recommendation(s); applied status actions-ready; source 6f06a35d0fd9.",
       "nextAction": "Apply only bounded experiment and backlog changes."
     },
     {
@@ -652,10 +662,10 @@
     },
     {
       "id": "repository-channel",
-      "status": "ready",
-      "autonomy": "workflow-dispatch-ready",
-      "evidence": "Repository moshequ/autonomous-game-lab; git worktree ready; workflow dispatch ready.",
-      "nextAction": "Use production bootstrap to sync configured repository variables/secrets, then dispatch the Web PWA Deploy workflow."
+      "status": "waiting-for-repository-channel",
+      "autonomy": "read-only-repository-preflight",
+      "evidence": "Repository moshequ/autonomous-game-lab; git worktree ready; workflow dispatch blocked.",
+      "nextAction": "Prepare the GitHub repository channel before treating the web deploy as runnable."
     },
     {
       "id": "repository-bootstrap",
@@ -666,9 +676,9 @@
     },
     {
       "id": "web-deployment",
-      "status": "ready",
+      "status": "blocked",
       "autonomy": "workflow-gated",
-      "evidence": "Deployment ready-for-pages; web readiness ready-after-build; promotion promotable-internal.",
+      "evidence": "Deployment blocked; web readiness blocked; promotion promotable-internal.",
       "nextAction": "Connect a free static host or GitHub Pages environment, then publish dist."
     },
     {
@@ -703,8 +713,8 @@
       "id": "production-bootstrap",
       "status": "ready",
       "autonomy": "zero-spend-setup-orchestration",
-      "evidence": "Bootstrap production-bootstrap-ready; mode can-apply-configured-actions; external blockers 15.",
-      "nextAction": "gh workflow run web-pwa-deploy.yml"
+      "evidence": "Bootstrap production-bootstrap-ready; mode can-apply-configured-actions; external blockers 17.",
+      "nextAction": "AGL_SYNC_PAGES_SETTINGS=1 ./ops/github/setup-production.sh"
     },
     {
       "id": "production-activation",
@@ -731,29 +741,29 @@
       "id": "autonomous-operator",
       "status": "ready",
       "autonomy": "one-safe-action-runner",
-      "evidence": "Operator operator-held; selected none; execution not-requested.",
+      "evidence": "Operator operator-plan-ready; selected prepare-repository-channel; execution not-requested.",
       "nextAction": "Keep a dry-run operator plan ready, then execute only one allowlisted local action when explicitly requested."
     },
     {
       "id": "operator-history",
-      "status": "ready",
+      "status": "needs-history",
       "autonomy": "operator-audit-trail",
-      "evidence": "History operator-history-ready; records 40; executed 8.",
+      "evidence": "History operator-history-ready; records 41; executed 8.",
       "nextAction": "Keep a capped durable record of operator plans and one-action executions."
     },
     {
       "id": "objective-audit",
       "status": "ready",
       "autonomy": "completion-evidence-ledger",
-      "evidence": "Audit objective-in-progress; met 6/8; external blockers 15.",
+      "evidence": "Audit objective-in-progress; met 4/8; external blockers 15.",
       "nextAction": "The local autonomous PWA system is largely prepared with strict live deploy evidence synced from GitHub Actions, but production credentials, live data, monetization gates, and store account/signing blockers remain."
     },
     {
       "id": "store-listing-optimizer",
       "status": "ready",
       "autonomy": "automatic-aso-draft",
-      "evidence": "Focus canopy-bloom; lead screenshot phone-canopy-bloom-generated; candidate changed no.",
-      "nextAction": "Keep Canopy Bloom as the store listing focus."
+      "evidence": "Focus canopy-bloom; lead screenshot phone-canopy-bloom-generated; candidate changed yes.",
+      "nextAction": "Use Canopy Bloom as the store listing focus instead of lantern-relay."
     },
     {
       "id": "store-compliance",
@@ -823,36 +833,36 @@
     },
     {
       "id": "refresh-autonomous-self-update",
-      "status": "monitor",
+      "status": "armed",
       "costUsd": 0,
       "command": "npm run autonomous:self-update",
       "targets": [
         ".github/workflows/autonomous-self-update.yml"
       ],
-      "reason": "Self-update evidence is already fresh, verified, allowlisted, and gated behind explicit repository controls."
+      "reason": "Keeps verified generated-change persistence gated, allowlisted, and ready for the scheduled production repository."
     },
     {
       "id": "seed-portfolio-traffic",
-      "status": "monitor",
+      "status": "armed",
       "costUsd": 0,
       "command": "npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop",
       "targets": [
         "canopy-bloom",
         "grove-engine",
-        "metro-loom",
-        "pocket-draft"
+        "mosaic-haven",
+        "metro-loom"
       ],
-      "reason": "Traffic campaigns, acquisition learning, and organic seed surface already reflect the current inputs."
+      "reason": "Under-measured playable games need free organic/internal traffic before quality judgment."
     },
     {
       "id": "refresh-organic-seed-loop",
-      "status": "monitor",
+      "status": "armed",
       "costUsd": 0,
       "command": "npm run autonomous:organic-seed-loop",
       "targets": [
         "canopy-bloom"
       ],
-      "reason": "Organic seed surface already reflects current traffic, acquisition, retention, and analytics inputs."
+      "reason": "Refreshes the player-initiated zero-cost share surface for the highest-opportunity seed campaign."
     },
     {
       "id": "refresh-support-feedback",
@@ -891,7 +901,7 @@
       "command": "npm run build && npm run autonomous:performance && npm run autonomous:release-candidate",
       "targets": [
         "pwa-shell",
-        "GameCanvas-J3kc-u6f.js",
+        "GameCanvas-DEt62zpn.js",
         "dist-release-candidate"
       ],
       "reason": "Performance budget and release-candidate evidence are already fresh for the current guarded build."
@@ -994,13 +1004,13 @@
     },
     {
       "id": "refresh-completion-loop",
-      "status": "monitor",
+      "status": "armed",
       "costUsd": 0,
       "command": "npm run autonomous:completion-loop",
       "targets": [
         "harbor-rings"
       ],
-      "reason": "Completion loop already matches the current source evidence; wait for new completion or coach data."
+      "reason": "Refreshes optional completion nudges and behind-pace finish-line coaching from product-gate evidence."
     },
     {
       "id": "refresh-replay-loop",
@@ -1014,17 +1024,17 @@
     },
     {
       "id": "prepare-repository-channel",
-      "status": "monitor",
+      "status": "armed",
       "costUsd": 0,
       "command": "npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap",
       "targets": [
         "moshequ/autonomous-game-lab"
       ],
-      "reason": "Keeps the GitHub Pages deployment channel evidence fresh."
+      "reason": "Surfaces and prepares the missing git/GitHub deployment-channel blockers before web deploy."
     },
     {
       "id": "bootstrap-production-setup",
-      "status": "monitor",
+      "status": "armed",
       "costUsd": 0,
       "command": "npm run autonomous:release-candidate && npm run autonomous:deploy-plan && npm run autonomous:bootstrap",
       "targets": [
@@ -1032,7 +1042,7 @@
         "repository-config",
         "event-collector"
       ],
-      "reason": "Production bootstrap handoff is fresh, so the operator should prioritize product learning and local event collection."
+      "reason": "Regenerates the zero-spend production setup handoff and exact GitHub variable/secret commands."
     },
     {
       "id": "activate-production-when-configured",
@@ -1062,7 +1072,7 @@
       "costUsd": 0,
       "command": "npm run autonomous:operator",
       "targets": [
-        "owner-loop-safe-actions"
+        "prepare-repository-channel"
       ],
       "reason": "One-action operator plan is already published; avoid cycling on meta-operator refreshes."
     },
@@ -1072,7 +1082,7 @@
       "costUsd": 0,
       "command": "npm run autonomous:operator",
       "targets": [
-        "refresh-objective-audit"
+        "prepare-repository-channel"
       ],
       "reason": "Operator history is already capped and published; keep attention on product evidence."
     },
@@ -1117,10 +1127,10 @@
     },
     {
       "id": "deploy-web-pwa",
-      "status": "ready-when-repository-pages-enabled",
+      "status": "blocked-needs-repository-channel",
       "costUsd": 0,
       "command": "Run the Web PWA Deploy workflow after GitHub Pages is enabled for the repository.",
-      "reason": "Connect a free static host or GitHub Pages environment, then publish dist."
+      "reason": "Git/GitHub repository channel is not ready for workflow dispatch yet."
     },
     {
       "id": "collect-live-events",
@@ -1268,9 +1278,9 @@
     "retentionLoopStatus": "retention-loop-ready",
     "pwaInstallLoopStatus": "pwa-install-loop-ready",
     "autonomousCadenceStatus": "cadence-ready",
-    "autonomousSelfUpdateStatus": "self-update-ready",
+    "autonomousSelfUpdateStatus": "self-update-needs-attention",
     "performanceBudgetStatus": "performance-budget-ready",
-    "repositoryReadinessStatus": "repository-channel-ready",
+    "repositoryReadinessStatus": "waiting-for-repository-channel",
     "repositoryBootstrapStatus": "repository-bootstrap-ready",
     "repositoryHandoffPrepared": false,
     "releaseCandidateStatus": "release-candidate-ready",
@@ -1287,11 +1297,11 @@
     "productionBlockerHandoffStatus": "handoff-waiting-on-owner-inputs",
     "supportChannelStatus": "support-channel-ready",
     "supportFeedbackStatus": "support-feedback-empty",
-    "autonomousOperatorStatus": "operator-held",
+    "autonomousOperatorStatus": "operator-plan-ready",
     "autonomousOperatorHistoryStatus": "operator-history-ready",
     "objectiveAuditStatus": "objective-in-progress",
     "storeListingOptimizerStatus": "store-listing-optimizer-ready",
-    "deploymentStatus": "ready-for-pages",
+    "deploymentStatus": "blocked",
     "releaseHealthStatus": "monitoring",
     "productionEnvironmentStatus": "production-env-missing",
     "storePackageStatus": "store-package-ready",

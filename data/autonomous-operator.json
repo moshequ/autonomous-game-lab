@@ -1,17 +1,33 @@
 {
-  "generatedAt": "2026-05-21T17:31:03.522Z",
-  "status": "operator-held",
+  "generatedAt": "2026-05-21T17:53:34.602Z",
+  "status": "operator-plan-ready",
   "mode": "plan-only",
   "ownerDecision": {
-    "actionId": "hold-for-external-input",
-    "command": "No local command is available until external inputs, configured credentials, or new player evidence arrive.",
-    "locallyExecutable": false,
-    "rejectionReason": "status-monitor"
+    "actionId": "prepare-repository-channel",
+    "command": "npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap",
+    "locallyExecutable": true,
+    "rejectionReason": null
   },
   "requestedActionId": null,
-  "selectedAction": null,
+  "selectedAction": {
+    "id": "prepare-repository-channel",
+    "status": "armed",
+    "command": "npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap",
+    "targets": [
+      "moshequ/autonomous-game-lab"
+    ],
+    "reason": "Surfaces and prepares the missing git/GitHub deployment-channel blockers before web deploy.",
+    "costUsd": 0
+  },
   "selectedRejection": null,
-  "eligibleActionIds": [],
+  "eligibleActionIds": [
+    "refresh-autonomous-self-update",
+    "seed-portfolio-traffic",
+    "refresh-organic-seed-loop",
+    "refresh-completion-loop",
+    "prepare-repository-channel",
+    "bootstrap-production-setup"
+  ],
   "blockedActions": [
     {
       "id": "run-daily-owner-loop",
@@ -33,21 +49,21 @@
     },
     {
       "id": "refresh-autonomous-self-update",
-      "status": "monitor",
+      "status": "armed",
       "command": "npm run autonomous:self-update",
-      "reason": "status-monitor"
+      "reason": "not-selected-this-run"
     },
     {
       "id": "seed-portfolio-traffic",
-      "status": "monitor",
+      "status": "armed",
       "command": "npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop",
-      "reason": "status-monitor"
+      "reason": "not-selected-this-run"
     },
     {
       "id": "refresh-organic-seed-loop",
-      "status": "monitor",
+      "status": "armed",
       "command": "npm run autonomous:organic-seed-loop",
-      "reason": "status-monitor"
+      "reason": "not-selected-this-run"
     },
     {
       "id": "refresh-support-feedback",
@@ -129,9 +145,9 @@
     },
     {
       "id": "refresh-completion-loop",
-      "status": "monitor",
+      "status": "armed",
       "command": "npm run autonomous:completion-loop",
-      "reason": "status-monitor"
+      "reason": "not-selected-this-run"
     },
     {
       "id": "refresh-replay-loop",
@@ -140,16 +156,10 @@
       "reason": "status-monitor"
     },
     {
-      "id": "prepare-repository-channel",
-      "status": "monitor",
-      "command": "npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap",
-      "reason": "status-monitor"
-    },
-    {
       "id": "bootstrap-production-setup",
-      "status": "monitor",
+      "status": "armed",
       "command": "npm run autonomous:release-candidate && npm run autonomous:deploy-plan && npm run autonomous:bootstrap",
-      "reason": "status-monitor"
+      "reason": "not-selected-this-run"
     },
     {
       "id": "activate-production-when-configured",
@@ -201,9 +211,9 @@
     },
     {
       "id": "deploy-web-pwa",
-      "status": "ready-when-repository-pages-enabled",
+      "status": "blocked-needs-repository-channel",
       "command": "Run the Web PWA Deploy workflow after GitHub Pages is enabled for the repository.",
-      "reason": "status-ready-when-repository-pages-enabled"
+      "reason": "status-blocked-needs-repository-channel"
     },
     {
       "id": "collect-live-events",
@@ -212,7 +222,16 @@
       "reason": "status-monitor"
     }
   ],
-  "commandPlan": [],
+  "commandPlan": [
+    {
+      "segment": "npm run autonomous:repo-readiness",
+      "script": "autonomous:repo-readiness"
+    },
+    {
+      "segment": "npm run autonomous:repo-bootstrap",
+      "script": "autonomous:repo-bootstrap"
+    }
+  ],
   "execution": {
     "requested": false,
     "status": "not-requested",
@@ -284,7 +303,7 @@
     "RUN_WORKFLOWS=1"
   ],
   "nextActions": [
-    "Keep reporting external blockers until a safe local action is eligible.",
+    "Run npm run autonomous:operator -- --execute --action=prepare-repository-channel to execute exactly one allowed local action.",
     "Do not execute GitHub workflow, store, paid ads, or account setup commands from the local operator."
   ]
 }

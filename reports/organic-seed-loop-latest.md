@@ -1,6 +1,6 @@
 # Organic Seed Loop
 
-Generated: 2026-05-21T17:09:37.795Z
+Generated: 2026-05-21T17:49:38.305Z
 Status: organic-seed-loop-ready
 Analytics source: fixture-sample
 Target: canopy-bloom
@@ -10,8 +10,8 @@ Max cost: $0.00
 
 - #1 Canopy Bloom: collecting-attribution, sample 0%, score 1
 - #2 Grove Engine: collecting-attribution, sample 0%, score 0.875
-- #3 Metro Loom: collecting-attribution, sample 0%, score 0.833
-- #4 Pocket Draft: collecting-attribution, sample 0%, score 0.813
+- #3 Mosaic Haven: collecting-attribution, sample 0%, score 0.833
+- #4 Metro Loom: collecting-attribution, sample 0%, score 0.813
 
 ## Guardrails
 

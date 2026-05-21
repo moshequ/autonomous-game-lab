@@ -1,8 +1,8 @@
 # Autonomous Analyst Report
 
-Generated: 2026-05-21T17:24:33.295Z
+Generated: 2026-05-21T17:49:06.605Z
 Backlog status: improvement-backlog-ready
-Backlog source hash: f32ee73563e4
+Backlog source hash: 6f06a35d0fd9
 
 ## Game Health
 
@@ -39,9 +39,9 @@ Support feedback: support-feedback-empty; signals 0; routable 0; aggregate notes
 
 ## Prototype Queue
 
-1. Lantern Relay: playable; release score 511; web ready-after-build; Google Play blocked.
-2. Harbor Circuit: playable; release score 393; web ready-after-build; Google Play blocked.
-3. Foundry Ledger: playable; release score 384; web ready-after-build; Google Play blocked.
+1. Lantern Relay: playable; release score 631; web ready-after-build; Google Play blocked.
+2. Harbor Circuit: playable; release score 521; web ready-after-build; Google Play blocked.
+3. Orbit Atlas: playable; release score 483; web ready-after-build; Google Play blocked.
 
 ## Bot Balance
 
@@ -89,8 +89,8 @@ Support feedback: support-feedback-empty; signals 0; routable 0; aggregate notes
 
 ### Metro Loom
 
-- Target: 88
-- Random win rate: 8%
+- Target: 96
+- Random win rate: 51%
 - Greedy win rate: 100%
 - Recommendation: Balance looks playable for first web test
 
@@ -103,9 +103,9 @@ Support feedback: support-feedback-empty; signals 0; routable 0; aggregate notes
 
 ### Pocket Draft
 
-- Target: 136
-- Random win rate: 11%
-- Greedy win rate: 94%
+- Target: 130
+- Random win rate: 1%
+- Greedy win rate: 59%
 - Recommendation: Balance looks playable for first web test
 
 ### Grove Engine
@@ -118,7 +118,7 @@ Support feedback: support-feedback-empty; signals 0; routable 0; aggregate notes
 
 ## Trend Inputs
 
-Active trend source: fixture
+Active trend source: public-rss-live
 Active analytics source: fixture-sample
-Top mechanic: tile placement
+Top mechanic: card drafting
 Top theme: cozy production

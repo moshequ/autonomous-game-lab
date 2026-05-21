@@ -1,6 +1,6 @@
 # Acquisition Learning
 
-Generated: 2026-05-21T17:09:37.518Z
+Generated: 2026-05-21T17:49:10.442Z
 Status: acquisition-learning-ready
 Analytics source: fixture-sample
 Raw attribution available: no
@@ -17,8 +17,8 @@ Raw attribution available: no
 
 - collecting-attribution: Canopy Bloom; attributed 0/40; aggregate 0; Collect campaign-attributed events for Canopy Bloom; aggregate starts are 0.
 - collecting-attribution: Grove Engine; attributed 0/40; aggregate 0; Collect campaign-attributed events for Grove Engine; aggregate starts are 0.
+- collecting-attribution: Mosaic Haven; attributed 0/40; aggregate 0; Collect campaign-attributed events for Mosaic Haven; aggregate starts are 0.
 - collecting-attribution: Metro Loom; attributed 0/40; aggregate 0; Collect campaign-attributed events for Metro Loom; aggregate starts are 0.
-- collecting-attribution: Pocket Draft; attributed 0/40; aggregate 0; Collect campaign-attributed events for Pocket Draft; aggregate starts are 0.
 
 ## Channels
 

@@ -13,6 +13,20 @@ const sourceReadinessReportPath = path.join(root, 'reports', 'trend-source-readi
 
 const bggHotUrl = 'https://boardgamegeek.com/xmlapi2/hot?type=boardgame'
 const bggPolicyUrl = 'https://boardgamegeek.com/using_the_xml_api'
+const publicFeedSource = 'public-rss'
+const defaultPublicTrendFeeds = [
+  'https://www.boardgamequest.com/feed/',
+  'https://www.meeplemountain.com/feed/',
+  'https://www.reddit.com/r/boardgames/hot/.rss?limit=25',
+]
+const publicTrendFeeds = (process.env.AGL_PUBLIC_TREND_FEEDS ?? defaultPublicTrendFeeds.join(','))
+  .split(',')
+  .map((feed) => feed.trim())
+  .filter(Boolean)
+const publicTrendFeedsDisabled = process.env.AGL_PUBLIC_TREND_FEEDS_DISABLED === 'true'
+const publicFeedMaxItems = Number(process.env.AGL_PUBLIC_TREND_FEED_MAX_ITEMS ?? 36)
+const trendFetchTimeoutMs = Number(process.env.AGL_TREND_FETCH_TIMEOUT_MS ?? 8000)
+const trendUserAgent = process.env.AGL_TREND_USER_AGENT ?? 'AutonomousGameLab/0.1 zero-spend trend radar'
 const cacheMaxAgeDays = Number(process.env.AGL_TREND_CACHE_MAX_AGE_DAYS ?? 30)
 
 const loadJson = async (filePath) => JSON.parse(await readFile(filePath, 'utf8'))
@@ -30,21 +44,131 @@ const tokenize = (value) =>
 const scoreKeywordMatches = (keywords, haystack) =>
   keywords.reduce((score, keyword) => (haystack.includes(normalize(keyword)) ? score + 1 : score), 0)
 
+const parseXml = (xml) =>
+  new XMLParser({
+    ignoreAttributes: false,
+    attributeNamePrefix: '',
+    trimValues: true,
+  }).parse(xml)
+const asArray = (value) => (Array.isArray(value) ? value : value ? [value] : [])
+
+const textValue = (value) => {
+  if (value === null || value === undefined) {
+    return ''
+  }
+
+  if (typeof value === 'string' || typeof value === 'number' || typeof value === 'boolean') {
+    return String(value)
+  }
+
+  if (typeof value === 'object') {
+    if ('#text' in value) {
+      return textValue(value['#text'])
+    }
+
+    if ('value' in value) {
+      return textValue(value.value)
+    }
+
+    if ('term' in value) {
+      return textValue(value.term)
+    }
+
+    if ('label' in value) {
+      return textValue(value.label)
+    }
+
+    if ('href' in value) {
+      return textValue(value.href)
+    }
+  }
+
+  return ''
+}
+
+const decodeEntities = (value) =>
+  String(value)
+    .replace(/&#(\d+);/g, (_, code) => String.fromCodePoint(Number(code)))
+    .replace(/&#x([0-9a-f]+);/gi, (_, code) => String.fromCodePoint(Number.parseInt(code, 16)))
+    .replace(/&nbsp;/g, ' ')
+    .replace(/&amp;/g, '&')
+    .replace(/&quot;/g, '"')
+    .replace(/&apos;/g, "'")
+    .replace(/&#39;/g, "'")
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+
+const cleanText = (value) =>
+  decodeEntities(textValue(value))
+    .replace(/<[^>]+>/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim()
+
+const firstText = (...values) => {
+  for (const value of values) {
+    const text = cleanText(value)
+
+    if (text) {
+      return text
+    }
+  }
+
+  return ''
+}
+
+const categoriesFor = (categories) =>
+  asArray(categories)
+    .map((category) => firstText(category?.term, category?.label, category))
+    .filter(Boolean)
+
+const linkFor = (links) => {
+  for (const link of asArray(links)) {
+    const href = firstText(link?.href, link)
+
+    if (href) {
+      return href
+    }
+  }
+
+  return ''
+}
+
+const isoDateFor = (value) => {
+  const raw = firstText(value)
+  const date = new Date(raw)
+
+  return Number.isNaN(date.getTime()) ? null : date.toISOString()
+}
+
+const fetchWithTimeout = async (url, options = {}) => {
+  const controller = new AbortController()
+  const timeout = setTimeout(() => controller.abort(), trendFetchTimeoutMs)
+
+  try {
+    return await fetch(url, {
+      ...options,
+      signal: controller.signal,
+    })
+  } finally {
+    clearTimeout(timeout)
+  }
+}
+
 const fetchBggHot = async () => {
   const token = process.env.BGG_XML_API_TOKEN
 
   if (!token) {
     return {
       ok: false,
-      reason: 'BGG_XML_API_TOKEN is not set; using fixture trends.',
+      reason: 'BGG_XML_API_TOKEN is not set; trying public trend feeds before fixtures.',
       items: [],
     }
   }
 
-  const response = await fetch(bggHotUrl, {
+  const response = await fetchWithTimeout(bggHotUrl, {
     headers: {
       Authorization: `Bearer ${token}`,
-      'User-Agent': 'AutonomousGameLab/0.1',
+      'User-Agent': trendUserAgent,
       Accept: 'application/xml',
     },
   })
@@ -52,17 +176,12 @@ const fetchBggHot = async () => {
   if (!response.ok) {
     return {
       ok: false,
-      reason: `BGG hotness returned ${response.status}; using fixture trends.`,
+      reason: `BGG hotness returned ${response.status}; trying public trend feeds before fixtures.`,
       items: [],
     }
   }
 
-  const xml = await response.text()
-  const parser = new XMLParser({
-    ignoreAttributes: false,
-    attributeNamePrefix: '',
-  })
-  const parsed = parser.parse(xml)
+  const parsed = parseXml(await response.text())
   const rawItems = Array.isArray(parsed.items?.item) ? parsed.items.item : []
 
   return {
@@ -80,6 +199,143 @@ const fetchBggHot = async () => {
   }
 }
 
+const parsePublicFeedItems = ({ xml, feedUrl, feedIndex }) => {
+  const parsed = parseXml(xml)
+  const feedTitle = firstText(parsed.rss?.channel?.title, parsed.feed?.title, feedUrl)
+  const rssItems = asArray(parsed.rss?.channel?.item)
+  const atomItems = asArray(parsed.feed?.entry)
+  const rawItems = rssItems.length > 0 ? rssItems : atomItems
+
+  return rawItems
+    .map((item, itemIndex) => {
+      const title = firstText(item.title)
+      const content = firstText(item.description, item.summary, item.content, item['content:encoded']).slice(0, 420)
+      const categories = categoriesFor(item.category)
+      const publishedAt = isoDateFor(item.pubDate ?? item.published ?? item.updated)
+
+      return {
+        source: publicFeedSource,
+        sourceFeed: feedUrl,
+        sourceName: feedTitle,
+        sourceOrder: feedIndex,
+        sourceRank: itemIndex + 1,
+        rank: itemIndex + 1,
+        title,
+        url: linkFor(item.link),
+        publishedAt,
+        year: publishedAt ? new Date(publishedAt).getUTCFullYear() : null,
+        mechanics: categories,
+        themes: categories,
+        audience: categories,
+        snippet: content,
+      }
+    })
+    .filter((item) => item.title)
+}
+
+const fetchPublicTrendFeeds = async () => {
+  if (publicTrendFeedsDisabled) {
+    return {
+      ok: false,
+      reason: 'Public trend feeds disabled by AGL_PUBLIC_TREND_FEEDS_DISABLED=true.',
+      items: [],
+      feeds: [],
+      authorizationRequired: false,
+    }
+  }
+
+  if (publicTrendFeeds.length === 0) {
+    return {
+      ok: false,
+      reason: 'No public trend feeds configured.',
+      items: [],
+      feeds: [],
+      authorizationRequired: false,
+    }
+  }
+
+  const feedResults = await Promise.all(
+    publicTrendFeeds.map(async (url, feedIndex) => {
+      try {
+        const response = await fetchWithTimeout(url, {
+          headers: {
+            'User-Agent': trendUserAgent,
+            Accept: 'application/rss+xml, application/atom+xml, application/xml;q=0.9, text/xml;q=0.8',
+          },
+        })
+
+        if (!response.ok) {
+          return {
+            ok: false,
+            url,
+            status: response.status,
+            itemCount: 0,
+            reason: `Feed returned ${response.status}.`,
+            items: [],
+          }
+        }
+
+        const items = parsePublicFeedItems({
+          xml: await response.text(),
+          feedUrl: url,
+          feedIndex,
+        })
+
+        return {
+          ok: true,
+          url,
+          status: response.status,
+          itemCount: items.length,
+          reason: `Fetched ${items.length} public RSS/Atom item(s).`,
+          items,
+        }
+      } catch (error) {
+        return {
+          ok: false,
+          url,
+          status: null,
+          itemCount: 0,
+          reason: `Feed fetch failed: ${error.message}.`,
+          items: [],
+        }
+      }
+    }),
+  )
+  const deduped = new Map()
+
+  for (const item of feedResults.flatMap((feed) => feed.items)) {
+    const key = item.url || `${item.sourceName}:${item.title}`
+
+    if (!deduped.has(key)) {
+      deduped.set(key, item)
+    }
+  }
+
+  const items = [...deduped.values()]
+    .sort((a, b) => {
+      const publishedDelta = new Date(b.publishedAt ?? 0).getTime() - new Date(a.publishedAt ?? 0).getTime()
+
+      return publishedDelta || a.sourceOrder - b.sourceOrder || a.sourceRank - b.sourceRank
+    })
+    .slice(0, publicFeedMaxItems)
+    .map((item, index) => ({
+      ...item,
+      rank: index + 1,
+    }))
+  const okFeeds = feedResults.filter((feed) => feed.ok).length
+
+  return {
+    ok: items.length > 0,
+    reason:
+      items.length > 0
+        ? `Fetched ${items.length} public trend item(s) from ${okFeeds}/${feedResults.length} RSS/Atom feed(s).`
+        : `Public trend feeds unavailable from ${feedResults.length} configured feed(s); using cache or fixtures.`,
+    items,
+    feeds: feedResults.map(({ items: _items, ...feed }) => feed),
+    authorizationRequired: false,
+  }
+}
+
 const daysSince = (isoDate) => {
   if (!isoDate) {
     return null
@@ -94,16 +350,29 @@ const daysSince = (isoDate) => {
   return Math.max(0, Math.round((Date.now() - date.getTime()) / 86_400_000))
 }
 
+const sourceLabel = (source) => {
+  if (source === 'bgg-hotness') {
+    return 'licensed BGG hotness'
+  }
+
+  if (source === publicFeedSource) {
+    return 'public RSS trend'
+  }
+
+  return 'trend'
+}
+
 const cacheStatusFor = (cache) => {
   const ageDays = daysSince(cache.fetchedAt)
   const hasItems = Array.isArray(cache.items) && cache.items.length > 0
+  const label = sourceLabel(cache.source)
 
   if (!hasItems) {
     return {
       status: 'empty',
       ageDays,
       usable: false,
-      reason: 'No licensed BGG hotness cache has been created yet.',
+      reason: 'No trend cache has been created yet.',
     }
   }
 
@@ -112,7 +381,7 @@ const cacheStatusFor = (cache) => {
       status: 'fresh',
       ageDays,
       usable: true,
-      reason: `Using licensed BGG cache from ${cache.fetchedAt}; age ${ageDays} day(s).`,
+      reason: `Using ${label} cache from ${cache.fetchedAt}; age ${ageDays} day(s).`,
     }
   }
 
@@ -120,13 +389,15 @@ const cacheStatusFor = (cache) => {
     status: 'stale',
     ageDays,
     usable: false,
-    reason: `Licensed BGG cache is older than ${cacheMaxAgeDays} day(s).`,
+    reason: `${label} cache is older than ${cacheMaxAgeDays} day(s).`,
   }
 }
 
 const enrichItems = (items, taxonomy) =>
   items.map((item) => {
-    const fields = [item.title, item.mechanics, item.themes, item.audience].flat().join(' ')
+    const fields = [item.title, item.mechanics, item.themes, item.audience, item.snippet, item.sourceName]
+      .flat()
+      .join(' ')
     const haystack = normalize(fields)
 
     const mechanics = taxonomy.mechanics
@@ -207,6 +478,26 @@ const aggregate = (items, fieldName) => {
     .sort((a, b) => b.score - a.score)
 }
 
+const readinessStatusFor = (source) => {
+  if (source === 'bgg-hotness-live') {
+    return 'live-licensed'
+  }
+
+  if (source === 'bgg-hotness-cache') {
+    return 'cached-licensed'
+  }
+
+  if (source === 'public-rss-live') {
+    return 'live-public'
+  }
+
+  if (source === 'public-rss-cache') {
+    return 'cached-public'
+  }
+
+  return 'fixture-safe'
+}
+
 const taxonomy = await loadJson(taxonomyPath)
 const fixtureItems = await loadJson(fixturePath)
 const previousCache = await loadOptionalJson(cachePath, {
@@ -218,30 +509,63 @@ const previousCache = await loadOptionalJson(cachePath, {
 })
 const remote = await fetchBggHot().catch((error) => ({
   ok: false,
-  reason: `BGG fetch failed: ${error.message}; using fixture trends.`,
+  reason: `BGG fetch failed: ${error.message}; trying public trend feeds before fixtures.`,
   items: [],
 }))
-
-const cache =
+const publicRemote =
   remote.ok && remote.items.length > 0
     ? {
+        ok: false,
+        reason: 'Skipped public trend feeds because licensed BGG hotness succeeded.',
+        items: [],
+        feeds: publicTrendFeeds.map((url) => ({
+          ok: null,
+          url,
+          status: null,
+          itemCount: 0,
+          reason: 'Skipped because licensed BGG hotness succeeded.',
+        })),
+        authorizationRequired: false,
+      }
+    : await fetchPublicTrendFeeds()
+const liveSource = remote.ok && remote.items.length > 0 ? 'bgg-hotness' : publicRemote.ok ? publicFeedSource : null
+const liveItems = liveSource === 'bgg-hotness' ? remote.items : liveSource === publicFeedSource ? publicRemote.items : []
+
+const cache =
+  liveSource && liveItems.length > 0
+    ? {
         status: 'fresh',
-        source: 'bgg-hotness',
+        source: liveSource,
         fetchedAt: new Date().toISOString(),
         checkedAt: new Date().toISOString(),
-        items: remote.items,
+        items: liveItems,
+        feeds: liveSource === publicFeedSource ? publicRemote.feeds : [],
         lastError: null,
       }
     : {
         ...previousCache,
         checkedAt: new Date().toISOString(),
         status: cacheStatusFor(previousCache).status,
-        lastError: remote.reason,
+        lastError: [remote.reason, publicRemote.reason].filter(Boolean).join(' | '),
       }
 const cacheStatus = cacheStatusFor(cache)
+const cacheSource = cache.source === publicFeedSource ? 'public-rss-cache' : 'bgg-hotness-cache'
 const activeSource =
-  remote.ok && remote.items.length > 0 ? 'bgg-hotness-live' : cacheStatus.usable ? 'bgg-hotness-cache' : 'fixture'
-const sourceItems = activeSource === 'bgg-hotness-live' ? remote.items : activeSource === 'bgg-hotness-cache' ? cache.items : fixtureItems
+  liveSource === 'bgg-hotness'
+    ? 'bgg-hotness-live'
+    : liveSource === publicFeedSource
+      ? 'public-rss-live'
+      : cacheStatus.usable
+        ? cacheSource
+        : 'fixture'
+const sourceItems =
+  activeSource === 'bgg-hotness-live'
+    ? remote.items
+    : activeSource === 'public-rss-live'
+      ? publicRemote.items
+      : activeSource.endsWith('-cache')
+        ? cache.items
+        : fixtureItems
 const enrichedItems = enrichItems(sourceItems, taxonomy)
 
 const signals = {
@@ -254,17 +578,19 @@ const trendPayload = {
   generatedAt: new Date().toISOString(),
   sourceStatus: {
     bggHotness: remote,
+    publicFeeds: publicRemote,
     cache: {
       status: cacheStatus.status,
       usable: cacheStatus.usable,
       ageDays: cacheStatus.ageDays,
       maxAgeDays: cacheMaxAgeDays,
       fetchedAt: cache.fetchedAt,
+      source: cache.source,
       reason: cacheStatus.reason,
     },
     activeSource,
     note:
-      'BGG XML API requires registration and bearer authorization. Use BGG_XML_API_TOKEN to activate licensed live BGG hotness.',
+      'BGG XML API hotness requires bearer authorization; zero-cost public RSS/Atom feeds are used when reachable, then a fresh cache or fixtures keep generation safe.',
   },
   items: enrichedItems,
   signals,
@@ -272,12 +598,7 @@ const trendPayload = {
 
 const sourceReadiness = {
   generatedAt: trendPayload.generatedAt,
-  status:
-    activeSource === 'bgg-hotness-live'
-      ? 'live-licensed'
-      : activeSource === 'bgg-hotness-cache'
-        ? 'cached-licensed'
-        : 'fixture-safe',
+  status: readinessStatusFor(activeSource),
   activeSource,
   bggHotness: {
     configured: Boolean(process.env.BGG_XML_API_TOKEN),
@@ -287,14 +608,24 @@ const sourceReadiness = {
     tokenEnv: 'BGG_XML_API_TOKEN',
     authorizationRequired: true,
   },
+  publicFeeds: {
+    configured: publicTrendFeeds.length > 0 && !publicTrendFeedsDisabled,
+    ok: publicRemote.ok,
+    reason: publicRemote.reason,
+    endpoints: publicTrendFeeds,
+    feeds: publicRemote.feeds,
+    tokenEnv: null,
+    authorizationRequired: false,
+  },
   cache: trendPayload.sourceStatus.cache,
   fixture: {
     items: fixtureItems.length,
-    purpose: 'Safe deterministic fallback for development, tests, and no-token operation.',
+    purpose: 'Safe deterministic fallback for development, tests, offline operation, and feed outages.',
   },
   policy: {
     officialUrl: bggPolicyUrl,
-    stance: 'Do not scrape private BGG endpoints. Use registered XML API access, cached licensed results, or local fixtures.',
+    stance:
+      'Do not scrape private BGG endpoints. Use registered XML API access, public RSS/Atom feeds, cached results, or local fixtures.',
   },
   downstream: {
     conceptGenerator: 'Consumes trend-signals.json regardless of source.',
@@ -308,7 +639,8 @@ const reportLines = [
   `Generated: ${trendPayload.generatedAt}`,
   '',
   `Active source: ${trendPayload.sourceStatus.activeSource}`,
-  `Source note: ${trendPayload.sourceStatus.bggHotness.reason}`,
+  `BGG note: ${trendPayload.sourceStatus.bggHotness.reason}`,
+  `Public feed note: ${trendPayload.sourceStatus.publicFeeds.reason}`,
   `Cache: ${trendPayload.sourceStatus.cache.status}; usable ${trendPayload.sourceStatus.cache.usable}`,
   '',
   '## Top Mechanics',
@@ -353,6 +685,16 @@ const sourceReadinessReport = [
   `- Authorized fetch ok: ${sourceReadiness.bggHotness.ok}`,
   `- Reason: ${sourceReadiness.bggHotness.reason}`,
   `- Policy: ${sourceReadiness.policy.officialUrl}`,
+  '',
+  '## Public RSS/Atom Feeds',
+  '',
+  `- Configured: ${sourceReadiness.publicFeeds.configured}`,
+  `- Public fetch ok: ${sourceReadiness.publicFeeds.ok}`,
+  `- Reason: ${sourceReadiness.publicFeeds.reason}`,
+  `- Authorization required: ${sourceReadiness.publicFeeds.authorizationRequired}`,
+  ...sourceReadiness.publicFeeds.feeds.map(
+    (feed) => `- ${feed.url}: ${feed.ok ? 'ok' : 'unavailable'}; ${feed.itemCount} item(s); ${feed.reason}`,
+  ),
   '',
   '## Cache',
   '',

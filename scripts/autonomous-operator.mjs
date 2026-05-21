@@ -396,7 +396,7 @@ const selectedRecordIds = new Set([
   ...protectedExecutedRecords.map((record) => record.id),
   ...fillRecords.map((record) => record.id),
 ])
-const records = nextRecords.filter((record) => selectedRecordIds.has(record.id))
+const records = nextRecords.filter((record) => selectedRecordIds.has(record.id)).slice(-maxHistoryRecords)
 const executedRecords = records.filter((record) => record.execution?.requested)
 const failedRecords = records.filter((record) => record.execution?.status === 'failed')
 const historyPayload = {

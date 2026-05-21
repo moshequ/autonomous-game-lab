@@ -1,5 +1,5 @@
 export const balanceReport = {
-  "generatedAt": "2026-05-20T21:39:35.522Z",
+  "generatedAt": "2026-05-21T17:49:09.174Z",
   "simulationCountPerStrategy": 420,
   "games": [
     {
@@ -287,39 +287,39 @@ export const balanceReport = {
     {
       "gameId": "metro-loom",
       "title": "Metro Loom",
-      "targetScore": 88,
-      "maxMoves": 10,
+      "targetScore": 96,
+      "maxMoves": 12,
       "simulations": 1260,
       "strategies": [
         {
           "strategy": "random",
           "games": 420,
-          "averageScore": 69.3,
-          "p10": 53,
-          "p50": 68,
-          "p90": 85,
-          "winRate": 0.079,
-          "averageMoveValue": 6.9
+          "averageScore": 96.4,
+          "p10": 80,
+          "p50": 96,
+          "p90": 115,
+          "winRate": 0.514,
+          "averageMoveValue": 8
         },
         {
           "strategy": "center",
           "games": 420,
-          "averageScore": 126.6,
-          "p10": 120,
-          "p50": 127,
-          "p90": 133,
+          "averageScore": 151.6,
+          "p10": 143,
+          "p50": 152,
+          "p90": 158,
           "winRate": 1,
-          "averageMoveValue": 12.7
+          "averageMoveValue": 12.6
         },
         {
           "strategy": "greedy",
           "games": 420,
-          "averageScore": 135.9,
-          "p10": 125,
-          "p50": 136,
-          "p90": 147,
+          "averageScore": 165.2,
+          "p10": 156,
+          "p50": 165,
+          "p90": 174,
           "winRate": 1,
-          "averageMoveValue": 13.6
+          "averageMoveValue": 13.8
         }
       ],
       "recommendations": [
@@ -381,39 +381,39 @@ export const balanceReport = {
     {
       "gameId": "pocket-draft",
       "title": "Pocket Draft",
-      "targetScore": 136,
-      "maxMoves": 12,
+      "targetScore": 130,
+      "maxMoves": 11,
       "simulations": 1260,
       "strategies": [
         {
           "strategy": "random",
           "games": 420,
-          "averageScore": 120.6,
-          "p10": 106,
-          "p50": 121,
-          "p90": 136,
-          "winRate": 0.112,
-          "averageMoveValue": 10.1
+          "averageScore": 104.3,
+          "p10": 90,
+          "p50": 104,
+          "p90": 119,
+          "winRate": 0.014,
+          "averageMoveValue": 9.5
         },
         {
           "strategy": "center",
           "games": 420,
-          "averageScore": 136.2,
-          "p10": 122,
-          "p50": 137,
-          "p90": 151,
-          "winRate": 0.552,
-          "averageMoveValue": 11.4
+          "averageScore": 117.8,
+          "p10": 105,
+          "p50": 118,
+          "p90": 131,
+          "winRate": 0.133,
+          "averageMoveValue": 10.7
         },
         {
           "strategy": "greedy",
           "games": 420,
-          "averageScore": 148.2,
-          "p10": 137,
-          "p50": 147,
-          "p90": 161,
-          "winRate": 0.938,
-          "averageMoveValue": 12.4
+          "averageScore": 134.2,
+          "p10": 123,
+          "p50": 133,
+          "p90": 148,
+          "winRate": 0.586,
+          "averageMoveValue": 12.2
         }
       ],
       "recommendations": [

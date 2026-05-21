@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2026-05-21T17:09:37.241Z",
+  "generatedAt": "2026-05-21T17:49:10.198Z",
   "status": "traffic-seeding-ready",
-  "sourceDataHash": "6e501f9bd6d9",
+  "sourceDataHash": "516f7e7a1f85",
   "analyticsSource": "fixture-sample",
   "publicUrlMode": "absolute-origin",
   "siteUrl": "https://moshequ.github.io/autonomous-game-lab",
-  "portfolioGeneratedAt": "2026-05-21T17:09:36.972Z",
+  "portfolioGeneratedAt": "2026-05-21T17:49:09.927Z",
   "guardrails": {
     "maxCostUsd": 0,
     "noPaidPromotion": true,
@@ -144,9 +144,9 @@
       ]
     },
     {
-      "id": "seed-20260521-metro-loom",
-      "gameId": "metro-loom",
-      "title": "Metro Loom",
+      "id": "seed-20260521-mosaic-haven",
+      "gameId": "mosaic-haven",
+      "title": "Mosaic Haven",
       "status": "armed",
       "priority": 3,
       "action": "seed-traffic",
@@ -154,16 +154,16 @@
       "costUsd": 0,
       "noPaidPromotion": true,
       "reason": "Give this playable game organic/internal traffic before judging it.",
-      "playPath": "/?game=metro-loom&utm_source=seed_internal&utm_campaign=seed-20260521-metro-loom",
-      "sharePath": "/?game=metro-loom&utm_source=seed_share&utm_campaign=seed-20260521-metro-loom",
-      "playUrl": "https://moshequ.github.io/autonomous-game-lab/?game=metro-loom&utm_source=seed_internal&utm_campaign=seed-20260521-metro-loom",
-      "pagePath": "/games/metro-loom.html",
-      "pageUrl": "https://moshequ.github.io/autonomous-game-lab/games/metro-loom.html",
-      "shareUrl": "https://moshequ.github.io/autonomous-game-lab/?game=metro-loom&utm_source=seed_share&utm_campaign=seed-20260521-metro-loom",
+      "playPath": "/?game=mosaic-haven&utm_source=seed_internal&utm_campaign=seed-20260521-mosaic-haven",
+      "sharePath": "/?game=mosaic-haven&utm_source=seed_share&utm_campaign=seed-20260521-mosaic-haven",
+      "playUrl": "https://moshequ.github.io/autonomous-game-lab/?game=mosaic-haven&utm_source=seed_internal&utm_campaign=seed-20260521-mosaic-haven",
+      "pagePath": "/games/mosaic-haven.html",
+      "pageUrl": "https://moshequ.github.io/autonomous-game-lab/games/mosaic-haven.html",
+      "shareUrl": "https://moshequ.github.io/autonomous-game-lab/?game=mosaic-haven&utm_source=seed_share&utm_campaign=seed-20260521-mosaic-haven",
       "copy": {
-        "title": "Play Metro Loom",
-        "text": "A generated route building puzzle with quick merchant timing decisions.",
-        "cta": "Try today's challenge"
+        "title": "Play Mosaic Haven",
+        "text": "A generated tile placement puzzle with quick compact city logistics decisions.",
+        "cta": "Play free puzzle"
       },
       "measurement": {
         "source": "fixture-sample",
@@ -185,9 +185,9 @@
       ]
     },
     {
-      "id": "seed-20260521-pocket-draft",
-      "gameId": "pocket-draft",
-      "title": "Pocket Draft",
+      "id": "seed-20260521-metro-loom",
+      "gameId": "metro-loom",
+      "title": "Metro Loom",
       "status": "armed",
       "priority": 4,
       "action": "seed-traffic",
@@ -195,16 +195,16 @@
       "costUsd": 0,
       "noPaidPromotion": true,
       "reason": "Give this playable game organic/internal traffic before judging it.",
-      "playPath": "/?game=pocket-draft&utm_source=seed_internal&utm_campaign=seed-20260521-pocket-draft",
-      "sharePath": "/?game=pocket-draft&utm_source=seed_share&utm_campaign=seed-20260521-pocket-draft",
-      "playUrl": "https://moshequ.github.io/autonomous-game-lab/?game=pocket-draft&utm_source=seed_internal&utm_campaign=seed-20260521-pocket-draft",
-      "pagePath": "/games/pocket-draft.html",
-      "pageUrl": "https://moshequ.github.io/autonomous-game-lab/games/pocket-draft.html",
-      "shareUrl": "https://moshequ.github.io/autonomous-game-lab/?game=pocket-draft&utm_source=seed_share&utm_campaign=seed-20260521-pocket-draft",
+      "playPath": "/?game=metro-loom&utm_source=seed_internal&utm_campaign=seed-20260521-metro-loom",
+      "sharePath": "/?game=metro-loom&utm_source=seed_share&utm_campaign=seed-20260521-metro-loom",
+      "playUrl": "https://moshequ.github.io/autonomous-game-lab/?game=metro-loom&utm_source=seed_internal&utm_campaign=seed-20260521-metro-loom",
+      "pagePath": "/games/metro-loom.html",
+      "pageUrl": "https://moshequ.github.io/autonomous-game-lab/games/metro-loom.html",
+      "shareUrl": "https://moshequ.github.io/autonomous-game-lab/?game=metro-loom&utm_source=seed_share&utm_campaign=seed-20260521-metro-loom",
       "copy": {
-        "title": "Play Pocket Draft",
-        "text": "A generated card drafting puzzle with quick compact city logistics decisions.",
-        "cta": "Play free puzzle"
+        "title": "Play Metro Loom",
+        "text": "A generated route building puzzle with quick science desk decisions.",
+        "cta": "Try today's challenge"
       },
       "measurement": {
         "source": "fixture-sample",
@@ -251,13 +251,13 @@
       "priority": 0.9
     },
     {
-      "gameId": "metro-loom",
-      "pagePath": "/games/metro-loom.html",
+      "gameId": "mosaic-haven",
+      "pagePath": "/games/mosaic-haven.html",
       "priority": 0.85
     },
     {
-      "gameId": "pocket-draft",
-      "pagePath": "/games/pocket-draft.html",
+      "gameId": "metro-loom",
+      "pagePath": "/games/metro-loom.html",
       "priority": 0.8
     }
   ],

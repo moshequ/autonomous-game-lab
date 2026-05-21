@@ -1,6 +1,6 @@
 # Local Event Bridge
 
-Generated: 2026-05-21T16:40:54.541Z
+Generated: 2026-05-21T17:50:06.709Z
 Status: bridge-waiting-for-export
 Mode: local-zero-spend-event-drop-bridge
 
@@ -16,7 +16,6 @@ Mode: local-zero-spend-event-drop-bridge
 ## Sources
 
 - data/player-events/inbox: available, 0/0 valid file(s), 0 event(s)
-- ../../../../Downloads: available, 0/0 valid file(s), 0 event(s)
 - explicit files: none configured
 
 ## Local State
@@ -55,7 +54,7 @@ Mode: local-zero-spend-event-drop-bridge
 - rawEventDropsStayLocal: true
 - copyOnlyExplicitDropPaths: true
 - downloadsFolderOptInOnly: true
-- downloadsFolderImportEnabled: true
+- downloadsFolderImportEnabled: false
 - downloadsFolderRequiresExplicitEnv: true
 - localExportCoverageReceipts: true
 - staleExportDebtVisibleInApp: true

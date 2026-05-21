@@ -259,7 +259,6 @@ for (const file of requiredFiles) {
 }
 
 const trend = JSON.parse(await readFile(path.join(root, 'data', 'trend-signals.json'), 'utf8'))
-const trendCache = JSON.parse(await readFile(path.join(root, 'data', 'trend-cache.json'), 'utf8'))
 const trendSourceReadiness = JSON.parse(await readFile(path.join(root, 'data', 'trend-source-readiness.json'), 'utf8'))
 const concepts = JSON.parse(await readFile(path.join(root, 'data', 'generated-concepts.json'), 'utf8'))
 const pipeline = JSON.parse(await readFile(path.join(root, 'data', 'prototype-pipeline.json'), 'utf8'))
@@ -536,28 +535,31 @@ if (!trend.signals?.themes?.length) {
 }
 
 if (
-  !['bgg-hotness-live', 'bgg-hotness-cache', 'fixture'].includes(trend.sourceStatus?.activeSource) ||
+  !['bgg-hotness-live', 'bgg-hotness-cache', 'public-rss-live', 'public-rss-cache', 'fixture'].includes(
+    trend.sourceStatus?.activeSource,
+  ) ||
   !trend.sourceStatus?.cache ||
-  !trend.sourceStatus?.note?.includes('bearer authorization')
+  !trend.sourceStatus?.publicFeeds ||
+  !trend.sourceStatus?.note?.includes('bearer authorization') ||
+  !trend.sourceStatus?.note?.includes('public RSS/Atom')
 ) {
-  fail('Trend radar must publish licensed live/cache/fixture source status.')
+  fail('Trend radar must publish BGG, public feed, cache, and fixture source status.')
 }
 
 if (
-  !['live-licensed', 'cached-licensed', 'fixture-safe'].includes(trendSourceReadiness.status) ||
+  !['live-licensed', 'cached-licensed', 'live-public', 'cached-public', 'fixture-safe'].includes(
+    trendSourceReadiness.status,
+  ) ||
   trendSourceReadiness.activeSource !== trend.sourceStatus.activeSource ||
   trendSourceReadiness.policy?.officialUrl !== 'https://boardgamegeek.com/using_the_xml_api' ||
-  trendSourceReadiness.bggHotness?.authorizationRequired !== true
+  trendSourceReadiness.bggHotness?.authorizationRequired !== true ||
+  trendSourceReadiness.publicFeeds?.authorizationRequired !== false
 ) {
-  fail('Trend source readiness must document licensed BGG access and safe fallback status.')
+  fail('Trend source readiness must document BGG access, public feed fallback, and safe fixture status.')
 }
 
-if (
-  trendSourceReadiness.status === 'fixture-safe' &&
-  (trendCache.items?.length ?? 0) > 0 &&
-  trend.sourceStatus.cache?.usable === true
-) {
-  fail('Trend radar should use a usable licensed cache before falling back to fixtures.')
+if (trendSourceReadiness.status === 'fixture-safe' && trend.sourceStatus.cache?.usable === true) {
+  fail('Trend radar should use a usable trend cache before falling back to fixtures.')
 }
 
 const acceptedConcepts = concepts.concepts?.filter((concept) => concept.status === 'candidate') ?? []

@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-05-20T09:01:39.586Z",
-  "inputTrendGeneratedAt": "2026-05-20T09:01:39.445Z",
+  "generatedAt": "2026-05-21T17:48:56.651Z",
+  "inputTrendGeneratedAt": "2026-05-21T17:48:56.225Z",
   "guardrails": [
     "No source title reuse",
     "No copied rule text",
@@ -13,24 +13,66 @@
       "title": "Lantern Relay",
       "status": "candidate",
       "sourceDistance": {
+        "titleRisk": 8,
+        "copiedExpressionRisk": "low",
+        "ruleText": "generated from template only; no source rule text used",
+        "art": "new visual direction; no source art used"
+      },
+      "opportunity": {
+        "mechanic": "card drafting",
+        "theme": "cozy production",
+        "audience": "families",
+        "score": 513
+      },
+      "gameBrief": {
+        "setting": "tiny seasonal workshops",
+        "coreLoop": "chain comforting orders by making one strong card drafting decision per turn.",
+        "sessionLengthMinutes": 7,
+        "playerPromise": "A complete tactical board-game feeling in 7 minutes, tuned for touch screens.",
+        "firstPrototypeTemplate": "tableau",
+        "artDirection": "warm workbench pieces and readable resource icons"
+      },
+      "telemetryPlan": [
+        "concept_card_viewed",
+        "prototype_started",
+        "tutorial_completed",
+        "first_loss",
+        "level_completed",
+        "replay_clicked",
+        "rewarded_ad_offered"
+      ],
+      "monetization": {
+        "firstRevenueTest": "rewarded hint after failed daily challenge",
+        "avoidUntilRetention": [
+          "subscriptions",
+          "interstitial ads during first session"
+        ],
+        "fitScore": 83
+      }
+    },
+    {
+      "id": "harbor-circuit",
+      "title": "Harbor Circuit",
+      "status": "candidate",
+      "sourceDistance": {
         "titleRisk": 0,
         "copiedExpressionRisk": "low",
         "ruleText": "generated from template only; no source rule text used",
         "art": "new visual direction; no source art used"
       },
       "opportunity": {
-        "mechanic": "tile placement",
-        "theme": "cozy production",
-        "audience": "mobile puzzle",
-        "score": 357
+        "mechanic": "route building",
+        "theme": "science desk",
+        "audience": "strategy solo",
+        "score": 375
       },
       "gameBrief": {
-        "setting": "tiny seasonal workshops",
-        "coreLoop": "chain comforting orders by making one strong tile placement decision per turn.",
-        "sessionLengthMinutes": 5,
-        "playerPromise": "A complete tactical board-game feeling in 5 minutes, tuned for touch screens.",
-        "firstPrototypeTemplate": "grid-puzzle",
-        "artDirection": "warm workbench pieces and readable resource icons"
+        "setting": "a tabletop research station",
+        "coreLoop": "align instruments into reliable discoveries by making one strong route building decision per turn.",
+        "sessionLengthMinutes": 9,
+        "playerPromise": "A complete tactical board-game feeling in 9 minutes, tuned for touch screens.",
+        "firstPrototypeTemplate": "line-drawing",
+        "artDirection": "clean diagrams, labeled tools, and crisp result cards"
       },
       "telemetryPlan": [
         "concept_card_viewed",
@@ -51,8 +93,8 @@
       }
     },
     {
-      "id": "harbor-circuit",
-      "title": "Harbor Circuit",
+      "id": "orbit-atlas",
+      "title": "Orbit Atlas",
       "status": "candidate",
       "sourceDistance": {
         "titleRisk": 0,
@@ -61,17 +103,17 @@
         "art": "new visual direction; no source art used"
       },
       "opportunity": {
-        "mechanic": "card drafting",
+        "mechanic": "tile placement",
         "theme": "compact city logistics",
-        "audience": "strategy solo",
-        "score": 253
+        "audience": "mobile puzzle",
+        "score": 331
       },
       "gameBrief": {
         "setting": "pocket-size transit districts",
-        "coreLoop": "connect demand before congestion rises by making one strong card drafting decision per turn.",
-        "sessionLengthMinutes": 9,
-        "playerPromise": "A complete tactical board-game feeling in 9 minutes, tuned for touch screens.",
-        "firstPrototypeTemplate": "tableau",
+        "coreLoop": "connect demand before congestion rises by making one strong tile placement decision per turn.",
+        "sessionLengthMinutes": 5,
+        "playerPromise": "A complete tactical board-game feeling in 5 minutes, tuned for touch screens.",
+        "firstPrototypeTemplate": "grid-puzzle",
         "artDirection": "bright route lines, station stamps, and compact maps"
       },
       "telemetryPlan": [
@@ -89,12 +131,12 @@
           "subscriptions",
           "interstitial ads during first session"
         ],
-        "fitScore": 82
+        "fitScore": 84
       }
     },
     {
-      "id": "orbit-atlas",
-      "title": "Orbit Atlas",
+      "id": "foundry-ledger",
+      "title": "Foundry Ledger",
       "status": "candidate",
       "sourceDistance": {
         "titleRisk": 0,
@@ -106,7 +148,7 @@
         "mechanic": "engine building",
         "theme": "expedition planning",
         "audience": "families",
-        "score": 207
+        "score": 156
       },
       "gameBrief": {
         "setting": "modular camp routes around unknown landmarks",
@@ -132,48 +174,6 @@
           "interstitial ads during first session"
         ],
         "fitScore": 79
-      }
-    },
-    {
-      "id": "foundry-ledger",
-      "title": "Foundry Ledger",
-      "status": "candidate",
-      "sourceDistance": {
-        "titleRisk": 0,
-        "copiedExpressionRisk": "low",
-        "ruleText": "generated from template only; no source rule text used",
-        "art": "new visual direction; no source art used"
-      },
-      "opportunity": {
-        "mechanic": "route building",
-        "theme": "merchant timing",
-        "audience": "mobile puzzle",
-        "score": 240
-      },
-      "gameBrief": {
-        "setting": "a market that changes prices every turn",
-        "coreLoop": "time contracts before rivals reset demand by making one strong route building decision per turn.",
-        "sessionLengthMinutes": 5,
-        "playerPromise": "A complete tactical board-game feeling in 5 minutes, tuned for touch screens.",
-        "firstPrototypeTemplate": "line-drawing",
-        "artDirection": "colorful stalls, contract slips, and clear price tracks"
-      },
-      "telemetryPlan": [
-        "concept_card_viewed",
-        "prototype_started",
-        "tutorial_completed",
-        "first_loss",
-        "level_completed",
-        "replay_clicked",
-        "rewarded_ad_offered"
-      ],
-      "monetization": {
-        "firstRevenueTest": "rewarded hint after failed daily challenge",
-        "avoidUntilRetention": [
-          "subscriptions",
-          "interstitial ads during first session"
-        ],
-        "fitScore": 84
       }
     }
   ]

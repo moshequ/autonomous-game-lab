@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-21T17:09:36.972Z",
+  "generatedAt": "2026-05-21T17:49:09.927Z",
   "status": "portfolio-policy-ready",
   "analyticsSource": "fixture-sample",
   "releaseHealthStatus": "monitoring",
@@ -21,10 +21,10 @@
     "orderedGameIds": [
       "canopy-bloom",
       "grove-engine",
-      "metro-loom",
-      "pocket-draft",
-      "harbor-rings",
       "mosaic-haven",
+      "metro-loom",
+      "harbor-rings",
+      "pocket-draft",
       "orbit-atlas",
       "foundry-ledger",
       "harbor-circuit",
@@ -33,8 +33,8 @@
     "seedTrafficGameIds": [
       "canopy-bloom",
       "grove-engine",
-      "metro-loom",
-      "pocket-draft"
+      "mosaic-haven",
+      "metro-loom"
     ],
     "improvementGameIds": [
       "harbor-rings"
@@ -42,9 +42,9 @@
     "heldForMoreDataGameIds": [
       "canopy-bloom",
       "grove-engine",
+      "mosaic-haven",
       "metro-loom",
       "pocket-draft",
-      "mosaic-haven",
       "orbit-atlas",
       "foundry-ledger",
       "harbor-circuit",
@@ -101,8 +101,8 @@
       "rank": 2
     },
     {
-      "gameId": "metro-loom",
-      "title": "Metro Loom",
+      "gameId": "mosaic-haven",
+      "title": "Mosaic Haven",
       "status": "generated-playable",
       "score": 48.552,
       "action": "seed-traffic",
@@ -125,8 +125,8 @@
       "rank": 3
     },
     {
-      "gameId": "pocket-draft",
-      "title": "Pocket Draft",
+      "gameId": "metro-loom",
+      "title": "Metro Loom",
       "status": "generated-playable",
       "score": 46.872,
       "action": "seed-traffic",
@@ -149,8 +149,8 @@
       "rank": 4
     },
     {
-      "gameId": "mosaic-haven",
-      "title": "Mosaic Haven",
+      "gameId": "pocket-draft",
+      "title": "Pocket Draft",
       "status": "generated-playable",
       "score": 45.192,
       "action": "seed-traffic",
@@ -315,7 +315,7 @@
     }
   ],
   "nextActions": [
-    "Seed traffic to Canopy Bloom, Grove Engine, Metro Loom, Pocket Draft before judging quality.",
+    "Seed traffic to Canopy Bloom, Grove Engine, Mosaic Haven, Metro Loom before judging quality.",
     "Apply backlog improvements for Harbor Rings.",
     "Keep paid promotion disabled until unit-economics gates pass."
   ]

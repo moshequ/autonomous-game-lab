@@ -1,7 +1,7 @@
 export const organicSeedLoop = {
-  "generatedAt": "2026-05-21T17:09:37.795Z",
+  "generatedAt": "2026-05-21T17:49:38.305Z",
   "status": "organic-seed-loop-ready",
-  "sourceDataHash": "e65d2f491bfc",
+  "sourceDataHash": "71d0a4d1234c",
   "sourceStatus": {
     "analyticsSource": "fixture-sample",
     "trafficSeeding": "traffic-seeding-ready",
@@ -151,21 +151,21 @@ export const organicSeedLoop = {
       "nextAction": "Collect player-initiated starts and shares for Grove Engine before quality judgment."
     },
     {
-      "id": "seed-20260521-metro-loom",
-      "gameId": "metro-loom",
-      "title": "Metro Loom",
+      "id": "seed-20260521-mosaic-haven",
+      "gameId": "mosaic-haven",
+      "title": "Mosaic Haven",
       "priority": 3,
       "status": "collecting-attribution",
       "action": "seed-traffic",
       "dataConfidence": "seed-needed",
       "costUsd": 0,
-      "playUrl": "https://moshequ.github.io/autonomous-game-lab/?game=metro-loom&utm_source=seed_internal&utm_campaign=seed-20260521-metro-loom",
-      "shareUrl": "https://moshequ.github.io/autonomous-game-lab/?game=metro-loom&utm_source=seed_share&utm_campaign=seed-20260521-metro-loom",
-      "pageUrl": "https://moshequ.github.io/autonomous-game-lab/games/metro-loom.html",
+      "playUrl": "https://moshequ.github.io/autonomous-game-lab/?game=mosaic-haven&utm_source=seed_internal&utm_campaign=seed-20260521-mosaic-haven",
+      "shareUrl": "https://moshequ.github.io/autonomous-game-lab/?game=mosaic-haven&utm_source=seed_share&utm_campaign=seed-20260521-mosaic-haven",
+      "pageUrl": "https://moshequ.github.io/autonomous-game-lab/games/mosaic-haven.html",
       "copy": {
-        "title": "Play Metro Loom",
-        "text": "A generated route building puzzle with quick merchant timing decisions.",
-        "cta": "Try today's challenge"
+        "title": "Play Mosaic Haven",
+        "text": "A generated tile placement puzzle with quick compact city logistics decisions.",
+        "cta": "Play free puzzle"
       },
       "shareReadiness": "ready",
       "attribution": {
@@ -181,24 +181,24 @@ export const organicSeedLoop = {
         "completionRate": null,
         "opportunityScore": 0.833
       },
-      "nextAction": "Collect player-initiated starts and shares for Metro Loom before quality judgment."
+      "nextAction": "Collect player-initiated starts and shares for Mosaic Haven before quality judgment."
     },
     {
-      "id": "seed-20260521-pocket-draft",
-      "gameId": "pocket-draft",
-      "title": "Pocket Draft",
+      "id": "seed-20260521-metro-loom",
+      "gameId": "metro-loom",
+      "title": "Metro Loom",
       "priority": 4,
       "status": "collecting-attribution",
       "action": "seed-traffic",
       "dataConfidence": "seed-needed",
       "costUsd": 0,
-      "playUrl": "https://moshequ.github.io/autonomous-game-lab/?game=pocket-draft&utm_source=seed_internal&utm_campaign=seed-20260521-pocket-draft",
-      "shareUrl": "https://moshequ.github.io/autonomous-game-lab/?game=pocket-draft&utm_source=seed_share&utm_campaign=seed-20260521-pocket-draft",
-      "pageUrl": "https://moshequ.github.io/autonomous-game-lab/games/pocket-draft.html",
+      "playUrl": "https://moshequ.github.io/autonomous-game-lab/?game=metro-loom&utm_source=seed_internal&utm_campaign=seed-20260521-metro-loom",
+      "shareUrl": "https://moshequ.github.io/autonomous-game-lab/?game=metro-loom&utm_source=seed_share&utm_campaign=seed-20260521-metro-loom",
+      "pageUrl": "https://moshequ.github.io/autonomous-game-lab/games/metro-loom.html",
       "copy": {
-        "title": "Play Pocket Draft",
-        "text": "A generated card drafting puzzle with quick compact city logistics decisions.",
-        "cta": "Play free puzzle"
+        "title": "Play Metro Loom",
+        "text": "A generated route building puzzle with quick science desk decisions.",
+        "cta": "Try today's challenge"
       },
       "shareReadiness": "ready",
       "attribution": {
@@ -214,7 +214,7 @@ export const organicSeedLoop = {
         "completionRate": null,
         "opportunityScore": 0.813
       },
-      "nextAction": "Collect player-initiated starts and shares for Pocket Draft before quality judgment."
+      "nextAction": "Collect player-initiated starts and shares for Metro Loom before quality judgment."
     }
   ],
   "missions": [

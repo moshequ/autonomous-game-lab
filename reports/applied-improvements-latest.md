@@ -1,10 +1,10 @@
 # Applied Improvements
 
-Generated: 2026-05-21T15:21:00.919Z
-Source data hash: e6cbef4e8512
+Generated: 2026-05-21T17:49:12.738Z
+Source data hash: 271978ab5630
 Release health: monitoring
 Experiment results: evaluated
-Playable targets: harbor-rings, lantern-relay, harbor-circuit, foundry-ledger, orbit-atlas, mosaic-haven, pocket-draft, metro-loom, grove-engine, canopy-bloom
+Playable targets: harbor-rings, lantern-relay, harbor-circuit, foundry-ledger, orbit-atlas, pocket-draft, metro-loom, mosaic-haven, grove-engine, canopy-bloom
 
 ## Actions
 

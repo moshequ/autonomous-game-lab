@@ -1,6 +1,6 @@
 export const storeListingOptimizer = {
-  "generatedAt": "2026-05-21T17:09:57.341Z",
-  "sourceDataHash": "622c83a46896",
+  "generatedAt": "2026-05-21T17:52:07.784Z",
+  "sourceDataHash": "0b3201bafe72",
   "status": "store-listing-optimizer-ready",
   "sourceStatus": {
     "growthPlan": "growth-assets-ready",
@@ -14,8 +14,8 @@ export const storeListingOptimizer = {
   "recommendation": {
     "focusGameId": "canopy-bloom",
     "title": "Canopy Bloom",
-    "previousLaunchCandidateId": "canopy-bloom",
-    "changedLaunchCandidate": false,
+    "previousLaunchCandidateId": "lantern-relay",
+    "changedLaunchCandidate": true,
     "rationale": [
       "Growth quality 78",
       "Portfolio score 51.912",
@@ -72,8 +72,8 @@ export const storeListingOptimizer = {
       "fullDescription": "Grove Engine is tuned as a daily engine building challenge with a compact board and a clear score target. A complete tactical board-game feeling in 7 minutes, tuned for touch screens."
     },
     {
-      "gameId": "metro-loom",
-      "title": "Metro Loom",
+      "gameId": "mosaic-haven",
+      "title": "Mosaic Haven",
       "status": "generated-playable",
       "score": 122.552,
       "growthQuality": 70,
@@ -83,20 +83,20 @@ export const storeListingOptimizer = {
       "generatedRuntime": true,
       "hasScreenshot": false,
       "keywords": [
-        "route building",
-        "merchant timing",
+        "tile placement",
+        "compact city logistics",
         "daily puzzle",
         "solo board game",
         "generated strategy game",
         "board-game-inspired",
         "mobile PWA"
       ],
-      "shortDescription": "A generated route building puzzle with quick merchant timing decisions.",
-      "fullDescription": "Metro Loom is tuned as a daily route building challenge with a compact board and a clear score target. A complete tactical board-game feeling in 5 minutes, tuned for touch screens."
+      "shortDescription": "A generated tile placement puzzle with quick compact city logistics decisions.",
+      "fullDescription": "A complete tactical board-game feeling in 5 minutes, tuned for touch screens."
     },
     {
-      "gameId": "pocket-draft",
-      "title": "Pocket Draft",
+      "gameId": "metro-loom",
+      "title": "Metro Loom",
       "status": "generated-playable",
       "score": 116.872,
       "growthQuality": 66,
@@ -106,20 +106,20 @@ export const storeListingOptimizer = {
       "generatedRuntime": true,
       "hasScreenshot": false,
       "keywords": [
-        "card drafting",
-        "compact city logistics",
+        "route building",
+        "science desk",
         "daily puzzle",
         "solo board game",
         "generated strategy game",
         "board-game-inspired",
         "mobile PWA"
       ],
-      "shortDescription": "A generated card drafting puzzle with quick compact city logistics decisions.",
-      "fullDescription": "A complete tactical board-game feeling in 9 minutes, tuned for touch screens."
+      "shortDescription": "A generated route building puzzle with quick science desk decisions.",
+      "fullDescription": "Metro Loom is tuned as a daily route building challenge with a compact board and a clear score target. A complete tactical board-game feeling in 9 minutes, tuned for touch screens."
     },
     {
-      "gameId": "mosaic-haven",
-      "title": "Mosaic Haven",
+      "gameId": "pocket-draft",
+      "title": "Pocket Draft",
       "status": "generated-playable",
       "score": 111.192,
       "growthQuality": 62,
@@ -129,7 +129,7 @@ export const storeListingOptimizer = {
       "generatedRuntime": true,
       "hasScreenshot": false,
       "keywords": [
-        "tile placement",
+        "card drafting",
         "cozy production",
         "daily puzzle",
         "solo board game",
@@ -137,8 +137,8 @@ export const storeListingOptimizer = {
         "board-game-inspired",
         "mobile PWA"
       ],
-      "shortDescription": "A generated tile placement puzzle with quick cozy production decisions.",
-      "fullDescription": "A complete tactical board-game feeling in 5 minutes, tuned for touch screens."
+      "shortDescription": "A generated card drafting puzzle with quick cozy production decisions.",
+      "fullDescription": "A complete tactical board-game feeling in 7 minutes, tuned for touch screens."
     },
     {
       "gameId": "orbit-atlas",
@@ -152,17 +152,17 @@ export const storeListingOptimizer = {
       "generatedRuntime": false,
       "hasScreenshot": false,
       "keywords": [
-        "engine building",
-        "expedition planning",
-        "families",
+        "tile placement",
+        "compact city logistics",
+        "mobile puzzle",
         "daily puzzle",
         "solo board game",
         "strategy puzzle",
         "board-game-inspired",
         "mobile PWA"
       ],
-      "shortDescription": "7-minute original engine building game for daily mobile play.",
-      "fullDescription": "Orbit Atlas is tuned as a daily engine building challenge with a compact board and a clear score target. Orbit Atlas is an original mobile-first board-game-inspired puzzle set in modular camp routes around unknown landmarks. A complete tactical board-game feeling in 7 minutes, tuned for touch screens. Core loop: commit scouts without overextending supplies by making one strong engine building decision per turn. The first release focuses on solo daily play, clear scoring, replayable seeds, and measured improvements from player behavior."
+      "shortDescription": "5-minute original tile placement game for daily mobile play.",
+      "fullDescription": "Orbit Atlas is tuned as a daily tile placement challenge with a compact board and a clear score target. Orbit Atlas is an original mobile-first board-game-inspired puzzle set in pocket-size transit districts. A complete tactical board-game feeling in 5 minutes, tuned for touch screens. Core loop: connect demand before congestion rises by making one strong tile placement decision per turn. The first release focuses on solo daily play, clear scoring, replayable seeds, and measured improvements from player behavior."
     }
   ],
   "listing": {
@@ -182,10 +182,10 @@ export const storeListingOptimizer = {
         "board-game-inspired",
         "engine building",
         "expedition planning",
+        "tile placement",
+        "compact city logistics",
         "route building",
-        "merchant timing",
-        "card drafting",
-        "compact city logistics"
+        "strategy puzzle"
       ]
     },
     "appleAppStore": {
@@ -205,10 +205,10 @@ export const storeListingOptimizer = {
       "board-game-inspired",
       "engine building",
       "expedition planning",
+      "tile placement",
+      "compact city logistics",
       "route building",
-      "merchant timing",
-      "card drafting",
-      "compact city logistics"
+      "strategy puzzle"
     ],
     "screenshots": [
       "lead gameplay board",
@@ -324,7 +324,7 @@ export const storeListingOptimizer = {
     "revenueClaimsAllowed": false
   },
   "nextActions": [
-    "Keep Canopy Bloom as the store listing focus.",
+    "Use Canopy Bloom as the store listing focus instead of lantern-relay.",
     "Lead screenshots with Generated Canopy Bloom board.",
     "Regenerate store compliance after every listing, screenshot, monetization, or privacy change."
   ]

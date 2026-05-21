@@ -127,13 +127,13 @@ export const gameBalance = {
       "title": "Metro Loom",
       "boardRows": 5,
       "boardCols": 5,
-      "maxMoves": 10,
-      "targetScore": 88,
+      "maxMoves": 12,
+      "targetScore": 96,
       "pieces": [
-        "stall",
-        "permit",
-        "clock",
-        "cart"
+        "station",
+        "signal",
+        "loop",
+        "spur"
       ],
       "generated": true,
       "scoring": {
@@ -159,10 +159,10 @@ export const gameBalance = {
       "maxMoves": 10,
       "targetScore": 90,
       "pieces": [
-        "sprout",
-        "ember",
-        "sun",
-        "violet"
+        "stall",
+        "permit",
+        "clock",
+        "cart"
       ],
       "generated": true,
       "scoring": {
@@ -185,13 +185,13 @@ export const gameBalance = {
       "title": "Pocket Draft",
       "boardRows": 3,
       "boardCols": 5,
-      "maxMoves": 12,
-      "targetScore": 136,
+      "maxMoves": 11,
+      "targetScore": 130,
       "pieces": [
-        "station",
-        "signal",
-        "loop",
-        "spur"
+        "sprout",
+        "ember",
+        "sun",
+        "violet"
       ],
       "generated": true,
       "scoring": {

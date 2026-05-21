@@ -1,14 +1,14 @@
 export const autonomousOwnerLoop = {
   "status": "owner-loop-ready",
-  "mode": "zero-spend-web-ready",
+  "mode": "guarded-local-automation",
   "autonomyScore": {
-    "percent": 98
+    "percent": 89
   },
   "controls": {
     "externalAccountInterventionRequired": true
   },
   "ownerDecision": {
-    "nextBestActionId": "hold-for-external-input"
+    "nextBestActionId": "prepare-repository-channel"
   },
   "systems": [
     {
@@ -30,19 +30,19 @@ export const autonomousOwnerLoop = {
   ],
   "safeAutonomousActions": [
     {
-      "id": "hold-for-external-input",
-      "status": "monitor"
+      "id": "prepare-repository-channel",
+      "status": "armed"
     },
     {
       "id": "run-daily-owner-loop",
       "status": "armed"
     },
     {
-      "id": "refresh-autonomous-cadence",
+      "id": "hold-for-external-input",
       "status": "monitor"
     },
     {
-      "id": "refresh-autonomous-self-update",
+      "id": "refresh-autonomous-cadence",
       "status": "monitor"
     }
   ]

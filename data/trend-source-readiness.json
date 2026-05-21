@@ -1,30 +1,66 @@
 {
-  "generatedAt": "2026-05-20T09:01:39.445Z",
-  "status": "fixture-safe",
-  "activeSource": "fixture",
+  "generatedAt": "2026-05-21T17:48:56.225Z",
+  "status": "live-public",
+  "activeSource": "public-rss-live",
   "bggHotness": {
     "configured": false,
     "ok": false,
-    "reason": "BGG_XML_API_TOKEN is not set; using fixture trends.",
+    "reason": "BGG_XML_API_TOKEN is not set; trying public trend feeds before fixtures.",
     "endpoint": "https://boardgamegeek.com/xmlapi2/hot?type=boardgame",
     "tokenEnv": "BGG_XML_API_TOKEN",
     "authorizationRequired": true
   },
+  "publicFeeds": {
+    "configured": true,
+    "ok": true,
+    "reason": "Fetched 36 public trend item(s) from 3/3 RSS/Atom feed(s).",
+    "endpoints": [
+      "https://www.boardgamequest.com/feed/",
+      "https://www.meeplemountain.com/feed/",
+      "https://www.reddit.com/r/boardgames/hot/.rss?limit=25"
+    ],
+    "feeds": [
+      {
+        "ok": true,
+        "url": "https://www.boardgamequest.com/feed/",
+        "status": 200,
+        "itemCount": 10,
+        "reason": "Fetched 10 public RSS/Atom item(s)."
+      },
+      {
+        "ok": true,
+        "url": "https://www.meeplemountain.com/feed/",
+        "status": 200,
+        "itemCount": 13,
+        "reason": "Fetched 13 public RSS/Atom item(s)."
+      },
+      {
+        "ok": true,
+        "url": "https://www.reddit.com/r/boardgames/hot/.rss?limit=25",
+        "status": 200,
+        "itemCount": 25,
+        "reason": "Fetched 25 public RSS/Atom item(s)."
+      }
+    ],
+    "tokenEnv": null,
+    "authorizationRequired": false
+  },
   "cache": {
-    "status": "empty",
-    "usable": false,
-    "ageDays": null,
+    "status": "fresh",
+    "usable": true,
+    "ageDays": 0,
     "maxAgeDays": 30,
-    "fetchedAt": null,
-    "reason": "No licensed BGG hotness cache has been created yet."
+    "fetchedAt": "2026-05-21T17:48:56.220Z",
+    "source": "public-rss",
+    "reason": "Using public RSS trend cache from 2026-05-21T17:48:56.220Z; age 0 day(s)."
   },
   "fixture": {
     "items": 5,
-    "purpose": "Safe deterministic fallback for development, tests, and no-token operation."
+    "purpose": "Safe deterministic fallback for development, tests, offline operation, and feed outages."
   },
   "policy": {
     "officialUrl": "https://boardgamegeek.com/using_the_xml_api",
-    "stance": "Do not scrape private BGG endpoints. Use registered XML API access, cached licensed results, or local fixtures."
+    "stance": "Do not scrape private BGG endpoints. Use registered XML API access, public RSS/Atom feeds, cached results, or local fixtures."
   },
   "downstream": {
     "conceptGenerator": "Consumes trend-signals.json regardless of source.",
