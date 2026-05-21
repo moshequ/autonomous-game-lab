@@ -146,12 +146,13 @@
 
       .missionActions {
         display: grid;
-        grid-template-columns: 1fr auto;
+        grid-template-columns: 1fr auto auto;
         gap: 10px;
         align-items: center;
       }
 
       .play,
+      .share,
       .export {
         display: inline-flex;
         align-items: center;
@@ -172,7 +173,13 @@
         cursor: pointer;
       }
 
+      .share {
+        background: #bd4d38;
+        cursor: pointer;
+      }
+
       .play:focus-visible,
+      .share:focus-visible,
       .export:focus-visible {
         outline: 3px solid #b87b16;
         outline-offset: 2px;
@@ -229,6 +236,7 @@
         </dl>
         <div class="missionActions">
           <a class="play" href="./?game=harbor-rings&amp;utm_source=gate_sample&amp;utm_campaign=gate-sample-20260521-firstGameCompletion">Start mission</a>
+          <button class="share" type="button" data-share-campaign="gate-sample-20260521-firstGameCompletion">Share mission</button>
           <button class="export" type="button" data-export-campaign="gate-sample-20260521-firstGameCompletion">Export evidence</button>
         </div>
       </article>
@@ -250,6 +258,7 @@
         </dl>
         <div class="missionActions">
           <a class="play" href="./?game=harbor-rings&amp;utm_source=gate_sample&amp;utm_campaign=gate-sample-20260521-replayRate">Start mission</a>
+          <button class="share" type="button" data-share-campaign="gate-sample-20260521-replayRate">Share mission</button>
           <button class="export" type="button" data-export-campaign="gate-sample-20260521-replayRate">Export evidence</button>
         </div>
       </article>
@@ -271,6 +280,7 @@
         </dl>
         <div class="missionActions">
           <a class="play" href="./?game=canopy-bloom&amp;utm_source=gate_sample&amp;utm_campaign=gate-sample-20260521-d1Retention">Start mission</a>
+          <button class="share" type="button" data-share-campaign="gate-sample-20260521-d1Retention">Share mission</button>
           <button class="export" type="button" data-export-campaign="gate-sample-20260521-d1Retention">Export evidence</button>
         </div>
       </article>
@@ -280,7 +290,7 @@
         <p>The app buffers anonymous gameplay events locally, forwards them when a production collector exists, and keeps revenue disabled until observed samples clear every product gate. Export buttons create the same player-initiated event drop consumed by the local bridge.</p>
       </section>
     </main>
-    <script type="application/json" id="gate-sample-mission-data">[{"id":"collect-firstGameCompletion-sample","gateId":"firstGameCompletion","gameId":"harbor-rings","title":"Harbor Rings","campaignId":"gate-sample-20260521-firstGameCompletion","needed":{"promptViews":30,"successes":128,"minimumPromptViewsForDecision":30},"telemetry":{"view":["completion_nudge_viewed","finish_line_coach_viewed","first_move_coach_shown"],"action":["completion_nudge_clicked","finish_line_coach_clicked","first_move_coach_used"],"success":["level_completed"],"failure":["game_abandoned"],"collectionEvents":["completion_nudge_viewed","finish_line_coach_viewed","first_move_coach_shown","completion_nudge_clicked","finish_line_coach_clicked","first_move_coach_used","level_completed"]},"controls":{"costUsd":0,"noSyntheticEvents":true,"noRevenueEnablement":true}},{"id":"collect-replayRate-sample","gateId":"replayRate","gameId":"harbor-rings","title":"Harbor Rings","campaignId":"gate-sample-20260521-replayRate","needed":{"promptViews":30,"successes":10,"minimumPromptViewsForDecision":30},"telemetry":{"view":["replay_prompt_viewed"],"action":["replay_prompt_clicked"],"success":["replay_clicked"],"failure":["replay_prompt_dismissed"],"collectionEvents":["replay_prompt_viewed","replay_prompt_clicked","replay_clicked"]},"controls":{"costUsd":0,"noSyntheticEvents":true,"noRevenueEnablement":true}},{"id":"collect-d1Retention-sample","gateId":"d1Retention","gameId":"canopy-bloom","title":"Canopy Bloom","campaignId":"gate-sample-20260521-d1Retention","needed":{"promptViews":10,"successes":1,"minimumPromptViewsForDecision":10},"telemetry":{"view":["daily_return_prompt_viewed","daily_return_intent_viewed"],"action":["daily_return_prompt_clicked","daily_return_intent_started"],"success":["daily_return_intent_started"],"failure":["daily_return_prompt_dismissed","daily_return_intent_cleared"],"collectionEvents":["daily_return_prompt_viewed","daily_return_intent_viewed","daily_return_prompt_clicked","daily_return_intent_started","daily_return_intent_started"]},"controls":{"costUsd":0,"noSyntheticEvents":true,"noRevenueEnablement":true}}]</script>
+    <script type="application/json" id="gate-sample-mission-data">[{"id":"collect-firstGameCompletion-sample","gateId":"firstGameCompletion","gameId":"harbor-rings","title":"Harbor Rings","campaignId":"gate-sample-20260521-firstGameCompletion","playPath":"/?game=harbor-rings&utm_source=gate_sample&utm_campaign=gate-sample-20260521-firstGameCompletion","needed":{"promptViews":30,"successes":128,"minimumPromptViewsForDecision":30},"telemetry":{"view":["completion_nudge_viewed","finish_line_coach_viewed","first_move_coach_shown"],"action":["completion_nudge_clicked","finish_line_coach_clicked","first_move_coach_used"],"success":["level_completed"],"failure":["game_abandoned"],"collectionEvents":["completion_nudge_viewed","finish_line_coach_viewed","first_move_coach_shown","completion_nudge_clicked","finish_line_coach_clicked","first_move_coach_used","level_completed"]},"controls":{"costUsd":0,"noSyntheticEvents":true,"noRevenueEnablement":true}},{"id":"collect-replayRate-sample","gateId":"replayRate","gameId":"harbor-rings","title":"Harbor Rings","campaignId":"gate-sample-20260521-replayRate","playPath":"/?game=harbor-rings&utm_source=gate_sample&utm_campaign=gate-sample-20260521-replayRate","needed":{"promptViews":30,"successes":10,"minimumPromptViewsForDecision":30},"telemetry":{"view":["replay_prompt_viewed"],"action":["replay_prompt_clicked"],"success":["replay_clicked"],"failure":["replay_prompt_dismissed"],"collectionEvents":["replay_prompt_viewed","replay_prompt_clicked","replay_clicked"]},"controls":{"costUsd":0,"noSyntheticEvents":true,"noRevenueEnablement":true}},{"id":"collect-d1Retention-sample","gateId":"d1Retention","gameId":"canopy-bloom","title":"Canopy Bloom","campaignId":"gate-sample-20260521-d1Retention","playPath":"/?game=canopy-bloom&utm_source=gate_sample&utm_campaign=gate-sample-20260521-d1Retention","needed":{"promptViews":10,"successes":1,"minimumPromptViewsForDecision":10},"telemetry":{"view":["daily_return_prompt_viewed","daily_return_intent_viewed"],"action":["daily_return_prompt_clicked","daily_return_intent_started"],"success":["daily_return_intent_started"],"failure":["daily_return_prompt_dismissed","daily_return_intent_cleared"],"collectionEvents":["daily_return_prompt_viewed","daily_return_intent_viewed","daily_return_prompt_clicked","daily_return_intent_started","daily_return_intent_started"]},"controls":{"costUsd":0,"noSyntheticEvents":true,"noRevenueEnablement":true}}]</script>
     <script>
       (() => {
         const bufferKey = 'agl.analytics.events'
@@ -350,6 +360,66 @@
           URL.revokeObjectURL(url)
         }
 
+        const missionShareUrl = (mission) =>
+          new URL(mission.playPath || './', window.location.href).toString()
+
+        const shareMission = async (mission) => {
+          const shareUrl = missionShareUrl(mission)
+          const shareData = {
+            title: `Play ${mission.title}`,
+            text: 'Help collect real zero-spend gameplay evidence for Autonomous Game Lab.',
+            url: shareUrl,
+          }
+          let method = 'unsupported'
+          let succeeded = false
+
+          if (navigator.share) {
+            try {
+              await navigator.share(shareData)
+              method = 'native'
+              succeeded = true
+            } catch {
+              method = 'native'
+            }
+          } else if (navigator.clipboard?.writeText) {
+            method = 'clipboard'
+
+            try {
+              await navigator.clipboard.writeText(shareUrl)
+              succeeded = true
+            } catch {
+              succeeded = false
+            }
+          }
+
+          const events = readEvents()
+          const shareEvent = {
+            id: createId(),
+            name: 'share_clicked',
+            properties: {
+              surface: 'public-gate-sample-page',
+              channel: 'product-gate-sample',
+              campaignId: mission.campaignId,
+              gateId: mission.gateId,
+              gameId: mission.gameId,
+              acquisitionCampaign: mission.campaignId,
+              acquisitionSource: 'gate_sample',
+              acquisitionChannel: 'product-gate-sample',
+              shareUrl,
+              method,
+              succeeded,
+              zeroPaidSpend: true,
+              noPaidTraffic: true,
+              noSyntheticEvents: mission.controls.noSyntheticEvents,
+              noRevenueEnablement: mission.controls.noRevenueEnablement,
+            },
+            createdAt: new Date().toISOString(),
+          }
+
+          writeEvents([...events, shareEvent])
+          renderProgress()
+        }
+
         const renderProgress = () => {
           const events = readEvents()
 
@@ -417,6 +487,16 @@
 
             if (mission) {
               exportMission(mission)
+            }
+          })
+        })
+
+        document.querySelectorAll('[data-share-campaign]').forEach((button) => {
+          button.addEventListener('click', () => {
+            const mission = missions.find((item) => item.campaignId === button.getAttribute('data-share-campaign'))
+
+            if (mission) {
+              void shareMission(mission)
             }
           })
         })

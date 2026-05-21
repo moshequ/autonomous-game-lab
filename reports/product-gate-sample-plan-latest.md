@@ -1,10 +1,11 @@
 # Product Gate Sample Plan
 
-Generated: 2026-05-21T09:48:16.387Z
+Generated: 2026-05-21T10:49:14.053Z
 Status: product-gate-sample-plan-ready
 Source hash: 35eaa06e3cb5
 Analytics source: fixture-sample
 Primary gate: firstGameCompletion
+Default route: d1Retention (gate-sample-20260521-d1Retention)
 Prompt views needed: 70
 Observed successes needed: 139
 Imported gate-sample events: 0
@@ -40,6 +41,8 @@ Runtime evidence policy: active
 - realEventDropsOnly: true
 - downloadsImportRequiresExplicitOptIn: true
 - downloadsScanBackoffRequired: true
+- directTrafficSampleRouting: true
+- playerInitiatedSampleSharing: true
 - requireObservedTelemetryBeforeRecoveryChange: true
 - publicAggregateEvidenceIsSupportingOnly: true
 - aggregateEvidenceDoesNotPassGates: true

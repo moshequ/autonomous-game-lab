@@ -191,6 +191,13 @@ const failingGates = (productGateRecovery.gates ?? []).filter((gate) => !gate.pa
 const missions = failingGates.map(missionForGate).sort((a, b) => a.rank - b.rank)
 const primaryMission = missions.find((mission) => mission.gateId === productGateRecovery.summary?.primaryBottleneck) ?? missions[0] ?? null
 const fastestMission = missions.find((mission) => mission.gateId === productGateRecovery.summary?.quickestGateTest) ?? missions.at(-1) ?? null
+const defaultRouteMission =
+  fastestMission &&
+  primaryMission &&
+  fastestMission.campaignId !== primaryMission.campaignId &&
+  fastestMission.needed.successes < primaryMission.needed.successes
+    ? fastestMission
+    : (primaryMission ?? fastestMission)
 const totalPromptViewsNeeded = missions.reduce((sum, mission) => sum + mission.needed.promptViews, 0)
 const totalObservedSuccessesNeeded = missions.reduce((sum, mission) => sum + mission.needed.successes, 0)
 const sampleReadyCount = missions.filter((mission) => mission.status === 'ready-for-recovery-decision').length
@@ -349,6 +356,8 @@ const payload = {
     missions: missions.length,
     primaryGateId: primaryMission?.gateId ?? null,
     fastestGateId: fastestMission?.gateId ?? null,
+    defaultRouteGateId: defaultRouteMission?.gateId ?? null,
+    defaultRouteCampaignId: defaultRouteMission?.campaignId ?? null,
     totalPromptViewsNeeded,
     totalObservedSuccessesNeeded,
     sampleReadyCount,
@@ -370,8 +379,11 @@ const payload = {
     missionCount: missionsWithEvidence.length,
     primaryCampaignId: primaryMission?.campaignId ?? null,
     fastestCampaignId: fastestMission?.campaignId ?? null,
+    defaultRouteCampaignId: defaultRouteMission?.campaignId ?? null,
     localProgressEnabled: true,
+    autonomousDefaultRoutingEnabled: Boolean(defaultRouteMission),
     playerInitiatedExportEnabled: true,
+    playerInitiatedShareEnabled: true,
     exportSurface: 'product-gate-sample',
     zeroPaidSpend: true,
     playerInitiatedOnly: true,
@@ -422,6 +434,34 @@ const payload = {
       'localEvidenceDropReady',
       'localSampleDecisionReady',
     ],
+    publicPageShareProperties: [
+      'campaignId',
+      'gateId',
+      'gameId',
+      'shareUrl',
+      'method',
+      'succeeded',
+      'zeroPaidSpend',
+      'noSyntheticEvents',
+    ],
+    defaultRouting: {
+      status: defaultRouteMission ? 'active' : 'inactive',
+      gateId: defaultRouteMission?.gateId ?? null,
+      campaignId: defaultRouteMission?.campaignId ?? null,
+      gameId: defaultRouteMission?.gameId ?? null,
+      source: 'gate_sample',
+      channel: 'product-gate-sample',
+      appliesWhen: 'direct-root-visit-without-explicit-game-or-campaign',
+      routeSelection: 'fastest-validation-mission-when-it-needs-fewer-successes-than-primary',
+      eventPolicy: 'real-player-events-only',
+      controls: {
+        zeroPaidSpend: true,
+        noSyntheticEvents: true,
+        noAutoPlay: true,
+        playerCanChooseAnotherGame: true,
+        noRevenueEnablement: true,
+      },
+    },
     controls: {
       zeroPaidSpend: true,
       localOnlyUntilCollectorConfigured: true,
@@ -450,6 +490,8 @@ const payload = {
     realEventDropsOnly: true,
     downloadsImportRequiresExplicitOptIn: true,
     downloadsScanBackoffRequired: true,
+    directTrafficSampleRouting: Boolean(defaultRouteMission),
+    playerInitiatedSampleSharing: true,
     requireObservedTelemetryBeforeRecoveryChange: true,
     publicAggregateEvidenceIsSupportingOnly: true,
     aggregateEvidenceDoesNotPassGates: true,
@@ -473,6 +515,7 @@ const report = [
   `Source hash: ${payload.sourceDataHash}`,
   `Analytics source: ${payload.sourceStatus.analyticsSource}`,
   `Primary gate: ${payload.summary.primaryGateId ?? 'none'}`,
+  `Default route: ${payload.summary.defaultRouteGateId ?? 'none'} (${payload.summary.defaultRouteCampaignId ?? 'none'})`,
   `Prompt views needed: ${payload.summary.totalPromptViewsNeeded}`,
   `Observed successes needed: ${payload.summary.totalObservedSuccessesNeeded}`,
   `Imported gate-sample events: ${payload.summary.importedGateSampleEvents}`,
@@ -544,6 +587,7 @@ const missionCards = payload.missions
         </dl>
         <div class="missionActions">
           <a class="play" href="${escapeHtml(runtimeHref(mission.playPath))}">Start mission</a>
+          <button class="share" type="button" data-share-campaign="${escapeHtml(mission.campaignId)}">Share mission</button>
           <button class="export" type="button" data-export-campaign="${escapeHtml(mission.campaignId)}">Export evidence</button>
         </div>
       </article>`,
@@ -556,6 +600,7 @@ const publicMissionEvidence = payload.missions.map((mission) => ({
   gameId: mission.gameId,
   title: mission.title,
   campaignId: mission.campaignId,
+  playPath: mission.playPath,
   needed: {
     promptViews: mission.needed.promptViews,
     successes: mission.needed.successes,
@@ -717,12 +762,13 @@ const gateSamplePage = `<!doctype html>
 
       .missionActions {
         display: grid;
-        grid-template-columns: 1fr auto;
+        grid-template-columns: 1fr auto auto;
         gap: 10px;
         align-items: center;
       }
 
       .play,
+      .share,
       .export {
         display: inline-flex;
         align-items: center;
@@ -743,7 +789,13 @@ const gateSamplePage = `<!doctype html>
         cursor: pointer;
       }
 
+      .share {
+        background: #bd4d38;
+        cursor: pointer;
+      }
+
       .play:focus-visible,
+      .share:focus-visible,
       .export:focus-visible {
         outline: 3px solid #b87b16;
         outline-offset: 2px;
@@ -859,6 +911,66 @@ const gateSamplePage = `<!doctype html>
           URL.revokeObjectURL(url)
         }
 
+        const missionShareUrl = (mission) =>
+          new URL(mission.playPath || './', window.location.href).toString()
+
+        const shareMission = async (mission) => {
+          const shareUrl = missionShareUrl(mission)
+          const shareData = {
+            title: \`Play \${mission.title}\`,
+            text: 'Help collect real zero-spend gameplay evidence for Autonomous Game Lab.',
+            url: shareUrl,
+          }
+          let method = 'unsupported'
+          let succeeded = false
+
+          if (navigator.share) {
+            try {
+              await navigator.share(shareData)
+              method = 'native'
+              succeeded = true
+            } catch {
+              method = 'native'
+            }
+          } else if (navigator.clipboard?.writeText) {
+            method = 'clipboard'
+
+            try {
+              await navigator.clipboard.writeText(shareUrl)
+              succeeded = true
+            } catch {
+              succeeded = false
+            }
+          }
+
+          const events = readEvents()
+          const shareEvent = {
+            id: createId(),
+            name: 'share_clicked',
+            properties: {
+              surface: 'public-gate-sample-page',
+              channel: 'product-gate-sample',
+              campaignId: mission.campaignId,
+              gateId: mission.gateId,
+              gameId: mission.gameId,
+              acquisitionCampaign: mission.campaignId,
+              acquisitionSource: 'gate_sample',
+              acquisitionChannel: 'product-gate-sample',
+              shareUrl,
+              method,
+              succeeded,
+              zeroPaidSpend: true,
+              noPaidTraffic: true,
+              noSyntheticEvents: mission.controls.noSyntheticEvents,
+              noRevenueEnablement: mission.controls.noRevenueEnablement,
+            },
+            createdAt: new Date().toISOString(),
+          }
+
+          writeEvents([...events, shareEvent])
+          renderProgress()
+        }
+
         const renderProgress = () => {
           const events = readEvents()
 
@@ -926,6 +1038,16 @@ const gateSamplePage = `<!doctype html>
 
             if (mission) {
               exportMission(mission)
+            }
+          })
+        })
+
+        document.querySelectorAll('[data-share-campaign]').forEach((button) => {
+          button.addEventListener('click', () => {
+            const mission = missions.find((item) => item.campaignId === button.getAttribute('data-share-campaign'))
+
+            if (mission) {
+              void shareMission(mission)
             }
           })
         })

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-21T09:48:16.387Z",
+  "generatedAt": "2026-05-21T10:49:14.053Z",
   "sourceDataHash": "35eaa06e3cb5",
   "status": "product-gate-sample-plan-ready",
   "sourceStatus": {
@@ -15,6 +15,8 @@
     "missions": 3,
     "primaryGateId": "firstGameCompletion",
     "fastestGateId": "d1Retention",
+    "defaultRouteGateId": "d1Retention",
+    "defaultRouteCampaignId": "gate-sample-20260521-d1Retention",
     "totalPromptViewsNeeded": 70,
     "totalObservedSuccessesNeeded": 139,
     "sampleReadyCount": 0,
@@ -36,8 +38,8 @@
     "evidenceReadyNow": false,
     "lastScanAt": "2026-05-21T07:28:33.578Z",
     "lastScanStatus": "no-evidence-found",
-    "scanAgeHours": 2.33,
-    "cooldownRemainingHours": 1.67,
+    "scanAgeHours": 3.34,
+    "cooldownRemainingHours": 0.66,
     "nextRecommendedScanAt": "2026-05-21T11:28:33.578Z"
   },
   "publicSamplePage": {
@@ -46,8 +48,11 @@
     "missionCount": 3,
     "primaryCampaignId": "gate-sample-20260521-firstGameCompletion",
     "fastestCampaignId": "gate-sample-20260521-d1Retention",
+    "defaultRouteCampaignId": "gate-sample-20260521-d1Retention",
     "localProgressEnabled": true,
+    "autonomousDefaultRoutingEnabled": true,
     "playerInitiatedExportEnabled": true,
+    "playerInitiatedShareEnabled": true,
     "exportSurface": "product-gate-sample",
     "zeroPaidSpend": true,
     "playerInitiatedOnly": true,
@@ -101,6 +106,34 @@
       "localEvidenceDropReady",
       "localSampleDecisionReady"
     ],
+    "publicPageShareProperties": [
+      "campaignId",
+      "gateId",
+      "gameId",
+      "shareUrl",
+      "method",
+      "succeeded",
+      "zeroPaidSpend",
+      "noSyntheticEvents"
+    ],
+    "defaultRouting": {
+      "status": "active",
+      "gateId": "d1Retention",
+      "campaignId": "gate-sample-20260521-d1Retention",
+      "gameId": "canopy-bloom",
+      "source": "gate_sample",
+      "channel": "product-gate-sample",
+      "appliesWhen": "direct-root-visit-without-explicit-game-or-campaign",
+      "routeSelection": "fastest-validation-mission-when-it-needs-fewer-successes-than-primary",
+      "eventPolicy": "real-player-events-only",
+      "controls": {
+        "zeroPaidSpend": true,
+        "noSyntheticEvents": true,
+        "noAutoPlay": true,
+        "playerCanChooseAnotherGame": true,
+        "noRevenueEnablement": true
+      }
+    },
     "controls": {
       "zeroPaidSpend": true,
       "localOnlyUntilCollectorConfigured": true,
@@ -397,6 +430,8 @@
     "realEventDropsOnly": true,
     "downloadsImportRequiresExplicitOptIn": true,
     "downloadsScanBackoffRequired": true,
+    "directTrafficSampleRouting": true,
+    "playerInitiatedSampleSharing": true,
     "requireObservedTelemetryBeforeRecoveryChange": true,
     "publicAggregateEvidenceIsSupportingOnly": true,
     "aggregateEvidenceDoesNotPassGates": true

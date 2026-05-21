@@ -2089,6 +2089,8 @@ test('product optimizer applies one guarded tuning step from product-gate eviden
     summary: {
       primaryGateId: string
       fastestGateId: string
+      defaultRouteGateId: string
+      defaultRouteCampaignId: string
       missions: number
       totalPromptViewsNeeded: number
       totalObservedSuccessesNeeded: number
@@ -2117,8 +2119,11 @@ test('product optimizer applies one guarded tuning step from product-gate eviden
       path: string
       missionCount: number
       primaryCampaignId: string
+      defaultRouteCampaignId: string
       localProgressEnabled: boolean
+      autonomousDefaultRoutingEnabled: boolean
       playerInitiatedExportEnabled: boolean
+      playerInitiatedShareEnabled: boolean
       exportSurface: string
       zeroPaidSpend: boolean
       playerInitiatedOnly: boolean
@@ -2131,6 +2136,24 @@ test('product optimizer applies one guarded tuning step from product-gate eviden
       campaignMatchProperties: string[]
       exportProperties: string[]
       publicPageExportProperties: string[]
+      publicPageShareProperties: string[]
+      defaultRouting: {
+        status: string
+        gateId: string
+        campaignId: string
+        gameId: string
+        source: string
+        channel: string
+        appliesWhen: string
+        eventPolicy: string
+        controls: {
+          zeroPaidSpend: boolean
+          noSyntheticEvents: boolean
+          noAutoPlay: boolean
+          playerCanChooseAnotherGame: boolean
+          noRevenueEnablement: boolean
+        }
+      }
       controls: {
         zeroPaidSpend: boolean
         localOnlyUntilCollectorConfigured: boolean
@@ -2145,6 +2168,8 @@ test('product optimizer applies one guarded tuning step from product-gate eviden
       realEventDropsOnly: boolean
       downloadsImportRequiresExplicitOptIn: boolean
       downloadsScanBackoffRequired: boolean
+      directTrafficSampleRouting: boolean
+      playerInitiatedSampleSharing: boolean
       noAutomaticRuleChanges: boolean
       requireObservedTelemetryBeforeRecoveryChange: boolean
       publicAggregateEvidenceIsSupportingOnly: boolean
@@ -2256,6 +2281,8 @@ test('product optimizer applies one guarded tuning step from product-gate eviden
   expect(samplePlan.status).toBe('product-gate-sample-plan-ready')
   expect(samplePlan.summary.primaryGateId).toBe(recovery.summary.primaryBottleneck)
   expect(samplePlan.summary.fastestGateId).toBe(recovery.summary.quickestGateTest)
+  expect(samplePlan.summary.defaultRouteGateId).toBeTruthy()
+  expect(samplePlan.summary.defaultRouteCampaignId).toBe(samplePlan.publicSamplePage.defaultRouteCampaignId)
   expect(samplePlan.summary.missions).toBe(recovery.summary.failingGates)
   expect(samplePlan.summary.totalPromptViewsNeeded).toBe(
     recovery.gates.reduce((sum, gate) => sum + gate.promptViewsNeeded, 0),
@@ -2277,8 +2304,11 @@ test('product optimizer applies one guarded tuning step from product-gate eviden
   expect(samplePlan.publicSamplePage.path).toBe('/gate-sample.html')
   expect(samplePlan.publicSamplePage.missionCount).toBe(samplePlan.missions.length)
   expect(samplePlan.publicSamplePage.primaryCampaignId).toBe(samplePlan.missions[0].campaignId)
+  expect(samplePlan.publicSamplePage.defaultRouteCampaignId).toBe(samplePlan.runtimeEvidencePolicy.defaultRouting.campaignId)
   expect(samplePlan.publicSamplePage.localProgressEnabled).toBe(true)
+  expect(samplePlan.publicSamplePage.autonomousDefaultRoutingEnabled).toBe(true)
   expect(samplePlan.publicSamplePage.playerInitiatedExportEnabled).toBe(true)
+  expect(samplePlan.publicSamplePage.playerInitiatedShareEnabled).toBe(true)
   expect(samplePlan.publicSamplePage.exportSurface).toBe('product-gate-sample')
   expect(samplePlan.publicSamplePage.zeroPaidSpend).toBe(true)
   expect(samplePlan.publicSamplePage.playerInitiatedOnly).toBe(true)
@@ -2290,6 +2320,18 @@ test('product optimizer applies one guarded tuning step from product-gate eviden
   expect(samplePlan.runtimeEvidencePolicy.exportProperties).toContain('localObservedSuccesses')
   expect(samplePlan.runtimeEvidencePolicy.publicPageExportProperties).toContain('exportSurfaceDetail')
   expect(samplePlan.runtimeEvidencePolicy.publicPageExportProperties).toContain('localEvidenceDropReady')
+  expect(samplePlan.runtimeEvidencePolicy.publicPageShareProperties).toContain('shareUrl')
+  expect(samplePlan.runtimeEvidencePolicy.defaultRouting).toMatchObject({
+    status: 'active',
+    campaignId: samplePlan.summary.defaultRouteCampaignId,
+    source: 'gate_sample',
+    channel: 'product-gate-sample',
+    eventPolicy: 'real-player-events-only',
+  })
+  expect(samplePlan.runtimeEvidencePolicy.defaultRouting.controls.zeroPaidSpend).toBe(true)
+  expect(samplePlan.runtimeEvidencePolicy.defaultRouting.controls.noSyntheticEvents).toBe(true)
+  expect(samplePlan.runtimeEvidencePolicy.defaultRouting.controls.noAutoPlay).toBe(true)
+  expect(samplePlan.runtimeEvidencePolicy.defaultRouting.controls.playerCanChooseAnotherGame).toBe(true)
   expect(samplePlan.runtimeEvidencePolicy.controls.zeroPaidSpend).toBe(true)
   expect(samplePlan.runtimeEvidencePolicy.controls.localOnlyUntilCollectorConfigured).toBe(true)
   expect(samplePlan.runtimeEvidencePolicy.controls.noSyntheticEvents).toBe(true)
@@ -2305,6 +2347,8 @@ test('product optimizer applies one guarded tuning step from product-gate eviden
   expect(samplePlan.missions.every((mission) => mission.supportingAggregateEvidence.manualReviewRequired === true)).toBe(true)
   expect(samplePlan.controls.downloadsImportRequiresExplicitOptIn).toBe(true)
   expect(samplePlan.controls.downloadsScanBackoffRequired).toBe(true)
+  expect(samplePlan.controls.directTrafficSampleRouting).toBe(true)
+  expect(samplePlan.controls.playerInitiatedSampleSharing).toBe(true)
   expect(samplePlan.controls.requireObservedTelemetryBeforeRecoveryChange).toBe(true)
   expect(samplePlan.missions[0]).toMatchObject({
     gateId: 'firstGameCompletion',
@@ -2318,6 +2362,7 @@ test('product optimizer applies one guarded tuning step from product-gate eviden
   await expect(page.getByLabel('Product Gate Sample Plan')).toContainText('product-gate-sample-plan-ready')
   await expect(page.getByLabel('Product Gate Sample Plan')).toContainText('firstGameCompletion')
   await expect(page.getByLabel('Product Gate Sample Plan')).toContainText('d1Retention')
+  await expect(page.getByLabel('Product Gate Sample Plan')).toContainText('Default route')
   await expect(page.getByLabel('Product Gate Sample Plan')).toContainText('Local sample')
   await expect(page.getByLabel('Product Gate Sample Plan')).toContainText('Export state')
 })
@@ -2691,6 +2736,77 @@ test('direct gate sample links self-attribute the mission start', async ({ page 
     noRevenueEnablement: mission.controls.noRevenueEnablement,
     promptViewsNeeded: mission.needed.promptViews,
     observedSuccessesNeeded: mission.needed.successes,
+  })
+})
+
+test('direct root visits route into the default gate sample without paid traffic', async ({ page }) => {
+  const samplePlan = JSON.parse(await readFile('data/product-gate-sample-plan.json', 'utf8')) as {
+    summary: { defaultRouteCampaignId: string }
+    runtimeEvidencePolicy: {
+      defaultRouting: {
+        status: string
+        campaignId: string
+        gateId: string
+        gameId: string
+        source: string
+        channel: string
+        controls: { zeroPaidSpend: boolean; noSyntheticEvents: boolean; noAutoPlay: boolean }
+      }
+    }
+    missions: Array<{ gateId: string; gameId: string; title: string; campaignId: string }>
+  }
+  const defaultMission =
+    samplePlan.missions.find((mission) => mission.campaignId === samplePlan.summary.defaultRouteCampaignId) ??
+    samplePlan.missions[0]
+
+  await page.goto('/')
+  await expect(page.getByLabel('Autonomy cockpit').getByRole('heading', { name: defaultMission.title })).toBeVisible()
+  await page.waitForFunction((campaignId) => {
+    const raw = window.localStorage.getItem('agl.analytics.events')
+    const events = raw ? JSON.parse(raw) : []
+
+    return events.some(
+      (event: { name: string; properties: Record<string, string> }) =>
+        event.name === 'local_router_card_viewed' && event.properties.campaignId === campaignId,
+    )
+  }, defaultMission.campaignId)
+
+  const events = await page.evaluate(() => {
+    const raw = window.localStorage.getItem('agl.analytics.events')
+    return raw ? JSON.parse(raw) : []
+  })
+  const appLoaded = events.findLast((event: { name: string }) => event.name === 'app_loaded')
+  const routerViewed = events.findLast(
+    (event: { name: string; properties: Record<string, string | number | boolean> }) =>
+      event.name === 'local_router_card_viewed' && event.properties.campaignId === defaultMission.campaignId,
+  )
+
+  expect(samplePlan.runtimeEvidencePolicy.defaultRouting).toMatchObject({
+    status: 'active',
+    campaignId: defaultMission.campaignId,
+    gateId: defaultMission.gateId,
+    gameId: defaultMission.gameId,
+    source: 'gate_sample',
+    channel: 'product-gate-sample',
+  })
+  expect(samplePlan.runtimeEvidencePolicy.defaultRouting.controls.zeroPaidSpend).toBe(true)
+  expect(samplePlan.runtimeEvidencePolicy.defaultRouting.controls.noSyntheticEvents).toBe(true)
+  expect(samplePlan.runtimeEvidencePolicy.defaultRouting.controls.noAutoPlay).toBe(true)
+  expect(appLoaded?.properties).toMatchObject({
+    acquisitionSource: 'gate_sample',
+    acquisitionCampaign: defaultMission.campaignId,
+    acquisitionChannel: 'product-gate-sample',
+    autonomousDefaultGateSampleRouting: true,
+    defaultGateSampleCampaignId: defaultMission.campaignId,
+    zeroPaidSpend: true,
+    noSyntheticEvents: true,
+  })
+  expect(routerViewed?.properties).toMatchObject({
+    campaignId: defaultMission.campaignId,
+    channel: 'product-gate-sample',
+    zeroPaidSpend: true,
+    noSyntheticEvents: true,
+    noRevenueEnablement: true,
   })
 })
 
@@ -5030,8 +5146,11 @@ test('zero-spend gate sample page is reachable and uses runtime-relative mission
       missionCount: number
       primaryCampaignId: string
       fastestCampaignId: string
+      defaultRouteCampaignId: string
       localProgressEnabled: boolean
+      autonomousDefaultRoutingEnabled: boolean
       playerInitiatedExportEnabled: boolean
+      playerInitiatedShareEnabled: boolean
       exportSurface: string
       zeroPaidSpend: boolean
       playerInitiatedOnly: boolean
@@ -5097,8 +5216,11 @@ test('zero-spend gate sample page is reachable and uses runtime-relative mission
   expect(samplePlan.publicSamplePage.missionCount).toBe(samplePlan.missions.length)
   expect(samplePlan.publicSamplePage.primaryCampaignId).toBe(mission.campaignId)
   expect(samplePlan.publicSamplePage.fastestCampaignId).toBe(fastestMission?.campaignId)
+  expect(samplePlan.publicSamplePage.defaultRouteCampaignId).toBeTruthy()
   expect(samplePlan.publicSamplePage.localProgressEnabled).toBe(true)
+  expect(samplePlan.publicSamplePage.autonomousDefaultRoutingEnabled).toBe(true)
   expect(samplePlan.publicSamplePage.playerInitiatedExportEnabled).toBe(true)
+  expect(samplePlan.publicSamplePage.playerInitiatedShareEnabled).toBe(true)
   expect(samplePlan.publicSamplePage.exportSurface).toBe('product-gate-sample')
   expect(samplePlan.publicSamplePage.zeroPaidSpend).toBe(true)
   expect(samplePlan.publicSamplePage.playerInitiatedOnly).toBe(true)
@@ -5115,6 +5237,41 @@ test('zero-spend gate sample page is reachable and uses runtime-relative mission
     'href',
     `.${mission.playPath}`,
   )
+  await firstMission.getByRole('button', { name: 'Share mission' }).click()
+  await page.waitForFunction((campaignId) => {
+    const raw = window.localStorage.getItem('agl.analytics.events')
+    const events = raw ? JSON.parse(raw) : []
+
+    return events.some(
+      (event: { name: string; properties: Record<string, string> }) =>
+        event.name === 'share_clicked' && event.properties.campaignId === campaignId,
+    )
+  }, mission.campaignId)
+
+  const shareEvent = await page.evaluate((campaignId) => {
+    const raw = window.localStorage.getItem('agl.analytics.events')
+    const events = raw ? JSON.parse(raw) : []
+
+    return events.findLast(
+      (event: { name: string; properties: Record<string, string | number | boolean> }) =>
+        event.name === 'share_clicked' && event.properties.campaignId === campaignId,
+    )
+  }, mission.campaignId)
+
+  expect(shareEvent?.properties).toMatchObject({
+    surface: 'public-gate-sample-page',
+    channel: 'product-gate-sample',
+    campaignId: mission.campaignId,
+    gateId: mission.gateId,
+    gameId: mission.gameId,
+    acquisitionCampaign: mission.campaignId,
+    acquisitionSource: 'gate_sample',
+    acquisitionChannel: 'product-gate-sample',
+    zeroPaidSpend: true,
+    noPaidTraffic: true,
+    noSyntheticEvents: true,
+  })
+  expect(String(shareEvent?.properties.shareUrl ?? '')).toContain(mission.playPath)
   const downloadPromise = page.waitForEvent('download')
   await firstMission.getByRole('button', { name: 'Export evidence' }).click()
   const download = await downloadPromise
@@ -5136,12 +5293,12 @@ test('zero-spend gate sample page is reachable and uses runtime-relative mission
       gateId: mission.gateId,
       gameId: mission.gameId,
       campaignId: mission.campaignId,
-      localCampaignEvents: 2,
       localObservedSuccesses: 1,
       localEvidenceDropReady: true,
       zeroPaidSpend: true,
       noSyntheticEvents: true,
     })
+    expect(Number(exportEvent?.properties.localCampaignEvents ?? 0)).toBeGreaterThanOrEqual(3)
   }
   expect(fastestMission).toBeTruthy()
 

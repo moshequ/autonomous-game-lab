@@ -120,16 +120,45 @@ const playableGameIds = new Set(playableGames.map((game) => game.id))
 const isPlayableGameId = (value: string | null): value is PlayableGameId =>
   Boolean(value && playableGameIds.has(value as PlayableGameId))
 
+const hasExplicitEntryRoute = (params: URLSearchParams) =>
+  Boolean(params.get('game') || params.get('utm_source') || params.get('utm_campaign'))
+
+const getAutonomousDefaultGateSampleMission = () => {
+  const primaryMission = productGateSamplePlan.missions[0] ?? null
+  const fastestMission =
+    productGateSamplePlan.missions.find(
+      (mission) => mission.gateId === productGateSamplePlan.summary.fastestGateId,
+    ) ?? primaryMission
+
+  if (
+    fastestMission &&
+    primaryMission &&
+    fastestMission.campaignId !== primaryMission.campaignId &&
+    fastestMission.needed.successes < primaryMission.needed.successes
+  ) {
+    return fastestMission
+  }
+
+  return primaryMission ?? fastestMission
+}
+
 const getInitialGameId = () => {
   if (typeof window === 'undefined') {
     return 'harbor-rings'
   }
 
-  const requestedGame = new URLSearchParams(window.location.search).get('game')
+  const entryParams = new URLSearchParams(window.location.search)
+  const requestedGame = entryParams.get('game')
   const portfolioPick = portfolioPolicy.dailyChallenge.gameId
+  const autonomousSampleMission = hasExplicitEntryRoute(entryParams)
+    ? null
+    : getAutonomousDefaultGateSampleMission()
+  const autonomousSampleGameId = autonomousSampleMission?.gameId ?? null
 
   return isPlayableGameId(requestedGame)
     ? requestedGame
+    : isPlayableGameId(autonomousSampleGameId)
+      ? autonomousSampleGameId
     : isPlayableGameId(portfolioPick)
       ? portfolioPick
       : 'harbor-rings'
@@ -613,22 +642,46 @@ function App() {
     localEventDropFolderStatus === 'connected' || localEventDropFolderStatus === 'saved' ? 'armed' : 'manual'
 
   useEffect(() => {
+    const entryParams = new URLSearchParams(window.location.search)
+    const entryGameId = entryParams.get('game')
+    const entrySource = entryParams.get('utm_source')
+    const entryCampaign = entryParams.get('utm_campaign')
+    const autonomousDefaultMission = hasExplicitEntryRoute(entryParams)
+      ? null
+      : getAutonomousDefaultGateSampleMission()
+    const autonomousDefaultRoutingActive = Boolean(
+      autonomousDefaultMission && isPlayableGameId(autonomousDefaultMission.gameId),
+    )
+
+    if (autonomousDefaultMission && autonomousDefaultRoutingActive) {
+      setAcquisitionAttribution({
+        source: 'gate_sample',
+        campaign: autonomousDefaultMission.campaignId,
+        gameId: autonomousDefaultMission.gameId,
+        channel: 'product-gate-sample',
+      })
+    }
+
     initAnalytics()
 
     const onAnalytics = () => setEvents(getBufferedEvents())
     window.addEventListener('agl:analytics', onAnalytics)
-    trackEvent('app_loaded', { surface: 'pwa_portal' })
+    trackEvent('app_loaded', {
+      surface: 'pwa_portal',
+      autonomousDefaultGateSampleRouting: autonomousDefaultRoutingActive,
+      defaultGateSampleCampaignId: autonomousDefaultMission?.campaignId ?? null,
+      defaultGateSampleGateId: autonomousDefaultMission?.gateId ?? null,
+      zeroPaidSpend: true,
+      noSyntheticEvents: true,
+    })
     trackEvent('daily_challenge_viewed', {
       gameId: retentionLoop.dailyChallenge.gameId,
       challengeDate: retentionLoop.dailyChallenge.date,
       seed: retentionLoop.dailyChallenge.seed,
       rewardVariantId: rewardVariant.id,
+      autonomousDefaultGateSampleRouting: autonomousDefaultRoutingActive,
+      defaultGateSampleCampaignId: autonomousDefaultMission?.campaignId ?? null,
     })
-
-    const entryParams = new URLSearchParams(window.location.search)
-    const entryGameId = entryParams.get('game')
-    const entrySource = entryParams.get('utm_source')
-    const entryCampaign = entryParams.get('utm_campaign')
 
     if (isPlayableGameId(entryGameId) || entrySource) {
       trackEvent('organic_entry_opened', {
@@ -842,6 +895,7 @@ function App() {
     productGateRecovery.gates.find(
       (gate) => gate.id === productGateRecovery.summary.primaryBottleneck,
     ) ?? productGateRecovery.gates[0]
+  const productGateSampleDefaultMission = getAutonomousDefaultGateSampleMission()
   const productGateSamplePrimary = productGateSamplePlan.missions[0]
   const productGateSampleFastest =
     productGateSamplePlan.missions.find(
@@ -1247,6 +1301,50 @@ function App() {
       costUsd: mission.controls.costUsd,
       noSyntheticEvents: mission.controls.noSyntheticEvents,
       noRuleChange: mission.controls.noRuleChange,
+      noRevenueEnablement: mission.controls.noRevenueEnablement,
+    })
+  }
+  const shareGateSampleMission = async (mission: (typeof productGateSamplePlan.missions)[number]) => {
+    const shareUrl = resolveRuntimeCampaignUrl(mission.playPath)
+    const shareData = {
+      title: `Play ${mission.title}`,
+      text: 'Help collect real zero-spend gameplay evidence for Autonomous Game Lab.',
+      url: shareUrl,
+    }
+    let method = 'clipboard'
+    let succeeded = false
+
+    if (navigator.share) {
+      try {
+        await navigator.share(shareData)
+        method = 'native'
+        succeeded = true
+      } catch {
+        method = 'native'
+      }
+    } else if (navigator.clipboard?.writeText) {
+      try {
+        await navigator.clipboard.writeText(shareUrl)
+        succeeded = true
+      } catch {
+        succeeded = false
+      }
+    } else {
+      method = 'unsupported'
+    }
+
+    trackEvent('share_clicked', {
+      gameId: mission.gameId,
+      campaignId: mission.campaignId,
+      gateId: mission.gateId,
+      method,
+      succeeded,
+      surface: 'product-gate-sample',
+      channel: 'product-gate-sample',
+      shareUrl,
+      zeroPaidSpend: true,
+      noPaidTraffic: true,
+      noSyntheticEvents: mission.controls.noSyntheticEvents,
       noRevenueEnablement: mission.controls.noRevenueEnablement,
     })
   }
@@ -3304,6 +3402,10 @@ function App() {
                   <strong>{productGateSampleFastest?.gateId ?? 'none'}</strong>
                 </div>
                 <div>
+                  <span>Default route</span>
+                  <strong>{productGateSampleDefaultMission?.gateId ?? 'none'}</strong>
+                </div>
+                <div>
                   <span>Prompt debt</span>
                   <strong>{productGateSamplePlan.summary.totalPromptViewsNeeded} views</strong>
                 </div>
@@ -3366,6 +3468,14 @@ function App() {
                     >
                       Export sample evidence for {productGateSamplePrimary.title}
                     </button>
+                    <button
+                      className="tinyButton subtleButton"
+                      type="button"
+                      onClick={() => shareGateSampleMission(productGateSamplePrimary)}
+                    >
+                      <Share2 size={14} aria-hidden="true" />
+                      Share sample for {productGateSamplePrimary.title}
+                    </button>
                     {productGateSampleFastestDistinct ? (
                       <>
                         <button
@@ -3381,6 +3491,14 @@ function App() {
                           onClick={() => exportGateSampleEvidence(productGateSampleFastestDistinct)}
                         >
                           Export fastest evidence for {productGateSampleFastestDistinct.title}
+                        </button>
+                        <button
+                          className="tinyButton subtleButton"
+                          type="button"
+                          onClick={() => shareGateSampleMission(productGateSampleFastestDistinct)}
+                        >
+                          <Share2 size={14} aria-hidden="true" />
+                          Share fastest sample for {productGateSampleFastestDistinct.title}
                         </button>
                       </>
                     ) : null}
