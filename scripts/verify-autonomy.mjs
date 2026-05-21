@@ -4913,6 +4913,9 @@ const ownerObjectiveAuditAction = autonomousOwnerLoop.safeAutonomousActions?.fin
 const ownerRunPostDeploySmokeAction = autonomousOwnerLoop.safeAutonomousActions?.find(
   (action) => action.id === 'run-post-deploy-smoke',
 )
+const ownerPrepareReleaseAction = autonomousOwnerLoop.safeAutonomousActions?.find(
+  (action) => action.id === 'prepare-release-candidate',
+)
 const ownerRunOperatorAction = autonomousOwnerLoop.safeAutonomousActions?.find(
   (action) => action.id === 'run-autonomous-operator',
 )
@@ -5128,10 +5131,16 @@ if (
   autonomousOwnerLoop.executionMemory?.liveDeployEvidence?.localSmokeFresh !== postDeploySmokeRunnerReady ||
   autonomousOwnerLoop.executionMemory?.liveDeployEvidence?.strictArtifactSyncFresh !== postDeployArtifactSyncReady ||
   autonomousOwnerLoop.executionMemory?.liveDeployEvidence?.smokeActionFresh !== ownerPostDeploySmokeActionFresh ||
+  autonomousOwnerLoop.executionMemory?.liveDeployEvidence?.releaseCandidateActionFresh !==
+    (postDeploySmokeRunnerReady && postDeployArtifactSyncReady) ||
   autonomousOwnerLoop.executionMemory?.liveDeployEvidence?.liveCandidateId !==
     (postDeployArtifactSync.live?.candidateId ?? null) ||
   autonomousOwnerLoop.executionMemory?.liveDeployEvidence?.artifactCandidateId !==
     (postDeployArtifactSync.artifact?.target?.candidateId ?? null) ||
+  (postDeploySmokeRunnerReady && postDeployArtifactSyncReady && ownerPrepareReleaseAction?.status !== 'monitor') ||
+  (postDeploySmokeRunnerReady &&
+    postDeployArtifactSyncReady &&
+    autonomousOwnerLoop.ownerDecision?.nextBestActionId === 'prepare-release-candidate') ||
   (operatorStatusAllowed && ownerRunOperatorAction?.status !== 'monitor') ||
   (autonomousOperatorHistory.status === 'operator-history-ready' &&
     ownerReviewOperatorHistoryAction?.status !== 'monitor') ||

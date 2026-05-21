@@ -3080,6 +3080,14 @@ test('autonomous operator history keeps a capped audit trail', async ({ page }) 
         evaluatedInputIds: string[]
         staleInputIds: string[]
       }
+      liveDeployEvidence: {
+        localSmokeFresh: boolean
+        strictArtifactSyncFresh: boolean
+        smokeActionFresh: boolean
+        releaseCandidateActionFresh: boolean
+        liveCandidateId: string | null
+        artifactCandidateId: string | null
+      }
       repositoryHandoff: {
         prepared: boolean
         targetPlanReady: boolean
@@ -3166,6 +3174,7 @@ test('autonomous operator history keeps a capped audit trail', async ({ page }) 
   const bootstrapProductionAction = ownerLoop.safeAutonomousActions.find((action) => action.id === 'bootstrap-production-setup')
   const seedPortfolioAction = ownerLoop.safeAutonomousActions.find((action) => action.id === 'seed-portfolio-traffic')
   const collectLiveEventsAction = ownerLoop.safeAutonomousActions.find((action) => action.id === 'collect-live-events')
+  const prepareReleaseAction = ownerLoop.safeAutonomousActions.find((action) => action.id === 'prepare-release-candidate')
   const sourceFreshnessActionPairs = [
     { actionId: 'optimize-product-gates', freshness: ownerLoop.executionMemory.sourceFreshness.productOptimization },
     { actionId: 'optimize-daily-retention', freshness: ownerLoop.executionMemory.sourceFreshness.retentionLoop },
@@ -3271,6 +3280,11 @@ test('autonomous operator history keeps a capped audit trail', async ({ page }) 
     expect(prepareRepositoryAction?.status).toBe('monitor')
     expect(prepareRepositoryAction?.reason).toContain('waits only for owner/auth')
     expect(ownerLoop.ownerDecision.nextBestActionId).not.toBe('prepare-repository-channel')
+  }
+  if (ownerLoop.executionMemory.liveDeployEvidence.releaseCandidateActionFresh) {
+    expect(prepareReleaseAction?.status).toBe('monitor')
+    expect(prepareReleaseAction?.reason).toContain('strict synced live deploy evidence')
+    expect(ownerLoop.ownerDecision.nextBestActionId).not.toBe('prepare-release-candidate')
   }
   if (gateSampleDownloadsCoolingDown) {
     expect(collectGateSampleAction?.status).toBe('monitor')

@@ -355,6 +355,7 @@ const postDeploySmokeActionFresh =
   postDeploySmokeRunnerReady &&
   postDeployArtifactSyncReady &&
   postDeployArtifactSync.artifact?.target?.candidateId === postDeployArtifactSync.live?.candidateId
+const releaseCandidateActionFresh = postDeploySmokeRunnerReady && postDeployArtifactSyncReady
 const operatorPlanPublished = ['operator-plan-ready', 'operator-executed'].includes(autonomousOperator.status)
 const operatorHistoryPublished = autonomousOperatorHistory.status === 'operator-history-ready'
 const productionBootstrapFreshnessInputs = [
@@ -1470,11 +1471,13 @@ const safeAutonomousActions = [
   },
   {
     id: 'prepare-release-candidate',
-    status: releaseCandidate.status === 'release-candidate-ready' ? 'armed' : 'monitor',
+    status: releaseCandidate.status === 'release-candidate-ready' && !releaseCandidateActionFresh ? 'armed' : 'monitor',
     costUsd: 0,
     command: 'npm run autonomous:release-candidate && npm run autonomous:post-deploy-smoke',
     targets: ['dist-release-candidate', 'release-candidate-manifest'],
-    reason: 'Records a content-hashed dist inventory and immediately refreshes the post-deploy smoke plan for the exact PWA build.',
+    reason: releaseCandidateActionFresh
+      ? 'Local release manifest smoke and strict synced live deploy evidence are fresh; continue product learning.'
+      : 'Records a content-hashed dist inventory and immediately refreshes the post-deploy smoke plan for the exact PWA build.',
   },
   {
     id: 'run-post-deploy-smoke',
@@ -1768,8 +1771,13 @@ const recentlySatisfiedActionIds = [
 const recentlyExecutedActionIds = new Set(recentExecutedActionIds)
 const recentlyCoveredActionIds = new Set([...recentExecutedActionIds, ...recentlySatisfiedActionIds])
 const executableWithoutImmediateRepeat = ownerSelectableNow.filter((action) => !recentlyCoveredActionIds.has(action.id))
+const executableWithoutLastRepeat = ownerSelectableNow.filter((action) => action.id !== lastExecutedActionId)
 const prioritizedExecutableNow =
-  executableWithoutImmediateRepeat.length > 0 ? executableWithoutImmediateRepeat : ownerSelectableNow
+  executableWithoutImmediateRepeat.length > 0
+    ? executableWithoutImmediateRepeat
+    : executableWithoutLastRepeat.length > 0
+      ? executableWithoutLastRepeat
+      : ownerSelectableNow
 const preferredActionOrder = [
   'prepare-repository-channel',
   'deploy-web-pwa',
@@ -1879,6 +1887,7 @@ const payload = {
       localSmokeFresh: postDeploySmokeRunnerReady,
       strictArtifactSyncFresh: postDeployArtifactSyncReady,
       smokeActionFresh: postDeploySmokeActionFresh,
+      releaseCandidateActionFresh,
       liveCandidateId: postDeployArtifactSync.live?.candidateId ?? null,
       artifactCandidateId: postDeployArtifactSync.artifact?.target?.candidateId ?? null,
     },

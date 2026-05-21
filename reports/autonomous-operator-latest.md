@@ -1,10 +1,10 @@
 # Autonomous Operator
 
-Generated: 2026-05-21T06:52:39.414Z
+Generated: 2026-05-21T07:03:50.811Z
 Status: operator-plan-ready
 Mode: plan-only
-Owner decision: prepare-release-candidate
-Selected action: prepare-release-candidate
+Owner decision: measure-pwa-install-loop
+Selected action: measure-pwa-install-loop
 Execution: not-requested
 
 ## Controls
@@ -18,7 +18,7 @@ Execution: not-requested
 
 ## Selected Action
 
-- prepare-release-candidate: npm run autonomous:release-candidate && npm run autonomous:post-deploy-smoke
+- measure-pwa-install-loop: npm run autonomous:pwa-install
 
 ## Eligible Local Actions
 
@@ -27,7 +27,6 @@ Execution: not-requested
 - refresh-support-feedback
 - measure-pwa-install-loop
 - check-performance-budget
-- prepare-release-candidate
 - refresh-product-gate-recovery
 - optimize-store-listing
 
@@ -40,8 +39,8 @@ Execution: not-requested
 - refresh-organic-seed-loop: status-monitor
 - refresh-support-feedback: not-selected-this-run
 - optimize-daily-retention: status-monitor
-- measure-pwa-install-loop: not-selected-this-run
 - check-performance-budget: not-selected-this-run
+- prepare-release-candidate: status-monitor
 - run-post-deploy-smoke: status-monitor
 - sync-post-deploy-artifact: status-monitor
 - optimize-product-gates: status-monitor

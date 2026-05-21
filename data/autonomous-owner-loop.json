@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-21T06:55:55.333Z",
+  "generatedAt": "2026-05-21T07:03:51.067Z",
   "status": "owner-loop-ready",
   "mode": "zero-spend-web-ready",
   "autonomyScore": {
@@ -21,32 +21,32 @@
     "repositoryHandoffPrepared": false
   },
   "ownerDecision": {
-    "nextBestActionId": "prepare-release-candidate",
-    "nextBestAction": "npm run autonomous:release-candidate && npm run autonomous:post-deploy-smoke",
+    "nextBestActionId": "measure-pwa-install-loop",
+    "nextBestAction": "npm run autonomous:pwa-install",
     "canExecuteWithoutSpend": true,
-    "rationale": "Records a content-hashed dist inventory and immediately refreshes the post-deploy smoke plan for the exact PWA build."
+    "rationale": "Measures optional PWA install prompts and standalone launches as the zero-cost distribution path."
   },
   "executionMemory": {
     "avoidImmediateRepeat": true,
     "recentExecutionWindow": 8,
     "recentExecutedActionIds": [
+      "refresh-product-gate-recovery",
       "check-performance-budget",
       "refresh-support-feedback",
       "measure-pwa-install-loop",
       "refresh-autonomous-self-update",
       "refresh-autonomous-cadence",
       "optimize-store-listing",
-      "refresh-product-gate-recovery",
       "refresh-objective-audit"
     ],
-    "lastExecutedActionId": "check-performance-budget",
+    "lastExecutedActionId": "refresh-product-gate-recovery",
     "lastExecutedStatus": "executed",
     "lastRecordExecutionStatus": "not-requested",
     "recentlySatisfiedActionIds": [],
     "objectiveAuditFreshness": {
       "fresh": true,
       "structurallyReady": true,
-      "auditGeneratedAt": "2026-05-21T06:52:38.901Z",
+      "auditGeneratedAt": "2026-05-21T07:03:50.291Z",
       "evaluatedInputIds": [
         "analytics-rollup",
         "event-ingest",
@@ -239,6 +239,7 @@
       "localSmokeFresh": true,
       "strictArtifactSyncFresh": true,
       "smokeActionFresh": true,
+      "releaseCandidateActionFresh": true,
       "liveCandidateId": "pwa-9abcd4f2f4bd",
       "artifactCandidateId": "pwa-9abcd4f2f4bd"
     },
@@ -246,7 +247,6 @@
       "refresh-autonomous-cadence",
       "refresh-autonomous-self-update",
       "refresh-support-feedback",
-      "measure-pwa-install-loop",
       "check-performance-budget",
       "refresh-product-gate-recovery",
       "optimize-store-listing"
@@ -284,7 +284,7 @@
     },
     "productionBootstrapFreshness": {
       "fresh": true,
-      "bootstrapGeneratedAt": "2026-05-21T06:52:16.437Z",
+      "bootstrapGeneratedAt": "2026-05-21T07:03:29.820Z",
       "evaluatedInputIds": [
         "release-candidate",
         "deployment-plan",
@@ -498,7 +498,7 @@
       "status": "ready",
       "autonomy": "read-only-live-deploy-verification",
       "evidence": "Smoke post-deploy-smoke-observed-live; origin https://moshequ.github.io/autonomous-game-lab; manifest comparison required; checks 15/15 passed; local artifact predeploy-artifact-smoke-passed 15/15 passed.",
-      "nextAction": "Live Pages is reachable and serving pwa-58c0c90b316f; run the deploy workflow for strict proof of the current local candidate if needed."
+      "nextAction": "Live Pages is reachable and serving pwa-9abcd4f2f4bd; run the deploy workflow for strict proof of the current local candidate if needed."
     },
     {
       "id": "post-deploy-artifact-sync",
@@ -511,7 +511,7 @@
       "id": "production-bootstrap",
       "status": "ready",
       "autonomy": "zero-spend-setup-orchestration",
-      "evidence": "Bootstrap production-bootstrap-ready; mode can-apply-configured-actions; external blockers 15.",
+      "evidence": "Bootstrap production-bootstrap-ready; mode can-apply-configured-actions; external blockers 16.",
       "nextAction": "gh workflow run web-pwa-deploy.yml"
     },
     {
@@ -532,14 +532,14 @@
       "id": "autonomous-operator",
       "status": "ready",
       "autonomy": "one-safe-action-runner",
-      "evidence": "Operator operator-plan-ready; selected prepare-release-candidate; execution not-requested.",
+      "evidence": "Operator operator-plan-ready; selected measure-pwa-install-loop; execution not-requested.",
       "nextAction": "Keep a dry-run operator plan ready, then execute only one allowlisted local action when explicitly requested."
     },
     {
       "id": "operator-history",
       "status": "ready",
       "autonomy": "operator-audit-trail",
-      "evidence": "History operator-history-ready; records 40; executed 18.",
+      "evidence": "History operator-history-ready; records 40; executed 17.",
       "nextAction": "Keep a capped durable record of operator plans and one-action executions."
     },
     {
@@ -681,21 +681,21 @@
       "command": "npm run build && npm run autonomous:performance && npm run autonomous:release-candidate",
       "targets": [
         "pwa-shell",
-        "GameCanvas-CmbRESPH.js",
+        "GameCanvas-BN_GiPp2.js",
         "dist-release-candidate"
       ],
       "reason": "Keeps the PWA shell fast while Phaser and game scenes stay deferred, then refreshes the deployable manifest for the rebuilt dist."
     },
     {
       "id": "prepare-release-candidate",
-      "status": "armed",
+      "status": "monitor",
       "costUsd": 0,
       "command": "npm run autonomous:release-candidate && npm run autonomous:post-deploy-smoke",
       "targets": [
         "dist-release-candidate",
         "release-candidate-manifest"
       ],
-      "reason": "Records a content-hashed dist inventory and immediately refreshes the post-deploy smoke plan for the exact PWA build."
+      "reason": "Local release manifest smoke and strict synced live deploy evidence are fresh; continue product learning."
     },
     {
       "id": "run-post-deploy-smoke",
@@ -832,7 +832,7 @@
       "costUsd": 0,
       "command": "npm run autonomous:operator",
       "targets": [
-        "prepare-release-candidate"
+        "measure-pwa-install-loop"
       ],
       "reason": "One-action operator plan is already published; avoid cycling on meta-operator refreshes."
     },
@@ -842,7 +842,7 @@
       "costUsd": 0,
       "command": "npm run autonomous:operator",
       "targets": [
-        "prepare-release-candidate"
+        "measure-pwa-install-loop"
       ],
       "reason": "Operator history is already capped and published; keep attention on product evidence."
     },
