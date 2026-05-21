@@ -3850,10 +3850,33 @@ if (!packageJson.scripts?.['autonomous:daily']?.includes('autonomous:experiments
 }
 
 for (const game of growth.gamePages ?? []) {
+  let publicGamePageHtml = ''
+
   try {
-    await readFile(path.join(root, 'public', game.pagePath.replace(/^\//, '')), 'utf8')
+    publicGamePageHtml = await readFile(path.join(root, 'public', game.pagePath.replace(/^\//, '')), 'utf8')
   } catch {
     fail(`Generated public game page is missing: ${game.pagePath}`)
+  }
+
+  if (
+    !publicGamePageHtml.includes('application/ld+json') ||
+    !publicGamePageHtml.includes('"@type": "VideoGame"') ||
+    !publicGamePageHtml.includes('"@type": "PlayAction"') ||
+    !publicGamePageHtml.includes('"price": "0"')
+  ) {
+    fail(`Generated public game page is missing playable structured data: ${game.pagePath}`)
+  }
+
+  const distGamePagePath = path.join(root, 'dist', game.pagePath.replace(/^\//, ''))
+  const distGamePageHtml = await readFile(distGamePagePath, 'utf8').catch(() => '')
+
+  if (
+    !distGamePageHtml.includes('application/ld+json') ||
+    !distGamePageHtml.includes('"@type": "VideoGame"') ||
+    !distGamePageHtml.includes('"@type": "PlayAction"') ||
+    !distGamePageHtml.includes('"price": "0"')
+  ) {
+    fail(`Production game page is missing playable structured data: ${game.pagePath}`)
   }
 }
 

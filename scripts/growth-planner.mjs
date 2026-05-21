@@ -84,6 +84,8 @@ const escapeHtml = (value) =>
     .replaceAll('"', '&quot;')
     .replaceAll("'", '&#39;')
 
+const jsonLd = (value) => JSON.stringify(value, null, 2).replaceAll('<', '\\u003c')
+
 const pct = (value) => (typeof value === 'number' ? `${Math.round(value * 100)}%` : 'learning')
 
 const rootPath = (pathname) => (String(pathname).startsWith('/') ? String(pathname) : `/${pathname}`)
@@ -175,6 +177,12 @@ const gamePages = (playable.games ?? []).map((gameId, index) => {
       )
     : 42 + index * 4
 
+  const pagePath = `/games/${gameId}.html`
+  const gameCanonicalUrl = canonicalUrl(pagePath)
+  const gameShareUrl = publicUrl(
+    `/?game=${encodeURIComponent(gameId)}&utm_source=share&utm_campaign=${encodeURIComponent(gameId)}`,
+  )
+
   return {
     gameId,
     title,
@@ -187,11 +195,9 @@ const gamePages = (playable.games ?? []).map((gameId, index) => {
     playPath: `/?game=${encodeURIComponent(gameId)}&utm_source=organic_game_page&utm_campaign=${encodeURIComponent(
       gameId,
     )}`,
-    pagePath: `/games/${gameId}.html`,
-    canonicalUrl: canonicalUrl(`/games/${gameId}.html`),
-    shareUrl: publicUrl(
-      `/?game=${encodeURIComponent(gameId)}&utm_source=share&utm_campaign=${encodeURIComponent(gameId)}`,
-    ),
+    pagePath,
+    canonicalUrl: gameCanonicalUrl,
+    shareUrl: gameShareUrl,
     metrics: {
       startRate,
       completionRate,
@@ -214,7 +220,10 @@ const gamePages = (playable.games ?? []).map((gameId, index) => {
   }
 })
 
+const existingShareManifest = await readOptionalJson(shareManifestPath, {})
+
 const shareManifest = {
+  ...existingShareManifest,
   generatedAt: new Date().toISOString(),
   siteUrl,
   publicUrlMode,
@@ -329,6 +338,30 @@ const payload = {
 const boardCells = (seed) =>
   Array.from({ length: 20 }, (_, index) => `<span class="cell c${(index + seed) % 5}"></span>`).join('')
 
+const structuredDataForGame = (game) => ({
+  '@context': 'https://schema.org',
+  '@type': 'VideoGame',
+  name: game.title,
+  description: game.shortDescription,
+  url: game.canonicalUrl ?? publicUrl(game.pagePath),
+  genre: game.keywords.slice(0, 6),
+  gamePlatform: ['Web browser', 'PWA'],
+  playMode: 'SinglePlayer',
+  applicationCategory: 'GameApplication',
+  operatingSystem: 'Web',
+  isAccessibleForFree: true,
+  offers: {
+    '@type': 'Offer',
+    price: '0',
+    priceCurrency: 'USD',
+    availability: 'https://schema.org/InStock',
+  },
+  potentialAction: {
+    '@type': 'PlayAction',
+    target: publicUrl(game.playPath),
+  },
+})
+
 const gamePageHtml = (game, index) => `<!doctype html>
 <html lang="en">
   <head>
@@ -346,6 +379,9 @@ const gamePageHtml = (game, index) => `<!doctype html>
     <meta property="og:title" content="${escapeHtml(game.title)}" />
     <meta property="og:description" content="${escapeHtml(game.shortDescription)}" />
     <meta property="og:type" content="website" />
+    <script type="application/ld+json">
+${jsonLd(structuredDataForGame(game))}
+    </script>
     <style>
       :root {
         color: #191713;
