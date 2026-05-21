@@ -151,6 +151,10 @@ const ownerLoopBeforeFinalOperatorIndex = postDeployReadinessSyncScript.lastInde
   'autonomous:owner-loop',
   finalOperatorIndex,
 )
+const ownerLoopAfterFinalOperatorIndex = postDeployReadinessSyncScript.indexOf(
+  'autonomous:owner-loop',
+  finalOperatorIndex,
+)
 const deployPlanBeforeFinalRepoReadinessIndex = postDeployReadinessSyncScript.lastIndexOf(
   'autonomous:deploy-plan',
   finalRepoReadinessIndex,
@@ -180,20 +184,24 @@ if (
   fail('autonomous:post-deploy-readiness-sync must refresh deployment plan after final repository bootstrap and before final readiness.')
 }
 
-if (finalObjectiveAuditIndex < deployPlanAfterFinalRepoBootstrapIndex) {
-  fail('autonomous:post-deploy-readiness-sync must refresh objective audit after final repository/deployment evidence.')
-}
-
-if (ownerLoopBeforeFinalOperatorIndex < finalObjectiveAuditIndex) {
-  fail('autonomous:post-deploy-readiness-sync must refresh owner loop after the final objective audit.')
+if (ownerLoopBeforeFinalOperatorIndex < deployPlanAfterFinalRepoBootstrapIndex) {
+  fail('autonomous:post-deploy-readiness-sync must refresh owner loop after final repository/deployment evidence.')
 }
 
 if (finalOperatorIndex < ownerLoopBeforeFinalOperatorIndex) {
   fail('autonomous:post-deploy-readiness-sync must refresh operator after the final owner loop.')
 }
 
-if (finalOwnerLoopIndex < finalOperatorIndex) {
+if (ownerLoopAfterFinalOperatorIndex < finalOperatorIndex) {
   fail('autonomous:post-deploy-readiness-sync must refresh owner loop after the final operator history update.')
+}
+
+if (finalObjectiveAuditIndex < ownerLoopAfterFinalOperatorIndex) {
+  fail('autonomous:post-deploy-readiness-sync must refresh objective audit after the final owner/operator state.')
+}
+
+if (finalOwnerLoopIndex < finalObjectiveAuditIndex) {
+  fail('autonomous:post-deploy-readiness-sync must refresh owner loop after the final objective audit.')
 }
 
 if (finalReadinessRefreshIndex < finalRepoBootstrapIndex) {

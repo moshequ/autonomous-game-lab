@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-21T20:57:15.299Z",
+  "generatedAt": "2026-05-21T21:02:01.262Z",
   "status": "owner-loop-ready",
   "mode": "zero-spend-web-ready",
   "autonomyScore": {
@@ -47,7 +47,7 @@
     "objectiveAuditFreshness": {
       "fresh": true,
       "structurallyReady": true,
-      "auditGeneratedAt": "2026-05-21T20:57:14.787Z",
+      "auditGeneratedAt": "2026-05-21T21:02:01.000Z",
       "evaluatedInputIds": [
         "analytics-rollup",
         "event-ingest",
@@ -71,7 +71,7 @@
         "ready": true,
         "status": "cadence-ready",
         "artifactGeneratedAt": "2026-05-21T19:25:56.828Z",
-        "ageHours": 1.522,
+        "ageHours": 1.601,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -82,7 +82,7 @@
         "ready": true,
         "status": "self-update-ready",
         "artifactGeneratedAt": "2026-05-21T19:49:45.494Z",
-        "ageHours": 1.125,
+        "ageHours": 1.204,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -93,7 +93,7 @@
         "ready": true,
         "status": "support-feedback-empty",
         "artifactGeneratedAt": "2026-05-21T17:48:59.987Z",
-        "ageHours": 3.138,
+        "ageHours": 3.217,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -103,8 +103,8 @@
         "fresh": true,
         "ready": true,
         "status": "performance-budget-ready",
-        "artifactGeneratedAt": "2026-05-21T20:57:01.953Z",
-        "ageHours": 0.004,
+        "artifactGeneratedAt": "2026-05-21T20:59:43.406Z",
+        "ageHours": 0.038,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -114,8 +114,8 @@
         "fresh": true,
         "ready": true,
         "status": "live-site-monitor-passed",
-        "artifactGeneratedAt": "2026-05-21T20:57:09.061Z",
-        "ageHours": 0.002,
+        "artifactGeneratedAt": "2026-05-21T20:59:59.064Z",
+        "ageHours": 0.034,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -140,9 +140,9 @@
         "current": true,
         "ready": true,
         "status": "retention-loop-ready",
-        "artifactGeneratedAt": "2026-05-21T20:49:50.922Z",
-        "artifactSourceDataHash": "1d61d81874e4",
-        "sourceDataHash": "1d61d81874e4",
+        "artifactGeneratedAt": "2026-05-21T21:01:09.989Z",
+        "artifactSourceDataHash": "0639ec3b879b",
+        "sourceDataHash": "0639ec3b879b",
         "evaluatedInputIds": [
           "analytics-rollup",
           "portfolio-policy",
@@ -155,12 +155,12 @@
         ]
       },
       "trafficSeeding": {
-        "current": true,
-        "ready": true,
+        "current": false,
+        "ready": false,
         "status": "traffic-seeding-ready",
         "artifactGeneratedAt": "2026-05-21T19:38:43.951Z",
         "artifactSourceDataHash": "f076e87f2c98",
-        "sourceDataHash": "f076e87f2c98",
+        "sourceDataHash": "9c6385986910",
         "evaluatedInputIds": [
           "playable-games",
           "portfolio-policy",
@@ -190,7 +190,7 @@
         "status": "organic-seed-loop-ready",
         "artifactGeneratedAt": "2026-05-21T19:38:44.497Z",
         "artifactSourceDataHash": "3b67bf659d4d",
-        "sourceDataHash": "f5a46dbd8a78",
+        "sourceDataHash": "df7a8a2dbf5e",
         "evaluatedInputIds": [
           "playable-games",
           "analytics-rollup",
@@ -240,9 +240,9 @@
         "current": true,
         "ready": true,
         "status": "product-gate-sample-plan-ready",
-        "artifactGeneratedAt": "2026-05-21T20:49:50.641Z",
-        "artifactSourceDataHash": "ed9facd01595",
-        "sourceDataHash": "ed9facd01595",
+        "artifactGeneratedAt": "2026-05-21T21:01:10.238Z",
+        "artifactSourceDataHash": "e31db885905b",
+        "sourceDataHash": "e31db885905b",
         "evaluatedInputIds": [
           "sample-date",
           "product-gate-recovery",
@@ -262,7 +262,7 @@
         "current": true,
         "ready": true,
         "status": "store-package-ready",
-        "artifactGeneratedAt": "2026-05-21T20:50:43.795Z",
+        "artifactGeneratedAt": "2026-05-21T21:01:58.175Z",
         "artifactSourceDataHash": "1fe2ff1fcc27",
         "sourceDataHash": "1fe2ff1fcc27",
         "evaluatedInputIds": [
@@ -277,9 +277,9 @@
         "current": true,
         "ready": true,
         "status": "store-listing-optimizer-ready",
-        "artifactGeneratedAt": "2026-05-21T20:50:44.039Z",
-        "artifactSourceDataHash": "8f27b5fb49a4",
-        "sourceDataHash": "8f27b5fb49a4",
+        "artifactGeneratedAt": "2026-05-21T21:01:58.428Z",
+        "artifactSourceDataHash": "ffd336b109ec",
+        "sourceDataHash": "ffd336b109ec",
         "evaluatedInputIds": [
           "store-package",
           "store-assets",
@@ -297,9 +297,9 @@
         "current": true,
         "ready": true,
         "status": "draft-ready-external-blockers",
-        "artifactGeneratedAt": "2026-05-21T20:50:44.277Z",
-        "artifactSourceDataHash": "475ea1f9e07e",
-        "sourceDataHash": "475ea1f9e07e",
+        "artifactGeneratedAt": "2026-05-21T21:01:58.663Z",
+        "artifactSourceDataHash": "3095aec42570",
+        "sourceDataHash": "3095aec42570",
         "evaluatedInputIds": [
           "store-package",
           "monetization-plan",
@@ -390,12 +390,10 @@
       "recoveryCurrent": true,
       "samplePlanNeedsRefresh": false,
       "cooldownOnlyStale": false,
-      "materialRefreshNeeded": true,
+      "materialRefreshNeeded": false,
       "sampleDateCurrent": true,
       "freshAfterLastDownloadsScan": true,
-      "staleInputIds": [
-        "retention-loop"
-      ]
+      "staleInputIds": []
     },
     "localEventCollectionFreshness": {
       "current": true,
@@ -461,9 +459,9 @@
     },
     "productionBootstrapFreshness": {
       "fresh": true,
-      "bootstrapGeneratedAt": "2026-05-21T20:57:13.799Z",
-      "artifactSourceDataHash": "05464be50a85",
-      "sourceDataHash": "05464be50a85",
+      "bootstrapGeneratedAt": "2026-05-21T21:01:59.011Z",
+      "artifactSourceDataHash": "6600bd6608ff",
+      "sourceDataHash": "6600bd6608ff",
       "evaluatedInputIds": [
         "release-candidate",
         "deployment-plan",
@@ -478,7 +476,7 @@
       "current": true,
       "ready": true,
       "status": "handoff-waiting-on-owner-inputs",
-      "generatedAt": "2026-05-21T20:57:14.092Z",
+      "generatedAt": "2026-05-21T21:01:59.479Z",
       "nextBestUnlockId": "production-analytics-browser",
       "ownerActionRequired": 4,
       "missingEnv": 7,
@@ -600,7 +598,7 @@
       "id": "performance-budget",
       "status": "ready",
       "autonomy": "automatic-build-budget",
-      "evidence": "Initial JS 675.4 KB; gzip 183.5 KB; deferred chunks 2.",
+      "evidence": "Initial JS 675.1 KB; gzip 183.3 KB; deferred chunks 2.",
       "nextAction": "Keep Phaser and game scenes outside the initial PWA shell."
     },
     {
@@ -629,7 +627,7 @@
       "status": "ready",
       "autonomy": "sample-collection-routing",
       "evidence": "Sample plan product-gate-sample-plan-ready; primary firstGameCompletion; prompt views needed 70.",
-      "nextAction": "First game completion needs 30 more prompt exposure(s) and 128 observed success(es); feature Harbor Rings via /?game=harbor-rings&utm_source=gate_sample&utm_campaign=gate-sample-20260521-firstGameCompletion."
+      "nextAction": "First game completion needs 30 more prompt exposure(s) and 128 observed success(es); feature Harbor Rings via /?game=harbor-rings&utm_source=gate_sample&utm_campaign=gate-sample-20260522-firstGameCompletion."
     },
     {
       "id": "first-move-coach",
@@ -914,7 +912,7 @@
       "command": "npm run build && npm run autonomous:performance && npm run autonomous:release-candidate",
       "targets": [
         "pwa-shell",
-        "GameCanvas-D_unZgp9.js",
+        "GameCanvas-8cI7bELQ.js",
         "dist-release-candidate"
       ],
       "reason": "Performance budget and release-candidate evidence are already fresh for the current guarded build."
@@ -990,8 +988,8 @@
       "command": "npm run autonomous:collect-sample-downloads",
       "targets": [
         "firstGameCompletion",
-        "gate-sample-20260521-firstGameCompletion",
-        "gate-sample-20260521-replayRate"
+        "gate-sample-20260522-firstGameCompletion",
+        "gate-sample-20260522-replayRate"
       ],
       "reason": "Recent explicit Downloads scan found no player exports; retry after 4 hours or when an inbox event drop appears."
     },
@@ -1163,8 +1161,8 @@
       "command": "npm run autonomous:local-event-bridge && npm run autonomous:import-events && npm run autonomous:analytics && npm run autonomous:gate-recovery && npm run autonomous:sample-plan",
       "targets": [
         "firstGameCompletion",
-        "gate-sample-20260521-firstGameCompletion",
-        "gate-sample-20260521-replayRate"
+        "gate-sample-20260522-firstGameCompletion",
+        "gate-sample-20260522-replayRate"
       ],
       "reason": "Local event bridge, import, analytics, gate recovery, and sample plan already reflect the latest no-event collection."
     }

@@ -1,6 +1,6 @@
 # Retention Loop
 
-Generated: 2026-05-21T20:49:50.922Z
+Generated: 2026-05-21T21:01:09.989Z
 Status: retention-loop-ready
 Daily challenge: Canopy Bloom (canopy-bloom)
 D1 retention: 17%
@@ -40,8 +40,8 @@ Replay rate: 31%
 ## D1 Sample Policy
 
 - Status: collecting-sample
-- Campaign: gate-sample-20260521-d1Retention
-- Play path: /?game=canopy-bloom&utm_source=gate_sample&utm_campaign=gate-sample-20260521-d1Retention
+- Campaign: gate-sample-20260522-d1Retention
+- Play path: /?game=canopy-bloom&utm_source=gate_sample&utm_campaign=gate-sample-20260522-d1Retention
 - Prompt views needed: 10
 - Observed retained starts needed: 1
 - Evidence: waiting-for-player-export
