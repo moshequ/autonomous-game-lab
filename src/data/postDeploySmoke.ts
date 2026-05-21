@@ -1,10 +1,27 @@
 export const postDeploySmoke = {
-  "generatedAt": "2026-05-21T19:52:27.859Z",
+  "generatedAt": "2026-05-21T20:03:41.118Z",
   "status": "post-deploy-smoke-observed-live",
   "envFiles": {
-    "loaded": false,
-    "loadedFiles": [],
-    "loadedKeys": [],
+    "loaded": true,
+    "loadedFiles": [
+      {
+        "path": "ops/production.env.local",
+        "keys": [
+          "AGL_ANDROID_PACKAGE_NAME",
+          "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
+          "AGL_ANDROID_KEYSTORE_BASE64",
+          "AGL_ANDROID_KEYSTORE_PASSWORD",
+          "AGL_ANDROID_KEY_ALIAS"
+        ]
+      }
+    ],
+    "loadedKeys": [
+      "AGL_ANDROID_PACKAGE_NAME",
+      "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
+      "AGL_ANDROID_KEYSTORE_BASE64",
+      "AGL_ANDROID_KEYSTORE_PASSWORD",
+      "AGL_ANDROID_KEY_ALIAS"
+    ],
     "skippedExistingKeys": [],
     "skippedProtectedKeys": [],
     "overwrittenEnvFileKeys": [],
@@ -38,8 +55,8 @@ export const postDeploySmoke = {
     "origin": "https://moshequ.github.io/autonomous-game-lab",
     "originSource": "release-candidate-public-origin",
     "provider": "github-pages",
-    "candidateId": "pwa-b6a3a7877c8b",
-    "aggregateHash": "b6a3a7877c8b711ea6fac4acc2a8bd0439402fd585f506f3de46523180e38624",
+    "candidateId": "pwa-51f7e0475354",
+    "aggregateHash": "51f7e0475354a3e64a9ea333395fcc38874fdc65f0680f03e6fd023953e5f3d3",
     "strictManifestComparison": false
   },
   "liveRelease": {
@@ -244,8 +261,8 @@ export const postDeploySmoke = {
         "bytes": 20922,
         "candidateMatches": true,
         "hashMatches": true,
-        "localCandidateId": "pwa-b6a3a7877c8b",
-        "localAggregateHash": "b6a3a7877c8b711ea6fac4acc2a8bd0439402fd585f506f3de46523180e38624",
+        "localCandidateId": "pwa-51f7e0475354",
+        "localAggregateHash": "51f7e0475354a3e64a9ea333395fcc38874fdc65f0680f03e6fd023953e5f3d3",
         "detail": "Local release manifest matches the release candidate."
       }
     ]
@@ -491,7 +508,7 @@ export const postDeploySmoke = {
       "path": "/release-candidate.json",
       "url": "https://moshequ.github.io/autonomous-game-lab/release-candidate.json",
       "expectedStatus": 200,
-      "requiredText": "pwa-b6a3a7877c8b",
+      "requiredText": "pwa-51f7e0475354",
       "status": "pass",
       "detail": "Live release manifest is reachable; it does not match the current local release candidate.",
       "actualStatus": 200,

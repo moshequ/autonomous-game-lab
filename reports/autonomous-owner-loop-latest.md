@@ -1,6 +1,6 @@
 # Autonomous Owner Loop
 
-Generated: 2026-05-21T19:52:29.775Z
+Generated: 2026-05-21T20:05:51.967Z
 Status: owner-loop-ready
 Mode: zero-spend-web-ready
 Autonomy score: 43/44 (98%)
@@ -11,7 +11,7 @@ Autonomy score: 43/44 (98%)
 - Command: No local command is available until external inputs, configured credentials, or new player evidence arrive.
 - Rationale: All safe local refresh actions are current; hold execution until owner-provided inputs, production analytics, or real player evidence changes the state.
 - Last executed action: bootstrap-production-setup
-- Recent executed actions: bootstrap-production-setup, refresh-product-gate-sample-plan, seed-portfolio-traffic, refresh-replay-loop, refresh-objective-audit, refresh-product-gate-recovery, optimize-store-listing
+- Recent executed actions: bootstrap-production-setup, refresh-product-gate-sample-plan, seed-portfolio-traffic, refresh-replay-loop, refresh-objective-audit, refresh-product-gate-recovery
 
 ## Systems
 
@@ -29,7 +29,7 @@ Autonomy score: 43/44 (98%)
 - ready: organic-seed-loop - Target canopy-bloom; surface portal-growth-loop; share telemetry organic_seed_share_clicked.
 - ready: retention-loop - Daily canopy-bloom; D1 17%; streak variant daily-streak; return prompt armed; return intent armed.
 - ready: pwa-install-loop - Prompt autonomy-cockpit; installs 0; launch events 0; sample collecting-sample needs 20 prompt(s) and 10 launch event(s).
-- ready: performance-budget - Initial JS 675.2 KB; gzip 183.5 KB; deferred chunks 2.
+- ready: performance-budget - Initial JS 675.2 KB; gzip 183.3 KB; deferred chunks 2.
 - ready: product-optimization - Completion 40% / gate 55%; latest already-applied.
 - ready: support-feedback - Support feedback support-feedback-empty; issues 0; routable signals 0; aggregate notes 0.
 - ready: product-gate-recovery - Recovery product-gate-recovery-ready; primary firstGameCompletion; experiment collecting-sample; failing gates 3; next lift 128.
@@ -51,7 +51,7 @@ Autonomy score: 43/44 (98%)
 - ready: production-blocker-handoff - Handoff handoff-waiting-on-owner-inputs; next production-analytics-browser; owner inputs 4; missing env 7; missing secrets 3.
 - ready: support-channel - Support channel support-channel-ready; repository moshequ/autonomous-game-lab; public intake ready; aggregate evidence only true.
 - ready: autonomous-operator - Operator operator-held; selected none; execution not-requested.
-- ready: operator-history - History operator-history-ready; records 40; executed 10.
+- ready: operator-history - History operator-history-ready; records 40; executed 9.
 - ready: objective-audit - Audit objective-in-progress; met 6/8; external blockers 15.
 - ready: store-listing-optimizer - Focus canopy-bloom; lead screenshot phone-canopy-bloom-generated; candidate changed yes.
 - ready: store-compliance - Rating Everyone; target audience general; blockers 3.

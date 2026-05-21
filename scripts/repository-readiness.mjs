@@ -81,6 +81,8 @@ const generatedEvidencePaths = new Set([
   'ops/github/bootstrap-repository.sh',
   'public/gate-sample.html',
   'public/install.html',
+  'public/measurement-status.html',
+  'public/measurement-status.json',
   'public/robots.txt',
   'public/sitemap.xml',
   'public/seed-kit.html',

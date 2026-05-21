@@ -1,0 +1,208 @@
+{
+  "generatedAt": "2026-05-21T20:05:52.678Z",
+  "status": "unlock-runner-idle",
+  "mode": "execute-unlocked-local-followups",
+  "sourceStatus": {
+    "productionBlockerHandoff": "handoff-waiting-on-owner-inputs",
+    "productionBlockerHandoffSourceDataHash": "c85d2be59c5b"
+  },
+  "summary": {
+    "handoffItems": 8,
+    "runnableUnlocks": 0,
+    "queuedCommands": 0,
+    "blockedUnsafeUnlocks": 0,
+    "completedUnlockFingerprints": 0
+  },
+  "controls": {
+    "zeroPaidSpend": true,
+    "noAccountCreation": true,
+    "noStoreSubmission": true,
+    "noRevenueEnablement": true,
+    "noPaidAcquisition": true,
+    "noExternalPosting": true,
+    "noWorkflowDispatch": true,
+    "noSecretValuesStored": true,
+    "dryRunByDefault": true,
+    "staticCommandAllowlist": true,
+    "executesOnlyConfiguredOrClearHandoffs": true,
+    "commandFailuresStopRun": true
+  },
+  "allowedCommands": [
+    "npm run autonomous:analytics",
+    "npm run autonomous:android-release-plan",
+    "npm run autonomous:collect-sample-downloads",
+    "npm run autonomous:env",
+    "npm run autonomous:gate-recovery",
+    "npm run autonomous:import-events",
+    "npm run autonomous:local-event-bridge",
+    "npm run autonomous:monetization",
+    "npm run autonomous:native-package",
+    "npm run autonomous:objective-audit",
+    "npm run autonomous:promote",
+    "npm run autonomous:readiness",
+    "npm run autonomous:sample-plan",
+    "npm run autonomous:store-compliance",
+    "npm run autonomous:store-package",
+    "npm run autonomous:unit-economics"
+  ],
+  "unlockPlans": [
+    {
+      "id": "support-contact",
+      "title": "Web support channel and store support email",
+      "category": "store-compliance",
+      "status": "web-support-ready-store-email-deferred",
+      "ownerInputRequired": false,
+      "fingerprint": "3fe780906c42",
+      "executableStatus": false,
+      "alreadyCompleted": false,
+      "runnable": false,
+      "commands": [
+        "npm run autonomous:env",
+        "npm run autonomous:store-package",
+        "npm run autonomous:store-compliance",
+        "npm run autonomous:readiness"
+      ],
+      "unsafeCommands": [],
+      "reason": "Held because handoff status is web-support-ready-store-email-deferred."
+    },
+    {
+      "id": "production-analytics-browser",
+      "title": "Browser production analytics",
+      "category": "measurement",
+      "status": "owner-input-required",
+      "ownerInputRequired": true,
+      "fingerprint": "0091205c2115",
+      "executableStatus": false,
+      "alreadyCompleted": false,
+      "runnable": false,
+      "commands": [
+        "npm run autonomous:env",
+        "npm run autonomous:local-event-bridge",
+        "npm run autonomous:import-events",
+        "npm run autonomous:analytics",
+        "npm run autonomous:gate-recovery",
+        "npm run autonomous:sample-plan"
+      ],
+      "unsafeCommands": [],
+      "reason": "Held because handoff status is owner-input-required."
+    },
+    {
+      "id": "autonomous-rollup-credentials",
+      "title": "Autonomous production rollups",
+      "category": "measurement",
+      "status": "owner-input-required",
+      "ownerInputRequired": true,
+      "fingerprint": "6ad05ddb4c98",
+      "executableStatus": false,
+      "alreadyCompleted": false,
+      "runnable": false,
+      "commands": [
+        "npm run autonomous:import-events",
+        "npm run autonomous:analytics",
+        "npm run autonomous:objective-audit"
+      ],
+      "unsafeCommands": [],
+      "reason": "Held because handoff status is owner-input-required."
+    },
+    {
+      "id": "product-gate-sample",
+      "title": "Product-gate live sample",
+      "category": "product-gates",
+      "status": "needs-live-sample",
+      "ownerInputRequired": false,
+      "fingerprint": "47cfeb52458b",
+      "executableStatus": false,
+      "alreadyCompleted": false,
+      "runnable": false,
+      "commands": [
+        "npm run autonomous:collect-sample-downloads",
+        "npm run autonomous:gate-recovery",
+        "npm run autonomous:sample-plan",
+        "npm run autonomous:monetization"
+      ],
+      "unsafeCommands": [],
+      "reason": "Held because handoff status is needs-live-sample."
+    },
+    {
+      "id": "ad-provider-config",
+      "title": "Ad provider configuration",
+      "category": "monetization",
+      "status": "blocked-by-product-gates",
+      "ownerInputRequired": false,
+      "fingerprint": "eb1075c8f250",
+      "executableStatus": false,
+      "alreadyCompleted": false,
+      "runnable": false,
+      "commands": [
+        "npm run autonomous:monetization",
+        "npm run autonomous:unit-economics"
+      ],
+      "unsafeCommands": [],
+      "reason": "Held because handoff status is blocked-by-product-gates."
+    },
+    {
+      "id": "google-play-account",
+      "title": "Google Play developer account",
+      "category": "app-store",
+      "status": "owner-account-required",
+      "ownerInputRequired": true,
+      "fingerprint": "85f14d5016b4",
+      "executableStatus": false,
+      "alreadyCompleted": false,
+      "runnable": false,
+      "commands": [
+        "npm run autonomous:native-package",
+        "npm run autonomous:android-release-plan"
+      ],
+      "unsafeCommands": [],
+      "reason": "Held because handoff status is owner-account-required."
+    },
+    {
+      "id": "google-play-service-account",
+      "title": "Google Play service account",
+      "category": "app-store",
+      "status": "blocked-by-play-account",
+      "ownerInputRequired": true,
+      "fingerprint": "2a39dfba7632",
+      "executableStatus": false,
+      "alreadyCompleted": false,
+      "runnable": false,
+      "commands": [
+        "npm run autonomous:android-release-plan"
+      ],
+      "unsafeCommands": [],
+      "reason": "Held because handoff status is blocked-by-play-account."
+    },
+    {
+      "id": "apple-developer-account",
+      "title": "Apple Developer account",
+      "category": "app-store",
+      "status": "deferred-until-ios-payback",
+      "ownerInputRequired": false,
+      "fingerprint": "5ed1498d5e33",
+      "executableStatus": false,
+      "alreadyCompleted": false,
+      "runnable": false,
+      "commands": [
+        "npm run autonomous:unit-economics",
+        "npm run autonomous:promote"
+      ],
+      "unsafeCommands": [],
+      "reason": "Held because handoff status is deferred-until-ios-payback."
+    }
+  ],
+  "commandQueue": [],
+  "completedUnlockFingerprints": [],
+  "execution": {
+    "requested": true,
+    "force": false,
+    "status": "idle",
+    "attemptedCommands": [],
+    "results": []
+  },
+  "blockers": [],
+  "nextActions": [
+    "Keep watching production blocker handoff; execute only after a handoff item becomes configured or clear.",
+    "Preserve the static command allowlist before adding any production mutation command."
+  ]
+}

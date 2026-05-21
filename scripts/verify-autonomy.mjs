@@ -53,6 +53,7 @@ const requiredFiles = [
   'data/production-bootstrap.json',
   'data/production-activation.json',
   'data/production-blocker-handoff.json',
+  'data/production-unlock-runner.json',
   'data/autonomous-operator.json',
   'data/autonomous-operator-history.json',
   'data/autonomous-cadence.json',
@@ -105,6 +106,7 @@ const requiredFiles = [
   'src/data/productionBootstrap.ts',
   'src/data/productionActivation.ts',
   'src/data/productionBlockerHandoff.ts',
+  'src/data/productionUnlockRunner.ts',
   'src/data/autonomousOperator.ts',
   'src/data/autonomousOperatorHistory.ts',
   'src/data/autonomousCadence.ts',
@@ -162,6 +164,7 @@ const requiredFiles = [
   'reports/production-bootstrap-latest.md',
   'reports/production-activation-latest.md',
   'reports/production-blocker-handoff-latest.md',
+  'reports/production-unlock-runner-latest.md',
   'reports/autonomous-operator-latest.md',
   'reports/autonomous-operator-history-latest.md',
   'reports/autonomous-cadence-latest.md',
@@ -211,6 +214,7 @@ const requiredFiles = [
   'scripts/support-feedback-ingestor.mjs',
   'scripts/production-activation.mjs',
   'scripts/production-blocker-handoff.mjs',
+  'scripts/production-unlock-runner.mjs',
   'scripts/autonomous-cadence.mjs',
   'scripts/autonomous-self-update.mjs',
   'scripts/android-signing-prep.mjs',
@@ -309,6 +313,9 @@ const productionActivation = JSON.parse(await readFile(path.join(root, 'data', '
 const productionBlockerHandoff = JSON.parse(
   await readFile(path.join(root, 'data', 'production-blocker-handoff.json'), 'utf8'),
 )
+const productionUnlockRunner = JSON.parse(
+  await readFile(path.join(root, 'data', 'production-unlock-runner.json'), 'utf8'),
+)
 const autonomousOperator = JSON.parse(await readFile(path.join(root, 'data', 'autonomous-operator.json'), 'utf8'))
 const autonomousOperatorHistory = JSON.parse(
   await readFile(path.join(root, 'data', 'autonomous-operator-history.json'), 'utf8'),
@@ -399,6 +406,10 @@ const productionBootstrapSource = await readFile(path.join(root, 'scripts', 'pro
 const productionActivationSource = await readFile(path.join(root, 'scripts', 'production-activation.mjs'), 'utf8')
 const productionBlockerHandoffSource = await readFile(
   path.join(root, 'scripts', 'production-blocker-handoff.mjs'),
+  'utf8',
+)
+const productionUnlockRunnerSource = await readFile(
+  path.join(root, 'scripts', 'production-unlock-runner.mjs'),
   'utf8',
 )
 const postDeploySmokeSource = await readFile(path.join(root, 'scripts', 'post-deploy-smoke.mjs'), 'utf8')
@@ -2440,6 +2451,47 @@ if (
   !productionBlockerHandoffSource.includes('zeroPaidSpend')
 ) {
   fail('Production blocker handoff must rank remaining external unlocks without mutation, spend, or secret values.')
+}
+
+if (
+  !['unlock-runner-idle', 'unlock-runner-plan-ready', 'unlock-runner-executed'].includes(
+    productionUnlockRunner.status,
+  ) ||
+  !['plan-only', 'execute-unlocked-local-followups'].includes(productionUnlockRunner.mode) ||
+  productionUnlockRunner.sourceStatus?.productionBlockerHandoff !== productionBlockerHandoff.status ||
+  productionUnlockRunner.sourceStatus?.productionBlockerHandoffSourceDataHash !==
+    (productionBlockerHandoff.sourceDataHash ?? null) ||
+  productionUnlockRunner.summary?.handoffItems !==
+    (productionBlockerHandoff.handoffItems ?? productionBlockerHandoff.unlocks ?? []).length ||
+  productionUnlockRunner.controls?.zeroPaidSpend !== true ||
+  productionUnlockRunner.controls?.noAccountCreation !== true ||
+  productionUnlockRunner.controls?.noStoreSubmission !== true ||
+  productionUnlockRunner.controls?.noRevenueEnablement !== true ||
+  productionUnlockRunner.controls?.noPaidAcquisition !== true ||
+  productionUnlockRunner.controls?.noExternalPosting !== true ||
+  productionUnlockRunner.controls?.noWorkflowDispatch !== true ||
+  productionUnlockRunner.controls?.noSecretValuesStored !== true ||
+  productionUnlockRunner.controls?.dryRunByDefault !== true ||
+  productionUnlockRunner.controls?.staticCommandAllowlist !== true ||
+  productionUnlockRunner.controls?.executesOnlyConfiguredOrClearHandoffs !== true ||
+  productionUnlockRunner.unlockPlans?.some((item) => (item.unsafeCommands?.length ?? 0) > 0) ||
+  !productionUnlockRunner.allowedCommands?.includes('npm run autonomous:analytics') ||
+  !productionUnlockRunner.allowedCommands?.includes('npm run autonomous:gate-recovery') ||
+  !productionUnlockRunner.allowedCommands?.includes('npm run autonomous:android-release-plan') ||
+  packageJson.scripts?.['autonomous:unlock-runner'] !== 'node scripts/production-unlock-runner.mjs' ||
+  !packageJson.scripts?.['autonomous:daily']?.includes('autonomous:unlock-runner -- --execute') ||
+  !packageJson.scripts?.['autonomous:post-deploy-readiness-sync']?.includes(
+    'autonomous:unlock-runner -- --execute',
+  ) ||
+  !postDeployEvidenceSyncWorkflow.includes('data/production-unlock-runner.json') ||
+  !postDeployEvidenceSyncWorkflow.includes('src/data/productionUnlockRunner.ts') ||
+  !postDeployEvidenceSyncWorkflow.includes('reports/production-unlock-runner-latest.md') ||
+  !productionUnlockRunnerSource.includes('allowedCommands') ||
+  !productionUnlockRunnerSource.includes('executableStatuses') ||
+  !productionUnlockRunnerSource.includes('noWorkflowDispatch') ||
+  !productionUnlockRunnerSource.includes('noSecretValuesStored')
+) {
+  fail('Production unlock runner must execute only allowlisted zero-spend local follow-up commands after blocker handoffs clear.')
 }
 
 if (
@@ -4885,6 +4937,7 @@ if (
   !repositoryReadinessSource.includes('public/share-manifest.json') ||
   !repositoryReadinessSource.includes('public/gate-sample.html') ||
   !repositoryReadinessSource.includes('public/install.html') ||
+  !repositoryReadinessSource.includes('public/measurement-status.json') ||
   !repositoryReadinessSource.includes('public/seed-kit.html') ||
   !repositoryReadinessSource.includes('AGL_GITHUB_OWNER') ||
   !repositoryReadinessSource.includes('owner-hint-and-package-name') ||
