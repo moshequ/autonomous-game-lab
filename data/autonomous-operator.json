@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-21T12:08:06.281Z",
+  "generatedAt": "2026-05-21T12:13:21.800Z",
   "status": "operator-plan-ready",
   "mode": "plan-only",
   "ownerDecision": {
@@ -23,7 +23,6 @@
   },
   "selectedRejection": null,
   "eligibleActionIds": [
-    "refresh-replay-loop",
     "bootstrap-production-setup"
   ],
   "blockedActions": [
@@ -149,9 +148,9 @@
     },
     {
       "id": "refresh-replay-loop",
-      "status": "armed",
+      "status": "monitor",
       "command": "npm run autonomous:replay-loop",
-      "reason": "not-selected-this-run"
+      "reason": "status-monitor"
     },
     {
       "id": "prepare-repository-channel",

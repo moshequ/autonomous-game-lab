@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-21T12:10:05.576Z",
+  "generatedAt": "2026-05-21T12:13:21.534Z",
   "status": "owner-loop-ready",
   "mode": "zero-spend-web-ready",
   "autonomyScore": {
@@ -34,16 +34,15 @@
     "avoidImmediateRepeat": true,
     "recentExecutionWindow": 8,
     "recentExecutedActionIds": [
-      "apply-safe-improvements",
       "refresh-replay-loop",
+      "bootstrap-production-setup",
+      "apply-safe-improvements",
       "refresh-completion-loop",
       "refresh-first-move-coach",
       "seed-portfolio-traffic",
-      "collect-gate-sample-downloads",
-      "bootstrap-production-setup",
-      "optimize-store-listing"
+      "collect-gate-sample-downloads"
     ],
-    "lastExecutedActionId": "apply-safe-improvements",
+    "lastExecutedActionId": "refresh-replay-loop",
     "lastExecutedStatus": "executed",
     "lastRecordExecutionStatus": "not-requested",
     "recentlySatisfiedActionIds": [
@@ -55,7 +54,7 @@
     "objectiveAuditFreshness": {
       "fresh": true,
       "structurallyReady": true,
-      "auditGeneratedAt": "2026-05-21T12:07:55.407Z",
+      "auditGeneratedAt": "2026-05-21T12:13:21.228Z",
       "evaluatedInputIds": [
         "analytics-rollup",
         "event-ingest",
@@ -79,7 +78,7 @@
         "ready": true,
         "status": "cadence-ready",
         "artifactGeneratedAt": "2026-05-21T10:34:23.515Z",
-        "ageHours": 1.595,
+        "ageHours": 1.649,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -90,7 +89,7 @@
         "ready": true,
         "status": "self-update-ready",
         "artifactGeneratedAt": "2026-05-21T07:50:13.570Z",
-        "ageHours": 4.331,
+        "ageHours": 4.386,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -101,7 +100,7 @@
         "ready": true,
         "status": "support-feedback-empty",
         "artifactGeneratedAt": "2026-05-21T09:46:35.479Z",
-        "ageHours": 2.392,
+        "ageHours": 2.446,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -111,8 +110,8 @@
         "fresh": true,
         "ready": true,
         "status": "performance-budget-ready",
-        "artifactGeneratedAt": "2026-05-21T12:07:20.108Z",
-        "ageHours": 0.046,
+        "artifactGeneratedAt": "2026-05-21T12:13:11.190Z",
+        "ageHours": 0.003,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -122,8 +121,8 @@
         "fresh": true,
         "ready": true,
         "status": "live-site-monitor-passed",
-        "artifactGeneratedAt": "2026-05-21T12:10:05.083Z",
-        "ageHours": 0,
+        "artifactGeneratedAt": "2026-05-21T12:13:15.725Z",
+        "ageHours": 0.002,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -230,7 +229,7 @@
         "current": true,
         "ready": true,
         "status": "product-gate-recovery-ready",
-        "artifactGeneratedAt": "2026-05-21T12:05:28.259Z",
+        "artifactGeneratedAt": "2026-05-21T12:12:28.834Z",
         "artifactSourceDataHash": "fe7143bf5948",
         "sourceDataHash": "fe7143bf5948",
         "evaluatedInputIds": [
@@ -248,9 +247,9 @@
         "current": true,
         "ready": true,
         "status": "product-gate-sample-plan-ready",
-        "artifactGeneratedAt": "2026-05-21T12:05:28.511Z",
-        "artifactSourceDataHash": "336edbff5027",
-        "sourceDataHash": "336edbff5027",
+        "artifactGeneratedAt": "2026-05-21T12:12:29.132Z",
+        "artifactSourceDataHash": "7d75069ddb11",
+        "sourceDataHash": "7d75069ddb11",
         "evaluatedInputIds": [
           "sample-date",
           "product-gate-recovery",
@@ -353,11 +352,11 @@
         ]
       },
       "replayLoop": {
-        "current": false,
-        "ready": false,
+        "current": true,
+        "ready": true,
         "status": "replay-loop-ready",
-        "artifactGeneratedAt": "2026-05-21T11:57:44.893Z",
-        "artifactSourceDataHash": "1570df580e2c",
+        "artifactGeneratedAt": "2026-05-21T12:12:28.489Z",
+        "artifactSourceDataHash": "b9220532d9bf",
         "sourceDataHash": "b9220532d9bf",
         "evaluatedInputIds": [
           "analytics-rollup",
@@ -419,9 +418,7 @@
       "liveCandidateId": "pwa-09e13f951a08",
       "artifactCandidateId": "pwa-09e13f951a08"
     },
-    "skippedRecentlyExecutedActionIds": [
-      "refresh-replay-loop"
-    ],
+    "skippedRecentlyExecutedActionIds": [],
     "skippedRecentlySatisfiedActionIds": [],
     "preferredActionOrder": [
       "prepare-repository-channel",
@@ -457,7 +454,7 @@
     },
     "productionBootstrapFreshness": {
       "fresh": false,
-      "bootstrapGeneratedAt": "2026-05-21T12:07:27.118Z",
+      "bootstrapGeneratedAt": "2026-05-21T12:11:29.315Z",
       "evaluatedInputIds": [
         "release-candidate",
         "deployment-plan",
@@ -467,14 +464,17 @@
         "event-collector-deployment"
       ],
       "staleInputIds": [
-        "deployment-plan"
+        "release-candidate",
+        "deployment-plan",
+        "repository-readiness",
+        "repository-bootstrap"
       ]
     },
     "productionBlockerHandoffFreshness": {
       "current": true,
       "ready": true,
       "status": "handoff-waiting-on-owner-inputs",
-      "generatedAt": "2026-05-21T12:07:56.669Z",
+      "generatedAt": "2026-05-21T12:13:20.527Z",
       "nextBestUnlockId": "support-contact",
       "ownerActionRequired": 5,
       "missingEnv": 7,
@@ -596,7 +596,7 @@
       "id": "performance-budget",
       "status": "ready",
       "autonomy": "automatic-build-budget",
-      "evidence": "Initial JS 674.3 KB; gzip 183.2 KB; deferred chunks 1.",
+      "evidence": "Initial JS 674.4 KB; gzip 183.2 KB; deferred chunks 1.",
       "nextAction": "Keep Phaser and game scenes outside the initial PWA shell."
     },
     {
@@ -695,7 +695,7 @@
       "status": "ready",
       "autonomy": "read-only-live-deploy-verification",
       "evidence": "Smoke post-deploy-smoke-observed-live; origin https://moshequ.github.io/autonomous-game-lab; manifest comparison required; checks 15/15 passed; local artifact predeploy-artifact-smoke-passed 15/15 passed.",
-      "nextAction": "Live Pages is reachable and serving pwa-5a1bd4612209; run the deploy workflow for strict proof of the current local candidate if needed."
+      "nextAction": "Live Pages is reachable and serving pwa-09e13f951a08; run the deploy workflow for strict proof of the current local candidate if needed."
     },
     {
       "id": "post-deploy-artifact-sync",
@@ -750,7 +750,7 @@
       "id": "operator-history",
       "status": "ready",
       "autonomy": "operator-audit-trail",
-      "evidence": "History operator-history-ready; records 40; executed 8.",
+      "evidence": "History operator-history-ready; records 40; executed 9.",
       "nextAction": "Keep a capped durable record of operator plans and one-action executions."
     },
     {
@@ -903,7 +903,7 @@
       "command": "npm run build && npm run autonomous:performance && npm run autonomous:release-candidate",
       "targets": [
         "pwa-shell",
-        "GameCanvas-5Q_FIJFA.js",
+        "GameCanvas-C43tVjYr.js",
         "dist-release-candidate"
       ],
       "reason": "Performance budget and release-candidate evidence are already fresh for the current guarded build."
@@ -1016,13 +1016,13 @@
     },
     {
       "id": "refresh-replay-loop",
-      "status": "armed",
+      "status": "monitor",
       "costUsd": 0,
       "command": "npm run autonomous:replay-loop",
       "targets": [
         "harbor-rings"
       ],
-      "reason": "Refreshes the optional completed-run replay prompt from product-gate and replay telemetry evidence."
+      "reason": "Replay loop already matches the current source evidence; wait for new replay or experiment data."
     },
     {
       "id": "prepare-repository-channel",
