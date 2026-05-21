@@ -1,10 +1,10 @@
 # Autonomous Operator
 
-Generated: 2026-05-21T19:33:12.552Z
+Generated: 2026-05-21T19:36:15.172Z
 Status: operator-plan-ready
 Mode: plan-only
-Owner decision: bootstrap-production-setup
-Selected action: bootstrap-production-setup
+Owner decision: seed-portfolio-traffic
+Selected action: seed-portfolio-traffic
 Execution: not-requested
 
 ## Controls
@@ -18,13 +18,12 @@ Execution: not-requested
 
 ## Selected Action
 
-- bootstrap-production-setup: npm run autonomous:release-candidate && npm run autonomous:deploy-plan && npm run autonomous:bootstrap
+- seed-portfolio-traffic: npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop
 
 ## Eligible Local Actions
 
 - seed-portfolio-traffic
 - refresh-organic-seed-loop
-- bootstrap-production-setup
 
 ## Blocked Actions
 
@@ -32,7 +31,6 @@ Execution: not-requested
 - hold-for-external-input: status-monitor
 - refresh-autonomous-cadence: status-monitor
 - refresh-autonomous-self-update: status-monitor
-- seed-portfolio-traffic: not-selected-this-run
 - refresh-organic-seed-loop: not-selected-this-run
 - refresh-support-feedback: status-monitor
 - optimize-daily-retention: status-monitor
@@ -40,3 +38,4 @@ Execution: not-requested
 - check-performance-budget: status-monitor
 - prepare-release-candidate: status-monitor
 - run-post-deploy-smoke: status-monitor
+- sync-post-deploy-artifact: status-monitor
