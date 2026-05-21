@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-21T11:42:21.365Z",
+  "generatedAt": "2026-05-21T11:43:53.128Z",
   "environment": {
     "status": "production-env-missing",
     "publicOrigin": "https://moshequ.github.io/autonomous-game-lab",
@@ -533,7 +533,7 @@
     ]
   },
   "webPwa": {
-    "status": "ready-after-build",
+    "status": "blocked",
     "required": [
       "manifest",
       "offline-capable build",
@@ -640,7 +640,7 @@
       {
         "id": "performance-budget",
         "status": "pass",
-        "detail": "Performance budget is performance-budget-ready; initial JS 675 KB / 183.3 KB gzip; deferred game chunk GameCanvas-Dpy11mR5.js."
+        "detail": "Performance budget is performance-budget-ready; initial JS 674.4 KB / 183.2 KB gzip; deferred game chunk GameCanvas-bSnqwu4f.js."
       },
       {
         "id": "release-candidate",
@@ -649,7 +649,7 @@
       },
       {
         "id": "post-deploy-smoke-runner",
-        "status": "pass",
+        "status": "blocker",
         "detail": "Post-deploy smoke is post-deploy-smoke-observed-live; origin https://moshequ.github.io/autonomous-game-lab; checks 15/15 passed, 0 blocked; local artifact predeploy-artifact-smoke-passed 15/15 passed."
       },
       {
@@ -705,12 +705,12 @@
       {
         "id": "autonomous-operator",
         "status": "pass",
-        "detail": "Autonomous operator is operator-executed; selected bootstrap-production-setup; execution executed."
+        "detail": "Autonomous operator is operator-executed; selected collect-gate-sample-downloads; execution executed."
       },
       {
         "id": "autonomous-operator-history",
         "status": "pass",
-        "detail": "Autonomous operator history is operator-history-ready; records 40; executed 8."
+        "detail": "Autonomous operator history is operator-history-ready; records 40; executed 9."
       },
       {
         "id": "autonomous-cadence",
@@ -1215,21 +1215,21 @@
     },
     "initial": {
       "entryScripts": [
-        "index-C4AxsbzX.js",
+        "index-B9ybkgAB.js",
         "registerSW.js"
       ],
       "scriptPaths": [
-        "assets/index-C4AxsbzX.js",
+        "assets/index-B9ybkgAB.js",
         "registerSW.js"
       ],
       "jsFiles": [
         {
-          "file": "index-C4AxsbzX.js",
-          "path": "assets/index-C4AxsbzX.js",
-          "bytes": 691021,
-          "kb": 674.8,
-          "gzipBytes": 187594,
-          "gzipKb": 183.2
+          "file": "index-B9ybkgAB.js",
+          "path": "assets/index-B9ybkgAB.js",
+          "bytes": 690380,
+          "kb": 674.2,
+          "gzipBytes": 187428,
+          "gzipKb": 183
         },
         {
           "file": "registerSW.js",
@@ -1240,10 +1240,10 @@
           "gzipKb": 0.1
         }
       ],
-      "jsBytes": 691195,
-      "jsKb": 675,
-      "gzipBytes": 187735,
-      "gzipKb": 183.3,
+      "jsBytes": 690554,
+      "jsKb": 674.4,
+      "gzipBytes": 187569,
+      "gzipKb": 183.2,
       "cssFiles": [
         {
           "file": "index-hJ0YgyRJ.css",
@@ -1262,8 +1262,8 @@
     "deferred": {
       "chunks": [
         {
-          "file": "GameCanvas-Dpy11mR5.js",
-          "path": "assets/GameCanvas-Dpy11mR5.js",
+          "file": "GameCanvas-bSnqwu4f.js",
+          "path": "assets/GameCanvas-bSnqwu4f.js",
           "bytes": 1393755,
           "kb": 1361.1,
           "gzipBytes": 356175,
@@ -1271,24 +1271,24 @@
         }
       ],
       "gameChunk": {
-        "file": "GameCanvas-Dpy11mR5.js",
-        "path": "assets/GameCanvas-Dpy11mR5.js",
+        "file": "GameCanvas-bSnqwu4f.js",
+        "path": "assets/GameCanvas-bSnqwu4f.js",
         "bytes": 1393755,
         "kb": 1361.1,
         "gzipBytes": 356175,
         "gzipKb": 347.8
       },
       "largestDeferredChunk": {
-        "file": "GameCanvas-Dpy11mR5.js",
-        "path": "assets/GameCanvas-Dpy11mR5.js",
+        "file": "GameCanvas-bSnqwu4f.js",
+        "path": "assets/GameCanvas-bSnqwu4f.js",
         "bytes": 1393755,
         "kb": 1361.1,
         "gzipBytes": 356175,
         "gzipKb": 347.8
       },
       "largestJsChunk": {
-        "file": "GameCanvas-Dpy11mR5.js",
-        "path": "assets/GameCanvas-Dpy11mR5.js",
+        "file": "GameCanvas-bSnqwu4f.js",
+        "path": "assets/GameCanvas-bSnqwu4f.js",
         "bytes": 1393755,
         "kb": 1361.1,
         "gzipBytes": 356175,
@@ -1309,12 +1309,12 @@
       {
         "id": "initial-js-budget",
         "status": "pass",
-        "detail": "Initial JS is 675 KB; budget is 675 KB."
+        "detail": "Initial JS is 674.4 KB; budget is 675 KB."
       },
       {
         "id": "initial-js-gzip-budget",
         "status": "pass",
-        "detail": "Initial JS gzip is 183.3 KB; budget is 200 KB."
+        "detail": "Initial JS gzip is 183.2 KB; budget is 200 KB."
       },
       {
         "id": "initial-css-budget",
@@ -1334,12 +1334,12 @@
       {
         "id": "game-runtime-deferred",
         "status": "pass",
-        "detail": "GameCanvas-Dpy11mR5.js is deferred from the initial shell."
+        "detail": "GameCanvas-bSnqwu4f.js is deferred from the initial shell."
       },
       {
         "id": "largest-js-deferred",
         "status": "pass",
-        "detail": "Largest JS chunk is GameCanvas-Dpy11mR5.js at 1361.1 KB."
+        "detail": "Largest JS chunk is GameCanvas-bSnqwu4f.js at 1361.1 KB."
       },
       {
         "id": "deferred-game-budget",
@@ -1350,7 +1350,7 @@
   },
   "releaseCandidate": {
     "status": "release-candidate-ready",
-    "candidateId": "pwa-d2f466eecf66",
+    "candidateId": "pwa-545418073d24",
     "target": {
       "provider": "github-pages",
       "artifactPath": "dist",
@@ -1361,8 +1361,8 @@
     },
     "summary": {
       "totalFiles": 44,
-      "totalBytes": 3733376,
-      "totalKb": 3645.9,
+      "totalBytes": 3732735,
+      "totalKb": 3645.2,
       "assetFiles": 3,
       "htmlFiles": 16,
       "gamePages": 10,
@@ -1371,7 +1371,7 @@
     },
     "integrity": {
       "algorithm": "sha256",
-      "aggregateHash": "d2f466eecf668a79609b0c7fdbc6055549df8236a7a4d4328f3c798e8229379d",
+      "aggregateHash": "545418073d24f77f80c916bbcb8520a3f708af7c364a7cddc5647e8122870b4e",
       "requiredFileChecks": [
         {
           "path": "index.html",
@@ -3816,15 +3816,15 @@
     "status": "operator-executed",
     "mode": "execute-one-action",
     "selectedAction": {
-      "id": "bootstrap-production-setup",
+      "id": "collect-gate-sample-downloads",
       "status": "armed",
-      "command": "npm run autonomous:release-candidate && npm run autonomous:deploy-plan && npm run autonomous:bootstrap",
+      "command": "npm run autonomous:collect-sample-downloads",
       "targets": [
-        "github-pages",
-        "repository-config",
-        "event-collector"
+        "firstGameCompletion",
+        "gate-sample-20260521-firstGameCompletion",
+        "gate-sample-20260521-replayRate"
       ],
-      "reason": "Regenerates the zero-spend production setup handoff and exact GitHub variable/secret commands.",
+      "reason": "Opt-in scans local browser Downloads and the event inbox for real player exports, imports them, refreshes analytics and recovery, then regenerates the sample plan.",
       "costUsd": 0
     },
     "controls": {
@@ -3845,44 +3845,24 @@
       "requested": true,
       "status": "executed",
       "maxActionsPerRun": 1,
-      "attemptedActionId": "bootstrap-production-setup",
+      "attemptedActionId": "collect-gate-sample-downloads",
       "results": [
         {
-          "script": "autonomous:release-candidate",
+          "script": "autonomous:collect-sample-downloads",
           "exitCode": 0,
           "stdoutTail": [
-            "> autonomous-game-lab@0.0.0 autonomous:release-candidate",
-            "> node scripts/release-candidate.mjs",
-            "Wrote data/release-candidate.json",
-            "Wrote src/data/releaseCandidate.ts",
-            "Wrote reports/release-candidate-latest.md",
-            "Wrote dist/release-candidate.json"
-          ],
-          "stderrTail": []
-        },
-        {
-          "script": "autonomous:deploy-plan",
-          "exitCode": 0,
-          "stdoutTail": [
-            "> autonomous-game-lab@0.0.0 autonomous:deploy-plan",
-            "> node scripts/deployment-plan.mjs",
-            "Wrote data/deployment-plan.json",
-            "Wrote src/data/deploymentPlan.ts",
-            "Wrote reports/deployment-plan-latest.md"
-          ],
-          "stderrTail": []
-        },
-        {
-          "script": "autonomous:bootstrap",
-          "exitCode": 0,
-          "stdoutTail": [
-            "> autonomous-game-lab@0.0.0 autonomous:bootstrap",
-            "> node scripts/production-bootstrap.mjs",
-            "Wrote data/production-bootstrap.json",
-            "Wrote src/data/productionBootstrap.ts",
-            "Wrote reports/production-bootstrap-latest.md",
-            "Wrote ops/github/setup-production.sh",
-            "Wrote ops/github/README.md"
+            "Wrote reports/product-gate-recovery-latest.md",
+            "> autonomous-game-lab@0.0.0 autonomous:sample-plan",
+            "> node scripts/product-gate-sample-planner.mjs",
+            "Wrote data/product-gate-sample-plan.json",
+            "Wrote src/data/productGateSamplePlan.ts",
+            "Wrote reports/product-gate-sample-plan-latest.md",
+            "Wrote public/gate-sample.html",
+            "> autonomous-game-lab@0.0.0 autonomous:retention",
+            "> node scripts/retention-loop.mjs",
+            "Wrote data/retention-loop.json",
+            "Wrote src/data/retentionLoop.ts",
+            "Wrote reports/retention-loop-latest.md"
           ],
           "stderrTail": []
         }
@@ -3990,12 +3970,6 @@
         "reason": "status-monitor"
       },
       {
-        "id": "collect-gate-sample-downloads",
-        "status": "armed",
-        "command": "npm run autonomous:collect-sample-downloads",
-        "reason": "not-selected-this-run"
-      },
-      {
         "id": "refresh-product-gate-sample-plan",
         "status": "monitor",
         "command": "npm run autonomous:sample-plan",
@@ -4024,6 +3998,12 @@
         "status": "monitor",
         "command": "npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap",
         "reason": "status-monitor"
+      },
+      {
+        "id": "bootstrap-production-setup",
+        "status": "armed",
+        "command": "npm run autonomous:release-candidate && npm run autonomous:deploy-plan && npm run autonomous:bootstrap",
+        "reason": "not-selected-this-run"
       },
       {
         "id": "activate-production-when-configured",
@@ -4091,12 +4071,12 @@
     "status": "operator-history-ready",
     "summary": {
       "totalRecords": 40,
-      "plannedRecords": 32,
-      "executedRecords": 8,
+      "plannedRecords": 31,
+      "executedRecords": 9,
       "failedRecords": 0,
-      "lastActionId": "bootstrap-production-setup",
+      "lastActionId": "collect-gate-sample-downloads",
       "lastExecutionStatus": "executed",
-      "lastExecutedActionId": "bootstrap-production-setup"
+      "lastExecutedActionId": "collect-gate-sample-downloads"
     },
     "controls": {
       "zeroPaidSpend": true,
@@ -4113,48 +4093,19 @@
       "recentExecutedRecordWindow": 8,
       "preservedExecutedRecords": 8,
       "recentExecutedActionIds": [
-        "optimize-store-listing",
         "refresh-autonomous-cadence",
         "refresh-autonomous-self-update",
         "refresh-support-feedback",
         "check-performance-budget",
         "refresh-product-gate-recovery",
         "optimize-store-listing",
-        "bootstrap-production-setup"
+        "bootstrap-production-setup",
+        "collect-gate-sample-downloads"
       ],
       "latestRunAppended": true,
       "compactedDuplicateDryRuns": 0
     },
     "recentRecords": [
-      {
-        "id": "20260521113658-prepare-repository-channel",
-        "generatedAt": "2026-05-21T11:36:58.822Z",
-        "runFingerprint": "3a5d2297b6004751",
-        "mode": "plan-only",
-        "status": "operator-plan-ready",
-        "selectedActionId": "prepare-repository-channel",
-        "selectedCommand": "npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap",
-        "eligibleActionIds": [
-          "prepare-release-candidate",
-          "run-post-deploy-smoke",
-          "collect-gate-sample-downloads",
-          "prepare-repository-channel"
-        ],
-        "blockedActionCount": 32,
-        "execution": {
-          "requested": false,
-          "status": "not-requested",
-          "attemptedActionId": null,
-          "resultCount": 0,
-          "failedScripts": []
-        },
-        "controls": {
-          "zeroPaidSpend": true,
-          "localCommandAllowlistEnforced": true,
-          "externalWorkflowExecutionBlockedByDefault": true,
-          "maxActionsPerRun": 1
-        }
-      },
       {
         "id": "20260521113737-bootstrap-production-setup",
         "generatedAt": "2026-05-21T11:37:37.690Z",
@@ -4253,6 +4204,33 @@
           "status": "executed",
           "attemptedActionId": "bootstrap-production-setup",
           "resultCount": 3,
+          "failedScripts": []
+        },
+        "controls": {
+          "zeroPaidSpend": true,
+          "localCommandAllowlistEnforced": true,
+          "externalWorkflowExecutionBlockedByDefault": true,
+          "maxActionsPerRun": 1
+        }
+      },
+      {
+        "id": "20260521114255-collect-gate-sample-downloads",
+        "generatedAt": "2026-05-21T11:42:55.368Z",
+        "runFingerprint": "1319c1bf5112ab5e",
+        "mode": "execute-one-action",
+        "status": "operator-executed",
+        "selectedActionId": "collect-gate-sample-downloads",
+        "selectedCommand": "npm run autonomous:collect-sample-downloads",
+        "eligibleActionIds": [
+          "collect-gate-sample-downloads",
+          "bootstrap-production-setup"
+        ],
+        "blockedActionCount": 32,
+        "execution": {
+          "requested": true,
+          "status": "executed",
+          "attemptedActionId": "collect-gate-sample-downloads",
+          "resultCount": 1,
           "failedScripts": []
         },
         "controls": {
@@ -5132,7 +5110,7 @@
       "noRevenueEnablementUntilGatesPass": true,
       "noStoreSubmissionUntilExternalAccounts": true,
       "currentWorktreeClean": false,
-      "currentWorktreeDirtyFiles": 58,
+      "currentWorktreeDirtyFiles": 6,
       "productionBootstrapFresh": false,
       "productionBootstrapStaleInputIds": [
         "deployment-plan"
@@ -5142,7 +5120,7 @@
     "completion": {
       "canMarkGoalComplete": false,
       "reason": "The local autonomous PWA system is largely prepared with strict live deploy evidence synced from GitHub Actions, but production credentials, live data, monetization gates, and store account/signing blockers remain.",
-      "nextBestAction": "bootstrap-production-setup"
+      "nextBestAction": "collect-gate-sample-downloads"
     },
     "requirements": [
       {
@@ -5210,7 +5188,7 @@
           "Backlog: improvement-backlog-ready; items 4; hash 8b7b0546cd7d",
           "Support feedback: support-feedback-empty; issues 0; routable signals 0; aggregate notes 0",
           "Applied/deferred actions: 7",
-          "Operator selected: bootstrap-production-setup; status operator-plan-ready; execution not-requested"
+          "Operator selected: collect-gate-sample-downloads; status operator-executed; execution executed"
         ],
         "blockers": [],
         "nextAction": "Keep collecting starts until a safe product-gate tuning action is justified.",
@@ -5224,8 +5202,8 @@
           "Owner loop: owner-loop-ready",
           "Autonomous cadence: cadence-ready; Codex active-confirmed; GitHub scheduled",
           "Autonomous self-update: self-update-ready; workflow .github/workflows/autonomous-self-update.yml; unsafe pending 0",
-          "Operator: operator-plan-ready",
-          "Operator history: operator-history-ready; records 40; executed 8",
+          "Operator: operator-executed",
+          "Operator history: operator-history-ready; records 40; executed 9",
           "Bootstrap: production-bootstrap-ready",
           "Repository bootstrap: repository-bootstrap-ready; helper ops/github/bootstrap-repository.sh",
           "Release candidate: release-candidate-ready; smoke URLs 14",
@@ -5928,7 +5906,7 @@
     }
   },
   "promotion": {
-    "nextAction": "Deploy web/PWA experiment when hosting credentials exist.",
+    "nextAction": "Fix web/PWA blockers before external traffic.",
     "storeRule": "Do not package native apps until retention gates, privacy URL, and account credentials exist."
   }
 }

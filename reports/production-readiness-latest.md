@@ -1,6 +1,6 @@
 # Production Readiness
 
-Generated: 2026-05-21T11:42:21.365Z
+Generated: 2026-05-21T11:43:53.128Z
 
 ## Environment
 
@@ -39,7 +39,7 @@ Local git: true
 
 ## Web/PWA
 
-Status: ready-after-build
+Status: blocked
 - pass: manifest - PWA manifest exists in the production build.
 - pass: install-icons - Generated install/store icons are icons-ready; 6 icons checked.
 - pass: service-worker - Offline service worker exists.
@@ -59,9 +59,9 @@ Status: ready-after-build
 - pass: organic-seed-loop - Organic seed loop is organic-seed-loop-ready; target canopy-bloom; player-initiated share guard active.
 - pass: retention-loop - Retention loop is retention-loop-ready; daily challenge canopy-bloom; no-push/no-account guardrails active.
 - pass: pwa-install-loop - PWA install loop is pwa-install-loop-ready; prompt surface autonomy-cockpit; cost $0.
-- pass: performance-budget - Performance budget is performance-budget-ready; initial JS 675 KB / 183.3 KB gzip; deferred game chunk GameCanvas-Dpy11mR5.js.
+- pass: performance-budget - Performance budget is performance-budget-ready; initial JS 674.4 KB / 183.2 KB gzip; deferred game chunk GameCanvas-bSnqwu4f.js.
 - pass: release-candidate - Release candidate is release-candidate-ready; files 44; smoke URLs 14.
-- pass: post-deploy-smoke-runner - Post-deploy smoke is post-deploy-smoke-observed-live; origin https://moshequ.github.io/autonomous-game-lab; checks 15/15 passed, 0 blocked; local artifact predeploy-artifact-smoke-passed 15/15 passed.
+- blocker: post-deploy-smoke-runner - Post-deploy smoke is post-deploy-smoke-observed-live; origin https://moshequ.github.io/autonomous-game-lab; checks 15/15 passed, 0 blocked; local artifact predeploy-artifact-smoke-passed 15/15 passed.
 - pass: live-site-monitor - Live monitor is live-site-monitor-passed; origin https://moshequ.github.io/autonomous-game-lab; checks 15/15 passed; live matches synced deploy true.
 - pass: product-optimization - Product optimizer is product-optimization-ready; completion 0.397 vs gate 0.55; latest action already-applied.
 - pass: first-move-coach - First-move coach is first-move-coach-ready; enabled targets 6; primary harbor-rings.
@@ -72,8 +72,8 @@ Status: ready-after-build
 - pass: production-bootstrap - Production bootstrap is production-bootstrap-ready; mode can-apply-configured-actions; external blockers 16.
 - pass: production-blocker-handoff - Production blocker handoff is handoff-waiting-on-owner-inputs; owner inputs 5; next unlock support-contact.
 - pass: production-activation - Production activation is activation-ready; mode dry-run; execution dry-run.
-- pass: autonomous-operator - Autonomous operator is operator-executed; selected bootstrap-production-setup; execution executed.
-- pass: autonomous-operator-history - Autonomous operator history is operator-history-ready; records 40; executed 8.
+- pass: autonomous-operator - Autonomous operator is operator-executed; selected collect-gate-sample-downloads; execution executed.
+- pass: autonomous-operator-history - Autonomous operator history is operator-history-ready; records 40; executed 9.
 - pass: autonomous-cadence - Autonomous cadence is cadence-ready; Codex active-confirmed; GitHub scheduled.
 - pass: autonomous-self-update - Autonomous self-update is self-update-ready; safe pending 17; unsafe pending 0; remote push held.
 - pass: objective-audit - Objective audit is objective-in-progress; met 6 / 8; can complete false.
@@ -116,23 +116,23 @@ Installs: 0
 ## Performance Budget
 
 Status: performance-budget-ready
-Initial JS: 675 KB (183.3 KB gzip)
-Deferred game chunk: GameCanvas-Dpy11mR5.js
-- pass: performance-initial-js-budget - Initial JS is 675 KB; budget is 675 KB.
-- pass: performance-initial-js-gzip-budget - Initial JS gzip is 183.3 KB; budget is 200 KB.
+Initial JS: 674.4 KB (183.2 KB gzip)
+Deferred game chunk: GameCanvas-bSnqwu4f.js
+- pass: performance-initial-js-budget - Initial JS is 674.4 KB; budget is 675 KB.
+- pass: performance-initial-js-gzip-budget - Initial JS gzip is 183.2 KB; budget is 200 KB.
 - pass: performance-initial-css-budget - Initial CSS is 10.4 KB; budget is 40 KB.
 - pass: performance-manifest - PWA manifest exists in dist.
 - pass: performance-service-worker - Service worker exists in dist.
-- pass: performance-game-runtime-deferred - GameCanvas-Dpy11mR5.js is deferred from the initial shell.
-- pass: performance-largest-js-deferred - Largest JS chunk is GameCanvas-Dpy11mR5.js at 1361.1 KB.
+- pass: performance-game-runtime-deferred - GameCanvas-bSnqwu4f.js is deferred from the initial shell.
+- pass: performance-largest-js-deferred - Largest JS chunk is GameCanvas-bSnqwu4f.js at 1361.1 KB.
 - pass: performance-deferred-game-budget - Deferred game chunk is 1361.1 KB; monitor budget is 1600 KB.
 
 ## Release Candidate
 
 Status: release-candidate-ready
-Candidate: pwa-d2f466eecf66
+Candidate: pwa-545418073d24
 Files: 44
-Aggregate SHA-256: d2f466eecf668a79609b0c7fdbc6055549df8236a7a4d4328f3c798e8229379d
+Aggregate SHA-256: 545418073d24f77f80c916bbcb8520a3f708af7c364a7cddc5647e8122870b4e
 - pass: release-dist-inventory - 44 dist files inventoried.
 - pass: release-required-files - 19/19 required files present.
 - pass: release-game-pages - 10 generated game page(s) in dist.
@@ -281,14 +281,14 @@ Next unlock: support-contact
 
 Status: operator-executed
 Mode: execute-one-action
-Selected action: bootstrap-production-setup
+Selected action: collect-gate-sample-downloads
 Execution: executed
 
 ## Autonomous Operator History
 
 Status: operator-history-ready
 Records: 40
-Executed: 8
+Executed: 9
 
 ## Autonomous Cadence
 
