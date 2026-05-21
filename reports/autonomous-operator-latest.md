@@ -1,10 +1,10 @@
 # Autonomous Operator
 
-Generated: 2026-05-21T00:18:42.798Z
+Generated: 2026-05-21T00:22:50.255Z
 Status: operator-plan-ready
 Mode: plan-only
-Owner decision: check-performance-budget
-Selected action: check-performance-budget
+Owner decision: refresh-product-gate-recovery
+Selected action: refresh-product-gate-recovery
 Execution: not-requested
 
 ## Controls
@@ -18,7 +18,7 @@ Execution: not-requested
 
 ## Selected Action
 
-- check-performance-budget: npm run build && npm run autonomous:performance
+- refresh-product-gate-recovery: npm run autonomous:gate-recovery
 
 ## Eligible Local Actions
 
@@ -42,7 +42,7 @@ Execution: not-requested
 - refresh-support-feedback: not-selected-this-run
 - optimize-daily-retention: status-monitor
 - measure-pwa-install-loop: not-selected-this-run
+- check-performance-budget: not-selected-this-run
 - prepare-release-candidate: not-selected-this-run
 - run-post-deploy-smoke: not-selected-this-run
 - sync-post-deploy-artifact: status-monitor
-- optimize-product-gates: status-monitor
