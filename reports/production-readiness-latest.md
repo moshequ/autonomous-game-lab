@@ -1,6 +1,6 @@
 # Production Readiness
 
-Generated: 2026-05-21T19:01:53.090Z
+Generated: 2026-05-21T19:05:45.938Z
 
 ## Environment
 
@@ -59,7 +59,7 @@ Status: ready-after-build
 - pass: organic-seed-loop - Organic seed loop is organic-seed-loop-ready; target canopy-bloom; player-initiated share guard active.
 - pass: retention-loop - Retention loop is retention-loop-ready; daily challenge canopy-bloom; no-push/no-account guardrails active.
 - pass: pwa-install-loop - PWA install loop is pwa-install-loop-ready; prompt surface autonomy-cockpit; cost $0.
-- pass: performance-budget - Performance budget is performance-budget-ready; initial JS 675.7 KB / 183.6 KB gzip; deferred game chunk GameCanvas-BFjOvqQg.js.
+- pass: performance-budget - Performance budget is performance-budget-ready; initial JS 675.7 KB / 183.7 KB gzip; deferred game chunk GameCanvas-D5IfsIEE.js.
 - pass: release-candidate - Release candidate is release-candidate-ready; files 47; smoke URLs 16.
 - pass: post-deploy-smoke-runner - Post-deploy smoke is post-deploy-smoke-observed-live; origin https://moshequ.github.io/autonomous-game-lab; checks 17/17 passed, 0 blocked; local artifact predeploy-artifact-smoke-passed 17/17 passed.
 - pass: live-site-monitor - Live monitor is live-site-monitor-passed; origin https://moshequ.github.io/autonomous-game-lab; checks 17/17 passed; live matches synced deploy true.
@@ -72,8 +72,8 @@ Status: ready-after-build
 - pass: production-bootstrap - Production bootstrap is production-bootstrap-ready; mode can-apply-configured-actions; external blockers 16.
 - pass: production-blocker-handoff - Production blocker handoff is handoff-waiting-on-owner-inputs; owner inputs 4; next unlock production-analytics-browser.
 - pass: production-activation - Production activation is activation-ready; mode dry-run; execution dry-run.
-- pass: autonomous-operator - Autonomous operator is operator-plan-ready; selected optimize-store-listing; execution not-requested.
-- pass: autonomous-operator-history - Autonomous operator history is operator-history-ready; records 40; executed 7.
+- pass: autonomous-operator - Autonomous operator is operator-plan-ready; selected seed-portfolio-traffic; execution not-requested.
+- pass: autonomous-operator-history - Autonomous operator history is operator-history-ready; records 40; executed 8.
 - pass: autonomous-cadence - Autonomous cadence is cadence-ready; Codex active-confirmed; GitHub scheduled.
 - pass: autonomous-self-update - Autonomous self-update is self-update-ready; safe pending 94; unsafe pending 0; remote push held.
 - pass: objective-audit - Objective audit is objective-in-progress; met 6 / 8; can complete false.
@@ -116,23 +116,23 @@ Installs: 0
 ## Performance Budget
 
 Status: performance-budget-ready
-Initial JS: 675.7 KB (183.6 KB gzip)
-Deferred game chunk: GameCanvas-BFjOvqQg.js
+Initial JS: 675.7 KB (183.7 KB gzip)
+Deferred game chunk: GameCanvas-D5IfsIEE.js
 - pass: performance-initial-js-budget - Initial JS is 675.7 KB; budget is 676 KB.
-- pass: performance-initial-js-gzip-budget - Initial JS gzip is 183.6 KB; budget is 200 KB.
+- pass: performance-initial-js-gzip-budget - Initial JS gzip is 183.7 KB; budget is 200 KB.
 - pass: performance-initial-css-budget - Initial CSS is 10.5 KB; budget is 40 KB.
 - pass: performance-manifest - PWA manifest exists in dist.
 - pass: performance-service-worker - Service worker exists in dist.
-- pass: performance-game-runtime-deferred - GameCanvas-BFjOvqQg.js is deferred from the initial shell.
-- pass: performance-largest-js-deferred - Largest JS chunk is GameCanvas-BFjOvqQg.js at 1361.1 KB.
+- pass: performance-game-runtime-deferred - GameCanvas-D5IfsIEE.js is deferred from the initial shell.
+- pass: performance-largest-js-deferred - Largest JS chunk is GameCanvas-D5IfsIEE.js at 1361.1 KB.
 - pass: performance-deferred-game-budget - Deferred game chunk is 1361.1 KB; monitor budget is 1600 KB.
 
 ## Release Candidate
 
 Status: release-candidate-ready
-Candidate: pwa-f4215e36bff6
+Candidate: pwa-f7d50e2e2eaf
 Files: 47
-Aggregate SHA-256: f4215e36bff649562ab97d207eabffad2415c86bd26a7a79a137cbd598001bac
+Aggregate SHA-256: f7d50e2e2eafe9522a84741776d7836ab3c5f1bc353755cfb7d42f5745f1890d
 - pass: release-dist-inventory - 47 dist files inventoried.
 - pass: release-required-files - 21/21 required files present.
 - pass: release-game-pages - 10 generated game page(s) in dist.
@@ -146,7 +146,7 @@ Aggregate SHA-256: f4215e36bff649562ab97d207eabffad2415c86bd26a7a79a137cbd598001
 
 Status: post-deploy-smoke-observed-live
 Origin: https://moshequ.github.io/autonomous-game-lab
-Candidate: pwa-f4215e36bff6
+Candidate: pwa-f7d50e2e2eaf
 Checks: 17/17 passed (0 blocked)
 Local artifact: predeploy-artifact-smoke-passed (17/17 passed)
 - pass: smoke-app-shell - Live URL matched status and required text.
@@ -170,14 +170,14 @@ Local artifact: predeploy-artifact-smoke-passed (17/17 passed)
 ## Post-Deploy Artifact Sync
 
 Status: post-deploy-artifact-sync-passed
-Workflow run: 26246911671
-Artifact candidate: pwa-422c56366d2b
-Live candidate: pwa-422c56366d2b
+Workflow run: 26247102516
+Artifact candidate: pwa-d3bad41e978f
+Live candidate: pwa-d3bad41e978f
 Live matches artifact: true
 - pass: artifact-sync-gh-cli - gh version 2.92.0 (2026-04-28)
 - pass: artifact-sync-github-repository - Target repository is moshequ/autonomous-game-lab.
-- pass: artifact-sync-explicit-pages-run - Explicit web-pwa-deploy.yml run is 26246911671.
-- pass: artifact-sync-post-deploy-smoke-artifact - Downloaded post-deploy-smoke artifact from run 26246911671.
+- pass: artifact-sync-explicit-pages-run - Explicit web-pwa-deploy.yml run is 26247102516.
+- pass: artifact-sync-post-deploy-smoke-artifact - Downloaded post-deploy-smoke artifact from run 26247102516.
 - pass: artifact-sync-strict-smoke-artifact - Artifact status post-deploy-smoke-passed; strict manifest comparison true; checks 17/17.
 - pass: artifact-sync-live-release-manifest - Live release-candidate.json still matches the strict smoke artifact.
 
@@ -186,7 +186,7 @@ Live matches artifact: true
 Status: live-site-monitor-passed
 Origin: https://moshequ.github.io/autonomous-game-lab
 Checks: 17/17 passed (0 failed)
-Live candidate: pwa-422c56366d2b
+Live candidate: pwa-d3bad41e978f
 Live matches synced deploy: true
 - pass: live-monitor-app-shell - Live read-only check passed.
 - pass: live-monitor-manifest-webmanifest - Live read-only check passed.
@@ -283,14 +283,14 @@ Next unlock: production-analytics-browser
 
 Status: operator-plan-ready
 Mode: plan-only
-Selected action: optimize-store-listing
+Selected action: seed-portfolio-traffic
 Execution: not-requested
 
 ## Autonomous Operator History
 
 Status: operator-history-ready
 Records: 40
-Executed: 7
+Executed: 8
 
 ## Autonomous Cadence
 
@@ -341,16 +341,16 @@ Can mark complete: false
 
 ## Distribution
 
-Store package: blocked
+Store package: draft-ready
 - pass: store-listing - Generated store listing copy exists and fits Google Play short-description limits.
-- blocker: store-listing-optimizer - Store listing optimizer is store-listing-optimizer-ready; focus canopy-bloom.
+- pass: store-listing-optimizer - Store listing optimizer is store-listing-optimizer-ready; focus canopy-bloom.
 - pass: google-data-safety - Google Play data safety draft exists.
 - pass: apple-privacy-labels - Apple App Privacy label draft exists.
 - pass: native-packaging-path - Android TWA packaging draft exists while signing remains blocked.
 - pass: native-package-handoff - Android native handoff is blocked-draft-ready.
 - pass: ios-app-store-handoff - iOS App Store handoff is deferred-until-ios-payback.
 - pass: android-signing-prep - Android signing is signing-prepared; fingerprint available.
-- blocker: store-screenshots - Generated store screenshot assets are screenshots-ready; 4 screenshots attached.
+- pass: store-screenshots - Generated store screenshot assets are screenshots-ready; 4 screenshots attached.
 - pass: store-compliance - Store compliance is draft-ready-external-blockers.
 - pass: compliance-publication-pack - Compliance publication is waiting-for-production-inputs.
 

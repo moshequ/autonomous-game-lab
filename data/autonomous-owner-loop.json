@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2026-05-21T19:01:53.033Z",
+  "generatedAt": "2026-05-21T19:05:45.883Z",
   "status": "owner-loop-ready",
   "mode": "zero-spend-web-ready",
   "autonomyScore": {
-    "readySystems": 42,
+    "readySystems": 43,
     "totalSystems": 44,
-    "percent": 95
+    "percent": 98
   },
   "controls": {
     "localLoopCanRunWithoutExternalAccounts": true,
@@ -23,24 +23,25 @@
     "heldForExternalInput": false
   },
   "ownerDecision": {
-    "nextBestActionId": "optimize-store-listing",
-    "nextBestAction": "npm run autonomous:store-package && npm run autonomous:store-listing-optimize && npm run autonomous:store-compliance",
+    "nextBestActionId": "seed-portfolio-traffic",
+    "nextBestAction": "npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop",
     "canExecuteWithoutSpend": true,
     "localActionAvailable": true,
     "holdReason": null,
-    "rationale": "Refreshes the base store package, optimized copy, screenshot priority, and compliance drafts from behavior signals."
+    "rationale": "Under-measured playable games need free organic/internal traffic before quality judgment."
   },
   "executionMemory": {
     "avoidImmediateRepeat": true,
     "recentExecutionWindow": 8,
     "recentExecutedActionIds": [
+      "optimize-store-listing",
       "seed-portfolio-traffic",
       "refresh-product-gate-recovery",
       "refresh-replay-loop",
       "refresh-completion-loop",
       "bootstrap-production-setup"
     ],
-    "lastExecutedActionId": "seed-portfolio-traffic",
+    "lastExecutedActionId": "optimize-store-listing",
     "lastExecutedStatus": "executed",
     "lastRecordExecutionStatus": "not-requested",
     "recentlySatisfiedActionIds": [
@@ -49,7 +50,7 @@
     "objectiveAuditFreshness": {
       "fresh": true,
       "structurallyReady": true,
-      "auditGeneratedAt": "2026-05-21T19:01:52.471Z",
+      "auditGeneratedAt": "2026-05-21T19:05:45.324Z",
       "evaluatedInputIds": [
         "analytics-rollup",
         "event-ingest",
@@ -73,7 +74,7 @@
         "ready": true,
         "status": "cadence-ready",
         "artifactGeneratedAt": "2026-05-21T17:52:12.741Z",
-        "ageHours": 1.161,
+        "ageHours": 1.226,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -84,7 +85,7 @@
         "ready": true,
         "status": "self-update-ready",
         "artifactGeneratedAt": "2026-05-21T18:05:44.615Z",
-        "ageHours": 0.936,
+        "ageHours": 1,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -95,7 +96,7 @@
         "ready": true,
         "status": "support-feedback-empty",
         "artifactGeneratedAt": "2026-05-21T17:48:59.987Z",
-        "ageHours": 1.215,
+        "ageHours": 1.279,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -105,8 +106,8 @@
         "fresh": true,
         "ready": true,
         "status": "performance-budget-ready",
-        "artifactGeneratedAt": "2026-05-21T19:01:45.018Z",
-        "ageHours": 0.002,
+        "artifactGeneratedAt": "2026-05-21T19:05:35.697Z",
+        "ageHours": 0.003,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -116,7 +117,7 @@
         "fresh": true,
         "ready": true,
         "status": "live-site-monitor-passed",
-        "artifactGeneratedAt": "2026-05-21T19:01:51.321Z",
+        "artifactGeneratedAt": "2026-05-21T19:05:44.199Z",
         "ageHours": 0,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
@@ -264,7 +265,7 @@
         "current": true,
         "ready": true,
         "status": "store-package-ready",
-        "artifactGeneratedAt": "2026-05-21T18:55:01.856Z",
+        "artifactGeneratedAt": "2026-05-21T19:03:02.557Z",
         "artifactSourceDataHash": "1fe2ff1fcc27",
         "sourceDataHash": "1fe2ff1fcc27",
         "evaluatedInputIds": [
@@ -276,12 +277,12 @@
         ]
       },
       "storeListingOptimizer": {
-        "current": false,
-        "ready": false,
+        "current": true,
+        "ready": true,
         "status": "store-listing-optimizer-ready",
-        "artifactGeneratedAt": "2026-05-21T18:41:48.972Z",
-        "artifactSourceDataHash": "173e7332eb0d",
-        "sourceDataHash": "f9093d8eca79",
+        "artifactGeneratedAt": "2026-05-21T19:03:02.817Z",
+        "artifactSourceDataHash": "5f215da809ad",
+        "sourceDataHash": "5f215da809ad",
         "evaluatedInputIds": [
           "store-package",
           "store-assets",
@@ -296,12 +297,12 @@
         ]
       },
       "storeCompliance": {
-        "current": false,
-        "ready": false,
+        "current": true,
+        "ready": true,
         "status": "draft-ready-external-blockers",
-        "artifactGeneratedAt": "2026-05-21T18:41:49.230Z",
-        "artifactSourceDataHash": "ad7ce60a4398",
-        "sourceDataHash": "4437afde4eb5",
+        "artifactGeneratedAt": "2026-05-21T19:03:03.053Z",
+        "artifactSourceDataHash": "0b95081a0f85",
+        "sourceDataHash": "0b95081a0f85",
         "evaluatedInputIds": [
           "store-package",
           "monetization-plan",
@@ -410,11 +411,10 @@
       "liveSiteMonitorFresh": true,
       "smokeActionFresh": true,
       "releaseCandidateActionFresh": true,
-      "liveCandidateId": "pwa-422c56366d2b",
-      "artifactCandidateId": "pwa-422c56366d2b"
+      "liveCandidateId": "pwa-d3bad41e978f",
+      "artifactCandidateId": "pwa-d3bad41e978f"
     },
     "skippedRecentlyExecutedActionIds": [
-      "seed-portfolio-traffic",
       "refresh-product-gate-recovery",
       "refresh-replay-loop"
     ],
@@ -455,7 +455,7 @@
     },
     "productionBootstrapFreshness": {
       "fresh": true,
-      "bootstrapGeneratedAt": "2026-05-21T19:01:51.619Z",
+      "bootstrapGeneratedAt": "2026-05-21T19:05:44.492Z",
       "evaluatedInputIds": [
         "release-candidate",
         "deployment-plan",
@@ -470,7 +470,7 @@
       "current": true,
       "ready": true,
       "status": "handoff-waiting-on-owner-inputs",
-      "generatedAt": "2026-05-21T19:01:51.916Z",
+      "generatedAt": "2026-05-21T19:05:44.787Z",
       "nextBestUnlockId": "production-analytics-browser",
       "ownerActionRequired": 4,
       "missingEnv": 7,
@@ -592,7 +592,7 @@
       "id": "performance-budget",
       "status": "ready",
       "autonomy": "automatic-build-budget",
-      "evidence": "Initial JS 675.7 KB; gzip 183.6 KB; deferred chunks 2.",
+      "evidence": "Initial JS 675.7 KB; gzip 183.7 KB; deferred chunks 2.",
       "nextAction": "Keep Phaser and game scenes outside the initial PWA shell."
     },
     {
@@ -691,13 +691,13 @@
       "status": "ready",
       "autonomy": "read-only-live-deploy-verification",
       "evidence": "Smoke post-deploy-smoke-observed-live; origin https://moshequ.github.io/autonomous-game-lab; manifest comparison required; checks 17/17 passed; local artifact predeploy-artifact-smoke-passed 17/17 passed.",
-      "nextAction": "Live Pages is reachable and serving pwa-422c56366d2b; run the deploy workflow for strict proof of the current local candidate if needed."
+      "nextAction": "Live Pages is reachable and serving pwa-d3bad41e978f; run the deploy workflow for strict proof of the current local candidate if needed."
     },
     {
       "id": "post-deploy-artifact-sync",
       "status": "ready",
       "autonomy": "read-only-actions-artifact-import",
-      "evidence": "Artifact sync post-deploy-artifact-sync-passed; run 26246911671; live matches artifact true; strict true.",
+      "evidence": "Artifact sync post-deploy-artifact-sync-passed; run 26247102516; live matches artifact true; strict true.",
       "nextAction": "Keep this strict deploy artifact as live-production evidence while local candidates continue to iterate."
     },
     {
@@ -739,14 +739,14 @@
       "id": "autonomous-operator",
       "status": "ready",
       "autonomy": "one-safe-action-runner",
-      "evidence": "Operator operator-plan-ready; selected optimize-store-listing; execution not-requested.",
+      "evidence": "Operator operator-plan-ready; selected seed-portfolio-traffic; execution not-requested.",
       "nextAction": "Keep a dry-run operator plan ready, then execute only one allowlisted local action when explicitly requested."
     },
     {
       "id": "operator-history",
       "status": "ready",
       "autonomy": "operator-audit-trail",
-      "evidence": "History operator-history-ready; records 40; executed 7.",
+      "evidence": "History operator-history-ready; records 40; executed 8.",
       "nextAction": "Keep a capped durable record of operator plans and one-action executions."
     },
     {
@@ -758,7 +758,7 @@
     },
     {
       "id": "store-listing-optimizer",
-      "status": "needs-attention",
+      "status": "ready",
       "autonomy": "automatic-aso-draft",
       "evidence": "Focus canopy-bloom; lead screenshot phone-canopy-bloom-generated; candidate changed yes.",
       "nextAction": "Use Canopy Bloom as the store listing focus instead of lantern-relay."
@@ -899,7 +899,7 @@
       "command": "npm run build && npm run autonomous:performance && npm run autonomous:release-candidate",
       "targets": [
         "pwa-shell",
-        "GameCanvas-BFjOvqQg.js",
+        "GameCanvas-D5IfsIEE.js",
         "dist-release-candidate"
       ],
       "reason": "Performance budget and release-candidate evidence are already fresh for the current guarded build."
@@ -932,7 +932,7 @@
       "costUsd": 0,
       "command": "npm run autonomous:post-deploy-artifact-sync",
       "targets": [
-        26246911671,
+        26247102516,
         "release-candidate-manifest"
       ],
       "reason": "Strict deploy artifact evidence is already synced from the latest successful Pages workflow."
@@ -1070,7 +1070,7 @@
       "costUsd": 0,
       "command": "npm run autonomous:operator",
       "targets": [
-        "optimize-store-listing"
+        "seed-portfolio-traffic"
       ],
       "reason": "One-action operator plan is already published; avoid cycling on meta-operator refreshes."
     },
@@ -1080,7 +1080,7 @@
       "costUsd": 0,
       "command": "npm run autonomous:operator",
       "targets": [
-        "optimize-store-listing"
+        "seed-portfolio-traffic"
       ],
       "reason": "Operator history is already capped and published; keep attention on product evidence."
     },
@@ -1097,13 +1097,13 @@
     },
     {
       "id": "optimize-store-listing",
-      "status": "armed",
+      "status": "monitor",
       "costUsd": 0,
       "command": "npm run autonomous:store-package && npm run autonomous:store-listing-optimize && npm run autonomous:store-compliance",
       "targets": [
         "canopy-bloom"
       ],
-      "reason": "Refreshes the base store package, optimized copy, screenshot priority, and compliance drafts from behavior signals."
+      "reason": "Store package, listing copy, screenshot priority, and compliance drafts already match current growth, support, monetization, and store evidence."
     },
     {
       "id": "prepare-android-signing",

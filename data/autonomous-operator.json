@@ -1,22 +1,25 @@
 {
-  "generatedAt": "2026-05-21T19:03:03.065Z",
-  "status": "operator-executed",
-  "mode": "execute-one-action",
+  "generatedAt": "2026-05-21T19:05:45.700Z",
+  "status": "operator-plan-ready",
+  "mode": "plan-only",
   "ownerDecision": {
-    "actionId": "optimize-store-listing",
-    "command": "npm run autonomous:store-package && npm run autonomous:store-listing-optimize && npm run autonomous:store-compliance",
+    "actionId": "seed-portfolio-traffic",
+    "command": "npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop",
     "locallyExecutable": true,
     "rejectionReason": null
   },
-  "requestedActionId": "optimize-store-listing",
+  "requestedActionId": null,
   "selectedAction": {
-    "id": "optimize-store-listing",
+    "id": "seed-portfolio-traffic",
     "status": "armed",
-    "command": "npm run autonomous:store-package && npm run autonomous:store-listing-optimize && npm run autonomous:store-compliance",
+    "command": "npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop",
     "targets": [
-      "canopy-bloom"
+      "canopy-bloom",
+      "grove-engine",
+      "mosaic-haven",
+      "metro-loom"
     ],
-    "reason": "Refreshes the base store package, optimized copy, screenshot priority, and compliance drafts from behavior signals.",
+    "reason": "Under-measured playable games need free organic/internal traffic before quality judgment.",
     "costUsd": 0
   },
   "selectedRejection": null,
@@ -24,8 +27,7 @@
     "seed-portfolio-traffic",
     "refresh-organic-seed-loop",
     "refresh-product-gate-recovery",
-    "refresh-replay-loop",
-    "optimize-store-listing"
+    "refresh-replay-loop"
   ],
   "blockedActions": [
     {
@@ -51,12 +53,6 @@
       "status": "monitor",
       "command": "npm run autonomous:self-update",
       "reason": "status-monitor"
-    },
-    {
-      "id": "seed-portfolio-traffic",
-      "status": "armed",
-      "command": "npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop",
-      "reason": "not-selected-this-run"
     },
     {
       "id": "refresh-organic-seed-loop",
@@ -197,6 +193,12 @@
       "reason": "status-monitor"
     },
     {
+      "id": "optimize-store-listing",
+      "status": "monitor",
+      "command": "npm run autonomous:store-package && npm run autonomous:store-listing-optimize && npm run autonomous:store-compliance",
+      "reason": "status-monitor"
+    },
+    {
       "id": "prepare-android-signing",
       "status": "monitor",
       "command": "npm run autonomous:android-signing",
@@ -223,64 +225,32 @@
   ],
   "commandPlan": [
     {
-      "segment": "npm run autonomous:store-package",
-      "script": "autonomous:store-package"
+      "segment": "npm run autonomous:growth",
+      "script": "autonomous:growth"
     },
     {
-      "segment": "npm run autonomous:store-listing-optimize",
-      "script": "autonomous:store-listing-optimize"
+      "segment": "npm run autonomous:portfolio",
+      "script": "autonomous:portfolio"
     },
     {
-      "segment": "npm run autonomous:store-compliance",
-      "script": "autonomous:store-compliance"
+      "segment": "npm run autonomous:traffic",
+      "script": "autonomous:traffic"
+    },
+    {
+      "segment": "npm run autonomous:acquisition",
+      "script": "autonomous:acquisition"
+    },
+    {
+      "segment": "npm run autonomous:organic-seed-loop",
+      "script": "autonomous:organic-seed-loop"
     }
   ],
   "execution": {
-    "requested": true,
-    "status": "executed",
+    "requested": false,
+    "status": "not-requested",
     "maxActionsPerRun": 1,
-    "attemptedActionId": "optimize-store-listing",
-    "results": [
-      {
-        "script": "autonomous:store-package",
-        "exitCode": 0,
-        "stdoutTail": [
-          "> autonomous-game-lab@0.0.0 autonomous:store-package",
-          "> node scripts/store-packager.mjs",
-          "Wrote data/store-package.json",
-          "Wrote reports/store-package-latest.md",
-          "Wrote public/privacy.html",
-          "Wrote public/support.html",
-          "Wrote public/compliance.json"
-        ],
-        "stderrTail": []
-      },
-      {
-        "script": "autonomous:store-listing-optimize",
-        "exitCode": 0,
-        "stdoutTail": [
-          "> autonomous-game-lab@0.0.0 autonomous:store-listing-optimize",
-          "> node scripts/store-listing-optimizer.mjs",
-          "Updated data/store-package.json",
-          "Wrote data/store-listing-optimizer.json",
-          "Wrote src/data/storeListingOptimizer.ts",
-          "Wrote reports/store-listing-optimizer-latest.md"
-        ],
-        "stderrTail": []
-      },
-      {
-        "script": "autonomous:store-compliance",
-        "exitCode": 0,
-        "stdoutTail": [
-          "> autonomous-game-lab@0.0.0 autonomous:store-compliance",
-          "> node scripts/store-compliance.mjs",
-          "Wrote data/store-compliance.json",
-          "Wrote src/data/storeCompliance.ts",
-          "Wrote reports/store-compliance-latest.md"
-        ],
-        "stderrTail": []
-      }
-    ]
+    "attemptedActionId": null,
+    "results": []
   },
   "controls": {
     "zeroPaidSpend": true,
@@ -346,7 +316,7 @@
     "RUN_WORKFLOWS=1"
   ],
   "nextActions": [
-    "Review optimize-store-listing execution results before another operator run.",
+    "Run npm run autonomous:operator -- --execute --action=seed-portfolio-traffic to execute exactly one allowed local action.",
     "Do not execute GitHub workflow, store, paid ads, or account setup commands from the local operator."
   ]
 }
