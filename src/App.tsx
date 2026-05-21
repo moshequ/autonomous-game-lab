@@ -123,6 +123,25 @@ const isPlayableGameId = (value: string | null): value is PlayableGameId =>
 const hasExplicitEntryRoute = (params: URLSearchParams) =>
   Boolean(params.get('game') || params.get('utm_source') || params.get('utm_campaign'))
 
+const getRuntimeBasePath = () => {
+  const basePath = import.meta.env.BASE_URL || '/'
+  return basePath.endsWith('/') ? basePath : `${basePath}/`
+}
+
+const resolveRuntimePathname = (pathname: string) => {
+  const basePath = getRuntimeBasePath()
+
+  if (!pathname || pathname === '/') {
+    return basePath
+  }
+
+  if (basePath !== '/' && pathname.startsWith(basePath)) {
+    return pathname
+  }
+
+  return basePath === '/' ? pathname : `${basePath.replace(/\/$/, '')}${pathname}`
+}
+
 const getAutonomousDefaultGateSampleMission = () => {
   const primaryMission = productGateSamplePlan.missions[0] ?? null
   const fastestMission =
@@ -1284,7 +1303,7 @@ function App() {
         urlOrPath.startsWith('/')
 
       if (generatedPlaceholderHost) {
-        return `${window.location.origin}${campaignUrl.pathname}${campaignUrl.search}${campaignUrl.hash}`
+        return `${window.location.origin}${resolveRuntimePathname(campaignUrl.pathname)}${campaignUrl.search}${campaignUrl.hash}`
       }
 
       return campaignUrl.toString()

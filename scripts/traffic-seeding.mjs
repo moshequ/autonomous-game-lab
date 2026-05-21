@@ -336,9 +336,13 @@ const nextShareManifest = {
 
 const seedKitCards = campaigns
   .map(
-    (campaign) => `
+    (campaign) => {
+      const runtimeSharePath = runtimeHref(campaign.sharePath)
+      const runtimePagePath = runtimeHref(campaign.pagePath)
+
+      return `
       <article class="campaign" data-campaign-id="${escapeHtml(campaign.id)}" data-share-path="${escapeHtml(
-        campaign.sharePath,
+        runtimeSharePath,
       )}" data-game-id="${escapeHtml(campaign.gameId)}" data-share-title="${escapeHtml(
         campaign.copy.title,
       )}" data-share-text="${escapeHtml(campaign.copy.text)}">
@@ -348,8 +352,8 @@ const seedKitCards = campaigns
           <p>${escapeHtml(campaign.copy.text)}</p>
         </div>
         <div class="actions">
-          <a href="${escapeHtml(campaign.sharePath)}" data-seed-link>Seed link</a>
-          <a class="secondary" href="${escapeHtml(campaign.pagePath)}">Organic page</a>
+          <a href="${escapeHtml(runtimeSharePath)}" data-seed-link>Seed link</a>
+          <a class="secondary" href="${escapeHtml(runtimePagePath)}">Organic page</a>
           <button type="button" data-seed-action="copy">Copy share text</button>
           <button class="secondary" type="button" data-seed-action="share">Share</button>
         </div>
@@ -360,10 +364,11 @@ const seedKitCards = campaigns
         </dl>
         <label>
           Share copy
-          <textarea data-share-copy readonly>${escapeHtml(`${campaign.copy.title}\n${campaign.copy.text}\n${campaign.sharePath}`)}</textarea>
+          <textarea data-share-copy readonly>${escapeHtml(`${campaign.copy.title}\n${campaign.copy.text}\n${runtimeSharePath}`)}</textarea>
         </label>
         <p class="status" data-seed-status aria-live="polite"></p>
-      </article>`,
+      </article>`
+    },
   )
   .join('\n')
 const gateSampleStrip = defaultGateSampleMission

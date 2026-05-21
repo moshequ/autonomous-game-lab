@@ -1041,13 +1041,17 @@ if (
   !seedKitHtml.includes('organic_seed_share_clicked') ||
   !seedKitHtml.includes('seed_campaign_clicked') ||
   !seedKitHtml.includes('navigator.share') ||
-  seedKitHtml.includes('autonomous-game-lab.example.com')
+  seedKitHtml.includes('autonomous-game-lab.example.com') ||
+  seedKitHtml.includes('href="/?game=') ||
+  seedKitHtml.includes('data-share-path="/?game=')
 ) {
-  fail('Traffic seeding must publish zero-cost campaigns, UTM/share links, a runtime-origin seed kit, player-initiated sharing controls, and sample-size guardrails for every seed game.')
+  fail('Traffic seeding must publish zero-cost campaigns, UTM/share links, a runtime-base-safe seed kit, player-initiated sharing controls, and sample-size guardrails for every seed game.')
 }
 
 if (
   !appSource.includes('resolveRuntimeCampaignUrl') ||
+  !appSource.includes('resolveRuntimePathname') ||
+  !appSource.includes('import.meta.env.BASE_URL') ||
   !appSource.includes('replaceHistoryWithCampaignUrl') ||
   !appSource.includes('trafficProgressForCampaign') ||
   !appSource.includes('exportTrafficCampaignEvidence') ||
