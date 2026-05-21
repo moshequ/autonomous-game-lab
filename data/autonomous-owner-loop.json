@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-21T04:37:28.330Z",
+  "generatedAt": "2026-05-21T04:45:39.703Z",
   "status": "owner-loop-ready",
   "mode": "zero-spend-web-ready",
   "autonomyScore": {
@@ -21,32 +21,32 @@
     "repositoryHandoffPrepared": false
   },
   "ownerDecision": {
-    "nextBestActionId": "refresh-autonomous-cadence",
-    "nextBestAction": "npm run autonomous:cadence",
+    "nextBestActionId": "prepare-release-candidate",
+    "nextBestAction": "npm run autonomous:release-candidate",
     "canExecuteWithoutSpend": true,
-    "rationale": "Keeps the unattended daily operating cadence, recovery policy, and verification chain auditable."
+    "rationale": "Records a content-hashed dist inventory and post-deploy smoke plan for the exact PWA build."
   },
   "executionMemory": {
     "avoidImmediateRepeat": true,
     "recentExecutionWindow": 8,
     "recentExecutedActionIds": [
+      "check-performance-budget",
+      "refresh-support-feedback",
+      "measure-pwa-install-loop",
+      "refresh-autonomous-self-update",
+      "refresh-autonomous-cadence",
       "optimize-store-listing",
       "refresh-product-gate-recovery",
-      "bootstrap-production-setup",
-      "prepare-release-candidate",
-      "run-post-deploy-smoke",
-      "check-performance-budget",
-      "measure-pwa-install-loop",
-      "refresh-support-feedback"
+      "bootstrap-production-setup"
     ],
-    "lastExecutedActionId": "optimize-store-listing",
+    "lastExecutedActionId": "check-performance-budget",
     "lastExecutedStatus": "executed",
     "lastRecordExecutionStatus": "not-requested",
     "recentlySatisfiedActionIds": [],
     "objectiveAuditFreshness": {
       "fresh": true,
       "structurallyReady": true,
-      "auditGeneratedAt": "2026-05-21T04:37:27.624Z",
+      "auditGeneratedAt": "2026-05-21T04:45:38.900Z",
       "evaluatedInputIds": [
         "analytics-rollup",
         "event-ingest",
@@ -236,11 +236,11 @@
       "staleInputIds": []
     },
     "skippedRecentlyExecutedActionIds": [
+      "refresh-autonomous-cadence",
+      "refresh-autonomous-self-update",
       "refresh-support-feedback",
       "measure-pwa-install-loop",
       "check-performance-budget",
-      "prepare-release-candidate",
-      "run-post-deploy-smoke",
       "refresh-product-gate-recovery",
       "optimize-store-listing"
     ],
@@ -277,7 +277,7 @@
     },
     "productionBootstrapFreshness": {
       "fresh": true,
-      "bootstrapGeneratedAt": "2026-05-21T04:37:07.600Z",
+      "bootstrapGeneratedAt": "2026-05-21T04:45:17.384Z",
       "evaluatedInputIds": [
         "release-candidate",
         "deployment-plan",
@@ -491,13 +491,13 @@
       "status": "ready",
       "autonomy": "read-only-live-deploy-verification",
       "evidence": "Smoke post-deploy-smoke-observed-live; origin https://moshequ.github.io/autonomous-game-lab; manifest comparison required; checks 15/15 passed; local artifact predeploy-artifact-smoke-passed 15/15 passed.",
-      "nextAction": "Live Pages is reachable and serving pwa-98326ad96dbb; run the deploy workflow for strict proof of the current local candidate if needed."
+      "nextAction": "Live Pages is reachable and serving pwa-33bad7df1202; run the deploy workflow for strict proof of the current local candidate if needed."
     },
     {
       "id": "post-deploy-artifact-sync",
       "status": "ready",
       "autonomy": "read-only-actions-artifact-import",
-      "evidence": "Artifact sync post-deploy-artifact-sync-passed; run 26205454144; live matches artifact true; strict true.",
+      "evidence": "Artifact sync post-deploy-artifact-sync-passed; run 26205755285; live matches artifact true; strict true.",
       "nextAction": "Keep this strict deploy artifact as live-production evidence while local candidates continue to iterate."
     },
     {
@@ -525,7 +525,7 @@
       "id": "autonomous-operator",
       "status": "ready",
       "autonomy": "one-safe-action-runner",
-      "evidence": "Operator operator-plan-ready; selected refresh-autonomous-cadence; execution not-requested.",
+      "evidence": "Operator operator-plan-ready; selected prepare-release-candidate; execution not-requested.",
       "nextAction": "Keep a dry-run operator plan ready, then execute only one allowlisted local action when explicitly requested."
     },
     {
@@ -674,7 +674,7 @@
       "command": "npm run build && npm run autonomous:performance",
       "targets": [
         "pwa-shell",
-        "GameCanvas-COTNO7yT.js"
+        "GameCanvas-DgVvnsAF.js"
       ],
       "reason": "Keeps the PWA shell fast while Phaser and game scenes stay deferred."
     },
@@ -705,7 +705,7 @@
       "costUsd": 0,
       "command": "npm run autonomous:post-deploy-artifact-sync",
       "targets": [
-        26205454144,
+        26205755285,
         "release-candidate-manifest"
       ],
       "reason": "Strict deploy artifact evidence is already synced from the latest successful Pages workflow."
@@ -822,7 +822,7 @@
       "costUsd": 0,
       "command": "npm run autonomous:operator",
       "targets": [
-        "refresh-autonomous-cadence"
+        "prepare-release-candidate"
       ],
       "reason": "Publishes the one-action local execution plan with allowlist, zero-spend, and audit controls."
     },
@@ -832,7 +832,7 @@
       "costUsd": 0,
       "command": "npm run autonomous:operator",
       "targets": [
-        "refresh-autonomous-cadence"
+        "prepare-release-candidate"
       ],
       "reason": "Refreshes the capped operator history so safe actions remain auditable over time."
     },

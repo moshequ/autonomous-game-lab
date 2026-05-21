@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-21T04:24:05.818Z",
+  "generatedAt": "2026-05-21T04:42:15.011Z",
   "status": "self-update-ready",
   "mode": "plan-and-assert",
   "envFiles": {
@@ -75,6 +75,13 @@
     "safe": [
       {
         "code": "M",
+        "path": "data/autonomous-cadence.json",
+        "raw": " M data/autonomous-cadence.json",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
         "path": "data/autonomous-operator-history.json",
         "raw": " M data/autonomous-operator-history.json",
         "safe": true,
@@ -110,8 +117,8 @@
       },
       {
         "code": "M",
-        "path": "data/release-candidate.json",
-        "raw": " M data/release-candidate.json",
+        "path": "reports/autonomous-cadence-latest.md",
+        "raw": " M reports/autonomous-cadence-latest.md",
         "safe": true,
         "reason": "allowlisted-generated-artifact"
       },
@@ -152,8 +159,8 @@
       },
       {
         "code": "M",
-        "path": "reports/release-candidate-latest.md",
-        "raw": " M reports/release-candidate-latest.md",
+        "path": "src/data/autonomousCadence.ts",
+        "raw": " M src/data/autonomousCadence.ts",
         "safe": true,
         "reason": "allowlisted-generated-artifact"
       },
@@ -184,13 +191,6 @@
         "raw": " M src/data/objectiveAudit.ts",
         "safe": true,
         "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "src/data/releaseCandidate.ts",
-        "raw": " M src/data/releaseCandidate.ts",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
       }
     ],
     "unsafe": [],
@@ -207,23 +207,23 @@
       "npm run autonomous:self-update -- --assert-safe"
     ],
     "stagePaths": [
+      "data/autonomous-cadence.json",
       "data/autonomous-operator-history.json",
       "data/autonomous-operator.json",
       "data/autonomous-owner-loop.json",
       "data/objective-audit.json",
       "data/production-readiness.json",
-      "data/release-candidate.json",
+      "reports/autonomous-cadence-latest.md",
       "reports/autonomous-operator-history-latest.md",
       "reports/autonomous-operator-latest.md",
       "reports/autonomous-owner-loop-latest.md",
       "reports/objective-audit-latest.md",
       "reports/production-readiness-latest.md",
-      "reports/release-candidate-latest.md",
+      "src/data/autonomousCadence.ts",
       "src/data/autonomousOperator.ts",
       "src/data/autonomousOperatorHistory.ts",
       "src/data/autonomousOwnerLoop.ts",
       "src/data/objectiveAudit.ts",
-      "src/data/releaseCandidate.ts",
       "data/autonomous-self-update.json",
       "src/data/autonomousSelfUpdate.ts",
       "reports/autonomous-self-update-latest.md"
