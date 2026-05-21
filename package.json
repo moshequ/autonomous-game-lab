@@ -22,7 +22,7 @@
     "autonomous:support-feedback": "node scripts/support-feedback-ingestor.mjs",
     "autonomous:icons": "node scripts/icon-asset-generator.mjs",
     "autonomous:local-event-bridge": "node scripts/local-event-bridge.mjs",
-    "autonomous:collect-sample-downloads": "AGL_LOCAL_EVENT_IMPORT_DOWNLOADS=true node scripts/local-event-bridge.mjs && npm run autonomous:import-events && npm run autonomous:analytics && npm run autonomous:gate-recovery && npm run autonomous:sample-plan",
+    "autonomous:collect-sample-downloads": "AGL_LOCAL_EVENT_IMPORT_DOWNLOADS=true node scripts/local-event-bridge.mjs && npm run autonomous:import-events && npm run autonomous:analytics && npm run autonomous:gate-recovery && npm run autonomous:sample-plan && npm run autonomous:retention",
     "autonomous:import-events": "node scripts/event-ingestor.mjs",
     "autonomous:event-collector-smoke": "node scripts/event-collector-smoke.mjs",
     "autonomous:collector-deploy-plan": "node scripts/event-collector-deploy-plan.mjs",

@@ -1,5 +1,6 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises'
 import path from 'node:path'
+import { hashSourceData } from './lib/source-hash.mjs'
 
 const root = process.cwd()
 const dataDir = path.join(root, 'data')
@@ -35,6 +36,40 @@ const replayLoop = await readJson(path.join(dataDir, 'replay-loop.json'))
 const retentionLoop = await readJson(path.join(dataDir, 'retention-loop.json'))
 const firstMoveCoach = await readJson(path.join(dataDir, 'first-move-coach.json'))
 const monetization = await readJson(path.join(dataDir, 'monetization-plan.json'))
+const completionLoopSourceEvidence = {
+  status: completionLoop.status,
+  promptPolicy: {
+    surface: completionLoop.promptPolicy?.surface ?? null,
+    telemetry: completionLoop.promptPolicy?.telemetry ?? null,
+  },
+  finishLinePolicy: {
+    telemetry: completionLoop.finishLinePolicy?.telemetry ?? null,
+  },
+}
+const replayLoopSourceEvidence = {
+  status: replayLoop.status,
+  promptPolicy: {
+    surface: replayLoop.promptPolicy?.surface ?? null,
+    telemetry: replayLoop.promptPolicy?.telemetry ?? null,
+  },
+}
+const retentionLoopSourceEvidence = {
+  status: retentionLoop.status,
+  promptPolicy: {
+    telemetry: retentionLoop.promptPolicy?.telemetry ?? null,
+  },
+  returnIntentPolicy: {
+    surface: retentionLoop.returnIntentPolicy?.surface ?? null,
+    telemetry: retentionLoop.returnIntentPolicy?.telemetry ?? null,
+  },
+}
+const firstMoveCoachSourceEvidence = {
+  status: firstMoveCoach.status,
+}
+const monetizationSourceEvidence = {
+  status: monetization.status,
+  revenueEnabled: monetization.revenueEnabled === true,
+}
 
 const counts = analytics.totals?.counts ?? {}
 const metrics = analytics.totals?.metrics ?? {}
@@ -204,9 +239,20 @@ const recoveryExperiments = gateRows.map((gate) => ({
 }))
 const primaryExperiment =
   recoveryExperiments.find((experiment) => experiment.gateId === primaryBottleneck.id) ?? recoveryExperiments[0]
+const sourceDataHash = hashSourceData({
+  analytics,
+  gates,
+  productOptimization,
+  completionLoop: completionLoopSourceEvidence,
+  replayLoop: replayLoopSourceEvidence,
+  retentionLoop: retentionLoopSourceEvidence,
+  firstMoveCoach: firstMoveCoachSourceEvidence,
+  monetization: monetizationSourceEvidence,
+})
 
 const payload = {
   generatedAt: new Date().toISOString(),
+  sourceDataHash,
   status: 'product-gate-recovery-ready',
   sourceStatus: {
     analyticsSource: analytics.sourceStatus?.activeSource ?? 'unknown',
@@ -258,6 +304,7 @@ const report = [
   '',
   `Generated: ${payload.generatedAt}`,
   `Status: ${payload.status}`,
+  `Source hash: ${payload.sourceDataHash}`,
   `Analytics source: ${payload.sourceStatus.analyticsSource}`,
   `Failing gates: ${payload.summary.failingGates}`,
   `Primary bottleneck: ${payload.summary.primaryBottleneck}`,

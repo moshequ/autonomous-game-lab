@@ -1,5 +1,6 @@
 export const productGateSamplePlan = {
-  "generatedAt": "2026-05-21T07:00:29.565Z",
+  "generatedAt": "2026-05-21T07:34:35.637Z",
+  "sourceDataHash": "4cb61c4b43c7",
   "status": "product-gate-sample-plan-ready",
   "sourceStatus": {
     "analyticsSource": "fixture-sample",
@@ -24,7 +25,7 @@ export const productGateSamplePlan = {
     "inboxReadyCount": 0,
     "downloadsScanStatus": "no-evidence-found",
     "downloadsScanCoolingDown": true,
-    "downloadsScanNextRecommendedAt": "2026-05-21T07:15:21.477Z",
+    "downloadsScanNextRecommendedAt": "2026-05-21T11:28:33.578Z",
     "nextOwnerAction": "collect-gate-sample-downloads"
   },
   "downloadsScan": {
@@ -32,11 +33,11 @@ export const productGateSamplePlan = {
     "cooldownHours": 4,
     "coolingDown": true,
     "evidenceReadyNow": false,
-    "lastScanAt": "2026-05-21T03:15:21.477Z",
+    "lastScanAt": "2026-05-21T07:28:33.578Z",
     "lastScanStatus": "no-evidence-found",
-    "scanAgeHours": 0,
-    "cooldownRemainingHours": 4,
-    "nextRecommendedScanAt": "2026-05-21T07:15:21.477Z"
+    "scanAgeHours": 0.1,
+    "cooldownRemainingHours": 3.9,
+    "nextRecommendedScanAt": "2026-05-21T11:28:33.578Z"
   },
   "publicSamplePage": {
     "path": "/gate-sample.html",
@@ -340,7 +341,7 @@ export const productGateSamplePlan = {
   ],
   "commandPlan": {
     "refreshPlan": "npm run autonomous:sample-plan",
-    "collectAndRefresh": "npm run autonomous:local-event-bridge && npm run autonomous:import-events && npm run autonomous:analytics && npm run autonomous:gate-recovery && npm run autonomous:sample-plan",
+    "collectAndRefresh": "npm run autonomous:local-event-bridge && npm run autonomous:import-events && npm run autonomous:analytics && npm run autonomous:gate-recovery && npm run autonomous:sample-plan && npm run autonomous:retention",
     "collectDownloadsAndRefresh": "npm run autonomous:collect-sample-downloads",
     "primaryLoopRefresh": "npm run autonomous:completion-loop"
   },
@@ -361,7 +362,7 @@ export const productGateSamplePlan = {
   "nextActions": [
     "First game completion needs 30 more prompt exposure(s) and 128 observed success(es); feature Harbor Rings via /?game=harbor-rings&utm_source=gate_sample&utm_campaign=gate-sample-20260521-firstGameCompletion.",
     "D1 retention is the fastest gate sample: 10 prompt exposure(s), 1 observed success(es).",
-    "Wait until 2026-05-21T07:15:21.477Z before the next explicit Downloads scan unless an inbox event drop appears."
+    "Wait until 2026-05-21T11:28:33.578Z before the next explicit Downloads scan unless an inbox event drop appears."
   ]
 } as const
 

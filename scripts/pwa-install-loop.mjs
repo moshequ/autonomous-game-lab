@@ -1,5 +1,6 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises'
 import path from 'node:path'
+import { hashSourceData } from './lib/source-hash.mjs'
 
 const root = process.cwd()
 const dataDir = path.join(root, 'data')
@@ -80,9 +81,38 @@ const installSampleNextAction = !hostedOriginConfigured
   : installSampleReady
     ? 'Review PWA install acceptance and standalone launch evidence before app-store packaging.'
     : `Route zero-spend install traffic through ${installPlayPath} until ${promptViewsNeeded} prompt view(s) and ${launchModesNeeded} launch-mode event(s) are collected.`
+const sourceDataHash = hashSourceData({
+  analytics: {
+    sourceStatus: analytics.sourceStatus,
+    counts,
+  },
+  growthInstallChannel,
+  acquisition: {
+    status: acquisition.status,
+    summary: acquisition.summary ?? null,
+  },
+  retention: {
+    status: retention.status,
+    dailyChallenge: retention.dailyChallenge ?? null,
+  },
+  releaseHealth: {
+    status: releaseHealth.status,
+    canDeploy: releaseHealth.controls?.canDeploy ?? null,
+  },
+  iconAssets: {
+    status: iconAssets.status,
+    manifestIcons: iconAssets.manifestIcons ?? [],
+    assets: iconAssets.assets ?? [],
+  },
+  productionEnvironment: {
+    publicOrigin: environment.publicOrigin ?? {},
+  },
+  viteConfig,
+})
 
 const payload = {
   generatedAt: new Date().toISOString(),
+  sourceDataHash,
   status:
     manifestConfigured && serviceWorkerConfigured && iconCoverageReady && growthInstallChannel
       ? 'pwa-install-loop-ready'
@@ -259,6 +289,7 @@ const report = [
   '',
   `Generated: ${payload.generatedAt}`,
   `Status: ${payload.status}`,
+  `Source hash: ${payload.sourceDataHash}`,
   `Channel: ${payload.channel.id} (${payload.channel.status})`,
   `Install page views: ${payload.metrics.installPageViews}`,
   `Open-app clicks: ${payload.metrics.installOpenClicks}`,

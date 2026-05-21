@@ -1,5 +1,7 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises'
 import path from 'node:path'
+import { buildExplicitDownloadsScanPolicy, stableDownloadsScanPolicySource } from './lib/downloads-scan-policy.mjs'
+import { hashSourceData } from './lib/source-hash.mjs'
 
 const root = process.cwd()
 const dataDir = path.join(root, 'data')
@@ -73,6 +75,11 @@ const trafficCampaignByGame = new Map((trafficSeeding.campaigns ?? []).map((camp
 const gateById = new Map((productGateRecovery.gates ?? []).map((gate) => [gate.id, gate]))
 const priorityByGateId = new Map((productGateRecovery.priorities ?? []).map((priority) => [priority.gateId, priority]))
 const primaryCandidate = productOptimization.candidates?.[0]
+const retentionLoopSourceEvidence = {
+  status: retentionLoop.status,
+  dailyChallenge: retentionLoop.dailyChallenge ?? null,
+  returnIntentSurface: retentionLoop.returnIntentPolicy?.surface ?? null,
+}
 
 const gameTargetForGate = (gate) => {
   if (gate.id === 'd1Retention') {
@@ -183,17 +190,16 @@ const sampleReadyCount = missions.filter((mission) => mission.status === 'ready-
 const localEventsAvailable = localEventBridge.imported?.localEventsAvailable === true
 const importedGateSampleEvents = localEventBridge.gateSampleEvidence?.imported?.events ?? 0
 const inboxGateSampleEvents = localEventBridge.gateSampleEvidence?.inbox?.events ?? 0
-const downloadsScanPolicy = localEventBridge.explicitDownloadsScanPolicy ?? {
-  explicitOptInRequired: true,
-  cooldownHours: 4,
-  coolingDown: false,
-  evidenceReadyNow: importedGateSampleEvents > 0 || inboxGateSampleEvents > 0,
-  lastScanAt: localEventBridge.explicitDownloadsScan?.scannedAt ?? null,
-  lastScanStatus: localEventBridge.explicitDownloadsScan?.status ?? null,
-  scanAgeHours: null,
-  cooldownRemainingHours: 0,
-  nextRecommendedScanAt: new Date().toISOString(),
-}
+const generatedAt = new Date().toISOString()
+const downloadsScanExpiryBufferMs = 60 * 1000
+const downloadsScanPolicy = buildExplicitDownloadsScanPolicy({
+  explicitDownloadsScan: localEventBridge.explicitDownloadsScan,
+  gateSampleEvidence: localEventBridge.gateSampleEvidence,
+  generatedAt,
+  cooldownHours: localEventBridge.explicitDownloadsScanPolicy?.cooldownHours ?? 4,
+  expiryBufferMs: downloadsScanExpiryBufferMs,
+})
+const downloadsScanPolicySource = stableDownloadsScanPolicySource(downloadsScanPolicy)
 const gateSampleCampaigns = [
   ...(localEventBridge.gateSampleEvidence?.imported?.campaigns ?? []).map((campaign) => ({
     ...campaign,
@@ -258,9 +264,24 @@ const sampleCollectionNextAction = localEventsAvailable
     : downloadsScanPolicy.coolingDown
       ? `Wait until ${downloadsScanPolicy.nextRecommendedScanAt} before the next explicit Downloads scan unless an inbox event drop appears.`
       : `Export or collect real browser events, then run ${collectSampleDownloadsCommand} before changing copy, placement, revenue, or rules.`
+const sourceDataHash = hashSourceData({
+  sampleDate: localIsoDate(),
+  productGateRecovery,
+  productOptimization,
+  analytics,
+  trafficSeeding,
+  organicSeedLoop,
+  retentionLoop: retentionLoopSourceEvidence,
+  completionLoop,
+  replayLoop,
+  localEventBridge,
+  downloadsScanPolicy: downloadsScanPolicySource,
+  unitEconomics,
+})
 
 const payload = {
-  generatedAt: new Date().toISOString(),
+  generatedAt,
+  sourceDataHash,
   status: 'product-gate-sample-plan-ready',
   sourceStatus: {
     analyticsSource: analytics.sourceStatus?.activeSource ?? 'unknown',
@@ -359,7 +380,7 @@ const payload = {
   commandPlan: {
     refreshPlan: 'npm run autonomous:sample-plan',
     collectAndRefresh:
-      'npm run autonomous:local-event-bridge && npm run autonomous:import-events && npm run autonomous:analytics && npm run autonomous:gate-recovery && npm run autonomous:sample-plan',
+      'npm run autonomous:local-event-bridge && npm run autonomous:import-events && npm run autonomous:analytics && npm run autonomous:gate-recovery && npm run autonomous:sample-plan && npm run autonomous:retention',
     collectDownloadsAndRefresh: collectSampleDownloadsCommand,
     primaryLoopRefresh: primaryMission?.refreshCommands?.[0] ?? null,
   },
@@ -393,6 +414,7 @@ const report = [
   '',
   `Generated: ${payload.generatedAt}`,
   `Status: ${payload.status}`,
+  `Source hash: ${payload.sourceDataHash}`,
   `Analytics source: ${payload.sourceStatus.analyticsSource}`,
   `Primary gate: ${payload.summary.primaryGateId ?? 'none'}`,
   `Prompt views needed: ${payload.summary.totalPromptViewsNeeded}`,

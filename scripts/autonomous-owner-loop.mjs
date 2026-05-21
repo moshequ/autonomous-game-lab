@@ -1,5 +1,6 @@
 import { mkdir, readdir, readFile, writeFile } from 'node:fs/promises'
 import path from 'node:path'
+import { buildExplicitDownloadsScanPolicy, stableDownloadsScanPolicySource } from './lib/downloads-scan-policy.mjs'
 import { hashRawSourceData, hashSourceData, hashTextSourceData, sourceFreshness } from './lib/source-hash.mjs'
 
 const root = process.cwd()
@@ -13,6 +14,7 @@ const readOptionalJson = async (filePath, fallback) =>
   readFile(filePath, 'utf8')
     .then((raw) => JSON.parse(raw))
     .catch(() => fallback)
+const readText = async (filePath) => readFile(filePath, 'utf8').catch(() => '')
 const readAcquisitionLocalEvents = async () => {
   const localEventsDir = path.resolve(root, process.env.AGL_LOCAL_EVENTS_DIR ?? 'data/player-events')
   let files = []
@@ -83,6 +85,8 @@ const organicSeedLoop = await readOptionalJson(path.join(dataDir, 'organic-seed-
 })
 const retention = await readJson(path.join(dataDir, 'retention-loop.json'))
 const pwaInstall = await readJson(path.join(dataDir, 'pwa-install-loop.json'))
+const iconAssets = await readJson(path.join(dataDir, 'icon-assets.json'))
+const viteConfig = await readText(path.join(root, 'vite.config.ts'))
 const performanceBudget = await readOptionalJson(path.join(dataDir, 'performance-budget.json'), {
   status: 'missing',
   budgets: {},
@@ -1070,15 +1074,15 @@ const gateSampleEvidenceReadyNow =
   (localEventBridge.gateSampleEvidence?.imported?.events ?? 0) > 0
 const gateSampleDownloadsBackoffHours = 4
 const gateSampleDownloadsExpiryBufferMs = 60 * 1000
-const explicitDownloadsScanAt = Date.parse(localEventBridge.explicitDownloadsScan?.scannedAt ?? '')
-const explicitDownloadsScanRecent =
-  Number.isFinite(explicitDownloadsScanAt) &&
-  Date.now() + gateSampleDownloadsExpiryBufferMs - explicitDownloadsScanAt <
-    gateSampleDownloadsBackoffHours * 60 * 60 * 1000
-const gateSampleDownloadsScanCoolingDown =
-  explicitDownloadsScanRecent &&
-  localEventBridge.explicitDownloadsScan?.evidenceFound === false &&
-  !gateSampleEvidenceReadyNow
+const gateSampleDownloadsPolicy = buildExplicitDownloadsScanPolicy({
+  explicitDownloadsScan: localEventBridge.explicitDownloadsScan,
+  gateSampleEvidence: localEventBridge.gateSampleEvidence,
+  cooldownHours: gateSampleDownloadsBackoffHours,
+  expiryBufferMs: gateSampleDownloadsExpiryBufferMs,
+})
+const gateSampleDownloadsPolicySource = stableDownloadsScanPolicySource(gateSampleDownloadsPolicy)
+const explicitDownloadsScanAt = Date.parse(gateSampleDownloadsPolicy.lastScanAt ?? '')
+const gateSampleDownloadsScanCoolingDown = gateSampleDownloadsPolicy.coolingDown
 const productGateSamplePlanFreshAfterDownloadsScan =
   Number.isFinite(explicitDownloadsScanAt) &&
   Number.isFinite(Date.parse(productGateSamplePlan.generatedAt ?? '')) &&
@@ -1241,6 +1245,92 @@ const organicSeedLoopSourceEvidence = {
   retention,
   unitEconomics,
 }
+const pwaInstallSourceEvidence = {
+  analytics: {
+    sourceStatus: analytics.sourceStatus,
+    counts: analytics.totals?.counts ?? {},
+  },
+  growthInstallChannel: (growth.channels ?? []).find((channel) => channel.id === 'pwa-install') ?? null,
+  acquisition: {
+    status: acquisition.status,
+    summary: acquisition.summary ?? null,
+  },
+  retention: {
+    status: retention.status,
+    dailyChallenge: retention.dailyChallenge ?? null,
+  },
+  releaseHealth: {
+    status: releaseHealth.status,
+    canDeploy: releaseHealth.controls?.canDeploy ?? null,
+  },
+  iconAssets: {
+    status: iconAssets.status,
+    manifestIcons: iconAssets.manifestIcons ?? [],
+    assets: iconAssets.assets ?? [],
+  },
+  productionEnvironment: {
+    publicOrigin: productionEnvironment.publicOrigin ?? {},
+  },
+  viteConfig,
+}
+const productGateRecoverySourceEvidence = {
+  analytics,
+  gates: productionGates,
+  productOptimization,
+  completionLoop: {
+    status: completionLoop.status,
+    promptPolicy: {
+      surface: completionLoop.promptPolicy?.surface ?? null,
+      telemetry: completionLoop.promptPolicy?.telemetry ?? null,
+    },
+    finishLinePolicy: {
+      telemetry: completionLoop.finishLinePolicy?.telemetry ?? null,
+    },
+  },
+  replayLoop: {
+    status: replayLoop.status,
+    promptPolicy: {
+      surface: replayLoop.promptPolicy?.surface ?? null,
+      telemetry: replayLoop.promptPolicy?.telemetry ?? null,
+    },
+  },
+  retentionLoop: {
+    status: retention.status,
+    promptPolicy: {
+      telemetry: retention.promptPolicy?.telemetry ?? null,
+    },
+    returnIntentPolicy: {
+      surface: retention.returnIntentPolicy?.surface ?? null,
+      telemetry: retention.returnIntentPolicy?.telemetry ?? null,
+    },
+  },
+  firstMoveCoach: {
+    status: firstMoveCoach.status,
+  },
+  monetization: {
+    status: monetization.status,
+    revenueEnabled: monetization.revenueEnabled === true,
+  },
+}
+const productGateSamplePlanRetentionSourceEvidence = {
+  status: retention.status,
+  dailyChallenge: retention.dailyChallenge ?? null,
+  returnIntentSurface: retention.returnIntentPolicy?.surface ?? null,
+}
+const productGateSamplePlanSourceEvidence = {
+  sampleDate: localIsoDate(),
+  productGateRecovery,
+  productOptimization,
+  analytics,
+  trafficSeeding: traffic,
+  organicSeedLoop,
+  retentionLoop: productGateSamplePlanRetentionSourceEvidence,
+  completionLoop,
+  replayLoop,
+  localEventBridge,
+  downloadsScanPolicy: gateSampleDownloadsPolicySource,
+  unitEconomics,
+}
 const productOptimizationFreshness = sourceFreshness({
   artifact: productOptimization,
   readyStatuses: ['product-optimization-ready'],
@@ -1302,6 +1392,54 @@ const organicSeedLoopFreshness = sourceFreshness({
     { id: 'unit-economics', data: unitEconomics },
   ],
   sourceDataHash: hashSourceData(organicSeedLoopSourceEvidence),
+})
+const pwaInstallFreshness = sourceFreshness({
+  artifact: pwaInstall,
+  readyStatuses: ['pwa-install-loop-ready'],
+  inputs: [
+    { id: 'analytics-rollup', data: analytics },
+    { id: 'growth-plan', data: growth },
+    { id: 'acquisition-learning', data: acquisition },
+    { id: 'retention-loop', data: retention },
+    { id: 'release-health', data: releaseHealth },
+    { id: 'icon-assets', data: iconAssets },
+    { id: 'production-environment', data: productionEnvironment },
+    { id: 'vite-config', data: viteConfig },
+  ],
+  sourceDataHash: hashSourceData(pwaInstallSourceEvidence),
+})
+const productGateRecoveryFreshness = sourceFreshness({
+  artifact: productGateRecovery,
+  readyStatuses: ['product-gate-recovery-ready'],
+  inputs: [
+    { id: 'analytics-rollup', data: analytics },
+    { id: 'production-gates', data: productionGates },
+    { id: 'product-optimization', data: productOptimization },
+    { id: 'completion-loop', data: completionLoop },
+    { id: 'replay-loop', data: replayLoop },
+    { id: 'retention-loop', data: retention },
+    { id: 'first-move-coach', data: firstMoveCoach },
+    { id: 'monetization-plan', data: monetization },
+  ],
+  sourceDataHash: hashSourceData(productGateRecoverySourceEvidence),
+})
+const productGateSamplePlanFreshness = sourceFreshness({
+  artifact: productGateSamplePlan,
+  readyStatuses: ['product-gate-sample-plan-ready'],
+  inputs: [
+    { id: 'sample-date', data: localIsoDate() },
+    { id: 'product-gate-recovery', data: productGateRecovery },
+    { id: 'product-optimization', data: productOptimization },
+    { id: 'analytics-rollup', data: analytics },
+    { id: 'traffic-seeding', data: traffic },
+    { id: 'organic-seed-loop', data: organicSeedLoop },
+    { id: 'retention-loop', data: retention },
+    { id: 'completion-loop', data: completionLoop },
+    { id: 'replay-loop', data: replayLoop },
+    { id: 'local-event-bridge', data: localEventBridge },
+    { id: 'unit-economics', data: unitEconomics },
+  ],
+  sourceDataHash: hashSourceData(productGateSamplePlanSourceEvidence),
 })
 const firstMoveCoachFreshness = sourceFreshness({
   artifact: firstMoveCoach,
@@ -1455,11 +1593,13 @@ const safeAutonomousActions = [
   },
   {
     id: 'measure-pwa-install-loop',
-    status: pwaInstall.status === 'pwa-install-loop-ready' ? 'armed' : 'monitor',
+    status: pwaInstallFreshness.current ? 'monitor' : pwaInstall.status === 'pwa-install-loop-ready' ? 'armed' : 'monitor',
     costUsd: 0,
     command: 'npm run autonomous:pwa-install',
     targets: [pwaInstall.channel?.id ?? 'pwa-install'],
-    reason: 'Measures optional PWA install prompts and standalone launches as the zero-cost distribution path.',
+    reason: pwaInstallFreshness.current
+      ? 'PWA install loop already matches current analytics, acquisition, retention, hosting, icons, and PWA config.'
+      : 'Measures optional PWA install prompts and standalone launches as the zero-cost distribution path.',
   },
   {
     id: 'check-performance-budget',
@@ -1516,14 +1656,22 @@ const safeAutonomousActions = [
   },
   {
     id: 'refresh-product-gate-recovery',
-    status: productGateRecovery.status === 'product-gate-recovery-ready' ? 'armed' : 'monitor',
+    status:
+      productGateRecoveryFreshness.current && productGateSamplePlanFreshness.current
+        ? 'monitor'
+        : productGateRecovery.status === 'product-gate-recovery-ready'
+          ? 'armed'
+          : 'monitor',
     costUsd: 0,
     command: 'npm run autonomous:gate-recovery && npm run autonomous:sample-plan',
     targets: [
       productGateRecovery.summary?.primaryBottleneck ?? 'product-gate-recovery',
       productGateSamplePlan.summary?.primaryGateId ?? 'product-gate-sample-plan',
     ],
-    reason: 'Ranks the exact observed lift and immediately refreshes the zero-spend sample missions before revenue gates can open.',
+    reason:
+      productGateRecoveryFreshness.current && productGateSamplePlanFreshness.current
+        ? 'Product-gate recovery and sample missions already match current gate, analytics, loop, and event-bridge evidence.'
+        : 'Ranks the exact observed lift and immediately refreshes the zero-spend sample missions before revenue gates can open.',
   },
   {
     id: 'collect-gate-sample-downloads',
@@ -1544,13 +1692,16 @@ const safeAutonomousActions = [
     id: 'refresh-product-gate-sample-plan',
     status:
       productGateSamplePlan.status === 'product-gate-sample-plan-ready' &&
+      !productGateSamplePlanFreshness.current &&
       !(gateSampleDownloadsScanCoolingDown && productGateSamplePlanFreshAfterDownloadsScan)
         ? 'armed'
         : 'monitor',
     costUsd: 0,
     command: 'npm run autonomous:sample-plan',
     targets: [productGateSamplePlan.summary?.primaryGateId ?? productGateRecovery.summary?.primaryBottleneck ?? 'product-gates'],
-    reason: 'Turns gate deficits into zero-cost player-initiated sample missions and exact refresh commands.',
+    reason: productGateSamplePlanFreshness.current
+      ? 'Product-gate sample plan already matches current recovery, traffic, event-bridge, and daily sample-date inputs.'
+      : 'Turns gate deficits into zero-cost player-initiated sample missions and exact refresh commands.',
   },
   {
     id: 'refresh-first-move-coach',
@@ -1858,6 +2009,9 @@ const payload = {
       trafficSeeding: trafficSeedingFreshness,
       acquisitionLearning: acquisitionLearningFreshness,
       organicSeedLoop: organicSeedLoopFreshness,
+      pwaInstallLoop: pwaInstallFreshness,
+      productGateRecovery: productGateRecoveryFreshness,
+      productGateSamplePlan: productGateSamplePlanFreshness,
       firstMoveCoach: firstMoveCoachFreshness,
       completionLoop: completionLoopFreshness,
       replayLoop: replayLoopFreshness,

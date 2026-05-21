@@ -1,7 +1,13 @@
 import { readdir, readFile } from 'node:fs/promises'
 import path from 'node:path'
+import { buildExplicitDownloadsScanPolicy, stableDownloadsScanPolicySource } from './lib/downloads-scan-policy.mjs'
+import { hashSourceData } from './lib/source-hash.mjs'
 
 const root = process.cwd()
+const localIsoDate = (date = new Date()) => {
+  const localDate = new Date(date.getTime() - date.getTimezoneOffset() * 60_000)
+  return localDate.toISOString().slice(0, 10)
+}
 const requiredFiles = [
   'data/trend-signals.json',
   'data/trend-cache.json',
@@ -254,6 +260,7 @@ const localEventBridge = JSON.parse(await readFile(path.join(root, 'data', 'loca
 const eventIngest = JSON.parse(await readFile(path.join(root, 'data', 'event-ingest.json'), 'utf8'))
 const eventIngestSmoke = JSON.parse(await readFile(path.join(root, 'data', 'event-ingest-smoke.json'), 'utf8'))
 const analytics = JSON.parse(await readFile(path.join(root, 'data', 'analytics-rollup.json'), 'utf8'))
+const productionGates = JSON.parse(await readFile(path.join(root, 'data', 'production-gates.json'), 'utf8'))
 const growth = JSON.parse(await readFile(path.join(root, 'data', 'growth-plan.json'), 'utf8'))
 const growthPolicy = JSON.parse(await readFile(path.join(root, 'data', 'growth-policy.json'), 'utf8'))
 const growthOptimizer = JSON.parse(await readFile(path.join(root, 'data', 'growth-optimizer.json'), 'utf8'))
@@ -338,6 +345,7 @@ const installHtml = await readFile(path.join(root, 'public', 'install.html'), 'u
 const seedKitHtml = await readFile(path.join(root, 'public', 'seed-kit.html'), 'utf8')
 const supportHtml = await readFile(path.join(root, 'public', 'support.html'), 'utf8')
 const packageJson = JSON.parse(await readFile(path.join(root, 'package.json'), 'utf8'))
+const viteConfig = await readFile(path.join(root, 'vite.config.ts'), 'utf8')
 const appSource = await readFile(path.join(root, 'src', 'App.tsx'), 'utf8')
 const gameCanvasSource = await readFile(path.join(root, 'src', 'components', 'GameCanvas.tsx'), 'utf8')
 const harborRingsSource = await readFile(path.join(root, 'src', 'game', 'HarborRingsScene.ts'), 'utf8')
@@ -370,6 +378,7 @@ const portfolioPolicySource = await readFile(path.join(root, 'scripts', 'portfol
 const retentionLoopSource = await readFile(path.join(root, 'scripts', 'retention-loop.mjs'), 'utf8')
 const pwaInstallLoopSource = await readFile(path.join(root, 'scripts', 'pwa-install-loop.mjs'), 'utf8')
 const trafficSeedingSource = await readFile(path.join(root, 'scripts', 'traffic-seeding.mjs'), 'utf8')
+const productGateRecoverySource = await readFile(path.join(root, 'scripts', 'product-gate-recovery.mjs'), 'utf8')
 const productGateSamplePlanSource = await readFile(
   path.join(root, 'scripts', 'product-gate-sample-planner.mjs'),
   'utf8',
@@ -1217,9 +1226,38 @@ const missingPwaEventType = pwaInstallEvents.find((eventName) => !analyticsLibSo
 const missingPwaRollupEvent = pwaInstallEvents.find(
   (eventName) => !analyticsRollupSource.includes(`'${eventName}'`),
 )
+const pwaInstallSourceDataHash = hashSourceData({
+  analytics: {
+    sourceStatus: analytics.sourceStatus,
+    counts: analytics.totals?.counts ?? {},
+  },
+  growthInstallChannel: (growth.channels ?? []).find((channel) => channel.id === 'pwa-install') ?? null,
+  acquisition: {
+    status: acquisitionLearning.status,
+    summary: acquisitionLearning.summary ?? null,
+  },
+  retention: {
+    status: retentionLoop.status,
+    dailyChallenge: retentionLoop.dailyChallenge ?? null,
+  },
+  releaseHealth: {
+    status: releaseHealth.status,
+    canDeploy: releaseHealth.controls?.canDeploy ?? null,
+  },
+  iconAssets: {
+    status: iconAssets.status,
+    manifestIcons: iconAssets.manifestIcons ?? [],
+    assets: iconAssets.assets ?? [],
+  },
+  productionEnvironment: {
+    publicOrigin: productionEnvironment.publicOrigin ?? {},
+  },
+  viteConfig,
+})
 
 if (
   pwaInstallLoop.status !== 'pwa-install-loop-ready' ||
+  pwaInstallLoop.sourceDataHash !== pwaInstallSourceDataHash ||
   pwaInstallLoop.sourceStatus?.analyticsSource !== analytics.sourceStatus.activeSource ||
   pwaInstallLoop.sourceStatus?.acquisitionLearning !== acquisitionLearning.status ||
   pwaInstallLoop.sourceStatus?.retentionLoop !== retentionLoop.status ||
@@ -1309,6 +1347,7 @@ if (
   !appSource.includes('PWA Install Loop') ||
   !appSource.includes('Install sample') ||
   !pwaInstallLoopSource.includes('minimumPromptViewsForDecision') ||
+  !pwaInstallLoopSource.includes('sourceDataHash') ||
   !pwaInstallLoopSource.includes('installSampleNextAction') ||
   !pwaInstallLoopSource.includes('installPageOpenRate') ||
   !pwaInstallLoopSource.includes('noSyntheticInstalls')
@@ -1449,9 +1488,76 @@ const expectedRetentionNeeded = expectedAdditionalSuccesses({
   denominator: analytics.retention.eligibleUsers,
   successes: analytics.retention.retainedUsers,
 })
+const productGateRecoverySourceDataHash = hashSourceData({
+  analytics,
+  gates: productionGates,
+  productOptimization,
+  completionLoop: {
+    status: completionLoop.status,
+    promptPolicy: {
+      surface: completionLoop.promptPolicy?.surface ?? null,
+      telemetry: completionLoop.promptPolicy?.telemetry ?? null,
+    },
+    finishLinePolicy: {
+      telemetry: completionLoop.finishLinePolicy?.telemetry ?? null,
+    },
+  },
+  replayLoop: {
+    status: replayLoop.status,
+    promptPolicy: {
+      surface: replayLoop.promptPolicy?.surface ?? null,
+      telemetry: replayLoop.promptPolicy?.telemetry ?? null,
+    },
+  },
+  retentionLoop: {
+    status: retentionLoop.status,
+    promptPolicy: {
+      telemetry: retentionLoop.promptPolicy?.telemetry ?? null,
+    },
+    returnIntentPolicy: {
+      surface: retentionLoop.returnIntentPolicy?.surface ?? null,
+      telemetry: retentionLoop.returnIntentPolicy?.telemetry ?? null,
+    },
+  },
+  firstMoveCoach: {
+    status: firstMoveCoach.status,
+  },
+  monetization: {
+    status: monetizationPlan.status,
+    revenueEnabled: monetizationPlan.revenueEnabled === true,
+  },
+})
+const downloadsScanExpiryBufferMs = 60 * 1000
+const productGateSamplePlanDownloadsScanPolicy = buildExplicitDownloadsScanPolicy({
+  explicitDownloadsScan: localEventBridge.explicitDownloadsScan,
+  gateSampleEvidence: localEventBridge.gateSampleEvidence,
+  generatedAt: productGateSamplePlan.generatedAt,
+  cooldownHours: localEventBridge.explicitDownloadsScanPolicy?.cooldownHours ?? 4,
+  expiryBufferMs: downloadsScanExpiryBufferMs,
+})
+const productGateSamplePlanRetentionSourceEvidence = {
+  status: retentionLoop.status,
+  dailyChallenge: retentionLoop.dailyChallenge ?? null,
+  returnIntentSurface: retentionLoop.returnIntentPolicy?.surface ?? null,
+}
+const productGateSamplePlanSourceDataHash = hashSourceData({
+  sampleDate: localIsoDate(),
+  productGateRecovery,
+  productOptimization,
+  analytics,
+  trafficSeeding,
+  organicSeedLoop,
+  retentionLoop: productGateSamplePlanRetentionSourceEvidence,
+  completionLoop,
+  replayLoop,
+  localEventBridge,
+  downloadsScanPolicy: stableDownloadsScanPolicySource(productGateSamplePlanDownloadsScanPolicy),
+  unitEconomics,
+})
 
 if (
   productGateRecovery.status !== 'product-gate-recovery-ready' ||
+  productGateRecovery.sourceDataHash !== productGateRecoverySourceDataHash ||
   productGateRecovery.sourceStatus?.analyticsSource !== analytics.sourceStatus.activeSource ||
   productGateRecovery.sourceStatus?.productOptimization !== productOptimization.status ||
   productGateRecovery.sourceStatus?.monetization !== monetizationPlan.status ||
@@ -1489,7 +1595,8 @@ if (
   recoveryPrimaryExperiment?.canChangePlacement !== false ||
   recoveryPrimaryExperiment?.recommendedChange !== 'hold-current-runtime-copy' ||
   !appSource.includes('Product Gate Recovery') ||
-  !appSource.includes('productGateRecovery')
+  !appSource.includes('productGateRecovery') ||
+  !productGateRecoverySource.includes('sourceDataHash')
 ) {
   fail('Product gate recovery must quantify observed lift, sample needs, and zero-spend controls before revenue can open.')
 }
@@ -1504,6 +1611,7 @@ const sampleRetentionMission = productGateSamplePlan.missions?.find((mission) =>
 
 if (
   productGateSamplePlan.status !== 'product-gate-sample-plan-ready' ||
+  productGateSamplePlan.sourceDataHash !== productGateSamplePlanSourceDataHash ||
   productGateSamplePlan.sourceStatus?.productGateRecovery !== productGateRecovery.status ||
   productGateSamplePlan.sourceStatus?.localEventBridge !== localEventBridge.status ||
   productGateSamplePlan.summary?.primaryGateId !== productGateRecovery.summary?.primaryBottleneck ||
@@ -1516,6 +1624,7 @@ if (
   productGateSamplePlan.commandPlan?.refreshPlan !== 'npm run autonomous:sample-plan' ||
   !productGateSamplePlan.commandPlan?.collectAndRefresh?.includes('autonomous:gate-recovery') ||
   !productGateSamplePlan.commandPlan?.collectAndRefresh?.includes('autonomous:sample-plan') ||
+  !productGateSamplePlan.commandPlan?.collectAndRefresh?.includes('autonomous:retention') ||
   productGateSamplePlan.commandPlan?.collectDownloadsAndRefresh !== 'npm run autonomous:collect-sample-downloads' ||
   productGateSamplePlan.publicSamplePage?.path !== '/gate-sample.html' ||
   productGateSamplePlan.publicSamplePage?.missionCount !== productGateSamplePlan.missions?.length ||
@@ -1543,13 +1652,18 @@ if (
   typeof productGateSamplePlan.summary?.importedGateSampleEvents !== 'number' ||
   typeof productGateSamplePlan.summary?.inboxGateSampleEvents !== 'number' ||
   productGateSamplePlan.summary?.downloadsScanStatus !==
-    (localEventBridge.explicitDownloadsScanPolicy?.lastScanStatus ?? 'not-scanned') ||
-  productGateSamplePlan.summary?.downloadsScanCoolingDown !==
-    localEventBridge.explicitDownloadsScanPolicy?.coolingDown ||
-  productGateSamplePlan.downloadsScan?.cooldownHours !==
-    localEventBridge.explicitDownloadsScanPolicy?.cooldownHours ||
+    (productGateSamplePlanDownloadsScanPolicy.lastScanStatus ?? 'not-scanned') ||
+  productGateSamplePlan.summary?.downloadsScanCoolingDown !== productGateSamplePlanDownloadsScanPolicy.coolingDown ||
+  productGateSamplePlan.summary?.downloadsScanNextRecommendedAt !==
+    productGateSamplePlanDownloadsScanPolicy.nextRecommendedScanAt ||
+  productGateSamplePlan.downloadsScan?.explicitOptInRequired !== true ||
+  productGateSamplePlan.downloadsScan?.cooldownHours !== productGateSamplePlanDownloadsScanPolicy.cooldownHours ||
+  productGateSamplePlan.downloadsScan?.coolingDown !== productGateSamplePlanDownloadsScanPolicy.coolingDown ||
+  productGateSamplePlan.downloadsScan?.evidenceReadyNow !== productGateSamplePlanDownloadsScanPolicy.evidenceReadyNow ||
+  productGateSamplePlan.downloadsScan?.lastScanAt !== productGateSamplePlanDownloadsScanPolicy.lastScanAt ||
+  productGateSamplePlan.downloadsScan?.lastScanStatus !== productGateSamplePlanDownloadsScanPolicy.lastScanStatus ||
   productGateSamplePlan.downloadsScan?.nextRecommendedScanAt !==
-    localEventBridge.explicitDownloadsScanPolicy?.nextRecommendedScanAt ||
+    productGateSamplePlanDownloadsScanPolicy.nextRecommendedScanAt ||
   productGateSamplePlan.controls?.zeroPaidSpend !== true ||
   productGateSamplePlan.controls?.noPaidTraffic !== true ||
   productGateSamplePlan.controls?.noSyntheticGatePasses !== true ||
@@ -1570,11 +1684,13 @@ if (
   sampleRetentionMission?.gameId !== retentionLoop.dailyChallenge?.gameId ||
   !sampleRetentionMission?.sampleRole?.includes('fastest-validation') ||
   !productGateSamplePlanSource.includes('localEventBridge') ||
-  !productGateSamplePlanSource.includes('downloadsScanPolicy') ||
+  !productGateSamplePlanSource.includes('buildExplicitDownloadsScanPolicy') ||
+  !productGateSamplePlanSource.includes('stableDownloadsScanPolicySource') ||
   !productGateSamplePlanSource.includes('productGateRecovery') ||
   !productGateSamplePlanSource.includes('gateSamplePagePath') ||
   !productGateSamplePlanSource.includes('sampleRoleForMission') ||
   !productGateSamplePlanSource.includes('runtimeEvidencePolicy') ||
+  !productGateSamplePlanSource.includes('sourceDataHash') ||
   !productGateSamplePlanSource.includes('publicMissionEvidence') ||
   !productGateSamplePlanSource.includes('safeJsonScript') ||
   !gateSampleHtml.includes('gate-sample-mission-data') ||
@@ -1585,6 +1701,7 @@ if (
   !packageJson.scripts?.['autonomous:collect-sample-downloads']?.includes('AGL_LOCAL_EVENT_IMPORT_DOWNLOADS=true') ||
   !packageJson.scripts?.['autonomous:collect-sample-downloads']?.includes('autonomous:gate-recovery') ||
   !packageJson.scripts?.['autonomous:collect-sample-downloads']?.includes('autonomous:sample-plan') ||
+  !packageJson.scripts?.['autonomous:collect-sample-downloads']?.includes('autonomous:retention') ||
   !packageJson.scripts?.['autonomous:daily']?.includes('autonomous:sample-plan') ||
   !packageJson.scripts?.['autonomous:after-action']?.includes('autonomous:sample-plan') ||
   !analyticsLibSource.includes("'gate_sample_mission_clicked'") ||
@@ -3089,7 +3206,8 @@ if (!packageJson.scripts?.['autonomous:local-event-bridge']?.includes('local-eve
 if (
   !packageJson.scripts?.['autonomous:collect-sample-downloads']?.includes('AGL_LOCAL_EVENT_IMPORT_DOWNLOADS=true') ||
   !packageJson.scripts?.['autonomous:collect-sample-downloads']?.includes('local-event-bridge') ||
-  !packageJson.scripts?.['autonomous:collect-sample-downloads']?.includes('autonomous:sample-plan')
+  !packageJson.scripts?.['autonomous:collect-sample-downloads']?.includes('autonomous:sample-plan') ||
+  !packageJson.scripts?.['autonomous:collect-sample-downloads']?.includes('autonomous:retention')
 ) {
   fail('Autonomous scripts must expose the opt-in gate-sample Downloads collection refresh chain.')
 }
@@ -4883,23 +5001,40 @@ const ownerGateSampleBackoff = autonomousOwnerLoop.executionMemory?.gateSampleDo
 const ownerGateSampleEvidenceReadyNow =
   (localEventBridge.gateSampleEvidence?.inbox?.events ?? 0) > 0 ||
   (localEventBridge.gateSampleEvidence?.imported?.events ?? 0) > 0
-const ownerExplicitDownloadsScanAt = Date.parse(localEventBridge.explicitDownloadsScan?.scannedAt ?? '')
 const ownerGateSampleDownloadsBackoffHours = 4
 const ownerGateSampleDownloadsExpiryBufferMs = 60 * 1000
-const ownerExplicitDownloadsScanRecent =
-  Number.isFinite(ownerExplicitDownloadsScanAt) &&
-  Date.now() + ownerGateSampleDownloadsExpiryBufferMs - ownerExplicitDownloadsScanAt <
-    ownerGateSampleDownloadsBackoffHours * 60 * 60 * 1000
-const ownerGateSampleDownloadsCoolingDown =
-  ownerExplicitDownloadsScanRecent &&
-  localEventBridge.explicitDownloadsScan?.evidenceFound === false &&
-  !ownerGateSampleEvidenceReadyNow
+const ownerGateSampleDownloadsPolicy = buildExplicitDownloadsScanPolicy({
+  explicitDownloadsScan: localEventBridge.explicitDownloadsScan,
+  gateSampleEvidence: localEventBridge.gateSampleEvidence,
+  cooldownHours: ownerGateSampleDownloadsBackoffHours,
+  expiryBufferMs: ownerGateSampleDownloadsExpiryBufferMs,
+})
+const ownerGateSampleDownloadsPolicySource = stableDownloadsScanPolicySource(ownerGateSampleDownloadsPolicy)
+const ownerExplicitDownloadsScanAt = Date.parse(ownerGateSampleDownloadsPolicy.lastScanAt ?? '')
+const ownerGateSampleDownloadsCoolingDown = ownerGateSampleDownloadsPolicy.coolingDown
 const ownerProductGateSamplePlanFreshAfterDownloadsScan =
   Number.isFinite(ownerExplicitDownloadsScanAt) &&
   Number.isFinite(Date.parse(productGateSamplePlan.generatedAt ?? '')) &&
   Date.parse(productGateSamplePlan.generatedAt) >= ownerExplicitDownloadsScanAt
+const ownerProductGateSamplePlanSourceDataHash = hashSourceData({
+  sampleDate: localIsoDate(),
+  productGateRecovery,
+  productOptimization,
+  analytics,
+  trafficSeeding,
+  organicSeedLoop,
+  retentionLoop: productGateSamplePlanRetentionSourceEvidence,
+  completionLoop,
+  replayLoop,
+  localEventBridge,
+  downloadsScanPolicy: ownerGateSampleDownloadsPolicySource,
+  unitEconomics,
+})
 const ownerCollectGateSampleAction = autonomousOwnerLoop.safeAutonomousActions?.find(
   (action) => action.id === 'collect-gate-sample-downloads',
+)
+const ownerRefreshGateRecoveryAction = autonomousOwnerLoop.safeAutonomousActions?.find(
+  (action) => action.id === 'refresh-product-gate-recovery',
 )
 const ownerRefreshSamplePlanAction = autonomousOwnerLoop.safeAutonomousActions?.find(
   (action) => action.id === 'refresh-product-gate-sample-plan',
@@ -4912,6 +5047,9 @@ const ownerObjectiveAuditAction = autonomousOwnerLoop.safeAutonomousActions?.fin
 )
 const ownerRunPostDeploySmokeAction = autonomousOwnerLoop.safeAutonomousActions?.find(
   (action) => action.id === 'run-post-deploy-smoke',
+)
+const ownerMeasurePwaInstallAction = autonomousOwnerLoop.safeAutonomousActions?.find(
+  (action) => action.id === 'measure-pwa-install-loop',
 )
 const ownerPrepareReleaseAction = autonomousOwnerLoop.safeAutonomousActions?.find(
   (action) => action.id === 'prepare-release-candidate',
@@ -5113,6 +5251,30 @@ if (
   autonomousOwnerLoop.executionMemory?.productionBootstrapFreshness?.fresh !== ownerProductionBootstrapFresh ||
   autonomousOwnerLoop.executionMemory?.productionBootstrapFreshness?.bootstrapGeneratedAt !==
     (productionBootstrap.generatedAt ?? null) ||
+  autonomousOwnerLoop.executionMemory?.sourceFreshness?.pwaInstallLoop?.artifactSourceDataHash !==
+    pwaInstallLoop.sourceDataHash ||
+  autonomousOwnerLoop.executionMemory?.sourceFreshness?.pwaInstallLoop?.sourceDataHash !== pwaInstallSourceDataHash ||
+  autonomousOwnerLoop.executionMemory?.sourceFreshness?.pwaInstallLoop?.current !==
+    (pwaInstallLoop.sourceDataHash === pwaInstallSourceDataHash && pwaInstallLoop.status !== 'missing') ||
+  (pwaInstallLoop.sourceDataHash === pwaInstallSourceDataHash && ownerMeasurePwaInstallAction?.status !== 'monitor') ||
+  (pwaInstallLoop.sourceDataHash === pwaInstallSourceDataHash &&
+    autonomousOwnerLoop.ownerDecision?.nextBestActionId === 'measure-pwa-install-loop') ||
+  autonomousOwnerLoop.executionMemory?.sourceFreshness?.productGateRecovery?.artifactSourceDataHash !==
+    productGateRecovery.sourceDataHash ||
+  autonomousOwnerLoop.executionMemory?.sourceFreshness?.productGateRecovery?.sourceDataHash !==
+    productGateRecoverySourceDataHash ||
+  autonomousOwnerLoop.executionMemory?.sourceFreshness?.productGateSamplePlan?.artifactSourceDataHash !==
+    productGateSamplePlan.sourceDataHash ||
+  autonomousOwnerLoop.executionMemory?.sourceFreshness?.productGateSamplePlan?.sourceDataHash !==
+    ownerProductGateSamplePlanSourceDataHash ||
+  (productGateRecovery.sourceDataHash === productGateRecoverySourceDataHash &&
+    productGateSamplePlan.sourceDataHash === ownerProductGateSamplePlanSourceDataHash &&
+    ownerRefreshGateRecoveryAction?.status !== 'monitor') ||
+  (productGateSamplePlan.sourceDataHash === ownerProductGateSamplePlanSourceDataHash &&
+    ownerRefreshSamplePlanAction?.status !== 'monitor') ||
+  (productGateRecovery.sourceDataHash === productGateRecoverySourceDataHash &&
+    productGateSamplePlan.sourceDataHash === ownerProductGateSamplePlanSourceDataHash &&
+    autonomousOwnerLoop.ownerDecision?.nextBestActionId === 'refresh-product-gate-recovery') ||
   JSON.stringify(autonomousOwnerLoop.executionMemory?.productionBootstrapFreshness?.evaluatedInputIds ?? []) !==
     JSON.stringify(ownerProductionBootstrapInputs.map((artifact) => artifact.id)) ||
   JSON.stringify(autonomousOwnerLoop.executionMemory?.productionBootstrapFreshness?.staleInputIds ?? []) !==

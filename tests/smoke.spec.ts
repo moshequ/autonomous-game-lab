@@ -2148,6 +2148,7 @@ test('product optimizer applies one guarded tuning step from product-gate eviden
   )
   expect(samplePlan.commandPlan.refreshPlan).toBe('npm run autonomous:sample-plan')
   expect(samplePlan.commandPlan.collectAndRefresh).toContain('autonomous:gate-recovery')
+  expect(samplePlan.commandPlan.collectAndRefresh).toContain('autonomous:retention')
   expect(samplePlan.commandPlan.collectDownloadsAndRefresh).toBe('npm run autonomous:collect-sample-downloads')
   expect(packageJson.scripts['test:automation']).toContain('autonomous:gate-recovery')
   expect(packageJson.scripts['test:automation']).toContain('autonomous:sample-plan')
@@ -3049,6 +3050,9 @@ test('autonomous operator history keeps a capped audit trail', async ({ page }) 
         | 'trafficSeeding'
         | 'acquisitionLearning'
         | 'organicSeedLoop'
+        | 'pwaInstallLoop'
+        | 'productGateRecovery'
+        | 'productGateSamplePlan'
         | 'firstMoveCoach'
         | 'completionLoop'
         | 'replayLoop'
@@ -3117,6 +3121,18 @@ test('autonomous operator history keeps a capped audit trail', async ({ page }) 
   }
   const productGateSamplePlan = JSON.parse(await readFile('data/product-gate-sample-plan.json', 'utf8')) as {
     generatedAt: string
+    summary: {
+      downloadsScanCoolingDown: boolean
+      downloadsScanNextRecommendedAt: string
+    }
+    downloadsScan: {
+      cooldownHours: number
+      coolingDown: boolean
+      evidenceReadyNow: boolean
+      lastScanAt: string | null
+      lastScanStatus: string | null
+      nextRecommendedScanAt: string
+    }
   }
   const lastExecutedRecord = [...history.records]
     .reverse()
@@ -3160,14 +3176,24 @@ test('autonomous operator history keeps a capped audit trail', async ({ page }) 
     (localEventBridge.gateSampleEvidence?.inbox?.events ?? 0) > 0 ||
     (localEventBridge.gateSampleEvidence?.imported?.events ?? 0) > 0
   const explicitDownloadsScanAt = Date.parse(localEventBridge.explicitDownloadsScan?.scannedAt ?? '')
-  const downloadsScanRecent = Number.isFinite(explicitDownloadsScanAt) && Date.now() - explicitDownloadsScanAt < 4 * 60 * 60 * 1000
+  const downloadsScanExpiryBufferMs = 60 * 1000
+  const downloadsScanRecent =
+    Number.isFinite(explicitDownloadsScanAt) &&
+    Date.now() + downloadsScanExpiryBufferMs - explicitDownloadsScanAt < 4 * 60 * 60 * 1000
   const gateSampleDownloadsCoolingDown =
     downloadsScanRecent && localEventBridge.explicitDownloadsScan?.evidenceFound === false && !gateSampleEvidenceReadyNow
+  const expectedDownloadsScanNextRecommendedAt =
+    localEventBridge.explicitDownloadsScan?.evidenceFound === false &&
+    Number.isFinite(explicitDownloadsScanAt) &&
+    !gateSampleEvidenceReadyNow
+      ? new Date(explicitDownloadsScanAt + 4 * 60 * 60 * 1000).toISOString()
+      : productGateSamplePlan.generatedAt
   const samplePlanFreshAfterDownloadsScan =
     Number.isFinite(explicitDownloadsScanAt) &&
     Number.isFinite(Date.parse(productGateSamplePlan.generatedAt ?? '')) &&
     Date.parse(productGateSamplePlan.generatedAt) >= explicitDownloadsScanAt
   const collectGateSampleAction = ownerLoop.safeAutonomousActions.find((action) => action.id === 'collect-gate-sample-downloads')
+  const refreshGateRecoveryAction = ownerLoop.safeAutonomousActions.find((action) => action.id === 'refresh-product-gate-recovery')
   const refreshSamplePlanAction = ownerLoop.safeAutonomousActions.find((action) => action.id === 'refresh-product-gate-sample-plan')
   const prepareRepositoryAction = ownerLoop.safeAutonomousActions.find((action) => action.id === 'prepare-repository-channel')
   const objectiveAuditAction = ownerLoop.safeAutonomousActions.find((action) => action.id === 'refresh-objective-audit')
@@ -3179,6 +3205,7 @@ test('autonomous operator history keeps a capped audit trail', async ({ page }) 
     { actionId: 'optimize-product-gates', freshness: ownerLoop.executionMemory.sourceFreshness.productOptimization },
     { actionId: 'optimize-daily-retention', freshness: ownerLoop.executionMemory.sourceFreshness.retentionLoop },
     { actionId: 'refresh-organic-seed-loop', freshness: ownerLoop.executionMemory.sourceFreshness.organicSeedLoop },
+    { actionId: 'measure-pwa-install-loop', freshness: ownerLoop.executionMemory.sourceFreshness.pwaInstallLoop },
     { actionId: 'refresh-first-move-coach', freshness: ownerLoop.executionMemory.sourceFreshness.firstMoveCoach },
     { actionId: 'refresh-completion-loop', freshness: ownerLoop.executionMemory.sourceFreshness.completionLoop },
     { actionId: 'refresh-replay-loop', freshness: ownerLoop.executionMemory.sourceFreshness.replayLoop },
@@ -3217,6 +3244,16 @@ test('autonomous operator history keeps a capped audit trail', async ({ page }) 
     localEventBridge.explicitDownloadsScan?.status ?? null,
   )
   expect(ownerLoop.executionMemory.gateSampleDownloadsBackoff.evidenceReadyNow).toBe(gateSampleEvidenceReadyNow)
+  expect(productGateSamplePlan.downloadsScan.cooldownHours).toBe(4)
+  expect(productGateSamplePlan.downloadsScan.coolingDown).toBe(gateSampleDownloadsCoolingDown)
+  expect(productGateSamplePlan.summary.downloadsScanCoolingDown).toBe(gateSampleDownloadsCoolingDown)
+  expect(productGateSamplePlan.downloadsScan.evidenceReadyNow).toBe(gateSampleEvidenceReadyNow)
+  expect(productGateSamplePlan.downloadsScan.lastScanAt).toBe(
+    Number.isFinite(explicitDownloadsScanAt) ? localEventBridge.explicitDownloadsScan?.scannedAt : null,
+  )
+  expect(productGateSamplePlan.downloadsScan.lastScanStatus).toBe(localEventBridge.explicitDownloadsScan?.status ?? null)
+  expect(productGateSamplePlan.downloadsScan.nextRecommendedScanAt).toBe(expectedDownloadsScanNextRecommendedAt)
+  expect(productGateSamplePlan.summary.downloadsScanNextRecommendedAt).toBe(expectedDownloadsScanNextRecommendedAt)
   expect(ownerLoop.executionMemory.localEventCollectionFreshness.status).toBe(localEventBridge.status)
   expect(ownerLoop.executionMemory.localEventCollectionFreshness.bridgeGeneratedAt).toBe(localEventBridge.generatedAt)
   expect(ownerLoop.executionMemory.localEventCollectionFreshness.evidenceReadyNow).toBe(gateSampleEvidenceReadyNow)
@@ -3285,6 +3322,17 @@ test('autonomous operator history keeps a capped audit trail', async ({ page }) 
     expect(prepareReleaseAction?.status).toBe('monitor')
     expect(prepareReleaseAction?.reason).toContain('strict synced live deploy evidence')
     expect(ownerLoop.ownerDecision.nextBestActionId).not.toBe('prepare-release-candidate')
+  }
+  if (
+    ownerLoop.executionMemory.sourceFreshness.productGateRecovery.current &&
+    ownerLoop.executionMemory.sourceFreshness.productGateSamplePlan.current
+  ) {
+    expect(refreshGateRecoveryAction?.status).toBe('monitor')
+    expect(refreshGateRecoveryAction?.reason).toContain('already match current gate')
+    expect(refreshSamplePlanAction?.status).toBe('monitor')
+    expect(refreshSamplePlanAction?.reason).toContain('already matches current recovery')
+    expect(ownerLoop.ownerDecision.nextBestActionId).not.toBe('refresh-product-gate-recovery')
+    expect(ownerLoop.ownerDecision.nextBestActionId).not.toBe('refresh-product-gate-sample-plan')
   }
   if (gateSampleDownloadsCoolingDown) {
     expect(collectGateSampleAction?.status).toBe('monitor')
