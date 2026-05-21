@@ -1,27 +1,28 @@
 {
-  "generatedAt": "2026-05-21T19:12:22.179Z",
+  "generatedAt": "2026-05-21T19:13:51.975Z",
   "status": "operator-plan-ready",
   "mode": "plan-only",
   "ownerDecision": {
-    "actionId": "refresh-replay-loop",
-    "command": "npm run autonomous:replay-loop",
+    "actionId": "refresh-product-gate-recovery",
+    "command": "npm run autonomous:gate-recovery && npm run autonomous:sample-plan",
     "locallyExecutable": true,
     "rejectionReason": null
   },
   "requestedActionId": null,
   "selectedAction": {
-    "id": "refresh-replay-loop",
+    "id": "refresh-product-gate-recovery",
     "status": "armed",
-    "command": "npm run autonomous:replay-loop",
+    "command": "npm run autonomous:gate-recovery && npm run autonomous:sample-plan",
     "targets": [
-      "harbor-rings"
+      "firstGameCompletion",
+      "firstGameCompletion"
     ],
-    "reason": "Refreshes the optional completed-run replay prompt from product-gate and replay telemetry evidence.",
+    "reason": "Ranks the exact observed lift and immediately refreshes the zero-spend sample missions before revenue gates can open.",
     "costUsd": 0
   },
   "selectedRejection": null,
   "eligibleActionIds": [
-    "refresh-replay-loop",
+    "refresh-product-gate-recovery",
     "optimize-store-listing"
   ],
   "blockedActions": [
@@ -116,12 +117,6 @@
       "reason": "status-monitor"
     },
     {
-      "id": "refresh-product-gate-recovery",
-      "status": "monitor",
-      "command": "npm run autonomous:gate-recovery && npm run autonomous:sample-plan",
-      "reason": "status-monitor"
-    },
-    {
       "id": "collect-gate-sample-downloads",
       "status": "monitor",
       "command": "npm run autonomous:collect-sample-downloads",
@@ -143,6 +138,12 @@
       "id": "refresh-completion-loop",
       "status": "monitor",
       "command": "npm run autonomous:completion-loop",
+      "reason": "status-monitor"
+    },
+    {
+      "id": "refresh-replay-loop",
+      "status": "monitor",
+      "command": "npm run autonomous:replay-loop",
       "reason": "status-monitor"
     },
     {
@@ -220,8 +221,12 @@
   ],
   "commandPlan": [
     {
-      "segment": "npm run autonomous:replay-loop",
-      "script": "autonomous:replay-loop"
+      "segment": "npm run autonomous:gate-recovery",
+      "script": "autonomous:gate-recovery"
+    },
+    {
+      "segment": "npm run autonomous:sample-plan",
+      "script": "autonomous:sample-plan"
     }
   ],
   "execution": {
@@ -295,7 +300,7 @@
     "RUN_WORKFLOWS=1"
   ],
   "nextActions": [
-    "Run npm run autonomous:operator -- --execute --action=refresh-replay-loop to execute exactly one allowed local action.",
+    "Run npm run autonomous:operator -- --execute --action=refresh-product-gate-recovery to execute exactly one allowed local action.",
     "Do not execute GitHub workflow, store, paid ads, or account setup commands from the local operator."
   ]
 }

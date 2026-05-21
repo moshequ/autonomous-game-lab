@@ -1,17 +1,17 @@
 # Autonomous Owner Loop
 
-Generated: 2026-05-21T19:12:22.367Z
+Generated: 2026-05-21T19:13:51.728Z
 Status: owner-loop-ready
 Mode: zero-spend-web-ready
 Autonomy score: 43/44 (98%)
 
 ## Owner Decision
 
-- Next action: refresh-replay-loop
-- Command: npm run autonomous:replay-loop
-- Rationale: Refreshes the optional completed-run replay prompt from product-gate and replay telemetry evidence.
-- Last executed action: refresh-objective-audit
-- Recent executed actions: refresh-objective-audit, refresh-product-gate-recovery, seed-portfolio-traffic, optimize-store-listing, refresh-replay-loop, refresh-completion-loop
+- Next action: refresh-product-gate-recovery
+- Command: npm run autonomous:gate-recovery && npm run autonomous:sample-plan
+- Rationale: Ranks the exact observed lift and immediately refreshes the zero-spend sample missions before revenue gates can open.
+- Last executed action: refresh-replay-loop
+- Recent executed actions: refresh-replay-loop, refresh-objective-audit, refresh-product-gate-recovery, seed-portfolio-traffic, optimize-store-listing, refresh-completion-loop
 
 ## Systems
 
@@ -50,8 +50,8 @@ Autonomy score: 43/44 (98%)
 - ready: production-activation - Activation activation-ready; mode dry-run; execution dry-run; gh ready.
 - ready: production-blocker-handoff - Handoff handoff-waiting-on-owner-inputs; next production-analytics-browser; owner inputs 4; missing env 7; missing secrets 3.
 - ready: support-channel - Support channel support-channel-ready; repository moshequ/autonomous-game-lab; public intake ready; aggregate evidence only true.
-- ready: autonomous-operator - Operator operator-plan-ready; selected refresh-replay-loop; execution not-requested.
-- ready: operator-history - History operator-history-ready; records 40; executed 9.
+- ready: autonomous-operator - Operator operator-executed; selected refresh-replay-loop; execution executed.
+- ready: operator-history - History operator-history-ready; records 40; executed 10.
 - ready: objective-audit - Audit objective-in-progress; met 6/8; external blockers 15.
 - ready: store-listing-optimizer - Focus canopy-bloom; lead screenshot phone-canopy-bloom-generated; candidate changed yes.
 - ready: store-compliance - Rating Everyone; target audience general; blockers 3.
@@ -77,12 +77,12 @@ Autonomy score: 43/44 (98%)
 - monitor: sync-post-deploy-artifact - npm run autonomous:post-deploy-artifact-sync
 - monitor: refresh-live-site-monitor - npm run autonomous:live-monitor
 - monitor: optimize-product-gates - npm run autonomous:analyze && npm run autonomous:product-optimize && npm run autonomous:sync-config && npm run autonomous:simulate
-- monitor: refresh-product-gate-recovery - npm run autonomous:gate-recovery && npm run autonomous:sample-plan
+- armed: refresh-product-gate-recovery - npm run autonomous:gate-recovery && npm run autonomous:sample-plan
 - monitor: collect-gate-sample-downloads - npm run autonomous:collect-sample-downloads
 - monitor: refresh-product-gate-sample-plan - npm run autonomous:sample-plan
 - monitor: refresh-first-move-coach - npm run autonomous:first-move-coach
 - monitor: refresh-completion-loop - npm run autonomous:completion-loop
-- armed: refresh-replay-loop - npm run autonomous:replay-loop
+- monitor: refresh-replay-loop - npm run autonomous:replay-loop
 - monitor: prepare-repository-channel - npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap
 - monitor: bootstrap-production-setup - npm run autonomous:release-candidate && npm run autonomous:deploy-plan && npm run autonomous:bootstrap
 - monitor: activate-production-when-configured - npm run autonomous:activate-production

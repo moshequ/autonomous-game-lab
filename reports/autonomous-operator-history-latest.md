@@ -1,9 +1,9 @@
 # Autonomous Operator History
 
-Generated: 2026-05-21T19:12:22.179Z
+Generated: 2026-05-21T19:13:51.975Z
 Status: operator-history-ready
 Records: 40
-Executed records: 9
+Executed records: 10
 Failed records: 0
 Latest run appended: true
 Compacted duplicate dry-runs: 0
@@ -17,8 +17,6 @@ Compacted duplicate dry-runs: 0
 
 ## Recent Records
 
-- 2026-05-21T19:03:03.065Z: optimize-store-listing; executed; appended fingerprint 0dbe790c89f8d0c6
-- 2026-05-21T19:05:45.161Z: refresh-objective-audit; not-requested; appended fingerprint bf9026f967801167
 - 2026-05-21T19:05:45.700Z: seed-portfolio-traffic; not-requested; appended fingerprint f704cbe019eeda05
 - 2026-05-21T19:07:35.720Z: seed-portfolio-traffic; executed; appended fingerprint e6951aacb3d13d1f
 - 2026-05-21T19:08:31.886Z: refresh-product-gate-recovery; not-requested; appended fingerprint ba0c326622b9c60c
@@ -27,3 +25,5 @@ Compacted duplicate dry-runs: 0
 - 2026-05-21T19:09:30.320Z: refresh-objective-audit; executed; appended fingerprint e824cda0b6e0db05
 - 2026-05-21T19:12:21.628Z: refresh-replay-loop; not-requested; appended fingerprint c288527532fa0a14
 - 2026-05-21T19:12:22.179Z: refresh-replay-loop; not-requested; appended fingerprint 2e418a5632214156
+- 2026-05-21T19:13:36.365Z: refresh-replay-loop; executed; appended fingerprint d1cae8662977a992
+- 2026-05-21T19:13:51.975Z: refresh-product-gate-recovery; not-requested; appended fingerprint d2cff3d09b6aa1e5
