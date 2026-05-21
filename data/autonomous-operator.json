@@ -1,33 +1,30 @@
 {
-  "generatedAt": "2026-05-21T19:05:45.700Z",
-  "status": "operator-plan-ready",
-  "mode": "plan-only",
+  "generatedAt": "2026-05-21T19:09:30.320Z",
+  "status": "operator-executed",
+  "mode": "execute-one-action",
   "ownerDecision": {
-    "actionId": "seed-portfolio-traffic",
-    "command": "npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop",
+    "actionId": "refresh-objective-audit",
+    "command": "npm run autonomous:objective-audit",
     "locallyExecutable": true,
     "rejectionReason": null
   },
-  "requestedActionId": null,
+  "requestedActionId": "refresh-objective-audit",
   "selectedAction": {
-    "id": "seed-portfolio-traffic",
+    "id": "refresh-objective-audit",
     "status": "armed",
-    "command": "npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop",
+    "command": "npm run autonomous:objective-audit",
     "targets": [
-      "canopy-bloom",
-      "grove-engine",
-      "mosaic-haven",
-      "metro-loom"
+      "objective-evidence",
+      "production-blockers"
     ],
-    "reason": "Under-measured playable games need free organic/internal traffic before quality judgment.",
+    "reason": "Keeps the original objective mapped to current evidence and prevents false completion claims.",
     "costUsd": 0
   },
   "selectedRejection": null,
   "eligibleActionIds": [
-    "seed-portfolio-traffic",
-    "refresh-organic-seed-loop",
-    "refresh-product-gate-recovery",
-    "refresh-replay-loop"
+    "refresh-replay-loop",
+    "refresh-objective-audit",
+    "optimize-store-listing"
   ],
   "blockedActions": [
     {
@@ -55,10 +52,16 @@
       "reason": "status-monitor"
     },
     {
+      "id": "seed-portfolio-traffic",
+      "status": "monitor",
+      "command": "npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop",
+      "reason": "status-monitor"
+    },
+    {
       "id": "refresh-organic-seed-loop",
-      "status": "armed",
+      "status": "monitor",
       "command": "npm run autonomous:organic-seed-loop",
-      "reason": "not-selected-this-run"
+      "reason": "status-monitor"
     },
     {
       "id": "refresh-support-feedback",
@@ -116,9 +119,9 @@
     },
     {
       "id": "refresh-product-gate-recovery",
-      "status": "armed",
+      "status": "monitor",
       "command": "npm run autonomous:gate-recovery && npm run autonomous:sample-plan",
-      "reason": "not-selected-this-run"
+      "reason": "status-monitor"
     },
     {
       "id": "collect-gate-sample-downloads",
@@ -187,16 +190,10 @@
       "reason": "status-monitor"
     },
     {
-      "id": "refresh-objective-audit",
-      "status": "monitor",
-      "command": "npm run autonomous:objective-audit",
-      "reason": "status-monitor"
-    },
-    {
       "id": "optimize-store-listing",
-      "status": "monitor",
+      "status": "armed",
       "command": "npm run autonomous:store-package && npm run autonomous:store-listing-optimize && npm run autonomous:store-compliance",
-      "reason": "status-monitor"
+      "reason": "not-selected-this-run"
     },
     {
       "id": "prepare-android-signing",
@@ -225,32 +222,29 @@
   ],
   "commandPlan": [
     {
-      "segment": "npm run autonomous:growth",
-      "script": "autonomous:growth"
-    },
-    {
-      "segment": "npm run autonomous:portfolio",
-      "script": "autonomous:portfolio"
-    },
-    {
-      "segment": "npm run autonomous:traffic",
-      "script": "autonomous:traffic"
-    },
-    {
-      "segment": "npm run autonomous:acquisition",
-      "script": "autonomous:acquisition"
-    },
-    {
-      "segment": "npm run autonomous:organic-seed-loop",
-      "script": "autonomous:organic-seed-loop"
+      "segment": "npm run autonomous:objective-audit",
+      "script": "autonomous:objective-audit"
     }
   ],
   "execution": {
-    "requested": false,
-    "status": "not-requested",
+    "requested": true,
+    "status": "executed",
     "maxActionsPerRun": 1,
-    "attemptedActionId": null,
-    "results": []
+    "attemptedActionId": "refresh-objective-audit",
+    "results": [
+      {
+        "script": "autonomous:objective-audit",
+        "exitCode": 0,
+        "stdoutTail": [
+          "> autonomous-game-lab@0.0.0 autonomous:objective-audit",
+          "> node scripts/objective-audit.mjs",
+          "Wrote data/objective-audit.json",
+          "Wrote src/data/objectiveAudit.ts",
+          "Wrote reports/objective-audit-latest.md"
+        ],
+        "stderrTail": []
+      }
+    ]
   },
   "controls": {
     "zeroPaidSpend": true,
@@ -316,7 +310,7 @@
     "RUN_WORKFLOWS=1"
   ],
   "nextActions": [
-    "Run npm run autonomous:operator -- --execute --action=seed-portfolio-traffic to execute exactly one allowed local action.",
+    "Review refresh-objective-audit execution results before another operator run.",
     "Do not execute GitHub workflow, store, paid ads, or account setup commands from the local operator."
   ]
 }

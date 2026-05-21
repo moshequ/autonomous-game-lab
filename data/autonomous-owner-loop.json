@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-21T19:05:45.883Z",
+  "generatedAt": "2026-05-21T19:09:15.269Z",
   "status": "owner-loop-ready",
   "mode": "zero-spend-web-ready",
   "autonomyScore": {
@@ -23,32 +23,32 @@
     "heldForExternalInput": false
   },
   "ownerDecision": {
-    "nextBestActionId": "seed-portfolio-traffic",
-    "nextBestAction": "npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop",
+    "nextBestActionId": "refresh-objective-audit",
+    "nextBestAction": "npm run autonomous:objective-audit",
     "canExecuteWithoutSpend": true,
     "localActionAvailable": true,
     "holdReason": null,
-    "rationale": "Under-measured playable games need free organic/internal traffic before quality judgment."
+    "rationale": "Keeps the original objective mapped to current evidence and prevents false completion claims."
   },
   "executionMemory": {
     "avoidImmediateRepeat": true,
     "recentExecutionWindow": 8,
     "recentExecutedActionIds": [
-      "optimize-store-listing",
-      "seed-portfolio-traffic",
       "refresh-product-gate-recovery",
+      "seed-portfolio-traffic",
+      "optimize-store-listing",
       "refresh-replay-loop",
       "refresh-completion-loop",
       "bootstrap-production-setup"
     ],
-    "lastExecutedActionId": "optimize-store-listing",
+    "lastExecutedActionId": "refresh-product-gate-recovery",
     "lastExecutedStatus": "executed",
-    "lastRecordExecutionStatus": "not-requested",
+    "lastRecordExecutionStatus": "executed",
     "recentlySatisfiedActionIds": [
       "refresh-organic-seed-loop"
     ],
     "objectiveAuditFreshness": {
-      "fresh": true,
+      "fresh": false,
       "structurallyReady": true,
       "auditGeneratedAt": "2026-05-21T19:05:45.324Z",
       "evaluatedInputIds": [
@@ -66,7 +66,10 @@
         "android-release",
         "ios-release"
       ],
-      "staleInputIds": []
+      "staleInputIds": [
+        "product-gate-recovery",
+        "product-gate-sample-plan"
+      ]
     },
     "operationalEvidenceFreshness": {
       "cadence": {
@@ -74,7 +77,7 @@
         "ready": true,
         "status": "cadence-ready",
         "artifactGeneratedAt": "2026-05-21T17:52:12.741Z",
-        "ageHours": 1.226,
+        "ageHours": 1.284,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -85,7 +88,7 @@
         "ready": true,
         "status": "self-update-ready",
         "artifactGeneratedAt": "2026-05-21T18:05:44.615Z",
-        "ageHours": 1,
+        "ageHours": 1.059,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -96,7 +99,7 @@
         "ready": true,
         "status": "support-feedback-empty",
         "artifactGeneratedAt": "2026-05-21T17:48:59.987Z",
-        "ageHours": 1.279,
+        "ageHours": 1.338,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -107,7 +110,7 @@
         "ready": true,
         "status": "performance-budget-ready",
         "artifactGeneratedAt": "2026-05-21T19:05:35.697Z",
-        "ageHours": 0.003,
+        "ageHours": 0.061,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -118,7 +121,7 @@
         "ready": true,
         "status": "live-site-monitor-passed",
         "artifactGeneratedAt": "2026-05-21T19:05:44.199Z",
-        "ageHours": 0,
+        "ageHours": 0.059,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -161,7 +164,7 @@
         "current": true,
         "ready": true,
         "status": "traffic-seeding-ready",
-        "artifactGeneratedAt": "2026-05-21T18:59:30.838Z",
+        "artifactGeneratedAt": "2026-05-21T19:07:35.172Z",
         "artifactSourceDataHash": "f076e87f2c98",
         "sourceDataHash": "f076e87f2c98",
         "evaluatedInputIds": [
@@ -173,12 +176,12 @@
         ]
       },
       "acquisitionLearning": {
-        "current": false,
-        "ready": false,
+        "current": true,
+        "ready": true,
         "status": "acquisition-learning-ready",
-        "artifactGeneratedAt": "2026-05-21T18:41:17.560Z",
-        "artifactSourceDataHash": "364b6b42a711",
-        "sourceDataHash": "e1e9c0fe30d4",
+        "artifactGeneratedAt": "2026-05-21T19:07:35.440Z",
+        "artifactSourceDataHash": "e465c5eba900",
+        "sourceDataHash": "e465c5eba900",
         "evaluatedInputIds": [
           "analytics-rollup",
           "traffic-seeding",
@@ -188,12 +191,12 @@
         ]
       },
       "organicSeedLoop": {
-        "current": false,
-        "ready": false,
+        "current": true,
+        "ready": true,
         "status": "organic-seed-loop-ready",
-        "artifactGeneratedAt": "2026-05-21T18:41:17.826Z",
-        "artifactSourceDataHash": "9867fbe09621",
-        "sourceDataHash": "66a342a163de",
+        "artifactGeneratedAt": "2026-05-21T19:07:35.705Z",
+        "artifactSourceDataHash": "fc1b2b6b60c4",
+        "sourceDataHash": "fc1b2b6b60c4",
         "evaluatedInputIds": [
           "playable-games",
           "analytics-rollup",
@@ -225,7 +228,7 @@
         "current": true,
         "ready": true,
         "status": "product-gate-recovery-ready",
-        "artifactGeneratedAt": "2026-05-21T18:41:48.208Z",
+        "artifactGeneratedAt": "2026-05-21T19:08:52.284Z",
         "artifactSourceDataHash": "117dcf88ca39",
         "sourceDataHash": "117dcf88ca39",
         "evaluatedInputIds": [
@@ -240,12 +243,12 @@
         ]
       },
       "productGateSamplePlan": {
-        "current": false,
-        "ready": false,
+        "current": true,
+        "ready": true,
         "status": "product-gate-sample-plan-ready",
-        "artifactGeneratedAt": "2026-05-21T18:41:48.454Z",
-        "artifactSourceDataHash": "494d6f799bd7",
-        "sourceDataHash": "ca5ec3ca59fc",
+        "artifactGeneratedAt": "2026-05-21T19:08:52.533Z",
+        "artifactSourceDataHash": "7d46d055aec3",
+        "sourceDataHash": "7d46d055aec3",
         "evaluatedInputIds": [
           "sample-date",
           "product-gate-recovery",
@@ -277,12 +280,12 @@
         ]
       },
       "storeListingOptimizer": {
-        "current": true,
-        "ready": true,
+        "current": false,
+        "ready": false,
         "status": "store-listing-optimizer-ready",
         "artifactGeneratedAt": "2026-05-21T19:03:02.817Z",
         "artifactSourceDataHash": "5f215da809ad",
-        "sourceDataHash": "5f215da809ad",
+        "sourceDataHash": "c8c3ff80166e",
         "evaluatedInputIds": [
           "store-package",
           "store-assets",
@@ -415,12 +418,10 @@
       "artifactCandidateId": "pwa-d3bad41e978f"
     },
     "skippedRecentlyExecutedActionIds": [
-      "refresh-product-gate-recovery",
-      "refresh-replay-loop"
+      "refresh-replay-loop",
+      "optimize-store-listing"
     ],
-    "skippedRecentlySatisfiedActionIds": [
-      "refresh-organic-seed-loop"
-    ],
+    "skippedRecentlySatisfiedActionIds": [],
     "preferredActionOrder": [
       "prepare-repository-channel",
       "deploy-web-pwa",
@@ -739,14 +740,14 @@
       "id": "autonomous-operator",
       "status": "ready",
       "autonomy": "one-safe-action-runner",
-      "evidence": "Operator operator-plan-ready; selected seed-portfolio-traffic; execution not-requested.",
+      "evidence": "Operator operator-executed; selected refresh-product-gate-recovery; execution executed.",
       "nextAction": "Keep a dry-run operator plan ready, then execute only one allowlisted local action when explicitly requested."
     },
     {
       "id": "operator-history",
       "status": "ready",
       "autonomy": "operator-audit-trail",
-      "evidence": "History operator-history-ready; records 40; executed 8.",
+      "evidence": "History operator-history-ready; records 40; executed 9.",
       "nextAction": "Keep a capped durable record of operator plans and one-action executions."
     },
     {
@@ -841,7 +842,7 @@
     },
     {
       "id": "seed-portfolio-traffic",
-      "status": "armed",
+      "status": "monitor",
       "costUsd": 0,
       "command": "npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop",
       "targets": [
@@ -850,17 +851,17 @@
         "mosaic-haven",
         "metro-loom"
       ],
-      "reason": "Under-measured playable games need free organic/internal traffic before quality judgment."
+      "reason": "Traffic campaigns, acquisition learning, and organic seed surface already reflect the current inputs."
     },
     {
       "id": "refresh-organic-seed-loop",
-      "status": "armed",
+      "status": "monitor",
       "costUsd": 0,
       "command": "npm run autonomous:organic-seed-loop",
       "targets": [
         "canopy-bloom"
       ],
-      "reason": "Refreshes the player-initiated zero-cost share surface for the highest-opportunity seed campaign."
+      "reason": "Organic seed surface already reflects current traffic, acquisition, retention, and analytics inputs."
     },
     {
       "id": "refresh-support-feedback",
@@ -959,14 +960,14 @@
     },
     {
       "id": "refresh-product-gate-recovery",
-      "status": "armed",
+      "status": "monitor",
       "costUsd": 0,
       "command": "npm run autonomous:gate-recovery && npm run autonomous:sample-plan",
       "targets": [
         "firstGameCompletion",
         "firstGameCompletion"
       ],
-      "reason": "Ranks the exact observed lift and immediately refreshes the zero-spend sample missions before revenue gates can open."
+      "reason": "Product-gate recovery and sample missions already match current gate, analytics, loop, and event-bridge evidence."
     },
     {
       "id": "collect-gate-sample-downloads",
@@ -988,7 +989,7 @@
       "targets": [
         "firstGameCompletion"
       ],
-      "reason": "Turns gate deficits into zero-cost player-initiated sample missions and exact refresh commands."
+      "reason": "Product-gate sample plan already matches current recovery, traffic, event-bridge, and daily sample-date inputs."
     },
     {
       "id": "refresh-first-move-coach",
@@ -1070,7 +1071,7 @@
       "costUsd": 0,
       "command": "npm run autonomous:operator",
       "targets": [
-        "seed-portfolio-traffic"
+        "refresh-product-gate-recovery"
       ],
       "reason": "One-action operator plan is already published; avoid cycling on meta-operator refreshes."
     },
@@ -1080,30 +1081,30 @@
       "costUsd": 0,
       "command": "npm run autonomous:operator",
       "targets": [
-        "seed-portfolio-traffic"
+        "refresh-product-gate-recovery"
       ],
       "reason": "Operator history is already capped and published; keep attention on product evidence."
     },
     {
       "id": "refresh-objective-audit",
-      "status": "monitor",
+      "status": "armed",
       "costUsd": 0,
       "command": "npm run autonomous:objective-audit",
       "targets": [
         "objective-evidence",
         "production-blockers"
       ],
-      "reason": "Objective audit already covers the current upstream evidence; keep it monitored while product and data actions run."
+      "reason": "Keeps the original objective mapped to current evidence and prevents false completion claims."
     },
     {
       "id": "optimize-store-listing",
-      "status": "monitor",
+      "status": "armed",
       "costUsd": 0,
       "command": "npm run autonomous:store-package && npm run autonomous:store-listing-optimize && npm run autonomous:store-compliance",
       "targets": [
         "canopy-bloom"
       ],
-      "reason": "Store package, listing copy, screenshot priority, and compliance drafts already match current growth, support, monetization, and store evidence."
+      "reason": "Refreshes the base store package, optimized copy, screenshot priority, and compliance drafts from behavior signals."
     },
     {
       "id": "prepare-android-signing",
@@ -1295,7 +1296,7 @@
     "productionBlockerHandoffStatus": "handoff-waiting-on-owner-inputs",
     "supportChannelStatus": "support-channel-ready",
     "supportFeedbackStatus": "support-feedback-empty",
-    "autonomousOperatorStatus": "operator-plan-ready",
+    "autonomousOperatorStatus": "operator-executed",
     "autonomousOperatorHistoryStatus": "operator-history-ready",
     "objectiveAuditStatus": "objective-in-progress",
     "storeListingOptimizerStatus": "store-listing-optimizer-ready",
