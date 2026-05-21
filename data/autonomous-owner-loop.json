@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-21T22:03:02.826Z",
+  "generatedAt": "2026-05-21T22:05:41.971Z",
   "status": "owner-loop-ready",
   "mode": "zero-spend-web-ready",
   "autonomyScore": {
@@ -49,7 +49,7 @@
     "objectiveAuditFreshness": {
       "fresh": true,
       "structurallyReady": true,
-      "auditGeneratedAt": "2026-05-21T22:03:02.539Z",
+      "auditGeneratedAt": "2026-05-21T22:05:41.785Z",
       "evaluatedInputIds": [
         "analytics-rollup",
         "event-ingest",
@@ -73,7 +73,7 @@
         "ready": true,
         "status": "cadence-ready",
         "artifactGeneratedAt": "2026-05-21T22:02:02.941Z",
-        "ageHours": 0.017,
+        "ageHours": 0.061,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -84,7 +84,7 @@
         "ready": true,
         "status": "self-update-ready",
         "artifactGeneratedAt": "2026-05-21T22:02:03.278Z",
-        "ageHours": 0.017,
+        "ageHours": 0.061,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -95,7 +95,7 @@
         "ready": true,
         "status": "support-feedback-empty",
         "artifactGeneratedAt": "2026-05-21T17:48:59.987Z",
-        "ageHours": 4.234,
+        "ageHours": 4.278,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -105,7 +105,7 @@
         "fresh": true,
         "ready": true,
         "status": "performance-budget-ready",
-        "artifactGeneratedAt": "2026-05-21T22:02:49.312Z",
+        "artifactGeneratedAt": "2026-05-21T22:05:29.211Z",
         "ageHours": 0.004,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
@@ -116,8 +116,8 @@
         "fresh": true,
         "ready": true,
         "status": "live-site-monitor-passed",
-        "artifactGeneratedAt": "2026-05-21T22:02:51.455Z",
-        "ageHours": 0.003,
+        "artifactGeneratedAt": "2026-05-21T22:05:35.712Z",
+        "ageHours": 0.002,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -139,12 +139,12 @@
         ]
       },
       "retentionLoop": {
-        "current": true,
-        "ready": true,
+        "current": false,
+        "ready": false,
         "status": "retention-loop-ready",
         "artifactGeneratedAt": "2026-05-21T22:01:37.100Z",
         "artifactSourceDataHash": "4b3ea896e11a",
-        "sourceDataHash": "4b3ea896e11a",
+        "sourceDataHash": "72c264370c12",
         "evaluatedInputIds": [
           "analytics-rollup",
           "portfolio-policy",
@@ -157,12 +157,12 @@
         ]
       },
       "trafficSeeding": {
-        "current": true,
-        "ready": true,
+        "current": false,
+        "ready": false,
         "status": "traffic-seeding-ready",
         "artifactGeneratedAt": "2026-05-21T22:00:38.133Z",
         "artifactSourceDataHash": "ef9d9b83ebe7",
-        "sourceDataHash": "ef9d9b83ebe7",
+        "sourceDataHash": "0c07ae9ffa72",
         "evaluatedInputIds": [
           "playable-games",
           "portfolio-policy",
@@ -239,12 +239,12 @@
         ]
       },
       "productGateSamplePlan": {
-        "current": true,
-        "ready": true,
+        "current": false,
+        "ready": false,
         "status": "product-gate-sample-plan-ready",
         "artifactGeneratedAt": "2026-05-21T22:01:37.858Z",
         "artifactSourceDataHash": "428a65f69884",
-        "sourceDataHash": "428a65f69884",
+        "sourceDataHash": "0b39870d3dd9",
         "evaluatedInputIds": [
           "sample-date",
           "product-gate-recovery",
@@ -390,8 +390,8 @@
     },
     "productGateSamplePlanRefreshPolicy": {
       "recoveryCurrent": true,
-      "samplePlanNeedsRefresh": false,
-      "cooldownOnlyStale": false,
+      "samplePlanNeedsRefresh": true,
+      "cooldownOnlyStale": true,
       "materialRefreshNeeded": false,
       "sampleDateCurrent": true,
       "freshAfterLastDownloadsScan": true,
@@ -419,11 +419,12 @@
       "liveSiteMonitorFresh": true,
       "smokeActionFresh": true,
       "releaseCandidateActionFresh": true,
-      "liveCandidateId": "pwa-7986d91e75c7",
-      "artifactCandidateId": "pwa-7986d91e75c7"
+      "liveCandidateId": "pwa-1573dfd3e871",
+      "artifactCandidateId": "pwa-1573dfd3e871"
     },
     "skippedRecentlyExecutedActionIds": [
-      "seed-portfolio-traffic"
+      "seed-portfolio-traffic",
+      "optimize-daily-retention"
     ],
     "skippedRecentlySatisfiedActionIds": [],
     "preferredActionOrder": [
@@ -461,9 +462,9 @@
     },
     "productionBootstrapFreshness": {
       "fresh": true,
-      "bootstrapGeneratedAt": "2026-05-21T22:03:00.662Z",
-      "artifactSourceDataHash": "da926e918b03",
-      "sourceDataHash": "da926e918b03",
+      "bootstrapGeneratedAt": "2026-05-21T22:05:40.080Z",
+      "artifactSourceDataHash": "2ee52c8a364c",
+      "sourceDataHash": "2ee52c8a364c",
       "evaluatedInputIds": [
         "release-candidate",
         "deployment-plan",
@@ -478,7 +479,7 @@
       "current": true,
       "ready": true,
       "status": "handoff-waiting-on-owner-inputs",
-      "generatedAt": "2026-05-21T22:03:01.351Z",
+      "generatedAt": "2026-05-21T22:05:40.380Z",
       "nextBestUnlockId": "production-analytics-browser",
       "ownerActionRequired": 4,
       "missingEnv": 7,
@@ -600,7 +601,7 @@
       "id": "performance-budget",
       "status": "ready",
       "autonomy": "automatic-build-budget",
-      "evidence": "Initial JS 675.3 KB; gzip 183.3 KB; deferred chunks 2.",
+      "evidence": "Initial JS 675.3 KB; gzip 183.5 KB; deferred chunks 2.",
       "nextAction": "Keep Phaser and game scenes outside the initial PWA shell."
     },
     {
@@ -699,13 +700,13 @@
       "status": "ready",
       "autonomy": "read-only-live-deploy-verification",
       "evidence": "Smoke post-deploy-smoke-observed-live; origin https://moshequ.github.io/autonomous-game-lab; manifest comparison required; checks 17/17 passed; local artifact predeploy-artifact-smoke-passed 17/17 passed.",
-      "nextAction": "Live Pages is reachable and serving pwa-7986d91e75c7; run the deploy workflow for strict proof of the current local candidate if needed."
+      "nextAction": "Live Pages is reachable and serving pwa-1573dfd3e871; run the deploy workflow for strict proof of the current local candidate if needed."
     },
     {
       "id": "post-deploy-artifact-sync",
       "status": "ready",
       "autonomy": "read-only-actions-artifact-import",
-      "evidence": "Artifact sync post-deploy-artifact-sync-passed; run 26255500171; live matches artifact true; strict true.",
+      "evidence": "Artifact sync post-deploy-artifact-sync-passed; run 26255800124; live matches artifact true; strict true.",
       "nextAction": "Keep this strict deploy artifact as live-production evidence while local candidates continue to iterate."
     },
     {
@@ -754,7 +755,7 @@
       "id": "autonomous-operator",
       "status": "ready",
       "autonomy": "one-safe-action-runner",
-      "evidence": "Operator operator-plan-ready; selected bootstrap-production-setup; execution not-requested.",
+      "evidence": "Operator operator-plan-ready; selected refresh-organic-seed-loop; execution not-requested.",
       "nextAction": "Keep a dry-run operator plan ready, then execute only one allowlisted local action when explicitly requested."
     },
     {
@@ -889,13 +890,13 @@
     },
     {
       "id": "optimize-daily-retention",
-      "status": "monitor",
+      "status": "armed",
       "costUsd": 0,
       "command": "npm run autonomous:retention",
       "targets": [
         "canopy-bloom"
       ],
-      "reason": "Daily challenge, return-intent, and D1 sample policies already reflect current retention evidence."
+      "reason": "Keeps daily challenge, local streak prompts, and retention-safe missions aligned with behavior data."
     },
     {
       "id": "measure-pwa-install-loop",
@@ -914,7 +915,7 @@
       "command": "npm run build && npm run autonomous:performance && npm run autonomous:release-candidate",
       "targets": [
         "pwa-shell",
-        "GameCanvas-Ba5QBYvd.js",
+        "GameCanvas-6lBHf0p6.js",
         "dist-release-candidate"
       ],
       "reason": "Performance budget and release-candidate evidence are already fresh for the current guarded build."
@@ -947,7 +948,7 @@
       "costUsd": 0,
       "command": "npm run autonomous:post-deploy-artifact-sync",
       "targets": [
-        26255500171,
+        26255800124,
         "release-candidate-manifest"
       ],
       "reason": "Strict deploy artifact evidence is already synced from the latest successful Pages workflow."
@@ -981,7 +982,7 @@
         "firstGameCompletion",
         "firstGameCompletion"
       ],
-      "reason": "Product-gate recovery and sample missions already match current gate, analytics, loop, and event-bridge evidence."
+      "reason": "Product-gate recovery is current; the dedicated sample-plan action owns sample-only refreshes to avoid rerunning recovery without new recovery evidence."
     },
     {
       "id": "collect-gate-sample-downloads",
@@ -1003,7 +1004,7 @@
       "targets": [
         "firstGameCompletion"
       ],
-      "reason": "Product-gate sample plan already matches current recovery, traffic, event-bridge, and daily sample-date inputs."
+      "reason": "Sample plan already captured the latest no-evidence Downloads scan; retry after 4 hours or when real player evidence appears."
     },
     {
       "id": "refresh-first-move-coach",
@@ -1096,7 +1097,7 @@
       "costUsd": 0,
       "command": "npm run autonomous:operator",
       "targets": [
-        "bootstrap-production-setup"
+        "refresh-organic-seed-loop"
       ],
       "reason": "One-action operator plan is already published; avoid cycling on meta-operator refreshes."
     },
@@ -1106,7 +1107,7 @@
       "costUsd": 0,
       "command": "npm run autonomous:operator",
       "targets": [
-        "bootstrap-production-setup"
+        "refresh-organic-seed-loop"
       ],
       "reason": "Operator history is already capped and published; keep attention on product evidence."
     },
