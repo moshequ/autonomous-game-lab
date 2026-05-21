@@ -1,6 +1,6 @@
 # Production Readiness
 
-Generated: 2026-05-21T00:28:46.721Z
+Generated: 2026-05-21T00:31:17.035Z
 
 ## Environment
 
@@ -70,10 +70,10 @@ Status: ready-after-build
 - pass: production-environment - Production environment status is production-env-missing.
 - pass: production-bootstrap - Production bootstrap is production-bootstrap-ready; mode can-apply-configured-actions; external blockers 16.
 - pass: production-activation - Production activation is activation-ready; mode dry-run; execution dry-run.
-- pass: autonomous-operator - Autonomous operator is operator-plan-ready; selected measure-pwa-install-loop; execution not-requested.
-- pass: autonomous-operator-history - Autonomous operator history is operator-history-ready; records 40; executed 15.
+- pass: autonomous-operator - Autonomous operator is operator-plan-ready; selected prepare-release-candidate; execution not-requested.
+- pass: autonomous-operator-history - Autonomous operator history is operator-history-ready; records 40; executed 16.
 - pass: autonomous-cadence - Autonomous cadence is cadence-ready; Codex active-confirmed; GitHub scheduled.
-- pass: autonomous-self-update - Autonomous self-update is self-update-ready; safe pending 40; unsafe pending 0; remote push held.
+- pass: autonomous-self-update - Autonomous self-update is self-update-ready; safe pending 23; unsafe pending 0; remote push held.
 - pass: objective-audit - Objective audit is objective-in-progress; met 6 / 8; can complete false.
 
 ## Monetization
@@ -249,14 +249,14 @@ Setup script: ops/github/setup-production.sh
 
 Status: operator-plan-ready
 Mode: plan-only
-Selected action: measure-pwa-install-loop
+Selected action: prepare-release-candidate
 Execution: not-requested
 
 ## Autonomous Operator History
 
 Status: operator-history-ready
 Records: 40
-Executed: 15
+Executed: 16
 
 ## Autonomous Cadence
 
@@ -286,7 +286,7 @@ Freshness: fresh; stale artifacts 0
 
 Status: self-update-ready
 Workflow: .github/workflows/autonomous-self-update.yml
-Safe pending: 40
+Safe pending: 23
 Unsafe pending: 0
 Remote push ready: false
 - pass: self-update-script-registered - autonomous:self-update is node scripts/autonomous-self-update.mjs.
@@ -294,7 +294,7 @@ Remote push ready: false
 - pass: self-update-daily-workflow-read-only - The ordinary daily workflow remains read-only, runs the owner loop, and uploads evidence artifacts.
 - pass: self-update-self-update-workflow - A separate gated workflow can reproduce the owner loop with production env, verify it with gate env, and persist allowlisted changes.
 - pass: self-update-post-self-update-deploy - Pages redeploys after the gated self-update workflow, then repeats deployability and post-deploy smoke checks.
-- pass: self-update-safe-path-allowlist - 40 safe pending file(s), 0 unsafe pending file(s).
+- pass: self-update-safe-path-allowlist - 23 safe pending file(s), 0 unsafe pending file(s).
 - pass: self-update-repository-optional - Git worktree is available on main.
 - pass: self-update-remote-push-gated - Remote push remains held until GitHub credentials and AGL_AUTONOMOUS_SELF_UPDATE_DIRECT=1 are configured.
 - pass: self-update-zero-spend-controls - Self-update owner-loop verification includes browser smoke coverage and does not create accounts, stores, ads, paid traffic, or revenue.

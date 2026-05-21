@@ -1,22 +1,22 @@
 {
-  "generatedAt": "2026-05-21T00:28:23.177Z",
+  "generatedAt": "2026-05-21T00:30:53.753Z",
   "status": "operator-plan-ready",
   "mode": "plan-only",
   "ownerDecision": {
-    "actionId": "measure-pwa-install-loop",
-    "command": "npm run autonomous:pwa-install",
+    "actionId": "prepare-release-candidate",
+    "command": "npm run autonomous:release-candidate",
     "locallyExecutable": true,
     "rejectionReason": null
   },
   "requestedActionId": null,
   "selectedAction": {
-    "id": "measure-pwa-install-loop",
+    "id": "prepare-release-candidate",
     "status": "armed",
-    "command": "npm run autonomous:pwa-install",
+    "command": "npm run autonomous:release-candidate",
     "targets": [
-      "pwa-install"
+      "dist-release-candidate"
     ],
-    "reason": "Measures optional PWA install prompts and standalone launches as the zero-cost distribution path.",
+    "reason": "Records a content-hashed dist inventory and post-deploy smoke plan for the exact PWA build.",
     "costUsd": 0
   },
   "selectedRejection": null,
@@ -75,15 +75,15 @@
       "reason": "status-monitor"
     },
     {
-      "id": "check-performance-budget",
+      "id": "measure-pwa-install-loop",
       "status": "armed",
-      "command": "npm run build && npm run autonomous:performance",
+      "command": "npm run autonomous:pwa-install",
       "reason": "not-selected-this-run"
     },
     {
-      "id": "prepare-release-candidate",
+      "id": "check-performance-budget",
       "status": "armed",
-      "command": "npm run autonomous:release-candidate",
+      "command": "npm run build && npm run autonomous:performance",
       "reason": "not-selected-this-run"
     },
     {
@@ -209,8 +209,8 @@
   ],
   "commandPlan": [
     {
-      "segment": "npm run autonomous:pwa-install",
-      "script": "autonomous:pwa-install"
+      "segment": "npm run autonomous:release-candidate",
+      "script": "autonomous:release-candidate"
     }
   ],
   "execution": {
@@ -280,7 +280,7 @@
     "RUN_WORKFLOWS=1"
   ],
   "nextActions": [
-    "Run npm run autonomous:operator -- --execute --action=measure-pwa-install-loop to execute exactly one allowed local action.",
+    "Run npm run autonomous:operator -- --execute --action=prepare-release-candidate to execute exactly one allowed local action.",
     "Do not execute GitHub workflow, store, paid ads, or account setup commands from the local operator."
   ]
 }

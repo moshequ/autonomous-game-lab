@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-21T00:28:46.476Z",
+  "generatedAt": "2026-05-21T00:31:16.794Z",
   "status": "self-update-ready",
   "mode": "plan-and-assert",
   "envFiles": {
@@ -71,7 +71,7 @@
     "ownerLoop": "owner-loop-ready"
   },
   "pendingChanges": {
-    "total": 40,
+    "total": 23,
     "safe": [
       {
         "code": "M",
@@ -110,13 +110,6 @@
       },
       {
         "code": "M",
-        "path": "data/native-package.json",
-        "raw": " M data/native-package.json",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
         "path": "data/objective-audit.json",
         "raw": " M data/objective-audit.json",
         "safe": true,
@@ -131,71 +124,8 @@
       },
       {
         "code": "M",
-        "path": "data/store-assets.json",
-        "raw": " M data/store-assets.json",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "data/store-compliance.json",
-        "raw": " M data/store-compliance.json",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "data/store-listing-optimizer.json",
-        "raw": " M data/store-listing-optimizer.json",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "data/store-package.json",
-        "raw": " M data/store-package.json",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "native/android/README.md",
-        "raw": " M native/android/README.md",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "native/android/bubblewrap.config.json",
-        "raw": " M native/android/bubblewrap.config.json",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "public/compliance.json",
-        "raw": " M public/compliance.json",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "public/privacy.html",
-        "raw": " M public/privacy.html",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "public/store-assets/screenshots/phone-canopy-bloom-generated.png",
-        "raw": " M public/store-assets/screenshots/phone-canopy-bloom-generated.png",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "public/store-assets/screenshots/phone-lantern-relay-game.png",
-        "raw": " M public/store-assets/screenshots/phone-lantern-relay-game.png",
+        "path": "data/pwa-install-loop.json",
+        "raw": " M data/pwa-install-loop.json",
         "safe": true,
         "reason": "allowlisted-generated-artifact"
       },
@@ -236,13 +166,6 @@
       },
       {
         "code": "M",
-        "path": "reports/native-package-latest.md",
-        "raw": " M reports/native-package-latest.md",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
         "path": "reports/objective-audit-latest.md",
         "raw": " M reports/objective-audit-latest.md",
         "safe": true,
@@ -257,29 +180,8 @@
       },
       {
         "code": "M",
-        "path": "reports/store-assets-latest.md",
-        "raw": " M reports/store-assets-latest.md",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "reports/store-compliance-latest.md",
-        "raw": " M reports/store-compliance-latest.md",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "reports/store-listing-optimizer-latest.md",
-        "raw": " M reports/store-listing-optimizer-latest.md",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "reports/store-package-latest.md",
-        "raw": " M reports/store-package-latest.md",
+        "path": "reports/pwa-install-loop-latest.md",
+        "raw": " M reports/pwa-install-loop-latest.md",
         "safe": true,
         "reason": "allowlisted-generated-artifact"
       },
@@ -320,13 +222,6 @@
       },
       {
         "code": "M",
-        "path": "src/data/nativePackage.ts",
-        "raw": " M src/data/nativePackage.ts",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
         "path": "src/data/objectiveAudit.ts",
         "raw": " M src/data/objectiveAudit.ts",
         "safe": true,
@@ -334,28 +229,14 @@
       },
       {
         "code": "M",
-        "path": "src/data/storeAssets.ts",
-        "raw": " M src/data/storeAssets.ts",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "src/data/storeCompliance.ts",
-        "raw": " M src/data/storeCompliance.ts",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "src/data/storeListingOptimizer.ts",
-        "raw": " M src/data/storeListingOptimizer.ts",
+        "path": "src/data/pwaInstallLoop.ts",
+        "raw": " M src/data/pwaInstallLoop.ts",
         "safe": true,
         "reason": "allowlisted-generated-artifact"
       }
     ],
     "unsafe": [],
-    "safeCount": 40,
+    "safeCount": 23,
     "unsafeCount": 0
   },
   "commitPlan": {
@@ -373,41 +254,24 @@
       "data/autonomous-operator.json",
       "data/autonomous-owner-loop.json",
       "data/autonomous-self-update.json",
-      "data/native-package.json",
       "data/objective-audit.json",
       "data/production-readiness.json",
-      "data/store-assets.json",
-      "data/store-compliance.json",
-      "data/store-listing-optimizer.json",
-      "data/store-package.json",
-      "native/android/README.md",
-      "native/android/bubblewrap.config.json",
-      "public/compliance.json",
-      "public/privacy.html",
-      "public/store-assets/screenshots/phone-canopy-bloom-generated.png",
-      "public/store-assets/screenshots/phone-lantern-relay-game.png",
+      "data/pwa-install-loop.json",
       "reports/autonomous-cadence-latest.md",
       "reports/autonomous-operator-history-latest.md",
       "reports/autonomous-operator-latest.md",
       "reports/autonomous-owner-loop-latest.md",
       "reports/autonomous-self-update-latest.md",
-      "reports/native-package-latest.md",
       "reports/objective-audit-latest.md",
       "reports/production-readiness-latest.md",
-      "reports/store-assets-latest.md",
-      "reports/store-compliance-latest.md",
-      "reports/store-listing-optimizer-latest.md",
-      "reports/store-package-latest.md",
+      "reports/pwa-install-loop-latest.md",
       "src/data/autonomousCadence.ts",
       "src/data/autonomousOperator.ts",
       "src/data/autonomousOperatorHistory.ts",
       "src/data/autonomousOwnerLoop.ts",
       "src/data/autonomousSelfUpdate.ts",
-      "src/data/nativePackage.ts",
       "src/data/objectiveAudit.ts",
-      "src/data/storeAssets.ts",
-      "src/data/storeCompliance.ts",
-      "src/data/storeListingOptimizer.ts"
+      "src/data/pwaInstallLoop.ts"
     ],
     "commitMessage": "Autonomous daily self-update",
     "skipWhenNoAllowlistedChanges": true
@@ -512,7 +376,7 @@
     {
       "id": "safe-path-allowlist",
       "status": "pass",
-      "detail": "40 safe pending file(s), 0 unsafe pending file(s)."
+      "detail": "23 safe pending file(s), 0 unsafe pending file(s)."
     },
     {
       "id": "repository-optional",
