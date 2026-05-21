@@ -699,13 +699,16 @@ const systems = [
         supportFeedback.controls?.zeroPaidSpend === true &&
         supportFeedback.controls?.readOnlyGithubIssueList === true &&
         supportFeedback.controls?.noIssueMutation === true &&
-        supportFeedback.controls?.noRawAnalyticsStored === true,
+        supportFeedback.controls?.noRawAnalyticsStored === true &&
+        supportFeedback.controls?.aggregateEvidenceNeverMarksProductGatePass === true,
       'needs-feedback-ingest',
     ),
     autonomy: 'read-only-public-feedback-routing',
     evidence: `Support feedback ${supportFeedback.status}; issues ${
       supportFeedback.summary?.issuesInspected ?? 0
-    }; routable signals ${supportFeedback.summary?.routableSignals ?? 0}.`,
+    }; routable signals ${supportFeedback.summary?.routableSignals ?? 0}; aggregate notes ${
+      supportFeedback.summary?.aggregateEvidenceNotes ?? 0
+    }.`,
     nextAction:
       supportFeedback.nextActions?.[0] ??
       'Inspect public GitHub Issues and route playable game signals into the guarded backlog.',
@@ -975,13 +978,16 @@ const systems = [
         supportChannel.provider === 'github-issues' &&
         supportChannel.controls?.zeroPaidSpend === true &&
         supportChannel.controls?.playerInitiatedOnly === true &&
+        supportChannel.controls?.analyticsEvidenceAggregateOnly === true &&
         supportChannel.controls?.supportEmailStillRequiredForStoreSubmission === true,
       'needs-support-intake',
     ),
     autonomy: 'zero-spend-public-feedback-intake',
     evidence: `Support channel ${supportChannel.status}; repository ${
       supportChannel.repository?.target ?? 'missing'
-    }; public intake ${supportChannel.repository?.publicIssuesReady === true ? 'ready' : 'planned'}.`,
+    }; public intake ${supportChannel.repository?.publicIssuesReady === true ? 'ready' : 'planned'}; aggregate evidence only ${
+      supportChannel.controls?.analyticsEvidenceAggregateOnly === true
+    }.`,
     nextAction:
       supportChannel.nextActions?.[0] ??
       'Keep public issue intake ready while retaining the app-store support email blocker.',
@@ -1423,6 +1429,11 @@ const productGateSamplePlanSourceEvidence = {
   localEventBridge,
   downloadsScanPolicy: gateSampleDownloadsPolicySource,
   unitEconomics,
+  supportFeedback: {
+    status: supportFeedback.status,
+    sourceDataHash: supportFeedback.sourceDataHash,
+    aggregateEvidenceNotes: supportFeedback.summary?.aggregateEvidenceNotes ?? 0,
+  },
 }
 const storePackageSourceEvidence = {
   pipeline: prototypePipeline,
@@ -1570,6 +1581,7 @@ const productGateSamplePlanFreshness = sourceFreshness({
     { id: 'replay-loop', data: replayLoop },
     { id: 'local-event-bridge', data: localEventBridge },
     { id: 'unit-economics', data: unitEconomics },
+    { id: 'support-feedback', data: supportFeedback },
   ],
   sourceDataHash: hashSourceData(productGateSamplePlanSourceEvidence),
 })
@@ -1731,7 +1743,9 @@ const supportFeedbackOperationalFreshness = operationalEvidenceFreshness({
     supportFeedback.controls?.readOnlyGithubIssueList === true &&
     supportFeedback.controls?.noIssueMutation === true &&
     supportFeedback.controls?.noRawAnalyticsStored === true &&
+    supportFeedback.controls?.aggregateEvidenceNeverMarksProductGatePass === true &&
     Array.isArray(supportFeedback.issueRecords) &&
+    Array.isArray(supportFeedback.aggregateEvidenceNotes) &&
     Array.isArray(supportFeedback.improvementSignals),
 })
 const performanceOperationalFreshness = operationalEvidenceFreshness({

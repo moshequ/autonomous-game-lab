@@ -56,6 +56,7 @@ const [
   replayLoop,
   localEventBridge,
   unitEconomics,
+  supportFeedback,
 ] = await Promise.all([
   readJson(path.join(dataDir, 'product-gate-recovery.json')),
   readJson(path.join(dataDir, 'product-optimization.json')),
@@ -68,6 +69,12 @@ const [
   readJson(path.join(dataDir, 'local-event-bridge.json')),
   readOptionalJson(path.join(dataDir, 'unit-economics.json'), {
     controls: { maxDailySpendUsd: 0, paidAcquisitionAllowed: false },
+  }),
+  readOptionalJson(path.join(dataDir, 'support-feedback.json'), {
+    status: 'missing',
+    summary: { aggregateEvidenceNotes: 0 },
+    aggregateEvidenceNotes: [],
+    controls: {},
   }),
 ])
 
@@ -211,6 +218,17 @@ const gateSampleCampaigns = [
   })),
 ]
 const gateSampleCampaignById = new Map(gateSampleCampaigns.map((campaign) => [campaign.campaignId, campaign]))
+const aggregateEvidenceNotesByGame = new Map()
+
+for (const note of supportFeedback.aggregateEvidenceNotes ?? []) {
+  if (!note.gameId) {
+    continue
+  }
+
+  const existing = aggregateEvidenceNotesByGame.get(note.gameId) ?? []
+  existing.push(note)
+  aggregateEvidenceNotesByGame.set(note.gameId, existing)
+}
 
 const evidenceForMission = (mission) => {
   const evidence = gateSampleCampaignById.get(mission.campaignId)
@@ -236,6 +254,31 @@ const evidenceForMission = (mission) => {
   }
 }
 
+const supportingAggregateEvidenceForMission = (mission) => {
+  const notes = (aggregateEvidenceNotesByGame.get(mission.gameId) ?? []).slice(0, 5)
+  const total = (field) =>
+    notes.reduce((sum, note) => sum + (typeof note.counts?.[field] === 'number' ? note.counts[field] : 0), 0)
+
+  return {
+    status: notes.length ? 'supporting-public-aggregate-notes' : 'none',
+    source: 'support-feedback-public-issues',
+    noteCount: notes.length,
+    starts: total('starts'),
+    completions: total('completions'),
+    replays: total('replays'),
+    d1Eligible: total('d1Eligible'),
+    d1Retained: total('d1Retained'),
+    gateDecisionEligible: false,
+    manualReviewRequired: true,
+    topIssues: notes.map((note) => ({
+      number: note.number,
+      status: note.status,
+      url: note.url,
+      evidenceWindow: note.evidenceWindow,
+    })),
+  }
+}
+
 const sampleRoleForMission = (mission) => {
   const roles = [
     mission.gateId === primaryMission?.gateId ? 'primary-bottleneck' : null,
@@ -249,6 +292,7 @@ const missionsWithEvidence = missions.map((mission) => ({
   ...mission,
   sampleRole: sampleRoleForMission(mission),
   evidence: evidenceForMission(mission),
+  supportingAggregateEvidence: supportingAggregateEvidenceForMission(mission),
 }))
 const evidenceReadyCount = missionsWithEvidence.filter(
   (mission) => mission.evidence.status === 'imported-sample-active',
@@ -256,6 +300,10 @@ const evidenceReadyCount = missionsWithEvidence.filter(
 const inboxReadyCount = missionsWithEvidence.filter(
   (mission) => mission.evidence.status === 'inbox-ready-for-ingest',
 ).length
+const supportingAggregateEvidenceNotes = missionsWithEvidence.reduce(
+  (sum, mission) => sum + mission.supportingAggregateEvidence.noteCount,
+  0,
+)
 const collectSampleDownloadsCommand = 'npm run autonomous:collect-sample-downloads'
 const sampleCollectionNextAction = localEventsAvailable
   ? 'Use imported local event drops before the next recovery decision.'
@@ -277,6 +325,11 @@ const sourceDataHash = hashSourceData({
   localEventBridge,
   downloadsScanPolicy: downloadsScanPolicySource,
   unitEconomics,
+  supportFeedback: {
+    status: supportFeedback.status,
+    sourceDataHash: supportFeedback.sourceDataHash,
+    aggregateEvidenceNotes: supportFeedback.summary?.aggregateEvidenceNotes ?? 0,
+  },
 })
 
 const payload = {
@@ -304,6 +357,7 @@ const payload = {
     inboxGateSampleEvents,
     evidenceReadyCount,
     inboxReadyCount,
+    supportingAggregateEvidenceNotes,
     downloadsScanStatus: downloadsScanPolicy.lastScanStatus ?? 'not-scanned',
     downloadsScanCoolingDown: downloadsScanPolicy.coolingDown,
     downloadsScanNextRecommendedAt: downloadsScanPolicy.nextRecommendedScanAt,
@@ -397,6 +451,8 @@ const payload = {
     downloadsImportRequiresExplicitOptIn: true,
     downloadsScanBackoffRequired: true,
     requireObservedTelemetryBeforeRecoveryChange: true,
+    publicAggregateEvidenceIsSupportingOnly: true,
+    aggregateEvidenceDoesNotPassGates: true,
   },
   nextActions: [
     primaryMission
@@ -421,6 +477,7 @@ const report = [
   `Observed successes needed: ${payload.summary.totalObservedSuccessesNeeded}`,
   `Imported gate-sample events: ${payload.summary.importedGateSampleEvents}`,
   `Inbox gate-sample events: ${payload.summary.inboxGateSampleEvents}`,
+  `Supporting aggregate evidence notes: ${payload.summary.supportingAggregateEvidenceNotes}`,
   `Downloads scan: ${payload.summary.downloadsScanStatus}; cooling down ${payload.summary.downloadsScanCoolingDown}`,
   `Next recommended Downloads scan: ${payload.summary.downloadsScanNextRecommendedAt}`,
   `Public sample page: ${payload.publicSamplePage.path}`,
@@ -430,7 +487,7 @@ const report = [
   '',
   ...payload.missions.map(
     (mission) =>
-      `- #${mission.rank} ${mission.gateId}: ${mission.status}; evidence ${mission.evidence.status}; ${pct(mission.current.actual)} / ${pct(mission.current.gate)}; needs ${mission.needed.promptViews} prompt view(s), ${mission.needed.successes} success(es); ${mission.playPath}`,
+      `- #${mission.rank} ${mission.gateId}: ${mission.status}; evidence ${mission.evidence.status}; aggregate notes ${mission.supportingAggregateEvidence.noteCount}; ${pct(mission.current.actual)} / ${pct(mission.current.gate)}; needs ${mission.needed.promptViews} prompt view(s), ${mission.needed.successes} success(es); ${mission.playPath}`,
   ),
   '',
   '## Commands',

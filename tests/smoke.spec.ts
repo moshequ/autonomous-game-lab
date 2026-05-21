@@ -1981,6 +1981,7 @@ test('product optimizer applies one guarded tuning step from product-gate eviden
       missions: number
       totalPromptViewsNeeded: number
       totalObservedSuccessesNeeded: number
+      supportingAggregateEvidenceNotes: number
       downloadsScanStatus: string
       downloadsScanCoolingDown: boolean
       downloadsScanNextRecommendedAt: string
@@ -1997,6 +1998,7 @@ test('product optimizer applies one guarded tuning step from product-gate eviden
       status: string
       gameId: string
       needed: { promptViews: number; successes: number }
+      supportingAggregateEvidence: { gateDecisionEligible: boolean; manualReviewRequired: boolean; noteCount: number }
       controls: { costUsd: number; noSyntheticEvents: boolean; noRuleChange: boolean }
     }>
     commandPlan: { refreshPlan: string; collectAndRefresh: string; collectDownloadsAndRefresh: string }
@@ -2034,6 +2036,8 @@ test('product optimizer applies one guarded tuning step from product-gate eviden
       downloadsScanBackoffRequired: boolean
       noAutomaticRuleChanges: boolean
       requireObservedTelemetryBeforeRecoveryChange: boolean
+      publicAggregateEvidenceIsSupportingOnly: boolean
+      aggregateEvidenceDoesNotPassGates: boolean
     }
   }
   const packageJson = JSON.parse(await readFile('package.json', 'utf8')) as {
@@ -2148,6 +2152,7 @@ test('product optimizer applies one guarded tuning step from product-gate eviden
   expect(samplePlan.summary.totalObservedSuccessesNeeded).toBe(
     recovery.gates.reduce((sum, gate) => sum + gate.neededSuccesses, 0),
   )
+  expect(typeof samplePlan.summary.supportingAggregateEvidenceNotes).toBe('number')
   expect(samplePlan.commandPlan.refreshPlan).toBe('npm run autonomous:sample-plan')
   expect(samplePlan.commandPlan.collectAndRefresh).toContain('autonomous:gate-recovery')
   expect(samplePlan.commandPlan.collectAndRefresh).toContain('autonomous:retention')
@@ -2183,6 +2188,10 @@ test('product optimizer applies one guarded tuning step from product-gate eviden
   expect(samplePlan.controls.noSyntheticGatePasses).toBe(true)
   expect(samplePlan.controls.noAutomaticRuleChanges).toBe(true)
   expect(samplePlan.controls.realEventDropsOnly).toBe(true)
+  expect(samplePlan.controls.publicAggregateEvidenceIsSupportingOnly).toBe(true)
+  expect(samplePlan.controls.aggregateEvidenceDoesNotPassGates).toBe(true)
+  expect(samplePlan.missions.every((mission) => mission.supportingAggregateEvidence.gateDecisionEligible === false)).toBe(true)
+  expect(samplePlan.missions.every((mission) => mission.supportingAggregateEvidence.manualReviewRequired === true)).toBe(true)
   expect(samplePlan.controls.downloadsImportRequiresExplicitOptIn).toBe(true)
   expect(samplePlan.controls.downloadsScanBackoffRequired).toBe(true)
   expect(samplePlan.controls.requireObservedTelemetryBeforeRecoveryChange).toBe(true)
@@ -5084,7 +5093,14 @@ test('support channel publishes zero-spend public issue intake with privacy warn
       bugReportUrl: string | null
       analyticsEvidenceUrl: string | null
     }
-    issueTemplates: Array<{ exists: boolean; containsPrivacyWarning: boolean; url: string | null }>
+    issueTemplates: Array<{
+      id: string
+      exists: boolean
+      containsPrivacyWarning: boolean
+      containsAggregateOnlyWarning: boolean
+      url: string | null
+    }>
+    privacy: { analyticsEvidenceAggregateOnly: boolean }
     controls: {
       zeroPaidSpend: boolean
       noAccountCreation: boolean
@@ -5092,12 +5108,16 @@ test('support channel publishes zero-spend public issue intake with privacy warn
       playerInitiatedOnly: boolean
       noPrivateDataInPrefilledUrls: boolean
       noRawEventEmbeddingInUrls: boolean
+      noRawEventRowsInAnalyticsEvidence: boolean
+      analyticsEvidenceAggregateOnly: boolean
       supportEmailStillRequiredForStoreSubmission: boolean
     }
   }
   const storePackage = JSON.parse(await readFile('data/store-package.json', 'utf8')) as {
     supportPage: { supportChannel: { status: string; provider: string; supportUrl: string | null } }
   }
+  const analyticsTemplate = await readFile('.github/ISSUE_TEMPLATE/analytics-evidence.yml', 'utf8')
+  const analyticsIssueTemplate = supportChannel.issueTemplates.find((template) => template.id === 'analytics-evidence')
 
   expect(['support-channel-ready', 'support-channel-planned']).toContain(supportChannel.status)
   expect(supportChannel.provider).toBe('github-issues')
@@ -5107,12 +5127,18 @@ test('support channel publishes zero-spend public issue intake with privacy warn
   expect(supportChannel.links.analyticsEvidenceUrl).toContain('analytics-evidence.yml')
   expect(supportChannel.issueTemplates.every((template) => template.exists)).toBe(true)
   expect(supportChannel.issueTemplates.every((template) => template.containsPrivacyWarning)).toBe(true)
+  expect(analyticsIssueTemplate?.containsAggregateOnlyWarning).toBe(true)
+  expect(analyticsTemplate).toContain('Share aggregate counts only')
+  expect(analyticsTemplate).toContain('Aggregate starts')
   expect(supportChannel.controls.zeroPaidSpend).toBe(true)
   expect(supportChannel.controls.noAccountCreation).toBe(true)
   expect(supportChannel.controls.noStoreSubmission).toBe(true)
   expect(supportChannel.controls.playerInitiatedOnly).toBe(true)
   expect(supportChannel.controls.noPrivateDataInPrefilledUrls).toBe(true)
   expect(supportChannel.controls.noRawEventEmbeddingInUrls).toBe(true)
+  expect(supportChannel.controls.noRawEventRowsInAnalyticsEvidence).toBe(true)
+  expect(supportChannel.controls.analyticsEvidenceAggregateOnly).toBe(true)
+  expect(supportChannel.privacy.analyticsEvidenceAggregateOnly).toBe(true)
   expect(supportChannel.controls.supportEmailStillRequiredForStoreSubmission).toBe(true)
   expect(storePackage.supportPage.supportChannel.status).toBe(supportChannel.status)
   expect(storePackage.supportPage.supportChannel.provider).toBe('github-issues')
@@ -5137,6 +5163,11 @@ test('support feedback ingests public issues as redacted improvement evidence', 
       issuesInspected: number
       improvementSignals: number
       routableSignals: number
+      aggregateEvidenceNotes: number
+      aggregateEvidenceGames: number
+      aggregateStarts: number
+      aggregateCompletions: number
+      aggregateReplays: number
     }
     controls: {
       zeroPaidSpend: boolean
@@ -5145,22 +5176,33 @@ test('support feedback ingests public issues as redacted improvement evidence', 
       publicIssuesOnly: boolean
       noAttachmentsDownloaded: boolean
       noRawAnalyticsStored: boolean
+      noRawEventRowsAccepted: boolean
       redactsContactText: boolean
       playableTargetsOnlyForAutomation: boolean
+      publicAggregateOnly: boolean
+      aggregateEvidenceNeverMarksProductGatePass: boolean
+      aggregateEvidenceRequiresManualReviewForGateDecisions: boolean
     }
     issueRecords: Array<{ title: string; excerpt: string; matchedSignals: string[] }>
+    aggregateEvidenceNotes: Array<{ status: string; counts: { starts: number | null } }>
     improvementSignals: Array<{ status: string; experiment: string; issueNumbers: number[] }>
   }
   const backlogSummary = JSON.parse(await readFile('data/improvement-backlog-summary.json', 'utf8')) as {
     supportFeedbackStatus: string
     supportFeedbackSignals: number
     supportFeedbackRoutableSignals: number
-    controls: { playableTargetsOnly: boolean; noSyntheticEvents: boolean }
+    supportFeedbackAggregateEvidenceNotes: number
+    controls: {
+      playableTargetsOnly: boolean
+      noSyntheticEvents: boolean
+      aggregateEvidenceNeverMarksProductGatePass: boolean
+    }
   }
   const routing = JSON.parse(await readFile('data/improvement-routing.json', 'utf8')) as {
     supportFeedbackStatus: string
     supportFeedbackSignals: number
     supportFeedbackRoutableSignals: number
+    supportFeedbackAggregateEvidenceNotes: number
   }
   const packageJson = JSON.parse(await readFile('package.json', 'utf8')) as {
     scripts: Record<string, string>
@@ -5177,27 +5219,38 @@ test('support feedback ingests public issues as redacted improvement evidence', 
   expect(supportFeedback.controls.publicIssuesOnly).toBe(true)
   expect(supportFeedback.controls.noAttachmentsDownloaded).toBe(true)
   expect(supportFeedback.controls.noRawAnalyticsStored).toBe(true)
+  expect(supportFeedback.controls.noRawEventRowsAccepted).toBe(true)
   expect(supportFeedback.controls.redactsContactText).toBe(true)
   expect(supportFeedback.controls.playableTargetsOnlyForAutomation).toBe(true)
+  expect(supportFeedback.controls.publicAggregateOnly).toBe(true)
+  expect(supportFeedback.controls.aggregateEvidenceNeverMarksProductGatePass).toBe(true)
+  expect(supportFeedback.controls.aggregateEvidenceRequiresManualReviewForGateDecisions).toBe(true)
   expect(supportFeedback.issueRecords.length).toBe(supportFeedback.summary.issuesInspected)
+  expect(supportFeedback.aggregateEvidenceNotes.length).toBe(supportFeedback.summary.aggregateEvidenceNotes)
   expect(supportFeedback.improvementSignals.length).toBe(supportFeedback.summary.improvementSignals)
   expect(supportFeedback.improvementSignals.every((signal) => signal.status !== 'routable' || signal.issueNumbers.length > 0)).toBe(true)
   expect(backlogSummary.supportFeedbackStatus).toBe(supportFeedback.status)
   expect(backlogSummary.supportFeedbackSignals).toBe(supportFeedback.summary.improvementSignals)
   expect(backlogSummary.supportFeedbackRoutableSignals).toBe(supportFeedback.summary.routableSignals)
+  expect(backlogSummary.supportFeedbackAggregateEvidenceNotes).toBe(supportFeedback.summary.aggregateEvidenceNotes)
   expect(backlogSummary.controls.playableTargetsOnly).toBe(true)
   expect(backlogSummary.controls.noSyntheticEvents).toBe(true)
+  expect(backlogSummary.controls.aggregateEvidenceNeverMarksProductGatePass).toBe(true)
   expect(routing.supportFeedbackStatus).toBe(supportFeedback.status)
   expect(routing.supportFeedbackSignals).toBe(supportFeedback.summary.improvementSignals)
   expect(routing.supportFeedbackRoutableSignals).toBe(supportFeedback.summary.routableSignals)
+  expect(routing.supportFeedbackAggregateEvidenceNotes).toBe(supportFeedback.summary.aggregateEvidenceNotes)
   expect(packageJson.scripts['autonomous:support-feedback']).toBe('node scripts/support-feedback-ingestor.mjs')
   expect(packageJson.scripts['autonomous:daily']).toContain('autonomous:support-feedback')
   expect(script).toContain('readOnlyGithubIssueList')
   expect(script).toContain('noAttachmentsDownloaded')
+  expect(script).toContain('issueFormField')
+  expect(script).toContain('aggregateEvidenceNeverMarksProductGatePass')
 
   await page.goto('/')
   await expect(page.getByLabel('Support Feedback')).toContainText(supportFeedback.status)
   await expect(page.getByLabel('Support Feedback')).toContainText(`${supportFeedback.summary.issuesInspected}`)
+  await expect(page.getByLabel('Support Feedback')).toContainText(`${supportFeedback.summary.aggregateEvidenceNotes}`)
 })
 
 test('generated compliance manifest is reachable', async ({ page }) => {

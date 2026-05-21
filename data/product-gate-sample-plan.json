@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-05-21T07:42:08.977Z",
-  "sourceDataHash": "9eb0d74b60ac",
+  "generatedAt": "2026-05-21T09:48:16.387Z",
+  "sourceDataHash": "35eaa06e3cb5",
   "status": "product-gate-sample-plan-ready",
   "sourceStatus": {
     "analyticsSource": "fixture-sample",
@@ -23,6 +23,7 @@
     "inboxGateSampleEvents": 0,
     "evidenceReadyCount": 0,
     "inboxReadyCount": 0,
+    "supportingAggregateEvidenceNotes": 0,
     "downloadsScanStatus": "no-evidence-found",
     "downloadsScanCoolingDown": true,
     "downloadsScanNextRecommendedAt": "2026-05-21T11:28:33.578Z",
@@ -35,8 +36,8 @@
     "evidenceReadyNow": false,
     "lastScanAt": "2026-05-21T07:28:33.578Z",
     "lastScanStatus": "no-evidence-found",
-    "scanAgeHours": 0.23,
-    "cooldownRemainingHours": 3.77,
+    "scanAgeHours": 2.33,
+    "cooldownRemainingHours": 1.67,
     "nextRecommendedScanAt": "2026-05-21T11:28:33.578Z"
   },
   "publicSamplePage": {
@@ -187,6 +188,19 @@
         "successEvents": 0,
         "analyticsExports": 0,
         "latestAt": null
+      },
+      "supportingAggregateEvidence": {
+        "status": "none",
+        "source": "support-feedback-public-issues",
+        "noteCount": 0,
+        "starts": 0,
+        "completions": 0,
+        "replays": 0,
+        "d1Eligible": 0,
+        "d1Retained": 0,
+        "gateDecisionEligible": false,
+        "manualReviewRequired": true,
+        "topIssues": []
       }
     },
     {
@@ -259,6 +273,19 @@
         "successEvents": 0,
         "analyticsExports": 0,
         "latestAt": null
+      },
+      "supportingAggregateEvidence": {
+        "status": "none",
+        "source": "support-feedback-public-issues",
+        "noteCount": 0,
+        "starts": 0,
+        "completions": 0,
+        "replays": 0,
+        "d1Eligible": 0,
+        "d1Retained": 0,
+        "gateDecisionEligible": false,
+        "manualReviewRequired": true,
+        "topIssues": []
       }
     },
     {
@@ -336,6 +363,19 @@
         "successEvents": 0,
         "analyticsExports": 0,
         "latestAt": null
+      },
+      "supportingAggregateEvidence": {
+        "status": "none",
+        "source": "support-feedback-public-issues",
+        "noteCount": 0,
+        "starts": 0,
+        "completions": 0,
+        "replays": 0,
+        "d1Eligible": 0,
+        "d1Retained": 0,
+        "gateDecisionEligible": false,
+        "manualReviewRequired": true,
+        "topIssues": []
       }
     }
   ],
@@ -357,7 +397,9 @@
     "realEventDropsOnly": true,
     "downloadsImportRequiresExplicitOptIn": true,
     "downloadsScanBackoffRequired": true,
-    "requireObservedTelemetryBeforeRecoveryChange": true
+    "requireObservedTelemetryBeforeRecoveryChange": true,
+    "publicAggregateEvidenceIsSupportingOnly": true,
+    "aggregateEvidenceDoesNotPassGates": true
   },
   "nextActions": [
     "First game completion needs 30 more prompt exposure(s) and 128 observed success(es); feature Harbor Rings via /?game=harbor-rings&utm_source=gate_sample&utm_campaign=gate-sample-20260521-firstGameCompletion.",

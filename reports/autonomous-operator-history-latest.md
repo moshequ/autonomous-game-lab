@@ -1,9 +1,9 @@
 # Autonomous Operator History
 
-Generated: 2026-05-21T09:32:41.370Z
+Generated: 2026-05-21T09:53:02.720Z
 Status: operator-history-ready
 Records: 40
-Executed records: 13
+Executed records: 12
 Failed records: 0
 Latest run appended: false
 Compacted duplicate dry-runs: 0
@@ -17,13 +17,13 @@ Compacted duplicate dry-runs: 0
 
 ## Recent Records
 
-- 2026-05-21T07:50:36.931Z: refresh-support-feedback; not-requested; appended fingerprint 7f2af70f6d7a3873
-- 2026-05-21T07:51:05.313Z: refresh-support-feedback; executed; appended fingerprint 58fae792270dbbc0
-- 2026-05-21T07:51:50.886Z: check-performance-budget; not-requested; appended fingerprint 17c73d530bca3799
-- 2026-05-21T07:52:32.295Z: check-performance-budget; executed; appended fingerprint db16835e493b3adb
-- 2026-05-21T07:53:00.670Z: bootstrap-production-setup; not-requested; appended fingerprint 02e758321e305a1e
-- 2026-05-21T07:53:33.847Z: optimize-store-listing; not-requested; appended fingerprint 6e73c7b4ca333d95
-- 2026-05-21T08:07:51.918Z: refresh-autonomous-cadence; not-requested; appended fingerprint 8feafbcb3d282933
-- 2026-05-21T08:18:37.300Z: refresh-support-feedback; not-requested; appended fingerprint 3f3f2f6688bc6d84
 - 2026-05-21T08:21:14.001Z: check-performance-budget; not-requested; appended fingerprint 383f120163ee55d9
 - 2026-05-21T09:29:06.951Z: refresh-production-blocker-handoff; not-requested; appended fingerprint 3ec1ba2886d68209
+- 2026-05-21T09:46:36.955Z: refresh-product-gate-recovery; not-requested; appended fingerprint d2cff3d09b6aa1e5
+- 2026-05-21T09:47:31.973Z: refresh-objective-audit; not-requested; appended fingerprint d8a40f9f09c867f6
+- 2026-05-21T09:47:47.929Z: refresh-product-gate-recovery; not-requested; appended fingerprint d2cff3d09b6aa1e5
+- 2026-05-21T09:48:16.410Z: refresh-product-gate-recovery; executed; appended fingerprint 37a89c98a64f6c70
+- 2026-05-21T09:48:16.910Z: refresh-objective-audit; not-requested; appended fingerprint d8a40f9f09c867f6
+- 2026-05-21T09:48:18.160Z: optimize-store-listing; not-requested; appended fingerprint e43b45bb7f1313e0
+- 2026-05-21T09:48:34.824Z: optimize-store-listing; executed; appended fingerprint dd9fe1704a6f7254
+- 2026-05-21T09:48:35.311Z: refresh-product-gate-recovery; not-requested; appended fingerprint a84142514b52bc01

@@ -1,5 +1,5 @@
 name: Analytics evidence note
-description: Describe a player-initiated local analytics export without pasting raw data.
+description: Share aggregate-only counts from a player-initiated local analytics review.
 title: "[Evidence] "
 body:
   - type: markdown
@@ -7,17 +7,55 @@ body:
       value: |
         Use this only for voluntary player-initiated evidence notes.
 
-        GitHub Issues are public. Do not paste private information or raw analytics exports into this issue. If you used Export local analytics, review the file first and attach it only when you are comfortable sharing it publicly.
+        GitHub Issues are public. Share aggregate counts only. Do not paste private information, raw analytics exports, event rows, names, emails, IPs, device IDs, or uploaded event files into this issue.
   - type: input
     id: game
     attributes:
       label: Game or mission
       description: Which game, gate-sample mission, or seed campaign produced the export?
+    validations:
+      required: true
+  - type: input
+    id: window
+    attributes:
+      label: Evidence window
+      description: Date or short time window for the aggregate counts.
+      placeholder: "2026-05-21, last 24h, or one play session"
+  - type: input
+    id: starts
+    attributes:
+      label: Aggregate starts
+      description: Total game starts seen in the reviewed export or analytics view. Use 0 if unavailable.
+      placeholder: "0"
+  - type: input
+    id: completions
+    attributes:
+      label: Aggregate completions
+      description: Total first-game completions or wins seen. Use 0 if unavailable.
+      placeholder: "0"
+  - type: input
+    id: replays
+    attributes:
+      label: Aggregate replays
+      description: Total replay or play-again actions seen. Use 0 if unavailable.
+      placeholder: "0"
+  - type: input
+    id: d1_eligible
+    attributes:
+      label: Aggregate D1 eligible players
+      description: Total players eligible for a next-day return check. Use 0 if unavailable.
+      placeholder: "0"
+  - type: input
+    id: d1_retained
+    attributes:
+      label: Aggregate D1 retained players
+      description: Total eligible players who returned next day. Use 0 if unavailable.
+      placeholder: "0"
   - type: textarea
     id: summary
     attributes:
-      label: What the export represents
-      description: Summarize the experience in words instead of pasting raw event data.
+      label: What changed or looked unusual
+      description: Summarize the aggregate evidence in words instead of pasting raw event data.
     validations:
       required: true
   - type: checkboxes
@@ -25,5 +63,5 @@ body:
     attributes:
       label: Sharing check
       options:
-        - label: I reviewed any file I chose to attach and understand this issue is public.
+        - label: I am sharing aggregate counts only, not raw analytics exports, event rows, private identifiers, or uploaded event files.
           required: true

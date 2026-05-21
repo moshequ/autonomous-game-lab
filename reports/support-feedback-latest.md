@@ -1,10 +1,12 @@
 # Support Feedback
 
-Generated: 2026-05-21T07:51:05.296Z
+Generated: 2026-05-21T09:46:35.479Z
 Status: support-feedback-empty
 Repository: moshequ/autonomous-game-lab
 Issues inspected: 0
 Improvement signals: 0
+Aggregate evidence notes: 0
+Aggregate starts: 0
 
 ## Controls
 
@@ -13,7 +15,14 @@ Improvement signals: 0
 - No issue mutation: true
 - No attachments downloaded: true
 - Raw analytics stored: false
+- Raw event rows accepted: false
+- Public aggregate only: true
+- Aggregate evidence can pass gates: false
 - Contact text redacted: true
+
+## Aggregate Evidence Notes
+
+- none
 
 ## Signals
 

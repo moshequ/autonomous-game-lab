@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-21T09:32:40.891Z",
+  "generatedAt": "2026-05-21T09:52:49.322Z",
   "status": "objective-in-progress",
   "objective": "Build a bootstrapped autonomous web/PWA game portal that can generate original board-game-inspired games, measure user behavior, propose and apply data-driven improvements, and prepare a path to monetization and app-store distribution with minimal manual intervention.",
   "summary": {
@@ -73,8 +73,8 @@
         "Retention loop: retention-loop-ready; return intent armed",
         "Organic seed loop: organic-seed-loop-ready; target canopy-bloom",
         "Experiment results: evaluated",
-        "Backlog: improvement-backlog-ready; items 4; hash a738f73a0160",
-        "Support feedback: support-feedback-empty; issues 0; routable signals 0",
+        "Backlog: improvement-backlog-ready; items 4; hash 8b7b0546cd7d",
+        "Support feedback: support-feedback-empty; issues 0; routable signals 0; aggregate notes 0",
         "Applied/deferred actions: 7",
         "Operator selected: none; status operator-held; execution not-requested"
       ],
@@ -91,12 +91,12 @@
         "Autonomous cadence: cadence-ready; Codex active-confirmed; GitHub scheduled",
         "Autonomous self-update: self-update-ready; workflow .github/workflows/autonomous-self-update.yml; unsafe pending 0",
         "Operator: operator-held",
-        "Operator history: operator-history-ready; records 40; executed 13",
+        "Operator history: operator-history-ready; records 40; executed 12",
         "Bootstrap: production-bootstrap-ready",
         "Repository bootstrap: repository-bootstrap-ready; helper ops/github/bootstrap-repository.sh",
         "Release candidate: release-candidate-ready; smoke URLs 14",
         "Post-deploy smoke: post-deploy-smoke-observed-live; origin https://moshequ.github.io/autonomous-game-lab; checks 15/15; local artifact predeploy-artifact-smoke-passed 15/15",
-        "Strict deploy artifact sync: post-deploy-artifact-sync-passed; run 26217013143; live matches artifact true; candidate pwa-4f507a7415c1",
+        "Strict deploy artifact sync: post-deploy-artifact-sync-passed; run 26217871035; live matches artifact true; candidate pwa-7325f1c6ba83",
         "Repository channel: repository-channel-ready; repository moshequ/autonomous-game-lab; git worktree true",
         "Autonomy score: 98%",
         "Credential-gated actions: 10"
@@ -243,7 +243,7 @@
     "noRevenueEnablementUntilGatesPass": true,
     "noStoreSubmissionUntilExternalAccounts": true,
     "currentWorktreeClean": false,
-    "currentWorktreeDirtyFiles": 52,
+    "currentWorktreeDirtyFiles": 72,
     "productionBootstrapFresh": true,
     "productionBootstrapStaleInputIds": [],
     "objectiveNextBestActionSource": "owner-loop"

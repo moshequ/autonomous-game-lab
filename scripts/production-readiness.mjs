@@ -461,6 +461,7 @@ const supportChannelReady =
   supportChannel.controls?.zeroPaidSpend === true &&
   supportChannel.controls?.playerInitiatedOnly === true &&
   supportChannel.controls?.noPrivateDataInPrefilledUrls === true &&
+  supportChannel.controls?.analyticsEvidenceAggregateOnly === true &&
   supportChannel.controls?.supportEmailStillRequiredForStoreSubmission === true &&
   storePackage.supportPage?.supportChannel?.status === supportChannel.status
 const supportFeedbackReady =
@@ -471,7 +472,8 @@ const supportFeedbackReady =
   supportFeedback.controls?.noIssueMutation === true &&
   supportFeedback.controls?.noAttachmentsDownloaded === true &&
   supportFeedback.controls?.noRawAnalyticsStored === true &&
-  supportFeedback.controls?.playableTargetsOnlyForAutomation === true
+  supportFeedback.controls?.playableTargetsOnlyForAutomation === true &&
+  supportFeedback.controls?.aggregateEvidenceNeverMarksProductGatePass === true
 const performanceBudgetReady =
   performanceBudget.status === 'performance-budget-ready' &&
   performanceBudget.initial?.jsBytes <= performanceBudget.budgets?.initialJsMaxBytes &&
@@ -793,7 +795,9 @@ const webChecks = [
     supportFeedbackReady,
     `Support feedback is ${supportFeedback.status}; issues ${
       supportFeedback.summary?.issuesInspected ?? 0
-    }; routable signals ${supportFeedback.summary?.routableSignals ?? 0}.`,
+    }; routable signals ${supportFeedback.summary?.routableSignals ?? 0}; aggregate notes ${
+      supportFeedback.summary?.aggregateEvidenceNotes ?? 0
+    }.`,
   ),
   check(
     'compliance-manifest',

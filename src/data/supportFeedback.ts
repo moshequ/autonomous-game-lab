@@ -1,5 +1,5 @@
 export const supportFeedback = {
-  "generatedAt": "2026-05-21T07:51:05.296Z",
+  "generatedAt": "2026-05-21T09:46:35.479Z",
   "status": "support-feedback-empty",
   "provider": "github-issues",
   "repository": "moshequ/autonomous-game-lab",
@@ -10,7 +10,14 @@ export const supportFeedback = {
     "categorizedIssues": 0,
     "matchedPlayableIssues": 0,
     "improvementSignals": 0,
-    "routableSignals": 0
+    "routableSignals": 0,
+    "aggregateEvidenceNotes": 0,
+    "aggregateEvidenceGames": 0,
+    "aggregateStarts": 0,
+    "aggregateCompletions": 0,
+    "aggregateReplays": 0,
+    "aggregateD1Eligible": 0,
+    "aggregateD1Retained": 0
   },
   "controls": {
     "zeroPaidSpend": true,
@@ -21,8 +28,20 @@ export const supportFeedback = {
     "publicIssuesOnly": true,
     "noAttachmentsDownloaded": true,
     "noRawAnalyticsStored": true,
+    "noRawEventRowsAccepted": true,
     "redactsContactText": true,
-    "playableTargetsOnlyForAutomation": true
+    "playableTargetsOnlyForAutomation": true,
+    "publicAggregateOnly": true,
+    "aggregateEvidenceNeverMarksProductGatePass": true,
+    "aggregateEvidenceRequiresManualReviewForGateDecisions": true
+  },
+  "aggregateEvidence": {
+    "notes": 0,
+    "games": 0,
+    "starts": 0,
+    "completions": 0,
+    "replays": 0,
+    "topNotes": []
   },
   "topSignals": []
 } as const

@@ -1,6 +1,6 @@
 # Support Channel
 
-Generated: 2026-05-20T15:43:21.302Z
+Generated: 2026-05-21T09:46:34.372Z
 Status: support-channel-ready
 Provider: github-issues
 Repository: moshequ/autonomous-game-lab
@@ -30,6 +30,8 @@ Support URL: https://github.com/moshequ/autonomous-game-lab/issues/new/choose
 - playerInitiatedOnly: true
 - noPrivateDataInPrefilledUrls: true
 - noRawEventEmbeddingInUrls: true
+- noRawEventRowsInAnalyticsEvidence: true
+- analyticsEvidenceAggregateOnly: true
 - supportEmailStillRequiredForStoreSubmission: true
 
 ## Blockers

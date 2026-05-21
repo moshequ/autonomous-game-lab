@@ -27,8 +27,9 @@ const supportFeedback = await readFile(supportFeedbackPath, 'utf8')
   .catch(() => ({
     status: 'missing',
     sourceDataHash: null,
-    summary: { issuesInspected: 0, improvementSignals: 0, routableSignals: 0 },
+    summary: { issuesInspected: 0, improvementSignals: 0, routableSignals: 0, aggregateEvidenceNotes: 0 },
     improvementSignals: [],
+    aggregateEvidenceNotes: [],
   }))
 const playableGameIds = new Set(playable.games ?? [])
 const generatedAt = new Date().toISOString()
@@ -145,6 +146,7 @@ const routing = {
   supportFeedbackStatus: supportFeedback.status,
   supportFeedbackSignals: supportFeedback.summary?.improvementSignals ?? 0,
   supportFeedbackRoutableSignals: supportFeedback.summary?.routableSignals ?? 0,
+  supportFeedbackAggregateEvidenceNotes: supportFeedback.summary?.aggregateEvidenceNotes ?? 0,
   playableGameIds: [...playableGameIds],
   liveAnalyticsRows: analyses
     .filter((analysis) => analysis.playable)
@@ -178,6 +180,7 @@ const sourceDataHash = crypto
         sourceDataHash: supportFeedback.sourceDataHash,
         improvementSignals: supportFeedback.summary?.improvementSignals ?? 0,
         routableSignals: supportFeedback.summary?.routableSignals ?? 0,
+        aggregateEvidenceNotes: supportFeedback.summary?.aggregateEvidenceNotes ?? 0,
       },
       backlog,
       skippedIssues,
@@ -194,6 +197,7 @@ const backlogSummary = {
   supportFeedbackStatus: supportFeedback.status,
   supportFeedbackSignals: supportFeedback.summary?.improvementSignals ?? 0,
   supportFeedbackRoutableSignals: supportFeedback.summary?.routableSignals ?? 0,
+  supportFeedbackAggregateEvidenceNotes: supportFeedback.summary?.aggregateEvidenceNotes ?? 0,
   playableGameIds: [...playableGameIds],
   backlogCount: backlog.length,
   skippedIssueCount: skippedIssues.length,
@@ -209,6 +213,7 @@ const backlogSummary = {
     playableTargetsOnly: true,
     inactiveAnalyticsSkipped: true,
     noSyntheticEvents: true,
+    aggregateEvidenceNeverMarksProductGatePass: true,
   },
 }
 
@@ -238,7 +243,9 @@ const report = [
   `Analytics source: ${analytics.sourceStatus.activeSource}`,
   `Support feedback: ${supportFeedback.status}; signals ${
     supportFeedback.summary?.improvementSignals ?? 0
-  }; routable ${supportFeedback.summary?.routableSignals ?? 0}`,
+  }; routable ${supportFeedback.summary?.routableSignals ?? 0}; aggregate notes ${
+    supportFeedback.summary?.aggregateEvidenceNotes ?? 0
+  }`,
   '',
   ...analyses.flatMap((analysis) => [
     `### ${analysis.gameId}`,

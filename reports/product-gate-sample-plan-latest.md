@@ -1,14 +1,15 @@
 # Product Gate Sample Plan
 
-Generated: 2026-05-21T07:42:08.977Z
+Generated: 2026-05-21T09:48:16.387Z
 Status: product-gate-sample-plan-ready
-Source hash: 9eb0d74b60ac
+Source hash: 35eaa06e3cb5
 Analytics source: fixture-sample
 Primary gate: firstGameCompletion
 Prompt views needed: 70
 Observed successes needed: 139
 Imported gate-sample events: 0
 Inbox gate-sample events: 0
+Supporting aggregate evidence notes: 0
 Downloads scan: no-evidence-found; cooling down true
 Next recommended Downloads scan: 2026-05-21T11:28:33.578Z
 Public sample page: /gate-sample.html
@@ -16,9 +17,9 @@ Runtime evidence policy: active
 
 ## Missions
 
-- #1 firstGameCompletion: collecting-sample; evidence waiting-for-player-export; 40% / 55%; needs 30 prompt view(s), 128 success(es); /?game=harbor-rings&utm_source=gate_sample&utm_campaign=gate-sample-20260521-firstGameCompletion
-- #2 replayRate: collecting-sample; evidence waiting-for-player-export; 31% / 35%; needs 30 prompt view(s), 10 success(es); /?game=harbor-rings&utm_source=gate_sample&utm_campaign=gate-sample-20260521-replayRate
-- #3 d1Retention: collecting-sample; evidence waiting-for-player-export; 17% / 18%; needs 10 prompt view(s), 1 success(es); /?game=canopy-bloom&utm_source=gate_sample&utm_campaign=gate-sample-20260521-d1Retention
+- #1 firstGameCompletion: collecting-sample; evidence waiting-for-player-export; aggregate notes 0; 40% / 55%; needs 30 prompt view(s), 128 success(es); /?game=harbor-rings&utm_source=gate_sample&utm_campaign=gate-sample-20260521-firstGameCompletion
+- #2 replayRate: collecting-sample; evidence waiting-for-player-export; aggregate notes 0; 31% / 35%; needs 30 prompt view(s), 10 success(es); /?game=harbor-rings&utm_source=gate_sample&utm_campaign=gate-sample-20260521-replayRate
+- #3 d1Retention: collecting-sample; evidence waiting-for-player-export; aggregate notes 0; 17% / 18%; needs 10 prompt view(s), 1 success(es); /?game=canopy-bloom&utm_source=gate_sample&utm_campaign=gate-sample-20260521-d1Retention
 
 ## Commands
 
@@ -40,6 +41,8 @@ Runtime evidence policy: active
 - downloadsImportRequiresExplicitOptIn: true
 - downloadsScanBackoffRequired: true
 - requireObservedTelemetryBeforeRecoveryChange: true
+- publicAggregateEvidenceIsSupportingOnly: true
+- aggregateEvidenceDoesNotPassGates: true
 
 ## Next Actions
 

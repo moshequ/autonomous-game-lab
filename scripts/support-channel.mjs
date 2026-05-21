@@ -109,8 +109,27 @@ const repositoryFromRemote = (remoteUrl) => {
   return null
 }
 
-const issueBody = (kind) =>
-  [
+const issueBody = (kind) => {
+  if (kind === 'analytics-evidence') {
+    return [
+      'Thanks for helping improve Autonomous Game Lab.',
+      '',
+      'GitHub Issues are public. Share aggregate counts only.',
+      'Do not paste private information, raw analytics exports, event rows, private identifiers, or uploaded event files into this issue.',
+      '',
+      `Support type: ${kind}`,
+      'Game or mission:',
+      'Evidence window:',
+      'Aggregate starts:',
+      'Aggregate completions:',
+      'Aggregate replays:',
+      'Aggregate D1 eligible players:',
+      'Aggregate D1 retained players:',
+      'What changed or looked unusual:',
+    ].join('\n')
+  }
+
+  return [
     'Thanks for helping improve Autonomous Game Lab.',
     '',
     'GitHub Issues are public. Do not paste private information or raw analytics exports into this issue.',
@@ -122,6 +141,7 @@ const issueBody = (kind) =>
     'What happened:',
     'What you expected:',
   ].join('\n')
+}
 
 const issueUrl = (repoUrl, template, title, body) => {
   if (!repoUrl) {
@@ -268,11 +288,16 @@ const templateChecks = await Promise.all(
       exists: found,
       containsPrivacyWarning:
         source.includes('Do not paste private information') && source.includes('raw analytics exports'),
+      containsAggregateOnlyWarning:
+        template.id !== 'analytics-evidence' ||
+        (source.includes('Share aggregate counts only') && source.includes('event rows')),
       url: issueUrl(repositoryUrl, template.template, template.title, issueBody(template.id)),
     }
   }),
 )
-const templatesReady = templateChecks.every((template) => template.exists && template.containsPrivacyWarning)
+const templatesReady = templateChecks.every(
+  (template) => template.exists && template.containsPrivacyWarning && template.containsAggregateOnlyWarning !== false,
+)
 const issuesEnabled = repositoryMetadata.hasIssuesEnabled === true
 const repositoryPublic = repositoryMetadata.visibility === 'PUBLIC'
 const repositoryArchived = repositoryMetadata.isArchived === true
@@ -322,9 +347,10 @@ const payload = {
     publicIssueWarning:
       'GitHub Issues are public; do not paste private information or raw analytics exports into public issue bodies.',
     exportedEventFilePolicy:
-      'Player event exports are player-initiated and should be reviewed before voluntary public attachment.',
+      'Player event exports are player-initiated; public analytics evidence issues accept aggregate counts only, not raw exports or event rows.',
     prefilledUrlsContainRawEvents: false,
     rawEventUploadsAutomated: false,
+    analyticsEvidenceAggregateOnly: true,
   },
   controls: {
     zeroPaidSpend: true,
@@ -336,6 +362,8 @@ const payload = {
     playerInitiatedOnly: true,
     noPrivateDataInPrefilledUrls: true,
     noRawEventEmbeddingInUrls: true,
+    noRawEventRowsInAnalyticsEvidence: true,
+    analyticsEvidenceAggregateOnly: true,
     supportEmailStillRequiredForStoreSubmission: true,
   },
   blockers,
@@ -344,7 +372,7 @@ const payload = {
       ? 'Link the generated support page to GitHub Issues and review public support reports before applying product changes.'
       : 'Finish the zero-cost GitHub Issues support channel or configure another public support intake.',
     'Keep a real support email as a separate app-store blocker.',
-    'Keep player analytics exports voluntary, reviewed by the player, and never uploaded automatically.',
+    'Keep player analytics exports voluntary, summarized as aggregate counts, and never uploaded automatically.',
   ],
 }
 

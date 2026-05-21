@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-05-21T07:51:05.296Z",
+  "generatedAt": "2026-05-21T09:46:35.479Z",
   "status": "support-feedback-empty",
   "provider": "github-issues",
   "repository": "moshequ/autonomous-game-lab",
-  "sourceDataHash": "b642d7b57138",
+  "sourceDataHash": "2098968bee32",
   "sourceStatus": {
     "supportChannel": "support-channel-ready",
     "inspected": true,
@@ -16,7 +16,14 @@
     "categorizedIssues": 0,
     "matchedPlayableIssues": 0,
     "improvementSignals": 0,
-    "routableSignals": 0
+    "routableSignals": 0,
+    "aggregateEvidenceNotes": 0,
+    "aggregateEvidenceGames": 0,
+    "aggregateStarts": 0,
+    "aggregateCompletions": 0,
+    "aggregateReplays": 0,
+    "aggregateD1Eligible": 0,
+    "aggregateD1Retained": 0
   },
   "controls": {
     "zeroPaidSpend": true,
@@ -27,13 +34,19 @@
     "publicIssuesOnly": true,
     "noAttachmentsDownloaded": true,
     "noRawAnalyticsStored": true,
+    "noRawEventRowsAccepted": true,
     "redactsContactText": true,
-    "playableTargetsOnlyForAutomation": true
+    "playableTargetsOnlyForAutomation": true,
+    "publicAggregateOnly": true,
+    "aggregateEvidenceNeverMarksProductGatePass": true,
+    "aggregateEvidenceRequiresManualReviewForGateDecisions": true
   },
   "issueRecords": [],
+  "aggregateEvidenceNotes": [],
   "improvementSignals": [],
   "nextActions": [
+    "Use the analytics evidence template for aggregate counts only when players or operators voluntarily summarize local exports.",
     "Keep collecting public GitHub issue feedback until a playable game signal appears.",
-    "Never paste private information or raw analytics exports into public issues."
+    "Never paste private information, raw event rows, or raw analytics exports into public issues."
   ]
 }

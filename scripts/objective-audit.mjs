@@ -345,6 +345,7 @@ const requirements = [
       ['support-feedback-ready', 'support-feedback-empty', 'support-feedback-planned'].includes(supportFeedback.status) &&
       supportFeedback.controls?.readOnlyGithubIssueList === true &&
       supportFeedback.controls?.noRawAnalyticsStored === true &&
+      supportFeedback.controls?.aggregateEvidenceNeverMarksProductGatePass === true &&
       Array.isArray(appliedImprovements.actions) &&
       autonomousOperatorReady
         ? 'met'
@@ -379,7 +380,9 @@ const requirements = [
       }`,
       `Support feedback: ${supportFeedback.status}; issues ${
         supportFeedback.summary?.issuesInspected ?? 0
-      }; routable signals ${supportFeedback.summary?.routableSignals ?? 0}`,
+      }; routable signals ${supportFeedback.summary?.routableSignals ?? 0}; aggregate notes ${
+        supportFeedback.summary?.aggregateEvidenceNotes ?? 0
+      }`,
       `Applied/deferred actions: ${appliedImprovements.actions?.length ?? 0}`,
       `Operator selected: ${autonomousOperator.selectedAction?.id ?? 'none'}; status ${autonomousOperator.status}; execution ${autonomousOperator.execution?.status ?? 'missing'}`,
     ],

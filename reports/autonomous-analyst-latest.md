@@ -1,13 +1,13 @@
 # Autonomous Analyst Report
 
-Generated: 2026-05-20T21:39:34.059Z
+Generated: 2026-05-21T09:46:35.731Z
 Backlog status: improvement-backlog-ready
-Backlog source hash: a738f73a0160
+Backlog source hash: 8b7b0546cd7d
 
 ## Game Health
 
 Analytics source: fixture-sample
-Support feedback: support-feedback-empty; signals 0; routable 0
+Support feedback: support-feedback-empty; signals 0; routable 0; aggregate notes 0
 
 ### harbor-rings
 

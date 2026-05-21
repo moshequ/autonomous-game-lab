@@ -375,6 +375,10 @@ const envLoaderSource = await readFile(path.join(root, 'scripts', 'lib', 'env-lo
 const productionEnvironmentSource = await readFile(path.join(root, 'scripts', 'production-environment.mjs'), 'utf8')
 const supportChannelSource = await readFile(path.join(root, 'scripts', 'support-channel.mjs'), 'utf8')
 const supportFeedbackSource = await readFile(path.join(root, 'scripts', 'support-feedback-ingestor.mjs'), 'utf8')
+const analyticsEvidenceTemplateSource = await readFile(
+  path.join(root, '.github', 'ISSUE_TEMPLATE', 'analytics-evidence.yml'),
+  'utf8',
+)
 const eventCollectorWorkerSource = await readFile(
   path.join(root, 'ops', 'cloudflare', 'event-collector-worker.mjs'),
   'utf8',
@@ -455,9 +459,12 @@ if (
   supportChannel.controls?.playerInitiatedOnly !== true ||
   supportChannel.controls?.noPrivateDataInPrefilledUrls !== true ||
   supportChannel.controls?.noRawEventEmbeddingInUrls !== true ||
+  supportChannel.controls?.noRawEventRowsInAnalyticsEvidence !== true ||
+  supportChannel.controls?.analyticsEvidenceAggregateOnly !== true ||
   supportChannel.controls?.supportEmailStillRequiredForStoreSubmission !== true ||
   supportChannel.privacy?.prefilledUrlsContainRawEvents !== false ||
   supportChannel.privacy?.rawEventUploadsAutomated !== false ||
+  supportChannel.privacy?.analyticsEvidenceAggregateOnly !== true ||
   storePackage.supportPage?.supportChannel?.status !== supportChannel.status ||
   storePackage.supportPage?.supportChannel?.provider !== 'github-issues' ||
   !supportHtml.includes('Public Support Channel') ||
@@ -466,6 +473,9 @@ if (
   !appSource.includes('Support Channel') ||
   !supportChannelSource.includes('readOnlyRepositoryInspection') ||
   !supportChannelSource.includes('noRawEventEmbeddingInUrls') ||
+  !supportChannelSource.includes('analyticsEvidenceAggregateOnly') ||
+  !analyticsEvidenceTemplateSource.includes('Share aggregate counts only') ||
+  !analyticsEvidenceTemplateSource.includes('Aggregate starts') ||
   packageJson.scripts?.['autonomous:support-channel'] !== 'node scripts/support-channel.mjs' ||
   !packageJson.scripts?.['autonomous:daily']?.includes('autonomous:support-channel')
 ) {
@@ -483,13 +493,22 @@ if (
   supportFeedback.controls?.publicIssuesOnly !== true ||
   supportFeedback.controls?.noAttachmentsDownloaded !== true ||
   supportFeedback.controls?.noRawAnalyticsStored !== true ||
+  supportFeedback.controls?.noRawEventRowsAccepted !== true ||
   supportFeedback.controls?.redactsContactText !== true ||
   supportFeedback.controls?.playableTargetsOnlyForAutomation !== true ||
+  supportFeedback.controls?.publicAggregateOnly !== true ||
+  supportFeedback.controls?.aggregateEvidenceNeverMarksProductGatePass !== true ||
+  supportFeedback.controls?.aggregateEvidenceRequiresManualReviewForGateDecisions !== true ||
+  typeof supportFeedback.summary?.aggregateEvidenceNotes !== 'number' ||
   !Array.isArray(supportFeedback.issueRecords) ||
+  !Array.isArray(supportFeedback.aggregateEvidenceNotes) ||
   !Array.isArray(supportFeedback.improvementSignals) ||
   !appSource.includes('Support Feedback') ||
+  !appSource.includes('Aggregate notes') ||
   !supportFeedbackSource.includes('readOnlyGithubIssueList') ||
   !supportFeedbackSource.includes('noAttachmentsDownloaded') ||
+  !supportFeedbackSource.includes('issueFormField') ||
+  !supportFeedbackSource.includes('aggregateEvidenceNeverMarksProductGatePass') ||
   packageJson.scripts?.['autonomous:support-feedback'] !== 'node scripts/support-feedback-ingestor.mjs' ||
   !packageJson.scripts?.['autonomous:daily']?.includes('autonomous:support-feedback') ||
   !improvementBacklogSummary.supportFeedbackStatus ||
@@ -1575,6 +1594,11 @@ const productGateSamplePlanSourceDataHash = hashSourceData({
   localEventBridge,
   downloadsScanPolicy: stableDownloadsScanPolicySource(productGateSamplePlanDownloadsScanPolicy),
   unitEconomics,
+  supportFeedback: {
+    status: supportFeedback.status,
+    sourceDataHash: supportFeedback.sourceDataHash,
+    aggregateEvidenceNotes: supportFeedback.summary?.aggregateEvidenceNotes ?? 0,
+  },
 })
 
 if (
@@ -1673,6 +1697,7 @@ if (
   productGateSamplePlan.runtimeEvidencePolicy?.controls?.playerInitiatedExportOnly !== true ||
   typeof productGateSamplePlan.summary?.importedGateSampleEvents !== 'number' ||
   typeof productGateSamplePlan.summary?.inboxGateSampleEvents !== 'number' ||
+  typeof productGateSamplePlan.summary?.supportingAggregateEvidenceNotes !== 'number' ||
   productGateSamplePlan.summary?.downloadsScanStatus !==
     (productGateSamplePlanDownloadsScanPolicy.lastScanStatus ?? 'not-scanned') ||
   productGateSamplePlan.summary?.downloadsScanCoolingDown !== productGateSamplePlanDownloadsScanPolicy.coolingDown ||
@@ -1696,8 +1721,12 @@ if (
   productGateSamplePlan.controls?.downloadsImportRequiresExplicitOptIn !== true ||
   productGateSamplePlan.controls?.downloadsScanBackoffRequired !== true ||
   productGateSamplePlan.controls?.requireObservedTelemetryBeforeRecoveryChange !== true ||
+  productGateSamplePlan.controls?.publicAggregateEvidenceIsSupportingOnly !== true ||
+  productGateSamplePlan.controls?.aggregateEvidenceDoesNotPassGates !== true ||
   samplePrimaryMission?.status !== 'collecting-sample' ||
   !samplePrimaryMission?.evidence?.status ||
+  samplePrimaryMission?.supportingAggregateEvidence?.gateDecisionEligible !== false ||
+  samplePrimaryMission?.supportingAggregateEvidence?.manualReviewRequired !== true ||
   samplePrimaryMission?.needed?.promptViews !== recoveryCompletionGate?.promptViewsNeeded ||
   samplePrimaryMission?.needed?.successes !== recoveryCompletionGate?.neededSuccesses ||
   !samplePrimaryMission?.sampleRole?.includes('primary-bottleneck') ||
@@ -1706,6 +1735,8 @@ if (
   sampleRetentionMission?.gameId !== retentionLoop.dailyChallenge?.gameId ||
   !sampleRetentionMission?.sampleRole?.includes('fastest-validation') ||
   !productGateSamplePlanSource.includes('localEventBridge') ||
+  !productGateSamplePlanSource.includes('supportFeedback') ||
+  !productGateSamplePlanSource.includes('aggregateEvidenceDoesNotPassGates') ||
   !productGateSamplePlanSource.includes('buildExplicitDownloadsScanPolicy') ||
   !productGateSamplePlanSource.includes('stableDownloadsScanPolicySource') ||
   !productGateSamplePlanSource.includes('productGateRecovery') ||
@@ -5252,6 +5283,11 @@ const ownerProductGateSamplePlanSourceDataHash = hashSourceData({
   localEventBridge,
   downloadsScanPolicy: ownerGateSampleDownloadsPolicySource,
   unitEconomics,
+  supportFeedback: {
+    status: supportFeedback.status,
+    sourceDataHash: supportFeedback.sourceDataHash,
+    aggregateEvidenceNotes: supportFeedback.summary?.aggregateEvidenceNotes ?? 0,
+  },
 })
 const ownerCollectGateSampleAction = autonomousOwnerLoop.safeAutonomousActions?.find(
   (action) => action.id === 'collect-gate-sample-downloads',
@@ -5411,7 +5447,9 @@ const ownerSupportFeedbackOperationalFreshness = ownerOperationalEvidenceFreshne
     supportFeedback.controls?.readOnlyGithubIssueList === true &&
     supportFeedback.controls?.noIssueMutation === true &&
     supportFeedback.controls?.noRawAnalyticsStored === true &&
+    supportFeedback.controls?.aggregateEvidenceNeverMarksProductGatePass === true &&
     Array.isArray(supportFeedback.issueRecords) &&
+    Array.isArray(supportFeedback.aggregateEvidenceNotes) &&
     Array.isArray(supportFeedback.improvementSignals),
 })
 const ownerPerformanceOperationalFreshness = ownerOperationalEvidenceFreshness({

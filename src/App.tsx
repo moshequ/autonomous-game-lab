@@ -876,6 +876,7 @@ function App() {
   const supportChannelRepository = supportChannel.repository.target ?? 'missing'
   const supportChannelReady = supportChannelStatus === 'support-channel-ready'
   const supportFeedbackTopSignal = (supportFeedback.topSignals as readonly { label: string }[])[0]
+  const supportFeedbackAggregateEvidence = supportFeedback.aggregateEvidence
   const operatorSelectedAction = autonomousOperator.selectedAction as { id: string } | null
   const operatorHistorySummary = autonomousOperatorHistory.summary
   const objectiveAuditSummary = objectiveAudit.summary
@@ -2902,6 +2903,10 @@ function App() {
                 <div>
                   <span>Signals</span>
                   <strong>{supportFeedback.summary.improvementSignals}</strong>
+                </div>
+                <div>
+                  <span>Aggregate notes</span>
+                  <strong>{supportFeedbackAggregateEvidence.notes}</strong>
                 </div>
                 <div>
                   <span>Top signal</span>
