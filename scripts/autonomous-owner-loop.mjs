@@ -1466,9 +1466,9 @@ const safeAutonomousActions = [
     id: 'prepare-release-candidate',
     status: releaseCandidate.status === 'release-candidate-ready' ? 'armed' : 'monitor',
     costUsd: 0,
-    command: 'npm run autonomous:release-candidate',
-    targets: ['dist-release-candidate'],
-    reason: 'Records a content-hashed dist inventory and post-deploy smoke plan for the exact PWA build.',
+    command: 'npm run autonomous:release-candidate && npm run autonomous:post-deploy-smoke',
+    targets: ['dist-release-candidate', 'release-candidate-manifest'],
+    reason: 'Records a content-hashed dist inventory and immediately refreshes the post-deploy smoke plan for the exact PWA build.',
   },
   {
     id: 'run-post-deploy-smoke',

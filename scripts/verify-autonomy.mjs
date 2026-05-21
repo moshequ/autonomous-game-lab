@@ -5161,9 +5161,10 @@ if (
   !autonomousOwnerLoop.safeAutonomousActions?.some(
     (action) =>
       action.id === 'prepare-release-candidate' &&
-      action.command === 'npm run autonomous:release-candidate' &&
+      action.command === 'npm run autonomous:release-candidate && npm run autonomous:post-deploy-smoke' &&
       action.costUsd === 0 &&
-      action.targets?.includes('dist-release-candidate'),
+      action.targets?.includes('dist-release-candidate') &&
+      action.targets?.includes('release-candidate-manifest'),
   ) ||
   !autonomousOwnerLoop.safeAutonomousActions?.some(
     (action) =>

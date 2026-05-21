@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-21T05:51:26.817Z",
+  "generatedAt": "2026-05-21T06:01:19.614Z",
   "status": "repository-bootstrap-ready",
   "mode": "plan-only",
   "envFiles": {
@@ -61,7 +61,7 @@
       "originRemote": "git@github.com:moshequ/autonomous-game-lab.git",
       "remoteRepository": "moshequ/autonomous-game-lab",
       "hasCommit": true,
-      "dirtyFiles": 34,
+      "dirtyFiles": 36,
       "dirtyPaths": [
         "data/autonomous-operator-history.json",
         "data/autonomous-operator.json",
@@ -92,13 +92,15 @@
         "scripts/autonomous-operator.mjs",
         "scripts/autonomous-owner-loop.mjs",
         "scripts/verify-autonomy.mjs",
+        "src/data/autonomousOperator.ts",
+        "src/data/autonomousOperatorHistory.ts",
+        "src/data/autonomousOwnerLoop.ts",
         "src/data/objectiveAudit.ts",
         "src/data/postDeploySmoke.ts",
         "src/data/productionActivation.ts",
-        "src/data/productionBootstrap.ts",
         "src/data/releaseCandidate.ts"
       ],
-      "generatedEvidenceDirtyFiles": 31,
+      "generatedEvidenceDirtyFiles": 33,
       "generatedEvidenceDirtyPaths": [
         "data/autonomous-operator-history.json",
         "data/autonomous-operator.json",
@@ -126,10 +128,12 @@
         "reports/release-candidate-latest.md",
         "reports/repository-bootstrap-latest.md",
         "reports/repository-readiness-latest.md",
+        "src/data/autonomousOperator.ts",
+        "src/data/autonomousOperatorHistory.ts",
+        "src/data/autonomousOwnerLoop.ts",
         "src/data/objectiveAudit.ts",
         "src/data/postDeploySmoke.ts",
         "src/data/productionActivation.ts",
-        "src/data/productionBootstrap.ts",
         "src/data/releaseCandidate.ts"
       ],
       "nonGeneratedDirtyFiles": 3,
@@ -146,7 +150,7 @@
       "originRemote": "git@github.com:moshequ/autonomous-game-lab.git",
       "remoteRepository": "moshequ/autonomous-game-lab",
       "hasCommit": true,
-      "dirtyFiles": 34,
+      "dirtyFiles": 36,
       "dirtyPaths": [
         "data/autonomous-operator-history.json",
         "data/autonomous-operator.json",
@@ -177,13 +181,15 @@
         "scripts/autonomous-operator.mjs",
         "scripts/autonomous-owner-loop.mjs",
         "scripts/verify-autonomy.mjs",
+        "src/data/autonomousOperator.ts",
+        "src/data/autonomousOperatorHistory.ts",
+        "src/data/autonomousOwnerLoop.ts",
         "src/data/objectiveAudit.ts",
         "src/data/postDeploySmoke.ts",
         "src/data/productionActivation.ts",
-        "src/data/productionBootstrap.ts",
         "src/data/releaseCandidate.ts"
       ],
-      "generatedEvidenceDirtyFiles": 31,
+      "generatedEvidenceDirtyFiles": 33,
       "generatedEvidenceDirtyPaths": [
         "data/autonomous-operator-history.json",
         "data/autonomous-operator.json",
@@ -211,10 +217,12 @@
         "reports/release-candidate-latest.md",
         "reports/repository-bootstrap-latest.md",
         "reports/repository-readiness-latest.md",
+        "src/data/autonomousOperator.ts",
+        "src/data/autonomousOperatorHistory.ts",
+        "src/data/autonomousOwnerLoop.ts",
         "src/data/objectiveAudit.ts",
         "src/data/postDeploySmoke.ts",
         "src/data/productionActivation.ts",
-        "src/data/productionBootstrap.ts",
         "src/data/releaseCandidate.ts"
       ],
       "nonGeneratedDirtyFiles": 3,
@@ -257,7 +265,7 @@
     "repositoryReadiness": "repository-channel-ready",
     "deployment": "ready-for-pages",
     "releaseCandidate": "release-candidate-ready",
-    "releaseCandidateId": "pwa-3a9f1700a831",
+    "releaseCandidateId": "pwa-e5cae9b977f7",
     "postDeploySmoke": "post-deploy-smoke-observed-live"
   },
   "repositoryTargetPlan": {

@@ -1,17 +1,17 @@
 # Autonomous Owner Loop
 
-Generated: 2026-05-21T05:51:50.111Z
+Generated: 2026-05-21T06:01:41.024Z
 Status: owner-loop-ready
 Mode: zero-spend-web-ready
 Autonomy score: 41/42 (98%)
 
 ## Owner Decision
 
-- Next action: prepare-release-candidate
-- Command: npm run autonomous:release-candidate
-- Rationale: Records a content-hashed dist inventory and post-deploy smoke plan for the exact PWA build.
-- Last executed action: check-performance-budget
-- Recent executed actions: check-performance-budget, refresh-support-feedback, measure-pwa-install-loop, refresh-autonomous-self-update, refresh-autonomous-cadence, optimize-store-listing, refresh-product-gate-recovery, bootstrap-production-setup
+- Next action: run-post-deploy-smoke
+- Command: npm run autonomous:post-deploy-smoke
+- Rationale: Verifies the live Pages URL with read-only smoke checks and release-manifest hash comparison.
+- Last executed action: prepare-release-candidate
+- Recent executed actions: prepare-release-candidate, check-performance-budget, refresh-support-feedback, measure-pwa-install-loop, refresh-autonomous-self-update, refresh-autonomous-cadence, optimize-store-listing, refresh-product-gate-recovery
 
 ## Systems
 
@@ -44,12 +44,12 @@ Autonomy score: 41/42 (98%)
 - ready: web-deployment - Deployment ready-for-pages; web readiness ready-after-build; promotion promotable-internal.
 - ready: release-candidate - Release candidate release-candidate-ready; files 44; smoke URLs 14.
 - ready: post-deploy-smoke - Smoke post-deploy-smoke-observed-live; origin https://moshequ.github.io/autonomous-game-lab; manifest comparison required; checks 15/15 passed; local artifact predeploy-artifact-smoke-passed 15/15 passed.
-- ready: post-deploy-artifact-sync - Artifact sync post-deploy-artifact-sync-passed; run 26207927782; live matches artifact true; strict true.
+- ready: post-deploy-artifact-sync - Artifact sync post-deploy-artifact-sync-passed; run 26208190332; live matches artifact true; strict true.
 - ready: production-bootstrap - Bootstrap production-bootstrap-ready; mode can-apply-configured-actions; external blockers 16.
 - ready: production-activation - Activation activation-ready; mode dry-run; execution dry-run; gh ready.
 - ready: support-channel - Support channel support-channel-ready; repository moshequ/autonomous-game-lab; public intake ready.
-- ready: autonomous-operator - Operator operator-plan-ready; selected prepare-release-candidate; execution not-requested.
-- ready: operator-history - History operator-history-ready; records 40; executed 20.
+- ready: autonomous-operator - Operator operator-plan-ready; selected run-post-deploy-smoke; execution not-requested.
+- ready: operator-history - History operator-history-ready; records 40; executed 19.
 - ready: objective-audit - Audit objective-in-progress; met 6/8; external blockers 12.
 - ready: store-listing-optimizer - Focus canopy-bloom; lead screenshot phone-canopy-bloom-generated; candidate changed no.
 - ready: store-compliance - Rating Everyone; target audience general; blockers 3.
@@ -69,7 +69,7 @@ Autonomy score: 41/42 (98%)
 - monitor: optimize-daily-retention - npm run autonomous:retention
 - armed: measure-pwa-install-loop - npm run autonomous:pwa-install
 - armed: check-performance-budget - npm run build && npm run autonomous:performance && npm run autonomous:release-candidate
-- armed: prepare-release-candidate - npm run autonomous:release-candidate
+- armed: prepare-release-candidate - npm run autonomous:release-candidate && npm run autonomous:post-deploy-smoke
 - armed: run-post-deploy-smoke - npm run autonomous:post-deploy-smoke
 - monitor: sync-post-deploy-artifact - npm run autonomous:post-deploy-artifact-sync
 - monitor: optimize-product-gates - npm run autonomous:analyze && npm run autonomous:product-optimize && npm run autonomous:sync-config && npm run autonomous:simulate

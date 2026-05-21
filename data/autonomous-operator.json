@@ -1,22 +1,23 @@
 {
-  "generatedAt": "2026-05-21T05:51:49.843Z",
+  "generatedAt": "2026-05-21T06:01:40.783Z",
   "status": "operator-plan-ready",
   "mode": "plan-only",
   "ownerDecision": {
-    "actionId": "prepare-release-candidate",
-    "command": "npm run autonomous:release-candidate",
+    "actionId": "run-post-deploy-smoke",
+    "command": "npm run autonomous:post-deploy-smoke",
     "locallyExecutable": true,
     "rejectionReason": null
   },
   "requestedActionId": null,
   "selectedAction": {
-    "id": "prepare-release-candidate",
+    "id": "run-post-deploy-smoke",
     "status": "armed",
-    "command": "npm run autonomous:release-candidate",
+    "command": "npm run autonomous:post-deploy-smoke",
     "targets": [
-      "dist-release-candidate"
+      "https://moshequ.github.io/autonomous-game-lab",
+      "release-candidate-manifest"
     ],
-    "reason": "Records a content-hashed dist inventory and post-deploy smoke plan for the exact PWA build.",
+    "reason": "Verifies the live Pages URL with read-only smoke checks and release-manifest hash comparison.",
     "costUsd": 0
   },
   "selectedRejection": null,
@@ -87,9 +88,9 @@
       "reason": "not-selected-this-run"
     },
     {
-      "id": "run-post-deploy-smoke",
+      "id": "prepare-release-candidate",
       "status": "armed",
-      "command": "npm run autonomous:post-deploy-smoke",
+      "command": "npm run autonomous:release-candidate && npm run autonomous:post-deploy-smoke",
       "reason": "not-selected-this-run"
     },
     {
@@ -209,8 +210,8 @@
   ],
   "commandPlan": [
     {
-      "segment": "npm run autonomous:release-candidate",
-      "script": "autonomous:release-candidate"
+      "segment": "npm run autonomous:post-deploy-smoke",
+      "script": "autonomous:post-deploy-smoke"
     }
   ],
   "execution": {
@@ -242,7 +243,7 @@
     "npm run autonomous:retention",
     "npm run autonomous:pwa-install",
     "npm run build && npm run autonomous:performance && npm run autonomous:release-candidate",
-    "npm run autonomous:release-candidate",
+    "npm run autonomous:release-candidate && npm run autonomous:post-deploy-smoke",
     "npm run autonomous:post-deploy-smoke",
     "npm run autonomous:post-deploy-artifact-sync",
     "npm run autonomous:repo-readiness",
@@ -280,7 +281,7 @@
     "RUN_WORKFLOWS=1"
   ],
   "nextActions": [
-    "Run npm run autonomous:operator -- --execute --action=prepare-release-candidate to execute exactly one allowed local action.",
+    "Run npm run autonomous:operator -- --execute --action=run-post-deploy-smoke to execute exactly one allowed local action.",
     "Do not execute GitHub workflow, store, paid ads, or account setup commands from the local operator."
   ]
 }
