@@ -1443,6 +1443,7 @@ function App() {
       text: campaign.copy.text,
       url: resolvedShareUrl,
     }
+    const seedShareCopy = [shareData.title, shareData.text, resolvedShareUrl].join('\n')
 
     if (navigator.share) {
       try {
@@ -1454,7 +1455,7 @@ function App() {
       }
     } else if (navigator.clipboard?.writeText) {
       try {
-        await navigator.clipboard.writeText(resolvedShareUrl)
+        await navigator.clipboard.writeText(seedShareCopy)
         succeeded = true
       } catch {
         method = 'clipboard_unavailable'
@@ -1466,11 +1467,13 @@ function App() {
     trackEvent('organic_seed_share_clicked', {
       gameId: campaign.gameId,
       campaignId: campaign.id,
+      acquisitionCampaign: campaign.id,
       channel: 'player-share',
       method,
       succeeded,
       surface: organicSeedSurface,
       costUsd: campaign.costUsd,
+      shareCopyLength: seedShareCopy.length,
     })
     trackEvent('share_clicked', {
       gameId: campaign.gameId,

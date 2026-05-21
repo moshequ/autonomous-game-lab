@@ -1061,7 +1061,9 @@ if (
   !appSource.includes('localStartsRemaining') ||
   !appSource.includes('autonomous-game-lab.example.com') ||
   !appSource.includes('window.location.origin') ||
-  !appSource.includes('navigator.clipboard.writeText(resolvedShareUrl)') ||
+  !appSource.includes("const seedShareCopy = [shareData.title, shareData.text, resolvedShareUrl].join('\\n')") ||
+  !appSource.includes('navigator.clipboard.writeText(seedShareCopy)') ||
+  !appSource.includes('shareCopyLength: seedShareCopy.length') ||
   !appSource.includes('replaceHistoryWithCampaignUrl(campaign.playPath')
 ) {
   fail('Traffic seeding runtime must resolve generated placeholder URLs, track local campaign progress, and export seed evidence before navigation or sharing.')
