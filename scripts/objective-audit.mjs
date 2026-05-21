@@ -216,7 +216,14 @@ const productionBootstrapFresh =
 const repositoryChannelReady = ['repository-channel-ready', 'waiting-for-gh-auth'].includes(
   repositoryReadiness.status,
 )
-const autonomousOperatorReady = ['operator-plan-ready', 'operator-executed'].includes(autonomousOperator.status)
+const autonomousOperatorHeldWithoutEligibleAction =
+  autonomousOperator.status === 'operator-held' &&
+  (autonomousOperator.eligibleActionIds?.length ?? 0) === 0 &&
+  autonomousOperator.selectedAction === null &&
+  autonomousOperator.execution?.status === 'not-requested'
+const autonomousOperatorReady =
+  ['operator-plan-ready', 'operator-executed'].includes(autonomousOperator.status) ||
+  autonomousOperatorHeldWithoutEligibleAction
 const autonomousOperatorHistoryReady =
   autonomousOperatorHistory.status === 'operator-history-ready' &&
   (autonomousOperatorHistory.summary?.executedRecords ?? 0) >= 1

@@ -873,7 +873,7 @@ function App() {
   const supportChannelRepository = supportChannel.repository.target ?? 'missing'
   const supportChannelReady = supportChannelStatus === 'support-channel-ready'
   const supportFeedbackTopSignal = (supportFeedback.topSignals as readonly { label: string }[])[0]
-  const operatorSelectedAction = autonomousOperator.selectedAction
+  const operatorSelectedAction = autonomousOperator.selectedAction as { id: string } | null
   const operatorHistorySummary = autonomousOperatorHistory.summary
   const objectiveAuditSummary = objectiveAudit.summary
   const trafficCampaigns = useMemo(() => trafficSeeding.campaigns.slice(0, 4), [])

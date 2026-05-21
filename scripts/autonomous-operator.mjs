@@ -328,13 +328,18 @@ const normalizeRecord = (record) => {
 const priorRecords = Array.isArray(existingHistory.records) ? existingHistory.records.map(normalizeRecord) : []
 const compactedPriorRecords = priorRecords.reduce((records, record) => {
   const previous = records.at(-1)
+  const noActionHold =
+    record.status === 'operator-held' &&
+    !record.selectedActionId &&
+    record.execution?.requested === false &&
+    (record.eligibleActionIds?.length ?? 0) === 0
   const duplicateDryRun =
     previous &&
     previous.execution?.requested === false &&
     record.execution?.requested === false &&
     previous.runFingerprint === record.runFingerprint
 
-  if (!duplicateDryRun) {
+  if (!duplicateDryRun && !noActionHold) {
     records.push(record)
   }
 
@@ -343,10 +348,11 @@ const compactedPriorRecords = priorRecords.reduce((records, record) => {
 const compactedDuplicateDryRuns = priorRecords.length - compactedPriorRecords.length
 const lastRecord = compactedPriorRecords.at(-1)
 const shouldAppendHistory =
-  executeRequested ||
-  !lastRecord ||
-  lastRecord.runFingerprint !== runFingerprint ||
-  lastRecord.execution?.status !== payload.execution.status
+  Boolean(selectedAction) &&
+  (executeRequested ||
+    !lastRecord ||
+    lastRecord.runFingerprint !== runFingerprint ||
+    lastRecord.execution?.status !== payload.execution.status)
 const historyRecord = {
   id: `${payload.generatedAt.replaceAll(/[^0-9]/g, '').slice(0, 14)}-${payload.selectedAction?.id ?? 'none'}`,
   generatedAt: payload.generatedAt,

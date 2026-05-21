@@ -1,32 +1,17 @@
 {
-  "generatedAt": "2026-05-21T08:09:12.124Z",
-  "status": "operator-plan-ready",
+  "generatedAt": "2026-05-21T08:31:38.619Z",
+  "status": "operator-held",
   "mode": "plan-only",
   "ownerDecision": {
-    "actionId": "refresh-autonomous-cadence",
-    "command": "npm run autonomous:cadence",
-    "locallyExecutable": true,
-    "rejectionReason": null
+    "actionId": "run-daily-owner-loop",
+    "command": "npm run autonomous:daily",
+    "locallyExecutable": false,
+    "rejectionReason": "daily-loop-recursion-blocked"
   },
   "requestedActionId": null,
-  "selectedAction": {
-    "id": "refresh-autonomous-cadence",
-    "status": "armed",
-    "command": "npm run autonomous:cadence",
-    "targets": [
-      "autonomous-game-lab-daily-owner-loop",
-      ".github/workflows/autonomous-daily.yml"
-    ],
-    "reason": "Keeps the unattended daily operating cadence, recovery policy, and verification chain auditable.",
-    "costUsd": 0
-  },
+  "selectedAction": null,
   "selectedRejection": null,
-  "eligibleActionIds": [
-    "refresh-autonomous-cadence",
-    "refresh-autonomous-self-update",
-    "refresh-support-feedback",
-    "check-performance-budget"
-  ],
+  "eligibleActionIds": [],
   "blockedActions": [
     {
       "id": "run-daily-owner-loop",
@@ -35,10 +20,16 @@
       "reason": "daily-loop-recursion-blocked"
     },
     {
+      "id": "refresh-autonomous-cadence",
+      "status": "monitor",
+      "command": "npm run autonomous:cadence",
+      "reason": "status-monitor"
+    },
+    {
       "id": "refresh-autonomous-self-update",
-      "status": "armed",
+      "status": "monitor",
       "command": "npm run autonomous:self-update",
-      "reason": "not-selected-this-run"
+      "reason": "status-monitor"
     },
     {
       "id": "seed-portfolio-traffic",
@@ -54,9 +45,9 @@
     },
     {
       "id": "refresh-support-feedback",
-      "status": "armed",
+      "status": "monitor",
       "command": "npm run autonomous:support-feedback",
-      "reason": "not-selected-this-run"
+      "reason": "status-monitor"
     },
     {
       "id": "optimize-daily-retention",
@@ -72,9 +63,9 @@
     },
     {
       "id": "check-performance-budget",
-      "status": "armed",
+      "status": "monitor",
       "command": "npm run build && npm run autonomous:performance && npm run autonomous:release-candidate",
-      "reason": "not-selected-this-run"
+      "reason": "status-monitor"
     },
     {
       "id": "prepare-release-candidate",
@@ -203,12 +194,7 @@
       "reason": "status-monitor"
     }
   ],
-  "commandPlan": [
-    {
-      "segment": "npm run autonomous:cadence",
-      "script": "autonomous:cadence"
-    }
-  ],
+  "commandPlan": [],
   "execution": {
     "requested": false,
     "status": "not-requested",
@@ -277,7 +263,7 @@
     "RUN_WORKFLOWS=1"
   ],
   "nextActions": [
-    "Run npm run autonomous:operator -- --execute --action=refresh-autonomous-cadence to execute exactly one allowed local action.",
+    "Keep reporting external blockers until a safe local action is eligible.",
     "Do not execute GitHub workflow, store, paid ads, or account setup commands from the local operator."
   ]
 }

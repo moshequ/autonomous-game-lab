@@ -46,6 +46,34 @@ const generatedAtMs = (artifact) => {
   const value = Date.parse(artifact?.generatedAt ?? '')
   return Number.isFinite(value) ? value : null
 }
+const operationalEvidenceFreshness = ({
+  artifact,
+  readyStatuses,
+  maxAgeHours,
+  checksPass = true,
+  extraReady = true,
+}) => {
+  const artifactGeneratedAtMs = generatedAtMs(artifact)
+  const ageHours =
+    typeof artifactGeneratedAtMs === 'number'
+      ? roundMetric((Date.now() - artifactGeneratedAtMs) / (60 * 60 * 1000))
+      : null
+  const generatedAtFresh = typeof ageHours === 'number' && ageHours >= -1 && ageHours <= maxAgeHours
+  const ready = readyStatuses.includes(artifact?.status)
+  const fresh = ready && generatedAtFresh && checksPass && extraReady
+
+  return {
+    fresh,
+    ready,
+    status: artifact?.status ?? 'missing',
+    artifactGeneratedAt: artifact?.generatedAt ?? null,
+    ageHours,
+    maxAgeHours,
+    generatedAtFresh,
+    checksPass,
+    extraReady,
+  }
+}
 const localIsoDate = (date = new Date()) => {
   const localDate = new Date(date.getTime() - date.getTimezoneOffset() * 60_000)
   return localDate.toISOString().slice(0, 10)
@@ -360,7 +388,11 @@ const postDeploySmokeActionFresh =
   postDeployArtifactSyncReady &&
   postDeployArtifactSync.artifact?.target?.candidateId === postDeployArtifactSync.live?.candidateId
 const releaseCandidateActionFresh = postDeploySmokeRunnerReady && postDeployArtifactSyncReady
-const operatorPlanPublished = ['operator-plan-ready', 'operator-executed'].includes(autonomousOperator.status)
+const operatorPlanHeld =
+  autonomousOperator.status === 'operator-held' &&
+  (autonomousOperator.eligibleActionIds?.length ?? 0) === 0 &&
+  autonomousOperator.execution?.status === 'not-requested'
+const operatorPlanPublished = ['operator-plan-ready', 'operator-executed'].includes(autonomousOperator.status) || operatorPlanHeld
 const operatorHistoryPublished = autonomousOperatorHistory.status === 'operator-history-ready'
 const productionBootstrapFreshnessInputs = [
   { id: 'release-candidate', generatedAt: releaseCandidate.generatedAt },
@@ -900,7 +932,7 @@ const systems = [
   {
     id: 'autonomous-operator',
     status: systemStatus(
-      ['operator-plan-ready', 'operator-executed'].includes(autonomousOperator.status) &&
+      (['operator-plan-ready', 'operator-executed'].includes(autonomousOperator.status) || operatorPlanHeld) &&
         autonomousOperator.controls?.zeroPaidSpend === true &&
         autonomousOperator.controls?.localCommandAllowlistEnforced === true &&
         autonomousOperator.controls?.maxActionsPerRun === 1,
@@ -1593,6 +1625,67 @@ const appliedImprovementsFreshness = sourceFreshness({
   ],
   sourceDataHash: hashTextSourceData(`${appliedImprovementsStableInput}\n${rawImprovementBacklog}`),
 })
+const operationalEvidenceMaxAgeHours = 18
+const cadenceOperationalFreshness = operationalEvidenceFreshness({
+  artifact: autonomousCadence,
+  readyStatuses: ['cadence-ready'],
+  maxAgeHours: operationalEvidenceMaxAgeHours,
+  checksPass: (autonomousCadence.checks ?? []).every((check) => check.status === 'pass'),
+  extraReady:
+    autonomousCadence.controls?.zeroPaidSpend === true &&
+    autonomousCadence.controls?.codexAutomationExpectedActive === true &&
+    autonomousCadence.controls?.codexAutomationActualStatusAudited === true &&
+    autonomousCadence.controls?.postActionVerification === true &&
+    autonomousCadence.freshnessPolicy?.status === 'fresh' &&
+    autonomousCadence.freshnessPolicy?.staleArtifactCount === 0 &&
+    autonomousCadence.schedulers?.githubActions?.status === 'scheduled' &&
+    autonomousCadence.commandPlan?.operate === 'npm run autonomous:operate',
+})
+const selfUpdateOperationalFreshness = operationalEvidenceFreshness({
+  artifact: autonomousSelfUpdate,
+  readyStatuses: ['self-update-ready'],
+  maxAgeHours: operationalEvidenceMaxAgeHours,
+  checksPass: (autonomousSelfUpdate.checks ?? []).every((check) => check.status === 'pass'),
+  extraReady:
+    autonomousSelfUpdate.pendingChanges?.unsafeCount === 0 &&
+    (autonomousSelfUpdate.blockers?.length ?? 0) === 0 &&
+    autonomousSelfUpdate.controls?.zeroPaidSpend === true &&
+    autonomousSelfUpdate.controls?.commitRequiresCleanVerification === true &&
+    autonomousSelfUpdate.controls?.commitRequiresSafePathAllowlist === true &&
+    autonomousSelfUpdate.commitPlan?.workflow === '.github/workflows/autonomous-self-update.yml',
+})
+const supportFeedbackOperationalFreshness = operationalEvidenceFreshness({
+  artifact: supportFeedback,
+  readyStatuses: [
+    'support-feedback-ready',
+    'support-feedback-empty',
+    'support-feedback-planned',
+    'support-feedback-unavailable',
+  ],
+  maxAgeHours: operationalEvidenceMaxAgeHours,
+  checksPass: true,
+  extraReady:
+    supportFeedback.provider === 'github-issues' &&
+    supportFeedback.controls?.zeroPaidSpend === true &&
+    supportFeedback.controls?.readOnlyGithubIssueList === true &&
+    supportFeedback.controls?.noIssueMutation === true &&
+    supportFeedback.controls?.noRawAnalyticsStored === true &&
+    Array.isArray(supportFeedback.issueRecords) &&
+    Array.isArray(supportFeedback.improvementSignals),
+})
+const performanceOperationalFreshness = operationalEvidenceFreshness({
+  artifact: performanceBudget,
+  readyStatuses: ['performance-budget-ready'],
+  maxAgeHours: operationalEvidenceMaxAgeHours,
+  checksPass: true,
+  extraReady:
+    performanceBudget.controls?.phaserDeferredFromInitialShell === true &&
+    performanceBudget.controls?.initialShellBudgetEnforced === true &&
+    performanceBudget.initial?.jsBytes <= performanceBudget.budgets?.initialJsMaxBytes &&
+    performanceBudget.initial?.gzipBytes <= performanceBudget.budgets?.initialGzipMaxBytes &&
+    releaseCandidate.status === 'release-candidate-ready' &&
+    typeof releaseCandidate.candidateId === 'string',
+})
 
 const safeAutonomousActions = [
   {
@@ -1604,23 +1697,26 @@ const safeAutonomousActions = [
   },
   {
     id: 'refresh-autonomous-cadence',
-    status: autonomousCadence.status === 'cadence-ready' ? 'armed' : 'monitor',
+    status: cadenceOperationalFreshness.fresh ? 'monitor' : 'armed',
     costUsd: 0,
     command: 'npm run autonomous:cadence',
     targets: [
       autonomousCadence.schedulers?.codexDesktop?.id ?? 'codex-daily-automation',
       autonomousCadence.schedulers?.githubActions?.workflow ?? '.github/workflows/autonomous-daily.yml',
     ],
-    reason: 'Keeps the unattended daily operating cadence, recovery policy, and verification chain auditable.',
+    reason: cadenceOperationalFreshness.fresh
+      ? 'Cadence evidence is already fresh, scheduled, verified, and zero-spend guarded.'
+      : 'Keeps the unattended daily operating cadence, recovery policy, and verification chain auditable.',
   },
   {
     id: 'refresh-autonomous-self-update',
-    status: autonomousSelfUpdate.status === 'self-update-ready' ? 'armed' : 'monitor',
+    status: selfUpdateOperationalFreshness.fresh ? 'monitor' : 'armed',
     costUsd: 0,
     command: 'npm run autonomous:self-update',
     targets: [autonomousSelfUpdate.commitPlan?.workflow ?? '.github/workflows/autonomous-self-update.yml'],
-    reason:
-      'Keeps verified generated-change persistence gated, allowlisted, and ready for the scheduled production repository.',
+    reason: selfUpdateOperationalFreshness.fresh
+      ? 'Self-update evidence is already fresh, verified, allowlisted, and gated behind explicit repository controls.'
+      : 'Keeps verified generated-change persistence gated, allowlisted, and ready for the scheduled production repository.',
   },
   {
     id: 'seed-portfolio-traffic',
@@ -1655,11 +1751,17 @@ const safeAutonomousActions = [
   },
   {
     id: 'refresh-support-feedback',
-    status: ['support-channel-ready', 'support-channel-planned'].includes(supportChannel.status) ? 'armed' : 'monitor',
+    status: supportFeedbackOperationalFreshness.fresh
+      ? 'monitor'
+      : ['support-channel-ready', 'support-channel-planned'].includes(supportChannel.status)
+        ? 'armed'
+        : 'monitor',
     costUsd: 0,
     command: 'npm run autonomous:support-feedback',
     targets: [supportChannel.repository?.target ?? 'github-issues'],
-    reason: 'Reads public GitHub issue intake and turns player reports into redacted improvement signals.',
+    reason: supportFeedbackOperationalFreshness.fresh
+      ? 'Support feedback evidence was recently inspected with read-only GitHub issue controls.'
+      : 'Reads public GitHub issue intake and turns player reports into redacted improvement signals.',
   },
   {
     id: 'optimize-daily-retention',
@@ -1683,11 +1785,13 @@ const safeAutonomousActions = [
   },
   {
     id: 'check-performance-budget',
-    status: performanceBudget.status === 'performance-budget-ready' ? 'armed' : 'monitor',
+    status: performanceOperationalFreshness.fresh ? 'monitor' : 'armed',
     costUsd: 0,
     command: 'npm run build && npm run autonomous:performance && npm run autonomous:release-candidate',
     targets: ['pwa-shell', performanceBudget.deferred?.gameChunk?.file ?? 'game-runtime', 'dist-release-candidate'],
-    reason: 'Keeps the PWA shell fast while Phaser and game scenes stay deferred, then refreshes the deployable manifest for the rebuilt dist.',
+    reason: performanceOperationalFreshness.fresh
+      ? 'Performance budget and release-candidate evidence are already fresh for the current guarded build.'
+      : 'Keeps the PWA shell fast while Phaser and game scenes stay deferred, then refreshes the deployable manifest for the rebuilt dist.',
   },
   {
     id: 'prepare-release-candidate',
@@ -2090,6 +2194,12 @@ const payload = {
       auditGeneratedAt: objectiveAudit.generatedAt ?? null,
       evaluatedInputIds: objectiveAuditFreshnessInputs.map((artifact) => artifact.id),
       staleInputIds: objectiveAuditStaleInputs.map((artifact) => artifact.id),
+    },
+    operationalEvidenceFreshness: {
+      cadence: cadenceOperationalFreshness,
+      selfUpdate: selfUpdateOperationalFreshness,
+      supportFeedback: supportFeedbackOperationalFreshness,
+      performance: performanceOperationalFreshness,
     },
     sourceFreshness: {
       productOptimization: productOptimizationFreshness,

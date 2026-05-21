@@ -666,13 +666,16 @@ const productionActivationReady =
   (productionActivation.plannedActions ?? []).some((action) => action.id === 'sync-production-settings')
 const autonomousOperatorReady =
   autonomousOperator.status === 'missing' ||
-  (['operator-plan-ready', 'operator-executed'].includes(autonomousOperator.status) &&
+  ((['operator-plan-ready', 'operator-executed'].includes(autonomousOperator.status) ||
+    (autonomousOperator.status === 'operator-held' &&
+      (autonomousOperator.eligibleActionIds?.length ?? 0) === 0 &&
+      autonomousOperator.execution?.status === 'not-requested')) &&
     autonomousOperator.controls?.zeroPaidSpend === true &&
     autonomousOperator.controls?.localCommandAllowlistEnforced === true &&
     autonomousOperator.controls?.maxActionsPerRun === 1 &&
     autonomousOperator.controls?.dryRunByDefault === true &&
     autonomousOperator.controls?.externalWorkflowExecutionBlockedByDefault === true &&
-    autonomousOperator.selectedAction?.costUsd === 0)
+    (autonomousOperator.selectedAction?.costUsd === 0 || autonomousOperator.selectedAction === null))
 const autonomousOperatorHistoryReady =
   autonomousOperatorHistory.status === 'missing' ||
   (autonomousOperatorHistory.status === 'operator-history-ready' &&

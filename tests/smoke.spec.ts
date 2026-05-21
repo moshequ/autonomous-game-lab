@@ -87,7 +87,7 @@ test('portal loads a playable canvas and autonomy cockpit', async ({ page }) => 
   await expect(page.getByLabel('Repository Channel')).toContainText('Workflow dispatch')
   await expect(page.getByLabel('Repository Bootstrap')).toContainText(/needs-local-git-bootstrap|waiting-for-github-target|waiting-for-origin-remote|waiting-for-gh-auth|repository-bootstrap-ready/)
   await expect(page.getByLabel('Repository Bootstrap')).toContainText('bootstrap-repository.sh')
-  await expect(page.getByLabel('Autonomous Operator')).toContainText(/operator-plan-ready|operator-executed/)
+  await expect(page.getByLabel('Autonomous Operator')).toContainText(/operator-plan-ready|operator-executed|operator-held/)
   await expect(page.getByLabel('Autonomous Operator')).toContainText('Selected action')
   await expect(page.getByLabel('Operator History')).toContainText('operator-history-ready')
   await expect(page.getByLabel('Autonomous Cadence')).toContainText('cadence-ready')
@@ -2823,11 +2823,16 @@ test('autonomous operator plans or executes one allowlisted zero-spend local act
     blockedActions: Array<{ id: string; reason: string }>
   }
 
-  expect(['operator-plan-ready', 'operator-executed']).toContain(operator.status)
+  const operatorHeldWithoutEligibleAction =
+    operator.status === 'operator-held' && operator.selectedAction === null && operator.execution.status === 'not-requested'
+
+  expect(['operator-plan-ready', 'operator-executed', 'operator-held']).toContain(operator.status)
   expect(['plan-only', 'execute-one-action']).toContain(operator.mode)
-  expect(operator.selectedAction?.costUsd).toBe(0)
-  expect(operator.selectedAction?.command).toBeTruthy()
-  expect(operator.allowlist).toContain(operator.selectedAction?.command)
+  if (!operatorHeldWithoutEligibleAction) {
+    expect(operator.selectedAction?.costUsd).toBe(0)
+    expect(operator.selectedAction?.command).toBeTruthy()
+    expect(operator.allowlist).toContain(operator.selectedAction?.command)
+  }
   expect(operator.controls.zeroPaidSpend).toBe(true)
   expect(operator.controls.localCommandAllowlistEnforced).toBe(true)
   expect(operator.controls.maxActionsPerRun).toBe(1)
@@ -2841,7 +2846,7 @@ test('autonomous operator plans or executes one allowlisted zero-spend local act
   expect(operator.blockedActions.some((action) => action.reason === 'daily-loop-recursion-blocked')).toBe(true)
 
   await page.goto('/')
-  await expect(page.getByLabel('Autonomous Operator')).toContainText(/operator-plan-ready|operator-executed/)
+  await expect(page.getByLabel('Autonomous Operator')).toContainText(/operator-plan-ready|operator-executed|operator-held/)
 })
 
 test('local event bridge keeps browser analytics drops importable without external upload', async ({ page }) => {
@@ -3044,6 +3049,40 @@ test('autonomous operator history keeps a capped audit trail', async ({ page }) 
         evaluatedInputIds: string[]
         staleInputIds: string[]
       }
+      operationalEvidenceFreshness: {
+        cadence: {
+          fresh: boolean
+          ready: boolean
+          status: string
+          maxAgeHours: number
+          checksPass: boolean
+          extraReady: boolean
+        }
+        selfUpdate: {
+          fresh: boolean
+          ready: boolean
+          status: string
+          maxAgeHours: number
+          checksPass: boolean
+          extraReady: boolean
+        }
+        supportFeedback: {
+          fresh: boolean
+          ready: boolean
+          status: string
+          maxAgeHours: number
+          checksPass: boolean
+          extraReady: boolean
+        }
+        performance: {
+          fresh: boolean
+          ready: boolean
+          status: string
+          maxAgeHours: number
+          checksPass: boolean
+          extraReady: boolean
+        }
+      }
       sourceFreshness: Record<
         | 'productOptimization'
         | 'retentionLoop'
@@ -3201,9 +3240,17 @@ test('autonomous operator history keeps a capped audit trail', async ({ page }) 
   const prepareRepositoryAction = ownerLoop.safeAutonomousActions.find((action) => action.id === 'prepare-repository-channel')
   const objectiveAuditAction = ownerLoop.safeAutonomousActions.find((action) => action.id === 'refresh-objective-audit')
   const bootstrapProductionAction = ownerLoop.safeAutonomousActions.find((action) => action.id === 'bootstrap-production-setup')
+  const refreshCadenceAction = ownerLoop.safeAutonomousActions.find((action) => action.id === 'refresh-autonomous-cadence')
+  const refreshSelfUpdateAction = ownerLoop.safeAutonomousActions.find(
+    (action) => action.id === 'refresh-autonomous-self-update',
+  )
+  const refreshSupportFeedbackAction = ownerLoop.safeAutonomousActions.find(
+    (action) => action.id === 'refresh-support-feedback',
+  )
   const seedPortfolioAction = ownerLoop.safeAutonomousActions.find((action) => action.id === 'seed-portfolio-traffic')
   const collectLiveEventsAction = ownerLoop.safeAutonomousActions.find((action) => action.id === 'collect-live-events')
   const prepareReleaseAction = ownerLoop.safeAutonomousActions.find((action) => action.id === 'prepare-release-candidate')
+  const checkPerformanceAction = ownerLoop.safeAutonomousActions.find((action) => action.id === 'check-performance-budget')
   const optimizeStoreListingAction = ownerLoop.safeAutonomousActions.find((action) => action.id === 'optimize-store-listing')
   const sourceFreshnessActionPairs = [
     { actionId: 'optimize-product-gates', freshness: ownerLoop.executionMemory.sourceFreshness.productOptimization },
@@ -3274,6 +3321,30 @@ test('autonomous operator history keeps a capped audit trail', async ({ page }) 
   expect(ownerLoop.executionMemory.objectiveAuditFreshness.evaluatedInputIds).toContain('analytics-rollup')
   expect(ownerLoop.executionMemory.objectiveAuditFreshness.evaluatedInputIds).toContain('local-event-bridge')
   expect(ownerLoop.executionMemory.objectiveAuditFreshness.evaluatedInputIds).toContain('production-activation')
+  expect(ownerLoop.executionMemory.operationalEvidenceFreshness.cadence.maxAgeHours).toBe(18)
+  expect(ownerLoop.executionMemory.operationalEvidenceFreshness.selfUpdate.maxAgeHours).toBe(18)
+  expect(ownerLoop.executionMemory.operationalEvidenceFreshness.supportFeedback.maxAgeHours).toBe(18)
+  expect(ownerLoop.executionMemory.operationalEvidenceFreshness.performance.maxAgeHours).toBe(18)
+  if (ownerLoop.executionMemory.operationalEvidenceFreshness.cadence.fresh) {
+    expect(refreshCadenceAction?.status).toBe('monitor')
+    expect(refreshCadenceAction?.reason).toContain('already fresh')
+    expect(ownerLoop.ownerDecision.nextBestActionId).not.toBe('refresh-autonomous-cadence')
+  }
+  if (ownerLoop.executionMemory.operationalEvidenceFreshness.selfUpdate.fresh) {
+    expect(refreshSelfUpdateAction?.status).toBe('monitor')
+    expect(refreshSelfUpdateAction?.reason).toContain('already fresh')
+    expect(ownerLoop.ownerDecision.nextBestActionId).not.toBe('refresh-autonomous-self-update')
+  }
+  if (ownerLoop.executionMemory.operationalEvidenceFreshness.supportFeedback.fresh) {
+    expect(refreshSupportFeedbackAction?.status).toBe('monitor')
+    expect(refreshSupportFeedbackAction?.reason).toContain('recently inspected')
+    expect(ownerLoop.ownerDecision.nextBestActionId).not.toBe('refresh-support-feedback')
+  }
+  if (ownerLoop.executionMemory.operationalEvidenceFreshness.performance.fresh) {
+    expect(checkPerformanceAction?.status).toBe('monitor')
+    expect(checkPerformanceAction?.reason).toContain('already fresh')
+    expect(ownerLoop.ownerDecision.nextBestActionId).not.toBe('check-performance-budget')
+  }
   for (const { actionId, freshness } of sourceFreshnessActionPairs) {
     const action = ownerLoop.safeAutonomousActions.find((item) => item.id === actionId)
 

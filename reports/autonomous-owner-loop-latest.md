@@ -1,15 +1,15 @@
 # Autonomous Owner Loop
 
-Generated: 2026-05-21T08:11:22.111Z
+Generated: 2026-05-21T08:31:38.861Z
 Status: owner-loop-ready
 Mode: zero-spend-web-ready
 Autonomy score: 41/42 (98%)
 
 ## Owner Decision
 
-- Next action: refresh-autonomous-cadence
-- Command: npm run autonomous:cadence
-- Rationale: Keeps the unattended daily operating cadence, recovery policy, and verification chain auditable.
+- Next action: run-daily-owner-loop
+- Command: npm run autonomous:daily
+- Rationale: Regenerates trend, game, analytics, growth, safety, monetization, deployment, and owner-loop state.
 - Last executed action: check-performance-budget
 - Recent executed actions: check-performance-budget, refresh-support-feedback, refresh-autonomous-self-update, refresh-autonomous-cadence, optimize-store-listing, seed-portfolio-traffic, collect-gate-sample-downloads, refresh-product-gate-recovery
 
@@ -29,7 +29,7 @@ Autonomy score: 41/42 (98%)
 - ready: organic-seed-loop - Target canopy-bloom; surface portal-growth-loop; share telemetry organic_seed_share_clicked.
 - ready: retention-loop - Daily canopy-bloom; D1 17%; streak variant daily-streak; return prompt armed; return intent armed.
 - ready: pwa-install-loop - Prompt autonomy-cockpit; installs 0; launch events 0; sample collecting-sample needs 20 prompt(s) and 10 launch event(s).
-- ready: performance-budget - Initial JS 655.2 KB; gzip 178.9 KB; deferred chunks 1.
+- ready: performance-budget - Initial JS 655.1 KB; gzip 178.9 KB; deferred chunks 1.
 - ready: product-optimization - Completion 40% / gate 55%; latest already-applied.
 - ready: support-feedback - Support feedback support-feedback-empty; issues 0; routable signals 0.
 - ready: product-gate-recovery - Recovery product-gate-recovery-ready; primary firstGameCompletion; experiment collecting-sample; failing gates 3; next lift 128.
@@ -48,8 +48,8 @@ Autonomy score: 41/42 (98%)
 - ready: production-bootstrap - Bootstrap production-bootstrap-ready; mode can-apply-configured-actions; external blockers 16.
 - ready: production-activation - Activation activation-ready; mode dry-run; execution dry-run; gh ready.
 - ready: support-channel - Support channel support-channel-ready; repository moshequ/autonomous-game-lab; public intake ready.
-- ready: autonomous-operator - Operator operator-plan-ready; selected refresh-autonomous-cadence; execution not-requested.
-- ready: operator-history - History operator-history-ready; records 40; executed 15.
+- ready: autonomous-operator - Operator operator-held; selected none; execution not-requested.
+- ready: operator-history - History operator-history-ready; records 39; executed 13.
 - ready: objective-audit - Audit objective-in-progress; met 6/8; external blockers 12.
 - ready: store-listing-optimizer - Focus canopy-bloom; lead screenshot phone-canopy-bloom-generated; candidate changed yes.
 - ready: store-compliance - Rating Everyone; target audience general; blockers 3.
@@ -61,14 +61,14 @@ Autonomy score: 41/42 (98%)
 ## Safe Autonomous Actions
 
 - armed: run-daily-owner-loop - npm run autonomous:daily
-- armed: refresh-autonomous-cadence - npm run autonomous:cadence
-- armed: refresh-autonomous-self-update - npm run autonomous:self-update
+- monitor: refresh-autonomous-cadence - npm run autonomous:cadence
+- monitor: refresh-autonomous-self-update - npm run autonomous:self-update
 - monitor: seed-portfolio-traffic - npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop
 - monitor: refresh-organic-seed-loop - npm run autonomous:organic-seed-loop
-- armed: refresh-support-feedback - npm run autonomous:support-feedback
+- monitor: refresh-support-feedback - npm run autonomous:support-feedback
 - monitor: optimize-daily-retention - npm run autonomous:retention
 - monitor: measure-pwa-install-loop - npm run autonomous:pwa-install
-- armed: check-performance-budget - npm run build && npm run autonomous:performance && npm run autonomous:release-candidate
+- monitor: check-performance-budget - npm run build && npm run autonomous:performance && npm run autonomous:release-candidate
 - monitor: prepare-release-candidate - npm run autonomous:release-candidate && npm run autonomous:post-deploy-smoke
 - monitor: run-post-deploy-smoke - npm run autonomous:post-deploy-smoke
 - monitor: sync-post-deploy-artifact - npm run autonomous:post-deploy-artifact-sync

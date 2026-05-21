@@ -2304,7 +2304,14 @@ if (
 }
 
 const operatorSelectedCommand = autonomousOperator.selectedAction?.command
-const operatorStatusAllowed = ['operator-plan-ready', 'operator-executed'].includes(autonomousOperator.status)
+const operatorHeldWithoutEligibleAction =
+  autonomousOperator.status === 'operator-held' &&
+  (autonomousOperator.eligibleActionIds?.length ?? 0) === 0 &&
+  autonomousOperator.selectedAction === null &&
+  autonomousOperator.execution?.status === 'not-requested'
+const operatorStatusAllowed =
+  ['operator-plan-ready', 'operator-executed'].includes(autonomousOperator.status) ||
+  operatorHeldWithoutEligibleAction
 const operatorModeAllowed = ['plan-only', 'execute-one-action'].includes(autonomousOperator.mode)
 const operatorExecutionStatusAllowed = ['not-requested', 'executed'].includes(
   autonomousOperator.execution?.status,
@@ -2313,11 +2320,12 @@ const operatorExecutionStatusAllowed = ['not-requested', 'executed'].includes(
 if (
   !operatorStatusAllowed ||
   !operatorModeAllowed ||
-  autonomousOperator.selectedAction?.costUsd !== 0 ||
-  autonomousOperator.ownerDecision?.locallyExecutable !== true ||
-  autonomousOperator.selectedAction?.id !== autonomousOwnerLoop.ownerDecision?.nextBestActionId ||
-  !operatorSelectedCommand ||
-  !autonomousOperator.allowlist?.includes(operatorSelectedCommand) ||
+  (!operatorHeldWithoutEligibleAction && autonomousOperator.selectedAction?.costUsd !== 0) ||
+  (!operatorHeldWithoutEligibleAction && autonomousOperator.ownerDecision?.locallyExecutable !== true) ||
+  (!operatorHeldWithoutEligibleAction &&
+    autonomousOperator.selectedAction?.id !== autonomousOwnerLoop.ownerDecision?.nextBestActionId) ||
+  (!operatorHeldWithoutEligibleAction && !operatorSelectedCommand) ||
+  (!operatorHeldWithoutEligibleAction && !autonomousOperator.allowlist?.includes(operatorSelectedCommand)) ||
   autonomousOperator.controls?.zeroPaidSpend !== true ||
   autonomousOperator.controls?.allOwnerGuardrailsEnforced !== true ||
   autonomousOperator.controls?.localCommandAllowlistEnforced !== true ||
@@ -5078,6 +5086,15 @@ const ownerProductGateSamplePlanSourceDataHash = hashSourceData({
 const ownerCollectGateSampleAction = autonomousOwnerLoop.safeAutonomousActions?.find(
   (action) => action.id === 'collect-gate-sample-downloads',
 )
+const ownerRefreshCadenceAction = autonomousOwnerLoop.safeAutonomousActions?.find(
+  (action) => action.id === 'refresh-autonomous-cadence',
+)
+const ownerRefreshSelfUpdateAction = autonomousOwnerLoop.safeAutonomousActions?.find(
+  (action) => action.id === 'refresh-autonomous-self-update',
+)
+const ownerRefreshSupportFeedbackAction = autonomousOwnerLoop.safeAutonomousActions?.find(
+  (action) => action.id === 'refresh-support-feedback',
+)
 const ownerRefreshGateRecoveryAction = autonomousOwnerLoop.safeAutonomousActions?.find(
   (action) => action.id === 'refresh-product-gate-recovery',
 )
@@ -5092,6 +5109,9 @@ const ownerObjectiveAuditAction = autonomousOwnerLoop.safeAutonomousActions?.fin
 )
 const ownerRunPostDeploySmokeAction = autonomousOwnerLoop.safeAutonomousActions?.find(
   (action) => action.id === 'run-post-deploy-smoke',
+)
+const ownerCheckPerformanceAction = autonomousOwnerLoop.safeAutonomousActions?.find(
+  (action) => action.id === 'check-performance-budget',
 )
 const ownerMeasurePwaInstallAction = autonomousOwnerLoop.safeAutonomousActions?.find(
   (action) => action.id === 'measure-pwa-install-loop',
@@ -5158,6 +5178,82 @@ const ownerObjectiveAuditStructurallyReady =
   (objectiveAudit.requirements?.length ?? 0) >= 8
 const ownerObjectiveAuditFresh =
   ownerObjectiveAuditStructurallyReady && ownerObjectiveAuditStaleInputIds.length === 0
+const ownerOperationalEvidenceMaxAgeHours = 18
+const ownerOperationalEvidenceFreshness = ({ artifact, readyStatuses, checksPass = true, extraReady = true }) => {
+  const artifactGeneratedAtMs = ownerGeneratedAtMs(artifact)
+  const ageHours =
+    typeof artifactGeneratedAtMs === 'number'
+      ? roundMetric((Date.now() - artifactGeneratedAtMs) / (60 * 60 * 1000))
+      : null
+  const generatedAtFresh =
+    typeof ageHours === 'number' && ageHours >= -1 && ageHours <= ownerOperationalEvidenceMaxAgeHours
+  const ready = readyStatuses.includes(artifact?.status)
+
+  return {
+    fresh: ready && generatedAtFresh && checksPass && extraReady,
+    ready,
+    status: artifact?.status ?? 'missing',
+    artifactGeneratedAt: artifact?.generatedAt ?? null,
+    maxAgeHours: ownerOperationalEvidenceMaxAgeHours,
+    generatedAtFresh,
+    checksPass,
+    extraReady,
+  }
+}
+const ownerCadenceOperationalFreshness = ownerOperationalEvidenceFreshness({
+  artifact: autonomousCadence,
+  readyStatuses: ['cadence-ready'],
+  checksPass: (autonomousCadence.checks ?? []).every((check) => check.status === 'pass'),
+  extraReady:
+    autonomousCadence.controls?.zeroPaidSpend === true &&
+    autonomousCadence.controls?.codexAutomationExpectedActive === true &&
+    autonomousCadence.controls?.codexAutomationActualStatusAudited === true &&
+    autonomousCadence.controls?.postActionVerification === true &&
+    autonomousCadence.freshnessPolicy?.status === 'fresh' &&
+    autonomousCadence.freshnessPolicy?.staleArtifactCount === 0 &&
+    autonomousCadence.schedulers?.githubActions?.status === 'scheduled' &&
+    autonomousCadence.commandPlan?.operate === 'npm run autonomous:operate',
+})
+const ownerSelfUpdateOperationalFreshness = ownerOperationalEvidenceFreshness({
+  artifact: autonomousSelfUpdate,
+  readyStatuses: ['self-update-ready'],
+  checksPass: (autonomousSelfUpdate.checks ?? []).every((check) => check.status === 'pass'),
+  extraReady:
+    autonomousSelfUpdate.pendingChanges?.unsafeCount === 0 &&
+    (autonomousSelfUpdate.blockers?.length ?? 0) === 0 &&
+    autonomousSelfUpdate.controls?.zeroPaidSpend === true &&
+    autonomousSelfUpdate.controls?.commitRequiresCleanVerification === true &&
+    autonomousSelfUpdate.controls?.commitRequiresSafePathAllowlist === true &&
+    autonomousSelfUpdate.commitPlan?.workflow === '.github/workflows/autonomous-self-update.yml',
+})
+const ownerSupportFeedbackOperationalFreshness = ownerOperationalEvidenceFreshness({
+  artifact: supportFeedback,
+  readyStatuses: [
+    'support-feedback-ready',
+    'support-feedback-empty',
+    'support-feedback-planned',
+    'support-feedback-unavailable',
+  ],
+  extraReady:
+    supportFeedback.provider === 'github-issues' &&
+    supportFeedback.controls?.zeroPaidSpend === true &&
+    supportFeedback.controls?.readOnlyGithubIssueList === true &&
+    supportFeedback.controls?.noIssueMutation === true &&
+    supportFeedback.controls?.noRawAnalyticsStored === true &&
+    Array.isArray(supportFeedback.issueRecords) &&
+    Array.isArray(supportFeedback.improvementSignals),
+})
+const ownerPerformanceOperationalFreshness = ownerOperationalEvidenceFreshness({
+  artifact: performanceBudget,
+  readyStatuses: ['performance-budget-ready'],
+  extraReady:
+    performanceBudget.controls?.phaserDeferredFromInitialShell === true &&
+    performanceBudget.controls?.initialShellBudgetEnforced === true &&
+    performanceBudget.initial?.jsBytes <= performanceBudget.budgets?.initialJsMaxBytes &&
+    performanceBudget.initial?.gzipBytes <= performanceBudget.budgets?.initialGzipMaxBytes &&
+    releaseCandidate.status === 'release-candidate-ready' &&
+    typeof releaseCandidate.candidateId === 'string',
+})
 const ownerRepositoryTargetPlan = repositoryReadiness.repositoryTargetPlan ?? repositoryBootstrap.repositoryTargetPlan ?? null
 const ownerRepositoryTargetPlanReady =
   typeof ownerRepositoryTargetPlan?.plannedTarget === 'string' &&
@@ -5278,6 +5374,7 @@ if (
   !autonomousOwnerLoopSource.includes('gateSampleDownloadsBackoff') ||
   !autonomousOwnerLoopSource.includes('productionActivationRunnable') ||
   !autonomousOwnerLoopSource.includes('objectiveAuditFreshness') ||
+  !autonomousOwnerLoopSource.includes('operationalEvidenceFreshness') ||
   JSON.stringify(autonomousOwnerLoop.executionMemory?.recentExecutedActionIds ?? []) !==
     JSON.stringify(ownerRecentExecutedActionIds) ||
   JSON.stringify(autonomousOwnerLoop.executionMemory?.recentlySatisfiedActionIds ?? []) !==
@@ -5291,6 +5388,66 @@ if (
     JSON.stringify(ownerObjectiveAuditInputs.map((artifact) => artifact.id)) ||
   JSON.stringify(autonomousOwnerLoop.executionMemory?.objectiveAuditFreshness?.staleInputIds ?? []) !==
     JSON.stringify(ownerObjectiveAuditStaleInputIds) ||
+  autonomousOwnerLoop.executionMemory?.operationalEvidenceFreshness?.cadence?.fresh !==
+    ownerCadenceOperationalFreshness.fresh ||
+  autonomousOwnerLoop.executionMemory?.operationalEvidenceFreshness?.cadence?.ready !==
+    ownerCadenceOperationalFreshness.ready ||
+  autonomousOwnerLoop.executionMemory?.operationalEvidenceFreshness?.cadence?.status !==
+    ownerCadenceOperationalFreshness.status ||
+  autonomousOwnerLoop.executionMemory?.operationalEvidenceFreshness?.cadence?.maxAgeHours !==
+    ownerOperationalEvidenceMaxAgeHours ||
+  autonomousOwnerLoop.executionMemory?.operationalEvidenceFreshness?.cadence?.checksPass !==
+    ownerCadenceOperationalFreshness.checksPass ||
+  autonomousOwnerLoop.executionMemory?.operationalEvidenceFreshness?.cadence?.extraReady !==
+    ownerCadenceOperationalFreshness.extraReady ||
+  autonomousOwnerLoop.executionMemory?.operationalEvidenceFreshness?.selfUpdate?.fresh !==
+    ownerSelfUpdateOperationalFreshness.fresh ||
+  autonomousOwnerLoop.executionMemory?.operationalEvidenceFreshness?.selfUpdate?.ready !==
+    ownerSelfUpdateOperationalFreshness.ready ||
+  autonomousOwnerLoop.executionMemory?.operationalEvidenceFreshness?.selfUpdate?.status !==
+    ownerSelfUpdateOperationalFreshness.status ||
+  autonomousOwnerLoop.executionMemory?.operationalEvidenceFreshness?.selfUpdate?.maxAgeHours !==
+    ownerOperationalEvidenceMaxAgeHours ||
+  autonomousOwnerLoop.executionMemory?.operationalEvidenceFreshness?.selfUpdate?.checksPass !==
+    ownerSelfUpdateOperationalFreshness.checksPass ||
+  autonomousOwnerLoop.executionMemory?.operationalEvidenceFreshness?.selfUpdate?.extraReady !==
+    ownerSelfUpdateOperationalFreshness.extraReady ||
+  autonomousOwnerLoop.executionMemory?.operationalEvidenceFreshness?.supportFeedback?.fresh !==
+    ownerSupportFeedbackOperationalFreshness.fresh ||
+  autonomousOwnerLoop.executionMemory?.operationalEvidenceFreshness?.supportFeedback?.ready !==
+    ownerSupportFeedbackOperationalFreshness.ready ||
+  autonomousOwnerLoop.executionMemory?.operationalEvidenceFreshness?.supportFeedback?.status !==
+    ownerSupportFeedbackOperationalFreshness.status ||
+  autonomousOwnerLoop.executionMemory?.operationalEvidenceFreshness?.supportFeedback?.maxAgeHours !==
+    ownerOperationalEvidenceMaxAgeHours ||
+  autonomousOwnerLoop.executionMemory?.operationalEvidenceFreshness?.supportFeedback?.checksPass !==
+    ownerSupportFeedbackOperationalFreshness.checksPass ||
+  autonomousOwnerLoop.executionMemory?.operationalEvidenceFreshness?.supportFeedback?.extraReady !==
+    ownerSupportFeedbackOperationalFreshness.extraReady ||
+  autonomousOwnerLoop.executionMemory?.operationalEvidenceFreshness?.performance?.fresh !==
+    ownerPerformanceOperationalFreshness.fresh ||
+  autonomousOwnerLoop.executionMemory?.operationalEvidenceFreshness?.performance?.ready !==
+    ownerPerformanceOperationalFreshness.ready ||
+  autonomousOwnerLoop.executionMemory?.operationalEvidenceFreshness?.performance?.status !==
+    ownerPerformanceOperationalFreshness.status ||
+  autonomousOwnerLoop.executionMemory?.operationalEvidenceFreshness?.performance?.maxAgeHours !==
+    ownerOperationalEvidenceMaxAgeHours ||
+  autonomousOwnerLoop.executionMemory?.operationalEvidenceFreshness?.performance?.checksPass !==
+    ownerPerformanceOperationalFreshness.checksPass ||
+  autonomousOwnerLoop.executionMemory?.operationalEvidenceFreshness?.performance?.extraReady !==
+    ownerPerformanceOperationalFreshness.extraReady ||
+  (ownerCadenceOperationalFreshness.fresh && ownerRefreshCadenceAction?.status !== 'monitor') ||
+  (ownerCadenceOperationalFreshness.fresh &&
+    autonomousOwnerLoop.ownerDecision?.nextBestActionId === 'refresh-autonomous-cadence') ||
+  (ownerSelfUpdateOperationalFreshness.fresh && ownerRefreshSelfUpdateAction?.status !== 'monitor') ||
+  (ownerSelfUpdateOperationalFreshness.fresh &&
+    autonomousOwnerLoop.ownerDecision?.nextBestActionId === 'refresh-autonomous-self-update') ||
+  (ownerSupportFeedbackOperationalFreshness.fresh && ownerRefreshSupportFeedbackAction?.status !== 'monitor') ||
+  (ownerSupportFeedbackOperationalFreshness.fresh &&
+    autonomousOwnerLoop.ownerDecision?.nextBestActionId === 'refresh-support-feedback') ||
+  (ownerPerformanceOperationalFreshness.fresh && ownerCheckPerformanceAction?.status !== 'monitor') ||
+  (ownerPerformanceOperationalFreshness.fresh &&
+    autonomousOwnerLoop.ownerDecision?.nextBestActionId === 'check-performance-budget') ||
   autonomousOwnerLoop.executionMemory?.repositoryHandoff?.prepared !== ownerRepositoryHandoffPrepared ||
   autonomousOwnerLoop.executionMemory?.repositoryHandoff?.targetPlanReady !== ownerRepositoryTargetPlanReady ||
   autonomousOwnerLoop.executionMemory?.repositoryHandoff?.plannedTarget !==
