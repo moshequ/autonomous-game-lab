@@ -1649,9 +1649,9 @@ const safeAutonomousActions = [
     id: 'optimize-store-listing',
     status: storeListingOptimizer.status === 'store-listing-optimizer-ready' ? 'armed' : 'monitor',
     costUsd: 0,
-    command: 'npm run autonomous:store-listing-optimize && npm run autonomous:store-compliance',
+    command: 'npm run autonomous:store-package && npm run autonomous:store-listing-optimize && npm run autonomous:store-compliance',
     targets: [storeListingOptimizer.recommendation?.focusGameId ?? storePackage.launchCandidate?.id ?? 'store-listing'],
-    reason: 'Keeps store copy, keyword themes, screenshots, and compliance drafts aligned with behavior signals.',
+    reason: 'Refreshes the base store package, optimized copy, screenshot priority, and compliance drafts from behavior signals.',
   },
   {
     id: 'prepare-android-signing',

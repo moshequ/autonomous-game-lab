@@ -3428,6 +3428,10 @@ if (
   storeListingOptimizer.recommendation?.focusGameId !== portfolioPolicy.dailyChallenge?.gameId ||
   storeListingOptimizer.recommendation?.focusGameId !== storePackage.launchCandidate?.id ||
   storeListingOptimizer.listing?.sourceGameId !== storePackage.launchCandidate?.id ||
+  storePackage.storeListingOptimization?.status !== storeListingOptimizer.status ||
+  storePackage.storeListingOptimization?.generatedAt !== storeListingOptimizer.generatedAt ||
+  storePackage.storeListingOptimization?.recommendedFocusGameId !==
+    storeListingOptimizer.recommendation?.focusGameId ||
   storePackage.storeListing?.source !== 'store-listing-optimizer' ||
   storePackage.storeListing?.sourceGameId !== storeListingOptimizer.recommendation?.focusGameId ||
   storePackage.storeListing?.shortDescription !== storeListingOptimizer.listing?.shortDescription ||
@@ -5326,6 +5330,7 @@ if (
   !autonomousOwnerLoop.safeAutonomousActions?.some(
     (action) =>
       action.id === 'optimize-store-listing' &&
+      action.command?.includes('autonomous:store-package') &&
       action.command?.includes('autonomous:store-listing-optimize') &&
       action.command?.includes('autonomous:store-compliance') &&
       action.costUsd === 0 &&

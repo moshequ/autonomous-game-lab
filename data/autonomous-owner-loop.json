@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-21T06:34:14.832Z",
+  "generatedAt": "2026-05-21T06:42:09.604Z",
   "status": "owner-loop-ready",
   "mode": "zero-spend-web-ready",
   "autonomyScore": {
@@ -21,32 +21,32 @@
     "repositoryHandoffPrepared": false
   },
   "ownerDecision": {
-    "nextBestActionId": "optimize-store-listing",
-    "nextBestAction": "npm run autonomous:store-listing-optimize && npm run autonomous:store-compliance",
+    "nextBestActionId": "refresh-autonomous-self-update",
+    "nextBestAction": "npm run autonomous:self-update",
     "canExecuteWithoutSpend": true,
-    "rationale": "Keeps store copy, keyword themes, screenshots, and compliance drafts aligned with behavior signals."
+    "rationale": "Keeps verified generated-change persistence gated, allowlisted, and ready for the scheduled production repository."
   },
   "executionMemory": {
     "avoidImmediateRepeat": true,
     "recentExecutionWindow": 8,
     "recentExecutedActionIds": [
+      "refresh-autonomous-cadence",
+      "optimize-store-listing",
       "refresh-product-gate-recovery",
       "refresh-objective-audit",
       "prepare-release-candidate",
       "check-performance-budget",
       "refresh-support-feedback",
-      "measure-pwa-install-loop",
-      "refresh-autonomous-self-update",
-      "refresh-autonomous-cadence"
+      "measure-pwa-install-loop"
     ],
-    "lastExecutedActionId": "refresh-product-gate-recovery",
+    "lastExecutedActionId": "refresh-autonomous-cadence",
     "lastExecutedStatus": "executed",
     "lastRecordExecutionStatus": "not-requested",
     "recentlySatisfiedActionIds": [],
     "objectiveAuditFreshness": {
       "fresh": true,
       "structurallyReady": true,
-      "auditGeneratedAt": "2026-05-21T06:25:10.118Z",
+      "auditGeneratedAt": "2026-05-21T06:42:08.857Z",
       "evaluatedInputIds": [
         "analytics-rollup",
         "event-ingest",
@@ -244,12 +244,12 @@
     },
     "skippedRecentlyExecutedActionIds": [
       "refresh-autonomous-cadence",
-      "refresh-autonomous-self-update",
       "refresh-support-feedback",
       "measure-pwa-install-loop",
       "check-performance-budget",
       "prepare-release-candidate",
-      "refresh-product-gate-recovery"
+      "refresh-product-gate-recovery",
+      "optimize-store-listing"
     ],
     "skippedRecentlySatisfiedActionIds": [],
     "preferredActionOrder": [
@@ -284,7 +284,7 @@
     },
     "productionBootstrapFreshness": {
       "fresh": true,
-      "bootstrapGeneratedAt": "2026-05-21T06:24:48.682Z",
+      "bootstrapGeneratedAt": "2026-05-21T06:41:46.985Z",
       "evaluatedInputIds": [
         "release-candidate",
         "deployment-plan",
@@ -399,7 +399,7 @@
       "id": "performance-budget",
       "status": "ready",
       "autonomy": "automatic-build-budget",
-      "evidence": "Initial JS 654.9 KB; gzip 178.8 KB; deferred chunks 1.",
+      "evidence": "Initial JS 655 KB; gzip 178.8 KB; deferred chunks 1.",
       "nextAction": "Keep Phaser and game scenes outside the initial PWA shell."
     },
     {
@@ -498,7 +498,7 @@
       "status": "ready",
       "autonomy": "read-only-live-deploy-verification",
       "evidence": "Smoke post-deploy-smoke-observed-live; origin https://moshequ.github.io/autonomous-game-lab; manifest comparison required; checks 15/15 passed; local artifact predeploy-artifact-smoke-passed 15/15 passed.",
-      "nextAction": "Live Pages is reachable and serving pwa-f11adc88d9d5; run the deploy workflow for strict proof of the current local candidate if needed."
+      "nextAction": "Live Pages is reachable and serving pwa-9a28998c70ef; run the deploy workflow for strict proof of the current local candidate if needed."
     },
     {
       "id": "post-deploy-artifact-sync",
@@ -532,7 +532,7 @@
       "id": "autonomous-operator",
       "status": "ready",
       "autonomy": "one-safe-action-runner",
-      "evidence": "Operator operator-plan-ready; selected optimize-store-listing; execution not-requested.",
+      "evidence": "Operator operator-plan-ready; selected refresh-autonomous-self-update; execution not-requested.",
       "nextAction": "Keep a dry-run operator plan ready, then execute only one allowlisted local action when explicitly requested."
     },
     {
@@ -553,8 +553,8 @@
       "id": "store-listing-optimizer",
       "status": "ready",
       "autonomy": "automatic-aso-draft",
-      "evidence": "Focus canopy-bloom; lead screenshot phone-canopy-bloom-generated; candidate changed no.",
-      "nextAction": "Keep Canopy Bloom as the store listing focus."
+      "evidence": "Focus canopy-bloom; lead screenshot phone-canopy-bloom-generated; candidate changed yes.",
+      "nextAction": "Use Canopy Bloom as the store listing focus instead of lantern-relay."
     },
     {
       "id": "store-compliance",
@@ -681,7 +681,7 @@
       "command": "npm run build && npm run autonomous:performance && npm run autonomous:release-candidate",
       "targets": [
         "pwa-shell",
-        "GameCanvas-Byr1b9J2.js",
+        "GameCanvas-El5rLl6T.js",
         "dist-release-candidate"
       ],
       "reason": "Keeps the PWA shell fast while Phaser and game scenes stay deferred, then refreshes the deployable manifest for the rebuilt dist."
@@ -832,7 +832,7 @@
       "costUsd": 0,
       "command": "npm run autonomous:operator",
       "targets": [
-        "optimize-store-listing"
+        "refresh-autonomous-self-update"
       ],
       "reason": "One-action operator plan is already published; avoid cycling on meta-operator refreshes."
     },
@@ -842,7 +842,7 @@
       "costUsd": 0,
       "command": "npm run autonomous:operator",
       "targets": [
-        "optimize-store-listing"
+        "refresh-autonomous-self-update"
       ],
       "reason": "Operator history is already capped and published; keep attention on product evidence."
     },
@@ -861,11 +861,11 @@
       "id": "optimize-store-listing",
       "status": "armed",
       "costUsd": 0,
-      "command": "npm run autonomous:store-listing-optimize && npm run autonomous:store-compliance",
+      "command": "npm run autonomous:store-package && npm run autonomous:store-listing-optimize && npm run autonomous:store-compliance",
       "targets": [
         "canopy-bloom"
       ],
-      "reason": "Keeps store copy, keyword themes, screenshots, and compliance drafts aligned with behavior signals."
+      "reason": "Refreshes the base store package, optimized copy, screenshot priority, and compliance drafts from behavior signals."
     },
     {
       "id": "prepare-android-signing",

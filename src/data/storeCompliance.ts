@@ -1,5 +1,5 @@
 export const storeCompliance = {
-  "generatedAt": "2026-05-21T05:26:38.059Z",
+  "generatedAt": "2026-05-21T06:39:19.575Z",
   "status": "draft-ready-external-blockers",
   "launchCandidate": {
     "id": "canopy-bloom",

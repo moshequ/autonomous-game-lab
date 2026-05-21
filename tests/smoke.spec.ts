@@ -4901,6 +4901,7 @@ test('generated store screenshot assets are reachable', async ({ page }) => {
 
 test('store listing optimizer promotes the data-led store focus', async ({ page }) => {
   const optimizer = JSON.parse(await readFile('data/store-listing-optimizer.json', 'utf8')) as {
+    generatedAt: string
     status: string
     recommendation: { focusGameId: string; changedLaunchCandidate: boolean }
     listing: { shortDescription: string; keywords: string[] }
@@ -4910,11 +4911,19 @@ test('store listing optimizer promotes the data-led store focus', async ({ page 
   const storePackage = JSON.parse(await readFile('data/store-package.json', 'utf8')) as {
     launchCandidate: { id: string }
     storeListing: { shortDescription: string; screenshotAssets: Array<{ id: string }> }
+    storeListingOptimization: {
+      generatedAt: string
+      status: string
+      recommendedFocusGameId: string
+    }
   }
 
   expect(optimizer.status).toBe('store-listing-optimizer-ready')
   expect(optimizer.recommendation.focusGameId).toBe('canopy-bloom')
   expect(storePackage.launchCandidate.id).toBe(optimizer.recommendation.focusGameId)
+  expect(storePackage.storeListingOptimization.status).toBe(optimizer.status)
+  expect(storePackage.storeListingOptimization.generatedAt).toBe(optimizer.generatedAt)
+  expect(storePackage.storeListingOptimization.recommendedFocusGameId).toBe(optimizer.recommendation.focusGameId)
   expect(storePackage.storeListing.shortDescription.length).toBeLessThanOrEqual(
     optimizer.copyGuardrails.googleShortDescriptionMaxChars,
   )

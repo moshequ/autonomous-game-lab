@@ -61,7 +61,7 @@ const allowedLocalCommands = [
   'npm run autonomous:sample-plan',
   'npm run autonomous:collect-sample-downloads',
   'npm run autonomous:analyze && npm run autonomous:product-optimize && npm run autonomous:sync-config && npm run autonomous:simulate',
-  'npm run autonomous:store-listing-optimize && npm run autonomous:store-compliance',
+  'npm run autonomous:store-package && npm run autonomous:store-listing-optimize && npm run autonomous:store-compliance',
   'npm run autonomous:android-signing',
   'npm run autonomous:experiments && npm run autonomous:improve && npm run autonomous:sync-experiments',
   'npm run autonomous:import-events && npm run autonomous:analytics',

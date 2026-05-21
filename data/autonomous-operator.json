@@ -1,22 +1,22 @@
 {
-  "generatedAt": "2026-05-21T06:25:10.593Z",
+  "generatedAt": "2026-05-21T06:42:09.342Z",
   "status": "operator-plan-ready",
   "mode": "plan-only",
   "ownerDecision": {
-    "actionId": "optimize-store-listing",
-    "command": "npm run autonomous:store-listing-optimize && npm run autonomous:store-compliance",
+    "actionId": "refresh-autonomous-self-update",
+    "command": "npm run autonomous:self-update",
     "locallyExecutable": true,
     "rejectionReason": null
   },
   "requestedActionId": null,
   "selectedAction": {
-    "id": "optimize-store-listing",
+    "id": "refresh-autonomous-self-update",
     "status": "armed",
-    "command": "npm run autonomous:store-listing-optimize && npm run autonomous:store-compliance",
+    "command": "npm run autonomous:self-update",
     "targets": [
-      "canopy-bloom"
+      ".github/workflows/autonomous-self-update.yml"
     ],
-    "reason": "Keeps store copy, keyword themes, screenshots, and compliance drafts aligned with behavior signals.",
+    "reason": "Keeps verified generated-change persistence gated, allowlisted, and ready for the scheduled production repository.",
     "costUsd": 0
   },
   "selectedRejection": null,
@@ -41,12 +41,6 @@
       "id": "refresh-autonomous-cadence",
       "status": "armed",
       "command": "npm run autonomous:cadence",
-      "reason": "not-selected-this-run"
-    },
-    {
-      "id": "refresh-autonomous-self-update",
-      "status": "armed",
-      "command": "npm run autonomous:self-update",
       "reason": "not-selected-this-run"
     },
     {
@@ -182,6 +176,12 @@
       "reason": "status-monitor"
     },
     {
+      "id": "optimize-store-listing",
+      "status": "armed",
+      "command": "npm run autonomous:store-package && npm run autonomous:store-listing-optimize && npm run autonomous:store-compliance",
+      "reason": "not-selected-this-run"
+    },
+    {
       "id": "prepare-android-signing",
       "status": "monitor",
       "command": "npm run autonomous:android-signing",
@@ -208,12 +208,8 @@
   ],
   "commandPlan": [
     {
-      "segment": "npm run autonomous:store-listing-optimize",
-      "script": "autonomous:store-listing-optimize"
-    },
-    {
-      "segment": "npm run autonomous:store-compliance",
-      "script": "autonomous:store-compliance"
+      "segment": "npm run autonomous:self-update",
+      "script": "autonomous:self-update"
     }
   ],
   "execution": {
@@ -262,7 +258,7 @@
     "npm run autonomous:sample-plan",
     "npm run autonomous:collect-sample-downloads",
     "npm run autonomous:analyze && npm run autonomous:product-optimize && npm run autonomous:sync-config && npm run autonomous:simulate",
-    "npm run autonomous:store-listing-optimize && npm run autonomous:store-compliance",
+    "npm run autonomous:store-package && npm run autonomous:store-listing-optimize && npm run autonomous:store-compliance",
     "npm run autonomous:android-signing",
     "npm run autonomous:experiments && npm run autonomous:improve && npm run autonomous:sync-experiments",
     "npm run autonomous:import-events && npm run autonomous:analytics",
@@ -284,7 +280,7 @@
     "RUN_WORKFLOWS=1"
   ],
   "nextActions": [
-    "Run npm run autonomous:operator -- --execute --action=optimize-store-listing to execute exactly one allowed local action.",
+    "Run npm run autonomous:operator -- --execute --action=refresh-autonomous-self-update to execute exactly one allowed local action.",
     "Do not execute GitHub workflow, store, paid ads, or account setup commands from the local operator."
   ]
 }
