@@ -1,17 +1,30 @@
 {
-  "generatedAt": "2026-05-21T20:37:17.632Z",
-  "status": "operator-held",
+  "generatedAt": "2026-05-21T20:40:10.326Z",
+  "status": "operator-plan-ready",
   "mode": "plan-only",
   "ownerDecision": {
-    "actionId": "hold-for-external-input",
-    "command": "No local command is available until external inputs, configured credentials, or new player evidence arrive.",
-    "locallyExecutable": false,
-    "rejectionReason": "status-monitor"
+    "actionId": "prepare-repository-channel",
+    "command": "npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap",
+    "locallyExecutable": true,
+    "rejectionReason": null
   },
   "requestedActionId": null,
-  "selectedAction": null,
+  "selectedAction": {
+    "id": "prepare-repository-channel",
+    "status": "armed",
+    "command": "npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap",
+    "targets": [
+      "moshequ/autonomous-game-lab"
+    ],
+    "reason": "Surfaces and prepares the missing git/GitHub deployment-channel blockers before web deploy.",
+    "costUsd": 0
+  },
   "selectedRejection": null,
-  "eligibleActionIds": [],
+  "eligibleActionIds": [
+    "collect-gate-sample-downloads",
+    "refresh-product-gate-sample-plan",
+    "prepare-repository-channel"
+  ],
   "blockedActions": [
     {
       "id": "run-daily-owner-loop",
@@ -111,15 +124,15 @@
     },
     {
       "id": "collect-gate-sample-downloads",
-      "status": "monitor",
+      "status": "armed",
       "command": "npm run autonomous:collect-sample-downloads",
-      "reason": "status-monitor"
+      "reason": "not-selected-this-run"
     },
     {
       "id": "refresh-product-gate-sample-plan",
-      "status": "monitor",
+      "status": "armed",
       "command": "npm run autonomous:sample-plan",
-      "reason": "status-monitor"
+      "reason": "not-selected-this-run"
     },
     {
       "id": "refresh-first-move-coach",
@@ -137,12 +150,6 @@
       "id": "refresh-replay-loop",
       "status": "monitor",
       "command": "npm run autonomous:replay-loop",
-      "reason": "status-monitor"
-    },
-    {
-      "id": "prepare-repository-channel",
-      "status": "monitor",
-      "command": "npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap",
       "reason": "status-monitor"
     },
     {
@@ -207,9 +214,9 @@
     },
     {
       "id": "deploy-web-pwa",
-      "status": "ready-when-repository-pages-enabled",
+      "status": "blocked-needs-repository-channel",
       "command": "Run the Web PWA Deploy workflow after GitHub Pages is enabled for the repository.",
-      "reason": "status-ready-when-repository-pages-enabled"
+      "reason": "status-blocked-needs-repository-channel"
     },
     {
       "id": "collect-live-events",
@@ -218,7 +225,16 @@
       "reason": "status-monitor"
     }
   ],
-  "commandPlan": [],
+  "commandPlan": [
+    {
+      "segment": "npm run autonomous:repo-readiness",
+      "script": "autonomous:repo-readiness"
+    },
+    {
+      "segment": "npm run autonomous:repo-bootstrap",
+      "script": "autonomous:repo-bootstrap"
+    }
+  ],
   "execution": {
     "requested": false,
     "status": "not-requested",
@@ -291,7 +307,7 @@
     "RUN_WORKFLOWS=1"
   ],
   "nextActions": [
-    "Keep reporting external blockers until a safe local action is eligible.",
+    "Run npm run autonomous:operator -- --execute --action=prepare-repository-channel to execute exactly one allowed local action.",
     "Do not execute GitHub workflow, store, paid ads, or account setup commands from the local operator."
   ]
 }
