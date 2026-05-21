@@ -1,7 +1,7 @@
 export const retentionLoop = {
-  "generatedAt": "2026-05-21T22:52:16.682Z",
+  "generatedAt": "2026-05-21T23:00:02.467Z",
   "status": "retention-loop-ready",
-  "sourceDataHash": "ac5454705f01",
+  "sourceDataHash": "3f02cc433c41",
   "dailyChallenge": {
     "date": "2026-05-22",
     "gameId": "canopy-bloom",
@@ -155,8 +155,8 @@ export const retentionLoop = {
       "evidenceReadyNow": false,
       "lastScanAt": "2026-05-21T20:49:49.509Z",
       "lastScanStatus": "no-evidence-found",
-      "scanAgeHours": 2.04,
-      "cooldownRemainingHours": 1.96,
+      "scanAgeHours": 2.17,
+      "cooldownRemainingHours": 1.83,
       "nextRecommendedScanAt": "2026-05-22T00:49:49.509Z"
     },
     "commandPlan": {
