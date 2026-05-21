@@ -1400,18 +1400,32 @@ const recoveryRetentionGate = productGateRecovery.gates?.find((gate) => gate.id 
 const recoveryPrimaryExperiment = productGateRecovery.experiments?.find(
   (experiment) => experiment.gateId === productGateRecovery.summary?.primaryBottleneck,
 )
-const expectedCompletionNeeded = Math.max(
-  0,
-  Math.ceil(0.55 * analytics.totals.counts.game_started) - analytics.totals.counts.level_completed,
-)
-const expectedReplayNeeded = Math.max(
-  0,
-  Math.ceil(0.35 * analytics.totals.counts.level_completed) - analytics.totals.counts.replay_clicked,
-)
-const expectedRetentionNeeded = Math.max(
-  0,
-  Math.ceil(0.18 * analytics.retention.eligibleUsers) - analytics.retention.retainedUsers,
-)
+const expectedAdditionalSuccesses = ({ gate, denominator, successes }) => {
+  if (successes >= gate * denominator) {
+    return 0
+  }
+
+  if (gate >= 1) {
+    return Number.POSITIVE_INFINITY
+  }
+
+  return Math.max(0, Math.ceil((gate * denominator - successes) / (1 - gate)))
+}
+const expectedCompletionNeeded = expectedAdditionalSuccesses({
+  gate: 0.55,
+  denominator: analytics.totals.counts.game_started,
+  successes: analytics.totals.counts.level_completed,
+})
+const expectedReplayNeeded = expectedAdditionalSuccesses({
+  gate: 0.35,
+  denominator: analytics.totals.counts.level_completed,
+  successes: analytics.totals.counts.replay_clicked,
+})
+const expectedRetentionNeeded = expectedAdditionalSuccesses({
+  gate: 0.18,
+  denominator: analytics.retention.eligibleUsers,
+  successes: analytics.retention.retainedUsers,
+})
 
 if (
   productGateRecovery.status !== 'product-gate-recovery-ready' ||
@@ -1435,6 +1449,10 @@ if (
   recoveryCompletionGate?.neededSuccesses !== expectedCompletionNeeded ||
   recoveryReplayGate?.neededSuccesses !== expectedReplayNeeded ||
   recoveryRetentionGate?.neededSuccesses !== expectedRetentionNeeded ||
+  recoveryCompletionGate?.neededSuccessesMode !== 'additional-successes-raise-observed-rate' ||
+  recoveryCompletionGate?.projectedRateAfterNeededSuccesses < 0.55 ||
+  recoveryReplayGate?.projectedRateAfterNeededSuccesses < 0.35 ||
+  recoveryRetentionGate?.projectedRateAfterNeededSuccesses < 0.18 ||
   recoveryCompletionGate?.sampleReady !== false ||
   recoveryCompletionGate?.promptViewsNeeded < 1 ||
   recoveryReplayGate?.promptViewsNeeded < 1 ||

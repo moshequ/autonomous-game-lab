@@ -1922,16 +1922,47 @@ test('product optimizer applies one guarded tuning step from product-gate eviden
   const completionRecovery = recovery.gates.find((gate) => gate.id === 'firstGameCompletion')
   const replayRecovery = recovery.gates.find((gate) => gate.id === 'replayRate')
   const retentionRecovery = recovery.gates.find((gate) => gate.id === 'd1Retention')
+  const additionalSuccessesToReachGate = ({
+    gate,
+    denominator,
+    successes,
+  }: {
+    gate: number
+    denominator: number
+    successes: number
+  }) => {
+    if (successes >= gate * denominator) {
+      return 0
+    }
+
+    return Math.max(0, Math.ceil((gate * denominator - successes) / (1 - gate)))
+  }
 
   expect(completionRecovery?.neededSuccesses).toBe(
-    Math.max(0, Math.ceil(0.55 * (completionRecovery?.denominator ?? 0)) - (completionRecovery?.successes ?? 0)),
+    additionalSuccessesToReachGate({
+      gate: 0.55,
+      denominator: completionRecovery?.denominator ?? 0,
+      successes: completionRecovery?.successes ?? 0,
+    }),
   )
   expect(replayRecovery?.neededSuccesses).toBe(
-    Math.max(0, Math.ceil(0.35 * (replayRecovery?.denominator ?? 0)) - (replayRecovery?.successes ?? 0)),
+    additionalSuccessesToReachGate({
+      gate: 0.35,
+      denominator: replayRecovery?.denominator ?? 0,
+      successes: replayRecovery?.successes ?? 0,
+    }),
   )
   expect(retentionRecovery?.neededSuccesses).toBe(
-    Math.max(0, Math.ceil(0.18 * (retentionRecovery?.denominator ?? 0)) - (retentionRecovery?.successes ?? 0)),
+    additionalSuccessesToReachGate({
+      gate: 0.18,
+      denominator: retentionRecovery?.denominator ?? 0,
+      successes: retentionRecovery?.successes ?? 0,
+    }),
   )
+  expect(completionRecovery?.neededSuccessesMode).toBe('additional-successes-raise-observed-rate')
+  expect(completionRecovery?.projectedRateAfterNeededSuccesses).toBeGreaterThanOrEqual(0.55)
+  expect(replayRecovery?.projectedRateAfterNeededSuccesses).toBeGreaterThanOrEqual(0.35)
+  expect(retentionRecovery?.projectedRateAfterNeededSuccesses).toBeGreaterThanOrEqual(0.18)
   expect(recovery.priorities[0].ownerLoop).toBe('completion-loop')
   expect(completionRecovery?.promptViewsNeeded).toBeGreaterThan(0)
   expect(recovery.experiments[0]).toMatchObject({

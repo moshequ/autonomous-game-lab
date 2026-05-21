@@ -1,28 +1,33 @@
 {
-  "generatedAt": "2026-05-21T01:54:28.138Z",
+  "generatedAt": "2026-05-21T02:07:10.304Z",
   "status": "operator-plan-ready",
   "mode": "plan-only",
   "ownerDecision": {
-    "actionId": "refresh-product-gate-recovery",
-    "command": "npm run autonomous:gate-recovery",
+    "actionId": "seed-portfolio-traffic",
+    "command": "npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop",
     "locallyExecutable": true,
     "rejectionReason": null
   },
   "requestedActionId": null,
   "selectedAction": {
-    "id": "refresh-product-gate-recovery",
+    "id": "seed-portfolio-traffic",
     "status": "armed",
-    "command": "npm run autonomous:gate-recovery",
+    "command": "npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop",
     "targets": [
-      "firstGameCompletion"
+      "canopy-bloom",
+      "grove-engine",
+      "metro-loom",
+      "pocket-draft"
     ],
-    "reason": "Ranks the exact observed lift and prompt sample still needed before revenue gates can open.",
+    "reason": "Under-measured playable games need free organic/internal traffic before quality judgment.",
     "costUsd": 0
   },
   "selectedRejection": null,
   "eligibleActionIds": [
     "refresh-autonomous-cadence",
     "refresh-autonomous-self-update",
+    "seed-portfolio-traffic",
+    "refresh-organic-seed-loop",
     "refresh-support-feedback",
     "measure-pwa-install-loop",
     "check-performance-budget",
@@ -51,16 +56,10 @@
       "reason": "not-selected-this-run"
     },
     {
-      "id": "seed-portfolio-traffic",
-      "status": "monitor",
-      "command": "npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop",
-      "reason": "status-monitor"
-    },
-    {
       "id": "refresh-organic-seed-loop",
-      "status": "monitor",
+      "status": "armed",
       "command": "npm run autonomous:organic-seed-loop",
-      "reason": "status-monitor"
+      "reason": "not-selected-this-run"
     },
     {
       "id": "refresh-support-feedback",
@@ -109,6 +108,12 @@
       "status": "monitor",
       "command": "npm run autonomous:analyze && npm run autonomous:product-optimize && npm run autonomous:sync-config && npm run autonomous:simulate",
       "reason": "status-monitor"
+    },
+    {
+      "id": "refresh-product-gate-recovery",
+      "status": "armed",
+      "command": "npm run autonomous:gate-recovery",
+      "reason": "not-selected-this-run"
     },
     {
       "id": "collect-gate-sample-downloads",
@@ -209,8 +214,24 @@
   ],
   "commandPlan": [
     {
-      "segment": "npm run autonomous:gate-recovery",
-      "script": "autonomous:gate-recovery"
+      "segment": "npm run autonomous:growth",
+      "script": "autonomous:growth"
+    },
+    {
+      "segment": "npm run autonomous:portfolio",
+      "script": "autonomous:portfolio"
+    },
+    {
+      "segment": "npm run autonomous:traffic",
+      "script": "autonomous:traffic"
+    },
+    {
+      "segment": "npm run autonomous:acquisition",
+      "script": "autonomous:acquisition"
+    },
+    {
+      "segment": "npm run autonomous:organic-seed-loop",
+      "script": "autonomous:organic-seed-loop"
     }
   ],
   "execution": {
@@ -280,7 +301,7 @@
     "RUN_WORKFLOWS=1"
   ],
   "nextActions": [
-    "Run npm run autonomous:operator -- --execute --action=refresh-product-gate-recovery to execute exactly one allowed local action.",
+    "Run npm run autonomous:operator -- --execute --action=seed-portfolio-traffic to execute exactly one allowed local action.",
     "Do not execute GitHub workflow, store, paid ads, or account setup commands from the local operator."
   ]
 }

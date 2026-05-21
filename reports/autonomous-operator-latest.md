@@ -1,10 +1,10 @@
 # Autonomous Operator
 
-Generated: 2026-05-21T01:54:28.138Z
+Generated: 2026-05-21T02:07:10.304Z
 Status: operator-plan-ready
 Mode: plan-only
-Owner decision: refresh-product-gate-recovery
-Selected action: refresh-product-gate-recovery
+Owner decision: seed-portfolio-traffic
+Selected action: seed-portfolio-traffic
 Execution: not-requested
 
 ## Controls
@@ -18,12 +18,14 @@ Execution: not-requested
 
 ## Selected Action
 
-- refresh-product-gate-recovery: npm run autonomous:gate-recovery
+- seed-portfolio-traffic: npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop
 
 ## Eligible Local Actions
 
 - refresh-autonomous-cadence
 - refresh-autonomous-self-update
+- seed-portfolio-traffic
+- refresh-organic-seed-loop
 - refresh-support-feedback
 - measure-pwa-install-loop
 - check-performance-budget
@@ -37,8 +39,7 @@ Execution: not-requested
 - run-daily-owner-loop: daily-loop-recursion-blocked
 - refresh-autonomous-cadence: not-selected-this-run
 - refresh-autonomous-self-update: not-selected-this-run
-- seed-portfolio-traffic: status-monitor
-- refresh-organic-seed-loop: status-monitor
+- refresh-organic-seed-loop: not-selected-this-run
 - refresh-support-feedback: not-selected-this-run
 - optimize-daily-retention: status-monitor
 - measure-pwa-install-loop: not-selected-this-run
@@ -46,3 +47,4 @@ Execution: not-requested
 - prepare-release-candidate: not-selected-this-run
 - run-post-deploy-smoke: not-selected-this-run
 - sync-post-deploy-artifact: status-monitor
+- optimize-product-gates: status-monitor

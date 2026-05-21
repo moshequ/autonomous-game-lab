@@ -1,7 +1,7 @@
 export const retentionLoop = {
-  "generatedAt": "2026-05-20T23:32:45.644Z",
+  "generatedAt": "2026-05-21T02:06:03.527Z",
   "status": "retention-loop-ready",
-  "sourceDataHash": "72f10f29182f",
+  "sourceDataHash": "9bac2961a435",
   "dailyChallenge": {
     "date": "2026-05-21",
     "gameId": "canopy-bloom",

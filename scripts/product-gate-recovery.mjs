@@ -15,6 +15,17 @@ const pct = (value) => (typeof value === 'number' ? `${Math.round(value * 100)}%
 const clampNeeded = (needed) => Math.max(0, needed)
 const ratio = (numerator, denominator) =>
   denominator > 0 ? Math.round((numerator / denominator) * 1000) / 1000 : null
+const additionalSuccessesToReachGate = ({ gate, denominator, successes }) => {
+  if (successes >= gate * denominator) {
+    return 0
+  }
+
+  if (gate >= 1) {
+    return Number.POSITIVE_INFINITY
+  }
+
+  return clampNeeded(Math.ceil((gate * denominator - successes) / (1 - gate)))
+}
 
 const analytics = await readJson(path.join(dataDir, 'analytics-rollup.json'))
 const gates = await readJson(path.join(dataDir, 'production-gates.json'))
@@ -101,7 +112,9 @@ const gateRows = [
     actionId: 'optimize-daily-retention',
   },
 ].map((row) => {
-  const neededSuccesses = clampNeeded(Math.ceil(row.gate * row.denominator) - row.successes)
+  const neededSuccesses = additionalSuccessesToReachGate(row)
+  const projectedDenominator = row.denominator + neededSuccesses
+  const projectedSuccesses = row.successes + neededSuccesses
   const gap = Math.max(0, row.gate - (row.actual ?? 0))
   const pass = (row.actual ?? 0) >= row.gate
   const currentPromptViews = row.viewTelemetry.reduce((sum, eventName) => sum + (counts[eventName] ?? 0), 0)
@@ -134,6 +147,8 @@ const gateRows = [
     pass,
     gap: roundMetric(gap),
     neededSuccesses,
+    neededSuccessesMode: 'additional-successes-raise-observed-rate',
+    projectedRateAfterNeededSuccesses: ratio(projectedSuccesses, projectedDenominator),
     minimumPromptViewsForDecision,
     currentPromptViews,
     currentPromptActions,
@@ -229,7 +244,7 @@ const payload = {
     retentionLoop: retentionLoop.status,
   },
   nextActions: [
-    `${primaryBottleneck.label} needs ${primaryBottleneck.neededSuccesses} more observed success(es) at the current denominator before the gate clears.`,
+    `${primaryBottleneck.label} needs ${primaryBottleneck.neededSuccesses} more observed success(es), accounting for denominator growth, before the gate clears.`,
     `${primaryBottleneck.ownerLoop} is ${primaryExperiment?.status ?? 'missing'} and should collect ${primaryBottleneck.promptViewsNeeded} more prompt exposure(s) before automation changes copy or placement again.`,
     quickestGateTest.id !== primaryBottleneck.id
       ? `${quickestGateTest.label} is the quickest separate gate test: ${quickestGateTest.neededSuccesses} more observed success(es) would clear it.`

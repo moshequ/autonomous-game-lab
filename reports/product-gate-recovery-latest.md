@@ -1,6 +1,6 @@
 # Product Gate Recovery
 
-Generated: 2026-05-21T01:27:20.390Z
+Generated: 2026-05-21T02:06:19.277Z
 Status: product-gate-recovery-ready
 Analytics source: fixture-sample
 Failing gates: 3
@@ -10,8 +10,8 @@ Primary experiment status: collecting-sample
 
 ## Gates
 
-- needs-observed-lift: firstGameCompletion - 40% / 55%; needs 58 observed success(es); 30 prompt exposure(s) before next copy change.
-- needs-observed-lift: replayRate - 31% / 35%; needs 7 observed success(es); 30 prompt exposure(s) before next copy change.
+- needs-observed-lift: firstGameCompletion - 40% / 55%; needs 128 observed success(es); 30 prompt exposure(s) before next copy change.
+- needs-observed-lift: replayRate - 31% / 35%; needs 10 observed success(es); 30 prompt exposure(s) before next copy change.
 - needs-observed-lift: d1Retention - 17% / 18%; needs 1 observed success(es); 10 prompt exposure(s) before next copy change.
 
 ## Recovery Experiments
@@ -40,7 +40,7 @@ Primary experiment status: collecting-sample
 
 ## Next Actions
 
-- First game completion needs 58 more observed success(es) at the current denominator before the gate clears.
+- First game completion needs 128 more observed success(es), accounting for denominator growth, before the gate clears.
 - completion-loop is collecting-sample and should collect 30 more prompt exposure(s) before automation changes copy or placement again.
 - D1 retention is the quickest separate gate test: 1 more observed success(es) would clear it.
 - Keep revenue, paid acquisition, push notifications, and app-store submission disabled until every gate passes with observed data.

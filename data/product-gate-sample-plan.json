@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-21T00:52:59.635Z",
+  "generatedAt": "2026-05-21T02:06:19.497Z",
   "status": "product-gate-sample-plan-ready",
   "sourceStatus": {
     "analyticsSource": "fixture-sample",
@@ -15,7 +15,7 @@
     "primaryGateId": "firstGameCompletion",
     "fastestGateId": "d1Retention",
     "totalPromptViewsNeeded": 70,
-    "totalObservedSuccessesNeeded": 66,
+    "totalObservedSuccessesNeeded": 139,
     "sampleReadyCount": 0,
     "localEventsAvailable": false,
     "importedGateSampleEvents": 0,
@@ -133,7 +133,7 @@
       },
       "needed": {
         "promptViews": 30,
-        "successes": 58,
+        "successes": 128,
         "minimumPromptViewsForDecision": 30
       },
       "telemetry": {
@@ -213,7 +213,7 @@
       },
       "needed": {
         "promptViews": 30,
-        "successes": 7,
+        "successes": 10,
         "minimumPromptViewsForDecision": 30
       },
       "telemetry": {
@@ -359,7 +359,7 @@
     "requireObservedTelemetryBeforeRecoveryChange": true
   },
   "nextActions": [
-    "First game completion needs 30 more prompt exposure(s) and 58 observed success(es); feature Harbor Rings via /?game=harbor-rings&utm_source=gate_sample&utm_campaign=gate-sample-20260521-firstGameCompletion.",
+    "First game completion needs 30 more prompt exposure(s) and 128 observed success(es); feature Harbor Rings via /?game=harbor-rings&utm_source=gate_sample&utm_campaign=gate-sample-20260521-firstGameCompletion.",
     "D1 retention is the fastest gate sample: 10 prompt exposure(s), 1 observed success(es).",
     "Wait until 2026-05-21T03:03:31.409Z before the next explicit Downloads scan unless an inbox event drop appears."
   ]
