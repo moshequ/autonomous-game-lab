@@ -1,6 +1,6 @@
 # Production Readiness
 
-Generated: 2026-05-21T06:25:11.079Z
+Generated: 2026-05-21T06:30:43.526Z
 
 ## Environment
 
@@ -39,28 +39,28 @@ Local git: true
 
 ## Web/PWA
 
-Status: ready-after-build
-- pass: manifest - PWA manifest exists in the production build.
-- pass: install-icons - Generated install/store icons are icons-ready; 6 icons checked.
-- pass: service-worker - Offline service worker exists.
+Status: blocked
+- blocker: manifest - PWA manifest exists in the production build.
+- blocker: install-icons - Generated install/store icons are icons-ready; 6 icons checked.
+- blocker: service-worker - Offline service worker exists.
 - pass: privacy-control - External analytics opt-out is exposed in the app shell.
-- pass: privacy-page - Generated privacy policy page is included in public assets and production build.
-- pass: support-page - Generated support page is included in public assets and production build.
+- blocker: privacy-page - Generated privacy policy page is included in public assets and production build.
+- blocker: support-page - Generated support page is included in public assets and production build.
 - pass: support-channel - Support channel is support-channel-ready; repository moshequ/autonomous-game-lab; public intake ready.
 - pass: support-feedback - Support feedback is support-feedback-empty; issues 0; routable signals 0.
-- pass: compliance-manifest - Generated compliance manifest is included in public assets, production build, and post-deploy smoke handoff.
+- blocker: compliance-manifest - Generated compliance manifest is included in public assets, production build, and post-deploy smoke handoff.
 - pass: playable-prototypes - Every currently accepted generated concept is playable.
 - pass: generated-runtime - Generated game factory has a concept-first portfolio of no-handoff playable runtime configs.
 - pass: balance-severity - Bot simulator has no high-severity balance findings.
 - pass: scheduled-ci-runner - Scheduled CI runner exists for the full autonomous loop and browser smoke tests.
 - pass: organic-growth-plan - Generated growth plan has game pages for zero-cost discovery tests.
 - pass: organic-growth-optimizer - Growth optimizer produced guarded acquisition actions that feed generated pages.
-- pass: organic-growth-assets - Sitemap, robots, share manifest, and generated game pages are included in the production build.
+- blocker: organic-growth-assets - Sitemap, robots, share manifest, and generated game pages are included in the production build.
 - pass: organic-seed-loop - Organic seed loop is organic-seed-loop-ready; target canopy-bloom; player-initiated share guard active.
 - pass: retention-loop - Retention loop is retention-loop-ready; daily challenge canopy-bloom; no-push/no-account guardrails active.
 - pass: pwa-install-loop - PWA install loop is pwa-install-loop-ready; prompt surface autonomy-cockpit; cost $0.
 - pass: performance-budget - Performance budget is performance-budget-ready; initial JS 654.9 KB / 178.8 KB gzip; deferred game chunk GameCanvas-Byr1b9J2.js.
-- pass: release-candidate - Release candidate is release-candidate-ready; files 44; smoke URLs 14.
+- blocker: release-candidate - Release candidate is release-candidate-ready; files 44; smoke URLs 14.
 - pass: post-deploy-smoke-runner - Post-deploy smoke is post-deploy-smoke-observed-live; origin https://moshequ.github.io/autonomous-game-lab; checks 15/15 passed, 0 blocked; local artifact predeploy-artifact-smoke-passed 15/15 passed.
 - pass: product-optimization - Product optimizer is product-optimization-ready; completion 0.397 vs gate 0.55; latest action already-applied.
 - pass: first-move-coach - First-move coach is first-move-coach-ready; enabled targets 6; primary harbor-rings.
@@ -166,14 +166,14 @@ Local artifact: predeploy-artifact-smoke-passed (15/15 passed)
 ## Post-Deploy Artifact Sync
 
 Status: post-deploy-artifact-sync-passed
-Workflow run: 26209193692
-Artifact candidate: pwa-f11adc88d9d5
-Live candidate: pwa-f11adc88d9d5
+Workflow run: 26209501041
+Artifact candidate: pwa-9a28998c70ef
+Live candidate: pwa-9a28998c70ef
 Live matches artifact: true
 - pass: artifact-sync-gh-cli - gh version 2.92.0 (2026-04-28)
 - pass: artifact-sync-github-repository - Target repository is moshequ/autonomous-game-lab.
-- pass: artifact-sync-explicit-pages-run - Explicit web-pwa-deploy.yml run is 26209193692.
-- pass: artifact-sync-post-deploy-smoke-artifact - Downloaded post-deploy-smoke artifact from run 26209193692.
+- pass: artifact-sync-explicit-pages-run - Explicit web-pwa-deploy.yml run is 26209501041.
+- pass: artifact-sync-post-deploy-smoke-artifact - Downloaded post-deploy-smoke artifact from run 26209501041.
 - pass: artifact-sync-strict-smoke-artifact - Artifact status post-deploy-smoke-passed; strict manifest comparison true; checks 15/15.
 - pass: artifact-sync-live-release-manifest - Live release-candidate.json still matches the strict smoke artifact.
 
@@ -307,7 +307,7 @@ Can mark complete: false
 
 ## Distribution
 
-Store package: draft-ready
+Store package: blocked
 - pass: store-listing - Generated store listing copy exists and fits Google Play short-description limits.
 - pass: store-listing-optimizer - Store listing optimizer is store-listing-optimizer-ready; focus canopy-bloom.
 - pass: google-data-safety - Google Play data safety draft exists.
@@ -315,7 +315,7 @@ Store package: draft-ready
 - pass: native-packaging-path - Android TWA packaging draft exists while signing remains blocked.
 - pass: native-package-handoff - Android native handoff is blocked-draft-ready.
 - pass: android-signing-prep - Android signing is signing-prepared; fingerprint available.
-- pass: store-screenshots - Generated store screenshot assets are screenshots-ready; 4 screenshots attached.
+- blocker: store-screenshots - Generated store screenshot assets are screenshots-ready; 4 screenshots attached.
 - pass: store-compliance - Store compliance is draft-ready-external-blockers.
 - pass: compliance-publication-pack - Compliance publication is waiting-for-production-inputs.
 

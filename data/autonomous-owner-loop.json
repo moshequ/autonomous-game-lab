@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-21T06:25:10.841Z",
+  "generatedAt": "2026-05-21T06:30:43.403Z",
   "status": "owner-loop-ready",
   "mode": "zero-spend-web-ready",
   "autonomyScore": {
@@ -239,8 +239,8 @@
       "localSmokeFresh": true,
       "strictArtifactSyncFresh": true,
       "smokeActionFresh": true,
-      "liveCandidateId": "pwa-f11adc88d9d5",
-      "artifactCandidateId": "pwa-f11adc88d9d5"
+      "liveCandidateId": "pwa-9a28998c70ef",
+      "artifactCandidateId": "pwa-9a28998c70ef"
     },
     "skippedRecentlyExecutedActionIds": [
       "refresh-autonomous-cadence",
@@ -504,7 +504,7 @@
       "id": "post-deploy-artifact-sync",
       "status": "ready",
       "autonomy": "read-only-actions-artifact-import",
-      "evidence": "Artifact sync post-deploy-artifact-sync-passed; run 26209193692; live matches artifact true; strict true.",
+      "evidence": "Artifact sync post-deploy-artifact-sync-passed; run 26209501041; live matches artifact true; strict true.",
       "nextAction": "Keep this strict deploy artifact as live-production evidence while local candidates continue to iterate."
     },
     {
@@ -714,7 +714,7 @@
       "costUsd": 0,
       "command": "npm run autonomous:post-deploy-artifact-sync",
       "targets": [
-        26209193692,
+        26209501041,
         "release-candidate-manifest"
       ],
       "reason": "Strict deploy artifact evidence is already synced from the latest successful Pages workflow."
