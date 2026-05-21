@@ -6256,7 +6256,7 @@ if (
   !autonomousOwnerLoopSource.includes('postDeploySmokeActionFresh') ||
   !autonomousOwnerLoopSource.includes('operatorPlanPublished') ||
   (ownerHasExecutedAction &&
-    ownerHasExecutableAlternativeOutsideRecent &&
+    ownerHasExecutableAlternativeOutsideCovered &&
     ownerRecentExecutedActionIds.includes(autonomousOwnerLoop.ownerDecision?.nextBestActionId)) ||
   (ownerHasExecutedAction &&
     ownerHasExecutableAlternativeOutsideCovered &&
@@ -6268,7 +6268,7 @@ if (
     ownerRecentlyExecutedActionStillExecutable &&
     !autonomousOwnerLoop.executionMemory?.skippedRecentlyExecutedActionIds?.includes(ownerLastExecutedActionId)) ||
   (ownerHasExecutedAction &&
-    ownerHasExecutableAlternativeOutsideRecent &&
+    ownerHasExecutableAlternativeOutsideCovered &&
     !ownerRecentlyExecutedExecutableActionIds.every((actionId) =>
       autonomousOwnerLoop.executionMemory?.skippedRecentlyExecutedActionIds?.includes(actionId),
     )) ||

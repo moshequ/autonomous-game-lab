@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-05-21T19:25:32.640Z",
+  "generatedAt": "2026-05-21T20:49:50.922Z",
   "status": "retention-loop-ready",
-  "sourceDataHash": "a28956341f24",
+  "sourceDataHash": "1d61d81874e4",
   "dailyChallenge": {
     "date": "2026-05-21",
     "gameId": "canopy-bloom",
@@ -153,11 +153,11 @@
       "cooldownHours": 4,
       "coolingDown": true,
       "evidenceReadyNow": false,
-      "lastScanAt": "2026-05-21T16:40:54.541Z",
+      "lastScanAt": "2026-05-21T20:49:49.509Z",
       "lastScanStatus": "no-evidence-found",
-      "scanAgeHours": 2.74,
-      "cooldownRemainingHours": 1.26,
-      "nextRecommendedScanAt": "2026-05-21T20:40:54.541Z"
+      "scanAgeHours": 0,
+      "cooldownRemainingHours": 4,
+      "nextRecommendedScanAt": "2026-05-22T00:49:49.509Z"
     },
     "commandPlan": {
       "refreshRetention": "npm run autonomous:retention",
@@ -174,7 +174,7 @@
       "downloadsImportRequiresExplicitOptIn": true,
       "downloadsScanBackoffRequired": true
     },
-    "nextAction": "Wait until 2026-05-21T20:40:54.541Z before another explicit Downloads scan, unless an inbox event drop appears."
+    "nextAction": "Wait until 2026-05-22T00:49:49.509Z before another explicit Downloads scan, unless an inbox event drop appears."
   },
   "controls": {
     "canNudgeRetention": true,
@@ -229,7 +229,7 @@
   ],
   "nextActions": [
     "Improve D1 retention from 17% toward 18% with local streak prompts.",
-    "Wait until 2026-05-21T20:40:54.541Z before another explicit Downloads scan, unless an inbox event drop appears.",
+    "Wait until 2026-05-22T00:49:49.509Z before another explicit Downloads scan, unless an inbox event drop appears.",
     "Improve replay rate from 31% toward 35% with the daily return mission.",
     "Do not use push notifications, accounts, paid rewards, or ads for retention until gates pass."
   ]
