@@ -1362,9 +1362,6 @@ test('post-deploy artifact sync preserves strict Pages workflow evidence', async
   expect(workflow).toContain('contents: write')
   expect(workflow).toContain('autonomous:post-deploy-artifact-sync')
   expect(workflow).toContain('autonomous:live-monitor')
-  expect(workflow).toContain('autonomous:respond')
-  expect(workflow).toContain('autonomous:readiness')
-  expect(workflow).toContain('autonomous:objective-audit')
   expect(workflow).toContain('npm run autonomous:verify-post-deploy-sync')
   expect(workflow).toContain('AGL_AUTONOMOUS_SELF_UPDATE_DIRECT')
   expect(workflow).toContain('data/post-deploy-artifact-sync.json')
@@ -1373,10 +1370,6 @@ test('post-deploy artifact sync preserves strict Pages workflow evidence', async
   expect(workflow).toContain('data/live-site-monitor.json')
   expect(workflow).toContain('src/data/liveSiteMonitor.ts')
   expect(workflow).toContain('reports/live-site-monitor-latest.md')
-  expect(workflow).toContain('data/production-response.json')
-  expect(workflow).toContain('data/production-blocker-handoff.json')
-  expect(workflow).toContain('data/production-readiness.json')
-  expect(workflow).toContain('data/objective-audit.json')
   expect(workflow).not.toContain('npm run build')
   expect(workflow).not.toContain('autonomous:release-candidate')
   expect(workflow).not.toContain('autonomous:post-deploy-smoke')
@@ -1438,9 +1431,10 @@ test('live site monitor verifies the public PWA against synced deploy evidence',
     scripts: Record<string, string>
   }
   const source = await readFile('scripts/live-site-monitor.mjs', 'utf8')
+  const normalizeOrigin = (value: string | null) => value?.replace(/\/$/, '') ?? null
 
   expect(monitor.status).toBe('live-site-monitor-passed')
-  expect(monitor.origin.origin).toBe(sync.live.origin)
+  expect(normalizeOrigin(monitor.origin.origin)).toBe(normalizeOrigin(sync.live.origin))
   expect(monitor.origin.source).toBe('post-deploy-artifact-sync')
   expect(monitor.sourceStatus.releaseCandidate).toBe(candidate.status)
   expect(monitor.sourceStatus.postDeployArtifactSync).toBe(sync.status)

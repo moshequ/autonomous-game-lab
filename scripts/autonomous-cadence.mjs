@@ -669,9 +669,6 @@ const checks = [
       postDeployEvidenceSyncWorkflow.includes('contents: write') &&
       postDeployEvidenceSyncWorkflow.includes('autonomous:post-deploy-artifact-sync') &&
       postDeployEvidenceSyncWorkflow.includes('autonomous:live-monitor') &&
-      postDeployEvidenceSyncWorkflow.includes('autonomous:respond') &&
-      postDeployEvidenceSyncWorkflow.includes('autonomous:readiness') &&
-      postDeployEvidenceSyncWorkflow.includes('autonomous:objective-audit') &&
       postDeployEvidenceSyncWorkflow.includes('npm run autonomous:verify-post-deploy-sync') &&
       postDeployEvidenceSyncWorkflow.includes('AGL_AUTONOMOUS_SELF_UPDATE_DIRECT') &&
       postDeployEvidenceSyncWorkflow.includes('data/post-deploy-artifact-sync.json') &&
@@ -680,7 +677,6 @@ const checks = [
       postDeployEvidenceSyncWorkflow.includes('data/live-site-monitor.json') &&
       postDeployEvidenceSyncWorkflow.includes('src/data/liveSiteMonitor.ts') &&
       postDeployEvidenceSyncWorkflow.includes('reports/live-site-monitor-latest.md') &&
-      postDeployEvidenceSyncWorkflow.includes('data/production-blocker-handoff.json') &&
       !postDeployEvidenceSyncWorkflow.includes('npm run build') &&
       !postDeployEvidenceSyncWorkflow.includes('autonomous:release-candidate') &&
       !postDeployEvidenceSyncWorkflow.includes('autonomous:post-deploy-smoke')

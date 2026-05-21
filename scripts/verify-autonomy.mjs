@@ -3104,9 +3104,6 @@ if (
   !postDeployEvidenceSyncWorkflow.includes('contents: write') ||
   !postDeployEvidenceSyncWorkflow.includes('autonomous:post-deploy-artifact-sync') ||
   !postDeployEvidenceSyncWorkflow.includes('autonomous:live-monitor') ||
-  !postDeployEvidenceSyncWorkflow.includes('autonomous:respond') ||
-  !postDeployEvidenceSyncWorkflow.includes('autonomous:readiness') ||
-  !postDeployEvidenceSyncWorkflow.includes('autonomous:objective-audit') ||
   !postDeployEvidenceSyncWorkflow.includes('autonomous:owner-loop') ||
   !postDeployEvidenceSyncWorkflow.includes('npm run autonomous:verify-post-deploy-sync') ||
   !postDeployEvidenceSyncWorkflow.includes('AGL_AUTONOMOUS_SELF_UPDATE_DIRECT') ||
@@ -3116,10 +3113,6 @@ if (
   !postDeployEvidenceSyncWorkflow.includes('data/live-site-monitor.json') ||
   !postDeployEvidenceSyncWorkflow.includes('src/data/liveSiteMonitor.ts') ||
   !postDeployEvidenceSyncWorkflow.includes('reports/live-site-monitor-latest.md') ||
-  !postDeployEvidenceSyncWorkflow.includes('data/production-response.json') ||
-  !postDeployEvidenceSyncWorkflow.includes('data/production-blocker-handoff.json') ||
-  !postDeployEvidenceSyncWorkflow.includes('data/production-readiness.json') ||
-  !postDeployEvidenceSyncWorkflow.includes('data/objective-audit.json') ||
   !postDeployEvidenceSyncWorkflow.includes('data/autonomous-owner-loop.json') ||
   !postDeployEvidenceSyncWorkflow.includes('src/data/autonomousOwnerLoop.ts') ||
   !postDeployEvidenceSyncWorkflow.includes('reports/autonomous-owner-loop-latest.md') ||
@@ -4498,6 +4491,22 @@ const postDeployArtifactSyncReady =
   postDeployArtifactSync.controls?.readOnlyHttpChecks === true &&
   postDeployArtifactSync.controls?.strictManifestComparisonRequired === true &&
   postDeployArtifactSync.controls?.separateFromLocalCandidate === true
+const normalizeLiveOriginForCompare = (value) => {
+  const trimmed = String(value ?? '').trim()
+
+  if (!trimmed) {
+    return null
+  }
+
+  try {
+    const url = new URL(trimmed)
+    url.hash = ''
+    url.search = ''
+    return `${url.protocol}//${url.host}${url.pathname.replace(/\/$/, '')}`
+  } catch {
+    return trimmed.replace(/\/$/, '')
+  }
+}
 const liveManifestCheck = liveSiteMonitor.checks?.find((check) => check.id === 'release-candidate-manifest-live')
 const liveSiteMonitorReady =
   liveSiteMonitor.status === 'live-site-monitor-passed' &&
@@ -4610,9 +4619,6 @@ if (
   !postDeployEvidenceSyncWorkflow.includes('contents: write') ||
   !postDeployEvidenceSyncWorkflow.includes('autonomous:post-deploy-artifact-sync') ||
   !postDeployEvidenceSyncWorkflow.includes('autonomous:live-monitor') ||
-  !postDeployEvidenceSyncWorkflow.includes('autonomous:respond') ||
-  !postDeployEvidenceSyncWorkflow.includes('autonomous:readiness') ||
-  !postDeployEvidenceSyncWorkflow.includes('autonomous:objective-audit') ||
   !postDeployEvidenceSyncWorkflow.includes('npm run autonomous:verify-post-deploy-sync') ||
   !postDeployEvidenceSyncWorkflow.includes('AGL_AUTONOMOUS_SELF_UPDATE_DIRECT') ||
   !postDeployEvidenceSyncWorkflow.includes('data/post-deploy-artifact-sync.json') ||
@@ -4627,7 +4633,8 @@ if (
 
 if (
   !liveSiteMonitorReady ||
-  liveSiteMonitor.origin?.origin !== postDeployArtifactSync.live?.origin ||
+  normalizeLiveOriginForCompare(liveSiteMonitor.origin?.origin) !==
+    normalizeLiveOriginForCompare(postDeployArtifactSync.live?.origin) ||
   !liveSiteMonitor.checks?.some((check) => check.path === '/privacy.html' && check.status === 'pass') ||
   !liveSiteMonitor.checks?.some((check) => check.path === '/support.html' && check.status === 'pass') ||
   !liveSiteMonitor.checks?.some((check) => check.path === '/compliance.json' && check.status === 'pass') ||

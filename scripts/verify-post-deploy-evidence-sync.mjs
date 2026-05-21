@@ -9,8 +9,9 @@ const fail = (message) => {
 const readJson = async (filePath) => JSON.parse(await readFile(path.join(root, filePath), 'utf8'))
 const readText = async (filePath) => readFile(path.join(root, filePath), 'utf8')
 
-const [sync, ownerLoop, packageJson, workflow] = await Promise.all([
+const [sync, liveSiteMonitor, ownerLoop, packageJson, workflow] = await Promise.all([
   readJson('data/post-deploy-artifact-sync.json'),
+  readJson('data/live-site-monitor.json'),
   readJson('data/autonomous-owner-loop.json'),
   readJson('package.json'),
   readText('.github/workflows/post-deploy-evidence-sync.yml'),
@@ -48,6 +49,27 @@ if (
   fail('Post-deploy evidence sync must prove strict live Pages smoke without enabling paid, store, revenue, or workflow mutation.')
 }
 
+const liveManifestCheck = liveSiteMonitor.checks?.find((check) => check.id === 'release-candidate-manifest-live')
+
+if (
+  liveSiteMonitor.status !== 'live-site-monitor-passed' ||
+  liveSiteMonitor.sourceStatus?.postDeployArtifactSync !== sync.status ||
+  liveSiteMonitor.summary?.failed !== 0 ||
+  liveSiteMonitor.summary?.blocked !== 0 ||
+  liveSiteMonitor.summary?.passed !== liveSiteMonitor.summary?.planned ||
+  liveSiteMonitor.summary?.liveCandidateId !== sync.live?.candidateId ||
+  liveSiteMonitor.summary?.syncedCandidateId !== sync.live?.candidateId ||
+  liveSiteMonitor.summary?.liveMatchesSyncedDeploy !== true ||
+  liveManifestCheck?.manifest?.matchesSyncedDeploy !== true ||
+  liveSiteMonitor.controls?.zeroPaidSpend !== true ||
+  liveSiteMonitor.controls?.readOnlyHttpChecks !== true ||
+  liveSiteMonitor.controls?.noMutation !== true ||
+  liveSiteMonitor.controls?.noCookiesOrCredentials !== true ||
+  liveSiteMonitor.controls?.strictSyncedManifestComparison !== true
+) {
+  fail('Live site monitor must verify the synced public PWA and release manifest with read-only zero-spend checks.')
+}
+
 if (
   packageJson.scripts?.['autonomous:verify-post-deploy-sync'] !==
   'node scripts/verify-post-deploy-evidence-sync.mjs'
@@ -60,12 +82,16 @@ if (
   !workflow.includes('actions: read') ||
   !workflow.includes('contents: write') ||
   !workflow.includes('npm run autonomous:post-deploy-artifact-sync -- --run-id="${POST_DEPLOY_RUN_ID}" --assert') ||
+  !workflow.includes('npm run autonomous:live-monitor') ||
   !workflow.includes('npm run autonomous:owner-loop') ||
   !workflow.includes('npm run autonomous:verify-post-deploy-sync') ||
   !workflow.includes('AGL_AUTONOMOUS_SELF_UPDATE_DIRECT') ||
   !workflow.includes('data/post-deploy-artifact-sync.json') ||
   !workflow.includes('src/data/postDeployArtifactSync.ts') ||
   !workflow.includes('reports/post-deploy-artifact-sync-latest.md') ||
+  !workflow.includes('data/live-site-monitor.json') ||
+  !workflow.includes('src/data/liveSiteMonitor.ts') ||
+  !workflow.includes('reports/live-site-monitor-latest.md') ||
   !workflow.includes('data/autonomous-owner-loop.json') ||
   !workflow.includes('src/data/autonomousOwnerLoop.ts') ||
   !workflow.includes('reports/autonomous-owner-loop-latest.md')
@@ -107,11 +133,13 @@ for (const artifact of forbiddenStagedArtifacts) {
 
 if (
   ownerLoop.executionMemory?.liveDeployEvidence?.strictArtifactSyncFresh !== true ||
+  ownerLoop.executionMemory?.liveDeployEvidence?.liveSiteMonitorFresh !== true ||
   ownerLoop.executionMemory?.liveDeployEvidence?.liveCandidateId !== sync.live?.candidateId ||
   ownerLoop.executionMemory?.liveDeployEvidence?.artifactCandidateId !== sync.artifact?.target?.candidateId ||
-  ownerLoop.evidence?.postDeployArtifactSyncStatus !== sync.status
+  ownerLoop.evidence?.postDeployArtifactSyncStatus !== sync.status ||
+  ownerLoop.evidence?.liveSiteMonitorStatus !== liveSiteMonitor.status
 ) {
-  fail('Post-deploy evidence sync must refresh owner deploy evidence to the synced live artifact.')
+  fail('Post-deploy evidence sync must refresh owner deploy evidence to the synced live artifact and live-site monitor.')
 }
 
 if (!process.exitCode) {
