@@ -1,10 +1,12 @@
 # Completion Loop
 
-Generated: 2026-05-20T22:02:12.966Z
+Generated: 2026-05-21T02:45:28.197Z
 Status: completion-loop-ready
 Target: Harbor Rings (harbor-rings)
 Completion: 40% / 55%
 Abandonment: 60%
+Sample: collecting-sample
+Decision: collect-sample
 
 ## Prompt Policy
 
@@ -12,6 +14,7 @@ Abandonment: 60%
 - Surface: autonomy-cockpit-completion-card
 - Trigger: after-progress-checkpoint at move 3
 - Telemetry: completion_nudge_viewed, completion_nudge_clicked, completion_nudge_dismissed, level_completed, game_abandoned
+- Sample: 0 view(s), 0 decision(s), 30 view(s) needed
 
 ## Missions
 
@@ -28,6 +31,7 @@ Abandonment: 60%
 - Surface: autonomy-cockpit-finish-line-card
 - Trigger: behind-pace-after-midpoint at move 6
 - Telemetry: finish_line_coach_viewed, finish_line_coach_clicked, finish_line_coach_dismissed
+- Sample: 0 view(s), 0 decision(s), 20 view(s) needed
 
 ## Guardrails
 
@@ -44,6 +48,8 @@ Abandonment: 60%
 - noRevenueEnablement: true
 - noDarkPatterns: true
 - requireAbandonmentTelemetry: true
+- requireRunIdOnAbandonment: true
+- noDecisionWithoutSample: true
 - canNudgeCompletion: true
 - completionReady: false
 - monetizationStillBlocked: true

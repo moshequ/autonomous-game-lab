@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-05-20T22:02:12.966Z",
-  "sourceDataHash": "6c1fc2760519",
+  "generatedAt": "2026-05-21T02:45:28.197Z",
+  "sourceDataHash": "0e4fdca265c0",
   "status": "completion-loop-ready",
   "sourceStatus": {
     "analyticsSource": "fixture-sample",
@@ -29,7 +29,82 @@
     "abandonments": 226,
     "promptViews": 0,
     "promptClicks": 0,
-    "promptDismissals": 0
+    "promptDismissals": 0,
+    "promptDecisions": 0,
+    "promptClickRate": 0,
+    "promptDismissalRate": 0,
+    "finishLineViews": 0,
+    "finishLineClicks": 0,
+    "finishLineDismissals": 0,
+    "finishLineDecisions": 0,
+    "finishLineClickRate": 0,
+    "finishLineDismissalRate": 0
+  },
+  "samplePolicy": {
+    "status": "collecting-sample",
+    "source": "fixture-sample",
+    "prompt": {
+      "minimumViewsForDecision": 30,
+      "minimumDecisionsForDecision": 20,
+      "current": {
+        "views": 0,
+        "clicks": 0,
+        "dismissals": 0,
+        "decisions": 0,
+        "clickRate": 0,
+        "dismissalRate": 0
+      },
+      "needed": {
+        "views": 30,
+        "decisions": 20
+      },
+      "ready": false
+    },
+    "finishLine": {
+      "minimumViewsForDecision": 20,
+      "minimumDecisionsForDecision": 12,
+      "current": {
+        "views": 0,
+        "clicks": 0,
+        "dismissals": 0,
+        "decisions": 0,
+        "clickRate": 0,
+        "dismissalRate": 0
+      },
+      "needed": {
+        "views": 20,
+        "decisions": 12
+      },
+      "ready": false
+    },
+    "telemetry": {
+      "promptViewed": "completion_nudge_viewed",
+      "promptClicked": "completion_nudge_clicked",
+      "promptDismissed": "completion_nudge_dismissed",
+      "finishLineViewed": "finish_line_coach_viewed",
+      "finishLineClicked": "finish_line_coach_clicked",
+      "finishLineDismissed": "finish_line_coach_dismissed",
+      "completed": "level_completed",
+      "abandoned": "game_abandoned"
+    }
+  },
+  "decisionPolicy": {
+    "currentDecision": "collect-sample",
+    "sampleReady": false,
+    "promptSampleReady": false,
+    "finishLineSampleReady": false,
+    "softenNudgeWhen": {
+      "maximumClickRate": 0.2,
+      "minimumDismissalRate": 0.6
+    },
+    "adjustFinishLineWhen": {
+      "maximumClickRate": 0.2,
+      "minimumDismissalRate": 0.6
+    },
+    "monitorWhen": {
+      "completionGatePassed": true
+    },
+    "fallbackWhenSampleSmall": "collect-more-real-completion-events"
   },
   "promptPolicy": {
     "id": "mid-run-finish-nudge",
@@ -91,6 +166,8 @@
     "noRevenueEnablement": true,
     "noDarkPatterns": true,
     "requireAbandonmentTelemetry": true,
+    "requireRunIdOnAbandonment": true,
+    "noDecisionWithoutSample": true,
     "canNudgeCompletion": true,
     "completionReady": false,
     "monetizationStillBlocked": true

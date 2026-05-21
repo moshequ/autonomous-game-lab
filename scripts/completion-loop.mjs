@@ -12,6 +12,7 @@ const readJson = async (filePath) => JSON.parse(await readFile(filePath, 'utf8')
 
 const roundMetric = (value) => (typeof value === 'number' ? Math.round(value * 1000) / 1000 : null)
 const pct = (value) => (typeof value === 'number' ? `${Math.round(value * 100)}%` : 'n/a')
+const countFor = (eventName) => Number(counts[eventName] ?? 0)
 
 const analytics = await readJson(path.join(dataDir, 'analytics-rollup.json'))
 const gates = await readJson(path.join(dataDir, 'production-gates.json'))
@@ -43,6 +44,30 @@ const completionGap = Math.max(0, completionGate - completionRate)
 const tutorialGap = Math.max(0, 0.75 - tutorialRate)
 const canNudgeCompletion =
   releaseHealth.controls?.canApplyExperimentChanges !== false && releaseHealth.controls?.rollbackRequired !== true
+const promptViews = countFor('completion_nudge_viewed')
+const promptClicks = countFor('completion_nudge_clicked')
+const promptDismissals = countFor('completion_nudge_dismissed')
+const finishLineViews = countFor('finish_line_coach_viewed')
+const finishLineClicks = countFor('finish_line_coach_clicked')
+const finishLineDismissals = countFor('finish_line_coach_dismissed')
+const promptDecisions = promptClicks + promptDismissals
+const finishLineDecisions = finishLineClicks + finishLineDismissals
+const promptClickRate = promptViews ? promptClicks / promptViews : 0
+const promptDismissalRate = promptDecisions ? promptDismissals / promptDecisions : 0
+const finishLineClickRate = finishLineViews ? finishLineClicks / finishLineViews : 0
+const finishLineDismissalRate = finishLineDecisions ? finishLineDismissals / finishLineDecisions : 0
+const minimumPromptViewsForDecision = 30
+const minimumPromptDecisionsForDecision = 20
+const minimumFinishLineViewsForDecision = 20
+const minimumFinishLineDecisionsForDecision = 12
+const promptViewsNeeded = Math.max(0, minimumPromptViewsForDecision - promptViews)
+const promptDecisionsNeeded = Math.max(0, minimumPromptDecisionsForDecision - promptDecisions)
+const finishLineViewsNeeded = Math.max(0, minimumFinishLineViewsForDecision - finishLineViews)
+const finishLineDecisionsNeeded = Math.max(0, minimumFinishLineDecisionsForDecision - finishLineDecisions)
+const promptSampleReady = promptViewsNeeded === 0 && promptDecisionsNeeded === 0
+const finishLineSampleReady = finishLineViewsNeeded === 0 && finishLineDecisionsNeeded === 0
+const sampleStatus =
+  promptSampleReady && finishLineSampleReady ? 'ready-for-completion-decision' : 'collecting-sample'
 
 const candidates = (productOptimization.candidates ?? [])
   .filter((candidate) => playableIds.has(candidate.gameId))
@@ -66,6 +91,18 @@ const triggerMove = Math.max(2, Math.ceil((targetConfig?.maxMoves ?? 12) * 0.25)
 const finishLineTriggerMove = Math.max(triggerMove + 1, Math.ceil((targetConfig?.maxMoves ?? 12) * 0.5))
 const finishLineMinRemainingMoves = 2
 const promptStatus = canNudgeCompletion && targetPlayable && completionGap > 0 ? 'armed' : 'monitor'
+const completionDecision =
+  promptStatus !== 'armed'
+    ? 'monitor'
+    : promptSampleReady && finishLineSampleReady && completionRate >= completionGate
+      ? 'monitor'
+      : promptSampleReady && promptClickRate < 0.2 && promptDismissalRate >= 0.6
+        ? 'soften-nudge-copy'
+        : finishLineSampleReady && finishLineClickRate < 0.2 && finishLineDismissalRate >= 0.6
+          ? 'adjust-finish-line-threshold'
+          : sampleStatus === 'collecting-sample'
+            ? 'collect-sample'
+            : 'keep-active'
 
 const payload = {
   generatedAt: new Date().toISOString(),
@@ -96,9 +133,84 @@ const payload = {
     gameStarts: counts.game_started ?? 0,
     completions: counts.level_completed ?? 0,
     abandonments: counts.game_abandoned ?? 0,
-    promptViews: counts.completion_nudge_viewed ?? 0,
-    promptClicks: counts.completion_nudge_clicked ?? 0,
-    promptDismissals: counts.completion_nudge_dismissed ?? 0,
+    promptViews,
+    promptClicks,
+    promptDismissals,
+    promptDecisions,
+    promptClickRate: roundMetric(promptClickRate),
+    promptDismissalRate: roundMetric(promptDismissalRate),
+    finishLineViews,
+    finishLineClicks,
+    finishLineDismissals,
+    finishLineDecisions,
+    finishLineClickRate: roundMetric(finishLineClickRate),
+    finishLineDismissalRate: roundMetric(finishLineDismissalRate),
+  },
+  samplePolicy: {
+    status: sampleStatus,
+    source: analytics.sourceStatus?.activeSource ?? 'unknown',
+    prompt: {
+      minimumViewsForDecision: minimumPromptViewsForDecision,
+      minimumDecisionsForDecision: minimumPromptDecisionsForDecision,
+      current: {
+        views: promptViews,
+        clicks: promptClicks,
+        dismissals: promptDismissals,
+        decisions: promptDecisions,
+        clickRate: roundMetric(promptClickRate),
+        dismissalRate: roundMetric(promptDismissalRate),
+      },
+      needed: {
+        views: promptViewsNeeded,
+        decisions: promptDecisionsNeeded,
+      },
+      ready: promptSampleReady,
+    },
+    finishLine: {
+      minimumViewsForDecision: minimumFinishLineViewsForDecision,
+      minimumDecisionsForDecision: minimumFinishLineDecisionsForDecision,
+      current: {
+        views: finishLineViews,
+        clicks: finishLineClicks,
+        dismissals: finishLineDismissals,
+        decisions: finishLineDecisions,
+        clickRate: roundMetric(finishLineClickRate),
+        dismissalRate: roundMetric(finishLineDismissalRate),
+      },
+      needed: {
+        views: finishLineViewsNeeded,
+        decisions: finishLineDecisionsNeeded,
+      },
+      ready: finishLineSampleReady,
+    },
+    telemetry: {
+      promptViewed: 'completion_nudge_viewed',
+      promptClicked: 'completion_nudge_clicked',
+      promptDismissed: 'completion_nudge_dismissed',
+      finishLineViewed: 'finish_line_coach_viewed',
+      finishLineClicked: 'finish_line_coach_clicked',
+      finishLineDismissed: 'finish_line_coach_dismissed',
+      completed: 'level_completed',
+      abandoned: 'game_abandoned',
+    },
+  },
+  decisionPolicy: {
+    currentDecision: completionDecision,
+    sampleReady: promptSampleReady && finishLineSampleReady,
+    promptSampleReady,
+    finishLineSampleReady,
+    softenNudgeWhen: {
+      maximumClickRate: 0.2,
+      minimumDismissalRate: 0.6,
+    },
+    adjustFinishLineWhen: {
+      maximumClickRate: 0.2,
+      minimumDismissalRate: 0.6,
+    },
+    monitorWhen: {
+      completionGatePassed: true,
+    },
+    fallbackWhenSampleSmall: 'collect-more-real-completion-events',
   },
   promptPolicy: {
     id: 'mid-run-finish-nudge',
@@ -166,6 +278,8 @@ const payload = {
     noRevenueEnablement: true,
     noDarkPatterns: true,
     requireAbandonmentTelemetry: true,
+    requireRunIdOnAbandonment: true,
+    noDecisionWithoutSample: true,
     canNudgeCompletion,
     completionReady: completionRate >= completionGate,
     monetizationStillBlocked:
@@ -240,6 +354,8 @@ const report = [
   `Target: ${payload.target.title ?? 'missing'} (${payload.target.gameId ?? 'missing'})`,
   `Completion: ${pct(payload.metrics.firstGameCompletion)} / ${pct(payload.metrics.completionGate)}`,
   `Abandonment: ${pct(payload.metrics.abandonmentRate)}`,
+  `Sample: ${payload.samplePolicy.status}`,
+  `Decision: ${payload.decisionPolicy.currentDecision}`,
   '',
   '## Prompt Policy',
   '',
@@ -247,6 +363,7 @@ const report = [
   `- Surface: ${payload.promptPolicy.surface}`,
   `- Trigger: ${payload.promptPolicy.trigger} at move ${payload.promptPolicy.triggerMove}`,
   `- Telemetry: ${payload.promptPolicy.telemetry.viewed}, ${payload.promptPolicy.telemetry.clicked}, ${payload.promptPolicy.telemetry.dismissed}, ${payload.promptPolicy.telemetry.completed}, ${payload.promptPolicy.telemetry.abandoned}`,
+  `- Sample: ${payload.samplePolicy.prompt.current.views} view(s), ${payload.samplePolicy.prompt.current.decisions} decision(s), ${payload.samplePolicy.prompt.needed.views} view(s) needed`,
   '',
   '## Missions',
   '',
@@ -258,6 +375,7 @@ const report = [
   `- Surface: ${payload.finishLinePolicy.surface}`,
   `- Trigger: ${payload.finishLinePolicy.trigger} at move ${payload.finishLinePolicy.triggerMove}`,
   `- Telemetry: ${payload.finishLinePolicy.telemetry.viewed}, ${payload.finishLinePolicy.telemetry.clicked}, ${payload.finishLinePolicy.telemetry.dismissed}`,
+  `- Sample: ${payload.samplePolicy.finishLine.current.views} view(s), ${payload.samplePolicy.finishLine.current.decisions} decision(s), ${payload.samplePolicy.finishLine.needed.views} view(s) needed`,
   '',
   '## Guardrails',
   '',

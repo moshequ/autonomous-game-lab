@@ -18,6 +18,7 @@ interface GameCanvasProps {
   variantId: string
   rewardVariantId: string
   thumbnailVariantId: string
+  activeRunId: string
   onSnapshot: (snapshot: GameSnapshot) => void
 }
 
@@ -70,18 +71,22 @@ export const GameCanvas = ({
   variantId,
   rewardVariantId,
   thumbnailVariantId,
+  activeRunId,
   onSnapshot,
 }: GameCanvasProps) => {
   const mountId = useMemo(() => `game-${crypto.randomUUID()}`, [])
   const completedRef = useRef(false)
+  const snapshotRef = useRef<GameSnapshot | null>(null)
 
   useEffect(() => {
     completedRef.current = false
+    snapshotRef.current = null
     trackEvent('game_viewed', { gameId, variantId, rewardVariantId, thumbnailVariantId })
 
     const handleSceneEvent = (event: GameSceneEvent) => {
       if (event.type === 'snapshot' && event.snapshot) {
         completedRef.current = event.snapshot.completed
+        snapshotRef.current = event.snapshot
         onSnapshot(event.snapshot)
       }
 
@@ -117,11 +122,20 @@ export const GameCanvas = ({
 
     return () => {
       if (!completedRef.current) {
-        trackEvent('game_abandoned', { gameId, variantId, rewardVariantId })
+        trackEvent('game_abandoned', {
+          gameId,
+          variantId,
+          rewardVariantId,
+          runId: activeRunId,
+          score: snapshotRef.current?.score ?? 0,
+          moves: snapshotRef.current?.moves ?? 0,
+          maxMoves: snapshotRef.current?.maxMoves ?? 0,
+          result: snapshotRef.current?.result ?? 'playing',
+        })
       }
       game.destroy(true)
     }
-  }, [gameId, mountId, onSnapshot, rewardVariantId, thumbnailVariantId, variantId])
+  }, [activeRunId, gameId, mountId, onSnapshot, rewardVariantId, thumbnailVariantId, variantId])
 
   return <div id={mountId} className="gameMount" aria-label={`${gameId} game canvas`} />
 }

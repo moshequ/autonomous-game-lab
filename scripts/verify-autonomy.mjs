@@ -1700,6 +1700,22 @@ const finishLineCoachEvents = [
   'finish_line_coach_clicked',
   'finish_line_coach_dismissed',
 ]
+const completionPromptViews = analytics.totals.counts.completion_nudge_viewed ?? 0
+const completionPromptClicks = analytics.totals.counts.completion_nudge_clicked ?? 0
+const completionPromptDismissals = analytics.totals.counts.completion_nudge_dismissed ?? 0
+const completionPromptDecisions = completionPromptClicks + completionPromptDismissals
+const completionFinishLineViews = analytics.totals.counts.finish_line_coach_viewed ?? 0
+const completionFinishLineClicks = analytics.totals.counts.finish_line_coach_clicked ?? 0
+const completionFinishLineDismissals = analytics.totals.counts.finish_line_coach_dismissed ?? 0
+const completionFinishLineDecisions = completionFinishLineClicks + completionFinishLineDismissals
+const completionPromptSampleReady = completionPromptViews >= 30 && completionPromptDecisions >= 20
+const completionFinishLineSampleReady = completionFinishLineViews >= 20 && completionFinishLineDecisions >= 12
+const completionExpectedDecision =
+  completionLoop.promptPolicy?.status !== 'armed'
+    ? 'monitor'
+    : completionPromptSampleReady && completionFinishLineSampleReady
+      ? completionLoop.decisionPolicy?.currentDecision
+      : 'collect-sample'
 
 if (
   completionLoop.status !== 'completion-loop-ready' ||
@@ -1712,6 +1728,31 @@ if (
   completionLoop.metrics?.gameStarts !== analytics.totals.counts.game_started ||
   completionLoop.metrics?.completions !== analytics.totals.counts.level_completed ||
   completionLoop.metrics?.abandonments !== analytics.totals.counts.game_abandoned ||
+  completionLoop.metrics?.promptViews !== completionPromptViews ||
+  completionLoop.metrics?.promptClicks !== completionPromptClicks ||
+  completionLoop.metrics?.promptDismissals !== completionPromptDismissals ||
+  completionLoop.metrics?.promptDecisions !== completionPromptDecisions ||
+  completionLoop.metrics?.finishLineViews !== completionFinishLineViews ||
+  completionLoop.metrics?.finishLineClicks !== completionFinishLineClicks ||
+  completionLoop.metrics?.finishLineDismissals !== completionFinishLineDismissals ||
+  completionLoop.metrics?.finishLineDecisions !== completionFinishLineDecisions ||
+  completionLoop.samplePolicy?.status !==
+    (completionPromptSampleReady && completionFinishLineSampleReady
+      ? 'ready-for-completion-decision'
+      : 'collecting-sample') ||
+  completionLoop.samplePolicy?.prompt?.minimumViewsForDecision !== 30 ||
+  completionLoop.samplePolicy?.prompt?.minimumDecisionsForDecision !== 20 ||
+  completionLoop.samplePolicy?.prompt?.needed?.views !== Math.max(0, 30 - completionPromptViews) ||
+  completionLoop.samplePolicy?.prompt?.needed?.decisions !== Math.max(0, 20 - completionPromptDecisions) ||
+  completionLoop.samplePolicy?.finishLine?.minimumViewsForDecision !== 20 ||
+  completionLoop.samplePolicy?.finishLine?.minimumDecisionsForDecision !== 12 ||
+  completionLoop.samplePolicy?.finishLine?.needed?.views !== Math.max(0, 20 - completionFinishLineViews) ||
+  completionLoop.samplePolicy?.finishLine?.needed?.decisions !==
+    Math.max(0, 12 - completionFinishLineDecisions) ||
+  completionLoop.samplePolicy?.telemetry?.promptViewed !== 'completion_nudge_viewed' ||
+  completionLoop.samplePolicy?.telemetry?.finishLineClicked !== 'finish_line_coach_clicked' ||
+  completionLoop.decisionPolicy?.currentDecision !== completionExpectedDecision ||
+  completionLoop.decisionPolicy?.fallbackWhenSampleSmall !== 'collect-more-real-completion-events' ||
   completionLoop.controls?.zeroPaidSpend !== true ||
   completionLoop.controls?.midRunOnly !== true ||
   completionLoop.controls?.onePromptPerRun !== true ||
@@ -1724,6 +1765,8 @@ if (
   completionLoop.controls?.noPaidRewards !== true ||
   completionLoop.controls?.noRevenueEnablement !== true ||
   completionLoop.controls?.requireAbandonmentTelemetry !== true ||
+  completionLoop.controls?.requireRunIdOnAbandonment !== true ||
+  completionLoop.controls?.noDecisionWithoutSample !== true ||
   !['armed', 'monitor'].includes(completionLoop.promptPolicy?.status) ||
   completionLoop.promptPolicy?.surface !== 'autonomy-cockpit-completion-card' ||
   completionLoop.promptPolicy?.trigger !== 'after-progress-checkpoint' ||
@@ -1764,9 +1807,14 @@ if (
   finishLineCoachEvents.some((eventName) => !analyticsRollupSource.includes(`'${eventName}'`)) ||
   finishLineCoachEvents.some((eventName) => !appSource.includes(`'${eventName}'`)) ||
   !appSource.includes('Completion Loop') ||
+  !appSource.includes('Nudge sample') ||
+  !appSource.includes('Finish sample') ||
+  !appSource.includes('completionLoop.decisionPolicy.currentDecision') ||
   !appSource.includes('Finish line') ||
   !appSource.includes('keepPlayingFromCompletionNudge') ||
   !appSource.includes('focusFromFinishLineCoach') ||
+  !gameCanvasSource.includes('activeRunId') ||
+  !gameCanvasSource.includes('runId: activeRunId') ||
   packageJson.scripts?.['autonomous:completion-loop'] !== 'node scripts/completion-loop.mjs' ||
   packageJson.scripts?.['autonomous:daily']?.includes('autonomous:completion-loop') !== true
 ) {

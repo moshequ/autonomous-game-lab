@@ -1,22 +1,22 @@
 {
-  "generatedAt": "2026-05-21T02:38:28.218Z",
+  "generatedAt": "2026-05-21T02:47:58.844Z",
   "status": "operator-plan-ready",
   "mode": "plan-only",
   "ownerDecision": {
-    "actionId": "refresh-completion-loop",
-    "command": "npm run autonomous:completion-loop",
+    "actionId": "refresh-replay-loop",
+    "command": "npm run autonomous:replay-loop",
     "locallyExecutable": true,
     "rejectionReason": null
   },
   "requestedActionId": null,
   "selectedAction": {
-    "id": "refresh-completion-loop",
+    "id": "refresh-replay-loop",
     "status": "armed",
-    "command": "npm run autonomous:completion-loop",
+    "command": "npm run autonomous:replay-loop",
     "targets": [
       "harbor-rings"
     ],
-    "reason": "Refreshes optional completion nudges and behind-pace finish-line coaching from product-gate evidence.",
+    "reason": "Refreshes the optional completed-run replay prompt from product-gate and replay telemetry evidence.",
     "costUsd": 0
   },
   "selectedRejection": null,
@@ -31,7 +31,6 @@
     "prepare-release-candidate",
     "run-post-deploy-smoke",
     "refresh-product-gate-recovery",
-    "refresh-completion-loop",
     "refresh-replay-loop",
     "optimize-store-listing",
     "apply-safe-improvements"
@@ -140,10 +139,10 @@
       "reason": "status-monitor"
     },
     {
-      "id": "refresh-replay-loop",
-      "status": "armed",
-      "command": "npm run autonomous:replay-loop",
-      "reason": "not-selected-this-run"
+      "id": "refresh-completion-loop",
+      "status": "monitor",
+      "command": "npm run autonomous:completion-loop",
+      "reason": "status-monitor"
     },
     {
       "id": "prepare-repository-channel",
@@ -214,8 +213,8 @@
   ],
   "commandPlan": [
     {
-      "segment": "npm run autonomous:completion-loop",
-      "script": "autonomous:completion-loop"
+      "segment": "npm run autonomous:replay-loop",
+      "script": "autonomous:replay-loop"
     }
   ],
   "execution": {
@@ -285,7 +284,7 @@
     "RUN_WORKFLOWS=1"
   ],
   "nextActions": [
-    "Run npm run autonomous:operator -- --execute --action=refresh-completion-loop to execute exactly one allowed local action.",
+    "Run npm run autonomous:operator -- --execute --action=refresh-replay-loop to execute exactly one allowed local action.",
     "Do not execute GitHub workflow, store, paid ads, or account setup commands from the local operator."
   ]
 }

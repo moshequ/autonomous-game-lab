@@ -673,8 +673,37 @@ test('mid-run completion nudge records checkpoint telemetry without changing the
 }) => {
   const completion = JSON.parse(await readFile('data/completion-loop.json', 'utf8')) as {
     localState: { acceptedRunKey: string }
+    metrics: { promptViews: number; promptClicks: number; promptDismissals: number }
+    samplePolicy: {
+      status: string
+      prompt: {
+        minimumViewsForDecision: number
+        minimumDecisionsForDecision: number
+        needed: { views: number; decisions: number }
+      }
+      telemetry: { promptViewed: string; promptClicked: string; abandoned: string }
+    }
+    decisionPolicy: { currentDecision: string; fallbackWhenSampleSmall: string }
+    controls: { noDecisionWithoutSample: boolean; requireRunIdOnAbandonment: boolean }
     promptPolicy: { ctaLabel: string; surface: string; triggerMove: number }
   }
+
+  expect(completion.metrics).toMatchObject({ promptViews: 0, promptClicks: 0, promptDismissals: 0 })
+  expect(completion.samplePolicy.status).toBe('collecting-sample')
+  expect(completion.samplePolicy.prompt.minimumViewsForDecision).toBe(30)
+  expect(completion.samplePolicy.prompt.minimumDecisionsForDecision).toBe(20)
+  expect(completion.samplePolicy.prompt.needed).toMatchObject({ views: 30, decisions: 20 })
+  expect(completion.samplePolicy.telemetry).toMatchObject({
+    promptViewed: 'completion_nudge_viewed',
+    promptClicked: 'completion_nudge_clicked',
+    abandoned: 'game_abandoned',
+  })
+  expect(completion.decisionPolicy.currentDecision).toBe('collect-sample')
+  expect(completion.decisionPolicy.fallbackWhenSampleSmall).toBe(
+    'collect-more-real-completion-events',
+  )
+  expect(completion.controls.noDecisionWithoutSample).toBe(true)
+  expect(completion.controls.requireRunIdOnAbandonment).toBe(true)
 
   await page.addInitScript(() => {
     window.localStorage.setItem('agl.experiment.first_session_pacing', 'fast-start')
@@ -727,6 +756,8 @@ test('mid-run completion nudge records checkpoint telemetry without changing the
   }
 
   const completionPanel = page.getByLabel('Completion Loop')
+  await expect(completionPanel).toContainText('Nudge sample')
+  await expect(completionPanel).toContainText(completion.decisionPolicy.currentDecision)
   await expect(completionPanel).toContainText('Progress nudge')
   await completionPanel.getByRole('button', { name: completion.promptPolicy.ctaLabel }).click()
 
@@ -746,13 +777,42 @@ test('mid-run completion nudge records checkpoint telemetry without changing the
   expect(clicked.properties.surface).toBe(completion.promptPolicy.surface)
   expect(clicked.properties.gameId).toBe('harbor-rings')
   expect(acceptedRunKey).toBeTruthy()
+
+  await page.getByLabel('Playable games').getByRole('button', { name: /Lantern Relay/ }).click()
+  await expect(page.getByLabel('Autonomy cockpit').getByRole('heading', { name: 'Lantern Relay' })).toBeVisible()
+  const abandoned = await page.evaluate(() => {
+    const raw = window.localStorage.getItem('agl.analytics.events')
+    const nextEvents = raw ? JSON.parse(raw) : []
+    return nextEvents.findLast((event: { name: string }) => event.name === 'game_abandoned')
+  })
+
+  expect(abandoned.properties.gameId).toBe('harbor-rings')
+  expect(abandoned.properties.runId).toBeTruthy()
+  expect(abandoned.properties.moves).toBe(completion.promptPolicy.triggerMove)
+  expect(abandoned.properties.maxMoves).toBeGreaterThanOrEqual(completion.promptPolicy.triggerMove)
 })
 
 test('finish-line coach shows target pace for behind runs and records telemetry', async ({ page }) => {
   const completion = JSON.parse(await readFile('data/completion-loop.json', 'utf8')) as {
     localState: { finishLineAcceptedRunKey: string }
+    samplePolicy: {
+      finishLine: {
+        minimumViewsForDecision: number
+        minimumDecisionsForDecision: number
+        needed: { views: number; decisions: number }
+      }
+      telemetry: { finishLineViewed: string; finishLineClicked: string }
+    }
     finishLinePolicy: { ctaLabel: string; surface: string; triggerMove: number }
   }
+
+  expect(completion.samplePolicy.finishLine.minimumViewsForDecision).toBe(20)
+  expect(completion.samplePolicy.finishLine.minimumDecisionsForDecision).toBe(12)
+  expect(completion.samplePolicy.finishLine.needed).toMatchObject({ views: 20, decisions: 12 })
+  expect(completion.samplePolicy.telemetry).toMatchObject({
+    finishLineViewed: 'finish_line_coach_viewed',
+    finishLineClicked: 'finish_line_coach_clicked',
+  })
 
   await page.addInitScript(() => {
     window.localStorage.setItem('agl.experiment.first_session_pacing', 'fast-start')

@@ -2274,6 +2274,7 @@ function App() {
                 variantId={pacingVariant.id}
                 rewardVariantId={rewardVariant.id}
                 thumbnailVariantId={thumbnailVariant.id}
+                activeRunId={activeRunId}
                 onSnapshot={setSnapshot}
               />
             </Suspense>
@@ -2328,6 +2329,24 @@ function App() {
               <div>
                 <span>Abandonment</span>
                 <strong>{formatPercent(completionLoop.metrics.abandonmentRate)}</strong>
+              </div>
+              <div>
+                <span>Nudge sample</span>
+                <strong>
+                  {completionLoop.samplePolicy.prompt.current.views}/
+                  {completionLoop.samplePolicy.prompt.minimumViewsForDecision}
+                </strong>
+              </div>
+              <div>
+                <span>Finish sample</span>
+                <strong>
+                  {completionLoop.samplePolicy.finishLine.current.views}/
+                  {completionLoop.samplePolicy.finishLine.minimumViewsForDecision}
+                </strong>
+              </div>
+              <div>
+                <span>Decision</span>
+                <strong>{completionLoop.decisionPolicy.currentDecision}</strong>
               </div>
               <div>
                 <span>Checkpoint</span>

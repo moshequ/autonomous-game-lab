@@ -2,7 +2,7 @@ export const autonomousOperator = {
   "status": "operator-plan-ready",
   "mode": "plan-only",
   "selectedAction": {
-    "id": "refresh-completion-loop",
+    "id": "refresh-replay-loop",
     "status": "armed",
     "costUsd": 0
   },
