@@ -1,22 +1,22 @@
 {
-  "generatedAt": "2026-05-21T03:55:32.796Z",
+  "generatedAt": "2026-05-21T04:02:38.451Z",
   "status": "operator-plan-ready",
   "mode": "plan-only",
   "ownerDecision": {
-    "actionId": "prepare-release-candidate",
-    "command": "npm run autonomous:release-candidate",
+    "actionId": "optimize-store-listing",
+    "command": "npm run autonomous:store-listing-optimize && npm run autonomous:store-compliance",
     "locallyExecutable": true,
     "rejectionReason": null
   },
   "requestedActionId": null,
   "selectedAction": {
-    "id": "prepare-release-candidate",
+    "id": "optimize-store-listing",
     "status": "armed",
-    "command": "npm run autonomous:release-candidate",
+    "command": "npm run autonomous:store-listing-optimize && npm run autonomous:store-compliance",
     "targets": [
-      "dist-release-candidate"
+      "canopy-bloom"
     ],
-    "reason": "Records a content-hashed dist inventory and post-deploy smoke plan for the exact PWA build.",
+    "reason": "Keeps store copy, keyword themes, screenshots, and compliance drafts aligned with behavior signals.",
     "costUsd": 0
   },
   "selectedRejection": null,
@@ -84,6 +84,12 @@
       "id": "check-performance-budget",
       "status": "armed",
       "command": "npm run build && npm run autonomous:performance",
+      "reason": "not-selected-this-run"
+    },
+    {
+      "id": "prepare-release-candidate",
+      "status": "armed",
+      "command": "npm run autonomous:release-candidate",
       "reason": "not-selected-this-run"
     },
     {
@@ -177,12 +183,6 @@
       "reason": "status-monitor"
     },
     {
-      "id": "optimize-store-listing",
-      "status": "armed",
-      "command": "npm run autonomous:store-listing-optimize && npm run autonomous:store-compliance",
-      "reason": "not-selected-this-run"
-    },
-    {
       "id": "prepare-android-signing",
       "status": "monitor",
       "command": "npm run autonomous:android-signing",
@@ -209,8 +209,12 @@
   ],
   "commandPlan": [
     {
-      "segment": "npm run autonomous:release-candidate",
-      "script": "autonomous:release-candidate"
+      "segment": "npm run autonomous:store-listing-optimize",
+      "script": "autonomous:store-listing-optimize"
+    },
+    {
+      "segment": "npm run autonomous:store-compliance",
+      "script": "autonomous:store-compliance"
     }
   ],
   "execution": {
@@ -280,7 +284,7 @@
     "RUN_WORKFLOWS=1"
   ],
   "nextActions": [
-    "Run npm run autonomous:operator -- --execute --action=prepare-release-candidate to execute exactly one allowed local action.",
+    "Run npm run autonomous:operator -- --execute --action=optimize-store-listing to execute exactly one allowed local action.",
     "Do not execute GitHub workflow, store, paid ads, or account setup commands from the local operator."
   ]
 }

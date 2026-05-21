@@ -1,10 +1,10 @@
 # Autonomous Operator
 
-Generated: 2026-05-21T03:55:32.796Z
+Generated: 2026-05-21T04:02:38.451Z
 Status: operator-plan-ready
 Mode: plan-only
-Owner decision: prepare-release-candidate
-Selected action: prepare-release-candidate
+Owner decision: optimize-store-listing
+Selected action: optimize-store-listing
 Execution: not-requested
 
 ## Controls
@@ -18,7 +18,7 @@ Execution: not-requested
 
 ## Selected Action
 
-- prepare-release-candidate: npm run autonomous:release-candidate
+- optimize-store-listing: npm run autonomous:store-listing-optimize && npm run autonomous:store-compliance
 
 ## Eligible Local Actions
 
@@ -43,6 +43,6 @@ Execution: not-requested
 - optimize-daily-retention: status-monitor
 - measure-pwa-install-loop: not-selected-this-run
 - check-performance-budget: not-selected-this-run
+- prepare-release-candidate: not-selected-this-run
 - run-post-deploy-smoke: not-selected-this-run
 - sync-post-deploy-artifact: status-monitor
-- optimize-product-gates: status-monitor
