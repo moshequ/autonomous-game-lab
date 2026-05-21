@@ -1,6 +1,6 @@
 # Production Readiness
 
-Generated: 2026-05-21T17:52:14.599Z
+Generated: 2026-05-21T17:56:37.512Z
 
 ## Environment
 
@@ -10,10 +10,10 @@ Analytics: local-or-fixture
 
 ## Repository Channel
 
-Status: waiting-for-repository-channel
+Status: repository-channel-ready
 Repository: moshequ/autonomous-game-lab
 Git worktree: true
-Workflow dispatch ready: false
+Workflow dispatch ready: true
 - pass: repository-local-git-worktree - Git worktree detected at /Users/moshequ/Documents/Codex/2026-05-18/i-want-to-have-a-new.
 - pass: repository-github-target - Target repository is moshequ/autonomous-game-lab.
 - pass: repository-origin-remote - Origin remote resolves to moshequ/autonomous-game-lab.
@@ -21,7 +21,7 @@ Workflow dispatch ready: false
 - pass: repository-gh-token - GitHub CLI authentication is available for repository operations.
 - pass: repository-pages-workflow - Web PWA Deploy workflow exists and includes post-deploy smoke.
 - pass: repository-pages-settings - GitHub Pages build type is workflow; HTTPS enforced true.
-- blocker: repository-deployable-artifact - Deployment blocked; release candidate release-candidate-ready; smoke post-deploy-smoke-observed-live.
+- pass: repository-deployable-artifact - Deployment ready-for-pages; release candidate release-candidate-ready; smoke post-deploy-smoke-observed-live.
 
 ## Repository Bootstrap
 
@@ -29,17 +29,17 @@ Status: repository-bootstrap-ready
 Mode: plan-only
 Helper: ops/github/bootstrap-repository.sh
 Local git: true
-- done: repo-bootstrap-inspect-repository-channel - Repository readiness is waiting-for-repository-channel.
+- done: repo-bootstrap-inspect-repository-channel - Repository readiness is repository-channel-ready.
 - ready: repo-bootstrap-initialize-local-git - Git worktree is available at /Users/moshequ/Documents/Codex/2026-05-18/i-want-to-have-a-new.
 - ready: repo-bootstrap-create-initial-commit - The local repository has at least one commit.
-- ready-for-explicit-snapshot-commit: repo-bootstrap-commit-current-snapshot - 12 non-generated source or artifact file(s) are not committed yet.
+- ready-for-explicit-snapshot-commit: repo-bootstrap-commit-current-snapshot - 1 non-generated source or artifact file(s) are not committed yet.
 - ready: repo-bootstrap-set-or-create-origin - Origin remote resolves to moshequ/autonomous-game-lab.
 - ready-for-explicit-create-or-attach: repo-bootstrap-create-github-repository - GitHub CLI can create or attach moshequ/autonomous-game-lab when explicitly allowed.
 - waiting-for-clean-snapshot: repo-bootstrap-push-initial-snapshot - Push stays held until a committed local snapshot and origin remote exist.
 
 ## Web/PWA
 
-Status: blocked
+Status: ready-after-build
 - pass: manifest - PWA manifest exists in the production build.
 - pass: install-icons - Generated install/store icons are icons-ready; 6 icons checked.
 - pass: service-worker - Offline service worker exists.
@@ -69,14 +69,14 @@ Status: blocked
 - pass: replay-loop - Replay loop is replay-loop-ready; prompt armed; target harbor-rings.
 - pass: release-health - Release health guard is monitoring.
 - pass: production-environment - Production environment status is production-env-missing.
-- pass: production-bootstrap - Production bootstrap is production-bootstrap-ready; mode can-apply-configured-actions; external blockers 17.
+- pass: production-bootstrap - Production bootstrap is production-bootstrap-ready; mode can-apply-configured-actions; external blockers 16.
 - pass: production-blocker-handoff - Production blocker handoff is handoff-waiting-on-owner-inputs; owner inputs 4; next unlock production-analytics-browser.
 - pass: production-activation - Production activation is activation-ready; mode dry-run; execution dry-run.
-- pass: autonomous-operator - Autonomous operator is operator-plan-ready; selected prepare-repository-channel; execution not-requested.
-- blocker: autonomous-operator-history - Autonomous operator history is operator-history-ready; records 41; executed 8.
+- pass: autonomous-operator - Autonomous operator is operator-plan-ready; selected refresh-completion-loop; execution not-requested.
+- pass: autonomous-operator-history - Autonomous operator history is operator-history-ready; records 40; executed 5.
 - pass: autonomous-cadence - Autonomous cadence is cadence-ready; Codex active-confirmed; GitHub scheduled.
-- blocker: autonomous-self-update - Autonomous self-update is self-update-needs-attention; safe pending 201; unsafe pending 6; remote push held.
-- pass: objective-audit - Objective audit is objective-in-progress; met 4 / 8; can complete false.
+- pass: autonomous-self-update - Autonomous self-update is self-update-ready; safe pending 0; unsafe pending 0; remote push held.
+- pass: objective-audit - Objective audit is objective-in-progress; met 6 / 8; can complete false.
 
 ## Monetization
 
@@ -250,10 +250,10 @@ Prompt: armed (autonomy-cockpit-replay-card)
 Status: production-bootstrap-ready
 Mode: can-apply-configured-actions
 Setup script: ops/github/setup-production.sh
-- waiting-for-repository-channel: bootstrap-repository-channel - Repository moshequ/autonomous-game-lab; git worktree ready; workflow dispatch blocked.
+- repository-channel-ready: bootstrap-repository-channel - Repository moshequ/autonomous-game-lab; git worktree ready; workflow dispatch ready.
 - repository-bootstrap-ready: bootstrap-repository-bootstrap - Repository bootstrap repository-bootstrap-ready; helper ops/github/bootstrap-repository.sh; local git ready.
 - waiting-for-origin-support: bootstrap-production-environment - Environment production-env-missing; public origin configured; support missing-production-address.
-- blocked: bootstrap-github-pages-hosting - Deployment plan is blocked; Pages workflow is .github/workflows/web-pwa-deploy.yml.
+- ready-for-actions-pages: bootstrap-github-pages-hosting - Deployment plan is ready-for-pages; Pages workflow is .github/workflows/web-pwa-deploy.yml.
 - ready-to-sync: bootstrap-github-pages-settings - GitHub CLI can configure Pages to use the Actions workflow source.
 - waiting-for-self-update-gate: bootstrap-autonomous-self-update - Self-update gate missing; direct push held.
 - partially-configured: bootstrap-github-actions-variables - 10/24 repository variable value(s) present in this environment.
@@ -281,14 +281,14 @@ Next unlock: production-analytics-browser
 
 Status: operator-plan-ready
 Mode: plan-only
-Selected action: prepare-repository-channel
+Selected action: refresh-completion-loop
 Execution: not-requested
 
 ## Autonomous Operator History
 
 Status: operator-history-ready
-Records: 41
-Executed: 8
+Records: 40
+Executed: 5
 
 ## Autonomous Cadence
 
@@ -316,17 +316,17 @@ Freshness: fresh; stale artifacts 0
 
 ## Autonomous Self Update
 
-Status: self-update-needs-attention
+Status: self-update-ready
 Workflow: .github/workflows/autonomous-self-update.yml
-Safe pending: 201
-Unsafe pending: 6
+Safe pending: 0
+Unsafe pending: 0
 Remote push ready: false
 - pass: self-update-script-registered - autonomous:self-update is node scripts/autonomous-self-update.mjs.
 - pass: self-update-daily-loop-refresh - autonomous:daily refreshes self-update evidence before owner/audit evidence.
 - pass: self-update-daily-workflow-read-only - The ordinary daily workflow remains read-only, runs the owner loop, and uploads evidence artifacts.
 - pass: self-update-self-update-workflow - A separate gated workflow can reproduce the owner loop with production env, verify it with gate env, and persist allowlisted changes.
 - pass: self-update-post-self-update-deploy - Pages redeploys after the gated self-update workflow, then repeats deployability and post-deploy smoke checks.
-- blocker: self-update-safe-path-allowlist - 201 safe pending file(s), 6 unsafe pending file(s).
+- pass: self-update-safe-path-allowlist - 0 safe pending file(s), 0 unsafe pending file(s).
 - pass: self-update-repository-optional - Git worktree is available on main.
 - pass: self-update-remote-push-gated - Remote push remains held until GitHub credentials and AGL_AUTONOMOUS_SELF_UPDATE_DIRECT=1 are configured.
 - pass: self-update-zero-spend-controls - Self-update owner-loop verification includes browser smoke coverage and does not create accounts, stores, ads, paid traffic, or revenue.
@@ -334,7 +334,7 @@ Remote push ready: false
 ## Objective Audit
 
 Status: objective-in-progress
-Met: 4 / 8
+Met: 6 / 8
 Can mark complete: false
 
 ## Distribution

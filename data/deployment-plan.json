@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-05-21T17:52:14.823Z",
-  "status": "blocked",
+  "generatedAt": "2026-05-21T17:56:37.730Z",
+  "status": "ready-for-pages",
   "target": {
     "provider": "github-pages",
     "cost": "$0 platform hosting for public/internal experiment traffic",
@@ -8,15 +8,13 @@
     "artifactPath": "dist"
   },
   "repositoryChannel": {
-    "status": "waiting-for-repository-channel",
+    "status": "repository-channel-ready",
     "repository": "moshequ/autonomous-game-lab",
     "source": "origin-remote",
     "insideWorkTree": true,
     "ghCliAvailable": true,
-    "workflowDispatchReady": false,
-    "blockers": [
-      "Refresh build, release candidate, post-deploy smoke, and deployment plan artifacts."
-    ]
+    "workflowDispatchReady": true,
+    "blockers": []
   },
   "eventCollector": {
     "status": "blocked-needs-cloudflare-env",
@@ -84,8 +82,8 @@
     },
     {
       "id": "web-readiness",
-      "status": "blocker",
-      "detail": "Web readiness is blocked."
+      "status": "pass",
+      "detail": "Pre-deploy web readiness passed; live post-deploy smoke remains ready-after-build."
     },
     {
       "id": "release-health",

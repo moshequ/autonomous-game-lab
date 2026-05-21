@@ -1,14 +1,14 @@
 # Deployment Plan
 
-Generated: 2026-05-21T17:52:14.823Z
-Status: blocked
+Generated: 2026-05-21T17:56:37.730Z
+Status: ready-for-pages
 Target: github-pages
 Cost: $0 platform hosting for public/internal experiment traffic
 
 ## Checks
 
 - pass: web-promotion - Promote the current PWA build to an internal/public web experiment when hosting is connected.
-- blocker: web-readiness - Web readiness is blocked.
+- pass: web-readiness - Pre-deploy web readiness passed; live post-deploy smoke remains ready-after-build.
 - pass: release-health - Release health is monitoring.
 - pass: unit-economics-guard - Spend mode is no-spend; max daily paid spend is $0.00.
 - pass: production-response - Production response is guarded-operations; rollback required is false.
@@ -45,11 +45,10 @@ Cost: $0 platform hosting for public/internal experiment traffic
 
 ## Repository Channel
 
-- Status: waiting-for-repository-channel
+- Status: repository-channel-ready
 - Repository: moshequ/autonomous-game-lab
 - Git worktree: true
-- Workflow dispatch ready: false
-- blocker: Refresh build, release candidate, post-deploy smoke, and deployment plan artifacts.
+- Workflow dispatch ready: true
 
 ## Environment
 

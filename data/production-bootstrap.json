@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-21T17:52:11.603Z",
+  "generatedAt": "2026-05-21T17:56:35.077Z",
   "status": "production-bootstrap-ready",
   "mode": "can-apply-configured-actions",
   "envFiles": {
@@ -61,10 +61,10 @@
     "ghAuthAvailable": true,
     "ghCredentialReady": true,
     "canUseGh": true,
-    "repositoryReadinessStatus": "waiting-for-repository-channel",
+    "repositoryReadinessStatus": "repository-channel-ready",
     "repositoryBootstrapStatus": "repository-bootstrap-ready",
     "insideWorkTree": true,
-    "workflowDispatchReady": false,
+    "workflowDispatchReady": true,
     "bootstrapHelperPath": "ops/github/bootstrap-repository.sh"
   },
   "controls": {
@@ -81,25 +81,23 @@
     "repositoryBootstrapDryRunByDefault": true
   },
   "summary": {
-    "readyGroups": 2,
+    "readyGroups": 3,
     "totalGroups": 12,
     "configuredVariables": 10,
     "totalVariables": 24,
     "configuredSecrets": 5,
     "totalSecrets": 8,
-    "externalBlockers": 17
+    "externalBlockers": 16
   },
   "stages": [
     {
       "id": "repository-channel",
-      "status": "waiting-for-repository-channel",
+      "status": "repository-channel-ready",
       "canAutoRun": false,
       "costUsd": 0,
       "command": "npm run autonomous:repo-readiness",
-      "evidence": "Repository moshequ/autonomous-game-lab; git worktree ready; workflow dispatch blocked.",
-      "requires": [
-        "Refresh build, release candidate, post-deploy smoke, and deployment plan artifacts."
-      ]
+      "evidence": "Repository moshequ/autonomous-game-lab; git worktree ready; workflow dispatch ready.",
+      "requires": []
     },
     {
       "id": "repository-bootstrap",
@@ -130,11 +128,11 @@
     },
     {
       "id": "github-pages-hosting",
-      "status": "blocked",
-      "canAutoRun": false,
+      "status": "ready-for-actions-pages",
+      "canAutoRun": true,
       "costUsd": 0,
       "command": "gh workflow run web-pwa-deploy.yml",
-      "evidence": "Deployment plan is blocked; Pages workflow is .github/workflows/web-pwa-deploy.yml.",
+      "evidence": "Deployment plan is ready-for-pages; Pages workflow is .github/workflows/web-pwa-deploy.yml.",
       "requires": [
         "Repository exists on GitHub.",
         "GitHub Pages source is set to GitHub Actions.",
@@ -253,14 +251,12 @@
   "setupGroups": [
     {
       "id": "repository-channel",
-      "status": "waiting-for-repository-channel",
+      "status": "repository-channel-ready",
       "canAutoRun": false,
       "costUsd": 0,
       "command": "npm run autonomous:repo-readiness",
-      "evidence": "Repository moshequ/autonomous-game-lab; git worktree ready; workflow dispatch blocked.",
-      "requires": [
-        "Refresh build, release candidate, post-deploy smoke, and deployment plan artifacts."
-      ]
+      "evidence": "Repository moshequ/autonomous-game-lab; git worktree ready; workflow dispatch ready.",
+      "requires": []
     },
     {
       "id": "repository-bootstrap",
@@ -291,11 +287,11 @@
     },
     {
       "id": "github-pages-hosting",
-      "status": "blocked",
-      "canAutoRun": false,
+      "status": "ready-for-actions-pages",
+      "canAutoRun": true,
       "costUsd": 0,
       "command": "gh workflow run web-pwa-deploy.yml",
-      "evidence": "Deployment plan is blocked; Pages workflow is .github/workflows/web-pwa-deploy.yml.",
+      "evidence": "Deployment plan is ready-for-pages; Pages workflow is .github/workflows/web-pwa-deploy.yml.",
       "requires": [
         "Repository exists on GitHub.",
         "GitHub Pages source is set to GitHub Actions.",
@@ -1035,7 +1031,7 @@
     {
       "id": "run-web-workflow",
       "command": "RUN_WORKFLOWS=1 ./ops/github/setup-production.sh",
-      "safeToRunAutomatically": false,
+      "safeToRunAutomatically": true,
       "costUsd": 0
     },
     {
@@ -1073,10 +1069,6 @@
     "ops/github/README.md"
   ],
   "externalBlockers": [
-    {
-      "source": "repository-readiness",
-      "blocker": "Refresh build, release candidate, post-deploy smoke, and deployment plan artifacts."
-    },
     {
       "source": "repository-bootstrap",
       "blocker": "Commit current generated changes before pushing to GitHub Pages."
@@ -1143,13 +1135,13 @@
     }
   ],
   "ownerAction": {
-    "id": "github-pages-settings",
+    "id": "github-pages-hosting",
     "status": "ready",
-    "command": "AGL_SYNC_PAGES_SETTINGS=1 ./ops/github/setup-production.sh",
+    "command": "gh workflow run web-pwa-deploy.yml",
     "costUsd": 0
   },
   "nextActions": [
-    "Run AGL_SYNC_PAGES_SETTINGS=1 ./ops/github/setup-production.sh for github-pages-settings.",
+    "Run gh workflow run web-pwa-deploy.yml for github-pages-hosting.",
     "Keep GitHub Pages as the first zero-cost distribution channel.",
     "Keep app-store, paid spend, and revenue disabled until product and compliance gates pass."
   ]

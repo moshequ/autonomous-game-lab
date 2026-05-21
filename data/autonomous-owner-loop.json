@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2026-05-21T17:52:14.122Z",
+  "generatedAt": "2026-05-21T17:56:37.036Z",
   "status": "owner-loop-ready",
-  "mode": "guarded-local-automation",
+  "mode": "zero-spend-web-ready",
   "autonomyScore": {
-    "readySystems": 39,
+    "readySystems": 43,
     "totalSystems": 44,
-    "percent": 89
+    "percent": 98
   },
   "controls": {
     "localLoopCanRunWithoutExternalAccounts": true,
@@ -23,12 +23,12 @@
     "heldForExternalInput": false
   },
   "ownerDecision": {
-    "nextBestActionId": "prepare-repository-channel",
-    "nextBestAction": "npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap",
+    "nextBestActionId": "refresh-completion-loop",
+    "nextBestAction": "npm run autonomous:completion-loop",
     "canExecuteWithoutSpend": true,
     "localActionAvailable": true,
     "holdReason": null,
-    "rationale": "Surfaces and prepares the missing git/GitHub deployment-channel blockers before web deploy."
+    "rationale": "Refreshes optional completion nudges and behind-pace finish-line coaching from product-gate evidence."
   },
   "executionMemory": {
     "avoidImmediateRepeat": true,
@@ -37,9 +37,7 @@
       "bootstrap-production-setup",
       "seed-portfolio-traffic",
       "refresh-objective-audit",
-      "refresh-product-gate-recovery",
-      "refresh-replay-loop",
-      "apply-safe-improvements"
+      "refresh-product-gate-recovery"
     ],
     "lastExecutedActionId": "bootstrap-production-setup",
     "lastExecutedStatus": "executed",
@@ -50,7 +48,7 @@
     "objectiveAuditFreshness": {
       "fresh": true,
       "structurallyReady": true,
-      "auditGeneratedAt": "2026-05-21T17:52:13.307Z",
+      "auditGeneratedAt": "2026-05-21T17:56:36.304Z",
       "evaluatedInputIds": [
         "analytics-rollup",
         "event-ingest",
@@ -74,29 +72,29 @@
         "ready": true,
         "status": "cadence-ready",
         "artifactGeneratedAt": "2026-05-21T17:52:12.741Z",
-        "ageHours": 0,
+        "ageHours": 0.073,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
         "extraReady": true
       },
       "selfUpdate": {
-        "fresh": false,
-        "ready": false,
-        "status": "self-update-needs-attention",
-        "artifactGeneratedAt": "2026-05-21T17:52:13.065Z",
-        "ageHours": 0,
+        "fresh": true,
+        "ready": true,
+        "status": "self-update-ready",
+        "artifactGeneratedAt": "2026-05-21T17:54:43.728Z",
+        "ageHours": 0.031,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
-        "checksPass": false,
-        "extraReady": false
+        "checksPass": true,
+        "extraReady": true
       },
       "supportFeedback": {
         "fresh": true,
         "ready": true,
         "status": "support-feedback-empty",
         "artifactGeneratedAt": "2026-05-21T17:48:59.987Z",
-        "ageHours": 0.054,
+        "ageHours": 0.127,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -107,7 +105,7 @@
         "ready": true,
         "status": "performance-budget-ready",
         "artifactGeneratedAt": "2026-05-21T17:51:08.489Z",
-        "ageHours": 0.018,
+        "ageHours": 0.091,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -117,8 +115,8 @@
         "fresh": true,
         "ready": true,
         "status": "live-site-monitor-passed",
-        "artifactGeneratedAt": "2026-05-21T17:51:10.666Z",
-        "ageHours": 0.018,
+        "artifactGeneratedAt": "2026-05-21T17:56:17.627Z",
+        "ageHours": 0.005,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -451,11 +449,11 @@
       "prepared": false,
       "targetPlanReady": true,
       "plannedTarget": "moshequ/autonomous-game-lab",
-      "status": "needs-local-repository-handoff"
+      "status": "repository-channel-ready"
     },
     "productionBootstrapFreshness": {
       "fresh": false,
-      "bootstrapGeneratedAt": "2026-05-21T17:52:11.603Z",
+      "bootstrapGeneratedAt": "2026-05-21T17:56:35.077Z",
       "evaluatedInputIds": [
         "release-candidate",
         "deployment-plan",
@@ -472,7 +470,7 @@
       "current": true,
       "ready": true,
       "status": "handoff-waiting-on-owner-inputs",
-      "generatedAt": "2026-05-21T17:52:12.213Z",
+      "generatedAt": "2026-05-21T17:56:35.703Z",
       "nextBestUnlockId": "production-analytics-browser",
       "ownerActionRequired": 4,
       "missingEnv": 7,
@@ -543,10 +541,10 @@
     },
     {
       "id": "autonomous-self-update",
-      "status": "needs-self-update-evidence",
+      "status": "ready",
       "autonomy": "gated-generated-change-persistence",
-      "evidence": "Self-update self-update-needs-attention; safe pending 201; unsafe pending 6; remote push held.",
-      "nextAction": "Fix self-update workflow or allowlist blockers before enabling autonomous persistence."
+      "evidence": "Self-update self-update-ready; safe pending 0; unsafe pending 0; remote push held.",
+      "nextAction": "When a GitHub repository is connected, set AGL_AUTONOMOUS_SELF_UPDATE=1 and AGL_AUTONOMOUS_SELF_UPDATE_DIRECT=1 to let verified generated changes persist."
     },
     {
       "id": "portfolio-loop",
@@ -662,10 +660,10 @@
     },
     {
       "id": "repository-channel",
-      "status": "waiting-for-repository-channel",
-      "autonomy": "read-only-repository-preflight",
-      "evidence": "Repository moshequ/autonomous-game-lab; git worktree ready; workflow dispatch blocked.",
-      "nextAction": "Prepare the GitHub repository channel before treating the web deploy as runnable."
+      "status": "ready",
+      "autonomy": "workflow-dispatch-ready",
+      "evidence": "Repository moshequ/autonomous-game-lab; git worktree ready; workflow dispatch ready.",
+      "nextAction": "Use production bootstrap to sync configured repository variables/secrets, then dispatch the Web PWA Deploy workflow."
     },
     {
       "id": "repository-bootstrap",
@@ -676,9 +674,9 @@
     },
     {
       "id": "web-deployment",
-      "status": "blocked",
+      "status": "ready",
       "autonomy": "workflow-gated",
-      "evidence": "Deployment blocked; web readiness blocked; promotion promotable-internal.",
+      "evidence": "Deployment ready-for-pages; web readiness ready-after-build; promotion promotable-internal.",
       "nextAction": "Connect a free static host or GitHub Pages environment, then publish dist."
     },
     {
@@ -713,8 +711,8 @@
       "id": "production-bootstrap",
       "status": "ready",
       "autonomy": "zero-spend-setup-orchestration",
-      "evidence": "Bootstrap production-bootstrap-ready; mode can-apply-configured-actions; external blockers 17.",
-      "nextAction": "AGL_SYNC_PAGES_SETTINGS=1 ./ops/github/setup-production.sh"
+      "evidence": "Bootstrap production-bootstrap-ready; mode can-apply-configured-actions; external blockers 16.",
+      "nextAction": "gh workflow run web-pwa-deploy.yml"
     },
     {
       "id": "production-activation",
@@ -741,21 +739,21 @@
       "id": "autonomous-operator",
       "status": "ready",
       "autonomy": "one-safe-action-runner",
-      "evidence": "Operator operator-plan-ready; selected prepare-repository-channel; execution not-requested.",
+      "evidence": "Operator operator-plan-ready; selected refresh-completion-loop; execution not-requested.",
       "nextAction": "Keep a dry-run operator plan ready, then execute only one allowlisted local action when explicitly requested."
     },
     {
       "id": "operator-history",
-      "status": "needs-history",
+      "status": "ready",
       "autonomy": "operator-audit-trail",
-      "evidence": "History operator-history-ready; records 41; executed 8.",
+      "evidence": "History operator-history-ready; records 40; executed 5.",
       "nextAction": "Keep a capped durable record of operator plans and one-action executions."
     },
     {
       "id": "objective-audit",
       "status": "ready",
       "autonomy": "completion-evidence-ledger",
-      "evidence": "Audit objective-in-progress; met 4/8; external blockers 15.",
+      "evidence": "Audit objective-in-progress; met 6/8; external blockers 15.",
       "nextAction": "The local autonomous PWA system is largely prepared with strict live deploy evidence synced from GitHub Actions, but production credentials, live data, monetization gates, and store account/signing blockers remain."
     },
     {
@@ -833,13 +831,13 @@
     },
     {
       "id": "refresh-autonomous-self-update",
-      "status": "armed",
+      "status": "monitor",
       "costUsd": 0,
       "command": "npm run autonomous:self-update",
       "targets": [
         ".github/workflows/autonomous-self-update.yml"
       ],
-      "reason": "Keeps verified generated-change persistence gated, allowlisted, and ready for the scheduled production repository."
+      "reason": "Self-update evidence is already fresh, verified, allowlisted, and gated behind explicit repository controls."
     },
     {
       "id": "seed-portfolio-traffic",
@@ -1024,13 +1022,13 @@
     },
     {
       "id": "prepare-repository-channel",
-      "status": "armed",
+      "status": "monitor",
       "costUsd": 0,
       "command": "npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap",
       "targets": [
         "moshequ/autonomous-game-lab"
       ],
-      "reason": "Surfaces and prepares the missing git/GitHub deployment-channel blockers before web deploy."
+      "reason": "Keeps the GitHub Pages deployment channel evidence fresh."
     },
     {
       "id": "bootstrap-production-setup",
@@ -1072,7 +1070,7 @@
       "costUsd": 0,
       "command": "npm run autonomous:operator",
       "targets": [
-        "prepare-repository-channel"
+        "refresh-completion-loop"
       ],
       "reason": "One-action operator plan is already published; avoid cycling on meta-operator refreshes."
     },
@@ -1082,7 +1080,7 @@
       "costUsd": 0,
       "command": "npm run autonomous:operator",
       "targets": [
-        "prepare-repository-channel"
+        "refresh-completion-loop"
       ],
       "reason": "Operator history is already capped and published; keep attention on product evidence."
     },
@@ -1127,10 +1125,10 @@
     },
     {
       "id": "deploy-web-pwa",
-      "status": "blocked-needs-repository-channel",
+      "status": "ready-when-repository-pages-enabled",
       "costUsd": 0,
       "command": "Run the Web PWA Deploy workflow after GitHub Pages is enabled for the repository.",
-      "reason": "Git/GitHub repository channel is not ready for workflow dispatch yet."
+      "reason": "Connect a free static host or GitHub Pages environment, then publish dist."
     },
     {
       "id": "collect-live-events",
@@ -1278,9 +1276,9 @@
     "retentionLoopStatus": "retention-loop-ready",
     "pwaInstallLoopStatus": "pwa-install-loop-ready",
     "autonomousCadenceStatus": "cadence-ready",
-    "autonomousSelfUpdateStatus": "self-update-needs-attention",
+    "autonomousSelfUpdateStatus": "self-update-ready",
     "performanceBudgetStatus": "performance-budget-ready",
-    "repositoryReadinessStatus": "waiting-for-repository-channel",
+    "repositoryReadinessStatus": "repository-channel-ready",
     "repositoryBootstrapStatus": "repository-bootstrap-ready",
     "repositoryHandoffPrepared": false,
     "releaseCandidateStatus": "release-candidate-ready",
@@ -1301,7 +1299,7 @@
     "autonomousOperatorHistoryStatus": "operator-history-ready",
     "objectiveAuditStatus": "objective-in-progress",
     "storeListingOptimizerStatus": "store-listing-optimizer-ready",
-    "deploymentStatus": "blocked",
+    "deploymentStatus": "ready-for-pages",
     "releaseHealthStatus": "monitoring",
     "productionEnvironmentStatus": "production-env-missing",
     "storePackageStatus": "store-package-ready",

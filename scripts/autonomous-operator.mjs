@@ -399,6 +399,7 @@ const selectedRecordIds = new Set([
 const records = nextRecords.filter((record) => selectedRecordIds.has(record.id)).slice(-maxHistoryRecords)
 const executedRecords = records.filter((record) => record.execution?.requested)
 const failedRecords = records.filter((record) => record.execution?.status === 'failed')
+const preservedExecutedRecords = executedRecords.slice(-Math.min(recentExecutedRecordWindow, maxHistoryRecords))
 const historyPayload = {
   generatedAt: payload.generatedAt,
   status: 'operator-history-ready',
@@ -408,8 +409,8 @@ const historyPayload = {
     preserveLatestExecutedRecord: true,
     preserveRecentExecutedRecords: true,
     recentExecutedRecordWindow,
-    preservedExecutedRecords: protectedExecutedRecords.length,
-    recentExecutedActionIds: protectedExecutedRecords.map((record) => record.selectedActionId).filter(Boolean),
+    preservedExecutedRecords: preservedExecutedRecords.length,
+    recentExecutedActionIds: preservedExecutedRecords.map((record) => record.selectedActionId).filter(Boolean),
     latestRunAppended: shouldAppendHistory,
     compactedDuplicateDryRuns,
   },
