@@ -1,22 +1,22 @@
 {
-  "generatedAt": "2026-05-21T03:36:02.566Z",
+  "generatedAt": "2026-05-21T03:42:18.723Z",
   "status": "operator-plan-ready",
   "mode": "plan-only",
   "ownerDecision": {
-    "actionId": "refresh-replay-loop",
-    "command": "npm run autonomous:replay-loop",
+    "actionId": "optimize-store-listing",
+    "command": "npm run autonomous:store-listing-optimize && npm run autonomous:store-compliance",
     "locallyExecutable": true,
     "rejectionReason": null
   },
   "requestedActionId": null,
   "selectedAction": {
-    "id": "refresh-replay-loop",
+    "id": "optimize-store-listing",
     "status": "armed",
-    "command": "npm run autonomous:replay-loop",
+    "command": "npm run autonomous:store-listing-optimize && npm run autonomous:store-compliance",
     "targets": [
-      "harbor-rings"
+      "canopy-bloom"
     ],
-    "reason": "Refreshes the optional completed-run replay prompt from product-gate and replay telemetry evidence.",
+    "reason": "Keeps store copy, keyword themes, screenshots, and compliance drafts aligned with behavior signals.",
     "costUsd": 0
   },
   "selectedRejection": null,
@@ -29,7 +29,6 @@
     "prepare-release-candidate",
     "run-post-deploy-smoke",
     "refresh-product-gate-recovery",
-    "refresh-replay-loop",
     "optimize-store-listing"
   ],
   "blockedActions": [
@@ -142,6 +141,12 @@
       "reason": "status-monitor"
     },
     {
+      "id": "refresh-replay-loop",
+      "status": "monitor",
+      "command": "npm run autonomous:replay-loop",
+      "reason": "status-monitor"
+    },
+    {
       "id": "prepare-repository-channel",
       "status": "monitor",
       "command": "npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap",
@@ -178,12 +183,6 @@
       "reason": "status-monitor"
     },
     {
-      "id": "optimize-store-listing",
-      "status": "armed",
-      "command": "npm run autonomous:store-listing-optimize && npm run autonomous:store-compliance",
-      "reason": "not-selected-this-run"
-    },
-    {
       "id": "prepare-android-signing",
       "status": "monitor",
       "command": "npm run autonomous:android-signing",
@@ -210,8 +209,12 @@
   ],
   "commandPlan": [
     {
-      "segment": "npm run autonomous:replay-loop",
-      "script": "autonomous:replay-loop"
+      "segment": "npm run autonomous:store-listing-optimize",
+      "script": "autonomous:store-listing-optimize"
+    },
+    {
+      "segment": "npm run autonomous:store-compliance",
+      "script": "autonomous:store-compliance"
     }
   ],
   "execution": {
@@ -281,7 +284,7 @@
     "RUN_WORKFLOWS=1"
   ],
   "nextActions": [
-    "Run npm run autonomous:operator -- --execute --action=refresh-replay-loop to execute exactly one allowed local action.",
+    "Run npm run autonomous:operator -- --execute --action=optimize-store-listing to execute exactly one allowed local action.",
     "Do not execute GitHub workflow, store, paid ads, or account setup commands from the local operator."
   ]
 }

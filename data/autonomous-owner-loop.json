@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-21T03:36:02.837Z",
+  "generatedAt": "2026-05-21T03:42:18.988Z",
   "status": "owner-loop-ready",
   "mode": "zero-spend-web-ready",
   "autonomyScore": {
@@ -21,37 +21,34 @@
     "repositoryHandoffPrepared": false
   },
   "ownerDecision": {
-    "nextBestActionId": "refresh-replay-loop",
-    "nextBestAction": "npm run autonomous:replay-loop",
+    "nextBestActionId": "optimize-store-listing",
+    "nextBestAction": "npm run autonomous:store-listing-optimize && npm run autonomous:store-compliance",
     "canExecuteWithoutSpend": true,
-    "rationale": "Refreshes the optional completed-run replay prompt from product-gate and replay telemetry evidence."
+    "rationale": "Keeps store copy, keyword themes, screenshots, and compliance drafts aligned with behavior signals."
   },
   "executionMemory": {
     "avoidImmediateRepeat": true,
     "recentExecutionWindow": 8,
     "recentExecutedActionIds": [
+      "refresh-product-gate-recovery",
+      "refresh-autonomous-self-update",
+      "refresh-replay-loop",
       "refresh-completion-loop",
       "refresh-first-move-coach",
       "measure-pwa-install-loop",
       "seed-portfolio-traffic",
-      "refresh-autonomous-cadence",
-      "optimize-store-listing",
-      "collect-gate-sample-downloads",
-      "apply-safe-improvements"
+      "refresh-autonomous-cadence"
     ],
-    "lastExecutedActionId": "refresh-completion-loop",
+    "lastExecutedActionId": "refresh-product-gate-recovery",
     "lastExecutedStatus": "executed",
     "lastRecordExecutionStatus": "not-requested",
     "recentlySatisfiedActionIds": [
-      "refresh-organic-seed-loop",
-      "collect-live-events",
-      "refresh-product-gate-recovery",
-      "refresh-product-gate-sample-plan"
+      "refresh-organic-seed-loop"
     ],
     "objectiveAuditFreshness": {
       "fresh": true,
       "structurallyReady": true,
-      "auditGeneratedAt": "2026-05-21T03:36:02.038Z",
+      "auditGeneratedAt": "2026-05-21T03:42:18.207Z",
       "evaluatedInputIds": [
         "analytics-rollup",
         "event-ingest",
@@ -183,11 +180,11 @@
         ]
       },
       "replayLoop": {
-        "current": false,
-        "ready": false,
+        "current": true,
+        "ready": true,
         "status": "replay-loop-ready",
-        "artifactGeneratedAt": "2026-05-21T02:53:45.596Z",
-        "artifactSourceDataHash": "9c72865f8a9d",
+        "artifactGeneratedAt": "2026-05-21T03:39:37.306Z",
+        "artifactSourceDataHash": "e3bd3634732e",
         "sourceDataHash": "e3bd3634732e",
         "evaluatedInputIds": [
           "analytics-rollup",
@@ -242,12 +239,11 @@
     },
     "skippedRecentlyExecutedActionIds": [
       "refresh-autonomous-cadence",
+      "refresh-autonomous-self-update",
       "measure-pwa-install-loop",
-      "optimize-store-listing"
-    ],
-    "skippedRecentlySatisfiedActionIds": [
       "refresh-product-gate-recovery"
     ],
+    "skippedRecentlySatisfiedActionIds": [],
     "preferredActionOrder": [
       "prepare-repository-channel",
       "deploy-web-pwa",
@@ -280,7 +276,7 @@
     },
     "productionBootstrapFreshness": {
       "fresh": true,
-      "bootstrapGeneratedAt": "2026-05-21T03:35:40.234Z",
+      "bootstrapGeneratedAt": "2026-05-21T03:41:55.631Z",
       "evaluatedInputIds": [
         "release-candidate",
         "deployment-plan",
@@ -346,7 +342,7 @@
       "id": "autonomous-self-update",
       "status": "ready",
       "autonomy": "gated-generated-change-persistence",
-      "evidence": "Self-update self-update-ready; safe pending 43; unsafe pending 0; remote push held.",
+      "evidence": "Self-update self-update-ready; safe pending 17; unsafe pending 0; remote push held.",
       "nextAction": "When a GitHub repository is connected, set AGL_AUTONOMOUS_SELF_UPDATE=1 and AGL_AUTONOMOUS_SELF_UPDATE_DIRECT=1 to let verified generated changes persist."
     },
     {
@@ -494,13 +490,13 @@
       "status": "ready",
       "autonomy": "read-only-live-deploy-verification",
       "evidence": "Smoke post-deploy-smoke-observed-live; origin https://moshequ.github.io/autonomous-game-lab; manifest comparison required; checks 15/15 passed; local artifact predeploy-artifact-smoke-passed 15/15 passed.",
-      "nextAction": "Live Pages is reachable and serving pwa-5dda19315598; run the deploy workflow for strict proof of the current local candidate if needed."
+      "nextAction": "Live Pages is reachable and serving pwa-d8b3ba785d81; run the deploy workflow for strict proof of the current local candidate if needed."
     },
     {
       "id": "post-deploy-artifact-sync",
       "status": "ready",
       "autonomy": "read-only-actions-artifact-import",
-      "evidence": "Artifact sync post-deploy-artifact-sync-passed; run 26203706991; live matches artifact true; strict true.",
+      "evidence": "Artifact sync post-deploy-artifact-sync-passed; run 26203916307; live matches artifact true; strict true.",
       "nextAction": "Keep this strict deploy artifact as live-production evidence while local candidates continue to iterate."
     },
     {
@@ -528,7 +524,7 @@
       "id": "autonomous-operator",
       "status": "ready",
       "autonomy": "one-safe-action-runner",
-      "evidence": "Operator operator-plan-ready; selected refresh-replay-loop; execution not-requested.",
+      "evidence": "Operator operator-plan-ready; selected optimize-store-listing; execution not-requested.",
       "nextAction": "Keep a dry-run operator plan ready, then execute only one allowlisted local action when explicitly requested."
     },
     {
@@ -677,7 +673,7 @@
       "command": "npm run build && npm run autonomous:performance",
       "targets": [
         "pwa-shell",
-        "GameCanvas-p_LWv9lK.js"
+        "GameCanvas-BiMhMezH.js"
       ],
       "reason": "Keeps the PWA shell fast while Phaser and game scenes stay deferred."
     },
@@ -708,7 +704,7 @@
       "costUsd": 0,
       "command": "npm run autonomous:post-deploy-artifact-sync",
       "targets": [
-        26203706991,
+        26203916307,
         "release-candidate-manifest"
       ],
       "reason": "Strict deploy artifact evidence is already synced from the latest successful Pages workflow."
@@ -777,13 +773,13 @@
     },
     {
       "id": "refresh-replay-loop",
-      "status": "armed",
+      "status": "monitor",
       "costUsd": 0,
       "command": "npm run autonomous:replay-loop",
       "targets": [
         "harbor-rings"
       ],
-      "reason": "Refreshes the optional completed-run replay prompt from product-gate and replay telemetry evidence."
+      "reason": "Replay loop already matches the current source evidence; wait for new replay or experiment data."
     },
     {
       "id": "prepare-repository-channel",
@@ -825,7 +821,7 @@
       "costUsd": 0,
       "command": "npm run autonomous:operator",
       "targets": [
-        "refresh-replay-loop"
+        "optimize-store-listing"
       ],
       "reason": "Publishes the one-action local execution plan with allowlist, zero-spend, and audit controls."
     },
@@ -835,7 +831,7 @@
       "costUsd": 0,
       "command": "npm run autonomous:operator",
       "targets": [
-        "refresh-replay-loop"
+        "optimize-store-listing"
       ],
       "reason": "Refreshes the capped operator history so safe actions remain auditable over time."
     },

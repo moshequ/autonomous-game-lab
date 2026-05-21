@@ -1,10 +1,10 @@
 # Autonomous Operator
 
-Generated: 2026-05-21T03:36:02.566Z
+Generated: 2026-05-21T03:42:18.723Z
 Status: operator-plan-ready
 Mode: plan-only
-Owner decision: refresh-replay-loop
-Selected action: refresh-replay-loop
+Owner decision: optimize-store-listing
+Selected action: optimize-store-listing
 Execution: not-requested
 
 ## Controls
@@ -18,7 +18,7 @@ Execution: not-requested
 
 ## Selected Action
 
-- refresh-replay-loop: npm run autonomous:replay-loop
+- optimize-store-listing: npm run autonomous:store-listing-optimize && npm run autonomous:store-compliance
 
 ## Eligible Local Actions
 
@@ -30,7 +30,6 @@ Execution: not-requested
 - prepare-release-candidate
 - run-post-deploy-smoke
 - refresh-product-gate-recovery
-- refresh-replay-loop
 - optimize-store-listing
 
 ## Blocked Actions
