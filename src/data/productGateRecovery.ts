@@ -1,5 +1,5 @@
 export const productGateRecovery = {
-  "generatedAt": "2026-05-21T22:45:35.216Z",
+  "generatedAt": "2026-05-21T22:52:17.234Z",
   "sourceDataHash": "117dcf88ca39",
   "status": "product-gate-recovery-ready",
   "sourceStatus": {
