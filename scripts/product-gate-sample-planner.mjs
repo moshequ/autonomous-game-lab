@@ -58,6 +58,7 @@ const [
   localEventBridge,
   unitEconomics,
   supportFeedback,
+  supportChannel,
 ] = await Promise.all([
   readJson(path.join(dataDir, 'product-gate-recovery.json')),
   readJson(path.join(dataDir, 'product-optimization.json')),
@@ -75,6 +76,11 @@ const [
     status: 'missing',
     summary: { aggregateEvidenceNotes: 0 },
     aggregateEvidenceNotes: [],
+    controls: {},
+  }),
+  readOptionalJson(path.join(dataDir, 'support-channel.json'), {
+    status: 'missing',
+    repository: { target: null },
     controls: {},
   }),
 ])
@@ -313,6 +319,10 @@ const supportingAggregateEvidenceNotes = missionsWithEvidence.reduce(
   0,
 )
 const collectSampleDownloadsCommand = 'npm run autonomous:collect-sample-downloads'
+const aggregateEvidenceRepository =
+  typeof supportChannel.repository?.target === 'string' && /^[\w.-]+\/[\w.-]+$/.test(supportChannel.repository.target)
+    ? supportChannel.repository.target
+    : null
 const sampleCollectionNextAction = localEventsAvailable
   ? 'Use imported local event drops before the next recovery decision.'
   : inboxGateSampleEvents
@@ -337,6 +347,11 @@ const sourceDataHash = hashSourceData({
     status: supportFeedback.status,
     sourceDataHash: supportFeedback.sourceDataHash,
     aggregateEvidenceNotes: supportFeedback.summary?.aggregateEvidenceNotes ?? 0,
+  },
+  supportChannel: {
+    status: supportChannel.status,
+    repository: aggregateEvidenceRepository,
+    analyticsEvidenceAggregateOnly: supportChannel.controls?.analyticsEvidenceAggregateOnly === true,
   },
 })
 
@@ -376,7 +391,6 @@ const payload = {
   downloadsScan: downloadsScanPolicy,
   publicSamplePage: {
     path: '/gate-sample.html',
-    file: 'public/gate-sample.html',
     missionCount: missionsWithEvidence.length,
     primaryCampaignId: primaryMission?.campaignId ?? null,
     fastestCampaignId: fastestMission?.campaignId ?? null,
@@ -385,6 +399,9 @@ const payload = {
     autonomousDefaultRoutingEnabled: Boolean(defaultRouteMission),
     playerInitiatedExportEnabled: true,
     playerInitiatedShareEnabled: true,
+    playerInitiatedAggregateEvidenceEnabled: Boolean(aggregateEvidenceRepository),
+    aggregateEvidenceIssueTemplate: 'analytics-evidence.yml',
+    aggregateEvidenceRepository,
     exportSurface: 'product-gate-sample',
     zeroPaidSpend: true,
     playerInitiatedOnly: true,
@@ -568,7 +585,7 @@ const sampleRoleLabel = (mission) => {
 
 const missionCards = payload.missions
   .map(
-    (mission) => `<article class="mission" data-mission-id="${escapeHtml(mission.id)}" data-gate-id="${escapeHtml(
+  (mission) => `<article class="mission" data-mission-id="${escapeHtml(mission.id)}" data-gate-id="${escapeHtml(
       mission.gateId,
     )}" data-campaign-id="${escapeHtml(mission.campaignId)}" data-sample-role="${escapeHtml(mission.sampleRole)}">
         <div>
@@ -590,6 +607,11 @@ const missionCards = payload.missions
           <a class="play" href="${escapeHtml(runtimeHref(mission.playPath))}">Start mission</a>
           <button class="share" type="button" data-share-campaign="${escapeHtml(mission.campaignId)}">Share mission</button>
           <button class="export" type="button" data-export-campaign="${escapeHtml(mission.campaignId)}">Export evidence</button>
+          ${
+            aggregateEvidenceRepository
+              ? `<button class="evidence" type="button" data-evidence-campaign="${escapeHtml(mission.campaignId)}">Share evidence</button>`
+              : ''
+          }
         </div>
       </article>`,
   )
@@ -614,6 +636,10 @@ const publicMissionEvidence = payload.missions.map((mission) => ({
     noRevenueEnablement: mission.controls.noRevenueEnablement,
   },
 }))
+const publicSupportEvidence = {
+  repository: aggregateEvidenceRepository,
+  template: 'analytics-evidence.yml',
+}
 
 const gateSamplePage = `<!doctype html>
 <html lang="en">
@@ -763,14 +789,15 @@ const gateSamplePage = `<!doctype html>
 
       .missionActions {
         display: grid;
-        grid-template-columns: 1fr auto auto;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 10px;
         align-items: center;
       }
 
       .play,
       .share,
-      .export {
+      .export,
+      .evidence {
         display: inline-flex;
         align-items: center;
         justify-content: center;
@@ -795,9 +822,15 @@ const gateSamplePage = `<!doctype html>
         cursor: pointer;
       }
 
+      .evidence {
+        background: #343f3b;
+        cursor: pointer;
+      }
+
       .play:focus-visible,
       .share:focus-visible,
-      .export:focus-visible {
+      .export:focus-visible,
+      .evidence:focus-visible {
         outline: 3px solid #b87b16;
         outline-offset: 2px;
       }
@@ -843,10 +876,12 @@ const gateSamplePage = `<!doctype html>
       </section>
     </main>
     <script type="application/json" id="gate-sample-mission-data">${safeJsonScript(publicMissionEvidence)}</script>
+    <script type="application/json" id="gate-sample-support-data">${safeJsonScript(publicSupportEvidence)}</script>
     <script>
       (() => {
         const bufferKey = 'agl.analytics.events'
         const missions = JSON.parse(document.getElementById('gate-sample-mission-data')?.textContent || '[]')
+        const support = JSON.parse(document.getElementById('gate-sample-support-data')?.textContent || '{}')
 
         const readEvents = () => {
           try {
@@ -865,6 +900,36 @@ const gateSamplePage = `<!doctype html>
         const eventNames = (events, names) => {
           const wanted = new Set(names)
           return events.filter((event) => wanted.has(event.name)).length
+        }
+
+        const uniquePlayers = (events, names) => {
+          const wanted = new Set(names)
+          const players = new Set(
+            events
+              .filter((event) => wanted.has(event.name))
+              .map((event) => event.properties?.anonymousId)
+              .filter((anonymousId) => typeof anonymousId === 'string' && anonymousId),
+          )
+
+          return players.size
+        }
+
+        const evidenceWindowFor = (events) => {
+          const dates = events
+            .flatMap((event) => {
+              const timestamp = Date.parse(event.createdAt || '')
+              return Number.isFinite(timestamp) ? [new Date(timestamp).toISOString().slice(0, 10)] : []
+            })
+            .sort()
+
+          if (!dates.length) {
+            return new Date().toISOString().slice(0, 10)
+          }
+
+          const first = dates[0]
+          const last = dates[dates.length - 1] || first
+
+          return first === last ? first : \`\${first} to \${last}\`
         }
 
         const missionEvents = (mission, events) =>
@@ -1033,6 +1098,78 @@ const gateSamplePage = `<!doctype html>
           renderProgress()
         }
 
+        const aggregateIssueUrl = (mission, events) => {
+          if (!support.repository || !/^[\\w.-]+\\/[\\w.-]+$/.test(support.repository)) {
+            return null
+          }
+
+          const scoped = missionEvents(mission, events)
+          const url = new URL(\`https://github.com/\${support.repository}/issues/new\`)
+          const counts = {
+            starts: eventNames(scoped, ['game_started']),
+            completions: eventNames(scoped, ['level_completed']),
+            replays: eventNames(scoped, ['replay_clicked']),
+            d1Eligible: uniquePlayers(scoped, ['daily_challenge_completed']),
+            d1Retained: uniquePlayers(scoped, ['daily_return_intent_started']),
+          }
+
+          url.searchParams.set('template', support.template || 'analytics-evidence.yml')
+          url.searchParams.set('title', \`[Evidence] \${mission.title} gate sample aggregate counts\`)
+          url.searchParams.set('game', \`\${mission.title} (\${mission.gameId}; \${mission.gateId})\`)
+          url.searchParams.set('window', evidenceWindowFor(scoped))
+          url.searchParams.set('starts', String(counts.starts))
+          url.searchParams.set('completions', String(counts.completions))
+          url.searchParams.set('replays', String(counts.replays))
+          url.searchParams.set('d1_eligible', String(counts.d1Eligible))
+          url.searchParams.set('d1_retained', String(counts.d1Retained))
+          url.searchParams.set(
+            'summary',
+            \`Aggregate-only gate sample summary from \${scoped.length} local event(s) for \${mission.campaignId}. Raw event rows and identifiers remain on the device. Aggregate evidence supports review but does not pass product gates by itself.\`,
+          )
+
+          return { url: url.toString(), counts, eventCount: scoped.length }
+        }
+
+        const shareAggregateEvidence = (mission) => {
+          const events = readEvents()
+          const evidence = aggregateIssueUrl(mission, events)
+
+          if (!evidence) {
+            return
+          }
+
+          const evidenceEvent = {
+            id: createId(),
+            name: 'analytics_evidence_issue_opened',
+            properties: {
+              surface: 'public-gate-sample-page',
+              channel: 'product-gate-sample',
+              campaignId: mission.campaignId,
+              gateId: mission.gateId,
+              gameId: mission.gameId,
+              starts: evidence.counts.starts,
+              completions: evidence.counts.completions,
+              replays: evidence.counts.replays,
+              d1Eligible: evidence.counts.d1Eligible,
+              d1Retained: evidence.counts.d1Retained,
+              localCampaignEvents: evidence.eventCount,
+              publicAggregateOnly: true,
+              rawEventsIncluded: false,
+              identifiersIncluded: false,
+              aggregateEvidenceDoesNotPassGates: true,
+              destination: 'github-issues',
+              zeroPaidSpend: true,
+              noSyntheticEvents: mission.controls.noSyntheticEvents,
+              noRevenueEnablement: mission.controls.noRevenueEnablement,
+            },
+            createdAt: new Date().toISOString(),
+          }
+
+          writeEvents([...events, evidenceEvent])
+          window.open(evidence.url, '_blank', 'noopener,noreferrer')
+          renderProgress()
+        }
+
         document.querySelectorAll('[data-export-campaign]').forEach((button) => {
           button.addEventListener('click', () => {
             const mission = missions.find((item) => item.campaignId === button.getAttribute('data-export-campaign'))
@@ -1049,6 +1186,16 @@ const gateSamplePage = `<!doctype html>
 
             if (mission) {
               void shareMission(mission)
+            }
+          })
+        })
+
+        document.querySelectorAll('[data-evidence-campaign]').forEach((button) => {
+          button.addEventListener('click', () => {
+            const mission = missions.find((item) => item.campaignId === button.getAttribute('data-evidence-campaign'))
+
+            if (mission) {
+              shareAggregateEvidence(mission)
             }
           })
         })

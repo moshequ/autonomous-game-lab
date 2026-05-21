@@ -1,17 +1,30 @@
 {
-  "generatedAt": "2026-05-21T15:29:21.050Z",
-  "status": "operator-held",
+  "generatedAt": "2026-05-21T15:50:04.218Z",
+  "status": "operator-plan-ready",
   "mode": "plan-only",
   "ownerDecision": {
-    "actionId": "hold-for-external-input",
-    "command": "No local command is available until external inputs, configured credentials, or new player evidence arrive.",
-    "locallyExecutable": false,
-    "rejectionReason": "status-monitor"
+    "actionId": "collect-gate-sample-downloads",
+    "command": "npm run autonomous:collect-sample-downloads",
+    "locallyExecutable": true,
+    "rejectionReason": null
   },
   "requestedActionId": null,
-  "selectedAction": null,
+  "selectedAction": {
+    "id": "collect-gate-sample-downloads",
+    "status": "armed",
+    "command": "npm run autonomous:collect-sample-downloads",
+    "targets": [
+      "firstGameCompletion",
+      "gate-sample-20260521-firstGameCompletion",
+      "gate-sample-20260521-replayRate"
+    ],
+    "reason": "Opt-in scans local browser Downloads and the event inbox for real player exports, imports them, refreshes analytics and recovery, then regenerates the sample plan.",
+    "costUsd": 0
+  },
   "selectedRejection": null,
-  "eligibleActionIds": [],
+  "eligibleActionIds": [
+    "collect-gate-sample-downloads"
+  ],
   "blockedActions": [
     {
       "id": "run-daily-owner-loop",
@@ -107,12 +120,6 @@
       "id": "refresh-product-gate-recovery",
       "status": "monitor",
       "command": "npm run autonomous:gate-recovery && npm run autonomous:sample-plan",
-      "reason": "status-monitor"
-    },
-    {
-      "id": "collect-gate-sample-downloads",
-      "status": "monitor",
-      "command": "npm run autonomous:collect-sample-downloads",
       "reason": "status-monitor"
     },
     {
@@ -212,7 +219,12 @@
       "reason": "status-monitor"
     }
   ],
-  "commandPlan": [],
+  "commandPlan": [
+    {
+      "segment": "npm run autonomous:collect-sample-downloads",
+      "script": "autonomous:collect-sample-downloads"
+    }
+  ],
   "execution": {
     "requested": false,
     "status": "not-requested",
@@ -284,7 +296,7 @@
     "RUN_WORKFLOWS=1"
   ],
   "nextActions": [
-    "Keep reporting external blockers until a safe local action is eligible.",
+    "Run npm run autonomous:operator -- --execute --action=collect-gate-sample-downloads to execute exactly one allowed local action.",
     "Do not execute GitHub workflow, store, paid ads, or account setup commands from the local operator."
   ]
 }

@@ -1450,6 +1450,10 @@ const productGateSamplePlanRetentionSourceEvidence = {
   dailyChallenge: retention.dailyChallenge ?? null,
   returnIntentSurface: retention.returnIntentPolicy?.surface ?? null,
 }
+const productGateSamplePlanAggregateEvidenceRepository =
+  typeof supportChannel.repository?.target === 'string' && /^[\w.-]+\/[\w.-]+$/.test(supportChannel.repository.target)
+    ? supportChannel.repository.target
+    : null
 const productGateSamplePlanSourceEvidence = {
   sampleDate: localIsoDate(),
   productGateRecovery,
@@ -1467,6 +1471,11 @@ const productGateSamplePlanSourceEvidence = {
     status: supportFeedback.status,
     sourceDataHash: supportFeedback.sourceDataHash,
     aggregateEvidenceNotes: supportFeedback.summary?.aggregateEvidenceNotes ?? 0,
+  },
+  supportChannel: {
+    status: supportChannel.status,
+    repository: productGateSamplePlanAggregateEvidenceRepository,
+    analyticsEvidenceAggregateOnly: supportChannel.controls?.analyticsEvidenceAggregateOnly === true,
   },
 }
 const storePackageSourceEvidence = {

@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-05-21T15:22:24.689Z",
-  "sourceDataHash": "1bb9b0e62247",
+  "generatedAt": "2026-05-21T15:45:23.599Z",
+  "sourceDataHash": "05cab6948ef3",
   "status": "product-gate-sample-plan-ready",
   "sourceStatus": {
     "analyticsSource": "fixture-sample",
@@ -27,24 +27,23 @@
     "inboxReadyCount": 0,
     "supportingAggregateEvidenceNotes": 0,
     "downloadsScanStatus": "no-evidence-found",
-    "downloadsScanCoolingDown": true,
+    "downloadsScanCoolingDown": false,
     "downloadsScanNextRecommendedAt": "2026-05-21T15:42:54.167Z",
     "nextOwnerAction": "collect-gate-sample-downloads"
   },
   "downloadsScan": {
     "explicitOptInRequired": true,
     "cooldownHours": 4,
-    "coolingDown": true,
+    "coolingDown": false,
     "evidenceReadyNow": false,
     "lastScanAt": "2026-05-21T11:42:54.167Z",
     "lastScanStatus": "no-evidence-found",
-    "scanAgeHours": 3.66,
-    "cooldownRemainingHours": 0.34,
+    "scanAgeHours": 4.04,
+    "cooldownRemainingHours": 0,
     "nextRecommendedScanAt": "2026-05-21T15:42:54.167Z"
   },
   "publicSamplePage": {
     "path": "/gate-sample.html",
-    "file": "public/gate-sample.html",
     "missionCount": 3,
     "primaryCampaignId": "gate-sample-20260521-firstGameCompletion",
     "fastestCampaignId": "gate-sample-20260521-d1Retention",
@@ -53,6 +52,9 @@
     "autonomousDefaultRoutingEnabled": true,
     "playerInitiatedExportEnabled": true,
     "playerInitiatedShareEnabled": true,
+    "playerInitiatedAggregateEvidenceEnabled": true,
+    "aggregateEvidenceIssueTemplate": "analytics-evidence.yml",
+    "aggregateEvidenceRepository": "moshequ/autonomous-game-lab",
     "exportSurface": "product-gate-sample",
     "zeroPaidSpend": true,
     "playerInitiatedOnly": true,
@@ -439,6 +441,6 @@
   "nextActions": [
     "First game completion needs 30 more prompt exposure(s) and 128 observed success(es); feature Harbor Rings via /?game=harbor-rings&utm_source=gate_sample&utm_campaign=gate-sample-20260521-firstGameCompletion.",
     "D1 retention is the fastest gate sample: 10 prompt exposure(s), 1 observed success(es).",
-    "Wait until 2026-05-21T15:42:54.167Z before the next explicit Downloads scan unless an inbox event drop appears."
+    "Export or collect real browser events, then run npm run autonomous:collect-sample-downloads before changing copy, placement, revenue, or rules."
   ]
 }

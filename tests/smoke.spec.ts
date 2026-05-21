@@ -2156,6 +2156,9 @@ test('product optimizer applies one guarded tuning step from product-gate eviden
       autonomousDefaultRoutingEnabled: boolean
       playerInitiatedExportEnabled: boolean
       playerInitiatedShareEnabled: boolean
+      playerInitiatedAggregateEvidenceEnabled: boolean
+      aggregateEvidenceIssueTemplate: string
+      aggregateEvidenceRepository: string | null
       exportSurface: string
       zeroPaidSpend: boolean
       playerInitiatedOnly: boolean
@@ -2341,6 +2344,9 @@ test('product optimizer applies one guarded tuning step from product-gate eviden
   expect(samplePlan.publicSamplePage.autonomousDefaultRoutingEnabled).toBe(true)
   expect(samplePlan.publicSamplePage.playerInitiatedExportEnabled).toBe(true)
   expect(samplePlan.publicSamplePage.playerInitiatedShareEnabled).toBe(true)
+  expect(samplePlan.publicSamplePage.playerInitiatedAggregateEvidenceEnabled).toBe(true)
+  expect(samplePlan.publicSamplePage.aggregateEvidenceIssueTemplate).toBe('analytics-evidence.yml')
+  expect(samplePlan.publicSamplePage.aggregateEvidenceRepository).toBe('moshequ/autonomous-game-lab')
   expect(samplePlan.publicSamplePage.exportSurface).toBe('product-gate-sample')
   expect(samplePlan.publicSamplePage.zeroPaidSpend).toBe(true)
   expect(samplePlan.publicSamplePage.playerInitiatedOnly).toBe(true)
@@ -5496,6 +5502,7 @@ test('zero-spend gate sample page is reachable and uses runtime-relative mission
     'href',
     `.${mission.playPath}`,
   )
+  await expect(firstMission.getByRole('button', { name: 'Share evidence' })).toBeVisible()
   await firstMission.getByRole('button', { name: 'Share mission' }).click()
   await page.waitForFunction((campaignId) => {
     const raw = window.localStorage.getItem('agl.analytics.events')
@@ -5570,6 +5577,125 @@ test('zero-spend gate sample page is reachable and uses runtime-relative mission
   }
 
   expect(await page.content()).not.toContain('autonomous-game-lab.example.com')
+})
+
+test('public gate sample opens aggregate evidence issue without raw events', async ({ page }) => {
+  const samplePlan = JSON.parse(await readFile('data/product-gate-sample-plan.json', 'utf8')) as {
+    publicSamplePage: {
+      aggregateEvidenceRepository: string | null
+      aggregateEvidenceIssueTemplate: string
+    }
+    missions: Array<{
+      id: string
+      gateId: string
+      campaignId: string
+      title: string
+      gameId: string
+    }>
+  }
+  const mission = samplePlan.missions[0]
+  const seedEvents = [
+    {
+      id: 'evt-public-start',
+      name: 'game_started',
+      properties: {
+        campaignId: mission.campaignId,
+        gameId: mission.gameId,
+        acquisitionCampaign: mission.campaignId,
+        anonymousId: 'anon-public-player',
+      },
+      createdAt: '2026-05-20T10:00:00.000Z',
+    },
+    {
+      id: 'evt-public-complete',
+      name: 'level_completed',
+      properties: {
+        campaignId: mission.campaignId,
+        gameId: mission.gameId,
+        acquisitionCampaign: mission.campaignId,
+        anonymousId: 'anon-public-player',
+      },
+      createdAt: '2026-05-20T10:08:00.000Z',
+    },
+    {
+      id: 'evt-public-replay',
+      name: 'replay_clicked',
+      properties: {
+        campaignId: mission.campaignId,
+        gameId: mission.gameId,
+        acquisitionCampaign: mission.campaignId,
+        anonymousId: 'anon-public-player',
+      },
+      createdAt: '2026-05-20T10:12:00.000Z',
+    },
+  ]
+
+  await page.addInitScript((events) => {
+    window.localStorage.setItem('agl.analytics.events', JSON.stringify(events))
+  }, seedEvents)
+  await page.goto('/gate-sample.html')
+  await page.evaluate(() => {
+    const target = window as Window & { __gateSampleEvidenceUrl?: string }
+    target.__gateSampleEvidenceUrl = ''
+    window.open = ((url?: string | URL) => {
+      target.__gateSampleEvidenceUrl = String(url)
+      return window
+    }) as typeof window.open
+  })
+
+  await page
+    .locator(`[data-mission-id="${mission.id}"]`)
+    .getByRole('button', { name: 'Share evidence' })
+    .click()
+  await page.waitForFunction(
+    () => Boolean((window as Window & { __gateSampleEvidenceUrl?: string }).__gateSampleEvidenceUrl),
+  )
+
+  const opened = await page.evaluate(
+    () => (window as Window & { __gateSampleEvidenceUrl?: string }).__gateSampleEvidenceUrl ?? '',
+  )
+  const openedUrl = new URL(opened)
+  const openedText = decodeURIComponent(opened)
+  const evidenceEvent = await page.evaluate(() => {
+    const events = JSON.parse(window.localStorage.getItem('agl.analytics.events') ?? '[]') as Array<{
+      name: string
+      properties: Record<string, string | number | boolean | null>
+    }>
+
+    return events.findLast((event) => event.name === 'analytics_evidence_issue_opened')
+  })
+
+  expect(samplePlan.publicSamplePage.aggregateEvidenceRepository).toBe('moshequ/autonomous-game-lab')
+  expect(openedUrl.hostname).toBe('github.com')
+  expect(openedUrl.pathname).toBe('/moshequ/autonomous-game-lab/issues/new')
+  expect(openedUrl.searchParams.get('template')).toBe(samplePlan.publicSamplePage.aggregateEvidenceIssueTemplate)
+  expect(openedUrl.searchParams.get('game')).toContain(mission.title)
+  expect(openedUrl.searchParams.get('game')).toContain(mission.gateId)
+  expect(openedUrl.searchParams.get('starts')).toBe('1')
+  expect(openedUrl.searchParams.get('completions')).toBe('1')
+  expect(openedUrl.searchParams.get('replays')).toBe('1')
+  expect(openedUrl.searchParams.get('summary')).toContain(mission.campaignId)
+  expect(openedUrl.searchParams.get('summary')).toContain('does not pass product gates')
+  expect(openedText).not.toContain('anon-public-player')
+  expect(openedText).not.toContain('evt-public')
+  expect(evidenceEvent?.properties).toMatchObject({
+    surface: 'public-gate-sample-page',
+    channel: 'product-gate-sample',
+    campaignId: mission.campaignId,
+    gateId: mission.gateId,
+    gameId: mission.gameId,
+    starts: 1,
+    completions: 1,
+    replays: 1,
+    publicAggregateOnly: true,
+    rawEventsIncluded: false,
+    identifiersIncluded: false,
+    aggregateEvidenceDoesNotPassGates: true,
+    destination: 'github-issues',
+    zeroPaidSpend: true,
+    noSyntheticEvents: true,
+    noRevenueEnablement: true,
+  })
 })
 
 test('privacy control can disable external analytics forwarding', async ({ page }) => {

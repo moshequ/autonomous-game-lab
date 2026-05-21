@@ -1583,6 +1583,10 @@ const productGateSamplePlanDownloadsScanPolicy = buildExplicitDownloadsScanPolic
   cooldownHours: localEventBridge.explicitDownloadsScanPolicy?.cooldownHours ?? 4,
   expiryBufferMs: downloadsScanExpiryBufferMs,
 })
+const productGateSamplePlanAggregateEvidenceRepository =
+  typeof supportChannel.repository?.target === 'string' && /^[\w.-]+\/[\w.-]+$/.test(supportChannel.repository.target)
+    ? supportChannel.repository.target
+    : null
 const productGateSamplePlanRetentionSourceEvidence = {
   status: retentionLoop.status,
   dailyChallenge: retentionLoop.dailyChallenge ?? null,
@@ -1605,6 +1609,11 @@ const productGateSamplePlanSourceDataHash = hashSourceData({
     status: supportFeedback.status,
     sourceDataHash: supportFeedback.sourceDataHash,
     aggregateEvidenceNotes: supportFeedback.summary?.aggregateEvidenceNotes ?? 0,
+  },
+  supportChannel: {
+    status: supportChannel.status,
+    repository: productGateSamplePlanAggregateEvidenceRepository,
+    analyticsEvidenceAggregateOnly: supportChannel.controls?.analyticsEvidenceAggregateOnly === true,
   },
 })
 
@@ -5447,6 +5456,11 @@ const ownerProductGateSamplePlanSourceDataHash = hashSourceData({
     status: supportFeedback.status,
     sourceDataHash: supportFeedback.sourceDataHash,
     aggregateEvidenceNotes: supportFeedback.summary?.aggregateEvidenceNotes ?? 0,
+  },
+  supportChannel: {
+    status: supportChannel.status,
+    repository: productGateSamplePlanAggregateEvidenceRepository,
+    analyticsEvidenceAggregateOnly: supportChannel.controls?.analyticsEvidenceAggregateOnly === true,
   },
 })
 const ownerCollectGateSampleAction = autonomousOwnerLoop.safeAutonomousActions?.find(
