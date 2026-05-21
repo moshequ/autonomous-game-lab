@@ -1,27 +1,10 @@
 export const postDeploySmoke = {
-  "generatedAt": "2026-05-21T23:39:05.311Z",
+  "generatedAt": "2026-05-21T23:42:12.339Z",
   "status": "post-deploy-smoke-observed-live",
   "envFiles": {
-    "loaded": true,
-    "loadedFiles": [
-      {
-        "path": "ops/production.env.local",
-        "keys": [
-          "AGL_ANDROID_PACKAGE_NAME",
-          "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
-          "AGL_ANDROID_KEYSTORE_BASE64",
-          "AGL_ANDROID_KEYSTORE_PASSWORD",
-          "AGL_ANDROID_KEY_ALIAS"
-        ]
-      }
-    ],
-    "loadedKeys": [
-      "AGL_ANDROID_PACKAGE_NAME",
-      "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
-      "AGL_ANDROID_KEYSTORE_BASE64",
-      "AGL_ANDROID_KEYSTORE_PASSWORD",
-      "AGL_ANDROID_KEY_ALIAS"
-    ],
+    "loaded": false,
+    "loadedFiles": [],
+    "loadedKeys": [],
     "skippedExistingKeys": [],
     "skippedProtectedKeys": [],
     "overwrittenEnvFileKeys": [],
@@ -55,14 +38,14 @@ export const postDeploySmoke = {
     "origin": "https://moshequ.github.io/autonomous-game-lab",
     "originSource": "release-candidate-public-origin",
     "provider": "github-pages",
-    "candidateId": "pwa-ffe665ab75da",
-    "aggregateHash": "ffe665ab75dad1e5eeca4f1090562f565db77a873e5626e6c5723db2b4be3d47",
+    "candidateId": "pwa-0714255ea1d7",
+    "aggregateHash": "0714255ea1d7c5826e1bd09e133c54b6f1cfb8357ec62a0d78a0e6a4520a2c14",
     "strictManifestComparison": false
   },
   "liveRelease": {
     "status": "release-candidate-ready",
-    "candidateId": "pwa-f9fd55776a70",
-    "aggregateHash": "f9fd55776a70390c07c622f5d8b0dfb0b1d08e5a7ece4ca1c3b94fb27b70f320",
+    "candidateId": "pwa-82d0e092a447",
+    "aggregateHash": "82d0e092a447d33e42a86fd9e9f30ddc46d3342123ba287749f20f2c2ca04fa3",
     "localCandidateMatches": false,
     "strictManifestComparison": false
   },
@@ -261,8 +244,8 @@ export const postDeploySmoke = {
         "bytes": 20920,
         "candidateMatches": true,
         "hashMatches": true,
-        "localCandidateId": "pwa-ffe665ab75da",
-        "localAggregateHash": "ffe665ab75dad1e5eeca4f1090562f565db77a873e5626e6c5723db2b4be3d47",
+        "localCandidateId": "pwa-0714255ea1d7",
+        "localAggregateHash": "0714255ea1d7c5826e1bd09e133c54b6f1cfb8357ec62a0d78a0e6a4520a2c14",
         "detail": "Local release manifest matches the release candidate."
       }
     ]
@@ -472,7 +455,7 @@ export const postDeploySmoke = {
       "actualStatus": 200,
       "finalUrl": "https://moshequ.github.io/autonomous-game-lab/seed-kit.html",
       "contentType": "text/html; charset=utf-8",
-      "bytes": 14869,
+      "bytes": 14874,
       "textMatched": true
     },
     {
@@ -508,7 +491,7 @@ export const postDeploySmoke = {
       "path": "/release-candidate.json",
       "url": "https://moshequ.github.io/autonomous-game-lab/release-candidate.json",
       "expectedStatus": 200,
-      "requiredText": "pwa-ffe665ab75da",
+      "requiredText": "pwa-0714255ea1d7",
       "status": "pass",
       "detail": "Live release manifest is reachable; it does not match the current local release candidate.",
       "actualStatus": 200,
@@ -520,12 +503,12 @@ export const postDeploySmoke = {
       "localCandidateMatches": false,
       "strictManifestComparison": false,
       "deployedReleaseStatus": "release-candidate-ready",
-      "deployedCandidateId": "pwa-f9fd55776a70",
-      "deployedAggregateHash": "f9fd55776a70390c07c622f5d8b0dfb0b1d08e5a7ece4ca1c3b94fb27b70f320"
+      "deployedCandidateId": "pwa-82d0e092a447",
+      "deployedAggregateHash": "82d0e092a447d33e42a86fd9e9f30ddc46d3342123ba287749f20f2c2ca04fa3"
     }
   ],
   "nextActions": [
-    "Live Pages is reachable and serving pwa-f9fd55776a70; run the deploy workflow for strict proof of the current local candidate if needed.",
+    "Live Pages is reachable and serving pwa-82d0e092a447; run the deploy workflow for strict proof of the current local candidate if needed.",
     "Keep revenue, paid acquisition, and app-store submission disabled until product and credential gates pass."
   ]
 } as const
