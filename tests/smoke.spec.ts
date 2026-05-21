@@ -75,6 +75,11 @@ test('portal loads a playable canvas and autonomy cockpit', async ({ page }) => 
   await expect(page.getByText(ownerLoop.ownerDecision.nextBestActionId).first()).toBeVisible()
   await expect(page.getByLabel('Performance Budget')).toContainText('performance-budget-ready')
   await expect(page.getByLabel('Performance Budget')).toContainText('Initial JS')
+  await expect(page.getByLabel('Live Site Monitor')).toContainText(
+    /live-site-monitor-passed|live-site-monitor-planned|live-site-monitor-alert/,
+  )
+  await expect(page.getByLabel('Live Site Monitor')).toContainText('Checks')
+  await expect(page.getByLabel('Live Site Monitor')).toContainText(/matched|review/)
   await expect(page.getByLabel('Production Bootstrap')).toContainText('production-bootstrap-ready')
   await expect(page.getByLabel('Production Bootstrap')).toContainText('External blockers')
   await expect(page.getByLabel('Production Blocker Handoff')).toContainText(/handoff-waiting-on-owner-inputs|handoff-clear/)
@@ -1356,14 +1361,125 @@ test('post-deploy artifact sync preserves strict Pages workflow evidence', async
   expect(workflow).toContain('actions: read')
   expect(workflow).toContain('contents: write')
   expect(workflow).toContain('autonomous:post-deploy-artifact-sync')
+  expect(workflow).toContain('autonomous:live-monitor')
+  expect(workflow).toContain('autonomous:respond')
+  expect(workflow).toContain('autonomous:readiness')
+  expect(workflow).toContain('autonomous:objective-audit')
   expect(workflow).toContain('npm run autonomous:verify-post-deploy-sync')
   expect(workflow).toContain('AGL_AUTONOMOUS_SELF_UPDATE_DIRECT')
   expect(workflow).toContain('data/post-deploy-artifact-sync.json')
   expect(workflow).toContain('src/data/postDeployArtifactSync.ts')
   expect(workflow).toContain('reports/post-deploy-artifact-sync-latest.md')
+  expect(workflow).toContain('data/live-site-monitor.json')
+  expect(workflow).toContain('src/data/liveSiteMonitor.ts')
+  expect(workflow).toContain('reports/live-site-monitor-latest.md')
+  expect(workflow).toContain('data/production-response.json')
+  expect(workflow).toContain('data/production-blocker-handoff.json')
+  expect(workflow).toContain('data/production-readiness.json')
+  expect(workflow).toContain('data/objective-audit.json')
   expect(workflow).not.toContain('npm run build')
   expect(workflow).not.toContain('autonomous:release-candidate')
   expect(workflow).not.toContain('autonomous:post-deploy-smoke')
+})
+
+test('live site monitor verifies the public PWA against synced deploy evidence', async ({ page }) => {
+  const monitor = JSON.parse(await readFile('data/live-site-monitor.json', 'utf8')) as {
+    status: string
+    origin: { origin: string | null; source: string }
+    sourceStatus: {
+      releaseCandidate: string
+      postDeployArtifactSync: string
+      latestSyncedDeployKnown: boolean
+    }
+    summary: {
+      planned: number
+      passed: number
+      failed: number
+      blocked: number
+      liveCandidateId: string | null
+      syncedCandidateId: string | null
+      liveMatchesSyncedDeploy: boolean
+    }
+    controls: {
+      zeroPaidSpend: boolean
+      readOnlyHttpChecks: boolean
+      noMutation: boolean
+      noCookiesOrCredentials: boolean
+      strictSyncedManifestComparison: boolean
+    }
+    checks: Array<{
+      id: string
+      path: string
+      status: string
+      manifest?: { matchesSyncedDeploy: boolean }
+    }>
+  }
+  const sync = JSON.parse(await readFile('data/post-deploy-artifact-sync.json', 'utf8')) as {
+    status: string
+    live: { origin: string | null; candidateId: string | null }
+  }
+  const candidate = JSON.parse(await readFile('data/release-candidate.json', 'utf8')) as {
+    status: string
+    postDeploySmoke: Array<{ path: string }>
+  }
+  const readiness = JSON.parse(await readFile('data/production-readiness.json', 'utf8')) as {
+    webPwa: { checks: Array<{ id: string; status: string }> }
+    liveSiteMonitor: {
+      status: string
+      summary: { liveMatchesSyncedDeploy: boolean }
+      controls: { readOnlyHttpChecks: boolean; strictSyncedManifestComparison: boolean }
+    }
+  }
+  const response = JSON.parse(await readFile('data/production-response.json', 'utf8')) as {
+    liveSiteMonitorStatus: string
+    controls: { liveSiteAlert: boolean }
+  }
+  const packageJson = JSON.parse(await readFile('package.json', 'utf8')) as {
+    scripts: Record<string, string>
+  }
+  const source = await readFile('scripts/live-site-monitor.mjs', 'utf8')
+
+  expect(monitor.status).toBe('live-site-monitor-passed')
+  expect(monitor.origin.origin).toBe(sync.live.origin)
+  expect(monitor.origin.source).toBe('post-deploy-artifact-sync')
+  expect(monitor.sourceStatus.releaseCandidate).toBe(candidate.status)
+  expect(monitor.sourceStatus.postDeployArtifactSync).toBe(sync.status)
+  expect(monitor.sourceStatus.latestSyncedDeployKnown).toBe(true)
+  expect(monitor.summary.planned).toBeGreaterThanOrEqual(candidate.postDeploySmoke.length + 1)
+  expect(monitor.summary.passed).toBe(monitor.summary.planned)
+  expect(monitor.summary.failed).toBe(0)
+  expect(monitor.summary.blocked).toBe(0)
+  expect(monitor.summary.liveCandidateId).toBe(sync.live.candidateId)
+  expect(monitor.summary.syncedCandidateId).toBe(sync.live.candidateId)
+  expect(monitor.summary.liveMatchesSyncedDeploy).toBe(true)
+  expect(monitor.controls.zeroPaidSpend).toBe(true)
+  expect(monitor.controls.readOnlyHttpChecks).toBe(true)
+  expect(monitor.controls.noMutation).toBe(true)
+  expect(monitor.controls.noCookiesOrCredentials).toBe(true)
+  expect(monitor.controls.strictSyncedManifestComparison).toBe(true)
+  expect(monitor.checks.find((check) => check.id === 'release-candidate-manifest-live')?.manifest?.matchesSyncedDeploy).toBe(
+    true,
+  )
+  for (const path of ['/privacy.html', '/support.html', '/compliance.json', '/gate-sample.html']) {
+    expect(monitor.checks.some((check) => check.path === path && check.status === 'pass')).toBe(true)
+  }
+  expect(readiness.webPwa.checks.find((check) => check.id === 'live-site-monitor')?.status).toBe('pass')
+  expect(readiness.liveSiteMonitor.status).toBe(monitor.status)
+  expect(readiness.liveSiteMonitor.summary.liveMatchesSyncedDeploy).toBe(true)
+  expect(readiness.liveSiteMonitor.controls.readOnlyHttpChecks).toBe(true)
+  expect(readiness.liveSiteMonitor.controls.strictSyncedManifestComparison).toBe(true)
+  expect(response.liveSiteMonitorStatus).toBe(monitor.status)
+  expect(response.controls.liveSiteAlert).toBe(false)
+  expect(packageJson.scripts['autonomous:live-monitor']).toBe('node scripts/live-site-monitor.mjs')
+  expect(packageJson.scripts['autonomous:daily']).toContain('autonomous:live-monitor')
+  expect(packageJson.scripts['test:e2e']).toContain('autonomous:live-monitor')
+  expect(packageJson.scripts['test:automation']).toContain('autonomous:live-monitor')
+  expect(source).toContain('strictSyncedManifestComparison')
+  expect(source).toContain('noCookiesOrCredentials')
+
+  await page.goto('/')
+  await expect(page.getByLabel('Live Site Monitor')).toContainText(monitor.status)
+  await expect(page.getByLabel('Live Site Monitor')).toContainText(`${monitor.summary.passed}/${monitor.summary.planned}`)
 })
 
 test('production scripts load git-ignored env files without leaking values or mutation gates', async () => {
@@ -1375,6 +1491,7 @@ test('production scripts load git-ignored env files without leaking values or mu
     'data/production-bootstrap.json',
     'data/event-collector-deployment.json',
     'data/post-deploy-smoke.json',
+    'data/live-site-monitor.json',
   ]
   const expectedFiles = [
     '.env',
@@ -3102,6 +3219,14 @@ test('autonomous operator history keeps a capped audit trail', async ({ page }) 
           checksPass: boolean
           extraReady: boolean
         }
+        liveSiteMonitor: {
+          fresh: boolean
+          ready: boolean
+          status: string
+          maxAgeHours: number
+          checksPass: boolean
+          extraReady: boolean
+        }
       }
       sourceFreshness: Record<
         | 'productOptimization'
@@ -3149,6 +3274,7 @@ test('autonomous operator history keeps a capped audit trail', async ({ page }) 
       liveDeployEvidence: {
         localSmokeFresh: boolean
         strictArtifactSyncFresh: boolean
+        liveSiteMonitorFresh: boolean
         smokeActionFresh: boolean
         releaseCandidateActionFresh: boolean
         liveCandidateId: string | null
@@ -3288,6 +3414,7 @@ test('autonomous operator history keeps a capped audit trail', async ({ page }) 
   const collectLiveEventsAction = ownerLoop.safeAutonomousActions.find((action) => action.id === 'collect-live-events')
   const prepareReleaseAction = ownerLoop.safeAutonomousActions.find((action) => action.id === 'prepare-release-candidate')
   const checkPerformanceAction = ownerLoop.safeAutonomousActions.find((action) => action.id === 'check-performance-budget')
+  const refreshLiveSiteMonitorAction = ownerLoop.safeAutonomousActions.find((action) => action.id === 'refresh-live-site-monitor')
   const optimizeStoreListingAction = ownerLoop.safeAutonomousActions.find((action) => action.id === 'optimize-store-listing')
   const sourceFreshnessActionPairs = [
     { actionId: 'optimize-product-gates', freshness: ownerLoop.executionMemory.sourceFreshness.productOptimization },
@@ -3373,6 +3500,7 @@ test('autonomous operator history keeps a capped audit trail', async ({ page }) 
   expect(ownerLoop.executionMemory.operationalEvidenceFreshness.selfUpdate.maxAgeHours).toBe(18)
   expect(ownerLoop.executionMemory.operationalEvidenceFreshness.supportFeedback.maxAgeHours).toBe(18)
   expect(ownerLoop.executionMemory.operationalEvidenceFreshness.performance.maxAgeHours).toBe(18)
+  expect(ownerLoop.executionMemory.operationalEvidenceFreshness.liveSiteMonitor.maxAgeHours).toBe(18)
   if (ownerLoop.executionMemory.operationalEvidenceFreshness.cadence.fresh) {
     expect(refreshCadenceAction?.status).toBe('monitor')
     expect(refreshCadenceAction?.reason).toContain('already fresh')
@@ -3392,6 +3520,12 @@ test('autonomous operator history keeps a capped audit trail', async ({ page }) 
     expect(checkPerformanceAction?.status).toBe('monitor')
     expect(checkPerformanceAction?.reason).toContain('already fresh')
     expect(ownerLoop.ownerDecision.nextBestActionId).not.toBe('check-performance-budget')
+  }
+  if (ownerLoop.executionMemory.operationalEvidenceFreshness.liveSiteMonitor.fresh) {
+    expect(refreshLiveSiteMonitorAction?.status).toBe('monitor')
+    expect(refreshLiveSiteMonitorAction?.reason).toContain('already proves')
+    expect(ownerLoop.executionMemory.liveDeployEvidence.liveSiteMonitorFresh).toBe(true)
+    expect(ownerLoop.ownerDecision.nextBestActionId).not.toBe('refresh-live-site-monitor')
   }
   for (const { actionId, freshness } of sourceFreshnessActionPairs) {
     const action = ownerLoop.safeAutonomousActions.find((item) => item.id === actionId)
@@ -3645,6 +3779,7 @@ test('autonomous cadence keeps unattended operation auditable and guarded', asyn
   expect(cadence.controls.codexAutomationActualStatusAudited).toBe(true)
   expect(cadence.controls.staleEvidenceBlocksUnattendedTrust).toBe(true)
   expect(cadence.controls.postDeployEvidenceSyncWritePermissionGated).toBe(true)
+  expect(cadence.checks.find((check) => check.id === 'post-deploy-evidence-sync-workflow')?.status).toBe('pass')
   expect(cadence.freshnessPolicy.status).toBe('fresh')
   expect(cadence.freshnessPolicy.staleAfterHours).toBeGreaterThanOrEqual(24)
   expect(cadence.freshnessPolicy.requiredArtifactCount).toBe(cadence.artifactFreshness.length)
@@ -3660,6 +3795,7 @@ test('autonomous cadence keeps unattended operation auditable and guarded', asyn
   expect(cadence.artifactFreshness.some((artifact) => artifact.id === 'event-collector-smoke')).toBe(true)
   expect(cadence.artifactFreshness.some((artifact) => artifact.id === 'autonomous-self-update')).toBe(true)
   expect(cadence.artifactFreshness.some((artifact) => artifact.id === 'post-deploy-artifact-sync')).toBe(true)
+  expect(cadence.artifactFreshness.some((artifact) => artifact.id === 'live-site-monitor')).toBe(true)
   expect(cadence.artifactFreshness.some((artifact) => artifact.id === 'event-ingest')).toBe(true)
   expect(cadence.artifactFreshness.some((artifact) => artifact.id === 'event-ingest-smoke')).toBe(true)
   expect(cadence.artifactFreshness.some((artifact) => artifact.id === 'traffic-seeding')).toBe(true)

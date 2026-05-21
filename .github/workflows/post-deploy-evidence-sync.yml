@@ -53,8 +53,17 @@ jobs:
           POST_DEPLOY_RUN_ID: ${{ github.event.workflow_run.id || inputs.run_id }}
         run: npm run autonomous:post-deploy-artifact-sync -- --run-id="${POST_DEPLOY_RUN_ID}" --assert
 
-      - name: Refresh owner deploy evidence
-        run: npm run autonomous:owner-loop
+      - name: Run continuous live site monitor
+        env:
+          AGL_LIVE_SITE_ORIGIN: ${{ vars.AGL_PUBLIC_ORIGIN }}
+        run: npm run autonomous:live-monitor
+
+      - name: Refresh downstream deploy evidence
+        run: |
+          npm run autonomous:respond
+          npm run autonomous:readiness
+          npm run autonomous:objective-audit
+          npm run autonomous:owner-loop
 
       - name: Verify synced deploy evidence
         run: npm run autonomous:verify-post-deploy-sync
@@ -73,6 +82,20 @@ jobs:
             data/post-deploy-artifact-sync.json \
             src/data/postDeployArtifactSync.ts \
             reports/post-deploy-artifact-sync-latest.md \
+            data/live-site-monitor.json \
+            src/data/liveSiteMonitor.ts \
+            reports/live-site-monitor-latest.md \
+            data/production-response.json \
+            src/data/productionResponse.ts \
+            reports/production-response-latest.md \
+            data/production-blocker-handoff.json \
+            src/data/productionBlockerHandoff.ts \
+            reports/production-blocker-handoff-latest.md \
+            data/production-readiness.json \
+            reports/production-readiness-latest.md \
+            data/objective-audit.json \
+            src/data/objectiveAudit.ts \
+            reports/objective-audit-latest.md \
             data/autonomous-owner-loop.json \
             src/data/autonomousOwnerLoop.ts \
             reports/autonomous-owner-loop-latest.md
@@ -95,6 +118,16 @@ jobs:
           path: |
             data/post-deploy-artifact-sync.json
             reports/post-deploy-artifact-sync-latest.md
+            data/live-site-monitor.json
+            reports/live-site-monitor-latest.md
+            data/production-response.json
+            reports/production-response-latest.md
+            data/production-blocker-handoff.json
+            reports/production-blocker-handoff-latest.md
+            data/production-readiness.json
+            reports/production-readiness-latest.md
+            data/objective-audit.json
+            reports/objective-audit-latest.md
             data/autonomous-owner-loop.json
             reports/autonomous-owner-loop-latest.md
           if-no-files-found: ignore

@@ -1,11 +1,13 @@
 export const productionResponse = {
-  "generatedAt": "2026-05-20T09:02:17.603Z",
+  "generatedAt": "2026-05-21T10:24:28.985Z",
   "status": "guarded-operations",
   "releaseHealthStatus": "monitoring",
+  "liveSiteMonitorStatus": "live-site-monitor-passed",
   "deploymentStatus": "ready-for-pages",
   "controls": {
     "deployAllowed": true,
     "rollbackRequired": false,
+    "liveSiteAlert": false,
     "experimentsFrozen": false,
     "revenueDisabled": true,
     "paidSpendDisabled": true,
@@ -18,7 +20,7 @@ export const productionResponse = {
   },
   "actions": [
     {
-      "generatedAt": "2026-05-20T09:02:17.603Z",
+      "generatedAt": "2026-05-21T10:24:28.985Z",
       "id": "deployment-watch",
       "status": "monitoring",
       "type": "deployment-safety",
@@ -27,16 +29,16 @@ export const productionResponse = {
       "command": "Allow gated web deployment."
     },
     {
-      "generatedAt": "2026-05-20T09:02:17.603Z",
+      "generatedAt": "2026-05-21T10:24:28.985Z",
       "id": "experiment-learning",
       "status": "armed",
       "type": "experiment-safety",
       "target": "all-experiments",
-      "reason": "2 experiment recommendation(s) available",
+      "reason": "3 experiment recommendation(s) available",
       "command": "Allow bounded improvement applier to consume experiment evidence."
     },
     {
-      "generatedAt": "2026-05-20T09:02:17.603Z",
+      "generatedAt": "2026-05-21T10:24:28.985Z",
       "id": "disable-revenue-features",
       "status": "active",
       "type": "monetization-safety",
@@ -45,7 +47,7 @@ export const productionResponse = {
       "command": "Keep ad placements, purchases, and subscriptions disabled."
     },
     {
-      "generatedAt": "2026-05-20T09:02:17.603Z",
+      "generatedAt": "2026-05-21T10:24:28.985Z",
       "id": "enforce-zero-paid-spend",
       "status": "active",
       "type": "spend-safety",
@@ -56,39 +58,6 @@ export const productionResponse = {
   ],
   "policyDiff": null,
   "history": [
-    {
-      "generatedAt": "2026-05-18T21:03:12.608Z",
-      "mode": "guarded-operations",
-      "releaseHealthStatus": "monitoring",
-      "deploymentStatus": "ready-for-pages",
-      "activeActionIds": [
-        "disable-revenue-features",
-        "enforce-zero-paid-spend"
-      ],
-      "policyChanged": false
-    },
-    {
-      "generatedAt": "2026-05-18T21:08:57.195Z",
-      "mode": "guarded-operations",
-      "releaseHealthStatus": "monitoring",
-      "deploymentStatus": "ready-for-pages",
-      "activeActionIds": [
-        "disable-revenue-features",
-        "enforce-zero-paid-spend"
-      ],
-      "policyChanged": false
-    },
-    {
-      "generatedAt": "2026-05-18T21:11:04.011Z",
-      "mode": "guarded-operations",
-      "releaseHealthStatus": "monitoring",
-      "deploymentStatus": "ready-for-pages",
-      "activeActionIds": [
-        "disable-revenue-features",
-        "enforce-zero-paid-spend"
-      ],
-      "policyChanged": false
-    },
     {
       "generatedAt": "2026-05-18T21:20:50.765Z",
       "mode": "guarded-operations",
@@ -269,6 +238,42 @@ export const productionResponse = {
       "generatedAt": "2026-05-20T09:02:17.603Z",
       "mode": "guarded-operations",
       "releaseHealthStatus": "monitoring",
+      "deploymentStatus": "ready-for-pages",
+      "activeActionIds": [
+        "disable-revenue-features",
+        "enforce-zero-paid-spend"
+      ],
+      "policyChanged": false
+    },
+    {
+      "generatedAt": "2026-05-21T10:17:57.546Z",
+      "mode": "guarded-operations",
+      "releaseHealthStatus": "monitoring",
+      "liveSiteMonitorStatus": "live-site-monitor-passed",
+      "deploymentStatus": "ready-for-pages",
+      "activeActionIds": [
+        "disable-revenue-features",
+        "enforce-zero-paid-spend"
+      ],
+      "policyChanged": false
+    },
+    {
+      "generatedAt": "2026-05-21T10:21:10.294Z",
+      "mode": "guarded-operations",
+      "releaseHealthStatus": "monitoring",
+      "liveSiteMonitorStatus": "live-site-monitor-passed",
+      "deploymentStatus": "ready-for-pages",
+      "activeActionIds": [
+        "disable-revenue-features",
+        "enforce-zero-paid-spend"
+      ],
+      "policyChanged": false
+    },
+    {
+      "generatedAt": "2026-05-21T10:24:28.985Z",
+      "mode": "guarded-operations",
+      "releaseHealthStatus": "monitoring",
+      "liveSiteMonitorStatus": "live-site-monitor-passed",
       "deploymentStatus": "ready-for-pages",
       "activeActionIds": [
         "disable-revenue-features",

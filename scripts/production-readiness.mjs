@@ -19,6 +19,7 @@ const performanceBudgetPath = path.join(root, 'data', 'performance-budget.json')
 const releaseCandidatePath = path.join(root, 'data', 'release-candidate.json')
 const postDeploySmokePath = path.join(root, 'data', 'post-deploy-smoke.json')
 const postDeployArtifactSyncPath = path.join(root, 'data', 'post-deploy-artifact-sync.json')
+const liveSiteMonitorPath = path.join(root, 'data', 'live-site-monitor.json')
 const productOptimizationPath = path.join(root, 'data', 'product-optimization.json')
 const firstMoveCoachPath = path.join(root, 'data', 'first-move-coach.json')
 const completionLoopPath = path.join(root, 'data', 'completion-loop.json')
@@ -136,6 +137,14 @@ const postDeployArtifactSync = await readOptionalJson(postDeployArtifactSyncPath
   artifact: {},
   live: {},
   validation: {},
+  summary: {},
+  controls: {},
+  checks: [],
+})
+const liveSiteMonitor = await readOptionalJson(liveSiteMonitorPath, {
+  status: 'missing',
+  origin: {},
+  sourceStatus: {},
   summary: {},
   controls: {},
   checks: [],
@@ -545,6 +554,19 @@ const postDeploySmokeRunnerReady =
         (postDeploySmoke.status === 'post-deploy-smoke-observed-live' &&
           postDeploySmoke.liveRelease?.localCandidateMatches === false &&
           postDeploySmoke.target?.strictManifestComparison === false)))
+const liveSiteMonitorReady =
+  ['live-site-monitor-passed', 'live-site-monitor-planned'].includes(liveSiteMonitor.status) &&
+  liveSiteMonitor.sourceStatus?.releaseCandidate === releaseCandidate.status &&
+  liveSiteMonitor.sourceStatus?.postDeployArtifactSync === postDeployArtifactSync.status &&
+  liveSiteMonitor.controls?.zeroPaidSpend === true &&
+  liveSiteMonitor.controls?.readOnlyHttpChecks === true &&
+  liveSiteMonitor.controls?.noMutation === true &&
+  liveSiteMonitor.controls?.strictSyncedManifestComparison === true &&
+  (liveSiteMonitor.status === 'live-site-monitor-planned'
+    ? liveSiteMonitor.summary?.blocked === liveSiteMonitor.summary?.planned
+    : liveSiteMonitor.summary?.failed === 0 &&
+      liveSiteMonitor.summary?.passed === liveSiteMonitor.summary?.planned &&
+      liveSiteMonitor.summary?.liveMatchesSyncedDeploy === true)
 const productOptimizationReady =
   productOptimization.status === 'product-optimization-ready' &&
   productOptimization.sourceStatus?.analyticsSource === analytics.sourceStatus?.activeSource &&
@@ -904,6 +926,15 @@ const webChecks = [
     }/${localArtifactSmoke.summary?.planned ?? 0} passed.`,
   ),
   check(
+    'live-site-monitor',
+    liveSiteMonitorReady,
+    `Live monitor is ${liveSiteMonitor.status}; origin ${
+      liveSiteMonitor.origin?.origin ?? 'missing'
+    }; checks ${liveSiteMonitor.summary?.passed ?? 0}/${liveSiteMonitor.summary?.planned ?? 0} passed; live matches synced deploy ${
+      liveSiteMonitor.summary?.liveMatchesSyncedDeploy === true
+    }.`,
+  ),
+  check(
     'product-optimization',
     productOptimizationReady,
     `Product optimizer is ${productOptimization.status}; completion ${
@@ -1236,6 +1267,14 @@ const payload = {
     controls: postDeployArtifactSync.controls,
     checks: postDeployArtifactSync.checks ?? [],
   },
+  liveSiteMonitor: {
+    status: liveSiteMonitor.status,
+    origin: liveSiteMonitor.origin,
+    sourceStatus: liveSiteMonitor.sourceStatus,
+    summary: liveSiteMonitor.summary,
+    controls: liveSiteMonitor.controls,
+    checks: liveSiteMonitor.checks ?? [],
+  },
   productOptimization: {
     status: productOptimization.status,
     sourceStatus: productOptimization.sourceStatus,
@@ -1534,6 +1573,17 @@ const report = [
   ...(payload.postDeployArtifactSync.checks ?? []).map(
     (item) => `- ${item.status}: artifact-sync-${item.id} - ${item.detail}`,
   ),
+  '',
+  '## Live Site Monitor',
+  '',
+  `Status: ${payload.liveSiteMonitor.status}`,
+  `Origin: ${payload.liveSiteMonitor.origin?.origin ?? 'missing'}`,
+  `Checks: ${payload.liveSiteMonitor.summary?.passed ?? 0}/${payload.liveSiteMonitor.summary?.planned ?? 0} passed (${payload.liveSiteMonitor.summary?.failed ?? 0} failed)`,
+  `Live candidate: ${payload.liveSiteMonitor.summary?.liveCandidateId ?? 'missing'}`,
+  `Live matches synced deploy: ${payload.liveSiteMonitor.summary?.liveMatchesSyncedDeploy ?? 'missing'}`,
+  ...(payload.liveSiteMonitor.checks ?? [])
+    .slice(0, 8)
+    .map((item) => `- ${item.status}: live-monitor-${item.id} - ${item.detail}`),
   '',
   '## Product Optimization',
   '',

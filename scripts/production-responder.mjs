@@ -12,6 +12,7 @@ const experimentResultsPath = path.join(dataDir, 'experiment-results.json')
 const monetizationPath = path.join(dataDir, 'monetization-plan.json')
 const unitEconomicsPath = path.join(dataDir, 'unit-economics.json')
 const deploymentPath = path.join(dataDir, 'deployment-plan.json')
+const liveSiteMonitorPath = path.join(dataDir, 'live-site-monitor.json')
 const previousPath = path.join(dataDir, 'production-response.json')
 const outputJsonPath = previousPath
 const outputTsPath = path.join(srcDataDir, 'productionResponse.ts')
@@ -29,6 +30,11 @@ const experimentResults = await readOptionalJson(experimentResultsPath, { status
 const monetization = await readJson(monetizationPath)
 const unitEconomics = await readJson(unitEconomicsPath)
 const deployment = await readOptionalJson(deploymentPath, { status: 'missing' })
+const liveSiteMonitor = await readOptionalJson(liveSiteMonitorPath, {
+  status: 'missing',
+  summary: {},
+  controls: {},
+})
 const previous = await readOptionalJson(previousPath, { history: [] })
 
 const fallbackVariantByExperiment = {
@@ -131,14 +137,27 @@ if (releaseHealth.controls?.rollbackRequired) {
 } else {
   addAction({
     id: 'deployment-watch',
-    status: releaseHealth.status === 'healthy' ? 'clear' : 'monitoring',
+    status: releaseHealth.status === 'healthy' && liveSiteMonitor.status !== 'live-site-monitor-alert' ? 'clear' : 'monitoring',
     type: 'deployment-safety',
     target: 'web-pwa',
     reason:
-      releaseHealth.status === 'healthy'
+      liveSiteMonitor.status === 'live-site-monitor-alert'
+        ? 'live site monitor found public PWA drift or failed checks'
+        : releaseHealth.status === 'healthy'
         ? 'release health is healthy'
         : 'release health has warnings but no blockers',
     command: releaseHealth.controls?.canDeploy ? 'Allow gated web deployment.' : 'Hold web deployment.',
+  })
+}
+
+if (liveSiteMonitor.status === 'live-site-monitor-alert') {
+  addAction({
+    id: 'live-site-deploy-hold',
+    status: 'active',
+    type: 'deployment-safety',
+    target: 'public-pwa',
+    reason: `${liveSiteMonitor.summary?.failed ?? 0} live monitor check(s) failed; live matches synced deploy ${liveSiteMonitor.summary?.liveMatchesSyncedDeploy === true}.`,
+    command: 'Hold traffic growth and refresh post-deploy evidence before the next promotion.',
   })
 }
 
@@ -209,6 +228,7 @@ const historyItem = {
   generatedAt: now,
   mode,
   releaseHealthStatus: releaseHealth.status,
+  liveSiteMonitorStatus: liveSiteMonitor.status,
   deploymentStatus: deployment.status,
   activeActionIds: activeSafetyActions.map((action) => action.id),
   policyChanged,
@@ -220,10 +240,12 @@ const payload = {
   generatedAt: now,
   status: mode,
   releaseHealthStatus: releaseHealth.status,
+  liveSiteMonitorStatus: liveSiteMonitor.status,
   deploymentStatus: deployment.status,
   controls: {
     deployAllowed: releaseHealth.controls?.canDeploy === true && deployment.status !== 'blocked',
     rollbackRequired: releaseHealth.controls?.rollbackRequired === true,
+    liveSiteAlert: liveSiteMonitor.status === 'live-site-monitor-alert',
     experimentsFrozen: releaseHealth.controls?.canApplyExperimentChanges === false,
     revenueDisabled: monetization.revenueEnabled !== true,
     paidSpendDisabled: unitEconomics.controls?.paidAcquisitionAllowed !== true,
@@ -247,12 +269,14 @@ const report = [
   `Generated: ${payload.generatedAt}`,
   `Status: ${payload.status}`,
   `Release health: ${payload.releaseHealthStatus}`,
+  `Live site monitor: ${payload.liveSiteMonitorStatus}`,
   `Deployment: ${payload.deploymentStatus}`,
   '',
   '## Controls',
   '',
   `- Deploy allowed: ${payload.controls.deployAllowed}`,
   `- Rollback required: ${payload.controls.rollbackRequired}`,
+  `- Live site alert: ${payload.controls.liveSiteAlert}`,
   `- Experiments frozen: ${payload.controls.experimentsFrozen}`,
   `- Revenue disabled: ${payload.controls.revenueDisabled}`,
   `- Paid spend disabled: ${payload.controls.paidSpendDisabled}`,

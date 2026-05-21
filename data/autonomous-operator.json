@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-21T09:53:02.720Z",
+  "generatedAt": "2026-05-21T10:24:55.214Z",
   "status": "operator-held",
   "mode": "plan-only",
   "ownerDecision": {
@@ -76,7 +76,7 @@
     {
       "id": "prepare-release-candidate",
       "status": "monitor",
-      "command": "npm run autonomous:release-candidate && npm run autonomous:post-deploy-smoke",
+      "command": "npm run autonomous:release-candidate && npm run autonomous:post-deploy-smoke && npm run autonomous:live-monitor",
       "reason": "status-monitor"
     },
     {
@@ -89,6 +89,12 @@
       "id": "sync-post-deploy-artifact",
       "status": "monitor",
       "command": "npm run autonomous:post-deploy-artifact-sync",
+      "reason": "status-monitor"
+    },
+    {
+      "id": "refresh-live-site-monitor",
+      "status": "monitor",
+      "command": "npm run autonomous:live-monitor",
       "reason": "status-monitor"
     },
     {
@@ -237,8 +243,10 @@
     "npm run autonomous:pwa-install",
     "npm run build && npm run autonomous:performance && npm run autonomous:release-candidate",
     "npm run autonomous:release-candidate && npm run autonomous:post-deploy-smoke",
+    "npm run autonomous:release-candidate && npm run autonomous:post-deploy-smoke && npm run autonomous:live-monitor",
     "npm run autonomous:post-deploy-smoke",
     "npm run autonomous:post-deploy-artifact-sync",
+    "npm run autonomous:live-monitor",
     "npm run autonomous:repo-readiness",
     "npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap",
     "npm run autonomous:repo-bootstrap",

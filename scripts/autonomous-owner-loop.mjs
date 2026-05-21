@@ -148,6 +148,14 @@ const postDeployArtifactSync = await readOptionalJson(path.join(dataDir, 'post-d
   controls: {},
   checks: [],
 })
+const liveSiteMonitor = await readOptionalJson(path.join(dataDir, 'live-site-monitor.json'), {
+  status: 'missing',
+  origin: {},
+  sourceStatus: {},
+  summary: {},
+  controls: {},
+  checks: [],
+})
 const productOptimization = await readOptionalJson(path.join(dataDir, 'product-optimization.json'), {
   status: 'missing',
   productGates: {},
@@ -393,11 +401,22 @@ const postDeployArtifactSyncReady =
   postDeployArtifactSync.controls?.readOnlyHttpChecks === true &&
   postDeployArtifactSync.controls?.strictManifestComparisonRequired === true &&
   postDeployArtifactSync.controls?.separateFromLocalCandidate === true
+const liveSiteMonitorReady =
+  liveSiteMonitor.status === 'live-site-monitor-passed' &&
+  liveSiteMonitor.sourceStatus?.releaseCandidate === releaseCandidate.status &&
+  liveSiteMonitor.sourceStatus?.postDeployArtifactSync === postDeployArtifactSync.status &&
+  liveSiteMonitor.summary?.failed === 0 &&
+  liveSiteMonitor.summary?.passed === liveSiteMonitor.summary?.planned &&
+  liveSiteMonitor.summary?.liveMatchesSyncedDeploy === true &&
+  liveSiteMonitor.controls?.zeroPaidSpend === true &&
+  liveSiteMonitor.controls?.readOnlyHttpChecks === true &&
+  liveSiteMonitor.controls?.noMutation === true &&
+  liveSiteMonitor.controls?.strictSyncedManifestComparison === true
 const postDeploySmokeActionFresh =
   postDeploySmokeRunnerReady &&
   postDeployArtifactSyncReady &&
   postDeployArtifactSync.artifact?.target?.candidateId === postDeployArtifactSync.live?.candidateId
-const releaseCandidateActionFresh = postDeploySmokeRunnerReady && postDeployArtifactSyncReady
+const releaseCandidateActionFresh = postDeploySmokeRunnerReady && postDeployArtifactSyncReady && liveSiteMonitorReady
 const operatorPlanHeld =
   autonomousOperator.status === 'operator-held' &&
   (autonomousOperator.eligibleActionIds?.length ?? 0) === 0 &&
@@ -928,6 +947,19 @@ const systems = [
     nextAction:
       postDeployArtifactSync.nextActions?.[0] ??
       'Import the latest successful Pages smoke artifact and compare it to the live release manifest.',
+  },
+  {
+    id: 'live-site-monitor',
+    status: systemStatus(liveSiteMonitorReady, 'needs-live-monitor-refresh'),
+    autonomy: 'read-only-continuous-live-observability',
+    evidence: `Live monitor ${liveSiteMonitor.status}; origin ${
+      liveSiteMonitor.origin?.origin ?? 'missing'
+    }; checks ${liveSiteMonitor.summary?.passed ?? 0}/${liveSiteMonitor.summary?.planned ?? 0}; live matches synced deploy ${
+      liveSiteMonitor.summary?.liveMatchesSyncedDeploy === true
+    }.`,
+    nextAction:
+      liveSiteMonitor.nextActions?.[0] ??
+      'Run the live site monitor between deploys to catch public PWA, support, privacy, and release-manifest drift.',
   },
   {
     id: 'production-bootstrap',
@@ -1761,6 +1793,13 @@ const performanceOperationalFreshness = operationalEvidenceFreshness({
     releaseCandidate.status === 'release-candidate-ready' &&
     typeof releaseCandidate.candidateId === 'string',
 })
+const liveSiteMonitorOperationalFreshness = operationalEvidenceFreshness({
+  artifact: liveSiteMonitor,
+  readyStatuses: ['live-site-monitor-passed'],
+  maxAgeHours: operationalEvidenceMaxAgeHours,
+  checksPass: (liveSiteMonitor.checks ?? []).every((check) => check.status === 'pass'),
+  extraReady: liveSiteMonitorReady,
+})
 
 const safeAutonomousActions = [
   {
@@ -1884,11 +1923,11 @@ const safeAutonomousActions = [
     id: 'prepare-release-candidate',
     status: releaseCandidate.status === 'release-candidate-ready' && !releaseCandidateActionFresh ? 'armed' : 'monitor',
     costUsd: 0,
-    command: 'npm run autonomous:release-candidate && npm run autonomous:post-deploy-smoke',
+    command: 'npm run autonomous:release-candidate && npm run autonomous:post-deploy-smoke && npm run autonomous:live-monitor',
     targets: ['dist-release-candidate', 'release-candidate-manifest'],
     reason: releaseCandidateActionFresh
       ? 'Local release manifest smoke and strict synced live deploy evidence are fresh; continue product learning.'
-      : 'Records a content-hashed dist inventory and immediately refreshes the post-deploy smoke plan for the exact PWA build.',
+      : 'Records a content-hashed dist inventory, refreshes post-deploy smoke evidence, and checks the currently live PWA against the synced deploy.',
   },
   {
     id: 'run-post-deploy-smoke',
@@ -1911,6 +1950,18 @@ const safeAutonomousActions = [
     reason: postDeployArtifactSyncReady
       ? 'Strict deploy artifact evidence is already synced from the latest successful Pages workflow.'
       : 'Downloads the latest successful Pages smoke artifact and validates it against the live release manifest.',
+  },
+  {
+    id: 'refresh-live-site-monitor',
+    status: liveSiteMonitorOperationalFreshness.fresh ? 'monitor' : postDeployArtifactSyncReady ? 'armed' : 'monitor',
+    costUsd: 0,
+    command: 'npm run autonomous:live-monitor',
+    targets: [liveSiteMonitor.origin?.origin ?? postDeployArtifactSync.live?.origin ?? 'public-pwa-origin'],
+    reason: liveSiteMonitorOperationalFreshness.fresh
+      ? 'Live site monitor already proves the public PWA, support/privacy assets, and release manifest match the synced deploy.'
+      : postDeployArtifactSyncReady
+        ? 'Runs read-only live checks between deploys so public PWA drift is caught without waiting for a new release.'
+        : 'Waits for strict post-deploy artifact sync before treating live monitor output as production evidence.',
   },
   {
     id: 'optimize-product-gates',
@@ -2222,6 +2273,7 @@ const preferredActionOrder = [
   'prepare-repository-channel',
   'deploy-web-pwa',
   'sync-post-deploy-artifact',
+  'refresh-live-site-monitor',
   'seed-portfolio-traffic',
   'bootstrap-production-setup',
   'refresh-production-blocker-handoff',
@@ -2307,6 +2359,7 @@ const payload = {
       selfUpdate: selfUpdateOperationalFreshness,
       supportFeedback: supportFeedbackOperationalFreshness,
       performance: performanceOperationalFreshness,
+      liveSiteMonitor: liveSiteMonitorOperationalFreshness,
     },
     sourceFreshness: {
       productOptimization: productOptimizationFreshness,
@@ -2348,6 +2401,7 @@ const payload = {
     liveDeployEvidence: {
       localSmokeFresh: postDeploySmokeRunnerReady,
       strictArtifactSyncFresh: postDeployArtifactSyncReady,
+      liveSiteMonitorFresh: liveSiteMonitorOperationalFreshness.fresh,
       smokeActionFresh: postDeploySmokeActionFresh,
       releaseCandidateActionFresh,
       liveCandidateId: postDeployArtifactSync.live?.candidateId ?? null,
@@ -2422,6 +2476,7 @@ const payload = {
     releaseCandidateStatus: releaseCandidate.status,
     postDeploySmokeStatus: postDeploySmoke.status,
     postDeployArtifactSyncStatus: postDeployArtifactSync.status,
+    liveSiteMonitorStatus: liveSiteMonitor.status,
     productOptimizationStatus: productOptimization.status,
     productGateSamplePlanStatus: productGateSamplePlan.status,
     firstMoveCoachStatus: firstMoveCoach.status,

@@ -34,6 +34,7 @@ import { generatedPlayableGames } from './data/generatedPlayableGames'
 import { growthPlan } from './data/growthPlan'
 import { incidentDrill } from './data/incidentDrill'
 import { iosRelease } from './data/iosRelease'
+import { liveSiteMonitor } from './data/liveSiteMonitor'
 import { localEventBridge } from './data/localEventBridge'
 import { monetizationPlan } from './data/monetizationPlan'
 import { nativePackage } from './data/nativePackage'
@@ -877,6 +878,7 @@ function App() {
   const supportChannelReady = supportChannelStatus === 'support-channel-ready'
   const supportFeedbackTopSignal = (supportFeedback.topSignals as readonly { label: string }[])[0]
   const supportFeedbackAggregateEvidence = supportFeedback.aggregateEvidence
+  const liveSiteMonitorOrigin = liveSiteMonitor.origin.origin ?? 'missing'
   const operatorSelectedAction = autonomousOperator.selectedAction as { id: string } | null
   const operatorHistorySummary = autonomousOperatorHistory.summary
   const objectiveAuditSummary = objectiveAudit.summary
@@ -2805,6 +2807,26 @@ function App() {
                 <div>
                   <span>Game chunk</span>
                   <strong>{performanceGameChunk ? `${performanceGameChunk.kb} KB` : 'missing'}</strong>
+                </div>
+              </div>
+              <div className="monetizationRuntime" aria-label="Live Site Monitor">
+                <div>
+                  <span>Live Site Monitor</span>
+                  <strong>{liveSiteMonitor.status}</strong>
+                </div>
+                <div>
+                  <span>Origin</span>
+                  <strong>{liveSiteMonitorOrigin}</strong>
+                </div>
+                <div>
+                  <span>Checks</span>
+                  <strong>
+                    {liveSiteMonitor.summary.passed}/{liveSiteMonitor.summary.planned}
+                  </strong>
+                </div>
+                <div>
+                  <span>Synced release</span>
+                  <strong>{liveSiteMonitor.summary.liveMatchesSyncedDeploy ? 'matched' : 'review'}</strong>
                 </div>
               </div>
               <div className="monetizationRuntime" aria-label="Production Bootstrap">

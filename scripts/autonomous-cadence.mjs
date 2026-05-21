@@ -164,6 +164,11 @@ const freshnessRequiredArtifacts = [
     path: 'data/post-deploy-artifact-sync.json',
   },
   {
+    id: 'live-site-monitor',
+    label: 'Continuous live site monitor',
+    path: 'data/live-site-monitor.json',
+  },
+  {
     id: 'release-health',
     label: 'Release health guard',
     path: 'data/release-health.json',
@@ -663,18 +668,26 @@ const checks = [
       postDeployEvidenceSyncWorkflow.includes('actions: read') &&
       postDeployEvidenceSyncWorkflow.includes('contents: write') &&
       postDeployEvidenceSyncWorkflow.includes('autonomous:post-deploy-artifact-sync') &&
+      postDeployEvidenceSyncWorkflow.includes('autonomous:live-monitor') &&
+      postDeployEvidenceSyncWorkflow.includes('autonomous:respond') &&
+      postDeployEvidenceSyncWorkflow.includes('autonomous:readiness') &&
+      postDeployEvidenceSyncWorkflow.includes('autonomous:objective-audit') &&
       postDeployEvidenceSyncWorkflow.includes('npm run autonomous:verify-post-deploy-sync') &&
       postDeployEvidenceSyncWorkflow.includes('AGL_AUTONOMOUS_SELF_UPDATE_DIRECT') &&
       postDeployEvidenceSyncWorkflow.includes('data/post-deploy-artifact-sync.json') &&
       postDeployEvidenceSyncWorkflow.includes('src/data/postDeployArtifactSync.ts') &&
       postDeployEvidenceSyncWorkflow.includes('reports/post-deploy-artifact-sync-latest.md') &&
+      postDeployEvidenceSyncWorkflow.includes('data/live-site-monitor.json') &&
+      postDeployEvidenceSyncWorkflow.includes('src/data/liveSiteMonitor.ts') &&
+      postDeployEvidenceSyncWorkflow.includes('reports/live-site-monitor-latest.md') &&
+      postDeployEvidenceSyncWorkflow.includes('data/production-blocker-handoff.json') &&
       !postDeployEvidenceSyncWorkflow.includes('npm run build') &&
       !postDeployEvidenceSyncWorkflow.includes('autonomous:release-candidate') &&
       !postDeployEvidenceSyncWorkflow.includes('autonomous:post-deploy-smoke')
         ? 'pass'
         : 'blocker',
     detail: postDeployEvidenceSyncWorkflowExists
-      ? 'Post-deploy evidence sync imports only the strict Pages smoke artifact, preventing a new undeployed release candidate during evidence import.'
+      ? 'Post-deploy evidence sync imports the strict Pages smoke artifact, refreshes live-site monitor evidence, and avoids creating an undeployed release candidate during evidence import.'
       : 'Post-deploy evidence sync workflow is missing.',
   },
   {

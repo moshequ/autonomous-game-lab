@@ -63,6 +63,7 @@ const [
   releaseCandidate,
   postDeploySmoke,
   postDeployArtifactSync,
+  liveSiteMonitor,
   repositoryReadiness,
   repositoryBootstrap,
   deployment,
@@ -112,6 +113,7 @@ const [
   readJson(path.join(dataDir, 'release-candidate.json')),
   readJson(path.join(dataDir, 'post-deploy-smoke.json')),
   readJson(path.join(dataDir, 'post-deploy-artifact-sync.json')),
+  readJson(path.join(dataDir, 'live-site-monitor.json')),
   readJson(path.join(dataDir, 'repository-readiness.json')),
   readJson(path.join(dataDir, 'repository-bootstrap.json')),
   readJson(path.join(dataDir, 'deployment-plan.json')),
@@ -191,6 +193,13 @@ const postDeployArtifactSyncReady =
   postDeployArtifactSync.controls?.readOnlyHttpChecks === true &&
   postDeployArtifactSync.controls?.strictManifestComparisonRequired === true &&
   postDeployArtifactSync.controls?.separateFromLocalCandidate === true
+const liveSiteMonitorReady =
+  liveSiteMonitor.status === 'live-site-monitor-passed' &&
+  liveSiteMonitor.summary?.failed === 0 &&
+  liveSiteMonitor.summary?.passed === liveSiteMonitor.summary?.planned &&
+  liveSiteMonitor.summary?.liveMatchesSyncedDeploy === true &&
+  liveSiteMonitor.controls?.readOnlyHttpChecks === true &&
+  liveSiteMonitor.controls?.strictSyncedManifestComparison === true
 const productionBootstrapFreshnessInputs = [
   { id: 'release-candidate', generatedAt: releaseCandidate.generatedAt },
   { id: 'deployment-plan', generatedAt: deployment.generatedAt },
@@ -400,6 +409,7 @@ const requirements = [
       releaseCandidate.status === 'release-candidate-ready' &&
       postDeploySmokeReady &&
       postDeployArtifactSyncReady &&
+      liveSiteMonitorReady &&
       repositoryChannelReady &&
       repositoryBootstrap.status !== 'missing' &&
       productionBootstrap.status === 'production-bootstrap-ready' &&
@@ -413,6 +423,7 @@ const requirements = [
           releaseCandidate.status === 'release-candidate-ready' &&
           postDeploySmokeReady &&
           postDeployArtifactSyncReady &&
+          liveSiteMonitorReady &&
           !repositoryChannelReady &&
           repositoryBootstrap.status !== 'missing' &&
           productionBootstrap.status === 'production-bootstrap-ready'
@@ -425,6 +436,7 @@ const requirements = [
           releaseCandidate.status === 'release-candidate-ready' &&
           postDeploySmokeReady &&
           postDeployArtifactSyncReady &&
+          liveSiteMonitorReady &&
           repositoryChannelReady &&
           repositoryBootstrap.status !== 'missing' &&
           productionBootstrap.status === 'production-bootstrap-ready'
@@ -461,6 +473,11 @@ const requirements = [
       }; live matches artifact ${postDeployArtifactSync.live?.matchesArtifact === true}; candidate ${
         postDeployArtifactSync.artifact?.target?.candidateId ?? 'missing'
       }`,
+      `Live site monitor: ${liveSiteMonitor.status}; checks ${
+        liveSiteMonitor.summary?.passed ?? 0
+      }/${liveSiteMonitor.summary?.planned ?? 0}; live matches synced deploy ${
+        liveSiteMonitor.summary?.liveMatchesSyncedDeploy === true
+      }`,
       `Repository channel: ${repositoryReadiness.status}; repository ${
         repositoryReadiness.repository?.target ?? 'missing'
       }; git worktree ${repositoryReadiness.workspace?.insideWorkTree === true}`,
@@ -471,6 +488,7 @@ const requirements = [
       ...(autonomousCadence.blockers ?? []),
       ...(autonomousSelfUpdate.blockers ?? []),
       ...(postDeployArtifactSyncReady ? [] : ['Strict deploy artifact sync is not yet proven against the live release manifest.']),
+      ...(liveSiteMonitorReady ? [] : ['Live site monitor is not yet proving the public PWA between deploys.']),
       ...filterTransientLocalStateBlockers(repositoryReadiness.blockers ?? []),
       ...filterTransientLocalStateBlockers(repositoryBootstrap.blockers ?? []),
       ...(autonomousOwnerLoop.credentialRequiredActions?.map((action) => `${action.target}: ${action.purpose}`) ?? []),

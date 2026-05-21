@@ -39,6 +39,7 @@ const requiredFiles = [
   'data/release-candidate.json',
   'data/post-deploy-smoke.json',
   'data/post-deploy-artifact-sync.json',
+  'data/live-site-monitor.json',
   'data/repository-readiness.json',
   'data/repository-bootstrap.json',
   'data/product-optimization.json',
@@ -107,6 +108,7 @@ const requiredFiles = [
   'src/data/autonomousCadence.ts',
   'src/data/autonomousSelfUpdate.ts',
   'src/data/objectiveAudit.ts',
+  'src/data/liveSiteMonitor.ts',
   'src/data/supportChannel.ts',
   'src/data/supportFeedback.ts',
   'src/data/localEventBridge.ts',
@@ -163,6 +165,7 @@ const requiredFiles = [
   'reports/autonomous-cadence-latest.md',
   'reports/autonomous-self-update-latest.md',
   'reports/objective-audit-latest.md',
+  'reports/live-site-monitor-latest.md',
   'reports/autonomous-owner-loop-latest.md',
   'reports/production-environment-latest.md',
   'reports/support-channel-latest.md',
@@ -198,6 +201,7 @@ const requiredFiles = [
   'ops/cloudflare/wrangler.toml.example',
   'scripts/post-deploy-smoke.mjs',
   'scripts/post-deploy-artifact-sync.mjs',
+  'scripts/live-site-monitor.mjs',
   'scripts/lib/env-loader.mjs',
   'scripts/repository-readiness.mjs',
   'scripts/repository-bootstrap.mjs',
@@ -287,6 +291,7 @@ const postDeploySmoke = JSON.parse(await readFile(path.join(root, 'data', 'post-
 const postDeployArtifactSync = JSON.parse(
   await readFile(path.join(root, 'data', 'post-deploy-artifact-sync.json'), 'utf8'),
 )
+const liveSiteMonitor = JSON.parse(await readFile(path.join(root, 'data', 'live-site-monitor.json'), 'utf8'))
 const localArtifactSmoke = postDeploySmoke.localArtifactSmoke ?? {}
 const repositoryReadiness = JSON.parse(await readFile(path.join(root, 'data', 'repository-readiness.json'), 'utf8'))
 const repositoryBootstrap = JSON.parse(await readFile(path.join(root, 'data', 'repository-bootstrap.json'), 'utf8'))
@@ -398,6 +403,7 @@ const postDeployArtifactSyncSource = await readFile(
   path.join(root, 'scripts', 'post-deploy-artifact-sync.mjs'),
   'utf8',
 )
+const liveSiteMonitorSource = await readFile(path.join(root, 'scripts', 'live-site-monitor.mjs'), 'utf8')
 const repositoryReadinessSource = await readFile(path.join(root, 'scripts', 'repository-readiness.mjs'), 'utf8')
 const repositoryBootstrapSource = await readFile(path.join(root, 'scripts', 'repository-bootstrap.mjs'), 'utf8')
 const portfolioPolicySource = await readFile(path.join(root, 'scripts', 'portfolio-policy.mjs'), 'utf8')
@@ -2187,6 +2193,7 @@ const envAwareArtifacts = [
   eventCollectorDeployment,
   postDeploySmoke,
   postDeployArtifactSync,
+  liveSiteMonitor,
 ]
 const envAwareSources = [
   productionEnvironmentSource,
@@ -2198,6 +2205,7 @@ const envAwareSources = [
   eventCollectorDeployPlanSource,
   postDeploySmokeSource,
   postDeployArtifactSyncSource,
+  liveSiteMonitorSource,
 ]
 const loadedEnvFileMetadataLeaksValues = envAwareArtifacts.some((artifact) =>
   (artifact.envFiles?.loadedFiles ?? []).some((file) => Object.hasOwn(file, 'value')),
@@ -2449,8 +2457,12 @@ if (
   autonomousOperator.execution?.maxActionsPerRun !== 1 ||
   !autonomousOperator.allowlist?.includes('npm run autonomous:completion-loop') ||
   !autonomousOperator.allowlist?.includes('npm run autonomous:replay-loop') ||
+  !autonomousOperator.allowlist?.includes(
+    'npm run autonomous:release-candidate && npm run autonomous:post-deploy-smoke && npm run autonomous:live-monitor',
+  ) ||
   !autonomousOperator.allowlist?.includes('npm run autonomous:post-deploy-smoke') ||
   !autonomousOperator.allowlist?.includes('npm run autonomous:post-deploy-artifact-sync') ||
+  !autonomousOperator.allowlist?.includes('npm run autonomous:live-monitor') ||
   !autonomousOperator.allowlist?.includes('npm run autonomous:repo-readiness') ||
   !autonomousOperator.allowlist?.includes('npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap') ||
   !autonomousOperator.allowlist?.includes('npm run autonomous:repo-bootstrap') ||
@@ -2561,6 +2573,7 @@ const cadenceRequiredFreshnessIds = [
   'release-candidate',
   'post-deploy-smoke',
   'post-deploy-artifact-sync',
+  'live-site-monitor',
   'release-health',
   'product-optimization',
   'product-gate-recovery',
@@ -2602,7 +2615,7 @@ if (
 	  autonomousCadence.artifactFreshness.length !== autonomousCadence.freshnessPolicy?.requiredArtifactCount ||
 	  !cadenceTracksRequiredFreshness ||
 	  !(autonomousCadence.artifactFreshness ?? []).every((artifact) => artifact.status === 'fresh') ||
-	  !(autonomousCadence.checks ?? []).some((check) => check.id === 'fresh-generated-evidence' && check.status === 'pass') ||
+      !(autonomousCadence.checks ?? []).some((check) => check.id === 'fresh-generated-evidence' && check.status === 'pass') ||
   (cadenceCodexDesktopStatus === 'active-confirmed' &&
     (autonomousCadence.schedulers?.codexDesktop?.actual?.installedStatus !== 'ACTIVE' ||
       autonomousCadence.schedulers?.codexDesktop?.actual?.scheduleMatches !== true ||
@@ -3090,12 +3103,23 @@ if (
   !postDeployEvidenceSyncWorkflow.includes('actions: read') ||
   !postDeployEvidenceSyncWorkflow.includes('contents: write') ||
   !postDeployEvidenceSyncWorkflow.includes('autonomous:post-deploy-artifact-sync') ||
+  !postDeployEvidenceSyncWorkflow.includes('autonomous:live-monitor') ||
+  !postDeployEvidenceSyncWorkflow.includes('autonomous:respond') ||
+  !postDeployEvidenceSyncWorkflow.includes('autonomous:readiness') ||
+  !postDeployEvidenceSyncWorkflow.includes('autonomous:objective-audit') ||
   !postDeployEvidenceSyncWorkflow.includes('autonomous:owner-loop') ||
   !postDeployEvidenceSyncWorkflow.includes('npm run autonomous:verify-post-deploy-sync') ||
   !postDeployEvidenceSyncWorkflow.includes('AGL_AUTONOMOUS_SELF_UPDATE_DIRECT') ||
   !postDeployEvidenceSyncWorkflow.includes('data/post-deploy-artifact-sync.json') ||
   !postDeployEvidenceSyncWorkflow.includes('src/data/postDeployArtifactSync.ts') ||
   !postDeployEvidenceSyncWorkflow.includes('reports/post-deploy-artifact-sync-latest.md') ||
+  !postDeployEvidenceSyncWorkflow.includes('data/live-site-monitor.json') ||
+  !postDeployEvidenceSyncWorkflow.includes('src/data/liveSiteMonitor.ts') ||
+  !postDeployEvidenceSyncWorkflow.includes('reports/live-site-monitor-latest.md') ||
+  !postDeployEvidenceSyncWorkflow.includes('data/production-response.json') ||
+  !postDeployEvidenceSyncWorkflow.includes('data/production-blocker-handoff.json') ||
+  !postDeployEvidenceSyncWorkflow.includes('data/production-readiness.json') ||
+  !postDeployEvidenceSyncWorkflow.includes('data/objective-audit.json') ||
   !postDeployEvidenceSyncWorkflow.includes('data/autonomous-owner-loop.json') ||
   !postDeployEvidenceSyncWorkflow.includes('src/data/autonomousOwnerLoop.ts') ||
   !postDeployEvidenceSyncWorkflow.includes('reports/autonomous-owner-loop-latest.md') ||
@@ -4474,6 +4498,25 @@ const postDeployArtifactSyncReady =
   postDeployArtifactSync.controls?.readOnlyHttpChecks === true &&
   postDeployArtifactSync.controls?.strictManifestComparisonRequired === true &&
   postDeployArtifactSync.controls?.separateFromLocalCandidate === true
+const liveManifestCheck = liveSiteMonitor.checks?.find((check) => check.id === 'release-candidate-manifest-live')
+const liveSiteMonitorReady =
+  liveSiteMonitor.status === 'live-site-monitor-passed' &&
+  liveSiteMonitor.sourceStatus?.releaseCandidate === releaseCandidate.status &&
+  liveSiteMonitor.sourceStatus?.postDeployArtifactSync === postDeployArtifactSync.status &&
+  liveSiteMonitor.sourceStatus?.latestSyncedDeployKnown === true &&
+  liveSiteMonitor.summary?.planned >= (releaseCandidate.postDeploySmoke?.length ?? 0) + 1 &&
+  liveSiteMonitor.summary?.passed === liveSiteMonitor.summary?.planned &&
+  liveSiteMonitor.summary?.failed === 0 &&
+  liveSiteMonitor.summary?.blocked === 0 &&
+  liveSiteMonitor.summary?.liveCandidateId === postDeployArtifactSync.live?.candidateId &&
+  liveSiteMonitor.summary?.syncedCandidateId === postDeployArtifactSync.live?.candidateId &&
+  liveSiteMonitor.summary?.liveMatchesSyncedDeploy === true &&
+  liveSiteMonitor.controls?.zeroPaidSpend === true &&
+  liveSiteMonitor.controls?.readOnlyHttpChecks === true &&
+  liveSiteMonitor.controls?.noMutation === true &&
+  liveSiteMonitor.controls?.noCookiesOrCredentials === true &&
+  liveSiteMonitor.controls?.strictSyncedManifestComparison === true &&
+  liveManifestCheck?.manifest?.matchesSyncedDeploy === true
 
 if (
   !postDeploySmokeAllowedStatuses.includes(postDeploySmoke.status) ||
@@ -4566,13 +4609,43 @@ if (
   !postDeployEvidenceSyncWorkflow.includes('actions: read') ||
   !postDeployEvidenceSyncWorkflow.includes('contents: write') ||
   !postDeployEvidenceSyncWorkflow.includes('autonomous:post-deploy-artifact-sync') ||
+  !postDeployEvidenceSyncWorkflow.includes('autonomous:live-monitor') ||
+  !postDeployEvidenceSyncWorkflow.includes('autonomous:respond') ||
+  !postDeployEvidenceSyncWorkflow.includes('autonomous:readiness') ||
+  !postDeployEvidenceSyncWorkflow.includes('autonomous:objective-audit') ||
   !postDeployEvidenceSyncWorkflow.includes('npm run autonomous:verify-post-deploy-sync') ||
   !postDeployEvidenceSyncWorkflow.includes('AGL_AUTONOMOUS_SELF_UPDATE_DIRECT') ||
   !postDeployEvidenceSyncWorkflow.includes('data/post-deploy-artifact-sync.json') ||
   !postDeployEvidenceSyncWorkflow.includes('src/data/postDeployArtifactSync.ts') ||
-  !postDeployEvidenceSyncWorkflow.includes('reports/post-deploy-artifact-sync-latest.md')
+  !postDeployEvidenceSyncWorkflow.includes('reports/post-deploy-artifact-sync-latest.md') ||
+  !postDeployEvidenceSyncWorkflow.includes('data/live-site-monitor.json') ||
+  !postDeployEvidenceSyncWorkflow.includes('src/data/liveSiteMonitor.ts') ||
+  !postDeployEvidenceSyncWorkflow.includes('reports/live-site-monitor-latest.md')
 ) {
   fail('Post-deploy artifact sync must preserve strict GitHub Actions smoke evidence and compare it to the live release manifest.')
+}
+
+if (
+  !liveSiteMonitorReady ||
+  liveSiteMonitor.origin?.origin !== postDeployArtifactSync.live?.origin ||
+  !liveSiteMonitor.checks?.some((check) => check.path === '/privacy.html' && check.status === 'pass') ||
+  !liveSiteMonitor.checks?.some((check) => check.path === '/support.html' && check.status === 'pass') ||
+  !liveSiteMonitor.checks?.some((check) => check.path === '/compliance.json' && check.status === 'pass') ||
+  !liveSiteMonitor.checks?.some((check) => check.path === '/gate-sample.html' && check.status === 'pass') ||
+  packageJson.scripts?.['autonomous:live-monitor'] !== 'node scripts/live-site-monitor.mjs' ||
+  !packageJson.scripts?.['autonomous:daily']?.includes('autonomous:live-monitor') ||
+  !packageJson.scripts?.['test:e2e']?.includes('autonomous:live-monitor') ||
+  !packageJson.scripts?.['test:automation']?.includes('autonomous:live-monitor') ||
+  !packageJson.scripts?.['autonomous:bundle-sync']?.includes('autonomous:live-monitor') ||
+  !packageJson.scripts?.['autonomous:bundle-finalize']?.includes('autonomous:live-monitor') ||
+  !packageJson.scripts?.['autonomous:after-action']?.includes('autonomous:live-monitor') ||
+  !liveSiteMonitorSource.includes('strictSyncedManifestComparison') ||
+  !liveSiteMonitorSource.includes('noCookiesOrCredentials') ||
+  productionResponse.liveSiteMonitorStatus !== liveSiteMonitor.status ||
+  productionResponse.controls?.liveSiteAlert !== (liveSiteMonitor.status === 'live-site-monitor-alert') ||
+  !appSource.includes('Live Site Monitor')
+) {
+  fail('Live site monitor must continuously verify the public PWA, compliance assets, and synced release manifest with read-only zero-spend checks.')
 }
 
 if (
@@ -4589,9 +4662,14 @@ if (
   readiness.postDeployArtifactSync?.status !== postDeployArtifactSync.status ||
   readiness.postDeployArtifactSync?.live?.matchesArtifact !== true ||
   readiness.postDeployArtifactSync?.controls?.readOnlyGithubArtifactDownload !== true ||
-  readiness.postDeployArtifactSync?.controls?.separateFromLocalCandidate !== true
+  readiness.postDeployArtifactSync?.controls?.separateFromLocalCandidate !== true ||
+  !readiness.webPwa?.checks?.some((check) => check.id === 'live-site-monitor' && check.status === 'pass') ||
+  readiness.liveSiteMonitor?.status !== liveSiteMonitor.status ||
+  readiness.liveSiteMonitor?.summary?.liveMatchesSyncedDeploy !== true ||
+  readiness.liveSiteMonitor?.controls?.readOnlyHttpChecks !== true ||
+  readiness.liveSiteMonitor?.controls?.strictSyncedManifestComparison !== true
 ) {
-  fail('Production readiness must include the post-deploy smoke runner and release-manifest comparison evidence.')
+  fail('Production readiness must include post-deploy smoke, artifact sync, and continuous live-site monitor evidence.')
 }
 
 const repositoryReadinessAllowedStatuses = [
@@ -5142,6 +5220,7 @@ const requiredOwnerSystems = [
   'release-candidate',
   'post-deploy-smoke',
   'post-deploy-artifact-sync',
+  'live-site-monitor',
   'first-move-coach',
   'completion-loop',
   'replay-loop',
@@ -5170,6 +5249,7 @@ const requiredOwnerActions = [
   'prepare-release-candidate',
   'run-post-deploy-smoke',
   'sync-post-deploy-artifact',
+  'refresh-live-site-monitor',
   'prepare-repository-channel',
   'refresh-first-move-coach',
   'collect-gate-sample-downloads',
@@ -5315,6 +5395,9 @@ const ownerObjectiveAuditAction = autonomousOwnerLoop.safeAutonomousActions?.fin
 )
 const ownerRunPostDeploySmokeAction = autonomousOwnerLoop.safeAutonomousActions?.find(
   (action) => action.id === 'run-post-deploy-smoke',
+)
+const ownerRefreshLiveSiteMonitorAction = autonomousOwnerLoop.safeAutonomousActions?.find(
+  (action) => action.id === 'refresh-live-site-monitor',
 )
 const ownerCheckPerformanceAction = autonomousOwnerLoop.safeAutonomousActions?.find(
   (action) => action.id === 'check-performance-budget',
@@ -5463,6 +5546,12 @@ const ownerPerformanceOperationalFreshness = ownerOperationalEvidenceFreshness({
     releaseCandidate.status === 'release-candidate-ready' &&
     typeof releaseCandidate.candidateId === 'string',
 })
+const ownerLiveSiteMonitorOperationalFreshness = ownerOperationalEvidenceFreshness({
+  artifact: liveSiteMonitor,
+  readyStatuses: ['live-site-monitor-passed'],
+  checksPass: (liveSiteMonitor.checks ?? []).every((check) => check.status === 'pass'),
+  extraReady: liveSiteMonitorReady,
+})
 const ownerRepositoryTargetPlan = repositoryReadiness.repositoryTargetPlan ?? repositoryBootstrap.repositoryTargetPlan ?? null
 const ownerRepositoryTargetPlanReady =
   typeof ownerRepositoryTargetPlan?.plannedTarget === 'string' &&
@@ -5599,6 +5688,7 @@ if (
   autonomousOwnerLoop.evidence?.releaseCandidateStatus !== releaseCandidate.status ||
   autonomousOwnerLoop.evidence?.postDeploySmokeStatus !== postDeploySmoke.status ||
   autonomousOwnerLoop.evidence?.postDeployArtifactSyncStatus !== postDeployArtifactSync.status ||
+  autonomousOwnerLoop.evidence?.liveSiteMonitorStatus !== liveSiteMonitor.status ||
   autonomousOwnerLoop.evidence?.firstMoveCoachStatus !== firstMoveCoach.status ||
   autonomousOwnerLoop.evidence?.productGateSamplePlanStatus !== productGateSamplePlan.status ||
   autonomousOwnerLoop.evidence?.completionLoopStatus !== completionLoop.status ||
@@ -5636,6 +5726,7 @@ if (
   !autonomousOwnerLoopSource.includes('productionActivationRunnable') ||
   !autonomousOwnerLoopSource.includes('objectiveAuditFreshness') ||
   !autonomousOwnerLoopSource.includes('operationalEvidenceFreshness') ||
+  !autonomousOwnerLoopSource.includes('liveSiteMonitorOperationalFreshness') ||
   JSON.stringify(autonomousOwnerLoop.executionMemory?.recentExecutedActionIds ?? []) !==
     JSON.stringify(ownerRecentExecutedActionIds) ||
   JSON.stringify(autonomousOwnerLoop.executionMemory?.recentlySatisfiedActionIds ?? []) !==
@@ -5697,6 +5788,18 @@ if (
     ownerPerformanceOperationalFreshness.checksPass ||
   autonomousOwnerLoop.executionMemory?.operationalEvidenceFreshness?.performance?.extraReady !==
     ownerPerformanceOperationalFreshness.extraReady ||
+  autonomousOwnerLoop.executionMemory?.operationalEvidenceFreshness?.liveSiteMonitor?.fresh !==
+    ownerLiveSiteMonitorOperationalFreshness.fresh ||
+  autonomousOwnerLoop.executionMemory?.operationalEvidenceFreshness?.liveSiteMonitor?.ready !==
+    ownerLiveSiteMonitorOperationalFreshness.ready ||
+  autonomousOwnerLoop.executionMemory?.operationalEvidenceFreshness?.liveSiteMonitor?.status !==
+    ownerLiveSiteMonitorOperationalFreshness.status ||
+  autonomousOwnerLoop.executionMemory?.operationalEvidenceFreshness?.liveSiteMonitor?.maxAgeHours !==
+    ownerOperationalEvidenceMaxAgeHours ||
+  autonomousOwnerLoop.executionMemory?.operationalEvidenceFreshness?.liveSiteMonitor?.checksPass !==
+    ownerLiveSiteMonitorOperationalFreshness.checksPass ||
+  autonomousOwnerLoop.executionMemory?.operationalEvidenceFreshness?.liveSiteMonitor?.extraReady !==
+    ownerLiveSiteMonitorOperationalFreshness.extraReady ||
   (ownerCadenceOperationalFreshness.fresh && ownerRefreshCadenceAction?.status !== 'monitor') ||
   (ownerCadenceOperationalFreshness.fresh &&
     autonomousOwnerLoop.ownerDecision?.nextBestActionId === 'refresh-autonomous-cadence') ||
@@ -5709,6 +5812,9 @@ if (
   (ownerPerformanceOperationalFreshness.fresh && ownerCheckPerformanceAction?.status !== 'monitor') ||
   (ownerPerformanceOperationalFreshness.fresh &&
     autonomousOwnerLoop.ownerDecision?.nextBestActionId === 'check-performance-budget') ||
+  (ownerLiveSiteMonitorOperationalFreshness.fresh && ownerRefreshLiveSiteMonitorAction?.status !== 'monitor') ||
+  (ownerLiveSiteMonitorOperationalFreshness.fresh &&
+    autonomousOwnerLoop.ownerDecision?.nextBestActionId === 'refresh-live-site-monitor') ||
   autonomousOwnerLoop.executionMemory?.repositoryHandoff?.prepared !== ownerRepositoryHandoffPrepared ||
   autonomousOwnerLoop.executionMemory?.repositoryHandoff?.targetPlanReady !== ownerRepositoryTargetPlanReady ||
   autonomousOwnerLoop.executionMemory?.repositoryHandoff?.plannedTarget !==
@@ -5806,16 +5912,22 @@ if (
     autonomousOwnerLoop.ownerDecision?.nextBestActionId === 'run-post-deploy-smoke') ||
   autonomousOwnerLoop.executionMemory?.liveDeployEvidence?.localSmokeFresh !== postDeploySmokeRunnerReady ||
   autonomousOwnerLoop.executionMemory?.liveDeployEvidence?.strictArtifactSyncFresh !== postDeployArtifactSyncReady ||
+  autonomousOwnerLoop.executionMemory?.liveDeployEvidence?.liveSiteMonitorFresh !==
+    ownerLiveSiteMonitorOperationalFreshness.fresh ||
   autonomousOwnerLoop.executionMemory?.liveDeployEvidence?.smokeActionFresh !== ownerPostDeploySmokeActionFresh ||
   autonomousOwnerLoop.executionMemory?.liveDeployEvidence?.releaseCandidateActionFresh !==
-    (postDeploySmokeRunnerReady && postDeployArtifactSyncReady) ||
+    (postDeploySmokeRunnerReady && postDeployArtifactSyncReady && ownerLiveSiteMonitorOperationalFreshness.fresh) ||
   autonomousOwnerLoop.executionMemory?.liveDeployEvidence?.liveCandidateId !==
     (postDeployArtifactSync.live?.candidateId ?? null) ||
   autonomousOwnerLoop.executionMemory?.liveDeployEvidence?.artifactCandidateId !==
     (postDeployArtifactSync.artifact?.target?.candidateId ?? null) ||
-  (postDeploySmokeRunnerReady && postDeployArtifactSyncReady && ownerPrepareReleaseAction?.status !== 'monitor') ||
   (postDeploySmokeRunnerReady &&
     postDeployArtifactSyncReady &&
+    ownerLiveSiteMonitorOperationalFreshness.fresh &&
+    ownerPrepareReleaseAction?.status !== 'monitor') ||
+  (postDeploySmokeRunnerReady &&
+    postDeployArtifactSyncReady &&
+    ownerLiveSiteMonitorOperationalFreshness.fresh &&
     autonomousOwnerLoop.ownerDecision?.nextBestActionId === 'prepare-release-candidate') ||
   (operatorStatusAllowed && ownerRunOperatorAction?.status !== 'monitor') ||
   (autonomousOperatorHistory.status === 'operator-history-ready' &&
@@ -5919,7 +6031,8 @@ if (
   !autonomousOwnerLoop.safeAutonomousActions?.some(
     (action) =>
       action.id === 'prepare-release-candidate' &&
-      action.command === 'npm run autonomous:release-candidate && npm run autonomous:post-deploy-smoke' &&
+      action.command ===
+        'npm run autonomous:release-candidate && npm run autonomous:post-deploy-smoke && npm run autonomous:live-monitor' &&
       action.costUsd === 0 &&
       action.targets?.includes('dist-release-candidate') &&
       action.targets?.includes('release-candidate-manifest'),
@@ -5937,6 +6050,13 @@ if (
       action.command === 'npm run autonomous:post-deploy-artifact-sync' &&
       action.costUsd === 0 &&
       action.targets?.includes('release-candidate-manifest'),
+  ) ||
+  !autonomousOwnerLoop.safeAutonomousActions?.some(
+    (action) =>
+      action.id === 'refresh-live-site-monitor' &&
+      action.command === 'npm run autonomous:live-monitor' &&
+      action.costUsd === 0 &&
+      action.targets?.includes(liveSiteMonitor.origin?.origin ?? postDeployArtifactSync.live?.origin ?? 'public-pwa-origin'),
   ) ||
   !autonomousOwnerLoop.safeAutonomousActions?.some(
     (action) =>
