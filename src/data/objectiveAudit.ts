@@ -1,5 +1,5 @@
 export const objectiveAudit = {
-  "generatedAt": "2026-05-21T00:30:53.231Z",
+  "generatedAt": "2026-05-21T00:35:23.982Z",
   "status": "objective-in-progress",
   "objective": "Build a bootstrapped autonomous web/PWA game portal that can generate original board-game-inspired games, measure user behavior, propose and apply data-driven improvements, and prepare a path to monetization and app-store distribution with minimal manual intervention.",
   "summary": {
@@ -76,7 +76,7 @@ export const objectiveAudit = {
         "Backlog: improvement-backlog-ready; items 4; hash a738f73a0160",
         "Support feedback: support-feedback-empty; issues 0; routable signals 0",
         "Applied/deferred actions: 7",
-        "Operator selected: measure-pwa-install-loop; status operator-executed; execution executed"
+        "Operator selected: run-post-deploy-smoke; status operator-executed; execution executed"
       ],
       "blockers": [],
       "nextAction": "Keep collecting starts until a safe product-gate tuning action is justified.",
@@ -91,7 +91,7 @@ export const objectiveAudit = {
         "Autonomous cadence: cadence-ready; Codex active-confirmed; GitHub scheduled",
         "Autonomous self-update: self-update-ready; workflow .github/workflows/autonomous-self-update.yml; unsafe pending 0",
         "Operator: operator-executed",
-        "Operator history: operator-history-ready; records 40; executed 16",
+        "Operator history: operator-history-ready; records 40; executed 17",
         "Bootstrap: production-bootstrap-ready",
         "Repository bootstrap: repository-bootstrap-ready; helper ops/github/bootstrap-repository.sh",
         "Release candidate: release-candidate-ready; smoke URLs 14",
@@ -233,7 +233,7 @@ export const objectiveAudit = {
     "noRevenueEnablementUntilGatesPass": true,
     "noStoreSubmissionUntilExternalAccounts": true,
     "currentWorktreeClean": false,
-    "currentWorktreeDirtyFiles": 9,
+    "currentWorktreeDirtyFiles": 37,
     "productionBootstrapFresh": true,
     "productionBootstrapStaleInputIds": [],
     "objectiveNextBestActionSource": "owner-loop"
@@ -241,7 +241,7 @@ export const objectiveAudit = {
   "completion": {
     "canMarkGoalComplete": false,
     "reason": "The local autonomous PWA system is largely prepared with strict live deploy evidence synced from GitHub Actions, but production credentials, live data, monetization gates, and store account/signing blockers remain.",
-    "nextBestAction": "measure-pwa-install-loop"
+    "nextBestAction": "run-post-deploy-smoke"
   }
 } as const
 

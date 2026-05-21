@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-21T00:22:48.621Z",
+  "generatedAt": "2026-05-21T00:33:42.115Z",
   "status": "ready-for-pages",
   "target": {
     "provider": "github-pages",
@@ -50,11 +50,11 @@
   },
   "releaseCandidate": {
     "status": "release-candidate-ready",
-    "candidateId": "pwa-0ac30d661026",
+    "candidateId": "pwa-723642f8c683",
     "manifestPath": "dist/release-candidate.json",
-    "aggregateHash": "0ac30d661026af55dd784e340ed60014163b86a9ba095a75205685847ae60575",
+    "aggregateHash": "723642f8c6836c455ec432fbe51184fb4aa571fb7391e40b64ce3722f6fd74f8",
     "totalFiles": 44,
-    "totalKb": 3612.6,
+    "totalKb": 3604.4,
     "postDeploySmokeUrls": 14
   },
   "compliance": {
@@ -83,7 +83,7 @@
     {
       "id": "web-readiness",
       "status": "pass",
-      "detail": "Pre-deploy web readiness passed; live post-deploy smoke remains blocked."
+      "detail": "Pre-deploy web readiness passed; live post-deploy smoke remains ready-after-build."
     },
     {
       "id": "release-health",
@@ -123,7 +123,7 @@
     {
       "id": "release-candidate",
       "status": "pass",
-      "detail": "Release candidate is release-candidate-ready; candidate pwa-0ac30d661026."
+      "detail": "Release candidate is release-candidate-ready; candidate pwa-723642f8c683."
     },
     {
       "id": "deploy-workflow",
