@@ -2225,6 +2225,7 @@ if (
   !autonomousOperator.allowlist?.includes('npm run autonomous:objective-audit') ||
   !autonomousOperator.allowlist?.includes('npm run autonomous:android-signing') ||
   !autonomousOperator.allowlist?.includes('npm run autonomous:activate-production') ||
+  !autonomousOperator.allowlist?.includes('npm run autonomous:gate-recovery && npm run autonomous:sample-plan') ||
   !autonomousOperator.allowlist?.includes('npm run autonomous:sample-plan') ||
   !autonomousOperator.allowlist?.includes('npm run autonomous:collect-sample-downloads') ||
   !autonomousOperator.allowlist?.includes(
@@ -4102,6 +4103,30 @@ const localArtifactManifestCheck = localArtifactSmoke.checks?.find(
   (check) => check.id === 'release-candidate-manifest',
 )
 const localArtifactComplianceCheck = localArtifactSmoke.checks?.find((check) => check.path === '/compliance.json')
+const postDeploySmokeRunnerReady =
+  postDeploySmokeAllowedStatuses.includes(postDeploySmoke.status) &&
+  localArtifactSmoke.status === 'predeploy-artifact-smoke-passed' &&
+  localArtifactSmoke.summary?.planned >= postDeploySmokeExpectedChecks &&
+  localArtifactSmoke.summary?.passed === localArtifactSmoke.summary?.planned &&
+  localArtifactSmoke.summary?.failed === 0 &&
+  postDeploySmoke.sourceStatus?.deployment === deployment.status &&
+  postDeploySmoke.sourceStatus?.releaseCandidate === releaseCandidate.status &&
+  postDeploySmoke.target?.candidateId === releaseCandidate.candidateId &&
+  postDeploySmoke.target?.aggregateHash === releaseCandidate.integrity?.aggregateHash &&
+  postDeploySmoke.controls?.zeroPaidSpend === true &&
+  postDeploySmoke.controls?.readOnlyHttpChecks === true &&
+  postDeploySmoke.controls?.localArtifactSmokeRequired === true &&
+  postDeploySmoke.controls?.manifestHashComparisonRequired === true &&
+  (postDeploySmoke.checks?.length ?? 0) >= postDeploySmokeExpectedChecks
+const postDeployArtifactSyncReady =
+  postDeployArtifactSync.status === 'post-deploy-artifact-sync-passed' &&
+  postDeployArtifactSync.validation?.artifactPassed === true &&
+  postDeployArtifactSync.validation?.artifactStrict === true &&
+  postDeployArtifactSync.validation?.liveMatchesArtifact === true &&
+  postDeployArtifactSync.controls?.readOnlyGithubArtifactDownload === true &&
+  postDeployArtifactSync.controls?.readOnlyHttpChecks === true &&
+  postDeployArtifactSync.controls?.strictManifestComparisonRequired === true &&
+  postDeployArtifactSync.controls?.separateFromLocalCandidate === true
 
 if (
   !postDeploySmokeAllowedStatuses.includes(postDeploySmoke.status) ||
@@ -4826,30 +4851,25 @@ const ownerRecentlySatisfiedActionIds = [
   ),
 ]
 const ownerRecentlyCoveredActionIds = new Set([...ownerRecentExecutedActionIds, ...ownerRecentlySatisfiedActionIds])
+const ownerActionLocallySelectable = (action) => action.status === 'armed' && action.id !== 'run-daily-owner-loop'
 const ownerRecentlyExecutedActionStillExecutable = (autonomousOwnerLoop.safeAutonomousActions ?? []).some(
-  (action) =>
-    action.id === ownerLastExecutedActionId &&
-    ['armed', 'ready-when-repository-pages-enabled'].includes(action.status),
+  (action) => action.id === ownerLastExecutedActionId && ownerActionLocallySelectable(action),
 )
 const ownerRecentlyExecutedExecutableActionIds = ownerRecentExecutedActionIds.filter((actionId) =>
   (autonomousOwnerLoop.safeAutonomousActions ?? []).some(
-    (action) => action.id === actionId && ['armed', 'ready-when-repository-pages-enabled'].includes(action.status),
+    (action) => action.id === actionId && ownerActionLocallySelectable(action),
   ),
 )
 const ownerHasExecutableAlternativeOutsideRecent = (autonomousOwnerLoop.safeAutonomousActions ?? []).some(
-  (action) =>
-    ['armed', 'ready-when-repository-pages-enabled'].includes(action.status) &&
-    !ownerRecentExecutedActionIds.includes(action.id),
+  (action) => ownerActionLocallySelectable(action) && !ownerRecentExecutedActionIds.includes(action.id),
 )
 const ownerRecentlySatisfiedExecutableActionIds = ownerRecentlySatisfiedActionIds.filter((actionId) =>
   (autonomousOwnerLoop.safeAutonomousActions ?? []).some(
-    (action) => action.id === actionId && ['armed', 'ready-when-repository-pages-enabled'].includes(action.status),
+    (action) => action.id === actionId && ownerActionLocallySelectable(action),
   ),
 )
 const ownerHasExecutableAlternativeOutsideCovered = (autonomousOwnerLoop.safeAutonomousActions ?? []).some(
-  (action) =>
-    ['armed', 'ready-when-repository-pages-enabled'].includes(action.status) &&
-    !ownerRecentlyCoveredActionIds.has(action.id),
+  (action) => ownerActionLocallySelectable(action) && !ownerRecentlyCoveredActionIds.has(action.id),
 )
 const ownerGateSampleBackoff = autonomousOwnerLoop.executionMemory?.gateSampleDownloadsBackoff
 const ownerGateSampleEvidenceReadyNow =
@@ -4882,6 +4902,28 @@ const ownerPrepareRepositoryAction = autonomousOwnerLoop.safeAutonomousActions?.
 const ownerObjectiveAuditAction = autonomousOwnerLoop.safeAutonomousActions?.find(
   (action) => action.id === 'refresh-objective-audit',
 )
+const ownerRunPostDeploySmokeAction = autonomousOwnerLoop.safeAutonomousActions?.find(
+  (action) => action.id === 'run-post-deploy-smoke',
+)
+const ownerRunOperatorAction = autonomousOwnerLoop.safeAutonomousActions?.find(
+  (action) => action.id === 'run-autonomous-operator',
+)
+const ownerReviewOperatorHistoryAction = autonomousOwnerLoop.safeAutonomousActions?.find(
+  (action) => action.id === 'review-operator-history',
+)
+const ownerPostDeploySmokeActionFresh =
+  postDeploySmokeAllowedStatuses.includes(postDeploySmoke.status) &&
+  localArtifactSmoke.status === 'predeploy-artifact-smoke-passed' &&
+  localArtifactSmoke.summary?.passed === localArtifactSmoke.summary?.planned &&
+  localArtifactSmoke.summary?.failed === 0 &&
+  postDeploySmoke.sourceStatus?.deployment === deployment.status &&
+  postDeploySmoke.sourceStatus?.releaseCandidate === releaseCandidate.status &&
+  postDeploySmoke.target?.candidateId === releaseCandidate.candidateId &&
+  postDeploySmoke.target?.aggregateHash === releaseCandidate.integrity?.aggregateHash &&
+  postDeployArtifactSync.status === 'post-deploy-artifact-sync-passed' &&
+  postDeployArtifactSync.validation?.artifactStrict === true &&
+  postDeployArtifactSync.validation?.liveMatchesArtifact === true &&
+  postDeployArtifactSync.artifact?.target?.candidateId === postDeployArtifactSync.live?.candidateId
 const ownerGeneratedAtMs = (artifact) => {
   const value = Date.parse(artifact?.generatedAt ?? '')
   return Number.isFinite(value) ? value : null
@@ -5072,6 +5114,21 @@ if (
   (ownerProductionBootstrapFresh && ownerBootstrapProductionAction?.status !== 'monitor') ||
   (ownerProductionBootstrapFresh &&
     autonomousOwnerLoop.ownerDecision?.nextBestActionId === 'bootstrap-production-setup') ||
+  (ownerPostDeploySmokeActionFresh && ownerRunPostDeploySmokeAction?.status !== 'monitor') ||
+  (ownerPostDeploySmokeActionFresh &&
+    autonomousOwnerLoop.ownerDecision?.nextBestActionId === 'run-post-deploy-smoke') ||
+  autonomousOwnerLoop.executionMemory?.liveDeployEvidence?.localSmokeFresh !== postDeploySmokeRunnerReady ||
+  autonomousOwnerLoop.executionMemory?.liveDeployEvidence?.strictArtifactSyncFresh !== postDeployArtifactSyncReady ||
+  autonomousOwnerLoop.executionMemory?.liveDeployEvidence?.smokeActionFresh !== ownerPostDeploySmokeActionFresh ||
+  autonomousOwnerLoop.executionMemory?.liveDeployEvidence?.liveCandidateId !==
+    (postDeployArtifactSync.live?.candidateId ?? null) ||
+  autonomousOwnerLoop.executionMemory?.liveDeployEvidence?.artifactCandidateId !==
+    (postDeployArtifactSync.artifact?.target?.candidateId ?? null) ||
+  (operatorStatusAllowed && ownerRunOperatorAction?.status !== 'monitor') ||
+  (autonomousOperatorHistory.status === 'operator-history-ready' &&
+    ownerReviewOperatorHistoryAction?.status !== 'monitor') ||
+  !autonomousOwnerLoopSource.includes('postDeploySmokeActionFresh') ||
+  !autonomousOwnerLoopSource.includes('operatorPlanPublished') ||
   (ownerHasExecutedAction &&
     ownerHasExecutableAlternativeOutsideRecent &&
     ownerRecentExecutedActionIds.includes(autonomousOwnerLoop.ownerDecision?.nextBestActionId)) ||
@@ -5227,6 +5284,14 @@ if (
       action.command?.includes('autonomous:product-optimize') &&
       action.command?.includes('autonomous:simulate') &&
       action.costUsd === 0,
+  ) ||
+  !autonomousOwnerLoop.safeAutonomousActions?.some(
+    (action) =>
+      action.id === 'refresh-product-gate-recovery' &&
+      action.command === 'npm run autonomous:gate-recovery && npm run autonomous:sample-plan' &&
+      action.costUsd === 0 &&
+      action.targets?.includes(productGateRecovery.summary?.primaryBottleneck) &&
+      action.targets?.includes(productGateSamplePlan.summary?.primaryGateId),
   ) ||
   !autonomousOwnerLoop.safeAutonomousActions?.some(
     (action) =>

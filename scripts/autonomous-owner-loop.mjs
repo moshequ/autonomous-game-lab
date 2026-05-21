@@ -351,6 +351,12 @@ const postDeployArtifactSyncReady =
   postDeployArtifactSync.controls?.readOnlyHttpChecks === true &&
   postDeployArtifactSync.controls?.strictManifestComparisonRequired === true &&
   postDeployArtifactSync.controls?.separateFromLocalCandidate === true
+const postDeploySmokeActionFresh =
+  postDeploySmokeRunnerReady &&
+  postDeployArtifactSyncReady &&
+  postDeployArtifactSync.artifact?.target?.candidateId === postDeployArtifactSync.live?.candidateId
+const operatorPlanPublished = ['operator-plan-ready', 'operator-executed'].includes(autonomousOperator.status)
+const operatorHistoryPublished = autonomousOperatorHistory.status === 'operator-history-ready'
 const productionBootstrapFreshnessInputs = [
   { id: 'release-candidate', generatedAt: releaseCandidate.generatedAt },
   { id: 'deployment-plan', generatedAt: deployment.generatedAt },
@@ -1472,13 +1478,15 @@ const safeAutonomousActions = [
   },
   {
     id: 'run-post-deploy-smoke',
-    status: postDeploySmoke.target?.origin ? 'armed' : 'monitor',
+    status: postDeploySmoke.target?.origin && !postDeploySmokeActionFresh ? 'armed' : 'monitor',
     costUsd: 0,
     command: 'npm run autonomous:post-deploy-smoke',
     targets: [postDeploySmoke.target?.origin ?? 'deployed-pages-url', 'release-candidate-manifest'],
-    reason: postDeploySmoke.target?.origin
-      ? 'Verifies the live Pages URL with read-only smoke checks and release-manifest hash comparison.'
-      : 'Waits for a deployed Pages origin, then verifies the live PWA matches the exact release candidate.',
+    reason: postDeploySmokeActionFresh
+      ? 'Local smoke and strict CI artifact sync already prove the current deploy evidence; continue product learning.'
+      : postDeploySmoke.target?.origin
+        ? 'Verifies the live Pages URL with read-only smoke checks and release-manifest hash comparison.'
+        : 'Waits for a deployed Pages origin, then verifies the live PWA matches the exact release candidate.',
   },
   {
     id: 'sync-post-deploy-artifact',
@@ -1507,9 +1515,12 @@ const safeAutonomousActions = [
     id: 'refresh-product-gate-recovery',
     status: productGateRecovery.status === 'product-gate-recovery-ready' ? 'armed' : 'monitor',
     costUsd: 0,
-    command: 'npm run autonomous:gate-recovery',
-    targets: [productGateRecovery.summary?.primaryBottleneck ?? 'product-gate-recovery'],
-    reason: 'Ranks the exact observed lift and prompt sample still needed before revenue gates can open.',
+    command: 'npm run autonomous:gate-recovery && npm run autonomous:sample-plan',
+    targets: [
+      productGateRecovery.summary?.primaryBottleneck ?? 'product-gate-recovery',
+      productGateSamplePlan.summary?.primaryGateId ?? 'product-gate-sample-plan',
+    ],
+    reason: 'Ranks the exact observed lift and immediately refreshes the zero-spend sample missions before revenue gates can open.',
   },
   {
     id: 'collect-gate-sample-downloads',
@@ -1606,21 +1617,23 @@ const safeAutonomousActions = [
   },
   {
     id: 'run-autonomous-operator',
-    status: ['operator-plan-ready', 'operator-executed'].includes(autonomousOperator.status)
-      ? 'armed'
-      : 'monitor',
+    status: operatorPlanPublished ? 'monitor' : 'armed',
     costUsd: 0,
     command: 'npm run autonomous:operator',
     targets: [autonomousOperator.selectedAction?.id ?? 'owner-loop-safe-actions'],
-    reason: 'Publishes the one-action local execution plan with allowlist, zero-spend, and audit controls.',
+    reason: operatorPlanPublished
+      ? 'One-action operator plan is already published; avoid cycling on meta-operator refreshes.'
+      : 'Publishes the one-action local execution plan with allowlist, zero-spend, and audit controls.',
   },
   {
     id: 'review-operator-history',
-    status: autonomousOperatorHistory.status === 'operator-history-ready' ? 'armed' : 'monitor',
+    status: operatorHistoryPublished ? 'monitor' : 'armed',
     costUsd: 0,
     command: 'npm run autonomous:operator',
     targets: [autonomousOperatorHistory.summary?.lastActionId ?? 'operator-history'],
-    reason: 'Refreshes the capped operator history so safe actions remain auditable over time.',
+    reason: operatorHistoryPublished
+      ? 'Operator history is already capped and published; keep attention on product evidence.'
+      : 'Refreshes the capped operator history so safe actions remain auditable over time.',
   },
   {
     id: 'refresh-objective-audit',
@@ -1861,6 +1874,13 @@ const payload = {
       evidenceReadyNow: gateSampleEvidenceReadyNow,
       evaluatedInputIds: ['local-event-bridge', ...localEventCollectionFreshnessInputs.map((artifact) => artifact.id)],
       staleInputIds: localEventCollectionStaleInputs.map((artifact) => artifact.id),
+    },
+    liveDeployEvidence: {
+      localSmokeFresh: postDeploySmokeRunnerReady,
+      strictArtifactSyncFresh: postDeployArtifactSyncReady,
+      smokeActionFresh: postDeploySmokeActionFresh,
+      liveCandidateId: postDeployArtifactSync.live?.candidateId ?? null,
+      artifactCandidateId: postDeployArtifactSync.artifact?.target?.candidateId ?? null,
     },
     skippedRecentlyExecutedActionIds: locallyExecutableNow
       .filter((action) => recentlyExecutedActionIds.has(action.id) && action.id !== nextBestAction.id)

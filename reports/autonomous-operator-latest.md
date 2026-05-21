@@ -1,10 +1,10 @@
 # Autonomous Operator
 
-Generated: 2026-05-21T06:01:40.783Z
+Generated: 2026-05-21T06:20:17.173Z
 Status: operator-plan-ready
 Mode: plan-only
-Owner decision: run-post-deploy-smoke
-Selected action: run-post-deploy-smoke
+Owner decision: optimize-store-listing
+Selected action: optimize-store-listing
 Execution: not-requested
 
 ## Controls
@@ -18,7 +18,7 @@ Execution: not-requested
 
 ## Selected Action
 
-- run-post-deploy-smoke: npm run autonomous:post-deploy-smoke
+- optimize-store-listing: npm run autonomous:store-listing-optimize && npm run autonomous:store-compliance
 
 ## Eligible Local Actions
 
@@ -28,7 +28,6 @@ Execution: not-requested
 - measure-pwa-install-loop
 - check-performance-budget
 - prepare-release-candidate
-- run-post-deploy-smoke
 - refresh-product-gate-recovery
 - optimize-store-listing
 
@@ -44,5 +43,5 @@ Execution: not-requested
 - measure-pwa-install-loop: not-selected-this-run
 - check-performance-budget: not-selected-this-run
 - prepare-release-candidate: not-selected-this-run
+- run-post-deploy-smoke: status-monitor
 - sync-post-deploy-artifact: status-monitor
-- optimize-product-gates: status-monitor

@@ -3140,11 +3140,13 @@ test('autonomous operator history keeps a capped audit trail', async ({ page }) 
     ...new Set(recentExecutedActionIds.flatMap((actionId) => compositeActionSatisfiedActionIds[actionId] ?? [])),
   ]
   const recentlyCoveredActionIds = new Set([...recentExecutedActionIds, ...recentlySatisfiedActionIds])
+  const isLocalSelectableAction = (action: { id: string; status: string }) =>
+    action.status === 'armed' && action.id !== 'run-daily-owner-loop'
   const hasExecutableAlternativeOutsideRecent = ownerLoop.safeAutonomousActions.some(
-    (action) => ['armed', 'ready-when-repository-pages-enabled'].includes(action.status) && !recentExecutedActionIds.includes(action.id),
+    (action) => isLocalSelectableAction(action) && !recentExecutedActionIds.includes(action.id),
   )
   const hasExecutableAlternativeOutsideCovered = ownerLoop.safeAutonomousActions.some(
-    (action) => ['armed', 'ready-when-repository-pages-enabled'].includes(action.status) && !recentlyCoveredActionIds.has(action.id),
+    (action) => isLocalSelectableAction(action) && !recentlyCoveredActionIds.has(action.id),
   )
   const gateSampleEvidenceReadyNow =
     (localEventBridge.gateSampleEvidence?.inbox?.events ?? 0) > 0 ||
@@ -3284,7 +3286,7 @@ test('autonomous operator history keeps a capped audit trail', async ({ page }) 
     for (const actionId of recentExecutedActionIds) {
       const executedAction = ownerLoop.safeAutonomousActions.find((action) => action.id === actionId)
 
-      if (executedAction && ['armed', 'ready-when-repository-pages-enabled'].includes(executedAction.status)) {
+      if (executedAction && isLocalSelectableAction(executedAction)) {
         expect(ownerLoop.executionMemory.skippedRecentlyExecutedActionIds).toContain(actionId)
       }
     }
@@ -3294,7 +3296,7 @@ test('autonomous operator history keeps a capped audit trail', async ({ page }) 
     for (const actionId of recentlySatisfiedActionIds) {
       const satisfiedAction = ownerLoop.safeAutonomousActions.find((action) => action.id === actionId)
 
-      if (satisfiedAction && ['armed', 'ready-when-repository-pages-enabled'].includes(satisfiedAction.status)) {
+      if (satisfiedAction && isLocalSelectableAction(satisfiedAction)) {
         expect(ownerLoop.executionMemory.skippedRecentlySatisfiedActionIds).toContain(actionId)
       }
     }

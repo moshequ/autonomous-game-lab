@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-21T06:01:19.614Z",
+  "generatedAt": "2026-05-21T06:19:55.332Z",
   "status": "repository-bootstrap-ready",
   "mode": "plan-only",
   "envFiles": {
@@ -61,7 +61,7 @@
       "originRemote": "git@github.com:moshequ/autonomous-game-lab.git",
       "remoteRepository": "moshequ/autonomous-game-lab",
       "hasCommit": true,
-      "dirtyFiles": 36,
+      "dirtyFiles": 43,
       "dirtyPaths": [
         "data/autonomous-operator-history.json",
         "data/autonomous-operator.json",
@@ -70,6 +70,8 @@
         "data/objective-audit.json",
         "data/performance-budget.json",
         "data/post-deploy-smoke.json",
+        "data/product-gate-recovery.json",
+        "data/product-gate-sample-plan.json",
         "data/production-activation.json",
         "data/production-bootstrap.json",
         "data/production-readiness.json",
@@ -83,6 +85,8 @@
         "reports/objective-audit-latest.md",
         "reports/performance-budget-latest.md",
         "reports/post-deploy-smoke-latest.md",
+        "reports/product-gate-recovery-latest.md",
+        "reports/product-gate-sample-plan-latest.md",
         "reports/production-activation-latest.md",
         "reports/production-bootstrap-latest.md",
         "reports/production-readiness-latest.md",
@@ -97,10 +101,13 @@
         "src/data/autonomousOwnerLoop.ts",
         "src/data/objectiveAudit.ts",
         "src/data/postDeploySmoke.ts",
+        "src/data/productGateRecovery.ts",
+        "src/data/productGateSamplePlan.ts",
         "src/data/productionActivation.ts",
-        "src/data/releaseCandidate.ts"
+        "src/data/releaseCandidate.ts",
+        "tests/smoke.spec.ts"
       ],
-      "generatedEvidenceDirtyFiles": 33,
+      "generatedEvidenceDirtyFiles": 39,
       "generatedEvidenceDirtyPaths": [
         "data/autonomous-operator-history.json",
         "data/autonomous-operator.json",
@@ -109,6 +116,8 @@
         "data/objective-audit.json",
         "data/performance-budget.json",
         "data/post-deploy-smoke.json",
+        "data/product-gate-recovery.json",
+        "data/product-gate-sample-plan.json",
         "data/production-activation.json",
         "data/production-bootstrap.json",
         "data/production-readiness.json",
@@ -122,6 +131,8 @@
         "reports/objective-audit-latest.md",
         "reports/performance-budget-latest.md",
         "reports/post-deploy-smoke-latest.md",
+        "reports/product-gate-recovery-latest.md",
+        "reports/product-gate-sample-plan-latest.md",
         "reports/production-activation-latest.md",
         "reports/production-bootstrap-latest.md",
         "reports/production-readiness-latest.md",
@@ -133,14 +144,17 @@
         "src/data/autonomousOwnerLoop.ts",
         "src/data/objectiveAudit.ts",
         "src/data/postDeploySmoke.ts",
+        "src/data/productGateRecovery.ts",
+        "src/data/productGateSamplePlan.ts",
         "src/data/productionActivation.ts",
         "src/data/releaseCandidate.ts"
       ],
-      "nonGeneratedDirtyFiles": 3,
+      "nonGeneratedDirtyFiles": 4,
       "nonGeneratedDirtyPaths": [
         "scripts/autonomous-operator.mjs",
         "scripts/autonomous-owner-loop.mjs",
-        "scripts/verify-autonomy.mjs"
+        "scripts/verify-autonomy.mjs",
+        "tests/smoke.spec.ts"
       ]
     },
     "after": {
@@ -150,7 +164,7 @@
       "originRemote": "git@github.com:moshequ/autonomous-game-lab.git",
       "remoteRepository": "moshequ/autonomous-game-lab",
       "hasCommit": true,
-      "dirtyFiles": 36,
+      "dirtyFiles": 43,
       "dirtyPaths": [
         "data/autonomous-operator-history.json",
         "data/autonomous-operator.json",
@@ -159,6 +173,8 @@
         "data/objective-audit.json",
         "data/performance-budget.json",
         "data/post-deploy-smoke.json",
+        "data/product-gate-recovery.json",
+        "data/product-gate-sample-plan.json",
         "data/production-activation.json",
         "data/production-bootstrap.json",
         "data/production-readiness.json",
@@ -172,6 +188,8 @@
         "reports/objective-audit-latest.md",
         "reports/performance-budget-latest.md",
         "reports/post-deploy-smoke-latest.md",
+        "reports/product-gate-recovery-latest.md",
+        "reports/product-gate-sample-plan-latest.md",
         "reports/production-activation-latest.md",
         "reports/production-bootstrap-latest.md",
         "reports/production-readiness-latest.md",
@@ -186,10 +204,13 @@
         "src/data/autonomousOwnerLoop.ts",
         "src/data/objectiveAudit.ts",
         "src/data/postDeploySmoke.ts",
+        "src/data/productGateRecovery.ts",
+        "src/data/productGateSamplePlan.ts",
         "src/data/productionActivation.ts",
-        "src/data/releaseCandidate.ts"
+        "src/data/releaseCandidate.ts",
+        "tests/smoke.spec.ts"
       ],
-      "generatedEvidenceDirtyFiles": 33,
+      "generatedEvidenceDirtyFiles": 39,
       "generatedEvidenceDirtyPaths": [
         "data/autonomous-operator-history.json",
         "data/autonomous-operator.json",
@@ -198,6 +219,8 @@
         "data/objective-audit.json",
         "data/performance-budget.json",
         "data/post-deploy-smoke.json",
+        "data/product-gate-recovery.json",
+        "data/product-gate-sample-plan.json",
         "data/production-activation.json",
         "data/production-bootstrap.json",
         "data/production-readiness.json",
@@ -211,6 +234,8 @@
         "reports/objective-audit-latest.md",
         "reports/performance-budget-latest.md",
         "reports/post-deploy-smoke-latest.md",
+        "reports/product-gate-recovery-latest.md",
+        "reports/product-gate-sample-plan-latest.md",
         "reports/production-activation-latest.md",
         "reports/production-bootstrap-latest.md",
         "reports/production-readiness-latest.md",
@@ -222,14 +247,17 @@
         "src/data/autonomousOwnerLoop.ts",
         "src/data/objectiveAudit.ts",
         "src/data/postDeploySmoke.ts",
+        "src/data/productGateRecovery.ts",
+        "src/data/productGateSamplePlan.ts",
         "src/data/productionActivation.ts",
         "src/data/releaseCandidate.ts"
       ],
-      "nonGeneratedDirtyFiles": 3,
+      "nonGeneratedDirtyFiles": 4,
       "nonGeneratedDirtyPaths": [
         "scripts/autonomous-operator.mjs",
         "scripts/autonomous-owner-loop.mjs",
-        "scripts/verify-autonomy.mjs"
+        "scripts/verify-autonomy.mjs",
+        "tests/smoke.spec.ts"
       ]
     }
   },
@@ -265,7 +293,7 @@
     "repositoryReadiness": "repository-channel-ready",
     "deployment": "ready-for-pages",
     "releaseCandidate": "release-candidate-ready",
-    "releaseCandidateId": "pwa-e5cae9b977f7",
+    "releaseCandidateId": "pwa-3cc86fd70ca3",
     "postDeploySmoke": "post-deploy-smoke-observed-live"
   },
   "repositoryTargetPlan": {
@@ -355,7 +383,7 @@
       "mutatesLocalGit": true,
       "mutatesRemoteGitHub": false,
       "requiresExplicitEnv": true,
-      "detail": "3 non-generated source or artifact file(s) are not committed yet."
+      "detail": "4 non-generated source or artifact file(s) are not committed yet."
     },
     {
       "id": "set-or-create-origin",

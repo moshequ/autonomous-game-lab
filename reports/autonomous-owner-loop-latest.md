@@ -1,17 +1,17 @@
 # Autonomous Owner Loop
 
-Generated: 2026-05-21T06:01:41.024Z
+Generated: 2026-05-21T06:20:17.420Z
 Status: owner-loop-ready
 Mode: zero-spend-web-ready
 Autonomy score: 41/42 (98%)
 
 ## Owner Decision
 
-- Next action: run-post-deploy-smoke
-- Command: npm run autonomous:post-deploy-smoke
-- Rationale: Verifies the live Pages URL with read-only smoke checks and release-manifest hash comparison.
-- Last executed action: prepare-release-candidate
-- Recent executed actions: prepare-release-candidate, check-performance-budget, refresh-support-feedback, measure-pwa-install-loop, refresh-autonomous-self-update, refresh-autonomous-cadence, optimize-store-listing, refresh-product-gate-recovery
+- Next action: optimize-store-listing
+- Command: npm run autonomous:store-listing-optimize && npm run autonomous:store-compliance
+- Rationale: Keeps store copy, keyword themes, screenshots, and compliance drafts aligned with behavior signals.
+- Last executed action: refresh-product-gate-recovery
+- Recent executed actions: refresh-product-gate-recovery, refresh-objective-audit, prepare-release-candidate, check-performance-budget, refresh-support-feedback, measure-pwa-install-loop, refresh-autonomous-self-update, refresh-autonomous-cadence
 
 ## Systems
 
@@ -44,11 +44,11 @@ Autonomy score: 41/42 (98%)
 - ready: web-deployment - Deployment ready-for-pages; web readiness ready-after-build; promotion promotable-internal.
 - ready: release-candidate - Release candidate release-candidate-ready; files 44; smoke URLs 14.
 - ready: post-deploy-smoke - Smoke post-deploy-smoke-observed-live; origin https://moshequ.github.io/autonomous-game-lab; manifest comparison required; checks 15/15 passed; local artifact predeploy-artifact-smoke-passed 15/15 passed.
-- ready: post-deploy-artifact-sync - Artifact sync post-deploy-artifact-sync-passed; run 26208190332; live matches artifact true; strict true.
+- ready: post-deploy-artifact-sync - Artifact sync post-deploy-artifact-sync-passed; run 26208518249; live matches artifact true; strict true.
 - ready: production-bootstrap - Bootstrap production-bootstrap-ready; mode can-apply-configured-actions; external blockers 16.
 - ready: production-activation - Activation activation-ready; mode dry-run; execution dry-run; gh ready.
 - ready: support-channel - Support channel support-channel-ready; repository moshequ/autonomous-game-lab; public intake ready.
-- ready: autonomous-operator - Operator operator-plan-ready; selected run-post-deploy-smoke; execution not-requested.
+- ready: autonomous-operator - Operator operator-plan-ready; selected optimize-store-listing; execution not-requested.
 - ready: operator-history - History operator-history-ready; records 40; executed 19.
 - ready: objective-audit - Audit objective-in-progress; met 6/8; external blockers 12.
 - ready: store-listing-optimizer - Focus canopy-bloom; lead screenshot phone-canopy-bloom-generated; candidate changed no.
@@ -70,10 +70,10 @@ Autonomy score: 41/42 (98%)
 - armed: measure-pwa-install-loop - npm run autonomous:pwa-install
 - armed: check-performance-budget - npm run build && npm run autonomous:performance && npm run autonomous:release-candidate
 - armed: prepare-release-candidate - npm run autonomous:release-candidate && npm run autonomous:post-deploy-smoke
-- armed: run-post-deploy-smoke - npm run autonomous:post-deploy-smoke
+- monitor: run-post-deploy-smoke - npm run autonomous:post-deploy-smoke
 - monitor: sync-post-deploy-artifact - npm run autonomous:post-deploy-artifact-sync
 - monitor: optimize-product-gates - npm run autonomous:analyze && npm run autonomous:product-optimize && npm run autonomous:sync-config && npm run autonomous:simulate
-- armed: refresh-product-gate-recovery - npm run autonomous:gate-recovery
+- armed: refresh-product-gate-recovery - npm run autonomous:gate-recovery && npm run autonomous:sample-plan
 - monitor: collect-gate-sample-downloads - npm run autonomous:collect-sample-downloads
 - monitor: refresh-product-gate-sample-plan - npm run autonomous:sample-plan
 - monitor: refresh-first-move-coach - npm run autonomous:first-move-coach
@@ -82,8 +82,8 @@ Autonomy score: 41/42 (98%)
 - monitor: prepare-repository-channel - npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap
 - monitor: bootstrap-production-setup - npm run autonomous:release-candidate && npm run autonomous:deploy-plan && npm run autonomous:bootstrap
 - monitor: activate-production-when-configured - npm run autonomous:activate-production
-- armed: run-autonomous-operator - npm run autonomous:operator
-- armed: review-operator-history - npm run autonomous:operator
+- monitor: run-autonomous-operator - npm run autonomous:operator
+- monitor: review-operator-history - npm run autonomous:operator
 - monitor: refresh-objective-audit - npm run autonomous:objective-audit
 - armed: optimize-store-listing - npm run autonomous:store-listing-optimize && npm run autonomous:store-compliance
 - monitor: prepare-android-signing - npm run autonomous:android-signing

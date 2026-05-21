@@ -2,7 +2,7 @@ export const autonomousOperator = {
   "status": "operator-plan-ready",
   "mode": "plan-only",
   "selectedAction": {
-    "id": "run-post-deploy-smoke",
+    "id": "optimize-store-listing",
     "status": "armed",
     "costUsd": 0
   },

@@ -1,23 +1,22 @@
 {
-  "generatedAt": "2026-05-21T06:01:40.783Z",
+  "generatedAt": "2026-05-21T06:20:17.173Z",
   "status": "operator-plan-ready",
   "mode": "plan-only",
   "ownerDecision": {
-    "actionId": "run-post-deploy-smoke",
-    "command": "npm run autonomous:post-deploy-smoke",
+    "actionId": "optimize-store-listing",
+    "command": "npm run autonomous:store-listing-optimize && npm run autonomous:store-compliance",
     "locallyExecutable": true,
     "rejectionReason": null
   },
   "requestedActionId": null,
   "selectedAction": {
-    "id": "run-post-deploy-smoke",
+    "id": "optimize-store-listing",
     "status": "armed",
-    "command": "npm run autonomous:post-deploy-smoke",
+    "command": "npm run autonomous:store-listing-optimize && npm run autonomous:store-compliance",
     "targets": [
-      "https://moshequ.github.io/autonomous-game-lab",
-      "release-candidate-manifest"
+      "canopy-bloom"
     ],
-    "reason": "Verifies the live Pages URL with read-only smoke checks and release-manifest hash comparison.",
+    "reason": "Keeps store copy, keyword themes, screenshots, and compliance drafts aligned with behavior signals.",
     "costUsd": 0
   },
   "selectedRejection": null,
@@ -28,7 +27,6 @@
     "measure-pwa-install-loop",
     "check-performance-budget",
     "prepare-release-candidate",
-    "run-post-deploy-smoke",
     "refresh-product-gate-recovery",
     "optimize-store-listing"
   ],
@@ -94,6 +92,12 @@
       "reason": "not-selected-this-run"
     },
     {
+      "id": "run-post-deploy-smoke",
+      "status": "monitor",
+      "command": "npm run autonomous:post-deploy-smoke",
+      "reason": "status-monitor"
+    },
+    {
       "id": "sync-post-deploy-artifact",
       "status": "monitor",
       "command": "npm run autonomous:post-deploy-artifact-sync",
@@ -108,7 +112,7 @@
     {
       "id": "refresh-product-gate-recovery",
       "status": "armed",
-      "command": "npm run autonomous:gate-recovery",
+      "command": "npm run autonomous:gate-recovery && npm run autonomous:sample-plan",
       "reason": "not-selected-this-run"
     },
     {
@@ -161,27 +165,21 @@
     },
     {
       "id": "run-autonomous-operator",
-      "status": "armed",
+      "status": "monitor",
       "command": "npm run autonomous:operator",
-      "reason": "command-not-in-local-allowlist"
+      "reason": "status-monitor"
     },
     {
       "id": "review-operator-history",
-      "status": "armed",
+      "status": "monitor",
       "command": "npm run autonomous:operator",
-      "reason": "command-not-in-local-allowlist"
+      "reason": "status-monitor"
     },
     {
       "id": "refresh-objective-audit",
       "status": "monitor",
       "command": "npm run autonomous:objective-audit",
       "reason": "status-monitor"
-    },
-    {
-      "id": "optimize-store-listing",
-      "status": "armed",
-      "command": "npm run autonomous:store-listing-optimize && npm run autonomous:store-compliance",
-      "reason": "not-selected-this-run"
     },
     {
       "id": "prepare-android-signing",
@@ -210,8 +208,12 @@
   ],
   "commandPlan": [
     {
-      "segment": "npm run autonomous:post-deploy-smoke",
-      "script": "autonomous:post-deploy-smoke"
+      "segment": "npm run autonomous:store-listing-optimize",
+      "script": "autonomous:store-listing-optimize"
+    },
+    {
+      "segment": "npm run autonomous:store-compliance",
+      "script": "autonomous:store-compliance"
     }
   ],
   "execution": {
@@ -256,6 +258,7 @@
     "npm run autonomous:completion-loop",
     "npm run autonomous:replay-loop",
     "npm run autonomous:gate-recovery",
+    "npm run autonomous:gate-recovery && npm run autonomous:sample-plan",
     "npm run autonomous:sample-plan",
     "npm run autonomous:collect-sample-downloads",
     "npm run autonomous:analyze && npm run autonomous:product-optimize && npm run autonomous:sync-config && npm run autonomous:simulate",
@@ -281,7 +284,7 @@
     "RUN_WORKFLOWS=1"
   ],
   "nextActions": [
-    "Run npm run autonomous:operator -- --execute --action=run-post-deploy-smoke to execute exactly one allowed local action.",
+    "Run npm run autonomous:operator -- --execute --action=optimize-store-listing to execute exactly one allowed local action.",
     "Do not execute GitHub workflow, store, paid ads, or account setup commands from the local operator."
   ]
 }
