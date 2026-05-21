@@ -1,10 +1,10 @@
 # Autonomous Operator
 
-Generated: 2026-05-21T12:13:21.800Z
-Status: operator-plan-ready
+Generated: 2026-05-21T12:28:14.484Z
+Status: operator-held
 Mode: plan-only
-Owner decision: bootstrap-production-setup
-Selected action: bootstrap-production-setup
+Owner decision: hold-for-external-input
+Selected action: none
 Execution: not-requested
 
 ## Controls
@@ -18,11 +18,11 @@ Execution: not-requested
 
 ## Selected Action
 
-- bootstrap-production-setup: npm run autonomous:release-candidate && npm run autonomous:deploy-plan && npm run autonomous:bootstrap
+- none: no eligible local actions
 
 ## Eligible Local Actions
 
-- bootstrap-production-setup
+- none
 
 ## Blocked Actions
 

@@ -2996,6 +2996,7 @@ if (
 }
 
 const dailyScript = packageJson.scripts?.['autonomous:daily'] ?? ''
+const postDeployReadinessSyncScript = packageJson.scripts?.['autonomous:post-deploy-readiness-sync'] ?? ''
 const performanceRuns = [...dailyScript.matchAll(/autonomous:performance/g)].map((match) => match.index ?? -1)
 const buildRuns = [...dailyScript.matchAll(/npm run build/g)].map((match) => match.index ?? -1)
 
@@ -3105,7 +3106,16 @@ if (
   !postDeployEvidenceSyncWorkflow.includes('contents: write') ||
   !postDeployEvidenceSyncWorkflow.includes('autonomous:post-deploy-artifact-sync') ||
   !postDeployEvidenceSyncWorkflow.includes('autonomous:live-monitor') ||
-  !postDeployEvidenceSyncWorkflow.includes('autonomous:owner-loop') ||
+  !postDeployEvidenceSyncWorkflow.includes('autonomous:post-deploy-readiness-sync') ||
+  !postDeployReadinessSyncScript.includes('autonomous:repo-readiness') ||
+  !postDeployReadinessSyncScript.includes('autonomous:repo-bootstrap') ||
+  !postDeployReadinessSyncScript.includes('autonomous:deploy-plan') ||
+  !postDeployReadinessSyncScript.includes('autonomous:bootstrap') ||
+  !postDeployReadinessSyncScript.includes('autonomous:activate-production') ||
+  !postDeployReadinessSyncScript.includes('node scripts/production-readiness.mjs') ||
+  !postDeployReadinessSyncScript.includes('autonomous:owner-loop') ||
+  !postDeployReadinessSyncScript.includes('autonomous:operator') ||
+  !postDeployReadinessSyncScript.includes('autonomous:objective-audit') ||
   !postDeployEvidenceSyncWorkflow.includes('npm run autonomous:verify-post-deploy-sync') ||
   !postDeployEvidenceSyncWorkflow.includes('AGL_AUTONOMOUS_SELF_UPDATE_DIRECT') ||
   !postDeployEvidenceSyncWorkflow.includes('data/post-deploy-artifact-sync.json') ||
@@ -3114,11 +3124,23 @@ if (
   !postDeployEvidenceSyncWorkflow.includes('data/live-site-monitor.json') ||
   !postDeployEvidenceSyncWorkflow.includes('src/data/liveSiteMonitor.ts') ||
   !postDeployEvidenceSyncWorkflow.includes('reports/live-site-monitor-latest.md') ||
+  !postDeployEvidenceSyncWorkflow.includes('data/repository-readiness.json') ||
+  !postDeployEvidenceSyncWorkflow.includes('data/repository-bootstrap.json') ||
+  !postDeployEvidenceSyncWorkflow.includes('data/deployment-plan.json') ||
+  !postDeployEvidenceSyncWorkflow.includes('data/production-bootstrap.json') ||
+  !postDeployEvidenceSyncWorkflow.includes('data/production-activation.json') ||
+  !postDeployEvidenceSyncWorkflow.includes('data/production-blocker-handoff.json') ||
+  !postDeployEvidenceSyncWorkflow.includes('data/production-readiness.json') ||
+  !postDeployEvidenceSyncWorkflow.includes('data/objective-audit.json') ||
+  !postDeployEvidenceSyncWorkflow.includes('data/autonomous-operator.json') ||
   !postDeployEvidenceSyncWorkflow.includes('data/autonomous-owner-loop.json') ||
   !postDeployEvidenceSyncWorkflow.includes('src/data/autonomousOwnerLoop.ts') ||
   !postDeployEvidenceSyncWorkflow.includes('reports/autonomous-owner-loop-latest.md') ||
+  postDeployReadinessSyncScript.includes('npm run build') ||
   postDeployEvidenceSyncWorkflow.includes('autonomous:release-candidate') ||
+  postDeployReadinessSyncScript.includes('autonomous:release-candidate') ||
   postDeployEvidenceSyncWorkflow.includes('autonomous:post-deploy-smoke') ||
+  postDeployReadinessSyncScript.includes('autonomous:post-deploy-smoke') ||
   !autonomousCadenceSource.includes('postDeployEvidenceSyncWorkflow')
 ) {
   fail('Autonomous cadence must publish the daily Codex/GitHub schedule, guarded operate command, and zero-spend controls.')
@@ -4608,6 +4630,18 @@ if (
     'node scripts/post-deploy-artifact-sync.mjs' ||
   packageJson.scripts?.['autonomous:verify-post-deploy-sync'] !==
     'node scripts/verify-post-deploy-evidence-sync.mjs' ||
+  !postDeployReadinessSyncScript.includes('autonomous:repo-readiness') ||
+  !postDeployReadinessSyncScript.includes('autonomous:repo-bootstrap') ||
+  !postDeployReadinessSyncScript.includes('autonomous:deploy-plan') ||
+  !postDeployReadinessSyncScript.includes('autonomous:bootstrap') ||
+  !postDeployReadinessSyncScript.includes('autonomous:activate-production') ||
+  !postDeployReadinessSyncScript.includes('node scripts/production-readiness.mjs') ||
+  !postDeployReadinessSyncScript.includes('autonomous:owner-loop') ||
+  !postDeployReadinessSyncScript.includes('autonomous:operator') ||
+  !postDeployReadinessSyncScript.includes('autonomous:objective-audit') ||
+  postDeployReadinessSyncScript.includes('npm run build') ||
+  postDeployReadinessSyncScript.includes('autonomous:release-candidate') ||
+  postDeployReadinessSyncScript.includes('autonomous:post-deploy-smoke') ||
   !postDeployArtifactSyncSource.includes('gh') ||
   !postDeployArtifactSyncSource.includes('run') ||
   !postDeployArtifactSyncSource.includes('view') ||
@@ -4620,6 +4654,7 @@ if (
   !postDeployEvidenceSyncWorkflow.includes('contents: write') ||
   !postDeployEvidenceSyncWorkflow.includes('autonomous:post-deploy-artifact-sync') ||
   !postDeployEvidenceSyncWorkflow.includes('autonomous:live-monitor') ||
+  !postDeployEvidenceSyncWorkflow.includes('autonomous:post-deploy-readiness-sync') ||
   !postDeployEvidenceSyncWorkflow.includes('npm run autonomous:verify-post-deploy-sync') ||
   !postDeployEvidenceSyncWorkflow.includes('AGL_AUTONOMOUS_SELF_UPDATE_DIRECT') ||
   !postDeployEvidenceSyncWorkflow.includes('data/post-deploy-artifact-sync.json') ||
@@ -4627,7 +4662,17 @@ if (
   !postDeployEvidenceSyncWorkflow.includes('reports/post-deploy-artifact-sync-latest.md') ||
   !postDeployEvidenceSyncWorkflow.includes('data/live-site-monitor.json') ||
   !postDeployEvidenceSyncWorkflow.includes('src/data/liveSiteMonitor.ts') ||
-  !postDeployEvidenceSyncWorkflow.includes('reports/live-site-monitor-latest.md')
+  !postDeployEvidenceSyncWorkflow.includes('reports/live-site-monitor-latest.md') ||
+  !postDeployEvidenceSyncWorkflow.includes('data/repository-readiness.json') ||
+  !postDeployEvidenceSyncWorkflow.includes('data/repository-bootstrap.json') ||
+  !postDeployEvidenceSyncWorkflow.includes('data/deployment-plan.json') ||
+  !postDeployEvidenceSyncWorkflow.includes('data/production-bootstrap.json') ||
+  !postDeployEvidenceSyncWorkflow.includes('data/production-activation.json') ||
+  !postDeployEvidenceSyncWorkflow.includes('data/production-blocker-handoff.json') ||
+  !postDeployEvidenceSyncWorkflow.includes('data/production-readiness.json') ||
+  !postDeployEvidenceSyncWorkflow.includes('data/objective-audit.json') ||
+  !postDeployEvidenceSyncWorkflow.includes('data/autonomous-operator.json') ||
+  !postDeployEvidenceSyncWorkflow.includes('data/autonomous-owner-loop.json')
 ) {
   fail('Post-deploy artifact sync must preserve strict GitHub Actions smoke evidence and compare it to the live release manifest.')
 }

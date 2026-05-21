@@ -58,8 +58,8 @@ jobs:
           AGL_LIVE_SITE_ORIGIN: ${{ vars.AGL_PUBLIC_ORIGIN }}
         run: npm run autonomous:live-monitor
 
-      - name: Refresh owner deploy evidence
-        run: npm run autonomous:owner-loop
+      - name: Refresh production readiness evidence
+        run: npm run autonomous:post-deploy-readiness-sync
 
       - name: Verify synced deploy evidence
         run: npm run autonomous:verify-post-deploy-sync
@@ -81,6 +81,38 @@ jobs:
             data/live-site-monitor.json \
             src/data/liveSiteMonitor.ts \
             reports/live-site-monitor-latest.md \
+            data/repository-readiness.json \
+            src/data/repositoryReadiness.ts \
+            reports/repository-readiness-latest.md \
+            data/repository-bootstrap.json \
+            src/data/repositoryBootstrap.ts \
+            reports/repository-bootstrap-latest.md \
+            ops/github/bootstrap-repository.sh \
+            data/deployment-plan.json \
+            src/data/deploymentPlan.ts \
+            reports/deployment-plan-latest.md \
+            data/production-bootstrap.json \
+            src/data/productionBootstrap.ts \
+            reports/production-bootstrap-latest.md \
+            ops/github/setup-production.sh \
+            ops/github/README.md \
+            data/production-activation.json \
+            src/data/productionActivation.ts \
+            reports/production-activation-latest.md \
+            data/production-blocker-handoff.json \
+            src/data/productionBlockerHandoff.ts \
+            reports/production-blocker-handoff-latest.md \
+            data/production-readiness.json \
+            reports/production-readiness-latest.md \
+            data/objective-audit.json \
+            src/data/objectiveAudit.ts \
+            reports/objective-audit-latest.md \
+            data/autonomous-operator.json \
+            src/data/autonomousOperator.ts \
+            reports/autonomous-operator-latest.md \
+            data/autonomous-operator-history.json \
+            src/data/autonomousOperatorHistory.ts \
+            reports/autonomous-operator-history-latest.md \
             data/autonomous-owner-loop.json \
             src/data/autonomousOwnerLoop.ts \
             reports/autonomous-owner-loop-latest.md
@@ -105,6 +137,26 @@ jobs:
             reports/post-deploy-artifact-sync-latest.md
             data/live-site-monitor.json
             reports/live-site-monitor-latest.md
+            data/repository-readiness.json
+            reports/repository-readiness-latest.md
+            data/repository-bootstrap.json
+            reports/repository-bootstrap-latest.md
+            data/deployment-plan.json
+            reports/deployment-plan-latest.md
+            data/production-bootstrap.json
+            reports/production-bootstrap-latest.md
+            data/production-activation.json
+            reports/production-activation-latest.md
+            data/production-blocker-handoff.json
+            reports/production-blocker-handoff-latest.md
+            data/production-readiness.json
+            reports/production-readiness-latest.md
+            data/objective-audit.json
+            reports/objective-audit-latest.md
+            data/autonomous-operator.json
+            reports/autonomous-operator-latest.md
+            data/autonomous-operator-history.json
+            reports/autonomous-operator-history-latest.md
             data/autonomous-owner-loop.json
             reports/autonomous-owner-loop-latest.md
           if-no-files-found: ignore

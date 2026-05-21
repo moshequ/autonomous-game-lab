@@ -9,13 +9,41 @@ const fail = (message) => {
 const readJson = async (filePath) => JSON.parse(await readFile(path.join(root, filePath), 'utf8'))
 const readText = async (filePath) => readFile(path.join(root, filePath), 'utf8')
 
-const [sync, liveSiteMonitor, ownerLoop, packageJson, workflow] = await Promise.all([
+const [
+  sync,
+  liveSiteMonitor,
+  repositoryReadiness,
+  repositoryBootstrap,
+  deploymentPlan,
+  productionBootstrap,
+  productionActivation,
+  productionBlockerHandoff,
+  productionReadiness,
+  objectiveAudit,
+  ownerLoop,
+  autonomousOperator,
+  autonomousOperatorHistory,
+  packageJson,
+  workflow,
+] = await Promise.all([
   readJson('data/post-deploy-artifact-sync.json'),
   readJson('data/live-site-monitor.json'),
+  readJson('data/repository-readiness.json'),
+  readJson('data/repository-bootstrap.json'),
+  readJson('data/deployment-plan.json'),
+  readJson('data/production-bootstrap.json'),
+  readJson('data/production-activation.json'),
+  readJson('data/production-blocker-handoff.json'),
+  readJson('data/production-readiness.json'),
+  readJson('data/objective-audit.json'),
   readJson('data/autonomous-owner-loop.json'),
+  readJson('data/autonomous-operator.json'),
+  readJson('data/autonomous-operator-history.json'),
   readJson('package.json'),
   readText('.github/workflows/post-deploy-evidence-sync.yml'),
 ])
+
+const postDeployReadinessSyncScript = packageJson.scripts?.['autonomous:post-deploy-readiness-sync'] ?? ''
 
 if (
   sync.status !== 'post-deploy-artifact-sync-passed' ||
@@ -72,9 +100,29 @@ if (
 
 if (
   packageJson.scripts?.['autonomous:verify-post-deploy-sync'] !==
-  'node scripts/verify-post-deploy-evidence-sync.mjs'
+    'node scripts/verify-post-deploy-evidence-sync.mjs' ||
+  postDeployReadinessSyncScript.length === 0
 ) {
-  fail('package.json must expose the post-deploy evidence sync verifier.')
+  fail('package.json must expose the post-deploy evidence sync verifier and readiness refresh command.')
+}
+
+const requiredReadinessRefreshCommands = [
+  'autonomous:repo-readiness',
+  'autonomous:repo-bootstrap',
+  'autonomous:deploy-plan',
+  'autonomous:bootstrap',
+  'autonomous:activate-production',
+  'autonomous:blocker-handoff',
+  'node scripts/production-readiness.mjs',
+  'autonomous:owner-loop',
+  'autonomous:operator',
+  'autonomous:objective-audit',
+]
+
+for (const command of requiredReadinessRefreshCommands) {
+  if (!postDeployReadinessSyncScript.includes(command)) {
+    fail(`autonomous:post-deploy-readiness-sync must refresh ${command} evidence after deployed artifact import.`)
+  }
 }
 
 if (
@@ -83,7 +131,7 @@ if (
   !workflow.includes('contents: write') ||
   !workflow.includes('npm run autonomous:post-deploy-artifact-sync -- --run-id="${POST_DEPLOY_RUN_ID}" --assert') ||
   !workflow.includes('npm run autonomous:live-monitor') ||
-  !workflow.includes('npm run autonomous:owner-loop') ||
+  !workflow.includes('npm run autonomous:post-deploy-readiness-sync') ||
   !workflow.includes('npm run autonomous:verify-post-deploy-sync') ||
   !workflow.includes('AGL_AUTONOMOUS_SELF_UPDATE_DIRECT') ||
   !workflow.includes('data/post-deploy-artifact-sync.json') ||
@@ -92,6 +140,38 @@ if (
   !workflow.includes('data/live-site-monitor.json') ||
   !workflow.includes('src/data/liveSiteMonitor.ts') ||
   !workflow.includes('reports/live-site-monitor-latest.md') ||
+  !workflow.includes('data/repository-readiness.json') ||
+  !workflow.includes('src/data/repositoryReadiness.ts') ||
+  !workflow.includes('reports/repository-readiness-latest.md') ||
+  !workflow.includes('data/repository-bootstrap.json') ||
+  !workflow.includes('src/data/repositoryBootstrap.ts') ||
+  !workflow.includes('reports/repository-bootstrap-latest.md') ||
+  !workflow.includes('ops/github/bootstrap-repository.sh') ||
+  !workflow.includes('data/deployment-plan.json') ||
+  !workflow.includes('src/data/deploymentPlan.ts') ||
+  !workflow.includes('reports/deployment-plan-latest.md') ||
+  !workflow.includes('data/production-bootstrap.json') ||
+  !workflow.includes('src/data/productionBootstrap.ts') ||
+  !workflow.includes('reports/production-bootstrap-latest.md') ||
+  !workflow.includes('ops/github/setup-production.sh') ||
+  !workflow.includes('ops/github/README.md') ||
+  !workflow.includes('data/production-activation.json') ||
+  !workflow.includes('src/data/productionActivation.ts') ||
+  !workflow.includes('reports/production-activation-latest.md') ||
+  !workflow.includes('data/production-blocker-handoff.json') ||
+  !workflow.includes('src/data/productionBlockerHandoff.ts') ||
+  !workflow.includes('reports/production-blocker-handoff-latest.md') ||
+  !workflow.includes('data/production-readiness.json') ||
+  !workflow.includes('reports/production-readiness-latest.md') ||
+  !workflow.includes('data/objective-audit.json') ||
+  !workflow.includes('src/data/objectiveAudit.ts') ||
+  !workflow.includes('reports/objective-audit-latest.md') ||
+  !workflow.includes('data/autonomous-operator.json') ||
+  !workflow.includes('src/data/autonomousOperator.ts') ||
+  !workflow.includes('reports/autonomous-operator-latest.md') ||
+  !workflow.includes('data/autonomous-operator-history.json') ||
+  !workflow.includes('src/data/autonomousOperatorHistory.ts') ||
+  !workflow.includes('reports/autonomous-operator-history-latest.md') ||
   !workflow.includes('data/autonomous-owner-loop.json') ||
   !workflow.includes('src/data/autonomousOwnerLoop.ts') ||
   !workflow.includes('reports/autonomous-owner-loop-latest.md')
@@ -103,13 +183,11 @@ const forbiddenRefreshCommands = [
   'npm run build',
   'autonomous:release-candidate',
   'autonomous:post-deploy-smoke',
-  'autonomous:repo-readiness',
-  'autonomous:deploy-plan',
   'node scripts/verify-autonomy.mjs',
 ]
 
 for (const command of forbiddenRefreshCommands) {
-  if (workflow.includes(command)) {
+  if (workflow.includes(command) || postDeployReadinessSyncScript.includes(command)) {
     fail(`Post-deploy evidence sync must not run ${command}; that would create a new undeployed candidate during evidence import.`)
   }
 }
@@ -121,8 +199,6 @@ const forbiddenStagedArtifacts = [
   'src/data/performanceBudget.ts',
   'data/post-deploy-smoke.json',
   'src/data/postDeploySmoke.ts',
-  'data/production-readiness.json',
-  'data/objective-audit.json',
 ]
 
 for (const artifact of forbiddenStagedArtifacts) {
@@ -132,14 +208,54 @@ for (const artifact of forbiddenStagedArtifacts) {
 }
 
 if (
+  repositoryReadiness.status !== 'repository-channel-ready' ||
+  repositoryReadiness.controls?.noGitMutation !== true ||
+  repositoryReadiness.controls?.noWorkflowDispatch !== true ||
+  repositoryBootstrap.status !== 'repository-bootstrap-ready' ||
+  repositoryBootstrap.controls?.zeroPaidSpend !== true ||
+  repositoryBootstrap.controls?.noWorkflowDispatch !== true ||
+  deploymentPlan.status !== 'ready-for-pages' ||
+  deploymentPlan.repositoryChannel?.status !== repositoryReadiness.status ||
+  productionBootstrap.status !== 'production-bootstrap-ready' ||
+  productionBootstrap.controls?.zeroSpendGuard !== true ||
+  productionBootstrap.controls?.noPaidResourcesCreated !== true ||
+  productionActivation.controls?.zeroPaidSpend !== true ||
+  productionActivation.controls?.dryRunByDefault !== true ||
+  !['activation-ready', 'activation-waiting-for-credentials', 'activation-applied'].includes(productionActivation.status) ||
+  !['handoff-waiting-on-owner-inputs', 'handoff-clear'].includes(productionBlockerHandoff.status) ||
+  productionBlockerHandoff.sourceStatus?.postDeployArtifactSync !== sync.status ||
+  productionReadiness.postDeployArtifactSync?.status !== sync.status ||
+  productionReadiness.liveSiteMonitor?.status !== liveSiteMonitor.status ||
+  productionReadiness.repositoryChannel?.status !== repositoryReadiness.status ||
+  productionReadiness.repositoryBootstrap?.status !== repositoryBootstrap.status ||
+  productionReadiness.productionBootstrap?.status !== productionBootstrap.status ||
+  productionReadiness.productionActivation?.status !== productionActivation.status ||
+  productionReadiness.productionBlockerHandoff?.status !== productionBlockerHandoff.status ||
+  productionReadiness.objectiveAudit?.status !== objectiveAudit.status ||
+  productionReadiness.autonomousOperator?.status !== autonomousOperator.status ||
+  productionReadiness.autonomousOperatorHistory?.status !== autonomousOperatorHistory.status ||
+  objectiveAudit.status !== 'objective-in-progress' ||
+  autonomousOperator.controls?.zeroPaidSpend !== true ||
+  autonomousOperator.controls?.localCommandAllowlistEnforced !== true ||
+  autonomousOperatorHistory.status !== 'operator-history-ready' ||
+  autonomousOperatorHistory.controls?.historyIsCapped !== true
+) {
+  fail('Post-deploy readiness sync must refresh repository, deployment, bootstrap, blocker, objective, operator, and readiness evidence without paid or mutating actions.')
+}
+
+if (
   ownerLoop.executionMemory?.liveDeployEvidence?.strictArtifactSyncFresh !== true ||
   ownerLoop.executionMemory?.liveDeployEvidence?.liveSiteMonitorFresh !== true ||
   ownerLoop.executionMemory?.liveDeployEvidence?.liveCandidateId !== sync.live?.candidateId ||
   ownerLoop.executionMemory?.liveDeployEvidence?.artifactCandidateId !== sync.artifact?.target?.candidateId ||
   ownerLoop.evidence?.postDeployArtifactSyncStatus !== sync.status ||
-  ownerLoop.evidence?.liveSiteMonitorStatus !== liveSiteMonitor.status
+  ownerLoop.evidence?.liveSiteMonitorStatus !== liveSiteMonitor.status ||
+  ownerLoop.executionMemory?.productionBootstrapFreshness?.fresh !== true ||
+  (ownerLoop.executionMemory?.productionBootstrapFreshness?.staleInputIds ?? []).length !== 0 ||
+  ownerLoop.ownerDecision?.nextBestActionId === 'bootstrap-production-setup' ||
+  autonomousOperator.selectedAction?.id === 'bootstrap-production-setup'
 ) {
-  fail('Post-deploy evidence sync must refresh owner deploy evidence to the synced live artifact and live-site monitor.')
+  fail('Post-deploy evidence sync must refresh owner deploy and production-bootstrap freshness so the owner loop does not repeat setup work.')
 }
 
 if (!process.exitCode) {

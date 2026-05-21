@@ -1,10 +1,10 @@
 # Production Blocker Handoff
 
-Generated: 2026-05-21T12:13:20.527Z
+Generated: 2026-05-21T12:28:13.049Z
 Status: handoff-waiting-on-owner-inputs
 Detail: blocked-external-inputs
-Live candidate: pwa-09e13f951a08
-Source hash: b7c2b9fb1716
+Live candidate: pwa-cb073add0dce
+Source hash: 497b9753a082
 
 ## Summary
 

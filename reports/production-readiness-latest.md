@@ -1,6 +1,6 @@
 # Production Readiness
 
-Generated: 2026-05-21T12:13:20.637Z
+Generated: 2026-05-21T12:28:14.847Z
 
 ## Environment
 
@@ -32,10 +32,10 @@ Local git: true
 - done: repo-bootstrap-inspect-repository-channel - Repository readiness is repository-channel-ready.
 - ready: repo-bootstrap-initialize-local-git - Git worktree is available at /Users/moshequ/Documents/Codex/2026-05-18/i-want-to-have-a-new.
 - ready: repo-bootstrap-create-initial-commit - The local repository has at least one commit.
-- ready: repo-bootstrap-commit-current-snapshot - 41 repository evidence file(s) changed during this dry run; the outer verified commit will persist them.
+- ready-for-explicit-snapshot-commit: repo-bootstrap-commit-current-snapshot - 6 non-generated source or artifact file(s) are not committed yet.
 - ready: repo-bootstrap-set-or-create-origin - Origin remote resolves to moshequ/autonomous-game-lab.
 - ready-for-explicit-create-or-attach: repo-bootstrap-create-github-repository - GitHub CLI can create or attach moshequ/autonomous-game-lab when explicitly allowed.
-- ready-for-explicit-push: repo-bootstrap-push-initial-snapshot - Push stays held until an origin remote exists and AGL_ALLOW_PUSH=1 is set.
+- waiting-for-clean-snapshot: repo-bootstrap-push-initial-snapshot - Push stays held until a committed local snapshot and origin remote exist.
 
 ## Web/PWA
 
@@ -72,7 +72,7 @@ Status: ready-after-build
 - pass: production-bootstrap - Production bootstrap is production-bootstrap-ready; mode can-apply-configured-actions; external blockers 16.
 - pass: production-blocker-handoff - Production blocker handoff is handoff-waiting-on-owner-inputs; owner inputs 5; next unlock support-contact.
 - pass: production-activation - Production activation is activation-ready; mode dry-run; execution dry-run.
-- pass: autonomous-operator - Autonomous operator is operator-plan-ready; selected bootstrap-production-setup; execution not-requested.
+- pass: autonomous-operator - Autonomous operator is operator-held; selected none; execution not-requested.
 - pass: autonomous-operator-history - Autonomous operator history is operator-history-ready; records 40; executed 9.
 - pass: autonomous-cadence - Autonomous cadence is cadence-ready; Codex active-confirmed; GitHub scheduled.
 - pass: autonomous-self-update - Autonomous self-update is self-update-ready; safe pending 17; unsafe pending 0; remote push held.
@@ -168,14 +168,14 @@ Local artifact: predeploy-artifact-smoke-passed (15/15 passed)
 ## Post-Deploy Artifact Sync
 
 Status: post-deploy-artifact-sync-passed
-Workflow run: 26224983250
-Artifact candidate: pwa-09e13f951a08
-Live candidate: pwa-09e13f951a08
+Workflow run: 26225259228
+Artifact candidate: pwa-cb073add0dce
+Live candidate: pwa-cb073add0dce
 Live matches artifact: true
 - pass: artifact-sync-gh-cli - gh version 2.92.0 (2026-04-28)
 - pass: artifact-sync-github-repository - Target repository is moshequ/autonomous-game-lab.
-- pass: artifact-sync-explicit-pages-run - Explicit web-pwa-deploy.yml run is 26224983250.
-- pass: artifact-sync-post-deploy-smoke-artifact - Downloaded post-deploy-smoke artifact from run 26224983250.
+- pass: artifact-sync-explicit-pages-run - Explicit web-pwa-deploy.yml run is 26225259228.
+- pass: artifact-sync-post-deploy-smoke-artifact - Downloaded post-deploy-smoke artifact from run 26225259228.
 - pass: artifact-sync-strict-smoke-artifact - Artifact status post-deploy-smoke-passed; strict manifest comparison true; checks 15/15.
 - pass: artifact-sync-live-release-manifest - Live release-candidate.json still matches the strict smoke artifact.
 
@@ -184,7 +184,7 @@ Live matches artifact: true
 Status: live-site-monitor-passed
 Origin: https://moshequ.github.io/autonomous-game-lab
 Checks: 15/15 passed (0 failed)
-Live candidate: pwa-09e13f951a08
+Live candidate: pwa-cb073add0dce
 Live matches synced deploy: true
 - pass: live-monitor-app-shell - Live read-only check passed.
 - pass: live-monitor-manifest-webmanifest - Live read-only check passed.
@@ -279,9 +279,9 @@ Next unlock: support-contact
 
 ## Autonomous Operator
 
-Status: operator-plan-ready
+Status: operator-held
 Mode: plan-only
-Selected action: bootstrap-production-setup
+Selected action: none
 Execution: not-requested
 
 ## Autonomous Operator History

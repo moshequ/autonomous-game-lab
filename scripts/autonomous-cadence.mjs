@@ -405,6 +405,7 @@ const selfUpdateScript = script('autonomous:self-update')
 const gateRecoveryScript = script('autonomous:gate-recovery')
 const testAutomationScript = script('test:automation')
 const testE2eScript = script('test:e2e')
+const postDeployReadinessSyncScript = script('autonomous:post-deploy-readiness-sync')
 const codexHome = process.env.CODEX_HOME?.trim() || (process.env.HOME ? path.join(process.env.HOME, '.codex') : null)
 const codexAutomationsDir = codexHome ? path.join(codexHome, 'automations') : null
 const codexAutomationStorageAvailable = Boolean(codexAutomationsDir && (await exists(codexAutomationsDir)))
@@ -669,6 +670,16 @@ const checks = [
       postDeployEvidenceSyncWorkflow.includes('contents: write') &&
       postDeployEvidenceSyncWorkflow.includes('autonomous:post-deploy-artifact-sync') &&
       postDeployEvidenceSyncWorkflow.includes('autonomous:live-monitor') &&
+      postDeployEvidenceSyncWorkflow.includes('autonomous:post-deploy-readiness-sync') &&
+      postDeployReadinessSyncScript.includes('autonomous:repo-readiness') &&
+      postDeployReadinessSyncScript.includes('autonomous:repo-bootstrap') &&
+      postDeployReadinessSyncScript.includes('autonomous:deploy-plan') &&
+      postDeployReadinessSyncScript.includes('autonomous:bootstrap') &&
+      postDeployReadinessSyncScript.includes('autonomous:activate-production') &&
+      postDeployReadinessSyncScript.includes('node scripts/production-readiness.mjs') &&
+      postDeployReadinessSyncScript.includes('autonomous:owner-loop') &&
+      postDeployReadinessSyncScript.includes('autonomous:operator') &&
+      postDeployReadinessSyncScript.includes('autonomous:objective-audit') &&
       postDeployEvidenceSyncWorkflow.includes('npm run autonomous:verify-post-deploy-sync') &&
       postDeployEvidenceSyncWorkflow.includes('AGL_AUTONOMOUS_SELF_UPDATE_DIRECT') &&
       postDeployEvidenceSyncWorkflow.includes('data/post-deploy-artifact-sync.json') &&
@@ -677,13 +688,26 @@ const checks = [
       postDeployEvidenceSyncWorkflow.includes('data/live-site-monitor.json') &&
       postDeployEvidenceSyncWorkflow.includes('src/data/liveSiteMonitor.ts') &&
       postDeployEvidenceSyncWorkflow.includes('reports/live-site-monitor-latest.md') &&
+      postDeployEvidenceSyncWorkflow.includes('data/repository-readiness.json') &&
+      postDeployEvidenceSyncWorkflow.includes('data/repository-bootstrap.json') &&
+      postDeployEvidenceSyncWorkflow.includes('data/deployment-plan.json') &&
+      postDeployEvidenceSyncWorkflow.includes('data/production-bootstrap.json') &&
+      postDeployEvidenceSyncWorkflow.includes('data/production-activation.json') &&
+      postDeployEvidenceSyncWorkflow.includes('data/production-blocker-handoff.json') &&
+      postDeployEvidenceSyncWorkflow.includes('data/production-readiness.json') &&
+      postDeployEvidenceSyncWorkflow.includes('data/objective-audit.json') &&
+      postDeployEvidenceSyncWorkflow.includes('data/autonomous-operator.json') &&
+      postDeployEvidenceSyncWorkflow.includes('data/autonomous-owner-loop.json') &&
       !postDeployEvidenceSyncWorkflow.includes('npm run build') &&
+      !postDeployReadinessSyncScript.includes('npm run build') &&
       !postDeployEvidenceSyncWorkflow.includes('autonomous:release-candidate') &&
-      !postDeployEvidenceSyncWorkflow.includes('autonomous:post-deploy-smoke')
+      !postDeployReadinessSyncScript.includes('autonomous:release-candidate') &&
+      !postDeployEvidenceSyncWorkflow.includes('autonomous:post-deploy-smoke') &&
+      !postDeployReadinessSyncScript.includes('autonomous:post-deploy-smoke')
         ? 'pass'
         : 'blocker',
     detail: postDeployEvidenceSyncWorkflowExists
-      ? 'Post-deploy evidence sync imports the strict Pages smoke artifact, refreshes live-site monitor evidence, and avoids creating an undeployed release candidate during evidence import.'
+      ? 'Post-deploy evidence sync imports strict Pages smoke evidence, refreshes downstream readiness, and avoids creating an undeployed release candidate during evidence import.'
       : 'Post-deploy evidence sync workflow is missing.',
   },
   {
