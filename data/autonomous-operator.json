@@ -1,17 +1,29 @@
 {
-  "generatedAt": "2026-05-22T11:55:11.450Z",
-  "status": "operator-held",
+  "generatedAt": "2026-05-22T11:57:56.950Z",
+  "status": "operator-plan-ready",
   "mode": "plan-only",
   "ownerDecision": {
-    "actionId": "hold-for-external-input",
-    "command": "No local command is available until external inputs, configured credentials, or new player evidence arrive.",
-    "locallyExecutable": false,
-    "rejectionReason": "status-monitor"
+    "actionId": "measure-pwa-install-loop",
+    "command": "npm run autonomous:pwa-install",
+    "locallyExecutable": true,
+    "rejectionReason": null
   },
   "requestedActionId": null,
-  "selectedAction": null,
+  "selectedAction": {
+    "id": "measure-pwa-install-loop",
+    "status": "armed",
+    "command": "npm run autonomous:pwa-install",
+    "targets": [
+      "pwa-install"
+    ],
+    "reason": "Measures optional PWA install prompts and standalone launches as the zero-cost distribution path.",
+    "costUsd": 0
+  },
   "selectedRejection": null,
-  "eligibleActionIds": [],
+  "eligibleActionIds": [
+    "measure-pwa-install-loop",
+    "optimize-store-listing"
+  ],
   "blockedActions": [
     {
       "id": "run-daily-owner-loop",
@@ -59,12 +71,6 @@
       "id": "optimize-daily-retention",
       "status": "monitor",
       "command": "npm run autonomous:retention",
-      "reason": "status-monitor"
-    },
-    {
-      "id": "measure-pwa-install-loop",
-      "status": "monitor",
-      "command": "npm run autonomous:pwa-install",
       "reason": "status-monitor"
     },
     {
@@ -189,9 +195,9 @@
     },
     {
       "id": "optimize-store-listing",
-      "status": "monitor",
+      "status": "armed",
       "command": "npm run autonomous:store-package && npm run autonomous:store-listing-optimize && npm run autonomous:store-compliance",
-      "reason": "status-monitor"
+      "reason": "not-selected-this-run"
     },
     {
       "id": "prepare-android-signing",
@@ -218,7 +224,12 @@
       "reason": "status-monitor"
     }
   ],
-  "commandPlan": [],
+  "commandPlan": [
+    {
+      "segment": "npm run autonomous:pwa-install",
+      "script": "autonomous:pwa-install"
+    }
+  ],
   "execution": {
     "requested": false,
     "status": "not-requested",
@@ -291,7 +302,7 @@
     "RUN_WORKFLOWS=1"
   ],
   "nextActions": [
-    "Keep reporting external blockers until a safe local action is eligible.",
+    "Run npm run autonomous:operator -- --execute --action=measure-pwa-install-loop to execute exactly one allowed local action.",
     "Do not execute GitHub workflow, store, paid ads, or account setup commands from the local operator."
   ]
 }
