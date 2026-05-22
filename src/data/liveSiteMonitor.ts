@@ -1,5 +1,5 @@
 export const liveSiteMonitor = {
-  "generatedAt": "2026-05-22T20:04:49.833Z",
+  "generatedAt": "2026-05-22T20:10:39.524Z",
   "status": "live-site-monitor-passed",
   "origin": {
     "origin": "https://moshequ.github.io/autonomous-game-lab",
@@ -13,11 +13,11 @@ export const liveSiteMonitor = {
     "failed": 0,
     "blocked": 0,
     "passRate": 100,
-    "latencyP50Ms": 196,
-    "latencyP95Ms": 233,
-    "liveCandidateId": "pwa-59ba3e77ffb3",
-    "syncedCandidateId": "pwa-59ba3e77ffb3",
-    "localCandidateId": "pwa-2b9e83526d7f",
+    "latencyP50Ms": 71,
+    "latencyP95Ms": 98,
+    "liveCandidateId": "pwa-32ee577585f6",
+    "syncedCandidateId": "pwa-32ee577585f6",
+    "localCandidateId": "pwa-cf2e144a0862",
     "liveMatchesSyncedDeploy": true,
     "liveMatchesCurrentLocalCandidate": false,
     "monitoringPlanSource": "synced-live-release-manifest",
@@ -40,42 +40,42 @@ export const liveSiteMonitor = {
       "path": "/",
       "status": "pass",
       "httpStatus": 200,
-      "durationMs": 61
+      "durationMs": 27
     },
     {
       "id": "manifest-webmanifest",
       "path": "/manifest.webmanifest",
       "status": "pass",
       "httpStatus": 200,
-      "durationMs": 196
+      "durationMs": 71
     },
     {
       "id": "sw-js",
       "path": "/sw.js",
       "status": "pass",
       "httpStatus": 200,
-      "durationMs": 197
+      "durationMs": 71
     },
     {
       "id": "privacy-html",
       "path": "/privacy.html",
       "status": "pass",
       "httpStatus": 200,
-      "durationMs": 196
+      "durationMs": 76
     },
     {
       "id": "support-html",
       "path": "/support.html",
       "status": "pass",
       "httpStatus": 200,
-      "durationMs": 195
+      "durationMs": 92
     },
     {
       "id": "measurement-status-html",
       "path": "/measurement-status.html",
       "status": "pass",
       "httpStatus": 200,
-      "durationMs": 196
+      "durationMs": 77
     }
   ]
 } as const
