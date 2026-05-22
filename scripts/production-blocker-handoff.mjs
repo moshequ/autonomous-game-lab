@@ -86,6 +86,147 @@ const publicSupportChannelReady =
   typeof supportChannel.links?.supportUrl === 'string'
 const storeSupportEmailNeededNow =
   storeCompliance.status === 'ready-for-store-review' || unitEconomics.controls?.storeSpendAllowed === true
+const variableByRepositoryName = new Map(
+  (productionBootstrap.requiredVariables ?? []).map((item) => [item.repositoryVariable, item]),
+)
+const secretByRepositoryName = new Map(
+  (productionBootstrap.requiredSecrets ?? []).map((item) => [item.repositorySecret, item]),
+)
+const sanitizeConfigAction = (item) =>
+  item
+    ? {
+        id: item.id,
+        repositoryName: item.repositoryVariable ?? item.repositorySecret,
+        envName: item.envName,
+        configured: item.configured === true,
+        valueSource: item.valueSource ?? 'missing',
+        command: item.command,
+      }
+    : null
+const configActions = (map, names) => names.map((name) => sanitizeConfigAction(map.get(name))).filter(Boolean)
+const firstPartyCollectorReady = envConfigured('VITE_EVENT_COLLECTOR_URL + AGL_EVENT_COLLECTOR_EXPORT_URL')
+const posthogBrowserReady = envConfigured('VITE_POSTHOG_KEY')
+const analyticsRecommendedPathId = firstPartyCollectorReady
+  ? 'first-party-collector'
+  : posthogBrowserReady
+    ? 'posthog-browser'
+    : 'first-party-collector'
+const analyticsUnlockKit = {
+  id: 'production-analytics-browser',
+  title: 'Browser production analytics unlock kit',
+  status: firstPartyCollectorReady || posthogBrowserReady ? 'configured' : 'owner-input-required',
+  recommendedPathId: analyticsRecommendedPathId,
+  handoffItemId: 'production-analytics-browser',
+  ownerInputRequired: !(firstPartyCollectorReady || posthogBrowserReady),
+  setupScript: 'ops/github/setup-production.sh',
+  envTemplate: 'ops/production.env.example',
+  controls: {
+    zeroPaidSpend: true,
+    noSecretValues: true,
+    noSecretValuesStored: true,
+    noAccountCreation: true,
+    noStoreSubmission: true,
+    noRevenueEnablement: true,
+    githubVariablesOnly: true,
+    secretCommandsUseStdin: true,
+  },
+  paths: [
+    {
+      id: 'first-party-collector',
+      title: 'First-party event collector',
+      status: firstPartyCollectorReady ? 'configured' : 'needs-variables-and-secrets',
+      costMode: 'zero-spend-use-existing-cloudflare-free-tier',
+      ownerInputRequired: !firstPartyCollectorReady,
+      requiredVariables: configActions(variableByRepositoryName, [
+        'CLOUDFLARE_ACCOUNT_ID',
+        'AGL_EVENT_COLLECTOR_R2_BUCKET',
+        'AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS',
+        'VITE_EVENT_COLLECTOR_URL',
+        'AGL_EVENT_COLLECTOR_EXPORT_URL',
+      ]),
+      requiredSecrets: configActions(secretByRepositoryName, [
+        'CLOUDFLARE_API_TOKEN',
+        'VITE_EVENT_COLLECTOR_WRITE_TOKEN',
+        'AGL_EVENT_COLLECTOR_ADMIN_TOKEN',
+      ]),
+      commandSequence: [
+        'npm run autonomous:event-collector-smoke',
+        'npm run autonomous:collector-deploy-plan',
+        './ops/github/setup-production.sh',
+        'RUN_WORKFLOWS=1 ./ops/github/setup-production.sh',
+        'npm run autonomous:readiness',
+      ],
+      validationCommands: [
+        'npm run autonomous:event-collector-smoke',
+        'npm run autonomous:collector-deploy-plan',
+        'npm run autonomous:readiness',
+        'npm run test:e2e',
+      ],
+      unlocks: [
+        'Browser events can forward to a first-party collector without PostHog.',
+        'Autonomous rollups can import collector exports after the admin token is configured.',
+      ],
+    },
+    {
+      id: 'posthog-browser',
+      title: 'PostHog browser capture',
+      status: posthogBrowserReady ? 'configured' : 'needs-public-project-key',
+      costMode: 'zero-spend-use-existing-posthog-free-project',
+      ownerInputRequired: !posthogBrowserReady,
+      requiredVariables: configActions(variableByRepositoryName, ['VITE_POSTHOG_KEY', 'VITE_POSTHOG_HOST']),
+      requiredSecrets: [],
+      commandSequence: [
+        './ops/github/setup-production.sh',
+        'RUN_WORKFLOWS=1 ./ops/github/setup-production.sh',
+        'npm run autonomous:readiness',
+      ],
+      validationCommands: ['npm run autonomous:readiness', 'npm run test:e2e'],
+      unlocks: [
+        'Browser events can forward to an existing PostHog project.',
+        'Autonomous rollups still require a server-side export credential before scheduled production learning.',
+      ],
+    },
+  ],
+}
+const unlockKits = [analyticsUnlockKit].map((kit) => ({
+  ...kit,
+  commandCount: unique(kit.paths.flatMap((unlockPath) => unlockPath.commandSequence)).length,
+  validationCommandCount: unique(kit.paths.flatMap((unlockPath) => unlockPath.validationCommands)).length,
+  missingVariableCount: kit.paths.reduce(
+    (sum, unlockPath) => sum + unlockPath.requiredVariables.filter((item) => !item.configured).length,
+    0,
+  ),
+  missingSecretCount: kit.paths.reduce(
+    (sum, unlockPath) => sum + unlockPath.requiredSecrets.filter((item) => !item.configured).length,
+    0,
+  ),
+}))
+const kitById = new Map(unlockKits.map((kit) => [kit.id, kit]))
+const summarizeUnlockKit = (kit) =>
+  kit
+    ? {
+        id: kit.id,
+        title: kit.title,
+        status: kit.status,
+        recommendedPathId: kit.recommendedPathId,
+        commandCount: kit.commandCount,
+        validationCommandCount: kit.validationCommandCount,
+        missingVariableCount: kit.missingVariableCount,
+        missingSecretCount: kit.missingSecretCount,
+        controls: kit.controls,
+        paths: kit.paths.map((unlockPath) => ({
+          id: unlockPath.id,
+          title: unlockPath.title,
+          status: unlockPath.status,
+          costMode: unlockPath.costMode,
+          ownerInputRequired: unlockPath.ownerInputRequired,
+          requiredVariables: unlockPath.requiredVariables,
+          requiredSecrets: unlockPath.requiredSecrets,
+          commandSequence: unlockPath.commandSequence,
+          validationCommands: unlockPath.validationCommands,
+        })),
+      }
+    : null
 
 const handoffItems = [
   {
@@ -130,6 +271,12 @@ const handoffItems = [
     requiredSecrets: requiredSecrets(['VITE_EVENT_COLLECTOR_WRITE_TOKEN', 'CLOUDFLARE_API_TOKEN']),
     blockers: blockersMatching([/forward browser analytics/i, /collector environment/i]),
     unlocks: ['Real player events can replace fixture/local-only evidence for product gates and retention decisions.'],
+    unlockKit: {
+      id: analyticsUnlockKit.id,
+      recommendedPathId: analyticsUnlockKit.recommendedPathId,
+      commandCount: kitById.get(analyticsUnlockKit.id)?.commandCount ?? 0,
+      validationCommandCount: kitById.get(analyticsUnlockKit.id)?.validationCommandCount ?? 0,
+    },
     afterUnlockCommands: [
       'npm run autonomous:env',
       'npm run autonomous:local-event-bridge',
@@ -268,6 +415,7 @@ const status = ownerActionRequired.length ? 'handoff-waiting-on-owner-inputs' : 
 const statusDetail = ownerActionRequired.length ? 'blocked-external-inputs' : 'clear'
 const environmentPlan = sanitizeRequiredEnv(productionEnvironment.requiredEnv ?? [])
 const secretPlan = sanitizeRequiredSecrets(productionBootstrap.requiredSecrets ?? [])
+const nextUnlockKit = kitById.get(ownerActionRequired[0]?.id) ?? null
 
 const payload = {
   generatedAt: new Date().toISOString(),
@@ -320,6 +468,8 @@ const payload = {
   missingSecrets: secretPlan.filter((item) => !item.configured),
   handoffItems: sortedHandoffItems,
   unlocks: sortedHandoffItems,
+  unlockKits,
+  nextUnlockKit: summarizeUnlockKit(nextUnlockKit),
   nextActions: [
     zeroCostFirstActions[0]
       ? `Start with ${zeroCostFirstActions[0].title}; it is the highest-priority zero-spend owner input.`
@@ -343,7 +493,9 @@ const appPayload = {
     category: item.category,
     costMode: item.costMode,
     ownerInputRequired: item.ownerInputRequired,
+    unlockKit: item.unlockKit ?? null,
   })),
+  nextUnlockKit: payload.nextUnlockKit,
   nextActions: payload.nextActions,
 }
 
@@ -376,8 +528,32 @@ const report = [
     `  - category: ${item.category}`,
     `  - cost: ${item.costMode}`,
     `  - owner input required: ${item.ownerInputRequired}`,
+    ...(item.unlockKit
+      ? [
+          `  - unlock kit: ${item.unlockKit.id}`,
+          `  - recommended path: ${item.unlockKit.recommendedPathId}`,
+          `  - setup commands: ${item.unlockKit.commandCount}`,
+        ]
+      : []),
     `  - unlocks: ${item.unlocks.join(' ')}`,
   ]),
+  '',
+  '## Next Unlock Kit',
+  '',
+  ...(payload.nextUnlockKit
+    ? [
+        `- ${payload.nextUnlockKit.status}: ${payload.nextUnlockKit.id} - ${payload.nextUnlockKit.title}`,
+        `- recommended path: ${payload.nextUnlockKit.recommendedPathId}`,
+        `- setup commands: ${payload.nextUnlockKit.commandCount}`,
+        `- validation commands: ${payload.nextUnlockKit.validationCommandCount}`,
+        ...payload.nextUnlockKit.paths.flatMap((unlockPath) => [
+          `- path ${unlockPath.id}: ${unlockPath.status}; ${unlockPath.costMode}`,
+          `  - variables: ${unlockPath.requiredVariables.map((item) => item.repositoryName).join(', ') || 'none'}`,
+          `  - secrets: ${unlockPath.requiredSecrets.map((item) => item.repositoryName).join(', ') || 'none'}`,
+          `  - commands: ${unlockPath.commandSequence.join(' && ')}`,
+        ]),
+      ]
+    : ['- none']),
   '',
   '## Missing Env',
   '',

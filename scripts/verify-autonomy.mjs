@@ -2500,6 +2500,27 @@ const productionBlockerMissingSecrets = (productionBootstrap.requiredSecrets ?? 
 const productionBlockerSupportItem = (productionBlockerHandoff.handoffItems ?? productionBlockerHandoff.unlocks ?? []).find(
   (item) => item.id === 'support-contact',
 )
+const productionAnalyticsHandoffItem = (
+  productionBlockerHandoff.handoffItems ?? productionBlockerHandoff.unlocks ?? []
+).find((item) => item.id === 'production-analytics-browser')
+const productionAnalyticsUnlockKit =
+  productionBlockerHandoff.nextUnlockKit?.id === 'production-analytics-browser'
+    ? productionBlockerHandoff.nextUnlockKit
+    : null
+const productionAnalyticsUnlockPathIds = new Set(
+  (productionAnalyticsUnlockKit?.paths ?? []).map((unlockPath) => unlockPath.id),
+)
+const firstPartyCollectorUnlockPath = (productionAnalyticsUnlockKit?.paths ?? []).find(
+  (unlockPath) => unlockPath.id === 'first-party-collector',
+)
+const posthogBrowserUnlockPath = (productionAnalyticsUnlockKit?.paths ?? []).find(
+  (unlockPath) => unlockPath.id === 'posthog-browser',
+)
+const productionAnalyticsUnlockKitLeaksValues = (productionAnalyticsUnlockKit?.paths ?? []).some((unlockPath) =>
+  [...(unlockPath.requiredVariables ?? []), ...(unlockPath.requiredSecrets ?? [])].some((item) =>
+    Object.hasOwn(item, 'value'),
+  ),
+)
 const requiredProductionBlockerHandoffIds = [
   'support-contact',
   'production-analytics-browser',
@@ -2541,6 +2562,34 @@ if (
   productionBlockerHandoff.summary?.storeSupportEmailNeededNow !== false ||
   productionBlockerSupportItem?.status !== 'web-support-ready-store-email-deferred' ||
   productionBlockerSupportItem?.ownerInputRequired !== false ||
+  productionAnalyticsHandoffItem?.unlockKit?.id !== 'production-analytics-browser' ||
+  (productionAnalyticsHandoffItem?.unlockKit?.commandCount ?? 0) < 5 ||
+  productionAnalyticsUnlockKit?.recommendedPathId !== 'first-party-collector' ||
+  (productionAnalyticsUnlockKit?.commandCount ?? 0) < 5 ||
+  (productionAnalyticsUnlockKit?.validationCommandCount ?? 0) < 4 ||
+  productionAnalyticsUnlockKit?.controls?.zeroPaidSpend !== true ||
+  productionAnalyticsUnlockKit?.controls?.noSecretValues !== true ||
+  productionAnalyticsUnlockKit?.controls?.noAccountCreation !== true ||
+  productionAnalyticsUnlockKit?.controls?.noRevenueEnablement !== true ||
+  productionAnalyticsUnlockKit?.controls?.secretCommandsUseStdin !== true ||
+  !productionAnalyticsUnlockPathIds.has('first-party-collector') ||
+  !productionAnalyticsUnlockPathIds.has('posthog-browser') ||
+  !firstPartyCollectorUnlockPath?.requiredVariables?.some(
+    (item) => item.repositoryName === 'VITE_EVENT_COLLECTOR_URL',
+  ) ||
+  !firstPartyCollectorUnlockPath?.requiredVariables?.some(
+    (item) => item.repositoryName === 'AGL_EVENT_COLLECTOR_EXPORT_URL',
+  ) ||
+  !firstPartyCollectorUnlockPath?.requiredSecrets?.some((item) => item.repositoryName === 'CLOUDFLARE_API_TOKEN') ||
+  !firstPartyCollectorUnlockPath?.requiredSecrets?.some(
+    (item) => item.repositoryName === 'VITE_EVENT_COLLECTOR_WRITE_TOKEN',
+  ) ||
+  !firstPartyCollectorUnlockPath?.commandSequence?.includes('./ops/github/setup-production.sh') ||
+  !firstPartyCollectorUnlockPath?.commandSequence?.includes('RUN_WORKFLOWS=1 ./ops/github/setup-production.sh') ||
+  !firstPartyCollectorUnlockPath?.validationCommands?.includes('npm run autonomous:readiness') ||
+  !firstPartyCollectorUnlockPath?.validationCommands?.includes('npm run test:e2e') ||
+  !posthogBrowserUnlockPath?.requiredVariables?.some((item) => item.repositoryName === 'VITE_POSTHOG_KEY') ||
+  productionAnalyticsUnlockKitLeaksValues ||
   !productionBlockerHandoff.environmentPlan?.some(
     (item) => item.name === 'AGL_SUPPORT_EMAIL' && item.configured === false,
   ) ||
@@ -2549,11 +2598,13 @@ if (
   ) ||
   productionBlockerHandoff.secretPlan?.some((item) => Object.hasOwn(item, 'value')) ||
   !productionBlockerHandoffSource.includes('hashSourceData') ||
+  !productionBlockerHandoffSource.includes('unlockKits') ||
+  !productionBlockerHandoffSource.includes('secretCommandsUseStdin') ||
   !productionBlockerHandoffSource.includes('noSecretValues') ||
   !productionBlockerHandoffSource.includes('noMutation') ||
   !productionBlockerHandoffSource.includes('zeroPaidSpend')
 ) {
-  fail('Production blocker handoff must rank remaining external unlocks without mutation, spend, or secret values.')
+  fail('Production blocker handoff must rank remaining external unlocks with a zero-spend analytics unlock kit and without mutation, spend, or secret values.')
 }
 
 if (
@@ -5311,7 +5362,11 @@ if (
   readiness.productionBlockerHandoff?.sourceStatus?.supportChannel !== supportChannel.status ||
   readiness.productionBlockerHandoff?.controls?.noSecretValues !== true ||
   !readiness.productionBlockerHandoff?.topHandoffItems?.some((item) => item.id === 'support-contact') ||
+  readiness.productionBlockerHandoff?.nextUnlockKit?.id !== productionBlockerHandoff.nextUnlockKit?.id ||
+  readiness.productionBlockerHandoff?.nextUnlockKit?.recommendedPathId !==
+    productionBlockerHandoff.nextUnlockKit?.recommendedPathId ||
   !appSource.includes('Production Blocker Handoff') ||
+  !appSource.includes('Unlock kit') ||
   !appSource.includes('productionBlockerHandoff')
 ) {
   fail('Production readiness and app shell must surface the ranked production blocker handoff.')

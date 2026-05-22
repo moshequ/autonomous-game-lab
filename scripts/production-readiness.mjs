@@ -1376,6 +1376,7 @@ const payload = {
     sourceStatus: productionBlockerHandoff.sourceStatus,
     controls: productionBlockerHandoff.controls,
     topHandoffItems: (productionBlockerHandoff.handoffItems ?? []).slice(0, 5),
+    nextUnlockKit: productionBlockerHandoff.nextUnlockKit ?? null,
     nextActions: productionBlockerHandoff.nextActions ?? [],
   },
   productionUnlockRunner: {
@@ -1690,6 +1691,7 @@ const report = [
   `Missing env: ${payload.productionBlockerHandoff.summary?.missingEnv ?? 'n/a'}`,
   `Missing secrets: ${payload.productionBlockerHandoff.summary?.missingSecrets ?? 'n/a'}`,
   `Next unlock: ${payload.productionBlockerHandoff.summary?.nextBestUnlockId ?? 'none'}`,
+  `Unlock kit: ${payload.productionBlockerHandoff.nextUnlockKit?.id ?? 'none'}`,
   ...(payload.productionBlockerHandoff.topHandoffItems ?? []).map(
     (item) => `- ${item.status}: handoff-${item.id} - ${item.title}`,
   ),

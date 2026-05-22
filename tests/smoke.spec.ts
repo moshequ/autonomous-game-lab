@@ -4398,10 +4398,43 @@ test('production blocker handoff ranks remaining external unlocks', async ({ pag
     }
     environmentPlan: Array<{ name: string; configured: boolean }>
     secretPlan: Array<{ repositorySecret: string; configured: boolean; value?: string }>
-    handoffItems: Array<{ id: string; status: string; ownerInputRequired: boolean; costMode: string }>
+    handoffItems: Array<{
+      id: string
+      status: string
+      ownerInputRequired: boolean
+      costMode: string
+      unlockKit?: { id: string; recommendedPathId: string; commandCount: number }
+    }>
+    nextUnlockKit: {
+      id: string
+      status: string
+      recommendedPathId: string
+      commandCount: number
+      validationCommandCount: number
+      controls: {
+        zeroPaidSpend: boolean
+        noSecretValues: boolean
+        noAccountCreation: boolean
+        noRevenueEnablement: boolean
+        secretCommandsUseStdin: boolean
+      }
+      paths: Array<{
+        id: string
+        status: string
+        costMode: string
+        requiredVariables: Array<{ repositoryName: string; configured: boolean; command: string; value?: string }>
+        requiredSecrets: Array<{ repositoryName: string; configured: boolean; command: string; value?: string }>
+        commandSequence: string[]
+        validationCommands: string[]
+      }>
+    } | null
   }
   const readiness = JSON.parse(await readFile('data/production-readiness.json', 'utf8')) as {
-    productionBlockerHandoff?: { status: string; summary: { nextBestUnlockId: string | null } }
+    productionBlockerHandoff?: {
+      status: string
+      summary: { nextBestUnlockId: string | null }
+      nextUnlockKit?: { id: string; recommendedPathId: string } | null
+    }
   }
   const packageJson = JSON.parse(await readFile('package.json', 'utf8')) as {
     scripts: Record<string, string>
@@ -4427,10 +4460,44 @@ test('production blocker handoff ranks remaining external unlocks', async ({ pag
   expect(itemIds).toContain('product-gate-sample')
   expect(itemIds).toContain('google-play-account')
   const supportItem = handoff.handoffItems.find((item) => item.id === 'support-contact')
+  const analyticsItem = handoff.handoffItems.find((item) => item.id === 'production-analytics-browser')
   expect(supportItem?.status).toBe('web-support-ready-store-email-deferred')
   expect(supportItem?.ownerInputRequired).toBe(false)
   expect(supportItem?.costMode).toBe('zero-spend-public-issues-ready')
+  expect(analyticsItem?.unlockKit?.id).toBe('production-analytics-browser')
+  expect(analyticsItem?.unlockKit?.recommendedPathId).toBe('first-party-collector')
+  expect(analyticsItem?.unlockKit?.commandCount).toBeGreaterThan(0)
   expect(handoff.summary.nextBestUnlockId).toBe('production-analytics-browser')
+  expect(handoff.nextUnlockKit?.id).toBe('production-analytics-browser')
+  expect(handoff.nextUnlockKit?.recommendedPathId).toBe('first-party-collector')
+  expect(handoff.nextUnlockKit?.commandCount).toBeGreaterThanOrEqual(5)
+  expect(handoff.nextUnlockKit?.validationCommandCount).toBeGreaterThanOrEqual(4)
+  expect(handoff.nextUnlockKit?.controls.zeroPaidSpend).toBe(true)
+  expect(handoff.nextUnlockKit?.controls.noSecretValues).toBe(true)
+  expect(handoff.nextUnlockKit?.controls.noAccountCreation).toBe(true)
+  expect(handoff.nextUnlockKit?.controls.noRevenueEnablement).toBe(true)
+  expect(handoff.nextUnlockKit?.controls.secretCommandsUseStdin).toBe(true)
+  expect(handoff.nextUnlockKit?.paths.map((item) => item.id)).toEqual(
+    expect.arrayContaining(['first-party-collector', 'posthog-browser']),
+  )
+  const firstPartyCollectorPath = handoff.nextUnlockKit?.paths.find((item) => item.id === 'first-party-collector')
+  const posthogPath = handoff.nextUnlockKit?.paths.find((item) => item.id === 'posthog-browser')
+  expect(firstPartyCollectorPath?.requiredVariables.map((item) => item.repositoryName)).toEqual(
+    expect.arrayContaining(['VITE_EVENT_COLLECTOR_URL', 'AGL_EVENT_COLLECTOR_EXPORT_URL']),
+  )
+  expect(firstPartyCollectorPath?.requiredSecrets.map((item) => item.repositoryName)).toEqual(
+    expect.arrayContaining(['CLOUDFLARE_API_TOKEN', 'VITE_EVENT_COLLECTOR_WRITE_TOKEN']),
+  )
+  expect(firstPartyCollectorPath?.commandSequence).toContain('./ops/github/setup-production.sh')
+  expect(firstPartyCollectorPath?.commandSequence).toContain('RUN_WORKFLOWS=1 ./ops/github/setup-production.sh')
+  expect(firstPartyCollectorPath?.validationCommands).toContain('npm run autonomous:readiness')
+  expect(firstPartyCollectorPath?.validationCommands).toContain('npm run test:e2e')
+  expect(posthogPath?.requiredVariables.map((item) => item.repositoryName)).toContain('VITE_POSTHOG_KEY')
+  expect(
+    handoff.nextUnlockKit?.paths.some((unlockPath) =>
+      [...unlockPath.requiredVariables, ...unlockPath.requiredSecrets].some((item) => Object.hasOwn(item, 'value')),
+    ),
+  ).toBe(false)
   expect(handoff.environmentPlan.some((item) => item.name === 'AGL_SUPPORT_EMAIL' && !item.configured)).toBe(true)
   expect(
     handoff.secretPlan.some(
@@ -4440,12 +4507,18 @@ test('production blocker handoff ranks remaining external unlocks', async ({ pag
   expect(handoff.secretPlan.some((item) => Object.hasOwn(item, 'value'))).toBe(false)
   expect(readiness.productionBlockerHandoff?.status).toBe(handoff.status)
   expect(readiness.productionBlockerHandoff?.summary.nextBestUnlockId).toBe(handoff.summary.nextBestUnlockId)
+  expect(readiness.productionBlockerHandoff?.nextUnlockKit?.id).toBe(handoff.nextUnlockKit?.id)
+  expect(readiness.productionBlockerHandoff?.nextUnlockKit?.recommendedPathId).toBe(
+    handoff.nextUnlockKit?.recommendedPathId,
+  )
   expect(packageJson.scripts['autonomous:blocker-handoff']).toBe('node scripts/production-blocker-handoff.mjs')
   expect(packageJson.scripts['autonomous:readiness']).toContain('autonomous:blocker-handoff')
 
   await page.goto('/')
   await expect(page.getByLabel('Production Blocker Handoff')).toContainText(handoff.status)
   await expect(page.getByLabel('Production Blocker Handoff')).toContainText(handoff.summary.nextBestUnlockId ?? 'none')
+  await expect(page.getByLabel('Production Blocker Handoff')).toContainText('Unlock kit')
+  await expect(page.getByLabel('Production Blocker Handoff')).toContainText('first-party-collector')
 })
 
 test('daily challenge starts the retained game and records retention telemetry', async ({ page }) => {

@@ -1,17 +1,17 @@
 # Production Blocker Handoff
 
-Generated: 2026-05-22T03:23:23.003Z
+Generated: 2026-05-22T03:33:53.416Z
 Status: handoff-waiting-on-owner-inputs
 Detail: blocked-external-inputs
 Live candidate: pwa-92e2bf90481f
-Source hash: 18f23e9ad212
+Source hash: 2b742a44f454
 
 ## Summary
 
 - Owner inputs required: 4
 - Zero-cost first actions: 1
 - Missing environment entries: 7
-- Missing repository secrets: 8
+- Missing repository secrets: 5
 - Product-gate blockers: 3
 - Next best unlock: production-analytics-browser
 
@@ -40,6 +40,9 @@ Source hash: 18f23e9ad212
   - category: measurement
   - cost: zero-spend-use-existing-free-tier-or-first-party-collector
   - owner input required: true
+  - unlock kit: production-analytics-browser
+  - recommended path: first-party-collector
+  - setup commands: 5
   - unlocks: Real player events can replace fixture/local-only evidence for product gates and retention decisions.
 - owner-input-required: autonomous-rollup-credentials - Autonomous production rollups
   - category: measurement
@@ -72,6 +75,21 @@ Source hash: 18f23e9ad212
   - owner input required: false
   - unlocks: iOS submission remains intentionally deferred until revenue justifies annual spend.
 
+## Next Unlock Kit
+
+- owner-input-required: production-analytics-browser - Browser production analytics unlock kit
+- recommended path: first-party-collector
+- setup commands: 5
+- validation commands: 4
+- path first-party-collector: needs-variables-and-secrets; zero-spend-use-existing-cloudflare-free-tier
+  - variables: CLOUDFLARE_ACCOUNT_ID, AGL_EVENT_COLLECTOR_R2_BUCKET, AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS, VITE_EVENT_COLLECTOR_URL, AGL_EVENT_COLLECTOR_EXPORT_URL
+  - secrets: CLOUDFLARE_API_TOKEN, VITE_EVENT_COLLECTOR_WRITE_TOKEN, AGL_EVENT_COLLECTOR_ADMIN_TOKEN
+  - commands: npm run autonomous:event-collector-smoke && npm run autonomous:collector-deploy-plan && ./ops/github/setup-production.sh && RUN_WORKFLOWS=1 ./ops/github/setup-production.sh && npm run autonomous:readiness
+- path posthog-browser: needs-public-project-key; zero-spend-use-existing-posthog-free-project
+  - variables: VITE_POSTHOG_KEY, VITE_POSTHOG_HOST
+  - secrets: none
+  - commands: ./ops/github/setup-production.sh && RUN_WORKFLOWS=1 ./ops/github/setup-production.sh && npm run autonomous:readiness
+
 ## Missing Env
 
 - AGL_SUPPORT_EMAIL: Production support contact for privacy and store listings.
@@ -88,9 +106,6 @@ Source hash: 18f23e9ad212
 - VITE_EVENT_COLLECTOR_WRITE_TOKEN: printf "%s" "$VITE_EVENT_COLLECTOR_WRITE_TOKEN" | gh secret set VITE_EVENT_COLLECTOR_WRITE_TOKEN
 - AGL_EVENT_COLLECTOR_ADMIN_TOKEN: printf "%s" "$AGL_EVENT_COLLECTOR_ADMIN_TOKEN" | gh secret set AGL_EVENT_COLLECTOR_ADMIN_TOKEN
 - POSTHOG_PERSONAL_API_KEY: printf "%s" "$POSTHOG_PERSONAL_API_KEY" | gh secret set POSTHOG_PERSONAL_API_KEY
-- AGL_ANDROID_KEYSTORE_BASE64: printf "%s" "$AGL_ANDROID_KEYSTORE_BASE64" | gh secret set AGL_ANDROID_KEYSTORE_BASE64
-- AGL_ANDROID_KEYSTORE_PASSWORD: printf "%s" "$AGL_ANDROID_KEYSTORE_PASSWORD" | gh secret set AGL_ANDROID_KEYSTORE_PASSWORD
-- AGL_ANDROID_KEY_ALIAS: printf "%s" "$AGL_ANDROID_KEY_ALIAS" | gh secret set AGL_ANDROID_KEY_ALIAS
 - GOOGLE_PLAY_SERVICE_ACCOUNT_JSON: printf "%s" "$GOOGLE_PLAY_SERVICE_ACCOUNT_JSON" | gh secret set GOOGLE_PLAY_SERVICE_ACCOUNT_JSON
 
 ## Controls

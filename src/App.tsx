@@ -1002,6 +1002,11 @@ function App() {
     ) ??
     productionBlockerHandoff.topHandoffItems.find((item) => item.ownerInputRequired) ??
     productionBlockerHandoff.topHandoffItems[0]
+  const productionBlockerNextUnlockKit = productionBlockerHandoff.nextUnlockKit
+  const productionBlockerUnlockPath =
+    productionBlockerNextUnlockKit?.paths.find(
+      (unlockPath) => unlockPath.id === productionBlockerNextUnlockKit.recommendedPathId,
+    ) ?? productionBlockerNextUnlockKit?.paths[0]
   const productionActivationRunnableActions = productionActivation.plannedActions.filter(
     (action) => action.runnableNow,
   ).length
@@ -3183,6 +3188,18 @@ function App() {
                   <strong>
                     {productionBlockerHandoff.summary.missingEnv}/{productionBlockerHandoff.summary.missingSecrets}
                   </strong>
+                </div>
+                <div>
+                  <span>Unlock kit</span>
+                  <strong>{productionBlockerNextUnlockKit?.id ?? 'none'}</strong>
+                </div>
+                <div>
+                  <span>Unlock path</span>
+                  <strong>{productionBlockerUnlockPath?.id ?? 'none'}</strong>
+                </div>
+                <div>
+                  <span>Kit commands</span>
+                  <strong>{productionBlockerNextUnlockKit?.commandCount ?? 0}</strong>
                 </div>
               </div>
               <div className="monetizationRuntime" aria-label="Production Activation">
