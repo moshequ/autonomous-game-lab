@@ -3996,6 +3996,13 @@ test('autonomous cadence keeps unattended operation auditable and guarded', asyn
         }
       }
       githubActions: { status: string; workflow: string; command: string; artifactUpload: boolean }
+      githubPostSelfUpdateDeploy: {
+        status: string
+        workflow: string
+        trigger: string
+        deployabilityGate: string
+        smokeGate: string
+      }
       githubPostDeployEvidenceSync: {
         status: string
         workflow: string
@@ -4054,6 +4061,17 @@ test('autonomous cadence keeps unattended operation auditable and guarded', asyn
   expect(cadence.schedulers.githubActions.workflow).toBe('.github/workflows/autonomous-daily.yml')
   expect(cadence.schedulers.githubActions.command).toBe('npm run autonomous:operate')
   expect(cadence.schedulers.githubActions.artifactUpload).toBe(true)
+  expect(cadence.schedulers.githubPostSelfUpdateDeploy.status).toBe('scheduled')
+  expect(cadence.schedulers.githubPostSelfUpdateDeploy.workflow).toBe('.github/workflows/web-pwa-deploy.yml')
+  expect(cadence.schedulers.githubPostSelfUpdateDeploy.trigger).toBe(
+    'workflow_run: Autonomous Self Update, Public Evidence Intake',
+  )
+  expect(cadence.schedulers.githubPostSelfUpdateDeploy.deployabilityGate).toBe(
+    'npm run autonomous:assert-deployable',
+  )
+  expect(cadence.schedulers.githubPostSelfUpdateDeploy.smokeGate).toBe(
+    'npm run autonomous:post-deploy-smoke -- --assert',
+  )
   expect(cadence.schedulers.githubPostDeployEvidenceSync.status).toBe('gated')
   expect(cadence.schedulers.githubPostDeployEvidenceSync.workflow).toBe(
     '.github/workflows/post-deploy-evidence-sync.yml',
@@ -4085,6 +4103,7 @@ test('autonomous cadence keeps unattended operation auditable and guarded', asyn
   expect(cadence.controls.codexAutomationActualStatusAudited).toBe(true)
   expect(cadence.controls.staleEvidenceBlocksUnattendedTrust).toBe(true)
   expect(cadence.controls.postDeployEvidenceSyncWritePermissionGated).toBe(true)
+  expect(cadence.checks.find((check) => check.id === 'post-self-update-deploy')?.status).toBe('pass')
   expect(cadence.checks.find((check) => check.id === 'post-deploy-evidence-sync-workflow')?.status).toBe('pass')
   expect(cadence.freshnessPolicy.status).toBe('fresh')
   expect(cadence.freshnessPolicy.staleAfterHours).toBeGreaterThanOrEqual(24)

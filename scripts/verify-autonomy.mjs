@@ -3467,6 +3467,14 @@ if (
   autonomousCadence.schedulers?.githubActions?.artifactUpload !== true ||
   autonomousCadence.schedulers?.githubSelfUpdate?.status !== 'gated' ||
   autonomousCadence.schedulers?.githubSelfUpdate?.workflow !== '.github/workflows/autonomous-self-update.yml' ||
+  autonomousCadence.schedulers?.githubPostSelfUpdateDeploy?.status !== 'scheduled' ||
+  autonomousCadence.schedulers?.githubPostSelfUpdateDeploy?.workflow !== '.github/workflows/web-pwa-deploy.yml' ||
+  autonomousCadence.schedulers?.githubPostSelfUpdateDeploy?.trigger !==
+    'workflow_run: Autonomous Self Update, Public Evidence Intake' ||
+  autonomousCadence.schedulers?.githubPostSelfUpdateDeploy?.deployabilityGate !==
+    'npm run autonomous:assert-deployable' ||
+  autonomousCadence.schedulers?.githubPostSelfUpdateDeploy?.smokeGate !==
+    'npm run autonomous:post-deploy-smoke -- --assert' ||
   autonomousCadence.schedulers?.githubPostDeployEvidenceSync?.status !== 'gated' ||
   autonomousCadence.schedulers?.githubPostDeployEvidenceSync?.workflow !==
     '.github/workflows/post-deploy-evidence-sync.yml' ||
@@ -3503,6 +3511,7 @@ if (
   !cadenceTracksRequiredFreshness ||
   !(autonomousCadence.artifactFreshness ?? []).every((artifact) => artifact.status === 'fresh') ||
   !(autonomousCadence.checks ?? []).some((check) => check.id === 'fresh-generated-evidence' && check.status === 'pass') ||
+  !(autonomousCadence.checks ?? []).some((check) => check.id === 'post-self-update-deploy' && check.status === 'pass') ||
   !(autonomousCadence.checks ?? []).every((check) => check.status === 'pass') ||
   codexAutomationManifest.id !== autonomousCadence.schedulers?.codexDesktop?.id ||
   codexAutomationManifest.status !== 'active-declared' ||

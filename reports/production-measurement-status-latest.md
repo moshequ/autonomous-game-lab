@@ -1,10 +1,10 @@
 # Production Measurement Status
 
-Generated: 2026-05-22T04:54:02.177Z
+Generated: 2026-05-22T05:15:57.475Z
 Status: production-measurement-local-intake-ready
 Active path: local-browser-buffer
 Live candidate: pwa-736e2166b571
-Source hash: 676b6b9e4cf8
+Source hash: 8aa4a89ee1f1
 
 ## Analytics
 
