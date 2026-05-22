@@ -1,8 +1,8 @@
 # Product Gate Sample Plan
 
-Generated: 2026-05-22T13:12:30.254Z
+Generated: 2026-05-22T13:27:39.095Z
 Status: product-gate-sample-plan-ready
-Source hash: 128e6dcaef56
+Source hash: 7af7b52ac845
 Analytics source: fixture-sample
 Primary gate: firstGameCompletion
 Default route: firstGameCompletion (gate-sample-20260522-firstGameCompletion)

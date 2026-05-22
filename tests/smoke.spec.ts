@@ -122,6 +122,9 @@ test('portal loads a playable canvas and autonomy cockpit', async ({ page }) => 
   const retention = JSON.parse(await readFile('data/retention-loop.json', 'utf8')) as {
     dailyChallenge: { title: string }
   }
+  const nativePackage = JSON.parse(await readFile('data/native-package.json', 'utf8')) as {
+    status: string
+  }
 
   await page.goto('/')
 
@@ -146,7 +149,7 @@ test('portal loads a playable canvas and autonomy cockpit', async ({ page }) => 
   await expect(page.getByText('Incident drill')).toBeVisible()
   await expect(page.getByText('verified', { exact: true })).toBeVisible()
   await expect(page.getByText('Native package')).toBeVisible()
-  await expect(page.getByText('blocked-draft-ready')).toBeVisible()
+  await expect(page.getByText(nativePackage.status)).toBeVisible()
   await expect(page.getByText('Android release')).toBeVisible()
   await expect(page.getByText('blocked-needs-host-signing-play')).toBeVisible()
   await expect(page.getByLabel('Store Compliance')).toContainText('draft-ready-external-blockers')
@@ -154,7 +157,7 @@ test('portal loads a playable canvas and autonomy cockpit', async ({ page }) => 
   await expect(page.getByLabel('Store Compliance')).toContainText('ads-disabled')
   await expect(page.getByLabel('Store Listing Optimizer')).toContainText('store-listing-optimizer-ready')
   await expect(page.getByLabel('Store Listing Optimizer')).toContainText(storeListingOptimizer.recommendation.title)
-  await expect(page.getByText('Asset links')).toBeVisible()
+  await expect(page.getByText('Asset links', { exact: true })).toBeVisible()
   await expect(page.getByLabel('Android Signing')).toContainText('signing-prepared')
   await expect(page.getByLabel('Android Signing')).toContainText('ignored-local')
   await expect(page.getByText('Environment')).toBeVisible()

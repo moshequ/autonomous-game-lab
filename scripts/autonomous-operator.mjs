@@ -145,6 +145,11 @@ const eligibleActions = safeActions
   .map((action) => ({ action, rejection: rejectionReason(action) }))
   .filter((item) => item.rejection === null)
   .map((item) => item.action)
+const ownerDecisionRejection = ownerDecisionAction ? rejectionReason(ownerDecisionAction) : 'owner-action-not-found'
+const ownerDecisionLocallyExecutable =
+  ownerDecisionAction && ownerDecisionRejection === null && allowedLocalCommands.includes(ownerDecisionAction.command)
+const ownerDecisionHeld = ownerDecisionRejection !== null
+const ownerEligibleActions = ownerDecisionHeld ? [] : eligibleActions
 const needsInitialExecutionAudit = (existingHistory.summary?.executedRecords ?? 0) < 1
 const initialExecutionAuditAction = {
   id: 'refresh-objective-audit',
@@ -155,21 +160,21 @@ const initialExecutionAuditAction = {
   costUsd: 0,
 }
 const initialExecutionFallbackAction =
-  executeRequested && needsInitialExecutionAudit && rejectionReason(initialExecutionAuditAction) === null
+  executeRequested && needsInitialExecutionAudit && !ownerDecisionHeld && rejectionReason(initialExecutionAuditAction) === null
     ? initialExecutionAuditAction
     : null
 const selectedAction = requestedAction
-  ? rejectionReason(requestedAction) === null
+  ? !ownerDecisionHeld && rejectionReason(requestedAction) === null
     ? requestedAction
     : requestedActionId === initialExecutionFallbackAction?.id
       ? initialExecutionFallbackAction
       : null
-  : ownerDecisionAction && rejectionReason(ownerDecisionAction) === null
+  : ownerDecisionAction && !ownerDecisionHeld && ownerDecisionRejection === null
     ? ownerDecisionAction
-    : eligibleActions[0] ?? initialExecutionFallbackAction
-const selectedRejection = requestedAction ? rejectionReason(requestedAction) : null
+    : ownerEligibleActions[0] ?? initialExecutionFallbackAction
+const selectedRejection = requestedAction ? (ownerDecisionHeld ? 'owner-decision-held' : rejectionReason(requestedAction)) : null
 const eligibleActionIds = [
-  ...new Set([...eligibleActions.map((action) => action.id), selectedAction?.id].filter(Boolean)),
+  ...new Set([...ownerEligibleActions.map((action) => action.id), selectedAction?.id].filter(Boolean)),
 ]
 const blockedActions = safeActions
   .filter((action) => !selectedAction || action.id !== selectedAction.id)
@@ -177,7 +182,7 @@ const blockedActions = safeActions
     id: action.id,
     status: action.status,
     command: action.command,
-    reason: rejectionReason(action) ?? 'not-selected-this-run',
+    reason: rejectionReason(action) ?? (ownerDecisionHeld ? 'owner-decision-held' : 'not-selected-this-run'),
   }))
 
 const parseNpmSegment = (segment) => {
@@ -268,9 +273,8 @@ const payload = {
   ownerDecision: {
     actionId: ownerLoop.ownerDecision?.nextBestActionId ?? null,
     command: ownerLoop.ownerDecision?.nextBestAction ?? null,
-    locallyExecutable:
-      ownerDecisionAction && rejectionReason(ownerDecisionAction) === null && allowedLocalCommands.includes(ownerDecisionAction.command),
-    rejectionReason: ownerDecisionAction ? rejectionReason(ownerDecisionAction) : 'owner-action-not-found',
+    locallyExecutable: Boolean(ownerDecisionLocallyExecutable),
+    rejectionReason: ownerDecisionRejection,
   },
   requestedActionId,
   selectedAction: selectedAction

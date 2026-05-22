@@ -2408,7 +2408,7 @@ const prioritizedExecutableNow =
     ? executableWithoutImmediateRepeat
     : executableWithoutLastRepeat.length > 0
       ? executableWithoutLastRepeat
-      : ownerSelectableNow
+      : []
 const preferredActionOrder = [
   'prepare-repository-channel',
   'deploy-web-pwa',
@@ -2488,6 +2488,7 @@ const payload = {
     lastExecutedStatus: lastExecutedRecord?.execution?.status ?? null,
     lastRecordExecutionStatus: autonomousOperatorHistory.summary?.lastExecutionStatus ?? null,
     recentlySatisfiedActionIds,
+    immediateRepeatSuppressed: ownerSelectableNow.length > 0 && prioritizedExecutableNow.length === 0,
     objectiveAuditFreshness: {
       fresh: objectiveAuditFresh,
       structurallyReady: objectiveAuditStructurallyReady,
