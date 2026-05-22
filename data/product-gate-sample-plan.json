@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-05-22T04:49:51.845Z",
-  "sourceDataHash": "ca13b4023109",
+  "generatedAt": "2026-05-22T05:52:13.579Z",
+  "sourceDataHash": "ca011d28938d",
   "status": "product-gate-sample-plan-ready",
   "sourceStatus": {
     "analyticsSource": "fixture-sample",
@@ -28,7 +28,7 @@
     "supportingAggregateEvidenceNotes": 0,
     "downloadsScanStatus": "no-evidence-found",
     "downloadsScanCoolingDown": true,
-    "downloadsScanNextRecommendedAt": "2026-05-22T05:42:25.939Z",
+    "downloadsScanNextRecommendedAt": "2026-05-22T09:51:13.115Z",
     "nextOwnerAction": "collect-gate-sample-downloads"
   },
   "downloadsScan": {
@@ -36,11 +36,11 @@
     "cooldownHours": 4,
     "coolingDown": true,
     "evidenceReadyNow": false,
-    "lastScanAt": "2026-05-22T01:42:25.939Z",
+    "lastScanAt": "2026-05-22T05:51:13.115Z",
     "lastScanStatus": "no-evidence-found",
-    "scanAgeHours": 3.12,
-    "cooldownRemainingHours": 0.88,
-    "nextRecommendedScanAt": "2026-05-22T05:42:25.939Z"
+    "scanAgeHours": 0.02,
+    "cooldownRemainingHours": 3.98,
+    "nextRecommendedScanAt": "2026-05-22T09:51:13.115Z"
   },
   "publicSamplePage": {
     "path": "/gate-sample.html",
@@ -450,6 +450,6 @@
   "nextActions": [
     "First game completion needs 30 more prompt exposure(s) and 128 observed success(es); feature Harbor Rings via /?game=harbor-rings&utm_source=gate_sample&utm_campaign=gate-sample-20260522-firstGameCompletion.",
     "D1 retention is the fastest gate sample: 10 prompt exposure(s), 1 observed success(es).",
-    "Wait until 2026-05-22T05:42:25.939Z before the next explicit Downloads scan unless an inbox event drop appears."
+    "Wait until 2026-05-22T09:51:13.115Z before the next explicit Downloads scan unless an inbox event drop appears."
   ]
 }

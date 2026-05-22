@@ -1,15 +1,15 @@
 # Autonomous Owner Loop
 
-Generated: 2026-05-22T05:48:38.191Z
+Generated: 2026-05-22T05:58:06.345Z
 Status: owner-loop-ready
 Mode: zero-spend-web-ready
 Autonomy score: 44/45 (98%)
 
 ## Owner Decision
 
-- Next action: collect-gate-sample-downloads
-- Command: npm run autonomous:collect-sample-downloads
-- Rationale: Opt-in scans local browser Downloads and the event inbox for real player exports, imports them, refreshes analytics and recovery, then regenerates the sample plan.
+- Next action: hold-for-external-input
+- Command: No local command is available until external inputs, configured credentials, or new player evidence arrive.
+- Rationale: All safe local refresh actions are current; hold execution until owner-provided inputs, production analytics, or real player evidence changes the state.
 - Last executed action: prepare-release-candidate
 - Recent executed actions: prepare-release-candidate, bootstrap-production-setup, optimize-store-listing, apply-safe-improvements, refresh-replay-loop, refresh-completion-loop, refresh-first-move-coach, refresh-product-gate-sample-plan
 
@@ -48,11 +48,11 @@ Autonomy score: 44/45 (98%)
 - ready: live-site-monitor - Live monitor live-site-monitor-passed; origin https://moshequ.github.io/autonomous-game-lab; checks 19/19; live matches synced deploy true.
 - ready: production-bootstrap - Bootstrap production-bootstrap-ready; mode can-apply-configured-actions; external blockers 16.
 - ready: production-activation - Activation activation-ready; mode dry-run; execution dry-run; gh ready.
-- ready: production-blocker-handoff - Handoff handoff-waiting-on-owner-inputs; next production-analytics-browser; owner inputs 4; missing env 7; missing secrets 8.
+- ready: production-blocker-handoff - Handoff handoff-waiting-on-owner-inputs; next production-analytics-browser; owner inputs 4; missing env 7; missing secrets 5.
 - ready: production-unlock-runner - Unlock runner unlock-runner-idle; runnable 0; queued commands 0; unsafe 0.
 - ready: support-channel - Support channel support-channel-ready; repository moshequ/autonomous-game-lab; public intake ready; aggregate evidence only true.
-- ready: autonomous-operator - Operator operator-plan-ready; selected collect-gate-sample-downloads; execution not-requested.
-- ready: operator-history - History operator-history-ready; records 40; executed 9.
+- ready: autonomous-operator - Operator operator-held; selected none; execution not-requested.
+- ready: operator-history - History operator-history-ready; records 40; executed 8.
 - ready: objective-audit - Audit objective-in-progress; met 6/8; external blockers 16.
 - ready: store-listing-optimizer - Focus market-pulse; lead screenshot phone-market-pulse-generated; candidate changed yes.
 - ready: store-compliance - Rating Everyone; target audience general; blockers 3.
@@ -79,8 +79,8 @@ Autonomy score: 44/45 (98%)
 - monitor: refresh-live-site-monitor - npm run autonomous:live-monitor
 - monitor: optimize-product-gates - npm run autonomous:analyze && npm run autonomous:product-optimize && npm run autonomous:sync-config && npm run autonomous:simulate
 - monitor: refresh-product-gate-recovery - npm run autonomous:gate-recovery && npm run autonomous:sample-plan
-- armed: collect-gate-sample-downloads - npm run autonomous:collect-sample-downloads
-- armed: refresh-product-gate-sample-plan - npm run autonomous:sample-plan
+- monitor: collect-gate-sample-downloads - npm run autonomous:collect-sample-downloads
+- monitor: refresh-product-gate-sample-plan - npm run autonomous:sample-plan
 - monitor: refresh-first-move-coach - npm run autonomous:first-move-coach
 - monitor: refresh-completion-loop - npm run autonomous:completion-loop
 - monitor: refresh-replay-loop - npm run autonomous:replay-loop
@@ -111,9 +111,6 @@ Autonomy score: 44/45 (98%)
 - VITE_EVENT_COLLECTOR_WRITE_TOKEN: Repository secret sourced from VITE_EVENT_COLLECTOR_WRITE_TOKEN.
 - AGL_EVENT_COLLECTOR_ADMIN_TOKEN: Repository secret sourced from AGL_EVENT_COLLECTOR_ADMIN_TOKEN.
 - POSTHOG_PERSONAL_API_KEY: Repository secret sourced from POSTHOG_PERSONAL_API_KEY.
-- AGL_ANDROID_KEYSTORE_BASE64: Repository secret sourced from AGL_ANDROID_KEYSTORE_BASE64.
-- AGL_ANDROID_KEYSTORE_PASSWORD: Repository secret sourced from AGL_ANDROID_KEYSTORE_PASSWORD.
-- AGL_ANDROID_KEY_ALIAS: Repository secret sourced from AGL_ANDROID_KEY_ALIAS.
 - GOOGLE_PLAY_SERVICE_ACCOUNT_JSON: Repository secret sourced from GOOGLE_PLAY_SERVICE_ACCOUNT_JSON.
 
 ## Guardrails
