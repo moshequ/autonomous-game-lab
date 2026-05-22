@@ -731,9 +731,14 @@ await mkdir(path.dirname(outputJsonPath), { recursive: true })
 await mkdir(path.dirname(outputTsPath), { recursive: true })
 await mkdir(path.dirname(reportPath), { recursive: true })
 await writeFile(outputJsonPath, JSON.stringify(payload, null, 2) + '\n')
+const runtimePayload = {
+  status: payload.status,
+  summary: payload.summary,
+  completion: payload.completion,
+}
 await writeFile(
   outputTsPath,
-  `export const objectiveAudit = ${JSON.stringify(payload, null, 2)} as const\n\nexport type ObjectiveAudit = typeof objectiveAudit\n`,
+  `export const objectiveAudit = ${JSON.stringify(runtimePayload, null, 2)} as const\n\nexport type ObjectiveAudit = typeof objectiveAudit\n`,
 )
 await writeFile(reportPath, report.join('\n'))
 
