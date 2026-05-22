@@ -636,7 +636,8 @@ const checks = [
     id: 'github-self-update-workflow',
     status:
       selfUpdateWorkflowExists &&
-      selfUpdateWorkflow.includes("workflows: ['Autonomous Daily Studio']") &&
+      selfUpdateWorkflow.includes("workflows: ['Post-Deploy Evidence Sync']") &&
+      selfUpdateWorkflow.includes('git pull --ff-only origin') &&
       selfUpdateWorkflow.includes("vars.AGL_AUTONOMOUS_SELF_UPDATE == '1'") &&
       selfUpdateWorkflow.includes('contents: write') &&
       selfUpdateWorkflow.includes('npm run autonomous:self-update -- --assert-safe') &&
@@ -649,7 +650,7 @@ const checks = [
         ? 'pass'
         : 'blocker',
     detail: selfUpdateWorkflowExists
-      ? 'Gated GitHub workflow can persist allowlisted verified generated changes with production env and workflow token evidence when explicitly enabled.'
+      ? 'Gated GitHub workflow can persist allowlisted verified generated changes after post-deploy evidence sync with production env and workflow token evidence when explicitly enabled.'
       : 'Autonomous self-update GitHub workflow is missing.',
   },
   {
@@ -854,7 +855,7 @@ const payload = {
           ? 'gated'
           : 'missing',
       workflow: '.github/workflows/autonomous-self-update.yml',
-      trigger: 'workflow_run: Autonomous Daily Studio',
+      trigger: 'workflow_run: Post-Deploy Evidence Sync',
       permission: 'contents: write',
       enabledByRepositoryVariable: 'AGL_AUTONOMOUS_SELF_UPDATE=1',
       directPushRequiresRepositoryVariable: 'AGL_AUTONOMOUS_SELF_UPDATE_DIRECT=1',

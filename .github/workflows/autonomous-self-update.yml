@@ -2,7 +2,7 @@ name: Autonomous Self Update
 
 on:
   workflow_run:
-    workflows: ['Autonomous Daily Studio']
+    workflows: ['Post-Deploy Evidence Sync']
     types: [completed]
   workflow_dispatch:
 
@@ -26,6 +26,9 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+
+      - name: Refresh default branch
+        run: git pull --ff-only origin "${GITHUB_REF_NAME:-main}"
 
       - name: Setup Node
         uses: actions/setup-node@v4
