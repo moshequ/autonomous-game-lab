@@ -6,7 +6,9 @@ on:
   workflow_dispatch:
 
 permissions:
+  actions: read
   contents: read
+  issues: read
 
 jobs:
   autonomous-daily:
@@ -32,6 +34,31 @@ jobs:
         run: npx playwright install --with-deps chromium
 
       - name: Run autonomous owner loop
+        env:
+          AGL_ANDROID_KEYSTORE_BASE64: ${{ secrets.AGL_ANDROID_KEYSTORE_BASE64 }}
+          AGL_ANDROID_KEYSTORE_PASSWORD: ${{ secrets.AGL_ANDROID_KEYSTORE_PASSWORD }}
+          AGL_ANDROID_KEY_ALIAS: ${{ secrets.AGL_ANDROID_KEY_ALIAS }}
+          AGL_ANDROID_PACKAGE_NAME: ${{ vars.AGL_ANDROID_PACKAGE_NAME }}
+          AGL_ANDROID_SHA256_CERT_FINGERPRINT: ${{ vars.AGL_ANDROID_SHA256_CERT_FINGERPRINT }}
+          AGL_AUTONOMOUS_SELF_UPDATE: ${{ vars.AGL_AUTONOMOUS_SELF_UPDATE }}
+          AGL_AUTONOMOUS_SELF_UPDATE_DIRECT: ${{ vars.AGL_AUTONOMOUS_SELF_UPDATE_DIRECT }}
+          AGL_EVENT_COLLECTOR_ADMIN_TOKEN: ${{ secrets.AGL_EVENT_COLLECTOR_ADMIN_TOKEN }}
+          AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS: ${{ vars.AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS }}
+          AGL_EVENT_COLLECTOR_EXPORT_URL: ${{ vars.AGL_EVENT_COLLECTOR_EXPORT_URL }}
+          AGL_EVENT_COLLECTOR_R2_BUCKET: ${{ vars.AGL_EVENT_COLLECTOR_R2_BUCKET }}
+          AGL_PUBLIC_ORIGIN: ${{ vars.AGL_PUBLIC_ORIGIN }}
+          GH_TOKEN: ${{ github.token }}
+          GITHUB_TOKEN: ${{ github.token }}
+          POSTHOG_HOST: ${{ vars.POSTHOG_HOST }}
+          POSTHOG_PERSONAL_API_KEY: ${{ secrets.POSTHOG_PERSONAL_API_KEY }}
+          POSTHOG_PROJECT_ID: ${{ vars.POSTHOG_PROJECT_ID }}
+          PUBLIC_SITE_URL: ${{ vars.PUBLIC_SITE_URL }}
+          VITE_BASE_PATH: ${{ vars.VITE_BASE_PATH }}
+          VITE_EVENT_COLLECTOR_URL: ${{ vars.VITE_EVENT_COLLECTOR_URL }}
+          VITE_EVENT_COLLECTOR_WRITE_TOKEN: ${{ secrets.VITE_EVENT_COLLECTOR_WRITE_TOKEN }}
+          VITE_POSTHOG_HOST: ${{ vars.VITE_POSTHOG_HOST }}
+          VITE_POSTHOG_KEY: ${{ vars.VITE_POSTHOG_KEY }}
+          VITE_PUBLIC_ORIGIN: ${{ vars.VITE_PUBLIC_ORIGIN }}
         run: npm run autonomous:operate
 
       - name: Upload operating artifacts
