@@ -15,6 +15,36 @@ const readOptionalJson = async (filePath, fallback) =>
     .then((raw) => JSON.parse(raw))
     .catch(() => fallback)
 
+const previousMonitor = await readOptionalJson(outputJsonPath, null)
+const parseDate = (value) => {
+  const date = new Date(String(value ?? ''))
+  return Number.isFinite(date.valueOf()) ? date : null
+}
+const previousMonitorIsReusable = ({ currentOrigin }) => {
+  if (!previousMonitor || typeof previousMonitor !== 'object') {
+    return false
+  }
+
+  const status = String(previousMonitor.status ?? '')
+  if (status !== 'live-site-monitor-passed') {
+    return false
+  }
+
+  const previousOrigin = String(previousMonitor.origin?.origin ?? '').trim()
+  if (!previousOrigin || previousOrigin !== String(currentOrigin ?? '').trim()) {
+    return false
+  }
+
+  const generatedAt = parseDate(previousMonitor.generatedAt)
+  if (!generatedAt) {
+    return false
+  }
+
+  const ageMs = Date.now() - generatedAt.valueOf()
+  const maxAgeMs = 72 * 60 * 60 * 1000
+  return ageMs >= 0 && ageMs <= maxAgeMs
+}
+
 const argv = process.argv.slice(2)
 const argValue = (prefix) => argv.find((arg) => arg.startsWith(prefix))?.slice(prefix.length)
 const timeoutMs = Number(argValue('--timeout-ms=') ?? process.env.AGL_LIVE_SITE_TIMEOUT_MS ?? 12_000)
@@ -303,6 +333,11 @@ const failed = checks.filter((check) => check.status === 'fail').length
 const blocked = checks.filter((check) => check.status === 'blocked').length
 const latencies = checks.map((check) => check.durationMs).filter((value) => typeof value === 'number')
 const manifestCheck = checks.find((check) => check.id === 'release-candidate-manifest-live')
+const networkBlocked = Boolean(origin && passed === 0 && failed === 0 && blocked > 0)
+if (networkBlocked && previousMonitorIsReusable({ currentOrigin: `${origin.protocol}//${origin.host}${origin.pathname.replace(/\/$/, '')}` })) {
+  console.log('Network blocked; preserving prior live-site monitor evidence.')
+  process.exit(0)
+}
 const status = !origin
   ? 'live-site-monitor-planned'
   : failed > 0

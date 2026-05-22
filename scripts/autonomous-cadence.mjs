@@ -733,6 +733,11 @@ const checks = [
       publicEvidenceIntakeWorkflow.includes('issues: read') &&
       publicEvidenceIntakeWorkflow.includes('GH_TOKEN: ${{ github.token }}') &&
       publicEvidenceIntakeWorkflow.includes('GITHUB_TOKEN: ${{ github.token }}') &&
+      publicEvidenceIntakeWorkflow.includes('AGL_SUPPORT_EMAIL: ${{ vars.AGL_SUPPORT_EMAIL }}') &&
+      publicEvidenceIntakeWorkflow.includes('CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}') &&
+      publicEvidenceIntakeWorkflow.includes('VITE_ADSENSE_CLIENT_ID: ${{ vars.VITE_ADSENSE_CLIENT_ID }}') &&
+      publicEvidenceIntakeWorkflow.includes('ADMOB_PUBLISHER_ID: ${{ vars.ADMOB_PUBLISHER_ID }}') &&
+      publicEvidenceIntakeWorkflow.includes('GOOGLE_PLAY_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}') &&
       publicEvidenceIntakeWorkflow.includes('AGL_AUTONOMOUS_SELF_UPDATE: ${{ vars.AGL_AUTONOMOUS_SELF_UPDATE }}') &&
       publicEvidenceIntakeWorkflow.includes(
         'AGL_AUTONOMOUS_SELF_UPDATE_DIRECT: ${{ vars.AGL_AUTONOMOUS_SELF_UPDATE_DIRECT }}',
@@ -774,6 +779,14 @@ const checks = [
       postDeployEvidenceSyncWorkflow.includes('GITHUB_REPOSITORY: ${{ github.repository }}') &&
       postDeployEvidenceSyncWorkflow.includes('GITHUB_TOKEN: ${{ github.token }}') &&
       postDeployEvidenceSyncWorkflow.includes('AGL_PUBLIC_ORIGIN: ${{ vars.AGL_PUBLIC_ORIGIN }}') &&
+      postDeployEvidenceSyncWorkflow.includes('AGL_SUPPORT_EMAIL: ${{ vars.AGL_SUPPORT_EMAIL }}') &&
+      postDeployEvidenceSyncWorkflow.includes('AGL_EVENT_COLLECTOR_ADMIN_TOKEN: ${{ secrets.AGL_EVENT_COLLECTOR_ADMIN_TOKEN }}') &&
+      postDeployEvidenceSyncWorkflow.includes('CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}') &&
+      postDeployEvidenceSyncWorkflow.includes('POSTHOG_PERSONAL_API_KEY: ${{ secrets.POSTHOG_PERSONAL_API_KEY }}') &&
+      postDeployEvidenceSyncWorkflow.includes('VITE_EVENT_COLLECTOR_WRITE_TOKEN: ${{ secrets.VITE_EVENT_COLLECTOR_WRITE_TOKEN }}') &&
+      postDeployEvidenceSyncWorkflow.includes('VITE_ADSENSE_CLIENT_ID: ${{ vars.VITE_ADSENSE_CLIENT_ID }}') &&
+      postDeployEvidenceSyncWorkflow.includes('ADMOB_PUBLISHER_ID: ${{ vars.ADMOB_PUBLISHER_ID }}') &&
+      postDeployEvidenceSyncWorkflow.includes('GOOGLE_PLAY_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}') &&
       postDeployEvidenceSyncWorkflow.includes('AGL_AUTONOMOUS_SELF_UPDATE: ${{ vars.AGL_AUTONOMOUS_SELF_UPDATE }}') &&
       postDeployEvidenceSyncWorkflow.includes(
         'AGL_AUTONOMOUS_SELF_UPDATE_DIRECT: ${{ vars.AGL_AUTONOMOUS_SELF_UPDATE_DIRECT }}',
@@ -905,6 +918,8 @@ const payload = {
         'CLOUDFLARE_API_TOKEN',
         'VITE_POSTHOG_KEY',
         'POSTHOG_PERSONAL_API_KEY',
+        'AGL_SUPPORT_EMAIL',
+        'ADMOB_PUBLISHER_ID',
         'AGL_ANDROID_KEYSTORE_BASE64',
       ],
     },

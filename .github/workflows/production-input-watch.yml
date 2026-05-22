@@ -64,6 +64,9 @@ jobs:
           GITHUB_REPOSITORY: ${{ github.repository }}
           GITHUB_REPOSITORY_OWNER: ${{ github.repository_owner }}
           GITHUB_TOKEN: ${{ github.token }}
+          GOOGLE_PLAY_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
+          ADMOB_PUBLISHER_ID: ${{ vars.ADMOB_PUBLISHER_ID }}
+          AD_NETWORK_PROVIDER: ${{ vars.AD_NETWORK_PROVIDER }}
           POSTHOG_HOST: ${{ vars.POSTHOG_HOST }}
           POSTHOG_PERSONAL_API_KEY: ${{ secrets.POSTHOG_PERSONAL_API_KEY }}
           POSTHOG_PROJECT_ID: ${{ vars.POSTHOG_PROJECT_ID }}

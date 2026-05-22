@@ -4196,6 +4196,8 @@ test('autonomous cadence keeps unattended operation auditable and guarded', asyn
   }
   const packageJson = JSON.parse(await readFile('package.json', 'utf8')) as { scripts: Record<string, string> }
   const productionInputWorkflow = await readFile('.github/workflows/production-input-watch.yml', 'utf8')
+  const publicEvidenceWorkflow = await readFile('.github/workflows/public-evidence-intake.yml', 'utf8')
+  const postDeploySyncWorkflow = await readFile('.github/workflows/post-deploy-evidence-sync.yml', 'utf8')
   const webDeployWorkflow = await readFile('.github/workflows/web-pwa-deploy.yml', 'utf8')
   const productionInputScript = packageJson.scripts['autonomous:production-input-watch'] ?? ''
 
@@ -4272,6 +4274,10 @@ test('autonomous cadence keeps unattended operation auditable and guarded', asyn
   expect(productionInputWorkflow).toContain('AGL_AUTONOMOUS_SELF_UPDATE_DIRECT')
   expect(productionInputWorkflow).toContain('CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}')
   expect(productionInputWorkflow).toContain('POSTHOG_PERSONAL_API_KEY: ${{ secrets.POSTHOG_PERSONAL_API_KEY }}')
+  expect(productionInputWorkflow).toContain('ADMOB_PUBLISHER_ID: ${{ vars.ADMOB_PUBLISHER_ID }}')
+  expect(productionInputWorkflow).toContain(
+    'GOOGLE_PLAY_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}',
+  )
   expect(productionInputWorkflow).toContain(
     'VITE_EVENT_COLLECTOR_WRITE_TOKEN: ${{ secrets.VITE_EVENT_COLLECTOR_WRITE_TOKEN }}',
   )
@@ -4320,6 +4326,25 @@ test('autonomous cadence keeps unattended operation auditable and guarded', asyn
   )
   expect(cadence.schedulers.githubPostDeployEvidenceSync.verificationGate).toBe(
     'npm run autonomous:verify-post-deploy-sync',
+  )
+  expect(publicEvidenceWorkflow).toContain('AGL_SUPPORT_EMAIL: ${{ vars.AGL_SUPPORT_EMAIL }}')
+  expect(publicEvidenceWorkflow).toContain('CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}')
+  expect(publicEvidenceWorkflow).toContain('ADMOB_PUBLISHER_ID: ${{ vars.ADMOB_PUBLISHER_ID }}')
+  expect(publicEvidenceWorkflow).toContain(
+    'GOOGLE_PLAY_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}',
+  )
+  expect(postDeploySyncWorkflow).toContain('AGL_SUPPORT_EMAIL: ${{ vars.AGL_SUPPORT_EMAIL }}')
+  expect(postDeploySyncWorkflow).toContain(
+    'AGL_EVENT_COLLECTOR_ADMIN_TOKEN: ${{ secrets.AGL_EVENT_COLLECTOR_ADMIN_TOKEN }}',
+  )
+  expect(postDeploySyncWorkflow).toContain('CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}')
+  expect(postDeploySyncWorkflow).toContain('POSTHOG_PERSONAL_API_KEY: ${{ secrets.POSTHOG_PERSONAL_API_KEY }}')
+  expect(postDeploySyncWorkflow).toContain(
+    'VITE_EVENT_COLLECTOR_WRITE_TOKEN: ${{ secrets.VITE_EVENT_COLLECTOR_WRITE_TOKEN }}',
+  )
+  expect(postDeploySyncWorkflow).toContain('ADMOB_PUBLISHER_ID: ${{ vars.ADMOB_PUBLISHER_ID }}')
+  expect(postDeploySyncWorkflow).toContain(
+    'GOOGLE_PLAY_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}',
   )
   expect(cadence.commandPlan.operate).toBe('npm run autonomous:operate')
   expect(cadence.commandPlan.daily).toBe('npm run autonomous:daily')

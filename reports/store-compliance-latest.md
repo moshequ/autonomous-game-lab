@@ -1,6 +1,6 @@
 # Store Compliance
 
-Generated: 2026-05-22T11:28:15.605Z
+Generated: 2026-05-22T11:39:20.669Z
 Status: draft-ready-external-blockers
 Policy posture: no-accounts-no-ugc-no-gambling-no-paid-spend
 

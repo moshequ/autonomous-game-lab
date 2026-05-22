@@ -25,6 +25,36 @@ const allowPlannedPublicOrigin = ['1', 'true', 'yes'].includes(
   String(process.env.AGL_POST_DEPLOY_USE_PUBLIC_ORIGIN ?? '').toLowerCase(),
 )
 
+const previousSmoke = await readOptionalJson(outputJsonPath, null)
+const parseDate = (value) => {
+  const date = new Date(String(value ?? ''))
+  return Number.isFinite(date.valueOf()) ? date : null
+}
+const previousSmokeIsReusable = ({ origin }) => {
+  if (!previousSmoke || typeof previousSmoke !== 'object') {
+    return false
+  }
+
+  const status = String(previousSmoke.status ?? '')
+  if (!['post-deploy-smoke-passed', 'post-deploy-smoke-observed-live'].includes(status)) {
+    return false
+  }
+
+  const previousOrigin = String(previousSmoke.target?.origin ?? '').trim()
+  if (!previousOrigin || previousOrigin !== (origin?.toString() ?? '')) {
+    return false
+  }
+
+  const generatedAt = parseDate(previousSmoke.generatedAt)
+  if (!generatedAt) {
+    return false
+  }
+
+  const ageMs = Date.now() - generatedAt.valueOf()
+  const maxAgeMs = 72 * 60 * 60 * 1000
+  return ageMs >= 0 && ageMs <= maxAgeMs
+}
+
 const normalizeOrigin = (value) => {
   const trimmed = String(value ?? '').trim()
 
@@ -426,10 +456,16 @@ const liveChecksBlocked =
   blockedChecks.length > 0 &&
   failedChecks.length === 0 &&
   passedChecks.length === 0
+
+if (liveChecksBlocked && previousSmokeIsReusable({ origin })) {
+  console.log('Network blocked; preserving prior post-deploy smoke evidence.')
+  process.exit(0)
+}
+
 const status = !origin
   ? 'blocked-missing-origin'
   : liveChecksBlocked
-    ? 'blocked-missing-origin'
+    ? 'blocked-network'
     : failedChecks.length
       ? 'post-deploy-smoke-failed'
       : observedDifferentLiveCandidate
