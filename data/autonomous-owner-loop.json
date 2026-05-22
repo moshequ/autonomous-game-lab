@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-22T01:53:20.316Z",
+  "generatedAt": "2026-05-22T02:04:11.887Z",
   "status": "owner-loop-ready",
   "mode": "zero-spend-web-ready",
   "autonomyScore": {
@@ -47,7 +47,7 @@
     "objectiveAuditFreshness": {
       "fresh": true,
       "structurallyReady": true,
-      "auditGeneratedAt": "2026-05-22T01:53:19.568Z",
+      "auditGeneratedAt": "2026-05-22T02:04:11.121Z",
       "evaluatedInputIds": [
         "analytics-rollup",
         "event-ingest",
@@ -71,7 +71,7 @@
         "ready": true,
         "status": "cadence-ready",
         "artifactGeneratedAt": "2026-05-22T01:51:31.876Z",
-        "ageHours": 0.03,
+        "ageHours": 0.211,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -82,7 +82,7 @@
         "ready": true,
         "status": "self-update-ready",
         "artifactGeneratedAt": "2026-05-22T01:51:32.154Z",
-        "ageHours": 0.03,
+        "ageHours": 0.211,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -93,7 +93,7 @@
         "ready": true,
         "status": "support-feedback-empty",
         "artifactGeneratedAt": "2026-05-22T01:39:54.813Z",
-        "ageHours": 0.224,
+        "ageHours": 0.405,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -103,8 +103,8 @@
         "fresh": true,
         "ready": true,
         "status": "performance-budget-ready",
-        "artifactGeneratedAt": "2026-05-22T01:52:50.421Z",
-        "ageHours": 0.008,
+        "artifactGeneratedAt": "2026-05-22T02:03:40.643Z",
+        "ageHours": 0.009,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -114,7 +114,7 @@
         "fresh": true,
         "ready": true,
         "status": "live-site-monitor-passed",
-        "artifactGeneratedAt": "2026-05-22T01:52:52.603Z",
+        "artifactGeneratedAt": "2026-05-22T02:03:44.576Z",
         "ageHours": 0.008,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
@@ -457,9 +457,9 @@
     },
     "productionBootstrapFreshness": {
       "fresh": true,
-      "bootstrapGeneratedAt": "2026-05-22T01:52:55.870Z",
-      "artifactSourceDataHash": "77b78ffe8a13",
-      "sourceDataHash": "77b78ffe8a13",
+      "bootstrapGeneratedAt": "2026-05-22T02:03:47.791Z",
+      "artifactSourceDataHash": "b0fb973f4c05",
+      "sourceDataHash": "b0fb973f4c05",
       "evaluatedInputIds": [
         "release-candidate",
         "deployment-plan",
@@ -474,7 +474,7 @@
       "current": true,
       "ready": true,
       "status": "handoff-waiting-on-owner-inputs",
-      "generatedAt": "2026-05-22T01:52:56.473Z",
+      "generatedAt": "2026-05-22T02:03:48.395Z",
       "nextBestUnlockId": "production-analytics-browser",
       "ownerActionRequired": 4,
       "missingEnv": 7,
@@ -910,7 +910,7 @@
       "command": "npm run build && npm run autonomous:performance && npm run autonomous:release-candidate",
       "targets": [
         "pwa-shell",
-        "GameCanvas-Cj8klewo.js",
+        "GameCanvas-DwcK7HUf.js",
         "dist-release-candidate"
       ],
       "reason": "Performance budget and release-candidate evidence are already fresh for the current guarded build."
