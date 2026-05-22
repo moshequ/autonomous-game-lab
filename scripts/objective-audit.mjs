@@ -266,7 +266,8 @@ const autonomousOperatorReady =
   autonomousOperatorHeldWithoutEligibleAction
 const autonomousOperatorHistoryReady =
   autonomousOperatorHistory.status === 'operator-history-ready' &&
-  (autonomousOperatorHistory.summary?.executedRecords ?? 0) >= 1
+  (autonomousOperatorHistory.summary?.totalRecords ?? 0) >= 1 &&
+  autonomousOperatorHistory.controls?.historyIsCapped === true
 
 const requirement = ({
   id,

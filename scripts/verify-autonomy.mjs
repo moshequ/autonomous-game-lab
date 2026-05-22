@@ -2970,6 +2970,14 @@ const operatorHistoryRecentExecutedRecords = (autonomousOperatorHistory.records 
 const operatorHistoryRecentExecutedActionIds = operatorHistoryRecentExecutedRecords
   .map((record) => record.selectedActionId)
   .filter(Boolean)
+const operatorHistoryHasExecutedRecord =
+  autonomousOperatorHistory.summary?.executedRecords >= 1 &&
+  Boolean(autonomousOperatorHistory.summary?.lastExecutedActionId)
+const operatorHistoryHasInitialExecutionPlan =
+  autonomousOperatorHistory.summary?.executedRecords === 0 &&
+  autonomousOperator.status === 'operator-plan-ready' &&
+  autonomousOperator.selectedAction?.id === 'refresh-objective-audit' &&
+  autonomousOwnerLoop.ownerDecision?.nextBestActionId === 'refresh-objective-audit'
 
 if (
   autonomousOperatorHistory.status !== 'operator-history-ready' ||
@@ -2984,9 +2992,8 @@ if (
   autonomousOperatorHistory.summary?.totalRecords < 1 ||
   autonomousOperatorHistory.summary?.totalRecords > 40 ||
   autonomousOperatorHistory.summary?.plannedRecords < 1 ||
-  autonomousOperatorHistory.summary?.executedRecords < 1 ||
+  (!operatorHistoryHasExecutedRecord && !operatorHistoryHasInitialExecutionPlan) ||
   autonomousOperatorHistory.summary?.failedRecords !== 0 ||
-  !autonomousOperatorHistory.summary?.lastExecutedActionId ||
   autonomousOperatorHistory.controls?.zeroPaidSpend !== true ||
   autonomousOperatorHistory.controls?.localCommandAllowlistEnforced !== true ||
   autonomousOperatorHistory.controls?.maxActionsPerRun !== 1 ||
@@ -6027,6 +6034,7 @@ const ownerLastExecutedActionId =
 const ownerLastExecutedStatus = ownerLastExecutedRecord?.execution?.status ?? null
 const ownerLastRecordExecutionStatus = autonomousOperatorHistory.summary?.lastExecutionStatus ?? null
 const ownerHasExecutedAction = (autonomousOperatorHistory.summary?.executedRecords ?? 0) > 0
+const ownerNeedsInitialOperatorExecution = !ownerHasExecutedAction
 const ownerRecentExecutedActionIds = [
   ...new Set(ownerRecentExecutedRecords.map((record) => record.selectedActionId).filter(Boolean)),
 ].slice(0, 8)
@@ -6793,8 +6801,11 @@ if (
   (ownerProductGateSamplePlanCooldownOnlyStale && ownerRefreshSamplePlanAction?.status !== 'monitor') ||
   (ownerProductGateSamplePlanCooldownOnlyStale &&
     autonomousOwnerLoop.ownerDecision?.nextBestActionId === 'refresh-product-gate-sample-plan') ||
-  (ownerObjectiveAuditFresh && ownerObjectiveAuditAction?.status !== 'monitor') ||
   (ownerObjectiveAuditFresh &&
+    !ownerNeedsInitialOperatorExecution &&
+    ownerObjectiveAuditAction?.status !== 'monitor') ||
+  (ownerObjectiveAuditFresh &&
+    !ownerNeedsInitialOperatorExecution &&
     ownerHasExecutableAlternativeOutsideCovered &&
     autonomousOwnerLoop.ownerDecision?.nextBestActionId === 'refresh-objective-audit')
 ) {
