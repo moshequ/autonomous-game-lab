@@ -1,5 +1,5 @@
 export const productGateSamplePlan = {
-  "generatedAt": "2026-05-22T05:52:13.579Z",
+  "generatedAt": "2026-05-22T06:20:40.626Z",
   "sourceDataHash": "ca011d28938d",
   "status": "product-gate-sample-plan-ready",
   "sourceStatus": {
@@ -15,8 +15,8 @@ export const productGateSamplePlan = {
     "missions": 3,
     "primaryGateId": "firstGameCompletion",
     "fastestGateId": "d1Retention",
-    "defaultRouteGateId": "d1Retention",
-    "defaultRouteCampaignId": "gate-sample-20260522-d1Retention",
+    "defaultRouteGateId": "firstGameCompletion",
+    "defaultRouteCampaignId": "gate-sample-20260522-firstGameCompletion",
     "totalPromptViewsNeeded": 70,
     "totalObservedSuccessesNeeded": 139,
     "sampleReadyCount": 0,
@@ -38,8 +38,8 @@ export const productGateSamplePlan = {
     "evidenceReadyNow": false,
     "lastScanAt": "2026-05-22T05:51:13.115Z",
     "lastScanStatus": "no-evidence-found",
-    "scanAgeHours": 0.02,
-    "cooldownRemainingHours": 3.98,
+    "scanAgeHours": 0.49,
+    "cooldownRemainingHours": 3.51,
     "nextRecommendedScanAt": "2026-05-22T09:51:13.115Z"
   },
   "publicSamplePage": {
@@ -47,7 +47,7 @@ export const productGateSamplePlan = {
     "missionCount": 3,
     "primaryCampaignId": "gate-sample-20260522-firstGameCompletion",
     "fastestCampaignId": "gate-sample-20260522-d1Retention",
-    "defaultRouteCampaignId": "gate-sample-20260522-d1Retention",
+    "defaultRouteCampaignId": "gate-sample-20260522-firstGameCompletion",
     "localProgressEnabled": true,
     "autonomousDefaultRoutingEnabled": true,
     "playerInitiatedExportEnabled": true,
@@ -120,13 +120,14 @@ export const productGateSamplePlan = {
     ],
     "defaultRouting": {
       "status": "active",
-      "gateId": "d1Retention",
-      "campaignId": "gate-sample-20260522-d1Retention",
-      "gameId": "market-pulse",
+      "gateId": "firstGameCompletion",
+      "campaignId": "gate-sample-20260522-firstGameCompletion",
+      "gameId": "harbor-rings",
+      "latencyDays": 0,
       "source": "gate_sample",
       "channel": "product-gate-sample",
       "appliesWhen": "direct-root-visit-without-explicit-game-or-campaign",
-      "routeSelection": "fastest-validation-mission-when-it-needs-fewer-successes-than-primary",
+      "routeSelection": "lowest-validation-latency-primary-bottleneck-first",
       "eventPolicy": "real-player-events-only",
       "controls": {
         "zeroPaidSpend": true,
@@ -215,6 +216,11 @@ export const productGateSamplePlan = {
         "noRuleChange": true,
         "noRevenueEnablement": true
       },
+      "sampleTiming": {
+        "latencyDays": 0,
+        "sameSessionPlayable": true,
+        "reason": "Completion and replay prompts can collect same-session evidence from the next player visit."
+      },
       "sampleRole": "primary-bottleneck",
       "evidence": {
         "status": "waiting-for-player-export",
@@ -302,6 +308,11 @@ export const productGateSamplePlan = {
         "noSyntheticEvents": true,
         "noRuleChange": true,
         "noRevenueEnablement": true
+      },
+      "sampleTiming": {
+        "latencyDays": 0,
+        "sameSessionPlayable": true,
+        "reason": "Completion and replay prompts can collect same-session evidence from the next player visit."
       },
       "sampleRole": "supporting-sample",
       "evidence": {
@@ -395,6 +406,11 @@ export const productGateSamplePlan = {
         "noSyntheticEvents": true,
         "noRuleChange": true,
         "noRevenueEnablement": true
+      },
+      "sampleTiming": {
+        "latencyDays": 1,
+        "sameSessionPlayable": false,
+        "reason": "D1 retention needs a return session, so it is not the best default route for immediate sample collection."
       },
       "sampleRole": "fastest-validation",
       "evidence": {

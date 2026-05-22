@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-22T06:14:38.371Z",
+  "generatedAt": "2026-05-22T06:30:47.314Z",
   "status": "owner-loop-ready",
   "mode": "zero-spend-web-ready",
   "autonomyScore": {
@@ -50,7 +50,7 @@
     "objectiveAuditFreshness": {
       "fresh": true,
       "structurallyReady": true,
-      "auditGeneratedAt": "2026-05-22T06:14:38.186Z",
+      "auditGeneratedAt": "2026-05-22T06:29:42.361Z",
       "evaluatedInputIds": [
         "analytics-rollup",
         "event-ingest",
@@ -74,7 +74,7 @@
         "ready": true,
         "status": "cadence-ready",
         "artifactGeneratedAt": "2026-05-22T06:09:03.128Z",
-        "ageHours": 0.093,
+        "ageHours": 0.362,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -85,7 +85,7 @@
         "ready": true,
         "status": "self-update-ready",
         "artifactGeneratedAt": "2026-05-22T04:36:06.904Z",
-        "ageHours": 1.642,
+        "ageHours": 1.911,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -96,7 +96,7 @@
         "ready": true,
         "status": "support-feedback-empty",
         "artifactGeneratedAt": "2026-05-22T02:06:13.270Z",
-        "ageHours": 4.14,
+        "ageHours": 4.409,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -106,8 +106,8 @@
         "fresh": true,
         "ready": true,
         "status": "performance-budget-ready",
-        "artifactGeneratedAt": "2026-05-22T06:14:24.817Z",
-        "ageHours": 0.004,
+        "artifactGeneratedAt": "2026-05-22T06:27:38.401Z",
+        "ageHours": 0.052,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -118,7 +118,7 @@
         "ready": true,
         "status": "live-site-monitor-passed",
         "artifactGeneratedAt": "2026-05-22T06:14:31.178Z",
-        "ageHours": 0.002,
+        "ageHours": 0.271,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -243,7 +243,7 @@
         "current": true,
         "ready": true,
         "status": "product-gate-sample-plan-ready",
-        "artifactGeneratedAt": "2026-05-22T05:52:13.579Z",
+        "artifactGeneratedAt": "2026-05-22T06:20:40.626Z",
         "artifactSourceDataHash": "ca011d28938d",
         "sourceDataHash": "ca011d28938d",
         "evaluatedInputIds": [
@@ -460,9 +460,9 @@
     },
     "productionBootstrapFreshness": {
       "fresh": true,
-      "bootstrapGeneratedAt": "2026-05-22T06:14:36.187Z",
-      "artifactSourceDataHash": "626eb1e0d17b",
-      "sourceDataHash": "626eb1e0d17b",
+      "bootstrapGeneratedAt": "2026-05-22T06:29:28.507Z",
+      "artifactSourceDataHash": "b79b3b4058f6",
+      "sourceDataHash": "b79b3b4058f6",
       "evaluatedInputIds": [
         "release-candidate",
         "deployment-plan",
@@ -477,11 +477,11 @@
       "current": true,
       "ready": true,
       "status": "handoff-waiting-on-owner-inputs",
-      "generatedAt": "2026-05-22T06:14:36.482Z",
+      "generatedAt": "2026-05-22T06:28:34.753Z",
       "nextBestUnlockId": "production-analytics-browser",
       "ownerActionRequired": 4,
       "missingEnv": 7,
-      "missingSecrets": 8,
+      "missingSecrets": 5,
       "sourceStatusesFresh": true,
       "evaluatedSourceStatuses": [
         "production-environment",
@@ -599,7 +599,7 @@
       "id": "performance-budget",
       "status": "ready",
       "autonomy": "automatic-build-budget",
-      "evidence": "Initial JS 672.1 KB; gzip 182.7 KB; deferred chunks 2.",
+      "evidence": "Initial JS 672.9 KB; gzip 182.7 KB; deferred chunks 2.",
       "nextAction": "Keep Phaser and game scenes outside the initial PWA shell."
     },
     {
@@ -718,7 +718,7 @@
       "id": "production-bootstrap",
       "status": "ready",
       "autonomy": "zero-spend-setup-orchestration",
-      "evidence": "Bootstrap production-bootstrap-ready; mode can-apply-configured-actions; external blockers 16.",
+      "evidence": "Bootstrap production-bootstrap-ready; mode can-apply-configured-actions; external blockers 17.",
       "nextAction": "gh workflow run web-pwa-deploy.yml"
     },
     {
@@ -732,7 +732,7 @@
       "id": "production-blocker-handoff",
       "status": "ready",
       "autonomy": "ranked-external-unlock-router",
-      "evidence": "Handoff handoff-waiting-on-owner-inputs; next production-analytics-browser; owner inputs 4; missing env 7; missing secrets 8.",
+      "evidence": "Handoff handoff-waiting-on-owner-inputs; next production-analytics-browser; owner inputs 4; missing env 7; missing secrets 5.",
       "nextAction": "Start with Browser production analytics; it is the highest-priority zero-spend owner input."
     },
     {
@@ -913,7 +913,7 @@
       "command": "npm run build && npm run autonomous:performance && npm run autonomous:release-candidate",
       "targets": [
         "pwa-shell",
-        "GameCanvas-C1Kumu_N.js",
+        "GameCanvas--Bq_pNV6.js",
         "dist-release-candidate"
       ],
       "reason": "Performance budget and release-candidate evidence are already fresh for the current guarded build."
@@ -1076,7 +1076,7 @@
       "targets": [
         "production-analytics-browser"
       ],
-      "reason": "Production blocker handoff already ranks 4 owner input(s), 7 env blocker(s), and 8 secret blocker(s)."
+      "reason": "Production blocker handoff already ranks 4 owner input(s), 7 env blocker(s), and 5 secret blocker(s)."
     },
     {
       "id": "run-production-unlock-runner",
@@ -1105,7 +1105,7 @@
       "costUsd": 0,
       "command": "npm run autonomous:operator",
       "targets": [
-        "refresh-objective-audit"
+        "bootstrap-production-setup"
       ],
       "reason": "Operator history is already capped and published; keep attention on product evidence."
     },
@@ -1244,27 +1244,6 @@
       "status": "credential-required",
       "target": "POSTHOG_PERSONAL_API_KEY",
       "purpose": "Repository secret sourced from POSTHOG_PERSONAL_API_KEY.",
-      "source": "production-bootstrap"
-    },
-    {
-      "id": "secret-agl-android-keystore-base64",
-      "status": "credential-required",
-      "target": "AGL_ANDROID_KEYSTORE_BASE64",
-      "purpose": "Repository secret sourced from AGL_ANDROID_KEYSTORE_BASE64.",
-      "source": "production-bootstrap"
-    },
-    {
-      "id": "secret-agl-android-keystore-password",
-      "status": "credential-required",
-      "target": "AGL_ANDROID_KEYSTORE_PASSWORD",
-      "purpose": "Repository secret sourced from AGL_ANDROID_KEYSTORE_PASSWORD.",
-      "source": "production-bootstrap"
-    },
-    {
-      "id": "secret-agl-android-key-alias",
-      "status": "credential-required",
-      "target": "AGL_ANDROID_KEY_ALIAS",
-      "purpose": "Repository secret sourced from AGL_ANDROID_KEY_ALIAS.",
       "source": "production-bootstrap"
     },
     {

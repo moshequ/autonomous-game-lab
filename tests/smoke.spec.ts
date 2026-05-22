@@ -215,29 +215,30 @@ test('local learning router routes players to the next zero-spend evidence actio
       label: string
       needed: { successes: number }
     }>
-    summary: { fastestGateId: string }
+    summary: { fastestGateId: string; defaultRouteCampaignId: string }
   }
   const primaryMission = samplePlan.missions[0]
   const fastestMission =
     samplePlan.missions.find((mission) => mission.gateId === samplePlan.summary.fastestGateId) ??
     primaryMission
   const routedMission =
-    fastestMission.campaignId !== primaryMission.campaignId &&
-    fastestMission.needed.successes < primaryMission.needed.successes
-      ? fastestMission
-      : primaryMission
-  const routedLabel =
+    samplePlan.missions.find((mission) => mission.campaignId === samplePlan.summary.defaultRouteCampaignId) ??
+    primaryMission
+  const routedIsFastest =
     routedMission.campaignId === fastestMission.campaignId &&
     routedMission.campaignId !== primaryMission.campaignId
-      ? 'Fastest gate sample'
-      : 'First finish sample'
+  const routedIsPrimary = routedMission.campaignId === primaryMission.campaignId
+  const routedLabel =
+    routedIsFastest ? 'Fastest gate sample' : routedIsPrimary ? 'First finish sample' : 'Default gate sample'
   const routedReason =
-    routedLabel === 'Fastest gate sample'
+    routedIsFastest
       ? `${routedMission.label} needs the fewest real successes before revenue gates can move.`
-      : 'First-game completion is the largest revenue-blocking gap.'
-  const routedCta = routedLabel === 'Fastest gate sample' ? 'Start fastest sample' : 'Start measured run'
+      : routedIsPrimary
+        ? 'First-game completion is the largest revenue-blocking gap.'
+        : `${routedMission.label} is the default same-session sample route.`
+  const routedCta = routedIsFastest ? 'Start fastest sample' : 'Start measured run'
   const routedRecommendationId =
-    routedLabel === 'Fastest gate sample' ? 'fastest-gate-sample' : 'first-completion-sample'
+    routedIsFastest ? 'fastest-gate-sample' : routedIsPrimary ? 'first-completion-sample' : 'default-gate-sample'
 
   await page.addInitScript(() => {
     Object.defineProperty(navigator, 'share', {
@@ -2239,6 +2240,7 @@ test('product optimizer applies one guarded tuning step from product-gate eviden
       status: string
       gameId: string
       needed: { promptViews: number; successes: number }
+      sampleTiming: { latencyDays: number; sameSessionPlayable: boolean; reason: string }
       supportingAggregateEvidence: {
         gateDecisionEligible: boolean
         manualReviewRequired: boolean
@@ -2280,9 +2282,11 @@ test('product optimizer applies one guarded tuning step from product-gate eviden
         gateId: string
         campaignId: string
         gameId: string
+        latencyDays: number | null
         source: string
         channel: string
         appliesWhen: string
+        routeSelection: string
         eventPolicy: string
         controls: {
           zeroPaidSpend: boolean
@@ -2420,6 +2424,7 @@ test('product optimizer applies one guarded tuning step from product-gate eviden
   expect(samplePlan.summary.primaryGateId).toBe(recovery.summary.primaryBottleneck)
   expect(samplePlan.summary.fastestGateId).toBe(recovery.summary.quickestGateTest)
   expect(samplePlan.summary.defaultRouteGateId).toBeTruthy()
+  expect(samplePlan.summary.defaultRouteGateId).toBe(samplePlan.summary.primaryGateId)
   expect(samplePlan.summary.defaultRouteCampaignId).toBe(samplePlan.publicSamplePage.defaultRouteCampaignId)
   expect(samplePlan.summary.missions).toBe(recovery.summary.failingGates)
   expect(samplePlan.summary.totalPromptViewsNeeded).toBe(
@@ -2465,8 +2470,11 @@ test('product optimizer applies one guarded tuning step from product-gate eviden
   expect(samplePlan.runtimeEvidencePolicy.defaultRouting).toMatchObject({
     status: 'active',
     campaignId: samplePlan.summary.defaultRouteCampaignId,
+    gateId: samplePlan.summary.primaryGateId,
+    latencyDays: 0,
     source: 'gate_sample',
     channel: 'product-gate-sample',
+    routeSelection: 'lowest-validation-latency-primary-bottleneck-first',
     eventPolicy: 'real-player-events-only',
   })
   expect(samplePlan.runtimeEvidencePolicy.defaultRouting.controls.zeroPaidSpend).toBe(true)
@@ -2497,8 +2505,13 @@ test('product optimizer applies one guarded tuning step from product-gate eviden
   expect(samplePlan.missions[0]).toMatchObject({
     gateId: 'firstGameCompletion',
     status: 'collecting-sample',
+    sampleTiming: { latencyDays: 0, sameSessionPlayable: true },
     evidence: { status: 'waiting-for-player-export' },
     controls: { costUsd: 0, noSyntheticEvents: true, noRuleChange: true },
+  })
+  expect(samplePlan.missions.find((mission) => mission.gateId === 'd1Retention')?.sampleTiming).toMatchObject({
+    latencyDays: 1,
+    sameSessionPlayable: false,
   })
   await expect(page.getByLabel('Product Gate Recovery')).toContainText('product-gate-recovery-ready')
   await expect(page.getByLabel('Product Gate Recovery')).toContainText('firstGameCompletion')

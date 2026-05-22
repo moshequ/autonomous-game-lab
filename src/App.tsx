@@ -145,21 +145,13 @@ const resolveRuntimePathname = (pathname: string) => {
 
 const getAutonomousDefaultGateSampleMission = () => {
   const primaryMission = productGateSamplePlan.missions[0] ?? null
-  const fastestMission =
-    productGateSamplePlan.missions.find(
-      (mission) => mission.gateId === productGateSamplePlan.summary.fastestGateId,
-    ) ?? primaryMission
+  const defaultCampaignId =
+    productGateSamplePlan.runtimeEvidencePolicy.defaultRouting.campaignId ??
+    productGateSamplePlan.summary.defaultRouteCampaignId
+  const defaultMission =
+    productGateSamplePlan.missions.find((mission) => mission.campaignId === defaultCampaignId) ?? null
 
-  if (
-    fastestMission &&
-    primaryMission &&
-    fastestMission.campaignId !== primaryMission.campaignId &&
-    fastestMission.needed.successes < primaryMission.needed.successes
-  ) {
-    return fastestMission
-  }
-
-  return primaryMission ?? fastestMission
+  return defaultMission ?? primaryMission
 }
 
 const getInitialGameId = () => {
@@ -957,6 +949,9 @@ function App() {
   const productGateSampleFastestProgress = productGateSampleFastest
     ? productGateSampleProgress.get(productGateSampleFastest.campaignId)
     : null
+  const productGateSampleDefaultProgress = productGateSampleDefaultMission
+    ? productGateSampleProgress.get(productGateSampleDefaultMission.campaignId)
+    : null
   const productGateSampleEvidenceHandoff = useMemo(() => {
     const rankedMissions = productGateSamplePlan.missions
       .flatMap((mission, index) => {
@@ -1184,12 +1179,6 @@ function App() {
       : pwaPromptEvent
         ? pwaInstallLoop.promptPolicy.ctaLabel
         : 'Install unavailable'
-  const fastestGateSampleShouldRoute =
-    Boolean(productGateSampleFastestDistinct) &&
-    productGateSampleFastestProgress?.sampleDecisionReady !== true &&
-    productGateSamplePrimaryProgress?.sampleDecisionReady !== true &&
-    (productGateSampleFastestProgress?.successesRemaining ?? Number.POSITIVE_INFINITY) <
-      (productGateSamplePrimaryProgress?.successesRemaining ?? Number.POSITIVE_INFINITY)
   const localRouterRecommendation = useMemo<LocalRouterRecommendation>(() => {
     if (dailyReturnIntentVisible) {
       return {
@@ -1226,22 +1215,40 @@ function App() {
     }
 
     if (
-      productGateSampleFastestDistinct &&
-      productGateSampleFastestProgress &&
-      fastestGateSampleShouldRoute
+      productGateSampleDefaultMission &&
+      productGateSampleDefaultProgress &&
+      productGateSampleDefaultProgress.sampleDecisionReady !== true
     ) {
+      const defaultIsFastest =
+        productGateSampleDefaultMission.campaignId === productGateSampleFastest?.campaignId &&
+        productGateSampleDefaultMission.campaignId !== productGateSamplePrimary?.campaignId
+      const defaultIsPrimary =
+        productGateSampleDefaultMission.campaignId === productGateSamplePrimary?.campaignId
+
       return {
-        id: 'fastest-gate-sample',
+        id: defaultIsFastest
+          ? 'fastest-gate-sample'
+          : defaultIsPrimary
+            ? 'first-completion-sample'
+            : 'default-gate-sample',
         actionType: 'gate-sample',
-        label: 'Fastest gate sample',
-        ctaLabel: 'Start fastest sample',
-        gameId: productGateSampleFastestDistinct.gameId,
-        campaignId: productGateSampleFastestDistinct.campaignId,
-        gateId: productGateSampleFastestDistinct.gateId,
-        reason: `${productGateSampleFastestDistinct.label} needs the fewest real successes before revenue gates can move.`,
+        label: defaultIsFastest
+          ? 'Fastest gate sample'
+          : defaultIsPrimary
+            ? 'First finish sample'
+            : 'Default gate sample',
+        ctaLabel: defaultIsFastest ? 'Start fastest sample' : 'Start measured run',
+        gameId: productGateSampleDefaultMission.gameId,
+        campaignId: productGateSampleDefaultMission.campaignId,
+        gateId: productGateSampleDefaultMission.gateId,
+        reason: defaultIsFastest
+          ? `${productGateSampleDefaultMission.label} needs the fewest real successes before revenue gates can move.`
+          : defaultIsPrimary
+            ? 'First-game completion is the largest revenue-blocking gap.'
+            : `${productGateSampleDefaultMission.label} is the default same-session sample route.`,
         source: 'gate_sample',
         channel: 'product-gate-sample',
-        sampleStatus: productGateSampleFastestProgress.status,
+        sampleStatus: productGateSampleDefaultProgress.status,
         priority: 3,
       }
     }
@@ -1296,12 +1303,12 @@ function App() {
     }
   }, [
     dailyReturnIntentVisible,
-    fastestGateSampleShouldRoute,
     organicSeedProgress?.sampleDecisionReady,
     organicSeedProgress?.status,
     organicSeedTargetCampaign,
-    productGateSampleFastestDistinct,
-    productGateSampleFastestProgress,
+    productGateSampleDefaultMission,
+    productGateSampleDefaultProgress,
+    productGateSampleFastest,
     productGateSamplePrimary,
     productGateSamplePrimaryProgress?.sampleDecisionReady,
     replayPromptVisible,

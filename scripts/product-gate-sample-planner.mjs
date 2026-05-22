@@ -46,6 +46,8 @@ const routeFor = ({ gameId, gateId }) => {
   }
 }
 
+const sampleLatencyDaysForGate = (gateId) => (gateId === 'd1Retention' ? 1 : 0)
+
 const [
   productGateRecovery,
   productOptimization,
@@ -191,6 +193,14 @@ const missionForGate = (gate, index) => {
       noRuleChange: true,
       noRevenueEnablement: true,
     },
+    sampleTiming: {
+      latencyDays: sampleLatencyDaysForGate(gate.id),
+      sameSessionPlayable: sampleLatencyDaysForGate(gate.id) === 0,
+      reason:
+        gate.id === 'd1Retention'
+          ? 'D1 retention needs a return session, so it is not the best default route for immediate sample collection.'
+          : 'Completion and replay prompts can collect same-session evidence from the next player visit.',
+    },
   }
 }
 
@@ -198,13 +208,34 @@ const failingGates = (productGateRecovery.gates ?? []).filter((gate) => !gate.pa
 const missions = failingGates.map(missionForGate).sort((a, b) => a.rank - b.rank)
 const primaryMission = missions.find((mission) => mission.gateId === productGateRecovery.summary?.primaryBottleneck) ?? missions[0] ?? null
 const fastestMission = missions.find((mission) => mission.gateId === productGateRecovery.summary?.quickestGateTest) ?? missions.at(-1) ?? null
+const compareDefaultRouteMissions = (left, right) => {
+  const leftLatency = left.sampleTiming?.latencyDays ?? 0
+  const rightLatency = right.sampleTiming?.latencyDays ?? 0
+
+  if (leftLatency !== rightLatency) {
+    return leftLatency - rightLatency
+  }
+
+  if (left.gateId === primaryMission?.gateId && right.gateId !== primaryMission?.gateId) {
+    return -1
+  }
+
+  if (right.gateId === primaryMission?.gateId && left.gateId !== primaryMission?.gateId) {
+    return 1
+  }
+
+  if (left.needed.promptViews !== right.needed.promptViews) {
+    return left.needed.promptViews - right.needed.promptViews
+  }
+
+  return left.needed.successes - right.needed.successes
+}
 const defaultRouteMission =
-  fastestMission &&
-  primaryMission &&
-  fastestMission.campaignId !== primaryMission.campaignId &&
-  fastestMission.needed.successes < primaryMission.needed.successes
-    ? fastestMission
-    : (primaryMission ?? fastestMission)
+  [...missions]
+    .filter((mission) => mission.status !== 'gate-passing')
+    .sort(compareDefaultRouteMissions)[0] ??
+  primaryMission ??
+  fastestMission
 const totalPromptViewsNeeded = missions.reduce((sum, mission) => sum + mission.needed.promptViews, 0)
 const totalObservedSuccessesNeeded = missions.reduce((sum, mission) => sum + mission.needed.successes, 0)
 const sampleReadyCount = missions.filter((mission) => mission.status === 'ready-for-recovery-decision').length
@@ -491,10 +522,11 @@ const payload = {
       gateId: defaultRouteMission?.gateId ?? null,
       campaignId: defaultRouteMission?.campaignId ?? null,
       gameId: defaultRouteMission?.gameId ?? null,
+      latencyDays: defaultRouteMission?.sampleTiming?.latencyDays ?? null,
       source: 'gate_sample',
       channel: 'product-gate-sample',
       appliesWhen: 'direct-root-visit-without-explicit-game-or-campaign',
-      routeSelection: 'fastest-validation-mission-when-it-needs-fewer-successes-than-primary',
+      routeSelection: 'lowest-validation-latency-primary-bottleneck-first',
       eventPolicy: 'real-player-events-only',
       controls: {
         zeroPaidSpend: true,
