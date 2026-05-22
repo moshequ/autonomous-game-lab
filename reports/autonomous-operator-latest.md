@@ -1,6 +1,6 @@
 # Autonomous Operator
 
-Generated: 2026-05-22T23:46:35.206Z
+Generated: 2026-05-22T23:54:04.772Z
 Status: operator-plan-ready
 Mode: plan-only
 Owner decision: refresh-replay-loop
@@ -31,8 +31,6 @@ Execution: not-requested
 
 - seed-portfolio-traffic
 - refresh-organic-seed-loop
-- collect-gate-sample-local-drops
-- refresh-product-gate-sample-plan
 - refresh-replay-loop
 
 ## Blocked Actions

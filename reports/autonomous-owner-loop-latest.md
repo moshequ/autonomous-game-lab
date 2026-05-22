@@ -1,6 +1,6 @@
 # Autonomous Owner Loop
 
-Generated: 2026-05-22T23:46:35.382Z
+Generated: 2026-05-22T23:54:04.944Z
 Status: owner-loop-ready
 Mode: zero-spend-web-ready
 Autonomy score: 44/45 (98%)
@@ -29,7 +29,7 @@ Autonomy score: 44/45 (98%)
 - ready: organic-seed-loop - Target market-pulse; surface portal-growth-loop; share telemetry organic_seed_share_clicked.
 - ready: retention-loop - Daily market-pulse; D1 17%; streak variant daily-streak; return prompt armed; return intent armed.
 - ready: pwa-install-loop - Prompt autonomy-cockpit; installs 0; launch events 0; sample collecting-sample needs 20 prompt(s) and 10 launch event(s).
-- ready: performance-budget - Initial JS 676.5 KB; gzip 183.6 KB; deferred chunks 2.
+- ready: performance-budget - Initial JS 676.1 KB; gzip 183.5 KB; deferred chunks 2.
 - ready: product-optimization - Completion 40% / gate 55%; latest already-applied.
 - ready: support-feedback - Support feedback support-feedback-empty; issues 0; routable signals 0; aggregate notes 0.
 - ready: product-gate-recovery - Recovery product-gate-recovery-ready; primary firstGameCompletion; experiment collecting-sample; failing gates 3; next lift 128.
@@ -44,7 +44,7 @@ Autonomy score: 44/45 (98%)
 - ready: web-deployment - Deployment ready-for-pages; web readiness ready-after-build; promotion promotable-internal.
 - ready: release-candidate - Release candidate release-candidate-ready; files 55; smoke URLs 24.
 - ready: post-deploy-smoke - Smoke post-deploy-smoke-observed-live; origin https://moshequ.github.io/autonomous-game-lab; manifest comparison required; checks 25/25 passed; local artifact predeploy-artifact-smoke-passed 25/25 passed.
-- ready: post-deploy-artifact-sync - Artifact sync post-deploy-artifact-sync-passed; run 26317296418; live matches artifact true; strict true.
+- ready: post-deploy-artifact-sync - Artifact sync post-deploy-artifact-sync-passed; run 26317491867; live matches artifact true; strict true.
 - ready: live-site-monitor - Live monitor live-site-monitor-passed; origin https://moshequ.github.io/autonomous-game-lab; checks 25/25; live matches synced deploy true.
 - ready: production-bootstrap - Bootstrap production-bootstrap-ready; mode can-apply-configured-actions; external blockers 14.
 - ready: production-activation - Activation activation-ready; mode dry-run; execution dry-run; gh ready.
@@ -79,9 +79,9 @@ Autonomy score: 44/45 (98%)
 - monitor: refresh-live-site-monitor - npm run autonomous:live-monitor
 - monitor: optimize-product-gates - npm run autonomous:analyze && npm run autonomous:product-optimize && npm run autonomous:sync-config && npm run autonomous:simulate
 - monitor: refresh-product-gate-recovery - npm run autonomous:gate-recovery && npm run autonomous:sample-plan
-- armed: collect-gate-sample-local-drops - npm run autonomous:collect-local-event-drops
+- monitor: collect-gate-sample-local-drops - npm run autonomous:collect-local-event-drops
 - monitor: collect-gate-sample-downloads - npm run autonomous:collect-sample-downloads
-- armed: refresh-product-gate-sample-plan - npm run autonomous:sample-plan
+- monitor: refresh-product-gate-sample-plan - npm run autonomous:sample-plan
 - monitor: refresh-first-move-coach - npm run autonomous:first-move-coach
 - monitor: refresh-completion-loop - npm run autonomous:completion-loop
 - armed: refresh-replay-loop - npm run autonomous:replay-loop

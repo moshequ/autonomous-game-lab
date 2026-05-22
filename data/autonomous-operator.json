@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-22T23:46:35.206Z",
+  "generatedAt": "2026-05-22T23:54:04.772Z",
   "status": "operator-plan-ready",
   "mode": "plan-only",
   "ownerDecision": {
@@ -24,8 +24,6 @@
   "eligibleActionIds": [
     "seed-portfolio-traffic",
     "refresh-organic-seed-loop",
-    "collect-gate-sample-local-drops",
-    "refresh-product-gate-sample-plan",
     "refresh-replay-loop"
   ],
   "blockedActions": [
@@ -127,9 +125,9 @@
     },
     {
       "id": "collect-gate-sample-local-drops",
-      "status": "armed",
+      "status": "monitor",
       "command": "npm run autonomous:collect-local-event-drops",
-      "reason": "not-selected-this-run"
+      "reason": "status-monitor"
     },
     {
       "id": "collect-gate-sample-downloads",
@@ -139,9 +137,9 @@
     },
     {
       "id": "refresh-product-gate-sample-plan",
-      "status": "armed",
+      "status": "monitor",
       "command": "npm run autonomous:sample-plan",
-      "reason": "not-selected-this-run"
+      "reason": "status-monitor"
     },
     {
       "id": "refresh-first-move-coach",
