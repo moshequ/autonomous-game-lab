@@ -1,5 +1,5 @@
 export const androidRelease = {
-  "generatedAt": "2026-05-21T17:49:36.375Z",
+  "generatedAt": "2026-05-22T00:38:11.659Z",
   "status": "blocked-needs-host-signing-play",
   "envFiles": {
     "loaded": true,

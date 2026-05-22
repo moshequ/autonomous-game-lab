@@ -1,5 +1,5 @@
 export const balanceReport = {
-  "generatedAt": "2026-05-21T17:49:09.174Z",
+  "generatedAt": "2026-05-22T00:37:43.795Z",
   "simulationCountPerStrategy": 420,
   "games": [
     {
@@ -238,88 +238,41 @@ export const balanceReport = {
       ]
     },
     {
-      "gameId": "canopy-bloom",
-      "title": "Canopy Bloom",
-      "targetScore": 82,
+      "gameId": "metro-loom",
+      "title": "Metro Loom",
+      "targetScore": 96,
       "maxMoves": 10,
       "simulations": 1260,
       "strategies": [
         {
           "strategy": "random",
           "games": 420,
-          "averageScore": 77.1,
-          "p10": 66,
-          "p50": 77,
-          "p90": 88,
-          "winRate": 0.302,
-          "averageMoveValue": 7.7
+          "averageScore": 69.3,
+          "p10": 53,
+          "p50": 68,
+          "p90": 85,
+          "winRate": 0.026,
+          "averageMoveValue": 6.9
         },
         {
           "strategy": "center",
           "games": 420,
-          "averageScore": 115.3,
-          "p10": 108,
-          "p50": 116,
-          "p90": 122,
+          "averageScore": 126.6,
+          "p10": 120,
+          "p50": 127,
+          "p90": 133,
           "winRate": 1,
-          "averageMoveValue": 11.5
+          "averageMoveValue": 12.7
         },
         {
           "strategy": "greedy",
           "games": 420,
-          "averageScore": 117.5,
-          "p10": 113,
-          "p50": 117,
-          "p90": 123,
+          "averageScore": 135.9,
+          "p10": 125,
+          "p50": 136,
+          "p90": 147,
           "winRate": 1,
-          "averageMoveValue": 11.7
-        }
-      ],
-      "recommendations": [
-        {
-          "severity": "low",
-          "title": "Balance looks playable for first web test",
-          "reason": "bot strategies create a useful score spread without extreme win rates",
-          "confidence": 64
-        }
-      ]
-    },
-    {
-      "gameId": "metro-loom",
-      "title": "Metro Loom",
-      "targetScore": 96,
-      "maxMoves": 12,
-      "simulations": 1260,
-      "strategies": [
-        {
-          "strategy": "random",
-          "games": 420,
-          "averageScore": 96.4,
-          "p10": 80,
-          "p50": 96,
-          "p90": 115,
-          "winRate": 0.514,
-          "averageMoveValue": 8
-        },
-        {
-          "strategy": "center",
-          "games": 420,
-          "averageScore": 151.6,
-          "p10": 143,
-          "p50": 152,
-          "p90": 158,
-          "winRate": 1,
-          "averageMoveValue": 12.6
-        },
-        {
-          "strategy": "greedy",
-          "games": 420,
-          "averageScore": 165.2,
-          "p10": 156,
-          "p50": 165,
-          "p90": 174,
-          "winRate": 1,
-          "averageMoveValue": 13.8
+          "averageMoveValue": 13.6
         }
       ],
       "recommendations": [
@@ -334,39 +287,39 @@ export const balanceReport = {
     {
       "gameId": "mosaic-haven",
       "title": "Mosaic Haven",
-      "targetScore": 90,
-      "maxMoves": 10,
+      "targetScore": 138,
+      "maxMoves": 12,
       "simulations": 1260,
       "strategies": [
         {
           "strategy": "random",
           "games": 420,
-          "averageScore": 90.9,
-          "p10": 78,
-          "p50": 90,
-          "p90": 104,
-          "winRate": 0.524,
-          "averageMoveValue": 9.1
+          "averageScore": 126.1,
+          "p10": 113,
+          "p50": 126,
+          "p90": 139,
+          "winRate": 0.126,
+          "averageMoveValue": 10.5
         },
         {
           "strategy": "center",
           "games": 420,
-          "averageScore": 123,
-          "p10": 116,
-          "p50": 123,
-          "p90": 131,
-          "winRate": 1,
-          "averageMoveValue": 12.3
+          "averageScore": 148.6,
+          "p10": 141,
+          "p50": 151,
+          "p90": 156,
+          "winRate": 0.938,
+          "averageMoveValue": 12.4
         },
         {
           "strategy": "greedy",
           "games": 420,
-          "averageScore": 129.1,
-          "p10": 123,
-          "p50": 128,
-          "p90": 135,
+          "averageScore": 161.6,
+          "p10": 155,
+          "p50": 162,
+          "p90": 168,
           "winRate": 1,
-          "averageMoveValue": 12.9
+          "averageMoveValue": 13.5
         }
       ],
       "recommendations": [
@@ -461,6 +414,53 @@ export const balanceReport = {
           "p90": 148,
           "winRate": 1,
           "averageMoveValue": 12.2
+        }
+      ],
+      "recommendations": [
+        {
+          "severity": "low",
+          "title": "Balance looks playable for first web test",
+          "reason": "bot strategies create a useful score spread without extreme win rates",
+          "confidence": 64
+        }
+      ]
+    },
+    {
+      "gameId": "guild-garden",
+      "title": "Guild Garden",
+      "targetScore": 138,
+      "maxMoves": 11,
+      "simulations": 1260,
+      "strategies": [
+        {
+          "strategy": "random",
+          "games": 420,
+          "averageScore": 124.1,
+          "p10": 111,
+          "p50": 123,
+          "p90": 138,
+          "winRate": 0.119,
+          "averageMoveValue": 11.3
+        },
+        {
+          "strategy": "center",
+          "games": 420,
+          "averageScore": 150.3,
+          "p10": 142,
+          "p50": 152,
+          "p90": 157,
+          "winRate": 0.967,
+          "averageMoveValue": 13.7
+        },
+        {
+          "strategy": "greedy",
+          "games": 420,
+          "averageScore": 161.4,
+          "p10": 155,
+          "p50": 161,
+          "p90": 168,
+          "winRate": 1,
+          "averageMoveValue": 14.7
         }
       ],
       "recommendations": [

@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-05-22T00:27:24.355Z",
-  "sourceDataHash": "08f93cd5d545",
+  "generatedAt": "2026-05-22T00:49:30.862Z",
+  "sourceDataHash": "23a68db9cc8a",
   "status": "store-listing-optimizer-ready",
   "sourceStatus": {
     "growthPlan": "growth-assets-ready",
@@ -12,51 +12,27 @@
     "monetization": "blocked-by-product-gates"
   },
   "recommendation": {
-    "focusGameId": "canopy-bloom",
-    "title": "Canopy Bloom",
+    "focusGameId": "grove-engine",
+    "title": "Grove Engine",
     "previousLaunchCandidateId": "lantern-relay",
     "changedLaunchCandidate": true,
     "rationale": [
       "Growth quality 78",
       "Portfolio score 51.912",
       "current daily challenge",
-      "current acquisition candidate",
-      "has generated store screenshot"
+      "current acquisition candidate"
     ]
   },
   "candidateSignals": [
     {
-      "gameId": "canopy-bloom",
-      "title": "Canopy Bloom",
+      "gameId": "grove-engine",
+      "title": "Grove Engine",
       "status": "generated-playable",
-      "score": 171.912,
+      "score": 163.912,
       "growthQuality": 78,
       "portfolioScore": 51.912,
       "dailyChallenge": true,
       "acquisitionFeatured": true,
-      "generatedRuntime": true,
-      "hasScreenshot": true,
-      "keywords": [
-        "roll and write",
-        "science desk",
-        "daily puzzle",
-        "solo board game",
-        "generated strategy game",
-        "board-game-inspired",
-        "mobile PWA"
-      ],
-      "shortDescription": "A generated roll and write puzzle with quick science desk decisions.",
-      "fullDescription": "Canopy Bloom is tuned as a daily roll and write challenge with a compact board and a clear score target. A generated roll and write puzzle that turns trend signals into a compact solo board state."
-    },
-    {
-      "gameId": "grove-engine",
-      "title": "Grove Engine",
-      "status": "generated-playable",
-      "score": 128.232,
-      "growthQuality": 74,
-      "portfolioScore": 50.232,
-      "dailyChallenge": false,
-      "acquisitionFeatured": false,
       "generatedRuntime": true,
       "hasScreenshot": false,
       "keywords": [
@@ -69,7 +45,30 @@
         "mobile PWA"
       ],
       "shortDescription": "A generated engine building puzzle with quick expedition planning decisions.",
-      "fullDescription": "Grove Engine is tuned as a daily engine building challenge with a compact board and a clear score target. A complete tactical board-game feeling in 7 minutes, tuned for touch screens."
+      "fullDescription": "Grove Engine is tuned as a daily engine building challenge with a compact board and a clear score target. A generated engine building puzzle that turns trend signals into a compact solo board state."
+    },
+    {
+      "gameId": "guild-garden",
+      "title": "Guild Garden",
+      "status": "generated-playable",
+      "score": 128.232,
+      "growthQuality": 74,
+      "portfolioScore": 50.232,
+      "dailyChallenge": false,
+      "acquisitionFeatured": false,
+      "generatedRuntime": true,
+      "hasScreenshot": false,
+      "keywords": [
+        "worker placement",
+        "expedition planning",
+        "daily puzzle",
+        "solo board game",
+        "generated strategy game",
+        "board-game-inspired",
+        "mobile PWA"
+      ],
+      "shortDescription": "A generated worker placement puzzle with quick expedition planning decisions.",
+      "fullDescription": "Guild Garden is tuned as a daily worker placement challenge with a compact board and a clear score target. A complete tactical board-game feeling in 7 minutes, tuned for touch screens."
     },
     {
       "gameId": "mosaic-haven",
@@ -92,7 +91,7 @@
         "mobile PWA"
       ],
       "shortDescription": "A generated tile placement puzzle with quick compact city logistics decisions.",
-      "fullDescription": "A complete tactical board-game feeling in 5 minutes, tuned for touch screens."
+      "fullDescription": "A complete tactical board-game feeling in 9 minutes, tuned for touch screens."
     },
     {
       "gameId": "metro-loom",
@@ -115,7 +114,7 @@
         "mobile PWA"
       ],
       "shortDescription": "A generated route building puzzle with quick science desk decisions.",
-      "fullDescription": "Metro Loom is tuned as a daily route building challenge with a compact board and a clear score target. A complete tactical board-game feeling in 9 minutes, tuned for touch screens."
+      "fullDescription": "Metro Loom is tuned as a daily route building challenge with a compact board and a clear score target. A complete tactical board-game feeling in 5 minutes, tuned for touch screens."
     },
     {
       "gameId": "pocket-draft",
@@ -154,60 +153,60 @@
       "keywords": [
         "tile placement",
         "compact city logistics",
-        "mobile puzzle",
+        "strategy solo",
         "daily puzzle",
         "solo board game",
         "strategy puzzle",
         "board-game-inspired",
         "mobile PWA"
       ],
-      "shortDescription": "5-minute original tile placement game for daily mobile play.",
-      "fullDescription": "Orbit Atlas is tuned as a daily tile placement challenge with a compact board and a clear score target. Orbit Atlas is an original mobile-first board-game-inspired puzzle set in pocket-size transit districts. A complete tactical board-game feeling in 5 minutes, tuned for touch screens. Core loop: connect demand before congestion rises by making one strong tile placement decision per turn. The first release focuses on solo daily play, clear scoring, replayable seeds, and measured improvements from player behavior."
+      "shortDescription": "9-minute original tile placement game for daily mobile play.",
+      "fullDescription": "Orbit Atlas is tuned as a daily tile placement challenge with a compact board and a clear score target. Orbit Atlas is an original mobile-first board-game-inspired puzzle set in pocket-size transit districts. A complete tactical board-game feeling in 9 minutes, tuned for touch screens. Core loop: connect demand before congestion rises by making one strong tile placement decision per turn. The first release focuses on solo daily play, clear scoring, replayable seeds, and measured improvements from player behavior."
     }
   ],
   "listing": {
     "source": "store-listing-optimizer",
-    "sourceGameId": "canopy-bloom",
+    "sourceGameId": "grove-engine",
     "appName": "Autonomous Game Lab",
     "googlePlay": {
       "title": "Autonomous Game Lab",
-      "shortDescription": "Original daily strategy puzzles led by Canopy Bloom. Quick solo board-game play.",
-      "fullDescription": "Autonomous Game Lab is a web-first collection of original board-game-inspired solo strategy puzzles. Canopy Bloom is the current data-led store focus: A generated roll and write puzzle with quick science desk decisions. Every game is built for short touch-first sessions, clear scoring, daily replay, and measured improvements from anonymous gameplay signals. Accounts, user-generated content, purchases, gambling, and ads remain disabled until production gates and store review requirements pass.",
+      "shortDescription": "Original daily strategy puzzles led by Grove Engine. Quick solo board-game play.",
+      "fullDescription": "Autonomous Game Lab is a web-first collection of original board-game-inspired solo strategy puzzles. Grove Engine is the current data-led store focus: A generated engine building puzzle with quick expedition planning decisions. Every game is built for short touch-first sessions, clear scoring, daily replay, and measured improvements from anonymous gameplay signals. Accounts, user-generated content, purchases, gambling, and ads remain disabled until production gates and store review requirements pass.",
       "keywordThemes": [
-        "roll and write",
-        "science desk",
+        "engine building",
+        "expedition planning",
         "daily puzzle",
         "solo board game",
         "generated strategy game",
         "board-game-inspired",
-        "engine building",
-        "expedition planning",
+        "worker placement",
         "tile placement",
         "compact city logistics",
         "route building",
+        "science desk",
         "strategy puzzle"
       ]
     },
     "appleAppStore": {
       "name": "Autonomous Game Lab",
-      "subtitle": "Canopy Bloom daily strategy",
-      "promotionalText": "Play Canopy Bloom, today's data-led solo strategy puzzle.",
-      "keywords": "roll and write,science desk,daily puzzle,solo board game,generated strategy game,board-game-inspired"
+      "subtitle": "Grove Engine daily strategy",
+      "promotionalText": "Play Grove Engine, today's data-led solo strategy puzzle.",
+      "keywords": "engine building,expedition planning,daily puzzle,solo board game,generated strategy game"
     },
-    "shortDescription": "Original daily strategy puzzles led by Canopy Bloom. Quick solo board-game play.",
-    "fullDescription": "Autonomous Game Lab is a web-first collection of original board-game-inspired solo strategy puzzles. Canopy Bloom is the current data-led store focus: A generated roll and write puzzle with quick science desk decisions. Every game is built for short touch-first sessions, clear scoring, daily replay, and measured improvements from anonymous gameplay signals. Accounts, user-generated content, purchases, gambling, and ads remain disabled until production gates and store review requirements pass.",
+    "shortDescription": "Original daily strategy puzzles led by Grove Engine. Quick solo board-game play.",
+    "fullDescription": "Autonomous Game Lab is a web-first collection of original board-game-inspired solo strategy puzzles. Grove Engine is the current data-led store focus: A generated engine building puzzle with quick expedition planning decisions. Every game is built for short touch-first sessions, clear scoring, daily replay, and measured improvements from anonymous gameplay signals. Accounts, user-generated content, purchases, gambling, and ads remain disabled until production gates and store review requirements pass.",
     "keywords": [
-      "roll and write",
-      "science desk",
+      "engine building",
+      "expedition planning",
       "daily puzzle",
       "solo board game",
       "generated strategy game",
       "board-game-inspired",
-      "engine building",
-      "expedition planning",
+      "worker placement",
       "tile placement",
       "compact city logistics",
       "route building",
+      "science desk",
       "strategy puzzle"
     ],
     "screenshots": [
@@ -218,9 +217,9 @@
     ],
     "screenshotAssets": [
       {
-        "id": "phone-canopy-bloom-generated",
-        "label": "Generated Canopy Bloom board",
-        "path": "/store-assets/screenshots/phone-canopy-bloom-generated.png",
+        "id": "phone-lantern-relay-game",
+        "label": "Lantern Relay playable board",
+        "path": "/store-assets/screenshots/phone-lantern-relay-game.png",
         "width": 1170,
         "height": 2532,
         "platformUse": [
@@ -229,9 +228,9 @@
         ]
       },
       {
-        "id": "phone-lantern-relay-game",
-        "label": "Lantern Relay playable board",
-        "path": "/store-assets/screenshots/phone-lantern-relay-game.png",
+        "id": "phone-canopy-bloom-generated",
+        "label": "Generated Canopy Bloom board",
+        "path": "/store-assets/screenshots/phone-canopy-bloom-generated.png",
         "width": 1170,
         "height": 2532,
         "platformUse": [
@@ -271,21 +270,21 @@
   },
   "screenshotPriorities": [
     {
-      "id": "phone-canopy-bloom-generated",
-      "label": "Generated Canopy Bloom board",
-      "path": "/store-assets/screenshots/phone-canopy-bloom-generated.png",
-      "width": 1170,
-      "height": 2532,
-      "priorityScore": 140,
-      "recommendedUse": "lead-gameplay"
-    },
-    {
       "id": "phone-lantern-relay-game",
       "label": "Lantern Relay playable board",
       "path": "/store-assets/screenshots/phone-lantern-relay-game.png",
       "width": 1170,
       "height": 2532,
       "priorityScore": 32,
+      "recommendedUse": "supporting-phone"
+    },
+    {
+      "id": "phone-canopy-bloom-generated",
+      "label": "Generated Canopy Bloom board",
+      "path": "/store-assets/screenshots/phone-canopy-bloom-generated.png",
+      "width": 1170,
+      "height": 2532,
+      "priorityScore": 28,
       "recommendedUse": "supporting-phone"
     },
     {
@@ -324,8 +323,8 @@
     "revenueClaimsAllowed": false
   },
   "nextActions": [
-    "Use Canopy Bloom as the store listing focus instead of lantern-relay.",
-    "Lead screenshots with Generated Canopy Bloom board.",
+    "Use Grove Engine as the store listing focus instead of lantern-relay.",
+    "Lead screenshots with Lantern Relay playable board.",
     "Regenerate store compliance after every listing, screenshot, monetization, or privacy change."
   ]
 }

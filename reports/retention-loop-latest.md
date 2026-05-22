@@ -1,14 +1,14 @@
 # Retention Loop
 
-Generated: 2026-05-22T00:26:09.114Z
+Generated: 2026-05-22T00:48:15.867Z
 Status: retention-loop-ready
-Daily challenge: Canopy Bloom (canopy-bloom)
+Daily challenge: Grove Engine (grove-engine)
 D1 retention: 17%
 Replay rate: 31%
 
 ## Missions
 
-- armed: finish-daily-challenge - Finish Canopy Bloom
+- armed: finish-daily-challenge - Finish Grove Engine
 - armed: return-tomorrow - Return tomorrow for a fresh board
 - armed: confirm-return-intent - Queue 2026-05-23 board intent
 - armed: activate-return-intent - Start a queued return board
@@ -41,7 +41,7 @@ Replay rate: 31%
 
 - Status: collecting-sample
 - Campaign: gate-sample-20260522-d1Retention
-- Play path: /?game=canopy-bloom&utm_source=gate_sample&utm_campaign=gate-sample-20260522-d1Retention
+- Play path: /?game=grove-engine&utm_source=gate_sample&utm_campaign=gate-sample-20260522-d1Retention
 - Prompt views needed: 10
 - Observed retained starts needed: 1
 - Evidence: waiting-for-player-export

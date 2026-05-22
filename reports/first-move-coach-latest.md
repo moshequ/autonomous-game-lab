@@ -1,6 +1,6 @@
 # First Move Coach
 
-Generated: 2026-05-21T17:49:38.072Z
+Generated: 2026-05-22T00:38:13.415Z
 Status: first-move-coach-ready
 Enabled: true
 Primary target: harbor-rings
@@ -14,9 +14,9 @@ Skip rate: 0%
 ## Targets
 
 - enabled: harbor-rings row 2, col 2; completion 39% and tutorial 67%.
-- enabled: canopy-bloom row 1, col 2; generated daily/portfolio game without live row yet.
 - monitor: foundry-ledger row 1, col 1; playable game without live row yet.
 - enabled: grove-engine row 1, col 2; generated daily/portfolio game without live row yet.
+- enabled: guild-garden row 1, col 1; generated daily/portfolio game without live row yet.
 - monitor: harbor-circuit row 1, col 1; playable game without live row yet.
 - monitor: lantern-relay row 2, col 2; playable game without live row yet.
 - enabled: metro-loom row 2, col 2; generated daily/portfolio game without live row yet.

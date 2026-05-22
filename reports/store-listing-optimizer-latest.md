@@ -1,27 +1,27 @@
 # Store Listing Optimizer
 
-Generated: 2026-05-22T00:27:24.355Z
+Generated: 2026-05-22T00:49:30.862Z
 Status: store-listing-optimizer-ready
-Focus: Canopy Bloom (canopy-bloom)
+Focus: Grove Engine (grove-engine)
 Previous candidate: lantern-relay
 
 ## Copy
 
-- Short description: Original daily strategy puzzles led by Canopy Bloom. Quick solo board-game play.
-- Apple subtitle: Canopy Bloom daily strategy
-- Keywords: roll and write, science desk, daily puzzle, solo board game, generated strategy game, board-game-inspired, engine building, expedition planning, tile placement, compact city logistics, route building, strategy puzzle
+- Short description: Original daily strategy puzzles led by Grove Engine. Quick solo board-game play.
+- Apple subtitle: Grove Engine daily strategy
+- Keywords: engine building, expedition planning, daily puzzle, solo board game, generated strategy game, board-game-inspired, worker placement, tile placement, compact city logistics, route building, science desk, strategy puzzle
 
 ## Screenshot Priorities
 
-- phone-canopy-bloom-generated: lead-gameplay, score 140
 - phone-lantern-relay-game: supporting-phone, score 32
+- phone-canopy-bloom-generated: supporting-phone, score 28
 - phone-portal-home: supporting-phone, score 20
 - desktop-growth-page: press-kit, score 0
 
 ## Candidate Signals
 
-- canopy-bloom: score 171.912, growth 78
-- grove-engine: score 128.232, growth 74
+- grove-engine: score 163.912, growth 78
+- guild-garden: score 128.232, growth 74
 - mosaic-haven: score 122.552, growth 70
 - metro-loom: score 116.872, growth 66
 - pocket-draft: score 111.192, growth 62
@@ -40,6 +40,6 @@ Previous candidate: lantern-relay
 
 ## Next Actions
 
-- Use Canopy Bloom as the store listing focus instead of lantern-relay.
-- Lead screenshots with Generated Canopy Bloom board.
+- Use Grove Engine as the store listing focus instead of lantern-relay.
+- Lead screenshots with Lantern Relay playable board.
 - Regenerate store compliance after every listing, screenshot, monetization, or privacy change.

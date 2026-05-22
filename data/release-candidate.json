@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-05-22T00:30:51.813Z",
+  "generatedAt": "2026-05-22T00:49:44.740Z",
   "status": "release-candidate-ready",
-  "candidateId": "pwa-d4d2ad2aaa2c",
+  "candidateId": "pwa-06490e28da3f",
   "target": {
     "provider": "github-pages",
     "artifactPath": "dist",
@@ -12,8 +12,8 @@
   },
   "summary": {
     "totalFiles": 47,
-    "totalBytes": 3695937,
-    "totalKb": 3609.3,
+    "totalBytes": 3754268,
+    "totalKb": 3666.3,
     "assetFiles": 4,
     "htmlFiles": 17,
     "gamePages": 10,
@@ -22,7 +22,7 @@
   },
   "integrity": {
     "algorithm": "sha256",
-    "aggregateHash": "d4d2ad2aaa2c9ce01296fdd7f50e05db65b180883fb0d4d08e8ed1dd0281599f",
+    "aggregateHash": "06490e28da3fc35e33fc77379fc83a33af9d0117c6b21514521495fb7344b373",
     "files": [
       {
         "path": ".nojekyll",
@@ -46,23 +46,23 @@
         "cacheControl": "public, max-age=3600"
       },
       {
-        "path": "assets/aggregateEvidenceIssue-D0Z8S9Qo.js",
+        "path": "assets/aggregateEvidenceIssue-9V_8tK4F.js",
         "bytes": 2978,
-        "sha256": "537a160fbebfd7848677e47ae0317e92bb0b1e22051ff82ba757ec36e956f8ba",
+        "sha256": "0894b76533ee74a8dcda380ae49699ad038a65fc28843230c02e2d9e02a3685a",
         "contentType": "text/javascript; charset=utf-8",
         "cacheControl": "public, max-age=31536000, immutable"
       },
       {
-        "path": "assets/GameCanvas-CRT9ZUq5.js",
-        "bytes": 1393760,
-        "sha256": "883679df658dfa3ce083dec7f5fe2d900b05b373e76b52c48174e543570c7815",
+        "path": "assets/GameCanvas-CMOEw6n4.js",
+        "bytes": 1393761,
+        "sha256": "092fe8dc2b20cab2aa210c76202209bd6555a0a52f82141ff77453ed2bf28930",
         "contentType": "text/javascript; charset=utf-8",
         "cacheControl": "public, max-age=31536000, immutable"
       },
       {
-        "path": "assets/index-d7wNOfmc.js",
-        "bytes": 678984,
-        "sha256": "4ba32827b1c696ab9e570d30728e6065e451a9ea9978cd2e119c3fbb8086c83b",
+        "path": "assets/index-DdeKRUrc.js",
+        "bytes": 679111,
+        "sha256": "7915caf5182eb79d719054db2fb64d8c4b227be23c3c7a33cab777c364e7929e",
         "contentType": "text/javascript; charset=utf-8",
         "cacheControl": "public, max-age=31536000, immutable"
       },
@@ -76,7 +76,7 @@
       {
         "path": "compliance.json",
         "bytes": 5625,
-        "sha256": "c32cb73e67ab892e3ef77a16f5a1dc38b1b0fd47296c85d972829a4c3a69b035",
+        "sha256": "7c86bf3c029c64874d7d854729843d9082f72522a050d7885ed73e7d03ee8c3d",
         "contentType": "application/json; charset=utf-8",
         "cacheControl": "public, max-age=3600"
       },
@@ -88,30 +88,30 @@
         "cacheControl": "public, max-age=3600"
       },
       {
-        "path": "games/canopy-bloom.html",
-        "bytes": 6067,
-        "sha256": "4a8dcea226d021540446e0a6daf90ba11e910c0ce1b63e66437e082d4a4d2d20",
-        "contentType": "text/html; charset=utf-8",
-        "cacheControl": "no-cache"
-      },
-      {
         "path": "games/foundry-ledger.html",
-        "bytes": 6301,
-        "sha256": "c364c568e72eaf2bb3badb7449dffb72e952b1c4870a04e9aa8cff97baae505a",
+        "bytes": 6308,
+        "sha256": "43f702416236472e2cfb065774cb73d33813faf615d7cdcf979eac7aac53a6d4",
         "contentType": "text/html; charset=utf-8",
         "cacheControl": "no-cache"
       },
       {
         "path": "games/grove-engine.html",
-        "bytes": 6102,
-        "sha256": "344e14ae8f486113671e0c40b71fdfa705919cf53613e2324a4937dc09e58b19",
+        "bytes": 6117,
+        "sha256": "4824d67a2450f06813973e7f5044d755a2adfa2cd0464ec724143a1247632345",
+        "contentType": "text/html; charset=utf-8",
+        "cacheControl": "no-cache"
+      },
+      {
+        "path": "games/guild-garden.html",
+        "bytes": 6109,
+        "sha256": "f1edd964ef112cadc699abefff5c4d1a846f4a78cdc8a188f9697340eb6be76b",
         "contentType": "text/html; charset=utf-8",
         "cacheControl": "no-cache"
       },
       {
         "path": "games/harbor-circuit.html",
         "bytes": 6265,
-        "sha256": "af596bfaa718e86f3eba470097ecfa727da896d1b0cded2ff07b07a8d7c160fb",
+        "sha256": "ef4c980c4cc155dc7794a3250dce5881773d82a3c088f670d0f59d9a84081777",
         "contentType": "text/html; charset=utf-8",
         "cacheControl": "no-cache"
       },
@@ -132,21 +132,21 @@
       {
         "path": "games/metro-loom.html",
         "bytes": 6027,
-        "sha256": "d0c0beb32db4be79a8f6560b86e99c9c9449bdebf2262c41c747d539d7ca0c7a",
+        "sha256": "c0d234be36338042df8c803f0cfa088ee312ab3a230f9a332adcc3bccc68cff4",
         "contentType": "text/html; charset=utf-8",
         "cacheControl": "no-cache"
       },
       {
         "path": "games/mosaic-haven.html",
         "bytes": 5999,
-        "sha256": "c1a0d78f858793f191eac140df30ffd897be838e3e8f635b6f203bf76414af73",
+        "sha256": "935342933c13f7c310c6e399b6eb7d0b206294366b0de03c690fbc3c4f428c80",
         "contentType": "text/html; charset=utf-8",
         "cacheControl": "no-cache"
       },
       {
         "path": "games/orbit-atlas.html",
         "bytes": 6366,
-        "sha256": "95d88c388bda88511019df1ec74bc0ff7f209c861f6321143e3fc703b715af0b",
+        "sha256": "538ec9aef440324b251eaea15aaac89f1c4a10efa802726f4dd2d621a7fc54ac",
         "contentType": "text/html; charset=utf-8",
         "cacheControl": "no-cache"
       },
@@ -160,7 +160,7 @@
       {
         "path": "gate-sample.html",
         "bytes": 26496,
-        "sha256": "af8a275ffcfbb4db3f94a364fdfd99289b6bfae80f63c7daf2750a659ec1463c",
+        "sha256": "147ae90e529f365ff6861671e9ed31b1ea7bf4bb35c026e2884f88480a3331e9",
         "contentType": "text/html; charset=utf-8",
         "cacheControl": "no-cache"
       },
@@ -223,14 +223,14 @@
       {
         "path": "index.html",
         "bytes": 2846,
-        "sha256": "e9749822f22f94a2fc05e9fc5cb3b8ecd339a5df05ebd0b1433c123f47763923",
+        "sha256": "3f7945e0dab58d01bad28baa52ae76e37d17b6ce066197592632c753dd3dd257",
         "contentType": "text/html; charset=utf-8",
         "cacheControl": "no-cache"
       },
       {
         "path": "install.html",
         "bytes": 7967,
-        "sha256": "46e635c36f0b11abe624c56488dee7750409572f39da3259c433d0aa67070fa0",
+        "sha256": "abc9c47a9a62d31994dc7830268148f4f9c08adb90d12359b16d19db2785c7e1",
         "contentType": "text/html; charset=utf-8",
         "cacheControl": "no-cache"
       },
@@ -251,14 +251,14 @@
       {
         "path": "measurement-status.json",
         "bytes": 3459,
-        "sha256": "e0481bae02a7165cea19d75ce23472e31bc4a31022eb87e3e887abf83ac65dfb",
+        "sha256": "14f5f6451255aa6e80752d9ce9de1b9ee79572b6c75595343edeb4011bd71e8d",
         "contentType": "application/json; charset=utf-8",
         "cacheControl": "public, max-age=3600"
       },
       {
         "path": "monetization.json",
         "bytes": 878,
-        "sha256": "bd076ff9ea673b671ead322070c596130c947347b9c46990b991c7400112846e",
+        "sha256": "63bdd91837cc9f68fdddcae41908a996f98e8cfa5f6af0e68594d6591c4490e6",
         "contentType": "application/json; charset=utf-8",
         "cacheControl": "public, max-age=3600"
       },
@@ -285,50 +285,50 @@
       },
       {
         "path": "seed-kit.html",
-        "bytes": 14878,
-        "sha256": "b65eebdf05207f9efc7248eb9c40dfe6c1077970aefc76a2099d6a873f3d92f1",
+        "bytes": 14905,
+        "sha256": "4da8a3a78a99f8c2275e525143444f181cad46c3d5c5d137fe6437fcc0a62e2b",
         "contentType": "text/html; charset=utf-8",
         "cacheControl": "no-cache"
       },
       {
         "path": "share-manifest.json",
-        "bytes": 10648,
-        "sha256": "afe7f84732fe655616f8329e4aafbd6c9f645d2168e30862ac17b527e3d87ec0",
+        "bytes": 10677,
+        "sha256": "0003609cdd5d522e6624e95a0d234cd5d21d30b1440c92751341fb977a41bcf5",
         "contentType": "application/json; charset=utf-8",
         "cacheControl": "public, max-age=3600"
       },
       {
         "path": "sitemap.xml",
         "bytes": 2382,
-        "sha256": "9899a6c1681ee14d08c33d30bf177a8e5cb3e75ca0dacb384c294cdaad7dc6f9",
+        "sha256": "dd595421118116068cb43d76238af85b68ece3e35ee786bdbddd4728d2ce907b",
         "contentType": "application/xml; charset=utf-8",
         "cacheControl": "public, max-age=3600"
       },
       {
         "path": "store-assets/screenshots/desktop-growth-page.png",
-        "bytes": 63651,
-        "sha256": "faadb62bcd5862fc4873f8be1052b0f4a7638a94ed06aaa427142bde3c8a88d7",
+        "bytes": 109669,
+        "sha256": "56c862e3b05b1a1d6fbd70dbdf8443c302d0479aff39446461dda88a030edadb",
         "contentType": "image/png",
         "cacheControl": "public, max-age=3600"
       },
       {
         "path": "store-assets/screenshots/phone-canopy-bloom-generated.png",
-        "bytes": 194709,
-        "sha256": "a3618e76ae5dd1e7416dd87fb936ceab673a85a6e746fb9e9f129e918d321aef",
+        "bytes": 205585,
+        "sha256": "e5567dbf1ca90ecbc8eb1f0dcd08b7e22766c0be468721c2d2971db9f94138dd",
         "contentType": "image/png",
         "cacheControl": "public, max-age=3600"
       },
       {
         "path": "store-assets/screenshots/phone-lantern-relay-game.png",
-        "bytes": 197491,
-        "sha256": "717836493e3fa9e9b8c5bd05e95d70363f49cc5adad8da81c3758d2a70af15dc",
+        "bytes": 200486,
+        "sha256": "51f682f92e0d83e4798c09d5a5592cc4c418e5b591201220d84bf06dc25f658a",
         "contentType": "image/png",
         "cacheControl": "public, max-age=3600"
       },
       {
         "path": "store-assets/screenshots/phone-portal-home.png",
-        "bytes": 214108,
-        "sha256": "4366effad9862de49febb281eaa72be7ed205c507c26751eaeaac68c24955b8d",
+        "bytes": 212302,
+        "sha256": "5acc216fa9466b4c74156c1e3c286365806fa3b622dc6505ccc99dc19a428421",
         "contentType": "image/png",
         "cacheControl": "public, max-age=3600"
       },
@@ -342,7 +342,7 @@
       {
         "path": "sw.js",
         "bytes": 3875,
-        "sha256": "26a8842e644e13f8b4d79ba21210dba51d10e1fdebe7a4300a170d5477e425b8",
+        "sha256": "24cbe732c6f654b8fbbad4d8530929b52d0727d1447ffdb51a7aba0558efa526",
         "contentType": "text/javascript; charset=utf-8",
         "cacheControl": "no-cache"
       },
@@ -548,9 +548,9 @@
       "requiredText": null
     },
     {
-      "id": "games-canopy-bloom-html",
-      "path": "/games/canopy-bloom.html",
-      "url": "https://moshequ.github.io/autonomous-game-lab/games/canopy-bloom.html",
+      "id": "games-foundry-ledger-html",
+      "path": "/games/foundry-ledger.html",
+      "url": "https://moshequ.github.io/autonomous-game-lab/games/foundry-ledger.html",
       "expectedStatus": 200,
       "requiredText": "Autonomous Game Lab"
     }

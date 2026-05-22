@@ -1,10 +1,10 @@
 # Post-Deploy Smoke
 
-Generated: 2026-05-22T00:31:02.491Z
+Generated: 2026-05-22T00:49:25.862Z
 Status: post-deploy-smoke-observed-live
 Origin: https://moshequ.github.io/autonomous-game-lab
 Origin source: release-candidate-public-origin
-Candidate: pwa-d4d2ad2aaa2c
+Candidate: pwa-06490e28da3f
 Live candidate: pwa-bfc05839b5c3
 
 ## Summary
@@ -34,7 +34,7 @@ Checks: 17/17 passed
 - pass: gate-sample-html - dist/gate-sample.html - Local production artifact matched required text.
 - pass: seed-kit-html - dist/seed-kit.html - Local production artifact matched required text.
 - pass: sitemap-xml - dist/sitemap.xml - Local production artifact matched required text.
-- pass: games-canopy-bloom-html - dist/games/canopy-bloom.html - Local production artifact matched required text.
+- pass: games-foundry-ledger-html - dist/games/foundry-ledger.html - Local production artifact matched required text.
 - pass: release-candidate-manifest - dist/release-candidate.json - Local release manifest matches the release candidate.
 
 ## Checks
@@ -54,7 +54,7 @@ Checks: 17/17 passed
 - pass: gate-sample-html - https://moshequ.github.io/autonomous-game-lab/gate-sample.html - Live URL matched status and required text.
 - pass: seed-kit-html - https://moshequ.github.io/autonomous-game-lab/seed-kit.html - Live URL matched status and required text.
 - pass: sitemap-xml - https://moshequ.github.io/autonomous-game-lab/sitemap.xml - Live URL matched status and required text.
-- pass: games-canopy-bloom-html - https://moshequ.github.io/autonomous-game-lab/games/canopy-bloom.html - Live URL matched status and required text.
+- pass: games-foundry-ledger-html - https://moshequ.github.io/autonomous-game-lab/games/foundry-ledger.html - Live URL matched status and required text.
 - pass: release-candidate-manifest - https://moshequ.github.io/autonomous-game-lab/release-candidate.json - Live release manifest is reachable; it does not match the current local release candidate.
 
 ## Controls

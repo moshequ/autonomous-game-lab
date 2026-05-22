@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2026-05-22T00:27:24.101Z",
-  "sourceDataHash": "1fe2ff1fcc27",
+  "generatedAt": "2026-05-22T00:49:30.599Z",
+  "sourceDataHash": "22e96db87153",
   "status": "store-package-ready",
   "launchCandidate": {
-    "id": "canopy-bloom",
-    "title": "Canopy Bloom",
+    "id": "grove-engine",
+    "title": "Grove Engine",
     "status": "generated-playable"
   },
   "privacyPolicy": {
@@ -205,47 +205,47 @@
   },
   "storeListing": {
     "source": "store-listing-optimizer",
-    "sourceGameId": "canopy-bloom",
+    "sourceGameId": "grove-engine",
     "appName": "Autonomous Game Lab",
     "googlePlay": {
       "title": "Autonomous Game Lab",
-      "shortDescription": "Original daily strategy puzzles led by Canopy Bloom. Quick solo board-game play.",
-      "fullDescription": "Autonomous Game Lab is a web-first collection of original board-game-inspired solo strategy puzzles. Canopy Bloom is the current data-led store focus: A generated roll and write puzzle with quick science desk decisions. Every game is built for short touch-first sessions, clear scoring, daily replay, and measured improvements from anonymous gameplay signals. Accounts, user-generated content, purchases, gambling, and ads remain disabled until production gates and store review requirements pass.",
+      "shortDescription": "Original daily strategy puzzles led by Grove Engine. Quick solo board-game play.",
+      "fullDescription": "Autonomous Game Lab is a web-first collection of original board-game-inspired solo strategy puzzles. Grove Engine is the current data-led store focus: A generated engine building puzzle with quick expedition planning decisions. Every game is built for short touch-first sessions, clear scoring, daily replay, and measured improvements from anonymous gameplay signals. Accounts, user-generated content, purchases, gambling, and ads remain disabled until production gates and store review requirements pass.",
       "keywordThemes": [
-        "roll and write",
-        "science desk",
+        "engine building",
+        "expedition planning",
         "daily puzzle",
         "solo board game",
         "generated strategy game",
         "board-game-inspired",
-        "engine building",
-        "expedition planning",
+        "worker placement",
         "tile placement",
         "compact city logistics",
         "route building",
+        "science desk",
         "strategy puzzle"
       ]
     },
     "appleAppStore": {
       "name": "Autonomous Game Lab",
-      "subtitle": "Canopy Bloom daily strategy",
-      "promotionalText": "Play Canopy Bloom, today's data-led solo strategy puzzle.",
-      "keywords": "roll and write,science desk,daily puzzle,solo board game,generated strategy game,board-game-inspired"
+      "subtitle": "Grove Engine daily strategy",
+      "promotionalText": "Play Grove Engine, today's data-led solo strategy puzzle.",
+      "keywords": "engine building,expedition planning,daily puzzle,solo board game,generated strategy game"
     },
-    "shortDescription": "Original daily strategy puzzles led by Canopy Bloom. Quick solo board-game play.",
-    "fullDescription": "Autonomous Game Lab is a web-first collection of original board-game-inspired solo strategy puzzles. Canopy Bloom is the current data-led store focus: A generated roll and write puzzle with quick science desk decisions. Every game is built for short touch-first sessions, clear scoring, daily replay, and measured improvements from anonymous gameplay signals. Accounts, user-generated content, purchases, gambling, and ads remain disabled until production gates and store review requirements pass.",
+    "shortDescription": "Original daily strategy puzzles led by Grove Engine. Quick solo board-game play.",
+    "fullDescription": "Autonomous Game Lab is a web-first collection of original board-game-inspired solo strategy puzzles. Grove Engine is the current data-led store focus: A generated engine building puzzle with quick expedition planning decisions. Every game is built for short touch-first sessions, clear scoring, daily replay, and measured improvements from anonymous gameplay signals. Accounts, user-generated content, purchases, gambling, and ads remain disabled until production gates and store review requirements pass.",
     "keywords": [
-      "roll and write",
-      "science desk",
+      "engine building",
+      "expedition planning",
       "daily puzzle",
       "solo board game",
       "generated strategy game",
       "board-game-inspired",
-      "engine building",
-      "expedition planning",
+      "worker placement",
       "tile placement",
       "compact city logistics",
       "route building",
+      "science desk",
       "strategy puzzle"
     ],
     "screenshots": [
@@ -256,9 +256,9 @@
     ],
     "screenshotAssets": [
       {
-        "id": "phone-canopy-bloom-generated",
-        "label": "Generated Canopy Bloom board",
-        "path": "/store-assets/screenshots/phone-canopy-bloom-generated.png",
+        "id": "phone-lantern-relay-game",
+        "label": "Lantern Relay playable board",
+        "path": "/store-assets/screenshots/phone-lantern-relay-game.png",
         "width": 1170,
         "height": 2532,
         "platformUse": [
@@ -267,9 +267,9 @@
         ]
       },
       {
-        "id": "phone-lantern-relay-game",
-        "label": "Lantern Relay playable board",
-        "path": "/store-assets/screenshots/phone-lantern-relay-game.png",
+        "id": "phone-canopy-bloom-generated",
+        "label": "Generated Canopy Bloom board",
+        "path": "/store-assets/screenshots/phone-canopy-bloom-generated.png",
         "width": 1170,
         "height": 2532,
         "platformUse": [
@@ -330,11 +330,11 @@
     "applePrivacyLabels": "https://developer.apple.com/app-store/app-privacy-details/"
   },
   "storeListingOptimization": {
-    "generatedAt": "2026-05-22T00:27:24.355Z",
-    "sourceDataHash": "08f93cd5d545",
+    "generatedAt": "2026-05-22T00:49:30.862Z",
+    "sourceDataHash": "23a68db9cc8a",
     "status": "store-listing-optimizer-ready",
     "previousLaunchCandidateId": "lantern-relay",
-    "recommendedFocusGameId": "canopy-bloom",
-    "leadScreenshotId": "phone-canopy-bloom-generated"
+    "recommendedFocusGameId": "grove-engine",
+    "leadScreenshotId": "phone-lantern-relay-game"
   }
 }

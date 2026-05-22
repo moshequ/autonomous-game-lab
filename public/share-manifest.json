@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-22T00:03:41.677Z",
+  "generatedAt": "2026-05-22T00:37:44.267Z",
   "siteUrl": "https://moshequ.github.io/autonomous-game-lab",
   "publicUrlMode": "absolute-origin",
   "shares": [
@@ -32,12 +32,12 @@
     {
       "gameId": "harbor-circuit",
       "title": "Play Harbor Circuit",
-      "text": "9-minute original route building game for daily mobile play.",
+      "text": "5-minute original route building game for daily mobile play.",
       "url": "https://moshequ.github.io/autonomous-game-lab/?game=harbor-circuit&utm_source=share&utm_campaign=harbor-circuit",
       "tags": [
         "route building",
         "science desk",
-        "strategy solo",
+        "mobile puzzle",
         "daily puzzle",
         "solo board game"
       ]
@@ -45,10 +45,10 @@
     {
       "gameId": "foundry-ledger",
       "title": "Play Foundry Ledger",
-      "text": "7-minute original engine building game for daily mobile play.",
+      "text": "7-minute original worker placement game for daily mobile play.",
       "url": "https://moshequ.github.io/autonomous-game-lab/?game=foundry-ledger&utm_source=share&utm_campaign=foundry-ledger",
       "tags": [
-        "engine building",
+        "worker placement",
         "expedition planning",
         "families",
         "daily puzzle",
@@ -58,12 +58,12 @@
     {
       "gameId": "orbit-atlas",
       "title": "Play Orbit Atlas",
-      "text": "5-minute original tile placement game for daily mobile play.",
+      "text": "9-minute original tile placement game for daily mobile play.",
       "url": "https://moshequ.github.io/autonomous-game-lab/?game=orbit-atlas&utm_source=share&utm_campaign=orbit-atlas",
       "tags": [
         "tile placement",
         "compact city logistics",
-        "mobile puzzle",
+        "strategy solo",
         "daily puzzle",
         "solo board game"
       ]
@@ -108,12 +108,12 @@
       ]
     },
     {
-      "gameId": "grove-engine",
-      "title": "Play Grove Engine",
-      "text": "A generated engine building puzzle with quick expedition planning decisions.",
-      "url": "https://moshequ.github.io/autonomous-game-lab/?game=grove-engine&utm_source=share&utm_campaign=grove-engine",
+      "gameId": "guild-garden",
+      "title": "Play Guild Garden",
+      "text": "A generated worker placement puzzle with quick expedition planning decisions.",
+      "url": "https://moshequ.github.io/autonomous-game-lab/?game=guild-garden&utm_source=share&utm_campaign=guild-garden",
       "tags": [
-        "engine building",
+        "worker placement",
         "expedition planning",
         "daily puzzle",
         "solo board game",
@@ -121,13 +121,13 @@
       ]
     },
     {
-      "gameId": "canopy-bloom",
-      "title": "Play Canopy Bloom",
-      "text": "A generated roll and write puzzle with quick science desk decisions.",
-      "url": "https://moshequ.github.io/autonomous-game-lab/?game=canopy-bloom&utm_source=share&utm_campaign=canopy-bloom",
+      "gameId": "grove-engine",
+      "title": "Play Grove Engine",
+      "text": "A generated engine building puzzle with quick expedition planning decisions.",
+      "url": "https://moshequ.github.io/autonomous-game-lab/?game=grove-engine&utm_source=share&utm_campaign=grove-engine",
       "tags": [
-        "roll and write",
-        "science desk",
+        "engine building",
+        "expedition planning",
         "daily puzzle",
         "solo board game",
         "generated strategy game"
@@ -143,7 +143,7 @@
     "copyShareControls": true,
     "localAnalyticsEvents": true,
     "localAnalyticsStorageKey": "agl.analytics.events",
-    "generatedAt": "2026-05-22T00:03:41.432Z"
+    "generatedAt": "2026-05-22T00:37:44.267Z"
   },
   "gateSampleKit": {
     "path": "/gate-sample.html",
@@ -156,16 +156,16 @@
     "exportControls": true,
     "localAnalyticsEvents": true,
     "localAnalyticsStorageKey": "agl.analytics.events",
-    "generatedAt": "2026-05-22T00:03:41.432Z"
+    "generatedAt": "2026-05-22T00:37:44.267Z"
   },
   "seedCampaigns": [
     {
-      "id": "seed-20260522-canopy-bloom",
-      "gameId": "canopy-bloom",
-      "title": "Play Canopy Bloom",
-      "text": "A generated roll and write puzzle with quick science desk decisions.",
-      "url": "https://moshequ.github.io/autonomous-game-lab/?game=canopy-bloom&utm_source=seed_share&utm_campaign=seed-20260522-canopy-bloom",
-      "pageUrl": "https://moshequ.github.io/autonomous-game-lab/games/canopy-bloom.html",
+      "id": "seed-20260522-grove-engine",
+      "gameId": "grove-engine",
+      "title": "Play Grove Engine",
+      "text": "A generated engine building puzzle with quick expedition planning decisions.",
+      "url": "https://moshequ.github.io/autonomous-game-lab/?game=grove-engine&utm_source=seed_share&utm_campaign=seed-20260522-grove-engine",
+      "pageUrl": "https://moshequ.github.io/autonomous-game-lab/games/grove-engine.html",
       "priority": 1,
       "costUsd": 0,
       "tags": [
@@ -175,12 +175,12 @@
       ]
     },
     {
-      "id": "seed-20260522-grove-engine",
-      "gameId": "grove-engine",
-      "title": "Play Grove Engine",
-      "text": "A generated engine building puzzle with quick expedition planning decisions.",
-      "url": "https://moshequ.github.io/autonomous-game-lab/?game=grove-engine&utm_source=seed_share&utm_campaign=seed-20260522-grove-engine",
-      "pageUrl": "https://moshequ.github.io/autonomous-game-lab/games/grove-engine.html",
+      "id": "seed-20260522-guild-garden",
+      "gameId": "guild-garden",
+      "title": "Play Guild Garden",
+      "text": "A generated worker placement puzzle with quick expedition planning decisions.",
+      "url": "https://moshequ.github.io/autonomous-game-lab/?game=guild-garden&utm_source=seed_share&utm_campaign=seed-20260522-guild-garden",
+      "pageUrl": "https://moshequ.github.io/autonomous-game-lab/games/guild-garden.html",
       "priority": 2,
       "costUsd": 0,
       "tags": [

@@ -1,6 +1,6 @@
 # Bot Simulation Report
 
-Generated: 2026-05-21T17:49:09.174Z
+Generated: 2026-05-22T00:37:43.795Z
 
 ## Harbor Rings
 
@@ -77,31 +77,16 @@ Simulations: 1260
 
 - low: Balance looks playable for first web test (64% confidence) - bot strategies create a useful score spread without extreme win rates
 
-## Canopy Bloom
-
-Target: 82 in 10 moves
-Simulations: 1260
-
-### Strategy Results
-
-- random: avg 77.1, p50 77, p90 88, win 30%
-- center: avg 115.3, p50 116, p90 122, win 100%
-- greedy: avg 117.5, p50 117, p90 123, win 100%
-
-### Recommendations
-
-- low: Balance looks playable for first web test (64% confidence) - bot strategies create a useful score spread without extreme win rates
-
 ## Metro Loom
 
-Target: 96 in 12 moves
+Target: 96 in 10 moves
 Simulations: 1260
 
 ### Strategy Results
 
-- random: avg 96.4, p50 96, p90 115, win 51%
-- center: avg 151.6, p50 152, p90 158, win 100%
-- greedy: avg 165.2, p50 165, p90 174, win 100%
+- random: avg 69.3, p50 68, p90 85, win 3%
+- center: avg 126.6, p50 127, p90 133, win 100%
+- greedy: avg 135.9, p50 136, p90 147, win 100%
 
 ### Recommendations
 
@@ -109,14 +94,14 @@ Simulations: 1260
 
 ## Mosaic Haven
 
-Target: 90 in 10 moves
+Target: 138 in 12 moves
 Simulations: 1260
 
 ### Strategy Results
 
-- random: avg 90.9, p50 90, p90 104, win 52%
-- center: avg 123, p50 123, p90 131, win 100%
-- greedy: avg 129.1, p50 128, p90 135, win 100%
+- random: avg 126.1, p50 126, p90 139, win 13%
+- center: avg 148.6, p50 151, p90 156, win 94%
+- greedy: avg 161.6, p50 162, p90 168, win 100%
 
 ### Recommendations
 
@@ -147,6 +132,21 @@ Simulations: 1260
 - random: avg 104.3, p50 104, p90 119, win 52%
 - center: avg 117.8, p50 118, p90 131, win 92%
 - greedy: avg 134.2, p50 133, p90 148, win 100%
+
+### Recommendations
+
+- low: Balance looks playable for first web test (64% confidence) - bot strategies create a useful score spread without extreme win rates
+
+## Guild Garden
+
+Target: 138 in 11 moves
+Simulations: 1260
+
+### Strategy Results
+
+- random: avg 124.1, p50 123, p90 138, win 12%
+- center: avg 150.3, p50 152, p90 157, win 97%
+- greedy: avg 161.4, p50 161, p90 168, win 100%
 
 ### Recommendations
 

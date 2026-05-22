@@ -4,7 +4,7 @@ export const prototypePipeline = [
     "title": "Lantern Relay",
     "rank": 1,
     "status": "playable",
-    "releaseScore": 631,
+    "releaseScore": 624,
     "concept": {
       "id": "lantern-relay",
       "title": "Lantern Relay",
@@ -19,7 +19,7 @@ export const prototypePipeline = [
         "mechanic": "card drafting",
         "theme": "cozy production",
         "audience": "families",
-        "score": 513
+        "score": 506
       },
       "gameBrief": {
         "setting": "tiny seasonal workshops",
@@ -200,7 +200,7 @@ export const prototypePipeline = [
     "title": "Harbor Circuit",
     "rank": 2,
     "status": "playable",
-    "releaseScore": 521,
+    "releaseScore": 516,
     "concept": {
       "id": "harbor-circuit",
       "title": "Harbor Circuit",
@@ -214,14 +214,14 @@ export const prototypePipeline = [
       "opportunity": {
         "mechanic": "route building",
         "theme": "science desk",
-        "audience": "strategy solo",
-        "score": 375
+        "audience": "mobile puzzle",
+        "score": 370
       },
       "gameBrief": {
         "setting": "a tabletop research station",
         "coreLoop": "align instruments into reliable discoveries by making one strong route building decision per turn.",
-        "sessionLengthMinutes": 9,
-        "playerPromise": "A complete tactical board-game feeling in 9 minutes, tuned for touch screens.",
+        "sessionLengthMinutes": 5,
+        "playerPromise": "A complete tactical board-game feeling in 5 minutes, tuned for touch screens.",
         "firstPrototypeTemplate": "line-drawing",
         "artDirection": "clean diagrams, labeled tools, and crisp result cards"
       },
@@ -339,8 +339,7 @@ export const prototypePipeline = [
           "No production retention data yet",
           "No privacy policy URL yet",
           "No signed Android package yet",
-          "No app-store account credentials configured",
-          "Needs native-feeling mobile polish before iOS review"
+          "No app-store account credentials configured"
         ],
         "required": [
           "Apple Developer account",
@@ -355,12 +354,12 @@ export const prototypePipeline = [
     "storeListing": {
       "appName": "Harbor Circuit",
       "subtitle": "science desk route building",
-      "shortDescription": "9-minute original route building game for daily mobile play.",
-      "fullDescription": "Harbor Circuit is an original mobile-first board-game-inspired puzzle set in a tabletop research station. A complete tactical board-game feeling in 9 minutes, tuned for touch screens. Core loop: align instruments into reliable discoveries by making one strong route building decision per turn. The first release focuses on solo daily play, clear scoring, replayable seeds, and measured improvements from player behavior.",
+      "shortDescription": "5-minute original route building game for daily mobile play.",
+      "fullDescription": "Harbor Circuit is an original mobile-first board-game-inspired puzzle set in a tabletop research station. A complete tactical board-game feeling in 5 minutes, tuned for touch screens. Core loop: align instruments into reliable discoveries by making one strong route building decision per turn. The first release focuses on solo daily play, clear scoring, replayable seeds, and measured improvements from player behavior.",
       "keywords": [
         "route building",
         "science desk",
-        "strategy solo",
+        "mobile puzzle",
         "daily puzzle",
         "solo board game",
         "strategy puzzle"
@@ -396,7 +395,7 @@ export const prototypePipeline = [
     "title": "Orbit Atlas",
     "rank": 3,
     "status": "playable",
-    "releaseScore": 483,
+    "releaseScore": 477,
     "concept": {
       "id": "orbit-atlas",
       "title": "Orbit Atlas",
@@ -410,14 +409,14 @@ export const prototypePipeline = [
       "opportunity": {
         "mechanic": "tile placement",
         "theme": "compact city logistics",
-        "audience": "mobile puzzle",
-        "score": 331
+        "audience": "strategy solo",
+        "score": 325
       },
       "gameBrief": {
         "setting": "pocket-size transit districts",
         "coreLoop": "connect demand before congestion rises by making one strong tile placement decision per turn.",
-        "sessionLengthMinutes": 5,
-        "playerPromise": "A complete tactical board-game feeling in 5 minutes, tuned for touch screens.",
+        "sessionLengthMinutes": 9,
+        "playerPromise": "A complete tactical board-game feeling in 9 minutes, tuned for touch screens.",
         "firstPrototypeTemplate": "grid-puzzle",
         "artDirection": "bright route lines, station stamps, and compact maps"
       },
@@ -535,7 +534,8 @@ export const prototypePipeline = [
           "No production retention data yet",
           "No privacy policy URL yet",
           "No signed Android package yet",
-          "No app-store account credentials configured"
+          "No app-store account credentials configured",
+          "Needs native-feeling mobile polish before iOS review"
         ],
         "required": [
           "Apple Developer account",
@@ -550,12 +550,12 @@ export const prototypePipeline = [
     "storeListing": {
       "appName": "Orbit Atlas",
       "subtitle": "compact city logistics tile placement",
-      "shortDescription": "5-minute original tile placement game for daily mobile play.",
-      "fullDescription": "Orbit Atlas is an original mobile-first board-game-inspired puzzle set in pocket-size transit districts. A complete tactical board-game feeling in 5 minutes, tuned for touch screens. Core loop: connect demand before congestion rises by making one strong tile placement decision per turn. The first release focuses on solo daily play, clear scoring, replayable seeds, and measured improvements from player behavior.",
+      "shortDescription": "9-minute original tile placement game for daily mobile play.",
+      "fullDescription": "Orbit Atlas is an original mobile-first board-game-inspired puzzle set in pocket-size transit districts. A complete tactical board-game feeling in 9 minutes, tuned for touch screens. Core loop: connect demand before congestion rises by making one strong tile placement decision per turn. The first release focuses on solo daily play, clear scoring, replayable seeds, and measured improvements from player behavior.",
       "keywords": [
         "tile placement",
         "compact city logistics",
-        "mobile puzzle",
+        "strategy solo",
         "daily puzzle",
         "solo board game",
         "strategy puzzle"
@@ -591,7 +591,7 @@ export const prototypePipeline = [
     "title": "Foundry Ledger",
     "rank": 4,
     "status": "playable",
-    "releaseScore": 290,
+    "releaseScore": 281,
     "concept": {
       "id": "foundry-ledger",
       "title": "Foundry Ledger",
@@ -603,17 +603,17 @@ export const prototypePipeline = [
         "art": "new visual direction; no source art used"
       },
       "opportunity": {
-        "mechanic": "engine building",
+        "mechanic": "worker placement",
         "theme": "expedition planning",
         "audience": "families",
-        "score": 156
+        "score": 161
       },
       "gameBrief": {
         "setting": "modular camp routes around unknown landmarks",
-        "coreLoop": "commit scouts without overextending supplies by making one strong engine building decision per turn.",
+        "coreLoop": "commit scouts without overextending supplies by making one strong worker placement decision per turn.",
         "sessionLengthMinutes": 7,
         "playerPromise": "A complete tactical board-game feeling in 7 minutes, tuned for touch screens.",
-        "firstPrototypeTemplate": "tableau",
+        "firstPrototypeTemplate": "turn-economy",
         "artDirection": "paper maps, stamped hazards, and high-contrast terrain"
       },
       "telemetryPlan": [
@@ -631,24 +631,24 @@ export const prototypePipeline = [
           "subscriptions",
           "interstitial ads during first session"
         ],
-        "fitScore": 79
+        "fitScore": 76
       }
     },
     "prototype": {
-      "template": "tableau",
-      "engine": "React state + Phaser result animation",
-      "estimatedImplementationDays": 3,
+      "template": "turn-economy",
+      "engine": "React economy loop",
+      "estimatedImplementationDays": 4,
       "reusableSystems": [
-        "draft row",
-        "card effects",
-        "score preview",
-        "bot heuristic"
+        "price track",
+        "turn phases",
+        "offer cards",
+        "bot policy"
       ],
       "originalRules": [
-        "Present a three-card market each turn.",
-        "Player drafts one card into a compact tableau.",
-        "Cards trigger chain scoring by icon adjacency.",
-        "Bot simulation tests runaway combos before release."
+        "Create a visible offer market.",
+        "Player chooses one action per turn.",
+        "Prices change after each action.",
+        "Contract timing determines score."
       ],
       "successCriteria": [
         "first move understood without reading more than two sentences",
@@ -730,8 +730,7 @@ export const prototypePipeline = [
           "No production retention data yet",
           "No privacy policy URL yet",
           "No signed Android package yet",
-          "No app-store account credentials configured",
-          "Needs native-feeling mobile polish before iOS review"
+          "No app-store account credentials configured"
         ],
         "required": [
           "Apple Developer account",
@@ -745,11 +744,11 @@ export const prototypePipeline = [
     },
     "storeListing": {
       "appName": "Foundry Ledger",
-      "subtitle": "expedition planning engine building",
-      "shortDescription": "7-minute original engine building game for daily mobile play.",
-      "fullDescription": "Foundry Ledger is an original mobile-first board-game-inspired puzzle set in modular camp routes around unknown landmarks. A complete tactical board-game feeling in 7 minutes, tuned for touch screens. Core loop: commit scouts without overextending supplies by making one strong engine building decision per turn. The first release focuses on solo daily play, clear scoring, replayable seeds, and measured improvements from player behavior.",
+      "subtitle": "expedition planning worker placement",
+      "shortDescription": "7-minute original worker placement game for daily mobile play.",
+      "fullDescription": "Foundry Ledger is an original mobile-first board-game-inspired puzzle set in modular camp routes around unknown landmarks. A complete tactical board-game feeling in 7 minutes, tuned for touch screens. Core loop: commit scouts without overextending supplies by making one strong worker placement decision per turn. The first release focuses on solo daily play, clear scoring, replayable seeds, and measured improvements from player behavior.",
       "keywords": [
-        "engine building",
+        "worker placement",
         "expedition planning",
         "families",
         "daily puzzle",
@@ -776,7 +775,7 @@ export const prototypePipeline = [
       ]
     },
     "autonomyActions": [
-      "Generate tableau prototype config",
+      "Generate turn-economy prototype config",
       "Run rule simulator and screenshot smoke test",
       "Ship web/PWA experiment only",
       "Promote to Android only after retention gates pass"

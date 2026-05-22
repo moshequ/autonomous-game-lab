@@ -1,5 +1,5 @@
 export const supportChannel = {
-  "generatedAt": "2026-05-21T17:48:59.169Z",
+  "generatedAt": "2026-05-22T00:37:34.474Z",
   "status": "support-channel-ready",
   "provider": "github-issues",
   "envFiles": {
@@ -54,7 +54,7 @@ export const supportChannel = {
   },
   "repository": {
     "target": "moshequ/autonomous-game-lab",
-    "source": "origin-remote",
+    "source": "environment",
     "owner": "moshequ",
     "name": "autonomous-game-lab",
     "url": "https://github.com/moshequ/autonomous-game-lab",

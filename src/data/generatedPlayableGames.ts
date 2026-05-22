@@ -11,11 +11,11 @@ export const generatedPlayableGames = [
         "trend-signals",
         "generated-concepts"
       ],
-      "trendScore": 513,
+      "trendScore": 506,
       "conceptId": "lantern-relay",
       "conceptTitle": "Lantern Relay",
-      "conceptScore": 513,
-      "representedPrototypeTemplates": 2
+      "conceptScore": 506,
+      "representedPrototypeTemplates": 1
     },
     "sourceDistance": {
       "copiedExpressionRisk": "low",
@@ -77,15 +77,15 @@ export const generatedPlayableGames = [
     "source": {
       "mechanic": "route building",
       "theme": "science desk",
-      "audience": "strategy solo",
+      "audience": "mobile puzzle",
       "generatedFrom": [
         "trend-signals",
         "generated-concepts"
       ],
-      "trendScore": 375,
+      "trendScore": 370,
       "conceptId": "harbor-circuit",
       "conceptTitle": "Harbor Circuit",
-      "conceptScore": 375,
+      "conceptScore": 370,
       "representedPrototypeTemplates": 1
     },
     "sourceDistance": {
@@ -95,7 +95,7 @@ export const generatedPlayableGames = [
     },
     "boardRows": 5,
     "boardCols": 5,
-    "maxMoves": 12,
+    "maxMoves": 10,
     "targetScore": 96,
     "pieces": [
       {
@@ -120,7 +120,7 @@ export const generatedPlayableGames = [
       }
     ],
     "tutorial": "Mark one cell per turn. Build route building combos across science desk to beat 96.",
-    "playerPromise": "A complete tactical board-game feeling in 9 minutes, tuned for touch screens.",
+    "playerPromise": "A complete tactical board-game feeling in 5 minutes, tuned for touch screens.",
     "scoring": {
       "base": 2,
       "sameNeighbor": 3,
@@ -148,15 +148,15 @@ export const generatedPlayableGames = [
     "source": {
       "mechanic": "tile placement",
       "theme": "compact city logistics",
-      "audience": "mobile puzzle",
+      "audience": "strategy solo",
       "generatedFrom": [
         "trend-signals",
         "generated-concepts"
       ],
-      "trendScore": 331,
+      "trendScore": 325,
       "conceptId": "orbit-atlas",
       "conceptTitle": "Orbit Atlas",
-      "conceptScore": 331,
+      "conceptScore": 325,
       "representedPrototypeTemplates": 1
     },
     "sourceDistance": {
@@ -166,8 +166,8 @@ export const generatedPlayableGames = [
     },
     "boardRows": 4,
     "boardCols": 4,
-    "maxMoves": 10,
-    "targetScore": 90,
+    "maxMoves": 12,
+    "targetScore": 138,
     "pieces": [
       {
         "id": "stall",
@@ -190,8 +190,8 @@ export const generatedPlayableGames = [
         "fill": "#b85b4b"
       }
     ],
-    "tutorial": "Mark one cell per turn. Build tile placement combos across compact city logistics to beat 90.",
-    "playerPromise": "A complete tactical board-game feeling in 5 minutes, tuned for touch screens.",
+    "tutorial": "Mark one cell per turn. Build tile placement combos across compact city logistics to beat 138.",
+    "playerPromise": "A complete tactical board-game feeling in 9 minutes, tuned for touch screens.",
     "scoring": {
       "base": 3,
       "sameNeighbor": 5,
@@ -213,32 +213,32 @@ export const generatedPlayableGames = [
     }
   },
   {
-    "id": "grove-engine",
-    "title": "Grove Engine",
+    "id": "guild-garden",
+    "title": "Guild Garden",
     "status": "generated-playable",
     "source": {
-      "mechanic": "engine building",
+      "mechanic": "worker placement",
       "theme": "expedition planning",
       "audience": "families",
       "generatedFrom": [
         "trend-signals",
         "generated-concepts"
       ],
-      "trendScore": 156,
+      "trendScore": 161,
       "conceptId": "foundry-ledger",
       "conceptTitle": "Foundry Ledger",
-      "conceptScore": 156,
-      "representedPrototypeTemplates": 2
+      "conceptScore": 161,
+      "representedPrototypeTemplates": 1
     },
     "sourceDistance": {
       "copiedExpressionRisk": "low",
       "ruleText": "generated from local scoring template only; no source rule text used",
       "art": "procedural board colors and layout; no source art used"
     },
-    "boardRows": 3,
-    "boardCols": 5,
+    "boardRows": 4,
+    "boardCols": 4,
     "maxMoves": 11,
-    "targetScore": 104,
+    "targetScore": 138,
     "pieces": [
       {
         "id": "scout",
@@ -261,21 +261,21 @@ export const generatedPlayableGames = [
         "fill": "#9a4f65"
       }
     ],
-    "tutorial": "Mark one cell per turn. Build engine building combos across expedition planning to beat 104.",
+    "tutorial": "Mark one cell per turn. Build worker placement combos across expedition planning to beat 138.",
     "playerPromise": "A complete tactical board-game feeling in 7 minutes, tuned for touch screens.",
     "scoring": {
       "base": 4,
-      "sameNeighbor": 6,
-      "occupiedNeighbor": 1,
-      "rowDiversity": 7,
-      "columnDiversity": 3,
-      "center": 2,
-      "corner": 2
+      "sameNeighbor": 5,
+      "occupiedNeighbor": 3,
+      "rowDiversity": 5,
+      "columnDiversity": 5,
+      "center": 4,
+      "corner": 3
     },
     "storeListing": {
-      "shortDescription": "A generated engine building puzzle with quick expedition planning decisions.",
+      "shortDescription": "A generated worker placement puzzle with quick expedition planning decisions.",
       "keywords": [
-        "engine building",
+        "worker placement",
         "expedition planning",
         "daily puzzle",
         "solo board game",
@@ -284,31 +284,31 @@ export const generatedPlayableGames = [
     }
   },
   {
-    "id": "canopy-bloom",
-    "title": "Canopy Bloom",
+    "id": "grove-engine",
+    "title": "Grove Engine",
     "status": "generated-playable",
     "source": {
-      "mechanic": "roll and write",
-      "theme": "science desk",
-      "audience": "mobile puzzle",
+      "mechanic": "engine building",
+      "theme": "expedition planning",
+      "audience": "families",
       "generatedFrom": [
         "trend-signals"
       ],
-      "trendScore": 12,
+      "trendScore": 27,
       "conceptId": null,
       "conceptTitle": null,
       "conceptScore": null,
-      "representedPrototypeTemplates": 0
+      "representedPrototypeTemplates": 1
     },
     "sourceDistance": {
       "copiedExpressionRisk": "low",
       "ruleText": "generated from local scoring template only; no source rule text used",
       "art": "procedural board colors and layout; no source art used"
     },
-    "boardRows": 4,
+    "boardRows": 3,
     "boardCols": 5,
-    "maxMoves": 10,
-    "targetScore": 82,
+    "maxMoves": 11,
+    "targetScore": 104,
     "pieces": [
       {
         "id": "sprout",
@@ -331,22 +331,22 @@ export const generatedPlayableGames = [
         "fill": "#6b5bb8"
       }
     ],
-    "tutorial": "Mark one cell per turn. Build roll and write combos across science desk to beat 82.",
-    "playerPromise": "A generated roll and write puzzle that turns trend signals into a compact solo board state.",
+    "tutorial": "Mark one cell per turn. Build engine building combos across expedition planning to beat 104.",
+    "playerPromise": "A generated engine building puzzle that turns trend signals into a compact solo board state.",
     "scoring": {
-      "base": 3,
-      "sameNeighbor": 4,
-      "occupiedNeighbor": 2,
-      "rowDiversity": 6,
-      "columnDiversity": 4,
-      "center": 3,
+      "base": 4,
+      "sameNeighbor": 6,
+      "occupiedNeighbor": 1,
+      "rowDiversity": 7,
+      "columnDiversity": 3,
+      "center": 2,
       "corner": 2
     },
     "storeListing": {
-      "shortDescription": "A generated roll and write puzzle with quick science desk decisions.",
+      "shortDescription": "A generated engine building puzzle with quick expedition planning decisions.",
       "keywords": [
-        "roll and write",
-        "science desk",
+        "engine building",
+        "expedition planning",
         "daily puzzle",
         "solo board game",
         "generated strategy game"

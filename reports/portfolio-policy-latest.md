@@ -1,14 +1,14 @@
 # Portfolio Policy
 
-Generated: 2026-05-21T23:25:25.075Z
+Generated: 2026-05-22T00:37:44.023Z
 Status: portfolio-policy-ready
 Analytics source: fixture-sample
-Daily challenge: Canopy Bloom (daily-20260522-79d)
+Daily challenge: Grove Engine (daily-20260522-w2)
 
 ## Rotation
 
-- #1 Canopy Bloom: seed-traffic, score 51.912, data seed-needed
-- #2 Grove Engine: seed-traffic, score 50.232, data seed-needed
+- #1 Grove Engine: seed-traffic, score 51.912, data seed-needed
+- #2 Guild Garden: seed-traffic, score 50.232, data seed-needed
 - #3 Mosaic Haven: seed-traffic, score 48.552, data seed-needed
 - #4 Metro Loom: seed-traffic, score 46.872, data seed-needed
 - #5 Pocket Draft: seed-traffic, score 45.192, data seed-needed
@@ -20,6 +20,6 @@ Daily challenge: Canopy Bloom (daily-20260522-79d)
 
 ## Next Actions
 
-- Seed traffic to Canopy Bloom, Grove Engine, Mosaic Haven, Metro Loom before judging quality.
+- Seed traffic to Grove Engine, Guild Garden, Mosaic Haven, Metro Loom before judging quality.
 - Apply backlog improvements for Harbor Rings.
 - Keep paid promotion disabled until unit-economics gates pass.

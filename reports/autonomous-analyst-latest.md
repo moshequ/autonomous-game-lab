@@ -1,8 +1,8 @@
 # Autonomous Analyst Report
 
-Generated: 2026-05-21T17:49:06.605Z
+Generated: 2026-05-22T00:37:41.299Z
 Backlog status: improvement-backlog-ready
-Backlog source hash: 6f06a35d0fd9
+Backlog source hash: 9178622ed227
 
 ## Game Health
 
@@ -39,9 +39,9 @@ Support feedback: support-feedback-empty; signals 0; routable 0; aggregate notes
 
 ## Prototype Queue
 
-1. Lantern Relay: playable; release score 631; web ready-after-build; Google Play blocked.
-2. Harbor Circuit: playable; release score 521; web ready-after-build; Google Play blocked.
-3. Orbit Atlas: playable; release score 483; web ready-after-build; Google Play blocked.
+1. Lantern Relay: playable; release score 624; web ready-after-build; Google Play blocked.
+2. Harbor Circuit: playable; release score 516; web ready-after-build; Google Play blocked.
+3. Orbit Atlas: playable; release score 477; web ready-after-build; Google Play blocked.
 
 ## Bot Balance
 
@@ -80,24 +80,17 @@ Support feedback: support-feedback-empty; signals 0; routable 0; aggregate notes
 - Greedy win rate: 90%
 - Recommendation: Balance looks playable for first web test
 
-### Canopy Bloom
-
-- Target: 82
-- Random win rate: 30%
-- Greedy win rate: 100%
-- Recommendation: Balance looks playable for first web test
-
 ### Metro Loom
 
 - Target: 96
-- Random win rate: 51%
+- Random win rate: 3%
 - Greedy win rate: 100%
 - Recommendation: Balance looks playable for first web test
 
 ### Mosaic Haven
 
-- Target: 90
-- Random win rate: 52%
+- Target: 138
+- Random win rate: 13%
 - Greedy win rate: 100%
 - Recommendation: Balance looks playable for first web test
 
@@ -112,6 +105,13 @@ Support feedback: support-feedback-empty; signals 0; routable 0; aggregate notes
 
 - Target: 104
 - Random win rate: 52%
+- Greedy win rate: 100%
+- Recommendation: Balance looks playable for first web test
+
+### Guild Garden
+
+- Target: 138
+- Random win rate: 12%
 - Greedy win rate: 100%
 - Recommendation: Balance looks playable for first web test
 

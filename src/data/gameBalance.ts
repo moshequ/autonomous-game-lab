@@ -93,41 +93,12 @@ export const gameBalance = {
         "targetStep": 8
       }
     },
-    "canopy-bloom": {
-      "id": "canopy-bloom",
-      "title": "Canopy Bloom",
-      "boardRows": 4,
-      "boardCols": 5,
-      "maxMoves": 10,
-      "targetScore": 82,
-      "pieces": [
-        "sprout",
-        "ember",
-        "sun",
-        "violet"
-      ],
-      "generated": true,
-      "scoring": {
-        "base": 3,
-        "sameNeighbor": 4,
-        "occupiedNeighbor": 2,
-        "rowDiversity": 6,
-        "columnDiversity": 4,
-        "center": 3,
-        "corner": 2
-      },
-      "tuning": {
-        "minTargetScore": 46,
-        "maxTargetScore": 130,
-        "targetStep": 6
-      }
-    },
     "metro-loom": {
       "id": "metro-loom",
       "title": "Metro Loom",
       "boardRows": 5,
       "boardCols": 5,
-      "maxMoves": 12,
+      "maxMoves": 10,
       "targetScore": 96,
       "pieces": [
         "station",
@@ -146,8 +117,8 @@ export const gameBalance = {
         "corner": 1
       },
       "tuning": {
-        "minTargetScore": 52,
-        "maxTargetScore": 136,
+        "minTargetScore": 60,
+        "maxTargetScore": 144,
         "targetStep": 6
       }
     },
@@ -156,8 +127,8 @@ export const gameBalance = {
       "title": "Mosaic Haven",
       "boardRows": 4,
       "boardCols": 4,
-      "maxMoves": 10,
-      "targetScore": 90,
+      "maxMoves": 12,
+      "targetScore": 138,
       "pieces": [
         "stall",
         "permit",
@@ -204,8 +175,8 @@ export const gameBalance = {
         "corner": 2
       },
       "tuning": {
-        "minTargetScore": 100,
-        "maxTargetScore": 184,
+        "minTargetScore": 94,
+        "maxTargetScore": 178,
         "targetStep": 6
       }
     },
@@ -217,10 +188,10 @@ export const gameBalance = {
       "maxMoves": 11,
       "targetScore": 104,
       "pieces": [
-        "scout",
-        "camp",
-        "path",
-        "cache"
+        "sprout",
+        "ember",
+        "sun",
+        "violet"
       ],
       "generated": true,
       "scoring": {
@@ -235,6 +206,35 @@ export const gameBalance = {
       "tuning": {
         "minTargetScore": 68,
         "maxTargetScore": 152,
+        "targetStep": 6
+      }
+    },
+    "guild-garden": {
+      "id": "guild-garden",
+      "title": "Guild Garden",
+      "boardRows": 4,
+      "boardCols": 4,
+      "maxMoves": 11,
+      "targetScore": 138,
+      "pieces": [
+        "scout",
+        "camp",
+        "path",
+        "cache"
+      ],
+      "generated": true,
+      "scoring": {
+        "base": 4,
+        "sameNeighbor": 5,
+        "occupiedNeighbor": 3,
+        "rowDiversity": 5,
+        "columnDiversity": 5,
+        "center": 4,
+        "corner": 3
+      },
+      "tuning": {
+        "minTargetScore": 67,
+        "maxTargetScore": 151,
         "targetStep": 6
       }
     }

@@ -1,11 +1,11 @@
 export const trafficSeeding = {
-  "generatedAt": "2026-05-22T00:03:41.432Z",
+  "generatedAt": "2026-05-22T00:37:44.267Z",
   "status": "traffic-seeding-ready",
-  "sourceDataHash": "ef9d9b83ebe7",
+  "sourceDataHash": "64c6da620020",
   "analyticsSource": "fixture-sample",
   "publicUrlMode": "absolute-origin",
   "siteUrl": "https://moshequ.github.io/autonomous-game-lab",
-  "portfolioGeneratedAt": "2026-05-21T23:25:25.075Z",
+  "portfolioGeneratedAt": "2026-05-22T00:37:44.023Z",
   "guardrails": {
     "maxCostUsd": 0,
     "noPaidPromotion": true,
@@ -62,9 +62,9 @@ export const trafficSeeding = {
   ],
   "campaigns": [
     {
-      "id": "seed-20260522-canopy-bloom",
-      "gameId": "canopy-bloom",
-      "title": "Canopy Bloom",
+      "id": "seed-20260522-grove-engine",
+      "gameId": "grove-engine",
+      "title": "Grove Engine",
       "status": "armed",
       "priority": 1,
       "action": "seed-traffic",
@@ -72,15 +72,15 @@ export const trafficSeeding = {
       "costUsd": 0,
       "noPaidPromotion": true,
       "reason": "Give this playable game organic/internal traffic before judging it.",
-      "playPath": "/?game=canopy-bloom&utm_source=seed_internal&utm_campaign=seed-20260522-canopy-bloom",
-      "sharePath": "/?game=canopy-bloom&utm_source=seed_share&utm_campaign=seed-20260522-canopy-bloom",
-      "playUrl": "https://moshequ.github.io/autonomous-game-lab/?game=canopy-bloom&utm_source=seed_internal&utm_campaign=seed-20260522-canopy-bloom",
-      "pagePath": "/games/canopy-bloom.html",
-      "pageUrl": "https://moshequ.github.io/autonomous-game-lab/games/canopy-bloom.html",
-      "shareUrl": "https://moshequ.github.io/autonomous-game-lab/?game=canopy-bloom&utm_source=seed_share&utm_campaign=seed-20260522-canopy-bloom",
+      "playPath": "/?game=grove-engine&utm_source=seed_internal&utm_campaign=seed-20260522-grove-engine",
+      "sharePath": "/?game=grove-engine&utm_source=seed_share&utm_campaign=seed-20260522-grove-engine",
+      "playUrl": "https://moshequ.github.io/autonomous-game-lab/?game=grove-engine&utm_source=seed_internal&utm_campaign=seed-20260522-grove-engine",
+      "pagePath": "/games/grove-engine.html",
+      "pageUrl": "https://moshequ.github.io/autonomous-game-lab/games/grove-engine.html",
+      "shareUrl": "https://moshequ.github.io/autonomous-game-lab/?game=grove-engine&utm_source=seed_share&utm_campaign=seed-20260522-grove-engine",
       "copy": {
-        "title": "Play Canopy Bloom",
-        "text": "A generated roll and write puzzle with quick science desk decisions.",
+        "title": "Play Grove Engine",
+        "text": "A generated engine building puzzle with quick expedition planning decisions.",
         "cta": "Try today's challenge"
       },
       "measurement": {
@@ -103,9 +103,9 @@ export const trafficSeeding = {
       ]
     },
     {
-      "id": "seed-20260522-grove-engine",
-      "gameId": "grove-engine",
-      "title": "Grove Engine",
+      "id": "seed-20260522-guild-garden",
+      "gameId": "guild-garden",
+      "title": "Guild Garden",
       "status": "armed",
       "priority": 2,
       "action": "seed-traffic",
@@ -113,15 +113,15 @@ export const trafficSeeding = {
       "costUsd": 0,
       "noPaidPromotion": true,
       "reason": "Give this playable game organic/internal traffic before judging it.",
-      "playPath": "/?game=grove-engine&utm_source=seed_internal&utm_campaign=seed-20260522-grove-engine",
-      "sharePath": "/?game=grove-engine&utm_source=seed_share&utm_campaign=seed-20260522-grove-engine",
-      "playUrl": "https://moshequ.github.io/autonomous-game-lab/?game=grove-engine&utm_source=seed_internal&utm_campaign=seed-20260522-grove-engine",
-      "pagePath": "/games/grove-engine.html",
-      "pageUrl": "https://moshequ.github.io/autonomous-game-lab/games/grove-engine.html",
-      "shareUrl": "https://moshequ.github.io/autonomous-game-lab/?game=grove-engine&utm_source=seed_share&utm_campaign=seed-20260522-grove-engine",
+      "playPath": "/?game=guild-garden&utm_source=seed_internal&utm_campaign=seed-20260522-guild-garden",
+      "sharePath": "/?game=guild-garden&utm_source=seed_share&utm_campaign=seed-20260522-guild-garden",
+      "playUrl": "https://moshequ.github.io/autonomous-game-lab/?game=guild-garden&utm_source=seed_internal&utm_campaign=seed-20260522-guild-garden",
+      "pagePath": "/games/guild-garden.html",
+      "pageUrl": "https://moshequ.github.io/autonomous-game-lab/games/guild-garden.html",
+      "shareUrl": "https://moshequ.github.io/autonomous-game-lab/?game=guild-garden&utm_source=seed_share&utm_campaign=seed-20260522-guild-garden",
       "copy": {
-        "title": "Play Grove Engine",
-        "text": "A generated engine building puzzle with quick expedition planning decisions.",
+        "title": "Play Guild Garden",
+        "text": "A generated worker placement puzzle with quick expedition planning decisions.",
         "cta": "Try today's challenge"
       },
       "measurement": {
@@ -241,13 +241,13 @@ export const trafficSeeding = {
   },
   "sitemapPriority": [
     {
-      "gameId": "canopy-bloom",
-      "pagePath": "/games/canopy-bloom.html",
+      "gameId": "grove-engine",
+      "pagePath": "/games/grove-engine.html",
       "priority": 0.95
     },
     {
-      "gameId": "grove-engine",
-      "pagePath": "/games/grove-engine.html",
+      "gameId": "guild-garden",
+      "pagePath": "/games/guild-garden.html",
       "priority": 0.9
     },
     {
@@ -262,7 +262,7 @@ export const trafficSeeding = {
     }
   ],
   "nextActions": [
-    "Feature Canopy Bloom in the internal growth loop and share manifest.",
+    "Feature Grove Engine in the internal growth loop and share manifest.",
     "Feature Sample D1 retention as the default product-gate sample share link.",
     "Keep traffic sources organic/internal until paid acquisition gates pass.",
     "Judge seeded games only after each reaches the target start sample."

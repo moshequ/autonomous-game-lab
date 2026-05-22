@@ -1,6 +1,6 @@
 # Android TWA Handoff
 
-Generated: 2026-05-21T18:05:17.846Z
+Generated: 2026-05-22T00:38:09.079Z
 Status: blocked-draft-ready
 
 ## Files

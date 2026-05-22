@@ -1,11 +1,11 @@
 # Release Candidate
 
-Generated: 2026-05-22T00:30:51.813Z
+Generated: 2026-05-22T00:49:44.740Z
 Status: release-candidate-ready
-Candidate: pwa-d4d2ad2aaa2c
+Candidate: pwa-06490e28da3f
 Files: 47
-Size: 3609.3 KB
-Aggregate SHA-256: d4d2ad2aaa2c9ce01296fdd7f50e05db65b180883fb0d4d08e8ed1dd0281599f
+Size: 3666.3 KB
+Aggregate SHA-256: 06490e28da3fc35e33fc77379fc83a33af9d0117c6b21514521495fb7344b373
 
 ## Checks
 
@@ -59,7 +59,7 @@ Aggregate SHA-256: d4d2ad2aaa2c9ce01296fdd7f50e05db65b180883fb0d4d08e8ed1dd02815
 - 200: https://moshequ.github.io/autonomous-game-lab/gate-sample.html
 - 200: https://moshequ.github.io/autonomous-game-lab/seed-kit.html
 - 200: https://moshequ.github.io/autonomous-game-lab/sitemap.xml
-- 200: https://moshequ.github.io/autonomous-game-lab/games/canopy-bloom.html
+- 200: https://moshequ.github.io/autonomous-game-lab/games/foundry-ledger.html
 
 ## Controls
 

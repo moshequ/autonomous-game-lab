@@ -1,8 +1,8 @@
 # PWA Install Loop
 
-Generated: 2026-05-22T00:26:10.142Z
+Generated: 2026-05-22T00:48:16.351Z
 Status: pwa-install-loop-ready
-Source hash: a2b9949d5e16
+Source hash: fc3f599dae7c
 Channel: pwa-install (ready-after-hosting)
 Install page views: 0
 Open-app clicks: 0
@@ -17,20 +17,20 @@ Acceptance: 0%
 - Surface: autonomy-cockpit
 - CTA: Install app
 - Cooldown after dismissal: 14 days
-- Priority game: canopy-bloom
+- Priority game: grove-engine
 - Public install page: /install.html
-- Campaign: pwa-install-canopy-bloom
+- Campaign: pwa-install-grove-engine
 - Local analytics: agl.analytics.events
 
 ## Install Sample Policy
 
 - Status: collecting-sample
-- Campaign: pwa-install-canopy-bloom
-- Play path: /?game=canopy-bloom&utm_source=pwa_install&utm_campaign=pwa-install-canopy-bloom
+- Campaign: pwa-install-grove-engine
+- Play path: /?game=grove-engine&utm_source=pwa_install&utm_campaign=pwa-install-grove-engine
 - Prompt views needed: 20
 - Launch-mode events needed: 10
 - Hosted origin required: false
-- Next action: Route zero-spend install traffic through /?game=canopy-bloom&utm_source=pwa_install&utm_campaign=pwa-install-canopy-bloom until 20 prompt view(s) and 10 launch-mode event(s) are collected.
+- Next action: Route zero-spend install traffic through /?game=grove-engine&utm_source=pwa_install&utm_campaign=pwa-install-grove-engine until 20 prompt view(s) and 10 launch-mode event(s) are collected.
 
 ## Guardrails
 
@@ -52,8 +52,8 @@ Acceptance: 0%
 
 ## Next Actions
 
-- Route zero-spend install traffic through /?game=canopy-bloom&utm_source=pwa_install&utm_campaign=pwa-install-canopy-bloom until 20 prompt view(s) and 10 launch-mode event(s) are collected.
+- Route zero-spend install traffic through /?game=grove-engine&utm_source=pwa_install&utm_campaign=pwa-install-grove-engine until 20 prompt view(s) and 10 launch-mode event(s) are collected.
 - Start measuring native install prompt availability and standalone launches.
-- Route install traffic through /?game=canopy-bloom&utm_source=pwa_install&utm_campaign=pwa-install-canopy-bloom so prompt events carry pwa-install attribution.
+- Route install traffic through /?game=grove-engine&utm_source=pwa_install&utm_campaign=pwa-install-grove-engine so prompt events carry pwa-install attribution.
 - Keep install links pointed at the stable HTTPS production origin.
 - Keep install prompts optional, non-blocking, and separated from paid rewards.

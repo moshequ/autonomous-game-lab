@@ -1,13 +1,13 @@
 export const retentionLoop = {
-  "generatedAt": "2026-05-22T00:26:09.114Z",
+  "generatedAt": "2026-05-22T00:48:15.867Z",
   "status": "retention-loop-ready",
-  "sourceDataHash": "d0154fdecf99",
+  "sourceDataHash": "6cb17abc666a",
   "dailyChallenge": {
     "date": "2026-05-22",
-    "gameId": "canopy-bloom",
-    "title": "Canopy Bloom",
-    "seed": "daily-20260522-79d",
-    "reason": "Canopy Bloom has the strongest blended portfolio score (51.912)."
+    "gameId": "grove-engine",
+    "title": "Grove Engine",
+    "seed": "daily-20260522-w2",
+    "reason": "Grove Engine has the strongest blended portfolio score (51.912)."
   },
   "sourceStatus": {
     "analyticsSource": "fixture-sample",
@@ -107,7 +107,7 @@ export const retentionLoop = {
     "status": "collecting-sample",
     "sampleRole": "fastest-validation",
     "campaignId": "gate-sample-20260522-d1Retention",
-    "playPath": "/?game=canopy-bloom&utm_source=gate_sample&utm_campaign=gate-sample-20260522-d1Retention",
+    "playPath": "/?game=grove-engine&utm_source=gate_sample&utm_campaign=gate-sample-20260522-d1Retention",
     "publicSamplePath": "/gate-sample.html",
     "current": {
       "actual": 0.167,
@@ -155,8 +155,8 @@ export const retentionLoop = {
       "evidenceReadyNow": false,
       "lastScanAt": "2026-05-21T20:49:49.509Z",
       "lastScanStatus": "no-evidence-found",
-      "scanAgeHours": 3.61,
-      "cooldownRemainingHours": 0.39,
+      "scanAgeHours": 3.97,
+      "cooldownRemainingHours": 0.03,
       "nextRecommendedScanAt": "2026-05-22T00:49:49.509Z"
     },
     "commandPlan": {
@@ -188,9 +188,9 @@ export const retentionLoop = {
   "missions": [
     {
       "id": "finish-daily-challenge",
-      "label": "Finish Canopy Bloom",
+      "label": "Finish Grove Engine",
       "event": "daily_challenge_completed",
-      "gameId": "canopy-bloom",
+      "gameId": "grove-engine",
       "reward": "streak-credit",
       "status": "armed"
     },
@@ -198,7 +198,7 @@ export const retentionLoop = {
       "id": "return-tomorrow",
       "label": "Return tomorrow for a fresh board",
       "event": "daily_return_prompt_viewed",
-      "gameId": "canopy-bloom",
+      "gameId": "grove-engine",
       "reward": "next-daily-seed",
       "status": "armed"
     },
@@ -206,7 +206,7 @@ export const retentionLoop = {
       "id": "confirm-return-intent",
       "label": "Queue 2026-05-23 board intent",
       "event": "daily_return_prompt_clicked",
-      "gameId": "canopy-bloom",
+      "gameId": "grove-engine",
       "reward": "local-return-intent",
       "status": "armed"
     },
@@ -214,7 +214,7 @@ export const retentionLoop = {
       "id": "activate-return-intent",
       "label": "Start a queued return board",
       "event": "daily_return_intent_started",
-      "gameId": "canopy-bloom",
+      "gameId": "grove-engine",
       "reward": "retained-session",
       "status": "armed"
     },
@@ -222,7 +222,7 @@ export const retentionLoop = {
       "id": "share-daily-seed",
       "label": "Share the daily seed after a run",
       "event": "share_clicked",
-      "gameId": "canopy-bloom",
+      "gameId": "grove-engine",
       "reward": "organic-signal",
       "status": "armed"
     }

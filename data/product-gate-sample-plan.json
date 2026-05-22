@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-05-22T00:26:10.648Z",
-  "sourceDataHash": "44e2504534f1",
+  "generatedAt": "2026-05-22T00:48:16.821Z",
+  "sourceDataHash": "0f06823cae71",
   "status": "product-gate-sample-plan-ready",
   "sourceStatus": {
     "analyticsSource": "fixture-sample",
@@ -38,8 +38,8 @@
     "evidenceReadyNow": false,
     "lastScanAt": "2026-05-21T20:49:49.509Z",
     "lastScanStatus": "no-evidence-found",
-    "scanAgeHours": 3.61,
-    "cooldownRemainingHours": 0.39,
+    "scanAgeHours": 3.97,
+    "cooldownRemainingHours": 0.03,
     "nextRecommendedScanAt": "2026-05-22T00:49:49.509Z"
   },
   "publicSamplePage": {
@@ -122,7 +122,7 @@
       "status": "active",
       "gateId": "d1Retention",
       "campaignId": "gate-sample-20260522-d1Retention",
-      "gameId": "canopy-bloom",
+      "gameId": "grove-engine",
       "source": "gate_sample",
       "channel": "product-gate-sample",
       "appliesWhen": "direct-root-visit-without-explicit-game-or-campaign",
@@ -337,12 +337,12 @@
       "status": "collecting-sample",
       "ownerLoop": "retention-loop",
       "actionId": "optimize-daily-retention",
-      "gameId": "canopy-bloom",
-      "title": "Canopy Bloom",
+      "gameId": "grove-engine",
+      "title": "Grove Engine",
       "surface": "autonomy-cockpit-return-intent-card",
       "campaignId": "gate-sample-20260522-d1Retention",
-      "playPath": "/?game=canopy-bloom&utm_source=gate_sample&utm_campaign=gate-sample-20260522-d1Retention",
-      "organicSeedCampaignId": "seed-20260522-canopy-bloom",
+      "playPath": "/?game=grove-engine&utm_source=gate_sample&utm_campaign=gate-sample-20260522-d1Retention",
+      "organicSeedCampaignId": "seed-20260522-grove-engine",
       "current": {
         "actual": 0.167,
         "gate": 0.18,

@@ -1,15 +1,15 @@
 # Organic Seed Loop
 
-Generated: 2026-05-22T00:26:09.858Z
+Generated: 2026-05-22T00:48:16.104Z
 Status: organic-seed-loop-ready
 Analytics source: fixture-sample
-Target: canopy-bloom
+Target: grove-engine
 Max cost: $0.00
 
 ## Campaigns
 
-- #1 Canopy Bloom: collecting-attribution, sample 0%, score 1
-- #2 Grove Engine: collecting-attribution, sample 0%, score 0.875
+- #1 Grove Engine: collecting-attribution, sample 0%, score 1
+- #2 Guild Garden: collecting-attribution, sample 0%, score 0.875
 - #3 Mosaic Haven: collecting-attribution, sample 0%, score 0.833
 - #4 Metro Loom: collecting-attribution, sample 0%, score 0.813
 
@@ -35,6 +35,6 @@ Max cost: $0.00
 
 ## Next Actions
 
-- Feature Canopy Bloom as the current organic seed target.
+- Feature Grove Engine as the current organic seed target.
 - Use only player-initiated sharing; do not post externally without credentials or consent.
 - Keep collecting attributed starts until the sample-size gate clears.

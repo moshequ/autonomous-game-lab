@@ -1,5 +1,5 @@
 export const promotionDecision = {
-  "generatedAt": "2026-05-21T17:49:35.680Z",
+  "generatedAt": "2026-05-22T00:38:10.932Z",
   "analyticsSource": "fixture-sample",
   "releaseHealth": {
     "status": "monitoring",

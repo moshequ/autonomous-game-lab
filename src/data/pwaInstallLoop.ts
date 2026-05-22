@@ -1,6 +1,6 @@
 export const pwaInstallLoop = {
-  "generatedAt": "2026-05-22T00:26:10.142Z",
-  "sourceDataHash": "a2b9949d5e16",
+  "generatedAt": "2026-05-22T00:48:16.351Z",
+  "sourceDataHash": "fc3f599dae7c",
   "status": "pwa-install-loop-ready",
   "sourceStatus": {
     "analyticsSource": "fixture-sample",
@@ -46,14 +46,14 @@ export const pwaInstallLoop = {
     "cooldownDaysAfterDismissal": 14,
     "nativePromptRequired": true,
     "fallbackWhenUnavailable": "measure-browser-launch-mode-only",
-    "priorityGameId": "canopy-bloom"
+    "priorityGameId": "grove-engine"
   },
   "publicInstallPage": {
     "path": "/install.html",
     "file": "public/install.html",
-    "campaignId": "pwa-install-canopy-bloom",
-    "playPath": "/?game=canopy-bloom&utm_source=pwa_install&utm_campaign=pwa-install-canopy-bloom",
-    "priorityGameId": "canopy-bloom",
+    "campaignId": "pwa-install-grove-engine",
+    "playPath": "/?game=grove-engine&utm_source=pwa_install&utm_campaign=pwa-install-grove-engine",
+    "priorityGameId": "grove-engine",
     "zeroPaidSpend": true,
     "localAnalyticsEvents": true,
     "localAnalyticsStorageKey": "agl.analytics.events",
@@ -92,8 +92,8 @@ export const pwaInstallLoop = {
   "samplePolicy": {
     "channelId": "pwa-install",
     "status": "collecting-sample",
-    "campaignId": "pwa-install-canopy-bloom",
-    "playPath": "/?game=canopy-bloom&utm_source=pwa_install&utm_campaign=pwa-install-canopy-bloom",
+    "campaignId": "pwa-install-grove-engine",
+    "playPath": "/?game=grove-engine&utm_source=pwa_install&utm_campaign=pwa-install-grove-engine",
     "publicInstallPath": "/install.html",
     "source": "fixture-sample",
     "current": {
@@ -148,7 +148,7 @@ export const pwaInstallLoop = {
       "noRevenueEnablement": true,
       "noStoreSubmission": true
     },
-    "nextAction": "Route zero-spend install traffic through /?game=canopy-bloom&utm_source=pwa_install&utm_campaign=pwa-install-canopy-bloom until 20 prompt view(s) and 10 launch-mode event(s) are collected."
+    "nextAction": "Route zero-spend install traffic through /?game=grove-engine&utm_source=pwa_install&utm_campaign=pwa-install-grove-engine until 20 prompt view(s) and 10 launch-mode event(s) are collected."
   },
   "guardrails": {
     "noForcedPrompt": true,
@@ -159,9 +159,9 @@ export const pwaInstallLoop = {
     "noPaidInstallReward": true
   },
   "nextActions": [
-    "Route zero-spend install traffic through /?game=canopy-bloom&utm_source=pwa_install&utm_campaign=pwa-install-canopy-bloom until 20 prompt view(s) and 10 launch-mode event(s) are collected.",
+    "Route zero-spend install traffic through /?game=grove-engine&utm_source=pwa_install&utm_campaign=pwa-install-grove-engine until 20 prompt view(s) and 10 launch-mode event(s) are collected.",
     "Start measuring native install prompt availability and standalone launches.",
-    "Route install traffic through /?game=canopy-bloom&utm_source=pwa_install&utm_campaign=pwa-install-canopy-bloom so prompt events carry pwa-install attribution.",
+    "Route install traffic through /?game=grove-engine&utm_source=pwa_install&utm_campaign=pwa-install-grove-engine so prompt events carry pwa-install attribution.",
     "Keep install links pointed at the stable HTTPS production origin.",
     "Keep install prompts optional, non-blocking, and separated from paid rewards."
   ]

@@ -1,5 +1,5 @@
 export const monetizationPlan = {
-  "generatedAt": "2026-05-21T17:49:35.912Z",
+  "generatedAt": "2026-05-22T00:38:11.185Z",
   "status": "blocked-by-product-gates",
   "revenueEnabled": false,
   "costPosture": "no-new-spend-until-gates-pass",
@@ -83,9 +83,9 @@ export const monetizationPlan = {
     "Web/PWA or native ad provider is not configured for gated revenue tests."
   ],
   "launchCandidate": {
-    "gameId": "canopy-bloom",
-    "title": "Canopy Bloom",
-    "pagePath": "/games/canopy-bloom.html",
+    "gameId": "grove-engine",
+    "title": "Grove Engine",
+    "pagePath": "/games/grove-engine.html",
     "qualityScore": 78
   },
   "compliance": {

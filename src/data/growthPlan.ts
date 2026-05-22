@@ -1,5 +1,5 @@
 export const growthPlan = {
-  "generatedAt": "2026-05-22T00:03:41.678Z",
+  "generatedAt": "2026-05-22T00:37:38.428Z",
   "siteUrl": "https://moshequ.github.io/autonomous-game-lab",
   "publicUrlMode": "absolute-origin",
   "publicOrigin": {
@@ -87,12 +87,12 @@ export const growthPlan = {
       "status": "playable",
       "mechanic": "route building",
       "theme": "science desk",
-      "shortDescription": "9-minute original route building game for daily mobile play.",
-      "fullDescription": "Harbor Circuit is an original mobile-first board-game-inspired puzzle set in a tabletop research station. A complete tactical board-game feeling in 9 minutes, tuned for touch screens. Core loop: align instruments into reliable discoveries by making one strong route building decision per turn. The first release focuses on solo daily play, clear scoring, replayable seeds, and measured improvements from player behavior.",
+      "shortDescription": "5-minute original route building game for daily mobile play.",
+      "fullDescription": "Harbor Circuit is an original mobile-first board-game-inspired puzzle set in a tabletop research station. A complete tactical board-game feeling in 5 minutes, tuned for touch screens. Core loop: align instruments into reliable discoveries by making one strong route building decision per turn. The first release focuses on solo daily play, clear scoring, replayable seeds, and measured improvements from player behavior.",
       "keywords": [
         "route building",
         "science desk",
-        "strategy solo",
+        "mobile puzzle",
         "daily puzzle",
         "solo board game",
         "strategy puzzle",
@@ -122,12 +122,12 @@ export const growthPlan = {
       "gameId": "foundry-ledger",
       "title": "Foundry Ledger",
       "status": "playable",
-      "mechanic": "engine building",
+      "mechanic": "worker placement",
       "theme": "expedition planning",
-      "shortDescription": "7-minute original engine building game for daily mobile play.",
-      "fullDescription": "Foundry Ledger is an original mobile-first board-game-inspired puzzle set in modular camp routes around unknown landmarks. A complete tactical board-game feeling in 7 minutes, tuned for touch screens. Core loop: commit scouts without overextending supplies by making one strong engine building decision per turn. The first release focuses on solo daily play, clear scoring, replayable seeds, and measured improvements from player behavior.",
+      "shortDescription": "7-minute original worker placement game for daily mobile play.",
+      "fullDescription": "Foundry Ledger is an original mobile-first board-game-inspired puzzle set in modular camp routes around unknown landmarks. A complete tactical board-game feeling in 7 minutes, tuned for touch screens. Core loop: commit scouts without overextending supplies by making one strong worker placement decision per turn. The first release focuses on solo daily play, clear scoring, replayable seeds, and measured improvements from player behavior.",
       "keywords": [
-        "engine building",
+        "worker placement",
         "expedition planning",
         "families",
         "daily puzzle",
@@ -161,12 +161,12 @@ export const growthPlan = {
       "status": "playable",
       "mechanic": "tile placement",
       "theme": "compact city logistics",
-      "shortDescription": "5-minute original tile placement game for daily mobile play.",
-      "fullDescription": "Orbit Atlas is tuned as a daily tile placement challenge with a compact board and a clear score target. Orbit Atlas is an original mobile-first board-game-inspired puzzle set in pocket-size transit districts. A complete tactical board-game feeling in 5 minutes, tuned for touch screens. Core loop: connect demand before congestion rises by making one strong tile placement decision per turn. The first release focuses on solo daily play, clear scoring, replayable seeds, and measured improvements from player behavior.",
+      "shortDescription": "9-minute original tile placement game for daily mobile play.",
+      "fullDescription": "Orbit Atlas is tuned as a daily tile placement challenge with a compact board and a clear score target. Orbit Atlas is an original mobile-first board-game-inspired puzzle set in pocket-size transit districts. A complete tactical board-game feeling in 9 minutes, tuned for touch screens. Core loop: connect demand before congestion rises by making one strong tile placement decision per turn. The first release focuses on solo daily play, clear scoring, replayable seeds, and measured improvements from player behavior.",
       "keywords": [
         "tile placement",
         "compact city logistics",
-        "mobile puzzle",
+        "strategy solo",
         "daily puzzle",
         "solo board game",
         "strategy puzzle",
@@ -235,7 +235,7 @@ export const growthPlan = {
       "mechanic": "route building",
       "theme": "science desk",
       "shortDescription": "A generated route building puzzle with quick science desk decisions.",
-      "fullDescription": "Metro Loom is tuned as a daily route building challenge with a compact board and a clear score target. A complete tactical board-game feeling in 9 minutes, tuned for touch screens.",
+      "fullDescription": "Metro Loom is tuned as a daily route building challenge with a compact board and a clear score target. A complete tactical board-game feeling in 5 minutes, tuned for touch screens.",
       "keywords": [
         "route building",
         "science desk",
@@ -271,7 +271,7 @@ export const growthPlan = {
       "mechanic": "tile placement",
       "theme": "compact city logistics",
       "shortDescription": "A generated tile placement puzzle with quick compact city logistics decisions.",
-      "fullDescription": "A complete tactical board-game feeling in 5 minutes, tuned for touch screens.",
+      "fullDescription": "A complete tactical board-game feeling in 9 minutes, tuned for touch screens.",
       "keywords": [
         "tile placement",
         "compact city logistics",
@@ -301,13 +301,49 @@ export const growthPlan = {
       "channelFocus": "evergreen-search-page"
     },
     {
+      "gameId": "guild-garden",
+      "title": "Guild Garden",
+      "status": "generated-playable",
+      "mechanic": "worker placement",
+      "theme": "expedition planning",
+      "shortDescription": "A generated worker placement puzzle with quick expedition planning decisions.",
+      "fullDescription": "Guild Garden is tuned as a daily worker placement challenge with a compact board and a clear score target. A complete tactical board-game feeling in 7 minutes, tuned for touch screens.",
+      "keywords": [
+        "worker placement",
+        "expedition planning",
+        "daily puzzle",
+        "solo board game",
+        "generated strategy game",
+        "board-game-inspired",
+        "mobile PWA"
+      ],
+      "playPath": "/?game=guild-garden&utm_source=organic_game_page&utm_campaign=guild-garden",
+      "pagePath": "/games/guild-garden.html",
+      "canonicalUrl": "https://moshequ.github.io/autonomous-game-lab/games/guild-garden.html",
+      "shareUrl": "https://moshequ.github.io/autonomous-game-lab/?game=guild-garden&utm_source=share&utm_campaign=guild-garden",
+      "metrics": {
+        "startRate": null,
+        "completionRate": null,
+        "replayRate": null,
+        "targetScore": 103,
+        "qualityScore": 74
+      },
+      "optimization": {
+        "ctaVariant": "daily-challenge",
+        "messageVariant": "daily",
+        "ctaLabel": "Try today's challenge",
+        "reason": "No organic entry data yet; seed strongest pages with daily challenge copy."
+      },
+      "channelFocus": "evergreen-search-page"
+    },
+    {
       "gameId": "grove-engine",
       "title": "Grove Engine",
       "status": "generated-playable",
       "mechanic": "engine building",
       "theme": "expedition planning",
       "shortDescription": "A generated engine building puzzle with quick expedition planning decisions.",
-      "fullDescription": "Grove Engine is tuned as a daily engine building challenge with a compact board and a clear score target. A complete tactical board-game feeling in 7 minutes, tuned for touch screens.",
+      "fullDescription": "Grove Engine is tuned as a daily engine building challenge with a compact board and a clear score target. A generated engine building puzzle that turns trend signals into a compact solo board state.",
       "keywords": [
         "engine building",
         "expedition planning",
@@ -326,42 +362,6 @@ export const growthPlan = {
         "completionRate": null,
         "replayRate": null,
         "targetScore": 104,
-        "qualityScore": 74
-      },
-      "optimization": {
-        "ctaVariant": "daily-challenge",
-        "messageVariant": "daily",
-        "ctaLabel": "Try today's challenge",
-        "reason": "No organic entry data yet; seed strongest pages with daily challenge copy."
-      },
-      "channelFocus": "evergreen-search-page"
-    },
-    {
-      "gameId": "canopy-bloom",
-      "title": "Canopy Bloom",
-      "status": "generated-playable",
-      "mechanic": "roll and write",
-      "theme": "science desk",
-      "shortDescription": "A generated roll and write puzzle with quick science desk decisions.",
-      "fullDescription": "Canopy Bloom is tuned as a daily roll and write challenge with a compact board and a clear score target. A generated roll and write puzzle that turns trend signals into a compact solo board state.",
-      "keywords": [
-        "roll and write",
-        "science desk",
-        "daily puzzle",
-        "solo board game",
-        "generated strategy game",
-        "board-game-inspired",
-        "mobile PWA"
-      ],
-      "playPath": "/?game=canopy-bloom&utm_source=organic_game_page&utm_campaign=canopy-bloom",
-      "pagePath": "/games/canopy-bloom.html",
-      "canonicalUrl": "https://moshequ.github.io/autonomous-game-lab/games/canopy-bloom.html",
-      "shareUrl": "https://moshequ.github.io/autonomous-game-lab/?game=canopy-bloom&utm_source=share&utm_campaign=canopy-bloom",
-      "metrics": {
-        "startRate": null,
-        "completionRate": null,
-        "replayRate": null,
-        "targetScore": 82,
         "qualityScore": 78
       },
       "optimization": {
@@ -464,7 +464,7 @@ export const growthPlan = {
     "Keep monetization disabled until readiness gates pass.",
     "Refresh store copy and app-store blockers from the same source data."
   ],
-  "nextBestExperiment": "canopy-bloom"
+  "nextBestExperiment": "grove-engine"
 } as const
 
 export type GrowthPlan = typeof growthPlan

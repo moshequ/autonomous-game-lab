@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-21T23:25:25.075Z",
+  "generatedAt": "2026-05-22T00:37:44.023Z",
   "status": "portfolio-policy-ready",
   "analyticsSource": "fixture-sample",
   "releaseHealthStatus": "monitoring",
@@ -11,16 +11,16 @@
   },
   "dailyChallenge": {
     "date": "2026-05-22",
-    "gameId": "canopy-bloom",
-    "title": "Canopy Bloom",
-    "seed": "daily-20260522-79d",
-    "reason": "Canopy Bloom has the strongest blended portfolio score (51.912)."
+    "gameId": "grove-engine",
+    "title": "Grove Engine",
+    "seed": "daily-20260522-w2",
+    "reason": "Grove Engine has the strongest blended portfolio score (51.912)."
   },
   "rotation": {
-    "heroGameId": "canopy-bloom",
+    "heroGameId": "grove-engine",
     "orderedGameIds": [
-      "canopy-bloom",
       "grove-engine",
+      "guild-garden",
       "mosaic-haven",
       "metro-loom",
       "harbor-rings",
@@ -31,8 +31,8 @@
       "lantern-relay"
     ],
     "seedTrafficGameIds": [
-      "canopy-bloom",
       "grove-engine",
+      "guild-garden",
       "mosaic-haven",
       "metro-loom"
     ],
@@ -40,8 +40,8 @@
       "harbor-rings"
     ],
     "heldForMoreDataGameIds": [
-      "canopy-bloom",
       "grove-engine",
+      "guild-garden",
       "mosaic-haven",
       "metro-loom",
       "pocket-draft",
@@ -53,8 +53,8 @@
   },
   "games": [
     {
-      "gameId": "canopy-bloom",
-      "title": "Canopy Bloom",
+      "gameId": "grove-engine",
+      "title": "Grove Engine",
       "status": "generated-playable",
       "score": 51.912,
       "action": "seed-traffic",
@@ -77,8 +77,8 @@
       "rank": 1
     },
     {
-      "gameId": "grove-engine",
-      "title": "Grove Engine",
+      "gameId": "guild-garden",
+      "title": "Guild Garden",
       "status": "generated-playable",
       "score": 50.232,
       "action": "seed-traffic",
@@ -315,7 +315,7 @@
     }
   ],
   "nextActions": [
-    "Seed traffic to Canopy Bloom, Grove Engine, Mosaic Haven, Metro Loom before judging quality.",
+    "Seed traffic to Grove Engine, Guild Garden, Mosaic Haven, Metro Loom before judging quality.",
     "Apply backlog improvements for Harbor Rings.",
     "Keep paid promotion disabled until unit-economics gates pass."
   ]

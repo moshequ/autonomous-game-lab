@@ -1,14 +1,14 @@
 # Traffic Seeding
 
-Generated: 2026-05-22T00:03:41.432Z
+Generated: 2026-05-22T00:37:44.267Z
 Status: traffic-seeding-ready
 Analytics source: fixture-sample
 Max cost: $0.00
 
 ## Campaigns
 
-- #1 Canopy Bloom: armed, seed-needed, /?game=canopy-bloom&utm_source=seed_internal&utm_campaign=seed-20260522-canopy-bloom
-- #2 Grove Engine: armed, seed-needed, /?game=grove-engine&utm_source=seed_internal&utm_campaign=seed-20260522-grove-engine
+- #1 Grove Engine: armed, seed-needed, /?game=grove-engine&utm_source=seed_internal&utm_campaign=seed-20260522-grove-engine
+- #2 Guild Garden: armed, seed-needed, /?game=guild-garden&utm_source=seed_internal&utm_campaign=seed-20260522-guild-garden
 - #3 Mosaic Haven: armed, seed-needed, /?game=mosaic-haven&utm_source=seed_internal&utm_campaign=seed-20260522-mosaic-haven
 - #4 Metro Loom: armed, seed-needed, /?game=metro-loom&utm_source=seed_internal&utm_campaign=seed-20260522-metro-loom
 
@@ -26,7 +26,7 @@ Max cost: $0.00
 
 ## Next Actions
 
-- Feature Canopy Bloom in the internal growth loop and share manifest.
+- Feature Grove Engine in the internal growth loop and share manifest.
 - Feature Sample D1 retention as the default product-gate sample share link.
 - Keep traffic sources organic/internal until paid acquisition gates pass.
 - Judge seeded games only after each reaches the target start sample.

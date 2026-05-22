@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-05-21T17:49:03.517Z",
-  "sourceDataHash": "59aa1e6384f7",
+  "generatedAt": "2026-05-22T00:37:38.201Z",
+  "sourceDataHash": "374ddc715491",
   "source": "fixture-sample",
   "observed": {
     "organicEntries": 0,
@@ -10,56 +10,44 @@
   "actions": [
     {
       "status": "applied",
-      "gameId": "canopy-bloom",
-      "reason": "No organic entry data yet; seed strongest pages with daily challenge copy.",
-      "confidence": 73,
-      "sourceDataHash": "59aa1e6384f7",
-      "before": {
-        "ctaVariant": "daily-challenge",
-        "messageVariant": "daily",
-        "reason": "No organic entry data yet; seed strongest pages with daily challenge copy.",
-        "confidence": 73,
-        "updatedAt": "2026-05-18T20:09:31.689Z"
-      },
-      "after": {
-        "ctaVariant": "daily-challenge",
-        "messageVariant": "daily",
-        "reason": "No organic entry data yet; seed strongest pages with daily challenge copy.",
-        "confidence": 73,
-        "updatedAt": "2026-05-21T17:49:03.516Z"
-      }
-    },
-    {
-      "status": "applied",
       "gameId": "grove-engine",
       "reason": "No organic entry data yet; seed strongest pages with daily challenge copy.",
       "confidence": 73,
-      "sourceDataHash": "59aa1e6384f7",
+      "sourceDataHash": "374ddc715491",
       "before": {
-        "ctaVariant": "daily-challenge",
-        "messageVariant": "daily",
-        "reason": "No organic entry data yet; seed strongest pages with daily challenge copy.",
-        "confidence": 73,
-        "updatedAt": "2026-05-18T20:09:31.690Z"
-      },
-      "after": {
         "ctaVariant": "daily-challenge",
         "messageVariant": "daily",
         "reason": "No organic entry data yet; seed strongest pages with daily challenge copy.",
         "confidence": 73,
         "updatedAt": "2026-05-21T17:49:03.517Z"
+      },
+      "after": {
+        "ctaVariant": "daily-challenge",
+        "messageVariant": "daily",
+        "reason": "No organic entry data yet; seed strongest pages with daily challenge copy.",
+        "confidence": 73,
+        "updatedAt": "2026-05-22T00:37:38.200Z"
+      }
+    },
+    {
+      "status": "applied",
+      "gameId": "guild-garden",
+      "reason": "No organic entry data yet; seed strongest pages with daily challenge copy.",
+      "confidence": 73,
+      "sourceDataHash": "374ddc715491",
+      "before": {},
+      "after": {
+        "ctaVariant": "daily-challenge",
+        "messageVariant": "daily",
+        "reason": "No organic entry data yet; seed strongest pages with daily challenge copy.",
+        "confidence": 73,
+        "updatedAt": "2026-05-22T00:37:38.201Z"
       }
     }
   ],
   "policySummary": {
     "optimizedGames": 5,
     "activeChanges": [
-      {
-        "gameId": "canopy-bloom",
-        "ctaVariant": "daily-challenge",
-        "messageVariant": "daily",
-        "reason": "No organic entry data yet; seed strongest pages with daily challenge copy."
-      },
       {
         "gameId": "orbit-atlas",
         "ctaVariant": "daily-challenge",
@@ -80,6 +68,12 @@
       },
       {
         "gameId": "grove-engine",
+        "ctaVariant": "daily-challenge",
+        "messageVariant": "daily",
+        "reason": "No organic entry data yet; seed strongest pages with daily challenge copy."
+      },
+      {
+        "gameId": "guild-garden",
         "ctaVariant": "daily-challenge",
         "messageVariant": "daily",
         "reason": "No organic entry data yet; seed strongest pages with daily challenge copy."
