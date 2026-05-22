@@ -1,6 +1,6 @@
 # Autonomous Owner Loop
 
-Generated: 2026-05-22T13:58:18.403Z
+Generated: 2026-05-22T14:04:16.324Z
 Status: owner-loop-ready
 Mode: zero-spend-web-ready
 Autonomy score: 44/45 (98%)
@@ -10,8 +10,8 @@ Autonomy score: 44/45 (98%)
 - Next action: seed-portfolio-traffic
 - Command: npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop
 - Rationale: Under-measured playable games need free organic/internal traffic before quality judgment.
-- Last executed action: collect-gate-sample-downloads
-- Recent executed actions: collect-gate-sample-downloads, seed-portfolio-traffic, bootstrap-production-setup, optimize-store-listing, measure-pwa-install-loop, prepare-release-candidate
+- Last executed action: refresh-replay-loop
+- Recent executed actions: refresh-replay-loop, seed-portfolio-traffic, collect-gate-sample-downloads, bootstrap-production-setup, optimize-store-listing, measure-pwa-install-loop
 
 ## Systems
 
@@ -68,7 +68,7 @@ Autonomy score: 44/45 (98%)
 - monitor: refresh-autonomous-cadence - npm run autonomous:cadence
 - monitor: refresh-autonomous-self-update - npm run autonomous:self-update
 - armed: seed-portfolio-traffic - npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop
-- armed: refresh-organic-seed-loop - npm run autonomous:organic-seed-loop
+- monitor: refresh-organic-seed-loop - npm run autonomous:organic-seed-loop
 - monitor: refresh-support-feedback - npm run autonomous:support-feedback
 - monitor: optimize-daily-retention - npm run autonomous:retention
 - monitor: measure-pwa-install-loop - npm run autonomous:pwa-install
