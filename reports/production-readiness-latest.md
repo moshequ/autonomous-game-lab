@@ -1,6 +1,6 @@
 # Production Readiness
 
-Generated: 2026-05-22T08:29:44.625Z
+Generated: 2026-05-22T08:38:03.521Z
 
 ## Environment
 
@@ -76,7 +76,7 @@ Status: ready-after-build
 - pass: autonomous-operator - Autonomous operator is operator-plan-ready; selected apply-safe-improvements; execution not-requested.
 - pass: autonomous-operator-history - Autonomous operator history is operator-history-ready; records 40; executed 6.
 - pass: autonomous-cadence - Autonomous cadence is cadence-ready; Codex active-confirmed; GitHub scheduled.
-- pass: autonomous-self-update - Autonomous self-update is self-update-ready; safe pending 0; unsafe pending 0; remote push ready.
+- pass: autonomous-self-update - Autonomous self-update is self-update-ready; safe pending 3; unsafe pending 0; remote push held.
 - pass: objective-audit - Objective audit is objective-in-progress; met 6 / 8; can complete false.
 
 ## Monetization
@@ -324,7 +324,7 @@ Freshness: fresh; stale artifacts 0
 - pass: cadence-browser-smoke - test:e2e is npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap && npm run autonomous:deploy-plan && npm run autonomous:bootstrap && npm run autonomous:activate-production && npm run autonomous:objective-audit && npm run autonomous:owner-loop && npm run autonomous:operator && npm run autonomous:owner-loop && npm run autonomous:readiness && npm run build && npm run autonomous:performance && npm run autonomous:release-candidate && npm run autonomous:post-deploy-smoke && npm run autonomous:live-monitor && npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap && npm run autonomous:deploy-plan && npm run autonomous:bootstrap && npm run autonomous:activate-production && npm run autonomous:readiness && playwright test && npm run autonomous:objective-audit && npm run autonomous:owner-loop && npm run autonomous:operator && npm run autonomous:owner-loop && npm run autonomous:readiness.
 - pass: cadence-fresh-generated-evidence - All 39 required generated evidence artifacts are fresh within 36h.
 - pass: cadence-github-scheduled-workflow - GitHub Actions daily workflow can run the full autonomous owner loop and upload evidence artifacts.
-- pass: cadence-github-self-update-workflow - Gated GitHub workflow can persist allowlisted verified generated changes with production env and workflow token evidence when explicitly enabled.
+- pass: cadence-github-self-update-workflow - Gated GitHub workflow can persist allowlisted verified generated changes after post-deploy evidence sync with production env and workflow token evidence when explicitly enabled.
 - pass: cadence-post-self-update-deploy - Pages deployment builds the committed PWA artifact from gated self-update, public-evidence, and production-input workflows, so persisted generated improvements can publish without manual dispatch.
 - pass: cadence-production-input-watch-workflow - Production input watch refreshes deploy/readiness evidence after owner-provided repository variables or secrets, gates direct commits, and avoids workflow dispatch or raw event storage.
 - pass: cadence-public-evidence-intake-workflow - Public evidence intake ingests read-only GitHub Issues, refreshes safe aggregate handoff evidence, gates direct commits, and avoids raw events or issue mutation.
@@ -335,17 +335,17 @@ Freshness: fresh; stale artifacts 0
 
 Status: self-update-ready
 Workflow: .github/workflows/autonomous-self-update.yml
-Safe pending: 0
+Safe pending: 3
 Unsafe pending: 0
-Remote push ready: true
+Remote push ready: false
 - pass: self-update-script-registered - autonomous:self-update is node scripts/autonomous-self-update.mjs.
 - pass: self-update-daily-loop-refresh - autonomous:daily refreshes self-update evidence before owner/audit evidence.
 - pass: self-update-daily-workflow-read-only - The ordinary daily workflow remains read-only, runs the owner loop, and uploads evidence artifacts.
-- pass: self-update-self-update-workflow - A separate gated workflow can reproduce the owner loop with production env, verify it with gate env, and persist allowlisted changes.
+- pass: self-update-self-update-workflow - A separate gated workflow runs after post-deploy evidence sync, refreshes main, verifies with production env, and persists allowlisted changes.
 - pass: self-update-post-self-update-deploy - Pages redeploys after gated self-update, public-evidence, and production-input workflows, then repeats deployability and post-deploy smoke checks.
-- pass: self-update-safe-path-allowlist - 0 safe pending file(s), 0 unsafe pending file(s).
+- pass: self-update-safe-path-allowlist - 3 safe pending file(s), 0 unsafe pending file(s).
 - pass: self-update-repository-optional - Git worktree is available on main.
-- pass: self-update-remote-push-gated - Direct push is configured for moshequ/autonomous-game-lab.
+- pass: self-update-remote-push-gated - Remote push remains held until GitHub credentials and AGL_AUTONOMOUS_SELF_UPDATE_DIRECT=1 are configured.
 - pass: self-update-zero-spend-controls - Self-update owner-loop verification includes browser smoke coverage and does not create accounts, stores, ads, paid traffic, or revenue.
 
 ## Objective Audit
