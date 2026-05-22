@@ -1,6 +1,6 @@
 export const storeCompliance = {
-  "generatedAt": "2026-05-22T00:49:31.102Z",
-  "sourceDataHash": "67a302e7fa34",
+  "generatedAt": "2026-05-22T01:11:25.116Z",
+  "sourceDataHash": "5d74c029055a",
   "status": "draft-ready-external-blockers",
   "launchCandidate": {
     "id": "grove-engine",

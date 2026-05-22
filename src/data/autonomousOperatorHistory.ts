@@ -7,7 +7,7 @@ export const autonomousOperatorHistory = {
     "failedRecords": 0,
     "lastActionId": "collect-gate-sample-downloads",
     "lastExecutionStatus": "not-requested",
-    "lastExecutedActionId": "refresh-organic-seed-loop"
+    "lastExecutedActionId": "prepare-repository-channel"
   }
 } as const
 

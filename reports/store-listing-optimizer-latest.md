@@ -1,6 +1,6 @@
 # Store Listing Optimizer
 
-Generated: 2026-05-22T00:49:30.862Z
+Generated: 2026-05-22T01:11:24.880Z
 Status: store-listing-optimizer-ready
 Focus: Grove Engine (grove-engine)
 Previous candidate: lantern-relay
@@ -13,14 +13,14 @@ Previous candidate: lantern-relay
 
 ## Screenshot Priorities
 
+- phone-grove-engine-generated: lead-gameplay, score 140
 - phone-lantern-relay-game: supporting-phone, score 32
-- phone-canopy-bloom-generated: supporting-phone, score 28
 - phone-portal-home: supporting-phone, score 20
 - desktop-growth-page: press-kit, score 0
 
 ## Candidate Signals
 
-- grove-engine: score 163.912, growth 78
+- grove-engine: score 171.912, growth 78
 - guild-garden: score 128.232, growth 74
 - mosaic-haven: score 122.552, growth 70
 - metro-loom: score 116.872, growth 66
@@ -41,5 +41,5 @@ Previous candidate: lantern-relay
 ## Next Actions
 
 - Use Grove Engine as the store listing focus instead of lantern-relay.
-- Lead screenshots with Lantern Relay playable board.
+- Lead screenshots with Grove Engine gameplay board.
 - Regenerate store compliance after every listing, screenshot, monetization, or privacy change.

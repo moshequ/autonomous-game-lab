@@ -1,6 +1,6 @@
 export const storeListingOptimizer = {
-  "generatedAt": "2026-05-22T00:49:30.862Z",
-  "sourceDataHash": "23a68db9cc8a",
+  "generatedAt": "2026-05-22T01:11:24.880Z",
+  "sourceDataHash": "ece82c1a43d8",
   "status": "store-listing-optimizer-ready",
   "sourceStatus": {
     "growthPlan": "growth-assets-ready",
@@ -20,7 +20,8 @@ export const storeListingOptimizer = {
       "Growth quality 78",
       "Portfolio score 51.912",
       "current daily challenge",
-      "current acquisition candidate"
+      "current acquisition candidate",
+      "has generated store screenshot"
     ]
   },
   "candidateSignals": [
@@ -28,13 +29,13 @@ export const storeListingOptimizer = {
       "gameId": "grove-engine",
       "title": "Grove Engine",
       "status": "generated-playable",
-      "score": 163.912,
+      "score": 171.912,
       "growthQuality": 78,
       "portfolioScore": 51.912,
       "dailyChallenge": true,
       "acquisitionFeatured": true,
       "generatedRuntime": true,
-      "hasScreenshot": false,
+      "hasScreenshot": true,
       "keywords": [
         "engine building",
         "expedition planning",
@@ -217,9 +218,9 @@ export const storeListingOptimizer = {
     ],
     "screenshotAssets": [
       {
-        "id": "phone-lantern-relay-game",
-        "label": "Lantern Relay playable board",
-        "path": "/store-assets/screenshots/phone-lantern-relay-game.png",
+        "id": "phone-grove-engine-generated",
+        "label": "Grove Engine gameplay board",
+        "path": "/store-assets/screenshots/phone-grove-engine-generated.png",
         "width": 1170,
         "height": 2532,
         "platformUse": [
@@ -228,9 +229,9 @@ export const storeListingOptimizer = {
         ]
       },
       {
-        "id": "phone-canopy-bloom-generated",
-        "label": "Generated Canopy Bloom board",
-        "path": "/store-assets/screenshots/phone-canopy-bloom-generated.png",
+        "id": "phone-lantern-relay-game",
+        "label": "Lantern Relay playable board",
+        "path": "/store-assets/screenshots/phone-lantern-relay-game.png",
         "width": 1170,
         "height": 2532,
         "platformUse": [
@@ -270,21 +271,21 @@ export const storeListingOptimizer = {
   },
   "screenshotPriorities": [
     {
+      "id": "phone-grove-engine-generated",
+      "label": "Grove Engine gameplay board",
+      "path": "/store-assets/screenshots/phone-grove-engine-generated.png",
+      "width": 1170,
+      "height": 2532,
+      "priorityScore": 140,
+      "recommendedUse": "lead-gameplay"
+    },
+    {
       "id": "phone-lantern-relay-game",
       "label": "Lantern Relay playable board",
       "path": "/store-assets/screenshots/phone-lantern-relay-game.png",
       "width": 1170,
       "height": 2532,
       "priorityScore": 32,
-      "recommendedUse": "supporting-phone"
-    },
-    {
-      "id": "phone-canopy-bloom-generated",
-      "label": "Generated Canopy Bloom board",
-      "path": "/store-assets/screenshots/phone-canopy-bloom-generated.png",
-      "width": 1170,
-      "height": 2532,
-      "priorityScore": 28,
       "recommendedUse": "supporting-phone"
     },
     {
@@ -324,7 +325,7 @@ export const storeListingOptimizer = {
   },
   "nextActions": [
     "Use Grove Engine as the store listing focus instead of lantern-relay.",
-    "Lead screenshots with Lantern Relay playable board.",
+    "Lead screenshots with Grove Engine gameplay board.",
     "Regenerate store compliance after every listing, screenshot, monetization, or privacy change."
   ]
 } as const

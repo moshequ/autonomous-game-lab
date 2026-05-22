@@ -1,6 +1,6 @@
 # Autonomous Owner Loop
 
-Generated: 2026-05-22T00:52:22.876Z
+Generated: 2026-05-22T01:12:24.130Z
 Status: owner-loop-ready
 Mode: zero-spend-web-ready
 Autonomy score: 44/45 (98%)
@@ -10,8 +10,8 @@ Autonomy score: 44/45 (98%)
 - Next action: collect-gate-sample-downloads
 - Command: npm run autonomous:collect-sample-downloads
 - Rationale: Opt-in scans local browser Downloads and the event inbox for real player exports, imports them, refreshes analytics and recovery, then regenerates the sample plan.
-- Last executed action: refresh-organic-seed-loop
-- Recent executed actions: refresh-organic-seed-loop
+- Last executed action: prepare-repository-channel
+- Recent executed actions: prepare-repository-channel
 
 ## Systems
 
@@ -22,14 +22,14 @@ Autonomy score: 44/45 (98%)
 - ready: analytics-ingest - Active source: fixture-sample; event ingest: idle-no-files; collector smoke: pass.
 - ready: local-event-bridge - Bridge bridge-waiting-for-export; inbox 0 event(s); imported 0 event(s).
 - ready: autonomous-cadence - Cadence cadence-ready; Codex active-confirmed; GitHub scheduled.
-- ready: autonomous-self-update - Self-update self-update-ready; safe pending 209; unsafe pending 0; remote push held.
+- ready: autonomous-self-update - Self-update self-update-ready; safe pending 113; unsafe pending 0; remote push held.
 - ready: portfolio-loop - Daily challenge: Grove Engine; seed traffic: grove-engine, guild-garden, mosaic-haven, metro-loom.
 - ready: traffic-seeding - 4 seed campaign(s); max cost $0.
 - ready: acquisition-learning - 4 campaign(s); 0 attributed start(s); candidate grove-engine.
 - ready: organic-seed-loop - Target grove-engine; surface portal-growth-loop; share telemetry organic_seed_share_clicked.
 - ready: retention-loop - Daily grove-engine; D1 17%; streak variant daily-streak; return prompt armed; return intent armed.
 - ready: pwa-install-loop - Prompt autonomy-cockpit; installs 0; launch events 0; sample collecting-sample needs 20 prompt(s) and 10 launch event(s).
-- ready: performance-budget - Initial JS 663.3 KB; gzip 181 KB; deferred chunks 2.
+- ready: performance-budget - Initial JS 663.6 KB; gzip 180.9 KB; deferred chunks 2.
 - ready: product-optimization - Completion 40% / gate 55%; latest already-applied.
 - ready: support-feedback - Support feedback support-feedback-empty; issues 0; routable signals 0; aggregate notes 0.
 - ready: product-gate-recovery - Recovery product-gate-recovery-ready; primary firstGameCompletion; experiment collecting-sample; failing gates 3; next lift 128.
@@ -54,7 +54,7 @@ Autonomy score: 44/45 (98%)
 - ready: autonomous-operator - Operator operator-plan-ready; selected collect-gate-sample-downloads; execution not-requested.
 - ready: operator-history - History operator-history-ready; records 40; executed 1.
 - ready: objective-audit - Audit objective-in-progress; met 6/8; external blockers 15.
-- ready: store-listing-optimizer - Focus grove-engine; lead screenshot phone-lantern-relay-game; candidate changed yes.
+- ready: store-listing-optimizer - Focus grove-engine; lead screenshot phone-grove-engine-generated; candidate changed yes.
 - ready: store-compliance - Rating Everyone; target audience general; blockers 3.
 - ready: android-signing - Signing signing-prepared; fingerprint available; local secrets configured.
 - ready: production-safety - Response guarded-operations; incident drill pass; spend mode no-spend.
@@ -80,7 +80,7 @@ Autonomy score: 44/45 (98%)
 - monitor: optimize-product-gates - npm run autonomous:analyze && npm run autonomous:product-optimize && npm run autonomous:sync-config && npm run autonomous:simulate
 - monitor: refresh-product-gate-recovery - npm run autonomous:gate-recovery && npm run autonomous:sample-plan
 - armed: collect-gate-sample-downloads - npm run autonomous:collect-sample-downloads
-- armed: refresh-product-gate-sample-plan - npm run autonomous:sample-plan
+- monitor: refresh-product-gate-sample-plan - npm run autonomous:sample-plan
 - monitor: refresh-first-move-coach - npm run autonomous:first-move-coach
 - monitor: refresh-completion-loop - npm run autonomous:completion-loop
 - monitor: refresh-replay-loop - npm run autonomous:replay-loop
