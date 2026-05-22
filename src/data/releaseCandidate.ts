@@ -1,7 +1,7 @@
 export const releaseCandidate = {
-  "generatedAt": "2026-05-22T03:39:38.324Z",
+  "generatedAt": "2026-05-22T03:51:16.403Z",
   "status": "release-candidate-ready",
-  "candidateId": "pwa-84e4005fe81f",
+  "candidateId": "pwa-c4fbbe256f2b",
   "target": {
     "provider": "github-pages",
     "artifactPath": "dist",
@@ -12,8 +12,8 @@ export const releaseCandidate = {
   },
   "summary": {
     "totalFiles": 49,
-    "totalBytes": 3694301,
-    "totalKb": 3607.7,
+    "totalBytes": 3698171,
+    "totalKb": 3611.5,
     "assetFiles": 4,
     "htmlFiles": 18,
     "gamePages": 10,
@@ -22,7 +22,7 @@ export const releaseCandidate = {
   },
   "integrity": {
     "algorithm": "sha256",
-    "aggregateHash": "84e4005fe81f91a885348dcb6b17f45461f6098ca1995d71608eb7eecb7d6f9a",
+    "aggregateHash": "c4fbbe256f2bff66a9c409a3853d0ddf0dc03d4d875aa78db69e58bc217644bc",
     "files": [
       {
         "path": ".nojekyll",
@@ -46,23 +46,23 @@ export const releaseCandidate = {
         "cacheControl": "public, max-age=3600"
       },
       {
-        "path": "assets/aggregateEvidenceIssue-BXkKIUn8.js",
+        "path": "assets/aggregateEvidenceIssue-DmJ-AmAK.js",
         "bytes": 2978,
-        "sha256": "8a263a4537f40250d62fbe3a7f91404f3044a8e4b9d6f149d11d1db5763c8301",
+        "sha256": "d6d79f7c42ebf59b45eeeabb4c2d9ba36a728c241ae5926ab95c6b2bfc2963bf",
         "contentType": "text/javascript; charset=utf-8",
         "cacheControl": "public, max-age=31536000, immutable"
       },
       {
-        "path": "assets/GameCanvas-Ce2yrTSP.js",
+        "path": "assets/GameCanvas-DNWvg62g.js",
         "bytes": 1393764,
-        "sha256": "316655b7fde58313aa0a56245751b043044df299e4b30504435b2069a2cbf8a3",
+        "sha256": "27f9270f95501b5b73b61f004c79fda675ed8f1869534b0f4c98249cbbd41bc1",
         "contentType": "text/javascript; charset=utf-8",
         "cacheControl": "public, max-age=31536000, immutable"
       },
       {
-        "path": "assets/index--G7dbxqI.js",
-        "bytes": 690479,
-        "sha256": "64a311a26a7f4c3f78f3fcc21a73084eb077135e69c065fcc9c6c364642706a3",
+        "path": "assets/index-Cxfd45-a.js",
+        "bytes": 686540,
+        "sha256": "b7efd9e74a51b1295849e55f0379e96c41f457297727e0fd8915fb5cd52be2ae",
         "contentType": "text/javascript; charset=utf-8",
         "cacheControl": "public, max-age=31536000, immutable"
       },
@@ -76,7 +76,7 @@ export const releaseCandidate = {
       {
         "path": "compliance.json",
         "bytes": 5625,
-        "sha256": "8f2b168193682727479df5b9b8d2ef75b064f5589e00fb0d07166bc828ce4861",
+        "sha256": "06f1ee6c5a2a7417ee56f6cad77285e957172439bb1e4fe425c4e11f67112a04",
         "contentType": "application/json; charset=utf-8",
         "cacheControl": "public, max-age=3600"
       },
@@ -223,7 +223,7 @@ export const releaseCandidate = {
       {
         "path": "index.html",
         "bytes": 2846,
-        "sha256": "b576c3fc882a8ed16e874d60d1a5bbe3d989cc3c8f8a632a3b00e1ea09edaa1c",
+        "sha256": "c228f76c8d660d555c69d141ad83f3412fd60fcc38dfd50cda32bcce91a296a2",
         "contentType": "text/html; charset=utf-8",
         "cacheControl": "no-cache"
       },
@@ -243,15 +243,15 @@ export const releaseCandidate = {
       },
       {
         "path": "measurement-status.html",
-        "bytes": 8390,
-        "sha256": "7ed987d7a115213b582cd0820f273b480b237e0e179f8511d212cfa01b4ae579",
+        "bytes": 10697,
+        "sha256": "8e7479d7271d7b1f3ca0b2b63b249b51b2bbf9c0885f1fc895c60db2a28a31ee",
         "contentType": "text/html; charset=utf-8",
         "cacheControl": "no-cache"
       },
       {
         "path": "measurement-status.json",
-        "bytes": 5955,
-        "sha256": "e354cc583585c7f5d189a1935e2939a07ae6fb1411397844278ca6ae9dc18220",
+        "bytes": 11457,
+        "sha256": "c507523120364229aa39818367e2ff1407868b01c86746eddf9096a3d118e555",
         "contentType": "application/json; charset=utf-8",
         "cacheControl": "public, max-age=3600"
       },
@@ -356,7 +356,7 @@ export const releaseCandidate = {
       {
         "path": "sw.js",
         "bytes": 3942,
-        "sha256": "747558f9c14e97d66936e743f983c3d9bb78c35008ed05fe87af326dfb0a6709",
+        "sha256": "3529643800742630a6c23b36afbd84126039aeecef7f962b4c0fd1ec2215ea6a",
         "contentType": "text/javascript; charset=utf-8",
         "cacheControl": "no-cache"
       },

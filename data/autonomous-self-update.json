@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-22T03:35:22.673Z",
+  "generatedAt": "2026-05-22T03:49:46.715Z",
   "status": "self-update-ready",
   "mode": "plan-and-assert",
   "envFiles": {
@@ -71,7 +71,7 @@
     "ownerLoop": "owner-loop-ready"
   },
   "pendingChanges": {
-    "total": 93,
+    "total": 94,
     "safe": [
       {
         "code": "M",
@@ -677,6 +677,13 @@
       },
       {
         "code": "M",
+        "path": "src/data/productionBlockerHandoff.ts",
+        "raw": " M src/data/productionBlockerHandoff.ts",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
         "path": "src/data/productionBootstrap.ts",
         "raw": " M src/data/productionBootstrap.ts",
         "safe": true,
@@ -726,7 +733,7 @@
       }
     ],
     "unsafe": [],
-    "safeCount": 93,
+    "safeCount": 94,
     "unsafeCount": 0
   },
   "commitPlan": {
@@ -825,6 +832,7 @@
       "src/data/productGateRecovery.ts",
       "src/data/productGateSamplePlan.ts",
       "src/data/productionActivation.ts",
+      "src/data/productionBlockerHandoff.ts",
       "src/data/productionBootstrap.ts",
       "src/data/productionMeasurementStatus.ts",
       "src/data/pwaInstallLoop.ts",
@@ -941,7 +949,7 @@
     {
       "id": "safe-path-allowlist",
       "status": "pass",
-      "detail": "93 safe pending file(s), 0 unsafe pending file(s)."
+      "detail": "94 safe pending file(s), 0 unsafe pending file(s)."
     },
     {
       "id": "repository-optional",
