@@ -411,6 +411,8 @@ const shareManifest = JSON.parse(await readFile(path.join(root, 'public', 'share
 const gateSampleHtml = await readFile(path.join(root, 'public', 'gate-sample.html'), 'utf8')
 const measurementStatusHtml = await readFile(path.join(root, 'public', 'measurement-status.html'), 'utf8')
 const publicMeasurementStatus = JSON.parse(await readFile(path.join(root, 'public', 'measurement-status.json'), 'utf8'))
+const analyticsUnlockHtml = await readFile(path.join(root, 'public', 'analytics-unlock.html'), 'utf8')
+const publicAnalyticsUnlockStatus = JSON.parse(await readFile(path.join(root, 'public', 'analytics-unlock.json'), 'utf8'))
 const installHtml = await readFile(path.join(root, 'public', 'install.html'), 'utf8')
 const seedKitHtml = await readFile(path.join(root, 'public', 'seed-kit.html'), 'utf8')
 const seedNextHtml = await readFile(path.join(root, 'public', 'seed-next.html'), 'utf8')
@@ -786,6 +788,8 @@ if (
   !publicEvidenceIntakeWorkflow.includes('data/production-measurement-status.json') ||
   !publicEvidenceIntakeWorkflow.includes('public/measurement-status.html') ||
   !publicEvidenceIntakeWorkflow.includes('public/measurement-status.json') ||
+  !publicEvidenceIntakeWorkflow.includes('public/analytics-unlock.html') ||
+  !publicEvidenceIntakeWorkflow.includes('public/analytics-unlock.json') ||
   !publicEvidenceIntakeWorkflow.includes('data/production-environment.json') ||
   !publicEvidenceIntakeWorkflow.includes('reports/production-environment-latest.md') ||
   !publicEvidenceIntakeWorkflow.includes('ops/production.env.example') ||
@@ -843,6 +847,8 @@ if (
   !productionInputWatchWorkflow.includes('data/production-unlock-runner.json') ||
   !productionInputWatchWorkflow.includes('data/production-measurement-status.json') ||
   !productionInputWatchWorkflow.includes('public/measurement-status.json') ||
+  !productionInputWatchWorkflow.includes('public/analytics-unlock.html') ||
+  !productionInputWatchWorkflow.includes('public/analytics-unlock.json') ||
   !productionInputWatchWorkflow.includes('data/release-candidate.json') ||
   !webDeployWorkflow.includes("'Production Input Watch'") ||
   productionInputWatchWorkflow.includes('gh workflow run') ||
@@ -900,6 +906,8 @@ if (
   measurementSampleNextRoute.guardrails?.noPaidPromotion !== true ||
   measurementSampleNextRoute.guardrails?.noSyntheticEvents !== true ||
   measurementSampleNextRoute.guardrails?.noRevenueEnablement !== true ||
+  measurementPublicRoutes.analyticsUnlock !== '/analytics-unlock.html' ||
+  measurementPublicRoutes.analyticsUnlockJson !== '/analytics-unlock.json' ||
   measurementPublicRoutes.sampleNext !== '/sample-next.html' ||
   measurementPublicRoutes.sampleNextJson !== '/sample-next.json' ||
   productionMeasurementStatus.sourceStatus?.trafficSeeding !== trafficSeeding.status ||
@@ -957,6 +965,20 @@ if (
   !publicAnalyticsFirstPartyCollectorPath?.commandSequence?.includes('./ops/github/setup-production.sh') ||
   !publicAnalyticsFirstPartyCollectorPath?.validationCommands?.includes('npm run test:e2e') ||
   publicAnalyticsUnlockLeaksValues ||
+  publicAnalyticsUnlockStatus.status !== publicAnalyticsUnlock?.status ||
+  publicAnalyticsUnlockStatus.recommendedPathId !== publicAnalyticsUnlock?.recommendedPathId ||
+  JSON.stringify(publicAnalyticsUnlockStatus.analyticsUnlock) !== JSON.stringify(publicAnalyticsUnlock) ||
+  JSON.stringify(publicAnalyticsUnlockStatus.externalUnlockQueue?.topItems) !==
+    JSON.stringify(publicExternalUnlockQueue.topItems) ||
+  publicAnalyticsUnlockStatus.publicRoutes?.analyticsUnlock !== '/analytics-unlock.html' ||
+  publicAnalyticsUnlockStatus.publicRoutes?.analyticsUnlockJson !== '/analytics-unlock.json' ||
+  publicAnalyticsUnlockStatus.controls?.zeroPaidSpend !== true ||
+  publicAnalyticsUnlockStatus.controls?.noSecretValues !== true ||
+  publicAnalyticsUnlockStatus.controls?.noSecretValuesStored !== true ||
+  publicAnalyticsUnlockStatus.controls?.noAccountCreation !== true ||
+  publicAnalyticsUnlockStatus.controls?.noStoreSubmission !== true ||
+  publicAnalyticsUnlockStatus.controls?.noRevenueEnablement !== true ||
+  publicAnalyticsUnlockStatus.controls?.secretCommandsUseStdin !== true ||
   publicExternalUnlockQueue.status !== productionBlockerHandoff.status ||
   publicExternalUnlockQueue.nextBestUnlockId !== productionBlockerHandoff.summary?.nextBestUnlockId ||
   publicExternalUnlockQueue.nextBestZeroCostUnlockId !==
@@ -994,18 +1016,29 @@ if (
   !measurementStatusHtml.includes('sync commit can lag deploy') ||
   !measurementStatusHtml.includes('Start current sample') ||
   !measurementStatusHtml.includes('sample-next.html') ||
+  !measurementStatusHtml.includes('analytics-unlock.html') ||
   measurementStatusHtml.includes('href="/gate-sample.html"') ||
   measurementStatusHtml.includes('href="/support.html"') ||
   measurementStatusHtml.includes('href="/measurement-status.json"') ||
+  measurementStatusHtml.includes('href="/analytics-unlock.html"') ||
   !measurementStatusHtml.includes('Zero-Spend Analytics Unlock') ||
   !measurementStatusHtml.includes('External Unlock Queue') ||
   !measurementStatusHtml.includes('first-party-collector') ||
   !measurementStatusHtml.includes('google-play-account') ||
   !measurementStatusHtml.includes('does not pass gates') ||
+  !analyticsUnlockHtml.includes('Production Analytics Unlock') ||
+  !analyticsUnlockHtml.includes('first-party-collector') ||
+  !analyticsUnlockHtml.includes('CLOUDFLARE_API_TOKEN') ||
+  !analyticsUnlockHtml.includes('Secret commands use stdin: true') ||
+  !analyticsUnlockHtml.includes('analytics-unlock.json') ||
+  analyticsUnlockHtml.includes('href="/measurement-status.html"') ||
+  analyticsUnlockHtml.includes('href="/analytics-unlock.json"') ||
   !appSource.includes('Production Measurement') ||
   !appSource.includes('Analytics unlock') ||
   !productionMeasurementStatusSource.includes('publicEvidenceHandoff') ||
   !productionMeasurementStatusSource.includes('publicAnalyticsUnlock') ||
+  !productionMeasurementStatusSource.includes('analyticsUnlockPayload') ||
+  !productionMeasurementStatusSource.includes('publicAnalyticsUnlockHtmlPath') ||
   !productionMeasurementStatusSource.includes('publicExternalUnlockQueue') ||
   !productionMeasurementStatusSource.includes('readLiveReleaseManifest') ||
   !productionMeasurementStatusSource.includes('trafficSeeding') ||
@@ -3518,6 +3551,8 @@ if (
   !autonomousSelfUpdateSource.includes('allowedPrefixes') ||
   !autonomousSelfUpdateSource.includes('public/gate-sample.html') ||
   !autonomousSelfUpdateSource.includes('public/install.html') ||
+  !autonomousSelfUpdateSource.includes('public/analytics-unlock.html') ||
+  !autonomousSelfUpdateSource.includes('public/analytics-unlock.json') ||
   !autonomousSelfUpdateSource.includes('public/measurement-status.json') ||
   !autonomousSelfUpdateSource.includes('public/seed-kit.html') ||
   !autonomousSelfUpdateSource.includes('public/sample-next.html') ||
@@ -4133,6 +4168,8 @@ if (
   !postDeployEvidenceSyncWorkflow.includes('src/data/productionMeasurementStatus.ts') ||
   !postDeployEvidenceSyncWorkflow.includes('public/measurement-status.html') ||
   !postDeployEvidenceSyncWorkflow.includes('public/measurement-status.json') ||
+  !postDeployEvidenceSyncWorkflow.includes('public/analytics-unlock.html') ||
+  !postDeployEvidenceSyncWorkflow.includes('public/analytics-unlock.json') ||
   !postDeployEvidenceSyncWorkflow.includes('reports/production-measurement-status-latest.md') ||
   !postDeployEvidenceSyncWorkflow.includes('data/production-readiness.json') ||
   !postDeployEvidenceSyncWorkflow.includes('data/objective-audit.json') ||
@@ -5494,6 +5531,8 @@ const releaseCandidateRequiredFiles = new Set(
 const operationalFreshnessAssets = [
   'measurement-status.html',
   'measurement-status.json',
+  'analytics-unlock.html',
+  'analytics-unlock.json',
   'release-candidate.json',
   'sample-next.html',
   'sample-next.json',
@@ -5812,6 +5851,8 @@ if (
   !postDeployEvidenceSyncWorkflow.includes('src/data/productionMeasurementStatus.ts') ||
   !postDeployEvidenceSyncWorkflow.includes('public/measurement-status.html') ||
   !postDeployEvidenceSyncWorkflow.includes('public/measurement-status.json') ||
+  !postDeployEvidenceSyncWorkflow.includes('public/analytics-unlock.html') ||
+  !postDeployEvidenceSyncWorkflow.includes('public/analytics-unlock.json') ||
   !postDeployEvidenceSyncWorkflow.includes('reports/production-measurement-status-latest.md') ||
   !postDeployEvidenceSyncWorkflow.includes('data/production-readiness.json') ||
   !postDeployEvidenceSyncWorkflow.includes('data/objective-audit.json') ||
@@ -5936,6 +5977,8 @@ if (
   !repositoryReadinessSource.includes('public/share-manifest.json') ||
   !repositoryReadinessSource.includes('public/gate-sample.html') ||
   !repositoryReadinessSource.includes('public/install.html') ||
+  !repositoryReadinessSource.includes('public/analytics-unlock.html') ||
+  !repositoryReadinessSource.includes('public/analytics-unlock.json') ||
   !repositoryReadinessSource.includes('public/measurement-status.json') ||
   !repositoryReadinessSource.includes('public/sample-next.html') ||
   !repositoryReadinessSource.includes('public/sample-next.json') ||

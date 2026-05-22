@@ -98,6 +98,8 @@ const allowedExactPaths = new Set([
   'public/compliance.json',
   'public/gate-sample.html',
   'public/install.html',
+  'public/analytics-unlock.html',
+  'public/analytics-unlock.json',
   'public/measurement-status.html',
   'public/measurement-status.json',
   'public/monetization.json',

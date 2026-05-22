@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Production Analytics Unlock | Autonomous Game Lab</title>
+    <style>
+      :root {
+        color: #191713;
+        background: #fbf7ef;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        line-height: 1.5;
+      }
+
+      body {
+        margin: 0;
+      }
+
+      main {
+        width: min(980px, calc(100% - 32px));
+        margin: 0 auto;
+        padding: 44px 0;
+      }
+
+      h1,
+      h2,
+      h3 {
+        line-height: 1.08;
+        margin: 0;
+      }
+
+      h1 {
+        font-size: clamp(2rem, 6vw, 4.2rem);
+        max-width: 780px;
+      }
+
+      p {
+        max-width: 760px;
+      }
+
+      a {
+        color: #187f7a;
+        font-weight: 700;
+      }
+
+      code {
+        overflow-wrap: anywhere;
+      }
+
+      .eyebrow {
+        color: #7d2f18;
+        font-size: 0.82rem;
+        font-weight: 800;
+        letter-spacing: 0;
+        text-transform: uppercase;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 12px;
+        margin: 28px 0;
+      }
+
+      .card {
+        border: 1px solid #d9d0bf;
+        border-radius: 8px;
+        background: #fffdf7;
+        padding: 16px;
+      }
+
+      .card span {
+        display: block;
+        color: #6d675c;
+        font-size: 0.78rem;
+        font-weight: 800;
+        text-transform: uppercase;
+      }
+
+      .card strong {
+        display: block;
+        margin-top: 8px;
+        overflow-wrap: anywhere;
+        font-size: 1.05rem;
+      }
+
+      section {
+        border-top: 1px solid #d9d0bf;
+        padding: 22px 0;
+      }
+
+      ul,
+      ol {
+        padding-left: 20px;
+      }
+
+      li {
+        margin: 6px 0;
+      }
+
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .actions a {
+        border: 1px solid #187f7a;
+        border-radius: 8px;
+        padding: 10px 12px;
+        text-decoration: none;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <p class="eyebrow">Autonomous Game Lab</p>
+      <h1>Production Analytics Unlock</h1>
+      <p>This generated handoff exposes the next zero-spend measurement unlock without secret values, account creation, store submission, paid acquisition, or revenue enablement.</p>
+
+      <div class="grid" aria-label="Analytics unlock summary">
+        <div class="card">
+          <span>Status</span>
+          <strong>owner-input-required</strong>
+        </div>
+        <div class="card">
+          <span>Recommended path</span>
+          <strong>first-party-collector</strong>
+        </div>
+        <div class="card">
+          <span>Owner actions</span>
+          <strong>4</strong>
+        </div>
+        <div class="card">
+          <span>Missing secrets</span>
+          <strong>3</strong>
+        </div>
+      </div>
+
+      <section>
+        <h2>Unlock Paths</h2>
+        <article class="card" aria-label="first-party-collector">
+          <span>needs-variables-and-secrets</span>
+          <h3>First-party event collector</h3>
+          <p>zero-spend-use-existing-cloudflare-free-tier</p>
+          <h3>Repository Variables</h3>
+          <ul><li><strong>CLOUDFLARE_ACCOUNT_ID</strong> missing <code>gh variable set CLOUDFLARE_ACCOUNT_ID --body &quot;$CLOUDFLARE_ACCOUNT_ID&quot;</code></li><li><strong>AGL_EVENT_COLLECTOR_R2_BUCKET</strong> configured <code>gh variable set AGL_EVENT_COLLECTOR_R2_BUCKET --body &quot;$AGL_EVENT_COLLECTOR_R2_BUCKET&quot;</code></li><li><strong>AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS</strong> configured <code>gh variable set AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS --body &quot;$AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS&quot;</code></li><li><strong>VITE_EVENT_COLLECTOR_URL</strong> missing <code>gh variable set VITE_EVENT_COLLECTOR_URL --body &quot;$VITE_EVENT_COLLECTOR_URL&quot;</code></li><li><strong>AGL_EVENT_COLLECTOR_EXPORT_URL</strong> missing <code>gh variable set AGL_EVENT_COLLECTOR_EXPORT_URL --body &quot;$AGL_EVENT_COLLECTOR_EXPORT_URL&quot;</code></li></ul>
+          <h3>Repository Secrets</h3>
+          <ul><li><strong>CLOUDFLARE_API_TOKEN</strong> missing <code>printf &quot;%s&quot; &quot;$CLOUDFLARE_API_TOKEN&quot; | gh secret set CLOUDFLARE_API_TOKEN</code></li><li><strong>VITE_EVENT_COLLECTOR_WRITE_TOKEN</strong> configured <code>printf &quot;%s&quot; &quot;$VITE_EVENT_COLLECTOR_WRITE_TOKEN&quot; | gh secret set VITE_EVENT_COLLECTOR_WRITE_TOKEN</code></li><li><strong>AGL_EVENT_COLLECTOR_ADMIN_TOKEN</strong> configured <code>printf &quot;%s&quot; &quot;$AGL_EVENT_COLLECTOR_ADMIN_TOKEN&quot; | gh secret set AGL_EVENT_COLLECTOR_ADMIN_TOKEN</code></li></ul>
+          <h3>Setup Commands</h3>
+          <ol><li><code>npm run autonomous:event-collector-smoke</code></li><li><code>npm run autonomous:collector-deploy-plan</code></li><li><code>./ops/github/setup-production.sh</code></li><li><code>RUN_WORKFLOWS=1 ./ops/github/setup-production.sh</code></li><li><code>npm run autonomous:readiness</code></li></ol>
+          <h3>Validation Commands</h3>
+          <ol><li><code>npm run autonomous:event-collector-smoke</code></li><li><code>npm run autonomous:collector-deploy-plan</code></li><li><code>npm run autonomous:readiness</code></li><li><code>npm run test:e2e</code></li></ol>
+        </article>
+        <article class="card" aria-label="posthog-browser">
+          <span>needs-public-project-key</span>
+          <h3>PostHog browser capture</h3>
+          <p>zero-spend-use-existing-posthog-free-project</p>
+          <h3>Repository Variables</h3>
+          <ul><li><strong>VITE_POSTHOG_KEY</strong> missing <code>gh variable set VITE_POSTHOG_KEY --body &quot;$VITE_POSTHOG_KEY&quot;</code></li><li><strong>VITE_POSTHOG_HOST</strong> missing <code>gh variable set VITE_POSTHOG_HOST --body &quot;$VITE_POSTHOG_HOST&quot;</code></li></ul>
+          <h3>Repository Secrets</h3>
+          <p>none</p>
+          <h3>Setup Commands</h3>
+          <ol><li><code>./ops/github/setup-production.sh</code></li><li><code>RUN_WORKFLOWS=1 ./ops/github/setup-production.sh</code></li><li><code>npm run autonomous:readiness</code></li></ol>
+          <h3>Validation Commands</h3>
+          <ol><li><code>npm run autonomous:readiness</code></li><li><code>npm run test:e2e</code></li></ol>
+        </article>
+      </section>
+
+      <section>
+        <h2>External Queue</h2>
+        <div class="grid" aria-label="External unlock queue">
+          <div class="card">
+            <span>Queue</span>
+            <strong>handoff-waiting-on-owner-inputs</strong>
+          </div>
+          <div class="card">
+            <span>Next unlock</span>
+            <strong>production-analytics-browser</strong>
+          </div>
+          <div class="card">
+            <span>Missing variables</span>
+            <strong>7</strong>
+          </div>
+          <div class="card">
+            <span>Product blockers</span>
+            <strong>3</strong>
+          </div>
+        </div>
+        <article class="card">
+          <span>web-support-ready-store-email-deferred</span>
+          <h3>support-contact - Web support channel and store support email</h3>
+          <p>zero-spend-public-issues-ready; owner input required: false</p>
+          <p>Variables: AGL_SUPPORT_EMAIL</p>
+          <p>Secrets: none</p>
+          <p>After unlock: npm run autonomous:env &amp;&amp; npm run autonomous:store-package &amp;&amp; npm run autonomous:store-compliance &amp;&amp; npm run autonomous:readiness</p>
+        </article>
+        <article class="card">
+          <span>owner-input-required</span>
+          <h3>production-analytics-browser - Browser production analytics</h3>
+          <p>zero-spend-use-existing-free-tier-or-first-party-collector; owner input required: true</p>
+          <p>Variables: VITE_POSTHOG_KEY, VITE_EVENT_COLLECTOR_URL + AGL_EVENT_COLLECTOR_EXPORT_URL</p>
+          <p>Secrets: VITE_EVENT_COLLECTOR_WRITE_TOKEN, CLOUDFLARE_API_TOKEN</p>
+          <p>After unlock: npm run autonomous:env &amp;&amp; npm run autonomous:local-event-bridge &amp;&amp; npm run autonomous:import-events &amp;&amp; npm run autonomous:analytics &amp;&amp; npm run autonomous:gate-recovery &amp;&amp; npm run autonomous:sample-plan</p>
+        </article>
+        <article class="card">
+          <span>owner-input-required</span>
+          <h3>autonomous-rollup-credentials - Autonomous production rollups</h3>
+          <p>use-existing-collector-or-posthog-project; owner input required: true</p>
+          <p>Variables: VITE_EVENT_COLLECTOR_URL + AGL_EVENT_COLLECTOR_EXPORT_URL, POSTHOG_PROJECT_ID + POSTHOG_PERSONAL_API_KEY</p>
+          <p>Secrets: AGL_EVENT_COLLECTOR_ADMIN_TOKEN, POSTHOG_PERSONAL_API_KEY</p>
+          <p>After unlock: npm run autonomous:import-events &amp;&amp; npm run autonomous:analytics &amp;&amp; npm run autonomous:objective-audit</p>
+        </article>
+        <article class="card">
+          <span>needs-live-sample</span>
+          <h3>product-gate-sample - Product-gate live sample</h3>
+          <p>zero-paid-acquisition-only; owner input required: false</p>
+          <p>Variables: none</p>
+          <p>Secrets: none</p>
+          <p>After unlock: npm run autonomous:collect-sample-downloads &amp;&amp; npm run autonomous:gate-recovery &amp;&amp; npm run autonomous:sample-plan &amp;&amp; npm run autonomous:monetization</p>
+        </article>
+        <article class="card">
+          <span>blocked-by-product-gates</span>
+          <h3>ad-provider-config - Ad provider configuration</h3>
+          <p>disabled-until-product-gates-pass; owner input required: false</p>
+          <p>Variables: VITE_ADSENSE_CLIENT_ID + VITE_ADSENSE_REWARDED_SLOT_ID, ADMOB_PUBLISHER_ID</p>
+          <p>Secrets: none</p>
+          <p>After unlock: npm run autonomous:monetization &amp;&amp; npm run autonomous:unit-economics</p>
+        </article>
+        <article class="card">
+          <span>owner-account-required</span>
+          <h3>google-play-account - Google Play developer account</h3>
+          <p>paid-store-fee-blocked-by-unit-economics; owner input required: true</p>
+          <p>Variables: AGL_GOOGLE_PLAY_ACCOUNT_CONNECTED</p>
+          <p>Secrets: none</p>
+          <p>After unlock: npm run autonomous:native-package &amp;&amp; npm run autonomous:android-release-plan</p>
+        </article>
+        <article class="card">
+          <span>blocked-by-play-account</span>
+          <h3>google-play-service-account - Google Play service account</h3>
+          <p>requires-existing-play-console-access; owner input required: true</p>
+          <p>Variables: none</p>
+          <p>Secrets: GOOGLE_PLAY_SERVICE_ACCOUNT_JSON</p>
+          <p>After unlock: npm run autonomous:android-release-plan</p>
+        </article>
+        <article class="card">
+          <span>deferred-until-ios-payback</span>
+          <h3>apple-developer-account - Apple Developer account</h3>
+          <p>paid-annual-fee-deferred; owner input required: false</p>
+          <p>Variables: none</p>
+          <p>Secrets: none</p>
+          <p>After unlock: npm run autonomous:unit-economics &amp;&amp; npm run autonomous:promote</p>
+        </article>
+      </section>
+
+      <section>
+        <h2>Controls</h2>
+        <ul>
+          <li>Zero paid spend: true</li>
+          <li>No secret values: true</li>
+          <li>No secret values stored: true</li>
+          <li>No account creation: true</li>
+          <li>No store submission: true</li>
+          <li>No revenue enablement: true</li>
+          <li>Secret commands use stdin: true</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>Next Actions</h2>
+        <ul>
+          <li>Choose the first-party collector path when a zero-spend Cloudflare free-tier account already exists; otherwise use an existing PostHog free project.</li>
+          <li>Sync only configured GitHub variables and secrets through ops/github/setup-production.sh; never paste secret values into tracked files.</li>
+          <li>Run the validation commands before trusting production analytics for product-gate or monetization decisions.</li>
+          <li>Run validation commands after repository variables or stdin-fed secrets change.</li>
+          <li>Return to the measurement status page before using production analytics for product gates.</li>
+        </ul>
+        <div class="actions">
+          <a href="./measurement-status.html">Open measurement status</a>
+          <a href="./analytics-unlock.json">Open unlock JSON</a>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

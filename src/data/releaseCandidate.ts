@@ -1,7 +1,7 @@
 export const releaseCandidate = {
-  "generatedAt": "2026-05-22T23:13:13.149Z",
+  "generatedAt": "2026-05-22T23:22:30.613Z",
   "status": "release-candidate-ready",
-  "candidateId": "pwa-55736f1d12e7",
+  "candidateId": "pwa-7ab9cf6dd14b",
   "target": {
     "provider": "github-pages",
     "artifactPath": "dist",
@@ -11,18 +11,18 @@ export const releaseCandidate = {
     "basePath": "/autonomous-game-lab/"
   },
   "summary": {
-    "totalFiles": 51,
-    "totalBytes": 3776702,
-    "totalKb": 3688.2,
+    "totalFiles": 53,
+    "totalBytes": 3816927,
+    "totalKb": 3727.5,
     "assetFiles": 4,
-    "htmlFiles": 19,
+    "htmlFiles": 20,
     "gamePages": 10,
     "requiredFilesPresent": true,
-    "postDeploySmokeUrls": 20
+    "postDeploySmokeUrls": 22
   },
   "integrity": {
     "algorithm": "sha256",
-    "aggregateHash": "55736f1d12e7e4b48d9dcd305aee62d924052ce5d4cd0fa84f293d7c451af3a6",
+    "aggregateHash": "7ab9cf6dd14bd37820f4cdb812efba8cdcad5c52a5d507c6047945c6ef64d7eb",
     "files": [
       {
         "path": ".nojekyll",
@@ -39,6 +39,20 @@ export const releaseCandidate = {
         "cacheControl": "public, max-age=3600"
       },
       {
+        "path": "analytics-unlock.html",
+        "bytes": 12640,
+        "sha256": "cb78295113b767a0ffda3678c32f18315f4fc3a98b29572ffc341bd240e301f2",
+        "contentType": "text/html; charset=utf-8",
+        "cacheControl": "no-cache"
+      },
+      {
+        "path": "analytics-unlock.json",
+        "bytes": 23673,
+        "sha256": "14d9b86d9d31f1f618b1c14ee91c77734a6f9dd423d90d0d733d310b23aa9a10",
+        "contentType": "application/json; charset=utf-8",
+        "cacheControl": "public, max-age=3600"
+      },
+      {
         "path": "app-ads.txt",
         "bytes": 187,
         "sha256": "fca4b9f6094448086cc698a391365b26e773f287e82eee093ce073cdf26d677e",
@@ -46,23 +60,16 @@ export const releaseCandidate = {
         "cacheControl": "public, max-age=3600"
       },
       {
-        "path": "assets/aggregateEvidenceIssue-BnoBrWi6.js",
+        "path": "assets/aggregateEvidenceIssue-fJvrfy7F.js",
         "bytes": 3717,
-        "sha256": "a7ac9b953b07f6728c501ebcb5ab23f0542a62898df5136509473cba3b9c77b6",
+        "sha256": "ae6f1c7c2a613dd11c0f9c324db01b207bbb35c8883d0a9d42b62baa1cf73a0a",
         "contentType": "text/javascript; charset=utf-8",
         "cacheControl": "public, max-age=31536000, immutable"
       },
       {
-        "path": "assets/GameCanvas-D2VJm4jl.js",
+        "path": "assets/GameCanvas-CyIh7dnC.js",
         "bytes": 1394049,
-        "sha256": "514e46aa08fb6cafc0917cd8db6e7529229a7485ceb488db7221f381ed49d1fa",
-        "contentType": "text/javascript; charset=utf-8",
-        "cacheControl": "public, max-age=31536000, immutable"
-      },
-      {
-        "path": "assets/index-B-GBIOKC.js",
-        "bytes": 691264,
-        "sha256": "27ec8f4a766dcf0d1cadbcc6419bd6b1d785fbddbc8abd3b5508053d0acde762",
+        "sha256": "38f9fb5f2f4194a300eb7cbb6b1c604fb51785a601647da995b72ef6d0f10de4",
         "contentType": "text/javascript; charset=utf-8",
         "cacheControl": "public, max-age=31536000, immutable"
       },
@@ -74,9 +81,16 @@ export const releaseCandidate = {
         "cacheControl": "public, max-age=31536000, immutable"
       },
       {
+        "path": "assets/index-DUqjGtxy.js",
+        "bytes": 692571,
+        "sha256": "a6fd852be7de7758aa2b61477d80046394583f2f8f03e8084042b06cd7ccb37e",
+        "contentType": "text/javascript; charset=utf-8",
+        "cacheControl": "public, max-age=31536000, immutable"
+      },
+      {
         "path": "compliance.json",
         "bytes": 5625,
-        "sha256": "022c29a6cf0df6911eb5d378b20541a5091935ca6e14f3f4b4d08d59a2026e9c",
+        "sha256": "d9b0aa492f094a0b48d73314f01efd7263a077b0d76bae01195829149437cd65",
         "contentType": "application/json; charset=utf-8",
         "cacheControl": "public, max-age=3600"
       },
@@ -223,7 +237,7 @@ export const releaseCandidate = {
       {
         "path": "index.html",
         "bytes": 2846,
-        "sha256": "4388780cce7ca3fbc3b7b54d8c30e011dab76cae8ffe1f78cc42c4316f053266",
+        "sha256": "0dd11cbe83901a51f972730cfc1e5d099965f55482daffefd745598d910199ef",
         "contentType": "text/html; charset=utf-8",
         "cacheControl": "no-cache"
       },
@@ -243,15 +257,15 @@ export const releaseCandidate = {
       },
       {
         "path": "measurement-status.html",
-        "bytes": 18740,
-        "sha256": "3fbc60a9d6b1b873e905872cd9a4b50250031353a7690288c7b1c392b442c763",
+        "bytes": 18925,
+        "sha256": "a0f620517eae58828320cbcd3387169b18e0f7e34fd2120bb105590599cb43af",
         "contentType": "text/html; charset=utf-8",
         "cacheControl": "no-cache"
       },
       {
         "path": "measurement-status.json",
-        "bytes": 35933,
-        "sha256": "7d4bc87c197dac5b22dfebfbbdb4f69427078e6546fdae1a0f0e443c42ce1349",
+        "bytes": 36035,
+        "sha256": "49c9f223812a90ff67bdf7f554f750de2fe883b0089b275726eea317f7dfd3d5",
         "contentType": "application/json; charset=utf-8",
         "cacheControl": "public, max-age=3600"
       },
@@ -341,8 +355,8 @@ export const releaseCandidate = {
       },
       {
         "path": "store-assets/screenshots/phone-lantern-relay-game.png",
-        "bytes": 194268,
-        "sha256": "519328a8f13322c5e5da3b70551ab745da7533c973f21031ab39fb4991269c4d",
+        "bytes": 196494,
+        "sha256": "0ca246ac3b6c94d2e025ec705f845089c2f9c0f8862bc66944a4f65c5a13125f",
         "contentType": "image/png",
         "cacheControl": "public, max-age=3600"
       },
@@ -369,8 +383,8 @@ export const releaseCandidate = {
       },
       {
         "path": "sw.js",
-        "bytes": 4277,
-        "sha256": "24b819d2669e5cbfd7549d7c93e0ff6bc0eb4613ed907aa74ee946c189b0646d",
+        "bytes": 4369,
+        "sha256": "2034a446ea36011514dab60c74b3a67ebd0ecdc8db09572dfa848f07e6813ba5",
         "contentType": "text/javascript; charset=utf-8",
         "cacheControl": "no-cache"
       },
@@ -409,6 +423,14 @@ export const releaseCandidate = {
       },
       {
         "path": "measurement-status.json",
+        "status": "pass"
+      },
+      {
+        "path": "analytics-unlock.html",
+        "status": "pass"
+      },
+      {
+        "path": "analytics-unlock.json",
         "status": "pass"
       },
       {
@@ -532,6 +554,20 @@ export const releaseCandidate = {
       "id": "measurement-status-json",
       "path": "/measurement-status.json",
       "url": "https://moshequ.github.io/autonomous-game-lab/measurement-status.json",
+      "expectedStatus": 200,
+      "requiredText": null
+    },
+    {
+      "id": "analytics-unlock-html",
+      "path": "/analytics-unlock.html",
+      "url": "https://moshequ.github.io/autonomous-game-lab/analytics-unlock.html",
+      "expectedStatus": 200,
+      "requiredText": "Production Analytics Unlock"
+    },
+    {
+      "id": "analytics-unlock-json",
+      "path": "/analytics-unlock.json",
+      "url": "https://moshequ.github.io/autonomous-game-lab/analytics-unlock.json",
       "expectedStatus": 200,
       "requiredText": null
     },
@@ -672,12 +708,12 @@ export const releaseCandidate = {
     {
       "id": "dist-inventory",
       "status": "pass",
-      "detail": "51 dist files inventoried."
+      "detail": "53 dist files inventoried."
     },
     {
       "id": "required-files",
       "status": "pass",
-      "detail": "25/25 required files present."
+      "detail": "27/27 required files present."
     },
     {
       "id": "game-pages",
@@ -707,7 +743,7 @@ export const releaseCandidate = {
     {
       "id": "post-deploy-smoke-plan",
       "status": "pass",
-      "detail": "20 post-deploy smoke URL(s) planned."
+      "detail": "22 post-deploy smoke URL(s) planned."
     }
   ],
   "nextActions": [

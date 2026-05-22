@@ -101,6 +101,8 @@ const requiredFiles = [
   'support.html',
   'measurement-status.html',
   'measurement-status.json',
+  'analytics-unlock.html',
+  'analytics-unlock.json',
   'install.html',
   'compliance.json',
   'sitemap.xml',
@@ -187,6 +189,8 @@ const smokePaths = [
   'support.html',
   'measurement-status.html',
   'measurement-status.json',
+  'analytics-unlock.html',
+  'analytics-unlock.json',
   'install.html',
   'compliance.json',
   'monetization.json',
@@ -217,6 +221,10 @@ const requiredTextForSmokePath = (filePath) => {
 
   if (filePath === 'app-ads.txt') {
     return 'Revenue features are disabled'
+  }
+
+  if (filePath === 'analytics-unlock.html') {
+    return 'Production Analytics Unlock'
   }
 
   if (filePath === '.well-known/assetlinks.json') {

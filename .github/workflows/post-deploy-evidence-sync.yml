@@ -183,6 +183,8 @@ jobs:
             src/data/productionMeasurementStatus.ts \
             public/measurement-status.html \
             public/measurement-status.json \
+            public/analytics-unlock.html \
+            public/analytics-unlock.json \
             reports/production-measurement-status-latest.md \
             data/player-evidence-watchdog.json \
             src/data/playerEvidenceWatchdog.ts \
@@ -268,6 +270,8 @@ jobs:
             reports/player-evidence-watchdog-latest.md
             public/measurement-status.html
             public/measurement-status.json
+            public/analytics-unlock.html
+            public/analytics-unlock.json
             data/production-readiness.json
             reports/production-readiness-latest.md
             data/objective-audit.json

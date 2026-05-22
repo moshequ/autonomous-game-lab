@@ -120,6 +120,8 @@ const basePathFor = ({ command }: ConfigEnv) =>
 const operationalFreshnessAssets = [
   'measurement-status.html',
   'measurement-status.json',
+  'analytics-unlock.html',
+  'analytics-unlock.json',
   'release-candidate.json',
   'sample-next.html',
   'sample-next.json',
@@ -135,7 +137,7 @@ const operationalFreshnessAssets = [
 ]
 
 const operationalFreshnessRoute =
-  /\/(?:measurement-status\.html|measurement-status\.json|release-candidate\.json|sample-next\.html|sample-next\.json|seed-next\.html|seed-next\.json|seed-kit\.html|gate-sample\.html|share-manifest\.json|privacy\.html|support\.html|install\.html|\.well-known\/assetlinks\.json)(?:\?.*)?$/
+  /\/(?:measurement-status\.html|measurement-status\.json|analytics-unlock\.html|analytics-unlock\.json|release-candidate\.json|sample-next\.html|sample-next\.json|seed-next\.html|seed-next\.json|seed-kit\.html|gate-sample\.html|share-manifest\.json|privacy\.html|support\.html|install\.html|\.well-known\/assetlinks\.json)(?:\?.*)?$/
 
 export default defineConfig((env) => {
   const normalizedBase = basePathFor(env)

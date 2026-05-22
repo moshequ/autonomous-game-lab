@@ -10,6 +10,8 @@ const outputJsonPath = path.join(dataDir, 'production-measurement-status.json')
 const outputTsPath = path.join(root, 'src', 'data', 'productionMeasurementStatus.ts')
 const publicJsonPath = path.join(publicDir, 'measurement-status.json')
 const publicHtmlPath = path.join(publicDir, 'measurement-status.html')
+const publicAnalyticsUnlockJsonPath = path.join(publicDir, 'analytics-unlock.json')
+const publicAnalyticsUnlockHtmlPath = path.join(publicDir, 'analytics-unlock.html')
 const reportPath = path.join(reportsDir, 'production-measurement-status-latest.md')
 
 const readJson = async (filePath) => JSON.parse(await readFile(filePath, 'utf8'))
@@ -509,6 +511,8 @@ const payload = {
   publicRoutes: {
     statusPage: '/measurement-status.html',
     statusJson: '/measurement-status.json',
+    analyticsUnlock: '/analytics-unlock.html',
+    analyticsUnlockJson: '/analytics-unlock.json',
     gateSample: '/gate-sample.html',
     sampleNext: sampleNextRoute.path,
     sampleNextJson: sampleNextRoute.jsonPath,
@@ -628,6 +632,288 @@ const publicPayload = {
   controls: payload.controls,
   nextActions: payload.nextActions,
 }
+
+const analyticsUnlockPayload = {
+  generatedAt: payload.generatedAt,
+  status: payload.analyticsUnlock?.status ?? 'missing',
+  activePath: payload.activePath,
+  liveCandidate: payload.liveCandidate,
+  recommendedPathId: payload.analyticsUnlock?.recommendedPathId ?? null,
+  analyticsUnlock: payload.analyticsUnlock,
+  externalUnlockQueue: {
+    status: payload.externalUnlockQueue.status,
+    nextBestUnlockId: payload.externalUnlockQueue.nextBestUnlockId,
+    nextBestZeroCostUnlockId: payload.externalUnlockQueue.nextBestZeroCostUnlockId,
+    ownerActionRequired: payload.externalUnlockQueue.ownerActionRequired,
+    missingEnvironmentItems: payload.externalUnlockQueue.missingEnvironmentItems,
+    missingSecrets: payload.externalUnlockQueue.missingSecrets,
+    productGateBlockers: payload.externalUnlockQueue.productGateBlockers,
+    topItems: payload.externalUnlockQueue.topItems,
+  },
+  publicRoutes: {
+    statusPage: payload.publicRoutes.statusPage,
+    statusJson: payload.publicRoutes.statusJson,
+    analyticsUnlock: payload.publicRoutes.analyticsUnlock,
+    analyticsUnlockJson: payload.publicRoutes.analyticsUnlockJson,
+  },
+  controls: {
+    publicArtifact: true,
+    zeroPaidSpend: true,
+    noSecretValues: true,
+    noSecretValuesStored: true,
+    noAccountCreation: true,
+    noStoreSubmission: true,
+    noRevenueEnablement: true,
+    productGatesStillRequiredForRevenue: true,
+    secretCommandsUseStdin: payload.analyticsUnlock?.controls.secretCommandsUseStdin === true,
+  },
+  nextActions: [
+    ...(payload.analyticsUnlock?.nextActions ?? []),
+    'Run validation commands after repository variables or stdin-fed secrets change.',
+    'Return to the measurement status page before using production analytics for product gates.',
+  ],
+}
+
+const commandList = (commands) =>
+  commands.length
+    ? `<ol>${commands.map((command) => `<li><code>${escapeHtml(command)}</code></li>`).join('')}</ol>`
+    : '<p>none</p>'
+
+const requiredList = (items, labelKey = 'repositoryName') =>
+  items.length
+    ? `<ul>${items
+        .map(
+          (item) =>
+            `<li><strong>${escapeHtml(item[labelKey] ?? item.name ?? 'unknown')}</strong> ${item.configured ? 'configured' : 'missing'}${item.command ? ` <code>${escapeHtml(item.command)}</code>` : ''}</li>`,
+        )
+        .join('')}</ul>`
+    : '<p>none</p>'
+
+const analyticsUnlockHtml = `<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Production Analytics Unlock | Autonomous Game Lab</title>
+    <style>
+      :root {
+        color: #191713;
+        background: #fbf7ef;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        line-height: 1.5;
+      }
+
+      body {
+        margin: 0;
+      }
+
+      main {
+        width: min(980px, calc(100% - 32px));
+        margin: 0 auto;
+        padding: 44px 0;
+      }
+
+      h1,
+      h2,
+      h3 {
+        line-height: 1.08;
+        margin: 0;
+      }
+
+      h1 {
+        font-size: clamp(2rem, 6vw, 4.2rem);
+        max-width: 780px;
+      }
+
+      p {
+        max-width: 760px;
+      }
+
+      a {
+        color: #187f7a;
+        font-weight: 700;
+      }
+
+      code {
+        overflow-wrap: anywhere;
+      }
+
+      .eyebrow {
+        color: #7d2f18;
+        font-size: 0.82rem;
+        font-weight: 800;
+        letter-spacing: 0;
+        text-transform: uppercase;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 12px;
+        margin: 28px 0;
+      }
+
+      .card {
+        border: 1px solid #d9d0bf;
+        border-radius: 8px;
+        background: #fffdf7;
+        padding: 16px;
+      }
+
+      .card span {
+        display: block;
+        color: #6d675c;
+        font-size: 0.78rem;
+        font-weight: 800;
+        text-transform: uppercase;
+      }
+
+      .card strong {
+        display: block;
+        margin-top: 8px;
+        overflow-wrap: anywhere;
+        font-size: 1.05rem;
+      }
+
+      section {
+        border-top: 1px solid #d9d0bf;
+        padding: 22px 0;
+      }
+
+      ul,
+      ol {
+        padding-left: 20px;
+      }
+
+      li {
+        margin: 6px 0;
+      }
+
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .actions a {
+        border: 1px solid #187f7a;
+        border-radius: 8px;
+        padding: 10px 12px;
+        text-decoration: none;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <p class="eyebrow">Autonomous Game Lab</p>
+      <h1>Production Analytics Unlock</h1>
+      <p>This generated handoff exposes the next zero-spend measurement unlock without secret values, account creation, store submission, paid acquisition, or revenue enablement.</p>
+
+      <div class="grid" aria-label="Analytics unlock summary">
+        <div class="card">
+          <span>Status</span>
+          <strong>${escapeHtml(analyticsUnlockPayload.status)}</strong>
+        </div>
+        <div class="card">
+          <span>Recommended path</span>
+          <strong>${escapeHtml(analyticsUnlockPayload.recommendedPathId ?? 'none')}</strong>
+        </div>
+        <div class="card">
+          <span>Owner actions</span>
+          <strong>${analyticsUnlockPayload.externalUnlockQueue.ownerActionRequired}</strong>
+        </div>
+        <div class="card">
+          <span>Missing secrets</span>
+          <strong>${analyticsUnlockPayload.externalUnlockQueue.missingSecrets}</strong>
+        </div>
+      </div>
+
+      <section>
+        <h2>Unlock Paths</h2>
+        ${
+          analyticsUnlockPayload.analyticsUnlock
+            ? analyticsUnlockPayload.analyticsUnlock.paths
+                .map(
+                  (unlockPath) => `<article class="card" aria-label="${escapeHtml(unlockPath.id)}">
+          <span>${escapeHtml(unlockPath.status)}</span>
+          <h3>${escapeHtml(unlockPath.title)}</h3>
+          <p>${escapeHtml(unlockPath.costMode)}</p>
+          <h3>Repository Variables</h3>
+          ${requiredList(unlockPath.requiredVariables)}
+          <h3>Repository Secrets</h3>
+          ${requiredList(unlockPath.requiredSecrets)}
+          <h3>Setup Commands</h3>
+          ${commandList(unlockPath.commandSequence)}
+          <h3>Validation Commands</h3>
+          ${commandList(unlockPath.validationCommands)}
+        </article>`,
+                )
+                .join('\n        ')
+            : '<p>No analytics unlock kit is available yet.</p>'
+        }
+      </section>
+
+      <section>
+        <h2>External Queue</h2>
+        <div class="grid" aria-label="External unlock queue">
+          <div class="card">
+            <span>Queue</span>
+            <strong>${escapeHtml(analyticsUnlockPayload.externalUnlockQueue.status)}</strong>
+          </div>
+          <div class="card">
+            <span>Next unlock</span>
+            <strong>${escapeHtml(analyticsUnlockPayload.externalUnlockQueue.nextBestUnlockId ?? 'none')}</strong>
+          </div>
+          <div class="card">
+            <span>Missing variables</span>
+            <strong>${analyticsUnlockPayload.externalUnlockQueue.missingEnvironmentItems}</strong>
+          </div>
+          <div class="card">
+            <span>Product blockers</span>
+            <strong>${analyticsUnlockPayload.externalUnlockQueue.productGateBlockers}</strong>
+          </div>
+        </div>
+        ${analyticsUnlockPayload.externalUnlockQueue.topItems
+          .map(
+            (item) => `<article class="card">
+          <span>${escapeHtml(item.status)}</span>
+          <h3>${escapeHtml(item.id)} - ${escapeHtml(item.title)}</h3>
+          <p>${escapeHtml(item.costMode)}; owner input required: ${item.ownerInputRequired}</p>
+          <p>Variables: ${escapeHtml(item.requiredEnv.map((env) => env.name).filter(Boolean).join(', ') || 'none')}</p>
+          <p>Secrets: ${escapeHtml(item.requiredSecrets.map((secret) => secret.repositoryName).filter(Boolean).join(', ') || 'none')}</p>
+          <p>After unlock: ${escapeHtml(item.afterUnlockCommands.join(' && ') || 'none')}</p>
+        </article>`,
+          )
+          .join('\n        ')}
+      </section>
+
+      <section>
+        <h2>Controls</h2>
+        <ul>
+          <li>Zero paid spend: ${analyticsUnlockPayload.controls.zeroPaidSpend}</li>
+          <li>No secret values: ${analyticsUnlockPayload.controls.noSecretValues}</li>
+          <li>No secret values stored: ${analyticsUnlockPayload.controls.noSecretValuesStored}</li>
+          <li>No account creation: ${analyticsUnlockPayload.controls.noAccountCreation}</li>
+          <li>No store submission: ${analyticsUnlockPayload.controls.noStoreSubmission}</li>
+          <li>No revenue enablement: ${analyticsUnlockPayload.controls.noRevenueEnablement}</li>
+          <li>Secret commands use stdin: ${analyticsUnlockPayload.controls.secretCommandsUseStdin}</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>Next Actions</h2>
+        <ul>
+          ${analyticsUnlockPayload.nextActions.map((action) => `<li>${escapeHtml(action)}</li>`).join('\n          ')}
+        </ul>
+        <div class="actions">
+          <a href="${escapeHtml(publicRouteHref(analyticsUnlockPayload.publicRoutes.statusPage))}">Open measurement status</a>
+          <a href="${escapeHtml(publicRouteHref(analyticsUnlockPayload.publicRoutes.analyticsUnlockJson))}">Open unlock JSON</a>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
+`
 
 const html = `<!doctype html>
 <html lang="en">
@@ -916,6 +1202,9 @@ const html = `<!doctype html>
                 .join('\n        ')
             : '<p>No analytics unlock kit is available yet.</p>'
         }
+        <div class="actions">
+          <a href="${escapeHtml(publicRouteHref(payload.publicRoutes.analyticsUnlock))}">Open analytics unlock</a>
+        </div>
       </section>
 
       <section>
@@ -974,6 +1263,7 @@ const html = `<!doctype html>
         <div class="actions">
           <a href="${escapeHtml(publicRouteHref(payload.publicRoutes.sampleNext))}">Start current sample</a>
           <a href="${escapeHtml(publicRouteHref(payload.publicRoutes.gateSample))}">Open gate sample</a>
+          <a href="${escapeHtml(publicRouteHref(payload.publicRoutes.analyticsUnlock))}">Open analytics unlock</a>
           <a href="${escapeHtml(publicRouteHref(payload.publicRoutes.support))}">Open support</a>
           <a href="${escapeHtml(publicRouteHref(payload.publicRoutes.statusJson))}">Open status JSON</a>
         </div>
@@ -1074,10 +1364,14 @@ await writeFile(
 )
 await writeFile(publicJsonPath, JSON.stringify(publicPayload, null, 2) + '\n')
 await writeFile(publicHtmlPath, html)
+await writeFile(publicAnalyticsUnlockJsonPath, JSON.stringify(analyticsUnlockPayload, null, 2) + '\n')
+await writeFile(publicAnalyticsUnlockHtmlPath, analyticsUnlockHtml)
 await writeFile(reportPath, report.join('\n'))
 
 console.log(`Wrote ${path.relative(root, outputJsonPath)}`)
 console.log(`Wrote ${path.relative(root, outputTsPath)}`)
 console.log(`Wrote ${path.relative(root, publicJsonPath)}`)
 console.log(`Wrote ${path.relative(root, publicHtmlPath)}`)
+console.log(`Wrote ${path.relative(root, publicAnalyticsUnlockJsonPath)}`)
+console.log(`Wrote ${path.relative(root, publicAnalyticsUnlockHtmlPath)}`)
 console.log(`Wrote ${path.relative(root, reportPath)}`)

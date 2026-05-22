@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-22T23:13:24.077Z",
+  "generatedAt": "2026-05-22T23:22:40.179Z",
   "status": "production-measurement-local-intake-ready",
   "activePath": "local-browser-buffer",
   "liveCandidate": "pwa-ea9816841e2a",
@@ -811,6 +811,8 @@
   "publicRoutes": {
     "statusPage": "/measurement-status.html",
     "statusJson": "/measurement-status.json",
+    "analyticsUnlock": "/analytics-unlock.html",
+    "analyticsUnlockJson": "/analytics-unlock.json",
     "gateSample": "/gate-sample.html",
     "sampleNext": "/sample-next.html",
     "sampleNextJson": "/sample-next.json",

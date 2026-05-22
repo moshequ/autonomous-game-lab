@@ -1,135 +1,9 @@
 {
   "generatedAt": "2026-05-22T23:22:40.179Z",
-  "sourceDataHash": "e45da7c09cd1",
-  "status": "production-measurement-local-intake-ready",
+  "status": "owner-input-required",
   "activePath": "local-browser-buffer",
   "liveCandidate": "pwa-ea9816841e2a",
-  "liveRelease": {
-    "syncedCandidateId": "pwa-ea9816841e2a",
-    "syncedArtifactCandidateId": "pwa-ea9816841e2a",
-    "exactManifestPath": "/release-candidate.json",
-    "runtimeManifestCheck": "read-only-browser-fetch",
-    "staticJsonMayLagBehindLatestDeploy": true,
-    "lagReason": "Post-deploy evidence sync commits after the Pages deploy; the live page reads release-candidate.json at runtime to show the exact deployed candidate without dispatching another workflow.",
-    "controls": {
-      "readOnlyManifestFetch": true,
-      "noWorkflowDispatch": true,
-      "noDeployLoop": true,
-      "zeroPaidSpend": true
-    }
-  },
-  "analytics": {
-    "activeRollupSource": "fixture-sample",
-    "retentionSource": "fixture-retention",
-    "totals": {
-      "events": 0,
-      "gameStarted": 375,
-      "levelCompleted": 149,
-      "analyticsExported": 0,
-      "evidenceIssuesOpened": 0
-    },
-    "browserForwarding": {
-      "configured": false,
-      "path": "local-browser-buffer",
-      "posthogConfigured": false,
-      "firstPartyCollectorConfigured": false,
-      "optOutAvailable": true
-    },
-    "autonomousRollups": {
-      "configured": false,
-      "posthogServerConfigured": false,
-      "firstPartyCollectorExportConfigured": false
-    },
-    "localEvidence": {
-      "ready": true,
-      "bridgeStatus": "bridge-waiting-for-export",
-      "inboxEvents": 0,
-      "importedEvents": 0,
-      "supportStatus": "support-channel-ready",
-      "aggregateEvidenceNotes": 0,
-      "aggregateEvidenceStarts": 0,
-      "aggregateEvidenceCompletions": 0,
-      "aggregateEvidenceReplays": 0
-    }
-  },
-  "productGateEvidence": {
-    "status": "product-gate-sample-plan-ready",
-    "primaryMission": {
-      "id": "collect-firstGameCompletion-sample",
-      "title": "Harbor Rings",
-      "gateId": "firstGameCompletion",
-      "campaignId": "gate-sample-20260523-firstGameCompletion",
-      "gameId": "harbor-rings",
-      "needed": {
-        "promptViews": 30,
-        "successes": 128,
-        "minimumPromptViewsForDecision": 30
-      },
-      "evidenceStatus": "waiting-for-player-export"
-    },
-    "missionCount": 3,
-    "fastestGateId": "d1Retention",
-    "supportingAggregateEvidenceNotes": 0,
-    "aggregateEvidenceMissionCount": 0,
-    "sampleNextRoute": {
-      "status": "armed",
-      "path": "/sample-next.html",
-      "jsonPath": "/sample-next.json",
-      "targetCampaignId": "gate-sample-20260523-firstGameCompletion",
-      "targetGateId": "firstGameCompletion",
-      "targetGameId": "harbor-rings",
-      "targetTitle": "Sample First game completion",
-      "targetPath": "/?game=harbor-rings&utm_source=gate_sample&utm_campaign=gate-sample-20260523-firstGameCompletion",
-      "fallbackPath": "/gate-sample.html",
-      "costUsd": 0,
-      "guardrails": {
-        "playerInitiatedOnly": true,
-        "noAutomatedExternalPosting": true,
-        "noPaidPromotion": true,
-        "noSyntheticEvents": true,
-        "noRevenueEnablement": true
-      }
-    }
-  },
-  "publicEvidenceHandoff": {
-    "status": "awaiting-player-initiated-aggregate-notes",
-    "source": "support-feedback-public-issues",
-    "supportFeedbackStatus": "support-feedback-empty",
-    "analyticsEvidenceIssue": "https://github.com/moshequ/autonomous-game-lab/issues/new?template=analytics-evidence.yml&title=%5BEvidence%5D+Player+event+export+note&body=Thanks+for+helping+improve+Autonomous+Game+Lab.%0A%0AGitHub+Issues+are+public.+Share+aggregate+counts+only.%0ADo+not+paste+private+information%2C+raw+analytics+exports%2C+event+rows%2C+private+identifiers%2C+or+uploaded+event+files+into+this+issue.%0A%0ASupport+type%3A+analytics-evidence%0AGame+or+mission%3A%0AEvidence+window%3A%0AAggregate+starts%3A%0AAggregate+completions%3A%0AAggregate+replays%3A%0AAggregate+D1+eligible+players%3A%0AAggregate+D1+retained+players%3A%0AWhat+changed+or+looked+unusual%3A",
-    "aggregateEvidence": {
-      "notes": 0,
-      "games": 0,
-      "campaigns": 0,
-      "starts": 0,
-      "completions": 0,
-      "replays": 0,
-      "d1Eligible": 0,
-      "d1Retained": 0,
-      "topNotes": []
-    },
-    "campaignEvidence": [],
-    "productGateMissions": {
-      "supportingAggregateEvidenceNotes": 0,
-      "missionsWithAggregateEvidence": 0,
-      "topMissions": []
-    },
-    "controls": {
-      "aggregateEvidenceDoesNotPassGates": true,
-      "manualReviewRequiredForGateDecisions": true,
-      "noRawEventsStored": true,
-      "noRawEventRowsAccepted": true,
-      "noAttachmentsDownloaded": true,
-      "publicAggregateOnly": true,
-      "playerInitiatedOnly": true,
-      "zeroPaidSpend": true,
-      "noAutomaticPublicUpload": true,
-      "noRevenueEnablement": true
-    },
-    "nextActions": [
-      "Invite players to start the current sample through /sample-next.html, then use Share evidence after the play session so public aggregate evidence can be reviewed without raw events.",
-      "Do not pass product gates, enable revenue, or submit stores from public aggregate notes alone."
-    ]
-  },
+  "recommendedPathId": "first-party-collector",
   "analyticsUnlock": {
     "id": "production-analytics-browser",
     "title": "Browser production analytics unlock kit",
@@ -265,7 +139,6 @@
     "nextBestUnlockId": "production-analytics-browser",
     "nextBestZeroCostUnlockId": "production-analytics-browser",
     "ownerActionRequired": 4,
-    "externalOwnerActions": 4,
     "missingEnvironmentItems": 7,
     "missingSecrets": 3,
     "productGateBlockers": 3,
@@ -667,202 +540,30 @@
         ],
         "unlockKit": null
       }
-    ],
-    "nextUnlockKit": {
-      "id": "production-analytics-browser",
-      "title": "Browser production analytics unlock kit",
-      "status": "owner-input-required",
-      "recommendedPathId": "first-party-collector",
-      "commandCount": 5,
-      "validationCommandCount": 4,
-      "missingVariableCount": 5,
-      "missingSecretCount": 1,
-      "controls": {
-        "zeroPaidSpend": true,
-        "noSecretValues": true,
-        "noSecretValuesStored": true,
-        "noAccountCreation": true,
-        "noStoreSubmission": true,
-        "noRevenueEnablement": true,
-        "secretCommandsUseStdin": true
-      },
-      "paths": [
-        {
-          "id": "first-party-collector",
-          "title": "First-party event collector",
-          "status": "needs-variables-and-secrets",
-          "costMode": "zero-spend-use-existing-cloudflare-free-tier",
-          "ownerInputRequired": true,
-          "requiredVariables": [
-            {
-              "repositoryName": "CLOUDFLARE_ACCOUNT_ID",
-              "envName": "CLOUDFLARE_ACCOUNT_ID",
-              "configured": false,
-              "command": "gh variable set CLOUDFLARE_ACCOUNT_ID --body \"$CLOUDFLARE_ACCOUNT_ID\""
-            },
-            {
-              "repositoryName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
-              "envName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
-              "configured": true,
-              "command": "gh variable set AGL_EVENT_COLLECTOR_R2_BUCKET --body \"$AGL_EVENT_COLLECTOR_R2_BUCKET\""
-            },
-            {
-              "repositoryName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
-              "envName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
-              "configured": true,
-              "command": "gh variable set AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS --body \"$AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS\""
-            },
-            {
-              "repositoryName": "VITE_EVENT_COLLECTOR_URL",
-              "envName": "VITE_EVENT_COLLECTOR_URL",
-              "configured": false,
-              "command": "gh variable set VITE_EVENT_COLLECTOR_URL --body \"$VITE_EVENT_COLLECTOR_URL\""
-            },
-            {
-              "repositoryName": "AGL_EVENT_COLLECTOR_EXPORT_URL",
-              "envName": "AGL_EVENT_COLLECTOR_EXPORT_URL",
-              "configured": false,
-              "command": "gh variable set AGL_EVENT_COLLECTOR_EXPORT_URL --body \"$AGL_EVENT_COLLECTOR_EXPORT_URL\""
-            }
-          ],
-          "requiredSecrets": [
-            {
-              "repositoryName": "CLOUDFLARE_API_TOKEN",
-              "envName": "CLOUDFLARE_API_TOKEN",
-              "configured": false,
-              "command": "printf \"%s\" \"$CLOUDFLARE_API_TOKEN\" | gh secret set CLOUDFLARE_API_TOKEN"
-            },
-            {
-              "repositoryName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
-              "envName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
-              "configured": true,
-              "command": "printf \"%s\" \"$VITE_EVENT_COLLECTOR_WRITE_TOKEN\" | gh secret set VITE_EVENT_COLLECTOR_WRITE_TOKEN"
-            },
-            {
-              "repositoryName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
-              "envName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
-              "configured": true,
-              "command": "printf \"%s\" \"$AGL_EVENT_COLLECTOR_ADMIN_TOKEN\" | gh secret set AGL_EVENT_COLLECTOR_ADMIN_TOKEN"
-            }
-          ],
-          "commandSequence": [
-            "npm run autonomous:event-collector-smoke",
-            "npm run autonomous:collector-deploy-plan",
-            "./ops/github/setup-production.sh",
-            "RUN_WORKFLOWS=1 ./ops/github/setup-production.sh",
-            "npm run autonomous:readiness"
-          ],
-          "validationCommands": [
-            "npm run autonomous:event-collector-smoke",
-            "npm run autonomous:collector-deploy-plan",
-            "npm run autonomous:readiness",
-            "npm run test:e2e"
-          ]
-        },
-        {
-          "id": "posthog-browser",
-          "title": "PostHog browser capture",
-          "status": "needs-public-project-key",
-          "costMode": "zero-spend-use-existing-posthog-free-project",
-          "ownerInputRequired": true,
-          "requiredVariables": [
-            {
-              "repositoryName": "VITE_POSTHOG_KEY",
-              "envName": "VITE_POSTHOG_KEY",
-              "configured": false,
-              "command": "gh variable set VITE_POSTHOG_KEY --body \"$VITE_POSTHOG_KEY\""
-            },
-            {
-              "repositoryName": "VITE_POSTHOG_HOST",
-              "envName": "VITE_POSTHOG_HOST",
-              "configured": false,
-              "command": "gh variable set VITE_POSTHOG_HOST --body \"$VITE_POSTHOG_HOST\""
-            }
-          ],
-          "requiredSecrets": [],
-          "commandSequence": [
-            "./ops/github/setup-production.sh",
-            "RUN_WORKFLOWS=1 ./ops/github/setup-production.sh",
-            "npm run autonomous:readiness"
-          ],
-          "validationCommands": [
-            "npm run autonomous:readiness",
-            "npm run test:e2e"
-          ]
-        }
-      ]
-    },
-    "controls": {
-      "zeroPaidSpend": true,
-      "noSecretValues": true,
-      "noSecretValuesStored": true,
-      "noMutation": true,
-      "noAccountCreation": true,
-      "noStoreSubmission": true,
-      "noRevenueEnablement": true,
-      "productGatesStillRequiredForRevenue": true,
-      "storeSpendStillBlockedByUnitEconomics": true
-    },
-    "nextActions": [
-      "Start with production-analytics-browser; it is the highest-priority zero-spend owner input.",
-      "Use only repository variables and stdin-fed secrets; never paste secret values into tracked files or public issues.",
-      "Keep product gates, revenue, and store submissions blocked until validation commands and real player evidence pass."
     ]
   },
   "publicRoutes": {
     "statusPage": "/measurement-status.html",
     "statusJson": "/measurement-status.json",
     "analyticsUnlock": "/analytics-unlock.html",
-    "analyticsUnlockJson": "/analytics-unlock.json",
-    "gateSample": "/gate-sample.html",
-    "sampleNext": "/sample-next.html",
-    "sampleNextJson": "/sample-next.json",
-    "support": "/support.html",
-    "privacy": "/privacy.html",
-    "analyticsEvidenceIssue": "https://github.com/moshequ/autonomous-game-lab/issues/new?template=analytics-evidence.yml&title=%5BEvidence%5D+Player+event+export+note&body=Thanks+for+helping+improve+Autonomous+Game+Lab.%0A%0AGitHub+Issues+are+public.+Share+aggregate+counts+only.%0ADo+not+paste+private+information%2C+raw+analytics+exports%2C+event+rows%2C+private+identifiers%2C+or+uploaded+event+files+into+this+issue.%0A%0ASupport+type%3A+analytics-evidence%0AGame+or+mission%3A%0AEvidence+window%3A%0AAggregate+starts%3A%0AAggregate+completions%3A%0AAggregate+replays%3A%0AAggregate+D1+eligible+players%3A%0AAggregate+D1+retained+players%3A%0AWhat+changed+or+looked+unusual%3A"
-  },
-  "blockers": {
-    "browserProductionAnalytics": {
-      "status": "owner-input-required",
-      "ownerInputRequired": true,
-      "costMode": "zero-spend-use-existing-free-tier-or-first-party-collector"
-    },
-    "autonomousRollups": {
-      "status": "owner-input-required",
-      "ownerInputRequired": true,
-      "costMode": "use-existing-collector-or-posthog-project"
-    }
-  },
-  "sourceStatus": {
-    "productionEnvironment": "production-env-missing",
-    "localEventBridge": "bridge-waiting-for-export",
-    "supportChannel": "support-channel-ready",
-    "supportFeedback": "support-feedback-empty",
-    "productGateSamplePlan": "product-gate-sample-plan-ready",
-    "trafficSeeding": "traffic-seeding-ready",
-    "productionBlockerHandoff": "handoff-waiting-on-owner-inputs",
-    "eventCollectorSmoke": "pass",
-    "postDeployArtifactSync": "post-deploy-artifact-sync-passed"
+    "analyticsUnlockJson": "/analytics-unlock.json"
   },
   "controls": {
     "publicArtifact": true,
     "zeroPaidSpend": true,
     "noSecretValues": true,
-    "noRawAnalyticsRows": true,
-    "aggregateOnlyEvidence": true,
-    "playerInitiatedExportsOnly": true,
-    "aggregateEvidenceDoesNotPassGates": true,
-    "manualReviewRequiredForGateDecisions": true,
-    "noAutomaticPublicUpload": true,
+    "noSecretValuesStored": true,
+    "noAccountCreation": true,
     "noStoreSubmission": true,
-    "noRevenueEnablement": true
+    "noRevenueEnablement": true,
+    "productGatesStillRequiredForRevenue": true,
+    "secretCommandsUseStdin": true
   },
   "nextActions": [
-    "Use the player-initiated local evidence route until PostHog or the first-party collector is configured.",
-    "Unlock production analytics with first-party-collector; 5 setup command(s) and 4 validation command(s) are published with redacted secret names only.",
-    "External unlock queue has 4 owner action(s); next zero-spend unlock is production-analytics-browser.",
-    "Invite players to start the current sample through /sample-next.html, then use Share evidence after the play session so public aggregate evidence can be reviewed without raw events.",
-    "Do not pass product gates, enable revenue, or submit stores from public aggregate notes alone.",
-    "Keep product gates blocked until real player evidence clears completion, replay, and D1 retention thresholds."
+    "Choose the first-party collector path when a zero-spend Cloudflare free-tier account already exists; otherwise use an existing PostHog free project.",
+    "Sync only configured GitHub variables and secrets through ops/github/setup-production.sh; never paste secret values into tracked files.",
+    "Run the validation commands before trusting production analytics for product-gate or monetization decisions.",
+    "Run validation commands after repository variables or stdin-fed secrets change.",
+    "Return to the measurement status page before using production analytics for product gates."
   ]
 }

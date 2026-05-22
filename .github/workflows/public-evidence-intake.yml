@@ -120,6 +120,8 @@ jobs:
             reports/production-measurement-status-latest.md
             public/measurement-status.html
             public/measurement-status.json
+            public/analytics-unlock.html
+            public/analytics-unlock.json
             data/performance-budget.json
             src/data/performanceBudget.ts
             reports/performance-budget-latest.md
@@ -228,6 +230,8 @@ jobs:
             src/data/productionMeasurementStatus.ts \
             public/measurement-status.html \
             public/measurement-status.json \
+            public/analytics-unlock.html \
+            public/analytics-unlock.json \
             reports/production-measurement-status-latest.md \
             data/performance-budget.json \
             src/data/performanceBudget.ts \

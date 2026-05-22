@@ -363,6 +363,8 @@ if (
   !workflow.includes('src/data/productionMeasurementStatus.ts') ||
   !workflow.includes('public/measurement-status.html') ||
   !workflow.includes('public/measurement-status.json') ||
+  !workflow.includes('public/analytics-unlock.html') ||
+  !workflow.includes('public/analytics-unlock.json') ||
   !workflow.includes('reports/production-measurement-status-latest.md') ||
   !workflow.includes('data/player-evidence-watchdog.json') ||
   !workflow.includes('src/data/playerEvidenceWatchdog.ts') ||

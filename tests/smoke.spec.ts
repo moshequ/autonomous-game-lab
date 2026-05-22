@@ -1441,6 +1441,8 @@ test('release candidate records the exact deployable PWA artifact', async () => 
   expect(candidate.integrity.files.some((file) => file.path === 'index.html')).toBe(true)
   expect(candidate.integrity.files.some((file) => file.path === 'sw.js')).toBe(true)
   expect(candidate.integrity.files.some((file) => file.path === 'gate-sample.html')).toBe(true)
+  expect(candidate.integrity.files.some((file) => file.path === 'analytics-unlock.html')).toBe(true)
+  expect(candidate.integrity.files.some((file) => file.path === 'analytics-unlock.json')).toBe(true)
   expect(candidate.integrity.files.some((file) => file.path === 'sample-next.html')).toBe(true)
   expect(candidate.integrity.files.some((file) => file.path === 'sample-next.json')).toBe(true)
   expect(candidate.integrity.files.some((file) => file.path === 'seed-kit.html')).toBe(true)
@@ -1452,6 +1454,8 @@ test('release candidate records the exact deployable PWA artifact', async () => 
   expect(candidate.integrity.requiredFileChecks.every((check) => check.status === 'pass')).toBe(true)
   expect(candidate.postDeploySmoke.some((check) => check.path === '/' && check.expectedStatus === 200)).toBe(true)
   expect(candidate.postDeploySmoke.some((check) => check.path === '/install.html')).toBe(true)
+  expect(candidate.postDeploySmoke.some((check) => check.path === '/analytics-unlock.html')).toBe(true)
+  expect(candidate.postDeploySmoke.some((check) => check.path === '/analytics-unlock.json')).toBe(true)
   expect(candidate.postDeploySmoke.some((check) => check.path === '/gate-sample.html')).toBe(true)
   expect(candidate.postDeploySmoke.some((check) => check.path === '/sample-next.html')).toBe(true)
   expect(candidate.postDeploySmoke.some((check) => check.path === '/sample-next.json')).toBe(true)
@@ -1483,6 +1487,8 @@ test('PWA service worker keeps operational evidence endpoints fresh', async () =
   const operationalFreshnessAssets = [
     'measurement-status.html',
     'measurement-status.json',
+    'analytics-unlock.html',
+    'analytics-unlock.json',
     'release-candidate.json',
     'sample-next.html',
     'sample-next.json',
@@ -1781,6 +1787,8 @@ test('post-deploy artifact sync preserves strict Pages workflow evidence', async
   expect(workflow).toContain('src/data/productionMeasurementStatus.ts')
   expect(workflow).toContain('public/measurement-status.html')
   expect(workflow).toContain('public/measurement-status.json')
+  expect(workflow).toContain('public/analytics-unlock.html')
+  expect(workflow).toContain('public/analytics-unlock.json')
   expect(workflow).toContain('reports/production-measurement-status-latest.md')
   expect(workflow).toContain('data/production-readiness.json')
   expect(workflow).toContain('data/objective-audit.json')
@@ -1884,6 +1892,11 @@ test('live site monitor verifies the public PWA against synced deploy evidence',
   )
   for (const path of ['/privacy.html', '/support.html', '/compliance.json', '/gate-sample.html']) {
     expect(monitor.checks.some((check) => check.path === path && check.status === 'pass')).toBe(true)
+  }
+  if (monitor.summary.liveMatchesCurrentLocalCandidate) {
+    expect(monitor.checks.some((check) => check.path === '/analytics-unlock.html' && check.status === 'pass')).toBe(
+      true,
+    )
   }
   expect(readiness.webPwa.checks.find((check) => check.id === 'live-site-monitor')?.status).toBe('pass')
   expect(readiness.liveSiteMonitor.status).toBe(monitor.status)
@@ -4870,6 +4883,8 @@ test('autonomous cadence keeps unattended operation auditable and guarded', asyn
   expect(productionInputWorkflow).toContain('data/production-unlock-runner.json')
   expect(productionInputWorkflow).toContain('data/production-measurement-status.json')
   expect(productionInputWorkflow).toContain('public/measurement-status.json')
+  expect(productionInputWorkflow).toContain('public/analytics-unlock.html')
+  expect(productionInputWorkflow).toContain('public/analytics-unlock.json')
   expect(productionInputWorkflow).toContain('data/release-candidate.json')
   expect(productionInputWorkflow).not.toContain('gh workflow run')
   expect(productionInputWorkflow).not.toContain('data/player-events')
@@ -8116,6 +8131,8 @@ test('support feedback ingests public issues as redacted improvement evidence', 
   expect(intakeWorkflow).toContain('data/production-measurement-status.json')
   expect(intakeWorkflow).toContain('public/measurement-status.html')
   expect(intakeWorkflow).toContain('public/measurement-status.json')
+  expect(intakeWorkflow).toContain('public/analytics-unlock.html')
+  expect(intakeWorkflow).toContain('public/analytics-unlock.json')
   expect(intakeWorkflow).toContain('data/autonomous-owner-loop.json')
   expect(intakeWorkflow).toContain('data/autonomous-operator.json')
   expect(intakeWorkflow).not.toContain('data/player-events')
@@ -8559,6 +8576,8 @@ test('production measurement status publishes public aggregate evidence handoff'
     publicRoutes: {
       statusPage: string
       statusJson: string
+      analyticsUnlock: string
+      analyticsUnlockJson: string
       gateSample: string
       sampleNext: string
       sampleNextJson: string
@@ -8568,6 +8587,39 @@ test('production measurement status publishes public aggregate evidence handoff'
     nextActions: string[]
   }
   const publicMeasurement = JSON.parse(await readFile('public/measurement-status.json', 'utf8')) as typeof measurement
+  const analyticsUnlockPage = JSON.parse(await readFile('public/analytics-unlock.json', 'utf8')) as {
+    status: string
+    recommendedPathId: string | null
+    analyticsUnlock: typeof measurement.analyticsUnlock
+    externalUnlockQueue: {
+      status: string
+      nextBestUnlockId: string | null
+      ownerActionRequired: number
+      missingEnvironmentItems: number
+      missingSecrets: number
+      productGateBlockers: number
+      topItems: typeof measurement.externalUnlockQueue.topItems
+    }
+    publicRoutes: {
+      statusPage: string
+      statusJson: string
+      analyticsUnlock: string
+      analyticsUnlockJson: string
+    }
+    controls: {
+      publicArtifact: boolean
+      zeroPaidSpend: boolean
+      noSecretValues: boolean
+      noSecretValuesStored: boolean
+      noAccountCreation: boolean
+      noStoreSubmission: boolean
+      noRevenueEnablement: boolean
+      productGatesStillRequiredForRevenue: boolean
+      secretCommandsUseStdin: boolean
+    }
+    nextActions: string[]
+  }
+  const analyticsUnlockHtml = await readFile('public/analytics-unlock.html', 'utf8')
   const html = await readFile('public/measurement-status.html', 'utf8')
   const script = await readFile('scripts/production-measurement-status.mjs', 'utf8')
   const distReleaseCandidate = JSON.parse(await readFile('dist/release-candidate.json', 'utf8').catch(() => '{}')) as {
@@ -8629,6 +8681,8 @@ test('production measurement status publishes public aggregate evidence handoff'
     noSyntheticEvents: true,
     noRevenueEnablement: true,
   })
+  expect(measurement.publicRoutes.analyticsUnlock).toBe('/analytics-unlock.html')
+  expect(measurement.publicRoutes.analyticsUnlockJson).toBe('/analytics-unlock.json')
   expect(measurement.publicRoutes.sampleNext).toBe('/sample-next.html')
   expect(measurement.publicRoutes.sampleNextJson).toBe('/sample-next.json')
   expect(measurement.sourceStatus.trafficSeeding).toBe(traffic.status)
@@ -8673,6 +8727,28 @@ test('production measurement status publishes public aggregate evidence handoff'
   expect(publicFirstPartyCollectorPath?.validationCommands).toContain('npm run test:e2e')
   expect(
     measurement.analyticsUnlock?.paths.some((unlockPath) =>
+      [...unlockPath.requiredVariables, ...unlockPath.requiredSecrets].some((item) => Object.hasOwn(item, 'value')),
+    ),
+  ).toBe(false)
+  expect(analyticsUnlockPage.status).toBe(measurement.analyticsUnlock?.status)
+  expect(analyticsUnlockPage.recommendedPathId).toBe(measurement.analyticsUnlock?.recommendedPathId)
+  expect(analyticsUnlockPage.analyticsUnlock).toEqual(measurement.analyticsUnlock)
+  expect(analyticsUnlockPage.externalUnlockQueue.status).toBe(measurement.externalUnlockQueue.status)
+  expect(analyticsUnlockPage.externalUnlockQueue.nextBestUnlockId).toBe(
+    measurement.externalUnlockQueue.nextBestUnlockId,
+  )
+  expect(analyticsUnlockPage.externalUnlockQueue.topItems).toEqual(measurement.externalUnlockQueue.topItems)
+  expect(analyticsUnlockPage.publicRoutes.analyticsUnlock).toBe('/analytics-unlock.html')
+  expect(analyticsUnlockPage.publicRoutes.analyticsUnlockJson).toBe('/analytics-unlock.json')
+  expect(analyticsUnlockPage.controls.zeroPaidSpend).toBe(true)
+  expect(analyticsUnlockPage.controls.noSecretValues).toBe(true)
+  expect(analyticsUnlockPage.controls.noSecretValuesStored).toBe(true)
+  expect(analyticsUnlockPage.controls.noAccountCreation).toBe(true)
+  expect(analyticsUnlockPage.controls.noStoreSubmission).toBe(true)
+  expect(analyticsUnlockPage.controls.noRevenueEnablement).toBe(true)
+  expect(analyticsUnlockPage.controls.secretCommandsUseStdin).toBe(true)
+  expect(
+    analyticsUnlockPage.analyticsUnlock?.paths.some((unlockPath) =>
       [...unlockPath.requiredVariables, ...unlockPath.requiredSecrets].some((item) => Object.hasOwn(item, 'value')),
     ),
   ).toBe(false)
@@ -8726,6 +8802,7 @@ test('production measurement status publishes public aggregate evidence handoff'
   expect(html).toContain('Start current sample')
   expect(html).toContain('sample-next.html')
   expect(html).toContain('Zero-Spend Analytics Unlock')
+  expect(html).toContain('analytics-unlock.html')
   expect(html).toContain('External Unlock Queue')
   expect(html).toContain('does not pass gates')
   expect(html).toContain('first-party-collector')
@@ -8736,12 +8813,22 @@ test('production measurement status publishes public aggregate evidence handoff'
   expect(html).not.toContain('href="/measurement-status.json"')
   expect(script).toContain('publicEvidenceHandoff')
   expect(script).toContain('publicAnalyticsUnlock')
+  expect(script).toContain('analyticsUnlockPayload')
+  expect(script).toContain('publicAnalyticsUnlockHtmlPath')
   expect(script).toContain('publicExternalUnlockQueue')
   expect(script).toContain('readLiveReleaseManifest')
   expect(script).toContain('trafficSeeding')
   expect(script).toContain('publicRouteHref')
   expect(script).toContain('aggregateEvidenceDoesNotPassGates')
   expect(script).toContain('manualReviewRequiredForGateDecisions')
+  expect(analyticsUnlockHtml).toContain('Production Analytics Unlock')
+  expect(analyticsUnlockHtml).toContain('first-party-collector')
+  expect(analyticsUnlockHtml).toContain('CLOUDFLARE_API_TOKEN')
+  expect(analyticsUnlockHtml).toContain('Secret commands use stdin: true')
+  expect(analyticsUnlockHtml).toContain('Open measurement status')
+  expect(analyticsUnlockHtml).toContain('analytics-unlock.json')
+  expect(analyticsUnlockHtml).not.toContain('href="/measurement-status.html"')
+  expect(analyticsUnlockHtml).not.toContain('href="/analytics-unlock.json"')
 
   for (const note of measurement.publicEvidenceHandoff.aggregateEvidence.topNotes) {
     expect(note.privacy.publicAggregateOnly).toBe(true)
@@ -8768,6 +8855,10 @@ test('production measurement status publishes public aggregate evidence handoff'
   )
   await expect(page.getByRole('link', { name: 'Open all missions' })).toHaveAttribute('href', './gate-sample.html')
   await expect(page.getByRole('link', { name: 'Open gate sample' })).toHaveAttribute('href', './gate-sample.html')
+  await expect(page.getByRole('link', { name: 'Open analytics unlock' }).first()).toHaveAttribute(
+    'href',
+    './analytics-unlock.html',
+  )
   await expect(page.getByRole('link', { name: 'Open support' })).toHaveAttribute('href', './support.html')
   await expect(page.getByRole('link', { name: 'Open status JSON' })).toHaveAttribute(
     'href',
@@ -8786,6 +8877,23 @@ test('production measurement status publishes public aggregate evidence handoff'
     measurement.externalUnlockQueue.nextBestUnlockId ?? 'none',
   )
   await expect(page.getByText('does not pass gates', { exact: true })).toBeVisible()
+
+  await page.goto('/analytics-unlock.html')
+  await expect(page.getByRole('heading', { name: 'Production Analytics Unlock' })).toBeVisible()
+  await expect(page.getByLabel('Analytics unlock summary')).toContainText('first-party-collector')
+  await expect(page.getByLabel('first-party-collector')).toContainText('CLOUDFLARE_API_TOKEN')
+  await expect(page.getByLabel('first-party-collector')).toContainText('./ops/github/setup-production.sh')
+  await expect(page.getByLabel('External unlock queue')).toContainText(
+    measurement.externalUnlockQueue.nextBestUnlockId ?? 'none',
+  )
+  await expect(page.getByRole('link', { name: 'Open measurement status' })).toHaveAttribute(
+    'href',
+    './measurement-status.html',
+  )
+  await expect(page.getByRole('link', { name: 'Open unlock JSON' })).toHaveAttribute(
+    'href',
+    './analytics-unlock.json',
+  )
 
   await page.goto('/')
   await expect(page.getByLabel('Production Measurement')).toContainText(measurement.status)
