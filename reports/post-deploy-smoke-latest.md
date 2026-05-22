@@ -1,16 +1,16 @@
 # Post-Deploy Smoke
 
-Generated: 2026-05-22T23:41:26.764Z
+Generated: 2026-05-22T23:46:30.163Z
 Status: post-deploy-smoke-observed-live
 Origin: https://moshequ.github.io/autonomous-game-lab
 Origin source: release-candidate-public-origin
-Candidate: pwa-086537cd78bc
-Live candidate: pwa-040814d8619d
+Candidate: pwa-10e36b350f09
+Live candidate: pwa-b295a59b2caa
 
 ## Summary
 
-- Planned: 23
-- Passed: 23
+- Planned: 25
+- Passed: 25
 - Failed: 0
 - Blocked: 0
 
@@ -64,6 +64,8 @@ Checks: 25/25 passed
 - pass: gate-sample-html - https://moshequ.github.io/autonomous-game-lab/gate-sample.html - Live URL matched status and required text.
 - pass: sample-next-html - https://moshequ.github.io/autonomous-game-lab/sample-next.html - Live URL matched status and required text.
 - pass: sample-next-json - https://moshequ.github.io/autonomous-game-lab/sample-next.json - Live URL matched status and required text.
+- pass: sample-fastest-html - https://moshequ.github.io/autonomous-game-lab/sample-fastest.html - Live URL matched status and required text.
+- pass: sample-fastest-json - https://moshequ.github.io/autonomous-game-lab/sample-fastest.json - Live URL matched status and required text.
 - pass: seed-kit-html - https://moshequ.github.io/autonomous-game-lab/seed-kit.html - Live URL matched status and required text.
 - pass: seed-next-html - https://moshequ.github.io/autonomous-game-lab/seed-next.html - Live URL matched status and required text.
 - pass: seed-next-json - https://moshequ.github.io/autonomous-game-lab/seed-next.json - Live URL matched status and required text.
@@ -85,5 +87,5 @@ Checks: 25/25 passed
 
 ## Next Actions
 
-- Live Pages is reachable and serving pwa-040814d8619d; run the deploy workflow for strict proof of the current local candidate if needed.
+- Live Pages is reachable and serving pwa-b295a59b2caa; run the deploy workflow for strict proof of the current local candidate if needed.
 - Keep revenue, paid acquisition, and app-store submission disabled until product and credential gates pass.

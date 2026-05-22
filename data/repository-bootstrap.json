@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-22T23:26:57.368Z",
+  "generatedAt": "2026-05-22T23:46:32.470Z",
   "status": "repository-bootstrap-ready",
   "mode": "plan-only",
   "envFiles": {
@@ -44,7 +44,7 @@
       "originRemote": "https://github.com/moshequ/autonomous-game-lab",
       "remoteRepository": "moshequ/autonomous-game-lab",
       "hasCommit": true,
-      "dirtyFiles": 60,
+      "dirtyFiles": 58,
       "dirtyPaths": [
         "data/deployment-plan.json",
         "data/live-site-monitor.json",
@@ -97,8 +97,6 @@
         "src/data/postDeployArtifactSync.ts",
         "src/data/postDeploySmoke.ts",
         "src/data/productionActivation.ts",
-        "src/data/productionBlockerHandoff.ts",
-        "src/data/productionBootstrap.ts",
         "src/data/productionEnvironment.ts",
         "src/data/productionMeasurementStatus.ts",
         "src/data/publicRepoSecurityAudit.ts",
@@ -107,7 +105,7 @@
         "src/data/storeCompliance.ts",
         "src/data/storeListingOptimizer.ts"
       ],
-      "generatedEvidenceDirtyFiles": 60,
+      "generatedEvidenceDirtyFiles": 58,
       "generatedEvidenceDirtyPaths": [
         "data/deployment-plan.json",
         "data/live-site-monitor.json",
@@ -160,8 +158,6 @@
         "src/data/postDeployArtifactSync.ts",
         "src/data/postDeploySmoke.ts",
         "src/data/productionActivation.ts",
-        "src/data/productionBlockerHandoff.ts",
-        "src/data/productionBootstrap.ts",
         "src/data/productionEnvironment.ts",
         "src/data/productionMeasurementStatus.ts",
         "src/data/publicRepoSecurityAudit.ts",
@@ -180,7 +176,7 @@
       "originRemote": "https://github.com/moshequ/autonomous-game-lab",
       "remoteRepository": "moshequ/autonomous-game-lab",
       "hasCommit": true,
-      "dirtyFiles": 60,
+      "dirtyFiles": 58,
       "dirtyPaths": [
         "data/deployment-plan.json",
         "data/live-site-monitor.json",
@@ -233,8 +229,6 @@
         "src/data/postDeployArtifactSync.ts",
         "src/data/postDeploySmoke.ts",
         "src/data/productionActivation.ts",
-        "src/data/productionBlockerHandoff.ts",
-        "src/data/productionBootstrap.ts",
         "src/data/productionEnvironment.ts",
         "src/data/productionMeasurementStatus.ts",
         "src/data/publicRepoSecurityAudit.ts",
@@ -243,7 +237,7 @@
         "src/data/storeCompliance.ts",
         "src/data/storeListingOptimizer.ts"
       ],
-      "generatedEvidenceDirtyFiles": 60,
+      "generatedEvidenceDirtyFiles": 58,
       "generatedEvidenceDirtyPaths": [
         "data/deployment-plan.json",
         "data/live-site-monitor.json",
@@ -296,8 +290,6 @@
         "src/data/postDeployArtifactSync.ts",
         "src/data/postDeploySmoke.ts",
         "src/data/productionActivation.ts",
-        "src/data/productionBlockerHandoff.ts",
-        "src/data/productionBootstrap.ts",
         "src/data/productionEnvironment.ts",
         "src/data/productionMeasurementStatus.ts",
         "src/data/publicRepoSecurityAudit.ts",
@@ -342,7 +334,7 @@
     "repositoryReadiness": "repository-channel-ready",
     "deployment": "ready-for-pages",
     "releaseCandidate": "release-candidate-ready",
-    "releaseCandidateId": "pwa-2f1adb533abf",
+    "releaseCandidateId": "pwa-10e36b350f09",
     "postDeploySmoke": "post-deploy-smoke-observed-live"
   },
   "repositoryTargetPlan": {
@@ -432,7 +424,7 @@
       "mutatesLocalGit": true,
       "mutatesRemoteGitHub": false,
       "requiresExplicitEnv": true,
-      "detail": "60 repository evidence file(s) changed during this dry run; the outer verified commit will persist them."
+      "detail": "58 repository evidence file(s) changed during this dry run; the outer verified commit will persist them."
     },
     {
       "id": "set-or-create-origin",
