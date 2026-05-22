@@ -24,11 +24,40 @@ const readOptionalJson = async (filePath, fallback) =>
     .then((raw) => JSON.parse(raw))
     .catch(() => fallback)
 
-const sanitizeHost = (value) =>
-  String(value ?? '')
-    .trim()
-    .replace(/^https?:\/\//, '')
-    .replace(/\/.*$/, '')
+const normalizePath = (value) => {
+  const raw = String(value ?? '').trim()
+
+  if (!raw || raw === '/') {
+    return '/'
+  }
+
+  return `/${raw.replace(/^\/+|\/+$/g, '')}/`
+}
+
+const parsePublicUrl = (value) => {
+  const raw = String(value ?? '').trim()
+
+  if (!raw) {
+    return null
+  }
+
+  const withProtocol = /^https?:\/\//.test(raw) ? raw : `https://${raw}`
+
+  try {
+    return new URL(withProtocol)
+  } catch {
+    return null
+  }
+}
+
+const joinUrl = (baseUrl, relativePath) => {
+  if (!baseUrl) {
+    return null
+  }
+
+  const normalizedBase = baseUrl.endsWith('/') ? baseUrl : `${baseUrl}/`
+  return new URL(String(relativePath).replace(/^\/+/, ''), normalizedBase).href
+}
 
 const storePackage = await readJson(storePackagePath)
 const gates = await readJson(gatesPath)
@@ -61,8 +90,18 @@ const publicOrigin =
   process.env.VITE_PUBLIC_ORIGIN ??
   environment.publicOrigin?.origin ??
   (process.env.AGL_PUBLIC_HOST ? `https://${process.env.AGL_PUBLIC_HOST}` : null)
-const host = sanitizeHost(publicOrigin ?? storePackage.nativePackaging?.androidTwaManifest?.host) || null
-const startUrl = process.env.AGL_START_URL ?? storePackage.nativePackaging?.androidTwaManifest?.startUrl ?? '/'
+const publicUrl = parsePublicUrl(publicOrigin)
+const publicOriginBasePath = normalizePath(environment.publicOrigin?.basePath ?? publicUrl?.pathname ?? '/')
+const publicSiteUrl = publicUrl
+  ? `${publicUrl.origin}${publicOriginBasePath === '/' ? '' : publicOriginBasePath.replace(/\/$/, '')}`
+  : null
+const manifestUrl = joinUrl(publicSiteUrl, 'manifest.webmanifest')
+const configuredTwaHost = String(storePackage.nativePackaging?.androidTwaManifest?.host ?? '')
+  .trim()
+  .replace(/\/.*$/, '')
+const host = publicUrl?.host ?? (configuredTwaHost || null)
+const rawStartUrl = process.env.AGL_START_URL ?? storePackage.nativePackaging?.androidTwaManifest?.startUrl ?? '/'
+const startUrl = rawStartUrl === '/' && publicOriginBasePath !== '/' ? publicOriginBasePath : rawStartUrl
 const launcherName = process.env.AGL_APP_NAME ?? storePackage.nativePackaging?.androidTwaManifest?.launcherName ?? 'Game Lab'
 const certificateFingerprint =
   process.env.AGL_ANDROID_SHA256_CERT_FINGERPRINT ??
@@ -77,17 +116,30 @@ const realHostReady = Boolean(host && !host.includes('example.com') && host.incl
 const signingReady = Boolean(certificateFingerprint)
 const screenshotsReady = storeAssets.status === 'screenshots-ready' && (storeAssets.screenshots?.length ?? 0) >= 4
 const iconsReady = iconAssets.status === 'icons-ready' && (iconAssets.storeIcons?.length ?? 0) >= 1
-const assetLinksReady = realHostReady && signingReady
+const requiredAssetLinksUrl = host ? `https://${host}/.well-known/assetlinks.json` : null
+const publishedAssetLinksUrl = joinUrl(publicSiteUrl, '.well-known/assetlinks.json')
+const rootAssetLinksDeployable = publicOriginBasePath === '/'
+const assetLinksDomainVerificationReady = realHostReady && signingReady && rootAssetLinksDeployable
 const publicAssetLinksReady = signingReady
-const assetLinksStatus = assetLinksReady ? 'ready' : publicAssetLinksReady ? 'public-file-ready' : 'template-only'
+const assetLinksStatus = assetLinksDomainVerificationReady
+  ? 'ready'
+  : publicAssetLinksReady && realHostReady && !rootAssetLinksDeployable
+    ? 'domain-verification-blocked'
+    : publicAssetLinksReady
+      ? 'public-file-ready'
+      : 'template-only'
 
 const blockers = [
   ...(realHostReady ? [] : ['Production host is missing or still uses example.com.']),
+  ...(realHostReady && signingReady && !rootAssetLinksDeployable
+    ? [
+        `Android Digital Asset Links must be hosted at ${requiredAssetLinksUrl}; current project Pages path publishes ${publishedAssetLinksUrl}.`,
+      ]
+    : []),
   ...(hostedPrivacyReady ? [] : ['Hosted privacy policy URL is missing.']),
   ...(signingReady ? [] : ['Android signing certificate SHA-256 fingerprint is missing.']),
   ...(screenshotsReady ? [] : ['Store screenshots are not ready.']),
   ...(iconsReady ? [] : ['Install and store icons are not ready.']),
-  ...(googlePlayConnected ? [] : ['Google Play developer account is not connected.']),
 ].filter((blocker, index, blockersList) => blockersList.indexOf(blocker) === index)
 
 const status = blockers.length ? 'blocked-draft-ready' : 'ready-for-bubblewrap-build'
@@ -126,6 +178,10 @@ const twaManifest = {
   },
   assetLinks: {
     status: assetLinksStatus,
+    domainVerificationReady: assetLinksDomainVerificationReady,
+    requiredRootUrl: requiredAssetLinksUrl,
+    publishedUrl: publishedAssetLinksUrl,
+    requiresRootWellKnownPath: true,
     hostedPath: '/.well-known/assetlinks.json',
     templatePath: 'native/android/assetlinks.template.json',
     publicPath: publicAssetLinksReady ? 'public/.well-known/assetlinks.json' : null,
@@ -142,13 +198,15 @@ const bubblewrapConfig = {
   generatedAt: new Date().toISOString(),
   source: 'Autonomous Game Lab native packager',
   status,
-  initCommand: realHostReady
-    ? `npx @bubblewrap/cli init --manifest https://${host}/manifest.webmanifest`
+  initCommand: manifestUrl
+    ? `npx @bubblewrap/cli init --manifest ${manifestUrl}`
     : 'npx @bubblewrap/cli init --manifest https://YOUR_HOST/manifest.webmanifest',
   buildCommand: 'npx @bubblewrap/cli build',
   validateCommand: 'npx @bubblewrap/cli validate',
   packageId: packageName,
   host,
+  publicOrigin: publicSiteUrl,
+  basePath: publicOriginBasePath,
   startUrl,
   signing: twaManifest.signing,
   assetLinks: twaManifest.assetLinks,
@@ -164,7 +222,10 @@ const payload = {
   },
   packageName,
   host,
-  publicOrigin: realHostReady ? `https://${host}` : null,
+  publicOrigin: realHostReady ? publicSiteUrl : null,
+  origin: publicUrl?.origin ?? (host ? `https://${host}` : null),
+  basePath: publicOriginBasePath,
+  manifestUrl,
   startUrl,
   launcherName,
   handoff: {
@@ -185,6 +246,12 @@ const payload = {
     status: assetLinksStatus,
     template: assetLinks,
     publicGenerated: publicAssetLinksReady,
+    domainVerificationReady: assetLinksDomainVerificationReady,
+    rootAssetLinksDeployable,
+    requiresRootWellKnownPath: true,
+    requiredRootUrl: requiredAssetLinksUrl,
+    publishedUrl: publishedAssetLinksUrl,
+    projectPagesBasePath: publicOriginBasePath,
     hostReady: realHostReady,
     hostedPath: '/.well-known/assetlinks.json',
   },
@@ -197,7 +264,16 @@ const payload = {
     {
       id: 'production-host',
       status: realHostReady ? 'pass' : 'blocker',
-      detail: realHostReady ? `Host is ${host}.` : 'Production host is not configured.',
+      detail: realHostReady ? `Host is ${host}; base path is ${publicOriginBasePath}.` : 'Production host is not configured.',
+    },
+    {
+      id: 'assetlinks-domain-verification',
+      status: assetLinksDomainVerificationReady ? 'pass' : 'blocker',
+      detail: assetLinksDomainVerificationReady
+        ? `Digital Asset Links can be served from ${requiredAssetLinksUrl}.`
+        : signingReady && realHostReady
+          ? `Digital Asset Links must be reachable at ${requiredAssetLinksUrl}; current artifact publishes ${publishedAssetLinksUrl}.`
+          : 'Digital Asset Links need a production host and signing fingerprint.',
     },
     {
       id: 'hosted-privacy',
@@ -221,8 +297,10 @@ const payload = {
     },
     {
       id: 'google-play-account',
-      status: googlePlayConnected ? 'pass' : 'blocker',
-      detail: googlePlayConnected ? 'Google Play account is connected.' : 'Google Play developer account is not connected.',
+      status: googlePlayConnected ? 'pass' : 'external-blocker',
+      detail: googlePlayConnected
+        ? 'Google Play account is connected.'
+        : 'Google Play developer account is not connected; local TWA handoff can still be prepared.',
     },
   ],
   blockers,
@@ -238,6 +316,8 @@ const readme = [
   '',
   `Generated: ${payload.generatedAt}`,
   `Status: ${payload.status}`,
+  `Public origin: ${payload.publicOrigin ?? 'missing'}`,
+  `Base path: ${payload.basePath}`,
   '',
   '## Files',
   '',
@@ -275,6 +355,8 @@ const report = [
   `Platform: ${payload.platform}`,
   `Package: ${payload.packageName}`,
   `Host: ${payload.host ?? 'production host not configured'}`,
+  `Public origin: ${payload.publicOrigin ?? 'missing'}`,
+  `Manifest URL: ${payload.manifestUrl ?? 'missing'}`,
   '',
   '## Checks',
   '',

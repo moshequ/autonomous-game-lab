@@ -4247,11 +4247,20 @@ test('iOS App Store handoff stays prepared and deferred without paid account wor
   await expect(page.getByLabel('iOS Release Handoff')).toContainText(iosRelease.bundleId)
 })
 
-test('generated Digital Asset Links are reachable for Android TWA handoff', async ({ page }) => {
+test('generated Digital Asset Links expose accurate Android TWA verification state', async ({ page }) => {
   const nativePackage = JSON.parse(await readFile('data/native-package.json', 'utf8')) as {
     packageName: string
+    basePath: string
+    manifestUrl: string
+    commands: { init: string }
     handoff: { publicAssetLinksPath: string }
-    assetLinks: { publicGenerated: boolean; status: string }
+    assetLinks: {
+      publicGenerated: boolean
+      status: string
+      domainVerificationReady: boolean
+      requiredRootUrl: string
+      publishedUrl: string
+    }
     signing: { sha256CertFingerprint: string }
   }
   const androidRelease = JSON.parse(await readFile('data/android-release.json', 'utf8')) as {
@@ -4268,8 +4277,21 @@ test('generated Digital Asset Links are reachable for Android TWA handoff', asyn
   expect(assetLinks[0].relation).toContain('delegate_permission/common.handle_all_urls')
   expect(assetLinks[0].target.package_name).toBe(nativePackage.packageName)
   expect(assetLinks[0].target.sha256_cert_fingerprints[0]).toBe(nativePackage.signing.sha256CertFingerprint)
-  expect(androidRelease.checks.find((check) => check.id === 'asset-links')?.status).toBe('pass')
-  expect(androidRelease.blockers.some((blocker) => blocker.startsWith('asset-links:'))).toBe(false)
+  expect(nativePackage.commands.init).toContain(nativePackage.manifestUrl)
+
+  if (nativePackage.basePath === '/') {
+    expect(nativePackage.assetLinks.status).toBe('ready')
+    expect(nativePackage.assetLinks.domainVerificationReady).toBe(true)
+    expect(androidRelease.checks.find((check) => check.id === 'asset-links')?.status).toBe('pass')
+    expect(androidRelease.blockers.some((blocker) => blocker.startsWith('asset-links:'))).toBe(false)
+  } else {
+    expect(nativePackage.assetLinks.status).toBe('domain-verification-blocked')
+    expect(nativePackage.assetLinks.domainVerificationReady).toBe(false)
+    expect(nativePackage.assetLinks.publishedUrl).toContain(nativePackage.basePath)
+    expect(nativePackage.assetLinks.requiredRootUrl).not.toContain(nativePackage.basePath)
+    expect(androidRelease.checks.find((check) => check.id === 'asset-links')?.status).toBe('blocker')
+    expect(androidRelease.blockers.some((blocker) => blocker.startsWith('asset-links:'))).toBe(true)
+  }
 
   const response = await page.goto('/.well-known/assetlinks.json')
   expect(response?.ok()).toBeTruthy()

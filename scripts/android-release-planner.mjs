@@ -64,7 +64,7 @@ const screenshotsReady = storeAssets.status === 'screenshots-ready' && (storeAss
 const dataSafetyReady = storePackage.dataSafetyDraft?.googlePlay?.status === 'draft-ready'
 const storeComplianceReady = storeCompliance.status === 'draft-ready-external-blockers'
 const assetLinksReady =
-  nativePackage.assetLinks?.publicGenerated === true &&
+  nativePackage.assetLinks?.domainVerificationReady === true &&
   nativePackage.handoff?.publicAssetLinksPath === 'public/.well-known/assetlinks.json'
 const fingerprintReady = productionEnvironment.android?.signingFingerprintConfigured === true
 const googlePlayAccountReady = productionEnvironment.android?.googlePlayAccountConnected === true
@@ -97,8 +97,12 @@ const checks = [
     id: 'asset-links',
     status: assetLinksReady ? 'pass' : 'blocker',
     detail: assetLinksReady
-      ? `Digital Asset Links are generated at ${nativePackage.handoff?.publicAssetLinksPath}.`
-      : `Digital Asset Links are ${nativePackage.assetLinks?.status ?? 'missing'}.`,
+      ? `Digital Asset Links are generated and verifiable at ${nativePackage.assetLinks?.requiredRootUrl}.`
+      : nativePackage.assetLinks?.requiredRootUrl
+        ? `Digital Asset Links are ${nativePackage.assetLinks?.status ?? 'missing'}; Android requires ${
+            nativePackage.assetLinks.requiredRootUrl
+          } and current artifact publishes ${nativePackage.assetLinks?.publishedUrl ?? 'missing'}.`
+        : `Digital Asset Links are ${nativePackage.assetLinks?.status ?? 'missing'}.`,
   },
   {
     id: 'signing-fingerprint',

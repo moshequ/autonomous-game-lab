@@ -4050,10 +4050,13 @@ if (
 
 const nativeSigningFingerprintReady = Boolean(androidSigning.signing?.sha256CertFingerprint)
 const nativeSigningFingerprintBlocker = 'Android signing certificate SHA-256 fingerprint is missing.'
+const nativeAssetLinksDomainBlockerReady = (nativePackage.blockers ?? []).some((blocker) =>
+  blocker.includes('Android Digital Asset Links must be hosted at'),
+)
 const nativeExternalGateBlockerReady =
   nativePackage.blockers?.includes('Production host is missing or still uses example.com.') ||
   nativePackage.blockers?.includes('Hosted privacy policy URL is missing.') ||
-  nativePackage.blockers?.includes('Google Play developer account is not connected.')
+  nativeAssetLinksDomainBlockerReady
 
 if (
   nativePackage.status === 'blocked-draft-ready' &&
@@ -4064,6 +4067,16 @@ if (
     (nativeSigningFingerprintReady && nativePackage.signing?.status !== 'fingerprint-configured'))
 ) {
   fail('Native package must stay blocked by external host/account gates while consuming prepared Android signing evidence.')
+}
+
+if (
+  nativePackage.basePath &&
+  nativePackage.basePath !== '/' &&
+  (nativePackage.assetLinks?.domainVerificationReady !== false ||
+    nativePackage.assetLinks?.status !== 'domain-verification-blocked' ||
+    !nativeAssetLinksDomainBlockerReady)
+) {
+  fail('Native package must not claim Android Digital Asset Links are verifiable from a path-based GitHub Pages deployment.')
 }
 
 if (
@@ -4161,6 +4174,10 @@ if (
 if (
   twaManifest.packageId !== nativePackage.packageName ||
   bubblewrapConfig.packageId !== nativePackage.packageName ||
+  bubblewrapConfig.publicOrigin !== nativePackage.publicOrigin ||
+  bubblewrapConfig.basePath !== nativePackage.basePath ||
+  !nativePackage.commands?.init?.includes(nativePackage.manifestUrl ?? 'missing-manifest-url') ||
+  (nativePackage.basePath && nativePackage.basePath !== '/' && twaManifest.startUrl !== nativePackage.basePath) ||
   assetLinksTemplate[0]?.target?.package_name !== nativePackage.packageName ||
   publicAssetLinks[0]?.target?.package_name !== nativePackage.packageName ||
   publicAssetLinks[0]?.target?.sha256_cert_fingerprints?.[0] !== androidSigning.signing?.sha256CertFingerprint ||
