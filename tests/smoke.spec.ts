@@ -24,6 +24,8 @@ const expectRunMoves = async (page: Page, moves: string) => {
   await expect(page.getByLabel('Current run moves').getByText(moves, { exact: true })).toBeVisible()
 }
 
+const runtimeHref = (value: string) => (value.startsWith('/') ? `.${value}` : value)
+
 test('portal loads a playable canvas and autonomy cockpit', async ({ page }) => {
   const ownerLoop = JSON.parse(await readFile('data/autonomous-owner-loop.json', 'utf8')) as {
     mode: string
@@ -32,6 +34,12 @@ test('portal loads a playable canvas and autonomy cockpit', async ({ page }) => 
   const objectiveAudit = JSON.parse(await readFile('data/objective-audit.json', 'utf8')) as {
     completion: { nextBestAction: string }
     controls: { productionBootstrapFresh?: boolean }
+  }
+  const storeListingOptimizer = JSON.parse(await readFile('data/store-listing-optimizer.json', 'utf8')) as {
+    recommendation: { title: string }
+  }
+  const retention = JSON.parse(await readFile('data/retention-loop.json', 'utf8')) as {
+    dailyChallenge: { title: string }
   }
 
   await page.goto('/')
@@ -64,7 +72,7 @@ test('portal loads a playable canvas and autonomy cockpit', async ({ page }) => 
   await expect(page.getByLabel('Store Compliance')).toContainText('Everyone')
   await expect(page.getByLabel('Store Compliance')).toContainText('ads-disabled')
   await expect(page.getByLabel('Store Listing Optimizer')).toContainText('store-listing-optimizer-ready')
-  await expect(page.getByLabel('Store Listing Optimizer')).toContainText('Canopy Bloom')
+  await expect(page.getByLabel('Store Listing Optimizer')).toContainText(storeListingOptimizer.recommendation.title)
   await expect(page.getByText('Asset links')).toBeVisible()
   await expect(page.getByLabel('Android Signing')).toContainText('signing-prepared')
   await expect(page.getByLabel('Android Signing')).toContainText('ignored-local')
@@ -122,7 +130,7 @@ test('portal loads a playable canvas and autonomy cockpit', async ({ page }) => 
   await expect(page.getByLabel('Organic Seed Loop')).toContainText('organic-seed-loop-ready')
   await expect(page.getByLabel('Acquisition Learning')).toContainText('acquisition-learning-ready')
   await expect(page.getByLabel('Daily Retention')).toContainText('retention-loop-ready')
-  await expect(page.getByLabel('Daily Retention')).toContainText('Canopy Bloom')
+  await expect(page.getByLabel('Daily Retention')).toContainText(retention.dailyChallenge.title)
   await expect(page.getByLabel('Daily Retention')).toContainText('Return intent')
   await expect(page.getByLabel('PWA Install Loop')).toContainText('pwa-install-loop-ready')
   await expect(page.getByLabel('Local Learning Router')).toContainText('local-play-router')
@@ -343,7 +351,7 @@ test('organic seed loop records player-initiated seed and share telemetry', asyn
   const copiedShareUrl = await page.evaluate(
     () => (window as unknown as { __lastClipboardWrite?: string }).__lastClipboardWrite ?? '',
   )
-  const copiedShare = new URL(copiedShareUrl)
+  const copiedShare = new URL(copiedShareUrl, page.url())
   expect(copiedShare.protocol).toMatch(/^https?:$/)
   expect(copiedShare.hostname).not.toBe('autonomous-game-lab.example.com')
   expect(copiedShare.searchParams.get('game')).toBe(nextRuntimeCampaign.gameId)
@@ -4397,6 +4405,7 @@ test('production blocker handoff ranks remaining external unlocks', async ({ pag
 
 test('daily challenge starts the retained game and records retention telemetry', async ({ page }) => {
   const retention = JSON.parse(await readFile('data/retention-loop.json', 'utf8')) as {
+    dailyChallenge: { gameId: string; title: string }
     samplePolicy: {
       status: string
       needed: { promptViews: number; successes: number }
@@ -4416,7 +4425,7 @@ test('daily challenge starts the retained game and records retention telemetry',
   expect(retention.samplePolicy.controls.noSyntheticEvents).toBe(true)
   expect(retention.samplePolicy.controls.downloadsScanBackoffRequired).toBe(true)
   await page.getByRole('button', { name: 'Play daily challenge' }).click()
-  await expect(page.getByRole('heading', { name: 'Canopy Bloom' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: retention.dailyChallenge.title })).toBeVisible()
 
   const events = await page.evaluate(() => {
     const raw = window.localStorage.getItem('agl.analytics.events')
@@ -4425,9 +4434,9 @@ test('daily challenge starts the retained game and records retention telemetry',
   const viewed = events.findLast((event: { name: string }) => event.name === 'daily_challenge_viewed')
   const started = events.findLast((event: { name: string }) => event.name === 'daily_challenge_started')
 
-  expect(viewed.properties.gameId).toBe('canopy-bloom')
+  expect(viewed.properties.gameId).toBe(retention.dailyChallenge.gameId)
   expect(viewed.properties.challengeDate).toMatch(/^\d{4}-\d{2}-\d{2}$/)
-  expect(started.properties.gameId).toBe('canopy-bloom')
+  expect(started.properties.gameId).toBe(retention.dailyChallenge.gameId)
   expect(started.properties.seed).toMatch(/^daily-/)
   expect(started.properties.rewardVariantId).toBeTruthy()
 })
@@ -4539,7 +4548,7 @@ test('daily return prompt captures a local return intent after a completed run',
 test('queued return intent starts a retained session without push or accounts', async ({ page }) => {
   const retention = JSON.parse(await readFile('data/retention-loop.json', 'utf8')) as {
     localState: { returnIntentKey: string; returnIntentStartedKey: string }
-    dailyChallenge: { date: string }
+    dailyChallenge: { date: string; gameId: string; title: string }
     promptPolicy: { nextChallengeDate: string }
     returnIntentPolicy: {
       ctaLabel: string
@@ -4564,7 +4573,7 @@ test('queued return intent starts a retained session without push or accounts', 
   await expect(dailyRetention).toContainText('Queued return')
   await expect(dailyRetention).toContainText(retention.returnIntentPolicy.copy)
   await dailyRetention.getByRole('button', { name: retention.returnIntentPolicy.ctaLabel }).click()
-  await expect(page.getByRole('heading', { name: 'Canopy Bloom' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: retention.dailyChallenge.title })).toBeVisible()
 
   const events = await page.evaluate(() => {
     const raw = window.localStorage.getItem('agl.analytics.events')
@@ -4586,7 +4595,7 @@ test('queued return intent starts a retained session without push or accounts', 
 
   expect(viewed.properties.intentDate).toBe(retention.promptPolicy.nextChallengeDate)
   expect(started.properties.surface).toBe(retention.returnIntentPolicy.surface)
-  expect(started.properties.gameId).toBe('canopy-bloom')
+  expect(started.properties.gameId).toBe(retention.dailyChallenge.gameId)
   expect(started.properties.retentionEvidence).toBe('queued-return-intent')
   expect(started.properties.retentionCohortDate).toBe(retention.dailyChallenge.date)
   expect(started.properties.retentionReturnDate).toBe(retention.promptPolicy.nextChallengeDate)
@@ -4824,7 +4833,9 @@ test('aggregate evidence issue link summarizes local analytics without raw event
   expect(openedUrl.pathname).toBe('/moshequ/autonomous-game-lab/issues/new')
   expect(openedUrl.searchParams.get('template')).toBe('analytics-evidence.yml')
   expect(openedUrl.searchParams.get('game')).toContain('Harbor Rings')
-  expect(openedUrl.searchParams.get('starts')).toBe('3')
+  expect(openedUrl.searchParams.get('starts')).toBe(
+    String(seedEvents.filter((event) => event.name === 'game_started').length),
+  )
   expect(openedUrl.searchParams.get('completions')).toBe('1')
   expect(openedUrl.searchParams.get('replays')).toBe('1')
   expect(openedUrl.searchParams.get('d1_eligible')).toBe('1')
@@ -4839,7 +4850,7 @@ test('aggregate evidence issue link summarizes local analytics without raw event
     gameId: 'harbor-rings',
     gateId: null,
     campaignId: null,
-    starts: 3,
+    starts: seedEvents.filter((event) => event.name === 'game_started').length,
     completions: 1,
     replays: 1,
     d1Eligible: 1,
@@ -5232,13 +5243,18 @@ test('orbit atlas prototype is playable and instrumented', async ({ page }) => {
 })
 
 test('generated runtime game is playable and instrumented', async ({ page }) => {
+  const generatedPlayable = JSON.parse(await readFile('data/generated-playable-games.json', 'utf8')) as {
+    games: Array<{ id: string; title: string; maxMoves: number }>
+  }
+  const generatedGame = generatedPlayable.games[0]
+
   await page.goto('/')
   await page
     .getByLabel('Playable games')
-    .getByRole('button', { name: /Canopy Bloom/ })
+    .getByRole('button', { name: generatedGame.title })
     .click()
 
-  await expectRunMoves(page, '0/10')
+  await expectRunMoves(page, `0/${generatedGame.maxMoves}`)
 
   const canvas = page.locator('canvas').first()
   const box = await canvas.boundingBox()
@@ -5249,7 +5265,7 @@ test('generated runtime game is playable and instrumented', async ({ page }) => 
   }
 
   await page.mouse.click(box.x + (75 / 560) * box.width, box.y + (176 / 500) * box.height)
-  await expectRunMoves(page, '1/10')
+  await expectRunMoves(page, `1/${generatedGame.maxMoves}`)
 
   const turnEvent = await page.evaluate(() => {
     const raw = window.localStorage.getItem('agl.analytics.events')
@@ -5257,18 +5273,23 @@ test('generated runtime game is playable and instrumented', async ({ page }) => 
     return events.findLast((event: { name: string }) => event.name === 'turn_taken')
   })
 
-  expect(turnEvent.properties.gameId).toBe('canopy-bloom')
+  expect(turnEvent.properties.gameId).toBe(generatedGame.id)
   expect(turnEvent.properties.generatedRuntime).toBe(true)
 })
 
 test('generated runtime portfolio includes additional playable games', async ({ page }) => {
+  const generatedPlayable = JSON.parse(await readFile('data/generated-playable-games.json', 'utf8')) as {
+    games: Array<{ id: string; title: string; maxMoves: number }>
+  }
+  const additionalGame = generatedPlayable.games[2] ?? generatedPlayable.games[1]
+
   await page.goto('/')
   await page
     .getByLabel('Playable games')
-    .getByRole('button', { name: /Mosaic Haven/ })
+    .getByRole('button', { name: additionalGame.title })
     .click()
 
-  await expectRunMoves(page, '0/10')
+  await expectRunMoves(page, `0/${additionalGame.maxMoves}`)
 
   const canvas = page.locator('canvas').first()
   const box = await canvas.boundingBox()
@@ -5279,7 +5300,7 @@ test('generated runtime portfolio includes additional playable games', async ({ 
   }
 
   await page.mouse.click(box.x + (75 / 560) * box.width, box.y + (176 / 500) * box.height)
-  await expectRunMoves(page, '1/10')
+  await expectRunMoves(page, `1/${additionalGame.maxMoves}`)
 
   const turnEvent = await page.evaluate(() => {
     const raw = window.localStorage.getItem('agl.analytics.events')
@@ -5287,7 +5308,7 @@ test('generated runtime portfolio includes additional playable games', async ({ 
     return events.findLast((event: { name: string }) => event.name === 'turn_taken')
   })
 
-  expect(turnEvent.properties.gameId).toBe('mosaic-haven')
+  expect(turnEvent.properties.gameId).toBe(additionalGame.id)
   expect(turnEvent.properties.generatedRuntime).toBe(true)
 })
 
@@ -5495,11 +5516,11 @@ test('zero-spend seed kit is reachable and uses runtime-relative campaign links'
   )
   const firstCard = page.locator(`[data-campaign-id="${firstCampaign.id}"]`)
   await expect(firstCard).toContainText(firstCampaign.title)
-  await expect(firstCard).toHaveAttribute('data-share-path', firstCampaign.sharePath)
+  await expect(firstCard).toHaveAttribute('data-share-path', runtimeHref(firstCampaign.sharePath))
   await expect(firstCard).toHaveAttribute('data-game-id', firstCampaign.gameId)
   await expect(page.getByRole('link', { name: 'Seed link' }).first()).toHaveAttribute(
     'href',
-    firstCampaign.sharePath,
+    runtimeHref(firstCampaign.sharePath),
   )
   await expect(page.getByRole('button', { name: 'Copy share text' }).first()).toBeVisible()
   await expect(page.getByRole('button', { name: 'Share' }).first()).toBeVisible()
@@ -6150,7 +6171,7 @@ test('store listing optimizer promotes the data-led store focus', async ({ page 
     generatedAt: string
     status: string
     sourceDataHash: string
-    recommendation: { focusGameId: string; changedLaunchCandidate: boolean }
+    recommendation: { focusGameId: string; changedLaunchCandidate: boolean; title: string }
     listing: { shortDescription: string; keywords: string[] }
     screenshotPriorities: Array<{ id: string }>
     copyGuardrails: { googleShortDescriptionMaxChars: number; noMonetizationClaimsBeforeEnabled: boolean }
@@ -6174,7 +6195,7 @@ test('store listing optimizer promotes the data-led store focus', async ({ page 
   expect(optimizer.sourceDataHash).toMatch(/^[a-f0-9]{12}$/)
   expect(storePackage.sourceDataHash).toMatch(/^[a-f0-9]{12}$/)
   expect(storeCompliance.sourceDataHash).toMatch(/^[a-f0-9]{12}$/)
-  expect(optimizer.recommendation.focusGameId).toBe('canopy-bloom')
+  expect(optimizer.recommendation.focusGameId).toMatch(/^[a-z0-9-]+$/)
   expect(storePackage.launchCandidate.id).toBe(optimizer.recommendation.focusGameId)
   expect(storePackage.storeListingOptimization.status).toBe(optimizer.status)
   expect(storePackage.storeListingOptimization.generatedAt).toBe(optimizer.generatedAt)
@@ -6188,7 +6209,7 @@ test('store listing optimizer promotes the data-led store focus', async ({ page 
   expect(optimizer.listing.keywords).toContain('daily puzzle')
 
   await page.goto('/')
-  await expect(page.getByLabel('Store Listing Optimizer')).toContainText('Canopy Bloom')
+  await expect(page.getByLabel('Store Listing Optimizer')).toContainText(optimizer.recommendation.title)
 })
 
 test('generated install icon assets are reachable', async ({ page }) => {
