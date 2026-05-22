@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-05-22T21:16:51.503Z",
+  "generatedAt": "2026-05-22T21:29:52.287Z",
   "status": "performance-budget-ready",
   "sourceBuild": "dist",
-  "basePath": "/autonomous-game-lab/",
+  "basePath": "/",
   "budgets": {
     "initialJsMaxBytes": 696320,
     "initialJsMaxKb": 680,
@@ -15,92 +15,92 @@
   },
   "initial": {
     "entryScripts": [
-      "index-DhpAhboN.js",
+      "index-CVidgGPK.js",
       "registerSW.js"
     ],
     "scriptPaths": [
-      "assets/index-DhpAhboN.js",
+      "assets/index-CVidgGPK.js",
       "registerSW.js"
     ],
     "jsFiles": [
       {
-        "file": "index-DhpAhboN.js",
-        "path": "assets/index-DhpAhboN.js",
-        "bytes": 688931,
-        "kb": 672.8,
-        "gzipBytes": 187317,
-        "gzipKb": 182.9
+        "file": "index-CVidgGPK.js",
+        "path": "assets/index-CVidgGPK.js",
+        "bytes": 689208,
+        "kb": 673.1,
+        "gzipBytes": 187147,
+        "gzipKb": 182.8
       },
       {
         "file": "registerSW.js",
         "path": "registerSW.js",
         "bytes": 174,
         "kb": 0.2,
-        "gzipBytes": 142,
+        "gzipBytes": 141,
         "gzipKb": 0.1
       }
     ],
-    "jsBytes": 689105,
-    "jsKb": 673,
-    "gzipBytes": 187459,
-    "gzipKb": 183.1,
+    "jsBytes": 689382,
+    "jsKb": 673.2,
+    "gzipBytes": 187288,
+    "gzipKb": 182.9,
     "cssFiles": [
       {
         "file": "index-BzgYwZsM.css",
         "path": "assets/index-BzgYwZsM.css",
         "bytes": 10779,
         "kb": 10.5,
-        "gzipBytes": 2892,
+        "gzipBytes": 2888,
         "gzipKb": 2.8
       }
     ],
     "cssBytes": 10779,
     "cssKb": 10.5,
-    "cssGzipBytes": 2892,
+    "cssGzipBytes": 2888,
     "cssGzipKb": 2.8
   },
   "deferred": {
     "chunks": [
       {
-        "file": "aggregateEvidenceIssue-eSaEM0vg.js",
-        "path": "assets/aggregateEvidenceIssue-eSaEM0vg.js",
+        "file": "aggregateEvidenceIssue-CFE1BEJu.js",
+        "path": "assets/aggregateEvidenceIssue-CFE1BEJu.js",
         "bytes": 3717,
         "kb": 3.6,
-        "gzipBytes": 1481,
+        "gzipBytes": 1482,
         "gzipKb": 1.4
       },
       {
-        "file": "GameCanvas-oIMvnYA_.js",
-        "path": "assets/GameCanvas-oIMvnYA_.js",
+        "file": "GameCanvas-DV97D_-x.js",
+        "path": "assets/GameCanvas-DV97D_-x.js",
         "bytes": 1394049,
         "kb": 1361.4,
-        "gzipBytes": 357541,
-        "gzipKb": 349.2
+        "gzipBytes": 356338,
+        "gzipKb": 348
       }
     ],
     "gameChunk": {
-      "file": "GameCanvas-oIMvnYA_.js",
-      "path": "assets/GameCanvas-oIMvnYA_.js",
+      "file": "GameCanvas-DV97D_-x.js",
+      "path": "assets/GameCanvas-DV97D_-x.js",
       "bytes": 1394049,
       "kb": 1361.4,
-      "gzipBytes": 357541,
-      "gzipKb": 349.2
+      "gzipBytes": 356338,
+      "gzipKb": 348
     },
     "largestDeferredChunk": {
-      "file": "GameCanvas-oIMvnYA_.js",
-      "path": "assets/GameCanvas-oIMvnYA_.js",
+      "file": "GameCanvas-DV97D_-x.js",
+      "path": "assets/GameCanvas-DV97D_-x.js",
       "bytes": 1394049,
       "kb": 1361.4,
-      "gzipBytes": 357541,
-      "gzipKb": 349.2
+      "gzipBytes": 356338,
+      "gzipKb": 348
     },
     "largestJsChunk": {
-      "file": "GameCanvas-oIMvnYA_.js",
-      "path": "assets/GameCanvas-oIMvnYA_.js",
+      "file": "GameCanvas-DV97D_-x.js",
+      "path": "assets/GameCanvas-DV97D_-x.js",
       "bytes": 1394049,
       "kb": 1361.4,
-      "gzipBytes": 357541,
-      "gzipKb": 349.2
+      "gzipBytes": 356338,
+      "gzipKb": 348
     },
     "chunksBytes": 1397766,
     "chunksKb": 1365
@@ -108,35 +108,35 @@
   "assets": {
     "js": [
       {
-        "file": "aggregateEvidenceIssue-eSaEM0vg.js",
-        "path": "assets/aggregateEvidenceIssue-eSaEM0vg.js",
+        "file": "aggregateEvidenceIssue-CFE1BEJu.js",
+        "path": "assets/aggregateEvidenceIssue-CFE1BEJu.js",
         "bytes": 3717,
         "kb": 3.6,
-        "gzipBytes": 1481,
+        "gzipBytes": 1482,
         "gzipKb": 1.4
       },
       {
-        "file": "GameCanvas-oIMvnYA_.js",
-        "path": "assets/GameCanvas-oIMvnYA_.js",
+        "file": "GameCanvas-DV97D_-x.js",
+        "path": "assets/GameCanvas-DV97D_-x.js",
         "bytes": 1394049,
         "kb": 1361.4,
-        "gzipBytes": 357541,
-        "gzipKb": 349.2
+        "gzipBytes": 356338,
+        "gzipKb": 348
       },
       {
-        "file": "index-DhpAhboN.js",
-        "path": "assets/index-DhpAhboN.js",
-        "bytes": 688931,
-        "kb": 672.8,
-        "gzipBytes": 187317,
-        "gzipKb": 182.9
+        "file": "index-CVidgGPK.js",
+        "path": "assets/index-CVidgGPK.js",
+        "bytes": 689208,
+        "kb": 673.1,
+        "gzipBytes": 187147,
+        "gzipKb": 182.8
       },
       {
         "file": "registerSW.js",
         "path": "registerSW.js",
         "bytes": 174,
         "kb": 0.2,
-        "gzipBytes": 142,
+        "gzipBytes": 141,
         "gzipKb": 0.1
       }
     ],
@@ -146,7 +146,7 @@
         "path": "assets/index-BzgYwZsM.css",
         "bytes": 10779,
         "kb": 10.5,
-        "gzipBytes": 2892,
+        "gzipBytes": 2888,
         "gzipKb": 2.8
       }
     ],
@@ -166,12 +166,12 @@
     {
       "id": "initial-js-budget",
       "status": "pass",
-      "detail": "Initial JS is 673 KB; budget is 680 KB."
+      "detail": "Initial JS is 673.2 KB; budget is 680 KB."
     },
     {
       "id": "initial-js-gzip-budget",
       "status": "pass",
-      "detail": "Initial JS gzip is 183.1 KB; budget is 200 KB."
+      "detail": "Initial JS gzip is 182.9 KB; budget is 200 KB."
     },
     {
       "id": "initial-css-budget",
@@ -191,12 +191,12 @@
     {
       "id": "game-runtime-deferred",
       "status": "pass",
-      "detail": "GameCanvas-oIMvnYA_.js is deferred from the initial shell."
+      "detail": "GameCanvas-DV97D_-x.js is deferred from the initial shell."
     },
     {
       "id": "largest-js-deferred",
       "status": "pass",
-      "detail": "Largest JS chunk is GameCanvas-oIMvnYA_.js at 1361.4 KB."
+      "detail": "Largest JS chunk is GameCanvas-DV97D_-x.js at 1361.4 KB."
     },
     {
       "id": "deferred-game-budget",

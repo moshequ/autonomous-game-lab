@@ -8197,6 +8197,24 @@ test('production measurement status publishes public aggregate evidence handoff'
   const samplePlan = JSON.parse(await readFile('data/product-gate-sample-plan.json', 'utf8')) as {
     summary: { supportingAggregateEvidenceNotes: number }
   }
+  const traffic = JSON.parse(await readFile('data/traffic-seeding.json', 'utf8')) as {
+    status: string
+    sampleNextRoute: {
+      status: string
+      path: string
+      jsonPath: string
+      targetCampaignId: string
+      targetGateId: string
+      targetGameId: string
+      targetPath: string
+      costUsd: number
+      playerInitiatedOnly: boolean
+      noAutomatedExternalPosting: boolean
+      noPaidPromotion: boolean
+      noSyntheticEvents: boolean
+      noRevenueEnablement: boolean
+    }
+  }
   const postDeploySync = JSON.parse(await readFile('data/post-deploy-artifact-sync.json', 'utf8')) as {
     status: string
     live?: { candidateId?: string }
@@ -8215,6 +8233,24 @@ test('production measurement status publishes public aggregate evidence handoff'
     productGateEvidence: {
       supportingAggregateEvidenceNotes: number
       aggregateEvidenceMissionCount: number
+      sampleNextRoute: {
+        status: string
+        path: string
+        jsonPath: string
+        targetCampaignId: string | null
+        targetGateId: string | null
+        targetGameId: string | null
+        targetPath: string | null
+        fallbackPath: string
+        costUsd: number
+        guardrails: {
+          playerInitiatedOnly: boolean
+          noAutomatedExternalPosting: boolean
+          noPaidPromotion: boolean
+          noSyntheticEvents: boolean
+          noRevenueEnablement: boolean
+        }
+      }
     }
     analyticsUnlock: {
       id: string
@@ -8293,6 +8329,15 @@ test('production measurement status publishes public aggregate evidence handoff'
       aggregateEvidenceDoesNotPassGates: boolean
       manualReviewRequiredForGateDecisions: boolean
     }
+    publicRoutes: {
+      statusPage: string
+      statusJson: string
+      gateSample: string
+      sampleNext: string
+      sampleNextJson: string
+      support: string
+    }
+    sourceStatus: { trafficSeeding: string }
     nextActions: string[]
   }
   const publicMeasurement = JSON.parse(await readFile('public/measurement-status.json', 'utf8')) as typeof measurement
@@ -8327,6 +8372,26 @@ test('production measurement status publishes public aggregate evidence handoff'
   expect(measurement.productGateEvidence.supportingAggregateEvidenceNotes).toBe(
     samplePlan.summary.supportingAggregateEvidenceNotes,
   )
+  expect(measurement.productGateEvidence.sampleNextRoute).toMatchObject({
+    status: traffic.sampleNextRoute.status,
+    path: traffic.sampleNextRoute.path,
+    jsonPath: traffic.sampleNextRoute.jsonPath,
+    targetCampaignId: traffic.sampleNextRoute.targetCampaignId,
+    targetGateId: traffic.sampleNextRoute.targetGateId,
+    targetGameId: traffic.sampleNextRoute.targetGameId,
+    targetPath: traffic.sampleNextRoute.targetPath,
+    costUsd: 0,
+  })
+  expect(measurement.productGateEvidence.sampleNextRoute.guardrails).toMatchObject({
+    playerInitiatedOnly: true,
+    noAutomatedExternalPosting: true,
+    noPaidPromotion: true,
+    noSyntheticEvents: true,
+    noRevenueEnablement: true,
+  })
+  expect(measurement.publicRoutes.sampleNext).toBe('/sample-next.html')
+  expect(measurement.publicRoutes.sampleNextJson).toBe('/sample-next.json')
+  expect(measurement.sourceStatus.trafficSeeding).toBe(traffic.status)
   expect(measurement.publicEvidenceHandoff.productGateMissions.supportingAggregateEvidenceNotes).toBe(
     samplePlan.summary.supportingAggregateEvidenceNotes,
   )
@@ -8374,17 +8439,26 @@ test('production measurement status publishes public aggregate evidence handoff'
   expect(measurement.controls.aggregateEvidenceDoesNotPassGates).toBe(true)
   expect(measurement.controls.manualReviewRequiredForGateDecisions).toBe(true)
   expect(measurement.publicEvidenceHandoff.nextActions.join(' ')).toContain('Do not pass product gates')
+  expect(measurement.publicEvidenceHandoff.nextActions.join(' ')).toContain('/sample-next.html')
   expect(measurement.nextActions.join(' ')).toContain('public aggregate evidence')
   expect(measurement.nextActions.join(' ')).toContain('Unlock production analytics')
   expect(publicMeasurement.publicEvidenceHandoff).toEqual(measurement.publicEvidenceHandoff)
   expect(publicMeasurement.analyticsUnlock).toEqual(measurement.analyticsUnlock)
+  expect(publicMeasurement.publicRoutes).toEqual(measurement.publicRoutes)
   expect(html).toContain('Public Aggregate Evidence')
+  expect(html).toContain('Start current sample')
+  expect(html).toContain('sample-next.html')
   expect(html).toContain('Zero-Spend Analytics Unlock')
   expect(html).toContain('does not pass gates')
   expect(html).toContain('first-party-collector')
   expect(html).toContain('CLOUDFLARE_API_TOKEN')
+  expect(html).not.toContain('href="/gate-sample.html"')
+  expect(html).not.toContain('href="/support.html"')
+  expect(html).not.toContain('href="/measurement-status.json"')
   expect(script).toContain('publicEvidenceHandoff')
   expect(script).toContain('publicAnalyticsUnlock')
+  expect(script).toContain('trafficSeeding')
+  expect(script).toContain('publicRouteHref')
   expect(script).toContain('aggregateEvidenceDoesNotPassGates')
   expect(script).toContain('manualReviewRequiredForGateDecisions')
 
@@ -8404,6 +8478,18 @@ test('production measurement status publishes public aggregate evidence handoff'
   await expect(page.getByRole('heading', { name: 'Production Measurement Status' })).toBeVisible()
   await expect(page.getByRole('heading', { name: 'Public Aggregate Evidence' })).toBeVisible()
   await expect(page.getByRole('heading', { name: 'Zero-Spend Analytics Unlock' })).toBeVisible()
+  await expect(page.getByLabel('Product evidence')).toContainText('/sample-next.html')
+  await expect(page.getByRole('link', { name: 'Start current sample' }).first()).toHaveAttribute(
+    'href',
+    './sample-next.html',
+  )
+  await expect(page.getByRole('link', { name: 'Open all missions' })).toHaveAttribute('href', './gate-sample.html')
+  await expect(page.getByRole('link', { name: 'Open gate sample' })).toHaveAttribute('href', './gate-sample.html')
+  await expect(page.getByRole('link', { name: 'Open support' })).toHaveAttribute('href', './support.html')
+  await expect(page.getByRole('link', { name: 'Open status JSON' })).toHaveAttribute(
+    'href',
+    './measurement-status.json',
+  )
   await expect(page.getByLabel('Public aggregate evidence')).toContainText(measurement.publicEvidenceHandoff.status)
   await expect(page.getByLabel('Zero-spend analytics unlock')).toContainText('first-party-collector')
   await expect(page.getByText('does not pass gates', { exact: true })).toBeVisible()

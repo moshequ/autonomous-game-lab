@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-05-22T21:17:00.841Z",
-  "sourceDataHash": "24a9483f1758",
+  "generatedAt": "2026-05-22T21:30:01.274Z",
+  "sourceDataHash": "0f348c4ea9d0",
   "status": "production-measurement-local-intake-ready",
   "activePath": "local-browser-buffer",
   "liveCandidate": "pwa-6a933a32ec73",
@@ -44,7 +44,7 @@
       "id": "collect-firstGameCompletion-sample",
       "title": "Harbor Rings",
       "gateId": "firstGameCompletion",
-      "campaignId": "gate-sample-20260522-firstGameCompletion",
+      "campaignId": "gate-sample-20260523-firstGameCompletion",
       "gameId": "harbor-rings",
       "needed": {
         "promptViews": 30,
@@ -56,7 +56,26 @@
     "missionCount": 3,
     "fastestGateId": "d1Retention",
     "supportingAggregateEvidenceNotes": 0,
-    "aggregateEvidenceMissionCount": 0
+    "aggregateEvidenceMissionCount": 0,
+    "sampleNextRoute": {
+      "status": "armed",
+      "path": "/sample-next.html",
+      "jsonPath": "/sample-next.json",
+      "targetCampaignId": "gate-sample-20260523-firstGameCompletion",
+      "targetGateId": "firstGameCompletion",
+      "targetGameId": "harbor-rings",
+      "targetTitle": "Sample First game completion",
+      "targetPath": "/?game=harbor-rings&utm_source=gate_sample&utm_campaign=gate-sample-20260523-firstGameCompletion",
+      "fallbackPath": "/gate-sample.html",
+      "costUsd": 0,
+      "guardrails": {
+        "playerInitiatedOnly": true,
+        "noAutomatedExternalPosting": true,
+        "noPaidPromotion": true,
+        "noSyntheticEvents": true,
+        "noRevenueEnablement": true
+      }
+    }
   },
   "publicEvidenceHandoff": {
     "status": "awaiting-player-initiated-aggregate-notes",
@@ -93,7 +112,7 @@
       "noRevenueEnablement": true
     },
     "nextActions": [
-      "Invite players to use Share evidence after a gate-sample play session so public aggregate evidence can be reviewed without raw events.",
+      "Invite players to start the current sample through /sample-next.html, then use Share evidence after the play session so public aggregate evidence can be reviewed without raw events.",
       "Do not pass product gates, enable revenue, or submit stores from public aggregate notes alone."
     ]
   },
@@ -104,8 +123,8 @@
     "recommendedPathId": "first-party-collector",
     "commandCount": 5,
     "validationCommandCount": 4,
-    "missingVariableCount": 5,
-    "missingSecretCount": 1,
+    "missingVariableCount": 7,
+    "missingSecretCount": 3,
     "controls": {
       "zeroPaidSpend": true,
       "noSecretValues": true,
@@ -133,13 +152,13 @@
           {
             "repositoryName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
             "envName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
-            "configured": true,
+            "configured": false,
             "command": "gh variable set AGL_EVENT_COLLECTOR_R2_BUCKET --body \"$AGL_EVENT_COLLECTOR_R2_BUCKET\""
           },
           {
             "repositoryName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
             "envName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
-            "configured": true,
+            "configured": false,
             "command": "gh variable set AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS --body \"$AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS\""
           },
           {
@@ -165,13 +184,13 @@
           {
             "repositoryName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
             "envName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
-            "configured": true,
+            "configured": false,
             "command": "printf \"%s\" \"$VITE_EVENT_COLLECTOR_WRITE_TOKEN\" | gh secret set VITE_EVENT_COLLECTOR_WRITE_TOKEN"
           },
           {
             "repositoryName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
             "envName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
-            "configured": true,
+            "configured": false,
             "command": "printf \"%s\" \"$AGL_EVENT_COLLECTOR_ADMIN_TOKEN\" | gh secret set AGL_EVENT_COLLECTOR_ADMIN_TOKEN"
           }
         ],
@@ -231,6 +250,8 @@
     "statusPage": "/measurement-status.html",
     "statusJson": "/measurement-status.json",
     "gateSample": "/gate-sample.html",
+    "sampleNext": "/sample-next.html",
+    "sampleNextJson": "/sample-next.json",
     "support": "/support.html",
     "privacy": "/privacy.html",
     "analyticsEvidenceIssue": "https://github.com/moshequ/autonomous-game-lab/issues/new?template=analytics-evidence.yml&title=%5BEvidence%5D+Player+event+export+note&body=Thanks+for+helping+improve+Autonomous+Game+Lab.%0A%0AGitHub+Issues+are+public.+Share+aggregate+counts+only.%0ADo+not+paste+private+information%2C+raw+analytics+exports%2C+event+rows%2C+private+identifiers%2C+or+uploaded+event+files+into+this+issue.%0A%0ASupport+type%3A+analytics-evidence%0AGame+or+mission%3A%0AEvidence+window%3A%0AAggregate+starts%3A%0AAggregate+completions%3A%0AAggregate+replays%3A%0AAggregate+D1+eligible+players%3A%0AAggregate+D1+retained+players%3A%0AWhat+changed+or+looked+unusual%3A"
@@ -253,6 +274,7 @@
     "supportChannel": "support-channel-ready",
     "supportFeedback": "support-feedback-empty",
     "productGateSamplePlan": "product-gate-sample-plan-ready",
+    "trafficSeeding": "traffic-seeding-ready",
     "productionBlockerHandoff": "handoff-waiting-on-owner-inputs",
     "eventCollectorSmoke": "pass",
     "postDeployArtifactSync": "post-deploy-artifact-sync-passed"
@@ -273,7 +295,7 @@
   "nextActions": [
     "Use the player-initiated local evidence route until PostHog or the first-party collector is configured.",
     "Unlock production analytics with first-party-collector; 5 setup command(s) and 4 validation command(s) are published with redacted secret names only.",
-    "Invite players to use Share evidence after a gate-sample play session so public aggregate evidence can be reviewed without raw events.",
+    "Invite players to start the current sample through /sample-next.html, then use Share evidence after the play session so public aggregate evidence can be reviewed without raw events.",
     "Do not pass product gates, enable revenue, or submit stores from public aggregate notes alone.",
     "Keep product gates blocked until real player evidence clears completion, replay, and D1 retention thresholds."
   ]

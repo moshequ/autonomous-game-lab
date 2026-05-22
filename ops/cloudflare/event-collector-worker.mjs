@@ -45,6 +45,8 @@ const allowedEventNames = new Set([
   'local_router_share_clicked',
   'local_router_choice_dismissed',
   'gate_sample_mission_clicked',
+  'sample_next_viewed',
+  'sample_next_routed',
   'gate_sample_export_prompt_viewed',
   'gate_sample_export_prompt_clicked',
   'daily_challenge_viewed',

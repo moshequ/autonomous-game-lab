@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-05-22T20:04:19.622Z",
+  "generatedAt": "2026-05-22T21:26:32.894Z",
   "status": "retention-loop-ready",
-  "sourceDataHash": "0eb9f71dd050",
+  "sourceDataHash": "ccd2bd512f9b",
   "dailyChallenge": {
     "date": "2026-05-22",
     "gameId": "market-pulse",
@@ -106,8 +106,8 @@
     "label": "D1 retention",
     "status": "collecting-sample",
     "sampleRole": "fastest-validation",
-    "campaignId": "gate-sample-20260522-d1Retention",
-    "playPath": "/?game=market-pulse&utm_source=gate_sample&utm_campaign=gate-sample-20260522-d1Retention",
+    "campaignId": "gate-sample-20260523-d1Retention",
+    "playPath": "/?game=market-pulse&utm_source=gate_sample&utm_campaign=gate-sample-20260523-d1Retention",
     "publicSamplePath": "/gate-sample.html",
     "current": {
       "actual": 0.167,
@@ -174,7 +174,7 @@
       "downloadsImportRequiresExplicitOptIn": true,
       "downloadsScanBackoffRequired": true
     },
-    "nextAction": "Feature the daily challenge via /?game=market-pulse&utm_source=gate_sample&utm_campaign=gate-sample-20260522-d1Retention and collect 10 prompt exposure(s) plus 1 retained start(s)."
+    "nextAction": "Feature the daily challenge via /?game=market-pulse&utm_source=gate_sample&utm_campaign=gate-sample-20260523-d1Retention and collect 10 prompt exposure(s) plus 1 retained start(s)."
   },
   "controls": {
     "canNudgeRetention": true,
@@ -229,7 +229,7 @@
   ],
   "nextActions": [
     "Improve D1 retention from 17% toward 18% with local streak prompts.",
-    "Feature the daily challenge via /?game=market-pulse&utm_source=gate_sample&utm_campaign=gate-sample-20260522-d1Retention and collect 10 prompt exposure(s) plus 1 retained start(s).",
+    "Feature the daily challenge via /?game=market-pulse&utm_source=gate_sample&utm_campaign=gate-sample-20260523-d1Retention and collect 10 prompt exposure(s) plus 1 retained start(s).",
     "Improve replay rate from 31% toward 35% with the daily return mission.",
     "Do not use push notifications, accounts, paid rewards, or ads for retention until gates pass."
   ]

@@ -1,16 +1,16 @@
 # Traffic Seeding
 
-Generated: 2026-05-22T21:09:34.513Z
+Generated: 2026-05-22T21:25:14.670Z
 Status: traffic-seeding-ready
 Analytics source: fixture-sample
 Max cost: $0.00
 
 ## Campaigns
 
-- #1 Market Pulse: armed, seed-needed, /?game=market-pulse&utm_source=seed_internal&utm_campaign=seed-20260522-market-pulse
-- #2 Guild Garden: armed, seed-needed, /?game=guild-garden&utm_source=seed_internal&utm_campaign=seed-20260522-guild-garden
-- #3 Canopy Bloom: armed, seed-needed, /?game=canopy-bloom&utm_source=seed_internal&utm_campaign=seed-20260522-canopy-bloom
-- #4 Metro Loom: armed, seed-needed, /?game=metro-loom&utm_source=seed_internal&utm_campaign=seed-20260522-metro-loom
+- #1 Market Pulse: armed, seed-needed, /?game=market-pulse&utm_source=seed_internal&utm_campaign=seed-20260523-market-pulse
+- #2 Guild Garden: armed, seed-needed, /?game=guild-garden&utm_source=seed_internal&utm_campaign=seed-20260523-guild-garden
+- #3 Canopy Bloom: armed, seed-needed, /?game=canopy-bloom&utm_source=seed_internal&utm_campaign=seed-20260523-canopy-bloom
+- #4 Metro Loom: armed, seed-needed, /?game=metro-loom&utm_source=seed_internal&utm_campaign=seed-20260523-metro-loom
 
 ## Channels
 
@@ -23,9 +23,9 @@ Max cost: $0.00
 ## Seed Kit
 
 - /seed-kit.html with 4 zero-spend seed campaign links and player-initiated copy/share controls.
-- /seed-next.html routes evergreen zero-spend traffic to seed-20260522-market-pulse without paid posting.
-- /sample-next.html routes evergreen zero-spend product-gate traffic to gate-sample-20260522-firstGameCompletion without paid posting.
-- /gate-sample.html with 3 product-gate sample link(s); default gate-sample-20260522-firstGameCompletion.
+- /seed-next.html routes evergreen zero-spend traffic to seed-20260523-market-pulse without paid posting.
+- /sample-next.html routes evergreen zero-spend product-gate traffic to gate-sample-20260523-firstGameCompletion without paid posting.
+- /gate-sample.html with 3 product-gate sample link(s); default gate-sample-20260523-firstGameCompletion.
 
 ## Next Actions
 

@@ -1460,6 +1460,14 @@ const trafficSeedingSourceEvidence = {
   growth,
   analytics,
   unitEconomics,
+  supportChannel: {
+    status: supportChannel.status,
+    repository:
+      typeof supportChannel.repository?.target === 'string' && /^[\w.-]+\/[\w.-]+$/.test(supportChannel.repository.target)
+        ? supportChannel.repository.target
+        : null,
+    analyticsEvidenceAggregateOnly: supportChannel.controls?.analyticsEvidenceAggregateOnly === true,
+  },
 }
 const acquisitionLearningSourceEvidence = {
   analytics,
@@ -1469,6 +1477,18 @@ const acquisitionLearningSourceEvidence = {
   playable,
   localEventFiles: acquisitionLocalEventFiles,
   events: acquisitionLocalEvents,
+  supportFeedback: {
+    status: supportFeedback.status,
+    sourceDataHash: supportFeedback.sourceDataHash,
+    aggregateEvidenceNotes: (supportFeedback.aggregateEvidenceNotes ?? []).map((note) => ({
+      number: note.number,
+      status: note.status,
+      gameId: note.gameId,
+      campaignId: note.campaignId,
+      counts: note.counts,
+      evidenceWindow: note.evidenceWindow,
+    })),
+  },
 }
 const organicSeedLoopSourceEvidence = {
   playable,

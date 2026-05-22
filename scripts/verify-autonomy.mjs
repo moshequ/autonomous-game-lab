@@ -857,6 +857,8 @@ if (
 const publicEvidenceHandoff = productionMeasurementStatus.publicEvidenceHandoff ?? {}
 const publicEvidenceControls = publicEvidenceHandoff.controls ?? {}
 const publicAnalyticsUnlock = productionMeasurementStatus.analyticsUnlock ?? null
+const measurementSampleNextRoute = productionMeasurementStatus.productGateEvidence?.sampleNextRoute ?? {}
+const measurementPublicRoutes = productionMeasurementStatus.publicRoutes ?? {}
 const publicAnalyticsUnlockPathIds = new Set((publicAnalyticsUnlock?.paths ?? []).map((unlockPath) => unlockPath.id))
 const publicAnalyticsFirstPartyCollectorPath = (publicAnalyticsUnlock?.paths ?? []).find(
   (unlockPath) => unlockPath.id === 'first-party-collector',
@@ -881,6 +883,21 @@ if (
     (supportFeedback.summary?.aggregateCompletions ?? 0) ||
   productionMeasurementStatus.productGateEvidence?.supportingAggregateEvidenceNotes !==
     (productGateSamplePlan.summary?.supportingAggregateEvidenceNotes ?? 0) ||
+  measurementSampleNextRoute.path !== '/sample-next.html' ||
+  measurementSampleNextRoute.jsonPath !== '/sample-next.json' ||
+  measurementSampleNextRoute.targetCampaignId !== trafficSeeding.sampleNextRoute?.targetCampaignId ||
+  measurementSampleNextRoute.targetGateId !== trafficSeeding.sampleNextRoute?.targetGateId ||
+  measurementSampleNextRoute.targetGameId !== trafficSeeding.sampleNextRoute?.targetGameId ||
+  measurementSampleNextRoute.targetPath !== trafficSeeding.sampleNextRoute?.targetPath ||
+  measurementSampleNextRoute.costUsd !== 0 ||
+  measurementSampleNextRoute.guardrails?.playerInitiatedOnly !== true ||
+  measurementSampleNextRoute.guardrails?.noAutomatedExternalPosting !== true ||
+  measurementSampleNextRoute.guardrails?.noPaidPromotion !== true ||
+  measurementSampleNextRoute.guardrails?.noSyntheticEvents !== true ||
+  measurementSampleNextRoute.guardrails?.noRevenueEnablement !== true ||
+  measurementPublicRoutes.sampleNext !== '/sample-next.html' ||
+  measurementPublicRoutes.sampleNextJson !== '/sample-next.json' ||
+  productionMeasurementStatus.sourceStatus?.trafficSeeding !== trafficSeeding.status ||
   productionMeasurementStatus.sourceStatus?.postDeployArtifactSync !== postDeployArtifactSync.status ||
   productionMeasurementStatus.liveCandidate !== postDeployArtifactSync.live?.candidateId ||
   publicMeasurementStatus.liveCandidate !== postDeployArtifactSync.live?.candidateId ||
@@ -928,7 +945,13 @@ if (
   productionMeasurementStatus.controls?.manualReviewRequiredForGateDecisions !== true ||
   JSON.stringify(publicMeasurementStatus.publicEvidenceHandoff) !== JSON.stringify(publicEvidenceHandoff) ||
   JSON.stringify(publicMeasurementStatus.analyticsUnlock) !== JSON.stringify(publicAnalyticsUnlock) ||
+  JSON.stringify(publicMeasurementStatus.publicRoutes) !== JSON.stringify(measurementPublicRoutes) ||
   !measurementStatusHtml.includes('Public Aggregate Evidence') ||
+  !measurementStatusHtml.includes('Start current sample') ||
+  !measurementStatusHtml.includes('sample-next.html') ||
+  measurementStatusHtml.includes('href="/gate-sample.html"') ||
+  measurementStatusHtml.includes('href="/support.html"') ||
+  measurementStatusHtml.includes('href="/measurement-status.json"') ||
   !measurementStatusHtml.includes('Zero-Spend Analytics Unlock') ||
   !measurementStatusHtml.includes('first-party-collector') ||
   !measurementStatusHtml.includes('does not pass gates') ||
@@ -936,6 +959,8 @@ if (
   !appSource.includes('Analytics unlock') ||
   !productionMeasurementStatusSource.includes('publicEvidenceHandoff') ||
   !productionMeasurementStatusSource.includes('publicAnalyticsUnlock') ||
+  !productionMeasurementStatusSource.includes('trafficSeeding') ||
+  !productionMeasurementStatusSource.includes('publicRouteHref') ||
   !productionMeasurementStatusSource.includes('aggregateEvidenceDoesNotPassGates') ||
   !productionMeasurementStatusSource.includes('manualReviewRequiredForGateDecisions')
 ) {
@@ -1250,6 +1275,8 @@ if (
   eventCollectorSmoke.analytics?.d1Retention !== 1 ||
   eventCollectorSmoke.analytics?.counts?.game_started < 1 ||
   eventCollectorSmoke.analytics?.counts?.gate_sample_mission_clicked < 1 ||
+  eventCollectorSmoke.analytics?.counts?.sample_next_viewed < 1 ||
+  eventCollectorSmoke.analytics?.counts?.sample_next_routed < 1 ||
   eventCollectorSmoke.analytics?.counts?.first_move_coach_shown < 1 ||
   eventCollectorSmoke.analytics?.counts?.completion_nudge_viewed < 1 ||
   eventCollectorSmoke.analytics?.counts?.replay_prompt_clicked < 1 ||

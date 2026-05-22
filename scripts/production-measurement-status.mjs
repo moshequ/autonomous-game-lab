@@ -26,12 +26,21 @@ const escapeHtml = (value) =>
     .replaceAll('"', '&quot;')
     .replaceAll("'", '&#39;')
 
+const publicRouteHref = (value, fallback = './') => {
+  const candidate = String(value ?? fallback)
+  if (/^https?:\/\//.test(candidate)) {
+    return candidate
+  }
+  return candidate.startsWith('/') ? `.${candidate}` : candidate
+}
+
 const productionEnvironment = await readJson(path.join(dataDir, 'production-environment.json'))
 const analytics = await readJson(path.join(dataDir, 'analytics-rollup.json'))
 const localEventBridge = await readJson(path.join(dataDir, 'local-event-bridge.json'))
 const supportChannel = await readJson(path.join(dataDir, 'support-channel.json'))
 const supportFeedback = await readJson(path.join(dataDir, 'support-feedback.json'))
 const productGateSamplePlan = await readJson(path.join(dataDir, 'product-gate-sample-plan.json'))
+const trafficSeeding = await readJson(path.join(dataDir, 'traffic-seeding.json'))
 const productionBlockerHandoff = await readJson(path.join(dataDir, 'production-blocker-handoff.json'))
 const eventCollectorSmoke = await readJson(path.join(dataDir, 'event-collector-smoke.json'))
 const postDeployArtifactSync = await readOptionalJson(path.join(dataDir, 'post-deploy-artifact-sync.json'), {
@@ -57,6 +66,27 @@ const productionAnalyticsHandoff =
 const rollupHandoff =
   (productionBlockerHandoff.handoffItems ?? []).find((item) => item.id === 'autonomous-rollup-credentials') ?? null
 const primaryMission = productGateSamplePlan.missions?.[0] ?? null
+const numberOrZero = (value) => (typeof value === 'number' && Number.isFinite(value) ? value : 0)
+const trafficSampleNextRoute = trafficSeeding.sampleNextRoute ?? {}
+const sampleNextRoute = {
+  status: trafficSampleNextRoute.status ?? (primaryMission ? 'armed' : 'missing'),
+  path: trafficSampleNextRoute.path ?? '/sample-next.html',
+  jsonPath: trafficSampleNextRoute.jsonPath ?? '/sample-next.json',
+  targetCampaignId: trafficSampleNextRoute.targetCampaignId ?? primaryMission?.campaignId ?? null,
+  targetGateId: trafficSampleNextRoute.targetGateId ?? primaryMission?.gateId ?? null,
+  targetGameId: trafficSampleNextRoute.targetGameId ?? primaryMission?.gameId ?? null,
+  targetTitle: trafficSampleNextRoute.targetTitle ?? primaryMission?.title ?? null,
+  targetPath: trafficSampleNextRoute.targetPath ?? primaryMission?.playPath ?? null,
+  fallbackPath: trafficSampleNextRoute.fallbackPath ?? '/gate-sample.html',
+  costUsd: numberOrZero(trafficSampleNextRoute.costUsd),
+  guardrails: {
+    playerInitiatedOnly: trafficSampleNextRoute.playerInitiatedOnly !== false,
+    noAutomatedExternalPosting: trafficSampleNextRoute.noAutomatedExternalPosting !== false,
+    noPaidPromotion: trafficSampleNextRoute.noPaidPromotion !== false,
+    noSyntheticEvents: trafficSampleNextRoute.noSyntheticEvents !== false,
+    noRevenueEnablement: trafficSampleNextRoute.noRevenueEnablement !== false,
+  },
+}
 const activePath = browserCollectorConfigured
   ? 'first-party-event-collector'
   : browserPosthogConfigured
@@ -76,7 +106,6 @@ const nextAction = browserForwardingConfigured
   : localEvidenceReady
     ? 'Use the player-initiated local evidence route until PostHog or the first-party collector is configured.'
     : 'Repair the support or local event bridge route before relying on production evidence.'
-const numberOrZero = (value) => (typeof value === 'number' && Number.isFinite(value) ? value : 0)
 const aggregateEvidenceNotes = Array.isArray(supportFeedback.aggregateEvidenceNotes)
   ? supportFeedback.aggregateEvidenceNotes
   : []
@@ -225,7 +254,7 @@ const publicEvidenceHandoff = {
   nextActions: [
     aggregateEvidenceNotes.length
       ? 'Review public aggregate evidence as supporting diagnosis, then collect real event drops or configure production analytics before gate decisions.'
-      : 'Invite players to use Share evidence after a gate-sample play session so public aggregate evidence can be reviewed without raw events.',
+      : `Invite players to start the current sample through ${sampleNextRoute.path}, then use Share evidence after the play session so public aggregate evidence can be reviewed without raw events.`,
     'Do not pass product gates, enable revenue, or submit stores from public aggregate notes alone.',
   ],
 }
@@ -289,6 +318,7 @@ const sourceDataHash = hashSourceData({
   supportChannel,
   supportFeedback,
   productGateSamplePlan,
+  trafficSeeding,
   productionBlockerHandoff,
   eventCollectorSmoke,
   postDeployArtifactSync,
@@ -351,6 +381,7 @@ const payload = {
     fastestGateId: productGateSamplePlan.summary?.fastestGateId ?? null,
     supportingAggregateEvidenceNotes,
     aggregateEvidenceMissionCount: aggregateEvidenceMissions.length,
+    sampleNextRoute,
   },
   publicEvidenceHandoff,
   analyticsUnlock: publicAnalyticsUnlock,
@@ -358,6 +389,8 @@ const payload = {
     statusPage: '/measurement-status.html',
     statusJson: '/measurement-status.json',
     gateSample: '/gate-sample.html',
+    sampleNext: sampleNextRoute.path,
+    sampleNextJson: sampleNextRoute.jsonPath,
     support: '/support.html',
     privacy: '/privacy.html',
     analyticsEvidenceIssue: supportChannel.links?.analyticsEvidenceUrl ?? null,
@@ -385,6 +418,7 @@ const payload = {
     supportChannel: supportChannel.status,
     supportFeedback: supportFeedback.status,
     productGateSamplePlan: productGateSamplePlan.status,
+    trafficSeeding: trafficSeeding.status,
     productionBlockerHandoff: productionBlockerHandoff.status,
     eventCollectorSmoke: eventCollectorSmoke.status,
     postDeployArtifactSync: postDeployArtifactSync.status,
@@ -634,6 +668,18 @@ const html = `<!doctype html>
             <span>Aggregate mission matches</span>
             <strong>${payload.productGateEvidence.aggregateEvidenceMissionCount}</strong>
           </div>
+          <div class="card">
+            <span>Current sample route</span>
+            <strong>${escapeHtml(payload.productGateEvidence.sampleNextRoute.path)}</strong>
+          </div>
+          <div class="card">
+            <span>Route campaign</span>
+            <strong>${escapeHtml(payload.productGateEvidence.sampleNextRoute.targetCampaignId ?? 'waiting')}</strong>
+          </div>
+        </div>
+        <div class="actions">
+          <a href="${escapeHtml(publicRouteHref(payload.publicRoutes.sampleNext))}">Start current sample</a>
+          <a href="${escapeHtml(publicRouteHref(payload.publicRoutes.gateSample))}">Open all missions</a>
         </div>
       </section>
 
@@ -671,7 +717,7 @@ const html = `<!doctype html>
           }
         </ul>
         <div class="actions">
-          <a href="${escapeHtml(payload.publicRoutes.analyticsEvidenceIssue ?? '/support.html')}">Open aggregate evidence issue</a>
+          <a href="${escapeHtml(publicRouteHref(payload.publicRoutes.analyticsEvidenceIssue, payload.publicRoutes.support))}">Open aggregate evidence issue</a>
         </div>
       </section>
 
@@ -733,9 +779,10 @@ const html = `<!doctype html>
           ${payload.nextActions.map((action) => `<li>${escapeHtml(action)}</li>`).join('\n          ')}
         </ul>
         <div class="actions">
-          <a href="/gate-sample.html">Open gate sample</a>
-          <a href="/support.html">Open support</a>
-          <a href="/measurement-status.json">Open status JSON</a>
+          <a href="${escapeHtml(publicRouteHref(payload.publicRoutes.sampleNext))}">Start current sample</a>
+          <a href="${escapeHtml(publicRouteHref(payload.publicRoutes.gateSample))}">Open gate sample</a>
+          <a href="${escapeHtml(publicRouteHref(payload.publicRoutes.support))}">Open support</a>
+          <a href="${escapeHtml(publicRouteHref(payload.publicRoutes.statusJson))}">Open status JSON</a>
         </div>
       </section>
     </main>
