@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-22T01:39:57.975Z",
+  "generatedAt": "2026-05-22T02:06:15.830Z",
   "sourceDataHash": "b71659f853af",
   "source": "fixture-sample",
   "observed": {
@@ -9,39 +9,36 @@
   },
   "actions": [
     {
-      "status": "applied",
+      "status": "skipped",
       "gameId": "market-pulse",
-      "reason": "No organic entry data yet; seed strongest pages with daily challenge copy.",
-      "confidence": 73,
-      "sourceDataHash": "b71659f853af",
-      "before": {},
-      "after": {
-        "ctaVariant": "daily-challenge",
-        "messageVariant": "daily",
-        "reason": "No organic entry data yet; seed strongest pages with daily challenge copy.",
-        "confidence": 73,
-        "updatedAt": "2026-05-22T01:39:57.974Z"
-      }
+      "reason": "same growth diagnosis already applied for this source data",
+      "sourceDataHash": "b71659f853af"
+    },
+    {
+      "status": "skipped",
+      "gameId": "guild-garden",
+      "reason": "same growth diagnosis already applied for this source data",
+      "sourceDataHash": "b71659f853af"
     },
     {
       "status": "applied",
-      "gameId": "guild-garden",
-      "reason": "No organic entry data yet; seed strongest pages with daily challenge copy.",
-      "confidence": 73,
+      "gameId": "harbor-rings",
+      "reason": "No share clicks captured yet; test faster share-oriented CTA.",
+      "confidence": 66,
       "sourceDataHash": "b71659f853af",
       "before": {
-        "ctaVariant": "daily-challenge",
-        "messageVariant": "daily",
-        "reason": "No organic entry data yet; seed strongest pages with daily challenge copy.",
-        "confidence": 73,
-        "updatedAt": "2026-05-22T00:37:38.201Z"
+        "ctaVariant": "quick-strategy",
+        "messageVariant": "generated-original",
+        "reason": "No share clicks captured yet; test faster share-oriented CTA.",
+        "confidence": 66,
+        "updatedAt": "2026-05-18T20:11:09.021Z"
       },
       "after": {
-        "ctaVariant": "daily-challenge",
-        "messageVariant": "daily",
-        "reason": "No organic entry data yet; seed strongest pages with daily challenge copy.",
-        "confidence": 73,
-        "updatedAt": "2026-05-22T01:39:57.975Z"
+        "ctaVariant": "quick-strategy",
+        "messageVariant": "generated-original",
+        "reason": "No share clicks captured yet; test faster share-oriented CTA.",
+        "confidence": 66,
+        "updatedAt": "2026-05-22T02:06:15.830Z"
       }
     }
   ],

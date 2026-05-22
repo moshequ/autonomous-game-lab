@@ -1,6 +1,6 @@
 # Trend Radar Report
 
-Generated: 2026-05-22T01:39:51.470Z
+Generated: 2026-05-22T02:06:08.189Z
 
 Active source: public-rss-live
 BGG note: BGG_XML_API_TOKEN is not set; trying public trend feeds before fixtures.

@@ -1,5 +1,5 @@
 export const productionResponse = {
-  "generatedAt": "2026-05-22T01:40:30.397Z",
+  "generatedAt": "2026-05-22T02:06:47.992Z",
   "status": "guarded-operations",
   "releaseHealthStatus": "monitoring",
   "liveSiteMonitorStatus": "live-site-monitor-passed",
@@ -20,7 +20,7 @@ export const productionResponse = {
   },
   "actions": [
     {
-      "generatedAt": "2026-05-22T01:40:30.397Z",
+      "generatedAt": "2026-05-22T02:06:47.992Z",
       "id": "deployment-watch",
       "status": "monitoring",
       "type": "deployment-safety",
@@ -29,7 +29,7 @@ export const productionResponse = {
       "command": "Allow gated web deployment."
     },
     {
-      "generatedAt": "2026-05-22T01:40:30.397Z",
+      "generatedAt": "2026-05-22T02:06:47.992Z",
       "id": "experiment-learning",
       "status": "armed",
       "type": "experiment-safety",
@@ -38,7 +38,7 @@ export const productionResponse = {
       "command": "Allow bounded improvement applier to consume experiment evidence."
     },
     {
-      "generatedAt": "2026-05-22T01:40:30.397Z",
+      "generatedAt": "2026-05-22T02:06:47.992Z",
       "id": "disable-revenue-features",
       "status": "active",
       "type": "monetization-safety",
@@ -47,7 +47,7 @@ export const productionResponse = {
       "command": "Keep ad placements, purchases, and subscriptions disabled."
     },
     {
-      "generatedAt": "2026-05-22T01:40:30.397Z",
+      "generatedAt": "2026-05-22T02:06:47.992Z",
       "id": "enforce-zero-paid-spend",
       "status": "active",
       "type": "spend-safety",
@@ -58,17 +58,6 @@ export const productionResponse = {
   ],
   "policyDiff": null,
   "history": [
-    {
-      "generatedAt": "2026-05-18T22:03:53.822Z",
-      "mode": "guarded-operations",
-      "releaseHealthStatus": "monitoring",
-      "deploymentStatus": "ready-for-pages",
-      "activeActionIds": [
-        "disable-revenue-features",
-        "enforce-zero-paid-spend"
-      ],
-      "policyChanged": false
-    },
     {
       "generatedAt": "2026-05-18T22:16:26.220Z",
       "mode": "guarded-operations",
@@ -276,6 +265,18 @@ export const productionResponse = {
     },
     {
       "generatedAt": "2026-05-22T01:40:30.397Z",
+      "mode": "guarded-operations",
+      "releaseHealthStatus": "monitoring",
+      "liveSiteMonitorStatus": "live-site-monitor-passed",
+      "deploymentStatus": "ready-for-pages",
+      "activeActionIds": [
+        "disable-revenue-features",
+        "enforce-zero-paid-spend"
+      ],
+      "policyChanged": false
+    },
+    {
+      "generatedAt": "2026-05-22T02:06:47.992Z",
       "mode": "guarded-operations",
       "releaseHealthStatus": "monitoring",
       "liveSiteMonitorStatus": "live-site-monitor-passed",

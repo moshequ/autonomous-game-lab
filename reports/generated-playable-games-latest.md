@@ -1,6 +1,6 @@
 # Generated Playable Games
 
-Generated: 2026-05-22T01:39:52.152Z
+Generated: 2026-05-22T02:06:08.602Z
 Status: generated-runtime-ready
 
 ## Runtime Games
@@ -9,7 +9,7 @@ Status: generated-runtime-ready
 - Metro Loom: route building, compact city logistics, target 96, IP risk low
 - Mosaic Haven: tile placement, science desk, target 138, IP risk low
 - Guild Garden: worker placement, expedition planning, target 138, IP risk low
-- Market Pulse: auction, cozy production, target 103, IP risk low
+- Market Pulse: auction, cozy production, target 138, IP risk low
 
 ## Autonomy
 

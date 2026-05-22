@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-22T02:03:44.320Z",
+  "generatedAt": "2026-05-22T02:10:05.786Z",
   "status": "post-deploy-smoke-observed-live",
   "envFiles": {
     "loaded": true,
@@ -15,14 +15,14 @@
         ]
       }
     ],
-    "loadedKeys": [
+    "loadedKeys": [],
+    "skippedExistingKeys": [
       "AGL_ANDROID_PACKAGE_NAME",
       "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
       "AGL_ANDROID_KEYSTORE_BASE64",
       "AGL_ANDROID_KEYSTORE_PASSWORD",
       "AGL_ANDROID_KEY_ALIAS"
     ],
-    "skippedExistingKeys": [],
     "skippedProtectedKeys": [],
     "overwrittenEnvFileKeys": [],
     "supportedFiles": [
@@ -55,8 +55,8 @@
     "origin": "https://moshequ.github.io/autonomous-game-lab",
     "originSource": "release-candidate-public-origin",
     "provider": "github-pages",
-    "candidateId": "pwa-d8247b1219c3",
-    "aggregateHash": "d8247b1219c339af328a1e424b63de3b0c9f226045e8d8fcf3383e7a259f36a8",
+    "candidateId": "pwa-2b6b6c58723c",
+    "aggregateHash": "2b6b6c58723c9825ba3e2268d0d1155c520d0991daf5bce0db52f2eea886349c",
     "strictManifestComparison": false
   },
   "liveRelease": {
@@ -261,8 +261,8 @@
         "bytes": 20928,
         "candidateMatches": true,
         "hashMatches": true,
-        "localCandidateId": "pwa-d8247b1219c3",
-        "localAggregateHash": "d8247b1219c339af328a1e424b63de3b0c9f226045e8d8fcf3383e7a259f36a8",
+        "localCandidateId": "pwa-2b6b6c58723c",
+        "localAggregateHash": "2b6b6c58723c9825ba3e2268d0d1155c520d0991daf5bce0db52f2eea886349c",
         "detail": "Local release manifest matches the release candidate."
       }
     ]
@@ -508,7 +508,7 @@
       "path": "/release-candidate.json",
       "url": "https://moshequ.github.io/autonomous-game-lab/release-candidate.json",
       "expectedStatus": 200,
-      "requiredText": "pwa-d8247b1219c3",
+      "requiredText": "pwa-2b6b6c58723c",
       "status": "pass",
       "detail": "Live release manifest is reachable; it does not match the current local release candidate.",
       "actualStatus": 200,

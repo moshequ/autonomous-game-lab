@@ -1,7 +1,7 @@
 export const retentionLoop = {
-  "generatedAt": "2026-05-22T01:51:08.319Z",
+  "generatedAt": "2026-05-22T02:08:47.337Z",
   "status": "retention-loop-ready",
-  "sourceDataHash": "dee4a6207b33",
+  "sourceDataHash": "cf42cf69e6b4",
   "dailyChallenge": {
     "date": "2026-05-22",
     "gameId": "market-pulse",
@@ -155,8 +155,8 @@ export const retentionLoop = {
       "evidenceReadyNow": false,
       "lastScanAt": "2026-05-22T01:42:25.939Z",
       "lastScanStatus": "no-evidence-found",
-      "scanAgeHours": 0.14,
-      "cooldownRemainingHours": 3.86,
+      "scanAgeHours": 0.44,
+      "cooldownRemainingHours": 3.56,
       "nextRecommendedScanAt": "2026-05-22T05:42:25.939Z"
     },
     "commandPlan": {

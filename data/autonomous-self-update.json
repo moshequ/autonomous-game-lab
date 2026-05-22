@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-22T01:51:32.154Z",
+  "generatedAt": "2026-05-22T02:10:50.732Z",
   "status": "self-update-ready",
   "mode": "plan-and-assert",
   "envFiles": {
@@ -54,24 +54,24 @@
   },
   "repository": {
     "target": "moshequ/autonomous-game-lab",
-    "originRemote": "git@github.com:moshequ/autonomous-game-lab.git",
+    "originRemote": "https://github.com/moshequ/autonomous-game-lab",
     "remoteRepository": "moshequ/autonomous-game-lab",
     "currentBranch": "main",
     "insideWorkTree": true,
-    "githubTokenConfigured": false,
+    "githubTokenConfigured": true,
     "githubCredentialConfigured": true,
-    "directPushConfigured": false,
-    "selfUpdateEnabled": false,
-    "remotePushReady": false
+    "directPushConfigured": true,
+    "selfUpdateEnabled": true,
+    "remotePushReady": true
   },
   "sourceStatus": {
-    "repositoryReadiness": "waiting-for-repository-channel",
-    "productionReadiness": "blocked",
+    "repositoryReadiness": "repository-channel-ready",
+    "productionReadiness": "ready-after-build",
     "autonomousCadence": "cadence-ready",
     "ownerLoop": "owner-loop-ready"
   },
   "pendingChanges": {
-    "total": 214,
+    "total": 193,
     "safe": [
       {
         "code": "M",
@@ -334,13 +334,6 @@
       },
       {
         "code": "M",
-        "path": "data/playable-games.json",
-        "raw": " M data/playable-games.json",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
         "path": "data/portfolio-policy.json",
         "raw": " M data/portfolio-policy.json",
         "safe": true,
@@ -586,13 +579,6 @@
       },
       {
         "code": "M",
-        "path": "native/android/twa-manifest.json",
-        "raw": " M native/android/twa-manifest.json",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
         "path": "native/ios/README.md",
         "raw": " M native/ios/README.md",
         "safe": true,
@@ -600,8 +586,8 @@
       },
       {
         "code": "M",
-        "path": "native/ios/app-store-handoff.json",
-        "raw": " M native/ios/app-store-handoff.json",
+        "path": "ops/codex/autonomous-game-lab-daily-owner-loop.json",
+        "raw": " M ops/codex/autonomous-game-lab-daily-owner-loop.json",
         "safe": true,
         "reason": "allowlisted-generated-artifact"
       },
@@ -609,55 +595,6 @@
         "code": "M",
         "path": "public/compliance.json",
         "raw": " M public/compliance.json",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "D",
-        "path": "public/games/grove-engine.html",
-        "raw": " D public/games/grove-engine.html",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "public/games/harbor-circuit.html",
-        "raw": " M public/games/harbor-circuit.html",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "public/games/metro-loom.html",
-        "raw": " M public/games/metro-loom.html",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "public/games/mosaic-haven.html",
-        "raw": " M public/games/mosaic-haven.html",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "public/games/orbit-atlas.html",
-        "raw": " M public/games/orbit-atlas.html",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "public/gate-sample.html",
-        "raw": " M public/gate-sample.html",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "public/install.html",
-        "raw": " M public/install.html",
         "safe": true,
         "reason": "allowlisted-generated-artifact"
       },
@@ -691,22 +628,8 @@
       },
       {
         "code": "M",
-        "path": "public/sitemap.xml",
-        "raw": " M public/sitemap.xml",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
         "path": "public/store-assets/screenshots/desktop-growth-page.png",
         "raw": " M public/store-assets/screenshots/desktop-growth-page.png",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "D",
-        "path": "public/store-assets/screenshots/phone-grove-engine-generated.png",
-        "raw": " D public/store-assets/screenshots/phone-grove-engine-generated.png",
         "safe": true,
         "reason": "allowlisted-generated-artifact"
       },
@@ -714,6 +637,13 @@
         "code": "M",
         "path": "public/store-assets/screenshots/phone-lantern-relay-game.png",
         "raw": " M public/store-assets/screenshots/phone-lantern-relay-game.png",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
+        "path": "public/store-assets/screenshots/phone-market-pulse-generated.png",
+        "raw": " M public/store-assets/screenshots/phone-market-pulse-generated.png",
         "safe": true,
         "reason": "allowlisted-generated-artifact"
       },
@@ -1223,27 +1153,6 @@
       },
       {
         "code": "M",
-        "path": "src/data/autonomousOperator.ts",
-        "raw": " M src/data/autonomousOperator.ts",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "src/data/autonomousOperatorHistory.ts",
-        "raw": " M src/data/autonomousOperatorHistory.ts",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "src/data/autonomousOwnerLoop.ts",
-        "raw": " M src/data/autonomousOwnerLoop.ts",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
         "path": "src/data/autonomousSelfUpdate.ts",
         "raw": " M src/data/autonomousSelfUpdate.ts",
         "safe": true,
@@ -1260,13 +1169,6 @@
         "code": "M",
         "path": "src/data/completionLoop.ts",
         "raw": " M src/data/completionLoop.ts",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "src/data/deploymentPlan.ts",
-        "raw": " M src/data/deploymentPlan.ts",
         "safe": true,
         "reason": "allowlisted-generated-artifact"
       },
@@ -1295,13 +1197,6 @@
         "code": "M",
         "path": "src/data/gameBalance.ts",
         "raw": " M src/data/gameBalance.ts",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "src/data/generatedPlayableGames.ts",
-        "raw": " M src/data/generatedPlayableGames.ts",
         "safe": true,
         "reason": "allowlisted-generated-artifact"
       },
@@ -1363,13 +1258,6 @@
       },
       {
         "code": "M",
-        "path": "src/data/objectiveAudit.ts",
-        "raw": " M src/data/objectiveAudit.ts",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
         "path": "src/data/organicSeedLoop.ts",
         "raw": " M src/data/organicSeedLoop.ts",
         "safe": true,
@@ -1426,13 +1314,6 @@
       },
       {
         "code": "M",
-        "path": "src/data/productionBootstrap.ts",
-        "raw": " M src/data/productionBootstrap.ts",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
         "path": "src/data/productionEnvironment.ts",
         "raw": " M src/data/productionEnvironment.ts",
         "safe": true,
@@ -1461,13 +1342,6 @@
       },
       {
         "code": "M",
-        "path": "src/data/prototypePipeline.ts",
-        "raw": " M src/data/prototypePipeline.ts",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
         "path": "src/data/pwaInstallLoop.ts",
         "raw": " M src/data/pwaInstallLoop.ts",
         "safe": true,
@@ -1491,13 +1365,6 @@
         "code": "M",
         "path": "src/data/replayLoop.ts",
         "raw": " M src/data/replayLoop.ts",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "src/data/repositoryReadiness.ts",
-        "raw": " M src/data/repositoryReadiness.ts",
         "safe": true,
         "reason": "allowlisted-generated-artifact"
       },
@@ -1556,24 +1423,10 @@
         "raw": " M src/data/unitEconomics.ts",
         "safe": true,
         "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "??",
-        "path": "public/games/market-pulse.html",
-        "raw": "?? public/games/market-pulse.html",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "??",
-        "path": "public/store-assets/screenshots/phone-market-pulse-generated.png",
-        "raw": "?? public/store-assets/screenshots/phone-market-pulse-generated.png",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
       }
     ],
     "unsafe": [],
-    "safeCount": 214,
+    "safeCount": 193,
     "unsafeCount": 0
   },
   "commitPlan": {
@@ -1623,7 +1476,6 @@
       "data/objective-audit.json",
       "data/organic-seed-loop.json",
       "data/performance-budget.json",
-      "data/playable-games.json",
       "data/portfolio-policy.json",
       "data/post-deploy-smoke.json",
       "data/product-gate-recovery.json",
@@ -1659,25 +1511,16 @@
       "data/unit-economics.json",
       "native/android/README.md",
       "native/android/bubblewrap.config.json",
-      "native/android/twa-manifest.json",
       "native/ios/README.md",
-      "native/ios/app-store-handoff.json",
+      "ops/codex/autonomous-game-lab-daily-owner-loop.json",
       "public/compliance.json",
-      "public/games/grove-engine.html",
-      "public/games/harbor-circuit.html",
-      "public/games/metro-loom.html",
-      "public/games/mosaic-haven.html",
-      "public/games/orbit-atlas.html",
-      "public/gate-sample.html",
-      "public/install.html",
       "public/measurement-status.json",
       "public/monetization.json",
       "public/seed-kit.html",
       "public/share-manifest.json",
-      "public/sitemap.xml",
       "public/store-assets/screenshots/desktop-growth-page.png",
-      "public/store-assets/screenshots/phone-grove-engine-generated.png",
       "public/store-assets/screenshots/phone-lantern-relay-game.png",
+      "public/store-assets/screenshots/phone-market-pulse-generated.png",
       "public/store-assets/screenshots/phone-portal-home.png",
       "reports/acquisition-learning-latest.md",
       "reports/analytics-rollup-latest.md",
@@ -1750,18 +1593,13 @@
       "src/data/androidRelease.ts",
       "src/data/androidSigning.ts",
       "src/data/autonomousCadence.ts",
-      "src/data/autonomousOperator.ts",
-      "src/data/autonomousOperatorHistory.ts",
-      "src/data/autonomousOwnerLoop.ts",
       "src/data/autonomousSelfUpdate.ts",
       "src/data/balanceReport.ts",
       "src/data/completionLoop.ts",
-      "src/data/deploymentPlan.ts",
       "src/data/eventCollectorDeployment.ts",
       "src/data/experimentResults.ts",
       "src/data/firstMoveCoach.ts",
       "src/data/gameBalance.ts",
-      "src/data/generatedPlayableGames.ts",
       "src/data/growthPlan.ts",
       "src/data/iconAssets.ts",
       "src/data/incidentDrill.ts",
@@ -1770,7 +1608,6 @@
       "src/data/localEventBridge.ts",
       "src/data/monetizationPlan.ts",
       "src/data/nativePackage.ts",
-      "src/data/objectiveAudit.ts",
       "src/data/organicSeedLoop.ts",
       "src/data/performanceBudget.ts",
       "src/data/portfolioPolicy.ts",
@@ -1779,17 +1616,14 @@
       "src/data/productGateSamplePlan.ts",
       "src/data/productOptimization.ts",
       "src/data/productionActivation.ts",
-      "src/data/productionBootstrap.ts",
       "src/data/productionEnvironment.ts",
       "src/data/productionMeasurementStatus.ts",
       "src/data/productionResponse.ts",
       "src/data/promotionDecision.ts",
-      "src/data/prototypePipeline.ts",
       "src/data/pwaInstallLoop.ts",
       "src/data/releaseCandidate.ts",
       "src/data/releaseHealth.ts",
       "src/data/replayLoop.ts",
-      "src/data/repositoryReadiness.ts",
       "src/data/retentionLoop.ts",
       "src/data/storeAssets.ts",
       "src/data/storeCompliance.ts",
@@ -1797,9 +1631,7 @@
       "src/data/supportChannel.ts",
       "src/data/supportFeedback.ts",
       "src/data/trafficSeeding.ts",
-      "src/data/unitEconomics.ts",
-      "public/games/market-pulse.html",
-      "public/store-assets/screenshots/phone-market-pulse-generated.png"
+      "src/data/unitEconomics.ts"
     ],
     "commitMessage": "Autonomous daily self-update",
     "skipWhenNoAllowlistedChanges": true
@@ -1907,7 +1739,7 @@
     {
       "id": "safe-path-allowlist",
       "status": "pass",
-      "detail": "214 safe pending file(s), 0 unsafe pending file(s)."
+      "detail": "193 safe pending file(s), 0 unsafe pending file(s)."
     },
     {
       "id": "repository-optional",
@@ -1917,7 +1749,7 @@
     {
       "id": "remote-push-gated",
       "status": "pass",
-      "detail": "Remote push remains held until GitHub credentials and AGL_AUTONOMOUS_SELF_UPDATE_DIRECT=1 are configured."
+      "detail": "Direct push is configured for moshequ/autonomous-game-lab."
     },
     {
       "id": "zero-spend-controls",

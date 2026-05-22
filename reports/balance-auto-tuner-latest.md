@@ -1,11 +1,11 @@
 # Balance Auto-Tuner Report
 
-Generated: 2026-05-22T01:39:59.757Z
+Generated: 2026-05-22T02:06:17.580Z
 
 ## Applied Changes
 
-- Market Pulse: target 103 -> 138; random bot win rate 99% is too high.
+- No safe tuning changes needed.
 
 ## Generated Runtime Sync
 
-- Market Pulse: generated target 103 -> 138.
+- Generated runtime targets already match tuned balance config.
