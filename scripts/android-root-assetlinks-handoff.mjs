@@ -222,6 +222,19 @@ const report = [
   ...payload.nextActions.map((item) => `- ${item}`),
   '',
 ]
+const uiPayload = {
+  generatedAt: payload.generatedAt,
+  status: payload.status,
+  target: {
+    repository: payload.target.repository,
+  },
+  handoff: {
+    syncScriptPath: payload.handoff.syncScriptPath,
+  },
+  controls: {
+    dryRunByDefault: payload.controls.dryRunByDefault,
+  },
+}
 
 await mkdir(path.dirname(outputJsonPath), { recursive: true })
 await mkdir(path.dirname(outputTsPath), { recursive: true })
@@ -230,7 +243,7 @@ await mkdir(path.dirname(syncScriptPath), { recursive: true })
 await writeFile(outputJsonPath, JSON.stringify(payload, null, 2) + '\n')
 await writeFile(
   outputTsPath,
-  `export const androidRootAssetlinksHandoff = ${JSON.stringify(payload, null, 2)} as const\n\nexport type AndroidRootAssetlinksHandoff = typeof androidRootAssetlinksHandoff\n`,
+  `export const androidRootAssetlinksHandoff = ${JSON.stringify(uiPayload, null, 2)} as const\n\nexport type AndroidRootAssetlinksHandoff = typeof androidRootAssetlinksHandoff\n`,
 )
 await writeFile(reportPath, report.join('\n'))
 await writeFile(syncScriptPath, syncScript)

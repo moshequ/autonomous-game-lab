@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-22T10:35:23.673Z",
+  "generatedAt": "2026-05-22T10:44:50.550Z",
   "status": "owner-loop-ready",
   "mode": "zero-spend-web-ready",
   "autonomyScore": {
@@ -52,7 +52,7 @@
     "objectiveAuditFreshness": {
       "fresh": true,
       "structurallyReady": true,
-      "auditGeneratedAt": "2026-05-22T10:35:23.413Z",
+      "auditGeneratedAt": "2026-05-22T10:44:50.289Z",
       "evaluatedInputIds": [
         "analytics-rollup",
         "event-ingest",
@@ -75,7 +75,7 @@
         "fresh": true,
         "ready": true,
         "status": "cadence-ready",
-        "artifactGeneratedAt": "2026-05-22T10:35:22.355Z",
+        "artifactGeneratedAt": "2026-05-22T10:44:49.695Z",
         "ageHours": 0,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
@@ -86,7 +86,7 @@
         "fresh": true,
         "ready": true,
         "status": "self-update-ready",
-        "artifactGeneratedAt": "2026-05-22T10:35:22.659Z",
+        "artifactGeneratedAt": "2026-05-22T10:44:49.962Z",
         "ageHours": 0,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
@@ -98,7 +98,7 @@
         "ready": true,
         "status": "support-feedback-empty",
         "artifactGeneratedAt": "2026-05-22T10:14:32.124Z",
-        "ageHours": 0.348,
+        "ageHours": 0.505,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -108,8 +108,8 @@
         "fresh": true,
         "ready": true,
         "status": "performance-budget-ready",
-        "artifactGeneratedAt": "2026-05-22T10:34:21.847Z",
-        "ageHours": 0.017,
+        "artifactGeneratedAt": "2026-05-22T10:41:34.443Z",
+        "ageHours": 0.054,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -119,8 +119,8 @@
         "fresh": true,
         "ready": true,
         "status": "live-site-monitor-passed",
-        "artifactGeneratedAt": "2026-05-22T10:34:37.791Z",
-        "ageHours": 0.013,
+        "artifactGeneratedAt": "2026-05-22T10:41:50.578Z",
+        "ageHours": 0.05,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -462,9 +462,9 @@
     },
     "productionBootstrapFreshness": {
       "fresh": true,
-      "bootstrapGeneratedAt": "2026-05-22T10:34:47.065Z",
-      "artifactSourceDataHash": "9a2ec6d55d1e",
-      "sourceDataHash": "9a2ec6d55d1e",
+      "bootstrapGeneratedAt": "2026-05-22T10:44:48.471Z",
+      "artifactSourceDataHash": "cf5c2951c751",
+      "sourceDataHash": "cf5c2951c751",
       "evaluatedInputIds": [
         "release-candidate",
         "deployment-plan",
@@ -479,7 +479,7 @@
       "current": true,
       "ready": true,
       "status": "handoff-waiting-on-owner-inputs",
-      "generatedAt": "2026-05-22T10:34:47.520Z",
+      "generatedAt": "2026-05-22T10:44:48.920Z",
       "nextBestUnlockId": "production-analytics-browser",
       "ownerActionRequired": 4,
       "missingEnv": 7,
@@ -552,7 +552,7 @@
       "id": "autonomous-self-update",
       "status": "ready",
       "autonomy": "gated-generated-change-persistence",
-      "evidence": "Self-update self-update-ready; safe pending 49; unsafe pending 0; remote push held.",
+      "evidence": "Self-update self-update-ready; safe pending 37; unsafe pending 0; remote push held.",
       "nextAction": "When a GitHub repository is connected, set AGL_AUTONOMOUS_SELF_UPDATE=1 and AGL_AUTONOMOUS_SELF_UPDATE_DIRECT=1 to let verified generated changes persist."
     },
     {
@@ -601,7 +601,7 @@
       "id": "performance-budget",
       "status": "ready",
       "autonomy": "automatic-build-budget",
-      "evidence": "Initial JS 675.8 KB; gzip 183.4 KB; deferred chunks 2.",
+      "evidence": "Initial JS 673.9 KB; gzip 183 KB; deferred chunks 2.",
       "nextAction": "Keep Phaser and game scenes outside the initial PWA shell."
     },
     {
@@ -720,7 +720,7 @@
       "id": "production-bootstrap",
       "status": "ready",
       "autonomy": "zero-spend-setup-orchestration",
-      "evidence": "Bootstrap production-bootstrap-ready; mode can-apply-configured-actions; external blockers 16.",
+      "evidence": "Bootstrap production-bootstrap-ready; mode can-apply-configured-actions; external blockers 17.",
       "nextAction": "gh workflow run web-pwa-deploy.yml"
     },
     {
@@ -915,7 +915,7 @@
       "command": "npm run build && npm run autonomous:performance && npm run autonomous:release-candidate",
       "targets": [
         "pwa-shell",
-        "GameCanvas-A9_XDd4r.js",
+        "GameCanvas-CC1OcNhu.js",
         "dist-release-candidate"
       ],
       "reason": "Performance budget and release-candidate evidence are already fresh for the current guarded build."
@@ -1107,7 +1107,7 @@
       "costUsd": 0,
       "command": "npm run autonomous:operator",
       "targets": [
-        "refresh-objective-audit"
+        "refresh-autonomous-self-update"
       ],
       "reason": "Operator history is already capped and published; keep attention on product evidence."
     },

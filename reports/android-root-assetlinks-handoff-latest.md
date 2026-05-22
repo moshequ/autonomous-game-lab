@@ -1,6 +1,6 @@
 # Android Root Asset Links Handoff
 
-Generated: 2026-05-22T10:30:13.542Z
+Generated: 2026-05-22T10:42:03.430Z
 Status: root-assetlinks-handoff-ready
 Target repository: moshequ/moshequ.github.io
 Required root URL: https://moshequ.github.io/.well-known/assetlinks.json
