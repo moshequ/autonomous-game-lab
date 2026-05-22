@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-05-22T09:16:45.800Z",
+  "generatedAt": "2026-05-22T09:19:09.054Z",
   "status": "release-candidate-ready",
-  "candidateId": "pwa-0078d0e6e72d",
+  "candidateId": "pwa-892ee2c2a1a8",
   "target": {
     "provider": "github-pages",
     "artifactPath": "dist",
@@ -11,18 +11,18 @@
     "basePath": "/autonomous-game-lab/"
   },
   "summary": {
-    "totalFiles": 49,
-    "totalBytes": 3724780,
-    "totalKb": 3637.5,
+    "totalFiles": 51,
+    "totalBytes": 3921301,
+    "totalKb": 3829.4,
     "assetFiles": 4,
-    "htmlFiles": 18,
-    "gamePages": 10,
+    "htmlFiles": 19,
+    "gamePages": 11,
     "requiredFilesPresent": true,
     "postDeploySmokeUrls": 18
   },
   "integrity": {
     "algorithm": "sha256",
-    "aggregateHash": "0078d0e6e72d737261c7ddfdb434e4f14bcdcd9d629c4a1bfa4cc3b97f9c848c",
+    "aggregateHash": "892ee2c2a1a8f70f659766daa5a20c1fc31604a8c6c76d2b056ce3c168e07f74",
     "files": [
       {
         "path": ".nojekyll",
@@ -46,23 +46,16 @@
         "cacheControl": "public, max-age=3600"
       },
       {
-        "path": "assets/aggregateEvidenceIssue-BsZVKEqJ.js",
+        "path": "assets/aggregateEvidenceIssue-Ce-Rn5aC.js",
         "bytes": 2978,
-        "sha256": "26e4d59f98d0728b2b173a6c12ad6ce2b8c937662a389c548d004f926fe3b344",
+        "sha256": "bcee82811cd22b8bb78e6de42352a028e9bfd431fe1df561f4174ac800100745",
         "contentType": "text/javascript; charset=utf-8",
         "cacheControl": "public, max-age=31536000, immutable"
       },
       {
-        "path": "assets/GameCanvas-DoKIkKKr.js",
+        "path": "assets/GameCanvas-BZgBIZx8.js",
         "bytes": 1394049,
-        "sha256": "5083d87a6b80bff14a2035d387e423e982221e9a84c78318150f5ebfea6bedb9",
-        "contentType": "text/javascript; charset=utf-8",
-        "cacheControl": "public, max-age=31536000, immutable"
-      },
-      {
-        "path": "assets/index-BjYtmouL.js",
-        "bytes": 688946,
-        "sha256": "317d6c97814477e3b05f26e72c530eac86aae2eed45194ad54befdb30bdbd7fe",
+        "sha256": "d3813ce64e4d10706866c2d28638bc54aa11cc21ef7cd3478f66c65a22a591dd",
         "contentType": "text/javascript; charset=utf-8",
         "cacheControl": "public, max-age=31536000, immutable"
       },
@@ -71,6 +64,13 @@
         "bytes": 10779,
         "sha256": "89188e66d91ef0b9e7625648b0d29b258bade07986611b5703ad4689ce0effa2",
         "contentType": "text/css; charset=utf-8",
+        "cacheControl": "public, max-age=31536000, immutable"
+      },
+      {
+        "path": "assets/index-xhWphKFI.js",
+        "bytes": 688915,
+        "sha256": "59da0823fa20b22c04bc9b120aafb8fdd63f130ad409f119940b1ac0e0c15ec3",
+        "contentType": "text/javascript; charset=utf-8",
         "cacheControl": "public, max-age=31536000, immutable"
       },
       {
@@ -98,6 +98,13 @@
         "path": "games/foundry-ledger.html",
         "bytes": 6292,
         "sha256": "073b827762e851aeadd0de77bbee742cd0ba2eca1c111f1c1063d8c7620c11de",
+        "contentType": "text/html; charset=utf-8",
+        "cacheControl": "no-cache"
+      },
+      {
+        "path": "games/grove-engine.html",
+        "bytes": 6117,
+        "sha256": "4824d67a2450f06813973e7f5044d755a2adfa2cd0464ec724143a1247632345",
         "contentType": "text/html; charset=utf-8",
         "cacheControl": "no-cache"
       },
@@ -223,7 +230,7 @@
       {
         "path": "index.html",
         "bytes": 2846,
-        "sha256": "8e23c61c10ad1675e0b903d04e45572a7099c038c3331f8fe5921a5d3d50f49b",
+        "sha256": "c417a6a745d7ea7798ea81bbad0b8f6e0249c511b1c59e951ea705e60d23fdb8",
         "contentType": "text/html; charset=utf-8",
         "cacheControl": "no-cache"
       },
@@ -251,7 +258,7 @@
       {
         "path": "measurement-status.json",
         "bytes": 11453,
-        "sha256": "783fdc96b913b31b320e23a96031af425a049000651fec8283aab94147de3ec7",
+        "sha256": "73757d7922e31cea3ec99991a2f018fd67ff09abc1f2afbc6980377568477d2f",
         "contentType": "application/json; charset=utf-8",
         "cacheControl": "public, max-age=3600"
       },
@@ -326,6 +333,13 @@
         "cacheControl": "public, max-age=3600"
       },
       {
+        "path": "store-assets/screenshots/phone-grove-engine-generated.png",
+        "bytes": 190249,
+        "sha256": "6f96a1642a97a60a1e3a1d0ca9cfe47dd587e28db22555a2a5697bc4c79058e8",
+        "contentType": "image/png",
+        "cacheControl": "public, max-age=3600"
+      },
+      {
         "path": "store-assets/screenshots/phone-lantern-relay-game.png",
         "bytes": 199615,
         "sha256": "fcaa3ab90eb4aba3be660344229d485f7065588ca22a3cf5eab0fd044a7ff976",
@@ -355,8 +369,8 @@
       },
       {
         "path": "sw.js",
-        "bytes": 3942,
-        "sha256": "05cb5695c545aa8f7e029ec65a7833627e895cf503fa3b0adb562bbc02c6f0bd",
+        "bytes": 4128,
+        "sha256": "b1890b56689d9999615fcc524564eb7193de0e9994ed816623abd749eb3b5a3b",
         "contentType": "text/javascript; charset=utf-8",
         "cacheControl": "no-cache"
       },
@@ -636,7 +650,7 @@
     {
       "id": "dist-inventory",
       "status": "pass",
-      "detail": "49 dist files inventoried."
+      "detail": "51 dist files inventoried."
     },
     {
       "id": "required-files",
@@ -646,7 +660,7 @@
     {
       "id": "game-pages",
       "status": "pass",
-      "detail": "10 generated game page(s) in dist."
+      "detail": "11 generated game page(s) in dist."
     },
     {
       "id": "performance-budget",
