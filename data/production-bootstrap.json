@@ -1,12 +1,29 @@
 {
-  "generatedAt": "2026-05-22T04:21:08.923Z",
-  "sourceDataHash": "147d2a8f61a0",
+  "generatedAt": "2026-05-22T04:35:10.831Z",
+  "sourceDataHash": "10f120f6fad5",
   "status": "production-bootstrap-ready",
   "mode": "can-apply-configured-actions",
   "envFiles": {
-    "loaded": false,
-    "loadedFiles": [],
-    "loadedKeys": [],
+    "loaded": true,
+    "loadedFiles": [
+      {
+        "path": "ops/production.env.local",
+        "keys": [
+          "AGL_ANDROID_PACKAGE_NAME",
+          "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
+          "AGL_ANDROID_KEYSTORE_BASE64",
+          "AGL_ANDROID_KEYSTORE_PASSWORD",
+          "AGL_ANDROID_KEY_ALIAS"
+        ]
+      }
+    ],
+    "loadedKeys": [
+      "AGL_ANDROID_PACKAGE_NAME",
+      "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
+      "AGL_ANDROID_KEYSTORE_BASE64",
+      "AGL_ANDROID_KEYSTORE_PASSWORD",
+      "AGL_ANDROID_KEY_ALIAS"
+    ],
     "skippedExistingKeys": [],
     "skippedProtectedKeys": [],
     "overwrittenEnvFileKeys": [],
@@ -38,17 +55,17 @@
   },
   "repository": {
     "githubRepository": "moshequ/autonomous-game-lab",
-    "githubRepositorySource": "environment",
-    "inferredRepository": null,
+    "githubRepositorySource": "origin-remote",
+    "inferredRepository": "moshequ/autonomous-game-lab",
     "ghCliAvailable": true,
-    "ghTokenConfigured": true,
+    "ghTokenConfigured": false,
     "ghAuthAvailable": true,
     "ghCredentialReady": true,
     "canUseGh": true,
-    "repositoryReadinessStatus": "repository-channel-ready",
+    "repositoryReadinessStatus": "waiting-for-repository-channel",
     "repositoryBootstrapStatus": "repository-bootstrap-ready",
     "insideWorkTree": true,
-    "workflowDispatchReady": true,
+    "workflowDispatchReady": false,
     "bootstrapHelperPath": "ops/github/bootstrap-repository.sh"
   },
   "controls": {
@@ -67,21 +84,23 @@
   "summary": {
     "readyGroups": 2,
     "totalGroups": 12,
-    "configuredVariables": 4,
+    "configuredVariables": 6,
     "totalVariables": 24,
-    "configuredSecrets": 0,
+    "configuredSecrets": 3,
     "totalSecrets": 8,
-    "externalBlockers": 16
+    "externalBlockers": 18
   },
   "stages": [
     {
       "id": "repository-channel",
-      "status": "repository-channel-ready",
+      "status": "waiting-for-repository-channel",
       "canAutoRun": false,
       "costUsd": 0,
       "command": "npm run autonomous:repo-readiness",
-      "evidence": "Repository moshequ/autonomous-game-lab; git worktree ready; workflow dispatch ready.",
-      "requires": []
+      "evidence": "Repository moshequ/autonomous-game-lab; git worktree ready; workflow dispatch blocked.",
+      "requires": [
+        "Refresh build, release candidate, post-deploy smoke, and deployment plan artifacts."
+      ]
     },
     {
       "id": "repository-bootstrap",
@@ -90,7 +109,9 @@
       "costUsd": 0,
       "command": "npm run autonomous:repo-bootstrap",
       "evidence": "Repository bootstrap repository-bootstrap-ready; helper ops/github/bootstrap-repository.sh; local git ready.",
-      "requires": []
+      "requires": [
+        "Commit current generated changes before pushing to GitHub Pages."
+      ]
     },
     {
       "id": "production-environment",
@@ -110,11 +131,11 @@
     },
     {
       "id": "github-pages-hosting",
-      "status": "ready-for-actions-pages",
-      "canAutoRun": true,
+      "status": "blocked",
+      "canAutoRun": false,
       "costUsd": 0,
       "command": "gh workflow run web-pwa-deploy.yml",
-      "evidence": "Deployment plan is ready-for-pages; Pages workflow is .github/workflows/web-pwa-deploy.yml.",
+      "evidence": "Deployment plan is blocked; Pages workflow is .github/workflows/web-pwa-deploy.yml.",
       "requires": [
         "Repository exists on GitHub.",
         "GitHub Pages source is set to GitHub Actions.",
@@ -151,7 +172,7 @@
       "canAutoRun": true,
       "costUsd": 0,
       "command": "./ops/github/setup-production.sh",
-      "evidence": "4/24 repository variable value(s) present in this environment.",
+      "evidence": "6/24 repository variable value(s) present in this environment.",
       "requires": [
         "AGL_SUPPORT_EMAIL",
         "VITE_POSTHOG_KEY",
@@ -162,17 +183,17 @@
     },
     {
       "id": "github-actions-secrets",
-      "status": "waiting-for-secrets",
-      "canAutoRun": false,
+      "status": "partially-configured",
+      "canAutoRun": true,
       "costUsd": 0,
       "command": "./ops/github/setup-production.sh",
-      "evidence": "0/8 repository secret value(s) present in this environment.",
+      "evidence": "3/8 repository secret value(s) present in this environment.",
       "requires": [
         "CLOUDFLARE_API_TOKEN",
         "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
         "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
         "POSTHOG_PERSONAL_API_KEY",
-        "AGL_ANDROID_KEYSTORE_BASE64"
+        "GOOGLE_PLAY_SERVICE_ACCOUNT_JSON"
       ]
     },
     {
@@ -236,12 +257,14 @@
   "setupGroups": [
     {
       "id": "repository-channel",
-      "status": "repository-channel-ready",
+      "status": "waiting-for-repository-channel",
       "canAutoRun": false,
       "costUsd": 0,
       "command": "npm run autonomous:repo-readiness",
-      "evidence": "Repository moshequ/autonomous-game-lab; git worktree ready; workflow dispatch ready.",
-      "requires": []
+      "evidence": "Repository moshequ/autonomous-game-lab; git worktree ready; workflow dispatch blocked.",
+      "requires": [
+        "Refresh build, release candidate, post-deploy smoke, and deployment plan artifacts."
+      ]
     },
     {
       "id": "repository-bootstrap",
@@ -250,7 +273,9 @@
       "costUsd": 0,
       "command": "npm run autonomous:repo-bootstrap",
       "evidence": "Repository bootstrap repository-bootstrap-ready; helper ops/github/bootstrap-repository.sh; local git ready.",
-      "requires": []
+      "requires": [
+        "Commit current generated changes before pushing to GitHub Pages."
+      ]
     },
     {
       "id": "production-environment",
@@ -270,11 +295,11 @@
     },
     {
       "id": "github-pages-hosting",
-      "status": "ready-for-actions-pages",
-      "canAutoRun": true,
+      "status": "blocked",
+      "canAutoRun": false,
       "costUsd": 0,
       "command": "gh workflow run web-pwa-deploy.yml",
-      "evidence": "Deployment plan is ready-for-pages; Pages workflow is .github/workflows/web-pwa-deploy.yml.",
+      "evidence": "Deployment plan is blocked; Pages workflow is .github/workflows/web-pwa-deploy.yml.",
       "requires": [
         "Repository exists on GitHub.",
         "GitHub Pages source is set to GitHub Actions.",
@@ -311,7 +336,7 @@
       "canAutoRun": true,
       "costUsd": 0,
       "command": "./ops/github/setup-production.sh",
-      "evidence": "4/24 repository variable value(s) present in this environment.",
+      "evidence": "6/24 repository variable value(s) present in this environment.",
       "requires": [
         "AGL_SUPPORT_EMAIL",
         "VITE_POSTHOG_KEY",
@@ -322,17 +347,17 @@
     },
     {
       "id": "github-actions-secrets",
-      "status": "waiting-for-secrets",
-      "canAutoRun": false,
+      "status": "partially-configured",
+      "canAutoRun": true,
       "costUsd": 0,
       "command": "./ops/github/setup-production.sh",
-      "evidence": "0/8 repository secret value(s) present in this environment.",
+      "evidence": "3/8 repository secret value(s) present in this environment.",
       "requires": [
         "CLOUDFLARE_API_TOKEN",
         "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
         "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
         "POSTHOG_PERSONAL_API_KEY",
-        "AGL_ANDROID_KEYSTORE_BASE64"
+        "GOOGLE_PLAY_SERVICE_ACCOUNT_JSON"
       ]
     },
     {
@@ -399,7 +424,7 @@
       "kind": "github-variable",
       "repositoryVariable": "VITE_BASE_PATH",
       "envName": "VITE_BASE_PATH",
-      "valueSource": "environment",
+      "valueSource": "production-environment",
       "configured": true,
       "command": "gh variable set VITE_BASE_PATH --body \"$VITE_BASE_PATH\""
     },
@@ -408,7 +433,7 @@
       "kind": "github-variable",
       "repositoryVariable": "AGL_PUBLIC_ORIGIN",
       "envName": "AGL_PUBLIC_ORIGIN",
-      "valueSource": "environment",
+      "valueSource": "production-environment",
       "configured": true,
       "command": "gh variable set AGL_PUBLIC_ORIGIN --body \"$AGL_PUBLIC_ORIGIN\""
     },
@@ -417,7 +442,7 @@
       "kind": "github-variable",
       "repositoryVariable": "VITE_PUBLIC_ORIGIN",
       "envName": "AGL_PUBLIC_ORIGIN",
-      "valueSource": "environment",
+      "valueSource": "production-environment",
       "configured": true,
       "command": "gh variable set VITE_PUBLIC_ORIGIN --body \"$AGL_PUBLIC_ORIGIN\""
     },
@@ -426,7 +451,7 @@
       "kind": "github-variable",
       "repositoryVariable": "PUBLIC_SITE_URL",
       "envName": "AGL_PUBLIC_ORIGIN",
-      "valueSource": "environment",
+      "valueSource": "production-environment",
       "configured": true,
       "command": "gh variable set PUBLIC_SITE_URL --body \"$AGL_PUBLIC_ORIGIN\""
     },
@@ -561,8 +586,8 @@
       "kind": "github-variable",
       "repositoryVariable": "AGL_ANDROID_PACKAGE_NAME",
       "envName": "AGL_ANDROID_PACKAGE_NAME",
-      "valueSource": "missing",
-      "configured": false,
+      "valueSource": "environment",
+      "configured": true,
       "command": "gh variable set AGL_ANDROID_PACKAGE_NAME --body \"$AGL_ANDROID_PACKAGE_NAME\""
     },
     {
@@ -570,8 +595,8 @@
       "kind": "github-variable",
       "repositoryVariable": "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
       "envName": "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
-      "valueSource": "missing",
-      "configured": false,
+      "valueSource": "environment",
+      "configured": true,
       "command": "gh variable set AGL_ANDROID_SHA256_CERT_FINGERPRINT --body \"$AGL_ANDROID_SHA256_CERT_FINGERPRINT\""
     },
     {
@@ -653,8 +678,8 @@
       "kind": "github-secret",
       "repositorySecret": "AGL_ANDROID_KEYSTORE_BASE64",
       "envName": "AGL_ANDROID_KEYSTORE_BASE64",
-      "valueSource": "missing",
-      "configured": false,
+      "valueSource": "environment",
+      "configured": true,
       "command": "printf \"%s\" \"$AGL_ANDROID_KEYSTORE_BASE64\" | gh secret set AGL_ANDROID_KEYSTORE_BASE64"
     },
     {
@@ -662,8 +687,8 @@
       "kind": "github-secret",
       "repositorySecret": "AGL_ANDROID_KEYSTORE_PASSWORD",
       "envName": "AGL_ANDROID_KEYSTORE_PASSWORD",
-      "valueSource": "missing",
-      "configured": false,
+      "valueSource": "environment",
+      "configured": true,
       "command": "printf \"%s\" \"$AGL_ANDROID_KEYSTORE_PASSWORD\" | gh secret set AGL_ANDROID_KEYSTORE_PASSWORD"
     },
     {
@@ -671,8 +696,8 @@
       "kind": "github-secret",
       "repositorySecret": "AGL_ANDROID_KEY_ALIAS",
       "envName": "AGL_ANDROID_KEY_ALIAS",
-      "valueSource": "missing",
-      "configured": false,
+      "valueSource": "environment",
+      "configured": true,
       "command": "printf \"%s\" \"$AGL_ANDROID_KEY_ALIAS\" | gh secret set AGL_ANDROID_KEY_ALIAS"
     },
     {
@@ -691,7 +716,7 @@
       "kind": "github-variable",
       "repositoryVariable": "VITE_BASE_PATH",
       "envName": "VITE_BASE_PATH",
-      "valueSource": "environment",
+      "valueSource": "production-environment",
       "configured": true,
       "command": "gh variable set VITE_BASE_PATH --body \"$VITE_BASE_PATH\""
     },
@@ -700,7 +725,7 @@
       "kind": "github-variable",
       "repositoryVariable": "AGL_PUBLIC_ORIGIN",
       "envName": "AGL_PUBLIC_ORIGIN",
-      "valueSource": "environment",
+      "valueSource": "production-environment",
       "configured": true,
       "command": "gh variable set AGL_PUBLIC_ORIGIN --body \"$AGL_PUBLIC_ORIGIN\""
     },
@@ -709,7 +734,7 @@
       "kind": "github-variable",
       "repositoryVariable": "VITE_PUBLIC_ORIGIN",
       "envName": "AGL_PUBLIC_ORIGIN",
-      "valueSource": "environment",
+      "valueSource": "production-environment",
       "configured": true,
       "command": "gh variable set VITE_PUBLIC_ORIGIN --body \"$AGL_PUBLIC_ORIGIN\""
     },
@@ -718,7 +743,7 @@
       "kind": "github-variable",
       "repositoryVariable": "PUBLIC_SITE_URL",
       "envName": "AGL_PUBLIC_ORIGIN",
-      "valueSource": "environment",
+      "valueSource": "production-environment",
       "configured": true,
       "command": "gh variable set PUBLIC_SITE_URL --body \"$AGL_PUBLIC_ORIGIN\""
     },
@@ -853,8 +878,8 @@
       "kind": "github-variable",
       "repositoryVariable": "AGL_ANDROID_PACKAGE_NAME",
       "envName": "AGL_ANDROID_PACKAGE_NAME",
-      "valueSource": "missing",
-      "configured": false,
+      "valueSource": "environment",
+      "configured": true,
       "command": "gh variable set AGL_ANDROID_PACKAGE_NAME --body \"$AGL_ANDROID_PACKAGE_NAME\""
     },
     {
@@ -862,8 +887,8 @@
       "kind": "github-variable",
       "repositoryVariable": "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
       "envName": "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
-      "valueSource": "missing",
-      "configured": false,
+      "valueSource": "environment",
+      "configured": true,
       "command": "gh variable set AGL_ANDROID_SHA256_CERT_FINGERPRINT --body \"$AGL_ANDROID_SHA256_CERT_FINGERPRINT\""
     },
     {
@@ -945,8 +970,8 @@
       "kind": "github-secret",
       "repositorySecret": "AGL_ANDROID_KEYSTORE_BASE64",
       "envName": "AGL_ANDROID_KEYSTORE_BASE64",
-      "valueSource": "missing",
-      "configured": false,
+      "valueSource": "environment",
+      "configured": true,
       "command": "printf \"%s\" \"$AGL_ANDROID_KEYSTORE_BASE64\" | gh secret set AGL_ANDROID_KEYSTORE_BASE64"
     },
     {
@@ -954,8 +979,8 @@
       "kind": "github-secret",
       "repositorySecret": "AGL_ANDROID_KEYSTORE_PASSWORD",
       "envName": "AGL_ANDROID_KEYSTORE_PASSWORD",
-      "valueSource": "missing",
-      "configured": false,
+      "valueSource": "environment",
+      "configured": true,
       "command": "printf \"%s\" \"$AGL_ANDROID_KEYSTORE_PASSWORD\" | gh secret set AGL_ANDROID_KEYSTORE_PASSWORD"
     },
     {
@@ -963,8 +988,8 @@
       "kind": "github-secret",
       "repositorySecret": "AGL_ANDROID_KEY_ALIAS",
       "envName": "AGL_ANDROID_KEY_ALIAS",
-      "valueSource": "missing",
-      "configured": false,
+      "valueSource": "environment",
+      "configured": true,
       "command": "printf \"%s\" \"$AGL_ANDROID_KEY_ALIAS\" | gh secret set AGL_ANDROID_KEY_ALIAS"
     },
     {
@@ -1017,7 +1042,7 @@
     {
       "id": "run-web-workflow",
       "command": "RUN_WORKFLOWS=1 ./ops/github/setup-production.sh",
-      "safeToRunAutomatically": true,
+      "safeToRunAutomatically": false,
       "costUsd": 0
     },
     {
@@ -1055,6 +1080,14 @@
     "ops/github/README.md"
   ],
   "externalBlockers": [
+    {
+      "source": "repository-readiness",
+      "blocker": "Refresh build, release candidate, post-deploy smoke, and deployment plan artifacts."
+    },
+    {
+      "source": "repository-bootstrap",
+      "blocker": "Commit current generated changes before pushing to GitHub Pages."
+    },
     {
       "source": "production-environment",
       "blocker": "Set AGL_SUPPORT_EMAIL to a real support inbox before public store submission."
@@ -1121,13 +1154,13 @@
     }
   ],
   "ownerAction": {
-    "id": "github-pages-hosting",
+    "id": "github-pages-settings",
     "status": "ready",
-    "command": "gh workflow run web-pwa-deploy.yml",
+    "command": "AGL_SYNC_PAGES_SETTINGS=1 ./ops/github/setup-production.sh",
     "costUsd": 0
   },
   "nextActions": [
-    "Run gh workflow run web-pwa-deploy.yml for github-pages-hosting.",
+    "Run AGL_SYNC_PAGES_SETTINGS=1 ./ops/github/setup-production.sh for github-pages-settings.",
     "Keep GitHub Pages as the first zero-cost distribution channel.",
     "Keep app-store, paid spend, and revenue disabled until product and compliance gates pass."
   ]

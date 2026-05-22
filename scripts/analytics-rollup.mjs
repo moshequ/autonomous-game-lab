@@ -67,6 +67,7 @@ const countedEvents = [
   'pwa_launch_mode_detected',
   'local_router_card_viewed',
   'local_router_choice_clicked',
+  'local_router_share_clicked',
   'local_router_choice_dismissed',
   'analytics_evidence_issue_opened',
 ]
@@ -123,6 +124,7 @@ const retentionEvents = [
   'pwa_launch_mode_detected',
   'local_router_card_viewed',
   'local_router_choice_clicked',
+  'local_router_share_clicked',
   'local_router_choice_dismissed',
   'rewarded_ad_available',
   'rewarded_ad_started',

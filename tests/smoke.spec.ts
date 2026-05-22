@@ -239,6 +239,21 @@ test('local learning router routes players to the next zero-spend evidence actio
   const routedRecommendationId =
     routedLabel === 'Fastest gate sample' ? 'fastest-gate-sample' : 'first-completion-sample'
 
+  await page.addInitScript(() => {
+    Object.defineProperty(navigator, 'share', {
+      configurable: true,
+      value: undefined,
+    })
+    Object.defineProperty(navigator, 'clipboard', {
+      configurable: true,
+      value: {
+        writeText: async (text: string) => {
+          window.localStorage.setItem('agl.test.clipboard', text)
+        },
+      },
+    })
+  })
+
   await page.goto('/')
 
   const router = page.getByLabel('Local Learning Router')
@@ -255,6 +270,45 @@ test('local learning router routes players to the next zero-spend evidence actio
       }),
     )
     .toBe(true)
+
+  await router.getByRole('button', { name: 'Share route' }).click()
+
+  const shareState = await page.evaluate(() => {
+    const raw = window.localStorage.getItem('agl.analytics.events')
+    return {
+      clipboard: window.localStorage.getItem('agl.test.clipboard') ?? '',
+      events: raw ? JSON.parse(raw) : [],
+    }
+  })
+  const routerShare = shareState.events.findLast(
+    (event: { name: string }) => event.name === 'local_router_share_clicked',
+  )
+  const sampleShare = shareState.events.findLast(
+    (event: { name: string; properties: Record<string, string | boolean> }) =>
+      event.name === 'share_clicked' && event.properties.campaignId === routedMission.campaignId,
+  )
+
+  expect(shareState.clipboard).toContain(routedMission.campaignId)
+  expect(routerShare?.properties).toMatchObject({
+    recommendationId: routedRecommendationId,
+    actionType: 'gate-sample',
+    gameId: routedMission.gameId,
+    campaignId: routedMission.campaignId,
+    gateId: routedMission.gateId,
+    zeroPaidSpend: true,
+    noSyntheticEvents: true,
+    noRevenueEnablement: true,
+  })
+  expect(sampleShare?.properties).toMatchObject({
+    campaignId: routedMission.campaignId,
+    gateId: routedMission.gateId,
+    channel: 'product-gate-sample',
+    zeroPaidSpend: true,
+    noPaidTraffic: true,
+    noSyntheticEvents: true,
+    noRevenueEnablement: true,
+    succeeded: true,
+  })
 
   await router.getByRole('button', { name: routedCta }).click()
   await expect(page.getByLabel('Autonomy cockpit')).toContainText(routedMission.title)

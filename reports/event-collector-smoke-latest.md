@@ -1,14 +1,14 @@
 # Event Collector Smoke
 
-Generated: 2026-05-22T04:09:51.190Z
+Generated: 2026-05-22T04:33:34.435Z
 Status: pass
 
 ## Collector
 
 - Post status: accepted
 - Beacon status: accepted
-- Stored events: 14
-- Exported events: 14
+- Stored events: 15
+- Exported events: 15
 - Normalizes allowed origin path: true
 - PII stripped: true
 

@@ -367,7 +367,8 @@
 .monetizationRuntime .retentionActions,
 .monetizationRuntime .replayActions,
 .monetizationRuntime .sampleActions,
-.monetizationRuntime .eventDropActions {
+.monetizationRuntime .eventDropActions,
+.monetizationRuntime .localRouterActions {
   justify-content: flex-end;
   flex-wrap: wrap;
 }

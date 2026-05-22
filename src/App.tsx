@@ -1842,6 +1842,83 @@ function App() {
     startDailyChallenge()
     trackEvent('local_router_choice_clicked', localRouterEventProperties())
   }
+  const shareLocalRouterRecommendation = async () => {
+    const recommendation = localRouterRecommendation
+    trackEvent('local_router_share_clicked', {
+      ...localRouterEventProperties(),
+      surface: 'autonomy-cockpit-local-router',
+    })
+
+    if (recommendation.actionType === 'gate-sample') {
+      const gateMission =
+        productGateSamplePlan.missions.find((mission) => mission.campaignId === recommendation.campaignId) ??
+        productGateSamplePrimary
+
+      if (gateMission) {
+        await shareGateSampleMission(gateMission)
+        return
+      }
+    }
+
+    if (recommendation.actionType === 'organic-seed' && organicSeedTargetCampaign) {
+      await shareSeedCampaign(organicSeedTargetCampaign)
+      return
+    }
+
+    const shareUrl = new URL(window.location.href)
+    shareUrl.search = ''
+    shareUrl.hash = ''
+    shareUrl.searchParams.set('game', recommendation.gameId)
+    shareUrl.searchParams.set('utm_source', 'local_router')
+
+    if (recommendation.campaignId) {
+      shareUrl.searchParams.set('utm_campaign', recommendation.campaignId)
+    }
+
+    const shareData = {
+      title: `Play ${
+        playableGameCatalogById.get(recommendation.gameId as PlayableGameId)?.title ?? recommendation.gameId
+      }`,
+      text: recommendation.reason,
+      url: shareUrl.toString(),
+    }
+    let method = 'clipboard'
+    let succeeded = false
+
+    if (navigator.share) {
+      try {
+        await navigator.share(shareData)
+        method = 'native'
+        succeeded = true
+      } catch {
+        method = 'cancelled'
+      }
+    } else if (navigator.clipboard?.writeText) {
+      try {
+        await navigator.clipboard.writeText([shareData.title, shareData.text, shareData.url].join('\n'))
+        succeeded = true
+      } catch {
+        method = 'clipboard_unavailable'
+      }
+    } else {
+      method = 'unsupported'
+    }
+
+    trackEvent('share_clicked', {
+      gameId: recommendation.gameId,
+      campaignId: recommendation.campaignId,
+      gateId: recommendation.gateId,
+      method,
+      succeeded,
+      surface: 'autonomy-cockpit-local-router',
+      channel: recommendation.channel,
+      shareUrl: shareUrl.toString(),
+      zeroPaidSpend: true,
+      noPaidTraffic: true,
+      noSyntheticEvents: true,
+      noRevenueEnablement: true,
+    })
+  }
   useEffect(() => {
     if (!organicSeedCardVisible || !organicSeedCampaignId) {
       return
@@ -2632,9 +2709,15 @@ function App() {
                   {localRouterChoices} choices / {localRouterViews} views
                 </strong>
               </div>
-              <button className="tinyButton" type="button" onClick={chooseLocalRouterRecommendation}>
-                {localRouterRecommendation.ctaLabel}
-              </button>
+              <div className="localRouterActions">
+                <button className="tinyButton" type="button" onClick={chooseLocalRouterRecommendation}>
+                  {localRouterRecommendation.ctaLabel}
+                </button>
+                <button className="tinyButton subtleButton" type="button" onClick={shareLocalRouterRecommendation}>
+                  <Share2 size={14} aria-hidden="true" />
+                  Share route
+                </button>
+              </div>
             </div>
 
             <div className="monetizationRuntime" aria-label="Completion Loop">
