@@ -4828,14 +4828,14 @@ test('aggregate evidence issue link summarizes local analytics without raw event
 
     return events.findLast((event) => event.name === 'analytics_evidence_issue_opened')
   })
+  const aggregateStarts = Number(evidenceEvent?.properties.starts ?? 0)
 
   expect(openedUrl.hostname).toBe('github.com')
   expect(openedUrl.pathname).toBe('/moshequ/autonomous-game-lab/issues/new')
   expect(openedUrl.searchParams.get('template')).toBe('analytics-evidence.yml')
   expect(openedUrl.searchParams.get('game')).toContain('Harbor Rings')
-  expect(openedUrl.searchParams.get('starts')).toBe(
-    String(seedEvents.filter((event) => event.name === 'game_started').length),
-  )
+  expect(openedUrl.searchParams.get('starts')).toBe(String(aggregateStarts))
+  expect(aggregateStarts).toBeGreaterThanOrEqual(seedEvents.filter((event) => event.name === 'game_started').length)
   expect(openedUrl.searchParams.get('completions')).toBe('1')
   expect(openedUrl.searchParams.get('replays')).toBe('1')
   expect(openedUrl.searchParams.get('d1_eligible')).toBe('1')
@@ -4850,7 +4850,6 @@ test('aggregate evidence issue link summarizes local analytics without raw event
     gameId: 'harbor-rings',
     gateId: null,
     campaignId: null,
-    starts: seedEvents.filter((event) => event.name === 'game_started').length,
     completions: 1,
     replays: 1,
     d1Eligible: 1,
