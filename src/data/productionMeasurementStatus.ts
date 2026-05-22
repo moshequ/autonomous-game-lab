@@ -1,8 +1,8 @@
 export const productionMeasurementStatus = {
-  "generatedAt": "2026-05-22T21:50:11.394Z",
+  "generatedAt": "2026-05-22T21:53:26.742Z",
   "status": "production-measurement-local-intake-ready",
   "activePath": "local-browser-buffer",
-  "liveCandidate": "pwa-7e15024010e0",
+  "liveCandidate": "pwa-46d93eee8c60",
   "publicEvidenceHandoff": {
     "status": "awaiting-player-initiated-aggregate-notes",
     "aggregateEvidence": {

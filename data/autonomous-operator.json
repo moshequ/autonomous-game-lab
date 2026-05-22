@@ -1,99 +1,32 @@
 {
-  "generatedAt": "2026-05-22T21:50:12.928Z",
-  "status": "operator-held",
+  "generatedAt": "2026-05-22T21:53:27.890Z",
+  "status": "operator-plan-ready",
   "mode": "plan-only",
   "ownerDecision": {
-    "actionId": "hold-for-external-input",
-    "command": "No local command is available until external inputs, configured credentials, or new player evidence arrive.",
-    "locallyExecutable": false,
-    "rejectionReason": "status-monitor"
+    "actionId": "optimize-daily-retention",
+    "command": "npm run autonomous:retention",
+    "locallyExecutable": true,
+    "rejectionReason": null
   },
-  "externalInputHandoff": {
-    "status": "handoff-waiting-on-owner-inputs",
-    "holdReason": "All safe local actions are current; remaining progress requires external inputs or new player evidence.",
-    "nextUnlockId": "production-analytics-browser",
-    "title": "Browser production analytics unlock kit",
-    "recommendedPathId": "first-party-collector",
-    "recommendedPathStatus": "needs-variables-and-secrets",
-    "publicStatusPage": "/measurement-status.html",
-    "publicStatusJson": "/measurement-status.json",
-    "setupScript": "ops/github/setup-production.sh",
-    "envTemplate": "ops/production.env.example",
-    "missingVariableCount": 5,
-    "missingSecretCount": 1,
-    "commandCount": 5,
-    "validationCommandCount": 4,
-    "requiredVariables": [
-      {
-        "repositoryName": "CLOUDFLARE_ACCOUNT_ID",
-        "envName": "CLOUDFLARE_ACCOUNT_ID",
-        "configured": false
-      },
-      {
-        "repositoryName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
-        "envName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
-        "configured": true
-      },
-      {
-        "repositoryName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
-        "envName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
-        "configured": true
-      },
-      {
-        "repositoryName": "VITE_EVENT_COLLECTOR_URL",
-        "envName": "VITE_EVENT_COLLECTOR_URL",
-        "configured": false
-      },
-      {
-        "repositoryName": "AGL_EVENT_COLLECTOR_EXPORT_URL",
-        "envName": "AGL_EVENT_COLLECTOR_EXPORT_URL",
-        "configured": false
-      }
-    ],
-    "requiredSecrets": [
-      {
-        "repositoryName": "CLOUDFLARE_API_TOKEN",
-        "envName": "CLOUDFLARE_API_TOKEN",
-        "configured": false
-      },
-      {
-        "repositoryName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
-        "envName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
-        "configured": true
-      },
-      {
-        "repositoryName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
-        "envName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
-        "configured": true
-      }
-    ],
-    "commandSequence": [
-      "npm run autonomous:event-collector-smoke",
-      "npm run autonomous:collector-deploy-plan",
-      "./ops/github/setup-production.sh",
-      "RUN_WORKFLOWS=1 ./ops/github/setup-production.sh",
-      "npm run autonomous:readiness"
-    ],
-    "validationCommands": [
-      "npm run autonomous:event-collector-smoke",
-      "npm run autonomous:collector-deploy-plan",
-      "npm run autonomous:readiness",
-      "npm run test:e2e"
-    ],
-    "controls": {
-      "zeroPaidSpend": true,
-      "noSecretValues": true,
-      "noSecretValuesStored": true,
-      "noAccountCreation": true,
-      "noStoreSubmission": true,
-      "noRevenueEnablement": true,
-      "operatorWillNotRunExternalWorkflow": true
-    }
-  },
+  "externalInputHandoff": null,
   "requestedActionId": null,
-  "selectedAction": null,
+  "selectedAction": {
+    "id": "optimize-daily-retention",
+    "status": "armed",
+    "command": "npm run autonomous:retention",
+    "targets": [
+      "market-pulse"
+    ],
+    "reason": "Keeps daily challenge, local streak prompts, and retention-safe missions aligned with behavior data.",
+    "costUsd": 0
+  },
   "selectedRejection": null,
-  "eligibleActionIds": [],
+  "eligibleActionIds": [
+    "seed-portfolio-traffic",
+    "optimize-daily-retention",
+    "collect-gate-sample-local-drops",
+    "refresh-product-gate-sample-plan"
+  ],
   "blockedActions": [
     {
       "id": "run-daily-owner-loop",
@@ -121,9 +54,9 @@
     },
     {
       "id": "seed-portfolio-traffic",
-      "status": "monitor",
+      "status": "armed",
       "command": "npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop",
-      "reason": "status-monitor"
+      "reason": "not-selected-this-run"
     },
     {
       "id": "refresh-organic-seed-loop",
@@ -135,12 +68,6 @@
       "id": "refresh-support-feedback",
       "status": "monitor",
       "command": "npm run autonomous:support-feedback",
-      "reason": "status-monitor"
-    },
-    {
-      "id": "optimize-daily-retention",
-      "status": "monitor",
-      "command": "npm run autonomous:retention",
       "reason": "status-monitor"
     },
     {
@@ -193,9 +120,9 @@
     },
     {
       "id": "collect-gate-sample-local-drops",
-      "status": "monitor",
+      "status": "armed",
       "command": "npm run autonomous:collect-local-event-drops",
-      "reason": "status-monitor"
+      "reason": "not-selected-this-run"
     },
     {
       "id": "collect-gate-sample-downloads",
@@ -205,9 +132,9 @@
     },
     {
       "id": "refresh-product-gate-sample-plan",
-      "status": "monitor",
+      "status": "armed",
       "command": "npm run autonomous:sample-plan",
-      "reason": "status-monitor"
+      "reason": "not-selected-this-run"
     },
     {
       "id": "refresh-first-move-coach",
@@ -306,7 +233,12 @@
       "reason": "status-monitor"
     }
   ],
-  "commandPlan": [],
+  "commandPlan": [
+    {
+      "segment": "npm run autonomous:retention",
+      "script": "autonomous:retention"
+    }
+  ],
   "execution": {
     "requested": false,
     "status": "not-requested",
@@ -380,7 +312,7 @@
     "RUN_WORKFLOWS=1"
   ],
   "nextActions": [
-    "Resolve production-analytics-browser through /measurement-status.html, then rerun npm run autonomous:readiness.",
+    "Run npm run autonomous:operator -- --execute --action=optimize-daily-retention to execute exactly one allowed local action.",
     "Do not execute GitHub workflow, store, paid ads, or account setup commands from the local operator."
   ]
 }

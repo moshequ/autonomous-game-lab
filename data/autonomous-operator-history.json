@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-22T21:50:12.928Z",
+  "generatedAt": "2026-05-22T21:53:27.890Z",
   "status": "operator-history-ready",
   "retention": {
     "maxRecords": 40,
@@ -26,7 +26,7 @@
     "plannedRecords": 32,
     "executedRecords": 8,
     "failedRecords": 0,
-    "lastActionId": "prepare-repository-channel",
+    "lastActionId": "optimize-daily-retention",
     "lastExecutionStatus": "not-requested",
     "lastExecutedActionId": "bootstrap-production-setup"
   },
@@ -108,61 +108,6 @@
         "status": "executed",
         "attemptedActionId": "seed-portfolio-traffic",
         "resultCount": 5,
-        "failedScripts": []
-      },
-      "controls": {
-        "zeroPaidSpend": true,
-        "localCommandAllowlistEnforced": true,
-        "externalWorkflowExecutionBlockedByDefault": true,
-        "maxActionsPerRun": 1
-      }
-    },
-    {
-      "id": "20260522194050-refresh-objective-audit",
-      "generatedAt": "2026-05-22T19:40:50.437Z",
-      "runFingerprint": "525055d201e1befa",
-      "mode": "plan-only",
-      "status": "operator-plan-ready",
-      "selectedActionId": "refresh-objective-audit",
-      "selectedCommand": "npm run autonomous:objective-audit",
-      "eligibleActionIds": [
-        "seed-portfolio-traffic",
-        "collect-gate-sample-downloads",
-        "refresh-objective-audit"
-      ],
-      "blockedActionCount": 33,
-      "execution": {
-        "requested": false,
-        "status": "not-requested",
-        "attemptedActionId": null,
-        "resultCount": 0,
-        "failedScripts": []
-      },
-      "controls": {
-        "zeroPaidSpend": true,
-        "localCommandAllowlistEnforced": true,
-        "externalWorkflowExecutionBlockedByDefault": true,
-        "maxActionsPerRun": 1
-      }
-    },
-    {
-      "id": "20260522194052-collect-gate-sample-downloads",
-      "generatedAt": "2026-05-22T19:40:52.454Z",
-      "runFingerprint": "4d348be01b38fa9a",
-      "mode": "plan-only",
-      "status": "operator-plan-ready",
-      "selectedActionId": "collect-gate-sample-downloads",
-      "selectedCommand": "npm run autonomous:collect-sample-downloads",
-      "eligibleActionIds": [
-        "seed-portfolio-traffic",
-        "collect-gate-sample-downloads"
-      ],
-      "blockedActionCount": 33,
-      "execution": {
-        "requested": false,
-        "status": "not-requested",
-        "attemptedActionId": null,
-        "resultCount": 0,
         "failedScripts": []
       },
       "controls": {
@@ -1145,6 +1090,65 @@
         "prepare-release-candidate",
         "run-post-deploy-smoke",
         "prepare-repository-channel"
+      ],
+      "blockedActionCount": 34,
+      "execution": {
+        "requested": false,
+        "status": "not-requested",
+        "attemptedActionId": null,
+        "resultCount": 0,
+        "failedScripts": []
+      },
+      "controls": {
+        "zeroPaidSpend": true,
+        "localCommandAllowlistEnforced": true,
+        "externalWorkflowExecutionBlockedByDefault": true,
+        "maxActionsPerRun": 1
+      }
+    },
+    {
+      "id": "20260522215325-optimize-daily-retention",
+      "generatedAt": "2026-05-22T21:53:25.803Z",
+      "runFingerprint": "19e9f3286b4280d8",
+      "mode": "plan-only",
+      "status": "operator-plan-ready",
+      "selectedActionId": "optimize-daily-retention",
+      "selectedCommand": "npm run autonomous:retention",
+      "eligibleActionIds": [
+        "seed-portfolio-traffic",
+        "optimize-daily-retention",
+        "collect-gate-sample-local-drops",
+        "refresh-product-gate-sample-plan",
+        "refresh-objective-audit"
+      ],
+      "blockedActionCount": 34,
+      "execution": {
+        "requested": false,
+        "status": "not-requested",
+        "attemptedActionId": null,
+        "resultCount": 0,
+        "failedScripts": []
+      },
+      "controls": {
+        "zeroPaidSpend": true,
+        "localCommandAllowlistEnforced": true,
+        "externalWorkflowExecutionBlockedByDefault": true,
+        "maxActionsPerRun": 1
+      }
+    },
+    {
+      "id": "20260522215326-optimize-daily-retention",
+      "generatedAt": "2026-05-22T21:53:26.350Z",
+      "runFingerprint": "c714581fff6acba0",
+      "mode": "plan-only",
+      "status": "operator-plan-ready",
+      "selectedActionId": "optimize-daily-retention",
+      "selectedCommand": "npm run autonomous:retention",
+      "eligibleActionIds": [
+        "seed-portfolio-traffic",
+        "optimize-daily-retention",
+        "collect-gate-sample-local-drops",
+        "refresh-product-gate-sample-plan"
       ],
       "blockedActionCount": 34,
       "execution": {

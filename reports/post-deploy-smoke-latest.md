@@ -1,11 +1,11 @@
 # Post-Deploy Smoke
 
-Generated: 2026-05-22T21:50:07.542Z
+Generated: 2026-05-22T21:53:23.474Z
 Status: post-deploy-smoke-observed-live
 Origin: https://moshequ.github.io/autonomous-game-lab
 Origin source: release-candidate-public-origin
-Candidate: pwa-727de7fc3801
-Live candidate: pwa-7e15024010e0
+Candidate: pwa-ed48583060df
+Live candidate: pwa-46d93eee8c60
 
 ## Summary
 
@@ -79,5 +79,5 @@ Checks: 21/21 passed
 
 ## Next Actions
 
-- Live Pages is reachable and serving pwa-7e15024010e0; run the deploy workflow for strict proof of the current local candidate if needed.
+- Live Pages is reachable and serving pwa-46d93eee8c60; run the deploy workflow for strict proof of the current local candidate if needed.
 - Keep revenue, paid acquisition, and app-store submission disabled until product and credential gates pass.
