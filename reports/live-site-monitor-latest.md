@@ -1,13 +1,13 @@
 # Live Site Monitor
 
-Generated: 2026-05-22T02:23:25.702Z
+Generated: 2026-05-22T02:26:16.165Z
 Status: live-site-monitor-passed
 Origin: https://moshequ.github.io/autonomous-game-lab
 Checks: 17/17 passed (0 failed, 0 blocked)
-Live candidate: pwa-8303d7dea094
-Synced candidate: pwa-8303d7dea094
+Live candidate: pwa-c5be6fccd871
+Synced candidate: pwa-c5be6fccd871
 Live matches synced deploy: true
-Latency p95 ms: 248
+Latency p95 ms: 99
 
 ## Controls
 
@@ -22,23 +22,23 @@ Latency p95 ms: 248
 
 ## Checks
 
-- pass: app-shell; /; HTTP 200; 248 ms; Live read-only check passed.
-- pass: manifest-webmanifest; /manifest.webmanifest; HTTP 200; 203 ms; Live read-only check passed.
-- pass: sw-js; /sw.js; HTTP 200; 207 ms; Live read-only check passed.
-- pass: privacy-html; /privacy.html; HTTP 200; 209 ms; Live read-only check passed.
-- pass: support-html; /support.html; HTTP 200; 207 ms; Live read-only check passed.
-- pass: measurement-status-html; /measurement-status.html; HTTP 200; 206 ms; Live read-only check passed.
-- pass: measurement-status-json; /measurement-status.json; HTTP 200; 209 ms; Live read-only check passed.
-- pass: install-html; /install.html; HTTP 200; 209 ms; Live read-only check passed.
-- pass: compliance-json; /compliance.json; HTTP 200; 208 ms; Live read-only check passed.
-- pass: monetization-json; /monetization.json; HTTP 200; 207 ms; Live read-only check passed.
-- pass: app-ads-txt; /app-ads.txt; HTTP 200; 206 ms; Live read-only check passed.
-- pass: well-known-assetlinks-json; /.well-known/assetlinks.json; HTTP 200; 210 ms; Live read-only check passed.
-- pass: gate-sample-html; /gate-sample.html; HTTP 200; 211 ms; Live read-only check passed.
-- pass: seed-kit-html; /seed-kit.html; HTTP 200; 207 ms; Live read-only check passed.
-- pass: sitemap-xml; /sitemap.xml; HTTP 200; 207 ms; Live read-only check passed.
-- pass: games-foundry-ledger-html; /games/foundry-ledger.html; HTTP 200; 209 ms; Live read-only check passed.
-- pass: release-candidate-manifest-live; /release-candidate.json; HTTP 200; 210 ms; Live read-only check passed.
+- pass: app-shell; /; HTTP 200; 99 ms; Live read-only check passed.
+- pass: manifest-webmanifest; /manifest.webmanifest; HTTP 200; 58 ms; Live read-only check passed.
+- pass: sw-js; /sw.js; HTTP 200; 65 ms; Live read-only check passed.
+- pass: privacy-html; /privacy.html; HTTP 200; 65 ms; Live read-only check passed.
+- pass: support-html; /support.html; HTTP 200; 61 ms; Live read-only check passed.
+- pass: measurement-status-html; /measurement-status.html; HTTP 200; 59 ms; Live read-only check passed.
+- pass: measurement-status-json; /measurement-status.json; HTTP 200; 66 ms; Live read-only check passed.
+- pass: install-html; /install.html; HTTP 200; 62 ms; Live read-only check passed.
+- pass: compliance-json; /compliance.json; HTTP 200; 57 ms; Live read-only check passed.
+- pass: monetization-json; /monetization.json; HTTP 200; 59 ms; Live read-only check passed.
+- pass: app-ads-txt; /app-ads.txt; HTTP 200; 54 ms; Live read-only check passed.
+- pass: well-known-assetlinks-json; /.well-known/assetlinks.json; HTTP 200; 50 ms; Live read-only check passed.
+- pass: gate-sample-html; /gate-sample.html; HTTP 200; 58 ms; Live read-only check passed.
+- pass: seed-kit-html; /seed-kit.html; HTTP 200; 56 ms; Live read-only check passed.
+- pass: sitemap-xml; /sitemap.xml; HTTP 200; 56 ms; Live read-only check passed.
+- pass: games-foundry-ledger-html; /games/foundry-ledger.html; HTTP 200; 56 ms; Live read-only check passed.
+- pass: release-candidate-manifest-live; /release-candidate.json; HTTP 200; 56 ms; Live read-only check passed.
 
 ## Next Actions
 
