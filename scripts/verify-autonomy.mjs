@@ -2998,6 +2998,7 @@ if (
   !autonomousOperatorSource.includes('recentExecutedRecordWindow') ||
   !autonomousOperatorSource.includes('protectedExecutedRecords') ||
   !autonomousOperatorSource.includes('selectedRecordIds') ||
+  !autonomousOperatorSource.includes('needsInitialExecutionAudit') ||
   !appSource.includes('Operator History')
 ) {
   fail('Autonomous operator history must keep a capped durable audit trail for planned and successfully executed allowlisted actions.')

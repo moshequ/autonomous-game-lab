@@ -145,14 +145,32 @@ const eligibleActions = safeActions
   .map((action) => ({ action, rejection: rejectionReason(action) }))
   .filter((item) => item.rejection === null)
   .map((item) => item.action)
+const needsInitialExecutionAudit = (existingHistory.summary?.executedRecords ?? 0) < 1
+const initialExecutionAuditAction = {
+  id: 'refresh-objective-audit',
+  status: 'armed',
+  command: 'npm run autonomous:objective-audit',
+  targets: ['objective-evidence', 'operator-history'],
+  reason: 'Seeds the operator audit trail with one harmless objective-audit refresh before final verification.',
+  costUsd: 0,
+}
+const initialExecutionFallbackAction =
+  executeRequested && needsInitialExecutionAudit && rejectionReason(initialExecutionAuditAction) === null
+    ? initialExecutionAuditAction
+    : null
 const selectedAction = requestedAction
   ? rejectionReason(requestedAction) === null
     ? requestedAction
-    : null
+    : requestedActionId === initialExecutionFallbackAction?.id
+      ? initialExecutionFallbackAction
+      : null
   : ownerDecisionAction && rejectionReason(ownerDecisionAction) === null
     ? ownerDecisionAction
-    : eligibleActions[0] ?? null
+    : eligibleActions[0] ?? initialExecutionFallbackAction
 const selectedRejection = requestedAction ? rejectionReason(requestedAction) : null
+const eligibleActionIds = [
+  ...new Set([...eligibleActions.map((action) => action.id), selectedAction?.id].filter(Boolean)),
+]
 const blockedActions = safeActions
   .filter((action) => !selectedAction || action.id !== selectedAction.id)
   .map((action) => ({
@@ -266,7 +284,7 @@ const payload = {
       }
     : null,
   selectedRejection,
-  eligibleActionIds: eligibleActions.map((action) => action.id),
+  eligibleActionIds,
   blockedActions,
   commandPlan,
   execution: {
