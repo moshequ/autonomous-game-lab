@@ -854,6 +854,7 @@ if (
 const publicEvidenceHandoff = productionMeasurementStatus.publicEvidenceHandoff ?? {}
 const publicEvidenceControls = publicEvidenceHandoff.controls ?? {}
 const publicAnalyticsUnlock = productionMeasurementStatus.analyticsUnlock ?? null
+const publicExternalUnlockQueue = productionMeasurementStatus.externalUnlockQueue ?? {}
 const measurementSampleNextRoute = productionMeasurementStatus.productGateEvidence?.sampleNextRoute ?? {}
 const measurementPublicRoutes = productionMeasurementStatus.publicRoutes ?? {}
 const publicAnalyticsUnlockPathIds = new Set((publicAnalyticsUnlock?.paths ?? []).map((unlockPath) => unlockPath.id))
@@ -863,6 +864,12 @@ const publicAnalyticsFirstPartyCollectorPath = (publicAnalyticsUnlock?.paths ?? 
 const publicAnalyticsUnlockLeaksValues = (publicAnalyticsUnlock?.paths ?? []).some((unlockPath) =>
   [...(unlockPath.requiredVariables ?? []), ...(unlockPath.requiredSecrets ?? [])].some((item) =>
     Object.hasOwn(item, 'value'),
+  ),
+)
+const publicExternalUnlockItemIds = new Set((publicExternalUnlockQueue.topItems ?? []).map((item) => item.id))
+const publicExternalUnlockLeaksValues = (publicExternalUnlockQueue.topItems ?? []).some((item) =>
+  [...(item.requiredEnv ?? []), ...(item.requiredSecrets ?? [])].some((requiredItem) =>
+    Object.hasOwn(requiredItem, 'value'),
   ),
 )
 
@@ -938,10 +945,35 @@ if (
   !publicAnalyticsFirstPartyCollectorPath?.commandSequence?.includes('./ops/github/setup-production.sh') ||
   !publicAnalyticsFirstPartyCollectorPath?.validationCommands?.includes('npm run test:e2e') ||
   publicAnalyticsUnlockLeaksValues ||
+  publicExternalUnlockQueue.status !== productionBlockerHandoff.status ||
+  publicExternalUnlockQueue.nextBestUnlockId !== productionBlockerHandoff.summary?.nextBestUnlockId ||
+  publicExternalUnlockQueue.nextBestZeroCostUnlockId !==
+    productionBlockerHandoff.summary?.nextBestZeroCostUnlockId ||
+  publicExternalUnlockQueue.ownerActionRequired !== productionBlockerHandoff.summary?.ownerActionRequired ||
+  publicExternalUnlockQueue.missingEnvironmentItems !==
+    productionBlockerHandoff.summary?.missingEnvironmentItems ||
+  publicExternalUnlockQueue.missingSecrets !== productionBlockerHandoff.summary?.missingSecrets ||
+  publicExternalUnlockQueue.productGateBlockers !== productionBlockerHandoff.summary?.productGateBlockers ||
+  !publicExternalUnlockItemIds.has('support-contact') ||
+  !publicExternalUnlockItemIds.has('production-analytics-browser') ||
+  !publicExternalUnlockItemIds.has('google-play-account') ||
+  publicExternalUnlockQueue.nextUnlockKit?.id !== 'production-analytics-browser' ||
+  publicExternalUnlockQueue.nextUnlockKit?.recommendedPathId !== 'first-party-collector' ||
+  publicExternalUnlockQueue.controls?.zeroPaidSpend !== true ||
+  publicExternalUnlockQueue.controls?.noSecretValues !== true ||
+  publicExternalUnlockQueue.controls?.noSecretValuesStored !== true ||
+  publicExternalUnlockQueue.controls?.noMutation !== true ||
+  publicExternalUnlockQueue.controls?.noAccountCreation !== true ||
+  publicExternalUnlockQueue.controls?.noStoreSubmission !== true ||
+  publicExternalUnlockQueue.controls?.noRevenueEnablement !== true ||
+  publicExternalUnlockQueue.controls?.productGatesStillRequiredForRevenue !== true ||
+  publicExternalUnlockQueue.controls?.storeSpendStillBlockedByUnitEconomics !== true ||
+  publicExternalUnlockLeaksValues ||
   productionMeasurementStatus.controls?.aggregateEvidenceDoesNotPassGates !== true ||
   productionMeasurementStatus.controls?.manualReviewRequiredForGateDecisions !== true ||
   JSON.stringify(publicMeasurementStatus.publicEvidenceHandoff) !== JSON.stringify(publicEvidenceHandoff) ||
   JSON.stringify(publicMeasurementStatus.analyticsUnlock) !== JSON.stringify(publicAnalyticsUnlock) ||
+  JSON.stringify(publicMeasurementStatus.externalUnlockQueue) !== JSON.stringify(publicExternalUnlockQueue) ||
   JSON.stringify(publicMeasurementStatus.publicRoutes) !== JSON.stringify(measurementPublicRoutes) ||
   !measurementStatusHtml.includes('Public Aggregate Evidence') ||
   !measurementStatusHtml.includes('Start current sample') ||
@@ -950,12 +982,15 @@ if (
   measurementStatusHtml.includes('href="/support.html"') ||
   measurementStatusHtml.includes('href="/measurement-status.json"') ||
   !measurementStatusHtml.includes('Zero-Spend Analytics Unlock') ||
+  !measurementStatusHtml.includes('External Unlock Queue') ||
   !measurementStatusHtml.includes('first-party-collector') ||
+  !measurementStatusHtml.includes('google-play-account') ||
   !measurementStatusHtml.includes('does not pass gates') ||
   !appSource.includes('Production Measurement') ||
   !appSource.includes('Analytics unlock') ||
   !productionMeasurementStatusSource.includes('publicEvidenceHandoff') ||
   !productionMeasurementStatusSource.includes('publicAnalyticsUnlock') ||
+  !productionMeasurementStatusSource.includes('publicExternalUnlockQueue') ||
   !productionMeasurementStatusSource.includes('trafficSeeding') ||
   !productionMeasurementStatusSource.includes('publicRouteHref') ||
   !productionMeasurementStatusSource.includes('aggregateEvidenceDoesNotPassGates') ||

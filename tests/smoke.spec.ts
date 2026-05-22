@@ -8219,6 +8219,36 @@ test('production measurement status publishes public aggregate evidence handoff'
     status: string
     live?: { candidateId?: string }
   }
+  const blockerHandoff = JSON.parse(await readFile('data/production-blocker-handoff.json', 'utf8')) as {
+    status: string
+    summary: {
+      nextBestUnlockId: string | null
+      nextBestZeroCostUnlockId: string | null
+      ownerActionRequired: number
+      missingEnvironmentItems: number
+      missingSecrets: number
+      productGateBlockers: number
+    }
+    controls: {
+      zeroPaidSpend: boolean
+      noSecretValues: boolean
+      noSecretValuesStored: boolean
+      noMutation: boolean
+      noAccountCreation: boolean
+      noStoreSubmission: boolean
+      noRevenueEnablement: boolean
+      productGatesStillRequiredForRevenue: boolean
+      storeSpendStillBlockedByUnitEconomics: boolean
+    }
+    handoffItems: Array<{
+      id: string
+      status: string
+      ownerInputRequired: boolean
+      requiredEnv: Array<{ name: string; configured: boolean; value?: string }>
+      requiredSecrets: Array<{ repositorySecret?: string; envName?: string; configured: boolean; value?: string }>
+      afterUnlockCommands: string[]
+    }>
+  }
   const measurement = JSON.parse(await readFile('data/production-measurement-status.json', 'utf8')) as {
     status: string
     liveCandidate: string | null
@@ -8279,6 +8309,41 @@ test('production measurement status publishes public aggregate evidence handoff'
       }>
       nextActions: string[]
     } | null
+    externalUnlockQueue: {
+      status: string
+      nextBestUnlockId: string | null
+      nextBestZeroCostUnlockId: string | null
+      ownerActionRequired: number
+      missingEnvironmentItems: number
+      missingSecrets: number
+      productGateBlockers: number
+      topItems: Array<{
+        id: string
+        status: string
+        ownerInputRequired: boolean
+        requiredEnv: Array<{ name: string | null; configured: boolean; value?: string }>
+        requiredSecrets: Array<{ repositoryName: string | null; envName: string | null; configured: boolean; command: string | null; value?: string }>
+        afterUnlockCommands: string[]
+      }>
+      nextUnlockKit: {
+        id: string
+        recommendedPathId: string
+        commandCount: number
+        validationCommandCount: number
+      } | null
+      controls: {
+        zeroPaidSpend: boolean
+        noSecretValues: boolean
+        noSecretValuesStored: boolean
+        noMutation: boolean
+        noAccountCreation: boolean
+        noStoreSubmission: boolean
+        noRevenueEnablement: boolean
+        productGatesStillRequiredForRevenue: boolean
+        storeSpendStillBlockedByUnitEconomics: boolean
+      }
+      nextActions: string[]
+    }
     publicEvidenceHandoff: {
       status: string
       source: string
@@ -8436,6 +8501,37 @@ test('production measurement status publishes public aggregate evidence handoff'
       [...unlockPath.requiredVariables, ...unlockPath.requiredSecrets].some((item) => Object.hasOwn(item, 'value')),
     ),
   ).toBe(false)
+  expect(measurement.externalUnlockQueue.status).toBe(blockerHandoff.status)
+  expect(measurement.externalUnlockQueue.nextBestUnlockId).toBe(blockerHandoff.summary.nextBestUnlockId)
+  expect(measurement.externalUnlockQueue.nextBestZeroCostUnlockId).toBe(
+    blockerHandoff.summary.nextBestZeroCostUnlockId,
+  )
+  expect(measurement.externalUnlockQueue.ownerActionRequired).toBe(blockerHandoff.summary.ownerActionRequired)
+  expect(measurement.externalUnlockQueue.missingEnvironmentItems).toBe(
+    blockerHandoff.summary.missingEnvironmentItems,
+  )
+  expect(measurement.externalUnlockQueue.missingSecrets).toBe(blockerHandoff.summary.missingSecrets)
+  expect(measurement.externalUnlockQueue.productGateBlockers).toBe(blockerHandoff.summary.productGateBlockers)
+  expect(measurement.externalUnlockQueue.topItems.map((item) => item.id)).toEqual(
+    expect.arrayContaining(['support-contact', 'production-analytics-browser', 'google-play-account']),
+  )
+  expect(measurement.externalUnlockQueue.nextUnlockKit?.id).toBe('production-analytics-browser')
+  expect(measurement.externalUnlockQueue.nextUnlockKit?.recommendedPathId).toBe('first-party-collector')
+  expect(measurement.externalUnlockQueue.controls.zeroPaidSpend).toBe(blockerHandoff.controls.zeroPaidSpend)
+  expect(measurement.externalUnlockQueue.controls.noSecretValues).toBe(true)
+  expect(measurement.externalUnlockQueue.controls.noSecretValuesStored).toBe(true)
+  expect(measurement.externalUnlockQueue.controls.noMutation).toBe(true)
+  expect(measurement.externalUnlockQueue.controls.noAccountCreation).toBe(true)
+  expect(measurement.externalUnlockQueue.controls.noStoreSubmission).toBe(true)
+  expect(measurement.externalUnlockQueue.controls.noRevenueEnablement).toBe(true)
+  expect(measurement.externalUnlockQueue.controls.productGatesStillRequiredForRevenue).toBe(true)
+  expect(measurement.externalUnlockQueue.controls.storeSpendStillBlockedByUnitEconomics).toBe(true)
+  expect(
+    measurement.externalUnlockQueue.topItems.some((item) =>
+      [...item.requiredEnv, ...item.requiredSecrets].some((requiredItem) => Object.hasOwn(requiredItem, 'value')),
+    ),
+  ).toBe(false)
+  expect(measurement.externalUnlockQueue.nextActions.join(' ')).toContain('zero-spend')
   expect(measurement.controls.aggregateEvidenceDoesNotPassGates).toBe(true)
   expect(measurement.controls.manualReviewRequiredForGateDecisions).toBe(true)
   expect(measurement.publicEvidenceHandoff.nextActions.join(' ')).toContain('Do not pass product gates')
@@ -8444,19 +8540,23 @@ test('production measurement status publishes public aggregate evidence handoff'
   expect(measurement.nextActions.join(' ')).toContain('Unlock production analytics')
   expect(publicMeasurement.publicEvidenceHandoff).toEqual(measurement.publicEvidenceHandoff)
   expect(publicMeasurement.analyticsUnlock).toEqual(measurement.analyticsUnlock)
+  expect(publicMeasurement.externalUnlockQueue).toEqual(measurement.externalUnlockQueue)
   expect(publicMeasurement.publicRoutes).toEqual(measurement.publicRoutes)
   expect(html).toContain('Public Aggregate Evidence')
   expect(html).toContain('Start current sample')
   expect(html).toContain('sample-next.html')
   expect(html).toContain('Zero-Spend Analytics Unlock')
+  expect(html).toContain('External Unlock Queue')
   expect(html).toContain('does not pass gates')
   expect(html).toContain('first-party-collector')
   expect(html).toContain('CLOUDFLARE_API_TOKEN')
+  expect(html).toContain('google-play-account')
   expect(html).not.toContain('href="/gate-sample.html"')
   expect(html).not.toContain('href="/support.html"')
   expect(html).not.toContain('href="/measurement-status.json"')
   expect(script).toContain('publicEvidenceHandoff')
   expect(script).toContain('publicAnalyticsUnlock')
+  expect(script).toContain('publicExternalUnlockQueue')
   expect(script).toContain('trafficSeeding')
   expect(script).toContain('publicRouteHref')
   expect(script).toContain('aggregateEvidenceDoesNotPassGates')
@@ -8478,6 +8578,7 @@ test('production measurement status publishes public aggregate evidence handoff'
   await expect(page.getByRole('heading', { name: 'Production Measurement Status' })).toBeVisible()
   await expect(page.getByRole('heading', { name: 'Public Aggregate Evidence' })).toBeVisible()
   await expect(page.getByRole('heading', { name: 'Zero-Spend Analytics Unlock' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'External Unlock Queue' })).toBeVisible()
   await expect(page.getByLabel('Product evidence')).toContainText('/sample-next.html')
   await expect(page.getByRole('link', { name: 'Start current sample' }).first()).toHaveAttribute(
     'href',
@@ -8492,12 +8593,18 @@ test('production measurement status publishes public aggregate evidence handoff'
   )
   await expect(page.getByLabel('Public aggregate evidence')).toContainText(measurement.publicEvidenceHandoff.status)
   await expect(page.getByLabel('Zero-spend analytics unlock')).toContainText('first-party-collector')
+  await expect(page.getByLabel('External unlock queue')).toContainText(
+    measurement.externalUnlockQueue.nextBestUnlockId ?? 'none',
+  )
   await expect(page.getByText('does not pass gates', { exact: true })).toBeVisible()
 
   await page.goto('/')
   await expect(page.getByLabel('Production Measurement')).toContainText(measurement.status)
   await expect(page.getByLabel('Production Measurement')).toContainText(measurement.publicEvidenceHandoff.status)
   await expect(page.getByLabel('Production Measurement')).toContainText('first-party-collector')
+  await expect(page.getByLabel('Production Measurement')).toContainText(
+    measurement.externalUnlockQueue.nextBestUnlockId ?? 'none',
+  )
 })
 
 test('generated compliance manifest is reachable', async ({ page }) => {

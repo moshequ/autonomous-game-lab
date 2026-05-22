@@ -1040,6 +1040,16 @@ function App() {
       } | null
     }
   ).analyticsUnlock
+  const productionMeasurementExternalUnlockQueue = (
+    productionMeasurementStatus as {
+      externalUnlockQueue?: {
+        status: string
+        nextBestUnlockId: string | null
+        nextBestZeroCostUnlockId: string | null
+        ownerActionRequired: number
+      }
+    }
+  ).externalUnlockQueue
   const liveSiteMonitorOrigin = liveSiteMonitor.origin.origin ?? 'missing'
   const operatorSelectedAction = autonomousOperator.selectedAction as { id: string } | null
   const operatorExternalInputHandoff = (
@@ -3483,6 +3493,14 @@ function App() {
                       ? `${productionMeasurementAnalyticsUnlock.commandCount}/${productionMeasurementAnalyticsUnlock.validationCommandCount}`
                       : '0/0'}
                   </strong>
+                </div>
+                <div>
+                  <span>External queue</span>
+                  <strong>{productionMeasurementExternalUnlockQueue?.nextBestUnlockId ?? 'none'}</strong>
+                </div>
+                <div>
+                  <span>Owner inputs</span>
+                  <strong>{productionMeasurementExternalUnlockQueue?.ownerActionRequired ?? 0}</strong>
                 </div>
               </div>
               <div className="monetizationRuntime" aria-label="Repository Channel">

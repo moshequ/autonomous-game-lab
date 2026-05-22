@@ -311,6 +311,111 @@ const publicAnalyticsUnlock = productionAnalyticsUnlockKit
     }
   : null
 
+const summarizeRequiredEnv = (item) => ({
+  name: item.name ?? item.repositoryName ?? item.envName ?? null,
+  purpose: item.purpose ?? null,
+  configured: item.configured === true,
+})
+
+const summarizeRequiredSecret = (item) => ({
+  repositoryName: item.repositorySecret ?? item.repositoryName ?? item.envName ?? item.name ?? null,
+  envName: item.envName ?? item.repositorySecret ?? item.repositoryName ?? item.name ?? null,
+  configured: item.configured === true,
+  command: item.command ?? null,
+})
+
+const summarizeUnlockKit = (kit) =>
+  kit
+    ? {
+        id: kit.id,
+        title: kit.title,
+        status: kit.status,
+        recommendedPathId: kit.recommendedPathId,
+        commandCount: numberOrZero(kit.commandCount),
+        validationCommandCount: numberOrZero(kit.validationCommandCount),
+        missingVariableCount: numberOrZero(kit.missingVariableCount),
+        missingSecretCount: numberOrZero(kit.missingSecretCount),
+        controls: {
+          zeroPaidSpend: kit.controls?.zeroPaidSpend === true,
+          noSecretValues: kit.controls?.noSecretValues === true,
+          noSecretValuesStored: kit.controls?.noSecretValuesStored === true,
+          noAccountCreation: kit.controls?.noAccountCreation === true,
+          noStoreSubmission: kit.controls?.noStoreSubmission === true,
+          noRevenueEnablement: kit.controls?.noRevenueEnablement === true,
+          secretCommandsUseStdin: kit.controls?.secretCommandsUseStdin === true,
+        },
+        paths: (kit.paths ?? []).map((unlockPath) => ({
+          id: unlockPath.id,
+          title: unlockPath.title,
+          status: unlockPath.status,
+          costMode: unlockPath.costMode,
+          ownerInputRequired: unlockPath.ownerInputRequired === true,
+          requiredVariables: (unlockPath.requiredVariables ?? []).map((item) => ({
+            repositoryName: item.repositoryName,
+            envName: item.envName,
+            configured: item.configured === true,
+            command: item.command,
+          })),
+          requiredSecrets: (unlockPath.requiredSecrets ?? []).map((item) => ({
+            repositoryName: item.repositoryName,
+            envName: item.envName,
+            configured: item.configured === true,
+            command: item.command,
+          })),
+          commandSequence: unlockPath.commandSequence ?? [],
+          validationCommands: unlockPath.validationCommands ?? [],
+        })),
+      }
+    : null
+
+const unlockKitById = new Map((productionBlockerHandoff.unlockKits ?? []).map((kit) => [kit.id, kit]))
+const publicExternalUnlockQueue = {
+  status: productionBlockerHandoff.status,
+  nextBestUnlockId: productionBlockerHandoff.summary?.nextBestUnlockId ?? null,
+  nextBestZeroCostUnlockId: productionBlockerHandoff.summary?.nextBestZeroCostUnlockId ?? null,
+  ownerActionRequired: numberOrZero(productionBlockerHandoff.summary?.ownerActionRequired),
+  externalOwnerActions: numberOrZero(productionBlockerHandoff.summary?.externalOwnerActions),
+  missingEnvironmentItems: numberOrZero(productionBlockerHandoff.summary?.missingEnvironmentItems),
+  missingSecrets: numberOrZero(productionBlockerHandoff.summary?.missingSecrets),
+  productGateBlockers: numberOrZero(productionBlockerHandoff.summary?.productGateBlockers),
+  topItems: (productionBlockerHandoff.handoffItems ?? []).slice(0, 8).map((item) => ({
+    id: item.id,
+    title: item.title,
+    category: item.category,
+    status: item.status,
+    priority: numberOrZero(item.priority),
+    costMode: item.costMode,
+    ownerInputRequired: item.ownerInputRequired === true,
+    requiredEnv: (item.requiredEnv ?? []).map(summarizeRequiredEnv),
+    requiredSecrets: (item.requiredSecrets ?? []).map(summarizeRequiredSecret),
+    blockers: (item.blockers ?? []).slice(0, 4),
+    unlocks: (item.unlocks ?? []).slice(0, 4),
+    afterUnlockCommands: item.afterUnlockCommands ?? [],
+    unlockKit: summarizeUnlockKit(unlockKitById.get(item.unlockKit?.id) ?? item.unlockKit),
+  })),
+  nextUnlockKit: summarizeUnlockKit(productionBlockerHandoff.nextUnlockKit),
+  controls: {
+    zeroPaidSpend: productionBlockerHandoff.controls?.zeroPaidSpend === true,
+    noSecretValues: productionBlockerHandoff.controls?.noSecretValues === true,
+    noSecretValuesStored: productionBlockerHandoff.controls?.noSecretValuesStored === true,
+    noMutation: productionBlockerHandoff.controls?.noMutation === true,
+    noAccountCreation: productionBlockerHandoff.controls?.noAccountCreation === true,
+    noStoreSubmission: productionBlockerHandoff.controls?.noStoreSubmission === true,
+    noRevenueEnablement: productionBlockerHandoff.controls?.noRevenueEnablement === true,
+    productGatesStillRequiredForRevenue:
+      productionBlockerHandoff.controls?.productGatesStillRequiredForRevenue === true,
+    storeSpendStillBlockedByUnitEconomics:
+      productionBlockerHandoff.controls?.storeSpendStillBlockedByUnitEconomics === true,
+  },
+  nextActions: [
+    productionBlockerHandoff.summary?.nextBestUnlockId
+      ? `Start with ${productionBlockerHandoff.summary.nextBestUnlockId}; it is the highest-priority zero-spend owner input.`
+      : 'No external unlock remains after the current production readiness refresh.',
+    'Use only repository variables and stdin-fed secrets; never paste secret values into tracked files or public issues.',
+    'Keep product gates, revenue, and store submissions blocked until validation commands and real player evidence pass.',
+  ],
+}
+
 const sourceDataHash = hashSourceData({
   productionEnvironment,
   analytics,
@@ -385,6 +490,7 @@ const payload = {
   },
   publicEvidenceHandoff,
   analyticsUnlock: publicAnalyticsUnlock,
+  externalUnlockQueue: publicExternalUnlockQueue,
   publicRoutes: {
     statusPage: '/measurement-status.html',
     statusJson: '/measurement-status.json',
@@ -441,6 +547,7 @@ const payload = {
     publicAnalyticsUnlock
       ? `Unlock production analytics with ${publicAnalyticsUnlock.recommendedPathId}; ${publicAnalyticsUnlock.commandCount} setup command(s) and ${publicAnalyticsUnlock.validationCommandCount} validation command(s) are published with redacted secret names only.`
       : 'Regenerate the production blocker handoff before publishing production analytics unlock guidance.',
+    `External unlock queue has ${publicExternalUnlockQueue.ownerActionRequired} owner action(s); next zero-spend unlock is ${publicExternalUnlockQueue.nextBestZeroCostUnlockId ?? 'none'}.`,
     ...publicEvidenceHandoff.nextActions,
     'Keep product gates blocked until real player evidence clears completion, replay, and D1 retention thresholds.',
   ],
@@ -477,6 +584,12 @@ const appPayload = {
   liveCandidate: payload.liveCandidate,
   publicEvidenceHandoff: appPublicEvidenceHandoff,
   analyticsUnlock: appAnalyticsUnlock,
+  externalUnlockQueue: {
+    status: payload.externalUnlockQueue.status,
+    nextBestUnlockId: payload.externalUnlockQueue.nextBestUnlockId,
+    nextBestZeroCostUnlockId: payload.externalUnlockQueue.nextBestZeroCostUnlockId,
+    ownerActionRequired: payload.externalUnlockQueue.ownerActionRequired,
+  },
 }
 
 const publicPayload = {
@@ -488,6 +601,7 @@ const publicPayload = {
   productGateEvidence: payload.productGateEvidence,
   publicEvidenceHandoff: payload.publicEvidenceHandoff,
   analyticsUnlock: payload.analyticsUnlock,
+  externalUnlockQueue: payload.externalUnlockQueue,
   publicRoutes: payload.publicRoutes,
   blockers: payload.blockers,
   controls: payload.controls,
@@ -761,6 +875,41 @@ const html = `<!doctype html>
       </section>
 
       <section>
+        <h2>External Unlock Queue</h2>
+        <p>These are the remaining owner inputs ranked for zero-spend progress. The queue publishes names and commands only; it does not create accounts, mutate services, submit stores, or reveal secret values.</p>
+        <div class="grid" aria-label="External unlock queue">
+          <div class="card">
+            <span>Queue</span>
+            <strong>${escapeHtml(payload.externalUnlockQueue.status)}</strong>
+          </div>
+          <div class="card">
+            <span>Next unlock</span>
+            <strong>${escapeHtml(payload.externalUnlockQueue.nextBestUnlockId ?? 'none')}</strong>
+          </div>
+          <div class="card">
+            <span>Owner actions</span>
+            <strong>${payload.externalUnlockQueue.ownerActionRequired}</strong>
+          </div>
+          <div class="card">
+            <span>Missing secrets</span>
+            <strong>${payload.externalUnlockQueue.missingSecrets}</strong>
+          </div>
+        </div>
+        ${payload.externalUnlockQueue.topItems
+          .map(
+            (item) => `<article class="card">
+            <span>${escapeHtml(item.status)}</span>
+            <strong>${escapeHtml(item.id)} - ${escapeHtml(item.title)}</strong>
+            <p>${escapeHtml(item.costMode)}; owner input required: ${item.ownerInputRequired}</p>
+            <p>Variables: ${escapeHtml(item.requiredEnv.map((env) => env.name).filter(Boolean).join(', ') || 'none')}</p>
+            <p>Secrets: ${escapeHtml(item.requiredSecrets.map((secret) => secret.repositoryName).filter(Boolean).join(', ') || 'none')}</p>
+            <p>After unlock: ${escapeHtml(item.afterUnlockCommands.join(' && ') || 'none')}</p>
+          </article>`,
+          )
+          .join('\n        ')}
+      </section>
+
+      <section>
         <h2>Controls</h2>
         <ul>
           <li>Zero paid spend: ${payload.controls.zeroPaidSpend}</li>
@@ -826,6 +975,8 @@ const report = [
   `- public aggregate handoff: ${payload.publicEvidenceHandoff.status}`,
   `- analytics unlock: ${payload.analyticsUnlock?.status ?? 'missing'}`,
   `- analytics unlock path: ${payload.analyticsUnlock?.recommendedPathId ?? 'none'}`,
+  `- external unlock queue: ${payload.externalUnlockQueue.status}`,
+  `- next external unlock: ${payload.externalUnlockQueue.nextBestUnlockId ?? 'none'}`,
   `- aggregate evidence notes: ${payload.publicEvidenceHandoff.aggregateEvidence.notes}`,
   `- supporting aggregate mission notes: ${payload.publicEvidenceHandoff.productGateMissions.supportingAggregateEvidenceNotes}`,
   '',
