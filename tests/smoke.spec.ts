@@ -4207,6 +4207,12 @@ test('autonomous cadence keeps unattended operation auditable and guarded', asyn
   expect(cadence.schedulers.githubActions.workflow).toBe('.github/workflows/autonomous-daily.yml')
   expect(cadence.schedulers.githubActions.command).toBe('npm run autonomous:operate')
   expect(cadence.schedulers.githubActions.artifactUpload).toBe(true)
+  expect(cadence.schedulers.githubSelfUpdate.status).toBe('gated')
+  expect(cadence.schedulers.githubSelfUpdate.workflow).toBe('.github/workflows/autonomous-self-update.yml')
+  expect(cadence.schedulers.githubSelfUpdate.trigger).toBe(
+    'workflow_run: Autonomous Daily Studio; waits for Post-Deploy Evidence Sync',
+  )
+  expect(cadence.schedulers.githubSelfUpdate.permission).toBe('actions: read, contents: write')
   expect(cadence.schedulers.githubPostSelfUpdateDeploy.status).toBe('scheduled')
   expect(cadence.schedulers.githubPostSelfUpdateDeploy.workflow).toBe('.github/workflows/web-pwa-deploy.yml')
   expect(cadence.schedulers.githubPostSelfUpdateDeploy.trigger).toBe(
@@ -4437,8 +4443,12 @@ test('autonomous self-update persists only verified allowlisted generated change
   expect(selfUpdate.privacy.blockedRawEventDropPrefix).toBe('data/player-events/')
   expect(selfUpdate.commitPlan.stagePaths.some((stagePath) => stagePath.startsWith('data/player-events/'))).toBe(false)
   expect(selfUpdate.checks.every((check) => check.status === 'pass')).toBe(true)
-  expect(workflow).toContain("workflows: ['Post-Deploy Evidence Sync']")
+  expect(workflow).toContain("workflows: ['Autonomous Daily Studio']")
+  expect(workflow).toContain('Wait for post-deploy evidence sync')
+  expect(workflow).toContain('Post-Deploy Evidence Sync')
+  expect(workflow).toContain('gh run list')
   expect(workflow).toContain("vars.AGL_AUTONOMOUS_SELF_UPDATE == '1'")
+  expect(workflow).toContain('actions: read')
   expect(workflow).toContain('git pull --ff-only origin')
   expect(workflow).toContain('contents: write')
   expect(workflow).toContain('npm run autonomous:operate')

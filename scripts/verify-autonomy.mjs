@@ -3078,6 +3078,9 @@ if (
   !cadenceCodexDesktopStatusAllowed ||
 	  autonomousCadence.schedulers?.githubActions?.status !== 'scheduled' ||
 	  autonomousCadence.schedulers?.githubSelfUpdate?.status !== 'gated' ||
+	  autonomousCadence.schedulers?.githubSelfUpdate?.trigger !==
+	    'workflow_run: Autonomous Daily Studio; waits for Post-Deploy Evidence Sync' ||
+	  autonomousCadence.schedulers?.githubSelfUpdate?.permission !== 'actions: read, contents: write' ||
 	  autonomousCadence.commandPlan?.operate !== 'npm run autonomous:operate' ||
 	  autonomousCadence.commandPlan?.executeOneLocalAction !== 'npm run autonomous:operator -- --execute' ||
 	  autonomousCadence.commandPlan?.afterAction !== 'npm run autonomous:after-action' ||
@@ -3131,7 +3134,13 @@ if (
   autonomousSelfUpdate.privacy?.localEventRollupsOnly !== true ||
   autonomousSelfUpdate.privacy?.blockedRawEventDropPrefix !== 'data/player-events/' ||
   !(autonomousSelfUpdate.checks ?? []).every((check) => check.status === 'pass') ||
+  !selfUpdateWorkflow.includes("workflows: ['Autonomous Daily Studio']") ||
+  !selfUpdateWorkflow.includes('Wait for post-deploy evidence sync') ||
+  !selfUpdateWorkflow.includes('Post-Deploy Evidence Sync') ||
+  !selfUpdateWorkflow.includes('gh run list') ||
+  !selfUpdateWorkflow.includes('git pull --ff-only origin') ||
   !selfUpdateWorkflow.includes("vars.AGL_AUTONOMOUS_SELF_UPDATE == '1'") ||
+  !selfUpdateWorkflow.includes('actions: read') ||
   !selfUpdateWorkflow.includes('contents: write') ||
   !selfUpdateWorkflow.includes('npm run autonomous:operate') ||
   !selfUpdateWorkflow.includes('npm run autonomous:self-update -- --assert-safe') ||
@@ -3573,6 +3582,9 @@ if (
   autonomousCadence.schedulers?.githubActions?.artifactUpload !== true ||
   autonomousCadence.schedulers?.githubSelfUpdate?.status !== 'gated' ||
   autonomousCadence.schedulers?.githubSelfUpdate?.workflow !== '.github/workflows/autonomous-self-update.yml' ||
+  autonomousCadence.schedulers?.githubSelfUpdate?.trigger !==
+    'workflow_run: Autonomous Daily Studio; waits for Post-Deploy Evidence Sync' ||
+  autonomousCadence.schedulers?.githubSelfUpdate?.permission !== 'actions: read, contents: write' ||
   autonomousCadence.schedulers?.githubPostSelfUpdateDeploy?.status !== 'scheduled' ||
   autonomousCadence.schedulers?.githubPostSelfUpdateDeploy?.workflow !== '.github/workflows/web-pwa-deploy.yml' ||
   autonomousCadence.schedulers?.githubPostSelfUpdateDeploy?.trigger !==

@@ -230,9 +230,13 @@ const checks = [
     id: 'self-update-workflow',
     status:
       selfUpdateWorkflowExists &&
-      selfUpdateWorkflow.includes("workflows: ['Post-Deploy Evidence Sync']") &&
+      selfUpdateWorkflow.includes("workflows: ['Autonomous Daily Studio']") &&
+      selfUpdateWorkflow.includes('Wait for post-deploy evidence sync') &&
+      selfUpdateWorkflow.includes('Post-Deploy Evidence Sync') &&
+      selfUpdateWorkflow.includes('gh run list') &&
       selfUpdateWorkflow.includes('git pull --ff-only origin') &&
       selfUpdateWorkflow.includes("vars.AGL_AUTONOMOUS_SELF_UPDATE == '1'") &&
+      selfUpdateWorkflow.includes('actions: read') &&
       selfUpdateWorkflow.includes('contents: write') &&
       selfUpdateWorkflow.includes('npm run autonomous:operate') &&
       selfUpdateWorkflow.includes('npm run autonomous:self-update -- --assert-safe') &&
@@ -245,7 +249,7 @@ const checks = [
         ? 'pass'
         : 'blocker',
     detail:
-      'A separate gated workflow runs after post-deploy evidence sync, refreshes main, verifies with production env, and persists allowlisted changes.',
+      'A separate gated workflow starts from the daily run, waits for matching post-deploy evidence sync, refreshes main, verifies with production env, and persists allowlisted changes.',
   },
   {
     id: 'post-self-update-deploy',

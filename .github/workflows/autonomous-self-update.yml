@@ -2,11 +2,12 @@ name: Autonomous Self Update
 
 on:
   workflow_run:
-    workflows: ['Post-Deploy Evidence Sync']
+    workflows: ['Autonomous Daily Studio']
     types: [completed]
   workflow_dispatch:
 
 permissions:
+  actions: read
   contents: write
 
 concurrency:
@@ -26,6 +27,33 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+
+      - name: Wait for post-deploy evidence sync
+        if: ${{ github.event_name == 'workflow_run' }}
+        env:
+          EXPECTED_HEAD_SHA: ${{ github.event.workflow_run.head_sha }}
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          deadline=$((SECONDS + 900))
+          while (( SECONDS < deadline )); do
+            sync_run_id="$(
+              gh run list \
+                --workflow "Post-Deploy Evidence Sync" \
+                --branch "${GITHUB_REF_NAME:-main}" \
+                --json databaseId,headSha,status,conclusion \
+                --limit 30 \
+                --jq ".[] | select(.headSha == \"${EXPECTED_HEAD_SHA}\" and .status == \"completed\" and .conclusion == \"success\") | .databaseId" \
+                | head -n 1
+            )"
+            if [[ -n "${sync_run_id}" ]]; then
+              echo "post-deploy evidence sync ready: ${sync_run_id}"
+              exit 0
+            fi
+            sleep 10
+          done
+
+          echo "timed out waiting for post-deploy evidence sync for ${EXPECTED_HEAD_SHA}" >&2
+          exit 1
 
       - name: Refresh default branch
         run: git pull --ff-only origin "${GITHUB_REF_NAME:-main}"

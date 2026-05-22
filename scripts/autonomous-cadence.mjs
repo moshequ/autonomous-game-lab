@@ -636,9 +636,13 @@ const checks = [
     id: 'github-self-update-workflow',
     status:
       selfUpdateWorkflowExists &&
-      selfUpdateWorkflow.includes("workflows: ['Post-Deploy Evidence Sync']") &&
+      selfUpdateWorkflow.includes("workflows: ['Autonomous Daily Studio']") &&
+      selfUpdateWorkflow.includes('Wait for post-deploy evidence sync') &&
+      selfUpdateWorkflow.includes('Post-Deploy Evidence Sync') &&
+      selfUpdateWorkflow.includes('gh run list') &&
       selfUpdateWorkflow.includes('git pull --ff-only origin') &&
       selfUpdateWorkflow.includes("vars.AGL_AUTONOMOUS_SELF_UPDATE == '1'") &&
+      selfUpdateWorkflow.includes('actions: read') &&
       selfUpdateWorkflow.includes('contents: write') &&
       selfUpdateWorkflow.includes('npm run autonomous:self-update -- --assert-safe') &&
       selfUpdateWorkflow.includes('GITHUB_TOKEN: ${{ github.token }}') &&
@@ -650,7 +654,7 @@ const checks = [
         ? 'pass'
         : 'blocker',
     detail: selfUpdateWorkflowExists
-      ? 'Gated GitHub workflow can persist allowlisted verified generated changes after post-deploy evidence sync with production env and workflow token evidence when explicitly enabled.'
+      ? 'Gated GitHub workflow can persist allowlisted verified generated changes after daily runs once matching post-deploy evidence sync is complete, with production env and workflow token evidence when explicitly enabled.'
       : 'Autonomous self-update GitHub workflow is missing.',
   },
   {
@@ -855,8 +859,8 @@ const payload = {
           ? 'gated'
           : 'missing',
       workflow: '.github/workflows/autonomous-self-update.yml',
-      trigger: 'workflow_run: Post-Deploy Evidence Sync',
-      permission: 'contents: write',
+      trigger: 'workflow_run: Autonomous Daily Studio; waits for Post-Deploy Evidence Sync',
+      permission: 'actions: read, contents: write',
       enabledByRepositoryVariable: 'AGL_AUTONOMOUS_SELF_UPDATE=1',
       directPushRequiresRepositoryVariable: 'AGL_AUTONOMOUS_SELF_UPDATE_DIRECT=1',
       followedByDeployWorkflow: '.github/workflows/web-pwa-deploy.yml',
