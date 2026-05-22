@@ -1,16 +1,16 @@
 # Post-Deploy Smoke
 
-Generated: 2026-05-22T03:12:08.582Z
+Generated: 2026-05-22T03:14:37.230Z
 Status: post-deploy-smoke-observed-live
 Origin: https://moshequ.github.io/autonomous-game-lab
 Origin source: release-candidate-public-origin
-Candidate: pwa-b31c88c46a56
-Live candidate: pwa-1dcb136da645
+Candidate: pwa-10808f077874
+Live candidate: pwa-0c830fbb2463
 
 ## Summary
 
-- Planned: 17
-- Passed: 17
+- Planned: 19
+- Passed: 19
 - Failed: 0
 - Blocked: 0
 
@@ -55,6 +55,8 @@ Checks: 19/19 passed
 - pass: well-known-assetlinks-json - https://moshequ.github.io/autonomous-game-lab/.well-known/assetlinks.json - Live URL matched status and required text.
 - pass: gate-sample-html - https://moshequ.github.io/autonomous-game-lab/gate-sample.html - Live URL matched status and required text.
 - pass: seed-kit-html - https://moshequ.github.io/autonomous-game-lab/seed-kit.html - Live URL matched status and required text.
+- pass: seed-next-html - https://moshequ.github.io/autonomous-game-lab/seed-next.html - Live URL matched status and required text.
+- pass: seed-next-json - https://moshequ.github.io/autonomous-game-lab/seed-next.json - Live URL matched status and required text.
 - pass: sitemap-xml - https://moshequ.github.io/autonomous-game-lab/sitemap.xml - Live URL matched status and required text.
 - pass: games-foundry-ledger-html - https://moshequ.github.io/autonomous-game-lab/games/foundry-ledger.html - Live URL matched status and required text.
 - pass: release-candidate-manifest - https://moshequ.github.io/autonomous-game-lab/release-candidate.json - Live release manifest is reachable; it does not match the current local release candidate.
@@ -73,5 +75,5 @@ Checks: 19/19 passed
 
 ## Next Actions
 
-- Live Pages is reachable and serving pwa-1dcb136da645; run the deploy workflow for strict proof of the current local candidate if needed.
+- Live Pages is reachable and serving pwa-0c830fbb2463; run the deploy workflow for strict proof of the current local candidate if needed.
 - Keep revenue, paid acquisition, and app-store submission disabled until product and credential gates pass.
