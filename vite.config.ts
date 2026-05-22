@@ -117,6 +117,26 @@ const inferredProductionBasePath = () => {
 const basePathFor = ({ command }: ConfigEnv) =>
   optionalBasePath(process.env.VITE_BASE_PATH) ?? (command === 'build' ? inferredProductionBasePath() : '/')
 
+const operationalFreshnessAssets = [
+  'measurement-status.html',
+  'measurement-status.json',
+  'release-candidate.json',
+  'sample-next.html',
+  'sample-next.json',
+  'seed-next.html',
+  'seed-next.json',
+  'seed-kit.html',
+  'gate-sample.html',
+  'share-manifest.json',
+  'privacy.html',
+  'support.html',
+  'install.html',
+  '.well-known/assetlinks.json',
+]
+
+const operationalFreshnessRoute =
+  /\/(?:measurement-status\.html|measurement-status\.json|release-candidate\.json|sample-next\.html|sample-next\.json|seed-next\.html|seed-next\.json|seed-kit\.html|gate-sample\.html|share-manifest\.json|privacy\.html|support\.html|install\.html|\.well-known\/assetlinks\.json)(?:\?.*)?$/
+
 export default defineConfig((env) => {
   const normalizedBase = basePathFor(env)
 
@@ -178,6 +198,25 @@ export default defineConfig((env) => {
         },
         workbox: {
           globPatterns: ['**/*.{js,css,html,svg,png,webp,woff2}'],
+          globIgnores: operationalFreshnessAssets,
+          navigateFallbackDenylist: [operationalFreshnessRoute],
+          runtimeCaching: [
+            {
+              urlPattern: operationalFreshnessRoute,
+              handler: 'NetworkFirst',
+              options: {
+                cacheName: 'operational-evidence',
+                networkTimeoutSeconds: 3,
+                cacheableResponse: {
+                  statuses: [0, 200],
+                },
+                expiration: {
+                  maxEntries: operationalFreshnessAssets.length,
+                  maxAgeSeconds: 60 * 60,
+                },
+              },
+            },
+          ],
         },
       }),
     ],

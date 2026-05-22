@@ -427,6 +427,7 @@ const gameCanvasSource = await readFile(path.join(root, 'src', 'components', 'Ga
 const harborRingsSource = await readFile(path.join(root, 'src', 'game', 'HarborRingsScene.ts'), 'utf8')
 const generatedPuzzleSource = await readFile(path.join(root, 'src', 'game', 'GeneratedPuzzleScene.ts'), 'utf8')
 const distIndexHtml = await readFile(path.join(root, 'dist', 'index.html'), 'utf8')
+const distServiceWorker = await readFile(path.join(root, 'dist', 'sw.js'), 'utf8')
 const distReleaseCandidate = JSON.parse(await readFile(path.join(root, 'dist', 'release-candidate.json'), 'utf8'))
 const analyticsLibSource = await readFile(path.join(root, 'src', 'lib', 'analytics.ts'), 'utf8')
 const aggregateEvidenceIssueSource = await readFile(path.join(root, 'src', 'lib', 'aggregateEvidenceIssue.ts'), 'utf8')
@@ -5490,6 +5491,37 @@ const releaseCandidateRequiredFiles = new Set(
     .filter((check) => check.status === 'pass')
     .map((check) => check.path),
 )
+const operationalFreshnessAssets = [
+  'measurement-status.html',
+  'measurement-status.json',
+  'release-candidate.json',
+  'sample-next.html',
+  'sample-next.json',
+  'seed-next.html',
+  'seed-next.json',
+  'seed-kit.html',
+  'gate-sample.html',
+  'share-manifest.json',
+  'privacy.html',
+  'support.html',
+  'install.html',
+  '.well-known/assetlinks.json',
+]
+const htmlOperationalFreshnessAssets = operationalFreshnessAssets.filter((asset) => asset.endsWith('.html'))
+
+if (
+  !viteConfig.includes('operationalFreshnessAssets') ||
+  !viteConfig.includes('navigateFallbackDenylist') ||
+  !viteConfig.includes('runtimeCaching') ||
+  !viteConfig.includes("handler: 'NetworkFirst'") ||
+  !viteConfig.includes("cacheName: 'operational-evidence'") ||
+  !operationalFreshnessAssets.every((asset) => viteConfig.includes(`'${asset}'`)) ||
+  !distServiceWorker.includes('operational-evidence') ||
+  !distServiceWorker.includes('NetworkFirst') ||
+  !htmlOperationalFreshnessAssets.every((asset) => !distServiceWorker.includes(`{url:"${asset}"`))
+) {
+  fail('PWA service worker must keep operational evidence and compliance endpoints network-fresh instead of app-shell precached.')
+}
 
 if (
   releaseCandidate.status !== 'release-candidate-ready' ||

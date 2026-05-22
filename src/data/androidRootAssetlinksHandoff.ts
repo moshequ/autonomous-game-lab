@@ -1,5 +1,5 @@
 export const androidRootAssetlinksHandoff = {
-  "generatedAt": "2026-05-22T11:01:16.498Z",
+  "generatedAt": "2026-05-22T22:53:25.862Z",
   "status": "root-assetlinks-live",
   "target": {
     "repository": "moshequ/moshequ.github.io"

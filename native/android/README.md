@@ -1,6 +1,6 @@
 # Android TWA Handoff
 
-Generated: 2026-05-22T11:01:15.541Z
+Generated: 2026-05-22T22:53:24.875Z
 Status: ready-for-bubblewrap-build
 Public origin: https://moshequ.github.io/autonomous-game-lab
 Base path: /autonomous-game-lab/

@@ -1444,6 +1444,38 @@ test('release candidate records the exact deployable PWA artifact', async () => 
   }
 })
 
+test('PWA service worker keeps operational evidence endpoints fresh', async () => {
+  const operationalFreshnessAssets = [
+    'measurement-status.html',
+    'measurement-status.json',
+    'release-candidate.json',
+    'sample-next.html',
+    'sample-next.json',
+    'seed-next.html',
+    'seed-next.json',
+    'seed-kit.html',
+    'gate-sample.html',
+    'share-manifest.json',
+    'privacy.html',
+    'support.html',
+    'install.html',
+    '.well-known/assetlinks.json',
+  ]
+  const htmlOperationalAssets = operationalFreshnessAssets.filter((asset) => asset.endsWith('.html'))
+  const viteConfig = await readFile('vite.config.ts', 'utf8')
+  const serviceWorker = await readFile('dist/sw.js', 'utf8')
+
+  expect(viteConfig).toContain('operationalFreshnessAssets')
+  expect(viteConfig).toContain('navigateFallbackDenylist')
+  expect(viteConfig).toContain('runtimeCaching')
+  expect(viteConfig).toContain("handler: 'NetworkFirst'")
+  expect(viteConfig).toContain("cacheName: 'operational-evidence'")
+  expect(operationalFreshnessAssets.every((asset) => viteConfig.includes(`'${asset}'`))).toBe(true)
+  expect(serviceWorker).toContain('operational-evidence')
+  expect(serviceWorker).toContain('NetworkFirst')
+  expect(htmlOperationalAssets.every((asset) => !serviceWorker.includes(`{url:"${asset}"`))).toBe(true)
+})
+
 test('post-deploy smoke runner is wired to the release manifest and Pages workflow', async () => {
   const smoke = JSON.parse(await readFile('data/post-deploy-smoke.json', 'utf8')) as {
     status: string
