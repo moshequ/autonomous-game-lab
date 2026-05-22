@@ -54,6 +54,7 @@ const requiredFiles = [
   'data/production-activation.json',
   'data/production-blocker-handoff.json',
   'data/production-unlock-runner.json',
+  'data/production-measurement-status.json',
   'data/autonomous-operator.json',
   'data/autonomous-operator-history.json',
   'data/autonomous-cadence.json',
@@ -107,6 +108,7 @@ const requiredFiles = [
   'src/data/productionActivation.ts',
   'src/data/productionBlockerHandoff.ts',
   'src/data/productionUnlockRunner.ts',
+  'src/data/productionMeasurementStatus.ts',
   'src/data/autonomousOperator.ts',
   'src/data/autonomousOperatorHistory.ts',
   'src/data/autonomousCadence.ts',
@@ -165,6 +167,7 @@ const requiredFiles = [
   'reports/production-activation-latest.md',
   'reports/production-blocker-handoff-latest.md',
   'reports/production-unlock-runner-latest.md',
+  'reports/production-measurement-status-latest.md',
   'reports/autonomous-operator-latest.md',
   'reports/autonomous-operator-history-latest.md',
   'reports/autonomous-cadence-latest.md',
@@ -227,6 +230,8 @@ const requiredFiles = [
   'public/icons/apple-touch-icon.png',
   'public/icons/store-icon-1024.png',
   'public/gate-sample.html',
+  'public/measurement-status.html',
+  'public/measurement-status.json',
   'public/install.html',
   'public/robots.txt',
   'public/seed-kit.html',
@@ -316,6 +321,9 @@ const productionBlockerHandoff = JSON.parse(
 const productionUnlockRunner = JSON.parse(
   await readFile(path.join(root, 'data', 'production-unlock-runner.json'), 'utf8'),
 )
+const productionMeasurementStatus = JSON.parse(
+  await readFile(path.join(root, 'data', 'production-measurement-status.json'), 'utf8'),
+)
 const autonomousOperator = JSON.parse(await readFile(path.join(root, 'data', 'autonomous-operator.json'), 'utf8'))
 const autonomousOperatorHistory = JSON.parse(
   await readFile(path.join(root, 'data', 'autonomous-operator-history.json'), 'utf8'),
@@ -372,6 +380,8 @@ const iosAppStoreHandoff = JSON.parse(await readFile(path.join(root, 'native', '
 const iosReadme = await readFile(path.join(root, 'native', 'ios', 'README.md'), 'utf8')
 const shareManifest = JSON.parse(await readFile(path.join(root, 'public', 'share-manifest.json'), 'utf8'))
 const gateSampleHtml = await readFile(path.join(root, 'public', 'gate-sample.html'), 'utf8')
+const measurementStatusHtml = await readFile(path.join(root, 'public', 'measurement-status.html'), 'utf8')
+const publicMeasurementStatus = JSON.parse(await readFile(path.join(root, 'public', 'measurement-status.json'), 'utf8'))
 const installHtml = await readFile(path.join(root, 'public', 'install.html'), 'utf8')
 const seedKitHtml = await readFile(path.join(root, 'public', 'seed-kit.html'), 'utf8')
 const supportHtml = await readFile(path.join(root, 'public', 'support.html'), 'utf8')
@@ -390,6 +400,10 @@ const envLoaderSource = await readFile(path.join(root, 'scripts', 'lib', 'env-lo
 const productionEnvironmentSource = await readFile(path.join(root, 'scripts', 'production-environment.mjs'), 'utf8')
 const supportChannelSource = await readFile(path.join(root, 'scripts', 'support-channel.mjs'), 'utf8')
 const supportFeedbackSource = await readFile(path.join(root, 'scripts', 'support-feedback-ingestor.mjs'), 'utf8')
+const productionMeasurementStatusSource = await readFile(
+  path.join(root, 'scripts', 'production-measurement-status.mjs'),
+  'utf8',
+)
 const analyticsEvidenceTemplateSource = await readFile(
   path.join(root, '.github', 'ISSUE_TEMPLATE', 'analytics-evidence.yml'),
   'utf8',
@@ -538,6 +552,54 @@ if (
   improvementRouting.supportFeedbackStatus !== supportFeedback.status
 ) {
   fail('Support feedback must ingest public GitHub issue intake as read-only, redacted, zero-spend improvement evidence.')
+}
+
+const publicEvidenceHandoff = productionMeasurementStatus.publicEvidenceHandoff ?? {}
+const publicEvidenceControls = publicEvidenceHandoff.controls ?? {}
+
+if (
+  ![
+    'production-measurement-local-intake-ready',
+    'production-measurement-browser-ready',
+    'production-measurement-configured',
+  ].includes(productionMeasurementStatus.status) ||
+  productionMeasurementStatus.analytics?.localEvidence?.aggregateEvidenceNotes !==
+    (supportFeedback.summary?.aggregateEvidenceNotes ?? 0) ||
+  productionMeasurementStatus.analytics?.localEvidence?.aggregateEvidenceStarts !==
+    (supportFeedback.summary?.aggregateStarts ?? 0) ||
+  productionMeasurementStatus.analytics?.localEvidence?.aggregateEvidenceCompletions !==
+    (supportFeedback.summary?.aggregateCompletions ?? 0) ||
+  productionMeasurementStatus.productGateEvidence?.supportingAggregateEvidenceNotes !==
+    (productGateSamplePlan.summary?.supportingAggregateEvidenceNotes ?? 0) ||
+  !['aggregate-evidence-ready-for-review', 'awaiting-player-initiated-aggregate-notes'].includes(
+    publicEvidenceHandoff.status,
+  ) ||
+  publicEvidenceHandoff.source !== 'support-feedback-public-issues' ||
+  publicEvidenceHandoff.supportFeedbackStatus !== supportFeedback.status ||
+  publicEvidenceHandoff.aggregateEvidence?.notes !== (supportFeedback.summary?.aggregateEvidenceNotes ?? 0) ||
+  publicEvidenceHandoff.aggregateEvidence?.campaigns !==
+    (supportFeedback.summary?.aggregateEvidenceCampaigns ?? 0) ||
+  publicEvidenceHandoff.productGateMissions?.supportingAggregateEvidenceNotes !==
+    (productGateSamplePlan.summary?.supportingAggregateEvidenceNotes ?? 0) ||
+  publicEvidenceControls.aggregateEvidenceDoesNotPassGates !== true ||
+  publicEvidenceControls.manualReviewRequiredForGateDecisions !== true ||
+  publicEvidenceControls.noRawEventsStored !== true ||
+  publicEvidenceControls.publicAggregateOnly !== true ||
+  publicEvidenceControls.playerInitiatedOnly !== true ||
+  publicEvidenceControls.zeroPaidSpend !== true ||
+  publicEvidenceControls.noAutomaticPublicUpload !== true ||
+  publicEvidenceControls.noRevenueEnablement !== true ||
+  productionMeasurementStatus.controls?.aggregateEvidenceDoesNotPassGates !== true ||
+  productionMeasurementStatus.controls?.manualReviewRequiredForGateDecisions !== true ||
+  JSON.stringify(publicMeasurementStatus.publicEvidenceHandoff) !== JSON.stringify(publicEvidenceHandoff) ||
+  !measurementStatusHtml.includes('Public Aggregate Evidence') ||
+  !measurementStatusHtml.includes('does not pass gates') ||
+  !appSource.includes('Production Measurement') ||
+  !productionMeasurementStatusSource.includes('publicEvidenceHandoff') ||
+  !productionMeasurementStatusSource.includes('aggregateEvidenceDoesNotPassGates') ||
+  !productionMeasurementStatusSource.includes('manualReviewRequiredForGateDecisions')
+) {
+  fail('Production measurement status must publish a public aggregate-evidence handoff with gate-safe controls.')
 }
 
 if (!trend.signals?.mechanics?.length) {

@@ -43,6 +43,7 @@ import { promotionDecision } from './data/promotionDecision'
 import { prototypePipeline } from './data/prototypePipeline'
 import { productionResponse } from './data/productionResponse'
 import { productionEnvironment } from './data/productionEnvironment'
+import { productionMeasurementStatus } from './data/productionMeasurementStatus'
 import { productionBootstrap } from './data/productionBootstrap'
 import { productionBlockerHandoff } from './data/productionBlockerHandoff'
 import { productionActivation } from './data/productionActivation'
@@ -1009,6 +1010,18 @@ function App() {
   const supportChannelReady = supportChannelStatus === 'support-channel-ready'
   const supportFeedbackTopSignal = (supportFeedback.topSignals as readonly { label: string }[])[0]
   const supportFeedbackAggregateEvidence = supportFeedback.aggregateEvidence
+  const productionMeasurementPublicHandoff = (
+    productionMeasurementStatus as {
+      publicEvidenceHandoff?: {
+        status: string
+        aggregateEvidence: { notes: number; starts: number; completions: number }
+        controls: {
+          aggregateEvidenceDoesNotPassGates: boolean
+          manualReviewRequiredForGateDecisions: boolean
+        }
+      }
+    }
+  ).publicEvidenceHandoff
   const liveSiteMonitorOrigin = liveSiteMonitor.origin.origin ?? 'missing'
   const operatorSelectedAction = autonomousOperator.selectedAction as { id: string } | null
   const operatorHistorySummary = autonomousOperatorHistory.summary
@@ -3236,6 +3249,32 @@ function App() {
                 <div>
                   <span>Top signal</span>
                   <strong>{supportFeedbackTopSignal?.label ?? 'collecting'}</strong>
+                </div>
+              </div>
+              <div className="monetizationRuntime" aria-label="Production Measurement">
+                <div>
+                  <span>Production Measurement</span>
+                  <strong>{productionMeasurementStatus.status}</strong>
+                </div>
+                <div>
+                  <span>Active path</span>
+                  <strong>{productionMeasurementStatus.activePath}</strong>
+                </div>
+                <div>
+                  <span>Public handoff</span>
+                  <strong>{productionMeasurementPublicHandoff?.status ?? 'collecting'}</strong>
+                </div>
+                <div>
+                  <span>Aggregate notes</span>
+                  <strong>{productionMeasurementPublicHandoff?.aggregateEvidence.notes ?? 0}</strong>
+                </div>
+                <div>
+                  <span>Gate safety</span>
+                  <strong>
+                    {productionMeasurementPublicHandoff?.controls.aggregateEvidenceDoesNotPassGates
+                      ? 'support only'
+                      : 'review'}
+                  </strong>
                 </div>
               </div>
               <div className="monetizationRuntime" aria-label="Repository Channel">

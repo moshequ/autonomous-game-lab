@@ -76,6 +76,159 @@ const nextAction = browserForwardingConfigured
   : localEvidenceReady
     ? 'Use the player-initiated local evidence route until PostHog or the first-party collector is configured.'
     : 'Repair the support or local event bridge route before relying on production evidence.'
+const numberOrZero = (value) => (typeof value === 'number' && Number.isFinite(value) ? value : 0)
+const aggregateEvidenceNotes = Array.isArray(supportFeedback.aggregateEvidenceNotes)
+  ? supportFeedback.aggregateEvidenceNotes
+  : []
+const aggregateEvidenceSummary = supportFeedback.summary ?? {}
+const supportingAggregateEvidenceNotes = numberOrZero(productGateSamplePlan.summary?.supportingAggregateEvidenceNotes)
+const aggregateEvidenceIssueUrl = supportChannel.links?.analyticsEvidenceUrl ?? null
+const aggregateEvidencePrivacyControls = {
+  aggregateEvidenceDoesNotPassGates: true,
+  manualReviewRequiredForGateDecisions: true,
+  noRawEventsStored: true,
+  noRawEventRowsAccepted: supportFeedback.controls?.noRawEventRowsAccepted === true,
+  noAttachmentsDownloaded: supportFeedback.controls?.noAttachmentsDownloaded === true,
+  publicAggregateOnly: true,
+  playerInitiatedOnly: true,
+  zeroPaidSpend: true,
+  noAutomaticPublicUpload: true,
+  noRevenueEnablement: true,
+}
+const sumAggregateField = (notes, field) =>
+  notes.reduce((sum, note) => sum + (typeof note.counts?.[field] === 'number' ? note.counts[field] : 0), 0)
+const summarizeAggregateNote = (note) => ({
+  number: note.number ?? null,
+  status: note.status ?? 'unknown',
+  url: note.url ?? null,
+  gameId: note.gameId ?? null,
+  gameTitle: note.gameTitle ?? null,
+  gateId: note.gateId ?? null,
+  campaignId: note.campaignId ?? null,
+  evidenceWindow: note.evidenceWindow ?? null,
+  summary: note.summary ?? null,
+  counts: {
+    starts: numberOrZero(note.counts?.starts),
+    completions: numberOrZero(note.counts?.completions),
+    replays: numberOrZero(note.counts?.replays),
+    d1Eligible: numberOrZero(note.counts?.d1Eligible),
+    d1Retained: numberOrZero(note.counts?.d1Retained),
+  },
+  rates: {
+    completionRate: typeof note.rates?.completionRate === 'number' ? note.rates.completionRate : null,
+    replayRate: typeof note.rates?.replayRate === 'number' ? note.rates.replayRate : null,
+    d1RetentionRate: typeof note.rates?.d1RetentionRate === 'number' ? note.rates.d1RetentionRate : null,
+  },
+  privacy: {
+    publicAggregateOnly: note.privacy?.publicAggregateOnly === true,
+    rawEventsAccepted: note.privacy?.rawEventsAccepted === true,
+    rawEventRowsStored: note.privacy?.rawEventRowsStored === true,
+    attachmentsDownloaded: note.privacy?.attachmentsDownloaded === true,
+  },
+})
+const aggregateEvidenceCampaigns = [
+  ...aggregateEvidenceNotes.reduce((groups, note) => {
+    const campaignId = note.campaignId ?? 'unassigned-campaign'
+    const existing = groups.get(campaignId) ?? {
+      campaignId,
+      noteCount: 0,
+      gameIds: new Set(),
+      gateIds: new Set(),
+      starts: 0,
+      completions: 0,
+      replays: 0,
+      d1Eligible: 0,
+      d1Retained: 0,
+      topIssues: [],
+    }
+
+    existing.noteCount += 1
+    existing.starts += numberOrZero(note.counts?.starts)
+    existing.completions += numberOrZero(note.counts?.completions)
+    existing.replays += numberOrZero(note.counts?.replays)
+    existing.d1Eligible += numberOrZero(note.counts?.d1Eligible)
+    existing.d1Retained += numberOrZero(note.counts?.d1Retained)
+    if (note.gameId) {
+      existing.gameIds.add(note.gameId)
+    }
+    if (note.gateId) {
+      existing.gateIds.add(note.gateId)
+    }
+    if (existing.topIssues.length < 3) {
+      existing.topIssues.push({ number: note.number ?? null, url: note.url ?? null, status: note.status ?? 'unknown' })
+    }
+    groups.set(campaignId, existing)
+
+    return groups
+  }, new Map()).values(),
+]
+  .map((campaign) => ({
+    ...campaign,
+    gameIds: [...campaign.gameIds],
+    gateIds: [...campaign.gateIds],
+  }))
+  .sort((left, right) => right.noteCount - left.noteCount || right.starts - left.starts)
+const aggregateEvidenceMissions = (productGateSamplePlan.missions ?? [])
+  .map((mission) => {
+    const evidence = mission.supportingAggregateEvidence ?? {}
+
+    return {
+      id: mission.id,
+      title: mission.title,
+      gateId: mission.gateId,
+      gameId: mission.gameId,
+      campaignId: mission.campaignId,
+      evidenceStatus: mission.evidence?.status ?? 'waiting',
+      aggregateEvidenceStatus: evidence.status ?? 'none',
+      matchScope: evidence.matchScope ?? 'none',
+      noteCount: numberOrZero(evidence.noteCount),
+      starts: numberOrZero(evidence.starts),
+      completions: numberOrZero(evidence.completions),
+      replays: numberOrZero(evidence.replays),
+      d1Eligible: numberOrZero(evidence.d1Eligible),
+      d1Retained: numberOrZero(evidence.d1Retained),
+      gateDecisionEligible: evidence.gateDecisionEligible === true,
+      manualReviewRequired: evidence.manualReviewRequired !== false,
+      topIssues: Array.isArray(evidence.topIssues) ? evidence.topIssues.slice(0, 3) : [],
+    }
+  })
+  .filter((mission) => mission.noteCount > 0)
+  .sort((left, right) => right.noteCount - left.noteCount || right.starts - left.starts)
+const publicEvidenceHandoffStatus = aggregateEvidenceNotes.length
+  ? 'aggregate-evidence-ready-for-review'
+  : supportReady
+    ? 'awaiting-player-initiated-aggregate-notes'
+    : 'aggregate-evidence-channel-blocked'
+const publicEvidenceHandoff = {
+  status: publicEvidenceHandoffStatus,
+  source: 'support-feedback-public-issues',
+  supportFeedbackStatus: supportFeedback.status,
+  analyticsEvidenceIssue: aggregateEvidenceIssueUrl,
+  aggregateEvidence: {
+    notes: aggregateEvidenceNotes.length,
+    games: numberOrZero(aggregateEvidenceSummary.aggregateEvidenceGames),
+    campaigns: numberOrZero(aggregateEvidenceSummary.aggregateEvidenceCampaigns),
+    starts: numberOrZero(aggregateEvidenceSummary.aggregateStarts),
+    completions: numberOrZero(aggregateEvidenceSummary.aggregateCompletions),
+    replays: numberOrZero(aggregateEvidenceSummary.aggregateReplays),
+    d1Eligible: numberOrZero(aggregateEvidenceSummary.aggregateD1Eligible),
+    d1Retained: numberOrZero(aggregateEvidenceSummary.aggregateD1Retained),
+    topNotes: aggregateEvidenceNotes.slice(0, 5).map(summarizeAggregateNote),
+  },
+  campaignEvidence: aggregateEvidenceCampaigns.slice(0, 5),
+  productGateMissions: {
+    supportingAggregateEvidenceNotes,
+    missionsWithAggregateEvidence: aggregateEvidenceMissions.length,
+    topMissions: aggregateEvidenceMissions.slice(0, 5),
+  },
+  controls: aggregateEvidencePrivacyControls,
+  nextActions: [
+    aggregateEvidenceNotes.length
+      ? 'Review public aggregate evidence as supporting diagnosis, then collect real event drops or configure production analytics before gate decisions.'
+      : 'Invite players to use Share evidence after a gate-sample play session so public aggregate evidence can be reviewed without raw events.',
+    'Do not pass product gates, enable revenue, or submit stores from public aggregate notes alone.',
+  ],
+}
 
 const sourceDataHash = hashSourceData({
   productionEnvironment,
@@ -124,6 +277,9 @@ const payload = {
       importedEvents: localEventBridge.imported?.events ?? 0,
       supportStatus: supportChannel.status,
       aggregateEvidenceNotes: supportFeedback.summary?.aggregateEvidenceNotes ?? 0,
+      aggregateEvidenceStarts: publicEvidenceHandoff.aggregateEvidence.starts,
+      aggregateEvidenceCompletions: publicEvidenceHandoff.aggregateEvidence.completions,
+      aggregateEvidenceReplays: publicEvidenceHandoff.aggregateEvidence.replays,
     },
   },
   productGateEvidence: {
@@ -141,7 +297,10 @@ const payload = {
       : null,
     missionCount: productGateSamplePlan.missions?.length ?? 0,
     fastestGateId: productGateSamplePlan.summary?.fastestGateId ?? null,
+    supportingAggregateEvidenceNotes,
+    aggregateEvidenceMissionCount: aggregateEvidenceMissions.length,
   },
+  publicEvidenceHandoff,
   publicRoutes: {
     statusPage: '/measurement-status.html',
     statusJson: '/measurement-status.json',
@@ -184,12 +343,15 @@ const payload = {
     noRawAnalyticsRows: true,
     aggregateOnlyEvidence: true,
     playerInitiatedExportsOnly: true,
+    aggregateEvidenceDoesNotPassGates: true,
+    manualReviewRequiredForGateDecisions: true,
     noAutomaticPublicUpload: true,
     noStoreSubmission: true,
     noRevenueEnablement: true,
   },
   nextActions: [
     nextAction,
+    ...publicEvidenceHandoff.nextActions,
     'Keep product gates blocked until real player evidence clears completion, replay, and D1 retention thresholds.',
   ],
 }
@@ -201,6 +363,7 @@ const appPayload = {
   liveCandidate: payload.liveCandidate,
   analytics: payload.analytics,
   productGateEvidence: payload.productGateEvidence,
+  publicEvidenceHandoff: payload.publicEvidenceHandoff,
   publicRoutes: payload.publicRoutes,
   blockers: payload.blockers,
   controls: payload.controls,
@@ -214,6 +377,7 @@ const publicPayload = {
   liveCandidate: payload.liveCandidate,
   analytics: payload.analytics,
   productGateEvidence: payload.productGateEvidence,
+  publicEvidenceHandoff: payload.publicEvidenceHandoff,
   publicRoutes: payload.publicRoutes,
   blockers: payload.blockers,
   controls: payload.controls,
@@ -390,6 +554,48 @@ const html = `<!doctype html>
             <span>Aggregate notes</span>
             <strong>${payload.analytics.localEvidence.aggregateEvidenceNotes}</strong>
           </div>
+          <div class="card">
+            <span>Aggregate mission matches</span>
+            <strong>${payload.productGateEvidence.aggregateEvidenceMissionCount}</strong>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2>Public Aggregate Evidence</h2>
+        <p>Player-initiated public issue notes are supporting diagnosis only. They help route what to investigate next, but they do not pass product gates, enable revenue, or replace production analytics.</p>
+        <div class="grid" aria-label="Public aggregate evidence">
+          <div class="card">
+            <span>Handoff</span>
+            <strong>${escapeHtml(payload.publicEvidenceHandoff.status)}</strong>
+          </div>
+          <div class="card">
+            <span>Aggregate starts</span>
+            <strong>${payload.publicEvidenceHandoff.aggregateEvidence.starts}</strong>
+          </div>
+          <div class="card">
+            <span>Aggregate completions</span>
+            <strong>${payload.publicEvidenceHandoff.aggregateEvidence.completions}</strong>
+          </div>
+          <div class="card">
+            <span>Gate safety</span>
+            <strong>${payload.publicEvidenceHandoff.controls.aggregateEvidenceDoesNotPassGates ? 'does not pass gates' : 'review'}</strong>
+          </div>
+        </div>
+        <ul>
+          ${
+            payload.publicEvidenceHandoff.aggregateEvidence.topNotes.length
+              ? payload.publicEvidenceHandoff.aggregateEvidence.topNotes
+                  .map(
+                    (note) =>
+                      `<li>#${escapeHtml(note.number)} ${escapeHtml(note.status)} ${escapeHtml(note.gameId ?? 'unmatched')} ${escapeHtml(note.campaignId ?? 'unassigned')}: ${escapeHtml(note.counts.starts)} start(s), ${escapeHtml(note.counts.completions)} completion(s)</li>`,
+                  )
+                  .join('\n          ')
+              : '<li>Awaiting player-initiated aggregate notes.</li>'
+          }
+        </ul>
+        <div class="actions">
+          <a href="${escapeHtml(payload.publicRoutes.analyticsEvidenceIssue ?? '/support.html')}">Open aggregate evidence issue</a>
         </div>
       </section>
 
@@ -400,6 +606,8 @@ const html = `<!doctype html>
           <li>No secret values: ${payload.controls.noSecretValues}</li>
           <li>No raw analytics rows: ${payload.controls.noRawAnalyticsRows}</li>
           <li>Player-initiated exports only: ${payload.controls.playerInitiatedExportsOnly}</li>
+          <li>Aggregate evidence does not pass gates: ${payload.controls.aggregateEvidenceDoesNotPassGates}</li>
+          <li>Manual review required for gate decisions: ${payload.controls.manualReviewRequiredForGateDecisions}</li>
           <li>No revenue enablement: ${payload.controls.noRevenueEnablement}</li>
         </ul>
       </section>
@@ -453,6 +661,9 @@ const report = [
   `- browser forwarding configured: ${payload.analytics.browserForwarding.configured}`,
   `- autonomous rollups configured: ${payload.analytics.autonomousRollups.configured}`,
   `- local evidence ready: ${payload.analytics.localEvidence.ready}`,
+  `- public aggregate handoff: ${payload.publicEvidenceHandoff.status}`,
+  `- aggregate evidence notes: ${payload.publicEvidenceHandoff.aggregateEvidence.notes}`,
+  `- supporting aggregate mission notes: ${payload.publicEvidenceHandoff.productGateMissions.supportingAggregateEvidenceNotes}`,
   '',
   '## Public Routes',
   '',

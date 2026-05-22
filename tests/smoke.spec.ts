@@ -6132,6 +6132,162 @@ test('support feedback ingests public issues as redacted improvement evidence', 
   await expect(page.getByLabel('Support Feedback')).toContainText(`${supportFeedback.summary.aggregateEvidenceNotes}`)
 })
 
+test('production measurement status publishes public aggregate evidence handoff', async ({ page }) => {
+  const supportFeedback = JSON.parse(await readFile('data/support-feedback.json', 'utf8')) as {
+    status: string
+    summary: {
+      aggregateEvidenceNotes: number
+      aggregateEvidenceGames: number
+      aggregateEvidenceCampaigns: number
+      aggregateStarts: number
+      aggregateCompletions: number
+      aggregateReplays: number
+    }
+  }
+  const samplePlan = JSON.parse(await readFile('data/product-gate-sample-plan.json', 'utf8')) as {
+    summary: { supportingAggregateEvidenceNotes: number }
+  }
+  const measurement = JSON.parse(await readFile('data/production-measurement-status.json', 'utf8')) as {
+    status: string
+    analytics: {
+      localEvidence: {
+        aggregateEvidenceNotes: number
+        aggregateEvidenceStarts: number
+        aggregateEvidenceCompletions: number
+        aggregateEvidenceReplays: number
+      }
+    }
+    productGateEvidence: {
+      supportingAggregateEvidenceNotes: number
+      aggregateEvidenceMissionCount: number
+    }
+    publicEvidenceHandoff: {
+      status: string
+      source: string
+      supportFeedbackStatus: string
+      analyticsEvidenceIssue: string | null
+      aggregateEvidence: {
+        notes: number
+        games: number
+        campaigns: number
+        starts: number
+        completions: number
+        replays: number
+        topNotes: Array<{
+          number: number | null
+          status: string
+          counts: { starts: number; completions: number; replays: number }
+          privacy: {
+            publicAggregateOnly: boolean
+            rawEventsAccepted: boolean
+            rawEventRowsStored: boolean
+            attachmentsDownloaded: boolean
+          }
+        }>
+      }
+      campaignEvidence: Array<{ noteCount: number; starts: number }>
+      productGateMissions: {
+        supportingAggregateEvidenceNotes: number
+        missionsWithAggregateEvidence: number
+        topMissions: Array<{
+          noteCount: number
+          gateDecisionEligible: boolean
+          manualReviewRequired: boolean
+        }>
+      }
+      controls: {
+        aggregateEvidenceDoesNotPassGates: boolean
+        manualReviewRequiredForGateDecisions: boolean
+        noRawEventsStored: boolean
+        publicAggregateOnly: boolean
+        playerInitiatedOnly: boolean
+        zeroPaidSpend: boolean
+        noAutomaticPublicUpload: boolean
+        noRevenueEnablement: boolean
+      }
+      nextActions: string[]
+    }
+    controls: {
+      aggregateEvidenceDoesNotPassGates: boolean
+      manualReviewRequiredForGateDecisions: boolean
+    }
+    nextActions: string[]
+  }
+  const publicMeasurement = JSON.parse(await readFile('public/measurement-status.json', 'utf8')) as typeof measurement
+  const html = await readFile('public/measurement-status.html', 'utf8')
+  const script = await readFile('scripts/production-measurement-status.mjs', 'utf8')
+
+  expect([
+    'production-measurement-local-intake-ready',
+    'production-measurement-browser-ready',
+    'production-measurement-configured',
+  ]).toContain(measurement.status)
+  expect(measurement.publicEvidenceHandoff.source).toBe('support-feedback-public-issues')
+  expect(measurement.publicEvidenceHandoff.supportFeedbackStatus).toBe(supportFeedback.status)
+  expect(measurement.publicEvidenceHandoff.aggregateEvidence.notes).toBe(supportFeedback.summary.aggregateEvidenceNotes)
+  expect(measurement.publicEvidenceHandoff.aggregateEvidence.games).toBe(supportFeedback.summary.aggregateEvidenceGames)
+  expect(measurement.publicEvidenceHandoff.aggregateEvidence.campaigns).toBe(
+    supportFeedback.summary.aggregateEvidenceCampaigns,
+  )
+  expect(measurement.publicEvidenceHandoff.aggregateEvidence.starts).toBe(supportFeedback.summary.aggregateStarts)
+  expect(measurement.publicEvidenceHandoff.aggregateEvidence.completions).toBe(
+    supportFeedback.summary.aggregateCompletions,
+  )
+  expect(measurement.publicEvidenceHandoff.aggregateEvidence.replays).toBe(supportFeedback.summary.aggregateReplays)
+  expect(measurement.analytics.localEvidence.aggregateEvidenceNotes).toBe(supportFeedback.summary.aggregateEvidenceNotes)
+  expect(measurement.analytics.localEvidence.aggregateEvidenceStarts).toBe(supportFeedback.summary.aggregateStarts)
+  expect(measurement.analytics.localEvidence.aggregateEvidenceCompletions).toBe(
+    supportFeedback.summary.aggregateCompletions,
+  )
+  expect(measurement.analytics.localEvidence.aggregateEvidenceReplays).toBe(supportFeedback.summary.aggregateReplays)
+  expect(measurement.productGateEvidence.supportingAggregateEvidenceNotes).toBe(
+    samplePlan.summary.supportingAggregateEvidenceNotes,
+  )
+  expect(measurement.publicEvidenceHandoff.productGateMissions.supportingAggregateEvidenceNotes).toBe(
+    samplePlan.summary.supportingAggregateEvidenceNotes,
+  )
+  expect(measurement.publicEvidenceHandoff.controls.aggregateEvidenceDoesNotPassGates).toBe(true)
+  expect(measurement.publicEvidenceHandoff.controls.manualReviewRequiredForGateDecisions).toBe(true)
+  expect(measurement.publicEvidenceHandoff.controls.noRawEventsStored).toBe(true)
+  expect(measurement.publicEvidenceHandoff.controls.publicAggregateOnly).toBe(true)
+  expect(measurement.publicEvidenceHandoff.controls.playerInitiatedOnly).toBe(true)
+  expect(measurement.publicEvidenceHandoff.controls.zeroPaidSpend).toBe(true)
+  expect(measurement.publicEvidenceHandoff.controls.noAutomaticPublicUpload).toBe(true)
+  expect(measurement.publicEvidenceHandoff.controls.noRevenueEnablement).toBe(true)
+  expect(measurement.controls.aggregateEvidenceDoesNotPassGates).toBe(true)
+  expect(measurement.controls.manualReviewRequiredForGateDecisions).toBe(true)
+  expect(measurement.publicEvidenceHandoff.nextActions.join(' ')).toContain('Do not pass product gates')
+  expect(measurement.nextActions.join(' ')).toContain('public aggregate evidence')
+  expect(publicMeasurement.publicEvidenceHandoff).toEqual(measurement.publicEvidenceHandoff)
+  expect(html).toContain('Public Aggregate Evidence')
+  expect(html).toContain('does not pass gates')
+  expect(script).toContain('publicEvidenceHandoff')
+  expect(script).toContain('aggregateEvidenceDoesNotPassGates')
+  expect(script).toContain('manualReviewRequiredForGateDecisions')
+
+  for (const note of measurement.publicEvidenceHandoff.aggregateEvidence.topNotes) {
+    expect(note.privacy.publicAggregateOnly).toBe(true)
+    expect(note.privacy.rawEventsAccepted).toBe(false)
+    expect(note.privacy.rawEventRowsStored).toBe(false)
+    expect(note.privacy.attachmentsDownloaded).toBe(false)
+  }
+
+  for (const mission of measurement.publicEvidenceHandoff.productGateMissions.topMissions) {
+    expect(mission.gateDecisionEligible).toBe(false)
+    expect(mission.manualReviewRequired).toBe(true)
+  }
+
+  await page.goto('/measurement-status.html')
+  await expect(page.getByRole('heading', { name: 'Production Measurement Status' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Public Aggregate Evidence' })).toBeVisible()
+  await expect(page.getByLabel('Public aggregate evidence')).toContainText(measurement.publicEvidenceHandoff.status)
+  await expect(page.getByText('does not pass gates', { exact: true })).toBeVisible()
+
+  await page.goto('/')
+  await expect(page.getByLabel('Production Measurement')).toContainText(measurement.status)
+  await expect(page.getByLabel('Production Measurement')).toContainText(measurement.publicEvidenceHandoff.status)
+})
+
 test('generated compliance manifest is reachable', async ({ page }) => {
   await page.goto('/compliance.json')
 
