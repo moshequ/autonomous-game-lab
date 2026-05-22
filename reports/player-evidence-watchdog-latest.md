@@ -1,15 +1,15 @@
 # Player Evidence Watchdog
 
-Generated: 2026-05-22T19:25:10.045Z
-Status: watchdog-cooling-down
-Source hash: 29fd914cedbe
+Generated: 2026-05-22T19:40:53.286Z
+Status: watchdog-ready-for-explicit-scan
+Source hash: 8884d25b9fd1
 Public repo safe: true
 Inbox events: 0
 Imported events: 0
 Gate sample inbox events: 0
 Gate sample imported events: 0
 Aggregate evidence notes: 0
-Downloads scan: no-evidence-found; cooling down true
+Downloads scan: no-evidence-found; cooling down false
 Next recommended Downloads scan: 2026-05-22T17:53:13.086Z
 
 ## Commands
@@ -36,5 +36,5 @@ Next recommended Downloads scan: 2026-05-22T17:53:13.086Z
 
 ## Next Actions
 
-- Hold explicit Downloads scanning until 2026-05-22T17:53:13.086Z and keep player-initiated export/share routes active.
+- An explicit Downloads scan is allowed now if the owner intentionally opts in; run npm run autonomous:collect-sample-downloads afterward.
 - Keep public issues and reports limited to aggregate, redacted evidence; never commit raw player event drops, secrets, or private exports.

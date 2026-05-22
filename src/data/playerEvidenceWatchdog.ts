@@ -1,10 +1,10 @@
 export const playerEvidenceWatchdog = {
-  "status": "watchdog-cooling-down",
+  "status": "watchdog-ready-for-explicit-scan",
   "inbox": 0,
   "imported": 0,
   "notes": 0,
-  "scanReady": false,
-  "scanCooling": true,
+  "scanReady": true,
+  "scanCooling": false,
   "publicSafe": true,
   "rawPrivate": true
 } as const

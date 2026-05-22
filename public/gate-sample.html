@@ -154,7 +154,8 @@
       .play,
       .share,
       .export,
-      .evidence {
+      .evidence,
+      .folder {
         display: inline-flex;
         align-items: center;
         justify-content: center;
@@ -184,10 +185,16 @@
         cursor: pointer;
       }
 
+      .folder {
+        background: #275b55;
+        cursor: pointer;
+      }
+
       .play:focus-visible,
       .share:focus-visible,
       .export:focus-visible,
-      .evidence:focus-visible {
+      .evidence:focus-visible,
+      .folder:focus-visible {
         outline: 3px solid #b87b16;
         outline-offset: 2px;
       }
@@ -199,6 +206,20 @@
 
       .handoff h2 {
         margin-bottom: 8px;
+      }
+
+      .handoffActions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        align-items: center;
+        margin-top: 14px;
+      }
+
+      .dropStatus {
+        min-width: min(100%, 360px);
+        color: #4a5753;
+        font-size: 0.92rem;
       }
 
       @media (max-width: 860px) {
@@ -298,6 +319,10 @@
       <section class="handoff" aria-label="Evidence handoff">
         <h2>Evidence handoff</h2>
         <p>The app buffers anonymous gameplay events locally, forwards them when a production collector exists, and keeps revenue disabled until observed samples clear every product gate. Export buttons create the same player-initiated event drop consumed by the local bridge.</p>
+        <div class="handoffActions">
+          <button class="folder" type="button" data-connect-drop-folder>Connect drop folder</button>
+          <p class="dropStatus" data-drop-folder-status>Manual download fallback active.</p>
+        </div>
       </section>
     </main>
     <script type="application/json" id="gate-sample-mission-data">[{"id":"collect-firstGameCompletion-sample","gateId":"firstGameCompletion","gameId":"harbor-rings","title":"Harbor Rings","campaignId":"gate-sample-20260522-firstGameCompletion","playPath":"/?game=harbor-rings&utm_source=gate_sample&utm_campaign=gate-sample-20260522-firstGameCompletion","needed":{"promptViews":30,"successes":128,"minimumPromptViewsForDecision":30},"telemetry":{"view":["completion_nudge_viewed","finish_line_coach_viewed","first_move_coach_shown"],"action":["completion_nudge_clicked","finish_line_coach_clicked","first_move_coach_used"],"success":["level_completed"],"failure":["game_abandoned"],"collectionEvents":["completion_nudge_viewed","finish_line_coach_viewed","first_move_coach_shown","completion_nudge_clicked","finish_line_coach_clicked","first_move_coach_used","level_completed"]},"controls":{"costUsd":0,"noSyntheticEvents":true,"noRevenueEnablement":true}},{"id":"collect-replayRate-sample","gateId":"replayRate","gameId":"harbor-rings","title":"Harbor Rings","campaignId":"gate-sample-20260522-replayRate","playPath":"/?game=harbor-rings&utm_source=gate_sample&utm_campaign=gate-sample-20260522-replayRate","needed":{"promptViews":30,"successes":10,"minimumPromptViewsForDecision":30},"telemetry":{"view":["replay_prompt_viewed"],"action":["replay_prompt_clicked"],"success":["replay_clicked"],"failure":["replay_prompt_dismissed"],"collectionEvents":["replay_prompt_viewed","replay_prompt_clicked","replay_clicked"]},"controls":{"costUsd":0,"noSyntheticEvents":true,"noRevenueEnablement":true}},{"id":"collect-d1Retention-sample","gateId":"d1Retention","gameId":"market-pulse","title":"Market Pulse","campaignId":"gate-sample-20260522-d1Retention","playPath":"/?game=market-pulse&utm_source=gate_sample&utm_campaign=gate-sample-20260522-d1Retention","needed":{"promptViews":10,"successes":1,"minimumPromptViewsForDecision":10},"telemetry":{"view":["daily_return_prompt_viewed","daily_return_intent_viewed"],"action":["daily_return_prompt_clicked","daily_return_intent_started"],"success":["daily_return_intent_started"],"failure":["daily_return_prompt_dismissed","daily_return_intent_cleared"],"collectionEvents":["daily_return_prompt_viewed","daily_return_intent_viewed","daily_return_prompt_clicked","daily_return_intent_started","daily_return_intent_started"]},"controls":{"costUsd":0,"noSyntheticEvents":true,"noRevenueEnablement":true}}]</script>
@@ -307,6 +332,7 @@
         const bufferKey = 'agl.analytics.events'
         const missions = JSON.parse(document.getElementById('gate-sample-mission-data')?.textContent || '[]')
         const support = JSON.parse(document.getElementById('gate-sample-support-data')?.textContent || '{}')
+        let dropDirectoryHandle = null
 
         const readEvents = () => {
           try {
@@ -391,6 +417,108 @@
           window.crypto?.randomUUID
             ? window.crypto.randomUUID()
             : `export-${Date.now()}-${Math.random().toString(16).slice(2)}`
+
+        const dropFolderSupported = () => typeof window.showDirectoryPicker === 'function'
+
+        const setDropFolderStatus = (message) => {
+          document.querySelectorAll('[data-drop-folder-status]').forEach((status) => {
+            status.textContent = message
+          })
+        }
+
+        const eventDropFileName = (exportSurface) =>
+          'player-events-' +
+          new Date().toISOString().replace(/[:.]/g, '-') +
+          '-' +
+          exportSurface +
+          '.json'
+
+        const ensureDropFolderPermission = async (handle) => {
+          const descriptor = { mode: 'readwrite' }
+          const current = handle.queryPermission ? await handle.queryPermission(descriptor) : 'granted'
+
+          if (current === 'granted') {
+            return true
+          }
+
+          if (!handle.requestPermission) {
+            return false
+          }
+
+          return (await handle.requestPermission(descriptor)) === 'granted'
+        }
+
+        const writeDropFile = async (events, exportSurface) => {
+          if (!dropDirectoryHandle) {
+            return false
+          }
+
+          const granted = await ensureDropFolderPermission(dropDirectoryHandle)
+
+          if (!granted) {
+            setDropFolderStatus('Drop folder permission needed; export will download instead.')
+            return false
+          }
+
+          try {
+            const fileHandle = await dropDirectoryHandle.getFileHandle(eventDropFileName(exportSurface), {
+              create: true,
+            })
+            const writable = await fileHandle.createWritable()
+            await writable.write(JSON.stringify(events, null, 2))
+            await writable.close()
+            setDropFolderStatus('Evidence saved to the connected local folder.')
+            return true
+          } catch {
+            setDropFolderStatus('Could not save to the connected folder; export will download instead.')
+            return false
+          }
+        }
+
+        const connectDropFolder = async () => {
+          if (!dropFolderSupported()) {
+            setDropFolderStatus('This browser uses manual downloads for evidence exports.')
+            return
+          }
+
+          try {
+            const handle = await window.showDirectoryPicker({
+              id: 'autonomous-game-lab-gate-sample-drops',
+              mode: 'readwrite',
+              startIn: 'downloads',
+            })
+            const granted = await ensureDropFolderPermission(handle)
+
+            if (!granted) {
+              setDropFolderStatus('Drop folder permission was not granted.')
+              return
+            }
+
+            dropDirectoryHandle = handle
+            setDropFolderStatus('Drop folder connected; evidence exports save locally without external upload.')
+            writeEvents([
+              ...readEvents(),
+              {
+                id: createId(),
+                name: 'local_event_drop_folder_connected',
+                properties: {
+                  surface: 'public-gate-sample-page',
+                  channel: 'product-gate-sample',
+                  mode: 'browser-selected-local-folder',
+                  fallback: 'download',
+                  noExternalUpload: true,
+                  noPiiRequired: true,
+                  playerInitiatedOnly: true,
+                  zeroPaidSpend: true,
+                },
+                createdAt: new Date().toISOString(),
+              },
+            ])
+            renderProgress()
+          } catch {
+            setDropFolderStatus('Drop folder was not connected; manual download fallback remains active.')
+          }
+        }
 
         const downloadEvents = (events) => {
           const blob = new Blob([JSON.stringify(events, null, 2)], { type: 'application/json' })
@@ -487,16 +615,19 @@
           }
         }
 
-        const exportMission = (mission) => {
+        const exportMission = async (mission) => {
           const events = readEvents()
           const progress = missionProgress(mission, events)
+          const folderPreferred = Boolean(dropDirectoryHandle)
           const exportEvent = {
             id: createId(),
             name: 'analytics_exported',
             properties: {
-              destination: 'local_file',
+              destination: folderPreferred ? 'local_folder' : 'local_file',
               exportSurface: 'product-gate-sample',
               exportSurfaceDetail: 'public-gate-sample-page',
+              eventDropMode: folderPreferred ? 'folder' : 'download',
+              eventDropFolderStatus: folderPreferred ? 'connected' : 'not-connected',
               gateId: mission.gateId,
               gameId: mission.gameId,
               campaignId: mission.campaignId,
@@ -511,6 +642,7 @@
               localSuccessesRemaining: progress.successesRemaining,
               localEvidenceDropReady: progress.evidenceDropReady,
               localSampleDecisionReady: progress.sampleDecisionReady,
+              noExternalUpload: true,
               zeroPaidSpend: true,
               noSyntheticEvents: mission.controls.noSyntheticEvents,
               noRevenueEnablement: mission.controls.noRevenueEnablement,
@@ -518,8 +650,16 @@
             createdAt: new Date().toISOString(),
           }
           const nextEvents = [...events, exportEvent]
+          const wroteToFolder = await writeDropFile(nextEvents, 'product-gate-sample')
+
+          if (!wroteToFolder) {
+            exportEvent.properties.destination = 'local_file'
+            exportEvent.properties.eventDropMode = folderPreferred ? 'folder-failed-download' : 'download'
+            exportEvent.properties.eventDropFolderStatus = folderPreferred ? 'failed' : 'not-connected'
+            downloadEvents(nextEvents)
+          }
+
           writeEvents(nextEvents)
-          downloadEvents(nextEvents)
           renderProgress()
         }
 
@@ -595,12 +735,16 @@
           renderProgress()
         }
 
+        document.querySelector('[data-connect-drop-folder]')?.addEventListener('click', () => {
+          void connectDropFolder()
+        })
+
         document.querySelectorAll('[data-export-campaign]').forEach((button) => {
           button.addEventListener('click', () => {
             const mission = missions.find((item) => item.campaignId === button.getAttribute('data-export-campaign'))
 
             if (mission) {
-              exportMission(mission)
+              void exportMission(mission)
             }
           })
         })
@@ -627,6 +771,11 @@
 
         document.addEventListener('visibilitychange', renderProgress)
         window.addEventListener('storage', renderProgress)
+        setDropFolderStatus(
+          dropFolderSupported()
+            ? 'Optional local drop folder available; manual download fallback remains active.'
+            : 'Manual download fallback active.',
+        )
         renderProgress()
       })()
     </script>

@@ -2479,11 +2479,19 @@ test('product optimizer applies one guarded tuning step from product-gate eviden
       localProgressEnabled: boolean
       autonomousDefaultRoutingEnabled: boolean
       playerInitiatedExportEnabled: boolean
+      playerInitiatedFolderDropEnabled: boolean
       playerInitiatedShareEnabled: boolean
       playerInitiatedAggregateEvidenceEnabled: boolean
       aggregateEvidenceIssueTemplate: string
       aggregateEvidenceRepository: string | null
       exportSurface: string
+      localFolderDrop: {
+        mode: string
+        supportedRuntime: string
+        fallback: string
+        noExternalUpload: boolean
+        playerInitiatedOnly: boolean
+      }
       zeroPaidSpend: boolean
       playerInitiatedOnly: boolean
       noSyntheticEvents: boolean
@@ -2535,6 +2543,9 @@ test('product optimizer applies one guarded tuning step from product-gate eviden
       requireObservedTelemetryBeforeRecoveryChange: boolean
       publicAggregateEvidenceIsSupportingOnly: boolean
       aggregateEvidenceDoesNotPassGates: boolean
+      browserSelectedDropFolderSupported: boolean
+      folderDropRequiresPlayerPicker: boolean
+      folderDropNeverReadsFiles: boolean
     }
   }
   const packageJson = JSON.parse(await readFile('package.json', 'utf8')) as {
@@ -2670,11 +2681,19 @@ test('product optimizer applies one guarded tuning step from product-gate eviden
   expect(samplePlan.publicSamplePage.localProgressEnabled).toBe(true)
   expect(samplePlan.publicSamplePage.autonomousDefaultRoutingEnabled).toBe(true)
   expect(samplePlan.publicSamplePage.playerInitiatedExportEnabled).toBe(true)
+  expect(samplePlan.publicSamplePage.playerInitiatedFolderDropEnabled).toBe(true)
   expect(samplePlan.publicSamplePage.playerInitiatedShareEnabled).toBe(true)
   expect(samplePlan.publicSamplePage.playerInitiatedAggregateEvidenceEnabled).toBe(true)
   expect(samplePlan.publicSamplePage.aggregateEvidenceIssueTemplate).toBe('analytics-evidence.yml')
   expect(samplePlan.publicSamplePage.aggregateEvidenceRepository).toBe('moshequ/autonomous-game-lab')
   expect(samplePlan.publicSamplePage.exportSurface).toBe('product-gate-sample')
+  expect(samplePlan.publicSamplePage.localFolderDrop).toMatchObject({
+    mode: 'browser-selected-local-folder',
+    supportedRuntime: 'showDirectoryPicker',
+    fallback: 'download',
+    noExternalUpload: true,
+    playerInitiatedOnly: true,
+  })
   expect(samplePlan.publicSamplePage.zeroPaidSpend).toBe(true)
   expect(samplePlan.publicSamplePage.playerInitiatedOnly).toBe(true)
   expect(samplePlan.publicSamplePage.noSyntheticEvents).toBe(true)
@@ -2685,6 +2704,8 @@ test('product optimizer applies one guarded tuning step from product-gate eviden
   expect(samplePlan.runtimeEvidencePolicy.exportProperties).toContain('localObservedSuccesses')
   expect(samplePlan.runtimeEvidencePolicy.publicPageExportProperties).toContain('exportSurfaceDetail')
   expect(samplePlan.runtimeEvidencePolicy.publicPageExportProperties).toContain('localEvidenceDropReady')
+  expect(samplePlan.runtimeEvidencePolicy.publicPageExportProperties).toContain('eventDropMode')
+  expect(samplePlan.runtimeEvidencePolicy.publicPageExportProperties).toContain('noExternalUpload')
   expect(samplePlan.runtimeEvidencePolicy.publicPageShareProperties).toContain('shareUrl')
   expect(samplePlan.runtimeEvidencePolicy.defaultRouting).toMatchObject({
     status: 'active',
@@ -2718,6 +2739,9 @@ test('product optimizer applies one guarded tuning step from product-gate eviden
   expect(samplePlan.missions.every((mission) => typeof mission.supportingAggregateEvidence.gateGameNoteCount === 'number')).toBe(true)
   expect(samplePlan.controls.downloadsImportRequiresExplicitOptIn).toBe(true)
   expect(samplePlan.controls.downloadsScanBackoffRequired).toBe(true)
+  expect(samplePlan.controls.browserSelectedDropFolderSupported).toBe(true)
+  expect(samplePlan.controls.folderDropRequiresPlayerPicker).toBe(true)
+  expect(samplePlan.controls.folderDropNeverReadsFiles).toBe(true)
   expect(samplePlan.controls.directTrafficSampleRouting).toBe(true)
   expect(samplePlan.controls.playerInitiatedSampleSharing).toBe(true)
   expect(samplePlan.controls.requireObservedTelemetryBeforeRecoveryChange).toBe(true)
@@ -6952,8 +6976,15 @@ test('zero-spend gate sample page is reachable and uses runtime-relative mission
       localProgressEnabled: boolean
       autonomousDefaultRoutingEnabled: boolean
       playerInitiatedExportEnabled: boolean
+      playerInitiatedFolderDropEnabled: boolean
       playerInitiatedShareEnabled: boolean
       exportSurface: string
+      localFolderDrop: {
+        mode: string
+        supportedRuntime: string
+        fallback: string
+        noExternalUpload: boolean
+      }
       zeroPaidSpend: boolean
       playerInitiatedOnly: boolean
       noSyntheticEvents: boolean
@@ -7022,8 +7053,15 @@ test('zero-spend gate sample page is reachable and uses runtime-relative mission
   expect(samplePlan.publicSamplePage.localProgressEnabled).toBe(true)
   expect(samplePlan.publicSamplePage.autonomousDefaultRoutingEnabled).toBe(true)
   expect(samplePlan.publicSamplePage.playerInitiatedExportEnabled).toBe(true)
+  expect(samplePlan.publicSamplePage.playerInitiatedFolderDropEnabled).toBe(true)
   expect(samplePlan.publicSamplePage.playerInitiatedShareEnabled).toBe(true)
   expect(samplePlan.publicSamplePage.exportSurface).toBe('product-gate-sample')
+  expect(samplePlan.publicSamplePage.localFolderDrop).toMatchObject({
+    mode: 'browser-selected-local-folder',
+    supportedRuntime: 'showDirectoryPicker',
+    fallback: 'download',
+    noExternalUpload: true,
+  })
   expect(samplePlan.publicSamplePage.zeroPaidSpend).toBe(true)
   expect(samplePlan.publicSamplePage.playerInitiatedOnly).toBe(true)
   expect(samplePlan.publicSamplePage.noSyntheticEvents).toBe(true)
@@ -7040,6 +7078,8 @@ test('zero-spend gate sample page is reachable and uses runtime-relative mission
     `.${mission.playPath}`,
   )
   await expect(firstMission.getByRole('button', { name: 'Share evidence' })).toBeVisible()
+  await expect(page.getByRole('button', { name: 'Connect drop folder' })).toBeVisible()
+  await expect(page.getByText(/Manual download fallback|Optional local drop folder/)).toBeVisible()
   await firstMission.getByRole('button', { name: 'Share mission' }).click()
   await page.waitForFunction((campaignId) => {
     const raw = window.localStorage.getItem('agl.analytics.events')
@@ -7098,6 +7138,9 @@ test('zero-spend gate sample page is reachable and uses runtime-relative mission
       campaignId: mission.campaignId,
       localObservedSuccesses: 1,
       localEvidenceDropReady: true,
+      eventDropMode: 'download',
+      eventDropFolderStatus: 'not-connected',
+      noExternalUpload: true,
       zeroPaidSpend: true,
       noSyntheticEvents: true,
     })
@@ -7114,6 +7157,159 @@ test('zero-spend gate sample page is reachable and uses runtime-relative mission
   }
 
   expect(await page.content()).not.toContain('autonomous-game-lab.example.com')
+})
+
+test('public gate sample can save evidence to a player-selected local drop folder', async ({ page }) => {
+  const samplePlan = JSON.parse(await readFile('data/product-gate-sample-plan.json', 'utf8')) as {
+    publicSamplePage: {
+      playerInitiatedFolderDropEnabled: boolean
+      localFolderDrop: {
+        mode: string
+        fallback: string
+        noExternalUpload: boolean
+      }
+    }
+    missions: Array<{
+      id: string
+      gateId: string
+      campaignId: string
+      title: string
+      gameId: string
+      telemetry: { view: string[]; success: string[] }
+    }>
+  }
+  const mission = samplePlan.missions[0]
+
+  await page.addInitScript(({ campaignId, gameId, viewEvent, successEvent }) => {
+    const target = window as Window & {
+      __gateSampleDropWrites?: string[]
+      __gateSampleDropFileNames?: string[]
+      showDirectoryPicker?: () => Promise<{
+        queryPermission: () => Promise<string>
+        requestPermission: () => Promise<string>
+        getFileHandle: (name: string) => Promise<{
+          createWritable: () => Promise<{
+            write: (data: string) => Promise<void>
+            close: () => Promise<void>
+          }>
+        }>
+      }>
+    }
+    target.__gateSampleDropWrites = []
+    target.__gateSampleDropFileNames = []
+    target.showDirectoryPicker = async () => ({
+      queryPermission: async () => 'granted',
+      requestPermission: async () => 'granted',
+      getFileHandle: async (name: string) => ({
+        createWritable: async () => ({
+          write: async (data: string) => {
+            target.__gateSampleDropFileNames?.push(name)
+            target.__gateSampleDropWrites?.push(String(data))
+          },
+          close: async () => {},
+        }),
+      }),
+    })
+    window.localStorage.setItem(
+      'agl.analytics.events',
+      JSON.stringify([
+        {
+          id: 'folder-sample-view',
+          name: viewEvent,
+          properties: {
+            campaignId,
+            gameId,
+            acquisitionCampaign: campaignId,
+            acquisitionSource: 'gate_sample',
+            acquisitionChannel: 'product-gate-sample',
+          },
+          createdAt: '2026-05-20T00:00:00.000Z',
+        },
+        {
+          id: 'folder-sample-success',
+          name: successEvent,
+          properties: {
+            campaignId,
+            gameId,
+            acquisitionCampaign: campaignId,
+            acquisitionSource: 'gate_sample',
+            acquisitionChannel: 'product-gate-sample',
+          },
+          createdAt: '2026-05-20T00:01:00.000Z',
+        },
+      ]),
+    )
+  }, {
+    campaignId: mission.campaignId,
+    gameId: mission.gameId,
+    viewEvent: mission.telemetry.view[0],
+    successEvent: mission.telemetry.success[0],
+  })
+
+  await page.goto('/gate-sample.html')
+  expect(samplePlan.publicSamplePage.playerInitiatedFolderDropEnabled).toBe(true)
+  expect(samplePlan.publicSamplePage.localFolderDrop).toMatchObject({
+    mode: 'browser-selected-local-folder',
+    fallback: 'download',
+    noExternalUpload: true,
+  })
+
+  await page.getByRole('button', { name: 'Connect drop folder' }).click()
+  await expect(page.getByText('Drop folder connected')).toBeVisible()
+  await page.locator(`[data-mission-id="${mission.id}"]`).getByRole('button', { name: 'Export evidence' }).click()
+  await expect(page.getByText('Evidence saved to the connected local folder.')).toBeVisible()
+
+  const result = await page.evaluate(() => {
+    const target = window as Window & {
+      __gateSampleDropWrites?: string[]
+      __gateSampleDropFileNames?: string[]
+    }
+    const events = JSON.parse(window.localStorage.getItem('agl.analytics.events') ?? '[]') as Array<{
+      name: string
+      properties: Record<string, string | number | boolean>
+    }>
+
+    return {
+      writes: target.__gateSampleDropWrites ?? [],
+      fileNames: target.__gateSampleDropFileNames ?? [],
+      events,
+    }
+  })
+
+  expect(result.fileNames[0]).toMatch(/^player-events-.+-product-gate-sample\.json$/)
+  expect(result.writes).toHaveLength(1)
+
+  const writtenEvents = JSON.parse(result.writes[0]) as Array<{
+    name: string
+    properties: Record<string, string | number | boolean>
+  }>
+  const connectedEvent = result.events.findLast((event) => event.name === 'local_event_drop_folder_connected')
+  const exportEvent = writtenEvents.findLast((event) => event.name === 'analytics_exported')
+
+  expect(connectedEvent?.properties).toMatchObject({
+    surface: 'public-gate-sample-page',
+    channel: 'product-gate-sample',
+    mode: 'browser-selected-local-folder',
+    fallback: 'download',
+    noExternalUpload: true,
+    playerInitiatedOnly: true,
+    zeroPaidSpend: true,
+  })
+  expect(exportEvent?.properties).toMatchObject({
+    destination: 'local_folder',
+    exportSurface: 'product-gate-sample',
+    exportSurfaceDetail: 'public-gate-sample-page',
+    eventDropMode: 'folder',
+    eventDropFolderStatus: 'connected',
+    campaignId: mission.campaignId,
+    gateId: mission.gateId,
+    gameId: mission.gameId,
+    localObservedSuccesses: 1,
+    noExternalUpload: true,
+    zeroPaidSpend: true,
+    noSyntheticEvents: true,
+    noRevenueEnablement: true,
+  })
 })
 
 test('public gate sample opens aggregate evidence issue without raw events', async ({ page }) => {

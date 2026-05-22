@@ -2210,7 +2210,12 @@ if (
   productGateSamplePlan.publicSamplePage?.fastestCampaignId !== sampleFastestMission?.campaignId ||
   productGateSamplePlan.publicSamplePage?.localProgressEnabled !== true ||
   productGateSamplePlan.publicSamplePage?.playerInitiatedExportEnabled !== true ||
+  productGateSamplePlan.publicSamplePage?.playerInitiatedFolderDropEnabled !== true ||
   productGateSamplePlan.publicSamplePage?.exportSurface !== 'product-gate-sample' ||
+  productGateSamplePlan.publicSamplePage?.localFolderDrop?.mode !== 'browser-selected-local-folder' ||
+  productGateSamplePlan.publicSamplePage?.localFolderDrop?.supportedRuntime !== 'showDirectoryPicker' ||
+  productGateSamplePlan.publicSamplePage?.localFolderDrop?.fallback !== 'download' ||
+  productGateSamplePlan.publicSamplePage?.localFolderDrop?.noExternalUpload !== true ||
   productGateSamplePlan.publicSamplePage?.zeroPaidSpend !== true ||
   productGateSamplePlan.publicSamplePage?.playerInitiatedOnly !== true ||
   productGateSamplePlan.publicSamplePage?.noSyntheticEvents !== true ||
@@ -2223,6 +2228,8 @@ if (
   !productGateSamplePlan.runtimeEvidencePolicy?.exportProperties?.includes('localSampleDecisionReady') ||
   !productGateSamplePlan.runtimeEvidencePolicy?.publicPageExportProperties?.includes('exportSurfaceDetail') ||
   !productGateSamplePlan.runtimeEvidencePolicy?.publicPageExportProperties?.includes('localEvidenceDropReady') ||
+  !productGateSamplePlan.runtimeEvidencePolicy?.publicPageExportProperties?.includes('eventDropMode') ||
+  !productGateSamplePlan.runtimeEvidencePolicy?.publicPageExportProperties?.includes('noExternalUpload') ||
   productGateSamplePlan.runtimeEvidencePolicy?.controls?.zeroPaidSpend !== true ||
   productGateSamplePlan.runtimeEvidencePolicy?.controls?.localOnlyUntilCollectorConfigured !== true ||
   productGateSamplePlan.runtimeEvidencePolicy?.controls?.noSyntheticEvents !== true ||
@@ -2252,6 +2259,9 @@ if (
   productGateSamplePlan.controls?.realEventDropsOnly !== true ||
   productGateSamplePlan.controls?.downloadsImportRequiresExplicitOptIn !== true ||
   productGateSamplePlan.controls?.downloadsScanBackoffRequired !== true ||
+  productGateSamplePlan.controls?.browserSelectedDropFolderSupported !== true ||
+  productGateSamplePlan.controls?.folderDropRequiresPlayerPicker !== true ||
+  productGateSamplePlan.controls?.folderDropNeverReadsFiles !== true ||
   productGateSamplePlan.controls?.requireObservedTelemetryBeforeRecoveryChange !== true ||
   productGateSamplePlan.controls?.publicAggregateEvidenceIsSupportingOnly !== true ||
   productGateSamplePlan.controls?.aggregateEvidenceDoesNotPassGates !== true ||
@@ -2285,6 +2295,9 @@ if (
   !productGateSamplePlanSource.includes('safeJsonScript') ||
   !gateSampleHtml.includes('gate-sample-mission-data') ||
   !gateSampleHtml.includes('data-export-campaign') ||
+  !gateSampleHtml.includes('data-connect-drop-folder') ||
+  !gateSampleHtml.includes('showDirectoryPicker') ||
+  !gateSampleHtml.includes('noExternalUpload') ||
   !gateSampleHtml.includes('exportSurfaceDetail') ||
   !gateSampleHtml.includes('public-gate-sample-page') ||
   !packageJson.scripts?.['autonomous:sample-plan']?.includes('product-gate-sample-planner') ||

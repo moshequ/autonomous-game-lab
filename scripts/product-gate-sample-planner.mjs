@@ -453,11 +453,21 @@ const payload = {
     localProgressEnabled: true,
     autonomousDefaultRoutingEnabled: Boolean(defaultRouteMission),
     playerInitiatedExportEnabled: true,
+    playerInitiatedFolderDropEnabled: true,
     playerInitiatedShareEnabled: true,
     playerInitiatedAggregateEvidenceEnabled: Boolean(aggregateEvidenceRepository),
     aggregateEvidenceIssueTemplate: 'analytics-evidence.yml',
     aggregateEvidenceRepository,
     exportSurface: 'product-gate-sample',
+    localFolderDrop: {
+      mode: 'browser-selected-local-folder',
+      supportedRuntime: 'showDirectoryPicker',
+      filenamePattern: 'player-events*.json',
+      fallback: 'download',
+      bridgeImport: 'data/player-events/inbox or AGL_LOCAL_EVENT_DROP_DIRS',
+      noExternalUpload: true,
+      playerInitiatedOnly: true,
+    },
     zeroPaidSpend: true,
     playerInitiatedOnly: true,
     noSyntheticEvents: true,
@@ -492,6 +502,9 @@ const payload = {
       'localAnalyticsExports',
       'localEvidenceDropReady',
       'localSampleDecisionReady',
+      'eventDropMode',
+      'eventDropFolderStatus',
+      'noExternalUpload',
     ],
     publicPageExportProperties: [
       'exportSurface',
@@ -506,6 +519,9 @@ const payload = {
       'localAnalyticsExports',
       'localEvidenceDropReady',
       'localSampleDecisionReady',
+      'eventDropMode',
+      'eventDropFolderStatus',
+      'noExternalUpload',
     ],
     publicPageShareProperties: [
       'campaignId',
@@ -564,6 +580,9 @@ const payload = {
     realEventDropsOnly: true,
     downloadsImportRequiresExplicitOptIn: true,
     downloadsScanBackoffRequired: true,
+    browserSelectedDropFolderSupported: true,
+    folderDropRequiresPlayerPicker: true,
+    folderDropNeverReadsFiles: true,
     directTrafficSampleRouting: Boolean(defaultRouteMission),
     playerInitiatedSampleSharing: true,
     requireObservedTelemetryBeforeRecoveryChange: true,
@@ -579,6 +598,50 @@ const payload = {
       : 'Keep the primary gate sample mission active until the recovery decision is sample-ready.',
     sampleCollectionNextAction,
   ],
+}
+
+const appPayload = {
+  status: payload.status,
+  summary: {
+    fastestGateId: payload.summary.fastestGateId,
+    defaultRouteCampaignId: payload.summary.defaultRouteCampaignId,
+    totalPromptViewsNeeded: payload.summary.totalPromptViewsNeeded,
+  },
+  runtimeEvidencePolicy: {
+    defaultRouting: {
+      campaignId: payload.runtimeEvidencePolicy.defaultRouting.campaignId,
+    },
+  },
+  controls: {
+    zeroPaidSpend: payload.controls.zeroPaidSpend,
+  },
+  missions: payload.missions.map((mission) => ({
+    id: mission.id,
+    gateId: mission.gateId,
+    label: mission.label,
+    status: mission.status,
+    ownerLoop: mission.ownerLoop,
+    gameId: mission.gameId,
+    title: mission.title,
+    surface: mission.surface,
+    campaignId: mission.campaignId,
+    playPath: mission.playPath,
+    needed: {
+      promptViews: mission.needed.promptViews,
+      successes: mission.needed.successes,
+      minimumPromptViewsForDecision: mission.needed.minimumPromptViewsForDecision,
+    },
+    telemetry: mission.telemetry,
+    controls: {
+      costUsd: mission.controls.costUsd,
+      noSyntheticEvents: mission.controls.noSyntheticEvents,
+      noRuleChange: mission.controls.noRuleChange,
+      noRevenueEnablement: mission.controls.noRevenueEnablement,
+    },
+    evidence: {
+      status: mission.evidence.status,
+    },
+  })),
 }
 
 const report = [
@@ -853,7 +916,8 @@ const gateSamplePage = `<!doctype html>
       .play,
       .share,
       .export,
-      .evidence {
+      .evidence,
+      .folder {
         display: inline-flex;
         align-items: center;
         justify-content: center;
@@ -883,10 +947,16 @@ const gateSamplePage = `<!doctype html>
         cursor: pointer;
       }
 
+      .folder {
+        background: #275b55;
+        cursor: pointer;
+      }
+
       .play:focus-visible,
       .share:focus-visible,
       .export:focus-visible,
-      .evidence:focus-visible {
+      .evidence:focus-visible,
+      .folder:focus-visible {
         outline: 3px solid #b87b16;
         outline-offset: 2px;
       }
@@ -898,6 +968,20 @@ const gateSamplePage = `<!doctype html>
 
       .handoff h2 {
         margin-bottom: 8px;
+      }
+
+      .handoffActions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        align-items: center;
+        margin-top: 14px;
+      }
+
+      .dropStatus {
+        min-width: min(100%, 360px);
+        color: #4a5753;
+        font-size: 0.92rem;
       }
 
       @media (max-width: 860px) {
@@ -929,6 +1013,10 @@ const gateSamplePage = `<!doctype html>
       <section class="handoff" aria-label="Evidence handoff">
         <h2>Evidence handoff</h2>
         <p>The app buffers anonymous gameplay events locally, forwards them when a production collector exists, and keeps revenue disabled until observed samples clear every product gate. Export buttons create the same player-initiated event drop consumed by the local bridge.</p>
+        <div class="handoffActions">
+          <button class="folder" type="button" data-connect-drop-folder>Connect drop folder</button>
+          <p class="dropStatus" data-drop-folder-status>Manual download fallback active.</p>
+        </div>
       </section>
     </main>
     <script type="application/json" id="gate-sample-mission-data">${safeJsonScript(publicMissionEvidence)}</script>
@@ -938,6 +1026,7 @@ const gateSamplePage = `<!doctype html>
         const bufferKey = 'agl.analytics.events'
         const missions = JSON.parse(document.getElementById('gate-sample-mission-data')?.textContent || '[]')
         const support = JSON.parse(document.getElementById('gate-sample-support-data')?.textContent || '{}')
+        let dropDirectoryHandle = null
 
         const readEvents = () => {
           try {
@@ -1022,6 +1111,108 @@ const gateSamplePage = `<!doctype html>
           window.crypto?.randomUUID
             ? window.crypto.randomUUID()
             : \`export-\${Date.now()}-\${Math.random().toString(16).slice(2)}\`
+
+        const dropFolderSupported = () => typeof window.showDirectoryPicker === 'function'
+
+        const setDropFolderStatus = (message) => {
+          document.querySelectorAll('[data-drop-folder-status]').forEach((status) => {
+            status.textContent = message
+          })
+        }
+
+        const eventDropFileName = (exportSurface) =>
+          'player-events-' +
+          new Date().toISOString().replace(/[:.]/g, '-') +
+          '-' +
+          exportSurface +
+          '.json'
+
+        const ensureDropFolderPermission = async (handle) => {
+          const descriptor = { mode: 'readwrite' }
+          const current = handle.queryPermission ? await handle.queryPermission(descriptor) : 'granted'
+
+          if (current === 'granted') {
+            return true
+          }
+
+          if (!handle.requestPermission) {
+            return false
+          }
+
+          return (await handle.requestPermission(descriptor)) === 'granted'
+        }
+
+        const writeDropFile = async (events, exportSurface) => {
+          if (!dropDirectoryHandle) {
+            return false
+          }
+
+          const granted = await ensureDropFolderPermission(dropDirectoryHandle)
+
+          if (!granted) {
+            setDropFolderStatus('Drop folder permission needed; export will download instead.')
+            return false
+          }
+
+          try {
+            const fileHandle = await dropDirectoryHandle.getFileHandle(eventDropFileName(exportSurface), {
+              create: true,
+            })
+            const writable = await fileHandle.createWritable()
+            await writable.write(JSON.stringify(events, null, 2))
+            await writable.close()
+            setDropFolderStatus('Evidence saved to the connected local folder.')
+            return true
+          } catch {
+            setDropFolderStatus('Could not save to the connected folder; export will download instead.')
+            return false
+          }
+        }
+
+        const connectDropFolder = async () => {
+          if (!dropFolderSupported()) {
+            setDropFolderStatus('This browser uses manual downloads for evidence exports.')
+            return
+          }
+
+          try {
+            const handle = await window.showDirectoryPicker({
+              id: 'autonomous-game-lab-gate-sample-drops',
+              mode: 'readwrite',
+              startIn: 'downloads',
+            })
+            const granted = await ensureDropFolderPermission(handle)
+
+            if (!granted) {
+              setDropFolderStatus('Drop folder permission was not granted.')
+              return
+            }
+
+            dropDirectoryHandle = handle
+            setDropFolderStatus('Drop folder connected; evidence exports save locally without external upload.')
+            writeEvents([
+              ...readEvents(),
+              {
+                id: createId(),
+                name: 'local_event_drop_folder_connected',
+                properties: {
+                  surface: 'public-gate-sample-page',
+                  channel: 'product-gate-sample',
+                  mode: 'browser-selected-local-folder',
+                  fallback: 'download',
+                  noExternalUpload: true,
+                  noPiiRequired: true,
+                  playerInitiatedOnly: true,
+                  zeroPaidSpend: true,
+                },
+                createdAt: new Date().toISOString(),
+              },
+            ])
+            renderProgress()
+          } catch {
+            setDropFolderStatus('Drop folder was not connected; manual download fallback remains active.')
+          }
+        }
 
         const downloadEvents = (events) => {
           const blob = new Blob([JSON.stringify(events, null, 2)], { type: 'application/json' })
@@ -1118,16 +1309,19 @@ const gateSamplePage = `<!doctype html>
           }
         }
 
-        const exportMission = (mission) => {
+        const exportMission = async (mission) => {
           const events = readEvents()
           const progress = missionProgress(mission, events)
+          const folderPreferred = Boolean(dropDirectoryHandle)
           const exportEvent = {
             id: createId(),
             name: 'analytics_exported',
             properties: {
-              destination: 'local_file',
+              destination: folderPreferred ? 'local_folder' : 'local_file',
               exportSurface: 'product-gate-sample',
               exportSurfaceDetail: 'public-gate-sample-page',
+              eventDropMode: folderPreferred ? 'folder' : 'download',
+              eventDropFolderStatus: folderPreferred ? 'connected' : 'not-connected',
               gateId: mission.gateId,
               gameId: mission.gameId,
               campaignId: mission.campaignId,
@@ -1142,6 +1336,7 @@ const gateSamplePage = `<!doctype html>
               localSuccessesRemaining: progress.successesRemaining,
               localEvidenceDropReady: progress.evidenceDropReady,
               localSampleDecisionReady: progress.sampleDecisionReady,
+              noExternalUpload: true,
               zeroPaidSpend: true,
               noSyntheticEvents: mission.controls.noSyntheticEvents,
               noRevenueEnablement: mission.controls.noRevenueEnablement,
@@ -1149,8 +1344,16 @@ const gateSamplePage = `<!doctype html>
             createdAt: new Date().toISOString(),
           }
           const nextEvents = [...events, exportEvent]
+          const wroteToFolder = await writeDropFile(nextEvents, 'product-gate-sample')
+
+          if (!wroteToFolder) {
+            exportEvent.properties.destination = 'local_file'
+            exportEvent.properties.eventDropMode = folderPreferred ? 'folder-failed-download' : 'download'
+            exportEvent.properties.eventDropFolderStatus = folderPreferred ? 'failed' : 'not-connected'
+            downloadEvents(nextEvents)
+          }
+
           writeEvents(nextEvents)
-          downloadEvents(nextEvents)
           renderProgress()
         }
 
@@ -1226,12 +1429,16 @@ const gateSamplePage = `<!doctype html>
           renderProgress()
         }
 
+        document.querySelector('[data-connect-drop-folder]')?.addEventListener('click', () => {
+          void connectDropFolder()
+        })
+
         document.querySelectorAll('[data-export-campaign]').forEach((button) => {
           button.addEventListener('click', () => {
             const mission = missions.find((item) => item.campaignId === button.getAttribute('data-export-campaign'))
 
             if (mission) {
-              exportMission(mission)
+              void exportMission(mission)
             }
           })
         })
@@ -1258,6 +1465,11 @@ const gateSamplePage = `<!doctype html>
 
         document.addEventListener('visibilitychange', renderProgress)
         window.addEventListener('storage', renderProgress)
+        setDropFolderStatus(
+          dropFolderSupported()
+            ? 'Optional local drop folder available; manual download fallback remains active.'
+            : 'Manual download fallback active.',
+        )
         renderProgress()
       })()
     </script>
@@ -1272,7 +1484,7 @@ await mkdir(path.dirname(gateSamplePagePath), { recursive: true })
 await writeFile(outputJsonPath, JSON.stringify(payload, null, 2) + '\n')
 await writeFile(
   outputTsPath,
-  `export const productGateSamplePlan = ${JSON.stringify(payload, null, 2)} as const\n\nexport type ProductGateSamplePlan = typeof productGateSamplePlan\n`,
+  `export const productGateSamplePlan = ${JSON.stringify(appPayload, null, 2)} as const\n\nexport type ProductGateSamplePlan = typeof productGateSamplePlan\n`,
 )
 await writeFile(reportPath, report)
 await writeFile(gateSamplePagePath, gateSamplePage)

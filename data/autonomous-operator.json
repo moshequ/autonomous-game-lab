@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-22T19:25:09.531Z",
+  "generatedAt": "2026-05-22T19:42:01.611Z",
   "status": "operator-plan-ready",
   "mode": "plan-only",
   "ownerDecision": {
@@ -24,8 +24,7 @@
   "selectedRejection": null,
   "eligibleActionIds": [
     "seed-portfolio-traffic",
-    "collect-gate-sample-downloads",
-    "refresh-product-gate-sample-plan"
+    "collect-gate-sample-downloads"
   ],
   "blockedActions": [
     {
@@ -126,9 +125,9 @@
     },
     {
       "id": "refresh-product-gate-sample-plan",
-      "status": "armed",
+      "status": "monitor",
       "command": "npm run autonomous:sample-plan",
-      "reason": "not-selected-this-run"
+      "reason": "status-monitor"
     },
     {
       "id": "refresh-first-move-coach",

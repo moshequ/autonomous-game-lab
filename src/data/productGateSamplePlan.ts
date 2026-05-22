@@ -1,174 +1,30 @@
 export const productGateSamplePlan = {
-  "generatedAt": "2026-05-22T16:21:50.358Z",
-  "sourceDataHash": "cd5c59a16544",
   "status": "product-gate-sample-plan-ready",
-  "sourceStatus": {
-    "analyticsSource": "fixture-sample",
-    "retentionSource": "fixture-retention",
-    "productGateRecovery": "product-gate-recovery-ready",
-    "localEventBridge": "bridge-waiting-for-export",
-    "organicSeedLoop": "organic-seed-loop-ready",
-    "trafficSeeding": "traffic-seeding-ready"
-  },
   "summary": {
-    "failingGates": 3,
-    "missions": 3,
-    "primaryGateId": "firstGameCompletion",
     "fastestGateId": "d1Retention",
-    "defaultRouteGateId": "firstGameCompletion",
     "defaultRouteCampaignId": "gate-sample-20260522-firstGameCompletion",
-    "totalPromptViewsNeeded": 70,
-    "totalObservedSuccessesNeeded": 139,
-    "sampleReadyCount": 0,
-    "localEventsAvailable": false,
-    "importedGateSampleEvents": 0,
-    "inboxGateSampleEvents": 0,
-    "evidenceReadyCount": 0,
-    "inboxReadyCount": 0,
-    "supportingAggregateEvidenceNotes": 0,
-    "downloadsScanStatus": "no-evidence-found",
-    "downloadsScanCoolingDown": true,
-    "downloadsScanNextRecommendedAt": "2026-05-22T17:53:13.086Z",
-    "nextOwnerAction": "collect-gate-sample-downloads"
-  },
-  "downloadsScan": {
-    "explicitOptInRequired": true,
-    "cooldownHours": 4,
-    "coolingDown": true,
-    "evidenceReadyNow": false,
-    "lastScanAt": "2026-05-22T13:53:13.086Z",
-    "lastScanStatus": "no-evidence-found",
-    "scanAgeHours": 2.48,
-    "cooldownRemainingHours": 1.52,
-    "nextRecommendedScanAt": "2026-05-22T17:53:13.086Z"
-  },
-  "publicSamplePage": {
-    "path": "/gate-sample.html",
-    "missionCount": 3,
-    "primaryCampaignId": "gate-sample-20260522-firstGameCompletion",
-    "fastestCampaignId": "gate-sample-20260522-d1Retention",
-    "defaultRouteCampaignId": "gate-sample-20260522-firstGameCompletion",
-    "localProgressEnabled": true,
-    "autonomousDefaultRoutingEnabled": true,
-    "playerInitiatedExportEnabled": true,
-    "playerInitiatedShareEnabled": true,
-    "playerInitiatedAggregateEvidenceEnabled": true,
-    "aggregateEvidenceIssueTemplate": "analytics-evidence.yml",
-    "aggregateEvidenceRepository": "moshequ/autonomous-game-lab",
-    "exportSurface": "product-gate-sample",
-    "zeroPaidSpend": true,
-    "playerInitiatedOnly": true,
-    "noSyntheticEvents": true
+    "totalPromptViewsNeeded": 70
   },
   "runtimeEvidencePolicy": {
-    "status": "active",
-    "surface": "product-gate-sample-plan-card",
-    "localProgressSource": "agl.analytics.events",
-    "campaignMatchProperties": [
-      "acquisitionCampaign",
-      "campaignId"
-    ],
-    "progressCounters": [
-      "localCampaignEvents",
-      "localCollectionEvents",
-      "localPromptViews",
-      "localPromptActions",
-      "localObservedSuccesses",
-      "localFailures",
-      "localAnalyticsExports",
-      "localPromptViewsRemaining",
-      "localSuccessesRemaining"
-    ],
-    "exportProperties": [
-      "exportSurface",
-      "gateId",
-      "gameId",
-      "campaignId",
-      "localCampaignEvents",
-      "localCollectionEvents",
-      "localPromptViews",
-      "localPromptActions",
-      "localObservedSuccesses",
-      "localFailures",
-      "localAnalyticsExports",
-      "localEvidenceDropReady",
-      "localSampleDecisionReady"
-    ],
-    "publicPageExportProperties": [
-      "exportSurface",
-      "exportSurfaceDetail",
-      "gateId",
-      "gameId",
-      "campaignId",
-      "localCampaignEvents",
-      "localCollectionEvents",
-      "localPromptViews",
-      "localObservedSuccesses",
-      "localAnalyticsExports",
-      "localEvidenceDropReady",
-      "localSampleDecisionReady"
-    ],
-    "publicPageShareProperties": [
-      "campaignId",
-      "gateId",
-      "gameId",
-      "shareUrl",
-      "method",
-      "succeeded",
-      "zeroPaidSpend",
-      "noSyntheticEvents"
-    ],
     "defaultRouting": {
-      "status": "active",
-      "gateId": "firstGameCompletion",
-      "campaignId": "gate-sample-20260522-firstGameCompletion",
-      "gameId": "harbor-rings",
-      "latencyDays": 0,
-      "source": "gate_sample",
-      "channel": "product-gate-sample",
-      "appliesWhen": "direct-root-visit-without-explicit-game-or-campaign",
-      "routeSelection": "lowest-validation-latency-primary-bottleneck-first",
-      "eventPolicy": "real-player-events-only",
-      "controls": {
-        "zeroPaidSpend": true,
-        "noSyntheticEvents": true,
-        "noAutoPlay": true,
-        "playerCanChooseAnotherGame": true,
-        "noRevenueEnablement": true
-      }
-    },
-    "controls": {
-      "zeroPaidSpend": true,
-      "localOnlyUntilCollectorConfigured": true,
-      "noSyntheticEvents": true,
-      "playerInitiatedExportOnly": true,
-      "noRevenueEnablement": true
+      "campaignId": "gate-sample-20260522-firstGameCompletion"
     }
+  },
+  "controls": {
+    "zeroPaidSpend": true
   },
   "missions": [
     {
       "id": "collect-firstGameCompletion-sample",
-      "rank": 1,
       "gateId": "firstGameCompletion",
       "label": "First game completion",
       "status": "collecting-sample",
       "ownerLoop": "completion-loop",
-      "actionId": "refresh-completion-loop",
       "gameId": "harbor-rings",
       "title": "Harbor Rings",
       "surface": "autonomy-cockpit-completion-card",
       "campaignId": "gate-sample-20260522-firstGameCompletion",
       "playPath": "/?game=harbor-rings&utm_source=gate_sample&utm_campaign=gate-sample-20260522-firstGameCompletion",
-      "organicSeedCampaignId": null,
-      "current": {
-        "actual": 0.397,
-        "gate": 0.55,
-        "denominator": 375,
-        "successes": 149,
-        "promptViews": 0,
-        "promptActions": 0,
-        "actionRate": null
-      },
       "needed": {
         "promptViews": 30,
         "successes": 128,
@@ -201,75 +57,27 @@ export const productGateSamplePlan = {
           "level_completed"
         ]
       },
-      "refreshCommands": [
-        "npm run autonomous:completion-loop",
-        "npm run autonomous:local-event-bridge",
-        "npm run autonomous:import-events",
-        "npm run autonomous:analytics",
-        "npm run autonomous:gate-recovery"
-      ],
       "controls": {
         "costUsd": 0,
-        "noPaidTraffic": true,
-        "playerInitiatedOnly": true,
         "noSyntheticEvents": true,
         "noRuleChange": true,
         "noRevenueEnablement": true
       },
-      "sampleTiming": {
-        "latencyDays": 0,
-        "sameSessionPlayable": true,
-        "reason": "Completion and replay prompts can collect same-session evidence from the next player visit."
-      },
-      "sampleRole": "primary-bottleneck",
       "evidence": {
-        "status": "waiting-for-player-export",
-        "source": null,
-        "events": 0,
-        "successEvents": 0,
-        "analyticsExports": 0,
-        "latestAt": null
-      },
-      "supportingAggregateEvidence": {
-        "status": "none",
-        "source": "support-feedback-public-issues",
-        "matchScope": "none",
-        "noteCount": 0,
-        "campaignNoteCount": 0,
-        "gateGameNoteCount": 0,
-        "starts": 0,
-        "completions": 0,
-        "replays": 0,
-        "d1Eligible": 0,
-        "d1Retained": 0,
-        "gateDecisionEligible": false,
-        "manualReviewRequired": true,
-        "topIssues": []
+        "status": "waiting-for-player-export"
       }
     },
     {
       "id": "collect-replayRate-sample",
-      "rank": 2,
       "gateId": "replayRate",
       "label": "Replay rate",
       "status": "collecting-sample",
       "ownerLoop": "replay-loop",
-      "actionId": "refresh-replay-loop",
       "gameId": "harbor-rings",
       "title": "Harbor Rings",
       "surface": "autonomy-cockpit-replay-card",
       "campaignId": "gate-sample-20260522-replayRate",
       "playPath": "/?game=harbor-rings&utm_source=gate_sample&utm_campaign=gate-sample-20260522-replayRate",
-      "organicSeedCampaignId": null,
-      "current": {
-        "actual": 0.309,
-        "gate": 0.35,
-        "denominator": 149,
-        "successes": 46,
-        "promptViews": 0,
-        "promptActions": 0,
-        "actionRate": null
-      },
       "needed": {
         "promptViews": 30,
         "successes": 10,
@@ -294,75 +102,27 @@ export const productGateSamplePlan = {
           "replay_clicked"
         ]
       },
-      "refreshCommands": [
-        "npm run autonomous:replay-loop",
-        "npm run autonomous:local-event-bridge",
-        "npm run autonomous:import-events",
-        "npm run autonomous:analytics",
-        "npm run autonomous:gate-recovery"
-      ],
       "controls": {
         "costUsd": 0,
-        "noPaidTraffic": true,
-        "playerInitiatedOnly": true,
         "noSyntheticEvents": true,
         "noRuleChange": true,
         "noRevenueEnablement": true
       },
-      "sampleTiming": {
-        "latencyDays": 0,
-        "sameSessionPlayable": true,
-        "reason": "Completion and replay prompts can collect same-session evidence from the next player visit."
-      },
-      "sampleRole": "supporting-sample",
       "evidence": {
-        "status": "waiting-for-player-export",
-        "source": null,
-        "events": 0,
-        "successEvents": 0,
-        "analyticsExports": 0,
-        "latestAt": null
-      },
-      "supportingAggregateEvidence": {
-        "status": "none",
-        "source": "support-feedback-public-issues",
-        "matchScope": "none",
-        "noteCount": 0,
-        "campaignNoteCount": 0,
-        "gateGameNoteCount": 0,
-        "starts": 0,
-        "completions": 0,
-        "replays": 0,
-        "d1Eligible": 0,
-        "d1Retained": 0,
-        "gateDecisionEligible": false,
-        "manualReviewRequired": true,
-        "topIssues": []
+        "status": "waiting-for-player-export"
       }
     },
     {
       "id": "collect-d1Retention-sample",
-      "rank": 3,
       "gateId": "d1Retention",
       "label": "D1 retention",
       "status": "collecting-sample",
       "ownerLoop": "retention-loop",
-      "actionId": "optimize-daily-retention",
       "gameId": "market-pulse",
       "title": "Market Pulse",
       "surface": "autonomy-cockpit-return-intent-card",
       "campaignId": "gate-sample-20260522-d1Retention",
       "playPath": "/?game=market-pulse&utm_source=gate_sample&utm_campaign=gate-sample-20260522-d1Retention",
-      "organicSeedCampaignId": "seed-20260522-market-pulse",
-      "current": {
-        "actual": 0.167,
-        "gate": 0.18,
-        "denominator": 12,
-        "successes": 2,
-        "promptViews": 0,
-        "promptActions": 0,
-        "actionRate": null
-      },
       "needed": {
         "promptViews": 10,
         "successes": 1,
@@ -392,81 +152,16 @@ export const productGateSamplePlan = {
           "daily_return_intent_started"
         ]
       },
-      "refreshCommands": [
-        "npm run autonomous:retention",
-        "npm run autonomous:local-event-bridge",
-        "npm run autonomous:import-events",
-        "npm run autonomous:analytics",
-        "npm run autonomous:gate-recovery"
-      ],
       "controls": {
         "costUsd": 0,
-        "noPaidTraffic": true,
-        "playerInitiatedOnly": true,
         "noSyntheticEvents": true,
         "noRuleChange": true,
         "noRevenueEnablement": true
       },
-      "sampleTiming": {
-        "latencyDays": 1,
-        "sameSessionPlayable": false,
-        "reason": "D1 retention needs a return session, so it is not the best default route for immediate sample collection."
-      },
-      "sampleRole": "fastest-validation",
       "evidence": {
-        "status": "waiting-for-player-export",
-        "source": null,
-        "events": 0,
-        "successEvents": 0,
-        "analyticsExports": 0,
-        "latestAt": null
-      },
-      "supportingAggregateEvidence": {
-        "status": "none",
-        "source": "support-feedback-public-issues",
-        "matchScope": "none",
-        "noteCount": 0,
-        "campaignNoteCount": 0,
-        "gateGameNoteCount": 0,
-        "starts": 0,
-        "completions": 0,
-        "replays": 0,
-        "d1Eligible": 0,
-        "d1Retained": 0,
-        "gateDecisionEligible": false,
-        "manualReviewRequired": true,
-        "topIssues": []
+        "status": "waiting-for-player-export"
       }
     }
-  ],
-  "commandPlan": {
-    "refreshPlan": "npm run autonomous:sample-plan",
-    "collectAndRefresh": "npm run autonomous:local-event-bridge && npm run autonomous:import-events && npm run autonomous:analytics && npm run autonomous:gate-recovery && npm run autonomous:sample-plan && npm run autonomous:retention",
-    "collectDownloadsAndRefresh": "npm run autonomous:collect-sample-downloads",
-    "primaryLoopRefresh": "npm run autonomous:completion-loop"
-  },
-  "controls": {
-    "zeroPaidSpend": true,
-    "noPaidTraffic": true,
-    "noSyntheticGatePasses": true,
-    "noAutomaticRuleChanges": true,
-    "noRevenueEnablement": true,
-    "noStoreSubmission": true,
-    "playerInitiatedOnly": true,
-    "localEventBridgeRequired": true,
-    "realEventDropsOnly": true,
-    "downloadsImportRequiresExplicitOptIn": true,
-    "downloadsScanBackoffRequired": true,
-    "directTrafficSampleRouting": true,
-    "playerInitiatedSampleSharing": true,
-    "requireObservedTelemetryBeforeRecoveryChange": true,
-    "publicAggregateEvidenceIsSupportingOnly": true,
-    "aggregateEvidenceDoesNotPassGates": true
-  },
-  "nextActions": [
-    "First game completion needs 30 more prompt exposure(s) and 128 observed success(es); feature Harbor Rings via /?game=harbor-rings&utm_source=gate_sample&utm_campaign=gate-sample-20260522-firstGameCompletion.",
-    "D1 retention is the fastest gate sample: 10 prompt exposure(s), 1 observed success(es).",
-    "Wait until 2026-05-22T17:53:13.086Z before the next explicit Downloads scan unless an inbox event drop appears."
   ]
 } as const
 

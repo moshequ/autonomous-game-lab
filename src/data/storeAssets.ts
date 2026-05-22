@@ -1,5 +1,5 @@
 export const storeAssets = {
-  "generatedAt": "2026-05-22T19:21:08.474Z",
+  "generatedAt": "2026-05-22T19:40:27.094Z",
   "status": "screenshots-ready",
   "basePath": "/autonomous-game-lab/",
   "sourceBuild": "dist",
@@ -28,7 +28,7 @@ export const storeAssets = {
       "distPath": "dist/store-assets/screenshots/phone-lantern-relay-game.png",
       "width": 1170,
       "height": 2532,
-      "bytes": 194268,
+      "bytes": 196494,
       "platformUse": [
         "Google Play phone",
         "Apple iPhone draft"

@@ -1,5 +1,18 @@
 import { hashSourceData } from './source-hash.mjs'
 
+const stableDeploymentForBootstrap = (deployment) => ({
+  status: deployment?.status ?? 'missing',
+  target: deployment?.target ?? {},
+  repositoryChannel: deployment?.repositoryChannel ?? {},
+  eventCollector: deployment?.eventCollector ?? {},
+  releaseCandidate: deployment?.releaseCandidate ?? {},
+  environment: deployment?.environment ?? {},
+  checks: (deployment?.checks ?? []).map((check) => ({
+    id: check.id,
+    status: check.status,
+  })),
+})
+
 export const stableProductionBootstrapSource = ({
   releaseCandidate,
   deployment,
@@ -14,7 +27,7 @@ export const stableProductionBootstrapSource = ({
   unitEconomics,
 }) => ({
   releaseCandidate,
-  deployment,
+  deployment: stableDeploymentForBootstrap(deployment),
   repositoryReadiness,
   repositoryBootstrap,
   productionEnvironment,

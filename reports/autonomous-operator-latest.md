@@ -1,6 +1,6 @@
 # Autonomous Operator
 
-Generated: 2026-05-22T19:25:09.531Z
+Generated: 2026-05-22T19:42:01.611Z
 Status: operator-plan-ready
 Mode: plan-only
 Owner decision: collect-gate-sample-downloads
@@ -24,7 +24,6 @@ Execution: not-requested
 
 - seed-portfolio-traffic
 - collect-gate-sample-downloads
-- refresh-product-gate-sample-plan
 
 ## Blocked Actions
 
