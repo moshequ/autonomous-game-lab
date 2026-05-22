@@ -25,6 +25,7 @@ const firstMoveCoachPath = path.join(root, 'data', 'first-move-coach.json')
 const completionLoopPath = path.join(root, 'data', 'completion-loop.json')
 const replayLoopPath = path.join(root, 'data', 'replay-loop.json')
 const nativePackagePath = path.join(root, 'data', 'native-package.json')
+const androidRootAssetlinksHandoffPath = path.join(root, 'data', 'android-root-assetlinks-handoff.json')
 const androidSigningPath = path.join(root, 'data', 'android-signing.json')
 const iosReleasePath = path.join(root, 'data', 'ios-release.json')
 const environmentPath = path.join(root, 'data', 'production-environment.json')
@@ -186,6 +187,13 @@ const nativePackage = await readOptionalJson(nativePackagePath, {
   status: 'missing',
   checks: [],
   handoff: {},
+})
+const androidRootAssetlinksHandoff = await readOptionalJson(androidRootAssetlinksHandoffPath, {
+  status: 'missing',
+  checks: [],
+  controls: {},
+  handoff: {},
+  target: {},
 })
 const androidSigning = await readOptionalJson(androidSigningPath, {
   status: 'missing',
@@ -1145,6 +1153,15 @@ const storePackageChecks = [
     `Android native handoff is ${nativePackage.status}.`,
   ),
   check(
+    'android-root-assetlinks-handoff',
+    ['root-assetlinks-handoff-ready', 'root-assetlinks-not-needed'].includes(androidRootAssetlinksHandoff.status) &&
+      androidRootAssetlinksHandoff.handoff?.syncScriptPath === 'ops/github/sync-root-assetlinks.sh' &&
+      androidRootAssetlinksHandoff.controls?.zeroPaidSpend === true &&
+      androidRootAssetlinksHandoff.controls?.dryRunByDefault === true &&
+      androidRootAssetlinksHandoff.controls?.noStoreSubmission === true,
+    `Android root asset links handoff is ${androidRootAssetlinksHandoff.status}.`,
+  ),
+  check(
     'ios-app-store-handoff',
     iosRelease.status !== 'missing' &&
       iosRelease.platform === 'ios-app-store' &&
@@ -1488,6 +1505,13 @@ const payload = {
       blockers: nativePackage.blockers ?? [],
       checks: nativePackage.checks ?? [],
     },
+    androidRootAssetlinksHandoff: {
+      status: androidRootAssetlinksHandoff.status,
+      target: androidRootAssetlinksHandoff.target,
+      handoff: androidRootAssetlinksHandoff.handoff,
+      controls: androidRootAssetlinksHandoff.controls,
+      checks: androidRootAssetlinksHandoff.checks ?? [],
+    },
     iosRelease: {
       status: iosRelease.status,
       platform: iosRelease.platform,
@@ -1766,6 +1790,11 @@ const report = [
   `Native package: ${payload.distribution.nativePackage.status}`,
   ...(payload.distribution.nativePackage.checks ?? []).map(
     (item) => `- ${item.status}: native-${item.id} - ${item.detail}`,
+  ),
+  '',
+  `Android root asset links: ${payload.distribution.androidRootAssetlinksHandoff.status}`,
+  ...(payload.distribution.androidRootAssetlinksHandoff.checks ?? []).map(
+    (item) => `- ${item.status}: android-root-assetlinks-${item.id} - ${item.detail}`,
   ),
   '',
   `iOS release: ${payload.distribution.iosRelease.status}`,

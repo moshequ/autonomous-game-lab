@@ -23,6 +23,7 @@ import { balanceReport } from './data/balanceReport'
 import { deploymentPlan } from './data/deploymentPlan'
 import { eventCollectorDeployment } from './data/eventCollectorDeployment'
 import { androidRelease } from './data/androidRelease'
+import { androidRootAssetlinksHandoff } from './data/androidRootAssetlinksHandoff'
 import { androidSigning } from './data/androidSigning'
 import { autonomousCadence } from './data/autonomousCadence'
 import { autonomousOwnerLoop } from './data/autonomousOwnerLoop'
@@ -4152,6 +4153,24 @@ function App() {
               <div className="factRow">
                 <span>Asset links</span>
                 <strong>{nativePackage.assetLinks.status}</strong>
+              </div>
+              <div className="monetizationRuntime" aria-label="Android Root Asset Links Handoff">
+                <div>
+                  <span>Root asset links</span>
+                  <strong>{androidRootAssetlinksHandoff.status}</strong>
+                </div>
+                <div>
+                  <span>Target repo</span>
+                  <strong>{androidRootAssetlinksHandoff.target.repository ?? 'missing'}</strong>
+                </div>
+                <div>
+                  <span>Sync mode</span>
+                  <strong>{androidRootAssetlinksHandoff.controls.dryRunByDefault ? 'dry-run' : 'apply'}</strong>
+                </div>
+                <div>
+                  <span>Script</span>
+                  <strong>{androidRootAssetlinksHandoff.handoff.syncScriptPath}</strong>
+                </div>
               </div>
               <div className="factRow">
                 <span>Android cost gate</span>

@@ -4613,6 +4613,7 @@ test('generated Digital Asset Links expose accurate Android TWA verification sta
       domainVerificationReady: boolean
       requiredRootUrl: string
       publishedUrl: string
+      requiresRootWellKnownPath: boolean
     }
     signing: { sha256CertFingerprint: string }
   }
@@ -4620,10 +4621,24 @@ test('generated Digital Asset Links expose accurate Android TWA verification sta
     checks: Array<{ id: string; status: string }>
     blockers: string[]
   }
+  const rootAssetlinksHandoff = JSON.parse(await readFile('data/android-root-assetlinks-handoff.json', 'utf8')) as {
+    status: string
+    target: { repository: string | null; requiredRootUrl: string; projectPublishedUrl: string; path: string }
+    source: { path: string; packageName: string; sha256CertFingerprint: string }
+    handoff: { syncScriptPath: string; dryRunCommand: string; syncCommand: string }
+    controls: {
+      zeroPaidSpend: boolean
+      dryRunByDefault: boolean
+      explicitApplyFlagRequired: boolean
+      noStoreSubmission: boolean
+      sourceFileOnly: boolean
+    }
+  }
   const assetLinks = JSON.parse(await readFile('public/.well-known/assetlinks.json', 'utf8')) as Array<{
     relation: string[]
     target: { package_name: string; sha256_cert_fingerprints: string[] }
   }>
+  const syncScript = await readFile('ops/github/sync-root-assetlinks.sh', 'utf8')
 
   expect(nativePackage.handoff.publicAssetLinksPath).toBe('public/.well-known/assetlinks.json')
   expect(nativePackage.assetLinks.publicGenerated).toBe(true)
@@ -4631,17 +4646,39 @@ test('generated Digital Asset Links expose accurate Android TWA verification sta
   expect(assetLinks[0].target.package_name).toBe(nativePackage.packageName)
   expect(assetLinks[0].target.sha256_cert_fingerprints[0]).toBe(nativePackage.signing.sha256CertFingerprint)
   expect(nativePackage.commands.init).toContain(nativePackage.manifestUrl)
+  expect(rootAssetlinksHandoff.source.path).toBe('public/.well-known/assetlinks.json')
+  expect(rootAssetlinksHandoff.source.packageName).toBe(nativePackage.packageName)
+  expect(rootAssetlinksHandoff.source.sha256CertFingerprint).toBe(nativePackage.signing.sha256CertFingerprint)
+  expect(rootAssetlinksHandoff.target.requiredRootUrl).toBe(nativePackage.assetLinks.requiredRootUrl)
+  expect(rootAssetlinksHandoff.target.projectPublishedUrl).toBe(nativePackage.assetLinks.publishedUrl)
+  expect(rootAssetlinksHandoff.target.path).toBe('.well-known/assetlinks.json')
+  expect(rootAssetlinksHandoff.handoff.syncScriptPath).toBe('ops/github/sync-root-assetlinks.sh')
+  expect(rootAssetlinksHandoff.handoff.dryRunCommand).toBe('./ops/github/sync-root-assetlinks.sh')
+  expect(rootAssetlinksHandoff.controls.zeroPaidSpend).toBe(true)
+  expect(rootAssetlinksHandoff.controls.dryRunByDefault).toBe(true)
+  expect(rootAssetlinksHandoff.controls.explicitApplyFlagRequired).toBe(true)
+  expect(rootAssetlinksHandoff.controls.noStoreSubmission).toBe(true)
+  expect(rootAssetlinksHandoff.controls.sourceFileOnly).toBe(true)
+  expect(syncScript).toContain('AGL_SYNC_ROOT_ASSETLINKS')
+  expect(syncScript).toContain('gh repo clone')
+  expect(syncScript).toContain('public/.well-known/assetlinks.json')
+  expect(syncScript).toContain('.well-known/assetlinks.json')
 
   if (nativePackage.basePath === '/') {
     expect(nativePackage.assetLinks.status).toBe('ready')
     expect(nativePackage.assetLinks.domainVerificationReady).toBe(true)
+    expect(rootAssetlinksHandoff.status).toBe('root-assetlinks-not-needed')
     expect(androidRelease.checks.find((check) => check.id === 'asset-links')?.status).toBe('pass')
     expect(androidRelease.blockers.some((blocker) => blocker.startsWith('asset-links:'))).toBe(false)
   } else {
     expect(nativePackage.assetLinks.status).toBe('domain-verification-blocked')
     expect(nativePackage.assetLinks.domainVerificationReady).toBe(false)
+    expect(nativePackage.assetLinks.requiresRootWellKnownPath).toBe(true)
     expect(nativePackage.assetLinks.publishedUrl).toContain(nativePackage.basePath)
     expect(nativePackage.assetLinks.requiredRootUrl).not.toContain(nativePackage.basePath)
+    expect(rootAssetlinksHandoff.status).toBe('root-assetlinks-handoff-ready')
+    expect(rootAssetlinksHandoff.target.repository).toBe('moshequ/moshequ.github.io')
+    expect(rootAssetlinksHandoff.handoff.syncCommand).toContain('AGL_SYNC_ROOT_ASSETLINKS=1')
     expect(androidRelease.checks.find((check) => check.id === 'asset-links')?.status).toBe('blocker')
     expect(androidRelease.blockers.some((blocker) => blocker.startsWith('asset-links:'))).toBe(true)
   }
@@ -4649,6 +4686,9 @@ test('generated Digital Asset Links expose accurate Android TWA verification sta
   const response = await page.goto('/.well-known/assetlinks.json')
   expect(response?.ok()).toBeTruthy()
   await expect(page.locator('body')).toContainText(nativePackage.packageName)
+  await page.goto('/')
+  await expect(page.getByLabel('Android Root Asset Links Handoff')).toContainText(rootAssetlinksHandoff.status)
+  await expect(page.getByLabel('Android Root Asset Links Handoff')).toContainText('dry-run')
 })
 
 test('objective audit maps the goal to evidence and remaining blockers', async ({ page }) => {

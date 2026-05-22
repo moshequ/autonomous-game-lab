@@ -114,6 +114,7 @@ const allowedExactPaths = new Set([
   'ops/github/README.md',
   'ops/github/bootstrap-repository.sh',
   'ops/github/setup-production.sh',
+  'ops/github/sync-root-assetlinks.sh',
   'ops/production.env.example',
 ])
 const blockedPrefixes = [

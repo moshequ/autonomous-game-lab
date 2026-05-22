@@ -1,0 +1,80 @@
+export const androidRootAssetlinksHandoff = {
+  "generatedAt": "2026-05-22T10:30:13.542Z",
+  "status": "root-assetlinks-handoff-ready",
+  "platform": "android-trusted-web-activity",
+  "sourceStatus": {
+    "nativePackage": "blocked-draft-ready",
+    "nativeAssetLinks": "domain-verification-blocked",
+    "repositoryReadiness": "repository-channel-ready"
+  },
+  "target": {
+    "repository": "moshequ/moshequ.github.io",
+    "repositorySource": "github-pages-host",
+    "branch": "main",
+    "path": ".well-known/assetlinks.json",
+    "requiredRootUrl": "https://moshequ.github.io/.well-known/assetlinks.json",
+    "projectPublishedUrl": "https://moshequ.github.io/autonomous-game-lab/.well-known/assetlinks.json"
+  },
+  "source": {
+    "path": "public/.well-known/assetlinks.json",
+    "ready": true,
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "packageName": "app.autonomousgamelab.portal",
+    "sha256CertFingerprint": "FC:92:04:44:5B:93:78:92:A9:8C:08:50:BF:97:7A:90:A5:62:61:81:53:E7:A9:AA:A9:39:86:74:AE:D3:52:C2"
+  },
+  "handoff": {
+    "syncScriptPath": "ops/github/sync-root-assetlinks.sh",
+    "syncCommand": "AGL_SYNC_ROOT_ASSETLINKS=1 AGL_ROOT_ASSETLINKS_REPOSITORY=\"moshequ/moshequ.github.io\" ./ops/github/sync-root-assetlinks.sh",
+    "dryRunCommand": "./ops/github/sync-root-assetlinks.sh",
+    "verificationCommand": "curl -fsSL \"https://moshequ.github.io/.well-known/assetlinks.json\"",
+    "afterSyncCommands": [
+      "npm run autonomous:native-package",
+      "npm run autonomous:android-release-plan",
+      "npm run autonomous:readiness"
+    ]
+  },
+  "controls": {
+    "zeroPaidSpend": true,
+    "noAccountCreation": true,
+    "noStoreSubmission": true,
+    "noRevenueEnablement": true,
+    "dryRunByDefault": true,
+    "explicitApplyFlagRequired": true,
+    "targetRepositoryMustExist": true,
+    "sourceFileOnly": true,
+    "noSecretValues": true,
+    "noForcePush": true,
+    "branchProtectionRespected": true
+  },
+  "checks": [
+    {
+      "id": "root-assetlinks-needed",
+      "status": "actionable",
+      "detail": "Android requires https://moshequ.github.io/.well-known/assetlinks.json; project Pages currently publishes https://moshequ.github.io/autonomous-game-lab/.well-known/assetlinks.json."
+    },
+    {
+      "id": "source-assetlinks",
+      "status": "pass",
+      "detail": "Generated public assetlinks file is ready."
+    },
+    {
+      "id": "target-repository",
+      "status": "prepared",
+      "detail": "Prepared to sync into moshequ/moshequ.github.io:main:.well-known/assetlinks.json."
+    },
+    {
+      "id": "github-cli",
+      "status": "available",
+      "detail": "GitHub CLI automation is available for the repository context."
+    }
+  ],
+  "nextActions": [
+    "When root Pages repository access is available, run AGL_SYNC_ROOT_ASSETLINKS=1 AGL_ROOT_ASSETLINKS_REPOSITORY=\"moshequ/moshequ.github.io\" ./ops/github/sync-root-assetlinks.sh.",
+    "After the root file is live, rerun native package, Android release plan, and readiness evidence.",
+    "Do not create accounts, pay store fees, or submit to stores from this handoff."
+  ]
+} as const
+
+export type AndroidRootAssetlinksHandoff = typeof androidRootAssetlinksHandoff
