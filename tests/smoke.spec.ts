@@ -4376,6 +4376,8 @@ test('autonomous cadence keeps unattended operation auditable and guarded', asyn
         verificationGate: string
         directPushRequiresRepositoryVariable: string
         followedByDeployWorkflow: string
+        publicIssueTriggerSecretsBlocked: boolean
+        publicIssueTriggerCommitsBlocked: boolean
       }
       githubPostDeployEvidenceSync: {
         status: string
@@ -4536,7 +4538,9 @@ test('autonomous cadence keeps unattended operation auditable and guarded', asyn
   expect(cadence.schedulers.githubPublicEvidenceIntake.trigger).toBe(
     'issues, workflow_dispatch, schedule: every 6 hours',
   )
-  expect(cadence.schedulers.githubPublicEvidenceIntake.permission).toBe('issues: read, contents: write')
+  expect(cadence.schedulers.githubPublicEvidenceIntake.permission).toBe(
+    'issues: read, contents: read; scheduled commit job contents: write',
+  )
   expect(cadence.schedulers.githubPublicEvidenceIntake.command).toBe(
     'npm run autonomous:public-evidence-intake',
   )
@@ -4547,6 +4551,8 @@ test('autonomous cadence keeps unattended operation auditable and guarded', asyn
   expect(cadence.schedulers.githubPublicEvidenceIntake.followedByDeployWorkflow).toBe(
     '.github/workflows/web-pwa-deploy.yml',
   )
+  expect(cadence.schedulers.githubPublicEvidenceIntake.publicIssueTriggerSecretsBlocked).toBe(true)
+  expect(cadence.schedulers.githubPublicEvidenceIntake.publicIssueTriggerCommitsBlocked).toBe(true)
   expect(cadence.schedulers.githubPostDeployEvidenceSync.status).toBe('gated')
   expect(cadence.schedulers.githubPostDeployEvidenceSync.workflow).toBe(
     '.github/workflows/post-deploy-evidence-sync.yml',
@@ -4562,11 +4568,28 @@ test('autonomous cadence keeps unattended operation auditable and guarded', asyn
     'npm run autonomous:verify-post-deploy-sync',
   )
   expect(publicEvidenceWorkflow).toContain('AGL_SUPPORT_EMAIL: ${{ vars.AGL_SUPPORT_EMAIL }}')
-  expect(publicEvidenceWorkflow).toContain('CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}')
+  expect(publicEvidenceWorkflow).toContain(
+    "CLOUDFLARE_API_TOKEN: ${{ github.event_name != 'issues' && secrets.CLOUDFLARE_API_TOKEN || '' }}",
+  )
+  expect(publicEvidenceWorkflow).toContain(
+    "AGL_EVENT_COLLECTOR_ADMIN_TOKEN: ${{ github.event_name != 'issues' && secrets.AGL_EVENT_COLLECTOR_ADMIN_TOKEN || '' }}",
+  )
+  expect(publicEvidenceWorkflow).toContain(
+    "POSTHOG_PERSONAL_API_KEY: ${{ github.event_name != 'issues' && secrets.POSTHOG_PERSONAL_API_KEY || '' }}",
+  )
+  expect(publicEvidenceWorkflow).toContain(
+    "VITE_EVENT_COLLECTOR_WRITE_TOKEN: ${{ github.event_name != 'issues' && secrets.VITE_EVENT_COLLECTOR_WRITE_TOKEN || '' }}",
+  )
   expect(publicEvidenceWorkflow).toContain('ADMOB_PUBLISHER_ID: ${{ vars.ADMOB_PUBLISHER_ID }}')
   expect(publicEvidenceWorkflow).toContain(
-    'GOOGLE_PLAY_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}',
+    "GOOGLE_PLAY_SERVICE_ACCOUNT_JSON: ${{ github.event_name != 'issues' && secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON || '' }}",
   )
+  expect(publicEvidenceWorkflow).toContain('permissions:\n  actions: read\n  contents: read\n  issues: read')
+  expect(publicEvidenceWorkflow).toContain('commit-public-evidence:')
+  expect(publicEvidenceWorkflow).toContain(
+    "if: github.event_name != 'issues' && vars.AGL_AUTONOMOUS_SELF_UPDATE_DIRECT == '1'",
+  )
+  expect(publicEvidenceWorkflow).toContain('actions/download-artifact@v4')
   expect(postDeploySyncWorkflow).toContain('AGL_SUPPORT_EMAIL: ${{ vars.AGL_SUPPORT_EMAIL }}')
   expect(postDeploySyncWorkflow).toContain(
     'AGL_EVENT_COLLECTOR_ADMIN_TOKEN: ${{ secrets.AGL_EVENT_COLLECTOR_ADMIN_TOKEN }}',
@@ -7301,10 +7324,27 @@ test('support feedback ingests public issues as redacted improvement evidence', 
   expect(intakeWorkflow).toContain('workflow_dispatch:')
   expect(intakeWorkflow).toContain('issues:')
   expect(intakeWorkflow).toContain('schedule:')
-  expect(intakeWorkflow).toContain('contents: write')
+  expect(intakeWorkflow).toContain('permissions:\n  actions: read\n  contents: read\n  issues: read')
   expect(intakeWorkflow).toContain('issues: read')
+  expect(intakeWorkflow).toContain('commit-public-evidence:')
+  expect(intakeWorkflow).toContain(
+    "if: github.event_name != 'issues' && vars.AGL_AUTONOMOUS_SELF_UPDATE_DIRECT == '1'",
+  )
+  expect(intakeWorkflow).toContain('actions/download-artifact@v4')
   expect(intakeWorkflow).toContain('GH_TOKEN: ${{ github.token }}')
   expect(intakeWorkflow).toContain('GITHUB_TOKEN: ${{ github.token }}')
+  expect(intakeWorkflow).toContain(
+    "CLOUDFLARE_API_TOKEN: ${{ github.event_name != 'issues' && secrets.CLOUDFLARE_API_TOKEN || '' }}",
+  )
+  expect(intakeWorkflow).toContain(
+    "AGL_EVENT_COLLECTOR_ADMIN_TOKEN: ${{ github.event_name != 'issues' && secrets.AGL_EVENT_COLLECTOR_ADMIN_TOKEN || '' }}",
+  )
+  expect(intakeWorkflow).toContain(
+    "POSTHOG_PERSONAL_API_KEY: ${{ github.event_name != 'issues' && secrets.POSTHOG_PERSONAL_API_KEY || '' }}",
+  )
+  expect(intakeWorkflow).toContain(
+    "VITE_EVENT_COLLECTOR_WRITE_TOKEN: ${{ github.event_name != 'issues' && secrets.VITE_EVENT_COLLECTOR_WRITE_TOKEN || '' }}",
+  )
   expect(intakeWorkflow).toContain('AGL_AUTONOMOUS_SELF_UPDATE: ${{ vars.AGL_AUTONOMOUS_SELF_UPDATE }}')
   expect(intakeWorkflow).toContain(
     'AGL_AUTONOMOUS_SELF_UPDATE_DIRECT: ${{ vars.AGL_AUTONOMOUS_SELF_UPDATE_DIRECT }}',

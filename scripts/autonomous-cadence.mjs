@@ -31,6 +31,8 @@ const readOptionalJson = async (filePath, fallback) =>
   readFile(filePath, 'utf8')
     .then((raw) => JSON.parse(raw))
     .catch(() => fallback)
+const workflowHasIssueGuardedSecret = (workflow, name) =>
+  workflow.includes(`${name}: \${{ github.event_name != 'issues' && secrets.${name} || '' }}`)
 
 const toFixedNumber = (value, digits = 2) => Number(value.toFixed(digits))
 
@@ -729,15 +731,23 @@ const checks = [
       publicEvidenceIntakeWorkflow.includes('workflow_dispatch:') &&
       publicEvidenceIntakeWorkflow.includes('issues:') &&
       publicEvidenceIntakeWorkflow.includes('schedule:') &&
-      publicEvidenceIntakeWorkflow.includes('contents: write') &&
+      publicEvidenceIntakeWorkflow.includes('permissions:\n  actions: read\n  contents: read\n  issues: read') &&
       publicEvidenceIntakeWorkflow.includes('issues: read') &&
+      publicEvidenceIntakeWorkflow.includes('commit-public-evidence:') &&
+      publicEvidenceIntakeWorkflow.includes("if: github.event_name != 'issues' && vars.AGL_AUTONOMOUS_SELF_UPDATE_DIRECT == '1'") &&
+      publicEvidenceIntakeWorkflow.includes('actions/download-artifact@v4') &&
+      publicEvidenceIntakeWorkflow.includes('contents: write') &&
       publicEvidenceIntakeWorkflow.includes('GH_TOKEN: ${{ github.token }}') &&
       publicEvidenceIntakeWorkflow.includes('GITHUB_TOKEN: ${{ github.token }}') &&
       publicEvidenceIntakeWorkflow.includes('AGL_SUPPORT_EMAIL: ${{ vars.AGL_SUPPORT_EMAIL }}') &&
-      publicEvidenceIntakeWorkflow.includes('CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}') &&
+      workflowHasIssueGuardedSecret(publicEvidenceIntakeWorkflow, 'CLOUDFLARE_API_TOKEN') &&
+      workflowHasIssueGuardedSecret(publicEvidenceIntakeWorkflow, 'AGL_EVENT_COLLECTOR_ADMIN_TOKEN') &&
+      workflowHasIssueGuardedSecret(publicEvidenceIntakeWorkflow, 'POSTHOG_PERSONAL_API_KEY') &&
+      workflowHasIssueGuardedSecret(publicEvidenceIntakeWorkflow, 'VITE_EVENT_COLLECTOR_WRITE_TOKEN') &&
+      workflowHasIssueGuardedSecret(publicEvidenceIntakeWorkflow, 'GOOGLE_PLAY_SERVICE_ACCOUNT_JSON') &&
+      workflowHasIssueGuardedSecret(publicEvidenceIntakeWorkflow, 'AGL_ANDROID_KEYSTORE_PASSWORD') &&
       publicEvidenceIntakeWorkflow.includes('VITE_ADSENSE_CLIENT_ID: ${{ vars.VITE_ADSENSE_CLIENT_ID }}') &&
       publicEvidenceIntakeWorkflow.includes('ADMOB_PUBLISHER_ID: ${{ vars.ADMOB_PUBLISHER_ID }}') &&
-      publicEvidenceIntakeWorkflow.includes('GOOGLE_PLAY_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}') &&
       publicEvidenceIntakeWorkflow.includes('AGL_AUTONOMOUS_SELF_UPDATE: ${{ vars.AGL_AUTONOMOUS_SELF_UPDATE }}') &&
       publicEvidenceIntakeWorkflow.includes(
         'AGL_AUTONOMOUS_SELF_UPDATE_DIRECT: ${{ vars.AGL_AUTONOMOUS_SELF_UPDATE_DIRECT }}',
@@ -762,7 +772,7 @@ const checks = [
         ? 'pass'
         : 'blocker',
     detail: publicEvidenceIntakeWorkflowExists
-      ? 'Public evidence intake ingests read-only GitHub Issues, refreshes safe aggregate handoff evidence, gates direct commits, and avoids raw events or issue mutation.'
+      ? 'Public evidence intake ingests read-only GitHub Issues with read-only repository permissions, blocks production secrets on issue-triggered runs, moves direct commits into a scheduled/maintainer-only write job, refreshes safe aggregate handoff evidence, and avoids raw events or issue mutation.'
       : 'Public evidence intake GitHub workflow is missing.',
   },
   {
@@ -955,11 +965,13 @@ const payload = {
           : 'missing',
       workflow: '.github/workflows/public-evidence-intake.yml',
       trigger: 'issues, workflow_dispatch, schedule: every 6 hours',
-      permission: 'issues: read, contents: write',
+      permission: 'issues: read, contents: read; scheduled commit job contents: write',
       command: 'npm run autonomous:public-evidence-intake',
       verificationGate: 'node scripts/verify-autonomy.mjs',
       directPushRequiresRepositoryVariable: 'AGL_AUTONOMOUS_SELF_UPDATE_DIRECT=1',
       followedByDeployWorkflow: '.github/workflows/web-pwa-deploy.yml',
+      publicIssueTriggerSecretsBlocked: true,
+      publicIssueTriggerCommitsBlocked: true,
     },
     githubPostDeployEvidenceSync: {
       status:

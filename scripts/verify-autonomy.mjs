@@ -470,6 +470,8 @@ const objectiveAuditSource = await readFile(path.join(root, 'scripts', 'objectiv
 const githubRepositoryBootstrapScript = await readFile(path.join(root, 'ops', 'github', 'bootstrap-repository.sh'), 'utf8')
 const githubSetupScript = await readFile(path.join(root, 'ops', 'github', 'setup-production.sh'), 'utf8')
 const githubSetupReadme = await readFile(path.join(root, 'ops', 'github', 'README.md'), 'utf8')
+const workflowHasIssueGuardedSecret = (workflow, name) =>
+  workflow.includes(`${name}: \${{ github.event_name != 'issues' && secrets.${name} || '' }}`)
 const strictSyncedDeployEvidenceReady =
   postDeployArtifactSync.status === 'post-deploy-artifact-sync-passed' &&
   postDeployArtifactSync.validation?.artifactPassed === true &&
@@ -608,15 +610,23 @@ if (
   !publicEvidenceIntakeWorkflow.includes('workflow_dispatch:') ||
   !publicEvidenceIntakeWorkflow.includes('issues:') ||
   !publicEvidenceIntakeWorkflow.includes('schedule:') ||
-  !publicEvidenceIntakeWorkflow.includes('contents: write') ||
+  !publicEvidenceIntakeWorkflow.includes('permissions:\n  actions: read\n  contents: read\n  issues: read') ||
   !publicEvidenceIntakeWorkflow.includes('issues: read') ||
+  !publicEvidenceIntakeWorkflow.includes('commit-public-evidence:') ||
+  !publicEvidenceIntakeWorkflow.includes("if: github.event_name != 'issues' && vars.AGL_AUTONOMOUS_SELF_UPDATE_DIRECT == '1'") ||
+  !publicEvidenceIntakeWorkflow.includes('actions/download-artifact@v4') ||
+  !publicEvidenceIntakeWorkflow.includes('contents: write') ||
   !publicEvidenceIntakeWorkflow.includes('GH_TOKEN: ${{ github.token }}') ||
   !publicEvidenceIntakeWorkflow.includes('GITHUB_TOKEN: ${{ github.token }}') ||
   !publicEvidenceIntakeWorkflow.includes('AGL_SUPPORT_EMAIL: ${{ vars.AGL_SUPPORT_EMAIL }}') ||
-  !publicEvidenceIntakeWorkflow.includes('CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}') ||
+  !workflowHasIssueGuardedSecret(publicEvidenceIntakeWorkflow, 'CLOUDFLARE_API_TOKEN') ||
+  !workflowHasIssueGuardedSecret(publicEvidenceIntakeWorkflow, 'AGL_EVENT_COLLECTOR_ADMIN_TOKEN') ||
+  !workflowHasIssueGuardedSecret(publicEvidenceIntakeWorkflow, 'POSTHOG_PERSONAL_API_KEY') ||
+  !workflowHasIssueGuardedSecret(publicEvidenceIntakeWorkflow, 'VITE_EVENT_COLLECTOR_WRITE_TOKEN') ||
+  !workflowHasIssueGuardedSecret(publicEvidenceIntakeWorkflow, 'GOOGLE_PLAY_SERVICE_ACCOUNT_JSON') ||
+  !workflowHasIssueGuardedSecret(publicEvidenceIntakeWorkflow, 'AGL_ANDROID_KEYSTORE_PASSWORD') ||
   !publicEvidenceIntakeWorkflow.includes('VITE_ADSENSE_CLIENT_ID: ${{ vars.VITE_ADSENSE_CLIENT_ID }}') ||
   !publicEvidenceIntakeWorkflow.includes('ADMOB_PUBLISHER_ID: ${{ vars.ADMOB_PUBLISHER_ID }}') ||
-  !publicEvidenceIntakeWorkflow.includes('GOOGLE_PLAY_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}') ||
   !publicEvidenceIntakeWorkflow.includes('AGL_AUTONOMOUS_SELF_UPDATE: ${{ vars.AGL_AUTONOMOUS_SELF_UPDATE }}') ||
   !publicEvidenceIntakeWorkflow.includes(
     'AGL_AUTONOMOUS_SELF_UPDATE_DIRECT: ${{ vars.AGL_AUTONOMOUS_SELF_UPDATE_DIRECT }}',
@@ -3655,7 +3665,8 @@ if (
     '.github/workflows/public-evidence-intake.yml' ||
   autonomousCadence.schedulers?.githubPublicEvidenceIntake?.trigger !==
     'issues, workflow_dispatch, schedule: every 6 hours' ||
-  autonomousCadence.schedulers?.githubPublicEvidenceIntake?.permission !== 'issues: read, contents: write' ||
+  autonomousCadence.schedulers?.githubPublicEvidenceIntake?.permission !==
+    'issues: read, contents: read; scheduled commit job contents: write' ||
   autonomousCadence.schedulers?.githubPublicEvidenceIntake?.command !==
     'npm run autonomous:public-evidence-intake' ||
   autonomousCadence.schedulers?.githubPublicEvidenceIntake?.verificationGate !==
@@ -3664,6 +3675,8 @@ if (
     'AGL_AUTONOMOUS_SELF_UPDATE_DIRECT=1' ||
   autonomousCadence.schedulers?.githubPublicEvidenceIntake?.followedByDeployWorkflow !==
     '.github/workflows/web-pwa-deploy.yml' ||
+  autonomousCadence.schedulers?.githubPublicEvidenceIntake?.publicIssueTriggerSecretsBlocked !== true ||
+  autonomousCadence.schedulers?.githubPublicEvidenceIntake?.publicIssueTriggerCommitsBlocked !== true ||
   autonomousCadence.schedulers?.githubPostDeployEvidenceSync?.status !== 'gated' ||
   autonomousCadence.schedulers?.githubPostDeployEvidenceSync?.workflow !==
     '.github/workflows/post-deploy-evidence-sync.yml' ||
