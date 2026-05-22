@@ -1,5 +1,5 @@
 export const productionActivation = {
-  "generatedAt": "2026-05-22T10:14:47.571Z",
+  "generatedAt": "2026-05-22T10:16:32.375Z",
   "status": "activation-ready",
   "mode": "dry-run",
   "envFiles": {
@@ -50,8 +50,8 @@ export const productionActivation = {
     "runWebWorkflows": false,
     "allowRepositoryBootstrap": false,
     "allowAndroidWorkflow": false,
-    "configuredVariables": 10,
-    "configuredSecrets": 5
+    "configuredVariables": 6,
+    "configuredSecrets": 0
   },
   "controls": {
     "zeroPaidSpend": true,

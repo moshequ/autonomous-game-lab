@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-05-22T10:14:49.072Z",
-  "sourceDataHash": "46f590665fa2",
+  "generatedAt": "2026-05-22T10:16:32.526Z",
+  "sourceDataHash": "889c58ec7672",
   "status": "handoff-waiting-on-owner-inputs",
   "statusDetail": "blocked-external-inputs",
-  "liveCandidate": "pwa-d58ce6d82875",
+  "liveCandidate": "pwa-9a0b61bb6ab4",
   "sourceStatus": {
     "productionEnvironment": "production-env-missing",
     "productionBootstrap": "production-bootstrap-ready",
@@ -24,7 +24,7 @@
     "zeroCostFirstActions": 1,
     "missingEnv": 7,
     "missingEnvironmentItems": 7,
-    "missingSecrets": 3,
+    "missingSecrets": 8,
     "productGateBlockers": 3,
     "publicSupportChannelReady": true,
     "storeSupportEmailNeededNow": false,
@@ -121,16 +121,16 @@
       "id": "secret-vite-event-collector-write-token",
       "repositorySecret": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
       "envName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
-      "configured": true,
-      "valueSource": "environment",
+      "configured": false,
+      "valueSource": "missing",
       "command": "printf \"%s\" \"$VITE_EVENT_COLLECTOR_WRITE_TOKEN\" | gh secret set VITE_EVENT_COLLECTOR_WRITE_TOKEN"
     },
     {
       "id": "secret-agl-event-collector-admin-token",
       "repositorySecret": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
       "envName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
-      "configured": true,
-      "valueSource": "environment",
+      "configured": false,
+      "valueSource": "missing",
       "command": "printf \"%s\" \"$AGL_EVENT_COLLECTOR_ADMIN_TOKEN\" | gh secret set AGL_EVENT_COLLECTOR_ADMIN_TOKEN"
     },
     {
@@ -145,24 +145,24 @@
       "id": "secret-agl-android-keystore-base64",
       "repositorySecret": "AGL_ANDROID_KEYSTORE_BASE64",
       "envName": "AGL_ANDROID_KEYSTORE_BASE64",
-      "configured": true,
-      "valueSource": "environment",
+      "configured": false,
+      "valueSource": "missing",
       "command": "printf \"%s\" \"$AGL_ANDROID_KEYSTORE_BASE64\" | gh secret set AGL_ANDROID_KEYSTORE_BASE64"
     },
     {
       "id": "secret-agl-android-keystore-password",
       "repositorySecret": "AGL_ANDROID_KEYSTORE_PASSWORD",
       "envName": "AGL_ANDROID_KEYSTORE_PASSWORD",
-      "configured": true,
-      "valueSource": "environment",
+      "configured": false,
+      "valueSource": "missing",
       "command": "printf \"%s\" \"$AGL_ANDROID_KEYSTORE_PASSWORD\" | gh secret set AGL_ANDROID_KEYSTORE_PASSWORD"
     },
     {
       "id": "secret-agl-android-key-alias",
       "repositorySecret": "AGL_ANDROID_KEY_ALIAS",
       "envName": "AGL_ANDROID_KEY_ALIAS",
-      "configured": true,
-      "valueSource": "environment",
+      "configured": false,
+      "valueSource": "missing",
       "command": "printf \"%s\" \"$AGL_ANDROID_KEY_ALIAS\" | gh secret set AGL_ANDROID_KEY_ALIAS"
     },
     {
@@ -235,12 +235,52 @@
       "command": "printf \"%s\" \"$CLOUDFLARE_API_TOKEN\" | gh secret set CLOUDFLARE_API_TOKEN"
     },
     {
+      "id": "secret-vite-event-collector-write-token",
+      "repositorySecret": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
+      "envName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
+      "configured": false,
+      "valueSource": "missing",
+      "command": "printf \"%s\" \"$VITE_EVENT_COLLECTOR_WRITE_TOKEN\" | gh secret set VITE_EVENT_COLLECTOR_WRITE_TOKEN"
+    },
+    {
+      "id": "secret-agl-event-collector-admin-token",
+      "repositorySecret": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
+      "envName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
+      "configured": false,
+      "valueSource": "missing",
+      "command": "printf \"%s\" \"$AGL_EVENT_COLLECTOR_ADMIN_TOKEN\" | gh secret set AGL_EVENT_COLLECTOR_ADMIN_TOKEN"
+    },
+    {
       "id": "secret-posthog-personal-api-key",
       "repositorySecret": "POSTHOG_PERSONAL_API_KEY",
       "envName": "POSTHOG_PERSONAL_API_KEY",
       "configured": false,
       "valueSource": "missing",
       "command": "printf \"%s\" \"$POSTHOG_PERSONAL_API_KEY\" | gh secret set POSTHOG_PERSONAL_API_KEY"
+    },
+    {
+      "id": "secret-agl-android-keystore-base64",
+      "repositorySecret": "AGL_ANDROID_KEYSTORE_BASE64",
+      "envName": "AGL_ANDROID_KEYSTORE_BASE64",
+      "configured": false,
+      "valueSource": "missing",
+      "command": "printf \"%s\" \"$AGL_ANDROID_KEYSTORE_BASE64\" | gh secret set AGL_ANDROID_KEYSTORE_BASE64"
+    },
+    {
+      "id": "secret-agl-android-keystore-password",
+      "repositorySecret": "AGL_ANDROID_KEYSTORE_PASSWORD",
+      "envName": "AGL_ANDROID_KEYSTORE_PASSWORD",
+      "configured": false,
+      "valueSource": "missing",
+      "command": "printf \"%s\" \"$AGL_ANDROID_KEYSTORE_PASSWORD\" | gh secret set AGL_ANDROID_KEYSTORE_PASSWORD"
+    },
+    {
+      "id": "secret-agl-android-key-alias",
+      "repositorySecret": "AGL_ANDROID_KEY_ALIAS",
+      "envName": "AGL_ANDROID_KEY_ALIAS",
+      "configured": false,
+      "valueSource": "missing",
+      "command": "printf \"%s\" \"$AGL_ANDROID_KEY_ALIAS\" | gh secret set AGL_ANDROID_KEY_ALIAS"
     },
     {
       "id": "secret-google-play-service-account-json",
@@ -309,8 +349,8 @@
           "kind": "github-secret",
           "repositorySecret": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
           "envName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
-          "valueSource": "environment",
-          "configured": true,
+          "valueSource": "missing",
+          "configured": false,
           "command": "printf \"%s\" \"$VITE_EVENT_COLLECTOR_WRITE_TOKEN\" | gh secret set VITE_EVENT_COLLECTOR_WRITE_TOKEN"
         },
         {
@@ -371,8 +411,8 @@
           "kind": "github-secret",
           "repositorySecret": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
           "envName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
-          "valueSource": "environment",
-          "configured": true,
+          "valueSource": "missing",
+          "configured": false,
           "command": "printf \"%s\" \"$AGL_EVENT_COLLECTOR_ADMIN_TOKEN\" | gh secret set AGL_EVENT_COLLECTOR_ADMIN_TOKEN"
         },
         {
@@ -598,8 +638,8 @@
           "kind": "github-secret",
           "repositorySecret": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
           "envName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
-          "valueSource": "environment",
-          "configured": true,
+          "valueSource": "missing",
+          "configured": false,
           "command": "printf \"%s\" \"$VITE_EVENT_COLLECTOR_WRITE_TOKEN\" | gh secret set VITE_EVENT_COLLECTOR_WRITE_TOKEN"
         },
         {
@@ -660,8 +700,8 @@
           "kind": "github-secret",
           "repositorySecret": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
           "envName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
-          "valueSource": "environment",
-          "configured": true,
+          "valueSource": "missing",
+          "configured": false,
           "command": "printf \"%s\" \"$AGL_EVENT_COLLECTOR_ADMIN_TOKEN\" | gh secret set AGL_EVENT_COLLECTOR_ADMIN_TOKEN"
         },
         {
@@ -869,16 +909,16 @@
               "id": "var-agl-event-collector-r2-bucket",
               "repositoryName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
               "envName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
-              "configured": true,
-              "valueSource": "environment",
+              "configured": false,
+              "valueSource": "missing",
               "command": "gh variable set AGL_EVENT_COLLECTOR_R2_BUCKET --body \"$AGL_EVENT_COLLECTOR_R2_BUCKET\""
             },
             {
               "id": "var-agl-event-collector-allowed-origins",
               "repositoryName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
               "envName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
-              "configured": true,
-              "valueSource": "environment",
+              "configured": false,
+              "valueSource": "missing",
               "command": "gh variable set AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS --body \"$AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS\""
             },
             {
@@ -911,16 +951,16 @@
               "id": "secret-vite-event-collector-write-token",
               "repositoryName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
               "envName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
-              "configured": true,
-              "valueSource": "environment",
+              "configured": false,
+              "valueSource": "missing",
               "command": "printf \"%s\" \"$VITE_EVENT_COLLECTOR_WRITE_TOKEN\" | gh secret set VITE_EVENT_COLLECTOR_WRITE_TOKEN"
             },
             {
               "id": "secret-agl-event-collector-admin-token",
               "repositoryName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
               "envName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
-              "configured": true,
-              "valueSource": "environment",
+              "configured": false,
+              "valueSource": "missing",
               "command": "printf \"%s\" \"$AGL_EVENT_COLLECTOR_ADMIN_TOKEN\" | gh secret set AGL_EVENT_COLLECTOR_ADMIN_TOKEN"
             }
           ],
@@ -984,8 +1024,8 @@
       ],
       "commandCount": 5,
       "validationCommandCount": 4,
-      "missingVariableCount": 5,
-      "missingSecretCount": 1
+      "missingVariableCount": 7,
+      "missingSecretCount": 3
     }
   ],
   "nextUnlockKit": {
@@ -995,8 +1035,8 @@
     "recommendedPathId": "first-party-collector",
     "commandCount": 5,
     "validationCommandCount": 4,
-    "missingVariableCount": 5,
-    "missingSecretCount": 1,
+    "missingVariableCount": 7,
+    "missingSecretCount": 3,
     "controls": {
       "zeroPaidSpend": true,
       "noSecretValues": true,
@@ -1027,16 +1067,16 @@
             "id": "var-agl-event-collector-r2-bucket",
             "repositoryName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
             "envName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
-            "configured": true,
-            "valueSource": "environment",
+            "configured": false,
+            "valueSource": "missing",
             "command": "gh variable set AGL_EVENT_COLLECTOR_R2_BUCKET --body \"$AGL_EVENT_COLLECTOR_R2_BUCKET\""
           },
           {
             "id": "var-agl-event-collector-allowed-origins",
             "repositoryName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
             "envName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
-            "configured": true,
-            "valueSource": "environment",
+            "configured": false,
+            "valueSource": "missing",
             "command": "gh variable set AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS --body \"$AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS\""
           },
           {
@@ -1069,16 +1109,16 @@
             "id": "secret-vite-event-collector-write-token",
             "repositoryName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
             "envName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
-            "configured": true,
-            "valueSource": "environment",
+            "configured": false,
+            "valueSource": "missing",
             "command": "printf \"%s\" \"$VITE_EVENT_COLLECTOR_WRITE_TOKEN\" | gh secret set VITE_EVENT_COLLECTOR_WRITE_TOKEN"
           },
           {
             "id": "secret-agl-event-collector-admin-token",
             "repositoryName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
             "envName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
-            "configured": true,
-            "valueSource": "environment",
+            "configured": false,
+            "valueSource": "missing",
             "command": "printf \"%s\" \"$AGL_EVENT_COLLECTOR_ADMIN_TOKEN\" | gh secret set AGL_EVENT_COLLECTOR_ADMIN_TOKEN"
           }
         ],
