@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-22T07:18:51.778Z",
+  "generatedAt": "2026-05-22T08:29:42.563Z",
   "status": "repository-bootstrap-ready",
   "mode": "plan-only",
   "envFiles": {
@@ -44,7 +44,7 @@
       "originRemote": "https://github.com/moshequ/autonomous-game-lab",
       "remoteRepository": "moshequ/autonomous-game-lab",
       "hasCommit": true,
-      "dirtyFiles": 47,
+      "dirtyFiles": 45,
       "dirtyPaths": [
         "data/autonomous-operator-history.json",
         "data/autonomous-operator.json",
@@ -89,12 +89,10 @@
         "src/data/postDeployArtifactSync.ts",
         "src/data/postDeploySmoke.ts",
         "src/data/productionActivation.ts",
-        "src/data/productionBlockerHandoff.ts",
-        "src/data/productionBootstrap.ts",
         "src/data/productionMeasurementStatus.ts",
         "src/data/releaseCandidate.ts"
       ],
-      "generatedEvidenceDirtyFiles": 47,
+      "generatedEvidenceDirtyFiles": 45,
       "generatedEvidenceDirtyPaths": [
         "data/autonomous-operator-history.json",
         "data/autonomous-operator.json",
@@ -139,8 +137,6 @@
         "src/data/postDeployArtifactSync.ts",
         "src/data/postDeploySmoke.ts",
         "src/data/productionActivation.ts",
-        "src/data/productionBlockerHandoff.ts",
-        "src/data/productionBootstrap.ts",
         "src/data/productionMeasurementStatus.ts",
         "src/data/releaseCandidate.ts"
       ],
@@ -154,7 +150,7 @@
       "originRemote": "https://github.com/moshequ/autonomous-game-lab",
       "remoteRepository": "moshequ/autonomous-game-lab",
       "hasCommit": true,
-      "dirtyFiles": 47,
+      "dirtyFiles": 45,
       "dirtyPaths": [
         "data/autonomous-operator-history.json",
         "data/autonomous-operator.json",
@@ -199,12 +195,10 @@
         "src/data/postDeployArtifactSync.ts",
         "src/data/postDeploySmoke.ts",
         "src/data/productionActivation.ts",
-        "src/data/productionBlockerHandoff.ts",
-        "src/data/productionBootstrap.ts",
         "src/data/productionMeasurementStatus.ts",
         "src/data/releaseCandidate.ts"
       ],
-      "generatedEvidenceDirtyFiles": 47,
+      "generatedEvidenceDirtyFiles": 45,
       "generatedEvidenceDirtyPaths": [
         "data/autonomous-operator-history.json",
         "data/autonomous-operator.json",
@@ -249,8 +243,6 @@
         "src/data/postDeployArtifactSync.ts",
         "src/data/postDeploySmoke.ts",
         "src/data/productionActivation.ts",
-        "src/data/productionBlockerHandoff.ts",
-        "src/data/productionBootstrap.ts",
         "src/data/productionMeasurementStatus.ts",
         "src/data/releaseCandidate.ts"
       ],
@@ -290,7 +282,7 @@
     "repositoryReadiness": "repository-channel-ready",
     "deployment": "ready-for-pages",
     "releaseCandidate": "release-candidate-ready",
-    "releaseCandidateId": "pwa-38c632a4b21a",
+    "releaseCandidateId": "pwa-3acf180cf608",
     "postDeploySmoke": "post-deploy-smoke-observed-live"
   },
   "repositoryTargetPlan": {
@@ -380,7 +372,7 @@
       "mutatesLocalGit": true,
       "mutatesRemoteGitHub": false,
       "requiresExplicitEnv": true,
-      "detail": "47 repository evidence file(s) changed during this dry run; the outer verified commit will persist them."
+      "detail": "45 repository evidence file(s) changed during this dry run; the outer verified commit will persist them."
     },
     {
       "id": "set-or-create-origin",

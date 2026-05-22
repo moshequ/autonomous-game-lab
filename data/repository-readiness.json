@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-22T07:18:50.722Z",
+  "generatedAt": "2026-05-22T08:29:41.503Z",
   "status": "repository-channel-ready",
   "envFiles": {
     "loaded": false,
@@ -39,7 +39,7 @@
     "insideWorkTree": true,
     "gitRoot": "/home/runner/work/autonomous-game-lab/autonomous-game-lab",
     "currentBranch": "main",
-    "dirtyFiles": 47,
+    "dirtyFiles": 45,
     "dirtyPaths": [
       "data/autonomous-operator-history.json",
       "data/autonomous-operator.json",
@@ -84,12 +84,10 @@
       "src/data/postDeployArtifactSync.ts",
       "src/data/postDeploySmoke.ts",
       "src/data/productionActivation.ts",
-      "src/data/productionBlockerHandoff.ts",
-      "src/data/productionBootstrap.ts",
       "src/data/productionMeasurementStatus.ts",
       "src/data/releaseCandidate.ts"
     ],
-    "generatedEvidenceDirtyFiles": 47,
+    "generatedEvidenceDirtyFiles": 45,
     "generatedEvidenceDirtyPaths": [
       "data/autonomous-operator-history.json",
       "data/autonomous-operator.json",
@@ -134,8 +132,6 @@
       "src/data/postDeployArtifactSync.ts",
       "src/data/postDeploySmoke.ts",
       "src/data/productionActivation.ts",
-      "src/data/productionBlockerHandoff.ts",
-      "src/data/productionBootstrap.ts",
       "src/data/productionMeasurementStatus.ts",
       "src/data/releaseCandidate.ts"
     ],
@@ -176,7 +172,7 @@
     "workflowExists": true,
     "deployWorkflowIncludesSmoke": true,
     "deploymentStatus": "ready-for-pages",
-    "releaseCandidateId": "pwa-38c632a4b21a",
+    "releaseCandidateId": "pwa-3acf180cf608",
     "postDeploySmokeStatus": "post-deploy-smoke-observed-live",
     "liveSettings": {
       "status": "inspected",

@@ -1,6 +1,6 @@
 # Autonomous Owner Loop
 
-Generated: 2026-05-22T07:18:54.248Z
+Generated: 2026-05-22T08:29:44.455Z
 Status: owner-loop-ready
 Mode: zero-spend-web-ready
 Autonomy score: 44/45 (98%)
@@ -11,7 +11,7 @@ Autonomy score: 44/45 (98%)
 - Command: npm run autonomous:experiments && npm run autonomous:improve && npm run autonomous:sync-experiments
 - Rationale: Release health allows bounded improvement policy updates.
 - Last executed action: prepare-release-candidate
-- Recent executed actions: prepare-release-candidate, bootstrap-production-setup, optimize-store-listing, apply-safe-improvements, refresh-replay-loop, refresh-completion-loop, refresh-first-move-coach, refresh-product-gate-sample-plan
+- Recent executed actions: prepare-release-candidate, bootstrap-production-setup, optimize-store-listing, apply-safe-improvements, refresh-replay-loop, refresh-completion-loop
 
 ## Systems
 
@@ -29,7 +29,7 @@ Autonomy score: 44/45 (98%)
 - ready: organic-seed-loop - Target grove-engine; surface portal-growth-loop; share telemetry organic_seed_share_clicked.
 - ready: retention-loop - Daily grove-engine; D1 17%; streak variant daily-streak; return prompt armed; return intent armed.
 - ready: pwa-install-loop - Prompt autonomy-cockpit; installs 0; launch events 0; sample collecting-sample needs 20 prompt(s) and 10 launch event(s).
-- ready: performance-budget - Initial JS 672.9 KB; gzip 182.8 KB; deferred chunks 2.
+- ready: performance-budget - Initial JS 672.6 KB; gzip 182.8 KB; deferred chunks 2.
 - ready: product-optimization - Completion 40% / gate 55%; latest already-applied.
 - ready: support-feedback - Support feedback support-feedback-empty; issues 0; routable signals 0; aggregate notes 0.
 - ready: product-gate-recovery - Recovery product-gate-recovery-ready; primary firstGameCompletion; experiment collecting-sample; failing gates 3; next lift 128.
@@ -44,7 +44,7 @@ Autonomy score: 44/45 (98%)
 - ready: web-deployment - Deployment ready-for-pages; web readiness ready-after-build; promotion promotable-internal.
 - ready: release-candidate - Release candidate release-candidate-ready; files 49; smoke URLs 18.
 - ready: post-deploy-smoke - Smoke post-deploy-smoke-observed-live; origin https://moshequ.github.io/autonomous-game-lab; manifest comparison required; checks 19/19 passed; local artifact predeploy-artifact-smoke-passed 19/19 passed.
-- ready: post-deploy-artifact-sync - Artifact sync post-deploy-artifact-sync-passed; run 26274074644; live matches artifact true; strict true.
+- ready: post-deploy-artifact-sync - Artifact sync post-deploy-artifact-sync-passed; run 26277127478; live matches artifact true; strict true.
 - ready: live-site-monitor - Live monitor live-site-monitor-passed; origin https://moshequ.github.io/autonomous-game-lab; checks 19/19; live matches synced deploy true.
 - ready: production-bootstrap - Bootstrap production-bootstrap-ready; mode can-apply-configured-actions; external blockers 16.
 - ready: production-activation - Activation activation-ready; mode dry-run; execution dry-run; gh ready.
@@ -52,7 +52,7 @@ Autonomy score: 44/45 (98%)
 - ready: production-unlock-runner - Unlock runner unlock-runner-idle; runnable 0; queued commands 0; unsafe 0.
 - ready: support-channel - Support channel support-channel-ready; repository moshequ/autonomous-game-lab; public intake ready; aggregate evidence only true.
 - ready: autonomous-operator - Operator operator-plan-ready; selected apply-safe-improvements; execution not-requested.
-- ready: operator-history - History operator-history-ready; records 40; executed 8.
+- ready: operator-history - History operator-history-ready; records 40; executed 6.
 - ready: objective-audit - Audit objective-in-progress; met 6/8; external blockers 16.
 - ready: store-listing-optimizer - Focus grove-engine; lead screenshot phone-grove-engine-generated; candidate changed yes.
 - ready: store-compliance - Rating Everyone; target audience general; blockers 3.

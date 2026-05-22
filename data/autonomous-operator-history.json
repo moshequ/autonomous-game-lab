@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-22T07:18:53.652Z",
+  "generatedAt": "2026-05-22T08:29:44.018Z",
   "status": "operator-history-ready",
   "retention": {
     "maxRecords": 40,
@@ -7,10 +7,8 @@
     "preserveLatestExecutedRecord": true,
     "preserveRecentExecutedRecords": true,
     "recentExecutedRecordWindow": 8,
-    "preservedExecutedRecords": 8,
+    "preservedExecutedRecords": 6,
     "recentExecutedActionIds": [
-      "refresh-product-gate-sample-plan",
-      "refresh-first-move-coach",
       "refresh-completion-loop",
       "refresh-replay-loop",
       "apply-safe-improvements",
@@ -23,8 +21,8 @@
   },
   "summary": {
     "totalRecords": 40,
-    "plannedRecords": 32,
-    "executedRecords": 8,
+    "plannedRecords": 34,
+    "executedRecords": 6,
     "failedRecords": 0,
     "lastActionId": "apply-safe-improvements",
     "lastExecutionStatus": "not-requested",
@@ -38,68 +36,6 @@
     "historyIsCapped": true
   },
   "records": [
-    {
-      "id": "20260522044648-refresh-product-gate-sample-plan",
-      "generatedAt": "2026-05-22T04:46:48.594Z",
-      "runFingerprint": "f7032c92e35fc678",
-      "mode": "execute-one-action",
-      "status": "operator-executed",
-      "selectedActionId": "refresh-product-gate-sample-plan",
-      "selectedCommand": "npm run autonomous:sample-plan",
-      "eligibleActionIds": [
-        "refresh-product-gate-sample-plan",
-        "refresh-first-move-coach",
-        "refresh-completion-loop",
-        "refresh-replay-loop",
-        "optimize-store-listing",
-        "apply-safe-improvements"
-      ],
-      "blockedActionCount": 33,
-      "execution": {
-        "requested": true,
-        "status": "executed",
-        "attemptedActionId": "refresh-product-gate-sample-plan",
-        "resultCount": 1,
-        "failedScripts": []
-      },
-      "controls": {
-        "zeroPaidSpend": true,
-        "localCommandAllowlistEnforced": true,
-        "externalWorkflowExecutionBlockedByDefault": true,
-        "maxActionsPerRun": 1
-      }
-    },
-    {
-      "id": "20260522044705-refresh-first-move-coach",
-      "generatedAt": "2026-05-22T04:47:05.024Z",
-      "runFingerprint": "f833500bd8664d1d",
-      "mode": "execute-one-action",
-      "status": "operator-executed",
-      "selectedActionId": "refresh-first-move-coach",
-      "selectedCommand": "npm run autonomous:first-move-coach",
-      "eligibleActionIds": [
-        "refresh-first-move-coach",
-        "refresh-completion-loop",
-        "refresh-replay-loop",
-        "refresh-objective-audit",
-        "optimize-store-listing",
-        "apply-safe-improvements"
-      ],
-      "blockedActionCount": 33,
-      "execution": {
-        "requested": true,
-        "status": "executed",
-        "attemptedActionId": "refresh-first-move-coach",
-        "resultCount": 1,
-        "failedScripts": []
-      },
-      "controls": {
-        "zeroPaidSpend": true,
-        "localCommandAllowlistEnforced": true,
-        "externalWorkflowExecutionBlockedByDefault": true,
-        "maxActionsPerRun": 1
-      }
-    },
     {
       "id": "20260522044723-refresh-completion-loop",
       "generatedAt": "2026-05-22T04:47:23.515Z",
@@ -260,61 +196,6 @@
         "status": "executed",
         "attemptedActionId": "prepare-release-candidate",
         "resultCount": 3,
-        "failedScripts": []
-      },
-      "controls": {
-        "zeroPaidSpend": true,
-        "localCommandAllowlistEnforced": true,
-        "externalWorkflowExecutionBlockedByDefault": true,
-        "maxActionsPerRun": 1
-      }
-    },
-    {
-      "id": "20260522054831-collect-gate-sample-downloads",
-      "generatedAt": "2026-05-22T05:48:31.776Z",
-      "runFingerprint": "a188730b42d89910",
-      "mode": "plan-only",
-      "status": "operator-plan-ready",
-      "selectedActionId": "collect-gate-sample-downloads",
-      "selectedCommand": "npm run autonomous:collect-sample-downloads",
-      "eligibleActionIds": [
-        "collect-gate-sample-downloads",
-        "refresh-product-gate-sample-plan",
-        "refresh-objective-audit"
-      ],
-      "blockedActionCount": 33,
-      "execution": {
-        "requested": false,
-        "status": "not-requested",
-        "attemptedActionId": null,
-        "resultCount": 0,
-        "failedScripts": []
-      },
-      "controls": {
-        "zeroPaidSpend": true,
-        "localCommandAllowlistEnforced": true,
-        "externalWorkflowExecutionBlockedByDefault": true,
-        "maxActionsPerRun": 1
-      }
-    },
-    {
-      "id": "20260522054832-collect-gate-sample-downloads",
-      "generatedAt": "2026-05-22T05:48:32.469Z",
-      "runFingerprint": "3443fa6bec0f2947",
-      "mode": "plan-only",
-      "status": "operator-plan-ready",
-      "selectedActionId": "collect-gate-sample-downloads",
-      "selectedCommand": "npm run autonomous:collect-sample-downloads",
-      "eligibleActionIds": [
-        "collect-gate-sample-downloads",
-        "refresh-product-gate-sample-plan"
-      ],
-      "blockedActionCount": 33,
-      "execution": {
-        "requested": false,
-        "status": "not-requested",
-        "attemptedActionId": null,
-        "resultCount": 0,
         "failedScripts": []
       },
       "controls": {
@@ -1109,6 +990,112 @@
     {
       "id": "20260522071853-apply-safe-improvements",
       "generatedAt": "2026-05-22T07:18:53.652Z",
+      "runFingerprint": "5e1f5d2a1d81b0ca",
+      "mode": "plan-only",
+      "status": "operator-plan-ready",
+      "selectedActionId": "apply-safe-improvements",
+      "selectedCommand": "npm run autonomous:experiments && npm run autonomous:improve && npm run autonomous:sync-experiments",
+      "eligibleActionIds": [
+        "apply-safe-improvements"
+      ],
+      "blockedActionCount": 33,
+      "execution": {
+        "requested": false,
+        "status": "not-requested",
+        "attemptedActionId": null,
+        "resultCount": 0,
+        "failedScripts": []
+      },
+      "controls": {
+        "zeroPaidSpend": true,
+        "localCommandAllowlistEnforced": true,
+        "externalWorkflowExecutionBlockedByDefault": true,
+        "maxActionsPerRun": 1
+      }
+    },
+    {
+      "id": "20260522082938-refresh-objective-audit",
+      "generatedAt": "2026-05-22T08:29:38.251Z",
+      "runFingerprint": "e2f56cc93a6efb11",
+      "mode": "plan-only",
+      "status": "operator-plan-ready",
+      "selectedActionId": "refresh-objective-audit",
+      "selectedCommand": "npm run autonomous:objective-audit",
+      "eligibleActionIds": [
+        "refresh-objective-audit",
+        "apply-safe-improvements"
+      ],
+      "blockedActionCount": 33,
+      "execution": {
+        "requested": false,
+        "status": "not-requested",
+        "attemptedActionId": null,
+        "resultCount": 0,
+        "failedScripts": []
+      },
+      "controls": {
+        "zeroPaidSpend": true,
+        "localCommandAllowlistEnforced": true,
+        "externalWorkflowExecutionBlockedByDefault": true,
+        "maxActionsPerRun": 1
+      }
+    },
+    {
+      "id": "20260522082938-apply-safe-improvements",
+      "generatedAt": "2026-05-22T08:29:38.973Z",
+      "runFingerprint": "5e1f5d2a1d81b0ca",
+      "mode": "plan-only",
+      "status": "operator-plan-ready",
+      "selectedActionId": "apply-safe-improvements",
+      "selectedCommand": "npm run autonomous:experiments && npm run autonomous:improve && npm run autonomous:sync-experiments",
+      "eligibleActionIds": [
+        "apply-safe-improvements"
+      ],
+      "blockedActionCount": 33,
+      "execution": {
+        "requested": false,
+        "status": "not-requested",
+        "attemptedActionId": null,
+        "resultCount": 0,
+        "failedScripts": []
+      },
+      "controls": {
+        "zeroPaidSpend": true,
+        "localCommandAllowlistEnforced": true,
+        "externalWorkflowExecutionBlockedByDefault": true,
+        "maxActionsPerRun": 1
+      }
+    },
+    {
+      "id": "20260522082943-refresh-objective-audit",
+      "generatedAt": "2026-05-22T08:29:43.614Z",
+      "runFingerprint": "e2f56cc93a6efb11",
+      "mode": "plan-only",
+      "status": "operator-plan-ready",
+      "selectedActionId": "refresh-objective-audit",
+      "selectedCommand": "npm run autonomous:objective-audit",
+      "eligibleActionIds": [
+        "refresh-objective-audit",
+        "apply-safe-improvements"
+      ],
+      "blockedActionCount": 33,
+      "execution": {
+        "requested": false,
+        "status": "not-requested",
+        "attemptedActionId": null,
+        "resultCount": 0,
+        "failedScripts": []
+      },
+      "controls": {
+        "zeroPaidSpend": true,
+        "localCommandAllowlistEnforced": true,
+        "externalWorkflowExecutionBlockedByDefault": true,
+        "maxActionsPerRun": 1
+      }
+    },
+    {
+      "id": "20260522082944-apply-safe-improvements",
+      "generatedAt": "2026-05-22T08:29:44.018Z",
       "runFingerprint": "5e1f5d2a1d81b0ca",
       "mode": "plan-only",
       "status": "operator-plan-ready",
