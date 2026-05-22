@@ -742,6 +742,9 @@ const checks = [
       publicEvidenceIntakeWorkflow.includes('node scripts/verify-autonomy.mjs') &&
       publicEvidenceIntakeWorkflow.includes('data/support-feedback.json') &&
       publicEvidenceIntakeWorkflow.includes('public/measurement-status.json') &&
+      publicEvidenceIntakeWorkflow.includes('data/production-environment.json') &&
+      publicEvidenceIntakeWorkflow.includes('reports/production-environment-latest.md') &&
+      publicEvidenceIntakeWorkflow.includes('ops/production.env.example') &&
       publicEvidenceIntakeScript.includes('autonomous:support-feedback') &&
       publicEvidenceIntakeScript.includes('autonomous:measurement-status') &&
       publicEvidenceIntakeScript.includes('autonomous:owner-loop') &&
@@ -803,6 +806,9 @@ const checks = [
       postDeployEvidenceSyncWorkflow.includes('data/repository-readiness.json') &&
       postDeployEvidenceSyncWorkflow.includes('data/repository-bootstrap.json') &&
       postDeployEvidenceSyncWorkflow.includes('data/deployment-plan.json') &&
+      postDeployEvidenceSyncWorkflow.includes('data/production-environment.json') &&
+      postDeployEvidenceSyncWorkflow.includes('reports/production-environment-latest.md') &&
+      postDeployEvidenceSyncWorkflow.includes('ops/production.env.example') &&
       postDeployEvidenceSyncWorkflow.includes('data/production-bootstrap.json') &&
       postDeployEvidenceSyncWorkflow.includes('data/production-activation.json') &&
       postDeployEvidenceSyncWorkflow.includes('data/production-blocker-handoff.json') &&

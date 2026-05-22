@@ -129,6 +129,10 @@ jobs:
             data/deployment-plan.json \
             src/data/deploymentPlan.ts \
             reports/deployment-plan-latest.md \
+            data/production-environment.json \
+            src/data/productionEnvironment.ts \
+            reports/production-environment-latest.md \
+            ops/production.env.example \
             data/production-bootstrap.json \
             src/data/productionBootstrap.ts \
             reports/production-bootstrap-latest.md \
@@ -185,6 +189,9 @@ jobs:
             reports/production-measurement-status-latest.md
             public/measurement-status.html
             public/measurement-status.json
+            data/production-environment.json
+            reports/production-environment-latest.md
+            ops/production.env.example
             data/production-readiness.json
             reports/production-readiness-latest.md
             data/objective-audit.json

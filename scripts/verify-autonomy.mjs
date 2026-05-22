@@ -629,6 +629,9 @@ if (
   !publicEvidenceIntakeWorkflow.includes('data/production-measurement-status.json') ||
   !publicEvidenceIntakeWorkflow.includes('public/measurement-status.html') ||
   !publicEvidenceIntakeWorkflow.includes('public/measurement-status.json') ||
+  !publicEvidenceIntakeWorkflow.includes('data/production-environment.json') ||
+  !publicEvidenceIntakeWorkflow.includes('reports/production-environment-latest.md') ||
+  !publicEvidenceIntakeWorkflow.includes('ops/production.env.example') ||
   !publicEvidenceIntakeWorkflow.includes('data/autonomous-owner-loop.json') ||
   !publicEvidenceIntakeWorkflow.includes('data/autonomous-operator.json') ||
   !webDeployWorkflow.includes("'Public Evidence Intake'") ||
@@ -3726,6 +3729,9 @@ if (
   !postDeployEvidenceSyncWorkflow.includes('data/repository-readiness.json') ||
   !postDeployEvidenceSyncWorkflow.includes('data/repository-bootstrap.json') ||
   !postDeployEvidenceSyncWorkflow.includes('data/deployment-plan.json') ||
+  !postDeployEvidenceSyncWorkflow.includes('data/production-environment.json') ||
+  !postDeployEvidenceSyncWorkflow.includes('reports/production-environment-latest.md') ||
+  !postDeployEvidenceSyncWorkflow.includes('ops/production.env.example') ||
   !postDeployEvidenceSyncWorkflow.includes('data/production-bootstrap.json') ||
   !postDeployEvidenceSyncWorkflow.includes('data/production-activation.json') ||
   !postDeployEvidenceSyncWorkflow.includes('data/production-blocker-handoff.json') ||
@@ -5358,6 +5364,9 @@ if (
   !postDeployEvidenceSyncWorkflow.includes('data/repository-readiness.json') ||
   !postDeployEvidenceSyncWorkflow.includes('data/repository-bootstrap.json') ||
   !postDeployEvidenceSyncWorkflow.includes('data/deployment-plan.json') ||
+  !postDeployEvidenceSyncWorkflow.includes('data/production-environment.json') ||
+  !postDeployEvidenceSyncWorkflow.includes('reports/production-environment-latest.md') ||
+  !postDeployEvidenceSyncWorkflow.includes('ops/production.env.example') ||
   !postDeployEvidenceSyncWorkflow.includes('data/production-bootstrap.json') ||
   !postDeployEvidenceSyncWorkflow.includes('data/production-activation.json') ||
   !postDeployEvidenceSyncWorkflow.includes('data/production-blocker-handoff.json') ||
