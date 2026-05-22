@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-21T23:51:37.516Z",
+  "generatedAt": "2026-05-22T00:04:57.154Z",
   "status": "self-update-ready",
   "mode": "plan-and-assert",
   "envFiles": {
@@ -71,7 +71,7 @@
     "ownerLoop": "owner-loop-ready"
   },
   "pendingChanges": {
-    "total": 89,
+    "total": 104,
     "safe": [
       {
         "code": "M",
@@ -152,6 +152,13 @@
       },
       {
         "code": "M",
+        "path": "data/growth-plan.json",
+        "raw": " M data/growth-plan.json",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
         "path": "data/live-site-monitor.json",
         "raw": " M data/live-site-monitor.json",
         "safe": true,
@@ -168,13 +175,6 @@
         "code": "M",
         "path": "data/objective-audit.json",
         "raw": " M data/objective-audit.json",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "data/organic-seed-loop.json",
-        "raw": " M data/organic-seed-loop.json",
         "safe": true,
         "reason": "allowlisted-generated-artifact"
       },
@@ -306,6 +306,13 @@
       },
       {
         "code": "M",
+        "path": "data/traffic-seeding.json",
+        "raw": " M data/traffic-seeding.json",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
         "path": "public/compliance.json",
         "raw": " M public/compliance.json",
         "safe": true,
@@ -313,8 +320,92 @@
       },
       {
         "code": "M",
+        "path": "public/games/canopy-bloom.html",
+        "raw": " M public/games/canopy-bloom.html",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
+        "path": "public/games/foundry-ledger.html",
+        "raw": " M public/games/foundry-ledger.html",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
+        "path": "public/games/grove-engine.html",
+        "raw": " M public/games/grove-engine.html",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
+        "path": "public/games/harbor-circuit.html",
+        "raw": " M public/games/harbor-circuit.html",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
+        "path": "public/games/harbor-rings.html",
+        "raw": " M public/games/harbor-rings.html",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
+        "path": "public/games/lantern-relay.html",
+        "raw": " M public/games/lantern-relay.html",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
+        "path": "public/games/metro-loom.html",
+        "raw": " M public/games/metro-loom.html",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
+        "path": "public/games/mosaic-haven.html",
+        "raw": " M public/games/mosaic-haven.html",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
+        "path": "public/games/orbit-atlas.html",
+        "raw": " M public/games/orbit-atlas.html",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
+        "path": "public/games/pocket-draft.html",
+        "raw": " M public/games/pocket-draft.html",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
         "path": "public/measurement-status.json",
         "raw": " M public/measurement-status.json",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
+        "path": "public/privacy.html",
+        "raw": " M public/privacy.html",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
+        "path": "public/share-manifest.json",
+        "raw": " M public/share-manifest.json",
         "safe": true,
         "reason": "allowlisted-generated-artifact"
       },
@@ -397,6 +488,13 @@
       },
       {
         "code": "M",
+        "path": "reports/growth-plan-latest.md",
+        "raw": " M reports/growth-plan-latest.md",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
         "path": "reports/live-site-monitor-latest.md",
         "raw": " M reports/live-site-monitor-latest.md",
         "safe": true,
@@ -413,13 +511,6 @@
         "code": "M",
         "path": "reports/objective-audit-latest.md",
         "raw": " M reports/objective-audit-latest.md",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "reports/organic-seed-loop-latest.md",
-        "raw": " M reports/organic-seed-loop-latest.md",
         "safe": true,
         "reason": "allowlisted-generated-artifact"
       },
@@ -551,6 +642,13 @@
       },
       {
         "code": "M",
+        "path": "reports/traffic-seeding-latest.md",
+        "raw": " M reports/traffic-seeding-latest.md",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
         "path": "src/data/autonomousCadence.ts",
         "raw": " M src/data/autonomousCadence.ts",
         "safe": true,
@@ -593,6 +691,13 @@
       },
       {
         "code": "M",
+        "path": "src/data/growthPlan.ts",
+        "raw": " M src/data/growthPlan.ts",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
         "path": "src/data/liveSiteMonitor.ts",
         "raw": " M src/data/liveSiteMonitor.ts",
         "safe": true,
@@ -609,13 +714,6 @@
         "code": "M",
         "path": "src/data/objectiveAudit.ts",
         "raw": " M src/data/objectiveAudit.ts",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "src/data/organicSeedLoop.ts",
-        "raw": " M src/data/organicSeedLoop.ts",
         "safe": true,
         "reason": "allowlisted-generated-artifact"
       },
@@ -695,10 +793,17 @@
         "raw": " M src/data/storeListingOptimizer.ts",
         "safe": true,
         "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
+        "path": "src/data/trafficSeeding.ts",
+        "raw": " M src/data/trafficSeeding.ts",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
       }
     ],
     "unsafe": [],
-    "safeCount": 89,
+    "safeCount": 104,
     "unsafeCount": 0
   },
   "commitPlan": {
@@ -722,10 +827,10 @@
       "data/event-collector-smoke.json",
       "data/event-ingest-smoke.json",
       "data/event-ingest.json",
+      "data/growth-plan.json",
       "data/live-site-monitor.json",
       "data/local-event-bridge.json",
       "data/objective-audit.json",
-      "data/organic-seed-loop.json",
       "data/performance-budget.json",
       "data/post-deploy-smoke.json",
       "data/product-gate-recovery.json",
@@ -744,8 +849,21 @@
       "data/store-compliance.json",
       "data/store-listing-optimizer.json",
       "data/store-package.json",
+      "data/traffic-seeding.json",
       "public/compliance.json",
+      "public/games/canopy-bloom.html",
+      "public/games/foundry-ledger.html",
+      "public/games/grove-engine.html",
+      "public/games/harbor-circuit.html",
+      "public/games/harbor-rings.html",
+      "public/games/lantern-relay.html",
+      "public/games/metro-loom.html",
+      "public/games/mosaic-haven.html",
+      "public/games/orbit-atlas.html",
+      "public/games/pocket-draft.html",
       "public/measurement-status.json",
+      "public/privacy.html",
+      "public/share-manifest.json",
       "reports/analytics-rollup-latest.md",
       "reports/autonomous-cadence-latest.md",
       "reports/autonomous-operator-history-latest.md",
@@ -757,10 +875,10 @@
       "reports/event-collector-smoke-latest.md",
       "reports/event-ingest-latest.md",
       "reports/event-ingest-smoke-latest.md",
+      "reports/growth-plan-latest.md",
       "reports/live-site-monitor-latest.md",
       "reports/local-event-bridge-latest.md",
       "reports/objective-audit-latest.md",
-      "reports/organic-seed-loop-latest.md",
       "reports/performance-budget-latest.md",
       "reports/post-deploy-smoke-latest.md",
       "reports/product-gate-recovery-latest.md",
@@ -779,16 +897,17 @@
       "reports/store-compliance-latest.md",
       "reports/store-listing-optimizer-latest.md",
       "reports/store-package-latest.md",
+      "reports/traffic-seeding-latest.md",
       "src/data/autonomousCadence.ts",
       "src/data/autonomousOperator.ts",
       "src/data/autonomousOperatorHistory.ts",
       "src/data/autonomousOwnerLoop.ts",
       "src/data/autonomousSelfUpdate.ts",
       "src/data/eventCollectorDeployment.ts",
+      "src/data/growthPlan.ts",
       "src/data/liveSiteMonitor.ts",
       "src/data/localEventBridge.ts",
       "src/data/objectiveAudit.ts",
-      "src/data/organicSeedLoop.ts",
       "src/data/performanceBudget.ts",
       "src/data/postDeploySmoke.ts",
       "src/data/productGateRecovery.ts",
@@ -799,7 +918,8 @@
       "src/data/releaseCandidate.ts",
       "src/data/retentionLoop.ts",
       "src/data/storeCompliance.ts",
-      "src/data/storeListingOptimizer.ts"
+      "src/data/storeListingOptimizer.ts",
+      "src/data/trafficSeeding.ts"
     ],
     "commitMessage": "Autonomous daily self-update",
     "skipWhenNoAllowlistedChanges": true
@@ -906,7 +1026,7 @@
     {
       "id": "safe-path-allowlist",
       "status": "pass",
-      "detail": "89 safe pending file(s), 0 unsafe pending file(s)."
+      "detail": "104 safe pending file(s), 0 unsafe pending file(s)."
     },
     {
       "id": "repository-optional",

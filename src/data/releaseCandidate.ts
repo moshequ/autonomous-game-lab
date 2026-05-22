@@ -1,7 +1,7 @@
 export const releaseCandidate = {
-  "generatedAt": "2026-05-21T23:55:10.393Z",
+  "generatedAt": "2026-05-22T00:06:23.251Z",
   "status": "release-candidate-ready",
-  "candidateId": "pwa-138d9e4e2e92",
+  "candidateId": "pwa-cb7846a97ee1",
   "target": {
     "provider": "github-pages",
     "artifactPath": "dist",
@@ -12,8 +12,8 @@ export const releaseCandidate = {
   },
   "summary": {
     "totalFiles": 47,
-    "totalBytes": 3698754,
-    "totalKb": 3612.1,
+    "totalBytes": 3708595,
+    "totalKb": 3621.7,
     "assetFiles": 4,
     "htmlFiles": 17,
     "gamePages": 10,
@@ -22,7 +22,7 @@ export const releaseCandidate = {
   },
   "integrity": {
     "algorithm": "sha256",
-    "aggregateHash": "138d9e4e2e928a9c1dd9edbc6de0f0b37d3a17d90ded4db039bf2a59312d5d93",
+    "aggregateHash": "cb7846a97ee1ded2387b2f8ea7cac1d362b042806e092f5f244addc3a768b4ff",
     "files": [
       {
         "path": ".nojekyll",
@@ -46,23 +46,23 @@ export const releaseCandidate = {
         "cacheControl": "public, max-age=3600"
       },
       {
-        "path": "assets/aggregateEvidenceIssue-CmLCGdps.js",
+        "path": "assets/aggregateEvidenceIssue-CMS17Ld9.js",
         "bytes": 2978,
-        "sha256": "e91a2836e1c709bf573f6ba6806d7a9ed0a13584d96014c39c7018ced37143fb",
+        "sha256": "cfccf862687c5859454d6f1b581e1b19f963d027ecb00a6f2e224e723080c891",
         "contentType": "text/javascript; charset=utf-8",
         "cacheControl": "public, max-age=31536000, immutable"
       },
       {
-        "path": "assets/GameCanvas-avJ4hAzm.js",
+        "path": "assets/GameCanvas-D9aqssPz.js",
         "bytes": 1393760,
-        "sha256": "f0bb56db93fb8eb2d1fc9e948f0c5ebfdb76792b13263a0364471152ad3edfc8",
+        "sha256": "5e340f288198219963f6b607ce535292f7ffe6f0aeebeb038709d59806cbb7f8",
         "contentType": "text/javascript; charset=utf-8",
         "cacheControl": "public, max-age=31536000, immutable"
       },
       {
-        "path": "assets/index-DfzHHJ3o.js",
+        "path": "assets/index-BrUECr9E.js",
         "bytes": 691642,
-        "sha256": "1028333fc03151a8776611bb7de6eb455278d42fe7489c754b189b640823a03e",
+        "sha256": "ed51f74f2fd7de063d08f0550626b9100383916ec3b51ff540f123afe7a818b7",
         "contentType": "text/javascript; charset=utf-8",
         "cacheControl": "public, max-age=31536000, immutable"
       },
@@ -76,7 +76,7 @@ export const releaseCandidate = {
       {
         "path": "compliance.json",
         "bytes": 5625,
-        "sha256": "89c6f0be558c233fa26dcf4c12bf23f74e066826e1f396d24b11ec93781f8571",
+        "sha256": "0d2027fa6d9cfb6bb64c875039068d33c21016768bfd1ffe5cff9e53dcc97192",
         "contentType": "application/json; charset=utf-8",
         "cacheControl": "public, max-age=3600"
       },
@@ -89,71 +89,71 @@ export const releaseCandidate = {
       },
       {
         "path": "games/canopy-bloom.html",
-        "bytes": 5079,
-        "sha256": "62fdb7fb4392e3bf28866bc2463b90d526ced292ab4994f99fe0c2aab5f9a1bc",
+        "bytes": 6067,
+        "sha256": "4a8dcea226d021540446e0a6daf90ba11e910c0ce1b63e66437e082d4a4d2d20",
         "contentType": "text/html; charset=utf-8",
         "cacheControl": "no-cache"
       },
       {
         "path": "games/foundry-ledger.html",
-        "bytes": 5323,
-        "sha256": "9bb3a909fd779a943beaf04e7023faada6e35d7660c5fe4776154e9b87cf2949",
+        "bytes": 6301,
+        "sha256": "c364c568e72eaf2bb3badb7449dffb72e952b1c4870a04e9aa8cff97baae505a",
         "contentType": "text/html; charset=utf-8",
         "cacheControl": "no-cache"
       },
       {
         "path": "games/grove-engine.html",
-        "bytes": 5098,
-        "sha256": "a0f22d187079d5d55572a89417629655e412148546d522f8f6f6dccb75c1b625",
+        "bytes": 6102,
+        "sha256": "344e14ae8f486113671e0c40b71fdfa705919cf53613e2324a4937dc09e58b19",
         "contentType": "text/html; charset=utf-8",
         "cacheControl": "no-cache"
       },
       {
         "path": "games/harbor-circuit.html",
-        "bytes": 5291,
-        "sha256": "928d2b87ec654aa0466eee9b29eacb8fb87795a0fb08fa4f30ff018c17c9768d",
+        "bytes": 6265,
+        "sha256": "af596bfaa718e86f3eba470097ecfa727da896d1b0cded2ff07b07a8d7c160fb",
         "contentType": "text/html; charset=utf-8",
         "cacheControl": "no-cache"
       },
       {
         "path": "games/harbor-rings.html",
-        "bytes": 5088,
-        "sha256": "1da9035a5d7b434bed2ade26b390ac187a30aa76f1b0b21554c4016f88784935",
+        "bytes": 6067,
+        "sha256": "c67f7243aa901e6296d88914d5ed712029b96d7207604aaa05187211db758a94",
         "contentType": "text/html; charset=utf-8",
         "cacheControl": "no-cache"
       },
       {
         "path": "games/lantern-relay.html",
-        "bytes": 5254,
-        "sha256": "bcdc624cc55a3cfd577460a2ce09a0c5e45256cb9e7b880acf86e3ccf0af550e",
+        "bytes": 6220,
+        "sha256": "810ea6e53aa5eacc357f8ef8778221fe41a1c3c2afd4016bfdc14e77c805ceb0",
         "contentType": "text/html; charset=utf-8",
         "cacheControl": "no-cache"
       },
       {
         "path": "games/metro-loom.html",
-        "bytes": 5047,
-        "sha256": "5a99359112a02e20ec2858bbf8c510e079e3cf16a4a93b818af8b467f0f4804b",
+        "bytes": 6027,
+        "sha256": "d0c0beb32db4be79a8f6560b86e99c9c9449bdebf2262c41c747d539d7ca0c7a",
         "contentType": "text/html; charset=utf-8",
         "cacheControl": "no-cache"
       },
       {
         "path": "games/mosaic-haven.html",
-        "bytes": 4991,
-        "sha256": "8ee8a522fe199290c3485a4465eccbb5b0bc11064a2f1b5cb9a811272d3bea89",
+        "bytes": 5999,
+        "sha256": "c1a0d78f858793f191eac140df30ffd897be838e3e8f635b6f203bf76414af73",
         "contentType": "text/html; charset=utf-8",
         "cacheControl": "no-cache"
       },
       {
         "path": "games/orbit-atlas.html",
-        "bytes": 5394,
-        "sha256": "ea3e2c3e737f2dea6a2d48102a5f3be343afa8000022535b64a8a01a1549e011",
+        "bytes": 6366,
+        "sha256": "95d88c388bda88511019df1ec74bc0ff7f209c861f6321143e3fc703b715af0b",
         "contentType": "text/html; charset=utf-8",
         "cacheControl": "no-cache"
       },
       {
         "path": "games/pocket-draft.html",
-        "bytes": 4959,
-        "sha256": "09a6efa34209948e8b65a9ee988df1c167c1926e0247d06184745d7fe80d8d23",
+        "bytes": 5951,
+        "sha256": "fc8f04a666d3ad9e95d9fed3c9dc2090ccec5950028b27355a4d2636beec07c0",
         "contentType": "text/html; charset=utf-8",
         "cacheControl": "no-cache"
       },
@@ -223,7 +223,7 @@ export const releaseCandidate = {
       {
         "path": "index.html",
         "bytes": 2846,
-        "sha256": "312cebeaef374feff3c5c606988a09805d9899303ee3350c05b80fed4e2dd171",
+        "sha256": "f4d72694f31147a8771d18801fff68276a0f2d5449b52fcc4dd369442c353edb",
         "contentType": "text/html; charset=utf-8",
         "cacheControl": "no-cache"
       },
@@ -251,7 +251,7 @@ export const releaseCandidate = {
       {
         "path": "measurement-status.json",
         "bytes": 3459,
-        "sha256": "0130cd35257a3ff52523948c126c22b1daed5d4365577357f66d5a11b7b739c9",
+        "sha256": "83f54773e810f3b575970f1162d3f88bf7e0c0fc55fa7a7c4467aa2528a0ae00",
         "contentType": "application/json; charset=utf-8",
         "cacheControl": "public, max-age=3600"
       },
@@ -265,7 +265,7 @@ export const releaseCandidate = {
       {
         "path": "privacy.html",
         "bytes": 2649,
-        "sha256": "cc454717dcc9f3df5ce32aa9cae0648b6918d4edb71169c665c7c429ccd2d9c8",
+        "sha256": "b6b46f9b20088aed3f24264c5f507e7d58af61876caeaabff54efe46b4027616",
         "contentType": "text/html; charset=utf-8",
         "cacheControl": "no-cache"
       },
@@ -293,7 +293,7 @@ export const releaseCandidate = {
       {
         "path": "share-manifest.json",
         "bytes": 10648,
-        "sha256": "03e81abe0e2b50be2c74b7d4b240e4a4ae3002c03c3ac347c8f34f6334a1e246",
+        "sha256": "afe7f84732fe655616f8329e4aafbd6c9f645d2168e30862ac17b527e3d87ec0",
         "contentType": "application/json; charset=utf-8",
         "cacheControl": "public, max-age=3600"
       },
@@ -342,7 +342,7 @@ export const releaseCandidate = {
       {
         "path": "sw.js",
         "bytes": 3875,
-        "sha256": "4e9646da81b482f8d27acaa8c87067828c14e52d11e5191667a80d2d279461e0",
+        "sha256": "50b063de84a4a8297c9cf683eae8fe2a3e7bcdfd0e8766933e58ac7a50ee31bc",
         "contentType": "text/javascript; charset=utf-8",
         "cacheControl": "no-cache"
       },
