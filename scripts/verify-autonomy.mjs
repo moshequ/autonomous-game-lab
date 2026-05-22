@@ -6763,6 +6763,7 @@ if (
     ownerReviewOperatorHistoryAction?.status !== 'monitor') ||
   !autonomousOwnerLoopSource.includes('postDeploySmokeActionFresh') ||
   !autonomousOwnerLoopSource.includes('operatorPlanPublished') ||
+  !autonomousOwnerLoopSource.includes('needsInitialOperatorExecution') ||
   (ownerHasExecutedAction &&
     ownerHasExecutableAlternativeOutsideCovered &&
     ownerRecentExecutedActionIds.includes(autonomousOwnerLoop.ownerDecision?.nextBestActionId)) ||

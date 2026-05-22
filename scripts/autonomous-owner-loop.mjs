@@ -443,6 +443,7 @@ const operatorPlanHeld =
   autonomousOperator.execution?.status === 'not-requested'
 const operatorPlanPublished = ['operator-plan-ready', 'operator-executed'].includes(autonomousOperator.status) || operatorPlanHeld
 const operatorHistoryPublished = autonomousOperatorHistory.status === 'operator-history-ready'
+const needsInitialOperatorExecution = (autonomousOperatorHistory.summary?.executedRecords ?? 0) < 1
 const productionBootstrapFreshnessInputs = [
   { id: 'release-candidate', generatedAt: releaseCandidate.generatedAt },
   { id: 'deployment-plan', generatedAt: deployment.generatedAt },
@@ -2260,13 +2261,15 @@ const safeAutonomousActions = [
   },
   {
     id: 'refresh-objective-audit',
-    status: objectiveAuditFresh ? 'monitor' : 'armed',
+    status: objectiveAuditFresh && !needsInitialOperatorExecution ? 'monitor' : 'armed',
     costUsd: 0,
     command: 'npm run autonomous:objective-audit',
     targets: ['objective-evidence', 'production-blockers'],
-    reason: objectiveAuditFresh
-      ? 'Objective audit already covers the current upstream evidence; keep it monitored while product and data actions run.'
-      : 'Keeps the original objective mapped to current evidence and prevents false completion claims.',
+    reason: needsInitialOperatorExecution
+      ? 'Seeds the operator audit trail with one harmless objective-audit refresh before final verification.'
+      : objectiveAuditFresh
+        ? 'Objective audit already covers the current upstream evidence; keep it monitored while product and data actions run.'
+        : 'Keeps the original objective mapped to current evidence and prevents false completion claims.',
   },
   {
     id: 'optimize-store-listing',
