@@ -1,5 +1,5 @@
 export const storeAssets = {
-  "generatedAt": "2026-05-22T19:54:54.547Z",
+  "generatedAt": "2026-05-22T20:04:38.907Z",
   "status": "screenshots-ready",
   "basePath": "/autonomous-game-lab/",
   "sourceBuild": "dist",
@@ -43,7 +43,7 @@ export const storeAssets = {
       "distPath": "dist/store-assets/screenshots/phone-market-pulse-generated.png",
       "width": 1170,
       "height": 2532,
-      "bytes": 195343,
+      "bytes": 185860,
       "platformUse": [
         "Google Play phone",
         "Apple iPhone draft"

@@ -7,7 +7,7 @@ export const autonomousOperatorHistory = {
     "failedRecords": 0,
     "lastActionId": "seed-portfolio-traffic",
     "lastExecutionStatus": "not-requested",
-    "lastExecutedActionId": "optimize-store-listing"
+    "lastExecutedActionId": "collect-gate-sample-local-drops"
   }
 } as const
 
