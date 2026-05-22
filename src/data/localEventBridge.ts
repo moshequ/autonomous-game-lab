@@ -1,5 +1,5 @@
 export const localEventBridge = {
-  "generatedAt": "2026-05-22T02:08:46.765Z",
+  "generatedAt": "2026-05-22T02:21:44.486Z",
   "status": "bridge-waiting-for-export",
   "mode": "local-zero-spend-event-drop-bridge",
   "inbox": {
@@ -59,7 +59,7 @@ export const localEventBridge = {
       "preciseLocation"
     ],
     "inboxDirectory": "data/player-events/inbox",
-    "downloadsDirectory": "../../../Downloads",
+    "downloadsDirectory": "../../../../Downloads",
     "importCommand": "npm run autonomous:import-events",
     "rollupCommand": "npm run autonomous:analytics",
     "recoveryCommand": "npm run autonomous:gate-recovery",
@@ -100,8 +100,8 @@ export const localEventBridge = {
     "evidenceReadyNow": false,
     "lastScanAt": "2026-05-22T01:42:25.939Z",
     "lastScanStatus": "no-evidence-found",
-    "scanAgeHours": 0.44,
-    "cooldownRemainingHours": 3.56,
+    "scanAgeHours": 0.66,
+    "cooldownRemainingHours": 3.34,
     "nextRecommendedScanAt": "2026-05-22T05:42:25.939Z"
   },
   "gateSampleEvidence": {

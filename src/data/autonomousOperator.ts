@@ -1,7 +1,11 @@
 export const autonomousOperator = {
-  "status": "operator-held",
+  "status": "operator-plan-ready",
   "mode": "plan-only",
-  "selectedAction": null,
+  "selectedAction": {
+    "id": "seed-portfolio-traffic",
+    "status": "armed",
+    "costUsd": 0
+  },
   "execution": {
     "status": "not-requested"
   }

@@ -1,7 +1,9 @@
 # Android TWA Handoff
 
-Generated: 2026-05-22T02:06:46.359Z
+Generated: 2026-05-22T02:17:35.901Z
 Status: blocked-draft-ready
+Public origin: https://moshequ.github.io/autonomous-game-lab
+Base path: /autonomous-game-lab/
 
 ## Files
 
@@ -21,10 +23,10 @@ Status: blocked-draft-ready
 
 ## Commands
 
-- Init: `npx @bubblewrap/cli init --manifest https://moshequ.github.io/manifest.webmanifest`
+- Init: `npx @bubblewrap/cli init --manifest https://moshequ.github.io/autonomous-game-lab/manifest.webmanifest`
 - Validate: `npx @bubblewrap/cli validate`
 - Build: `npx @bubblewrap/cli build`
 
 ## Blockers
 
-- Google Play developer account is not connected.
+- Android Digital Asset Links must be hosted at https://moshequ.github.io/.well-known/assetlinks.json; current project Pages path publishes https://moshequ.github.io/autonomous-game-lab/.well-known/assetlinks.json.

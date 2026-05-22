@@ -1,5 +1,5 @@
 export const nativePackage = {
-  "generatedAt": "2026-05-22T02:06:46.359Z",
+  "generatedAt": "2026-05-22T02:17:35.901Z",
   "status": "blocked-draft-ready",
   "platform": "android-trusted-web-activity",
   "costGate": {
@@ -8,8 +8,11 @@ export const nativePackage = {
   },
   "packageName": "app.autonomousgamelab.portal",
   "host": "moshequ.github.io",
-  "publicOrigin": "https://moshequ.github.io",
-  "startUrl": "/",
+  "publicOrigin": "https://moshequ.github.io/autonomous-game-lab",
+  "origin": "https://moshequ.github.io",
+  "basePath": "/autonomous-game-lab/",
+  "manifestUrl": "https://moshequ.github.io/autonomous-game-lab/manifest.webmanifest",
+  "startUrl": "/autonomous-game-lab/",
   "launcherName": "Game Lab",
   "handoff": {
     "directory": "native/android",
@@ -26,7 +29,7 @@ export const nativePackage = {
     "localSecretsConfigured": true
   },
   "assetLinks": {
-    "status": "ready",
+    "status": "domain-verification-blocked",
     "template": [
       {
         "relation": [
@@ -42,6 +45,12 @@ export const nativePackage = {
       }
     ],
     "publicGenerated": true,
+    "domainVerificationReady": false,
+    "rootAssetLinksDeployable": false,
+    "requiresRootWellKnownPath": true,
+    "requiredRootUrl": "https://moshequ.github.io/.well-known/assetlinks.json",
+    "publishedUrl": "https://moshequ.github.io/autonomous-game-lab/.well-known/assetlinks.json",
+    "projectPagesBasePath": "/autonomous-game-lab/",
     "hostReady": true,
     "hostedPath": "/.well-known/assetlinks.json"
   },
@@ -96,7 +105,12 @@ export const nativePackage = {
     {
       "id": "production-host",
       "status": "pass",
-      "detail": "Host is moshequ.github.io."
+      "detail": "Host is moshequ.github.io; base path is /autonomous-game-lab/."
+    },
+    {
+      "id": "assetlinks-domain-verification",
+      "status": "blocker",
+      "detail": "Digital Asset Links must be reachable at https://moshequ.github.io/.well-known/assetlinks.json; current artifact publishes https://moshequ.github.io/autonomous-game-lab/.well-known/assetlinks.json."
     },
     {
       "id": "hosted-privacy",
@@ -120,15 +134,15 @@ export const nativePackage = {
     },
     {
       "id": "google-play-account",
-      "status": "blocker",
-      "detail": "Google Play developer account is not connected."
+      "status": "external-blocker",
+      "detail": "Google Play developer account is not connected; local TWA handoff can still be prepared."
     }
   ],
   "blockers": [
-    "Google Play developer account is not connected."
+    "Android Digital Asset Links must be hosted at https://moshequ.github.io/.well-known/assetlinks.json; current project Pages path publishes https://moshequ.github.io/autonomous-game-lab/.well-known/assetlinks.json."
   ],
   "commands": {
-    "init": "npx @bubblewrap/cli init --manifest https://moshequ.github.io/manifest.webmanifest",
+    "init": "npx @bubblewrap/cli init --manifest https://moshequ.github.io/autonomous-game-lab/manifest.webmanifest",
     "validate": "npx @bubblewrap/cli validate",
     "build": "npx @bubblewrap/cli build"
   }

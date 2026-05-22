@@ -1,5 +1,5 @@
 export const eventCollectorDeployment = {
-  "generatedAt": "2026-05-22T02:08:46.354Z",
+  "generatedAt": "2026-05-22T02:21:43.595Z",
   "status": "blocked-needs-cloudflare-env",
   "envFiles": {
     "loaded": true,
@@ -15,14 +15,14 @@ export const eventCollectorDeployment = {
         ]
       }
     ],
-    "loadedKeys": [],
-    "skippedExistingKeys": [
+    "loadedKeys": [
       "AGL_ANDROID_PACKAGE_NAME",
       "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
       "AGL_ANDROID_KEYSTORE_BASE64",
       "AGL_ANDROID_KEYSTORE_PASSWORD",
       "AGL_ANDROID_KEY_ALIAS"
     ],
+    "skippedExistingKeys": [],
     "skippedProtectedKeys": [],
     "overwrittenEnvFileKeys": [],
     "supportedFiles": [
@@ -57,9 +57,9 @@ export const eventCollectorDeployment = {
     "path": "ops/cloudflare/event-collector-worker.mjs",
     "storageBinding": "EVENT_BUCKET",
     "bucketName": "autonomous-game-lab-events",
-    "bucketConfigured": true,
-    "allowedOrigins": "https://moshequ.github.io",
-    "allowedOriginsConfigured": true
+    "bucketConfigured": false,
+    "allowedOrigins": null,
+    "allowedOriginsConfigured": false
   },
   "workflow": {
     "path": ".github/workflows/event-collector-deploy.yml",
@@ -72,8 +72,8 @@ export const eventCollectorDeployment = {
     "serverExportConfigured": false,
     "cloudflareAccountConfigured": false,
     "cloudflareTokenConfigured": false,
-    "writeTokenConfigured": true,
-    "adminTokenConfigured": true,
+    "writeTokenConfigured": false,
+    "adminTokenConfigured": false,
     "collectorUrl": null,
     "exportUrl": null
   },

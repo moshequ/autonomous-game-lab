@@ -1,5 +1,5 @@
 export const androidRelease = {
-  "generatedAt": "2026-05-22T02:06:47.701Z",
+  "generatedAt": "2026-05-22T02:17:36.149Z",
   "status": "blocked-needs-host-signing-play",
   "envFiles": {
     "loaded": true,
@@ -15,14 +15,14 @@ export const androidRelease = {
         ]
       }
     ],
-    "loadedKeys": [],
-    "skippedExistingKeys": [
+    "loadedKeys": [
       "AGL_ANDROID_PACKAGE_NAME",
       "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
       "AGL_ANDROID_KEYSTORE_BASE64",
       "AGL_ANDROID_KEYSTORE_PASSWORD",
       "AGL_ANDROID_KEY_ALIAS"
     ],
+    "skippedExistingKeys": [],
     "skippedProtectedKeys": [],
     "overwrittenEnvFileKeys": [],
     "supportedFiles": [
@@ -79,7 +79,7 @@ export const androidRelease = {
     "googlePlayFeeAllowed": false,
     "paybackDays": null,
     "hostedPrivacyStatus": "hosted",
-    "assetLinksStatus": "ready",
+    "assetLinksStatus": "domain-verification-blocked",
     "signingFingerprint": "FC:92:04:44:5B:93:78:92:A9:8C:08:50:BF:97:7A:90:A5:62:61:81:53:E7:A9:AA:A9:39:86:74:AE:D3:52:C2",
     "localSigningSecretsConfigured": true
   },
@@ -106,8 +106,8 @@ export const androidRelease = {
     },
     {
       "id": "asset-links",
-      "status": "pass",
-      "detail": "Digital Asset Links are generated at public/.well-known/assetlinks.json."
+      "status": "blocker",
+      "detail": "Digital Asset Links are domain-verification-blocked; Android requires https://moshequ.github.io/.well-known/assetlinks.json and current artifact publishes https://moshequ.github.io/autonomous-game-lab/.well-known/assetlinks.json."
     },
     {
       "id": "signing-fingerprint",
@@ -147,6 +147,7 @@ export const androidRelease = {
   ],
   "blockers": [
     "native-package-ready: Native package is blocked-draft-ready.",
+    "asset-links: Digital Asset Links are domain-verification-blocked; Android requires https://moshequ.github.io/.well-known/assetlinks.json and current artifact publishes https://moshequ.github.io/autonomous-game-lab/.well-known/assetlinks.json.",
     "google-play-account: Google Play account is not connected.",
     "play-service-account: Google Play service account upload credentials are not available to CI.",
     "unit-economics-store-spend: Store spend allowed is false; spend mode is no-spend.",
