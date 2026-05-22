@@ -133,23 +133,25 @@ const originCandidate = (() => {
 })()
 const origin = normalizeOrigin(originCandidate.value)
 const releaseCandidateManifestPath = '/release-candidate.json'
-const smokeChecks = releaseCandidate.postDeploySmoke ?? []
-const plannedChecks = [
-  ...smokeChecks.map((check) => ({
+const currentCandidateSmokeChecks = releaseCandidate.postDeploySmoke ?? []
+const latestSyncedDeployKnown =
+  postDeployArtifactSync.status === 'post-deploy-artifact-sync-passed' &&
+  postDeployArtifactSync.validation?.liveMatchesArtifact === true &&
+  typeof postDeployArtifactSync.live?.candidateId === 'string'
+const smokeChecksForPlan = (smokeChecks) => smokeChecks.map((check) => ({
     id: check.id,
     path: check.path,
     expectedStatus: check.expectedStatus ?? 200,
     requiredText: check.requiredText ?? null,
     kind: 'asset',
-  })),
-  {
-    id: 'release-candidate-manifest-live',
-    path: releaseCandidateManifestPath,
-    expectedStatus: 200,
-    requiredText: postDeployArtifactSync.live?.candidateId ?? null,
-    kind: 'release-manifest',
-  },
-]
+  }))
+const releaseManifestCheck = {
+  id: 'release-candidate-manifest-live',
+  path: releaseCandidateManifestPath,
+  expectedStatus: 200,
+  requiredText: postDeployArtifactSync.live?.candidateId ?? null,
+  kind: 'release-manifest',
+}
 
 const fetchText = async (url) => {
   const startedAt = Date.now()
@@ -202,6 +204,10 @@ const runCheck = async (check) => {
           status: parsed.status ?? null,
           candidateId: parsed.candidateId ?? null,
           aggregateHash: parsed.integrity?.aggregateHash ?? null,
+          postDeploySmoke:
+            Array.isArray(parsed.postDeploySmoke) ? parsed.postDeploySmoke : [],
+          postDeploySmokeUrls:
+            Array.isArray(parsed.postDeploySmoke) ? parsed.postDeploySmoke.length : 0,
           matchesSyncedDeploy:
             parsed.candidateId === (postDeployArtifactSync.live?.candidateId ?? null) &&
             parsed.integrity?.aggregateHash === (postDeployArtifactSync.live?.aggregateHash ?? null),
@@ -215,6 +221,8 @@ const runCheck = async (check) => {
           status: null,
           candidateId: null,
           aggregateHash: null,
+          postDeploySmoke: [],
+          postDeploySmokeUrls: 0,
           matchesSyncedDeploy: false,
           matchesCurrentLocalCandidate: false,
         }
@@ -261,16 +269,40 @@ const runCheck = async (check) => {
   }
 }
 
-const checks = await Promise.all(plannedChecks.map(runCheck))
+const runChecks = async () => {
+  if (!origin) {
+    return Promise.all([...smokeChecksForPlan(currentCandidateSmokeChecks), releaseManifestCheck].map(runCheck))
+  }
+
+  const manifestCheck = await runCheck(releaseManifestCheck)
+  const monitorSyncedLivePlan =
+    latestSyncedDeployKnown &&
+    manifestCheck.status === 'pass' &&
+    manifestCheck.manifest?.matchesSyncedDeploy === true &&
+    manifestCheck.manifest?.matchesCurrentLocalCandidate === false &&
+    (manifestCheck.manifest?.postDeploySmokeUrls ?? 0) > 0
+  const smokePlan = monitorSyncedLivePlan
+    ? manifestCheck.manifest.postDeploySmoke
+    : currentCandidateSmokeChecks
+  const assetChecks = await Promise.all(smokeChecksForPlan(smokePlan).map(runCheck))
+
+  return [
+    ...assetChecks,
+    {
+      ...manifestCheck,
+      monitoringPlanSource: monitorSyncedLivePlan
+        ? 'synced-live-release-manifest'
+        : 'current-local-release-candidate',
+    },
+  ]
+}
+
+const checks = await runChecks()
 const passed = checks.filter((check) => check.status === 'pass').length
 const failed = checks.filter((check) => check.status === 'fail').length
 const blocked = checks.filter((check) => check.status === 'blocked').length
 const latencies = checks.map((check) => check.durationMs).filter((value) => typeof value === 'number')
 const manifestCheck = checks.find((check) => check.id === 'release-candidate-manifest-live')
-const latestSyncedDeployKnown =
-  postDeployArtifactSync.status === 'post-deploy-artifact-sync-passed' &&
-  postDeployArtifactSync.validation?.liveMatchesArtifact === true &&
-  typeof postDeployArtifactSync.live?.candidateId === 'string'
 const status = !origin
   ? 'live-site-monitor-planned'
   : failed > 0
@@ -316,6 +348,9 @@ const payload = {
     localCandidateId: releaseCandidate.candidateId ?? null,
     liveMatchesSyncedDeploy: manifestCheck?.manifest?.matchesSyncedDeploy === true,
     liveMatchesCurrentLocalCandidate: manifestCheck?.manifest?.matchesCurrentLocalCandidate === true,
+    monitoringPlanSource: manifestCheck?.monitoringPlanSource ?? 'current-local-release-candidate',
+    monitoredSmokeUrls: checks.filter((check) => check.kind === 'asset').length,
+    liveSmokeUrls: manifestCheck?.manifest?.postDeploySmokeUrls ?? 0,
   },
   controls: {
     zeroPaidSpend: true,

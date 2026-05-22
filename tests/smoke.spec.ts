@@ -1123,6 +1123,8 @@ test('release candidate records the exact deployable PWA artifact', async () => 
   expect(candidate.integrity.files.some((file) => file.path === 'sw.js')).toBe(true)
   expect(candidate.integrity.files.some((file) => file.path === 'gate-sample.html')).toBe(true)
   expect(candidate.integrity.files.some((file) => file.path === 'seed-kit.html')).toBe(true)
+  expect(candidate.integrity.files.some((file) => file.path === 'seed-next.html')).toBe(true)
+  expect(candidate.integrity.files.some((file) => file.path === 'seed-next.json')).toBe(true)
   expect(candidate.integrity.files.some((file) => file.path === '.nojekyll')).toBe(true)
   expect(candidate.integrity.files.some((file) => file.path === '.well-known/assetlinks.json')).toBe(true)
   expect(candidate.integrity.files.some((file) => file.cacheControl.includes('immutable'))).toBe(true)
@@ -1131,6 +1133,8 @@ test('release candidate records the exact deployable PWA artifact', async () => 
   expect(candidate.postDeploySmoke.some((check) => check.path === '/install.html')).toBe(true)
   expect(candidate.postDeploySmoke.some((check) => check.path === '/gate-sample.html')).toBe(true)
   expect(candidate.postDeploySmoke.some((check) => check.path === '/seed-kit.html')).toBe(true)
+  expect(candidate.postDeploySmoke.some((check) => check.path === '/seed-next.html')).toBe(true)
+  expect(candidate.postDeploySmoke.some((check) => check.path === '/seed-next.json')).toBe(true)
   expect(candidate.postDeploySmoke.some((check) => check.path === '/privacy.html')).toBe(true)
   expect(candidate.postDeploySmoke.some((check) => check.path === '/.well-known/assetlinks.json')).toBe(true)
   expect(candidate.controls.zeroPaidSpend).toBe(true)
@@ -1167,6 +1171,8 @@ test('post-deploy smoke runner is wired to the release manifest and Pages workfl
       aggregateHash: string | null
       localCandidateMatches: boolean
       strictManifestComparison: boolean
+      postDeploySmokeUrls: number
+      smokePlanSource: string
     }
     sourceStatus: { deployment: string; releaseCandidate: string }
     summary: { planned: number; passed: number; blocked: number }
@@ -1238,7 +1244,11 @@ test('post-deploy smoke runner is wired to the release manifest and Pages workfl
   expect(smoke.localArtifactSmoke.controls.requiredTextChecks).toBe(true)
   expect(smoke.localArtifactSmoke.controls.manifestHashComparisonRequired).toBe(true)
   expect(smoke.localArtifactSmoke.checks.some((check) => check.id === 'release-candidate-manifest')).toBe(true)
-  expect(smoke.checks.length).toBeGreaterThanOrEqual(candidate.postDeploySmoke.length + 1)
+  const liveSmokeExpectedChecks =
+    smoke.status === 'post-deploy-smoke-observed-live' && smoke.liveRelease?.postDeploySmokeUrls
+      ? smoke.liveRelease.postDeploySmokeUrls + 1
+      : candidate.postDeploySmoke.length + 1
+  expect(smoke.checks.length).toBeGreaterThanOrEqual(liveSmokeExpectedChecks)
   expect(smoke.checks.some((check) => check.id === 'release-candidate-manifest')).toBe(true)
   expect(smoke.target.origin ? smoke.summary.passed : smoke.summary.blocked).toBe(smoke.summary.planned)
   expect(deploymentScript).toContain("['release-candidate', 'post-deploy-smoke-runner']")
@@ -1257,6 +1267,7 @@ test('post-deploy smoke runner is wired to the release manifest and Pages workfl
     expect(smoke.liveRelease?.localCandidateMatches).toBe(false)
     expect(smoke.liveRelease?.candidateId).toMatch(/^pwa-[a-f0-9]{12}$/)
     expect(smoke.liveRelease?.aggregateHash).toMatch(/^[a-f0-9]{64}$/)
+    expect(smoke.liveRelease?.smokePlanSource).toBe('live-release-manifest')
   }
 
   expect(packageJson.scripts['autonomous:post-deploy-smoke']).toBe('node scripts/post-deploy-smoke.mjs')
@@ -1432,6 +1443,10 @@ test('live site monitor verifies the public PWA against synced deploy evidence',
       liveCandidateId: string | null
       syncedCandidateId: string | null
       liveMatchesSyncedDeploy: boolean
+      liveMatchesCurrentLocalCandidate: boolean
+      monitoringPlanSource: string
+      monitoredSmokeUrls: number
+      liveSmokeUrls: number
     }
     controls: {
       zeroPaidSpend: boolean
@@ -1479,13 +1494,21 @@ test('live site monitor verifies the public PWA against synced deploy evidence',
   expect(monitor.sourceStatus.releaseCandidate).toBe(candidate.status)
   expect(monitor.sourceStatus.postDeployArtifactSync).toBe(sync.status)
   expect(monitor.sourceStatus.latestSyncedDeployKnown).toBe(true)
-  expect(monitor.summary.planned).toBeGreaterThanOrEqual(candidate.postDeploySmoke.length + 1)
+  const monitorExpectedChecks =
+    monitor.summary.monitoringPlanSource === 'synced-live-release-manifest'
+      ? monitor.summary.monitoredSmokeUrls + 1
+      : candidate.postDeploySmoke.length + 1
+  expect(monitor.summary.planned).toBeGreaterThanOrEqual(monitorExpectedChecks)
   expect(monitor.summary.passed).toBe(monitor.summary.planned)
   expect(monitor.summary.failed).toBe(0)
   expect(monitor.summary.blocked).toBe(0)
   expect(monitor.summary.liveCandidateId).toBe(sync.live.candidateId)
   expect(monitor.summary.syncedCandidateId).toBe(sync.live.candidateId)
   expect(monitor.summary.liveMatchesSyncedDeploy).toBe(true)
+  if (!monitor.summary.liveMatchesCurrentLocalCandidate) {
+    expect(monitor.summary.monitoringPlanSource).toBe('synced-live-release-manifest')
+    expect(monitor.summary.liveSmokeUrls).toBe(monitor.summary.monitoredSmokeUrls)
+  }
   expect(monitor.controls.zeroPaidSpend).toBe(true)
   expect(monitor.controls.readOnlyHttpChecks).toBe(true)
   expect(monitor.controls.noMutation).toBe(true)
@@ -5411,12 +5434,14 @@ test('growth and traffic artifacts avoid placeholder origins before hosting is c
     siteUrl: string | null
     publicUrlMode: string
     sampleDistribution: { kitPath: string }
+    evergreenRoute: { path: string; jsonPath: string; targetCampaignId: string | null }
     campaigns: Array<{ playUrl: string; shareUrl: string; pageUrl: string; pagePath: string }>
   }
   const shareManifest = JSON.parse(await readFile('public/share-manifest.json', 'utf8')) as {
     siteUrl: string | null
     publicUrlMode: string
     seedKit: { url: string }
+    seedNext: { url: string; jsonUrl: string }
     gateSampleKit: { url: string }
     shares: Array<{ url: string }>
     seedCampaigns: Array<{ url: string; pageUrl: string }>
@@ -5454,6 +5479,10 @@ test('growth and traffic artifacts avoid placeholder origins before hosting is c
     expect(traffic.campaigns.every((campaign) => campaign.playUrl.startsWith('/') && campaign.shareUrl.startsWith('/'))).toBe(true)
     expect(traffic.campaigns.every((campaign) => campaign.pageUrl === campaign.pagePath)).toBe(true)
     expect(shareManifest.seedKit.url).toBe('/seed-kit.html')
+    expect(shareManifest.seedNext.url).toBe('/seed-next.html')
+    expect(shareManifest.seedNext.jsonUrl).toBe('/seed-next.json')
+    expect(traffic.evergreenRoute.path).toBe('/seed-next.html')
+    expect(traffic.evergreenRoute.jsonPath).toBe('/seed-next.json')
     expect(shareManifest.gateSampleKit.url).toBe(traffic.sampleDistribution.kitPath)
     expect(shareManifest.shares.every((share) => share.url.startsWith('/'))).toBe(true)
     expect(shareManifest.seedCampaigns.every((campaign) => campaign.url.startsWith('/') && campaign.pageUrl.startsWith('/'))).toBe(
@@ -5487,6 +5516,16 @@ test('zero-spend seed kit is reachable and uses runtime-relative campaign links'
       exportControls: boolean
       shareControls: boolean
     }
+    evergreenRoute: {
+      status: string
+      path: string
+      jsonPath: string
+      targetCampaignId: string
+      targetGameId: string
+      costUsd: number
+      playerInitiatedOnly: boolean
+      noAutomatedExternalPosting: boolean
+    }
     campaigns: Array<{ id: string; gameId: string; sharePath: string; title: string }>
   }
   const shareManifest = JSON.parse(await readFile('public/share-manifest.json', 'utf8')) as {
@@ -5496,6 +5535,17 @@ test('zero-spend seed kit is reachable and uses runtime-relative campaign links'
       costUsd: number
       playerInitiatedSharingOnly: boolean
       copyShareControls: boolean
+      localAnalyticsEvents: boolean
+      localAnalyticsStorageKey: string
+    }
+    seedNext: {
+      path: string
+      jsonPath: string
+      targetCampaignId: string
+      targetGameId: string
+      costUsd: number
+      playerInitiatedOnly: boolean
+      noAutomatedExternalPosting: boolean
       localAnalyticsEvents: boolean
       localAnalyticsStorageKey: string
     }
@@ -5519,6 +5569,26 @@ test('zero-spend seed kit is reachable and uses runtime-relative campaign links'
       costUsd: number
     }>
   }
+  const seedNext = JSON.parse(await readFile('public/seed-next.json', 'utf8')) as {
+    status: string
+    path: string
+    jsonPath: string
+    target: {
+      campaignId: string
+      gameId: string
+      targetPath: string
+      targetStartsBeforeJudgment: number
+    }
+    guardrails: {
+      costUsd: number
+      playerInitiatedOnly: boolean
+      noAutomatedExternalPosting: boolean
+      noPaidPromotion: boolean
+      noSyntheticEvents: boolean
+      noRevenueEnablement: boolean
+    }
+    telemetry: string[]
+  }
 
   await page.goto('/seed-kit.html')
 
@@ -5534,6 +5604,33 @@ test('zero-spend seed kit is reachable and uses runtime-relative campaign links'
   expect(shareManifest.seedKit.copyShareControls).toBe(true)
   expect(shareManifest.seedKit.localAnalyticsEvents).toBe(true)
   expect(shareManifest.seedKit.localAnalyticsStorageKey).toBe('agl.analytics.events')
+  expect(traffic.evergreenRoute.status).toBe('armed')
+  expect(traffic.evergreenRoute.path).toBe('/seed-next.html')
+  expect(traffic.evergreenRoute.jsonPath).toBe('/seed-next.json')
+  expect(traffic.evergreenRoute.costUsd).toBe(0)
+  expect(traffic.evergreenRoute.playerInitiatedOnly).toBe(true)
+  expect(traffic.evergreenRoute.noAutomatedExternalPosting).toBe(true)
+  expect(shareManifest.seedNext.path).toBe('/seed-next.html')
+  expect(shareManifest.seedNext.jsonPath).toBe('/seed-next.json')
+  expect(shareManifest.seedNext.targetCampaignId).toBe(traffic.evergreenRoute.targetCampaignId)
+  expect(shareManifest.seedNext.targetGameId).toBe(traffic.evergreenRoute.targetGameId)
+  expect(shareManifest.seedNext.costUsd).toBe(0)
+  expect(shareManifest.seedNext.playerInitiatedOnly).toBe(true)
+  expect(shareManifest.seedNext.noAutomatedExternalPosting).toBe(true)
+  expect(shareManifest.seedNext.localAnalyticsStorageKey).toBe('agl.analytics.events')
+  expect(seedNext.path).toBe('/seed-next.html')
+  expect(seedNext.jsonPath).toBe('/seed-next.json')
+  expect(seedNext.status).toBe('armed')
+  expect(seedNext.target.campaignId).toBe(traffic.evergreenRoute.targetCampaignId)
+  expect(seedNext.target.gameId).toBe(traffic.evergreenRoute.targetGameId)
+  expect(seedNext.guardrails.costUsd).toBe(0)
+  expect(seedNext.guardrails.playerInitiatedOnly).toBe(true)
+  expect(seedNext.guardrails.noAutomatedExternalPosting).toBe(true)
+  expect(seedNext.guardrails.noPaidPromotion).toBe(true)
+  expect(seedNext.guardrails.noSyntheticEvents).toBe(true)
+  expect(seedNext.guardrails.noRevenueEnablement).toBe(true)
+  expect(seedNext.telemetry).toContain('seed_next_viewed')
+  expect(seedNext.telemetry).toContain('seed_next_routed')
   expect(traffic.sampleDistribution.status).toBe('gate-sample-sharing-ready')
   expect(traffic.sampleDistribution.missionCount).toBe(shareManifest.gateSampleMissions.length)
   expect(traffic.sampleDistribution.playerInitiatedSharingOnly).toBe(true)
@@ -5560,6 +5657,8 @@ test('zero-spend seed kit is reachable and uses runtime-relative campaign links'
     'href',
     runtimeHref(firstCampaign.sharePath),
   )
+  await expect(page.getByRole('link', { name: 'Open seed-next' })).toHaveAttribute('href', './seed-next.html')
+  await expect(page.getByLabel('Evergreen seed route')).toContainText(firstCampaign.title)
   await expect(page.getByRole('button', { name: 'Copy share text' }).first()).toBeVisible()
   await expect(page.getByRole('button', { name: 'Share' }).first()).toBeVisible()
   await expect(page.getByRole('link', { name: 'Open gate missions' })).toHaveAttribute('href', './gate-sample.html')
@@ -5598,6 +5697,43 @@ test('zero-spend seed kit is reachable and uses runtime-relative campaign links'
         event.name === 'share_clicked' &&
         event.properties.campaignId === firstCampaign.id &&
         event.properties.acquisitionChannel === 'player-share',
+    ),
+  ).toBe(true)
+
+  await page.goto('/seed-next.html?preview=1')
+  await expect(page.getByRole('heading', { name: `Play ${firstCampaign.title}` })).toBeVisible()
+  await expect(page.getByRole('link').first()).toHaveAttribute('href', runtimeHref(firstCampaign.sharePath))
+  await expect(page.locator('[data-seed-next-status]')).toContainText('Preview mode')
+  const previewEvents = await page.evaluate(() =>
+    JSON.parse(window.localStorage.getItem('agl.analytics.events') ?? '[]') as Array<{
+      name: string
+      properties: Record<string, string | number | boolean>
+    }>,
+  )
+  expect(
+    previewEvents.some(
+      (event) =>
+        event.name === 'seed_next_viewed' &&
+        event.properties.campaignId === firstCampaign.id &&
+        event.properties.acquisitionChannel === 'evergreen-seed-route',
+    ),
+  ).toBe(true)
+
+  await page.goto('/seed-next.html')
+  await page.waitForURL((url) => url.searchParams.get('utm_campaign') === firstCampaign.id)
+  expect(new URL(page.url()).searchParams.get('game')).toBe(firstCampaign.gameId)
+  const routedEvents = await page.evaluate(() =>
+    JSON.parse(window.localStorage.getItem('agl.analytics.events') ?? '[]') as Array<{
+      name: string
+      properties: Record<string, string | number | boolean>
+    }>,
+  )
+  expect(
+    routedEvents.some(
+      (event) =>
+        event.name === 'seed_next_routed' &&
+        event.properties.campaignId === firstCampaign.id &&
+        event.properties.zeroPaidSpend === true,
     ),
   ).toBe(true)
 })

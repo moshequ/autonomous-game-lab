@@ -388,6 +388,14 @@ const ownerMode = releaseHealth.controls?.rollbackRequired
     : deployment.status === 'ready-for-pages'
     ? 'zero-spend-web-ready'
     : 'guarded-local-automation'
+const postDeploySmokeObservedDifferentLiveCandidate =
+  postDeploySmoke.status === 'post-deploy-smoke-observed-live' &&
+  postDeploySmoke.liveRelease?.localCandidateMatches === false &&
+  postDeploySmoke.target?.strictManifestComparison === false
+const postDeploySmokeExpectedChecks =
+  postDeploySmokeObservedDifferentLiveCandidate && Number.isFinite(postDeploySmoke.liveRelease?.postDeploySmokeUrls)
+    ? postDeploySmoke.liveRelease.postDeploySmokeUrls + 1
+    : (releaseCandidate.postDeploySmoke?.length ?? 0) + 1
 const postDeploySmokeRunnerReady =
   ['blocked-missing-origin', 'post-deploy-smoke-passed', 'post-deploy-smoke-observed-live'].includes(
     postDeploySmoke.status,
@@ -403,7 +411,7 @@ const postDeploySmokeRunnerReady =
   postDeploySmoke.controls?.readOnlyHttpChecks === true &&
   postDeploySmoke.controls?.localArtifactSmokeRequired === true &&
   postDeploySmoke.controls?.manifestHashComparisonRequired === true &&
-  (postDeploySmoke.checks?.length ?? 0) >= (releaseCandidate.postDeploySmoke?.length ?? 0) + 1
+  (postDeploySmoke.checks?.length ?? 0) >= postDeploySmokeExpectedChecks
 const postDeployArtifactSyncReady =
   postDeployArtifactSync.status === 'post-deploy-artifact-sync-passed' &&
   postDeployArtifactSync.validation?.artifactPassed === true &&

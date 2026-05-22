@@ -107,6 +107,8 @@ const requiredFiles = [
   'robots.txt',
   'gate-sample.html',
   'seed-kit.html',
+  'seed-next.html',
+  'seed-next.json',
   'share-manifest.json',
   'monetization.json',
   'app-ads.txt',
@@ -190,6 +192,8 @@ const smokePaths = [
   '.well-known/assetlinks.json',
   'gate-sample.html',
   'seed-kit.html',
+  'seed-next.html',
+  'seed-next.json',
   'sitemap.xml',
   gamePages[0]?.path,
 ].filter(Boolean)

@@ -9,6 +9,8 @@ const outputTsPath = path.join(root, 'src', 'data', 'trafficSeeding.ts')
 const reportPath = path.join(root, 'reports', 'traffic-seeding-latest.md')
 const shareManifestPath = path.join(root, 'public', 'share-manifest.json')
 const seedKitPath = path.join(root, 'public', 'seed-kit.html')
+const seedNextJsonPath = path.join(root, 'public', 'seed-next.json')
+const seedNextHtmlPath = path.join(root, 'public', 'seed-next.html')
 
 const readJson = async (filePath) => JSON.parse(await readFile(filePath, 'utf8'))
 const readOptionalJson = async (filePath, fallback) =>
@@ -145,6 +147,13 @@ const channels = [
     telemetry: ['share_clicked', 'organic_entry_opened', 'game_started'],
   },
   {
+    id: 'evergreen-seed-route',
+    status: 'armed',
+    costUsd: 0,
+    surface: 'seed-next-page',
+    telemetry: ['seed_next_viewed', 'seed_next_routed', 'organic_entry_opened', 'game_started'],
+  },
+  {
     id: 'product-gate-sample',
     status: productGateSamplePlan.status === 'product-gate-sample-plan-ready' ? 'armed' : 'waiting',
     costUsd: 0,
@@ -244,6 +253,25 @@ const defaultGateSampleMission =
   gateSampleMissions.find((mission) => mission.campaignId === productGateSamplePlan.summary?.defaultRouteCampaignId) ??
   gateSampleMissions[0] ??
   null
+const seedNextCampaign = campaigns[0] ?? null
+const seedNextRoute = {
+  status: seedNextCampaign ? 'armed' : 'waiting-for-seed-campaign',
+  path: '/seed-next.html',
+  jsonPath: '/seed-next.json',
+  targetCampaignId: seedNextCampaign?.id ?? null,
+  targetGameId: seedNextCampaign?.gameId ?? null,
+  targetTitle: seedNextCampaign?.title ?? null,
+  targetPath: seedNextCampaign?.sharePath ?? null,
+  targetUrl: seedNextCampaign?.shareUrl ?? null,
+  fallbackPath: '/seed-kit.html',
+  costUsd: 0,
+  playerInitiatedOnly: true,
+  noAutomatedExternalPosting: true,
+  noPaidPromotion: true,
+  localAnalyticsEvents: true,
+  localAnalyticsStorageKey: 'agl.analytics.events',
+  telemetry: ['seed_next_viewed', 'seed_next_routed', 'organic_entry_opened', 'game_started'],
+}
 
 const payload = {
   generatedAt: new Date().toISOString(),
@@ -264,6 +292,7 @@ const payload = {
   },
   channels,
   campaigns,
+  evergreenRoute: seedNextRoute,
   sampleDistribution: {
     status: gateSampleMissions.length ? 'gate-sample-sharing-ready' : 'waiting-for-sample-plan',
     kitPath: gateSampleKitPath,
@@ -305,6 +334,12 @@ const nextShareManifest = {
     copyShareControls: true,
     localAnalyticsEvents: true,
     localAnalyticsStorageKey: 'agl.analytics.events',
+    generatedAt: payload.generatedAt,
+  },
+  seedNext: {
+    ...seedNextRoute,
+    url: publicUrl('/seed-next.html'),
+    jsonUrl: publicUrl('/seed-next.json'),
     generatedAt: payload.generatedAt,
   },
   gateSampleKit: {
@@ -371,6 +406,24 @@ const seedKitCards = campaigns
     },
   )
   .join('\n')
+const seedNextStrip = seedNextCampaign
+  ? `<section class="sampleStrip" aria-label="Evergreen seed route">
+        <div>
+          <p class="eyebrow">Evergreen seed route</p>
+          <h2>${escapeHtml(seedNextCampaign.title)}</h2>
+          <p>Share one stable link that automatically routes to the current under-measured zero-spend seed campaign after each autonomous refresh.</p>
+        </div>
+        <div class="actions">
+          <a href="${escapeHtml(runtimeHref(seedNextRoute.path))}">Open seed-next</a>
+          <a class="secondary" href="${escapeHtml(runtimeHref(seedNextCampaign.sharePath))}">Current target</a>
+        </div>
+        <dl>
+          <div><dt>Campaign</dt><dd>${escapeHtml(seedNextCampaign.id)}</dd></div>
+          <div><dt>Game</dt><dd>${escapeHtml(seedNextCampaign.gameId)}</dd></div>
+          <div><dt>Cost</dt><dd>$${seedNextCampaign.costUsd.toFixed(2)}</dd></div>
+        </dl>
+      </section>`
+  : ''
 const gateSampleStrip = defaultGateSampleMission
   ? `<section class="sampleStrip" aria-label="Product gate sample kit">
         <div>
@@ -437,7 +490,7 @@ const seedKitHtml = `<!doctype html>
           <span class="pill">$0.00 spend</span>
           <span class="pill">${payload.guardrails.minimumStartsBeforeQualityJudgment} starts before judgment</span>
         </div>
-      </header>${gateSampleStrip ? `\n      ${gateSampleStrip}` : ''}
+      </header>${seedNextStrip ? `\n      ${seedNextStrip}` : ''}${gateSampleStrip ? `\n      ${gateSampleStrip}` : ''}
       <section class="grid" aria-label="Seed campaigns">
         ${seedKitCards}
       </section>
@@ -559,6 +612,152 @@ const seedKitHtml = `<!doctype html>
 </html>
 `
 
+const seedNextPublicPayload = {
+  generatedAt: payload.generatedAt,
+  status: seedNextRoute.status,
+  path: seedNextRoute.path,
+  jsonPath: seedNextRoute.jsonPath,
+  target: seedNextCampaign
+    ? {
+        campaignId: seedNextCampaign.id,
+        gameId: seedNextCampaign.gameId,
+        title: seedNextCampaign.title,
+        priority: seedNextCampaign.priority,
+        targetPath: seedNextCampaign.sharePath,
+        targetUrl: seedNextCampaign.shareUrl,
+        copy: seedNextCampaign.copy,
+        targetStartsBeforeJudgment: seedNextCampaign.measurement.targetStartsBeforeJudgment,
+      }
+    : null,
+  fallbackPath: seedNextRoute.fallbackPath,
+  guardrails: {
+    costUsd: seedNextRoute.costUsd,
+    playerInitiatedOnly: seedNextRoute.playerInitiatedOnly,
+    noAutomatedExternalPosting: seedNextRoute.noAutomatedExternalPosting,
+    noPaidPromotion: seedNextRoute.noPaidPromotion,
+    noSyntheticEvents: true,
+    noRevenueEnablement: true,
+  },
+  telemetry: seedNextRoute.telemetry,
+}
+const seedNextRuntimeHref = seedNextCampaign ? runtimeHref(seedNextCampaign.sharePath) : runtimeHref(seedNextRoute.fallbackPath)
+const seedNextHtml = `<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Play the Current Seed Game | Autonomous Game Lab</title>
+    <meta name="robots" content="index,follow">
+    <meta name="description" content="An evergreen zero-spend route to the current under-measured Autonomous Game Lab seed game.">
+    <style>
+      :root { color-scheme: light; font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color: #1a211d; background: #f7f7f2; }
+      body { margin: 0; }
+      main { display: grid; align-content: center; gap: 18px; min-height: 100svh; width: min(760px, calc(100% - 32px)); margin: 0 auto; padding: 36px 0; }
+      h1, p { margin: 0; }
+      h1 { font-size: clamp(2.4rem, 8vw, 5rem); line-height: 0.95; letter-spacing: 0; max-width: 10ch; }
+      p { color: #4f5d55; line-height: 1.55; max-width: 620px; }
+      .eyebrow { color: #496858; font-size: 0.78rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em; }
+      .actions { display: flex; flex-wrap: wrap; gap: 10px; }
+      a, button { color: #ffffff; background: #1f6b4d; border: 0; border-radius: 6px; padding: 10px 12px; text-decoration: none; font: inherit; font-weight: 800; cursor: pointer; min-height: 42px; }
+      .secondary { color: #1f6b4d; background: #e9f2eb; }
+      dl { display: grid; gap: 8px; margin: 8px 0 0; padding: 16px; background: #ffffff; border: 1px solid #d6ded2; border-radius: 8px; }
+      dl div { display: flex; justify-content: space-between; gap: 12px; border-top: 1px solid #edf1ea; padding-top: 8px; }
+      dl div:first-child { border-top: 0; padding-top: 0; }
+      dt { color: #5d6b63; }
+      dd { margin: 0; font-weight: 800; text-align: right; overflow-wrap: anywhere; }
+      .status { min-height: 1.4rem; color: #496858; font-weight: 800; }
+    </style>
+  </head>
+  <body>
+    <main data-seed-next data-campaign-id="${escapeHtml(seedNextCampaign?.id ?? '')}" data-game-id="${escapeHtml(
+      seedNextCampaign?.gameId ?? '',
+    )}" data-target-path="${escapeHtml(seedNextRuntimeHref)}">
+      <p class="eyebrow">Zero-spend evergreen seed route</p>
+      <h1>${escapeHtml(seedNextCampaign ? `Play ${seedNextCampaign.title}` : 'Seed game waiting')}</h1>
+      <p>${escapeHtml(
+        seedNextCampaign
+          ? `${seedNextCampaign.copy.text} This stable page follows the current autonomous seed target, so old shares keep pointing at the next game that needs real player starts.`
+          : 'The seed route is waiting for traffic seeding to publish a campaign.',
+      )}</p>
+      <div class="actions">
+        <a href="${escapeHtml(seedNextRuntimeHref)}" data-seed-next-link>${escapeHtml(
+          seedNextCampaign?.copy.cta ?? 'Open seed kit',
+        )}</a>
+        <a class="secondary" href="./seed-kit.html">Open seed kit</a>
+      </div>
+      <dl>
+        <div><dt>Campaign</dt><dd>${escapeHtml(seedNextCampaign?.id ?? 'waiting')}</dd></div>
+        <div><dt>Target starts</dt><dd>${seedNextCampaign?.measurement.targetStartsBeforeJudgment ?? 0}</dd></div>
+        <div><dt>Cost</dt><dd>$0.00</dd></div>
+      </dl>
+      <p class="status" data-seed-next-status aria-live="polite">Preparing route.</p>
+    </main>
+    <script>
+      (() => {
+        const route = ${JSON.stringify(seedNextPublicPayload)}
+        const analyticsKey = 'agl.analytics.events'
+        const params = new URLSearchParams(window.location.search)
+        const previewOnly = params.get('preview') === '1' || params.get('no_redirect') === '1'
+        const root = document.querySelector('[data-seed-next]')
+        const status = document.querySelector('[data-seed-next-status]')
+        const targetPath = root?.dataset.targetPath || './seed-kit.html'
+        const campaignId = root?.dataset.campaignId || route.target?.campaignId || null
+        const gameId = root?.dataset.gameId || route.target?.gameId || null
+        const readEvents = () => {
+          try {
+            const raw = window.localStorage.getItem(analyticsKey)
+            const events = raw ? JSON.parse(raw) : []
+            return Array.isArray(events) ? events : []
+          } catch {
+            return []
+          }
+        }
+        const createId = (prefix) =>
+          window.crypto?.randomUUID
+            ? \`\${prefix}-\${window.crypto.randomUUID()}\`
+            : \`\${prefix}-\${Date.now()}-\${Math.random().toString(16).slice(2)}\`
+        const track = (name, properties = {}) => {
+          const event = {
+            id: createId('seed-next'),
+            name,
+            properties: {
+              gameId,
+              campaignId,
+              acquisitionCampaign: campaignId,
+              acquisitionSource: 'seed_next',
+              acquisitionChannel: 'evergreen-seed-route',
+              surface: 'seed-next',
+              zeroPaidSpend: true,
+              playerInitiated: true,
+              automatedExternalPosting: false,
+              ...properties,
+            },
+            createdAt: new Date().toISOString(),
+          }
+          window.localStorage.setItem(analyticsKey, JSON.stringify([...readEvents(), event].slice(-300)))
+        }
+
+        track('seed_next_viewed', { targetPath, previewOnly })
+
+        document.querySelector('[data-seed-next-link]')?.addEventListener('click', () => {
+          track('seed_campaign_clicked', { targetPath, linkType: 'seed-next-link' })
+        })
+
+        if (!previewOnly && route.target) {
+          status.textContent = 'Routing to the current seed game.'
+          window.setTimeout(() => {
+            track('seed_next_routed', { targetPath })
+            window.location.assign(targetPath)
+          }, 350)
+        } else {
+          status.textContent = route.target ? 'Preview mode. Use the button to open the current seed game.' : 'No seed campaign is armed yet.'
+        }
+      })()
+    </script>
+  </body>
+</html>
+`
+
 const report = [
   '# Traffic Seeding',
   '',
@@ -581,6 +780,7 @@ const report = [
   '## Seed Kit',
   '',
   `- /seed-kit.html with ${payload.campaigns.length} zero-spend seed campaign links and player-initiated copy/share controls.`,
+  `- /seed-next.html routes evergreen zero-spend traffic to ${seedNextCampaign?.id ?? 'no campaign'} without paid posting.`,
   `- ${payload.sampleDistribution.kitPath} with ${payload.sampleDistribution.missionCount} product-gate sample link(s); default ${payload.sampleDistribution.defaultCampaignId ?? 'none'}.`,
   '',
   '## Next Actions',
@@ -594,6 +794,7 @@ await mkdir(path.dirname(outputTsPath), { recursive: true })
 await mkdir(path.dirname(reportPath), { recursive: true })
 await mkdir(path.dirname(shareManifestPath), { recursive: true })
 await mkdir(path.dirname(seedKitPath), { recursive: true })
+await mkdir(path.dirname(seedNextHtmlPath), { recursive: true })
 await writeFile(outputJsonPath, JSON.stringify(payload, null, 2) + '\n')
 await writeFile(
   outputTsPath,
@@ -601,10 +802,14 @@ await writeFile(
 )
 await writeFile(shareManifestPath, JSON.stringify(nextShareManifest, null, 2) + '\n')
 await writeFile(seedKitPath, seedKitHtml)
+await writeFile(seedNextJsonPath, JSON.stringify(seedNextPublicPayload, null, 2) + '\n')
+await writeFile(seedNextHtmlPath, seedNextHtml)
 await writeFile(reportPath, report.join('\n'))
 
 console.log(`Wrote ${path.relative(root, outputJsonPath)}`)
 console.log(`Wrote ${path.relative(root, outputTsPath)}`)
 console.log(`Wrote ${path.relative(root, shareManifestPath)}`)
 console.log(`Wrote ${path.relative(root, seedKitPath)}`)
+console.log(`Wrote ${path.relative(root, seedNextJsonPath)}`)
+console.log(`Wrote ${path.relative(root, seedNextHtmlPath)}`)
 console.log(`Wrote ${path.relative(root, reportPath)}`)

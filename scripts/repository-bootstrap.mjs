@@ -104,6 +104,8 @@ const generatedEvidencePaths = new Set([
   'public/robots.txt',
   'public/sitemap.xml',
   'public/seed-kit.html',
+  'public/seed-next.html',
+  'public/seed-next.json',
   'public/share-manifest.json',
   'public/support.html',
 ])

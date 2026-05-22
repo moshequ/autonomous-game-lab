@@ -151,8 +151,8 @@ const deployedOriginCandidate = (() => {
 const origin = normalizeOrigin(deployedOriginCandidate.value)
 const originSource = origin ? deployedOriginCandidate.source : 'missing'
 const strictManifestComparison = origin ? deployedOriginCandidate.strictManifestComparison : false
-const smokePlan = releaseCandidate.postDeploySmoke ?? []
-const plannedChecks = smokePlan.map((item) => ({
+const currentCandidateSmokePlan = releaseCandidate.postDeploySmoke ?? []
+const smokeChecksForPlan = (smokePlan) => smokePlan.map((item) => ({
   id: item.id,
   path: item.path,
   url: origin ? urlForPath(origin, item.path) : item.url,
@@ -161,6 +161,7 @@ const plannedChecks = smokePlan.map((item) => ({
   status: origin ? 'pending' : 'blocked',
   detail: origin ? 'Ready to fetch deployed URL.' : 'No deployed origin configured.',
 }))
+const plannedChecks = smokeChecksForPlan(currentCandidateSmokePlan)
 
 const manifestCheck = {
   id: 'release-candidate-manifest',
@@ -280,8 +281,83 @@ const runChecks = async () => {
   }
 
   const smokeResults = []
+  let deployedManifestResult = null
 
-  for (const check of plannedChecks) {
+  try {
+    const response = await fetchText(manifestCheck.url)
+    let parsed = null
+
+    try {
+      parsed = JSON.parse(response.text)
+    } catch {
+      parsed = null
+    }
+
+    const candidateMatches = parsed?.candidateId === releaseCandidate.candidateId
+    const hashMatches = parsed?.integrity?.aggregateHash === releaseCandidate.integrity?.aggregateHash
+    const statusMatches = response.status === 200
+    const deployedManifestReady =
+      statusMatches &&
+      parsed?.status === 'release-candidate-ready' &&
+      typeof parsed?.candidateId === 'string' &&
+      typeof parsed?.integrity?.aggregateHash === 'string'
+    const localCandidateMatches = candidateMatches && hashMatches
+    const manifestStatus = strictManifestComparison ? localCandidateMatches && statusMatches : deployedManifestReady
+
+    deployedManifestResult = {
+      ...manifestCheck,
+      status: manifestStatus ? 'pass' : 'fail',
+      actualStatus: response.status,
+      finalUrl: response.finalUrl,
+      contentType: response.contentType,
+      bytes: response.text.length,
+      candidateMatches,
+      hashMatches,
+      localCandidateMatches,
+      strictManifestComparison,
+      deployedReleaseStatus: parsed?.status ?? null,
+      deployedCandidateId: parsed?.candidateId ?? null,
+      deployedAggregateHash: parsed?.integrity?.aggregateHash ?? null,
+      deployedPostDeploySmoke:
+        Array.isArray(parsed?.postDeploySmoke) ? parsed.postDeploySmoke : [],
+      deployedPostDeploySmokeUrls:
+        Array.isArray(parsed?.postDeploySmoke) ? parsed.postDeploySmoke.length : 0,
+      detail:
+        statusMatches && localCandidateMatches
+          ? 'Deployed release manifest matches the local release candidate.'
+          : manifestStatus
+            ? 'Live release manifest is reachable; it does not match the current local release candidate.'
+            : 'Deployed release manifest does not match the expected release manifest contract.',
+    }
+  } catch (error) {
+    deployedManifestResult = {
+      ...manifestCheck,
+      status: isNetworkBlockedError(error) ? 'blocked' : 'fail',
+      actualStatus: null,
+      finalUrl: manifestCheck.url,
+      contentType: null,
+      bytes: 0,
+      candidateMatches: false,
+      hashMatches: false,
+      localCandidateMatches: false,
+      strictManifestComparison,
+      deployedReleaseStatus: null,
+      deployedPostDeploySmoke: [],
+      deployedPostDeploySmokeUrls: 0,
+      detail: error instanceof Error ? error.message : String(error),
+    }
+  }
+
+  const observedDifferentLiveCandidate =
+    !strictManifestComparison &&
+    deployedManifestResult.status === 'pass' &&
+    deployedManifestResult.localCandidateMatches === false &&
+    deployedManifestResult.deployedPostDeploySmokeUrls > 0
+  const livePlannedChecks = observedDifferentLiveCandidate
+    ? smokeChecksForPlan(deployedManifestResult.deployedPostDeploySmoke)
+    : plannedChecks
+
+  for (const check of livePlannedChecks) {
     try {
       const response = await fetchText(check.url)
       const statusMatches = response.status === check.expectedStatus
@@ -313,64 +389,7 @@ const runChecks = async () => {
     }
   }
 
-  try {
-    const response = await fetchText(manifestCheck.url)
-    let parsed = null
-
-    try {
-      parsed = JSON.parse(response.text)
-    } catch {
-      parsed = null
-    }
-
-    const candidateMatches = parsed?.candidateId === releaseCandidate.candidateId
-    const hashMatches = parsed?.integrity?.aggregateHash === releaseCandidate.integrity?.aggregateHash
-    const statusMatches = response.status === 200
-    const deployedManifestReady =
-      statusMatches &&
-      parsed?.status === 'release-candidate-ready' &&
-      typeof parsed?.candidateId === 'string' &&
-      typeof parsed?.integrity?.aggregateHash === 'string'
-    const localCandidateMatches = candidateMatches && hashMatches
-    const manifestStatus = strictManifestComparison ? localCandidateMatches && statusMatches : deployedManifestReady
-
-    smokeResults.push({
-      ...manifestCheck,
-      status: manifestStatus ? 'pass' : 'fail',
-      actualStatus: response.status,
-      finalUrl: response.finalUrl,
-      contentType: response.contentType,
-      bytes: response.text.length,
-      candidateMatches,
-      hashMatches,
-      localCandidateMatches,
-      strictManifestComparison,
-      deployedReleaseStatus: parsed?.status ?? null,
-      deployedCandidateId: parsed?.candidateId ?? null,
-      deployedAggregateHash: parsed?.integrity?.aggregateHash ?? null,
-      detail:
-        statusMatches && localCandidateMatches
-          ? 'Deployed release manifest matches the local release candidate.'
-          : manifestStatus
-            ? 'Live release manifest is reachable; it does not match the current local release candidate.'
-            : 'Deployed release manifest does not match the expected release manifest contract.',
-    })
-  } catch (error) {
-    smokeResults.push({
-      ...manifestCheck,
-      status: isNetworkBlockedError(error) ? 'blocked' : 'fail',
-      actualStatus: null,
-      finalUrl: manifestCheck.url,
-      contentType: null,
-      bytes: 0,
-      candidateMatches: false,
-      hashMatches: false,
-      localCandidateMatches: false,
-      strictManifestComparison,
-      deployedReleaseStatus: null,
-      detail: error instanceof Error ? error.message : String(error),
-    })
-  }
+  smokeResults.push(deployedManifestResult)
 
   return smokeResults
 }
@@ -388,6 +407,11 @@ const liveRelease = origin
       aggregateHash: deployedManifestCheck?.deployedAggregateHash ?? null,
       localCandidateMatches: deployedManifestCheck?.localCandidateMatches === true,
       strictManifestComparison,
+      postDeploySmokeUrls: deployedManifestCheck?.deployedPostDeploySmokeUrls ?? 0,
+      smokePlanSource:
+        !strictManifestComparison && deployedManifestCheck?.localCandidateMatches === false
+          ? 'live-release-manifest'
+          : 'current-local-release-candidate',
     }
   : null
 const observedDifferentLiveCandidate = Boolean(

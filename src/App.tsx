@@ -4126,6 +4126,12 @@ function App() {
                   <strong>{trafficSeeding.guardrails.minimumStartsBeforeQualityJudgment} starts</strong>
                 </div>
                 <div className="factRow">
+                  <span>Evergreen route</span>
+                  <strong>
+                    <a href={resolveRuntimePathname(trafficSeeding.evergreenRoute.path)}>seed-next</a>
+                  </strong>
+                </div>
+                <div className="factRow">
                   <span>Local traffic</span>
                   <strong>
                     {localTrafficStarts} starts / {localTrafficSignals} signals

@@ -273,6 +273,12 @@ const utilityPages = [
     changefreq: 'daily',
   },
   {
+    path: '/seed-next.html',
+    role: 'evergreen-seed-route',
+    channel: 'player-sharing',
+    changefreq: 'daily',
+  },
+  {
     path: '/install.html',
     role: 'pwa-install',
     channel: 'pwa-install',
@@ -292,7 +298,7 @@ const channels = [
     id: 'player-sharing',
     status: 'instrumented',
     cost: '$0',
-    assets: ['public/share-manifest.json', 'in-app share button'],
+    assets: ['public/share-manifest.json', 'public/seed-kit.html', 'public/seed-next.html', 'in-app share button'],
     metric: 'share_clicked -> game_started',
   },
   {

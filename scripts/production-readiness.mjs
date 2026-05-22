@@ -520,7 +520,15 @@ const releaseCandidateReady =
   (releaseCandidate.postDeploySmoke?.length ?? 0) >= 6 &&
   (await exists(path.join(root, 'dist', 'release-candidate.json')))
 const postDeploySmokeChecks = postDeploySmoke.checks ?? []
-const postDeploySmokeExpectedChecks = (releaseCandidate.postDeploySmoke?.length ?? 0) + 1
+const localArtifactSmokeExpectedChecks = (releaseCandidate.postDeploySmoke?.length ?? 0) + 1
+const observedDifferentLiveCandidate =
+  postDeploySmoke.status === 'post-deploy-smoke-observed-live' &&
+  postDeploySmoke.liveRelease?.localCandidateMatches === false &&
+  postDeploySmoke.target?.strictManifestComparison === false
+const postDeploySmokeExpectedChecks =
+  observedDifferentLiveCandidate && Number.isFinite(postDeploySmoke.liveRelease?.postDeploySmokeUrls)
+    ? postDeploySmoke.liveRelease.postDeploySmokeUrls + 1
+    : localArtifactSmokeExpectedChecks
 const localArtifactSmoke = postDeploySmoke.localArtifactSmoke ?? {
   status: 'missing',
   summary: {},
@@ -529,7 +537,7 @@ const localArtifactSmoke = postDeploySmoke.localArtifactSmoke ?? {
 }
 const localArtifactSmokeReady =
   localArtifactSmoke.status === 'predeploy-artifact-smoke-passed' &&
-  localArtifactSmoke.summary?.planned >= postDeploySmokeExpectedChecks &&
+  localArtifactSmoke.summary?.planned >= localArtifactSmokeExpectedChecks &&
   localArtifactSmoke.summary?.passed === localArtifactSmoke.summary?.planned &&
   localArtifactSmoke.summary?.failed === 0 &&
   localArtifactSmoke.controls?.readOnlyFileChecks === true &&

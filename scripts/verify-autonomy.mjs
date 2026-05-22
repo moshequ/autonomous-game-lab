@@ -235,6 +235,8 @@ const requiredFiles = [
   'public/install.html',
   'public/robots.txt',
   'public/seed-kit.html',
+  'public/seed-next.html',
+  'public/seed-next.json',
   'public/sitemap.xml',
   'public/share-manifest.json',
   'public/compliance.json',
@@ -245,6 +247,8 @@ const requiredFiles = [
   'dist/.well-known/assetlinks.json',
   'dist/gate-sample.html',
   'dist/seed-kit.html',
+  'dist/seed-next.html',
+  'dist/seed-next.json',
   'native/android/twa-manifest.json',
   'native/android/bubblewrap.config.json',
   'native/android/assetlinks.template.json',
@@ -384,6 +388,8 @@ const measurementStatusHtml = await readFile(path.join(root, 'public', 'measurem
 const publicMeasurementStatus = JSON.parse(await readFile(path.join(root, 'public', 'measurement-status.json'), 'utf8'))
 const installHtml = await readFile(path.join(root, 'public', 'install.html'), 'utf8')
 const seedKitHtml = await readFile(path.join(root, 'public', 'seed-kit.html'), 'utf8')
+const seedNextHtml = await readFile(path.join(root, 'public', 'seed-next.html'), 'utf8')
+const seedNextJson = JSON.parse(await readFile(path.join(root, 'public', 'seed-next.json'), 'utf8'))
 const supportHtml = await readFile(path.join(root, 'public', 'support.html'), 'utf8')
 const sitemapXml = await readFile(path.join(root, 'public', 'sitemap.xml'), 'utf8')
 const indexHtmlSource = await readFile(path.join(root, 'index.html'), 'utf8')
@@ -915,11 +921,13 @@ if (
   !growth.gamePages?.length ||
   !growth.utilityPages?.some((page) => page.path === '/gate-sample.html' && page.channel === 'player-evidence') ||
   !growth.utilityPages?.some((page) => page.path === '/seed-kit.html' && page.channel === 'player-sharing') ||
+  !growth.utilityPages?.some((page) => page.path === '/seed-next.html' && page.channel === 'player-sharing') ||
   !growth.utilityPages?.some((page) => page.path === '/install.html' && page.channel === 'pwa-install') ||
   !growth.channels?.some((channel) => channel.id === 'organic-search') ||
   !growth.channels?.some((channel) => channel.id === 'player-sharing') ||
   !sitemapXml.includes('/gate-sample.html') ||
   !sitemapXml.includes('/seed-kit.html') ||
+  !sitemapXml.includes('/seed-next.html') ||
   !sitemapXml.includes('/install.html') ||
   seedKitHtml.includes('content="noindex"') ||
   !seedKitHtml.includes('content="index,follow"') ||
@@ -1090,6 +1098,12 @@ if (
   staleShareSeedCampaign ||
   missingSeedKitCampaign ||
   shareManifest.seedKit?.path !== '/seed-kit.html' ||
+  shareManifest.seedNext?.path !== '/seed-next.html' ||
+  shareManifest.seedNext?.jsonPath !== '/seed-next.json' ||
+  shareManifest.seedNext?.targetCampaignId !== trafficCampaigns[0]?.id ||
+  shareManifest.seedNext?.costUsd !== 0 ||
+  shareManifest.seedNext?.playerInitiatedOnly !== true ||
+  shareManifest.seedNext?.noAutomatedExternalPosting !== true ||
   shareManifest.seedKit?.campaignCount !== trafficCampaigns.length ||
   shareManifest.seedKit?.costUsd !== 0 ||
   shareManifest.seedKit?.playerInitiatedSharingOnly !== true ||
@@ -1097,6 +1111,7 @@ if (
   shareManifest.seedKit?.localAnalyticsEvents !== true ||
   shareManifest.seedKit?.localAnalyticsStorageKey !== 'agl.analytics.events' ||
   !seedKitHtml.includes('Autonomous Game Lab Seed Kit') ||
+  !seedKitHtml.includes('Evergreen seed route') ||
   !seedKitHtml.includes('$0.00 spend') ||
   !seedKitHtml.includes('data-seed-action="copy"') ||
   !seedKitHtml.includes('data-seed-action="share"') ||
@@ -1107,7 +1122,25 @@ if (
   !seedKitHtml.includes('navigator.share') ||
   seedKitHtml.includes('autonomous-game-lab.example.com') ||
   seedKitHtml.includes('href="/?game=') ||
-  seedKitHtml.includes('data-share-path="/?game=')
+  seedKitHtml.includes('data-share-path="/?game=') ||
+  trafficSeeding.evergreenRoute?.path !== '/seed-next.html' ||
+  trafficSeeding.evergreenRoute?.jsonPath !== '/seed-next.json' ||
+  trafficSeeding.evergreenRoute?.targetCampaignId !== trafficCampaigns[0]?.id ||
+  trafficSeeding.evergreenRoute?.costUsd !== 0 ||
+  trafficSeeding.evergreenRoute?.playerInitiatedOnly !== true ||
+  trafficSeeding.evergreenRoute?.noAutomatedExternalPosting !== true ||
+  seedNextJson.path !== '/seed-next.html' ||
+  seedNextJson.target?.campaignId !== trafficCampaigns[0]?.id ||
+  seedNextJson.guardrails?.costUsd !== 0 ||
+  seedNextJson.guardrails?.playerInitiatedOnly !== true ||
+  seedNextJson.guardrails?.noAutomatedExternalPosting !== true ||
+  seedNextJson.guardrails?.noPaidPromotion !== true ||
+  !seedNextHtml.includes('Zero-spend evergreen seed route') ||
+  !seedNextHtml.includes('seed_next_viewed') ||
+  !seedNextHtml.includes('seed_next_routed') ||
+  !seedNextHtml.includes('previewOnly') ||
+  !seedNextHtml.includes('window.location.assign') ||
+  seedNextHtml.includes('autonomous-game-lab.example.com')
 ) {
   fail('Traffic seeding must publish zero-cost campaigns, UTM/share links, a runtime-base-safe seed kit, player-initiated sharing controls, and sample-size guardrails for every seed game.')
 }
@@ -2843,6 +2876,8 @@ if (
   !autonomousSelfUpdateSource.includes('public/install.html') ||
   !autonomousSelfUpdateSource.includes('public/measurement-status.json') ||
   !autonomousSelfUpdateSource.includes('public/seed-kit.html') ||
+  !autonomousSelfUpdateSource.includes('public/seed-next.html') ||
+  !autonomousSelfUpdateSource.includes('public/seed-next.json') ||
   !autonomousSelfUpdateSource.includes('blockedPrefixes') ||
   !autonomousSelfUpdateSource.includes("'data/player-events/'") ||
   !appSource.includes('Autonomous Self Update')
@@ -4739,7 +4774,15 @@ const postDeploySmokeAllowedStatuses = [
   'post-deploy-smoke-passed',
   'post-deploy-smoke-observed-live',
 ]
-const postDeploySmokeExpectedChecks = (releaseCandidate.postDeploySmoke?.length ?? 0) + 1
+const localArtifactSmokeExpectedChecks = (releaseCandidate.postDeploySmoke?.length ?? 0) + 1
+const observedDifferentLiveCandidate =
+  postDeploySmoke.status === 'post-deploy-smoke-observed-live' &&
+  postDeploySmoke.liveRelease?.localCandidateMatches === false &&
+  postDeploySmoke.target?.strictManifestComparison === false
+const postDeploySmokeExpectedChecks =
+  observedDifferentLiveCandidate && Number.isFinite(postDeploySmoke.liveRelease?.postDeploySmokeUrls)
+    ? postDeploySmoke.liveRelease.postDeploySmokeUrls + 1
+    : localArtifactSmokeExpectedChecks
 const postDeployManifestCheck = postDeploySmoke.checks?.find(
   (check) => check.id === 'release-candidate-manifest',
 )
@@ -4750,7 +4793,7 @@ const localArtifactComplianceCheck = localArtifactSmoke.checks?.find((check) => 
 const postDeploySmokeRunnerReady =
   postDeploySmokeAllowedStatuses.includes(postDeploySmoke.status) &&
   localArtifactSmoke.status === 'predeploy-artifact-smoke-passed' &&
-  localArtifactSmoke.summary?.planned >= postDeploySmokeExpectedChecks &&
+  localArtifactSmoke.summary?.planned >= localArtifactSmokeExpectedChecks &&
   localArtifactSmoke.summary?.passed === localArtifactSmoke.summary?.planned &&
   localArtifactSmoke.summary?.failed === 0 &&
   postDeploySmoke.sourceStatus?.deployment === deployment.status &&
@@ -4788,12 +4831,17 @@ const normalizeLiveOriginForCompare = (value) => {
   }
 }
 const liveManifestCheck = liveSiteMonitor.checks?.find((check) => check.id === 'release-candidate-manifest-live')
+const liveSiteMonitorExpectedChecks =
+  liveSiteMonitor.summary?.monitoringPlanSource === 'synced-live-release-manifest' &&
+  Number.isFinite(liveSiteMonitor.summary?.monitoredSmokeUrls)
+    ? liveSiteMonitor.summary.monitoredSmokeUrls + 1
+    : (releaseCandidate.postDeploySmoke?.length ?? 0) + 1
 const liveSiteMonitorReady =
   liveSiteMonitor.status === 'live-site-monitor-passed' &&
   liveSiteMonitor.sourceStatus?.releaseCandidate === releaseCandidate.status &&
   liveSiteMonitor.sourceStatus?.postDeployArtifactSync === postDeployArtifactSync.status &&
   liveSiteMonitor.sourceStatus?.latestSyncedDeployKnown === true &&
-  liveSiteMonitor.summary?.planned >= (releaseCandidate.postDeploySmoke?.length ?? 0) + 1 &&
+  liveSiteMonitor.summary?.planned >= liveSiteMonitorExpectedChecks &&
   liveSiteMonitor.summary?.passed === liveSiteMonitor.summary?.planned &&
   liveSiteMonitor.summary?.failed === 0 &&
   liveSiteMonitor.summary?.blocked === 0 &&
@@ -4810,7 +4858,7 @@ const liveSiteMonitorReady =
 if (
   !postDeploySmokeAllowedStatuses.includes(postDeploySmoke.status) ||
   localArtifactSmoke.status !== 'predeploy-artifact-smoke-passed' ||
-  localArtifactSmoke.summary?.planned < postDeploySmokeExpectedChecks ||
+  localArtifactSmoke.summary?.planned < localArtifactSmokeExpectedChecks ||
   localArtifactSmoke.summary?.passed !== localArtifactSmoke.summary?.planned ||
   localArtifactSmoke.summary?.failed !== 0 ||
   localArtifactSmoke.controls?.readOnlyFileChecks !== true ||
@@ -5059,6 +5107,8 @@ if (
   !repositoryReadinessSource.includes('public/install.html') ||
   !repositoryReadinessSource.includes('public/measurement-status.json') ||
   !repositoryReadinessSource.includes('public/seed-kit.html') ||
+  !repositoryReadinessSource.includes('public/seed-next.html') ||
+  !repositoryReadinessSource.includes('public/seed-next.json') ||
   !repositoryReadinessSource.includes('AGL_GITHUB_OWNER') ||
   !repositoryReadinessSource.includes('owner-hint-and-package-name') ||
   !repositoryReadinessSource.includes('gh-auth-user-and-package-name') ||
@@ -5151,6 +5201,8 @@ if (
   !repositoryBootstrapSource.includes('public/gate-sample.html') ||
   !repositoryBootstrapSource.includes('public/install.html') ||
   !repositoryBootstrapSource.includes('public/seed-kit.html') ||
+  !repositoryBootstrapSource.includes('public/seed-next.html') ||
+  !repositoryBootstrapSource.includes('public/seed-next.json') ||
   !repositoryBootstrapSource.includes('AGL_GITHUB_OWNER') ||
   !repositoryBootstrapSource.includes('owner-hint-and-package-name') ||
   !repositoryBootstrapSource.includes('gh-auth-user-and-package-name') ||
