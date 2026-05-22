@@ -1,7 +1,7 @@
 export const releaseCandidate = {
-  "generatedAt": "2026-05-22T13:17:15.112Z",
+  "generatedAt": "2026-05-22T13:22:21.839Z",
   "status": "release-candidate-ready",
-  "candidateId": "pwa-ed59474e89a9",
+  "candidateId": "pwa-c4f6633dc287",
   "target": {
     "provider": "github-pages",
     "artifactPath": "dist",
@@ -12,8 +12,8 @@ export const releaseCandidate = {
   },
   "summary": {
     "totalFiles": 49,
-    "totalBytes": 3721471,
-    "totalKb": 3634.2,
+    "totalBytes": 3720143,
+    "totalKb": 3633,
     "assetFiles": 4,
     "htmlFiles": 18,
     "gamePages": 10,
@@ -22,7 +22,7 @@ export const releaseCandidate = {
   },
   "integrity": {
     "algorithm": "sha256",
-    "aggregateHash": "ed59474e89a990a4f9fab865b54bf704e9ec7ea21eaa48bdd647b7b4772ef7b6",
+    "aggregateHash": "c4f6633dc287f65a340eaa408e569a19f9664dff6b11d3d200aa6044436f0b46",
     "files": [
       {
         "path": ".nojekyll",
@@ -46,16 +46,16 @@ export const releaseCandidate = {
         "cacheControl": "public, max-age=3600"
       },
       {
-        "path": "assets/aggregateEvidenceIssue-ClQGcIV5.js",
+        "path": "assets/aggregateEvidenceIssue-DGdK5Qm4.js",
         "bytes": 2978,
-        "sha256": "ed146ac40ef0c359157e7b2762a822481fc314bd91ae073cf6f230050204d097",
+        "sha256": "89d5fc9e595855e7fdacef33d8a590997a25db34fbd42916c58f57230585ca3e",
         "contentType": "text/javascript; charset=utf-8",
         "cacheControl": "public, max-age=31536000, immutable"
       },
       {
-        "path": "assets/GameCanvas-BcP2ikAi.js",
+        "path": "assets/GameCanvas-Be8FcaDl.js",
         "bytes": 1394049,
-        "sha256": "e07ef4ba93eb167d57cd48e6bde89b6485d3a331444883b12ecd2d5a9a86eff4",
+        "sha256": "d64f1dac6cbae90bc65c7f2789f429c149831f7fb278d8f753c0b8cf14042db2",
         "contentType": "text/javascript; charset=utf-8",
         "cacheControl": "public, max-age=31536000, immutable"
       },
@@ -67,16 +67,16 @@ export const releaseCandidate = {
         "cacheControl": "public, max-age=31536000, immutable"
       },
       {
-        "path": "assets/index-nhAKbSOH.js",
-        "bytes": 693505,
-        "sha256": "a4e8cfe3c6ec3f126d653c24824a5dbfa041e850e3cec84d1e8c759b84520ad4",
+        "path": "assets/index-DPoGRfT0.js",
+        "bytes": 692177,
+        "sha256": "e4147d17f32018b70e0e0b0857d9d7a52d4274644b889c1f7fc23ddcc3c07288",
         "contentType": "text/javascript; charset=utf-8",
         "cacheControl": "public, max-age=31536000, immutable"
       },
       {
         "path": "compliance.json",
         "bytes": 5625,
-        "sha256": "cb3205bebffd94c263c10848ad15efb09c11abf981311f671365279d2d21463c",
+        "sha256": "b822c3491d36c034d775c32c3e727fa306ea99d1ba32580745698d2cd1238ff9",
         "contentType": "application/json; charset=utf-8",
         "cacheControl": "public, max-age=3600"
       },
@@ -223,7 +223,7 @@ export const releaseCandidate = {
       {
         "path": "index.html",
         "bytes": 2846,
-        "sha256": "8c8ec15934399de07519572e077dd0d19f586bd845d3b7ab9605b4e87ffac81c",
+        "sha256": "a2ada645c5508959ecd9568d29ca334c6daac1e0f5a2f487f6dc4ef38efd00d0",
         "contentType": "text/html; charset=utf-8",
         "cacheControl": "no-cache"
       },
@@ -251,7 +251,7 @@ export const releaseCandidate = {
       {
         "path": "measurement-status.json",
         "bytes": 11453,
-        "sha256": "c9522327b42ae6faa0afd16dbde7379fc8b0f08750727a5b6e5675a25b3dfda5",
+        "sha256": "268915d52652be98a3145d4752c0cf0a47422edb22c7905f5e21d5310c8a99d1",
         "contentType": "application/json; charset=utf-8",
         "cacheControl": "public, max-age=3600"
       },
@@ -356,7 +356,7 @@ export const releaseCandidate = {
       {
         "path": "sw.js",
         "bytes": 3942,
-        "sha256": "13fc3182bc7613dc35fffe89ec404416b978ccd6f57a1026467747a6fae758fb",
+        "sha256": "b99b57361a31e57cef9061907643709f0068f8cc8fbc70118833f6a120aa3f6f",
         "contentType": "text/javascript; charset=utf-8",
         "cacheControl": "no-cache"
       },
