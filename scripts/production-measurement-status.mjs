@@ -229,6 +229,58 @@ const publicEvidenceHandoff = {
     'Do not pass product gates, enable revenue, or submit stores from public aggregate notes alone.',
   ],
 }
+const productionAnalyticsUnlockKit =
+  productionBlockerHandoff.nextUnlockKit?.id === 'production-analytics-browser'
+    ? productionBlockerHandoff.nextUnlockKit
+    : null
+const publicAnalyticsUnlock = productionAnalyticsUnlockKit
+  ? {
+      id: productionAnalyticsUnlockKit.id,
+      title: productionAnalyticsUnlockKit.title,
+      status: productionAnalyticsUnlockKit.status,
+      recommendedPathId: productionAnalyticsUnlockKit.recommendedPathId,
+      commandCount: productionAnalyticsUnlockKit.commandCount,
+      validationCommandCount: productionAnalyticsUnlockKit.validationCommandCount,
+      missingVariableCount: productionAnalyticsUnlockKit.missingVariableCount,
+      missingSecretCount: productionAnalyticsUnlockKit.missingSecretCount,
+      controls: {
+        zeroPaidSpend: productionAnalyticsUnlockKit.controls?.zeroPaidSpend === true,
+        noSecretValues: productionAnalyticsUnlockKit.controls?.noSecretValues === true,
+        noSecretValuesStored: productionAnalyticsUnlockKit.controls?.noSecretValuesStored === true,
+        noAccountCreation: productionAnalyticsUnlockKit.controls?.noAccountCreation === true,
+        noStoreSubmission: productionAnalyticsUnlockKit.controls?.noStoreSubmission === true,
+        noRevenueEnablement: productionAnalyticsUnlockKit.controls?.noRevenueEnablement === true,
+        githubVariablesOnly: productionAnalyticsUnlockKit.controls?.githubVariablesOnly === true,
+        secretCommandsUseStdin: productionAnalyticsUnlockKit.controls?.secretCommandsUseStdin === true,
+      },
+      paths: (productionAnalyticsUnlockKit.paths ?? []).map((unlockPath) => ({
+        id: unlockPath.id,
+        title: unlockPath.title,
+        status: unlockPath.status,
+        costMode: unlockPath.costMode,
+        ownerInputRequired: unlockPath.ownerInputRequired === true,
+        requiredVariables: (unlockPath.requiredVariables ?? []).map((item) => ({
+          repositoryName: item.repositoryName,
+          envName: item.envName,
+          configured: item.configured === true,
+          command: item.command,
+        })),
+        requiredSecrets: (unlockPath.requiredSecrets ?? []).map((item) => ({
+          repositoryName: item.repositoryName,
+          envName: item.envName,
+          configured: item.configured === true,
+          command: item.command,
+        })),
+        commandSequence: unlockPath.commandSequence ?? [],
+        validationCommands: unlockPath.validationCommands ?? [],
+      })),
+      nextActions: [
+        'Choose the first-party collector path when a zero-spend Cloudflare free-tier account already exists; otherwise use an existing PostHog free project.',
+        'Sync only configured GitHub variables and secrets through ops/github/setup-production.sh; never paste secret values into tracked files.',
+        'Run the validation commands before trusting production analytics for product-gate or monetization decisions.',
+      ],
+    }
+  : null
 
 const sourceDataHash = hashSourceData({
   productionEnvironment,
@@ -301,6 +353,7 @@ const payload = {
     aggregateEvidenceMissionCount: aggregateEvidenceMissions.length,
   },
   publicEvidenceHandoff,
+  analyticsUnlock: publicAnalyticsUnlock,
   publicRoutes: {
     statusPage: '/measurement-status.html',
     statusJson: '/measurement-status.json',
@@ -351,6 +404,9 @@ const payload = {
   },
   nextActions: [
     nextAction,
+    publicAnalyticsUnlock
+      ? `Unlock production analytics with ${publicAnalyticsUnlock.recommendedPathId}; ${publicAnalyticsUnlock.commandCount} setup command(s) and ${publicAnalyticsUnlock.validationCommandCount} validation command(s) are published with redacted secret names only.`
+      : 'Regenerate the production blocker handoff before publishing production analytics unlock guidance.',
     ...publicEvidenceHandoff.nextActions,
     'Keep product gates blocked until real player evidence clears completion, replay, and D1 retention thresholds.',
   ],
@@ -364,6 +420,7 @@ const appPayload = {
   analytics: payload.analytics,
   productGateEvidence: payload.productGateEvidence,
   publicEvidenceHandoff: payload.publicEvidenceHandoff,
+  analyticsUnlock: payload.analyticsUnlock,
   publicRoutes: payload.publicRoutes,
   blockers: payload.blockers,
   controls: payload.controls,
@@ -378,6 +435,7 @@ const publicPayload = {
   analytics: payload.analytics,
   productGateEvidence: payload.productGateEvidence,
   publicEvidenceHandoff: payload.publicEvidenceHandoff,
+  analyticsUnlock: payload.analyticsUnlock,
   publicRoutes: payload.publicRoutes,
   blockers: payload.blockers,
   controls: payload.controls,
@@ -600,6 +658,45 @@ const html = `<!doctype html>
       </section>
 
       <section>
+        <h2>Zero-Spend Analytics Unlock</h2>
+        <p>This handoff publishes configuration names and safe commands only. Secret values stay outside tracked files, revenue remains disabled, and product gates still require real player evidence.</p>
+        <div class="grid" aria-label="Zero-spend analytics unlock">
+          <div class="card">
+            <span>Unlock</span>
+            <strong>${escapeHtml(payload.analyticsUnlock?.status ?? 'missing')}</strong>
+          </div>
+          <div class="card">
+            <span>Recommended path</span>
+            <strong>${escapeHtml(payload.analyticsUnlock?.recommendedPathId ?? 'none')}</strong>
+          </div>
+          <div class="card">
+            <span>Setup commands</span>
+            <strong>${payload.analyticsUnlock?.commandCount ?? 0}</strong>
+          </div>
+          <div class="card">
+            <span>Validation commands</span>
+            <strong>${payload.analyticsUnlock?.validationCommandCount ?? 0}</strong>
+          </div>
+        </div>
+        ${
+          payload.analyticsUnlock
+            ? payload.analyticsUnlock.paths
+                .map(
+                  (unlockPath) => `<article class="card">
+            <span>${escapeHtml(unlockPath.title)}</span>
+            <strong>${escapeHtml(unlockPath.status)}</strong>
+            <p>${escapeHtml(unlockPath.costMode)}</p>
+            <p>Variables: ${escapeHtml(unlockPath.requiredVariables.map((item) => item.repositoryName).join(', ') || 'none')}</p>
+            <p>Secrets: ${escapeHtml(unlockPath.requiredSecrets.map((item) => item.repositoryName).join(', ') || 'none')}</p>
+            <p>Commands: ${escapeHtml(unlockPath.commandSequence.join(' && ') || 'none')}</p>
+          </article>`,
+                )
+                .join('\n        ')
+            : '<p>No analytics unlock kit is available yet.</p>'
+        }
+      </section>
+
+      <section>
         <h2>Controls</h2>
         <ul>
           <li>Zero paid spend: ${payload.controls.zeroPaidSpend}</li>
@@ -662,6 +759,8 @@ const report = [
   `- autonomous rollups configured: ${payload.analytics.autonomousRollups.configured}`,
   `- local evidence ready: ${payload.analytics.localEvidence.ready}`,
   `- public aggregate handoff: ${payload.publicEvidenceHandoff.status}`,
+  `- analytics unlock: ${payload.analyticsUnlock?.status ?? 'missing'}`,
+  `- analytics unlock path: ${payload.analyticsUnlock?.recommendedPathId ?? 'none'}`,
   `- aggregate evidence notes: ${payload.publicEvidenceHandoff.aggregateEvidence.notes}`,
   `- supporting aggregate mission notes: ${payload.publicEvidenceHandoff.productGateMissions.supportingAggregateEvidenceNotes}`,
   '',

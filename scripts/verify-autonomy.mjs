@@ -562,6 +562,16 @@ if (
 
 const publicEvidenceHandoff = productionMeasurementStatus.publicEvidenceHandoff ?? {}
 const publicEvidenceControls = publicEvidenceHandoff.controls ?? {}
+const publicAnalyticsUnlock = productionMeasurementStatus.analyticsUnlock ?? null
+const publicAnalyticsUnlockPathIds = new Set((publicAnalyticsUnlock?.paths ?? []).map((unlockPath) => unlockPath.id))
+const publicAnalyticsFirstPartyCollectorPath = (publicAnalyticsUnlock?.paths ?? []).find(
+  (unlockPath) => unlockPath.id === 'first-party-collector',
+)
+const publicAnalyticsUnlockLeaksValues = (publicAnalyticsUnlock?.paths ?? []).some((unlockPath) =>
+  [...(unlockPath.requiredVariables ?? []), ...(unlockPath.requiredSecrets ?? [])].some((item) =>
+    Object.hasOwn(item, 'value'),
+  ),
+)
 
 if (
   ![
@@ -595,17 +605,44 @@ if (
   publicEvidenceControls.zeroPaidSpend !== true ||
   publicEvidenceControls.noAutomaticPublicUpload !== true ||
   publicEvidenceControls.noRevenueEnablement !== true ||
+  publicAnalyticsUnlock?.id !== 'production-analytics-browser' ||
+  publicAnalyticsUnlock?.recommendedPathId !== 'first-party-collector' ||
+  (publicAnalyticsUnlock?.commandCount ?? 0) < 5 ||
+  (publicAnalyticsUnlock?.validationCommandCount ?? 0) < 4 ||
+  publicAnalyticsUnlock?.controls?.zeroPaidSpend !== true ||
+  publicAnalyticsUnlock?.controls?.noSecretValues !== true ||
+  publicAnalyticsUnlock?.controls?.noSecretValuesStored !== true ||
+  publicAnalyticsUnlock?.controls?.noAccountCreation !== true ||
+  publicAnalyticsUnlock?.controls?.noStoreSubmission !== true ||
+  publicAnalyticsUnlock?.controls?.noRevenueEnablement !== true ||
+  publicAnalyticsUnlock?.controls?.secretCommandsUseStdin !== true ||
+  !publicAnalyticsUnlockPathIds.has('first-party-collector') ||
+  !publicAnalyticsUnlockPathIds.has('posthog-browser') ||
+  !publicAnalyticsFirstPartyCollectorPath?.requiredVariables?.some(
+    (item) => item.repositoryName === 'VITE_EVENT_COLLECTOR_URL',
+  ) ||
+  !publicAnalyticsFirstPartyCollectorPath?.requiredSecrets?.some(
+    (item) => item.repositoryName === 'CLOUDFLARE_API_TOKEN',
+  ) ||
+  !publicAnalyticsFirstPartyCollectorPath?.commandSequence?.includes('./ops/github/setup-production.sh') ||
+  !publicAnalyticsFirstPartyCollectorPath?.validationCommands?.includes('npm run test:e2e') ||
+  publicAnalyticsUnlockLeaksValues ||
   productionMeasurementStatus.controls?.aggregateEvidenceDoesNotPassGates !== true ||
   productionMeasurementStatus.controls?.manualReviewRequiredForGateDecisions !== true ||
   JSON.stringify(publicMeasurementStatus.publicEvidenceHandoff) !== JSON.stringify(publicEvidenceHandoff) ||
+  JSON.stringify(publicMeasurementStatus.analyticsUnlock) !== JSON.stringify(publicAnalyticsUnlock) ||
   !measurementStatusHtml.includes('Public Aggregate Evidence') ||
+  !measurementStatusHtml.includes('Zero-Spend Analytics Unlock') ||
+  !measurementStatusHtml.includes('first-party-collector') ||
   !measurementStatusHtml.includes('does not pass gates') ||
   !appSource.includes('Production Measurement') ||
+  !appSource.includes('Analytics unlock') ||
   !productionMeasurementStatusSource.includes('publicEvidenceHandoff') ||
+  !productionMeasurementStatusSource.includes('publicAnalyticsUnlock') ||
   !productionMeasurementStatusSource.includes('aggregateEvidenceDoesNotPassGates') ||
   !productionMeasurementStatusSource.includes('manualReviewRequiredForGateDecisions')
 ) {
-  fail('Production measurement status must publish a public aggregate-evidence handoff with gate-safe controls.')
+  fail('Production measurement status must publish public aggregate-evidence and analytics-unlock handoffs with gate-safe controls.')
 }
 
 if (!trend.signals?.mechanics?.length) {

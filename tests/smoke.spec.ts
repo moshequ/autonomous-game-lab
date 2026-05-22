@@ -6370,6 +6370,33 @@ test('production measurement status publishes public aggregate evidence handoff'
       supportingAggregateEvidenceNotes: number
       aggregateEvidenceMissionCount: number
     }
+    analyticsUnlock: {
+      id: string
+      status: string
+      recommendedPathId: string
+      commandCount: number
+      validationCommandCount: number
+      missingVariableCount: number
+      missingSecretCount: number
+      controls: {
+        zeroPaidSpend: boolean
+        noSecretValues: boolean
+        noSecretValuesStored: boolean
+        noAccountCreation: boolean
+        noStoreSubmission: boolean
+        noRevenueEnablement: boolean
+        githubVariablesOnly: boolean
+        secretCommandsUseStdin: boolean
+      }
+      paths: Array<{
+        id: string
+        requiredVariables: Array<{ repositoryName: string; command: string; value?: string }>
+        requiredSecrets: Array<{ repositoryName: string; command: string; value?: string }>
+        commandSequence: string[]
+        validationCommands: string[]
+      }>
+      nextActions: string[]
+    } | null
     publicEvidenceHandoff: {
       status: string
       source: string
@@ -6463,14 +6490,53 @@ test('production measurement status publishes public aggregate evidence handoff'
   expect(measurement.publicEvidenceHandoff.controls.zeroPaidSpend).toBe(true)
   expect(measurement.publicEvidenceHandoff.controls.noAutomaticPublicUpload).toBe(true)
   expect(measurement.publicEvidenceHandoff.controls.noRevenueEnablement).toBe(true)
+  expect(measurement.analyticsUnlock?.id).toBe('production-analytics-browser')
+  expect(measurement.analyticsUnlock?.recommendedPathId).toBe('first-party-collector')
+  expect(measurement.analyticsUnlock?.commandCount).toBeGreaterThanOrEqual(5)
+  expect(measurement.analyticsUnlock?.validationCommandCount).toBeGreaterThanOrEqual(4)
+  expect(measurement.analyticsUnlock?.missingVariableCount).toBeGreaterThan(0)
+  expect(measurement.analyticsUnlock?.missingSecretCount).toBeGreaterThan(0)
+  expect(measurement.analyticsUnlock?.controls.zeroPaidSpend).toBe(true)
+  expect(measurement.analyticsUnlock?.controls.noSecretValues).toBe(true)
+  expect(measurement.analyticsUnlock?.controls.noSecretValuesStored).toBe(true)
+  expect(measurement.analyticsUnlock?.controls.noAccountCreation).toBe(true)
+  expect(measurement.analyticsUnlock?.controls.noStoreSubmission).toBe(true)
+  expect(measurement.analyticsUnlock?.controls.noRevenueEnablement).toBe(true)
+  expect(measurement.analyticsUnlock?.controls.githubVariablesOnly).toBe(true)
+  expect(measurement.analyticsUnlock?.controls.secretCommandsUseStdin).toBe(true)
+  expect(measurement.analyticsUnlock?.paths.map((item) => item.id)).toEqual(
+    expect.arrayContaining(['first-party-collector', 'posthog-browser']),
+  )
+  const publicFirstPartyCollectorPath = measurement.analyticsUnlock?.paths.find(
+    (item) => item.id === 'first-party-collector',
+  )
+  expect(publicFirstPartyCollectorPath?.requiredVariables.map((item) => item.repositoryName)).toEqual(
+    expect.arrayContaining(['VITE_EVENT_COLLECTOR_URL', 'AGL_EVENT_COLLECTOR_EXPORT_URL']),
+  )
+  expect(publicFirstPartyCollectorPath?.requiredSecrets.map((item) => item.repositoryName)).toEqual(
+    expect.arrayContaining(['CLOUDFLARE_API_TOKEN', 'VITE_EVENT_COLLECTOR_WRITE_TOKEN']),
+  )
+  expect(publicFirstPartyCollectorPath?.commandSequence).toContain('./ops/github/setup-production.sh')
+  expect(publicFirstPartyCollectorPath?.validationCommands).toContain('npm run test:e2e')
+  expect(
+    measurement.analyticsUnlock?.paths.some((unlockPath) =>
+      [...unlockPath.requiredVariables, ...unlockPath.requiredSecrets].some((item) => Object.hasOwn(item, 'value')),
+    ),
+  ).toBe(false)
   expect(measurement.controls.aggregateEvidenceDoesNotPassGates).toBe(true)
   expect(measurement.controls.manualReviewRequiredForGateDecisions).toBe(true)
   expect(measurement.publicEvidenceHandoff.nextActions.join(' ')).toContain('Do not pass product gates')
   expect(measurement.nextActions.join(' ')).toContain('public aggregate evidence')
+  expect(measurement.nextActions.join(' ')).toContain('Unlock production analytics')
   expect(publicMeasurement.publicEvidenceHandoff).toEqual(measurement.publicEvidenceHandoff)
+  expect(publicMeasurement.analyticsUnlock).toEqual(measurement.analyticsUnlock)
   expect(html).toContain('Public Aggregate Evidence')
+  expect(html).toContain('Zero-Spend Analytics Unlock')
   expect(html).toContain('does not pass gates')
+  expect(html).toContain('first-party-collector')
+  expect(html).toContain('CLOUDFLARE_API_TOKEN')
   expect(script).toContain('publicEvidenceHandoff')
+  expect(script).toContain('publicAnalyticsUnlock')
   expect(script).toContain('aggregateEvidenceDoesNotPassGates')
   expect(script).toContain('manualReviewRequiredForGateDecisions')
 
@@ -6489,12 +6555,15 @@ test('production measurement status publishes public aggregate evidence handoff'
   await page.goto('/measurement-status.html')
   await expect(page.getByRole('heading', { name: 'Production Measurement Status' })).toBeVisible()
   await expect(page.getByRole('heading', { name: 'Public Aggregate Evidence' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Zero-Spend Analytics Unlock' })).toBeVisible()
   await expect(page.getByLabel('Public aggregate evidence')).toContainText(measurement.publicEvidenceHandoff.status)
+  await expect(page.getByLabel('Zero-spend analytics unlock')).toContainText('first-party-collector')
   await expect(page.getByText('does not pass gates', { exact: true })).toBeVisible()
 
   await page.goto('/')
   await expect(page.getByLabel('Production Measurement')).toContainText(measurement.status)
   await expect(page.getByLabel('Production Measurement')).toContainText(measurement.publicEvidenceHandoff.status)
+  await expect(page.getByLabel('Production Measurement')).toContainText('first-party-collector')
 })
 
 test('generated compliance manifest is reachable', async ({ page }) => {

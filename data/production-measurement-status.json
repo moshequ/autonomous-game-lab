@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-05-22T03:37:24.894Z",
-  "sourceDataHash": "a0c08f1ee67f",
+  "generatedAt": "2026-05-22T03:45:04.300Z",
+  "sourceDataHash": "eb8b3ce8dd94",
   "status": "production-measurement-local-intake-ready",
   "activePath": "local-browser-buffer",
-  "liveCandidate": "pwa-92e2bf90481f",
+  "liveCandidate": "pwa-722adf9734d2",
   "analytics": {
     "activeRollupSource": "fixture-sample",
     "retentionSource": "fixture-retention",
@@ -97,6 +97,136 @@
       "Do not pass product gates, enable revenue, or submit stores from public aggregate notes alone."
     ]
   },
+  "analyticsUnlock": {
+    "id": "production-analytics-browser",
+    "title": "Browser production analytics unlock kit",
+    "status": "owner-input-required",
+    "recommendedPathId": "first-party-collector",
+    "commandCount": 5,
+    "validationCommandCount": 4,
+    "missingVariableCount": 7,
+    "missingSecretCount": 3,
+    "controls": {
+      "zeroPaidSpend": true,
+      "noSecretValues": true,
+      "noSecretValuesStored": true,
+      "noAccountCreation": true,
+      "noStoreSubmission": true,
+      "noRevenueEnablement": true,
+      "githubVariablesOnly": true,
+      "secretCommandsUseStdin": true
+    },
+    "paths": [
+      {
+        "id": "first-party-collector",
+        "title": "First-party event collector",
+        "status": "needs-variables-and-secrets",
+        "costMode": "zero-spend-use-existing-cloudflare-free-tier",
+        "ownerInputRequired": true,
+        "requiredVariables": [
+          {
+            "repositoryName": "CLOUDFLARE_ACCOUNT_ID",
+            "envName": "CLOUDFLARE_ACCOUNT_ID",
+            "configured": false,
+            "command": "gh variable set CLOUDFLARE_ACCOUNT_ID --body \"$CLOUDFLARE_ACCOUNT_ID\""
+          },
+          {
+            "repositoryName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
+            "envName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
+            "configured": false,
+            "command": "gh variable set AGL_EVENT_COLLECTOR_R2_BUCKET --body \"$AGL_EVENT_COLLECTOR_R2_BUCKET\""
+          },
+          {
+            "repositoryName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
+            "envName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
+            "configured": false,
+            "command": "gh variable set AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS --body \"$AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS\""
+          },
+          {
+            "repositoryName": "VITE_EVENT_COLLECTOR_URL",
+            "envName": "VITE_EVENT_COLLECTOR_URL",
+            "configured": false,
+            "command": "gh variable set VITE_EVENT_COLLECTOR_URL --body \"$VITE_EVENT_COLLECTOR_URL\""
+          },
+          {
+            "repositoryName": "AGL_EVENT_COLLECTOR_EXPORT_URL",
+            "envName": "AGL_EVENT_COLLECTOR_EXPORT_URL",
+            "configured": false,
+            "command": "gh variable set AGL_EVENT_COLLECTOR_EXPORT_URL --body \"$AGL_EVENT_COLLECTOR_EXPORT_URL\""
+          }
+        ],
+        "requiredSecrets": [
+          {
+            "repositoryName": "CLOUDFLARE_API_TOKEN",
+            "envName": "CLOUDFLARE_API_TOKEN",
+            "configured": false,
+            "command": "printf \"%s\" \"$CLOUDFLARE_API_TOKEN\" | gh secret set CLOUDFLARE_API_TOKEN"
+          },
+          {
+            "repositoryName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
+            "envName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
+            "configured": false,
+            "command": "printf \"%s\" \"$VITE_EVENT_COLLECTOR_WRITE_TOKEN\" | gh secret set VITE_EVENT_COLLECTOR_WRITE_TOKEN"
+          },
+          {
+            "repositoryName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
+            "envName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
+            "configured": false,
+            "command": "printf \"%s\" \"$AGL_EVENT_COLLECTOR_ADMIN_TOKEN\" | gh secret set AGL_EVENT_COLLECTOR_ADMIN_TOKEN"
+          }
+        ],
+        "commandSequence": [
+          "npm run autonomous:event-collector-smoke",
+          "npm run autonomous:collector-deploy-plan",
+          "./ops/github/setup-production.sh",
+          "RUN_WORKFLOWS=1 ./ops/github/setup-production.sh",
+          "npm run autonomous:readiness"
+        ],
+        "validationCommands": [
+          "npm run autonomous:event-collector-smoke",
+          "npm run autonomous:collector-deploy-plan",
+          "npm run autonomous:readiness",
+          "npm run test:e2e"
+        ]
+      },
+      {
+        "id": "posthog-browser",
+        "title": "PostHog browser capture",
+        "status": "needs-public-project-key",
+        "costMode": "zero-spend-use-existing-posthog-free-project",
+        "ownerInputRequired": true,
+        "requiredVariables": [
+          {
+            "repositoryName": "VITE_POSTHOG_KEY",
+            "envName": "VITE_POSTHOG_KEY",
+            "configured": false,
+            "command": "gh variable set VITE_POSTHOG_KEY --body \"$VITE_POSTHOG_KEY\""
+          },
+          {
+            "repositoryName": "VITE_POSTHOG_HOST",
+            "envName": "VITE_POSTHOG_HOST",
+            "configured": false,
+            "command": "gh variable set VITE_POSTHOG_HOST --body \"$VITE_POSTHOG_HOST\""
+          }
+        ],
+        "requiredSecrets": [],
+        "commandSequence": [
+          "./ops/github/setup-production.sh",
+          "RUN_WORKFLOWS=1 ./ops/github/setup-production.sh",
+          "npm run autonomous:readiness"
+        ],
+        "validationCommands": [
+          "npm run autonomous:readiness",
+          "npm run test:e2e"
+        ]
+      }
+    ],
+    "nextActions": [
+      "Choose the first-party collector path when a zero-spend Cloudflare free-tier account already exists; otherwise use an existing PostHog free project.",
+      "Sync only configured GitHub variables and secrets through ops/github/setup-production.sh; never paste secret values into tracked files.",
+      "Run the validation commands before trusting production analytics for product-gate or monetization decisions."
+    ]
+  },
   "publicRoutes": {
     "statusPage": "/measurement-status.html",
     "statusJson": "/measurement-status.json",
@@ -142,6 +272,7 @@
   },
   "nextActions": [
     "Use the player-initiated local evidence route until PostHog or the first-party collector is configured.",
+    "Unlock production analytics with first-party-collector; 5 setup command(s) and 4 validation command(s) are published with redacted secret names only.",
     "Invite players to use Share evidence after a gate-sample play session so public aggregate evidence can be reviewed without raw events.",
     "Do not pass product gates, enable revenue, or submit stores from public aggregate notes alone.",
     "Keep product gates blocked until real player evidence clears completion, replay, and D1 retention thresholds."

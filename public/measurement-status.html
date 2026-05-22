@@ -205,6 +205,45 @@
       </section>
 
       <section>
+        <h2>Zero-Spend Analytics Unlock</h2>
+        <p>This handoff publishes configuration names and safe commands only. Secret values stay outside tracked files, revenue remains disabled, and product gates still require real player evidence.</p>
+        <div class="grid" aria-label="Zero-spend analytics unlock">
+          <div class="card">
+            <span>Unlock</span>
+            <strong>owner-input-required</strong>
+          </div>
+          <div class="card">
+            <span>Recommended path</span>
+            <strong>first-party-collector</strong>
+          </div>
+          <div class="card">
+            <span>Setup commands</span>
+            <strong>5</strong>
+          </div>
+          <div class="card">
+            <span>Validation commands</span>
+            <strong>4</strong>
+          </div>
+        </div>
+        <article class="card">
+            <span>First-party event collector</span>
+            <strong>needs-variables-and-secrets</strong>
+            <p>zero-spend-use-existing-cloudflare-free-tier</p>
+            <p>Variables: CLOUDFLARE_ACCOUNT_ID, AGL_EVENT_COLLECTOR_R2_BUCKET, AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS, VITE_EVENT_COLLECTOR_URL, AGL_EVENT_COLLECTOR_EXPORT_URL</p>
+            <p>Secrets: CLOUDFLARE_API_TOKEN, VITE_EVENT_COLLECTOR_WRITE_TOKEN, AGL_EVENT_COLLECTOR_ADMIN_TOKEN</p>
+            <p>Commands: npm run autonomous:event-collector-smoke &amp;&amp; npm run autonomous:collector-deploy-plan &amp;&amp; ./ops/github/setup-production.sh &amp;&amp; RUN_WORKFLOWS=1 ./ops/github/setup-production.sh &amp;&amp; npm run autonomous:readiness</p>
+          </article>
+        <article class="card">
+            <span>PostHog browser capture</span>
+            <strong>needs-public-project-key</strong>
+            <p>zero-spend-use-existing-posthog-free-project</p>
+            <p>Variables: VITE_POSTHOG_KEY, VITE_POSTHOG_HOST</p>
+            <p>Secrets: none</p>
+            <p>Commands: ./ops/github/setup-production.sh &amp;&amp; RUN_WORKFLOWS=1 ./ops/github/setup-production.sh &amp;&amp; npm run autonomous:readiness</p>
+          </article>
+      </section>
+
+      <section>
         <h2>Controls</h2>
         <ul>
           <li>Zero paid spend: true</li>
@@ -221,6 +260,7 @@
         <h2>Next Actions</h2>
         <ul>
           <li>Use the player-initiated local evidence route until PostHog or the first-party collector is configured.</li>
+          <li>Unlock production analytics with first-party-collector; 5 setup command(s) and 4 validation command(s) are published with redacted secret names only.</li>
           <li>Invite players to use Share evidence after a gate-sample play session so public aggregate evidence can be reviewed without raw events.</li>
           <li>Do not pass product gates, enable revenue, or submit stores from public aggregate notes alone.</li>
           <li>Keep product gates blocked until real player evidence clears completion, replay, and D1 retention thresholds.</li>

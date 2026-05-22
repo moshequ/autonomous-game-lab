@@ -1,10 +1,10 @@
 # Production Measurement Status
 
-Generated: 2026-05-22T03:37:24.894Z
+Generated: 2026-05-22T03:45:04.300Z
 Status: production-measurement-local-intake-ready
 Active path: local-browser-buffer
-Live candidate: pwa-92e2bf90481f
-Source hash: a0c08f1ee67f
+Live candidate: pwa-722adf9734d2
+Source hash: eb8b3ce8dd94
 
 ## Analytics
 
@@ -13,6 +13,8 @@ Source hash: a0c08f1ee67f
 - autonomous rollups configured: false
 - local evidence ready: true
 - public aggregate handoff: awaiting-player-initiated-aggregate-notes
+- analytics unlock: owner-input-required
+- analytics unlock path: first-party-collector
 - aggregate evidence notes: 0
 - supporting aggregate mission notes: 0
 
@@ -42,6 +44,7 @@ Source hash: a0c08f1ee67f
 ## Next Actions
 
 - Use the player-initiated local evidence route until PostHog or the first-party collector is configured.
+- Unlock production analytics with first-party-collector; 5 setup command(s) and 4 validation command(s) are published with redacted secret names only.
 - Invite players to use Share evidence after a gate-sample play session so public aggregate evidence can be reviewed without raw events.
 - Do not pass product gates, enable revenue, or submit stores from public aggregate notes alone.
 - Keep product gates blocked until real player evidence clears completion, replay, and D1 retention thresholds.

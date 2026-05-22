@@ -1027,6 +1027,16 @@ function App() {
       }
     }
   ).publicEvidenceHandoff
+  const productionMeasurementAnalyticsUnlock = (
+    productionMeasurementStatus as {
+      analyticsUnlock?: {
+        status: string
+        recommendedPathId: string
+        commandCount: number
+        validationCommandCount: number
+      } | null
+    }
+  ).analyticsUnlock
   const liveSiteMonitorOrigin = liveSiteMonitor.origin.origin ?? 'missing'
   const operatorSelectedAction = autonomousOperator.selectedAction as { id: string } | null
   const operatorHistorySummary = autonomousOperatorHistory.summary
@@ -3291,6 +3301,18 @@ function App() {
                     {productionMeasurementPublicHandoff?.controls.aggregateEvidenceDoesNotPassGates
                       ? 'support only'
                       : 'review'}
+                  </strong>
+                </div>
+                <div>
+                  <span>Analytics unlock</span>
+                  <strong>{productionMeasurementAnalyticsUnlock?.recommendedPathId ?? 'none'}</strong>
+                </div>
+                <div>
+                  <span>Unlock checks</span>
+                  <strong>
+                    {productionMeasurementAnalyticsUnlock
+                      ? `${productionMeasurementAnalyticsUnlock.commandCount}/${productionMeasurementAnalyticsUnlock.validationCommandCount}`
+                      : '0/0'}
                   </strong>
                 </div>
               </div>
