@@ -4003,6 +4003,17 @@ test('autonomous cadence keeps unattended operation auditable and guarded', asyn
         deployabilityGate: string
         smokeGate: string
       }
+      githubProductionInputWatch: {
+        status: string
+        workflow: string
+        trigger: string
+        permission: string
+        command: string
+        verificationGate: string
+        directPushRequiresRepositoryVariable: string
+        followedByDeployWorkflow: string
+        watchedInputs: string[]
+      }
       githubPublicEvidenceIntake: {
         status: string
         workflow: string
@@ -4041,6 +4052,7 @@ test('autonomous cadence keeps unattended operation auditable and guarded', asyn
       codexAutomationExpectedActive: boolean
       codexAutomationActualStatusAudited: boolean
       staleEvidenceBlocksUnattendedTrust: boolean
+      productionInputWatchWritePermissionGated: boolean
       publicEvidenceIntakeWritePermissionGated: boolean
       postDeployEvidenceSyncWritePermissionGated: boolean
     }
@@ -4063,6 +4075,10 @@ test('autonomous cadence keeps unattended operation auditable and guarded', asyn
     status: string
     guardrails: { zeroPaidSpend: boolean; noStoreSubmission: boolean; noRevenueEnablement: boolean }
   }
+  const packageJson = JSON.parse(await readFile('package.json', 'utf8')) as { scripts: Record<string, string> }
+  const productionInputWorkflow = await readFile('.github/workflows/production-input-watch.yml', 'utf8')
+  const webDeployWorkflow = await readFile('.github/workflows/web-pwa-deploy.yml', 'utf8')
+  const productionInputScript = packageJson.scripts['autonomous:production-input-watch'] ?? ''
 
   expect(cadence.status).toBe('cadence-ready')
   expect(cadence.schedulers.codexDesktop.id).toBe('autonomous-game-lab-daily-owner-loop')
@@ -4075,7 +4091,7 @@ test('autonomous cadence keeps unattended operation auditable and guarded', asyn
   expect(cadence.schedulers.githubPostSelfUpdateDeploy.status).toBe('scheduled')
   expect(cadence.schedulers.githubPostSelfUpdateDeploy.workflow).toBe('.github/workflows/web-pwa-deploy.yml')
   expect(cadence.schedulers.githubPostSelfUpdateDeploy.trigger).toBe(
-    'workflow_run: Autonomous Self Update, Public Evidence Intake',
+    'workflow_run: Autonomous Self Update, Public Evidence Intake, Production Input Watch',
   )
   expect(cadence.schedulers.githubPostSelfUpdateDeploy.deployabilityGate).toBe(
     'npm run autonomous:assert-deployable',
@@ -4083,6 +4099,63 @@ test('autonomous cadence keeps unattended operation auditable and guarded', asyn
   expect(cadence.schedulers.githubPostSelfUpdateDeploy.smokeGate).toBe(
     'npm run autonomous:post-deploy-smoke -- --assert',
   )
+  expect(cadence.schedulers.githubProductionInputWatch.status).toBe('scheduled')
+  expect(cadence.schedulers.githubProductionInputWatch.workflow).toBe(
+    '.github/workflows/production-input-watch.yml',
+  )
+  expect(cadence.schedulers.githubProductionInputWatch.trigger).toBe(
+    'workflow_dispatch, schedule: every 12 hours',
+  )
+  expect(cadence.schedulers.githubProductionInputWatch.permission).toBe(
+    'actions: read, contents: write, issues: read',
+  )
+  expect(cadence.schedulers.githubProductionInputWatch.command).toBe(
+    'npm run autonomous:production-input-watch',
+  )
+  expect(cadence.schedulers.githubProductionInputWatch.verificationGate).toBe('node scripts/verify-autonomy.mjs')
+  expect(cadence.schedulers.githubProductionInputWatch.directPushRequiresRepositoryVariable).toBe(
+    'AGL_AUTONOMOUS_SELF_UPDATE_DIRECT=1',
+  )
+  expect(cadence.schedulers.githubProductionInputWatch.followedByDeployWorkflow).toBe(
+    '.github/workflows/web-pwa-deploy.yml',
+  )
+  expect(cadence.schedulers.githubProductionInputWatch.watchedInputs).toEqual(
+    expect.arrayContaining([
+      'VITE_EVENT_COLLECTOR_WRITE_TOKEN',
+      'POSTHOG_PERSONAL_API_KEY',
+      'AGL_ANDROID_KEYSTORE_BASE64',
+    ]),
+  )
+  expect(productionInputScript).toContain('npm run build')
+  expect(productionInputScript).toContain('autonomous:performance')
+  expect(productionInputScript).toContain('autonomous:release-candidate')
+  expect(productionInputScript).toContain('autonomous:bootstrap')
+  expect(productionInputScript).toContain('autonomous:activate-production')
+  expect(productionInputScript).toContain('autonomous:readiness')
+  expect(productionInputScript).toContain('autonomous:owner-loop')
+  expect(productionInputScript).toContain('autonomous:operator')
+  expect(productionInputWorkflow).toContain('name: Production Input Watch')
+  expect(productionInputWorkflow).toContain('workflow_dispatch:')
+  expect(productionInputWorkflow).toContain('schedule:')
+  expect(productionInputWorkflow).toContain('contents: write')
+  expect(productionInputWorkflow).toContain('actions: read')
+  expect(productionInputWorkflow).toContain('AGL_AUTONOMOUS_SELF_UPDATE_DIRECT')
+  expect(productionInputWorkflow).toContain('CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}')
+  expect(productionInputWorkflow).toContain('POSTHOG_PERSONAL_API_KEY: ${{ secrets.POSTHOG_PERSONAL_API_KEY }}')
+  expect(productionInputWorkflow).toContain(
+    'VITE_EVENT_COLLECTOR_WRITE_TOKEN: ${{ secrets.VITE_EVENT_COLLECTOR_WRITE_TOKEN }}',
+  )
+  expect(productionInputWorkflow).toContain('npm run autonomous:production-input-watch')
+  expect(productionInputWorkflow).toContain('node scripts/verify-autonomy.mjs')
+  expect(productionInputWorkflow).toContain('data/production-blocker-handoff.json')
+  expect(productionInputWorkflow).toContain('data/production-unlock-runner.json')
+  expect(productionInputWorkflow).toContain('data/production-measurement-status.json')
+  expect(productionInputWorkflow).toContain('public/measurement-status.json')
+  expect(productionInputWorkflow).toContain('data/release-candidate.json')
+  expect(productionInputWorkflow).not.toContain('gh workflow run')
+  expect(productionInputWorkflow).not.toContain('data/player-events')
+  expect(productionInputWorkflow).not.toContain('curl ')
+  expect(webDeployWorkflow).toContain("'Production Input Watch'")
   expect(cadence.schedulers.githubPublicEvidenceIntake.status).toBe('scheduled')
   expect(cadence.schedulers.githubPublicEvidenceIntake.workflow).toBe(
     '.github/workflows/public-evidence-intake.yml',
@@ -4131,9 +4204,11 @@ test('autonomous cadence keeps unattended operation auditable and guarded', asyn
   expect(cadence.controls.codexAutomationExpectedActive).toBe(true)
   expect(cadence.controls.codexAutomationActualStatusAudited).toBe(true)
   expect(cadence.controls.staleEvidenceBlocksUnattendedTrust).toBe(true)
+  expect(cadence.controls.productionInputWatchWritePermissionGated).toBe(true)
   expect(cadence.controls.publicEvidenceIntakeWritePermissionGated).toBe(true)
   expect(cadence.controls.postDeployEvidenceSyncWritePermissionGated).toBe(true)
   expect(cadence.checks.find((check) => check.id === 'post-self-update-deploy')?.status).toBe('pass')
+  expect(cadence.checks.find((check) => check.id === 'production-input-watch-workflow')?.status).toBe('pass')
   expect(cadence.checks.find((check) => check.id === 'public-evidence-intake-workflow')?.status).toBe('pass')
   expect(cadence.checks.find((check) => check.id === 'post-deploy-evidence-sync-workflow')?.status).toBe('pass')
   expect(cadence.freshnessPolicy.status).toBe('fresh')

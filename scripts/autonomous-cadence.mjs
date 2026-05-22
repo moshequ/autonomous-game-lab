@@ -11,6 +11,7 @@ const selfUpdateWorkflowPath = path.join(root, '.github', 'workflows', 'autonomo
 const webDeployWorkflowPath = path.join(root, '.github', 'workflows', 'web-pwa-deploy.yml')
 const postDeployEvidenceSyncWorkflowPath = path.join(root, '.github', 'workflows', 'post-deploy-evidence-sync.yml')
 const publicEvidenceIntakeWorkflowPath = path.join(root, '.github', 'workflows', 'public-evidence-intake.yml')
+const productionInputWatchWorkflowPath = path.join(root, '.github', 'workflows', 'production-input-watch.yml')
 const outputJsonPath = path.join(dataDir, 'autonomous-cadence.json')
 const outputTsPath = path.join(srcDataDir, 'autonomousCadence.ts')
 const reportPath = path.join(reportsDir, 'autonomous-cadence-latest.md')
@@ -349,6 +350,7 @@ const selfUpdateWorkflow = await readOptionalText(selfUpdateWorkflowPath)
 const webDeployWorkflow = await readOptionalText(webDeployWorkflowPath)
 const postDeployEvidenceSyncWorkflow = await readOptionalText(postDeployEvidenceSyncWorkflowPath)
 const publicEvidenceIntakeWorkflow = await readOptionalText(publicEvidenceIntakeWorkflowPath)
+const productionInputWatchWorkflow = await readOptionalText(productionInputWatchWorkflowPath)
 const repositoryReadiness = await readOptionalJson(path.join(dataDir, 'repository-readiness.json'), {
   status: 'missing',
   workspace: {},
@@ -400,6 +402,7 @@ const selfUpdateWorkflowExists = await exists(selfUpdateWorkflowPath)
 const webDeployWorkflowExists = await exists(webDeployWorkflowPath)
 const postDeployEvidenceSyncWorkflowExists = await exists(postDeployEvidenceSyncWorkflowPath)
 const publicEvidenceIntakeWorkflowExists = await exists(publicEvidenceIntakeWorkflowPath)
+const productionInputWatchWorkflowExists = await exists(productionInputWatchWorkflowPath)
 const dailyScript = script('autonomous:daily')
 const operateScript = script('autonomous:operate')
 const afterActionScript = script('autonomous:after-action')
@@ -410,6 +413,7 @@ const testAutomationScript = script('test:automation')
 const testE2eScript = script('test:e2e')
 const postDeployReadinessSyncScript = script('autonomous:post-deploy-readiness-sync')
 const publicEvidenceIntakeScript = script('autonomous:public-evidence-intake')
+const productionInputWatchScript = script('autonomous:production-input-watch')
 const codexHome = process.env.CODEX_HOME?.trim() || (process.env.HOME ? path.join(process.env.HOME, '.codex') : null)
 const codexAutomationsDir = codexHome ? path.join(codexHome, 'automations') : null
 const codexAutomationStorageAvailable = Boolean(codexAutomationsDir && (await exists(codexAutomationsDir)))
@@ -655,6 +659,7 @@ const checks = [
       webDeployWorkflow.includes("'Autonomous Daily Studio'") &&
       webDeployWorkflow.includes("'Autonomous Self Update'") &&
       webDeployWorkflow.includes("'Public Evidence Intake'") &&
+      webDeployWorkflow.includes("'Production Input Watch'") &&
       webDeployWorkflow.includes('npm run build') &&
       webDeployWorkflow.includes('npm run autonomous:performance') &&
       webDeployWorkflow.includes('npm run autonomous:release-candidate') &&
@@ -664,8 +669,44 @@ const checks = [
         ? 'pass'
         : 'blocker',
     detail: webDeployWorkflowExists
-      ? 'Pages deployment builds the committed PWA artifact from gated self-update and public-evidence workflows, so persisted generated improvements can publish without manual dispatch.'
+      ? 'Pages deployment builds the committed PWA artifact from gated self-update, public-evidence, and production-input workflows, so persisted generated improvements can publish without manual dispatch.'
       : 'Web PWA deploy workflow is missing.',
+  },
+  {
+    id: 'production-input-watch-workflow',
+    status:
+      productionInputWatchWorkflowExists &&
+      productionInputWatchWorkflow.includes('workflow_dispatch:') &&
+      productionInputWatchWorkflow.includes('schedule:') &&
+      productionInputWatchWorkflow.includes('contents: write') &&
+      productionInputWatchWorkflow.includes('actions: read') &&
+      productionInputWatchWorkflow.includes('AGL_AUTONOMOUS_SELF_UPDATE_DIRECT') &&
+      productionInputWatchWorkflow.includes('CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}') &&
+      productionInputWatchWorkflow.includes('POSTHOG_PERSONAL_API_KEY: ${{ secrets.POSTHOG_PERSONAL_API_KEY }}') &&
+      productionInputWatchWorkflow.includes('VITE_EVENT_COLLECTOR_WRITE_TOKEN: ${{ secrets.VITE_EVENT_COLLECTOR_WRITE_TOKEN }}') &&
+      productionInputWatchWorkflow.includes('npm run autonomous:production-input-watch') &&
+      productionInputWatchWorkflow.includes('node scripts/verify-autonomy.mjs') &&
+      productionInputWatchWorkflow.includes('data/production-blocker-handoff.json') &&
+      productionInputWatchWorkflow.includes('data/production-unlock-runner.json') &&
+      productionInputWatchWorkflow.includes('data/production-measurement-status.json') &&
+      productionInputWatchWorkflow.includes('public/measurement-status.json') &&
+      productionInputWatchWorkflow.includes('data/release-candidate.json') &&
+      productionInputWatchScript.includes('npm run build') &&
+      productionInputWatchScript.includes('autonomous:performance') &&
+      productionInputWatchScript.includes('autonomous:release-candidate') &&
+      productionInputWatchScript.includes('autonomous:bootstrap') &&
+      productionInputWatchScript.includes('autonomous:activate-production') &&
+      productionInputWatchScript.includes('autonomous:readiness') &&
+      productionInputWatchScript.includes('autonomous:owner-loop') &&
+      productionInputWatchScript.includes('autonomous:operator') &&
+      !productionInputWatchWorkflow.includes('gh workflow run') &&
+      !productionInputWatchWorkflow.includes('data/player-events') &&
+      !productionInputWatchWorkflow.includes('curl ')
+        ? 'pass'
+        : 'blocker',
+    detail: productionInputWatchWorkflowExists
+      ? 'Production input watch refreshes deploy/readiness evidence after owner-provided repository variables or secrets, gates direct commits, and avoids workflow dispatch or raw event storage.'
+      : 'Production input watch GitHub workflow is missing.',
   },
   {
     id: 'public-evidence-intake-workflow',
@@ -813,9 +854,29 @@ const payload = {
           ? 'scheduled'
           : 'missing',
       workflow: '.github/workflows/web-pwa-deploy.yml',
-      trigger: 'workflow_run: Autonomous Self Update, Public Evidence Intake',
+      trigger: 'workflow_run: Autonomous Self Update, Public Evidence Intake, Production Input Watch',
       deployabilityGate: 'npm run autonomous:assert-deployable',
       smokeGate: 'npm run autonomous:post-deploy-smoke -- --assert',
+    },
+    githubProductionInputWatch: {
+      status:
+        checks.find((check) => check.id === 'production-input-watch-workflow')?.status === 'pass'
+          ? 'scheduled'
+          : 'missing',
+      workflow: '.github/workflows/production-input-watch.yml',
+      trigger: 'workflow_dispatch, schedule: every 12 hours',
+      permission: 'actions: read, contents: write, issues: read',
+      command: 'npm run autonomous:production-input-watch',
+      verificationGate: 'node scripts/verify-autonomy.mjs',
+      directPushRequiresRepositoryVariable: 'AGL_AUTONOMOUS_SELF_UPDATE_DIRECT=1',
+      followedByDeployWorkflow: '.github/workflows/web-pwa-deploy.yml',
+      watchedInputs: [
+        'VITE_EVENT_COLLECTOR_URL',
+        'VITE_EVENT_COLLECTOR_WRITE_TOKEN',
+        'CLOUDFLARE_API_TOKEN',
+        'POSTHOG_PERSONAL_API_KEY',
+        'AGL_ANDROID_KEYSTORE_BASE64',
+      ],
     },
     githubPublicEvidenceIntake: {
       status:
@@ -882,6 +943,7 @@ const payload = {
     staleEvidenceBlocksUnattendedTrust: true,
     githubWorkflowReadOnlyByDefault: true,
     selfUpdateWorkflowWritePermissionGated: true,
+    productionInputWatchWritePermissionGated: true,
     publicEvidenceIntakeWritePermissionGated: true,
     postDeployEvidenceSyncWritePermissionGated: true,
     selfUpdateStagesAllowlistedGeneratedFilesOnly: true,
@@ -934,6 +996,7 @@ const report = [
   `- GitHub Actions: ${payload.schedulers.githubActions.status} (${payload.schedulers.githubActions.cron})`,
   `- GitHub self-update: ${payload.schedulers.githubSelfUpdate.status} (${payload.schedulers.githubSelfUpdate.workflow})`,
   `- GitHub post-self-update deploy: ${payload.schedulers.githubPostSelfUpdateDeploy.status} (${payload.schedulers.githubPostSelfUpdateDeploy.workflow})`,
+  `- GitHub production input watch: ${payload.schedulers.githubProductionInputWatch.status} (${payload.schedulers.githubProductionInputWatch.workflow})`,
   `- GitHub public evidence intake: ${payload.schedulers.githubPublicEvidenceIntake.status} (${payload.schedulers.githubPublicEvidenceIntake.workflow})`,
   `- GitHub post-deploy evidence sync: ${payload.schedulers.githubPostDeployEvidenceSync.status} (${payload.schedulers.githubPostDeployEvidenceSync.workflow})`,
   '',

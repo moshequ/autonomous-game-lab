@@ -130,6 +130,7 @@ const requiredFiles = [
   '.github/workflows/web-pwa-deploy.yml',
   '.github/workflows/post-deploy-evidence-sync.yml',
   '.github/workflows/public-evidence-intake.yml',
+  '.github/workflows/production-input-watch.yml',
   '.github/ISSUE_TEMPLATE/player-feedback.yml',
   '.github/ISSUE_TEMPLATE/bug-report.yml',
   '.github/ISSUE_TEMPLATE/analytics-evidence.yml',
@@ -384,6 +385,10 @@ const publicEvidenceIntakeWorkflow = await readFile(
   path.join(root, '.github', 'workflows', 'public-evidence-intake.yml'),
   'utf8',
 )
+const productionInputWatchWorkflow = await readFile(
+  path.join(root, '.github', 'workflows', 'production-input-watch.yml'),
+  'utf8',
+)
 const iosCapacitorConfig = JSON.parse(await readFile(path.join(root, 'native', 'ios', 'capacitor.config.json'), 'utf8'))
 const iosAppStoreHandoff = JSON.parse(await readFile(path.join(root, 'native', 'ios', 'app-store-handoff.json'), 'utf8'))
 const iosReadme = await readFile(path.join(root, 'native', 'ios', 'README.md'), 'utf8')
@@ -545,6 +550,7 @@ if (
 }
 
 const publicEvidenceIntakeScript = packageJson.scripts?.['autonomous:public-evidence-intake'] ?? ''
+const productionInputWatchScript = packageJson.scripts?.['autonomous:production-input-watch'] ?? ''
 
 if (
   !['support-feedback-ready', 'support-feedback-empty', 'support-feedback-planned', 'support-feedback-unavailable'].includes(
@@ -629,6 +635,47 @@ if (
   publicEvidenceIntakeWorkflow.includes('workflow run')
 ) {
   fail('Public evidence intake must autonomously refresh safe aggregate GitHub Issue evidence, persist only handoff artifacts, and trigger Pages redeploys without raw events or issue mutation.')
+}
+
+if (
+  !productionInputWatchScript.includes('npm run build') ||
+  !productionInputWatchScript.includes('autonomous:performance') ||
+  !productionInputWatchScript.includes('autonomous:release-candidate') ||
+  !productionInputWatchScript.includes('autonomous:post-deploy-smoke') ||
+  !productionInputWatchScript.includes('autonomous:live-monitor') ||
+  !productionInputWatchScript.includes('autonomous:repo-readiness') ||
+  !productionInputWatchScript.includes('autonomous:repo-bootstrap') ||
+  !productionInputWatchScript.includes('autonomous:deploy-plan') ||
+  !productionInputWatchScript.includes('autonomous:bootstrap') ||
+  !productionInputWatchScript.includes('autonomous:activate-production') ||
+  !productionInputWatchScript.includes('autonomous:readiness') ||
+  !productionInputWatchScript.includes('autonomous:objective-audit') ||
+  !productionInputWatchScript.includes('autonomous:owner-loop') ||
+  !productionInputWatchScript.includes('autonomous:operator') ||
+  !productionInputWatchWorkflow.includes('name: Production Input Watch') ||
+  !productionInputWatchWorkflow.includes('workflow_dispatch:') ||
+  !productionInputWatchWorkflow.includes('schedule:') ||
+  !productionInputWatchWorkflow.includes('contents: write') ||
+  !productionInputWatchWorkflow.includes('actions: read') ||
+  !productionInputWatchWorkflow.includes('AGL_AUTONOMOUS_SELF_UPDATE_DIRECT') ||
+  !productionInputWatchWorkflow.includes('CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}') ||
+  !productionInputWatchWorkflow.includes('POSTHOG_PERSONAL_API_KEY: ${{ secrets.POSTHOG_PERSONAL_API_KEY }}') ||
+  !productionInputWatchWorkflow.includes(
+    'VITE_EVENT_COLLECTOR_WRITE_TOKEN: ${{ secrets.VITE_EVENT_COLLECTOR_WRITE_TOKEN }}',
+  ) ||
+  !productionInputWatchWorkflow.includes('npm run autonomous:production-input-watch') ||
+  !productionInputWatchWorkflow.includes('node scripts/verify-autonomy.mjs') ||
+  !productionInputWatchWorkflow.includes('data/production-blocker-handoff.json') ||
+  !productionInputWatchWorkflow.includes('data/production-unlock-runner.json') ||
+  !productionInputWatchWorkflow.includes('data/production-measurement-status.json') ||
+  !productionInputWatchWorkflow.includes('public/measurement-status.json') ||
+  !productionInputWatchWorkflow.includes('data/release-candidate.json') ||
+  !webDeployWorkflow.includes("'Production Input Watch'") ||
+  productionInputWatchWorkflow.includes('gh workflow run') ||
+  productionInputWatchWorkflow.includes('data/player-events') ||
+  productionInputWatchWorkflow.includes('curl ')
+) {
+  fail('Production input watch must refresh readiness, unlock, release, and measurement evidence after owner-provided variables or secrets without raw events, workflow dispatch, or ungated commits.')
 }
 
 const publicEvidenceHandoff = productionMeasurementStatus.publicEvidenceHandoff ?? {}
@@ -3470,11 +3517,32 @@ if (
   autonomousCadence.schedulers?.githubPostSelfUpdateDeploy?.status !== 'scheduled' ||
   autonomousCadence.schedulers?.githubPostSelfUpdateDeploy?.workflow !== '.github/workflows/web-pwa-deploy.yml' ||
   autonomousCadence.schedulers?.githubPostSelfUpdateDeploy?.trigger !==
-    'workflow_run: Autonomous Self Update, Public Evidence Intake' ||
+    'workflow_run: Autonomous Self Update, Public Evidence Intake, Production Input Watch' ||
   autonomousCadence.schedulers?.githubPostSelfUpdateDeploy?.deployabilityGate !==
     'npm run autonomous:assert-deployable' ||
   autonomousCadence.schedulers?.githubPostSelfUpdateDeploy?.smokeGate !==
     'npm run autonomous:post-deploy-smoke -- --assert' ||
+  autonomousCadence.schedulers?.githubProductionInputWatch?.status !== 'scheduled' ||
+  autonomousCadence.schedulers?.githubProductionInputWatch?.workflow !==
+    '.github/workflows/production-input-watch.yml' ||
+  autonomousCadence.schedulers?.githubProductionInputWatch?.trigger !==
+    'workflow_dispatch, schedule: every 12 hours' ||
+  autonomousCadence.schedulers?.githubProductionInputWatch?.permission !==
+    'actions: read, contents: write, issues: read' ||
+  autonomousCadence.schedulers?.githubProductionInputWatch?.command !==
+    'npm run autonomous:production-input-watch' ||
+  autonomousCadence.schedulers?.githubProductionInputWatch?.verificationGate !==
+    'node scripts/verify-autonomy.mjs' ||
+  autonomousCadence.schedulers?.githubProductionInputWatch?.directPushRequiresRepositoryVariable !==
+    'AGL_AUTONOMOUS_SELF_UPDATE_DIRECT=1' ||
+  autonomousCadence.schedulers?.githubProductionInputWatch?.followedByDeployWorkflow !==
+    '.github/workflows/web-pwa-deploy.yml' ||
+  !(autonomousCadence.schedulers?.githubProductionInputWatch?.watchedInputs ?? []).includes(
+    'VITE_EVENT_COLLECTOR_WRITE_TOKEN',
+  ) ||
+  !(autonomousCadence.schedulers?.githubProductionInputWatch?.watchedInputs ?? []).includes(
+    'POSTHOG_PERSONAL_API_KEY',
+  ) ||
   autonomousCadence.schedulers?.githubPublicEvidenceIntake?.status !== 'scheduled' ||
   autonomousCadence.schedulers?.githubPublicEvidenceIntake?.workflow !==
     '.github/workflows/public-evidence-intake.yml' ||
@@ -3514,6 +3582,7 @@ if (
 	  autonomousCadence.controls?.postActionBuildRefresh !== true ||
 	  autonomousCadence.controls?.postActionVerification !== true ||
   autonomousCadence.controls?.codexAutomationExpectedActive !== true ||
+  autonomousCadence.controls?.productionInputWatchWritePermissionGated !== true ||
   autonomousCadence.controls?.publicEvidenceIntakeWritePermissionGated !== true ||
   autonomousCadence.controls?.postDeployEvidenceSyncWritePermissionGated !== true ||
   autonomousCadence.controls?.codexAutomationActualStatusAudited !== true ||
@@ -3527,6 +3596,7 @@ if (
   !(autonomousCadence.artifactFreshness ?? []).every((artifact) => artifact.status === 'fresh') ||
   !(autonomousCadence.checks ?? []).some((check) => check.id === 'fresh-generated-evidence' && check.status === 'pass') ||
   !(autonomousCadence.checks ?? []).some((check) => check.id === 'post-self-update-deploy' && check.status === 'pass') ||
+  !(autonomousCadence.checks ?? []).some((check) => check.id === 'production-input-watch-workflow' && check.status === 'pass') ||
   !(autonomousCadence.checks ?? []).some((check) => check.id === 'public-evidence-intake-workflow' && check.status === 'pass') ||
   !(autonomousCadence.checks ?? []).every((check) => check.status === 'pass') ||
   codexAutomationManifest.id !== autonomousCadence.schedulers?.codexDesktop?.id ||
@@ -6885,6 +6955,7 @@ if (
   !deployWorkflow.includes("'Autonomous Daily Studio'") ||
   !deployWorkflow.includes("'Autonomous Self Update'") ||
   !deployWorkflow.includes("'Public Evidence Intake'") ||
+  !deployWorkflow.includes("'Production Input Watch'") ||
   !deployWorkflow.includes('actions/deploy-pages') ||
   !deployWorkflow.includes('npm run build') ||
   !deployWorkflow.includes('npm run autonomous:performance') ||
