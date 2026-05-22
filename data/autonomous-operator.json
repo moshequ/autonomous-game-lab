@@ -1,31 +1,29 @@
 {
-  "generatedAt": "2026-05-22T21:53:27.890Z",
+  "generatedAt": "2026-05-22T22:00:09.074Z",
   "status": "operator-plan-ready",
   "mode": "plan-only",
   "ownerDecision": {
-    "actionId": "optimize-daily-retention",
-    "command": "npm run autonomous:retention",
+    "actionId": "refresh-completion-loop",
+    "command": "npm run autonomous:completion-loop",
     "locallyExecutable": true,
     "rejectionReason": null
   },
   "externalInputHandoff": null,
   "requestedActionId": null,
   "selectedAction": {
-    "id": "optimize-daily-retention",
+    "id": "refresh-completion-loop",
     "status": "armed",
-    "command": "npm run autonomous:retention",
+    "command": "npm run autonomous:completion-loop",
     "targets": [
-      "market-pulse"
+      "harbor-rings"
     ],
-    "reason": "Keeps daily challenge, local streak prompts, and retention-safe missions aligned with behavior data.",
+    "reason": "Refreshes optional completion nudges and behind-pace finish-line coaching from product-gate evidence.",
     "costUsd": 0
   },
   "selectedRejection": null,
   "eligibleActionIds": [
-    "seed-portfolio-traffic",
-    "optimize-daily-retention",
-    "collect-gate-sample-local-drops",
-    "refresh-product-gate-sample-plan"
+    "refresh-completion-loop",
+    "refresh-replay-loop"
   ],
   "blockedActions": [
     {
@@ -54,9 +52,9 @@
     },
     {
       "id": "seed-portfolio-traffic",
-      "status": "armed",
+      "status": "monitor",
       "command": "npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop",
-      "reason": "not-selected-this-run"
+      "reason": "status-monitor"
     },
     {
       "id": "refresh-organic-seed-loop",
@@ -68,6 +66,12 @@
       "id": "refresh-support-feedback",
       "status": "monitor",
       "command": "npm run autonomous:support-feedback",
+      "reason": "status-monitor"
+    },
+    {
+      "id": "optimize-daily-retention",
+      "status": "monitor",
+      "command": "npm run autonomous:retention",
       "reason": "status-monitor"
     },
     {
@@ -120,9 +124,9 @@
     },
     {
       "id": "collect-gate-sample-local-drops",
-      "status": "armed",
+      "status": "monitor",
       "command": "npm run autonomous:collect-local-event-drops",
-      "reason": "not-selected-this-run"
+      "reason": "status-monitor"
     },
     {
       "id": "collect-gate-sample-downloads",
@@ -132,9 +136,9 @@
     },
     {
       "id": "refresh-product-gate-sample-plan",
-      "status": "armed",
+      "status": "monitor",
       "command": "npm run autonomous:sample-plan",
-      "reason": "not-selected-this-run"
+      "reason": "status-monitor"
     },
     {
       "id": "refresh-first-move-coach",
@@ -143,16 +147,10 @@
       "reason": "status-monitor"
     },
     {
-      "id": "refresh-completion-loop",
-      "status": "monitor",
-      "command": "npm run autonomous:completion-loop",
-      "reason": "status-monitor"
-    },
-    {
       "id": "refresh-replay-loop",
-      "status": "monitor",
+      "status": "armed",
       "command": "npm run autonomous:replay-loop",
-      "reason": "status-monitor"
+      "reason": "not-selected-this-run"
     },
     {
       "id": "prepare-repository-channel",
@@ -235,8 +233,8 @@
   ],
   "commandPlan": [
     {
-      "segment": "npm run autonomous:retention",
-      "script": "autonomous:retention"
+      "segment": "npm run autonomous:completion-loop",
+      "script": "autonomous:completion-loop"
     }
   ],
   "execution": {
@@ -312,7 +310,7 @@
     "RUN_WORKFLOWS=1"
   ],
   "nextActions": [
-    "Run npm run autonomous:operator -- --execute --action=optimize-daily-retention to execute exactly one allowed local action.",
+    "Run npm run autonomous:operator -- --execute --action=refresh-completion-loop to execute exactly one allowed local action.",
     "Do not execute GitHub workflow, store, paid ads, or account setup commands from the local operator."
   ]
 }

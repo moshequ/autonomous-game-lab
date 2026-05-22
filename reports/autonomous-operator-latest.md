@@ -1,10 +1,10 @@
 # Autonomous Operator
 
-Generated: 2026-05-22T21:53:27.890Z
+Generated: 2026-05-22T22:00:09.074Z
 Status: operator-plan-ready
 Mode: plan-only
-Owner decision: optimize-daily-retention
-Selected action: optimize-daily-retention
+Owner decision: refresh-completion-loop
+Selected action: refresh-completion-loop
 Execution: not-requested
 
 ## Controls
@@ -18,7 +18,7 @@ Execution: not-requested
 
 ## Selected Action
 
-- optimize-daily-retention: npm run autonomous:retention
+- refresh-completion-loop: npm run autonomous:completion-loop
 
 ## External Input Handoff
 
@@ -29,10 +29,8 @@ Execution: not-requested
 
 ## Eligible Local Actions
 
-- seed-portfolio-traffic
-- optimize-daily-retention
-- collect-gate-sample-local-drops
-- refresh-product-gate-sample-plan
+- refresh-completion-loop
+- refresh-replay-loop
 
 ## Blocked Actions
 
@@ -40,11 +38,11 @@ Execution: not-requested
 - hold-for-external-input: status-monitor
 - refresh-autonomous-cadence: status-monitor
 - refresh-autonomous-self-update: status-monitor
-- seed-portfolio-traffic: not-selected-this-run
+- seed-portfolio-traffic: status-monitor
 - refresh-organic-seed-loop: status-monitor
 - refresh-support-feedback: status-monitor
+- optimize-daily-retention: status-monitor
 - measure-pwa-install-loop: status-monitor
 - check-performance-budget: status-monitor
 - prepare-release-candidate: status-monitor
 - run-post-deploy-smoke: status-monitor
-- sync-post-deploy-artifact: status-monitor

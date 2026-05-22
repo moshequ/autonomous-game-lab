@@ -1,6 +1,7 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises'
 import path from 'node:path'
 import { buildExplicitDownloadsScanPolicy, stableDownloadsScanPolicySource } from './lib/downloads-scan-policy.mjs'
+import { localIsoDate } from './lib/product-date.mjs'
 import { hashSourceData } from './lib/source-hash.mjs'
 import { stableTrafficSeedingForSamplePlan } from './lib/traffic-sample-source.mjs'
 
@@ -17,10 +18,6 @@ const readOptionalJson = async (filePath, fallback) =>
     .then((raw) => JSON.parse(raw))
     .catch(() => fallback)
 
-const localIsoDate = (date = new Date()) => {
-  const localDate = new Date(date.getTime() - date.getTimezoneOffset() * 60_000)
-  return localDate.toISOString().slice(0, 10)
-}
 const todaySlug = () => localIsoDate().replaceAll('-', '')
 const pct = (value) => (typeof value === 'number' ? `${Math.round(value * 100)}%` : 'n/a')
 const escapeHtml = (value) =>

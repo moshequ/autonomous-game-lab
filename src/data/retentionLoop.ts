@@ -1,12 +1,12 @@
 export const retentionLoop = {
-  "generatedAt": "2026-05-22T21:26:32.894Z",
+  "generatedAt": "2026-05-22T21:57:42.237Z",
   "status": "retention-loop-ready",
-  "sourceDataHash": "ccd2bd512f9b",
+  "sourceDataHash": "c95986ac4963",
   "dailyChallenge": {
-    "date": "2026-05-22",
+    "date": "2026-05-23",
     "gameId": "market-pulse",
     "title": "Market Pulse",
-    "seed": "daily-20260522-mz",
+    "seed": "daily-20260523-6sx",
     "reason": "Market Pulse has the strongest blended portfolio score (51.912)."
   },
   "sourceStatus": {
@@ -65,7 +65,7 @@ export const retentionLoop = {
     "ctaLabel": "Queue tomorrow",
     "dismissLabel": "Not today",
     "copy": "Queue tomorrow's board to protect your local daily streak.",
-    "nextChallengeDate": "2026-05-23",
+    "nextChallengeDate": "2026-05-24",
     "cooldown": "one prompt per daily challenge date",
     "reason": "D1 retention is 17% and the gate is 18%; ask for a local return intent after a completed run.",
     "telemetry": {
@@ -204,7 +204,7 @@ export const retentionLoop = {
     },
     {
       "id": "confirm-return-intent",
-      "label": "Queue 2026-05-23 board intent",
+      "label": "Queue 2026-05-24 board intent",
       "event": "daily_return_prompt_clicked",
       "gameId": "market-pulse",
       "reward": "local-return-intent",

@@ -1,5 +1,6 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises'
 import path from 'node:path'
+import { localIsoDate } from './lib/product-date.mjs'
 import { hashRawSourceData } from './lib/source-hash.mjs'
 
 const root = process.cwd()
@@ -32,10 +33,6 @@ const localEventBridge = await readOptionalJson(path.join(dataDir, 'local-event-
 
 const roundMetric = (value) => (typeof value === 'number' ? Math.round(value * 1000) / 1000 : null)
 const pct = (value) => (typeof value === 'number' ? `${Math.round(value * 100)}%` : 'n/a')
-const localIsoDate = (date = new Date()) => {
-  const localDate = new Date(date.getTime() - date.getTimezoneOffset() * 60_000)
-  return localDate.toISOString().slice(0, 10)
-}
 const today = localIsoDate()
 const todaySlug = () => localIsoDate().replaceAll('-', '')
 const addDays = (isoDate, days) => {

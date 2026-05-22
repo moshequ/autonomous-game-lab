@@ -1,15 +1,12 @@
 import { readdir, readFile } from 'node:fs/promises'
 import path from 'node:path'
 import { buildExplicitDownloadsScanPolicy, stableDownloadsScanPolicySource } from './lib/downloads-scan-policy.mjs'
+import { localIsoDate } from './lib/product-date.mjs'
 import { productionBootstrapSourceDataHash } from './lib/production-bootstrap-source.mjs'
 import { hashSourceData } from './lib/source-hash.mjs'
 import { stableTrafficSeedingForSamplePlan } from './lib/traffic-sample-source.mjs'
 
 const root = process.cwd()
-const localIsoDate = (date = new Date()) => {
-  const localDate = new Date(date.getTime() - date.getTimezoneOffset() * 60_000)
-  return localDate.toISOString().slice(0, 10)
-}
 const requiredFiles = [
   'data/trend-signals.json',
   'data/trend-cache.json',
@@ -1430,12 +1427,16 @@ if (
   retentionLoopSource.includes(`const today = ${utcDailyPattern}`) ||
   trafficSeedingSource.includes(`new Date().toISOString().slice(0, 10).replaceAll('-', '')`) ||
   productGateSamplePlanSource.includes(`new Date().toISOString().slice(0, 10).replaceAll('-', '')`) ||
+  !portfolioPolicySource.includes('./lib/product-date.mjs') ||
+  !retentionLoopSource.includes('./lib/product-date.mjs') ||
+  !trafficSeedingSource.includes('./lib/product-date.mjs') ||
+  !productGateSamplePlanSource.includes('./lib/product-date.mjs') ||
   !portfolioPolicySource.includes('const today = localIsoDate()') ||
   !retentionLoopSource.includes('const today = localIsoDate()') ||
   !trafficSeedingSource.includes('const slugDate = () => localIsoDate().replaceAll') ||
   !productGateSamplePlanSource.includes('const todaySlug = () => localIsoDate().replaceAll')
 ) {
-  fail('Daily portfolio, retention, campaign, and sample scripts must use the local runner date, not the UTC date.')
+  fail('Daily portfolio, retention, campaign, and sample scripts must use the shared product timezone date, not the UTC date.')
 }
 
 const portfolioBacklogMiss = backlog.find(

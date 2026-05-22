@@ -1,6 +1,7 @@
 import { mkdir, readdir, readFile, writeFile } from 'node:fs/promises'
 import path from 'node:path'
 import { buildExplicitDownloadsScanPolicy, stableDownloadsScanPolicySource } from './lib/downloads-scan-policy.mjs'
+import { localIsoDate, slugDate } from './lib/product-date.mjs'
 import { productionBootstrapSourceDataHash } from './lib/production-bootstrap-source.mjs'
 import { hashRawSourceData, hashSourceData, hashTextSourceData, sourceFreshness } from './lib/source-hash.mjs'
 import { stableTrafficSeedingForSamplePlan } from './lib/traffic-sample-source.mjs'
@@ -76,12 +77,6 @@ const operationalEvidenceFreshness = ({
     extraReady,
   }
 }
-const localIsoDate = (date = new Date()) => {
-  const localDate = new Date(date.getTime() - date.getTimezoneOffset() * 60_000)
-  return localDate.toISOString().slice(0, 10)
-}
-const slugDate = (date = new Date()) => localIsoDate(date).replaceAll('-', '')
-
 const productionEnvironment = await readJson(path.join(dataDir, 'production-environment.json'))
 const trendSignals = await readJson(path.join(dataDir, 'trend-signals.json'))
 const generatedConcepts = await readJson(path.join(dataDir, 'generated-concepts.json'))

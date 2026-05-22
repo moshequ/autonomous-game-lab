@@ -1,5 +1,6 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises'
 import path from 'node:path'
+import { localIsoDate } from './lib/product-date.mjs'
 import { hashSourceData } from './lib/source-hash.mjs'
 
 const root = process.cwd()
@@ -20,10 +21,6 @@ const readOptionalJson = async (filePath, fallback) =>
     .then((raw) => JSON.parse(raw))
     .catch(() => fallback)
 
-const localIsoDate = (date = new Date()) => {
-  const localDate = new Date(date.getTime() - date.getTimezoneOffset() * 60_000)
-  return localDate.toISOString().slice(0, 10)
-}
 const slugDate = () => localIsoDate().replaceAll('-', '')
 
 const rootPath = (pathname) => (String(pathname).startsWith('/') ? String(pathname) : `/${pathname}`)

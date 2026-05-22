@@ -1,5 +1,6 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises'
 import path from 'node:path'
+import { localIsoDate } from './lib/product-date.mjs'
 
 const root = process.cwd()
 const dataDir = path.join(root, 'data')
@@ -20,11 +21,6 @@ const titleCase = (value) =>
     .join(' ')
 
 const round = (value) => Math.round(value * 1000) / 1000
-
-const localIsoDate = (date = new Date()) => {
-  const localDate = new Date(date.getTime() - date.getTimezoneOffset() * 60_000)
-  return localDate.toISOString().slice(0, 10)
-}
 
 const scoreFromMetrics = (metrics = {}) => {
   const startRate = typeof metrics.startRate === 'number' ? metrics.startRate : 0.45
