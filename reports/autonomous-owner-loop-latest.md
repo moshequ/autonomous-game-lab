@@ -1,6 +1,6 @@
 # Autonomous Owner Loop
 
-Generated: 2026-05-22T08:53:04.361Z
+Generated: 2026-05-22T08:58:58.865Z
 Status: owner-loop-ready
 Mode: zero-spend-web-ready
 Autonomy score: 44/45 (98%)
@@ -21,8 +21,8 @@ Autonomy score: 44/45 (98%)
 - ready: game-factory - 10 playable games; 5 generated runtime games.
 - ready: analytics-ingest - Active source: fixture-sample; event ingest: idle-no-files; collector smoke: pass.
 - ready: local-event-bridge - Bridge bridge-waiting-for-export; inbox 0 event(s); imported 0 event(s).
-- ready: autonomous-cadence - Cadence cadence-ready; Codex active-declared-unverified; GitHub scheduled.
-- ready: autonomous-self-update - Self-update self-update-ready; safe pending 208; unsafe pending 0; remote push ready.
+- ready: autonomous-cadence - Cadence cadence-ready; Codex active-confirmed; GitHub scheduled.
+- ready: autonomous-self-update - Self-update self-update-ready; safe pending 4; unsafe pending 0; remote push held.
 - ready: portfolio-loop - Daily challenge: Grove Engine; seed traffic: grove-engine, market-pulse, guild-garden, metro-loom.
 - ready: traffic-seeding - 4 seed campaign(s); max cost $0.
 - ready: acquisition-learning - 4 campaign(s); 0 attributed start(s); candidate grove-engine.
