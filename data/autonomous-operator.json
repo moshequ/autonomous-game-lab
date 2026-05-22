@@ -1,35 +1,17 @@
 {
-  "generatedAt": "2026-05-22T04:44:05.036Z",
-  "status": "operator-plan-ready",
+  "generatedAt": "2026-05-22T04:51:10.840Z",
+  "status": "operator-held",
   "mode": "plan-only",
   "ownerDecision": {
-    "actionId": "seed-portfolio-traffic",
-    "command": "npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop",
-    "locallyExecutable": true,
-    "rejectionReason": null
+    "actionId": "hold-for-external-input",
+    "command": "No local command is available until external inputs, configured credentials, or new player evidence arrive.",
+    "locallyExecutable": false,
+    "rejectionReason": "status-monitor"
   },
   "requestedActionId": null,
-  "selectedAction": {
-    "id": "seed-portfolio-traffic",
-    "status": "armed",
-    "command": "npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop",
-    "targets": [
-      "market-pulse",
-      "guild-garden",
-      "mosaic-haven",
-      "metro-loom"
-    ],
-    "reason": "Under-measured playable games need free organic/internal traffic before quality judgment.",
-    "costUsd": 0
-  },
+  "selectedAction": null,
   "selectedRejection": null,
-  "eligibleActionIds": [
-    "seed-portfolio-traffic",
-    "refresh-first-move-coach",
-    "refresh-completion-loop",
-    "refresh-replay-loop",
-    "apply-safe-improvements"
-  ],
+  "eligibleActionIds": [],
   "blockedActions": [
     {
       "id": "run-daily-owner-loop",
@@ -53,6 +35,12 @@
       "id": "refresh-autonomous-self-update",
       "status": "monitor",
       "command": "npm run autonomous:self-update",
+      "reason": "status-monitor"
+    },
+    {
+      "id": "seed-portfolio-traffic",
+      "status": "monitor",
+      "command": "npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop",
       "reason": "status-monitor"
     },
     {
@@ -135,21 +123,21 @@
     },
     {
       "id": "refresh-first-move-coach",
-      "status": "armed",
+      "status": "monitor",
       "command": "npm run autonomous:first-move-coach",
-      "reason": "not-selected-this-run"
+      "reason": "status-monitor"
     },
     {
       "id": "refresh-completion-loop",
-      "status": "armed",
+      "status": "monitor",
       "command": "npm run autonomous:completion-loop",
-      "reason": "not-selected-this-run"
+      "reason": "status-monitor"
     },
     {
       "id": "refresh-replay-loop",
-      "status": "armed",
+      "status": "monitor",
       "command": "npm run autonomous:replay-loop",
-      "reason": "not-selected-this-run"
+      "reason": "status-monitor"
     },
     {
       "id": "prepare-repository-channel",
@@ -213,9 +201,9 @@
     },
     {
       "id": "apply-safe-improvements",
-      "status": "armed",
+      "status": "monitor",
       "command": "npm run autonomous:experiments && npm run autonomous:improve && npm run autonomous:sync-experiments",
-      "reason": "not-selected-this-run"
+      "reason": "status-monitor"
     },
     {
       "id": "deploy-web-pwa",
@@ -230,28 +218,7 @@
       "reason": "status-monitor"
     }
   ],
-  "commandPlan": [
-    {
-      "segment": "npm run autonomous:growth",
-      "script": "autonomous:growth"
-    },
-    {
-      "segment": "npm run autonomous:portfolio",
-      "script": "autonomous:portfolio"
-    },
-    {
-      "segment": "npm run autonomous:traffic",
-      "script": "autonomous:traffic"
-    },
-    {
-      "segment": "npm run autonomous:acquisition",
-      "script": "autonomous:acquisition"
-    },
-    {
-      "segment": "npm run autonomous:organic-seed-loop",
-      "script": "autonomous:organic-seed-loop"
-    }
-  ],
+  "commandPlan": [],
   "execution": {
     "requested": false,
     "status": "not-requested",
@@ -324,7 +291,7 @@
     "RUN_WORKFLOWS=1"
   ],
   "nextActions": [
-    "Run npm run autonomous:operator -- --execute --action=seed-portfolio-traffic to execute exactly one allowed local action.",
+    "Keep reporting external blockers until a safe local action is eligible.",
     "Do not execute GitHub workflow, store, paid ads, or account setup commands from the local operator."
   ]
 }
