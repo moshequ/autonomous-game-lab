@@ -1,9 +1,9 @@
 # Autonomous Operator History
 
-Generated: 2026-05-22T09:48:36.456Z
+Generated: 2026-05-22T10:03:20.885Z
 Status: operator-history-ready
 Records: 40
-Executed records: 5
+Executed records: 11
 Failed records: 0
 Latest run appended: false
 Compacted duplicate dry-runs: 0
@@ -17,13 +17,13 @@ Compacted duplicate dry-runs: 0
 
 ## Recent Records
 
-- 2026-05-22T09:34:57.503Z: refresh-replay-loop; not-requested; appended fingerprint 165fffd0a418f9bb
-- 2026-05-22T09:34:58.641Z: refresh-replay-loop; not-requested; appended fingerprint 6afbdd821a09d4ab
-- 2026-05-22T09:38:52.938Z: refresh-replay-loop; not-requested; appended fingerprint 165fffd0a418f9bb
-- 2026-05-22T09:38:53.644Z: refresh-replay-loop; not-requested; appended fingerprint 6afbdd821a09d4ab
-- 2026-05-22T09:38:58.357Z: refresh-replay-loop; not-requested; appended fingerprint 165fffd0a418f9bb
-- 2026-05-22T09:38:58.858Z: refresh-replay-loop; not-requested; appended fingerprint 6afbdd821a09d4ab
-- 2026-05-22T09:41:11.612Z: refresh-replay-loop; executed; appended fingerprint 4faf8b0ccacb023c
-- 2026-05-22T09:41:18.738Z: refresh-product-gate-sample-plan; not-requested; appended fingerprint b1752a8f10e92f38
-- 2026-05-22T09:41:49.213Z: refresh-product-gate-sample-plan; executed; appended fingerprint f082cf29c2f04b0c
-- 2026-05-22T09:41:50.029Z: refresh-objective-audit; not-requested; appended fingerprint 52fab05ba88b5388
+- 2026-05-22T09:55:48.544Z: bootstrap-production-setup; not-requested; appended fingerprint bf2185f01ed0162c
+- 2026-05-22T09:56:13.355Z: bootstrap-production-setup; executed; appended fingerprint 10a5f29bde31cd8c
+- 2026-05-22T09:56:14.108Z: refresh-production-blocker-handoff; not-requested; appended fingerprint 933d18706eaae03c
+- 2026-05-22T09:57:26.914Z: refresh-objective-audit; not-requested; appended fingerprint 87a00e5cdcf7664a
+- 2026-05-22T09:57:28.624Z: refresh-product-gate-sample-plan; not-requested; appended fingerprint 25f569c49de0d0b5
+- 2026-05-22T09:57:37.298Z: refresh-objective-audit; not-requested; appended fingerprint 87a00e5cdcf7664a
+- 2026-05-22T09:57:38.224Z: refresh-product-gate-sample-plan; not-requested; appended fingerprint 25f569c49de0d0b5
+- 2026-05-22T09:58:37.264Z: refresh-objective-audit; not-requested; appended fingerprint f5882a7d51240159
+- 2026-05-22T10:00:01.082Z: refresh-replay-loop; not-requested; appended fingerprint 6afbdd821a09d4ab
+- 2026-05-22T10:02:27.419Z: refresh-replay-loop; executed; appended fingerprint 4faf8b0ccacb023c

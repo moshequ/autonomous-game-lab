@@ -1,5 +1,5 @@
 export const localEventBridge = {
-  "generatedAt": "2026-05-22T09:15:20.912Z",
+  "generatedAt": "2026-05-22T09:51:49.946Z",
   "status": "bridge-waiting-for-export",
   "mode": "local-zero-spend-event-drop-bridge",
   "inbox": {
@@ -18,6 +18,14 @@ export const localEventBridge = {
     {
       "path": "data/player-events/inbox",
       "role": "inbox",
+      "exists": true,
+      "matchedFiles": 0,
+      "validFiles": 0,
+      "validEvents": 0
+    },
+    {
+      "path": "../../../../Downloads",
+      "role": "downloads-opt-in",
       "exists": true,
       "matchedFiles": 0,
       "validFiles": 0,
@@ -59,7 +67,7 @@ export const localEventBridge = {
       "preciseLocation"
     ],
     "inboxDirectory": "data/player-events/inbox",
-    "downloadsDirectory": "../../../Downloads",
+    "downloadsDirectory": "../../../../Downloads",
     "importCommand": "npm run autonomous:import-events",
     "rollupCommand": "npm run autonomous:analytics",
     "recoveryCommand": "npm run autonomous:gate-recovery",
@@ -83,7 +91,7 @@ export const localEventBridge = {
     }
   },
   "explicitDownloadsScan": {
-    "scannedAt": "2026-05-22T05:51:13.115Z",
+    "scannedAt": "2026-05-22T09:51:49.946Z",
     "status": "no-evidence-found",
     "directory": "../../../../Downloads",
     "matchedFiles": 0,
@@ -98,11 +106,11 @@ export const localEventBridge = {
     "cooldownHours": 4,
     "coolingDown": true,
     "evidenceReadyNow": false,
-    "lastScanAt": "2026-05-22T05:51:13.115Z",
+    "lastScanAt": "2026-05-22T09:51:49.946Z",
     "lastScanStatus": "no-evidence-found",
-    "scanAgeHours": 3.4,
-    "cooldownRemainingHours": 0.6,
-    "nextRecommendedScanAt": "2026-05-22T09:51:13.115Z"
+    "scanAgeHours": 0,
+    "cooldownRemainingHours": 4,
+    "nextRecommendedScanAt": "2026-05-22T13:51:49.946Z"
   },
   "gateSampleEvidence": {
     "inbox": {
@@ -184,7 +192,7 @@ export const localEventBridge = {
     "rawEventDropsStayLocal": true,
     "copyOnlyExplicitDropPaths": true,
     "downloadsFolderOptInOnly": true,
-    "downloadsFolderImportEnabled": false,
+    "downloadsFolderImportEnabled": true,
     "downloadsFolderRequiresExplicitEnv": true,
     "localExportCoverageReceipts": true,
     "staleExportDebtVisibleInApp": true,
