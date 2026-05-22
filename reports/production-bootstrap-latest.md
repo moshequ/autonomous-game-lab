@@ -1,6 +1,6 @@
 # Production Bootstrap
 
-Generated: 2026-05-22T04:51:07.517Z
+Generated: 2026-05-22T04:53:59.893Z
 Status: production-bootstrap-ready
 Mode: can-apply-configured-actions
 GitHub repository: moshequ/autonomous-game-lab
@@ -9,7 +9,7 @@ gh CLI available: true
 
 ## Local Env Files
 
-- ops/production.env.local: AGL_ANDROID_PACKAGE_NAME, AGL_ANDROID_SHA256_CERT_FINGERPRINT, AGL_ANDROID_KEYSTORE_BASE64, AGL_ANDROID_KEYSTORE_PASSWORD, AGL_ANDROID_KEY_ALIAS
+- none loaded
 - shell env precedence: true
 - protected mutation keys require shell env: true
 - values redacted: true
@@ -22,8 +22,8 @@ gh CLI available: true
 - ready-for-actions-pages: github-pages-hosting; auto-run yes; Deployment plan is ready-for-pages; Pages workflow is .github/workflows/web-pwa-deploy.yml.
 - ready-to-sync: github-pages-settings; auto-run yes; GitHub CLI can configure Pages to use the Actions workflow source.
 - waiting-for-self-update-gate: autonomous-self-update; auto-run no; Self-update gate missing; direct push held.
-- partially-configured: github-actions-variables; auto-run yes; 6/24 repository variable value(s) present in this environment.
-- partially-configured: github-actions-secrets; auto-run yes; 3/8 repository secret value(s) present in this environment.
+- partially-configured: github-actions-variables; auto-run yes; 4/24 repository variable value(s) present in this environment.
+- waiting-for-secrets: github-actions-secrets; auto-run no; 0/8 repository secret value(s) present in this environment.
 - blocked-needs-cloudflare-env: event-collector; auto-run no; Collector deployment is blocked-needs-cloudflare-env; provider cloudflare-worker-r2.
 - held-by-product-gates: monetization-gate; auto-run no; Revenue disabled; spend mode no-spend.
 - draft-ready-external-blockers: store-compliance-unblock; auto-run no; 3 store compliance blocker(s) remain.
@@ -42,10 +42,10 @@ gh CLI available: true
 
 ## Repository Variables
 
-- ready: VITE_BASE_PATH from VITE_BASE_PATH (production-environment)
-- ready: AGL_PUBLIC_ORIGIN from AGL_PUBLIC_ORIGIN (production-environment)
-- ready: VITE_PUBLIC_ORIGIN from AGL_PUBLIC_ORIGIN (production-environment)
-- ready: PUBLIC_SITE_URL from AGL_PUBLIC_ORIGIN (production-environment)
+- ready: VITE_BASE_PATH from VITE_BASE_PATH (environment)
+- ready: AGL_PUBLIC_ORIGIN from AGL_PUBLIC_ORIGIN (environment)
+- ready: VITE_PUBLIC_ORIGIN from AGL_PUBLIC_ORIGIN (environment)
+- ready: PUBLIC_SITE_URL from AGL_PUBLIC_ORIGIN (environment)
 - missing: AGL_SUPPORT_EMAIL from AGL_SUPPORT_EMAIL (missing)
 - missing: VITE_POSTHOG_KEY from VITE_POSTHOG_KEY (missing)
 - missing: VITE_POSTHOG_HOST from VITE_POSTHOG_HOST (missing)
@@ -60,8 +60,8 @@ gh CLI available: true
 - missing: VITE_ADSENSE_REWARDED_SLOT_ID from VITE_ADSENSE_REWARDED_SLOT_ID (missing)
 - missing: ADMOB_PUBLISHER_ID from ADMOB_PUBLISHER_ID (missing)
 - missing: AD_NETWORK_PROVIDER from AD_NETWORK_PROVIDER (missing)
-- ready: AGL_ANDROID_PACKAGE_NAME from AGL_ANDROID_PACKAGE_NAME (environment)
-- ready: AGL_ANDROID_SHA256_CERT_FINGERPRINT from AGL_ANDROID_SHA256_CERT_FINGERPRINT (environment)
+- missing: AGL_ANDROID_PACKAGE_NAME from AGL_ANDROID_PACKAGE_NAME (missing)
+- missing: AGL_ANDROID_SHA256_CERT_FINGERPRINT from AGL_ANDROID_SHA256_CERT_FINGERPRINT (missing)
 - missing: AGL_GOOGLE_PLAY_ACCOUNT_CONNECTED from AGL_GOOGLE_PLAY_ACCOUNT_CONNECTED (missing)
 - missing: AGL_APPLE_DEVELOPER_ACCOUNT_CONNECTED from AGL_APPLE_DEVELOPER_ACCOUNT_CONNECTED (missing)
 - missing: AGL_AUTONOMOUS_SELF_UPDATE from AGL_AUTONOMOUS_SELF_UPDATE (missing)
@@ -73,9 +73,9 @@ gh CLI available: true
 - missing: VITE_EVENT_COLLECTOR_WRITE_TOKEN from VITE_EVENT_COLLECTOR_WRITE_TOKEN
 - missing: AGL_EVENT_COLLECTOR_ADMIN_TOKEN from AGL_EVENT_COLLECTOR_ADMIN_TOKEN
 - missing: POSTHOG_PERSONAL_API_KEY from POSTHOG_PERSONAL_API_KEY
-- ready: AGL_ANDROID_KEYSTORE_BASE64 from AGL_ANDROID_KEYSTORE_BASE64
-- ready: AGL_ANDROID_KEYSTORE_PASSWORD from AGL_ANDROID_KEYSTORE_PASSWORD
-- ready: AGL_ANDROID_KEY_ALIAS from AGL_ANDROID_KEY_ALIAS
+- missing: AGL_ANDROID_KEYSTORE_BASE64 from AGL_ANDROID_KEYSTORE_BASE64
+- missing: AGL_ANDROID_KEYSTORE_PASSWORD from AGL_ANDROID_KEYSTORE_PASSWORD
+- missing: AGL_ANDROID_KEY_ALIAS from AGL_ANDROID_KEY_ALIAS
 - missing: GOOGLE_PLAY_SERVICE_ACCOUNT_JSON from GOOGLE_PLAY_SERVICE_ACCOUNT_JSON
 
 ## External Blockers
