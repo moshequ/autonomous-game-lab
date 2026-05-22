@@ -540,6 +540,41 @@ test('local learning router routes players to the next zero-spend evidence actio
     succeeded: true,
   })
 
+  if (fastestMission.campaignId !== routedMission.campaignId) {
+    await expect(router).toContainText('Fastest gate')
+    await expect(router).toContainText(`${fastestMission.needed.successes} wins`)
+
+    await router.getByRole('button', { name: 'Fastest gate' }).click()
+
+    const fastestUrl = new URL(page.url())
+    expect(fastestUrl.searchParams.get('game')).toBe(fastestMission.gameId)
+    expect(fastestUrl.searchParams.get('utm_source')).toBe('gate_sample')
+    expect(fastestUrl.searchParams.get('utm_campaign')).toBe(fastestMission.campaignId)
+
+    const fastestEvents = await page.evaluate(() => {
+      const raw = window.localStorage.getItem('agl.analytics.events')
+      return raw ? JSON.parse(raw) : []
+    })
+    const fastestChoice = fastestEvents.findLast(
+      (event: { name: string; properties: { campaignId?: string } }) =>
+        event.name === 'local_router_choice_clicked' && event.properties.campaignId === fastestMission.campaignId,
+    )
+
+    expect(fastestChoice?.properties).toMatchObject({
+      recommendationId: 'fastest-gate-sample-shortcut',
+      actionType: 'gate-sample',
+      gameId: fastestMission.gameId,
+      campaignId: fastestMission.campaignId,
+      gateId: fastestMission.gateId,
+      zeroPaidSpend: true,
+      noSyntheticEvents: true,
+      noRevenueEnablement: true,
+      acquisitionCampaign: fastestMission.campaignId,
+      acquisitionSource: 'gate_sample',
+      acquisitionChannel: 'product-gate-sample',
+    })
+  }
+
   await router.getByRole('button', { name: routedCta }).click()
   await expect(page.getByLabel('Autonomy cockpit')).toContainText(routedMission.title)
 

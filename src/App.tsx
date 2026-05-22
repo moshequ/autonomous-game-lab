@@ -1353,6 +1353,23 @@ function App() {
     replayPromptVisible,
     selectedGameId,
   ])
+  const fastestGateSampleRecommendation: LocalRouterRecommendation | null =
+    productGateSampleFastestDistinct && productGateSampleFastestProgress?.sampleDecisionReady !== true
+      ? {
+          id: 'fastest-gate-sample-shortcut',
+          actionType: 'gate-sample',
+          label: 'Fastest gate sample',
+          ctaLabel: 'Fastest gate',
+          gameId: productGateSampleFastestDistinct.gameId,
+          campaignId: productGateSampleFastestDistinct.campaignId,
+          gateId: productGateSampleFastestDistinct.gateId,
+          reason: `${productGateSampleFastestDistinct.label} needs ${productGateSampleFastestDistinct.needed.successes} observed success before revenue gates can move.`,
+          source: 'gate_sample',
+          channel: 'product-gate-sample',
+          sampleStatus: productGateSampleFastestProgress?.status ?? productGateSampleFastestDistinct.status,
+          priority: 2,
+        }
+      : null
   const eventCounts = events.reduce<Record<string, number>>((counts, event) => {
     counts[event.name] = (counts[event.name] ?? 0) + 1
     return counts
@@ -1824,17 +1841,17 @@ function App() {
       })
     }
   }
-  const localRouterEventProperties = useCallback(() => ({
-    recommendationId: localRouterRecommendation.id,
-    actionType: localRouterRecommendation.actionType,
-    label: localRouterRecommendation.label,
-    gameId: localRouterRecommendation.gameId,
-    campaignId: localRouterRecommendation.campaignId,
-    gateId: localRouterRecommendation.gateId,
-    source: localRouterRecommendation.source,
-    channel: localRouterRecommendation.channel,
-    sampleStatus: localRouterRecommendation.sampleStatus,
-    priority: localRouterRecommendation.priority,
+  const localRouterEventProperties = useCallback((recommendation = localRouterRecommendation) => ({
+    recommendationId: recommendation.id,
+    actionType: recommendation.actionType,
+    label: recommendation.label,
+    gameId: recommendation.gameId,
+    campaignId: recommendation.campaignId,
+    gateId: recommendation.gateId,
+    source: recommendation.source,
+    channel: recommendation.channel,
+    sampleStatus: recommendation.sampleStatus,
+    priority: recommendation.priority,
     localEvents: events.length,
     localRouterViews,
     localRouterChoices,
@@ -1851,6 +1868,14 @@ function App() {
     localTrafficSignals,
     localTrafficStarts,
   ])
+  const chooseFastestGateSampleRecommendation = () => {
+    if (!fastestGateSampleRecommendation || !productGateSampleFastestDistinct) {
+      return
+    }
+
+    startGateSampleMission(productGateSampleFastestDistinct)
+    trackEvent('local_router_choice_clicked', localRouterEventProperties(fastestGateSampleRecommendation))
+  }
   const chooseLocalRouterRecommendation = () => {
     const recommendation = localRouterRecommendation
 
@@ -2758,10 +2783,25 @@ function App() {
                   {localRouterChoices} choices / {localRouterViews} views
                 </strong>
               </div>
+              {fastestGateSampleRecommendation && productGateSampleFastestProgress ? (
+                <div>
+                  <span>Fastest gate</span>
+                  <strong>
+                    {productGateSampleFastestProgress.successesRemaining} wins /{' '}
+                    {productGateSampleFastestProgress.promptViewsRemaining} views
+                  </strong>
+                </div>
+              ) : null}
               <div className="localRouterActions">
                 <button className="tinyButton" type="button" onClick={chooseLocalRouterRecommendation}>
                   {localRouterRecommendation.ctaLabel}
                 </button>
+                {fastestGateSampleRecommendation ? (
+                  <button className="tinyButton subtleButton" type="button" onClick={chooseFastestGateSampleRecommendation}>
+                    <Rocket size={14} aria-hidden="true" />
+                    {fastestGateSampleRecommendation.ctaLabel}
+                  </button>
+                ) : null}
                 <button className="tinyButton subtleButton" type="button" onClick={shareLocalRouterRecommendation}>
                   <Share2 size={14} aria-hidden="true" />
                   Share route
