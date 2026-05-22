@@ -4,6 +4,12 @@ export const autonomousOperator = {
   "selectedAction": null,
   "execution": {
     "status": "not-requested"
+  },
+  "externalInputHandoff": {
+    "status": "handoff-waiting-on-owner-inputs",
+    "nextUnlockId": "production-analytics-browser",
+    "recommendedPathId": "first-party-collector",
+    "publicStatusPage": "/measurement-status.html"
   }
 } as const
 

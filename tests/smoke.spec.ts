@@ -3579,9 +3579,33 @@ test('autonomous operator plans or executes one allowlisted zero-spend local act
       dailyLoopRecursionBlocked: boolean
     }
     execution: { requested: boolean; status: string; maxActionsPerRun: number }
+    externalInputHandoff: {
+      nextUnlockId: string | null
+      recommendedPathId: string | null
+      publicStatusPage: string
+      publicStatusJson: string
+      missingVariableCount: number | null
+      missingSecretCount: number | null
+      validationCommands: string[]
+      requiredVariables: Array<{ repositoryName: string; configured: boolean; value?: string }>
+      requiredSecrets: Array<{ repositoryName: string; configured: boolean; value?: string }>
+      controls: {
+        zeroPaidSpend: boolean
+        noSecretValues: boolean
+        noSecretValuesStored: boolean
+        noAccountCreation: boolean
+        noStoreSubmission: boolean
+        noRevenueEnablement: boolean
+        operatorWillNotRunExternalWorkflow: boolean
+      }
+    } | null
     allowlist: string[]
     blockedFragments: string[]
     blockedActions: Array<{ id: string; reason: string }>
+  }
+  const handoff = JSON.parse(await readFile('data/production-blocker-handoff.json', 'utf8')) as {
+    summary: { nextBestUnlockId: string | null }
+    nextUnlockKit: { recommendedPathId: string | null } | null
   }
 
   const operatorHeldWithoutEligibleAction =
@@ -3593,6 +3617,28 @@ test('autonomous operator plans or executes one allowlisted zero-spend local act
     expect(operator.selectedAction?.costUsd).toBe(0)
     expect(operator.selectedAction?.command).toBeTruthy()
     expect(operator.allowlist).toContain(operator.selectedAction?.command)
+    expect(operator.externalInputHandoff).toBeNull()
+  } else {
+    expect(operator.externalInputHandoff?.nextUnlockId).toBe(handoff.summary.nextBestUnlockId)
+    expect(operator.externalInputHandoff?.recommendedPathId).toBe(handoff.nextUnlockKit?.recommendedPathId)
+    expect(operator.externalInputHandoff?.publicStatusPage).toBe('/measurement-status.html')
+    expect(operator.externalInputHandoff?.publicStatusJson).toBe('/measurement-status.json')
+    expect(operator.externalInputHandoff?.missingVariableCount).toBeGreaterThanOrEqual(0)
+    expect(operator.externalInputHandoff?.missingSecretCount).toBeGreaterThanOrEqual(0)
+    expect(operator.externalInputHandoff?.validationCommands).toContain('npm run autonomous:readiness')
+    expect(
+      [
+        ...(operator.externalInputHandoff?.requiredVariables ?? []),
+        ...(operator.externalInputHandoff?.requiredSecrets ?? []),
+      ].some((item) => Object.hasOwn(item, 'value')),
+    ).toBe(false)
+    expect(operator.externalInputHandoff?.controls.zeroPaidSpend).toBe(true)
+    expect(operator.externalInputHandoff?.controls.noSecretValues).toBe(true)
+    expect(operator.externalInputHandoff?.controls.noSecretValuesStored).toBe(true)
+    expect(operator.externalInputHandoff?.controls.noAccountCreation).toBe(true)
+    expect(operator.externalInputHandoff?.controls.noStoreSubmission).toBe(true)
+    expect(operator.externalInputHandoff?.controls.noRevenueEnablement).toBe(true)
+    expect(operator.externalInputHandoff?.controls.operatorWillNotRunExternalWorkflow).toBe(true)
   }
   expect(operator.controls.zeroPaidSpend).toBe(true)
   expect(operator.controls.localCommandAllowlistEnforced).toBe(true)
@@ -3609,6 +3655,12 @@ test('autonomous operator plans or executes one allowlisted zero-spend local act
 
   await page.goto('/')
   await expect(page.getByLabel('Autonomous Operator')).toContainText(/operator-plan-ready|operator-executed|operator-held/)
+  if (operatorHeldWithoutEligibleAction) {
+    await expect(page.getByLabel('Autonomous Operator')).toContainText(handoff.summary.nextBestUnlockId ?? 'none')
+    await expect(page.getByLabel('Autonomous Operator')).toContainText(
+      handoff.nextUnlockKit?.recommendedPathId ?? 'none',
+    )
+  }
 })
 
 test('local event bridge keeps browser analytics drops importable without external upload', async ({ page }) => {

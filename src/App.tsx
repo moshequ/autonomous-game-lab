@@ -1042,6 +1042,15 @@ function App() {
   ).analyticsUnlock
   const liveSiteMonitorOrigin = liveSiteMonitor.origin.origin ?? 'missing'
   const operatorSelectedAction = autonomousOperator.selectedAction as { id: string } | null
+  const operatorExternalInputHandoff = (
+    autonomousOperator as {
+      externalInputHandoff?: {
+        nextUnlockId: string | null
+        recommendedPathId: string | null
+        publicStatusPage: string
+      } | null
+    }
+  ).externalInputHandoff
   const operatorHistorySummary = autonomousOperatorHistory.summary
   const objectiveAuditSummary = objectiveAudit.summary
   const trafficCampaigns = useMemo(() => trafficSeeding.campaigns.slice(0, 4), [])
@@ -3548,6 +3557,18 @@ function App() {
                 <div>
                   <span>Execution</span>
                   <strong>{autonomousOperator.execution.status}</strong>
+                </div>
+                <div>
+                  <span>Next unlock</span>
+                  <strong>{operatorExternalInputHandoff?.nextUnlockId ?? 'none'}</strong>
+                </div>
+                <div>
+                  <span>Unlock path</span>
+                  <strong>{operatorExternalInputHandoff?.recommendedPathId ?? 'none'}</strong>
+                </div>
+                <div>
+                  <span>Handoff</span>
+                  <strong>{operatorExternalInputHandoff?.publicStatusPage ?? 'none'}</strong>
                 </div>
               </div>
               <div className="monetizationRuntime" aria-label="Local Event Bridge">

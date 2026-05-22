@@ -92,6 +92,18 @@ const executableStatuses = new Set(['armed'])
 const ownerLoop = await readJson(path.join(dataDir, 'autonomous-owner-loop.json'))
 const productionResponse = await readJson(path.join(dataDir, 'production-response.json'))
 const unitEconomics = await readJson(path.join(dataDir, 'unit-economics.json'))
+const productionBlockerHandoff = await readOptionalJson(path.join(dataDir, 'production-blocker-handoff.json'), {
+  status: 'missing',
+  summary: {},
+  controls: {},
+  unlockKits: [],
+  nextUnlockKit: null,
+})
+const productionMeasurementStatus = await readOptionalJson(path.join(dataDir, 'production-measurement-status.json'), {
+  status: 'missing',
+  publicRoutes: {},
+  analyticsUnlock: null,
+})
 const existingHistory = await readOptionalJson(historyJsonPath, {
   status: 'operator-history-ready',
   records: [],
@@ -266,6 +278,54 @@ const operatorStatus = executeRequested
   : selectedAction
     ? 'operator-plan-ready'
     : 'operator-held'
+const fullNextUnlockKit =
+  (productionBlockerHandoff.unlockKits ?? []).find(
+    (kit) => kit.id === productionBlockerHandoff.nextUnlockKit?.id,
+  ) ?? productionBlockerHandoff.nextUnlockKit
+const recommendedUnlockPath =
+  fullNextUnlockKit?.paths?.find((unlockPath) => unlockPath.id === fullNextUnlockKit.recommendedPathId) ??
+  fullNextUnlockKit?.paths?.[0] ??
+  null
+const sanitizeUnlockInput = (item) => ({
+  repositoryName: item.repositoryName,
+  envName: item.envName,
+  configured: item.configured === true,
+})
+const externalInputHandoff =
+  operatorStatus === 'operator-held'
+    ? {
+        status: productionBlockerHandoff.status,
+        holdReason: ownerLoop.ownerDecision?.holdReason ?? null,
+        nextUnlockId: productionBlockerHandoff.summary?.nextBestUnlockId ?? fullNextUnlockKit?.id ?? null,
+        title: fullNextUnlockKit?.title ?? null,
+        recommendedPathId: fullNextUnlockKit?.recommendedPathId ?? null,
+        recommendedPathStatus: recommendedUnlockPath?.status ?? null,
+        publicStatusPage: productionMeasurementStatus.publicRoutes?.statusPage ?? '/measurement-status.html',
+        publicStatusJson: productionMeasurementStatus.publicRoutes?.statusJson ?? '/measurement-status.json',
+        setupScript: fullNextUnlockKit?.setupScript ?? 'ops/github/setup-production.sh',
+        envTemplate: fullNextUnlockKit?.envTemplate ?? 'ops/production.env.example',
+        missingVariableCount: fullNextUnlockKit?.missingVariableCount ?? null,
+        missingSecretCount: fullNextUnlockKit?.missingSecretCount ?? null,
+        commandCount: fullNextUnlockKit?.commandCount ?? productionMeasurementStatus.analyticsUnlock?.commandCount ?? 0,
+        validationCommandCount:
+          fullNextUnlockKit?.validationCommandCount ??
+          productionMeasurementStatus.analyticsUnlock?.validationCommandCount ??
+          0,
+        requiredVariables: (recommendedUnlockPath?.requiredVariables ?? []).map(sanitizeUnlockInput),
+        requiredSecrets: (recommendedUnlockPath?.requiredSecrets ?? []).map(sanitizeUnlockInput),
+        commandSequence: recommendedUnlockPath?.commandSequence ?? [],
+        validationCommands: recommendedUnlockPath?.validationCommands ?? [],
+        controls: {
+          zeroPaidSpend: productionBlockerHandoff.controls?.zeroPaidSpend === true,
+          noSecretValues: productionBlockerHandoff.controls?.noSecretValues === true,
+          noSecretValuesStored: productionBlockerHandoff.controls?.noSecretValuesStored === true,
+          noAccountCreation: productionBlockerHandoff.controls?.noAccountCreation === true,
+          noStoreSubmission: productionBlockerHandoff.controls?.noStoreSubmission === true,
+          noRevenueEnablement: productionBlockerHandoff.controls?.noRevenueEnablement === true,
+          operatorWillNotRunExternalWorkflow: true,
+        },
+      }
+    : null
 
 const payload = {
   generatedAt: new Date().toISOString(),
@@ -277,6 +337,7 @@ const payload = {
     locallyExecutable: Boolean(ownerDecisionLocallyExecutable),
     rejectionReason: ownerDecisionRejection,
   },
+  externalInputHandoff,
   requestedActionId,
   selectedAction: selectedAction
     ? {
@@ -320,7 +381,9 @@ const payload = {
       ? executeRequested
         ? `Review ${selectedAction.id} execution results before another operator run.`
         : `Run npm run autonomous:operator -- --execute --action=${selectedAction.id} to execute exactly one allowed local action.`
-      : 'Keep reporting external blockers until a safe local action is eligible.',
+      : externalInputHandoff?.nextUnlockId
+        ? `Resolve ${externalInputHandoff.nextUnlockId} through ${externalInputHandoff.publicStatusPage}, then rerun npm run autonomous:readiness.`
+        : 'Keep reporting external blockers until a safe local action is eligible.',
     'Do not execute GitHub workflow, store, paid ads, or account setup commands from the local operator.',
   ],
 }
@@ -469,6 +532,14 @@ const appPayload = {
   execution: {
     status: payload.execution.status,
   },
+  externalInputHandoff: payload.externalInputHandoff
+    ? {
+        status: payload.externalInputHandoff.status,
+        nextUnlockId: payload.externalInputHandoff.nextUnlockId,
+        recommendedPathId: payload.externalInputHandoff.recommendedPathId,
+        publicStatusPage: payload.externalInputHandoff.publicStatusPage,
+      }
+    : null,
 }
 const historyAppPayload = {
   status: historyPayload.status,
@@ -499,6 +570,24 @@ const report = [
   payload.selectedAction
     ? `- ${payload.selectedAction.id}: ${payload.selectedAction.command}`
     : `- none: ${payload.selectedRejection ?? 'no eligible local actions'}`,
+  '',
+  '## External Input Handoff',
+  '',
+  payload.externalInputHandoff
+    ? `- next unlock: ${payload.externalInputHandoff.nextUnlockId ?? 'none'}`
+    : '- none',
+  payload.externalInputHandoff
+    ? `- recommended path: ${payload.externalInputHandoff.recommendedPathId ?? 'none'}`
+    : '- recommended path: none',
+  payload.externalInputHandoff
+    ? `- public status: ${payload.externalInputHandoff.publicStatusPage}`
+    : '- public status: none',
+  payload.externalInputHandoff
+    ? `- missing inputs: ${payload.externalInputHandoff.missingVariableCount ?? 0} variable(s), ${payload.externalInputHandoff.missingSecretCount ?? 0} secret(s)`
+    : '- missing inputs: none',
+  ...(payload.externalInputHandoff?.validationCommands?.length
+    ? payload.externalInputHandoff.validationCommands.map((command) => `- validate: ${command}`)
+    : []),
   '',
   '## Eligible Local Actions',
   '',

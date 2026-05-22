@@ -3096,6 +3096,26 @@ const operatorHeldWithoutEligibleAction =
   (autonomousOperator.eligibleActionIds?.length ?? 0) === 0 &&
   autonomousOperator.selectedAction === null &&
   autonomousOperator.execution?.status === 'not-requested'
+const operatorExternalInputHandoff = autonomousOperator.externalInputHandoff ?? null
+const operatorExternalInputLeaksValues = [
+  ...(operatorExternalInputHandoff?.requiredVariables ?? []),
+  ...(operatorExternalInputHandoff?.requiredSecrets ?? []),
+].some((item) => Object.hasOwn(item, 'value'))
+const operatorExternalInputHandoffValid = operatorHeldWithoutEligibleAction
+  ? operatorExternalInputHandoff?.nextUnlockId === productionBlockerHandoff.summary?.nextBestUnlockId &&
+    operatorExternalInputHandoff?.recommendedPathId === productionBlockerHandoff.nextUnlockKit?.recommendedPathId &&
+    operatorExternalInputHandoff?.publicStatusPage === '/measurement-status.html' &&
+    operatorExternalInputHandoff?.publicStatusJson === '/measurement-status.json' &&
+    operatorExternalInputHandoff?.controls?.zeroPaidSpend === true &&
+    operatorExternalInputHandoff?.controls?.noSecretValues === true &&
+    operatorExternalInputHandoff?.controls?.noSecretValuesStored === true &&
+    operatorExternalInputHandoff?.controls?.noAccountCreation === true &&
+    operatorExternalInputHandoff?.controls?.noStoreSubmission === true &&
+    operatorExternalInputHandoff?.controls?.noRevenueEnablement === true &&
+    operatorExternalInputHandoff?.controls?.operatorWillNotRunExternalWorkflow === true &&
+    (operatorExternalInputHandoff?.validationCommands ?? []).includes('npm run autonomous:readiness') &&
+    !operatorExternalInputLeaksValues
+  : operatorExternalInputHandoff === null
 const operatorStatusAllowed =
   ['operator-plan-ready', 'operator-executed'].includes(autonomousOperator.status) ||
   operatorHeldWithoutEligibleAction
@@ -3108,6 +3128,7 @@ if (
   !operatorStatusAllowed ||
   !operatorModeAllowed ||
   (!operatorHeldWithoutEligibleAction && autonomousOperator.selectedAction?.costUsd !== 0) ||
+  !operatorExternalInputHandoffValid ||
   (!operatorHeldWithoutEligibleAction && autonomousOperator.ownerDecision?.locallyExecutable !== true) ||
   (!operatorHeldWithoutEligibleAction &&
     autonomousOperator.selectedAction?.id !== autonomousOwnerLoop.ownerDecision?.nextBestActionId) ||
@@ -3155,6 +3176,8 @@ if (
   !autonomousOperatorSource.includes("spawn('npm'") ||
   !autonomousOperatorSource.includes('allowedLocalCommands') ||
   !autonomousOperatorSource.includes('blockedFragments') ||
+  !autonomousOperatorSource.includes('externalInputHandoff') ||
+  !autonomousOperatorSource.includes('production-measurement-status.json') ||
   !autonomousOperatorSource.includes('AGL_OPERATOR_EXECUTE') ||
   !appSource.includes('Autonomous Operator')
 ) {

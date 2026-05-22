@@ -1,6 +1,6 @@
 # Autonomous Operator
 
-Generated: 2026-05-22T20:26:12.238Z
+Generated: 2026-05-22T20:35:57.350Z
 Status: operator-held
 Mode: plan-only
 Owner decision: hold-for-external-input
@@ -19,6 +19,17 @@ Execution: not-requested
 ## Selected Action
 
 - none: no eligible local actions
+
+## External Input Handoff
+
+- next unlock: production-analytics-browser
+- recommended path: first-party-collector
+- public status: /measurement-status.html
+- missing inputs: 5 variable(s), 1 secret(s)
+- validate: npm run autonomous:event-collector-smoke
+- validate: npm run autonomous:collector-deploy-plan
+- validate: npm run autonomous:readiness
+- validate: npm run test:e2e
 
 ## Eligible Local Actions
 
