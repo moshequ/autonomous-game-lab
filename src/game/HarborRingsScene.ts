@@ -19,6 +19,16 @@ const targetScore = harborConfig.targetScore
 
 type Cell = HarborColor | null
 
+export const harborRingsTutorialCopy = (pacingVariant: string) =>
+  pacingVariant === 'guided'
+    ? `Match adjacent colors for +3; close a 2x2 corner for +8; beat ${targetScore}.`
+    : `Tap a dock to match colors and beat ${targetScore} in ${maxMoves} turns.`
+
+const tutorialSentenceCount = (copy: string) => Math.max(1, copy.split(/[.!?]+/).filter(Boolean).length)
+
+const tutorialCopyMode = (pacingVariant: string) =>
+  pacingVariant === 'guided' ? 'guided-example' : 'fast-start-one-sentence'
+
 const seededDeck = () => {
   const day = new Date().toISOString().slice(0, 10)
   let seed = [...day].reduce((sum, char) => sum + char.charCodeAt(0), 0)
@@ -216,9 +226,14 @@ export class HarborRingsScene extends Phaser.Scene {
 
     if (!this.tutorialCompleted) {
       this.tutorialCompleted = true
+      const tutorial = this.tutorialCopy()
       this.emitMetric('tutorial_completed', {
         gameId: 'harbor-rings',
         variant: this.pacingVariant,
+        tutorialCopyMode: tutorialCopyMode(this.pacingVariant),
+        tutorialCopyChars: tutorial.length,
+        tutorialCopySentences: tutorialSentenceCount(tutorial),
+        targetGate: 'firstGameCompletion',
       })
     }
 
@@ -294,11 +309,7 @@ export class HarborRingsScene extends Phaser.Scene {
   }
 
   private tutorialCopy() {
-    if (this.pacingVariant === 'guided') {
-      return `Match adjacent colors for +3. Finish a 2x2 corner for +8. Beat ${targetScore}.`
-    }
-
-    return `Tap an empty dock. Match colors. Beat ${targetScore} in ${maxMoves} turns.`
+    return harborRingsTutorialCopy(this.pacingVariant)
   }
 
   private shouldShowFirstMoveCoach() {

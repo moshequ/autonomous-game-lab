@@ -3022,10 +3022,13 @@ test('first move coach highlights a safe opening and records coach telemetry', a
   await page.mouse.click(box.x + (280 / 560) * box.width, box.y + (306 / 500) * box.height)
   await expect(page.getByText(/^1\/\d+$/).first()).toBeVisible()
 
-  const coachEvents = await page.evaluate(() => {
+  const { coachEvents, tutorialEvent } = await page.evaluate(() => {
     const raw = window.localStorage.getItem('agl.analytics.events')
     const events = raw ? JSON.parse(raw) : []
-    return events.filter((event: { name: string }) => event.name.startsWith('first_move_coach_'))
+    return {
+      coachEvents: events.filter((event: { name: string }) => event.name.startsWith('first_move_coach_')),
+      tutorialEvent: events.findLast((event: { name: string }) => event.name === 'tutorial_completed'),
+    }
   })
   const shown = coachEvents.find((event: { name: string }) => event.name === 'first_move_coach_shown')
   const used = coachEvents.find((event: { name: string }) => event.name === 'first_move_coach_used')
@@ -3038,6 +3041,12 @@ test('first move coach highlights a safe opening and records coach telemetry', a
   expect(used.properties.col).toBe(2)
   expect(used.properties.recommendedRow).toBe(2)
   expect(used.properties.recommendedCol).toBe(2)
+  expect(tutorialEvent.properties.gameId).toBe('harbor-rings')
+  expect(tutorialEvent.properties.variantId).toBe('fast-start')
+  expect(tutorialEvent.properties.tutorialCopyMode).toBe('fast-start-one-sentence')
+  expect(tutorialEvent.properties.tutorialCopySentences).toBe(1)
+  expect(tutorialEvent.properties.tutorialCopyChars).toBeLessThanOrEqual(60)
+  expect(tutorialEvent.properties.targetGate).toBe('firstGameCompletion')
 })
 
 test('production bootstrap emits zero-spend setup handoff artifacts', async ({ page }) => {
