@@ -1,16 +1,16 @@
 # Post-Deploy Smoke
 
-Generated: 2026-05-22T21:11:22.336Z
+Generated: 2026-05-22T21:15:53.750Z
 Status: post-deploy-smoke-observed-live
 Origin: https://moshequ.github.io/autonomous-game-lab
 Origin source: release-candidate-public-origin
-Candidate: pwa-b3c5e0b85cf2
-Live candidate: pwa-ae220ce20dea
+Candidate: pwa-bd08499b5b4e
+Live candidate: pwa-6a933a32ec73
 
 ## Summary
 
-- Planned: 19
-- Passed: 19
+- Planned: 21
+- Passed: 21
 - Failed: 0
 - Blocked: 0
 
@@ -56,6 +56,8 @@ Checks: 21/21 passed
 - pass: app-ads-txt - https://moshequ.github.io/autonomous-game-lab/app-ads.txt - Live URL matched status and required text.
 - pass: well-known-assetlinks-json - https://moshequ.github.io/autonomous-game-lab/.well-known/assetlinks.json - Live URL matched status and required text.
 - pass: gate-sample-html - https://moshequ.github.io/autonomous-game-lab/gate-sample.html - Live URL matched status and required text.
+- pass: sample-next-html - https://moshequ.github.io/autonomous-game-lab/sample-next.html - Live URL matched status and required text.
+- pass: sample-next-json - https://moshequ.github.io/autonomous-game-lab/sample-next.json - Live URL matched status and required text.
 - pass: seed-kit-html - https://moshequ.github.io/autonomous-game-lab/seed-kit.html - Live URL matched status and required text.
 - pass: seed-next-html - https://moshequ.github.io/autonomous-game-lab/seed-next.html - Live URL matched status and required text.
 - pass: seed-next-json - https://moshequ.github.io/autonomous-game-lab/seed-next.json - Live URL matched status and required text.
@@ -77,5 +79,5 @@ Checks: 21/21 passed
 
 ## Next Actions
 
-- Live Pages is reachable and serving pwa-ae220ce20dea; run the deploy workflow for strict proof of the current local candidate if needed.
+- Live Pages is reachable and serving pwa-6a933a32ec73; run the deploy workflow for strict proof of the current local candidate if needed.
 - Keep revenue, paid acquisition, and app-store submission disabled until product and credential gates pass.

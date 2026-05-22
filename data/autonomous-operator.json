@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-22T20:53:33.333Z",
+  "generatedAt": "2026-05-22T21:15:58.959Z",
   "status": "operator-held",
   "mode": "plan-only",
   "ownerDecision": {
@@ -127,9 +127,9 @@
     },
     {
       "id": "refresh-organic-seed-loop",
-      "status": "armed",
+      "status": "monitor",
       "command": "npm run autonomous:organic-seed-loop",
-      "reason": "owner-decision-held"
+      "reason": "status-monitor"
     },
     {
       "id": "refresh-support-feedback",
@@ -193,9 +193,9 @@
     },
     {
       "id": "collect-gate-sample-local-drops",
-      "status": "monitor",
+      "status": "armed",
       "command": "npm run autonomous:collect-local-event-drops",
-      "reason": "status-monitor"
+      "reason": "owner-decision-held"
     },
     {
       "id": "collect-gate-sample-downloads",
@@ -205,9 +205,9 @@
     },
     {
       "id": "refresh-product-gate-sample-plan",
-      "status": "monitor",
+      "status": "armed",
       "command": "npm run autonomous:sample-plan",
-      "reason": "status-monitor"
+      "reason": "owner-decision-held"
     },
     {
       "id": "refresh-first-move-coach",
@@ -223,9 +223,9 @@
     },
     {
       "id": "refresh-replay-loop",
-      "status": "monitor",
+      "status": "armed",
       "command": "npm run autonomous:replay-loop",
-      "reason": "status-monitor"
+      "reason": "owner-decision-held"
     },
     {
       "id": "prepare-repository-channel",

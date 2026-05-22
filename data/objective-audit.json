@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-22T20:53:33.000Z",
+  "generatedAt": "2026-05-22T21:15:58.609Z",
   "status": "objective-in-progress",
   "objective": "Build a bootstrapped autonomous web/PWA game portal that can generate original board-game-inspired games, measure user behavior, propose and apply data-driven improvements, and prepare a path to monetization and app-store distribution with minimal manual intervention.",
   "summary": {
@@ -19,7 +19,7 @@
         "Web readiness: ready-after-build",
         "Manifest in dist: true",
         "Service worker in dist: true",
-        "Release candidate: release-candidate-ready; 49 files",
+        "Release candidate: release-candidate-ready; 51 files",
         "Deployment plan: ready-for-pages"
       ],
       "blockers": [],
@@ -95,10 +95,10 @@
         "Bootstrap: production-bootstrap-ready",
         "Unlock runner: unlock-runner-idle; runnable 0; queued 0; unsafe 0",
         "Repository bootstrap: repository-bootstrap-ready; helper ops/github/bootstrap-repository.sh",
-        "Release candidate: release-candidate-ready; smoke URLs 18",
-        "Post-deploy smoke: post-deploy-smoke-observed-live; origin https://moshequ.github.io/autonomous-game-lab; checks 19/19; local artifact predeploy-artifact-smoke-passed 19/19",
-        "Strict deploy artifact sync: post-deploy-artifact-sync-passed; run 26311370664; live matches artifact true; candidate pwa-ae220ce20dea",
-        "Live site monitor: live-site-monitor-passed; checks 19/19; live matches synced deploy true",
+        "Release candidate: release-candidate-ready; smoke URLs 20",
+        "Post-deploy smoke: post-deploy-smoke-observed-live; origin https://moshequ.github.io/autonomous-game-lab; checks 21/21; local artifact predeploy-artifact-smoke-passed 21/21",
+        "Strict deploy artifact sync: post-deploy-artifact-sync-passed; run 26312279974; live matches artifact true; candidate pwa-6a933a32ec73",
+        "Live site monitor: live-site-monitor-passed; checks 21/21; live matches synced deploy true",
         "Repository channel: repository-channel-ready; repository moshequ/autonomous-game-lab; git worktree true",
         "Autonomy score: 98%",
         "Credential-gated actions: 10"
@@ -243,9 +243,9 @@
     "noRevenueEnablementUntilGatesPass": true,
     "noStoreSubmissionUntilExternalAccounts": true,
     "currentWorktreeClean": false,
-    "currentWorktreeDirtyFiles": 67,
+    "currentWorktreeDirtyFiles": 65,
     "productionBootstrapFresh": true,
-    "productionBootstrapSourceDataHash": "ac799aca9a7a",
+    "productionBootstrapSourceDataHash": "b1f5d7b405f3",
     "productionBootstrapStaleInputIds": [],
     "objectiveNextBestActionSource": "owner-loop"
   },
