@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-22T13:54:06.629Z",
+  "generatedAt": "2026-05-22T13:57:26.312Z",
   "status": "operator-plan-ready",
   "mode": "plan-only",
   "ownerDecision": {
@@ -25,7 +25,8 @@
   "selectedRejection": null,
   "eligibleActionIds": [
     "seed-portfolio-traffic",
-    "refresh-organic-seed-loop"
+    "refresh-organic-seed-loop",
+    "measure-pwa-install-loop"
   ],
   "blockedActions": [
     {
@@ -72,9 +73,9 @@
     },
     {
       "id": "measure-pwa-install-loop",
-      "status": "monitor",
+      "status": "armed",
       "command": "npm run autonomous:pwa-install",
-      "reason": "status-monitor"
+      "reason": "not-selected-this-run"
     },
     {
       "id": "check-performance-budget",
