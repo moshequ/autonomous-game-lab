@@ -2,26 +2,9 @@ export const postDeployArtifactSync = {
   "generatedAt": "2026-05-22T13:52:16.330Z",
   "status": "post-deploy-artifact-sync-passed",
   "envFiles": {
-    "loaded": true,
-    "loadedFiles": [
-      {
-        "path": "ops/production.env.local",
-        "keys": [
-          "AGL_ANDROID_PACKAGE_NAME",
-          "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
-          "AGL_ANDROID_KEYSTORE_BASE64",
-          "AGL_ANDROID_KEYSTORE_PASSWORD",
-          "AGL_ANDROID_KEY_ALIAS"
-        ]
-      }
-    ],
-    "loadedKeys": [
-      "AGL_ANDROID_PACKAGE_NAME",
-      "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
-      "AGL_ANDROID_KEYSTORE_BASE64",
-      "AGL_ANDROID_KEYSTORE_PASSWORD",
-      "AGL_ANDROID_KEY_ALIAS"
-    ],
+    "loaded": false,
+    "loadedFiles": [],
+    "loadedKeys": [],
     "skippedExistingKeys": [],
     "skippedProtectedKeys": [],
     "overwrittenEnvFileKeys": [],
@@ -53,7 +36,7 @@ export const postDeployArtifactSync = {
   },
   "repository": {
     "target": "moshequ/autonomous-game-lab",
-    "source": "origin-remote"
+    "source": "environment-or-cli"
   },
   "workflow": {
     "workflowFile": "web-pwa-deploy.yml",
@@ -110,7 +93,7 @@ export const postDeployArtifactSync = {
     "reportSha256": "a20b0e857202af34922480eb995660cf6eed0c953f0e6e4c008914d67f40821e"
   },
   "live": {
-    "origin": "https://moshequ.github.io/autonomous-game-lab/",
+    "origin": "https://moshequ.github.io/autonomous-game-lab",
     "manifestUrl": "https://moshequ.github.io/autonomous-game-lab/release-candidate.json",
     "status": 200,
     "finalUrl": "https://moshequ.github.io/autonomous-game-lab/release-candidate.json",
@@ -159,7 +142,7 @@ export const postDeployArtifactSync = {
       "detail": "Target repository is moshequ/autonomous-game-lab."
     },
     {
-      "id": "successful-pages-run",
+      "id": "explicit-pages-run",
       "status": "pass",
       "detail": "Latest successful web-pwa-deploy.yml run is 26291611557."
     },

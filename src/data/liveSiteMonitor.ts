@@ -5,7 +5,7 @@ export const liveSiteMonitor = {
     "origin": "https://moshequ.github.io/autonomous-game-lab",
     "source": "post-deploy-artifact-sync",
     "host": "moshequ.github.io",
-    "basePath": "/autonomous-game-lab/"
+    "basePath": "/autonomous-game-lab"
   },
   "summary": {
     "planned": 19,
