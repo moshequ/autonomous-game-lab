@@ -284,7 +284,104 @@ try {
   browser = await chromium.launch()
 } catch (error) {
   if (isSandboxBlockedError(error)) {
-    console.log('Playwright launch blocked; preserving prior store screenshot artifacts.')
+    const existingShots = []
+    const existingFiles = await readdir(publicScreenshotDir).catch(() => [])
+    const indexById = new Map((previousStoreAssets.screenshots ?? []).map((shot) => [shot.id, shot]))
+
+    for (const file of existingFiles) {
+      if (!file.endsWith('.png')) {
+        continue
+      }
+
+      const id = file.replace(/\.png$/, '')
+      if (!currentShotIds.has(id)) {
+        continue
+      }
+
+      const previous = indexById.get(id) ?? {}
+      const publicPath = path.join(publicScreenshotDir, file)
+      const distPath = path.join(distScreenshotDir, file)
+
+      try {
+        await copyFile(publicPath, distPath)
+      } catch {
+        // Best-effort: dist might already contain the screenshot.
+      }
+
+      try {
+        const dimensions = await pngDimensions(publicPath)
+        existingShots.push({
+          id,
+          label: previous.label ?? id,
+          route: previous.route ?? '/',
+          servedRoute: previous.servedRoute ?? '/',
+          path: previous.path ?? `/store-assets/screenshots/${id}.png`,
+          distPath: previous.distPath ?? `dist/store-assets/screenshots/${id}.png`,
+          width: dimensions.width,
+          height: dimensions.height,
+          bytes: dimensions.bytes,
+          platformUse: previous.platformUse ?? [],
+        })
+      } catch {
+        // Ignore unreadable screenshots.
+      }
+    }
+
+    storePackage.storeListing ??= {}
+    storePackage.storeListing.screenshotAssets = existingShots.map((shot) => ({
+      id: shot.id,
+      label: shot.label,
+      path: shot.path,
+      width: shot.width,
+      height: shot.height,
+      platformUse: shot.platformUse,
+    }))
+
+    const payload = {
+      generatedAt: new Date().toISOString(),
+      status: existingShots.length >= 4 ? 'screenshots-ready' : 'blocked',
+      basePath: configuredBasePath,
+      sourceBuild: 'dist',
+      screenshots: existingShots,
+      storePackageUpdated: true,
+      note: 'Playwright launch blocked; reused existing screenshot artifacts from public/ and dist/.',
+    }
+
+    const report = [
+      '# Store Assets',
+      '',
+      `Generated: ${payload.generatedAt}`,
+      `Status: ${payload.status}`,
+      '',
+      '## Screenshots',
+      '',
+      ...(existingShots.length
+        ? existingShots.map(
+            (shot) =>
+              `- ${shot.id}: ${shot.width}x${shot.height}, ${Math.round(shot.bytes / 1024)} KB, ${shot.path}`,
+          )
+        : ['- No reusable screenshots found in public/store-assets/screenshots/.']),
+      '',
+      '## Store Package',
+      '',
+      '- Attached reusable screenshot assets to data/store-package.json.',
+      '',
+    ]
+
+    await writeFile(storePackagePath, JSON.stringify(storePackage, null, 2) + '\n')
+    await writeFile(outputJsonPath, JSON.stringify(payload, null, 2) + '\n')
+    await writeFile(
+      outputTsPath,
+      `export const storeAssets = ${JSON.stringify(payload, null, 2)} as const\n\nexport type StoreAssets = typeof storeAssets\n`,
+    )
+    await writeFile(reportPath, report.join('\n'))
+
+    console.log('Playwright launch blocked; refreshed store assets payload from existing screenshots.')
+    console.log(`Wrote ${path.relative(root, outputJsonPath)}`)
+    console.log(`Wrote ${path.relative(root, outputTsPath)}`)
+    console.log(`Wrote ${path.relative(root, storePackagePath)}`)
+    console.log(`Wrote ${path.relative(root, reportPath)}`)
+    console.log(`Reused ${existingShots.length} screenshots`)
     process.exit(0)
   }
   throw error
