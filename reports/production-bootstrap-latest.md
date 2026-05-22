@@ -1,6 +1,6 @@
 # Production Bootstrap
 
-Generated: 2026-05-22T11:05:31.314Z
+Generated: 2026-05-22T11:20:33.019Z
 Status: production-bootstrap-ready
 Mode: can-apply-configured-actions
 GitHub repository: moshequ/autonomous-game-lab
@@ -9,7 +9,7 @@ gh CLI available: true
 
 ## Local Env Files
 
-- none loaded
+- ops/production.env.local: AGL_ANDROID_PACKAGE_NAME, AGL_ANDROID_SHA256_CERT_FINGERPRINT, AGL_ANDROID_KEYSTORE_BASE64, AGL_ANDROID_KEYSTORE_PASSWORD, AGL_ANDROID_KEY_ALIAS
 - shell env precedence: true
 - protected mutation keys require shell env: true
 - values redacted: true
@@ -21,9 +21,9 @@ gh CLI available: true
 - waiting-for-origin-support: production-environment; auto-run no; Environment production-env-missing; public origin configured; support missing-production-address.
 - ready-for-actions-pages: github-pages-hosting; auto-run yes; Deployment plan is ready-for-pages; Pages workflow is .github/workflows/web-pwa-deploy.yml.
 - ready-to-sync: github-pages-settings; auto-run yes; GitHub CLI can configure Pages to use the Actions workflow source.
-- ready-for-direct-persistence: autonomous-self-update; auto-run yes; Self-update gate configured; direct push configured.
-- partially-configured: github-actions-variables; auto-run yes; 6/24 repository variable value(s) present in this environment.
-- waiting-for-secrets: github-actions-secrets; auto-run no; 0/8 repository secret value(s) present in this environment.
+- waiting-for-self-update-gate: autonomous-self-update; auto-run no; Self-update gate missing; direct push held.
+- partially-configured: github-actions-variables; auto-run yes; 10/24 repository variable value(s) present in this environment.
+- partially-configured: github-actions-secrets; auto-run yes; 5/8 repository secret value(s) present in this environment.
 - blocked-needs-cloudflare-env: event-collector; auto-run no; Collector deployment is blocked-needs-cloudflare-env; provider cloudflare-worker-r2.
 - held-by-product-gates: monetization-gate; auto-run no; Revenue disabled; spend mode no-spend.
 - draft-ready-external-blockers: store-compliance-unblock; auto-run no; 3 store compliance blocker(s) remain.
@@ -42,10 +42,10 @@ gh CLI available: true
 
 ## Repository Variables
 
-- ready: VITE_BASE_PATH from VITE_BASE_PATH (environment)
-- ready: AGL_PUBLIC_ORIGIN from AGL_PUBLIC_ORIGIN (environment)
-- ready: VITE_PUBLIC_ORIGIN from AGL_PUBLIC_ORIGIN (environment)
-- ready: PUBLIC_SITE_URL from AGL_PUBLIC_ORIGIN (environment)
+- ready: VITE_BASE_PATH from VITE_BASE_PATH (github-variable)
+- ready: AGL_PUBLIC_ORIGIN from AGL_PUBLIC_ORIGIN (github-variable)
+- ready: VITE_PUBLIC_ORIGIN from AGL_PUBLIC_ORIGIN (github-variable)
+- ready: PUBLIC_SITE_URL from AGL_PUBLIC_ORIGIN (github-variable)
 - missing: AGL_SUPPORT_EMAIL from AGL_SUPPORT_EMAIL (missing)
 - missing: VITE_POSTHOG_KEY from VITE_POSTHOG_KEY (missing)
 - missing: VITE_POSTHOG_HOST from VITE_POSTHOG_HOST (missing)
@@ -54,32 +54,33 @@ gh CLI available: true
 - missing: CLOUDFLARE_ACCOUNT_ID from CLOUDFLARE_ACCOUNT_ID (missing)
 - missing: VITE_EVENT_COLLECTOR_URL from VITE_EVENT_COLLECTOR_URL (missing)
 - missing: AGL_EVENT_COLLECTOR_EXPORT_URL from AGL_EVENT_COLLECTOR_EXPORT_URL (missing)
-- missing: AGL_EVENT_COLLECTOR_R2_BUCKET from AGL_EVENT_COLLECTOR_R2_BUCKET (missing)
-- missing: AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS from AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS (missing)
+- ready: AGL_EVENT_COLLECTOR_R2_BUCKET from AGL_EVENT_COLLECTOR_R2_BUCKET (github-variable)
+- ready: AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS from AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS (github-variable)
 - missing: VITE_ADSENSE_CLIENT_ID from VITE_ADSENSE_CLIENT_ID (missing)
 - missing: VITE_ADSENSE_REWARDED_SLOT_ID from VITE_ADSENSE_REWARDED_SLOT_ID (missing)
 - missing: ADMOB_PUBLISHER_ID from ADMOB_PUBLISHER_ID (missing)
 - missing: AD_NETWORK_PROVIDER from AD_NETWORK_PROVIDER (missing)
-- missing: AGL_ANDROID_PACKAGE_NAME from AGL_ANDROID_PACKAGE_NAME (missing)
-- missing: AGL_ANDROID_SHA256_CERT_FINGERPRINT from AGL_ANDROID_SHA256_CERT_FINGERPRINT (missing)
+- ready: AGL_ANDROID_PACKAGE_NAME from AGL_ANDROID_PACKAGE_NAME (environment)
+- ready: AGL_ANDROID_SHA256_CERT_FINGERPRINT from AGL_ANDROID_SHA256_CERT_FINGERPRINT (environment)
 - missing: AGL_GOOGLE_PLAY_ACCOUNT_CONNECTED from AGL_GOOGLE_PLAY_ACCOUNT_CONNECTED (missing)
 - missing: AGL_APPLE_DEVELOPER_ACCOUNT_CONNECTED from AGL_APPLE_DEVELOPER_ACCOUNT_CONNECTED (missing)
-- ready: AGL_AUTONOMOUS_SELF_UPDATE from AGL_AUTONOMOUS_SELF_UPDATE (environment)
-- ready: AGL_AUTONOMOUS_SELF_UPDATE_DIRECT from AGL_AUTONOMOUS_SELF_UPDATE_DIRECT (environment)
+- ready: AGL_AUTONOMOUS_SELF_UPDATE from AGL_AUTONOMOUS_SELF_UPDATE (github-variable)
+- ready: AGL_AUTONOMOUS_SELF_UPDATE_DIRECT from AGL_AUTONOMOUS_SELF_UPDATE_DIRECT (github-variable)
 
 ## Repository Secrets
 
 - missing: CLOUDFLARE_API_TOKEN from CLOUDFLARE_API_TOKEN
-- missing: VITE_EVENT_COLLECTOR_WRITE_TOKEN from VITE_EVENT_COLLECTOR_WRITE_TOKEN
-- missing: AGL_EVENT_COLLECTOR_ADMIN_TOKEN from AGL_EVENT_COLLECTOR_ADMIN_TOKEN
+- ready: VITE_EVENT_COLLECTOR_WRITE_TOKEN from VITE_EVENT_COLLECTOR_WRITE_TOKEN
+- ready: AGL_EVENT_COLLECTOR_ADMIN_TOKEN from AGL_EVENT_COLLECTOR_ADMIN_TOKEN
 - missing: POSTHOG_PERSONAL_API_KEY from POSTHOG_PERSONAL_API_KEY
-- missing: AGL_ANDROID_KEYSTORE_BASE64 from AGL_ANDROID_KEYSTORE_BASE64
-- missing: AGL_ANDROID_KEYSTORE_PASSWORD from AGL_ANDROID_KEYSTORE_PASSWORD
-- missing: AGL_ANDROID_KEY_ALIAS from AGL_ANDROID_KEY_ALIAS
+- ready: AGL_ANDROID_KEYSTORE_BASE64 from AGL_ANDROID_KEYSTORE_BASE64
+- ready: AGL_ANDROID_KEYSTORE_PASSWORD from AGL_ANDROID_KEYSTORE_PASSWORD
+- ready: AGL_ANDROID_KEY_ALIAS from AGL_ANDROID_KEY_ALIAS
 - missing: GOOGLE_PLAY_SERVICE_ACCOUNT_JSON from GOOGLE_PLAY_SERVICE_ACCOUNT_JSON
 
 ## External Blockers
 
+- repository-bootstrap: Commit current generated changes before pushing to GitHub Pages.
 - production-environment: Set AGL_SUPPORT_EMAIL to a real support inbox before public store submission.
 - production-environment: Set VITE_EVENT_COLLECTOR_URL or VITE_POSTHOG_KEY to forward browser analytics in production.
 - production-environment: Set AGL_EVENT_COLLECTOR_EXPORT_URL + AGL_EVENT_COLLECTOR_ADMIN_TOKEN or PostHog server credentials for autonomous production rollups.
@@ -91,4 +92,3 @@ gh CLI available: true
 - store-compliance: google-play-account: Google Play developer account must be connected before Android submission.
 - store-compliance: apple-developer-account: Apple Developer account remains deferred until iOS spend is justified.
 - android-release: google-play-account: Google Play account is not connected.
-- android-release: play-service-account: Google Play service account upload credentials are not available to CI.

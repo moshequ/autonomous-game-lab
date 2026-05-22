@@ -649,6 +649,7 @@ if (
   !productionInputWatchScript.includes('autonomous:live-monitor') ||
   !productionInputWatchScript.includes('autonomous:repo-readiness') ||
   !productionInputWatchScript.includes('autonomous:repo-bootstrap') ||
+  !productionInputWatchScript.includes('autonomous:env') ||
   !productionInputWatchScript.includes('autonomous:deploy-plan') ||
   !productionInputWatchScript.includes('autonomous:bootstrap') ||
   !productionInputWatchScript.includes('autonomous:activate-production') ||
@@ -673,6 +674,9 @@ if (
   ) ||
   !productionInputWatchWorkflow.includes('npm run autonomous:production-input-watch') ||
   !productionInputWatchWorkflow.includes('node scripts/verify-autonomy.mjs') ||
+  !productionInputWatchWorkflow.includes('data/production-environment.json') ||
+  !productionInputWatchWorkflow.includes('reports/production-environment-latest.md') ||
+  !productionInputWatchWorkflow.includes('ops/production.env.example') ||
   !productionInputWatchWorkflow.includes('data/production-blocker-handoff.json') ||
   !productionInputWatchWorkflow.includes('data/production-unlock-runner.json') ||
   !productionInputWatchWorkflow.includes('data/production-measurement-status.json') ||
@@ -3470,11 +3474,14 @@ if (!packageJson.scripts?.['autonomous:performance']?.includes('performance-budg
 
 if (
   packageJson.scripts?.['autonomous:blocker-handoff'] !== 'node scripts/production-blocker-handoff.mjs' ||
+  !packageJson.scripts?.['autonomous:readiness']?.includes('autonomous:env') ||
   !packageJson.scripts?.['autonomous:readiness']?.includes('autonomous:blocker-handoff') ||
+  packageJson.scripts['autonomous:readiness'].indexOf('autonomous:env') >
+    packageJson.scripts['autonomous:readiness'].indexOf('autonomous:blocker-handoff') ||
   packageJson.scripts['autonomous:readiness'].indexOf('autonomous:blocker-handoff') >
     packageJson.scripts['autonomous:readiness'].indexOf('production-readiness')
 ) {
-  fail('Autonomous readiness must regenerate the production blocker handoff before production readiness.')
+  fail('Autonomous readiness must refresh production environment and blocker handoff before production readiness.')
 }
 
 const e2eScript = packageJson.scripts?.['test:e2e'] ?? ''

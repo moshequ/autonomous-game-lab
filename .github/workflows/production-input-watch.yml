@@ -114,6 +114,10 @@ jobs:
             data/deployment-plan.json \
             src/data/deploymentPlan.ts \
             reports/deployment-plan-latest.md \
+            data/production-environment.json \
+            src/data/productionEnvironment.ts \
+            reports/production-environment-latest.md \
+            ops/production.env.example \
             data/production-bootstrap.json \
             src/data/productionBootstrap.ts \
             reports/production-bootstrap-latest.md \
@@ -178,6 +182,9 @@ jobs:
             reports/repository-bootstrap-latest.md
             data/deployment-plan.json
             reports/deployment-plan-latest.md
+            data/production-environment.json
+            reports/production-environment-latest.md
+            ops/production.env.example
             data/production-bootstrap.json
             reports/production-bootstrap-latest.md
             data/production-activation.json

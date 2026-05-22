@@ -4254,6 +4254,7 @@ test('autonomous cadence keeps unattended operation auditable and guarded', asyn
   expect(productionInputScript).toContain('npm run build')
   expect(productionInputScript).toContain('autonomous:performance')
   expect(productionInputScript).toContain('autonomous:release-candidate')
+  expect(productionInputScript).toContain('autonomous:env')
   expect(productionInputScript).toContain('autonomous:bootstrap')
   expect(productionInputScript).toContain('autonomous:activate-production')
   expect(productionInputScript).toContain('autonomous:readiness')
@@ -4276,6 +4277,9 @@ test('autonomous cadence keeps unattended operation auditable and guarded', asyn
   )
   expect(productionInputWorkflow).toContain('npm run autonomous:production-input-watch')
   expect(productionInputWorkflow).toContain('node scripts/verify-autonomy.mjs')
+  expect(productionInputWorkflow).toContain('data/production-environment.json')
+  expect(productionInputWorkflow).toContain('reports/production-environment-latest.md')
+  expect(productionInputWorkflow).toContain('ops/production.env.example')
   expect(productionInputWorkflow).toContain('data/production-blocker-handoff.json')
   expect(productionInputWorkflow).toContain('data/production-unlock-runner.json')
   expect(productionInputWorkflow).toContain('data/production-measurement-status.json')
@@ -4909,7 +4913,11 @@ test('production blocker handoff ranks remaining external unlocks', async ({ pag
     handoff.nextUnlockKit?.recommendedPathId,
   )
   expect(packageJson.scripts['autonomous:blocker-handoff']).toBe('node scripts/production-blocker-handoff.mjs')
+  expect(packageJson.scripts['autonomous:readiness']).toContain('autonomous:env')
   expect(packageJson.scripts['autonomous:readiness']).toContain('autonomous:blocker-handoff')
+  expect(packageJson.scripts['autonomous:readiness'].indexOf('autonomous:env')).toBeLessThan(
+    packageJson.scripts['autonomous:readiness'].indexOf('autonomous:blocker-handoff'),
+  )
 
   await page.goto('/')
   await expect(page.getByLabel('Production Blocker Handoff')).toContainText(handoff.status)

@@ -696,6 +696,9 @@ const checks = [
       productionInputWatchWorkflow.includes('VITE_EVENT_COLLECTOR_WRITE_TOKEN: ${{ secrets.VITE_EVENT_COLLECTOR_WRITE_TOKEN }}') &&
       productionInputWatchWorkflow.includes('npm run autonomous:production-input-watch') &&
       productionInputWatchWorkflow.includes('node scripts/verify-autonomy.mjs') &&
+      productionInputWatchWorkflow.includes('data/production-environment.json') &&
+      productionInputWatchWorkflow.includes('reports/production-environment-latest.md') &&
+      productionInputWatchWorkflow.includes('ops/production.env.example') &&
       productionInputWatchWorkflow.includes('data/production-blocker-handoff.json') &&
       productionInputWatchWorkflow.includes('data/production-unlock-runner.json') &&
       productionInputWatchWorkflow.includes('data/production-measurement-status.json') &&
@@ -704,6 +707,7 @@ const checks = [
       productionInputWatchScript.includes('npm run build') &&
       productionInputWatchScript.includes('autonomous:performance') &&
       productionInputWatchScript.includes('autonomous:release-candidate') &&
+      productionInputWatchScript.includes('autonomous:env') &&
       productionInputWatchScript.includes('autonomous:bootstrap') &&
       productionInputWatchScript.includes('autonomous:activate-production') &&
       productionInputWatchScript.includes('autonomous:readiness') &&
@@ -715,7 +719,7 @@ const checks = [
         ? 'pass'
         : 'blocker',
     detail: productionInputWatchWorkflowExists
-      ? 'Production input watch refreshes deploy/readiness evidence after owner-provided repository variables or secrets, gates direct commits, and avoids workflow dispatch or raw event storage.'
+      ? 'Production input watch refreshes production environment, deploy/readiness evidence, unlock follow-ups, and measurement status after owner-provided repository variables or secrets, gates direct commits, and avoids workflow dispatch or raw event storage.'
       : 'Production input watch GitHub workflow is missing.',
   },
   {
@@ -891,7 +895,9 @@ const payload = {
       watchedInputs: [
         'VITE_EVENT_COLLECTOR_URL',
         'VITE_EVENT_COLLECTOR_WRITE_TOKEN',
+        'AGL_EVENT_COLLECTOR_EXPORT_URL',
         'CLOUDFLARE_API_TOKEN',
+        'VITE_POSTHOG_KEY',
         'POSTHOG_PERSONAL_API_KEY',
         'AGL_ANDROID_KEYSTORE_BASE64',
       ],
