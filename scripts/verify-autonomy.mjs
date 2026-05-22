@@ -426,6 +426,7 @@ const generatedPuzzleSource = await readFile(path.join(root, 'src', 'game', 'Gen
 const distIndexHtml = await readFile(path.join(root, 'dist', 'index.html'), 'utf8')
 const distReleaseCandidate = JSON.parse(await readFile(path.join(root, 'dist', 'release-candidate.json'), 'utf8'))
 const analyticsLibSource = await readFile(path.join(root, 'src', 'lib', 'analytics.ts'), 'utf8')
+const aggregateEvidenceIssueSource = await readFile(path.join(root, 'src', 'lib', 'aggregateEvidenceIssue.ts'), 'utf8')
 const analyticsRollupSource = await readFile(path.join(root, 'scripts', 'analytics-rollup.mjs'), 'utf8')
 const envLoaderSource = await readFile(path.join(root, 'scripts', 'lib', 'env-loader.mjs'), 'utf8')
 const productionEnvironmentSource = await readFile(path.join(root, 'scripts', 'production-environment.mjs'), 'utf8')
@@ -717,6 +718,10 @@ if (
   !supportFeedbackSource.includes('parseMissionMetadata') ||
   !supportFeedbackSource.includes('campaignId') ||
   !supportFeedbackSource.includes('aggregateEvidenceNeverMarksProductGatePass') ||
+  !aggregateEvidenceIssueSource.includes('aggregateEvidenceBody') ||
+  !aggregateEvidenceIssueSource.includes("url.searchParams.set(\n    'body'") ||
+  !aggregateEvidenceIssueSource.includes('Support type: analytics-evidence') ||
+  !aggregateEvidenceIssueSource.includes('parseableBodyFallback') ||
   packageJson.scripts?.['autonomous:support-feedback'] !== 'node scripts/support-feedback-ingestor.mjs' ||
   !packageJson.scripts?.['autonomous:daily']?.includes('autonomous:support-feedback') ||
   !improvementBacklogSummary.supportFeedbackStatus ||
@@ -2300,6 +2305,9 @@ if (
   !productGateSamplePlanSource.includes('sourceDataHash') ||
   !productGateSamplePlanSource.includes('publicMissionEvidence') ||
   !productGateSamplePlanSource.includes('safeJsonScript') ||
+  !productGateSamplePlanSource.includes("url.searchParams.set('body', body)") ||
+  !productGateSamplePlanSource.includes('Support type: analytics-evidence') ||
+  !productGateSamplePlanSource.includes('parseableBodyFallback') ||
   !gateSampleHtml.includes('gate-sample-mission-data') ||
   !gateSampleHtml.includes('data-export-campaign') ||
   !gateSampleHtml.includes('data-connect-drop-folder') ||
@@ -2307,6 +2315,8 @@ if (
   !gateSampleHtml.includes('noExternalUpload') ||
   !gateSampleHtml.includes('exportSurfaceDetail') ||
   !gateSampleHtml.includes('public-gate-sample-page') ||
+  !gateSampleHtml.includes("url.searchParams.set('body', body)") ||
+  !gateSampleHtml.includes('Support type: analytics-evidence') ||
   !packageJson.scripts?.['autonomous:sample-plan']?.includes('product-gate-sample-planner') ||
   !packageJson.scripts?.['autonomous:collect-local-event-drops']?.includes('autonomous:local-event-bridge') ||
   packageJson.scripts?.['autonomous:collect-local-event-drops']?.includes('AGL_LOCAL_EVENT_IMPORT_DOWNLOADS=true') ||

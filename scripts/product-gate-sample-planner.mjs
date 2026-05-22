@@ -1374,20 +1374,33 @@ const gateSamplePage = `<!doctype html>
             d1Eligible: uniquePlayers(scoped, ['daily_challenge_completed']),
             d1Retained: uniquePlayers(scoped, ['daily_return_intent_started']),
           }
+          const gameField = \`\${mission.title} (\${mission.gameId}; \${mission.gateId}; \${mission.campaignId})\`
+          const evidenceWindow = evidenceWindowFor(scoped)
+          const summary = \`Aggregate-only gate sample summary from \${scoped.length} local event(s) for \${mission.campaignId}. Raw event rows and identifiers remain on the device. Aggregate evidence supports review but does not pass product gates by itself.\`
+          const body = [
+            'Support type: analytics-evidence',
+            'Game or mission: ' + gameField,
+            'Evidence window: ' + evidenceWindow,
+            'Aggregate starts: ' + counts.starts,
+            'Aggregate completions: ' + counts.completions,
+            'Aggregate replays: ' + counts.replays,
+            'Aggregate D1 eligible players: ' + counts.d1Eligible,
+            'Aggregate D1 retained players: ' + counts.d1Retained,
+            'What changed or looked unusual: ' + summary,
+            'Sharing check: aggregate counts only; no raw analytics exports, event rows, private identifiers, or uploaded event files.',
+          ].join('\\n')
 
           url.searchParams.set('template', support.template || 'analytics-evidence.yml')
           url.searchParams.set('title', \`[Evidence] \${mission.title} gate sample aggregate counts\`)
-          url.searchParams.set('game', \`\${mission.title} (\${mission.gameId}; \${mission.gateId}; \${mission.campaignId})\`)
-          url.searchParams.set('window', evidenceWindowFor(scoped))
+          url.searchParams.set('game', gameField)
+          url.searchParams.set('window', evidenceWindow)
           url.searchParams.set('starts', String(counts.starts))
           url.searchParams.set('completions', String(counts.completions))
           url.searchParams.set('replays', String(counts.replays))
           url.searchParams.set('d1_eligible', String(counts.d1Eligible))
           url.searchParams.set('d1_retained', String(counts.d1Retained))
-          url.searchParams.set(
-            'summary',
-            \`Aggregate-only gate sample summary from \${scoped.length} local event(s) for \${mission.campaignId}. Raw event rows and identifiers remain on the device. Aggregate evidence supports review but does not pass product gates by itself.\`,
-          )
+          url.searchParams.set('summary', summary)
+          url.searchParams.set('body', body)
 
           return { url: url.toString(), counts, eventCount: scoped.length }
         }
@@ -1418,6 +1431,7 @@ const gateSamplePage = `<!doctype html>
               publicAggregateOnly: true,
               rawEventsIncluded: false,
               identifiersIncluded: false,
+              parseableBodyFallback: true,
               aggregateEvidenceDoesNotPassGates: true,
               destination: 'github-issues',
               zeroPaidSpend: true,

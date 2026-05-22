@@ -5903,6 +5903,7 @@ test('aggregate evidence issue link summarizes local analytics without raw event
   )
   const openedUrl = new URL(opened)
   const openedText = decodeURIComponent(opened)
+  const openedBody = openedUrl.searchParams.get('body') ?? ''
   const evidenceEvent = await page.evaluate(() => {
     const events = JSON.parse(window.localStorage.getItem('agl.analytics.events') ?? '[]') as Array<{
       name: string
@@ -5924,6 +5925,14 @@ test('aggregate evidence issue link summarizes local analytics without raw event
   expect(openedUrl.searchParams.get('d1_eligible')).toBe('1')
   expect(openedUrl.searchParams.get('d1_retained')).toBe('1')
   expect(openedUrl.searchParams.get('summary')).toContain('Aggregate-only browser summary')
+  expect(openedBody).toContain('Support type: analytics-evidence')
+  expect(openedBody).toContain('Game or mission: Harbor Rings')
+  expect(openedBody).toContain(`Aggregate starts: ${aggregateStarts}`)
+  expect(openedBody).toContain('Aggregate completions: 1')
+  expect(openedBody).toContain('Aggregate replays: 1')
+  expect(openedBody).toContain('Aggregate D1 eligible players: 1')
+  expect(openedBody).toContain('Aggregate D1 retained players: 1')
+  expect(openedBody).toContain('no raw analytics exports')
   expect(openedText).not.toContain('anon-player')
   expect(openedText).not.toContain('evt-')
   expect(Number(evidenceEvent?.properties.localCampaignEvents ?? 0)).toBeGreaterThanOrEqual(seedEvents.length)
@@ -5940,6 +5949,7 @@ test('aggregate evidence issue link summarizes local analytics without raw event
     publicAggregateOnly: true,
     rawEventsIncluded: false,
     identifiersIncluded: false,
+    parseableBodyFallback: true,
     aggregateEvidenceDoesNotPassGates: true,
     destination: 'github-issues',
     zeroPaidSpend: true,
@@ -6029,6 +6039,7 @@ test('aggregate evidence issue scopes runtime gate sample campaigns', async ({ p
   )
   const openedUrl = new URL(opened)
   const openedText = decodeURIComponent(opened)
+  const openedBody = openedUrl.searchParams.get('body') ?? ''
   const evidenceEvent = await page.evaluate(() => {
     const events = JSON.parse(window.localStorage.getItem('agl.analytics.events') ?? '[]') as Array<{
       name: string
@@ -6048,6 +6059,14 @@ test('aggregate evidence issue scopes runtime gate sample campaigns', async ({ p
   expect(openedUrl.searchParams.get('replays')).toBe('1')
   expect(openedUrl.searchParams.get('summary')).toContain(mission.campaignId)
   expect(openedUrl.searchParams.get('summary')).toContain('does not pass product gates')
+  expect(openedBody).toContain('Support type: analytics-evidence')
+  expect(openedBody).toContain(`Game or mission: ${mission.title}`)
+  expect(openedBody).toContain(mission.gateId)
+  expect(openedBody).toContain(mission.campaignId)
+  expect(openedBody).toContain('Aggregate starts: 1')
+  expect(openedBody).toContain('Aggregate completions: 1')
+  expect(openedBody).toContain('Aggregate replays: 1')
+  expect(openedBody).toContain('no raw analytics exports')
   expect(openedText).not.toContain(otherCampaign)
   expect(openedText).not.toContain('anon-scoped-player')
   expect(openedText).not.toContain('evt-scoped')
@@ -6062,6 +6081,7 @@ test('aggregate evidence issue scopes runtime gate sample campaigns', async ({ p
     publicAggregateOnly: true,
     rawEventsIncluded: false,
     identifiersIncluded: false,
+    parseableBodyFallback: true,
     aggregateEvidenceDoesNotPassGates: true,
     destination: 'github-issues',
     zeroPaidSpend: true,
@@ -7476,6 +7496,7 @@ test('public gate sample opens aggregate evidence issue without raw events', asy
   )
   const openedUrl = new URL(opened)
   const openedText = decodeURIComponent(opened)
+  const openedBody = openedUrl.searchParams.get('body') ?? ''
   const evidenceEvent = await page.evaluate(() => {
     const events = JSON.parse(window.localStorage.getItem('agl.analytics.events') ?? '[]') as Array<{
       name: string
@@ -7497,6 +7518,14 @@ test('public gate sample opens aggregate evidence issue without raw events', asy
   expect(openedUrl.searchParams.get('replays')).toBe('1')
   expect(openedUrl.searchParams.get('summary')).toContain(mission.campaignId)
   expect(openedUrl.searchParams.get('summary')).toContain('does not pass product gates')
+  expect(openedBody).toContain('Support type: analytics-evidence')
+  expect(openedBody).toContain(`Game or mission: ${mission.title}`)
+  expect(openedBody).toContain(mission.gateId)
+  expect(openedBody).toContain(mission.campaignId)
+  expect(openedBody).toContain('Aggregate starts: 1')
+  expect(openedBody).toContain('Aggregate completions: 1')
+  expect(openedBody).toContain('Aggregate replays: 1')
+  expect(openedBody).toContain('no raw analytics exports')
   expect(openedText).not.toContain('anon-public-player')
   expect(openedText).not.toContain('evt-public')
   expect(evidenceEvent?.properties).toMatchObject({
@@ -7511,6 +7540,7 @@ test('public gate sample opens aggregate evidence issue without raw events', asy
     publicAggregateOnly: true,
     rawEventsIncluded: false,
     identifiersIncluded: false,
+    parseableBodyFallback: true,
     aggregateEvidenceDoesNotPassGates: true,
     destination: 'github-issues',
     zeroPaidSpend: true,

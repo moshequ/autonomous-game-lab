@@ -55,6 +55,38 @@ const uniquePlayerCount = (events: AnalyticsEvent[], names: readonly string[]) =
   return playerIds.size
 }
 
+const aggregateEvidenceBody = ({
+  gameField,
+  evidenceWindow,
+  starts,
+  completions,
+  replays,
+  d1Eligible,
+  d1Retained,
+  summary,
+}: {
+  gameField: string
+  evidenceWindow: string
+  starts: number
+  completions: number
+  replays: number
+  d1Eligible: number
+  d1Retained: number
+  summary: string
+}) =>
+  [
+    'Support type: analytics-evidence',
+    `Game or mission: ${gameField}`,
+    `Evidence window: ${evidenceWindow}`,
+    `Aggregate starts: ${starts}`,
+    `Aggregate completions: ${completions}`,
+    `Aggregate replays: ${replays}`,
+    `Aggregate D1 eligible players: ${d1Eligible}`,
+    `Aggregate D1 retained players: ${d1Retained}`,
+    `What changed or looked unusual: ${summary}`,
+    'Sharing check: aggregate counts only; no raw analytics exports, event rows, private identifiers, or uploaded event files.',
+  ].join('\n')
+
 export const buildAggregateEvidenceIssue = ({
   events,
   gameId,
@@ -111,6 +143,19 @@ export const buildAggregateEvidenceIssue = ({
   url.searchParams.set('d1_eligible', String(evidence.d1Eligible))
   url.searchParams.set('d1_retained', String(evidence.d1Retained))
   url.searchParams.set('summary', summary)
+  url.searchParams.set(
+    'body',
+    aggregateEvidenceBody({
+      gameField,
+      evidenceWindow: evidence.evidenceWindow,
+      starts: evidence.starts,
+      completions: evidence.completions,
+      replays: evidence.replays,
+      d1Eligible: evidence.d1Eligible,
+      d1Retained: evidence.d1Retained,
+      summary,
+    }),
+  )
 
   return {
     url: url.toString(),
@@ -129,6 +174,7 @@ export const buildAggregateEvidenceIssue = ({
       publicAggregateOnly: true,
       rawEventsIncluded: false,
       identifiersIncluded: false,
+      parseableBodyFallback: true,
       aggregateEvidenceDoesNotPassGates: true,
       destination: 'github-issues',
       zeroPaidSpend: true,
