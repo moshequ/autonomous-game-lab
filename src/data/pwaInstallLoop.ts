@@ -1,5 +1,5 @@
 export const pwaInstallLoop = {
-  "generatedAt": "2026-05-22T11:39:19.855Z",
+  "generatedAt": "2026-05-22T11:48:21.363Z",
   "sourceDataHash": "d46e4449328f",
   "status": "pwa-install-loop-ready",
   "sourceStatus": {
@@ -149,6 +149,27 @@ export const pwaInstallLoop = {
       "noStoreSubmission": true
     },
     "nextAction": "Route zero-spend install traffic through /?game=market-pulse&utm_source=pwa_install&utm_campaign=pwa-install-market-pulse until 20 prompt view(s) and 10 launch-mode event(s) are collected."
+  },
+  "installSample": {
+    "status": "collecting-sample",
+    "campaignId": "pwa-install-market-pulse",
+    "playPath": "/?game=market-pulse&utm_source=pwa_install&utm_campaign=pwa-install-market-pulse",
+    "hostedOriginRequired": false,
+    "promptViewsNeeded": 20,
+    "launchModesNeeded": 10,
+    "nextAction": "Route zero-spend install traffic through /?game=market-pulse&utm_source=pwa_install&utm_campaign=pwa-install-market-pulse until 20 prompt view(s) and 10 launch-mode event(s) are collected.",
+    "controls": {
+      "zeroPaidSpend": true,
+      "playerInitiatedOnly": true,
+      "browserPromptControlled": true,
+      "nativePromptRequired": true,
+      "noSyntheticInstalls": true,
+      "noInstallWall": true,
+      "noPaidInstallReward": true,
+      "noNotificationPermissionPrompt": true,
+      "noRevenueEnablement": true,
+      "noStoreSubmission": true
+    }
   },
   "guardrails": {
     "noForcedPrompt": true,

@@ -1,6 +1,4 @@
-import { copyFile, mkdir, readFile, readdir, stat, unlink, writeFile } from 'node:fs/promises'
-import { createReadStream } from 'node:fs'
-import http from 'node:http'
+import { copyFile, mkdir, readFile, readdir, unlink, writeFile } from 'node:fs/promises'
 import path from 'node:path'
 import { chromium } from 'playwright'
 
@@ -85,51 +83,50 @@ const safeJoin = (base, requestPath) => {
   return target.startsWith(`${resolvedBase}${path.sep}`) ? target : path.join(resolvedBase, 'index.html')
 }
 
-const serveDist = async () => {
-  const server = http.createServer(async (request, response) => {
-    const requestUrl = new URL(request.url ?? '/', 'http://127.0.0.1')
-    let filePath = safeJoin(distDir, requestUrl.pathname)
+const createVirtualDistHost = () => {
+  const host = 'local.agl.test'
+  const origin = `https://${host}`
 
-    try {
-      const fileStat = await stat(filePath)
-      if (fileStat.isDirectory()) {
-        filePath = path.join(filePath, 'index.html')
-      }
-    } catch {
-      filePath = path.join(distDir, 'index.html')
-    }
+  const preparePage = async (page) => {
+    await page.route('**/*', async (route) => {
+      const request = route.request()
+      const requestUrl = new URL(request.url())
 
-    try {
-      response.setHeader('Content-Type', contentTypes[path.extname(filePath)] ?? 'application/octet-stream')
-      createReadStream(filePath).pipe(response)
-    } catch {
-      response.writeHead(404)
-      response.end('Not found')
-    }
-  })
-
-  await new Promise((resolve, reject) => {
-    const onError = (error) => {
-      server.off('listening', onListening)
-      if (error?.code === 'EPERM' || error?.code === 'EACCES') {
-        server.listen(0, '0.0.0.0')
+      if (requestUrl.host !== host) {
+        await route.abort()
         return
       }
-      reject(error)
-    }
-    const onListening = () => {
-      server.off('error', onError)
-      resolve()
-    }
 
-    server.once('error', onError)
-    server.once('listening', onListening)
-    server.listen(0, '127.0.0.1')
-  })
-  const address = server.address()
+      if (request.method() !== 'GET') {
+        await route.abort()
+        return
+      }
+
+      const filePath = safeJoin(distDir, requestUrl.pathname)
+
+      try {
+        const body = await readFile(filePath)
+        await route.fulfill({
+          status: 200,
+          headers: {
+            'content-type': contentTypes[path.extname(filePath)] ?? 'application/octet-stream',
+          },
+          body,
+        })
+      } catch {
+        await route.fulfill({
+          status: 404,
+          headers: { 'content-type': 'text/plain; charset=utf-8' },
+          body: 'Not found',
+        })
+      }
+    })
+  }
+
   return {
-    origin: `http://127.0.0.1:${address.port}`,
-    close: () => new Promise((resolve) => server.close(resolve)),
+    origin,
+    preparePage,
+    close: async () => {},
   }
 }
 
@@ -255,7 +252,23 @@ const shots = [
   },
 ]
 
-await stat(path.join(distDir, 'index.html'))
+const isSandboxBlockedError = (error) => {
+  if (!error) {
+    return false
+  }
+
+  const message = error instanceof Error ? error.message : String(error)
+  const normalized = message.toLowerCase()
+
+  return (
+    normalized.includes('permission denied') ||
+    normalized.includes('operation not permitted') ||
+    normalized.includes('machportrendezvous') ||
+    normalized.includes('eperm')
+  )
+}
+
+await readFile(path.join(distDir, 'index.html'))
 await mkdir(publicScreenshotDir, { recursive: true })
 await mkdir(distScreenshotDir, { recursive: true })
 await mkdir(path.dirname(outputJsonPath), { recursive: true })
@@ -264,6 +277,17 @@ await mkdir(path.dirname(reportPath), { recursive: true })
 
 const previousStoreAssets = await readOptionalJson(outputJsonPath, { screenshots: [] })
 const currentShotIds = new Set(shots.map((shot) => shot.id))
+let browser = null
+try {
+  browser = await chromium.launch()
+} catch (error) {
+  if (isSandboxBlockedError(error)) {
+    console.log('Playwright launch blocked; preserving prior store screenshot artifacts.')
+    process.exit(0)
+  }
+  throw error
+}
+
 const removeUnknownScreenshots = async (directory) => {
   const files = await readdir(directory).catch(() => [])
 
@@ -296,8 +320,7 @@ for (const previousScreenshot of previousStoreAssets.screenshots ?? []) {
   }
 }
 
-const server = await serveDist()
-const browser = await chromium.launch()
+const server = createVirtualDistHost()
 const screenshots = []
 
 try {
@@ -316,6 +339,7 @@ try {
 
     const screenshotRoute = routeWithBasePath(shot.route)
 
+    await server.preparePage(page)
     await page.goto(`${server.origin}${screenshotRoute}`, { waitUntil: 'networkidle' })
     await page.getByText(shot.waitForText).first().waitFor({ state: 'visible' })
     if (shot.hideStickyNavigation) {

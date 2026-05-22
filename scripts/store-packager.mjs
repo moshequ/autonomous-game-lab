@@ -8,6 +8,7 @@ const gatesPath = path.join(root, 'data', 'production-gates.json')
 const analyticsPath = path.join(root, 'data', 'analytics-rollup.json')
 const environmentPath = path.join(root, 'data', 'production-environment.json')
 const supportChannelPath = path.join(root, 'data', 'support-channel.json')
+const storeAssetsPath = path.join(root, 'data', 'store-assets.json')
 const outputJsonPath = path.join(root, 'data', 'store-package.json')
 const outputReportPath = path.join(root, 'reports', 'store-package-latest.md')
 const privacyPath = path.join(root, 'public', 'privacy.html')
@@ -49,6 +50,7 @@ const supportChannel = await readOptionalJson(supportChannelPath, {
     supportEmailStillRequiredForStoreSubmission: true,
   },
 })
+const storeAssets = await readOptionalJson(storeAssetsPath, { status: 'missing', screenshots: [] })
 const externalAnalyticsConfigured =
   analytics.sourceStatus.activeSource === 'posthog' ||
   environment.analytics?.browserPosthogConfigured === true ||
@@ -254,6 +256,17 @@ const storeListing = launchCandidate
       ].join(' '),
       keywords: [...new Set(['daily puzzle', 'strategy puzzle', 'solo board game', ...launchCandidate.storeListing.keywords])],
       screenshots: launchCandidate.storeListing.screenshotPlan,
+      screenshotAssets: Array.isArray(storeAssets.screenshots)
+        ? storeAssets.screenshots.map((screenshot) => ({
+            id: screenshot.id,
+            label: screenshot.label,
+            path: screenshot.path,
+            width: screenshot.width,
+            height: screenshot.height,
+            platformUse: screenshot.platformUse,
+          }))
+        : [],
+      screenshotAssetsStatus: storeAssets.status ?? 'missing',
       contentRatingNotes: launchCandidate.storeListing.contentRatingNotes,
     }
   : null

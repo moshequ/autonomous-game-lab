@@ -1,12 +1,29 @@
 {
-  "generatedAt": "2026-05-22T11:32:47.775Z",
-  "sourceDataHash": "d11d5abcbc7a",
+  "generatedAt": "2026-05-22T11:50:40.435Z",
+  "sourceDataHash": "67ffc06b9bb8",
   "status": "production-bootstrap-ready",
   "mode": "can-apply-configured-actions",
   "envFiles": {
-    "loaded": false,
-    "loadedFiles": [],
-    "loadedKeys": [],
+    "loaded": true,
+    "loadedFiles": [
+      {
+        "path": "ops/production.env.local",
+        "keys": [
+          "AGL_ANDROID_PACKAGE_NAME",
+          "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
+          "AGL_ANDROID_KEYSTORE_BASE64",
+          "AGL_ANDROID_KEYSTORE_PASSWORD",
+          "AGL_ANDROID_KEY_ALIAS"
+        ]
+      }
+    ],
+    "loadedKeys": [
+      "AGL_ANDROID_PACKAGE_NAME",
+      "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
+      "AGL_ANDROID_KEYSTORE_BASE64",
+      "AGL_ANDROID_KEYSTORE_PASSWORD",
+      "AGL_ANDROID_KEY_ALIAS"
+    ],
     "skippedExistingKeys": [],
     "skippedProtectedKeys": [],
     "overwrittenEnvFileKeys": [],
@@ -38,10 +55,10 @@
   },
   "repository": {
     "githubRepository": "moshequ/autonomous-game-lab",
-    "githubRepositorySource": "environment",
-    "inferredRepository": null,
+    "githubRepositorySource": "origin-remote",
+    "inferredRepository": "moshequ/autonomous-game-lab",
     "ghCliAvailable": true,
-    "ghTokenConfigured": true,
+    "ghTokenConfigured": false,
     "ghAuthAvailable": true,
     "ghCredentialReady": true,
     "canUseGh": true,
@@ -65,13 +82,13 @@
     "repositoryBootstrapDryRunByDefault": true
   },
   "summary": {
-    "readyGroups": 2,
+    "readyGroups": 3,
     "totalGroups": 12,
-    "configuredVariables": 6,
+    "configuredVariables": 10,
     "totalVariables": 24,
-    "configuredSecrets": 0,
+    "configuredSecrets": 5,
     "totalSecrets": 8,
-    "externalBlockers": 14
+    "externalBlockers": 15
   },
   "stages": [
     {
@@ -90,7 +107,9 @@
       "costUsd": 0,
       "command": "npm run autonomous:repo-bootstrap",
       "evidence": "Repository bootstrap repository-bootstrap-ready; helper ops/github/bootstrap-repository.sh; local git ready.",
-      "requires": []
+      "requires": [
+        "Commit current generated changes before pushing to GitHub Pages."
+      ]
     },
     {
       "id": "production-environment",
@@ -135,11 +154,11 @@
     },
     {
       "id": "autonomous-self-update",
-      "status": "ready-for-direct-persistence",
-      "canAutoRun": true,
+      "status": "waiting-for-self-update-gate",
+      "canAutoRun": false,
       "costUsd": 0,
       "command": "Run Autonomous Self Update after the daily workflow succeeds.",
-      "evidence": "Self-update gate configured; direct push configured.",
+      "evidence": "Self-update gate missing; direct push held.",
       "requires": [
         "Set AGL_AUTONOMOUS_SELF_UPDATE=1 to allow the self-update workflow to run after verified daily builds.",
         "Set AGL_AUTONOMOUS_SELF_UPDATE_DIRECT=1 only when direct generated-artifact commits to the default branch are acceptable."
@@ -151,7 +170,7 @@
       "canAutoRun": true,
       "costUsd": 0,
       "command": "./ops/github/setup-production.sh",
-      "evidence": "6/24 repository variable value(s) present in this environment.",
+      "evidence": "10/24 repository variable value(s) present in this environment.",
       "requires": [
         "AGL_SUPPORT_EMAIL",
         "VITE_POSTHOG_KEY",
@@ -162,17 +181,15 @@
     },
     {
       "id": "github-actions-secrets",
-      "status": "waiting-for-secrets",
-      "canAutoRun": false,
+      "status": "partially-configured",
+      "canAutoRun": true,
       "costUsd": 0,
       "command": "./ops/github/setup-production.sh",
-      "evidence": "0/8 repository secret value(s) present in this environment.",
+      "evidence": "5/8 repository secret value(s) present in this environment.",
       "requires": [
         "CLOUDFLARE_API_TOKEN",
-        "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
-        "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
         "POSTHOG_PERSONAL_API_KEY",
-        "AGL_ANDROID_KEYSTORE_BASE64"
+        "GOOGLE_PLAY_SERVICE_ACCOUNT_JSON"
       ]
     },
     {
@@ -248,7 +265,9 @@
       "costUsd": 0,
       "command": "npm run autonomous:repo-bootstrap",
       "evidence": "Repository bootstrap repository-bootstrap-ready; helper ops/github/bootstrap-repository.sh; local git ready.",
-      "requires": []
+      "requires": [
+        "Commit current generated changes before pushing to GitHub Pages."
+      ]
     },
     {
       "id": "production-environment",
@@ -293,11 +312,11 @@
     },
     {
       "id": "autonomous-self-update",
-      "status": "ready-for-direct-persistence",
-      "canAutoRun": true,
+      "status": "waiting-for-self-update-gate",
+      "canAutoRun": false,
       "costUsd": 0,
       "command": "Run Autonomous Self Update after the daily workflow succeeds.",
-      "evidence": "Self-update gate configured; direct push configured.",
+      "evidence": "Self-update gate missing; direct push held.",
       "requires": [
         "Set AGL_AUTONOMOUS_SELF_UPDATE=1 to allow the self-update workflow to run after verified daily builds.",
         "Set AGL_AUTONOMOUS_SELF_UPDATE_DIRECT=1 only when direct generated-artifact commits to the default branch are acceptable."
@@ -309,7 +328,7 @@
       "canAutoRun": true,
       "costUsd": 0,
       "command": "./ops/github/setup-production.sh",
-      "evidence": "6/24 repository variable value(s) present in this environment.",
+      "evidence": "10/24 repository variable value(s) present in this environment.",
       "requires": [
         "AGL_SUPPORT_EMAIL",
         "VITE_POSTHOG_KEY",
@@ -320,17 +339,15 @@
     },
     {
       "id": "github-actions-secrets",
-      "status": "waiting-for-secrets",
-      "canAutoRun": false,
+      "status": "partially-configured",
+      "canAutoRun": true,
       "costUsd": 0,
       "command": "./ops/github/setup-production.sh",
-      "evidence": "0/8 repository secret value(s) present in this environment.",
+      "evidence": "5/8 repository secret value(s) present in this environment.",
       "requires": [
         "CLOUDFLARE_API_TOKEN",
-        "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
-        "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
         "POSTHOG_PERSONAL_API_KEY",
-        "AGL_ANDROID_KEYSTORE_BASE64"
+        "GOOGLE_PLAY_SERVICE_ACCOUNT_JSON"
       ]
     },
     {
@@ -395,7 +412,7 @@
       "kind": "github-variable",
       "repositoryVariable": "VITE_BASE_PATH",
       "envName": "VITE_BASE_PATH",
-      "valueSource": "environment",
+      "valueSource": "github-variable",
       "configured": true,
       "command": "gh variable set VITE_BASE_PATH --body \"$VITE_BASE_PATH\""
     },
@@ -404,7 +421,7 @@
       "kind": "github-variable",
       "repositoryVariable": "AGL_PUBLIC_ORIGIN",
       "envName": "AGL_PUBLIC_ORIGIN",
-      "valueSource": "environment",
+      "valueSource": "github-variable",
       "configured": true,
       "command": "gh variable set AGL_PUBLIC_ORIGIN --body \"$AGL_PUBLIC_ORIGIN\""
     },
@@ -413,7 +430,7 @@
       "kind": "github-variable",
       "repositoryVariable": "VITE_PUBLIC_ORIGIN",
       "envName": "AGL_PUBLIC_ORIGIN",
-      "valueSource": "environment",
+      "valueSource": "github-variable",
       "configured": true,
       "command": "gh variable set VITE_PUBLIC_ORIGIN --body \"$AGL_PUBLIC_ORIGIN\""
     },
@@ -422,7 +439,7 @@
       "kind": "github-variable",
       "repositoryVariable": "PUBLIC_SITE_URL",
       "envName": "AGL_PUBLIC_ORIGIN",
-      "valueSource": "environment",
+      "valueSource": "github-variable",
       "configured": true,
       "command": "gh variable set PUBLIC_SITE_URL --body \"$AGL_PUBLIC_ORIGIN\""
     },
@@ -503,8 +520,8 @@
       "kind": "github-variable",
       "repositoryVariable": "AGL_EVENT_COLLECTOR_R2_BUCKET",
       "envName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
-      "valueSource": "missing",
-      "configured": false,
+      "valueSource": "github-variable",
+      "configured": true,
       "command": "gh variable set AGL_EVENT_COLLECTOR_R2_BUCKET --body \"$AGL_EVENT_COLLECTOR_R2_BUCKET\""
     },
     {
@@ -512,8 +529,8 @@
       "kind": "github-variable",
       "repositoryVariable": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
       "envName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
-      "valueSource": "missing",
-      "configured": false,
+      "valueSource": "github-variable",
+      "configured": true,
       "command": "gh variable set AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS --body \"$AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS\""
     },
     {
@@ -557,8 +574,8 @@
       "kind": "github-variable",
       "repositoryVariable": "AGL_ANDROID_PACKAGE_NAME",
       "envName": "AGL_ANDROID_PACKAGE_NAME",
-      "valueSource": "missing",
-      "configured": false,
+      "valueSource": "environment",
+      "configured": true,
       "command": "gh variable set AGL_ANDROID_PACKAGE_NAME --body \"$AGL_ANDROID_PACKAGE_NAME\""
     },
     {
@@ -566,8 +583,8 @@
       "kind": "github-variable",
       "repositoryVariable": "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
       "envName": "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
-      "valueSource": "missing",
-      "configured": false,
+      "valueSource": "environment",
+      "configured": true,
       "command": "gh variable set AGL_ANDROID_SHA256_CERT_FINGERPRINT --body \"$AGL_ANDROID_SHA256_CERT_FINGERPRINT\""
     },
     {
@@ -593,7 +610,7 @@
       "kind": "github-variable",
       "repositoryVariable": "AGL_AUTONOMOUS_SELF_UPDATE",
       "envName": "AGL_AUTONOMOUS_SELF_UPDATE",
-      "valueSource": "environment",
+      "valueSource": "github-variable",
       "configured": true,
       "command": "gh variable set AGL_AUTONOMOUS_SELF_UPDATE --body \"$AGL_AUTONOMOUS_SELF_UPDATE\""
     },
@@ -602,7 +619,7 @@
       "kind": "github-variable",
       "repositoryVariable": "AGL_AUTONOMOUS_SELF_UPDATE_DIRECT",
       "envName": "AGL_AUTONOMOUS_SELF_UPDATE_DIRECT",
-      "valueSource": "environment",
+      "valueSource": "github-variable",
       "configured": true,
       "command": "gh variable set AGL_AUTONOMOUS_SELF_UPDATE_DIRECT --body \"$AGL_AUTONOMOUS_SELF_UPDATE_DIRECT\""
     }
@@ -622,8 +639,8 @@
       "kind": "github-secret",
       "repositorySecret": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
       "envName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
-      "valueSource": "missing",
-      "configured": false,
+      "valueSource": "github-secret",
+      "configured": true,
       "command": "printf \"%s\" \"$VITE_EVENT_COLLECTOR_WRITE_TOKEN\" | gh secret set VITE_EVENT_COLLECTOR_WRITE_TOKEN"
     },
     {
@@ -631,8 +648,8 @@
       "kind": "github-secret",
       "repositorySecret": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
       "envName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
-      "valueSource": "missing",
-      "configured": false,
+      "valueSource": "github-secret",
+      "configured": true,
       "command": "printf \"%s\" \"$AGL_EVENT_COLLECTOR_ADMIN_TOKEN\" | gh secret set AGL_EVENT_COLLECTOR_ADMIN_TOKEN"
     },
     {
@@ -649,8 +666,8 @@
       "kind": "github-secret",
       "repositorySecret": "AGL_ANDROID_KEYSTORE_BASE64",
       "envName": "AGL_ANDROID_KEYSTORE_BASE64",
-      "valueSource": "missing",
-      "configured": false,
+      "valueSource": "environment",
+      "configured": true,
       "command": "printf \"%s\" \"$AGL_ANDROID_KEYSTORE_BASE64\" | gh secret set AGL_ANDROID_KEYSTORE_BASE64"
     },
     {
@@ -658,8 +675,8 @@
       "kind": "github-secret",
       "repositorySecret": "AGL_ANDROID_KEYSTORE_PASSWORD",
       "envName": "AGL_ANDROID_KEYSTORE_PASSWORD",
-      "valueSource": "missing",
-      "configured": false,
+      "valueSource": "environment",
+      "configured": true,
       "command": "printf \"%s\" \"$AGL_ANDROID_KEYSTORE_PASSWORD\" | gh secret set AGL_ANDROID_KEYSTORE_PASSWORD"
     },
     {
@@ -667,8 +684,8 @@
       "kind": "github-secret",
       "repositorySecret": "AGL_ANDROID_KEY_ALIAS",
       "envName": "AGL_ANDROID_KEY_ALIAS",
-      "valueSource": "missing",
-      "configured": false,
+      "valueSource": "environment",
+      "configured": true,
       "command": "printf \"%s\" \"$AGL_ANDROID_KEY_ALIAS\" | gh secret set AGL_ANDROID_KEY_ALIAS"
     },
     {
@@ -687,7 +704,7 @@
       "kind": "github-variable",
       "repositoryVariable": "VITE_BASE_PATH",
       "envName": "VITE_BASE_PATH",
-      "valueSource": "environment",
+      "valueSource": "github-variable",
       "configured": true,
       "command": "gh variable set VITE_BASE_PATH --body \"$VITE_BASE_PATH\""
     },
@@ -696,7 +713,7 @@
       "kind": "github-variable",
       "repositoryVariable": "AGL_PUBLIC_ORIGIN",
       "envName": "AGL_PUBLIC_ORIGIN",
-      "valueSource": "environment",
+      "valueSource": "github-variable",
       "configured": true,
       "command": "gh variable set AGL_PUBLIC_ORIGIN --body \"$AGL_PUBLIC_ORIGIN\""
     },
@@ -705,7 +722,7 @@
       "kind": "github-variable",
       "repositoryVariable": "VITE_PUBLIC_ORIGIN",
       "envName": "AGL_PUBLIC_ORIGIN",
-      "valueSource": "environment",
+      "valueSource": "github-variable",
       "configured": true,
       "command": "gh variable set VITE_PUBLIC_ORIGIN --body \"$AGL_PUBLIC_ORIGIN\""
     },
@@ -714,7 +731,7 @@
       "kind": "github-variable",
       "repositoryVariable": "PUBLIC_SITE_URL",
       "envName": "AGL_PUBLIC_ORIGIN",
-      "valueSource": "environment",
+      "valueSource": "github-variable",
       "configured": true,
       "command": "gh variable set PUBLIC_SITE_URL --body \"$AGL_PUBLIC_ORIGIN\""
     },
@@ -795,8 +812,8 @@
       "kind": "github-variable",
       "repositoryVariable": "AGL_EVENT_COLLECTOR_R2_BUCKET",
       "envName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
-      "valueSource": "missing",
-      "configured": false,
+      "valueSource": "github-variable",
+      "configured": true,
       "command": "gh variable set AGL_EVENT_COLLECTOR_R2_BUCKET --body \"$AGL_EVENT_COLLECTOR_R2_BUCKET\""
     },
     {
@@ -804,8 +821,8 @@
       "kind": "github-variable",
       "repositoryVariable": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
       "envName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
-      "valueSource": "missing",
-      "configured": false,
+      "valueSource": "github-variable",
+      "configured": true,
       "command": "gh variable set AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS --body \"$AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS\""
     },
     {
@@ -849,8 +866,8 @@
       "kind": "github-variable",
       "repositoryVariable": "AGL_ANDROID_PACKAGE_NAME",
       "envName": "AGL_ANDROID_PACKAGE_NAME",
-      "valueSource": "missing",
-      "configured": false,
+      "valueSource": "environment",
+      "configured": true,
       "command": "gh variable set AGL_ANDROID_PACKAGE_NAME --body \"$AGL_ANDROID_PACKAGE_NAME\""
     },
     {
@@ -858,8 +875,8 @@
       "kind": "github-variable",
       "repositoryVariable": "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
       "envName": "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
-      "valueSource": "missing",
-      "configured": false,
+      "valueSource": "environment",
+      "configured": true,
       "command": "gh variable set AGL_ANDROID_SHA256_CERT_FINGERPRINT --body \"$AGL_ANDROID_SHA256_CERT_FINGERPRINT\""
     },
     {
@@ -885,7 +902,7 @@
       "kind": "github-variable",
       "repositoryVariable": "AGL_AUTONOMOUS_SELF_UPDATE",
       "envName": "AGL_AUTONOMOUS_SELF_UPDATE",
-      "valueSource": "environment",
+      "valueSource": "github-variable",
       "configured": true,
       "command": "gh variable set AGL_AUTONOMOUS_SELF_UPDATE --body \"$AGL_AUTONOMOUS_SELF_UPDATE\""
     },
@@ -894,7 +911,7 @@
       "kind": "github-variable",
       "repositoryVariable": "AGL_AUTONOMOUS_SELF_UPDATE_DIRECT",
       "envName": "AGL_AUTONOMOUS_SELF_UPDATE_DIRECT",
-      "valueSource": "environment",
+      "valueSource": "github-variable",
       "configured": true,
       "command": "gh variable set AGL_AUTONOMOUS_SELF_UPDATE_DIRECT --body \"$AGL_AUTONOMOUS_SELF_UPDATE_DIRECT\""
     }
@@ -914,8 +931,8 @@
       "kind": "github-secret",
       "repositorySecret": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
       "envName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
-      "valueSource": "missing",
-      "configured": false,
+      "valueSource": "github-secret",
+      "configured": true,
       "command": "printf \"%s\" \"$VITE_EVENT_COLLECTOR_WRITE_TOKEN\" | gh secret set VITE_EVENT_COLLECTOR_WRITE_TOKEN"
     },
     {
@@ -923,8 +940,8 @@
       "kind": "github-secret",
       "repositorySecret": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
       "envName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
-      "valueSource": "missing",
-      "configured": false,
+      "valueSource": "github-secret",
+      "configured": true,
       "command": "printf \"%s\" \"$AGL_EVENT_COLLECTOR_ADMIN_TOKEN\" | gh secret set AGL_EVENT_COLLECTOR_ADMIN_TOKEN"
     },
     {
@@ -941,8 +958,8 @@
       "kind": "github-secret",
       "repositorySecret": "AGL_ANDROID_KEYSTORE_BASE64",
       "envName": "AGL_ANDROID_KEYSTORE_BASE64",
-      "valueSource": "missing",
-      "configured": false,
+      "valueSource": "environment",
+      "configured": true,
       "command": "printf \"%s\" \"$AGL_ANDROID_KEYSTORE_BASE64\" | gh secret set AGL_ANDROID_KEYSTORE_BASE64"
     },
     {
@@ -950,8 +967,8 @@
       "kind": "github-secret",
       "repositorySecret": "AGL_ANDROID_KEYSTORE_PASSWORD",
       "envName": "AGL_ANDROID_KEYSTORE_PASSWORD",
-      "valueSource": "missing",
-      "configured": false,
+      "valueSource": "environment",
+      "configured": true,
       "command": "printf \"%s\" \"$AGL_ANDROID_KEYSTORE_PASSWORD\" | gh secret set AGL_ANDROID_KEYSTORE_PASSWORD"
     },
     {
@@ -959,8 +976,8 @@
       "kind": "github-secret",
       "repositorySecret": "AGL_ANDROID_KEY_ALIAS",
       "envName": "AGL_ANDROID_KEY_ALIAS",
-      "valueSource": "missing",
-      "configured": false,
+      "valueSource": "environment",
+      "configured": true,
       "command": "printf \"%s\" \"$AGL_ANDROID_KEY_ALIAS\" | gh secret set AGL_ANDROID_KEY_ALIAS"
     },
     {
@@ -1051,6 +1068,10 @@
     "ops/github/README.md"
   ],
   "externalBlockers": [
+    {
+      "source": "repository-bootstrap",
+      "blocker": "Commit current generated changes before pushing to GitHub Pages."
+    },
     {
       "source": "production-environment",
       "blocker": "Set AGL_SUPPORT_EMAIL to a real support inbox before public store submission."

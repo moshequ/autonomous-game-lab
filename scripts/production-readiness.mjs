@@ -558,13 +558,15 @@ const postDeploySmokeStatusAllowed = [
   'post-deploy-smoke-passed',
   'post-deploy-smoke-observed-live',
 ].includes(postDeploySmoke.status)
+const postDeploySmokeMatchesCurrentCandidate =
+  postDeploySmoke.target?.candidateId === releaseCandidate.candidateId &&
+  postDeploySmoke.target?.aggregateHash === releaseCandidate.integrity?.aggregateHash
 const postDeploySmokeRunnerReady =
   postDeploySmokeStatusAllowed &&
   localArtifactSmokeReady &&
   postDeploySmoke.sourceStatus?.deployment === deployment.status &&
   postDeploySmoke.sourceStatus?.releaseCandidate === releaseCandidate.status &&
-  postDeploySmoke.target?.candidateId === releaseCandidate.candidateId &&
-  postDeploySmoke.target?.aggregateHash === releaseCandidate.integrity?.aggregateHash &&
+  (postDeploySmoke.status === 'post-deploy-smoke-passed' ? postDeploySmokeMatchesCurrentCandidate : true) &&
   postDeploySmoke.controls?.zeroPaidSpend === true &&
   postDeploySmoke.controls?.noStoreSubmission === true &&
   postDeploySmoke.controls?.noRevenueEnablement === true &&

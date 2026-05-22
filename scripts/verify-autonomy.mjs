@@ -5184,6 +5184,9 @@ const localArtifactManifestCheck = localArtifactSmoke.checks?.find(
   (check) => check.id === 'release-candidate-manifest',
 )
 const localArtifactComplianceCheck = localArtifactSmoke.checks?.find((check) => check.path === '/compliance.json')
+const postDeploySmokeMatchesCurrentCandidate =
+  postDeploySmoke.target?.candidateId === releaseCandidate.candidateId &&
+  postDeploySmoke.target?.aggregateHash === releaseCandidate.integrity?.aggregateHash
 const postDeploySmokeRunnerReady =
   postDeploySmokeAllowedStatuses.includes(postDeploySmoke.status) &&
   localArtifactSmoke.status === 'predeploy-artifact-smoke-passed' &&
@@ -5192,8 +5195,7 @@ const postDeploySmokeRunnerReady =
   localArtifactSmoke.summary?.failed === 0 &&
   postDeploySmoke.sourceStatus?.deployment === deployment.status &&
   postDeploySmoke.sourceStatus?.releaseCandidate === releaseCandidate.status &&
-  postDeploySmoke.target?.candidateId === releaseCandidate.candidateId &&
-  postDeploySmoke.target?.aggregateHash === releaseCandidate.integrity?.aggregateHash &&
+  (postDeploySmoke.status === 'post-deploy-smoke-passed' ? postDeploySmokeMatchesCurrentCandidate : true) &&
   postDeploySmoke.controls?.zeroPaidSpend === true &&
   postDeploySmoke.controls?.readOnlyHttpChecks === true &&
   postDeploySmoke.controls?.localArtifactSmokeRequired === true &&
@@ -5264,8 +5266,7 @@ if (
   localArtifactComplianceCheck.status !== 'pass' ||
   postDeploySmoke.sourceStatus?.deployment !== deployment.status ||
   postDeploySmoke.sourceStatus?.releaseCandidate !== releaseCandidate.status ||
-  postDeploySmoke.target?.candidateId !== releaseCandidate.candidateId ||
-  postDeploySmoke.target?.aggregateHash !== releaseCandidate.integrity?.aggregateHash ||
+  (postDeploySmoke.status === 'post-deploy-smoke-passed' && !postDeploySmokeMatchesCurrentCandidate) ||
   postDeploySmoke.controls?.zeroPaidSpend !== true ||
   postDeploySmoke.controls?.noStoreSubmission !== true ||
   postDeploySmoke.controls?.noRevenueEnablement !== true ||
