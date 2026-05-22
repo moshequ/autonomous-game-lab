@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-22T10:47:45.176Z",
+  "generatedAt": "2026-05-22T11:02:11.881Z",
   "status": "owner-loop-ready",
   "mode": "zero-spend-web-ready",
   "autonomyScore": {
@@ -52,7 +52,7 @@
     "objectiveAuditFreshness": {
       "fresh": true,
       "structurallyReady": true,
-      "auditGeneratedAt": "2026-05-22T10:47:44.975Z",
+      "auditGeneratedAt": "2026-05-22T11:02:11.157Z",
       "evaluatedInputIds": [
         "analytics-rollup",
         "event-ingest",
@@ -75,8 +75,8 @@
         "fresh": true,
         "ready": true,
         "status": "cadence-ready",
-        "artifactGeneratedAt": "2026-05-22T10:44:49.695Z",
-        "ageHours": 0.049,
+        "artifactGeneratedAt": "2026-05-22T11:01:17.001Z",
+        "ageHours": 0.015,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -86,8 +86,8 @@
         "fresh": true,
         "ready": true,
         "status": "self-update-ready",
-        "artifactGeneratedAt": "2026-05-22T10:44:49.962Z",
-        "ageHours": 0.049,
+        "artifactGeneratedAt": "2026-05-22T11:01:17.281Z",
+        "ageHours": 0.015,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -98,7 +98,7 @@
         "ready": true,
         "status": "support-feedback-empty",
         "artifactGeneratedAt": "2026-05-22T10:14:32.124Z",
-        "ageHours": 0.554,
+        "ageHours": 0.794,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -108,8 +108,8 @@
         "fresh": true,
         "ready": true,
         "status": "performance-budget-ready",
-        "artifactGeneratedAt": "2026-05-22T10:47:30.556Z",
-        "ageHours": 0.004,
+        "artifactGeneratedAt": "2026-05-22T11:00:46.474Z",
+        "ageHours": 0.024,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -119,8 +119,8 @@
         "fresh": true,
         "ready": true,
         "status": "live-site-monitor-passed",
-        "artifactGeneratedAt": "2026-05-22T10:47:37.800Z",
-        "ageHours": 0.002,
+        "artifactGeneratedAt": "2026-05-22T11:01:02.198Z",
+        "ageHours": 0.019,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -462,9 +462,9 @@
     },
     "productionBootstrapFreshness": {
       "fresh": true,
-      "bootstrapGeneratedAt": "2026-05-22T10:47:43.000Z",
-      "artifactSourceDataHash": "80d0bf291010",
-      "sourceDataHash": "80d0bf291010",
+      "bootstrapGeneratedAt": "2026-05-22T11:02:09.238Z",
+      "artifactSourceDataHash": "aefefd25f9d9",
+      "sourceDataHash": "aefefd25f9d9",
       "evaluatedInputIds": [
         "release-candidate",
         "deployment-plan",
@@ -479,11 +479,11 @@
       "current": true,
       "ready": true,
       "status": "handoff-waiting-on-owner-inputs",
-      "generatedAt": "2026-05-22T10:47:43.317Z",
+      "generatedAt": "2026-05-22T11:02:10.315Z",
       "nextBestUnlockId": "production-analytics-browser",
       "ownerActionRequired": 4,
       "missingEnv": 7,
-      "missingSecrets": 8,
+      "missingSecrets": 5,
       "sourceStatusesFresh": true,
       "evaluatedSourceStatuses": [
         "production-environment",
@@ -552,7 +552,7 @@
       "id": "autonomous-self-update",
       "status": "ready",
       "autonomy": "gated-generated-change-persistence",
-      "evidence": "Self-update self-update-ready; safe pending 37; unsafe pending 0; remote push held.",
+      "evidence": "Self-update self-update-ready; safe pending 65; unsafe pending 0; remote push held.",
       "nextAction": "When a GitHub repository is connected, set AGL_AUTONOMOUS_SELF_UPDATE=1 and AGL_AUTONOMOUS_SELF_UPDATE_DIRECT=1 to let verified generated changes persist."
     },
     {
@@ -601,7 +601,7 @@
       "id": "performance-budget",
       "status": "ready",
       "autonomy": "automatic-build-budget",
-      "evidence": "Initial JS 673.8 KB; gzip 183.2 KB; deferred chunks 2.",
+      "evidence": "Initial JS 673.1 KB; gzip 182.9 KB; deferred chunks 2.",
       "nextAction": "Keep Phaser and game scenes outside the initial PWA shell."
     },
     {
@@ -720,7 +720,7 @@
       "id": "production-bootstrap",
       "status": "ready",
       "autonomy": "zero-spend-setup-orchestration",
-      "evidence": "Bootstrap production-bootstrap-ready; mode can-apply-configured-actions; external blockers 16.",
+      "evidence": "Bootstrap production-bootstrap-ready; mode can-apply-configured-actions; external blockers 14.",
       "nextAction": "gh workflow run web-pwa-deploy.yml"
     },
     {
@@ -734,7 +734,7 @@
       "id": "production-blocker-handoff",
       "status": "ready",
       "autonomy": "ranked-external-unlock-router",
-      "evidence": "Handoff handoff-waiting-on-owner-inputs; next production-analytics-browser; owner inputs 4; missing env 7; missing secrets 8.",
+      "evidence": "Handoff handoff-waiting-on-owner-inputs; next production-analytics-browser; owner inputs 4; missing env 7; missing secrets 5.",
       "nextAction": "Start with Browser production analytics; it is the highest-priority zero-spend owner input."
     },
     {
@@ -769,7 +769,7 @@
       "id": "objective-audit",
       "status": "ready",
       "autonomy": "completion-evidence-ledger",
-      "evidence": "Audit objective-in-progress; met 6/8; external blockers 16.",
+      "evidence": "Audit objective-in-progress; met 6/8; external blockers 15.",
       "nextAction": "The local autonomous PWA system is largely prepared with strict live deploy evidence synced from GitHub Actions, but production credentials, live data, monetization gates, and store account/signing blockers remain."
     },
     {
@@ -811,7 +811,7 @@
       "id": "app-store-path",
       "status": "blocked-needs-host-signing-play",
       "autonomy": "draft-ready-held-by-economics",
-      "evidence": "Native package blocked-draft-ready; Android promotion blocked; screenshots 4; iOS deferred-until-ios-payback.",
+      "evidence": "Native package ready-for-bubblewrap-build; Android promotion blocked; screenshots 4; iOS deferred-until-ios-payback.",
       "nextAction": "Keep Android/iOS distribution prepared but blocked until host, signing, account, and payback gates clear."
     }
   ],
@@ -915,7 +915,7 @@
       "command": "npm run build && npm run autonomous:performance && npm run autonomous:release-candidate",
       "targets": [
         "pwa-shell",
-        "GameCanvas-BYegTduj.js",
+        "GameCanvas-nArcCpT6.js",
         "dist-release-candidate"
       ],
       "reason": "Performance budget and release-candidate evidence are already fresh for the current guarded build."
@@ -1078,7 +1078,7 @@
       "targets": [
         "production-analytics-browser"
       ],
-      "reason": "Production blocker handoff already ranks 4 owner input(s), 7 env blocker(s), and 8 secret blocker(s)."
+      "reason": "Production blocker handoff already ranks 4 owner input(s), 7 env blocker(s), and 5 secret blocker(s)."
     },
     {
       "id": "run-production-unlock-runner",
@@ -1107,7 +1107,7 @@
       "costUsd": 0,
       "command": "npm run autonomous:operator",
       "targets": [
-        "refresh-objective-audit"
+        "bootstrap-production-setup"
       ],
       "reason": "Operator history is already capped and published; keep attention on product evidence."
     },
@@ -1249,27 +1249,6 @@
       "source": "production-bootstrap"
     },
     {
-      "id": "secret-agl-android-keystore-base64",
-      "status": "credential-required",
-      "target": "AGL_ANDROID_KEYSTORE_BASE64",
-      "purpose": "Repository secret sourced from AGL_ANDROID_KEYSTORE_BASE64.",
-      "source": "production-bootstrap"
-    },
-    {
-      "id": "secret-agl-android-keystore-password",
-      "status": "credential-required",
-      "target": "AGL_ANDROID_KEYSTORE_PASSWORD",
-      "purpose": "Repository secret sourced from AGL_ANDROID_KEYSTORE_PASSWORD.",
-      "source": "production-bootstrap"
-    },
-    {
-      "id": "secret-agl-android-key-alias",
-      "status": "credential-required",
-      "target": "AGL_ANDROID_KEY_ALIAS",
-      "purpose": "Repository secret sourced from AGL_ANDROID_KEY_ALIAS.",
-      "source": "production-bootstrap"
-    },
-    {
       "id": "secret-google-play-service-account-json",
       "status": "credential-required",
       "target": "GOOGLE_PLAY_SERVICE_ACCOUNT_JSON",
@@ -1289,7 +1268,7 @@
       "id": "android-internal-testing",
       "status": "blocked-needs-host-signing-play",
       "target": "google-play",
-      "reason": "native-package-ready: Native package is blocked-draft-ready.",
+      "reason": "google-play-account: Google Play account is not connected.",
       "unblockWhen": "Hosted PWA, signing material, Play credentials, and store-spend payback gates clear."
     },
     {

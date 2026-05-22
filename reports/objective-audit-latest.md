@@ -1,10 +1,10 @@
 # Objective Audit
 
-Generated: 2026-05-22T10:47:44.975Z
+Generated: 2026-05-22T11:02:11.157Z
 Status: objective-in-progress
 Can mark goal complete: false
 Reason: The local autonomous PWA system is largely prepared with strict live deploy evidence synced from GitHub Actions, but production credentials, live data, monetization gates, and store account/signing blockers remain.
-Next best action: hold-for-external-input
+Next best action: collect-live-events
 
 ## Summary
 
@@ -12,7 +12,7 @@ Next best action: hold-for-external-input
 - Met: 6
 - Prepared: 2
 - Incomplete: 0
-- External blockers: 16
+- External blockers: 15
 - Product blockers: 7
 
 ## Requirements
@@ -49,6 +49,6 @@ Next best action: hold-for-external-input
 - support-contact: Production support email is required before public store submission.
 - google-play-account: Google Play developer account must be connected before Android submission.
 - apple-developer-account: Apple Developer account remains deferred until iOS spend is justified.
-- native-package-ready: Native package is blocked-draft-ready.
-- asset-links: Digital Asset Links are domain-verification-blocked; Android requires https://moshequ.github.io/.well-known/assetlinks.json and current artifact publishes https://moshequ.github.io/autonomous-game-lab/.well-known/assetlinks.json.
 - google-play-account: Google Play account is not connected.
+- play-service-account: Google Play service account upload credentials are not available to CI.
+- unit-economics-store-spend: Store spend allowed is false; spend mode is no-spend.

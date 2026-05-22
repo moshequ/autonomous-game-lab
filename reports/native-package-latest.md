@@ -1,7 +1,7 @@
 # Native Package
 
-Generated: 2026-05-22T10:30:13.281Z
-Status: blocked-draft-ready
+Generated: 2026-05-22T11:01:15.541Z
+Status: ready-for-bubblewrap-build
 Platform: android-trusted-web-activity
 Package: app.autonomousgamelab.portal
 Host: moshequ.github.io
@@ -11,7 +11,7 @@ Manifest URL: https://moshequ.github.io/autonomous-game-lab/manifest.webmanifest
 ## Checks
 
 - pass: production-host - Host is moshequ.github.io; base path is /autonomous-game-lab/.
-- blocker: assetlinks-domain-verification - Digital Asset Links must be reachable at https://moshequ.github.io/.well-known/assetlinks.json; current artifact publishes https://moshequ.github.io/autonomous-game-lab/.well-known/assetlinks.json.
+- pass: assetlinks-domain-verification - Digital Asset Links can be served from https://moshequ.github.io/.well-known/assetlinks.json; root verification is live-match.
 - pass: hosted-privacy - Privacy URL status is hosted.
 - pass: android-signing-fingerprint - SHA-256 certificate fingerprint is configured.
 - pass: store-screenshots - 4 screenshot asset(s) available.

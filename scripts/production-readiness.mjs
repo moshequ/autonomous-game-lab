@@ -1154,7 +1154,9 @@ const storePackageChecks = [
   ),
   check(
     'android-root-assetlinks-handoff',
-    ['root-assetlinks-handoff-ready', 'root-assetlinks-not-needed'].includes(androidRootAssetlinksHandoff.status) &&
+    ['root-assetlinks-handoff-ready', 'root-assetlinks-not-needed', 'root-assetlinks-live'].includes(
+      androidRootAssetlinksHandoff.status,
+    ) &&
       androidRootAssetlinksHandoff.handoff?.syncScriptPath === 'ops/github/sync-root-assetlinks.sh' &&
       androidRootAssetlinksHandoff.controls?.zeroPaidSpend === true &&
       androidRootAssetlinksHandoff.controls?.dryRunByDefault === true &&

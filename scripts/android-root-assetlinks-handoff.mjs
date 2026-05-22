@@ -1,3 +1,4 @@
+import { execFile } from 'node:child_process'
 import { chmod, mkdir, readFile, writeFile } from 'node:fs/promises'
 import path from 'node:path'
 
@@ -16,6 +17,16 @@ const readOptionalJson = async (filePath, fallback) =>
   readFile(filePath, 'utf8')
     .then((raw) => JSON.parse(raw))
     .catch(() => fallback)
+const run = (command, args, timeout = 10_000) =>
+  new Promise((resolve) => {
+    execFile(command, args, { cwd: root, timeout }, (error, stdout, stderr) => {
+      resolve({
+        ok: !error,
+        stdout: stdout.trim(),
+        stderr: stderr.trim(),
+      })
+    })
+  })
 const cleanGithubOwner = (value) => {
   const owner = String(value ?? '').trim()
 
@@ -26,6 +37,95 @@ const repoFromGithubIoHost = (host) => {
   const owner = cleanGithubOwner(match?.[1])
 
   return owner ? `${owner}/${owner}.github.io` : null
+}
+const probeGithubRepository = async (repository) => {
+  if (!repository) {
+    return {
+      exists: false,
+      status: 'missing',
+      detail: 'No target repository was inferred or configured.',
+    }
+  }
+
+  const result = await run('gh', ['repo', 'view', repository, '--json', 'nameWithOwner,defaultBranchRef,url'])
+
+  if (!result.ok) {
+    return {
+      exists: false,
+      status: 'not-found-or-inaccessible',
+      detail: result.stderr || result.stdout || `Could not view ${repository}.`,
+    }
+  }
+
+  return {
+    exists: true,
+    status: 'repository-accessible',
+    detail: `${repository} is accessible to GitHub CLI.`,
+    metadata: JSON.parse(result.stdout),
+  }
+}
+const verifyRootAssetLinks = async ({ url, packageName, sha256CertFingerprint }) => {
+  const checkedAt = new Date().toISOString()
+
+  if (!url || !packageName || !sha256CertFingerprint) {
+    return {
+      checkedAt,
+      status: 'not-checkable',
+      httpStatus: null,
+      liveMatchesSource: false,
+      detail: 'Root URL, package name, or signing fingerprint is missing.',
+    }
+  }
+
+  const controller = new AbortController()
+  const timeout = setTimeout(() => controller.abort(), 8_000)
+
+  try {
+    const response = await fetch(url, {
+      signal: controller.signal,
+      headers: { accept: 'application/json' },
+    })
+    const raw = await response.text()
+    let parsed = null
+
+    try {
+      parsed = JSON.parse(raw)
+    } catch {
+      parsed = null
+    }
+
+    const liveMatchesSource =
+      Array.isArray(parsed) &&
+      parsed.some(
+        (entry) =>
+          entry?.relation?.includes('delegate_permission/common.handle_all_urls') &&
+          entry?.target?.namespace === 'android_app' &&
+          entry?.target?.package_name === packageName &&
+          entry?.target?.sha256_cert_fingerprints?.includes(sha256CertFingerprint),
+      )
+
+    return {
+      checkedAt,
+      status: liveMatchesSource ? 'live-match' : response.ok ? 'live-mismatch' : 'http-not-ready',
+      httpStatus: response.status,
+      finalUrl: response.url,
+      liveMatchesSource,
+      bytes: raw.length,
+      detail: liveMatchesSource
+        ? `Root Digital Asset Links match ${packageName}.`
+        : `Root Digital Asset Links returned HTTP ${response.status} without matching the generated source.`,
+    }
+  } catch (error) {
+    return {
+      checkedAt,
+      status: 'fetch-failed',
+      httpStatus: null,
+      liveMatchesSource: false,
+      detail: error instanceof Error ? error.message : 'Root Digital Asset Links fetch failed.',
+    }
+  } finally {
+    clearTimeout(timeout)
+  }
 }
 
 const nativePackage = await readJson(path.join(dataDir, 'native-package.json'))
@@ -42,24 +142,40 @@ const targetBranch = process.env.AGL_ROOT_ASSETLINKS_BRANCH?.trim() || 'main'
 const targetPath = '.well-known/assetlinks.json'
 const requiredRootUrl = nativePackage.assetLinks?.requiredRootUrl ?? null
 const projectPublishedUrl = nativePackage.assetLinks?.publishedUrl ?? null
+const sourcePackageName = assetLinks?.[0]?.target?.package_name ?? nativePackage.packageName
+const sourceSha256CertFingerprint =
+  assetLinks?.[0]?.target?.sha256_cert_fingerprints?.[0] ?? nativePackage.signing?.sha256CertFingerprint ?? null
 const rootAssetLinksNeeded =
   nativePackage.assetLinks?.publicGenerated === true &&
   nativePackage.assetLinks?.domainVerificationReady !== true &&
   nativePackage.assetLinks?.requiresRootWellKnownPath === true
-const targetRepositoryReady = Boolean(targetRepository)
+const targetRepositoryConfigured = Boolean(targetRepository)
+const targetRepositoryProbe = await probeGithubRepository(targetRepository)
 const sourceAssetLinksReady = Array.isArray(assetLinks) && assetLinks.length > 0
+const rootAssetLinksLive = await verifyRootAssetLinks({
+  url: requiredRootUrl,
+  packageName: sourcePackageName,
+  sha256CertFingerprint: sourceSha256CertFingerprint,
+})
 const canUseGithubCli =
   repositoryReadiness.githubAutomation?.workflowDispatchReady === true ||
   repositoryReadiness.githubAutomation?.ghTokenConfigured === true
-const status = !rootAssetLinksNeeded
-  ? 'root-assetlinks-not-needed'
-  : !sourceAssetLinksReady
+const status = rootAssetLinksLive.liveMatchesSource
+  ? 'root-assetlinks-live'
+  : !rootAssetLinksNeeded
+    ? 'root-assetlinks-not-needed'
+    : !sourceAssetLinksReady
     ? 'waiting-for-generated-assetlinks'
-    : targetRepositoryReady
-      ? 'root-assetlinks-handoff-ready'
-      : 'waiting-for-root-pages-repository'
+    : rootAssetLinksLive.liveMatchesSource
+      ? 'root-assetlinks-live'
+      : targetRepositoryProbe.exists
+        ? 'root-assetlinks-handoff-ready'
+        : targetRepositoryConfigured
+          ? 'waiting-for-root-pages-repository'
+          : 'waiting-for-root-pages-repository'
 
 const syncCommand = `AGL_SYNC_ROOT_ASSETLINKS=1 AGL_ROOT_ASSETLINKS_REPOSITORY="${targetRepository ?? '<owner>/<owner>.github.io'}" ./ops/github/sync-root-assetlinks.sh`
+const bootstrapCommand = `AGL_ALLOW_ROOT_ASSETLINKS_REPO_CREATE=1 AGL_SYNC_ROOT_ASSETLINKS=1 AGL_SYNC_ROOT_ASSETLINKS_PAGES=1 AGL_ROOT_ASSETLINKS_REPOSITORY="${targetRepository ?? '<owner>/<owner>.github.io'}" ./ops/github/sync-root-assetlinks.sh`
 const payload = {
   generatedAt: new Date().toISOString(),
   status,
@@ -72,24 +188,26 @@ const payload = {
   target: {
     repository: targetRepository,
     repositorySource: configuredTargetRepo ? 'environment' : inferredTargetRepo ? 'github-pages-host' : 'missing',
+    repositoryExists: targetRepositoryProbe.exists,
+    repositoryStatus: targetRepositoryProbe.status,
+    repositoryDetail: targetRepositoryProbe.detail,
     branch: targetBranch,
     path: targetPath,
     requiredRootUrl,
     projectPublishedUrl,
   },
+  live: rootAssetLinksLive,
   source: {
     path: 'public/.well-known/assetlinks.json',
     ready: sourceAssetLinksReady,
     relation: assetLinks?.[0]?.relation ?? [],
-    packageName: assetLinks?.[0]?.target?.package_name ?? nativePackage.packageName,
-    sha256CertFingerprint:
-      assetLinks?.[0]?.target?.sha256_cert_fingerprints?.[0] ??
-      nativePackage.signing?.sha256CertFingerprint ??
-      null,
+    packageName: sourcePackageName,
+    sha256CertFingerprint: sourceSha256CertFingerprint,
   },
   handoff: {
     syncScriptPath: 'ops/github/sync-root-assetlinks.sh',
     syncCommand,
+    bootstrapCommand,
     dryRunCommand: './ops/github/sync-root-assetlinks.sh',
     verificationCommand: `curl -fsSL "${requiredRootUrl ?? 'https://<host>/.well-known/assetlinks.json'}"`,
     afterSyncCommands: ['npm run autonomous:native-package', 'npm run autonomous:android-release-plan', 'npm run autonomous:readiness'],
@@ -101,8 +219,11 @@ const payload = {
     noRevenueEnablement: true,
     dryRunByDefault: true,
     explicitApplyFlagRequired: true,
-    targetRepositoryMustExist: true,
-    sourceFileOnly: true,
+    explicitRepositoryCreateFlagRequired: true,
+    explicitPagesConfigurationFlagRequired: true,
+    targetRepositoryMustExist: false,
+    sourceFileContentOnly: true,
+    pagesSupportFilesAllowed: ['.nojekyll'],
     noSecretValues: true,
     noForcePush: true,
     branchProtectionRespected: true,
@@ -122,10 +243,17 @@ const payload = {
     },
     {
       id: 'target-repository',
-      status: targetRepositoryReady ? 'prepared' : 'owner-input-required',
-      detail: targetRepositoryReady
+      status: targetRepositoryProbe.exists ? 'pass' : targetRepositoryConfigured ? 'repository-missing' : 'owner-input-required',
+      detail: targetRepositoryProbe.exists
         ? `Prepared to sync into ${targetRepository}:${targetBranch}:${targetPath}.`
-        : 'Set AGL_ROOT_ASSETLINKS_REPOSITORY to the user/organization Pages repository.',
+        : targetRepositoryConfigured
+          ? `${targetRepository} does not exist yet; explicit repository bootstrap is available.`
+          : 'Set AGL_ROOT_ASSETLINKS_REPOSITORY to the user/organization Pages repository.',
+    },
+    {
+      id: 'root-live-verification',
+      status: rootAssetLinksLive.liveMatchesSource ? 'pass' : 'blocker',
+      detail: rootAssetLinksLive.detail,
     },
     {
       id: 'github-cli',
@@ -136,9 +264,13 @@ const payload = {
     },
   ],
   nextActions: [
-    status === 'root-assetlinks-handoff-ready'
-      ? `When root Pages repository access is available, run ${syncCommand}.`
-      : 'Keep Android release blocked until the root Digital Asset Links location is ready.',
+    status === 'root-assetlinks-live'
+      ? `Root Digital Asset Links are live at ${requiredRootUrl}.`
+      : status === 'root-assetlinks-handoff-ready'
+        ? `When root Pages repository access is available, run ${syncCommand}.`
+        : status === 'waiting-for-root-pages-repository'
+          ? `Create/sync the free root Pages repository with ${bootstrapCommand}.`
+          : 'Keep Android release blocked until the root Digital Asset Links location is ready.',
     'After the root file is live, rerun native package, Android release plan, and readiness evidence.',
     'Do not create accounts, pay store fees, or submit to stores from this handoff.',
   ],
@@ -165,6 +297,8 @@ fi
 
 echo "source: $SOURCE_FILE"
 echo "target: $TARGET_REPO:$TARGET_BRANCH:$TARGET_FILE"
+echo "create repo: \${AGL_ALLOW_ROOT_ASSETLINKS_REPO_CREATE:-0}"
+echo "configure pages: \${AGL_SYNC_ROOT_ASSETLINKS_PAGES:-0}"
 
 if [[ "\${AGL_SYNC_ROOT_ASSETLINKS:-0}" != "1" ]]; then
   echo "dry-run only; set AGL_SYNC_ROOT_ASSETLINKS=1 to sync the root Digital Asset Links file"
@@ -177,22 +311,47 @@ cleanup() {
 }
 trap cleanup EXIT
 
-gh repo view "$TARGET_REPO" >/dev/null
-gh repo clone "$TARGET_REPO" "$WORKDIR/repo" -- --depth 1 --branch "$TARGET_BRANCH"
-mkdir -p "$WORKDIR/repo/.well-known"
-cp "$SOURCE_FILE" "$WORKDIR/repo/$TARGET_FILE"
+if ! gh repo view "$TARGET_REPO" >/dev/null 2>&1; then
+  if [[ "\${AGL_ALLOW_ROOT_ASSETLINKS_REPO_CREATE:-0}" != "1" ]]; then
+    echo "target repository does not exist; set AGL_ALLOW_ROOT_ASSETLINKS_REPO_CREATE=1 to create the free root Pages repository" >&2
+    exit 1
+  fi
 
-cd "$WORKDIR/repo"
-if git diff --quiet -- "$TARGET_FILE"; then
-  echo "root Digital Asset Links already current"
-  exit 0
+  gh repo create "$TARGET_REPO" --public --description "Root GitHub Pages host for Autonomous Game Lab Android Digital Asset Links"
 fi
 
-git config user.name "autonomous-game-lab-bot"
-git config user.email "autonomous-game-lab-bot@users.noreply.github.com"
-git add "$TARGET_FILE"
-git commit -m "Sync Android Digital Asset Links"
-git push origin "HEAD:$TARGET_BRANCH"
+if ! gh repo clone "$TARGET_REPO" "$WORKDIR/repo" -- --depth 1 --branch "$TARGET_BRANCH"; then
+  mkdir -p "$WORKDIR/repo"
+  cd "$WORKDIR/repo"
+  git init
+  git checkout -B "$TARGET_BRANCH"
+  git remote add origin "git@github.com:$TARGET_REPO.git"
+  cd "$ROOT_DIR"
+fi
+
+mkdir -p "$WORKDIR/repo/.well-known"
+cp "$SOURCE_FILE" "$WORKDIR/repo/$TARGET_FILE"
+touch "$WORKDIR/repo/.nojekyll"
+
+cd "$WORKDIR/repo"
+if [[ -z "$(git status --porcelain -- "$TARGET_FILE" ".nojekyll")" ]]; then
+  echo "root Digital Asset Links already current"
+else
+  git config user.name "autonomous-game-lab-bot"
+  git config user.email "autonomous-game-lab-bot@users.noreply.github.com"
+  git add "$TARGET_FILE" ".nojekyll"
+  git commit -m "Sync Android Digital Asset Links"
+  git push origin "HEAD:$TARGET_BRANCH"
+fi
+
+if [[ "\${AGL_SYNC_ROOT_ASSETLINKS_PAGES:-0}" == "1" ]]; then
+  if gh api "repos/$TARGET_REPO/pages" >/dev/null 2>&1; then
+    echo "GitHub Pages already configured for $TARGET_REPO"
+  else
+    gh api --method POST "repos/$TARGET_REPO/pages" -F "source[branch]=$TARGET_BRANCH" -F "source[path]=/" >/dev/null ||
+      echo "GitHub Pages API did not confirm configuration; user Pages repositories may activate from the default branch automatically"
+  fi
+fi
 `
 const report = [
   '# Android Root Asset Links Handoff',
@@ -202,6 +361,8 @@ const report = [
   `Target repository: ${payload.target.repository ?? 'missing'}`,
   `Required root URL: ${payload.target.requiredRootUrl ?? 'missing'}`,
   `Project Pages URL: ${payload.target.projectPublishedUrl ?? 'missing'}`,
+  `Repository exists: ${payload.target.repositoryExists}`,
+  `Root live status: ${payload.live.status}`,
   '',
   '## Controls',
   '',
@@ -215,6 +376,7 @@ const report = [
   '',
   `- Dry run: \`${payload.handoff.dryRunCommand}\``,
   `- Sync: \`${payload.handoff.syncCommand}\``,
+  `- Bootstrap: \`${payload.handoff.bootstrapCommand}\``,
   `- Verify: \`${payload.handoff.verificationCommand}\``,
   '',
   '## Next Actions',

@@ -58,6 +58,69 @@ const joinUrl = (baseUrl, relativePath) => {
   const normalizedBase = baseUrl.endsWith('/') ? baseUrl : `${baseUrl}/`
   return new URL(String(relativePath).replace(/^\/+/, ''), normalizedBase).href
 }
+const verifyRootAssetLinks = async ({ url, packageName, sha256CertFingerprint }) => {
+  const checkedAt = new Date().toISOString()
+
+  if (!url || !packageName || !sha256CertFingerprint) {
+    return {
+      checkedAt,
+      status: 'not-checkable',
+      httpStatus: null,
+      liveMatchesSource: false,
+      detail: 'Root URL, package name, or signing fingerprint is missing.',
+    }
+  }
+
+  const controller = new AbortController()
+  const timeout = setTimeout(() => controller.abort(), 8_000)
+
+  try {
+    const response = await fetch(url, {
+      signal: controller.signal,
+      headers: { accept: 'application/json' },
+    })
+    const raw = await response.text()
+    let parsed = null
+
+    try {
+      parsed = JSON.parse(raw)
+    } catch {
+      parsed = null
+    }
+
+    const liveMatchesSource =
+      Array.isArray(parsed) &&
+      parsed.some(
+        (entry) =>
+          entry?.relation?.includes('delegate_permission/common.handle_all_urls') &&
+          entry?.target?.namespace === 'android_app' &&
+          entry?.target?.package_name === packageName &&
+          entry?.target?.sha256_cert_fingerprints?.includes(sha256CertFingerprint),
+      )
+
+    return {
+      checkedAt,
+      status: liveMatchesSource ? 'live-match' : response.ok ? 'live-mismatch' : 'http-not-ready',
+      httpStatus: response.status,
+      finalUrl: response.url,
+      liveMatchesSource,
+      bytes: raw.length,
+      detail: liveMatchesSource
+        ? `Root Digital Asset Links match ${packageName}.`
+        : `Root Digital Asset Links returned HTTP ${response.status} without matching the generated source.`,
+    }
+  } catch (error) {
+    return {
+      checkedAt,
+      status: 'fetch-failed',
+      httpStatus: null,
+      liveMatchesSource: false,
+      detail: error instanceof Error ? error.message : 'Root Digital Asset Links fetch failed.',
+    }
+  } finally {
+    clearTimeout(timeout)
+  }
+}
 
 const storePackage = await readJson(storePackagePath)
 const gates = await readJson(gatesPath)
@@ -118,7 +181,12 @@ const screenshotsReady = storeAssets.status === 'screenshots-ready' && (storeAss
 const iconsReady = iconAssets.status === 'icons-ready' && (iconAssets.storeIcons?.length ?? 0) >= 1
 const requiredAssetLinksUrl = host ? `https://${host}/.well-known/assetlinks.json` : null
 const publishedAssetLinksUrl = joinUrl(publicSiteUrl, '.well-known/assetlinks.json')
-const rootAssetLinksDeployable = publicOriginBasePath === '/'
+const rootAssetLinksLive = await verifyRootAssetLinks({
+  url: requiredAssetLinksUrl,
+  packageName,
+  sha256CertFingerprint: certificateFingerprint,
+})
+const rootAssetLinksDeployable = publicOriginBasePath === '/' || rootAssetLinksLive.liveMatchesSource
 const assetLinksDomainVerificationReady = realHostReady && signingReady && rootAssetLinksDeployable
 const publicAssetLinksReady = signingReady
 const assetLinksStatus = assetLinksDomainVerificationReady
@@ -177,10 +245,11 @@ const twaManifest = {
     sha256CertFingerprint: certificateFingerprint ?? null,
   },
   assetLinks: {
-    status: assetLinksStatus,
-    domainVerificationReady: assetLinksDomainVerificationReady,
-    requiredRootUrl: requiredAssetLinksUrl,
-    publishedUrl: publishedAssetLinksUrl,
+      status: assetLinksStatus,
+      domainVerificationReady: assetLinksDomainVerificationReady,
+      rootAssetLinksLive,
+      requiredRootUrl: requiredAssetLinksUrl,
+      publishedUrl: publishedAssetLinksUrl,
     requiresRootWellKnownPath: true,
     hostedPath: '/.well-known/assetlinks.json',
     templatePath: 'native/android/assetlinks.template.json',
@@ -248,6 +317,7 @@ const payload = {
     publicGenerated: publicAssetLinksReady,
     domainVerificationReady: assetLinksDomainVerificationReady,
     rootAssetLinksDeployable,
+    rootAssetLinksLive,
     requiresRootWellKnownPath: true,
     requiredRootUrl: requiredAssetLinksUrl,
     publishedUrl: publishedAssetLinksUrl,
@@ -270,7 +340,7 @@ const payload = {
       id: 'assetlinks-domain-verification',
       status: assetLinksDomainVerificationReady ? 'pass' : 'blocker',
       detail: assetLinksDomainVerificationReady
-        ? `Digital Asset Links can be served from ${requiredAssetLinksUrl}.`
+        ? `Digital Asset Links can be served from ${requiredAssetLinksUrl}; root verification is ${rootAssetLinksLive.status}.`
         : signingReady && realHostReady
           ? `Digital Asset Links must be reachable at ${requiredAssetLinksUrl}; current artifact publishes ${publishedAssetLinksUrl}.`
           : 'Digital Asset Links need a production host and signing fingerprint.',

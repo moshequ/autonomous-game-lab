@@ -4504,6 +4504,7 @@ const nativeSigningFingerprintBlocker = 'Android signing certificate SHA-256 fin
 const nativeAssetLinksDomainBlockerReady = (nativePackage.blockers ?? []).some((blocker) =>
   blocker.includes('Android Digital Asset Links must be hosted at'),
 )
+const nativeRootAssetLinksLive = nativePackage.assetLinks?.rootAssetLinksLive?.liveMatchesSource === true
 const nativeExternalGateBlockerReady =
   nativePackage.blockers?.includes('Production host is missing or still uses example.com.') ||
   nativePackage.blockers?.includes('Hosted privacy policy URL is missing.') ||
@@ -4523,11 +4524,23 @@ if (
 if (
   nativePackage.basePath &&
   nativePackage.basePath !== '/' &&
+  !nativeRootAssetLinksLive &&
   (nativePackage.assetLinks?.domainVerificationReady !== false ||
     nativePackage.assetLinks?.status !== 'domain-verification-blocked' ||
     !nativeAssetLinksDomainBlockerReady)
 ) {
   fail('Native package must not claim Android Digital Asset Links are verifiable from a path-based GitHub Pages deployment.')
+}
+
+if (
+  nativePackage.basePath &&
+  nativePackage.basePath !== '/' &&
+  nativeRootAssetLinksLive &&
+  (nativePackage.assetLinks?.domainVerificationReady !== true ||
+    nativePackage.assetLinks?.status !== 'ready' ||
+    nativeAssetLinksDomainBlockerReady)
+) {
+  fail('Native package must accept path-based GitHub Pages only when matching root Digital Asset Links are live.')
 }
 
 if (

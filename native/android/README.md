@@ -1,7 +1,7 @@
 # Android TWA Handoff
 
-Generated: 2026-05-22T10:30:13.281Z
-Status: blocked-draft-ready
+Generated: 2026-05-22T11:01:15.541Z
+Status: ready-for-bubblewrap-build
 Public origin: https://moshequ.github.io/autonomous-game-lab
 Base path: /autonomous-game-lab/
 
@@ -31,4 +31,4 @@ Base path: /autonomous-game-lab/
 
 ## Blockers
 
-- Android Digital Asset Links must be hosted at https://moshequ.github.io/.well-known/assetlinks.json; current project Pages path publishes https://moshequ.github.io/autonomous-game-lab/.well-known/assetlinks.json.
+- none
