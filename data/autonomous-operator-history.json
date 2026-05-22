@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-22T16:48:45.924Z",
+  "generatedAt": "2026-05-22T16:51:36.197Z",
   "status": "operator-history-ready",
   "retention": {
     "maxRecords": 40,
@@ -26,7 +26,7 @@
     "plannedRecords": 32,
     "executedRecords": 8,
     "failedRecords": 0,
-    "lastActionId": "bootstrap-production-setup",
+    "lastActionId": "refresh-objective-audit",
     "lastExecutionStatus": "not-requested",
     "lastExecutedActionId": "seed-portfolio-traffic"
   },
@@ -81,33 +81,6 @@
         "status": "executed",
         "attemptedActionId": "seed-portfolio-traffic",
         "resultCount": 5,
-        "failedScripts": []
-      },
-      "controls": {
-        "zeroPaidSpend": true,
-        "localCommandAllowlistEnforced": true,
-        "externalWorkflowExecutionBlockedByDefault": true,
-        "maxActionsPerRun": 1
-      }
-    },
-    {
-      "id": "20260522133552-refresh-objective-audit",
-      "generatedAt": "2026-05-22T13:35:52.099Z",
-      "runFingerprint": "290850bb2c1f5d24",
-      "mode": "plan-only",
-      "status": "operator-plan-ready",
-      "selectedActionId": "refresh-objective-audit",
-      "selectedCommand": "npm run autonomous:objective-audit",
-      "eligibleActionIds": [
-        "seed-portfolio-traffic",
-        "refresh-objective-audit"
-      ],
-      "blockedActionCount": 33,
-      "execution": {
-        "requested": false,
-        "status": "not-requested",
-        "attemptedActionId": null,
-        "resultCount": 0,
         "failedScripts": []
       },
       "controls": {
@@ -1110,6 +1083,33 @@
       "eligibleActionIds": [
         "seed-portfolio-traffic",
         "bootstrap-production-setup"
+      ],
+      "blockedActionCount": 33,
+      "execution": {
+        "requested": false,
+        "status": "not-requested",
+        "attemptedActionId": null,
+        "resultCount": 0,
+        "failedScripts": []
+      },
+      "controls": {
+        "zeroPaidSpend": true,
+        "localCommandAllowlistEnforced": true,
+        "externalWorkflowExecutionBlockedByDefault": true,
+        "maxActionsPerRun": 1
+      }
+    },
+    {
+      "id": "20260522165135-refresh-objective-audit",
+      "generatedAt": "2026-05-22T16:51:35.674Z",
+      "runFingerprint": "290850bb2c1f5d24",
+      "mode": "plan-only",
+      "status": "operator-plan-ready",
+      "selectedActionId": "refresh-objective-audit",
+      "selectedCommand": "npm run autonomous:objective-audit",
+      "eligibleActionIds": [
+        "seed-portfolio-traffic",
+        "refresh-objective-audit"
       ],
       "blockedActionCount": 33,
       "execution": {
