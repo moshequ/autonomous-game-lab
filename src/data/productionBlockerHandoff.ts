@@ -8,7 +8,7 @@ export const productionBlockerHandoff = {
     "zeroCostFirstActions": 1,
     "missingEnv": 7,
     "missingEnvironmentItems": 7,
-    "missingSecrets": 8,
+    "missingSecrets": 5,
     "productGateBlockers": 3,
     "publicSupportChannelReady": true,
     "storeSupportEmailNeededNow": false,

@@ -1,30 +1,17 @@
 {
-  "generatedAt": "2026-05-22T03:14:40.507Z",
-  "status": "operator-plan-ready",
+  "generatedAt": "2026-05-22T03:21:10.902Z",
+  "status": "operator-held",
   "mode": "plan-only",
   "ownerDecision": {
-    "actionId": "refresh-first-move-coach",
-    "command": "npm run autonomous:first-move-coach",
-    "locallyExecutable": true,
-    "rejectionReason": null
+    "actionId": "hold-for-external-input",
+    "command": "No local command is available until external inputs, configured credentials, or new player evidence arrive.",
+    "locallyExecutable": false,
+    "rejectionReason": "status-monitor"
   },
   "requestedActionId": null,
-  "selectedAction": {
-    "id": "refresh-first-move-coach",
-    "status": "armed",
-    "command": "npm run autonomous:first-move-coach",
-    "targets": [
-      "harbor-rings"
-    ],
-    "reason": "Refreshes the first-turn coach policy from product-gate, onboarding, and release-health evidence.",
-    "costUsd": 0
-  },
+  "selectedAction": null,
   "selectedRejection": null,
-  "eligibleActionIds": [
-    "refresh-first-move-coach",
-    "refresh-completion-loop",
-    "refresh-replay-loop"
-  ],
+  "eligibleActionIds": [],
   "blockedActions": [
     {
       "id": "run-daily-owner-loop",
@@ -135,16 +122,22 @@
       "reason": "status-monitor"
     },
     {
+      "id": "refresh-first-move-coach",
+      "status": "monitor",
+      "command": "npm run autonomous:first-move-coach",
+      "reason": "status-monitor"
+    },
+    {
       "id": "refresh-completion-loop",
-      "status": "armed",
+      "status": "monitor",
       "command": "npm run autonomous:completion-loop",
-      "reason": "not-selected-this-run"
+      "reason": "status-monitor"
     },
     {
       "id": "refresh-replay-loop",
-      "status": "armed",
+      "status": "monitor",
       "command": "npm run autonomous:replay-loop",
-      "reason": "not-selected-this-run"
+      "reason": "status-monitor"
     },
     {
       "id": "prepare-repository-channel",
@@ -225,12 +218,7 @@
       "reason": "status-monitor"
     }
   ],
-  "commandPlan": [
-    {
-      "segment": "npm run autonomous:first-move-coach",
-      "script": "autonomous:first-move-coach"
-    }
-  ],
+  "commandPlan": [],
   "execution": {
     "requested": false,
     "status": "not-requested",
@@ -303,7 +291,7 @@
     "RUN_WORKFLOWS=1"
   ],
   "nextActions": [
-    "Run npm run autonomous:operator -- --execute --action=refresh-first-move-coach to execute exactly one allowed local action.",
+    "Keep reporting external blockers until a safe local action is eligible.",
     "Do not execute GitHub workflow, store, paid ads, or account setup commands from the local operator."
   ]
 }
