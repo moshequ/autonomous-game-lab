@@ -10,6 +10,7 @@ const workflowPath = path.join(root, '.github', 'workflows', 'autonomous-daily.y
 const selfUpdateWorkflowPath = path.join(root, '.github', 'workflows', 'autonomous-self-update.yml')
 const webDeployWorkflowPath = path.join(root, '.github', 'workflows', 'web-pwa-deploy.yml')
 const postDeployEvidenceSyncWorkflowPath = path.join(root, '.github', 'workflows', 'post-deploy-evidence-sync.yml')
+const publicEvidenceIntakeWorkflowPath = path.join(root, '.github', 'workflows', 'public-evidence-intake.yml')
 const outputJsonPath = path.join(dataDir, 'autonomous-cadence.json')
 const outputTsPath = path.join(srcDataDir, 'autonomousCadence.ts')
 const reportPath = path.join(reportsDir, 'autonomous-cadence-latest.md')
@@ -347,6 +348,7 @@ const workflow = await readOptionalText(workflowPath)
 const selfUpdateWorkflow = await readOptionalText(selfUpdateWorkflowPath)
 const webDeployWorkflow = await readOptionalText(webDeployWorkflowPath)
 const postDeployEvidenceSyncWorkflow = await readOptionalText(postDeployEvidenceSyncWorkflowPath)
+const publicEvidenceIntakeWorkflow = await readOptionalText(publicEvidenceIntakeWorkflowPath)
 const repositoryReadiness = await readOptionalJson(path.join(dataDir, 'repository-readiness.json'), {
   status: 'missing',
   workspace: {},
@@ -397,6 +399,7 @@ const workflowExists = await exists(workflowPath)
 const selfUpdateWorkflowExists = await exists(selfUpdateWorkflowPath)
 const webDeployWorkflowExists = await exists(webDeployWorkflowPath)
 const postDeployEvidenceSyncWorkflowExists = await exists(postDeployEvidenceSyncWorkflowPath)
+const publicEvidenceIntakeWorkflowExists = await exists(publicEvidenceIntakeWorkflowPath)
 const dailyScript = script('autonomous:daily')
 const operateScript = script('autonomous:operate')
 const afterActionScript = script('autonomous:after-action')
@@ -406,6 +409,7 @@ const gateRecoveryScript = script('autonomous:gate-recovery')
 const testAutomationScript = script('test:automation')
 const testE2eScript = script('test:e2e')
 const postDeployReadinessSyncScript = script('autonomous:post-deploy-readiness-sync')
+const publicEvidenceIntakeScript = script('autonomous:public-evidence-intake')
 const codexHome = process.env.CODEX_HOME?.trim() || (process.env.HOME ? path.join(process.env.HOME, '.codex') : null)
 const codexAutomationsDir = codexHome ? path.join(codexHome, 'automations') : null
 const codexAutomationStorageAvailable = Boolean(codexAutomationsDir && (await exists(codexAutomationsDir)))
@@ -664,6 +668,37 @@ const checks = [
       : 'Web PWA deploy workflow is missing.',
   },
   {
+    id: 'public-evidence-intake-workflow',
+    status:
+      publicEvidenceIntakeWorkflowExists &&
+      publicEvidenceIntakeWorkflow.includes('workflow_dispatch:') &&
+      publicEvidenceIntakeWorkflow.includes('issues:') &&
+      publicEvidenceIntakeWorkflow.includes('schedule:') &&
+      publicEvidenceIntakeWorkflow.includes('contents: write') &&
+      publicEvidenceIntakeWorkflow.includes('issues: read') &&
+      publicEvidenceIntakeWorkflow.includes('GH_TOKEN: ${{ github.token }}') &&
+      publicEvidenceIntakeWorkflow.includes('GITHUB_TOKEN: ${{ github.token }}') &&
+      publicEvidenceIntakeWorkflow.includes('AGL_AUTONOMOUS_SELF_UPDATE_DIRECT') &&
+      publicEvidenceIntakeWorkflow.includes('npm run autonomous:public-evidence-intake') &&
+      publicEvidenceIntakeWorkflow.includes('node scripts/verify-autonomy.mjs') &&
+      publicEvidenceIntakeWorkflow.includes('data/support-feedback.json') &&
+      publicEvidenceIntakeWorkflow.includes('public/measurement-status.json') &&
+      publicEvidenceIntakeScript.includes('autonomous:support-feedback') &&
+      publicEvidenceIntakeScript.includes('autonomous:measurement-status') &&
+      publicEvidenceIntakeScript.includes('autonomous:owner-loop') &&
+      publicEvidenceIntakeScript.includes('autonomous:operator') &&
+      !publicEvidenceIntakeWorkflow.includes('data/player-events') &&
+      !publicEvidenceIntakeWorkflow.includes('gh issue comment') &&
+      !publicEvidenceIntakeWorkflow.includes('gh issue edit') &&
+      !publicEvidenceIntakeWorkflow.includes('curl ') &&
+      !publicEvidenceIntakeWorkflow.includes('workflow run')
+        ? 'pass'
+        : 'blocker',
+    detail: publicEvidenceIntakeWorkflowExists
+      ? 'Public evidence intake ingests read-only GitHub Issues, refreshes safe aggregate handoff evidence, gates direct commits, and avoids raw events or issue mutation.'
+      : 'Public evidence intake GitHub workflow is missing.',
+  },
+  {
     id: 'post-deploy-evidence-sync-workflow',
     status:
       postDeployEvidenceSyncWorkflowExists &&
@@ -782,6 +817,19 @@ const payload = {
       deployabilityGate: 'npm run autonomous:assert-deployable',
       smokeGate: 'npm run autonomous:post-deploy-smoke -- --assert',
     },
+    githubPublicEvidenceIntake: {
+      status:
+        checks.find((check) => check.id === 'public-evidence-intake-workflow')?.status === 'pass'
+          ? 'scheduled'
+          : 'missing',
+      workflow: '.github/workflows/public-evidence-intake.yml',
+      trigger: 'issues, workflow_dispatch, schedule: every 6 hours',
+      permission: 'issues: read, contents: write',
+      command: 'npm run autonomous:public-evidence-intake',
+      verificationGate: 'node scripts/verify-autonomy.mjs',
+      directPushRequiresRepositoryVariable: 'AGL_AUTONOMOUS_SELF_UPDATE_DIRECT=1',
+      followedByDeployWorkflow: '.github/workflows/web-pwa-deploy.yml',
+    },
     githubPostDeployEvidenceSync: {
       status:
         checks.find((check) => check.id === 'post-deploy-evidence-sync-workflow')?.status === 'pass'
@@ -834,6 +882,7 @@ const payload = {
     staleEvidenceBlocksUnattendedTrust: true,
     githubWorkflowReadOnlyByDefault: true,
     selfUpdateWorkflowWritePermissionGated: true,
+    publicEvidenceIntakeWritePermissionGated: true,
     postDeployEvidenceSyncWritePermissionGated: true,
     selfUpdateStagesAllowlistedGeneratedFilesOnly: true,
   },
@@ -885,6 +934,7 @@ const report = [
   `- GitHub Actions: ${payload.schedulers.githubActions.status} (${payload.schedulers.githubActions.cron})`,
   `- GitHub self-update: ${payload.schedulers.githubSelfUpdate.status} (${payload.schedulers.githubSelfUpdate.workflow})`,
   `- GitHub post-self-update deploy: ${payload.schedulers.githubPostSelfUpdateDeploy.status} (${payload.schedulers.githubPostSelfUpdateDeploy.workflow})`,
+  `- GitHub public evidence intake: ${payload.schedulers.githubPublicEvidenceIntake.status} (${payload.schedulers.githubPublicEvidenceIntake.workflow})`,
   `- GitHub post-deploy evidence sync: ${payload.schedulers.githubPostDeployEvidenceSync.status} (${payload.schedulers.githubPostDeployEvidenceSync.workflow})`,
   '',
   '## Commands',

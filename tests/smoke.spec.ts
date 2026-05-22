@@ -4003,6 +4003,16 @@ test('autonomous cadence keeps unattended operation auditable and guarded', asyn
         deployabilityGate: string
         smokeGate: string
       }
+      githubPublicEvidenceIntake: {
+        status: string
+        workflow: string
+        trigger: string
+        permission: string
+        command: string
+        verificationGate: string
+        directPushRequiresRepositoryVariable: string
+        followedByDeployWorkflow: string
+      }
       githubPostDeployEvidenceSync: {
         status: string
         workflow: string
@@ -4031,6 +4041,7 @@ test('autonomous cadence keeps unattended operation auditable and guarded', asyn
       codexAutomationExpectedActive: boolean
       codexAutomationActualStatusAudited: boolean
       staleEvidenceBlocksUnattendedTrust: boolean
+      publicEvidenceIntakeWritePermissionGated: boolean
       postDeployEvidenceSyncWritePermissionGated: boolean
     }
     freshnessPolicy: {
@@ -4072,6 +4083,24 @@ test('autonomous cadence keeps unattended operation auditable and guarded', asyn
   expect(cadence.schedulers.githubPostSelfUpdateDeploy.smokeGate).toBe(
     'npm run autonomous:post-deploy-smoke -- --assert',
   )
+  expect(cadence.schedulers.githubPublicEvidenceIntake.status).toBe('scheduled')
+  expect(cadence.schedulers.githubPublicEvidenceIntake.workflow).toBe(
+    '.github/workflows/public-evidence-intake.yml',
+  )
+  expect(cadence.schedulers.githubPublicEvidenceIntake.trigger).toBe(
+    'issues, workflow_dispatch, schedule: every 6 hours',
+  )
+  expect(cadence.schedulers.githubPublicEvidenceIntake.permission).toBe('issues: read, contents: write')
+  expect(cadence.schedulers.githubPublicEvidenceIntake.command).toBe(
+    'npm run autonomous:public-evidence-intake',
+  )
+  expect(cadence.schedulers.githubPublicEvidenceIntake.verificationGate).toBe('node scripts/verify-autonomy.mjs')
+  expect(cadence.schedulers.githubPublicEvidenceIntake.directPushRequiresRepositoryVariable).toBe(
+    'AGL_AUTONOMOUS_SELF_UPDATE_DIRECT=1',
+  )
+  expect(cadence.schedulers.githubPublicEvidenceIntake.followedByDeployWorkflow).toBe(
+    '.github/workflows/web-pwa-deploy.yml',
+  )
   expect(cadence.schedulers.githubPostDeployEvidenceSync.status).toBe('gated')
   expect(cadence.schedulers.githubPostDeployEvidenceSync.workflow).toBe(
     '.github/workflows/post-deploy-evidence-sync.yml',
@@ -4102,8 +4131,10 @@ test('autonomous cadence keeps unattended operation auditable and guarded', asyn
   expect(cadence.controls.codexAutomationExpectedActive).toBe(true)
   expect(cadence.controls.codexAutomationActualStatusAudited).toBe(true)
   expect(cadence.controls.staleEvidenceBlocksUnattendedTrust).toBe(true)
+  expect(cadence.controls.publicEvidenceIntakeWritePermissionGated).toBe(true)
   expect(cadence.controls.postDeployEvidenceSyncWritePermissionGated).toBe(true)
   expect(cadence.checks.find((check) => check.id === 'post-self-update-deploy')?.status).toBe('pass')
+  expect(cadence.checks.find((check) => check.id === 'public-evidence-intake-workflow')?.status).toBe('pass')
   expect(cadence.checks.find((check) => check.id === 'post-deploy-evidence-sync-workflow')?.status).toBe('pass')
   expect(cadence.freshnessPolicy.status).toBe('fresh')
   expect(cadence.freshnessPolicy.staleAfterHours).toBeGreaterThanOrEqual(24)

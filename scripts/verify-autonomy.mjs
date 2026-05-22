@@ -3475,6 +3475,20 @@ if (
     'npm run autonomous:assert-deployable' ||
   autonomousCadence.schedulers?.githubPostSelfUpdateDeploy?.smokeGate !==
     'npm run autonomous:post-deploy-smoke -- --assert' ||
+  autonomousCadence.schedulers?.githubPublicEvidenceIntake?.status !== 'scheduled' ||
+  autonomousCadence.schedulers?.githubPublicEvidenceIntake?.workflow !==
+    '.github/workflows/public-evidence-intake.yml' ||
+  autonomousCadence.schedulers?.githubPublicEvidenceIntake?.trigger !==
+    'issues, workflow_dispatch, schedule: every 6 hours' ||
+  autonomousCadence.schedulers?.githubPublicEvidenceIntake?.permission !== 'issues: read, contents: write' ||
+  autonomousCadence.schedulers?.githubPublicEvidenceIntake?.command !==
+    'npm run autonomous:public-evidence-intake' ||
+  autonomousCadence.schedulers?.githubPublicEvidenceIntake?.verificationGate !==
+    'node scripts/verify-autonomy.mjs' ||
+  autonomousCadence.schedulers?.githubPublicEvidenceIntake?.directPushRequiresRepositoryVariable !==
+    'AGL_AUTONOMOUS_SELF_UPDATE_DIRECT=1' ||
+  autonomousCadence.schedulers?.githubPublicEvidenceIntake?.followedByDeployWorkflow !==
+    '.github/workflows/web-pwa-deploy.yml' ||
   autonomousCadence.schedulers?.githubPostDeployEvidenceSync?.status !== 'gated' ||
   autonomousCadence.schedulers?.githubPostDeployEvidenceSync?.workflow !==
     '.github/workflows/post-deploy-evidence-sync.yml' ||
@@ -3500,6 +3514,7 @@ if (
 	  autonomousCadence.controls?.postActionBuildRefresh !== true ||
 	  autonomousCadence.controls?.postActionVerification !== true ||
   autonomousCadence.controls?.codexAutomationExpectedActive !== true ||
+  autonomousCadence.controls?.publicEvidenceIntakeWritePermissionGated !== true ||
   autonomousCadence.controls?.postDeployEvidenceSyncWritePermissionGated !== true ||
   autonomousCadence.controls?.codexAutomationActualStatusAudited !== true ||
   autonomousCadence.controls?.staleEvidenceBlocksUnattendedTrust !== true ||
@@ -3512,6 +3527,7 @@ if (
   !(autonomousCadence.artifactFreshness ?? []).every((artifact) => artifact.status === 'fresh') ||
   !(autonomousCadence.checks ?? []).some((check) => check.id === 'fresh-generated-evidence' && check.status === 'pass') ||
   !(autonomousCadence.checks ?? []).some((check) => check.id === 'post-self-update-deploy' && check.status === 'pass') ||
+  !(autonomousCadence.checks ?? []).some((check) => check.id === 'public-evidence-intake-workflow' && check.status === 'pass') ||
   !(autonomousCadence.checks ?? []).every((check) => check.status === 'pass') ||
   codexAutomationManifest.id !== autonomousCadence.schedulers?.codexDesktop?.id ||
   codexAutomationManifest.status !== 'active-declared' ||
