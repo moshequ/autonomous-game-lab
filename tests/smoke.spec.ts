@@ -6148,7 +6148,26 @@ test('monetization runtime is guarded before revenue gates pass', async ({ page 
 })
 
 test('generated store screenshot assets are reachable', async ({ page }) => {
-  const response = await page.goto('/store-assets/screenshots/phone-canopy-bloom-generated.png')
+  const storeAssets = JSON.parse(await readFile('data/store-assets.json', 'utf8')) as {
+    screenshots: Array<{ id: string; path: string; width: number; height: number }>
+  }
+  const storePackage = JSON.parse(await readFile('data/store-package.json', 'utf8')) as {
+    launchCandidate: { id: string }
+    storeListing: { screenshotAssets: Array<{ id: string }> }
+  }
+  const preferredScreenshotId =
+    storePackage.storeListing.screenshotAssets.find((asset) => asset.id.includes(storePackage.launchCandidate.id))?.id ??
+    storePackage.storeListing.screenshotAssets[0]?.id
+  const screenshot =
+    storeAssets.screenshots.find((asset) => asset.id === preferredScreenshotId) ?? storeAssets.screenshots[0]
+
+  expect(screenshot).toBeTruthy()
+  if (!screenshot) {
+    throw new Error('No generated store screenshot assets were available.')
+  }
+  expect(screenshot.path).toMatch(/^\/store-assets\/screenshots\/.+\.png$/)
+
+  const response = await page.goto(screenshot.path)
 
   expect(response?.ok()).toBeTruthy()
   expect(response?.headers()['content-type']).toContain('image/png')
@@ -6162,8 +6181,8 @@ test('generated store screenshot assets are reachable', async ({ page }) => {
     }
   })
 
-  expect(imageSize.width).toBeGreaterThanOrEqual(390)
-  expect(imageSize.height).toBeGreaterThanOrEqual(844)
+  expect(imageSize.width).toBe(screenshot.width)
+  expect(imageSize.height).toBe(screenshot.height)
 })
 
 test('store listing optimizer promotes the data-led store focus', async ({ page }) => {

@@ -1,4 +1,4 @@
-import { copyFile, mkdir, readFile, stat, writeFile } from 'node:fs/promises'
+import { copyFile, mkdir, readFile, readdir, stat, unlink, writeFile } from 'node:fs/promises'
 import { createReadStream } from 'node:fs'
 import http from 'node:http'
 import path from 'node:path'
@@ -6,6 +6,7 @@ import { chromium } from 'playwright'
 
 const root = process.cwd()
 const distDir = path.join(root, 'dist')
+const dataDir = path.join(root, 'data')
 const storePackagePath = path.join(root, 'data', 'store-package.json')
 const outputJsonPath = path.join(root, 'data', 'store-assets.json')
 const outputTsPath = path.join(root, 'src', 'data', 'storeAssets.ts')
@@ -146,6 +147,71 @@ const pngDimensions = async (filePath) => {
   }
 }
 
+const readOptionalJson = async (filePath, fallback) =>
+  readFile(filePath, 'utf8')
+    .then((raw) => JSON.parse(raw))
+    .catch(() => fallback)
+
+const unlinkIfExists = async (filePath) => {
+  try {
+    await unlink(filePath)
+  } catch (error) {
+    if (error?.code !== 'ENOENT') {
+      throw error
+    }
+  }
+}
+
+const normalizeShotId = (value) =>
+  String(value ?? '')
+    .toLowerCase()
+    .replace(/[^a-z0-9-]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+
+const storePackage = await readOptionalJson(storePackagePath, { launchCandidate: null, storeListing: {} })
+const trafficSeeding = await readOptionalJson(path.join(dataDir, 'traffic-seeding.json'), { campaigns: [] })
+const growthPlan = await readOptionalJson(path.join(dataDir, 'growth-plan.json'), { gamePages: [] })
+const generatedPlayable = await readOptionalJson(path.join(dataDir, 'generated-playable-games.json'), { games: [] })
+
+const growthById = new Map((growthPlan.gamePages ?? []).map((game) => [game.gameId, game]))
+const generatedById = new Map((generatedPlayable.games ?? []).map((game) => [game.id, game]))
+const trafficCampaigns = [...(trafficSeeding.campaigns ?? [])].sort((a, b) => (a.priority ?? 999) - (b.priority ?? 999))
+
+const gameFromId = (id) => {
+  const growthGame = growthById.get(id)
+  const generatedGame = generatedById.get(id)
+
+  if (!growthGame && !generatedGame && !id) {
+    return null
+  }
+
+  return {
+    id,
+    title: growthGame?.title ?? generatedGame?.title ?? id,
+    playPath: growthGame?.playPath ?? `/?game=${id}&utm_source=store_screenshot&utm_campaign=${id}`,
+    pagePath: growthGame?.pagePath ?? `/games/${id}.html`,
+  }
+}
+
+const screenshotGame =
+  trafficCampaigns
+    .map((campaign) => ({
+      id: campaign.gameId,
+      title: campaign.title,
+      playPath: `/?game=${campaign.gameId}&utm_source=store_screenshot&utm_campaign=${campaign.gameId}`,
+      pagePath: campaign.pagePath ?? growthById.get(campaign.gameId)?.pagePath ?? `/games/${campaign.gameId}.html`,
+    }))
+    .find((game) => game.id && game.title) ??
+  gameFromId(storePackage.launchCandidate?.id) ??
+  gameFromId(growthPlan.gamePages?.[0]?.gameId) ?? {
+    id: 'lantern-relay',
+    title: 'Lantern Relay',
+    playPath: '/?game=lantern-relay&utm_source=store_screenshot&utm_campaign=lantern-relay',
+    pagePath: '/games/lantern-relay.html',
+  }
+const screenshotGameId = normalizeShotId(screenshotGame.id) || 'generated-game'
+const screenshotGameTitle = screenshotGame.title || screenshotGameId
+
 const shots = [
   {
     id: 'phone-portal-home',
@@ -168,10 +234,10 @@ const shots = [
     platformUse: ['Google Play phone', 'Apple iPhone draft'],
   },
   {
-    id: 'phone-canopy-bloom-generated',
-    label: 'Generated Canopy Bloom board',
-    route: '/?game=canopy-bloom&utm_source=store_screenshot&utm_campaign=canopy-bloom',
-    waitForText: 'Canopy Bloom',
+    id: `phone-${screenshotGameId}-generated`,
+    label: `${screenshotGameTitle} gameplay board`,
+    route: screenshotGame.playPath,
+    waitForText: screenshotGameTitle,
     focusSelector: '.canvasFrame',
     focusBlock: 'start',
     hideStickyNavigation: true,
@@ -182,8 +248,8 @@ const shots = [
   {
     id: 'desktop-growth-page',
     label: 'Generated public game landing page',
-    route: '/games/canopy-bloom.html',
-    waitForText: 'Canopy Bloom',
+    route: screenshotGame.pagePath,
+    waitForText: screenshotGameTitle,
     viewport: { width: 1440, height: 900, deviceScaleFactor: 1, isMobile: false },
     platformUse: ['Web/PWA listing', 'press kit'],
   },
@@ -195,6 +261,40 @@ await mkdir(distScreenshotDir, { recursive: true })
 await mkdir(path.dirname(outputJsonPath), { recursive: true })
 await mkdir(path.dirname(outputTsPath), { recursive: true })
 await mkdir(path.dirname(reportPath), { recursive: true })
+
+const previousStoreAssets = await readOptionalJson(outputJsonPath, { screenshots: [] })
+const currentShotIds = new Set(shots.map((shot) => shot.id))
+const removeUnknownScreenshots = async (directory) => {
+  const files = await readdir(directory).catch(() => [])
+
+  for (const file of files) {
+    if (!file.endsWith('.png')) {
+      continue
+    }
+
+    const shotId = file.replace(/\.png$/, '')
+    if (!currentShotIds.has(shotId)) {
+      await unlinkIfExists(path.join(directory, file))
+    }
+  }
+}
+
+await removeUnknownScreenshots(publicScreenshotDir)
+await removeUnknownScreenshots(distScreenshotDir)
+
+for (const previousScreenshot of previousStoreAssets.screenshots ?? []) {
+  if (currentShotIds.has(previousScreenshot.id)) {
+    continue
+  }
+
+  const publicPath = previousScreenshot.path?.replace(/^\//, '')
+  if (publicPath?.startsWith('store-assets/screenshots/')) {
+    await unlinkIfExists(path.join(root, 'public', publicPath))
+  }
+  if (previousScreenshot.distPath?.startsWith('dist/store-assets/screenshots/')) {
+    await unlinkIfExists(path.join(root, previousScreenshot.distPath))
+  }
+}
 
 const server = await serveDist()
 const browser = await chromium.launch()
@@ -271,7 +371,6 @@ try {
   await server.close()
 }
 
-const storePackage = JSON.parse(await readFile(storePackagePath, 'utf8'))
 storePackage.storeListing ??= {}
 storePackage.storeListing.screenshotAssets = screenshots.map((screenshot) => ({
   id: screenshot.id,
