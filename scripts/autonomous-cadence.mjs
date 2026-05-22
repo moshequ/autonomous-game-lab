@@ -792,6 +792,12 @@ const checks = [
         'AGL_AUTONOMOUS_SELF_UPDATE_DIRECT: ${{ vars.AGL_AUTONOMOUS_SELF_UPDATE_DIRECT }}',
       ) &&
       postDeployReadinessSyncScript.includes('npm run build') &&
+      postDeployReadinessSyncScript.includes('autonomous:env') &&
+      postDeployReadinessSyncScript.includes('autonomous:store-package') &&
+      postDeployReadinessSyncScript.includes('autonomous:store-assets') &&
+      postDeployReadinessSyncScript.includes('autonomous:pwa-install') &&
+      postDeployReadinessSyncScript.includes('autonomous:store-listing-optimize') &&
+      postDeployReadinessSyncScript.includes('autonomous:store-compliance') &&
       postDeployReadinessSyncScript.includes('autonomous:performance') &&
       postDeployReadinessSyncScript.includes('autonomous:release-candidate') &&
       postDeployReadinessSyncScript.includes('autonomous:post-deploy-smoke') &&
@@ -812,6 +818,25 @@ const checks = [
       postDeployEvidenceSyncWorkflow.includes('reports/post-deploy-artifact-sync-latest.md') &&
       postDeployEvidenceSyncWorkflow.includes('data/performance-budget.json') &&
       postDeployEvidenceSyncWorkflow.includes('data/release-candidate.json') &&
+      postDeployEvidenceSyncWorkflow.includes('data/pwa-install-loop.json') &&
+      postDeployEvidenceSyncWorkflow.includes('src/data/pwaInstallLoop.ts') &&
+      postDeployEvidenceSyncWorkflow.includes('reports/pwa-install-loop-latest.md') &&
+      postDeployEvidenceSyncWorkflow.includes('public/install.html') &&
+      postDeployEvidenceSyncWorkflow.includes('data/store-package.json') &&
+      postDeployEvidenceSyncWorkflow.includes('reports/store-package-latest.md') &&
+      postDeployEvidenceSyncWorkflow.includes('public/privacy.html') &&
+      postDeployEvidenceSyncWorkflow.includes('public/support.html') &&
+      postDeployEvidenceSyncWorkflow.includes('public/compliance.json') &&
+      postDeployEvidenceSyncWorkflow.includes('data/store-assets.json') &&
+      postDeployEvidenceSyncWorkflow.includes('src/data/storeAssets.ts') &&
+      postDeployEvidenceSyncWorkflow.includes('reports/store-assets-latest.md') &&
+      postDeployEvidenceSyncWorkflow.includes('public/store-assets/screenshots') &&
+      postDeployEvidenceSyncWorkflow.includes('data/store-listing-optimizer.json') &&
+      postDeployEvidenceSyncWorkflow.includes('src/data/storeListingOptimizer.ts') &&
+      postDeployEvidenceSyncWorkflow.includes('reports/store-listing-optimizer-latest.md') &&
+      postDeployEvidenceSyncWorkflow.includes('data/store-compliance.json') &&
+      postDeployEvidenceSyncWorkflow.includes('src/data/storeCompliance.ts') &&
+      postDeployEvidenceSyncWorkflow.includes('reports/store-compliance-latest.md') &&
       postDeployEvidenceSyncWorkflow.includes('data/post-deploy-smoke.json') &&
       postDeployEvidenceSyncWorkflow.includes('data/live-site-monitor.json') &&
       postDeployEvidenceSyncWorkflow.includes('src/data/liveSiteMonitor.ts') &&
@@ -835,7 +860,7 @@ const checks = [
         ? 'pass'
         : 'blocker',
     detail: postDeployEvidenceSyncWorkflowExists
-      ? 'Post-deploy evidence sync imports strict Pages smoke evidence, refreshes downstream readiness, and avoids creating an undeployed release candidate during evidence import.'
+      ? 'Post-deploy evidence sync imports strict Pages smoke evidence, refreshes PWA/store dependencies and downstream readiness, and avoids direct workflow mutation.'
       : 'Post-deploy evidence sync workflow is missing.',
   },
   {

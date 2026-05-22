@@ -123,6 +123,25 @@ jobs:
             data/release-candidate.json \
             src/data/releaseCandidate.ts \
             reports/release-candidate-latest.md \
+            data/pwa-install-loop.json \
+            src/data/pwaInstallLoop.ts \
+            reports/pwa-install-loop-latest.md \
+            public/install.html \
+            data/store-package.json \
+            reports/store-package-latest.md \
+            public/privacy.html \
+            public/support.html \
+            public/compliance.json \
+            data/store-assets.json \
+            src/data/storeAssets.ts \
+            reports/store-assets-latest.md \
+            public/store-assets/screenshots \
+            data/store-listing-optimizer.json \
+            src/data/storeListingOptimizer.ts \
+            reports/store-listing-optimizer-latest.md \
+            data/store-compliance.json \
+            src/data/storeCompliance.ts \
+            reports/store-compliance-latest.md \
             data/post-deploy-smoke.json \
             src/data/postDeploySmoke.ts \
             reports/post-deploy-smoke-latest.md \
@@ -199,6 +218,21 @@ jobs:
             reports/performance-budget-latest.md
             data/release-candidate.json
             reports/release-candidate-latest.md
+            data/pwa-install-loop.json
+            reports/pwa-install-loop-latest.md
+            public/install.html
+            data/store-package.json
+            reports/store-package-latest.md
+            public/privacy.html
+            public/support.html
+            public/compliance.json
+            data/store-assets.json
+            reports/store-assets-latest.md
+            public/store-assets/screenshots/
+            data/store-listing-optimizer.json
+            reports/store-listing-optimizer-latest.md
+            data/store-compliance.json
+            reports/store-compliance-latest.md
             data/post-deploy-smoke.json
             reports/post-deploy-smoke-latest.md
             data/live-site-monitor.json

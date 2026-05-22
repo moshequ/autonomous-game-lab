@@ -14,6 +14,11 @@ const [
   liveSiteMonitor,
   performanceBudget,
   releaseCandidate,
+  pwaInstallLoop,
+  storePackage,
+  storeAssets,
+  storeListingOptimizer,
+  storeCompliance,
   postDeploySmoke,
   repositoryReadiness,
   repositoryBootstrap,
@@ -36,6 +41,11 @@ const [
   readJson('data/live-site-monitor.json'),
   readJson('data/performance-budget.json'),
   readJson('data/release-candidate.json'),
+  readJson('data/pwa-install-loop.json'),
+  readJson('data/store-package.json'),
+  readJson('data/store-assets.json'),
+  readJson('data/store-listing-optimizer.json'),
+  readJson('data/store-compliance.json'),
   readJson('data/post-deploy-smoke.json'),
   readJson('data/repository-readiness.json'),
   readJson('data/repository-bootstrap.json'),
@@ -127,7 +137,13 @@ if (
 }
 
 const requiredReadinessRefreshCommands = [
+  'autonomous:env',
+  'autonomous:store-package',
   'npm run build',
+  'autonomous:store-assets',
+  'autonomous:pwa-install',
+  'autonomous:store-listing-optimize',
+  'autonomous:store-compliance',
   'autonomous:performance',
   'autonomous:release-candidate',
   'autonomous:post-deploy-smoke',
@@ -153,6 +169,12 @@ for (const command of requiredReadinessRefreshCommands) {
 
 const finalDeployPlanRefreshIndex = postDeployReadinessSyncScript.lastIndexOf('autonomous:deploy-plan')
 const finalReadinessRefreshIndex = postDeployReadinessSyncScript.lastIndexOf('node scripts/production-readiness.mjs')
+const finalEnvIndex = postDeployReadinessSyncScript.lastIndexOf('autonomous:env')
+const finalStorePackageIndex = postDeployReadinessSyncScript.lastIndexOf('autonomous:store-package')
+const finalStoreAssetsIndex = postDeployReadinessSyncScript.lastIndexOf('autonomous:store-assets')
+const finalPwaInstallIndex = postDeployReadinessSyncScript.lastIndexOf('autonomous:pwa-install')
+const finalStoreListingOptimizeIndex = postDeployReadinessSyncScript.lastIndexOf('autonomous:store-listing-optimize')
+const finalStoreComplianceIndex = postDeployReadinessSyncScript.lastIndexOf('autonomous:store-compliance')
 const finalRepoReadinessIndex = postDeployReadinessSyncScript.lastIndexOf('autonomous:repo-readiness')
 const finalRepoBootstrapIndex = postDeployReadinessSyncScript.lastIndexOf('autonomous:repo-bootstrap')
 const finalUnlockRunnerIndex = postDeployReadinessSyncScript.lastIndexOf('autonomous:unlock-runner')
@@ -168,10 +190,6 @@ const ownerLoopBeforeFinalOperatorIndex = postDeployReadinessSyncScript.lastInde
   'autonomous:owner-loop',
   finalOperatorIndex,
 )
-const ownerLoopAfterFinalOperatorIndex = postDeployReadinessSyncScript.indexOf(
-  'autonomous:owner-loop',
-  finalOperatorIndex,
-)
 const deployPlanBeforeFinalRepoReadinessIndex = postDeployReadinessSyncScript.lastIndexOf(
   'autonomous:deploy-plan',
   finalRepoReadinessIndex,
@@ -183,6 +201,18 @@ const deployPlanAfterFinalRepoBootstrapIndex = postDeployReadinessSyncScript.ind
 
 if (deployPlanBeforeFinalRepoReadinessIndex === -1) {
   fail('autonomous:post-deploy-readiness-sync must refresh the deployment plan before the final repository readiness check.')
+}
+
+if (
+  finalEnvIndex === -1 ||
+  finalStorePackageIndex < finalEnvIndex ||
+  finalStoreAssetsIndex < finalStorePackageIndex ||
+  finalPwaInstallIndex < finalStoreAssetsIndex ||
+  finalStoreListingOptimizeIndex < finalPwaInstallIndex ||
+  finalStoreComplianceIndex < finalStoreListingOptimizeIndex ||
+  finalStoreComplianceIndex > finalReadinessRefreshIndex
+) {
+  fail('autonomous:post-deploy-readiness-sync must refresh env, PWA install, store package/assets/listing, and compliance before final readiness.')
 }
 
 if (finalPostDeploySmokeIndex < deployPlanBeforeFinalRepoReadinessIndex) {
@@ -217,16 +247,12 @@ if (finalOperatorIndex < ownerLoopBeforeFinalOperatorIndex) {
   fail('autonomous:post-deploy-readiness-sync must refresh operator after the final owner loop.')
 }
 
-if (ownerLoopAfterFinalOperatorIndex < finalOperatorIndex) {
+if (ownerLoopBeforeFinalOperatorIndex < finalObjectiveAuditIndex) {
+  fail('autonomous:post-deploy-readiness-sync must refresh owner loop after final objective audit before the final operator.')
+}
+
+if (finalOwnerLoopIndex < finalOperatorIndex) {
   fail('autonomous:post-deploy-readiness-sync must refresh owner loop after the final operator history update.')
-}
-
-if (finalObjectiveAuditIndex < ownerLoopAfterFinalOperatorIndex) {
-  fail('autonomous:post-deploy-readiness-sync must refresh objective audit after the final owner/operator state.')
-}
-
-if (finalOwnerLoopIndex < finalObjectiveAuditIndex) {
-  fail('autonomous:post-deploy-readiness-sync must refresh owner loop after the final objective audit.')
 }
 
 if (finalReadinessRefreshIndex < finalRepoBootstrapIndex) {
@@ -267,6 +293,25 @@ if (
   !workflow.includes('data/release-candidate.json') ||
   !workflow.includes('src/data/releaseCandidate.ts') ||
   !workflow.includes('reports/release-candidate-latest.md') ||
+  !workflow.includes('data/pwa-install-loop.json') ||
+  !workflow.includes('src/data/pwaInstallLoop.ts') ||
+  !workflow.includes('reports/pwa-install-loop-latest.md') ||
+  !workflow.includes('public/install.html') ||
+  !workflow.includes('data/store-package.json') ||
+  !workflow.includes('reports/store-package-latest.md') ||
+  !workflow.includes('public/privacy.html') ||
+  !workflow.includes('public/support.html') ||
+  !workflow.includes('public/compliance.json') ||
+  !workflow.includes('data/store-assets.json') ||
+  !workflow.includes('src/data/storeAssets.ts') ||
+  !workflow.includes('reports/store-assets-latest.md') ||
+  !workflow.includes('public/store-assets/screenshots') ||
+  !workflow.includes('data/store-listing-optimizer.json') ||
+  !workflow.includes('src/data/storeListingOptimizer.ts') ||
+  !workflow.includes('reports/store-listing-optimizer-latest.md') ||
+  !workflow.includes('data/store-compliance.json') ||
+  !workflow.includes('src/data/storeCompliance.ts') ||
+  !workflow.includes('reports/store-compliance-latest.md') ||
   !workflow.includes('data/post-deploy-smoke.json') ||
   !workflow.includes('src/data/postDeploySmoke.ts') ||
   !workflow.includes('reports/post-deploy-smoke-latest.md') ||
@@ -332,6 +377,15 @@ if (
   performanceBudget.controls?.phaserDeferredFromInitialShell !== true ||
   releaseCandidate.status !== 'release-candidate-ready' ||
   releaseCandidate.controls?.contentHashesRecorded !== true ||
+  pwaInstallLoop.status !== 'pwa-install-loop-ready' ||
+  storePackage.status !== 'store-package-ready' ||
+  storePackage.storeListing?.source !== 'store-listing-optimizer' ||
+  storeAssets.status !== 'screenshots-ready' ||
+  (storeAssets.screenshots?.length ?? 0) < 4 ||
+  storeListingOptimizer.status !== 'store-listing-optimizer-ready' ||
+  storeListingOptimizer.recommendation?.focusGameId !== storePackage.launchCandidate?.id ||
+  storeCompliance.status !== 'draft-ready-external-blockers' ||
+  storeCompliance.launchCandidate?.id !== storePackage.launchCandidate?.id ||
   !['blocked-missing-origin', 'post-deploy-smoke-passed', 'post-deploy-smoke-observed-live'].includes(
     postDeploySmoke.status,
   ) ||
@@ -376,7 +430,7 @@ if (
   autonomousOperatorHistory.status !== 'operator-history-ready' ||
   autonomousOperatorHistory.controls?.historyIsCapped !== true
 ) {
-  fail('Post-deploy readiness sync must refresh repository, deployment, bootstrap, blocker, objective, operator, and readiness evidence without paid or mutating actions.')
+  fail('Post-deploy readiness sync must refresh PWA/store, repository, deployment, bootstrap, blocker, objective, operator, and readiness evidence without paid or mutating actions.')
 }
 
 if (
