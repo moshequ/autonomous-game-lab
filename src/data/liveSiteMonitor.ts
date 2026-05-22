@@ -1,11 +1,11 @@
 export const liveSiteMonitor = {
-  "generatedAt": "2026-05-22T21:35:51.434Z",
+  "generatedAt": "2026-05-22T21:49:12.753Z",
   "status": "live-site-monitor-passed",
   "origin": {
     "origin": "https://moshequ.github.io/autonomous-game-lab",
     "source": "post-deploy-artifact-sync",
     "host": "moshequ.github.io",
-    "basePath": "/autonomous-game-lab"
+    "basePath": "/autonomous-game-lab/"
   },
   "summary": {
     "planned": 21,
@@ -13,11 +13,11 @@ export const liveSiteMonitor = {
     "failed": 0,
     "blocked": 0,
     "passRate": 100,
-    "latencyP50Ms": 82,
-    "latencyP95Ms": 94,
+    "latencyP50Ms": 197,
+    "latencyP95Ms": 204,
     "liveCandidateId": "pwa-7e15024010e0",
     "syncedCandidateId": "pwa-7e15024010e0",
-    "localCandidateId": "pwa-744110945e17",
+    "localCandidateId": "pwa-727de7fc3801",
     "liveMatchesSyncedDeploy": true,
     "liveMatchesCurrentLocalCandidate": false,
     "monitoringPlanSource": "synced-live-release-manifest",
@@ -40,42 +40,42 @@ export const liveSiteMonitor = {
       "path": "/",
       "status": "pass",
       "httpStatus": 200,
-      "durationMs": 24
+      "durationMs": 61
     },
     {
       "id": "manifest-webmanifest",
       "path": "/manifest.webmanifest",
       "status": "pass",
       "httpStatus": 200,
-      "durationMs": 77
+      "durationMs": 196
     },
     {
       "id": "sw-js",
       "path": "/sw.js",
       "status": "pass",
       "httpStatus": 200,
-      "durationMs": 94
+      "durationMs": 196
     },
     {
       "id": "privacy-html",
       "path": "/privacy.html",
       "status": "pass",
       "httpStatus": 200,
-      "durationMs": 74
+      "durationMs": 194
     },
     {
       "id": "support-html",
       "path": "/support.html",
       "status": "pass",
       "httpStatus": 200,
-      "durationMs": 90
+      "durationMs": 194
     },
     {
       "id": "measurement-status-html",
       "path": "/measurement-status.html",
       "status": "pass",
       "httpStatus": 200,
-      "durationMs": 91
+      "durationMs": 195
     }
   ]
 } as const
