@@ -90,6 +90,7 @@ const allowedPrefixes = [
   'public/icons/',
   'public/store-assets/',
   'native/android/',
+  'native/ios/',
   'ops/codex/',
 ]
 const allowedExactPaths = new Set([

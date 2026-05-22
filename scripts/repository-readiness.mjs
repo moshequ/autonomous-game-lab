@@ -88,7 +88,18 @@ const generatedEvidencePaths = new Set([
   'public/seed-kit.html',
   'public/share-manifest.json',
 ])
-const generatedEvidencePrefixes = ['data/', 'reports/', 'src/data/', 'ops/github/', 'ops/codex/', 'public/games/']
+const generatedEvidencePrefixes = [
+  'data/',
+  'reports/',
+  'src/data/',
+  'ops/github/',
+  'ops/codex/',
+  'public/games/',
+  'public/icons/',
+  'public/store-assets/',
+  'native/android/',
+  'native/ios/',
+]
 const isGeneratedEvidencePath = (dirtyPath) =>
   generatedEvidencePaths.has(dirtyPath) || generatedEvidencePrefixes.some((prefix) => dirtyPath.startsWith(prefix))
 
