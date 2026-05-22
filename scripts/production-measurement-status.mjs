@@ -435,6 +435,21 @@ const payload = {
   status,
   activePath,
   liveCandidate: postDeployArtifactSync.live?.candidateId ?? null,
+  liveRelease: {
+    syncedCandidateId: postDeployArtifactSync.live?.candidateId ?? null,
+    syncedArtifactCandidateId: postDeployArtifactSync.artifact?.target?.candidateId ?? null,
+    exactManifestPath: '/release-candidate.json',
+    runtimeManifestCheck: 'read-only-browser-fetch',
+    staticJsonMayLagBehindLatestDeploy: true,
+    lagReason:
+      'Post-deploy evidence sync commits after the Pages deploy; the live page reads release-candidate.json at runtime to show the exact deployed candidate without dispatching another workflow.',
+    controls: {
+      readOnlyManifestFetch: true,
+      noWorkflowDispatch: true,
+      noDeployLoop: true,
+      zeroPaidSpend: true,
+    },
+  },
   analytics: {
     activeRollupSource: analytics.sourceStatus?.activeSource ?? 'unknown',
     retentionSource: analytics.retention?.source ?? analytics.sourceStatus?.retention?.source ?? 'unknown',
@@ -582,6 +597,11 @@ const appPayload = {
   status: payload.status,
   activePath: payload.activePath,
   liveCandidate: payload.liveCandidate,
+  liveRelease: {
+    syncedCandidateId: payload.liveRelease.syncedCandidateId,
+    exactManifestPath: payload.liveRelease.exactManifestPath,
+    staticJsonMayLagBehindLatestDeploy: payload.liveRelease.staticJsonMayLagBehindLatestDeploy,
+  },
   publicEvidenceHandoff: appPublicEvidenceHandoff,
   analyticsUnlock: appAnalyticsUnlock,
   externalUnlockQueue: {
@@ -597,6 +617,7 @@ const publicPayload = {
   status: payload.status,
   activePath: payload.activePath,
   liveCandidate: payload.liveCandidate,
+  liveRelease: payload.liveRelease,
   analytics: payload.analytics,
   productGateEvidence: payload.productGateEvidence,
   publicEvidenceHandoff: payload.publicEvidenceHandoff,
@@ -736,6 +757,29 @@ const html = `<!doctype html>
           <strong>${payload.analytics.autonomousRollups.configured ? 'configured' : 'credential gated'}</strong>
         </div>
       </div>
+
+      <section>
+        <h2>Live Release Evidence</h2>
+        <p>The synced evidence candidate comes from the latest post-deploy artifact import. The exact live manifest is read directly from this deployed site at runtime, so the page can show the current release without triggering another deploy loop.</p>
+        <div class="grid" aria-label="Live release evidence">
+          <div class="card">
+            <span>Synced evidence candidate</span>
+            <strong>${escapeHtml(payload.liveRelease.syncedCandidateId ?? 'missing')}</strong>
+          </div>
+          <div class="card">
+            <span>Exact live manifest</span>
+            <strong id="exact-live-candidate">checking</strong>
+          </div>
+          <div class="card">
+            <span>Manifest match</span>
+            <strong id="exact-live-match">checking</strong>
+          </div>
+          <div class="card">
+            <span>Status JSON caveat</span>
+            <strong>${payload.liveRelease.staticJsonMayLagBehindLatestDeploy ? 'sync commit can lag deploy' : 'current'}</strong>
+          </div>
+        </div>
+      </section>
 
       <section>
         <h2>Local Browser Evidence</h2>
@@ -951,6 +995,30 @@ const html = `<!doctype html>
         document.getElementById('local-event-count').textContent = Array.isArray(events) ? String(events.length) : '0'
         document.getElementById('local-event-latest').textContent = latest?.createdAt ? latest.createdAt.slice(0, 19) : 'none'
         document.getElementById('local-export-latest').textContent = receipt?.exportedAt ? receipt.exportedAt.slice(0, 19) : 'never'
+        const syncedLiveCandidate = ${JSON.stringify(payload.liveRelease.syncedCandidateId)}
+        const exactLiveCandidate = document.getElementById('exact-live-candidate')
+        const exactLiveMatch = document.getElementById('exact-live-match')
+        const readLiveReleaseManifest = async () => {
+          try {
+            const response = await fetch('./release-candidate.json', { cache: 'no-store' })
+            if (!response.ok) {
+              throw new Error(String(response.status))
+            }
+            const manifest = await response.json()
+            const candidateId = manifest?.candidateId ?? null
+            exactLiveCandidate.textContent = candidateId || 'missing'
+            exactLiveMatch.textContent =
+              candidateId && syncedLiveCandidate
+                ? candidateId === syncedLiveCandidate
+                  ? 'matches synced evidence'
+                  : 'newer deploy than synced JSON'
+                : 'review'
+          } catch {
+            exactLiveCandidate.textContent = 'unavailable'
+            exactLiveMatch.textContent = 'manifest unavailable'
+          }
+        }
+        readLiveReleaseManifest()
       })()
     </script>
   </body>
@@ -964,6 +1032,7 @@ const report = [
   `Status: ${payload.status}`,
   `Active path: ${payload.activePath}`,
   `Live candidate: ${payload.liveCandidate ?? 'missing'}`,
+  `Exact live manifest: ${payload.liveRelease.exactManifestPath}`,
   `Source hash: ${payload.sourceDataHash}`,
   '',
   '## Analytics',

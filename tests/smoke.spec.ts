@@ -8299,6 +8299,7 @@ test('production measurement status publishes public aggregate evidence handoff'
   const postDeploySync = JSON.parse(await readFile('data/post-deploy-artifact-sync.json', 'utf8')) as {
     status: string
     live?: { candidateId?: string }
+    artifact?: { target?: { candidateId?: string } }
   }
   const blockerHandoff = JSON.parse(await readFile('data/production-blocker-handoff.json', 'utf8')) as {
     status: string
@@ -8333,6 +8334,19 @@ test('production measurement status publishes public aggregate evidence handoff'
   const measurement = JSON.parse(await readFile('data/production-measurement-status.json', 'utf8')) as {
     status: string
     liveCandidate: string | null
+    liveRelease: {
+      syncedCandidateId: string | null
+      syncedArtifactCandidateId: string | null
+      exactManifestPath: string
+      runtimeManifestCheck: string
+      staticJsonMayLagBehindLatestDeploy: boolean
+      controls: {
+        readOnlyManifestFetch: boolean
+        noWorkflowDispatch: boolean
+        noDeployLoop: boolean
+        zeroPaidSpend: boolean
+      }
+    }
     analytics: {
       localEvidence: {
         aggregateEvidenceNotes: number
@@ -8497,6 +8511,16 @@ test('production measurement status publishes public aggregate evidence handoff'
   ]).toContain(measurement.status)
   expect(measurement.liveCandidate).toBe(postDeploySync.live?.candidateId ?? null)
   expect(publicMeasurement.liveCandidate).toBe(postDeploySync.live?.candidateId ?? null)
+  expect(measurement.liveRelease.syncedCandidateId).toBe(postDeploySync.live?.candidateId ?? null)
+  expect(measurement.liveRelease.syncedArtifactCandidateId).toBe(postDeploySync.artifact?.target?.candidateId ?? null)
+  expect(measurement.liveRelease.exactManifestPath).toBe('/release-candidate.json')
+  expect(measurement.liveRelease.runtimeManifestCheck).toBe('read-only-browser-fetch')
+  expect(measurement.liveRelease.staticJsonMayLagBehindLatestDeploy).toBe(true)
+  expect(measurement.liveRelease.controls.readOnlyManifestFetch).toBe(true)
+  expect(measurement.liveRelease.controls.noWorkflowDispatch).toBe(true)
+  expect(measurement.liveRelease.controls.noDeployLoop).toBe(true)
+  expect(measurement.liveRelease.controls.zeroPaidSpend).toBe(true)
+  expect(publicMeasurement.liveRelease).toEqual(measurement.liveRelease)
   expect(measurement.publicEvidenceHandoff.source).toBe('support-feedback-public-issues')
   expect(measurement.publicEvidenceHandoff.supportFeedbackStatus).toBe(supportFeedback.status)
   expect(measurement.publicEvidenceHandoff.aggregateEvidence.notes).toBe(supportFeedback.summary.aggregateEvidenceNotes)
@@ -8624,6 +8648,10 @@ test('production measurement status publishes public aggregate evidence handoff'
   expect(publicMeasurement.externalUnlockQueue).toEqual(measurement.externalUnlockQueue)
   expect(publicMeasurement.publicRoutes).toEqual(measurement.publicRoutes)
   expect(html).toContain('Public Aggregate Evidence')
+  expect(html).toContain('Live Release Evidence')
+  expect(html).toContain('exact-live-candidate')
+  expect(html).toContain('release-candidate.json')
+  expect(html).toContain('sync commit can lag deploy')
   expect(html).toContain('Start current sample')
   expect(html).toContain('sample-next.html')
   expect(html).toContain('Zero-Spend Analytics Unlock')
@@ -8638,6 +8666,7 @@ test('production measurement status publishes public aggregate evidence handoff'
   expect(script).toContain('publicEvidenceHandoff')
   expect(script).toContain('publicAnalyticsUnlock')
   expect(script).toContain('publicExternalUnlockQueue')
+  expect(script).toContain('readLiveReleaseManifest')
   expect(script).toContain('trafficSeeding')
   expect(script).toContain('publicRouteHref')
   expect(script).toContain('aggregateEvidenceDoesNotPassGates')
@@ -8657,6 +8686,7 @@ test('production measurement status publishes public aggregate evidence handoff'
 
   await page.goto('/measurement-status.html')
   await expect(page.getByRole('heading', { name: 'Production Measurement Status' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Live Release Evidence' })).toBeVisible()
   await expect(page.getByRole('heading', { name: 'Public Aggregate Evidence' })).toBeVisible()
   await expect(page.getByRole('heading', { name: 'Zero-Spend Analytics Unlock' })).toBeVisible()
   await expect(page.getByRole('heading', { name: 'External Unlock Queue' })).toBeVisible()
@@ -8673,6 +8703,9 @@ test('production measurement status publishes public aggregate evidence handoff'
     './measurement-status.json',
   )
   await expect(page.getByLabel('Public aggregate evidence')).toContainText(measurement.publicEvidenceHandoff.status)
+  await expect(page.getByLabel('Live release evidence')).toContainText(measurement.liveRelease.syncedCandidateId ?? 'missing')
+  await expect(page.locator('#exact-live-candidate')).not.toContainText('checking')
+  await expect(page.locator('#exact-live-match')).not.toContainText('checking')
   await expect(page.getByLabel('Zero-spend analytics unlock')).toContainText('first-party-collector')
   await expect(page.getByLabel('External unlock queue')).toContainText(
     measurement.externalUnlockQueue.nextBestUnlockId ?? 'none',

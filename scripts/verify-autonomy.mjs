@@ -905,6 +905,17 @@ if (
   productionMeasurementStatus.sourceStatus?.postDeployArtifactSync !== postDeployArtifactSync.status ||
   productionMeasurementStatus.liveCandidate !== postDeployArtifactSync.live?.candidateId ||
   publicMeasurementStatus.liveCandidate !== postDeployArtifactSync.live?.candidateId ||
+  productionMeasurementStatus.liveRelease?.syncedCandidateId !== postDeployArtifactSync.live?.candidateId ||
+  productionMeasurementStatus.liveRelease?.syncedArtifactCandidateId !==
+    postDeployArtifactSync.artifact?.target?.candidateId ||
+  productionMeasurementStatus.liveRelease?.exactManifestPath !== '/release-candidate.json' ||
+  productionMeasurementStatus.liveRelease?.runtimeManifestCheck !== 'read-only-browser-fetch' ||
+  productionMeasurementStatus.liveRelease?.staticJsonMayLagBehindLatestDeploy !== true ||
+  productionMeasurementStatus.liveRelease?.controls?.readOnlyManifestFetch !== true ||
+  productionMeasurementStatus.liveRelease?.controls?.noWorkflowDispatch !== true ||
+  productionMeasurementStatus.liveRelease?.controls?.noDeployLoop !== true ||
+  productionMeasurementStatus.liveRelease?.controls?.zeroPaidSpend !== true ||
+  JSON.stringify(publicMeasurementStatus.liveRelease) !== JSON.stringify(productionMeasurementStatus.liveRelease) ||
   !['aggregate-evidence-ready-for-review', 'awaiting-player-initiated-aggregate-notes'].includes(
     publicEvidenceHandoff.status,
   ) ||
@@ -976,6 +987,10 @@ if (
   JSON.stringify(publicMeasurementStatus.externalUnlockQueue) !== JSON.stringify(publicExternalUnlockQueue) ||
   JSON.stringify(publicMeasurementStatus.publicRoutes) !== JSON.stringify(measurementPublicRoutes) ||
   !measurementStatusHtml.includes('Public Aggregate Evidence') ||
+  !measurementStatusHtml.includes('Live Release Evidence') ||
+  !measurementStatusHtml.includes('exact-live-candidate') ||
+  !measurementStatusHtml.includes('release-candidate.json') ||
+  !measurementStatusHtml.includes('sync commit can lag deploy') ||
   !measurementStatusHtml.includes('Start current sample') ||
   !measurementStatusHtml.includes('sample-next.html') ||
   measurementStatusHtml.includes('href="/gate-sample.html"') ||
@@ -991,6 +1006,7 @@ if (
   !productionMeasurementStatusSource.includes('publicEvidenceHandoff') ||
   !productionMeasurementStatusSource.includes('publicAnalyticsUnlock') ||
   !productionMeasurementStatusSource.includes('publicExternalUnlockQueue') ||
+  !productionMeasurementStatusSource.includes('readLiveReleaseManifest') ||
   !productionMeasurementStatusSource.includes('trafficSeeding') ||
   !productionMeasurementStatusSource.includes('publicRouteHref') ||
   !productionMeasurementStatusSource.includes('aggregateEvidenceDoesNotPassGates') ||

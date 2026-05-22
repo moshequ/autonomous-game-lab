@@ -1,8 +1,22 @@
 {
-  "generatedAt": "2026-05-22T22:35:46.021Z",
+  "generatedAt": "2026-05-22T22:42:01.070Z",
   "status": "production-measurement-local-intake-ready",
   "activePath": "local-browser-buffer",
   "liveCandidate": "pwa-1e86db6de0c4",
+  "liveRelease": {
+    "syncedCandidateId": "pwa-1e86db6de0c4",
+    "syncedArtifactCandidateId": "pwa-1e86db6de0c4",
+    "exactManifestPath": "/release-candidate.json",
+    "runtimeManifestCheck": "read-only-browser-fetch",
+    "staticJsonMayLagBehindLatestDeploy": true,
+    "lagReason": "Post-deploy evidence sync commits after the Pages deploy; the live page reads release-candidate.json at runtime to show the exact deployed candidate without dispatching another workflow.",
+    "controls": {
+      "readOnlyManifestFetch": true,
+      "noWorkflowDispatch": true,
+      "noDeployLoop": true,
+      "zeroPaidSpend": true
+    }
+  },
   "analytics": {
     "activeRollupSource": "fixture-sample",
     "retentionSource": "fixture-retention",
