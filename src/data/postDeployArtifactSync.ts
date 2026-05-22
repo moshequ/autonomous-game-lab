@@ -1,10 +1,27 @@
 export const postDeployArtifactSync = {
-  "generatedAt": "2026-05-22T13:41:09.387Z",
+  "generatedAt": "2026-05-22T13:45:44.021Z",
   "status": "post-deploy-artifact-sync-passed",
   "envFiles": {
-    "loaded": false,
-    "loadedFiles": [],
-    "loadedKeys": [],
+    "loaded": true,
+    "loadedFiles": [
+      {
+        "path": "ops/production.env.local",
+        "keys": [
+          "AGL_ANDROID_PACKAGE_NAME",
+          "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
+          "AGL_ANDROID_KEYSTORE_BASE64",
+          "AGL_ANDROID_KEYSTORE_PASSWORD",
+          "AGL_ANDROID_KEY_ALIAS"
+        ]
+      }
+    ],
+    "loadedKeys": [
+      "AGL_ANDROID_PACKAGE_NAME",
+      "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
+      "AGL_ANDROID_KEYSTORE_BASE64",
+      "AGL_ANDROID_KEYSTORE_PASSWORD",
+      "AGL_ANDROID_KEY_ALIAS"
+    ],
     "skippedExistingKeys": [],
     "skippedProtectedKeys": [],
     "overwrittenEnvFileKeys": [],
@@ -36,7 +53,7 @@ export const postDeployArtifactSync = {
   },
   "repository": {
     "target": "moshequ/autonomous-game-lab",
-    "source": "environment-or-cli"
+    "source": "origin-remote"
   },
   "workflow": {
     "workflowFile": "web-pwa-deploy.yml",
@@ -45,8 +62,8 @@ export const postDeployArtifactSync = {
     "headSha": "f320543d9b163d39acf616aa77b1e74f90086dbb",
     "createdAt": "2026-05-22T13:39:45Z",
     "url": "https://github.com/moshequ/autonomous-game-lab/actions/runs/26291177346",
-    "source": "explicit-run-id",
-    "runListAvailable": false
+    "source": "latest-successful-run",
+    "runListAvailable": true
   },
   "artifact": {
     "status": "post-deploy-smoke-passed",
@@ -93,7 +110,7 @@ export const postDeployArtifactSync = {
     "reportSha256": "a5845beb263be0f7f98bfe6a39b6da7f5659c981341296eca24732e8f8408dce"
   },
   "live": {
-    "origin": "https://moshequ.github.io/autonomous-game-lab",
+    "origin": "https://moshequ.github.io/autonomous-game-lab/",
     "manifestUrl": "https://moshequ.github.io/autonomous-game-lab/release-candidate.json",
     "status": 200,
     "finalUrl": "https://moshequ.github.io/autonomous-game-lab/release-candidate.json",
@@ -142,9 +159,9 @@ export const postDeployArtifactSync = {
       "detail": "Target repository is moshequ/autonomous-game-lab."
     },
     {
-      "id": "explicit-pages-run",
+      "id": "successful-pages-run",
       "status": "pass",
-      "detail": "Explicit web-pwa-deploy.yml run is 26291177346."
+      "detail": "Latest successful web-pwa-deploy.yml run is 26291177346."
     },
     {
       "id": "post-deploy-smoke-artifact",
