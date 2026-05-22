@@ -374,6 +374,7 @@ const supportingAggregateEvidenceNotes = missionsWithEvidence.reduce(
   0,
 )
 const collectSampleDownloadsCommand = 'npm run autonomous:collect-sample-downloads'
+const collectLocalEventDropsCommand = 'npm run autonomous:collect-local-event-drops'
 const aggregateEvidenceRepository =
   typeof supportChannel.repository?.target === 'string' && /^[\w.-]+\/[\w.-]+$/.test(supportChannel.repository.target)
     ? supportChannel.repository.target
@@ -381,10 +382,10 @@ const aggregateEvidenceRepository =
 const sampleCollectionNextAction = localEventsAvailable
   ? 'Use imported local event drops before the next recovery decision.'
   : inboxGateSampleEvents
-    ? `Import the gate-sample event drop already waiting in the local inbox with ${collectSampleDownloadsCommand}.`
+    ? `Import the gate-sample event drop already waiting in the local inbox with ${collectLocalEventDropsCommand}.`
     : downloadsScanPolicy.coolingDown
       ? `Wait until ${downloadsScanPolicy.nextRecommendedScanAt} before the next explicit Downloads scan unless an inbox event drop appears.`
-      : `Export or collect real browser events, then run ${collectSampleDownloadsCommand} before changing copy, placement, revenue, or rules.`
+      : `Export or collect real browser events, then run ${collectLocalEventDropsCommand}; use ${collectSampleDownloadsCommand} only after explicit owner opt-in.`
 const sourceDataHash = hashSourceData({
   sampleDate: localIsoDate(),
   productGateRecovery,
@@ -441,7 +442,7 @@ const payload = {
     downloadsScanStatus: downloadsScanPolicy.lastScanStatus ?? 'not-scanned',
     downloadsScanCoolingDown: downloadsScanPolicy.coolingDown,
     downloadsScanNextRecommendedAt: downloadsScanPolicy.nextRecommendedScanAt,
-    nextOwnerAction: missions.length ? 'collect-gate-sample-downloads' : 'refresh-product-gate-sample-plan',
+    nextOwnerAction: missions.length ? 'collect-gate-sample-local-drops' : 'refresh-product-gate-sample-plan',
   },
   downloadsScan: downloadsScanPolicy,
   publicSamplePage: {
@@ -464,7 +465,7 @@ const payload = {
       supportedRuntime: 'showDirectoryPicker',
       filenamePattern: 'player-events*.json',
       fallback: 'download',
-      bridgeImport: 'data/player-events/inbox or AGL_LOCAL_EVENT_DROP_DIRS',
+      bridgeImport: 'data/player-events/inbox or AGL_LOCAL_EVENT_DROP_DIRS via npm run autonomous:collect-local-event-drops',
       noExternalUpload: true,
       playerInitiatedOnly: true,
     },
@@ -565,6 +566,7 @@ const payload = {
     refreshPlan: 'npm run autonomous:sample-plan',
     collectAndRefresh:
       'npm run autonomous:local-event-bridge && npm run autonomous:import-events && npm run autonomous:analytics && npm run autonomous:gate-recovery && npm run autonomous:sample-plan && npm run autonomous:retention',
+    collectLocalDropsAndRefresh: collectLocalEventDropsCommand,
     collectDownloadsAndRefresh: collectSampleDownloadsCommand,
     primaryLoopRefresh: primaryMission?.refreshCommands?.[0] ?? null,
   },
@@ -674,6 +676,7 @@ const report = [
   '',
   `- Refresh plan: ${payload.commandPlan.refreshPlan}`,
   `- Collect and refresh: ${payload.commandPlan.collectAndRefresh}`,
+  `- Collect local drops and refresh: ${payload.commandPlan.collectLocalDropsAndRefresh}`,
   `- Collect downloads and refresh: ${payload.commandPlan.collectDownloadsAndRefresh}`,
   '',
   '## Controls',

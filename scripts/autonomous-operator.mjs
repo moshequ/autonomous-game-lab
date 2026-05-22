@@ -61,6 +61,7 @@ const allowedLocalCommands = [
   'npm run autonomous:gate-recovery',
   'npm run autonomous:gate-recovery && npm run autonomous:sample-plan',
   'npm run autonomous:sample-plan',
+  'npm run autonomous:collect-local-event-drops',
   'npm run autonomous:collect-sample-downloads',
   'npm run autonomous:analyze && npm run autonomous:product-optimize && npm run autonomous:sync-config && npm run autonomous:simulate',
   'npm run autonomous:store-package && npm run autonomous:store-listing-optimize && npm run autonomous:store-compliance',

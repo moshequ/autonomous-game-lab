@@ -1,5 +1,5 @@
 export const localEventBridge = {
-  "generatedAt": "2026-05-22T13:53:13.086Z",
+  "generatedAt": "2026-05-22T19:52:48.819Z",
   "status": "bridge-waiting-for-export",
   "mode": "local-zero-spend-event-drop-bridge",
   "inbox": {
@@ -18,14 +18,6 @@ export const localEventBridge = {
     {
       "path": "data/player-events/inbox",
       "role": "inbox",
-      "exists": true,
-      "matchedFiles": 0,
-      "validFiles": 0,
-      "validEvents": 0
-    },
-    {
-      "path": "../../../../Downloads",
-      "role": "downloads-opt-in",
       "exists": true,
       "matchedFiles": 0,
       "validFiles": 0,
@@ -71,6 +63,7 @@ export const localEventBridge = {
     "importCommand": "npm run autonomous:import-events",
     "rollupCommand": "npm run autonomous:analytics",
     "recoveryCommand": "npm run autonomous:gate-recovery",
+    "localDropImportCommand": "npm run autonomous:collect-local-event-drops",
     "downloadsImportCommand": "AGL_LOCAL_EVENT_IMPORT_DOWNLOADS=true npm run autonomous:local-event-bridge",
     "browserFolderDrop": {
       "supported": true,
@@ -104,12 +97,12 @@ export const localEventBridge = {
   "explicitDownloadsScanPolicy": {
     "explicitOptInRequired": true,
     "cooldownHours": 4,
-    "coolingDown": true,
+    "coolingDown": false,
     "evidenceReadyNow": false,
     "lastScanAt": "2026-05-22T13:53:13.086Z",
     "lastScanStatus": "no-evidence-found",
-    "scanAgeHours": 0,
-    "cooldownRemainingHours": 4,
+    "scanAgeHours": 5.99,
+    "cooldownRemainingHours": 0,
     "nextRecommendedScanAt": "2026-05-22T17:53:13.086Z"
   },
   "gateSampleEvidence": {
@@ -192,7 +185,7 @@ export const localEventBridge = {
     "rawEventDropsStayLocal": true,
     "copyOnlyExplicitDropPaths": true,
     "downloadsFolderOptInOnly": true,
-    "downloadsFolderImportEnabled": true,
+    "downloadsFolderImportEnabled": false,
     "downloadsFolderRequiresExplicitEnv": true,
     "localExportCoverageReceipts": true,
     "staleExportDebtVisibleInApp": true,
@@ -202,6 +195,7 @@ export const localEventBridge = {
     "autosaveRequiresConnectedFolder": true,
     "autosaveNeverDownloadsWithoutManualClick": true,
     "folderHandleStoredInBrowserOnly": true,
+    "safeLocalDropCommandAvailable": true,
     "doesNotMutateProductGates": true
   },
   "nextActions": [
@@ -210,6 +204,7 @@ export const localEventBridge = {
     "After the folder is connected, play milestones autosave event drops locally without external upload.",
     "Prefer fresh PWA exports because they include event-count receipts for stale-export debt.",
     "Place the downloaded player-events file in data/player-events/inbox or pass AGL_LOCAL_EVENT_DROP_DIRS to copy from an explicit folder.",
+    "Run npm run autonomous:collect-local-event-drops to ingest only the inbox or explicitly configured drop folders.",
     "Optionally run AGL_LOCAL_EVENT_IMPORT_DOWNLOADS=true npm run autonomous:local-event-bridge to scan Downloads explicitly.",
     "Keep hosted collector/PostHog setup blocked until credentials exist."
   ]

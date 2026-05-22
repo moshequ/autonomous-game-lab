@@ -104,14 +104,14 @@ const nextActionByStatus = {
   'watchdog-security-blocked':
     'Run npm run autonomous:security-audit and do not publish or ingest new evidence until public repository controls pass.',
   'watchdog-ready-to-ingest':
-    'Run npm run autonomous:import-events && npm run autonomous:analytics && npm run autonomous:gate-recovery && npm run autonomous:sample-plan && npm run autonomous:player-evidence-watchdog.',
+    'Run npm run autonomous:collect-local-event-drops to import the waiting inbox or configured drop-folder evidence without scanning Downloads.',
   'watchdog-local-events-active':
     'Refresh analytics, product gates, sample plan, and watchdog from imported local events before changing product behavior.',
   'watchdog-aggregate-review-ready':
     'Review public aggregate evidence as supporting diagnosis only; collect event drops or configured production analytics before product-gate decisions.',
   'watchdog-cooling-down': `Hold explicit Downloads scanning until ${nextRecommendedScanAt ?? 'the next recommended scan time'} and keep player-initiated export/share routes active.`,
   'watchdog-ready-for-explicit-scan':
-    'An explicit Downloads scan is allowed now if the owner intentionally opts in; run npm run autonomous:collect-sample-downloads afterward.',
+    'Keep the browser-selected drop-folder and inbox route active; use npm run autonomous:collect-sample-downloads only after explicit owner opt-in.',
   'watchdog-awaiting-player-export':
     'Keep the gate sample route active and wait for player-initiated local export, folder drop, or public aggregate note.',
 }
@@ -175,8 +175,8 @@ const payload = {
   },
   commandPlan: {
     refreshWatchdog: 'npm run autonomous:player-evidence-watchdog',
-    safeEvidenceRefresh:
-      'npm run autonomous:local-event-bridge && npm run autonomous:import-events && npm run autonomous:analytics && npm run autonomous:gate-recovery && npm run autonomous:sample-plan && npm run autonomous:player-evidence-watchdog',
+    localDropRefresh: 'npm run autonomous:collect-local-event-drops',
+    safeEvidenceRefresh: 'npm run autonomous:collect-local-event-drops',
     explicitDownloadsRefresh:
       'npm run autonomous:collect-sample-downloads && npm run autonomous:player-evidence-watchdog',
     productionMeasurementRefresh: 'npm run autonomous:measurement-status && npm run autonomous:player-evidence-watchdog',
@@ -186,6 +186,8 @@ const payload = {
     noPaidTraffic: unitEconomics.controls?.paidAcquisitionAllowed !== true,
     noSyntheticEvents: true,
     noAutomaticDownloadsScan: true,
+    localDropImportBeforeDownloads: true,
+    explicitDownloadsScanNotRecommendedWithoutOwnerOptIn: true,
     downloadsScanRequiresExplicitOptIn: true,
     noExternalUpload: localEventBridge.controls?.noExternalUpload === true,
     noSecretValuesStored: publicRepoSecurityAudit.controls?.noSecretValuesStored === true,

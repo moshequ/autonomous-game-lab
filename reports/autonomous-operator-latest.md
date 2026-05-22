@@ -1,10 +1,10 @@
 # Autonomous Operator
 
-Generated: 2026-05-22T19:44:57.868Z
+Generated: 2026-05-22T19:56:35.591Z
 Status: operator-plan-ready
 Mode: plan-only
-Owner decision: collect-gate-sample-downloads
-Selected action: collect-gate-sample-downloads
+Owner decision: seed-portfolio-traffic
+Selected action: seed-portfolio-traffic
 Execution: not-requested
 
 ## Controls
@@ -18,12 +18,12 @@ Execution: not-requested
 
 ## Selected Action
 
-- collect-gate-sample-downloads: npm run autonomous:collect-sample-downloads
+- seed-portfolio-traffic: npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop
 
 ## Eligible Local Actions
 
 - seed-portfolio-traffic
-- collect-gate-sample-downloads
+- refresh-organic-seed-loop
 
 ## Blocked Actions
 
@@ -31,11 +31,11 @@ Execution: not-requested
 - hold-for-external-input: status-monitor
 - refresh-autonomous-cadence: status-monitor
 - refresh-autonomous-self-update: status-monitor
-- seed-portfolio-traffic: not-selected-this-run
-- refresh-organic-seed-loop: status-monitor
+- refresh-organic-seed-loop: not-selected-this-run
 - refresh-support-feedback: status-monitor
 - optimize-daily-retention: status-monitor
 - measure-pwa-install-loop: status-monitor
 - check-performance-budget: status-monitor
 - prepare-release-candidate: status-monitor
 - run-post-deploy-smoke: status-monitor
+- sync-post-deploy-artifact: status-monitor

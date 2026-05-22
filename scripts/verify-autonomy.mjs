@@ -615,6 +615,8 @@ if (
   playerEvidenceWatchdogControls.zeroPaidSpend !== true ||
   playerEvidenceWatchdogControls.noSyntheticEvents !== true ||
   playerEvidenceWatchdogControls.noAutomaticDownloadsScan !== true ||
+  playerEvidenceWatchdogControls.localDropImportBeforeDownloads !== true ||
+  playerEvidenceWatchdogControls.explicitDownloadsScanNotRecommendedWithoutOwnerOptIn !== true ||
   playerEvidenceWatchdogControls.downloadsScanRequiresExplicitOptIn !== true ||
   playerEvidenceWatchdogControls.noSecretValuesStored !== true ||
   playerEvidenceWatchdogControls.noRawPlayerEventsInPublicRepo !== true ||
@@ -636,6 +638,8 @@ if (
   !postDeployEvidenceSyncWorkflow.includes('reports/player-evidence-watchdog-latest.md') ||
   !productionInputWatchWorkflow.includes('data/player-evidence-watchdog.json') ||
   !playerEvidenceWatchdogSource.includes('noAutomaticDownloadsScan') ||
+  !playerEvidenceWatchdogSource.includes('collect-local-event-drops') ||
+  !playerEvidenceWatchdogSource.includes('explicitDownloadsScanNotRecommendedWithoutOwnerOptIn') ||
   !playerEvidenceWatchdogSource.includes('downloadsScanRequiresExplicitOptIn') ||
   !playerEvidenceWatchdogSource.includes('noRawPlayerEventsInPublicRepo') ||
   !playerEvidenceWatchdogSource.includes('publicAggregateEvidenceIsSupportingOnly') ||
@@ -1071,6 +1075,7 @@ if (
   localEventBridge.eventDropContract?.filenamePattern !== 'player-events*.json' ||
   localEventBridge.eventDropContract?.importCommand !== 'npm run autonomous:import-events' ||
   localEventBridge.eventDropContract?.rollupCommand !== 'npm run autonomous:analytics' ||
+  localEventBridge.eventDropContract?.localDropImportCommand !== 'npm run autonomous:collect-local-event-drops' ||
   !localEventBridge.eventDropContract?.downloadsImportCommand?.includes('AGL_LOCAL_EVENT_IMPORT_DOWNLOADS=true') ||
   !localEventBridge.eventDropContract?.recommendedFields?.includes('properties.eventCountAtExport') ||
   !localEventBridge.eventDropContract?.recommendedFields?.includes('properties.unexportedEventsBeforeExport') ||
@@ -1095,6 +1100,7 @@ if (
   localEventBridge.controls?.autosaveRequiresConnectedFolder !== true ||
   localEventBridge.controls?.autosaveNeverDownloadsWithoutManualClick !== true ||
   localEventBridge.controls?.folderHandleStoredInBrowserOnly !== true ||
+  localEventBridge.controls?.safeLocalDropCommandAvailable !== true ||
   localEventBridge.explicitDownloadsScanPolicy?.explicitOptInRequired !== true ||
   localEventBridge.explicitDownloadsScanPolicy?.cooldownHours !== 4 ||
   typeof localEventBridge.explicitDownloadsScanPolicy?.coolingDown !== 'boolean' ||
@@ -2203,6 +2209,7 @@ if (
   !productGateSamplePlan.commandPlan?.collectAndRefresh?.includes('autonomous:gate-recovery') ||
   !productGateSamplePlan.commandPlan?.collectAndRefresh?.includes('autonomous:sample-plan') ||
   !productGateSamplePlan.commandPlan?.collectAndRefresh?.includes('autonomous:retention') ||
+  productGateSamplePlan.commandPlan?.collectLocalDropsAndRefresh !== 'npm run autonomous:collect-local-event-drops' ||
   productGateSamplePlan.commandPlan?.collectDownloadsAndRefresh !== 'npm run autonomous:collect-sample-downloads' ||
   productGateSamplePlan.publicSamplePage?.path !== '/gate-sample.html' ||
   productGateSamplePlan.publicSamplePage?.missionCount !== productGateSamplePlan.missions?.length ||
@@ -2301,6 +2308,11 @@ if (
   !gateSampleHtml.includes('exportSurfaceDetail') ||
   !gateSampleHtml.includes('public-gate-sample-page') ||
   !packageJson.scripts?.['autonomous:sample-plan']?.includes('product-gate-sample-planner') ||
+  !packageJson.scripts?.['autonomous:collect-local-event-drops']?.includes('autonomous:local-event-bridge') ||
+  packageJson.scripts?.['autonomous:collect-local-event-drops']?.includes('AGL_LOCAL_EVENT_IMPORT_DOWNLOADS=true') ||
+  !packageJson.scripts?.['autonomous:collect-local-event-drops']?.includes('autonomous:gate-recovery') ||
+  !packageJson.scripts?.['autonomous:collect-local-event-drops']?.includes('autonomous:sample-plan') ||
+  !packageJson.scripts?.['autonomous:collect-local-event-drops']?.includes('autonomous:retention') ||
   !packageJson.scripts?.['autonomous:collect-sample-downloads']?.includes('AGL_LOCAL_EVENT_IMPORT_DOWNLOADS=true') ||
   !packageJson.scripts?.['autonomous:collect-sample-downloads']?.includes('autonomous:gate-recovery') ||
   !packageJson.scripts?.['autonomous:collect-sample-downloads']?.includes('autonomous:sample-plan') ||
@@ -3133,6 +3145,7 @@ if (
   !autonomousOperator.allowlist?.includes('npm run autonomous:unlock-runner -- --execute') ||
   !autonomousOperator.allowlist?.includes('npm run autonomous:gate-recovery && npm run autonomous:sample-plan') ||
   !autonomousOperator.allowlist?.includes('npm run autonomous:sample-plan') ||
+  !autonomousOperator.allowlist?.includes('npm run autonomous:collect-local-event-drops') ||
   !autonomousOperator.allowlist?.includes('npm run autonomous:collect-sample-downloads') ||
   !autonomousOperator.allowlist?.includes(
     'npm run autonomous:local-event-bridge && npm run autonomous:import-events && npm run autonomous:analytics && npm run autonomous:gate-recovery && npm run autonomous:sample-plan',
@@ -6257,6 +6270,7 @@ const requiredOwnerActions = [
   'refresh-live-site-monitor',
   'prepare-repository-channel',
   'refresh-first-move-coach',
+  'collect-gate-sample-local-drops',
   'collect-gate-sample-downloads',
   'refresh-product-gate-sample-plan',
   'refresh-completion-loop',
@@ -6305,6 +6319,11 @@ const ownerRecentExecutedActionIds = [
 const ownerCompositeActionSatisfiedActionIds = {
   'seed-portfolio-traffic': ['refresh-organic-seed-loop'],
   'collect-gate-sample-downloads': [
+    'collect-live-events',
+    'refresh-product-gate-recovery',
+    'refresh-product-gate-sample-plan',
+  ],
+  'collect-gate-sample-local-drops': [
     'collect-live-events',
     'refresh-product-gate-recovery',
     'refresh-product-gate-sample-plan',
@@ -6438,6 +6457,9 @@ const ownerProductGateSamplePlanShouldRefresh =
   !ownerProductGateSamplePlanCooldownOnlyStale
 const ownerCollectGateSampleAction = autonomousOwnerLoop.safeAutonomousActions?.find(
   (action) => action.id === 'collect-gate-sample-downloads',
+)
+const ownerCollectLocalDropsAction = autonomousOwnerLoop.safeAutonomousActions?.find(
+  (action) => action.id === 'collect-gate-sample-local-drops',
 )
 const ownerRefreshCadenceAction = autonomousOwnerLoop.safeAutonomousActions?.find(
   (action) => action.id === 'refresh-autonomous-cadence',
@@ -7075,6 +7097,12 @@ if (
     !ownerRecentlySatisfiedExecutableActionIds.every((actionId) =>
       autonomousOwnerLoop.executionMemory?.skippedRecentlySatisfiedActionIds?.includes(actionId),
     )) ||
+  (autonomousOwnerLoop.executionMemory?.localEventCollectionFreshness?.localDropCollectionCurrent === true &&
+    ownerCollectLocalDropsAction?.status !== 'monitor') ||
+  (autonomousOwnerLoop.executionMemory?.gateSampleDownloadsBackoff?.recommendationOptIn !== true &&
+    ownerCollectGateSampleAction?.status !== 'monitor') ||
+  (autonomousOwnerLoop.executionMemory?.gateSampleDownloadsBackoff?.recommendationOptIn !== true &&
+    autonomousOwnerLoop.ownerDecision?.nextBestActionId === 'collect-gate-sample-downloads') ||
   (ownerGateSampleDownloadsCoolingDown && ownerCollectGateSampleAction?.status !== 'monitor') ||
   (ownerGateSampleDownloadsCoolingDown &&
     autonomousOwnerLoop.ownerDecision?.nextBestActionId === 'collect-gate-sample-downloads') ||
@@ -7199,10 +7227,19 @@ if (
   ) ||
   !autonomousOwnerLoop.safeAutonomousActions?.some(
     (action) =>
+      action.id === 'collect-gate-sample-local-drops' &&
+      action.command === 'npm run autonomous:collect-local-event-drops' &&
+      action.costUsd === 0 &&
+      action.targets?.includes(productGateSamplePlan.summary?.primaryGateId) &&
+      action.reason?.includes('never scans Downloads'),
+  ) ||
+  !autonomousOwnerLoop.safeAutonomousActions?.some(
+    (action) =>
       action.id === 'collect-gate-sample-downloads' &&
       action.command === 'npm run autonomous:collect-sample-downloads' &&
       action.costUsd === 0 &&
-      action.targets?.includes(productGateSamplePlan.summary?.primaryGateId),
+      action.targets?.includes(productGateSamplePlan.summary?.primaryGateId) &&
+      action.reason?.includes('owner opts in'),
   ) ||
   !autonomousOwnerLoop.safeAutonomousActions?.some(
     (action) =>

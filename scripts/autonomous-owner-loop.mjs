@@ -1922,6 +1922,15 @@ const liveSiteMonitorOperationalFreshness = operationalEvidenceFreshness({
   checksPass: (liveSiteMonitor.checks ?? []).every((check) => check.status === 'pass'),
   extraReady: liveSiteMonitorReady,
 })
+const collectLocalEventDropsCommand = 'npm run autonomous:collect-local-event-drops'
+const downloadsScanRecommendationOptIn = ['1', 'true', 'yes'].includes(
+  String(process.env.AGL_OWNER_ALLOW_DOWNLOADS_SCAN_RECOMMENDATION ?? '').toLowerCase(),
+)
+const localDropCollectionCurrent =
+  localEventCollectionNoEventCurrent &&
+  productGateSamplePlanFreshness.current &&
+  productGateSamplePlanSampleDateCurrent &&
+  !gateSampleEvidenceReadyNow
 
 const safeAutonomousActions = [
   {
@@ -2117,17 +2126,35 @@ const safeAutonomousActions = [
       : 'Ranks the exact observed lift and immediately refreshes the zero-spend sample missions before revenue gates can open.',
   },
   {
+    id: 'collect-gate-sample-local-drops',
+    status:
+      productGateSamplePlan.status === 'product-gate-sample-plan-ready' &&
+      gateSampleNeedsEvidence &&
+      !localDropCollectionCurrent
+        ? 'armed'
+        : 'monitor',
+    costUsd: 0,
+    command: collectLocalEventDropsCommand,
+    targets: gateSampleCollectionTargets,
+    reason: localDropCollectionCurrent
+      ? 'Local inbox, configured drop folders, analytics, recovery, and sample plan already reflect the latest no-event drop-folder check and never scans Downloads.'
+      : 'Imports only the local inbox or explicitly configured drop folders, refreshes analytics and gate recovery, and never scans Downloads.',
+  },
+  {
     id: 'collect-gate-sample-downloads',
     status:
       productGateSamplePlan.status === 'product-gate-sample-plan-ready' &&
       gateSampleNeedsEvidence &&
+      downloadsScanRecommendationOptIn &&
       !gateSampleDownloadsScanCoolingDown
         ? 'armed'
         : 'monitor',
     costUsd: 0,
     command: 'npm run autonomous:collect-sample-downloads',
     targets: gateSampleCollectionTargets,
-    reason: gateSampleDownloadsScanCoolingDown
+    reason: !downloadsScanRecommendationOptIn
+      ? 'Explicit Downloads scan is not recommended until the owner opts in; use local inbox or configured drop-folder collection first.'
+      : gateSampleDownloadsScanCoolingDown
       ? `Recent explicit Downloads scan found no player exports; retry after ${gateSampleDownloadsBackoffHours} hours or when an inbox event drop appears.`
       : 'Opt-in scans local browser Downloads and the event inbox for real player exports, imports them, refreshes analytics and recovery, then regenerates the sample plan.',
   },
@@ -2394,6 +2421,11 @@ const compositeActionSatisfiedActionIds = {
     'refresh-product-gate-recovery',
     'refresh-product-gate-sample-plan',
   ],
+  'collect-gate-sample-local-drops': [
+    'collect-live-events',
+    'refresh-product-gate-recovery',
+    'refresh-product-gate-sample-plan',
+  ],
   'collect-live-events': ['refresh-product-gate-recovery', 'refresh-product-gate-sample-plan'],
 }
 const recentlySatisfiedActionIds = [
@@ -2423,6 +2455,7 @@ const preferredActionOrder = [
   'run-production-unlock-runner',
   'activate-production-when-configured',
   'optimize-product-gates',
+  'collect-gate-sample-local-drops',
   'collect-gate-sample-downloads',
   'collect-live-events',
   'refresh-organic-seed-loop',
@@ -2530,6 +2563,7 @@ const payload = {
     gateSampleDownloadsBackoff: {
       enabled: true,
       cooldownHours: gateSampleDownloadsBackoffHours,
+      recommendationOptIn: downloadsScanRecommendationOptIn,
       coolingDown: gateSampleDownloadsScanCoolingDown,
       lastExplicitScanAt: Number.isFinite(explicitDownloadsScanAt)
         ? localEventBridge.explicitDownloadsScan?.scannedAt
@@ -2551,6 +2585,7 @@ const payload = {
     },
     localEventCollectionFreshness: {
       current: localEventCollectionNoEventCurrent,
+      localDropCollectionCurrent,
       ready: localEventBridgeReady,
       status: localEventBridge.status,
       bridgeGeneratedAt: localEventBridge.generatedAt ?? null,

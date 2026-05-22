@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-05-22T19:44:56.968Z",
-  "sourceDataHash": "a3523e82d016",
+  "generatedAt": "2026-05-22T19:55:22.115Z",
+  "sourceDataHash": "c28a31d5a6f7",
   "status": "watchdog-ready-for-explicit-scan",
   "mode": "zero-spend-player-evidence-watchdog",
   "evidenceState": {
@@ -48,7 +48,8 @@
   },
   "commandPlan": {
     "refreshWatchdog": "npm run autonomous:player-evidence-watchdog",
-    "safeEvidenceRefresh": "npm run autonomous:local-event-bridge && npm run autonomous:import-events && npm run autonomous:analytics && npm run autonomous:gate-recovery && npm run autonomous:sample-plan && npm run autonomous:player-evidence-watchdog",
+    "localDropRefresh": "npm run autonomous:collect-local-event-drops",
+    "safeEvidenceRefresh": "npm run autonomous:collect-local-event-drops",
     "explicitDownloadsRefresh": "npm run autonomous:collect-sample-downloads && npm run autonomous:player-evidence-watchdog",
     "productionMeasurementRefresh": "npm run autonomous:measurement-status && npm run autonomous:player-evidence-watchdog"
   },
@@ -57,6 +58,8 @@
     "noPaidTraffic": true,
     "noSyntheticEvents": true,
     "noAutomaticDownloadsScan": true,
+    "localDropImportBeforeDownloads": true,
+    "explicitDownloadsScanNotRecommendedWithoutOwnerOptIn": true,
     "downloadsScanRequiresExplicitOptIn": true,
     "noExternalUpload": true,
     "noSecretValuesStored": true,
@@ -68,7 +71,7 @@
     "noStoreSubmission": true
   },
   "nextActions": [
-    "An explicit Downloads scan is allowed now if the owner intentionally opts in; run npm run autonomous:collect-sample-downloads afterward.",
+    "Keep the browser-selected drop-folder and inbox route active; use npm run autonomous:collect-sample-downloads only after explicit owner opt-in.",
     "Keep public issues and reports limited to aggregate, redacted evidence; never commit raw player event drops, secrets, or private exports."
   ]
 }

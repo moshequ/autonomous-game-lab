@@ -2470,7 +2470,12 @@ test('product optimizer applies one guarded tuning step from product-gate eviden
       }
       controls: { costUsd: number; noSyntheticEvents: boolean; noRuleChange: boolean }
     }>
-    commandPlan: { refreshPlan: string; collectAndRefresh: string; collectDownloadsAndRefresh: string }
+    commandPlan: {
+      refreshPlan: string
+      collectAndRefresh: string
+      collectLocalDropsAndRefresh: string
+      collectDownloadsAndRefresh: string
+    }
     publicSamplePage: {
       path: string
       missionCount: number
@@ -2667,7 +2672,12 @@ test('product optimizer applies one guarded tuning step from product-gate eviden
   expect(samplePlan.commandPlan.refreshPlan).toBe('npm run autonomous:sample-plan')
   expect(samplePlan.commandPlan.collectAndRefresh).toContain('autonomous:gate-recovery')
   expect(samplePlan.commandPlan.collectAndRefresh).toContain('autonomous:retention')
+  expect(samplePlan.commandPlan.collectLocalDropsAndRefresh).toBe('npm run autonomous:collect-local-event-drops')
   expect(samplePlan.commandPlan.collectDownloadsAndRefresh).toBe('npm run autonomous:collect-sample-downloads')
+  expect(packageJson.scripts['autonomous:collect-local-event-drops']).toContain('autonomous:local-event-bridge')
+  expect(packageJson.scripts['autonomous:collect-local-event-drops']).not.toContain(
+    'AGL_LOCAL_EVENT_IMPORT_DOWNLOADS=true',
+  )
   expect(packageJson.scripts['test:automation']).toContain('autonomous:gate-recovery')
   expect(packageJson.scripts['test:automation']).toContain('autonomous:sample-plan')
   expect(samplePlan.downloadsScan.explicitOptInRequired).toBe(true)
@@ -3609,6 +3619,7 @@ test('local event bridge keeps browser analytics drops importable without extern
     eventDropContract: {
       filenamePattern: string
       importCommand: string
+      localDropImportCommand: string
       rollupCommand: string
       recommendedFields: string[]
       strippedPropertyKeys: string[]
@@ -3666,6 +3677,7 @@ test('local event bridge keeps browser analytics drops importable without extern
       autosaveRequiresConnectedFolder: boolean
       autosaveNeverDownloadsWithoutManualClick: boolean
       folderHandleStoredInBrowserOnly: boolean
+      safeLocalDropCommandAvailable: boolean
     }
     privacy: {
       piiStrippingEnabled: boolean
@@ -3683,6 +3695,7 @@ test('local event bridge keeps browser analytics drops importable without extern
   expect(bridge.imported.directory).toBe('data/player-events')
   expect(bridge.eventDropContract.filenamePattern).toBe('player-events*.json')
   expect(bridge.eventDropContract.importCommand).toBe('npm run autonomous:import-events')
+  expect(bridge.eventDropContract.localDropImportCommand).toBe('npm run autonomous:collect-local-event-drops')
   expect(bridge.eventDropContract.rollupCommand).toBe('npm run autonomous:analytics')
   expect(bridge.eventDropContract.recommendedFields).toContain('properties.eventCountAtExport')
   expect(bridge.eventDropContract.recommendedFields).toContain('properties.unexportedEventsBeforeExport')
@@ -3712,6 +3725,7 @@ test('local event bridge keeps browser analytics drops importable without extern
   expect(bridge.controls.autosaveRequiresConnectedFolder).toBe(true)
   expect(bridge.controls.autosaveNeverDownloadsWithoutManualClick).toBe(true)
   expect(bridge.controls.folderHandleStoredInBrowserOnly).toBe(true)
+  expect(bridge.controls.safeLocalDropCommandAvailable).toBe(true)
   expect(bridge.explicitDownloadsScanPolicy.explicitOptInRequired).toBe(true)
   expect(bridge.explicitDownloadsScanPolicy.cooldownHours).toBe(4)
   expect(typeof bridge.explicitDownloadsScanPolicy.coolingDown).toBe('boolean')
@@ -3767,6 +3781,7 @@ test('player evidence watchdog protects public repo privacy while guiding sample
       safeForPublicAutomation: boolean
     }
     commandPlan: {
+      localDropRefresh: string
       safeEvidenceRefresh: string
       explicitDownloadsRefresh: string
     }
@@ -3774,6 +3789,8 @@ test('player evidence watchdog protects public repo privacy while guiding sample
       zeroPaidSpend: boolean
       noSyntheticEvents: boolean
       noAutomaticDownloadsScan: boolean
+      localDropImportBeforeDownloads: boolean
+      explicitDownloadsScanNotRecommendedWithoutOwnerOptIn: boolean
       downloadsScanRequiresExplicitOptIn: boolean
       noRawPlayerEventsInPublicRepo: boolean
       publicAggregateEvidenceIsSupportingOnly: boolean
@@ -3799,12 +3816,14 @@ test('player evidence watchdog protects public repo privacy while guiding sample
   expect(typeof watchdog.downloadsScan.readyForExplicitScan).toBe('boolean')
   expect(watchdog.downloadsScan.command).toBe('npm run autonomous:collect-sample-downloads')
   expect(watchdog.publicRepoSecurity.safeForPublicAutomation).toBe(true)
-  expect(watchdog.commandPlan.safeEvidenceRefresh).toContain('autonomous:local-event-bridge')
-  expect(watchdog.commandPlan.safeEvidenceRefresh).toContain('autonomous:player-evidence-watchdog')
+  expect(watchdog.commandPlan.localDropRefresh).toBe('npm run autonomous:collect-local-event-drops')
+  expect(watchdog.commandPlan.safeEvidenceRefresh).toBe('npm run autonomous:collect-local-event-drops')
   expect(watchdog.commandPlan.explicitDownloadsRefresh).toContain('autonomous:collect-sample-downloads')
   expect(watchdog.controls.zeroPaidSpend).toBe(true)
   expect(watchdog.controls.noSyntheticEvents).toBe(true)
   expect(watchdog.controls.noAutomaticDownloadsScan).toBe(true)
+  expect(watchdog.controls.localDropImportBeforeDownloads).toBe(true)
+  expect(watchdog.controls.explicitDownloadsScanNotRecommendedWithoutOwnerOptIn).toBe(true)
   expect(watchdog.controls.downloadsScanRequiresExplicitOptIn).toBe(true)
   expect(watchdog.controls.noRawPlayerEventsInPublicRepo).toBe(true)
   expect(watchdog.controls.publicAggregateEvidenceIsSupportingOnly).toBe(true)
@@ -3812,6 +3831,7 @@ test('player evidence watchdog protects public repo privacy while guiding sample
   expect(watchdog.controls.noRevenueEnablement).toBe(true)
   expect(watchdog.controls.noStoreSubmission).toBe(true)
   expect(packageJson.scripts['autonomous:player-evidence-watchdog']).toBe('node scripts/player-evidence-watchdog.mjs')
+  expect(packageJson.scripts['autonomous:collect-local-event-drops']).toContain('autonomous:player-evidence-watchdog')
   expect(packageJson.scripts['autonomous:daily']).toContain('autonomous:player-evidence-watchdog')
   expect(packageJson.scripts['test:automation']).toContain('autonomous:player-evidence-watchdog')
 
@@ -3962,6 +3982,7 @@ test('autonomous operator history keeps a capped audit trail', async ({ page }) 
       gateSampleDownloadsBackoff: {
         enabled: boolean
         cooldownHours: number
+        recommendationOptIn: boolean
         coolingDown: boolean
         lastExplicitScanAt: string | null
         lastExplicitScanStatus: string | null
@@ -3972,6 +3993,7 @@ test('autonomous operator history keeps a capped audit trail', async ({ page }) 
       }
       localEventCollectionFreshness: {
         current: boolean
+        localDropCollectionCurrent: boolean
         ready: boolean
         status: string
         bridgeGeneratedAt: string | null
@@ -4067,6 +4089,11 @@ test('autonomous operator history keeps a capped audit trail', async ({ page }) 
       'refresh-product-gate-recovery',
       'refresh-product-gate-sample-plan',
     ],
+    'collect-gate-sample-local-drops': [
+      'collect-live-events',
+      'refresh-product-gate-recovery',
+      'refresh-product-gate-sample-plan',
+    ],
     'collect-live-events': ['refresh-product-gate-recovery', 'refresh-product-gate-sample-plan'],
   }
   const recentlySatisfiedActionIds = [
@@ -4076,9 +4103,6 @@ test('autonomous operator history keeps a capped audit trail', async ({ page }) 
   const isLocalSelectableAction = (action: { id: string; status: string }) =>
     action.status === 'armed' && action.id !== 'run-daily-owner-loop'
   const localSelectableActions = ownerLoop.safeAutonomousActions.filter(isLocalSelectableAction)
-  const hasExecutableAlternativeOutsideRecent = ownerLoop.safeAutonomousActions.some(
-    (action) => isLocalSelectableAction(action) && !recentExecutedActionIds.includes(action.id),
-  )
   const hasExecutableAlternativeOutsideCovered = ownerLoop.safeAutonomousActions.some(
     (action) => isLocalSelectableAction(action) && !recentlyCoveredActionIds.has(action.id),
   )
@@ -4134,6 +4158,9 @@ test('autonomous operator history keeps a capped audit trail', async ({ page }) 
     history.records.at(-1)?.selectedActionId === 'refresh-objective-audit' &&
     ownerLoop.ownerDecision.nextBestActionId === 'refresh-objective-audit'
   const collectGateSampleAction = ownerLoop.safeAutonomousActions.find((action) => action.id === 'collect-gate-sample-downloads')
+  const collectLocalDropsAction = ownerLoop.safeAutonomousActions.find(
+    (action) => action.id === 'collect-gate-sample-local-drops',
+  )
   const holdForExternalInputAction = ownerLoop.safeAutonomousActions.find((action) => action.id === 'hold-for-external-input')
   const refreshGateRecoveryAction = ownerLoop.safeAutonomousActions.find((action) => action.id === 'refresh-product-gate-recovery')
   const refreshSamplePlanAction = ownerLoop.safeAutonomousActions.find((action) => action.id === 'refresh-product-gate-sample-plan')
@@ -4211,6 +4238,7 @@ test('autonomous operator history keeps a capped audit trail', async ({ page }) 
   }
   expect(ownerLoop.executionMemory.gateSampleDownloadsBackoff.enabled).toBe(true)
   expect(ownerLoop.executionMemory.gateSampleDownloadsBackoff.cooldownHours).toBe(4)
+  expect(ownerLoop.executionMemory.gateSampleDownloadsBackoff.recommendationOptIn).toBe(false)
   expect(ownerLoop.executionMemory.gateSampleDownloadsBackoff.coolingDown).toBe(gateSampleDownloadsCoolingDown)
   expect(ownerLoop.executionMemory.gateSampleDownloadsBackoff.lastExplicitScanAt).toBe(
     Number.isFinite(explicitDownloadsScanAt) ? localEventBridge.explicitDownloadsScan?.scannedAt : null,
@@ -4239,6 +4267,7 @@ test('autonomous operator history keeps a capped audit trail', async ({ page }) 
   expect(productGateSamplePlan.downloadsScan.nextRecommendedScanAt).toBe(expectedDownloadsScanNextRecommendedAt)
   expect(productGateSamplePlan.summary.downloadsScanNextRecommendedAt).toBe(expectedDownloadsScanNextRecommendedAt)
   expect(ownerLoop.executionMemory.localEventCollectionFreshness.status).toBe(localEventBridge.status)
+  expect(typeof ownerLoop.executionMemory.localEventCollectionFreshness.localDropCollectionCurrent).toBe('boolean')
   expect(ownerLoop.executionMemory.localEventCollectionFreshness.bridgeGeneratedAt).toBe(localEventBridge.generatedAt)
   expect(ownerLoop.executionMemory.localEventCollectionFreshness.evidenceReadyNow).toBe(gateSampleEvidenceReadyNow)
   expect(ownerLoop.executionMemory.localEventCollectionFreshness.evaluatedInputIds).toContain('local-event-bridge')
@@ -4249,6 +4278,10 @@ test('autonomous operator history keeps a capped audit trail', async ({ page }) 
   if (ownerLoop.executionMemory.localEventCollectionFreshness.current) {
     expect(collectLiveEventsAction?.status).toBe('monitor')
     expect(ownerLoop.ownerDecision.nextBestActionId).not.toBe('collect-live-events')
+  }
+  if (ownerLoop.executionMemory.localEventCollectionFreshness.localDropCollectionCurrent) {
+    expect(collectLocalDropsAction?.status).toBe('monitor')
+    expect(ownerLoop.ownerDecision.nextBestActionId).not.toBe('collect-gate-sample-local-drops')
   }
   expect(typeof ownerLoop.executionMemory.objectiveAuditFreshness.fresh).toBe('boolean')
   expect(ownerLoop.executionMemory.objectiveAuditFreshness.evaluatedInputIds).toContain('analytics-rollup')
@@ -4393,7 +4426,10 @@ test('autonomous operator history keeps a capped audit trail', async ({ page }) 
       expect(ownerLoop.ownerDecision.nextBestActionId).not.toBe('refresh-product-gate-sample-plan')
     }
   }
-  if (hasExecutableAlternativeOutsideRecent) {
+  expect(collectGateSampleAction?.status).toBe('monitor')
+  expect(collectGateSampleAction?.reason).toContain('owner opts in')
+  expect(ownerLoop.ownerDecision.nextBestActionId).not.toBe('collect-gate-sample-downloads')
+  if (hasExecutableAlternativeOutsideCovered) {
     expect(recentExecutedActionIds).not.toContain(ownerLoop.ownerDecision.nextBestActionId)
     for (const actionId of recentExecutedActionIds) {
       const executedAction = ownerLoop.safeAutonomousActions.find((action) => action.id === actionId)

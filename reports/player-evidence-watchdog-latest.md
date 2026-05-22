@@ -1,8 +1,8 @@
 # Player Evidence Watchdog
 
-Generated: 2026-05-22T19:44:56.968Z
+Generated: 2026-05-22T19:55:22.115Z
 Status: watchdog-ready-for-explicit-scan
-Source hash: a3523e82d016
+Source hash: c28a31d5a6f7
 Public repo safe: true
 Inbox events: 0
 Imported events: 0
@@ -15,7 +15,7 @@ Next recommended Downloads scan: 2026-05-22T17:53:13.086Z
 ## Commands
 
 - Refresh watchdog: npm run autonomous:player-evidence-watchdog
-- Safe evidence refresh: npm run autonomous:local-event-bridge && npm run autonomous:import-events && npm run autonomous:analytics && npm run autonomous:gate-recovery && npm run autonomous:sample-plan && npm run autonomous:player-evidence-watchdog
+- Safe evidence refresh: npm run autonomous:collect-local-event-drops
 - Explicit Downloads refresh: npm run autonomous:collect-sample-downloads && npm run autonomous:player-evidence-watchdog
 
 ## Controls
@@ -24,6 +24,8 @@ Next recommended Downloads scan: 2026-05-22T17:53:13.086Z
 - noPaidTraffic: true
 - noSyntheticEvents: true
 - noAutomaticDownloadsScan: true
+- localDropImportBeforeDownloads: true
+- explicitDownloadsScanNotRecommendedWithoutOwnerOptIn: true
 - downloadsScanRequiresExplicitOptIn: true
 - noExternalUpload: true
 - noSecretValuesStored: true
@@ -36,5 +38,5 @@ Next recommended Downloads scan: 2026-05-22T17:53:13.086Z
 
 ## Next Actions
 
-- An explicit Downloads scan is allowed now if the owner intentionally opts in; run npm run autonomous:collect-sample-downloads afterward.
+- Keep the browser-selected drop-folder and inbox route active; use npm run autonomous:collect-sample-downloads only after explicit owner opt-in.
 - Keep public issues and reports limited to aggregate, redacted evidence; never commit raw player event drops, secrets, or private exports.

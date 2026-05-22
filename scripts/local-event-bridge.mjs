@@ -666,6 +666,7 @@ const payload = {
     importCommand: 'npm run autonomous:import-events',
     rollupCommand: 'npm run autonomous:analytics',
     recoveryCommand: 'npm run autonomous:gate-recovery',
+    localDropImportCommand: 'npm run autonomous:collect-local-event-drops',
     downloadsImportCommand,
     browserFolderDrop: {
       supported: true,
@@ -733,6 +734,7 @@ const payload = {
     autosaveRequiresConnectedFolder: true,
     autosaveNeverDownloadsWithoutManualClick: true,
     folderHandleStoredInBrowserOnly: true,
+    safeLocalDropCommandAvailable: true,
     doesNotMutateProductGates: true,
   },
   nextActions:
@@ -747,6 +749,7 @@ const payload = {
           'After the folder is connected, play milestones autosave event drops locally without external upload.',
           'Prefer fresh PWA exports because they include event-count receipts for stale-export debt.',
           `Place the downloaded player-events file in ${relativeToRoot(inboxDir)} or pass AGL_LOCAL_EVENT_DROP_DIRS to copy from an explicit folder.`,
+          'Run npm run autonomous:collect-local-event-drops to ingest only the inbox or explicitly configured drop folders.',
           `Optionally run ${downloadsImportCommand} to scan Downloads explicitly.`,
           'Keep hosted collector/PostHog setup blocked until credentials exist.',
         ],
@@ -764,6 +767,7 @@ const report = [
   `- Filename: ${payload.eventDropContract.filenamePattern}`,
   `- Inbox: ${payload.eventDropContract.inboxDirectory}`,
   `- Import: ${payload.eventDropContract.importCommand}`,
+  `- Local drop refresh: ${payload.eventDropContract.localDropImportCommand}`,
   `- Rollup: ${payload.eventDropContract.rollupCommand}`,
   `- Browser folder drop: ${payload.eventDropContract.browserFolderDrop.supported}`,
   `- Browser folder autosave: ${payload.controls.browserSelectedDropFolderAutosave}`,
