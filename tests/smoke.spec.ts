@@ -4609,7 +4609,15 @@ test('traffic seeding switches games and records campaign telemetry', async ({ p
   const traffic = JSON.parse(await readFile('data/traffic-seeding.json', 'utf8')) as {
     campaigns: Array<{ id: string; gameId: string; title: string }>
   }
-  const campaign = traffic.campaigns[0]
+  const samplePlan = JSON.parse(await readFile('data/product-gate-sample-plan.json', 'utf8')) as {
+    summary: { defaultRouteCampaignId?: string }
+    missions: Array<{ campaignId: string; gameId: string }>
+  }
+  const defaultMission = samplePlan.missions.find(
+    (mission) => mission.campaignId === samplePlan.summary.defaultRouteCampaignId,
+  )
+  const campaign =
+    traffic.campaigns.find((item) => item.gameId !== defaultMission?.gameId) ?? traffic.campaigns[0]
 
   expect(campaign).toBeTruthy()
 
@@ -4640,15 +4648,17 @@ test('traffic seeding switches games and records campaign telemetry', async ({ p
 
   await expect
     .poll(async () =>
-      page.evaluate((gameId) => {
+      page.evaluate(({ campaignId, gameId }) => {
         const raw = window.localStorage.getItem('agl.analytics.events')
         const events = raw ? JSON.parse(raw) : []
         const started = events.findLast(
           (event: { name: string; properties: Record<string, string> }) =>
-            event.name === 'game_started' && event.properties.gameId === gameId,
+            event.name === 'game_started' &&
+            event.properties.gameId === gameId &&
+            event.properties.acquisitionCampaign === campaignId,
         )
         return started?.properties.acquisitionCampaign
-      }, campaign.gameId),
+      }, { campaignId: campaign.id, gameId: campaign.gameId }),
     )
     .toBe(campaign.id)
 })
