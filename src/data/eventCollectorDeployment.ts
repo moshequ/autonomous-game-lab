@@ -1,5 +1,5 @@
 export const eventCollectorDeployment = {
-  "generatedAt": "2026-05-22T04:33:34.696Z",
+  "generatedAt": "2026-05-22T05:42:35.075Z",
   "status": "blocked-needs-cloudflare-env",
   "envFiles": {
     "loaded": true,
@@ -64,6 +64,11 @@ export const eventCollectorDeployment = {
   "workflow": {
     "path": ".github/workflows/event-collector-deploy.yml",
     "status": "present",
+    "triggers": {
+      "manualDispatch": true,
+      "autonomousDaily": true,
+      "productionInputWatch": true
+    },
     "deploysWhenConfigured": false,
     "autoCreatesBucket": true
   },
@@ -87,7 +92,7 @@ export const eventCollectorDeployment = {
     "Create or select a Cloudflare account; the deploy workflow creates or reuses the R2 bucket for collector event batches.",
     "Set repository variables CLOUDFLARE_ACCOUNT_ID, AGL_EVENT_COLLECTOR_R2_BUCKET, AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS, VITE_EVENT_COLLECTOR_URL, and AGL_EVENT_COLLECTOR_EXPORT_URL.",
     "Set repository secrets CLOUDFLARE_API_TOKEN, VITE_EVENT_COLLECTOR_WRITE_TOKEN, and AGL_EVENT_COLLECTOR_ADMIN_TOKEN.",
-    "Run the Event Collector Deploy workflow; it runs the collector smoke before deploying."
+    "Let Production Input Watch or the Event Collector Deploy workflow run; it runs the collector smoke before deploying."
   ],
   "checks": [
     {
@@ -124,7 +129,7 @@ export const eventCollectorDeployment = {
   "commands": {
     "smoke": "npm run autonomous:event-collector-smoke",
     "plan": "npm run autonomous:collector-deploy-plan",
-    "deployWorkflow": "Run Event Collector Deploy after Cloudflare variables and secrets are configured."
+    "deployWorkflow": "Production Input Watch triggers Event Collector Deploy after Cloudflare variables and secrets are configured."
   }
 } as const
 

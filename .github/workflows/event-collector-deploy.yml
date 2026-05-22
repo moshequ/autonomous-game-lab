@@ -3,7 +3,7 @@ name: Event Collector Deploy
 on:
   workflow_dispatch:
   workflow_run:
-    workflows: ['Autonomous Daily Studio']
+    workflows: ['Autonomous Daily Studio', 'Production Input Watch']
     types: [completed]
 
 permissions:

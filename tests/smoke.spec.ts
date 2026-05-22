@@ -1708,6 +1708,7 @@ test('production scripts load git-ignored env files without leaking values or mu
   expect(envLoader).toContain('AGL_ALLOW_')
   expect(envLoader).toContain('protectedMutationKeysRequireShellEnv')
   expect(collectorWorkflow).toContain('r2 bucket create')
+  expect(collectorWorkflow).toContain("'Production Input Watch'")
 
   for (const scriptPath of envAwareScripts) {
     expect(await readFile(scriptPath, 'utf8')).toContain('loadLocalEnv')

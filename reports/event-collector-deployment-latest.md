@@ -1,10 +1,11 @@
 # Event Collector Deployment
 
-Generated: 2026-05-22T04:33:34.696Z
+Generated: 2026-05-22T05:42:35.075Z
 Status: blocked-needs-cloudflare-env
 Provider: cloudflare-worker-r2
 Cost posture: free-tier-friendly-no-paid-traffic
 Auto-create R2 bucket: true
+Runs after production input watch: true
 
 ## Checks
 
@@ -27,10 +28,10 @@ Auto-create R2 bucket: true
 - Create or select a Cloudflare account; the deploy workflow creates or reuses the R2 bucket for collector event batches.
 - Set repository variables CLOUDFLARE_ACCOUNT_ID, AGL_EVENT_COLLECTOR_R2_BUCKET, AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS, VITE_EVENT_COLLECTOR_URL, and AGL_EVENT_COLLECTOR_EXPORT_URL.
 - Set repository secrets CLOUDFLARE_API_TOKEN, VITE_EVENT_COLLECTOR_WRITE_TOKEN, and AGL_EVENT_COLLECTOR_ADMIN_TOKEN.
-- Run the Event Collector Deploy workflow; it runs the collector smoke before deploying.
+- Let Production Input Watch or the Event Collector Deploy workflow run; it runs the collector smoke before deploying.
 
 ## Commands
 
 - Smoke: npm run autonomous:event-collector-smoke
 - Plan: npm run autonomous:collector-deploy-plan
-- Deploy: Run Event Collector Deploy after Cloudflare variables and secrets are configured.
+- Deploy: Production Input Watch triggers Event Collector Deploy after Cloudflare variables and secrets are configured.

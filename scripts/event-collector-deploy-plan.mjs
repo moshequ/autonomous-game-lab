@@ -124,6 +124,11 @@ const payload = {
   workflow: {
     path: '.github/workflows/event-collector-deploy.yml',
     status: workflowExists ? 'present' : 'missing',
+    triggers: {
+      manualDispatch: workflowSource.includes('workflow_dispatch:'),
+      autonomousDaily: workflowSource.includes("'Autonomous Daily Studio'"),
+      productionInputWatch: workflowSource.includes("'Production Input Watch'"),
+    },
     deploysWhenConfigured: deployCredentialReady && collectorEnvReady,
     autoCreatesBucket: workflowSource.includes('r2 bucket create'),
   },
@@ -147,13 +152,13 @@ const payload = {
     'Create or select a Cloudflare account; the deploy workflow creates or reuses the R2 bucket for collector event batches.',
     'Set repository variables CLOUDFLARE_ACCOUNT_ID, AGL_EVENT_COLLECTOR_R2_BUCKET, AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS, VITE_EVENT_COLLECTOR_URL, and AGL_EVENT_COLLECTOR_EXPORT_URL.',
     'Set repository secrets CLOUDFLARE_API_TOKEN, VITE_EVENT_COLLECTOR_WRITE_TOKEN, and AGL_EVENT_COLLECTOR_ADMIN_TOKEN.',
-    'Run the Event Collector Deploy workflow; it runs the collector smoke before deploying.',
+    'Let Production Input Watch or the Event Collector Deploy workflow run; it runs the collector smoke before deploying.',
   ],
   checks,
   commands: {
     smoke: 'npm run autonomous:event-collector-smoke',
     plan: 'npm run autonomous:collector-deploy-plan',
-    deployWorkflow: 'Run Event Collector Deploy after Cloudflare variables and secrets are configured.',
+    deployWorkflow: 'Production Input Watch triggers Event Collector Deploy after Cloudflare variables and secrets are configured.',
   },
 }
 
@@ -165,6 +170,7 @@ const report = [
   `Provider: ${payload.provider}`,
   `Cost posture: ${payload.costPosture}`,
   `Auto-create R2 bucket: ${payload.workflow.autoCreatesBucket}`,
+  `Runs after production input watch: ${payload.workflow.triggers.productionInputWatch}`,
   '',
   '## Checks',
   '',
