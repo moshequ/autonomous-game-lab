@@ -1,29 +1,17 @@
 {
-  "generatedAt": "2026-05-22T11:52:48.094Z",
-  "status": "operator-plan-ready",
+  "generatedAt": "2026-05-22T11:55:11.450Z",
+  "status": "operator-held",
   "mode": "plan-only",
   "ownerDecision": {
-    "actionId": "measure-pwa-install-loop",
-    "command": "npm run autonomous:pwa-install",
-    "locallyExecutable": true,
-    "rejectionReason": null
+    "actionId": "hold-for-external-input",
+    "command": "No local command is available until external inputs, configured credentials, or new player evidence arrive.",
+    "locallyExecutable": false,
+    "rejectionReason": "status-monitor"
   },
   "requestedActionId": null,
-  "selectedAction": {
-    "id": "measure-pwa-install-loop",
-    "status": "armed",
-    "command": "npm run autonomous:pwa-install",
-    "targets": [
-      "pwa-install"
-    ],
-    "reason": "Measures optional PWA install prompts and standalone launches as the zero-cost distribution path.",
-    "costUsd": 0
-  },
+  "selectedAction": null,
   "selectedRejection": null,
-  "eligibleActionIds": [
-    "measure-pwa-install-loop",
-    "optimize-store-listing"
-  ],
+  "eligibleActionIds": [],
   "blockedActions": [
     {
       "id": "run-daily-owner-loop",
@@ -71,6 +59,12 @@
       "id": "optimize-daily-retention",
       "status": "monitor",
       "command": "npm run autonomous:retention",
+      "reason": "status-monitor"
+    },
+    {
+      "id": "measure-pwa-install-loop",
+      "status": "monitor",
+      "command": "npm run autonomous:pwa-install",
       "reason": "status-monitor"
     },
     {
@@ -224,12 +218,7 @@
       "reason": "status-monitor"
     }
   ],
-  "commandPlan": [
-    {
-      "segment": "npm run autonomous:pwa-install",
-      "script": "autonomous:pwa-install"
-    }
-  ],
+  "commandPlan": [],
   "execution": {
     "requested": false,
     "status": "not-requested",
@@ -302,7 +291,7 @@
     "RUN_WORKFLOWS=1"
   ],
   "nextActions": [
-    "Run npm run autonomous:operator -- --execute --action=measure-pwa-install-loop to execute exactly one allowed local action.",
+    "Keep reporting external blockers until a safe local action is eligible.",
     "Do not execute GitHub workflow, store, paid ads, or account setup commands from the local operator."
   ]
 }

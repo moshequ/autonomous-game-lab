@@ -1,11 +1,7 @@
 export const autonomousOperator = {
   "status": "operator-held",
   "mode": "plan-only",
-  "selectedAction": {
-    "id": "measure-pwa-install-loop",
-    "status": "armed",
-    "costUsd": 0
-  },
+  "selectedAction": null,
   "execution": {
     "status": "not-requested"
   }

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-22T11:52:48.627Z",
+  "generatedAt": "2026-05-22T11:55:11.709Z",
   "status": "owner-loop-ready",
   "mode": "zero-spend-web-ready",
   "autonomyScore": {
@@ -23,12 +23,12 @@
     "heldForExternalInput": true
   },
   "ownerDecision": {
-    "nextBestActionId": "measure-pwa-install-loop",
-    "nextBestAction": "npm run autonomous:pwa-install",
+    "nextBestActionId": "hold-for-external-input",
+    "nextBestAction": "No local command is available until external inputs, configured credentials, or new player evidence arrive.",
     "canExecuteWithoutSpend": true,
-    "localActionAvailable": true,
-    "holdReason": null,
-    "rationale": "Measures optional PWA install prompts and standalone launches as the zero-cost distribution path."
+    "localActionAvailable": false,
+    "holdReason": "All safe local actions are current; remaining progress requires external inputs or new player evidence.",
+    "rationale": "All safe local refresh actions are current; hold execution until owner-provided inputs, production analytics, or real player evidence changes the state."
   },
   "executionMemory": {
     "avoidImmediateRepeat": true,
@@ -50,7 +50,7 @@
     "objectiveAuditFreshness": {
       "fresh": true,
       "structurallyReady": true,
-      "auditGeneratedAt": "2026-05-22T11:52:48.448Z",
+      "auditGeneratedAt": "2026-05-22T11:55:10.944Z",
       "evaluatedInputIds": [
         "analytics-rollup",
         "event-ingest",
@@ -74,7 +74,7 @@
         "ready": true,
         "status": "cadence-ready",
         "artifactGeneratedAt": "2026-05-22T11:38:24.991Z",
-        "ageHours": 0.24,
+        "ageHours": 0.28,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -85,7 +85,7 @@
         "ready": true,
         "status": "self-update-ready",
         "artifactGeneratedAt": "2026-05-22T11:01:17.281Z",
-        "ageHours": 0.859,
+        "ageHours": 0.898,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -96,7 +96,7 @@
         "ready": true,
         "status": "support-feedback-empty",
         "artifactGeneratedAt": "2026-05-22T10:14:32.124Z",
-        "ageHours": 1.638,
+        "ageHours": 1.678,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -106,8 +106,8 @@
         "fresh": true,
         "ready": true,
         "status": "performance-budget-ready",
-        "artifactGeneratedAt": "2026-05-22T11:52:34.230Z",
-        "ageHours": 0.004,
+        "artifactGeneratedAt": "2026-05-22T11:55:00.491Z",
+        "ageHours": 0.003,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -117,7 +117,7 @@
         "fresh": true,
         "ready": true,
         "status": "live-site-monitor-passed",
-        "artifactGeneratedAt": "2026-05-22T11:52:41.690Z",
+        "artifactGeneratedAt": "2026-05-22T11:55:04.937Z",
         "ageHours": 0.002,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
@@ -204,12 +204,12 @@
         ]
       },
       "pwaInstallLoop": {
-        "current": false,
-        "ready": false,
+        "current": true,
+        "ready": true,
         "status": "pwa-install-loop-ready",
-        "artifactGeneratedAt": "2026-05-22T11:48:21.363Z",
-        "artifactSourceDataHash": "d46e4449328f",
-        "sourceDataHash": "348eb1ceff4a",
+        "artifactGeneratedAt": "2026-05-22T11:54:59.734Z",
+        "artifactSourceDataHash": "967ff5ef28e4",
+        "sourceDataHash": "967ff5ef28e4",
         "evaluatedInputIds": [
           "analytics-rollup",
           "growth-plan",
@@ -262,12 +262,12 @@
         ]
       },
       "storePackage": {
-        "current": false,
-        "ready": false,
+        "current": true,
+        "ready": true,
         "status": "store-package-ready",
-        "artifactGeneratedAt": "2026-05-22T11:48:08.620Z",
-        "artifactSourceDataHash": "ec42b3c3a685",
-        "sourceDataHash": "ef90bc4a001a",
+        "artifactGeneratedAt": "2026-05-22T11:54:49.543Z",
+        "artifactSourceDataHash": "68f332e41afc",
+        "sourceDataHash": "68f332e41afc",
         "evaluatedInputIds": [
           "prototype-pipeline",
           "production-gates",
@@ -280,9 +280,9 @@
         "current": true,
         "ready": true,
         "status": "store-listing-optimizer-ready",
-        "artifactGeneratedAt": "2026-05-22T11:51:16.351Z",
-        "artifactSourceDataHash": "8bf2a94686aa",
-        "sourceDataHash": "8bf2a94686aa",
+        "artifactGeneratedAt": "2026-05-22T11:54:59.967Z",
+        "artifactSourceDataHash": "20b824627fb3",
+        "sourceDataHash": "20b824627fb3",
         "evaluatedInputIds": [
           "store-package",
           "store-assets",
@@ -300,9 +300,9 @@
         "current": true,
         "ready": true,
         "status": "draft-ready-external-blockers",
-        "artifactGeneratedAt": "2026-05-22T11:50:31.138Z",
-        "artifactSourceDataHash": "dd64802fbccf",
-        "sourceDataHash": "8a28b6de8ea5",
+        "artifactGeneratedAt": "2026-05-22T11:55:00.209Z",
+        "artifactSourceDataHash": "e9ec10b5cfa0",
+        "sourceDataHash": "e9ec10b5cfa0",
         "evaluatedInputIds": [
           "store-package",
           "monetization-plan",
@@ -460,9 +460,9 @@
     },
     "productionBootstrapFreshness": {
       "fresh": true,
-      "bootstrapGeneratedAt": "2026-05-22T11:52:46.622Z",
-      "artifactSourceDataHash": "56d7b6090ea1",
-      "sourceDataHash": "56d7b6090ea1",
+      "bootstrapGeneratedAt": "2026-05-22T11:55:08.645Z",
+      "artifactSourceDataHash": "5ccfe1d75146",
+      "sourceDataHash": "5ccfe1d75146",
       "evaluatedInputIds": [
         "release-candidate",
         "deployment-plan",
@@ -477,11 +477,11 @@
       "current": true,
       "ready": true,
       "status": "handoff-waiting-on-owner-inputs",
-      "generatedAt": "2026-05-22T11:52:46.919Z",
+      "generatedAt": "2026-05-22T11:55:09.158Z",
       "nextBestUnlockId": "production-analytics-browser",
       "ownerActionRequired": 4,
       "missingEnv": 7,
-      "missingSecrets": 5,
+      "missingSecrets": 3,
       "sourceStatusesFresh": true,
       "evaluatedSourceStatuses": [
         "production-environment",
@@ -593,13 +593,13 @@
       "status": "ready",
       "autonomy": "automatic-browser-controlled",
       "evidence": "Prompt autonomy-cockpit; installs 0; launch events 0; sample collecting-sample needs 20 prompt(s) and 10 launch event(s).",
-      "nextAction": "Publish to a stable HTTPS host before treating PWA install evidence as production-ready."
+      "nextAction": "Route zero-spend install traffic through /?game=market-pulse&utm_source=pwa_install&utm_campaign=pwa-install-market-pulse until 20 prompt view(s) and 10 launch-mode event(s) are collected."
     },
     {
       "id": "performance-budget",
       "status": "ready",
       "autonomy": "automatic-build-budget",
-      "evidence": "Initial JS 674 KB; gzip 183.2 KB; deferred chunks 2.",
+      "evidence": "Initial JS 674.5 KB; gzip 183.1 KB; deferred chunks 2.",
       "nextAction": "Keep Phaser and game scenes outside the initial PWA shell."
     },
     {
@@ -690,7 +690,7 @@
       "id": "release-candidate",
       "status": "ready",
       "autonomy": "content-hashed-deploy-evidence",
-      "evidence": "Release candidate release-candidate-ready; files 50; smoke URLs 18.",
+      "evidence": "Release candidate release-candidate-ready; files 49; smoke URLs 18.",
       "nextAction": "Regenerate the release candidate after every production build before deploy or rollback decisions."
     },
     {
@@ -732,7 +732,7 @@
       "id": "production-blocker-handoff",
       "status": "ready",
       "autonomy": "ranked-external-unlock-router",
-      "evidence": "Handoff handoff-waiting-on-owner-inputs; next production-analytics-browser; owner inputs 4; missing env 7; missing secrets 5.",
+      "evidence": "Handoff handoff-waiting-on-owner-inputs; next production-analytics-browser; owner inputs 4; missing env 7; missing secrets 3.",
       "nextAction": "Start with Browser production analytics; it is the highest-priority zero-spend owner input."
     },
     {
@@ -753,7 +753,7 @@
       "id": "autonomous-operator",
       "status": "ready",
       "autonomy": "one-safe-action-runner",
-      "evidence": "Operator operator-plan-ready; selected measure-pwa-install-loop; execution not-requested.",
+      "evidence": "Operator operator-held; selected none; execution not-requested.",
       "nextAction": "Keep a dry-run operator plan ready, then execute only one allowlisted local action when explicitly requested."
     },
     {
@@ -898,13 +898,13 @@
     },
     {
       "id": "measure-pwa-install-loop",
-      "status": "armed",
+      "status": "monitor",
       "costUsd": 0,
       "command": "npm run autonomous:pwa-install",
       "targets": [
         "pwa-install"
       ],
-      "reason": "Measures optional PWA install prompts and standalone launches as the zero-cost distribution path."
+      "reason": "PWA install loop already matches current analytics, acquisition, retention, hosting, icons, and PWA config."
     },
     {
       "id": "check-performance-budget",
@@ -913,7 +913,7 @@
       "command": "npm run build && npm run autonomous:performance && npm run autonomous:release-candidate",
       "targets": [
         "pwa-shell",
-        "GameCanvas-0ZK2i3Oq.js",
+        "GameCanvas-B668p_0S.js",
         "dist-release-candidate"
       ],
       "reason": "Performance budget and release-candidate evidence are already fresh for the current guarded build."
@@ -1076,7 +1076,7 @@
       "targets": [
         "production-analytics-browser"
       ],
-      "reason": "Production blocker handoff already ranks 4 owner input(s), 7 env blocker(s), and 5 secret blocker(s)."
+      "reason": "Production blocker handoff already ranks 4 owner input(s), 7 env blocker(s), and 3 secret blocker(s)."
     },
     {
       "id": "run-production-unlock-runner",
@@ -1095,7 +1095,7 @@
       "costUsd": 0,
       "command": "npm run autonomous:operator",
       "targets": [
-        "measure-pwa-install-loop"
+        "owner-loop-safe-actions"
       ],
       "reason": "One-action operator plan is already published; avoid cycling on meta-operator refreshes."
     },
@@ -1105,7 +1105,7 @@
       "costUsd": 0,
       "command": "npm run autonomous:operator",
       "targets": [
-        "refresh-production-blocker-handoff"
+        "measure-pwa-install-loop"
       ],
       "reason": "Operator history is already capped and published; keep attention on product evidence."
     },
@@ -1226,20 +1226,6 @@
       "source": "production-bootstrap"
     },
     {
-      "id": "secret-vite-event-collector-write-token",
-      "status": "credential-required",
-      "target": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
-      "purpose": "Repository secret sourced from VITE_EVENT_COLLECTOR_WRITE_TOKEN.",
-      "source": "production-bootstrap"
-    },
-    {
-      "id": "secret-agl-event-collector-admin-token",
-      "status": "credential-required",
-      "target": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
-      "purpose": "Repository secret sourced from AGL_EVENT_COLLECTOR_ADMIN_TOKEN.",
-      "source": "production-bootstrap"
-    },
-    {
       "id": "secret-posthog-personal-api-key",
       "status": "credential-required",
       "target": "POSTHOG_PERSONAL_API_KEY",
@@ -1335,7 +1321,7 @@
     "productionUnlockRunnerStatus": "unlock-runner-idle",
     "supportChannelStatus": "support-channel-ready",
     "supportFeedbackStatus": "support-feedback-empty",
-    "autonomousOperatorStatus": "operator-plan-ready",
+    "autonomousOperatorStatus": "operator-held",
     "autonomousOperatorHistoryStatus": "operator-history-ready",
     "objectiveAuditStatus": "objective-in-progress",
     "storeListingOptimizerStatus": "store-listing-optimizer-ready",
