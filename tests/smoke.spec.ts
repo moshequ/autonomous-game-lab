@@ -210,6 +210,7 @@ test('portal loads a playable canvas and autonomy cockpit', async ({ page }) => 
   await expect(page.getByLabel('Traffic Seeding')).toContainText('Seed campaigns')
   await expect(page.getByLabel('Organic Seed Loop')).toContainText('organic-seed-loop-ready')
   await expect(page.getByLabel('Acquisition Learning')).toContainText('acquisition-learning-ready')
+  await expect(page.getByLabel('Acquisition Learning')).toContainText('Public evidence')
   await expect(page.getByLabel('Daily Retention')).toContainText('retention-loop-ready')
   await expect(page.getByLabel('Daily Retention')).toContainText(retention.dailyChallenge.title)
   await expect(page.getByLabel('Daily Retention')).toContainText('Return intent')
@@ -240,6 +241,136 @@ test('portal loads a playable canvas and autonomy cockpit', async ({ page }) => 
   })
 
   expect(sample).toBeGreaterThan(100)
+})
+
+test('acquisition learning treats public aggregate seed evidence as supporting only', async () => {
+  const tempRoot = await mkdtemp(path.join(tmpdir(), 'agl-acquisition-evidence-'))
+  const dataDir = path.join(tempRoot, 'data')
+
+  try {
+    await mkdir(dataDir, { recursive: true })
+    await writeFile(
+      path.join(dataDir, 'analytics-rollup.json'),
+      JSON.stringify({ sourceStatus: { activeSource: 'temp-fixture' }, games: [] }, null, 2),
+    )
+    await writeFile(
+      path.join(dataDir, 'traffic-seeding.json'),
+      JSON.stringify(
+        {
+          status: 'traffic-seeding-ready',
+          guardrails: { minimumStartsBeforeQualityJudgment: 40 },
+          channels: [{ id: 'player-share', status: 'armed', costUsd: 0 }],
+          campaigns: [
+            {
+              id: 'seed-20260522-market-pulse',
+              gameId: 'market-pulse',
+              title: 'Market Pulse',
+              priority: 1,
+              costUsd: 0,
+              noPaidPromotion: true,
+            },
+          ],
+        },
+        null,
+        2,
+      ),
+    )
+    await writeFile(
+      path.join(dataDir, 'growth-plan.json'),
+      JSON.stringify({ gamePages: [{ gameId: 'market-pulse', metrics: { qualityScore: 72 } }] }, null, 2),
+    )
+    await writeFile(
+      path.join(dataDir, 'unit-economics.json'),
+      JSON.stringify({ controls: { paidAcquisitionAllowed: false } }, null, 2),
+    )
+    await writeFile(path.join(dataDir, 'playable-games.json'), JSON.stringify({ games: ['market-pulse'] }, null, 2))
+    await writeFile(
+      path.join(dataDir, 'support-feedback.json'),
+      JSON.stringify(
+        {
+          status: 'support-feedback-ready',
+          sourceDataHash: 'temp-support-hash',
+          summary: { aggregateEvidenceNotes: 1 },
+          aggregateEvidenceNotes: [
+            {
+              number: 42,
+              url: 'https://github.com/moshequ/autonomous-game-lab/issues/42',
+              status: 'supporting-evidence',
+              gameId: 'market-pulse',
+              gateId: 'organicSeed',
+              campaignId: 'seed-20260522-market-pulse',
+              evidenceWindow: '2026-05-20 to 2026-05-21',
+              counts: {
+                starts: 12,
+                completions: 7,
+                replays: 3,
+                d1Eligible: 4,
+                d1Retained: 2,
+              },
+            },
+          ],
+        },
+        null,
+        2,
+      ),
+    )
+
+    await execFileAsync('node', [path.join(process.cwd(), 'scripts/acquisition-learning.mjs')], {
+      cwd: tempRoot,
+    })
+
+    const learning = JSON.parse(await readFile(path.join(dataDir, 'acquisition-learning.json'), 'utf8')) as {
+      sourceStatus: { supportFeedback: string; rawAttributionAvailable: boolean }
+      guardrails: {
+        publicAggregateEvidenceIsSupportingOnly: boolean
+        aggregateEvidenceNeverMarksAcquisitionDecision: boolean
+      }
+      summary: { supportingAggregateEvidenceNotes: number; supportingAggregateStarts: number }
+      campaigns: Array<{
+        status: string
+        attribution: { attributedStarts: number }
+        metrics: { observedStarts: number }
+        supportingAggregateEvidence: {
+          status: string
+          matchScope: string
+          noteCount: number
+          starts: number
+          completions: number
+          replays: number
+          acquisitionDecisionEligible: boolean
+          manualReviewRequired: boolean
+          topIssues: Array<{ number: number; campaignId: string }>
+        }
+      }>
+    }
+    const campaign = learning.campaigns[0]
+
+    expect(learning.sourceStatus.supportFeedback).toBe('support-feedback-ready')
+    expect(learning.sourceStatus.rawAttributionAvailable).toBe(false)
+    expect(learning.guardrails.publicAggregateEvidenceIsSupportingOnly).toBe(true)
+    expect(learning.guardrails.aggregateEvidenceNeverMarksAcquisitionDecision).toBe(true)
+    expect(learning.summary.supportingAggregateEvidenceNotes).toBe(1)
+    expect(learning.summary.supportingAggregateStarts).toBe(12)
+    expect(campaign.status).toBe('collecting-attribution')
+    expect(campaign.attribution.attributedStarts).toBe(0)
+    expect(campaign.metrics.observedStarts).toBe(0)
+    expect(campaign.supportingAggregateEvidence).toMatchObject({
+      status: 'supporting-public-aggregate-notes',
+      matchScope: 'campaign',
+      noteCount: 1,
+      starts: 12,
+      completions: 7,
+      replays: 3,
+      acquisitionDecisionEligible: false,
+      manualReviewRequired: true,
+    })
+    expect(campaign.supportingAggregateEvidence.topIssues[0]).toMatchObject({
+      number: 42,
+      campaignId: 'seed-20260522-market-pulse',
+    })
+  } finally {
+    await rm(tempRoot, { recursive: true, force: true })
+  }
 })
 
 test('thumbnail board-state experiment reaches cards and start telemetry', async ({ page }) => {
@@ -6187,6 +6318,8 @@ test('zero-spend seed kit is reachable and uses runtime-relative campaign links'
       playerInitiatedSharingOnly: boolean
       productGateSampleSharingOnly: boolean
       noAutomatedExternalPosting: boolean
+      publicAggregateEvidenceIsSupportingOnly: boolean
+      aggregateEvidenceDoesNotPassAcquisitionGates: boolean
     }
     sampleDistribution: {
       status: string
@@ -6218,6 +6351,9 @@ test('zero-spend seed kit is reachable and uses runtime-relative campaign links'
       costUsd: number
       playerInitiatedSharingOnly: boolean
       copyShareControls: boolean
+      playerInitiatedAggregateEvidenceEnabled: boolean
+      aggregateEvidenceIssueTemplate: string
+      aggregateEvidenceRepository: string | null
       localAnalyticsEvents: boolean
       localAnalyticsStorageKey: string
     }
@@ -6283,8 +6419,13 @@ test('zero-spend seed kit is reachable and uses runtime-relative campaign links'
   expect(traffic.guardrails.playerInitiatedSharingOnly).toBe(true)
   expect(traffic.guardrails.productGateSampleSharingOnly).toBe(true)
   expect(traffic.guardrails.noAutomatedExternalPosting).toBe(true)
+  expect(traffic.guardrails.publicAggregateEvidenceIsSupportingOnly).toBe(true)
+  expect(traffic.guardrails.aggregateEvidenceDoesNotPassAcquisitionGates).toBe(true)
   expect(shareManifest.seedKit.playerInitiatedSharingOnly).toBe(true)
   expect(shareManifest.seedKit.copyShareControls).toBe(true)
+  expect(shareManifest.seedKit.playerInitiatedAggregateEvidenceEnabled).toBe(true)
+  expect(shareManifest.seedKit.aggregateEvidenceIssueTemplate).toBe('analytics-evidence.yml')
+  expect(shareManifest.seedKit.aggregateEvidenceRepository).toBe('moshequ/autonomous-game-lab')
   expect(shareManifest.seedKit.localAnalyticsEvents).toBe(true)
   expect(shareManifest.seedKit.localAnalyticsStorageKey).toBe('agl.analytics.events')
   expect(traffic.evergreenRoute.status).toBe('armed')
@@ -6344,6 +6485,7 @@ test('zero-spend seed kit is reachable and uses runtime-relative campaign links'
   await expect(page.getByLabel('Evergreen seed route')).toContainText(firstCampaign.title)
   await expect(page.getByRole('button', { name: 'Copy share text' }).first()).toBeVisible()
   await expect(page.getByRole('button', { name: 'Share' }).first()).toBeVisible()
+  await expect(firstCard.getByRole('button', { name: 'Share evidence' })).toBeVisible()
   await expect(page.getByRole('link', { name: 'Open gate missions' })).toHaveAttribute('href', './gate-sample.html')
   expect(defaultSample).toBeTruthy()
   if (defaultSample) {
@@ -6419,6 +6561,160 @@ test('zero-spend seed kit is reachable and uses runtime-relative campaign links'
         event.properties.zeroPaidSpend === true,
     ),
   ).toBe(true)
+})
+
+test('public seed kit opens aggregate evidence issue without raw events', async ({ page }) => {
+  const traffic = JSON.parse(await readFile('data/traffic-seeding.json', 'utf8')) as {
+    campaigns: Array<{ id: string; gameId: string; title: string }>
+  }
+  const shareManifest = JSON.parse(await readFile('public/share-manifest.json', 'utf8')) as {
+    seedKit: {
+      aggregateEvidenceRepository: string | null
+      aggregateEvidenceIssueTemplate: string
+    }
+  }
+  const campaign = traffic.campaigns[0]
+  const otherCampaign = traffic.campaigns.find((item) => item.id !== campaign.id) ?? {
+    id: 'seed-other-campaign',
+    gameId: 'other-game',
+    title: 'Other game',
+  }
+  const seedEvents = [
+    {
+      id: 'evt-seed-start',
+      name: 'game_started',
+      properties: {
+        campaignId: campaign.id,
+        gameId: campaign.gameId,
+        acquisitionCampaign: campaign.id,
+        anonymousId: 'anon-seed-player',
+      },
+      createdAt: '2026-05-20T10:00:00.000Z',
+    },
+    {
+      id: 'evt-seed-complete',
+      name: 'level_completed',
+      properties: {
+        campaignId: campaign.id,
+        gameId: campaign.gameId,
+        acquisitionCampaign: campaign.id,
+        anonymousId: 'anon-seed-player',
+      },
+      createdAt: '2026-05-20T10:08:00.000Z',
+    },
+    {
+      id: 'evt-seed-replay',
+      name: 'replay_clicked',
+      properties: {
+        campaignId: campaign.id,
+        gameId: campaign.gameId,
+        acquisitionCampaign: campaign.id,
+        anonymousId: 'anon-seed-player',
+      },
+      createdAt: '2026-05-20T10:12:00.000Z',
+    },
+    {
+      id: 'evt-seed-d1-eligible',
+      name: 'daily_challenge_completed',
+      properties: {
+        campaignId: campaign.id,
+        gameId: campaign.gameId,
+        acquisitionCampaign: campaign.id,
+        anonymousId: 'anon-seed-player',
+      },
+      createdAt: '2026-05-21T10:00:00.000Z',
+    },
+    {
+      id: 'evt-seed-d1-retained',
+      name: 'daily_return_intent_started',
+      properties: {
+        campaignId: campaign.id,
+        gameId: campaign.gameId,
+        acquisitionCampaign: campaign.id,
+        anonymousId: 'anon-seed-player',
+      },
+      createdAt: '2026-05-21T10:03:00.000Z',
+    },
+    {
+      id: 'evt-other-start',
+      name: 'game_started',
+      properties: {
+        campaignId: otherCampaign.id,
+        gameId: otherCampaign.gameId,
+        acquisitionCampaign: otherCampaign.id,
+        anonymousId: 'anon-other-player',
+      },
+      createdAt: '2026-05-21T11:00:00.000Z',
+    },
+  ]
+
+  await page.addInitScript((events) => {
+    window.localStorage.setItem('agl.analytics.events', JSON.stringify(events))
+  }, seedEvents)
+  await page.goto('/seed-kit.html')
+  await page.evaluate(() => {
+    const target = window as Window & { __seedKitEvidenceUrl?: string }
+    target.__seedKitEvidenceUrl = ''
+    window.open = ((url?: string | URL) => {
+      target.__seedKitEvidenceUrl = String(url)
+      return window
+    }) as typeof window.open
+  })
+
+  await page.locator(`[data-campaign-id="${campaign.id}"]`).getByRole('button', { name: 'Share evidence' }).click()
+  await page.waitForFunction(() => Boolean((window as Window & { __seedKitEvidenceUrl?: string }).__seedKitEvidenceUrl))
+
+  const opened = await page.evaluate(() => (window as Window & { __seedKitEvidenceUrl?: string }).__seedKitEvidenceUrl ?? '')
+  const openedUrl = new URL(opened)
+  const openedText = decodeURIComponent(opened)
+  const evidenceEvent = await page.evaluate(() => {
+    const events = JSON.parse(window.localStorage.getItem('agl.analytics.events') ?? '[]') as Array<{
+      name: string
+      properties: Record<string, string | number | boolean | null>
+    }>
+
+    return events.findLast((event) => event.name === 'analytics_evidence_issue_opened')
+  })
+
+  expect(shareManifest.seedKit.aggregateEvidenceRepository).toBe('moshequ/autonomous-game-lab')
+  expect(openedUrl.hostname).toBe('github.com')
+  expect(openedUrl.pathname).toBe('/moshequ/autonomous-game-lab/issues/new')
+  expect(openedUrl.searchParams.get('template')).toBe(shareManifest.seedKit.aggregateEvidenceIssueTemplate)
+  expect(openedUrl.searchParams.get('game')).toContain(campaign.title)
+  expect(openedUrl.searchParams.get('game')).toContain(campaign.gameId)
+  expect(openedUrl.searchParams.get('game')).toContain('organicSeed')
+  expect(openedUrl.searchParams.get('game')).toContain(campaign.id)
+  expect(openedUrl.searchParams.get('starts')).toBe('1')
+  expect(openedUrl.searchParams.get('completions')).toBe('1')
+  expect(openedUrl.searchParams.get('replays')).toBe('1')
+  expect(openedUrl.searchParams.get('d1_eligible')).toBe('1')
+  expect(openedUrl.searchParams.get('d1_retained')).toBe('1')
+  expect(openedUrl.searchParams.get('summary')).toContain(campaign.id)
+  expect(openedUrl.searchParams.get('summary')).toContain('does not pass acquisition or product gates')
+  expect(openedText).not.toContain('anon-seed-player')
+  expect(openedText).not.toContain('evt-seed')
+  expect(openedText).not.toContain(otherCampaign.id)
+  expect(evidenceEvent?.properties).toMatchObject({
+    surface: 'public-seed-kit',
+    channel: 'organic-seed',
+    campaignId: campaign.id,
+    gameId: campaign.gameId,
+    starts: 1,
+    completions: 1,
+    replays: 1,
+    d1Eligible: 1,
+    d1Retained: 1,
+    publicAggregateOnly: true,
+    rawEventsIncluded: false,
+    identifiersIncluded: false,
+    aggregateEvidenceDoesNotPassGates: true,
+    aggregateEvidenceDoesNotPassAcquisitionGates: true,
+    destination: 'github-issues',
+    zeroPaidSpend: true,
+    noSyntheticEvents: true,
+    noRevenueEnablement: true,
+  })
+  expect(Number(evidenceEvent?.properties.localCampaignEvents ?? 0)).toBeGreaterThanOrEqual(5)
 })
 
 test('zero-spend gate sample page is reachable and uses runtime-relative mission links', async ({ page }) => {

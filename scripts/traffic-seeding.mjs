@@ -83,6 +83,7 @@ const escapeHtml = (value) =>
     .replaceAll('>', '&gt;')
     .replaceAll('"', '&quot;')
     .replaceAll("'", '&#39;')
+const safeJsonScript = (value) => JSON.stringify(value).replaceAll('<', '\\u003c')
 
 const playable = await readJson(path.join(dataDir, 'playable-games.json'))
 const portfolio = await readJson(path.join(dataDir, 'portfolio-policy.json'))
@@ -96,6 +97,11 @@ const productGateSamplePlan = await readOptionalJson(path.join(dataDir, 'product
   summary: {},
   publicSamplePage: { path: '/gate-sample.html' },
   missions: [],
+  controls: {},
+})
+const supportChannel = await readOptionalJson(path.join(dataDir, 'support-channel.json'), {
+  status: 'missing',
+  repository: { target: null },
   controls: {},
 })
 const shareManifest = await readOptionalJson(shareManifestPath, {
@@ -112,6 +118,10 @@ const siteUrl = normalizePublicOrigin(growth.siteUrl) ?? normalizePublicOrigin(s
 const publicUrlMode = siteUrl ? 'absolute-origin' : 'runtime-relative'
 const publicUrl = (pathname) => (siteUrl ? `${siteUrl}${rootPath(pathname)}` : rootPath(pathname))
 const runtimeHref = (value) => (String(value).startsWith('/') ? `.${value}` : value)
+const aggregateEvidenceRepository =
+  typeof supportChannel.repository?.target === 'string' && /^[\w.-]+\/[\w.-]+$/.test(supportChannel.repository.target)
+    ? supportChannel.repository.target
+    : null
 const runDate = slugDate()
 const seedIds = (portfolio.rotation?.seedTrafficGameIds ?? []).filter((gameId) => playableIds.has(gameId))
 const campaignIds = seedIds.length ? seedIds : (portfolio.games ?? []).slice(0, 4).map((game) => game.gameId)
@@ -122,6 +132,11 @@ const sourceDataHash = hashSourceData({
   growth,
   analytics,
   unitEconomics,
+  supportChannel: {
+    status: supportChannel.status,
+    repository: aggregateEvidenceRepository,
+    analyticsEvidenceAggregateOnly: supportChannel.controls?.analyticsEvidenceAggregateOnly === true,
+  },
 })
 
 const channels = [
@@ -288,6 +303,8 @@ const payload = {
     noAutomatedExternalPosting: true,
     playerInitiatedSharingOnly: true,
     productGateSampleSharingOnly: true,
+    publicAggregateEvidenceIsSupportingOnly: true,
+    aggregateEvidenceDoesNotPassAcquisitionGates: true,
     minimumStartsBeforeQualityJudgment: 40,
   },
   channels,
@@ -332,6 +349,9 @@ const nextShareManifest = {
     costUsd: 0,
     playerInitiatedSharingOnly: true,
     copyShareControls: true,
+    playerInitiatedAggregateEvidenceEnabled: Boolean(aggregateEvidenceRepository),
+    aggregateEvidenceIssueTemplate: 'analytics-evidence.yml',
+    aggregateEvidenceRepository,
     localAnalyticsEvents: true,
     localAnalyticsStorageKey: 'agl.analytics.events',
     generatedAt: payload.generatedAt,
@@ -391,6 +411,11 @@ const seedKitCards = campaigns
           <a class="secondary" href="${escapeHtml(runtimePagePath)}">Organic page</a>
           <button type="button" data-seed-action="copy">Copy share text</button>
           <button class="secondary" type="button" data-seed-action="share">Share</button>
+          ${
+            aggregateEvidenceRepository
+              ? '<button class="secondary" type="button" data-seed-action="evidence">Share evidence</button>'
+              : ''
+          }
         </div>
         <dl>
           <div><dt>Campaign</dt><dd>${escapeHtml(campaign.id)}</dd></div>
@@ -495,9 +520,14 @@ const seedKitHtml = `<!doctype html>
         ${seedKitCards}
       </section>
     </main>
+    <script type="application/json" id="seed-kit-support-data">${safeJsonScript({
+      repository: aggregateEvidenceRepository,
+      template: 'analytics-evidence.yml',
+    })}</script>
     <script>
       (() => {
         const analyticsKey = 'agl.analytics.events'
+        const support = JSON.parse(document.getElementById('seed-kit-support-data')?.textContent || '{}')
         const readEvents = () => {
           try {
             const raw = window.localStorage.getItem(analyticsKey)
@@ -506,6 +536,9 @@ const seedKitHtml = `<!doctype html>
           } catch {
             return []
           }
+        }
+        const writeEvents = (events) => {
+          window.localStorage.setItem(analyticsKey, JSON.stringify(events.slice(-300)))
         }
         const createId = (prefix) =>
           window.crypto?.randomUUID
@@ -528,8 +561,122 @@ const seedKitHtml = `<!doctype html>
             },
             createdAt: new Date().toISOString(),
           }
-          const events = [...readEvents(), event].slice(-300)
-          window.localStorage.setItem(analyticsKey, JSON.stringify(events))
+          writeEvents([...readEvents(), event])
+        }
+        const eventNames = (events, names) => {
+          const wanted = new Set(names)
+          return events.filter((event) => wanted.has(event.name)).length
+        }
+        const uniquePlayers = (events, names) => {
+          const wanted = new Set(names)
+          const players = new Set(
+            events
+              .filter((event) => wanted.has(event.name))
+              .map((event) => event.properties?.anonymousId)
+              .filter((anonymousId) => typeof anonymousId === 'string' && anonymousId),
+          )
+
+          return players.size
+        }
+        const evidenceWindowFor = (events) => {
+          const dates = events
+            .flatMap((event) => {
+              const timestamp = Date.parse(event.createdAt || '')
+              return Number.isFinite(timestamp) ? [new Date(timestamp).toISOString().slice(0, 10)] : []
+            })
+            .sort()
+
+          if (!dates.length) {
+            return new Date().toISOString().slice(0, 10)
+          }
+
+          const first = dates[0]
+          const last = dates[dates.length - 1] || first
+
+          return first === last ? first : \`\${first} to \${last}\`
+        }
+        const campaignEvents = (card, events) =>
+          events.filter((event) => {
+            const properties = event.properties || {}
+            return (
+              properties.acquisitionCampaign === card.dataset.campaignId ||
+              properties.campaignId === card.dataset.campaignId ||
+              properties.campaign === card.dataset.campaignId ||
+              properties.utm_campaign === card.dataset.campaignId
+            )
+          })
+        const aggregateIssueUrl = (card, events) => {
+          if (!support.repository || !/^[\\w.-]+\\/[\\w.-]+$/.test(support.repository)) {
+            return null
+          }
+
+          const scoped = campaignEvents(card, events)
+          const url = new URL(\`https://github.com/\${support.repository}/issues/new\`)
+          const counts = {
+            starts: eventNames(scoped, ['game_started']),
+            completions: eventNames(scoped, ['level_completed']),
+            replays: eventNames(scoped, ['replay_clicked']),
+            d1Eligible: uniquePlayers(scoped, ['daily_challenge_completed']),
+            d1Retained: uniquePlayers(scoped, ['daily_return_intent_started']),
+          }
+
+          url.searchParams.set('template', support.template || 'analytics-evidence.yml')
+          url.searchParams.set('title', \`[Evidence] \${card.dataset.shareTitle} seed campaign aggregate counts\`)
+          url.searchParams.set('game', \`\${card.dataset.shareTitle} (\${card.dataset.gameId}; organicSeed; \${card.dataset.campaignId})\`)
+          url.searchParams.set('window', evidenceWindowFor(scoped))
+          url.searchParams.set('starts', String(counts.starts))
+          url.searchParams.set('completions', String(counts.completions))
+          url.searchParams.set('replays', String(counts.replays))
+          url.searchParams.set('d1_eligible', String(counts.d1Eligible))
+          url.searchParams.set('d1_retained', String(counts.d1Retained))
+          url.searchParams.set(
+            'summary',
+            \`Aggregate-only seed campaign summary from \${scoped.length} local event(s) for \${card.dataset.campaignId}. Raw event rows and identifiers remain on the device. Aggregate evidence supports acquisition review but does not pass acquisition or product gates by itself.\`,
+          )
+
+          return { url: url.toString(), counts, eventCount: scoped.length }
+        }
+        const shareAggregateEvidence = (card) => {
+          const events = readEvents()
+          const evidence = aggregateIssueUrl(card, events)
+
+          if (!evidence) {
+            return false
+          }
+
+          const evidenceEvent = {
+            id: createId('seed-evidence'),
+            name: 'analytics_evidence_issue_opened',
+            properties: {
+              surface: 'public-seed-kit',
+              channel: 'organic-seed',
+              campaignId: card.dataset.campaignId,
+              gameId: card.dataset.gameId,
+              acquisitionCampaign: card.dataset.campaignId,
+              acquisitionSource: 'seed_share',
+              acquisitionChannel: 'player-share',
+              starts: evidence.counts.starts,
+              completions: evidence.counts.completions,
+              replays: evidence.counts.replays,
+              d1Eligible: evidence.counts.d1Eligible,
+              d1Retained: evidence.counts.d1Retained,
+              localCampaignEvents: evidence.eventCount,
+              publicAggregateOnly: true,
+              rawEventsIncluded: false,
+              identifiersIncluded: false,
+              aggregateEvidenceDoesNotPassGates: true,
+              aggregateEvidenceDoesNotPassAcquisitionGates: true,
+              destination: 'github-issues',
+              zeroPaidSpend: true,
+              noSyntheticEvents: true,
+              noRevenueEnablement: true,
+            },
+            createdAt: new Date().toISOString(),
+          }
+
+          writeEvents([...events, evidenceEvent])
+          window.open(evidence.url, '_blank', 'noopener,noreferrer')
+          return true
         }
         const writeClipboard = async (text, textarea) => {
           if (navigator.clipboard && navigator.clipboard.writeText) {
@@ -569,6 +716,15 @@ const seedKitHtml = `<!doctype html>
             const title = card.dataset.shareTitle
             const text = card.dataset.shareText
             const copy = [title, text, url].join('\\n')
+            if (button.dataset.seedAction === 'evidence') {
+              const opened = shareAggregateEvidence(card)
+              status.textContent = opened ? 'Aggregate evidence issue opened.' : 'Evidence handoff is not configured.'
+              button.textContent = opened ? 'Opened' : originalLabel
+              window.setTimeout(() => {
+                button.textContent = originalLabel
+              }, 1600)
+              return
+            }
             const method = button.dataset.seedAction === 'share' && navigator.share ? 'native' : 'clipboard'
 
             try {

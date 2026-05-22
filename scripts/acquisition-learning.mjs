@@ -10,6 +10,10 @@ const outputTsPath = path.join(root, 'src', 'data', 'acquisitionLearning.ts')
 const reportPath = path.join(root, 'reports', 'acquisition-learning-latest.md')
 
 const readJson = async (filePath) => JSON.parse(await readFile(filePath, 'utf8'))
+const readOptionalJson = async (filePath, fallback) =>
+  readFile(filePath, 'utf8')
+    .then((raw) => JSON.parse(raw))
+    .catch(() => fallback)
 
 const readLocalEvents = async () => {
   let files = []
@@ -55,6 +59,13 @@ const traffic = await readJson(path.join(dataDir, 'traffic-seeding.json'))
 const growth = await readJson(path.join(dataDir, 'growth-plan.json'))
 const unitEconomics = await readJson(path.join(dataDir, 'unit-economics.json'))
 const playable = await readJson(path.join(dataDir, 'playable-games.json'))
+const supportFeedback = await readOptionalJson(path.join(dataDir, 'support-feedback.json'), {
+  status: 'missing',
+  sourceDataHash: null,
+  summary: { aggregateEvidenceNotes: 0 },
+  aggregateEvidenceNotes: [],
+  controls: {},
+})
 const { files: localEventFiles, events } = await readLocalEvents()
 const sourceDataHash = hashSourceData({
   analytics,
@@ -64,6 +75,18 @@ const sourceDataHash = hashSourceData({
   playable,
   localEventFiles,
   events,
+  supportFeedback: {
+    status: supportFeedback.status,
+    sourceDataHash: supportFeedback.sourceDataHash,
+    aggregateEvidenceNotes: (supportFeedback.aggregateEvidenceNotes ?? []).map((note) => ({
+      number: note.number,
+      status: note.status,
+      gameId: note.gameId,
+      campaignId: note.campaignId,
+      counts: note.counts,
+      evidenceWindow: note.evidenceWindow,
+    })),
+  },
 })
 
 const playableIds = new Set(playable.games ?? [])
@@ -74,6 +97,58 @@ const rawAttributionAvailable = events.some((event) => {
   const properties = eventProps(event)
   return properties.acquisitionCampaign || properties.campaignId || properties.campaign || properties.acquisitionSource
 })
+const aggregateEvidenceNotesByCampaign = new Map()
+const aggregateEvidenceNotesByGame = new Map()
+
+for (const note of supportFeedback.aggregateEvidenceNotes ?? []) {
+  if (note.campaignId) {
+    const campaignNotes = aggregateEvidenceNotesByCampaign.get(note.campaignId) ?? []
+    campaignNotes.push(note)
+    aggregateEvidenceNotesByCampaign.set(note.campaignId, campaignNotes)
+  }
+
+  if (note.gameId) {
+    const gameNotes = aggregateEvidenceNotesByGame.get(note.gameId) ?? []
+    gameNotes.push(note)
+    aggregateEvidenceNotesByGame.set(note.gameId, gameNotes)
+  }
+}
+
+const supportingAggregateEvidenceForCampaign = (campaign) => {
+  const campaignNotes = aggregateEvidenceNotesByCampaign.get(campaign.id) ?? []
+  const gameNotes = aggregateEvidenceNotesByGame.get(campaign.gameId) ?? []
+  const notes = [
+    ...new Map(
+      [...campaignNotes, ...gameNotes].map((note) => [note.number ?? `${note.url ?? ''}:${note.campaignId ?? ''}`, note]),
+    ).values(),
+  ].slice(0, 5)
+  const total = (field) =>
+    notes.reduce((sum, note) => sum + (typeof note.counts?.[field] === 'number' ? note.counts[field] : 0), 0)
+
+  return {
+    status: notes.length ? 'supporting-public-aggregate-notes' : 'none',
+    source: 'support-feedback-public-issues',
+    matchScope: campaignNotes.length ? 'campaign' : gameNotes.length ? 'game' : 'none',
+    noteCount: notes.length,
+    campaignNoteCount: campaignNotes.length,
+    gameNoteCount: gameNotes.length,
+    starts: total('starts'),
+    completions: total('completions'),
+    replays: total('replays'),
+    d1Eligible: total('d1Eligible'),
+    d1Retained: total('d1Retained'),
+    acquisitionDecisionEligible: false,
+    manualReviewRequired: true,
+    topIssues: notes.map((note) => ({
+      number: note.number,
+      status: note.status,
+      url: note.url,
+      campaignId: note.campaignId ?? null,
+      gateId: note.gateId ?? null,
+      evidenceWindow: note.evidenceWindow,
+    })),
+  }
+}
 
 const campaignRows = (traffic.campaigns ?? [])
   .filter((campaign) => playableIds.has(campaign.gameId))
@@ -90,6 +165,7 @@ const campaignRows = (traffic.campaigns ?? [])
     const organicEntries = campaignEvents.filter((event) => eventName(event) === 'organic_entry_opened').length
     const gameAnalytics = analyticsById.get(campaign.gameId)
     const growthPage = growthById.get(campaign.gameId)
+    const supportingAggregateEvidence = supportingAggregateEvidenceForCampaign(campaign)
     const aggregateStarts = gameAnalytics?.counts?.game_started ?? 0
     const aggregateViews = gameAnalytics?.counts?.game_viewed ?? 0
     const observedStarts = rawAttributionAvailable ? attributedStarts : aggregateStarts
@@ -146,6 +222,7 @@ const campaignRows = (traffic.campaigns ?? [])
         completionRate,
         growthQualityScore: growthPage?.metrics?.qualityScore ?? null,
       },
+      supportingAggregateEvidence,
       nextAction,
     }
   })
@@ -189,12 +266,15 @@ const payload = {
     localEventFiles: localEventFiles.length,
     localEvents: events.length,
     rawAttributionAvailable,
+    supportFeedback: supportFeedback.status,
   },
   guardrails: {
     maxCostUsd: 0,
     noPaidPromotion: unitEconomics.controls?.paidAcquisitionAllowed !== true,
     requireCampaignAttribution: true,
     minimumAttributedStartsBeforeJudgment: targetStarts,
+    publicAggregateEvidenceIsSupportingOnly: true,
+    aggregateEvidenceNeverMarksAcquisitionDecision: true,
   },
   summary: {
     campaigns: campaignRows.length,
@@ -204,6 +284,14 @@ const payload = {
     featuredGameId: featuredCandidate?.gameId ?? null,
     totalAttributedStarts: campaignRows.reduce((sum, campaign) => sum + campaign.attribution.attributedStarts, 0),
     totalAggregateStarts: campaignRows.reduce((sum, campaign) => sum + campaign.attribution.aggregateStarts, 0),
+    supportingAggregateEvidenceNotes: campaignRows.reduce(
+      (sum, campaign) => sum + campaign.supportingAggregateEvidence.noteCount,
+      0,
+    ),
+    supportingAggregateStarts: campaignRows.reduce(
+      (sum, campaign) => sum + campaign.supportingAggregateEvidence.starts,
+      0,
+    ),
   },
   channels: channelRows,
   campaigns: campaignRows,
@@ -233,12 +321,14 @@ const report = [
   `- Featured candidate: ${payload.summary.featuredGameId ?? 'none'}`,
   `- Attributed starts: ${payload.summary.totalAttributedStarts}`,
   `- Aggregate starts: ${payload.summary.totalAggregateStarts}`,
+  `- Supporting public aggregate notes: ${payload.summary.supportingAggregateEvidenceNotes}`,
+  `- Supporting public aggregate starts: ${payload.summary.supportingAggregateStarts}`,
   '',
   '## Campaigns',
   '',
   ...payload.campaigns.map(
     (campaign) =>
-      `- ${campaign.status}: ${campaign.title}; attributed ${campaign.attribution.attributedStarts}/${campaign.metrics.targetStarts}; aggregate ${campaign.attribution.aggregateStarts}; ${campaign.nextAction}`,
+      `- ${campaign.status}: ${campaign.title}; attributed ${campaign.attribution.attributedStarts}/${campaign.metrics.targetStarts}; aggregate ${campaign.attribution.aggregateStarts}; public notes ${campaign.supportingAggregateEvidence.noteCount}; ${campaign.nextAction}`,
   ),
   '',
   '## Channels',

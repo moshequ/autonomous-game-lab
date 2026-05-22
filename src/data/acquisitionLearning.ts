@@ -1,18 +1,21 @@
 export const acquisitionLearning = {
-  "generatedAt": "2026-05-22T09:55:25.149Z",
+  "generatedAt": "2026-05-22T13:09:31.151Z",
   "status": "acquisition-learning-ready",
-  "sourceDataHash": "75109856ed7d",
+  "sourceDataHash": "3e397b357de6",
   "sourceStatus": {
     "analyticsSource": "fixture-sample",
     "localEventFiles": 0,
     "localEvents": 0,
-    "rawAttributionAvailable": false
+    "rawAttributionAvailable": false,
+    "supportFeedback": "support-feedback-empty"
   },
   "guardrails": {
     "maxCostUsd": 0,
     "noPaidPromotion": true,
     "requireCampaignAttribution": true,
-    "minimumAttributedStartsBeforeJudgment": 40
+    "minimumAttributedStartsBeforeJudgment": 40,
+    "publicAggregateEvidenceIsSupportingOnly": true,
+    "aggregateEvidenceNeverMarksAcquisitionDecision": true
   },
   "summary": {
     "campaigns": 4,
@@ -21,7 +24,9 @@ export const acquisitionLearning = {
     "featuredCandidateId": "seed-20260522-market-pulse",
     "featuredGameId": "market-pulse",
     "totalAttributedStarts": 0,
-    "totalAggregateStarts": 0
+    "totalAggregateStarts": 0,
+    "supportingAggregateEvidenceNotes": 0,
+    "supportingAggregateStarts": 0
   },
   "channels": [
     {
@@ -103,6 +108,22 @@ export const acquisitionLearning = {
         "completionRate": null,
         "growthQualityScore": 78
       },
+      "supportingAggregateEvidence": {
+        "status": "none",
+        "source": "support-feedback-public-issues",
+        "matchScope": "none",
+        "noteCount": 0,
+        "campaignNoteCount": 0,
+        "gameNoteCount": 0,
+        "starts": 0,
+        "completions": 0,
+        "replays": 0,
+        "d1Eligible": 0,
+        "d1Retained": 0,
+        "acquisitionDecisionEligible": false,
+        "manualReviewRequired": true,
+        "topIssues": []
+      },
       "nextAction": "Collect campaign-attributed events for Market Pulse; aggregate starts are 0."
     },
     {
@@ -131,6 +152,22 @@ export const acquisitionLearning = {
         "startRate": null,
         "completionRate": null,
         "growthQualityScore": 74
+      },
+      "supportingAggregateEvidence": {
+        "status": "none",
+        "source": "support-feedback-public-issues",
+        "matchScope": "none",
+        "noteCount": 0,
+        "campaignNoteCount": 0,
+        "gameNoteCount": 0,
+        "starts": 0,
+        "completions": 0,
+        "replays": 0,
+        "d1Eligible": 0,
+        "d1Retained": 0,
+        "acquisitionDecisionEligible": false,
+        "manualReviewRequired": true,
+        "topIssues": []
       },
       "nextAction": "Collect campaign-attributed events for Guild Garden; aggregate starts are 0."
     },
@@ -161,6 +198,22 @@ export const acquisitionLearning = {
         "completionRate": null,
         "growthQualityScore": 70
       },
+      "supportingAggregateEvidence": {
+        "status": "none",
+        "source": "support-feedback-public-issues",
+        "matchScope": "none",
+        "noteCount": 0,
+        "campaignNoteCount": 0,
+        "gameNoteCount": 0,
+        "starts": 0,
+        "completions": 0,
+        "replays": 0,
+        "d1Eligible": 0,
+        "d1Retained": 0,
+        "acquisitionDecisionEligible": false,
+        "manualReviewRequired": true,
+        "topIssues": []
+      },
       "nextAction": "Collect campaign-attributed events for Canopy Bloom; aggregate starts are 0."
     },
     {
@@ -189,6 +242,22 @@ export const acquisitionLearning = {
         "startRate": null,
         "completionRate": null,
         "growthQualityScore": 66
+      },
+      "supportingAggregateEvidence": {
+        "status": "none",
+        "source": "support-feedback-public-issues",
+        "matchScope": "none",
+        "noteCount": 0,
+        "campaignNoteCount": 0,
+        "gameNoteCount": 0,
+        "starts": 0,
+        "completions": 0,
+        "replays": 0,
+        "d1Eligible": 0,
+        "d1Retained": 0,
+        "acquisitionDecisionEligible": false,
+        "manualReviewRequired": true,
+        "topIssues": []
       },
       "nextAction": "Collect campaign-attributed events for Metro Loom; aggregate starts are 0."
     }

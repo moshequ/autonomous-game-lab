@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-22T09:55:24.680Z",
+  "generatedAt": "2026-05-22T13:09:27.185Z",
   "siteUrl": "https://moshequ.github.io/autonomous-game-lab",
   "publicUrlMode": "absolute-origin",
   "shares": [
@@ -141,9 +141,12 @@
     "costUsd": 0,
     "playerInitiatedSharingOnly": true,
     "copyShareControls": true,
+    "playerInitiatedAggregateEvidenceEnabled": true,
+    "aggregateEvidenceIssueTemplate": "analytics-evidence.yml",
+    "aggregateEvidenceRepository": "moshequ/autonomous-game-lab",
     "localAnalyticsEvents": true,
     "localAnalyticsStorageKey": "agl.analytics.events",
-    "generatedAt": "2026-05-22T09:55:24.680Z"
+    "generatedAt": "2026-05-22T13:09:27.185Z"
   },
   "gateSampleKit": {
     "path": "/gate-sample.html",
@@ -156,7 +159,7 @@
     "exportControls": true,
     "localAnalyticsEvents": true,
     "localAnalyticsStorageKey": "agl.analytics.events",
-    "generatedAt": "2026-05-22T09:55:24.680Z"
+    "generatedAt": "2026-05-22T13:09:27.185Z"
   },
   "seedCampaigns": [
     {
@@ -315,6 +318,6 @@
     ],
     "url": "https://moshequ.github.io/autonomous-game-lab/seed-next.html",
     "jsonUrl": "https://moshequ.github.io/autonomous-game-lab/seed-next.json",
-    "generatedAt": "2026-05-22T09:55:24.680Z"
+    "generatedAt": "2026-05-22T13:09:27.185Z"
   }
 }

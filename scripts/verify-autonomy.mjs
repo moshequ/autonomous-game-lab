@@ -1305,10 +1305,12 @@ if (
   trafficSeeding.analyticsSource !== analytics.sourceStatus.activeSource ||
   trafficSeeding.guardrails?.maxCostUsd !== 0 ||
   trafficSeeding.guardrails?.noPaidPromotion !== true ||
-  trafficSeeding.guardrails?.noExternalPostingWithoutCredentials !== true ||
-  trafficSeeding.guardrails?.noAutomatedExternalPosting !== true ||
-  trafficSeeding.guardrails?.playerInitiatedSharingOnly !== true ||
-  trafficSeeding.guardrails?.minimumStartsBeforeQualityJudgment < 40 ||
+	  trafficSeeding.guardrails?.noExternalPostingWithoutCredentials !== true ||
+	  trafficSeeding.guardrails?.noAutomatedExternalPosting !== true ||
+	  trafficSeeding.guardrails?.playerInitiatedSharingOnly !== true ||
+	  trafficSeeding.guardrails?.publicAggregateEvidenceIsSupportingOnly !== true ||
+	  trafficSeeding.guardrails?.aggregateEvidenceDoesNotPassAcquisitionGates !== true ||
+	  trafficSeeding.guardrails?.minimumStartsBeforeQualityJudgment < 40 ||
   !trafficCampaigns.length ||
   missingSeedCampaign ||
   invalidTrafficCampaign ||
@@ -1328,17 +1330,23 @@ if (
   shareManifest.seedNext?.playerInitiatedOnly !== true ||
   shareManifest.seedNext?.noAutomatedExternalPosting !== true ||
   shareManifest.seedKit?.campaignCount !== trafficCampaigns.length ||
-  shareManifest.seedKit?.costUsd !== 0 ||
-  shareManifest.seedKit?.playerInitiatedSharingOnly !== true ||
-  shareManifest.seedKit?.copyShareControls !== true ||
-  shareManifest.seedKit?.localAnalyticsEvents !== true ||
-  shareManifest.seedKit?.localAnalyticsStorageKey !== 'agl.analytics.events' ||
-  !seedKitHtml.includes('Autonomous Game Lab Seed Kit') ||
+	  shareManifest.seedKit?.costUsd !== 0 ||
+	  shareManifest.seedKit?.playerInitiatedSharingOnly !== true ||
+	  shareManifest.seedKit?.copyShareControls !== true ||
+	  shareManifest.seedKit?.playerInitiatedAggregateEvidenceEnabled !== true ||
+	  shareManifest.seedKit?.aggregateEvidenceIssueTemplate !== 'analytics-evidence.yml' ||
+	  shareManifest.seedKit?.aggregateEvidenceRepository !== supportChannel.repository?.target ||
+	  shareManifest.seedKit?.localAnalyticsEvents !== true ||
+	  shareManifest.seedKit?.localAnalyticsStorageKey !== 'agl.analytics.events' ||
+	  !seedKitHtml.includes('Autonomous Game Lab Seed Kit') ||
   !seedKitHtml.includes('Evergreen seed route') ||
   !seedKitHtml.includes('$0.00 spend') ||
-  !seedKitHtml.includes('data-seed-action="copy"') ||
-  !seedKitHtml.includes('data-seed-action="share"') ||
-  !seedKitHtml.includes('trackSeedEvent') ||
+	  !seedKitHtml.includes('data-seed-action="copy"') ||
+	  !seedKitHtml.includes('data-seed-action="share"') ||
+	  !seedKitHtml.includes('data-seed-action="evidence"') ||
+	  !seedKitHtml.includes('analytics_evidence_issue_opened') ||
+	  !seedKitHtml.includes('aggregateEvidenceDoesNotPassAcquisitionGates') ||
+	  !seedKitHtml.includes('trackSeedEvent') ||
   !seedKitHtml.includes('organic_seed_card_viewed') ||
   !seedKitHtml.includes('organic_seed_share_clicked') ||
   !seedKitHtml.includes('seed_campaign_clicked') ||
@@ -1396,10 +1404,15 @@ const invalidAcquisitionCampaign = acquisitionCampaigns.find(
     !playableIds.has(campaign.gameId) ||
     campaign.costUsd !== 0 ||
     campaign.noPaidPromotion !== true ||
-    campaign.metrics?.targetStarts < acquisitionLearning.guardrails?.minimumAttributedStartsBeforeJudgment ||
-    typeof campaign.attribution?.attributedStarts !== 'number' ||
-    typeof campaign.attribution?.aggregateStarts !== 'number' ||
-    ![
+	    campaign.metrics?.targetStarts < acquisitionLearning.guardrails?.minimumAttributedStartsBeforeJudgment ||
+	    typeof campaign.attribution?.attributedStarts !== 'number' ||
+	    typeof campaign.attribution?.aggregateStarts !== 'number' ||
+	    campaign.supportingAggregateEvidence?.source !== 'support-feedback-public-issues' ||
+	    campaign.supportingAggregateEvidence?.acquisitionDecisionEligible !== false ||
+	    campaign.supportingAggregateEvidence?.manualReviewRequired !== true ||
+	    typeof campaign.supportingAggregateEvidence?.noteCount !== 'number' ||
+	    typeof campaign.supportingAggregateEvidence?.starts !== 'number' ||
+	    ![
       'collecting-attribution',
       'collecting-sample',
       'candidate-feature',
@@ -1413,13 +1426,18 @@ if (
   acquisitionLearning.status !== 'acquisition-learning-ready' ||
   acquisitionLearning.sourceStatus?.analyticsSource !== analytics.sourceStatus.activeSource ||
   acquisitionLearning.guardrails?.maxCostUsd !== 0 ||
-  acquisitionLearning.guardrails?.noPaidPromotion !== true ||
-  acquisitionLearning.guardrails?.requireCampaignAttribution !== true ||
-  acquisitionLearning.guardrails?.minimumAttributedStartsBeforeJudgment < 40 ||
-  acquisitionCampaigns.length !== trafficCampaigns.length ||
-  acquisitionLearning.summary?.campaigns !== acquisitionCampaigns.length ||
-  typeof acquisitionLearning.summary?.totalAttributedStarts !== 'number' ||
-  typeof acquisitionLearning.summary?.totalAggregateStarts !== 'number' ||
+	  acquisitionLearning.guardrails?.noPaidPromotion !== true ||
+	  acquisitionLearning.guardrails?.requireCampaignAttribution !== true ||
+	  acquisitionLearning.guardrails?.publicAggregateEvidenceIsSupportingOnly !== true ||
+	  acquisitionLearning.guardrails?.aggregateEvidenceNeverMarksAcquisitionDecision !== true ||
+	  acquisitionLearning.guardrails?.minimumAttributedStartsBeforeJudgment < 40 ||
+	  acquisitionLearning.sourceStatus?.supportFeedback !== supportFeedback.status ||
+	  acquisitionCampaigns.length !== trafficCampaigns.length ||
+	  acquisitionLearning.summary?.campaigns !== acquisitionCampaigns.length ||
+	  typeof acquisitionLearning.summary?.totalAttributedStarts !== 'number' ||
+	  typeof acquisitionLearning.summary?.totalAggregateStarts !== 'number' ||
+	  typeof acquisitionLearning.summary?.supportingAggregateEvidenceNotes !== 'number' ||
+	  typeof acquisitionLearning.summary?.supportingAggregateStarts !== 'number' ||
   missingAcquisitionCampaign ||
   invalidAcquisitionCampaign ||
   invalidAcquisitionChannel ||

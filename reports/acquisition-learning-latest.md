@@ -1,6 +1,6 @@
 # Acquisition Learning
 
-Generated: 2026-05-22T09:55:25.149Z
+Generated: 2026-05-22T13:09:31.151Z
 Status: acquisition-learning-ready
 Analytics source: fixture-sample
 Raw attribution available: no
@@ -12,13 +12,15 @@ Raw attribution available: no
 - Featured candidate: market-pulse
 - Attributed starts: 0
 - Aggregate starts: 0
+- Supporting public aggregate notes: 0
+- Supporting public aggregate starts: 0
 
 ## Campaigns
 
-- collecting-attribution: Market Pulse; attributed 0/40; aggregate 0; Collect campaign-attributed events for Market Pulse; aggregate starts are 0.
-- collecting-attribution: Guild Garden; attributed 0/40; aggregate 0; Collect campaign-attributed events for Guild Garden; aggregate starts are 0.
-- collecting-attribution: Canopy Bloom; attributed 0/40; aggregate 0; Collect campaign-attributed events for Canopy Bloom; aggregate starts are 0.
-- collecting-attribution: Metro Loom; attributed 0/40; aggregate 0; Collect campaign-attributed events for Metro Loom; aggregate starts are 0.
+- collecting-attribution: Market Pulse; attributed 0/40; aggregate 0; public notes 0; Collect campaign-attributed events for Market Pulse; aggregate starts are 0.
+- collecting-attribution: Guild Garden; attributed 0/40; aggregate 0; public notes 0; Collect campaign-attributed events for Guild Garden; aggregate starts are 0.
+- collecting-attribution: Canopy Bloom; attributed 0/40; aggregate 0; public notes 0; Collect campaign-attributed events for Canopy Bloom; aggregate starts are 0.
+- collecting-attribution: Metro Loom; attributed 0/40; aggregate 0; public notes 0; Collect campaign-attributed events for Metro Loom; aggregate starts are 0.
 
 ## Channels
 

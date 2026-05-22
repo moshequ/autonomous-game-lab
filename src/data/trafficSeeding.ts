@@ -1,7 +1,7 @@
 export const trafficSeeding = {
-  "generatedAt": "2026-05-22T09:55:24.680Z",
+  "generatedAt": "2026-05-22T13:09:27.185Z",
   "status": "traffic-seeding-ready",
-  "sourceDataHash": "2fe13365cca9",
+  "sourceDataHash": "31e1cb75b502",
   "analyticsSource": "fixture-sample",
   "publicUrlMode": "absolute-origin",
   "siteUrl": "https://moshequ.github.io/autonomous-game-lab",
@@ -13,6 +13,8 @@ export const trafficSeeding = {
     "noAutomatedExternalPosting": true,
     "playerInitiatedSharingOnly": true,
     "productGateSampleSharingOnly": true,
+    "publicAggregateEvidenceIsSupportingOnly": true,
+    "aggregateEvidenceDoesNotPassAcquisitionGates": true,
     "minimumStartsBeforeQualityJudgment": 40
   },
   "channels": [

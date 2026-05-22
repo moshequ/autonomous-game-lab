@@ -91,6 +91,7 @@
           <a class="secondary" href="./games/market-pulse.html">Organic page</a>
           <button type="button" data-seed-action="copy">Copy share text</button>
           <button class="secondary" type="button" data-seed-action="share">Share</button>
+          <button class="secondary" type="button" data-seed-action="evidence">Share evidence</button>
         </div>
         <dl>
           <div><dt>Campaign</dt><dd>seed-20260522-market-pulse</dd></div>
@@ -117,6 +118,7 @@ A generated auction puzzle with quick science desk decisions.
           <a class="secondary" href="./games/guild-garden.html">Organic page</a>
           <button type="button" data-seed-action="copy">Copy share text</button>
           <button class="secondary" type="button" data-seed-action="share">Share</button>
+          <button class="secondary" type="button" data-seed-action="evidence">Share evidence</button>
         </div>
         <dl>
           <div><dt>Campaign</dt><dd>seed-20260522-guild-garden</dd></div>
@@ -143,6 +145,7 @@ A generated worker placement puzzle with quick expedition planning decisions.
           <a class="secondary" href="./games/canopy-bloom.html">Organic page</a>
           <button type="button" data-seed-action="copy">Copy share text</button>
           <button class="secondary" type="button" data-seed-action="share">Share</button>
+          <button class="secondary" type="button" data-seed-action="evidence">Share evidence</button>
         </div>
         <dl>
           <div><dt>Campaign</dt><dd>seed-20260522-canopy-bloom</dd></div>
@@ -169,6 +172,7 @@ A generated roll and write puzzle with quick compact city logistics decisions.
           <a class="secondary" href="./games/metro-loom.html">Organic page</a>
           <button type="button" data-seed-action="copy">Copy share text</button>
           <button class="secondary" type="button" data-seed-action="share">Share</button>
+          <button class="secondary" type="button" data-seed-action="evidence">Share evidence</button>
         </div>
         <dl>
           <div><dt>Campaign</dt><dd>seed-20260522-metro-loom</dd></div>
@@ -185,9 +189,11 @@ A generated route building puzzle with quick cozy production decisions.
       </article>
       </section>
     </main>
+    <script type="application/json" id="seed-kit-support-data">{"repository":"moshequ/autonomous-game-lab","template":"analytics-evidence.yml"}</script>
     <script>
       (() => {
         const analyticsKey = 'agl.analytics.events'
+        const support = JSON.parse(document.getElementById('seed-kit-support-data')?.textContent || '{}')
         const readEvents = () => {
           try {
             const raw = window.localStorage.getItem(analyticsKey)
@@ -196,6 +202,9 @@ A generated route building puzzle with quick cozy production decisions.
           } catch {
             return []
           }
+        }
+        const writeEvents = (events) => {
+          window.localStorage.setItem(analyticsKey, JSON.stringify(events.slice(-300)))
         }
         const createId = (prefix) =>
           window.crypto?.randomUUID
@@ -218,8 +227,122 @@ A generated route building puzzle with quick cozy production decisions.
             },
             createdAt: new Date().toISOString(),
           }
-          const events = [...readEvents(), event].slice(-300)
-          window.localStorage.setItem(analyticsKey, JSON.stringify(events))
+          writeEvents([...readEvents(), event])
+        }
+        const eventNames = (events, names) => {
+          const wanted = new Set(names)
+          return events.filter((event) => wanted.has(event.name)).length
+        }
+        const uniquePlayers = (events, names) => {
+          const wanted = new Set(names)
+          const players = new Set(
+            events
+              .filter((event) => wanted.has(event.name))
+              .map((event) => event.properties?.anonymousId)
+              .filter((anonymousId) => typeof anonymousId === 'string' && anonymousId),
+          )
+
+          return players.size
+        }
+        const evidenceWindowFor = (events) => {
+          const dates = events
+            .flatMap((event) => {
+              const timestamp = Date.parse(event.createdAt || '')
+              return Number.isFinite(timestamp) ? [new Date(timestamp).toISOString().slice(0, 10)] : []
+            })
+            .sort()
+
+          if (!dates.length) {
+            return new Date().toISOString().slice(0, 10)
+          }
+
+          const first = dates[0]
+          const last = dates[dates.length - 1] || first
+
+          return first === last ? first : `${first} to ${last}`
+        }
+        const campaignEvents = (card, events) =>
+          events.filter((event) => {
+            const properties = event.properties || {}
+            return (
+              properties.acquisitionCampaign === card.dataset.campaignId ||
+              properties.campaignId === card.dataset.campaignId ||
+              properties.campaign === card.dataset.campaignId ||
+              properties.utm_campaign === card.dataset.campaignId
+            )
+          })
+        const aggregateIssueUrl = (card, events) => {
+          if (!support.repository || !/^[\w.-]+\/[\w.-]+$/.test(support.repository)) {
+            return null
+          }
+
+          const scoped = campaignEvents(card, events)
+          const url = new URL(`https://github.com/${support.repository}/issues/new`)
+          const counts = {
+            starts: eventNames(scoped, ['game_started']),
+            completions: eventNames(scoped, ['level_completed']),
+            replays: eventNames(scoped, ['replay_clicked']),
+            d1Eligible: uniquePlayers(scoped, ['daily_challenge_completed']),
+            d1Retained: uniquePlayers(scoped, ['daily_return_intent_started']),
+          }
+
+          url.searchParams.set('template', support.template || 'analytics-evidence.yml')
+          url.searchParams.set('title', `[Evidence] ${card.dataset.shareTitle} seed campaign aggregate counts`)
+          url.searchParams.set('game', `${card.dataset.shareTitle} (${card.dataset.gameId}; organicSeed; ${card.dataset.campaignId})`)
+          url.searchParams.set('window', evidenceWindowFor(scoped))
+          url.searchParams.set('starts', String(counts.starts))
+          url.searchParams.set('completions', String(counts.completions))
+          url.searchParams.set('replays', String(counts.replays))
+          url.searchParams.set('d1_eligible', String(counts.d1Eligible))
+          url.searchParams.set('d1_retained', String(counts.d1Retained))
+          url.searchParams.set(
+            'summary',
+            `Aggregate-only seed campaign summary from ${scoped.length} local event(s) for ${card.dataset.campaignId}. Raw event rows and identifiers remain on the device. Aggregate evidence supports acquisition review but does not pass acquisition or product gates by itself.`,
+          )
+
+          return { url: url.toString(), counts, eventCount: scoped.length }
+        }
+        const shareAggregateEvidence = (card) => {
+          const events = readEvents()
+          const evidence = aggregateIssueUrl(card, events)
+
+          if (!evidence) {
+            return false
+          }
+
+          const evidenceEvent = {
+            id: createId('seed-evidence'),
+            name: 'analytics_evidence_issue_opened',
+            properties: {
+              surface: 'public-seed-kit',
+              channel: 'organic-seed',
+              campaignId: card.dataset.campaignId,
+              gameId: card.dataset.gameId,
+              acquisitionCampaign: card.dataset.campaignId,
+              acquisitionSource: 'seed_share',
+              acquisitionChannel: 'player-share',
+              starts: evidence.counts.starts,
+              completions: evidence.counts.completions,
+              replays: evidence.counts.replays,
+              d1Eligible: evidence.counts.d1Eligible,
+              d1Retained: evidence.counts.d1Retained,
+              localCampaignEvents: evidence.eventCount,
+              publicAggregateOnly: true,
+              rawEventsIncluded: false,
+              identifiersIncluded: false,
+              aggregateEvidenceDoesNotPassGates: true,
+              aggregateEvidenceDoesNotPassAcquisitionGates: true,
+              destination: 'github-issues',
+              zeroPaidSpend: true,
+              noSyntheticEvents: true,
+              noRevenueEnablement: true,
+            },
+            createdAt: new Date().toISOString(),
+          }
+
+          writeEvents([...events, evidenceEvent])
+          window.open(evidence.url, '_blank', 'noopener,noreferrer')
+          return true
         }
         const writeClipboard = async (text, textarea) => {
           if (navigator.clipboard && navigator.clipboard.writeText) {
@@ -259,6 +382,15 @@ A generated route building puzzle with quick cozy production decisions.
             const title = card.dataset.shareTitle
             const text = card.dataset.shareText
             const copy = [title, text, url].join('\n')
+            if (button.dataset.seedAction === 'evidence') {
+              const opened = shareAggregateEvidence(card)
+              status.textContent = opened ? 'Aggregate evidence issue opened.' : 'Evidence handoff is not configured.'
+              button.textContent = opened ? 'Opened' : originalLabel
+              window.setTimeout(() => {
+                button.textContent = originalLabel
+              }, 1600)
+              return
+            }
             const method = button.dataset.seedAction === 'share' && navigator.share ? 'native' : 'clipboard'
 
             try {

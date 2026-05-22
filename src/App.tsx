@@ -4448,6 +4448,10 @@ function App() {
                   <strong>{localTrafficStarts}</strong>
                 </div>
                 <div className="factRow">
+                  <span>Public evidence</span>
+                  <strong>{acquisitionLearning.summary.supportingAggregateEvidenceNotes} notes</strong>
+                </div>
+                <div className="factRow">
                   <span>Next focus</span>
                   <strong>{acquisitionLearning.summary.featuredGameId ?? 'collect data'}</strong>
                 </div>

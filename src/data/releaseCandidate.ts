@@ -1,7 +1,7 @@
 export const releaseCandidate = {
-  "generatedAt": "2026-05-22T12:57:48.098Z",
+  "generatedAt": "2026-05-22T13:17:15.112Z",
   "status": "release-candidate-ready",
-  "candidateId": "pwa-23e74da9a4a3",
+  "candidateId": "pwa-ed59474e89a9",
   "target": {
     "provider": "github-pages",
     "artifactPath": "dist",
@@ -12,8 +12,8 @@ export const releaseCandidate = {
   },
   "summary": {
     "totalFiles": 49,
-    "totalBytes": 3721484,
-    "totalKb": 3634.3,
+    "totalBytes": 3721471,
+    "totalKb": 3634.2,
     "assetFiles": 4,
     "htmlFiles": 18,
     "gamePages": 10,
@@ -22,7 +22,7 @@ export const releaseCandidate = {
   },
   "integrity": {
     "algorithm": "sha256",
-    "aggregateHash": "23e74da9a4a31522d0abc0c0997cbc4971d40ba5edf82d098b01cd9060c756bb",
+    "aggregateHash": "ed59474e89a990a4f9fab865b54bf704e9ec7ea21eaa48bdd647b7b4772ef7b6",
     "files": [
       {
         "path": ".nojekyll",
@@ -46,23 +46,16 @@ export const releaseCandidate = {
         "cacheControl": "public, max-age=3600"
       },
       {
-        "path": "assets/aggregateEvidenceIssue-AVK4HFLf.js",
+        "path": "assets/aggregateEvidenceIssue-ClQGcIV5.js",
         "bytes": 2978,
-        "sha256": "a6173df6481c94816c96ed3ac0f1ded8ca737fbe30646ff0b4b55a8b985ebff4",
+        "sha256": "ed146ac40ef0c359157e7b2762a822481fc314bd91ae073cf6f230050204d097",
         "contentType": "text/javascript; charset=utf-8",
         "cacheControl": "public, max-age=31536000, immutable"
       },
       {
-        "path": "assets/GameCanvas-CnBFRQHK.js",
+        "path": "assets/GameCanvas-BcP2ikAi.js",
         "bytes": 1394049,
-        "sha256": "e77df6f89cb5231dfd3988dfc0d17df730f6058a4586ba8b146d98992359c0c3",
-        "contentType": "text/javascript; charset=utf-8",
-        "cacheControl": "public, max-age=31536000, immutable"
-      },
-      {
-        "path": "assets/index-B10y2ghs.js",
-        "bytes": 690545,
-        "sha256": "2ad3763fa37cc5ea4951dc5fbcaeed1c1ba153a2f7c1c881207cc6ce2fc6ff30",
+        "sha256": "e07ef4ba93eb167d57cd48e6bde89b6485d3a331444883b12ecd2d5a9a86eff4",
         "contentType": "text/javascript; charset=utf-8",
         "cacheControl": "public, max-age=31536000, immutable"
       },
@@ -74,9 +67,16 @@ export const releaseCandidate = {
         "cacheControl": "public, max-age=31536000, immutable"
       },
       {
+        "path": "assets/index-nhAKbSOH.js",
+        "bytes": 693505,
+        "sha256": "a4e8cfe3c6ec3f126d653c24824a5dbfa041e850e3cec84d1e8c759b84520ad4",
+        "contentType": "text/javascript; charset=utf-8",
+        "cacheControl": "public, max-age=31536000, immutable"
+      },
+      {
         "path": "compliance.json",
         "bytes": 5625,
-        "sha256": "0044f2b2cdc8f5354a8f4d2debf76c7c423e30a2f46d672ef06116843b7468df",
+        "sha256": "cb3205bebffd94c263c10848ad15efb09c11abf981311f671365279d2d21463c",
         "contentType": "application/json; charset=utf-8",
         "cacheControl": "public, max-age=3600"
       },
@@ -223,7 +223,7 @@ export const releaseCandidate = {
       {
         "path": "index.html",
         "bytes": 2846,
-        "sha256": "ea4b1f3bb2d8e6915b7f6a7ffd4da99d45f00775122c0cce631e77e62cc8d26c",
+        "sha256": "8c8ec15934399de07519572e077dd0d19f586bd845d3b7ab9605b4e87ffac81c",
         "contentType": "text/html; charset=utf-8",
         "cacheControl": "no-cache"
       },
@@ -251,7 +251,7 @@ export const releaseCandidate = {
       {
         "path": "measurement-status.json",
         "bytes": 11453,
-        "sha256": "d03935ab188e82805c4a48266ac072f5cfca6d8e016fde49d09235a2c622647f",
+        "sha256": "c9522327b42ae6faa0afd16dbde7379fc8b0f08750727a5b6e5675a25b3dfda5",
         "contentType": "application/json; charset=utf-8",
         "cacheControl": "public, max-age=3600"
       },
@@ -285,29 +285,29 @@ export const releaseCandidate = {
       },
       {
         "path": "seed-kit.html",
-        "bytes": 15704,
-        "sha256": "a062909d1f47c84ec15b60c1359a9f98b8a87ca6fc93e7d0477109146bc519d9",
+        "bytes": 22031,
+        "sha256": "356efa7bec4722c8e7574cef365a7ae064beaaae12da6ef4e7a72b917f4955ba",
         "contentType": "text/html; charset=utf-8",
         "cacheControl": "no-cache"
       },
       {
         "path": "seed-next.html",
         "bytes": 6544,
-        "sha256": "af0eae020169bf725735691c7fc8df0093feedb0c77b55d083762bf5a2db9799",
+        "sha256": "9c7eb7fa209a4f856d243191e035f3f2adc302ba8449040b4d3b8db38a737e30",
         "contentType": "text/html; charset=utf-8",
         "cacheControl": "no-cache"
       },
       {
         "path": "seed-next.json",
         "bytes": 1095,
-        "sha256": "712cef26bf6b9cca2fc5c8d0339f0a7be3afd08d0b02639c75c0114dad567bc2",
+        "sha256": "70b02e8f609c03bbbf76642b069d2a9cfc246da383404acb363298aa37e352a2",
         "contentType": "application/json; charset=utf-8",
         "cacheControl": "public, max-age=3600"
       },
       {
         "path": "share-manifest.json",
-        "bytes": 11710,
-        "sha256": "6f42da3caa2aab092aae523d09d2b01fd690eea69ffae63695b47004488d9ba5",
+        "bytes": 11893,
+        "sha256": "5c55bbeac215be52c1574e7d2f453b3960f0530788976c2ff4a75dcdeb4e83e9",
         "contentType": "application/json; charset=utf-8",
         "cacheControl": "public, max-age=3600"
       },
@@ -334,8 +334,8 @@ export const releaseCandidate = {
       },
       {
         "path": "store-assets/screenshots/phone-market-pulse-generated.png",
-        "bytes": 195343,
-        "sha256": "05d862a4be3529107c9ffd5bf2d0587bf0c4f02d59ac37da85c5fd13b275b212",
+        "bytes": 185860,
+        "sha256": "b07601e374cd200489553facb60f09df5044804cd698a43e1e67fc1770c834fd",
         "contentType": "image/png",
         "cacheControl": "public, max-age=3600"
       },
@@ -356,7 +356,7 @@ export const releaseCandidate = {
       {
         "path": "sw.js",
         "bytes": 3942,
-        "sha256": "70a7b928feb52481e082ddbc435fa127230d1100e19b74a4042bfb4ddca0fa53",
+        "sha256": "13fc3182bc7613dc35fffe89ec404416b978ccd6f57a1026467747a6fae758fb",
         "contentType": "text/javascript; charset=utf-8",
         "cacheControl": "no-cache"
       },
