@@ -1,7 +1,7 @@
 export const releaseCandidate = {
-  "generatedAt": "2026-05-22T09:19:09.054Z",
+  "generatedAt": "2026-05-22T09:24:47.625Z",
   "status": "release-candidate-ready",
-  "candidateId": "pwa-892ee2c2a1a8",
+  "candidateId": "pwa-0924756e7e68",
   "target": {
     "provider": "github-pages",
     "artifactPath": "dist",
@@ -11,18 +11,18 @@ export const releaseCandidate = {
     "basePath": "/autonomous-game-lab/"
   },
   "summary": {
-    "totalFiles": 51,
-    "totalBytes": 3921301,
-    "totalKb": 3829.4,
+    "totalFiles": 50,
+    "totalBytes": 3914792,
+    "totalKb": 3823,
     "assetFiles": 4,
-    "htmlFiles": 19,
-    "gamePages": 11,
+    "htmlFiles": 18,
+    "gamePages": 10,
     "requiredFilesPresent": true,
     "postDeploySmokeUrls": 18
   },
   "integrity": {
     "algorithm": "sha256",
-    "aggregateHash": "892ee2c2a1a8f70f659766daa5a20c1fc31604a8c6c76d2b056ce3c168e07f74",
+    "aggregateHash": "0924756e7e68dc81fe168accf53ec57ca336b3409c137606806e5fca2790044d",
     "files": [
       {
         "path": ".nojekyll",
@@ -46,16 +46,23 @@ export const releaseCandidate = {
         "cacheControl": "public, max-age=3600"
       },
       {
-        "path": "assets/aggregateEvidenceIssue-Ce-Rn5aC.js",
+        "path": "assets/aggregateEvidenceIssue-Rwq3GrLD.js",
         "bytes": 2978,
-        "sha256": "bcee82811cd22b8bb78e6de42352a028e9bfd431fe1df561f4174ac800100745",
+        "sha256": "0637ce3fc71b1ffbf1e5d342c083a30d1a1ce422efe8b49a21a3f160440f4418",
         "contentType": "text/javascript; charset=utf-8",
         "cacheControl": "public, max-age=31536000, immutable"
       },
       {
-        "path": "assets/GameCanvas-BZgBIZx8.js",
+        "path": "assets/GameCanvas-D24VhIqh.js",
         "bytes": 1394049,
-        "sha256": "d3813ce64e4d10706866c2d28638bc54aa11cc21ef7cd3478f66c65a22a591dd",
+        "sha256": "362b3fc616086178ed9c7fcda2693b138c1a12075b2fee6381970613c4d58596",
+        "contentType": "text/javascript; charset=utf-8",
+        "cacheControl": "public, max-age=31536000, immutable"
+      },
+      {
+        "path": "assets/index-BrPwdlhD.js",
+        "bytes": 688595,
+        "sha256": "cbc9b855c2bd4bfbeaf2ce7a34720d2a9f698e5f3f14064f9a9577758099926c",
         "contentType": "text/javascript; charset=utf-8",
         "cacheControl": "public, max-age=31536000, immutable"
       },
@@ -67,16 +74,9 @@ export const releaseCandidate = {
         "cacheControl": "public, max-age=31536000, immutable"
       },
       {
-        "path": "assets/index-xhWphKFI.js",
-        "bytes": 688915,
-        "sha256": "59da0823fa20b22c04bc9b120aafb8fdd63f130ad409f119940b1ac0e0c15ec3",
-        "contentType": "text/javascript; charset=utf-8",
-        "cacheControl": "public, max-age=31536000, immutable"
-      },
-      {
         "path": "compliance.json",
         "bytes": 5625,
-        "sha256": "6843228e6eb6a9341309e37932e56c5a674d53541ede486f45235e1659e06812",
+        "sha256": "80cdd796e0cff9d90f937b395b6e3f14933871e7b2df9d2dc43eba49abcc2909",
         "contentType": "application/json; charset=utf-8",
         "cacheControl": "public, max-age=3600"
       },
@@ -98,13 +98,6 @@ export const releaseCandidate = {
         "path": "games/foundry-ledger.html",
         "bytes": 6292,
         "sha256": "073b827762e851aeadd0de77bbee742cd0ba2eca1c111f1c1063d8c7620c11de",
-        "contentType": "text/html; charset=utf-8",
-        "cacheControl": "no-cache"
-      },
-      {
-        "path": "games/grove-engine.html",
-        "bytes": 6117,
-        "sha256": "4824d67a2450f06813973e7f5044d755a2adfa2cd0464ec724143a1247632345",
         "contentType": "text/html; charset=utf-8",
         "cacheControl": "no-cache"
       },
@@ -230,7 +223,7 @@ export const releaseCandidate = {
       {
         "path": "index.html",
         "bytes": 2846,
-        "sha256": "c417a6a745d7ea7798ea81bbad0b8f6e0249c511b1c59e951ea705e60d23fdb8",
+        "sha256": "20a627c2e0f666b3707d7a0d1c4294e017ddc3cdb09b244da6a219fa419bf058",
         "contentType": "text/html; charset=utf-8",
         "cacheControl": "no-cache"
       },
@@ -257,8 +250,8 @@ export const releaseCandidate = {
       },
       {
         "path": "measurement-status.json",
-        "bytes": 11453,
-        "sha256": "73757d7922e31cea3ec99991a2f018fd67ff09abc1f2afbc6980377568477d2f",
+        "bytes": 11457,
+        "sha256": "51ccfb1809b0aa59f624c6caba99faa229012db8e5b961ef6866dd2168643831",
         "contentType": "application/json; charset=utf-8",
         "cacheControl": "public, max-age=3600"
       },
@@ -314,7 +307,7 @@ export const releaseCandidate = {
       {
         "path": "share-manifest.json",
         "bytes": 11710,
-        "sha256": "aa4ab0786596ad69811ae86079377d642d07a126e5d951c8626bc2819fd1b672",
+        "sha256": "422c048d2dc3627fd8c7c888c3a2d078a6ba785ed66af1160410913326147b4e",
         "contentType": "application/json; charset=utf-8",
         "cacheControl": "public, max-age=3600"
       },
@@ -369,8 +362,8 @@ export const releaseCandidate = {
       },
       {
         "path": "sw.js",
-        "bytes": 4128,
-        "sha256": "b1890b56689d9999615fcc524564eb7193de0e9994ed816623abd749eb3b5a3b",
+        "bytes": 4052,
+        "sha256": "029b1461759b87a06d973bb9fa2e3d93616154a451625f83c871d0798ced601e",
         "contentType": "text/javascript; charset=utf-8",
         "cacheControl": "no-cache"
       },
@@ -650,7 +643,7 @@ export const releaseCandidate = {
     {
       "id": "dist-inventory",
       "status": "pass",
-      "detail": "51 dist files inventoried."
+      "detail": "50 dist files inventoried."
     },
     {
       "id": "required-files",
@@ -660,7 +653,7 @@ export const releaseCandidate = {
     {
       "id": "game-pages",
       "status": "pass",
-      "detail": "11 generated game page(s) in dist."
+      "detail": "10 generated game page(s) in dist."
     },
     {
       "id": "performance-budget",

@@ -1,9 +1,9 @@
 export const growthPlan = {
-  "generatedAt": "2026-05-22T09:12:28.336Z",
+  "generatedAt": "2026-05-22T09:23:14.996Z",
   "siteUrl": "https://moshequ.github.io/autonomous-game-lab",
   "publicUrlMode": "absolute-origin",
   "publicOrigin": {
-    "source": "PUBLIC_SITE_URL",
+    "source": "environment",
     "status": "configured",
     "origin": "https://moshequ.github.io/autonomous-game-lab"
   },
@@ -289,7 +289,7 @@ export const growthPlan = {
         "startRate": null,
         "completionRate": null,
         "replayRate": null,
-        "targetScore": 98,
+        "targetScore": 104,
         "qualityScore": 70
       },
       "optimization": {
