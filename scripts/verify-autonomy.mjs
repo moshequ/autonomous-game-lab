@@ -3860,6 +3860,9 @@ if (!packageJson.scripts?.['autonomous:operator']?.includes('autonomous-operator
 }
 
 const operatorRuns = [...dailyScript.matchAll(/autonomous:operator/g)].map((match) => match.index ?? -1)
+const operatorExecuteRuns = [...dailyScript.matchAll(/autonomous:operator -- --execute/g)].map(
+  (match) => match.index ?? -1,
+)
 
 if (operatorRuns.length < 2) {
   fail('Autonomous daily loop must generate autonomous operator plans after owner-loop decisions.')
@@ -3872,6 +3875,15 @@ if (
   operatorRuns.at(-1) > dailyScript.indexOf('test:automation')
 ) {
   fail('Autonomous daily loop must run the operator after owner-loop and refresh readiness before final automation verification.')
+}
+
+if (
+  operatorExecuteRuns.length < 1 ||
+  operatorExecuteRuns.at(-1) < dailyScript.indexOf('autonomous:owner-loop', bootstrapRuns.at(-1)) ||
+  operatorExecuteRuns.at(-1) > dailyScript.indexOf('autonomous:objective-audit', operatorExecuteRuns.at(-1)) ||
+  operatorExecuteRuns.at(-1) > dailyScript.indexOf('test:automation')
+) {
+  fail('Autonomous daily loop must execute one allowlisted local operator action before final objective audit verification.')
 }
 
 if (!packageJson.scripts?.['autonomous:objective-audit']?.includes('objective-audit')) {
