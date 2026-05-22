@@ -1,11 +1,11 @@
 export const trafficSeeding = {
-  "generatedAt": "2026-05-22T02:06:21.597Z",
+  "generatedAt": "2026-05-22T02:54:50.485Z",
   "status": "traffic-seeding-ready",
-  "sourceDataHash": "c781d1200736",
+  "sourceDataHash": "db267c4d20e5",
   "analyticsSource": "fixture-sample",
   "publicUrlMode": "absolute-origin",
   "siteUrl": "https://moshequ.github.io/autonomous-game-lab",
-  "portfolioGeneratedAt": "2026-05-22T02:06:21.444Z",
+  "portfolioGeneratedAt": "2026-05-22T02:54:50.186Z",
   "guardrails": {
     "maxCostUsd": 0,
     "noPaidPromotion": true,
@@ -44,6 +44,18 @@ export const trafficSeeding = {
       "surface": "share-manifest",
       "telemetry": [
         "share_clicked",
+        "organic_entry_opened",
+        "game_started"
+      ]
+    },
+    {
+      "id": "evergreen-seed-route",
+      "status": "armed",
+      "costUsd": 0,
+      "surface": "seed-next-page",
+      "telemetry": [
+        "seed_next_viewed",
+        "seed_next_routed",
         "organic_entry_opened",
         "game_started"
       ]
@@ -99,6 +111,7 @@ export const trafficSeeding = {
         "internal-rotation",
         "organic-page",
         "player-share",
+        "evergreen-seed-route",
         "product-gate-sample"
       ]
     },
@@ -140,6 +153,7 @@ export const trafficSeeding = {
         "internal-rotation",
         "organic-page",
         "player-share",
+        "evergreen-seed-route",
         "product-gate-sample"
       ]
     },
@@ -181,6 +195,7 @@ export const trafficSeeding = {
         "internal-rotation",
         "organic-page",
         "player-share",
+        "evergreen-seed-route",
         "product-gate-sample"
       ]
     },
@@ -222,10 +237,34 @@ export const trafficSeeding = {
         "internal-rotation",
         "organic-page",
         "player-share",
+        "evergreen-seed-route",
         "product-gate-sample"
       ]
     }
   ],
+  "evergreenRoute": {
+    "status": "armed",
+    "path": "/seed-next.html",
+    "jsonPath": "/seed-next.json",
+    "targetCampaignId": "seed-20260522-market-pulse",
+    "targetGameId": "market-pulse",
+    "targetTitle": "Market Pulse",
+    "targetPath": "/?game=market-pulse&utm_source=seed_share&utm_campaign=seed-20260522-market-pulse",
+    "targetUrl": "https://moshequ.github.io/autonomous-game-lab/?game=market-pulse&utm_source=seed_share&utm_campaign=seed-20260522-market-pulse",
+    "fallbackPath": "/seed-kit.html",
+    "costUsd": 0,
+    "playerInitiatedOnly": true,
+    "noAutomatedExternalPosting": true,
+    "noPaidPromotion": true,
+    "localAnalyticsEvents": true,
+    "localAnalyticsStorageKey": "agl.analytics.events",
+    "telemetry": [
+      "seed_next_viewed",
+      "seed_next_routed",
+      "organic_entry_opened",
+      "game_started"
+    ]
+  },
   "sampleDistribution": {
     "status": "gate-sample-sharing-ready",
     "kitPath": "/gate-sample.html",

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-22T02:06:21.597Z",
+  "generatedAt": "2026-05-22T02:54:50.485Z",
   "siteUrl": "https://moshequ.github.io/autonomous-game-lab",
   "publicUrlMode": "absolute-origin",
   "shares": [
@@ -143,7 +143,7 @@
     "copyShareControls": true,
     "localAnalyticsEvents": true,
     "localAnalyticsStorageKey": "agl.analytics.events",
-    "generatedAt": "2026-05-22T02:06:21.597Z"
+    "generatedAt": "2026-05-22T02:54:50.485Z"
   },
   "gateSampleKit": {
     "path": "/gate-sample.html",
@@ -156,7 +156,7 @@
     "exportControls": true,
     "localAnalyticsEvents": true,
     "localAnalyticsStorageKey": "agl.analytics.events",
-    "generatedAt": "2026-05-22T02:06:21.597Z"
+    "generatedAt": "2026-05-22T02:54:50.485Z"
   },
   "seedCampaigns": [
     {
@@ -290,5 +290,31 @@
         "zero-spend"
       ]
     }
-  ]
+  ],
+  "seedNext": {
+    "status": "armed",
+    "path": "/seed-next.html",
+    "jsonPath": "/seed-next.json",
+    "targetCampaignId": "seed-20260522-market-pulse",
+    "targetGameId": "market-pulse",
+    "targetTitle": "Market Pulse",
+    "targetPath": "/?game=market-pulse&utm_source=seed_share&utm_campaign=seed-20260522-market-pulse",
+    "targetUrl": "https://moshequ.github.io/autonomous-game-lab/?game=market-pulse&utm_source=seed_share&utm_campaign=seed-20260522-market-pulse",
+    "fallbackPath": "/seed-kit.html",
+    "costUsd": 0,
+    "playerInitiatedOnly": true,
+    "noAutomatedExternalPosting": true,
+    "noPaidPromotion": true,
+    "localAnalyticsEvents": true,
+    "localAnalyticsStorageKey": "agl.analytics.events",
+    "telemetry": [
+      "seed_next_viewed",
+      "seed_next_routed",
+      "organic_entry_opened",
+      "game_started"
+    ],
+    "url": "https://moshequ.github.io/autonomous-game-lab/seed-next.html",
+    "jsonUrl": "https://moshequ.github.io/autonomous-game-lab/seed-next.json",
+    "generatedAt": "2026-05-22T02:54:50.485Z"
+  }
 }

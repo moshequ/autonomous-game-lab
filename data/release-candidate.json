@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-05-22T02:45:09.796Z",
+  "generatedAt": "2026-05-22T03:12:06.949Z",
   "status": "release-candidate-ready",
-  "candidateId": "pwa-04dd38914b34",
+  "candidateId": "pwa-b31c88c46a56",
   "target": {
     "provider": "github-pages",
     "artifactPath": "dist",
@@ -11,18 +11,18 @@
     "basePath": "/autonomous-game-lab/"
   },
   "summary": {
-    "totalFiles": 47,
-    "totalBytes": 3678607,
-    "totalKb": 3592.4,
+    "totalFiles": 49,
+    "totalBytes": 3689836,
+    "totalKb": 3603.4,
     "assetFiles": 4,
-    "htmlFiles": 17,
+    "htmlFiles": 18,
     "gamePages": 10,
     "requiredFilesPresent": true,
-    "postDeploySmokeUrls": 16
+    "postDeploySmokeUrls": 18
   },
   "integrity": {
     "algorithm": "sha256",
-    "aggregateHash": "04dd38914b345b1c4b935e546cc8d1e032eef5ae9c088588abe5da97c707ecbb",
+    "aggregateHash": "b31c88c46a56b6adc574ef9d9d33c4f67175ebc89b6db2f7d76ded0e7b5f64d3",
     "files": [
       {
         "path": ".nojekyll",
@@ -46,23 +46,23 @@
         "cacheControl": "public, max-age=3600"
       },
       {
-        "path": "assets/aggregateEvidenceIssue-D2CMeZXs.js",
+        "path": "assets/aggregateEvidenceIssue-DuGXhPqP.js",
         "bytes": 2978,
-        "sha256": "666660f5a7367dd667dfcfdc3aec6c330b76e789727659e92ae0156d3962b700",
+        "sha256": "627d2d14841310337605c001bb3f0cd00029b79e332ca430ea8e45839f444e74",
         "contentType": "text/javascript; charset=utf-8",
         "cacheControl": "public, max-age=31536000, immutable"
       },
       {
-        "path": "assets/GameCanvas-D_CMGM-4.js",
+        "path": "assets/GameCanvas-CnwlIx-h.js",
         "bytes": 1393764,
-        "sha256": "672b76ff3edc6c758201dea4fdde787da433c0b506b4ba9bfbadf2c5a2864cfb",
+        "sha256": "7c5d366cdc62d618ae56ffad26ba094ae7bbf4fec95117377c7488f7f9519cab",
         "contentType": "text/javascript; charset=utf-8",
         "cacheControl": "public, max-age=31536000, immutable"
       },
       {
-        "path": "assets/index-C0XiFlWK.js",
-        "bytes": 684498,
-        "sha256": "f8c44bd17e995543e4bd7cd2b13cc143cf27815a7af15de7519183ce5c35fde4",
+        "path": "assets/index-CbKrw4iI.js",
+        "bytes": 686014,
+        "sha256": "c7e56e47a39be7ec7a38ea1d8828a2c5250cdcbd65e9ce530d535b12dac8f989",
         "contentType": "text/javascript; charset=utf-8",
         "cacheControl": "public, max-age=31536000, immutable"
       },
@@ -76,7 +76,7 @@
       {
         "path": "compliance.json",
         "bytes": 5625,
-        "sha256": "71210d32aa0a2ff29442e0cb8080fba0c8e99c57077a7b43a98365c4d0fae76f",
+        "sha256": "613d3f2b9c22a87e970c13febed360afe8b2ef1ae8a13b0bb414415df09531ed",
         "contentType": "application/json; charset=utf-8",
         "cacheControl": "public, max-age=3600"
       },
@@ -223,7 +223,7 @@
       {
         "path": "index.html",
         "bytes": 2846,
-        "sha256": "d42735a4105727e75f078441e9d1396ecdd7ce29cc6d48fb345bb41471fea4a0",
+        "sha256": "13b363a7c145d1fc31f72ab0a65101d74bdce54d9326365208af77717497bc89",
         "contentType": "text/html; charset=utf-8",
         "cacheControl": "no-cache"
       },
@@ -251,7 +251,7 @@
       {
         "path": "measurement-status.json",
         "bytes": 5955,
-        "sha256": "467cddad4d2aea3211213c94d0fd8b0870458f243ec36d56b0c8f5acb918268c",
+        "sha256": "a3cd9c63ecbf2a28f61458dad380e6a2d8f3f1fd61c38871bb2d8ee6cfa46ad3",
         "contentType": "application/json; charset=utf-8",
         "cacheControl": "public, max-age=3600"
       },
@@ -285,22 +285,36 @@
       },
       {
         "path": "seed-kit.html",
-        "bytes": 14869,
-        "sha256": "0f2b989ed004084b3691bf5040f8186413acbc2a585e01448e18d4f3ac9a6d83",
+        "bytes": 15677,
+        "sha256": "861a76087eec05dfe83ddba10c33085140c48389cd41fb5599843373b8a68402",
         "contentType": "text/html; charset=utf-8",
         "cacheControl": "no-cache"
       },
       {
+        "path": "seed-next.html",
+        "bytes": 6550,
+        "sha256": "9986f2380a937db2c0e7569a0e8a9f86b3e6cf262efe85e35ae43f23bf20a328",
+        "contentType": "text/html; charset=utf-8",
+        "cacheControl": "no-cache"
+      },
+      {
+        "path": "seed-next.json",
+        "bytes": 1098,
+        "sha256": "3d5614e77bcf93d2083d7acdc7e11da3115bb2e33e12a37f5554a23a941db20c",
+        "contentType": "application/json; charset=utf-8",
+        "cacheControl": "public, max-age=3600"
+      },
+      {
         "path": "share-manifest.json",
-        "bytes": 10641,
-        "sha256": "412f1a3fdd9be91741bfaa288fb7660563033224b8372f5acf8a685956400bdf",
+        "bytes": 11703,
+        "sha256": "6d67c813d313871caabca0c7588308459ee91ce586f637e65f9a8c60e7e839b9",
         "contentType": "application/json; charset=utf-8",
         "cacheControl": "public, max-age=3600"
       },
       {
         "path": "sitemap.xml",
-        "bytes": 2382,
-        "sha256": "9171e4d02d62b192aa2eb5948d3c4c3a02ad2d027ab399423a70ae7caf5fa7f1",
+        "bytes": 2510,
+        "sha256": "00f2180bf9dbe4d23c2fac77abeafebdd5abdb44bacee2e40b179fda40739cb4",
         "contentType": "application/xml; charset=utf-8",
         "cacheControl": "public, max-age=3600"
       },
@@ -341,8 +355,8 @@
       },
       {
         "path": "sw.js",
-        "bytes": 3875,
-        "sha256": "5d877ea67fc6d82cbf6a793b83afda79e9b0673d8a901c49b272db661dfb915b",
+        "bytes": 3942,
+        "sha256": "cbe0ebf17ffeab7854a299ea1d0ab578c54dabcae21b29829198e429d765f3b8",
         "contentType": "text/javascript; charset=utf-8",
         "cacheControl": "no-cache"
       },
@@ -405,6 +419,14 @@
       },
       {
         "path": "seed-kit.html",
+        "status": "pass"
+      },
+      {
+        "path": "seed-next.html",
+        "status": "pass"
+      },
+      {
+        "path": "seed-next.json",
         "status": "pass"
       },
       {
@@ -541,6 +563,20 @@
       "requiredText": "Autonomous Game Lab"
     },
     {
+      "id": "seed-next-html",
+      "path": "/seed-next.html",
+      "url": "https://moshequ.github.io/autonomous-game-lab/seed-next.html",
+      "expectedStatus": 200,
+      "requiredText": "Autonomous Game Lab"
+    },
+    {
+      "id": "seed-next-json",
+      "path": "/seed-next.json",
+      "url": "https://moshequ.github.io/autonomous-game-lab/seed-next.json",
+      "expectedStatus": 200,
+      "requiredText": null
+    },
+    {
       "id": "sitemap-xml",
       "path": "/sitemap.xml",
       "url": "https://moshequ.github.io/autonomous-game-lab/sitemap.xml",
@@ -600,12 +636,12 @@
     {
       "id": "dist-inventory",
       "status": "pass",
-      "detail": "47 dist files inventoried."
+      "detail": "49 dist files inventoried."
     },
     {
       "id": "required-files",
       "status": "pass",
-      "detail": "21/21 required files present."
+      "detail": "23/23 required files present."
     },
     {
       "id": "game-pages",
@@ -635,7 +671,7 @@
     {
       "id": "post-deploy-smoke-plan",
       "status": "pass",
-      "detail": "16 post-deploy smoke URL(s) planned."
+      "detail": "18 post-deploy smoke URL(s) planned."
     }
   ],
   "nextActions": [

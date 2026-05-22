@@ -1,10 +1,27 @@
 {
-  "generatedAt": "2026-05-22T02:45:16.284Z",
+  "generatedAt": "2026-05-22T03:12:08.833Z",
   "status": "live-site-monitor-passed",
   "envFiles": {
-    "loaded": false,
-    "loadedFiles": [],
-    "loadedKeys": [],
+    "loaded": true,
+    "loadedFiles": [
+      {
+        "path": "ops/production.env.local",
+        "keys": [
+          "AGL_ANDROID_PACKAGE_NAME",
+          "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
+          "AGL_ANDROID_KEYSTORE_BASE64",
+          "AGL_ANDROID_KEYSTORE_PASSWORD",
+          "AGL_ANDROID_KEY_ALIAS"
+        ]
+      }
+    ],
+    "loadedKeys": [
+      "AGL_ANDROID_PACKAGE_NAME",
+      "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
+      "AGL_ANDROID_KEYSTORE_BASE64",
+      "AGL_ANDROID_KEYSTORE_PASSWORD",
+      "AGL_ANDROID_KEY_ALIAS"
+    ],
     "skippedExistingKeys": [],
     "skippedProtectedKeys": [],
     "overwrittenEnvFileKeys": [],
@@ -53,13 +70,16 @@
     "failed": 0,
     "blocked": 0,
     "passRate": 100,
-    "latencyP50Ms": 64,
-    "latencyP95Ms": 99,
+    "latencyP50Ms": 282,
+    "latencyP95Ms": 288,
     "liveCandidateId": "pwa-1dcb136da645",
     "syncedCandidateId": "pwa-1dcb136da645",
-    "localCandidateId": "pwa-04dd38914b34",
+    "localCandidateId": "pwa-b31c88c46a56",
     "liveMatchesSyncedDeploy": true,
-    "liveMatchesCurrentLocalCandidate": false
+    "liveMatchesCurrentLocalCandidate": false,
+    "monitoringPlanSource": "synced-live-release-manifest",
+    "monitoredSmokeUrls": 16,
+    "liveSmokeUrls": 16
   },
   "controls": {
     "zeroPaidSpend": true,
@@ -81,7 +101,7 @@
       "url": "https://moshequ.github.io/autonomous-game-lab/",
       "status": "pass",
       "httpStatus": 200,
-      "durationMs": 99,
+      "durationMs": 94,
       "bytes": 2846,
       "contentSha256": "107940349c8c5bf11e859b909ac1fb9d47894778b3b84cc7c10a6f07136bcbc0",
       "contentType": "text/html; charset=utf-8",
@@ -99,7 +119,7 @@
       "url": "https://moshequ.github.io/autonomous-game-lab/manifest.webmanifest",
       "status": "pass",
       "httpStatus": 200,
-      "durationMs": 64,
+      "durationMs": 274,
       "bytes": 853,
       "contentSha256": "caada44fb47a5c7bc6f2740988f483bd87acec88ef9e9bf36f7b2edc26f62bfb",
       "contentType": "application/manifest+json; charset=utf-8",
@@ -117,7 +137,7 @@
       "url": "https://moshequ.github.io/autonomous-game-lab/sw.js",
       "status": "pass",
       "httpStatus": 200,
-      "durationMs": 69,
+      "durationMs": 284,
       "bytes": 3873,
       "contentSha256": "86d50e2db888eed86b2434baaee3131d84b6350d1591ecfab71e770f32d8a8c4",
       "contentType": "application/javascript; charset=utf-8",
@@ -135,7 +155,7 @@
       "url": "https://moshequ.github.io/autonomous-game-lab/privacy.html",
       "status": "pass",
       "httpStatus": 200,
-      "durationMs": 62,
+      "durationMs": 282,
       "bytes": 2649,
       "contentSha256": "b6b46f9b20088aed3f24264c5f507e7d58af61876caeaabff54efe46b4027616",
       "contentType": "text/html; charset=utf-8",
@@ -153,7 +173,7 @@
       "url": "https://moshequ.github.io/autonomous-game-lab/support.html",
       "status": "pass",
       "httpStatus": 200,
-      "durationMs": 67,
+      "durationMs": 288,
       "bytes": 4241,
       "contentSha256": "64a99ddffbb933295c8c9956a52e2f92446d59db0617d69a91b87baf976f3858",
       "contentType": "text/html; charset=utf-8",
@@ -171,7 +191,7 @@
       "url": "https://moshequ.github.io/autonomous-game-lab/measurement-status.html",
       "status": "pass",
       "httpStatus": 200,
-      "durationMs": 70,
+      "durationMs": 287,
       "bytes": 8390,
       "contentSha256": "7ed987d7a115213b582cd0820f273b480b237e0e179f8511d212cfa01b4ae579",
       "contentType": "text/html; charset=utf-8",
@@ -189,7 +209,7 @@
       "url": "https://moshequ.github.io/autonomous-game-lab/measurement-status.json",
       "status": "pass",
       "httpStatus": 200,
-      "durationMs": 65,
+      "durationMs": 287,
       "bytes": 5955,
       "contentSha256": "467cddad4d2aea3211213c94d0fd8b0870458f243ec36d56b0c8f5acb918268c",
       "contentType": "application/json; charset=utf-8",
@@ -207,7 +227,7 @@
       "url": "https://moshequ.github.io/autonomous-game-lab/install.html",
       "status": "pass",
       "httpStatus": 200,
-      "durationMs": 65,
+      "durationMs": 286,
       "bytes": 7967,
       "contentSha256": "13395a4f1a40fa5b8e5c5470a65d4c904c6e6e96fc7ecb12d04be4cf3f388cac",
       "contentType": "text/html; charset=utf-8",
@@ -225,7 +245,7 @@
       "url": "https://moshequ.github.io/autonomous-game-lab/compliance.json",
       "status": "pass",
       "httpStatus": 200,
-      "durationMs": 64,
+      "durationMs": 285,
       "bytes": 5625,
       "contentSha256": "71210d32aa0a2ff29442e0cb8080fba0c8e99c57077a7b43a98365c4d0fae76f",
       "contentType": "application/json; charset=utf-8",
@@ -243,7 +263,7 @@
       "url": "https://moshequ.github.io/autonomous-game-lab/monetization.json",
       "status": "pass",
       "httpStatus": 200,
-      "durationMs": 66,
+      "durationMs": 278,
       "bytes": 878,
       "contentSha256": "a6a36be4e4a2fa0bac8c67718499d5364e1cfa31e9894c0d27ba73e8a8d53d3f",
       "contentType": "application/json; charset=utf-8",
@@ -261,7 +281,7 @@
       "url": "https://moshequ.github.io/autonomous-game-lab/app-ads.txt",
       "status": "pass",
       "httpStatus": 200,
-      "durationMs": 44,
+      "durationMs": 251,
       "bytes": 187,
       "contentSha256": "fca4b9f6094448086cc698a391365b26e773f287e82eee093ce073cdf26d677e",
       "contentType": "text/plain; charset=utf-8",
@@ -279,7 +299,7 @@
       "url": "https://moshequ.github.io/autonomous-game-lab/.well-known/assetlinks.json",
       "status": "pass",
       "httpStatus": 200,
-      "durationMs": 56,
+      "durationMs": 277,
       "bytes": 348,
       "contentSha256": "5410e9b0a583a5aa4ff2d791895c4f71e25230be9d88b9e851b55998e6a32cdc",
       "contentType": "application/json; charset=utf-8",
@@ -297,7 +317,7 @@
       "url": "https://moshequ.github.io/autonomous-game-lab/gate-sample.html",
       "status": "pass",
       "httpStatus": 200,
-      "durationMs": 64,
+      "durationMs": 282,
       "bytes": 26496,
       "contentSha256": "cc2b9cd912fa9bb284a0b004d4b7b2fb5dd8b25a187f0a52921f2c510b5a891d",
       "contentType": "text/html; charset=utf-8",
@@ -315,7 +335,7 @@
       "url": "https://moshequ.github.io/autonomous-game-lab/seed-kit.html",
       "status": "pass",
       "httpStatus": 200,
-      "durationMs": 63,
+      "durationMs": 282,
       "bytes": 14865,
       "contentSha256": "0f2b989ed004084b3691bf5040f8186413acbc2a585e01448e18d4f3ac9a6d83",
       "contentType": "text/html; charset=utf-8",
@@ -333,7 +353,7 @@
       "url": "https://moshequ.github.io/autonomous-game-lab/sitemap.xml",
       "status": "pass",
       "httpStatus": 200,
-      "durationMs": 62,
+      "durationMs": 276,
       "bytes": 2382,
       "contentSha256": "9171e4d02d62b192aa2eb5948d3c4c3a02ad2d027ab399423a70ae7caf5fa7f1",
       "contentType": "application/xml",
@@ -351,7 +371,7 @@
       "url": "https://moshequ.github.io/autonomous-game-lab/games/foundry-ledger.html",
       "status": "pass",
       "httpStatus": 200,
-      "durationMs": 61,
+      "durationMs": 281,
       "bytes": 6308,
       "contentSha256": "43f702416236472e2cfb065774cb73d33813faf615d7cdcf979eac7aac53a6d4",
       "contentType": "text/html; charset=utf-8",
@@ -369,7 +389,7 @@
       "url": "https://moshequ.github.io/autonomous-game-lab/release-candidate.json",
       "status": "pass",
       "httpStatus": 200,
-      "durationMs": 62,
+      "durationMs": 247,
       "bytes": 20928,
       "contentSha256": "05a798e74623b875f6fd2982d8161ab4766676e6a7a24e2ace46f717425bf84a",
       "contentType": "application/json; charset=utf-8",
@@ -380,10 +400,126 @@
         "status": "release-candidate-ready",
         "candidateId": "pwa-1dcb136da645",
         "aggregateHash": "1dcb136da645250571f3b82c73f96728d1195df0560f45886a9dc8ba1eb635e4",
+        "postDeploySmoke": [
+          {
+            "id": "app-shell",
+            "path": "/",
+            "url": "https://moshequ.github.io/autonomous-game-lab/",
+            "expectedStatus": 200,
+            "requiredText": "Autonomous Game Lab"
+          },
+          {
+            "id": "manifest-webmanifest",
+            "path": "/manifest.webmanifest",
+            "url": "https://moshequ.github.io/autonomous-game-lab/manifest.webmanifest",
+            "expectedStatus": 200,
+            "requiredText": null
+          },
+          {
+            "id": "sw-js",
+            "path": "/sw.js",
+            "url": "https://moshequ.github.io/autonomous-game-lab/sw.js",
+            "expectedStatus": 200,
+            "requiredText": null
+          },
+          {
+            "id": "privacy-html",
+            "path": "/privacy.html",
+            "url": "https://moshequ.github.io/autonomous-game-lab/privacy.html",
+            "expectedStatus": 200,
+            "requiredText": "Autonomous Game Lab"
+          },
+          {
+            "id": "support-html",
+            "path": "/support.html",
+            "url": "https://moshequ.github.io/autonomous-game-lab/support.html",
+            "expectedStatus": 200,
+            "requiredText": "Autonomous Game Lab"
+          },
+          {
+            "id": "measurement-status-html",
+            "path": "/measurement-status.html",
+            "url": "https://moshequ.github.io/autonomous-game-lab/measurement-status.html",
+            "expectedStatus": 200,
+            "requiredText": "Autonomous Game Lab"
+          },
+          {
+            "id": "measurement-status-json",
+            "path": "/measurement-status.json",
+            "url": "https://moshequ.github.io/autonomous-game-lab/measurement-status.json",
+            "expectedStatus": 200,
+            "requiredText": null
+          },
+          {
+            "id": "install-html",
+            "path": "/install.html",
+            "url": "https://moshequ.github.io/autonomous-game-lab/install.html",
+            "expectedStatus": 200,
+            "requiredText": "Autonomous Game Lab"
+          },
+          {
+            "id": "compliance-json",
+            "path": "/compliance.json",
+            "url": "https://moshequ.github.io/autonomous-game-lab/compliance.json",
+            "expectedStatus": 200,
+            "requiredText": "store-compliance"
+          },
+          {
+            "id": "monetization-json",
+            "path": "/monetization.json",
+            "url": "https://moshequ.github.io/autonomous-game-lab/monetization.json",
+            "expectedStatus": 200,
+            "requiredText": "blocked-by-product-gates"
+          },
+          {
+            "id": "app-ads-txt",
+            "path": "/app-ads.txt",
+            "url": "https://moshequ.github.io/autonomous-game-lab/app-ads.txt",
+            "expectedStatus": 200,
+            "requiredText": "Revenue features are disabled"
+          },
+          {
+            "id": "well-known-assetlinks-json",
+            "path": "/.well-known/assetlinks.json",
+            "url": "https://moshequ.github.io/autonomous-game-lab/.well-known/assetlinks.json",
+            "expectedStatus": 200,
+            "requiredText": "delegate_permission/common.handle_all_urls"
+          },
+          {
+            "id": "gate-sample-html",
+            "path": "/gate-sample.html",
+            "url": "https://moshequ.github.io/autonomous-game-lab/gate-sample.html",
+            "expectedStatus": 200,
+            "requiredText": "Autonomous Game Lab"
+          },
+          {
+            "id": "seed-kit-html",
+            "path": "/seed-kit.html",
+            "url": "https://moshequ.github.io/autonomous-game-lab/seed-kit.html",
+            "expectedStatus": 200,
+            "requiredText": "Autonomous Game Lab"
+          },
+          {
+            "id": "sitemap-xml",
+            "path": "/sitemap.xml",
+            "url": "https://moshequ.github.io/autonomous-game-lab/sitemap.xml",
+            "expectedStatus": 200,
+            "requiredText": null
+          },
+          {
+            "id": "games-foundry-ledger-html",
+            "path": "/games/foundry-ledger.html",
+            "url": "https://moshequ.github.io/autonomous-game-lab/games/foundry-ledger.html",
+            "expectedStatus": 200,
+            "requiredText": "Autonomous Game Lab"
+          }
+        ],
+        "postDeploySmokeUrls": 16,
         "matchesSyncedDeploy": true,
         "matchesCurrentLocalCandidate": false
       },
-      "detail": "Live read-only check passed."
+      "detail": "Live read-only check passed.",
+      "monitoringPlanSource": "synced-live-release-manifest"
     }
   ],
   "nextActions": [

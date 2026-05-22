@@ -1,10 +1,10 @@
 # Post-Deploy Smoke
 
-Generated: 2026-05-22T02:45:18.708Z
+Generated: 2026-05-22T03:12:08.582Z
 Status: post-deploy-smoke-observed-live
 Origin: https://moshequ.github.io/autonomous-game-lab
 Origin source: release-candidate-public-origin
-Candidate: pwa-04dd38914b34
+Candidate: pwa-b31c88c46a56
 Live candidate: pwa-1dcb136da645
 
 ## Summary
@@ -18,7 +18,7 @@ Live candidate: pwa-1dcb136da645
 
 Status: predeploy-artifact-smoke-passed
 Artifact path: dist
-Checks: 17/17 passed
+Checks: 19/19 passed
 - pass: app-shell - dist/index.html - Local production artifact matched required text.
 - pass: manifest-webmanifest - dist/manifest.webmanifest - Local production artifact matched required text.
 - pass: sw-js - dist/sw.js - Local production artifact matched required text.
@@ -33,6 +33,8 @@ Checks: 17/17 passed
 - pass: well-known-assetlinks-json - dist/.well-known/assetlinks.json - Local production artifact matched required text.
 - pass: gate-sample-html - dist/gate-sample.html - Local production artifact matched required text.
 - pass: seed-kit-html - dist/seed-kit.html - Local production artifact matched required text.
+- pass: seed-next-html - dist/seed-next.html - Local production artifact matched required text.
+- pass: seed-next-json - dist/seed-next.json - Local production artifact matched required text.
 - pass: sitemap-xml - dist/sitemap.xml - Local production artifact matched required text.
 - pass: games-foundry-ledger-html - dist/games/foundry-ledger.html - Local production artifact matched required text.
 - pass: release-candidate-manifest - dist/release-candidate.json - Local release manifest matches the release candidate.

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-22T02:41:02.973Z",
+  "generatedAt": "2026-05-22T03:09:05.668Z",
   "status": "self-update-ready",
   "mode": "plan-and-assert",
   "envFiles": {
@@ -65,13 +65,13 @@
     "remotePushReady": false
   },
   "sourceStatus": {
-    "repositoryReadiness": "waiting-for-repository-channel",
-    "productionReadiness": "blocked",
+    "repositoryReadiness": "repository-channel-ready",
+    "productionReadiness": "ready-after-build",
     "autonomousCadence": "cadence-ready",
     "ownerLoop": "owner-loop-ready"
   },
   "pendingChanges": {
-    "total": 97,
+    "total": 108,
     "safe": [
       {
         "code": "M",
@@ -159,6 +159,13 @@
       },
       {
         "code": "M",
+        "path": "data/growth-plan.json",
+        "raw": " M data/growth-plan.json",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
         "path": "data/live-site-monitor.json",
         "raw": " M data/live-site-monitor.json",
         "safe": true,
@@ -189,6 +196,13 @@
         "code": "M",
         "path": "data/performance-budget.json",
         "raw": " M data/performance-budget.json",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
+        "path": "data/portfolio-policy.json",
+        "raw": " M data/portfolio-policy.json",
         "safe": true,
         "reason": "allowlisted-generated-artifact"
       },
@@ -313,6 +327,13 @@
       },
       {
         "code": "M",
+        "path": "data/traffic-seeding.json",
+        "raw": " M data/traffic-seeding.json",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
         "path": "public/compliance.json",
         "raw": " M public/compliance.json",
         "safe": true,
@@ -320,15 +341,29 @@
       },
       {
         "code": "M",
-        "path": "public/measurement-status.html",
-        "raw": " M public/measurement-status.html",
+        "path": "public/measurement-status.json",
+        "raw": " M public/measurement-status.json",
         "safe": true,
         "reason": "allowlisted-generated-artifact"
       },
       {
         "code": "M",
-        "path": "public/measurement-status.json",
-        "raw": " M public/measurement-status.json",
+        "path": "public/seed-kit.html",
+        "raw": " M public/seed-kit.html",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
+        "path": "public/share-manifest.json",
+        "raw": " M public/share-manifest.json",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
+        "path": "public/sitemap.xml",
+        "raw": " M public/sitemap.xml",
         "safe": true,
         "reason": "allowlisted-generated-artifact"
       },
@@ -418,6 +453,13 @@
       },
       {
         "code": "M",
+        "path": "reports/growth-plan-latest.md",
+        "raw": " M reports/growth-plan-latest.md",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
         "path": "reports/live-site-monitor-latest.md",
         "raw": " M reports/live-site-monitor-latest.md",
         "safe": true,
@@ -448,6 +490,13 @@
         "code": "M",
         "path": "reports/performance-budget-latest.md",
         "raw": " M reports/performance-budget-latest.md",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
+        "path": "reports/portfolio-policy-latest.md",
+        "raw": " M reports/portfolio-policy-latest.md",
         "safe": true,
         "reason": "allowlisted-generated-artifact"
       },
@@ -572,6 +621,13 @@
       },
       {
         "code": "M",
+        "path": "reports/traffic-seeding-latest.md",
+        "raw": " M reports/traffic-seeding-latest.md",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
         "path": "src/data/acquisitionLearning.ts",
         "raw": " M src/data/acquisitionLearning.ts",
         "safe": true,
@@ -614,15 +670,15 @@
       },
       {
         "code": "M",
-        "path": "src/data/deploymentPlan.ts",
-        "raw": " M src/data/deploymentPlan.ts",
+        "path": "src/data/eventCollectorDeployment.ts",
+        "raw": " M src/data/eventCollectorDeployment.ts",
         "safe": true,
         "reason": "allowlisted-generated-artifact"
       },
       {
         "code": "M",
-        "path": "src/data/eventCollectorDeployment.ts",
-        "raw": " M src/data/eventCollectorDeployment.ts",
+        "path": "src/data/growthPlan.ts",
+        "raw": " M src/data/growthPlan.ts",
         "safe": true,
         "reason": "allowlisted-generated-artifact"
       },
@@ -658,6 +714,13 @@
         "code": "M",
         "path": "src/data/performanceBudget.ts",
         "raw": " M src/data/performanceBudget.ts",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
+        "path": "src/data/portfolioPolicy.ts",
+        "raw": " M src/data/portfolioPolicy.ts",
         "safe": true,
         "reason": "allowlisted-generated-artifact"
       },
@@ -726,13 +789,6 @@
       },
       {
         "code": "M",
-        "path": "src/data/repositoryReadiness.ts",
-        "raw": " M src/data/repositoryReadiness.ts",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
         "path": "src/data/retentionLoop.ts",
         "raw": " M src/data/retentionLoop.ts",
         "safe": true,
@@ -751,10 +807,31 @@
         "raw": " M src/data/storeListingOptimizer.ts",
         "safe": true,
         "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
+        "path": "src/data/trafficSeeding.ts",
+        "raw": " M src/data/trafficSeeding.ts",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "??",
+        "path": "public/seed-next.html",
+        "raw": "?? public/seed-next.html",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "??",
+        "path": "public/seed-next.json",
+        "raw": "?? public/seed-next.json",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
       }
     ],
     "unsafe": [],
-    "safeCount": 97,
+    "safeCount": 108,
     "unsafeCount": 0
   },
   "commitPlan": {
@@ -779,11 +856,13 @@
       "data/event-collector-smoke.json",
       "data/event-ingest-smoke.json",
       "data/event-ingest.json",
+      "data/growth-plan.json",
       "data/live-site-monitor.json",
       "data/local-event-bridge.json",
       "data/objective-audit.json",
       "data/organic-seed-loop.json",
       "data/performance-budget.json",
+      "data/portfolio-policy.json",
       "data/post-deploy-smoke.json",
       "data/product-gate-recovery.json",
       "data/product-gate-sample-plan.json",
@@ -801,9 +880,12 @@
       "data/store-compliance.json",
       "data/store-listing-optimizer.json",
       "data/store-package.json",
+      "data/traffic-seeding.json",
       "public/compliance.json",
-      "public/measurement-status.html",
       "public/measurement-status.json",
+      "public/seed-kit.html",
+      "public/share-manifest.json",
+      "public/sitemap.xml",
       "reports/acquisition-learning-latest.md",
       "reports/analytics-rollup-latest.md",
       "reports/autonomous-cadence-latest.md",
@@ -816,11 +898,13 @@
       "reports/event-collector-smoke-latest.md",
       "reports/event-ingest-latest.md",
       "reports/event-ingest-smoke-latest.md",
+      "reports/growth-plan-latest.md",
       "reports/live-site-monitor-latest.md",
       "reports/local-event-bridge-latest.md",
       "reports/objective-audit-latest.md",
       "reports/organic-seed-loop-latest.md",
       "reports/performance-budget-latest.md",
+      "reports/portfolio-policy-latest.md",
       "reports/post-deploy-smoke-latest.md",
       "reports/product-gate-recovery-latest.md",
       "reports/product-gate-sample-plan-latest.md",
@@ -838,19 +922,21 @@
       "reports/store-compliance-latest.md",
       "reports/store-listing-optimizer-latest.md",
       "reports/store-package-latest.md",
+      "reports/traffic-seeding-latest.md",
       "src/data/acquisitionLearning.ts",
       "src/data/autonomousCadence.ts",
       "src/data/autonomousOperator.ts",
       "src/data/autonomousOperatorHistory.ts",
       "src/data/autonomousOwnerLoop.ts",
       "src/data/autonomousSelfUpdate.ts",
-      "src/data/deploymentPlan.ts",
       "src/data/eventCollectorDeployment.ts",
+      "src/data/growthPlan.ts",
       "src/data/liveSiteMonitor.ts",
       "src/data/localEventBridge.ts",
       "src/data/objectiveAudit.ts",
       "src/data/organicSeedLoop.ts",
       "src/data/performanceBudget.ts",
+      "src/data/portfolioPolicy.ts",
       "src/data/postDeploySmoke.ts",
       "src/data/productGateRecovery.ts",
       "src/data/productGateSamplePlan.ts",
@@ -860,10 +946,12 @@
       "src/data/productionMeasurementStatus.ts",
       "src/data/pwaInstallLoop.ts",
       "src/data/releaseCandidate.ts",
-      "src/data/repositoryReadiness.ts",
       "src/data/retentionLoop.ts",
       "src/data/storeCompliance.ts",
-      "src/data/storeListingOptimizer.ts"
+      "src/data/storeListingOptimizer.ts",
+      "src/data/trafficSeeding.ts",
+      "public/seed-next.html",
+      "public/seed-next.json"
     ],
     "commitMessage": "Autonomous daily self-update",
     "skipWhenNoAllowlistedChanges": true
@@ -897,6 +985,8 @@
       "public/privacy.html",
       "public/robots.txt",
       "public/seed-kit.html",
+      "public/seed-next.html",
+      "public/seed-next.json",
       "public/share-manifest.json",
       "public/sitemap.xml",
       "public/support.html"
@@ -971,7 +1061,7 @@
     {
       "id": "safe-path-allowlist",
       "status": "pass",
-      "detail": "97 safe pending file(s), 0 unsafe pending file(s)."
+      "detail": "108 safe pending file(s), 0 unsafe pending file(s)."
     },
     {
       "id": "repository-optional",

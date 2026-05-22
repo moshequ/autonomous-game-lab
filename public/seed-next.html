@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Play the Current Seed Game | Autonomous Game Lab</title>
+    <meta name="robots" content="index,follow">
+    <meta name="description" content="An evergreen zero-spend route to the current under-measured Autonomous Game Lab seed game.">
+    <style>
+      :root { color-scheme: light; font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color: #1a211d; background: #f7f7f2; }
+      body { margin: 0; }
+      main { display: grid; align-content: center; gap: 18px; min-height: 100svh; width: min(760px, calc(100% - 32px)); margin: 0 auto; padding: 36px 0; }
+      h1, p { margin: 0; }
+      h1 { font-size: clamp(2.4rem, 8vw, 5rem); line-height: 0.95; letter-spacing: 0; max-width: 10ch; }
+      p { color: #4f5d55; line-height: 1.55; max-width: 620px; }
+      .eyebrow { color: #496858; font-size: 0.78rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em; }
+      .actions { display: flex; flex-wrap: wrap; gap: 10px; }
+      a, button { color: #ffffff; background: #1f6b4d; border: 0; border-radius: 6px; padding: 10px 12px; text-decoration: none; font: inherit; font-weight: 800; cursor: pointer; min-height: 42px; }
+      .secondary { color: #1f6b4d; background: #e9f2eb; }
+      dl { display: grid; gap: 8px; margin: 8px 0 0; padding: 16px; background: #ffffff; border: 1px solid #d6ded2; border-radius: 8px; }
+      dl div { display: flex; justify-content: space-between; gap: 12px; border-top: 1px solid #edf1ea; padding-top: 8px; }
+      dl div:first-child { border-top: 0; padding-top: 0; }
+      dt { color: #5d6b63; }
+      dd { margin: 0; font-weight: 800; text-align: right; overflow-wrap: anywhere; }
+      .status { min-height: 1.4rem; color: #496858; font-weight: 800; }
+    </style>
+  </head>
+  <body>
+    <main data-seed-next data-campaign-id="seed-20260522-market-pulse" data-game-id="market-pulse" data-target-path="./?game=market-pulse&amp;utm_source=seed_share&amp;utm_campaign=seed-20260522-market-pulse">
+      <p class="eyebrow">Zero-spend evergreen seed route</p>
+      <h1>Play Market Pulse</h1>
+      <p>A generated auction puzzle with quick cozy production decisions. This stable page follows the current autonomous seed target, so old shares keep pointing at the next game that needs real player starts.</p>
+      <div class="actions">
+        <a href="./?game=market-pulse&amp;utm_source=seed_share&amp;utm_campaign=seed-20260522-market-pulse" data-seed-next-link>Try today&#39;s challenge</a>
+        <a class="secondary" href="./seed-kit.html">Open seed kit</a>
+      </div>
+      <dl>
+        <div><dt>Campaign</dt><dd>seed-20260522-market-pulse</dd></div>
+        <div><dt>Target starts</dt><dd>40</dd></div>
+        <div><dt>Cost</dt><dd>$0.00</dd></div>
+      </dl>
+      <p class="status" data-seed-next-status aria-live="polite">Preparing route.</p>
+    </main>
+    <script>
+      (() => {
+        const route = {"generatedAt":"2026-05-22T02:54:50.485Z","status":"armed","path":"/seed-next.html","jsonPath":"/seed-next.json","target":{"campaignId":"seed-20260522-market-pulse","gameId":"market-pulse","title":"Market Pulse","priority":1,"targetPath":"/?game=market-pulse&utm_source=seed_share&utm_campaign=seed-20260522-market-pulse","targetUrl":"https://moshequ.github.io/autonomous-game-lab/?game=market-pulse&utm_source=seed_share&utm_campaign=seed-20260522-market-pulse","copy":{"title":"Play Market Pulse","text":"A generated auction puzzle with quick cozy production decisions.","cta":"Try today's challenge"},"targetStartsBeforeJudgment":40},"fallbackPath":"/seed-kit.html","guardrails":{"costUsd":0,"playerInitiatedOnly":true,"noAutomatedExternalPosting":true,"noPaidPromotion":true,"noSyntheticEvents":true,"noRevenueEnablement":true},"telemetry":["seed_next_viewed","seed_next_routed","organic_entry_opened","game_started"]}
+        const analyticsKey = 'agl.analytics.events'
+        const params = new URLSearchParams(window.location.search)
+        const previewOnly = params.get('preview') === '1' || params.get('no_redirect') === '1'
+        const root = document.querySelector('[data-seed-next]')
+        const status = document.querySelector('[data-seed-next-status]')
+        const targetPath = root?.dataset.targetPath || './seed-kit.html'
+        const campaignId = root?.dataset.campaignId || route.target?.campaignId || null
+        const gameId = root?.dataset.gameId || route.target?.gameId || null
+        const readEvents = () => {
+          try {
+            const raw = window.localStorage.getItem(analyticsKey)
+            const events = raw ? JSON.parse(raw) : []
+            return Array.isArray(events) ? events : []
+          } catch {
+            return []
+          }
+        }
+        const createId = (prefix) =>
+          window.crypto?.randomUUID
+            ? `${prefix}-${window.crypto.randomUUID()}`
+            : `${prefix}-${Date.now()}-${Math.random().toString(16).slice(2)}`
+        const track = (name, properties = {}) => {
+          const event = {
+            id: createId('seed-next'),
+            name,
+            properties: {
+              gameId,
+              campaignId,
+              acquisitionCampaign: campaignId,
+              acquisitionSource: 'seed_next',
+              acquisitionChannel: 'evergreen-seed-route',
+              surface: 'seed-next',
+              zeroPaidSpend: true,
+              playerInitiated: true,
+              automatedExternalPosting: false,
+              ...properties,
+            },
+            createdAt: new Date().toISOString(),
+          }
+          window.localStorage.setItem(analyticsKey, JSON.stringify([...readEvents(), event].slice(-300)))
+        }
+
+        track('seed_next_viewed', { targetPath, previewOnly })
+
+        document.querySelector('[data-seed-next-link]')?.addEventListener('click', () => {
+          track('seed_campaign_clicked', { targetPath, linkType: 'seed-next-link' })
+        })
+
+        if (!previewOnly && route.target) {
+          status.textContent = 'Routing to the current seed game.'
+          window.setTimeout(() => {
+            track('seed_next_routed', { targetPath })
+            window.location.assign(targetPath)
+          }, 350)
+        } else {
+          status.textContent = route.target ? 'Preview mode. Use the button to open the current seed game.' : 'No seed campaign is armed yet.'
+        }
+      })()
+    </script>
+  </body>
+</html>

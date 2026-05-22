@@ -1,6 +1,6 @@
 # Acquisition Learning
 
-Generated: 2026-05-22T02:40:39.282Z
+Generated: 2026-05-22T03:08:39.289Z
 Status: acquisition-learning-ready
 Analytics source: fixture-sample
 Raw attribution available: no
@@ -25,6 +25,7 @@ Raw attribution available: no
 - internal-rotation: 0 event(s), 0 start(s), $0
 - organic-page: 0 event(s), 0 start(s), $0
 - player-share: 0 event(s), 0 start(s), $0
+- evergreen-seed-route: 0 event(s), 0 start(s), $0
 - product-gate-sample: 0 event(s), 0 start(s), $0
 
 ## Next Actions

@@ -1,7 +1,7 @@
 export const acquisitionLearning = {
-  "generatedAt": "2026-05-22T02:40:39.282Z",
+  "generatedAt": "2026-05-22T03:08:39.289Z",
   "status": "acquisition-learning-ready",
-  "sourceDataHash": "34ae4c8c523e",
+  "sourceDataHash": "97ebf9c58906",
   "sourceStatus": {
     "analyticsSource": "fixture-sample",
     "localEventFiles": 0,
@@ -46,6 +46,16 @@ export const acquisitionLearning = {
     },
     {
       "id": "player-share",
+      "status": "armed",
+      "costUsd": 0,
+      "attributedEvents": 0,
+      "clicks": 0,
+      "starts": 0,
+      "completions": 0,
+      "startRate": 0
+    },
+    {
+      "id": "evergreen-seed-route",
       "status": "armed",
       "costUsd": 0,
       "attributedEvents": 0,

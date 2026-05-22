@@ -1,6 +1,6 @@
 # Traffic Seeding
 
-Generated: 2026-05-22T02:06:21.597Z
+Generated: 2026-05-22T02:54:50.485Z
 Status: traffic-seeding-ready
 Analytics source: fixture-sample
 Max cost: $0.00
@@ -17,11 +17,13 @@ Max cost: $0.00
 - internal-rotation: armed, $0
 - organic-page: armed, $0
 - player-share: armed, $0
+- evergreen-seed-route: armed, $0
 - product-gate-sample: armed, $0
 
 ## Seed Kit
 
 - /seed-kit.html with 4 zero-spend seed campaign links and player-initiated copy/share controls.
+- /seed-next.html routes evergreen zero-spend traffic to seed-20260522-market-pulse without paid posting.
 - /gate-sample.html with 3 product-gate sample link(s); default gate-sample-20260522-d1Retention.
 
 ## Next Actions

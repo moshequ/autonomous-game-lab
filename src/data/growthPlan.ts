@@ -1,9 +1,9 @@
 export const growthPlan = {
-  "generatedAt": "2026-05-22T02:06:15.967Z",
+  "generatedAt": "2026-05-22T02:54:49.930Z",
   "siteUrl": "https://moshequ.github.io/autonomous-game-lab",
   "publicUrlMode": "absolute-origin",
   "publicOrigin": {
-    "source": "PUBLIC_SITE_URL",
+    "source": "environment",
     "status": "configured",
     "origin": "https://moshequ.github.io/autonomous-game-lab"
   },
@@ -411,6 +411,12 @@ export const growthPlan = {
       "changefreq": "daily"
     },
     {
+      "path": "/seed-next.html",
+      "role": "evergreen-seed-route",
+      "channel": "player-sharing",
+      "changefreq": "daily"
+    },
+    {
       "path": "/install.html",
       "role": "pwa-install",
       "channel": "pwa-install",
@@ -436,6 +442,8 @@ export const growthPlan = {
       "cost": "$0",
       "assets": [
         "public/share-manifest.json",
+        "public/seed-kit.html",
+        "public/seed-next.html",
         "in-app share button"
       ],
       "metric": "share_clicked -> game_started"

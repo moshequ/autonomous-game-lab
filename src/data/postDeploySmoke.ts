@@ -1,10 +1,27 @@
 export const postDeploySmoke = {
-  "generatedAt": "2026-05-22T02:45:18.708Z",
+  "generatedAt": "2026-05-22T03:12:08.582Z",
   "status": "post-deploy-smoke-observed-live",
   "envFiles": {
-    "loaded": false,
-    "loadedFiles": [],
-    "loadedKeys": [],
+    "loaded": true,
+    "loadedFiles": [
+      {
+        "path": "ops/production.env.local",
+        "keys": [
+          "AGL_ANDROID_PACKAGE_NAME",
+          "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
+          "AGL_ANDROID_KEYSTORE_BASE64",
+          "AGL_ANDROID_KEYSTORE_PASSWORD",
+          "AGL_ANDROID_KEY_ALIAS"
+        ]
+      }
+    ],
+    "loadedKeys": [
+      "AGL_ANDROID_PACKAGE_NAME",
+      "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
+      "AGL_ANDROID_KEYSTORE_BASE64",
+      "AGL_ANDROID_KEYSTORE_PASSWORD",
+      "AGL_ANDROID_KEY_ALIAS"
+    ],
     "skippedExistingKeys": [],
     "skippedProtectedKeys": [],
     "overwrittenEnvFileKeys": [],
@@ -38,8 +55,8 @@ export const postDeploySmoke = {
     "origin": "https://moshequ.github.io/autonomous-game-lab",
     "originSource": "release-candidate-public-origin",
     "provider": "github-pages",
-    "candidateId": "pwa-04dd38914b34",
-    "aggregateHash": "04dd38914b345b1c4b935e546cc8d1e032eef5ae9c088588abe5da97c707ecbb",
+    "candidateId": "pwa-b31c88c46a56",
+    "aggregateHash": "b31c88c46a56b6adc574ef9d9d33c4f67175ebc89b6db2f7d76ded0e7b5f64d3",
     "strictManifestComparison": false
   },
   "liveRelease": {
@@ -47,7 +64,9 @@ export const postDeploySmoke = {
     "candidateId": "pwa-1dcb136da645",
     "aggregateHash": "1dcb136da645250571f3b82c73f96728d1195df0560f45886a9dc8ba1eb635e4",
     "localCandidateMatches": false,
-    "strictManifestComparison": false
+    "strictManifestComparison": false,
+    "postDeploySmokeUrls": 16,
+    "smokePlanSource": "live-release-manifest"
   },
   "sourceStatus": {
     "deployment": "ready-for-pages",
@@ -64,8 +83,8 @@ export const postDeploySmoke = {
     "status": "predeploy-artifact-smoke-passed",
     "artifactPath": "dist",
     "summary": {
-      "planned": 17,
-      "passed": 17,
+      "planned": 19,
+      "passed": 19,
       "failed": 0
     },
     "controls": {
@@ -101,7 +120,7 @@ export const postDeploySmoke = {
         "file": "dist/sw.js",
         "expectedStatus": 200,
         "status": "pass",
-        "bytes": 3873,
+        "bytes": 3940,
         "textMatched": true,
         "detail": "Local production artifact matched required text."
       },
@@ -211,7 +230,27 @@ export const postDeploySmoke = {
         "file": "dist/seed-kit.html",
         "expectedStatus": 200,
         "status": "pass",
-        "bytes": 14865,
+        "bytes": 15673,
+        "textMatched": true,
+        "detail": "Local production artifact matched required text."
+      },
+      {
+        "id": "seed-next-html",
+        "path": "/seed-next.html",
+        "file": "dist/seed-next.html",
+        "expectedStatus": 200,
+        "status": "pass",
+        "bytes": 6550,
+        "textMatched": true,
+        "detail": "Local production artifact matched required text."
+      },
+      {
+        "id": "seed-next-json",
+        "path": "/seed-next.json",
+        "file": "dist/seed-next.json",
+        "expectedStatus": 200,
+        "status": "pass",
+        "bytes": 1098,
         "textMatched": true,
         "detail": "Local production artifact matched required text."
       },
@@ -221,7 +260,7 @@ export const postDeploySmoke = {
         "file": "dist/sitemap.xml",
         "expectedStatus": 200,
         "status": "pass",
-        "bytes": 2382,
+        "bytes": 2510,
         "textMatched": true,
         "detail": "Local production artifact matched required text."
       },
@@ -241,11 +280,11 @@ export const postDeploySmoke = {
         "file": "dist/release-candidate.json",
         "expectedStatus": 200,
         "status": "pass",
-        "bytes": 20928,
+        "bytes": 22026,
         "candidateMatches": true,
         "hashMatches": true,
-        "localCandidateId": "pwa-04dd38914b34",
-        "localAggregateHash": "04dd38914b345b1c4b935e546cc8d1e032eef5ae9c088588abe5da97c707ecbb",
+        "localCandidateId": "pwa-b31c88c46a56",
+        "localAggregateHash": "b31c88c46a56b6adc574ef9d9d33c4f67175ebc89b6db2f7d76ded0e7b5f64d3",
         "detail": "Local release manifest matches the release candidate."
       }
     ]
@@ -491,7 +530,7 @@ export const postDeploySmoke = {
       "path": "/release-candidate.json",
       "url": "https://moshequ.github.io/autonomous-game-lab/release-candidate.json",
       "expectedStatus": 200,
-      "requiredText": "pwa-04dd38914b34",
+      "requiredText": "pwa-b31c88c46a56",
       "status": "pass",
       "detail": "Live release manifest is reachable; it does not match the current local release candidate.",
       "actualStatus": 200,
@@ -504,7 +543,122 @@ export const postDeploySmoke = {
       "strictManifestComparison": false,
       "deployedReleaseStatus": "release-candidate-ready",
       "deployedCandidateId": "pwa-1dcb136da645",
-      "deployedAggregateHash": "1dcb136da645250571f3b82c73f96728d1195df0560f45886a9dc8ba1eb635e4"
+      "deployedAggregateHash": "1dcb136da645250571f3b82c73f96728d1195df0560f45886a9dc8ba1eb635e4",
+      "deployedPostDeploySmoke": [
+        {
+          "id": "app-shell",
+          "path": "/",
+          "url": "https://moshequ.github.io/autonomous-game-lab/",
+          "expectedStatus": 200,
+          "requiredText": "Autonomous Game Lab"
+        },
+        {
+          "id": "manifest-webmanifest",
+          "path": "/manifest.webmanifest",
+          "url": "https://moshequ.github.io/autonomous-game-lab/manifest.webmanifest",
+          "expectedStatus": 200,
+          "requiredText": null
+        },
+        {
+          "id": "sw-js",
+          "path": "/sw.js",
+          "url": "https://moshequ.github.io/autonomous-game-lab/sw.js",
+          "expectedStatus": 200,
+          "requiredText": null
+        },
+        {
+          "id": "privacy-html",
+          "path": "/privacy.html",
+          "url": "https://moshequ.github.io/autonomous-game-lab/privacy.html",
+          "expectedStatus": 200,
+          "requiredText": "Autonomous Game Lab"
+        },
+        {
+          "id": "support-html",
+          "path": "/support.html",
+          "url": "https://moshequ.github.io/autonomous-game-lab/support.html",
+          "expectedStatus": 200,
+          "requiredText": "Autonomous Game Lab"
+        },
+        {
+          "id": "measurement-status-html",
+          "path": "/measurement-status.html",
+          "url": "https://moshequ.github.io/autonomous-game-lab/measurement-status.html",
+          "expectedStatus": 200,
+          "requiredText": "Autonomous Game Lab"
+        },
+        {
+          "id": "measurement-status-json",
+          "path": "/measurement-status.json",
+          "url": "https://moshequ.github.io/autonomous-game-lab/measurement-status.json",
+          "expectedStatus": 200,
+          "requiredText": null
+        },
+        {
+          "id": "install-html",
+          "path": "/install.html",
+          "url": "https://moshequ.github.io/autonomous-game-lab/install.html",
+          "expectedStatus": 200,
+          "requiredText": "Autonomous Game Lab"
+        },
+        {
+          "id": "compliance-json",
+          "path": "/compliance.json",
+          "url": "https://moshequ.github.io/autonomous-game-lab/compliance.json",
+          "expectedStatus": 200,
+          "requiredText": "store-compliance"
+        },
+        {
+          "id": "monetization-json",
+          "path": "/monetization.json",
+          "url": "https://moshequ.github.io/autonomous-game-lab/monetization.json",
+          "expectedStatus": 200,
+          "requiredText": "blocked-by-product-gates"
+        },
+        {
+          "id": "app-ads-txt",
+          "path": "/app-ads.txt",
+          "url": "https://moshequ.github.io/autonomous-game-lab/app-ads.txt",
+          "expectedStatus": 200,
+          "requiredText": "Revenue features are disabled"
+        },
+        {
+          "id": "well-known-assetlinks-json",
+          "path": "/.well-known/assetlinks.json",
+          "url": "https://moshequ.github.io/autonomous-game-lab/.well-known/assetlinks.json",
+          "expectedStatus": 200,
+          "requiredText": "delegate_permission/common.handle_all_urls"
+        },
+        {
+          "id": "gate-sample-html",
+          "path": "/gate-sample.html",
+          "url": "https://moshequ.github.io/autonomous-game-lab/gate-sample.html",
+          "expectedStatus": 200,
+          "requiredText": "Autonomous Game Lab"
+        },
+        {
+          "id": "seed-kit-html",
+          "path": "/seed-kit.html",
+          "url": "https://moshequ.github.io/autonomous-game-lab/seed-kit.html",
+          "expectedStatus": 200,
+          "requiredText": "Autonomous Game Lab"
+        },
+        {
+          "id": "sitemap-xml",
+          "path": "/sitemap.xml",
+          "url": "https://moshequ.github.io/autonomous-game-lab/sitemap.xml",
+          "expectedStatus": 200,
+          "requiredText": null
+        },
+        {
+          "id": "games-foundry-ledger-html",
+          "path": "/games/foundry-ledger.html",
+          "url": "https://moshequ.github.io/autonomous-game-lab/games/foundry-ledger.html",
+          "expectedStatus": 200,
+          "requiredText": "Autonomous Game Lab"
+        }
+      ],
+      "deployedPostDeploySmokeUrls": 16
     }
   ],
   "nextActions": [
