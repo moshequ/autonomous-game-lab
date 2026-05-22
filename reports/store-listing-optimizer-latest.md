@@ -1,26 +1,26 @@
 # Store Listing Optimizer
 
-Generated: 2026-05-22T01:25:30.838Z
+Generated: 2026-05-22T01:52:22.125Z
 Status: store-listing-optimizer-ready
-Focus: Grove Engine (grove-engine)
+Focus: Market Pulse (market-pulse)
 Previous candidate: lantern-relay
 
 ## Copy
 
-- Short description: Original daily strategy puzzles led by Grove Engine. Quick solo board-game play.
-- Apple subtitle: Grove Engine daily strategy
-- Keywords: engine building, expedition planning, daily puzzle, solo board game, generated strategy game, board-game-inspired, worker placement, tile placement, compact city logistics, route building, science desk, strategy puzzle
+- Short description: Original daily strategy puzzles led by Market Pulse. Quick solo board-game play.
+- Apple subtitle: Market Pulse daily strategy
+- Keywords: auction, cozy production, daily puzzle, solo board game, generated strategy game, board-game-inspired, worker placement, expedition planning, tile placement, science desk, route building, compact city logistics
 
 ## Screenshot Priorities
 
-- phone-grove-engine-generated: lead-gameplay, score 140
+- phone-market-pulse-generated: lead-gameplay, score 140
 - phone-lantern-relay-game: supporting-phone, score 32
 - phone-portal-home: supporting-phone, score 20
 - desktop-growth-page: press-kit, score 0
 
 ## Candidate Signals
 
-- grove-engine: score 171.912, growth 78
+- market-pulse: score 171.912, growth 78
 - guild-garden: score 128.232, growth 74
 - mosaic-haven: score 122.552, growth 70
 - metro-loom: score 116.872, growth 66
@@ -40,6 +40,6 @@ Previous candidate: lantern-relay
 
 ## Next Actions
 
-- Use Grove Engine as the store listing focus instead of lantern-relay.
-- Lead screenshots with Grove Engine gameplay board.
+- Use Market Pulse as the store listing focus instead of lantern-relay.
+- Lead screenshots with Market Pulse gameplay board.
 - Regenerate store compliance after every listing, screenshot, monetization, or privacy change.

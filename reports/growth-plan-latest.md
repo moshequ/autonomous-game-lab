@@ -1,6 +1,6 @@
 # Growth Plan
 
-Generated: 2026-05-22T00:37:38.428Z
+Generated: 2026-05-22T01:39:58.194Z
 Status: growth-assets-ready
 Site URL: https://moshequ.github.io/autonomous-game-lab
 Indexed utility pages: 7
@@ -16,7 +16,7 @@ Indexed utility pages: 7
 - Metro Loom: /games/metro-loom.html, focus evergreen-search-page, score 66, CTA daily-challenge
 - Mosaic Haven: /games/mosaic-haven.html, focus evergreen-search-page, score 70, CTA play-free
 - Guild Garden: /games/guild-garden.html, focus evergreen-search-page, score 74, CTA daily-challenge
-- Grove Engine: /games/grove-engine.html, focus evergreen-search-page, score 78, CTA daily-challenge
+- Market Pulse: /games/market-pulse.html, focus evergreen-search-page, score 78, CTA daily-challenge
 
 ## Channels
 

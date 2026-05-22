@@ -1,6 +1,6 @@
 export const pwaInstallLoop = {
-  "generatedAt": "2026-05-22T01:24:16.911Z",
-  "sourceDataHash": "fc3f599dae7c",
+  "generatedAt": "2026-05-22T01:51:08.787Z",
+  "sourceDataHash": "44c4d5e3e6ff",
   "status": "pwa-install-loop-ready",
   "sourceStatus": {
     "analyticsSource": "fixture-sample",
@@ -46,14 +46,14 @@ export const pwaInstallLoop = {
     "cooldownDaysAfterDismissal": 14,
     "nativePromptRequired": true,
     "fallbackWhenUnavailable": "measure-browser-launch-mode-only",
-    "priorityGameId": "grove-engine"
+    "priorityGameId": "market-pulse"
   },
   "publicInstallPage": {
     "path": "/install.html",
     "file": "public/install.html",
-    "campaignId": "pwa-install-grove-engine",
-    "playPath": "/?game=grove-engine&utm_source=pwa_install&utm_campaign=pwa-install-grove-engine",
-    "priorityGameId": "grove-engine",
+    "campaignId": "pwa-install-market-pulse",
+    "playPath": "/?game=market-pulse&utm_source=pwa_install&utm_campaign=pwa-install-market-pulse",
+    "priorityGameId": "market-pulse",
     "zeroPaidSpend": true,
     "localAnalyticsEvents": true,
     "localAnalyticsStorageKey": "agl.analytics.events",
@@ -92,8 +92,8 @@ export const pwaInstallLoop = {
   "samplePolicy": {
     "channelId": "pwa-install",
     "status": "collecting-sample",
-    "campaignId": "pwa-install-grove-engine",
-    "playPath": "/?game=grove-engine&utm_source=pwa_install&utm_campaign=pwa-install-grove-engine",
+    "campaignId": "pwa-install-market-pulse",
+    "playPath": "/?game=market-pulse&utm_source=pwa_install&utm_campaign=pwa-install-market-pulse",
     "publicInstallPath": "/install.html",
     "source": "fixture-sample",
     "current": {
@@ -148,7 +148,7 @@ export const pwaInstallLoop = {
       "noRevenueEnablement": true,
       "noStoreSubmission": true
     },
-    "nextAction": "Route zero-spend install traffic through /?game=grove-engine&utm_source=pwa_install&utm_campaign=pwa-install-grove-engine until 20 prompt view(s) and 10 launch-mode event(s) are collected."
+    "nextAction": "Route zero-spend install traffic through /?game=market-pulse&utm_source=pwa_install&utm_campaign=pwa-install-market-pulse until 20 prompt view(s) and 10 launch-mode event(s) are collected."
   },
   "guardrails": {
     "noForcedPrompt": true,
@@ -159,9 +159,9 @@ export const pwaInstallLoop = {
     "noPaidInstallReward": true
   },
   "nextActions": [
-    "Route zero-spend install traffic through /?game=grove-engine&utm_source=pwa_install&utm_campaign=pwa-install-grove-engine until 20 prompt view(s) and 10 launch-mode event(s) are collected.",
+    "Route zero-spend install traffic through /?game=market-pulse&utm_source=pwa_install&utm_campaign=pwa-install-market-pulse until 20 prompt view(s) and 10 launch-mode event(s) are collected.",
     "Start measuring native install prompt availability and standalone launches.",
-    "Route install traffic through /?game=grove-engine&utm_source=pwa_install&utm_campaign=pwa-install-grove-engine so prompt events carry pwa-install attribution.",
+    "Route install traffic through /?game=market-pulse&utm_source=pwa_install&utm_campaign=pwa-install-market-pulse so prompt events carry pwa-install attribution.",
     "Keep install links pointed at the stable HTTPS production origin.",
     "Keep install prompts optional, non-blocking, and separated from paid rewards."
   ]

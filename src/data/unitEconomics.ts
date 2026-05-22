@@ -1,5 +1,5 @@
 export const unitEconomics = {
-  "generatedAt": "2026-05-22T00:38:11.412Z",
+  "generatedAt": "2026-05-22T01:40:29.699Z",
   "status": "no-spend",
   "analyticsSource": "fixture-sample",
   "projectionConfidence": "low-fixture-or-zero",

@@ -1,5 +1,5 @@
 export const productionEnvironment = {
-  "generatedAt": "2026-05-22T00:37:33.484Z",
+  "generatedAt": "2026-05-22T01:39:53.163Z",
   "status": "production-env-missing",
   "envFiles": {
     "loaded": true,
@@ -157,7 +157,7 @@ export const productionEnvironment = {
     "explicitOriginConfigured": true,
     "githubPagesCandidate": {
       "repository": "moshequ/autonomous-game-lab",
-      "source": "environment",
+      "source": "origin-remote",
       "origin": "https://moshequ.github.io/autonomous-game-lab",
       "host": "moshequ.github.io",
       "basePath": "/autonomous-game-lab/",

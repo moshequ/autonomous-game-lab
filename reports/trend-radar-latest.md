@@ -1,6 +1,6 @@
 # Trend Radar Report
 
-Generated: 2026-05-22T00:37:31.806Z
+Generated: 2026-05-22T01:39:51.470Z
 
 Active source: public-rss-live
 BGG note: BGG_XML_API_TOKEN is not set; trying public trend feeds before fixtures.
@@ -9,24 +9,24 @@ Cache: fresh; usable true
 
 ## Top Mechanics
 
-1. card drafting - score 295, mobile fit 82, template tableau
-2. route building - score 213, mobile fit 90, template line-drawing
+1. card drafting - score 298, mobile fit 82, template tableau
+2. route building - score 226, mobile fit 90, template line-drawing
 3. tile placement - score 202, mobile fit 88, template grid-puzzle
-4. worker placement - score 49, mobile fit 69, template turn-economy
-5. engine building - score 27, mobile fit 78, template tableau
+4. worker placement - score 24, mobile fit 69, template turn-economy
+5. auction - score 12, mobile fit 74, template turn-economy
 
 ## Top Themes
 
-1. cozy production - score 126, ad safety 96
-2. science desk - score 89, ad safety 95
-3. compact city logistics - score 70, ad safety 93
-4. expedition planning - score 27, ad safety 89
+1. cozy production - score 138, ad safety 96
+2. compact city logistics - score 75, ad safety 93
+3. science desk - score 74, ad safety 95
+4. expedition planning - score 25, ad safety 89
 
 ## Sample Items
 
-- #1 What game is this from?: tile placement, card drafting, route building
-- #2 Update on "SFG posts AI "photos" as in production photos?": tile placement, card drafting, route building
-- #3 Be extremely careful with some messages on BGG: tile placement, card drafting, route building
-- #4 Launch of Concordia Special Edition on Gamefound announced as June 9th, Base game prices revealed: tile placement, card drafting, route building
-- #5 What are games that scale well (from 2p to at least 4p) and have moderate-to-high player interaction?: worker placement, tile placement, card drafting
-- #6 Explanation of War of the Dragon’s Hero Mode (upcoming Wheel of Time board game): route building, tile placement, card drafting
+- #1 I made an online 3D version of Sequence you can play with friends right now — no app needed: route building, tile placement, card drafting
+- #2 Replaying Party Games: tile placement, card drafting, route building
+- #3 Betrayal Legacy Chapter 13: card drafting, tile placement, route building
+- #4 What game is this from?: tile placement, card drafting, route building
+- #5 Update on "SFG posts AI "photos" as in production photos?": tile placement, card drafting, route building
+- #6 Be extremely careful with some messages on BGG: tile placement, card drafting, route building

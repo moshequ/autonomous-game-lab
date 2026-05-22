@@ -1,8 +1,8 @@
 # Product Gate Sample Plan
 
-Generated: 2026-05-22T01:24:17.449Z
+Generated: 2026-05-22T01:51:09.660Z
 Status: product-gate-sample-plan-ready
-Source hash: cf81e119dba4
+Source hash: 6e8d934c4316
 Analytics source: fixture-sample
 Primary gate: firstGameCompletion
 Default route: d1Retention (gate-sample-20260522-d1Retention)
@@ -11,8 +11,8 @@ Observed successes needed: 139
 Imported gate-sample events: 0
 Inbox gate-sample events: 0
 Supporting aggregate evidence notes: 0
-Downloads scan: no-evidence-found; cooling down false
-Next recommended Downloads scan: 2026-05-22T00:49:49.509Z
+Downloads scan: no-evidence-found; cooling down true
+Next recommended Downloads scan: 2026-05-22T05:42:25.939Z
 Public sample page: /gate-sample.html
 Runtime evidence policy: active
 
@@ -20,7 +20,7 @@ Runtime evidence policy: active
 
 - #1 firstGameCompletion: collecting-sample; evidence waiting-for-player-export; aggregate notes 0; 40% / 55%; needs 30 prompt view(s), 128 success(es); /?game=harbor-rings&utm_source=gate_sample&utm_campaign=gate-sample-20260522-firstGameCompletion
 - #2 replayRate: collecting-sample; evidence waiting-for-player-export; aggregate notes 0; 31% / 35%; needs 30 prompt view(s), 10 success(es); /?game=harbor-rings&utm_source=gate_sample&utm_campaign=gate-sample-20260522-replayRate
-- #3 d1Retention: collecting-sample; evidence waiting-for-player-export; aggregate notes 0; 17% / 18%; needs 10 prompt view(s), 1 success(es); /?game=grove-engine&utm_source=gate_sample&utm_campaign=gate-sample-20260522-d1Retention
+- #3 d1Retention: collecting-sample; evidence waiting-for-player-export; aggregate notes 0; 17% / 18%; needs 10 prompt view(s), 1 success(es); /?game=market-pulse&utm_source=gate_sample&utm_campaign=gate-sample-20260522-d1Retention
 
 ## Commands
 
@@ -51,4 +51,4 @@ Runtime evidence policy: active
 
 - First game completion needs 30 more prompt exposure(s) and 128 observed success(es); feature Harbor Rings via /?game=harbor-rings&utm_source=gate_sample&utm_campaign=gate-sample-20260522-firstGameCompletion.
 - D1 retention is the fastest gate sample: 10 prompt exposure(s), 1 observed success(es).
-- Export or collect real browser events, then run npm run autonomous:collect-sample-downloads before changing copy, placement, revenue, or rules.
+- Wait until 2026-05-22T05:42:25.939Z before the next explicit Downloads scan unless an inbox event drop appears.

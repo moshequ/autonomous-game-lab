@@ -1,6 +1,6 @@
 # Generated Game Concepts
 
-Generated: 2026-05-22T00:37:32.060Z
+Generated: 2026-05-22T01:39:51.702Z
 
 ## Accepted Candidates
 
@@ -17,20 +17,20 @@ Generated: 2026-05-22T00:37:32.060Z
 ### 2. Harbor Circuit
 
 - Mechanic: route building
-- Theme: science desk
+- Theme: compact city logistics
 - Audience: mobile puzzle
 - Template: line-drawing
-- Core loop: align instruments into reliable discoveries by making one strong route building decision per turn.
+- Core loop: connect demand before congestion rises by making one strong route building decision per turn.
 - IP risk: low
 - Monetization test: rewarded hint after failed daily challenge
 
 ### 3. Orbit Atlas
 
 - Mechanic: tile placement
-- Theme: compact city logistics
+- Theme: science desk
 - Audience: strategy solo
 - Template: grid-puzzle
-- Core loop: connect demand before congestion rises by making one strong tile placement decision per turn.
+- Core loop: align instruments into reliable discoveries by making one strong tile placement decision per turn.
 - IP risk: low
 - Monetization test: rewarded hint after failed daily challenge
 

@@ -1,6 +1,6 @@
 # Bot Simulation Report
 
-Generated: 2026-05-22T00:37:43.795Z
+Generated: 2026-05-22T01:40:03.688Z
 
 ## Harbor Rings
 
@@ -122,22 +122,22 @@ Simulations: 1260
 
 - low: Balance looks playable for first web test (64% confidence) - bot strategies create a useful score spread without extreme win rates
 
-## Grove Engine
+## Guild Garden
 
-Target: 104 in 11 moves
+Target: 138 in 11 moves
 Simulations: 1260
 
 ### Strategy Results
 
-- random: avg 104.3, p50 104, p90 119, win 52%
-- center: avg 117.8, p50 118, p90 131, win 92%
-- greedy: avg 134.2, p50 133, p90 148, win 100%
+- random: avg 124.1, p50 123, p90 138, win 12%
+- center: avg 150.3, p50 152, p90 157, win 97%
+- greedy: avg 161.4, p50 161, p90 168, win 100%
 
 ### Recommendations
 
 - low: Balance looks playable for first web test (64% confidence) - bot strategies create a useful score spread without extreme win rates
 
-## Guild Garden
+## Market Pulse
 
 Target: 138 in 11 moves
 Simulations: 1260

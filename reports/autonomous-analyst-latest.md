@@ -1,8 +1,8 @@
 # Autonomous Analyst Report
 
-Generated: 2026-05-22T00:37:41.299Z
+Generated: 2026-05-22T01:40:01.152Z
 Backlog status: improvement-backlog-ready
-Backlog source hash: 9178622ed227
+Backlog source hash: ad4abec424ae
 
 ## Game Health
 
@@ -39,9 +39,9 @@ Support feedback: support-feedback-empty; signals 0; routable 0; aggregate notes
 
 ## Prototype Queue
 
-1. Lantern Relay: playable; release score 624; web ready-after-build; Google Play blocked.
-2. Harbor Circuit: playable; release score 516; web ready-after-build; Google Play blocked.
-3. Orbit Atlas: playable; release score 477; web ready-after-build; Google Play blocked.
+1. Lantern Relay: playable; release score 652; web ready-after-build; Google Play blocked.
+2. Harbor Circuit: playable; release score 513; web ready-after-build; Google Play blocked.
+3. Orbit Atlas: playable; release score 478; web ready-after-build; Google Play blocked.
 
 ## Bot Balance
 
@@ -101,14 +101,14 @@ Support feedback: support-feedback-empty; signals 0; routable 0; aggregate notes
 - Greedy win rate: 59%
 - Recommendation: Balance looks playable for first web test
 
-### Grove Engine
+### Guild Garden
 
-- Target: 104
-- Random win rate: 52%
+- Target: 138
+- Random win rate: 12%
 - Greedy win rate: 100%
 - Recommendation: Balance looks playable for first web test
 
-### Guild Garden
+### Market Pulse
 
 - Target: 138
 - Random win rate: 12%

@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-05-22T01:24:16.113Z",
+  "generatedAt": "2026-05-22T01:51:08.091Z",
   "status": "acquisition-learning-ready",
-  "sourceDataHash": "0acaf224959c",
+  "sourceDataHash": "ae18fb02f3ea",
   "sourceStatus": {
     "analyticsSource": "fixture-sample",
     "localEventFiles": 0,
@@ -18,8 +18,8 @@
     "campaigns": 4,
     "collectingCount": 4,
     "blockedCount": 0,
-    "featuredCandidateId": "seed-20260522-grove-engine",
-    "featuredGameId": "grove-engine",
+    "featuredCandidateId": "seed-20260522-market-pulse",
+    "featuredGameId": "market-pulse",
     "totalAttributedStarts": 0,
     "totalAggregateStarts": 0
   },
@@ -67,9 +67,9 @@
   ],
   "campaigns": [
     {
-      "id": "seed-20260522-grove-engine",
-      "gameId": "grove-engine",
-      "title": "Grove Engine",
+      "id": "seed-20260522-market-pulse",
+      "gameId": "market-pulse",
+      "title": "Market Pulse",
       "status": "collecting-attribution",
       "priority": 1,
       "costUsd": 0,
@@ -93,7 +93,7 @@
         "completionRate": null,
         "growthQualityScore": 78
       },
-      "nextAction": "Collect campaign-attributed events for Grove Engine; aggregate starts are 0."
+      "nextAction": "Collect campaign-attributed events for Market Pulse; aggregate starts are 0."
     },
     {
       "id": "seed-20260522-guild-garden",
@@ -184,7 +184,7 @@
     }
   ],
   "nextActions": [
-    "Collect campaign-attributed events for Grove Engine; aggregate starts are 0.",
+    "Collect campaign-attributed events for Market Pulse; aggregate starts are 0.",
     "Keep session acquisition attribution enabled so future gameplay events connect back to UTM campaigns.",
     "Keep every acquisition action inside the zero-spend web/PWA loop until unit-economics gates pass."
   ]

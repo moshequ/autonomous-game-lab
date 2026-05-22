@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-22T00:37:44.267Z",
+  "generatedAt": "2026-05-22T01:40:04.182Z",
   "siteUrl": "https://moshequ.github.io/autonomous-game-lab",
   "publicUrlMode": "absolute-origin",
   "shares": [
@@ -36,7 +36,7 @@
       "url": "https://moshequ.github.io/autonomous-game-lab/?game=harbor-circuit&utm_source=share&utm_campaign=harbor-circuit",
       "tags": [
         "route building",
-        "science desk",
+        "compact city logistics",
         "mobile puzzle",
         "daily puzzle",
         "solo board game"
@@ -62,7 +62,7 @@
       "url": "https://moshequ.github.io/autonomous-game-lab/?game=orbit-atlas&utm_source=share&utm_campaign=orbit-atlas",
       "tags": [
         "tile placement",
-        "compact city logistics",
+        "science desk",
         "strategy solo",
         "daily puzzle",
         "solo board game"
@@ -84,11 +84,11 @@
     {
       "gameId": "metro-loom",
       "title": "Play Metro Loom",
-      "text": "A generated route building puzzle with quick science desk decisions.",
+      "text": "A generated route building puzzle with quick compact city logistics decisions.",
       "url": "https://moshequ.github.io/autonomous-game-lab/?game=metro-loom&utm_source=share&utm_campaign=metro-loom",
       "tags": [
         "route building",
-        "science desk",
+        "compact city logistics",
         "daily puzzle",
         "solo board game",
         "generated strategy game"
@@ -97,11 +97,11 @@
     {
       "gameId": "mosaic-haven",
       "title": "Play Mosaic Haven",
-      "text": "A generated tile placement puzzle with quick compact city logistics decisions.",
+      "text": "A generated tile placement puzzle with quick science desk decisions.",
       "url": "https://moshequ.github.io/autonomous-game-lab/?game=mosaic-haven&utm_source=share&utm_campaign=mosaic-haven",
       "tags": [
         "tile placement",
-        "compact city logistics",
+        "science desk",
         "daily puzzle",
         "solo board game",
         "generated strategy game"
@@ -121,13 +121,13 @@
       ]
     },
     {
-      "gameId": "grove-engine",
-      "title": "Play Grove Engine",
-      "text": "A generated engine building puzzle with quick expedition planning decisions.",
-      "url": "https://moshequ.github.io/autonomous-game-lab/?game=grove-engine&utm_source=share&utm_campaign=grove-engine",
+      "gameId": "market-pulse",
+      "title": "Play Market Pulse",
+      "text": "A generated auction puzzle with quick cozy production decisions.",
+      "url": "https://moshequ.github.io/autonomous-game-lab/?game=market-pulse&utm_source=share&utm_campaign=market-pulse",
       "tags": [
-        "engine building",
-        "expedition planning",
+        "auction",
+        "cozy production",
         "daily puzzle",
         "solo board game",
         "generated strategy game"
@@ -143,7 +143,7 @@
     "copyShareControls": true,
     "localAnalyticsEvents": true,
     "localAnalyticsStorageKey": "agl.analytics.events",
-    "generatedAt": "2026-05-22T00:37:44.267Z"
+    "generatedAt": "2026-05-22T01:40:04.182Z"
   },
   "gateSampleKit": {
     "path": "/gate-sample.html",
@@ -156,16 +156,16 @@
     "exportControls": true,
     "localAnalyticsEvents": true,
     "localAnalyticsStorageKey": "agl.analytics.events",
-    "generatedAt": "2026-05-22T00:37:44.267Z"
+    "generatedAt": "2026-05-22T01:40:04.182Z"
   },
   "seedCampaigns": [
     {
-      "id": "seed-20260522-grove-engine",
-      "gameId": "grove-engine",
-      "title": "Play Grove Engine",
-      "text": "A generated engine building puzzle with quick expedition planning decisions.",
-      "url": "https://moshequ.github.io/autonomous-game-lab/?game=grove-engine&utm_source=seed_share&utm_campaign=seed-20260522-grove-engine",
-      "pageUrl": "https://moshequ.github.io/autonomous-game-lab/games/grove-engine.html",
+      "id": "seed-20260522-market-pulse",
+      "gameId": "market-pulse",
+      "title": "Play Market Pulse",
+      "text": "A generated auction puzzle with quick cozy production decisions.",
+      "url": "https://moshequ.github.io/autonomous-game-lab/?game=market-pulse&utm_source=seed_share&utm_campaign=seed-20260522-market-pulse",
+      "pageUrl": "https://moshequ.github.io/autonomous-game-lab/games/market-pulse.html",
       "priority": 1,
       "costUsd": 0,
       "tags": [
@@ -193,7 +193,7 @@
       "id": "seed-20260522-mosaic-haven",
       "gameId": "mosaic-haven",
       "title": "Play Mosaic Haven",
-      "text": "A generated tile placement puzzle with quick compact city logistics decisions.",
+      "text": "A generated tile placement puzzle with quick science desk decisions.",
       "url": "https://moshequ.github.io/autonomous-game-lab/?game=mosaic-haven&utm_source=seed_share&utm_campaign=seed-20260522-mosaic-haven",
       "pageUrl": "https://moshequ.github.io/autonomous-game-lab/games/mosaic-haven.html",
       "priority": 3,
@@ -208,7 +208,7 @@
       "id": "seed-20260522-metro-loom",
       "gameId": "metro-loom",
       "title": "Play Metro Loom",
-      "text": "A generated route building puzzle with quick science desk decisions.",
+      "text": "A generated route building puzzle with quick compact city logistics decisions.",
       "url": "https://moshequ.github.io/autonomous-game-lab/?game=metro-loom&utm_source=seed_share&utm_campaign=seed-20260522-metro-loom",
       "pageUrl": "https://moshequ.github.io/autonomous-game-lab/games/metro-loom.html",
       "priority": 4,
@@ -271,11 +271,11 @@
       "id": "gate-sample-20260522-d1Retention",
       "campaignId": "gate-sample-20260522-d1Retention",
       "gateId": "d1Retention",
-      "gameId": "canopy-bloom",
+      "gameId": "grove-engine",
       "title": "Sample D1 retention",
-      "text": "Canopy Bloom needs real zero-spend player evidence before revenue or store gates move.",
-      "url": "https://moshequ.github.io/autonomous-game-lab/?game=canopy-bloom&utm_source=gate_sample&utm_campaign=gate-sample-20260522-d1Retention",
-      "playPath": "/?game=canopy-bloom&utm_source=gate_sample&utm_campaign=gate-sample-20260522-d1Retention",
+      "text": "Grove Engine needs real zero-spend player evidence before revenue or store gates move.",
+      "url": "https://moshequ.github.io/autonomous-game-lab/?game=grove-engine&utm_source=gate_sample&utm_campaign=gate-sample-20260522-d1Retention",
+      "playPath": "/?game=grove-engine&utm_source=gate_sample&utm_campaign=gate-sample-20260522-d1Retention",
       "pageUrl": "https://moshequ.github.io/autonomous-game-lab/gate-sample.html",
       "priority": 3,
       "costUsd": 0,

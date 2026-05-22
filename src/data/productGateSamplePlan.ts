@@ -1,6 +1,6 @@
 export const productGateSamplePlan = {
-  "generatedAt": "2026-05-22T01:24:17.449Z",
-  "sourceDataHash": "cf81e119dba4",
+  "generatedAt": "2026-05-22T01:51:09.660Z",
+  "sourceDataHash": "6e8d934c4316",
   "status": "product-gate-sample-plan-ready",
   "sourceStatus": {
     "analyticsSource": "fixture-sample",
@@ -27,20 +27,20 @@ export const productGateSamplePlan = {
     "inboxReadyCount": 0,
     "supportingAggregateEvidenceNotes": 0,
     "downloadsScanStatus": "no-evidence-found",
-    "downloadsScanCoolingDown": false,
-    "downloadsScanNextRecommendedAt": "2026-05-22T00:49:49.509Z",
+    "downloadsScanCoolingDown": true,
+    "downloadsScanNextRecommendedAt": "2026-05-22T05:42:25.939Z",
     "nextOwnerAction": "collect-gate-sample-downloads"
   },
   "downloadsScan": {
     "explicitOptInRequired": true,
     "cooldownHours": 4,
-    "coolingDown": false,
+    "coolingDown": true,
     "evidenceReadyNow": false,
-    "lastScanAt": "2026-05-21T20:49:49.509Z",
+    "lastScanAt": "2026-05-22T01:42:25.939Z",
     "lastScanStatus": "no-evidence-found",
-    "scanAgeHours": 4.57,
-    "cooldownRemainingHours": 0,
-    "nextRecommendedScanAt": "2026-05-22T00:49:49.509Z"
+    "scanAgeHours": 0.15,
+    "cooldownRemainingHours": 3.85,
+    "nextRecommendedScanAt": "2026-05-22T05:42:25.939Z"
   },
   "publicSamplePage": {
     "path": "/gate-sample.html",
@@ -122,7 +122,7 @@ export const productGateSamplePlan = {
       "status": "active",
       "gateId": "d1Retention",
       "campaignId": "gate-sample-20260522-d1Retention",
-      "gameId": "grove-engine",
+      "gameId": "market-pulse",
       "source": "gate_sample",
       "channel": "product-gate-sample",
       "appliesWhen": "direct-root-visit-without-explicit-game-or-campaign",
@@ -337,12 +337,12 @@ export const productGateSamplePlan = {
       "status": "collecting-sample",
       "ownerLoop": "retention-loop",
       "actionId": "optimize-daily-retention",
-      "gameId": "grove-engine",
-      "title": "Grove Engine",
+      "gameId": "market-pulse",
+      "title": "Market Pulse",
       "surface": "autonomy-cockpit-return-intent-card",
       "campaignId": "gate-sample-20260522-d1Retention",
-      "playPath": "/?game=grove-engine&utm_source=gate_sample&utm_campaign=gate-sample-20260522-d1Retention",
-      "organicSeedCampaignId": "seed-20260522-grove-engine",
+      "playPath": "/?game=market-pulse&utm_source=gate_sample&utm_campaign=gate-sample-20260522-d1Retention",
+      "organicSeedCampaignId": "seed-20260522-market-pulse",
       "current": {
         "actual": 0.167,
         "gate": 0.18,
@@ -450,7 +450,7 @@ export const productGateSamplePlan = {
   "nextActions": [
     "First game completion needs 30 more prompt exposure(s) and 128 observed success(es); feature Harbor Rings via /?game=harbor-rings&utm_source=gate_sample&utm_campaign=gate-sample-20260522-firstGameCompletion.",
     "D1 retention is the fastest gate sample: 10 prompt exposure(s), 1 observed success(es).",
-    "Export or collect real browser events, then run npm run autonomous:collect-sample-downloads before changing copy, placement, revenue, or rules."
+    "Wait until 2026-05-22T05:42:25.939Z before the next explicit Downloads scan unless an inbox event drop appears."
   ]
 } as const
 

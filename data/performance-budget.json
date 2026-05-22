@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-05-22T01:34:59.242Z",
+  "generatedAt": "2026-05-22T01:52:50.421Z",
   "status": "performance-budget-ready",
   "sourceBuild": "dist",
-  "basePath": "/autonomous-game-lab/",
+  "basePath": "/",
   "budgets": {
     "initialJsMaxBytes": 692224,
     "initialJsMaxKb": 676,
@@ -15,128 +15,128 @@
   },
   "initial": {
     "entryScripts": [
-      "index-D0FU-2LW.js",
+      "index-DLZ8xgSH.js",
       "registerSW.js"
     ],
     "scriptPaths": [
-      "assets/index-D0FU-2LW.js",
+      "assets/index-DLZ8xgSH.js",
       "registerSW.js"
     ],
     "jsFiles": [
       {
-        "file": "index-D0FU-2LW.js",
-        "path": "assets/index-D0FU-2LW.js",
-        "bytes": 678947,
+        "file": "index-DLZ8xgSH.js",
+        "path": "assets/index-DLZ8xgSH.js",
+        "bytes": 678906,
         "kb": 663,
-        "gzipBytes": 185219,
-        "gzipKb": 180.9
+        "gzipBytes": 185064,
+        "gzipKb": 180.7
       },
       {
         "file": "registerSW.js",
         "path": "registerSW.js",
         "bytes": 174,
         "kb": 0.2,
-        "gzipBytes": 142,
+        "gzipBytes": 141,
         "gzipKb": 0.1
       }
     ],
-    "jsBytes": 679121,
+    "jsBytes": 679080,
     "jsKb": 663.2,
-    "gzipBytes": 185361,
-    "gzipKb": 181,
+    "gzipBytes": 185205,
+    "gzipKb": 180.9,
     "cssFiles": [
       {
         "file": "index-JrT_Yeu7.css",
         "path": "assets/index-JrT_Yeu7.css",
         "bytes": 10738,
         "kb": 10.5,
-        "gzipBytes": 2883,
+        "gzipBytes": 2878,
         "gzipKb": 2.8
       }
     ],
     "cssBytes": 10738,
     "cssKb": 10.5,
-    "cssGzipBytes": 2883,
+    "cssGzipBytes": 2878,
     "cssGzipKb": 2.8
   },
   "deferred": {
     "chunks": [
       {
-        "file": "aggregateEvidenceIssue-CIN2CPZW.js",
-        "path": "assets/aggregateEvidenceIssue-CIN2CPZW.js",
+        "file": "aggregateEvidenceIssue-pjXrup1g.js",
+        "path": "assets/aggregateEvidenceIssue-pjXrup1g.js",
         "bytes": 2978,
         "kb": 2.9,
-        "gzipBytes": 1236,
+        "gzipBytes": 1239,
         "gzipKb": 1.2
       },
       {
-        "file": "GameCanvas-BHo85n2T.js",
-        "path": "assets/GameCanvas-BHo85n2T.js",
-        "bytes": 1393761,
+        "file": "GameCanvas-Cj8klewo.js",
+        "path": "assets/GameCanvas-Cj8klewo.js",
+        "bytes": 1393763,
         "kb": 1361.1,
-        "gzipBytes": 357384,
-        "gzipKb": 349
+        "gzipBytes": 356173,
+        "gzipKb": 347.8
       }
     ],
     "gameChunk": {
-      "file": "GameCanvas-BHo85n2T.js",
-      "path": "assets/GameCanvas-BHo85n2T.js",
-      "bytes": 1393761,
+      "file": "GameCanvas-Cj8klewo.js",
+      "path": "assets/GameCanvas-Cj8klewo.js",
+      "bytes": 1393763,
       "kb": 1361.1,
-      "gzipBytes": 357384,
-      "gzipKb": 349
+      "gzipBytes": 356173,
+      "gzipKb": 347.8
     },
     "largestDeferredChunk": {
-      "file": "GameCanvas-BHo85n2T.js",
-      "path": "assets/GameCanvas-BHo85n2T.js",
-      "bytes": 1393761,
+      "file": "GameCanvas-Cj8klewo.js",
+      "path": "assets/GameCanvas-Cj8klewo.js",
+      "bytes": 1393763,
       "kb": 1361.1,
-      "gzipBytes": 357384,
-      "gzipKb": 349
+      "gzipBytes": 356173,
+      "gzipKb": 347.8
     },
     "largestJsChunk": {
-      "file": "GameCanvas-BHo85n2T.js",
-      "path": "assets/GameCanvas-BHo85n2T.js",
-      "bytes": 1393761,
+      "file": "GameCanvas-Cj8klewo.js",
+      "path": "assets/GameCanvas-Cj8klewo.js",
+      "bytes": 1393763,
       "kb": 1361.1,
-      "gzipBytes": 357384,
-      "gzipKb": 349
+      "gzipBytes": 356173,
+      "gzipKb": 347.8
     },
-    "chunksBytes": 1396739,
+    "chunksBytes": 1396741,
     "chunksKb": 1364
   },
   "assets": {
     "js": [
       {
-        "file": "aggregateEvidenceIssue-CIN2CPZW.js",
-        "path": "assets/aggregateEvidenceIssue-CIN2CPZW.js",
+        "file": "aggregateEvidenceIssue-pjXrup1g.js",
+        "path": "assets/aggregateEvidenceIssue-pjXrup1g.js",
         "bytes": 2978,
         "kb": 2.9,
-        "gzipBytes": 1236,
+        "gzipBytes": 1239,
         "gzipKb": 1.2
       },
       {
-        "file": "GameCanvas-BHo85n2T.js",
-        "path": "assets/GameCanvas-BHo85n2T.js",
-        "bytes": 1393761,
+        "file": "GameCanvas-Cj8klewo.js",
+        "path": "assets/GameCanvas-Cj8klewo.js",
+        "bytes": 1393763,
         "kb": 1361.1,
-        "gzipBytes": 357384,
-        "gzipKb": 349
+        "gzipBytes": 356173,
+        "gzipKb": 347.8
       },
       {
-        "file": "index-D0FU-2LW.js",
-        "path": "assets/index-D0FU-2LW.js",
-        "bytes": 678947,
+        "file": "index-DLZ8xgSH.js",
+        "path": "assets/index-DLZ8xgSH.js",
+        "bytes": 678906,
         "kb": 663,
-        "gzipBytes": 185219,
-        "gzipKb": 180.9
+        "gzipBytes": 185064,
+        "gzipKb": 180.7
       },
       {
         "file": "registerSW.js",
         "path": "registerSW.js",
         "bytes": 174,
         "kb": 0.2,
-        "gzipBytes": 142,
+        "gzipBytes": 141,
         "gzipKb": 0.1
       }
     ],
@@ -146,7 +146,7 @@
         "path": "assets/index-JrT_Yeu7.css",
         "bytes": 10738,
         "kb": 10.5,
-        "gzipBytes": 2883,
+        "gzipBytes": 2878,
         "gzipKb": 2.8
       }
     ],
@@ -171,7 +171,7 @@
     {
       "id": "initial-js-gzip-budget",
       "status": "pass",
-      "detail": "Initial JS gzip is 181 KB; budget is 200 KB."
+      "detail": "Initial JS gzip is 180.9 KB; budget is 200 KB."
     },
     {
       "id": "initial-css-budget",
@@ -191,12 +191,12 @@
     {
       "id": "game-runtime-deferred",
       "status": "pass",
-      "detail": "GameCanvas-BHo85n2T.js is deferred from the initial shell."
+      "detail": "GameCanvas-Cj8klewo.js is deferred from the initial shell."
     },
     {
       "id": "largest-js-deferred",
       "status": "pass",
-      "detail": "Largest JS chunk is GameCanvas-BHo85n2T.js at 1361.1 KB."
+      "detail": "Largest JS chunk is GameCanvas-Cj8klewo.js at 1361.1 KB."
     },
     {
       "id": "deferred-game-budget",

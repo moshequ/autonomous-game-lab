@@ -1,5 +1,5 @@
 export const portfolioPolicy = {
-  "generatedAt": "2026-05-22T00:37:44.023Z",
+  "generatedAt": "2026-05-22T01:40:03.936Z",
   "status": "portfolio-policy-ready",
   "analyticsSource": "fixture-sample",
   "releaseHealthStatus": "monitoring",
@@ -11,15 +11,15 @@ export const portfolioPolicy = {
   },
   "dailyChallenge": {
     "date": "2026-05-22",
-    "gameId": "grove-engine",
-    "title": "Grove Engine",
-    "seed": "daily-20260522-w2",
-    "reason": "Grove Engine has the strongest blended portfolio score (51.912)."
+    "gameId": "market-pulse",
+    "title": "Market Pulse",
+    "seed": "daily-20260522-mz",
+    "reason": "Market Pulse has the strongest blended portfolio score (51.912)."
   },
   "rotation": {
-    "heroGameId": "grove-engine",
+    "heroGameId": "market-pulse",
     "orderedGameIds": [
-      "grove-engine",
+      "market-pulse",
       "guild-garden",
       "mosaic-haven",
       "metro-loom",
@@ -31,7 +31,7 @@ export const portfolioPolicy = {
       "lantern-relay"
     ],
     "seedTrafficGameIds": [
-      "grove-engine",
+      "market-pulse",
       "guild-garden",
       "mosaic-haven",
       "metro-loom"
@@ -40,7 +40,7 @@ export const portfolioPolicy = {
       "harbor-rings"
     ],
     "heldForMoreDataGameIds": [
-      "grove-engine",
+      "market-pulse",
       "guild-garden",
       "mosaic-haven",
       "metro-loom",
@@ -53,8 +53,8 @@ export const portfolioPolicy = {
   },
   "games": [
     {
-      "gameId": "grove-engine",
-      "title": "Grove Engine",
+      "gameId": "market-pulse",
+      "title": "Market Pulse",
       "status": "generated-playable",
       "score": 51.912,
       "action": "seed-traffic",
@@ -315,7 +315,7 @@ export const portfolioPolicy = {
     }
   ],
   "nextActions": [
-    "Seed traffic to Grove Engine, Guild Garden, Mosaic Haven, Metro Loom before judging quality.",
+    "Seed traffic to Market Pulse, Guild Garden, Mosaic Haven, Metro Loom before judging quality.",
     "Apply backlog improvements for Harbor Rings.",
     "Keep paid promotion disabled until unit-economics gates pass."
   ]

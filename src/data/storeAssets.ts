@@ -1,5 +1,5 @@
 export const storeAssets = {
-  "generatedAt": "2026-05-22T01:03:09.578Z",
+  "generatedAt": "2026-05-22T01:40:27.130Z",
   "status": "screenshots-ready",
   "basePath": "/autonomous-game-lab/",
   "sourceBuild": "dist",
@@ -13,7 +13,7 @@ export const storeAssets = {
       "distPath": "dist/store-assets/screenshots/phone-portal-home.png",
       "width": 1170,
       "height": 2532,
-      "bytes": 212302,
+      "bytes": 211376,
       "platformUse": [
         "Google Play phone",
         "Apple iPhone draft"
@@ -28,22 +28,22 @@ export const storeAssets = {
       "distPath": "dist/store-assets/screenshots/phone-lantern-relay-game.png",
       "width": 1170,
       "height": 2532,
-      "bytes": 198255,
+      "bytes": 197777,
       "platformUse": [
         "Google Play phone",
         "Apple iPhone draft"
       ]
     },
     {
-      "id": "phone-grove-engine-generated",
-      "label": "Grove Engine gameplay board",
-      "route": "/?game=grove-engine&utm_source=store_screenshot&utm_campaign=grove-engine",
-      "servedRoute": "/autonomous-game-lab/?game=grove-engine&utm_source=store_screenshot&utm_campaign=grove-engine",
-      "path": "/store-assets/screenshots/phone-grove-engine-generated.png",
-      "distPath": "dist/store-assets/screenshots/phone-grove-engine-generated.png",
+      "id": "phone-market-pulse-generated",
+      "label": "Market Pulse gameplay board",
+      "route": "/?game=market-pulse&utm_source=store_screenshot&utm_campaign=market-pulse",
+      "servedRoute": "/autonomous-game-lab/?game=market-pulse&utm_source=store_screenshot&utm_campaign=market-pulse",
+      "path": "/store-assets/screenshots/phone-market-pulse-generated.png",
+      "distPath": "dist/store-assets/screenshots/phone-market-pulse-generated.png",
       "width": 1170,
       "height": 2532,
-      "bytes": 190268,
+      "bytes": 189826,
       "platformUse": [
         "Google Play phone",
         "Apple iPhone draft"
@@ -52,13 +52,13 @@ export const storeAssets = {
     {
       "id": "desktop-growth-page",
       "label": "Generated public game landing page",
-      "route": "/games/grove-engine.html",
-      "servedRoute": "/autonomous-game-lab/games/grove-engine.html",
+      "route": "/games/market-pulse.html",
+      "servedRoute": "/autonomous-game-lab/games/market-pulse.html",
       "path": "/store-assets/screenshots/desktop-growth-page.png",
       "distPath": "dist/store-assets/screenshots/desktop-growth-page.png",
       "width": 1440,
       "height": 900,
-      "bytes": 63868,
+      "bytes": 60202,
       "platformUse": [
         "Web/PWA listing",
         "press kit"

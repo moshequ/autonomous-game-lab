@@ -1,5 +1,5 @@
 export const balanceReport = {
-  "generatedAt": "2026-05-22T00:37:43.795Z",
+  "generatedAt": "2026-05-22T01:40:03.688Z",
   "simulationCountPerStrategy": 420,
   "games": [
     {
@@ -379,41 +379,41 @@ export const balanceReport = {
       ]
     },
     {
-      "gameId": "grove-engine",
-      "title": "Grove Engine",
-      "targetScore": 104,
+      "gameId": "guild-garden",
+      "title": "Guild Garden",
+      "targetScore": 138,
       "maxMoves": 11,
       "simulations": 1260,
       "strategies": [
         {
           "strategy": "random",
           "games": 420,
-          "averageScore": 104.3,
-          "p10": 90,
-          "p50": 104,
-          "p90": 119,
-          "winRate": 0.517,
-          "averageMoveValue": 9.5
+          "averageScore": 124.1,
+          "p10": 111,
+          "p50": 123,
+          "p90": 138,
+          "winRate": 0.119,
+          "averageMoveValue": 11.3
         },
         {
           "strategy": "center",
           "games": 420,
-          "averageScore": 117.8,
-          "p10": 105,
-          "p50": 118,
-          "p90": 131,
-          "winRate": 0.924,
-          "averageMoveValue": 10.7
+          "averageScore": 150.3,
+          "p10": 142,
+          "p50": 152,
+          "p90": 157,
+          "winRate": 0.967,
+          "averageMoveValue": 13.7
         },
         {
           "strategy": "greedy",
           "games": 420,
-          "averageScore": 134.2,
-          "p10": 123,
-          "p50": 133,
-          "p90": 148,
+          "averageScore": 161.4,
+          "p10": 155,
+          "p50": 161,
+          "p90": 168,
           "winRate": 1,
-          "averageMoveValue": 12.2
+          "averageMoveValue": 14.7
         }
       ],
       "recommendations": [
@@ -426,8 +426,8 @@ export const balanceReport = {
       ]
     },
     {
-      "gameId": "guild-garden",
-      "title": "Guild Garden",
+      "gameId": "market-pulse",
+      "title": "Market Pulse",
       "targetScore": 138,
       "maxMoves": 11,
       "simulations": 1260,

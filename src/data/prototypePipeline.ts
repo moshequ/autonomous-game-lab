@@ -4,7 +4,7 @@ export const prototypePipeline = [
     "title": "Lantern Relay",
     "rank": 1,
     "status": "playable",
-    "releaseScore": 624,
+    "releaseScore": 652,
     "concept": {
       "id": "lantern-relay",
       "title": "Lantern Relay",
@@ -19,7 +19,7 @@ export const prototypePipeline = [
         "mechanic": "card drafting",
         "theme": "cozy production",
         "audience": "families",
-        "score": 506
+        "score": 534
       },
       "gameBrief": {
         "setting": "tiny seasonal workshops",
@@ -200,7 +200,7 @@ export const prototypePipeline = [
     "title": "Harbor Circuit",
     "rank": 2,
     "status": "playable",
-    "releaseScore": 516,
+    "releaseScore": 513,
     "concept": {
       "id": "harbor-circuit",
       "title": "Harbor Circuit",
@@ -213,17 +213,17 @@ export const prototypePipeline = [
       },
       "opportunity": {
         "mechanic": "route building",
-        "theme": "science desk",
+        "theme": "compact city logistics",
         "audience": "mobile puzzle",
-        "score": 370
+        "score": 369
       },
       "gameBrief": {
-        "setting": "a tabletop research station",
-        "coreLoop": "align instruments into reliable discoveries by making one strong route building decision per turn.",
+        "setting": "pocket-size transit districts",
+        "coreLoop": "connect demand before congestion rises by making one strong route building decision per turn.",
         "sessionLengthMinutes": 5,
         "playerPromise": "A complete tactical board-game feeling in 5 minutes, tuned for touch screens.",
         "firstPrototypeTemplate": "line-drawing",
-        "artDirection": "clean diagrams, labeled tools, and crisp result cards"
+        "artDirection": "bright route lines, station stamps, and compact maps"
       },
       "telemetryPlan": [
         "concept_card_viewed",
@@ -240,7 +240,7 @@ export const prototypePipeline = [
           "subscriptions",
           "interstitial ads during first session"
         ],
-        "fitScore": 85
+        "fitScore": 84
       }
     },
     "prototype": {
@@ -353,12 +353,12 @@ export const prototypePipeline = [
     },
     "storeListing": {
       "appName": "Harbor Circuit",
-      "subtitle": "science desk route building",
+      "subtitle": "compact city logistics route building",
       "shortDescription": "5-minute original route building game for daily mobile play.",
-      "fullDescription": "Harbor Circuit is an original mobile-first board-game-inspired puzzle set in a tabletop research station. A complete tactical board-game feeling in 5 minutes, tuned for touch screens. Core loop: align instruments into reliable discoveries by making one strong route building decision per turn. The first release focuses on solo daily play, clear scoring, replayable seeds, and measured improvements from player behavior.",
+      "fullDescription": "Harbor Circuit is an original mobile-first board-game-inspired puzzle set in pocket-size transit districts. A complete tactical board-game feeling in 5 minutes, tuned for touch screens. Core loop: connect demand before congestion rises by making one strong route building decision per turn. The first release focuses on solo daily play, clear scoring, replayable seeds, and measured improvements from player behavior.",
       "keywords": [
         "route building",
-        "science desk",
+        "compact city logistics",
         "mobile puzzle",
         "daily puzzle",
         "solo board game",
@@ -395,7 +395,7 @@ export const prototypePipeline = [
     "title": "Orbit Atlas",
     "rank": 3,
     "status": "playable",
-    "releaseScore": 477,
+    "releaseScore": 478,
     "concept": {
       "id": "orbit-atlas",
       "title": "Orbit Atlas",
@@ -408,17 +408,17 @@ export const prototypePipeline = [
       },
       "opportunity": {
         "mechanic": "tile placement",
-        "theme": "compact city logistics",
+        "theme": "science desk",
         "audience": "strategy solo",
-        "score": 325
+        "score": 326
       },
       "gameBrief": {
-        "setting": "pocket-size transit districts",
-        "coreLoop": "connect demand before congestion rises by making one strong tile placement decision per turn.",
+        "setting": "a tabletop research station",
+        "coreLoop": "align instruments into reliable discoveries by making one strong tile placement decision per turn.",
         "sessionLengthMinutes": 9,
         "playerPromise": "A complete tactical board-game feeling in 9 minutes, tuned for touch screens.",
         "firstPrototypeTemplate": "grid-puzzle",
-        "artDirection": "bright route lines, station stamps, and compact maps"
+        "artDirection": "clean diagrams, labeled tools, and crisp result cards"
       },
       "telemetryPlan": [
         "concept_card_viewed",
@@ -549,12 +549,12 @@ export const prototypePipeline = [
     },
     "storeListing": {
       "appName": "Orbit Atlas",
-      "subtitle": "compact city logistics tile placement",
+      "subtitle": "science desk tile placement",
       "shortDescription": "9-minute original tile placement game for daily mobile play.",
-      "fullDescription": "Orbit Atlas is an original mobile-first board-game-inspired puzzle set in pocket-size transit districts. A complete tactical board-game feeling in 9 minutes, tuned for touch screens. Core loop: connect demand before congestion rises by making one strong tile placement decision per turn. The first release focuses on solo daily play, clear scoring, replayable seeds, and measured improvements from player behavior.",
+      "fullDescription": "Orbit Atlas is an original mobile-first board-game-inspired puzzle set in a tabletop research station. A complete tactical board-game feeling in 9 minutes, tuned for touch screens. Core loop: align instruments into reliable discoveries by making one strong tile placement decision per turn. The first release focuses on solo daily play, clear scoring, replayable seeds, and measured improvements from player behavior.",
       "keywords": [
         "tile placement",
-        "compact city logistics",
+        "science desk",
         "strategy solo",
         "daily puzzle",
         "solo board game",
@@ -591,7 +591,7 @@ export const prototypePipeline = [
     "title": "Foundry Ledger",
     "rank": 4,
     "status": "playable",
-    "releaseScore": 281,
+    "releaseScore": 267,
     "concept": {
       "id": "foundry-ledger",
       "title": "Foundry Ledger",
@@ -606,7 +606,7 @@ export const prototypePipeline = [
         "mechanic": "worker placement",
         "theme": "expedition planning",
         "audience": "families",
-        "score": 161
+        "score": 147
       },
       "gameBrief": {
         "setting": "modular camp routes around unknown landmarks",

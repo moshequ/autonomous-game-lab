@@ -1,5 +1,5 @@
 export const growthPlan = {
-  "generatedAt": "2026-05-22T00:37:38.428Z",
+  "generatedAt": "2026-05-22T01:39:58.194Z",
   "siteUrl": "https://moshequ.github.io/autonomous-game-lab",
   "publicUrlMode": "absolute-origin",
   "publicOrigin": {
@@ -86,12 +86,12 @@ export const growthPlan = {
       "title": "Harbor Circuit",
       "status": "playable",
       "mechanic": "route building",
-      "theme": "science desk",
+      "theme": "compact city logistics",
       "shortDescription": "5-minute original route building game for daily mobile play.",
-      "fullDescription": "Harbor Circuit is an original mobile-first board-game-inspired puzzle set in a tabletop research station. A complete tactical board-game feeling in 5 minutes, tuned for touch screens. Core loop: align instruments into reliable discoveries by making one strong route building decision per turn. The first release focuses on solo daily play, clear scoring, replayable seeds, and measured improvements from player behavior.",
+      "fullDescription": "Harbor Circuit is an original mobile-first board-game-inspired puzzle set in pocket-size transit districts. A complete tactical board-game feeling in 5 minutes, tuned for touch screens. Core loop: connect demand before congestion rises by making one strong route building decision per turn. The first release focuses on solo daily play, clear scoring, replayable seeds, and measured improvements from player behavior.",
       "keywords": [
         "route building",
-        "science desk",
+        "compact city logistics",
         "mobile puzzle",
         "daily puzzle",
         "solo board game",
@@ -160,12 +160,12 @@ export const growthPlan = {
       "title": "Orbit Atlas",
       "status": "playable",
       "mechanic": "tile placement",
-      "theme": "compact city logistics",
+      "theme": "science desk",
       "shortDescription": "9-minute original tile placement game for daily mobile play.",
-      "fullDescription": "Orbit Atlas is tuned as a daily tile placement challenge with a compact board and a clear score target. Orbit Atlas is an original mobile-first board-game-inspired puzzle set in pocket-size transit districts. A complete tactical board-game feeling in 9 minutes, tuned for touch screens. Core loop: connect demand before congestion rises by making one strong tile placement decision per turn. The first release focuses on solo daily play, clear scoring, replayable seeds, and measured improvements from player behavior.",
+      "fullDescription": "Orbit Atlas is tuned as a daily tile placement challenge with a compact board and a clear score target. Orbit Atlas is an original mobile-first board-game-inspired puzzle set in a tabletop research station. A complete tactical board-game feeling in 9 minutes, tuned for touch screens. Core loop: align instruments into reliable discoveries by making one strong tile placement decision per turn. The first release focuses on solo daily play, clear scoring, replayable seeds, and measured improvements from player behavior.",
       "keywords": [
         "tile placement",
-        "compact city logistics",
+        "science desk",
         "strategy solo",
         "daily puzzle",
         "solo board game",
@@ -233,12 +233,12 @@ export const growthPlan = {
       "title": "Metro Loom",
       "status": "generated-playable",
       "mechanic": "route building",
-      "theme": "science desk",
-      "shortDescription": "A generated route building puzzle with quick science desk decisions.",
+      "theme": "compact city logistics",
+      "shortDescription": "A generated route building puzzle with quick compact city logistics decisions.",
       "fullDescription": "Metro Loom is tuned as a daily route building challenge with a compact board and a clear score target. A complete tactical board-game feeling in 5 minutes, tuned for touch screens.",
       "keywords": [
         "route building",
-        "science desk",
+        "compact city logistics",
         "daily puzzle",
         "solo board game",
         "generated strategy game",
@@ -269,12 +269,12 @@ export const growthPlan = {
       "title": "Mosaic Haven",
       "status": "generated-playable",
       "mechanic": "tile placement",
-      "theme": "compact city logistics",
-      "shortDescription": "A generated tile placement puzzle with quick compact city logistics decisions.",
+      "theme": "science desk",
+      "shortDescription": "A generated tile placement puzzle with quick science desk decisions.",
       "fullDescription": "A complete tactical board-game feeling in 9 minutes, tuned for touch screens.",
       "keywords": [
         "tile placement",
-        "compact city logistics",
+        "science desk",
         "daily puzzle",
         "solo board game",
         "generated strategy game",
@@ -289,7 +289,7 @@ export const growthPlan = {
         "startRate": null,
         "completionRate": null,
         "replayRate": null,
-        "targetScore": 90,
+        "targetScore": 138,
         "qualityScore": 70
       },
       "optimization": {
@@ -325,7 +325,7 @@ export const growthPlan = {
         "startRate": null,
         "completionRate": null,
         "replayRate": null,
-        "targetScore": 103,
+        "targetScore": 138,
         "qualityScore": 74
       },
       "optimization": {
@@ -337,31 +337,31 @@ export const growthPlan = {
       "channelFocus": "evergreen-search-page"
     },
     {
-      "gameId": "grove-engine",
-      "title": "Grove Engine",
+      "gameId": "market-pulse",
+      "title": "Market Pulse",
       "status": "generated-playable",
-      "mechanic": "engine building",
-      "theme": "expedition planning",
-      "shortDescription": "A generated engine building puzzle with quick expedition planning decisions.",
-      "fullDescription": "Grove Engine is tuned as a daily engine building challenge with a compact board and a clear score target. A generated engine building puzzle that turns trend signals into a compact solo board state.",
+      "mechanic": "auction",
+      "theme": "cozy production",
+      "shortDescription": "A generated auction puzzle with quick cozy production decisions.",
+      "fullDescription": "Market Pulse is tuned as a daily auction challenge with a compact board and a clear score target. A generated auction puzzle that turns trend signals into a compact solo board state.",
       "keywords": [
-        "engine building",
-        "expedition planning",
+        "auction",
+        "cozy production",
         "daily puzzle",
         "solo board game",
         "generated strategy game",
         "board-game-inspired",
         "mobile PWA"
       ],
-      "playPath": "/?game=grove-engine&utm_source=organic_game_page&utm_campaign=grove-engine",
-      "pagePath": "/games/grove-engine.html",
-      "canonicalUrl": "https://moshequ.github.io/autonomous-game-lab/games/grove-engine.html",
-      "shareUrl": "https://moshequ.github.io/autonomous-game-lab/?game=grove-engine&utm_source=share&utm_campaign=grove-engine",
+      "playPath": "/?game=market-pulse&utm_source=organic_game_page&utm_campaign=market-pulse",
+      "pagePath": "/games/market-pulse.html",
+      "canonicalUrl": "https://moshequ.github.io/autonomous-game-lab/games/market-pulse.html",
+      "shareUrl": "https://moshequ.github.io/autonomous-game-lab/?game=market-pulse&utm_source=share&utm_campaign=market-pulse",
       "metrics": {
         "startRate": null,
         "completionRate": null,
         "replayRate": null,
-        "targetScore": 104,
+        "targetScore": 103,
         "qualityScore": 78
       },
       "optimization": {
@@ -464,7 +464,7 @@ export const growthPlan = {
     "Keep monetization disabled until readiness gates pass.",
     "Refresh store copy and app-store blockers from the same source data."
   ],
-  "nextBestExperiment": "grove-engine"
+  "nextBestExperiment": "market-pulse"
 } as const
 
 export type GrowthPlan = typeof growthPlan

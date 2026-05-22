@@ -1,6 +1,6 @@
 export const firstMoveCoach = {
-  "generatedAt": "2026-05-22T00:38:13.415Z",
-  "sourceDataHash": "0759a8e814d5",
+  "generatedAt": "2026-05-22T01:40:31.651Z",
+  "sourceDataHash": "e6d7cbba79a4",
   "status": "first-move-coach-ready",
   "sourceStatus": {
     "analyticsSource": "fixture-sample",
@@ -177,38 +177,6 @@ export const firstMoveCoach = {
       "telemetryId": "first-move-coach-foundry-ledger"
     },
     {
-      "gameId": "grove-engine",
-      "title": "Grove Engine",
-      "enabled": true,
-      "variantId": "fast-start",
-      "surface": "game-board-first-turn",
-      "recommendedCell": {
-        "row": 1,
-        "col": 2,
-        "label": "middle lane"
-      },
-      "board": {
-        "rows": 3,
-        "cols": 5
-      },
-      "generatedRuntime": true,
-      "runtimeSupported": true,
-      "priorityScore": 0,
-      "evidence": {
-        "shown": 0,
-        "used": 0,
-        "skipped": 0,
-        "resolved": 0,
-        "usageRate": 0,
-        "skipRate": 0,
-        "sampleReady": false
-      },
-      "decision": "active",
-      "sourceReason": "generated daily/portfolio game without live row yet",
-      "copy": "Start here",
-      "telemetryId": "first-move-coach-grove-engine"
-    },
-    {
       "gameId": "guild-garden",
       "title": "Guild Garden",
       "enabled": true,
@@ -303,6 +271,38 @@ export const firstMoveCoach = {
       "sourceReason": "playable game without live row yet",
       "copy": "Start here",
       "telemetryId": "first-move-coach-lantern-relay"
+    },
+    {
+      "gameId": "market-pulse",
+      "title": "Market Pulse",
+      "enabled": true,
+      "variantId": "fast-start",
+      "surface": "game-board-first-turn",
+      "recommendedCell": {
+        "row": 1,
+        "col": 1,
+        "label": "center"
+      },
+      "board": {
+        "rows": 4,
+        "cols": 4
+      },
+      "generatedRuntime": true,
+      "runtimeSupported": true,
+      "priorityScore": 0,
+      "evidence": {
+        "shown": 0,
+        "used": 0,
+        "skipped": 0,
+        "resolved": 0,
+        "usageRate": 0,
+        "skipRate": 0,
+        "sampleReady": false
+      },
+      "decision": "active",
+      "sourceReason": "generated daily/portfolio game without live row yet",
+      "copy": "Start here",
+      "telemetryId": "first-move-coach-market-pulse"
     },
     {
       "gameId": "metro-loom",

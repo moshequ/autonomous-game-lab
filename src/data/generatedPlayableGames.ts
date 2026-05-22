@@ -11,10 +11,10 @@ export const generatedPlayableGames = [
         "trend-signals",
         "generated-concepts"
       ],
-      "trendScore": 506,
+      "trendScore": 534,
       "conceptId": "lantern-relay",
       "conceptTitle": "Lantern Relay",
-      "conceptScore": 506,
+      "conceptScore": 534,
       "representedPrototypeTemplates": 1
     },
     "sourceDistance": {
@@ -76,16 +76,16 @@ export const generatedPlayableGames = [
     "status": "generated-playable",
     "source": {
       "mechanic": "route building",
-      "theme": "science desk",
+      "theme": "compact city logistics",
       "audience": "mobile puzzle",
       "generatedFrom": [
         "trend-signals",
         "generated-concepts"
       ],
-      "trendScore": 370,
+      "trendScore": 369,
       "conceptId": "harbor-circuit",
       "conceptTitle": "Harbor Circuit",
-      "conceptScore": 370,
+      "conceptScore": 369,
       "representedPrototypeTemplates": 1
     },
     "sourceDistance": {
@@ -119,7 +119,7 @@ export const generatedPlayableGames = [
         "fill": "#4d6f3a"
       }
     ],
-    "tutorial": "Mark one cell per turn. Build route building combos across science desk to beat 96.",
+    "tutorial": "Mark one cell per turn. Build route building combos across compact city logistics to beat 96.",
     "playerPromise": "A complete tactical board-game feeling in 5 minutes, tuned for touch screens.",
     "scoring": {
       "base": 2,
@@ -131,10 +131,10 @@ export const generatedPlayableGames = [
       "corner": 1
     },
     "storeListing": {
-      "shortDescription": "A generated route building puzzle with quick science desk decisions.",
+      "shortDescription": "A generated route building puzzle with quick compact city logistics decisions.",
       "keywords": [
         "route building",
-        "science desk",
+        "compact city logistics",
         "daily puzzle",
         "solo board game",
         "generated strategy game"
@@ -147,16 +147,16 @@ export const generatedPlayableGames = [
     "status": "generated-playable",
     "source": {
       "mechanic": "tile placement",
-      "theme": "compact city logistics",
+      "theme": "science desk",
       "audience": "strategy solo",
       "generatedFrom": [
         "trend-signals",
         "generated-concepts"
       ],
-      "trendScore": 325,
+      "trendScore": 326,
       "conceptId": "orbit-atlas",
       "conceptTitle": "Orbit Atlas",
-      "conceptScore": 325,
+      "conceptScore": 326,
       "representedPrototypeTemplates": 1
     },
     "sourceDistance": {
@@ -190,7 +190,7 @@ export const generatedPlayableGames = [
         "fill": "#b85b4b"
       }
     ],
-    "tutorial": "Mark one cell per turn. Build tile placement combos across compact city logistics to beat 138.",
+    "tutorial": "Mark one cell per turn. Build tile placement combos across science desk to beat 138.",
     "playerPromise": "A complete tactical board-game feeling in 9 minutes, tuned for touch screens.",
     "scoring": {
       "base": 3,
@@ -202,10 +202,10 @@ export const generatedPlayableGames = [
       "corner": 2
     },
     "storeListing": {
-      "shortDescription": "A generated tile placement puzzle with quick compact city logistics decisions.",
+      "shortDescription": "A generated tile placement puzzle with quick science desk decisions.",
       "keywords": [
         "tile placement",
-        "compact city logistics",
+        "science desk",
         "daily puzzle",
         "solo board game",
         "generated strategy game"
@@ -224,10 +224,10 @@ export const generatedPlayableGames = [
         "trend-signals",
         "generated-concepts"
       ],
-      "trendScore": 161,
+      "trendScore": 147,
       "conceptId": "foundry-ledger",
       "conceptTitle": "Foundry Ledger",
-      "conceptScore": 161,
+      "conceptScore": 147,
       "representedPrototypeTemplates": 1
     },
     "sourceDistance": {
@@ -284,17 +284,17 @@ export const generatedPlayableGames = [
     }
   },
   {
-    "id": "grove-engine",
-    "title": "Grove Engine",
+    "id": "market-pulse",
+    "title": "Market Pulse",
     "status": "generated-playable",
     "source": {
-      "mechanic": "engine building",
-      "theme": "expedition planning",
+      "mechanic": "auction",
+      "theme": "cozy production",
       "audience": "families",
       "generatedFrom": [
         "trend-signals"
       ],
-      "trendScore": 27,
+      "trendScore": 12,
       "conceptId": null,
       "conceptTitle": null,
       "conceptScore": null,
@@ -305,10 +305,10 @@ export const generatedPlayableGames = [
       "ruleText": "generated from local scoring template only; no source rule text used",
       "art": "procedural board colors and layout; no source art used"
     },
-    "boardRows": 3,
-    "boardCols": 5,
+    "boardRows": 4,
+    "boardCols": 4,
     "maxMoves": 11,
-    "targetScore": 104,
+    "targetScore": 138,
     "pieces": [
       {
         "id": "sprout",
@@ -331,22 +331,22 @@ export const generatedPlayableGames = [
         "fill": "#6b5bb8"
       }
     ],
-    "tutorial": "Mark one cell per turn. Build engine building combos across expedition planning to beat 104.",
-    "playerPromise": "A generated engine building puzzle that turns trend signals into a compact solo board state.",
+    "tutorial": "Mark one cell per turn. Build auction combos across cozy production to beat 138.",
+    "playerPromise": "A generated auction puzzle that turns trend signals into a compact solo board state.",
     "scoring": {
       "base": 4,
-      "sameNeighbor": 6,
-      "occupiedNeighbor": 1,
-      "rowDiversity": 7,
-      "columnDiversity": 3,
-      "center": 2,
-      "corner": 2
+      "sameNeighbor": 5,
+      "occupiedNeighbor": 3,
+      "rowDiversity": 5,
+      "columnDiversity": 5,
+      "center": 4,
+      "corner": 3
     },
     "storeListing": {
-      "shortDescription": "A generated engine building puzzle with quick expedition planning decisions.",
+      "shortDescription": "A generated auction puzzle with quick cozy production decisions.",
       "keywords": [
-        "engine building",
-        "expedition planning",
+        "auction",
+        "cozy production",
         "daily puzzle",
         "solo board game",
         "generated strategy game"

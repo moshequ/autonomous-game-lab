@@ -146,8 +146,8 @@
         "corner": 2
       },
       "tuning": {
-        "minTargetScore": 54,
-        "maxTargetScore": 138,
+        "minTargetScore": 102,
+        "maxTargetScore": 186,
         "targetStep": 6
       }
     },
@@ -180,35 +180,6 @@
         "targetStep": 6
       }
     },
-    "grove-engine": {
-      "id": "grove-engine",
-      "title": "Grove Engine",
-      "boardRows": 3,
-      "boardCols": 5,
-      "maxMoves": 11,
-      "targetScore": 104,
-      "pieces": [
-        "sprout",
-        "ember",
-        "sun",
-        "violet"
-      ],
-      "generated": true,
-      "scoring": {
-        "base": 4,
-        "sameNeighbor": 6,
-        "occupiedNeighbor": 1,
-        "rowDiversity": 7,
-        "columnDiversity": 3,
-        "center": 2,
-        "corner": 2
-      },
-      "tuning": {
-        "minTargetScore": 68,
-        "maxTargetScore": 152,
-        "targetStep": 6
-      }
-    },
     "guild-garden": {
       "id": "guild-garden",
       "title": "Guild Garden",
@@ -221,6 +192,35 @@
         "camp",
         "path",
         "cache"
+      ],
+      "generated": true,
+      "scoring": {
+        "base": 4,
+        "sameNeighbor": 5,
+        "occupiedNeighbor": 3,
+        "rowDiversity": 5,
+        "columnDiversity": 5,
+        "center": 4,
+        "corner": 3
+      },
+      "tuning": {
+        "minTargetScore": 102,
+        "maxTargetScore": 186,
+        "targetStep": 6
+      }
+    },
+    "market-pulse": {
+      "id": "market-pulse",
+      "title": "Market Pulse",
+      "boardRows": 4,
+      "boardCols": 4,
+      "maxMoves": 11,
+      "targetScore": 138,
+      "pieces": [
+        "sprout",
+        "ember",
+        "sun",
+        "violet"
       ],
       "generated": true,
       "scoring": {

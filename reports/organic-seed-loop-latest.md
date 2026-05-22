@@ -1,14 +1,14 @@
 # Organic Seed Loop
 
-Generated: 2026-05-22T01:24:16.654Z
+Generated: 2026-05-22T01:51:08.552Z
 Status: organic-seed-loop-ready
 Analytics source: fixture-sample
-Target: grove-engine
+Target: market-pulse
 Max cost: $0.00
 
 ## Campaigns
 
-- #1 Grove Engine: collecting-attribution, sample 0%, score 1
+- #1 Market Pulse: collecting-attribution, sample 0%, score 1
 - #2 Guild Garden: collecting-attribution, sample 0%, score 0.875
 - #3 Mosaic Haven: collecting-attribution, sample 0%, score 0.833
 - #4 Metro Loom: collecting-attribution, sample 0%, score 0.813
@@ -35,6 +35,6 @@ Max cost: $0.00
 
 ## Next Actions
 
-- Feature Grove Engine as the current organic seed target.
+- Feature Market Pulse as the current organic seed target.
 - Use only player-initiated sharing; do not post externally without credentials or consent.
 - Keep collecting attributed starts until the sample-size gate clears.

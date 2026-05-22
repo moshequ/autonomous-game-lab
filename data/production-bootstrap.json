@@ -1,12 +1,29 @@
 {
-  "generatedAt": "2026-05-22T01:35:09.886Z",
-  "sourceDataHash": "45a5fa806116",
+  "generatedAt": "2026-05-22T01:52:55.870Z",
+  "sourceDataHash": "77b78ffe8a13",
   "status": "production-bootstrap-ready",
   "mode": "can-apply-configured-actions",
   "envFiles": {
-    "loaded": false,
-    "loadedFiles": [],
-    "loadedKeys": [],
+    "loaded": true,
+    "loadedFiles": [
+      {
+        "path": "ops/production.env.local",
+        "keys": [
+          "AGL_ANDROID_PACKAGE_NAME",
+          "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
+          "AGL_ANDROID_KEYSTORE_BASE64",
+          "AGL_ANDROID_KEYSTORE_PASSWORD",
+          "AGL_ANDROID_KEY_ALIAS"
+        ]
+      }
+    ],
+    "loadedKeys": [
+      "AGL_ANDROID_PACKAGE_NAME",
+      "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
+      "AGL_ANDROID_KEYSTORE_BASE64",
+      "AGL_ANDROID_KEYSTORE_PASSWORD",
+      "AGL_ANDROID_KEY_ALIAS"
+    ],
     "skippedExistingKeys": [],
     "skippedProtectedKeys": [],
     "overwrittenEnvFileKeys": [],
@@ -38,10 +55,10 @@
   },
   "repository": {
     "githubRepository": "moshequ/autonomous-game-lab",
-    "githubRepositorySource": "environment",
-    "inferredRepository": null,
+    "githubRepositorySource": "origin-remote",
+    "inferredRepository": "moshequ/autonomous-game-lab",
     "ghCliAvailable": true,
-    "ghTokenConfigured": true,
+    "ghTokenConfigured": false,
     "ghAuthAvailable": true,
     "ghCredentialReady": true,
     "canUseGh": true,
@@ -71,7 +88,7 @@
     "totalVariables": 24,
     "configuredSecrets": 5,
     "totalSecrets": 8,
-    "externalBlockers": 16
+    "externalBlockers": 15
   },
   "stages": [
     {
@@ -90,9 +107,7 @@
       "costUsd": 0,
       "command": "npm run autonomous:repo-bootstrap",
       "evidence": "Repository bootstrap repository-bootstrap-ready; helper ops/github/bootstrap-repository.sh; local git ready.",
-      "requires": [
-        "Commit current generated changes before pushing to GitHub Pages."
-      ]
+      "requires": []
     },
     {
       "id": "production-environment",
@@ -249,9 +264,7 @@
       "costUsd": 0,
       "command": "npm run autonomous:repo-bootstrap",
       "evidence": "Repository bootstrap repository-bootstrap-ready; helper ops/github/bootstrap-repository.sh; local git ready.",
-      "requires": [
-        "Commit current generated changes before pushing to GitHub Pages."
-      ]
+      "requires": []
     },
     {
       "id": "production-environment",
@@ -397,7 +410,7 @@
       "kind": "github-variable",
       "repositoryVariable": "VITE_BASE_PATH",
       "envName": "VITE_BASE_PATH",
-      "valueSource": "environment",
+      "valueSource": "github-variable",
       "configured": true,
       "command": "gh variable set VITE_BASE_PATH --body \"$VITE_BASE_PATH\""
     },
@@ -406,7 +419,7 @@
       "kind": "github-variable",
       "repositoryVariable": "AGL_PUBLIC_ORIGIN",
       "envName": "AGL_PUBLIC_ORIGIN",
-      "valueSource": "environment",
+      "valueSource": "github-variable",
       "configured": true,
       "command": "gh variable set AGL_PUBLIC_ORIGIN --body \"$AGL_PUBLIC_ORIGIN\""
     },
@@ -415,7 +428,7 @@
       "kind": "github-variable",
       "repositoryVariable": "VITE_PUBLIC_ORIGIN",
       "envName": "AGL_PUBLIC_ORIGIN",
-      "valueSource": "environment",
+      "valueSource": "github-variable",
       "configured": true,
       "command": "gh variable set VITE_PUBLIC_ORIGIN --body \"$AGL_PUBLIC_ORIGIN\""
     },
@@ -424,7 +437,7 @@
       "kind": "github-variable",
       "repositoryVariable": "PUBLIC_SITE_URL",
       "envName": "AGL_PUBLIC_ORIGIN",
-      "valueSource": "environment",
+      "valueSource": "github-variable",
       "configured": true,
       "command": "gh variable set PUBLIC_SITE_URL --body \"$AGL_PUBLIC_ORIGIN\""
     },
@@ -559,7 +572,7 @@
       "kind": "github-variable",
       "repositoryVariable": "AGL_ANDROID_PACKAGE_NAME",
       "envName": "AGL_ANDROID_PACKAGE_NAME",
-      "valueSource": "github-variable",
+      "valueSource": "environment",
       "configured": true,
       "command": "gh variable set AGL_ANDROID_PACKAGE_NAME --body \"$AGL_ANDROID_PACKAGE_NAME\""
     },
@@ -568,7 +581,7 @@
       "kind": "github-variable",
       "repositoryVariable": "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
       "envName": "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
-      "valueSource": "github-variable",
+      "valueSource": "environment",
       "configured": true,
       "command": "gh variable set AGL_ANDROID_SHA256_CERT_FINGERPRINT --body \"$AGL_ANDROID_SHA256_CERT_FINGERPRINT\""
     },
@@ -651,7 +664,7 @@
       "kind": "github-secret",
       "repositorySecret": "AGL_ANDROID_KEYSTORE_BASE64",
       "envName": "AGL_ANDROID_KEYSTORE_BASE64",
-      "valueSource": "github-secret",
+      "valueSource": "environment",
       "configured": true,
       "command": "printf \"%s\" \"$AGL_ANDROID_KEYSTORE_BASE64\" | gh secret set AGL_ANDROID_KEYSTORE_BASE64"
     },
@@ -660,7 +673,7 @@
       "kind": "github-secret",
       "repositorySecret": "AGL_ANDROID_KEYSTORE_PASSWORD",
       "envName": "AGL_ANDROID_KEYSTORE_PASSWORD",
-      "valueSource": "github-secret",
+      "valueSource": "environment",
       "configured": true,
       "command": "printf \"%s\" \"$AGL_ANDROID_KEYSTORE_PASSWORD\" | gh secret set AGL_ANDROID_KEYSTORE_PASSWORD"
     },
@@ -669,7 +682,7 @@
       "kind": "github-secret",
       "repositorySecret": "AGL_ANDROID_KEY_ALIAS",
       "envName": "AGL_ANDROID_KEY_ALIAS",
-      "valueSource": "github-secret",
+      "valueSource": "environment",
       "configured": true,
       "command": "printf \"%s\" \"$AGL_ANDROID_KEY_ALIAS\" | gh secret set AGL_ANDROID_KEY_ALIAS"
     },
@@ -689,7 +702,7 @@
       "kind": "github-variable",
       "repositoryVariable": "VITE_BASE_PATH",
       "envName": "VITE_BASE_PATH",
-      "valueSource": "environment",
+      "valueSource": "github-variable",
       "configured": true,
       "command": "gh variable set VITE_BASE_PATH --body \"$VITE_BASE_PATH\""
     },
@@ -698,7 +711,7 @@
       "kind": "github-variable",
       "repositoryVariable": "AGL_PUBLIC_ORIGIN",
       "envName": "AGL_PUBLIC_ORIGIN",
-      "valueSource": "environment",
+      "valueSource": "github-variable",
       "configured": true,
       "command": "gh variable set AGL_PUBLIC_ORIGIN --body \"$AGL_PUBLIC_ORIGIN\""
     },
@@ -707,7 +720,7 @@
       "kind": "github-variable",
       "repositoryVariable": "VITE_PUBLIC_ORIGIN",
       "envName": "AGL_PUBLIC_ORIGIN",
-      "valueSource": "environment",
+      "valueSource": "github-variable",
       "configured": true,
       "command": "gh variable set VITE_PUBLIC_ORIGIN --body \"$AGL_PUBLIC_ORIGIN\""
     },
@@ -716,7 +729,7 @@
       "kind": "github-variable",
       "repositoryVariable": "PUBLIC_SITE_URL",
       "envName": "AGL_PUBLIC_ORIGIN",
-      "valueSource": "environment",
+      "valueSource": "github-variable",
       "configured": true,
       "command": "gh variable set PUBLIC_SITE_URL --body \"$AGL_PUBLIC_ORIGIN\""
     },
@@ -851,7 +864,7 @@
       "kind": "github-variable",
       "repositoryVariable": "AGL_ANDROID_PACKAGE_NAME",
       "envName": "AGL_ANDROID_PACKAGE_NAME",
-      "valueSource": "github-variable",
+      "valueSource": "environment",
       "configured": true,
       "command": "gh variable set AGL_ANDROID_PACKAGE_NAME --body \"$AGL_ANDROID_PACKAGE_NAME\""
     },
@@ -860,7 +873,7 @@
       "kind": "github-variable",
       "repositoryVariable": "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
       "envName": "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
-      "valueSource": "github-variable",
+      "valueSource": "environment",
       "configured": true,
       "command": "gh variable set AGL_ANDROID_SHA256_CERT_FINGERPRINT --body \"$AGL_ANDROID_SHA256_CERT_FINGERPRINT\""
     },
@@ -943,7 +956,7 @@
       "kind": "github-secret",
       "repositorySecret": "AGL_ANDROID_KEYSTORE_BASE64",
       "envName": "AGL_ANDROID_KEYSTORE_BASE64",
-      "valueSource": "github-secret",
+      "valueSource": "environment",
       "configured": true,
       "command": "printf \"%s\" \"$AGL_ANDROID_KEYSTORE_BASE64\" | gh secret set AGL_ANDROID_KEYSTORE_BASE64"
     },
@@ -952,7 +965,7 @@
       "kind": "github-secret",
       "repositorySecret": "AGL_ANDROID_KEYSTORE_PASSWORD",
       "envName": "AGL_ANDROID_KEYSTORE_PASSWORD",
-      "valueSource": "github-secret",
+      "valueSource": "environment",
       "configured": true,
       "command": "printf \"%s\" \"$AGL_ANDROID_KEYSTORE_PASSWORD\" | gh secret set AGL_ANDROID_KEYSTORE_PASSWORD"
     },
@@ -961,7 +974,7 @@
       "kind": "github-secret",
       "repositorySecret": "AGL_ANDROID_KEY_ALIAS",
       "envName": "AGL_ANDROID_KEY_ALIAS",
-      "valueSource": "github-secret",
+      "valueSource": "environment",
       "configured": true,
       "command": "printf \"%s\" \"$AGL_ANDROID_KEY_ALIAS\" | gh secret set AGL_ANDROID_KEY_ALIAS"
     },
@@ -1053,10 +1066,6 @@
     "ops/github/README.md"
   ],
   "externalBlockers": [
-    {
-      "source": "repository-bootstrap",
-      "blocker": "Commit current generated changes before pushing to GitHub Pages."
-    },
     {
       "source": "production-environment",
       "blocker": "Set AGL_SUPPORT_EMAIL to a real support inbox before public store submission."

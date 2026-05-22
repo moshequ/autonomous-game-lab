@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-05-22T00:37:38.201Z",
-  "sourceDataHash": "374ddc715491",
+  "generatedAt": "2026-05-22T01:39:57.975Z",
+  "sourceDataHash": "b71659f853af",
   "source": "fixture-sample",
   "observed": {
     "organicEntries": 0,
@@ -10,23 +10,17 @@
   "actions": [
     {
       "status": "applied",
-      "gameId": "grove-engine",
+      "gameId": "market-pulse",
       "reason": "No organic entry data yet; seed strongest pages with daily challenge copy.",
       "confidence": 73,
-      "sourceDataHash": "374ddc715491",
-      "before": {
-        "ctaVariant": "daily-challenge",
-        "messageVariant": "daily",
-        "reason": "No organic entry data yet; seed strongest pages with daily challenge copy.",
-        "confidence": 73,
-        "updatedAt": "2026-05-21T17:49:03.517Z"
-      },
+      "sourceDataHash": "b71659f853af",
+      "before": {},
       "after": {
         "ctaVariant": "daily-challenge",
         "messageVariant": "daily",
         "reason": "No organic entry data yet; seed strongest pages with daily challenge copy.",
         "confidence": 73,
-        "updatedAt": "2026-05-22T00:37:38.200Z"
+        "updatedAt": "2026-05-22T01:39:57.974Z"
       }
     },
     {
@@ -34,14 +28,20 @@
       "gameId": "guild-garden",
       "reason": "No organic entry data yet; seed strongest pages with daily challenge copy.",
       "confidence": 73,
-      "sourceDataHash": "374ddc715491",
-      "before": {},
-      "after": {
+      "sourceDataHash": "b71659f853af",
+      "before": {
         "ctaVariant": "daily-challenge",
         "messageVariant": "daily",
         "reason": "No organic entry data yet; seed strongest pages with daily challenge copy.",
         "confidence": 73,
         "updatedAt": "2026-05-22T00:37:38.201Z"
+      },
+      "after": {
+        "ctaVariant": "daily-challenge",
+        "messageVariant": "daily",
+        "reason": "No organic entry data yet; seed strongest pages with daily challenge copy.",
+        "confidence": 73,
+        "updatedAt": "2026-05-22T01:39:57.975Z"
       }
     }
   ],
@@ -67,13 +67,13 @@
         "reason": "No organic entry data yet; seed strongest pages with daily challenge copy."
       },
       {
-        "gameId": "grove-engine",
+        "gameId": "guild-garden",
         "ctaVariant": "daily-challenge",
         "messageVariant": "daily",
         "reason": "No organic entry data yet; seed strongest pages with daily challenge copy."
       },
       {
-        "gameId": "guild-garden",
+        "gameId": "market-pulse",
         "ctaVariant": "daily-challenge",
         "messageVariant": "daily",
         "reason": "No organic entry data yet; seed strongest pages with daily challenge copy."
