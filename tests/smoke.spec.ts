@@ -4453,6 +4453,7 @@ test('autonomous self-update persists only verified allowlisted generated change
   expect(workflow).toContain('contents: write')
   expect(workflow).toContain('npm run autonomous:operate')
   expect(workflow).toContain('npm run autonomous:self-update -- --assert-safe')
+  expect(workflow).not.toContain('fs.existsSync(filePath)')
   expect(dailyWorkflow).toContain('contents: read')
   expect(dailyWorkflow).toContain('npm run autonomous:operate')
 

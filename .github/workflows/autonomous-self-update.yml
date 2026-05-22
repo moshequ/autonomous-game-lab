@@ -126,9 +126,7 @@ jobs:
             process.exit(1)
           }
           for (const filePath of plan.commitPlan?.stagePaths ?? []) {
-            if (fs.existsSync(filePath)) {
-              console.log(filePath)
-            }
+            console.log(filePath)
           }
           NODE
 
