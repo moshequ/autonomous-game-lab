@@ -680,6 +680,10 @@ const checks = [
       productionInputWatchWorkflow.includes('schedule:') &&
       productionInputWatchWorkflow.includes('contents: write') &&
       productionInputWatchWorkflow.includes('actions: read') &&
+      productionInputWatchWorkflow.includes('AGL_AUTONOMOUS_SELF_UPDATE: ${{ vars.AGL_AUTONOMOUS_SELF_UPDATE }}') &&
+      productionInputWatchWorkflow.includes(
+        'AGL_AUTONOMOUS_SELF_UPDATE_DIRECT: ${{ vars.AGL_AUTONOMOUS_SELF_UPDATE_DIRECT }}',
+      ) &&
       productionInputWatchWorkflow.includes('AGL_AUTONOMOUS_SELF_UPDATE_DIRECT') &&
       productionInputWatchWorkflow.includes('CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}') &&
       productionInputWatchWorkflow.includes('POSTHOG_PERSONAL_API_KEY: ${{ secrets.POSTHOG_PERSONAL_API_KEY }}') &&
@@ -719,6 +723,10 @@ const checks = [
       publicEvidenceIntakeWorkflow.includes('issues: read') &&
       publicEvidenceIntakeWorkflow.includes('GH_TOKEN: ${{ github.token }}') &&
       publicEvidenceIntakeWorkflow.includes('GITHUB_TOKEN: ${{ github.token }}') &&
+      publicEvidenceIntakeWorkflow.includes('AGL_AUTONOMOUS_SELF_UPDATE: ${{ vars.AGL_AUTONOMOUS_SELF_UPDATE }}') &&
+      publicEvidenceIntakeWorkflow.includes(
+        'AGL_AUTONOMOUS_SELF_UPDATE_DIRECT: ${{ vars.AGL_AUTONOMOUS_SELF_UPDATE_DIRECT }}',
+      ) &&
       publicEvidenceIntakeWorkflow.includes('AGL_AUTONOMOUS_SELF_UPDATE_DIRECT') &&
       publicEvidenceIntakeWorkflow.includes('npm run autonomous:public-evidence-intake') &&
       publicEvidenceIntakeWorkflow.includes('node scripts/verify-autonomy.mjs') &&
@@ -753,6 +761,10 @@ const checks = [
       postDeployEvidenceSyncWorkflow.includes('GITHUB_REPOSITORY: ${{ github.repository }}') &&
       postDeployEvidenceSyncWorkflow.includes('GITHUB_TOKEN: ${{ github.token }}') &&
       postDeployEvidenceSyncWorkflow.includes('AGL_PUBLIC_ORIGIN: ${{ vars.AGL_PUBLIC_ORIGIN }}') &&
+      postDeployEvidenceSyncWorkflow.includes('AGL_AUTONOMOUS_SELF_UPDATE: ${{ vars.AGL_AUTONOMOUS_SELF_UPDATE }}') &&
+      postDeployEvidenceSyncWorkflow.includes(
+        'AGL_AUTONOMOUS_SELF_UPDATE_DIRECT: ${{ vars.AGL_AUTONOMOUS_SELF_UPDATE_DIRECT }}',
+      ) &&
       postDeployReadinessSyncScript.includes('npm run build') &&
       postDeployReadinessSyncScript.includes('autonomous:performance') &&
       postDeployReadinessSyncScript.includes('autonomous:release-candidate') &&

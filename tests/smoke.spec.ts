@@ -1455,6 +1455,10 @@ test('post-deploy artifact sync preserves strict Pages workflow evidence', async
   expect(workflow).toContain('GITHUB_REPOSITORY: ${{ github.repository }}')
   expect(workflow).toContain('GITHUB_TOKEN: ${{ github.token }}')
   expect(workflow).toContain('AGL_PUBLIC_ORIGIN: ${{ vars.AGL_PUBLIC_ORIGIN }}')
+  expect(workflow).toContain('AGL_AUTONOMOUS_SELF_UPDATE: ${{ vars.AGL_AUTONOMOUS_SELF_UPDATE }}')
+  expect(workflow).toContain(
+    'AGL_AUTONOMOUS_SELF_UPDATE_DIRECT: ${{ vars.AGL_AUTONOMOUS_SELF_UPDATE_DIRECT }}',
+  )
   expect(workflow).toContain('npm run autonomous:verify-post-deploy-sync')
   expect(workflow).toContain('AGL_AUTONOMOUS_SELF_UPDATE_DIRECT')
   expect(workflow).toContain('data/post-deploy-artifact-sync.json')
@@ -4140,6 +4144,10 @@ test('autonomous cadence keeps unattended operation auditable and guarded', asyn
   expect(productionInputWorkflow).toContain('schedule:')
   expect(productionInputWorkflow).toContain('contents: write')
   expect(productionInputWorkflow).toContain('actions: read')
+  expect(productionInputWorkflow).toContain('AGL_AUTONOMOUS_SELF_UPDATE: ${{ vars.AGL_AUTONOMOUS_SELF_UPDATE }}')
+  expect(productionInputWorkflow).toContain(
+    'AGL_AUTONOMOUS_SELF_UPDATE_DIRECT: ${{ vars.AGL_AUTONOMOUS_SELF_UPDATE_DIRECT }}',
+  )
   expect(productionInputWorkflow).toContain('AGL_AUTONOMOUS_SELF_UPDATE_DIRECT')
   expect(productionInputWorkflow).toContain('CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}')
   expect(productionInputWorkflow).toContain('POSTHOG_PERSONAL_API_KEY: ${{ secrets.POSTHOG_PERSONAL_API_KEY }}')
@@ -6547,6 +6555,10 @@ test('support feedback ingests public issues as redacted improvement evidence', 
   expect(intakeWorkflow).toContain('issues: read')
   expect(intakeWorkflow).toContain('GH_TOKEN: ${{ github.token }}')
   expect(intakeWorkflow).toContain('GITHUB_TOKEN: ${{ github.token }}')
+  expect(intakeWorkflow).toContain('AGL_AUTONOMOUS_SELF_UPDATE: ${{ vars.AGL_AUTONOMOUS_SELF_UPDATE }}')
+  expect(intakeWorkflow).toContain(
+    'AGL_AUTONOMOUS_SELF_UPDATE_DIRECT: ${{ vars.AGL_AUTONOMOUS_SELF_UPDATE_DIRECT }}',
+  )
   expect(intakeWorkflow).toContain('AGL_AUTONOMOUS_SELF_UPDATE_DIRECT')
   expect(intakeWorkflow).toContain('npm run autonomous:public-evidence-intake')
   expect(intakeWorkflow).toContain('node scripts/verify-autonomy.mjs')

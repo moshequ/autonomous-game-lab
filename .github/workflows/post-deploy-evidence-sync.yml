@@ -61,6 +61,8 @@ jobs:
       - name: Refresh production readiness evidence
         env:
           AGL_PUBLIC_ORIGIN: ${{ vars.AGL_PUBLIC_ORIGIN }}
+          AGL_AUTONOMOUS_SELF_UPDATE: ${{ vars.AGL_AUTONOMOUS_SELF_UPDATE }}
+          AGL_AUTONOMOUS_SELF_UPDATE_DIRECT: ${{ vars.AGL_AUTONOMOUS_SELF_UPDATE_DIRECT }}
           GH_TOKEN: ${{ github.token }}
           GITHUB_REPOSITORY: ${{ github.repository }}
           GITHUB_REPOSITORY_OWNER: ${{ github.repository_owner }}
