@@ -2,8 +2,8 @@ export const autonomousOperatorHistory = {
   "status": "operator-history-ready",
   "summary": {
     "totalRecords": 40,
-    "plannedRecords": 34,
-    "executedRecords": 6,
+    "plannedRecords": 38,
+    "executedRecords": 2,
     "failedRecords": 0,
     "lastActionId": "apply-safe-improvements",
     "lastExecutionStatus": "not-requested",

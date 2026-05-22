@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-22T08:29:41.503Z",
+  "generatedAt": "2026-05-22T08:47:19.218Z",
   "status": "repository-channel-ready",
   "envFiles": {
     "loaded": false,
@@ -78,9 +78,9 @@
       "reports/release-candidate-latest.md",
       "reports/repository-bootstrap-latest.md",
       "reports/repository-readiness-latest.md",
+      "src/data/autonomousOperatorHistory.ts",
       "src/data/liveSiteMonitor.ts",
       "src/data/objectiveAudit.ts",
-      "src/data/performanceBudget.ts",
       "src/data/postDeployArtifactSync.ts",
       "src/data/postDeploySmoke.ts",
       "src/data/productionActivation.ts",
@@ -126,9 +126,9 @@
       "reports/release-candidate-latest.md",
       "reports/repository-bootstrap-latest.md",
       "reports/repository-readiness-latest.md",
+      "src/data/autonomousOperatorHistory.ts",
       "src/data/liveSiteMonitor.ts",
       "src/data/objectiveAudit.ts",
-      "src/data/performanceBudget.ts",
       "src/data/postDeployArtifactSync.ts",
       "src/data/postDeploySmoke.ts",
       "src/data/productionActivation.ts",
@@ -172,7 +172,7 @@
     "workflowExists": true,
     "deployWorkflowIncludesSmoke": true,
     "deploymentStatus": "ready-for-pages",
-    "releaseCandidateId": "pwa-3acf180cf608",
+    "releaseCandidateId": "pwa-8dc626986be8",
     "postDeploySmokeStatus": "post-deploy-smoke-observed-live",
     "liveSettings": {
       "status": "inspected",

@@ -1,6 +1,6 @@
 # Production Readiness
 
-Generated: 2026-05-22T08:38:03.521Z
+Generated: 2026-05-22T08:47:22.707Z
 
 ## Environment
 
@@ -59,7 +59,7 @@ Status: ready-after-build
 - pass: organic-seed-loop - Organic seed loop is organic-seed-loop-ready; target grove-engine; player-initiated share guard active.
 - pass: retention-loop - Retention loop is retention-loop-ready; daily challenge grove-engine; no-push/no-account guardrails active.
 - pass: pwa-install-loop - PWA install loop is pwa-install-loop-ready; prompt surface autonomy-cockpit; cost $0.
-- pass: performance-budget - Performance budget is performance-budget-ready; initial JS 672.6 KB / 182.8 KB gzip; deferred game chunk GameCanvas-0xQOvQu_.js.
+- pass: performance-budget - Performance budget is performance-budget-ready; initial JS 672.6 KB / 182.8 KB gzip; deferred game chunk GameCanvas-BmTyKj2m.js.
 - pass: release-candidate - Release candidate is release-candidate-ready; files 49; smoke URLs 18.
 - pass: post-deploy-smoke-runner - Post-deploy smoke is post-deploy-smoke-observed-live; origin https://moshequ.github.io/autonomous-game-lab; checks 19/19 passed, 0 blocked; local artifact predeploy-artifact-smoke-passed 19/19 passed.
 - pass: live-site-monitor - Live monitor is live-site-monitor-passed; origin https://moshequ.github.io/autonomous-game-lab; checks 19/19 passed; live matches synced deploy true.
@@ -74,7 +74,7 @@ Status: ready-after-build
 - pass: production-unlock-runner - Production unlock runner is unlock-runner-idle; runnable 0; queued 0; unsafe 0.
 - pass: production-activation - Production activation is activation-ready; mode dry-run; execution dry-run.
 - pass: autonomous-operator - Autonomous operator is operator-plan-ready; selected apply-safe-improvements; execution not-requested.
-- pass: autonomous-operator-history - Autonomous operator history is operator-history-ready; records 40; executed 6.
+- pass: autonomous-operator-history - Autonomous operator history is operator-history-ready; records 40; executed 2.
 - pass: autonomous-cadence - Autonomous cadence is cadence-ready; Codex active-confirmed; GitHub scheduled.
 - pass: autonomous-self-update - Autonomous self-update is self-update-ready; safe pending 3; unsafe pending 0; remote push held.
 - pass: objective-audit - Objective audit is objective-in-progress; met 6 / 8; can complete false.
@@ -118,22 +118,22 @@ Installs: 0
 
 Status: performance-budget-ready
 Initial JS: 672.6 KB (182.8 KB gzip)
-Deferred game chunk: GameCanvas-0xQOvQu_.js
+Deferred game chunk: GameCanvas-BmTyKj2m.js
 - pass: performance-initial-js-budget - Initial JS is 672.6 KB; budget is 676 KB.
 - pass: performance-initial-js-gzip-budget - Initial JS gzip is 182.8 KB; budget is 200 KB.
 - pass: performance-initial-css-budget - Initial CSS is 10.5 KB; budget is 40 KB.
 - pass: performance-manifest - PWA manifest exists in dist.
 - pass: performance-service-worker - Service worker exists in dist.
-- pass: performance-game-runtime-deferred - GameCanvas-0xQOvQu_.js is deferred from the initial shell.
-- pass: performance-largest-js-deferred - Largest JS chunk is GameCanvas-0xQOvQu_.js at 1361.4 KB.
+- pass: performance-game-runtime-deferred - GameCanvas-BmTyKj2m.js is deferred from the initial shell.
+- pass: performance-largest-js-deferred - Largest JS chunk is GameCanvas-BmTyKj2m.js at 1361.4 KB.
 - pass: performance-deferred-game-budget - Deferred game chunk is 1361.4 KB; monitor budget is 1600 KB.
 
 ## Release Candidate
 
 Status: release-candidate-ready
-Candidate: pwa-3acf180cf608
+Candidate: pwa-8dc626986be8
 Files: 49
-Aggregate SHA-256: 3acf180cf608ce23f3718b6a542a1fe8e5adb0d06e2aacf8aec7616da5fa1644
+Aggregate SHA-256: 8dc626986be82d789d5f049b204df8caed70e13ac227cead0fa26b2a8e250f7b
 - pass: release-dist-inventory - 49 dist files inventoried.
 - pass: release-required-files - 23/23 required files present.
 - pass: release-game-pages - 10 generated game page(s) in dist.
@@ -147,7 +147,7 @@ Aggregate SHA-256: 3acf180cf608ce23f3718b6a542a1fe8e5adb0d06e2aacf8aec7616da5fa1
 
 Status: post-deploy-smoke-observed-live
 Origin: https://moshequ.github.io/autonomous-game-lab
-Candidate: pwa-3acf180cf608
+Candidate: pwa-8dc626986be8
 Checks: 19/19 passed (0 blocked)
 Local artifact: predeploy-artifact-smoke-passed (19/19 passed)
 - pass: smoke-app-shell - Live URL matched status and required text.
@@ -173,14 +173,14 @@ Local artifact: predeploy-artifact-smoke-passed (19/19 passed)
 ## Post-Deploy Artifact Sync
 
 Status: post-deploy-artifact-sync-passed
-Workflow run: 26277127478
-Artifact candidate: pwa-1fe92b0d3098
-Live candidate: pwa-1fe92b0d3098
+Workflow run: 26277896913
+Artifact candidate: pwa-268409c3a3ec
+Live candidate: pwa-268409c3a3ec
 Live matches artifact: true
 - pass: artifact-sync-gh-cli - gh version 2.92.0 (2026-04-28)
 - pass: artifact-sync-github-repository - Target repository is moshequ/autonomous-game-lab.
-- pass: artifact-sync-explicit-pages-run - Explicit web-pwa-deploy.yml run is 26277127478.
-- pass: artifact-sync-post-deploy-smoke-artifact - Downloaded post-deploy-smoke artifact from run 26277127478.
+- pass: artifact-sync-explicit-pages-run - Explicit web-pwa-deploy.yml run is 26277896913.
+- pass: artifact-sync-post-deploy-smoke-artifact - Downloaded post-deploy-smoke artifact from run 26277896913.
 - pass: artifact-sync-strict-smoke-artifact - Artifact status post-deploy-smoke-passed; strict manifest comparison true; checks 19/19.
 - pass: artifact-sync-live-release-manifest - Live release-candidate.json still matches the strict smoke artifact.
 
@@ -189,7 +189,7 @@ Live matches artifact: true
 Status: live-site-monitor-passed
 Origin: https://moshequ.github.io/autonomous-game-lab
 Checks: 19/19 passed (0 failed)
-Live candidate: pwa-1fe92b0d3098
+Live candidate: pwa-268409c3a3ec
 Live matches synced deploy: true
 - pass: live-monitor-app-shell - Live read-only check passed.
 - pass: live-monitor-manifest-webmanifest - Live read-only check passed.
@@ -303,7 +303,7 @@ Execution: not-requested
 
 Status: operator-history-ready
 Records: 40
-Executed: 6
+Executed: 2
 
 ## Autonomous Cadence
 
