@@ -1,10 +1,10 @@
 # Production Measurement Status
 
-Generated: 2026-05-22T02:23:52.949Z
+Generated: 2026-05-22T02:42:47.579Z
 Status: production-measurement-local-intake-ready
 Active path: local-browser-buffer
-Live candidate: pwa-8303d7dea094
-Source hash: 5ae840cd0e4b
+Live candidate: pwa-c5be6fccd871
+Source hash: 91f8e9ce2ee8
 
 ## Analytics
 
@@ -12,6 +12,9 @@ Source hash: 5ae840cd0e4b
 - browser forwarding configured: false
 - autonomous rollups configured: false
 - local evidence ready: true
+- public aggregate handoff: awaiting-player-initiated-aggregate-notes
+- aggregate evidence notes: 0
+- supporting aggregate mission notes: 0
 
 ## Public Routes
 
@@ -30,6 +33,8 @@ Source hash: 5ae840cd0e4b
 - noRawAnalyticsRows: true
 - aggregateOnlyEvidence: true
 - playerInitiatedExportsOnly: true
+- aggregateEvidenceDoesNotPassGates: true
+- manualReviewRequiredForGateDecisions: true
 - noAutomaticPublicUpload: true
 - noStoreSubmission: true
 - noRevenueEnablement: true
@@ -37,4 +42,6 @@ Source hash: 5ae840cd0e4b
 ## Next Actions
 
 - Use the player-initiated local evidence route until PostHog or the first-party collector is configured.
+- Invite players to use Share evidence after a gate-sample play session so public aggregate evidence can be reviewed without raw events.
+- Do not pass product gates, enable revenue, or submit stores from public aggregate notes alone.
 - Keep product gates blocked until real player evidence clears completion, replay, and D1 retention thresholds.

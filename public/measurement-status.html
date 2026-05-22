@@ -168,6 +168,39 @@
             <span>Aggregate notes</span>
             <strong>0</strong>
           </div>
+          <div class="card">
+            <span>Aggregate mission matches</span>
+            <strong>0</strong>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2>Public Aggregate Evidence</h2>
+        <p>Player-initiated public issue notes are supporting diagnosis only. They help route what to investigate next, but they do not pass product gates, enable revenue, or replace production analytics.</p>
+        <div class="grid" aria-label="Public aggregate evidence">
+          <div class="card">
+            <span>Handoff</span>
+            <strong>awaiting-player-initiated-aggregate-notes</strong>
+          </div>
+          <div class="card">
+            <span>Aggregate starts</span>
+            <strong>0</strong>
+          </div>
+          <div class="card">
+            <span>Aggregate completions</span>
+            <strong>0</strong>
+          </div>
+          <div class="card">
+            <span>Gate safety</span>
+            <strong>does not pass gates</strong>
+          </div>
+        </div>
+        <ul>
+          <li>Awaiting player-initiated aggregate notes.</li>
+        </ul>
+        <div class="actions">
+          <a href="https://github.com/moshequ/autonomous-game-lab/issues/new?template=analytics-evidence.yml&amp;title=%5BEvidence%5D+Player+event+export+note&amp;body=Thanks+for+helping+improve+Autonomous+Game+Lab.%0A%0AGitHub+Issues+are+public.+Share+aggregate+counts+only.%0ADo+not+paste+private+information%2C+raw+analytics+exports%2C+event+rows%2C+private+identifiers%2C+or+uploaded+event+files+into+this+issue.%0A%0ASupport+type%3A+analytics-evidence%0AGame+or+mission%3A%0AEvidence+window%3A%0AAggregate+starts%3A%0AAggregate+completions%3A%0AAggregate+replays%3A%0AAggregate+D1+eligible+players%3A%0AAggregate+D1+retained+players%3A%0AWhat+changed+or+looked+unusual%3A">Open aggregate evidence issue</a>
         </div>
       </section>
 
@@ -178,6 +211,8 @@
           <li>No secret values: true</li>
           <li>No raw analytics rows: true</li>
           <li>Player-initiated exports only: true</li>
+          <li>Aggregate evidence does not pass gates: true</li>
+          <li>Manual review required for gate decisions: true</li>
           <li>No revenue enablement: true</li>
         </ul>
       </section>
@@ -186,6 +221,8 @@
         <h2>Next Actions</h2>
         <ul>
           <li>Use the player-initiated local evidence route until PostHog or the first-party collector is configured.</li>
+          <li>Invite players to use Share evidence after a gate-sample play session so public aggregate evidence can be reviewed without raw events.</li>
+          <li>Do not pass product gates, enable revenue, or submit stores from public aggregate notes alone.</li>
           <li>Keep product gates blocked until real player evidence clears completion, replay, and D1 retention thresholds.</li>
         </ul>
         <div class="actions">

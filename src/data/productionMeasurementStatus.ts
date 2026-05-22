@@ -1,8 +1,8 @@
 export const productionMeasurementStatus = {
-  "generatedAt": "2026-05-22T02:23:52.949Z",
+  "generatedAt": "2026-05-22T02:42:47.579Z",
   "status": "production-measurement-local-intake-ready",
   "activePath": "local-browser-buffer",
-  "liveCandidate": "pwa-8303d7dea094",
+  "liveCandidate": "pwa-c5be6fccd871",
   "analytics": {
     "activeRollupSource": "fixture-sample",
     "retentionSource": "fixture-retention",
@@ -31,7 +31,10 @@ export const productionMeasurementStatus = {
       "inboxEvents": 0,
       "importedEvents": 0,
       "supportStatus": "support-channel-ready",
-      "aggregateEvidenceNotes": 0
+      "aggregateEvidenceNotes": 0,
+      "aggregateEvidenceStarts": 0,
+      "aggregateEvidenceCompletions": 0,
+      "aggregateEvidenceReplays": 0
     }
   },
   "productGateEvidence": {
@@ -50,7 +53,48 @@ export const productionMeasurementStatus = {
       "evidenceStatus": "waiting-for-player-export"
     },
     "missionCount": 3,
-    "fastestGateId": "d1Retention"
+    "fastestGateId": "d1Retention",
+    "supportingAggregateEvidenceNotes": 0,
+    "aggregateEvidenceMissionCount": 0
+  },
+  "publicEvidenceHandoff": {
+    "status": "awaiting-player-initiated-aggregate-notes",
+    "source": "support-feedback-public-issues",
+    "supportFeedbackStatus": "support-feedback-empty",
+    "analyticsEvidenceIssue": "https://github.com/moshequ/autonomous-game-lab/issues/new?template=analytics-evidence.yml&title=%5BEvidence%5D+Player+event+export+note&body=Thanks+for+helping+improve+Autonomous+Game+Lab.%0A%0AGitHub+Issues+are+public.+Share+aggregate+counts+only.%0ADo+not+paste+private+information%2C+raw+analytics+exports%2C+event+rows%2C+private+identifiers%2C+or+uploaded+event+files+into+this+issue.%0A%0ASupport+type%3A+analytics-evidence%0AGame+or+mission%3A%0AEvidence+window%3A%0AAggregate+starts%3A%0AAggregate+completions%3A%0AAggregate+replays%3A%0AAggregate+D1+eligible+players%3A%0AAggregate+D1+retained+players%3A%0AWhat+changed+or+looked+unusual%3A",
+    "aggregateEvidence": {
+      "notes": 0,
+      "games": 0,
+      "campaigns": 0,
+      "starts": 0,
+      "completions": 0,
+      "replays": 0,
+      "d1Eligible": 0,
+      "d1Retained": 0,
+      "topNotes": []
+    },
+    "campaignEvidence": [],
+    "productGateMissions": {
+      "supportingAggregateEvidenceNotes": 0,
+      "missionsWithAggregateEvidence": 0,
+      "topMissions": []
+    },
+    "controls": {
+      "aggregateEvidenceDoesNotPassGates": true,
+      "manualReviewRequiredForGateDecisions": true,
+      "noRawEventsStored": true,
+      "noRawEventRowsAccepted": true,
+      "noAttachmentsDownloaded": true,
+      "publicAggregateOnly": true,
+      "playerInitiatedOnly": true,
+      "zeroPaidSpend": true,
+      "noAutomaticPublicUpload": true,
+      "noRevenueEnablement": true
+    },
+    "nextActions": [
+      "Invite players to use Share evidence after a gate-sample play session so public aggregate evidence can be reviewed without raw events.",
+      "Do not pass product gates, enable revenue, or submit stores from public aggregate notes alone."
+    ]
   },
   "publicRoutes": {
     "statusPage": "/measurement-status.html",
@@ -79,12 +123,16 @@ export const productionMeasurementStatus = {
     "noRawAnalyticsRows": true,
     "aggregateOnlyEvidence": true,
     "playerInitiatedExportsOnly": true,
+    "aggregateEvidenceDoesNotPassGates": true,
+    "manualReviewRequiredForGateDecisions": true,
     "noAutomaticPublicUpload": true,
     "noStoreSubmission": true,
     "noRevenueEnablement": true
   },
   "nextActions": [
     "Use the player-initiated local evidence route until PostHog or the first-party collector is configured.",
+    "Invite players to use Share evidence after a gate-sample play session so public aggregate evidence can be reviewed without raw events.",
+    "Do not pass product gates, enable revenue, or submit stores from public aggregate notes alone.",
     "Keep product gates blocked until real player evidence clears completion, replay, and D1 retention thresholds."
   ]
 } as const
