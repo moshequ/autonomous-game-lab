@@ -4108,8 +4108,7 @@ test('autonomous operator history keeps a capped audit trail', async ({ page }) 
   )
   const expectedImmediateRepeatSuppressed =
     localSelectableActions.length > 0 &&
-    localSelectableActions.every((action) => recentlyCoveredActionIds.has(action.id)) &&
-    localSelectableActions.every((action) => action.id === lastExecutedRecord?.selectedActionId)
+    localSelectableActions.every((action) => recentlyCoveredActionIds.has(action.id))
   const gateSampleEvidenceReadyNow =
     (localEventBridge.gateSampleEvidence?.inbox?.events ?? 0) > 0 ||
     (localEventBridge.gateSampleEvidence?.imported?.events ?? 0) > 0

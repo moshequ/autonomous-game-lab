@@ -2436,14 +2436,8 @@ const recentlySatisfiedActionIds = [
 const recentlyExecutedActionIds = new Set(recentExecutedActionIds)
 const recentlyCoveredActionIds = new Set([...recentExecutedActionIds, ...recentlySatisfiedActionIds])
 const executableWithoutImmediateRepeat = ownerSelectableNow.filter((action) => !recentlyCoveredActionIds.has(action.id))
-const executableWithoutLastRepeat = ownerSelectableNow.filter((action) => action.id !== lastExecutedActionId)
-const prioritizedExecutableNow =
-  executableWithoutImmediateRepeat.length > 0
-    ? executableWithoutImmediateRepeat
-    : executableWithoutLastRepeat.length > 0
-      ? executableWithoutLastRepeat
-      : []
-const immediateRepeatSuppressed = ownerSelectableNow.length > 0 && prioritizedExecutableNow.length === 0
+const prioritizedExecutableNow = executableWithoutImmediateRepeat
+const immediateRepeatSuppressed = ownerSelectableNow.length > 0 && executableWithoutImmediateRepeat.length === 0
 const preferredActionOrder = [
   'prepare-repository-channel',
   'deploy-web-pwa',

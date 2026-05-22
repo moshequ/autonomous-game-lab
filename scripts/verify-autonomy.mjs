@@ -6359,8 +6359,7 @@ const ownerHasExecutableAlternativeOutsideCovered = (autonomousOwnerLoop.safeAut
 )
 const ownerExpectedImmediateRepeatSuppressed =
   ownerLocalSelectableActions.length > 0 &&
-  ownerLocalSelectableActions.every((action) => ownerRecentlyCoveredActionIds.has(action.id)) &&
-  ownerLocalSelectableActions.every((action) => action.id === ownerLastExecutedActionId)
+  ownerLocalSelectableActions.every((action) => ownerRecentlyCoveredActionIds.has(action.id))
 const ownerGateSampleBackoff = autonomousOwnerLoop.executionMemory?.gateSampleDownloadsBackoff
 const ownerGateSampleEvidenceReadyNow =
   (localEventBridge.gateSampleEvidence?.inbox?.events ?? 0) > 0 ||
