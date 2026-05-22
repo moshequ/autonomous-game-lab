@@ -1,7 +1,7 @@
 export const autonomousSelfUpdate = {
   "status": "self-update-ready",
   "repository": {
-    "remotePushReady": false
+    "remotePushReady": true
   },
   "pendingChanges": {
     "safeCount": 0

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-22T04:36:06.904Z",
+  "generatedAt": "2026-05-22T07:15:26.503Z",
   "status": "self-update-ready",
   "mode": "plan-and-assert",
   "envFiles": {
@@ -60,13 +60,13 @@
     "insideWorkTree": true,
     "githubTokenConfigured": false,
     "githubCredentialConfigured": true,
-    "directPushConfigured": false,
-    "selfUpdateEnabled": false,
-    "remotePushReady": false
+    "directPushConfigured": true,
+    "selfUpdateEnabled": true,
+    "remotePushReady": true
   },
   "sourceStatus": {
-    "repositoryReadiness": "waiting-for-repository-channel",
-    "productionReadiness": "blocked",
+    "repositoryReadiness": "repository-channel-ready",
+    "productionReadiness": "ready-after-build",
     "autonomousCadence": "cadence-ready",
     "ownerLoop": "owner-loop-ready"
   },
@@ -194,7 +194,7 @@
     {
       "id": "post-self-update-deploy",
       "status": "pass",
-      "detail": "Pages redeploys after the gated self-update workflow, then repeats deployability and post-deploy smoke checks."
+      "detail": "Pages redeploys after gated self-update, public-evidence, and production-input workflows, then repeats deployability and post-deploy smoke checks."
     },
     {
       "id": "safe-path-allowlist",
@@ -209,7 +209,7 @@
     {
       "id": "remote-push-gated",
       "status": "pass",
-      "detail": "Remote push remains held until GitHub credentials and AGL_AUTONOMOUS_SELF_UPDATE_DIRECT=1 are configured."
+      "detail": "Direct push is configured for moshequ/autonomous-game-lab."
     },
     {
       "id": "zero-spend-controls",

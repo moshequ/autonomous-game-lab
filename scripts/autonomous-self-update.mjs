@@ -250,13 +250,20 @@ const checks = [
     id: 'post-self-update-deploy',
     status:
       webDeployWorkflowExists &&
-      webDeployWorkflow.includes("workflows: ['Autonomous Daily Studio', 'Autonomous Self Update']") &&
+      webDeployWorkflow.includes("'Autonomous Daily Studio'") &&
+      webDeployWorkflow.includes("'Autonomous Self Update'") &&
+      webDeployWorkflow.includes("'Public Evidence Intake'") &&
+      webDeployWorkflow.includes("'Production Input Watch'") &&
+      webDeployWorkflow.includes('npm run build') &&
+      webDeployWorkflow.includes('npm run autonomous:performance') &&
+      webDeployWorkflow.includes('npm run autonomous:release-candidate') &&
       webDeployWorkflow.includes('npm run autonomous:assert-deployable') &&
-      webDeployWorkflow.includes('npm run autonomous:post-deploy-smoke -- --assert')
+      webDeployWorkflow.includes('npm run autonomous:post-deploy-smoke -- --assert') &&
+      !webDeployWorkflow.includes('npm run autonomous:operate')
         ? 'pass'
         : 'blocker',
     detail: webDeployWorkflowExists
-      ? 'Pages redeploys after the gated self-update workflow, then repeats deployability and post-deploy smoke checks.'
+      ? 'Pages redeploys after gated self-update, public-evidence, and production-input workflows, then repeats deployability and post-deploy smoke checks.'
       : 'Web PWA deploy workflow is missing.',
   },
   {
