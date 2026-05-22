@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-22T03:23:24.703Z",
+  "generatedAt": "2026-05-22T03:37:24.040Z",
   "status": "owner-loop-ready",
   "mode": "zero-spend-web-ready",
   "autonomyScore": {
@@ -43,7 +43,7 @@
     "objectiveAuditFreshness": {
       "fresh": true,
       "structurallyReady": true,
-      "auditGeneratedAt": "2026-05-22T03:23:24.505Z",
+      "auditGeneratedAt": "2026-05-22T03:37:23.290Z",
       "evaluatedInputIds": [
         "analytics-rollup",
         "event-ingest",
@@ -66,8 +66,8 @@
         "fresh": true,
         "ready": true,
         "status": "cadence-ready",
-        "artifactGeneratedAt": "2026-05-22T03:19:00.139Z",
-        "ageHours": 0.073,
+        "artifactGeneratedAt": "2026-05-22T03:35:22.396Z",
+        "ageHours": 0.034,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -77,8 +77,8 @@
         "fresh": true,
         "ready": true,
         "status": "self-update-ready",
-        "artifactGeneratedAt": "2026-05-22T03:19:00.760Z",
-        "ageHours": 0.073,
+        "artifactGeneratedAt": "2026-05-22T03:35:22.673Z",
+        "ageHours": 0.034,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -89,7 +89,7 @@
         "ready": true,
         "status": "support-feedback-empty",
         "artifactGeneratedAt": "2026-05-22T02:06:13.270Z",
-        "ageHours": 1.287,
+        "ageHours": 1.52,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -99,8 +99,8 @@
         "fresh": true,
         "ready": true,
         "status": "performance-budget-ready",
-        "artifactGeneratedAt": "2026-05-22T03:23:11.922Z",
-        "ageHours": 0.004,
+        "artifactGeneratedAt": "2026-05-22T03:36:53.665Z",
+        "ageHours": 0.008,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -110,8 +110,8 @@
         "fresh": true,
         "ready": true,
         "status": "live-site-monitor-passed",
-        "artifactGeneratedAt": "2026-05-22T03:23:18.213Z",
-        "ageHours": 0.002,
+        "artifactGeneratedAt": "2026-05-22T03:36:55.934Z",
+        "ageHours": 0.008,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -136,9 +136,9 @@
         "current": true,
         "ready": true,
         "status": "retention-loop-ready",
-        "artifactGeneratedAt": "2026-05-22T03:18:33.575Z",
-        "artifactSourceDataHash": "270f5e9433c5",
-        "sourceDataHash": "270f5e9433c5",
+        "artifactGeneratedAt": "2026-05-22T03:34:58.194Z",
+        "artifactSourceDataHash": "77b2311e7fcd",
+        "sourceDataHash": "77b2311e7fcd",
         "evaluatedInputIds": [
           "analytics-rollup",
           "portfolio-policy",
@@ -169,7 +169,7 @@
         "current": true,
         "ready": true,
         "status": "acquisition-learning-ready",
-        "artifactGeneratedAt": "2026-05-22T03:18:33.324Z",
+        "artifactGeneratedAt": "2026-05-22T03:34:57.962Z",
         "artifactSourceDataHash": "97ebf9c58906",
         "sourceDataHash": "97ebf9c58906",
         "evaluatedInputIds": [
@@ -184,9 +184,9 @@
         "current": true,
         "ready": true,
         "status": "organic-seed-loop-ready",
-        "artifactGeneratedAt": "2026-05-22T03:18:33.838Z",
-        "artifactSourceDataHash": "b3225a3e0aa6",
-        "sourceDataHash": "b3225a3e0aa6",
+        "artifactGeneratedAt": "2026-05-22T03:34:58.435Z",
+        "artifactSourceDataHash": "51c19ba40c07",
+        "sourceDataHash": "51c19ba40c07",
         "evaluatedInputIds": [
           "playable-games",
           "analytics-rollup",
@@ -200,7 +200,7 @@
         "current": true,
         "ready": true,
         "status": "pwa-install-loop-ready",
-        "artifactGeneratedAt": "2026-05-22T03:18:34.096Z",
+        "artifactGeneratedAt": "2026-05-22T03:34:58.675Z",
         "artifactSourceDataHash": "cb35265ddc1d",
         "sourceDataHash": "cb35265ddc1d",
         "evaluatedInputIds": [
@@ -218,7 +218,7 @@
         "current": true,
         "ready": true,
         "status": "product-gate-recovery-ready",
-        "artifactGeneratedAt": "2026-05-22T03:18:34.360Z",
+        "artifactGeneratedAt": "2026-05-22T03:34:58.914Z",
         "artifactSourceDataHash": "117dcf88ca39",
         "sourceDataHash": "117dcf88ca39",
         "evaluatedInputIds": [
@@ -236,9 +236,9 @@
         "current": true,
         "ready": true,
         "status": "product-gate-sample-plan-ready",
-        "artifactGeneratedAt": "2026-05-22T03:18:34.619Z",
-        "artifactSourceDataHash": "7c4f010abd09",
-        "sourceDataHash": "7c4f010abd09",
+        "artifactGeneratedAt": "2026-05-22T03:34:59.149Z",
+        "artifactSourceDataHash": "226db9acb14c",
+        "sourceDataHash": "226db9acb14c",
         "evaluatedInputIds": [
           "sample-date",
           "product-gate-recovery",
@@ -258,7 +258,7 @@
         "current": true,
         "ready": true,
         "status": "store-package-ready",
-        "artifactGeneratedAt": "2026-05-22T03:20:01.437Z",
+        "artifactGeneratedAt": "2026-05-22T03:36:13.812Z",
         "artifactSourceDataHash": "fb4dbe5131f4",
         "sourceDataHash": "fb4dbe5131f4",
         "evaluatedInputIds": [
@@ -273,9 +273,9 @@
         "current": true,
         "ready": true,
         "status": "store-listing-optimizer-ready",
-        "artifactGeneratedAt": "2026-05-22T03:20:01.717Z",
-        "artifactSourceDataHash": "2f9612c21cdc",
-        "sourceDataHash": "2f9612c21cdc",
+        "artifactGeneratedAt": "2026-05-22T03:36:14.075Z",
+        "artifactSourceDataHash": "1f557d7315db",
+        "sourceDataHash": "1f557d7315db",
         "evaluatedInputIds": [
           "store-package",
           "store-assets",
@@ -293,9 +293,9 @@
         "current": true,
         "ready": true,
         "status": "draft-ready-external-blockers",
-        "artifactGeneratedAt": "2026-05-22T03:20:01.987Z",
-        "artifactSourceDataHash": "02f4a63f5613",
-        "sourceDataHash": "02f4a63f5613",
+        "artifactGeneratedAt": "2026-05-22T03:36:14.313Z",
+        "artifactSourceDataHash": "969804cdd4d6",
+        "sourceDataHash": "969804cdd4d6",
         "evaluatedInputIds": [
           "store-package",
           "monetization-plan",
@@ -395,7 +395,7 @@
       "current": true,
       "ready": true,
       "status": "bridge-waiting-for-export",
-      "bridgeGeneratedAt": "2026-05-22T03:18:32.524Z",
+      "bridgeGeneratedAt": "2026-05-22T03:34:57.268Z",
       "analyticsSource": "fixture-sample",
       "evidenceReadyNow": false,
       "evaluatedInputIds": [
@@ -453,9 +453,9 @@
     },
     "productionBootstrapFreshness": {
       "fresh": true,
-      "bootstrapGeneratedAt": "2026-05-22T03:23:22.689Z",
-      "artifactSourceDataHash": "970ca1b30354",
-      "sourceDataHash": "970ca1b30354",
+      "bootstrapGeneratedAt": "2026-05-22T03:36:59.413Z",
+      "artifactSourceDataHash": "05cf24cfa588",
+      "sourceDataHash": "05cf24cfa588",
       "evaluatedInputIds": [
         "release-candidate",
         "deployment-plan",
@@ -470,11 +470,11 @@
       "current": true,
       "ready": true,
       "status": "handoff-waiting-on-owner-inputs",
-      "generatedAt": "2026-05-22T03:23:23.003Z",
+      "generatedAt": "2026-05-22T03:37:00.017Z",
       "nextBestUnlockId": "production-analytics-browser",
       "ownerActionRequired": 4,
       "missingEnv": 7,
-      "missingSecrets": 8,
+      "missingSecrets": 5,
       "sourceStatusesFresh": true,
       "evaluatedSourceStatuses": [
         "production-environment",
@@ -543,7 +543,7 @@
       "id": "autonomous-self-update",
       "status": "ready",
       "autonomy": "gated-generated-change-persistence",
-      "evidence": "Self-update self-update-ready; safe pending 91; unsafe pending 0; remote push held.",
+      "evidence": "Self-update self-update-ready; safe pending 93; unsafe pending 0; remote push held.",
       "nextAction": "When a GitHub repository is connected, set AGL_AUTONOMOUS_SELF_UPDATE=1 and AGL_AUTONOMOUS_SELF_UPDATE_DIRECT=1 to let verified generated changes persist."
     },
     {
@@ -592,7 +592,7 @@
       "id": "performance-budget",
       "status": "ready",
       "autonomy": "automatic-build-budget",
-      "evidence": "Initial JS 670 KB; gzip 182.7 KB; deferred chunks 2.",
+      "evidence": "Initial JS 674.5 KB; gzip 183.2 KB; deferred chunks 2.",
       "nextAction": "Keep Phaser and game scenes outside the initial PWA shell."
     },
     {
@@ -725,7 +725,7 @@
       "id": "production-blocker-handoff",
       "status": "ready",
       "autonomy": "ranked-external-unlock-router",
-      "evidence": "Handoff handoff-waiting-on-owner-inputs; next production-analytics-browser; owner inputs 4; missing env 7; missing secrets 8.",
+      "evidence": "Handoff handoff-waiting-on-owner-inputs; next production-analytics-browser; owner inputs 4; missing env 7; missing secrets 5.",
       "nextAction": "Start with Browser production analytics; it is the highest-priority zero-spend owner input."
     },
     {
@@ -906,7 +906,7 @@
       "command": "npm run build && npm run autonomous:performance && npm run autonomous:release-candidate",
       "targets": [
         "pwa-shell",
-        "GameCanvas-CuqN_wBF.js",
+        "GameCanvas-D3wo3HH7.js",
         "dist-release-candidate"
       ],
       "reason": "Performance budget and release-candidate evidence are already fresh for the current guarded build."
@@ -1069,7 +1069,7 @@
       "targets": [
         "production-analytics-browser"
       ],
-      "reason": "Production blocker handoff already ranks 4 owner input(s), 7 env blocker(s), and 8 secret blocker(s)."
+      "reason": "Production blocker handoff already ranks 4 owner input(s), 7 env blocker(s), and 5 secret blocker(s)."
     },
     {
       "id": "run-production-unlock-runner",
@@ -1098,7 +1098,7 @@
       "costUsd": 0,
       "command": "npm run autonomous:operator",
       "targets": [
-        "refresh-objective-audit"
+        "bootstrap-production-setup"
       ],
       "reason": "Operator history is already capped and published; keep attention on product evidence."
     },
@@ -1237,27 +1237,6 @@
       "status": "credential-required",
       "target": "POSTHOG_PERSONAL_API_KEY",
       "purpose": "Repository secret sourced from POSTHOG_PERSONAL_API_KEY.",
-      "source": "production-bootstrap"
-    },
-    {
-      "id": "secret-agl-android-keystore-base64",
-      "status": "credential-required",
-      "target": "AGL_ANDROID_KEYSTORE_BASE64",
-      "purpose": "Repository secret sourced from AGL_ANDROID_KEYSTORE_BASE64.",
-      "source": "production-bootstrap"
-    },
-    {
-      "id": "secret-agl-android-keystore-password",
-      "status": "credential-required",
-      "target": "AGL_ANDROID_KEYSTORE_PASSWORD",
-      "purpose": "Repository secret sourced from AGL_ANDROID_KEYSTORE_PASSWORD.",
-      "source": "production-bootstrap"
-    },
-    {
-      "id": "secret-agl-android-key-alias",
-      "status": "credential-required",
-      "target": "AGL_ANDROID_KEY_ALIAS",
-      "purpose": "Repository secret sourced from AGL_ANDROID_KEY_ALIAS.",
       "source": "production-bootstrap"
     },
     {
