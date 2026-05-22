@@ -8503,6 +8503,9 @@ test('production measurement status publishes public aggregate evidence handoff'
   const publicMeasurement = JSON.parse(await readFile('public/measurement-status.json', 'utf8')) as typeof measurement
   const html = await readFile('public/measurement-status.html', 'utf8')
   const script = await readFile('scripts/production-measurement-status.mjs', 'utf8')
+  const distReleaseCandidate = JSON.parse(await readFile('dist/release-candidate.json', 'utf8').catch(() => '{}')) as {
+    candidateId?: string
+  }
 
   expect([
     'production-measurement-local-intake-ready',
@@ -8652,6 +8655,7 @@ test('production measurement status publishes public aggregate evidence handoff'
   expect(html).toContain('exact-live-candidate')
   expect(html).toContain('release-candidate.json')
   expect(html).toContain('sync commit can lag deploy')
+  expect(html).toContain(measurement.liveRelease.syncedCandidateId ?? 'missing')
   expect(html).toContain('Start current sample')
   expect(html).toContain('sample-next.html')
   expect(html).toContain('Zero-Spend Analytics Unlock')
@@ -8703,9 +8707,13 @@ test('production measurement status publishes public aggregate evidence handoff'
     './measurement-status.json',
   )
   await expect(page.getByLabel('Public aggregate evidence')).toContainText(measurement.publicEvidenceHandoff.status)
-  await expect(page.getByLabel('Live release evidence')).toContainText(measurement.liveRelease.syncedCandidateId ?? 'missing')
+  await expect(page.getByLabel('Live release evidence')).toContainText('Synced evidence candidate')
+  await expect(page.getByLabel('Live release evidence')).toContainText('Status JSON caveat')
   await expect(page.locator('#exact-live-candidate')).not.toContainText('checking')
   await expect(page.locator('#exact-live-match')).not.toContainText('checking')
+  if (distReleaseCandidate.candidateId) {
+    await expect(page.locator('#exact-live-candidate')).toContainText(distReleaseCandidate.candidateId)
+  }
   await expect(page.getByLabel('Zero-spend analytics unlock')).toContainText('first-party-collector')
   await expect(page.getByLabel('External unlock queue')).toContainText(
     measurement.externalUnlockQueue.nextBestUnlockId ?? 'none',
