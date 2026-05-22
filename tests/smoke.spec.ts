@@ -111,6 +111,11 @@ test('portal loads a playable canvas and autonomy cockpit', async ({ page }) => 
   const ownerLoop = JSON.parse(await readFile('data/autonomous-owner-loop.json', 'utf8')) as {
     mode: string
     ownerDecision: { nextBestActionId: string }
+    externalInputHandoff?: {
+      nextUnlockId: string | null
+      recommendedPathId: string | null
+      ownerActionRequired: number
+    } | null
   }
   const objectiveAudit = JSON.parse(await readFile('data/objective-audit.json', 'utf8')) as {
     completion: { nextBestAction: string }
@@ -165,6 +170,11 @@ test('portal loads a playable canvas and autonomy cockpit', async ({ page }) => 
   await expect(page.getByText('owner-loop-ready')).toBeVisible()
   await expect(page.getByText(ownerLoop.mode)).toBeVisible()
   await expect(page.getByText(ownerLoop.ownerDecision.nextBestActionId).first()).toBeVisible()
+  if (ownerLoop.externalInputHandoff) {
+    await expect(page.getByText(ownerLoop.externalInputHandoff.nextUnlockId ?? 'none').first()).toBeVisible()
+    await expect(page.getByText(ownerLoop.externalInputHandoff.recommendedPathId ?? 'none').first()).toBeVisible()
+    await expect(page.getByText(String(ownerLoop.externalInputHandoff.ownerActionRequired)).first()).toBeVisible()
+  }
   await expect(page.getByLabel('Performance Budget')).toContainText('performance-budget-ready')
   await expect(page.getByLabel('Performance Budget')).toContainText('Initial JS')
   await expect(page.getByLabel('Live Site Monitor')).toContainText(
@@ -3943,6 +3953,30 @@ test('autonomous operator history keeps a capped audit trail', async ({ page }) 
       localActionAvailable: boolean
       holdReason: string | null
     }
+    externalInputHandoff: {
+      status: string
+      holdReason: string | null
+      nextUnlockId: string | null
+      recommendedPathId: string | null
+      publicStatusPage: string
+      publicStatusJson: string
+      ownerActionRequired: number
+      missingVariableCount: number
+      missingSecretCount: number
+      productGateBlockers: number
+      validationCommands: string[]
+      requiredVariables: Array<{ repositoryName: string | null; configured: boolean; value?: string }>
+      requiredSecrets: Array<{ repositoryName: string | null; configured: boolean; value?: string }>
+      controls: {
+        zeroPaidSpend: boolean
+        noSecretValues: boolean
+        noSecretValuesStored: boolean
+        noAccountCreation: boolean
+        noStoreSubmission: boolean
+        noRevenueEnablement: boolean
+        ownerLoopWillNotRunExternalWorkflow: boolean
+      }
+    } | null
     controls: {
       repositoryHandoffPrepared: boolean
       localActionAvailable: boolean
@@ -4092,6 +4126,17 @@ test('autonomous operator history keeps a capped audit trail', async ({ page }) 
         evaluatedSourceStatuses: string[]
       }
     }
+  }
+  const productionBlockerHandoff = JSON.parse(await readFile('data/production-blocker-handoff.json', 'utf8')) as {
+    status: string
+    summary: {
+      nextBestUnlockId: string | null
+      ownerActionRequired: number
+      missingEnv: number
+      missingSecrets: number
+      productGateBlockers: number
+    }
+    nextUnlockKit: { recommendedPathId: string | null } | null
   }
   const localEventBridge = JSON.parse(await readFile('data/local-event-bridge.json', 'utf8')) as {
     generatedAt: string
@@ -4290,6 +4335,42 @@ test('autonomous operator history keeps a capped audit trail', async ({ page }) 
     expect(ownerLoop.ownerDecision.holdReason).toContain('recently executed or covered')
   } else {
     expect(ownerLoop.ownerDecision.holdReason).toBeNull()
+  }
+  const ownerExpectedExternalInputHandoff =
+    ownerLoop.ownerDecision.nextBestActionId === 'hold-for-external-input' &&
+    productionBlockerHandoff.status === 'handoff-waiting-on-owner-inputs'
+  expect(Boolean(ownerLoop.externalInputHandoff)).toBe(ownerExpectedExternalInputHandoff)
+  if (ownerExpectedExternalInputHandoff) {
+    expect(ownerLoop.externalInputHandoff?.status).toBe(productionBlockerHandoff.status)
+    expect(ownerLoop.externalInputHandoff?.holdReason).toBe(ownerLoop.ownerDecision.holdReason)
+    expect(ownerLoop.externalInputHandoff?.nextUnlockId).toBe(productionBlockerHandoff.summary.nextBestUnlockId)
+    expect(ownerLoop.externalInputHandoff?.recommendedPathId).toBe(
+      productionBlockerHandoff.nextUnlockKit?.recommendedPathId,
+    )
+    expect(ownerLoop.externalInputHandoff?.publicStatusPage).toBe('/measurement-status.html')
+    expect(ownerLoop.externalInputHandoff?.publicStatusJson).toBe('/measurement-status.json')
+    expect(ownerLoop.externalInputHandoff?.ownerActionRequired).toBe(
+      productionBlockerHandoff.summary.ownerActionRequired,
+    )
+    expect(ownerLoop.externalInputHandoff?.missingVariableCount).toBeGreaterThanOrEqual(0)
+    expect(ownerLoop.externalInputHandoff?.missingSecretCount).toBeGreaterThanOrEqual(0)
+    expect(ownerLoop.externalInputHandoff?.productGateBlockers).toBe(
+      productionBlockerHandoff.summary.productGateBlockers,
+    )
+    expect(ownerLoop.externalInputHandoff?.validationCommands).toContain('npm run autonomous:readiness')
+    expect(
+      [
+        ...(ownerLoop.externalInputHandoff?.requiredVariables ?? []),
+        ...(ownerLoop.externalInputHandoff?.requiredSecrets ?? []),
+      ].some((item) => Object.hasOwn(item, 'value')),
+    ).toBe(false)
+    expect(ownerLoop.externalInputHandoff?.controls.zeroPaidSpend).toBe(true)
+    expect(ownerLoop.externalInputHandoff?.controls.noSecretValues).toBe(true)
+    expect(ownerLoop.externalInputHandoff?.controls.noSecretValuesStored).toBe(true)
+    expect(ownerLoop.externalInputHandoff?.controls.noAccountCreation).toBe(true)
+    expect(ownerLoop.externalInputHandoff?.controls.noStoreSubmission).toBe(true)
+    expect(ownerLoop.externalInputHandoff?.controls.noRevenueEnablement).toBe(true)
+    expect(ownerLoop.externalInputHandoff?.controls.ownerLoopWillNotRunExternalWorkflow).toBe(true)
   }
   expect(ownerLoop.executionMemory.gateSampleDownloadsBackoff.enabled).toBe(true)
   expect(ownerLoop.executionMemory.gateSampleDownloadsBackoff.cooldownHours).toBe(4)

@@ -1050,6 +1050,18 @@ function App() {
       }
     }
   ).externalUnlockQueue
+  const ownerExternalInputHandoff = (
+    autonomousOwnerLoop as {
+      externalInputHandoff?: {
+        nextUnlockId: string | null
+        recommendedPathId: string | null
+        ownerActionRequired: number
+        missingVariableCount: number
+        missingSecretCount: number
+        publicStatusPage: string
+      } | null
+    }
+  ).externalInputHandoff
   const liveSiteMonitorOrigin = liveSiteMonitor.origin.origin ?? 'missing'
   const operatorSelectedAction = autonomousOperator.selectedAction as { id: string } | null
   const operatorExternalInputHandoff = (
@@ -3268,6 +3280,26 @@ function App() {
                   {autonomousOwnerLoop.controls.externalAccountInterventionRequired
                     ? 'credential-gated'
                     : 'clear'}
+                </strong>
+              </div>
+              <div className="factRow">
+                <span>Next unlock</span>
+                <strong>{ownerExternalInputHandoff?.nextUnlockId ?? 'none'}</strong>
+              </div>
+              <div className="factRow">
+                <span>Unlock path</span>
+                <strong>{ownerExternalInputHandoff?.recommendedPathId ?? 'none'}</strong>
+              </div>
+              <div className="factRow">
+                <span>Owner inputs</span>
+                <strong>{ownerExternalInputHandoff?.ownerActionRequired ?? 0}</strong>
+              </div>
+              <div className="factRow">
+                <span>Missing inputs</span>
+                <strong>
+                  {ownerExternalInputHandoff
+                    ? `${ownerExternalInputHandoff.missingVariableCount}/${ownerExternalInputHandoff.missingSecretCount}`
+                    : '0/0'}
                 </strong>
               </div>
               <div className="monetizationRuntime" aria-label="Performance Budget">

@@ -9,6 +9,14 @@ export const autonomousOwnerLoop = {
   },
   "ownerDecision": {
     "nextBestActionId": "hold-for-external-input"
+  },
+  "externalInputHandoff": {
+    "nextUnlockId": "production-analytics-browser",
+    "recommendedPathId": "first-party-collector",
+    "ownerActionRequired": 4,
+    "missingVariableCount": 5,
+    "missingSecretCount": 1,
+    "publicStatusPage": "/measurement-status.html"
   }
 } as const
 

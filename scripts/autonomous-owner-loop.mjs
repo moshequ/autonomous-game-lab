@@ -2495,6 +2495,54 @@ const ownerHoldReason =
     : immediateRepeatSuppressed && nextBestAction?.id === 'hold-for-external-input'
       ? 'All currently armed local actions were recently executed or covered; holding to avoid cycling until new player evidence, external inputs, or a cooldown expiry changes the state.'
       : null
+const fullNextUnlockKit =
+  (productionBlockerHandoff.unlockKits ?? []).find(
+    (kit) => kit.id === productionBlockerHandoff.nextUnlockKit?.id,
+  ) ?? productionBlockerHandoff.nextUnlockKit
+const recommendedUnlockPath =
+  fullNextUnlockKit?.paths?.find((unlockPath) => unlockPath.id === fullNextUnlockKit.recommendedPathId) ??
+  fullNextUnlockKit?.paths?.[0] ??
+  null
+const sanitizeExternalInput = (item) => ({
+  repositoryName: item.repositoryName ?? item.repositorySecret ?? item.name ?? null,
+  envName: item.envName ?? item.repositoryName ?? item.repositorySecret ?? item.name ?? null,
+  configured: item.configured === true,
+  command: item.command ?? null,
+})
+const ownerExternalInputHandoff =
+  nextBestAction?.id === 'hold-for-external-input' &&
+  productionBlockerHandoff.status === 'handoff-waiting-on-owner-inputs'
+    ? {
+        status: productionBlockerHandoff.status,
+        holdReason: ownerHoldReason,
+        nextUnlockId: productionBlockerHandoff.summary?.nextBestUnlockId ?? fullNextUnlockKit?.id ?? null,
+        title: fullNextUnlockKit?.title ?? null,
+        recommendedPathId: fullNextUnlockKit?.recommendedPathId ?? null,
+        recommendedPathStatus: recommendedUnlockPath?.status ?? null,
+        publicStatusPage: '/measurement-status.html',
+        publicStatusJson: '/measurement-status.json',
+        setupScript: fullNextUnlockKit?.setupScript ?? 'ops/github/setup-production.sh',
+        envTemplate: fullNextUnlockKit?.envTemplate ?? 'ops/production.env.example',
+        ownerActionRequired: productionBlockerHandoff.summary?.ownerActionRequired ?? 0,
+        externalOwnerActions: productionBlockerHandoff.summary?.externalOwnerActions ?? 0,
+        missingVariableCount: fullNextUnlockKit?.missingVariableCount ?? productionBlockerHandoff.summary?.missingEnv ?? 0,
+        missingSecretCount: fullNextUnlockKit?.missingSecretCount ?? productionBlockerHandoff.summary?.missingSecrets ?? 0,
+        productGateBlockers: productionBlockerHandoff.summary?.productGateBlockers ?? 0,
+        requiredVariables: (recommendedUnlockPath?.requiredVariables ?? []).map(sanitizeExternalInput),
+        requiredSecrets: (recommendedUnlockPath?.requiredSecrets ?? []).map(sanitizeExternalInput),
+        commandSequence: recommendedUnlockPath?.commandSequence ?? [],
+        validationCommands: recommendedUnlockPath?.validationCommands ?? [],
+        controls: {
+          zeroPaidSpend: productionBlockerHandoff.controls?.zeroPaidSpend === true,
+          noSecretValues: productionBlockerHandoff.controls?.noSecretValues === true,
+          noSecretValuesStored: productionBlockerHandoff.controls?.noSecretValuesStored === true,
+          noAccountCreation: productionBlockerHandoff.controls?.noAccountCreation === true,
+          noStoreSubmission: productionBlockerHandoff.controls?.noStoreSubmission === true,
+          noRevenueEnablement: productionBlockerHandoff.controls?.noRevenueEnablement === true,
+          ownerLoopWillNotRunExternalWorkflow: true,
+        },
+      }
+    : null
 
 const payload = {
   generatedAt: ownerGeneratedAt,
@@ -2529,6 +2577,7 @@ const payload = {
     holdReason: ownerHoldReason,
     rationale: nextBestAction.reason,
   },
+  externalInputHandoff: ownerExternalInputHandoff,
   executionMemory: {
     avoidImmediateRepeat: true,
     recentExecutionWindow,
@@ -2730,6 +2779,16 @@ const appPayload = {
   ownerDecision: {
     nextBestActionId: payload.ownerDecision.nextBestActionId,
   },
+  externalInputHandoff: payload.externalInputHandoff
+    ? {
+        nextUnlockId: payload.externalInputHandoff.nextUnlockId,
+        recommendedPathId: payload.externalInputHandoff.recommendedPathId,
+        ownerActionRequired: payload.externalInputHandoff.ownerActionRequired,
+        missingVariableCount: payload.externalInputHandoff.missingVariableCount,
+        missingSecretCount: payload.externalInputHandoff.missingSecretCount,
+        publicStatusPage: payload.externalInputHandoff.publicStatusPage,
+      }
+    : null,
 }
 
 const report = [
@@ -2751,6 +2810,18 @@ const report = [
       ? payload.executionMemory.recentExecutedActionIds.join(', ')
       : 'none'
   }`,
+  ...(payload.externalInputHandoff
+    ? [
+        '',
+        '## External Input Handoff',
+        '',
+        `- Next unlock: ${payload.externalInputHandoff.nextUnlockId ?? 'none'}`,
+        `- Recommended path: ${payload.externalInputHandoff.recommendedPathId ?? 'none'}`,
+        `- Public status: ${payload.externalInputHandoff.publicStatusPage}`,
+        `- Missing inputs: ${payload.externalInputHandoff.missingVariableCount} variable(s), ${payload.externalInputHandoff.missingSecretCount} secret(s)`,
+        ...payload.externalInputHandoff.validationCommands.map((command) => `- validate: ${command}`),
+      ]
+    : []),
   '',
   '## Systems',
   '',

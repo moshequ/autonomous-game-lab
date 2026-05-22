@@ -6923,6 +6923,21 @@ const ownerProductionBlockerHandoffCurrent =
 const ownerRefreshProductionBlockerHandoffAction = autonomousOwnerLoop.safeAutonomousActions?.find(
   (action) => action.id === 'refresh-production-blocker-handoff',
 )
+const ownerFullNextUnlockKit =
+  (productionBlockerHandoff.unlockKits ?? []).find(
+    (kit) => kit.id === productionBlockerHandoff.nextUnlockKit?.id,
+  ) ?? productionBlockerHandoff.nextUnlockKit
+const ownerRecommendedUnlockPath =
+  ownerFullNextUnlockKit?.paths?.find((unlockPath) => unlockPath.id === ownerFullNextUnlockKit.recommendedPathId) ??
+  ownerFullNextUnlockKit?.paths?.[0] ??
+  null
+const ownerExpectedExternalInputHandoff =
+  autonomousOwnerLoop.ownerDecision?.nextBestActionId === 'hold-for-external-input' &&
+  productionBlockerHandoff.status === 'handoff-waiting-on-owner-inputs'
+const ownerExternalInputHandoffLeaksValues = [
+  ...(autonomousOwnerLoop.externalInputHandoff?.requiredVariables ?? []),
+  ...(autonomousOwnerLoop.externalInputHandoff?.requiredSecrets ?? []),
+].some((item) => Object.hasOwn(item, 'value'))
 
 if (
   autonomousOwnerLoop.status !== 'owner-loop-ready' ||
@@ -6947,6 +6962,53 @@ if (
   (ownerLocalSelectableActions.length > 0 &&
     !ownerExpectedImmediateRepeatSuppressed &&
     autonomousOwnerLoop.ownerDecision?.holdReason !== null) ||
+  Boolean(autonomousOwnerLoop.externalInputHandoff) !== ownerExpectedExternalInputHandoff ||
+  (ownerExpectedExternalInputHandoff &&
+    autonomousOwnerLoop.externalInputHandoff?.status !== productionBlockerHandoff.status) ||
+  (ownerExpectedExternalInputHandoff &&
+    autonomousOwnerLoop.externalInputHandoff?.holdReason !== autonomousOwnerLoop.ownerDecision?.holdReason) ||
+  (ownerExpectedExternalInputHandoff &&
+    autonomousOwnerLoop.externalInputHandoff?.nextUnlockId !==
+      (productionBlockerHandoff.summary?.nextBestUnlockId ?? ownerFullNextUnlockKit?.id ?? null)) ||
+  (ownerExpectedExternalInputHandoff &&
+    autonomousOwnerLoop.externalInputHandoff?.recommendedPathId !==
+      (ownerFullNextUnlockKit?.recommendedPathId ?? null)) ||
+  (ownerExpectedExternalInputHandoff &&
+    autonomousOwnerLoop.externalInputHandoff?.recommendedPathStatus !==
+      (ownerRecommendedUnlockPath?.status ?? null)) ||
+  (ownerExpectedExternalInputHandoff &&
+    autonomousOwnerLoop.externalInputHandoff?.publicStatusPage !== '/measurement-status.html') ||
+  (ownerExpectedExternalInputHandoff &&
+    autonomousOwnerLoop.externalInputHandoff?.publicStatusJson !== '/measurement-status.json') ||
+  (ownerExpectedExternalInputHandoff &&
+    autonomousOwnerLoop.externalInputHandoff?.ownerActionRequired !==
+      (productionBlockerHandoff.summary?.ownerActionRequired ?? 0)) ||
+  (ownerExpectedExternalInputHandoff &&
+    autonomousOwnerLoop.externalInputHandoff?.missingVariableCount !==
+      (ownerFullNextUnlockKit?.missingVariableCount ?? productionBlockerHandoff.summary?.missingEnv ?? 0)) ||
+  (ownerExpectedExternalInputHandoff &&
+    autonomousOwnerLoop.externalInputHandoff?.missingSecretCount !==
+      (ownerFullNextUnlockKit?.missingSecretCount ?? productionBlockerHandoff.summary?.missingSecrets ?? 0)) ||
+  (ownerExpectedExternalInputHandoff &&
+    autonomousOwnerLoop.externalInputHandoff?.productGateBlockers !==
+      (productionBlockerHandoff.summary?.productGateBlockers ?? 0)) ||
+  (ownerExpectedExternalInputHandoff &&
+    !autonomousOwnerLoop.externalInputHandoff?.validationCommands?.includes('npm run autonomous:readiness')) ||
+  (ownerExpectedExternalInputHandoff && ownerExternalInputHandoffLeaksValues) ||
+  (ownerExpectedExternalInputHandoff &&
+    autonomousOwnerLoop.externalInputHandoff?.controls?.zeroPaidSpend !== true) ||
+  (ownerExpectedExternalInputHandoff &&
+    autonomousOwnerLoop.externalInputHandoff?.controls?.noSecretValues !== true) ||
+  (ownerExpectedExternalInputHandoff &&
+    autonomousOwnerLoop.externalInputHandoff?.controls?.noSecretValuesStored !== true) ||
+  (ownerExpectedExternalInputHandoff &&
+    autonomousOwnerLoop.externalInputHandoff?.controls?.noAccountCreation !== true) ||
+  (ownerExpectedExternalInputHandoff &&
+    autonomousOwnerLoop.externalInputHandoff?.controls?.noStoreSubmission !== true) ||
+  (ownerExpectedExternalInputHandoff &&
+    autonomousOwnerLoop.externalInputHandoff?.controls?.noRevenueEnablement !== true) ||
+  (ownerExpectedExternalInputHandoff &&
+    autonomousOwnerLoop.externalInputHandoff?.controls?.ownerLoopWillNotRunExternalWorkflow !== true) ||
   autonomousOwnerLoop.evidence?.analyticsSource !== analytics.sourceStatus.activeSource ||
   autonomousOwnerLoop.evidence?.localEventBridgeStatus !== localEventBridge.status ||
   autonomousOwnerLoop.evidence?.dailyChallenge?.gameId !== portfolioPolicy.dailyChallenge?.gameId ||
@@ -7007,6 +7069,7 @@ if (
   !autonomousOwnerLoopSource.includes('objectiveAuditFreshness') ||
   !autonomousOwnerLoopSource.includes('operationalEvidenceFreshness') ||
   !autonomousOwnerLoopSource.includes('liveSiteMonitorOperationalFreshness') ||
+  !autonomousOwnerLoopSource.includes('ownerExternalInputHandoff') ||
   JSON.stringify(autonomousOwnerLoop.executionMemory?.recentExecutedActionIds ?? []) !==
     JSON.stringify(ownerRecentExecutedActionIds) ||
   JSON.stringify(autonomousOwnerLoop.executionMemory?.recentlySatisfiedActionIds ?? []) !==
@@ -7502,6 +7565,7 @@ if (
 
 if (
   !appSource.includes('autonomousOwnerLoop.ownerDecision.nextBestActionId') ||
+  !appSource.includes('ownerExternalInputHandoff?.nextUnlockId') ||
   appSource.includes('ownerDecisionAction') ||
   appSource.includes('autonomousOwnerLoop.safeAutonomousActions')
 ) {
