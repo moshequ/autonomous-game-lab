@@ -5,7 +5,7 @@ export const autonomousOperatorHistory = {
     "plannedRecords": 32,
     "executedRecords": 8,
     "failedRecords": 0,
-    "lastActionId": "refresh-production-blocker-handoff",
+    "lastActionId": "measure-pwa-install-loop",
     "lastExecutionStatus": "not-requested",
     "lastExecutedActionId": "prepare-release-candidate"
   }
