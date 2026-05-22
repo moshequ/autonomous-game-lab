@@ -1,22 +1,22 @@
 # Release Candidate
 
-Generated: 2026-05-22T20:53:23.166Z
+Generated: 2026-05-22T21:09:41.449Z
 Status: release-candidate-ready
-Candidate: pwa-e1e4ba1c3710
-Files: 49
-Size: 3635.8 KB
-Aggregate SHA-256: e1e4ba1c3710374698aa89c1ec3e11c8967107d583487d871816dc08aa893da6
+Candidate: pwa-b3c5e0b85cf2
+Files: 51
+Size: 3646.6 KB
+Aggregate SHA-256: b3c5e0b85cf28f6b6171918f5e2e25e3452cf7662095ee3c9421a329fcfbf751
 
 ## Checks
 
-- pass: dist-inventory - 49 dist files inventoried.
-- pass: required-files - 23/23 required files present.
+- pass: dist-inventory - 51 dist files inventoried.
+- pass: required-files - 25/25 required files present.
 - pass: game-pages - 10 generated game page(s) in dist.
 - pass: performance-budget - Performance budget is performance-budget-ready.
 - pass: release-health - Release health is monitoring.
 - pass: production-response - Deploy allowed is true.
 - pass: spend-guard - Spend mode is no-spend.
-- pass: post-deploy-smoke-plan - 18 post-deploy smoke URL(s) planned.
+- pass: post-deploy-smoke-plan - 20 post-deploy smoke URL(s) planned.
 
 ## Required Files
 
@@ -32,6 +32,8 @@ Aggregate SHA-256: e1e4ba1c3710374698aa89c1ec3e11c8967107d583487d871816dc08aa893
 - pass: sitemap.xml
 - pass: robots.txt
 - pass: gate-sample.html
+- pass: sample-next.html
+- pass: sample-next.json
 - pass: seed-kit.html
 - pass: seed-next.html
 - pass: seed-next.json
@@ -59,6 +61,8 @@ Aggregate SHA-256: e1e4ba1c3710374698aa89c1ec3e11c8967107d583487d871816dc08aa893
 - 200: https://moshequ.github.io/autonomous-game-lab/app-ads.txt
 - 200: https://moshequ.github.io/autonomous-game-lab/.well-known/assetlinks.json
 - 200: https://moshequ.github.io/autonomous-game-lab/gate-sample.html
+- 200: https://moshequ.github.io/autonomous-game-lab/sample-next.html
+- 200: https://moshequ.github.io/autonomous-game-lab/sample-next.json
 - 200: https://moshequ.github.io/autonomous-game-lab/seed-kit.html
 - 200: https://moshequ.github.io/autonomous-game-lab/seed-next.html
 - 200: https://moshequ.github.io/autonomous-game-lab/seed-next.json

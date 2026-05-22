@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-22T20:03:33.608Z",
+  "generatedAt": "2026-05-22T21:04:55.607Z",
   "siteUrl": "https://moshequ.github.io/autonomous-game-lab",
   "publicUrlMode": "absolute-origin",
   "publicOrigin": {
@@ -405,6 +405,12 @@
       "changefreq": "daily"
     },
     {
+      "path": "/sample-next.html",
+      "role": "evergreen-product-gate-sample-route",
+      "channel": "player-evidence",
+      "changefreq": "daily"
+    },
+    {
       "path": "/seed-kit.html",
       "role": "organic-seed-kit",
       "channel": "player-sharing",
@@ -432,7 +438,8 @@
         "public/robots.txt",
         "public/sitemap.xml",
         "public/games/*.html",
-        "public/gate-sample.html"
+        "public/gate-sample.html",
+        "public/sample-next.html"
       ],
       "metric": "organic_entry_opened -> game_started"
     },
@@ -444,6 +451,7 @@
         "public/share-manifest.json",
         "public/seed-kit.html",
         "public/seed-next.html",
+        "public/sample-next.html",
         "in-app share button"
       ],
       "metric": "share_clicked -> game_started"

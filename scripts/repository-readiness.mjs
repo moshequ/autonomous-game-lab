@@ -93,6 +93,8 @@ const generatedEvidencePaths = new Set([
   'public/monetization.json',
   'public/privacy.html',
   'public/robots.txt',
+  'public/sample-next.html',
+  'public/sample-next.json',
   'public/sitemap.xml',
   'public/seed-kit.html',
   'public/seed-next.html',

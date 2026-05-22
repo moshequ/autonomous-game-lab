@@ -267,6 +267,12 @@ const utilityPages = [
     changefreq: 'daily',
   },
   {
+    path: '/sample-next.html',
+    role: 'evergreen-product-gate-sample-route',
+    channel: 'player-evidence',
+    changefreq: 'daily',
+  },
+  {
     path: '/seed-kit.html',
     role: 'organic-seed-kit',
     channel: 'player-sharing',
@@ -291,14 +297,14 @@ const channels = [
     id: 'organic-search',
     status: 'generated',
     cost: '$0',
-    assets: ['public/robots.txt', 'public/sitemap.xml', 'public/games/*.html', 'public/gate-sample.html'],
+    assets: ['public/robots.txt', 'public/sitemap.xml', 'public/games/*.html', 'public/gate-sample.html', 'public/sample-next.html'],
     metric: 'organic_entry_opened -> game_started',
   },
   {
     id: 'player-sharing',
     status: 'instrumented',
     cost: '$0',
-    assets: ['public/share-manifest.json', 'public/seed-kit.html', 'public/seed-next.html', 'in-app share button'],
+    assets: ['public/share-manifest.json', 'public/seed-kit.html', 'public/seed-next.html', 'public/sample-next.html', 'in-app share button'],
     metric: 'share_clicked -> game_started',
   },
   {

@@ -104,6 +104,8 @@ const allowedExactPaths = new Set([
   'public/privacy.html',
   'public/.well-known/assetlinks.json',
   'public/robots.txt',
+  'public/sample-next.html',
+  'public/sample-next.json',
   'public/seed-kit.html',
   'public/seed-next.html',
   'public/seed-next.json',

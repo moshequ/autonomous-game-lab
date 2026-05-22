@@ -1,0 +1,40 @@
+{
+  "generatedAt": "2026-05-22T21:09:34.513Z",
+  "status": "armed",
+  "path": "/sample-next.html",
+  "jsonPath": "/sample-next.json",
+  "target": {
+    "campaignId": "gate-sample-20260522-firstGameCompletion",
+    "gateId": "firstGameCompletion",
+    "gameId": "harbor-rings",
+    "title": "Sample First game completion",
+    "priority": 1,
+    "targetPath": "/?game=harbor-rings&utm_source=gate_sample&utm_campaign=gate-sample-20260522-firstGameCompletion",
+    "targetUrl": "https://moshequ.github.io/autonomous-game-lab/?game=harbor-rings&utm_source=gate_sample&utm_campaign=gate-sample-20260522-firstGameCompletion",
+    "pageUrl": "https://moshequ.github.io/autonomous-game-lab/gate-sample.html",
+    "copy": {
+      "title": "Sample First game completion",
+      "text": "Harbor Rings needs real zero-spend player evidence before revenue or store gates move.",
+      "cta": "Start measured run"
+    },
+    "needed": {
+      "promptViews": 30,
+      "successes": 128
+    }
+  },
+  "fallbackPath": "/gate-sample.html",
+  "guardrails": {
+    "costUsd": 0,
+    "playerInitiatedOnly": true,
+    "noAutomatedExternalPosting": true,
+    "noPaidPromotion": true,
+    "noSyntheticEvents": true,
+    "noRevenueEnablement": true
+  },
+  "telemetry": [
+    "sample_next_viewed",
+    "sample_next_routed",
+    "gate_sample_mission_clicked",
+    "game_started"
+  ]
+}

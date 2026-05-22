@@ -53,6 +53,8 @@ const allowedEventNames = new Set([
   'organic_seed_card_viewed',
   'organic_seed_share_clicked',
   'seed_campaign_clicked',
+  'sample_next_viewed',
+  'sample_next_routed',
   'gate_sample_mission_clicked',
   'gate_sample_export_prompt_viewed',
   'gate_sample_export_prompt_clicked',

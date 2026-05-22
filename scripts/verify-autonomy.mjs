@@ -244,6 +244,8 @@ const requiredFiles = [
   'public/measurement-status.json',
   'public/install.html',
   'public/robots.txt',
+  'public/sample-next.html',
+  'public/sample-next.json',
   'public/seed-kit.html',
   'public/seed-next.html',
   'public/seed-next.json',
@@ -256,6 +258,8 @@ const requiredFiles = [
   'dist/compliance.json',
   'dist/.well-known/assetlinks.json',
   'dist/gate-sample.html',
+  'dist/sample-next.html',
+  'dist/sample-next.json',
   'dist/seed-kit.html',
   'dist/seed-next.html',
   'dist/seed-next.json',
@@ -414,6 +418,8 @@ const installHtml = await readFile(path.join(root, 'public', 'install.html'), 'u
 const seedKitHtml = await readFile(path.join(root, 'public', 'seed-kit.html'), 'utf8')
 const seedNextHtml = await readFile(path.join(root, 'public', 'seed-next.html'), 'utf8')
 const seedNextJson = JSON.parse(await readFile(path.join(root, 'public', 'seed-next.json'), 'utf8'))
+const sampleNextHtml = await readFile(path.join(root, 'public', 'sample-next.html'), 'utf8')
+const sampleNextJson = JSON.parse(await readFile(path.join(root, 'public', 'sample-next.json'), 'utf8'))
 const supportHtml = await readFile(path.join(root, 'public', 'support.html'), 'utf8')
 const sitemapXml = await readFile(path.join(root, 'public', 'sitemap.xml'), 'utf8')
 const indexHtmlSource = await readFile(path.join(root, 'index.html'), 'utf8')
@@ -1293,12 +1299,14 @@ if (
   growth.status !== 'growth-assets-ready' ||
   !growth.gamePages?.length ||
   !growth.utilityPages?.some((page) => page.path === '/gate-sample.html' && page.channel === 'player-evidence') ||
+  !growth.utilityPages?.some((page) => page.path === '/sample-next.html' && page.channel === 'player-evidence') ||
   !growth.utilityPages?.some((page) => page.path === '/seed-kit.html' && page.channel === 'player-sharing') ||
   !growth.utilityPages?.some((page) => page.path === '/seed-next.html' && page.channel === 'player-sharing') ||
   !growth.utilityPages?.some((page) => page.path === '/install.html' && page.channel === 'pwa-install') ||
   !growth.channels?.some((channel) => channel.id === 'organic-search') ||
   !growth.channels?.some((channel) => channel.id === 'player-sharing') ||
   !sitemapXml.includes('/gate-sample.html') ||
+  !sitemapXml.includes('/sample-next.html') ||
   !sitemapXml.includes('/seed-kit.html') ||
   !sitemapXml.includes('/seed-next.html') ||
   !sitemapXml.includes('/install.html') ||
@@ -1449,6 +1457,12 @@ const staleShareSeedCampaign = shareSeedCampaigns.find(
 const missingSeedKitCampaign = trafficCampaigns.find(
   (campaign) => !seedKitHtml.includes(campaign.id) || !seedKitHtml.includes(campaign.sharePath.replaceAll('&', '&amp;')),
 )
+const trafficDefaultSampleMission =
+  productGateSamplePlan.missions?.find(
+    (mission) => mission.campaignId === productGateSamplePlan.summary?.defaultRouteCampaignId,
+  ) ??
+  productGateSamplePlan.missions?.[0] ??
+  null
 
 if (
   trafficSeeding.status !== 'traffic-seeding-ready' ||
@@ -1467,6 +1481,7 @@ if (
   !trafficChannelIds.has('internal-rotation') ||
   !trafficChannelIds.has('organic-page') ||
   !trafficChannelIds.has('player-share') ||
+  !trafficChannelIds.has('product-gate-sample') ||
   paidTrafficChannel ||
   shareSeedCampaigns.length !== trafficCampaigns.length ||
   missingShareSeedCampaign ||
@@ -1479,6 +1494,15 @@ if (
   shareManifest.seedNext?.costUsd !== 0 ||
   shareManifest.seedNext?.playerInitiatedOnly !== true ||
   shareManifest.seedNext?.noAutomatedExternalPosting !== true ||
+  shareManifest.sampleNext?.path !== '/sample-next.html' ||
+  shareManifest.sampleNext?.jsonPath !== '/sample-next.json' ||
+  shareManifest.sampleNext?.targetCampaignId !== trafficDefaultSampleMission?.campaignId ||
+  shareManifest.sampleNext?.targetGateId !== trafficDefaultSampleMission?.gateId ||
+  shareManifest.sampleNext?.costUsd !== 0 ||
+  shareManifest.sampleNext?.playerInitiatedOnly !== true ||
+  shareManifest.sampleNext?.noAutomatedExternalPosting !== true ||
+  shareManifest.sampleNext?.noSyntheticEvents !== true ||
+  shareManifest.sampleNext?.noRevenueEnablement !== true ||
   shareManifest.seedKit?.campaignCount !== trafficCampaigns.length ||
 	  shareManifest.seedKit?.costUsd !== 0 ||
 	  shareManifest.seedKit?.playerInitiatedSharingOnly !== true ||
@@ -1488,8 +1512,9 @@ if (
 	  shareManifest.seedKit?.aggregateEvidenceRepository !== supportChannel.repository?.target ||
 	  shareManifest.seedKit?.localAnalyticsEvents !== true ||
 	  shareManifest.seedKit?.localAnalyticsStorageKey !== 'agl.analytics.events' ||
-	  !seedKitHtml.includes('Autonomous Game Lab Seed Kit') ||
+  !seedKitHtml.includes('Autonomous Game Lab Seed Kit') ||
   !seedKitHtml.includes('Evergreen seed route') ||
+  !seedKitHtml.includes('Open sample-next') ||
   !seedKitHtml.includes('$0.00 spend') ||
 	  !seedKitHtml.includes('data-seed-action="copy"') ||
 	  !seedKitHtml.includes('data-seed-action="share"') ||
@@ -1510,6 +1535,17 @@ if (
   trafficSeeding.evergreenRoute?.costUsd !== 0 ||
   trafficSeeding.evergreenRoute?.playerInitiatedOnly !== true ||
   trafficSeeding.evergreenRoute?.noAutomatedExternalPosting !== true ||
+  trafficSeeding.sampleNextRoute?.path !== '/sample-next.html' ||
+  trafficSeeding.sampleNextRoute?.jsonPath !== '/sample-next.json' ||
+  trafficSeeding.sampleNextRoute?.targetCampaignId !== trafficDefaultSampleMission?.campaignId ||
+  trafficSeeding.sampleNextRoute?.targetGateId !== trafficDefaultSampleMission?.gateId ||
+  trafficSeeding.sampleNextRoute?.costUsd !== 0 ||
+  trafficSeeding.sampleNextRoute?.playerInitiatedOnly !== true ||
+  trafficSeeding.sampleNextRoute?.noAutomatedExternalPosting !== true ||
+  trafficSeeding.sampleNextRoute?.noSyntheticEvents !== true ||
+  trafficSeeding.sampleNextRoute?.noRevenueEnablement !== true ||
+  trafficSeeding.sampleDistribution?.sampleNextPath !== '/sample-next.html' ||
+  trafficSeeding.sampleDistribution?.sampleNextJsonPath !== '/sample-next.json' ||
   seedNextJson.path !== '/seed-next.html' ||
   seedNextJson.target?.campaignId !== trafficCampaigns[0]?.id ||
   seedNextJson.guardrails?.costUsd !== 0 ||
@@ -1521,7 +1557,24 @@ if (
   !seedNextHtml.includes('seed_next_routed') ||
   !seedNextHtml.includes('previewOnly') ||
   !seedNextHtml.includes('window.location.assign') ||
-  seedNextHtml.includes('autonomous-game-lab.example.com')
+  seedNextHtml.includes('autonomous-game-lab.example.com') ||
+  sampleNextJson.path !== '/sample-next.html' ||
+  sampleNextJson.jsonPath !== '/sample-next.json' ||
+  sampleNextJson.target?.campaignId !== trafficDefaultSampleMission?.campaignId ||
+  sampleNextJson.target?.gateId !== trafficDefaultSampleMission?.gateId ||
+  sampleNextJson.guardrails?.costUsd !== 0 ||
+  sampleNextJson.guardrails?.playerInitiatedOnly !== true ||
+  sampleNextJson.guardrails?.noAutomatedExternalPosting !== true ||
+  sampleNextJson.guardrails?.noPaidPromotion !== true ||
+  sampleNextJson.guardrails?.noSyntheticEvents !== true ||
+  sampleNextJson.guardrails?.noRevenueEnablement !== true ||
+  !sampleNextHtml.includes('Zero-spend gate sample route') ||
+  !sampleNextHtml.includes('sample_next_viewed') ||
+  !sampleNextHtml.includes('sample_next_routed') ||
+  !sampleNextHtml.includes('gate_sample_mission_clicked') ||
+  !sampleNextHtml.includes('previewOnly') ||
+  !sampleNextHtml.includes('window.location.assign') ||
+  sampleNextHtml.includes('autonomous-game-lab.example.com')
 ) {
   fail('Traffic seeding must publish zero-cost campaigns, UTM/share links, a runtime-base-safe seed kit, player-initiated sharing controls, and sample-size guardrails for every seed game.')
 }
@@ -3387,6 +3440,8 @@ if (
   !autonomousSelfUpdateSource.includes('public/install.html') ||
   !autonomousSelfUpdateSource.includes('public/measurement-status.json') ||
   !autonomousSelfUpdateSource.includes('public/seed-kit.html') ||
+  !autonomousSelfUpdateSource.includes('public/sample-next.html') ||
+  !autonomousSelfUpdateSource.includes('public/sample-next.json') ||
   !autonomousSelfUpdateSource.includes('public/seed-next.html') ||
   !autonomousSelfUpdateSource.includes('public/seed-next.json') ||
   !autonomousSelfUpdateSource.includes('blockedPrefixes') ||
@@ -5374,6 +5429,8 @@ if (
   !releaseCandidate.postDeploySmoke?.some((item) => item.path === '/privacy.html') ||
   !releaseCandidate.postDeploySmoke?.some((item) => item.path === '/install.html') ||
   !releaseCandidate.postDeploySmoke?.some((item) => item.path === '/gate-sample.html') ||
+  !releaseCandidate.postDeploySmoke?.some((item) => item.path === '/sample-next.html') ||
+  !releaseCandidate.postDeploySmoke?.some((item) => item.path === '/sample-next.json') ||
   !releaseCandidate.postDeploySmoke?.some(
     (item) => item.path === '/compliance.json' && item.requiredText === 'store-compliance',
   ) ||
@@ -5388,6 +5445,8 @@ if (
   !releaseCandidateRequiredFiles.has('compliance.json') ||
   !releaseCandidateRequiredFiles.has('install.html') ||
   !releaseCandidateRequiredFiles.has('gate-sample.html') ||
+  !releaseCandidateRequiredFiles.has('sample-next.html') ||
+  !releaseCandidateRequiredFiles.has('sample-next.json') ||
   !releaseCandidateRequiredFiles.has('.nojekyll') ||
   !releaseCandidateRequiredFiles.has('.well-known/assetlinks.json') ||
   !releaseCandidateDistEvidenceCurrent ||
@@ -5659,6 +5718,7 @@ if (
   !liveSiteMonitor.checks?.some((check) => check.path === '/support.html' && check.status === 'pass') ||
   !liveSiteMonitor.checks?.some((check) => check.path === '/compliance.json' && check.status === 'pass') ||
   !liveSiteMonitor.checks?.some((check) => check.path === '/gate-sample.html' && check.status === 'pass') ||
+  !liveSiteMonitor.checks?.some((check) => check.path === '/sample-next.html' && check.status === 'pass') ||
   packageJson.scripts?.['autonomous:live-monitor'] !== 'node scripts/live-site-monitor.mjs' ||
   !packageJson.scripts?.['autonomous:daily']?.includes('autonomous:live-monitor') ||
   !packageJson.scripts?.['test:e2e']?.includes('autonomous:live-monitor') ||
@@ -5766,6 +5826,8 @@ if (
   !repositoryReadinessSource.includes('public/gate-sample.html') ||
   !repositoryReadinessSource.includes('public/install.html') ||
   !repositoryReadinessSource.includes('public/measurement-status.json') ||
+  !repositoryReadinessSource.includes('public/sample-next.html') ||
+  !repositoryReadinessSource.includes('public/sample-next.json') ||
   !repositoryReadinessSource.includes('public/seed-kit.html') ||
   !repositoryReadinessSource.includes('public/seed-next.html') ||
   !repositoryReadinessSource.includes('public/seed-next.json') ||
@@ -5860,6 +5922,8 @@ if (
   !repositoryBootstrapSource.includes('public/share-manifest.json') ||
   !repositoryBootstrapSource.includes('public/gate-sample.html') ||
   !repositoryBootstrapSource.includes('public/install.html') ||
+  !repositoryBootstrapSource.includes('public/sample-next.html') ||
+  !repositoryBootstrapSource.includes('public/sample-next.json') ||
   !repositoryBootstrapSource.includes('public/seed-kit.html') ||
   !repositoryBootstrapSource.includes('public/seed-next.html') ||
   !repositoryBootstrapSource.includes('public/seed-next.json') ||

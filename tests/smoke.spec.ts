@@ -1396,6 +1396,8 @@ test('release candidate records the exact deployable PWA artifact', async () => 
   expect(candidate.integrity.files.some((file) => file.path === 'index.html')).toBe(true)
   expect(candidate.integrity.files.some((file) => file.path === 'sw.js')).toBe(true)
   expect(candidate.integrity.files.some((file) => file.path === 'gate-sample.html')).toBe(true)
+  expect(candidate.integrity.files.some((file) => file.path === 'sample-next.html')).toBe(true)
+  expect(candidate.integrity.files.some((file) => file.path === 'sample-next.json')).toBe(true)
   expect(candidate.integrity.files.some((file) => file.path === 'seed-kit.html')).toBe(true)
   expect(candidate.integrity.files.some((file) => file.path === 'seed-next.html')).toBe(true)
   expect(candidate.integrity.files.some((file) => file.path === 'seed-next.json')).toBe(true)
@@ -1406,6 +1408,8 @@ test('release candidate records the exact deployable PWA artifact', async () => 
   expect(candidate.postDeploySmoke.some((check) => check.path === '/' && check.expectedStatus === 200)).toBe(true)
   expect(candidate.postDeploySmoke.some((check) => check.path === '/install.html')).toBe(true)
   expect(candidate.postDeploySmoke.some((check) => check.path === '/gate-sample.html')).toBe(true)
+  expect(candidate.postDeploySmoke.some((check) => check.path === '/sample-next.html')).toBe(true)
+  expect(candidate.postDeploySmoke.some((check) => check.path === '/sample-next.json')).toBe(true)
   expect(candidate.postDeploySmoke.some((check) => check.path === '/seed-kit.html')).toBe(true)
   expect(candidate.postDeploySmoke.some((check) => check.path === '/seed-next.html')).toBe(true)
   expect(candidate.postDeploySmoke.some((check) => check.path === '/seed-next.json')).toBe(true)
@@ -6604,6 +6608,7 @@ test('growth and traffic artifacts avoid placeholder origins before hosting is c
     publicUrlMode: string
     sampleDistribution: { kitPath: string }
     evergreenRoute: { path: string; jsonPath: string; targetCampaignId: string | null }
+    sampleNextRoute: { path: string; jsonPath: string; targetCampaignId: string | null }
     campaigns: Array<{ playUrl: string; shareUrl: string; pageUrl: string; pagePath: string }>
   }
   const shareManifest = JSON.parse(await readFile('public/share-manifest.json', 'utf8')) as {
@@ -6611,6 +6616,7 @@ test('growth and traffic artifacts avoid placeholder origins before hosting is c
     publicUrlMode: string
     seedKit: { url: string }
     seedNext: { url: string; jsonUrl: string }
+    sampleNext: { url: string; jsonUrl: string }
     gateSampleKit: { url: string }
     shares: Array<{ url: string }>
     seedCampaigns: Array<{ url: string; pageUrl: string }>
@@ -6650,8 +6656,12 @@ test('growth and traffic artifacts avoid placeholder origins before hosting is c
     expect(shareManifest.seedKit.url).toBe('/seed-kit.html')
     expect(shareManifest.seedNext.url).toBe('/seed-next.html')
     expect(shareManifest.seedNext.jsonUrl).toBe('/seed-next.json')
+    expect(shareManifest.sampleNext.url).toBe('/sample-next.html')
+    expect(shareManifest.sampleNext.jsonUrl).toBe('/sample-next.json')
     expect(traffic.evergreenRoute.path).toBe('/seed-next.html')
     expect(traffic.evergreenRoute.jsonPath).toBe('/seed-next.json')
+    expect(traffic.sampleNextRoute.path).toBe('/sample-next.html')
+    expect(traffic.sampleNextRoute.jsonPath).toBe('/sample-next.json')
     expect(shareManifest.gateSampleKit.url).toBe(traffic.sampleDistribution.kitPath)
     expect(shareManifest.shares.every((share) => share.url.startsWith('/'))).toBe(true)
     expect(shareManifest.seedCampaigns.every((campaign) => campaign.url.startsWith('/') && campaign.pageUrl.startsWith('/'))).toBe(
@@ -6679,6 +6689,8 @@ test('zero-spend seed kit is reachable and uses runtime-relative campaign links'
     sampleDistribution: {
       status: string
       kitPath: string
+      sampleNextPath: string
+      sampleNextJsonPath: string
       defaultCampaignId: string
       missionCount: number
       playerInitiatedSharingOnly: boolean
@@ -6696,6 +6708,19 @@ test('zero-spend seed kit is reachable and uses runtime-relative campaign links'
       costUsd: number
       playerInitiatedOnly: boolean
       noAutomatedExternalPosting: boolean
+    }
+    sampleNextRoute: {
+      status: string
+      path: string
+      jsonPath: string
+      targetCampaignId: string
+      targetGateId: string
+      targetGameId: string
+      costUsd: number
+      playerInitiatedOnly: boolean
+      noAutomatedExternalPosting: boolean
+      noSyntheticEvents: boolean
+      noRevenueEnablement: boolean
     }
     campaigns: Array<{ id: string; gameId: string; sharePath: string; title: string }>
   }
@@ -6720,6 +6745,20 @@ test('zero-spend seed kit is reachable and uses runtime-relative campaign links'
       costUsd: number
       playerInitiatedOnly: boolean
       noAutomatedExternalPosting: boolean
+      localAnalyticsEvents: boolean
+      localAnalyticsStorageKey: string
+    }
+    sampleNext: {
+      path: string
+      jsonPath: string
+      targetCampaignId: string
+      targetGateId: string
+      targetGameId: string
+      costUsd: number
+      playerInitiatedOnly: boolean
+      noAutomatedExternalPosting: boolean
+      noSyntheticEvents: boolean
+      noRevenueEnablement: boolean
       localAnalyticsEvents: boolean
       localAnalyticsStorageKey: string
     }
@@ -6752,6 +6791,28 @@ test('zero-spend seed kit is reachable and uses runtime-relative campaign links'
       gameId: string
       targetPath: string
       targetStartsBeforeJudgment: number
+    }
+    guardrails: {
+      costUsd: number
+      playerInitiatedOnly: boolean
+      noAutomatedExternalPosting: boolean
+      noPaidPromotion: boolean
+      noSyntheticEvents: boolean
+      noRevenueEnablement: boolean
+    }
+    telemetry: string[]
+  }
+  const sampleNext = JSON.parse(await readFile('public/sample-next.json', 'utf8')) as {
+    status: string
+    path: string
+    jsonPath: string
+    target: {
+      campaignId: string
+      gateId: string
+      gameId: string
+      title: string
+      targetPath: string
+      needed: { promptViews: number; successes: number }
     }
     guardrails: {
       costUsd: number
@@ -6797,6 +6858,25 @@ test('zero-spend seed kit is reachable and uses runtime-relative campaign links'
   expect(shareManifest.seedNext.playerInitiatedOnly).toBe(true)
   expect(shareManifest.seedNext.noAutomatedExternalPosting).toBe(true)
   expect(shareManifest.seedNext.localAnalyticsStorageKey).toBe('agl.analytics.events')
+  expect(traffic.sampleNextRoute.status).toBe('armed')
+  expect(traffic.sampleNextRoute.path).toBe('/sample-next.html')
+  expect(traffic.sampleNextRoute.jsonPath).toBe('/sample-next.json')
+  expect(traffic.sampleNextRoute.costUsd).toBe(0)
+  expect(traffic.sampleNextRoute.playerInitiatedOnly).toBe(true)
+  expect(traffic.sampleNextRoute.noAutomatedExternalPosting).toBe(true)
+  expect(traffic.sampleNextRoute.noSyntheticEvents).toBe(true)
+  expect(traffic.sampleNextRoute.noRevenueEnablement).toBe(true)
+  expect(shareManifest.sampleNext.path).toBe('/sample-next.html')
+  expect(shareManifest.sampleNext.jsonPath).toBe('/sample-next.json')
+  expect(shareManifest.sampleNext.targetCampaignId).toBe(traffic.sampleNextRoute.targetCampaignId)
+  expect(shareManifest.sampleNext.targetGateId).toBe(traffic.sampleNextRoute.targetGateId)
+  expect(shareManifest.sampleNext.targetGameId).toBe(traffic.sampleNextRoute.targetGameId)
+  expect(shareManifest.sampleNext.costUsd).toBe(0)
+  expect(shareManifest.sampleNext.playerInitiatedOnly).toBe(true)
+  expect(shareManifest.sampleNext.noAutomatedExternalPosting).toBe(true)
+  expect(shareManifest.sampleNext.noSyntheticEvents).toBe(true)
+  expect(shareManifest.sampleNext.noRevenueEnablement).toBe(true)
+  expect(shareManifest.sampleNext.localAnalyticsStorageKey).toBe('agl.analytics.events')
   expect(seedNext.path).toBe('/seed-next.html')
   expect(seedNext.jsonPath).toBe('/seed-next.json')
   expect(seedNext.status).toBe('armed')
@@ -6810,7 +6890,23 @@ test('zero-spend seed kit is reachable and uses runtime-relative campaign links'
   expect(seedNext.guardrails.noRevenueEnablement).toBe(true)
   expect(seedNext.telemetry).toContain('seed_next_viewed')
   expect(seedNext.telemetry).toContain('seed_next_routed')
+  expect(sampleNext.path).toBe('/sample-next.html')
+  expect(sampleNext.jsonPath).toBe('/sample-next.json')
+  expect(sampleNext.status).toBe('armed')
+  expect(sampleNext.target.campaignId).toBe(traffic.sampleNextRoute.targetCampaignId)
+  expect(sampleNext.target.gateId).toBe(traffic.sampleNextRoute.targetGateId)
+  expect(sampleNext.target.gameId).toBe(traffic.sampleNextRoute.targetGameId)
+  expect(sampleNext.guardrails.costUsd).toBe(0)
+  expect(sampleNext.guardrails.playerInitiatedOnly).toBe(true)
+  expect(sampleNext.guardrails.noAutomatedExternalPosting).toBe(true)
+  expect(sampleNext.guardrails.noPaidPromotion).toBe(true)
+  expect(sampleNext.guardrails.noSyntheticEvents).toBe(true)
+  expect(sampleNext.guardrails.noRevenueEnablement).toBe(true)
+  expect(sampleNext.telemetry).toContain('sample_next_viewed')
+  expect(sampleNext.telemetry).toContain('sample_next_routed')
   expect(traffic.sampleDistribution.status).toBe('gate-sample-sharing-ready')
+  expect(traffic.sampleDistribution.sampleNextPath).toBe('/sample-next.html')
+  expect(traffic.sampleDistribution.sampleNextJsonPath).toBe('/sample-next.json')
   expect(traffic.sampleDistribution.missionCount).toBe(shareManifest.gateSampleMissions.length)
   expect(traffic.sampleDistribution.playerInitiatedSharingOnly).toBe(true)
   expect(traffic.sampleDistribution.noAutomatedExternalPosting).toBe(true)
@@ -6841,6 +6937,7 @@ test('zero-spend seed kit is reachable and uses runtime-relative campaign links'
   await expect(page.getByRole('button', { name: 'Copy share text' }).first()).toBeVisible()
   await expect(page.getByRole('button', { name: 'Share' }).first()).toBeVisible()
   await expect(firstCard.getByRole('button', { name: 'Share evidence' })).toBeVisible()
+  await expect(page.getByRole('link', { name: 'Open sample-next' })).toHaveAttribute('href', './sample-next.html')
   await expect(page.getByRole('link', { name: 'Open gate missions' })).toHaveAttribute('href', './gate-sample.html')
   expect(defaultSample).toBeTruthy()
   if (defaultSample) {
@@ -6913,6 +7010,46 @@ test('zero-spend seed kit is reachable and uses runtime-relative campaign links'
       (event) =>
         event.name === 'seed_next_routed' &&
         event.properties.campaignId === firstCampaign.id &&
+        event.properties.zeroPaidSpend === true,
+    ),
+  ).toBe(true)
+
+  await page.goto('/sample-next.html?preview=1')
+  await expect(page.getByRole('heading', { name: sampleNext.target.title ?? defaultSample?.title ?? '' })).toBeVisible()
+  await expect(page.getByRole('link').first()).toHaveAttribute('href', runtimeHref(sampleNext.target.targetPath))
+  await expect(page.locator('[data-sample-next-status]')).toContainText('Preview mode')
+  const samplePreviewEvents = await page.evaluate(() =>
+    JSON.parse(window.localStorage.getItem('agl.analytics.events') ?? '[]') as Array<{
+      name: string
+      properties: Record<string, string | number | boolean>
+    }>,
+  )
+  expect(
+    samplePreviewEvents.some(
+      (event) =>
+        event.name === 'sample_next_viewed' &&
+        event.properties.campaignId === sampleNext.target.campaignId &&
+        event.properties.acquisitionChannel === 'product-gate-sample' &&
+        event.properties.noSyntheticEvents === true,
+    ),
+  ).toBe(true)
+
+  await page.goto('/sample-next.html')
+  await page.waitForURL((url) => url.searchParams.get('utm_campaign') === sampleNext.target.campaignId)
+  expect(new URL(page.url()).searchParams.get('game')).toBe(sampleNext.target.gameId)
+  expect(new URL(page.url()).searchParams.get('utm_source')).toBe('gate_sample')
+  const sampleRoutedEvents = await page.evaluate(() =>
+    JSON.parse(window.localStorage.getItem('agl.analytics.events') ?? '[]') as Array<{
+      name: string
+      properties: Record<string, string | number | boolean>
+    }>,
+  )
+  expect(
+    sampleRoutedEvents.some(
+      (event) =>
+        event.name === 'sample_next_routed' &&
+        event.properties.campaignId === sampleNext.target.campaignId &&
+        event.properties.gateId === sampleNext.target.gateId &&
         event.properties.zeroPaidSpend === true,
     ),
   ).toBe(true)

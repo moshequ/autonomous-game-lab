@@ -11,6 +11,8 @@ const shareManifestPath = path.join(root, 'public', 'share-manifest.json')
 const seedKitPath = path.join(root, 'public', 'seed-kit.html')
 const seedNextJsonPath = path.join(root, 'public', 'seed-next.json')
 const seedNextHtmlPath = path.join(root, 'public', 'seed-next.html')
+const sampleNextJsonPath = path.join(root, 'public', 'sample-next.json')
+const sampleNextHtmlPath = path.join(root, 'public', 'sample-next.html')
 
 const readJson = async (filePath) => JSON.parse(await readFile(filePath, 'utf8'))
 const readOptionalJson = async (filePath, fallback) =>
@@ -172,8 +174,8 @@ const channels = [
     id: 'product-gate-sample',
     status: productGateSamplePlan.status === 'product-gate-sample-plan-ready' ? 'armed' : 'waiting',
     costUsd: 0,
-    surface: 'gate-sample-page',
-    telemetry: ['gate_sample_mission_clicked', 'share_clicked', 'analytics_exported'],
+    surface: 'gate-sample-page-and-sample-next-route',
+    telemetry: ['sample_next_viewed', 'sample_next_routed', 'gate_sample_mission_clicked', 'share_clicked', 'analytics_exported'],
   },
 ]
 
@@ -287,6 +289,27 @@ const seedNextRoute = {
   localAnalyticsStorageKey: 'agl.analytics.events',
   telemetry: ['seed_next_viewed', 'seed_next_routed', 'organic_entry_opened', 'game_started'],
 }
+const sampleNextRoute = {
+  status: defaultGateSampleMission ? 'armed' : 'waiting-for-sample-plan',
+  path: '/sample-next.html',
+  jsonPath: '/sample-next.json',
+  targetCampaignId: defaultGateSampleMission?.campaignId ?? null,
+  targetGateId: defaultGateSampleMission?.gateId ?? null,
+  targetGameId: defaultGateSampleMission?.gameId ?? null,
+  targetTitle: defaultGateSampleMission?.title ?? null,
+  targetPath: defaultGateSampleMission?.playPath ?? null,
+  targetUrl: defaultGateSampleMission?.url ?? null,
+  fallbackPath: gateSampleKitPath,
+  costUsd: 0,
+  playerInitiatedOnly: true,
+  noAutomatedExternalPosting: true,
+  noPaidPromotion: true,
+  noSyntheticEvents: true,
+  noRevenueEnablement: true,
+  localAnalyticsEvents: true,
+  localAnalyticsStorageKey: 'agl.analytics.events',
+  telemetry: ['sample_next_viewed', 'sample_next_routed', 'gate_sample_mission_clicked', 'game_started'],
+}
 
 const payload = {
   generatedAt: new Date().toISOString(),
@@ -310,9 +333,12 @@ const payload = {
   channels,
   campaigns,
   evergreenRoute: seedNextRoute,
+  sampleNextRoute,
   sampleDistribution: {
     status: gateSampleMissions.length ? 'gate-sample-sharing-ready' : 'waiting-for-sample-plan',
     kitPath: gateSampleKitPath,
+    sampleNextPath: sampleNextRoute.path,
+    sampleNextJsonPath: sampleNextRoute.jsonPath,
     defaultCampaignId: defaultGateSampleMission?.campaignId ?? null,
     defaultGateId: defaultGateSampleMission?.gateId ?? null,
     missionCount: gateSampleMissions.length,
@@ -360,6 +386,12 @@ const nextShareManifest = {
     ...seedNextRoute,
     url: publicUrl('/seed-next.html'),
     jsonUrl: publicUrl('/seed-next.json'),
+    generatedAt: payload.generatedAt,
+  },
+  sampleNext: {
+    ...sampleNextRoute,
+    url: publicUrl('/sample-next.html'),
+    jsonUrl: publicUrl('/sample-next.json'),
     generatedAt: payload.generatedAt,
   },
   gateSampleKit: {
@@ -457,6 +489,7 @@ const gateSampleStrip = defaultGateSampleMission
           <p>${escapeHtml(defaultGateSampleMission.text)}</p>
         </div>
         <div class="actions">
+          <a href="${escapeHtml(runtimeHref(sampleNextRoute.path))}">Open sample-next</a>
           <a href="${escapeHtml(runtimeHref(gateSampleKitPath))}">Open gate missions</a>
           <a class="secondary" href="${escapeHtml(runtimeHref(defaultGateSampleMission.playPath))}">Start default sample</a>
         </div>
@@ -914,6 +947,174 @@ const seedNextHtml = `<!doctype html>
 </html>
 `
 
+const sampleNextPublicPayload = {
+  generatedAt: payload.generatedAt,
+  status: sampleNextRoute.status,
+  path: sampleNextRoute.path,
+  jsonPath: sampleNextRoute.jsonPath,
+  target: defaultGateSampleMission
+    ? {
+        campaignId: defaultGateSampleMission.campaignId,
+        gateId: defaultGateSampleMission.gateId,
+        gameId: defaultGateSampleMission.gameId,
+        title: defaultGateSampleMission.title,
+        priority: defaultGateSampleMission.priority,
+        targetPath: defaultGateSampleMission.playPath,
+        targetUrl: defaultGateSampleMission.url,
+        pageUrl: defaultGateSampleMission.pageUrl,
+        copy: {
+          title: defaultGateSampleMission.title,
+          text: defaultGateSampleMission.text,
+          cta: 'Start measured run',
+        },
+        needed: defaultGateSampleMission.needed,
+      }
+    : null,
+  fallbackPath: sampleNextRoute.fallbackPath,
+  guardrails: {
+    costUsd: sampleNextRoute.costUsd,
+    playerInitiatedOnly: sampleNextRoute.playerInitiatedOnly,
+    noAutomatedExternalPosting: sampleNextRoute.noAutomatedExternalPosting,
+    noPaidPromotion: sampleNextRoute.noPaidPromotion,
+    noSyntheticEvents: sampleNextRoute.noSyntheticEvents,
+    noRevenueEnablement: sampleNextRoute.noRevenueEnablement,
+  },
+  telemetry: sampleNextRoute.telemetry,
+}
+const sampleNextRuntimeHref = defaultGateSampleMission
+  ? runtimeHref(defaultGateSampleMission.playPath)
+  : runtimeHref(sampleNextRoute.fallbackPath)
+const sampleNextHtml = `<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Open the Current Gate Sample | Autonomous Game Lab</title>
+    <meta name="robots" content="index,follow">
+    <meta name="description" content="An evergreen zero-spend route to the current Autonomous Game Lab product-gate sample mission.">
+    <style>
+      :root { color-scheme: light; font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color: #1a211d; background: #f7f7f2; }
+      body { margin: 0; }
+      main { display: grid; align-content: center; gap: 18px; min-height: 100svh; width: min(760px, calc(100% - 32px)); margin: 0 auto; padding: 36px 0; }
+      h1, p { margin: 0; }
+      h1 { font-size: clamp(2.2rem, 7vw, 4.8rem); line-height: 0.96; letter-spacing: 0; max-width: 11ch; }
+      p { color: #4f5d55; line-height: 1.55; max-width: 620px; }
+      .eyebrow { color: #496858; font-size: 0.78rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em; }
+      .actions { display: flex; flex-wrap: wrap; gap: 10px; }
+      a, button { color: #ffffff; background: #1f6b4d; border: 0; border-radius: 6px; padding: 10px 12px; text-decoration: none; font: inherit; font-weight: 800; cursor: pointer; min-height: 42px; }
+      .secondary { color: #1f6b4d; background: #e9f2eb; }
+      dl { display: grid; gap: 8px; margin: 8px 0 0; padding: 16px; background: #ffffff; border: 1px solid #d6ded2; border-radius: 8px; }
+      dl div { display: flex; justify-content: space-between; gap: 12px; border-top: 1px solid #edf1ea; padding-top: 8px; }
+      dl div:first-child { border-top: 0; padding-top: 0; }
+      dt { color: #5d6b63; }
+      dd { margin: 0; font-weight: 800; text-align: right; overflow-wrap: anywhere; }
+      .status { min-height: 1.4rem; color: #496858; font-weight: 800; }
+    </style>
+  </head>
+  <body>
+    <main data-sample-next data-campaign-id="${escapeHtml(defaultGateSampleMission?.campaignId ?? '')}" data-gate-id="${escapeHtml(
+      defaultGateSampleMission?.gateId ?? '',
+    )}" data-game-id="${escapeHtml(defaultGateSampleMission?.gameId ?? '')}" data-target-path="${escapeHtml(
+      sampleNextRuntimeHref,
+    )}">
+      <p class="eyebrow">Zero-spend gate sample route</p>
+      <h1>${escapeHtml(defaultGateSampleMission ? defaultGateSampleMission.title : 'Gate sample waiting')}</h1>
+      <p>${escapeHtml(
+        defaultGateSampleMission
+          ? `${defaultGateSampleMission.text} This stable page follows the current product-gate sample target, so old shares keep routing to the evidence the owner loop needs next.`
+          : 'The sample route is waiting for a product-gate sample plan.',
+      )}</p>
+      <div class="actions">
+        <a href="${escapeHtml(sampleNextRuntimeHref)}" data-sample-next-link>${escapeHtml(
+          defaultGateSampleMission ? 'Start measured run' : 'Open gate missions',
+        )}</a>
+        <a class="secondary" href="${escapeHtml(runtimeHref(gateSampleKitPath))}">Open gate missions</a>
+      </div>
+      <dl>
+        <div><dt>Campaign</dt><dd>${escapeHtml(defaultGateSampleMission?.campaignId ?? 'waiting')}</dd></div>
+        <div><dt>Gate</dt><dd>${escapeHtml(defaultGateSampleMission?.gateId ?? 'waiting')}</dd></div>
+        <div><dt>Need</dt><dd>${defaultGateSampleMission?.needed.promptViews ?? 0} views / ${defaultGateSampleMission?.needed.successes ?? 0} wins</dd></div>
+        <div><dt>Cost</dt><dd>$0.00</dd></div>
+      </dl>
+      <p class="status" data-sample-next-status aria-live="polite">Preparing sample route.</p>
+    </main>
+    <script>
+      (() => {
+        const route = ${JSON.stringify(sampleNextPublicPayload)}
+        const analyticsKey = 'agl.analytics.events'
+        const params = new URLSearchParams(window.location.search)
+        const previewOnly = params.get('preview') === '1' || params.get('no_redirect') === '1'
+        const root = document.querySelector('[data-sample-next]')
+        const status = document.querySelector('[data-sample-next-status]')
+        const targetPath = root?.dataset.targetPath || './gate-sample.html'
+        const campaignId = root?.dataset.campaignId || route.target?.campaignId || null
+        const gateId = root?.dataset.gateId || route.target?.gateId || null
+        const gameId = root?.dataset.gameId || route.target?.gameId || null
+        const readEvents = () => {
+          try {
+            const raw = window.localStorage.getItem(analyticsKey)
+            const events = raw ? JSON.parse(raw) : []
+            return Array.isArray(events) ? events : []
+          } catch {
+            return []
+          }
+        }
+        const createId = (prefix) =>
+          window.crypto?.randomUUID
+            ? \`\${prefix}-\${window.crypto.randomUUID()}\`
+            : \`\${prefix}-\${Date.now()}-\${Math.random().toString(16).slice(2)}\`
+        const track = (name, properties = {}) => {
+          const event = {
+            id: createId('sample-next'),
+            name,
+            properties: {
+              gameId,
+              gateId,
+              campaignId,
+              acquisitionCampaign: campaignId,
+              acquisitionSource: 'gate_sample',
+              acquisitionChannel: 'product-gate-sample',
+              surface: 'sample-next',
+              zeroPaidSpend: true,
+              noPaidTraffic: true,
+              playerInitiated: true,
+              automatedExternalPosting: false,
+              noSyntheticEvents: true,
+              noRevenueEnablement: true,
+              ...properties,
+            },
+            createdAt: new Date().toISOString(),
+          }
+          window.localStorage.setItem(analyticsKey, JSON.stringify([...readEvents(), event].slice(-300)))
+        }
+
+        track('sample_next_viewed', { targetPath, previewOnly })
+
+        document.querySelector('[data-sample-next-link]')?.addEventListener('click', () => {
+          track('gate_sample_mission_clicked', {
+            targetPath,
+            linkType: 'sample-next-link',
+            costUsd: 0,
+            promptViewsNeeded: route.target?.needed?.promptViews ?? 0,
+            observedSuccessesNeeded: route.target?.needed?.successes ?? 0,
+          })
+        })
+
+        if (!previewOnly && route.target) {
+          status.textContent = 'Routing to the current gate sample.'
+          window.setTimeout(() => {
+            track('sample_next_routed', { targetPath })
+            window.location.assign(targetPath)
+          }, 350)
+        } else {
+          status.textContent = route.target ? 'Preview mode. Use the button to open the current gate sample.' : 'No gate sample is armed yet.'
+        }
+      })()
+    </script>
+  </body>
+</html>
+`
+
 const report = [
   '# Traffic Seeding',
   '',
@@ -937,6 +1138,7 @@ const report = [
   '',
   `- /seed-kit.html with ${payload.campaigns.length} zero-spend seed campaign links and player-initiated copy/share controls.`,
   `- /seed-next.html routes evergreen zero-spend traffic to ${seedNextCampaign?.id ?? 'no campaign'} without paid posting.`,
+  `- /sample-next.html routes evergreen zero-spend product-gate traffic to ${defaultGateSampleMission?.campaignId ?? 'no mission'} without paid posting.`,
   `- ${payload.sampleDistribution.kitPath} with ${payload.sampleDistribution.missionCount} product-gate sample link(s); default ${payload.sampleDistribution.defaultCampaignId ?? 'none'}.`,
   '',
   '## Next Actions',
@@ -951,6 +1153,7 @@ await mkdir(path.dirname(reportPath), { recursive: true })
 await mkdir(path.dirname(shareManifestPath), { recursive: true })
 await mkdir(path.dirname(seedKitPath), { recursive: true })
 await mkdir(path.dirname(seedNextHtmlPath), { recursive: true })
+await mkdir(path.dirname(sampleNextHtmlPath), { recursive: true })
 await writeFile(outputJsonPath, JSON.stringify(payload, null, 2) + '\n')
 await writeFile(
   outputTsPath,
@@ -960,6 +1163,8 @@ await writeFile(shareManifestPath, JSON.stringify(nextShareManifest, null, 2) + 
 await writeFile(seedKitPath, seedKitHtml)
 await writeFile(seedNextJsonPath, JSON.stringify(seedNextPublicPayload, null, 2) + '\n')
 await writeFile(seedNextHtmlPath, seedNextHtml)
+await writeFile(sampleNextJsonPath, JSON.stringify(sampleNextPublicPayload, null, 2) + '\n')
+await writeFile(sampleNextHtmlPath, sampleNextHtml)
 await writeFile(reportPath, report.join('\n'))
 
 console.log(`Wrote ${path.relative(root, outputJsonPath)}`)
@@ -968,4 +1173,6 @@ console.log(`Wrote ${path.relative(root, shareManifestPath)}`)
 console.log(`Wrote ${path.relative(root, seedKitPath)}`)
 console.log(`Wrote ${path.relative(root, seedNextJsonPath)}`)
 console.log(`Wrote ${path.relative(root, seedNextHtmlPath)}`)
+console.log(`Wrote ${path.relative(root, sampleNextJsonPath)}`)
+console.log(`Wrote ${path.relative(root, sampleNextHtmlPath)}`)
 console.log(`Wrote ${path.relative(root, reportPath)}`)

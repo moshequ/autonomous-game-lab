@@ -1,9 +1,9 @@
 # Growth Plan
 
-Generated: 2026-05-22T20:03:33.608Z
+Generated: 2026-05-22T21:04:55.607Z
 Status: growth-assets-ready
 Site URL: https://moshequ.github.io/autonomous-game-lab
-Indexed utility pages: 8
+Indexed utility pages: 9
 
 ## Game Pages
 

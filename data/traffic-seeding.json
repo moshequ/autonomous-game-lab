@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-05-22T20:03:34.076Z",
+  "generatedAt": "2026-05-22T21:09:34.513Z",
   "status": "traffic-seeding-ready",
-  "sourceDataHash": "31e1cb75b502",
+  "sourceDataHash": "63e8c8dcffbd",
   "analyticsSource": "fixture-sample",
   "publicUrlMode": "absolute-origin",
   "siteUrl": "https://moshequ.github.io/autonomous-game-lab",
@@ -66,8 +66,10 @@
       "id": "product-gate-sample",
       "status": "armed",
       "costUsd": 0,
-      "surface": "gate-sample-page",
+      "surface": "gate-sample-page-and-sample-next-route",
       "telemetry": [
+        "sample_next_viewed",
+        "sample_next_routed",
         "gate_sample_mission_clicked",
         "share_clicked",
         "analytics_exported"
@@ -267,9 +269,37 @@
       "game_started"
     ]
   },
+  "sampleNextRoute": {
+    "status": "armed",
+    "path": "/sample-next.html",
+    "jsonPath": "/sample-next.json",
+    "targetCampaignId": "gate-sample-20260522-firstGameCompletion",
+    "targetGateId": "firstGameCompletion",
+    "targetGameId": "harbor-rings",
+    "targetTitle": "Sample First game completion",
+    "targetPath": "/?game=harbor-rings&utm_source=gate_sample&utm_campaign=gate-sample-20260522-firstGameCompletion",
+    "targetUrl": "https://moshequ.github.io/autonomous-game-lab/?game=harbor-rings&utm_source=gate_sample&utm_campaign=gate-sample-20260522-firstGameCompletion",
+    "fallbackPath": "/gate-sample.html",
+    "costUsd": 0,
+    "playerInitiatedOnly": true,
+    "noAutomatedExternalPosting": true,
+    "noPaidPromotion": true,
+    "noSyntheticEvents": true,
+    "noRevenueEnablement": true,
+    "localAnalyticsEvents": true,
+    "localAnalyticsStorageKey": "agl.analytics.events",
+    "telemetry": [
+      "sample_next_viewed",
+      "sample_next_routed",
+      "gate_sample_mission_clicked",
+      "game_started"
+    ]
+  },
   "sampleDistribution": {
     "status": "gate-sample-sharing-ready",
     "kitPath": "/gate-sample.html",
+    "sampleNextPath": "/sample-next.html",
+    "sampleNextJsonPath": "/sample-next.json",
     "defaultCampaignId": "gate-sample-20260522-firstGameCompletion",
     "defaultGateId": "firstGameCompletion",
     "missionCount": 3,
