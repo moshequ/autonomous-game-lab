@@ -1,6 +1,6 @@
 # Store Listing Optimizer
 
-Generated: 2026-05-22T01:11:24.880Z
+Generated: 2026-05-22T01:25:30.838Z
 Status: store-listing-optimizer-ready
 Focus: Grove Engine (grove-engine)
 Previous candidate: lantern-relay

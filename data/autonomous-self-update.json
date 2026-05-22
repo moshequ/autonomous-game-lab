@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-22T01:10:34.375Z",
+  "generatedAt": "2026-05-22T01:24:41.582Z",
   "status": "self-update-ready",
   "mode": "plan-and-assert",
   "envFiles": {
@@ -71,7 +71,7 @@
     "ownerLoop": "owner-loop-ready"
   },
   "pendingChanges": {
-    "total": 113,
+    "total": 76,
     "safe": [
       {
         "code": "M",
@@ -84,13 +84,6 @@
         "code": "M",
         "path": "data/analytics-rollup.json",
         "raw": " M data/analytics-rollup.json",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "data/android-release.json",
-        "raw": " M data/android-release.json",
         "safe": true,
         "reason": "allowlisted-generated-artifact"
       },
@@ -119,13 +112,6 @@
         "code": "M",
         "path": "data/autonomous-owner-loop.json",
         "raw": " M data/autonomous-owner-loop.json",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "data/autonomous-self-update.json",
-        "raw": " M data/autonomous-self-update.json",
         "safe": true,
         "reason": "allowlisted-generated-artifact"
       },
@@ -166,13 +152,6 @@
       },
       {
         "code": "M",
-        "path": "data/ios-release.json",
-        "raw": " M data/ios-release.json",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
         "path": "data/live-site-monitor.json",
         "raw": " M data/live-site-monitor.json",
         "safe": true,
@@ -182,13 +161,6 @@
         "code": "M",
         "path": "data/local-event-bridge.json",
         "raw": " M data/local-event-bridge.json",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "data/native-package.json",
-        "raw": " M data/native-package.json",
         "safe": true,
         "reason": "allowlisted-generated-artifact"
       },
@@ -313,99 +285,8 @@
       },
       {
         "code": "M",
-        "path": "data/store-assets.json",
-        "raw": " M data/store-assets.json",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "data/store-compliance.json",
-        "raw": " M data/store-compliance.json",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "data/store-listing-optimizer.json",
-        "raw": " M data/store-listing-optimizer.json",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "data/store-package.json",
-        "raw": " M data/store-package.json",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "native/android/README.md",
-        "raw": " M native/android/README.md",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "native/android/bubblewrap.config.json",
-        "raw": " M native/android/bubblewrap.config.json",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "native/android/twa-manifest.json",
-        "raw": " M native/android/twa-manifest.json",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "native/ios/README.md",
-        "raw": " M native/ios/README.md",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "native/ios/app-store-handoff.json",
-        "raw": " M native/ios/app-store-handoff.json",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "public/compliance.json",
-        "raw": " M public/compliance.json",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
         "path": "public/measurement-status.json",
         "raw": " M public/measurement-status.json",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "public/store-assets/screenshots/desktop-growth-page.png",
-        "raw": " M public/store-assets/screenshots/desktop-growth-page.png",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "D",
-        "path": "public/store-assets/screenshots/phone-canopy-bloom-generated.png",
-        "raw": " D public/store-assets/screenshots/phone-canopy-bloom-generated.png",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "public/store-assets/screenshots/phone-lantern-relay-game.png",
-        "raw": " M public/store-assets/screenshots/phone-lantern-relay-game.png",
         "safe": true,
         "reason": "allowlisted-generated-artifact"
       },
@@ -420,13 +301,6 @@
         "code": "M",
         "path": "reports/analytics-rollup-latest.md",
         "raw": " M reports/analytics-rollup-latest.md",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "reports/android-release-latest.md",
-        "raw": " M reports/android-release-latest.md",
         "safe": true,
         "reason": "allowlisted-generated-artifact"
       },
@@ -455,13 +329,6 @@
         "code": "M",
         "path": "reports/autonomous-owner-loop-latest.md",
         "raw": " M reports/autonomous-owner-loop-latest.md",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "reports/autonomous-self-update-latest.md",
-        "raw": " M reports/autonomous-self-update-latest.md",
         "safe": true,
         "reason": "allowlisted-generated-artifact"
       },
@@ -502,13 +369,6 @@
       },
       {
         "code": "M",
-        "path": "reports/ios-release-latest.md",
-        "raw": " M reports/ios-release-latest.md",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
         "path": "reports/live-site-monitor-latest.md",
         "raw": " M reports/live-site-monitor-latest.md",
         "safe": true,
@@ -518,13 +378,6 @@
         "code": "M",
         "path": "reports/local-event-bridge-latest.md",
         "raw": " M reports/local-event-bridge-latest.md",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "reports/native-package-latest.md",
-        "raw": " M reports/native-package-latest.md",
         "safe": true,
         "reason": "allowlisted-generated-artifact"
       },
@@ -649,43 +502,8 @@
       },
       {
         "code": "M",
-        "path": "reports/store-assets-latest.md",
-        "raw": " M reports/store-assets-latest.md",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "reports/store-compliance-latest.md",
-        "raw": " M reports/store-compliance-latest.md",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "reports/store-listing-optimizer-latest.md",
-        "raw": " M reports/store-listing-optimizer-latest.md",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "reports/store-package-latest.md",
-        "raw": " M reports/store-package-latest.md",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
         "path": "src/data/acquisitionLearning.ts",
         "raw": " M src/data/acquisitionLearning.ts",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "src/data/androidRelease.ts",
-        "raw": " M src/data/androidRelease.ts",
         "safe": true,
         "reason": "allowlisted-generated-artifact"
       },
@@ -698,43 +516,8 @@
       },
       {
         "code": "M",
-        "path": "src/data/autonomousOperator.ts",
-        "raw": " M src/data/autonomousOperator.ts",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "src/data/autonomousOperatorHistory.ts",
-        "raw": " M src/data/autonomousOperatorHistory.ts",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "src/data/autonomousOwnerLoop.ts",
-        "raw": " M src/data/autonomousOwnerLoop.ts",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "src/data/autonomousSelfUpdate.ts",
-        "raw": " M src/data/autonomousSelfUpdate.ts",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
         "path": "src/data/eventCollectorDeployment.ts",
         "raw": " M src/data/eventCollectorDeployment.ts",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "src/data/iosRelease.ts",
-        "raw": " M src/data/iosRelease.ts",
         "safe": true,
         "reason": "allowlisted-generated-artifact"
       },
@@ -749,20 +532,6 @@
         "code": "M",
         "path": "src/data/localEventBridge.ts",
         "raw": " M src/data/localEventBridge.ts",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "src/data/nativePackage.ts",
-        "raw": " M src/data/nativePackage.ts",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "src/data/objectiveAudit.ts",
-        "raw": " M src/data/objectiveAudit.ts",
         "safe": true,
         "reason": "allowlisted-generated-artifact"
       },
@@ -835,38 +604,10 @@
         "raw": " M src/data/retentionLoop.ts",
         "safe": true,
         "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "src/data/storeAssets.ts",
-        "raw": " M src/data/storeAssets.ts",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "src/data/storeCompliance.ts",
-        "raw": " M src/data/storeCompliance.ts",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "src/data/storeListingOptimizer.ts",
-        "raw": " M src/data/storeListingOptimizer.ts",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "??",
-        "path": "public/store-assets/screenshots/phone-grove-engine-generated.png",
-        "raw": "?? public/store-assets/screenshots/phone-grove-engine-generated.png",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
       }
     ],
     "unsafe": [],
-    "safeCount": 113,
+    "safeCount": 76,
     "unsafeCount": 0
   },
   "commitPlan": {
@@ -881,21 +622,17 @@
     "stagePaths": [
       "data/acquisition-learning.json",
       "data/analytics-rollup.json",
-      "data/android-release.json",
       "data/autonomous-cadence.json",
       "data/autonomous-operator-history.json",
       "data/autonomous-operator.json",
       "data/autonomous-owner-loop.json",
-      "data/autonomous-self-update.json",
       "data/deployment-plan.json",
       "data/event-collector-deployment.json",
       "data/event-collector-smoke.json",
       "data/event-ingest-smoke.json",
       "data/event-ingest.json",
-      "data/ios-release.json",
       "data/live-site-monitor.json",
       "data/local-event-bridge.json",
-      "data/native-package.json",
       "data/objective-audit.json",
       "data/organic-seed-loop.json",
       "data/performance-budget.json",
@@ -913,37 +650,20 @@
       "data/repository-bootstrap.json",
       "data/repository-readiness.json",
       "data/retention-loop.json",
-      "data/store-assets.json",
-      "data/store-compliance.json",
-      "data/store-listing-optimizer.json",
-      "data/store-package.json",
-      "native/android/README.md",
-      "native/android/bubblewrap.config.json",
-      "native/android/twa-manifest.json",
-      "native/ios/README.md",
-      "native/ios/app-store-handoff.json",
-      "public/compliance.json",
       "public/measurement-status.json",
-      "public/store-assets/screenshots/desktop-growth-page.png",
-      "public/store-assets/screenshots/phone-canopy-bloom-generated.png",
-      "public/store-assets/screenshots/phone-lantern-relay-game.png",
       "reports/acquisition-learning-latest.md",
       "reports/analytics-rollup-latest.md",
-      "reports/android-release-latest.md",
       "reports/autonomous-cadence-latest.md",
       "reports/autonomous-operator-history-latest.md",
       "reports/autonomous-operator-latest.md",
       "reports/autonomous-owner-loop-latest.md",
-      "reports/autonomous-self-update-latest.md",
       "reports/deployment-plan-latest.md",
       "reports/event-collector-deployment-latest.md",
       "reports/event-collector-smoke-latest.md",
       "reports/event-ingest-latest.md",
       "reports/event-ingest-smoke-latest.md",
-      "reports/ios-release-latest.md",
       "reports/live-site-monitor-latest.md",
       "reports/local-event-bridge-latest.md",
-      "reports/native-package-latest.md",
       "reports/objective-audit-latest.md",
       "reports/organic-seed-loop-latest.md",
       "reports/performance-budget-latest.md",
@@ -961,23 +681,11 @@
       "reports/repository-bootstrap-latest.md",
       "reports/repository-readiness-latest.md",
       "reports/retention-loop-latest.md",
-      "reports/store-assets-latest.md",
-      "reports/store-compliance-latest.md",
-      "reports/store-listing-optimizer-latest.md",
-      "reports/store-package-latest.md",
       "src/data/acquisitionLearning.ts",
-      "src/data/androidRelease.ts",
       "src/data/autonomousCadence.ts",
-      "src/data/autonomousOperator.ts",
-      "src/data/autonomousOperatorHistory.ts",
-      "src/data/autonomousOwnerLoop.ts",
-      "src/data/autonomousSelfUpdate.ts",
       "src/data/eventCollectorDeployment.ts",
-      "src/data/iosRelease.ts",
       "src/data/liveSiteMonitor.ts",
       "src/data/localEventBridge.ts",
-      "src/data/nativePackage.ts",
-      "src/data/objectiveAudit.ts",
       "src/data/organicSeedLoop.ts",
       "src/data/performanceBudget.ts",
       "src/data/postDeploySmoke.ts",
@@ -988,10 +696,9 @@
       "src/data/pwaInstallLoop.ts",
       "src/data/releaseCandidate.ts",
       "src/data/retentionLoop.ts",
-      "src/data/storeAssets.ts",
-      "src/data/storeCompliance.ts",
-      "src/data/storeListingOptimizer.ts",
-      "public/store-assets/screenshots/phone-grove-engine-generated.png"
+      "data/autonomous-self-update.json",
+      "src/data/autonomousSelfUpdate.ts",
+      "reports/autonomous-self-update-latest.md"
     ],
     "commitMessage": "Autonomous daily self-update",
     "skipWhenNoAllowlistedChanges": true
@@ -1099,7 +806,7 @@
     {
       "id": "safe-path-allowlist",
       "status": "pass",
-      "detail": "113 safe pending file(s), 0 unsafe pending file(s)."
+      "detail": "76 safe pending file(s), 0 unsafe pending file(s)."
     },
     {
       "id": "repository-optional",
