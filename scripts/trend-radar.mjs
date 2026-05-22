@@ -43,6 +43,22 @@ const tokenize = (value) =>
 
 const scoreKeywordMatches = (keywords, haystack) =>
   keywords.reduce((score, keyword) => (haystack.includes(normalize(keyword)) ? score + 1 : score), 0)
+const genericTrendCategories = new Set([
+  'article',
+  'articles',
+  'board game',
+  'board game reviews',
+  'board games',
+  'boardgame',
+  'boardgames',
+  'comments',
+  'games',
+  'news',
+  'podcast',
+  'reviews',
+  'tabletop',
+  'uncategorized',
+])
 
 const parseXml = (xml) =>
   new XMLParser({
@@ -120,6 +136,11 @@ const categoriesFor = (categories) =>
   asArray(categories)
     .map((category) => firstText(category?.term, category?.label, category))
     .filter(Boolean)
+const filterSpecificCategories = (categories) =>
+  asArray(categories)
+    .map((category) => firstText(category))
+    .filter(Boolean)
+    .filter((category) => !genericTrendCategories.has(normalize(category)))
 
 const linkFor = (links) => {
   for (const link of asArray(links)) {
@@ -393,57 +414,144 @@ const cacheStatusFor = (cache) => {
   }
 }
 
+const signalEvidenceScore = ({ keywords, haystack, categories, signalName, categoryWeight }) => {
+  const keywordMatches = scoreKeywordMatches(keywords, haystack)
+  const normalizedSignalName = normalize(signalName)
+  const categoryMatches = categories.filter((category) => {
+    const normalizedCategory = normalize(category)
+
+    return (
+      normalizedCategory.includes(normalizedSignalName) ||
+      keywords.some((keyword) => normalizedCategory.includes(normalize(keyword)))
+    )
+  })
+
+  return {
+    keywordMatches,
+    categoryMatches,
+    score: keywordMatches * 12 + categoryMatches.length * categoryWeight,
+  }
+}
+
+const rankBoostForEvidence = (item, maxBoost) => Math.max(0, maxBoost - item.rank)
+
 const enrichItems = (items, taxonomy) =>
   items.map((item) => {
-    const fields = [item.title, item.mechanics, item.themes, item.audience, item.snippet, item.sourceName]
+    const mechanicsCategories = filterSpecificCategories(item.mechanics)
+    const themeCategories = filterSpecificCategories(item.themes)
+    const audienceCategories = filterSpecificCategories(item.audience)
+    const ignoredGenericCategories =
+      asArray(item.mechanics).length +
+      asArray(item.themes).length +
+      asArray(item.audience).length -
+      mechanicsCategories.length -
+      themeCategories.length -
+      audienceCategories.length
+    const fields = [
+      item.title,
+      mechanicsCategories,
+      themeCategories,
+      audienceCategories,
+      item.snippet,
+      item.sourceName,
+    ]
       .flat()
       .join(' ')
     const haystack = normalize(fields)
 
     const mechanics = taxonomy.mechanics
-      .map((mechanic) => ({
-        name: mechanic.name,
-        score:
-          scoreKeywordMatches(mechanic.keywords, haystack) * 12 +
-          (item.mechanics?.includes(mechanic.name) ? 30 : 0) +
-          Math.max(0, 20 - item.rank),
-        mobileFit: mechanic.mobileFit,
-        template: mechanic.template,
-      }))
+      .map((mechanic) => {
+        const evidence = signalEvidenceScore({
+          keywords: mechanic.keywords,
+          haystack,
+          categories: mechanicsCategories,
+          signalName: mechanic.name,
+          categoryWeight: 30,
+        })
+
+        return {
+          name: mechanic.name,
+          score: evidence.score > 0 ? evidence.score + rankBoostForEvidence(item, 20) : 0,
+          evidence: {
+            keywordMatches: evidence.keywordMatches,
+            categoryMatches: evidence.categoryMatches,
+          },
+          mobileFit: mechanic.mobileFit,
+          template: mechanic.template,
+        }
+      })
       .filter((mechanic) => mechanic.score > 0)
       .sort((a, b) => b.score - a.score)
 
     const themes = taxonomy.themes
-      .map((theme) => ({
-        name: theme.name,
-        score:
-          scoreKeywordMatches(theme.keywords, haystack) * 12 +
-          (item.themes?.some((itemTheme) => normalize(itemTheme).includes(theme.name)) ? 20 : 0) +
-          Math.max(0, 12 - item.rank),
-        adSafety: theme.adSafety,
-      }))
+      .map((theme) => {
+        const evidence = signalEvidenceScore({
+          keywords: theme.keywords,
+          haystack,
+          categories: themeCategories,
+          signalName: theme.name,
+          categoryWeight: 20,
+        })
+
+        return {
+          name: theme.name,
+          score: evidence.score > 0 ? evidence.score + rankBoostForEvidence(item, 12) : 0,
+          evidence: {
+            keywordMatches: evidence.keywordMatches,
+            categoryMatches: evidence.categoryMatches,
+          },
+          adSafety: theme.adSafety,
+        }
+      })
       .filter((theme) => theme.score > 0)
       .sort((a, b) => b.score - a.score)
 
     const audiences = taxonomy.audiences
-      .map((audience) => ({
-        name: audience.name,
-        score:
-          scoreKeywordMatches(audience.keywords, haystack) * 10 +
-          (item.audience?.includes(audience.name) ? 20 : 0) +
-          Math.max(0, 8 - item.rank),
-        sessionMinutes: audience.sessionMinutes,
-      }))
+      .map((audience) => {
+        const evidence = signalEvidenceScore({
+          keywords: audience.keywords,
+          haystack,
+          categories: audienceCategories,
+          signalName: audience.name,
+          categoryWeight: 20,
+        })
+
+        return {
+          name: audience.name,
+          score: evidence.score > 0 ? evidence.score + rankBoostForEvidence(item, 8) : 0,
+          evidence: {
+            keywordMatches: evidence.keywordMatches,
+            categoryMatches: evidence.categoryMatches,
+          },
+          sessionMinutes: audience.sessionMinutes,
+        }
+      })
       .filter((audience) => audience.score > 0)
       .sort((a, b) => b.score - a.score)
+    const specificCategoryCount = mechanicsCategories.length + themeCategories.length + audienceCategories.length
 
     return {
       ...item,
+      mechanics: mechanicsCategories,
+      themes: themeCategories,
+      audience: audienceCategories,
       tokens: tokenize(fields).slice(0, 20),
       inferred: {
         mechanics: mechanics.slice(0, 3),
         themes: themes.slice(0, 2),
         audiences: audiences.slice(0, 2),
+      },
+      signalQuality: {
+        evidenceBearingSignals: mechanics.length + themes.length + audiences.length,
+        hasMechanicSignal: mechanics.length > 0,
+        hasThemeSignal: themes.length > 0,
+        hasAudienceSignal: audiences.length > 0,
+        specificCategoryCount,
+        ignoredGenericCategories,
+        score:
+          mechanics.slice(0, 3).reduce((sum, signal) => sum + signal.score, 0) +
+          themes.slice(0, 2).reduce((sum, signal) => sum + signal.score, 0) +
+          audiences.slice(0, 2).reduce((sum, signal) => sum + signal.score, 0),
       },
     }
   })
@@ -567,6 +675,7 @@ const sourceItems =
         ? cache.items
         : fixtureItems
 const enrichedItems = enrichItems(sourceItems, taxonomy)
+const qualifiedItems = enrichedItems.filter((item) => item.signalQuality.evidenceBearingSignals > 0)
 
 const signals = {
   mechanics: aggregate(enrichedItems, 'mechanics'),
@@ -587,6 +696,17 @@ const trendPayload = {
       fetchedAt: cache.fetchedAt,
       source: cache.source,
       reason: cacheStatus.reason,
+    },
+    quality: {
+      totalItems: enrichedItems.length,
+      qualifiedItems: qualifiedItems.length,
+      evidenceBearingRatio:
+        enrichedItems.length > 0 ? Math.round((qualifiedItems.length / enrichedItems.length) * 1000) / 1000 : 0,
+      ignoredGenericCategories: enrichedItems.reduce(
+        (sum, item) => sum + item.signalQuality.ignoredGenericCategories,
+        0,
+      ),
+      rankingPolicy: 'rank only boosts items with explicit keyword or category evidence',
     },
     activeSource,
     note:
@@ -618,6 +738,7 @@ const sourceReadiness = {
     authorizationRequired: false,
   },
   cache: trendPayload.sourceStatus.cache,
+  quality: trendPayload.sourceStatus.quality,
   fixture: {
     items: fixtureItems.length,
     purpose: 'Safe deterministic fallback for development, tests, offline operation, and feed outages.',
@@ -642,6 +763,8 @@ const reportLines = [
   `BGG note: ${trendPayload.sourceStatus.bggHotness.reason}`,
   `Public feed note: ${trendPayload.sourceStatus.publicFeeds.reason}`,
   `Cache: ${trendPayload.sourceStatus.cache.status}; usable ${trendPayload.sourceStatus.cache.usable}`,
+  `Qualified items: ${trendPayload.sourceStatus.quality.qualifiedItems}/${trendPayload.sourceStatus.quality.totalItems}`,
+  `Ranking policy: ${trendPayload.sourceStatus.quality.rankingPolicy}`,
   '',
   '## Top Mechanics',
   '',
@@ -702,6 +825,13 @@ const sourceReadinessReport = [
   `- Usable: ${sourceReadiness.cache.usable}`,
   `- Age days: ${sourceReadiness.cache.ageDays ?? 'none'}`,
   `- Max age days: ${sourceReadiness.cache.maxAgeDays}`,
+  '',
+  '## Signal Quality',
+  '',
+  `- Qualified items: ${sourceReadiness.quality.qualifiedItems}/${sourceReadiness.quality.totalItems}`,
+  `- Evidence-bearing ratio: ${sourceReadiness.quality.evidenceBearingRatio}`,
+  `- Generic categories ignored: ${sourceReadiness.quality.ignoredGenericCategories}`,
+  `- Ranking policy: ${sourceReadiness.quality.rankingPolicy}`,
   '',
   '## Fallback',
   '',

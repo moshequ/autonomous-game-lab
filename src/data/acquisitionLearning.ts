@@ -1,7 +1,7 @@
 export const acquisitionLearning = {
-  "generatedAt": "2026-05-22T05:51:48.761Z",
+  "generatedAt": "2026-05-22T06:50:16.996Z",
   "status": "acquisition-learning-ready",
-  "sourceDataHash": "7ed401a805c1",
+  "sourceDataHash": "367ba3192a7c",
   "sourceStatus": {
     "analyticsSource": "fixture-sample",
     "localEventFiles": 0,
@@ -18,8 +18,8 @@ export const acquisitionLearning = {
     "campaigns": 4,
     "collectingCount": 4,
     "blockedCount": 0,
-    "featuredCandidateId": "seed-20260522-market-pulse",
-    "featuredGameId": "market-pulse",
+    "featuredCandidateId": "seed-20260522-grove-engine",
+    "featuredGameId": "grove-engine",
     "totalAttributedStarts": 0,
     "totalAggregateStarts": 0
   },
@@ -77,9 +77,9 @@ export const acquisitionLearning = {
   ],
   "campaigns": [
     {
-      "id": "seed-20260522-market-pulse",
-      "gameId": "market-pulse",
-      "title": "Market Pulse",
+      "id": "seed-20260522-grove-engine",
+      "gameId": "grove-engine",
+      "title": "Grove Engine",
       "status": "collecting-attribution",
       "priority": 1,
       "costUsd": 0,
@@ -103,12 +103,12 @@ export const acquisitionLearning = {
         "completionRate": null,
         "growthQualityScore": 78
       },
-      "nextAction": "Collect campaign-attributed events for Market Pulse; aggregate starts are 0."
+      "nextAction": "Collect campaign-attributed events for Grove Engine; aggregate starts are 0."
     },
     {
-      "id": "seed-20260522-guild-garden",
-      "gameId": "guild-garden",
-      "title": "Guild Garden",
+      "id": "seed-20260522-market-pulse",
+      "gameId": "market-pulse",
+      "title": "Market Pulse",
       "status": "collecting-attribution",
       "priority": 2,
       "costUsd": 0,
@@ -132,12 +132,12 @@ export const acquisitionLearning = {
         "completionRate": null,
         "growthQualityScore": 74
       },
-      "nextAction": "Collect campaign-attributed events for Guild Garden; aggregate starts are 0."
+      "nextAction": "Collect campaign-attributed events for Market Pulse; aggregate starts are 0."
     },
     {
-      "id": "seed-20260522-mosaic-haven",
-      "gameId": "mosaic-haven",
-      "title": "Mosaic Haven",
+      "id": "seed-20260522-guild-garden",
+      "gameId": "guild-garden",
+      "title": "Guild Garden",
       "status": "collecting-attribution",
       "priority": 3,
       "costUsd": 0,
@@ -161,7 +161,7 @@ export const acquisitionLearning = {
         "completionRate": null,
         "growthQualityScore": 70
       },
-      "nextAction": "Collect campaign-attributed events for Mosaic Haven; aggregate starts are 0."
+      "nextAction": "Collect campaign-attributed events for Guild Garden; aggregate starts are 0."
     },
     {
       "id": "seed-20260522-metro-loom",
@@ -194,7 +194,7 @@ export const acquisitionLearning = {
     }
   ],
   "nextActions": [
-    "Collect campaign-attributed events for Market Pulse; aggregate starts are 0.",
+    "Collect campaign-attributed events for Grove Engine; aggregate starts are 0.",
     "Keep session acquisition attribution enabled so future gameplay events connect back to UTM campaigns.",
     "Keep every acquisition action inside the zero-spend web/PWA loop until unit-economics gates pass."
   ]

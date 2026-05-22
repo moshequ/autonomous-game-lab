@@ -1,5 +1,5 @@
 export const localEventBridge = {
-  "generatedAt": "2026-05-22T05:51:13.115Z",
+  "generatedAt": "2026-05-22T06:50:16.298Z",
   "status": "bridge-waiting-for-export",
   "mode": "local-zero-spend-event-drop-bridge",
   "inbox": {
@@ -18,14 +18,6 @@ export const localEventBridge = {
     {
       "path": "data/player-events/inbox",
       "role": "inbox",
-      "exists": true,
-      "matchedFiles": 0,
-      "validFiles": 0,
-      "validEvents": 0
-    },
-    {
-      "path": "../../../../Downloads",
-      "role": "downloads-opt-in",
       "exists": true,
       "matchedFiles": 0,
       "validFiles": 0,
@@ -108,8 +100,8 @@ export const localEventBridge = {
     "evidenceReadyNow": false,
     "lastScanAt": "2026-05-22T05:51:13.115Z",
     "lastScanStatus": "no-evidence-found",
-    "scanAgeHours": 0,
-    "cooldownRemainingHours": 4,
+    "scanAgeHours": 0.98,
+    "cooldownRemainingHours": 3.02,
     "nextRecommendedScanAt": "2026-05-22T09:51:13.115Z"
   },
   "gateSampleEvidence": {
@@ -192,7 +184,7 @@ export const localEventBridge = {
     "rawEventDropsStayLocal": true,
     "copyOnlyExplicitDropPaths": true,
     "downloadsFolderOptInOnly": true,
-    "downloadsFolderImportEnabled": true,
+    "downloadsFolderImportEnabled": false,
     "downloadsFolderRequiresExplicitEnv": true,
     "localExportCoverageReceipts": true,
     "staleExportDebtVisibleInApp": true,

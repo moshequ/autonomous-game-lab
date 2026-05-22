@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-05-22T06:34:29.855Z",
-  "sourceDataHash": "3ef659312edf",
+  "generatedAt": "2026-05-22T06:56:05.068Z",
+  "sourceDataHash": "b7ede882032b",
   "status": "handoff-waiting-on-owner-inputs",
   "statusDetail": "blocked-external-inputs",
   "liveCandidate": "pwa-abfe1cfe29c0",
@@ -24,7 +24,7 @@
     "zeroCostFirstActions": 1,
     "missingEnv": 7,
     "missingEnvironmentItems": 7,
-    "missingSecrets": 8,
+    "missingSecrets": 5,
     "productGateBlockers": 3,
     "publicSupportChannelReady": true,
     "storeSupportEmailNeededNow": false,
@@ -145,24 +145,24 @@
       "id": "secret-agl-android-keystore-base64",
       "repositorySecret": "AGL_ANDROID_KEYSTORE_BASE64",
       "envName": "AGL_ANDROID_KEYSTORE_BASE64",
-      "configured": false,
-      "valueSource": "missing",
+      "configured": true,
+      "valueSource": "environment",
       "command": "printf \"%s\" \"$AGL_ANDROID_KEYSTORE_BASE64\" | gh secret set AGL_ANDROID_KEYSTORE_BASE64"
     },
     {
       "id": "secret-agl-android-keystore-password",
       "repositorySecret": "AGL_ANDROID_KEYSTORE_PASSWORD",
       "envName": "AGL_ANDROID_KEYSTORE_PASSWORD",
-      "configured": false,
-      "valueSource": "missing",
+      "configured": true,
+      "valueSource": "environment",
       "command": "printf \"%s\" \"$AGL_ANDROID_KEYSTORE_PASSWORD\" | gh secret set AGL_ANDROID_KEYSTORE_PASSWORD"
     },
     {
       "id": "secret-agl-android-key-alias",
       "repositorySecret": "AGL_ANDROID_KEY_ALIAS",
       "envName": "AGL_ANDROID_KEY_ALIAS",
-      "configured": false,
-      "valueSource": "missing",
+      "configured": true,
+      "valueSource": "environment",
       "command": "printf \"%s\" \"$AGL_ANDROID_KEY_ALIAS\" | gh secret set AGL_ANDROID_KEY_ALIAS"
     },
     {
@@ -257,30 +257,6 @@
       "configured": false,
       "valueSource": "missing",
       "command": "printf \"%s\" \"$POSTHOG_PERSONAL_API_KEY\" | gh secret set POSTHOG_PERSONAL_API_KEY"
-    },
-    {
-      "id": "secret-agl-android-keystore-base64",
-      "repositorySecret": "AGL_ANDROID_KEYSTORE_BASE64",
-      "envName": "AGL_ANDROID_KEYSTORE_BASE64",
-      "configured": false,
-      "valueSource": "missing",
-      "command": "printf \"%s\" \"$AGL_ANDROID_KEYSTORE_BASE64\" | gh secret set AGL_ANDROID_KEYSTORE_BASE64"
-    },
-    {
-      "id": "secret-agl-android-keystore-password",
-      "repositorySecret": "AGL_ANDROID_KEYSTORE_PASSWORD",
-      "envName": "AGL_ANDROID_KEYSTORE_PASSWORD",
-      "configured": false,
-      "valueSource": "missing",
-      "command": "printf \"%s\" \"$AGL_ANDROID_KEYSTORE_PASSWORD\" | gh secret set AGL_ANDROID_KEYSTORE_PASSWORD"
-    },
-    {
-      "id": "secret-agl-android-key-alias",
-      "repositorySecret": "AGL_ANDROID_KEY_ALIAS",
-      "envName": "AGL_ANDROID_KEY_ALIAS",
-      "configured": false,
-      "valueSource": "missing",
-      "command": "printf \"%s\" \"$AGL_ANDROID_KEY_ALIAS\" | gh secret set AGL_ANDROID_KEY_ALIAS"
     },
     {
       "id": "secret-google-play-service-account-json",

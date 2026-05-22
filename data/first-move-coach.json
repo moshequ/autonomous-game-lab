@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-05-22T04:47:05.007Z",
-  "sourceDataHash": "eae07605eb3a",
+  "generatedAt": "2026-05-22T06:43:34.916Z",
+  "sourceDataHash": "9e00b31ea3c6",
   "status": "first-move-coach-ready",
   "sourceStatus": {
     "analyticsSource": "fixture-sample",
@@ -177,6 +177,38 @@
       "telemetryId": "first-move-coach-foundry-ledger"
     },
     {
+      "gameId": "grove-engine",
+      "title": "Grove Engine",
+      "enabled": true,
+      "variantId": "fast-start",
+      "surface": "game-board-first-turn",
+      "recommendedCell": {
+        "row": 1,
+        "col": 2,
+        "label": "middle lane"
+      },
+      "board": {
+        "rows": 3,
+        "cols": 5
+      },
+      "generatedRuntime": true,
+      "runtimeSupported": true,
+      "priorityScore": 0,
+      "evidence": {
+        "shown": 0,
+        "used": 0,
+        "skipped": 0,
+        "resolved": 0,
+        "usageRate": 0,
+        "skipRate": 0,
+        "sampleReady": false
+      },
+      "decision": "active",
+      "sourceReason": "generated daily/portfolio game without live row yet",
+      "copy": "Start here",
+      "telemetryId": "first-move-coach-grove-engine"
+    },
+    {
       "gameId": "guild-garden",
       "title": "Guild Garden",
       "enabled": true,
@@ -335,38 +367,6 @@
       "sourceReason": "generated daily/portfolio game without live row yet",
       "copy": "Start here",
       "telemetryId": "first-move-coach-metro-loom"
-    },
-    {
-      "gameId": "mosaic-haven",
-      "title": "Mosaic Haven",
-      "enabled": true,
-      "variantId": "fast-start",
-      "surface": "game-board-first-turn",
-      "recommendedCell": {
-        "row": 1,
-        "col": 1,
-        "label": "center"
-      },
-      "board": {
-        "rows": 4,
-        "cols": 4
-      },
-      "generatedRuntime": true,
-      "runtimeSupported": true,
-      "priorityScore": 0,
-      "evidence": {
-        "shown": 0,
-        "used": 0,
-        "skipped": 0,
-        "resolved": 0,
-        "usageRate": 0,
-        "skipRate": 0,
-        "sampleReady": false
-      },
-      "decision": "active",
-      "sourceReason": "generated daily/portfolio game without live row yet",
-      "copy": "Start here",
-      "telemetryId": "first-move-coach-mosaic-haven"
     },
     {
       "gameId": "orbit-atlas",

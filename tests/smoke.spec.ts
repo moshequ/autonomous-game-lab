@@ -26,6 +26,72 @@ const expectRunMoves = async (page: Page, moves: string) => {
 
 const runtimeHref = (value: string) => (value.startsWith('/') ? `.${value}` : value)
 
+test('trend radar only boosts evidence-bearing public trend signals', async () => {
+  const trend = JSON.parse(await readFile('data/trend-signals.json', 'utf8')) as {
+    sourceStatus: {
+      quality: {
+        totalItems: number
+        qualifiedItems: number
+        ignoredGenericCategories: number
+        rankingPolicy: string
+      }
+    }
+    items: Array<{
+      title: string
+      signalQuality: { evidenceBearingSignals: number; ignoredGenericCategories: number }
+      inferred: Record<
+        'mechanics' | 'themes' | 'audiences',
+        Array<{ name: string; evidence: { keywordMatches: number; categoryMatches: string[] } }>
+      >
+    }>
+  }
+  const readiness = JSON.parse(await readFile('data/trend-source-readiness.json', 'utf8')) as {
+    quality: typeof trend.sourceStatus.quality
+  }
+  const evidenceFreeSignals = trend.items.flatMap((item) =>
+    (['mechanics', 'themes', 'audiences'] as const).flatMap((fieldName) =>
+      item.inferred[fieldName]
+        .filter((signal) => signal.evidence.keywordMatches + signal.evidence.categoryMatches.length <= 0)
+        .map((signal) => `${item.title}:${fieldName}:${signal.name}`),
+    ),
+  )
+
+  expect(trend.sourceStatus.quality.totalItems).toBe(trend.items.length)
+  expect(trend.sourceStatus.quality.qualifiedItems).toBeGreaterThan(0)
+  expect(trend.sourceStatus.quality.qualifiedItems).toBeLessThanOrEqual(trend.items.length)
+  expect(trend.sourceStatus.quality.ignoredGenericCategories).toBeGreaterThan(0)
+  expect(trend.sourceStatus.quality.rankingPolicy).toBe(
+    'rank only boosts items with explicit keyword or category evidence',
+  )
+  expect(readiness.quality).toEqual(trend.sourceStatus.quality)
+  expect(evidenceFreeSignals).toEqual([])
+  expect(trend.items.some((item) => item.signalQuality.evidenceBearingSignals === 0)).toBe(true)
+})
+
+test('event smoke fixtures follow the generated game roster', async () => {
+  const generatedPlayable = JSON.parse(await readFile('data/generated-playable-games.json', 'utf8')) as {
+    games: Array<{ id: string; title: string }>
+  }
+  const eventCollectorSmoke = JSON.parse(await readFile('data/event-collector-smoke.json', 'utf8')) as {
+    fixture: { sourceFile: string; gameId: string; title: string }
+  }
+  const eventIngestSmoke = JSON.parse(await readFile('data/event-ingest-smoke.json', 'utf8')) as {
+    fixture: { gameSourceFile: string; gameId: string; title: string }
+  }
+  const smokeGame = generatedPlayable.games.find((game) => game.id === eventIngestSmoke.fixture.gameId)
+
+  expect(smokeGame).toBeDefined()
+  expect(eventCollectorSmoke.fixture).toMatchObject({
+    sourceFile: 'data/generated-playable-games.json',
+    gameId: eventIngestSmoke.fixture.gameId,
+    title: smokeGame?.title,
+  })
+  expect(eventIngestSmoke.fixture).toMatchObject({
+    gameSourceFile: 'data/generated-playable-games.json',
+    title: smokeGame?.title,
+  })
+})
+
 test('portal loads a playable canvas and autonomy cockpit', async ({ page }) => {
   const ownerLoop = JSON.parse(await readFile('data/autonomous-owner-loop.json', 'utf8')) as {
     mode: string

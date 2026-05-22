@@ -122,41 +122,12 @@ export const gameBalance = {
         "targetStep": 6
       }
     },
-    "mosaic-haven": {
-      "id": "mosaic-haven",
-      "title": "Mosaic Haven",
-      "boardRows": 4,
-      "boardCols": 4,
-      "maxMoves": 12,
-      "targetScore": 138,
-      "pieces": [
-        "stall",
-        "permit",
-        "clock",
-        "cart"
-      ],
-      "generated": true,
-      "scoring": {
-        "base": 3,
-        "sameNeighbor": 5,
-        "occupiedNeighbor": 3,
-        "rowDiversity": 5,
-        "columnDiversity": 5,
-        "center": 3,
-        "corner": 2
-      },
-      "tuning": {
-        "minTargetScore": 102,
-        "maxTargetScore": 186,
-        "targetStep": 6
-      }
-    },
     "pocket-draft": {
       "id": "pocket-draft",
       "title": "Pocket Draft",
       "boardRows": 3,
       "boardCols": 5,
-      "maxMoves": 11,
+      "maxMoves": 12,
       "targetScore": 130,
       "pieces": [
         "sprout",
@@ -188,10 +159,10 @@ export const gameBalance = {
       "maxMoves": 11,
       "targetScore": 138,
       "pieces": [
-        "scout",
-        "camp",
-        "path",
-        "cache"
+        "stall",
+        "permit",
+        "clock",
+        "cart"
       ],
       "generated": true,
       "scoring": {
@@ -214,13 +185,13 @@ export const gameBalance = {
       "title": "Market Pulse",
       "boardRows": 4,
       "boardCols": 4,
-      "maxMoves": 11,
-      "targetScore": 138,
+      "maxMoves": 12,
+      "targetScore": 144,
       "pieces": [
-        "sprout",
-        "ember",
-        "sun",
-        "violet"
+        "scout",
+        "camp",
+        "path",
+        "cache"
       ],
       "generated": true,
       "scoring": {
@@ -235,6 +206,35 @@ export const gameBalance = {
       "tuning": {
         "minTargetScore": 102,
         "maxTargetScore": 186,
+        "targetStep": 6
+      }
+    },
+    "grove-engine": {
+      "id": "grove-engine",
+      "title": "Grove Engine",
+      "boardRows": 3,
+      "boardCols": 5,
+      "maxMoves": 11,
+      "targetScore": 104,
+      "pieces": [
+        "sprout",
+        "ember",
+        "sun",
+        "violet"
+      ],
+      "generated": true,
+      "scoring": {
+        "base": 4,
+        "sameNeighbor": 6,
+        "occupiedNeighbor": 1,
+        "rowDiversity": 7,
+        "columnDiversity": 3,
+        "center": 2,
+        "corner": 2
+      },
+      "tuning": {
+        "minTargetScore": 59,
+        "maxTargetScore": 143,
         "targetStep": 6
       }
     }

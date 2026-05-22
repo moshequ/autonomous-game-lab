@@ -782,6 +782,32 @@ if (!trend.signals?.themes?.length) {
   fail('Trend radar did not produce theme signals.')
 }
 
+const trendQuality = trend.sourceStatus?.quality
+const evidenceFreeTrendSignals = (trend.items ?? []).flatMap((item) =>
+  ['mechanics', 'themes', 'audiences'].flatMap((fieldName) =>
+    (item.inferred?.[fieldName] ?? [])
+      .filter((signal) => {
+        const keywordMatches = signal.evidence?.keywordMatches ?? 0
+        const categoryMatches = signal.evidence?.categoryMatches?.length ?? 0
+
+        return keywordMatches + categoryMatches <= 0
+      })
+      .map((signal) => `${item.title}:${fieldName}:${signal.name}`),
+  ),
+)
+
+if (
+  !trendQuality ||
+  trendQuality.totalItems !== (trend.items ?? []).length ||
+  trendQuality.qualifiedItems <= 0 ||
+  trendQuality.qualifiedItems > trendQuality.totalItems ||
+  trendQuality.ignoredGenericCategories <= 0 ||
+  trendQuality.rankingPolicy !== 'rank only boosts items with explicit keyword or category evidence' ||
+  evidenceFreeTrendSignals.length > 0
+) {
+  fail('Trend radar must score only evidence-bearing public trend signals and report source quality.')
+}
+
 if (
   !['bgg-hotness-live', 'bgg-hotness-cache', 'public-rss-live', 'public-rss-cache', 'fixture'].includes(
     trend.sourceStatus?.activeSource,
@@ -801,7 +827,8 @@ if (
   trendSourceReadiness.activeSource !== trend.sourceStatus.activeSource ||
   trendSourceReadiness.policy?.officialUrl !== 'https://boardgamegeek.com/using_the_xml_api' ||
   trendSourceReadiness.bggHotness?.authorizationRequired !== true ||
-  trendSourceReadiness.publicFeeds?.authorizationRequired !== false
+  trendSourceReadiness.publicFeeds?.authorizationRequired !== false ||
+  JSON.stringify(trendSourceReadiness.quality) !== JSON.stringify(trend.sourceStatus.quality)
 ) {
   fail('Trend source readiness must document BGG access, public feed fallback, and safe fixture status.')
 }
@@ -980,6 +1007,19 @@ if (
   fail('Analytics rollup must consume the event ingestor output directory.')
 }
 
+const smokeFixtureGame = (generatedPlayable.games ?? []).find((game) => game.id === eventIngestSmoke.fixture?.gameId)
+
+if (
+  !smokeFixtureGame ||
+  eventCollectorSmoke.fixture?.gameId !== eventIngestSmoke.fixture?.gameId ||
+  eventIngestSmoke.fixture?.title !== smokeFixtureGame.title ||
+  eventCollectorSmoke.fixture?.title !== smokeFixtureGame.title ||
+  eventCollectorSmoke.fixture?.sourceFile !== 'data/generated-playable-games.json' ||
+  eventIngestSmoke.fixture?.gameSourceFile !== 'data/generated-playable-games.json'
+) {
+  fail('Event smoke fixtures must follow the current generated playable roster instead of a retired hardcoded game.')
+}
+
 if (
   eventIngestSmoke.status !== 'pass' ||
   eventIngestSmoke.bridge?.status !== 'bridge-ready-for-ingest' ||
@@ -1026,11 +1066,11 @@ if (
 if (
   missingCollectorEventNames.length > 0 ||
   eventCollectorSmoke.status !== 'pass' ||
-	  eventCollectorSmoke.collector?.postStatus !== 'accepted' ||
-	  eventCollectorSmoke.collector?.beaconStatus !== 'accepted' ||
-	  eventCollectorSmoke.collector?.acceptsBeaconBodyToken !== true ||
-	  eventCollectorSmoke.collector?.normalizesAllowedOriginPath !== true ||
-	  eventCollectorSmoke.collector?.storedEvents < 5 ||
+  eventCollectorSmoke.collector?.postStatus !== 'accepted' ||
+  eventCollectorSmoke.collector?.beaconStatus !== 'accepted' ||
+  eventCollectorSmoke.collector?.acceptsBeaconBodyToken !== true ||
+  eventCollectorSmoke.collector?.normalizesAllowedOriginPath !== true ||
+  eventCollectorSmoke.collector?.storedEvents < 5 ||
   eventCollectorSmoke.collector?.exportedEvents < 5 ||
   eventCollectorSmoke.collector?.piiStripped !== true ||
   eventCollectorSmoke.ingest?.status !== 'imported' ||

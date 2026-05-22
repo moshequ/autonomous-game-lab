@@ -1,11 +1,11 @@
 export const trafficSeeding = {
-  "generatedAt": "2026-05-22T05:51:48.494Z",
+  "generatedAt": "2026-05-22T06:42:47.629Z",
   "status": "traffic-seeding-ready",
-  "sourceDataHash": "7319fb42ce90",
+  "sourceDataHash": "b4a1fe30b07f",
   "analyticsSource": "fixture-sample",
   "publicUrlMode": "absolute-origin",
   "siteUrl": "https://moshequ.github.io/autonomous-game-lab",
-  "portfolioGeneratedAt": "2026-05-22T05:51:48.219Z",
+  "portfolioGeneratedAt": "2026-05-22T06:42:47.322Z",
   "guardrails": {
     "maxCostUsd": 0,
     "noPaidPromotion": true,
@@ -74,11 +74,53 @@ export const trafficSeeding = {
   ],
   "campaigns": [
     {
+      "id": "seed-20260522-grove-engine",
+      "gameId": "grove-engine",
+      "title": "Grove Engine",
+      "status": "armed",
+      "priority": 1,
+      "action": "seed-traffic",
+      "dataConfidence": "seed-needed",
+      "costUsd": 0,
+      "noPaidPromotion": true,
+      "reason": "Give this playable game organic/internal traffic before judging it.",
+      "playPath": "/?game=grove-engine&utm_source=seed_internal&utm_campaign=seed-20260522-grove-engine",
+      "sharePath": "/?game=grove-engine&utm_source=seed_share&utm_campaign=seed-20260522-grove-engine",
+      "playUrl": "https://moshequ.github.io/autonomous-game-lab/?game=grove-engine&utm_source=seed_internal&utm_campaign=seed-20260522-grove-engine",
+      "pagePath": "/games/grove-engine.html",
+      "pageUrl": "https://moshequ.github.io/autonomous-game-lab/games/grove-engine.html",
+      "shareUrl": "https://moshequ.github.io/autonomous-game-lab/?game=grove-engine&utm_source=seed_share&utm_campaign=seed-20260522-grove-engine",
+      "copy": {
+        "title": "Play Grove Engine",
+        "text": "A generated engine building puzzle with quick expedition planning decisions.",
+        "cta": "Play free puzzle"
+      },
+      "measurement": {
+        "source": "fixture-sample",
+        "currentViews": 0,
+        "currentStarts": 0,
+        "targetStartsBeforeJudgment": 40,
+        "successEvents": [
+          "organic_entry_opened",
+          "seed_campaign_clicked",
+          "game_started",
+          "turn_taken"
+        ]
+      },
+      "channels": [
+        "internal-rotation",
+        "organic-page",
+        "player-share",
+        "evergreen-seed-route",
+        "product-gate-sample"
+      ]
+    },
+    {
       "id": "seed-20260522-market-pulse",
       "gameId": "market-pulse",
       "title": "Market Pulse",
       "status": "armed",
-      "priority": 1,
+      "priority": 2,
       "action": "seed-traffic",
       "dataConfidence": "seed-needed",
       "costUsd": 0,
@@ -92,7 +134,7 @@ export const trafficSeeding = {
       "shareUrl": "https://moshequ.github.io/autonomous-game-lab/?game=market-pulse&utm_source=seed_share&utm_campaign=seed-20260522-market-pulse",
       "copy": {
         "title": "Play Market Pulse",
-        "text": "A generated auction puzzle with quick cozy production decisions.",
+        "text": "A generated auction puzzle with quick compact city logistics decisions.",
         "cta": "Try today's challenge"
       },
       "measurement": {
@@ -120,7 +162,7 @@ export const trafficSeeding = {
       "gameId": "guild-garden",
       "title": "Guild Garden",
       "status": "armed",
-      "priority": 2,
+      "priority": 3,
       "action": "seed-traffic",
       "dataConfidence": "seed-needed",
       "costUsd": 0,
@@ -136,48 +178,6 @@ export const trafficSeeding = {
         "title": "Play Guild Garden",
         "text": "A generated worker placement puzzle with quick expedition planning decisions.",
         "cta": "Try today's challenge"
-      },
-      "measurement": {
-        "source": "fixture-sample",
-        "currentViews": 0,
-        "currentStarts": 0,
-        "targetStartsBeforeJudgment": 40,
-        "successEvents": [
-          "organic_entry_opened",
-          "seed_campaign_clicked",
-          "game_started",
-          "turn_taken"
-        ]
-      },
-      "channels": [
-        "internal-rotation",
-        "organic-page",
-        "player-share",
-        "evergreen-seed-route",
-        "product-gate-sample"
-      ]
-    },
-    {
-      "id": "seed-20260522-mosaic-haven",
-      "gameId": "mosaic-haven",
-      "title": "Mosaic Haven",
-      "status": "armed",
-      "priority": 3,
-      "action": "seed-traffic",
-      "dataConfidence": "seed-needed",
-      "costUsd": 0,
-      "noPaidPromotion": true,
-      "reason": "Give this playable game organic/internal traffic before judging it.",
-      "playPath": "/?game=mosaic-haven&utm_source=seed_internal&utm_campaign=seed-20260522-mosaic-haven",
-      "sharePath": "/?game=mosaic-haven&utm_source=seed_share&utm_campaign=seed-20260522-mosaic-haven",
-      "playUrl": "https://moshequ.github.io/autonomous-game-lab/?game=mosaic-haven&utm_source=seed_internal&utm_campaign=seed-20260522-mosaic-haven",
-      "pagePath": "/games/mosaic-haven.html",
-      "pageUrl": "https://moshequ.github.io/autonomous-game-lab/games/mosaic-haven.html",
-      "shareUrl": "https://moshequ.github.io/autonomous-game-lab/?game=mosaic-haven&utm_source=seed_share&utm_campaign=seed-20260522-mosaic-haven",
-      "copy": {
-        "title": "Play Mosaic Haven",
-        "text": "A generated tile placement puzzle with quick science desk decisions.",
-        "cta": "Play free puzzle"
       },
       "measurement": {
         "source": "fixture-sample",
@@ -218,7 +218,7 @@ export const trafficSeeding = {
       "shareUrl": "https://moshequ.github.io/autonomous-game-lab/?game=metro-loom&utm_source=seed_share&utm_campaign=seed-20260522-metro-loom",
       "copy": {
         "title": "Play Metro Loom",
-        "text": "A generated route building puzzle with quick compact city logistics decisions.",
+        "text": "A generated route building puzzle with quick science desk decisions.",
         "cta": "Try today's challenge"
       },
       "measurement": {
@@ -246,11 +246,11 @@ export const trafficSeeding = {
     "status": "armed",
     "path": "/seed-next.html",
     "jsonPath": "/seed-next.json",
-    "targetCampaignId": "seed-20260522-market-pulse",
-    "targetGameId": "market-pulse",
-    "targetTitle": "Market Pulse",
-    "targetPath": "/?game=market-pulse&utm_source=seed_share&utm_campaign=seed-20260522-market-pulse",
-    "targetUrl": "https://moshequ.github.io/autonomous-game-lab/?game=market-pulse&utm_source=seed_share&utm_campaign=seed-20260522-market-pulse",
+    "targetCampaignId": "seed-20260522-grove-engine",
+    "targetGameId": "grove-engine",
+    "targetTitle": "Grove Engine",
+    "targetPath": "/?game=grove-engine&utm_source=seed_share&utm_campaign=seed-20260522-grove-engine",
+    "targetUrl": "https://moshequ.github.io/autonomous-game-lab/?game=grove-engine&utm_source=seed_share&utm_campaign=seed-20260522-grove-engine",
     "fallbackPath": "/seed-kit.html",
     "costUsd": 0,
     "playerInitiatedOnly": true,
@@ -268,8 +268,8 @@ export const trafficSeeding = {
   "sampleDistribution": {
     "status": "gate-sample-sharing-ready",
     "kitPath": "/gate-sample.html",
-    "defaultCampaignId": "gate-sample-20260522-d1Retention",
-    "defaultGateId": "d1Retention",
+    "defaultCampaignId": "gate-sample-20260522-firstGameCompletion",
+    "defaultGateId": "firstGameCompletion",
     "missionCount": 3,
     "costUsd": 0,
     "playerInitiatedSharingOnly": true,
@@ -280,18 +280,18 @@ export const trafficSeeding = {
   },
   "sitemapPriority": [
     {
+      "gameId": "grove-engine",
+      "pagePath": "/games/grove-engine.html",
+      "priority": 0.95
+    },
+    {
       "gameId": "market-pulse",
       "pagePath": "/games/market-pulse.html",
-      "priority": 0.95
+      "priority": 0.9
     },
     {
       "gameId": "guild-garden",
       "pagePath": "/games/guild-garden.html",
-      "priority": 0.9
-    },
-    {
-      "gameId": "mosaic-haven",
-      "pagePath": "/games/mosaic-haven.html",
       "priority": 0.85
     },
     {
@@ -301,8 +301,8 @@ export const trafficSeeding = {
     }
   ],
   "nextActions": [
-    "Feature Market Pulse in the internal growth loop and share manifest.",
-    "Feature Sample D1 retention as the default product-gate sample share link.",
+    "Feature Grove Engine in the internal growth loop and share manifest.",
+    "Feature Sample First game completion as the default product-gate sample share link.",
     "Keep traffic sources organic/internal until paid acquisition gates pass.",
     "Judge seeded games only after each reaches the target start sample."
   ]

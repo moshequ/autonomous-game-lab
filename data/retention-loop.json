@@ -1,13 +1,13 @@
 {
-  "generatedAt": "2026-05-22T05:51:14.168Z",
+  "generatedAt": "2026-05-22T06:50:17.231Z",
   "status": "retention-loop-ready",
-  "sourceDataHash": "7efc36fd6936",
+  "sourceDataHash": "0190cb39a0d8",
   "dailyChallenge": {
     "date": "2026-05-22",
-    "gameId": "market-pulse",
-    "title": "Market Pulse",
-    "seed": "daily-20260522-mz",
-    "reason": "Market Pulse has the strongest blended portfolio score (51.912)."
+    "gameId": "grove-engine",
+    "title": "Grove Engine",
+    "seed": "daily-20260522-w2",
+    "reason": "Grove Engine has the strongest blended portfolio score (51.912)."
   },
   "sourceStatus": {
     "analyticsSource": "fixture-sample",
@@ -107,7 +107,7 @@
     "status": "collecting-sample",
     "sampleRole": "fastest-validation",
     "campaignId": "gate-sample-20260522-d1Retention",
-    "playPath": "/?game=market-pulse&utm_source=gate_sample&utm_campaign=gate-sample-20260522-d1Retention",
+    "playPath": "/?game=grove-engine&utm_source=gate_sample&utm_campaign=gate-sample-20260522-d1Retention",
     "publicSamplePath": "/gate-sample.html",
     "current": {
       "actual": 0.167,
@@ -155,8 +155,8 @@
       "evidenceReadyNow": false,
       "lastScanAt": "2026-05-22T05:51:13.115Z",
       "lastScanStatus": "no-evidence-found",
-      "scanAgeHours": 0,
-      "cooldownRemainingHours": 4,
+      "scanAgeHours": 0.98,
+      "cooldownRemainingHours": 3.02,
       "nextRecommendedScanAt": "2026-05-22T09:51:13.115Z"
     },
     "commandPlan": {
@@ -188,9 +188,9 @@
   "missions": [
     {
       "id": "finish-daily-challenge",
-      "label": "Finish Market Pulse",
+      "label": "Finish Grove Engine",
       "event": "daily_challenge_completed",
-      "gameId": "market-pulse",
+      "gameId": "grove-engine",
       "reward": "streak-credit",
       "status": "armed"
     },
@@ -198,7 +198,7 @@
       "id": "return-tomorrow",
       "label": "Return tomorrow for a fresh board",
       "event": "daily_return_prompt_viewed",
-      "gameId": "market-pulse",
+      "gameId": "grove-engine",
       "reward": "next-daily-seed",
       "status": "armed"
     },
@@ -206,7 +206,7 @@
       "id": "confirm-return-intent",
       "label": "Queue 2026-05-23 board intent",
       "event": "daily_return_prompt_clicked",
-      "gameId": "market-pulse",
+      "gameId": "grove-engine",
       "reward": "local-return-intent",
       "status": "armed"
     },
@@ -214,7 +214,7 @@
       "id": "activate-return-intent",
       "label": "Start a queued return board",
       "event": "daily_return_intent_started",
-      "gameId": "market-pulse",
+      "gameId": "grove-engine",
       "reward": "retained-session",
       "status": "armed"
     },
@@ -222,7 +222,7 @@
       "id": "share-daily-seed",
       "label": "Share the daily seed after a run",
       "event": "share_clicked",
-      "gameId": "market-pulse",
+      "gameId": "grove-engine",
       "reward": "organic-signal",
       "status": "armed"
     }

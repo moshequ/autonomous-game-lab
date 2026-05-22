@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-22T05:51:48.494Z",
+  "generatedAt": "2026-05-22T06:42:47.629Z",
   "siteUrl": "https://moshequ.github.io/autonomous-game-lab",
   "publicUrlMode": "absolute-origin",
   "shares": [
@@ -19,12 +19,12 @@
     {
       "gameId": "lantern-relay",
       "title": "Play Lantern Relay",
-      "text": "7-minute original card drafting game for daily mobile play.",
+      "text": "9-minute original card drafting game for daily mobile play.",
       "url": "https://moshequ.github.io/autonomous-game-lab/?game=lantern-relay&utm_source=share&utm_campaign=lantern-relay",
       "tags": [
         "card drafting",
         "cozy production",
-        "families",
+        "strategy solo",
         "daily puzzle",
         "solo board game"
       ]
@@ -36,7 +36,7 @@
       "url": "https://moshequ.github.io/autonomous-game-lab/?game=harbor-circuit&utm_source=share&utm_campaign=harbor-circuit",
       "tags": [
         "route building",
-        "compact city logistics",
+        "science desk",
         "mobile puzzle",
         "daily puzzle",
         "solo board game"
@@ -45,12 +45,12 @@
     {
       "gameId": "foundry-ledger",
       "title": "Play Foundry Ledger",
-      "text": "7-minute original worker placement game for daily mobile play.",
+      "text": "9-minute original auction game for daily mobile play.",
       "url": "https://moshequ.github.io/autonomous-game-lab/?game=foundry-ledger&utm_source=share&utm_campaign=foundry-ledger",
       "tags": [
-        "worker placement",
-        "expedition planning",
-        "families",
+        "auction",
+        "compact city logistics",
+        "strategy solo",
         "daily puzzle",
         "solo board game"
       ]
@@ -58,12 +58,12 @@
     {
       "gameId": "orbit-atlas",
       "title": "Play Orbit Atlas",
-      "text": "9-minute original tile placement game for daily mobile play.",
+      "text": "7-minute original worker placement game for daily mobile play.",
       "url": "https://moshequ.github.io/autonomous-game-lab/?game=orbit-atlas&utm_source=share&utm_campaign=orbit-atlas",
       "tags": [
-        "tile placement",
-        "science desk",
-        "strategy solo",
+        "worker placement",
+        "expedition planning",
+        "families",
         "daily puzzle",
         "solo board game"
       ]
@@ -84,23 +84,10 @@
     {
       "gameId": "metro-loom",
       "title": "Play Metro Loom",
-      "text": "A generated route building puzzle with quick compact city logistics decisions.",
+      "text": "A generated route building puzzle with quick science desk decisions.",
       "url": "https://moshequ.github.io/autonomous-game-lab/?game=metro-loom&utm_source=share&utm_campaign=metro-loom",
       "tags": [
         "route building",
-        "compact city logistics",
-        "daily puzzle",
-        "solo board game",
-        "generated strategy game"
-      ]
-    },
-    {
-      "gameId": "mosaic-haven",
-      "title": "Play Mosaic Haven",
-      "text": "A generated tile placement puzzle with quick science desk decisions.",
-      "url": "https://moshequ.github.io/autonomous-game-lab/?game=mosaic-haven&utm_source=share&utm_campaign=mosaic-haven",
-      "tags": [
-        "tile placement",
         "science desk",
         "daily puzzle",
         "solo board game",
@@ -123,11 +110,24 @@
     {
       "gameId": "market-pulse",
       "title": "Play Market Pulse",
-      "text": "A generated auction puzzle with quick cozy production decisions.",
+      "text": "A generated auction puzzle with quick compact city logistics decisions.",
       "url": "https://moshequ.github.io/autonomous-game-lab/?game=market-pulse&utm_source=share&utm_campaign=market-pulse",
       "tags": [
         "auction",
-        "cozy production",
+        "compact city logistics",
+        "daily puzzle",
+        "solo board game",
+        "generated strategy game"
+      ]
+    },
+    {
+      "gameId": "grove-engine",
+      "title": "Play Grove Engine",
+      "text": "A generated engine building puzzle with quick expedition planning decisions.",
+      "url": "https://moshequ.github.io/autonomous-game-lab/?game=grove-engine&utm_source=share&utm_campaign=grove-engine",
+      "tags": [
+        "engine building",
+        "expedition planning",
         "daily puzzle",
         "solo board game",
         "generated strategy game"
@@ -143,30 +143,45 @@
     "copyShareControls": true,
     "localAnalyticsEvents": true,
     "localAnalyticsStorageKey": "agl.analytics.events",
-    "generatedAt": "2026-05-22T05:51:48.494Z"
+    "generatedAt": "2026-05-22T06:42:47.629Z"
   },
   "gateSampleKit": {
     "path": "/gate-sample.html",
     "url": "https://moshequ.github.io/autonomous-game-lab/gate-sample.html",
     "campaignCount": 3,
-    "defaultCampaignId": "gate-sample-20260522-d1Retention",
+    "defaultCampaignId": "gate-sample-20260522-firstGameCompletion",
     "costUsd": 0,
     "playerInitiatedSharingOnly": true,
     "copyShareControls": true,
     "exportControls": true,
     "localAnalyticsEvents": true,
     "localAnalyticsStorageKey": "agl.analytics.events",
-    "generatedAt": "2026-05-22T05:51:48.494Z"
+    "generatedAt": "2026-05-22T06:42:47.629Z"
   },
   "seedCampaigns": [
+    {
+      "id": "seed-20260522-grove-engine",
+      "gameId": "grove-engine",
+      "title": "Play Grove Engine",
+      "text": "A generated engine building puzzle with quick expedition planning decisions.",
+      "url": "https://moshequ.github.io/autonomous-game-lab/?game=grove-engine&utm_source=seed_share&utm_campaign=seed-20260522-grove-engine",
+      "pageUrl": "https://moshequ.github.io/autonomous-game-lab/games/grove-engine.html",
+      "priority": 1,
+      "costUsd": 0,
+      "tags": [
+        "seed-traffic",
+        "seed-needed",
+        "zero-spend"
+      ]
+    },
     {
       "id": "seed-20260522-market-pulse",
       "gameId": "market-pulse",
       "title": "Play Market Pulse",
-      "text": "A generated auction puzzle with quick cozy production decisions.",
+      "text": "A generated auction puzzle with quick compact city logistics decisions.",
       "url": "https://moshequ.github.io/autonomous-game-lab/?game=market-pulse&utm_source=seed_share&utm_campaign=seed-20260522-market-pulse",
       "pageUrl": "https://moshequ.github.io/autonomous-game-lab/games/market-pulse.html",
-      "priority": 1,
+      "priority": 2,
       "costUsd": 0,
       "tags": [
         "seed-traffic",
@@ -181,21 +196,6 @@
       "text": "A generated worker placement puzzle with quick expedition planning decisions.",
       "url": "https://moshequ.github.io/autonomous-game-lab/?game=guild-garden&utm_source=seed_share&utm_campaign=seed-20260522-guild-garden",
       "pageUrl": "https://moshequ.github.io/autonomous-game-lab/games/guild-garden.html",
-      "priority": 2,
-      "costUsd": 0,
-      "tags": [
-        "seed-traffic",
-        "seed-needed",
-        "zero-spend"
-      ]
-    },
-    {
-      "id": "seed-20260522-mosaic-haven",
-      "gameId": "mosaic-haven",
-      "title": "Play Mosaic Haven",
-      "text": "A generated tile placement puzzle with quick science desk decisions.",
-      "url": "https://moshequ.github.io/autonomous-game-lab/?game=mosaic-haven&utm_source=seed_share&utm_campaign=seed-20260522-mosaic-haven",
-      "pageUrl": "https://moshequ.github.io/autonomous-game-lab/games/mosaic-haven.html",
       "priority": 3,
       "costUsd": 0,
       "tags": [
@@ -208,7 +208,7 @@
       "id": "seed-20260522-metro-loom",
       "gameId": "metro-loom",
       "title": "Play Metro Loom",
-      "text": "A generated route building puzzle with quick compact city logistics decisions.",
+      "text": "A generated route building puzzle with quick science desk decisions.",
       "url": "https://moshequ.github.io/autonomous-game-lab/?game=metro-loom&utm_source=seed_share&utm_campaign=seed-20260522-metro-loom",
       "pageUrl": "https://moshequ.github.io/autonomous-game-lab/games/metro-loom.html",
       "priority": 4,
@@ -295,11 +295,11 @@
     "status": "armed",
     "path": "/seed-next.html",
     "jsonPath": "/seed-next.json",
-    "targetCampaignId": "seed-20260522-market-pulse",
-    "targetGameId": "market-pulse",
-    "targetTitle": "Market Pulse",
-    "targetPath": "/?game=market-pulse&utm_source=seed_share&utm_campaign=seed-20260522-market-pulse",
-    "targetUrl": "https://moshequ.github.io/autonomous-game-lab/?game=market-pulse&utm_source=seed_share&utm_campaign=seed-20260522-market-pulse",
+    "targetCampaignId": "seed-20260522-grove-engine",
+    "targetGameId": "grove-engine",
+    "targetTitle": "Grove Engine",
+    "targetPath": "/?game=grove-engine&utm_source=seed_share&utm_campaign=seed-20260522-grove-engine",
+    "targetUrl": "https://moshequ.github.io/autonomous-game-lab/?game=grove-engine&utm_source=seed_share&utm_campaign=seed-20260522-grove-engine",
     "fallbackPath": "/seed-kit.html",
     "costUsd": 0,
     "playerInitiatedOnly": true,
@@ -315,6 +315,6 @@
     ],
     "url": "https://moshequ.github.io/autonomous-game-lab/seed-next.html",
     "jsonUrl": "https://moshequ.github.io/autonomous-game-lab/seed-next.json",
-    "generatedAt": "2026-05-22T05:51:48.494Z"
+    "generatedAt": "2026-05-22T06:42:47.629Z"
   }
 }

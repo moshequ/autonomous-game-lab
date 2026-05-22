@@ -1,28 +1,28 @@
 # Store Listing Optimizer
 
-Generated: 2026-05-22T05:53:00.256Z
+Generated: 2026-05-22T06:53:51.213Z
 Status: store-listing-optimizer-ready
-Focus: Market Pulse (market-pulse)
+Focus: Grove Engine (grove-engine)
 Previous candidate: lantern-relay
 
 ## Copy
 
-- Short description: Original daily strategy puzzles led by Market Pulse. Quick solo board-game play.
-- Apple subtitle: Market Pulse daily strategy
-- Keywords: auction, cozy production, daily puzzle, solo board game, generated strategy game, board-game-inspired, worker placement, expedition planning, tile placement, science desk, route building, compact city logistics
+- Short description: Original daily strategy puzzles led by Grove Engine. Quick solo board-game play.
+- Apple subtitle: Grove Engine daily strategy
+- Keywords: engine building, expedition planning, daily puzzle, solo board game, generated strategy game, board-game-inspired, auction, compact city logistics, worker placement, route building, science desk, strategy puzzle
 
 ## Screenshot Priorities
 
-- phone-market-pulse-generated: lead-gameplay, score 140
+- phone-grove-engine-generated: lead-gameplay, score 140
 - phone-lantern-relay-game: supporting-phone, score 32
 - phone-portal-home: supporting-phone, score 20
 - desktop-growth-page: press-kit, score 0
 
 ## Candidate Signals
 
-- market-pulse: score 171.912, growth 78
-- guild-garden: score 128.232, growth 74
-- mosaic-haven: score 122.552, growth 70
+- grove-engine: score 171.912, growth 78
+- market-pulse: score 128.232, growth 74
+- guild-garden: score 122.552, growth 70
 - metro-loom: score 116.872, growth 66
 - pocket-draft: score 111.192, growth 62
 - orbit-atlas: score 101.512, growth 58
@@ -40,6 +40,6 @@ Previous candidate: lantern-relay
 
 ## Next Actions
 
-- Use Market Pulse as the store listing focus instead of lantern-relay.
-- Lead screenshots with Market Pulse gameplay board.
+- Use Grove Engine as the store listing focus instead of lantern-relay.
+- Lead screenshots with Grove Engine gameplay board.
 - Regenerate store compliance after every listing, screenshot, monetization, or privacy change.

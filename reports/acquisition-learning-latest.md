@@ -1,6 +1,6 @@
 # Acquisition Learning
 
-Generated: 2026-05-22T05:51:48.761Z
+Generated: 2026-05-22T06:50:16.996Z
 Status: acquisition-learning-ready
 Analytics source: fixture-sample
 Raw attribution available: no
@@ -9,15 +9,15 @@ Raw attribution available: no
 
 - Campaigns: 4
 - Collecting: 4
-- Featured candidate: market-pulse
+- Featured candidate: grove-engine
 - Attributed starts: 0
 - Aggregate starts: 0
 
 ## Campaigns
 
+- collecting-attribution: Grove Engine; attributed 0/40; aggregate 0; Collect campaign-attributed events for Grove Engine; aggregate starts are 0.
 - collecting-attribution: Market Pulse; attributed 0/40; aggregate 0; Collect campaign-attributed events for Market Pulse; aggregate starts are 0.
 - collecting-attribution: Guild Garden; attributed 0/40; aggregate 0; Collect campaign-attributed events for Guild Garden; aggregate starts are 0.
-- collecting-attribution: Mosaic Haven; attributed 0/40; aggregate 0; Collect campaign-attributed events for Mosaic Haven; aggregate starts are 0.
 - collecting-attribution: Metro Loom; attributed 0/40; aggregate 0; Collect campaign-attributed events for Metro Loom; aggregate starts are 0.
 
 ## Channels
@@ -30,6 +30,6 @@ Raw attribution available: no
 
 ## Next Actions
 
-- Collect campaign-attributed events for Market Pulse; aggregate starts are 0.
+- Collect campaign-attributed events for Grove Engine; aggregate starts are 0.
 - Keep session acquisition attribution enabled so future gameplay events connect back to UTM campaigns.
 - Keep every acquisition action inside the zero-spend web/PWA loop until unit-economics gates pass.

@@ -1,10 +1,10 @@
 export const storeCompliance = {
-  "generatedAt": "2026-05-22T05:53:00.519Z",
-  "sourceDataHash": "979cb4049a9f",
+  "generatedAt": "2026-05-22T06:53:51.469Z",
+  "sourceDataHash": "c20ed87593c6",
   "status": "draft-ready-external-blockers",
   "launchCandidate": {
-    "id": "market-pulse",
-    "title": "Market Pulse",
+    "id": "grove-engine",
+    "title": "Grove Engine",
     "status": "generated-playable"
   },
   "policyPosture": "no-accounts-no-ugc-no-gambling-no-paid-spend",

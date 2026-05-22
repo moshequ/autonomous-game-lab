@@ -1,5 +1,5 @@
 export const balanceReport = {
-  "generatedAt": "2026-05-22T02:06:21.298Z",
+  "generatedAt": "2026-05-22T06:42:45.786Z",
   "simulationCountPerStrategy": 420,
   "games": [
     {
@@ -285,88 +285,41 @@ export const balanceReport = {
       ]
     },
     {
-      "gameId": "mosaic-haven",
-      "title": "Mosaic Haven",
-      "targetScore": 138,
+      "gameId": "pocket-draft",
+      "title": "Pocket Draft",
+      "targetScore": 130,
       "maxMoves": 12,
       "simulations": 1260,
       "strategies": [
         {
           "strategy": "random",
           "games": 420,
-          "averageScore": 126.1,
-          "p10": 113,
-          "p50": 126,
-          "p90": 139,
-          "winRate": 0.126,
-          "averageMoveValue": 10.5
+          "averageScore": 120.6,
+          "p10": 106,
+          "p50": 121,
+          "p90": 136,
+          "winRate": 0.226,
+          "averageMoveValue": 10.1
         },
         {
           "strategy": "center",
           "games": 420,
-          "averageScore": 148.6,
-          "p10": 141,
-          "p50": 151,
-          "p90": 156,
-          "winRate": 0.938,
+          "averageScore": 136.2,
+          "p10": 122,
+          "p50": 137,
+          "p90": 151,
+          "winRate": 0.76,
+          "averageMoveValue": 11.4
+        },
+        {
+          "strategy": "greedy",
+          "games": 420,
+          "averageScore": 148.2,
+          "p10": 137,
+          "p50": 147,
+          "p90": 161,
+          "winRate": 0.993,
           "averageMoveValue": 12.4
-        },
-        {
-          "strategy": "greedy",
-          "games": 420,
-          "averageScore": 161.6,
-          "p10": 155,
-          "p50": 162,
-          "p90": 168,
-          "winRate": 1,
-          "averageMoveValue": 13.5
-        }
-      ],
-      "recommendations": [
-        {
-          "severity": "low",
-          "title": "Balance looks playable for first web test",
-          "reason": "bot strategies create a useful score spread without extreme win rates",
-          "confidence": 64
-        }
-      ]
-    },
-    {
-      "gameId": "pocket-draft",
-      "title": "Pocket Draft",
-      "targetScore": 130,
-      "maxMoves": 11,
-      "simulations": 1260,
-      "strategies": [
-        {
-          "strategy": "random",
-          "games": 420,
-          "averageScore": 104.3,
-          "p10": 90,
-          "p50": 104,
-          "p90": 119,
-          "winRate": 0.014,
-          "averageMoveValue": 9.5
-        },
-        {
-          "strategy": "center",
-          "games": 420,
-          "averageScore": 117.8,
-          "p10": 105,
-          "p50": 118,
-          "p90": 131,
-          "winRate": 0.133,
-          "averageMoveValue": 10.7
-        },
-        {
-          "strategy": "greedy",
-          "games": 420,
-          "averageScore": 134.2,
-          "p10": 123,
-          "p50": 133,
-          "p90": 148,
-          "winRate": 0.586,
-          "averageMoveValue": 12.2
         }
       ],
       "recommendations": [
@@ -428,39 +381,86 @@ export const balanceReport = {
     {
       "gameId": "market-pulse",
       "title": "Market Pulse",
-      "targetScore": 138,
+      "targetScore": 144,
+      "maxMoves": 12,
+      "simulations": 1260,
+      "strategies": [
+        {
+          "strategy": "random",
+          "games": 420,
+          "averageScore": 144.1,
+          "p10": 131,
+          "p50": 143,
+          "p90": 158,
+          "winRate": 0.498,
+          "averageMoveValue": 12
+        },
+        {
+          "strategy": "center",
+          "games": 420,
+          "averageScore": 164.6,
+          "p10": 157,
+          "p50": 167,
+          "p90": 172,
+          "winRate": 1,
+          "averageMoveValue": 13.7
+        },
+        {
+          "strategy": "greedy",
+          "games": 420,
+          "averageScore": 179.5,
+          "p10": 173,
+          "p50": 178,
+          "p90": 186,
+          "winRate": 1,
+          "averageMoveValue": 15
+        }
+      ],
+      "recommendations": [
+        {
+          "severity": "low",
+          "title": "Balance looks playable for first web test",
+          "reason": "bot strategies create a useful score spread without extreme win rates",
+          "confidence": 64
+        }
+      ]
+    },
+    {
+      "gameId": "grove-engine",
+      "title": "Grove Engine",
+      "targetScore": 104,
       "maxMoves": 11,
       "simulations": 1260,
       "strategies": [
         {
           "strategy": "random",
           "games": 420,
-          "averageScore": 124.1,
-          "p10": 111,
-          "p50": 123,
-          "p90": 138,
-          "winRate": 0.119,
-          "averageMoveValue": 11.3
+          "averageScore": 104.3,
+          "p10": 90,
+          "p50": 104,
+          "p90": 119,
+          "winRate": 0.517,
+          "averageMoveValue": 9.5
         },
         {
           "strategy": "center",
           "games": 420,
-          "averageScore": 150.3,
-          "p10": 142,
-          "p50": 152,
-          "p90": 157,
-          "winRate": 0.967,
-          "averageMoveValue": 13.7
+          "averageScore": 117.8,
+          "p10": 105,
+          "p50": 118,
+          "p90": 131,
+          "winRate": 0.924,
+          "averageMoveValue": 10.7
         },
         {
           "strategy": "greedy",
           "games": 420,
-          "averageScore": 161.4,
-          "p10": 155,
-          "p50": 161,
-          "p90": 168,
+          "averageScore": 134.2,
+          "p10": 123,
+          "p50": 133,
+          "p90": 148,
           "winRate": 1,
-          "averageMoveValue": 14.7
+          "averageMoveValue": 12.2
         }
       ],
       "recommendations": [

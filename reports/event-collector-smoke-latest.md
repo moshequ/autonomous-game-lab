@@ -1,10 +1,11 @@
 # Event Collector Smoke
 
-Generated: 2026-05-22T05:42:34.829Z
+Generated: 2026-05-22T06:50:04.700Z
 Status: pass
 
 ## Collector
 
+- Smoke game: Grove Engine (grove-engine)
 - Post status: accepted
 - Beacon status: accepted
 - Stored events: 15

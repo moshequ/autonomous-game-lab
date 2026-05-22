@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-22T05:51:48.219Z",
+  "generatedAt": "2026-05-22T06:42:47.322Z",
   "status": "portfolio-policy-ready",
   "analyticsSource": "fixture-sample",
   "releaseHealthStatus": "monitoring",
@@ -11,17 +11,17 @@
   },
   "dailyChallenge": {
     "date": "2026-05-22",
-    "gameId": "market-pulse",
-    "title": "Market Pulse",
-    "seed": "daily-20260522-mz",
-    "reason": "Market Pulse has the strongest blended portfolio score (51.912)."
+    "gameId": "grove-engine",
+    "title": "Grove Engine",
+    "seed": "daily-20260522-w2",
+    "reason": "Grove Engine has the strongest blended portfolio score (51.912)."
   },
   "rotation": {
-    "heroGameId": "market-pulse",
+    "heroGameId": "grove-engine",
     "orderedGameIds": [
+      "grove-engine",
       "market-pulse",
       "guild-garden",
-      "mosaic-haven",
       "metro-loom",
       "harbor-rings",
       "pocket-draft",
@@ -31,18 +31,18 @@
       "lantern-relay"
     ],
     "seedTrafficGameIds": [
+      "grove-engine",
       "market-pulse",
       "guild-garden",
-      "mosaic-haven",
       "metro-loom"
     ],
     "improvementGameIds": [
       "harbor-rings"
     ],
     "heldForMoreDataGameIds": [
+      "grove-engine",
       "market-pulse",
       "guild-garden",
-      "mosaic-haven",
       "metro-loom",
       "pocket-draft",
       "orbit-atlas",
@@ -53,8 +53,8 @@
   },
   "games": [
     {
-      "gameId": "market-pulse",
-      "title": "Market Pulse",
+      "gameId": "grove-engine",
+      "title": "Grove Engine",
       "status": "generated-playable",
       "score": 51.912,
       "action": "seed-traffic",
@@ -77,8 +77,8 @@
       "rank": 1
     },
     {
-      "gameId": "guild-garden",
-      "title": "Guild Garden",
+      "gameId": "market-pulse",
+      "title": "Market Pulse",
       "status": "generated-playable",
       "score": 50.232,
       "action": "seed-traffic",
@@ -101,8 +101,8 @@
       "rank": 2
     },
     {
-      "gameId": "mosaic-haven",
-      "title": "Mosaic Haven",
+      "gameId": "guild-garden",
+      "title": "Guild Garden",
       "status": "generated-playable",
       "score": 48.552,
       "action": "seed-traffic",
@@ -315,7 +315,7 @@
     }
   ],
   "nextActions": [
-    "Seed traffic to Market Pulse, Guild Garden, Mosaic Haven, Metro Loom before judging quality.",
+    "Seed traffic to Grove Engine, Market Pulse, Guild Garden, Metro Loom before judging quality.",
     "Apply backlog improvements for Harbor Rings.",
     "Keep paid promotion disabled until unit-economics gates pass."
   ]

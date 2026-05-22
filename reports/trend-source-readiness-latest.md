@@ -1,6 +1,6 @@
 # Trend Source Readiness
 
-Generated: 2026-05-22T02:06:08.189Z
+Generated: 2026-05-22T06:40:58.835Z
 Status: live-public
 Active source: public-rss-live
 
@@ -27,6 +27,13 @@ Active source: public-rss-live
 - Usable: true
 - Age days: 0
 - Max age days: 30
+
+## Signal Quality
+
+- Qualified items: 22/36
+- Evidence-bearing ratio: 0.611
+- Generic categories ignored: 81
+- Ranking policy: rank only boosts items with explicit keyword or category evidence
 
 ## Fallback
 

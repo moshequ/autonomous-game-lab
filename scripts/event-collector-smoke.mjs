@@ -7,6 +7,8 @@ import worker from '../ops/cloudflare/event-collector-worker.mjs'
 const root = process.cwd()
 const smokeOutputPath = path.join(root, 'data', 'event-collector-smoke.json')
 const smokeReportPath = path.join(root, 'reports', 'event-collector-smoke-latest.md')
+const generatedPlayablePath = path.join(root, 'data', 'generated-playable-games.json')
+const storeListingOptimizerPath = path.join(root, 'data', 'store-listing-optimizer.json')
 
 class MemoryR2Object {
   constructor(value) {
@@ -76,6 +78,29 @@ const fail = (message) => {
   throw new Error(message)
 }
 
+const readJson = async (filePath, fallback = null) =>
+  readFile(filePath, 'utf8')
+    .then((raw) => JSON.parse(raw))
+    .catch((error) => {
+      if (fallback !== null) return fallback
+      throw error
+    })
+
+const resolveSmokeGame = async () => {
+  const generatedPlayable = await readJson(generatedPlayablePath, { games: [] })
+  const generatedGames = Array.isArray(generatedPlayable.games)
+    ? generatedPlayable.games.filter((game) => game?.id && game?.title)
+    : []
+
+  if (generatedGames.length === 0) {
+    fail('Expected generated playable games before running event collector smoke.')
+  }
+
+  const listingOptimizer = await readJson(storeListingOptimizerPath, {})
+  const focusGameId = listingOptimizer.recommendation?.focusGameId
+  return generatedGames.find((game) => game.id === focusGameId) ?? generatedGames[0]
+}
+
 const env = {
   EVENT_BUCKET: new MemoryR2Bucket(),
   ALLOWED_ORIGINS: 'https://autonomous.example/project-page',
@@ -83,12 +108,16 @@ const env = {
   ADMIN_EXPORT_TOKEN: 'admin-smoke-token',
 }
 
+const smokeGame = await resolveSmokeGame()
+const smokeGameId = smokeGame.id
+const smokeGameTitle = smokeGame.title
+
 const exportedEvents = [
   {
     id: 'collector-view-a',
     name: 'game_viewed',
     properties: {
-      gameId: 'mosaic-haven',
+      gameId: smokeGameId,
       anonymousId: 'anon-collector',
       sessionId: 'session-collector-a',
       sessionDate: '2026-05-17',
@@ -100,7 +129,7 @@ const exportedEvents = [
     id: 'collector-gate-sample',
     name: 'gate_sample_mission_clicked',
     properties: {
-      gameId: 'mosaic-haven',
+      gameId: smokeGameId,
       gateId: 'firstGameCompletion',
       campaignId: 'gate-sample-smoke',
       anonymousId: 'anon-collector',
@@ -115,7 +144,7 @@ const exportedEvents = [
     id: 'collector-local-router-share',
     name: 'local_router_share_clicked',
     properties: {
-      gameId: 'mosaic-haven',
+      gameId: smokeGameId,
       campaignId: 'gate-sample-smoke',
       gateId: 'firstGameCompletion',
       recommendationId: 'first-completion-sample',
@@ -134,7 +163,7 @@ const exportedEvents = [
     id: 'collector-start',
     name: 'game_started',
     properties: {
-      gameId: 'mosaic-haven',
+      gameId: smokeGameId,
       anonymousId: 'anon-collector',
       sessionId: 'session-collector-a',
       sessionDate: '2026-05-17',
@@ -145,7 +174,7 @@ const exportedEvents = [
     id: 'collector-first-move-coach',
     name: 'first_move_coach_shown',
     properties: {
-      gameId: 'mosaic-haven',
+      gameId: smokeGameId,
       anonymousId: 'anon-collector',
       sessionId: 'session-collector-a',
       sessionDate: '2026-05-17',
@@ -156,7 +185,7 @@ const exportedEvents = [
     id: 'collector-tutorial',
     name: 'tutorial_completed',
     properties: {
-      gameId: 'mosaic-haven',
+      gameId: smokeGameId,
       anonymousId: 'anon-collector',
       sessionId: 'session-collector-a',
       sessionDate: '2026-05-17',
@@ -167,7 +196,7 @@ const exportedEvents = [
     id: 'collector-completion-nudge',
     name: 'completion_nudge_viewed',
     properties: {
-      gameId: 'mosaic-haven',
+      gameId: smokeGameId,
       anonymousId: 'anon-collector',
       sessionId: 'session-collector-a',
       sessionDate: '2026-05-17',
@@ -178,7 +207,7 @@ const exportedEvents = [
     id: 'collector-replay-prompt',
     name: 'replay_prompt_clicked',
     properties: {
-      gameId: 'mosaic-haven',
+      gameId: smokeGameId,
       anonymousId: 'anon-collector',
       sessionId: 'session-collector-a',
       sessionDate: '2026-05-17',
@@ -189,7 +218,7 @@ const exportedEvents = [
     id: 'collector-complete',
     name: 'level_completed',
     properties: {
-      gameId: 'mosaic-haven',
+      gameId: smokeGameId,
       anonymousId: 'anon-collector',
       sessionId: 'session-collector-a',
       sessionDate: '2026-05-17',
@@ -200,7 +229,7 @@ const exportedEvents = [
     id: 'collector-daily-return',
     name: 'daily_return_prompt_clicked',
     properties: {
-      gameId: 'mosaic-haven',
+      gameId: smokeGameId,
       anonymousId: 'anon-collector',
       sessionId: 'session-collector-a',
       sessionDate: '2026-05-17',
@@ -211,7 +240,7 @@ const exportedEvents = [
     id: 'collector-pwa-available',
     name: 'pwa_install_prompt_available',
     properties: {
-      gameId: 'mosaic-haven',
+      gameId: smokeGameId,
       anonymousId: 'anon-collector',
       sessionId: 'session-collector-a',
       sessionDate: '2026-05-17',
@@ -225,7 +254,7 @@ const exportedEvents = [
     id: 'collector-pwa-install',
     name: 'pwa_install_prompt_clicked',
     properties: {
-      gameId: 'mosaic-haven',
+      gameId: smokeGameId,
       anonymousId: 'anon-collector',
       sessionId: 'session-collector-a',
       sessionDate: '2026-05-17',
@@ -236,7 +265,7 @@ const exportedEvents = [
     id: 'collector-pwa-cooldown',
     name: 'pwa_install_prompt_cooldown',
     properties: {
-      gameId: 'mosaic-haven',
+      gameId: smokeGameId,
       anonymousId: 'anon-collector',
       sessionId: 'session-collector-a',
       sessionDate: '2026-05-17',
@@ -249,7 +278,7 @@ const exportedEvents = [
     id: 'collector-view-b',
     name: 'game_viewed',
     properties: {
-      gameId: 'mosaic-haven',
+      gameId: smokeGameId,
       anonymousId: 'anon-collector',
       sessionId: 'session-collector-b',
       sessionDate: '2026-05-18',
@@ -281,7 +310,7 @@ const beaconEvents = [
     id: 'collector-beacon-abandoned',
     name: 'game_abandoned',
     properties: {
-      gameId: 'mosaic-haven',
+      gameId: smokeGameId,
       anonymousId: 'anon-collector',
       sessionId: 'session-collector-a',
       sessionDate: '2026-05-17',
@@ -364,7 +393,7 @@ try {
   })
 
   const analytics = JSON.parse(await readFile(analyticsOutput, 'utf8'))
-  const game = analytics.games.find((row) => row.gameId === 'mosaic-haven')
+  const game = analytics.games.find((row) => row.gameId === smokeGameId)
 
   if (
     analytics.sourceStatus.activeSource !== 'local-event-drops' ||
@@ -388,16 +417,21 @@ try {
   const smoke = {
     generatedAt: new Date().toISOString(),
     status: 'pass',
-	    collector: {
-	      postStatus: postPayload.status,
-	      beaconStatus: beaconPayload.status,
-	      storedEvents: postPayload.events + beaconPayload.events,
-	      exportedEvents: exportPayload.events.length,
-	      files: exportPayload.files.length,
-	      piiStripped: true,
-	      acceptsBeaconBodyToken: true,
-	      normalizesAllowedOriginPath: true,
-	    },
+    fixture: {
+      sourceFile: 'data/generated-playable-games.json',
+      gameId: smokeGameId,
+      title: smokeGameTitle,
+    },
+    collector: {
+      postStatus: postPayload.status,
+      beaconStatus: beaconPayload.status,
+      storedEvents: postPayload.events + beaconPayload.events,
+      exportedEvents: exportPayload.events.length,
+      files: exportPayload.files.length,
+      piiStripped: true,
+      acceptsBeaconBodyToken: true,
+      normalizesAllowedOriginPath: true,
+    },
     ingest: {
       status: ingest.status,
       importedEvents: ingest.importedEvents,
@@ -433,9 +467,10 @@ try {
     '',
     '## Collector',
     '',
-	    `- Post status: ${smoke.collector.postStatus}`,
-	    `- Beacon status: ${smoke.collector.beaconStatus}`,
-	    `- Stored events: ${smoke.collector.storedEvents}`,
+    `- Smoke game: ${smoke.fixture.title} (${smoke.fixture.gameId})`,
+    `- Post status: ${smoke.collector.postStatus}`,
+    `- Beacon status: ${smoke.collector.beaconStatus}`,
+    `- Stored events: ${smoke.collector.storedEvents}`,
     `- Exported events: ${smoke.collector.exportedEvents}`,
     `- Normalizes allowed origin path: ${smoke.collector.normalizesAllowedOriginPath}`,
     `- PII stripped: ${smoke.collector.piiStripped}`,

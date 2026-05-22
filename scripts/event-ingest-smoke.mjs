@@ -6,6 +6,8 @@ import path from 'node:path'
 const root = process.cwd()
 const smokeOutputPath = path.join(root, 'data', 'event-ingest-smoke.json')
 const smokeReportPath = path.join(root, 'reports', 'event-ingest-smoke-latest.md')
+const generatedPlayablePath = path.join(root, 'data', 'generated-playable-games.json')
+const storeListingOptimizerPath = path.join(root, 'data', 'store-listing-optimizer.json')
 
 const run = (command, args, env) =>
   new Promise((resolve, reject) => {
@@ -40,6 +42,33 @@ const fail = (message) => {
   throw new Error(message)
 }
 
+const readJson = async (filePath, fallback = null) =>
+  readFile(filePath, 'utf8')
+    .then((raw) => JSON.parse(raw))
+    .catch((error) => {
+      if (fallback !== null) return fallback
+      throw error
+    })
+
+const resolveSmokeGame = async () => {
+  const generatedPlayable = await readJson(generatedPlayablePath, { games: [] })
+  const generatedGames = Array.isArray(generatedPlayable.games)
+    ? generatedPlayable.games.filter((game) => game?.id && game?.title)
+    : []
+
+  if (generatedGames.length === 0) {
+    fail('Expected generated playable games before running event ingest smoke.')
+  }
+
+  const listingOptimizer = await readJson(storeListingOptimizerPath, {})
+  const focusGameId = listingOptimizer.recommendation?.focusGameId
+  return generatedGames.find((game) => game.id === focusGameId) ?? generatedGames[0]
+}
+
+const smokeGame = await resolveSmokeGame()
+const smokeGameId = smokeGame.id
+const smokeGameTitle = smokeGame.title
+
 const tempRoot = await mkdtemp(path.join(os.tmpdir(), 'agl-event-ingest-'))
 const inboxDir = path.join(tempRoot, 'inbox')
 const dropDir = path.join(tempRoot, 'browser-downloads')
@@ -68,7 +97,7 @@ try {
       id: 'smoke-view',
       name: 'game_viewed',
       properties: {
-        gameId: 'mosaic-haven',
+        gameId: smokeGameId,
         anonymousId: 'anon-smoke',
         sessionId: 'session-smoke-a',
         sessionDate: '2026-05-17',
@@ -81,7 +110,7 @@ try {
       id: 'smoke-start',
       name: 'game_started',
       properties: {
-        gameId: 'mosaic-haven',
+        gameId: smokeGameId,
         anonymousId: 'anon-smoke',
         sessionId: 'session-smoke-a',
         sessionDate: '2026-05-17',
@@ -92,7 +121,7 @@ try {
       id: 'smoke-tutorial',
       name: 'tutorial_completed',
       properties: {
-        gameId: 'mosaic-haven',
+        gameId: smokeGameId,
         anonymousId: 'anon-smoke',
         sessionId: 'session-smoke-a',
         sessionDate: '2026-05-17',
@@ -103,7 +132,7 @@ try {
       id: 'smoke-complete',
       name: 'level_completed',
       properties: {
-        gameId: 'mosaic-haven',
+        gameId: smokeGameId,
         anonymousId: 'anon-smoke',
         sessionId: 'session-smoke-a',
         sessionDate: '2026-05-17',
@@ -114,7 +143,7 @@ try {
       id: 'smoke-return',
       name: 'game_viewed',
       properties: {
-        gameId: 'mosaic-haven',
+        gameId: smokeGameId,
         anonymousId: 'anon-smoke',
         sessionId: 'session-smoke-b',
         sessionDate: '2026-05-18',
@@ -125,7 +154,7 @@ try {
       id: 'smoke-duplicate',
       name: 'game_viewed',
       properties: {
-        gameId: 'mosaic-haven',
+        gameId: smokeGameId,
         anonymousId: 'anon-smoke',
         sessionId: 'session-smoke-b',
         sessionDate: '2026-05-18',
@@ -136,7 +165,7 @@ try {
       id: 'smoke-duplicate',
       name: 'game_viewed',
       properties: {
-        gameId: 'mosaic-haven',
+        gameId: smokeGameId,
         anonymousId: 'anon-smoke',
         sessionId: 'session-smoke-b',
         sessionDate: '2026-05-18',
@@ -197,7 +226,7 @@ try {
   })
 
   const analytics = JSON.parse(await readFile(analyticsOutput, 'utf8'))
-  const game = analytics.games.find((row) => row.gameId === 'mosaic-haven')
+  const game = analytics.games.find((row) => row.gameId === smokeGameId)
 
   if (analytics.sourceStatus.activeSource !== 'local-event-drops') {
     fail(`Expected local-event-drops source, got ${analytics.sourceStatus.activeSource}`)
@@ -217,7 +246,7 @@ try {
       id: 'smoke-second-start',
       name: 'game_started',
       properties: {
-        gameId: 'mosaic-haven',
+        gameId: smokeGameId,
         anonymousId: 'anon-smoke',
         sessionId: 'session-smoke-b',
         sessionDate: '2026-05-18',
@@ -273,7 +302,7 @@ try {
   })
 
   const incrementalAnalytics = JSON.parse(await readFile(analyticsOutput, 'utf8'))
-  const incrementalGame = incrementalAnalytics.games.find((row) => row.gameId === 'mosaic-haven')
+  const incrementalGame = incrementalAnalytics.games.find((row) => row.gameId === smokeGameId)
 
   if (
     incrementalAnalytics.sourceStatus.localEventDrops.events !== 7 ||
@@ -290,7 +319,7 @@ try {
       id: 'smoke-gate-sample-click',
       name: 'gate_sample_mission_clicked',
       properties: {
-        gameId: 'mosaic-haven',
+        gameId: smokeGameId,
         gateId: 'firstGameCompletion',
         campaignId: 'gate-sample-smoke-firstGameCompletion',
         acquisitionSource: 'gate_sample',
@@ -307,7 +336,7 @@ try {
       id: 'smoke-gate-sample-start',
       name: 'game_started',
       properties: {
-        gameId: 'mosaic-haven',
+        gameId: smokeGameId,
         acquisitionSource: 'gate_sample',
         acquisitionCampaign: 'gate-sample-smoke-firstGameCompletion',
         acquisitionChannel: 'product-gate-sample',
@@ -321,7 +350,7 @@ try {
       id: 'smoke-gate-sample-export',
       name: 'analytics_exported',
       properties: {
-        gameId: 'mosaic-haven',
+        gameId: smokeGameId,
         gateId: 'firstGameCompletion',
         campaignId: 'gate-sample-smoke-firstGameCompletion',
         acquisitionSource: 'gate_sample',
@@ -404,7 +433,9 @@ try {
       sourceFile: 'player-events-smoke.json',
       exportedEvents: exportedEvents.length,
       uniqueEvents: 6,
-      gameId: 'mosaic-haven',
+      gameId: smokeGameId,
+      title: smokeGameTitle,
+      gameSourceFile: 'data/generated-playable-games.json',
     },
     bridge: {
       status: bridge.status,
@@ -479,6 +510,7 @@ try {
     '',
     '## Ingest',
     '',
+    `- Smoke game: ${smoke.fixture.title} (${smoke.fixture.gameId})`,
     `- Bridge status: ${smoke.bridge.status}`,
     `- Bridge copied files: ${smoke.bridge.copiedFiles}`,
     `- Bridge sensitive properties stripped: ${smoke.bridge.sensitivePropertiesDropped}`,
@@ -499,8 +531,8 @@ try {
     `- Active source: ${smoke.analytics.activeSource}`,
     `- Local events: ${smoke.analytics.localEvents}`,
     `- D1 retention: ${smoke.analytics.d1Retention}`,
-    `- Mosaic Haven starts: ${smoke.analytics.counts.game_started}`,
-    `- Mosaic Haven completions: ${smoke.analytics.counts.level_completed}`,
+    `- ${smoke.fixture.title} starts: ${smoke.analytics.counts.game_started}`,
+    `- ${smoke.fixture.title} completions: ${smoke.analytics.counts.level_completed}`,
     '',
   ]
 

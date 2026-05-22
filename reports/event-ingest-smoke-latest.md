@@ -1,10 +1,11 @@
 # Event Ingest Smoke
 
-Generated: 2026-05-22T04:33:35.558Z
+Generated: 2026-05-22T06:50:05.126Z
 Status: pass
 
 ## Ingest
 
+- Smoke game: Grove Engine (grove-engine)
 - Bridge status: bridge-ready-for-ingest
 - Bridge copied files: 1
 - Bridge sensitive properties stripped: 2
@@ -25,5 +26,5 @@ Status: pass
 - Active source: local-event-drops
 - Local events: 7
 - D1 retention: 1
-- Mosaic Haven starts: 2
-- Mosaic Haven completions: 1
+- Grove Engine starts: 2
+- Grove Engine completions: 1

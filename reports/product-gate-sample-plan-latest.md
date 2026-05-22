@@ -1,8 +1,8 @@
 # Product Gate Sample Plan
 
-Generated: 2026-05-22T06:20:40.626Z
+Generated: 2026-05-22T06:50:18.200Z
 Status: product-gate-sample-plan-ready
-Source hash: ca011d28938d
+Source hash: c03b8df98f34
 Analytics source: fixture-sample
 Primary gate: firstGameCompletion
 Default route: firstGameCompletion (gate-sample-20260522-firstGameCompletion)
@@ -20,7 +20,7 @@ Runtime evidence policy: active
 
 - #1 firstGameCompletion: collecting-sample; evidence waiting-for-player-export; aggregate notes 0; 40% / 55%; needs 30 prompt view(s), 128 success(es); /?game=harbor-rings&utm_source=gate_sample&utm_campaign=gate-sample-20260522-firstGameCompletion
 - #2 replayRate: collecting-sample; evidence waiting-for-player-export; aggregate notes 0; 31% / 35%; needs 30 prompt view(s), 10 success(es); /?game=harbor-rings&utm_source=gate_sample&utm_campaign=gate-sample-20260522-replayRate
-- #3 d1Retention: collecting-sample; evidence waiting-for-player-export; aggregate notes 0; 17% / 18%; needs 10 prompt view(s), 1 success(es); /?game=market-pulse&utm_source=gate_sample&utm_campaign=gate-sample-20260522-d1Retention
+- #3 d1Retention: collecting-sample; evidence waiting-for-player-export; aggregate notes 0; 17% / 18%; needs 10 prompt view(s), 1 success(es); /?game=grove-engine&utm_source=gate_sample&utm_campaign=gate-sample-20260522-d1Retention
 
 ## Commands
 

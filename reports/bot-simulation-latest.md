@@ -1,6 +1,6 @@
 # Bot Simulation Report
 
-Generated: 2026-05-22T02:06:21.298Z
+Generated: 2026-05-22T06:42:45.786Z
 
 ## Harbor Rings
 
@@ -92,31 +92,16 @@ Simulations: 1260
 
 - low: Balance looks playable for first web test (64% confidence) - bot strategies create a useful score spread without extreme win rates
 
-## Mosaic Haven
-
-Target: 138 in 12 moves
-Simulations: 1260
-
-### Strategy Results
-
-- random: avg 126.1, p50 126, p90 139, win 13%
-- center: avg 148.6, p50 151, p90 156, win 94%
-- greedy: avg 161.6, p50 162, p90 168, win 100%
-
-### Recommendations
-
-- low: Balance looks playable for first web test (64% confidence) - bot strategies create a useful score spread without extreme win rates
-
 ## Pocket Draft
 
-Target: 130 in 11 moves
+Target: 130 in 12 moves
 Simulations: 1260
 
 ### Strategy Results
 
-- random: avg 104.3, p50 104, p90 119, win 1%
-- center: avg 117.8, p50 118, p90 131, win 13%
-- greedy: avg 134.2, p50 133, p90 148, win 59%
+- random: avg 120.6, p50 121, p90 136, win 23%
+- center: avg 136.2, p50 137, p90 151, win 76%
+- greedy: avg 148.2, p50 147, p90 161, win 99%
 
 ### Recommendations
 
@@ -139,14 +124,29 @@ Simulations: 1260
 
 ## Market Pulse
 
-Target: 138 in 11 moves
+Target: 144 in 12 moves
 Simulations: 1260
 
 ### Strategy Results
 
-- random: avg 124.1, p50 123, p90 138, win 12%
-- center: avg 150.3, p50 152, p90 157, win 97%
-- greedy: avg 161.4, p50 161, p90 168, win 100%
+- random: avg 144.1, p50 143, p90 158, win 50%
+- center: avg 164.6, p50 167, p90 172, win 100%
+- greedy: avg 179.5, p50 178, p90 186, win 100%
+
+### Recommendations
+
+- low: Balance looks playable for first web test (64% confidence) - bot strategies create a useful score spread without extreme win rates
+
+## Grove Engine
+
+Target: 104 in 11 moves
+Simulations: 1260
+
+### Strategy Results
+
+- random: avg 104.3, p50 104, p90 119, win 52%
+- center: avg 117.8, p50 118, p90 131, win 92%
+- greedy: avg 134.2, p50 133, p90 148, win 100%
 
 ### Recommendations
 

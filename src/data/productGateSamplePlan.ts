@@ -1,6 +1,6 @@
 export const productGateSamplePlan = {
-  "generatedAt": "2026-05-22T06:20:40.626Z",
-  "sourceDataHash": "ca011d28938d",
+  "generatedAt": "2026-05-22T06:50:18.200Z",
+  "sourceDataHash": "c03b8df98f34",
   "status": "product-gate-sample-plan-ready",
   "sourceStatus": {
     "analyticsSource": "fixture-sample",
@@ -38,8 +38,8 @@ export const productGateSamplePlan = {
     "evidenceReadyNow": false,
     "lastScanAt": "2026-05-22T05:51:13.115Z",
     "lastScanStatus": "no-evidence-found",
-    "scanAgeHours": 0.49,
-    "cooldownRemainingHours": 3.51,
+    "scanAgeHours": 0.98,
+    "cooldownRemainingHours": 3.02,
     "nextRecommendedScanAt": "2026-05-22T09:51:13.115Z"
   },
   "publicSamplePage": {
@@ -348,12 +348,12 @@ export const productGateSamplePlan = {
       "status": "collecting-sample",
       "ownerLoop": "retention-loop",
       "actionId": "optimize-daily-retention",
-      "gameId": "market-pulse",
-      "title": "Market Pulse",
+      "gameId": "grove-engine",
+      "title": "Grove Engine",
       "surface": "autonomy-cockpit-return-intent-card",
       "campaignId": "gate-sample-20260522-d1Retention",
-      "playPath": "/?game=market-pulse&utm_source=gate_sample&utm_campaign=gate-sample-20260522-d1Retention",
-      "organicSeedCampaignId": "seed-20260522-market-pulse",
+      "playPath": "/?game=grove-engine&utm_source=gate_sample&utm_campaign=gate-sample-20260522-d1Retention",
+      "organicSeedCampaignId": "seed-20260522-grove-engine",
       "current": {
         "actual": 0.167,
         "gate": 0.18,

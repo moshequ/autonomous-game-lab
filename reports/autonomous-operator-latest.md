@@ -1,10 +1,10 @@
 # Autonomous Operator
 
-Generated: 2026-05-22T06:34:31.055Z
-Status: operator-held
+Generated: 2026-05-22T06:56:04.652Z
+Status: operator-plan-ready
 Mode: plan-only
-Owner decision: hold-for-external-input
-Selected action: none
+Owner decision: apply-safe-improvements
+Selected action: apply-safe-improvements
 Execution: not-requested
 
 ## Controls
@@ -18,11 +18,11 @@ Execution: not-requested
 
 ## Selected Action
 
-- none: no eligible local actions
+- apply-safe-improvements: npm run autonomous:experiments && npm run autonomous:improve && npm run autonomous:sync-experiments
 
 ## Eligible Local Actions
 
-- none
+- apply-safe-improvements
 
 ## Blocked Actions
 

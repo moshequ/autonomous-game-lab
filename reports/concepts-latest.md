@@ -1,6 +1,6 @@
 # Generated Game Concepts
 
-Generated: 2026-05-22T02:06:08.331Z
+Generated: 2026-05-22T06:42:42.772Z
 
 ## Accepted Candidates
 
@@ -8,7 +8,7 @@ Generated: 2026-05-22T02:06:08.331Z
 
 - Mechanic: card drafting
 - Theme: cozy production
-- Audience: families
+- Audience: strategy solo
 - Template: tableau
 - Core loop: chain comforting orders by making one strong card drafting decision per turn.
 - IP risk: low
@@ -17,30 +17,30 @@ Generated: 2026-05-22T02:06:08.331Z
 ### 2. Harbor Circuit
 
 - Mechanic: route building
-- Theme: compact city logistics
+- Theme: science desk
 - Audience: mobile puzzle
 - Template: line-drawing
-- Core loop: connect demand before congestion rises by making one strong route building decision per turn.
+- Core loop: align instruments into reliable discoveries by making one strong route building decision per turn.
 - IP risk: low
 - Monetization test: rewarded hint after failed daily challenge
 
 ### 3. Orbit Atlas
-
-- Mechanic: tile placement
-- Theme: science desk
-- Audience: strategy solo
-- Template: grid-puzzle
-- Core loop: align instruments into reliable discoveries by making one strong tile placement decision per turn.
-- IP risk: low
-- Monetization test: rewarded hint after failed daily challenge
-
-### 4. Foundry Ledger
 
 - Mechanic: worker placement
 - Theme: expedition planning
 - Audience: families
 - Template: turn-economy
 - Core loop: commit scouts without overextending supplies by making one strong worker placement decision per turn.
+- IP risk: low
+- Monetization test: rewarded hint after failed daily challenge
+
+### 4. Foundry Ledger
+
+- Mechanic: auction
+- Theme: compact city logistics
+- Audience: strategy solo
+- Template: turn-economy
+- Core loop: connect demand before congestion rises by making one strong auction decision per turn.
 - IP risk: low
 - Monetization test: rewarded hint after failed daily challenge
 

@@ -8,7 +8,7 @@ export const autonomousOwnerLoop = {
     "externalAccountInterventionRequired": true
   },
   "ownerDecision": {
-    "nextBestActionId": "hold-for-external-input"
+    "nextBestActionId": "apply-safe-improvements"
   }
 } as const
 
