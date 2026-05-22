@@ -11,7 +11,7 @@ export const objectiveAudit = {
   "completion": {
     "canMarkGoalComplete": false,
     "reason": "The local autonomous PWA system is largely prepared with strict live deploy evidence synced from GitHub Actions, but production credentials, live data, monetization gates, and store account/signing blockers remain.",
-    "nextBestAction": "hold-for-external-input"
+    "nextBestAction": "measure-pwa-install-loop"
   }
 } as const
 

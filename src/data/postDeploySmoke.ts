@@ -1,27 +1,10 @@
 export const postDeploySmoke = {
-  "generatedAt": "2026-05-22T11:20:09.818Z",
+  "generatedAt": "2026-05-22T11:27:16.719Z",
   "status": "post-deploy-smoke-observed-live",
   "envFiles": {
-    "loaded": true,
-    "loadedFiles": [
-      {
-        "path": "ops/production.env.local",
-        "keys": [
-          "AGL_ANDROID_PACKAGE_NAME",
-          "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
-          "AGL_ANDROID_KEYSTORE_BASE64",
-          "AGL_ANDROID_KEYSTORE_PASSWORD",
-          "AGL_ANDROID_KEY_ALIAS"
-        ]
-      }
-    ],
-    "loadedKeys": [
-      "AGL_ANDROID_PACKAGE_NAME",
-      "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
-      "AGL_ANDROID_KEYSTORE_BASE64",
-      "AGL_ANDROID_KEYSTORE_PASSWORD",
-      "AGL_ANDROID_KEY_ALIAS"
-    ],
+    "loaded": false,
+    "loadedFiles": [],
+    "loadedKeys": [],
     "skippedExistingKeys": [],
     "skippedProtectedKeys": [],
     "overwrittenEnvFileKeys": [],
@@ -55,14 +38,14 @@ export const postDeploySmoke = {
     "origin": "https://moshequ.github.io/autonomous-game-lab",
     "originSource": "release-candidate-public-origin",
     "provider": "github-pages",
-    "candidateId": "pwa-a9a0ca1eb622",
-    "aggregateHash": "a9a0ca1eb6226066950a64155c6d48d8df8ef363606706eb08115a164839412b",
+    "candidateId": "pwa-4814bce84658",
+    "aggregateHash": "4814bce84658574506e435daaab9d5b0b554137af2082e9f14642024b16edcb6",
     "strictManifestComparison": false
   },
   "liveRelease": {
     "status": "release-candidate-ready",
-    "candidateId": "pwa-e1d37765f51a",
-    "aggregateHash": "e1d37765f51aea051463dd3ecebe83ada77e46bc71342892af64b0e9dbc218e0",
+    "candidateId": "pwa-5ac3e69dcf42",
+    "aggregateHash": "5ac3e69dcf42d9c56def36460c99bcd9279d799b7555ebdd834ae3d531c5e062",
     "localCandidateMatches": false,
     "strictManifestComparison": false,
     "postDeploySmokeUrls": 18,
@@ -283,8 +266,8 @@ export const postDeploySmoke = {
         "bytes": 22310,
         "candidateMatches": true,
         "hashMatches": true,
-        "localCandidateId": "pwa-a9a0ca1eb622",
-        "localAggregateHash": "a9a0ca1eb6226066950a64155c6d48d8df8ef363606706eb08115a164839412b",
+        "localCandidateId": "pwa-4814bce84658",
+        "localAggregateHash": "4814bce84658574506e435daaab9d5b0b554137af2082e9f14642024b16edcb6",
         "detail": "Local release manifest matches the release candidate."
       }
     ]
@@ -396,7 +379,7 @@ export const postDeploySmoke = {
       "actualStatus": 200,
       "finalUrl": "https://moshequ.github.io/autonomous-game-lab/measurement-status.json",
       "contentType": "application/json; charset=utf-8",
-      "bytes": 11457,
+      "bytes": 11453,
       "textMatched": true
     },
     {
@@ -558,7 +541,7 @@ export const postDeploySmoke = {
       "path": "/release-candidate.json",
       "url": "https://moshequ.github.io/autonomous-game-lab/release-candidate.json",
       "expectedStatus": 200,
-      "requiredText": "pwa-a9a0ca1eb622",
+      "requiredText": "pwa-4814bce84658",
       "status": "pass",
       "detail": "Live release manifest is reachable; it does not match the current local release candidate.",
       "actualStatus": 200,
@@ -570,8 +553,8 @@ export const postDeploySmoke = {
       "localCandidateMatches": false,
       "strictManifestComparison": false,
       "deployedReleaseStatus": "release-candidate-ready",
-      "deployedCandidateId": "pwa-e1d37765f51a",
-      "deployedAggregateHash": "e1d37765f51aea051463dd3ecebe83ada77e46bc71342892af64b0e9dbc218e0",
+      "deployedCandidateId": "pwa-5ac3e69dcf42",
+      "deployedAggregateHash": "5ac3e69dcf42d9c56def36460c99bcd9279d799b7555ebdd834ae3d531c5e062",
       "deployedPostDeploySmoke": [
         {
           "id": "app-shell",
@@ -704,7 +687,7 @@ export const postDeploySmoke = {
     }
   ],
   "nextActions": [
-    "Live Pages is reachable and serving pwa-e1d37765f51a; run the deploy workflow for strict proof of the current local candidate if needed.",
+    "Live Pages is reachable and serving pwa-5ac3e69dcf42; run the deploy workflow for strict proof of the current local candidate if needed.",
     "Keep revenue, paid acquisition, and app-store submission disabled until product and credential gates pass."
   ]
 } as const
