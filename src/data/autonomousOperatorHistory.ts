@@ -2,10 +2,10 @@ export const autonomousOperatorHistory = {
   "status": "operator-history-ready",
   "summary": {
     "totalRecords": 40,
-    "plannedRecords": 30,
-    "executedRecords": 10,
+    "plannedRecords": 31,
+    "executedRecords": 9,
     "failedRecords": 0,
-    "lastActionId": "refresh-autonomous-self-update",
+    "lastActionId": "refresh-objective-audit",
     "lastExecutionStatus": "not-requested",
     "lastExecutedActionId": "refresh-replay-loop"
   }

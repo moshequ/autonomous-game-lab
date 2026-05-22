@@ -1,27 +1,10 @@
 {
-  "generatedAt": "2026-05-22T10:41:57.927Z",
+  "generatedAt": "2026-05-22T10:47:41.874Z",
   "status": "repository-channel-ready",
   "envFiles": {
-    "loaded": true,
-    "loadedFiles": [
-      {
-        "path": "ops/production.env.local",
-        "keys": [
-          "AGL_ANDROID_PACKAGE_NAME",
-          "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
-          "AGL_ANDROID_KEYSTORE_BASE64",
-          "AGL_ANDROID_KEYSTORE_PASSWORD",
-          "AGL_ANDROID_KEY_ALIAS"
-        ]
-      }
-    ],
-    "loadedKeys": [
-      "AGL_ANDROID_PACKAGE_NAME",
-      "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
-      "AGL_ANDROID_KEYSTORE_BASE64",
-      "AGL_ANDROID_KEYSTORE_PASSWORD",
-      "AGL_ANDROID_KEY_ALIAS"
-    ],
+    "loaded": false,
+    "loadedFiles": [],
+    "loadedKeys": [],
     "skippedExistingKeys": [],
     "skippedProtectedKeys": [],
     "overwrittenEnvFileKeys": [],
@@ -52,13 +35,12 @@
     }
   },
   "workspace": {
-    "path": "/Users/moshequ/Documents/Codex/2026-05-18/i-want-to-have-a-new",
+    "path": "/home/runner/work/autonomous-game-lab/autonomous-game-lab",
     "insideWorkTree": true,
-    "gitRoot": "/Users/moshequ/Documents/Codex/2026-05-18/i-want-to-have-a-new",
+    "gitRoot": "/home/runner/work/autonomous-game-lab/autonomous-game-lab",
     "currentBranch": "main",
-    "dirtyFiles": 47,
+    "dirtyFiles": 48,
     "dirtyPaths": [
-      "data/android-root-assetlinks-handoff.json",
       "data/autonomous-operator-history.json",
       "data/autonomous-operator.json",
       "data/autonomous-owner-loop.json",
@@ -66,6 +48,7 @@
       "data/live-site-monitor.json",
       "data/objective-audit.json",
       "data/performance-budget.json",
+      "data/post-deploy-artifact-sync.json",
       "data/post-deploy-smoke.json",
       "data/production-activation.json",
       "data/production-blocker-handoff.json",
@@ -77,7 +60,6 @@
       "data/repository-bootstrap.json",
       "data/repository-readiness.json",
       "public/measurement-status.json",
-      "reports/android-root-assetlinks-handoff-latest.md",
       "reports/autonomous-operator-history-latest.md",
       "reports/autonomous-operator-latest.md",
       "reports/autonomous-owner-loop-latest.md",
@@ -85,6 +67,7 @@
       "reports/live-site-monitor-latest.md",
       "reports/objective-audit-latest.md",
       "reports/performance-budget-latest.md",
+      "reports/post-deploy-artifact-sync-latest.md",
       "reports/post-deploy-smoke-latest.md",
       "reports/production-activation-latest.md",
       "reports/production-blocker-handoff-latest.md",
@@ -95,20 +78,20 @@
       "reports/release-candidate-latest.md",
       "reports/repository-bootstrap-latest.md",
       "reports/repository-readiness-latest.md",
-      "scripts/android-root-assetlinks-handoff.mjs",
-      "src/data/androidRootAssetlinksHandoff.ts",
+      "src/data/autonomousOperatorHistory.ts",
       "src/data/liveSiteMonitor.ts",
       "src/data/objectiveAudit.ts",
       "src/data/performanceBudget.ts",
+      "src/data/postDeployArtifactSync.ts",
       "src/data/postDeploySmoke.ts",
       "src/data/productionActivation.ts",
+      "src/data/productionBlockerHandoff.ts",
       "src/data/productionBootstrap.ts",
       "src/data/productionMeasurementStatus.ts",
       "src/data/releaseCandidate.ts"
     ],
-    "generatedEvidenceDirtyFiles": 46,
+    "generatedEvidenceDirtyFiles": 48,
     "generatedEvidenceDirtyPaths": [
-      "data/android-root-assetlinks-handoff.json",
       "data/autonomous-operator-history.json",
       "data/autonomous-operator.json",
       "data/autonomous-owner-loop.json",
@@ -116,6 +99,7 @@
       "data/live-site-monitor.json",
       "data/objective-audit.json",
       "data/performance-budget.json",
+      "data/post-deploy-artifact-sync.json",
       "data/post-deploy-smoke.json",
       "data/production-activation.json",
       "data/production-blocker-handoff.json",
@@ -127,7 +111,6 @@
       "data/repository-bootstrap.json",
       "data/repository-readiness.json",
       "public/measurement-status.json",
-      "reports/android-root-assetlinks-handoff-latest.md",
       "reports/autonomous-operator-history-latest.md",
       "reports/autonomous-operator-latest.md",
       "reports/autonomous-owner-loop-latest.md",
@@ -135,6 +118,7 @@
       "reports/live-site-monitor-latest.md",
       "reports/objective-audit-latest.md",
       "reports/performance-budget-latest.md",
+      "reports/post-deploy-artifact-sync-latest.md",
       "reports/post-deploy-smoke-latest.md",
       "reports/production-activation-latest.md",
       "reports/production-blocker-handoff-latest.md",
@@ -145,31 +129,31 @@
       "reports/release-candidate-latest.md",
       "reports/repository-bootstrap-latest.md",
       "reports/repository-readiness-latest.md",
-      "src/data/androidRootAssetlinksHandoff.ts",
+      "src/data/autonomousOperatorHistory.ts",
       "src/data/liveSiteMonitor.ts",
       "src/data/objectiveAudit.ts",
       "src/data/performanceBudget.ts",
+      "src/data/postDeployArtifactSync.ts",
       "src/data/postDeploySmoke.ts",
       "src/data/productionActivation.ts",
+      "src/data/productionBlockerHandoff.ts",
       "src/data/productionBootstrap.ts",
       "src/data/productionMeasurementStatus.ts",
       "src/data/releaseCandidate.ts"
     ],
-    "nonGeneratedDirtyFiles": 1,
-    "nonGeneratedDirtyPaths": [
-      "scripts/android-root-assetlinks-handoff.mjs"
-    ]
+    "nonGeneratedDirtyFiles": 0,
+    "nonGeneratedDirtyPaths": []
   },
   "repository": {
     "target": "moshequ/autonomous-game-lab",
-    "source": "origin-remote",
-    "originRemote": "git@github.com:moshequ/autonomous-game-lab.git",
+    "source": "environment",
+    "originRemote": "https://github.com/moshequ/autonomous-game-lab",
     "remoteRepository": "moshequ/autonomous-game-lab",
-    "ownerHint": null,
-    "ownerHintEnv": null,
-    "ownerHintTarget": null,
-    "inferredTarget": "moshequ/autonomous-game-lab",
-    "inferredTargetSource": "gh-auth-user-and-package-name",
+    "ownerHint": "moshequ",
+    "ownerHintEnv": "GITHUB_REPOSITORY_OWNER",
+    "ownerHintTarget": "moshequ/autonomous-game-lab",
+    "inferredTarget": null,
+    "inferredTargetSource": null,
     "packageName": "autonomous-game-lab",
     "inferredRepositoryName": "autonomous-game-lab",
     "remoteParsing": {
@@ -184,8 +168,8 @@
     "ghCliAvailable": true,
     "ghAuthAvailable": true,
     "ghCredentialReady": true,
-    "ghTokenConfigured": false,
-    "ghUserLogin": "moshequ",
+    "ghTokenConfigured": true,
+    "ghUserLogin": null,
     "workflowDispatchReady": true,
     "canSyncRepositorySettings": true
   },
@@ -194,7 +178,7 @@
     "workflowExists": true,
     "deployWorkflowIncludesSmoke": true,
     "deploymentStatus": "ready-for-pages",
-    "releaseCandidateId": "pwa-531f9cdd4833",
+    "releaseCandidateId": "pwa-dc1730b08544",
     "postDeploySmokeStatus": "post-deploy-smoke-observed-live",
     "liveSettings": {
       "status": "inspected",
@@ -220,7 +204,7 @@
     "status": "target-known",
     "repositoryName": "autonomous-game-lab",
     "target": "moshequ/autonomous-game-lab",
-    "targetSource": "origin-remote",
+    "targetSource": "environment",
     "placeholderTarget": "OWNER/autonomous-game-lab",
     "plannedTarget": "moshequ/autonomous-game-lab",
     "ownerRequired": false,
@@ -264,7 +248,7 @@
     {
       "id": "local-git-worktree",
       "status": "pass",
-      "detail": "Git worktree detected at /Users/moshequ/Documents/Codex/2026-05-18/i-want-to-have-a-new."
+      "detail": "Git worktree detected at /home/runner/work/autonomous-game-lab/autonomous-game-lab."
     },
     {
       "id": "github-target",
@@ -284,7 +268,7 @@
     {
       "id": "gh-token",
       "status": "pass",
-      "detail": "GitHub CLI authentication is available for repository operations."
+      "detail": "GitHub token is present in the current environment."
     },
     {
       "id": "pages-workflow",
