@@ -1,5 +1,5 @@
 export const postDeploySmoke = {
-  "generatedAt": "2026-05-22T06:01:45.863Z",
+  "generatedAt": "2026-05-22T06:14:34.040Z",
   "status": "post-deploy-smoke-observed-live",
   "envFiles": {
     "loaded": false,
@@ -38,14 +38,14 @@ export const postDeploySmoke = {
     "origin": "https://moshequ.github.io/autonomous-game-lab",
     "originSource": "release-candidate-public-origin",
     "provider": "github-pages",
-    "candidateId": "pwa-a1573af583b3",
-    "aggregateHash": "a1573af583b326f944a812810870df7cf6d5e72bbcfaeb7b035f51768a98de0b",
+    "candidateId": "pwa-64ecd939f309",
+    "aggregateHash": "64ecd939f30959ef93f2fed1cc8a450c601dc19004f60162717e8597c178e71d",
     "strictManifestComparison": false
   },
   "liveRelease": {
     "status": "release-candidate-ready",
-    "candidateId": "pwa-bf3ec9c003f3",
-    "aggregateHash": "bf3ec9c003f38d8e0759aa2c9b093011b9205c5448fb36f2c1c26f4688591d88",
+    "candidateId": "pwa-ac36a995dce9",
+    "aggregateHash": "ac36a995dce9abec764df94f9a71c4875a5e3aebcd3f23096783d760d781ebdd",
     "localCandidateMatches": false,
     "strictManifestComparison": false,
     "postDeploySmokeUrls": 18,
@@ -263,11 +263,11 @@ export const postDeploySmoke = {
         "file": "dist/release-candidate.json",
         "expectedStatus": 200,
         "status": "pass",
-        "bytes": 22026,
+        "bytes": 22028,
         "candidateMatches": true,
         "hashMatches": true,
-        "localCandidateId": "pwa-a1573af583b3",
-        "localAggregateHash": "a1573af583b326f944a812810870df7cf6d5e72bbcfaeb7b035f51768a98de0b",
+        "localCandidateId": "pwa-64ecd939f309",
+        "localAggregateHash": "64ecd939f30959ef93f2fed1cc8a450c601dc19004f60162717e8597c178e71d",
         "detail": "Local release manifest matches the release candidate."
       }
     ]
@@ -541,20 +541,20 @@ export const postDeploySmoke = {
       "path": "/release-candidate.json",
       "url": "https://moshequ.github.io/autonomous-game-lab/release-candidate.json",
       "expectedStatus": 200,
-      "requiredText": "pwa-a1573af583b3",
+      "requiredText": "pwa-64ecd939f309",
       "status": "pass",
       "detail": "Live release manifest is reachable; it does not match the current local release candidate.",
       "actualStatus": 200,
       "finalUrl": "https://moshequ.github.io/autonomous-game-lab/release-candidate.json",
       "contentType": "application/json; charset=utf-8",
-      "bytes": 22026,
+      "bytes": 22028,
       "candidateMatches": false,
       "hashMatches": false,
       "localCandidateMatches": false,
       "strictManifestComparison": false,
       "deployedReleaseStatus": "release-candidate-ready",
-      "deployedCandidateId": "pwa-bf3ec9c003f3",
-      "deployedAggregateHash": "bf3ec9c003f38d8e0759aa2c9b093011b9205c5448fb36f2c1c26f4688591d88",
+      "deployedCandidateId": "pwa-ac36a995dce9",
+      "deployedAggregateHash": "ac36a995dce9abec764df94f9a71c4875a5e3aebcd3f23096783d760d781ebdd",
       "deployedPostDeploySmoke": [
         {
           "id": "app-shell",
@@ -687,7 +687,7 @@ export const postDeploySmoke = {
     }
   ],
   "nextActions": [
-    "Live Pages is reachable and serving pwa-bf3ec9c003f3; run the deploy workflow for strict proof of the current local candidate if needed.",
+    "Live Pages is reachable and serving pwa-ac36a995dce9; run the deploy workflow for strict proof of the current local candidate if needed.",
     "Keep revenue, paid acquisition, and app-store submission disabled until product and credential gates pass."
   ]
 } as const

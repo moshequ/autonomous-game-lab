@@ -1,6 +1,6 @@
 # Production Activation
 
-Generated: 2026-05-22T06:09:06.609Z
+Generated: 2026-05-22T06:14:36.327Z
 Status: activation-ready
 Mode: dry-run
 Execution: dry-run
@@ -11,8 +11,8 @@ Execution: dry-run
 - Repository target known: true
 - GitHub credentials ready: true
 - Deployment ready: true
-- Configured variables: 8
-- Configured secrets: 3
+- Configured variables: 6
+- Configured secrets: 0
 
 ## Planned Actions
 
