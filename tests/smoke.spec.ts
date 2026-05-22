@@ -2846,6 +2846,62 @@ test('product gate sample mission starts an attributed zero-spend evidence run',
   await expect(handoff).toContainText(mission.title)
   await expect(handoff).toContainText('export-ready')
   await expect(handoff.getByRole('button', { name: `Export evidence for ${mission.title}` })).toBeVisible()
+  await expect(handoff.getByRole('button', { name: `Share aggregate for ${mission.title}` })).toBeVisible()
+
+  await page.evaluate(() => {
+    const target = window as Window & { __gateHandoffAggregateUrl?: string }
+    target.__gateHandoffAggregateUrl = ''
+    window.open = ((url?: string | URL) => {
+      target.__gateHandoffAggregateUrl = String(url)
+      return window
+    }) as typeof window.open
+  })
+
+  await handoff.getByRole('button', { name: `Share aggregate for ${mission.title}` }).click()
+  await page.waitForFunction(
+    () => Boolean((window as Window & { __gateHandoffAggregateUrl?: string }).__gateHandoffAggregateUrl),
+  )
+
+  const handoffAggregateUrl = await page.evaluate(
+    () => (window as Window & { __gateHandoffAggregateUrl?: string }).__gateHandoffAggregateUrl ?? '',
+  )
+  const handoffAggregateIssue = new URL(handoffAggregateUrl)
+  const handoffAggregateText = decodeURIComponent(handoffAggregateUrl)
+  const handoffAggregateEvent = await page.evaluate(() => {
+    const raw = window.localStorage.getItem('agl.analytics.events')
+    const events = raw ? JSON.parse(raw) : []
+
+    return events.findLast(
+      (event: { name: string; properties: Record<string, string | number | boolean | null> }) =>
+        event.name === 'analytics_evidence_issue_opened',
+    )?.properties
+  })
+
+  expect(handoffAggregateIssue.hostname).toBe('github.com')
+  expect(handoffAggregateIssue.searchParams.get('template')).toBe('analytics-evidence.yml')
+  expect(handoffAggregateIssue.searchParams.get('title')).toContain('gate sample aggregate counts')
+  expect(handoffAggregateIssue.searchParams.get('game')).toContain(mission.title)
+  expect(handoffAggregateIssue.searchParams.get('game')).toContain(mission.gateId)
+  expect(handoffAggregateIssue.searchParams.get('game')).toContain(mission.campaignId)
+  expect(Number(handoffAggregateIssue.searchParams.get('starts'))).toBeGreaterThanOrEqual(1)
+  expect(handoffAggregateIssue.searchParams.get('summary')).toContain('Aggregate-only browser summary')
+  expect(handoffAggregateIssue.searchParams.get('summary')).toContain('does not pass product gates')
+  expect(handoffAggregateText).not.toContain('anon-')
+  expect(handoffAggregateText).not.toContain('evt-')
+  expect(handoffAggregateEvent).toMatchObject({
+    surface: 'runtime-gate-sample-handoff',
+    channel: 'product-gate-sample',
+    gameId: mission.gameId,
+    gateId: mission.gateId,
+    campaignId: mission.campaignId,
+    publicAggregateOnly: true,
+    rawEventsIncluded: false,
+    identifiersIncluded: false,
+    aggregateEvidenceDoesNotPassGates: true,
+    destination: 'github-issues',
+    zeroPaidSpend: true,
+    noRevenueEnablement: true,
+  })
 
   const handoffDownloadPromise = page.waitForEvent('download')
   await handoff.getByRole('button', { name: `Export evidence for ${mission.title}` }).click()

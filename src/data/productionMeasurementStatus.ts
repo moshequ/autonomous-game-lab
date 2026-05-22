@@ -1,5 +1,5 @@
 export const productionMeasurementStatus = {
-  "generatedAt": "2026-05-22T12:11:45.612Z",
+  "generatedAt": "2026-05-22T12:22:58.002Z",
   "status": "production-measurement-local-intake-ready",
   "activePath": "local-browser-buffer",
   "liveCandidate": "pwa-7d8e93c75363",

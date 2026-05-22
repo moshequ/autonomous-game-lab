@@ -3021,6 +3021,15 @@ function App() {
                   <button
                     className="tinyButton subtleButton"
                     type="button"
+                    onClick={openAggregateEvidenceIssue}
+                    disabled={!supportChannel.repository.target}
+                  >
+                    <Share2 size={14} aria-hidden="true" />
+                    Share aggregate for {productGateSampleEvidenceHandoff.mission.title}
+                  </button>
+                  <button
+                    className="tinyButton subtleButton"
+                    type="button"
                     onClick={() => startGateSampleMission(productGateSampleEvidenceHandoff.mission)}
                   >
                     Continue sample for {productGateSampleEvidenceHandoff.mission.title}
