@@ -1,28 +1,17 @@
 {
-  "generatedAt": "2026-05-22T09:38:58.858Z",
-  "status": "operator-plan-ready",
+  "generatedAt": "2026-05-22T09:44:37.333Z",
+  "status": "operator-held",
   "mode": "plan-only",
   "ownerDecision": {
-    "actionId": "refresh-replay-loop",
-    "command": "npm run autonomous:replay-loop",
-    "locallyExecutable": true,
-    "rejectionReason": null
+    "actionId": "hold-for-external-input",
+    "command": "No local command is available until external inputs, configured credentials, or new player evidence arrive.",
+    "locallyExecutable": false,
+    "rejectionReason": "status-monitor"
   },
   "requestedActionId": null,
-  "selectedAction": {
-    "id": "refresh-replay-loop",
-    "status": "armed",
-    "command": "npm run autonomous:replay-loop",
-    "targets": [
-      "harbor-rings"
-    ],
-    "reason": "Refreshes the optional completed-run replay prompt from product-gate and replay telemetry evidence.",
-    "costUsd": 0
-  },
+  "selectedAction": null,
   "selectedRejection": null,
-  "eligibleActionIds": [
-    "refresh-replay-loop"
-  ],
+  "eligibleActionIds": [],
   "blockedActions": [
     {
       "id": "run-daily-owner-loop",
@@ -145,6 +134,12 @@
       "reason": "status-monitor"
     },
     {
+      "id": "refresh-replay-loop",
+      "status": "monitor",
+      "command": "npm run autonomous:replay-loop",
+      "reason": "status-monitor"
+    },
+    {
       "id": "prepare-repository-channel",
       "status": "monitor",
       "command": "npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap",
@@ -223,12 +218,7 @@
       "reason": "status-monitor"
     }
   ],
-  "commandPlan": [
-    {
-      "segment": "npm run autonomous:replay-loop",
-      "script": "autonomous:replay-loop"
-    }
-  ],
+  "commandPlan": [],
   "execution": {
     "requested": false,
     "status": "not-requested",
@@ -301,7 +291,7 @@
     "RUN_WORKFLOWS=1"
   ],
   "nextActions": [
-    "Run npm run autonomous:operator -- --execute --action=refresh-replay-loop to execute exactly one allowed local action.",
+    "Keep reporting external blockers until a safe local action is eligible.",
     "Do not execute GitHub workflow, store, paid ads, or account setup commands from the local operator."
   ]
 }

@@ -1,10 +1,10 @@
 # Autonomous Operator
 
-Generated: 2026-05-22T09:38:58.858Z
-Status: operator-plan-ready
+Generated: 2026-05-22T09:44:37.333Z
+Status: operator-held
 Mode: plan-only
-Owner decision: refresh-replay-loop
-Selected action: refresh-replay-loop
+Owner decision: hold-for-external-input
+Selected action: none
 Execution: not-requested
 
 ## Controls
@@ -18,11 +18,11 @@ Execution: not-requested
 
 ## Selected Action
 
-- refresh-replay-loop: npm run autonomous:replay-loop
+- none: no eligible local actions
 
 ## Eligible Local Actions
 
-- refresh-replay-loop
+- none
 
 ## Blocked Actions
 
