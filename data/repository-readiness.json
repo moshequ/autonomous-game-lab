@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-22T11:27:17.532Z",
+  "generatedAt": "2026-05-22T11:32:46.725Z",
   "status": "repository-channel-ready",
   "envFiles": {
     "loaded": false,
@@ -39,7 +39,7 @@
     "insideWorkTree": true,
     "gitRoot": "/home/runner/work/autonomous-game-lab/autonomous-game-lab",
     "currentBranch": "main",
-    "dirtyFiles": 53,
+    "dirtyFiles": 51,
     "dirtyPaths": [
       "data/autonomous-operator-history.json",
       "data/autonomous-operator.json",
@@ -80,9 +80,7 @@
       "reports/release-candidate-latest.md",
       "reports/repository-bootstrap-latest.md",
       "reports/repository-readiness-latest.md",
-      "src/data/autonomousOperator.ts",
       "src/data/autonomousOperatorHistory.ts",
-      "src/data/autonomousOwnerLoop.ts",
       "src/data/liveSiteMonitor.ts",
       "src/data/objectiveAudit.ts",
       "src/data/performanceBudget.ts",
@@ -95,7 +93,7 @@
       "src/data/productionMeasurementStatus.ts",
       "src/data/releaseCandidate.ts"
     ],
-    "generatedEvidenceDirtyFiles": 53,
+    "generatedEvidenceDirtyFiles": 51,
     "generatedEvidenceDirtyPaths": [
       "data/autonomous-operator-history.json",
       "data/autonomous-operator.json",
@@ -136,9 +134,7 @@
       "reports/release-candidate-latest.md",
       "reports/repository-bootstrap-latest.md",
       "reports/repository-readiness-latest.md",
-      "src/data/autonomousOperator.ts",
       "src/data/autonomousOperatorHistory.ts",
-      "src/data/autonomousOwnerLoop.ts",
       "src/data/liveSiteMonitor.ts",
       "src/data/objectiveAudit.ts",
       "src/data/performanceBudget.ts",
@@ -188,7 +184,7 @@
     "workflowExists": true,
     "deployWorkflowIncludesSmoke": true,
     "deploymentStatus": "ready-for-pages",
-    "releaseCandidateId": "pwa-4814bce84658",
+    "releaseCandidateId": "pwa-52aea99da95a",
     "postDeploySmokeStatus": "post-deploy-smoke-observed-live",
     "liveSettings": {
       "status": "inspected",
