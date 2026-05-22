@@ -1,19 +1,19 @@
 {
-  "generatedAt": "2026-05-22T11:48:20.309Z",
+  "generatedAt": "2026-05-22T11:52:34.391Z",
   "status": "release-candidate-ready",
-  "candidateId": "pwa-d2743007b643",
+  "candidateId": "pwa-96de02c9d4cf",
   "target": {
     "provider": "github-pages",
     "artifactPath": "dist",
     "manifestPath": "dist/release-candidate.json",
     "publicOrigin": "https://moshequ.github.io/autonomous-game-lab",
-    "publicOriginStatus": "configured",
+    "publicOriginStatus": "inferred-github-pages",
     "basePath": "/autonomous-game-lab/"
   },
   "summary": {
-    "totalFiles": 49,
-    "totalBytes": 3711746,
-    "totalKb": 3624.8,
+    "totalFiles": 50,
+    "totalBytes": 3916211,
+    "totalKb": 3824.4,
     "assetFiles": 4,
     "htmlFiles": 18,
     "gamePages": 10,
@@ -22,7 +22,7 @@
   },
   "integrity": {
     "algorithm": "sha256",
-    "aggregateHash": "d2743007b64355a2b4194dc540bcf670ecf999250ec2c2762cf3e44db4f97080",
+    "aggregateHash": "96de02c9d4cfe9028d4e3eeebeef8fdb3c41da9d08a92d5edf5d55a407b1b592",
     "files": [
       {
         "path": ".nojekyll",
@@ -46,23 +46,16 @@
         "cacheControl": "public, max-age=3600"
       },
       {
-        "path": "assets/aggregateEvidenceIssue-Bymts7Gb.js",
+        "path": "assets/aggregateEvidenceIssue-B5KWUnvt.js",
         "bytes": 2978,
-        "sha256": "86f415d1323ca28fb3af7905caf447b7cccbfbb1aa9e6f4028d98a91e653e148",
+        "sha256": "fff82ad2176b76b1a6d2c6532e3a05fd3f7bae6a615a90f32cc8d1338c45f4e4",
         "contentType": "text/javascript; charset=utf-8",
         "cacheControl": "public, max-age=31536000, immutable"
       },
       {
-        "path": "assets/GameCanvas-B1NIgtLV.js",
+        "path": "assets/GameCanvas-0ZK2i3Oq.js",
         "bytes": 1394049,
-        "sha256": "0f6709e6e73bb873777bcfa6ff69d8b331c4b771065c3f529711fbe16f267ec5",
-        "contentType": "text/javascript; charset=utf-8",
-        "cacheControl": "public, max-age=31536000, immutable"
-      },
-      {
-        "path": "assets/index-BQqkntt6.js",
-        "bytes": 690290,
-        "sha256": "cac7356bdd2a648c2e8f629394b3d2c7898b43069b93f87c842066bbcb4b718f",
+        "sha256": "ad8c5e01851ebc759faee7f51e49f819627a47f09685dd67fbc7a05f6a4027e8",
         "contentType": "text/javascript; charset=utf-8",
         "cacheControl": "public, max-age=31536000, immutable"
       },
@@ -71,6 +64,13 @@
         "bytes": 10779,
         "sha256": "89188e66d91ef0b9e7625648b0d29b258bade07986611b5703ad4689ce0effa2",
         "contentType": "text/css; charset=utf-8",
+        "cacheControl": "public, max-age=31536000, immutable"
+      },
+      {
+        "path": "assets/index-C791wMQM.js",
+        "bytes": 690018,
+        "sha256": "b62abe5673e09de324b2749dafb3271da83cd07197d5fe3028303e76f2be19d0",
+        "contentType": "text/javascript; charset=utf-8",
         "cacheControl": "public, max-age=31536000, immutable"
       },
       {
@@ -223,7 +223,7 @@
       {
         "path": "index.html",
         "bytes": 2846,
-        "sha256": "94b0160034645207f5762b13886f277b0a38092ce1f5736321f0a1600d96ea43",
+        "sha256": "3416d625412b50441258c9b998115eea1360112581c77b0e2a0d6a7a3b3d21e0",
         "contentType": "text/html; charset=utf-8",
         "cacheControl": "no-cache"
       },
@@ -251,7 +251,7 @@
       {
         "path": "measurement-status.json",
         "bytes": 11453,
-        "sha256": "7e9329fa4ea72fd63538b357f89ac839493149ffaea29f27863d22ee67191610",
+        "sha256": "0b596afc823fb80473557823b0a995740fe6856a2a63193c233135c89838fbb9",
         "contentType": "application/json; charset=utf-8",
         "cacheControl": "public, max-age=3600"
       },
@@ -320,29 +320,36 @@
       },
       {
         "path": "store-assets/screenshots/desktop-growth-page.png",
-        "bytes": 59625,
-        "sha256": "93658dacea6b0edb99b1f79a2ae4f56da196b6bc125fcfb4477b892e062c8d62",
+        "bytes": 60986,
+        "sha256": "1780b59617107d268ab3ada0819ae6b1ffc83a792eed898c34ffdfbd8e890b50",
+        "contentType": "image/png",
+        "cacheControl": "public, max-age=3600"
+      },
+      {
+        "path": "store-assets/screenshots/phone-grove-engine-generated.png",
+        "bytes": 190249,
+        "sha256": "6f96a1642a97a60a1e3a1d0ca9cfe47dd587e28db22555a2a5697bc4c79058e8",
         "contentType": "image/png",
         "cacheControl": "public, max-age=3600"
       },
       {
         "path": "store-assets/screenshots/phone-lantern-relay-game.png",
-        "bytes": 194268,
-        "sha256": "519328a8f13322c5e5da3b70551ab745da7533c973f21031ab39fb4991269c4d",
+        "bytes": 199615,
+        "sha256": "fcaa3ab90eb4aba3be660344229d485f7065588ca22a3cf5eab0fd044a7ff976",
         "contentType": "image/png",
         "cacheControl": "public, max-age=3600"
       },
       {
         "path": "store-assets/screenshots/phone-market-pulse-generated.png",
-        "bytes": 185860,
-        "sha256": "b07601e374cd200489553facb60f09df5044804cd698a43e1e67fc1770c834fd",
+        "bytes": 198988,
+        "sha256": "447c163b20c4d0ebd588e6cdd8597adae7ea03e7ff88e8e6f8cf8363d7b6c948",
         "contentType": "image/png",
         "cacheControl": "public, max-age=3600"
       },
       {
         "path": "store-assets/screenshots/phone-portal-home.png",
-        "bytes": 212121,
-        "sha256": "3240fb155b9dbdd0d5bb9937a40c887105f75503cc2c367102a3df4d1affd215",
+        "bytes": 206663,
+        "sha256": "f177700ed947573e429910bd5e4868b97c4bd88ad82afa998c6b42c07381da2f",
         "contentType": "image/png",
         "cacheControl": "public, max-age=3600"
       },
@@ -355,8 +362,8 @@
       },
       {
         "path": "sw.js",
-        "bytes": 3942,
-        "sha256": "602465ea921fb553289dea982d68eb9199471b308429f3656925e8f84e3d5b49",
+        "bytes": 4052,
+        "sha256": "3f65605c1784086e7cb950b2e689292fe99a66ab00358aef3a6079053f4efd51",
         "contentType": "text/javascript; charset=utf-8",
         "cacheControl": "no-cache"
       },
@@ -636,7 +643,7 @@
     {
       "id": "dist-inventory",
       "status": "pass",
-      "detail": "49 dist files inventoried."
+      "detail": "50 dist files inventoried."
     },
     {
       "id": "required-files",
