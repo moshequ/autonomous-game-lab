@@ -1,7 +1,7 @@
 export const organicSeedLoop = {
-  "generatedAt": "2026-05-22T14:11:05.393Z",
+  "generatedAt": "2026-05-22T16:20:42.639Z",
   "status": "organic-seed-loop-ready",
-  "sourceDataHash": "c7f32ef48907",
+  "sourceDataHash": "56f930d70c5c",
   "sourceStatus": {
     "analyticsSource": "fixture-sample",
     "trafficSeeding": "traffic-seeding-ready",
