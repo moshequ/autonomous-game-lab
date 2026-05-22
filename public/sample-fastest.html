@@ -3,9 +3,9 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Open the Current Gate Sample | Autonomous Game Lab</title>
+    <title>Open the Fastest Gate Sample | Autonomous Game Lab</title>
     <meta name="robots" content="index,follow">
-    <meta name="description" content="An evergreen zero-spend route to the current Autonomous Game Lab product-gate sample mission.">
+    <meta name="description" content="A direct zero-spend route to the fastest Autonomous Game Lab product-gate validation mission.">
     <style>
       :root { color-scheme: light; font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color: #1a211d; background: #f7f7f2; }
       body { margin: 0; }
@@ -26,30 +26,30 @@
     </style>
   </head>
   <body>
-    <main data-sample-next data-campaign-id="gate-sample-20260523-firstGameCompletion" data-gate-id="firstGameCompletion" data-game-id="harbor-rings" data-target-path="./?game=harbor-rings&amp;utm_source=gate_sample&amp;utm_campaign=gate-sample-20260523-firstGameCompletion">
-      <p class="eyebrow">Zero-spend gate sample route</p>
-      <h1>Sample First game completion</h1>
-      <p>Harbor Rings needs real zero-spend player evidence before revenue or store gates move. This stable page follows the current product-gate sample target, so old shares keep routing to the evidence the owner loop needs next.</p>
+    <main data-sample-fastest data-campaign-id="gate-sample-20260523-d1Retention" data-gate-id="d1Retention" data-game-id="market-pulse" data-target-path="./?game=market-pulse&amp;utm_source=gate_sample&amp;utm_campaign=gate-sample-20260523-d1Retention">
+      <p class="eyebrow">Fastest zero-spend gate sample</p>
+      <h1>Sample D1 retention</h1>
+      <p>Market Pulse needs real zero-spend player evidence before revenue or store gates move. This stable page routes directly to the quickest separate validation target the owner loop can clear with real player evidence.</p>
       <div class="actions">
-        <a href="./?game=harbor-rings&amp;utm_source=gate_sample&amp;utm_campaign=gate-sample-20260523-firstGameCompletion" data-sample-next-link>Start measured run</a>
+        <a href="./?game=market-pulse&amp;utm_source=gate_sample&amp;utm_campaign=gate-sample-20260523-d1Retention" data-sample-fastest-link>Start fastest sample</a>
         <a class="secondary" href="./gate-sample.html">Open gate missions</a>
       </div>
       <dl>
-        <div><dt>Campaign</dt><dd>gate-sample-20260523-firstGameCompletion</dd></div>
-        <div><dt>Gate</dt><dd>firstGameCompletion</dd></div>
-        <div><dt>Need</dt><dd>30 views / 128 wins</dd></div>
+        <div><dt>Campaign</dt><dd>gate-sample-20260523-d1Retention</dd></div>
+        <div><dt>Gate</dt><dd>d1Retention</dd></div>
+        <div><dt>Need</dt><dd>10 views / 1 wins</dd></div>
         <div><dt>Cost</dt><dd>$0.00</dd></div>
       </dl>
-      <p class="status" data-sample-next-status aria-live="polite">Preparing sample route.</p>
+      <p class="status" data-sample-fastest-status aria-live="polite">Preparing fastest sample route.</p>
     </main>
     <script>
       (() => {
-        const route = {"generatedAt":"2026-05-22T23:40:24.985Z","status":"armed","path":"/sample-next.html","jsonPath":"/sample-next.json","target":{"campaignId":"gate-sample-20260523-firstGameCompletion","gateId":"firstGameCompletion","gameId":"harbor-rings","title":"Sample First game completion","priority":1,"targetPath":"/?game=harbor-rings&utm_source=gate_sample&utm_campaign=gate-sample-20260523-firstGameCompletion","targetUrl":"https://moshequ.github.io/autonomous-game-lab/?game=harbor-rings&utm_source=gate_sample&utm_campaign=gate-sample-20260523-firstGameCompletion","pageUrl":"https://moshequ.github.io/autonomous-game-lab/gate-sample.html","copy":{"title":"Sample First game completion","text":"Harbor Rings needs real zero-spend player evidence before revenue or store gates move.","cta":"Start measured run"},"needed":{"promptViews":30,"successes":128}},"fallbackPath":"/gate-sample.html","guardrails":{"costUsd":0,"playerInitiatedOnly":true,"noAutomatedExternalPosting":true,"noPaidPromotion":true,"noSyntheticEvents":true,"noRevenueEnablement":true},"telemetry":["sample_next_viewed","sample_next_routed","gate_sample_mission_clicked","game_started"]}
+        const route = {"generatedAt":"2026-05-22T23:40:24.985Z","status":"armed","path":"/sample-fastest.html","jsonPath":"/sample-fastest.json","target":{"campaignId":"gate-sample-20260523-d1Retention","gateId":"d1Retention","gameId":"market-pulse","title":"Sample D1 retention","priority":3,"targetPath":"/?game=market-pulse&utm_source=gate_sample&utm_campaign=gate-sample-20260523-d1Retention","targetUrl":"https://moshequ.github.io/autonomous-game-lab/?game=market-pulse&utm_source=gate_sample&utm_campaign=gate-sample-20260523-d1Retention","pageUrl":"https://moshequ.github.io/autonomous-game-lab/gate-sample.html","copy":{"title":"Sample D1 retention","text":"Market Pulse needs real zero-spend player evidence before revenue or store gates move.","cta":"Start fastest sample"},"needed":{"promptViews":10,"successes":1}},"fallbackPath":"/gate-sample.html","guardrails":{"costUsd":0,"playerInitiatedOnly":true,"noAutomatedExternalPosting":true,"noPaidPromotion":true,"noSyntheticEvents":true,"noRevenueEnablement":true},"telemetry":["sample_fastest_viewed","sample_fastest_routed","gate_sample_mission_clicked","game_started"]}
         const analyticsKey = 'agl.analytics.events'
         const params = new URLSearchParams(window.location.search)
         const previewOnly = params.get('preview') === '1' || params.get('no_redirect') === '1'
-        const root = document.querySelector('[data-sample-next]')
-        const status = document.querySelector('[data-sample-next-status]')
+        const root = document.querySelector('[data-sample-fastest]')
+        const status = document.querySelector('[data-sample-fastest-status]')
         const targetPath = root?.dataset.targetPath || './gate-sample.html'
         const campaignId = root?.dataset.campaignId || route.target?.campaignId || null
         const gateId = root?.dataset.gateId || route.target?.gateId || null
@@ -69,7 +69,7 @@
             : `${prefix}-${Date.now()}-${Math.random().toString(16).slice(2)}`
         const track = (name, properties = {}) => {
           const event = {
-            id: createId('sample-next'),
+            id: createId('sample-fastest'),
             name,
             properties: {
               gameId,
@@ -78,7 +78,7 @@
               acquisitionCampaign: campaignId,
               acquisitionSource: 'gate_sample',
               acquisitionChannel: 'product-gate-sample',
-              surface: 'sample-next',
+              surface: 'sample-fastest',
               zeroPaidSpend: true,
               noPaidTraffic: true,
               playerInitiated: true,
@@ -92,12 +92,12 @@
           window.localStorage.setItem(analyticsKey, JSON.stringify([...readEvents(), event].slice(-300)))
         }
 
-        track('sample_next_viewed', { targetPath, previewOnly })
+        track('sample_fastest_viewed', { targetPath, previewOnly })
 
-        document.querySelector('[data-sample-next-link]')?.addEventListener('click', () => {
+        document.querySelector('[data-sample-fastest-link]')?.addEventListener('click', () => {
           track('gate_sample_mission_clicked', {
             targetPath,
-            linkType: 'sample-next-link',
+            linkType: 'sample-fastest-link',
             costUsd: 0,
             promptViewsNeeded: route.target?.needed?.promptViews ?? 0,
             observedSuccessesNeeded: route.target?.needed?.successes ?? 0,
@@ -105,13 +105,13 @@
         })
 
         if (!previewOnly && route.target) {
-          status.textContent = 'Routing to the current gate sample.'
+          status.textContent = 'Routing to the fastest gate sample.'
           window.setTimeout(() => {
-            track('sample_next_routed', { targetPath })
+            track('sample_fastest_routed', { targetPath })
             window.location.assign(targetPath)
           }, 350)
         } else {
-          status.textContent = route.target ? 'Preview mode. Use the button to open the current gate sample.' : 'No gate sample is armed yet.'
+          status.textContent = route.target ? 'Preview mode. Use the button to open the fastest gate sample.' : 'No fastest gate sample is armed yet.'
         }
       })()
     </script>

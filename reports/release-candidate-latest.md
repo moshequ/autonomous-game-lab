@@ -1,22 +1,22 @@
 # Release Candidate
 
-Generated: 2026-05-22T23:26:47.520Z
+Generated: 2026-05-22T23:41:41.570Z
 Status: release-candidate-ready
-Candidate: pwa-2f1adb533abf
-Files: 53
-Size: 3726.2 KB
-Aggregate SHA-256: 2f1adb533abf7747fb7fc96ce501ed2075d1e7fb8a17c71b7657686a7b38e6d3
+Candidate: pwa-270e50335f4d
+Files: 55
+Size: 3738.8 KB
+Aggregate SHA-256: 270e50335f4d1c19c21823c4b19e549212cb5960407893fc3711fddca1b22038
 
 ## Checks
 
-- pass: dist-inventory - 53 dist files inventoried.
-- pass: required-files - 27/27 required files present.
+- pass: dist-inventory - 55 dist files inventoried.
+- pass: required-files - 29/29 required files present.
 - pass: game-pages - 10 generated game page(s) in dist.
 - pass: performance-budget - Performance budget is performance-budget-ready.
 - pass: release-health - Release health is monitoring.
 - pass: production-response - Deploy allowed is true.
 - pass: spend-guard - Spend mode is no-spend.
-- pass: post-deploy-smoke-plan - 22 post-deploy smoke URL(s) planned.
+- pass: post-deploy-smoke-plan - 24 post-deploy smoke URL(s) planned.
 
 ## Required Files
 
@@ -36,6 +36,8 @@ Aggregate SHA-256: 2f1adb533abf7747fb7fc96ce501ed2075d1e7fb8a17c71b7657686a7b38e
 - pass: gate-sample.html
 - pass: sample-next.html
 - pass: sample-next.json
+- pass: sample-fastest.html
+- pass: sample-fastest.json
 - pass: seed-kit.html
 - pass: seed-next.html
 - pass: seed-next.json
@@ -67,6 +69,8 @@ Aggregate SHA-256: 2f1adb533abf7747fb7fc96ce501ed2075d1e7fb8a17c71b7657686a7b38e
 - 200: https://moshequ.github.io/autonomous-game-lab/gate-sample.html
 - 200: https://moshequ.github.io/autonomous-game-lab/sample-next.html
 - 200: https://moshequ.github.io/autonomous-game-lab/sample-next.json
+- 200: https://moshequ.github.io/autonomous-game-lab/sample-fastest.html
+- 200: https://moshequ.github.io/autonomous-game-lab/sample-fastest.json
 - 200: https://moshequ.github.io/autonomous-game-lab/seed-kit.html
 - 200: https://moshequ.github.io/autonomous-game-lab/seed-next.html
 - 200: https://moshequ.github.io/autonomous-game-lab/seed-next.json

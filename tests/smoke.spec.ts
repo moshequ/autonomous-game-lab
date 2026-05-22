@@ -1445,6 +1445,8 @@ test('release candidate records the exact deployable PWA artifact', async () => 
   expect(candidate.integrity.files.some((file) => file.path === 'analytics-unlock.json')).toBe(true)
   expect(candidate.integrity.files.some((file) => file.path === 'sample-next.html')).toBe(true)
   expect(candidate.integrity.files.some((file) => file.path === 'sample-next.json')).toBe(true)
+  expect(candidate.integrity.files.some((file) => file.path === 'sample-fastest.html')).toBe(true)
+  expect(candidate.integrity.files.some((file) => file.path === 'sample-fastest.json')).toBe(true)
   expect(candidate.integrity.files.some((file) => file.path === 'seed-kit.html')).toBe(true)
   expect(candidate.integrity.files.some((file) => file.path === 'seed-next.html')).toBe(true)
   expect(candidate.integrity.files.some((file) => file.path === 'seed-next.json')).toBe(true)
@@ -1459,6 +1461,8 @@ test('release candidate records the exact deployable PWA artifact', async () => 
   expect(candidate.postDeploySmoke.some((check) => check.path === '/gate-sample.html')).toBe(true)
   expect(candidate.postDeploySmoke.some((check) => check.path === '/sample-next.html')).toBe(true)
   expect(candidate.postDeploySmoke.some((check) => check.path === '/sample-next.json')).toBe(true)
+  expect(candidate.postDeploySmoke.some((check) => check.path === '/sample-fastest.html')).toBe(true)
+  expect(candidate.postDeploySmoke.some((check) => check.path === '/sample-fastest.json')).toBe(true)
   expect(candidate.postDeploySmoke.some((check) => check.path === '/seed-kit.html')).toBe(true)
   expect(candidate.postDeploySmoke.some((check) => check.path === '/seed-next.html')).toBe(true)
   expect(candidate.postDeploySmoke.some((check) => check.path === '/seed-next.json')).toBe(true)
@@ -1492,6 +1496,8 @@ test('PWA service worker keeps operational evidence endpoints fresh', async () =
     'release-candidate.json',
     'sample-next.html',
     'sample-next.json',
+    'sample-fastest.html',
+    'sample-fastest.json',
     'seed-next.html',
     'seed-next.json',
     'seed-kit.html',
@@ -6772,6 +6778,7 @@ test('growth and traffic artifacts avoid placeholder origins before hosting is c
     sampleDistribution: { kitPath: string }
     evergreenRoute: { path: string; jsonPath: string; targetCampaignId: string | null }
     sampleNextRoute: { path: string; jsonPath: string; targetCampaignId: string | null }
+    sampleFastestRoute: { path: string; jsonPath: string; targetCampaignId: string | null }
     campaigns: Array<{ playUrl: string; shareUrl: string; pageUrl: string; pagePath: string }>
   }
   const shareManifest = JSON.parse(await readFile('public/share-manifest.json', 'utf8')) as {
@@ -6780,6 +6787,7 @@ test('growth and traffic artifacts avoid placeholder origins before hosting is c
     seedKit: { url: string }
     seedNext: { url: string; jsonUrl: string }
     sampleNext: { url: string; jsonUrl: string }
+    sampleFastest: { url: string; jsonUrl: string }
     gateSampleKit: { url: string }
     shares: Array<{ url: string }>
     seedCampaigns: Array<{ url: string; pageUrl: string }>
@@ -6821,10 +6829,14 @@ test('growth and traffic artifacts avoid placeholder origins before hosting is c
     expect(shareManifest.seedNext.jsonUrl).toBe('/seed-next.json')
     expect(shareManifest.sampleNext.url).toBe('/sample-next.html')
     expect(shareManifest.sampleNext.jsonUrl).toBe('/sample-next.json')
+    expect(shareManifest.sampleFastest.url).toBe('/sample-fastest.html')
+    expect(shareManifest.sampleFastest.jsonUrl).toBe('/sample-fastest.json')
     expect(traffic.evergreenRoute.path).toBe('/seed-next.html')
     expect(traffic.evergreenRoute.jsonPath).toBe('/seed-next.json')
     expect(traffic.sampleNextRoute.path).toBe('/sample-next.html')
     expect(traffic.sampleNextRoute.jsonPath).toBe('/sample-next.json')
+    expect(traffic.sampleFastestRoute.path).toBe('/sample-fastest.html')
+    expect(traffic.sampleFastestRoute.jsonPath).toBe('/sample-fastest.json')
     expect(shareManifest.gateSampleKit.url).toBe(traffic.sampleDistribution.kitPath)
     expect(shareManifest.shares.every((share) => share.url.startsWith('/'))).toBe(true)
     expect(shareManifest.seedCampaigns.every((campaign) => campaign.url.startsWith('/') && campaign.pageUrl.startsWith('/'))).toBe(
@@ -6854,7 +6866,10 @@ test('zero-spend seed kit is reachable and uses runtime-relative campaign links'
       kitPath: string
       sampleNextPath: string
       sampleNextJsonPath: string
+      sampleFastestPath: string
+      sampleFastestJsonPath: string
       defaultCampaignId: string
+      fastestCampaignId: string
       missionCount: number
       playerInitiatedSharingOnly: boolean
       noAutomatedExternalPosting: boolean
@@ -6873,6 +6888,19 @@ test('zero-spend seed kit is reachable and uses runtime-relative campaign links'
       noAutomatedExternalPosting: boolean
     }
     sampleNextRoute: {
+      status: string
+      path: string
+      jsonPath: string
+      targetCampaignId: string
+      targetGateId: string
+      targetGameId: string
+      costUsd: number
+      playerInitiatedOnly: boolean
+      noAutomatedExternalPosting: boolean
+      noSyntheticEvents: boolean
+      noRevenueEnablement: boolean
+    }
+    sampleFastestRoute: {
       status: string
       path: string
       jsonPath: string
@@ -6912,6 +6940,20 @@ test('zero-spend seed kit is reachable and uses runtime-relative campaign links'
       localAnalyticsStorageKey: string
     }
     sampleNext: {
+      path: string
+      jsonPath: string
+      targetCampaignId: string
+      targetGateId: string
+      targetGameId: string
+      costUsd: number
+      playerInitiatedOnly: boolean
+      noAutomatedExternalPosting: boolean
+      noSyntheticEvents: boolean
+      noRevenueEnablement: boolean
+      localAnalyticsEvents: boolean
+      localAnalyticsStorageKey: string
+    }
+    sampleFastest: {
       path: string
       jsonPath: string
       targetCampaignId: string
@@ -6987,6 +7029,28 @@ test('zero-spend seed kit is reachable and uses runtime-relative campaign links'
     }
     telemetry: string[]
   }
+  const sampleFastest = JSON.parse(await readFile('public/sample-fastest.json', 'utf8')) as {
+    status: string
+    path: string
+    jsonPath: string
+    target: {
+      campaignId: string
+      gateId: string
+      gameId: string
+      title: string
+      targetPath: string
+      needed: { promptViews: number; successes: number }
+    }
+    guardrails: {
+      costUsd: number
+      playerInitiatedOnly: boolean
+      noAutomatedExternalPosting: boolean
+      noPaidPromotion: boolean
+      noSyntheticEvents: boolean
+      noRevenueEnablement: boolean
+    }
+    telemetry: string[]
+  }
 
   await page.goto('/seed-kit.html')
 
@@ -7029,6 +7093,14 @@ test('zero-spend seed kit is reachable and uses runtime-relative campaign links'
   expect(traffic.sampleNextRoute.noAutomatedExternalPosting).toBe(true)
   expect(traffic.sampleNextRoute.noSyntheticEvents).toBe(true)
   expect(traffic.sampleNextRoute.noRevenueEnablement).toBe(true)
+  expect(traffic.sampleFastestRoute.status).toBe('armed')
+  expect(traffic.sampleFastestRoute.path).toBe('/sample-fastest.html')
+  expect(traffic.sampleFastestRoute.jsonPath).toBe('/sample-fastest.json')
+  expect(traffic.sampleFastestRoute.costUsd).toBe(0)
+  expect(traffic.sampleFastestRoute.playerInitiatedOnly).toBe(true)
+  expect(traffic.sampleFastestRoute.noAutomatedExternalPosting).toBe(true)
+  expect(traffic.sampleFastestRoute.noSyntheticEvents).toBe(true)
+  expect(traffic.sampleFastestRoute.noRevenueEnablement).toBe(true)
   expect(shareManifest.sampleNext.path).toBe('/sample-next.html')
   expect(shareManifest.sampleNext.jsonPath).toBe('/sample-next.json')
   expect(shareManifest.sampleNext.targetCampaignId).toBe(traffic.sampleNextRoute.targetCampaignId)
@@ -7040,6 +7112,17 @@ test('zero-spend seed kit is reachable and uses runtime-relative campaign links'
   expect(shareManifest.sampleNext.noSyntheticEvents).toBe(true)
   expect(shareManifest.sampleNext.noRevenueEnablement).toBe(true)
   expect(shareManifest.sampleNext.localAnalyticsStorageKey).toBe('agl.analytics.events')
+  expect(shareManifest.sampleFastest.path).toBe('/sample-fastest.html')
+  expect(shareManifest.sampleFastest.jsonPath).toBe('/sample-fastest.json')
+  expect(shareManifest.sampleFastest.targetCampaignId).toBe(traffic.sampleFastestRoute.targetCampaignId)
+  expect(shareManifest.sampleFastest.targetGateId).toBe(traffic.sampleFastestRoute.targetGateId)
+  expect(shareManifest.sampleFastest.targetGameId).toBe(traffic.sampleFastestRoute.targetGameId)
+  expect(shareManifest.sampleFastest.costUsd).toBe(0)
+  expect(shareManifest.sampleFastest.playerInitiatedOnly).toBe(true)
+  expect(shareManifest.sampleFastest.noAutomatedExternalPosting).toBe(true)
+  expect(shareManifest.sampleFastest.noSyntheticEvents).toBe(true)
+  expect(shareManifest.sampleFastest.noRevenueEnablement).toBe(true)
+  expect(shareManifest.sampleFastest.localAnalyticsStorageKey).toBe('agl.analytics.events')
   expect(seedNext.path).toBe('/seed-next.html')
   expect(seedNext.jsonPath).toBe('/seed-next.json')
   expect(seedNext.status).toBe('armed')
@@ -7067,9 +7150,25 @@ test('zero-spend seed kit is reachable and uses runtime-relative campaign links'
   expect(sampleNext.guardrails.noRevenueEnablement).toBe(true)
   expect(sampleNext.telemetry).toContain('sample_next_viewed')
   expect(sampleNext.telemetry).toContain('sample_next_routed')
+  expect(sampleFastest.path).toBe('/sample-fastest.html')
+  expect(sampleFastest.jsonPath).toBe('/sample-fastest.json')
+  expect(sampleFastest.status).toBe('armed')
+  expect(sampleFastest.target.campaignId).toBe(traffic.sampleFastestRoute.targetCampaignId)
+  expect(sampleFastest.target.gateId).toBe(traffic.sampleFastestRoute.targetGateId)
+  expect(sampleFastest.target.gameId).toBe(traffic.sampleFastestRoute.targetGameId)
+  expect(sampleFastest.guardrails.costUsd).toBe(0)
+  expect(sampleFastest.guardrails.playerInitiatedOnly).toBe(true)
+  expect(sampleFastest.guardrails.noAutomatedExternalPosting).toBe(true)
+  expect(sampleFastest.guardrails.noPaidPromotion).toBe(true)
+  expect(sampleFastest.guardrails.noSyntheticEvents).toBe(true)
+  expect(sampleFastest.guardrails.noRevenueEnablement).toBe(true)
+  expect(sampleFastest.telemetry).toContain('sample_fastest_viewed')
+  expect(sampleFastest.telemetry).toContain('sample_fastest_routed')
   expect(traffic.sampleDistribution.status).toBe('gate-sample-sharing-ready')
   expect(traffic.sampleDistribution.sampleNextPath).toBe('/sample-next.html')
   expect(traffic.sampleDistribution.sampleNextJsonPath).toBe('/sample-next.json')
+  expect(traffic.sampleDistribution.sampleFastestPath).toBe('/sample-fastest.html')
+  expect(traffic.sampleDistribution.sampleFastestJsonPath).toBe('/sample-fastest.json')
   expect(traffic.sampleDistribution.missionCount).toBe(shareManifest.gateSampleMissions.length)
   expect(traffic.sampleDistribution.playerInitiatedSharingOnly).toBe(true)
   expect(traffic.sampleDistribution.noAutomatedExternalPosting).toBe(true)
@@ -7101,6 +7200,7 @@ test('zero-spend seed kit is reachable and uses runtime-relative campaign links'
   await expect(page.getByRole('button', { name: 'Share' }).first()).toBeVisible()
   await expect(firstCard.getByRole('button', { name: 'Share evidence' })).toBeVisible()
   await expect(page.getByRole('link', { name: 'Open sample-next' })).toHaveAttribute('href', './sample-next.html')
+  await expect(page.getByRole('link', { name: 'Open sample-fastest' })).toHaveAttribute('href', './sample-fastest.html')
   await expect(page.getByRole('link', { name: 'Open gate missions' })).toHaveAttribute('href', './gate-sample.html')
   expect(defaultSample).toBeTruthy()
   if (defaultSample) {
@@ -7213,6 +7313,46 @@ test('zero-spend seed kit is reachable and uses runtime-relative campaign links'
         event.name === 'sample_next_routed' &&
         event.properties.campaignId === sampleNext.target.campaignId &&
         event.properties.gateId === sampleNext.target.gateId &&
+        event.properties.zeroPaidSpend === true,
+      ),
+  ).toBe(true)
+
+  await page.goto('/sample-fastest.html?preview=1')
+  await expect(page.getByRole('heading', { name: sampleFastest.target.title })).toBeVisible()
+  await expect(page.getByRole('link').first()).toHaveAttribute('href', runtimeHref(sampleFastest.target.targetPath))
+  await expect(page.locator('[data-sample-fastest-status]')).toContainText('Preview mode')
+  const fastestPreviewEvents = await page.evaluate(() =>
+    JSON.parse(window.localStorage.getItem('agl.analytics.events') ?? '[]') as Array<{
+      name: string
+      properties: Record<string, string | number | boolean>
+    }>,
+  )
+  expect(
+    fastestPreviewEvents.some(
+      (event) =>
+        event.name === 'sample_fastest_viewed' &&
+        event.properties.campaignId === sampleFastest.target.campaignId &&
+        event.properties.acquisitionChannel === 'product-gate-sample' &&
+        event.properties.noSyntheticEvents === true,
+    ),
+  ).toBe(true)
+
+  await page.goto('/sample-fastest.html')
+  await page.waitForURL((url) => url.searchParams.get('utm_campaign') === sampleFastest.target.campaignId)
+  expect(new URL(page.url()).searchParams.get('game')).toBe(sampleFastest.target.gameId)
+  expect(new URL(page.url()).searchParams.get('utm_source')).toBe('gate_sample')
+  const fastestRoutedEvents = await page.evaluate(() =>
+    JSON.parse(window.localStorage.getItem('agl.analytics.events') ?? '[]') as Array<{
+      name: string
+      properties: Record<string, string | number | boolean>
+    }>,
+  )
+  expect(
+    fastestRoutedEvents.some(
+      (event) =>
+        event.name === 'sample_fastest_routed' &&
+        event.properties.campaignId === sampleFastest.target.campaignId &&
+        event.properties.gateId === sampleFastest.target.gateId &&
         event.properties.zeroPaidSpend === true,
     ),
   ).toBe(true)
@@ -8379,6 +8519,21 @@ test('production measurement status publishes public aggregate evidence handoff'
       noSyntheticEvents: boolean
       noRevenueEnablement: boolean
     }
+    sampleFastestRoute: {
+      status: string
+      path: string
+      jsonPath: string
+      targetCampaignId: string
+      targetGateId: string
+      targetGameId: string
+      targetPath: string
+      costUsd: number
+      playerInitiatedOnly: boolean
+      noAutomatedExternalPosting: boolean
+      noPaidPromotion: boolean
+      noSyntheticEvents: boolean
+      noRevenueEnablement: boolean
+    }
   }
   const postDeploySync = JSON.parse(await readFile('data/post-deploy-artifact-sync.json', 'utf8')) as {
     status: string
@@ -8443,6 +8598,24 @@ test('production measurement status publishes public aggregate evidence handoff'
       supportingAggregateEvidenceNotes: number
       aggregateEvidenceMissionCount: number
       sampleNextRoute: {
+        status: string
+        path: string
+        jsonPath: string
+        targetCampaignId: string | null
+        targetGateId: string | null
+        targetGameId: string | null
+        targetPath: string | null
+        fallbackPath: string
+        costUsd: number
+        guardrails: {
+          playerInitiatedOnly: boolean
+          noAutomatedExternalPosting: boolean
+          noPaidPromotion: boolean
+          noSyntheticEvents: boolean
+          noRevenueEnablement: boolean
+        }
+      }
+      sampleFastestRoute: {
         status: string
         path: string
         jsonPath: string
@@ -8581,6 +8754,8 @@ test('production measurement status publishes public aggregate evidence handoff'
       gateSample: string
       sampleNext: string
       sampleNextJson: string
+      sampleFastest: string
+      sampleFastestJson: string
       support: string
     }
     sourceStatus: { trafficSeeding: string }
@@ -8681,10 +8856,29 @@ test('production measurement status publishes public aggregate evidence handoff'
     noSyntheticEvents: true,
     noRevenueEnablement: true,
   })
+  expect(measurement.productGateEvidence.sampleFastestRoute).toMatchObject({
+    status: traffic.sampleFastestRoute.status,
+    path: traffic.sampleFastestRoute.path,
+    jsonPath: traffic.sampleFastestRoute.jsonPath,
+    targetCampaignId: traffic.sampleFastestRoute.targetCampaignId,
+    targetGateId: traffic.sampleFastestRoute.targetGateId,
+    targetGameId: traffic.sampleFastestRoute.targetGameId,
+    targetPath: traffic.sampleFastestRoute.targetPath,
+    costUsd: 0,
+  })
+  expect(measurement.productGateEvidence.sampleFastestRoute.guardrails).toMatchObject({
+    playerInitiatedOnly: true,
+    noAutomatedExternalPosting: true,
+    noPaidPromotion: true,
+    noSyntheticEvents: true,
+    noRevenueEnablement: true,
+  })
   expect(measurement.publicRoutes.analyticsUnlock).toBe('/analytics-unlock.html')
   expect(measurement.publicRoutes.analyticsUnlockJson).toBe('/analytics-unlock.json')
   expect(measurement.publicRoutes.sampleNext).toBe('/sample-next.html')
   expect(measurement.publicRoutes.sampleNextJson).toBe('/sample-next.json')
+  expect(measurement.publicRoutes.sampleFastest).toBe('/sample-fastest.html')
+  expect(measurement.publicRoutes.sampleFastestJson).toBe('/sample-fastest.json')
   expect(measurement.sourceStatus.trafficSeeding).toBe(traffic.status)
   expect(measurement.publicEvidenceHandoff.productGateMissions.supportingAggregateEvidenceNotes).toBe(
     samplePlan.summary.supportingAggregateEvidenceNotes,
@@ -8787,6 +8981,7 @@ test('production measurement status publishes public aggregate evidence handoff'
   expect(measurement.controls.manualReviewRequiredForGateDecisions).toBe(true)
   expect(measurement.publicEvidenceHandoff.nextActions.join(' ')).toContain('Do not pass product gates')
   expect(measurement.publicEvidenceHandoff.nextActions.join(' ')).toContain('/sample-next.html')
+  expect(measurement.publicEvidenceHandoff.nextActions.join(' ')).toContain('/sample-fastest.html')
   expect(measurement.nextActions.join(' ')).toContain('public aggregate evidence')
   expect(measurement.nextActions.join(' ')).toContain('Unlock production analytics')
   expect(publicMeasurement.publicEvidenceHandoff).toEqual(measurement.publicEvidenceHandoff)
@@ -8801,6 +8996,8 @@ test('production measurement status publishes public aggregate evidence handoff'
   expect(html).toContain(measurement.liveRelease.syncedCandidateId ?? 'missing')
   expect(html).toContain('Start current sample')
   expect(html).toContain('sample-next.html')
+  expect(html).toContain('Start fastest sample')
+  expect(html).toContain('sample-fastest.html')
   expect(html).toContain('Zero-Spend Analytics Unlock')
   expect(html).toContain('analytics-unlock.html')
   expect(html).toContain('External Unlock Queue')
@@ -8849,9 +9046,14 @@ test('production measurement status publishes public aggregate evidence handoff'
   await expect(page.getByRole('heading', { name: 'Zero-Spend Analytics Unlock' })).toBeVisible()
   await expect(page.getByRole('heading', { name: 'External Unlock Queue' })).toBeVisible()
   await expect(page.getByLabel('Product evidence')).toContainText('/sample-next.html')
+  await expect(page.getByLabel('Product evidence')).toContainText('/sample-fastest.html')
   await expect(page.getByRole('link', { name: 'Start current sample' }).first()).toHaveAttribute(
     'href',
     './sample-next.html',
+  )
+  await expect(page.getByRole('link', { name: 'Start fastest sample' }).first()).toHaveAttribute(
+    'href',
+    './sample-fastest.html',
   )
   await expect(page.getByRole('link', { name: 'Open all missions' })).toHaveAttribute('href', './gate-sample.html')
   await expect(page.getByRole('link', { name: 'Open gate sample' })).toHaveAttribute('href', './gate-sample.html')

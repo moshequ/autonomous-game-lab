@@ -1,7 +1,7 @@
 export const trafficSeeding = {
-  "generatedAt": "2026-05-22T21:57:42.492Z",
+  "generatedAt": "2026-05-22T23:40:24.985Z",
   "status": "traffic-seeding-ready",
-  "sourceDataHash": "6edd7c9ee425",
+  "sourceDataHash": "6bb1c5022a6a",
   "analyticsSource": "fixture-sample",
   "publicUrlMode": "absolute-origin",
   "siteUrl": "https://moshequ.github.io/autonomous-game-lab",
@@ -295,13 +295,43 @@ export const trafficSeeding = {
       "game_started"
     ]
   },
+  "sampleFastestRoute": {
+    "status": "armed",
+    "path": "/sample-fastest.html",
+    "jsonPath": "/sample-fastest.json",
+    "targetCampaignId": "gate-sample-20260523-d1Retention",
+    "targetGateId": "d1Retention",
+    "targetGameId": "market-pulse",
+    "targetTitle": "Sample D1 retention",
+    "targetPath": "/?game=market-pulse&utm_source=gate_sample&utm_campaign=gate-sample-20260523-d1Retention",
+    "targetUrl": "https://moshequ.github.io/autonomous-game-lab/?game=market-pulse&utm_source=gate_sample&utm_campaign=gate-sample-20260523-d1Retention",
+    "fallbackPath": "/gate-sample.html",
+    "costUsd": 0,
+    "playerInitiatedOnly": true,
+    "noAutomatedExternalPosting": true,
+    "noPaidPromotion": true,
+    "noSyntheticEvents": true,
+    "noRevenueEnablement": true,
+    "localAnalyticsEvents": true,
+    "localAnalyticsStorageKey": "agl.analytics.events",
+    "telemetry": [
+      "sample_fastest_viewed",
+      "sample_fastest_routed",
+      "gate_sample_mission_clicked",
+      "game_started"
+    ]
+  },
   "sampleDistribution": {
     "status": "gate-sample-sharing-ready",
     "kitPath": "/gate-sample.html",
     "sampleNextPath": "/sample-next.html",
     "sampleNextJsonPath": "/sample-next.json",
+    "sampleFastestPath": "/sample-fastest.html",
+    "sampleFastestJsonPath": "/sample-fastest.json",
     "defaultCampaignId": "gate-sample-20260523-firstGameCompletion",
     "defaultGateId": "firstGameCompletion",
+    "fastestCampaignId": "gate-sample-20260523-d1Retention",
+    "fastestGateId": "d1Retention",
     "missionCount": 3,
     "costUsd": 0,
     "playerInitiatedSharingOnly": true,
@@ -335,6 +365,7 @@ export const trafficSeeding = {
   "nextActions": [
     "Feature Market Pulse in the internal growth loop and share manifest.",
     "Feature Sample First game completion as the default product-gate sample share link.",
+    "Expose Sample D1 retention through /sample-fastest.html for the quickest separate gate validation.",
     "Keep traffic sources organic/internal until paid acquisition gates pass.",
     "Judge seeded games only after each reaches the target start sample."
   ]

@@ -1,6 +1,6 @@
 # Traffic Seeding
 
-Generated: 2026-05-22T21:57:42.492Z
+Generated: 2026-05-22T23:40:24.985Z
 Status: traffic-seeding-ready
 Analytics source: fixture-sample
 Max cost: $0.00
@@ -25,11 +25,13 @@ Max cost: $0.00
 - /seed-kit.html with 4 zero-spend seed campaign links and player-initiated copy/share controls.
 - /seed-next.html routes evergreen zero-spend traffic to seed-20260523-market-pulse without paid posting.
 - /sample-next.html routes evergreen zero-spend product-gate traffic to gate-sample-20260523-firstGameCompletion without paid posting.
+- /sample-fastest.html routes the quickest separate product-gate sample to gate-sample-20260523-d1Retention without paid posting.
 - /gate-sample.html with 3 product-gate sample link(s); default gate-sample-20260523-firstGameCompletion.
 
 ## Next Actions
 
 - Feature Market Pulse in the internal growth loop and share manifest.
 - Feature Sample First game completion as the default product-gate sample share link.
+- Expose Sample D1 retention through /sample-fastest.html for the quickest separate gate validation.
 - Keep traffic sources organic/internal until paid acquisition gates pass.
 - Judge seeded games only after each reaches the target start sample.

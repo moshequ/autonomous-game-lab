@@ -14,6 +14,8 @@ const seedNextJsonPath = path.join(root, 'public', 'seed-next.json')
 const seedNextHtmlPath = path.join(root, 'public', 'seed-next.html')
 const sampleNextJsonPath = path.join(root, 'public', 'sample-next.json')
 const sampleNextHtmlPath = path.join(root, 'public', 'sample-next.html')
+const sampleFastestJsonPath = path.join(root, 'public', 'sample-fastest.json')
+const sampleFastestHtmlPath = path.join(root, 'public', 'sample-fastest.html')
 
 const readJson = async (filePath) => JSON.parse(await readFile(filePath, 'utf8'))
 const readOptionalJson = async (filePath, fallback) =>
@@ -267,6 +269,11 @@ const defaultGateSampleMission =
   gateSampleMissions.find((mission) => mission.campaignId === productGateSamplePlan.summary?.defaultRouteCampaignId) ??
   gateSampleMissions[0] ??
   null
+const fastestGateSampleMission =
+  gateSampleMissions.find((mission) => mission.campaignId === productGateSamplePlan.publicSamplePage?.fastestCampaignId) ??
+  gateSampleMissions.find((mission) => mission.gateId === productGateSamplePlan.summary?.fastestGateId) ??
+  gateSampleMissions.find((mission) => mission.tags.some((tag) => String(tag).includes('fastest-validation'))) ??
+  null
 const seedNextCampaign = campaigns[0] ?? null
 const seedNextRoute = {
   status: seedNextCampaign ? 'armed' : 'waiting-for-seed-campaign',
@@ -307,6 +314,27 @@ const sampleNextRoute = {
   localAnalyticsStorageKey: 'agl.analytics.events',
   telemetry: ['sample_next_viewed', 'sample_next_routed', 'gate_sample_mission_clicked', 'game_started'],
 }
+const sampleFastestRoute = {
+  status: fastestGateSampleMission ? 'armed' : 'waiting-for-fastest-sample',
+  path: '/sample-fastest.html',
+  jsonPath: '/sample-fastest.json',
+  targetCampaignId: fastestGateSampleMission?.campaignId ?? null,
+  targetGateId: fastestGateSampleMission?.gateId ?? null,
+  targetGameId: fastestGateSampleMission?.gameId ?? null,
+  targetTitle: fastestGateSampleMission?.title ?? null,
+  targetPath: fastestGateSampleMission?.playPath ?? null,
+  targetUrl: fastestGateSampleMission?.url ?? null,
+  fallbackPath: gateSampleKitPath,
+  costUsd: 0,
+  playerInitiatedOnly: true,
+  noAutomatedExternalPosting: true,
+  noPaidPromotion: true,
+  noSyntheticEvents: true,
+  noRevenueEnablement: true,
+  localAnalyticsEvents: true,
+  localAnalyticsStorageKey: 'agl.analytics.events',
+  telemetry: ['sample_fastest_viewed', 'sample_fastest_routed', 'gate_sample_mission_clicked', 'game_started'],
+}
 
 const payload = {
   generatedAt: new Date().toISOString(),
@@ -331,13 +359,18 @@ const payload = {
   campaigns,
   evergreenRoute: seedNextRoute,
   sampleNextRoute,
+  sampleFastestRoute,
   sampleDistribution: {
     status: gateSampleMissions.length ? 'gate-sample-sharing-ready' : 'waiting-for-sample-plan',
     kitPath: gateSampleKitPath,
     sampleNextPath: sampleNextRoute.path,
     sampleNextJsonPath: sampleNextRoute.jsonPath,
+    sampleFastestPath: sampleFastestRoute.path,
+    sampleFastestJsonPath: sampleFastestRoute.jsonPath,
     defaultCampaignId: defaultGateSampleMission?.campaignId ?? null,
     defaultGateId: defaultGateSampleMission?.gateId ?? null,
+    fastestCampaignId: fastestGateSampleMission?.campaignId ?? null,
+    fastestGateId: fastestGateSampleMission?.gateId ?? null,
     missionCount: gateSampleMissions.length,
     costUsd: 0,
     playerInitiatedSharingOnly: true,
@@ -353,6 +386,9 @@ const payload = {
       : ['Wait for portfolio policy to identify seed games.']),
     ...(defaultGateSampleMission
       ? [`Feature ${defaultGateSampleMission.title} as the default product-gate sample share link.`]
+      : []),
+    ...(fastestGateSampleMission
+      ? [`Expose ${fastestGateSampleMission.title} through ${sampleFastestRoute.path} for the quickest separate gate validation.`]
       : []),
     'Keep traffic sources organic/internal until paid acquisition gates pass.',
     'Judge seeded games only after each reaches the target start sample.',
@@ -389,6 +425,12 @@ const nextShareManifest = {
     ...sampleNextRoute,
     url: publicUrl('/sample-next.html'),
     jsonUrl: publicUrl('/sample-next.json'),
+    generatedAt: payload.generatedAt,
+  },
+  sampleFastest: {
+    ...sampleFastestRoute,
+    url: publicUrl('/sample-fastest.html'),
+    jsonUrl: publicUrl('/sample-fastest.json'),
     generatedAt: payload.generatedAt,
   },
   gateSampleKit: {
@@ -487,8 +529,18 @@ const gateSampleStrip = defaultGateSampleMission
         </div>
         <div class="actions">
           <a href="${escapeHtml(runtimeHref(sampleNextRoute.path))}">Open sample-next</a>
+          ${
+            fastestGateSampleMission
+              ? `<a href="${escapeHtml(runtimeHref(sampleFastestRoute.path))}">Open sample-fastest</a>`
+              : ''
+          }
           <a href="${escapeHtml(runtimeHref(gateSampleKitPath))}">Open gate missions</a>
           <a class="secondary" href="${escapeHtml(runtimeHref(defaultGateSampleMission.playPath))}">Start default sample</a>
+          ${
+            fastestGateSampleMission
+              ? `<a class="secondary" href="${escapeHtml(runtimeHref(fastestGateSampleMission.playPath))}">Start fastest sample</a>`
+              : ''
+          }
         </div>
         <dl>
           <div><dt>Campaign</dt><dd>${escapeHtml(defaultGateSampleMission.campaignId)}</dd></div>
@@ -978,9 +1030,46 @@ const sampleNextPublicPayload = {
   },
   telemetry: sampleNextRoute.telemetry,
 }
+const sampleFastestPublicPayload = {
+  generatedAt: payload.generatedAt,
+  status: sampleFastestRoute.status,
+  path: sampleFastestRoute.path,
+  jsonPath: sampleFastestRoute.jsonPath,
+  target: fastestGateSampleMission
+    ? {
+        campaignId: fastestGateSampleMission.campaignId,
+        gateId: fastestGateSampleMission.gateId,
+        gameId: fastestGateSampleMission.gameId,
+        title: fastestGateSampleMission.title,
+        priority: fastestGateSampleMission.priority,
+        targetPath: fastestGateSampleMission.playPath,
+        targetUrl: fastestGateSampleMission.url,
+        pageUrl: fastestGateSampleMission.pageUrl,
+        copy: {
+          title: fastestGateSampleMission.title,
+          text: fastestGateSampleMission.text,
+          cta: 'Start fastest sample',
+        },
+        needed: fastestGateSampleMission.needed,
+      }
+    : null,
+  fallbackPath: sampleFastestRoute.fallbackPath,
+  guardrails: {
+    costUsd: sampleFastestRoute.costUsd,
+    playerInitiatedOnly: sampleFastestRoute.playerInitiatedOnly,
+    noAutomatedExternalPosting: sampleFastestRoute.noAutomatedExternalPosting,
+    noPaidPromotion: sampleFastestRoute.noPaidPromotion,
+    noSyntheticEvents: sampleFastestRoute.noSyntheticEvents,
+    noRevenueEnablement: sampleFastestRoute.noRevenueEnablement,
+  },
+  telemetry: sampleFastestRoute.telemetry,
+}
 const sampleNextRuntimeHref = defaultGateSampleMission
   ? runtimeHref(defaultGateSampleMission.playPath)
   : runtimeHref(sampleNextRoute.fallbackPath)
+const sampleFastestRuntimeHref = fastestGateSampleMission
+  ? runtimeHref(fastestGateSampleMission.playPath)
+  : runtimeHref(sampleFastestRoute.fallbackPath)
 const sampleNextHtml = `<!doctype html>
 <html lang="en">
   <head>
@@ -1111,6 +1200,136 @@ const sampleNextHtml = `<!doctype html>
   </body>
 </html>
 `
+const sampleFastestHtml = `<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Open the Fastest Gate Sample | Autonomous Game Lab</title>
+    <meta name="robots" content="index,follow">
+    <meta name="description" content="A direct zero-spend route to the fastest Autonomous Game Lab product-gate validation mission.">
+    <style>
+      :root { color-scheme: light; font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color: #1a211d; background: #f7f7f2; }
+      body { margin: 0; }
+      main { display: grid; align-content: center; gap: 18px; min-height: 100svh; width: min(760px, calc(100% - 32px)); margin: 0 auto; padding: 36px 0; }
+      h1, p { margin: 0; }
+      h1 { font-size: clamp(2.2rem, 7vw, 4.8rem); line-height: 0.96; letter-spacing: 0; max-width: 11ch; }
+      p { color: #4f5d55; line-height: 1.55; max-width: 620px; }
+      .eyebrow { color: #496858; font-size: 0.78rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em; }
+      .actions { display: flex; flex-wrap: wrap; gap: 10px; }
+      a, button { color: #ffffff; background: #1f6b4d; border: 0; border-radius: 6px; padding: 10px 12px; text-decoration: none; font: inherit; font-weight: 800; cursor: pointer; min-height: 42px; }
+      .secondary { color: #1f6b4d; background: #e9f2eb; }
+      dl { display: grid; gap: 8px; margin: 8px 0 0; padding: 16px; background: #ffffff; border: 1px solid #d6ded2; border-radius: 8px; }
+      dl div { display: flex; justify-content: space-between; gap: 12px; border-top: 1px solid #edf1ea; padding-top: 8px; }
+      dl div:first-child { border-top: 0; padding-top: 0; }
+      dt { color: #5d6b63; }
+      dd { margin: 0; font-weight: 800; text-align: right; overflow-wrap: anywhere; }
+      .status { min-height: 1.4rem; color: #496858; font-weight: 800; }
+    </style>
+  </head>
+  <body>
+    <main data-sample-fastest data-campaign-id="${escapeHtml(fastestGateSampleMission?.campaignId ?? '')}" data-gate-id="${escapeHtml(
+      fastestGateSampleMission?.gateId ?? '',
+    )}" data-game-id="${escapeHtml(fastestGateSampleMission?.gameId ?? '')}" data-target-path="${escapeHtml(
+      sampleFastestRuntimeHref,
+    )}">
+      <p class="eyebrow">Fastest zero-spend gate sample</p>
+      <h1>${escapeHtml(fastestGateSampleMission ? fastestGateSampleMission.title : 'Fastest sample waiting')}</h1>
+      <p>${escapeHtml(
+        fastestGateSampleMission
+          ? `${fastestGateSampleMission.text} This stable page routes directly to the quickest separate validation target the owner loop can clear with real player evidence.`
+          : 'The fastest sample route is waiting for a product-gate sample plan.',
+      )}</p>
+      <div class="actions">
+        <a href="${escapeHtml(sampleFastestRuntimeHref)}" data-sample-fastest-link>${escapeHtml(
+          fastestGateSampleMission ? 'Start fastest sample' : 'Open gate missions',
+        )}</a>
+        <a class="secondary" href="${escapeHtml(runtimeHref(gateSampleKitPath))}">Open gate missions</a>
+      </div>
+      <dl>
+        <div><dt>Campaign</dt><dd>${escapeHtml(fastestGateSampleMission?.campaignId ?? 'waiting')}</dd></div>
+        <div><dt>Gate</dt><dd>${escapeHtml(fastestGateSampleMission?.gateId ?? 'waiting')}</dd></div>
+        <div><dt>Need</dt><dd>${fastestGateSampleMission?.needed.promptViews ?? 0} views / ${fastestGateSampleMission?.needed.successes ?? 0} wins</dd></div>
+        <div><dt>Cost</dt><dd>$0.00</dd></div>
+      </dl>
+      <p class="status" data-sample-fastest-status aria-live="polite">Preparing fastest sample route.</p>
+    </main>
+    <script>
+      (() => {
+        const route = ${JSON.stringify(sampleFastestPublicPayload)}
+        const analyticsKey = 'agl.analytics.events'
+        const params = new URLSearchParams(window.location.search)
+        const previewOnly = params.get('preview') === '1' || params.get('no_redirect') === '1'
+        const root = document.querySelector('[data-sample-fastest]')
+        const status = document.querySelector('[data-sample-fastest-status]')
+        const targetPath = root?.dataset.targetPath || './gate-sample.html'
+        const campaignId = root?.dataset.campaignId || route.target?.campaignId || null
+        const gateId = root?.dataset.gateId || route.target?.gateId || null
+        const gameId = root?.dataset.gameId || route.target?.gameId || null
+        const readEvents = () => {
+          try {
+            const raw = window.localStorage.getItem(analyticsKey)
+            const events = raw ? JSON.parse(raw) : []
+            return Array.isArray(events) ? events : []
+          } catch {
+            return []
+          }
+        }
+        const createId = (prefix) =>
+          window.crypto?.randomUUID
+            ? \`\${prefix}-\${window.crypto.randomUUID()}\`
+            : \`\${prefix}-\${Date.now()}-\${Math.random().toString(16).slice(2)}\`
+        const track = (name, properties = {}) => {
+          const event = {
+            id: createId('sample-fastest'),
+            name,
+            properties: {
+              gameId,
+              gateId,
+              campaignId,
+              acquisitionCampaign: campaignId,
+              acquisitionSource: 'gate_sample',
+              acquisitionChannel: 'product-gate-sample',
+              surface: 'sample-fastest',
+              zeroPaidSpend: true,
+              noPaidTraffic: true,
+              playerInitiated: true,
+              automatedExternalPosting: false,
+              noSyntheticEvents: true,
+              noRevenueEnablement: true,
+              ...properties,
+            },
+            createdAt: new Date().toISOString(),
+          }
+          window.localStorage.setItem(analyticsKey, JSON.stringify([...readEvents(), event].slice(-300)))
+        }
+
+        track('sample_fastest_viewed', { targetPath, previewOnly })
+
+        document.querySelector('[data-sample-fastest-link]')?.addEventListener('click', () => {
+          track('gate_sample_mission_clicked', {
+            targetPath,
+            linkType: 'sample-fastest-link',
+            costUsd: 0,
+            promptViewsNeeded: route.target?.needed?.promptViews ?? 0,
+            observedSuccessesNeeded: route.target?.needed?.successes ?? 0,
+          })
+        })
+
+        if (!previewOnly && route.target) {
+          status.textContent = 'Routing to the fastest gate sample.'
+          window.setTimeout(() => {
+            track('sample_fastest_routed', { targetPath })
+            window.location.assign(targetPath)
+          }, 350)
+        } else {
+          status.textContent = route.target ? 'Preview mode. Use the button to open the fastest gate sample.' : 'No fastest gate sample is armed yet.'
+        }
+      })()
+    </script>
+  </body>
+</html>
+`
 
 const report = [
   '# Traffic Seeding',
@@ -1136,6 +1355,7 @@ const report = [
   `- /seed-kit.html with ${payload.campaigns.length} zero-spend seed campaign links and player-initiated copy/share controls.`,
   `- /seed-next.html routes evergreen zero-spend traffic to ${seedNextCampaign?.id ?? 'no campaign'} without paid posting.`,
   `- /sample-next.html routes evergreen zero-spend product-gate traffic to ${defaultGateSampleMission?.campaignId ?? 'no mission'} without paid posting.`,
+  `- /sample-fastest.html routes the quickest separate product-gate sample to ${fastestGateSampleMission?.campaignId ?? 'no mission'} without paid posting.`,
   `- ${payload.sampleDistribution.kitPath} with ${payload.sampleDistribution.missionCount} product-gate sample link(s); default ${payload.sampleDistribution.defaultCampaignId ?? 'none'}.`,
   '',
   '## Next Actions',
@@ -1151,6 +1371,7 @@ await mkdir(path.dirname(shareManifestPath), { recursive: true })
 await mkdir(path.dirname(seedKitPath), { recursive: true })
 await mkdir(path.dirname(seedNextHtmlPath), { recursive: true })
 await mkdir(path.dirname(sampleNextHtmlPath), { recursive: true })
+await mkdir(path.dirname(sampleFastestHtmlPath), { recursive: true })
 await writeFile(outputJsonPath, JSON.stringify(payload, null, 2) + '\n')
 await writeFile(
   outputTsPath,
@@ -1162,6 +1383,8 @@ await writeFile(seedNextJsonPath, JSON.stringify(seedNextPublicPayload, null, 2)
 await writeFile(seedNextHtmlPath, seedNextHtml)
 await writeFile(sampleNextJsonPath, JSON.stringify(sampleNextPublicPayload, null, 2) + '\n')
 await writeFile(sampleNextHtmlPath, sampleNextHtml)
+await writeFile(sampleFastestJsonPath, JSON.stringify(sampleFastestPublicPayload, null, 2) + '\n')
+await writeFile(sampleFastestHtmlPath, sampleFastestHtml)
 await writeFile(reportPath, report.join('\n'))
 
 console.log(`Wrote ${path.relative(root, outputJsonPath)}`)
@@ -1172,4 +1395,6 @@ console.log(`Wrote ${path.relative(root, seedNextJsonPath)}`)
 console.log(`Wrote ${path.relative(root, seedNextHtmlPath)}`)
 console.log(`Wrote ${path.relative(root, sampleNextJsonPath)}`)
 console.log(`Wrote ${path.relative(root, sampleNextHtmlPath)}`)
+console.log(`Wrote ${path.relative(root, sampleFastestJsonPath)}`)
+console.log(`Wrote ${path.relative(root, sampleFastestHtmlPath)}`)
 console.log(`Wrote ${path.relative(root, reportPath)}`)

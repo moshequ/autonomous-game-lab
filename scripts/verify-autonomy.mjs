@@ -243,6 +243,8 @@ const requiredFiles = [
   'public/robots.txt',
   'public/sample-next.html',
   'public/sample-next.json',
+  'public/sample-fastest.html',
+  'public/sample-fastest.json',
   'public/seed-kit.html',
   'public/seed-next.html',
   'public/seed-next.json',
@@ -257,6 +259,8 @@ const requiredFiles = [
   'dist/gate-sample.html',
   'dist/sample-next.html',
   'dist/sample-next.json',
+  'dist/sample-fastest.html',
+  'dist/sample-fastest.json',
   'dist/seed-kit.html',
   'dist/seed-next.html',
   'dist/seed-next.json',
@@ -419,6 +423,8 @@ const seedNextHtml = await readFile(path.join(root, 'public', 'seed-next.html'),
 const seedNextJson = JSON.parse(await readFile(path.join(root, 'public', 'seed-next.json'), 'utf8'))
 const sampleNextHtml = await readFile(path.join(root, 'public', 'sample-next.html'), 'utf8')
 const sampleNextJson = JSON.parse(await readFile(path.join(root, 'public', 'sample-next.json'), 'utf8'))
+const sampleFastestHtml = await readFile(path.join(root, 'public', 'sample-fastest.html'), 'utf8')
+const sampleFastestJson = JSON.parse(await readFile(path.join(root, 'public', 'sample-fastest.json'), 'utf8'))
 const supportHtml = await readFile(path.join(root, 'public', 'support.html'), 'utf8')
 const sitemapXml = await readFile(path.join(root, 'public', 'sitemap.xml'), 'utf8')
 const indexHtmlSource = await readFile(path.join(root, 'index.html'), 'utf8')
@@ -906,10 +912,26 @@ if (
   measurementSampleNextRoute.guardrails?.noPaidPromotion !== true ||
   measurementSampleNextRoute.guardrails?.noSyntheticEvents !== true ||
   measurementSampleNextRoute.guardrails?.noRevenueEnablement !== true ||
+  productionMeasurementStatus.productGateEvidence?.sampleFastestRoute?.path !== '/sample-fastest.html' ||
+  productionMeasurementStatus.productGateEvidence?.sampleFastestRoute?.jsonPath !== '/sample-fastest.json' ||
+  productionMeasurementStatus.productGateEvidence?.sampleFastestRoute?.targetCampaignId !==
+    trafficSeeding.sampleFastestRoute?.targetCampaignId ||
+  productionMeasurementStatus.productGateEvidence?.sampleFastestRoute?.targetGateId !==
+    trafficSeeding.sampleFastestRoute?.targetGateId ||
+  productionMeasurementStatus.productGateEvidence?.sampleFastestRoute?.targetGameId !==
+    trafficSeeding.sampleFastestRoute?.targetGameId ||
+  productionMeasurementStatus.productGateEvidence?.sampleFastestRoute?.costUsd !== 0 ||
+  productionMeasurementStatus.productGateEvidence?.sampleFastestRoute?.guardrails?.playerInitiatedOnly !== true ||
+  productionMeasurementStatus.productGateEvidence?.sampleFastestRoute?.guardrails?.noAutomatedExternalPosting !== true ||
+  productionMeasurementStatus.productGateEvidence?.sampleFastestRoute?.guardrails?.noPaidPromotion !== true ||
+  productionMeasurementStatus.productGateEvidence?.sampleFastestRoute?.guardrails?.noSyntheticEvents !== true ||
+  productionMeasurementStatus.productGateEvidence?.sampleFastestRoute?.guardrails?.noRevenueEnablement !== true ||
   measurementPublicRoutes.analyticsUnlock !== '/analytics-unlock.html' ||
   measurementPublicRoutes.analyticsUnlockJson !== '/analytics-unlock.json' ||
   measurementPublicRoutes.sampleNext !== '/sample-next.html' ||
   measurementPublicRoutes.sampleNextJson !== '/sample-next.json' ||
+  measurementPublicRoutes.sampleFastest !== '/sample-fastest.html' ||
+  measurementPublicRoutes.sampleFastestJson !== '/sample-fastest.json' ||
   productionMeasurementStatus.sourceStatus?.trafficSeeding !== trafficSeeding.status ||
   productionMeasurementStatus.sourceStatus?.postDeployArtifactSync !== postDeployArtifactSync.status ||
   productionMeasurementStatus.liveCandidate !== postDeployArtifactSync.live?.candidateId ||
@@ -1016,6 +1038,7 @@ if (
   !measurementStatusHtml.includes('sync commit can lag deploy') ||
   !measurementStatusHtml.includes('Start current sample') ||
   !measurementStatusHtml.includes('sample-next.html') ||
+  !measurementStatusHtml.includes('sample-fastest.html') ||
   !measurementStatusHtml.includes('analytics-unlock.html') ||
   measurementStatusHtml.includes('href="/gate-sample.html"') ||
   measurementStatusHtml.includes('href="/support.html"') ||
@@ -1409,6 +1432,7 @@ if (
   !growth.gamePages?.length ||
   !growth.utilityPages?.some((page) => page.path === '/gate-sample.html' && page.channel === 'player-evidence') ||
   !growth.utilityPages?.some((page) => page.path === '/sample-next.html' && page.channel === 'player-evidence') ||
+  !growth.utilityPages?.some((page) => page.path === '/sample-fastest.html' && page.channel === 'player-evidence') ||
   !growth.utilityPages?.some((page) => page.path === '/seed-kit.html' && page.channel === 'player-sharing') ||
   !growth.utilityPages?.some((page) => page.path === '/seed-next.html' && page.channel === 'player-sharing') ||
   !growth.utilityPages?.some((page) => page.path === '/install.html' && page.channel === 'pwa-install') ||
@@ -1416,6 +1440,7 @@ if (
   !growth.channels?.some((channel) => channel.id === 'player-sharing') ||
   !sitemapXml.includes('/gate-sample.html') ||
   !sitemapXml.includes('/sample-next.html') ||
+  !sitemapXml.includes('/sample-fastest.html') ||
   !sitemapXml.includes('/seed-kit.html') ||
   !sitemapXml.includes('/seed-next.html') ||
   !sitemapXml.includes('/install.html') ||
@@ -1576,6 +1601,13 @@ const trafficDefaultSampleMission =
   ) ??
   productGateSamplePlan.missions?.[0] ??
   null
+const trafficFastestSampleMission =
+  productGateSamplePlan.missions?.find(
+    (mission) => mission.campaignId === productGateSamplePlan.publicSamplePage?.fastestCampaignId,
+  ) ??
+  productGateSamplePlan.missions?.find((mission) => mission.gateId === productGateSamplePlan.summary?.fastestGateId) ??
+  productGateSamplePlan.missions?.find((mission) => String(mission.sampleRole ?? '').includes('fastest-validation')) ??
+  null
 
 if (
   trafficSeeding.status !== 'traffic-seeding-ready' ||
@@ -1616,6 +1648,15 @@ if (
   shareManifest.sampleNext?.noAutomatedExternalPosting !== true ||
   shareManifest.sampleNext?.noSyntheticEvents !== true ||
   shareManifest.sampleNext?.noRevenueEnablement !== true ||
+  shareManifest.sampleFastest?.path !== '/sample-fastest.html' ||
+  shareManifest.sampleFastest?.jsonPath !== '/sample-fastest.json' ||
+  shareManifest.sampleFastest?.targetCampaignId !== trafficFastestSampleMission?.campaignId ||
+  shareManifest.sampleFastest?.targetGateId !== trafficFastestSampleMission?.gateId ||
+  shareManifest.sampleFastest?.costUsd !== 0 ||
+  shareManifest.sampleFastest?.playerInitiatedOnly !== true ||
+  shareManifest.sampleFastest?.noAutomatedExternalPosting !== true ||
+  shareManifest.sampleFastest?.noSyntheticEvents !== true ||
+  shareManifest.sampleFastest?.noRevenueEnablement !== true ||
   shareManifest.seedKit?.campaignCount !== trafficCampaigns.length ||
 	  shareManifest.seedKit?.costUsd !== 0 ||
 	  shareManifest.seedKit?.playerInitiatedSharingOnly !== true ||
@@ -1628,6 +1669,7 @@ if (
   !seedKitHtml.includes('Autonomous Game Lab Seed Kit') ||
   !seedKitHtml.includes('Evergreen seed route') ||
   !seedKitHtml.includes('Open sample-next') ||
+  !seedKitHtml.includes('Open sample-fastest') ||
   !seedKitHtml.includes('$0.00 spend') ||
 	  !seedKitHtml.includes('data-seed-action="copy"') ||
 	  !seedKitHtml.includes('data-seed-action="share"') ||
@@ -1657,8 +1699,19 @@ if (
   trafficSeeding.sampleNextRoute?.noAutomatedExternalPosting !== true ||
   trafficSeeding.sampleNextRoute?.noSyntheticEvents !== true ||
   trafficSeeding.sampleNextRoute?.noRevenueEnablement !== true ||
+  trafficSeeding.sampleFastestRoute?.path !== '/sample-fastest.html' ||
+  trafficSeeding.sampleFastestRoute?.jsonPath !== '/sample-fastest.json' ||
+  trafficSeeding.sampleFastestRoute?.targetCampaignId !== trafficFastestSampleMission?.campaignId ||
+  trafficSeeding.sampleFastestRoute?.targetGateId !== trafficFastestSampleMission?.gateId ||
+  trafficSeeding.sampleFastestRoute?.costUsd !== 0 ||
+  trafficSeeding.sampleFastestRoute?.playerInitiatedOnly !== true ||
+  trafficSeeding.sampleFastestRoute?.noAutomatedExternalPosting !== true ||
+  trafficSeeding.sampleFastestRoute?.noSyntheticEvents !== true ||
+  trafficSeeding.sampleFastestRoute?.noRevenueEnablement !== true ||
   trafficSeeding.sampleDistribution?.sampleNextPath !== '/sample-next.html' ||
   trafficSeeding.sampleDistribution?.sampleNextJsonPath !== '/sample-next.json' ||
+  trafficSeeding.sampleDistribution?.sampleFastestPath !== '/sample-fastest.html' ||
+  trafficSeeding.sampleDistribution?.sampleFastestJsonPath !== '/sample-fastest.json' ||
   seedNextJson.path !== '/seed-next.html' ||
   seedNextJson.target?.campaignId !== trafficCampaigns[0]?.id ||
   seedNextJson.guardrails?.costUsd !== 0 ||
@@ -1687,7 +1740,24 @@ if (
   !sampleNextHtml.includes('gate_sample_mission_clicked') ||
   !sampleNextHtml.includes('previewOnly') ||
   !sampleNextHtml.includes('window.location.assign') ||
-  sampleNextHtml.includes('autonomous-game-lab.example.com')
+  sampleNextHtml.includes('autonomous-game-lab.example.com') ||
+  sampleFastestJson.path !== '/sample-fastest.html' ||
+  sampleFastestJson.jsonPath !== '/sample-fastest.json' ||
+  sampleFastestJson.target?.campaignId !== trafficFastestSampleMission?.campaignId ||
+  sampleFastestJson.target?.gateId !== trafficFastestSampleMission?.gateId ||
+  sampleFastestJson.guardrails?.costUsd !== 0 ||
+  sampleFastestJson.guardrails?.playerInitiatedOnly !== true ||
+  sampleFastestJson.guardrails?.noAutomatedExternalPosting !== true ||
+  sampleFastestJson.guardrails?.noPaidPromotion !== true ||
+  sampleFastestJson.guardrails?.noSyntheticEvents !== true ||
+  sampleFastestJson.guardrails?.noRevenueEnablement !== true ||
+  !sampleFastestHtml.includes('Fastest zero-spend gate sample') ||
+  !sampleFastestHtml.includes('sample_fastest_viewed') ||
+  !sampleFastestHtml.includes('sample_fastest_routed') ||
+  !sampleFastestHtml.includes('gate_sample_mission_clicked') ||
+  !sampleFastestHtml.includes('previewOnly') ||
+  !sampleFastestHtml.includes('window.location.assign') ||
+  sampleFastestHtml.includes('autonomous-game-lab.example.com')
 ) {
   fail('Traffic seeding must publish zero-cost campaigns, UTM/share links, a runtime-base-safe seed kit, player-initiated sharing controls, and sample-size guardrails for every seed game.')
 }
@@ -3557,6 +3627,8 @@ if (
   !autonomousSelfUpdateSource.includes('public/seed-kit.html') ||
   !autonomousSelfUpdateSource.includes('public/sample-next.html') ||
   !autonomousSelfUpdateSource.includes('public/sample-next.json') ||
+  !autonomousSelfUpdateSource.includes('public/sample-fastest.html') ||
+  !autonomousSelfUpdateSource.includes('public/sample-fastest.json') ||
   !autonomousSelfUpdateSource.includes('public/seed-next.html') ||
   !autonomousSelfUpdateSource.includes('public/seed-next.json') ||
   !autonomousSelfUpdateSource.includes('blockedPrefixes') ||
@@ -5536,6 +5608,8 @@ const operationalFreshnessAssets = [
   'release-candidate.json',
   'sample-next.html',
   'sample-next.json',
+  'sample-fastest.html',
+  'sample-fastest.json',
   'seed-next.html',
   'seed-next.json',
   'seed-kit.html',
@@ -5581,6 +5655,8 @@ if (
   !releaseCandidate.postDeploySmoke?.some((item) => item.path === '/gate-sample.html') ||
   !releaseCandidate.postDeploySmoke?.some((item) => item.path === '/sample-next.html') ||
   !releaseCandidate.postDeploySmoke?.some((item) => item.path === '/sample-next.json') ||
+  !releaseCandidate.postDeploySmoke?.some((item) => item.path === '/sample-fastest.html') ||
+  !releaseCandidate.postDeploySmoke?.some((item) => item.path === '/sample-fastest.json') ||
   !releaseCandidate.postDeploySmoke?.some(
     (item) => item.path === '/compliance.json' && item.requiredText === 'store-compliance',
   ) ||
@@ -5597,6 +5673,8 @@ if (
   !releaseCandidateRequiredFiles.has('gate-sample.html') ||
   !releaseCandidateRequiredFiles.has('sample-next.html') ||
   !releaseCandidateRequiredFiles.has('sample-next.json') ||
+  !releaseCandidateRequiredFiles.has('sample-fastest.html') ||
+  !releaseCandidateRequiredFiles.has('sample-fastest.json') ||
   !releaseCandidateRequiredFiles.has('.nojekyll') ||
   !releaseCandidateRequiredFiles.has('.well-known/assetlinks.json') ||
   !releaseCandidateDistEvidenceCurrent ||
@@ -5871,6 +5949,7 @@ if (
   !liveSiteMonitor.checks?.some((check) => check.path === '/compliance.json' && check.status === 'pass') ||
   !liveSiteMonitor.checks?.some((check) => check.path === '/gate-sample.html' && check.status === 'pass') ||
   !liveSiteMonitor.checks?.some((check) => check.path === '/sample-next.html' && check.status === 'pass') ||
+  !liveSiteMonitor.checks?.some((check) => check.path === '/sample-fastest.html' && check.status === 'pass') ||
   packageJson.scripts?.['autonomous:live-monitor'] !== 'node scripts/live-site-monitor.mjs' ||
   !packageJson.scripts?.['autonomous:daily']?.includes('autonomous:live-monitor') ||
   !packageJson.scripts?.['test:e2e']?.includes('autonomous:live-monitor') ||
@@ -5982,6 +6061,8 @@ if (
   !repositoryReadinessSource.includes('public/measurement-status.json') ||
   !repositoryReadinessSource.includes('public/sample-next.html') ||
   !repositoryReadinessSource.includes('public/sample-next.json') ||
+  !repositoryReadinessSource.includes('public/sample-fastest.html') ||
+  !repositoryReadinessSource.includes('public/sample-fastest.json') ||
   !repositoryReadinessSource.includes('public/seed-kit.html') ||
   !repositoryReadinessSource.includes('public/seed-next.html') ||
   !repositoryReadinessSource.includes('public/seed-next.json') ||
@@ -6078,6 +6159,8 @@ if (
   !repositoryBootstrapSource.includes('public/install.html') ||
   !repositoryBootstrapSource.includes('public/sample-next.html') ||
   !repositoryBootstrapSource.includes('public/sample-next.json') ||
+  !repositoryBootstrapSource.includes('public/sample-fastest.html') ||
+  !repositoryBootstrapSource.includes('public/sample-fastest.json') ||
   !repositoryBootstrapSource.includes('public/seed-kit.html') ||
   !repositoryBootstrapSource.includes('public/seed-next.html') ||
   !repositoryBootstrapSource.includes('public/seed-next.json') ||

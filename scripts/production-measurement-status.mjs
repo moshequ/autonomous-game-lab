@@ -68,6 +68,13 @@ const productionAnalyticsHandoff =
 const rollupHandoff =
   (productionBlockerHandoff.handoffItems ?? []).find((item) => item.id === 'autonomous-rollup-credentials') ?? null
 const primaryMission = productGateSamplePlan.missions?.[0] ?? null
+const fastestMission =
+  (productGateSamplePlan.missions ?? []).find(
+    (mission) => mission.campaignId === productGateSamplePlan.publicSamplePage?.fastestCampaignId,
+  ) ??
+  (productGateSamplePlan.missions ?? []).find((mission) => mission.gateId === productGateSamplePlan.summary?.fastestGateId) ??
+  (productGateSamplePlan.missions ?? []).find((mission) => String(mission.sampleRole ?? '').includes('fastest-validation')) ??
+  null
 const numberOrZero = (value) => (typeof value === 'number' && Number.isFinite(value) ? value : 0)
 const trafficSampleNextRoute = trafficSeeding.sampleNextRoute ?? {}
 const sampleNextRoute = {
@@ -87,6 +94,26 @@ const sampleNextRoute = {
     noPaidPromotion: trafficSampleNextRoute.noPaidPromotion !== false,
     noSyntheticEvents: trafficSampleNextRoute.noSyntheticEvents !== false,
     noRevenueEnablement: trafficSampleNextRoute.noRevenueEnablement !== false,
+  },
+}
+const trafficSampleFastestRoute = trafficSeeding.sampleFastestRoute ?? {}
+const sampleFastestRoute = {
+  status: trafficSampleFastestRoute.status ?? (fastestMission ? 'armed' : 'missing'),
+  path: trafficSampleFastestRoute.path ?? '/sample-fastest.html',
+  jsonPath: trafficSampleFastestRoute.jsonPath ?? '/sample-fastest.json',
+  targetCampaignId: trafficSampleFastestRoute.targetCampaignId ?? fastestMission?.campaignId ?? null,
+  targetGateId: trafficSampleFastestRoute.targetGateId ?? fastestMission?.gateId ?? null,
+  targetGameId: trafficSampleFastestRoute.targetGameId ?? fastestMission?.gameId ?? null,
+  targetTitle: trafficSampleFastestRoute.targetTitle ?? fastestMission?.title ?? null,
+  targetPath: trafficSampleFastestRoute.targetPath ?? fastestMission?.playPath ?? null,
+  fallbackPath: trafficSampleFastestRoute.fallbackPath ?? '/gate-sample.html',
+  costUsd: numberOrZero(trafficSampleFastestRoute.costUsd),
+  guardrails: {
+    playerInitiatedOnly: trafficSampleFastestRoute.playerInitiatedOnly !== false,
+    noAutomatedExternalPosting: trafficSampleFastestRoute.noAutomatedExternalPosting !== false,
+    noPaidPromotion: trafficSampleFastestRoute.noPaidPromotion !== false,
+    noSyntheticEvents: trafficSampleFastestRoute.noSyntheticEvents !== false,
+    noRevenueEnablement: trafficSampleFastestRoute.noRevenueEnablement !== false,
   },
 }
 const activePath = browserCollectorConfigured
@@ -256,7 +283,7 @@ const publicEvidenceHandoff = {
   nextActions: [
     aggregateEvidenceNotes.length
       ? 'Review public aggregate evidence as supporting diagnosis, then collect real event drops or configure production analytics before gate decisions.'
-      : `Invite players to start the current sample through ${sampleNextRoute.path}, then use Share evidence after the play session so public aggregate evidence can be reviewed without raw events.`,
+      : `Invite players to start the current sample through ${sampleNextRoute.path}, or the fastest separate gate through ${sampleFastestRoute.path}, then use Share evidence after the play session so public aggregate evidence can be reviewed without raw events.`,
     'Do not pass product gates, enable revenue, or submit stores from public aggregate notes alone.',
   ],
 }
@@ -504,6 +531,7 @@ const payload = {
     supportingAggregateEvidenceNotes,
     aggregateEvidenceMissionCount: aggregateEvidenceMissions.length,
     sampleNextRoute,
+    sampleFastestRoute,
   },
   publicEvidenceHandoff,
   analyticsUnlock: publicAnalyticsUnlock,
@@ -516,6 +544,8 @@ const payload = {
     gateSample: '/gate-sample.html',
     sampleNext: sampleNextRoute.path,
     sampleNextJson: sampleNextRoute.jsonPath,
+    sampleFastest: sampleFastestRoute.path,
+    sampleFastestJson: sampleFastestRoute.jsonPath,
     support: '/support.html',
     privacy: '/privacy.html',
     analyticsEvidenceIssue: supportChannel.links?.analyticsEvidenceUrl ?? null,
@@ -1117,12 +1147,21 @@ const html = `<!doctype html>
             <strong>${escapeHtml(payload.productGateEvidence.sampleNextRoute.path)}</strong>
           </div>
           <div class="card">
+            <span>Fastest sample route</span>
+            <strong>${escapeHtml(payload.productGateEvidence.sampleFastestRoute.path)}</strong>
+          </div>
+          <div class="card">
             <span>Route campaign</span>
             <strong>${escapeHtml(payload.productGateEvidence.sampleNextRoute.targetCampaignId ?? 'waiting')}</strong>
+          </div>
+          <div class="card">
+            <span>Fastest campaign</span>
+            <strong>${escapeHtml(payload.productGateEvidence.sampleFastestRoute.targetCampaignId ?? 'waiting')}</strong>
           </div>
         </div>
         <div class="actions">
           <a href="${escapeHtml(publicRouteHref(payload.publicRoutes.sampleNext))}">Start current sample</a>
+          <a href="${escapeHtml(publicRouteHref(payload.publicRoutes.sampleFastest))}">Start fastest sample</a>
           <a href="${escapeHtml(publicRouteHref(payload.publicRoutes.gateSample))}">Open all missions</a>
         </div>
       </section>

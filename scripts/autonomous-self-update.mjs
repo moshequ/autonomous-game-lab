@@ -108,6 +108,8 @@ const allowedExactPaths = new Set([
   'public/robots.txt',
   'public/sample-next.html',
   'public/sample-next.json',
+  'public/sample-fastest.html',
+  'public/sample-fastest.json',
   'public/seed-kit.html',
   'public/seed-next.html',
   'public/seed-next.json',

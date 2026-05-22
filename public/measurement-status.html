@@ -200,12 +200,21 @@
             <strong>/sample-next.html</strong>
           </div>
           <div class="card">
+            <span>Fastest sample route</span>
+            <strong>/sample-fastest.html</strong>
+          </div>
+          <div class="card">
             <span>Route campaign</span>
             <strong>gate-sample-20260523-firstGameCompletion</strong>
+          </div>
+          <div class="card">
+            <span>Fastest campaign</span>
+            <strong>gate-sample-20260523-d1Retention</strong>
           </div>
         </div>
         <div class="actions">
           <a href="./sample-next.html">Start current sample</a>
+          <a href="./sample-fastest.html">Start fastest sample</a>
           <a href="./gate-sample.html">Open all missions</a>
         </div>
       </section>
@@ -387,7 +396,7 @@
           <li>Use the player-initiated local evidence route until PostHog or the first-party collector is configured.</li>
           <li>Unlock production analytics with first-party-collector; 5 setup command(s) and 4 validation command(s) are published with redacted secret names only.</li>
           <li>External unlock queue has 4 owner action(s); next zero-spend unlock is production-analytics-browser.</li>
-          <li>Invite players to start the current sample through /sample-next.html, then use Share evidence after the play session so public aggregate evidence can be reviewed without raw events.</li>
+          <li>Invite players to start the current sample through /sample-next.html, or the fastest separate gate through /sample-fastest.html, then use Share evidence after the play session so public aggregate evidence can be reviewed without raw events.</li>
           <li>Do not pass product gates, enable revenue, or submit stores from public aggregate notes alone.</li>
           <li>Keep product gates blocked until real player evidence clears completion, replay, and D1 retention thresholds.</li>
         </ul>

@@ -1,10 +1,10 @@
 # Post-Deploy Smoke
 
-Generated: 2026-05-22T23:26:55.177Z
+Generated: 2026-05-22T23:41:26.764Z
 Status: post-deploy-smoke-observed-live
 Origin: https://moshequ.github.io/autonomous-game-lab
 Origin source: release-candidate-public-origin
-Candidate: pwa-2f1adb533abf
+Candidate: pwa-086537cd78bc
 Live candidate: pwa-040814d8619d
 
 ## Summary
@@ -18,7 +18,7 @@ Live candidate: pwa-040814d8619d
 
 Status: predeploy-artifact-smoke-passed
 Artifact path: dist
-Checks: 23/23 passed
+Checks: 25/25 passed
 - pass: app-shell - dist/index.html - Local production artifact matched required text.
 - pass: manifest-webmanifest - dist/manifest.webmanifest - Local production artifact matched required text.
 - pass: sw-js - dist/sw.js - Local production artifact matched required text.
@@ -36,6 +36,8 @@ Checks: 23/23 passed
 - pass: gate-sample-html - dist/gate-sample.html - Local production artifact matched required text.
 - pass: sample-next-html - dist/sample-next.html - Local production artifact matched required text.
 - pass: sample-next-json - dist/sample-next.json - Local production artifact matched required text.
+- pass: sample-fastest-html - dist/sample-fastest.html - Local production artifact matched required text.
+- pass: sample-fastest-json - dist/sample-fastest.json - Local production artifact matched required text.
 - pass: seed-kit-html - dist/seed-kit.html - Local production artifact matched required text.
 - pass: seed-next-html - dist/seed-next.html - Local production artifact matched required text.
 - pass: seed-next-json - dist/seed-next.json - Local production artifact matched required text.
