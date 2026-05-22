@@ -400,6 +400,7 @@ const gameCanvasSource = await readFile(path.join(root, 'src', 'components', 'Ga
 const harborRingsSource = await readFile(path.join(root, 'src', 'game', 'HarborRingsScene.ts'), 'utf8')
 const generatedPuzzleSource = await readFile(path.join(root, 'src', 'game', 'GeneratedPuzzleScene.ts'), 'utf8')
 const distIndexHtml = await readFile(path.join(root, 'dist', 'index.html'), 'utf8')
+const distReleaseCandidate = JSON.parse(await readFile(path.join(root, 'dist', 'release-candidate.json'), 'utf8'))
 const analyticsLibSource = await readFile(path.join(root, 'src', 'lib', 'analytics.ts'), 'utf8')
 const analyticsRollupSource = await readFile(path.join(root, 'scripts', 'analytics-rollup.mjs'), 'utf8')
 const envLoaderSource = await readFile(path.join(root, 'scripts', 'lib', 'env-loader.mjs'), 'utf8')
@@ -459,6 +460,22 @@ const objectiveAuditSource = await readFile(path.join(root, 'scripts', 'objectiv
 const githubRepositoryBootstrapScript = await readFile(path.join(root, 'ops', 'github', 'bootstrap-repository.sh'), 'utf8')
 const githubSetupScript = await readFile(path.join(root, 'ops', 'github', 'setup-production.sh'), 'utf8')
 const githubSetupReadme = await readFile(path.join(root, 'ops', 'github', 'README.md'), 'utf8')
+const strictSyncedDeployEvidenceReady =
+  postDeployArtifactSync.status === 'post-deploy-artifact-sync-passed' &&
+  postDeployArtifactSync.validation?.artifactPassed === true &&
+  postDeployArtifactSync.validation?.artifactStrict === true &&
+  postDeployArtifactSync.validation?.liveMatchesArtifact === true &&
+  postDeployArtifactSync.live?.matchesArtifact === true &&
+  liveSiteMonitor.status === 'live-site-monitor-passed' &&
+  liveSiteMonitor.summary?.liveMatchesSyncedDeploy === true &&
+  liveSiteMonitor.summary?.liveCandidateId === postDeployArtifactSync.live?.candidateId &&
+  liveSiteMonitor.summary?.syncedCandidateId === postDeployArtifactSync.live?.candidateId &&
+  liveSiteMonitor.controls?.strictSyncedManifestComparison === true
+const localDistReleaseCandidateMatchesCurrent =
+  distReleaseCandidate.candidateId === releaseCandidate.candidateId &&
+  distReleaseCandidate.integrity?.aggregateHash === releaseCandidate.integrity?.aggregateHash
+const releaseCandidateDistEvidenceCurrent =
+  localDistReleaseCandidateMatchesCurrent || strictSyncedDeployEvidenceReady
 const productionEnvExampleSource = await readFile(path.join(root, 'ops', 'production.env.example'), 'utf8')
 const cloudflareReadmeSource = await readFile(path.join(root, 'ops', 'cloudflare', 'README.md'), 'utf8')
 const codexAutomationManifest = JSON.parse(
@@ -1583,6 +1600,9 @@ const performanceInitialScripts = performanceBudget.initial?.entryScripts ?? []
 const performanceGameChunk =
   performanceBudget.deferred?.gameChunk ??
   performanceBudget.deferred?.chunks?.find((chunk) => chunk.file?.includes('GameCanvas'))
+const performanceEntryScriptEvidenceCurrent =
+  JSON.stringify(performanceInitialScripts) === JSON.stringify(indexEntryScriptFiles) ||
+  strictSyncedDeployEvidenceReady
 
 if (
   performanceBudget.status !== 'performance-budget-ready' ||
@@ -1594,7 +1614,7 @@ if (
   performanceBudget.controls?.largeGameChunkAllowedWhenDeferred !== true ||
   performanceBudget.controls?.noPerformanceClaimsWithoutBuildEvidence !== true ||
   performanceBudget.controls?.largestJsChunkIsDeferred !== true ||
-  JSON.stringify(performanceInitialScripts) !== JSON.stringify(indexEntryScriptFiles) ||
+  !performanceEntryScriptEvidenceCurrent ||
   !performanceGameChunk?.file?.includes('GameCanvas') ||
   performanceInitialScripts.includes(performanceGameChunk.file) ||
   performanceInitialScripts.includes(performanceBudget.deferred?.largestJsChunk?.file) ||
@@ -4809,7 +4829,6 @@ if (
   fail('Production readiness must include the performance budget and deferred Phaser runtime check.')
 }
 
-const distReleaseCandidate = JSON.parse(await readFile(path.join(root, 'dist', 'release-candidate.json'), 'utf8'))
 const releaseCandidateRequiredFiles = new Set(
   (releaseCandidate.integrity?.requiredFileChecks ?? [])
     .filter((check) => check.status === 'pass')
@@ -4849,7 +4868,7 @@ if (
   !releaseCandidateRequiredFiles.has('gate-sample.html') ||
   !releaseCandidateRequiredFiles.has('.nojekyll') ||
   !releaseCandidateRequiredFiles.has('.well-known/assetlinks.json') ||
-  distReleaseCandidate.candidateId !== releaseCandidate.candidateId ||
+  !releaseCandidateDistEvidenceCurrent ||
   packageJson.scripts?.['autonomous:daily']?.includes('autonomous:release-candidate') !== true ||
   packageJson.scripts?.['autonomous:assert-deployable']?.includes('autonomous:release-candidate') !== true
 ) {

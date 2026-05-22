@@ -30,6 +30,7 @@ const [
   autonomousOperatorHistory,
   packageJson,
   workflow,
+  verifyAutonomySource,
 ] = await Promise.all([
   readJson('data/post-deploy-artifact-sync.json'),
   readJson('data/live-site-monitor.json'),
@@ -51,6 +52,7 @@ const [
   readJson('data/autonomous-operator-history.json'),
   readJson('package.json'),
   readText('.github/workflows/post-deploy-evidence-sync.yml'),
+  readText('scripts/verify-autonomy.mjs'),
 ])
 
 const postDeployReadinessSyncScript = packageJson.scripts?.['autonomous:post-deploy-readiness-sync'] ?? ''
@@ -114,6 +116,14 @@ if (
   postDeployReadinessSyncScript.length === 0
 ) {
   fail('package.json must expose the post-deploy evidence sync verifier and readiness refresh command.')
+}
+
+if (
+  !verifyAutonomySource.includes('strictSyncedDeployEvidenceReady') ||
+  !verifyAutonomySource.includes('performanceEntryScriptEvidenceCurrent') ||
+  !verifyAutonomySource.includes('releaseCandidateDistEvidenceCurrent')
+) {
+  fail('verify-autonomy must accept strict post-deploy synced evidence when ignored local dist is stale.')
 }
 
 const requiredReadinessRefreshCommands = [
