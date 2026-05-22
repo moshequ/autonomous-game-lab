@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-22T05:35:47.992Z",
+  "generatedAt": "2026-05-22T05:38:34.155Z",
   "status": "owner-loop-ready",
   "mode": "zero-spend-web-ready",
   "autonomyScore": {
@@ -50,7 +50,7 @@
     "objectiveAuditFreshness": {
       "fresh": true,
       "structurallyReady": true,
-      "auditGeneratedAt": "2026-05-22T05:35:47.711Z",
+      "auditGeneratedAt": "2026-05-22T05:38:33.967Z",
       "evaluatedInputIds": [
         "analytics-rollup",
         "event-ingest",
@@ -74,7 +74,7 @@
         "ready": true,
         "status": "cadence-ready",
         "artifactGeneratedAt": "2026-05-22T05:34:33.608Z",
-        "ageHours": 0.021,
+        "ageHours": 0.067,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -85,7 +85,7 @@
         "ready": true,
         "status": "self-update-ready",
         "artifactGeneratedAt": "2026-05-22T04:36:06.904Z",
-        "ageHours": 0.995,
+        "ageHours": 1.041,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -96,7 +96,7 @@
         "ready": true,
         "status": "support-feedback-empty",
         "artifactGeneratedAt": "2026-05-22T02:06:13.270Z",
-        "ageHours": 3.493,
+        "ageHours": 3.539,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -106,8 +106,8 @@
         "fresh": true,
         "ready": true,
         "status": "performance-budget-ready",
-        "artifactGeneratedAt": "2026-05-22T05:35:18.957Z",
-        "ageHours": 0.008,
+        "artifactGeneratedAt": "2026-05-22T05:38:21.426Z",
+        "ageHours": 0.004,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -117,8 +117,8 @@
         "fresh": true,
         "ready": true,
         "status": "live-site-monitor-passed",
-        "artifactGeneratedAt": "2026-05-22T05:35:35.197Z",
-        "ageHours": 0.004,
+        "artifactGeneratedAt": "2026-05-22T05:38:27.433Z",
+        "ageHours": 0.002,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -420,8 +420,8 @@
       "liveSiteMonitorFresh": true,
       "smokeActionFresh": true,
       "releaseCandidateActionFresh": true,
-      "liveCandidateId": "pwa-787a08482056",
-      "artifactCandidateId": "pwa-787a08482056"
+      "liveCandidateId": "pwa-672ceca0812b",
+      "artifactCandidateId": "pwa-672ceca0812b"
     },
     "skippedRecentlyExecutedActionIds": [],
     "skippedRecentlySatisfiedActionIds": [],
@@ -460,9 +460,9 @@
     },
     "productionBootstrapFreshness": {
       "fresh": true,
-      "bootstrapGeneratedAt": "2026-05-22T05:35:44.635Z",
-      "artifactSourceDataHash": "1677d16073cc",
-      "sourceDataHash": "1677d16073cc",
+      "bootstrapGeneratedAt": "2026-05-22T05:38:32.114Z",
+      "artifactSourceDataHash": "6b28f1e57174",
+      "sourceDataHash": "6b28f1e57174",
       "evaluatedInputIds": [
         "release-candidate",
         "deployment-plan",
@@ -477,11 +477,11 @@
       "current": true,
       "ready": true,
       "status": "handoff-waiting-on-owner-inputs",
-      "generatedAt": "2026-05-22T05:35:45.151Z",
+      "generatedAt": "2026-05-22T05:38:32.407Z",
       "nextBestUnlockId": "production-analytics-browser",
       "ownerActionRequired": 4,
       "missingEnv": 7,
-      "missingSecrets": 5,
+      "missingSecrets": 8,
       "sourceStatusesFresh": true,
       "evaluatedSourceStatuses": [
         "production-environment",
@@ -599,7 +599,7 @@
       "id": "performance-budget",
       "status": "ready",
       "autonomy": "automatic-build-budget",
-      "evidence": "Initial JS 671.6 KB; gzip 182.5 KB; deferred chunks 2.",
+      "evidence": "Initial JS 671.9 KB; gzip 182.7 KB; deferred chunks 2.",
       "nextAction": "Keep Phaser and game scenes outside the initial PWA shell."
     },
     {
@@ -698,13 +698,13 @@
       "status": "ready",
       "autonomy": "read-only-live-deploy-verification",
       "evidence": "Smoke post-deploy-smoke-observed-live; origin https://moshequ.github.io/autonomous-game-lab; manifest comparison required; checks 19/19 passed; local artifact predeploy-artifact-smoke-passed 19/19 passed.",
-      "nextAction": "Live Pages is reachable and serving pwa-787a08482056; run the deploy workflow for strict proof of the current local candidate if needed."
+      "nextAction": "Live Pages is reachable and serving pwa-672ceca0812b; run the deploy workflow for strict proof of the current local candidate if needed."
     },
     {
       "id": "post-deploy-artifact-sync",
       "status": "ready",
       "autonomy": "read-only-actions-artifact-import",
-      "evidence": "Artifact sync post-deploy-artifact-sync-passed; run 26270105242; live matches artifact true; strict true.",
+      "evidence": "Artifact sync post-deploy-artifact-sync-passed; run 26270484529; live matches artifact true; strict true.",
       "nextAction": "Keep this strict deploy artifact as live-production evidence while local candidates continue to iterate."
     },
     {
@@ -718,7 +718,7 @@
       "id": "production-bootstrap",
       "status": "ready",
       "autonomy": "zero-spend-setup-orchestration",
-      "evidence": "Bootstrap production-bootstrap-ready; mode can-apply-configured-actions; external blockers 17.",
+      "evidence": "Bootstrap production-bootstrap-ready; mode can-apply-configured-actions; external blockers 16.",
       "nextAction": "gh workflow run web-pwa-deploy.yml"
     },
     {
@@ -732,7 +732,7 @@
       "id": "production-blocker-handoff",
       "status": "ready",
       "autonomy": "ranked-external-unlock-router",
-      "evidence": "Handoff handoff-waiting-on-owner-inputs; next production-analytics-browser; owner inputs 4; missing env 7; missing secrets 5.",
+      "evidence": "Handoff handoff-waiting-on-owner-inputs; next production-analytics-browser; owner inputs 4; missing env 7; missing secrets 8.",
       "nextAction": "Start with Browser production analytics; it is the highest-priority zero-spend owner input."
     },
     {
@@ -913,7 +913,7 @@
       "command": "npm run build && npm run autonomous:performance && npm run autonomous:release-candidate",
       "targets": [
         "pwa-shell",
-        "GameCanvas-CyOmbmls.js",
+        "GameCanvas-BaeLhBAX.js",
         "dist-release-candidate"
       ],
       "reason": "Performance budget and release-candidate evidence are already fresh for the current guarded build."
@@ -946,7 +946,7 @@
       "costUsd": 0,
       "command": "npm run autonomous:post-deploy-artifact-sync",
       "targets": [
-        26270105242,
+        26270484529,
         "release-candidate-manifest"
       ],
       "reason": "Strict deploy artifact evidence is already synced from the latest successful Pages workflow."
@@ -1076,7 +1076,7 @@
       "targets": [
         "production-analytics-browser"
       ],
-      "reason": "Production blocker handoff already ranks 4 owner input(s), 7 env blocker(s), and 5 secret blocker(s)."
+      "reason": "Production blocker handoff already ranks 4 owner input(s), 7 env blocker(s), and 8 secret blocker(s)."
     },
     {
       "id": "run-production-unlock-runner",
@@ -1244,6 +1244,27 @@
       "status": "credential-required",
       "target": "POSTHOG_PERSONAL_API_KEY",
       "purpose": "Repository secret sourced from POSTHOG_PERSONAL_API_KEY.",
+      "source": "production-bootstrap"
+    },
+    {
+      "id": "secret-agl-android-keystore-base64",
+      "status": "credential-required",
+      "target": "AGL_ANDROID_KEYSTORE_BASE64",
+      "purpose": "Repository secret sourced from AGL_ANDROID_KEYSTORE_BASE64.",
+      "source": "production-bootstrap"
+    },
+    {
+      "id": "secret-agl-android-keystore-password",
+      "status": "credential-required",
+      "target": "AGL_ANDROID_KEYSTORE_PASSWORD",
+      "purpose": "Repository secret sourced from AGL_ANDROID_KEYSTORE_PASSWORD.",
+      "source": "production-bootstrap"
+    },
+    {
+      "id": "secret-agl-android-key-alias",
+      "status": "credential-required",
+      "target": "AGL_ANDROID_KEY_ALIAS",
+      "purpose": "Repository secret sourced from AGL_ANDROID_KEY_ALIAS.",
       "source": "production-bootstrap"
     },
     {
