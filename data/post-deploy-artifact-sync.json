@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-22T21:15:24.007Z",
+  "generatedAt": "2026-05-22T21:16:31.049Z",
   "status": "post-deploy-artifact-sync-passed",
   "envFiles": {
     "loaded": false,
@@ -45,8 +45,8 @@
     "headSha": "19b85778e0d263cfcf866b5a2e5b773b798dd2b0",
     "createdAt": "2026-05-22T21:14:08Z",
     "url": "https://github.com/moshequ/autonomous-game-lab/actions/runs/26312279974",
-    "source": "explicit-run-id",
-    "runListAvailable": false
+    "source": "latest-successful-run",
+    "runListAvailable": true
   },
   "artifact": {
     "status": "post-deploy-smoke-passed",
@@ -142,9 +142,9 @@
       "detail": "Target repository is moshequ/autonomous-game-lab."
     },
     {
-      "id": "explicit-pages-run",
+      "id": "successful-pages-run",
       "status": "pass",
-      "detail": "Explicit web-pwa-deploy.yml run is 26312279974."
+      "detail": "Latest successful web-pwa-deploy.yml run is 26312279974."
     },
     {
       "id": "post-deploy-smoke-artifact",
