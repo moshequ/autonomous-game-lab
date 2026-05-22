@@ -1,10 +1,10 @@
 # Autonomous Operator
 
-Generated: 2026-05-22T13:41:24.689Z
-Status: operator-held
+Generated: 2026-05-22T13:54:06.629Z
+Status: operator-plan-ready
 Mode: plan-only
-Owner decision: hold-for-external-input
-Selected action: none
+Owner decision: seed-portfolio-traffic
+Selected action: seed-portfolio-traffic
 Execution: not-requested
 
 ## Controls
@@ -18,11 +18,12 @@ Execution: not-requested
 
 ## Selected Action
 
-- none: no eligible local actions
+- seed-portfolio-traffic: npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop
 
 ## Eligible Local Actions
 
-- none
+- seed-portfolio-traffic
+- refresh-organic-seed-loop
 
 ## Blocked Actions
 
@@ -30,11 +31,11 @@ Execution: not-requested
 - hold-for-external-input: status-monitor
 - refresh-autonomous-cadence: status-monitor
 - refresh-autonomous-self-update: status-monitor
-- seed-portfolio-traffic: owner-decision-held
-- refresh-organic-seed-loop: status-monitor
+- refresh-organic-seed-loop: not-selected-this-run
 - refresh-support-feedback: status-monitor
 - optimize-daily-retention: status-monitor
 - measure-pwa-install-loop: status-monitor
 - check-performance-budget: status-monitor
 - prepare-release-candidate: status-monitor
 - run-post-deploy-smoke: status-monitor
+- sync-post-deploy-artifact: status-monitor

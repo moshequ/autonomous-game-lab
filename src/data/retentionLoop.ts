@@ -1,7 +1,7 @@
 export const retentionLoop = {
-  "generatedAt": "2026-05-22T09:51:54.615Z",
+  "generatedAt": "2026-05-22T13:53:14.037Z",
   "status": "retention-loop-ready",
-  "sourceDataHash": "116265411118",
+  "sourceDataHash": "8db603a3e9d8",
   "dailyChallenge": {
     "date": "2026-05-22",
     "gameId": "market-pulse",
@@ -153,11 +153,11 @@ export const retentionLoop = {
       "cooldownHours": 4,
       "coolingDown": true,
       "evidenceReadyNow": false,
-      "lastScanAt": "2026-05-22T09:51:49.946Z",
+      "lastScanAt": "2026-05-22T13:53:13.086Z",
       "lastScanStatus": "no-evidence-found",
       "scanAgeHours": 0,
       "cooldownRemainingHours": 4,
-      "nextRecommendedScanAt": "2026-05-22T13:51:49.946Z"
+      "nextRecommendedScanAt": "2026-05-22T17:53:13.086Z"
     },
     "commandPlan": {
       "refreshRetention": "npm run autonomous:retention",
@@ -174,7 +174,7 @@ export const retentionLoop = {
       "downloadsImportRequiresExplicitOptIn": true,
       "downloadsScanBackoffRequired": true
     },
-    "nextAction": "Wait until 2026-05-22T13:51:49.946Z before another explicit Downloads scan, unless an inbox event drop appears."
+    "nextAction": "Wait until 2026-05-22T17:53:13.086Z before another explicit Downloads scan, unless an inbox event drop appears."
   },
   "controls": {
     "canNudgeRetention": true,
@@ -229,7 +229,7 @@ export const retentionLoop = {
   ],
   "nextActions": [
     "Improve D1 retention from 17% toward 18% with local streak prompts.",
-    "Wait until 2026-05-22T13:51:49.946Z before another explicit Downloads scan, unless an inbox event drop appears.",
+    "Wait until 2026-05-22T17:53:13.086Z before another explicit Downloads scan, unless an inbox event drop appears.",
     "Improve replay rate from 31% toward 35% with the daily return mission.",
     "Do not use push notifications, accounts, paid rewards, or ads for retention until gates pass."
   ]
