@@ -204,8 +204,8 @@ export const gameBalance = {
         "corner": 3
       },
       "tuning": {
-        "minTargetScore": 102,
-        "maxTargetScore": 186,
+        "minTargetScore": 108,
+        "maxTargetScore": 192,
         "targetStep": 6
       }
     },
@@ -233,8 +233,8 @@ export const gameBalance = {
         "corner": 2
       },
       "tuning": {
-        "minTargetScore": 59,
-        "maxTargetScore": 143,
+        "minTargetScore": 68,
+        "maxTargetScore": 152,
         "targetStep": 6
       }
     }

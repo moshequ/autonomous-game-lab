@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-22T02:06:15.830Z",
+  "generatedAt": "2026-05-22T08:48:21.939Z",
   "guardrails": {
     "maxChangesPerRun": 2,
     "allowedCtaVariants": [
@@ -51,7 +51,14 @@
       "messageVariant": "daily",
       "reason": "No organic entry data yet; seed strongest pages with daily challenge copy.",
       "confidence": 73,
-      "updatedAt": "2026-05-22T01:39:57.974Z"
+      "updatedAt": "2026-05-22T08:48:21.939Z"
+    },
+    "grove-engine": {
+      "ctaVariant": "daily-challenge",
+      "messageVariant": "daily",
+      "reason": "No organic entry data yet; seed strongest pages with daily challenge copy.",
+      "confidence": 73,
+      "updatedAt": "2026-05-22T08:48:21.938Z"
     }
   },
   "history": [
@@ -293,6 +300,36 @@
         "reason": "No share clicks captured yet; test faster share-oriented CTA.",
         "confidence": 66,
         "updatedAt": "2026-05-22T02:06:15.830Z"
+      }
+    },
+    {
+      "status": "applied",
+      "gameId": "grove-engine",
+      "reason": "No organic entry data yet; seed strongest pages with daily challenge copy.",
+      "confidence": 73,
+      "sourceDataHash": "7196d210fb72",
+      "appliedAt": "2026-05-22T08:48:21.939Z",
+      "after": {
+        "ctaVariant": "daily-challenge",
+        "messageVariant": "daily",
+        "reason": "No organic entry data yet; seed strongest pages with daily challenge copy.",
+        "confidence": 73,
+        "updatedAt": "2026-05-22T08:48:21.938Z"
+      }
+    },
+    {
+      "status": "applied",
+      "gameId": "market-pulse",
+      "reason": "No organic entry data yet; seed strongest pages with daily challenge copy.",
+      "confidence": 73,
+      "sourceDataHash": "7196d210fb72",
+      "appliedAt": "2026-05-22T08:48:21.939Z",
+      "after": {
+        "ctaVariant": "daily-challenge",
+        "messageVariant": "daily",
+        "reason": "No organic entry data yet; seed strongest pages with daily challenge copy.",
+        "confidence": 73,
+        "updatedAt": "2026-05-22T08:48:21.939Z"
       }
     }
   ]

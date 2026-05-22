@@ -1,5 +1,5 @@
 export const incidentDrill = {
-  "generatedAt": "2026-05-22T02:06:48.170Z",
+  "generatedAt": "2026-05-22T08:48:55.248Z",
   "status": "pass",
   "scenario": "blocked-release-health",
   "isolated": true,
@@ -37,10 +37,10 @@ export const incidentDrill = {
     "enforce-zero-paid-spend"
   ],
   "stdout": [
-    "Wrote ../../../../../tmp/agl-incident-drill-Pssb6z/data/experiment-policy.json",
-    "Wrote ../../../../../tmp/agl-incident-drill-Pssb6z/data/production-response.json",
-    "Wrote ../../../../../tmp/agl-incident-drill-Pssb6z/src/data/productionResponse.ts",
-    "Wrote ../../../../../tmp/agl-incident-drill-Pssb6z/reports/production-response-latest.md"
+    "Wrote ../../../../../tmp/agl-incident-drill-VXMjqY/data/experiment-policy.json",
+    "Wrote ../../../../../tmp/agl-incident-drill-VXMjqY/data/production-response.json",
+    "Wrote ../../../../../tmp/agl-incident-drill-VXMjqY/src/data/productionResponse.ts",
+    "Wrote ../../../../../tmp/agl-incident-drill-VXMjqY/reports/production-response-latest.md"
   ]
 } as const
 

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-22T06:50:16.298Z",
+  "generatedAt": "2026-05-22T08:50:57.975Z",
   "status": "bridge-waiting-for-export",
   "mode": "local-zero-spend-event-drop-bridge",
   "inbox": {
@@ -59,7 +59,7 @@
       "preciseLocation"
     ],
     "inboxDirectory": "data/player-events/inbox",
-    "downloadsDirectory": "../../../../Downloads",
+    "downloadsDirectory": "../../../Downloads",
     "importCommand": "npm run autonomous:import-events",
     "rollupCommand": "npm run autonomous:analytics",
     "recoveryCommand": "npm run autonomous:gate-recovery",
@@ -100,8 +100,8 @@
     "evidenceReadyNow": false,
     "lastScanAt": "2026-05-22T05:51:13.115Z",
     "lastScanStatus": "no-evidence-found",
-    "scanAgeHours": 0.98,
-    "cooldownRemainingHours": 3.02,
+    "scanAgeHours": 3,
+    "cooldownRemainingHours": 1,
     "nextRecommendedScanAt": "2026-05-22T09:51:13.115Z"
   },
   "gateSampleEvidence": {

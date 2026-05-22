@@ -5,16 +5,16 @@ export const generatedPlayableGames = [
     "status": "generated-playable",
     "source": {
       "mechanic": "card drafting",
-      "theme": "cozy production",
+      "theme": "science desk",
       "audience": "strategy solo",
       "generatedFrom": [
         "trend-signals",
         "generated-concepts"
       ],
-      "trendScore": 376,
+      "trendScore": 425,
       "conceptId": "lantern-relay",
       "conceptTitle": "Lantern Relay",
-      "conceptScore": 376,
+      "conceptScore": 425,
       "representedPrototypeTemplates": 1
     },
     "sourceDistance": {
@@ -48,7 +48,7 @@ export const generatedPlayableGames = [
         "fill": "#6b5bb8"
       }
     ],
-    "tutorial": "Mark one cell per turn. Build card drafting combos across cozy production to beat 130.",
+    "tutorial": "Mark one cell per turn. Build card drafting combos across science desk to beat 130.",
     "playerPromise": "A complete tactical board-game feeling in 9 minutes, tuned for touch screens.",
     "scoring": {
       "base": 4,
@@ -60,10 +60,10 @@ export const generatedPlayableGames = [
       "corner": 2
     },
     "storeListing": {
-      "shortDescription": "A generated card drafting puzzle with quick cozy production decisions.",
+      "shortDescription": "A generated card drafting puzzle with quick science desk decisions.",
       "keywords": [
         "card drafting",
-        "cozy production",
+        "science desk",
         "daily puzzle",
         "solo board game",
         "generated strategy game"
@@ -76,16 +76,16 @@ export const generatedPlayableGames = [
     "status": "generated-playable",
     "source": {
       "mechanic": "route building",
-      "theme": "science desk",
+      "theme": "cozy production",
       "audience": "mobile puzzle",
       "generatedFrom": [
         "trend-signals",
         "generated-concepts"
       ],
-      "trendScore": 254,
+      "trendScore": 289,
       "conceptId": "harbor-circuit",
       "conceptTitle": "Harbor Circuit",
-      "conceptScore": 254,
+      "conceptScore": 289,
       "representedPrototypeTemplates": 1
     },
     "sourceDistance": {
@@ -119,7 +119,7 @@ export const generatedPlayableGames = [
         "fill": "#4d6f3a"
       }
     ],
-    "tutorial": "Mark one cell per turn. Build route building combos across science desk to beat 96.",
+    "tutorial": "Mark one cell per turn. Build route building combos across cozy production to beat 96.",
     "playerPromise": "A complete tactical board-game feeling in 5 minutes, tuned for touch screens.",
     "scoring": {
       "base": 2,
@@ -131,10 +131,10 @@ export const generatedPlayableGames = [
       "corner": 1
     },
     "storeListing": {
-      "shortDescription": "A generated route building puzzle with quick science desk decisions.",
+      "shortDescription": "A generated route building puzzle with quick cozy production decisions.",
       "keywords": [
         "route building",
-        "science desk",
+        "cozy production",
         "daily puzzle",
         "solo board game",
         "generated strategy game"
@@ -153,10 +153,10 @@ export const generatedPlayableGames = [
         "trend-signals",
         "generated-concepts"
       ],
-      "trendScore": 184,
+      "trendScore": 204,
       "conceptId": "orbit-atlas",
       "conceptTitle": "Orbit Atlas",
-      "conceptScore": 184,
+      "conceptScore": 204,
       "representedPrototypeTemplates": 2
     },
     "sourceDistance": {
@@ -224,10 +224,10 @@ export const generatedPlayableGames = [
         "trend-signals",
         "generated-concepts"
       ],
-      "trendScore": 173,
+      "trendScore": 191,
       "conceptId": "foundry-ledger",
       "conceptTitle": "Foundry Ledger",
-      "conceptScore": 173,
+      "conceptScore": 191,
       "representedPrototypeTemplates": 2
     },
     "sourceDistance": {

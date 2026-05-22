@@ -1,6 +1,6 @@
 # Store Listing Optimizer
 
-Generated: 2026-05-22T06:53:51.213Z
+Generated: 2026-05-22T08:51:59.361Z
 Status: store-listing-optimizer-ready
 Focus: Grove Engine (grove-engine)
 Previous candidate: lantern-relay
@@ -9,7 +9,7 @@ Previous candidate: lantern-relay
 
 - Short description: Original daily strategy puzzles led by Grove Engine. Quick solo board-game play.
 - Apple subtitle: Grove Engine daily strategy
-- Keywords: engine building, expedition planning, daily puzzle, solo board game, generated strategy game, board-game-inspired, auction, compact city logistics, worker placement, route building, science desk, strategy puzzle
+- Keywords: engine building, expedition planning, daily puzzle, solo board game, generated strategy game, board-game-inspired, auction, compact city logistics, worker placement, route building, cozy production, strategy puzzle
 
 ## Screenshot Priorities
 

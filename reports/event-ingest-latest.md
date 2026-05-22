@@ -1,12 +1,12 @@
 # Event Ingest
 
-Generated: 2026-05-22T06:50:16.531Z
+Generated: 2026-05-22T08:50:58.116Z
 Status: idle-no-files
 Output directory: data/player-events
 
 ## Sources
 
-- /Users/moshequ/Documents/Codex/2026-05-18/i-want-to-have-a-new/data/player-events/inbox: available, 0 matching file(s)
+- /home/runner/work/autonomous-game-lab/autonomous-game-lab/data/player-events/inbox: available, 0 matching file(s)
 
 ## Imported
 

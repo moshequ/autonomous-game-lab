@@ -1,26 +1,26 @@
 # Generated Game Concepts
 
-Generated: 2026-05-22T06:42:42.772Z
+Generated: 2026-05-22T08:48:15.474Z
 
 ## Accepted Candidates
 
 ### 1. Lantern Relay
 
 - Mechanic: card drafting
-- Theme: cozy production
+- Theme: science desk
 - Audience: strategy solo
 - Template: tableau
-- Core loop: chain comforting orders by making one strong card drafting decision per turn.
+- Core loop: align instruments into reliable discoveries by making one strong card drafting decision per turn.
 - IP risk: low
 - Monetization test: rewarded hint after failed daily challenge
 
 ### 2. Harbor Circuit
 
 - Mechanic: route building
-- Theme: science desk
+- Theme: cozy production
 - Audience: mobile puzzle
 - Template: line-drawing
-- Core loop: align instruments into reliable discoveries by making one strong route building decision per turn.
+- Core loop: chain comforting orders by making one strong route building decision per turn.
 - IP risk: low
 - Monetization test: rewarded hint after failed daily challenge
 

@@ -1,5 +1,5 @@
 export const storeAssets = {
-  "generatedAt": "2026-05-22T06:53:50.953Z",
+  "generatedAt": "2026-05-22T08:48:52.932Z",
   "status": "screenshots-ready",
   "basePath": "/autonomous-game-lab/",
   "sourceBuild": "dist",
@@ -13,7 +13,7 @@ export const storeAssets = {
       "distPath": "dist/store-assets/screenshots/phone-portal-home.png",
       "width": 1170,
       "height": 2532,
-      "bytes": 211173,
+      "bytes": 205947,
       "platformUse": [
         "Google Play phone",
         "Apple iPhone draft"
@@ -28,7 +28,7 @@ export const storeAssets = {
       "distPath": "dist/store-assets/screenshots/phone-lantern-relay-game.png",
       "width": 1170,
       "height": 2532,
-      "bytes": 194268,
+      "bytes": 197347,
       "platformUse": [
         "Google Play phone",
         "Apple iPhone draft"
@@ -43,7 +43,7 @@ export const storeAssets = {
       "distPath": "dist/store-assets/screenshots/phone-grove-engine-generated.png",
       "width": 1170,
       "height": 2532,
-      "bytes": 186277,
+      "bytes": 190249,
       "platformUse": [
         "Google Play phone",
         "Apple iPhone draft"
@@ -58,7 +58,7 @@ export const storeAssets = {
       "distPath": "dist/store-assets/screenshots/desktop-growth-page.png",
       "width": 1440,
       "height": 900,
-      "bytes": 52536,
+      "bytes": 64615,
       "platformUse": [
         "Web/PWA listing",
         "press kit"

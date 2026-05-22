@@ -1,5 +1,5 @@
 export const androidRelease = {
-  "generatedAt": "2026-05-22T06:53:52.714Z",
+  "generatedAt": "2026-05-22T08:48:54.758Z",
   "status": "blocked-needs-host-signing-play",
   "envFiles": {
     "loaded": true,
@@ -15,14 +15,14 @@ export const androidRelease = {
         ]
       }
     ],
-    "loadedKeys": [
+    "loadedKeys": [],
+    "skippedExistingKeys": [
       "AGL_ANDROID_PACKAGE_NAME",
       "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
       "AGL_ANDROID_KEYSTORE_BASE64",
       "AGL_ANDROID_KEYSTORE_PASSWORD",
       "AGL_ANDROID_KEY_ALIAS"
     ],
-    "skippedExistingKeys": [],
     "skippedProtectedKeys": [],
     "overwrittenEnvFileKeys": [],
     "supportedFiles": [

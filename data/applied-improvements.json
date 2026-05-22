@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-05-22T04:47:59.214Z",
+  "generatedAt": "2026-05-22T08:48:29.206Z",
   "status": "applied-improvements-ready",
-  "sourceDataHash": "833a2c6b58e8",
+  "sourceDataHash": "d4542fbe37c8",
   "releaseHealthStatus": "monitoring",
   "experimentResultsStatus": "evaluated",
   "playableGameIds": [
@@ -12,9 +12,9 @@
     "orbit-atlas",
     "pocket-draft",
     "metro-loom",
-    "mosaic-haven",
     "guild-garden",
-    "market-pulse"
+    "market-pulse",
+    "grove-engine"
   ],
   "actions": [
     {
@@ -30,7 +30,7 @@
       "experiment": "reward_offer",
       "title": "Promote winning experiment variant",
       "reason": "same experiment result already produced an applied change",
-      "sourceDataHash": "833a2c6b58e8"
+      "sourceDataHash": "d4542fbe37c8"
     },
     {
       "status": "skipped",
@@ -38,7 +38,7 @@
       "experiment": "thumbnail_board_state_v2",
       "title": "Promote winning experiment variant",
       "reason": "same experiment result already produced an applied change",
-      "sourceDataHash": "833a2c6b58e8"
+      "sourceDataHash": "d4542fbe37c8"
     },
     {
       "status": "skipped",
@@ -46,7 +46,7 @@
       "gameId": "harbor-rings",
       "title": "Shorten first tutorial",
       "reason": "same diagnosed issue already produced an applied change",
-      "sourceDataHash": "833a2c6b58e8"
+      "sourceDataHash": "d4542fbe37c8"
     },
     {
       "status": "skipped",
@@ -54,7 +54,7 @@
       "gameId": "harbor-rings",
       "title": "Improve title and thumbnail",
       "reason": "same diagnosed issue already produced an applied change",
-      "sourceDataHash": "833a2c6b58e8"
+      "sourceDataHash": "d4542fbe37c8"
     },
     {
       "status": "deferred",
@@ -69,7 +69,7 @@
       "gameId": "harbor-rings",
       "title": "Add daily goal reward copy and result animation",
       "reason": "same diagnosed issue already produced an applied change",
-      "sourceDataHash": "833a2c6b58e8"
+      "sourceDataHash": "d4542fbe37c8"
     }
   ],
   "history": [

@@ -1,6 +1,6 @@
 # Event Collector Deployment
 
-Generated: 2026-05-22T05:42:35.075Z
+Generated: 2026-05-22T08:50:57.537Z
 Status: blocked-needs-cloudflare-env
 Provider: cloudflare-worker-r2
 Cost posture: free-tier-friendly-no-paid-traffic
@@ -21,7 +21,7 @@ Runs after production input watch: true
 - Browser collector configured: false
 - Server export configured: false
 - Cloudflare credentials configured: false
-- Tokens configured: write=false, admin=false
+- Tokens configured: write=true, admin=true
 
 ## One-Time Setup
 

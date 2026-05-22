@@ -4,7 +4,7 @@ export const prototypePipeline = [
     "title": "Lantern Relay",
     "rank": 1,
     "status": "playable",
-    "releaseScore": 494,
+    "releaseScore": 541,
     "concept": {
       "id": "lantern-relay",
       "title": "Lantern Relay",
@@ -17,17 +17,17 @@ export const prototypePipeline = [
       },
       "opportunity": {
         "mechanic": "card drafting",
-        "theme": "cozy production",
+        "theme": "science desk",
         "audience": "strategy solo",
-        "score": 376
+        "score": 425
       },
       "gameBrief": {
-        "setting": "tiny seasonal workshops",
-        "coreLoop": "chain comforting orders by making one strong card drafting decision per turn.",
+        "setting": "a tabletop research station",
+        "coreLoop": "align instruments into reliable discoveries by making one strong card drafting decision per turn.",
         "sessionLengthMinutes": 9,
         "playerPromise": "A complete tactical board-game feeling in 9 minutes, tuned for touch screens.",
         "firstPrototypeTemplate": "tableau",
-        "artDirection": "warm workbench pieces and readable resource icons"
+        "artDirection": "clean diagrams, labeled tools, and crisp result cards"
       },
       "telemetryPlan": [
         "concept_card_viewed",
@@ -44,7 +44,7 @@ export const prototypePipeline = [
           "subscriptions",
           "interstitial ads during first session"
         ],
-        "fitScore": 83
+        "fitScore": 82
       }
     },
     "prototype": {
@@ -158,12 +158,12 @@ export const prototypePipeline = [
     },
     "storeListing": {
       "appName": "Lantern Relay",
-      "subtitle": "cozy production card drafting",
+      "subtitle": "science desk card drafting",
       "shortDescription": "9-minute original card drafting game for daily mobile play.",
-      "fullDescription": "Lantern Relay is an original mobile-first board-game-inspired puzzle set in tiny seasonal workshops. A complete tactical board-game feeling in 9 minutes, tuned for touch screens. Core loop: chain comforting orders by making one strong card drafting decision per turn. The first release focuses on solo daily play, clear scoring, replayable seeds, and measured improvements from player behavior.",
+      "fullDescription": "Lantern Relay is an original mobile-first board-game-inspired puzzle set in a tabletop research station. A complete tactical board-game feeling in 9 minutes, tuned for touch screens. Core loop: align instruments into reliable discoveries by making one strong card drafting decision per turn. The first release focuses on solo daily play, clear scoring, replayable seeds, and measured improvements from player behavior.",
       "keywords": [
         "card drafting",
-        "cozy production",
+        "science desk",
         "strategy solo",
         "daily puzzle",
         "solo board game",
@@ -200,7 +200,7 @@ export const prototypePipeline = [
     "title": "Harbor Circuit",
     "rank": 2,
     "status": "playable",
-    "releaseScore": 400,
+    "releaseScore": 435,
     "concept": {
       "id": "harbor-circuit",
       "title": "Harbor Circuit",
@@ -213,17 +213,17 @@ export const prototypePipeline = [
       },
       "opportunity": {
         "mechanic": "route building",
-        "theme": "science desk",
+        "theme": "cozy production",
         "audience": "mobile puzzle",
-        "score": 254
+        "score": 289
       },
       "gameBrief": {
-        "setting": "a tabletop research station",
-        "coreLoop": "align instruments into reliable discoveries by making one strong route building decision per turn.",
+        "setting": "tiny seasonal workshops",
+        "coreLoop": "chain comforting orders by making one strong route building decision per turn.",
         "sessionLengthMinutes": 5,
         "playerPromise": "A complete tactical board-game feeling in 5 minutes, tuned for touch screens.",
         "firstPrototypeTemplate": "line-drawing",
-        "artDirection": "clean diagrams, labeled tools, and crisp result cards"
+        "artDirection": "warm workbench pieces and readable resource icons"
       },
       "telemetryPlan": [
         "concept_card_viewed",
@@ -353,12 +353,12 @@ export const prototypePipeline = [
     },
     "storeListing": {
       "appName": "Harbor Circuit",
-      "subtitle": "science desk route building",
+      "subtitle": "cozy production route building",
       "shortDescription": "5-minute original route building game for daily mobile play.",
-      "fullDescription": "Harbor Circuit is an original mobile-first board-game-inspired puzzle set in a tabletop research station. A complete tactical board-game feeling in 5 minutes, tuned for touch screens. Core loop: align instruments into reliable discoveries by making one strong route building decision per turn. The first release focuses on solo daily play, clear scoring, replayable seeds, and measured improvements from player behavior.",
+      "fullDescription": "Harbor Circuit is an original mobile-first board-game-inspired puzzle set in tiny seasonal workshops. A complete tactical board-game feeling in 5 minutes, tuned for touch screens. Core loop: chain comforting orders by making one strong route building decision per turn. The first release focuses on solo daily play, clear scoring, replayable seeds, and measured improvements from player behavior.",
       "keywords": [
         "route building",
-        "science desk",
+        "cozy production",
         "mobile puzzle",
         "daily puzzle",
         "solo board game",
@@ -395,7 +395,7 @@ export const prototypePipeline = [
     "title": "Orbit Atlas",
     "rank": 3,
     "status": "playable",
-    "releaseScore": 304,
+    "releaseScore": 324,
     "concept": {
       "id": "orbit-atlas",
       "title": "Orbit Atlas",
@@ -410,7 +410,7 @@ export const prototypePipeline = [
         "mechanic": "worker placement",
         "theme": "expedition planning",
         "audience": "families",
-        "score": 184
+        "score": 204
       },
       "gameBrief": {
         "setting": "modular camp routes around unknown landmarks",
@@ -590,7 +590,7 @@ export const prototypePipeline = [
     "title": "Foundry Ledger",
     "rank": 4,
     "status": "playable",
-    "releaseScore": 299,
+    "releaseScore": 317,
     "concept": {
       "id": "foundry-ledger",
       "title": "Foundry Ledger",
@@ -605,7 +605,7 @@ export const prototypePipeline = [
         "mechanic": "auction",
         "theme": "compact city logistics",
         "audience": "strategy solo",
-        "score": 173
+        "score": 191
       },
       "gameBrief": {
         "setting": "pocket-size transit districts",

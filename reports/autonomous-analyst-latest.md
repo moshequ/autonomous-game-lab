@@ -1,6 +1,6 @@
 # Autonomous Analyst Report
 
-Generated: 2026-05-22T06:42:46.044Z
+Generated: 2026-05-22T08:48:25.028Z
 Backlog status: improvement-backlog-ready
 Backlog source hash: ec97bfaaeb5b
 
@@ -39,9 +39,9 @@ Support feedback: support-feedback-empty; signals 0; routable 0; aggregate notes
 
 ## Prototype Queue
 
-1. Lantern Relay: playable; release score 494; web ready-after-build; Google Play blocked.
-2. Harbor Circuit: playable; release score 400; web ready-after-build; Google Play blocked.
-3. Orbit Atlas: playable; release score 304; web ready-after-build; Google Play blocked.
+1. Lantern Relay: playable; release score 541; web ready-after-build; Google Play blocked.
+2. Harbor Circuit: playable; release score 435; web ready-after-build; Google Play blocked.
+3. Orbit Atlas: playable; release score 324; web ready-after-build; Google Play blocked.
 
 ## Bot Balance
 
@@ -121,4 +121,4 @@ Support feedback: support-feedback-empty; signals 0; routable 0; aggregate notes
 Active trend source: public-rss-live
 Active analytics source: fixture-sample
 Top mechanic: card drafting
-Top theme: cozy production
+Top theme: science desk

@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-05-22T02:06:15.830Z",
-  "sourceDataHash": "b71659f853af",
+  "generatedAt": "2026-05-22T08:48:21.939Z",
+  "sourceDataHash": "7196d210fb72",
   "source": "fixture-sample",
   "observed": {
     "organicEntries": 0,
@@ -9,41 +9,44 @@
   },
   "actions": [
     {
-      "status": "skipped",
-      "gameId": "market-pulse",
-      "reason": "same growth diagnosis already applied for this source data",
-      "sourceDataHash": "b71659f853af"
-    },
-    {
-      "status": "skipped",
-      "gameId": "guild-garden",
-      "reason": "same growth diagnosis already applied for this source data",
-      "sourceDataHash": "b71659f853af"
+      "status": "applied",
+      "gameId": "grove-engine",
+      "reason": "No organic entry data yet; seed strongest pages with daily challenge copy.",
+      "confidence": 73,
+      "sourceDataHash": "7196d210fb72",
+      "before": {},
+      "after": {
+        "ctaVariant": "daily-challenge",
+        "messageVariant": "daily",
+        "reason": "No organic entry data yet; seed strongest pages with daily challenge copy.",
+        "confidence": 73,
+        "updatedAt": "2026-05-22T08:48:21.938Z"
+      }
     },
     {
       "status": "applied",
-      "gameId": "harbor-rings",
-      "reason": "No share clicks captured yet; test faster share-oriented CTA.",
-      "confidence": 66,
-      "sourceDataHash": "b71659f853af",
+      "gameId": "market-pulse",
+      "reason": "No organic entry data yet; seed strongest pages with daily challenge copy.",
+      "confidence": 73,
+      "sourceDataHash": "7196d210fb72",
       "before": {
-        "ctaVariant": "quick-strategy",
-        "messageVariant": "generated-original",
-        "reason": "No share clicks captured yet; test faster share-oriented CTA.",
-        "confidence": 66,
-        "updatedAt": "2026-05-18T20:11:09.021Z"
+        "ctaVariant": "daily-challenge",
+        "messageVariant": "daily",
+        "reason": "No organic entry data yet; seed strongest pages with daily challenge copy.",
+        "confidence": 73,
+        "updatedAt": "2026-05-22T01:39:57.974Z"
       },
       "after": {
-        "ctaVariant": "quick-strategy",
-        "messageVariant": "generated-original",
-        "reason": "No share clicks captured yet; test faster share-oriented CTA.",
-        "confidence": 66,
-        "updatedAt": "2026-05-22T02:06:15.830Z"
+        "ctaVariant": "daily-challenge",
+        "messageVariant": "daily",
+        "reason": "No organic entry data yet; seed strongest pages with daily challenge copy.",
+        "confidence": 73,
+        "updatedAt": "2026-05-22T08:48:21.939Z"
       }
     }
   ],
   "policySummary": {
-    "optimizedGames": 5,
+    "optimizedGames": 6,
     "activeChanges": [
       {
         "gameId": "orbit-atlas",
@@ -71,6 +74,12 @@
       },
       {
         "gameId": "market-pulse",
+        "ctaVariant": "daily-challenge",
+        "messageVariant": "daily",
+        "reason": "No organic entry data yet; seed strongest pages with daily challenge copy."
+      },
+      {
+        "gameId": "grove-engine",
         "ctaVariant": "daily-challenge",
         "messageVariant": "daily",
         "reason": "No organic entry data yet; seed strongest pages with daily challenge copy."

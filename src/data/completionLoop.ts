@@ -1,6 +1,6 @@
 export const completionLoop = {
-  "generatedAt": "2026-05-22T06:43:35.711Z",
-  "sourceDataHash": "6513095ce8ee",
+  "generatedAt": "2026-05-22T08:48:55.542Z",
+  "sourceDataHash": "0b1eef1479f2",
   "status": "completion-loop-ready",
   "sourceStatus": {
     "analyticsSource": "fixture-sample",

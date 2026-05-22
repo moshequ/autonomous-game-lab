@@ -1,15 +1,15 @@
 # Generated Playable Games
 
-Generated: 2026-05-22T06:42:43.277Z
+Generated: 2026-05-22T08:48:15.754Z
 Status: generated-runtime-ready
 
 ## Runtime Games
 
-- Pocket Draft: card drafting, cozy production, target 130, IP risk low
-- Metro Loom: route building, science desk, target 96, IP risk low
+- Pocket Draft: card drafting, science desk, target 130, IP risk low
+- Metro Loom: route building, cozy production, target 96, IP risk low
 - Guild Garden: worker placement, expedition planning, target 138, IP risk low
-- Market Pulse: auction, compact city logistics, target 138, IP risk low
-- Grove Engine: engine building, expedition planning, target 95, IP risk low
+- Market Pulse: auction, compact city logistics, target 144, IP risk low
+- Grove Engine: engine building, expedition planning, target 104, IP risk low
 
 ## Autonomy
 

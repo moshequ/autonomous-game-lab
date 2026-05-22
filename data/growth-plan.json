@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-05-22T06:42:47.051Z",
+  "generatedAt": "2026-05-22T08:48:22.078Z",
   "siteUrl": "https://moshequ.github.io/autonomous-game-lab",
   "publicUrlMode": "absolute-origin",
   "publicOrigin": {
-    "source": "environment",
+    "source": "PUBLIC_SITE_URL",
     "status": "configured",
     "origin": "https://moshequ.github.io/autonomous-game-lab"
   },
@@ -49,12 +49,12 @@
       "title": "Lantern Relay",
       "status": "playable",
       "mechanic": "card drafting",
-      "theme": "cozy production",
+      "theme": "science desk",
       "shortDescription": "9-minute original card drafting game for daily mobile play.",
-      "fullDescription": "Lantern Relay is an original mobile-first board-game-inspired puzzle set in tiny seasonal workshops. A complete tactical board-game feeling in 9 minutes, tuned for touch screens. Core loop: chain comforting orders by making one strong card drafting decision per turn. The first release focuses on solo daily play, clear scoring, replayable seeds, and measured improvements from player behavior.",
+      "fullDescription": "Lantern Relay is an original mobile-first board-game-inspired puzzle set in a tabletop research station. A complete tactical board-game feeling in 9 minutes, tuned for touch screens. Core loop: align instruments into reliable discoveries by making one strong card drafting decision per turn. The first release focuses on solo daily play, clear scoring, replayable seeds, and measured improvements from player behavior.",
       "keywords": [
         "card drafting",
-        "cozy production",
+        "science desk",
         "strategy solo",
         "daily puzzle",
         "solo board game",
@@ -86,12 +86,12 @@
       "title": "Harbor Circuit",
       "status": "playable",
       "mechanic": "route building",
-      "theme": "science desk",
+      "theme": "cozy production",
       "shortDescription": "5-minute original route building game for daily mobile play.",
-      "fullDescription": "Harbor Circuit is an original mobile-first board-game-inspired puzzle set in a tabletop research station. A complete tactical board-game feeling in 5 minutes, tuned for touch screens. Core loop: align instruments into reliable discoveries by making one strong route building decision per turn. The first release focuses on solo daily play, clear scoring, replayable seeds, and measured improvements from player behavior.",
+      "fullDescription": "Harbor Circuit is an original mobile-first board-game-inspired puzzle set in tiny seasonal workshops. A complete tactical board-game feeling in 5 minutes, tuned for touch screens. Core loop: chain comforting orders by making one strong route building decision per turn. The first release focuses on solo daily play, clear scoring, replayable seeds, and measured improvements from player behavior.",
       "keywords": [
         "route building",
-        "science desk",
+        "cozy production",
         "mobile puzzle",
         "daily puzzle",
         "solo board game",
@@ -197,12 +197,12 @@
       "title": "Pocket Draft",
       "status": "generated-playable",
       "mechanic": "card drafting",
-      "theme": "cozy production",
-      "shortDescription": "A generated card drafting puzzle with quick cozy production decisions.",
+      "theme": "science desk",
+      "shortDescription": "A generated card drafting puzzle with quick science desk decisions.",
       "fullDescription": "A complete tactical board-game feeling in 9 minutes, tuned for touch screens.",
       "keywords": [
         "card drafting",
-        "cozy production",
+        "science desk",
         "daily puzzle",
         "solo board game",
         "generated strategy game",
@@ -233,12 +233,12 @@
       "title": "Metro Loom",
       "status": "generated-playable",
       "mechanic": "route building",
-      "theme": "science desk",
-      "shortDescription": "A generated route building puzzle with quick science desk decisions.",
+      "theme": "cozy production",
+      "shortDescription": "A generated route building puzzle with quick cozy production decisions.",
       "fullDescription": "Metro Loom is tuned as a daily route building challenge with a compact board and a clear score target. A complete tactical board-game feeling in 5 minutes, tuned for touch screens.",
       "keywords": [
         "route building",
-        "science desk",
+        "cozy production",
         "daily puzzle",
         "solo board game",
         "generated strategy game",
@@ -343,7 +343,7 @@
       "mechanic": "engine building",
       "theme": "expedition planning",
       "shortDescription": "A generated engine building puzzle with quick expedition planning decisions.",
-      "fullDescription": "A generated engine building puzzle that turns trend signals into a compact solo board state.",
+      "fullDescription": "Grove Engine is tuned as a daily engine building challenge with a compact board and a clear score target. A generated engine building puzzle that turns trend signals into a compact solo board state.",
       "keywords": [
         "engine building",
         "expedition planning",
@@ -365,10 +365,10 @@
         "qualityScore": 78
       },
       "optimization": {
-        "ctaVariant": "play-free",
-        "messageVariant": "evergreen",
-        "ctaLabel": "Play free puzzle",
-        "reason": "default growth policy"
+        "ctaVariant": "daily-challenge",
+        "messageVariant": "daily",
+        "ctaLabel": "Try today's challenge",
+        "reason": "No organic entry data yet; seed strongest pages with daily challenge copy."
       },
       "channelFocus": "evergreen-search-page"
     }
@@ -460,7 +460,7 @@
     }
   ],
   "optimization": {
-    "optimizedGames": 5,
+    "optimizedGames": 6,
     "defaults": {
       "ctaVariant": "play-free",
       "messageVariant": "evergreen"

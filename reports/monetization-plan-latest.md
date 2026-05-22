@@ -1,6 +1,6 @@
 # Monetization Plan
 
-Generated: 2026-05-22T06:53:51.959Z
+Generated: 2026-05-22T08:48:54.473Z
 Status: blocked-by-product-gates
 Revenue enabled: false
 Analytics source: fixture-sample

@@ -1,17 +1,17 @@
 # Autonomous Owner Loop
 
-Generated: 2026-05-22T08:47:22.496Z
+Generated: 2026-05-22T08:53:04.361Z
 Status: owner-loop-ready
 Mode: zero-spend-web-ready
 Autonomy score: 44/45 (98%)
 
 ## Owner Decision
 
-- Next action: apply-safe-improvements
-- Command: npm run autonomous:experiments && npm run autonomous:improve && npm run autonomous:sync-experiments
-- Rationale: Release health allows bounded improvement policy updates.
-- Last executed action: prepare-release-candidate
-- Recent executed actions: prepare-release-candidate, bootstrap-production-setup
+- Next action: hold-for-external-input
+- Command: No local command is available until external inputs, configured credentials, or new player evidence arrive.
+- Rationale: All safe local refresh actions are current; hold execution until owner-provided inputs, production analytics, or real player evidence changes the state.
+- Last executed action: refresh-objective-audit
+- Recent executed actions: refresh-objective-audit
 
 ## Systems
 
@@ -21,15 +21,15 @@ Autonomy score: 44/45 (98%)
 - ready: game-factory - 10 playable games; 5 generated runtime games.
 - ready: analytics-ingest - Active source: fixture-sample; event ingest: idle-no-files; collector smoke: pass.
 - ready: local-event-bridge - Bridge bridge-waiting-for-export; inbox 0 event(s); imported 0 event(s).
-- ready: autonomous-cadence - Cadence cadence-ready; Codex active-confirmed; GitHub scheduled.
-- ready: autonomous-self-update - Self-update self-update-ready; safe pending 3; unsafe pending 0; remote push held.
+- ready: autonomous-cadence - Cadence cadence-ready; Codex active-declared-unverified; GitHub scheduled.
+- ready: autonomous-self-update - Self-update self-update-ready; safe pending 208; unsafe pending 0; remote push ready.
 - ready: portfolio-loop - Daily challenge: Grove Engine; seed traffic: grove-engine, market-pulse, guild-garden, metro-loom.
 - ready: traffic-seeding - 4 seed campaign(s); max cost $0.
 - ready: acquisition-learning - 4 campaign(s); 0 attributed start(s); candidate grove-engine.
 - ready: organic-seed-loop - Target grove-engine; surface portal-growth-loop; share telemetry organic_seed_share_clicked.
 - ready: retention-loop - Daily grove-engine; D1 17%; streak variant daily-streak; return prompt armed; return intent armed.
 - ready: pwa-install-loop - Prompt autonomy-cockpit; installs 0; launch events 0; sample collecting-sample needs 20 prompt(s) and 10 launch event(s).
-- ready: performance-budget - Initial JS 672.6 KB; gzip 182.8 KB; deferred chunks 2.
+- ready: performance-budget - Initial JS 673.3 KB; gzip 182.9 KB; deferred chunks 2.
 - ready: product-optimization - Completion 40% / gate 55%; latest already-applied.
 - ready: support-feedback - Support feedback support-feedback-empty; issues 0; routable signals 0; aggregate notes 0.
 - ready: product-gate-recovery - Recovery product-gate-recovery-ready; primary firstGameCompletion; experiment collecting-sample; failing gates 3; next lift 128.
@@ -38,7 +38,7 @@ Autonomy score: 44/45 (98%)
 - ready: completion-loop - Completion loop completion-loop-ready; prompt armed; finish line armed; target harbor-rings; completion 40%.
 - ready: replay-loop - Replay loop replay-loop-ready; prompt armed; target harbor-rings; replay 31%.
 - ready: improvement-loop - improvement-backlog-ready; 4 backlog item(s); 3 experiment recommendation(s); applied status actions-ready; source ec97bfaaeb5b.
-- ready: organic-growth - 10 SEO/share pages; optimization 5 page(s).
+- ready: organic-growth - 10 SEO/share pages; optimization 6 page(s).
 - ready: repository-channel - Repository moshequ/autonomous-game-lab; git worktree ready; workflow dispatch ready.
 - ready: repository-bootstrap - Bootstrap repository-bootstrap-ready; mode plan-only; helper ops/github/bootstrap-repository.sh; local git ready.
 - ready: web-deployment - Deployment ready-for-pages; web readiness ready-after-build; promotion promotable-internal.
@@ -48,11 +48,11 @@ Autonomy score: 44/45 (98%)
 - ready: live-site-monitor - Live monitor live-site-monitor-passed; origin https://moshequ.github.io/autonomous-game-lab; checks 19/19; live matches synced deploy true.
 - ready: production-bootstrap - Bootstrap production-bootstrap-ready; mode can-apply-configured-actions; external blockers 16.
 - ready: production-activation - Activation activation-ready; mode dry-run; execution dry-run; gh ready.
-- ready: production-blocker-handoff - Handoff handoff-waiting-on-owner-inputs; next production-analytics-browser; owner inputs 4; missing env 7; missing secrets 8.
+- ready: production-blocker-handoff - Handoff handoff-waiting-on-owner-inputs; next production-analytics-browser; owner inputs 4; missing env 7; missing secrets 3.
 - ready: production-unlock-runner - Unlock runner unlock-runner-idle; runnable 0; queued commands 0; unsafe 0.
 - ready: support-channel - Support channel support-channel-ready; repository moshequ/autonomous-game-lab; public intake ready; aggregate evidence only true.
-- ready: autonomous-operator - Operator operator-plan-ready; selected apply-safe-improvements; execution not-requested.
-- ready: operator-history - History operator-history-ready; records 40; executed 2.
+- ready: autonomous-operator - Operator operator-held; selected none; execution not-requested.
+- ready: operator-history - History operator-history-ready; records 40; executed 1.
 - ready: objective-audit - Audit objective-in-progress; met 6/8; external blockers 16.
 - ready: store-listing-optimizer - Focus grove-engine; lead screenshot phone-grove-engine-generated; candidate changed yes.
 - ready: store-compliance - Rating Everyone; target audience general; blockers 3.
@@ -94,7 +94,7 @@ Autonomy score: 44/45 (98%)
 - monitor: refresh-objective-audit - npm run autonomous:objective-audit
 - monitor: optimize-store-listing - npm run autonomous:store-package && npm run autonomous:store-listing-optimize && npm run autonomous:store-compliance
 - monitor: prepare-android-signing - npm run autonomous:android-signing
-- armed: apply-safe-improvements - npm run autonomous:experiments && npm run autonomous:improve && npm run autonomous:sync-experiments
+- monitor: apply-safe-improvements - npm run autonomous:experiments && npm run autonomous:improve && npm run autonomous:sync-experiments
 - ready-when-repository-pages-enabled: deploy-web-pwa - Run the Web PWA Deploy workflow after GitHub Pages is enabled for the repository.
 - monitor: collect-live-events - npm run autonomous:local-event-bridge && npm run autonomous:import-events && npm run autonomous:analytics && npm run autonomous:gate-recovery && npm run autonomous:sample-plan
 
@@ -108,12 +108,7 @@ Autonomy score: 44/45 (98%)
 - ADMOB_PUBLISHER_ID: Native app seller line for app-ads.txt and Android rewarded tests after app-store gates pass.
 - AGL_GOOGLE_PLAY_ACCOUNT_CONNECTED: Allows native packaging gates to treat Play Console access as connected.
 - CLOUDFLARE_API_TOKEN: Repository secret sourced from CLOUDFLARE_API_TOKEN.
-- VITE_EVENT_COLLECTOR_WRITE_TOKEN: Repository secret sourced from VITE_EVENT_COLLECTOR_WRITE_TOKEN.
-- AGL_EVENT_COLLECTOR_ADMIN_TOKEN: Repository secret sourced from AGL_EVENT_COLLECTOR_ADMIN_TOKEN.
 - POSTHOG_PERSONAL_API_KEY: Repository secret sourced from POSTHOG_PERSONAL_API_KEY.
-- AGL_ANDROID_KEYSTORE_BASE64: Repository secret sourced from AGL_ANDROID_KEYSTORE_BASE64.
-- AGL_ANDROID_KEYSTORE_PASSWORD: Repository secret sourced from AGL_ANDROID_KEYSTORE_PASSWORD.
-- AGL_ANDROID_KEY_ALIAS: Repository secret sourced from AGL_ANDROID_KEY_ALIAS.
 - GOOGLE_PLAY_SERVICE_ACCOUNT_JSON: Repository secret sourced from GOOGLE_PLAY_SERVICE_ACCOUNT_JSON.
 
 ## Guardrails

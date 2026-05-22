@@ -1,6 +1,6 @@
 # Portfolio Policy
 
-Generated: 2026-05-22T06:42:47.322Z
+Generated: 2026-05-22T08:48:27.382Z
 Status: portfolio-policy-ready
 Analytics source: fixture-sample
 Daily challenge: Grove Engine (daily-20260522-w2)
