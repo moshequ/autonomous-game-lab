@@ -1,17 +1,17 @@
 # Production Blocker Handoff
 
-Generated: 2026-05-22T03:37:24.425Z
+Generated: 2026-05-22T03:39:52.785Z
 Status: handoff-waiting-on-owner-inputs
 Detail: blocked-external-inputs
-Live candidate: pwa-92e2bf90481f
-Source hash: d0e4c3d40ddf
+Live candidate: pwa-722adf9734d2
+Source hash: 93a64838fc18
 
 ## Summary
 
 - Owner inputs required: 4
 - Zero-cost first actions: 1
 - Missing environment entries: 7
-- Missing repository secrets: 5
+- Missing repository secrets: 8
 - Product-gate blockers: 3
 - Next best unlock: production-analytics-browser
 
@@ -106,6 +106,9 @@ Source hash: d0e4c3d40ddf
 - VITE_EVENT_COLLECTOR_WRITE_TOKEN: printf "%s" "$VITE_EVENT_COLLECTOR_WRITE_TOKEN" | gh secret set VITE_EVENT_COLLECTOR_WRITE_TOKEN
 - AGL_EVENT_COLLECTOR_ADMIN_TOKEN: printf "%s" "$AGL_EVENT_COLLECTOR_ADMIN_TOKEN" | gh secret set AGL_EVENT_COLLECTOR_ADMIN_TOKEN
 - POSTHOG_PERSONAL_API_KEY: printf "%s" "$POSTHOG_PERSONAL_API_KEY" | gh secret set POSTHOG_PERSONAL_API_KEY
+- AGL_ANDROID_KEYSTORE_BASE64: printf "%s" "$AGL_ANDROID_KEYSTORE_BASE64" | gh secret set AGL_ANDROID_KEYSTORE_BASE64
+- AGL_ANDROID_KEYSTORE_PASSWORD: printf "%s" "$AGL_ANDROID_KEYSTORE_PASSWORD" | gh secret set AGL_ANDROID_KEYSTORE_PASSWORD
+- AGL_ANDROID_KEY_ALIAS: printf "%s" "$AGL_ANDROID_KEY_ALIAS" | gh secret set AGL_ANDROID_KEY_ALIAS
 - GOOGLE_PLAY_SERVICE_ACCOUNT_JSON: printf "%s" "$GOOGLE_PLAY_SERVICE_ACCOUNT_JSON" | gh secret set GOOGLE_PLAY_SERVICE_ACCOUNT_JSON
 
 ## Controls
