@@ -1,16 +1,16 @@
 # Post-Deploy Smoke
 
-Generated: 2026-05-22T23:22:34.598Z
+Generated: 2026-05-22T23:26:55.177Z
 Status: post-deploy-smoke-observed-live
 Origin: https://moshequ.github.io/autonomous-game-lab
 Origin source: release-candidate-public-origin
-Candidate: pwa-7ab9cf6dd14b
-Live candidate: pwa-ea9816841e2a
+Candidate: pwa-2f1adb533abf
+Live candidate: pwa-040814d8619d
 
 ## Summary
 
-- Planned: 21
-- Passed: 21
+- Planned: 23
+- Passed: 23
 - Failed: 0
 - Blocked: 0
 
@@ -52,6 +52,8 @@ Checks: 23/23 passed
 - pass: support-html - https://moshequ.github.io/autonomous-game-lab/support.html - Live URL matched status and required text.
 - pass: measurement-status-html - https://moshequ.github.io/autonomous-game-lab/measurement-status.html - Live URL matched status and required text.
 - pass: measurement-status-json - https://moshequ.github.io/autonomous-game-lab/measurement-status.json - Live URL matched status and required text.
+- pass: analytics-unlock-html - https://moshequ.github.io/autonomous-game-lab/analytics-unlock.html - Live URL matched status and required text.
+- pass: analytics-unlock-json - https://moshequ.github.io/autonomous-game-lab/analytics-unlock.json - Live URL matched status and required text.
 - pass: install-html - https://moshequ.github.io/autonomous-game-lab/install.html - Live URL matched status and required text.
 - pass: compliance-json - https://moshequ.github.io/autonomous-game-lab/compliance.json - Live URL matched status and required text.
 - pass: monetization-json - https://moshequ.github.io/autonomous-game-lab/monetization.json - Live URL matched status and required text.
@@ -81,5 +83,5 @@ Checks: 23/23 passed
 
 ## Next Actions
 
-- Live Pages is reachable and serving pwa-ea9816841e2a; run the deploy workflow for strict proof of the current local candidate if needed.
+- Live Pages is reachable and serving pwa-040814d8619d; run the deploy workflow for strict proof of the current local candidate if needed.
 - Keep revenue, paid acquisition, and app-store submission disabled until product and credential gates pass.
