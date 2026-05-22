@@ -264,7 +264,9 @@ const isSandboxBlockedError = (error) => {
     normalized.includes('permission denied') ||
     normalized.includes('operation not permitted') ||
     normalized.includes('machportrendezvous') ||
-    normalized.includes('eperm')
+    normalized.includes('eperm') ||
+    normalized.includes('executable doesn') ||
+    normalized.includes('playwright install')
   )
 }
 
