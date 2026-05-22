@@ -28,6 +28,7 @@ const [
   productionActivation,
   productionBlockerHandoff,
   productionMeasurementStatus,
+  playerEvidenceWatchdog,
   publicMeasurementStatus,
   productionReadiness,
   objectiveAudit,
@@ -56,6 +57,7 @@ const [
   readJson('data/production-activation.json'),
   readJson('data/production-blocker-handoff.json'),
   readJson('data/production-measurement-status.json'),
+  readJson('data/player-evidence-watchdog.json'),
   readJson('public/measurement-status.json'),
   readJson('data/production-readiness.json'),
   readJson('data/objective-audit.json'),
@@ -362,6 +364,9 @@ if (
   !workflow.includes('public/measurement-status.html') ||
   !workflow.includes('public/measurement-status.json') ||
   !workflow.includes('reports/production-measurement-status-latest.md') ||
+  !workflow.includes('data/player-evidence-watchdog.json') ||
+  !workflow.includes('src/data/playerEvidenceWatchdog.ts') ||
+  !workflow.includes('reports/player-evidence-watchdog-latest.md') ||
   !workflow.includes('data/production-readiness.json') ||
   !workflow.includes('reports/production-readiness-latest.md') ||
   !workflow.includes('data/objective-audit.json') ||
@@ -426,6 +431,11 @@ if (
   !['handoff-waiting-on-owner-inputs', 'handoff-clear'].includes(productionBlockerHandoff.status) ||
   productionBlockerHandoff.sourceStatus?.postDeployArtifactSync !== sync.status ||
   productionMeasurementStatus.sourceStatus?.postDeployArtifactSync !== sync.status ||
+  !String(playerEvidenceWatchdog.status ?? '').startsWith('watchdog-') ||
+  playerEvidenceWatchdog.controls?.noAutomaticDownloadsScan !== true ||
+  playerEvidenceWatchdog.controls?.downloadsScanRequiresExplicitOptIn !== true ||
+  playerEvidenceWatchdog.controls?.noRawPlayerEventsInPublicRepo !== true ||
+  playerEvidenceWatchdog.publicRepoSecurity?.safeForPublicAutomation !== true ||
   productionMeasurementStatus.liveCandidate !== sync.live?.candidateId ||
   publicMeasurementStatus.liveCandidate !== sync.live?.candidateId ||
   JSON.stringify(publicMeasurementStatus.publicEvidenceHandoff) !==

@@ -1,6 +1,6 @@
 # Autonomous Cadence
 
-Generated: 2026-05-22T17:28:34.688Z
+Generated: 2026-05-22T19:21:37.171Z
 Status: cadence-ready
 Cadence: twice-daily-local-daily-ci
 
@@ -28,67 +28,69 @@ Cadence: twice-daily-local-daily-ci
 ## Freshness
 
 - Status: fresh
-- Required artifacts: 40
-- Fresh artifacts: 40
+- Required artifacts: 41
+- Fresh artifacts: 41
 - Stale/invalid artifacts: 0
 - Stale after: 36h
-- Oldest age: 8.27h
+- Oldest age: 10.15h
 
-- fresh: owner-loop - data/autonomous-owner-loop.json is 0.02h old.
-- fresh: operator - data/autonomous-operator.json is 0.03h old.
-- fresh: autonomous-self-update - data/autonomous-self-update.json is 6.45h old.
-- fresh: production-readiness - data/production-readiness.json is 0.03h old.
-- fresh: deployment-plan - data/deployment-plan.json is 0.03h old.
-- fresh: repository-readiness - data/repository-readiness.json is 0.03h old.
-- fresh: repository-bootstrap - data/repository-bootstrap.json is 0.03h old.
-- fresh: public-repo-security - data/public-repo-security-audit.json is 0h old.
-- fresh: production-bootstrap - data/production-bootstrap.json is 0.03h old.
-- fresh: production-activation - data/production-activation.json is 0.03h old.
-- fresh: production-environment - data/production-environment.json is 0.11h old.
-- fresh: event-collector-deployment - data/event-collector-deployment.json is 8.22h old.
-- fresh: event-collector-smoke - data/event-collector-smoke.json is 8.22h old.
-- fresh: local-event-bridge - data/local-event-bridge.json is 3.59h old.
-- fresh: event-ingest - data/event-ingest.json is 3.59h old.
-- fresh: event-ingest-smoke - data/event-ingest-smoke.json is 8.22h old.
-- fresh: analytics-rollup - data/analytics-rollup.json is 3.59h old.
-- fresh: experiment-results - data/experiment-results.json is 5.87h old.
-- fresh: growth-plan - data/growth-plan.json is 1.13h old.
-- fresh: portfolio-policy - data/portfolio-policy.json is 1.13h old.
-- fresh: traffic-seeding - data/traffic-seeding.json is 1.13h old.
-- fresh: acquisition-learning - data/acquisition-learning.json is 1.13h old.
-- fresh: organic-seed-loop - data/organic-seed-loop.json is 1.13h old.
-- fresh: retention-loop - data/retention-loop.json is 3.59h old.
-- fresh: release-candidate - data/release-candidate.json is 0.03h old.
-- fresh: post-deploy-smoke - data/post-deploy-smoke.json is 0.03h old.
-- fresh: post-deploy-artifact-sync - data/post-deploy-artifact-sync.json is 0.34h old.
-- fresh: live-site-monitor - data/live-site-monitor.json is 0.03h old.
-- fresh: release-health - data/release-health.json is 8.27h old.
-- fresh: product-optimization - data/product-optimization.json is 8.27h old.
-- fresh: product-gate-recovery - data/product-gate-recovery.json is 1.11h old.
-- fresh: product-gate-sample-plan - data/product-gate-sample-plan.json is 1.11h old.
-- fresh: completion-loop - data/completion-loop.json is 7.59h old.
-- fresh: replay-loop - data/replay-loop.json is 3.23h old.
-- fresh: first-move-coach - data/first-move-coach.json is 7.6h old.
-- fresh: pwa-install-loop - data/pwa-install-loop.json is 0.11h old.
-- fresh: applied-improvements - data/applied-improvements.json is 5.87h old.
-- fresh: improvement-backlog - data/improvement-backlog-summary.json is 1.82h old.
-- fresh: improvement-routing - data/improvement-routing.json is 1.82h old.
-- fresh: objective-audit - data/objective-audit.json is 0.03h old.
+- fresh: owner-loop - data/autonomous-owner-loop.json is 0h old.
+- fresh: operator - data/autonomous-operator.json is 0h old.
+- fresh: autonomous-self-update - data/autonomous-self-update.json is 8.34h old.
+- fresh: production-readiness - data/production-readiness.json is 0h old.
+- fresh: deployment-plan - data/deployment-plan.json is 0h old.
+- fresh: repository-readiness - data/repository-readiness.json is 0h old.
+- fresh: repository-bootstrap - data/repository-bootstrap.json is 0h old.
+- fresh: public-repo-security - data/public-repo-security-audit.json is 0.01h old.
+- fresh: production-bootstrap - data/production-bootstrap.json is 0h old.
+- fresh: production-activation - data/production-activation.json is 0h old.
+- fresh: production-environment - data/production-environment.json is 0.01h old.
+- fresh: event-collector-deployment - data/event-collector-deployment.json is 10.1h old.
+- fresh: event-collector-smoke - data/event-collector-smoke.json is 10.1h old.
+- fresh: local-event-bridge - data/local-event-bridge.json is 5.47h old.
+- fresh: event-ingest - data/event-ingest.json is 5.47h old.
+- fresh: event-ingest-smoke - data/event-ingest-smoke.json is 10.1h old.
+- fresh: analytics-rollup - data/analytics-rollup.json is 5.47h old.
+- fresh: experiment-results - data/experiment-results.json is 7.75h old.
+- fresh: growth-plan - data/growth-plan.json is 3.02h old.
+- fresh: portfolio-policy - data/portfolio-policy.json is 3.02h old.
+- fresh: traffic-seeding - data/traffic-seeding.json is 3.02h old.
+- fresh: acquisition-learning - data/acquisition-learning.json is 3.02h old.
+- fresh: organic-seed-loop - data/organic-seed-loop.json is 3.02h old.
+- fresh: retention-loop - data/retention-loop.json is 5.47h old.
+- fresh: release-candidate - data/release-candidate.json is 0.01h old.
+- fresh: post-deploy-smoke - data/post-deploy-smoke.json is 0h old.
+- fresh: post-deploy-artifact-sync - data/post-deploy-artifact-sync.json is 1.85h old.
+- fresh: live-site-monitor - data/live-site-monitor.json is 0h old.
+- fresh: release-health - data/release-health.json is 10.15h old.
+- fresh: product-optimization - data/product-optimization.json is 10.15h old.
+- fresh: product-gate-recovery - data/product-gate-recovery.json is 3h old.
+- fresh: product-gate-sample-plan - data/product-gate-sample-plan.json is 3h old.
+- fresh: player-evidence-watchdog - data/player-evidence-watchdog.json is 0h old.
+- fresh: completion-loop - data/completion-loop.json is 9.47h old.
+- fresh: replay-loop - data/replay-loop.json is 5.11h old.
+- fresh: first-move-coach - data/first-move-coach.json is 9.48h old.
+- fresh: pwa-install-loop - data/pwa-install-loop.json is 0.01h old.
+- fresh: applied-improvements - data/applied-improvements.json is 7.75h old.
+- fresh: improvement-backlog - data/improvement-backlog-summary.json is 3.71h old.
+- fresh: improvement-routing - data/improvement-routing.json is 3.71h old.
+- fresh: objective-audit - data/objective-audit.json is 0h old.
 
 ## Checks
 
 - pass: codex-automation-manifest - Codex app automation manifest declares autonomous-game-lab-daily-owner-loop.
 - pass: codex-automation-installed - Codex app automation autonomous-game-lab-daily-owner-loop is active, scheduled, local, and pointed at this workspace.
 - pass: codex-automation-single-active-owner-loop - No duplicate active Codex owner-loop automations share this workspace.
-- pass: local-operate-script - autonomous:operate is npm run autonomous:daily && npm run autonomous:operator -- --execute && npm run autonomous:after-action && npm run test:e2e; autonomous:after-action is npm run autonomous:owner-loop && npm run autonomous:operator && npm run autonomous:local-event-bridge && npm run autonomous:import-events && npm run autonomous:analytics && npm run autonomous:acquisition && npm run autonomous:retention && npm run autonomous:organic-seed-loop && npm run autonomous:gate-recovery && npm run autonomous:sample-plan && npm run autonomous:measurement-status && npm run build && npm run autonomous:performance && npm run autonomous:release-candidate && npm run autonomous:post-deploy-smoke && npm run autonomous:live-monitor && npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap && npm run autonomous:deploy-plan && npm run autonomous:bootstrap && npm run autonomous:activate-production && npm run autonomous:readiness && npm run autonomous:repo-readiness && npm run autonomous:deploy-plan && npm run autonomous:readiness && npm run autonomous:owner-loop && npm run autonomous:operator && npm run autonomous:objective-audit && npm run autonomous:readiness && npm run autonomous:deploy-plan && npm run autonomous:post-deploy-smoke && npm run autonomous:live-monitor && npm run autonomous:readiness && npm run autonomous:repo-readiness && npm run autonomous:deploy-plan && npm run autonomous:post-deploy-smoke && npm run autonomous:live-monitor && npm run autonomous:readiness && npm run autonomous:repo-readiness && npm run autonomous:deploy-plan && npm run autonomous:readiness && npm run autonomous:objective-audit && npm run autonomous:readiness && npm run autonomous:owner-loop && npm run autonomous:operator && npm run test:automation.
+- pass: local-operate-script - autonomous:operate is npm run autonomous:daily && npm run autonomous:operator -- --execute && npm run autonomous:after-action && npm run test:e2e; autonomous:after-action is npm run autonomous:owner-loop && npm run autonomous:operator && npm run autonomous:local-event-bridge && npm run autonomous:import-events && npm run autonomous:analytics && npm run autonomous:acquisition && npm run autonomous:retention && npm run autonomous:organic-seed-loop && npm run autonomous:gate-recovery && npm run autonomous:sample-plan && npm run autonomous:player-evidence-watchdog && npm run autonomous:measurement-status && npm run build && npm run autonomous:performance && npm run autonomous:release-candidate && npm run autonomous:post-deploy-smoke && npm run autonomous:live-monitor && npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap && npm run autonomous:deploy-plan && npm run autonomous:bootstrap && npm run autonomous:activate-production && npm run autonomous:readiness && npm run autonomous:repo-readiness && npm run autonomous:deploy-plan && npm run autonomous:readiness && npm run autonomous:owner-loop && npm run autonomous:operator && npm run autonomous:objective-audit && npm run autonomous:readiness && npm run autonomous:deploy-plan && npm run autonomous:post-deploy-smoke && npm run autonomous:live-monitor && npm run autonomous:readiness && npm run autonomous:repo-readiness && npm run autonomous:deploy-plan && npm run autonomous:post-deploy-smoke && npm run autonomous:live-monitor && npm run autonomous:readiness && npm run autonomous:repo-readiness && npm run autonomous:deploy-plan && npm run autonomous:readiness && npm run autonomous:objective-audit && npm run autonomous:readiness && npm run autonomous:owner-loop && npm run autonomous:operator && npm run test:automation.
 - pass: cadence-refresh-script - autonomous:cadence is node scripts/autonomous-cadence.mjs.
 - pass: self-update-script - autonomous:self-update is node scripts/autonomous-self-update.mjs.
 - pass: public-repo-security-audit - Public repo security audit is ready for moshequ/autonomous-game-lab with 0 workflow risks.
 - pass: gate-recovery-script - autonomous:gate-recovery is node scripts/product-gate-recovery.mjs.
+- pass: player-evidence-watchdog - Player evidence watchdog is watchdog-cooling-down; explicit Downloads scan ready false.
 - pass: daily-loop-script - autonomous:daily regenerates game, analytics, readiness, cadence, audit, and automation evidence.
-- pass: automation-verifier - test:automation is npm run autonomous:security-audit && node scripts/event-collector-smoke.mjs && npm run autonomous:collector-deploy-plan && node scripts/event-ingest-smoke.mjs && node scripts/local-event-bridge.mjs && npm run autonomous:import-events && npm run autonomous:analytics && npm run autonomous:acquisition && npm run autonomous:retention && npm run autonomous:organic-seed-loop && npm run autonomous:pwa-install && npm run autonomous:gate-recovery && npm run autonomous:sample-plan && npm run autonomous:measurement-status && npm run build && npm run autonomous:performance && npm run autonomous:release-candidate && npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap && npm run autonomous:deploy-plan && npm run autonomous:bootstrap && npm run autonomous:post-deploy-smoke && npm run autonomous:live-monitor && npm run autonomous:readiness && npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap && npm run autonomous:deploy-plan && npm run autonomous:bootstrap && npm run autonomous:post-deploy-smoke && npm run autonomous:live-monitor && npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap && npm run autonomous:activate-production && npm run autonomous:readiness && npm run autonomous:cadence && npm run autonomous:self-update && npm run autonomous:owner-loop && npm run autonomous:operator && npm run autonomous:objective-audit && npm run autonomous:owner-loop && npm run autonomous:operator && npm run autonomous:owner-loop && npm run autonomous:readiness && npm run autonomous:deploy-plan && npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap && npm run autonomous:deploy-plan && npm run autonomous:objective-audit && npm run autonomous:owner-loop && npm run autonomous:readiness && npm run autonomous:bundle-sync && node scripts/verify-autonomy.mjs.
+- pass: automation-verifier - test:automation is npm run autonomous:security-audit && node scripts/event-collector-smoke.mjs && npm run autonomous:collector-deploy-plan && node scripts/event-ingest-smoke.mjs && node scripts/local-event-bridge.mjs && npm run autonomous:import-events && npm run autonomous:analytics && npm run autonomous:acquisition && npm run autonomous:retention && npm run autonomous:organic-seed-loop && npm run autonomous:pwa-install && npm run autonomous:gate-recovery && npm run autonomous:sample-plan && npm run autonomous:player-evidence-watchdog && npm run autonomous:measurement-status && npm run build && npm run autonomous:performance && npm run autonomous:release-candidate && npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap && npm run autonomous:deploy-plan && npm run autonomous:bootstrap && npm run autonomous:post-deploy-smoke && npm run autonomous:live-monitor && npm run autonomous:readiness && npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap && npm run autonomous:deploy-plan && npm run autonomous:bootstrap && npm run autonomous:post-deploy-smoke && npm run autonomous:live-monitor && npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap && npm run autonomous:activate-production && npm run autonomous:readiness && npm run autonomous:cadence && npm run autonomous:self-update && npm run autonomous:owner-loop && npm run autonomous:operator && npm run autonomous:objective-audit && npm run autonomous:owner-loop && npm run autonomous:operator && npm run autonomous:owner-loop && npm run autonomous:readiness && npm run autonomous:deploy-plan && npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap && npm run autonomous:deploy-plan && npm run autonomous:objective-audit && npm run autonomous:owner-loop && npm run autonomous:readiness && npm run autonomous:bundle-sync && node scripts/verify-autonomy.mjs.
 - pass: browser-smoke - test:e2e is npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap && npm run autonomous:deploy-plan && npm run autonomous:bootstrap && npm run autonomous:activate-production && npm run autonomous:objective-audit && npm run autonomous:owner-loop && npm run autonomous:operator && npm run autonomous:owner-loop && npm run autonomous:readiness && npm run build && npm run autonomous:performance && npm run autonomous:release-candidate && npm run autonomous:post-deploy-smoke && npm run autonomous:live-monitor && npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap && npm run autonomous:deploy-plan && npm run autonomous:bootstrap && npm run autonomous:activate-production && npm run autonomous:readiness && playwright test && npm run autonomous:objective-audit && npm run autonomous:owner-loop && npm run autonomous:operator && npm run autonomous:owner-loop && npm run autonomous:readiness.
-- pass: fresh-generated-evidence - All 40 required generated evidence artifacts are fresh within 36h.
+- pass: fresh-generated-evidence - All 41 required generated evidence artifacts are fresh within 36h.
 - pass: github-scheduled-workflow - GitHub Actions daily workflow can run the full autonomous owner loop and upload evidence artifacts.
 - pass: github-self-update-workflow - Gated GitHub workflow can persist allowlisted verified generated changes after daily runs once matching post-deploy evidence sync is complete, with production env and workflow token evidence when explicitly enabled.
 - pass: post-self-update-deploy - Pages deployment builds the committed PWA artifact from gated self-update, public-evidence, and production-input workflows, so persisted generated improvements can publish without manual dispatch.

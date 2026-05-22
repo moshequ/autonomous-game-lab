@@ -47,6 +47,7 @@ const requiredFiles = [
   'data/product-optimization.json',
   'data/product-gate-recovery.json',
   'data/product-gate-sample-plan.json',
+  'data/player-evidence-watchdog.json',
   'data/first-move-coach.json',
   'data/completion-loop.json',
   'data/replay-loop.json',
@@ -102,6 +103,7 @@ const requiredFiles = [
   'src/data/productOptimization.ts',
   'src/data/productGateRecovery.ts',
   'src/data/productGateSamplePlan.ts',
+  'src/data/playerEvidenceWatchdog.ts',
   'src/data/firstMoveCoach.ts',
   'src/data/completionLoop.ts',
   'src/data/replayLoop.ts',
@@ -164,6 +166,7 @@ const requiredFiles = [
   'reports/product-optimization-latest.md',
   'reports/product-gate-recovery-latest.md',
   'reports/product-gate-sample-plan-latest.md',
+  'reports/player-evidence-watchdog-latest.md',
   'reports/first-move-coach-latest.md',
   'reports/completion-loop-latest.md',
   'reports/replay-loop-latest.md',
@@ -219,6 +222,7 @@ const requiredFiles = [
   'scripts/repository-readiness.mjs',
   'scripts/repository-bootstrap.mjs',
   'scripts/public-repo-security-audit.mjs',
+  'scripts/player-evidence-watchdog.mjs',
   'scripts/support-channel.mjs',
   'scripts/support-feedback-ingestor.mjs',
   'scripts/production-activation.mjs',
@@ -319,6 +323,9 @@ const productOptimization = JSON.parse(await readFile(path.join(root, 'data', 'p
 const productGateRecovery = JSON.parse(await readFile(path.join(root, 'data', 'product-gate-recovery.json'), 'utf8'))
 const productGateSamplePlan = JSON.parse(
   await readFile(path.join(root, 'data', 'product-gate-sample-plan.json'), 'utf8'),
+)
+const playerEvidenceWatchdog = JSON.parse(
+  await readFile(path.join(root, 'data', 'player-evidence-watchdog.json'), 'utf8'),
 )
 const firstMoveCoach = JSON.parse(await readFile(path.join(root, 'data', 'first-move-coach.json'), 'utf8'))
 const completionLoop = JSON.parse(await readFile(path.join(root, 'data', 'completion-loop.json'), 'utf8'))
@@ -471,6 +478,10 @@ const productGateSamplePlanSource = await readFile(
   path.join(root, 'scripts', 'product-gate-sample-planner.mjs'),
   'utf8',
 )
+const playerEvidenceWatchdogSource = await readFile(
+  path.join(root, 'scripts', 'player-evidence-watchdog.mjs'),
+  'utf8',
+)
 const autonomousOperatorSource = await readFile(path.join(root, 'scripts', 'autonomous-operator.mjs'), 'utf8')
 const autonomousOwnerLoopSource = await readFile(path.join(root, 'scripts', 'autonomous-owner-loop.mjs'), 'utf8')
 const autonomousCadenceSource = await readFile(path.join(root, 'scripts', 'autonomous-cadence.mjs'), 'utf8')
@@ -577,6 +588,61 @@ if (
   !appSource.includes('secretless-readonly')
 ) {
   fail('Public repository security audit must prove the public repo has no tracked secret findings and that public issue-triggered workflows remain read-only, secretless, and commit-blocked.')
+}
+
+const expectedPlayerEvidenceWatchdogSourceHash = hashSourceData({
+  localEventBridge,
+  productGateSamplePlan,
+  supportFeedback,
+  productionMeasurementStatus,
+  publicRepoSecurityAudit,
+  unitEconomics,
+})
+const playerEvidenceWatchdogControls = playerEvidenceWatchdog.controls ?? {}
+const playerEvidenceWatchdogScriptName = packageJson.scripts?.['autonomous:player-evidence-watchdog'] ?? ''
+
+if (
+  !String(playerEvidenceWatchdog.status ?? '').startsWith('watchdog-') ||
+  playerEvidenceWatchdog.mode !== 'zero-spend-player-evidence-watchdog' ||
+  playerEvidenceWatchdog.sourceDataHash !== expectedPlayerEvidenceWatchdogSourceHash ||
+  playerEvidenceWatchdog.evidenceState?.localEventBridgeStatus !== localEventBridge.status ||
+  playerEvidenceWatchdog.evidenceState?.productGateSamplePlanStatus !== productGateSamplePlan.status ||
+  playerEvidenceWatchdog.evidenceState?.publicRepoSecurityStatus !== publicRepoSecurityAudit.status ||
+  typeof playerEvidenceWatchdog.downloadsScan?.readyForExplicitScan !== 'boolean' ||
+  playerEvidenceWatchdog.downloadsScan?.explicitOptInRequired !== true ||
+  playerEvidenceWatchdog.downloadsScan?.command !== 'npm run autonomous:collect-sample-downloads' ||
+  playerEvidenceWatchdog.publicRepoSecurity?.safeForPublicAutomation !== true ||
+  playerEvidenceWatchdogControls.zeroPaidSpend !== true ||
+  playerEvidenceWatchdogControls.noSyntheticEvents !== true ||
+  playerEvidenceWatchdogControls.noAutomaticDownloadsScan !== true ||
+  playerEvidenceWatchdogControls.downloadsScanRequiresExplicitOptIn !== true ||
+  playerEvidenceWatchdogControls.noSecretValuesStored !== true ||
+  playerEvidenceWatchdogControls.noRawPlayerEventsInPublicRepo !== true ||
+  playerEvidenceWatchdogControls.publicAggregateEvidenceIsSupportingOnly !== true ||
+  playerEvidenceWatchdogControls.aggregateEvidenceDoesNotPassGates !== true ||
+  playerEvidenceWatchdogControls.noRevenueEnablement !== true ||
+  playerEvidenceWatchdogControls.noStoreSubmission !== true ||
+  playerEvidenceWatchdogScriptName !== 'node scripts/player-evidence-watchdog.mjs' ||
+  !packageJson.scripts?.['autonomous:daily']?.includes('autonomous:player-evidence-watchdog') ||
+  !packageJson.scripts?.['test:automation']?.includes('autonomous:player-evidence-watchdog') ||
+  !packageJson.scripts?.['autonomous:readiness']?.includes('autonomous:player-evidence-watchdog') ||
+  !packageJson.scripts?.['autonomous:public-evidence-intake']?.includes('autonomous:player-evidence-watchdog') ||
+  !packageJson.scripts?.['autonomous:post-deploy-readiness-sync']?.includes('autonomous:player-evidence-watchdog') ||
+  !publicEvidenceIntakeWorkflow.includes('data/player-evidence-watchdog.json') ||
+  !publicEvidenceIntakeWorkflow.includes('src/data/playerEvidenceWatchdog.ts') ||
+  !publicEvidenceIntakeWorkflow.includes('reports/player-evidence-watchdog-latest.md') ||
+  !postDeployEvidenceSyncWorkflow.includes('data/player-evidence-watchdog.json') ||
+  !postDeployEvidenceSyncWorkflow.includes('src/data/playerEvidenceWatchdog.ts') ||
+  !postDeployEvidenceSyncWorkflow.includes('reports/player-evidence-watchdog-latest.md') ||
+  !productionInputWatchWorkflow.includes('data/player-evidence-watchdog.json') ||
+  !playerEvidenceWatchdogSource.includes('noAutomaticDownloadsScan') ||
+  !playerEvidenceWatchdogSource.includes('downloadsScanRequiresExplicitOptIn') ||
+  !playerEvidenceWatchdogSource.includes('noRawPlayerEventsInPublicRepo') ||
+  !playerEvidenceWatchdogSource.includes('publicAggregateEvidenceIsSupportingOnly') ||
+  !appSource.includes('Player Evidence Watchdog') ||
+  !appSource.includes('Raw events')
+) {
+  fail('Player evidence watchdog must preserve public-repo privacy while guiding zero-spend, explicit-opt-in player evidence collection.')
 }
 
 if (

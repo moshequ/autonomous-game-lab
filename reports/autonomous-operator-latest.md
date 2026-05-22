@@ -1,10 +1,10 @@
 # Autonomous Operator
 
-Generated: 2026-05-22T17:31:07.073Z
-Status: operator-held
+Generated: 2026-05-22T19:21:35.717Z
+Status: operator-plan-ready
 Mode: plan-only
-Owner decision: hold-for-external-input
-Selected action: none
+Owner decision: collect-gate-sample-downloads
+Selected action: collect-gate-sample-downloads
 Execution: not-requested
 
 ## Controls
@@ -18,11 +18,13 @@ Execution: not-requested
 
 ## Selected Action
 
-- none: no eligible local actions
+- collect-gate-sample-downloads: npm run autonomous:collect-sample-downloads
 
 ## Eligible Local Actions
 
-- none
+- seed-portfolio-traffic
+- collect-gate-sample-downloads
+- refresh-product-gate-sample-plan
 
 ## Blocked Actions
 
@@ -30,7 +32,7 @@ Execution: not-requested
 - hold-for-external-input: status-monitor
 - refresh-autonomous-cadence: status-monitor
 - refresh-autonomous-self-update: status-monitor
-- seed-portfolio-traffic: owner-decision-held
+- seed-portfolio-traffic: not-selected-this-run
 - refresh-organic-seed-loop: status-monitor
 - refresh-support-feedback: status-monitor
 - optimize-daily-retention: status-monitor

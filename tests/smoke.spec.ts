@@ -184,6 +184,8 @@ test('portal loads a playable canvas and autonomy cockpit', async ({ page }) => 
   await expect(page.getByLabel('Support Feedback')).toContainText('Issues inspected')
   await expect(page.getByLabel('Public Repo Security')).toContainText('public-repo-security-ready')
   await expect(page.getByLabel('Public Repo Security')).toContainText('secretless-readonly')
+  await expect(page.getByLabel('Player Evidence Watchdog')).toContainText(/watchdog-/)
+  await expect(page.getByLabel('Player Evidence Watchdog')).toContainText('Raw events')
   await expect(page.getByLabel('Repository Channel')).toContainText(/blocked-no-local-git|waiting-for-gh-auth|repository-channel-ready|waiting-for-github-repository|waiting-for-repository-channel/)
   await expect(page.getByLabel('Repository Channel')).toContainText('Workflow dispatch')
   await expect(page.getByLabel('Repository Bootstrap')).toContainText(/needs-local-git-bootstrap|waiting-for-github-target|waiting-for-origin-remote|waiting-for-gh-auth|repository-bootstrap-ready/)
@@ -3717,6 +3719,81 @@ test('local event bridge keeps browser analytics drops importable without extern
   await expect(page.getByLabel('Local Event Bridge')).toContainText('Export coverage')
   await expect(page.getByLabel('Local Event Bridge')).toContainText('Drop folder')
   await expect(page.getByLabel('Local Event Bridge')).toContainText('Autosave')
+})
+
+test('player evidence watchdog protects public repo privacy while guiding sample collection', async ({ page }) => {
+  const watchdog = JSON.parse(await readFile('data/player-evidence-watchdog.json', 'utf8')) as {
+    status: string
+    mode: string
+    evidenceState: {
+      localEventBridgeStatus: string
+      productGateSamplePlanStatus: string
+      publicRepoSecurityStatus: string
+      inboxEvents: number
+      importedEvents: number
+      aggregateEvidenceNotes: number
+    }
+    downloadsScan: {
+      explicitOptInRequired: boolean
+      coolingDown: boolean
+      readyForExplicitScan: boolean
+      command: string
+    }
+    publicRepoSecurity: {
+      safeForPublicAutomation: boolean
+    }
+    commandPlan: {
+      safeEvidenceRefresh: string
+      explicitDownloadsRefresh: string
+    }
+    controls: {
+      zeroPaidSpend: boolean
+      noSyntheticEvents: boolean
+      noAutomaticDownloadsScan: boolean
+      downloadsScanRequiresExplicitOptIn: boolean
+      noRawPlayerEventsInPublicRepo: boolean
+      publicAggregateEvidenceIsSupportingOnly: boolean
+      aggregateEvidenceDoesNotPassGates: boolean
+      noRevenueEnablement: boolean
+      noStoreSubmission: boolean
+    }
+  }
+  const packageJson = JSON.parse(await readFile('package.json', 'utf8')) as {
+    scripts: Record<string, string>
+  }
+
+  expect(watchdog.status).toMatch(/^watchdog-/)
+  expect(watchdog.mode).toBe('zero-spend-player-evidence-watchdog')
+  expect(watchdog.evidenceState.localEventBridgeStatus).toMatch(/^bridge-/)
+  expect(watchdog.evidenceState.productGateSamplePlanStatus).toBe('product-gate-sample-plan-ready')
+  expect(watchdog.evidenceState.publicRepoSecurityStatus).toBe('public-repo-security-ready')
+  expect(typeof watchdog.evidenceState.inboxEvents).toBe('number')
+  expect(typeof watchdog.evidenceState.importedEvents).toBe('number')
+  expect(typeof watchdog.evidenceState.aggregateEvidenceNotes).toBe('number')
+  expect(watchdog.downloadsScan.explicitOptInRequired).toBe(true)
+  expect(typeof watchdog.downloadsScan.coolingDown).toBe('boolean')
+  expect(typeof watchdog.downloadsScan.readyForExplicitScan).toBe('boolean')
+  expect(watchdog.downloadsScan.command).toBe('npm run autonomous:collect-sample-downloads')
+  expect(watchdog.publicRepoSecurity.safeForPublicAutomation).toBe(true)
+  expect(watchdog.commandPlan.safeEvidenceRefresh).toContain('autonomous:local-event-bridge')
+  expect(watchdog.commandPlan.safeEvidenceRefresh).toContain('autonomous:player-evidence-watchdog')
+  expect(watchdog.commandPlan.explicitDownloadsRefresh).toContain('autonomous:collect-sample-downloads')
+  expect(watchdog.controls.zeroPaidSpend).toBe(true)
+  expect(watchdog.controls.noSyntheticEvents).toBe(true)
+  expect(watchdog.controls.noAutomaticDownloadsScan).toBe(true)
+  expect(watchdog.controls.downloadsScanRequiresExplicitOptIn).toBe(true)
+  expect(watchdog.controls.noRawPlayerEventsInPublicRepo).toBe(true)
+  expect(watchdog.controls.publicAggregateEvidenceIsSupportingOnly).toBe(true)
+  expect(watchdog.controls.aggregateEvidenceDoesNotPassGates).toBe(true)
+  expect(watchdog.controls.noRevenueEnablement).toBe(true)
+  expect(watchdog.controls.noStoreSubmission).toBe(true)
+  expect(packageJson.scripts['autonomous:player-evidence-watchdog']).toBe('node scripts/player-evidence-watchdog.mjs')
+  expect(packageJson.scripts['autonomous:daily']).toContain('autonomous:player-evidence-watchdog')
+  expect(packageJson.scripts['test:automation']).toContain('autonomous:player-evidence-watchdog')
+
+  await page.goto('/')
+  await expect(page.getByLabel('Player Evidence Watchdog')).toContainText(watchdog.status)
+  await expect(page.getByLabel('Player Evidence Watchdog')).toContainText('Public repo')
 })
 
 test('autonomous operator history keeps a capped audit trail', async ({ page }) => {

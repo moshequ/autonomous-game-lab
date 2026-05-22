@@ -1,0 +1,74 @@
+{
+  "generatedAt": "2026-05-22T19:21:36.551Z",
+  "sourceDataHash": "d3c40ec6fe52",
+  "status": "watchdog-cooling-down",
+  "mode": "zero-spend-player-evidence-watchdog",
+  "evidenceState": {
+    "localEventBridgeStatus": "bridge-waiting-for-export",
+    "productGateSamplePlanStatus": "product-gate-sample-plan-ready",
+    "productionMeasurementStatus": "production-measurement-local-intake-ready",
+    "publicRepoSecurityStatus": "public-repo-security-ready",
+    "inboxEvents": 0,
+    "importedEvents": 0,
+    "gateSampleInboxEvents": 0,
+    "gateSampleImportedEvents": 0,
+    "aggregateEvidenceNotes": 0,
+    "localEventsAvailable": false,
+    "inboxReady": false
+  },
+  "downloadsScan": {
+    "explicitOptInRequired": true,
+    "status": "no-evidence-found",
+    "coolingDown": true,
+    "cooldownHours": 4,
+    "cooldownRemainingHours": 0,
+    "evidenceReadyNow": false,
+    "lastScanAt": "2026-05-22T13:53:13.086Z",
+    "nextRecommendedScanAt": "2026-05-22T17:53:13.086Z",
+    "readyForExplicitScan": false,
+    "command": "npm run autonomous:collect-sample-downloads"
+  },
+  "sampleNeed": {
+    "primaryGateId": "firstGameCompletion",
+    "fastestGateId": "d1Retention",
+    "defaultRouteGateId": "firstGameCompletion",
+    "missions": 3,
+    "totalPromptViewsNeeded": 70,
+    "totalObservedSuccessesNeeded": 139,
+    "sampleReadyCount": 0
+  },
+  "publicRepoSecurity": {
+    "status": "public-repo-security-ready",
+    "repository": "moshequ/autonomous-game-lab",
+    "visibility": "PUBLIC",
+    "safeForPublicAutomation": true,
+    "highConfidenceSecretFindings": 0,
+    "trackedSensitiveFiles": 0,
+    "publicWorkflowRisks": 0
+  },
+  "commandPlan": {
+    "refreshWatchdog": "npm run autonomous:player-evidence-watchdog",
+    "safeEvidenceRefresh": "npm run autonomous:local-event-bridge && npm run autonomous:import-events && npm run autonomous:analytics && npm run autonomous:gate-recovery && npm run autonomous:sample-plan && npm run autonomous:player-evidence-watchdog",
+    "explicitDownloadsRefresh": "npm run autonomous:collect-sample-downloads && npm run autonomous:player-evidence-watchdog",
+    "productionMeasurementRefresh": "npm run autonomous:measurement-status && npm run autonomous:player-evidence-watchdog"
+  },
+  "controls": {
+    "zeroPaidSpend": true,
+    "noPaidTraffic": true,
+    "noSyntheticEvents": true,
+    "noAutomaticDownloadsScan": true,
+    "downloadsScanRequiresExplicitOptIn": true,
+    "noExternalUpload": true,
+    "noSecretValuesStored": true,
+    "publicRepoSafe": true,
+    "noRawPlayerEventsInPublicRepo": true,
+    "publicAggregateEvidenceIsSupportingOnly": true,
+    "aggregateEvidenceDoesNotPassGates": true,
+    "noRevenueEnablement": true,
+    "noStoreSubmission": true
+  },
+  "nextActions": [
+    "Hold explicit Downloads scanning until 2026-05-22T17:53:13.086Z and keep player-initiated export/share routes active.",
+    "Keep public issues and reports limited to aggregate, redacted evidence; never commit raw player event drops, secrets, or private exports."
+  ]
+}

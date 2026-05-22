@@ -59,6 +59,7 @@ import { productGateRecovery } from './data/productGateRecovery'
 import { productGateSamplePlan } from './data/productGateSamplePlan'
 import { pwaInstallLoop } from './data/pwaInstallLoop'
 import { performanceBudget } from './data/performanceBudget'
+import { playerEvidenceWatchdog } from './data/playerEvidenceWatchdog'
 import { releaseHealth } from './data/releaseHealth'
 import { repositoryBootstrap } from './data/repositoryBootstrap'
 import { repositoryReadiness } from './data/repositoryReadiness'
@@ -3605,6 +3606,42 @@ function App() {
                 <div>
                   <span>External upload</span>
                   <strong>{localEventBridge.controls.noExternalUpload ? 'blocked' : 'open'}</strong>
+                </div>
+              </div>
+              <div className="monetizationRuntime" aria-label="Player Evidence Watchdog">
+                <div>
+                  <span>Evidence Watchdog</span>
+                  <strong>{playerEvidenceWatchdog.status}</strong>
+                </div>
+                <div>
+                  <span>Inbox events</span>
+                  <strong>{playerEvidenceWatchdog.inbox}</strong>
+                </div>
+                <div>
+                  <span>Imported events</span>
+                  <strong>{playerEvidenceWatchdog.imported}</strong>
+                </div>
+                <div>
+                  <span>Aggregate notes</span>
+                  <strong>{playerEvidenceWatchdog.notes}</strong>
+                </div>
+                <div>
+                  <span>Downloads scan</span>
+                  <strong>
+                    {playerEvidenceWatchdog.scanReady
+                      ? 'ready'
+                      : playerEvidenceWatchdog.scanCooling
+                        ? 'cooling down'
+                        : 'waiting'}
+                  </strong>
+                </div>
+                <div>
+                  <span>Public repo</span>
+                  <strong>{playerEvidenceWatchdog.publicSafe ? 'safe' : 'blocked'}</strong>
+                </div>
+                <div>
+                  <span>Raw events</span>
+                  <strong>{playerEvidenceWatchdog.rawPrivate ? 'private' : 'review'}</strong>
                 </div>
               </div>
               <div className="monetizationRuntime" aria-label="Operator History">

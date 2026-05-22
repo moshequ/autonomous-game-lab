@@ -198,6 +198,11 @@ const freshnessRequiredArtifacts = [
     path: 'data/product-gate-sample-plan.json',
   },
   {
+    id: 'player-evidence-watchdog',
+    label: 'Player evidence watchdog',
+    path: 'data/player-evidence-watchdog.json',
+  },
+  {
     id: 'completion-loop',
     label: 'Completion loop',
     path: 'data/completion-loop.json',
@@ -369,6 +374,11 @@ const publicRepoSecurityAudit = await readOptionalJson(path.join(dataDir, 'publi
   summary: {},
   controls: {},
 })
+const playerEvidenceWatchdog = await readOptionalJson(path.join(dataDir, 'player-evidence-watchdog.json'), {
+  status: 'missing',
+  controls: {},
+  publicRepoSecurity: {},
+})
 const ownerLoop = await readOptionalJson(path.join(dataDir, 'autonomous-owner-loop.json'), {
   status: 'missing',
   ownerDecision: {},
@@ -422,6 +432,7 @@ const afterActionScript = script('autonomous:after-action')
 const cadenceScript = script('autonomous:cadence')
 const selfUpdateScript = script('autonomous:self-update')
 const securityAuditScript = script('autonomous:security-audit')
+const playerEvidenceWatchdogScript = script('autonomous:player-evidence-watchdog')
 const gateRecoveryScript = script('autonomous:gate-recovery')
 const testAutomationScript = script('test:automation')
 const testE2eScript = script('test:e2e')
@@ -613,11 +624,32 @@ const checks = [
     detail: `autonomous:gate-recovery is ${gateRecoveryScript || 'missing'}.`,
   },
   {
+    id: 'player-evidence-watchdog',
+    status:
+      playerEvidenceWatchdogScript.includes('player-evidence-watchdog') &&
+      playerEvidenceWatchdog.status.startsWith('watchdog-') &&
+      playerEvidenceWatchdog.controls?.zeroPaidSpend === true &&
+      playerEvidenceWatchdog.controls?.noSyntheticEvents === true &&
+      playerEvidenceWatchdog.controls?.noAutomaticDownloadsScan === true &&
+      playerEvidenceWatchdog.controls?.downloadsScanRequiresExplicitOptIn === true &&
+      playerEvidenceWatchdog.controls?.noRawPlayerEventsInPublicRepo === true &&
+      playerEvidenceWatchdog.publicRepoSecurity?.safeForPublicAutomation === true &&
+      dailyScript.includes('autonomous:player-evidence-watchdog') &&
+      testAutomationScript.includes('autonomous:player-evidence-watchdog')
+        ? 'pass'
+        : 'blocker',
+    detail:
+      playerEvidenceWatchdog.status === 'missing'
+        ? 'Player evidence watchdog artifact is missing.'
+        : `Player evidence watchdog is ${playerEvidenceWatchdog.status}; explicit Downloads scan ready ${playerEvidenceWatchdog.downloadsScan?.readyForExplicitScan ?? false}.`,
+  },
+  {
     id: 'daily-loop-script',
     status:
       dailyScript.includes('autonomous:trend') &&
       dailyScript.includes('autonomous:gate-recovery') &&
       dailyScript.includes('autonomous:security-audit') &&
+      dailyScript.includes('autonomous:player-evidence-watchdog') &&
       dailyScript.includes('autonomous:cadence') &&
       dailyScript.includes('autonomous:self-update') &&
       dailyScript.includes('autonomous:objective-audit') &&
@@ -631,6 +663,7 @@ const checks = [
     status:
       testAutomationScript.includes('event-collector-smoke') &&
       testAutomationScript.includes('autonomous:security-audit') &&
+      testAutomationScript.includes('autonomous:player-evidence-watchdog') &&
       testAutomationScript.includes('event-ingest-smoke') &&
       testAutomationScript.includes('autonomous:release-candidate') &&
       testAutomationScript.includes('autonomous:repo-readiness') &&
