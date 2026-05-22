@@ -1,0 +1,194 @@
+name: Public Evidence Intake
+
+on:
+  workflow_dispatch:
+  issues:
+    types: [opened, edited, reopened, labeled]
+  schedule:
+    - cron: '37 */6 * * *'
+
+permissions:
+  actions: read
+  contents: write
+  issues: read
+
+concurrency:
+  group: public-evidence-intake
+  cancel-in-progress: false
+
+jobs:
+  ingest-public-evidence:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Refresh default branch
+        run: git pull --ff-only origin "${GITHUB_REF_NAME:-main}"
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright browser
+        run: npx playwright install --with-deps chromium
+
+      - name: Ingest public aggregate evidence
+        env:
+          AGL_ANDROID_KEYSTORE_BASE64: ${{ secrets.AGL_ANDROID_KEYSTORE_BASE64 }}
+          AGL_ANDROID_KEYSTORE_PASSWORD: ${{ secrets.AGL_ANDROID_KEYSTORE_PASSWORD }}
+          AGL_ANDROID_KEY_ALIAS: ${{ secrets.AGL_ANDROID_KEY_ALIAS }}
+          AGL_ANDROID_PACKAGE_NAME: ${{ vars.AGL_ANDROID_PACKAGE_NAME }}
+          AGL_ANDROID_SHA256_CERT_FINGERPRINT: ${{ vars.AGL_ANDROID_SHA256_CERT_FINGERPRINT }}
+          AGL_EVENT_COLLECTOR_ADMIN_TOKEN: ${{ secrets.AGL_EVENT_COLLECTOR_ADMIN_TOKEN }}
+          AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS: ${{ vars.AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS }}
+          AGL_EVENT_COLLECTOR_EXPORT_URL: ${{ vars.AGL_EVENT_COLLECTOR_EXPORT_URL }}
+          AGL_EVENT_COLLECTOR_R2_BUCKET: ${{ vars.AGL_EVENT_COLLECTOR_R2_BUCKET }}
+          AGL_PUBLIC_ORIGIN: ${{ vars.AGL_PUBLIC_ORIGIN }}
+          GH_TOKEN: ${{ github.token }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          GITHUB_REPOSITORY_OWNER: ${{ github.repository_owner }}
+          GITHUB_TOKEN: ${{ github.token }}
+          POSTHOG_HOST: ${{ vars.POSTHOG_HOST }}
+          POSTHOG_PERSONAL_API_KEY: ${{ secrets.POSTHOG_PERSONAL_API_KEY }}
+          POSTHOG_PROJECT_ID: ${{ vars.POSTHOG_PROJECT_ID }}
+          PUBLIC_SITE_URL: ${{ vars.PUBLIC_SITE_URL }}
+          VITE_BASE_PATH: ${{ vars.VITE_BASE_PATH }}
+          VITE_EVENT_COLLECTOR_URL: ${{ vars.VITE_EVENT_COLLECTOR_URL }}
+          VITE_EVENT_COLLECTOR_WRITE_TOKEN: ${{ secrets.VITE_EVENT_COLLECTOR_WRITE_TOKEN }}
+          VITE_POSTHOG_HOST: ${{ vars.VITE_POSTHOG_HOST }}
+          VITE_POSTHOG_KEY: ${{ vars.VITE_POSTHOG_KEY }}
+          VITE_PUBLIC_ORIGIN: ${{ vars.VITE_PUBLIC_ORIGIN }}
+        run: npm run autonomous:public-evidence-intake
+
+      - name: Verify autonomy evidence
+        run: node scripts/verify-autonomy.mjs
+
+      - name: Commit safe public evidence artifacts
+        env:
+          AGL_AUTONOMOUS_SELF_UPDATE_DIRECT: ${{ vars.AGL_AUTONOMOUS_SELF_UPDATE_DIRECT }}
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          if [[ "${AGL_AUTONOMOUS_SELF_UPDATE_DIRECT:-0}" != "1" ]]; then
+            echo "skip commit: AGL_AUTONOMOUS_SELF_UPDATE_DIRECT is not enabled"
+            exit 0
+          fi
+
+          git add -- \
+            data/support-feedback.json \
+            src/data/supportFeedback.ts \
+            reports/support-feedback-latest.md \
+            data/improvement-backlog.json \
+            data/improvement-backlog-summary.json \
+            data/improvement-routing.json \
+            reports/autonomous-analyst-latest.md \
+            data/product-gate-recovery.json \
+            src/data/productGateRecovery.ts \
+            reports/product-gate-recovery-latest.md \
+            data/product-gate-sample-plan.json \
+            src/data/productGateSamplePlan.ts \
+            reports/product-gate-sample-plan-latest.md \
+            public/gate-sample.html \
+            data/production-measurement-status.json \
+            src/data/productionMeasurementStatus.ts \
+            public/measurement-status.html \
+            public/measurement-status.json \
+            reports/production-measurement-status-latest.md \
+            data/performance-budget.json \
+            src/data/performanceBudget.ts \
+            reports/performance-budget-latest.md \
+            data/release-candidate.json \
+            src/data/releaseCandidate.ts \
+            reports/release-candidate-latest.md \
+            data/post-deploy-smoke.json \
+            src/data/postDeploySmoke.ts \
+            reports/post-deploy-smoke-latest.md \
+            data/live-site-monitor.json \
+            src/data/liveSiteMonitor.ts \
+            reports/live-site-monitor-latest.md \
+            data/repository-readiness.json \
+            src/data/repositoryReadiness.ts \
+            reports/repository-readiness-latest.md \
+            data/repository-bootstrap.json \
+            src/data/repositoryBootstrap.ts \
+            reports/repository-bootstrap-latest.md \
+            ops/github/bootstrap-repository.sh \
+            data/deployment-plan.json \
+            src/data/deploymentPlan.ts \
+            reports/deployment-plan-latest.md \
+            data/production-bootstrap.json \
+            src/data/productionBootstrap.ts \
+            reports/production-bootstrap-latest.md \
+            ops/github/setup-production.sh \
+            ops/github/README.md \
+            data/production-activation.json \
+            src/data/productionActivation.ts \
+            reports/production-activation-latest.md \
+            data/production-blocker-handoff.json \
+            src/data/productionBlockerHandoff.ts \
+            reports/production-blocker-handoff-latest.md \
+            data/production-unlock-runner.json \
+            src/data/productionUnlockRunner.ts \
+            reports/production-unlock-runner-latest.md \
+            data/production-readiness.json \
+            reports/production-readiness-latest.md \
+            data/objective-audit.json \
+            src/data/objectiveAudit.ts \
+            reports/objective-audit-latest.md \
+            data/autonomous-owner-loop.json \
+            src/data/autonomousOwnerLoop.ts \
+            reports/autonomous-owner-loop-latest.md \
+            data/autonomous-operator.json \
+            src/data/autonomousOperator.ts \
+            reports/autonomous-operator-latest.md \
+            data/autonomous-operator-history.json \
+            src/data/autonomousOperatorHistory.ts \
+            reports/autonomous-operator-history-latest.md
+
+          if git diff --cached --quiet; then
+            echo "no public evidence changes to commit"
+            exit 0
+          fi
+
+          git config user.name "autonomous-game-lab-bot"
+          git config user.email "autonomous-game-lab-bot@users.noreply.github.com"
+          git commit -m "Autonomous public evidence intake"
+          git push
+
+      - name: Upload public evidence artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: public-evidence-intake
+          path: |
+            data/support-feedback.json
+            reports/support-feedback-latest.md
+            data/improvement-backlog-summary.json
+            data/improvement-routing.json
+            data/product-gate-sample-plan.json
+            reports/product-gate-sample-plan-latest.md
+            public/gate-sample.html
+            data/production-measurement-status.json
+            reports/production-measurement-status-latest.md
+            public/measurement-status.html
+            public/measurement-status.json
+            data/production-readiness.json
+            reports/production-readiness-latest.md
+            data/objective-audit.json
+            reports/objective-audit-latest.md
+            data/autonomous-owner-loop.json
+            reports/autonomous-owner-loop-latest.md
+            data/autonomous-operator.json
+            reports/autonomous-operator-latest.md
+          if-no-files-found: ignore

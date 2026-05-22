@@ -3,7 +3,7 @@ name: Web PWA Deploy
 on:
   workflow_dispatch:
   workflow_run:
-    workflows: ['Autonomous Daily Studio', 'Autonomous Self Update']
+    workflows: ['Autonomous Daily Studio', 'Autonomous Self Update', 'Public Evidence Intake']
     types: [completed]
 
 permissions:

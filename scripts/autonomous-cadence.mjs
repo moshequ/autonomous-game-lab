@@ -648,7 +648,9 @@ const checks = [
     id: 'post-self-update-deploy',
     status:
       webDeployWorkflowExists &&
-      webDeployWorkflow.includes("workflows: ['Autonomous Daily Studio', 'Autonomous Self Update']") &&
+      webDeployWorkflow.includes("'Autonomous Daily Studio'") &&
+      webDeployWorkflow.includes("'Autonomous Self Update'") &&
+      webDeployWorkflow.includes("'Public Evidence Intake'") &&
       webDeployWorkflow.includes('npm run build') &&
       webDeployWorkflow.includes('npm run autonomous:performance') &&
       webDeployWorkflow.includes('npm run autonomous:release-candidate') &&
@@ -658,7 +660,7 @@ const checks = [
         ? 'pass'
         : 'blocker',
     detail: webDeployWorkflowExists
-      ? 'Pages deployment builds the committed PWA artifact from the gated self-update workflow, so persisted generated improvements can publish without manual dispatch.'
+      ? 'Pages deployment builds the committed PWA artifact from gated self-update and public-evidence workflows, so persisted generated improvements can publish without manual dispatch.'
       : 'Web PWA deploy workflow is missing.',
   },
   {
@@ -776,7 +778,7 @@ const payload = {
           ? 'scheduled'
           : 'missing',
       workflow: '.github/workflows/web-pwa-deploy.yml',
-      trigger: 'workflow_run: Autonomous Self Update',
+      trigger: 'workflow_run: Autonomous Self Update, Public Evidence Intake',
       deployabilityGate: 'npm run autonomous:assert-deployable',
       smokeGate: 'npm run autonomous:post-deploy-smoke -- --assert',
     },

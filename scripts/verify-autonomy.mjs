@@ -129,6 +129,7 @@ const requiredFiles = [
   '.github/workflows/event-collector-deploy.yml',
   '.github/workflows/web-pwa-deploy.yml',
   '.github/workflows/post-deploy-evidence-sync.yml',
+  '.github/workflows/public-evidence-intake.yml',
   '.github/ISSUE_TEMPLATE/player-feedback.yml',
   '.github/ISSUE_TEMPLATE/bug-report.yml',
   '.github/ISSUE_TEMPLATE/analytics-evidence.yml',
@@ -379,6 +380,10 @@ const postDeployEvidenceSyncWorkflow = await readFile(
   path.join(root, '.github', 'workflows', 'post-deploy-evidence-sync.yml'),
   'utf8',
 )
+const publicEvidenceIntakeWorkflow = await readFile(
+  path.join(root, '.github', 'workflows', 'public-evidence-intake.yml'),
+  'utf8',
+)
 const iosCapacitorConfig = JSON.parse(await readFile(path.join(root, 'native', 'ios', 'capacitor.config.json'), 'utf8'))
 const iosAppStoreHandoff = JSON.parse(await readFile(path.join(root, 'native', 'ios', 'app-store-handoff.json'), 'utf8'))
 const iosReadme = await readFile(path.join(root, 'native', 'ios', 'README.md'), 'utf8')
@@ -539,6 +544,8 @@ if (
   fail('Support channel must publish zero-spend GitHub Issues intake with privacy warnings while preserving the app-store support email blocker.')
 }
 
+const publicEvidenceIntakeScript = packageJson.scripts?.['autonomous:public-evidence-intake'] ?? ''
+
 if (
   !['support-feedback-ready', 'support-feedback-empty', 'support-feedback-planned', 'support-feedback-unavailable'].includes(
     supportFeedback.status,
@@ -575,6 +582,53 @@ if (
   improvementRouting.supportFeedbackStatus !== supportFeedback.status
 ) {
   fail('Support feedback must ingest public GitHub issue intake as read-only, redacted, zero-spend improvement evidence.')
+}
+
+if (
+  !publicEvidenceIntakeScript.includes('autonomous:support-feedback') ||
+  !publicEvidenceIntakeScript.includes('autonomous:analyze') ||
+  !publicEvidenceIntakeScript.includes('autonomous:gate-recovery') ||
+  !publicEvidenceIntakeScript.includes('autonomous:sample-plan') ||
+  !publicEvidenceIntakeScript.includes('autonomous:measurement-status') ||
+  !publicEvidenceIntakeScript.includes('npm run build') ||
+  !publicEvidenceIntakeScript.includes('autonomous:performance') ||
+  !publicEvidenceIntakeScript.includes('autonomous:release-candidate') ||
+  !publicEvidenceIntakeScript.includes('autonomous:post-deploy-smoke') ||
+  !publicEvidenceIntakeScript.includes('autonomous:live-monitor') ||
+  !publicEvidenceIntakeScript.includes('autonomous:readiness') ||
+  !publicEvidenceIntakeScript.includes('autonomous:owner-loop') ||
+  !publicEvidenceIntakeScript.includes('autonomous:operator') ||
+  !publicEvidenceIntakeWorkflow.includes('name: Public Evidence Intake') ||
+  !publicEvidenceIntakeWorkflow.includes('workflow_dispatch:') ||
+  !publicEvidenceIntakeWorkflow.includes('issues:') ||
+  !publicEvidenceIntakeWorkflow.includes('schedule:') ||
+  !publicEvidenceIntakeWorkflow.includes('contents: write') ||
+  !publicEvidenceIntakeWorkflow.includes('issues: read') ||
+  !publicEvidenceIntakeWorkflow.includes('GH_TOKEN: ${{ github.token }}') ||
+  !publicEvidenceIntakeWorkflow.includes('GITHUB_TOKEN: ${{ github.token }}') ||
+  !publicEvidenceIntakeWorkflow.includes('AGL_AUTONOMOUS_SELF_UPDATE_DIRECT') ||
+  !publicEvidenceIntakeWorkflow.includes('npm run autonomous:public-evidence-intake') ||
+  !publicEvidenceIntakeWorkflow.includes('node scripts/verify-autonomy.mjs') ||
+  !publicEvidenceIntakeWorkflow.includes('data/support-feedback.json') ||
+  !publicEvidenceIntakeWorkflow.includes('src/data/supportFeedback.ts') ||
+  !publicEvidenceIntakeWorkflow.includes('reports/support-feedback-latest.md') ||
+  !publicEvidenceIntakeWorkflow.includes('data/improvement-backlog-summary.json') ||
+  !publicEvidenceIntakeWorkflow.includes('data/improvement-routing.json') ||
+  !publicEvidenceIntakeWorkflow.includes('data/product-gate-sample-plan.json') ||
+  !publicEvidenceIntakeWorkflow.includes('public/gate-sample.html') ||
+  !publicEvidenceIntakeWorkflow.includes('data/production-measurement-status.json') ||
+  !publicEvidenceIntakeWorkflow.includes('public/measurement-status.html') ||
+  !publicEvidenceIntakeWorkflow.includes('public/measurement-status.json') ||
+  !publicEvidenceIntakeWorkflow.includes('data/autonomous-owner-loop.json') ||
+  !publicEvidenceIntakeWorkflow.includes('data/autonomous-operator.json') ||
+  !webDeployWorkflow.includes("'Public Evidence Intake'") ||
+  publicEvidenceIntakeWorkflow.includes('data/player-events') ||
+  publicEvidenceIntakeWorkflow.includes('gh issue comment') ||
+  publicEvidenceIntakeWorkflow.includes('gh issue edit') ||
+  publicEvidenceIntakeWorkflow.includes('curl ') ||
+  publicEvidenceIntakeWorkflow.includes('workflow run')
+) {
+  fail('Public evidence intake must autonomously refresh safe aggregate GitHub Issue evidence, persist only handoff artifacts, and trigger Pages redeploys without raw events or issue mutation.')
 }
 
 const publicEvidenceHandoff = productionMeasurementStatus.publicEvidenceHandoff ?? {}
@@ -6803,7 +6857,9 @@ if (
   !deployWorkflow.includes('actions/configure-pages') ||
   !deployWorkflow.includes('actions/upload-pages-artifact@v5') ||
   !deployWorkflow.includes('include-hidden-files: true') ||
-  !deployWorkflow.includes("workflows: ['Autonomous Daily Studio', 'Autonomous Self Update']") ||
+  !deployWorkflow.includes("'Autonomous Daily Studio'") ||
+  !deployWorkflow.includes("'Autonomous Self Update'") ||
+  !deployWorkflow.includes("'Public Evidence Intake'") ||
   !deployWorkflow.includes('actions/deploy-pages') ||
   !deployWorkflow.includes('npm run build') ||
   !deployWorkflow.includes('npm run autonomous:performance') ||
