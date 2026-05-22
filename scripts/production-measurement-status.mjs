@@ -412,19 +412,37 @@ const payload = {
   ],
 }
 
+const appPublicEvidenceHandoff = {
+  status: payload.publicEvidenceHandoff.status,
+  aggregateEvidence: {
+    notes: payload.publicEvidenceHandoff.aggregateEvidence.notes,
+    starts: payload.publicEvidenceHandoff.aggregateEvidence.starts,
+    completions: payload.publicEvidenceHandoff.aggregateEvidence.completions,
+  },
+  controls: {
+    aggregateEvidenceDoesNotPassGates:
+      payload.publicEvidenceHandoff.controls.aggregateEvidenceDoesNotPassGates,
+    manualReviewRequiredForGateDecisions:
+      payload.publicEvidenceHandoff.controls.manualReviewRequiredForGateDecisions,
+  },
+}
+
+const appAnalyticsUnlock = payload.analyticsUnlock
+  ? {
+      status: payload.analyticsUnlock.status,
+      recommendedPathId: payload.analyticsUnlock.recommendedPathId,
+      commandCount: payload.analyticsUnlock.commandCount,
+      validationCommandCount: payload.analyticsUnlock.validationCommandCount,
+    }
+  : null
+
 const appPayload = {
   generatedAt: payload.generatedAt,
   status: payload.status,
   activePath: payload.activePath,
   liveCandidate: payload.liveCandidate,
-  analytics: payload.analytics,
-  productGateEvidence: payload.productGateEvidence,
-  publicEvidenceHandoff: payload.publicEvidenceHandoff,
-  analyticsUnlock: payload.analyticsUnlock,
-  publicRoutes: payload.publicRoutes,
-  blockers: payload.blockers,
-  controls: payload.controls,
-  nextActions: payload.nextActions,
+  publicEvidenceHandoff: appPublicEvidenceHandoff,
+  analyticsUnlock: appAnalyticsUnlock,
 }
 
 const publicPayload = {
