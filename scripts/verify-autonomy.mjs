@@ -587,6 +587,9 @@ if (
     (supportFeedback.summary?.aggregateCompletions ?? 0) ||
   productionMeasurementStatus.productGateEvidence?.supportingAggregateEvidenceNotes !==
     (productGateSamplePlan.summary?.supportingAggregateEvidenceNotes ?? 0) ||
+  productionMeasurementStatus.sourceStatus?.postDeployArtifactSync !== postDeployArtifactSync.status ||
+  productionMeasurementStatus.liveCandidate !== postDeployArtifactSync.live?.candidateId ||
+  publicMeasurementStatus.liveCandidate !== postDeployArtifactSync.live?.candidateId ||
   !['aggregate-evidence-ready-for-review', 'awaiting-player-initiated-aggregate-notes'].includes(
     publicEvidenceHandoff.status,
   ) ||
@@ -3452,6 +3455,7 @@ if (
   !postDeployReadinessSyncScript.includes('autonomous:deploy-plan') ||
   !postDeployReadinessSyncScript.includes('autonomous:bootstrap') ||
   !postDeployReadinessSyncScript.includes('autonomous:activate-production') ||
+  !postDeployReadinessSyncScript.includes('autonomous:measurement-status') ||
   !postDeployReadinessSyncScript.includes('node scripts/production-readiness.mjs') ||
   !postDeployReadinessSyncScript.includes('autonomous:owner-loop') ||
   !postDeployReadinessSyncScript.includes('autonomous:operator') ||
@@ -3473,6 +3477,11 @@ if (
   !postDeployEvidenceSyncWorkflow.includes('data/production-bootstrap.json') ||
   !postDeployEvidenceSyncWorkflow.includes('data/production-activation.json') ||
   !postDeployEvidenceSyncWorkflow.includes('data/production-blocker-handoff.json') ||
+  !postDeployEvidenceSyncWorkflow.includes('data/production-measurement-status.json') ||
+  !postDeployEvidenceSyncWorkflow.includes('src/data/productionMeasurementStatus.ts') ||
+  !postDeployEvidenceSyncWorkflow.includes('public/measurement-status.html') ||
+  !postDeployEvidenceSyncWorkflow.includes('public/measurement-status.json') ||
+  !postDeployEvidenceSyncWorkflow.includes('reports/production-measurement-status-latest.md') ||
   !postDeployEvidenceSyncWorkflow.includes('data/production-readiness.json') ||
   !postDeployEvidenceSyncWorkflow.includes('data/objective-audit.json') ||
   !postDeployEvidenceSyncWorkflow.includes('data/autonomous-operator.json') ||
@@ -5033,6 +5042,7 @@ if (
   !postDeployReadinessSyncScript.includes('autonomous:deploy-plan') ||
   !postDeployReadinessSyncScript.includes('autonomous:bootstrap') ||
   !postDeployReadinessSyncScript.includes('autonomous:activate-production') ||
+  !postDeployReadinessSyncScript.includes('autonomous:measurement-status') ||
   !postDeployReadinessSyncScript.includes('node scripts/production-readiness.mjs') ||
   !postDeployReadinessSyncScript.includes('autonomous:owner-loop') ||
   !postDeployReadinessSyncScript.includes('autonomous:operator') ||
@@ -5071,6 +5081,11 @@ if (
   !postDeployEvidenceSyncWorkflow.includes('data/production-bootstrap.json') ||
   !postDeployEvidenceSyncWorkflow.includes('data/production-activation.json') ||
   !postDeployEvidenceSyncWorkflow.includes('data/production-blocker-handoff.json') ||
+  !postDeployEvidenceSyncWorkflow.includes('data/production-measurement-status.json') ||
+  !postDeployEvidenceSyncWorkflow.includes('src/data/productionMeasurementStatus.ts') ||
+  !postDeployEvidenceSyncWorkflow.includes('public/measurement-status.html') ||
+  !postDeployEvidenceSyncWorkflow.includes('public/measurement-status.json') ||
+  !postDeployEvidenceSyncWorkflow.includes('reports/production-measurement-status-latest.md') ||
   !postDeployEvidenceSyncWorkflow.includes('data/production-readiness.json') ||
   !postDeployEvidenceSyncWorkflow.includes('data/objective-audit.json') ||
   !postDeployEvidenceSyncWorkflow.includes('data/autonomous-operator.json') ||

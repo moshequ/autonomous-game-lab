@@ -21,6 +21,8 @@ const [
   productionBootstrap,
   productionActivation,
   productionBlockerHandoff,
+  productionMeasurementStatus,
+  publicMeasurementStatus,
   productionReadiness,
   objectiveAudit,
   ownerLoop,
@@ -40,6 +42,8 @@ const [
   readJson('data/production-bootstrap.json'),
   readJson('data/production-activation.json'),
   readJson('data/production-blocker-handoff.json'),
+  readJson('data/production-measurement-status.json'),
+  readJson('public/measurement-status.json'),
   readJson('data/production-readiness.json'),
   readJson('data/objective-audit.json'),
   readJson('data/autonomous-owner-loop.json'),
@@ -124,6 +128,7 @@ const requiredReadinessRefreshCommands = [
   'autonomous:bootstrap',
   'autonomous:activate-production',
   'autonomous:blocker-handoff',
+  'autonomous:measurement-status',
   'node scripts/production-readiness.mjs',
   'autonomous:owner-loop',
   'autonomous:operator',
@@ -140,6 +145,8 @@ const finalDeployPlanRefreshIndex = postDeployReadinessSyncScript.lastIndexOf('a
 const finalReadinessRefreshIndex = postDeployReadinessSyncScript.lastIndexOf('node scripts/production-readiness.mjs')
 const finalRepoReadinessIndex = postDeployReadinessSyncScript.lastIndexOf('autonomous:repo-readiness')
 const finalRepoBootstrapIndex = postDeployReadinessSyncScript.lastIndexOf('autonomous:repo-bootstrap')
+const finalUnlockRunnerIndex = postDeployReadinessSyncScript.lastIndexOf('autonomous:unlock-runner')
+const finalMeasurementStatusIndex = postDeployReadinessSyncScript.lastIndexOf('autonomous:measurement-status')
 const finalPostDeploySmokeIndex = postDeployReadinessSyncScript.lastIndexOf(
   'autonomous:post-deploy-smoke',
   finalRepoReadinessIndex,
@@ -182,6 +189,14 @@ if (
   deployPlanAfterFinalRepoBootstrapIndex > finalReadinessRefreshIndex
 ) {
   fail('autonomous:post-deploy-readiness-sync must refresh deployment plan after final repository bootstrap and before final readiness.')
+}
+
+if (finalMeasurementStatusIndex < finalUnlockRunnerIndex) {
+  fail('autonomous:post-deploy-readiness-sync must refresh production measurement status after the final blocker/unlock evidence.')
+}
+
+if (finalMeasurementStatusIndex > finalReadinessRefreshIndex) {
+  fail('autonomous:post-deploy-readiness-sync must refresh production measurement status before final readiness.')
 }
 
 if (ownerLoopBeforeFinalOperatorIndex < deployPlanAfterFinalRepoBootstrapIndex) {
@@ -269,6 +284,11 @@ if (
   !workflow.includes('data/production-blocker-handoff.json') ||
   !workflow.includes('src/data/productionBlockerHandoff.ts') ||
   !workflow.includes('reports/production-blocker-handoff-latest.md') ||
+  !workflow.includes('data/production-measurement-status.json') ||
+  !workflow.includes('src/data/productionMeasurementStatus.ts') ||
+  !workflow.includes('public/measurement-status.html') ||
+  !workflow.includes('public/measurement-status.json') ||
+  !workflow.includes('reports/production-measurement-status-latest.md') ||
   !workflow.includes('data/production-readiness.json') ||
   !workflow.includes('reports/production-readiness-latest.md') ||
   !workflow.includes('data/objective-audit.json') ||
@@ -323,6 +343,13 @@ if (
   !['activation-ready', 'activation-waiting-for-credentials', 'activation-applied'].includes(productionActivation.status) ||
   !['handoff-waiting-on-owner-inputs', 'handoff-clear'].includes(productionBlockerHandoff.status) ||
   productionBlockerHandoff.sourceStatus?.postDeployArtifactSync !== sync.status ||
+  productionMeasurementStatus.sourceStatus?.postDeployArtifactSync !== sync.status ||
+  productionMeasurementStatus.liveCandidate !== sync.live?.candidateId ||
+  publicMeasurementStatus.liveCandidate !== sync.live?.candidateId ||
+  JSON.stringify(publicMeasurementStatus.publicEvidenceHandoff) !==
+    JSON.stringify(productionMeasurementStatus.publicEvidenceHandoff) ||
+  JSON.stringify(publicMeasurementStatus.analyticsUnlock) !==
+    JSON.stringify(productionMeasurementStatus.analyticsUnlock) ||
   productionReadiness.postDeployArtifactSync?.status !== sync.status ||
   productionReadiness.liveSiteMonitor?.status !== liveSiteMonitor.status ||
   productionReadiness.repositoryChannel?.status !== repositoryReadiness.status ||

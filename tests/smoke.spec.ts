@@ -1380,6 +1380,7 @@ test('post-deploy artifact sync preserves strict Pages workflow evidence', async
   expect(packageJson.scripts['autonomous:post-deploy-readiness-sync']).toContain('autonomous:deploy-plan')
   expect(packageJson.scripts['autonomous:post-deploy-readiness-sync']).toContain('autonomous:bootstrap')
   expect(packageJson.scripts['autonomous:post-deploy-readiness-sync']).toContain('autonomous:activate-production')
+  expect(packageJson.scripts['autonomous:post-deploy-readiness-sync']).toContain('autonomous:measurement-status')
   expect(packageJson.scripts['autonomous:post-deploy-readiness-sync']).toContain('node scripts/production-readiness.mjs')
   expect(packageJson.scripts['autonomous:post-deploy-readiness-sync']).toContain('autonomous:owner-loop')
   expect(packageJson.scripts['autonomous:post-deploy-readiness-sync']).toContain('autonomous:operator')
@@ -1417,6 +1418,11 @@ test('post-deploy artifact sync preserves strict Pages workflow evidence', async
   expect(workflow).toContain('data/production-bootstrap.json')
   expect(workflow).toContain('data/production-activation.json')
   expect(workflow).toContain('data/production-blocker-handoff.json')
+  expect(workflow).toContain('data/production-measurement-status.json')
+  expect(workflow).toContain('src/data/productionMeasurementStatus.ts')
+  expect(workflow).toContain('public/measurement-status.html')
+  expect(workflow).toContain('public/measurement-status.json')
+  expect(workflow).toContain('reports/production-measurement-status-latest.md')
   expect(workflow).toContain('data/production-readiness.json')
   expect(workflow).toContain('data/objective-audit.json')
   expect(workflow).toContain('data/autonomous-operator.json')
@@ -6356,8 +6362,13 @@ test('production measurement status publishes public aggregate evidence handoff'
   const samplePlan = JSON.parse(await readFile('data/product-gate-sample-plan.json', 'utf8')) as {
     summary: { supportingAggregateEvidenceNotes: number }
   }
+  const postDeploySync = JSON.parse(await readFile('data/post-deploy-artifact-sync.json', 'utf8')) as {
+    status: string
+    live?: { candidateId?: string }
+  }
   const measurement = JSON.parse(await readFile('data/production-measurement-status.json', 'utf8')) as {
     status: string
+    liveCandidate: string | null
     analytics: {
       localEvidence: {
         aggregateEvidenceNotes: number
@@ -6458,6 +6469,8 @@ test('production measurement status publishes public aggregate evidence handoff'
     'production-measurement-browser-ready',
     'production-measurement-configured',
   ]).toContain(measurement.status)
+  expect(measurement.liveCandidate).toBe(postDeploySync.live?.candidateId ?? null)
+  expect(publicMeasurement.liveCandidate).toBe(postDeploySync.live?.candidateId ?? null)
   expect(measurement.publicEvidenceHandoff.source).toBe('support-feedback-public-issues')
   expect(measurement.publicEvidenceHandoff.supportFeedbackStatus).toBe(supportFeedback.status)
   expect(measurement.publicEvidenceHandoff.aggregateEvidence.notes).toBe(supportFeedback.summary.aggregateEvidenceNotes)

@@ -123,6 +123,11 @@ jobs:
             data/production-unlock-runner.json \
             src/data/productionUnlockRunner.ts \
             reports/production-unlock-runner-latest.md \
+            data/production-measurement-status.json \
+            src/data/productionMeasurementStatus.ts \
+            public/measurement-status.html \
+            public/measurement-status.json \
+            reports/production-measurement-status-latest.md \
             data/production-readiness.json \
             reports/production-readiness-latest.md \
             data/objective-audit.json \
@@ -178,6 +183,10 @@ jobs:
             reports/production-blocker-handoff-latest.md
             data/production-unlock-runner.json
             reports/production-unlock-runner-latest.md
+            data/production-measurement-status.json
+            reports/production-measurement-status-latest.md
+            public/measurement-status.html
+            public/measurement-status.json
             data/production-readiness.json
             reports/production-readiness-latest.md
             data/objective-audit.json
