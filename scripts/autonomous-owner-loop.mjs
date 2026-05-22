@@ -1274,9 +1274,11 @@ const gateSampleEvidenceReadyNow =
   (localEventBridge.gateSampleEvidence?.imported?.events ?? 0) > 0
 const gateSampleDownloadsBackoffHours = 4
 const gateSampleDownloadsExpiryBufferMs = 60 * 1000
+const ownerGeneratedAt = new Date().toISOString()
 const gateSampleDownloadsPolicy = buildExplicitDownloadsScanPolicy({
   explicitDownloadsScan: localEventBridge.explicitDownloadsScan,
   gateSampleEvidence: localEventBridge.gateSampleEvidence,
+  generatedAt: ownerGeneratedAt,
   cooldownHours: gateSampleDownloadsBackoffHours,
   expiryBufferMs: gateSampleDownloadsExpiryBufferMs,
 })
@@ -1362,7 +1364,7 @@ const retentionDownloadsScanPolicy = localEventBridge.explicitDownloadsScanPolic
   lastScanStatus: localEventBridge.explicitDownloadsScan?.status ?? null,
   scanAgeHours: null,
   cooldownRemainingHours: 0,
-  nextRecommendedScanAt: new Date().toISOString(),
+  nextRecommendedScanAt: ownerGeneratedAt,
 }
 const objectiveAuditFreshnessInputs = [
   { id: 'analytics-rollup', generatedAt: analytics.generatedAt },
@@ -2409,6 +2411,7 @@ const prioritizedExecutableNow =
     : executableWithoutLastRepeat.length > 0
       ? executableWithoutLastRepeat
       : []
+const immediateRepeatSuppressed = ownerSelectableNow.length > 0 && prioritizedExecutableNow.length === 0
 const preferredActionOrder = [
   'prepare-repository-channel',
   'deploy-web-pwa',
@@ -2444,9 +2447,15 @@ const nextBestAction =
   prioritizedExecutableNow[0] ??
   holdForExternalInputAction ??
   safeAutonomousActions[0]
+const ownerHoldReason =
+  ownerSelectableNow.length === 0
+    ? 'All safe local actions are current; remaining progress requires external inputs or new player evidence.'
+    : immediateRepeatSuppressed && nextBestAction?.id === 'hold-for-external-input'
+      ? 'All currently armed local actions were recently executed or covered; holding to avoid cycling until new player evidence, external inputs, or a cooldown expiry changes the state.'
+      : null
 
 const payload = {
-  generatedAt: new Date().toISOString(),
+  generatedAt: ownerGeneratedAt,
   status: 'owner-loop-ready',
   mode: ownerMode,
   autonomyScore: {
@@ -2468,16 +2477,14 @@ const payload = {
     repositoryHandoffPrepared,
     localActionAvailable: ownerSelectableNow.length > 0,
     heldForExternalInput: ownerSelectableNow.length === 0,
+    heldForExecutionBackoff: immediateRepeatSuppressed,
   },
   ownerDecision: {
     nextBestActionId: nextBestAction.id,
     nextBestAction: nextBestAction.command,
     canExecuteWithoutSpend: nextBestAction.costUsd === 0,
     localActionAvailable: ownerSelectableNow.length > 0,
-    holdReason:
-      ownerSelectableNow.length === 0
-        ? 'All safe local actions are current; remaining progress requires external inputs or new player evidence.'
-        : null,
+    holdReason: ownerHoldReason,
     rationale: nextBestAction.reason,
   },
   executionMemory: {
@@ -2488,7 +2495,7 @@ const payload = {
     lastExecutedStatus: lastExecutedRecord?.execution?.status ?? null,
     lastRecordExecutionStatus: autonomousOperatorHistory.summary?.lastExecutionStatus ?? null,
     recentlySatisfiedActionIds,
-    immediateRepeatSuppressed: ownerSelectableNow.length > 0 && prioritizedExecutableNow.length === 0,
+    immediateRepeatSuppressed,
     objectiveAuditFreshness: {
       fresh: objectiveAuditFresh,
       structurallyReady: objectiveAuditStructurallyReady,
@@ -2528,6 +2535,9 @@ const payload = {
         ? localEventBridge.explicitDownloadsScan?.scannedAt
         : null,
       lastExplicitScanStatus: localEventBridge.explicitDownloadsScan?.status ?? null,
+      nextRecommendedScanAt: gateSampleDownloadsPolicy.nextRecommendedScanAt,
+      scanAgeHours: gateSampleDownloadsPolicy.scanAgeHours,
+      cooldownRemainingHours: gateSampleDownloadsPolicy.cooldownRemainingHours,
       evidenceReadyNow: gateSampleEvidenceReadyNow,
     },
     productGateSamplePlanRefreshPolicy: {

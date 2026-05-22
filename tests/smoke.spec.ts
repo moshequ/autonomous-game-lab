@@ -3758,6 +3758,7 @@ test('autonomous operator history keeps a capped audit trail', async ({ page }) 
     eligibleActionIds: string[]
   }
   const ownerLoop = JSON.parse(await readFile('data/autonomous-owner-loop.json', 'utf8')) as {
+    generatedAt: string
     ownerDecision: {
       nextBestActionId: string
       localActionAvailable: boolean
@@ -3767,6 +3768,7 @@ test('autonomous operator history keeps a capped audit trail', async ({ page }) 
       repositoryHandoffPrepared: boolean
       localActionAvailable: boolean
       heldForExternalInput: boolean
+      heldForExecutionBackoff: boolean
     }
     safeAutonomousActions: Array<{ id: string; status: string; reason?: string }>
     executionMemory: {
@@ -3777,6 +3779,7 @@ test('autonomous operator history keeps a capped audit trail', async ({ page }) 
       lastExecutedStatus: string | null
       lastRecordExecutionStatus: string | null
       recentlySatisfiedActionIds: string[]
+      immediateRepeatSuppressed: boolean
       skippedRecentlyExecutedActionIds: string[]
       skippedRecentlySatisfiedActionIds: string[]
       objectiveAuditFreshness: {
@@ -3859,6 +3862,9 @@ test('autonomous operator history keeps a capped audit trail', async ({ page }) 
         coolingDown: boolean
         lastExplicitScanAt: string | null
         lastExplicitScanStatus: string | null
+        nextRecommendedScanAt: string
+        scanAgeHours: number | null
+        cooldownRemainingHours: number
         evidenceReadyNow: boolean
       }
       localEventCollectionFreshness: {
@@ -3973,6 +3979,10 @@ test('autonomous operator history keeps a capped audit trail', async ({ page }) 
   const hasExecutableAlternativeOutsideCovered = ownerLoop.safeAutonomousActions.some(
     (action) => isLocalSelectableAction(action) && !recentlyCoveredActionIds.has(action.id),
   )
+  const expectedImmediateRepeatSuppressed =
+    localSelectableActions.length > 0 &&
+    localSelectableActions.every((action) => recentlyCoveredActionIds.has(action.id)) &&
+    localSelectableActions.every((action) => action.id === lastExecutedRecord?.selectedActionId)
   const gateSampleEvidenceReadyNow =
     (localEventBridge.gateSampleEvidence?.inbox?.events ?? 0) > 0 ||
     (localEventBridge.gateSampleEvidence?.imported?.events ?? 0) > 0
@@ -3989,6 +3999,24 @@ test('autonomous operator history keeps a capped audit trail', async ({ page }) 
     !gateSampleEvidenceReadyNow
       ? new Date(explicitDownloadsScanAt + 4 * 60 * 60 * 1000).toISOString()
       : productGateSamplePlan.generatedAt
+  const ownerGeneratedAt = Date.parse(ownerLoop.generatedAt ?? '')
+  const ownerDownloadScanAgeMs =
+    Number.isFinite(ownerGeneratedAt) && Number.isFinite(explicitDownloadsScanAt)
+      ? Math.max(0, ownerGeneratedAt - explicitDownloadsScanAt)
+      : null
+  const expectedOwnerDownloadScanAgeHours =
+    typeof ownerDownloadScanAgeMs === 'number'
+      ? Math.round((ownerDownloadScanAgeMs / (60 * 60 * 1000)) * 100) / 100
+      : null
+  const expectedOwnerDownloadScanCooldownRemainingHours = gateSampleDownloadsCoolingDown
+    ? Math.round((Math.max(0, 4 * 60 * 60 * 1000 - (ownerDownloadScanAgeMs ?? 0)) / (60 * 60 * 1000)) * 100) / 100
+    : 0
+  const expectedOwnerDownloadsScanNextRecommendedAt =
+    localEventBridge.explicitDownloadsScan?.evidenceFound === false &&
+    Number.isFinite(explicitDownloadsScanAt) &&
+    !gateSampleEvidenceReadyNow
+      ? new Date(explicitDownloadsScanAt + 4 * 60 * 60 * 1000).toISOString()
+      : ownerLoop.generatedAt
   const samplePlanFreshAfterDownloadsScan =
     Number.isFinite(explicitDownloadsScanAt) &&
     Number.isFinite(Date.parse(productGateSamplePlan.generatedAt ?? '')) &&
@@ -4064,12 +4092,17 @@ test('autonomous operator history keeps a capped audit trail', async ({ page }) 
   expect(ownerLoop.executionMemory.lastRecordExecutionStatus).toBe(history.summary.lastExecutionStatus)
   expect(ownerLoop.controls.localActionAvailable).toBe(localSelectableActions.length > 0)
   expect(ownerLoop.controls.heldForExternalInput).toBe(localSelectableActions.length === 0)
+  expect(ownerLoop.controls.heldForExecutionBackoff).toBe(expectedImmediateRepeatSuppressed)
   expect(ownerLoop.ownerDecision.localActionAvailable).toBe(localSelectableActions.length > 0)
+  expect(ownerLoop.executionMemory.immediateRepeatSuppressed).toBe(expectedImmediateRepeatSuppressed)
   expect(holdForExternalInputAction?.status).toBe('monitor')
   expect(holdForExternalInputAction?.reason).toContain('All safe local refresh actions are current')
   if (localSelectableActions.length === 0) {
     expect(ownerLoop.ownerDecision.nextBestActionId).toBe('hold-for-external-input')
     expect(ownerLoop.ownerDecision.holdReason).toContain('All safe local actions are current')
+  } else if (expectedImmediateRepeatSuppressed) {
+    expect(ownerLoop.ownerDecision.nextBestActionId).toBe('hold-for-external-input')
+    expect(ownerLoop.ownerDecision.holdReason).toContain('recently executed or covered')
   } else {
     expect(ownerLoop.ownerDecision.holdReason).toBeNull()
   }
@@ -4081,6 +4114,15 @@ test('autonomous operator history keeps a capped audit trail', async ({ page }) 
   )
   expect(ownerLoop.executionMemory.gateSampleDownloadsBackoff.lastExplicitScanStatus).toBe(
     localEventBridge.explicitDownloadsScan?.status ?? null,
+  )
+  expect(ownerLoop.executionMemory.gateSampleDownloadsBackoff.nextRecommendedScanAt).toBe(
+    expectedOwnerDownloadsScanNextRecommendedAt,
+  )
+  expect(ownerLoop.executionMemory.gateSampleDownloadsBackoff.scanAgeHours).toBe(
+    expectedOwnerDownloadScanAgeHours,
+  )
+  expect(ownerLoop.executionMemory.gateSampleDownloadsBackoff.cooldownRemainingHours).toBe(
+    expectedOwnerDownloadScanCooldownRemainingHours,
   )
   expect(ownerLoop.executionMemory.gateSampleDownloadsBackoff.evidenceReadyNow).toBe(gateSampleEvidenceReadyNow)
   expect(productGateSamplePlan.downloadsScan.cooldownHours).toBe(4)

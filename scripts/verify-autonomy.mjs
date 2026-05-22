@@ -6183,6 +6183,10 @@ const ownerRecentlySatisfiedExecutableActionIds = ownerRecentlySatisfiedActionId
 const ownerHasExecutableAlternativeOutsideCovered = (autonomousOwnerLoop.safeAutonomousActions ?? []).some(
   (action) => ownerActionLocallySelectable(action) && !ownerRecentlyCoveredActionIds.has(action.id),
 )
+const ownerExpectedImmediateRepeatSuppressed =
+  ownerLocalSelectableActions.length > 0 &&
+  ownerLocalSelectableActions.every((action) => ownerRecentlyCoveredActionIds.has(action.id)) &&
+  ownerLocalSelectableActions.every((action) => action.id === ownerLastExecutedActionId)
 const ownerGateSampleBackoff = autonomousOwnerLoop.executionMemory?.gateSampleDownloadsBackoff
 const ownerGateSampleEvidenceReadyNow =
   (localEventBridge.gateSampleEvidence?.inbox?.events ?? 0) > 0 ||
@@ -6192,6 +6196,7 @@ const ownerGateSampleDownloadsExpiryBufferMs = 60 * 1000
 const ownerGateSampleDownloadsPolicy = buildExplicitDownloadsScanPolicy({
   explicitDownloadsScan: localEventBridge.explicitDownloadsScan,
   gateSampleEvidence: localEventBridge.gateSampleEvidence,
+  generatedAt: autonomousOwnerLoop.generatedAt,
   cooldownHours: ownerGateSampleDownloadsBackoffHours,
   expiryBufferMs: ownerGateSampleDownloadsExpiryBufferMs,
 })
@@ -6594,11 +6599,18 @@ if (
   autonomousOwnerLoop.controls?.deployAllowed !== productionResponse.controls?.deployAllowed ||
   autonomousOwnerLoop.controls?.localActionAvailable !== (ownerLocalSelectableActions.length > 0) ||
   autonomousOwnerLoop.controls?.heldForExternalInput !== (ownerLocalSelectableActions.length === 0) ||
+  autonomousOwnerLoop.controls?.heldForExecutionBackoff !== ownerExpectedImmediateRepeatSuppressed ||
   autonomousOwnerLoop.ownerDecision?.localActionAvailable !== (ownerLocalSelectableActions.length > 0) ||
   (ownerLocalSelectableActions.length === 0 &&
     autonomousOwnerLoop.ownerDecision?.nextBestActionId !== 'hold-for-external-input') ||
   (ownerLocalSelectableActions.length === 0 && typeof autonomousOwnerLoop.ownerDecision?.holdReason !== 'string') ||
-  (ownerLocalSelectableActions.length > 0 && autonomousOwnerLoop.ownerDecision?.holdReason !== null) ||
+  (ownerExpectedImmediateRepeatSuppressed &&
+    autonomousOwnerLoop.ownerDecision?.nextBestActionId !== 'hold-for-external-input') ||
+  (ownerExpectedImmediateRepeatSuppressed &&
+    !autonomousOwnerLoop.ownerDecision?.holdReason?.includes('recently executed or covered')) ||
+  (ownerLocalSelectableActions.length > 0 &&
+    !ownerExpectedImmediateRepeatSuppressed &&
+    autonomousOwnerLoop.ownerDecision?.holdReason !== null) ||
   autonomousOwnerLoop.evidence?.analyticsSource !== analytics.sourceStatus.activeSource ||
   autonomousOwnerLoop.evidence?.localEventBridgeStatus !== localEventBridge.status ||
   autonomousOwnerLoop.evidence?.dailyChallenge?.gameId !== portfolioPolicy.dailyChallenge?.gameId ||
@@ -6643,12 +6655,16 @@ if (
   autonomousOwnerLoop.executionMemory?.lastExecutedActionId !== ownerLastExecutedActionId ||
   autonomousOwnerLoop.executionMemory?.lastExecutedStatus !== ownerLastExecutedStatus ||
   autonomousOwnerLoop.executionMemory?.lastRecordExecutionStatus !== ownerLastRecordExecutionStatus ||
+  autonomousOwnerLoop.executionMemory?.immediateRepeatSuppressed !== ownerExpectedImmediateRepeatSuppressed ||
   ownerGateSampleBackoff?.enabled !== true ||
   ownerGateSampleBackoff?.cooldownHours !== ownerGateSampleDownloadsBackoffHours ||
   ownerGateSampleBackoff?.coolingDown !== ownerGateSampleDownloadsCoolingDown ||
   ownerGateSampleBackoff?.lastExplicitScanAt !==
     (Number.isFinite(ownerExplicitDownloadsScanAt) ? localEventBridge.explicitDownloadsScan?.scannedAt : null) ||
   ownerGateSampleBackoff?.lastExplicitScanStatus !== (localEventBridge.explicitDownloadsScan?.status ?? null) ||
+  ownerGateSampleBackoff?.nextRecommendedScanAt !== ownerGateSampleDownloadsPolicy.nextRecommendedScanAt ||
+  ownerGateSampleBackoff?.scanAgeHours !== ownerGateSampleDownloadsPolicy.scanAgeHours ||
+  ownerGateSampleBackoff?.cooldownRemainingHours !== ownerGateSampleDownloadsPolicy.cooldownRemainingHours ||
   ownerGateSampleBackoff?.evidenceReadyNow !== ownerGateSampleEvidenceReadyNow ||
   !autonomousOwnerLoopSource.includes('gateSampleDownloadsBackoff') ||
   !autonomousOwnerLoopSource.includes('productionActivationRunnable') ||
