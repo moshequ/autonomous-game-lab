@@ -1,5 +1,5 @@
 export const productGateSamplePlan = {
-  "generatedAt": "2026-05-22T10:02:28.048Z",
+  "generatedAt": "2026-05-22T10:11:37.469Z",
   "sourceDataHash": "9751574aad9e",
   "status": "product-gate-sample-plan-ready",
   "sourceStatus": {
@@ -38,8 +38,8 @@ export const productGateSamplePlan = {
     "evidenceReadyNow": false,
     "lastScanAt": "2026-05-22T09:51:49.946Z",
     "lastScanStatus": "no-evidence-found",
-    "scanAgeHours": 0.18,
-    "cooldownRemainingHours": 3.82,
+    "scanAgeHours": 0.33,
+    "cooldownRemainingHours": 3.67,
     "nextRecommendedScanAt": "2026-05-22T13:51:49.946Z"
   },
   "publicSamplePage": {
