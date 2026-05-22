@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-22T04:35:14.409Z",
+  "generatedAt": "2026-05-22T04:41:25.500Z",
   "status": "operator-plan-ready",
   "mode": "plan-only",
   "ownerDecision": {
@@ -24,12 +24,10 @@
   },
   "selectedRejection": null,
   "eligibleActionIds": [
-    "refresh-autonomous-self-update",
     "seed-portfolio-traffic",
     "refresh-first-move-coach",
     "refresh-completion-loop",
     "refresh-replay-loop",
-    "prepare-repository-channel",
     "apply-safe-improvements"
   ],
   "blockedActions": [
@@ -53,9 +51,9 @@
     },
     {
       "id": "refresh-autonomous-self-update",
-      "status": "armed",
+      "status": "monitor",
       "command": "npm run autonomous:self-update",
-      "reason": "not-selected-this-run"
+      "reason": "status-monitor"
     },
     {
       "id": "refresh-organic-seed-loop",
@@ -155,9 +153,9 @@
     },
     {
       "id": "prepare-repository-channel",
-      "status": "armed",
+      "status": "monitor",
       "command": "npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap",
-      "reason": "not-selected-this-run"
+      "reason": "status-monitor"
     },
     {
       "id": "bootstrap-production-setup",
@@ -221,9 +219,9 @@
     },
     {
       "id": "deploy-web-pwa",
-      "status": "blocked-needs-repository-channel",
+      "status": "ready-when-repository-pages-enabled",
       "command": "Run the Web PWA Deploy workflow after GitHub Pages is enabled for the repository.",
-      "reason": "status-blocked-needs-repository-channel"
+      "reason": "status-ready-when-repository-pages-enabled"
     },
     {
       "id": "collect-live-events",

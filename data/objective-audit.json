@@ -1,30 +1,28 @@
 {
-  "generatedAt": "2026-05-22T04:35:13.151Z",
+  "generatedAt": "2026-05-22T04:41:24.865Z",
   "status": "objective-in-progress",
   "objective": "Build a bootstrapped autonomous web/PWA game portal that can generate original board-game-inspired games, measure user behavior, propose and apply data-driven improvements, and prepare a path to monetization and app-store distribution with minimal manual intervention.",
   "summary": {
     "requirements": 8,
-    "met": 4,
+    "met": 6,
     "prepared": 2,
-    "incomplete": 2,
+    "incomplete": 0,
     "externalBlockers": 16,
     "productBlockers": 7
   },
   "requirements": [
     {
       "id": "web-pwa-game-portal",
-      "status": "incomplete",
+      "status": "met",
       "summary": "A playable web/PWA portal exists and passes the production web readiness gate.",
       "evidence": [
-        "Web readiness: blocked",
+        "Web readiness: ready-after-build",
         "Manifest in dist: true",
         "Service worker in dist: true",
         "Release candidate: release-candidate-ready; 49 files",
-        "Deployment plan: blocked"
+        "Deployment plan: ready-for-pages"
       ],
-      "blockers": [
-        "Autonomous self-update is self-update-needs-attention; safe pending 87; unsafe pending 8; remote push held."
-      ],
+      "blockers": [],
       "nextAction": "Connect a free static host or GitHub Pages environment, then publish dist.",
       "completionCritical": true
     },
@@ -86,12 +84,12 @@
     },
     {
       "id": "minimal-intervention-autonomy",
-      "status": "incomplete",
+      "status": "met-local",
       "summary": "A scheduled local loop, owner state, bootstrap handoff, and dry-run operator reduce manual maintenance.",
       "evidence": [
         "Owner loop: owner-loop-ready",
         "Autonomous cadence: cadence-ready; Codex active-confirmed; GitHub scheduled",
-        "Autonomous self-update: self-update-needs-attention; workflow .github/workflows/autonomous-self-update.yml; unsafe pending 8",
+        "Autonomous self-update: self-update-ready; workflow .github/workflows/autonomous-self-update.yml; unsafe pending 0",
         "Operator: operator-plan-ready",
         "Operator history: operator-history-ready; records 40; executed 1",
         "Bootstrap: production-bootstrap-ready",
@@ -101,13 +99,11 @@
         "Post-deploy smoke: post-deploy-smoke-observed-live; origin https://moshequ.github.io/autonomous-game-lab; checks 19/19; local artifact predeploy-artifact-smoke-passed 19/19",
         "Strict deploy artifact sync: post-deploy-artifact-sync-passed; run 26268171956; live matches artifact true; candidate pwa-ff506f5ef89a",
         "Live site monitor: live-site-monitor-passed; checks 19/19; live matches synced deploy true",
-        "Repository channel: waiting-for-repository-channel; repository moshequ/autonomous-game-lab; git worktree true",
-        "Autonomy score: 91%",
+        "Repository channel: repository-channel-ready; repository moshequ/autonomous-game-lab; git worktree true",
+        "Autonomy score: 98%",
         "Credential-gated actions: 12"
       ],
       "blockers": [
-        "safe-path-allowlist: 87 safe pending file(s), 8 unsafe pending file(s).",
-        "Refresh build, release candidate, post-deploy smoke, and deployment plan artifacts.",
         "AGL_SUPPORT_EMAIL: Production support contact for privacy and store listings.",
         "VITE_POSTHOG_KEY: Optional browser-side PostHog analytics forwarding.",
         "POSTHOG_PROJECT_ID + POSTHOG_PERSONAL_API_KEY: Optional autonomous production analytics and experiment result rollups from PostHog.",
@@ -222,7 +218,6 @@
       "annual-fee-payback: Store spend allowed is false; projected Apple payback is not available."
     ],
     "all": [
-      "Refresh build, release candidate, post-deploy smoke, and deployment plan artifacts.",
       "Set AGL_SUPPORT_EMAIL to a real support inbox before public store submission.",
       "Set VITE_EVENT_COLLECTOR_URL or VITE_POSTHOG_KEY to forward browser analytics in production.",
       "Set AGL_EVENT_COLLECTOR_EXPORT_URL + AGL_EVENT_COLLECTOR_ADMIN_TOKEN or PostHog server credentials for autonomous production rollups.",
@@ -255,9 +250,9 @@
     "noRevenueEnablementUntilGatesPass": true,
     "noStoreSubmissionUntilExternalAccounts": true,
     "currentWorktreeClean": false,
-    "currentWorktreeDirtyFiles": 104,
+    "currentWorktreeDirtyFiles": 45,
     "productionBootstrapFresh": true,
-    "productionBootstrapSourceDataHash": "10f120f6fad5",
+    "productionBootstrapSourceDataHash": "604b05e687f7",
     "productionBootstrapStaleInputIds": [],
     "objectiveNextBestActionSource": "owner-loop"
   },

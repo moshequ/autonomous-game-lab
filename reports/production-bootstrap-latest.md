@@ -1,10 +1,10 @@
 # Production Bootstrap
 
-Generated: 2026-05-22T04:35:10.831Z
+Generated: 2026-05-22T04:41:22.998Z
 Status: production-bootstrap-ready
 Mode: can-apply-configured-actions
 GitHub repository: moshequ/autonomous-game-lab
-Repository channel: waiting-for-repository-channel
+Repository channel: repository-channel-ready
 gh CLI available: true
 
 ## Local Env Files
@@ -16,10 +16,10 @@ gh CLI available: true
 
 ## Setup Groups
 
-- waiting-for-repository-channel: repository-channel; auto-run no; Repository moshequ/autonomous-game-lab; git worktree ready; workflow dispatch blocked.
+- repository-channel-ready: repository-channel; auto-run no; Repository moshequ/autonomous-game-lab; git worktree ready; workflow dispatch ready.
 - repository-bootstrap-ready: repository-bootstrap; auto-run no; Repository bootstrap repository-bootstrap-ready; helper ops/github/bootstrap-repository.sh; local git ready.
 - waiting-for-origin-support: production-environment; auto-run no; Environment production-env-missing; public origin configured; support missing-production-address.
-- blocked: github-pages-hosting; auto-run no; Deployment plan is blocked; Pages workflow is .github/workflows/web-pwa-deploy.yml.
+- ready-for-actions-pages: github-pages-hosting; auto-run yes; Deployment plan is ready-for-pages; Pages workflow is .github/workflows/web-pwa-deploy.yml.
 - ready-to-sync: github-pages-settings; auto-run yes; GitHub CLI can configure Pages to use the Actions workflow source.
 - waiting-for-self-update-gate: autonomous-self-update; auto-run no; Self-update gate missing; direct push held.
 - partially-configured: github-actions-variables; auto-run yes; 6/24 repository variable value(s) present in this environment.
@@ -80,8 +80,6 @@ gh CLI available: true
 
 ## External Blockers
 
-- repository-readiness: Refresh build, release candidate, post-deploy smoke, and deployment plan artifacts.
-- repository-bootstrap: Commit current generated changes before pushing to GitHub Pages.
 - production-environment: Set AGL_SUPPORT_EMAIL to a real support inbox before public store submission.
 - production-environment: Set VITE_EVENT_COLLECTOR_URL or VITE_POSTHOG_KEY to forward browser analytics in production.
 - production-environment: Set AGL_EVENT_COLLECTOR_EXPORT_URL + AGL_EVENT_COLLECTOR_ADMIN_TOKEN or PostHog server credentials for autonomous production rollups.
@@ -92,3 +90,5 @@ gh CLI available: true
 - store-compliance: support-contact: Production support email is required before public store submission.
 - store-compliance: google-play-account: Google Play developer account must be connected before Android submission.
 - store-compliance: apple-developer-account: Apple Developer account remains deferred until iOS spend is justified.
+- android-release: native-package-ready: Native package is blocked-draft-ready.
+- android-release: asset-links: Digital Asset Links are domain-verification-blocked; Android requires https://moshequ.github.io/.well-known/assetlinks.json and current artifact publishes https://moshequ.github.io/autonomous-game-lab/.well-known/assetlinks.json.
