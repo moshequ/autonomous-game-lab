@@ -62,6 +62,7 @@ const requiredFiles = [
   'data/objective-audit.json',
   'data/autonomous-owner-loop.json',
   'data/production-environment.json',
+  'data/public-repo-security-audit.json',
   'data/support-channel.json',
   'data/support-feedback.json',
   'data/icon-assets.json',
@@ -115,6 +116,7 @@ const requiredFiles = [
   'src/data/autonomousSelfUpdate.ts',
   'src/data/objectiveAudit.ts',
   'src/data/liveSiteMonitor.ts',
+  'src/data/publicRepoSecurityAudit.ts',
   'src/data/supportChannel.ts',
   'src/data/supportFeedback.ts',
   'src/data/localEventBridge.ts',
@@ -178,6 +180,7 @@ const requiredFiles = [
   'reports/live-site-monitor-latest.md',
   'reports/autonomous-owner-loop-latest.md',
   'reports/production-environment-latest.md',
+  'reports/public-repo-security-audit-latest.md',
   'reports/support-channel-latest.md',
   'reports/support-feedback-latest.md',
   'reports/icon-assets-latest.md',
@@ -215,6 +218,7 @@ const requiredFiles = [
   'scripts/lib/env-loader.mjs',
   'scripts/repository-readiness.mjs',
   'scripts/repository-bootstrap.mjs',
+  'scripts/public-repo-security-audit.mjs',
   'scripts/support-channel.mjs',
   'scripts/support-feedback-ingestor.mjs',
   'scripts/production-activation.mjs',
@@ -343,6 +347,9 @@ const autonomousOwnerLoop = JSON.parse(
   await readFile(path.join(root, 'data', 'autonomous-owner-loop.json'), 'utf8'),
 )
 const productionEnvironment = JSON.parse(await readFile(path.join(root, 'data', 'production-environment.json'), 'utf8'))
+const publicRepoSecurityAudit = JSON.parse(
+  await readFile(path.join(root, 'data', 'public-repo-security-audit.json'), 'utf8'),
+)
 const supportChannel = JSON.parse(await readFile(path.join(root, 'data', 'support-channel.json'), 'utf8'))
 const supportFeedback = JSON.parse(await readFile(path.join(root, 'data', 'support-feedback.json'), 'utf8'))
 const iconAssets = JSON.parse(await readFile(path.join(root, 'data', 'icon-assets.json'), 'utf8'))
@@ -451,6 +458,10 @@ const postDeployArtifactSyncSource = await readFile(
 const liveSiteMonitorSource = await readFile(path.join(root, 'scripts', 'live-site-monitor.mjs'), 'utf8')
 const repositoryReadinessSource = await readFile(path.join(root, 'scripts', 'repository-readiness.mjs'), 'utf8')
 const repositoryBootstrapSource = await readFile(path.join(root, 'scripts', 'repository-bootstrap.mjs'), 'utf8')
+const publicRepoSecurityAuditSource = await readFile(
+  path.join(root, 'scripts', 'public-repo-security-audit.mjs'),
+  'utf8',
+)
 const portfolioPolicySource = await readFile(path.join(root, 'scripts', 'portfolio-policy.mjs'), 'utf8')
 const retentionLoopSource = await readFile(path.join(root, 'scripts', 'retention-loop.mjs'), 'utf8')
 const pwaInstallLoopSource = await readFile(path.join(root, 'scripts', 'pwa-install-loop.mjs'), 'utf8')
@@ -515,6 +526,58 @@ const corePlayableIds = new Set([
   'foundry-ledger',
   'orbit-atlas',
 ])
+const publicRepoSecurityScript = packageJson.scripts?.['autonomous:security-audit'] ?? ''
+const publicRepoSecuritySummary = publicRepoSecurityAudit.summary ?? {}
+const publicRepoSecurityControls = publicRepoSecurityAudit.controls ?? {}
+const publicRepoSecurityWorkflow = publicRepoSecurityAudit.publicEvidenceIntakeWorkflow ?? {}
+
+if (
+  publicRepoSecurityAudit.status !== 'public-repo-security-ready' ||
+  publicRepoSecurityAudit.repository?.visibility !== 'PUBLIC' ||
+  publicRepoSecurityAudit.repository?.isPublic !== true ||
+  publicRepoSecuritySummary.highConfidenceSecretFindings !== 0 ||
+  publicRepoSecuritySummary.trackedSensitiveFiles !== 0 ||
+  publicRepoSecuritySummary.publicWorkflowRisks !== 0 ||
+  publicRepoSecuritySummary.guardedPublicIssueSecrets !==
+    (publicRepoSecurityWorkflow.expectedGuardedSecrets?.length ?? -1) ||
+  publicRepoSecurityControls.zeroPaidSpend !== true ||
+  publicRepoSecurityControls.readOnlyGitInspection !== true ||
+  publicRepoSecurityControls.noSecretValuesStored !== true ||
+  publicRepoSecurityControls.highConfidencePatternsOnly !== true ||
+  publicRepoSecurityControls.generatedReportRedactsSamples !== true ||
+  publicRepoSecurityControls.rawPlayerEventDropsMustStayUntracked !== true ||
+  publicRepoSecurityControls.publicIssueTriggerSecretsBlocked !== true ||
+  publicRepoSecurityControls.publicIssueTriggerCommitsBlocked !== true ||
+  publicRepoSecurityControls.publicIssueWorkflowReadOnly !== true ||
+  publicRepoSecurityControls.scheduledWriteJobIsolated !== true ||
+  publicRepoSecurityWorkflow.topLevelReadOnlyPermissions !== true ||
+  publicRepoSecurityWorkflow.publicIssueCommitJobExcluded !== true ||
+  publicRepoSecurityWorkflow.scheduledWriteJobIsolated !== true ||
+  !Array.isArray(publicRepoSecurityAudit.findings?.highConfidenceSecrets) ||
+  !Array.isArray(publicRepoSecurityAudit.findings?.trackedSensitiveFiles) ||
+  !Array.isArray(publicRepoSecurityAudit.findings?.publicWorkflowRisks) ||
+  publicRepoSecurityScript !== 'node scripts/public-repo-security-audit.mjs' ||
+  !packageJson.scripts?.['autonomous:readiness']?.includes('autonomous:security-audit') ||
+  !packageJson.scripts?.['autonomous:public-evidence-intake']?.includes('autonomous:security-audit') ||
+  !packageJson.scripts?.['autonomous:production-input-watch']?.includes('autonomous:security-audit') ||
+  !packageJson.scripts?.['autonomous:post-deploy-readiness-sync']?.includes('autonomous:security-audit') ||
+  !packageJson.scripts?.['autonomous:daily']?.includes('autonomous:security-audit') ||
+  !packageJson.scripts?.['test:automation']?.includes('autonomous:security-audit') ||
+  !publicEvidenceIntakeWorkflow.includes('data/public-repo-security-audit.json') ||
+  !publicEvidenceIntakeWorkflow.includes('src/data/publicRepoSecurityAudit.ts') ||
+  !publicEvidenceIntakeWorkflow.includes('reports/public-repo-security-audit-latest.md') ||
+  !postDeployEvidenceSyncWorkflow.includes('data/public-repo-security-audit.json') ||
+  !postDeployEvidenceSyncWorkflow.includes('src/data/publicRepoSecurityAudit.ts') ||
+  !postDeployEvidenceSyncWorkflow.includes('reports/public-repo-security-audit-latest.md') ||
+  !publicRepoSecurityAuditSource.includes("run('git', ['ls-files', '-z'])") ||
+  !publicRepoSecurityAuditSource.includes('knownSecretReferenceNames') ||
+  !publicRepoSecurityAuditSource.includes('rawPlayerEventDropsMustStayUntracked') ||
+  !publicRepoSecurityAuditSource.includes('publicIssueTriggerSecretsBlocked') ||
+  !appSource.includes('Public Repo Security') ||
+  !appSource.includes('secretless-readonly')
+) {
+  fail('Public repository security audit must prove the public repo has no tracked secret findings and that public issue-triggered workflows remain read-only, secretless, and commit-blocked.')
+}
 
 if (
   !['support-channel-ready', 'support-channel-planned', 'support-channel-blocked'].includes(supportChannel.status) ||

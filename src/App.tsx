@@ -48,6 +48,7 @@ import { productionMeasurementStatus } from './data/productionMeasurementStatus'
 import { productionBootstrap } from './data/productionBootstrap'
 import { productionBlockerHandoff } from './data/productionBlockerHandoff'
 import { productionActivation } from './data/productionActivation'
+import { publicRepoSecurityAudit } from './data/publicRepoSecurityAudit'
 import { autonomousOperator } from './data/autonomousOperator'
 import { autonomousOperatorHistory } from './data/autonomousOperatorHistory'
 import { objectiveAudit } from './data/objectiveAudit'
@@ -3403,6 +3404,37 @@ function App() {
                 <div>
                   <span>Top signal</span>
                   <strong>{supportFeedbackTopSignal?.label ?? 'collecting'}</strong>
+                </div>
+              </div>
+              <div className="monetizationRuntime" aria-label="Public Repo Security">
+                <div>
+                  <span>Public Repo Security</span>
+                  <strong>{publicRepoSecurityAudit.status}</strong>
+                </div>
+                <div>
+                  <span>Visibility</span>
+                  <strong>{publicRepoSecurityAudit.repository.visibility}</strong>
+                </div>
+                <div>
+                  <span>Secret findings</span>
+                  <strong>{publicRepoSecurityAudit.summary.highConfidenceSecretFindings}</strong>
+                </div>
+                <div>
+                  <span>Sensitive files</span>
+                  <strong>{publicRepoSecurityAudit.summary.trackedSensitiveFiles}</strong>
+                </div>
+                <div>
+                  <span>Workflow risks</span>
+                  <strong>{publicRepoSecurityAudit.summary.publicWorkflowRisks}</strong>
+                </div>
+                <div>
+                  <span>Issue trigger</span>
+                  <strong>
+                    {publicRepoSecurityAudit.controls.publicIssueTriggerSecretsBlocked &&
+                    publicRepoSecurityAudit.controls.publicIssueWorkflowReadOnly
+                      ? 'secretless-readonly'
+                      : 'review'}
+                  </strong>
                 </div>
               </div>
               <div className="monetizationRuntime" aria-label="Production Measurement">

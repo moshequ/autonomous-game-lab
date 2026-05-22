@@ -73,6 +73,11 @@ const freshnessRequiredArtifacts = [
     path: 'data/repository-bootstrap.json',
   },
   {
+    id: 'public-repo-security',
+    label: 'Public repository security audit',
+    path: 'data/public-repo-security-audit.json',
+  },
+  {
     id: 'production-bootstrap',
     label: 'Production bootstrap',
     path: 'data/production-bootstrap.json',
@@ -358,6 +363,12 @@ const repositoryReadiness = await readOptionalJson(path.join(dataDir, 'repositor
   workspace: {},
   repository: {},
 })
+const publicRepoSecurityAudit = await readOptionalJson(path.join(dataDir, 'public-repo-security-audit.json'), {
+  status: 'missing',
+  repository: {},
+  summary: {},
+  controls: {},
+})
 const ownerLoop = await readOptionalJson(path.join(dataDir, 'autonomous-owner-loop.json'), {
   status: 'missing',
   ownerDecision: {},
@@ -410,6 +421,7 @@ const operateScript = script('autonomous:operate')
 const afterActionScript = script('autonomous:after-action')
 const cadenceScript = script('autonomous:cadence')
 const selfUpdateScript = script('autonomous:self-update')
+const securityAuditScript = script('autonomous:security-audit')
 const gateRecoveryScript = script('autonomous:gate-recovery')
 const testAutomationScript = script('test:automation')
 const testE2eScript = script('test:e2e')
@@ -571,6 +583,31 @@ const checks = [
     detail: `autonomous:self-update is ${selfUpdateScript || 'missing'}.`,
   },
   {
+    id: 'public-repo-security-audit',
+    status:
+      securityAuditScript.includes('public-repo-security-audit') &&
+      publicRepoSecurityAudit.status === 'public-repo-security-ready' &&
+      publicRepoSecurityAudit.repository?.isPublic === true &&
+      publicRepoSecurityAudit.summary?.highConfidenceSecretFindings === 0 &&
+      publicRepoSecurityAudit.summary?.trackedSensitiveFiles === 0 &&
+      publicRepoSecurityAudit.summary?.publicWorkflowRisks === 0 &&
+      publicRepoSecurityAudit.controls?.publicIssueTriggerSecretsBlocked === true &&
+      publicRepoSecurityAudit.controls?.publicIssueTriggerCommitsBlocked === true &&
+      publicRepoSecurityAudit.controls?.publicIssueWorkflowReadOnly === true &&
+      publicRepoSecurityAudit.controls?.scheduledWriteJobIsolated === true &&
+      dailyScript.includes('autonomous:security-audit') &&
+      testAutomationScript.includes('autonomous:security-audit') &&
+      publicEvidenceIntakeScript.includes('autonomous:security-audit') &&
+      productionInputWatchScript.includes('autonomous:security-audit') &&
+      postDeployReadinessSyncScript.includes('autonomous:security-audit')
+        ? 'pass'
+        : 'blocker',
+    detail:
+      publicRepoSecurityAudit.status === 'public-repo-security-ready'
+        ? `Public repo security audit is ready for ${publicRepoSecurityAudit.repository?.target ?? 'repository'} with ${publicRepoSecurityAudit.summary?.publicWorkflowRisks ?? 'unknown'} workflow risks.`
+        : `Public repo security audit is ${publicRepoSecurityAudit.status ?? 'missing'}.`,
+  },
+  {
     id: 'gate-recovery-script',
     status: gateRecoveryScript.includes('product-gate-recovery') ? 'pass' : 'blocker',
     detail: `autonomous:gate-recovery is ${gateRecoveryScript || 'missing'}.`,
@@ -580,6 +617,7 @@ const checks = [
     status:
       dailyScript.includes('autonomous:trend') &&
       dailyScript.includes('autonomous:gate-recovery') &&
+      dailyScript.includes('autonomous:security-audit') &&
       dailyScript.includes('autonomous:cadence') &&
       dailyScript.includes('autonomous:self-update') &&
       dailyScript.includes('autonomous:objective-audit') &&
@@ -592,6 +630,7 @@ const checks = [
     id: 'automation-verifier',
     status:
       testAutomationScript.includes('event-collector-smoke') &&
+      testAutomationScript.includes('autonomous:security-audit') &&
       testAutomationScript.includes('event-ingest-smoke') &&
       testAutomationScript.includes('autonomous:release-candidate') &&
       testAutomationScript.includes('autonomous:repo-readiness') &&
@@ -972,6 +1011,7 @@ const payload = {
       followedByDeployWorkflow: '.github/workflows/web-pwa-deploy.yml',
       publicIssueTriggerSecretsBlocked: true,
       publicIssueTriggerCommitsBlocked: true,
+      publicRepoSecurityAudit: publicRepoSecurityAudit.status,
     },
     githubPostDeployEvidenceSync: {
       status:
@@ -1027,6 +1067,7 @@ const payload = {
     selfUpdateWorkflowWritePermissionGated: true,
     productionInputWatchWritePermissionGated: true,
     publicEvidenceIntakeWritePermissionGated: true,
+    publicRepoSecurityAuditBlocksPublicRisk: true,
     postDeployEvidenceSyncWritePermissionGated: true,
     selfUpdateStagesAllowlistedGeneratedFilesOnly: true,
   },

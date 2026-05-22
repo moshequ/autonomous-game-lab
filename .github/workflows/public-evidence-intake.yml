@@ -98,6 +98,9 @@ jobs:
             data/support-feedback.json
             src/data/supportFeedback.ts
             reports/support-feedback-latest.md
+            data/public-repo-security-audit.json
+            src/data/publicRepoSecurityAudit.ts
+            reports/public-repo-security-audit-latest.md
             data/improvement-backlog.json
             data/improvement-backlog-summary.json
             data/improvement-routing.json
@@ -201,6 +204,9 @@ jobs:
             data/support-feedback.json \
             src/data/supportFeedback.ts \
             reports/support-feedback-latest.md \
+            data/public-repo-security-audit.json \
+            src/data/publicRepoSecurityAudit.ts \
+            reports/public-repo-security-audit-latest.md \
             data/improvement-backlog.json \
             data/improvement-backlog-summary.json \
             data/improvement-routing.json \

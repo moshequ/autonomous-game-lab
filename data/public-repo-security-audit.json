@@ -1,0 +1,74 @@
+{
+  "generatedAt": "2026-05-22T17:28:34.446Z",
+  "status": "public-repo-security-ready",
+  "repository": {
+    "target": "moshequ/autonomous-game-lab",
+    "visibility": "PUBLIC",
+    "isPrivate": false,
+    "isPublic": true,
+    "url": "https://github.com/moshequ/autonomous-game-lab",
+    "source": "gh-repo-view"
+  },
+  "summary": {
+    "trackedFilesScanned": 393,
+    "skippedLargeFiles": 0,
+    "highConfidenceSecretFindings": 0,
+    "trackedSensitiveFiles": 0,
+    "publicWorkflowRisks": 0,
+    "secretReferenceNames": 6,
+    "guardedPublicIssueSecrets": 6
+  },
+  "controls": {
+    "zeroPaidSpend": true,
+    "readOnlyGitInspection": true,
+    "noSecretValuesStored": true,
+    "highConfidencePatternsOnly": true,
+    "generatedReportRedactsSamples": true,
+    "rawPlayerEventDropsMustStayUntracked": true,
+    "publicIssueTriggerSecretsBlocked": true,
+    "publicIssueTriggerCommitsBlocked": true,
+    "publicIssueWorkflowReadOnly": true,
+    "scheduledWriteJobIsolated": true
+  },
+  "publicEvidenceIntakeWorkflow": {
+    "path": ".github/workflows/public-evidence-intake.yml",
+    "topLevelReadOnlyPermissions": true,
+    "publicIssueCommitJobExcluded": true,
+    "scheduledWriteJobIsolated": true,
+    "guardedSecrets": [
+      "AGL_ANDROID_KEYSTORE_PASSWORD",
+      "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
+      "CLOUDFLARE_API_TOKEN",
+      "GOOGLE_PLAY_SERVICE_ACCOUNT_JSON",
+      "POSTHOG_PERSONAL_API_KEY",
+      "VITE_EVENT_COLLECTOR_WRITE_TOKEN"
+    ],
+    "expectedGuardedSecrets": [
+      "AGL_ANDROID_KEYSTORE_PASSWORD",
+      "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
+      "CLOUDFLARE_API_TOKEN",
+      "GOOGLE_PLAY_SERVICE_ACCOUNT_JSON",
+      "POSTHOG_PERSONAL_API_KEY",
+      "VITE_EVENT_COLLECTOR_WRITE_TOKEN"
+    ]
+  },
+  "findings": {
+    "highConfidenceSecrets": [],
+    "trackedSensitiveFiles": [],
+    "publicWorkflowRisks": [],
+    "skippedLargeFiles": [],
+    "secretReferenceNames": [
+      "AGL_ANDROID_KEYSTORE_PASSWORD",
+      "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
+      "CLOUDFLARE_API_TOKEN",
+      "GOOGLE_PLAY_SERVICE_ACCOUNT_JSON",
+      "POSTHOG_PERSONAL_API_KEY",
+      "VITE_EVENT_COLLECTOR_WRITE_TOKEN"
+    ]
+  },
+  "nextActions": [
+    "Keep the public issue-triggered intake read-only and secretless.",
+    "Run this audit before autonomous cadence and production readiness evidence is trusted.",
+    "Rotate any credential immediately if a future high-confidence secret finding appears."
+  ]
+}

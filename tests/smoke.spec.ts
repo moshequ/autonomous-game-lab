@@ -182,6 +182,8 @@ test('portal loads a playable canvas and autonomy cockpit', async ({ page }) => 
   await expect(page.getByLabel('Support Channel')).toContainText('github-issues')
   await expect(page.getByLabel('Support Feedback')).toContainText(/support-feedback-ready|support-feedback-empty|support-feedback-planned/)
   await expect(page.getByLabel('Support Feedback')).toContainText('Issues inspected')
+  await expect(page.getByLabel('Public Repo Security')).toContainText('public-repo-security-ready')
+  await expect(page.getByLabel('Public Repo Security')).toContainText('secretless-readonly')
   await expect(page.getByLabel('Repository Channel')).toContainText(/blocked-no-local-git|waiting-for-gh-auth|repository-channel-ready|waiting-for-github-repository|waiting-for-repository-channel/)
   await expect(page.getByLabel('Repository Channel')).toContainText('Workflow dispatch')
   await expect(page.getByLabel('Repository Bootstrap')).toContainText(/needs-local-git-bootstrap|waiting-for-github-target|waiting-for-origin-remote|waiting-for-gh-auth|repository-bootstrap-ready/)
@@ -4378,6 +4380,7 @@ test('autonomous cadence keeps unattended operation auditable and guarded', asyn
         followedByDeployWorkflow: string
         publicIssueTriggerSecretsBlocked: boolean
         publicIssueTriggerCommitsBlocked: boolean
+        publicRepoSecurityAudit: string
       }
       githubPostDeployEvidenceSync: {
         status: string
@@ -4409,6 +4412,7 @@ test('autonomous cadence keeps unattended operation auditable and guarded', asyn
       staleEvidenceBlocksUnattendedTrust: boolean
       productionInputWatchWritePermissionGated: boolean
       publicEvidenceIntakeWritePermissionGated: boolean
+      publicRepoSecurityAuditBlocksPublicRisk: boolean
       postDeployEvidenceSyncWritePermissionGated: boolean
     }
     freshnessPolicy: {
@@ -4553,6 +4557,9 @@ test('autonomous cadence keeps unattended operation auditable and guarded', asyn
   )
   expect(cadence.schedulers.githubPublicEvidenceIntake.publicIssueTriggerSecretsBlocked).toBe(true)
   expect(cadence.schedulers.githubPublicEvidenceIntake.publicIssueTriggerCommitsBlocked).toBe(true)
+  expect(cadence.schedulers.githubPublicEvidenceIntake.publicRepoSecurityAudit).toBe(
+    'public-repo-security-ready',
+  )
   expect(cadence.schedulers.githubPostDeployEvidenceSync.status).toBe('gated')
   expect(cadence.schedulers.githubPostDeployEvidenceSync.workflow).toBe(
     '.github/workflows/post-deploy-evidence-sync.yml',
@@ -4590,6 +4597,9 @@ test('autonomous cadence keeps unattended operation auditable and guarded', asyn
     "if: github.event_name != 'issues' && vars.AGL_AUTONOMOUS_SELF_UPDATE_DIRECT == '1'",
   )
   expect(publicEvidenceWorkflow).toContain('actions/download-artifact@v4')
+  expect(publicEvidenceWorkflow).toContain('data/public-repo-security-audit.json')
+  expect(publicEvidenceWorkflow).toContain('src/data/publicRepoSecurityAudit.ts')
+  expect(publicEvidenceWorkflow).toContain('reports/public-repo-security-audit-latest.md')
   expect(postDeploySyncWorkflow).toContain('AGL_SUPPORT_EMAIL: ${{ vars.AGL_SUPPORT_EMAIL }}')
   expect(postDeploySyncWorkflow).toContain(
     'AGL_EVENT_COLLECTOR_ADMIN_TOKEN: ${{ secrets.AGL_EVENT_COLLECTOR_ADMIN_TOKEN }}',
@@ -4621,10 +4631,12 @@ test('autonomous cadence keeps unattended operation auditable and guarded', asyn
   expect(cadence.controls.staleEvidenceBlocksUnattendedTrust).toBe(true)
   expect(cadence.controls.productionInputWatchWritePermissionGated).toBe(true)
   expect(cadence.controls.publicEvidenceIntakeWritePermissionGated).toBe(true)
+  expect(cadence.controls.publicRepoSecurityAuditBlocksPublicRisk).toBe(true)
   expect(cadence.controls.postDeployEvidenceSyncWritePermissionGated).toBe(true)
   expect(cadence.checks.find((check) => check.id === 'post-self-update-deploy')?.status).toBe('pass')
   expect(cadence.checks.find((check) => check.id === 'production-input-watch-workflow')?.status).toBe('pass')
   expect(cadence.checks.find((check) => check.id === 'public-evidence-intake-workflow')?.status).toBe('pass')
+  expect(cadence.checks.find((check) => check.id === 'public-repo-security-audit')?.status).toBe('pass')
   expect(cadence.checks.find((check) => check.id === 'post-deploy-evidence-sync-workflow')?.status).toBe('pass')
   expect(cadence.freshnessPolicy.status).toBe('fresh')
   expect(cadence.freshnessPolicy.staleAfterHours).toBeGreaterThanOrEqual(24)
@@ -4636,6 +4648,7 @@ test('autonomous cadence keeps unattended operation auditable and guarded', asyn
   expect(cadence.artifactFreshness.some((artifact) => artifact.id === 'objective-audit')).toBe(true)
   expect(cadence.artifactFreshness.some((artifact) => artifact.id === 'deployment-plan')).toBe(true)
   expect(cadence.artifactFreshness.some((artifact) => artifact.id === 'repository-readiness')).toBe(true)
+  expect(cadence.artifactFreshness.some((artifact) => artifact.id === 'public-repo-security')).toBe(true)
   expect(cadence.artifactFreshness.some((artifact) => artifact.id === 'production-bootstrap')).toBe(true)
   expect(cadence.artifactFreshness.some((artifact) => artifact.id === 'event-collector-deployment')).toBe(true)
   expect(cadence.artifactFreshness.some((artifact) => artifact.id === 'event-collector-smoke')).toBe(true)
@@ -4677,6 +4690,72 @@ test('autonomous cadence keeps unattended operation auditable and guarded', asyn
   await page.goto('/')
   await expect(page.getByLabel('Autonomous Cadence')).toContainText('cadence-ready')
   await expect(page.getByLabel('Autonomous Cadence')).toContainText('fresh')
+})
+
+test('public repo security audit keeps public workflows secretless and read-only', async ({ page }) => {
+  const audit = JSON.parse(await readFile('data/public-repo-security-audit.json', 'utf8')) as {
+    status: string
+    repository: { visibility: string; isPublic: boolean; target: string | null }
+    summary: {
+      highConfidenceSecretFindings: number
+      trackedSensitiveFiles: number
+      publicWorkflowRisks: number
+      guardedPublicIssueSecrets: number
+    }
+    controls: {
+      zeroPaidSpend: boolean
+      readOnlyGitInspection: boolean
+      noSecretValuesStored: boolean
+      rawPlayerEventDropsMustStayUntracked: boolean
+      publicIssueTriggerSecretsBlocked: boolean
+      publicIssueTriggerCommitsBlocked: boolean
+      publicIssueWorkflowReadOnly: boolean
+      scheduledWriteJobIsolated: boolean
+    }
+    publicEvidenceIntakeWorkflow: { expectedGuardedSecrets: string[]; guardedSecrets: string[] }
+    findings: { highConfidenceSecrets: unknown[]; trackedSensitiveFiles: unknown[]; publicWorkflowRisks: unknown[] }
+  }
+  const packageJson = JSON.parse(await readFile('package.json', 'utf8')) as { scripts: Record<string, string> }
+  const auditSource = await readFile('scripts/public-repo-security-audit.mjs', 'utf8')
+  const publicEvidenceWorkflow = await readFile('.github/workflows/public-evidence-intake.yml', 'utf8')
+  const postDeploySyncWorkflow = await readFile('.github/workflows/post-deploy-evidence-sync.yml', 'utf8')
+
+  expect(audit.status).toBe('public-repo-security-ready')
+  expect(audit.repository.visibility).toBe('PUBLIC')
+  expect(audit.repository.isPublic).toBe(true)
+  expect(audit.summary.highConfidenceSecretFindings).toBe(0)
+  expect(audit.summary.trackedSensitiveFiles).toBe(0)
+  expect(audit.summary.publicWorkflowRisks).toBe(0)
+  expect(audit.summary.guardedPublicIssueSecrets).toBe(audit.publicEvidenceIntakeWorkflow.expectedGuardedSecrets.length)
+  expect(audit.findings.highConfidenceSecrets).toEqual([])
+  expect(audit.findings.trackedSensitiveFiles).toEqual([])
+  expect(audit.findings.publicWorkflowRisks).toEqual([])
+  expect(audit.controls.zeroPaidSpend).toBe(true)
+  expect(audit.controls.readOnlyGitInspection).toBe(true)
+  expect(audit.controls.noSecretValuesStored).toBe(true)
+  expect(audit.controls.rawPlayerEventDropsMustStayUntracked).toBe(true)
+  expect(audit.controls.publicIssueTriggerSecretsBlocked).toBe(true)
+  expect(audit.controls.publicIssueTriggerCommitsBlocked).toBe(true)
+  expect(audit.controls.publicIssueWorkflowReadOnly).toBe(true)
+  expect(audit.controls.scheduledWriteJobIsolated).toBe(true)
+  expect(packageJson.scripts['autonomous:security-audit']).toBe('node scripts/public-repo-security-audit.mjs')
+  expect(packageJson.scripts['autonomous:daily']).toContain('autonomous:security-audit')
+  expect(packageJson.scripts['test:automation']).toContain('autonomous:security-audit')
+  expect(packageJson.scripts['autonomous:public-evidence-intake']).toContain('autonomous:security-audit')
+  expect(packageJson.scripts['autonomous:post-deploy-readiness-sync']).toContain('autonomous:security-audit')
+  expect(auditSource).toContain("run('git', ['ls-files', '-z'])")
+  expect(auditSource).toContain('rawPlayerEventDropsMustStayUntracked')
+  expect(publicEvidenceWorkflow).toContain('permissions:\n  actions: read\n  contents: read\n  issues: read')
+  expect(publicEvidenceWorkflow).toContain(
+    "if: github.event_name != 'issues' && vars.AGL_AUTONOMOUS_SELF_UPDATE_DIRECT == '1'",
+  )
+  expect(publicEvidenceWorkflow).toContain('data/public-repo-security-audit.json')
+  expect(postDeploySyncWorkflow).toContain('data/public-repo-security-audit.json')
+
+  await page.goto('/')
+  await expect(page.getByLabel('Public Repo Security')).toContainText('public-repo-security-ready')
+  await expect(page.getByLabel('Public Repo Security')).toContainText('PUBLIC')
+  await expect(page.getByLabel('Public Repo Security')).toContainText('secretless-readonly')
 })
 
 test('autonomous self-update persists only verified allowlisted generated changes', async ({ page }) => {

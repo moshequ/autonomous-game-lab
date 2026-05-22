@@ -11,6 +11,7 @@ const readText = async (filePath) => readFile(path.join(root, filePath), 'utf8')
 
 const [
   sync,
+  publicRepoSecurityAudit,
   liveSiteMonitor,
   performanceBudget,
   releaseCandidate,
@@ -38,6 +39,7 @@ const [
   verifyAutonomySource,
 ] = await Promise.all([
   readJson('data/post-deploy-artifact-sync.json'),
+  readJson('data/public-repo-security-audit.json'),
   readJson('data/live-site-monitor.json'),
   readJson('data/performance-budget.json'),
   readJson('data/release-candidate.json'),
@@ -66,6 +68,18 @@ const [
 ])
 
 const postDeployReadinessSyncScript = packageJson.scripts?.['autonomous:post-deploy-readiness-sync'] ?? ''
+
+if (
+  publicRepoSecurityAudit.status !== 'public-repo-security-ready' ||
+  publicRepoSecurityAudit.summary?.highConfidenceSecretFindings !== 0 ||
+  publicRepoSecurityAudit.summary?.trackedSensitiveFiles !== 0 ||
+  publicRepoSecurityAudit.summary?.publicWorkflowRisks !== 0 ||
+  publicRepoSecurityAudit.controls?.publicIssueTriggerSecretsBlocked !== true ||
+  publicRepoSecurityAudit.controls?.publicIssueTriggerCommitsBlocked !== true ||
+  publicRepoSecurityAudit.controls?.publicIssueWorkflowReadOnly !== true
+) {
+  fail('Post-deploy evidence sync must preserve the public repository security audit before trusting synced production evidence.')
+}
 
 if (
   sync.status !== 'post-deploy-artifact-sync-passed' ||
@@ -137,6 +151,7 @@ if (
 }
 
 const requiredReadinessRefreshCommands = [
+  'autonomous:security-audit',
   'autonomous:env',
   'autonomous:store-package',
   'npm run build',
@@ -287,6 +302,9 @@ if (
   !workflow.includes('data/post-deploy-artifact-sync.json') ||
   !workflow.includes('src/data/postDeployArtifactSync.ts') ||
   !workflow.includes('reports/post-deploy-artifact-sync-latest.md') ||
+  !workflow.includes('data/public-repo-security-audit.json') ||
+  !workflow.includes('src/data/publicRepoSecurityAudit.ts') ||
+  !workflow.includes('reports/public-repo-security-audit-latest.md') ||
   !workflow.includes('data/performance-budget.json') ||
   !workflow.includes('src/data/performanceBudget.ts') ||
   !workflow.includes('reports/performance-budget-latest.md') ||
