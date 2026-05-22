@@ -39,6 +39,141 @@ const runJson = (command, args, timeout = 10_000) =>
     })
   })
 
+const normalizeIssueState = (value) => String(value ?? '').toUpperCase()
+const normalizeIssueRecord = (issue) => ({
+  number: issue.number,
+  title: issue.title,
+  body: issue.body,
+  labels: (issue.labels ?? []).map((label) =>
+    typeof label === 'string'
+      ? { name: label }
+      : {
+          name: label.name,
+        },
+  ),
+  state: normalizeIssueState(issue.state),
+  createdAt: issue.createdAt ?? issue.created_at,
+  updatedAt: issue.updatedAt ?? issue.updated_at,
+  url: issue.url ?? issue.html_url,
+})
+const normalizeApiIssueRecord = (issue) =>
+  normalizeIssueRecord({
+    ...issue,
+    createdAt: issue.created_at,
+    updatedAt: issue.updated_at,
+    url: issue.html_url,
+  })
+const githubApiBaseUrl = String(process.env.AGL_GITHUB_API_BASE_URL ?? 'https://api.github.com').replace(/\/+$/, '')
+const githubIssueApiUrl = (repository) => {
+  const [owner, repo] = String(repository ?? '').split('/')
+
+  if (!owner || !repo) {
+    return null
+  }
+
+  const url = new URL(`${githubApiBaseUrl}/repos/${encodeURIComponent(owner)}/${encodeURIComponent(repo)}/issues`)
+  url.searchParams.set('state', 'all')
+  url.searchParams.set('sort', 'updated')
+  url.searchParams.set('direction', 'desc')
+  url.searchParams.set('per_page', '100')
+
+  return url
+}
+const runGitHubRestIssueList = async (repository, timeout = 10_000) => {
+  if (typeof fetch !== 'function') {
+    return {
+      ok: false,
+      value: [],
+      error: 'fetch-unavailable',
+    }
+  }
+
+  const url = githubIssueApiUrl(repository)
+
+  if (!url) {
+    return {
+      ok: false,
+      value: [],
+      error: 'invalid-repository',
+    }
+  }
+
+  const controller = new AbortController()
+  const timeoutId = setTimeout(() => controller.abort(), timeout)
+  const token = process.env.GH_TOKEN ?? process.env.GITHUB_TOKEN
+
+  try {
+    const response = await fetch(url, {
+      signal: controller.signal,
+      headers: {
+        Accept: 'application/vnd.github+json',
+        'User-Agent': 'autonomous-game-lab-public-evidence-intake',
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      },
+    })
+
+    if (!response.ok) {
+      return {
+        ok: false,
+        value: [],
+        error: `github-rest-api-${response.status}`,
+      }
+    }
+
+    const payload = await response.json()
+    const issues = Array.isArray(payload)
+      ? payload.filter((issue) => !issue.pull_request).map(normalizeApiIssueRecord)
+      : []
+
+    return {
+      ok: true,
+      value: issues,
+      error: null,
+    }
+  } catch (error) {
+    return {
+      ok: false,
+      value: [],
+      error: error instanceof Error ? error.message : String(error),
+    }
+  } finally {
+    clearTimeout(timeoutId)
+  }
+}
+const inspectIssues = async (repository) => {
+  const ghResult = await runJson('gh', [
+    'issue',
+    'list',
+    '--repo',
+    repository,
+    '--state',
+    'all',
+    '--limit',
+    '100',
+    '--json',
+    'number,title,body,labels,state,createdAt,updatedAt,url',
+  ])
+
+  if (ghResult.ok) {
+    return {
+      ...ghResult,
+      value: ghResult.value.map(normalizeIssueRecord),
+      inspector: 'gh-cli',
+      fallbackUsed: false,
+      primaryError: null,
+    }
+  }
+
+  const restResult = await runGitHubRestIssueList(repository)
+
+  return {
+    ...restResult,
+    inspector: restResult.ok ? 'github-rest-api' : 'unavailable',
+    fallbackUsed: true,
+    primaryError: ghResult.error,
+  }
+}
+
 const normalizeText = (value) => String(value ?? '').replace(/\s+/g, ' ').trim()
 const redactPublicText = (value) =>
   normalizeText(value)
@@ -184,21 +319,13 @@ const repository = supportChannel.repository?.target ?? null
 const canInspect =
   repository &&
   ['support-channel-ready', 'support-channel-planned'].includes(supportChannel.status) &&
-  supportChannel.provider === 'github-issues'
+  supportChannel.provider === 'github-issues' &&
+  (supportChannel.repository?.publicIssuesReady === true ||
+    supportChannel.repository?.metadata?.visibility === 'PUBLIC' ||
+    supportChannel.status === 'support-channel-planned')
 const result = canInspect
-  ? await runJson('gh', [
-      'issue',
-      'list',
-      '--repo',
-      repository,
-      '--state',
-      'all',
-      '--limit',
-      '100',
-      '--json',
-      'number,title,body,labels,state,createdAt,updatedAt,url',
-    ])
-  : { ok: false, value: [], error: 'support-channel-not-ready' }
+  ? await inspectIssues(repository)
+  : { ok: false, value: [], error: 'support-channel-not-ready', inspector: 'not-run', fallbackUsed: false, primaryError: null }
 const rawIssues = Array.isArray(result.value) ? result.value : []
 
 const gameForIssue = (issue) => {
@@ -379,6 +506,9 @@ const payload = {
   sourceStatus: {
     supportChannel: supportChannel.status,
     inspected: result.ok,
+    inspector: result.inspector,
+    fallbackUsed: result.fallbackUsed,
+    primaryError: result.primaryError,
     error: result.ok ? null : result.error,
   },
   summary: {
@@ -411,6 +541,7 @@ const payload = {
     redactsContactText: true,
     playableTargetsOnlyForAutomation: true,
     publicAggregateOnly: true,
+    githubRestFallback: true,
     aggregateEvidenceNeverMarksProductGatePass: true,
     aggregateEvidenceRequiresManualReviewForGateDecisions: true,
   },

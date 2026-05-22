@@ -1,6 +1,6 @@
 # Product Gate Sample Plan
 
-Generated: 2026-05-22T10:14:32.550Z
+Generated: 2026-05-22T12:49:13.167Z
 Status: product-gate-sample-plan-ready
 Source hash: 9751574aad9e
 Analytics source: fixture-sample

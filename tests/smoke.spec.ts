@@ -1,6 +1,8 @@
 import { expect, test, type Page } from '@playwright/test'
 import { execFile } from 'node:child_process'
 import { chmod, mkdir, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises'
+import { createServer } from 'node:http'
+import type { AddressInfo } from 'node:net'
 import { tmpdir } from 'node:os'
 import path from 'node:path'
 
@@ -6869,6 +6871,7 @@ test('support feedback ingests public issues as redacted improvement evidence', 
       redactsContactText: boolean
       playableTargetsOnlyForAutomation: boolean
       publicAggregateOnly: boolean
+      githubRestFallback: boolean
       aggregateEvidenceNeverMarksProductGatePass: boolean
       aggregateEvidenceRequiresManualReviewForGateDecisions: boolean
     }
@@ -6920,6 +6923,7 @@ test('support feedback ingests public issues as redacted improvement evidence', 
   expect(supportFeedback.controls.redactsContactText).toBe(true)
   expect(supportFeedback.controls.playableTargetsOnlyForAutomation).toBe(true)
   expect(supportFeedback.controls.publicAggregateOnly).toBe(true)
+  expect(supportFeedback.controls.githubRestFallback).toBe(true)
   expect(supportFeedback.controls.aggregateEvidenceNeverMarksProductGatePass).toBe(true)
   expect(supportFeedback.controls.aggregateEvidenceRequiresManualReviewForGateDecisions).toBe(true)
   expect(supportFeedback.issueRecords.length).toBe(supportFeedback.summary.issuesInspected)
@@ -6988,6 +6992,7 @@ test('support feedback ingests public issues as redacted improvement evidence', 
   expect(script).toContain('readOnlyGithubIssueList')
   expect(script).toContain('noAttachmentsDownloaded')
   expect(script).toContain('issueFormField')
+  expect(script).toContain('runGitHubRestIssueList')
   expect(script).toContain('parseMissionMetadata')
   expect(script).toContain('campaignId')
   expect(script).toContain('aggregateEvidenceNeverMarksProductGatePass')
@@ -6996,6 +7001,198 @@ test('support feedback ingests public issues as redacted improvement evidence', 
   await expect(page.getByLabel('Support Feedback')).toContainText(supportFeedback.status)
   await expect(page.getByLabel('Support Feedback')).toContainText(`${supportFeedback.summary.issuesInspected}`)
   await expect(page.getByLabel('Support Feedback')).toContainText(`${supportFeedback.summary.aggregateEvidenceNotes}`)
+})
+
+test('support feedback intake falls back to read-only GitHub REST issues when gh is unavailable', async () => {
+  const tempRoot = await mkdtemp(path.join(tmpdir(), 'agl-support-feedback-'))
+  const tempBin = path.join(tempRoot, 'bin')
+  const dataDir = path.join(tempRoot, 'data')
+  const scriptPath = path.resolve('scripts/support-feedback-ingestor.mjs')
+  let closeServer: (() => Promise<void>) | null = null
+
+  try {
+    await mkdir(tempBin, { recursive: true })
+    await mkdir(dataDir, { recursive: true })
+    await writeFile(path.join(tempBin, 'gh'), '#!/usr/bin/env sh\necho "gh unavailable" >&2\nexit 1\n')
+    await chmod(path.join(tempBin, 'gh'), 0o755)
+    await writeFile(
+      path.join(dataDir, 'support-channel.json'),
+      JSON.stringify(
+        {
+          status: 'support-channel-ready',
+          provider: 'github-issues',
+          repository: {
+            target: 'demo/autonomous-game-lab',
+            publicIssuesReady: true,
+            metadata: { visibility: 'PUBLIC' },
+          },
+          controls: { zeroPaidSpend: true, playerInitiatedOnly: true },
+        },
+        null,
+        2,
+      ),
+    )
+    await writeFile(path.join(dataDir, 'playable-games.json'), JSON.stringify({ games: ['harbor-rings'] }, null, 2))
+    await writeFile(
+      path.join(dataDir, 'game-balance.json'),
+      JSON.stringify({ games: { 'harbor-rings': { title: 'Harbor Rings' } } }, null, 2),
+    )
+    await writeFile(path.join(dataDir, 'generated-playable-games.json'), JSON.stringify({ games: [] }, null, 2))
+
+    const server = createServer((request, response) => {
+      expect(request.url).toContain('/repos/demo/autonomous-game-lab/issues')
+      response.writeHead(200, { 'content-type': 'application/json' })
+      response.end(
+        JSON.stringify([
+          {
+            number: 42,
+            title: '[Evidence] Harbor Rings gate sample aggregate counts',
+            body: [
+              '### Game or mission',
+              'Harbor Rings (harbor-rings; replayRate; gate-sample-20260522-replayRate)',
+              '',
+              '### Evidence window',
+              '2026-05-22',
+              '',
+              '### Aggregate starts',
+              '12',
+              '',
+              '### Aggregate completions',
+              '7',
+              '',
+              '### Aggregate replays',
+              '5',
+              '',
+              '### Aggregate D1 eligible players',
+              '3',
+              '',
+              '### Aggregate D1 retained players',
+              '2',
+              '',
+              '### What changed or looked unusual',
+              'Replay motivation looked stronger after the tutorial text changed. Contact qa@example.com should redact.',
+            ].join('\n'),
+            labels: [{ name: 'evidence' }],
+            state: 'open',
+            html_url: 'https://github.com/demo/autonomous-game-lab/issues/42',
+            created_at: '2026-05-22T09:00:00Z',
+            updated_at: '2026-05-22T09:10:00Z',
+          },
+        ]),
+      )
+    })
+    await new Promise<void>((resolve) => server.listen(0, '127.0.0.1', resolve))
+    closeServer = () => new Promise<void>((resolve) => server.close(() => resolve()))
+
+    const { port } = server.address() as AddressInfo
+    await execFileAsync(process.execPath, [scriptPath], {
+      cwd: tempRoot,
+      env: {
+        ...process.env,
+        PATH: `${tempBin}${path.delimiter}${process.env.PATH ?? ''}`,
+        AGL_GITHUB_API_BASE_URL: `http://127.0.0.1:${port}`,
+      },
+    })
+
+    const supportFeedback = JSON.parse(await readFile(path.join(dataDir, 'support-feedback.json'), 'utf8')) as {
+      status: string
+      sourceStatus: {
+        inspected: boolean
+        inspector: string
+        fallbackUsed: boolean
+        primaryError: string | null
+        error: string | null
+      }
+      summary: {
+        issuesInspected: number
+        openIssues: number
+        aggregateEvidenceNotes: number
+        aggregateStarts: number
+        aggregateCompletions: number
+        aggregateReplays: number
+        aggregateD1Eligible: number
+        aggregateD1Retained: number
+        routableSignals: number
+      }
+      controls: {
+        readOnlyGithubIssueList: boolean
+        githubRestFallback: boolean
+        publicAggregateOnly: boolean
+        aggregateEvidenceNeverMarksProductGatePass: boolean
+      }
+      aggregateEvidenceNotes: Array<{
+        number: number
+        status: string
+        gameId: string
+        gateId: string
+        campaignId: string
+        summary: string
+        counts: {
+          starts: number
+          completions: number
+          replays: number
+          d1Eligible: number
+          d1Retained: number
+        }
+        privacy: {
+          publicAggregateOnly: boolean
+          rawEventRowsStored: boolean
+          attachmentsDownloaded: boolean
+        }
+      }>
+      improvementSignals: Array<{ status: string; gameId: string; signalId: string }>
+    }
+
+    expect(supportFeedback.status).toBe('support-feedback-ready')
+    expect(supportFeedback.sourceStatus).toMatchObject({
+      inspected: true,
+      inspector: 'github-rest-api',
+      fallbackUsed: true,
+      error: null,
+    })
+    expect(supportFeedback.sourceStatus.primaryError).toContain('gh unavailable')
+    expect(supportFeedback.summary.issuesInspected).toBe(1)
+    expect(supportFeedback.summary.openIssues).toBe(1)
+    expect(supportFeedback.summary.aggregateEvidenceNotes).toBe(1)
+    expect(supportFeedback.summary.aggregateStarts).toBe(12)
+    expect(supportFeedback.summary.aggregateCompletions).toBe(7)
+    expect(supportFeedback.summary.aggregateReplays).toBe(5)
+    expect(supportFeedback.summary.aggregateD1Eligible).toBe(3)
+    expect(supportFeedback.summary.aggregateD1Retained).toBe(2)
+    expect(supportFeedback.summary.routableSignals).toBeGreaterThanOrEqual(1)
+    expect(supportFeedback.controls.readOnlyGithubIssueList).toBe(true)
+    expect(supportFeedback.controls.githubRestFallback).toBe(true)
+    expect(supportFeedback.controls.publicAggregateOnly).toBe(true)
+    expect(supportFeedback.controls.aggregateEvidenceNeverMarksProductGatePass).toBe(true)
+    expect(supportFeedback.aggregateEvidenceNotes[0]).toMatchObject({
+      number: 42,
+      status: 'supporting-evidence',
+      gameId: 'harbor-rings',
+      gateId: 'replayRate',
+      campaignId: 'gate-sample-20260522-replayRate',
+      counts: {
+        starts: 12,
+        completions: 7,
+        replays: 5,
+        d1Eligible: 3,
+        d1Retained: 2,
+      },
+      privacy: {
+        publicAggregateOnly: true,
+        rawEventRowsStored: false,
+        attachmentsDownloaded: false,
+      },
+    })
+    expect(supportFeedback.aggregateEvidenceNotes[0].summary).toContain('[redacted-email]')
+    expect(JSON.stringify(supportFeedback)).not.toContain('qa@example.com')
+    expect(supportFeedback.improvementSignals.some((signal) => signal.status === 'routable')).toBe(true)
+  } finally {
+    if (closeServer) {
+      await closeServer()
+    }
+
+    await rm(tempRoot, { recursive: true, force: true })
+  }
 })
 
 test('production measurement status publishes public aggregate evidence handoff', async ({ page }) => {

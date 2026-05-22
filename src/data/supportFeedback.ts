@@ -1,5 +1,5 @@
 export const supportFeedback = {
-  "generatedAt": "2026-05-22T10:14:32.124Z",
+  "generatedAt": "2026-05-22T12:49:12.377Z",
   "status": "support-feedback-empty",
   "provider": "github-issues",
   "repository": "moshequ/autonomous-game-lab",
@@ -33,6 +33,7 @@ export const supportFeedback = {
     "redactsContactText": true,
     "playableTargetsOnlyForAutomation": true,
     "publicAggregateOnly": true,
+    "githubRestFallback": true,
     "aggregateEvidenceNeverMarksProductGatePass": true,
     "aggregateEvidenceRequiresManualReviewForGateDecisions": true
   },
