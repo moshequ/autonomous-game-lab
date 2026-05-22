@@ -934,6 +934,11 @@ function App() {
     ) ?? productGateSamplePrimary
   const productGateSampleFastestDistinct =
     productGateSampleFastest?.campaignId !== productGateSamplePrimary?.campaignId ? productGateSampleFastest : null
+  const activeGateSampleMission =
+    productGateSamplePlan.missions.find(
+      (mission) => mission.campaignId === activeGateSampleCampaignId && mission.gameId === selectedGameId,
+    ) ?? null
+  const completedGateSampleEvidenceVisible = Boolean(snapshot.completed && activeGateSampleMission)
   const productGateSampleProgress = useMemo(
     () =>
       new Map(
@@ -2369,7 +2374,7 @@ function App() {
     return true
   }, [localEventDropFolderStatus])
 
-  const openAggregateEvidenceIssue = async () => {
+  const openAggregateEvidenceIssue = async (surfaceOverride?: string) => {
     const { buildAggregateEvidenceIssue } = await import('./lib/aggregateEvidenceIssue')
     const evidenceIssue = buildAggregateEvidenceIssue({
       events: getBufferedEvents(),
@@ -2383,7 +2388,10 @@ function App() {
       return
     }
 
-    trackEvent('analytics_evidence_issue_opened', evidenceIssue.telemetry)
+    trackEvent('analytics_evidence_issue_opened', {
+      ...evidenceIssue.telemetry,
+      surface: surfaceOverride ?? evidenceIssue.telemetry.surface,
+    })
     window.open(evidenceIssue.url, '_blank', 'noopener,noreferrer')
   }
 
@@ -2859,6 +2867,25 @@ function App() {
                   </div>
                 </>
               ) : null}
+              {completedGateSampleEvidenceVisible && activeGateSampleMission ? (
+                <>
+                  <div>
+                    <span>Gate evidence</span>
+                    <strong>{activeGateSampleMission.label}</strong>
+                  </div>
+                  <div className="replayActions">
+                    <button
+                      className="tinyButton"
+                      type="button"
+                      onClick={() => openAggregateEvidenceIssue('completed-run-gate-sample')}
+                      disabled={!supportChannel.repository.target}
+                    >
+                      <Share2 size={14} aria-hidden="true" />
+                      Share aggregate
+                    </button>
+                  </div>
+                </>
+              ) : null}
             </div>
 
             <div className="monetizationRuntime" aria-label="Daily Retention">
@@ -3021,7 +3048,7 @@ function App() {
                   <button
                     className="tinyButton subtleButton"
                     type="button"
-                    onClick={openAggregateEvidenceIssue}
+                    onClick={() => openAggregateEvidenceIssue()}
                     disabled={!supportChannel.repository.target}
                   >
                     <Share2 size={14} aria-hidden="true" />
@@ -3536,7 +3563,7 @@ function App() {
                   <button
                     className="tinyButton"
                     type="button"
-                    onClick={openAggregateEvidenceIssue}
+                    onClick={() => openAggregateEvidenceIssue()}
                     disabled={!supportChannel.repository.target}
                   >
                     <Share2 size={14} aria-hidden="true" />

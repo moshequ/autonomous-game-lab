@@ -5601,6 +5601,139 @@ test('aggregate evidence issue scopes runtime gate sample campaigns', async ({ p
   })
 })
 
+test('completed gate sample run offers aggregate evidence before replay', async ({ page }) => {
+  const samplePlan = JSON.parse(await readFile('data/product-gate-sample-plan.json', 'utf8')) as {
+    missions: Array<{
+      gateId: string
+      campaignId: string
+      label: string
+      title: string
+      gameId: string
+      playPath: string
+    }>
+  }
+  const balance = JSON.parse(await readFile('data/game-balance.json', 'utf8')) as {
+    games: { 'harbor-rings': { maxMoves: number } }
+  }
+  const mission =
+    samplePlan.missions.find((item) => item.gameId === 'harbor-rings') ?? samplePlan.missions[0]
+
+  expect(mission.gameId).toBe('harbor-rings')
+
+  await page.addInitScript(() => {
+    window.localStorage.setItem('agl.experiment.first_session_pacing', 'fast-start')
+  })
+  await page.goto(mission.playPath)
+  await page.evaluate(() => {
+    const target = window as Window & { __completedGateSampleEvidenceUrl?: string }
+    target.__completedGateSampleEvidenceUrl = ''
+    window.open = ((url?: string | URL) => {
+      target.__completedGateSampleEvidenceUrl = String(url)
+      return window
+    }) as typeof window.open
+  })
+  await expect(page.getByLabel('Autonomy cockpit').getByRole('heading', { name: mission.title })).toBeVisible()
+
+  const canvas = page.locator('canvas').first()
+  await expect(canvas).toBeVisible()
+  const box = await canvas.boundingBox()
+  expect(box).not.toBeNull()
+
+  if (!box) {
+    return
+  }
+
+  const cells = [
+    [2, 2],
+    [2, 1],
+    [2, 3],
+    [1, 2],
+    [3, 2],
+    [1, 1],
+    [1, 3],
+    [3, 1],
+    [3, 3],
+    [0, 2],
+    [0, 0],
+    [0, 1],
+  ]
+  const harborCellSize = 64
+  const harborGap = 7
+  const harborStartX = 106
+  const harborStartY = 132
+  const turnCount = () =>
+    page.evaluate(() => {
+      const raw = window.localStorage.getItem('agl.analytics.events')
+      const events = raw ? JSON.parse(raw) : []
+      return events.filter((event: { name: string }) => event.name === 'turn_taken').length
+    })
+
+  for (const [index, [row, col]] of cells.slice(0, balance.games['harbor-rings'].maxMoves).entries()) {
+    const x = harborStartX + col * (harborCellSize + harborGap) + harborCellSize / 2
+    const y = harborStartY + row * (harborCellSize + harborGap) + harborCellSize / 2
+    const targetMove = index + 1
+
+    for (let attempt = 0; attempt < 3; attempt += 1) {
+      await page.mouse.click(box.x + (x / 560) * box.width, box.y + (y / 500) * box.height)
+
+      if ((await turnCount()) >= targetMove) {
+        break
+      }
+
+      await page.waitForTimeout(50)
+    }
+
+    await expect.poll(turnCount).toBe(targetMove)
+  }
+
+  const replayPanel = page.getByLabel('Replay Loop')
+  await expect(replayPanel).toContainText('Gate evidence')
+  await expect(replayPanel).toContainText(mission.label)
+  await replayPanel.getByRole('button', { name: 'Share aggregate' }).click()
+  await page.waitForFunction(
+    () => Boolean((window as Window & { __completedGateSampleEvidenceUrl?: string }).__completedGateSampleEvidenceUrl),
+  )
+
+  const opened = await page.evaluate(
+    () => (window as Window & { __completedGateSampleEvidenceUrl?: string }).__completedGateSampleEvidenceUrl ?? '',
+  )
+  const openedUrl = new URL(opened)
+  const openedText = decodeURIComponent(opened)
+  const evidenceEvent = await page.evaluate(() => {
+    const raw = window.localStorage.getItem('agl.analytics.events')
+    const events = raw ? JSON.parse(raw) : []
+
+    return events.findLast(
+      (event: { name: string; properties: Record<string, string | number | boolean | null> }) =>
+        event.name === 'analytics_evidence_issue_opened',
+    )?.properties
+  })
+
+  expect(openedUrl.searchParams.get('template')).toBe('analytics-evidence.yml')
+  expect(openedUrl.searchParams.get('game')).toContain(mission.title)
+  expect(openedUrl.searchParams.get('game')).toContain(mission.gateId)
+  expect(openedUrl.searchParams.get('game')).toContain(mission.campaignId)
+  expect(Number(openedUrl.searchParams.get('starts'))).toBeGreaterThanOrEqual(1)
+  expect(Number(openedUrl.searchParams.get('completions'))).toBeGreaterThanOrEqual(1)
+  expect(openedUrl.searchParams.get('summary')).toContain('Aggregate-only browser summary')
+  expect(openedText).not.toContain('anon-')
+  expect(openedText).not.toContain('evt-')
+  expect(evidenceEvent).toMatchObject({
+    surface: 'completed-run-gate-sample',
+    channel: 'product-gate-sample',
+    gameId: mission.gameId,
+    gateId: mission.gateId,
+    campaignId: mission.campaignId,
+    publicAggregateOnly: true,
+    rawEventsIncluded: false,
+    identifiersIncluded: false,
+    aggregateEvidenceDoesNotPassGates: true,
+    destination: 'github-issues',
+    zeroPaidSpend: true,
+    noRevenueEnablement: true,
+  })
+})
+
 test('local event drop folder writes export files without external upload', async ({ page }) => {
   await page.addInitScript(() => {
     const state = window as unknown as {

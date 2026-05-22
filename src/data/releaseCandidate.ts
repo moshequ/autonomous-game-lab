@@ -1,7 +1,7 @@
 export const releaseCandidate = {
-  "generatedAt": "2026-05-22T12:25:57.902Z",
+  "generatedAt": "2026-05-22T12:33:10.011Z",
   "status": "release-candidate-ready",
-  "candidateId": "pwa-ca299f2b09db",
+  "candidateId": "pwa-31e31b8bd859",
   "target": {
     "provider": "github-pages",
     "artifactPath": "dist",
@@ -12,8 +12,8 @@ export const releaseCandidate = {
   },
   "summary": {
     "totalFiles": 49,
-    "totalBytes": 3711421,
-    "totalKb": 3624.4,
+    "totalBytes": 3713363,
+    "totalKb": 3626.3,
     "assetFiles": 4,
     "htmlFiles": 18,
     "gamePages": 10,
@@ -22,7 +22,7 @@ export const releaseCandidate = {
   },
   "integrity": {
     "algorithm": "sha256",
-    "aggregateHash": "ca299f2b09dbf6b13de758a3ccce92a98e610da7b288a117bd31ea39b9574702",
+    "aggregateHash": "31e31b8bd85998ee015a9aeda6d53d78bd5f5063d52cb66e90cb5ad0429bc214",
     "files": [
       {
         "path": ".nojekyll",
@@ -46,16 +46,16 @@ export const releaseCandidate = {
         "cacheControl": "public, max-age=3600"
       },
       {
-        "path": "assets/aggregateEvidenceIssue-CSFCmTFN.js",
+        "path": "assets/aggregateEvidenceIssue-BwzqYh0b.js",
         "bytes": 2978,
-        "sha256": "3415c854d40cfe662d445ce8c7c932119456d9427e526ed514d1150021432f0b",
+        "sha256": "387e3d278eca10c5c95ec9d89858689ba5d5255a99a863e91fae9ecf5e40d375",
         "contentType": "text/javascript; charset=utf-8",
         "cacheControl": "public, max-age=31536000, immutable"
       },
       {
-        "path": "assets/GameCanvas-aO1I261i.js",
+        "path": "assets/GameCanvas-BMxymSSm.js",
         "bytes": 1394049,
-        "sha256": "fc0ef3d8026de2d1e0e3f70466be20aa74946cb4ce82bb5a9bf4e94fbda76dbe",
+        "sha256": "eaa719d7e4f440dfded57164aa6845b911c3010c569eb6b48fc9254d06581d3a",
         "contentType": "text/javascript; charset=utf-8",
         "cacheControl": "public, max-age=31536000, immutable"
       },
@@ -67,9 +67,9 @@ export const releaseCandidate = {
         "cacheControl": "public, max-age=31536000, immutable"
       },
       {
-        "path": "assets/index-CPxmaqaX.js",
-        "bytes": 689965,
-        "sha256": "5a4185c2ba6767cef6387356b74c84b638d68780102a9f409873b2a8e49c9e3d",
+        "path": "assets/index-zWGrsYoV.js",
+        "bytes": 691907,
+        "sha256": "e1055c3a573c2eac95fcc08b2cf3e0cf47e4dea5c85f757757081a4c3a27277d",
         "contentType": "text/javascript; charset=utf-8",
         "cacheControl": "public, max-age=31536000, immutable"
       },
@@ -223,7 +223,7 @@ export const releaseCandidate = {
       {
         "path": "index.html",
         "bytes": 2846,
-        "sha256": "2f6f383755f55b1e504dc8d4e833d24c06e9c55fb267beb2348306d367941711",
+        "sha256": "c6d91d7b40715bc8ec4295c37f4a890b0a2046fe54355cb0723b82ce11a25989",
         "contentType": "text/html; charset=utf-8",
         "cacheControl": "no-cache"
       },
@@ -251,7 +251,7 @@ export const releaseCandidate = {
       {
         "path": "measurement-status.json",
         "bytes": 11453,
-        "sha256": "32e45dfc70f7ce72550f3d42ba843ee4dd2c563e86d08e7635ba7a30c4231866",
+        "sha256": "08a4642462448a6a5400e5857681b9456808cb69089b1c4eca3edf9ed7b257c5",
         "contentType": "application/json; charset=utf-8",
         "cacheControl": "public, max-age=3600"
       },
@@ -356,7 +356,7 @@ export const releaseCandidate = {
       {
         "path": "sw.js",
         "bytes": 3942,
-        "sha256": "ee8f94a9137f40cfa3f5578b0c91aec58140f9eab1b5027b264532eb74230879",
+        "sha256": "70b852728b50b601770069e60a3d1984d05f012a8e408ac4525d1af039c163bf",
         "contentType": "text/javascript; charset=utf-8",
         "cacheControl": "no-cache"
       },
