@@ -4606,16 +4606,23 @@ test('queued return intent starts a retained session without push or accounts', 
 })
 
 test('traffic seeding switches games and records campaign telemetry', async ({ page }) => {
+  const traffic = JSON.parse(await readFile('data/traffic-seeding.json', 'utf8')) as {
+    campaigns: Array<{ id: string; gameId: string; title: string }>
+  }
+  const campaign = traffic.campaigns[0]
+
+  expect(campaign).toBeTruthy()
+
   await page.goto('/')
 
   const trafficSeeding = page.getByLabel('Traffic Seeding')
-  await trafficSeeding.getByRole('button', { name: 'Seed traffic for Grove Engine' }).click()
-  await expect(page.getByRole('heading', { name: 'Grove Engine' })).toBeVisible()
+  await trafficSeeding.getByRole('button', { name: `Seed traffic for ${campaign.title}` }).click()
+  await expect(page.getByRole('heading', { name: campaign.title })).toBeVisible()
   const seededUrl = new URL(page.url())
 
-  expect(seededUrl.searchParams.get('game')).toBe('grove-engine')
+  expect(seededUrl.searchParams.get('game')).toBe(campaign.gameId)
   expect(seededUrl.searchParams.get('utm_source')).toBe('seed_internal')
-  expect(seededUrl.searchParams.get('utm_campaign')).toMatch(/^seed-\d{8}-grove-engine$/)
+  expect(seededUrl.searchParams.get('utm_campaign')).toBe(campaign.id)
 
   const seedEvent = await page.evaluate(() => {
     const raw = window.localStorage.getItem('agl.analytics.events')
@@ -4623,27 +4630,27 @@ test('traffic seeding switches games and records campaign telemetry', async ({ p
     return events.findLast((event: { name: string }) => event.name === 'seed_campaign_clicked')
   })
 
-  expect(seedEvent.properties.gameId).toBe('grove-engine')
-  expect(seedEvent.properties.campaignId).toMatch(/^seed-\d{8}-grove-engine$/)
+  expect(seedEvent.properties.gameId).toBe(campaign.gameId)
+  expect(seedEvent.properties.campaignId).toBe(campaign.id)
   expect(seedEvent.properties.channel).toBe('internal-rotation')
-  expect(seedEvent.properties.acquisitionCampaign).toMatch(/^seed-\d{8}-grove-engine$/)
+  expect(seedEvent.properties.acquisitionCampaign).toBe(campaign.id)
   expect(seedEvent.properties.acquisitionSource).toBe('seed_internal')
   expect(seedEvent.properties.acquisitionChannel).toBe('internal-rotation')
   expect(seedEvent.properties.costUsd).toBe(0)
 
   await expect
     .poll(async () =>
-      page.evaluate(() => {
+      page.evaluate((gameId) => {
         const raw = window.localStorage.getItem('agl.analytics.events')
         const events = raw ? JSON.parse(raw) : []
         const started = events.findLast(
           (event: { name: string; properties: Record<string, string> }) =>
-            event.name === 'game_started' && event.properties.gameId === 'grove-engine',
+            event.name === 'game_started' && event.properties.gameId === gameId,
         )
         return started?.properties.acquisitionCampaign
-      }),
+      }, campaign.gameId),
     )
-    .toMatch(/^seed-\d{8}-grove-engine$/)
+    .toBe(campaign.id)
 })
 
 test('first move updates telemetry and tutorial completion', async ({ page }) => {

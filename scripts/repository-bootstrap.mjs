@@ -87,15 +87,38 @@ const generatedEvidencePaths = new Set([
   'data/repository-bootstrap.json',
   'src/data/repositoryBootstrap.ts',
   'reports/repository-bootstrap-latest.md',
+  'ops/cloudflare/wrangler.toml.example',
+  'ops/github/README.md',
   'ops/github/bootstrap-repository.sh',
+  'ops/github/setup-production.sh',
+  'ops/production.env.example',
+  'public/app-ads.txt',
+  'public/compliance.json',
+  'public/.well-known/assetlinks.json',
   'public/gate-sample.html',
   'public/install.html',
+  'public/measurement-status.html',
+  'public/measurement-status.json',
+  'public/monetization.json',
+  'public/privacy.html',
   'public/robots.txt',
   'public/sitemap.xml',
   'public/seed-kit.html',
   'public/share-manifest.json',
+  'public/support.html',
 ])
-const generatedEvidencePrefixes = ['data/', 'reports/', 'src/data/', 'ops/github/', 'ops/codex/', 'public/games/']
+const generatedEvidencePrefixes = [
+  'data/',
+  'reports/',
+  'src/data/',
+  'ops/github/',
+  'ops/codex/',
+  'public/games/',
+  'public/icons/',
+  'public/store-assets/',
+  'native/android/',
+  'native/ios/',
+]
 const isGeneratedEvidencePath = (dirtyPath) =>
   generatedEvidencePaths.has(dirtyPath) || generatedEvidencePrefixes.some((prefix) => dirtyPath.startsWith(prefix))
 
