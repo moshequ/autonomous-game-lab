@@ -1,6 +1,6 @@
 # Production Bootstrap
 
-Generated: 2026-05-22T11:50:40.435Z
+Generated: 2026-05-22T11:51:16.958Z
 Status: production-bootstrap-ready
 Mode: can-apply-configured-actions
 GitHub repository: moshequ/autonomous-game-lab
@@ -18,12 +18,12 @@ gh CLI available: true
 
 - repository-channel-ready: repository-channel; auto-run no; Repository moshequ/autonomous-game-lab; git worktree ready; workflow dispatch ready.
 - repository-bootstrap-ready: repository-bootstrap; auto-run no; Repository bootstrap repository-bootstrap-ready; helper ops/github/bootstrap-repository.sh; local git ready.
-- waiting-for-origin-support: production-environment; auto-run no; Environment production-env-missing; public origin configured; support missing-production-address.
+- waiting-for-origin-support: production-environment; auto-run no; Environment production-env-missing; public origin inferred-github-pages; support missing-production-address.
 - ready-for-actions-pages: github-pages-hosting; auto-run yes; Deployment plan is ready-for-pages; Pages workflow is .github/workflows/web-pwa-deploy.yml.
 - ready-to-sync: github-pages-settings; auto-run yes; GitHub CLI can configure Pages to use the Actions workflow source.
 - waiting-for-self-update-gate: autonomous-self-update; auto-run no; Self-update gate missing; direct push held.
-- partially-configured: github-actions-variables; auto-run yes; 10/24 repository variable value(s) present in this environment.
-- partially-configured: github-actions-secrets; auto-run yes; 5/8 repository secret value(s) present in this environment.
+- partially-configured: github-actions-variables; auto-run yes; 6/24 repository variable value(s) present in this environment.
+- partially-configured: github-actions-secrets; auto-run yes; 3/8 repository secret value(s) present in this environment.
 - blocked-needs-cloudflare-env: event-collector; auto-run no; Collector deployment is blocked-needs-cloudflare-env; provider cloudflare-worker-r2.
 - held-by-product-gates: monetization-gate; auto-run no; Revenue disabled; spend mode no-spend.
 - draft-ready-external-blockers: store-compliance-unblock; auto-run no; 3 store compliance blocker(s) remain.
@@ -42,10 +42,10 @@ gh CLI available: true
 
 ## Repository Variables
 
-- ready: VITE_BASE_PATH from VITE_BASE_PATH (github-variable)
-- ready: AGL_PUBLIC_ORIGIN from AGL_PUBLIC_ORIGIN (github-variable)
-- ready: VITE_PUBLIC_ORIGIN from AGL_PUBLIC_ORIGIN (github-variable)
-- ready: PUBLIC_SITE_URL from AGL_PUBLIC_ORIGIN (github-variable)
+- ready: VITE_BASE_PATH from VITE_BASE_PATH (inferred-github-pages)
+- ready: AGL_PUBLIC_ORIGIN from AGL_PUBLIC_ORIGIN (inferred-github-pages)
+- ready: VITE_PUBLIC_ORIGIN from AGL_PUBLIC_ORIGIN (inferred-github-pages)
+- ready: PUBLIC_SITE_URL from AGL_PUBLIC_ORIGIN (inferred-github-pages)
 - missing: AGL_SUPPORT_EMAIL from AGL_SUPPORT_EMAIL (missing)
 - missing: VITE_POSTHOG_KEY from VITE_POSTHOG_KEY (missing)
 - missing: VITE_POSTHOG_HOST from VITE_POSTHOG_HOST (missing)
@@ -54,8 +54,8 @@ gh CLI available: true
 - missing: CLOUDFLARE_ACCOUNT_ID from CLOUDFLARE_ACCOUNT_ID (missing)
 - missing: VITE_EVENT_COLLECTOR_URL from VITE_EVENT_COLLECTOR_URL (missing)
 - missing: AGL_EVENT_COLLECTOR_EXPORT_URL from AGL_EVENT_COLLECTOR_EXPORT_URL (missing)
-- ready: AGL_EVENT_COLLECTOR_R2_BUCKET from AGL_EVENT_COLLECTOR_R2_BUCKET (github-variable)
-- ready: AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS from AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS (github-variable)
+- missing: AGL_EVENT_COLLECTOR_R2_BUCKET from AGL_EVENT_COLLECTOR_R2_BUCKET (missing)
+- missing: AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS from AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS (missing)
 - missing: VITE_ADSENSE_CLIENT_ID from VITE_ADSENSE_CLIENT_ID (missing)
 - missing: VITE_ADSENSE_REWARDED_SLOT_ID from VITE_ADSENSE_REWARDED_SLOT_ID (missing)
 - missing: ADMOB_PUBLISHER_ID from ADMOB_PUBLISHER_ID (missing)
@@ -64,14 +64,14 @@ gh CLI available: true
 - ready: AGL_ANDROID_SHA256_CERT_FINGERPRINT from AGL_ANDROID_SHA256_CERT_FINGERPRINT (environment)
 - missing: AGL_GOOGLE_PLAY_ACCOUNT_CONNECTED from AGL_GOOGLE_PLAY_ACCOUNT_CONNECTED (missing)
 - missing: AGL_APPLE_DEVELOPER_ACCOUNT_CONNECTED from AGL_APPLE_DEVELOPER_ACCOUNT_CONNECTED (missing)
-- ready: AGL_AUTONOMOUS_SELF_UPDATE from AGL_AUTONOMOUS_SELF_UPDATE (github-variable)
-- ready: AGL_AUTONOMOUS_SELF_UPDATE_DIRECT from AGL_AUTONOMOUS_SELF_UPDATE_DIRECT (github-variable)
+- missing: AGL_AUTONOMOUS_SELF_UPDATE from AGL_AUTONOMOUS_SELF_UPDATE (missing)
+- missing: AGL_AUTONOMOUS_SELF_UPDATE_DIRECT from AGL_AUTONOMOUS_SELF_UPDATE_DIRECT (missing)
 
 ## Repository Secrets
 
 - missing: CLOUDFLARE_API_TOKEN from CLOUDFLARE_API_TOKEN
-- ready: VITE_EVENT_COLLECTOR_WRITE_TOKEN from VITE_EVENT_COLLECTOR_WRITE_TOKEN
-- ready: AGL_EVENT_COLLECTOR_ADMIN_TOKEN from AGL_EVENT_COLLECTOR_ADMIN_TOKEN
+- missing: VITE_EVENT_COLLECTOR_WRITE_TOKEN from VITE_EVENT_COLLECTOR_WRITE_TOKEN
+- missing: AGL_EVENT_COLLECTOR_ADMIN_TOKEN from AGL_EVENT_COLLECTOR_ADMIN_TOKEN
 - missing: POSTHOG_PERSONAL_API_KEY from POSTHOG_PERSONAL_API_KEY
 - ready: AGL_ANDROID_KEYSTORE_BASE64 from AGL_ANDROID_KEYSTORE_BASE64
 - ready: AGL_ANDROID_KEYSTORE_PASSWORD from AGL_ANDROID_KEYSTORE_PASSWORD

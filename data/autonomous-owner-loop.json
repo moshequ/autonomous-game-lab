@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-22T11:50:31.592Z",
+  "generatedAt": "2026-05-22T11:51:49.045Z",
   "status": "owner-loop-ready",
   "mode": "zero-spend-web-ready",
   "autonomyScore": {
@@ -19,16 +19,16 @@
     "deployAllowed": true,
     "rollbackRequired": false,
     "repositoryHandoffPrepared": false,
-    "localActionAvailable": true,
-    "heldForExternalInput": false
+    "localActionAvailable": false,
+    "heldForExternalInput": true
   },
   "ownerDecision": {
-    "nextBestActionId": "bootstrap-production-setup",
-    "nextBestAction": "npm run autonomous:release-candidate && npm run autonomous:deploy-plan && npm run autonomous:bootstrap",
+    "nextBestActionId": "hold-for-external-input",
+    "nextBestAction": "No local command is available until external inputs, configured credentials, or new player evidence arrive.",
     "canExecuteWithoutSpend": true,
-    "localActionAvailable": true,
-    "holdReason": null,
-    "rationale": "Regenerates the zero-spend production setup handoff and exact GitHub variable/secret commands."
+    "localActionAvailable": false,
+    "holdReason": "All safe local actions are current; remaining progress requires external inputs or new player evidence.",
+    "rationale": "All safe local refresh actions are current; hold execution until owner-provided inputs, production analytics, or real player evidence changes the state."
   },
   "executionMemory": {
     "avoidImmediateRepeat": true,
@@ -50,7 +50,7 @@
     "objectiveAuditFreshness": {
       "fresh": true,
       "structurallyReady": true,
-      "auditGeneratedAt": "2026-05-22T11:48:27.778Z",
+      "auditGeneratedAt": "2026-05-22T11:51:17.204Z",
       "evaluatedInputIds": [
         "analytics-rollup",
         "event-ingest",
@@ -74,7 +74,7 @@
         "ready": true,
         "status": "cadence-ready",
         "artifactGeneratedAt": "2026-05-22T11:38:24.991Z",
-        "ageHours": 0.202,
+        "ageHours": 0.223,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -85,7 +85,7 @@
         "ready": true,
         "status": "self-update-ready",
         "artifactGeneratedAt": "2026-05-22T11:01:17.281Z",
-        "ageHours": 0.821,
+        "ageHours": 0.842,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -96,7 +96,7 @@
         "ready": true,
         "status": "support-feedback-empty",
         "artifactGeneratedAt": "2026-05-22T10:14:32.124Z",
-        "ageHours": 1.6,
+        "ageHours": 1.621,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -107,7 +107,7 @@
         "ready": true,
         "status": "performance-budget-ready",
         "artifactGeneratedAt": "2026-05-22T11:48:20.072Z",
-        "ageHours": 0.037,
+        "ageHours": 0.058,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -118,7 +118,7 @@
         "ready": true,
         "status": "live-site-monitor-passed",
         "artifactGeneratedAt": "2026-05-22T11:48:22.812Z",
-        "ageHours": 0.036,
+        "ageHours": 0.057,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -207,9 +207,9 @@
         "current": true,
         "ready": true,
         "status": "pwa-install-loop-ready",
-        "artifactGeneratedAt": "2026-05-22T11:48:21.363Z",
-        "artifactSourceDataHash": "d46e4449328f",
-        "sourceDataHash": "d46e4449328f",
+        "artifactGeneratedAt": "2026-05-22T11:51:08.634Z",
+        "artifactSourceDataHash": "6831f2f84e97",
+        "sourceDataHash": "6831f2f84e97",
         "evaluatedInputIds": [
           "analytics-rollup",
           "growth-plan",
@@ -265,9 +265,9 @@
         "current": true,
         "ready": true,
         "status": "store-package-ready",
-        "artifactGeneratedAt": "2026-05-22T11:48:08.620Z",
-        "artifactSourceDataHash": "ec42b3c3a685",
-        "sourceDataHash": "ec42b3c3a685",
+        "artifactGeneratedAt": "2026-05-22T11:51:16.102Z",
+        "artifactSourceDataHash": "e771cb6beff4",
+        "sourceDataHash": "e771cb6beff4",
         "evaluatedInputIds": [
           "prototype-pipeline",
           "production-gates",
@@ -280,9 +280,9 @@
         "current": true,
         "ready": true,
         "status": "store-listing-optimizer-ready",
-        "artifactGeneratedAt": "2026-05-22T11:50:31.356Z",
-        "artifactSourceDataHash": "c5651266ff30",
-        "sourceDataHash": "c5651266ff30",
+        "artifactGeneratedAt": "2026-05-22T11:51:16.351Z",
+        "artifactSourceDataHash": "8bf2a94686aa",
+        "sourceDataHash": "8bf2a94686aa",
         "evaluatedInputIds": [
           "store-package",
           "store-assets",
@@ -297,12 +297,12 @@
         ]
       },
       "storeCompliance": {
-        "current": false,
-        "ready": false,
+        "current": true,
+        "ready": true,
         "status": "draft-ready-external-blockers",
-        "artifactGeneratedAt": "2026-05-22T11:50:31.138Z",
-        "artifactSourceDataHash": "dd64802fbccf",
-        "sourceDataHash": "e64fdad9029e",
+        "artifactGeneratedAt": "2026-05-22T11:51:16.566Z",
+        "artifactSourceDataHash": "ba58df328491",
+        "sourceDataHash": "ba58df328491",
         "evaluatedInputIds": [
           "store-package",
           "monetization-plan",
@@ -423,9 +423,7 @@
       "liveCandidateId": "pwa-7ddc6cf17fac",
       "artifactCandidateId": "pwa-7ddc6cf17fac"
     },
-    "skippedRecentlyExecutedActionIds": [
-      "optimize-store-listing"
-    ],
+    "skippedRecentlyExecutedActionIds": [],
     "skippedRecentlySatisfiedActionIds": [],
     "preferredActionOrder": [
       "prepare-repository-channel",
@@ -461,10 +459,10 @@
       "status": "repository-channel-ready"
     },
     "productionBootstrapFreshness": {
-      "fresh": false,
-      "bootstrapGeneratedAt": "2026-05-22T11:48:26.498Z",
-      "artifactSourceDataHash": "a11867b4edab",
-      "sourceDataHash": "67ffc06b9bb8",
+      "fresh": true,
+      "bootstrapGeneratedAt": "2026-05-22T11:51:16.958Z",
+      "artifactSourceDataHash": "ba0d8bfe8223",
+      "sourceDataHash": "ba0d8bfe8223",
       "evaluatedInputIds": [
         "release-candidate",
         "deployment-plan",
@@ -479,11 +477,11 @@
       "current": true,
       "ready": true,
       "status": "handoff-waiting-on-owner-inputs",
-      "generatedAt": "2026-05-22T11:48:26.965Z",
+      "generatedAt": "2026-05-22T11:51:24.625Z",
       "nextBestUnlockId": "production-analytics-browser",
       "ownerActionRequired": 4,
       "missingEnv": 7,
-      "missingSecrets": 3,
+      "missingSecrets": 5,
       "sourceStatusesFresh": true,
       "evaluatedSourceStatuses": [
         "production-environment",
@@ -595,7 +593,7 @@
       "status": "ready",
       "autonomy": "automatic-browser-controlled",
       "evidence": "Prompt autonomy-cockpit; installs 0; launch events 0; sample collecting-sample needs 20 prompt(s) and 10 launch event(s).",
-      "nextAction": "Route zero-spend install traffic through /?game=market-pulse&utm_source=pwa_install&utm_campaign=pwa-install-market-pulse until 20 prompt view(s) and 10 launch-mode event(s) are collected."
+      "nextAction": "Publish to a stable HTTPS host before treating PWA install evidence as production-ready."
     },
     {
       "id": "performance-budget",
@@ -734,7 +732,7 @@
       "id": "production-blocker-handoff",
       "status": "ready",
       "autonomy": "ranked-external-unlock-router",
-      "evidence": "Handoff handoff-waiting-on-owner-inputs; next production-analytics-browser; owner inputs 4; missing env 7; missing secrets 3.",
+      "evidence": "Handoff handoff-waiting-on-owner-inputs; next production-analytics-browser; owner inputs 4; missing env 7; missing secrets 5.",
       "nextAction": "Start with Browser production analytics; it is the highest-priority zero-spend owner input."
     },
     {
@@ -776,8 +774,8 @@
       "id": "store-listing-optimizer",
       "status": "ready",
       "autonomy": "automatic-aso-draft",
-      "evidence": "Focus market-pulse; lead screenshot phone-market-pulse-generated; candidate changed no.",
-      "nextAction": "Keep Market Pulse as the store listing focus."
+      "evidence": "Focus market-pulse; lead screenshot phone-market-pulse-generated; candidate changed yes.",
+      "nextAction": "Use Market Pulse as the store listing focus instead of lantern-relay."
     },
     {
       "id": "store-compliance",
@@ -1048,7 +1046,7 @@
     },
     {
       "id": "bootstrap-production-setup",
-      "status": "armed",
+      "status": "monitor",
       "costUsd": 0,
       "command": "npm run autonomous:release-candidate && npm run autonomous:deploy-plan && npm run autonomous:bootstrap",
       "targets": [
@@ -1056,7 +1054,7 @@
         "repository-config",
         "event-collector"
       ],
-      "reason": "Regenerates the zero-spend production setup handoff and exact GitHub variable/secret commands."
+      "reason": "Production bootstrap handoff is fresh, so the operator should prioritize product learning and local event collection."
     },
     {
       "id": "activate-production-when-configured",
@@ -1078,7 +1076,7 @@
       "targets": [
         "production-analytics-browser"
       ],
-      "reason": "Production blocker handoff already ranks 4 owner input(s), 7 env blocker(s), and 3 secret blocker(s)."
+      "reason": "Production blocker handoff already ranks 4 owner input(s), 7 env blocker(s), and 5 secret blocker(s)."
     },
     {
       "id": "run-production-unlock-runner",
@@ -1107,7 +1105,7 @@
       "costUsd": 0,
       "command": "npm run autonomous:operator",
       "targets": [
-        "measure-pwa-install-loop"
+        "refresh-production-blocker-handoff"
       ],
       "reason": "Operator history is already capped and published; keep attention on product evidence."
     },
@@ -1124,13 +1122,13 @@
     },
     {
       "id": "optimize-store-listing",
-      "status": "armed",
+      "status": "monitor",
       "costUsd": 0,
       "command": "npm run autonomous:store-package && npm run autonomous:store-listing-optimize && npm run autonomous:store-compliance",
       "targets": [
         "market-pulse"
       ],
-      "reason": "Refreshes the base store package, optimized copy, screenshot priority, and compliance drafts from behavior signals."
+      "reason": "Store package, listing copy, screenshot priority, and compliance drafts already match current growth, support, monetization, and store evidence."
     },
     {
       "id": "prepare-android-signing",
@@ -1225,6 +1223,20 @@
       "status": "credential-required",
       "target": "CLOUDFLARE_API_TOKEN",
       "purpose": "Repository secret sourced from CLOUDFLARE_API_TOKEN.",
+      "source": "production-bootstrap"
+    },
+    {
+      "id": "secret-vite-event-collector-write-token",
+      "status": "credential-required",
+      "target": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
+      "purpose": "Repository secret sourced from VITE_EVENT_COLLECTOR_WRITE_TOKEN.",
+      "source": "production-bootstrap"
+    },
+    {
+      "id": "secret-agl-event-collector-admin-token",
+      "status": "credential-required",
+      "target": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
+      "purpose": "Repository secret sourced from AGL_EVENT_COLLECTOR_ADMIN_TOKEN.",
       "source": "production-bootstrap"
     },
     {

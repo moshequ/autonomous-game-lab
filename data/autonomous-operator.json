@@ -1,31 +1,17 @@
 {
-  "generatedAt": "2026-05-22T11:50:31.800Z",
-  "status": "operator-plan-ready",
+  "generatedAt": "2026-05-22T11:51:49.263Z",
+  "status": "operator-held",
   "mode": "plan-only",
   "ownerDecision": {
-    "actionId": "bootstrap-production-setup",
-    "command": "npm run autonomous:release-candidate && npm run autonomous:deploy-plan && npm run autonomous:bootstrap",
-    "locallyExecutable": true,
-    "rejectionReason": null
+    "actionId": "hold-for-external-input",
+    "command": "No local command is available until external inputs, configured credentials, or new player evidence arrive.",
+    "locallyExecutable": false,
+    "rejectionReason": "status-monitor"
   },
   "requestedActionId": null,
-  "selectedAction": {
-    "id": "bootstrap-production-setup",
-    "status": "armed",
-    "command": "npm run autonomous:release-candidate && npm run autonomous:deploy-plan && npm run autonomous:bootstrap",
-    "targets": [
-      "github-pages",
-      "repository-config",
-      "event-collector"
-    ],
-    "reason": "Regenerates the zero-spend production setup handoff and exact GitHub variable/secret commands.",
-    "costUsd": 0
-  },
+  "selectedAction": null,
   "selectedRejection": null,
-  "eligibleActionIds": [
-    "bootstrap-production-setup",
-    "optimize-store-listing"
-  ],
+  "eligibleActionIds": [],
   "blockedActions": [
     {
       "id": "run-daily-owner-loop",
@@ -160,6 +146,12 @@
       "reason": "status-monitor"
     },
     {
+      "id": "bootstrap-production-setup",
+      "status": "monitor",
+      "command": "npm run autonomous:release-candidate && npm run autonomous:deploy-plan && npm run autonomous:bootstrap",
+      "reason": "status-monitor"
+    },
+    {
       "id": "activate-production-when-configured",
       "status": "monitor",
       "command": "npm run autonomous:activate-production",
@@ -197,9 +189,9 @@
     },
     {
       "id": "optimize-store-listing",
-      "status": "armed",
+      "status": "monitor",
       "command": "npm run autonomous:store-package && npm run autonomous:store-listing-optimize && npm run autonomous:store-compliance",
-      "reason": "not-selected-this-run"
+      "reason": "status-monitor"
     },
     {
       "id": "prepare-android-signing",
@@ -226,20 +218,7 @@
       "reason": "status-monitor"
     }
   ],
-  "commandPlan": [
-    {
-      "segment": "npm run autonomous:release-candidate",
-      "script": "autonomous:release-candidate"
-    },
-    {
-      "segment": "npm run autonomous:deploy-plan",
-      "script": "autonomous:deploy-plan"
-    },
-    {
-      "segment": "npm run autonomous:bootstrap",
-      "script": "autonomous:bootstrap"
-    }
-  ],
+  "commandPlan": [],
   "execution": {
     "requested": false,
     "status": "not-requested",
@@ -312,7 +291,7 @@
     "RUN_WORKFLOWS=1"
   ],
   "nextActions": [
-    "Run npm run autonomous:operator -- --execute --action=bootstrap-production-setup to execute exactly one allowed local action.",
+    "Keep reporting external blockers until a safe local action is eligible.",
     "Do not execute GitHub workflow, store, paid ads, or account setup commands from the local operator."
   ]
 }
