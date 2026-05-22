@@ -1,8 +1,8 @@
 # Autonomous Analyst Report
 
-Generated: 2026-05-22T08:48:25.028Z
+Generated: 2026-05-22T09:12:31.528Z
 Backlog status: improvement-backlog-ready
-Backlog source hash: ec97bfaaeb5b
+Backlog source hash: 62981f105b60
 
 ## Game Health
 
@@ -39,9 +39,9 @@ Support feedback: support-feedback-empty; signals 0; routable 0; aggregate notes
 
 ## Prototype Queue
 
-1. Lantern Relay: playable; release score 541; web ready-after-build; Google Play blocked.
-2. Harbor Circuit: playable; release score 435; web ready-after-build; Google Play blocked.
-3. Orbit Atlas: playable; release score 324; web ready-after-build; Google Play blocked.
+1. Lantern Relay: playable; release score 555; web ready-after-build; Google Play blocked.
+2. Harbor Circuit: playable; release score 428; web ready-after-build; Google Play blocked.
+3. Foundry Ledger: playable; release score 377; web ready-after-build; Google Play blocked.
 
 ## Bot Balance
 
@@ -83,7 +83,7 @@ Support feedback: support-feedback-empty; signals 0; routable 0; aggregate notes
 ### Metro Loom
 
 - Target: 96
-- Random win rate: 3%
+- Random win rate: 16%
 - Greedy win rate: 100%
 - Recommendation: Balance looks playable for first web test
 
@@ -97,21 +97,21 @@ Support feedback: support-feedback-empty; signals 0; routable 0; aggregate notes
 ### Guild Garden
 
 - Target: 138
-- Random win rate: 12%
-- Greedy win rate: 100%
+- Random win rate: 0%
+- Greedy win rate: 96%
 - Recommendation: Balance looks playable for first web test
 
 ### Market Pulse
 
 - Target: 144
-- Random win rate: 50%
+- Random win rate: 4%
 - Greedy win rate: 100%
 - Recommendation: Balance looks playable for first web test
 
-### Grove Engine
+### Canopy Bloom
 
 - Target: 104
-- Random win rate: 52%
+- Random win rate: 46%
 - Greedy win rate: 100%
 - Recommendation: Balance looks playable for first web test
 

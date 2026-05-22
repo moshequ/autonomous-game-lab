@@ -1,6 +1,6 @@
 # Generated Game Concepts
 
-Generated: 2026-05-22T08:48:15.474Z
+Generated: 2026-05-22T09:12:22.793Z
 
 ## Accepted Candidates
 
@@ -18,7 +18,7 @@ Generated: 2026-05-22T08:48:15.474Z
 
 - Mechanic: route building
 - Theme: cozy production
-- Audience: mobile puzzle
+- Audience: families
 - Template: line-drawing
 - Core loop: chain comforting orders by making one strong route building decision per turn.
 - IP risk: low
@@ -28,7 +28,7 @@ Generated: 2026-05-22T08:48:15.474Z
 
 - Mechanic: worker placement
 - Theme: expedition planning
-- Audience: families
+- Audience: mobile puzzle
 - Template: turn-economy
 - Core loop: commit scouts without overextending supplies by making one strong worker placement decision per turn.
 - IP risk: low
@@ -36,11 +36,11 @@ Generated: 2026-05-22T08:48:15.474Z
 
 ### 4. Foundry Ledger
 
-- Mechanic: auction
+- Mechanic: roll and write
 - Theme: compact city logistics
 - Audience: strategy solo
-- Template: turn-economy
-- Core loop: connect demand before congestion rises by making one strong auction decision per turn.
+- Template: daily-sheet
+- Core loop: connect demand before congestion rises by making one strong roll and write decision per turn.
 - IP risk: low
 - Monetization test: rewarded hint after failed daily challenge
 

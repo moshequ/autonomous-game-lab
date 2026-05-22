@@ -1,8 +1,8 @@
 # PWA Install Loop
 
-Generated: 2026-05-22T08:50:58.881Z
+Generated: 2026-05-22T09:15:21.765Z
 Status: pwa-install-loop-ready
-Source hash: ba5a62fe65df
+Source hash: 9679c5eaa5e2
 Channel: pwa-install (ready-after-hosting)
 Install page views: 0
 Open-app clicks: 0
@@ -17,20 +17,20 @@ Acceptance: 0%
 - Surface: autonomy-cockpit
 - CTA: Install app
 - Cooldown after dismissal: 14 days
-- Priority game: grove-engine
+- Priority game: market-pulse
 - Public install page: /install.html
-- Campaign: pwa-install-grove-engine
+- Campaign: pwa-install-market-pulse
 - Local analytics: agl.analytics.events
 
 ## Install Sample Policy
 
 - Status: collecting-sample
-- Campaign: pwa-install-grove-engine
-- Play path: /?game=grove-engine&utm_source=pwa_install&utm_campaign=pwa-install-grove-engine
+- Campaign: pwa-install-market-pulse
+- Play path: /?game=market-pulse&utm_source=pwa_install&utm_campaign=pwa-install-market-pulse
 - Prompt views needed: 20
 - Launch-mode events needed: 10
 - Hosted origin required: false
-- Next action: Route zero-spend install traffic through /?game=grove-engine&utm_source=pwa_install&utm_campaign=pwa-install-grove-engine until 20 prompt view(s) and 10 launch-mode event(s) are collected.
+- Next action: Route zero-spend install traffic through /?game=market-pulse&utm_source=pwa_install&utm_campaign=pwa-install-market-pulse until 20 prompt view(s) and 10 launch-mode event(s) are collected.
 
 ## Guardrails
 
@@ -52,8 +52,8 @@ Acceptance: 0%
 
 ## Next Actions
 
-- Route zero-spend install traffic through /?game=grove-engine&utm_source=pwa_install&utm_campaign=pwa-install-grove-engine until 20 prompt view(s) and 10 launch-mode event(s) are collected.
+- Route zero-spend install traffic through /?game=market-pulse&utm_source=pwa_install&utm_campaign=pwa-install-market-pulse until 20 prompt view(s) and 10 launch-mode event(s) are collected.
 - Start measuring native install prompt availability and standalone launches.
-- Route install traffic through /?game=grove-engine&utm_source=pwa_install&utm_campaign=pwa-install-grove-engine so prompt events carry pwa-install attribution.
+- Route install traffic through /?game=market-pulse&utm_source=pwa_install&utm_campaign=pwa-install-market-pulse so prompt events carry pwa-install attribution.
 - Keep install links pointed at the stable HTTPS production origin.
 - Keep install prompts optional, non-blocking, and separated from paid rewards.

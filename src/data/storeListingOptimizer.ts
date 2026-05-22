@@ -1,6 +1,6 @@
 export const storeListingOptimizer = {
-  "generatedAt": "2026-05-22T08:51:59.361Z",
-  "sourceDataHash": "fb8f9600b784",
+  "generatedAt": "2026-05-22T09:16:27.466Z",
+  "sourceDataHash": "498ed4236cee",
   "status": "store-listing-optimizer-ready",
   "sourceStatus": {
     "growthPlan": "growth-assets-ready",
@@ -12,8 +12,8 @@ export const storeListingOptimizer = {
     "monetization": "blocked-by-product-gates"
   },
   "recommendation": {
-    "focusGameId": "grove-engine",
-    "title": "Grove Engine",
+    "focusGameId": "market-pulse",
+    "title": "Market Pulse",
     "previousLaunchCandidateId": "lantern-relay",
     "changedLaunchCandidate": true,
     "rationale": [
@@ -26,8 +26,8 @@ export const storeListingOptimizer = {
   },
   "candidateSignals": [
     {
-      "gameId": "grove-engine",
-      "title": "Grove Engine",
+      "gameId": "market-pulse",
+      "title": "Market Pulse",
       "status": "generated-playable",
       "score": 171.912,
       "growthQuality": 78,
@@ -37,47 +37,24 @@ export const storeListingOptimizer = {
       "generatedRuntime": true,
       "hasScreenshot": true,
       "keywords": [
-        "engine building",
-        "expedition planning",
-        "daily puzzle",
-        "solo board game",
-        "generated strategy game",
-        "board-game-inspired",
-        "mobile PWA"
-      ],
-      "shortDescription": "A generated engine building puzzle with quick expedition planning decisions.",
-      "fullDescription": "Grove Engine is tuned as a daily engine building challenge with a compact board and a clear score target. A generated engine building puzzle that turns trend signals into a compact solo board state."
-    },
-    {
-      "gameId": "market-pulse",
-      "title": "Market Pulse",
-      "status": "generated-playable",
-      "score": 128.232,
-      "growthQuality": 74,
-      "portfolioScore": 50.232,
-      "dailyChallenge": false,
-      "acquisitionFeatured": false,
-      "generatedRuntime": true,
-      "hasScreenshot": false,
-      "keywords": [
         "auction",
-        "compact city logistics",
+        "science desk",
         "daily puzzle",
         "solo board game",
         "generated strategy game",
         "board-game-inspired",
         "mobile PWA"
       ],
-      "shortDescription": "A generated auction puzzle with quick compact city logistics decisions.",
-      "fullDescription": "Market Pulse is tuned as a daily auction challenge with a compact board and a clear score target. A complete tactical board-game feeling in 9 minutes, tuned for touch screens."
+      "shortDescription": "A generated auction puzzle with quick science desk decisions.",
+      "fullDescription": "Market Pulse is tuned as a daily auction challenge with a compact board and a clear score target. A generated auction puzzle that turns trend signals into a compact solo board state."
     },
     {
       "gameId": "guild-garden",
       "title": "Guild Garden",
       "status": "generated-playable",
-      "score": 122.552,
-      "growthQuality": 70,
-      "portfolioScore": 48.552,
+      "score": 128.232,
+      "growthQuality": 74,
+      "portfolioScore": 50.232,
       "dailyChallenge": false,
       "acquisitionFeatured": false,
       "generatedRuntime": true,
@@ -92,7 +69,30 @@ export const storeListingOptimizer = {
         "mobile PWA"
       ],
       "shortDescription": "A generated worker placement puzzle with quick expedition planning decisions.",
-      "fullDescription": "Guild Garden is tuned as a daily worker placement challenge with a compact board and a clear score target. A complete tactical board-game feeling in 7 minutes, tuned for touch screens."
+      "fullDescription": "Guild Garden is tuned as a daily worker placement challenge with a compact board and a clear score target. A complete tactical board-game feeling in 5 minutes, tuned for touch screens."
+    },
+    {
+      "gameId": "canopy-bloom",
+      "title": "Canopy Bloom",
+      "status": "generated-playable",
+      "score": 122.552,
+      "growthQuality": 70,
+      "portfolioScore": 48.552,
+      "dailyChallenge": false,
+      "acquisitionFeatured": false,
+      "generatedRuntime": true,
+      "hasScreenshot": false,
+      "keywords": [
+        "roll and write",
+        "compact city logistics",
+        "daily puzzle",
+        "solo board game",
+        "generated strategy game",
+        "board-game-inspired",
+        "mobile PWA"
+      ],
+      "shortDescription": "A generated roll and write puzzle with quick compact city logistics decisions.",
+      "fullDescription": "A complete tactical board-game feeling in 9 minutes, tuned for touch screens."
     },
     {
       "gameId": "metro-loom",
@@ -115,7 +115,7 @@ export const storeListingOptimizer = {
         "mobile PWA"
       ],
       "shortDescription": "A generated route building puzzle with quick cozy production decisions.",
-      "fullDescription": "Metro Loom is tuned as a daily route building challenge with a compact board and a clear score target. A complete tactical board-game feeling in 5 minutes, tuned for touch screens."
+      "fullDescription": "Metro Loom is tuned as a daily route building challenge with a compact board and a clear score target. A complete tactical board-game feeling in 7 minutes, tuned for touch screens."
     },
     {
       "gameId": "pocket-draft",
@@ -154,61 +154,61 @@ export const storeListingOptimizer = {
       "keywords": [
         "worker placement",
         "expedition planning",
-        "families",
+        "mobile puzzle",
         "daily puzzle",
         "solo board game",
         "strategy puzzle",
         "board-game-inspired",
         "mobile PWA"
       ],
-      "shortDescription": "7-minute original worker placement game for daily mobile play.",
-      "fullDescription": "Orbit Atlas is tuned as a daily worker placement challenge with a compact board and a clear score target. Orbit Atlas is an original mobile-first board-game-inspired puzzle set in modular camp routes around unknown landmarks. A complete tactical board-game feeling in 7 minutes, tuned for touch screens. Core loop: commit scouts without overextending supplies by making one strong worker placement decision per turn. The first release focuses on solo daily play, clear scoring, replayable seeds, and measured improvements from player behavior."
+      "shortDescription": "5-minute original worker placement game for daily mobile play.",
+      "fullDescription": "Orbit Atlas is tuned as a daily worker placement challenge with a compact board and a clear score target. Orbit Atlas is an original mobile-first board-game-inspired puzzle set in modular camp routes around unknown landmarks. A complete tactical board-game feeling in 5 minutes, tuned for touch screens. Core loop: commit scouts without overextending supplies by making one strong worker placement decision per turn. The first release focuses on solo daily play, clear scoring, replayable seeds, and measured improvements from player behavior."
     }
   ],
   "listing": {
     "source": "store-listing-optimizer",
-    "sourceGameId": "grove-engine",
+    "sourceGameId": "market-pulse",
     "appName": "Autonomous Game Lab",
     "googlePlay": {
       "title": "Autonomous Game Lab",
-      "shortDescription": "Original daily strategy puzzles led by Grove Engine. Quick solo board-game play.",
-      "fullDescription": "Autonomous Game Lab is a web-first collection of original board-game-inspired solo strategy puzzles. Grove Engine is the current data-led store focus: A generated engine building puzzle with quick expedition planning decisions. Every game is built for short touch-first sessions, clear scoring, daily replay, and measured improvements from anonymous gameplay signals. Accounts, user-generated content, purchases, gambling, and ads remain disabled until production gates and store review requirements pass.",
+      "shortDescription": "Original daily strategy puzzles led by Market Pulse. Quick solo board-game play.",
+      "fullDescription": "Autonomous Game Lab is a web-first collection of original board-game-inspired solo strategy puzzles. Market Pulse is the current data-led store focus: A generated auction puzzle with quick science desk decisions. Every game is built for short touch-first sessions, clear scoring, daily replay, and measured improvements from anonymous gameplay signals. Accounts, user-generated content, purchases, gambling, and ads remain disabled until production gates and store review requirements pass.",
       "keywordThemes": [
-        "engine building",
-        "expedition planning",
+        "auction",
+        "science desk",
         "daily puzzle",
         "solo board game",
         "generated strategy game",
         "board-game-inspired",
-        "auction",
-        "compact city logistics",
         "worker placement",
+        "expedition planning",
+        "roll and write",
+        "compact city logistics",
         "route building",
-        "cozy production",
-        "strategy puzzle"
+        "cozy production"
       ]
     },
     "appleAppStore": {
       "name": "Autonomous Game Lab",
-      "subtitle": "Grove Engine daily strategy",
-      "promotionalText": "Play Grove Engine, today's data-led solo strategy puzzle.",
-      "keywords": "engine building,expedition planning,daily puzzle,solo board game,generated strategy game,auction"
+      "subtitle": "Market Pulse daily strategy",
+      "promotionalText": "Play Market Pulse, today's data-led solo strategy puzzle.",
+      "keywords": "auction,science desk,daily puzzle,solo board game,generated strategy game,board-game-inspired"
     },
-    "shortDescription": "Original daily strategy puzzles led by Grove Engine. Quick solo board-game play.",
-    "fullDescription": "Autonomous Game Lab is a web-first collection of original board-game-inspired solo strategy puzzles. Grove Engine is the current data-led store focus: A generated engine building puzzle with quick expedition planning decisions. Every game is built for short touch-first sessions, clear scoring, daily replay, and measured improvements from anonymous gameplay signals. Accounts, user-generated content, purchases, gambling, and ads remain disabled until production gates and store review requirements pass.",
+    "shortDescription": "Original daily strategy puzzles led by Market Pulse. Quick solo board-game play.",
+    "fullDescription": "Autonomous Game Lab is a web-first collection of original board-game-inspired solo strategy puzzles. Market Pulse is the current data-led store focus: A generated auction puzzle with quick science desk decisions. Every game is built for short touch-first sessions, clear scoring, daily replay, and measured improvements from anonymous gameplay signals. Accounts, user-generated content, purchases, gambling, and ads remain disabled until production gates and store review requirements pass.",
     "keywords": [
-      "engine building",
-      "expedition planning",
+      "auction",
+      "science desk",
       "daily puzzle",
       "solo board game",
       "generated strategy game",
       "board-game-inspired",
-      "auction",
-      "compact city logistics",
       "worker placement",
+      "expedition planning",
+      "roll and write",
+      "compact city logistics",
       "route building",
-      "cozy production",
-      "strategy puzzle"
+      "cozy production"
     ],
     "screenshots": [
       "lead gameplay board",
@@ -218,9 +218,9 @@ export const storeListingOptimizer = {
     ],
     "screenshotAssets": [
       {
-        "id": "phone-grove-engine-generated",
-        "label": "Grove Engine gameplay board",
-        "path": "/store-assets/screenshots/phone-grove-engine-generated.png",
+        "id": "phone-market-pulse-generated",
+        "label": "Market Pulse gameplay board",
+        "path": "/store-assets/screenshots/phone-market-pulse-generated.png",
         "width": 1170,
         "height": 2532,
         "platformUse": [
@@ -271,9 +271,9 @@ export const storeListingOptimizer = {
   },
   "screenshotPriorities": [
     {
-      "id": "phone-grove-engine-generated",
-      "label": "Grove Engine gameplay board",
-      "path": "/store-assets/screenshots/phone-grove-engine-generated.png",
+      "id": "phone-market-pulse-generated",
+      "label": "Market Pulse gameplay board",
+      "path": "/store-assets/screenshots/phone-market-pulse-generated.png",
       "width": 1170,
       "height": 2532,
       "priorityScore": 140,
@@ -324,8 +324,8 @@ export const storeListingOptimizer = {
     "revenueClaimsAllowed": false
   },
   "nextActions": [
-    "Use Grove Engine as the store listing focus instead of lantern-relay.",
-    "Lead screenshots with Grove Engine gameplay board.",
+    "Use Market Pulse as the store listing focus instead of lantern-relay.",
+    "Lead screenshots with Market Pulse gameplay board.",
     "Regenerate store compliance after every listing, screenshot, monetization, or privacy change."
   ]
 } as const

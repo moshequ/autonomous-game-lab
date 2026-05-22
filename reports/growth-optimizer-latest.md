@@ -1,8 +1,8 @@
 # Growth Optimizer
 
-Generated: 2026-05-22T08:48:21.939Z
+Generated: 2026-05-22T09:12:28.201Z
 Source: fixture-sample
-Source data hash: 7196d210fb72
+Source data hash: 86c3afd025e1
 
 ## Observed
 
@@ -12,8 +12,8 @@ Source data hash: 7196d210fb72
 
 ## Actions
 
-- applied: grove-engine; No organic entry data yet; seed strongest pages with daily challenge copy.; CTA daily-challenge; message daily.
 - applied: market-pulse; No organic entry data yet; seed strongest pages with daily challenge copy.; CTA daily-challenge; message daily.
+- applied: guild-garden; No organic entry data yet; seed strongest pages with daily challenge copy.; CTA daily-challenge; message daily.
 
 ## Active Policy
 
@@ -22,4 +22,3 @@ Source data hash: 7196d210fb72
 - metro-loom: daily-challenge, daily - No organic entry data yet; seed strongest pages with daily challenge copy.
 - guild-garden: daily-challenge, daily - No organic entry data yet; seed strongest pages with daily challenge copy.
 - market-pulse: daily-challenge, daily - No organic entry data yet; seed strongest pages with daily challenge copy.
-- grove-engine: daily-challenge, daily - No organic entry data yet; seed strongest pages with daily challenge copy.

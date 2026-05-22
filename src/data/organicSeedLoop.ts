@@ -1,7 +1,7 @@
 export const organicSeedLoop = {
-  "generatedAt": "2026-05-22T08:50:58.724Z",
+  "generatedAt": "2026-05-22T09:15:21.618Z",
   "status": "organic-seed-loop-ready",
-  "sourceDataHash": "c937bc2abe69",
+  "sourceDataHash": "154f15674920",
   "sourceStatus": {
     "analyticsSource": "fixture-sample",
     "trafficSeeding": "traffic-seeding-ready",
@@ -9,9 +9,9 @@ export const organicSeedLoop = {
     "rawAttributionAvailable": false
   },
   "target": {
-    "campaignId": "seed-20260522-grove-engine",
-    "gameId": "grove-engine",
-    "title": "Grove Engine",
+    "campaignId": "seed-20260522-market-pulse",
+    "gameId": "market-pulse",
+    "title": "Market Pulse",
     "priority": 1,
     "opportunityScore": 1,
     "sampleProgress": 0
@@ -85,20 +85,20 @@ export const organicSeedLoop = {
   },
   "campaigns": [
     {
-      "id": "seed-20260522-grove-engine",
-      "gameId": "grove-engine",
-      "title": "Grove Engine",
+      "id": "seed-20260522-market-pulse",
+      "gameId": "market-pulse",
+      "title": "Market Pulse",
       "priority": 1,
       "status": "collecting-attribution",
       "action": "seed-traffic",
       "dataConfidence": "seed-needed",
       "costUsd": 0,
-      "playUrl": "https://moshequ.github.io/autonomous-game-lab/?game=grove-engine&utm_source=seed_internal&utm_campaign=seed-20260522-grove-engine",
-      "shareUrl": "https://moshequ.github.io/autonomous-game-lab/?game=grove-engine&utm_source=seed_share&utm_campaign=seed-20260522-grove-engine",
-      "pageUrl": "https://moshequ.github.io/autonomous-game-lab/games/grove-engine.html",
+      "playUrl": "https://moshequ.github.io/autonomous-game-lab/?game=market-pulse&utm_source=seed_internal&utm_campaign=seed-20260522-market-pulse",
+      "shareUrl": "https://moshequ.github.io/autonomous-game-lab/?game=market-pulse&utm_source=seed_share&utm_campaign=seed-20260522-market-pulse",
+      "pageUrl": "https://moshequ.github.io/autonomous-game-lab/games/market-pulse.html",
       "copy": {
-        "title": "Play Grove Engine",
-        "text": "A generated engine building puzzle with quick expedition planning decisions.",
+        "title": "Play Market Pulse",
+        "text": "A generated auction puzzle with quick science desk decisions.",
         "cta": "Try today's challenge"
       },
       "shareReadiness": "ready",
@@ -115,46 +115,13 @@ export const organicSeedLoop = {
         "completionRate": null,
         "opportunityScore": 1
       },
-      "nextAction": "Collect player-initiated starts and shares for Grove Engine before quality judgment."
-    },
-    {
-      "id": "seed-20260522-market-pulse",
-      "gameId": "market-pulse",
-      "title": "Market Pulse",
-      "priority": 2,
-      "status": "collecting-attribution",
-      "action": "seed-traffic",
-      "dataConfidence": "seed-needed",
-      "costUsd": 0,
-      "playUrl": "https://moshequ.github.io/autonomous-game-lab/?game=market-pulse&utm_source=seed_internal&utm_campaign=seed-20260522-market-pulse",
-      "shareUrl": "https://moshequ.github.io/autonomous-game-lab/?game=market-pulse&utm_source=seed_share&utm_campaign=seed-20260522-market-pulse",
-      "pageUrl": "https://moshequ.github.io/autonomous-game-lab/games/market-pulse.html",
-      "copy": {
-        "title": "Play Market Pulse",
-        "text": "A generated auction puzzle with quick compact city logistics decisions.",
-        "cta": "Try today's challenge"
-      },
-      "shareReadiness": "ready",
-      "attribution": {
-        "seedClicks": 0,
-        "organicEntries": 0,
-        "attributedStarts": 0,
-        "observedStarts": 0
-      },
-      "metrics": {
-        "targetStarts": 40,
-        "sampleProgress": 0,
-        "startRate": null,
-        "completionRate": null,
-        "opportunityScore": 0.875
-      },
       "nextAction": "Collect player-initiated starts and shares for Market Pulse before quality judgment."
     },
     {
       "id": "seed-20260522-guild-garden",
       "gameId": "guild-garden",
       "title": "Guild Garden",
-      "priority": 3,
+      "priority": 2,
       "status": "collecting-attribution",
       "action": "seed-traffic",
       "dataConfidence": "seed-needed",
@@ -179,9 +146,42 @@ export const organicSeedLoop = {
         "sampleProgress": 0,
         "startRate": null,
         "completionRate": null,
-        "opportunityScore": 0.833
+        "opportunityScore": 0.875
       },
       "nextAction": "Collect player-initiated starts and shares for Guild Garden before quality judgment."
+    },
+    {
+      "id": "seed-20260522-canopy-bloom",
+      "gameId": "canopy-bloom",
+      "title": "Canopy Bloom",
+      "priority": 3,
+      "status": "collecting-attribution",
+      "action": "seed-traffic",
+      "dataConfidence": "seed-needed",
+      "costUsd": 0,
+      "playUrl": "https://moshequ.github.io/autonomous-game-lab/?game=canopy-bloom&utm_source=seed_internal&utm_campaign=seed-20260522-canopy-bloom",
+      "shareUrl": "https://moshequ.github.io/autonomous-game-lab/?game=canopy-bloom&utm_source=seed_share&utm_campaign=seed-20260522-canopy-bloom",
+      "pageUrl": "https://moshequ.github.io/autonomous-game-lab/games/canopy-bloom.html",
+      "copy": {
+        "title": "Play Canopy Bloom",
+        "text": "A generated roll and write puzzle with quick compact city logistics decisions.",
+        "cta": "Play free puzzle"
+      },
+      "shareReadiness": "ready",
+      "attribution": {
+        "seedClicks": 0,
+        "organicEntries": 0,
+        "attributedStarts": 0,
+        "observedStarts": 0
+      },
+      "metrics": {
+        "targetStarts": 40,
+        "sampleProgress": 0,
+        "startRate": null,
+        "completionRate": null,
+        "opportunityScore": 0.833
+      },
+      "nextAction": "Collect player-initiated starts and shares for Canopy Bloom before quality judgment."
     },
     {
       "id": "seed-20260522-metro-loom",
@@ -222,26 +222,26 @@ export const organicSeedLoop = {
       "id": "open-seed-game",
       "status": "armed",
       "event": "seed_campaign_clicked",
-      "targetGameId": "grove-engine",
+      "targetGameId": "market-pulse",
       "reward": "sample-growth"
     },
     {
       "id": "share-seed-link",
       "status": "armed",
       "event": "organic_seed_share_clicked",
-      "targetGameId": "grove-engine",
+      "targetGameId": "market-pulse",
       "reward": "organic-signal"
     },
     {
       "id": "measure-seeded-start",
       "status": "armed",
       "event": "game_started",
-      "targetGameId": "grove-engine",
+      "targetGameId": "market-pulse",
       "reward": "quality-evidence"
     }
   ],
   "nextActions": [
-    "Feature Grove Engine as the current organic seed target.",
+    "Feature Market Pulse as the current organic seed target.",
     "Use only player-initiated sharing; do not post externally without credentials or consent.",
     "Keep collecting attributed starts until the sample-size gate clears."
   ]

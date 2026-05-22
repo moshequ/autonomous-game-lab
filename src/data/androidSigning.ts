@@ -1,5 +1,5 @@
 export const androidSigning = {
-  "generatedAt": "2026-05-22T08:48:17.470Z",
+  "generatedAt": "2026-05-22T09:12:23.772Z",
   "status": "signing-prepared",
   "envFiles": {
     "loaded": false,

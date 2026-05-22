@@ -1,6 +1,6 @@
 # Bot Simulation Report
 
-Generated: 2026-05-22T08:48:27.230Z
+Generated: 2026-05-22T09:12:33.777Z
 
 ## Harbor Rings
 
@@ -79,14 +79,14 @@ Simulations: 1260
 
 ## Metro Loom
 
-Target: 96 in 10 moves
+Target: 96 in 11 moves
 Simulations: 1260
 
 ### Strategy Results
 
-- random: avg 69.3, p50 68, p90 85, win 3%
-- center: avg 126.6, p50 127, p90 133, win 100%
-- greedy: avg 135.9, p50 136, p90 147, win 100%
+- random: avg 82.3, p50 82, p90 99, win 16%
+- center: avg 141.4, p50 142, p90 148, win 100%
+- greedy: avg 149.2, p50 148, p90 159, win 100%
 
 ### Recommendations
 
@@ -109,14 +109,14 @@ Simulations: 1260
 
 ## Guild Garden
 
-Target: 138 in 11 moves
+Target: 138 in 10 moves
 Simulations: 1260
 
 ### Strategy Results
 
-- random: avg 124.1, p50 123, p90 138, win 12%
-- center: avg 150.3, p50 152, p90 157, win 97%
-- greedy: avg 161.4, p50 161, p90 168, win 100%
+- random: avg 105.9, p50 105, p90 120, win 0%
+- center: avg 137, p50 137, p90 145, win 41%
+- greedy: avg 144.5, p50 143, p90 151, win 96%
 
 ### Recommendations
 
@@ -124,29 +124,29 @@ Simulations: 1260
 
 ## Market Pulse
 
-Target: 144 in 12 moves
+Target: 144 in 11 moves
 Simulations: 1260
 
 ### Strategy Results
 
-- random: avg 144.1, p50 143, p90 158, win 50%
-- center: avg 164.6, p50 167, p90 172, win 100%
-- greedy: avg 179.5, p50 178, p90 186, win 100%
+- random: avg 124.1, p50 123, p90 138, win 4%
+- center: avg 150.3, p50 152, p90 157, win 86%
+- greedy: avg 161.4, p50 161, p90 168, win 100%
 
 ### Recommendations
 
 - low: Balance looks playable for first web test (64% confidence) - bot strategies create a useful score spread without extreme win rates
 
-## Grove Engine
+## Canopy Bloom
 
-Target: 104 in 11 moves
+Target: 104 in 12 moves
 Simulations: 1260
 
 ### Strategy Results
 
-- random: avg 104.3, p50 104, p90 119, win 52%
-- center: avg 117.8, p50 118, p90 131, win 92%
-- greedy: avg 134.2, p50 133, p90 148, win 100%
+- random: avg 102.9, p50 102, p90 116, win 46%
+- center: avg 142.6, p50 142, p90 150, win 100%
+- greedy: avg 145.7, p50 145, p90 152, win 100%
 
 ### Recommendations
 

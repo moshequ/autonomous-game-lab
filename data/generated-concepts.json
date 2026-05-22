@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-05-22T08:48:15.474Z",
-  "inputTrendGeneratedAt": "2026-05-22T08:48:15.326Z",
+  "generatedAt": "2026-05-22T09:12:22.793Z",
+  "inputTrendGeneratedAt": "2026-05-22T09:12:22.658Z",
   "guardrails": [
     "No source title reuse",
     "No copied rule text",
@@ -22,7 +22,7 @@
         "mechanic": "card drafting",
         "theme": "science desk",
         "audience": "strategy solo",
-        "score": 425
+        "score": 439
       },
       "gameBrief": {
         "setting": "a tabletop research station",
@@ -63,14 +63,14 @@
       "opportunity": {
         "mechanic": "route building",
         "theme": "cozy production",
-        "audience": "mobile puzzle",
-        "score": 289
+        "audience": "families",
+        "score": 282
       },
       "gameBrief": {
         "setting": "tiny seasonal workshops",
         "coreLoop": "chain comforting orders by making one strong route building decision per turn.",
-        "sessionLengthMinutes": 5,
-        "playerPromise": "A complete tactical board-game feeling in 5 minutes, tuned for touch screens.",
+        "sessionLengthMinutes": 7,
+        "playerPromise": "A complete tactical board-game feeling in 7 minutes, tuned for touch screens.",
         "firstPrototypeTemplate": "line-drawing",
         "artDirection": "warm workbench pieces and readable resource icons"
       },
@@ -105,14 +105,14 @@
       "opportunity": {
         "mechanic": "worker placement",
         "theme": "expedition planning",
-        "audience": "families",
-        "score": 204
+        "audience": "mobile puzzle",
+        "score": 219
       },
       "gameBrief": {
         "setting": "modular camp routes around unknown landmarks",
         "coreLoop": "commit scouts without overextending supplies by making one strong worker placement decision per turn.",
-        "sessionLengthMinutes": 7,
-        "playerPromise": "A complete tactical board-game feeling in 7 minutes, tuned for touch screens.",
+        "sessionLengthMinutes": 5,
+        "playerPromise": "A complete tactical board-game feeling in 5 minutes, tuned for touch screens.",
         "firstPrototypeTemplate": "turn-economy",
         "artDirection": "paper maps, stamped hazards, and high-contrast terrain"
       },
@@ -145,17 +145,17 @@
         "art": "new visual direction; no source art used"
       },
       "opportunity": {
-        "mechanic": "auction",
+        "mechanic": "roll and write",
         "theme": "compact city logistics",
         "audience": "strategy solo",
-        "score": 191
+        "score": 227
       },
       "gameBrief": {
         "setting": "pocket-size transit districts",
-        "coreLoop": "connect demand before congestion rises by making one strong auction decision per turn.",
+        "coreLoop": "connect demand before congestion rises by making one strong roll and write decision per turn.",
         "sessionLengthMinutes": 9,
         "playerPromise": "A complete tactical board-game feeling in 9 minutes, tuned for touch screens.",
-        "firstPrototypeTemplate": "turn-economy",
+        "firstPrototypeTemplate": "daily-sheet",
         "artDirection": "bright route lines, station stamps, and compact maps"
       },
       "telemetryPlan": [
@@ -173,7 +173,7 @@
           "subscriptions",
           "interstitial ads during first session"
         ],
-        "fitScore": 79
+        "fitScore": 83
       }
     }
   ]

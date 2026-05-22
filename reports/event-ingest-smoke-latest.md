@@ -1,11 +1,11 @@
 # Event Ingest Smoke
 
-Generated: 2026-05-22T08:50:57.935Z
+Generated: 2026-05-22T09:15:20.873Z
 Status: pass
 
 ## Ingest
 
-- Smoke game: Grove Engine (grove-engine)
+- Smoke game: Market Pulse (market-pulse)
 - Bridge status: bridge-ready-for-ingest
 - Bridge copied files: 1
 - Bridge sensitive properties stripped: 2
@@ -26,5 +26,5 @@ Status: pass
 - Active source: local-event-drops
 - Local events: 7
 - D1 retention: 1
-- Grove Engine starts: 2
-- Grove Engine completions: 1
+- Market Pulse starts: 2
+- Market Pulse completions: 1

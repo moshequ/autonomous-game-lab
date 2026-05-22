@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-22T08:48:21.939Z",
+  "generatedAt": "2026-05-22T09:12:28.201Z",
   "guardrails": {
     "maxChangesPerRun": 2,
     "allowedCtaVariants": [
@@ -44,21 +44,14 @@
       "messageVariant": "daily",
       "reason": "No organic entry data yet; seed strongest pages with daily challenge copy.",
       "confidence": 73,
-      "updatedAt": "2026-05-22T01:39:57.975Z"
+      "updatedAt": "2026-05-22T09:12:28.201Z"
     },
     "market-pulse": {
       "ctaVariant": "daily-challenge",
       "messageVariant": "daily",
       "reason": "No organic entry data yet; seed strongest pages with daily challenge copy.",
       "confidence": 73,
-      "updatedAt": "2026-05-22T08:48:21.939Z"
-    },
-    "grove-engine": {
-      "ctaVariant": "daily-challenge",
-      "messageVariant": "daily",
-      "reason": "No organic entry data yet; seed strongest pages with daily challenge copy.",
-      "confidence": 73,
-      "updatedAt": "2026-05-22T08:48:21.938Z"
+      "updatedAt": "2026-05-22T09:12:28.201Z"
     }
   },
   "history": [
@@ -330,6 +323,36 @@
         "reason": "No organic entry data yet; seed strongest pages with daily challenge copy.",
         "confidence": 73,
         "updatedAt": "2026-05-22T08:48:21.939Z"
+      }
+    },
+    {
+      "status": "applied",
+      "gameId": "market-pulse",
+      "reason": "No organic entry data yet; seed strongest pages with daily challenge copy.",
+      "confidence": 73,
+      "sourceDataHash": "86c3afd025e1",
+      "appliedAt": "2026-05-22T09:12:28.201Z",
+      "after": {
+        "ctaVariant": "daily-challenge",
+        "messageVariant": "daily",
+        "reason": "No organic entry data yet; seed strongest pages with daily challenge copy.",
+        "confidence": 73,
+        "updatedAt": "2026-05-22T09:12:28.201Z"
+      }
+    },
+    {
+      "status": "applied",
+      "gameId": "guild-garden",
+      "reason": "No organic entry data yet; seed strongest pages with daily challenge copy.",
+      "confidence": 73,
+      "sourceDataHash": "86c3afd025e1",
+      "appliedAt": "2026-05-22T09:12:28.201Z",
+      "after": {
+        "ctaVariant": "daily-challenge",
+        "messageVariant": "daily",
+        "reason": "No organic entry data yet; seed strongest pages with daily challenge copy.",
+        "confidence": 73,
+        "updatedAt": "2026-05-22T09:12:28.201Z"
       }
     }
   ]

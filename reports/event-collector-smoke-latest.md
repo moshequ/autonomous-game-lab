@@ -1,11 +1,11 @@
 # Event Collector Smoke
 
-Generated: 2026-05-22T08:50:57.401Z
+Generated: 2026-05-22T09:15:20.376Z
 Status: pass
 
 ## Collector
 
-- Smoke game: Grove Engine (grove-engine)
+- Smoke game: Market Pulse (market-pulse)
 - Post status: accepted
 - Beacon status: accepted
 - Stored events: 15

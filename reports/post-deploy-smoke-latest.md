@@ -1,10 +1,10 @@
 # Post-Deploy Smoke
 
-Generated: 2026-05-22T09:11:22.146Z
+Generated: 2026-05-22T09:16:46.049Z
 Status: post-deploy-smoke-observed-live
 Origin: https://moshequ.github.io/autonomous-game-lab
 Origin source: release-candidate-public-origin
-Candidate: pwa-e26380d1b181
+Candidate: pwa-0078d0e6e72d
 Live candidate: pwa-c668aaac19e1
 
 ## Summary
@@ -36,7 +36,7 @@ Checks: 19/19 passed
 - pass: seed-next-html - dist/seed-next.html - Local production artifact matched required text.
 - pass: seed-next-json - dist/seed-next.json - Local production artifact matched required text.
 - pass: sitemap-xml - dist/sitemap.xml - Local production artifact matched required text.
-- pass: games-foundry-ledger-html - dist/games/foundry-ledger.html - Local production artifact matched required text.
+- pass: games-canopy-bloom-html - dist/games/canopy-bloom.html - Local production artifact matched required text.
 - pass: release-candidate-manifest - dist/release-candidate.json - Local release manifest matches the release candidate.
 
 ## Checks

@@ -1,6 +1,6 @@
 export const firstMoveCoach = {
-  "generatedAt": "2026-05-22T08:48:55.860Z",
-  "sourceDataHash": "4abede9852f0",
+  "generatedAt": "2026-05-22T09:13:04.487Z",
+  "sourceDataHash": "c13aac225cfa",
   "status": "first-move-coach-ready",
   "sourceStatus": {
     "analyticsSource": "fixture-sample",
@@ -145,6 +145,38 @@ export const firstMoveCoach = {
       "telemetryId": "first-move-coach-harbor-rings"
     },
     {
+      "gameId": "canopy-bloom",
+      "title": "Canopy Bloom",
+      "enabled": true,
+      "variantId": "fast-start",
+      "surface": "game-board-first-turn",
+      "recommendedCell": {
+        "row": 1,
+        "col": 2,
+        "label": "middle lane"
+      },
+      "board": {
+        "rows": 4,
+        "cols": 5
+      },
+      "generatedRuntime": true,
+      "runtimeSupported": true,
+      "priorityScore": 0,
+      "evidence": {
+        "shown": 0,
+        "used": 0,
+        "skipped": 0,
+        "resolved": 0,
+        "usageRate": 0,
+        "skipRate": 0,
+        "sampleReady": false
+      },
+      "decision": "active",
+      "sourceReason": "generated daily/portfolio game without live row yet",
+      "copy": "Start here",
+      "telemetryId": "first-move-coach-canopy-bloom"
+    },
+    {
       "gameId": "foundry-ledger",
       "title": "Foundry Ledger",
       "enabled": false,
@@ -175,38 +207,6 @@ export const firstMoveCoach = {
       "sourceReason": "playable game without live row yet",
       "copy": "Start here",
       "telemetryId": "first-move-coach-foundry-ledger"
-    },
-    {
-      "gameId": "grove-engine",
-      "title": "Grove Engine",
-      "enabled": true,
-      "variantId": "fast-start",
-      "surface": "game-board-first-turn",
-      "recommendedCell": {
-        "row": 1,
-        "col": 2,
-        "label": "middle lane"
-      },
-      "board": {
-        "rows": 3,
-        "cols": 5
-      },
-      "generatedRuntime": true,
-      "runtimeSupported": true,
-      "priorityScore": 0,
-      "evidence": {
-        "shown": 0,
-        "used": 0,
-        "skipped": 0,
-        "resolved": 0,
-        "usageRate": 0,
-        "skipRate": 0,
-        "sampleReady": false
-      },
-      "decision": "active",
-      "sourceReason": "generated daily/portfolio game without live row yet",
-      "copy": "Start here",
-      "telemetryId": "first-move-coach-grove-engine"
     },
     {
       "gameId": "guild-garden",

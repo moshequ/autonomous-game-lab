@@ -1,6 +1,6 @@
 export const iosRelease = {
-  "generatedAt": "2026-05-22T08:48:54.904Z",
-  "sourceDataHash": "5a3fdff77d26",
+  "generatedAt": "2026-05-22T09:13:03.568Z",
+  "sourceDataHash": "bca243f7cbb7",
   "status": "deferred-until-ios-payback",
   "platform": "ios-app-store",
   "bundleId": "app.autonomousgamelab.portal",

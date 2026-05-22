@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-05-22T08:48:15.612Z",
-  "inputConceptGeneratedAt": "2026-05-22T08:48:15.474Z",
+  "generatedAt": "2026-05-22T09:12:22.926Z",
+  "inputConceptGeneratedAt": "2026-05-22T09:12:22.793Z",
   "gates": {
     "monetization": {
       "minFirstGameCompletion": 0.55,
@@ -56,7 +56,7 @@
       "title": "Lantern Relay",
       "rank": 1,
       "status": "playable",
-      "releaseScore": 541,
+      "releaseScore": 555,
       "concept": {
         "id": "lantern-relay",
         "title": "Lantern Relay",
@@ -71,7 +71,7 @@
           "mechanic": "card drafting",
           "theme": "science desk",
           "audience": "strategy solo",
-          "score": 425
+          "score": 439
         },
         "gameBrief": {
           "setting": "a tabletop research station",
@@ -252,7 +252,7 @@
       "title": "Harbor Circuit",
       "rank": 2,
       "status": "playable",
-      "releaseScore": 435,
+      "releaseScore": 428,
       "concept": {
         "id": "harbor-circuit",
         "title": "Harbor Circuit",
@@ -266,14 +266,14 @@
         "opportunity": {
           "mechanic": "route building",
           "theme": "cozy production",
-          "audience": "mobile puzzle",
-          "score": 289
+          "audience": "families",
+          "score": 282
         },
         "gameBrief": {
           "setting": "tiny seasonal workshops",
           "coreLoop": "chain comforting orders by making one strong route building decision per turn.",
-          "sessionLengthMinutes": 5,
-          "playerPromise": "A complete tactical board-game feeling in 5 minutes, tuned for touch screens.",
+          "sessionLengthMinutes": 7,
+          "playerPromise": "A complete tactical board-game feeling in 7 minutes, tuned for touch screens.",
           "firstPrototypeTemplate": "line-drawing",
           "artDirection": "warm workbench pieces and readable resource icons"
         },
@@ -406,12 +406,12 @@
       "storeListing": {
         "appName": "Harbor Circuit",
         "subtitle": "cozy production route building",
-        "shortDescription": "5-minute original route building game for daily mobile play.",
-        "fullDescription": "Harbor Circuit is an original mobile-first board-game-inspired puzzle set in tiny seasonal workshops. A complete tactical board-game feeling in 5 minutes, tuned for touch screens. Core loop: chain comforting orders by making one strong route building decision per turn. The first release focuses on solo daily play, clear scoring, replayable seeds, and measured improvements from player behavior.",
+        "shortDescription": "7-minute original route building game for daily mobile play.",
+        "fullDescription": "Harbor Circuit is an original mobile-first board-game-inspired puzzle set in tiny seasonal workshops. A complete tactical board-game feeling in 7 minutes, tuned for touch screens. Core loop: chain comforting orders by making one strong route building decision per turn. The first release focuses on solo daily play, clear scoring, replayable seeds, and measured improvements from player behavior.",
         "keywords": [
           "route building",
           "cozy production",
-          "mobile puzzle",
+          "families",
           "daily puzzle",
           "solo board game",
           "strategy puzzle"
@@ -443,11 +443,207 @@
       ]
     },
     {
-      "id": "orbit-atlas",
-      "title": "Orbit Atlas",
+      "id": "foundry-ledger",
+      "title": "Foundry Ledger",
       "rank": 3,
       "status": "playable",
-      "releaseScore": 324,
+      "releaseScore": 377,
+      "concept": {
+        "id": "foundry-ledger",
+        "title": "Foundry Ledger",
+        "status": "candidate",
+        "sourceDistance": {
+          "titleRisk": 0,
+          "copiedExpressionRisk": "low",
+          "ruleText": "generated from template only; no source rule text used",
+          "art": "new visual direction; no source art used"
+        },
+        "opportunity": {
+          "mechanic": "roll and write",
+          "theme": "compact city logistics",
+          "audience": "strategy solo",
+          "score": 227
+        },
+        "gameBrief": {
+          "setting": "pocket-size transit districts",
+          "coreLoop": "connect demand before congestion rises by making one strong roll and write decision per turn.",
+          "sessionLengthMinutes": 9,
+          "playerPromise": "A complete tactical board-game feeling in 9 minutes, tuned for touch screens.",
+          "firstPrototypeTemplate": "daily-sheet",
+          "artDirection": "bright route lines, station stamps, and compact maps"
+        },
+        "telemetryPlan": [
+          "concept_card_viewed",
+          "prototype_started",
+          "tutorial_completed",
+          "first_loss",
+          "level_completed",
+          "replay_clicked",
+          "rewarded_ad_offered"
+        ],
+        "monetization": {
+          "firstRevenueTest": "rewarded hint after failed daily challenge",
+          "avoidUntilRetention": [
+            "subscriptions",
+            "interstitial ads during first session"
+          ],
+          "fitScore": 83
+        }
+      },
+      "prototype": {
+        "template": "daily-sheet",
+        "engine": "Canvas daily sheet",
+        "estimatedImplementationDays": 2,
+        "reusableSystems": [
+          "sheet renderer",
+          "dice queue",
+          "combo validator",
+          "shareable result"
+        ],
+        "originalRules": [
+          "Generate a fixed daily symbol queue.",
+          "Player marks one cell per turn.",
+          "Combos trigger bonus marks.",
+          "End result creates a compact share card."
+        ],
+        "successCriteria": [
+          "first move understood without reading more than two sentences",
+          "bot simulation produces no impossible score curve",
+          "mobile smoke test passes",
+          "events prove tutorial, completion, replay, and reward funnel"
+        ]
+      },
+      "monetization": {
+        "status": "instrument-first",
+        "firstTest": "rewarded hint after failed daily challenge",
+        "allowedBeforeRetention": [
+          "rewarded hint",
+          "cosmetic unlock",
+          "remove ads"
+        ],
+        "blockedBeforeRetention": [
+          "subscription",
+          "interstitial during first session",
+          "paywalled core rules"
+        ],
+        "metricsRequired": {
+          "firstGameCompletion": 0.55,
+          "replayRate": 0.35,
+          "d1Retention": 0.18
+        },
+        "telemetry": [
+          "concept_card_viewed",
+          "prototype_started",
+          "tutorial_completed",
+          "first_loss",
+          "level_completed",
+          "replay_clicked",
+          "rewarded_ad_offered",
+          "rewarded_ad_available",
+          "rewarded_ad_started",
+          "rewarded_ad_completed",
+          "remove_ads_clicked"
+        ]
+      },
+      "distribution": {
+        "webPwa": {
+          "status": "ready-after-build",
+          "blockers": [
+            "Run smoke tests on mobile viewport",
+            "Add privacy page before external analytics"
+          ],
+          "required": [
+            "manifest",
+            "offline-capable build",
+            "privacy page before external analytics",
+            "touch-first layout",
+            "analytics opt-out before production launch"
+          ]
+        },
+        "googlePlay": {
+          "status": "blocked",
+          "estimatedCostUsd": 25,
+          "blockers": [
+            "No production retention data yet",
+            "No privacy policy URL yet",
+            "No signed Android package yet",
+            "No app-store account credentials configured"
+          ],
+          "required": [
+            "developer account",
+            "signed Android package",
+            "store listing",
+            "content rating",
+            "privacy policy URL",
+            "data safety form",
+            "ad disclosure when ads are enabled"
+          ]
+        },
+        "iosAppStore": {
+          "status": "defer",
+          "estimatedCostUsd": 99,
+          "blockers": [
+            "No production retention data yet",
+            "No privacy policy URL yet",
+            "No signed Android package yet",
+            "No app-store account credentials configured",
+            "Needs native-feeling mobile polish before iOS review"
+          ],
+          "required": [
+            "Apple Developer account",
+            "native app-like value beyond a thin web wrapper",
+            "store listing",
+            "age rating",
+            "privacy nutrition labels",
+            "in-app purchase setup for digital purchases"
+          ]
+        }
+      },
+      "storeListing": {
+        "appName": "Foundry Ledger",
+        "subtitle": "compact city logistics roll and write",
+        "shortDescription": "9-minute original roll and write game for daily mobile play.",
+        "fullDescription": "Foundry Ledger is an original mobile-first board-game-inspired puzzle set in pocket-size transit districts. A complete tactical board-game feeling in 9 minutes, tuned for touch screens. Core loop: connect demand before congestion rises by making one strong roll and write decision per turn. The first release focuses on solo daily play, clear scoring, replayable seeds, and measured improvements from player behavior.",
+        "keywords": [
+          "roll and write",
+          "compact city logistics",
+          "strategy solo",
+          "daily puzzle",
+          "solo board game",
+          "strategy puzzle"
+        ],
+        "contentRatingNotes": [
+          "No gambling",
+          "No real-money prizes",
+          "No user-generated content in first release",
+          "Ads disabled until retention gates pass"
+        ],
+        "privacyDataDraft": {
+          "analytics": "anonymous gameplay events until external analytics is configured",
+          "accounts": "not required for first release",
+          "purchases": "none before monetization gates pass",
+          "ads": "planned only after retention and policy checks pass"
+        },
+        "screenshotPlan": [
+          "first move tutorial",
+          "mid-game board state",
+          "result screen",
+          "daily challenge panel"
+        ]
+      },
+      "autonomyActions": [
+        "Generate daily-sheet prototype config",
+        "Run rule simulator and screenshot smoke test",
+        "Ship web/PWA experiment only",
+        "Promote to Android only after retention gates pass"
+      ]
+    },
+    {
+      "id": "orbit-atlas",
+      "title": "Orbit Atlas",
+      "rank": 4,
+      "status": "playable",
+      "releaseScore": 339,
       "concept": {
         "id": "orbit-atlas",
         "title": "Orbit Atlas",
@@ -461,14 +657,14 @@
         "opportunity": {
           "mechanic": "worker placement",
           "theme": "expedition planning",
-          "audience": "families",
-          "score": 204
+          "audience": "mobile puzzle",
+          "score": 219
         },
         "gameBrief": {
           "setting": "modular camp routes around unknown landmarks",
           "coreLoop": "commit scouts without overextending supplies by making one strong worker placement decision per turn.",
-          "sessionLengthMinutes": 7,
-          "playerPromise": "A complete tactical board-game feeling in 7 minutes, tuned for touch screens.",
+          "sessionLengthMinutes": 5,
+          "playerPromise": "A complete tactical board-game feeling in 5 minutes, tuned for touch screens.",
           "firstPrototypeTemplate": "turn-economy",
           "artDirection": "paper maps, stamped hazards, and high-contrast terrain"
         },
@@ -601,208 +797,12 @@
       "storeListing": {
         "appName": "Orbit Atlas",
         "subtitle": "expedition planning worker placement",
-        "shortDescription": "7-minute original worker placement game for daily mobile play.",
-        "fullDescription": "Orbit Atlas is an original mobile-first board-game-inspired puzzle set in modular camp routes around unknown landmarks. A complete tactical board-game feeling in 7 minutes, tuned for touch screens. Core loop: commit scouts without overextending supplies by making one strong worker placement decision per turn. The first release focuses on solo daily play, clear scoring, replayable seeds, and measured improvements from player behavior.",
+        "shortDescription": "5-minute original worker placement game for daily mobile play.",
+        "fullDescription": "Orbit Atlas is an original mobile-first board-game-inspired puzzle set in modular camp routes around unknown landmarks. A complete tactical board-game feeling in 5 minutes, tuned for touch screens. Core loop: commit scouts without overextending supplies by making one strong worker placement decision per turn. The first release focuses on solo daily play, clear scoring, replayable seeds, and measured improvements from player behavior.",
         "keywords": [
           "worker placement",
           "expedition planning",
-          "families",
-          "daily puzzle",
-          "solo board game",
-          "strategy puzzle"
-        ],
-        "contentRatingNotes": [
-          "No gambling",
-          "No real-money prizes",
-          "No user-generated content in first release",
-          "Ads disabled until retention gates pass"
-        ],
-        "privacyDataDraft": {
-          "analytics": "anonymous gameplay events until external analytics is configured",
-          "accounts": "not required for first release",
-          "purchases": "none before monetization gates pass",
-          "ads": "planned only after retention and policy checks pass"
-        },
-        "screenshotPlan": [
-          "first move tutorial",
-          "mid-game board state",
-          "result screen",
-          "daily challenge panel"
-        ]
-      },
-      "autonomyActions": [
-        "Generate turn-economy prototype config",
-        "Run rule simulator and screenshot smoke test",
-        "Ship web/PWA experiment only",
-        "Promote to Android only after retention gates pass"
-      ]
-    },
-    {
-      "id": "foundry-ledger",
-      "title": "Foundry Ledger",
-      "rank": 4,
-      "status": "playable",
-      "releaseScore": 317,
-      "concept": {
-        "id": "foundry-ledger",
-        "title": "Foundry Ledger",
-        "status": "candidate",
-        "sourceDistance": {
-          "titleRisk": 0,
-          "copiedExpressionRisk": "low",
-          "ruleText": "generated from template only; no source rule text used",
-          "art": "new visual direction; no source art used"
-        },
-        "opportunity": {
-          "mechanic": "auction",
-          "theme": "compact city logistics",
-          "audience": "strategy solo",
-          "score": 191
-        },
-        "gameBrief": {
-          "setting": "pocket-size transit districts",
-          "coreLoop": "connect demand before congestion rises by making one strong auction decision per turn.",
-          "sessionLengthMinutes": 9,
-          "playerPromise": "A complete tactical board-game feeling in 9 minutes, tuned for touch screens.",
-          "firstPrototypeTemplate": "turn-economy",
-          "artDirection": "bright route lines, station stamps, and compact maps"
-        },
-        "telemetryPlan": [
-          "concept_card_viewed",
-          "prototype_started",
-          "tutorial_completed",
-          "first_loss",
-          "level_completed",
-          "replay_clicked",
-          "rewarded_ad_offered"
-        ],
-        "monetization": {
-          "firstRevenueTest": "rewarded hint after failed daily challenge",
-          "avoidUntilRetention": [
-            "subscriptions",
-            "interstitial ads during first session"
-          ],
-          "fitScore": 79
-        }
-      },
-      "prototype": {
-        "template": "turn-economy",
-        "engine": "React economy loop",
-        "estimatedImplementationDays": 4,
-        "reusableSystems": [
-          "price track",
-          "turn phases",
-          "offer cards",
-          "bot policy"
-        ],
-        "originalRules": [
-          "Create a visible offer market.",
-          "Player chooses one action per turn.",
-          "Prices change after each action.",
-          "Contract timing determines score."
-        ],
-        "successCriteria": [
-          "first move understood without reading more than two sentences",
-          "bot simulation produces no impossible score curve",
-          "mobile smoke test passes",
-          "events prove tutorial, completion, replay, and reward funnel"
-        ]
-      },
-      "monetization": {
-        "status": "instrument-first",
-        "firstTest": "rewarded hint after failed daily challenge",
-        "allowedBeforeRetention": [
-          "rewarded hint",
-          "cosmetic unlock",
-          "remove ads"
-        ],
-        "blockedBeforeRetention": [
-          "subscription",
-          "interstitial during first session",
-          "paywalled core rules"
-        ],
-        "metricsRequired": {
-          "firstGameCompletion": 0.55,
-          "replayRate": 0.35,
-          "d1Retention": 0.18
-        },
-        "telemetry": [
-          "concept_card_viewed",
-          "prototype_started",
-          "tutorial_completed",
-          "first_loss",
-          "level_completed",
-          "replay_clicked",
-          "rewarded_ad_offered",
-          "rewarded_ad_available",
-          "rewarded_ad_started",
-          "rewarded_ad_completed",
-          "remove_ads_clicked"
-        ]
-      },
-      "distribution": {
-        "webPwa": {
-          "status": "ready-after-build",
-          "blockers": [
-            "Run smoke tests on mobile viewport",
-            "Add privacy page before external analytics"
-          ],
-          "required": [
-            "manifest",
-            "offline-capable build",
-            "privacy page before external analytics",
-            "touch-first layout",
-            "analytics opt-out before production launch"
-          ]
-        },
-        "googlePlay": {
-          "status": "blocked",
-          "estimatedCostUsd": 25,
-          "blockers": [
-            "No production retention data yet",
-            "No privacy policy URL yet",
-            "No signed Android package yet",
-            "No app-store account credentials configured"
-          ],
-          "required": [
-            "developer account",
-            "signed Android package",
-            "store listing",
-            "content rating",
-            "privacy policy URL",
-            "data safety form",
-            "ad disclosure when ads are enabled"
-          ]
-        },
-        "iosAppStore": {
-          "status": "defer",
-          "estimatedCostUsd": 99,
-          "blockers": [
-            "No production retention data yet",
-            "No privacy policy URL yet",
-            "No signed Android package yet",
-            "No app-store account credentials configured",
-            "Needs native-feeling mobile polish before iOS review"
-          ],
-          "required": [
-            "Apple Developer account",
-            "native app-like value beyond a thin web wrapper",
-            "store listing",
-            "age rating",
-            "privacy nutrition labels",
-            "in-app purchase setup for digital purchases"
-          ]
-        }
-      },
-      "storeListing": {
-        "appName": "Foundry Ledger",
-        "subtitle": "compact city logistics auction",
-        "shortDescription": "9-minute original auction game for daily mobile play.",
-        "fullDescription": "Foundry Ledger is an original mobile-first board-game-inspired puzzle set in pocket-size transit districts. A complete tactical board-game feeling in 9 minutes, tuned for touch screens. Core loop: connect demand before congestion rises by making one strong auction decision per turn. The first release focuses on solo daily play, clear scoring, replayable seeds, and measured improvements from player behavior.",
-        "keywords": [
-          "auction",
-          "compact city logistics",
-          "strategy solo",
+          "mobile puzzle",
           "daily puzzle",
           "solo board game",
           "strategy puzzle"

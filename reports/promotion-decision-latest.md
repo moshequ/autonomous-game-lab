@@ -1,6 +1,6 @@
 # Promotion Decision
 
-Generated: 2026-05-22T08:48:54.323Z
+Generated: 2026-05-22T09:13:03.013Z
 Analytics source: fixture-sample
 Release health: monitoring
 Cost posture: no-new-spend

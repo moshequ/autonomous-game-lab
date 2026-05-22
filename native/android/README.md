@@ -1,6 +1,6 @@
 # Android TWA Handoff
 
-Generated: 2026-05-22T08:48:53.397Z
+Generated: 2026-05-22T09:13:02.123Z
 Status: blocked-draft-ready
 Public origin: https://moshequ.github.io/autonomous-game-lab
 Base path: /autonomous-game-lab/

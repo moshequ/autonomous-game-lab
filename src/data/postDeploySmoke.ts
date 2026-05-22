@@ -1,11 +1,28 @@
 export const postDeploySmoke = {
-  "generatedAt": "2026-05-22T09:11:22.146Z",
+  "generatedAt": "2026-05-22T09:16:46.049Z",
   "status": "post-deploy-smoke-observed-live",
   "envFiles": {
-    "loaded": false,
-    "loadedFiles": [],
+    "loaded": true,
+    "loadedFiles": [
+      {
+        "path": "ops/production.env.local",
+        "keys": [
+          "AGL_ANDROID_PACKAGE_NAME",
+          "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
+          "AGL_ANDROID_KEYSTORE_BASE64",
+          "AGL_ANDROID_KEYSTORE_PASSWORD",
+          "AGL_ANDROID_KEY_ALIAS"
+        ]
+      }
+    ],
     "loadedKeys": [],
-    "skippedExistingKeys": [],
+    "skippedExistingKeys": [
+      "AGL_ANDROID_PACKAGE_NAME",
+      "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
+      "AGL_ANDROID_KEYSTORE_BASE64",
+      "AGL_ANDROID_KEYSTORE_PASSWORD",
+      "AGL_ANDROID_KEY_ALIAS"
+    ],
     "skippedProtectedKeys": [],
     "overwrittenEnvFileKeys": [],
     "supportedFiles": [
@@ -38,8 +55,8 @@ export const postDeploySmoke = {
     "origin": "https://moshequ.github.io/autonomous-game-lab",
     "originSource": "release-candidate-public-origin",
     "provider": "github-pages",
-    "candidateId": "pwa-e26380d1b181",
-    "aggregateHash": "e26380d1b181a8dd5d932c56358f8c2ea5a4de75950cc71b131194731f55cefa",
+    "candidateId": "pwa-0078d0e6e72d",
+    "aggregateHash": "0078d0e6e72d737261c7ddfdb434e4f14bcdcd9d629c4a1bfa4cc3b97f9c848c",
     "strictManifestComparison": false
   },
   "liveRelease": {
@@ -213,7 +230,7 @@ export const postDeploySmoke = {
         "file": "dist/seed-kit.html",
         "expectedStatus": 200,
         "status": "pass",
-        "bytes": 15724,
+        "bytes": 15700,
         "textMatched": true,
         "detail": "Local production artifact matched required text."
       },
@@ -223,7 +240,7 @@ export const postDeploySmoke = {
         "file": "dist/seed-next.html",
         "expectedStatus": 200,
         "status": "pass",
-        "bytes": 6574,
+        "bytes": 6544,
         "textMatched": true,
         "detail": "Local production artifact matched required text."
       },
@@ -233,7 +250,7 @@ export const postDeploySmoke = {
         "file": "dist/seed-next.json",
         "expectedStatus": 200,
         "status": "pass",
-        "bytes": 1110,
+        "bytes": 1095,
         "textMatched": true,
         "detail": "Local production artifact matched required text."
       },
@@ -248,12 +265,12 @@ export const postDeploySmoke = {
         "detail": "Local production artifact matched required text."
       },
       {
-        "id": "games-foundry-ledger-html",
-        "path": "/games/foundry-ledger.html",
-        "file": "dist/games/foundry-ledger.html",
+        "id": "games-canopy-bloom-html",
+        "path": "/games/canopy-bloom.html",
+        "file": "dist/games/canopy-bloom.html",
         "expectedStatus": 200,
         "status": "pass",
-        "bytes": 6243,
+        "bytes": 5999,
         "textMatched": true,
         "detail": "Local production artifact matched required text."
       },
@@ -263,11 +280,11 @@ export const postDeploySmoke = {
         "file": "dist/release-candidate.json",
         "expectedStatus": 200,
         "status": "pass",
-        "bytes": 22026,
+        "bytes": 22022,
         "candidateMatches": true,
         "hashMatches": true,
-        "localCandidateId": "pwa-e26380d1b181",
-        "localAggregateHash": "e26380d1b181a8dd5d932c56358f8c2ea5a4de75950cc71b131194731f55cefa",
+        "localCandidateId": "pwa-0078d0e6e72d",
+        "localAggregateHash": "0078d0e6e72d737261c7ddfdb434e4f14bcdcd9d629c4a1bfa4cc3b97f9c848c",
         "detail": "Local release manifest matches the release candidate."
       }
     ]
@@ -541,7 +558,7 @@ export const postDeploySmoke = {
       "path": "/release-candidate.json",
       "url": "https://moshequ.github.io/autonomous-game-lab/release-candidate.json",
       "expectedStatus": 200,
-      "requiredText": "pwa-e26380d1b181",
+      "requiredText": "pwa-0078d0e6e72d",
       "status": "pass",
       "detail": "Live release manifest is reachable; it does not match the current local release candidate.",
       "actualStatus": 200,

@@ -1,13 +1,13 @@
 export const retentionLoop = {
-  "generatedAt": "2026-05-22T08:50:58.569Z",
+  "generatedAt": "2026-05-22T09:15:21.468Z",
   "status": "retention-loop-ready",
-  "sourceDataHash": "5c4bec6e684c",
+  "sourceDataHash": "b677acc310b2",
   "dailyChallenge": {
     "date": "2026-05-22",
-    "gameId": "grove-engine",
-    "title": "Grove Engine",
-    "seed": "daily-20260522-w2",
-    "reason": "Grove Engine has the strongest blended portfolio score (51.912)."
+    "gameId": "market-pulse",
+    "title": "Market Pulse",
+    "seed": "daily-20260522-mz",
+    "reason": "Market Pulse has the strongest blended portfolio score (51.912)."
   },
   "sourceStatus": {
     "analyticsSource": "fixture-sample",
@@ -107,7 +107,7 @@ export const retentionLoop = {
     "status": "collecting-sample",
     "sampleRole": "fastest-validation",
     "campaignId": "gate-sample-20260522-d1Retention",
-    "playPath": "/?game=grove-engine&utm_source=gate_sample&utm_campaign=gate-sample-20260522-d1Retention",
+    "playPath": "/?game=market-pulse&utm_source=gate_sample&utm_campaign=gate-sample-20260522-d1Retention",
     "publicSamplePath": "/gate-sample.html",
     "current": {
       "actual": 0.167,
@@ -155,8 +155,8 @@ export const retentionLoop = {
       "evidenceReadyNow": false,
       "lastScanAt": "2026-05-22T05:51:13.115Z",
       "lastScanStatus": "no-evidence-found",
-      "scanAgeHours": 3,
-      "cooldownRemainingHours": 1,
+      "scanAgeHours": 3.4,
+      "cooldownRemainingHours": 0.6,
       "nextRecommendedScanAt": "2026-05-22T09:51:13.115Z"
     },
     "commandPlan": {
@@ -188,9 +188,9 @@ export const retentionLoop = {
   "missions": [
     {
       "id": "finish-daily-challenge",
-      "label": "Finish Grove Engine",
+      "label": "Finish Market Pulse",
       "event": "daily_challenge_completed",
-      "gameId": "grove-engine",
+      "gameId": "market-pulse",
       "reward": "streak-credit",
       "status": "armed"
     },
@@ -198,7 +198,7 @@ export const retentionLoop = {
       "id": "return-tomorrow",
       "label": "Return tomorrow for a fresh board",
       "event": "daily_return_prompt_viewed",
-      "gameId": "grove-engine",
+      "gameId": "market-pulse",
       "reward": "next-daily-seed",
       "status": "armed"
     },
@@ -206,7 +206,7 @@ export const retentionLoop = {
       "id": "confirm-return-intent",
       "label": "Queue 2026-05-23 board intent",
       "event": "daily_return_prompt_clicked",
-      "gameId": "grove-engine",
+      "gameId": "market-pulse",
       "reward": "local-return-intent",
       "status": "armed"
     },
@@ -214,7 +214,7 @@ export const retentionLoop = {
       "id": "activate-return-intent",
       "label": "Start a queued return board",
       "event": "daily_return_intent_started",
-      "gameId": "grove-engine",
+      "gameId": "market-pulse",
       "reward": "retained-session",
       "status": "armed"
     },
@@ -222,7 +222,7 @@ export const retentionLoop = {
       "id": "share-daily-seed",
       "label": "Share the daily seed after a run",
       "event": "share_clicked",
-      "gameId": "grove-engine",
+      "gameId": "market-pulse",
       "reward": "organic-signal",
       "status": "armed"
     }

@@ -1,6 +1,6 @@
 # Trend Source Readiness
 
-Generated: 2026-05-22T08:48:15.326Z
+Generated: 2026-05-22T09:12:22.658Z
 Status: live-public
 Active source: public-rss-live
 
@@ -30,8 +30,8 @@ Active source: public-rss-live
 
 ## Signal Quality
 
-- Qualified items: 22/36
-- Evidence-bearing ratio: 0.611
+- Qualified items: 23/36
+- Evidence-bearing ratio: 0.639
 - Generic categories ignored: 81
 - Ranking policy: rank only boosts items with explicit keyword or category evidence
 

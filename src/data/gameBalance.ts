@@ -98,7 +98,7 @@ export const gameBalance = {
       "title": "Metro Loom",
       "boardRows": 5,
       "boardCols": 5,
-      "maxMoves": 10,
+      "maxMoves": 11,
       "targetScore": 96,
       "pieces": [
         "station",
@@ -156,13 +156,13 @@ export const gameBalance = {
       "title": "Guild Garden",
       "boardRows": 4,
       "boardCols": 4,
-      "maxMoves": 11,
+      "maxMoves": 10,
       "targetScore": 138,
       "pieces": [
-        "stall",
-        "permit",
-        "clock",
-        "cart"
+        "scout",
+        "camp",
+        "path",
+        "cache"
       ],
       "generated": true,
       "scoring": {
@@ -185,13 +185,13 @@ export const gameBalance = {
       "title": "Market Pulse",
       "boardRows": 4,
       "boardCols": 4,
-      "maxMoves": 12,
+      "maxMoves": 11,
       "targetScore": 144,
       "pieces": [
-        "scout",
-        "camp",
-        "path",
-        "cache"
+        "sprout",
+        "ember",
+        "sun",
+        "violet"
       ],
       "generated": true,
       "scoring": {
@@ -209,32 +209,32 @@ export const gameBalance = {
         "targetStep": 6
       }
     },
-    "grove-engine": {
-      "id": "grove-engine",
-      "title": "Grove Engine",
-      "boardRows": 3,
+    "canopy-bloom": {
+      "id": "canopy-bloom",
+      "title": "Canopy Bloom",
+      "boardRows": 4,
       "boardCols": 5,
-      "maxMoves": 11,
+      "maxMoves": 12,
       "targetScore": 104,
       "pieces": [
-        "sprout",
-        "ember",
-        "sun",
-        "violet"
+        "stall",
+        "permit",
+        "clock",
+        "cart"
       ],
       "generated": true,
       "scoring": {
-        "base": 4,
-        "sameNeighbor": 6,
-        "occupiedNeighbor": 1,
-        "rowDiversity": 7,
-        "columnDiversity": 3,
-        "center": 2,
+        "base": 3,
+        "sameNeighbor": 4,
+        "occupiedNeighbor": 2,
+        "rowDiversity": 6,
+        "columnDiversity": 4,
+        "center": 3,
         "corner": 2
       },
       "tuning": {
-        "minTargetScore": 68,
-        "maxTargetScore": 152,
+        "minTargetScore": 62,
+        "maxTargetScore": 146,
         "targetStep": 6
       }
     }

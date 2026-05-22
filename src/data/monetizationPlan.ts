@@ -1,5 +1,5 @@
 export const monetizationPlan = {
-  "generatedAt": "2026-05-22T08:48:54.473Z",
+  "generatedAt": "2026-05-22T09:13:03.150Z",
   "status": "blocked-by-product-gates",
   "revenueEnabled": false,
   "costPosture": "no-new-spend-until-gates-pass",
@@ -83,9 +83,9 @@ export const monetizationPlan = {
     "Web/PWA or native ad provider is not configured for gated revenue tests."
   ],
   "launchCandidate": {
-    "gameId": "grove-engine",
-    "title": "Grove Engine",
-    "pagePath": "/games/grove-engine.html",
+    "gameId": "market-pulse",
+    "title": "Market Pulse",
+    "pagePath": "/games/market-pulse.html",
     "qualityScore": 78
   },
   "compliance": {
