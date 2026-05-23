@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-23T19:49:19.939Z",
+  "generatedAt": "2026-05-23T11:55:08.096Z",
   "status": "operator-held",
   "mode": "plan-only",
   "ownerDecision": {
@@ -19,8 +19,8 @@
     "publicStatusJson": "/measurement-status.json",
     "setupScript": "ops/github/setup-production.sh",
     "envTemplate": "ops/production.env.example",
-    "missingVariableCount": 5,
-    "missingSecretCount": 1,
+    "missingVariableCount": 7,
+    "missingSecretCount": 3,
     "commandCount": 5,
     "validationCommandCount": 4,
     "requiredVariables": [
@@ -32,12 +32,12 @@
       {
         "repositoryName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
         "envName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
-        "configured": true
+        "configured": false
       },
       {
         "repositoryName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
         "envName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
-        "configured": true
+        "configured": false
       },
       {
         "repositoryName": "VITE_EVENT_COLLECTOR_URL",
@@ -59,12 +59,12 @@
       {
         "repositoryName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
         "envName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
-        "configured": true
+        "configured": false
       },
       {
         "repositoryName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
         "envName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
-        "configured": true
+        "configured": false
       }
     ],
     "commandSequence": [
@@ -295,9 +295,9 @@
     },
     {
       "id": "deploy-web-pwa",
-      "status": "ready-when-repository-pages-enabled",
+      "status": "blocked-needs-repository-channel",
       "command": "Run the Web PWA Deploy workflow after GitHub Pages is enabled for the repository.",
-      "reason": "status-ready-when-repository-pages-enabled"
+      "reason": "status-blocked-needs-repository-channel"
     },
     {
       "id": "collect-live-events",

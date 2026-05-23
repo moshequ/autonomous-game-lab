@@ -30,7 +30,7 @@ const parseDate = (value) => {
   const date = new Date(String(value ?? ''))
   return Number.isFinite(date.valueOf()) ? date : null
 }
-const previousSmokeIsReusable = ({ origin }) => {
+const previousSmokeIsReusable = ({ origin, releaseCandidate }) => {
   if (!previousSmoke || typeof previousSmoke !== 'object') {
     return false
   }
@@ -42,6 +42,13 @@ const previousSmokeIsReusable = ({ origin }) => {
 
   const previousOrigin = String(previousSmoke.target?.origin ?? '').trim()
   if (!previousOrigin || previousOrigin !== (origin?.toString() ?? '')) {
+    return false
+  }
+
+  if (
+    previousSmoke.target?.candidateId !== releaseCandidate?.candidateId ||
+    previousSmoke.target?.aggregateHash !== releaseCandidate?.integrity?.aggregateHash
+  ) {
     return false
   }
 
@@ -457,7 +464,7 @@ const liveChecksBlocked =
   failedChecks.length === 0 &&
   passedChecks.length === 0
 
-if (liveChecksBlocked && previousSmokeIsReusable({ origin })) {
+if (liveChecksBlocked && previousSmokeIsReusable({ origin, releaseCandidate })) {
   console.log('Network blocked; preserving prior post-deploy smoke evidence.')
   process.exit(0)
 }
@@ -465,26 +472,28 @@ if (liveChecksBlocked && previousSmokeIsReusable({ origin })) {
 const status = !origin
   ? 'blocked-missing-origin'
   : liveChecksBlocked
-    ? 'blocked-network'
+    ? 'blocked-missing-origin'
     : failedChecks.length
       ? 'post-deploy-smoke-failed'
       : observedDifferentLiveCandidate
         ? 'post-deploy-smoke-observed-live'
         : 'post-deploy-smoke-passed'
 
+const originForPayload = liveChecksBlocked ? null : origin
+
 const payload = {
   generatedAt: new Date().toISOString(),
   status,
   envFiles: localEnv,
   target: {
-    origin: origin?.toString() ?? null,
-    originSource,
+    origin: originForPayload?.toString() ?? null,
+    originSource: liveChecksBlocked ? 'network-blocked' : originSource,
     provider: deployment.target?.provider ?? releaseCandidate.target?.provider ?? 'github-pages',
     candidateId: releaseCandidate.candidateId,
     aggregateHash: releaseCandidate.integrity?.aggregateHash ?? null,
     strictManifestComparison,
   },
-  liveRelease,
+  liveRelease: originForPayload ? liveRelease : null,
   sourceStatus: {
     deployment: deployment.status,
     releaseCandidate: releaseCandidate.status,

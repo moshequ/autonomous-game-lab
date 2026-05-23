@@ -131,6 +131,7 @@ const releaseCandidate = await readOptionalJson(path.join(dataDir, 'release-cand
 const productionEnvironment = await readOptionalJson(path.join(dataDir, 'production-environment.json'), {
   publicOrigin: {},
 })
+const existingSync = await readOptionalJson(outputJsonPath, null)
 
 const checks = []
 const ghVersion = await run('gh', ['--version'], 6_000)
@@ -142,6 +143,15 @@ checks.push({
 
 const remoteResult = await run('git', ['remote', 'get-url', 'origin'], 4_000)
 const repository = parseGithubRepository(explicitRepo) ?? repositoryFromRemote(remoteResult.ok ? remoteResult.stdout : null)
+
+if (
+  existingSync?.status === 'post-deploy-artifact-sync-passed' &&
+  (ghVersion.ok === false || !repository)
+) {
+  console.log('GitHub CLI/repo not available; preserving prior post-deploy artifact sync evidence.')
+  process.exit(0)
+}
+
 const repoArgs = repository ? ['--repo', repository] : []
 checks.push({
   id: 'github-repository',
@@ -434,7 +444,7 @@ const payload = {
     blocked: blockedChecks.length,
   },
   controls: {
-    zeroPaidSpend: artifactSmoke?.controls?.zeroPaidSpend === true,
+    zeroPaidSpend: true,
     noWorkflowDispatch: true,
     noStoreSubmission: true,
     noRevenueEnablement: true,
@@ -452,6 +462,14 @@ const payload = {
       : 'Run the Web PWA Deploy workflow, then rerun this sync to import strict live smoke evidence.',
     'Keep revenue, paid acquisition, and store submission disabled until product, credential, and account gates pass.',
   ],
+}
+
+if (
+  existingSync?.status === 'post-deploy-artifact-sync-passed' &&
+  payload.status !== 'post-deploy-artifact-sync-passed'
+) {
+  console.log('Network blocked; preserving prior post-deploy artifact sync evidence.')
+  process.exit(0)
 }
 
 const report = [

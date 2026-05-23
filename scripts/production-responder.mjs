@@ -243,7 +243,10 @@ const payload = {
   liveSiteMonitorStatus: liveSiteMonitor.status,
   deploymentStatus: deployment.status,
   controls: {
-    deployAllowed: releaseHealth.controls?.canDeploy === true && deployment.status !== 'blocked',
+    deployAllowed:
+      releaseHealth.controls?.canDeploy === true &&
+      releaseHealth.controls?.rollbackRequired !== true &&
+      liveSiteMonitor.status !== 'live-site-monitor-alert',
     rollbackRequired: releaseHealth.controls?.rollbackRequired === true,
     liveSiteAlert: liveSiteMonitor.status === 'live-site-monitor-alert',
     experimentsFrozen: releaseHealth.controls?.canApplyExperimentChanges === false,

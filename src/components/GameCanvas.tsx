@@ -1,11 +1,4 @@
 import { useEffect, useMemo, useRef } from 'react'
-import Phaser from 'phaser'
-import { FoundryLedgerScene } from '../game/FoundryLedgerScene'
-import { GeneratedPuzzleScene } from '../game/GeneratedPuzzleScene'
-import { HarborCircuitScene } from '../game/HarborCircuitScene'
-import { HarborRingsScene } from '../game/HarborRingsScene'
-import { LanternRelayScene } from '../game/LanternRelayScene'
-import { OrbitAtlasScene } from '../game/OrbitAtlasScene'
 import { generatedPlayableGames } from '../data/generatedPlayableGames'
 import { firstMoveCoach } from '../data/firstMoveCoach'
 import type { GameSceneEvent, GameSnapshot } from '../game/gameTypes'
@@ -22,7 +15,7 @@ interface GameCanvasProps {
   onSnapshot: (snapshot: GameSnapshot) => void
 }
 
-const createScene = ({
+const createScene = async ({
   gameId,
   variantId,
   onEvent,
@@ -37,24 +30,29 @@ const createScene = ({
     ) ?? null
 
   if (gameId === 'foundry-ledger') {
+    const { FoundryLedgerScene } = await import('../game/FoundryLedgerScene')
     return new FoundryLedgerScene({ sink: onEvent, pacingVariant: variantId })
   }
 
   if (gameId === 'orbit-atlas') {
+    const { OrbitAtlasScene } = await import('../game/OrbitAtlasScene')
     return new OrbitAtlasScene({ sink: onEvent, pacingVariant: variantId })
   }
 
   if (gameId === 'harbor-circuit') {
+    const { HarborCircuitScene } = await import('../game/HarborCircuitScene')
     return new HarborCircuitScene({ sink: onEvent, pacingVariant: variantId })
   }
 
   if (gameId === 'lantern-relay') {
+    const { LanternRelayScene } = await import('../game/LanternRelayScene')
     return new LanternRelayScene({ sink: onEvent, pacingVariant: variantId })
   }
 
   const generatedConfig = generatedPlayableGames.find((game) => game.id === gameId)
 
   if (generatedConfig) {
+    const { GeneratedPuzzleScene } = await import('../game/GeneratedPuzzleScene')
     return new GeneratedPuzzleScene({
       sink: onEvent,
       pacingVariant: variantId,
@@ -63,6 +61,7 @@ const createScene = ({
     })
   }
 
+  const { HarborRingsScene } = await import('../game/HarborRingsScene')
   return new HarborRingsScene({ sink: onEvent, pacingVariant: variantId, firstMoveCoach: firstMoveCoachTarget })
 }
 
@@ -79,6 +78,9 @@ export const GameCanvas = ({
   const snapshotRef = useRef<GameSnapshot | null>(null)
 
   useEffect(() => {
+    let cancelled = false
+    let game: import('phaser').Game | null = null
+
     completedRef.current = false
     snapshotRef.current = null
     trackEvent('game_viewed', { gameId, variantId, rewardVariantId, thumbnailVariantId })
@@ -110,17 +112,27 @@ export const GameCanvas = ({
       }
     }
 
-    const game = new Phaser.Game({
-      type: Phaser.CANVAS,
-      parent: mountId,
-      width: 560,
-      height: 500,
-      scene: createScene({ gameId, variantId, onEvent: handleSceneEvent }),
-      transparent: false,
-      audio: { noAudio: true },
-    })
+    void (async () => {
+      const [{ default: Phaser }, scene] = await Promise.all([
+        import('phaser'),
+        createScene({ gameId, variantId, onEvent: handleSceneEvent }),
+      ])
+
+      if (cancelled) return
+
+      game = new Phaser.Game({
+        type: Phaser.CANVAS,
+        parent: mountId,
+        width: 560,
+        height: 500,
+        scene,
+        transparent: false,
+        audio: { noAudio: true },
+      })
+    })()
 
     return () => {
+      cancelled = true
       if (!completedRef.current) {
         trackEvent('game_abandoned', {
           gameId,
@@ -133,7 +145,9 @@ export const GameCanvas = ({
           result: snapshotRef.current?.result ?? 'playing',
         })
       }
-      game.destroy(true)
+      if (game) {
+        game.destroy(true)
+      }
     }
   }, [activeRunId, gameId, mountId, onSnapshot, rewardVariantId, thumbnailVariantId, variantId])
 

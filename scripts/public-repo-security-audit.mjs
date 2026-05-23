@@ -59,15 +59,21 @@ const normalizeRemote = (remoteUrl) => {
   return httpsMatch?.[1] ?? sshMatch?.[1] ?? null
 }
 
+const remoteTarget = normalizeRemote(gitRemoteResult.stdout)
+const assumePublicFromRemote = Boolean(remoteTarget)
+
 const repository = {
-  target: repositoryResult.value.nameWithOwner ?? normalizeRemote(gitRemoteResult.stdout),
-  visibility: repositoryResult.value.visibility ?? 'unknown',
-  isPrivate: repositoryResult.value.isPrivate ?? null,
+  target: repositoryResult.value.nameWithOwner ?? remoteTarget,
+  visibility: repositoryResult.value.visibility ?? (assumePublicFromRemote ? 'PUBLIC' : 'unknown'),
+  isPrivate: repositoryResult.value.isPrivate ?? (assumePublicFromRemote ? false : null),
   isPublic:
     repositoryResult.value.visibility === 'PUBLIC' ||
-    repositoryResult.value.isPrivate === false,
-  url: repositoryResult.value.url ?? null,
-  source: repositoryResult.ok ? 'gh-repo-view' : 'git-remote-fallback',
+    repositoryResult.value.isPrivate === false ||
+    (repositoryResult.ok === false && assumePublicFromRemote),
+  url:
+    repositoryResult.value.url ??
+    (assumePublicFromRemote && remoteTarget ? `https://github.com/${remoteTarget}` : null),
+  source: repositoryResult.ok ? 'gh-repo-view' : assumePublicFromRemote ? 'git-remote-fallback-assumed-public' : 'git-remote-fallback',
 }
 
 const secretPatterns = [
@@ -252,6 +258,7 @@ const highRiskFindingCount =
 const status = highRiskFindingCount === 0 ? 'public-repo-security-ready' : 'public-repo-security-blocked'
 
 const payload = {
+  script: 'node scripts/public-repo-security-audit.mjs',
   generatedAt: new Date().toISOString(),
   status,
   repository,

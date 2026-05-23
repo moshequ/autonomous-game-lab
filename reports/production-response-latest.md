@@ -1,10 +1,10 @@
 # Production Response
 
-Generated: 2026-05-22T09:13:03.714Z
+Generated: 2026-05-23T11:48:34.909Z
 Status: guarded-operations
 Release health: monitoring
 Live site monitor: live-site-monitor-passed
-Deployment: ready-for-pages
+Deployment: blocked
 
 ## Controls
 

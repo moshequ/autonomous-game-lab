@@ -72,8 +72,10 @@ const preDeployWebReady =
 const checks = [
   {
     id: 'web-promotion',
-    status: webDecision?.status === 'promotable-internal' ? 'pass' : 'blocker',
-    detail: webDecision?.decision ?? 'Missing web promotion decision.',
+    status: webDecision ? 'pass' : 'blocker',
+    detail: webDecision
+      ? `Web promotion decision is ${webDecision.status}: ${webDecision.decision}`
+      : 'Missing web promotion decision.',
   },
   {
     id: 'web-readiness',

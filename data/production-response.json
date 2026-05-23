@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-05-22T09:13:03.714Z",
+  "generatedAt": "2026-05-23T11:48:34.909Z",
   "status": "guarded-operations",
   "releaseHealthStatus": "monitoring",
   "liveSiteMonitorStatus": "live-site-monitor-passed",
-  "deploymentStatus": "ready-for-pages",
+  "deploymentStatus": "blocked",
   "controls": {
     "deployAllowed": true,
     "rollbackRequired": false,
@@ -20,7 +20,7 @@
   },
   "actions": [
     {
-      "generatedAt": "2026-05-22T09:13:03.714Z",
+      "generatedAt": "2026-05-23T11:48:34.909Z",
       "id": "deployment-watch",
       "status": "monitoring",
       "type": "deployment-safety",
@@ -29,7 +29,7 @@
       "command": "Allow gated web deployment."
     },
     {
-      "generatedAt": "2026-05-22T09:13:03.714Z",
+      "generatedAt": "2026-05-23T11:48:34.909Z",
       "id": "experiment-learning",
       "status": "armed",
       "type": "experiment-safety",
@@ -38,7 +38,7 @@
       "command": "Allow bounded improvement applier to consume experiment evidence."
     },
     {
-      "generatedAt": "2026-05-22T09:13:03.714Z",
+      "generatedAt": "2026-05-23T11:48:34.909Z",
       "id": "disable-revenue-features",
       "status": "active",
       "type": "monetization-safety",
@@ -47,7 +47,7 @@
       "command": "Keep ad placements, purchases, and subscriptions disabled."
     },
     {
-      "generatedAt": "2026-05-22T09:13:03.714Z",
+      "generatedAt": "2026-05-23T11:48:34.909Z",
       "id": "enforce-zero-paid-spend",
       "status": "active",
       "type": "spend-safety",
@@ -58,28 +58,6 @@
   ],
   "policyDiff": null,
   "history": [
-    {
-      "generatedAt": "2026-05-18T22:28:38.090Z",
-      "mode": "guarded-operations",
-      "releaseHealthStatus": "monitoring",
-      "deploymentStatus": "ready-for-pages",
-      "activeActionIds": [
-        "disable-revenue-features",
-        "enforce-zero-paid-spend"
-      ],
-      "policyChanged": false
-    },
-    {
-      "generatedAt": "2026-05-18T22:42:24.166Z",
-      "mode": "guarded-operations",
-      "releaseHealthStatus": "monitoring",
-      "deploymentStatus": "ready-for-pages",
-      "activeActionIds": [
-        "disable-revenue-features",
-        "enforce-zero-paid-spend"
-      ],
-      "policyChanged": false
-    },
     {
       "generatedAt": "2026-05-18T22:51:43.795Z",
       "mode": "guarded-operations",
@@ -283,6 +261,30 @@
       "releaseHealthStatus": "monitoring",
       "liveSiteMonitorStatus": "live-site-monitor-passed",
       "deploymentStatus": "ready-for-pages",
+      "activeActionIds": [
+        "disable-revenue-features",
+        "enforce-zero-paid-spend"
+      ],
+      "policyChanged": false
+    },
+    {
+      "generatedAt": "2026-05-23T11:46:53.419Z",
+      "mode": "guarded-operations",
+      "releaseHealthStatus": "monitoring",
+      "liveSiteMonitorStatus": "live-site-monitor-passed",
+      "deploymentStatus": "blocked",
+      "activeActionIds": [
+        "disable-revenue-features",
+        "enforce-zero-paid-spend"
+      ],
+      "policyChanged": false
+    },
+    {
+      "generatedAt": "2026-05-23T11:48:34.909Z",
+      "mode": "guarded-operations",
+      "releaseHealthStatus": "monitoring",
+      "liveSiteMonitorStatus": "live-site-monitor-passed",
+      "deploymentStatus": "blocked",
       "activeActionIds": [
         "disable-revenue-features",
         "enforce-zero-paid-spend"

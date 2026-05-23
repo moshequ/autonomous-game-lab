@@ -160,6 +160,7 @@ const deployment = await readOptionalJson(path.join(dataDir, 'deployment-plan.js
   status: 'missing',
   target: {},
 })
+const previousReadiness = await readOptionalJson(outputJsonPath, null)
 
 const gitInsideResult = await run('git', ['rev-parse', '--is-inside-work-tree'])
 const insideWorkTree = gitInsideResult.ok && gitInsideResult.stdout === 'true'
@@ -310,10 +311,19 @@ const readLivePagesSettings = async (repository) => {
 }
 
 const livePagesSettings = await readLivePagesSettings(targetRepository)
+const previousLivePagesSettings =
+  previousReadiness?.pages?.liveSettings?.status === 'inspected' &&
+  previousReadiness.pages.liveSettings.repository === targetRepository
+    ? previousReadiness.pages.liveSettings
+    : null
+const effectiveLivePagesSettings =
+  livePagesSettings.status === 'inspected'
+    ? livePagesSettings
+    : previousLivePagesSettings ?? livePagesSettings
 const livePagesSettingsReady =
-  livePagesSettings.status === 'inspected' &&
-  livePagesSettings.buildType === 'workflow' &&
-  livePagesSettings.httpsEnforced === true
+  effectiveLivePagesSettings.status === 'inspected' &&
+  effectiveLivePagesSettings.buildType === 'workflow' &&
+  effectiveLivePagesSettings.httpsEnforced === true
 const deploymentArtifactsReady =
   deployment.status === 'ready-for-pages' &&
   releaseCandidate.status === 'release-candidate-ready' &&
@@ -477,7 +487,7 @@ const payload = {
     deploymentStatus: deployment.status,
     releaseCandidateId: releaseCandidate.candidateId,
     postDeploySmokeStatus: postDeploySmoke.status,
-    liveSettings: livePagesSettings,
+    liveSettings: effectiveLivePagesSettings,
   },
   repositoryTargetPlan,
   controls: {
