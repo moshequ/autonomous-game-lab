@@ -1,5 +1,5 @@
 export const publicRepoSecurityAudit = {
-  "generatedAt": "2026-05-23T04:29:44.598Z",
+  "generatedAt": "2026-05-23T08:37:38.020Z",
   "status": "public-repo-security-ready",
   "repository": {
     "target": "moshequ/autonomous-game-lab",
