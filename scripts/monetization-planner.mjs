@@ -168,6 +168,7 @@ const preflightChecks = [
   },
 ]
 const preflightBlockingChecks = preflightChecks.filter((check) => check.status !== 'pass')
+const preflightCheckSummary = preflightChecks.map(({ id, status }) => ({ id, status }))
 const revenueTestPreflight = {
   status: canEnableRevenue
     ? 'ready-to-arm'
@@ -176,8 +177,8 @@ const revenueTestPreflight = {
       : 'waiting-on-product-gates',
   canArmRevenueTest: canEnableRevenue,
   firstRunnablePlacementId: placements[0].id,
-  checks: preflightChecks,
-  missingSetup: preflightBlockingChecks.map((check) => check.detail),
+  checks: preflightCheckSummary,
+  blockingCheckIds: preflightBlockingChecks.map((check) => check.id),
   requiredEnvironment: {
     web: [
       { name: 'VITE_ADSENSE_CLIENT_ID', configured: Boolean(adsenseClientId) },
@@ -318,7 +319,7 @@ const report = [
   '',
   '## Revenue Test Preflight',
   '',
-  ...payload.revenueTestPreflight.checks.map((check) => `- ${check.status}: ${check.id} - ${check.detail}`),
+  ...preflightChecks.map((check) => `- ${check.status}: ${check.id} - ${check.detail}`),
   '',
   '## Validation',
   '',

@@ -1,5 +1,5 @@
 export const monetizationPlan = {
-  "generatedAt": "2026-05-23T00:39:37.546Z",
+  "generatedAt": "2026-05-23T00:45:55.061Z",
   "status": "blocked-by-product-gates",
   "revenueEnabled": false,
   "costPosture": "no-new-spend-until-gates-pass",
@@ -50,44 +50,37 @@ export const monetizationPlan = {
     "checks": [
       {
         "id": "product-gates",
-        "status": "blocked",
-        "detail": "Readiness is blocked; first-game completion, replay, and D1 retention must pass before revenue tests."
+        "status": "blocked"
       },
       {
         "id": "promotion-gate",
-        "status": "blocked",
-        "detail": "Promotion decision is blocked; release health must allow monetization."
+        "status": "blocked"
       },
       {
         "id": "ad-provider",
-        "status": "missing-config",
-        "detail": "Set VITE_ADSENSE_CLIENT_ID + VITE_ADSENSE_REWARDED_SLOT_ID or ADMOB_PUBLISHER_ID before running revenue tests."
+        "status": "missing-config"
       },
       {
         "id": "privacy-policy",
-        "status": "pass",
-        "detail": "Privacy policy URL is hosted."
+        "status": "pass"
       },
       {
         "id": "runtime-guardrails",
-        "status": "pass",
-        "detail": "Rewarded placement waits for a completed failed run, is capped to one offer per session, and never paywalls core rules."
+        "status": "pass"
       },
       {
         "id": "telemetry-contract",
-        "status": "pass",
-        "detail": "Revenue telemetry is limited to rewarded/cosmetic lifecycle events and revenue_cents."
+        "status": "pass"
       },
       {
         "id": "spend-guard",
-        "status": "pass",
-        "detail": "Revenue preflight does not allow paid acquisition, app-store spend, or store submission."
+        "status": "pass"
       }
     ],
-    "missingSetup": [
-      "Readiness is blocked; first-game completion, replay, and D1 retention must pass before revenue tests.",
-      "Promotion decision is blocked; release health must allow monetization.",
-      "Set VITE_ADSENSE_CLIENT_ID + VITE_ADSENSE_REWARDED_SLOT_ID or ADMOB_PUBLISHER_ID before running revenue tests."
+    "blockingCheckIds": [
+      "product-gates",
+      "promotion-gate",
+      "ad-provider"
     ],
     "requiredEnvironment": {
       "web": [

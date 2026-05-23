@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-23T00:42:08.027Z",
+  "generatedAt": "2026-05-23T00:49:04.450Z",
   "status": "owner-loop-ready",
   "mode": "zero-spend-web-ready",
   "autonomyScore": {
@@ -145,7 +145,7 @@
     "objectiveAuditFreshness": {
       "fresh": true,
       "structurallyReady": true,
-      "auditGeneratedAt": "2026-05-23T00:42:00.126Z",
+      "auditGeneratedAt": "2026-05-23T00:49:03.614Z",
       "evaluatedInputIds": [
         "analytics-rollup",
         "event-ingest",
@@ -169,7 +169,7 @@
         "ready": true,
         "status": "cadence-ready",
         "artifactGeneratedAt": "2026-05-22T20:29:03.687Z",
-        "ageHours": 4.218,
+        "ageHours": 4.334,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -180,7 +180,7 @@
         "ready": true,
         "status": "self-update-ready",
         "artifactGeneratedAt": "2026-05-22T11:01:17.281Z",
-        "ageHours": 13.681,
+        "ageHours": 13.796,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -191,7 +191,7 @@
         "ready": true,
         "status": "support-feedback-empty",
         "artifactGeneratedAt": "2026-05-22T20:23:56.460Z",
-        "ageHours": 4.303,
+        "ageHours": 4.419,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -201,8 +201,8 @@
         "fresh": true,
         "ready": true,
         "status": "performance-budget-ready",
-        "artifactGeneratedAt": "2026-05-23T00:41:34.148Z",
-        "ageHours": 0.009,
+        "artifactGeneratedAt": "2026-05-23T00:48:54.601Z",
+        "ageHours": 0.003,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -212,8 +212,8 @@
         "fresh": true,
         "ready": true,
         "status": "live-site-monitor-passed",
-        "artifactGeneratedAt": "2026-05-23T00:41:36.743Z",
-        "ageHours": 0.009,
+        "artifactGeneratedAt": "2026-05-23T00:48:57.222Z",
+        "ageHours": 0.002,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -375,9 +375,9 @@
         "current": true,
         "ready": true,
         "status": "store-listing-optimizer-ready",
-        "artifactGeneratedAt": "2026-05-23T00:39:37.332Z",
-        "artifactSourceDataHash": "7c1bbae7667a",
-        "sourceDataHash": "7c1bbae7667a",
+        "artifactGeneratedAt": "2026-05-23T00:46:37.775Z",
+        "artifactSourceDataHash": "0399b812ffef",
+        "sourceDataHash": "0399b812ffef",
         "evaluatedInputIds": [
           "store-package",
           "store-assets",
@@ -395,9 +395,9 @@
         "current": true,
         "ready": true,
         "status": "draft-ready-external-blockers",
-        "artifactGeneratedAt": "2026-05-23T00:39:37.995Z",
-        "artifactSourceDataHash": "cb75dad25627",
-        "sourceDataHash": "cb75dad25627",
+        "artifactGeneratedAt": "2026-05-23T00:46:38.010Z",
+        "artifactSourceDataHash": "ea29863ba216",
+        "sourceDataHash": "ea29863ba216",
         "evaluatedInputIds": [
           "store-package",
           "monetization-plan",
@@ -484,7 +484,7 @@
       "lastExplicitScanAt": "2026-05-22T13:53:13.086Z",
       "lastExplicitScanStatus": "no-evidence-found",
       "nextRecommendedScanAt": "2026-05-22T17:53:13.086Z",
-      "scanAgeHours": 10.82,
+      "scanAgeHours": 10.93,
       "cooldownRemainingHours": 0,
       "evidenceReadyNow": false
     },
@@ -567,9 +567,9 @@
     },
     "productionBootstrapFreshness": {
       "fresh": true,
-      "bootstrapGeneratedAt": "2026-05-23T00:41:57.219Z",
-      "artifactSourceDataHash": "fd0e70712497",
-      "sourceDataHash": "fd0e70712497",
+      "bootstrapGeneratedAt": "2026-05-23T00:49:00.669Z",
+      "artifactSourceDataHash": "c58b20e47498",
+      "sourceDataHash": "c58b20e47498",
       "evaluatedInputIds": [
         "release-candidate",
         "deployment-plan",
@@ -584,7 +584,7 @@
       "current": true,
       "ready": true,
       "status": "handoff-waiting-on-owner-inputs",
-      "generatedAt": "2026-05-23T00:41:58.839Z",
+      "generatedAt": "2026-05-23T00:49:02.342Z",
       "nextBestUnlockId": "production-analytics-browser",
       "ownerActionRequired": 4,
       "missingEnv": 7,
@@ -706,7 +706,7 @@
       "id": "performance-budget",
       "status": "ready",
       "autonomy": "automatic-build-budget",
-      "evidence": "Initial JS 679.7 KB; gzip 184.1 KB; deferred chunks 2.",
+      "evidence": "Initial JS 679.1 KB; gzip 184 KB; deferred chunks 2.",
       "nextAction": "Keep Phaser and game scenes outside the initial PWA shell."
     },
     {
@@ -881,8 +881,8 @@
       "id": "store-listing-optimizer",
       "status": "ready",
       "autonomy": "automatic-aso-draft",
-      "evidence": "Focus market-pulse; lead screenshot phone-market-pulse-generated; candidate changed yes.",
-      "nextAction": "Use Market Pulse as the store listing focus instead of lantern-relay."
+      "evidence": "Focus market-pulse; lead screenshot phone-market-pulse-generated; candidate changed no.",
+      "nextAction": "Keep Market Pulse as the store listing focus."
     },
     {
       "id": "store-compliance",
@@ -1020,7 +1020,7 @@
       "command": "npm run build && npm run autonomous:performance && npm run autonomous:release-candidate",
       "targets": [
         "pwa-shell",
-        "GameCanvas-BFSuHbB-.js",
+        "GameCanvas-CAkN7X3_.js",
         "dist-release-candidate"
       ],
       "reason": "Performance budget and release-candidate evidence are already fresh for the current guarded build."

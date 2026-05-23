@@ -1,6 +1,6 @@
 # Production Readiness
 
-Generated: 2026-05-23T00:42:07.768Z
+Generated: 2026-05-23T00:49:04.205Z
 
 ## Environment
 
@@ -32,7 +32,7 @@ Local git: true
 - done: repo-bootstrap-inspect-repository-channel - Repository readiness is repository-channel-ready.
 - ready: repo-bootstrap-initialize-local-git - Git worktree is available at /Users/moshequ/Documents/Codex/2026-05-18/i-want-to-have-a-new.
 - ready: repo-bootstrap-create-initial-commit - The local repository has at least one commit.
-- ready-for-explicit-snapshot-commit: repo-bootstrap-commit-current-snapshot - 4 non-generated source or artifact file(s) are not committed yet.
+- ready-for-explicit-snapshot-commit: repo-bootstrap-commit-current-snapshot - 1 non-generated source or artifact file(s) are not committed yet.
 - ready: repo-bootstrap-set-or-create-origin - Origin remote resolves to moshequ/autonomous-game-lab.
 - ready-for-explicit-create-or-attach: repo-bootstrap-create-github-repository - GitHub CLI can create or attach moshequ/autonomous-game-lab when explicitly allowed.
 - waiting-for-clean-snapshot: repo-bootstrap-push-initial-snapshot - Push stays held until a committed local snapshot and origin remote exist.
@@ -59,7 +59,7 @@ Status: ready-after-build
 - pass: organic-seed-loop - Organic seed loop is organic-seed-loop-ready; target market-pulse; player-initiated share guard active.
 - pass: retention-loop - Retention loop is retention-loop-ready; daily challenge market-pulse; no-push/no-account guardrails active.
 - pass: pwa-install-loop - PWA install loop is pwa-install-loop-ready; prompt surface autonomy-cockpit; cost $0.
-- pass: performance-budget - Performance budget is performance-budget-ready; initial JS 679.7 KB / 184.1 KB gzip; deferred game chunk GameCanvas-BFSuHbB-.js.
+- pass: performance-budget - Performance budget is performance-budget-ready; initial JS 679.1 KB / 184 KB gzip; deferred game chunk GameCanvas-CAkN7X3_.js.
 - pass: release-candidate - Release candidate is release-candidate-ready; files 55; smoke URLs 24.
 - pass: post-deploy-smoke-runner - Post-deploy smoke is post-deploy-smoke-observed-live; origin https://moshequ.github.io/autonomous-game-lab; checks 25/25 passed, 0 blocked; local artifact predeploy-artifact-smoke-passed 25/25 passed.
 - pass: live-site-monitor - Live monitor is live-site-monitor-passed; origin https://moshequ.github.io/autonomous-game-lab; checks 25/25 passed; live matches synced deploy true.
@@ -117,23 +117,23 @@ Installs: 0
 ## Performance Budget
 
 Status: performance-budget-ready
-Initial JS: 679.7 KB (184.1 KB gzip)
-Deferred game chunk: GameCanvas-BFSuHbB-.js
-- pass: performance-initial-js-budget - Initial JS is 679.7 KB; budget is 680 KB.
-- pass: performance-initial-js-gzip-budget - Initial JS gzip is 184.1 KB; budget is 200 KB.
+Initial JS: 679.1 KB (184 KB gzip)
+Deferred game chunk: GameCanvas-CAkN7X3_.js
+- pass: performance-initial-js-budget - Initial JS is 679.1 KB; budget is 680 KB.
+- pass: performance-initial-js-gzip-budget - Initial JS gzip is 184 KB; budget is 200 KB.
 - pass: performance-initial-css-budget - Initial CSS is 10.5 KB; budget is 40 KB.
 - pass: performance-manifest - PWA manifest exists in dist.
 - pass: performance-service-worker - Service worker exists in dist.
-- pass: performance-game-runtime-deferred - GameCanvas-BFSuHbB-.js is deferred from the initial shell.
-- pass: performance-largest-js-deferred - Largest JS chunk is GameCanvas-BFSuHbB-.js at 1361.4 KB.
+- pass: performance-game-runtime-deferred - GameCanvas-CAkN7X3_.js is deferred from the initial shell.
+- pass: performance-largest-js-deferred - Largest JS chunk is GameCanvas-CAkN7X3_.js at 1361.4 KB.
 - pass: performance-deferred-game-budget - Deferred game chunk is 1361.4 KB; monitor budget is 1600 KB.
 
 ## Release Candidate
 
 Status: release-candidate-ready
-Candidate: pwa-1268f98d2f48
+Candidate: pwa-ae970c1ef63c
 Files: 55
-Aggregate SHA-256: 1268f98d2f488639173f606c6b6fd8bbbfa9204adf7139c628fdb78833f3e67f
+Aggregate SHA-256: ae970c1ef63c6868c90e04a5001d885d402be86763bf0afcad574247f43fb3c8
 - pass: release-dist-inventory - 55 dist files inventoried.
 - pass: release-required-files - 29/29 required files present.
 - pass: release-game-pages - 10 generated game page(s) in dist.
@@ -147,7 +147,7 @@ Aggregate SHA-256: 1268f98d2f488639173f606c6b6fd8bbbfa9204adf7139c628fdb78833f3e
 
 Status: post-deploy-smoke-observed-live
 Origin: https://moshequ.github.io/autonomous-game-lab
-Candidate: pwa-1268f98d2f48
+Candidate: pwa-ae970c1ef63c
 Checks: 25/25 passed (0 blocked)
 Local artifact: predeploy-artifact-smoke-passed (25/25 passed)
 - pass: smoke-app-shell - Live URL matched status and required text.
