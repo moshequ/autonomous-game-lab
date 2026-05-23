@@ -1,10 +1,10 @@
 # Autonomous Operator
 
-Generated: 2026-05-23T01:10:42.189Z
+Generated: 2026-05-23T01:27:45.173Z
 Status: operator-plan-ready
 Mode: plan-only
-Owner decision: collect-gate-sample-local-drops
-Selected action: collect-gate-sample-local-drops
+Owner decision: bootstrap-production-setup
+Selected action: bootstrap-production-setup
 Execution: not-requested
 
 ## Controls
@@ -18,7 +18,7 @@ Execution: not-requested
 
 ## Selected Action
 
-- collect-gate-sample-local-drops: npm run autonomous:collect-local-event-drops
+- bootstrap-production-setup: npm run autonomous:release-candidate && npm run autonomous:deploy-plan && npm run autonomous:bootstrap
 
 ## External Input Handoff
 
@@ -29,9 +29,15 @@ Execution: not-requested
 
 ## Eligible Local Actions
 
-- optimize-daily-retention
-- collect-gate-sample-local-drops
-- collect-live-events
+- seed-portfolio-traffic
+- refresh-organic-seed-loop
+- prepare-release-candidate
+- run-post-deploy-smoke
+- refresh-first-move-coach
+- refresh-completion-loop
+- refresh-replay-loop
+- bootstrap-production-setup
+- apply-safe-improvements
 
 ## Blocked Actions
 
@@ -39,11 +45,11 @@ Execution: not-requested
 - hold-for-external-input: status-monitor
 - refresh-autonomous-cadence: status-monitor
 - refresh-autonomous-self-update: status-monitor
-- seed-portfolio-traffic: status-monitor
-- refresh-organic-seed-loop: status-monitor
+- seed-portfolio-traffic: not-selected-this-run
+- refresh-organic-seed-loop: not-selected-this-run
 - refresh-support-feedback: status-monitor
-- optimize-daily-retention: not-selected-this-run
+- optimize-daily-retention: status-monitor
 - measure-pwa-install-loop: status-monitor
 - check-performance-budget: status-monitor
-- prepare-release-candidate: status-monitor
-- run-post-deploy-smoke: status-monitor
+- prepare-release-candidate: not-selected-this-run
+- run-post-deploy-smoke: not-selected-this-run

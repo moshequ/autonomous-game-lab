@@ -1237,6 +1237,7 @@ if (
   !localEventBridge.eventDropContract?.browserFolderDrop?.autosaveTriggers?.includes('gate_sample_mission_clicked') ||
   !localEventBridge.eventDropContract?.browserFolderDrop?.autosaveTriggers?.includes('game_started') ||
   !localEventBridge.eventDropContract?.browserFolderDrop?.autosaveTriggers?.includes('level_completed') ||
+  !localEventBridge.eventDropContract?.browserFolderDrop?.autosaveTriggers?.includes('daily_return_link_copied') ||
   localEventBridge.controls?.zeroPaidSpend !== true ||
   localEventBridge.controls?.localOnly !== true ||
   localEventBridge.controls?.noExternalUpload !== true ||
@@ -1914,6 +1915,7 @@ const retentionPromptEvents = [
   'daily_return_prompt_viewed',
   'daily_return_prompt_clicked',
   'daily_return_prompt_dismissed',
+  'daily_return_link_copied',
   'daily_return_intent_viewed',
   'daily_return_intent_started',
   'daily_return_intent_cleared',
@@ -1964,6 +1966,20 @@ if (
   retentionLoop.returnIntentPolicy?.telemetry?.viewed !== 'daily_return_intent_viewed' ||
   retentionLoop.returnIntentPolicy?.telemetry?.started !== 'daily_return_intent_started' ||
   retentionLoop.returnIntentPolicy?.telemetry?.cleared !== 'daily_return_intent_cleared' ||
+  !['armed', 'monitor'].includes(retentionLoop.returnLinkPolicy?.status) ||
+  retentionLoop.returnLinkPolicy?.surface !== 'autonomy-cockpit-retention-card' ||
+  retentionLoop.returnLinkPolicy?.trigger !== 'after-completed-run' ||
+  retentionLoop.returnLinkPolicy?.queryParam !== 'return_intent' ||
+  retentionLoop.returnLinkPolicy?.intentDate !== retentionLoop.promptPolicy?.nextChallengeDate ||
+  retentionLoop.returnLinkPolicy?.campaignId !== retentionLoop.samplePolicy?.campaignId ||
+  retentionLoop.returnLinkPolicy?.telemetry?.copied !== 'daily_return_link_copied' ||
+  retentionLoop.returnLinkPolicy?.controls?.zeroPaidSpend !== true ||
+  retentionLoop.returnLinkPolicy?.controls?.playerInitiatedOnly !== true ||
+  retentionLoop.returnLinkPolicy?.controls?.noNotificationPermissionRequest !== true ||
+  retentionLoop.returnLinkPolicy?.controls?.noPushNotifications !== true ||
+  retentionLoop.returnLinkPolicy?.controls?.noAccountRequired !== true ||
+  retentionLoop.returnLinkPolicy?.controls?.noExternalUpload !== true ||
+  retentionLoop.returnLinkPolicy?.controls?.noRevenueEnablement !== true ||
   retentionLoop.measurementPolicy?.source !== 'player-exported-events' ||
   retentionLoop.measurementPolicy?.retainedEvent !== 'daily_return_intent_started' ||
   retentionLoop.measurementPolicy?.cohortDateProperty !== 'retentionCohortDate' ||
@@ -1999,6 +2015,7 @@ if (
   !retentionMissionIds.has('finish-daily-challenge') ||
   !retentionMissionIds.has('return-tomorrow') ||
   !retentionMissionIds.has('confirm-return-intent') ||
+  !retentionMissionIds.has('copy-return-link') ||
   !retentionMissionIds.has('activate-return-intent') ||
   !retentionMissionIds.has('share-daily-seed') ||
   !retentionLoop.missions?.some(
@@ -2016,6 +2033,12 @@ if (
   ) ||
   !retentionLoop.missions?.some(
     (mission) =>
+      mission.id === 'copy-return-link' &&
+      mission.event === 'daily_return_link_copied' &&
+      mission.gameId === retentionLoop.dailyChallenge?.gameId,
+  ) ||
+  !retentionLoop.missions?.some(
+    (mission) =>
       mission.id === 'activate-return-intent' &&
       mission.event === 'daily_return_intent_started' &&
       mission.gameId === retentionLoop.dailyChallenge?.gameId,
@@ -2028,6 +2051,8 @@ if (
   !appSource.includes('retentionReturnDate') ||
   !appSource.includes('d1RetentionCandidate') ||
   !appSource.includes('queueDailyReturn') ||
+  !appSource.includes('copyDailyReturnLink') ||
+  !appSource.includes('return_intent') ||
   !appSource.includes('startQueuedReturnIntent') ||
   !appSource.includes('Queued return') ||
   !appSource.includes('Return intent') ||
@@ -5594,9 +5619,13 @@ if (
   readiness.retention?.guardrails?.noNotificationPermissionRequest !== true ||
   readiness.retention?.promptPolicy?.telemetry?.clicked !== 'daily_return_prompt_clicked' ||
   readiness.retention?.returnIntentPolicy?.telemetry?.started !== 'daily_return_intent_started' ||
+  readiness.retention?.returnLinkPolicy?.telemetry?.copied !== 'daily_return_link_copied' ||
+  readiness.retention?.returnLinkPolicy?.queryParam !== 'return_intent' ||
+  readiness.retention?.returnLinkPolicy?.controls?.noPushNotifications !== true ||
+  readiness.retention?.returnLinkPolicy?.controls?.noExternalUpload !== true ||
   readiness.retention?.controls?.returnIntentPlayerInitiatedOnly !== true
 ) {
-  fail('Production readiness must verify the daily retention loop, return prompt telemetry, and local-only retention guardrails.')
+  fail('Production readiness must verify the daily retention loop, return prompt/link telemetry, and local-only retention guardrails.')
 }
 
 if (

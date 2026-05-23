@@ -3876,6 +3876,7 @@ test('local event bridge keeps browser analytics drops importable without extern
   expect(bridge.eventDropContract.browserFolderDrop.autosaveTriggers).toContain('gate_sample_mission_clicked')
   expect(bridge.eventDropContract.browserFolderDrop.autosaveTriggers).toContain('game_started')
   expect(bridge.eventDropContract.browserFolderDrop.autosaveTriggers).toContain('level_completed')
+  expect(bridge.eventDropContract.browserFolderDrop.autosaveTriggers).toContain('daily_return_link_copied')
   expect(bridge.controls.zeroPaidSpend).toBe(true)
   expect(bridge.controls.localOnly).toBe(true)
   expect(bridge.controls.noExternalUpload).toBe(true)
@@ -5824,6 +5825,12 @@ test('daily return prompt captures a local return intent after a completed run',
   const retention = JSON.parse(await readFile('data/retention-loop.json', 'utf8')) as {
     localState: { returnIntentKey: string }
     promptPolicy: { ctaLabel: string; copy: string; nextChallengeDate: string; telemetry: { clicked: string; viewed: string } }
+    returnLinkPolicy: {
+      ctaLabel: string
+      queryParam: string
+      telemetry: { copied: string }
+      controls: { noPushNotifications: boolean; noNotificationPermissionRequest: boolean; noExternalUpload: boolean }
+    }
     rewardPolicy: {
       recommendedVariant: string
       controls: { noPaidRewards: boolean; noAds: boolean; noRevenueEnablement: boolean }
@@ -5836,6 +5843,19 @@ test('daily return prompt captures a local return intent after a completed run',
 
   await page.addInitScript(() => {
     window.localStorage.setItem('agl.experiment.first_session_pacing', 'fast-start')
+    Object.defineProperty(navigator, 'share', {
+      configurable: true,
+      value: undefined,
+    })
+    Object.defineProperty(navigator, 'clipboard', {
+      configurable: true,
+      value: {
+        writeText: (text: string) => {
+          ;(window as unknown as { __lastClipboardWrite?: string }).__lastClipboardWrite = text
+          return Promise.resolve()
+        },
+      },
+    })
   })
   await page.goto('/?game=harbor-rings')
   const cockpit = page.getByLabel('Autonomy cockpit')
@@ -5902,8 +5922,28 @@ test('daily return prompt captures a local return intent after a completed run',
   expect(retention.rewardPolicy.controls.noPaidRewards).toBe(true)
   expect(retention.rewardPolicy.controls.noAds).toBe(true)
   expect(retention.rewardPolicy.controls.noRevenueEnablement).toBe(true)
+  expect(retention.returnLinkPolicy.controls.noPushNotifications).toBe(true)
+  expect(retention.returnLinkPolicy.controls.noNotificationPermissionRequest).toBe(true)
+  expect(retention.returnLinkPolicy.controls.noExternalUpload).toBe(true)
+  await dailyRetention.getByRole('button', { name: retention.returnLinkPolicy.ctaLabel }).click()
   await dailyRetention.getByRole('button', { name: retention.promptPolicy.ctaLabel }).click()
 
+  await expect
+    .poll(() => page.evaluate(() => (window as unknown as { __lastClipboardWrite?: string }).__lastClipboardWrite ?? ''))
+    .not.toBe('')
+  const copiedReturnUrl = await page.evaluate(
+    () => (window as unknown as { __lastClipboardWrite?: string }).__lastClipboardWrite ?? '',
+  )
+  const returnUrl = new URL(copiedReturnUrl, page.url())
+  await expect
+    .poll(() =>
+      page.evaluate((eventName) => {
+        const raw = window.localStorage.getItem('agl.analytics.events')
+        const events = raw ? JSON.parse(raw) : []
+        return events.some((event: { name: string }) => event.name === eventName)
+      }, retention.returnLinkPolicy.telemetry.copied),
+    )
+    .toBe(true)
   const events = await page.evaluate(() => {
     const raw = window.localStorage.getItem('agl.analytics.events')
     return raw ? JSON.parse(raw) : []
@@ -5914,12 +5954,23 @@ test('daily return prompt captures a local return intent after a completed run',
   const clicked = events.findLast(
     (event: { name: string }) => event.name === 'daily_return_prompt_clicked',
   )
+  const copied = events.findLast(
+    (event: { name: string }) => event.name === retention.returnLinkPolicy.telemetry.copied,
+  )
   const returnIntentDate = await page.evaluate(
     (key) => window.localStorage.getItem(key),
     retention.localState.returnIntentKey,
   )
 
+  expect(returnUrl.searchParams.get(retention.returnLinkPolicy.queryParam)).toBe(
+    retention.promptPolicy.nextChallengeDate,
+  )
+  expect(returnUrl.searchParams.get('utm_source')).toBe('gate_sample')
   expect(viewed.properties.gameId).toBe('harbor-rings')
+  expect(copied.properties.intentDate).toBe(retention.promptPolicy.nextChallengeDate)
+  expect(copied.properties.noPushNotifications).toBe(true)
+  expect(copied.properties.noNotificationPermissionRequest).toBe(true)
+  expect(copied.properties.noExternalUpload).toBe(true)
   expect(clicked.properties.intentDate).toBe(retention.promptPolicy.nextChallengeDate)
   expect(returnIntentDate).toBe(retention.promptPolicy.nextChallengeDate)
 })
@@ -5929,6 +5980,7 @@ test('queued return intent starts a retained session without push or accounts', 
     localState: { returnIntentKey: string; returnIntentStartedKey: string }
     dailyChallenge: { date: string; gameId: string; title: string }
     promptPolicy: { nextChallengeDate: string }
+    returnLinkPolicy: { queryParam: string; controls: { playerInitiatedOnly: boolean; noAccountRequired: boolean } }
     returnIntentPolicy: {
       ctaLabel: string
       copy: string
@@ -5937,16 +5989,11 @@ test('queued return intent starts a retained session without push or accounts', 
     }
   }
 
-  await page.addInitScript(
-    ({ key, intentDate }) => {
-      window.localStorage.setItem(key, intentDate)
-    },
-    {
-      key: retention.localState.returnIntentKey,
-      intentDate: retention.promptPolicy.nextChallengeDate,
-    },
+  expect(retention.returnLinkPolicy.controls.playerInitiatedOnly).toBe(true)
+  expect(retention.returnLinkPolicy.controls.noAccountRequired).toBe(true)
+  await page.goto(
+    `/?game=${retention.dailyChallenge.gameId}&utm_source=gate_sample&${retention.returnLinkPolicy.queryParam}=${retention.promptPolicy.nextChallengeDate}`,
   )
-  await page.goto('/')
 
   const dailyRetention = page.getByLabel('Daily Retention')
   await expect(dailyRetention).toContainText('Queued return')

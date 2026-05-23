@@ -136,6 +136,7 @@ const gateRows = [
     ].filter(Boolean),
     actionTelemetry: [
       retentionLoop.promptPolicy?.telemetry?.clicked,
+      retentionLoop.returnLinkPolicy?.telemetry?.copied,
       retentionLoop.returnIntentPolicy?.telemetry?.started,
     ].filter(Boolean),
     successTelemetry: ['daily_return_intent_started'],

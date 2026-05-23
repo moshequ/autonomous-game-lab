@@ -450,6 +450,15 @@ const retentionLoopReady =
   retentionLoop.returnIntentPolicy?.telemetry?.viewed === 'daily_return_intent_viewed' &&
   retentionLoop.returnIntentPolicy?.telemetry?.started === 'daily_return_intent_started' &&
   retentionLoop.returnIntentPolicy?.telemetry?.cleared === 'daily_return_intent_cleared' &&
+  retentionLoop.returnLinkPolicy?.status &&
+  retentionLoop.returnLinkPolicy?.surface === 'autonomy-cockpit-retention-card' &&
+  retentionLoop.returnLinkPolicy?.queryParam === 'return_intent' &&
+  retentionLoop.returnLinkPolicy?.intentDate === retentionLoop.promptPolicy?.nextChallengeDate &&
+  retentionLoop.returnLinkPolicy?.telemetry?.copied === 'daily_return_link_copied' &&
+  retentionLoop.returnLinkPolicy?.controls?.playerInitiatedOnly === true &&
+  retentionLoop.returnLinkPolicy?.controls?.noPushNotifications === true &&
+  retentionLoop.returnLinkPolicy?.controls?.noNotificationPermissionRequest === true &&
+  retentionLoop.returnLinkPolicy?.controls?.noExternalUpload === true &&
   retentionLoop.controls?.returnIntentPlayerInitiatedOnly === true &&
   retentionLoop.controls?.noBackgroundWakeups === true &&
   retentionMissions.some(
@@ -462,6 +471,12 @@ const retentionLoopReady =
     (mission) =>
       mission.id === 'activate-return-intent' &&
       mission.event === 'daily_return_intent_started' &&
+      ['armed', 'monitor'].includes(mission.status),
+  ) &&
+  retentionMissions.some(
+    (mission) =>
+      mission.id === 'copy-return-link' &&
+      mission.event === 'daily_return_link_copied' &&
       ['armed', 'monitor'].includes(mission.status),
   )
 const pwaInstallGuardrails = pwaInstallLoop.guardrails ?? {}
@@ -1276,6 +1291,7 @@ const payload = {
     guardrails: retentionGuardrails,
     promptPolicy: retentionLoop.promptPolicy ?? {},
     returnIntentPolicy: retentionLoop.returnIntentPolicy ?? {},
+    returnLinkPolicy: retentionLoop.returnLinkPolicy ?? {},
     controls: retentionLoop.controls ?? {},
     missions: retentionMissions,
   },
@@ -1604,6 +1620,7 @@ const report = [
   `Daily challenge: ${payload.retention.dailyChallenge?.gameId ?? 'missing'}`,
   `Return prompt: ${payload.retention.promptPolicy?.status ?? 'missing'} (${payload.retention.promptPolicy?.surface ?? 'missing'})`,
   `Return intent: ${payload.retention.returnIntentPolicy?.status ?? 'missing'} (${payload.retention.returnIntentPolicy?.surface ?? 'missing'})`,
+  `Return link: ${payload.retention.returnLinkPolicy?.status ?? 'missing'} (${payload.retention.returnLinkPolicy?.queryParam ?? 'missing'})`,
   ...payload.retention.missions.map((mission) => `- ${mission.status}: ${mission.id} - ${mission.event}`),
   '',
   '## PWA Install Loop',

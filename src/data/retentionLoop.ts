@@ -1,7 +1,7 @@
 export const retentionLoop = {
-  "generatedAt": "2026-05-23T00:18:29.019Z",
+  "generatedAt": "2026-05-23T01:23:26.059Z",
   "status": "retention-loop-ready",
-  "sourceDataHash": "c95986ac4963",
+  "sourceDataHash": "3a6e8ec6e0c0",
   "dailyChallenge": {
     "date": "2026-05-23",
     "gameId": "market-pulse",
@@ -89,6 +89,27 @@ export const retentionLoop = {
       "cleared": "daily_return_intent_cleared"
     }
   },
+  "returnLinkPolicy": {
+    "status": "armed",
+    "surface": "autonomy-cockpit-retention-card",
+    "trigger": "after-completed-run",
+    "ctaLabel": "Copy return link",
+    "queryParam": "return_intent",
+    "intentDate": "2026-05-24",
+    "campaignId": "gate-sample-20260523-d1Retention",
+    "telemetry": {
+      "copied": "daily_return_link_copied"
+    },
+    "controls": {
+      "zeroPaidSpend": true,
+      "playerInitiatedOnly": true,
+      "noNotificationPermissionRequest": true,
+      "noPushNotifications": true,
+      "noAccountRequired": true,
+      "noExternalUpload": true,
+      "noRevenueEnablement": true
+    }
+  },
   "measurementPolicy": {
     "source": "player-exported-events",
     "retainedEvent": "daily_return_intent_started",
@@ -130,6 +151,7 @@ export const retentionLoop = {
       ],
       "action": [
         "daily_return_prompt_clicked",
+        "daily_return_link_copied",
         "daily_return_intent_started"
       ],
       "success": [
@@ -155,7 +177,7 @@ export const retentionLoop = {
       "evidenceReadyNow": false,
       "lastScanAt": "2026-05-22T13:53:13.086Z",
       "lastScanStatus": "no-evidence-found",
-      "scanAgeHours": 6.18,
+      "scanAgeHours": 11.44,
       "cooldownRemainingHours": 0,
       "nextRecommendedScanAt": "2026-05-22T17:53:13.086Z"
     },
@@ -208,6 +230,14 @@ export const retentionLoop = {
       "event": "daily_return_prompt_clicked",
       "gameId": "market-pulse",
       "reward": "local-return-intent",
+      "status": "armed"
+    },
+    {
+      "id": "copy-return-link",
+      "label": "Copy 2026-05-24 return link",
+      "event": "daily_return_link_copied",
+      "gameId": "market-pulse",
+      "reward": "player-saved-return-link",
       "status": "armed"
     },
     {

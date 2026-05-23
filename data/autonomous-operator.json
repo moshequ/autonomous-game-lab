@@ -1,32 +1,38 @@
 {
-  "generatedAt": "2026-05-23T01:10:42.189Z",
+  "generatedAt": "2026-05-23T01:27:45.173Z",
   "status": "operator-plan-ready",
   "mode": "plan-only",
   "ownerDecision": {
-    "actionId": "collect-gate-sample-local-drops",
-    "command": "npm run autonomous:collect-local-event-drops",
+    "actionId": "bootstrap-production-setup",
+    "command": "npm run autonomous:release-candidate && npm run autonomous:deploy-plan && npm run autonomous:bootstrap",
     "locallyExecutable": true,
     "rejectionReason": null
   },
   "externalInputHandoff": null,
   "requestedActionId": null,
   "selectedAction": {
-    "id": "collect-gate-sample-local-drops",
+    "id": "bootstrap-production-setup",
     "status": "armed",
-    "command": "npm run autonomous:collect-local-event-drops",
+    "command": "npm run autonomous:release-candidate && npm run autonomous:deploy-plan && npm run autonomous:bootstrap",
     "targets": [
-      "firstGameCompletion",
-      "gate-sample-20260523-firstGameCompletion",
-      "gate-sample-20260523-replayRate"
+      "github-pages",
+      "repository-config",
+      "event-collector"
     ],
-    "reason": "Imports only the local inbox or explicitly configured drop folders, refreshes analytics and gate recovery, and never scans Downloads.",
+    "reason": "Regenerates the zero-spend production setup handoff and exact GitHub variable/secret commands.",
     "costUsd": 0
   },
   "selectedRejection": null,
   "eligibleActionIds": [
-    "optimize-daily-retention",
-    "collect-gate-sample-local-drops",
-    "collect-live-events"
+    "seed-portfolio-traffic",
+    "refresh-organic-seed-loop",
+    "prepare-release-candidate",
+    "run-post-deploy-smoke",
+    "refresh-first-move-coach",
+    "refresh-completion-loop",
+    "refresh-replay-loop",
+    "bootstrap-production-setup",
+    "apply-safe-improvements"
   ],
   "blockedActions": [
     {
@@ -55,15 +61,15 @@
     },
     {
       "id": "seed-portfolio-traffic",
-      "status": "monitor",
+      "status": "armed",
       "command": "npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop",
-      "reason": "status-monitor"
+      "reason": "not-selected-this-run"
     },
     {
       "id": "refresh-organic-seed-loop",
-      "status": "monitor",
+      "status": "armed",
       "command": "npm run autonomous:organic-seed-loop",
-      "reason": "status-monitor"
+      "reason": "not-selected-this-run"
     },
     {
       "id": "refresh-support-feedback",
@@ -73,9 +79,9 @@
     },
     {
       "id": "optimize-daily-retention",
-      "status": "armed",
+      "status": "monitor",
       "command": "npm run autonomous:retention",
-      "reason": "not-selected-this-run"
+      "reason": "status-monitor"
     },
     {
       "id": "measure-pwa-install-loop",
@@ -91,15 +97,15 @@
     },
     {
       "id": "prepare-release-candidate",
-      "status": "monitor",
+      "status": "armed",
       "command": "npm run autonomous:release-candidate && npm run autonomous:post-deploy-smoke && npm run autonomous:live-monitor",
-      "reason": "status-monitor"
+      "reason": "not-selected-this-run"
     },
     {
       "id": "run-post-deploy-smoke",
-      "status": "monitor",
+      "status": "armed",
       "command": "npm run autonomous:post-deploy-smoke",
-      "reason": "status-monitor"
+      "reason": "not-selected-this-run"
     },
     {
       "id": "sync-post-deploy-artifact",
@@ -126,6 +132,12 @@
       "reason": "status-monitor"
     },
     {
+      "id": "collect-gate-sample-local-drops",
+      "status": "monitor",
+      "command": "npm run autonomous:collect-local-event-drops",
+      "reason": "status-monitor"
+    },
+    {
       "id": "collect-gate-sample-downloads",
       "status": "monitor",
       "command": "npm run autonomous:collect-sample-downloads",
@@ -139,32 +151,26 @@
     },
     {
       "id": "refresh-first-move-coach",
-      "status": "monitor",
+      "status": "armed",
       "command": "npm run autonomous:first-move-coach",
-      "reason": "status-monitor"
+      "reason": "not-selected-this-run"
     },
     {
       "id": "refresh-completion-loop",
-      "status": "monitor",
+      "status": "armed",
       "command": "npm run autonomous:completion-loop",
-      "reason": "status-monitor"
+      "reason": "not-selected-this-run"
     },
     {
       "id": "refresh-replay-loop",
-      "status": "monitor",
+      "status": "armed",
       "command": "npm run autonomous:replay-loop",
-      "reason": "status-monitor"
+      "reason": "not-selected-this-run"
     },
     {
       "id": "prepare-repository-channel",
       "status": "monitor",
       "command": "npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap",
-      "reason": "status-monitor"
-    },
-    {
-      "id": "bootstrap-production-setup",
-      "status": "monitor",
-      "command": "npm run autonomous:release-candidate && npm run autonomous:deploy-plan && npm run autonomous:bootstrap",
       "reason": "status-monitor"
     },
     {
@@ -217,9 +223,9 @@
     },
     {
       "id": "apply-safe-improvements",
-      "status": "monitor",
+      "status": "armed",
       "command": "npm run autonomous:experiments && npm run autonomous:improve && npm run autonomous:sync-experiments",
-      "reason": "status-monitor"
+      "reason": "not-selected-this-run"
     },
     {
       "id": "deploy-web-pwa",
@@ -229,15 +235,23 @@
     },
     {
       "id": "collect-live-events",
-      "status": "armed",
+      "status": "monitor",
       "command": "npm run autonomous:local-event-bridge && npm run autonomous:import-events && npm run autonomous:analytics && npm run autonomous:gate-recovery && npm run autonomous:sample-plan",
-      "reason": "not-selected-this-run"
+      "reason": "status-monitor"
     }
   ],
   "commandPlan": [
     {
-      "segment": "npm run autonomous:collect-local-event-drops",
-      "script": "autonomous:collect-local-event-drops"
+      "segment": "npm run autonomous:release-candidate",
+      "script": "autonomous:release-candidate"
+    },
+    {
+      "segment": "npm run autonomous:deploy-plan",
+      "script": "autonomous:deploy-plan"
+    },
+    {
+      "segment": "npm run autonomous:bootstrap",
+      "script": "autonomous:bootstrap"
     }
   ],
   "execution": {
@@ -313,7 +327,7 @@
     "RUN_WORKFLOWS=1"
   ],
   "nextActions": [
-    "Run npm run autonomous:operator -- --execute --action=collect-gate-sample-local-drops to execute exactly one allowed local action.",
+    "Run npm run autonomous:operator -- --execute --action=bootstrap-production-setup to execute exactly one allowed local action.",
     "Do not execute GitHub workflow, store, paid ads, or account setup commands from the local operator."
   ]
 }

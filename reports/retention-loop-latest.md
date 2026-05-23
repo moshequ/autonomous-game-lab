@@ -1,6 +1,6 @@
 # Retention Loop
 
-Generated: 2026-05-23T00:18:29.019Z
+Generated: 2026-05-23T01:23:26.059Z
 Status: retention-loop-ready
 Daily challenge: Market Pulse (market-pulse)
 D1 retention: 17%
@@ -11,6 +11,7 @@ Replay rate: 31%
 - armed: finish-daily-challenge - Finish Market Pulse
 - armed: return-tomorrow - Return tomorrow for a fresh board
 - armed: confirm-return-intent - Queue 2026-05-24 board intent
+- armed: copy-return-link - Copy 2026-05-24 return link
 - armed: activate-return-intent - Start a queued return board
 - armed: share-daily-seed - Share the daily seed after a run
 
@@ -36,6 +37,14 @@ Replay rate: 31%
 - Copy: Your queued board is ready; start it to keep the local streak signal real.
 - Telemetry: daily_return_intent_viewed, daily_return_intent_started, daily_return_intent_cleared
 - Measurement: daily_return_intent_started with retentionCohortDate -> retentionReturnDate
+
+## Return Link
+
+- Status: armed
+- CTA: Copy return link
+- Intent date: 2026-05-24
+- Campaign: gate-sample-20260523-d1Retention
+- Telemetry: daily_return_link_copied
 
 ## D1 Sample Policy
 

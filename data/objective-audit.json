@@ -1,28 +1,30 @@
 {
-  "generatedAt": "2026-05-23T01:10:41.843Z",
+  "generatedAt": "2026-05-23T01:27:44.681Z",
   "status": "objective-in-progress",
   "objective": "Build a bootstrapped autonomous web/PWA game portal that can generate original board-game-inspired games, measure user behavior, propose and apply data-driven improvements, and prepare a path to monetization and app-store distribution with minimal manual intervention.",
   "summary": {
     "requirements": 8,
-    "met": 6,
+    "met": 5,
     "prepared": 2,
-    "incomplete": 0,
+    "incomplete": 1,
     "externalBlockers": 15,
     "productBlockers": 7
   },
   "requirements": [
     {
       "id": "web-pwa-game-portal",
-      "status": "met",
+      "status": "incomplete",
       "summary": "A playable web/PWA portal exists and passes the production web readiness gate.",
       "evidence": [
-        "Web readiness: ready-after-build",
+        "Web readiness: blocked",
         "Manifest in dist: true",
         "Service worker in dist: true",
-        "Release candidate: release-candidate-ready; 55 files",
+        "Release candidate: release-candidate-ready; 56 files",
         "Deployment plan: ready-for-pages"
       ],
-      "blockers": [],
+      "blockers": [
+        "Post-deploy smoke is post-deploy-smoke-observed-live; origin https://moshequ.github.io/autonomous-game-lab; checks 25/25 passed, 0 blocked; local artifact predeploy-artifact-smoke-passed 25/25 passed."
+      ],
       "nextAction": "Connect a free static host or GitHub Pages environment, then publish dist.",
       "completionCritical": true
     },
@@ -76,7 +78,7 @@
         "Backlog: improvement-backlog-ready; items 4; hash fa6295b51210",
         "Support feedback: support-feedback-empty; issues 0; routable signals 0; aggregate notes 0",
         "Applied/deferred actions: 7",
-        "Operator selected: collect-gate-sample-local-drops; status operator-plan-ready; execution not-requested"
+        "Operator selected: prepare-repository-channel; status operator-plan-ready; execution not-requested"
       ],
       "blockers": [],
       "nextAction": "Keep collecting starts until a safe product-gate tuning action is justified.",
@@ -100,7 +102,7 @@
         "Strict deploy artifact sync: post-deploy-artifact-sync-passed; run 26319386493; live matches artifact true; candidate pwa-bc23a1b5237b",
         "Live site monitor: live-site-monitor-passed; checks 25/25; live matches synced deploy true",
         "Repository channel: repository-channel-ready; repository moshequ/autonomous-game-lab; git worktree true",
-        "Autonomy score: 98%",
+        "Autonomy score: 91%",
         "Credential-gated actions: 10"
       ],
       "blockers": [
@@ -233,6 +235,7 @@
       "apple-developer-account: Apple Developer Program account is not connected.",
       "app-store-connect-api: App Store Connect API credentials are not available to CI.",
       "annual-fee-payback: Store spend allowed is false; projected Apple payback is not available.",
+      "Refresh build, release candidate, post-deploy smoke, and deployment plan artifacts.",
       "Collector environment is not configured."
     ]
   },
@@ -243,15 +246,19 @@
     "noRevenueEnablementUntilGatesPass": true,
     "noStoreSubmissionUntilExternalAccounts": true,
     "currentWorktreeClean": false,
-    "currentWorktreeDirtyFiles": 71,
-    "productionBootstrapFresh": true,
-    "productionBootstrapSourceDataHash": "9d8a6624bbdc",
-    "productionBootstrapStaleInputIds": [],
-    "objectiveNextBestActionSource": "owner-loop"
+    "currentWorktreeDirtyFiles": 101,
+    "productionBootstrapFresh": false,
+    "productionBootstrapSourceDataHash": "cfede916dfdf",
+    "productionBootstrapStaleInputIds": [
+      "deployment-plan",
+      "repository-readiness",
+      "repository-bootstrap"
+    ],
+    "objectiveNextBestActionSource": "freshness-guard"
   },
   "completion": {
     "canMarkGoalComplete": false,
     "reason": "The local autonomous PWA system is largely prepared with strict live deploy evidence synced from GitHub Actions, but production credentials, live data, monetization gates, and store account/signing blockers remain.",
-    "nextBestAction": "collect-gate-sample-local-drops"
+    "nextBestAction": "bootstrap-production-setup"
   }
 }

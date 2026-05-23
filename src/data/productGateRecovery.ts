@@ -1,6 +1,6 @@
 export const productGateRecovery = {
-  "generatedAt": "2026-05-23T01:00:40.828Z",
-  "sourceDataHash": "22062ff1cad9",
+  "generatedAt": "2026-05-23T01:19:55.126Z",
+  "sourceDataHash": "def89f788d5e",
   "status": "product-gate-recovery-ready",
   "sourceStatus": {
     "analyticsSource": "fixture-sample",
@@ -114,6 +114,7 @@ export const productGateRecovery = {
       ],
       "actionTelemetry": [
         "daily_return_prompt_clicked",
+        "daily_return_link_copied",
         "daily_return_intent_started"
       ],
       "successTelemetry": [
@@ -179,7 +180,7 @@ export const productGateRecovery = {
       "promptViewsNeeded": 10,
       "experimentStatus": "collecting-sample",
       "recommendedChange": "hold-current-runtime-copy",
-      "nextMeasurement": "daily_return_prompt_viewed, daily_return_intent_viewed, daily_return_prompt_clicked, daily_return_intent_started, daily_return_intent_started",
+      "nextMeasurement": "daily_return_prompt_viewed, daily_return_intent_viewed, daily_return_prompt_clicked, daily_return_link_copied, daily_return_intent_started, daily_return_intent_started",
       "reason": "D1 retention is the fastest gate to re-test with real retained-player evidence."
     }
   ],

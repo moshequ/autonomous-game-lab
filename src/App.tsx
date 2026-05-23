@@ -267,6 +267,25 @@ const readStringStorage = (key: string) => {
   return window.localStorage.getItem(key) ?? ''
 }
 
+const getValidReturnIntentDate = (entryParams: URLSearchParams) => {
+  const requestedIntentDate = entryParams.get(retentionLoop.returnLinkPolicy.queryParam)
+  const expectedIntentDate =
+    retentionLoop.returnLinkPolicy.intentDate ??
+    retentionLoop.promptPolicy.nextChallengeDate ??
+    nextIsoDate(retentionLoop.dailyChallenge.date)
+
+  return requestedIntentDate === expectedIntentDate ? requestedIntentDate : ''
+}
+
+const getInitialDailyReturnIntentDate = () => {
+  if (typeof window === 'undefined') {
+    return ''
+  }
+
+  const entryIntentDate = getValidReturnIntentDate(new URLSearchParams(window.location.search))
+  return entryIntentDate || readStringStorage(retentionLoop.localState.returnIntentKey)
+}
+
 type LocalEventDropFolderStatus =
   | 'unsupported'
   | 'not-connected'
@@ -324,6 +343,7 @@ const localEventDropAutosaveEvents = new Set<AnalyticsEventName>([
   'replay_clicked',
   'daily_return_prompt_viewed',
   'daily_return_prompt_clicked',
+  'daily_return_link_copied',
   'daily_return_intent_viewed',
   'daily_return_intent_started',
   'pwa_install_page_viewed',
@@ -608,12 +628,8 @@ function App() {
   const [bestDailyStreak, setBestDailyStreak] = useState(() =>
     readNumberStorage(retentionLoop.localState.bestKey),
   )
-  const [dailyReturnIntentDate, setDailyReturnIntentDate] = useState(() =>
-    readStringStorage(retentionLoop.localState.returnIntentKey),
-  )
-  const [dailyReturnIntentLoadedAtStart] = useState(() =>
-    readStringStorage(retentionLoop.localState.returnIntentKey),
-  )
+  const [dailyReturnIntentDate, setDailyReturnIntentDate] = useState(() => getInitialDailyReturnIntentDate())
+  const [dailyReturnIntentLoadedAtStart] = useState(() => getInitialDailyReturnIntentDate())
   const [dailyReturnPromptDismissedDate, setDailyReturnPromptDismissedDate] = useState(() =>
     readStringStorage(retentionLoop.localState.returnPromptDismissedKey),
   )
@@ -692,6 +708,7 @@ function App() {
     const entryGameId = entryParams.get('game')
     const entrySource = entryParams.get('utm_source')
     const entryCampaign = entryParams.get('utm_campaign')
+    const entryReturnIntentDate = getValidReturnIntentDate(entryParams)
     const autonomousDefaultMission = hasExplicitEntryRoute(entryParams)
       ? null
       : getAutonomousDefaultGateSampleMission()
@@ -709,6 +726,10 @@ function App() {
     }
 
     initAnalytics()
+
+    if (entryReturnIntentDate) {
+      window.localStorage.setItem(retentionLoop.localState.returnIntentKey, entryReturnIntentDate)
+    }
 
     const onAnalytics = () => setEvents(getBufferedEvents())
     window.addEventListener('agl:analytics', onAnalytics)
@@ -1603,6 +1624,34 @@ function App() {
       streak: dailyStreak,
       rewardVariantId: rewardVariant.id,
     })
+  }
+  const copyDailyReturnLink = () => {
+    void import('./lib/returnLink').then(({ copyDailyReturnLinkToClipboard }) =>
+      copyDailyReturnLinkToClipboard({
+        origin: window.location.origin,
+        basePath: resolveRuntimePathname('/'),
+        gameId: retentionLoop.dailyChallenge.gameId,
+        campaignId: retentionLoop.returnLinkPolicy.campaignId,
+        queryParam: retentionLoop.returnLinkPolicy.queryParam,
+        intentDate: nextDailyChallengeDate,
+        writeText: navigator.clipboard?.writeText?.bind(navigator.clipboard),
+      }).then(({ method, succeeded }) => {
+        trackEvent(retentionLoop.returnLinkPolicy.telemetry.copied, {
+          gameId: retentionLoop.dailyChallenge.gameId,
+          challengeDate: retentionLoop.dailyChallenge.date,
+          intentDate: nextDailyChallengeDate,
+          campaignId: retentionLoop.returnLinkPolicy.campaignId,
+          surface: retentionLoop.returnLinkPolicy.surface,
+          method,
+          succeeded,
+          zeroPaidSpend: true,
+          noNotificationPermissionRequest: true,
+          noPushNotifications: true,
+          noExternalUpload: true,
+          noRevenueEnablement: true,
+        })
+      }),
+    )
   }
   const dismissDailyReturn = () => {
     window.localStorage.setItem(
@@ -3036,6 +3085,10 @@ function App() {
                     <button className="tinyButton" type="button" onClick={queueDailyReturn}>
                       {retentionLoop.promptPolicy.ctaLabel}
                     </button>
+                    <button className="tinyButton" type="button" onClick={copyDailyReturnLink}>
+                      <Share2 size={14} aria-hidden="true" />
+                      {retentionLoop.returnLinkPolicy.ctaLabel}
+                    </button>
                     <button className="tinyButton subtleButton" type="button" onClick={dismissDailyReturn}>
                       {retentionLoop.promptPolicy.dismissLabel}
                     </button>
@@ -3160,6 +3213,7 @@ function App() {
                   'seed_campaign_clicked',
                   'sample_fastest_routed',
                   'daily_challenge_completed',
+                  'daily_return_link_copied',
                   'daily_return_intent_started',
                   'pwa_install_prompt_available',
                   'pwa_installed',
