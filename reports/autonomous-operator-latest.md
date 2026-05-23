@@ -1,10 +1,10 @@
 # Autonomous Operator
 
-Generated: 2026-05-23T02:24:52.405Z
+Generated: 2026-05-23T02:34:47.725Z
 Status: operator-plan-ready
 Mode: plan-only
-Owner decision: refresh-first-move-coach
-Selected action: refresh-first-move-coach
+Owner decision: apply-safe-improvements
+Selected action: apply-safe-improvements
 Execution: not-requested
 
 ## Controls
@@ -18,7 +18,7 @@ Execution: not-requested
 
 ## Selected Action
 
-- refresh-first-move-coach: npm run autonomous:first-move-coach
+- apply-safe-improvements: npm run autonomous:experiments && npm run autonomous:improve && npm run autonomous:sync-experiments
 
 ## External Input Handoff
 
@@ -29,11 +29,6 @@ Execution: not-requested
 
 ## Eligible Local Actions
 
-- seed-portfolio-traffic
-- refresh-organic-seed-loop
-- refresh-first-move-coach
-- refresh-completion-loop
-- refresh-replay-loop
 - apply-safe-improvements
 
 ## Blocked Actions
@@ -42,8 +37,8 @@ Execution: not-requested
 - hold-for-external-input: status-monitor
 - refresh-autonomous-cadence: status-monitor
 - refresh-autonomous-self-update: status-monitor
-- seed-portfolio-traffic: not-selected-this-run
-- refresh-organic-seed-loop: not-selected-this-run
+- seed-portfolio-traffic: status-monitor
+- refresh-organic-seed-loop: status-monitor
 - refresh-support-feedback: status-monitor
 - optimize-daily-retention: status-monitor
 - measure-pwa-install-loop: status-monitor

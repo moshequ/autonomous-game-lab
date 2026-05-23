@@ -1,15 +1,15 @@
 # Autonomous Owner Loop
 
-Generated: 2026-05-23T02:24:52.588Z
+Generated: 2026-05-23T02:37:54.837Z
 Status: owner-loop-ready
 Mode: zero-spend-web-ready
 Autonomy score: 44/45 (98%)
 
 ## Owner Decision
 
-- Next action: refresh-first-move-coach
-- Command: npm run autonomous:first-move-coach
-- Rationale: Refreshes the first-turn coach policy from product-gate, onboarding, and release-health evidence.
+- Next action: apply-safe-improvements
+- Command: npm run autonomous:experiments && npm run autonomous:improve && npm run autonomous:sync-experiments
+- Rationale: Release health allows bounded improvement policy updates.
 - Last executed action: seed-portfolio-traffic
 - Recent executed actions: seed-portfolio-traffic
 
@@ -29,7 +29,7 @@ Autonomy score: 44/45 (98%)
 - ready: organic-seed-loop - Target market-pulse; surface portal-growth-loop; share telemetry organic_seed_share_clicked.
 - ready: retention-loop - Daily market-pulse; D1 17%; streak variant daily-streak; return prompt armed; return intent armed.
 - ready: pwa-install-loop - Prompt autonomy-cockpit; installs 0; launch events 0; sample collecting-sample needs 20 prompt(s) and 10 launch event(s).
-- ready: performance-budget - Initial JS 683.1 KB; gzip 185.4 KB; deferred chunks 4.
+- ready: performance-budget - Initial JS 684.4 KB; gzip 185.2 KB; deferred chunks 4.
 - ready: product-optimization - Completion 40% / gate 55%; latest already-applied.
 - ready: support-feedback - Support feedback support-feedback-empty; issues 0; routable signals 0; aggregate notes 0.
 - ready: product-gate-recovery - Recovery product-gate-recovery-ready; primary firstGameCompletion; experiment collecting-sample; failing gates 3; next lift 128.
@@ -51,7 +51,7 @@ Autonomy score: 44/45 (98%)
 - ready: production-blocker-handoff - Handoff handoff-waiting-on-owner-inputs; next production-analytics-browser; owner inputs 4; missing env 7; missing secrets 3.
 - ready: production-unlock-runner - Unlock runner unlock-runner-idle; runnable 0; queued commands 0; unsafe 0.
 - ready: support-channel - Support channel support-channel-ready; repository moshequ/autonomous-game-lab; public intake ready; aggregate evidence only true.
-- ready: autonomous-operator - Operator operator-plan-ready; selected refresh-first-move-coach; execution not-requested.
+- ready: autonomous-operator - Operator operator-plan-ready; selected apply-safe-improvements; execution not-requested.
 - ready: operator-history - History operator-history-ready; records 40; executed 1.
 - ready: objective-audit - Audit objective-in-progress; met 6/8; external blockers 15.
 - ready: store-listing-optimizer - Focus market-pulse; lead screenshot phone-market-pulse-generated; candidate changed yes.
@@ -67,8 +67,8 @@ Autonomy score: 44/45 (98%)
 - monitor: hold-for-external-input - No local command is available until external inputs, configured credentials, or new player evidence arrive.
 - monitor: refresh-autonomous-cadence - npm run autonomous:cadence
 - monitor: refresh-autonomous-self-update - npm run autonomous:self-update
-- armed: seed-portfolio-traffic - npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop
-- armed: refresh-organic-seed-loop - npm run autonomous:organic-seed-loop
+- monitor: seed-portfolio-traffic - npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop
+- monitor: refresh-organic-seed-loop - npm run autonomous:organic-seed-loop
 - monitor: refresh-support-feedback - npm run autonomous:support-feedback
 - monitor: optimize-daily-retention - npm run autonomous:retention
 - monitor: measure-pwa-install-loop - npm run autonomous:pwa-install
@@ -82,9 +82,9 @@ Autonomy score: 44/45 (98%)
 - monitor: collect-gate-sample-local-drops - npm run autonomous:collect-local-event-drops
 - monitor: collect-gate-sample-downloads - npm run autonomous:collect-sample-downloads
 - monitor: refresh-product-gate-sample-plan - npm run autonomous:sample-plan
-- armed: refresh-first-move-coach - npm run autonomous:first-move-coach
-- armed: refresh-completion-loop - npm run autonomous:completion-loop
-- armed: refresh-replay-loop - npm run autonomous:replay-loop
+- monitor: refresh-first-move-coach - npm run autonomous:first-move-coach
+- monitor: refresh-completion-loop - npm run autonomous:completion-loop
+- monitor: refresh-replay-loop - npm run autonomous:replay-loop
 - monitor: prepare-repository-channel - npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap
 - monitor: bootstrap-production-setup - npm run autonomous:release-candidate && npm run autonomous:deploy-plan && npm run autonomous:bootstrap
 - monitor: activate-production-when-configured - npm run autonomous:activate-production
