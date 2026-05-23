@@ -1,10 +1,10 @@
 # Post-Deploy Smoke
 
-Generated: 2026-05-23T03:19:40.929Z
+Generated: 2026-05-23T03:47:13.676Z
 Status: post-deploy-smoke-observed-live
 Origin: https://moshequ.github.io/autonomous-game-lab
 Origin source: release-candidate-public-origin
-Candidate: pwa-ef7a3cd94f26
+Candidate: pwa-22a094d63c51
 Live candidate: pwa-e9a2ee9dbed6
 
 ## Summary
@@ -18,7 +18,7 @@ Live candidate: pwa-e9a2ee9dbed6
 
 Status: predeploy-artifact-smoke-passed
 Artifact path: dist
-Checks: 25/25 passed
+Checks: 26/26 passed
 - pass: app-shell - dist/index.html - Local production artifact matched required text.
 - pass: manifest-webmanifest - dist/manifest.webmanifest - Local production artifact matched required text.
 - pass: sw-js - dist/sw.js - Local production artifact matched required text.
@@ -26,6 +26,7 @@ Checks: 25/25 passed
 - pass: support-html - dist/support.html - Local production artifact matched required text.
 - pass: measurement-status-html - dist/measurement-status.html - Local production artifact matched required text.
 - pass: measurement-status-json - dist/measurement-status.json - Local production artifact matched required text.
+- pass: owner-unlock-brief-json - dist/owner-unlock-brief.json - Local production artifact matched required text.
 - pass: analytics-unlock-html - dist/analytics-unlock.html - Local production artifact matched required text.
 - pass: analytics-unlock-json - dist/analytics-unlock.json - Local production artifact matched required text.
 - pass: install-html - dist/install.html - Local production artifact matched required text.

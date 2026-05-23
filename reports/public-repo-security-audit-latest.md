@@ -1,12 +1,12 @@
 # Public Repo Security Audit
 
-Generated: 2026-05-23T03:19:12.738Z
+Generated: 2026-05-23T03:46:40.338Z
 Status: public-repo-security-ready
 Repository: moshequ/autonomous-game-lab (PUBLIC)
 
 ## Summary
 
-- tracked files scanned: 406
+- tracked files scanned: 410
 - high-confidence secret findings: 0
 - tracked sensitive files: 0
 - public workflow risks: 0

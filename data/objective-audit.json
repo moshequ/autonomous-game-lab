@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-23T03:19:45.561Z",
+  "generatedAt": "2026-05-23T03:47:20.357Z",
   "status": "objective-in-progress",
   "objective": "Build a bootstrapped autonomous web/PWA game portal that can generate original board-game-inspired games, measure user behavior, propose and apply data-driven improvements, and prepare a path to monetization and app-store distribution with minimal manual intervention.",
   "summary": {
@@ -19,7 +19,7 @@
         "Web readiness: ready-after-build",
         "Manifest in dist: true",
         "Service worker in dist: true",
-        "Release candidate: release-candidate-ready; 57 files",
+        "Release candidate: release-candidate-ready; 58 files",
         "Deployment plan: ready-for-pages"
       ],
       "blockers": [],
@@ -95,8 +95,8 @@
         "Bootstrap: production-bootstrap-ready",
         "Unlock runner: unlock-runner-idle; runnable 0; queued 0; unsafe 0",
         "Repository bootstrap: repository-bootstrap-ready; helper ops/github/bootstrap-repository.sh",
-        "Release candidate: release-candidate-ready; smoke URLs 24",
-        "Post-deploy smoke: post-deploy-smoke-observed-live; origin https://moshequ.github.io/autonomous-game-lab; checks 25/25; local artifact predeploy-artifact-smoke-passed 25/25",
+        "Release candidate: release-candidate-ready; smoke URLs 25",
+        "Post-deploy smoke: post-deploy-smoke-observed-live; origin https://moshequ.github.io/autonomous-game-lab; checks 25/25; local artifact predeploy-artifact-smoke-passed 26/26",
         "Strict deploy artifact sync: post-deploy-artifact-sync-passed; run 26322073727; live matches artifact true; candidate pwa-e9a2ee9dbed6",
         "Live site monitor: live-site-monitor-passed; checks 25/25; live matches synced deploy true",
         "Repository channel: repository-channel-ready; repository moshequ/autonomous-game-lab; git worktree true",
@@ -243,9 +243,9 @@
     "noRevenueEnablementUntilGatesPass": true,
     "noStoreSubmissionUntilExternalAccounts": true,
     "currentWorktreeClean": false,
-    "currentWorktreeDirtyFiles": 74,
+    "currentWorktreeDirtyFiles": 80,
     "productionBootstrapFresh": true,
-    "productionBootstrapSourceDataHash": "eab6a8e3683c",
+    "productionBootstrapSourceDataHash": "3792534bff53",
     "productionBootstrapStaleInputIds": [],
     "objectiveNextBestActionSource": "owner-loop"
   },

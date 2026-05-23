@@ -27,6 +27,8 @@ const [
   productionBootstrap,
   productionActivation,
   productionBlockerHandoff,
+  ownerUnlockBrief,
+  publicOwnerUnlockBrief,
   productionMeasurementStatus,
   playerEvidenceWatchdog,
   publicMeasurementStatus,
@@ -56,6 +58,8 @@ const [
   readJson('data/production-bootstrap.json'),
   readJson('data/production-activation.json'),
   readJson('data/production-blocker-handoff.json'),
+  readJson('data/owner-unlock-brief.json'),
+  readJson('public/owner-unlock-brief.json'),
   readJson('data/production-measurement-status.json'),
   readJson('data/player-evidence-watchdog.json'),
   readJson('public/measurement-status.json'),
@@ -289,6 +293,16 @@ if (finalDeployPlanRefreshIndex < finalReadinessRefreshIndex) {
 }
 
 if (
+  JSON.stringify(publicOwnerUnlockBrief) !== JSON.stringify(ownerUnlockBrief) ||
+  JSON.stringify(ownerUnlockBrief.brief) !== JSON.stringify(productionBlockerHandoff.ownerUnlockBrief) ||
+  ownerUnlockBrief.setup?.workflowDispatchRequiresRunWorkflows !== true ||
+  ownerUnlockBrief.controls?.noSecretValuesStored !== true ||
+  ownerUnlockBrief.controls?.setupPrintModeHasNoGithubMutation !== true
+) {
+  fail('Post-deploy evidence sync must preserve the generated owner unlock brief as a public secretless handoff.')
+}
+
+if (
   !workflow.includes("workflows: ['Web PWA Deploy']") ||
   !workflow.includes('actions: read') ||
   !workflow.includes('contents: write') ||
@@ -359,6 +373,9 @@ if (
   !workflow.includes('data/production-blocker-handoff.json') ||
   !workflow.includes('src/data/productionBlockerHandoff.ts') ||
   !workflow.includes('reports/production-blocker-handoff-latest.md') ||
+  !workflow.includes('data/owner-unlock-brief.json') ||
+  !workflow.includes('public/owner-unlock-brief.json') ||
+  !workflow.includes('reports/owner-unlock-brief-latest.md') ||
   !workflow.includes('data/production-measurement-status.json') ||
   !workflow.includes('src/data/productionMeasurementStatus.ts') ||
   !workflow.includes('public/measurement-status.html') ||

@@ -101,6 +101,7 @@ const generatedEvidencePaths = new Set([
   'public/analytics-unlock.json',
   'public/measurement-status.html',
   'public/measurement-status.json',
+  'public/owner-unlock-brief.json',
   'public/monetization.json',
   'public/privacy.html',
   'public/robots.txt',

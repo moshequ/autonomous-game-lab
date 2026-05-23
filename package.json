@@ -45,6 +45,7 @@
     "autonomous:simulate": "node scripts/bot-simulator.mjs",
     "autonomous:tune": "node scripts/balance-auto-tuner.mjs",
     "autonomous:blocker-handoff": "node scripts/production-blocker-handoff.mjs",
+    "autonomous:owner-unlock-brief": "npm run autonomous:blocker-handoff && node scripts/owner-unlock-brief.mjs --assert --print",
     "autonomous:unlock-runner": "node scripts/production-unlock-runner.mjs",
     "autonomous:readiness": "npm run autonomous:security-audit && npm run autonomous:env && npm run autonomous:blocker-handoff && npm run autonomous:unlock-runner -- --execute && npm run autonomous:measurement-status && npm run autonomous:player-evidence-watchdog && node scripts/production-readiness.mjs && npm run autonomous:deploy-plan",
     "autonomous:release-health": "node scripts/release-health-guard.mjs",

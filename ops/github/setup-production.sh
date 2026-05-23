@@ -1,6 +1,11 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+if [[ "${1:-}" == "--owner-unlock-brief" || "${1:-}" == "--next-brief" ]]; then
+  node scripts/owner-unlock-brief.mjs --print
+  exit 0
+fi
+
 if ! command -v gh >/dev/null 2>&1; then
   echo "GitHub CLI (gh) is required." >&2
   exit 1

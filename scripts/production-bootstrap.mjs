@@ -473,6 +473,7 @@ const payload = {
     status: 'generated',
     dryRunByDefault: false,
     usesCurrentShellEnvironment: true,
+    printsOwnerUnlockBrief: true,
     infersRepositoryFromOriginRemote: true,
     infersRepositoryFromOwnerHint: true,
     infersGithubPagesOrigin: true,
@@ -564,6 +565,11 @@ const report = [
 
 const setupScript = `#!/usr/bin/env bash
 set -euo pipefail
+
+if [[ "\${1:-}" == "--owner-unlock-brief" || "\${1:-}" == "--next-brief" ]]; then
+  node scripts/owner-unlock-brief.mjs --print
+  exit 0
+fi
 
 if ! command -v gh >/dev/null 2>&1; then
   echo "GitHub CLI (gh) is required." >&2
@@ -768,13 +774,19 @@ This folder contains the zero-spend GitHub setup helper for the autonomous PWA r
 2. Export the environment values from \`ops/production.env.example\`.
 3. Set \`GITHUB_REPOSITORY=owner/repo\` / \`GH_REPO=owner/repo\`, attach a GitHub \`origin\` remote, set \`AGL_GITHUB_OWNER=owner\`, or authenticate \`gh\` and let the helpers infer \`owner/package-name\`.
 4. Authenticate \`gh\` with access to repository variables and secrets.
-5. To initialize/attach the repository transport, run the guarded helper with only the explicit actions you want:
+5. To print the current owner unlock brief without GitHub mutation or workflow dispatch, run:
+
+\`\`\`bash
+./ops/github/setup-production.sh --owner-unlock-brief
+\`\`\`
+
+6. To initialize/attach the repository transport, run the guarded helper with only the explicit actions you want:
 
 \`\`\`bash
 AGL_ALLOW_REPOSITORY_BOOTSTRAP=1 ./ops/github/bootstrap-repository.sh
 \`\`\`
 
-6. To sync production variables/secrets, run:
+7. To sync production variables/secrets, run:
 
 \`\`\`bash
 ./ops/github/setup-production.sh

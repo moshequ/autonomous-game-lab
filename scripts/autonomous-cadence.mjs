@@ -774,6 +774,8 @@ const checks = [
       productionInputWatchWorkflow.includes('reports/production-environment-latest.md') &&
       productionInputWatchWorkflow.includes('ops/production.env.example') &&
       productionInputWatchWorkflow.includes('data/production-blocker-handoff.json') &&
+      productionInputWatchWorkflow.includes('data/owner-unlock-brief.json') &&
+      productionInputWatchWorkflow.includes('public/owner-unlock-brief.json') &&
       productionInputWatchWorkflow.includes('data/production-unlock-runner.json') &&
       productionInputWatchWorkflow.includes('data/production-measurement-status.json') &&
       productionInputWatchWorkflow.includes('public/measurement-status.json') &&
@@ -829,6 +831,8 @@ const checks = [
       publicEvidenceIntakeWorkflow.includes('node scripts/verify-autonomy.mjs') &&
       publicEvidenceIntakeWorkflow.includes('data/support-feedback.json') &&
       publicEvidenceIntakeWorkflow.includes('public/measurement-status.json') &&
+      publicEvidenceIntakeWorkflow.includes('data/owner-unlock-brief.json') &&
+      publicEvidenceIntakeWorkflow.includes('public/owner-unlock-brief.json') &&
       publicEvidenceIntakeWorkflow.includes('data/production-environment.json') &&
       publicEvidenceIntakeWorkflow.includes('reports/production-environment-latest.md') &&
       publicEvidenceIntakeWorkflow.includes('ops/production.env.example') &&
@@ -932,6 +936,8 @@ const checks = [
       postDeployEvidenceSyncWorkflow.includes('data/production-bootstrap.json') &&
       postDeployEvidenceSyncWorkflow.includes('data/production-activation.json') &&
       postDeployEvidenceSyncWorkflow.includes('data/production-blocker-handoff.json') &&
+      postDeployEvidenceSyncWorkflow.includes('data/owner-unlock-brief.json') &&
+      postDeployEvidenceSyncWorkflow.includes('public/owner-unlock-brief.json') &&
       postDeployEvidenceSyncWorkflow.includes('data/production-readiness.json') &&
       postDeployEvidenceSyncWorkflow.includes('data/objective-audit.json') &&
       postDeployEvidenceSyncWorkflow.includes('data/autonomous-operator.json') &&

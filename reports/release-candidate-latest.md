@@ -1,22 +1,22 @@
 # Release Candidate
 
-Generated: 2026-05-23T03:19:33.321Z
+Generated: 2026-05-23T03:46:58.969Z
 Status: release-candidate-ready
-Candidate: pwa-ef7a3cd94f26
-Files: 57
-Size: 3765.4 KB
-Aggregate SHA-256: ef7a3cd94f2687cb949bce666988aea784fdc7b8c8beec603c715c6ebbe469d0
+Candidate: pwa-22a094d63c51
+Files: 58
+Size: 3770.9 KB
+Aggregate SHA-256: 22a094d63c51f8a34cf1d6731989c12fa684dbee9c774702c68089eb32a9b64c
 
 ## Checks
 
-- pass: dist-inventory - 57 dist files inventoried.
-- pass: required-files - 29/29 required files present.
+- pass: dist-inventory - 58 dist files inventoried.
+- pass: required-files - 30/30 required files present.
 - pass: game-pages - 10 generated game page(s) in dist.
 - pass: performance-budget - Performance budget is performance-budget-ready.
 - pass: release-health - Release health is monitoring.
 - pass: production-response - Deploy allowed is true.
 - pass: spend-guard - Spend mode is no-spend.
-- pass: post-deploy-smoke-plan - 24 post-deploy smoke URL(s) planned.
+- pass: post-deploy-smoke-plan - 25 post-deploy smoke URL(s) planned.
 
 ## Required Files
 
@@ -27,6 +27,7 @@ Aggregate SHA-256: ef7a3cd94f2687cb949bce666988aea784fdc7b8c8beec603c715c6ebbe46
 - pass: support.html
 - pass: measurement-status.html
 - pass: measurement-status.json
+- pass: owner-unlock-brief.json
 - pass: analytics-unlock.html
 - pass: analytics-unlock.json
 - pass: install.html
@@ -59,6 +60,7 @@ Aggregate SHA-256: ef7a3cd94f2687cb949bce666988aea784fdc7b8c8beec603c715c6ebbe46
 - 200: https://moshequ.github.io/autonomous-game-lab/support.html
 - 200: https://moshequ.github.io/autonomous-game-lab/measurement-status.html
 - 200: https://moshequ.github.io/autonomous-game-lab/measurement-status.json
+- 200: https://moshequ.github.io/autonomous-game-lab/owner-unlock-brief.json
 - 200: https://moshequ.github.io/autonomous-game-lab/analytics-unlock.html
 - 200: https://moshequ.github.io/autonomous-game-lab/analytics-unlock.json
 - 200: https://moshequ.github.io/autonomous-game-lab/install.html

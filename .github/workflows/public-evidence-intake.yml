@@ -159,6 +159,9 @@ jobs:
             data/production-blocker-handoff.json
             src/data/productionBlockerHandoff.ts
             reports/production-blocker-handoff-latest.md
+            data/owner-unlock-brief.json
+            public/owner-unlock-brief.json
+            reports/owner-unlock-brief-latest.md
             data/production-unlock-runner.json
             src/data/productionUnlockRunner.ts
             reports/production-unlock-runner-latest.md
@@ -270,6 +273,9 @@ jobs:
             data/production-blocker-handoff.json \
             src/data/productionBlockerHandoff.ts \
             reports/production-blocker-handoff-latest.md \
+            data/owner-unlock-brief.json \
+            public/owner-unlock-brief.json \
+            reports/owner-unlock-brief-latest.md \
             data/production-unlock-runner.json \
             src/data/productionUnlockRunner.ts \
             reports/production-unlock-runner-latest.md \

@@ -4,10 +4,14 @@ import { hashSourceData } from './lib/source-hash.mjs'
 
 const root = process.cwd()
 const dataDir = path.join(root, 'data')
+const publicDir = path.join(root, 'public')
 const reportsDir = path.join(root, 'reports')
 const outputJsonPath = path.join(dataDir, 'production-blocker-handoff.json')
 const outputTsPath = path.join(root, 'src', 'data', 'productionBlockerHandoff.ts')
 const reportPath = path.join(reportsDir, 'production-blocker-handoff-latest.md')
+const ownerUnlockJsonPath = path.join(dataDir, 'owner-unlock-brief.json')
+const ownerUnlockPublicJsonPath = path.join(publicDir, 'owner-unlock-brief.json')
+const ownerUnlockReportPath = path.join(reportsDir, 'owner-unlock-brief-latest.md')
 
 const readJson = async (filePath) => JSON.parse(await readFile(filePath, 'utf8'))
 const readOptionalJson = async (filePath, fallback) =>
@@ -569,6 +573,100 @@ const appPayload = {
   nextActions: payload.nextActions,
 }
 
+const ownerUnlockBriefPayload = {
+  generatedAt: payload.generatedAt,
+  status: payload.ownerUnlockBrief ? payload.ownerUnlockBrief.status : 'no-owner-unlock-brief',
+  sourceDataHash: payload.sourceDataHash,
+  sourceStatus: {
+    productionBlockerHandoff: payload.status,
+    nextBestUnlockId: payload.summary.nextBestUnlockId,
+    nextBestZeroCostUnlockId: payload.summary.nextBestZeroCostUnlockId,
+  },
+  brief: payload.ownerUnlockBrief,
+  setup: {
+    setupScript: 'ops/github/setup-production.sh',
+    printCommand: './ops/github/setup-production.sh --owner-unlock-brief',
+    directPrintCommand: 'node scripts/owner-unlock-brief.mjs --print',
+    syncConfiguredValuesCommand: './ops/github/setup-production.sh',
+    workflowDispatchCommand: 'RUN_WORKFLOWS=1 ./ops/github/setup-production.sh',
+    workflowDispatchRequiresRunWorkflows: true,
+    workflowDispatchDefault: 'disabled',
+  },
+  controls: {
+    zeroPaidSpend: true,
+    noSecretValues: true,
+    noSecretValuesStored: true,
+    noAccountCreation: true,
+    noStoreSubmission: true,
+    noRevenueEnablement: true,
+    productGatesStillRequiredForRevenue: true,
+    secretCommandsUseStdin: payload.ownerUnlockBrief?.controls?.secretCommandsUseStdin === true,
+    setupPrintModeHasNoGithubMutation: true,
+    workflowDispatchRequiresRunWorkflows: true,
+  },
+  nextActions: payload.ownerUnlockBrief
+    ? [
+        `Print the current brief with ./ops/github/setup-production.sh --owner-unlock-brief before setting ${payload.ownerUnlockBrief.nextUnlockId}.`,
+        'Export only the missing variables/secrets in the current shell, then run ./ops/github/setup-production.sh to sync configured values.',
+        'Use RUN_WORKFLOWS=1 only after the missing analytics inputs are configured and you are ready to dispatch deployment workflows.',
+        ...payload.ownerUnlockBrief.validationCommands,
+      ]
+    : ['No owner unlock brief is currently available; rerun npm run autonomous:blocker-handoff.'],
+}
+
+const ownerUnlockReport = [
+  '# Owner Unlock Brief',
+  '',
+  `Generated: ${ownerUnlockBriefPayload.generatedAt}`,
+  `Status: ${ownerUnlockBriefPayload.status}`,
+  `Source hash: ${ownerUnlockBriefPayload.sourceDataHash}`,
+  `Next unlock: ${ownerUnlockBriefPayload.brief?.nextUnlockId ?? 'none'}`,
+  `Recommended path: ${ownerUnlockBriefPayload.brief?.recommendedPathId ?? 'none'}`,
+  '',
+  '## Setup Guard',
+  '',
+  `- print brief: ${ownerUnlockBriefPayload.setup.printCommand}`,
+  `- sync configured values: ${ownerUnlockBriefPayload.setup.syncConfiguredValuesCommand}`,
+  `- workflow dispatch: ${ownerUnlockBriefPayload.setup.workflowDispatchCommand}`,
+  `- workflow dispatch default: ${ownerUnlockBriefPayload.setup.workflowDispatchDefault}`,
+  `- workflow dispatch requires RUN_WORKFLOWS: ${ownerUnlockBriefPayload.setup.workflowDispatchRequiresRunWorkflows}`,
+  '',
+  '## Missing Variables',
+  '',
+  ...(ownerUnlockBriefPayload.brief?.missingVariables.length
+    ? ownerUnlockBriefPayload.brief.missingVariables.map((item) => `- ${item.repositoryName}: ${item.command}`)
+    : ['- none']),
+  '',
+  '## Missing Secrets',
+  '',
+  ...(ownerUnlockBriefPayload.brief?.missingSecrets.length
+    ? ownerUnlockBriefPayload.brief.missingSecrets.map((item) => `- ${item.repositoryName}: ${item.command}`)
+    : ['- none']),
+  '',
+  '## Setup Commands',
+  '',
+  ...(ownerUnlockBriefPayload.brief?.setupCommands.length
+    ? ownerUnlockBriefPayload.brief.setupCommands.map((command) => `- ${command}`)
+    : ['- none']),
+  '',
+  '## Validation Commands',
+  '',
+  ...(ownerUnlockBriefPayload.brief?.validationCommands.length
+    ? ownerUnlockBriefPayload.brief.validationCommands.map((command) => `- ${command}`)
+    : ['- none']),
+  '',
+  '## After Unlock',
+  '',
+  ...(ownerUnlockBriefPayload.brief?.afterUnlockCommands.length
+    ? ownerUnlockBriefPayload.brief.afterUnlockCommands.map((command) => `- ${command}`)
+    : ['- none']),
+  '',
+  '## Controls',
+  '',
+  ...Object.entries(ownerUnlockBriefPayload.controls).map(([key, value]) => `- ${key}: ${value}`),
+  '',
+]
+
 const report = [
   '# Production Blocker Handoff',
   '',
@@ -660,13 +758,20 @@ const report = [
 await mkdir(path.dirname(outputJsonPath), { recursive: true })
 await mkdir(path.dirname(outputTsPath), { recursive: true })
 await mkdir(path.dirname(reportPath), { recursive: true })
+await mkdir(path.dirname(ownerUnlockPublicJsonPath), { recursive: true })
 await writeFile(outputJsonPath, JSON.stringify(payload, null, 2) + '\n')
 await writeFile(
   outputTsPath,
   `export const productionBlockerHandoff = ${JSON.stringify(appPayload, null, 2)} as const\n\nexport type ProductionBlockerHandoff = typeof productionBlockerHandoff\n`,
 )
 await writeFile(reportPath, report.join('\n'))
+await writeFile(ownerUnlockJsonPath, JSON.stringify(ownerUnlockBriefPayload, null, 2) + '\n')
+await writeFile(ownerUnlockPublicJsonPath, JSON.stringify(ownerUnlockBriefPayload, null, 2) + '\n')
+await writeFile(ownerUnlockReportPath, ownerUnlockReport.join('\n'))
 
 console.log(`Wrote ${path.relative(root, outputJsonPath)}`)
 console.log(`Wrote ${path.relative(root, outputTsPath)}`)
 console.log(`Wrote ${path.relative(root, reportPath)}`)
+console.log(`Wrote ${path.relative(root, ownerUnlockJsonPath)}`)
+console.log(`Wrote ${path.relative(root, ownerUnlockPublicJsonPath)}`)
+console.log(`Wrote ${path.relative(root, ownerUnlockReportPath)}`)

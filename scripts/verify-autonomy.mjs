@@ -51,6 +51,7 @@ const requiredFiles = [
   'data/production-bootstrap.json',
   'data/production-activation.json',
   'data/production-blocker-handoff.json',
+  'data/owner-unlock-brief.json',
   'data/production-unlock-runner.json',
   'data/production-measurement-status.json',
   'data/autonomous-operator.json',
@@ -170,6 +171,7 @@ const requiredFiles = [
   'reports/production-bootstrap-latest.md',
   'reports/production-activation-latest.md',
   'reports/production-blocker-handoff-latest.md',
+  'reports/owner-unlock-brief-latest.md',
   'reports/production-unlock-runner-latest.md',
   'reports/production-measurement-status-latest.md',
   'reports/autonomous-operator-latest.md',
@@ -224,6 +226,7 @@ const requiredFiles = [
   'scripts/support-feedback-ingestor.mjs',
   'scripts/production-activation.mjs',
   'scripts/production-blocker-handoff.mjs',
+  'scripts/owner-unlock-brief.mjs',
   'scripts/production-unlock-runner.mjs',
   'scripts/autonomous-cadence.mjs',
   'scripts/autonomous-self-update.mjs',
@@ -239,6 +242,7 @@ const requiredFiles = [
   'public/gate-sample.html',
   'public/measurement-status.html',
   'public/measurement-status.json',
+  'public/owner-unlock-brief.json',
   'public/install.html',
   'public/robots.txt',
   'public/sample-next.html',
@@ -255,6 +259,7 @@ const requiredFiles = [
   'public/monetization.json',
   'public/.well-known/assetlinks.json',
   'dist/compliance.json',
+  'dist/owner-unlock-brief.json',
   'dist/.well-known/assetlinks.json',
   'dist/gate-sample.html',
   'dist/sample-next.html',
@@ -340,6 +345,7 @@ const productionActivation = JSON.parse(await readFile(path.join(root, 'data', '
 const productionBlockerHandoff = JSON.parse(
   await readFile(path.join(root, 'data', 'production-blocker-handoff.json'), 'utf8'),
 )
+const ownerUnlockBrief = JSON.parse(await readFile(path.join(root, 'data', 'owner-unlock-brief.json'), 'utf8'))
 const productionUnlockRunner = JSON.parse(
   await readFile(path.join(root, 'data', 'production-unlock-runner.json'), 'utf8'),
 )
@@ -415,6 +421,7 @@ const shareManifest = JSON.parse(await readFile(path.join(root, 'public', 'share
 const gateSampleHtml = await readFile(path.join(root, 'public', 'gate-sample.html'), 'utf8')
 const measurementStatusHtml = await readFile(path.join(root, 'public', 'measurement-status.html'), 'utf8')
 const publicMeasurementStatus = JSON.parse(await readFile(path.join(root, 'public', 'measurement-status.json'), 'utf8'))
+const publicOwnerUnlockBrief = JSON.parse(await readFile(path.join(root, 'public', 'owner-unlock-brief.json'), 'utf8'))
 const analyticsUnlockHtml = await readFile(path.join(root, 'public', 'analytics-unlock.html'), 'utf8')
 const publicAnalyticsUnlockStatus = JSON.parse(await readFile(path.join(root, 'public', 'analytics-unlock.json'), 'utf8'))
 const installHtml = await readFile(path.join(root, 'public', 'install.html'), 'utf8')
@@ -468,6 +475,7 @@ const productionBlockerHandoffSource = await readFile(
   path.join(root, 'scripts', 'production-blocker-handoff.mjs'),
   'utf8',
 )
+const ownerUnlockBriefSource = await readFile(path.join(root, 'scripts', 'owner-unlock-brief.mjs'), 'utf8')
 const productionUnlockRunnerSource = await readFile(
   path.join(root, 'scripts', 'production-unlock-runner.mjs'),
   'utf8',
@@ -807,6 +815,9 @@ if (
   !publicEvidenceIntakeWorkflow.includes('data/production-measurement-status.json') ||
   !publicEvidenceIntakeWorkflow.includes('public/measurement-status.html') ||
   !publicEvidenceIntakeWorkflow.includes('public/measurement-status.json') ||
+  !publicEvidenceIntakeWorkflow.includes('data/owner-unlock-brief.json') ||
+  !publicEvidenceIntakeWorkflow.includes('public/owner-unlock-brief.json') ||
+  !publicEvidenceIntakeWorkflow.includes('reports/owner-unlock-brief-latest.md') ||
   !publicEvidenceIntakeWorkflow.includes('public/analytics-unlock.html') ||
   !publicEvidenceIntakeWorkflow.includes('public/analytics-unlock.json') ||
   !publicEvidenceIntakeWorkflow.includes('data/production-environment.json') ||
@@ -863,6 +874,9 @@ if (
   !productionInputWatchWorkflow.includes('reports/production-environment-latest.md') ||
   !productionInputWatchWorkflow.includes('ops/production.env.example') ||
   !productionInputWatchWorkflow.includes('data/production-blocker-handoff.json') ||
+  !productionInputWatchWorkflow.includes('data/owner-unlock-brief.json') ||
+  !productionInputWatchWorkflow.includes('public/owner-unlock-brief.json') ||
+  !productionInputWatchWorkflow.includes('reports/owner-unlock-brief-latest.md') ||
   !productionInputWatchWorkflow.includes('data/production-unlock-runner.json') ||
   !productionInputWatchWorkflow.includes('data/production-measurement-status.json') ||
   !productionInputWatchWorkflow.includes('public/measurement-status.json') ||
@@ -3208,6 +3222,7 @@ if (
   productionBootstrap.setupScript?.path !== 'ops/github/setup-production.sh' ||
   productionBootstrap.setupScript?.avoidsSecretEcho !== true ||
   productionBootstrap.setupScript?.configuresPagesSource !== true ||
+  productionBootstrap.setupScript?.printsOwnerUnlockBrief !== true ||
   productionBootstrap.setupScript?.infersRepositoryFromOriginRemote !== true ||
   productionBootstrap.setupScript?.infersRepositoryFromOwnerHint !== true ||
   productionBootstrap.setupScript?.supportsSshUrlRemotes !== true ||
@@ -3242,6 +3257,8 @@ if (
   !githubSetupScript.includes('git remote get-url origin') ||
   !githubSetupScript.includes('ssh://git@github.com/') ||
   !githubSetupScript.includes('AGL_SYNC_PAGES_SETTINGS') ||
+  !githubSetupScript.includes('--owner-unlock-brief') ||
+  !githubSetupScript.includes('node scripts/owner-unlock-brief.mjs --print') ||
   !githubSetupScript.includes('repos/$repo/pages') ||
   !githubSetupScript.includes('build_type=workflow') ||
   !githubSetupScript.includes('RUN_WORKFLOWS') ||
@@ -3249,7 +3266,8 @@ if (
   !githubSetupScript.includes('AGL_AUTONOMOUS_SELF_UPDATE') ||
   githubSetupScript.includes('admin-export-token') ||
   githubSetupScript.includes('ca-pub-your-web-client-id') ||
-  !githubSetupReadme.includes('zero-spend')
+  !githubSetupReadme.includes('zero-spend') ||
+  !githubSetupReadme.includes('--owner-unlock-brief')
 ) {
   fail('Production bootstrap must generate zero-spend GitHub setup stages, sanitized variable/secret commands, and guarded workflow triggers.')
 }
@@ -3282,6 +3300,9 @@ const productionAnalyticsUnlockKitLeaksValues = (productionAnalyticsUnlockKit?.p
   [...(unlockPath.requiredVariables ?? []), ...(unlockPath.requiredSecrets ?? [])].some((item) =>
     Object.hasOwn(item, 'value'),
   ),
+)
+const ownerUnlockBriefLeaksValues = [ownerUnlockBrief, publicOwnerUnlockBrief].some((payload) =>
+  JSON.stringify(payload).includes('"value"'),
 )
 const requiredProductionBlockerHandoffIds = [
   'support-contact',
@@ -3367,6 +3388,35 @@ if (
   !productionBlockerHandoffSource.includes('zeroPaidSpend')
 ) {
   fail('Production blocker handoff must rank remaining external unlocks with a zero-spend analytics unlock kit and without mutation, spend, or secret values.')
+}
+
+if (
+  JSON.stringify(ownerUnlockBrief.brief) !== JSON.stringify(productionBlockerHandoff.ownerUnlockBrief) ||
+  JSON.stringify(publicOwnerUnlockBrief) !== JSON.stringify(ownerUnlockBrief) ||
+  ownerUnlockBrief.status !== productionBlockerHandoff.ownerUnlockBrief?.status ||
+  ownerUnlockBrief.sourceStatus?.productionBlockerHandoff !== productionBlockerHandoff.status ||
+  ownerUnlockBrief.setup?.setupScript !== 'ops/github/setup-production.sh' ||
+  ownerUnlockBrief.setup?.printCommand !== './ops/github/setup-production.sh --owner-unlock-brief' ||
+  ownerUnlockBrief.setup?.syncConfiguredValuesCommand !== './ops/github/setup-production.sh' ||
+  ownerUnlockBrief.setup?.workflowDispatchCommand !== 'RUN_WORKFLOWS=1 ./ops/github/setup-production.sh' ||
+  ownerUnlockBrief.setup?.workflowDispatchRequiresRunWorkflows !== true ||
+  ownerUnlockBrief.controls?.zeroPaidSpend !== true ||
+  ownerUnlockBrief.controls?.noSecretValues !== true ||
+  ownerUnlockBrief.controls?.noSecretValuesStored !== true ||
+  ownerUnlockBrief.controls?.setupPrintModeHasNoGithubMutation !== true ||
+  ownerUnlockBrief.controls?.workflowDispatchRequiresRunWorkflows !== true ||
+  ownerUnlockBriefLeaksValues ||
+  packageJson.scripts?.['autonomous:owner-unlock-brief'] !==
+    'npm run autonomous:blocker-handoff && node scripts/owner-unlock-brief.mjs --assert --print' ||
+  !ownerUnlockBriefSource.includes('--assert') ||
+  !ownerUnlockBriefSource.includes('--json') ||
+  !ownerUnlockBriefSource.includes('workflowDispatchRequiresRunWorkflows') ||
+  !ownerUnlockBriefSource.includes('noSecretValuesStored') ||
+  !productionBlockerHandoffSource.includes('ownerUnlockBriefPayload') ||
+  !productionBlockerHandoffSource.includes('owner-unlock-brief.json') ||
+  !productionBlockerHandoffSource.includes('owner-unlock-brief-latest.md')
+) {
+  fail('Owner unlock brief must be a public, secretless, setup-script printable handoff for the next analytics unlock.')
 }
 
 if (
@@ -3732,6 +3782,7 @@ if (
   !autonomousSelfUpdateSource.includes('public/analytics-unlock.html') ||
   !autonomousSelfUpdateSource.includes('public/analytics-unlock.json') ||
   !autonomousSelfUpdateSource.includes('public/measurement-status.json') ||
+  !autonomousSelfUpdateSource.includes('public/owner-unlock-brief.json') ||
   !autonomousSelfUpdateSource.includes('public/seed-kit.html') ||
   !autonomousSelfUpdateSource.includes('public/sample-next.html') ||
   !autonomousSelfUpdateSource.includes('public/sample-next.json') ||
@@ -4344,6 +4395,9 @@ if (
   !postDeployEvidenceSyncWorkflow.includes('data/production-bootstrap.json') ||
   !postDeployEvidenceSyncWorkflow.includes('data/production-activation.json') ||
   !postDeployEvidenceSyncWorkflow.includes('data/production-blocker-handoff.json') ||
+  !postDeployEvidenceSyncWorkflow.includes('data/owner-unlock-brief.json') ||
+  !postDeployEvidenceSyncWorkflow.includes('public/owner-unlock-brief.json') ||
+  !postDeployEvidenceSyncWorkflow.includes('reports/owner-unlock-brief-latest.md') ||
   !postDeployEvidenceSyncWorkflow.includes('data/production-measurement-status.json') ||
   !postDeployEvidenceSyncWorkflow.includes('src/data/productionMeasurementStatus.ts') ||
   !postDeployEvidenceSyncWorkflow.includes('public/measurement-status.html') ||
@@ -5729,6 +5783,7 @@ const releaseCandidateRequiredFiles = new Set(
 const operationalFreshnessAssets = [
   'measurement-status.html',
   'measurement-status.json',
+  'owner-unlock-brief.json',
   'analytics-unlock.html',
   'analytics-unlock.json',
   'release-candidate.json',
@@ -5783,6 +5838,7 @@ if (
   !releaseCandidate.postDeploySmoke?.some((item) => item.path === '/sample-next.json') ||
   !releaseCandidate.postDeploySmoke?.some((item) => item.path === '/sample-fastest.html') ||
   !releaseCandidate.postDeploySmoke?.some((item) => item.path === '/sample-fastest.json') ||
+  !releaseCandidate.postDeploySmoke?.some((item) => item.path === '/owner-unlock-brief.json') ||
   !releaseCandidate.postDeploySmoke?.some(
     (item) => item.path === '/compliance.json' && item.requiredText === 'store-compliance',
   ) ||
@@ -5801,6 +5857,7 @@ if (
   !releaseCandidateRequiredFiles.has('sample-next.json') ||
   !releaseCandidateRequiredFiles.has('sample-fastest.html') ||
   !releaseCandidateRequiredFiles.has('sample-fastest.json') ||
+  !releaseCandidateRequiredFiles.has('owner-unlock-brief.json') ||
   !releaseCandidateRequiredFiles.has('.nojekyll') ||
   !releaseCandidateRequiredFiles.has('.well-known/assetlinks.json') ||
   !releaseCandidateDistEvidenceCurrent ||
@@ -6051,6 +6108,9 @@ if (
   !postDeployEvidenceSyncWorkflow.includes('data/production-bootstrap.json') ||
   !postDeployEvidenceSyncWorkflow.includes('data/production-activation.json') ||
   !postDeployEvidenceSyncWorkflow.includes('data/production-blocker-handoff.json') ||
+  !postDeployEvidenceSyncWorkflow.includes('data/owner-unlock-brief.json') ||
+  !postDeployEvidenceSyncWorkflow.includes('public/owner-unlock-brief.json') ||
+  !postDeployEvidenceSyncWorkflow.includes('reports/owner-unlock-brief-latest.md') ||
   !postDeployEvidenceSyncWorkflow.includes('data/production-measurement-status.json') ||
   !postDeployEvidenceSyncWorkflow.includes('src/data/productionMeasurementStatus.ts') ||
   !postDeployEvidenceSyncWorkflow.includes('public/measurement-status.html') ||
@@ -6185,6 +6245,7 @@ if (
   !repositoryReadinessSource.includes('public/analytics-unlock.html') ||
   !repositoryReadinessSource.includes('public/analytics-unlock.json') ||
   !repositoryReadinessSource.includes('public/measurement-status.json') ||
+  !repositoryReadinessSource.includes('public/owner-unlock-brief.json') ||
   !repositoryReadinessSource.includes('public/sample-next.html') ||
   !repositoryReadinessSource.includes('public/sample-next.json') ||
   !repositoryReadinessSource.includes('public/sample-fastest.html') ||
@@ -6283,6 +6344,7 @@ if (
   !repositoryBootstrapSource.includes('public/share-manifest.json') ||
   !repositoryBootstrapSource.includes('public/gate-sample.html') ||
   !repositoryBootstrapSource.includes('public/install.html') ||
+  !repositoryBootstrapSource.includes('public/owner-unlock-brief.json') ||
   !repositoryBootstrapSource.includes('public/sample-next.html') ||
   !repositoryBootstrapSource.includes('public/sample-next.json') ||
   !repositoryBootstrapSource.includes('public/sample-fastest.html') ||
