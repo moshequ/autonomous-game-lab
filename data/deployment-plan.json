@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-23T19:47:08.594Z",
+  "generatedAt": "2026-05-23T19:49:20.310Z",
   "status": "ready-for-pages",
   "target": {
     "provider": "github-pages",
@@ -50,11 +50,11 @@
   },
   "releaseCandidate": {
     "status": "release-candidate-ready",
-    "candidateId": "pwa-95dbdb04adff",
+    "candidateId": "pwa-a59f42603218",
     "manifestPath": "dist/release-candidate.json",
-    "aggregateHash": "95dbdb04adffb152f356b612166d9fa1b41383d3ff76f2aa244f777b418581e8",
+    "aggregateHash": "a59f42603218b919e93d9b30bec34737e2d04b2950093b0e4b674b4c004206ca",
     "totalFiles": 58,
-    "totalKb": 3769.6,
+    "totalKb": 3769.5,
     "postDeploySmokeUrls": 25
   },
   "compliance": {
@@ -123,7 +123,7 @@
     {
       "id": "release-candidate",
       "status": "pass",
-      "detail": "Release candidate is release-candidate-ready; candidate pwa-95dbdb04adff."
+      "detail": "Release candidate is release-candidate-ready; candidate pwa-a59f42603218."
     },
     {
       "id": "deploy-workflow",

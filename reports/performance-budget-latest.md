@@ -1,10 +1,10 @@
 # Performance Budget
 
-Generated: 2026-05-23T19:46:58.582Z
+Generated: 2026-05-23T19:49:08.755Z
 Status: performance-budget-ready
 Initial JS: 684 KB (185.5 KB gzip)
 Initial CSS: 10.5 KB (2.8 KB gzip)
-Deferred game chunk: GameCanvas-BjS4xA3v.js, 1361.7 KB
+Deferred game chunk: GameCanvas-D_fZWC5V.js, 1361.7 KB
 Largest JS chunk deferred: yes
 
 ## Checks
@@ -14,8 +14,8 @@ Largest JS chunk deferred: yes
 - pass: initial-css-budget - Initial CSS is 10.5 KB; budget is 40 KB.
 - pass: manifest - PWA manifest exists in dist.
 - pass: service-worker - Service worker exists in dist.
-- pass: game-runtime-deferred - GameCanvas-BjS4xA3v.js is deferred from the initial shell.
-- pass: largest-js-deferred - Largest JS chunk is GameCanvas-BjS4xA3v.js at 1361.7 KB.
+- pass: game-runtime-deferred - GameCanvas-D_fZWC5V.js is deferred from the initial shell.
+- pass: largest-js-deferred - Largest JS chunk is GameCanvas-D_fZWC5V.js at 1361.7 KB.
 - pass: deferred-game-budget - Deferred game chunk is 1361.7 KB; monitor budget is 1600 KB.
 
 ## Next Actions
