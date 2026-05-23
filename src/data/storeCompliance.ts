@@ -1,6 +1,6 @@
 export const storeCompliance = {
-  "generatedAt": "2026-05-23T00:32:08.985Z",
-  "sourceDataHash": "8ee6ec690f12",
+  "generatedAt": "2026-05-23T00:35:02.186Z",
+  "sourceDataHash": "c427dcab94db",
   "status": "draft-ready-external-blockers",
   "launchCandidate": {
     "id": "market-pulse",

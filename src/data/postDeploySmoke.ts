@@ -1,27 +1,10 @@
 export const postDeploySmoke = {
-  "generatedAt": "2026-05-23T00:31:47.409Z",
+  "generatedAt": "2026-05-23T00:35:17.585Z",
   "status": "post-deploy-smoke-observed-live",
   "envFiles": {
-    "loaded": true,
-    "loadedFiles": [
-      {
-        "path": "ops/production.env.local",
-        "keys": [
-          "AGL_ANDROID_PACKAGE_NAME",
-          "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
-          "AGL_ANDROID_KEYSTORE_BASE64",
-          "AGL_ANDROID_KEYSTORE_PASSWORD",
-          "AGL_ANDROID_KEY_ALIAS"
-        ]
-      }
-    ],
-    "loadedKeys": [
-      "AGL_ANDROID_PACKAGE_NAME",
-      "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
-      "AGL_ANDROID_KEYSTORE_BASE64",
-      "AGL_ANDROID_KEYSTORE_PASSWORD",
-      "AGL_ANDROID_KEY_ALIAS"
-    ],
+    "loaded": false,
+    "loadedFiles": [],
+    "loadedKeys": [],
     "skippedExistingKeys": [],
     "skippedProtectedKeys": [],
     "overwrittenEnvFileKeys": [],
@@ -55,14 +38,14 @@ export const postDeploySmoke = {
     "origin": "https://moshequ.github.io/autonomous-game-lab",
     "originSource": "release-candidate-public-origin",
     "provider": "github-pages",
-    "candidateId": "pwa-5adba65ef6af",
-    "aggregateHash": "5adba65ef6af1c61549b9f03e1c43e5ec63b8eaf5999404f865e5c5ef8f1f7e9",
+    "candidateId": "pwa-d09dad7e305c",
+    "aggregateHash": "d09dad7e305c6e612f788135c79e13eccb308665a475bad426d68a449436eae8",
     "strictManifestComparison": false
   },
   "liveRelease": {
     "status": "release-candidate-ready",
-    "candidateId": "pwa-80e185090616",
-    "aggregateHash": "80e185090616067021ac86d15daac2262ef53007c3a1e297e1406b281f6d1e5d",
+    "candidateId": "pwa-a021ba3aacfc",
+    "aggregateHash": "a021ba3aacfc7d98b99356103ead579282e3281a2a2f6bbcbb903de6ae04dd33",
     "localCandidateMatches": false,
     "strictManifestComparison": false,
     "postDeploySmokeUrls": 24,
@@ -343,8 +326,8 @@ export const postDeploySmoke = {
         "bytes": 25466,
         "candidateMatches": true,
         "hashMatches": true,
-        "localCandidateId": "pwa-5adba65ef6af",
-        "localAggregateHash": "5adba65ef6af1c61549b9f03e1c43e5ec63b8eaf5999404f865e5c5ef8f1f7e9",
+        "localCandidateId": "pwa-d09dad7e305c",
+        "localAggregateHash": "d09dad7e305c6e612f788135c79e13eccb308665a475bad426d68a449436eae8",
         "detail": "Local release manifest matches the release candidate."
       }
     ]
@@ -702,20 +685,20 @@ export const postDeploySmoke = {
       "path": "/release-candidate.json",
       "url": "https://moshequ.github.io/autonomous-game-lab/release-candidate.json",
       "expectedStatus": 200,
-      "requiredText": "pwa-5adba65ef6af",
+      "requiredText": "pwa-d09dad7e305c",
       "status": "pass",
       "detail": "Live release manifest is reachable; it does not match the current local release candidate.",
       "actualStatus": 200,
       "finalUrl": "https://moshequ.github.io/autonomous-game-lab/release-candidate.json",
       "contentType": "application/json; charset=utf-8",
-      "bytes": 25466,
+      "bytes": 25464,
       "candidateMatches": false,
       "hashMatches": false,
       "localCandidateMatches": false,
       "strictManifestComparison": false,
       "deployedReleaseStatus": "release-candidate-ready",
-      "deployedCandidateId": "pwa-80e185090616",
-      "deployedAggregateHash": "80e185090616067021ac86d15daac2262ef53007c3a1e297e1406b281f6d1e5d",
+      "deployedCandidateId": "pwa-a021ba3aacfc",
+      "deployedAggregateHash": "a021ba3aacfc7d98b99356103ead579282e3281a2a2f6bbcbb903de6ae04dd33",
       "deployedPostDeploySmoke": [
         {
           "id": "app-shell",
@@ -890,7 +873,7 @@ export const postDeploySmoke = {
     }
   ],
   "nextActions": [
-    "Live Pages is reachable and serving pwa-80e185090616; run the deploy workflow for strict proof of the current local candidate if needed.",
+    "Live Pages is reachable and serving pwa-a021ba3aacfc; run the deploy workflow for strict proof of the current local candidate if needed.",
     "Keep revenue, paid acquisition, and app-store submission disabled until product and credential gates pass."
   ]
 } as const
