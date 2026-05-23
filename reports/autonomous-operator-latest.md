@@ -1,6 +1,6 @@
 # Autonomous Operator
 
-Generated: 2026-05-23T03:15:44.893Z
+Generated: 2026-05-23T03:19:45.911Z
 Status: operator-held
 Mode: plan-only
 Owner decision: hold-for-external-input
@@ -25,7 +25,7 @@ Execution: not-requested
 - next unlock: production-analytics-browser
 - recommended path: first-party-collector
 - public status: /measurement-status.html
-- missing inputs: 7 variable(s), 3 secret(s)
+- missing inputs: 5 variable(s), 1 secret(s)
 - validate: npm run autonomous:event-collector-smoke
 - validate: npm run autonomous:collector-deploy-plan
 - validate: npm run autonomous:readiness
