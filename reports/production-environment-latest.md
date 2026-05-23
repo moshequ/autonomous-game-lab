@@ -1,6 +1,6 @@
 # Production Environment
 
-Generated: 2026-05-23T01:05:23.289Z
+Generated: 2026-05-23T01:07:56.660Z
 Status: production-env-missing
 Public origin: https://moshequ.github.io/autonomous-game-lab
 Analytics: local-or-fixture
@@ -9,22 +9,22 @@ Android: blocked-needs-host-signing-account
 
 ## Local Env Files
 
-- none loaded
+- ops/production.env.local: AGL_ANDROID_PACKAGE_NAME, AGL_ANDROID_SHA256_CERT_FINGERPRINT, AGL_ANDROID_KEYSTORE_BASE64, AGL_ANDROID_KEYSTORE_PASSWORD, AGL_ANDROID_KEY_ALIAS
 - shell env precedence: true
 - protected mutation keys require shell env: true
 - values redacted: true
 
 ## GitHub Repository Environment
 
-- status: unavailable
+- status: inspected
 - repository: moshequ/autonomous-game-lab
-- variables inspected: 0
-- secrets inspected: 0
+- variables inspected: 10
+- secrets inspected: 5
 - read-only inspection: true
 - secret values never read: true
 - no mutation: true
-- variable names: none
-- secret names: none
+- variable names: AGL_ANDROID_PACKAGE_NAME, AGL_ANDROID_SHA256_CERT_FINGERPRINT, AGL_AUTONOMOUS_SELF_UPDATE, AGL_AUTONOMOUS_SELF_UPDATE_DIRECT, AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS, AGL_EVENT_COLLECTOR_R2_BUCKET, AGL_PUBLIC_ORIGIN, PUBLIC_SITE_URL, VITE_BASE_PATH, VITE_PUBLIC_ORIGIN
+- secret names: AGL_ANDROID_KEYSTORE_BASE64, AGL_ANDROID_KEYSTORE_PASSWORD, AGL_ANDROID_KEY_ALIAS, AGL_EVENT_COLLECTOR_ADMIN_TOKEN, VITE_EVENT_COLLECTOR_WRITE_TOKEN
 
 ## Required Environment
 

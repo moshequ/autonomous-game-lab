@@ -1,35 +1,31 @@
 {
-  "generatedAt": "2026-05-23T01:05:54.356Z",
+  "generatedAt": "2026-05-23T01:07:58.632Z",
   "status": "operator-plan-ready",
   "mode": "plan-only",
   "ownerDecision": {
-    "actionId": "seed-portfolio-traffic",
-    "command": "npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop",
+    "actionId": "collect-gate-sample-local-drops",
+    "command": "npm run autonomous:collect-local-event-drops",
     "locallyExecutable": true,
     "rejectionReason": null
   },
   "externalInputHandoff": null,
   "requestedActionId": null,
   "selectedAction": {
-    "id": "seed-portfolio-traffic",
+    "id": "collect-gate-sample-local-drops",
     "status": "armed",
-    "command": "npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop",
+    "command": "npm run autonomous:collect-local-event-drops",
     "targets": [
-      "market-pulse",
-      "guild-garden",
-      "canopy-bloom",
-      "metro-loom"
+      "firstGameCompletion",
+      "gate-sample-20260523-firstGameCompletion",
+      "gate-sample-20260523-replayRate"
     ],
-    "reason": "Under-measured playable games need free organic/internal traffic before quality judgment.",
+    "reason": "Imports only the local inbox or explicitly configured drop folders, refreshes analytics and gate recovery, and never scans Downloads.",
     "costUsd": 0
   },
   "selectedRejection": null,
   "eligibleActionIds": [
-    "seed-portfolio-traffic",
-    "refresh-organic-seed-loop",
     "optimize-daily-retention",
     "collect-gate-sample-local-drops",
-    "refresh-objective-audit",
     "collect-live-events"
   ],
   "blockedActions": [
@@ -58,10 +54,16 @@
       "reason": "status-monitor"
     },
     {
+      "id": "seed-portfolio-traffic",
+      "status": "monitor",
+      "command": "npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop",
+      "reason": "status-monitor"
+    },
+    {
       "id": "refresh-organic-seed-loop",
-      "status": "armed",
+      "status": "monitor",
       "command": "npm run autonomous:organic-seed-loop",
-      "reason": "not-selected-this-run"
+      "reason": "status-monitor"
     },
     {
       "id": "refresh-support-feedback",
@@ -122,12 +124,6 @@
       "status": "monitor",
       "command": "npm run autonomous:gate-recovery && npm run autonomous:sample-plan",
       "reason": "status-monitor"
-    },
-    {
-      "id": "collect-gate-sample-local-drops",
-      "status": "armed",
-      "command": "npm run autonomous:collect-local-event-drops",
-      "reason": "not-selected-this-run"
     },
     {
       "id": "collect-gate-sample-downloads",
@@ -203,9 +199,9 @@
     },
     {
       "id": "refresh-objective-audit",
-      "status": "armed",
+      "status": "monitor",
       "command": "npm run autonomous:objective-audit",
-      "reason": "not-selected-this-run"
+      "reason": "status-monitor"
     },
     {
       "id": "optimize-store-listing",
@@ -240,24 +236,8 @@
   ],
   "commandPlan": [
     {
-      "segment": "npm run autonomous:growth",
-      "script": "autonomous:growth"
-    },
-    {
-      "segment": "npm run autonomous:portfolio",
-      "script": "autonomous:portfolio"
-    },
-    {
-      "segment": "npm run autonomous:traffic",
-      "script": "autonomous:traffic"
-    },
-    {
-      "segment": "npm run autonomous:acquisition",
-      "script": "autonomous:acquisition"
-    },
-    {
-      "segment": "npm run autonomous:organic-seed-loop",
-      "script": "autonomous:organic-seed-loop"
+      "segment": "npm run autonomous:collect-local-event-drops",
+      "script": "autonomous:collect-local-event-drops"
     }
   ],
   "execution": {
@@ -333,7 +313,7 @@
     "RUN_WORKFLOWS=1"
   ],
   "nextActions": [
-    "Run npm run autonomous:operator -- --execute --action=seed-portfolio-traffic to execute exactly one allowed local action.",
+    "Run npm run autonomous:operator -- --execute --action=collect-gate-sample-local-drops to execute exactly one allowed local action.",
     "Do not execute GitHub workflow, store, paid ads, or account setup commands from the local operator."
   ]
 }

@@ -2,7 +2,7 @@ export const autonomousOperator = {
   "status": "operator-plan-ready",
   "mode": "plan-only",
   "selectedAction": {
-    "id": "seed-portfolio-traffic",
+    "id": "collect-gate-sample-local-drops",
     "status": "armed",
     "costUsd": 0
   },
