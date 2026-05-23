@@ -1,10 +1,10 @@
 # Autonomous Operator
 
-Generated: 2026-05-23T01:27:45.173Z
+Generated: 2026-05-23T01:31:16.743Z
 Status: operator-plan-ready
 Mode: plan-only
-Owner decision: bootstrap-production-setup
-Selected action: bootstrap-production-setup
+Owner decision: refresh-first-move-coach
+Selected action: refresh-first-move-coach
 Execution: not-requested
 
 ## Controls
@@ -18,7 +18,7 @@ Execution: not-requested
 
 ## Selected Action
 
-- bootstrap-production-setup: npm run autonomous:release-candidate && npm run autonomous:deploy-plan && npm run autonomous:bootstrap
+- refresh-first-move-coach: npm run autonomous:first-move-coach
 
 ## External Input Handoff
 
@@ -31,12 +31,9 @@ Execution: not-requested
 
 - seed-portfolio-traffic
 - refresh-organic-seed-loop
-- prepare-release-candidate
-- run-post-deploy-smoke
 - refresh-first-move-coach
 - refresh-completion-loop
 - refresh-replay-loop
-- bootstrap-production-setup
 - apply-safe-improvements
 
 ## Blocked Actions
@@ -51,5 +48,5 @@ Execution: not-requested
 - optimize-daily-retention: status-monitor
 - measure-pwa-install-loop: status-monitor
 - check-performance-budget: status-monitor
-- prepare-release-candidate: not-selected-this-run
-- run-post-deploy-smoke: not-selected-this-run
+- prepare-release-candidate: status-monitor
+- run-post-deploy-smoke: status-monitor

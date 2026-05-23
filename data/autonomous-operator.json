@@ -1,37 +1,32 @@
 {
-  "generatedAt": "2026-05-23T01:27:45.173Z",
+  "generatedAt": "2026-05-23T01:31:16.743Z",
   "status": "operator-plan-ready",
   "mode": "plan-only",
   "ownerDecision": {
-    "actionId": "bootstrap-production-setup",
-    "command": "npm run autonomous:release-candidate && npm run autonomous:deploy-plan && npm run autonomous:bootstrap",
+    "actionId": "refresh-first-move-coach",
+    "command": "npm run autonomous:first-move-coach",
     "locallyExecutable": true,
     "rejectionReason": null
   },
   "externalInputHandoff": null,
   "requestedActionId": null,
   "selectedAction": {
-    "id": "bootstrap-production-setup",
+    "id": "refresh-first-move-coach",
     "status": "armed",
-    "command": "npm run autonomous:release-candidate && npm run autonomous:deploy-plan && npm run autonomous:bootstrap",
+    "command": "npm run autonomous:first-move-coach",
     "targets": [
-      "github-pages",
-      "repository-config",
-      "event-collector"
+      "harbor-rings"
     ],
-    "reason": "Regenerates the zero-spend production setup handoff and exact GitHub variable/secret commands.",
+    "reason": "Refreshes the first-turn coach policy from product-gate, onboarding, and release-health evidence.",
     "costUsd": 0
   },
   "selectedRejection": null,
   "eligibleActionIds": [
     "seed-portfolio-traffic",
     "refresh-organic-seed-loop",
-    "prepare-release-candidate",
-    "run-post-deploy-smoke",
     "refresh-first-move-coach",
     "refresh-completion-loop",
     "refresh-replay-loop",
-    "bootstrap-production-setup",
     "apply-safe-improvements"
   ],
   "blockedActions": [
@@ -97,15 +92,15 @@
     },
     {
       "id": "prepare-release-candidate",
-      "status": "armed",
+      "status": "monitor",
       "command": "npm run autonomous:release-candidate && npm run autonomous:post-deploy-smoke && npm run autonomous:live-monitor",
-      "reason": "not-selected-this-run"
+      "reason": "status-monitor"
     },
     {
       "id": "run-post-deploy-smoke",
-      "status": "armed",
+      "status": "monitor",
       "command": "npm run autonomous:post-deploy-smoke",
-      "reason": "not-selected-this-run"
+      "reason": "status-monitor"
     },
     {
       "id": "sync-post-deploy-artifact",
@@ -150,12 +145,6 @@
       "reason": "status-monitor"
     },
     {
-      "id": "refresh-first-move-coach",
-      "status": "armed",
-      "command": "npm run autonomous:first-move-coach",
-      "reason": "not-selected-this-run"
-    },
-    {
       "id": "refresh-completion-loop",
       "status": "armed",
       "command": "npm run autonomous:completion-loop",
@@ -171,6 +160,12 @@
       "id": "prepare-repository-channel",
       "status": "monitor",
       "command": "npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap",
+      "reason": "status-monitor"
+    },
+    {
+      "id": "bootstrap-production-setup",
+      "status": "monitor",
+      "command": "npm run autonomous:release-candidate && npm run autonomous:deploy-plan && npm run autonomous:bootstrap",
       "reason": "status-monitor"
     },
     {
@@ -242,16 +237,8 @@
   ],
   "commandPlan": [
     {
-      "segment": "npm run autonomous:release-candidate",
-      "script": "autonomous:release-candidate"
-    },
-    {
-      "segment": "npm run autonomous:deploy-plan",
-      "script": "autonomous:deploy-plan"
-    },
-    {
-      "segment": "npm run autonomous:bootstrap",
-      "script": "autonomous:bootstrap"
+      "segment": "npm run autonomous:first-move-coach",
+      "script": "autonomous:first-move-coach"
     }
   ],
   "execution": {
@@ -327,7 +314,7 @@
     "RUN_WORKFLOWS=1"
   ],
   "nextActions": [
-    "Run npm run autonomous:operator -- --execute --action=bootstrap-production-setup to execute exactly one allowed local action.",
+    "Run npm run autonomous:operator -- --execute --action=refresh-first-move-coach to execute exactly one allowed local action.",
     "Do not execute GitHub workflow, store, paid ads, or account setup commands from the local operator."
   ]
 }

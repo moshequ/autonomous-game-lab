@@ -1,6 +1,6 @@
 export const storeListingOptimizer = {
-  "generatedAt": "2026-05-23T01:27:27.058Z",
-  "sourceDataHash": "ac4682dd1ff1",
+  "generatedAt": "2026-05-23T01:30:56.846Z",
+  "sourceDataHash": "4acfb8d7fd83",
   "status": "store-listing-optimizer-ready",
   "sourceStatus": {
     "growthPlan": "growth-assets-ready",
@@ -14,8 +14,8 @@ export const storeListingOptimizer = {
   "recommendation": {
     "focusGameId": "market-pulse",
     "title": "Market Pulse",
-    "previousLaunchCandidateId": "market-pulse",
-    "changedLaunchCandidate": false,
+    "previousLaunchCandidateId": "lantern-relay",
+    "changedLaunchCandidate": true,
     "rationale": [
       "Growth quality 78",
       "Portfolio score 51.912",
@@ -324,7 +324,7 @@ export const storeListingOptimizer = {
     "revenueClaimsAllowed": false
   },
   "nextActions": [
-    "Keep Market Pulse as the store listing focus.",
+    "Use Market Pulse as the store listing focus instead of lantern-relay.",
     "Lead screenshots with Market Pulse gameplay board.",
     "Regenerate store compliance after every listing, screenshot, monetization, or privacy change."
   ]

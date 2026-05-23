@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-23T01:27:45.173Z",
+  "generatedAt": "2026-05-23T01:31:16.743Z",
   "status": "operator-history-ready",
   "retention": {
     "maxRecords": 40,
@@ -11,7 +11,7 @@
     "recentExecutedActionIds": [
       "seed-portfolio-traffic"
     ],
-    "latestRunAppended": true,
+    "latestRunAppended": false,
     "compactedDuplicateDryRuns": 0
   },
   "summary": {
@@ -19,7 +19,7 @@
     "plannedRecords": 39,
     "executedRecords": 1,
     "failedRecords": 0,
-    "lastActionId": "bootstrap-production-setup",
+    "lastActionId": "refresh-first-move-coach",
     "lastExecutionStatus": "not-requested",
     "lastExecutedActionId": "seed-portfolio-traffic"
   },
@@ -31,61 +31,6 @@
     "historyIsCapped": true
   },
   "records": [
-    {
-      "id": "20260522215819-refresh-production-blocker-handoff",
-      "generatedAt": "2026-05-22T21:58:19.372Z",
-      "runFingerprint": "4b04082a0aaf6501",
-      "mode": "plan-only",
-      "status": "operator-plan-ready",
-      "selectedActionId": "refresh-production-blocker-handoff",
-      "selectedCommand": "npm run autonomous:blocker-handoff",
-      "eligibleActionIds": [
-        "refresh-completion-loop",
-        "refresh-replay-loop",
-        "refresh-production-blocker-handoff"
-      ],
-      "blockedActionCount": 34,
-      "execution": {
-        "requested": false,
-        "status": "not-requested",
-        "attemptedActionId": null,
-        "resultCount": 0,
-        "failedScripts": []
-      },
-      "controls": {
-        "zeroPaidSpend": true,
-        "localCommandAllowlistEnforced": true,
-        "externalWorkflowExecutionBlockedByDefault": true,
-        "maxActionsPerRun": 1
-      }
-    },
-    {
-      "id": "20260522215828-refresh-completion-loop",
-      "generatedAt": "2026-05-22T21:58:28.421Z",
-      "runFingerprint": "da5c247092c63f0f",
-      "mode": "plan-only",
-      "status": "operator-plan-ready",
-      "selectedActionId": "refresh-completion-loop",
-      "selectedCommand": "npm run autonomous:completion-loop",
-      "eligibleActionIds": [
-        "refresh-completion-loop",
-        "refresh-replay-loop"
-      ],
-      "blockedActionCount": 34,
-      "execution": {
-        "requested": false,
-        "status": "not-requested",
-        "attemptedActionId": null,
-        "resultCount": 0,
-        "failedScripts": []
-      },
-      "controls": {
-        "zeroPaidSpend": true,
-        "localCommandAllowlistEnforced": true,
-        "externalWorkflowExecutionBlockedByDefault": true,
-        "maxActionsPerRun": 1
-      }
-    },
     {
       "id": "20260522220006-refresh-completion-loop",
       "generatedAt": "2026-05-22T22:00:06.284Z",
@@ -1207,6 +1152,69 @@
         "refresh-completion-loop",
         "refresh-replay-loop",
         "bootstrap-production-setup",
+        "apply-safe-improvements"
+      ],
+      "blockedActionCount": 34,
+      "execution": {
+        "requested": false,
+        "status": "not-requested",
+        "attemptedActionId": null,
+        "resultCount": 0,
+        "failedScripts": []
+      },
+      "controls": {
+        "zeroPaidSpend": true,
+        "localCommandAllowlistEnforced": true,
+        "externalWorkflowExecutionBlockedByDefault": true,
+        "maxActionsPerRun": 1
+      }
+    },
+    {
+      "id": "20260523013114-refresh-first-move-coach",
+      "generatedAt": "2026-05-23T01:31:14.765Z",
+      "runFingerprint": "9a02257543691f79",
+      "mode": "plan-only",
+      "status": "operator-plan-ready",
+      "selectedActionId": "refresh-first-move-coach",
+      "selectedCommand": "npm run autonomous:first-move-coach",
+      "eligibleActionIds": [
+        "seed-portfolio-traffic",
+        "refresh-organic-seed-loop",
+        "refresh-first-move-coach",
+        "refresh-completion-loop",
+        "refresh-replay-loop",
+        "refresh-objective-audit",
+        "apply-safe-improvements"
+      ],
+      "blockedActionCount": 34,
+      "execution": {
+        "requested": false,
+        "status": "not-requested",
+        "attemptedActionId": null,
+        "resultCount": 0,
+        "failedScripts": []
+      },
+      "controls": {
+        "zeroPaidSpend": true,
+        "localCommandAllowlistEnforced": true,
+        "externalWorkflowExecutionBlockedByDefault": true,
+        "maxActionsPerRun": 1
+      }
+    },
+    {
+      "id": "20260523013115-refresh-first-move-coach",
+      "generatedAt": "2026-05-23T01:31:15.296Z",
+      "runFingerprint": "c9c8aa67afaa82f3",
+      "mode": "plan-only",
+      "status": "operator-plan-ready",
+      "selectedActionId": "refresh-first-move-coach",
+      "selectedCommand": "npm run autonomous:first-move-coach",
+      "eligibleActionIds": [
+        "seed-portfolio-traffic",
+        "refresh-organic-seed-loop",
+        "refresh-first-move-coach",
+        "refresh-completion-loop",
+        "refresh-replay-loop",
         "apply-safe-improvements"
       ],
       "blockedActionCount": 34,

@@ -1,6 +1,6 @@
 # Deployment Plan
 
-Generated: 2026-05-23T01:27:45.477Z
+Generated: 2026-05-23T01:31:17.141Z
 Status: ready-for-pages
 Target: github-pages
 Cost: $0 platform hosting for public/internal experiment traffic
@@ -8,7 +8,7 @@ Cost: $0 platform hosting for public/internal experiment traffic
 ## Checks
 
 - pass: web-promotion - Promote the current PWA build to an internal/public web experiment when hosting is connected.
-- pass: web-readiness - Pre-deploy web readiness passed; live post-deploy smoke remains blocked.
+- pass: web-readiness - Pre-deploy web readiness passed; live post-deploy smoke remains ready-after-build.
 - pass: release-health - Release health is monitoring.
 - pass: unit-economics-guard - Spend mode is no-spend; max daily paid spend is $0.00.
 - pass: production-response - Production response is guarded-operations; rollback required is false.
@@ -16,7 +16,7 @@ Cost: $0 platform hosting for public/internal experiment traffic
 - pass: dist-service-worker - Production service worker exists.
 - pass: dist-privacy - Privacy policy is included in the deployable build.
 - pass: dist-install - PWA install handoff page is included in the deployable build.
-- pass: release-candidate - Release candidate is release-candidate-ready; candidate pwa-fb62afd2dc96.
+- pass: release-candidate - Release candidate is release-candidate-ready; candidate pwa-109f9926efe9.
 - pass: deploy-workflow - GitHub Pages deployment workflow exists.
 - pass: production-environment - Environment status is production-env-missing; public origin is https://moshequ.github.io/autonomous-game-lab.
 - pass: event-collector-deployment - Event collector deployment is blocked-needs-cloudflare-env.
@@ -38,9 +38,9 @@ Cost: $0 platform hosting for public/internal experiment traffic
 ## Release Candidate
 
 - Status: release-candidate-ready
-- Candidate: pwa-fb62afd2dc96
+- Candidate: pwa-109f9926efe9
 - Files: 56
-- Aggregate SHA-256: fb62afd2dc968c3ab33891efb057d4c2e8e76a0f3aa71b1fbd6a8771306c3532
+- Aggregate SHA-256: 109f9926efe96cb2bf0397fb4fb3344cf9a62a53e79ce1ba60477d7ce8c8c30d
 - Post-deploy smoke URLs: 24
 
 ## Repository Channel
