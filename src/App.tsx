@@ -344,6 +344,7 @@ const localEventDropAutosaveEvents = new Set<AnalyticsEventName>([
   'daily_return_prompt_viewed',
   'daily_return_prompt_clicked',
   'daily_return_link_copied',
+  'daily_return_calendar_downloaded',
   'daily_return_intent_viewed',
   'daily_return_intent_started',
   'pwa_install_page_viewed',
@@ -1668,6 +1669,24 @@ function App() {
         })
       }),
     )
+  }
+  const downloadDailyReturnCalendar = () => {
+    const policy = retentionLoop.returnCalendarPolicy
+    const challengeTitle = dailyChallengeGame?.title ?? retentionLoop.dailyChallenge.title ?? 'Daily challenge'
+    void import('./lib/calendarReminder').then(({ downloadDailyReturnCalendarFile }) => {
+      downloadDailyReturnCalendarFile({
+        origin: window.location.origin,
+        basePath: resolveRuntimePathname('/'),
+        gameId: retentionLoop.dailyChallenge.gameId,
+        gameTitle: challengeTitle,
+        challengeDate: retentionLoop.dailyChallenge.date,
+        campaignId: policy.campaignId,
+        queryParam: policy.queryParam,
+        intentDate: policy.intentDate,
+        surface: policy.surface,
+        telemetryName: policy.telemetry.downloaded,
+      })
+    })
   }
   const dismissDailyReturn = () => {
     window.localStorage.setItem(
@@ -3122,6 +3141,10 @@ function App() {
                       <Share2 size={14} aria-hidden="true" />
                       {retentionLoop.returnLinkPolicy.ctaLabel}
                     </button>
+                    <button className="tinyButton" type="button" onClick={downloadDailyReturnCalendar}>
+                      <Download size={14} aria-hidden="true" />
+                      {retentionLoop.returnCalendarPolicy.ctaLabel}
+                    </button>
                     <button className="tinyButton subtleButton" type="button" onClick={dismissDailyReturn}>
                       {retentionLoop.promptPolicy.dismissLabel}
                     </button>
@@ -3247,6 +3270,7 @@ function App() {
                   'sample_fastest_routed',
                   'daily_challenge_completed',
                   'daily_return_link_copied',
+                  'daily_return_calendar_downloaded',
                   'daily_return_intent_started',
                   'pwa_install_prompt_available',
                   'pwa_installed',

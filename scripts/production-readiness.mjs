@@ -459,6 +459,21 @@ const retentionLoopReady =
   retentionLoop.returnLinkPolicy?.controls?.noPushNotifications === true &&
   retentionLoop.returnLinkPolicy?.controls?.noNotificationPermissionRequest === true &&
   retentionLoop.returnLinkPolicy?.controls?.noExternalUpload === true &&
+  retentionLoop.returnCalendarPolicy?.status &&
+  retentionLoop.returnCalendarPolicy?.surface === 'autonomy-cockpit-retention-card' &&
+  retentionLoop.returnCalendarPolicy?.trigger === 'after-completed-run' &&
+  retentionLoop.returnCalendarPolicy?.queryParam === 'return_intent' &&
+  retentionLoop.returnCalendarPolicy?.intentDate === retentionLoop.promptPolicy?.nextChallengeDate &&
+  retentionLoop.returnCalendarPolicy?.campaignId === retentionLoop.returnLinkPolicy?.campaignId &&
+  retentionLoop.returnCalendarPolicy?.fileExtension === '.ics' &&
+  retentionLoop.returnCalendarPolicy?.telemetry?.downloaded === 'daily_return_calendar_downloaded' &&
+  retentionLoop.returnCalendarPolicy?.controls?.zeroPaidSpend === true &&
+  retentionLoop.returnCalendarPolicy?.controls?.playerInitiatedOnly === true &&
+  retentionLoop.returnCalendarPolicy?.controls?.noPushNotifications === true &&
+  retentionLoop.returnCalendarPolicy?.controls?.noNotificationPermissionRequest === true &&
+  retentionLoop.returnCalendarPolicy?.controls?.noAccountRequired === true &&
+  retentionLoop.returnCalendarPolicy?.controls?.noExternalUpload === true &&
+  retentionLoop.returnCalendarPolicy?.controls?.noRevenueEnablement === true &&
   retentionLoop.controls?.returnIntentPlayerInitiatedOnly === true &&
   retentionLoop.controls?.noBackgroundWakeups === true &&
   retentionMissions.some(
@@ -477,6 +492,12 @@ const retentionLoopReady =
     (mission) =>
       mission.id === 'copy-return-link' &&
       mission.event === 'daily_return_link_copied' &&
+      ['armed', 'monitor'].includes(mission.status),
+  ) &&
+  retentionMissions.some(
+    (mission) =>
+      mission.id === 'save-return-reminder' &&
+      mission.event === 'daily_return_calendar_downloaded' &&
       ['armed', 'monitor'].includes(mission.status),
   )
 const pwaInstallGuardrails = pwaInstallLoop.guardrails ?? {}
@@ -1297,6 +1318,7 @@ const payload = {
     promptPolicy: retentionLoop.promptPolicy ?? {},
     returnIntentPolicy: retentionLoop.returnIntentPolicy ?? {},
     returnLinkPolicy: retentionLoop.returnLinkPolicy ?? {},
+    returnCalendarPolicy: retentionLoop.returnCalendarPolicy ?? {},
     controls: retentionLoop.controls ?? {},
     missions: retentionMissions,
   },
@@ -1626,6 +1648,7 @@ const report = [
   `Return prompt: ${payload.retention.promptPolicy?.status ?? 'missing'} (${payload.retention.promptPolicy?.surface ?? 'missing'})`,
   `Return intent: ${payload.retention.returnIntentPolicy?.status ?? 'missing'} (${payload.retention.returnIntentPolicy?.surface ?? 'missing'})`,
   `Return link: ${payload.retention.returnLinkPolicy?.status ?? 'missing'} (${payload.retention.returnLinkPolicy?.queryParam ?? 'missing'})`,
+  `Return calendar: ${payload.retention.returnCalendarPolicy?.status ?? 'missing'} (${payload.retention.returnCalendarPolicy?.fileExtension ?? 'missing'})`,
   ...payload.retention.missions.map((mission) => `- ${mission.status}: ${mission.id} - ${mission.event}`),
   '',
   '## PWA Install Loop',

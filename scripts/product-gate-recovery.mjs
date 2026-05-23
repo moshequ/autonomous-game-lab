@@ -62,6 +62,10 @@ const retentionLoopSourceEvidence = {
     surface: retentionLoop.returnIntentPolicy?.surface ?? null,
     telemetry: retentionLoop.returnIntentPolicy?.telemetry ?? null,
   },
+  returnCalendarPolicy: {
+    surface: retentionLoop.returnCalendarPolicy?.surface ?? null,
+    telemetry: retentionLoop.returnCalendarPolicy?.telemetry ?? null,
+  },
 }
 const firstMoveCoachSourceEvidence = {
   status: firstMoveCoach.status,
@@ -137,6 +141,7 @@ const gateRows = [
     actionTelemetry: [
       retentionLoop.promptPolicy?.telemetry?.clicked,
       retentionLoop.returnLinkPolicy?.telemetry?.copied,
+      retentionLoop.returnCalendarPolicy?.telemetry?.downloaded,
       retentionLoop.returnIntentPolicy?.telemetry?.started,
     ].filter(Boolean),
     successTelemetry: ['daily_return_intent_started'],

@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-05-23T01:52:50.989Z",
-  "sourceDataHash": "def89f788d5e",
+  "generatedAt": "2026-05-23T02:18:33.209Z",
+  "sourceDataHash": "3325a748aa6f",
   "status": "product-gate-recovery-ready",
   "sourceStatus": {
     "analyticsSource": "fixture-sample",
@@ -115,6 +115,7 @@
       "actionTelemetry": [
         "daily_return_prompt_clicked",
         "daily_return_link_copied",
+        "daily_return_calendar_downloaded",
         "daily_return_intent_started"
       ],
       "successTelemetry": [
@@ -180,7 +181,7 @@
       "promptViewsNeeded": 10,
       "experimentStatus": "collecting-sample",
       "recommendedChange": "hold-current-runtime-copy",
-      "nextMeasurement": "daily_return_prompt_viewed, daily_return_intent_viewed, daily_return_prompt_clicked, daily_return_link_copied, daily_return_intent_started, daily_return_intent_started",
+      "nextMeasurement": "daily_return_prompt_viewed, daily_return_intent_viewed, daily_return_prompt_clicked, daily_return_link_copied, daily_return_calendar_downloaded, daily_return_intent_started, daily_return_intent_started",
       "reason": "D1 retention is the fastest gate to re-test with real retained-player evidence."
     }
   ],

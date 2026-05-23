@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-23T01:57:53.670Z",
+  "generatedAt": "2026-05-23T02:22:10.514Z",
   "status": "operator-plan-ready",
   "mode": "plan-only",
   "ownerDecision": {
@@ -25,6 +25,7 @@
     "seed-portfolio-traffic",
     "refresh-organic-seed-loop",
     "refresh-first-move-coach",
+    "refresh-completion-loop",
     "refresh-replay-loop",
     "apply-safe-improvements"
   ],
@@ -145,9 +146,9 @@
     },
     {
       "id": "refresh-completion-loop",
-      "status": "monitor",
+      "status": "armed",
       "command": "npm run autonomous:completion-loop",
-      "reason": "status-monitor"
+      "reason": "not-selected-this-run"
     },
     {
       "id": "refresh-replay-loop",

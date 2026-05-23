@@ -1240,6 +1240,9 @@ if (
   !localEventBridge.eventDropContract?.browserFolderDrop?.autosaveTriggers?.includes('game_started') ||
   !localEventBridge.eventDropContract?.browserFolderDrop?.autosaveTriggers?.includes('level_completed') ||
   !localEventBridge.eventDropContract?.browserFolderDrop?.autosaveTriggers?.includes('daily_return_link_copied') ||
+  !localEventBridge.eventDropContract?.browserFolderDrop?.autosaveTriggers?.includes(
+    'daily_return_calendar_downloaded',
+  ) ||
   localEventBridge.controls?.zeroPaidSpend !== true ||
   localEventBridge.controls?.localOnly !== true ||
   localEventBridge.controls?.noExternalUpload !== true ||
@@ -1918,6 +1921,7 @@ const retentionPromptEvents = [
   'daily_return_prompt_clicked',
   'daily_return_prompt_dismissed',
   'daily_return_link_copied',
+  'daily_return_calendar_downloaded',
   'daily_return_intent_viewed',
   'daily_return_intent_started',
   'daily_return_intent_cleared',
@@ -1982,6 +1986,22 @@ if (
   retentionLoop.returnLinkPolicy?.controls?.noAccountRequired !== true ||
   retentionLoop.returnLinkPolicy?.controls?.noExternalUpload !== true ||
   retentionLoop.returnLinkPolicy?.controls?.noRevenueEnablement !== true ||
+  !['armed', 'monitor'].includes(retentionLoop.returnCalendarPolicy?.status) ||
+  retentionLoop.returnCalendarPolicy?.surface !== 'autonomy-cockpit-retention-card' ||
+  retentionLoop.returnCalendarPolicy?.trigger !== 'after-completed-run' ||
+  retentionLoop.returnCalendarPolicy?.ctaLabel !== 'Save reminder' ||
+  retentionLoop.returnCalendarPolicy?.queryParam !== 'return_intent' ||
+  retentionLoop.returnCalendarPolicy?.fileExtension !== '.ics' ||
+  retentionLoop.returnCalendarPolicy?.intentDate !== retentionLoop.promptPolicy?.nextChallengeDate ||
+  retentionLoop.returnCalendarPolicy?.campaignId !== retentionLoop.samplePolicy?.campaignId ||
+  retentionLoop.returnCalendarPolicy?.telemetry?.downloaded !== 'daily_return_calendar_downloaded' ||
+  retentionLoop.returnCalendarPolicy?.controls?.zeroPaidSpend !== true ||
+  retentionLoop.returnCalendarPolicy?.controls?.playerInitiatedOnly !== true ||
+  retentionLoop.returnCalendarPolicy?.controls?.noNotificationPermissionRequest !== true ||
+  retentionLoop.returnCalendarPolicy?.controls?.noPushNotifications !== true ||
+  retentionLoop.returnCalendarPolicy?.controls?.noAccountRequired !== true ||
+  retentionLoop.returnCalendarPolicy?.controls?.noExternalUpload !== true ||
+  retentionLoop.returnCalendarPolicy?.controls?.noRevenueEnablement !== true ||
   retentionLoop.measurementPolicy?.source !== 'player-exported-events' ||
   retentionLoop.measurementPolicy?.retainedEvent !== 'daily_return_intent_started' ||
   retentionLoop.measurementPolicy?.cohortDateProperty !== 'retentionCohortDate' ||
@@ -2018,6 +2038,7 @@ if (
   !retentionMissionIds.has('return-tomorrow') ||
   !retentionMissionIds.has('confirm-return-intent') ||
   !retentionMissionIds.has('copy-return-link') ||
+  !retentionMissionIds.has('save-return-reminder') ||
   !retentionMissionIds.has('activate-return-intent') ||
   !retentionMissionIds.has('share-daily-seed') ||
   !retentionLoop.missions?.some(
@@ -2041,6 +2062,12 @@ if (
   ) ||
   !retentionLoop.missions?.some(
     (mission) =>
+      mission.id === 'save-return-reminder' &&
+      mission.event === 'daily_return_calendar_downloaded' &&
+      mission.gameId === retentionLoop.dailyChallenge?.gameId,
+  ) ||
+  !retentionLoop.missions?.some(
+    (mission) =>
       mission.id === 'activate-return-intent' &&
       mission.event === 'daily_return_intent_started' &&
       mission.gameId === retentionLoop.dailyChallenge?.gameId,
@@ -2054,6 +2081,8 @@ if (
   !appSource.includes('d1RetentionCandidate') ||
   !appSource.includes('queueDailyReturn') ||
   !appSource.includes('copyDailyReturnLink') ||
+  !appSource.includes('downloadDailyReturnCalendar') ||
+  !appSource.includes('returnCalendarPolicy') ||
   !appSource.includes('return_intent') ||
   !appSource.includes('startQueuedReturnIntent') ||
   !appSource.includes('Queued return') ||
@@ -2377,6 +2406,10 @@ const productGateRecoverySourceDataHash = hashSourceData({
     returnIntentPolicy: {
       surface: retentionLoop.returnIntentPolicy?.surface ?? null,
       telemetry: retentionLoop.returnIntentPolicy?.telemetry ?? null,
+    },
+    returnCalendarPolicy: {
+      surface: retentionLoop.returnCalendarPolicy?.surface ?? null,
+      telemetry: retentionLoop.returnCalendarPolicy?.telemetry ?? null,
     },
   },
   firstMoveCoach: {
@@ -5651,6 +5684,11 @@ if (
   readiness.retention?.returnLinkPolicy?.queryParam !== 'return_intent' ||
   readiness.retention?.returnLinkPolicy?.controls?.noPushNotifications !== true ||
   readiness.retention?.returnLinkPolicy?.controls?.noExternalUpload !== true ||
+  readiness.retention?.returnCalendarPolicy?.telemetry?.downloaded !== 'daily_return_calendar_downloaded' ||
+  readiness.retention?.returnCalendarPolicy?.fileExtension !== '.ics' ||
+  readiness.retention?.returnCalendarPolicy?.controls?.zeroPaidSpend !== true ||
+  readiness.retention?.returnCalendarPolicy?.controls?.noPushNotifications !== true ||
+  readiness.retention?.returnCalendarPolicy?.controls?.noExternalUpload !== true ||
   readiness.retention?.controls?.returnIntentPlayerInitiatedOnly !== true
 ) {
   fail('Production readiness must verify the daily retention loop, return prompt/link telemetry, and local-only retention guardrails.')

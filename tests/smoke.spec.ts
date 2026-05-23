@@ -3976,6 +3976,7 @@ test('local event bridge keeps browser analytics drops importable without extern
   expect(bridge.eventDropContract.browserFolderDrop.autosaveTriggers).toContain('game_started')
   expect(bridge.eventDropContract.browserFolderDrop.autosaveTriggers).toContain('level_completed')
   expect(bridge.eventDropContract.browserFolderDrop.autosaveTriggers).toContain('daily_return_link_copied')
+  expect(bridge.eventDropContract.browserFolderDrop.autosaveTriggers).toContain('daily_return_calendar_downloaded')
   expect(bridge.controls.zeroPaidSpend).toBe(true)
   expect(bridge.controls.localOnly).toBe(true)
   expect(bridge.controls.noExternalUpload).toBe(true)
@@ -5930,6 +5931,19 @@ test('daily return prompt captures a local return intent after a completed run',
       telemetry: { copied: string }
       controls: { noPushNotifications: boolean; noNotificationPermissionRequest: boolean; noExternalUpload: boolean }
     }
+    returnCalendarPolicy: {
+      ctaLabel: string
+      fileExtension: string
+      telemetry: { downloaded: string }
+      controls: {
+        playerInitiatedOnly: boolean
+        noPushNotifications: boolean
+        noNotificationPermissionRequest: boolean
+        noAccountRequired: boolean
+        noExternalUpload: boolean
+        noRevenueEnablement: boolean
+      }
+    }
     rewardPolicy: {
       recommendedVariant: string
       controls: { noPaidRewards: boolean; noAds: boolean; noRevenueEnablement: boolean }
@@ -6024,6 +6038,30 @@ test('daily return prompt captures a local return intent after a completed run',
   expect(retention.returnLinkPolicy.controls.noPushNotifications).toBe(true)
   expect(retention.returnLinkPolicy.controls.noNotificationPermissionRequest).toBe(true)
   expect(retention.returnLinkPolicy.controls.noExternalUpload).toBe(true)
+  expect(retention.returnCalendarPolicy.fileExtension).toBe('.ics')
+  expect(retention.returnCalendarPolicy.controls.playerInitiatedOnly).toBe(true)
+  expect(retention.returnCalendarPolicy.controls.noPushNotifications).toBe(true)
+  expect(retention.returnCalendarPolicy.controls.noNotificationPermissionRequest).toBe(true)
+  expect(retention.returnCalendarPolicy.controls.noAccountRequired).toBe(true)
+  expect(retention.returnCalendarPolicy.controls.noExternalUpload).toBe(true)
+  expect(retention.returnCalendarPolicy.controls.noRevenueEnablement).toBe(true)
+  const calendarDownloadPromise = page.waitForEvent('download')
+  await dailyRetention.getByRole('button', { name: retention.returnCalendarPolicy.ctaLabel }).click()
+  const calendarDownload = await calendarDownloadPromise
+  const calendarDownloadPath = await calendarDownload.path()
+  expect(calendarDownload.suggestedFilename()).toBe(`agl-return-${retention.promptPolicy.nextChallengeDate}.ics`)
+  expect(calendarDownloadPath).toBeTruthy()
+
+  if (calendarDownloadPath) {
+    const calendarText = await readFile(calendarDownloadPath, 'utf8')
+    const calendarDate = retention.promptPolicy.nextChallengeDate.replaceAll('-', '')
+
+    expect(calendarText).toContain('BEGIN:VCALENDAR')
+    expect(calendarText).toContain(`DTSTART;VALUE=DATE:${calendarDate}`)
+    expect(calendarText).toContain(`URL:`)
+    expect(calendarText).toContain(retention.returnLinkPolicy.queryParam)
+  }
+
   await dailyRetention.getByRole('button', { name: retention.returnLinkPolicy.ctaLabel }).click()
   await dailyRetention.getByRole('button', { name: retention.promptPolicy.ctaLabel }).click()
 
@@ -6056,6 +6094,9 @@ test('daily return prompt captures a local return intent after a completed run',
   const copied = events.findLast(
     (event: { name: string }) => event.name === retention.returnLinkPolicy.telemetry.copied,
   )
+  const calendarDownloaded = events.findLast(
+    (event: { name: string }) => event.name === retention.returnCalendarPolicy.telemetry.downloaded,
+  )
   const returnIntentDate = await page.evaluate(
     (key) => window.localStorage.getItem(key),
     retention.localState.returnIntentKey,
@@ -6070,6 +6111,15 @@ test('daily return prompt captures a local return intent after a completed run',
   expect(copied.properties.noPushNotifications).toBe(true)
   expect(copied.properties.noNotificationPermissionRequest).toBe(true)
   expect(copied.properties.noExternalUpload).toBe(true)
+  expect(calendarDownloaded.properties.intentDate).toBe(retention.promptPolicy.nextChallengeDate)
+  expect(calendarDownloaded.properties.method).toBe('calendar-download')
+  expect(calendarDownloaded.properties.fileExtension).toBe('.ics')
+  expect(calendarDownloaded.properties.playerInitiatedOnly).toBe(true)
+  expect(calendarDownloaded.properties.noPushNotifications).toBe(true)
+  expect(calendarDownloaded.properties.noNotificationPermissionRequest).toBe(true)
+  expect(calendarDownloaded.properties.noAccountRequired).toBe(true)
+  expect(calendarDownloaded.properties.noExternalUpload).toBe(true)
+  expect(calendarDownloaded.properties.noRevenueEnablement).toBe(true)
   expect(clicked.properties.intentDate).toBe(retention.promptPolicy.nextChallengeDate)
   expect(returnIntentDate).toBe(retention.promptPolicy.nextChallengeDate)
 })

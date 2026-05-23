@@ -1,15 +1,15 @@
 # Release Candidate
 
-Generated: 2026-05-23T01:57:36.553Z
+Generated: 2026-05-23T02:16:36.680Z
 Status: release-candidate-ready
-Candidate: pwa-80576a488087
-Files: 56
-Size: 3746.2 KB
-Aggregate SHA-256: 80576a48808751860c2e833a3faf9cafc21a6daa670cfba810d2f7610ff5498d
+Candidate: pwa-c3b219acf0e7
+Files: 57
+Size: 3751.1 KB
+Aggregate SHA-256: c3b219acf0e7f11a0108e36f687216c043cce07c63b662da213a4e049b1603c3
 
 ## Checks
 
-- pass: dist-inventory - 56 dist files inventoried.
+- pass: dist-inventory - 57 dist files inventoried.
 - pass: required-files - 29/29 required files present.
 - pass: game-pages - 10 generated game page(s) in dist.
 - pass: performance-budget - Performance budget is performance-budget-ready.

@@ -1551,6 +1551,10 @@ const productGateRecoverySourceEvidence = {
       surface: retention.returnIntentPolicy?.surface ?? null,
       telemetry: retention.returnIntentPolicy?.telemetry ?? null,
     },
+    returnCalendarPolicy: {
+      surface: retention.returnCalendarPolicy?.surface ?? null,
+      telemetry: retention.returnCalendarPolicy?.telemetry ?? null,
+    },
   },
   firstMoveCoach: {
     status: firstMoveCoach.status,
