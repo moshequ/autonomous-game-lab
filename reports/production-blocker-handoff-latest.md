@@ -1,17 +1,17 @@
 # Production Blocker Handoff
 
-Generated: 2026-05-23T02:55:59.667Z
+Generated: 2026-05-23T03:03:10.097Z
 Status: handoff-waiting-on-owner-inputs
 Detail: blocked-external-inputs
 Live candidate: pwa-a0633732d4bc
-Source hash: c77896199280
+Source hash: 6382384e5845
 
 ## Summary
 
 - Owner inputs required: 4
 - Zero-cost first actions: 1
 - Missing environment entries: 7
-- Missing repository secrets: 3
+- Missing repository secrets: 5
 - Product-gate blockers: 3
 - Next best unlock: production-analytics-browser
 
@@ -103,6 +103,8 @@ Source hash: c77896199280
 ## Missing Secrets
 
 - CLOUDFLARE_API_TOKEN: printf "%s" "$CLOUDFLARE_API_TOKEN" | gh secret set CLOUDFLARE_API_TOKEN
+- VITE_EVENT_COLLECTOR_WRITE_TOKEN: printf "%s" "$VITE_EVENT_COLLECTOR_WRITE_TOKEN" | gh secret set VITE_EVENT_COLLECTOR_WRITE_TOKEN
+- AGL_EVENT_COLLECTOR_ADMIN_TOKEN: printf "%s" "$AGL_EVENT_COLLECTOR_ADMIN_TOKEN" | gh secret set AGL_EVENT_COLLECTOR_ADMIN_TOKEN
 - POSTHOG_PERSONAL_API_KEY: printf "%s" "$POSTHOG_PERSONAL_API_KEY" | gh secret set POSTHOG_PERSONAL_API_KEY
 - GOOGLE_PLAY_SERVICE_ACCOUNT_JSON: printf "%s" "$GOOGLE_PLAY_SERVICE_ACCOUNT_JSON" | gh secret set GOOGLE_PLAY_SERVICE_ACCOUNT_JSON
 
