@@ -423,6 +423,7 @@ const publicExternalUnlockQueue = {
     unlockKit: summarizeUnlockKit(unlockKitById.get(item.unlockKit?.id) ?? item.unlockKit),
   })),
   nextUnlockKit: summarizeUnlockKit(productionBlockerHandoff.nextUnlockKit),
+  ownerUnlockBrief: productionBlockerHandoff.ownerUnlockBrief ?? null,
   controls: {
     zeroPaidSpend: productionBlockerHandoff.controls?.zeroPaidSpend === true,
     noSecretValues: productionBlockerHandoff.controls?.noSecretValues === true,
@@ -643,6 +644,15 @@ const appPayload = {
     nextBestUnlockId: payload.externalUnlockQueue.nextBestUnlockId,
     nextBestZeroCostUnlockId: payload.externalUnlockQueue.nextBestZeroCostUnlockId,
     ownerActionRequired: payload.externalUnlockQueue.ownerActionRequired,
+    ownerUnlockBrief: payload.externalUnlockQueue.ownerUnlockBrief
+      ? {
+          status: payload.externalUnlockQueue.ownerUnlockBrief.status,
+          nextUnlockId: payload.externalUnlockQueue.ownerUnlockBrief.nextUnlockId,
+          recommendedPathId: payload.externalUnlockQueue.ownerUnlockBrief.recommendedPathId,
+          missingVariableCount: payload.externalUnlockQueue.ownerUnlockBrief.missingVariables.length,
+          missingSecretCount: payload.externalUnlockQueue.ownerUnlockBrief.missingSecrets.length,
+        }
+      : null,
   },
 }
 
@@ -679,6 +689,7 @@ const analyticsUnlockPayload = {
     missingSecrets: payload.externalUnlockQueue.missingSecrets,
     productGateBlockers: payload.externalUnlockQueue.productGateBlockers,
     topItems: payload.externalUnlockQueue.topItems,
+    ownerUnlockBrief: payload.externalUnlockQueue.ownerUnlockBrief,
   },
   publicRoutes: {
     statusPage: payload.publicRoutes.statusPage,
@@ -718,6 +729,40 @@ const requiredList = (items, labelKey = 'repositoryName') =>
         )
         .join('')}</ul>`
     : '<p>none</p>'
+
+const ownerUnlockBriefHtml = (brief) =>
+  brief
+    ? `<section>
+        <h2>Owner Unlock Brief</h2>
+        <p>This compact brief is the minimum next owner-controlled unlock. It publishes variable and secret names only; secret values stay outside the repository.</p>
+        <div class="grid" aria-label="Owner unlock brief">
+          <div class="card">
+            <span>Next unlock</span>
+            <strong>${escapeHtml(brief.nextUnlockId)}</strong>
+          </div>
+          <div class="card">
+            <span>Recommended path</span>
+            <strong>${escapeHtml(brief.recommendedPathId)}</strong>
+          </div>
+          <div class="card">
+            <span>Missing variables</span>
+            <strong>${brief.missingVariables.length}</strong>
+          </div>
+          <div class="card">
+            <span>Missing secrets</span>
+            <strong>${brief.missingSecrets.length}</strong>
+          </div>
+        </div>
+        <h3>Missing Variables</h3>
+        ${requiredList(brief.missingVariables)}
+        <h3>Missing Secrets</h3>
+        ${requiredList(brief.missingSecrets)}
+        <h3>Setup Commands</h3>
+        ${commandList(brief.setupCommands)}
+        <h3>Validation Commands</h3>
+        ${commandList(brief.validationCommands)}
+      </section>`
+    : ''
 
 const analyticsUnlockHtml = `<!doctype html>
 <html lang="en">
@@ -857,6 +902,8 @@ const analyticsUnlockHtml = `<!doctype html>
           <strong>${analyticsUnlockPayload.externalUnlockQueue.missingSecrets}</strong>
         </div>
       </div>
+
+      ${ownerUnlockBriefHtml(analyticsUnlockPayload.externalUnlockQueue.ownerUnlockBrief)}
 
       <section>
         <h2>Unlock Paths</h2>
@@ -1204,6 +1251,8 @@ const html = `<!doctype html>
         </div>
       </section>
 
+      ${ownerUnlockBriefHtml(payload.externalUnlockQueue.ownerUnlockBrief)}
+
       <section>
         <h2>Zero-Spend Analytics Unlock</h2>
         <p>This handoff publishes configuration names and safe commands only. Secret values stay outside tracked files, revenue remains disabled, and product gates still require real player evidence.</p>
@@ -1375,6 +1424,7 @@ const report = [
   `- analytics unlock path: ${payload.analyticsUnlock?.recommendedPathId ?? 'none'}`,
   `- external unlock queue: ${payload.externalUnlockQueue.status}`,
   `- next external unlock: ${payload.externalUnlockQueue.nextBestUnlockId ?? 'none'}`,
+  `- owner unlock brief: ${payload.externalUnlockQueue.ownerUnlockBrief?.recommendedPathId ?? 'none'}`,
   `- aggregate evidence notes: ${payload.publicEvidenceHandoff.aggregateEvidence.notes}`,
   `- supporting aggregate mission notes: ${payload.publicEvidenceHandoff.productGateMissions.supportingAggregateEvidenceNotes}`,
   '',

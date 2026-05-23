@@ -8983,6 +8983,28 @@ test('production measurement status publishes public aggregate evidence handoff'
       requiredSecrets: Array<{ repositorySecret?: string; envName?: string; configured: boolean; value?: string }>
       afterUnlockCommands: string[]
     }>
+    ownerUnlockBrief: {
+      id: string
+      status: string
+      nextUnlockId: string | null
+      recommendedPathId: string
+      missingVariables: Array<{ repositoryName: string; configured: boolean; command: string; value?: string }>
+      missingSecrets: Array<{ repositoryName: string; configured: boolean; command: string; value?: string }>
+      configuredVariables: Array<{ repositoryName: string; configured: boolean; command: string; value?: string }>
+      configuredSecrets: Array<{ repositoryName: string; configured: boolean; command: string; value?: string }>
+      setupCommands: string[]
+      validationCommands: string[]
+      controls: {
+        zeroPaidSpend: boolean
+        noSecretValues: boolean
+        noSecretValuesStored: boolean
+        noAccountCreation: boolean
+        noStoreSubmission: boolean
+        noRevenueEnablement: boolean
+        productGatesStillRequiredForRevenue: boolean
+        secretCommandsUseStdin: boolean
+      }
+    } | null
   }
   const measurement = JSON.parse(await readFile('data/production-measurement-status.json', 'utf8')) as {
     status: string
@@ -9097,6 +9119,7 @@ test('production measurement status publishes public aggregate evidence handoff'
         commandCount: number
         validationCommandCount: number
       } | null
+      ownerUnlockBrief: typeof blockerHandoff.ownerUnlockBrief
       controls: {
         zeroPaidSpend: boolean
         noSecretValues: boolean
@@ -9188,6 +9211,7 @@ test('production measurement status publishes public aggregate evidence handoff'
       missingSecrets: number
       productGateBlockers: number
       topItems: typeof measurement.externalUnlockQueue.topItems
+      ownerUnlockBrief: typeof blockerHandoff.ownerUnlockBrief
     }
     publicRoutes: {
       statusPage: string
@@ -9376,6 +9400,33 @@ test('production measurement status publishes public aggregate evidence handoff'
   )
   expect(measurement.externalUnlockQueue.nextUnlockKit?.id).toBe('production-analytics-browser')
   expect(measurement.externalUnlockQueue.nextUnlockKit?.recommendedPathId).toBe('first-party-collector')
+  expect(blockerHandoff.ownerUnlockBrief?.id).toBe('owner-next-unlock-brief')
+  expect(measurement.externalUnlockQueue.ownerUnlockBrief).toEqual(blockerHandoff.ownerUnlockBrief)
+  expect(analyticsUnlockPage.externalUnlockQueue.ownerUnlockBrief).toEqual(blockerHandoff.ownerUnlockBrief)
+  expect(measurement.externalUnlockQueue.ownerUnlockBrief?.nextUnlockId).toBe(
+    blockerHandoff.summary.nextBestUnlockId,
+  )
+  expect(measurement.externalUnlockQueue.ownerUnlockBrief?.recommendedPathId).toBe('first-party-collector')
+  expect(measurement.externalUnlockQueue.ownerUnlockBrief?.missingVariables.length).toBeGreaterThan(0)
+  expect(measurement.externalUnlockQueue.ownerUnlockBrief?.missingSecrets.length).toBeGreaterThan(0)
+  expect(Array.isArray(measurement.externalUnlockQueue.ownerUnlockBrief?.configuredVariables)).toBe(true)
+  expect(Array.isArray(measurement.externalUnlockQueue.ownerUnlockBrief?.configuredSecrets)).toBe(true)
+  expect(measurement.externalUnlockQueue.ownerUnlockBrief?.setupCommands).toContain(
+    './ops/github/setup-production.sh',
+  )
+  expect(measurement.externalUnlockQueue.ownerUnlockBrief?.validationCommands).toContain('npm run autonomous:readiness')
+  expect(measurement.externalUnlockQueue.ownerUnlockBrief?.controls.zeroPaidSpend).toBe(true)
+  expect(measurement.externalUnlockQueue.ownerUnlockBrief?.controls.noSecretValues).toBe(true)
+  expect(measurement.externalUnlockQueue.ownerUnlockBrief?.controls.noSecretValuesStored).toBe(true)
+  expect(measurement.externalUnlockQueue.ownerUnlockBrief?.controls.secretCommandsUseStdin).toBe(true)
+  expect(
+    [
+      ...(measurement.externalUnlockQueue.ownerUnlockBrief?.missingVariables ?? []),
+      ...(measurement.externalUnlockQueue.ownerUnlockBrief?.missingSecrets ?? []),
+      ...(measurement.externalUnlockQueue.ownerUnlockBrief?.configuredVariables ?? []),
+      ...(measurement.externalUnlockQueue.ownerUnlockBrief?.configuredSecrets ?? []),
+    ].some((item) => Object.hasOwn(item, 'value')),
+  ).toBe(false)
   expect(measurement.externalUnlockQueue.controls.zeroPaidSpend).toBe(blockerHandoff.controls.zeroPaidSpend)
   expect(measurement.externalUnlockQueue.controls.noSecretValues).toBe(true)
   expect(measurement.externalUnlockQueue.controls.noSecretValuesStored).toBe(true)
@@ -9413,6 +9464,7 @@ test('production measurement status publishes public aggregate evidence handoff'
   expect(html).toContain('Start fastest sample')
   expect(html).toContain('sample-fastest.html')
   expect(html).toContain('Zero-Spend Analytics Unlock')
+  expect(html).toContain('Owner Unlock Brief')
   expect(html).toContain('analytics-unlock.html')
   expect(html).toContain('External Unlock Queue')
   expect(html).toContain('does not pass gates')
@@ -9433,6 +9485,7 @@ test('production measurement status publishes public aggregate evidence handoff'
   expect(script).toContain('aggregateEvidenceDoesNotPassGates')
   expect(script).toContain('manualReviewRequiredForGateDecisions')
   expect(analyticsUnlockHtml).toContain('Production Analytics Unlock')
+  expect(analyticsUnlockHtml).toContain('Owner Unlock Brief')
   expect(analyticsUnlockHtml).toContain('first-party-collector')
   expect(analyticsUnlockHtml).toContain('CLOUDFLARE_API_TOKEN')
   expect(analyticsUnlockHtml).toContain('Secret commands use stdin: true')
@@ -9458,6 +9511,7 @@ test('production measurement status publishes public aggregate evidence handoff'
   await expect(page.getByRole('heading', { name: 'Live Release Evidence' })).toBeVisible()
   await expect(page.getByRole('heading', { name: 'Public Aggregate Evidence' })).toBeVisible()
   await expect(page.getByRole('heading', { name: 'Zero-Spend Analytics Unlock' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Owner Unlock Brief' })).toBeVisible()
   await expect(page.getByRole('heading', { name: 'External Unlock Queue' })).toBeVisible()
   await expect(page.getByLabel('Product evidence')).toContainText('/sample-next.html')
   await expect(page.getByLabel('Product evidence')).toContainText('/sample-fastest.html')
@@ -9489,6 +9543,10 @@ test('production measurement status publishes public aggregate evidence handoff'
     await expect(page.locator('#exact-live-candidate')).toContainText(distReleaseCandidate.candidateId)
   }
   await expect(page.getByLabel('Zero-spend analytics unlock')).toContainText('first-party-collector')
+  await expect(page.getByLabel('Owner unlock brief')).toContainText('first-party-collector')
+  await expect(page.getByLabel('Owner unlock brief')).toContainText(
+    measurement.externalUnlockQueue.ownerUnlockBrief?.nextUnlockId ?? 'none',
+  )
   await expect(page.getByLabel('External unlock queue')).toContainText(
     measurement.externalUnlockQueue.nextBestUnlockId ?? 'none',
   )
@@ -9496,7 +9554,9 @@ test('production measurement status publishes public aggregate evidence handoff'
 
   await page.goto('/analytics-unlock.html')
   await expect(page.getByRole('heading', { name: 'Production Analytics Unlock' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Owner Unlock Brief' })).toBeVisible()
   await expect(page.getByLabel('Analytics unlock summary')).toContainText('first-party-collector')
+  await expect(page.getByLabel('Owner unlock brief')).toContainText('first-party-collector')
   await expect(page.getByLabel('first-party-collector')).toContainText('CLOUDFLARE_API_TOKEN')
   await expect(page.getByLabel('first-party-collector')).toContainText('./ops/github/setup-production.sh')
   await expect(page.getByLabel('External unlock queue')).toContainText(

@@ -8,7 +8,7 @@ export const productionBlockerHandoff = {
     "zeroCostFirstActions": 1,
     "missingEnv": 7,
     "missingEnvironmentItems": 7,
-    "missingSecrets": 3,
+    "missingSecrets": 5,
     "productGateBlockers": 3,
     "publicSupportChannelReady": true,
     "storeSupportEmailNeededNow": false,
@@ -90,8 +90,8 @@ export const productionBlockerHandoff = {
     "recommendedPathId": "first-party-collector",
     "commandCount": 5,
     "validationCommandCount": 4,
-    "missingVariableCount": 5,
-    "missingSecretCount": 1,
+    "missingVariableCount": 7,
+    "missingSecretCount": 3,
     "controls": {
       "zeroPaidSpend": true,
       "noSecretValues": true,
@@ -122,16 +122,16 @@ export const productionBlockerHandoff = {
             "id": "var-agl-event-collector-r2-bucket",
             "repositoryName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
             "envName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
-            "configured": true,
-            "valueSource": "environment",
+            "configured": false,
+            "valueSource": "missing",
             "command": "gh variable set AGL_EVENT_COLLECTOR_R2_BUCKET --body \"$AGL_EVENT_COLLECTOR_R2_BUCKET\""
           },
           {
             "id": "var-agl-event-collector-allowed-origins",
             "repositoryName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
             "envName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
-            "configured": true,
-            "valueSource": "environment",
+            "configured": false,
+            "valueSource": "missing",
             "command": "gh variable set AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS --body \"$AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS\""
           },
           {
@@ -164,16 +164,16 @@ export const productionBlockerHandoff = {
             "id": "secret-vite-event-collector-write-token",
             "repositoryName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
             "envName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
-            "configured": true,
-            "valueSource": "environment",
+            "configured": false,
+            "valueSource": "missing",
             "command": "printf \"%s\" \"$VITE_EVENT_COLLECTOR_WRITE_TOKEN\" | gh secret set VITE_EVENT_COLLECTOR_WRITE_TOKEN"
           },
           {
             "id": "secret-agl-event-collector-admin-token",
             "repositoryName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
             "envName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
-            "configured": true,
-            "valueSource": "environment",
+            "configured": false,
+            "valueSource": "missing",
             "command": "printf \"%s\" \"$AGL_EVENT_COLLECTOR_ADMIN_TOKEN\" | gh secret set AGL_EVENT_COLLECTOR_ADMIN_TOKEN"
           }
         ],
@@ -227,6 +227,36 @@ export const productionBlockerHandoff = {
         ]
       }
     ]
+  },
+  "ownerUnlockBrief": {
+    "status": "waiting-on-owner-input",
+    "nextUnlockId": "production-analytics-browser",
+    "recommendedPathId": "first-party-collector",
+    "missingVariableCount": 5,
+    "missingSecretCount": 3,
+    "setupCommands": [
+      "npm run autonomous:event-collector-smoke",
+      "npm run autonomous:collector-deploy-plan",
+      "./ops/github/setup-production.sh",
+      "RUN_WORKFLOWS=1 ./ops/github/setup-production.sh",
+      "npm run autonomous:readiness"
+    ],
+    "validationCommands": [
+      "npm run autonomous:event-collector-smoke",
+      "npm run autonomous:collector-deploy-plan",
+      "npm run autonomous:readiness",
+      "npm run test:e2e"
+    ],
+    "controls": {
+      "zeroPaidSpend": true,
+      "noSecretValues": true,
+      "noSecretValuesStored": true,
+      "noAccountCreation": true,
+      "noStoreSubmission": true,
+      "noRevenueEnablement": true,
+      "productGatesStillRequiredForRevenue": true,
+      "secretCommandsUseStdin": true
+    }
   },
   "nextActions": [
     "Start with Browser production analytics; it is the highest-priority zero-spend owner input.",

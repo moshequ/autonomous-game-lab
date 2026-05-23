@@ -416,6 +416,63 @@ const statusDetail = ownerActionRequired.length ? 'blocked-external-inputs' : 'c
 const environmentPlan = sanitizeRequiredEnv(productionEnvironment.requiredEnv ?? [])
 const secretPlan = sanitizeRequiredSecrets(productionBootstrap.requiredSecrets ?? [])
 const nextUnlockKit = kitById.get(ownerActionRequired[0]?.id) ?? null
+const nextOwnerAction = ownerActionRequired[0] ?? null
+const recommendedUnlockPath =
+  nextUnlockKit?.paths.find((unlockPath) => unlockPath.id === nextUnlockKit.recommendedPathId) ??
+  nextUnlockKit?.paths[0] ??
+  null
+const summarizeConfigInputs = (items) =>
+  (items ?? []).map((item) => ({
+    repositoryName: item.repositoryName,
+    envName: item.envName,
+    configured: item.configured === true,
+    command: item.command,
+  }))
+const ownerUnlockBrief =
+  nextUnlockKit && recommendedUnlockPath
+    ? {
+        id: 'owner-next-unlock-brief',
+        status: nextOwnerAction?.ownerInputRequired ? 'waiting-on-owner-input' : 'ready-to-validate',
+        nextUnlockId: nextOwnerAction?.id ?? nextUnlockKit.id,
+        title: nextOwnerAction?.title ?? nextUnlockKit.title,
+        recommendedPathId: recommendedUnlockPath.id,
+        recommendedPathTitle: recommendedUnlockPath.title,
+        costMode: recommendedUnlockPath.costMode,
+        ownerInputRequired: recommendedUnlockPath.ownerInputRequired === true,
+        missingVariables: summarizeConfigInputs(recommendedUnlockPath.requiredVariables).filter(
+          (item) => !item.configured,
+        ),
+        missingSecrets: summarizeConfigInputs(recommendedUnlockPath.requiredSecrets).filter(
+          (item) => !item.configured,
+        ),
+        configuredVariables: summarizeConfigInputs(recommendedUnlockPath.requiredVariables).filter(
+          (item) => item.configured,
+        ),
+        configuredSecrets: summarizeConfigInputs(recommendedUnlockPath.requiredSecrets).filter(
+          (item) => item.configured,
+        ),
+        setupCommands: recommendedUnlockPath.commandSequence ?? [],
+        validationCommands: recommendedUnlockPath.validationCommands ?? [],
+        afterUnlockCommands: nextOwnerAction?.afterUnlockCommands ?? [],
+        steps: [
+          `Use ${recommendedUnlockPath.title} (${recommendedUnlockPath.id}) for the next zero-spend measurement unlock.`,
+          'Set only the missing repository variables shown in this brief.',
+          'Set missing repository secrets with the stdin-fed gh secret commands; never paste secret values into files or issues.',
+          'Run the setup commands, then the validation commands, before trusting production analytics for gates.',
+          'Keep product gates, revenue, and store submissions blocked until real player evidence clears the thresholds.',
+        ],
+        controls: {
+          zeroPaidSpend: true,
+          noSecretValues: true,
+          noSecretValuesStored: true,
+          noAccountCreation: true,
+          noStoreSubmission: true,
+          noRevenueEnablement: true,
+          productGatesStillRequiredForRevenue: true,
+          secretCommandsUseStdin: nextUnlockKit.controls?.secretCommandsUseStdin === true,
+        },
+      }
+    : null
 
 const payload = {
   generatedAt: new Date().toISOString(),
@@ -470,6 +527,7 @@ const payload = {
   unlocks: sortedHandoffItems,
   unlockKits,
   nextUnlockKit: summarizeUnlockKit(nextUnlockKit),
+  ownerUnlockBrief,
   nextActions: [
     zeroCostFirstActions[0]
       ? `Start with ${zeroCostFirstActions[0].title}; it is the highest-priority zero-spend owner input.`
@@ -496,6 +554,18 @@ const appPayload = {
     unlockKit: item.unlockKit ?? null,
   })),
   nextUnlockKit: payload.nextUnlockKit,
+  ownerUnlockBrief: payload.ownerUnlockBrief
+    ? {
+        status: payload.ownerUnlockBrief.status,
+        nextUnlockId: payload.ownerUnlockBrief.nextUnlockId,
+        recommendedPathId: payload.ownerUnlockBrief.recommendedPathId,
+        missingVariableCount: payload.ownerUnlockBrief.missingVariables.length,
+        missingSecretCount: payload.ownerUnlockBrief.missingSecrets.length,
+        setupCommands: payload.ownerUnlockBrief.setupCommands,
+        validationCommands: payload.ownerUnlockBrief.validationCommands,
+        controls: payload.ownerUnlockBrief.controls,
+      }
+    : null,
   nextActions: payload.nextActions,
 }
 
@@ -552,6 +622,20 @@ const report = [
           `  - secrets: ${unlockPath.requiredSecrets.map((item) => item.repositoryName).join(', ') || 'none'}`,
           `  - commands: ${unlockPath.commandSequence.join(' && ')}`,
         ]),
+      ]
+    : ['- none']),
+  '',
+  '## Owner Unlock Brief',
+  '',
+  ...(payload.ownerUnlockBrief
+    ? [
+        `- status: ${payload.ownerUnlockBrief.status}`,
+        `- next unlock: ${payload.ownerUnlockBrief.nextUnlockId}`,
+        `- recommended path: ${payload.ownerUnlockBrief.recommendedPathId}`,
+        `- missing variables: ${payload.ownerUnlockBrief.missingVariables.map((item) => item.repositoryName).join(', ') || 'none'}`,
+        `- missing secrets: ${payload.ownerUnlockBrief.missingSecrets.map((item) => item.repositoryName).join(', ') || 'none'}`,
+        `- setup commands: ${payload.ownerUnlockBrief.setupCommands.join(' && ') || 'none'}`,
+        `- validation commands: ${payload.ownerUnlockBrief.validationCommands.join(' && ') || 'none'}`,
       ]
     : ['- none']),
   '',

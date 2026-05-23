@@ -1,11 +1,11 @@
 # Production Measurement Status
 
-Generated: 2026-05-23T03:06:36.311Z
+Generated: 2026-05-23T03:15:43.693Z
 Status: production-measurement-local-intake-ready
 Active path: local-browser-buffer
 Live candidate: pwa-cb39f178f4c4
 Exact live manifest: /release-candidate.json
-Source hash: 094b7711bede
+Source hash: 70f50a0ab02d
 
 ## Analytics
 
@@ -18,6 +18,7 @@ Source hash: 094b7711bede
 - analytics unlock path: first-party-collector
 - external unlock queue: handoff-waiting-on-owner-inputs
 - next external unlock: production-analytics-browser
+- owner unlock brief: first-party-collector
 - aggregate evidence notes: 0
 - supporting aggregate mission notes: 0
 

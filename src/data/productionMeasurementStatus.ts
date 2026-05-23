@@ -1,5 +1,5 @@
 export const productionMeasurementStatus = {
-  "generatedAt": "2026-05-23T03:06:36.311Z",
+  "generatedAt": "2026-05-23T03:15:43.693Z",
   "status": "production-measurement-local-intake-ready",
   "activePath": "local-browser-buffer",
   "liveCandidate": "pwa-cb39f178f4c4",
@@ -30,7 +30,14 @@ export const productionMeasurementStatus = {
     "status": "handoff-waiting-on-owner-inputs",
     "nextBestUnlockId": "production-analytics-browser",
     "nextBestZeroCostUnlockId": "production-analytics-browser",
-    "ownerActionRequired": 4
+    "ownerActionRequired": 4,
+    "ownerUnlockBrief": {
+      "status": "waiting-on-owner-input",
+      "nextUnlockId": "production-analytics-browser",
+      "recommendedPathId": "first-party-collector",
+      "missingVariableCount": 5,
+      "missingSecretCount": 3
+    }
   }
 } as const
 
