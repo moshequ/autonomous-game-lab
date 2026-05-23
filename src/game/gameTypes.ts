@@ -7,6 +7,13 @@ export interface GameSnapshot {
   nextLabel: string
   completed: boolean
   result: string
+  recommendedMove?: {
+    row: number
+    col: number
+    label: string
+    gained: number
+    color: string
+  } | null
 }
 
 export interface GameSceneEvent {

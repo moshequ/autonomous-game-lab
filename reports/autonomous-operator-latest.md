@@ -1,6 +1,6 @@
 # Autonomous Operator
 
-Generated: 2026-05-23T01:31:16.743Z
+Generated: 2026-05-23T01:42:07.538Z
 Status: operator-plan-ready
 Mode: plan-only
 Owner decision: refresh-first-move-coach
@@ -32,7 +32,6 @@ Execution: not-requested
 - seed-portfolio-traffic
 - refresh-organic-seed-loop
 - refresh-first-move-coach
-- refresh-completion-loop
 - refresh-replay-loop
 - apply-safe-improvements
 

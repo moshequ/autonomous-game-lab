@@ -680,6 +680,11 @@ const completionLoopReady =
   completionLoop.finishLinePolicy?.telemetry?.viewed === 'finish_line_coach_viewed' &&
   completionLoop.finishLinePolicy?.telemetry?.clicked === 'finish_line_coach_clicked' &&
   completionLoop.finishLinePolicy?.telemetry?.dismissed === 'finish_line_coach_dismissed' &&
+  completionLoop.finishLinePolicy?.moveHint?.source === 'runtime-best-immediate-score' &&
+  completionLoop.finishLinePolicy?.moveHint?.controls?.playerInitiatedOnly === true &&
+  completionLoop.finishLinePolicy?.moveHint?.controls?.noAutoMove === true &&
+  completionLoop.finishLinePolicy?.moveHint?.controls?.noRuleChange === true &&
+  completionLoop.finishLinePolicy?.moveHint?.controls?.noScoreManipulation === true &&
   (completionLoop.missions ?? []).some(
     (mission) =>
       mission.id === 'choose-keep-playing' &&

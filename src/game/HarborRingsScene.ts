@@ -308,6 +308,37 @@ export class HarborRingsScene extends Phaser.Scene {
     return this.deck[this.moves] ?? 'teal'
   }
 
+  private recommendedMove() {
+    if (this.completed) {
+      return null
+    }
+
+    const color = this.nextColor()
+    let bestMove: { row: number; col: number; gained: number } | null = null
+
+    for (let row = 0; row < boardSize; row += 1) {
+      for (let col = 0; col < boardSize; col += 1) {
+        if (this.board[row][col]) {
+          continue
+        }
+
+        const gained = this.scoreMove(row, col, color)
+
+        if (!bestMove || gained > bestMove.gained) {
+          bestMove = { row, col, gained }
+        }
+      }
+    }
+
+    return bestMove
+      ? {
+          ...bestMove,
+          label: `R${bestMove.row + 1} C${bestMove.col + 1}`,
+          color,
+        }
+      : null
+  }
+
   private tutorialCopy() {
     return harborRingsTutorialCopy(this.pacingVariant)
   }
@@ -393,6 +424,7 @@ export class HarborRingsScene extends Phaser.Scene {
       nextLabel: colors[this.nextColor()].label,
       nextColor: this.nextColor(),
       completed: this.completed,
+      recommendedMove: this.recommendedMove(),
       result: this.completed
         ? this.score >= targetScore
           ? 'contract-won'

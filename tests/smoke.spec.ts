@@ -1137,7 +1137,16 @@ test('finish-line coach shows target pace for behind runs and records telemetry'
       }
       telemetry: { finishLineViewed: string; finishLineClicked: string }
     }
-    finishLinePolicy: { ctaLabel: string; surface: string; triggerMove: number }
+    finishLinePolicy: {
+      ctaLabel: string
+      surface: string
+      triggerMove: number
+      moveHint: {
+        source: string
+        controls: { playerInitiatedOnly: boolean; noAutoMove: boolean; noRuleChange: boolean }
+        telemetryProperties: string[]
+      }
+    }
   }
 
   expect(completion.samplePolicy.finishLine.minimumViewsForDecision).toBe(20)
@@ -1147,6 +1156,13 @@ test('finish-line coach shows target pace for behind runs and records telemetry'
     finishLineViewed: 'finish_line_coach_viewed',
     finishLineClicked: 'finish_line_coach_clicked',
   })
+  expect(completion.finishLinePolicy.moveHint.source).toBe('runtime-best-immediate-score')
+  expect(completion.finishLinePolicy.moveHint.controls).toMatchObject({
+    playerInitiatedOnly: true,
+    noAutoMove: true,
+    noRuleChange: true,
+  })
+  expect(completion.finishLinePolicy.moveHint.telemetryProperties).toContain('recommendedMoveGained')
 
   await page.addInitScript(() => {
     window.localStorage.setItem('agl.experiment.first_session_pacing', 'fast-start')
@@ -1201,6 +1217,7 @@ test('finish-line coach shows target pace for behind runs and records telemetry'
 
   const finishLinePanel = page.getByLabel('Completion Loop')
   await expect(finishLinePanel).toContainText('Finish line')
+  await expect(finishLinePanel).toContainText('Suggested move')
   await finishLinePanel.getByRole('button', { name: completion.finishLinePolicy.ctaLabel }).click()
 
   const events = await page.evaluate(() => {
@@ -1216,8 +1233,13 @@ test('finish-line coach shows target pace for behind runs and records telemetry'
 
   expect(viewed.properties.surface).toBe(completion.finishLinePolicy.surface)
   expect(viewed.properties.remainingScore).toBeGreaterThan(0)
+  expect(viewed.properties.hasRecommendedMoveHint).toBe(true)
+  expect(viewed.properties.recommendedMoveLabel).toMatch(/^R\d C\d$/)
+  expect(viewed.properties.recommendedMoveGained).toBeGreaterThan(0)
   expect(clicked.properties.surface).toBe(completion.finishLinePolicy.surface)
   expect(clicked.properties.gameId).toBe('harbor-rings')
+  expect(clicked.properties.hasRecommendedMoveHint).toBe(true)
+  expect(clicked.properties.recommendedMoveLabel).toBe(viewed.properties.recommendedMoveLabel)
   expect(acceptedRunKey).toBeTruthy()
 })
 

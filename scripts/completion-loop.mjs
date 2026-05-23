@@ -245,6 +245,25 @@ const payload = {
     ctaLabel: 'Focus board',
     dismissLabel: 'Hide',
     copy: 'You still have enough turns. Use the target pace to decide whether to chase points or finish cleanly.',
+    moveHint: {
+      status: promptStatus,
+      source: 'runtime-best-immediate-score',
+      copy: 'Show the best available next move while the player is behind pace.',
+      telemetryProperties: [
+        'recommendedMoveRow',
+        'recommendedMoveCol',
+        'recommendedMoveLabel',
+        'recommendedMoveGained',
+        'recommendedMoveColor',
+        'hasRecommendedMoveHint',
+      ],
+      controls: {
+        playerInitiatedOnly: true,
+        noAutoMove: true,
+        noRuleChange: true,
+        noScoreManipulation: true,
+      },
+    },
     cooldown: 'one finish-line coach per active run',
     reason:
       promptStatus === 'armed'

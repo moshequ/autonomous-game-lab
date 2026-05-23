@@ -1210,6 +1210,7 @@ function App() {
       (snapshot.moves / Math.max(snapshot.maxMoves, 1)) *
       completionLoop.finishLinePolicy.scorePaceRatio,
   )
+  const finishLineMoveHint = snapshot.recommendedMove ?? null
   const finishLineBehindPace = snapshot.score < finishLineExpectedScore
   const finishLineCoachVisible =
     completionLoop.finishLinePolicy.status === 'armed' &&
@@ -1763,6 +1764,12 @@ function App() {
     expectedScore: finishLineExpectedScore,
     moves: snapshot.moves,
     maxMoves: snapshot.maxMoves,
+    recommendedMoveRow: finishLineMoveHint?.row ?? null,
+    recommendedMoveCol: finishLineMoveHint?.col ?? null,
+    recommendedMoveLabel: finishLineMoveHint?.label ?? null,
+    recommendedMoveGained: finishLineMoveHint?.gained ?? null,
+    recommendedMoveColor: finishLineMoveHint?.color ?? null,
+    hasRecommendedMoveHint: Boolean(finishLineMoveHint),
     surface: completionLoop.finishLinePolicy.surface,
     promptId: completionLoop.finishLinePolicy.id,
     triggerMove: completionLoop.finishLinePolicy.triggerMove,
@@ -1774,6 +1781,7 @@ function App() {
     finishLineRemainingScore,
     finishLineRunKey,
     finishLineTargetScore,
+    finishLineMoveHint,
     pacingVariant.id,
     rewardVariant.id,
     selectedGameId,
@@ -2927,6 +2935,14 @@ function App() {
                     <span>Target pace</span>
                     <strong>
                       {Math.max(1, Math.ceil(finishLineRemainingScore / finishLineRemainingMoves))}/turn
+                    </strong>
+                  </div>
+                  <div>
+                    <span>Suggested move</span>
+                    <strong>
+                      {finishLineMoveHint
+                        ? `${finishLineMoveHint.label} +${finishLineMoveHint.gained}`
+                        : 'focus board'}
                     </strong>
                   </div>
                   <div className="completionActions">

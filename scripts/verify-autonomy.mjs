@@ -485,6 +485,7 @@ const publicRepoSecurityAuditSource = await readFile(
   'utf8',
 )
 const portfolioPolicySource = await readFile(path.join(root, 'scripts', 'portfolio-policy.mjs'), 'utf8')
+const completionLoopSource = await readFile(path.join(root, 'scripts', 'completion-loop.mjs'), 'utf8')
 const retentionLoopSource = await readFile(path.join(root, 'scripts', 'retention-loop.mjs'), 'utf8')
 const pwaInstallLoopSource = await readFile(path.join(root, 'scripts', 'pwa-install-loop.mjs'), 'utf8')
 const trafficSeedingSource = await readFile(path.join(root, 'scripts', 'traffic-seeding.mjs'), 'utf8')
@@ -502,6 +503,7 @@ const autonomousOwnerLoopSource = await readFile(path.join(root, 'scripts', 'aut
 const autonomousCadenceSource = await readFile(path.join(root, 'scripts', 'autonomous-cadence.mjs'), 'utf8')
 const autonomousSelfUpdateSource = await readFile(path.join(root, 'scripts', 'autonomous-self-update.mjs'), 'utf8')
 const localEventBridgeSource = await readFile(path.join(root, 'scripts', 'local-event-bridge.mjs'), 'utf8')
+const harborRingsSceneSource = await readFile(path.join(root, 'src', 'game', 'HarborRingsScene.ts'), 'utf8')
 const androidSigningSource = await readFile(path.join(root, 'scripts', 'android-signing-prep.mjs'), 'utf8')
 const objectiveAuditSource = await readFile(path.join(root, 'scripts', 'objective-audit.mjs'), 'utf8')
 const githubRepositoryBootstrapScript = await readFile(path.join(root, 'ops', 'github', 'bootstrap-repository.sh'), 'utf8')
@@ -2809,6 +2811,12 @@ if (
   completionLoop.finishLinePolicy?.telemetry?.viewed !== 'finish_line_coach_viewed' ||
   completionLoop.finishLinePolicy?.telemetry?.clicked !== 'finish_line_coach_clicked' ||
   completionLoop.finishLinePolicy?.telemetry?.dismissed !== 'finish_line_coach_dismissed' ||
+  completionLoop.finishLinePolicy?.moveHint?.source !== 'runtime-best-immediate-score' ||
+  completionLoop.finishLinePolicy?.moveHint?.controls?.playerInitiatedOnly !== true ||
+  completionLoop.finishLinePolicy?.moveHint?.controls?.noAutoMove !== true ||
+  completionLoop.finishLinePolicy?.moveHint?.controls?.noRuleChange !== true ||
+  completionLoop.finishLinePolicy?.moveHint?.controls?.noScoreManipulation !== true ||
+  !completionLoop.finishLinePolicy?.moveHint?.telemetryProperties?.includes('recommendedMoveGained') ||
   completionLoop.localState?.dismissedRunKey !== 'agl.completion.dismissedRunKey' ||
   completionLoop.localState?.acceptedRunKey !== 'agl.completion.acceptedRunKey' ||
   completionLoop.localState?.finishLineDismissedRunKey !== 'agl.finishLine.dismissedRunKey' ||
@@ -2836,8 +2844,12 @@ if (
   !appSource.includes('Finish sample') ||
   !appSource.includes('completionLoop.decisionPolicy.currentDecision') ||
   !appSource.includes('Finish line') ||
+  !appSource.includes('Suggested move') ||
+  !appSource.includes('recommendedMoveGained') ||
   !appSource.includes('keepPlayingFromCompletionNudge') ||
   !appSource.includes('focusFromFinishLineCoach') ||
+  !harborRingsSceneSource.includes('recommendedMove()') ||
+  !completionLoopSource.includes('runtime-best-immediate-score') ||
   !gameCanvasSource.includes('activeRunId') ||
   !gameCanvasSource.includes('runId: activeRunId') ||
   packageJson.scripts?.['autonomous:completion-loop'] !== 'node scripts/completion-loop.mjs' ||

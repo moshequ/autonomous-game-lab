@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-05-23T00:18:29.256Z",
-  "sourceDataHash": "c7136f5eb4fc",
+  "generatedAt": "2026-05-23T01:36:16.294Z",
+  "sourceDataHash": "3c269cbc7a6c",
   "status": "completion-loop-ready",
   "sourceStatus": {
     "analyticsSource": "fixture-sample",
@@ -136,6 +136,25 @@
     "ctaLabel": "Focus board",
     "dismissLabel": "Hide",
     "copy": "You still have enough turns. Use the target pace to decide whether to chase points or finish cleanly.",
+    "moveHint": {
+      "status": "armed",
+      "source": "runtime-best-immediate-score",
+      "copy": "Show the best available next move while the player is behind pace.",
+      "telemetryProperties": [
+        "recommendedMoveRow",
+        "recommendedMoveCol",
+        "recommendedMoveLabel",
+        "recommendedMoveGained",
+        "recommendedMoveColor",
+        "hasRecommendedMoveHint"
+      ],
+      "controls": {
+        "playerInitiatedOnly": true,
+        "noAutoMove": true,
+        "noRuleChange": true,
+        "noScoreManipulation": true
+      }
+    },
     "cooldown": "one finish-line coach per active run",
     "reason": "First-game completion is 40%; show target pace only when the run is behind after move 6.",
     "telemetry": {
