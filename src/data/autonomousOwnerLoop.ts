@@ -8,9 +8,16 @@ export const autonomousOwnerLoop = {
     "externalAccountInterventionRequired": true
   },
   "ownerDecision": {
-    "nextBestActionId": "refresh-replay-loop"
+    "nextBestActionId": "hold-for-external-input"
   },
-  "externalInputHandoff": null
+  "externalInputHandoff": {
+    "nextUnlockId": "production-analytics-browser",
+    "recommendedPathId": "first-party-collector",
+    "ownerActionRequired": 4,
+    "missingVariableCount": 5,
+    "missingSecretCount": 1,
+    "publicStatusPage": "/measurement-status.html"
+  }
 } as const
 
 export type AutonomousOwnerLoop = typeof autonomousOwnerLoop

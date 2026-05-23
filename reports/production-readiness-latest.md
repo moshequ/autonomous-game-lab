@@ -1,6 +1,6 @@
 # Production Readiness
 
-Generated: 2026-05-22T23:54:05.010Z
+Generated: 2026-05-23T00:03:05.379Z
 
 ## Environment
 
@@ -14,11 +14,11 @@ Status: repository-channel-ready
 Repository: moshequ/autonomous-game-lab
 Git worktree: true
 Workflow dispatch ready: true
-- pass: repository-local-git-worktree - Git worktree detected at /home/runner/work/autonomous-game-lab/autonomous-game-lab.
+- pass: repository-local-git-worktree - Git worktree detected at /Users/moshequ/Documents/Codex/2026-05-18/i-want-to-have-a-new.
 - pass: repository-github-target - Target repository is moshequ/autonomous-game-lab.
 - pass: repository-origin-remote - Origin remote resolves to moshequ/autonomous-game-lab.
 - pass: repository-gh-cli - gh version 2.92.0 (2026-04-28)
-- pass: repository-gh-token - GitHub token is present in the current environment.
+- pass: repository-gh-token - GitHub CLI authentication is available for repository operations.
 - pass: repository-pages-workflow - Web PWA Deploy workflow exists and includes post-deploy smoke.
 - pass: repository-pages-settings - GitHub Pages build type is workflow; HTTPS enforced true.
 - pass: repository-deployable-artifact - Deployment ready-for-pages; release candidate release-candidate-ready; smoke post-deploy-smoke-observed-live.
@@ -59,7 +59,7 @@ Status: ready-after-build
 - pass: organic-seed-loop - Organic seed loop is organic-seed-loop-ready; target market-pulse; player-initiated share guard active.
 - pass: retention-loop - Retention loop is retention-loop-ready; daily challenge market-pulse; no-push/no-account guardrails active.
 - pass: pwa-install-loop - PWA install loop is pwa-install-loop-ready; prompt surface autonomy-cockpit; cost $0.
-- pass: performance-budget - Performance budget is performance-budget-ready; initial JS 676.1 KB / 183.5 KB gzip; deferred game chunk GameCanvas-B9-usF6R.js.
+- pass: performance-budget - Performance budget is performance-budget-ready; initial JS 677.8 KB / 183.6 KB gzip; deferred game chunk GameCanvas-C50QDm6N.js.
 - pass: release-candidate - Release candidate is release-candidate-ready; files 55; smoke URLs 24.
 - pass: post-deploy-smoke-runner - Post-deploy smoke is post-deploy-smoke-observed-live; origin https://moshequ.github.io/autonomous-game-lab; checks 25/25 passed, 0 blocked; local artifact predeploy-artifact-smoke-passed 25/25 passed.
 - pass: live-site-monitor - Live monitor is live-site-monitor-passed; origin https://moshequ.github.io/autonomous-game-lab; checks 25/25 passed; live matches synced deploy true.
@@ -73,7 +73,7 @@ Status: ready-after-build
 - pass: production-blocker-handoff - Production blocker handoff is handoff-waiting-on-owner-inputs; owner inputs 4; next unlock production-analytics-browser.
 - pass: production-unlock-runner - Production unlock runner is unlock-runner-idle; runnable 0; queued 0; unsafe 0.
 - pass: production-activation - Production activation is activation-ready; mode dry-run; execution dry-run.
-- pass: autonomous-operator - Autonomous operator is operator-plan-ready; selected refresh-replay-loop; execution not-requested.
+- pass: autonomous-operator - Autonomous operator is operator-held; selected none; execution not-requested.
 - pass: autonomous-operator-history - Autonomous operator history is operator-history-ready; records 40; executed 5.
 - pass: autonomous-cadence - Autonomous cadence is cadence-ready; Codex active-confirmed; GitHub scheduled.
 - pass: autonomous-self-update - Autonomous self-update is self-update-ready; safe pending 65; unsafe pending 0; remote push held.
@@ -117,23 +117,23 @@ Installs: 0
 ## Performance Budget
 
 Status: performance-budget-ready
-Initial JS: 676.1 KB (183.5 KB gzip)
-Deferred game chunk: GameCanvas-B9-usF6R.js
-- pass: performance-initial-js-budget - Initial JS is 676.1 KB; budget is 680 KB.
-- pass: performance-initial-js-gzip-budget - Initial JS gzip is 183.5 KB; budget is 200 KB.
+Initial JS: 677.8 KB (183.6 KB gzip)
+Deferred game chunk: GameCanvas-C50QDm6N.js
+- pass: performance-initial-js-budget - Initial JS is 677.8 KB; budget is 680 KB.
+- pass: performance-initial-js-gzip-budget - Initial JS gzip is 183.6 KB; budget is 200 KB.
 - pass: performance-initial-css-budget - Initial CSS is 10.5 KB; budget is 40 KB.
 - pass: performance-manifest - PWA manifest exists in dist.
 - pass: performance-service-worker - Service worker exists in dist.
-- pass: performance-game-runtime-deferred - GameCanvas-B9-usF6R.js is deferred from the initial shell.
-- pass: performance-largest-js-deferred - Largest JS chunk is GameCanvas-B9-usF6R.js at 1361.4 KB.
+- pass: performance-game-runtime-deferred - GameCanvas-C50QDm6N.js is deferred from the initial shell.
+- pass: performance-largest-js-deferred - Largest JS chunk is GameCanvas-C50QDm6N.js at 1361.4 KB.
 - pass: performance-deferred-game-budget - Deferred game chunk is 1361.4 KB; monitor budget is 1600 KB.
 
 ## Release Candidate
 
 Status: release-candidate-ready
-Candidate: pwa-4994774cfefb
+Candidate: pwa-e22b181a321f
 Files: 55
-Aggregate SHA-256: 4994774cfefb0c617460544dc28ab1826046f7c3d268850594b3560f86c8e36a
+Aggregate SHA-256: e22b181a321f511cc95168d08ac205bba36387fae9db3f777bb45aaa367260b0
 - pass: release-dist-inventory - 55 dist files inventoried.
 - pass: release-required-files - 29/29 required files present.
 - pass: release-game-pages - 10 generated game page(s) in dist.
@@ -147,7 +147,7 @@ Aggregate SHA-256: 4994774cfefb0c617460544dc28ab1826046f7c3d268850594b3560f86c8e
 
 Status: post-deploy-smoke-observed-live
 Origin: https://moshequ.github.io/autonomous-game-lab
-Candidate: pwa-4994774cfefb
+Candidate: pwa-e22b181a321f
 Checks: 25/25 passed (0 blocked)
 Local artifact: predeploy-artifact-smoke-passed (25/25 passed)
 - pass: smoke-app-shell - Live URL matched status and required text.
@@ -266,7 +266,7 @@ Setup script: ops/github/setup-production.sh
 - waiting-for-origin-support: bootstrap-production-environment - Environment production-env-missing; public origin configured; support missing-production-address.
 - ready-for-actions-pages: bootstrap-github-pages-hosting - Deployment plan is ready-for-pages; Pages workflow is .github/workflows/web-pwa-deploy.yml.
 - ready-to-sync: bootstrap-github-pages-settings - GitHub CLI can configure Pages to use the Actions workflow source.
-- ready-for-direct-persistence: bootstrap-autonomous-self-update - Self-update gate configured; direct push configured.
+- waiting-for-self-update-gate: bootstrap-autonomous-self-update - Self-update gate missing; direct push held.
 - partially-configured: bootstrap-github-actions-variables - 10/24 repository variable value(s) present in this environment.
 - partially-configured: bootstrap-github-actions-secrets - 5/8 repository secret value(s) present in this environment.
 - blocked-needs-cloudflare-env: bootstrap-event-collector - Collector deployment is blocked-needs-cloudflare-env; provider cloudflare-worker-r2.
@@ -300,9 +300,9 @@ Execution: idle
 
 ## Autonomous Operator
 
-Status: operator-plan-ready
+Status: operator-held
 Mode: plan-only
-Selected action: refresh-replay-loop
+Selected action: none
 Execution: not-requested
 
 ## Autonomous Operator History
