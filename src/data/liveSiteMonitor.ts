@@ -1,5 +1,5 @@
 export const liveSiteMonitor = {
-  "generatedAt": "2026-05-23T03:47:04.098Z",
+  "generatedAt": "2026-05-23T03:51:06.928Z",
   "status": "live-site-monitor-passed",
   "origin": {
     "origin": "https://moshequ.github.io/autonomous-game-lab",
@@ -8,21 +8,21 @@ export const liveSiteMonitor = {
     "basePath": "/autonomous-game-lab"
   },
   "summary": {
-    "planned": 25,
-    "passed": 25,
+    "planned": 26,
+    "passed": 26,
     "failed": 0,
     "blocked": 0,
     "passRate": 100,
-    "latencyP50Ms": 212,
-    "latencyP95Ms": 223,
-    "liveCandidateId": "pwa-e9a2ee9dbed6",
-    "syncedCandidateId": "pwa-e9a2ee9dbed6",
-    "localCandidateId": "pwa-22a094d63c51",
+    "latencyP50Ms": 82,
+    "latencyP95Ms": 96,
+    "liveCandidateId": "pwa-226a3ee37549",
+    "syncedCandidateId": "pwa-226a3ee37549",
+    "localCandidateId": "pwa-aa635fc40a36",
     "liveMatchesSyncedDeploy": true,
     "liveMatchesCurrentLocalCandidate": false,
     "monitoringPlanSource": "synced-live-release-manifest",
-    "monitoredSmokeUrls": 24,
-    "liveSmokeUrls": 24
+    "monitoredSmokeUrls": 25,
+    "liveSmokeUrls": 25
   },
   "controls": {
     "zeroPaidSpend": true,
@@ -40,42 +40,42 @@ export const liveSiteMonitor = {
       "path": "/",
       "status": "pass",
       "httpStatus": 200,
-      "durationMs": 68
+      "durationMs": 29
     },
     {
       "id": "manifest-webmanifest",
       "path": "/manifest.webmanifest",
       "status": "pass",
       "httpStatus": 200,
-      "durationMs": 204
+      "durationMs": 82
     },
     {
       "id": "sw-js",
       "path": "/sw.js",
       "status": "pass",
       "httpStatus": 200,
-      "durationMs": 204
+      "durationMs": 83
     },
     {
       "id": "privacy-html",
       "path": "/privacy.html",
       "status": "pass",
       "httpStatus": 200,
-      "durationMs": 204
+      "durationMs": 84
     },
     {
       "id": "support-html",
       "path": "/support.html",
       "status": "pass",
       "httpStatus": 200,
-      "durationMs": 205
+      "durationMs": 80
     },
     {
       "id": "measurement-status-html",
       "path": "/measurement-status.html",
       "status": "pass",
       "httpStatus": 200,
-      "durationMs": 205
+      "durationMs": 96
     }
   ]
 } as const
