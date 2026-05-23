@@ -45,24 +45,48 @@ jobs:
       - name: Verify collector behavior
         run: npm run autonomous:event-collector-smoke
 
+      - name: Refresh production environment evidence
+        run: npm run autonomous:env
+
       - name: Generate collector deployment plan
         run: npm run autonomous:collector-deploy-plan
 
-      - name: Skip deploy when environment is incomplete
-        if: env.CLOUDFLARE_ACCOUNT_ID == '' || env.CLOUDFLARE_API_TOKEN == '' || env.AGL_EVENT_COLLECTOR_ADMIN_TOKEN == '' || env.VITE_EVENT_COLLECTOR_URL == '' || env.AGL_EVENT_COLLECTOR_EXPORT_URL == ''
+      - name: Resolve collector deploy readiness
         run: |
-          echo "Cloudflare collector deployment is not configured yet."
-          cat reports/event-collector-deployment-latest.md
+          required=(
+            CLOUDFLARE_ACCOUNT_ID
+            CLOUDFLARE_API_TOKEN
+            AGL_EVENT_COLLECTOR_R2_BUCKET
+            AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS
+            VITE_EVENT_COLLECTOR_URL
+            AGL_EVENT_COLLECTOR_EXPORT_URL
+            VITE_EVENT_COLLECTOR_WRITE_TOKEN
+            AGL_EVENT_COLLECTOR_ADMIN_TOKEN
+          )
+          missing=()
+          for name in "${required[@]}"; do
+            if [[ -z "${!name}" ]]; then
+              missing+=("$name")
+            fi
+          done
+
+          if (( ${#missing[@]} )); then
+            echo "COLLECTOR_DEPLOY_READY=false" >> "$GITHUB_ENV"
+            echo "Cloudflare collector deployment is not configured yet."
+            printf 'Missing collector deploy inputs: %s\n' "${missing[*]}"
+            cat reports/event-collector-deployment-latest.md
+          else
+            echo "COLLECTOR_DEPLOY_READY=true" >> "$GITHUB_ENV"
+          fi
 
       - name: Ensure R2 bucket exists
-        if: env.CLOUDFLARE_ACCOUNT_ID != '' && env.CLOUDFLARE_API_TOKEN != '' && env.AGL_EVENT_COLLECTOR_ADMIN_TOKEN != '' && env.VITE_EVENT_COLLECTOR_URL != '' && env.AGL_EVENT_COLLECTOR_EXPORT_URL != ''
+        if: env.COLLECTOR_DEPLOY_READY == 'true'
         run: |
-          bucket="${AGL_EVENT_COLLECTOR_R2_BUCKET:-autonomous-game-lab-events}"
-          npx wrangler@latest r2 bucket create "$bucket" ||
-            npx wrangler@latest r2 bucket list | grep -F "$bucket"
+          npx wrangler@latest r2 bucket create "$AGL_EVENT_COLLECTOR_R2_BUCKET" ||
+            npx wrangler@latest r2 bucket list | grep -F "$AGL_EVENT_COLLECTOR_R2_BUCKET"
 
       - name: Render Wrangler config
-        if: env.CLOUDFLARE_ACCOUNT_ID != '' && env.CLOUDFLARE_API_TOKEN != '' && env.AGL_EVENT_COLLECTOR_ADMIN_TOKEN != '' && env.VITE_EVENT_COLLECTOR_URL != '' && env.AGL_EVENT_COLLECTOR_EXPORT_URL != ''
+        if: env.COLLECTOR_DEPLOY_READY == 'true'
         run: |
           mkdir -p .wrangler
           cat > .wrangler/event-collector.toml <<EOF
@@ -77,20 +101,20 @@ jobs:
 
           [[r2_buckets]]
           binding = "EVENT_BUCKET"
-          bucket_name = "${AGL_EVENT_COLLECTOR_R2_BUCKET:-autonomous-game-lab-events}"
+          bucket_name = "${AGL_EVENT_COLLECTOR_R2_BUCKET}"
           EOF
 
+      - name: Assert configured collector plan
+        if: env.COLLECTOR_DEPLOY_READY == 'true'
+        run: node scripts/event-collector-deploy-plan.mjs --assert-configured
+
       - name: Deploy event collector Worker
-        if: env.CLOUDFLARE_ACCOUNT_ID != '' && env.CLOUDFLARE_API_TOKEN != '' && env.AGL_EVENT_COLLECTOR_ADMIN_TOKEN != '' && env.VITE_EVENT_COLLECTOR_URL != '' && env.AGL_EVENT_COLLECTOR_EXPORT_URL != ''
+        if: env.COLLECTOR_DEPLOY_READY == 'true'
         run: npx wrangler@latest deploy --config .wrangler/event-collector.toml
 
       - name: Sync admin export secret
-        if: env.CLOUDFLARE_ACCOUNT_ID != '' && env.CLOUDFLARE_API_TOKEN != '' && env.AGL_EVENT_COLLECTOR_ADMIN_TOKEN != '' && env.VITE_EVENT_COLLECTOR_URL != '' && env.AGL_EVENT_COLLECTOR_EXPORT_URL != ''
+        if: env.COLLECTOR_DEPLOY_READY == 'true'
         run: printf "%s" "$AGL_EVENT_COLLECTOR_ADMIN_TOKEN" | npx wrangler@latest secret put ADMIN_EXPORT_TOKEN --config .wrangler/event-collector.toml
-
-      - name: Assert configured collector plan
-        if: env.CLOUDFLARE_ACCOUNT_ID != '' && env.CLOUDFLARE_API_TOKEN != '' && env.AGL_EVENT_COLLECTOR_ADMIN_TOKEN != '' && env.VITE_EVENT_COLLECTOR_URL != '' && env.AGL_EVENT_COLLECTOR_EXPORT_URL != ''
-        run: node scripts/event-collector-deploy-plan.mjs --assert-configured
 
       - name: Upload collector artifacts
         if: always()

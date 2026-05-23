@@ -2033,6 +2033,20 @@ test('production scripts load git-ignored env files without leaking values or mu
   expect(envLoader).toContain('protectedMutationKeysRequireShellEnv')
   expect(collectorWorkflow).toContain('r2 bucket create')
   expect(collectorWorkflow).toContain("'Production Input Watch'")
+  expect(collectorWorkflow).toContain('npm run autonomous:env')
+  expect(collectorWorkflow).toContain('COLLECTOR_DEPLOY_READY')
+  for (const key of [
+    'CLOUDFLARE_ACCOUNT_ID',
+    'CLOUDFLARE_API_TOKEN',
+    'AGL_EVENT_COLLECTOR_R2_BUCKET',
+    'AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS',
+    'VITE_EVENT_COLLECTOR_URL',
+    'AGL_EVENT_COLLECTOR_EXPORT_URL',
+    'VITE_EVENT_COLLECTOR_WRITE_TOKEN',
+    'AGL_EVENT_COLLECTOR_ADMIN_TOKEN',
+  ]) {
+    expect(collectorWorkflow).toContain(key)
+  }
 
   for (const scriptPath of envAwareScripts) {
     expect(await readFile(scriptPath, 'utf8')).toContain('loadLocalEnv')

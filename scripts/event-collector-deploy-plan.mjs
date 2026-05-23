@@ -56,8 +56,10 @@ const adminTokenConfigured =
   configured(process.env.AGL_EVENT_COLLECTOR_ADMIN_TOKEN) || repositorySecretConfigured('AGL_EVENT_COLLECTOR_ADMIN_TOKEN')
 const browserConfigured = productionEnvironment.analytics?.eventCollector?.browserConfigured === true
 const serverExportConfigured = productionEnvironment.analytics?.eventCollector?.serverExportConfigured === true
-const deployCredentialReady = cloudflareAccountConfigured && cloudflareTokenConfigured && adminTokenConfigured
-const collectorEnvReady = browserConfigured && serverExportConfigured && writeTokenConfigured
+const cloudflareCredentialReady = cloudflareAccountConfigured && cloudflareTokenConfigured
+const tokenReady = writeTokenConfigured && adminTokenConfigured
+const collectorEnvReady = browserConfigured && serverExportConfigured && bucketConfigured && allowedOriginsConfigured
+const deployReady = cloudflareCredentialReady && tokenReady && collectorEnvReady
 const workerSourceExists = await exists(workerPath)
 const wranglerExampleExists = await exists(wranglerExamplePath)
 const workflowExists = await exists(workflowPath)
@@ -90,20 +92,25 @@ const checks = [
   },
   {
     id: 'cloudflare-credentials',
-    status: deployCredentialReady ? 'pass' : 'missing-env',
-    detail: 'Cloudflare account id, API token, and admin export token are configured.',
+    status: cloudflareCredentialReady ? 'pass' : 'missing-env',
+    detail: 'Cloudflare account id and API token are configured.',
   },
   {
     id: 'collector-runtime-env',
     status: collectorEnvReady ? 'pass' : 'missing-env',
-    detail: 'Browser collector URL, export URL, and public write token are configured.',
+    detail: 'Browser collector URL, export URL, R2 bucket, and allowed origins are configured.',
+  },
+  {
+    id: 'collector-tokens',
+    status: tokenReady ? 'pass' : 'missing-env',
+    detail: 'Public write token and admin export token are configured before Worker deployment.',
   },
 ]
 
 const hardBlocked = checks.some((check) => check.status === 'blocker')
 const status = hardBlocked
   ? 'blocked'
-  : deployCredentialReady && collectorEnvReady
+  : deployReady
     ? 'ready-for-worker-deploy'
     : 'blocked-needs-cloudflare-env'
 
@@ -129,14 +136,18 @@ const payload = {
       autonomousDaily: workflowSource.includes("'Autonomous Daily Studio'"),
       productionInputWatch: workflowSource.includes("'Production Input Watch'"),
     },
-    deploysWhenConfigured: deployCredentialReady && collectorEnvReady,
+    deploysWhenConfigured: deployReady,
     autoCreatesBucket: workflowSource.includes('r2 bucket create'),
+    preflightRequiresWriteToken:
+      workflowSource.includes('VITE_EVENT_COLLECTOR_WRITE_TOKEN') && workflowSource.includes('COLLECTOR_DEPLOY_READY'),
   },
   environment: {
     browserCollectorConfigured: browserConfigured,
     serverExportConfigured,
     cloudflareAccountConfigured,
     cloudflareTokenConfigured,
+    bucketConfigured,
+    allowedOriginsConfigured,
     writeTokenConfigured,
     adminTokenConfigured,
     collectorUrl: productionEnvironment.analytics?.eventCollector?.url ?? null,
@@ -152,7 +163,7 @@ const payload = {
     'Create or select a Cloudflare account; the deploy workflow creates or reuses the R2 bucket for collector event batches.',
     'Set repository variables CLOUDFLARE_ACCOUNT_ID, AGL_EVENT_COLLECTOR_R2_BUCKET, AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS, VITE_EVENT_COLLECTOR_URL, and AGL_EVENT_COLLECTOR_EXPORT_URL.',
     'Set repository secrets CLOUDFLARE_API_TOKEN, VITE_EVENT_COLLECTOR_WRITE_TOKEN, and AGL_EVENT_COLLECTOR_ADMIN_TOKEN.',
-    'Let Production Input Watch or the Event Collector Deploy workflow run; it runs the collector smoke before deploying.',
+    'Let Production Input Watch or the Event Collector Deploy workflow run; it refreshes production environment evidence, runs the collector smoke, and only deploys when the full preflight passes.',
   ],
   checks,
   commands: {
@@ -181,6 +192,7 @@ const report = [
   `- Browser collector configured: ${payload.environment.browserCollectorConfigured}`,
   `- Server export configured: ${payload.environment.serverExportConfigured}`,
   `- Cloudflare credentials configured: ${payload.environment.cloudflareAccountConfigured && payload.environment.cloudflareTokenConfigured}`,
+  `- Bucket and allowed origins configured: ${payload.environment.bucketConfigured && payload.environment.allowedOriginsConfigured}`,
   `- Tokens configured: write=${payload.environment.writeTokenConfigured}, admin=${payload.environment.adminTokenConfigured}`,
   '',
   '## One-Time Setup',

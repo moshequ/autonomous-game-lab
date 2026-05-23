@@ -1,5 +1,5 @@
 export const eventCollectorDeployment = {
-  "generatedAt": "2026-05-23T00:16:07.942Z",
+  "generatedAt": "2026-05-23T00:32:09.198Z",
   "status": "blocked-needs-cloudflare-env",
   "envFiles": {
     "loaded": true,
@@ -70,13 +70,16 @@ export const eventCollectorDeployment = {
       "productionInputWatch": true
     },
     "deploysWhenConfigured": false,
-    "autoCreatesBucket": true
+    "autoCreatesBucket": true,
+    "preflightRequiresWriteToken": true
   },
   "environment": {
     "browserCollectorConfigured": false,
     "serverExportConfigured": false,
     "cloudflareAccountConfigured": false,
     "cloudflareTokenConfigured": false,
+    "bucketConfigured": true,
+    "allowedOriginsConfigured": true,
     "writeTokenConfigured": true,
     "adminTokenConfigured": true,
     "collectorUrl": null,
@@ -92,7 +95,7 @@ export const eventCollectorDeployment = {
     "Create or select a Cloudflare account; the deploy workflow creates or reuses the R2 bucket for collector event batches.",
     "Set repository variables CLOUDFLARE_ACCOUNT_ID, AGL_EVENT_COLLECTOR_R2_BUCKET, AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS, VITE_EVENT_COLLECTOR_URL, and AGL_EVENT_COLLECTOR_EXPORT_URL.",
     "Set repository secrets CLOUDFLARE_API_TOKEN, VITE_EVENT_COLLECTOR_WRITE_TOKEN, and AGL_EVENT_COLLECTOR_ADMIN_TOKEN.",
-    "Let Production Input Watch or the Event Collector Deploy workflow run; it runs the collector smoke before deploying."
+    "Let Production Input Watch or the Event Collector Deploy workflow run; it refreshes production environment evidence, runs the collector smoke, and only deploys when the full preflight passes."
   ],
   "checks": [
     {
@@ -118,12 +121,17 @@ export const eventCollectorDeployment = {
     {
       "id": "cloudflare-credentials",
       "status": "missing-env",
-      "detail": "Cloudflare account id, API token, and admin export token are configured."
+      "detail": "Cloudflare account id and API token are configured."
     },
     {
       "id": "collector-runtime-env",
       "status": "missing-env",
-      "detail": "Browser collector URL, export URL, and public write token are configured."
+      "detail": "Browser collector URL, export URL, R2 bucket, and allowed origins are configured."
+    },
+    {
+      "id": "collector-tokens",
+      "status": "pass",
+      "detail": "Public write token and admin export token are configured before Worker deployment."
     }
   ],
   "commands": {

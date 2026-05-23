@@ -1,6 +1,6 @@
 # Event Collector Deployment
 
-Generated: 2026-05-23T00:16:07.942Z
+Generated: 2026-05-23T00:32:09.198Z
 Status: blocked-needs-cloudflare-env
 Provider: cloudflare-worker-r2
 Cost posture: free-tier-friendly-no-paid-traffic
@@ -13,14 +13,16 @@ Runs after production input watch: true
 - pass: wrangler-config-template - Wrangler config template exists for the collector.
 - pass: collector-smoke - Event collector smoke is pass.
 - pass: deploy-workflow - GitHub Actions collector deploy workflow exists.
-- missing-env: cloudflare-credentials - Cloudflare account id, API token, and admin export token are configured.
-- missing-env: collector-runtime-env - Browser collector URL, export URL, and public write token are configured.
+- missing-env: cloudflare-credentials - Cloudflare account id and API token are configured.
+- missing-env: collector-runtime-env - Browser collector URL, export URL, R2 bucket, and allowed origins are configured.
+- pass: collector-tokens - Public write token and admin export token are configured before Worker deployment.
 
 ## Environment
 
 - Browser collector configured: false
 - Server export configured: false
 - Cloudflare credentials configured: false
+- Bucket and allowed origins configured: true
 - Tokens configured: write=true, admin=true
 
 ## One-Time Setup
@@ -28,7 +30,7 @@ Runs after production input watch: true
 - Create or select a Cloudflare account; the deploy workflow creates or reuses the R2 bucket for collector event batches.
 - Set repository variables CLOUDFLARE_ACCOUNT_ID, AGL_EVENT_COLLECTOR_R2_BUCKET, AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS, VITE_EVENT_COLLECTOR_URL, and AGL_EVENT_COLLECTOR_EXPORT_URL.
 - Set repository secrets CLOUDFLARE_API_TOKEN, VITE_EVENT_COLLECTOR_WRITE_TOKEN, and AGL_EVENT_COLLECTOR_ADMIN_TOKEN.
-- Let Production Input Watch or the Event Collector Deploy workflow run; it runs the collector smoke before deploying.
+- Let Production Input Watch or the Event Collector Deploy workflow run; it refreshes production environment evidence, runs the collector smoke, and only deploys when the full preflight passes.
 
 ## Commands
 

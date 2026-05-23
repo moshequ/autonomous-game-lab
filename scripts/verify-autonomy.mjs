@@ -1419,10 +1419,14 @@ if (
   eventCollectorDeployment.workflow?.triggers?.manualDispatch !== true ||
   eventCollectorDeployment.workflow?.triggers?.autonomousDaily !== true ||
   eventCollectorDeployment.workflow?.triggers?.productionInputWatch !== true ||
+  eventCollectorDeployment.workflow?.preflightRequiresWriteToken !== true ||
+  eventCollectorDeployment.environment?.bucketConfigured !== eventCollectorDeployment.worker?.bucketConfigured ||
+  eventCollectorDeployment.environment?.allowedOriginsConfigured !== eventCollectorDeployment.worker?.allowedOriginsConfigured ||
   !eventCollectorWorkerSource.includes('parseAllowedOrigins') ||
   !eventCollectorWorkerSource.includes('new URL(value).origin') ||
   !eventCollectorDeployment.checks?.some((check) => check.id === 'worker-source' && check.status === 'pass') ||
   !eventCollectorDeployment.checks?.some((check) => check.id === 'collector-smoke' && check.status === 'pass') ||
+  !eventCollectorDeployment.checks?.some((check) => check.id === 'collector-tokens') ||
   !eventCollectorDeployment.checks?.some((check) => check.id === 'deploy-workflow' && check.status === 'pass')
 ) {
   fail('Event collector deployment plan must cover Worker source, smoke validation, workflow, and configured/blocker states.')
@@ -7789,8 +7793,13 @@ if (
 
 if (
   !collectorWorkflow.includes('npm run autonomous:event-collector-smoke') ||
+  !collectorWorkflow.includes('npm run autonomous:env') ||
   !collectorWorkflow.includes("'Production Input Watch'") ||
   !collectorWorkflow.includes('npm run autonomous:collector-deploy-plan') ||
+  !collectorWorkflow.includes('COLLECTOR_DEPLOY_READY') ||
+  !collectorWorkflow.includes('AGL_EVENT_COLLECTOR_R2_BUCKET') ||
+  !collectorWorkflow.includes('AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS') ||
+  !collectorWorkflow.includes('VITE_EVENT_COLLECTOR_WRITE_TOKEN') ||
   !collectorWorkflow.includes('r2 bucket create') ||
   !collectorWorkflow.includes('npx wrangler@latest deploy') ||
   !collectorWorkflow.includes('AGL_EVENT_COLLECTOR_ADMIN_TOKEN') ||

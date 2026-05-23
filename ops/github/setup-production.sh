@@ -208,7 +208,7 @@ sync_pages_settings
 if [[ "${RUN_WORKFLOWS:-0}" == "1" ]]; then
   gh workflow run web-pwa-deploy.yml "${repo_args[@]}"
 
-  if all_present CLOUDFLARE_ACCOUNT_ID CLOUDFLARE_API_TOKEN VITE_EVENT_COLLECTOR_URL AGL_EVENT_COLLECTOR_EXPORT_URL VITE_EVENT_COLLECTOR_WRITE_TOKEN AGL_EVENT_COLLECTOR_ADMIN_TOKEN; then
+  if all_present CLOUDFLARE_ACCOUNT_ID CLOUDFLARE_API_TOKEN AGL_EVENT_COLLECTOR_R2_BUCKET AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS VITE_EVENT_COLLECTOR_URL AGL_EVENT_COLLECTOR_EXPORT_URL VITE_EVENT_COLLECTOR_WRITE_TOKEN AGL_EVENT_COLLECTOR_ADMIN_TOKEN; then
     gh workflow run event-collector-deploy.yml "${repo_args[@]}"
   else
     echo "skip event collector workflow: collector variables/secrets are incomplete"
