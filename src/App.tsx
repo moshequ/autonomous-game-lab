@@ -3154,6 +3154,7 @@ function App() {
                   'replay_prompt_clicked',
                   'organic_seed_share_clicked',
                   'seed_campaign_clicked',
+                  'sample_fastest_routed',
                   'daily_challenge_completed',
                   'daily_return_intent_started',
                   'pwa_install_prompt_available',

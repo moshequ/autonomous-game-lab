@@ -45,6 +45,8 @@ export type AnalyticsEventName =
   | 'seed_campaign_clicked'
   | 'sample_next_viewed'
   | 'sample_next_routed'
+  | 'sample_fastest_viewed'
+  | 'sample_fastest_routed'
   | 'gate_sample_mission_clicked'
   | 'gate_sample_export_prompt_viewed'
   | 'gate_sample_export_prompt_clicked'

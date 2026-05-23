@@ -173,6 +173,38 @@ const exportedEvents = [
     createdAt: '2026-05-17T09:00:40.000Z',
   },
   {
+    id: 'collector-sample-fastest-viewed',
+    name: 'sample_fastest_viewed',
+    properties: {
+      gameId: smokeGameId,
+      gateId: 'd1Retention',
+      campaignId: 'gate-sample-smoke-fastest',
+      anonymousId: 'anon-collector',
+      sessionId: 'session-collector-a',
+      sessionDate: '2026-05-17',
+      zeroPaidSpend: true,
+      noSyntheticEvents: true,
+      noRevenueEnablement: true,
+    },
+    createdAt: '2026-05-17T09:00:42.000Z',
+  },
+  {
+    id: 'collector-sample-fastest-routed',
+    name: 'sample_fastest_routed',
+    properties: {
+      gameId: smokeGameId,
+      gateId: 'd1Retention',
+      campaignId: 'gate-sample-smoke-fastest',
+      anonymousId: 'anon-collector',
+      sessionId: 'session-collector-a',
+      sessionDate: '2026-05-17',
+      zeroPaidSpend: true,
+      noSyntheticEvents: true,
+      noRevenueEnablement: true,
+    },
+    createdAt: '2026-05-17T09:00:45.000Z',
+  },
+  {
     id: 'collector-local-router-share',
     name: 'local_router_share_clicked',
     properties: {
@@ -435,6 +467,8 @@ try {
     game?.counts.gate_sample_mission_clicked !== 1 ||
     game?.counts.sample_next_viewed !== 1 ||
     game?.counts.sample_next_routed !== 1 ||
+    game?.counts.sample_fastest_viewed !== 1 ||
+    game?.counts.sample_fastest_routed !== 1 ||
     game?.counts.local_router_share_clicked !== 1 ||
     game?.counts.first_move_coach_shown !== 1 ||
     game?.counts.completion_nudge_viewed !== 1 ||
@@ -481,6 +515,8 @@ try {
         gate_sample_mission_clicked: game.counts.gate_sample_mission_clicked,
         sample_next_viewed: game.counts.sample_next_viewed,
         sample_next_routed: game.counts.sample_next_routed,
+        sample_fastest_viewed: game.counts.sample_fastest_viewed,
+        sample_fastest_routed: game.counts.sample_fastest_routed,
         local_router_share_clicked: game.counts.local_router_share_clicked,
         first_move_coach_shown: game.counts.first_move_coach_shown,
         tutorial_completed: game.counts.tutorial_completed,

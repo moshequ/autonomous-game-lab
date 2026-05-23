@@ -3911,6 +3911,124 @@ test('local event bridge keeps browser analytics drops importable without extern
   await expect(page.getByLabel('Local Event Bridge')).toContainText('Autosave')
 })
 
+test('local event bridge preserves fastest gate sample route telemetry', async () => {
+  const tempRoot = await mkdtemp(path.join(tmpdir(), 'agl-fastest-sample-bridge-'))
+  const dropDir = path.join(tempRoot, 'drops')
+  const eventOutputDir = path.join(tempRoot, 'player-events')
+  const bridgeOutput = path.join(tempRoot, 'local-event-bridge.json')
+  const bridgeTsOutput = path.join(tempRoot, 'localEventBridge.ts')
+  const bridgeReport = path.join(tempRoot, 'local-event-bridge.md')
+  const campaignId = 'gate-sample-20260523-d1Retention'
+
+  await mkdir(dropDir, { recursive: true })
+  await writeFile(
+    path.join(dropDir, 'player-events-fastest-sample.json'),
+    JSON.stringify(
+      [
+        {
+          id: 'fastest-viewed',
+          name: 'sample_fastest_viewed',
+          properties: {
+            gameId: 'market-pulse',
+            gateId: 'd1Retention',
+            campaignId,
+            acquisitionSource: 'gate_sample',
+            acquisitionChannel: 'product-gate-sample',
+            zeroPaidSpend: true,
+          },
+          createdAt: '2026-05-23T00:00:00.000Z',
+        },
+        {
+          id: 'fastest-routed',
+          name: 'sample_fastest_routed',
+          properties: {
+            gameId: 'market-pulse',
+            gateId: 'd1Retention',
+            campaignId,
+            acquisitionSource: 'gate_sample',
+            acquisitionChannel: 'product-gate-sample',
+            zeroPaidSpend: true,
+          },
+          createdAt: '2026-05-23T00:00:01.000Z',
+        },
+        {
+          id: 'fastest-clicked',
+          name: 'gate_sample_mission_clicked',
+          properties: {
+            gameId: 'market-pulse',
+            gateId: 'd1Retention',
+            campaignId,
+            acquisitionSource: 'gate_sample',
+            acquisitionChannel: 'product-gate-sample',
+            zeroPaidSpend: true,
+          },
+          createdAt: '2026-05-23T00:00:02.000Z',
+        },
+        {
+          id: 'fastest-started',
+          name: 'game_started',
+          properties: {
+            gameId: 'market-pulse',
+            gateId: 'd1Retention',
+            campaignId,
+            acquisitionSource: 'gate_sample',
+            acquisitionChannel: 'product-gate-sample',
+            zeroPaidSpend: true,
+          },
+          createdAt: '2026-05-23T00:00:03.000Z',
+        },
+      ],
+      null,
+      2,
+    ),
+  )
+
+  try {
+    await execFileAsync(process.execPath, ['scripts/local-event-bridge.mjs'], {
+      env: {
+        ...process.env,
+        AGL_EVENT_OUTPUT_DIR: eventOutputDir,
+        AGL_EVENT_INBOX_DIR: path.join(eventOutputDir, 'inbox'),
+        AGL_LOCAL_EVENT_DROP_DIRS: dropDir,
+        AGL_LOCAL_EVENT_BRIDGE_OUTPUT: bridgeOutput,
+        AGL_LOCAL_EVENT_BRIDGE_TS_OUTPUT: bridgeTsOutput,
+        AGL_LOCAL_EVENT_BRIDGE_REPORT: bridgeReport,
+      },
+    })
+
+    const bridge = JSON.parse(await readFile(bridgeOutput, 'utf8')) as {
+      status: string
+      inbox: { validEvents: number }
+      copiedFiles: Array<{ events: number; privacyStripped: boolean }>
+      gateSampleEvidence: {
+        inbox: {
+          events: number
+          campaigns: Array<{
+            campaignId: string
+            events: number
+            missionClicks: number
+            eventCounts: Record<string, number>
+          }>
+        }
+      }
+      controls: { noExternalUpload: boolean; noSyntheticEvents: boolean }
+    }
+    const campaign = bridge.gateSampleEvidence.inbox.campaigns.find((item) => item.campaignId === campaignId)
+
+    expect(bridge.status).toBe('bridge-ready-for-ingest')
+    expect(bridge.inbox.validEvents).toBe(4)
+    expect(bridge.copiedFiles[0]).toMatchObject({ events: 4, privacyStripped: true })
+    expect(bridge.gateSampleEvidence.inbox.events).toBe(4)
+    expect(campaign?.eventCounts.sample_fastest_viewed).toBe(1)
+    expect(campaign?.eventCounts.sample_fastest_routed).toBe(1)
+    expect(campaign?.missionClicks).toBe(1)
+    expect(bridge.controls.noExternalUpload).toBe(true)
+    expect(bridge.controls.noSyntheticEvents).toBe(true)
+  } finally {
+    await rm(tempRoot, { recursive: true, force: true })
+  }
+})
+
 test('player evidence watchdog protects public repo privacy while guiding sample collection', async ({ page }) => {
   const watchdog = JSON.parse(await readFile('data/player-evidence-watchdog.json', 'utf8')) as {
     status: string

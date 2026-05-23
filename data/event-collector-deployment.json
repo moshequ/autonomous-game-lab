@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-22T21:28:35.739Z",
+  "generatedAt": "2026-05-23T00:16:07.942Z",
   "status": "blocked-needs-cloudflare-env",
   "envFiles": {
     "loaded": true,
@@ -57,9 +57,9 @@
     "path": "ops/cloudflare/event-collector-worker.mjs",
     "storageBinding": "EVENT_BUCKET",
     "bucketName": "autonomous-game-lab-events",
-    "bucketConfigured": false,
+    "bucketConfigured": true,
     "allowedOrigins": null,
-    "allowedOriginsConfigured": false
+    "allowedOriginsConfigured": true
   },
   "workflow": {
     "path": ".github/workflows/event-collector-deploy.yml",
@@ -77,15 +77,15 @@
     "serverExportConfigured": false,
     "cloudflareAccountConfigured": false,
     "cloudflareTokenConfigured": false,
-    "writeTokenConfigured": false,
-    "adminTokenConfigured": false,
+    "writeTokenConfigured": true,
+    "adminTokenConfigured": true,
     "collectorUrl": null,
     "exportUrl": null
   },
   "smoke": {
     "status": "pass",
     "piiStripped": true,
-    "exportedEvents": 17,
+    "exportedEvents": 19,
     "activeSource": "local-event-drops"
   },
   "setupRequiredOnce": [

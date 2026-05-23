@@ -232,9 +232,14 @@ const channelRows = (traffic.channels ?? []).map((channel) => {
   const starts = channelEvents.filter((event) => eventName(event) === 'game_started').length
   const completions = channelEvents.filter((event) => eventName(event) === 'level_completed').length
   const clicks = channelEvents.filter((event) =>
-    ['seed_campaign_clicked', 'sample_next_routed', 'gate_sample_mission_clicked', 'organic_entry_opened', 'share_clicked'].includes(
-      eventName(event),
-    ),
+    [
+      'seed_campaign_clicked',
+      'sample_next_routed',
+      'sample_fastest_routed',
+      'gate_sample_mission_clicked',
+      'organic_entry_opened',
+      'share_clicked',
+    ].includes(eventName(event)),
   ).length
 
   return {

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-23T00:06:26.403Z",
+  "generatedAt": "2026-05-23T00:21:58.526Z",
   "status": "ready-for-pages",
   "target": {
     "provider": "github-pages",
@@ -10,7 +10,7 @@
   "repositoryChannel": {
     "status": "repository-channel-ready",
     "repository": "moshequ/autonomous-game-lab",
-    "source": "environment",
+    "source": "origin-remote",
     "insideWorkTree": true,
     "ghCliAvailable": true,
     "workflowDispatchReady": true,
@@ -50,11 +50,11 @@
   },
   "releaseCandidate": {
     "status": "release-candidate-ready",
-    "candidateId": "pwa-78aad2af4429",
+    "candidateId": "pwa-6ffcd366bf09",
     "manifestPath": "dist/release-candidate.json",
-    "aggregateHash": "78aad2af44298a9dd6f049b781cd8074bcc891411996bb71d5910354ca95f0ea",
+    "aggregateHash": "6ffcd366bf09ae588877805a69f0a4c14cb061d55a7ed5691ff9af880021cfc2",
     "totalFiles": 55,
-    "totalKb": 3738.9,
+    "totalKb": 3739,
     "postDeploySmokeUrls": 24
   },
   "compliance": {
@@ -123,7 +123,7 @@
     {
       "id": "release-candidate",
       "status": "pass",
-      "detail": "Release candidate is release-candidate-ready; candidate pwa-78aad2af4429."
+      "detail": "Release candidate is release-candidate-ready; candidate pwa-6ffcd366bf09."
     },
     {
       "id": "deploy-workflow",

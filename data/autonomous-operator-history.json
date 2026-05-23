@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-23T00:06:26.008Z",
+  "generatedAt": "2026-05-23T00:21:59.290Z",
   "status": "operator-history-ready",
   "retention": {
     "maxRecords": 40,
@@ -110,145 +110,6 @@
         "status": "executed",
         "attemptedActionId": "collect-gate-sample-local-drops",
         "resultCount": 1,
-        "failedScripts": []
-      },
-      "controls": {
-        "zeroPaidSpend": true,
-        "localCommandAllowlistEnforced": true,
-        "externalWorkflowExecutionBlockedByDefault": true,
-        "maxActionsPerRun": 1
-      }
-    },
-    {
-      "id": "20260522200503-seed-portfolio-traffic",
-      "generatedAt": "2026-05-22T20:05:03.732Z",
-      "runFingerprint": "48cb338b5a1708b9",
-      "mode": "plan-only",
-      "status": "operator-plan-ready",
-      "selectedActionId": "seed-portfolio-traffic",
-      "selectedCommand": "npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop",
-      "eligibleActionIds": [
-        "seed-portfolio-traffic",
-        "refresh-organic-seed-loop"
-      ],
-      "blockedActionCount": 34,
-      "execution": {
-        "requested": false,
-        "status": "not-requested",
-        "attemptedActionId": null,
-        "resultCount": 0,
-        "failedScripts": []
-      },
-      "controls": {
-        "zeroPaidSpend": true,
-        "localCommandAllowlistEnforced": true,
-        "externalWorkflowExecutionBlockedByDefault": true,
-        "maxActionsPerRun": 1
-      }
-    },
-    {
-      "id": "20260522201049-refresh-objective-audit",
-      "generatedAt": "2026-05-22T20:10:49.121Z",
-      "runFingerprint": "61079a5e0f1fe710",
-      "mode": "plan-only",
-      "status": "operator-plan-ready",
-      "selectedActionId": "refresh-objective-audit",
-      "selectedCommand": "npm run autonomous:objective-audit",
-      "eligibleActionIds": [
-        "seed-portfolio-traffic",
-        "refresh-organic-seed-loop",
-        "refresh-objective-audit"
-      ],
-      "blockedActionCount": 34,
-      "execution": {
-        "requested": false,
-        "status": "not-requested",
-        "attemptedActionId": null,
-        "resultCount": 0,
-        "failedScripts": []
-      },
-      "controls": {
-        "zeroPaidSpend": true,
-        "localCommandAllowlistEnforced": true,
-        "externalWorkflowExecutionBlockedByDefault": true,
-        "maxActionsPerRun": 1
-      }
-    },
-    {
-      "id": "20260522201049-seed-portfolio-traffic",
-      "generatedAt": "2026-05-22T20:10:49.643Z",
-      "runFingerprint": "48cb338b5a1708b9",
-      "mode": "plan-only",
-      "status": "operator-plan-ready",
-      "selectedActionId": "seed-portfolio-traffic",
-      "selectedCommand": "npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop",
-      "eligibleActionIds": [
-        "seed-portfolio-traffic",
-        "refresh-organic-seed-loop"
-      ],
-      "blockedActionCount": 34,
-      "execution": {
-        "requested": false,
-        "status": "not-requested",
-        "attemptedActionId": null,
-        "resultCount": 0,
-        "failedScripts": []
-      },
-      "controls": {
-        "zeroPaidSpend": true,
-        "localCommandAllowlistEnforced": true,
-        "externalWorkflowExecutionBlockedByDefault": true,
-        "maxActionsPerRun": 1
-      }
-    },
-    {
-      "id": "20260522201459-refresh-objective-audit",
-      "generatedAt": "2026-05-22T20:14:59.275Z",
-      "runFingerprint": "61079a5e0f1fe710",
-      "mode": "plan-only",
-      "status": "operator-plan-ready",
-      "selectedActionId": "refresh-objective-audit",
-      "selectedCommand": "npm run autonomous:objective-audit",
-      "eligibleActionIds": [
-        "seed-portfolio-traffic",
-        "refresh-organic-seed-loop",
-        "refresh-objective-audit"
-      ],
-      "blockedActionCount": 34,
-      "execution": {
-        "requested": false,
-        "status": "not-requested",
-        "attemptedActionId": null,
-        "resultCount": 0,
-        "failedScripts": []
-      },
-      "controls": {
-        "zeroPaidSpend": true,
-        "localCommandAllowlistEnforced": true,
-        "externalWorkflowExecutionBlockedByDefault": true,
-        "maxActionsPerRun": 1
-      }
-    },
-    {
-      "id": "20260522203134-measure-pwa-install-loop",
-      "generatedAt": "2026-05-22T20:31:34.601Z",
-      "runFingerprint": "72aed67e360a07ca",
-      "mode": "plan-only",
-      "status": "operator-plan-ready",
-      "selectedActionId": "measure-pwa-install-loop",
-      "selectedCommand": "npm run autonomous:pwa-install",
-      "eligibleActionIds": [
-        "seed-portfolio-traffic",
-        "refresh-organic-seed-loop",
-        "measure-pwa-install-loop",
-        "optimize-store-listing"
-      ],
-      "blockedActionCount": 34,
-      "execution": {
-        "requested": false,
-        "status": "not-requested",
-        "attemptedActionId": null,
-        "resultCount": 0,
         "failedScripts": []
       },
       "controls": {
@@ -1147,6 +1008,154 @@
     {
       "id": "20260523000624-refresh-objective-audit",
       "generatedAt": "2026-05-23T00:06:24.083Z",
+      "runFingerprint": "61079a5e0f1fe710",
+      "mode": "plan-only",
+      "status": "operator-plan-ready",
+      "selectedActionId": "refresh-objective-audit",
+      "selectedCommand": "npm run autonomous:objective-audit",
+      "eligibleActionIds": [
+        "seed-portfolio-traffic",
+        "refresh-organic-seed-loop",
+        "refresh-objective-audit"
+      ],
+      "blockedActionCount": 34,
+      "execution": {
+        "requested": false,
+        "status": "not-requested",
+        "attemptedActionId": null,
+        "resultCount": 0,
+        "failedScripts": []
+      },
+      "controls": {
+        "zeroPaidSpend": true,
+        "localCommandAllowlistEnforced": true,
+        "externalWorkflowExecutionBlockedByDefault": true,
+        "maxActionsPerRun": 1
+      }
+    },
+    {
+      "id": "20260523001518-refresh-completion-loop",
+      "generatedAt": "2026-05-23T00:15:18.403Z",
+      "runFingerprint": "6d21b6cfdb32d96b",
+      "mode": "plan-only",
+      "status": "operator-plan-ready",
+      "selectedActionId": "refresh-completion-loop",
+      "selectedCommand": "npm run autonomous:completion-loop",
+      "eligibleActionIds": [
+        "seed-portfolio-traffic",
+        "refresh-organic-seed-loop",
+        "refresh-completion-loop",
+        "refresh-objective-audit",
+        "apply-safe-improvements"
+      ],
+      "blockedActionCount": 34,
+      "execution": {
+        "requested": false,
+        "status": "not-requested",
+        "attemptedActionId": null,
+        "resultCount": 0,
+        "failedScripts": []
+      },
+      "controls": {
+        "zeroPaidSpend": true,
+        "localCommandAllowlistEnforced": true,
+        "externalWorkflowExecutionBlockedByDefault": true,
+        "maxActionsPerRun": 1
+      }
+    },
+    {
+      "id": "20260523001639-refresh-completion-loop",
+      "generatedAt": "2026-05-23T00:16:39.546Z",
+      "runFingerprint": "1057763825cdac34",
+      "mode": "plan-only",
+      "status": "operator-plan-ready",
+      "selectedActionId": "refresh-completion-loop",
+      "selectedCommand": "npm run autonomous:completion-loop",
+      "eligibleActionIds": [
+        "seed-portfolio-traffic",
+        "refresh-organic-seed-loop",
+        "refresh-completion-loop",
+        "bootstrap-production-setup",
+        "refresh-objective-audit",
+        "apply-safe-improvements"
+      ],
+      "blockedActionCount": 34,
+      "execution": {
+        "requested": false,
+        "status": "not-requested",
+        "attemptedActionId": null,
+        "resultCount": 0,
+        "failedScripts": []
+      },
+      "controls": {
+        "zeroPaidSpend": true,
+        "localCommandAllowlistEnforced": true,
+        "externalWorkflowExecutionBlockedByDefault": true,
+        "maxActionsPerRun": 1
+      }
+    },
+    {
+      "id": "20260523001726-apply-safe-improvements",
+      "generatedAt": "2026-05-23T00:17:26.470Z",
+      "runFingerprint": "d3921873c407f281",
+      "mode": "plan-only",
+      "status": "operator-plan-ready",
+      "selectedActionId": "apply-safe-improvements",
+      "selectedCommand": "npm run autonomous:experiments && npm run autonomous:improve && npm run autonomous:sync-experiments",
+      "eligibleActionIds": [
+        "seed-portfolio-traffic",
+        "refresh-organic-seed-loop",
+        "collect-gate-sample-local-drops",
+        "refresh-product-gate-sample-plan",
+        "apply-safe-improvements"
+      ],
+      "blockedActionCount": 34,
+      "execution": {
+        "requested": false,
+        "status": "not-requested",
+        "attemptedActionId": null,
+        "resultCount": 0,
+        "failedScripts": []
+      },
+      "controls": {
+        "zeroPaidSpend": true,
+        "localCommandAllowlistEnforced": true,
+        "externalWorkflowExecutionBlockedByDefault": true,
+        "maxActionsPerRun": 1
+      }
+    },
+    {
+      "id": "20260523001801-apply-safe-improvements",
+      "generatedAt": "2026-05-23T00:18:01.101Z",
+      "runFingerprint": "66ff2e9e06fa2835",
+      "mode": "plan-only",
+      "status": "operator-plan-ready",
+      "selectedActionId": "apply-safe-improvements",
+      "selectedCommand": "npm run autonomous:experiments && npm run autonomous:improve && npm run autonomous:sync-experiments",
+      "eligibleActionIds": [
+        "seed-portfolio-traffic",
+        "refresh-organic-seed-loop",
+        "refresh-objective-audit",
+        "apply-safe-improvements"
+      ],
+      "blockedActionCount": 34,
+      "execution": {
+        "requested": false,
+        "status": "not-requested",
+        "attemptedActionId": null,
+        "resultCount": 0,
+        "failedScripts": []
+      },
+      "controls": {
+        "zeroPaidSpend": true,
+        "localCommandAllowlistEnforced": true,
+        "externalWorkflowExecutionBlockedByDefault": true,
+        "maxActionsPerRun": 1
+      }
+    },
+    {
+      "id": "20260523001849-refresh-objective-audit",
+      "generatedAt": "2026-05-23T00:18:49.011Z",
       "runFingerprint": "61079a5e0f1fe710",
       "mode": "plan-only",
       "status": "operator-plan-ready",

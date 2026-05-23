@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-22T21:28:35.504Z",
+  "generatedAt": "2026-05-23T00:11:49.837Z",
   "status": "pass",
   "fixture": {
     "sourceFile": "data/generated-playable-games.json",
@@ -9,8 +9,8 @@
   "collector": {
     "postStatus": "accepted",
     "beaconStatus": "accepted",
-    "storedEvents": 17,
-    "exportedEvents": 17,
+    "storedEvents": 19,
+    "exportedEvents": 19,
     "files": 2,
     "piiStripped": true,
     "acceptsBeaconBodyToken": true,
@@ -18,7 +18,7 @@
   },
   "ingest": {
     "status": "imported",
-    "importedEvents": 17,
+    "importedEvents": 19,
     "remoteCollectorStatus": "available"
   },
   "analytics": {
@@ -31,6 +31,8 @@
       "gate_sample_mission_clicked": 1,
       "sample_next_viewed": 1,
       "sample_next_routed": 1,
+      "sample_fastest_viewed": 1,
+      "sample_fastest_routed": 1,
       "local_router_share_clicked": 1,
       "first_move_coach_shown": 1,
       "tutorial_completed": 1,

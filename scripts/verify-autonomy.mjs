@@ -440,6 +440,7 @@ const distReleaseCandidate = JSON.parse(await readFile(path.join(root, 'dist', '
 const analyticsLibSource = await readFile(path.join(root, 'src', 'lib', 'analytics.ts'), 'utf8')
 const aggregateEvidenceIssueSource = await readFile(path.join(root, 'src', 'lib', 'aggregateEvidenceIssue.ts'), 'utf8')
 const analyticsRollupSource = await readFile(path.join(root, 'scripts', 'analytics-rollup.mjs'), 'utf8')
+const acquisitionLearningSource = await readFile(path.join(root, 'scripts', 'acquisition-learning.mjs'), 'utf8')
 const envLoaderSource = await readFile(path.join(root, 'scripts', 'lib', 'env-loader.mjs'), 'utf8')
 const productionEnvironmentSource = await readFile(path.join(root, 'scripts', 'production-environment.mjs'), 'utf8')
 const supportChannelSource = await readFile(path.join(root, 'scripts', 'support-channel.mjs'), 'utf8')
@@ -456,6 +457,7 @@ const eventCollectorWorkerSource = await readFile(
   path.join(root, 'ops', 'cloudflare', 'event-collector-worker.mjs'),
   'utf8',
 )
+const eventIngestorSource = await readFile(path.join(root, 'scripts', 'event-ingestor.mjs'), 'utf8')
 const eventCollectorDeployPlanSource = await readFile(
   path.join(root, 'scripts', 'event-collector-deploy-plan.mjs'),
   'utf8',
@@ -543,6 +545,15 @@ const collectorAllowedEventSource = eventCollectorWorkerSource.slice(
 const analyticsEventNames = extractQuotedValues(analyticsEventTypeSource)
 const collectorAllowedEventNames = new Set(extractQuotedValues(collectorAllowedEventSource))
 const missingCollectorEventNames = analyticsEventNames.filter((eventName) => !collectorAllowedEventNames.has(eventName))
+const sampleFastestRouteEvents = ['sample_fastest_viewed', 'sample_fastest_routed']
+const sampleFastestEventContractsCurrent =
+  sampleFastestRouteEvents.every((eventName) => analyticsLibSource.includes(`'${eventName}'`)) &&
+  sampleFastestRouteEvents.every((eventName) => eventCollectorWorkerSource.includes(`'${eventName}'`)) &&
+  sampleFastestRouteEvents.every((eventName) => eventIngestorSource.includes(`'${eventName}'`)) &&
+  sampleFastestRouteEvents.every((eventName) => localEventBridgeSource.includes(`'${eventName}'`)) &&
+  sampleFastestRouteEvents.every((eventName) => analyticsRollupSource.includes(`'${eventName}'`)) &&
+  sampleFastestRouteEvents.every((eventName) => trafficSeedingSource.includes(`'${eventName}'`)) &&
+  acquisitionLearningSource.includes("'sample_fastest_routed'")
 const corePlayableIds = new Set([
   'harbor-rings',
   'lantern-relay',
@@ -1382,6 +1393,8 @@ if (
   eventCollectorSmoke.analytics?.counts?.gate_sample_mission_clicked < 1 ||
   eventCollectorSmoke.analytics?.counts?.sample_next_viewed < 1 ||
   eventCollectorSmoke.analytics?.counts?.sample_next_routed < 1 ||
+  eventCollectorSmoke.analytics?.counts?.sample_fastest_viewed < 1 ||
+  eventCollectorSmoke.analytics?.counts?.sample_fastest_routed < 1 ||
   eventCollectorSmoke.analytics?.counts?.first_move_coach_shown < 1 ||
   eventCollectorSmoke.analytics?.counts?.completion_nudge_viewed < 1 ||
   eventCollectorSmoke.analytics?.counts?.replay_prompt_clicked < 1 ||
@@ -1757,9 +1770,10 @@ if (
   !sampleFastestHtml.includes('gate_sample_mission_clicked') ||
   !sampleFastestHtml.includes('previewOnly') ||
   !sampleFastestHtml.includes('window.location.assign') ||
+  !sampleFastestEventContractsCurrent ||
   sampleFastestHtml.includes('autonomous-game-lab.example.com')
 ) {
-  fail('Traffic seeding must publish zero-cost campaigns, UTM/share links, a runtime-base-safe seed kit, player-initiated sharing controls, and sample-size guardrails for every seed game.')
+  fail('Traffic seeding must publish zero-cost campaigns, UTM/share links, route telemetry allowlists, a runtime-base-safe seed kit, player-initiated sharing controls, and sample-size guardrails for every seed game.')
 }
 
 if (
