@@ -679,6 +679,8 @@ const payload = {
       privacy: 'local-only-no-external-upload',
       autosaveSurface: 'local-event-drop-autosave',
       autosaveTriggers: [
+        'gate_sample_mission_clicked',
+        'game_started',
         'first_move_coach_shown',
         'tutorial_completed',
         'completion_nudge_viewed',

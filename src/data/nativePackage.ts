@@ -1,5 +1,5 @@
 export const nativePackage = {
-  "generatedAt": "2026-05-22T23:22:30.058Z",
+  "generatedAt": "2026-05-23T01:00:47.268Z",
   "status": "ready-for-bubblewrap-build",
   "platform": "android-trusted-web-activity",
   "costGate": {
@@ -48,7 +48,7 @@ export const nativePackage = {
     "domainVerificationReady": true,
     "rootAssetLinksDeployable": true,
     "rootAssetLinksLive": {
-      "checkedAt": "2026-05-22T23:22:29.669Z",
+      "checkedAt": "2026-05-23T01:00:46.890Z",
       "status": "live-match",
       "httpStatus": 200,
       "finalUrl": "https://moshequ.github.io/.well-known/assetlinks.json",

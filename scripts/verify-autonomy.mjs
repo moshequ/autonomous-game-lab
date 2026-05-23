@@ -1234,6 +1234,8 @@ if (
   localEventBridge.eventDropContract?.browserFolderDrop?.supported !== true ||
   localEventBridge.eventDropContract?.browserFolderDrop?.mode !== 'browser-selected-local-folder' ||
   localEventBridge.eventDropContract?.browserFolderDrop?.autosaveSurface !== 'local-event-drop-autosave' ||
+  !localEventBridge.eventDropContract?.browserFolderDrop?.autosaveTriggers?.includes('gate_sample_mission_clicked') ||
+  !localEventBridge.eventDropContract?.browserFolderDrop?.autosaveTriggers?.includes('game_started') ||
   !localEventBridge.eventDropContract?.browserFolderDrop?.autosaveTriggers?.includes('level_completed') ||
   localEventBridge.controls?.zeroPaidSpend !== true ||
   localEventBridge.controls?.localOnly !== true ||
@@ -1295,6 +1297,8 @@ if (
   !appSource.includes('writeEventDropFile') ||
   !appSource.includes('eventDropHandleDbName') ||
   !appSource.includes('localEventDropAutosaveEvents') ||
+  !appSource.includes("'gate_sample_mission_clicked'") ||
+  !appSource.includes("'game_started'") ||
   !appSource.includes('local-event-drop-autosave') ||
   !analyticsLibSource.includes('localExportReceiptKey') ||
   !analyticsLibSource.includes('getLocalAnalyticsExportCoverage') ||

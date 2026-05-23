@@ -308,6 +308,8 @@ const eventDropDirectoryKey = 'drop-directory'
 const localEventDropAutosaveDelayMs = 400
 const localEventDropAutosaveSurface = 'local-event-drop-autosave'
 const localEventDropAutosaveEvents = new Set<AnalyticsEventName>([
+  'gate_sample_mission_clicked',
+  'game_started',
   'first_move_coach_shown',
   'first_move_coach_used',
   'tutorial_completed',
@@ -1468,6 +1470,7 @@ function App() {
       surface: mission.surface,
       promptViewsNeeded: mission.needed.promptViews,
       observedSuccessesNeeded: mission.needed.successes,
+      zeroPaidSpend: true,
       costUsd: mission.controls.costUsd,
       noSyntheticEvents: mission.controls.noSyntheticEvents,
       noRuleChange: mission.controls.noRuleChange,
@@ -3146,6 +3149,7 @@ function App() {
               <div className="panelList">
                 {[
                   'game_viewed',
+                  'gate_sample_mission_clicked',
                   'game_started',
                   'tutorial_completed',
                   'turn_taken',
