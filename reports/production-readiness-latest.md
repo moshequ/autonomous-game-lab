@@ -1,6 +1,6 @@
 # Production Readiness
 
-Generated: 2026-05-23T04:28:16.305Z
+Generated: 2026-05-23T04:30:16.924Z
 
 ## Environment
 
@@ -32,7 +32,7 @@ Local git: true
 - done: repo-bootstrap-inspect-repository-channel - Repository readiness is repository-channel-ready.
 - ready: repo-bootstrap-initialize-local-git - Git worktree is available at /home/runner/work/autonomous-game-lab/autonomous-game-lab.
 - ready: repo-bootstrap-create-initial-commit - The local repository has at least one commit.
-- ready: repo-bootstrap-commit-current-snapshot - 35 repository evidence file(s) changed during this dry run; the outer verified commit will persist them.
+- ready: repo-bootstrap-commit-current-snapshot - 64 repository evidence file(s) changed during this dry run; the outer verified commit will persist them.
 - ready: repo-bootstrap-set-or-create-origin - Origin remote resolves to moshequ/autonomous-game-lab.
 - ready-for-explicit-create-or-attach: repo-bootstrap-create-github-repository - GitHub CLI can create or attach moshequ/autonomous-game-lab when explicitly allowed.
 - ready-for-explicit-push: repo-bootstrap-push-initial-snapshot - Push stays held until an origin remote exists and AGL_ALLOW_PUSH=1 is set.
@@ -59,7 +59,7 @@ Status: ready-after-build
 - pass: organic-seed-loop - Organic seed loop is organic-seed-loop-ready; target market-pulse; player-initiated share guard active.
 - pass: retention-loop - Retention loop is retention-loop-ready; daily challenge market-pulse; no-push/no-account guardrails active.
 - pass: pwa-install-loop - PWA install loop is pwa-install-loop-ready; prompt surface autonomy-cockpit; cost $0.
-- pass: performance-budget - Performance budget is performance-budget-ready; initial JS 684 KB / 185.5 KB gzip; deferred game chunk GameCanvas-D6-IwjA4.js.
+- pass: performance-budget - Performance budget is performance-budget-ready; initial JS 683.9 KB / 185.5 KB gzip; deferred game chunk GameCanvas-ieqR23yz.js.
 - pass: release-candidate - Release candidate is release-candidate-ready; files 58; smoke URLs 25.
 - pass: post-deploy-smoke-runner - Post-deploy smoke is post-deploy-smoke-observed-live; origin https://moshequ.github.io/autonomous-game-lab; checks 26/26 passed, 0 blocked; local artifact predeploy-artifact-smoke-passed 26/26 passed.
 - pass: live-site-monitor - Live monitor is live-site-monitor-passed; origin https://moshequ.github.io/autonomous-game-lab; checks 26/26 passed; live matches synced deploy true.
@@ -121,23 +121,23 @@ Installs: 0
 ## Performance Budget
 
 Status: performance-budget-ready
-Initial JS: 684 KB (185.5 KB gzip)
-Deferred game chunk: GameCanvas-D6-IwjA4.js
-- pass: performance-initial-js-budget - Initial JS is 684 KB; budget is 686 KB.
+Initial JS: 683.9 KB (185.5 KB gzip)
+Deferred game chunk: GameCanvas-ieqR23yz.js
+- pass: performance-initial-js-budget - Initial JS is 683.9 KB; budget is 686 KB.
 - pass: performance-initial-js-gzip-budget - Initial JS gzip is 185.5 KB; budget is 200 KB.
 - pass: performance-initial-css-budget - Initial CSS is 10.5 KB; budget is 40 KB.
 - pass: performance-manifest - PWA manifest exists in dist.
 - pass: performance-service-worker - Service worker exists in dist.
-- pass: performance-game-runtime-deferred - GameCanvas-D6-IwjA4.js is deferred from the initial shell.
-- pass: performance-largest-js-deferred - Largest JS chunk is GameCanvas-D6-IwjA4.js at 1361.7 KB.
+- pass: performance-game-runtime-deferred - GameCanvas-ieqR23yz.js is deferred from the initial shell.
+- pass: performance-largest-js-deferred - Largest JS chunk is GameCanvas-ieqR23yz.js at 1361.7 KB.
 - pass: performance-deferred-game-budget - Deferred game chunk is 1361.7 KB; monitor budget is 1600 KB.
 
 ## Release Candidate
 
 Status: release-candidate-ready
-Candidate: pwa-d526ddc68f96
+Candidate: pwa-fd125b66f5e9
 Files: 58
-Aggregate SHA-256: d526ddc68f964b56b1cef7ee531e89d95ca4f071917806c6a7803c0fa1105a3a
+Aggregate SHA-256: fd125b66f5e958736bb5774e243ed74d4635d0dd1196907ac28e6ddadbf04f65
 - pass: release-dist-inventory - 58 dist files inventoried.
 - pass: release-required-files - 30/30 required files present.
 - pass: release-game-pages - 10 generated game page(s) in dist.
@@ -151,7 +151,7 @@ Aggregate SHA-256: d526ddc68f964b56b1cef7ee531e89d95ca4f071917806c6a7803c0fa1105
 
 Status: post-deploy-smoke-observed-live
 Origin: https://moshequ.github.io/autonomous-game-lab
-Candidate: pwa-d526ddc68f96
+Candidate: pwa-fd125b66f5e9
 Checks: 26/26 passed (0 blocked)
 Local artifact: predeploy-artifact-smoke-passed (26/26 passed)
 - pass: smoke-app-shell - Live URL matched status and required text.
@@ -184,14 +184,14 @@ Local artifact: predeploy-artifact-smoke-passed (26/26 passed)
 ## Post-Deploy Artifact Sync
 
 Status: post-deploy-artifact-sync-passed
-Workflow run: 26323027672
-Artifact candidate: pwa-a253b2a3828e
-Live candidate: pwa-a253b2a3828e
+Workflow run: 26323459346
+Artifact candidate: pwa-1f0a84334399
+Live candidate: pwa-1f0a84334399
 Live matches artifact: true
 - pass: artifact-sync-gh-cli - gh version 2.92.0 (2026-04-28)
 - pass: artifact-sync-github-repository - Target repository is moshequ/autonomous-game-lab.
-- pass: artifact-sync-explicit-pages-run - Explicit web-pwa-deploy.yml run is 26323027672.
-- pass: artifact-sync-post-deploy-smoke-artifact - Downloaded post-deploy-smoke artifact from run 26323027672.
+- pass: artifact-sync-explicit-pages-run - Explicit web-pwa-deploy.yml run is 26323459346.
+- pass: artifact-sync-post-deploy-smoke-artifact - Downloaded post-deploy-smoke artifact from run 26323459346.
 - pass: artifact-sync-strict-smoke-artifact - Artifact status post-deploy-smoke-passed; strict manifest comparison true; checks 26/26.
 - pass: artifact-sync-live-release-manifest - Live release-candidate.json still matches the strict smoke artifact.
 
@@ -200,7 +200,7 @@ Live matches artifact: true
 Status: live-site-monitor-passed
 Origin: https://moshequ.github.io/autonomous-game-lab
 Checks: 26/26 passed (0 failed)
-Live candidate: pwa-a253b2a3828e
+Live candidate: pwa-1f0a84334399
 Live matches synced deploy: true
 - pass: live-monitor-app-shell - Live read-only check passed.
 - pass: live-monitor-manifest-webmanifest - Live read-only check passed.
