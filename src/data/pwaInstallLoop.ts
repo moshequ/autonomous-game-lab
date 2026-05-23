@@ -1,6 +1,6 @@
 export const pwaInstallLoop = {
-  "generatedAt": "2026-05-23T01:00:41.308Z",
-  "sourceDataHash": "f6a8f6fb7593",
+  "generatedAt": "2026-05-23T01:05:33.507Z",
+  "sourceDataHash": "59f44ffce8dd",
   "status": "pwa-install-loop-ready",
   "sourceStatus": {
     "analyticsSource": "fixture-sample",

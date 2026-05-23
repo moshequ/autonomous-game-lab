@@ -1,27 +1,10 @@
 {
-  "generatedAt": "2026-05-23T01:02:26.244Z",
+  "generatedAt": "2026-05-23T01:05:49.779Z",
   "status": "post-deploy-smoke-observed-live",
   "envFiles": {
-    "loaded": true,
-    "loadedFiles": [
-      {
-        "path": "ops/production.env.local",
-        "keys": [
-          "AGL_ANDROID_PACKAGE_NAME",
-          "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
-          "AGL_ANDROID_KEYSTORE_BASE64",
-          "AGL_ANDROID_KEYSTORE_PASSWORD",
-          "AGL_ANDROID_KEY_ALIAS"
-        ]
-      }
-    ],
-    "loadedKeys": [
-      "AGL_ANDROID_PACKAGE_NAME",
-      "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
-      "AGL_ANDROID_KEYSTORE_BASE64",
-      "AGL_ANDROID_KEYSTORE_PASSWORD",
-      "AGL_ANDROID_KEY_ALIAS"
-    ],
+    "loaded": false,
+    "loadedFiles": [],
+    "loadedKeys": [],
     "skippedExistingKeys": [],
     "skippedProtectedKeys": [],
     "overwrittenEnvFileKeys": [],
@@ -55,14 +38,14 @@
     "origin": "https://moshequ.github.io/autonomous-game-lab",
     "originSource": "release-candidate-public-origin",
     "provider": "github-pages",
-    "candidateId": "pwa-9f231230682b",
-    "aggregateHash": "9f231230682bac8ca3f0f7c11b5b49bae72bf043d27e0565d3f0db872bfaed41",
+    "candidateId": "pwa-823b31c1e24a",
+    "aggregateHash": "823b31c1e24a149f65f8f1fdce2f035930f3409e6e81c5fc39f1a1d3e6a15761",
     "strictManifestComparison": false
   },
   "liveRelease": {
     "status": "release-candidate-ready",
-    "candidateId": "pwa-5360ac00ee96",
-    "aggregateHash": "5360ac00ee9678883e767d0a69ca5bf31093c3986f51707086ac502097c0fff7",
+    "candidateId": "pwa-1f8425da75f2",
+    "aggregateHash": "1f8425da75f2449468ac477317c1607ea6a4829c218e02be3a050a6122625264",
     "localCandidateMatches": false,
     "strictManifestComparison": false,
     "postDeploySmokeUrls": 24,
@@ -340,11 +323,11 @@
         "file": "dist/release-candidate.json",
         "expectedStatus": 200,
         "status": "pass",
-        "bytes": 25465,
+        "bytes": 25467,
         "candidateMatches": true,
         "hashMatches": true,
-        "localCandidateId": "pwa-9f231230682b",
-        "localAggregateHash": "9f231230682bac8ca3f0f7c11b5b49bae72bf043d27e0565d3f0db872bfaed41",
+        "localCandidateId": "pwa-823b31c1e24a",
+        "localAggregateHash": "823b31c1e24a149f65f8f1fdce2f035930f3409e6e81c5fc39f1a1d3e6a15761",
         "detail": "Local release manifest matches the release candidate."
       }
     ]
@@ -702,20 +685,20 @@
       "path": "/release-candidate.json",
       "url": "https://moshequ.github.io/autonomous-game-lab/release-candidate.json",
       "expectedStatus": 200,
-      "requiredText": "pwa-9f231230682b",
+      "requiredText": "pwa-823b31c1e24a",
       "status": "pass",
       "detail": "Live release manifest is reachable; it does not match the current local release candidate.",
       "actualStatus": 200,
       "finalUrl": "https://moshequ.github.io/autonomous-game-lab/release-candidate.json",
       "contentType": "application/json; charset=utf-8",
-      "bytes": 25467,
+      "bytes": 25465,
       "candidateMatches": false,
       "hashMatches": false,
       "localCandidateMatches": false,
       "strictManifestComparison": false,
       "deployedReleaseStatus": "release-candidate-ready",
-      "deployedCandidateId": "pwa-5360ac00ee96",
-      "deployedAggregateHash": "5360ac00ee9678883e767d0a69ca5bf31093c3986f51707086ac502097c0fff7",
+      "deployedCandidateId": "pwa-1f8425da75f2",
+      "deployedAggregateHash": "1f8425da75f2449468ac477317c1607ea6a4829c218e02be3a050a6122625264",
       "deployedPostDeploySmoke": [
         {
           "id": "app-shell",
@@ -890,7 +873,7 @@
     }
   ],
   "nextActions": [
-    "Live Pages is reachable and serving pwa-5360ac00ee96; run the deploy workflow for strict proof of the current local candidate if needed.",
+    "Live Pages is reachable and serving pwa-1f8425da75f2; run the deploy workflow for strict proof of the current local candidate if needed.",
     "Keep revenue, paid acquisition, and app-store submission disabled until product and credential gates pass."
   ]
 }
