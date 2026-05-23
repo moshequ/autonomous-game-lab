@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-23T01:07:58.632Z",
+  "generatedAt": "2026-05-23T01:10:42.189Z",
   "status": "operator-history-ready",
   "retention": {
     "maxRecords": 40,
@@ -11,7 +11,7 @@
     "recentExecutedActionIds": [
       "seed-portfolio-traffic"
     ],
-    "latestRunAppended": true,
+    "latestRunAppended": false,
     "compactedDuplicateDryRuns": 0
   },
   "summary": {
@@ -31,63 +31,6 @@
     "historyIsCapped": true
   },
   "records": [
-    {
-      "id": "20260522214557-prepare-repository-channel",
-      "generatedAt": "2026-05-22T21:45:57.690Z",
-      "runFingerprint": "c5e7b1280e06f6b8",
-      "mode": "plan-only",
-      "status": "operator-plan-ready",
-      "selectedActionId": "prepare-repository-channel",
-      "selectedCommand": "npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap",
-      "eligibleActionIds": [
-        "prepare-release-candidate",
-        "refresh-live-site-monitor",
-        "prepare-repository-channel",
-        "bootstrap-production-setup"
-      ],
-      "blockedActionCount": 34,
-      "execution": {
-        "requested": false,
-        "status": "not-requested",
-        "attemptedActionId": null,
-        "resultCount": 0,
-        "failedScripts": []
-      },
-      "controls": {
-        "zeroPaidSpend": true,
-        "localCommandAllowlistEnforced": true,
-        "externalWorkflowExecutionBlockedByDefault": true,
-        "maxActionsPerRun": 1
-      }
-    },
-    {
-      "id": "20260522214559-prepare-repository-channel",
-      "generatedAt": "2026-05-22T21:45:59.720Z",
-      "runFingerprint": "63a934d25fc9c4ea",
-      "mode": "plan-only",
-      "status": "operator-plan-ready",
-      "selectedActionId": "prepare-repository-channel",
-      "selectedCommand": "npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap",
-      "eligibleActionIds": [
-        "prepare-release-candidate",
-        "refresh-live-site-monitor",
-        "prepare-repository-channel"
-      ],
-      "blockedActionCount": 34,
-      "execution": {
-        "requested": false,
-        "status": "not-requested",
-        "attemptedActionId": null,
-        "resultCount": 0,
-        "failedScripts": []
-      },
-      "controls": {
-        "zeroPaidSpend": true,
-        "localCommandAllowlistEnforced": true,
-        "externalWorkflowExecutionBlockedByDefault": true,
-        "maxActionsPerRun": 1
-      }
-    },
     {
       "id": "20260522214933-prepare-repository-channel",
       "generatedAt": "2026-05-22T21:49:33.108Z",
@@ -1173,6 +1116,63 @@
     {
       "id": "20260523010758-collect-gate-sample-local-drops",
       "generatedAt": "2026-05-23T01:07:58.632Z",
+      "runFingerprint": "df8038aeb5ffde41",
+      "mode": "plan-only",
+      "status": "operator-plan-ready",
+      "selectedActionId": "collect-gate-sample-local-drops",
+      "selectedCommand": "npm run autonomous:collect-local-event-drops",
+      "eligibleActionIds": [
+        "optimize-daily-retention",
+        "collect-gate-sample-local-drops",
+        "collect-live-events"
+      ],
+      "blockedActionCount": 34,
+      "execution": {
+        "requested": false,
+        "status": "not-requested",
+        "attemptedActionId": null,
+        "resultCount": 0,
+        "failedScripts": []
+      },
+      "controls": {
+        "zeroPaidSpend": true,
+        "localCommandAllowlistEnforced": true,
+        "externalWorkflowExecutionBlockedByDefault": true,
+        "maxActionsPerRun": 1
+      }
+    },
+    {
+      "id": "20260523011040-collect-gate-sample-local-drops",
+      "generatedAt": "2026-05-23T01:10:40.178Z",
+      "runFingerprint": "887bc1eb9ab48624",
+      "mode": "plan-only",
+      "status": "operator-plan-ready",
+      "selectedActionId": "collect-gate-sample-local-drops",
+      "selectedCommand": "npm run autonomous:collect-local-event-drops",
+      "eligibleActionIds": [
+        "optimize-daily-retention",
+        "collect-gate-sample-local-drops",
+        "refresh-objective-audit",
+        "collect-live-events"
+      ],
+      "blockedActionCount": 34,
+      "execution": {
+        "requested": false,
+        "status": "not-requested",
+        "attemptedActionId": null,
+        "resultCount": 0,
+        "failedScripts": []
+      },
+      "controls": {
+        "zeroPaidSpend": true,
+        "localCommandAllowlistEnforced": true,
+        "externalWorkflowExecutionBlockedByDefault": true,
+        "maxActionsPerRun": 1
+      }
+    },
+    {
+      "id": "20260523011040-collect-gate-sample-local-drops",
+      "generatedAt": "2026-05-23T01:10:40.718Z",
       "runFingerprint": "df8038aeb5ffde41",
       "mode": "plan-only",
       "status": "operator-plan-ready",
