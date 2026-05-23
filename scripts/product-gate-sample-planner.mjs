@@ -477,6 +477,7 @@ const payload = {
     campaignMatchProperties: ['acquisitionCampaign', 'campaignId'],
     progressCounters: [
       'localCampaignEvents',
+      'localSampleStarts',
       'localCollectionEvents',
       'localPromptViews',
       'localPromptActions',
@@ -492,6 +493,7 @@ const payload = {
       'gameId',
       'campaignId',
       'localCampaignEvents',
+      'localSampleStarts',
       'localCollectionEvents',
       'localPromptViews',
       'localPromptActions',
@@ -511,6 +513,7 @@ const payload = {
       'gameId',
       'campaignId',
       'localCampaignEvents',
+      'localSampleStarts',
       'localCollectionEvents',
       'localPromptViews',
       'localObservedSuccesses',
@@ -550,11 +553,34 @@ const payload = {
         noRevenueEnablement: true,
       },
     },
+    sampleStartPolicy: {
+      status: missions.length ? 'active' : 'inactive',
+      event: 'gate_sample_mission_clicked',
+      runReset: 'fresh-run-key',
+      appliesTo: 'runtime-sample-mission-buttons',
+      telemetryProperties: [
+        'runId',
+        'sampleStartCreatesFreshRun',
+        'sameGameRestart',
+        'previousGameId',
+        'previousRunCompleted',
+        'previousRunMoves',
+        'previousRunResult',
+      ],
+      controls: {
+        playerInitiatedOnly: true,
+        noAutoPlay: true,
+        noSyntheticEvents: true,
+        noRuleChange: true,
+        noRevenueEnablement: true,
+      },
+    },
     controls: {
       zeroPaidSpend: true,
       localOnlyUntilCollectorConfigured: true,
       noSyntheticEvents: true,
       playerInitiatedExportOnly: true,
+      sampleStartCreatesFreshRun: true,
       noRevenueEnablement: true,
     },
   },
@@ -577,6 +603,7 @@ const payload = {
     playerInitiatedOnly: true,
     localEventBridgeRequired: true,
     realEventDropsOnly: true,
+    sampleStartCreatesFreshRun: true,
     downloadsImportRequiresExplicitOptIn: true,
     downloadsScanBackoffRequired: true,
     browserSelectedDropFolderSupported: true,
@@ -613,6 +640,7 @@ const appPayload = {
   },
   controls: {
     zeroPaidSpend: payload.controls.zeroPaidSpend,
+    sampleStartCreatesFreshRun: payload.controls.sampleStartCreatesFreshRun,
   },
   missions: payload.missions.map((mission) => ({
     id: mission.id,
@@ -1085,6 +1113,7 @@ const gateSamplePage = `<!doctype html>
 
         const missionProgress = (mission, events) => {
           const scoped = missionEvents(mission, events)
+          const sampleStarts = eventNames(scoped, ['gate_sample_mission_clicked'])
           const promptViews = eventNames(scoped, mission.telemetry.view || [])
           const successes = eventNames(scoped, mission.telemetry.success || [])
           const collectionEvents = eventNames(scoped, [...new Set(mission.telemetry.collectionEvents || [])])
@@ -1096,6 +1125,7 @@ const gateSamplePage = `<!doctype html>
 
           return {
             campaignEvents: scoped.length,
+            sampleStarts,
             collectionEvents,
             promptViews,
             successes,
@@ -1328,6 +1358,7 @@ const gateSamplePage = `<!doctype html>
               promptViewsNeeded: mission.needed.promptViews,
               observedSuccessesNeeded: mission.needed.successes,
               localCampaignEvents: progress.campaignEvents,
+              localSampleStarts: progress.sampleStarts,
               localCollectionEvents: progress.collectionEvents,
               localPromptViews: progress.promptViews,
               localObservedSuccesses: progress.successes,

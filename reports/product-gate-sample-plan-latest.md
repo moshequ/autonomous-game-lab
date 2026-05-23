@@ -1,6 +1,6 @@
 # Product Gate Sample Plan
 
-Generated: 2026-05-23T01:36:16.765Z
+Generated: 2026-05-23T01:52:51.253Z
 Status: product-gate-sample-plan-ready
 Source hash: 74c720e77ed6
 Analytics source: fixture-sample
@@ -40,6 +40,7 @@ Runtime evidence policy: active
 - playerInitiatedOnly: true
 - localEventBridgeRequired: true
 - realEventDropsOnly: true
+- sampleStartCreatesFreshRun: true
 - downloadsImportRequiresExplicitOptIn: true
 - downloadsScanBackoffRequired: true
 - browserSelectedDropFolderSupported: true

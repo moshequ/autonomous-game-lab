@@ -2642,9 +2642,22 @@ test('product optimizer applies one guarded tuning step from product-gate eviden
       surface: string
       localProgressSource: string
       campaignMatchProperties: string[]
+      progressCounters: string[]
       exportProperties: string[]
       publicPageExportProperties: string[]
       publicPageShareProperties: string[]
+      sampleStartPolicy: {
+        status: string
+        event: string
+        runReset: string
+        telemetryProperties: string[]
+        controls: {
+          playerInitiatedOnly: boolean
+          noAutoPlay: boolean
+          noSyntheticEvents: boolean
+          noRuleChange: boolean
+        }
+      }
       defaultRouting: {
         status: string
         gateId: string
@@ -2669,6 +2682,7 @@ test('product optimizer applies one guarded tuning step from product-gate eviden
         localOnlyUntilCollectorConfigured: boolean
         noSyntheticEvents: boolean
         playerInitiatedExportOnly: boolean
+        sampleStartCreatesFreshRun: boolean
       }
     }
     controls: {
@@ -2676,6 +2690,7 @@ test('product optimizer applies one guarded tuning step from product-gate eviden
       noPaidTraffic: boolean
       noSyntheticGatePasses: boolean
       realEventDropsOnly: boolean
+      sampleStartCreatesFreshRun: boolean
       downloadsImportRequiresExplicitOptIn: boolean
       downloadsScanBackoffRequired: boolean
       directTrafficSampleRouting: boolean
@@ -2847,8 +2862,11 @@ test('product optimizer applies one guarded tuning step from product-gate eviden
   expect(samplePlan.runtimeEvidencePolicy.surface).toBe('product-gate-sample-plan-card')
   expect(samplePlan.runtimeEvidencePolicy.localProgressSource).toBe('agl.analytics.events')
   expect(samplePlan.runtimeEvidencePolicy.campaignMatchProperties).toContain('acquisitionCampaign')
+  expect(samplePlan.runtimeEvidencePolicy.progressCounters).toContain('localSampleStarts')
   expect(samplePlan.runtimeEvidencePolicy.exportProperties).toContain('localObservedSuccesses')
+  expect(samplePlan.runtimeEvidencePolicy.exportProperties).toContain('localSampleStarts')
   expect(samplePlan.runtimeEvidencePolicy.publicPageExportProperties).toContain('exportSurfaceDetail')
+  expect(samplePlan.runtimeEvidencePolicy.publicPageExportProperties).toContain('localSampleStarts')
   expect(samplePlan.runtimeEvidencePolicy.publicPageExportProperties).toContain('localEvidenceDropReady')
   expect(samplePlan.runtimeEvidencePolicy.publicPageExportProperties).toContain('eventDropMode')
   expect(samplePlan.runtimeEvidencePolicy.publicPageExportProperties).toContain('noExternalUpload')
@@ -2867,15 +2885,31 @@ test('product optimizer applies one guarded tuning step from product-gate eviden
   expect(samplePlan.runtimeEvidencePolicy.defaultRouting.controls.noSyntheticEvents).toBe(true)
   expect(samplePlan.runtimeEvidencePolicy.defaultRouting.controls.noAutoPlay).toBe(true)
   expect(samplePlan.runtimeEvidencePolicy.defaultRouting.controls.playerCanChooseAnotherGame).toBe(true)
+  expect(samplePlan.runtimeEvidencePolicy.sampleStartPolicy).toMatchObject({
+    status: 'active',
+    event: 'gate_sample_mission_clicked',
+    runReset: 'fresh-run-key',
+  })
+  expect(samplePlan.runtimeEvidencePolicy.sampleStartPolicy.telemetryProperties).toContain(
+    'sampleStartCreatesFreshRun',
+  )
+  expect(samplePlan.runtimeEvidencePolicy.sampleStartPolicy.controls).toMatchObject({
+    playerInitiatedOnly: true,
+    noAutoPlay: true,
+    noSyntheticEvents: true,
+    noRuleChange: true,
+  })
   expect(samplePlan.runtimeEvidencePolicy.controls.zeroPaidSpend).toBe(true)
   expect(samplePlan.runtimeEvidencePolicy.controls.localOnlyUntilCollectorConfigured).toBe(true)
   expect(samplePlan.runtimeEvidencePolicy.controls.noSyntheticEvents).toBe(true)
   expect(samplePlan.runtimeEvidencePolicy.controls.playerInitiatedExportOnly).toBe(true)
+  expect(samplePlan.runtimeEvidencePolicy.controls.sampleStartCreatesFreshRun).toBe(true)
   expect(samplePlan.controls.zeroPaidSpend).toBe(true)
   expect(samplePlan.controls.noPaidTraffic).toBe(true)
   expect(samplePlan.controls.noSyntheticGatePasses).toBe(true)
   expect(samplePlan.controls.noAutomaticRuleChanges).toBe(true)
   expect(samplePlan.controls.realEventDropsOnly).toBe(true)
+  expect(samplePlan.controls.sampleStartCreatesFreshRun).toBe(true)
   expect(samplePlan.controls.publicAggregateEvidenceIsSupportingOnly).toBe(true)
   expect(samplePlan.controls.aggregateEvidenceDoesNotPassGates).toBe(true)
   expect(samplePlan.missions.every((mission) => mission.supportingAggregateEvidence.gateDecisionEligible === false)).toBe(true)
@@ -3085,6 +3119,7 @@ test('product gate recovery marks passing gates as monitoring instead of collect
 test('product gate sample mission starts an attributed zero-spend evidence run', async ({ page }) => {
   const samplePlan = JSON.parse(await readFile('data/product-gate-sample-plan.json', 'utf8')) as {
     summary: { fastestGateId: string }
+    controls: { sampleStartCreatesFreshRun: boolean }
     missions: Array<{
       gateId: string
       gameId: string
@@ -3099,9 +3134,29 @@ test('product gate sample mission starts an attributed zero-spend evidence run',
   const fastestMission = samplePlan.missions.find((item) => item.gateId === samplePlan.summary.fastestGateId)
 
   await page.goto('/')
+  await page.waitForFunction((campaignId) => {
+    const raw = window.localStorage.getItem('agl.analytics.events')
+    const events = raw ? JSON.parse(raw) : []
+
+    return events.some(
+      (event: { name: string; properties: Record<string, string> }) =>
+        event.name === 'game_started' && event.properties.acquisitionCampaign === campaignId,
+    )
+  }, mission.campaignId)
+
+  const initialStartedCount = await page.evaluate((campaignId) => {
+    const raw = window.localStorage.getItem('agl.analytics.events')
+    const events = raw ? JSON.parse(raw) : []
+
+    return events.filter(
+      (event: { name: string; properties: Record<string, string> }) =>
+        event.name === 'game_started' && event.properties.acquisitionCampaign === campaignId,
+    ).length
+  }, mission.campaignId)
 
   const samplePanel = page.getByLabel('Product Gate Sample Plan')
   await samplePanel.scrollIntoViewIfNeeded()
+  await expect(samplePanel).toContainText('Fresh starts')
   await samplePanel.getByRole('button', { name: `Start sample for ${mission.title}` }).click()
 
   await expect(page.getByLabel('Autonomy cockpit').getByRole('heading', { name: mission.title })).toBeVisible()
@@ -3134,9 +3189,14 @@ test('product gate sample mission starts an attributed zero-spend evidence run',
     noSyntheticEvents: mission.controls.noSyntheticEvents,
     noRuleChange: mission.controls.noRuleChange,
     noRevenueEnablement: mission.controls.noRevenueEnablement,
+    sampleStartCreatesFreshRun: samplePlan.controls.sampleStartCreatesFreshRun,
+    sameGameRestart: true,
+    previousGameId: mission.gameId,
+    previousRunCompleted: false,
     promptViewsNeeded: mission.needed.promptViews,
     observedSuccessesNeeded: mission.needed.successes,
   })
+  expect(String(missionClick?.runId ?? '')).toContain(mission.gameId)
 
   await expect
     .poll(async () =>
@@ -3151,6 +3211,19 @@ test('product gate sample mission starts an attributed zero-spend evidence run',
       }, mission.campaignId),
     )
     .toBe(mission.gameId)
+  await expect
+    .poll(async () =>
+      page.evaluate((campaignId) => {
+        const raw = window.localStorage.getItem('agl.analytics.events')
+        const events = raw ? JSON.parse(raw) : []
+
+        return events.filter(
+          (event: { name: string; properties: Record<string, string> }) =>
+            event.name === 'game_started' && event.properties.acquisitionCampaign === campaignId,
+        ).length
+      }, mission.campaignId),
+    )
+    .toBeGreaterThan(initialStartedCount)
 
   const handoff = page.getByLabel('Gate Sample Evidence Handoff')
   await expect(handoff).toContainText(mission.title)
@@ -3246,6 +3319,7 @@ test('product gate sample mission starts an attributed zero-spend evidence run',
       campaignId: mission.campaignId,
       localEvidenceDropReady: true,
       localSampleDecisionReady: false,
+      localSampleStarts: 1,
     })
     expect(exportEvent?.properties).toMatchObject({
       exportSurface: 'product-gate-sample',
@@ -3280,6 +3354,7 @@ test('product gate sample mission starts an attributed zero-spend evidence run',
       acquisitionCampaign: mission.campaignId,
       acquisitionSource: 'gate_sample',
       localEvidenceDropReady: true,
+      localSampleStarts: 1,
     })
     expect(Number(exportEvent?.properties.localCampaignEvents ?? 0)).toBeGreaterThanOrEqual(1)
     expect(Number(exportEvent?.properties.localPromptViewsRemaining ?? -1)).toBeGreaterThanOrEqual(0)
@@ -3312,6 +3387,7 @@ test('product gate sample mission starts an attributed zero-spend evidence run',
       acquisitionSource: 'gate_sample',
       acquisitionCampaign: fastestMission.campaignId,
       acquisitionChannel: 'product-gate-sample',
+      sampleStartCreatesFreshRun: samplePlan.controls.sampleStartCreatesFreshRun,
       promptViewsNeeded: fastestMission.needed.promptViews,
       observedSuccessesNeeded: fastestMission.needed.successes,
     })
@@ -3339,6 +3415,7 @@ test('product gate sample mission starts an attributed zero-spend evidence run',
         localEvidenceDropReady: true,
         acquisitionCampaign: fastestMission.campaignId,
         acquisitionSource: 'gate_sample',
+        localSampleStarts: 1,
       })
       expect(Number(fastestExportEvent?.properties.localCampaignEvents ?? 0)).toBeGreaterThanOrEqual(1)
     }
@@ -7968,6 +8045,7 @@ test('zero-spend gate sample page is reachable and uses runtime-relative mission
       gateId: mission.gateId,
       gameId: mission.gameId,
       campaignId: mission.campaignId,
+      localSampleStarts: 0,
       localObservedSuccesses: 1,
       localEvidenceDropReady: true,
       eventDropMode: 'download',
@@ -8136,6 +8214,7 @@ test('public gate sample can save evidence to a player-selected local drop folde
     campaignId: mission.campaignId,
     gateId: mission.gateId,
     gameId: mission.gameId,
+    localSampleStarts: 0,
     localObservedSuccesses: 1,
     noExternalUpload: true,
     zeroPaidSpend: true,

@@ -391,6 +391,7 @@
 
         const missionProgress = (mission, events) => {
           const scoped = missionEvents(mission, events)
+          const sampleStarts = eventNames(scoped, ['gate_sample_mission_clicked'])
           const promptViews = eventNames(scoped, mission.telemetry.view || [])
           const successes = eventNames(scoped, mission.telemetry.success || [])
           const collectionEvents = eventNames(scoped, [...new Set(mission.telemetry.collectionEvents || [])])
@@ -402,6 +403,7 @@
 
           return {
             campaignEvents: scoped.length,
+            sampleStarts,
             collectionEvents,
             promptViews,
             successes,
@@ -634,6 +636,7 @@
               promptViewsNeeded: mission.needed.promptViews,
               observedSuccessesNeeded: mission.needed.successes,
               localCampaignEvents: progress.campaignEvents,
+              localSampleStarts: progress.sampleStarts,
               localCollectionEvents: progress.collectionEvents,
               localPromptViews: progress.promptViews,
               localObservedSuccesses: progress.successes,

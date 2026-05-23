@@ -493,6 +493,7 @@ const sampleProgressForMission = (
   events: AnalyticsEvent[],
 ) => {
   const campaignEvents = events.filter((event) => matchesGateSampleCampaign(event, mission.campaignId))
+  const sampleStarts = campaignEvents.filter((event) => event.name === 'gate_sample_mission_clicked').length
   const promptViews = countEventsNamed(campaignEvents, mission.telemetry.view)
   const promptActions = countEventsNamed(campaignEvents, mission.telemetry.action)
   const successEvents = countEventsNamed(campaignEvents, mission.telemetry.success)
@@ -510,6 +511,7 @@ const sampleProgressForMission = (
 
   return {
     campaignEvents: campaignEvents.length,
+    sampleStarts,
     collectionEvents,
     promptViews,
     promptActions,
@@ -611,6 +613,7 @@ const getPwaDisplayMode = () => {
 
 function App() {
   const [selectedGameId, setSelectedGameId] = useState<PlayableGameId>(() => getInitialGameId())
+  const [runSeed, setRunSeed] = useState(() => crypto.randomUUID())
   const [activeGateSampleCampaignId, setActiveGateSampleCampaignId] = useState(() =>
     getInitialGateSampleCampaignId(),
   )
@@ -698,7 +701,7 @@ function App() {
   const pacingVariant = useMemo(() => getExperimentVariant('first_session_pacing'), [])
   const rewardVariant = useMemo(() => getExperimentVariant('reward_offer'), [])
   const thumbnailVariant = useMemo(() => getExperimentVariant('thumbnail_board_state_v2'), [])
-  const activeRunId = useMemo(() => `${selectedGameId}-${crypto.randomUUID()}`, [selectedGameId])
+  const activeRunId = useMemo(() => `${selectedGameId}-${runSeed}`, [runSeed, selectedGameId])
   const localAnalyticsCoverage = useMemo(() => getLocalAnalyticsExportCoverage(events), [events])
   const localEventDropAutosaveStatus =
     localEventDropFolderStatus === 'connected' || localEventDropFolderStatus === 'saved' ? 'armed' : 'manual'
@@ -1467,6 +1470,11 @@ function App() {
     })
   }
   const startGateSampleMission = (mission: (typeof productGateSamplePlan.missions)[number]) => {
+    const nextRunSeed = crypto.randomUUID()
+    const nextRunId = `${mission.gameId}-${nextRunSeed}`
+    const sameGameRestart = selectedGameId === mission.gameId
+
+    setRunSeed(nextRunSeed)
     setActiveGateSampleCampaignId(mission.campaignId)
     setAcquisitionAttribution({
       source: 'gate_sample',
@@ -1490,6 +1498,13 @@ function App() {
       campaignId: mission.campaignId,
       ownerLoop: mission.ownerLoop,
       surface: mission.surface,
+      runId: nextRunId,
+      sampleStartCreatesFreshRun: true,
+      sameGameRestart,
+      previousGameId: selectedGameId,
+      previousRunCompleted: snapshot.completed,
+      previousRunMoves: snapshot.moves,
+      previousRunResult: snapshot.result,
       promptViewsNeeded: mission.needed.promptViews,
       observedSuccessesNeeded: mission.needed.successes,
       zeroPaidSpend: true,
@@ -2571,6 +2586,7 @@ function App() {
       gameId: mission.gameId,
       campaignId: mission.campaignId,
       localCampaignEvents: progress.campaignEvents,
+      localSampleStarts: progress.sampleStarts,
       localCollectionEvents: progress.collectionEvents,
       localObservedSuccesses: progress.successEvents,
       localAnalyticsExports: progress.analyticsExports,
@@ -2591,6 +2607,7 @@ function App() {
       promptViewsNeeded: mission.needed.promptViews,
       observedSuccessesNeeded: mission.needed.successes,
       localCampaignEvents: progress.campaignEvents,
+      localSampleStarts: progress.sampleStarts,
       localCollectionEvents: progress.collectionEvents,
       localPromptViews: progress.promptViews,
       localPromptActions: progress.promptActions,
@@ -2772,7 +2789,7 @@ function App() {
               }
             >
               <GameCanvas
-                key={selectedGameId}
+                key={activeRunId}
                 gameId={selectedGameId}
                 variantId={pacingVariant.id}
                 rewardVariantId={rewardVariant.id}
@@ -4074,6 +4091,10 @@ function App() {
                 <div>
                   <span>Zero spend</span>
                   <strong>{productGateSamplePlan.controls.zeroPaidSpend ? 'yes' : 'review'}</strong>
+                </div>
+                <div>
+                  <span>Fresh starts</span>
+                  <strong>{productGateSamplePlan.controls.sampleStartCreatesFreshRun ? 'yes' : 'review'}</strong>
                 </div>
                 <div>
                   <span>Evidence</span>

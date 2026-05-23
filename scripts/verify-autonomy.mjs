@@ -2521,16 +2521,25 @@ if (
   productGateSamplePlan.runtimeEvidencePolicy?.localProgressSource !== 'agl.analytics.events' ||
   !productGateSamplePlan.runtimeEvidencePolicy?.campaignMatchProperties?.includes('acquisitionCampaign') ||
   !productGateSamplePlan.runtimeEvidencePolicy?.campaignMatchProperties?.includes('campaignId') ||
+  !productGateSamplePlan.runtimeEvidencePolicy?.progressCounters?.includes('localSampleStarts') ||
   !productGateSamplePlan.runtimeEvidencePolicy?.exportProperties?.includes('localObservedSuccesses') ||
+  !productGateSamplePlan.runtimeEvidencePolicy?.exportProperties?.includes('localSampleStarts') ||
   !productGateSamplePlan.runtimeEvidencePolicy?.exportProperties?.includes('localSampleDecisionReady') ||
   !productGateSamplePlan.runtimeEvidencePolicy?.publicPageExportProperties?.includes('exportSurfaceDetail') ||
+  !productGateSamplePlan.runtimeEvidencePolicy?.publicPageExportProperties?.includes('localSampleStarts') ||
   !productGateSamplePlan.runtimeEvidencePolicy?.publicPageExportProperties?.includes('localEvidenceDropReady') ||
   !productGateSamplePlan.runtimeEvidencePolicy?.publicPageExportProperties?.includes('eventDropMode') ||
   !productGateSamplePlan.runtimeEvidencePolicy?.publicPageExportProperties?.includes('noExternalUpload') ||
+  productGateSamplePlan.runtimeEvidencePolicy?.sampleStartPolicy?.event !== 'gate_sample_mission_clicked' ||
+  productGateSamplePlan.runtimeEvidencePolicy?.sampleStartPolicy?.runReset !== 'fresh-run-key' ||
+  productGateSamplePlan.runtimeEvidencePolicy?.sampleStartPolicy?.controls?.playerInitiatedOnly !== true ||
+  productGateSamplePlan.runtimeEvidencePolicy?.sampleStartPolicy?.controls?.noAutoPlay !== true ||
+  productGateSamplePlan.runtimeEvidencePolicy?.sampleStartPolicy?.controls?.noSyntheticEvents !== true ||
   productGateSamplePlan.runtimeEvidencePolicy?.controls?.zeroPaidSpend !== true ||
   productGateSamplePlan.runtimeEvidencePolicy?.controls?.localOnlyUntilCollectorConfigured !== true ||
   productGateSamplePlan.runtimeEvidencePolicy?.controls?.noSyntheticEvents !== true ||
   productGateSamplePlan.runtimeEvidencePolicy?.controls?.playerInitiatedExportOnly !== true ||
+  productGateSamplePlan.runtimeEvidencePolicy?.controls?.sampleStartCreatesFreshRun !== true ||
   typeof productGateSamplePlan.summary?.importedGateSampleEvents !== 'number' ||
   typeof productGateSamplePlan.summary?.inboxGateSampleEvents !== 'number' ||
   typeof productGateSamplePlan.summary?.supportingAggregateEvidenceNotes !== 'number' ||
@@ -2554,6 +2563,7 @@ if (
   productGateSamplePlan.controls?.noRevenueEnablement !== true ||
   productGateSamplePlan.controls?.playerInitiatedOnly !== true ||
   productGateSamplePlan.controls?.realEventDropsOnly !== true ||
+  productGateSamplePlan.controls?.sampleStartCreatesFreshRun !== true ||
   productGateSamplePlan.controls?.downloadsImportRequiresExplicitOptIn !== true ||
   productGateSamplePlan.controls?.downloadsScanBackoffRequired !== true ||
   productGateSamplePlan.controls?.browserSelectedDropFolderSupported !== true ||
@@ -2587,6 +2597,8 @@ if (
   !productGateSamplePlanSource.includes('gateSamplePagePath') ||
   !productGateSamplePlanSource.includes('sampleRoleForMission') ||
   !productGateSamplePlanSource.includes('runtimeEvidencePolicy') ||
+  !productGateSamplePlanSource.includes('sampleStartCreatesFreshRun') ||
+  !productGateSamplePlanSource.includes('fresh-run-key') ||
   !productGateSamplePlanSource.includes('sourceDataHash') ||
   !productGateSamplePlanSource.includes('publicMissionEvidence') ||
   !productGateSamplePlanSource.includes('safeJsonScript') ||
@@ -2621,7 +2633,11 @@ if (
   !appSource.includes('startGateSampleMission') ||
   !appSource.includes('sampleProgressForMission') ||
   !appSource.includes('Local sample') ||
+  !appSource.includes('Fresh starts') ||
+  !appSource.includes('setRunSeed') ||
+  !appSource.includes('sampleStartCreatesFreshRun') ||
   !appSource.includes('localObservedSuccesses') ||
+  !appSource.includes('localSampleStarts') ||
   !appSource.includes('Export sample evidence') ||
   !appSource.includes("'gate_sample_mission_clicked'") ||
   !appSource.includes("entrySource === 'gate_sample'") ||

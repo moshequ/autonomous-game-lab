@@ -11,7 +11,8 @@ export const productGateSamplePlan = {
     }
   },
   "controls": {
-    "zeroPaidSpend": true
+    "zeroPaidSpend": true,
+    "sampleStartCreatesFreshRun": true
   },
   "missions": [
     {
