@@ -74,6 +74,7 @@ const adNetwork = {
 }
 const adNetworkConfigured = webAdConfigured || appAdConfigured
 const canEnableRevenue = gatesPassed && promotionAllowed && adNetworkConfigured
+const privacyPolicyHosted = storePackage.privacyPolicy?.productionUrlStatus === 'hosted'
 const bestGrowthPage =
   growth.gamePages
     ?.slice()
@@ -125,6 +126,79 @@ const status = canEnableRevenue
     ? 'ready-needs-ad-network'
     : 'blocked-by-product-gates'
 
+const preflightChecks = [
+  {
+    id: 'product-gates',
+    status: gatesPassed ? 'pass' : 'blocked',
+    detail: `Readiness is ${readiness.monetization?.status ?? 'missing'}; first-game completion, replay, and D1 retention must pass before revenue tests.`,
+  },
+  {
+    id: 'promotion-gate',
+    status: promotionAllowed ? 'pass' : 'blocked',
+    detail: `Promotion decision is ${monetizationDecision?.status ?? 'missing'}; release health must allow monetization.`,
+  },
+  {
+    id: 'ad-provider',
+    status: adNetworkConfigured ? 'pass' : 'missing-config',
+    detail: webAdConfigured
+      ? 'Web/PWA AdSense client and rewarded/display slot are configured.'
+      : appAdConfigured
+        ? 'Native AdMob publisher id is configured.'
+        : 'Set VITE_ADSENSE_CLIENT_ID + VITE_ADSENSE_REWARDED_SLOT_ID or ADMOB_PUBLISHER_ID before running revenue tests.',
+  },
+  {
+    id: 'privacy-policy',
+    status: privacyPolicyHosted ? 'pass' : 'blocked',
+    detail: `Privacy policy URL is ${storePackage.privacyPolicy?.productionUrlStatus ?? 'missing'}.`,
+  },
+  {
+    id: 'runtime-guardrails',
+    status: 'pass',
+    detail: 'Rewarded placement waits for a completed failed run, is capped to one offer per session, and never paywalls core rules.',
+  },
+  {
+    id: 'telemetry-contract',
+    status: 'pass',
+    detail: 'Revenue telemetry is limited to rewarded/cosmetic lifecycle events and revenue_cents.',
+  },
+  {
+    id: 'spend-guard',
+    status: 'pass',
+    detail: 'Revenue preflight does not allow paid acquisition, app-store spend, or store submission.',
+  },
+]
+const preflightBlockingChecks = preflightChecks.filter((check) => check.status !== 'pass')
+const revenueTestPreflight = {
+  status: canEnableRevenue
+    ? 'ready-to-arm'
+    : preflightBlockingChecks.some((check) => check.id === 'ad-provider')
+      ? 'waiting-on-provider-or-product-gates'
+      : 'waiting-on-product-gates',
+  canArmRevenueTest: canEnableRevenue,
+  firstRunnablePlacementId: placements[0].id,
+  checks: preflightChecks,
+  missingSetup: preflightBlockingChecks.map((check) => check.detail),
+  requiredEnvironment: {
+    web: [
+      { name: 'VITE_ADSENSE_CLIENT_ID', configured: Boolean(adsenseClientId) },
+      { name: 'VITE_ADSENSE_REWARDED_SLOT_ID', configured: Boolean(adsenseRewardedSlotId) },
+    ],
+    native: [{ name: 'ADMOB_PUBLISHER_ID', configured: Boolean(admobPublisherId) }],
+  },
+  validationCommands: [
+    'npm run autonomous:monetization',
+    'npm run autonomous:unit-economics',
+    'npm run autonomous:store-compliance',
+    'npm run autonomous:readiness',
+  ],
+  controls: {
+    noRevenueEnablementUntilAllChecksPass: true,
+    noPaidSpend: true,
+    noStoreSubmission: true,
+    noSecretValues: true,
+  },
+}
+
 const payload = {
   generatedAt: new Date().toISOString(),
   status,
@@ -146,6 +220,7 @@ const payload = {
     blockedBeforeRetention: gates.monetization.blockedBeforeRetention,
   },
   adNetwork,
+  revenueTestPreflight,
   placements,
   blockers,
   launchCandidate: bestGrowthPage
@@ -196,6 +271,15 @@ const publicManifest = {
   generatedAt: payload.generatedAt,
   status: payload.status,
   revenueEnabled: payload.revenueEnabled,
+  revenueTestPreflight: {
+    status: payload.revenueTestPreflight.status,
+    canArmRevenueTest: payload.revenueTestPreflight.canArmRevenueTest,
+    checks: payload.revenueTestPreflight.checks.map((check) => ({
+      id: check.id,
+      status: check.status,
+    })),
+    controls: payload.revenueTestPreflight.controls,
+  },
   runtime: payload.runtime,
   placements: payload.placements.map((placement) => ({
     id: placement.id,
@@ -212,6 +296,7 @@ const report = [
   `Revenue enabled: ${payload.revenueEnabled}`,
   `Analytics source: ${payload.analyticsSource}`,
   `Runtime: ${payload.runtime.status}`,
+  `Revenue test preflight: ${payload.revenueTestPreflight.status}`,
   '',
   '## Metrics',
   '',
@@ -230,6 +315,14 @@ const report = [
   '## Blockers',
   '',
   ...(payload.blockers.length ? payload.blockers.map((blocker) => `- ${blocker}`) : ['- none']),
+  '',
+  '## Revenue Test Preflight',
+  '',
+  ...payload.revenueTestPreflight.checks.map((check) => `- ${check.status}: ${check.id} - ${check.detail}`),
+  '',
+  '## Validation',
+  '',
+  ...payload.revenueTestPreflight.validationCommands.map((command) => `- ${command}`),
   '',
   '## Safety',
   '',

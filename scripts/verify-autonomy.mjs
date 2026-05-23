@@ -5287,6 +5287,15 @@ if (
   !monetizationPlan.runtime?.blockedEventsWhenDisabled?.includes('revenue_cents') ||
   typeof monetizationPlan.adNetwork?.web?.configured !== 'boolean' ||
   typeof monetizationPlan.adNetwork?.app?.configured !== 'boolean' ||
+  typeof monetizationPlan.revenueTestPreflight?.canArmRevenueTest !== 'boolean' ||
+  monetizationPlan.revenueTestPreflight?.canArmRevenueTest !== monetizationPlan.revenueEnabled ||
+  monetizationPlan.revenueTestPreflight?.controls?.noRevenueEnablementUntilAllChecksPass !== true ||
+  monetizationPlan.revenueTestPreflight?.controls?.noPaidSpend !== true ||
+  monetizationPlan.revenueTestPreflight?.controls?.noStoreSubmission !== true ||
+  !['product-gates', 'promotion-gate', 'ad-provider', 'privacy-policy', 'runtime-guardrails', 'telemetry-contract', 'spend-guard'].every((id) =>
+    monetizationPlan.revenueTestPreflight?.checks?.some((check) => check.id === id),
+  ) ||
+  !monetizationPlan.revenueTestPreflight?.validationCommands?.includes('npm run autonomous:unit-economics') ||
   !monetizationPlan.safety?.neverEnableBeforeRetention?.includes('subscription') ||
   monetizationPlan.safety?.noInterstitialsInFirstSession !== true ||
   monetizationPlan.safety?.noPaywalledCoreRules !== true

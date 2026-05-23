@@ -9251,6 +9251,9 @@ test('monetization manifest and app ads placeholder are reachable', async ({ pag
 
   await expect(page.locator('body')).toContainText('blocked-by-product-gates')
   await expect(page.locator('body')).toContainText('rewarded-hint-after-failed-daily')
+  await expect(page.locator('body')).toContainText('revenueTestPreflight')
+  await expect(page.locator('body')).toContainText('canArmRevenueTest')
+  await expect(page.locator('body')).toContainText('noRevenueEnablementUntilAllChecksPass')
 
   await page.goto('/app-ads.txt')
   await expect(page.locator('body')).toContainText('Revenue features are disabled')
@@ -9261,6 +9264,8 @@ test('monetization runtime is guarded before revenue gates pass', async ({ page 
 
   await expect(page.getByLabel('Revenue runtime')).toContainText('guarded-disabled')
   await expect(page.getByLabel('Revenue runtime')).toContainText('rewarded-hint-after-failed-daily')
+  await expect(page.getByText('Preflight')).toBeVisible()
+  await expect(page.getByText('waiting-on-provider-or-product-gates')).toBeVisible()
   await expect(page.getByRole('button', { name: 'Revenue gate held' })).toBeDisabled()
 
   await expect

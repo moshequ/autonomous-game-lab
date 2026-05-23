@@ -4231,6 +4231,10 @@ function App() {
                 <span>First placement</span>
                 <strong>{firstPlacement?.status ?? 'disabled'}</strong>
               </div>
+              <div className="factRow">
+                <span>Preflight</span>
+                <strong>{monetizationPlan.revenueTestPreflight.status}</strong>
+              </div>
               <div className="monetizationRuntime" aria-label="Revenue runtime">
                 <div>
                   <span>Runtime offer</span>

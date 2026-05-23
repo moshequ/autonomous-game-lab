@@ -1,10 +1,11 @@
 # Monetization Plan
 
-Generated: 2026-05-22T09:13:03.150Z
+Generated: 2026-05-23T00:39:37.546Z
 Status: blocked-by-product-gates
 Revenue enabled: false
 Analytics source: fixture-sample
 Runtime: guarded-disabled
+Revenue test preflight: waiting-on-provider-or-product-gates
 
 ## Metrics
 
@@ -24,6 +25,23 @@ Runtime: guarded-disabled
 - Replay rate is 31%; gate is 35%.
 - D1 retention is 17%; gate is 18%; source is fixture-retention.
 - Web/PWA or native ad provider is not configured for gated revenue tests.
+
+## Revenue Test Preflight
+
+- blocked: product-gates - Readiness is blocked; first-game completion, replay, and D1 retention must pass before revenue tests.
+- blocked: promotion-gate - Promotion decision is blocked; release health must allow monetization.
+- missing-config: ad-provider - Set VITE_ADSENSE_CLIENT_ID + VITE_ADSENSE_REWARDED_SLOT_ID or ADMOB_PUBLISHER_ID before running revenue tests.
+- pass: privacy-policy - Privacy policy URL is hosted.
+- pass: runtime-guardrails - Rewarded placement waits for a completed failed run, is capped to one offer per session, and never paywalls core rules.
+- pass: telemetry-contract - Revenue telemetry is limited to rewarded/cosmetic lifecycle events and revenue_cents.
+- pass: spend-guard - Revenue preflight does not allow paid acquisition, app-store spend, or store submission.
+
+## Validation
+
+- npm run autonomous:monetization
+- npm run autonomous:unit-economics
+- npm run autonomous:store-compliance
+- npm run autonomous:readiness
 
 ## Safety
 

@@ -1,7 +1,47 @@
 {
-  "generatedAt": "2026-05-22T09:13:03.150Z",
+  "generatedAt": "2026-05-23T00:39:37.546Z",
   "status": "blocked-by-product-gates",
   "revenueEnabled": false,
+  "revenueTestPreflight": {
+    "status": "waiting-on-provider-or-product-gates",
+    "canArmRevenueTest": false,
+    "checks": [
+      {
+        "id": "product-gates",
+        "status": "blocked"
+      },
+      {
+        "id": "promotion-gate",
+        "status": "blocked"
+      },
+      {
+        "id": "ad-provider",
+        "status": "missing-config"
+      },
+      {
+        "id": "privacy-policy",
+        "status": "pass"
+      },
+      {
+        "id": "runtime-guardrails",
+        "status": "pass"
+      },
+      {
+        "id": "telemetry-contract",
+        "status": "pass"
+      },
+      {
+        "id": "spend-guard",
+        "status": "pass"
+      }
+    ],
+    "controls": {
+      "noRevenueEnablementUntilAllChecksPass": true,
+      "noPaidSpend": true,
+      "noStoreSubmission": true,
+      "noSecretValues": true
+    }
+  },
   "runtime": {
     "status": "guarded-disabled",
     "surface": "result-screen",

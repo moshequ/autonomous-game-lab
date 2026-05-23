@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-22T09:13:03.150Z",
+  "generatedAt": "2026-05-23T00:39:37.546Z",
   "status": "blocked-by-product-gates",
   "revenueEnabled": false,
   "costPosture": "no-new-spend-until-gates-pass",
@@ -41,6 +41,83 @@
       "provider": "google-admob",
       "publisherId": null,
       "configured": false
+    }
+  },
+  "revenueTestPreflight": {
+    "status": "waiting-on-provider-or-product-gates",
+    "canArmRevenueTest": false,
+    "firstRunnablePlacementId": "rewarded-hint-after-failed-daily",
+    "checks": [
+      {
+        "id": "product-gates",
+        "status": "blocked",
+        "detail": "Readiness is blocked; first-game completion, replay, and D1 retention must pass before revenue tests."
+      },
+      {
+        "id": "promotion-gate",
+        "status": "blocked",
+        "detail": "Promotion decision is blocked; release health must allow monetization."
+      },
+      {
+        "id": "ad-provider",
+        "status": "missing-config",
+        "detail": "Set VITE_ADSENSE_CLIENT_ID + VITE_ADSENSE_REWARDED_SLOT_ID or ADMOB_PUBLISHER_ID before running revenue tests."
+      },
+      {
+        "id": "privacy-policy",
+        "status": "pass",
+        "detail": "Privacy policy URL is hosted."
+      },
+      {
+        "id": "runtime-guardrails",
+        "status": "pass",
+        "detail": "Rewarded placement waits for a completed failed run, is capped to one offer per session, and never paywalls core rules."
+      },
+      {
+        "id": "telemetry-contract",
+        "status": "pass",
+        "detail": "Revenue telemetry is limited to rewarded/cosmetic lifecycle events and revenue_cents."
+      },
+      {
+        "id": "spend-guard",
+        "status": "pass",
+        "detail": "Revenue preflight does not allow paid acquisition, app-store spend, or store submission."
+      }
+    ],
+    "missingSetup": [
+      "Readiness is blocked; first-game completion, replay, and D1 retention must pass before revenue tests.",
+      "Promotion decision is blocked; release health must allow monetization.",
+      "Set VITE_ADSENSE_CLIENT_ID + VITE_ADSENSE_REWARDED_SLOT_ID or ADMOB_PUBLISHER_ID before running revenue tests."
+    ],
+    "requiredEnvironment": {
+      "web": [
+        {
+          "name": "VITE_ADSENSE_CLIENT_ID",
+          "configured": false
+        },
+        {
+          "name": "VITE_ADSENSE_REWARDED_SLOT_ID",
+          "configured": false
+        }
+      ],
+      "native": [
+        {
+          "name": "ADMOB_PUBLISHER_ID",
+          "configured": false
+        }
+      ]
+    },
+    "validationCommands": [
+      "npm run autonomous:monetization",
+      "npm run autonomous:unit-economics",
+      "npm run autonomous:store-compliance",
+      "npm run autonomous:readiness"
+    ],
+    "controls": {
+      "noRevenueEnablementUntilAllChecksPass": true,
+      "noPaidSpend": true,
+      "noStoreSubmission": true,
+      "noSecretValues": true
     }
   },
   "placements": [
