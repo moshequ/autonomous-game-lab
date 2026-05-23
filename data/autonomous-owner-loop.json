@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-23T03:51:19.122Z",
+  "generatedAt": "2026-05-23T04:06:05.473Z",
   "status": "owner-loop-ready",
   "mode": "zero-spend-web-ready",
   "autonomyScore": {
@@ -138,7 +138,7 @@
     "objectiveAuditFreshness": {
       "fresh": true,
       "structurallyReady": true,
-      "auditGeneratedAt": "2026-05-23T03:51:18.585Z",
+      "auditGeneratedAt": "2026-05-23T04:06:05.295Z",
       "evaluatedInputIds": [
         "analytics-rollup",
         "event-ingest",
@@ -162,7 +162,7 @@
         "ready": true,
         "status": "cadence-ready",
         "artifactGeneratedAt": "2026-05-23T03:46:12.503Z",
-        "ageHours": 0.085,
+        "ageHours": 0.331,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -173,7 +173,7 @@
         "ready": true,
         "status": "self-update-ready",
         "artifactGeneratedAt": "2026-05-23T03:46:12.565Z",
-        "ageHours": 0.085,
+        "ageHours": 0.331,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -184,7 +184,7 @@
         "ready": true,
         "status": "support-feedback-empty",
         "artifactGeneratedAt": "2026-05-22T20:23:56.460Z",
-        "ageHours": 7.456,
+        "ageHours": 7.703,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -194,8 +194,8 @@
         "fresh": true,
         "ready": true,
         "status": "performance-budget-ready",
-        "artifactGeneratedAt": "2026-05-23T03:51:05.651Z",
-        "ageHours": 0.004,
+        "artifactGeneratedAt": "2026-05-23T04:05:57.634Z",
+        "ageHours": 0.002,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -205,8 +205,8 @@
         "fresh": true,
         "ready": true,
         "status": "live-site-monitor-passed",
-        "artifactGeneratedAt": "2026-05-23T03:51:06.928Z",
-        "ageHours": 0.003,
+        "artifactGeneratedAt": "2026-05-23T04:05:59.815Z",
+        "ageHours": 0.002,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -477,7 +477,7 @@
       "lastExplicitScanAt": "2026-05-22T13:53:13.086Z",
       "lastExplicitScanStatus": "no-evidence-found",
       "nextRecommendedScanAt": "2026-05-22T17:53:13.086Z",
-      "scanAgeHours": 13.97,
+      "scanAgeHours": 14.21,
       "cooldownRemainingHours": 0,
       "evidenceReadyNow": false
     },
@@ -558,9 +558,9 @@
     },
     "productionBootstrapFreshness": {
       "fresh": true,
-      "bootstrapGeneratedAt": "2026-05-23T03:51:18.409Z",
-      "artifactSourceDataHash": "0ad65c0cebbf",
-      "sourceDataHash": "0ad65c0cebbf",
+      "bootstrapGeneratedAt": "2026-05-23T04:06:03.056Z",
+      "artifactSourceDataHash": "3441ba496902",
+      "sourceDataHash": "3441ba496902",
       "evaluatedInputIds": [
         "release-candidate",
         "deployment-plan",
@@ -575,7 +575,7 @@
       "current": true,
       "ready": true,
       "status": "handoff-waiting-on-owner-inputs",
-      "generatedAt": "2026-05-23T03:51:12.346Z",
+      "generatedAt": "2026-05-23T04:06:04.476Z",
       "nextBestUnlockId": "production-analytics-browser",
       "ownerActionRequired": 4,
       "missingEnv": 7,
@@ -697,7 +697,7 @@
       "id": "performance-budget",
       "status": "ready",
       "autonomy": "automatic-build-budget",
-      "evidence": "Initial JS 684.3 KB; gzip 185.6 KB; deferred chunks 4.",
+      "evidence": "Initial JS 684 KB; gzip 185.5 KB; deferred chunks 4.",
       "nextAction": "Keep Phaser and game scenes outside the initial PWA shell."
     },
     {
@@ -1011,7 +1011,7 @@
       "command": "npm run build && npm run autonomous:performance && npm run autonomous:release-candidate",
       "targets": [
         "pwa-shell",
-        "GameCanvas-CliGQr54.js",
+        "GameCanvas-DEyyha-Y.js",
         "dist-release-candidate"
       ],
       "reason": "Performance budget and release-candidate evidence are already fresh for the current guarded build."
