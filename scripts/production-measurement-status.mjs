@@ -663,9 +663,12 @@ const payload = {
     status: ownerUnlockPreflight.status,
     readyForSetup: ownerUnlockPreflight.readyForSetup === true,
     recommendedPath: ownerUnlockPreflight.recommendedPath ?? null,
+    lowestInputPath: ownerUnlockPreflight.lowestInputPath ?? null,
     summary: ownerUnlockPreflight.summary ?? {},
     missingInputs: ownerUnlockPreflight.missingInputs ?? [],
     invalidInputs: ownerUnlockPreflight.invalidInputs ?? [],
+    lowestInputPreflight: ownerUnlockPreflight.lowestInputPreflight ?? null,
+    pathPreflights: ownerUnlockPreflight.pathPreflights ?? [],
     commands: ownerUnlockPreflight.commands ?? {},
     controls: ownerUnlockPreflight.controls ?? {},
   },
@@ -806,8 +809,11 @@ const appPayload = {
   ownerUnlockPreflight: {
     status: payload.ownerUnlockPreflight.status,
     readyForSetup: payload.ownerUnlockPreflight.readyForSetup,
+    lowestInputPathId: payload.ownerUnlockPreflight.lowestInputPath?.id ?? null,
     missingInputCount: payload.ownerUnlockPreflight.summary?.missingInputs ?? 0,
     invalidInputCount: payload.ownerUnlockPreflight.summary?.invalidInputs ?? 0,
+    lowestInputMissingInputCount: payload.ownerUnlockPreflight.summary?.lowestInputMissingInputs ?? null,
+    lowestInputSecretInputCount: payload.ownerUnlockPreflight.summary?.lowestInputSecretInputs ?? null,
   },
 }
 
@@ -966,10 +972,31 @@ const ownerUnlockPreflightHtml = (preflight) =>
             <strong>${preflight.summary?.readyInputs ?? 0}/${preflight.summary?.totalInputs ?? 0}</strong>
           </div>
           <div class="card">
+            <span>Lowest-input path</span>
+            <strong>${escapeHtml(preflight.lowestInputPath?.id ?? 'none')}</strong>
+          </div>
+          <div class="card">
+            <span>Lowest-input missing</span>
+            <strong>${preflight.summary?.lowestInputMissingInputs ?? 'n/a'}</strong>
+          </div>
+          <div class="card">
             <span>Invalid inputs</span>
             <strong>${preflight.summary?.invalidInputs ?? 0}</strong>
           </div>
         </div>
+        <h3>Path Options</h3>
+        <ul>
+          ${
+            preflight.pathPreflights?.length
+              ? preflight.pathPreflights
+                  .map(
+                    (pathPreflight) =>
+                      `<li><strong>${escapeHtml(pathPreflight.role)}</strong>: ${escapeHtml(pathPreflight.path?.id ?? 'missing')} - ${pathPreflight.summary?.missingInputs ?? 0} missing input(s), ${pathPreflight.summary?.secretInputs ?? 0} secret input(s)</li>`,
+                  )
+                  .join('')
+              : '<li>none</li>'
+          }
+        </ul>
         <h3>Missing Inputs</h3>
         ${requiredList(preflight.missingInputs ?? [])}
         <h3>Invalid Inputs</h3>

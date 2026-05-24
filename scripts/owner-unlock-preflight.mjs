@@ -40,6 +40,10 @@ const nextUnlockKit =
   productionBlockerHandoff?.nextUnlockKit?.id === brief?.nextUnlockId ? productionBlockerHandoff.nextUnlockKit : null
 const recommendedPath =
   nextUnlockKit?.paths?.find((unlockPath) => unlockPath.id === brief?.recommendedPathId) ?? null
+const lowestInputPath =
+  nextUnlockKit?.paths?.find(
+    (unlockPath) => unlockPath.id === (brief?.lowestInputPathId ?? nextUnlockKit?.lowestInputPathId),
+  ) ?? null
 
 const localEnvFilesForKey = (envName) =>
   (localEnv.loadedFiles ?? [])
@@ -161,11 +165,86 @@ const normalizeInput = (item, kind) => {
   }
 }
 
-const inputs = [
-  ...(recommendedPath?.requiredVariables ?? []).map((item) => normalizeInput(item, 'github-variable')),
-  ...(recommendedPath?.requiredSecrets ?? []).map((item) => normalizeInput(item, 'github-secret')),
-]
-const requiredEnvNames = new Set(inputs.map((input) => input.envName))
+const summarizePath = (unlockPath) =>
+  unlockPath
+    ? {
+        id: unlockPath.id,
+        title: unlockPath.title,
+        status: unlockPath.status,
+        costMode: unlockPath.costMode,
+        ownerInputRequired: unlockPath.ownerInputRequired === true,
+        missingVariableCount: unlockPath.missingVariableCount ?? 0,
+        missingSecretCount: unlockPath.missingSecretCount ?? 0,
+        missingInputCount: unlockPath.missingInputCount ?? 0,
+      }
+    : null
+
+const summarizeInputs = (pathInputs) =>
+  pathInputs.map((input) => ({
+    kind: input.kind,
+    repositoryName: input.repositoryName,
+    envName: input.envName,
+    command: input.command,
+  }))
+
+const summarizeInvalidInputs = (pathInputs) =>
+  pathInputs.map((input) => ({
+    kind: input.kind,
+    repositoryName: input.repositoryName,
+    envName: input.envName,
+    failedCheckIds: input.validation.failedCheckIds ?? [],
+  }))
+
+const buildPathPreflight = (unlockPath, role) => {
+  if (!unlockPath) {
+    return null
+  }
+
+  const pathInputs = [
+    ...(unlockPath.requiredVariables ?? []).map((item) => normalizeInput(item, 'github-variable')),
+    ...(unlockPath.requiredSecrets ?? []).map((item) => normalizeInput(item, 'github-secret')),
+  ]
+  const pathMissingInputs = pathInputs.filter((input) => !input.ready)
+  const pathInvalidInputs = pathInputs.filter((input) => input.validation.status === 'fail')
+  const pathStatus = pathInvalidInputs.length
+    ? 'owner-unlock-preflight-needs-fixes'
+    : pathMissingInputs.length
+      ? 'owner-unlock-preflight-waiting-on-input'
+      : 'owner-unlock-preflight-ready'
+
+  return {
+    role,
+    status: pathStatus,
+    readyForSetup: pathStatus === 'owner-unlock-preflight-ready',
+    path: summarizePath(unlockPath),
+    summary: {
+      totalInputs: pathInputs.length,
+      readyInputs: pathInputs.filter((input) => input.ready).length,
+      missingInputs: pathMissingInputs.length,
+      invalidInputs: pathInvalidInputs.length,
+      variableInputs: pathInputs.filter((input) => input.kind === 'github-variable').length,
+      secretInputs: pathInputs.filter((input) => input.kind === 'github-secret').length,
+      repositoryConfiguredInputs: pathInputs.filter((input) => input.configuredInRepository).length,
+      localAvailableInputs: pathInputs.filter((input) => input.availableLocally).length,
+      setupCanRun: pathStatus === 'owner-unlock-preflight-ready',
+    },
+    inputs: pathInputs,
+    missingInputs: summarizeInputs(pathMissingInputs),
+    invalidInputs: summarizeInvalidInputs(pathInvalidInputs),
+    commandSequence: unlockPath.commandSequence ?? [],
+    validationCommands: unlockPath.validationCommands ?? [],
+  }
+}
+
+const recommendedPathPreflight = buildPathPreflight(recommendedPath, 'recommended')
+const lowestInputPathPreflight = buildPathPreflight(lowestInputPath, 'lowest-input')
+const pathPreflights = [
+  recommendedPathPreflight,
+  ...(lowestInputPath?.id && lowestInputPath.id !== recommendedPath?.id ? [lowestInputPathPreflight] : []),
+].filter(Boolean)
+const inputs = recommendedPathPreflight?.inputs ?? []
+const allPathInputs = pathPreflights.flatMap((pathPreflight) => pathPreflight.inputs)
+const requiredEnvNames = new Set(allPathInputs.map((input) => input.envName))
 const missingInputs = inputs.filter((input) => !input.ready)
 const invalidInputs = inputs.filter((input) => input.validation.status === 'fail')
 const unavailableReasons = [
@@ -192,18 +271,12 @@ const payload = {
     productionBlockerHandoff: productionBlockerHandoff?.status ?? 'missing',
     nextUnlockId: brief?.nextUnlockId ?? null,
     recommendedPathId: brief?.recommendedPathId ?? null,
+    lowestInputPathId: brief?.lowestInputPathId ?? nextUnlockKit?.lowestInputPathId ?? null,
     nextBestUnlockId: productionBlockerHandoff?.summary?.nextBestUnlockId ?? null,
     nextBestZeroCostUnlockId: productionBlockerHandoff?.summary?.nextBestZeroCostUnlockId ?? null,
   },
-  recommendedPath: recommendedPath
-    ? {
-        id: recommendedPath.id,
-        title: recommendedPath.title,
-        status: recommendedPath.status,
-        costMode: recommendedPath.costMode,
-        ownerInputRequired: recommendedPath.ownerInputRequired === true,
-      }
-    : null,
+  recommendedPath: summarizePath(recommendedPath),
+  lowestInputPath: summarizePath(lowestInputPath),
   summary: {
     totalInputs: inputs.length,
     readyInputs: inputs.filter((input) => input.ready).length,
@@ -215,20 +288,22 @@ const payload = {
       (input) => input.validation.kind === 'url-shape' && input.validation.status === 'pass',
     ).length,
     setupCanRun: status === 'owner-unlock-preflight-ready',
+    lowestInputMissingInputs: lowestInputPathPreflight?.summary.missingInputs ?? null,
+    lowestInputInvalidInputs: lowestInputPathPreflight?.summary.invalidInputs ?? null,
+    lowestInputReadyInputs: lowestInputPathPreflight?.summary.readyInputs ?? null,
+    lowestInputTotalInputs: lowestInputPathPreflight?.summary.totalInputs ?? null,
+    lowestInputSecretInputs: lowestInputPathPreflight?.summary.secretInputs ?? null,
+    lowestInputSetupCanRun: lowestInputPathPreflight?.summary.setupCanRun ?? false,
+    manualInputReduction:
+      typeof lowestInputPathPreflight?.summary.missingInputs === 'number'
+        ? missingInputs.length - lowestInputPathPreflight.summary.missingInputs
+        : null,
   },
   inputs,
-  missingInputs: missingInputs.map((input) => ({
-    kind: input.kind,
-    repositoryName: input.repositoryName,
-    envName: input.envName,
-    command: input.command,
-  })),
-  invalidInputs: invalidInputs.map((input) => ({
-    kind: input.kind,
-    repositoryName: input.repositoryName,
-    envName: input.envName,
-    failedCheckIds: input.validation.failedCheckIds ?? [],
-  })),
+  missingInputs: summarizeInputs(missingInputs),
+  invalidInputs: summarizeInvalidInputs(invalidInputs),
+  pathPreflights,
+  lowestInputPreflight: lowestInputPathPreflight,
   localEnvironment: {
     loaded: localEnv.loaded === true,
     supportedFiles: localEnv.supportedFiles,
@@ -245,6 +320,7 @@ const payload = {
   commands: {
     printBrief: 'node scripts/owner-unlock-brief.mjs --print',
     preflight: 'node scripts/owner-unlock-preflight.mjs --assert --print',
+    lowestInputPreflight: 'node scripts/owner-unlock-preflight.mjs --assert --print',
     packagePreflight: 'npm run autonomous:owner-unlock-preflight',
     syncConfiguredValues: './ops/github/setup-production.sh',
     dispatchWhenReady: 'RUN_WORKFLOWS=1 ./ops/github/setup-production.sh',
@@ -274,6 +350,7 @@ const report = [
   `Ready for setup: ${payload.readyForSetup}`,
   `Next unlock: ${payload.sourceStatus.nextUnlockId ?? 'none'}`,
   `Recommended path: ${payload.recommendedPath?.id ?? 'none'}`,
+  `Lowest-input path: ${payload.lowestInputPath?.id ?? 'none'}`,
   `Source hash: ${payload.sourceDataHash ?? 'missing'}`,
   '',
   '## Summary',
@@ -284,6 +361,16 @@ const report = [
   `- invalid inputs: ${payload.summary.invalidInputs}`,
   `- repository configured inputs: ${payload.summary.repositoryConfiguredInputs}`,
   `- local available inputs: ${payload.summary.localAvailableInputs}`,
+  `- lowest-input missing inputs: ${payload.summary.lowestInputMissingInputs ?? 'n/a'}`,
+  `- lowest-input secret inputs: ${payload.summary.lowestInputSecretInputs ?? 'n/a'}`,
+  `- manual input reduction: ${payload.summary.manualInputReduction ?? 'n/a'}`,
+  '',
+  '## Path Options',
+  '',
+  ...payload.pathPreflights.map(
+    (pathPreflight) =>
+      `- ${pathPreflight.role}: ${pathPreflight.path.id} (${pathPreflight.status}; missing=${pathPreflight.summary.missingInputs}; secrets=${pathPreflight.summary.secretInputs})`,
+  ),
   '',
   '## Inputs',
   '',
@@ -370,6 +457,7 @@ if (jsonMode) {
     `Ready for setup: ${payload.readyForSetup}`,
     `Next unlock: ${payload.sourceStatus.nextUnlockId ?? 'none'}`,
     `Recommended path: ${payload.recommendedPath?.id ?? 'none'}`,
+    `Lowest-input path: ${payload.lowestInputPath?.id ?? 'none'} (${payload.summary.lowestInputMissingInputs ?? 'n/a'} missing input(s), ${payload.summary.lowestInputSecretInputs ?? 'n/a'} secret input(s))`,
     '',
     'Missing inputs:',
     ...linesForInputs(payload.missingInputs, 'none'),

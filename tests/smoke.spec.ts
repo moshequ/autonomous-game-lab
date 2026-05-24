@@ -9381,7 +9381,14 @@ test('production measurement status publishes public aggregate evidence handoff'
     ownerUnlockPreflight: {
       status: string
       readyForSetup: boolean
-      summary: { missingInputs: number; invalidInputs: number }
+      lowestInputPath?: { id: string } | null
+      lowestInputPreflight?: { path: { id: string } | null } | null
+      summary: {
+        missingInputs: number
+        invalidInputs: number
+        lowestInputMissingInputs?: number | null
+        lowestInputSecretInputs?: number | null
+      }
       missingInputs: Array<{ repositoryName: string }>
       invalidInputs: Array<{ repositoryName: string }>
     }
@@ -9491,9 +9498,20 @@ test('production measurement status publishes public aggregate evidence handoff'
       productionBlockerHandoff: string
       nextUnlockId: string | null
       recommendedPathId: string | null
+      lowestInputPathId: string | null
     }
-    recommendedPath: { id: string; costMode: string } | null
-    summary: { missingInputs: number; invalidInputs: number; setupCanRun: boolean }
+    recommendedPath: { id: string; costMode: string; missingInputCount: number } | null
+    lowestInputPath: { id: string; costMode: string; missingInputCount: number } | null
+    summary: {
+      missingInputs: number
+      invalidInputs: number
+      setupCanRun: boolean
+      lowestInputMissingInputs: number | null
+      lowestInputInvalidInputs: number | null
+      lowestInputSecretInputs: number | null
+      lowestInputSetupCanRun: boolean
+      manualInputReduction: number | null
+    }
     inputs: Array<{
       kind: string
       repositoryName: string
@@ -9503,7 +9521,29 @@ test('production measurement status publishes public aggregate evidence handoff'
       ready: boolean
       validation: { status: string; kind: string }
     }>
-    commands: { syncConfiguredValues: string; dispatchWhenReady: string; packagePreflight: string }
+    pathPreflights: Array<{
+      role: string
+      status: string
+      readyForSetup: boolean
+      path: { id: string; missingInputCount: number } | null
+      summary: { missingInputs: number; invalidInputs: number; secretInputs: number; setupCanRun: boolean }
+      inputs: Array<{ repositoryName: string; value?: string }>
+      missingInputs: Array<{ repositoryName: string; envName: string; value?: string }>
+    }>
+    lowestInputPreflight: {
+      role: string
+      status: string
+      path: { id: string; missingInputCount: number } | null
+      summary: { missingInputs: number; invalidInputs: number; secretInputs: number; setupCanRun: boolean }
+      inputs: Array<{ repositoryName: string; value?: string }>
+      missingInputs: Array<{ repositoryName: string; envName: string; value?: string }>
+    } | null
+    commands: {
+      syncConfiguredValues: string
+      dispatchWhenReady: string
+      packagePreflight: string
+      lowestInputPreflight: string
+    }
     controls: {
       zeroPaidSpend: boolean
       noSecretValuesStored: boolean
@@ -9845,16 +9885,33 @@ test('production measurement status publishes public aggregate evidence handoff'
   expect(analyticsUnlockPage.ownerUnlockPreflight.status).toBe(ownerUnlockPreflight.status)
   expect(ownerUnlockPreflight.sourceStatus.productionBlockerHandoff).toBe(blockerHandoff.status)
   expect(ownerUnlockPreflight.sourceStatus.nextUnlockId).toBe(ownerUnlockBrief.brief?.nextUnlockId)
+  expect(ownerUnlockPreflight.sourceStatus.lowestInputPathId).toBe(ownerUnlockBrief.brief?.lowestInputPathId)
   expect(ownerUnlockPreflight.recommendedPath?.id).toBe(ownerUnlockBrief.brief?.recommendedPathId)
+  expect(ownerUnlockPreflight.lowestInputPath?.id).toBe(ownerUnlockBrief.brief?.lowestInputPathId)
   expect(ownerUnlockPreflight.summary.missingInputs).toBe(
     ownerUnlockPreflight.inputs.filter((input) => !input.ready).length,
   )
   expect(ownerUnlockPreflight.summary.invalidInputs).toBe(
     ownerUnlockPreflight.inputs.filter((input) => input.validation.status === 'fail').length,
   )
+  expect(ownerUnlockPreflight.pathPreflights.map((item) => item.path?.id)).toEqual(
+    expect.arrayContaining(['first-party-collector', 'posthog-browser']),
+  )
+  expect(ownerUnlockPreflight.lowestInputPreflight?.path?.id).toBe('posthog-browser')
+  expect(ownerUnlockPreflight.lowestInputPreflight?.summary.missingInputs).toBe(
+    ownerUnlockPreflight.summary.lowestInputMissingInputs,
+  )
+  expect(ownerUnlockPreflight.lowestInputPreflight?.summary.secretInputs).toBe(0)
+  expect(ownerUnlockPreflight.summary.lowestInputMissingInputs ?? Number.POSITIVE_INFINITY).toBeLessThanOrEqual(
+    ownerUnlockPreflight.summary.missingInputs,
+  )
+  expect(ownerUnlockPreflight.summary.manualInputReduction ?? 0).toBeGreaterThanOrEqual(0)
+  expect(publicMeasurement.ownerUnlockPreflight.lowestInputPath?.id).toBe('posthog-browser')
+  expect(analyticsUnlockPage.ownerUnlockPreflight.lowestInputPreflight?.path?.id).toBe('posthog-browser')
   expect(ownerUnlockPreflight.commands.syncConfiguredValues).toBe('./ops/github/setup-production.sh')
   expect(ownerUnlockPreflight.commands.dispatchWhenReady).toBe('RUN_WORKFLOWS=1 ./ops/github/setup-production.sh')
   expect(ownerUnlockPreflight.commands.packagePreflight).toBe('npm run autonomous:owner-unlock-preflight')
+  expect(ownerUnlockPreflight.commands.lowestInputPreflight).toContain('owner-unlock-preflight')
   expect(ownerUnlockPreflight.controls.zeroPaidSpend).toBe(true)
   expect(ownerUnlockPreflight.controls.noSecretValuesStored).toBe(true)
   expect(ownerUnlockPreflight.controls.noSecretValuesSerialized).toBe(true)
@@ -9863,11 +9920,15 @@ test('production measurement status publishes public aggregate evidence handoff'
   expect(ownerUnlockPreflight.controls.setupStillRequiresExplicitRun).toBe(true)
   expect(ownerUnlockPreflight.controls.workflowDispatchStillRequiresRunWorkflows).toBe(true)
   expect(ownerUnlockPreflightReport).toContain('Owner Unlock Preflight')
+  expect(ownerUnlockPreflightReport).toContain('Lowest-input path')
+  expect(ownerUnlockPreflightReport).toContain('posthog-browser')
   expect(ownerUnlockPreflightReport).toContain('## Guardrails')
   expect(ownerUnlockPreflightScript).toContain('loadLocalEnv')
   expect(ownerUnlockPreflightScript).toContain('new URL')
   expect(ownerUnlockPreflightScript).toContain('hasValueKey')
   expect(analyticsUnlockHtml).toContain('Owner Unlock Preflight')
+  expect(analyticsUnlockHtml).toContain('Lowest-input path')
+  expect(analyticsUnlockHtml).toContain('posthog-browser')
   expect(analyticsUnlockHtml).toContain('Open preflight JSON')
   expect(JSON.stringify(ownerUnlockPreflight)).not.toContain('"value"')
   expect(JSON.stringify(publicOwnerUnlockPreflight)).not.toContain('"value"')

@@ -3419,6 +3419,10 @@ const ownerUnlockPreflightMissingInputCount = (ownerUnlockPreflight.inputs ?? []
 const ownerUnlockPreflightInvalidInputCount = (ownerUnlockPreflight.inputs ?? []).filter(
   (input) => input.validation?.status === 'fail',
 ).length
+const ownerUnlockPreflightPathIds = new Set(
+  (ownerUnlockPreflight.pathPreflights ?? []).map((pathPreflight) => pathPreflight.path?.id),
+)
+const ownerUnlockLowestInputPreflight = ownerUnlockPreflight.lowestInputPreflight ?? null
 const requiredProductionBlockerHandoffIds = [
   'support-contact',
   'production-analytics-browser',
@@ -3560,7 +3564,18 @@ if (
   ownerUnlockPreflight.sourceStatus?.ownerUnlockBrief !== ownerUnlockBrief.status ||
   ownerUnlockPreflight.sourceStatus?.productionBlockerHandoff !== productionBlockerHandoff.status ||
   ownerUnlockPreflight.sourceStatus?.nextUnlockId !== ownerUnlockBrief.brief?.nextUnlockId ||
+  ownerUnlockPreflight.sourceStatus?.lowestInputPathId !== ownerUnlockBrief.brief?.lowestInputPathId ||
   ownerUnlockPreflight.recommendedPath?.id !== ownerUnlockBrief.brief?.recommendedPathId ||
+  ownerUnlockPreflight.lowestInputPath?.id !== ownerUnlockBrief.brief?.lowestInputPathId ||
+  ownerUnlockLowestInputPreflight?.path?.id !== ownerUnlockBrief.brief?.lowestInputPathId ||
+  ownerUnlockLowestInputPreflight?.summary?.missingInputs !==
+    ownerUnlockPreflight.summary?.lowestInputMissingInputs ||
+  ownerUnlockLowestInputPreflight?.summary?.secretInputs !== 0 ||
+  (ownerUnlockPreflight.summary?.lowestInputMissingInputs ?? Number.POSITIVE_INFINITY) >
+    (ownerUnlockPreflight.summary?.missingInputs ?? Number.POSITIVE_INFINITY) ||
+  (ownerUnlockPreflight.summary?.manualInputReduction ?? 0) < 0 ||
+  !ownerUnlockPreflightPathIds.has('first-party-collector') ||
+  !ownerUnlockPreflightPathIds.has('posthog-browser') ||
   ownerUnlockPreflight.summary?.missingInputs !== ownerUnlockPreflightMissingInputCount ||
   ownerUnlockPreflight.summary?.invalidInputs !== ownerUnlockPreflightInvalidInputCount ||
   ownerUnlockPreflight.controls?.zeroPaidSpend !== true ||
@@ -3573,16 +3588,24 @@ if (
   ownerUnlockPreflight.localEnvironment?.valuesRedacted !== true ||
   ownerUnlockPreflight.commands?.syncConfiguredValues !== './ops/github/setup-production.sh' ||
   ownerUnlockPreflight.commands?.dispatchWhenReady !== 'RUN_WORKFLOWS=1 ./ops/github/setup-production.sh' ||
+  !ownerUnlockPreflight.commands?.lowestInputPreflight?.includes('owner-unlock-preflight') ||
   publicMeasurementStatus.ownerUnlockPreflight?.status !== ownerUnlockPreflight.status ||
+  publicMeasurementStatus.ownerUnlockPreflight?.lowestInputPath?.id !== ownerUnlockBrief.brief?.lowestInputPathId ||
   publicAnalyticsUnlockStatus.ownerUnlockPreflight?.status !== ownerUnlockPreflight.status ||
+  publicAnalyticsUnlockStatus.ownerUnlockPreflight?.lowestInputPreflight?.path?.id !==
+    ownerUnlockBrief.brief?.lowestInputPathId ||
   publicAnalyticsUnlockStatus.publicRoutes?.ownerUnlockPreflightJson !== '/owner-unlock-preflight.json' ||
   !analyticsUnlockHtml.includes('Owner Unlock Preflight') ||
+  !analyticsUnlockHtml.includes('Lowest-input path') ||
+  !analyticsUnlockHtml.includes('posthog-browser') ||
   !analyticsUnlockHtml.includes('Open preflight JSON') ||
   ownerUnlockPreflightLeaksValues ||
   !ownerUnlockPreflightSource.includes('loadLocalEnv') ||
   !ownerUnlockPreflightSource.includes('hasValueKey') ||
   !ownerUnlockPreflightSource.includes('new URL') ||
+  !ownerUnlockPreflightSource.includes('lowestInputPreflight') ||
   !ownerUnlockPreflightSource.includes('noSecretValuesSerialized') ||
+  !ownerUnlockPreflightReport.includes('Lowest-input path') ||
   !ownerUnlockPreflightReport.includes('## Guardrails')
 ) {
   fail('Owner unlock preflight must validate next-unlock readiness without storing values, mutating GitHub, or dispatching workflows.')
