@@ -133,7 +133,7 @@
         <div class="grid" aria-label="Live release evidence">
           <div class="card">
             <span>Synced evidence candidate</span>
-            <strong>pwa-c82c7da2eaa4</strong>
+            <strong>pwa-dd32382295be</strong>
           </div>
           <div class="card">
             <span>Exact live manifest</span>
@@ -540,7 +540,7 @@
         document.getElementById('local-event-count').textContent = Array.isArray(events) ? String(events.length) : '0'
         document.getElementById('local-event-latest').textContent = latest?.createdAt ? latest.createdAt.slice(0, 19) : 'none'
         document.getElementById('local-export-latest').textContent = receipt?.exportedAt ? receipt.exportedAt.slice(0, 19) : 'never'
-        const syncedLiveCandidate = "pwa-c82c7da2eaa4"
+        const syncedLiveCandidate = "pwa-dd32382295be"
         const exactLiveCandidate = document.getElementById('exact-live-candidate')
         const exactLiveMatch = document.getElementById('exact-live-match')
         const readLiveReleaseManifest = async () => {

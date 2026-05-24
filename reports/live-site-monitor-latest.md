@@ -1,13 +1,13 @@
 # Live Site Monitor
 
-Generated: 2026-05-24T17:36:26.255Z
+Generated: 2026-05-24T17:46:16.437Z
 Status: live-site-monitor-passed
 Origin: https://moshequ.github.io/autonomous-game-lab
 Checks: 29/29 passed (0 failed, 0 blocked)
-Live candidate: pwa-c82c7da2eaa4
-Synced candidate: pwa-c82c7da2eaa4
+Live candidate: pwa-dd32382295be
+Synced candidate: pwa-dd32382295be
 Live matches synced deploy: true
-Latency p95 ms: 354
+Latency p95 ms: 72
 
 ## Controls
 
@@ -22,35 +22,35 @@ Latency p95 ms: 354
 
 ## Checks
 
-- pass: app-shell; /; HTTP 200; 76 ms; Live read-only check passed.
-- pass: manifest-webmanifest; /manifest.webmanifest; HTTP 200; 295 ms; Live read-only check passed.
-- pass: sw-js; /sw.js; HTTP 200; 295 ms; Live read-only check passed.
-- pass: privacy-html; /privacy.html; HTTP 200; 292 ms; Live read-only check passed.
-- pass: support-html; /support.html; HTTP 200; 354 ms; Live read-only check passed.
-- pass: measurement-status-html; /measurement-status.html; HTTP 200; 294 ms; Live read-only check passed.
-- pass: measurement-status-json; /measurement-status.json; HTTP 200; 335 ms; Live read-only check passed.
-- pass: owner-unlock-brief-json; /owner-unlock-brief.json; HTTP 200; 353 ms; Live read-only check passed.
-- pass: owner-unlock-preflight-json; /owner-unlock-preflight.json; HTTP 200; 342 ms; Live read-only check passed.
-- pass: analytics-unlock-html; /analytics-unlock.html; HTTP 200; 342 ms; Live read-only check passed.
-- pass: analytics-unlock-json; /analytics-unlock.json; HTTP 200; 317 ms; Live read-only check passed.
-- pass: product-gate-recovery-html; /product-gate-recovery.html; HTTP 200; 351 ms; Live read-only check passed.
-- pass: product-gate-recovery-json; /product-gate-recovery.json; HTTP 200; 341 ms; Live read-only check passed.
-- pass: install-html; /install.html; HTTP 200; 326 ms; Live read-only check passed.
-- pass: compliance-json; /compliance.json; HTTP 200; 340 ms; Live read-only check passed.
-- pass: monetization-json; /monetization.json; HTTP 200; 334 ms; Live read-only check passed.
-- pass: app-ads-txt; /app-ads.txt; HTTP 200; 334 ms; Live read-only check passed.
-- pass: well-known-assetlinks-json; /.well-known/assetlinks.json; HTTP 200; 339 ms; Live read-only check passed.
-- pass: gate-sample-html; /gate-sample.html; HTTP 200; 319 ms; Live read-only check passed.
-- pass: sample-next-html; /sample-next.html; HTTP 200; 337 ms; Live read-only check passed.
-- pass: sample-next-json; /sample-next.json; HTTP 200; 347 ms; Live read-only check passed.
-- pass: sample-fastest-html; /sample-fastest.html; HTTP 200; 347 ms; Live read-only check passed.
-- pass: sample-fastest-json; /sample-fastest.json; HTTP 200; 336 ms; Live read-only check passed.
-- pass: seed-kit-html; /seed-kit.html; HTTP 200; 331 ms; Live read-only check passed.
-- pass: seed-next-html; /seed-next.html; HTTP 200; 331 ms; Live read-only check passed.
-- pass: seed-next-json; /seed-next.json; HTTP 200; 344 ms; Live read-only check passed.
-- pass: sitemap-xml; /sitemap.xml; HTTP 200; 333 ms; Live read-only check passed.
-- pass: games-canopy-bloom-html; /games/canopy-bloom.html; HTTP 200; 328 ms; Live read-only check passed.
-- pass: release-candidate-manifest-live; /release-candidate.json; HTTP 200; 371 ms; Live read-only check passed.
+- pass: app-shell; /; HTTP 200; 37 ms; Live read-only check passed.
+- pass: manifest-webmanifest; /manifest.webmanifest; HTTP 200; 62 ms; Live read-only check passed.
+- pass: sw-js; /sw.js; HTTP 200; 67 ms; Live read-only check passed.
+- pass: privacy-html; /privacy.html; HTTP 200; 60 ms; Live read-only check passed.
+- pass: support-html; /support.html; HTTP 200; 65 ms; Live read-only check passed.
+- pass: measurement-status-html; /measurement-status.html; HTTP 200; 72 ms; Live read-only check passed.
+- pass: measurement-status-json; /measurement-status.json; HTTP 200; 74 ms; Live read-only check passed.
+- pass: owner-unlock-brief-json; /owner-unlock-brief.json; HTTP 200; 66 ms; Live read-only check passed.
+- pass: owner-unlock-preflight-json; /owner-unlock-preflight.json; HTTP 200; 64 ms; Live read-only check passed.
+- pass: analytics-unlock-html; /analytics-unlock.html; HTTP 200; 64 ms; Live read-only check passed.
+- pass: analytics-unlock-json; /analytics-unlock.json; HTTP 200; 68 ms; Live read-only check passed.
+- pass: product-gate-recovery-html; /product-gate-recovery.html; HTTP 200; 60 ms; Live read-only check passed.
+- pass: product-gate-recovery-json; /product-gate-recovery.json; HTTP 200; 60 ms; Live read-only check passed.
+- pass: install-html; /install.html; HTTP 200; 60 ms; Live read-only check passed.
+- pass: compliance-json; /compliance.json; HTTP 200; 59 ms; Live read-only check passed.
+- pass: monetization-json; /monetization.json; HTTP 200; 55 ms; Live read-only check passed.
+- pass: app-ads-txt; /app-ads.txt; HTTP 200; 51 ms; Live read-only check passed.
+- pass: well-known-assetlinks-json; /.well-known/assetlinks.json; HTTP 200; 56 ms; Live read-only check passed.
+- pass: gate-sample-html; /gate-sample.html; HTTP 200; 63 ms; Live read-only check passed.
+- pass: sample-next-html; /sample-next.html; HTTP 200; 57 ms; Live read-only check passed.
+- pass: sample-next-json; /sample-next.json; HTTP 200; 55 ms; Live read-only check passed.
+- pass: sample-fastest-html; /sample-fastest.html; HTTP 200; 56 ms; Live read-only check passed.
+- pass: sample-fastest-json; /sample-fastest.json; HTTP 200; 53 ms; Live read-only check passed.
+- pass: seed-kit-html; /seed-kit.html; HTTP 200; 56 ms; Live read-only check passed.
+- pass: seed-next-html; /seed-next.html; HTTP 200; 53 ms; Live read-only check passed.
+- pass: seed-next-json; /seed-next.json; HTTP 200; 53 ms; Live read-only check passed.
+- pass: sitemap-xml; /sitemap.xml; HTTP 200; 50 ms; Live read-only check passed.
+- pass: games-canopy-bloom-html; /games/canopy-bloom.html; HTTP 200; 51 ms; Live read-only check passed.
+- pass: release-candidate-manifest-live; /release-candidate.json; HTTP 200; 57 ms; Live read-only check passed.
 
 ## Next Actions
 
