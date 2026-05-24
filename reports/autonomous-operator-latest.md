@@ -1,6 +1,6 @@
 # Autonomous Operator
 
-Generated: 2026-05-24T11:05:49.380Z
+Generated: 2026-05-24T11:20:49.512Z
 Status: operator-plan-ready
 Mode: plan-only
 Owner decision: refresh-autonomous-cadence
@@ -31,7 +31,6 @@ Execution: not-requested
 
 - refresh-autonomous-cadence
 - refresh-autonomous-self-update
-- refresh-support-feedback
 
 ## Blocked Actions
 
@@ -40,7 +39,7 @@ Execution: not-requested
 - refresh-autonomous-self-update: not-selected-this-run
 - seed-portfolio-traffic: status-monitor
 - refresh-organic-seed-loop: status-monitor
-- refresh-support-feedback: not-selected-this-run
+- refresh-support-feedback: status-monitor
 - optimize-daily-retention: status-monitor
 - measure-pwa-install-loop: status-monitor
 - check-performance-budget: status-monitor
