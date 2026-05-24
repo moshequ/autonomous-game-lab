@@ -2483,7 +2483,14 @@ const recentlySatisfiedActionIds = [
 ]
 const recentlyExecutedActionIds = new Set(recentExecutedActionIds)
 const recentlyCoveredActionIds = new Set([...recentExecutedActionIds, ...recentlySatisfiedActionIds])
-const executableWithoutImmediateRepeat = ownerSelectableNow.filter((action) => !recentlyCoveredActionIds.has(action.id))
+const lastExecutedActionStillExecutable = Boolean(
+  lastExecutedActionId && ownerSelectableNow.some((action) => action.id === lastExecutedActionId),
+)
+const repeatSuppressedActionIds = new Set([...recentlyCoveredActionIds])
+if (lastExecutedActionStillExecutable && lastExecutedActionId) {
+  repeatSuppressedActionIds.add(lastExecutedActionId)
+}
+const executableWithoutImmediateRepeat = ownerSelectableNow.filter((action) => !repeatSuppressedActionIds.has(action.id))
 const prioritizedExecutableNow = executableWithoutImmediateRepeat
 const immediateRepeatSuppressed = ownerSelectableNow.length > 0 && executableWithoutImmediateRepeat.length === 0
 const preferredActionOrder = [
@@ -2629,6 +2636,7 @@ const payload = {
     recentExecutedActionIds,
     expiredExecutedActionIds,
     lastExecutedActionId,
+    lastExecutedActionStillExecutable,
     lastExecutedAgeHours: actionAgeHours(lastExecutedRecord),
     lastExecutedStatus: lastExecutedRecord?.execution?.status ?? null,
     lastRecordExecutionStatus: autonomousOperatorHistory.summary?.lastExecutionStatus ?? null,
@@ -2709,7 +2717,11 @@ const payload = {
       artifactCandidateId: postDeployArtifactSync.artifact?.target?.candidateId ?? null,
     },
     skippedRecentlyExecutedActionIds: locallyExecutableNow
-      .filter((action) => recentlyExecutedActionIds.has(action.id) && action.id !== nextBestAction.id)
+      .filter(
+        (action) =>
+          (recentlyExecutedActionIds.has(action.id) || action.id === lastExecutedActionId) &&
+          action.id !== nextBestAction.id,
+      )
       .map((action) => action.id),
     skippedRecentlySatisfiedActionIds: locallyExecutableNow
       .filter((action) => recentlySatisfiedActionIds.includes(action.id) && action.id !== nextBestAction.id)

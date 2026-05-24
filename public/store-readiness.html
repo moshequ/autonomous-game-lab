@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Store Readiness | Autonomous Game Lab</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --ink: #17191c;
+        --muted: #5c6270;
+        --line: #d8d4ca;
+        --paper: #fbfaf6;
+        --panel: #ffffff;
+        --accent: #176f6b;
+        --warn: #9a4d15;
+        --soft: #f1f4ed;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        color: var(--ink);
+        background: var(--paper);
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        line-height: 1.5;
+      }
+
+      main {
+        width: min(1080px, calc(100% - 32px));
+        margin: 0 auto;
+        padding: 44px 0 56px;
+      }
+
+      h1,
+      h2,
+      h3 {
+        line-height: 1.1;
+        letter-spacing: 0;
+      }
+
+      h1 {
+        max-width: 760px;
+        margin: 0;
+        font-size: 3.6rem;
+      }
+
+      h2 {
+        margin-top: 0;
+      }
+
+      a {
+        color: var(--accent);
+        font-weight: 700;
+      }
+
+      .lede {
+        max-width: 820px;
+        color: var(--muted);
+        font-size: 1.08rem;
+      }
+
+      .summary {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 10px;
+        margin: 28px 0;
+      }
+
+      .metric,
+      section {
+        border: 1px solid var(--line);
+        background: var(--panel);
+        border-radius: 8px;
+      }
+
+      .metric {
+        min-height: 98px;
+        padding: 14px;
+      }
+
+      .metric span,
+      .row span {
+        display: block;
+        color: var(--muted);
+        font-size: 0.82rem;
+        text-transform: uppercase;
+      }
+
+      .metric strong {
+        display: block;
+        margin-top: 8px;
+        font-size: 1.15rem;
+        overflow-wrap: anywhere;
+      }
+
+      section {
+        margin-top: 16px;
+        padding: 22px;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 12px;
+      }
+
+      .handoff {
+        min-height: 170px;
+        padding: 16px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--soft);
+      }
+
+      .handoff strong {
+        overflow-wrap: anywhere;
+      }
+
+      .row {
+        display: grid;
+        grid-template-columns: minmax(120px, 0.55fr) minmax(0, 1fr);
+        gap: 12px;
+        padding: 10px 0;
+        border-top: 1px solid var(--line);
+      }
+
+      .row:first-child {
+        border-top: 0;
+      }
+
+      ul {
+        padding-left: 1.1rem;
+      }
+
+      li + li {
+        margin-top: 6px;
+      }
+
+      .warning {
+        color: var(--warn);
+        font-weight: 700;
+      }
+
+      @media (max-width: 640px) {
+        main {
+          width: min(100% - 24px, 1080px);
+          padding-top: 28px;
+        }
+
+        section {
+          padding: 16px;
+        }
+
+        h1 {
+          font-size: 2.25rem;
+        }
+
+        .row {
+          grid-template-columns: 1fr;
+          gap: 2px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Autonomous Game Lab Store Readiness</h1>
+      <p class="lede">This generated handoff consolidates public web/PWA compliance, Android Google Play preparation, iOS App Store preparation, monetization gates, and remaining owner inputs without paying store fees or enabling revenue.</p>
+
+      <div class="summary" aria-label="Store readiness summary">
+        <div class="metric"><span>Status</span><strong>store-readiness-prepared-external-blockers</strong></div>
+        <div class="metric"><span>Launch candidate</span><strong>Market Pulse</strong></div>
+        <div class="metric"><span>Android</span><strong>blocked-needs-host-signing-play</strong></div>
+        <div class="metric"><span>iOS</span><strong>deferred-until-ios-payback</strong></div>
+        <div class="metric"><span>Screenshots</span><strong>4</strong></div>
+        <div class="metric"><span>External blockers</span><strong>18</strong></div>
+      </div>
+
+      <section>
+        <h2>Platform Handoffs</h2>
+        <div class="grid">
+          <div class="handoff">
+            <h3>Web PWA</h3>
+            <p><strong>public-compliance-published</strong></p>
+            <p>/</p>
+          </div>
+          <div class="handoff">
+            <h3>Android Google Play</h3>
+            <p><strong>blocked-needs-host-signing-play</strong></p>
+            <p>android-trusted-web-activity</p>
+          </div>
+          <div class="handoff">
+            <h3>iOS App Store</h3>
+            <p><strong>deferred-until-ios-payback</strong></p>
+            <p>capacitor-pwa-shell-after-payback</p>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2>Public Evidence</h2>
+        <div class="row"><span>Readiness JSON</span><a href="./store-readiness.json">store-readiness.json</a></div>
+        <div class="row"><span>Measurement</span><a href="./measurement-status.html">measurement-status.html</a></div>
+        <div class="row"><span>Monetization</span><a href="./monetization.html">monetization.html</a></div>
+        <div class="row"><span>Privacy</span><a href="./privacy.html">privacy.html</a></div>
+        <div class="row"><span>Support</span><a href="./support.html">support.html</a></div>
+        <div class="row"><span>Compliance</span><a href="./compliance.json">compliance.json</a></div>
+      </section>
+
+      <section>
+        <h2>External Blockers</h2>
+        <p class="warning">Owner-controlled accounts, contact fields, provider credentials, or store spend remain gated.</p>
+        <ul>
+            <li>store-compliance: support-contact: Production support email is required before public store submission.</li>
+            <li>store-compliance: google-play-account: Google Play developer account must be connected before Android submission.</li>
+            <li>store-compliance: apple-developer-account: Apple Developer account remains deferred until iOS spend is justified.</li>
+            <li>android: native-package-ready: Native package is blocked-draft-ready.</li>
+            <li>android: store-package-draft: Store package is blocked; data safety is draft-ready.</li>
+            <li>android: asset-links: Digital Asset Links are domain-verification-blocked; Android requires https://moshequ.github.io/.well-known/assetlinks.json and current artifact publishes https://moshequ.github.io/autonomous-game-lab/.well-known/assetlinks.json.</li>
+            <li>android: google-play-account: Google Play account is not connected.</li>
+            <li>android: play-service-account: Google Play service account upload credentials are not available to CI.</li>
+            <li>ios: support-contact: Production support email is required before public store submission.</li>
+            <li>ios: apple-developer-account: Apple Developer Program account is not connected.</li>
+            <li>ios: app-store-connect-api: App Store Connect API credentials are not available to CI.</li>
+            <li>monetization: Web/PWA or native ad provider is not configured for gated revenue tests.</li>
+            <li>google-play-fee: Google Play developer account is not connected.</li>
+            <li>ios-fee: Apple Developer account is not connected.</li>
+            <li>ios-fee: Projected annual revenue is $0.00, below $99.00.</li>
+            <li>native-package: Native Android package handoff is blocked-draft-ready.</li>
+            <li>monetization: Revenue enabled is false.</li>
+            <li>support-contact: Production support email is required before public app-store submission.</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>Product Gates</h2>
+        <ul>
+            <li>android: unit-economics-store-spend: Store spend allowed is false; spend mode is no-spend.</li>
+            <li>android: promotion-gate: Android promotion status is blocked.</li>
+            <li>ios: annual-fee-payback: Store spend allowed is false; projected Apple payback is not available.</li>
+            <li>monetization: First-game completion is 40%; gate is 55%.</li>
+            <li>monetization: Replay rate is 31%; gate is 35%.</li>
+            <li>monetization: D1 retention is 17%; gate is 18%; source is fixture-retention.</li>
+            <li>google-play-fee: No live revenue signal yet.</li>
+            <li>google-play-fee: Projected Google Play fee payback is not within 60 days.</li>
+            <li>ios-fee: Revenue signal is $0.00, below $99.00.</li>
+            <li>ios-fee: Projected Apple fee payback is not within 90 days.</li>
+            <li>unit-economics: Store spend allowed is false.</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>Controls</h2>
+        <div class="row"><span>Paid spend</span><strong>blocked</strong></div>
+        <div class="row"><span>Store submission</span><strong>blocked</strong></div>
+        <div class="row"><span>Revenue</span><strong>disabled</strong></div>
+        <div class="row"><span>Source hash</span><strong>b4b6292b50fd</strong></div>
+      </section>
+    </main>
+  </body>
+</html>

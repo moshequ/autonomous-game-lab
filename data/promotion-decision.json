@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-23T11:49:38.183Z",
+  "generatedAt": "2026-05-24T22:20:50.847Z",
   "analyticsSource": "fixture-sample",
   "releaseHealth": {
     "status": "monitoring",
@@ -31,7 +31,8 @@
       "status": "blocked",
       "decision": "Keep Android packaging blocked.",
       "blockers": [
-        "Google Play developer account is not connected."
+        "Google Play developer account is not connected.",
+        "Native package is blocked-draft-ready."
       ],
       "nextAction": "Host privacy URL, create signing assets, and connect Google Play account."
     },

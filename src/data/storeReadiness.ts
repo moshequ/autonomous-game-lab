@@ -1,0 +1,229 @@
+export const storeReadiness = {
+  "generatedAt": "2026-05-24T22:34:02.066Z",
+  "sourceDataHash": "b4b6292b50fd",
+  "status": "store-readiness-prepared-external-blockers",
+  "sourceStatus": {
+    "storePackage": "store-package-ready",
+    "storeCompliance": "draft-ready-external-blockers",
+    "storeListingOptimizer": "store-listing-optimizer-ready",
+    "nativePackage": "blocked-draft-ready",
+    "androidRelease": "blocked-needs-host-signing-play",
+    "iosRelease": "deferred-until-ios-payback",
+    "unitEconomics": "no-spend",
+    "monetization": "blocked-by-product-gates",
+    "productionEnvironment": "production-env-missing",
+    "storeAssets": "screenshots-ready"
+  },
+  "summary": {
+    "launchCandidateId": "market-pulse",
+    "launchCandidateTitle": "Market Pulse",
+    "complianceStatus": "draft-ready-external-blockers",
+    "androidStatus": "blocked-needs-host-signing-play",
+    "iosStatus": "deferred-until-ios-payback",
+    "nativePackageStatus": "blocked-draft-ready",
+    "storeSpendAllowed": false,
+    "revenueEnabled": false,
+    "screenshotCount": 4,
+    "externalBlockerCount": 18,
+    "productBlockerCount": 11
+  },
+  "publicRoutes": {
+    "storeReadiness": "/store-readiness.html",
+    "storeReadinessJson": "/store-readiness.json",
+    "privacy": "/privacy.html",
+    "support": "/support.html",
+    "compliance": "/compliance.json",
+    "monetization": "/monetization.html",
+    "monetizationJson": "/monetization.json",
+    "measurementStatus": "/measurement-status.html",
+    "appAdsTxt": "/app-ads.txt"
+  },
+  "platformHandoffs": [
+    {
+      "id": "web-pwa",
+      "label": "Web PWA",
+      "status": "public-compliance-published",
+      "route": "/",
+      "package": {
+        "privacy": "/privacy.html",
+        "support": "/support.html",
+        "compliance": "/compliance.json"
+      },
+      "checks": [
+        {
+          "id": "privacy",
+          "status": "pass",
+          "detail": "hosted"
+        },
+        {
+          "id": "support",
+          "status": "external-blocker",
+          "detail": "needs-production-address"
+        },
+        {
+          "id": "compliance",
+          "status": "pass",
+          "detail": "draft-ready-external-blockers"
+        }
+      ]
+    },
+    {
+      "id": "android-google-play",
+      "label": "Android Google Play",
+      "status": "blocked-needs-host-signing-play",
+      "packageName": "app.autonomousgamelab.portal",
+      "releaseTrack": "internal",
+      "packageStrategy": "android-trusted-web-activity",
+      "workflowPath": ".github/workflows/android-twa-release.yml",
+      "blockers": [
+        "native-package-ready: Native package is blocked-draft-ready.",
+        "store-package-draft: Store package is blocked; data safety is draft-ready.",
+        "asset-links: Digital Asset Links are domain-verification-blocked; Android requires https://moshequ.github.io/.well-known/assetlinks.json and current artifact publishes https://moshequ.github.io/autonomous-game-lab/.well-known/assetlinks.json.",
+        "google-play-account: Google Play account is not connected.",
+        "play-service-account: Google Play service account upload credentials are not available to CI.",
+        "unit-economics-store-spend: Store spend allowed is false; spend mode is no-spend.",
+        "promotion-gate: Android promotion status is blocked."
+      ],
+      "setupRequiredOnce": [
+        "Host the PWA on a stable HTTPS production domain with privacy and support URLs.",
+        "Use production bootstrap to sync the prepared AGL_ANDROID_* signing values into CI secrets when repository credentials exist.",
+        "Connect Google Play only after unit economics allows the one-time store fee.",
+        "Set GOOGLE_PLAY_SERVICE_ACCOUNT_JSON or GOOGLE_PLAY_SERVICE_ACCOUNT_BASE64 before automated internal testing uploads."
+      ],
+      "commands": {
+        "plan": "npm run autonomous:android-release-plan",
+        "nativePackage": "npm run autonomous:native-package",
+        "validate": "npx @bubblewrap/cli validate",
+        "build": "npx @bubblewrap/cli build",
+        "releaseWorkflow": "Run Android TWA Release after host, signing, Play, and economics gates pass."
+      }
+    },
+    {
+      "id": "ios-app-store",
+      "label": "iOS App Store",
+      "status": "deferred-until-ios-payback",
+      "bundleId": "app.autonomousgamelab.portal",
+      "packageStrategy": "capacitor-pwa-shell-after-payback",
+      "handoffDirectory": "native/ios",
+      "blockers": [
+        "support-contact: Production support email is required before public store submission.",
+        "apple-developer-account: Apple Developer Program account is not connected.",
+        "app-store-connect-api: App Store Connect API credentials are not available to CI.",
+        "annual-fee-payback: Store spend allowed is false; projected Apple payback is not available."
+      ],
+      "setupRequiredOnce": [
+        "Keep the PWA hosted with privacy and support URLs reachable before App Review.",
+        "Connect Apple Developer Program only after live revenue justifies the annual fee.",
+        "Set App Store Connect API credentials only after the Apple account exists and store spend is allowed.",
+        "Run Capacitor/Xcode packaging only after native-value, privacy, account, and payback gates pass."
+      ],
+      "commands": {
+        "plan": "npm run autonomous:ios-release-plan",
+        "installCapacitor": "npm install @capacitor/core @capacitor/ios",
+        "createNativeProject": "npx cap add ios",
+        "syncWebBuild": "npx cap sync ios",
+        "archive": "Open native iOS project in Xcode and archive only after gates pass."
+      }
+    }
+  ],
+  "checks": [
+    {
+      "id": "store-package",
+      "status": "pass",
+      "detail": "Store package is store-package-ready."
+    },
+    {
+      "id": "store-compliance",
+      "status": "pass",
+      "detail": "Store compliance draft is draft-ready-external-blockers."
+    },
+    {
+      "id": "store-listing",
+      "status": "pass",
+      "detail": "Store listing optimizer is store-listing-optimizer-ready."
+    },
+    {
+      "id": "store-screenshots",
+      "status": "pass",
+      "detail": "4 screenshot asset(s) are available."
+    },
+    {
+      "id": "native-package",
+      "status": "blocker",
+      "detail": "Native Android package handoff is blocked-draft-ready."
+    },
+    {
+      "id": "android-release",
+      "status": "pass",
+      "detail": "Android release plan is blocked-needs-host-signing-play."
+    },
+    {
+      "id": "ios-release",
+      "status": "pass",
+      "detail": "iOS handoff is deferred-until-ios-payback."
+    },
+    {
+      "id": "unit-economics",
+      "status": "external-blocker",
+      "detail": "Store spend allowed is false."
+    },
+    {
+      "id": "monetization",
+      "status": "blocker",
+      "detail": "Revenue enabled is false."
+    },
+    {
+      "id": "support-contact",
+      "status": "external-blocker",
+      "detail": "Production support email is required before public app-store submission."
+    }
+  ],
+  "blockers": {
+    "external": [
+      "store-compliance: support-contact: Production support email is required before public store submission.",
+      "store-compliance: google-play-account: Google Play developer account must be connected before Android submission.",
+      "store-compliance: apple-developer-account: Apple Developer account remains deferred until iOS spend is justified.",
+      "android: native-package-ready: Native package is blocked-draft-ready.",
+      "android: store-package-draft: Store package is blocked; data safety is draft-ready.",
+      "android: asset-links: Digital Asset Links are domain-verification-blocked; Android requires https://moshequ.github.io/.well-known/assetlinks.json and current artifact publishes https://moshequ.github.io/autonomous-game-lab/.well-known/assetlinks.json.",
+      "android: google-play-account: Google Play account is not connected.",
+      "android: play-service-account: Google Play service account upload credentials are not available to CI.",
+      "ios: support-contact: Production support email is required before public store submission.",
+      "ios: apple-developer-account: Apple Developer Program account is not connected.",
+      "ios: app-store-connect-api: App Store Connect API credentials are not available to CI.",
+      "monetization: Web/PWA or native ad provider is not configured for gated revenue tests.",
+      "google-play-fee: Google Play developer account is not connected.",
+      "ios-fee: Apple Developer account is not connected.",
+      "ios-fee: Projected annual revenue is $0.00, below $99.00.",
+      "native-package: Native Android package handoff is blocked-draft-ready.",
+      "monetization: Revenue enabled is false.",
+      "support-contact: Production support email is required before public app-store submission."
+    ],
+    "product": [
+      "android: unit-economics-store-spend: Store spend allowed is false; spend mode is no-spend.",
+      "android: promotion-gate: Android promotion status is blocked.",
+      "ios: annual-fee-payback: Store spend allowed is false; projected Apple payback is not available.",
+      "monetization: First-game completion is 40%; gate is 55%.",
+      "monetization: Replay rate is 31%; gate is 35%.",
+      "monetization: D1 retention is 17%; gate is 18%; source is fixture-retention.",
+      "google-play-fee: No live revenue signal yet.",
+      "google-play-fee: Projected Google Play fee payback is not within 60 days.",
+      "ios-fee: Revenue signal is $0.00, below $99.00.",
+      "ios-fee: Projected Apple fee payback is not within 90 days.",
+      "unit-economics: Store spend allowed is false."
+    ]
+  },
+  "controls": {
+    "zeroPaidSpend": true,
+    "noPaidSpend": true,
+    "noStoreSubmission": true,
+    "noRevenueEnablement": true,
+    "noAccountCreation": true,
+    "noSecretValues": true,
+    "ownerInputsRequired": true,
+    "storeSpendStillBlocked": true,
+    "postDeploySmokeRequired": true
+  }
+} as const
+
+export type StoreReadiness = typeof storeReadiness

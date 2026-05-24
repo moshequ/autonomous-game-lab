@@ -1,5 +1,5 @@
 export const unitEconomics = {
-  "generatedAt": "2026-05-23T11:46:53.206Z",
+  "generatedAt": "2026-05-24T21:43:10.134Z",
   "status": "no-spend",
   "analyticsSource": "fixture-sample",
   "projectionConfidence": "low-fixture-or-zero",
@@ -45,7 +45,6 @@ export const unitEconomics = {
       "allowed": false,
       "paybackDays": null,
       "blockers": [
-        "Web/PWA readiness is not green.",
         "Google Play developer account is not connected.",
         "No live revenue signal yet.",
         "Projected Google Play fee payback is not within 60 days."
@@ -77,7 +76,7 @@ export const unitEconomics = {
     "noInterstitialsBeforeRetention": true
   },
   "promotion": {
-    "web": "blocked",
+    "web": "promotable-internal",
     "monetization": "blocked",
     "androidGooglePlay": "blocked",
     "iosAppStore": "defer"

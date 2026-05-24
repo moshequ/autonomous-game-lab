@@ -76,6 +76,7 @@ const requiredFiles = [
   'data/store-assets.json',
   'data/store-listing-optimizer.json',
   'data/store-compliance.json',
+  'data/store-readiness.json',
   'data/android-signing.json',
   'data/native-package.json',
   'data/balance-report.json',
@@ -123,6 +124,7 @@ const requiredFiles = [
   'src/data/localEventBridge.ts',
   'src/data/storeListingOptimizer.ts',
   'src/data/storeCompliance.ts',
+  'src/data/storeReadiness.ts',
   'src/data/androidSigning.ts',
   'src/data/iosRelease.ts',
   'src/data/autonomousOwnerLoop.ts',
@@ -198,6 +200,7 @@ const requiredFiles = [
   'reports/store-assets-latest.md',
   'reports/store-listing-optimizer-latest.md',
   'reports/store-compliance-latest.md',
+  'reports/store-readiness-latest.md',
   'reports/android-signing-latest.md',
   'reports/native-package-latest.md',
   'reports/bot-simulation-latest.md',
@@ -234,6 +237,7 @@ const requiredFiles = [
   'scripts/autonomous-cadence.mjs',
   'scripts/autonomous-self-update.mjs',
   'scripts/android-signing-prep.mjs',
+  'scripts/store-readiness-page.mjs',
   'public/icons/app-icon.svg',
   'public/icons/icon-192.png',
   'public/icons/icon-512.png',
@@ -264,9 +268,13 @@ const requiredFiles = [
   'public/app-ads.txt',
   'public/monetization.html',
   'public/monetization.json',
+  'public/store-readiness.html',
+  'public/store-readiness.json',
   'public/.well-known/assetlinks.json',
   'dist/compliance.json',
   'dist/monetization.html',
+  'dist/store-readiness.html',
+  'dist/store-readiness.json',
   'dist/owner-unlock-brief.json',
   'dist/owner-unlock-preflight.json',
   'dist/.well-known/assetlinks.json',
@@ -399,6 +407,8 @@ const storeListingOptimizer = JSON.parse(
   await readFile(path.join(root, 'data', 'store-listing-optimizer.json'), 'utf8'),
 )
 const storeCompliance = JSON.parse(await readFile(path.join(root, 'data', 'store-compliance.json'), 'utf8'))
+const storeReadiness = JSON.parse(await readFile(path.join(root, 'data', 'store-readiness.json'), 'utf8'))
+const publicStoreReadiness = JSON.parse(await readFile(path.join(root, 'public', 'store-readiness.json'), 'utf8'))
 const androidSigning = JSON.parse(await readFile(path.join(root, 'data', 'android-signing.json'), 'utf8'))
 const nativePackage = JSON.parse(await readFile(path.join(root, 'data', 'native-package.json'), 'utf8'))
 const balance = JSON.parse(await readFile(path.join(root, 'data', 'balance-report.json'), 'utf8'))
@@ -447,6 +457,7 @@ const analyticsUnlockHtml = await readFile(path.join(root, 'public', 'analytics-
 const publicAnalyticsUnlockStatus = JSON.parse(await readFile(path.join(root, 'public', 'analytics-unlock.json'), 'utf8'))
 const monetizationHtml = await readFile(path.join(root, 'public', 'monetization.html'), 'utf8')
 const publicMonetizationManifest = JSON.parse(await readFile(path.join(root, 'public', 'monetization.json'), 'utf8'))
+const storeReadinessHtml = await readFile(path.join(root, 'public', 'store-readiness.html'), 'utf8')
 const installHtml = await readFile(path.join(root, 'public', 'install.html'), 'utf8')
 const seedKitHtml = await readFile(path.join(root, 'public', 'seed-kit.html'), 'utf8')
 const seedNextHtml = await readFile(path.join(root, 'public', 'seed-next.html'), 'utf8')
@@ -461,6 +472,7 @@ const indexHtmlSource = await readFile(path.join(root, 'index.html'), 'utf8')
 const packageJson = JSON.parse(await readFile(path.join(root, 'package.json'), 'utf8'))
 const viteConfig = await readFile(path.join(root, 'vite.config.ts'), 'utf8')
 const appSource = await readFile(path.join(root, 'src', 'App.tsx'), 'utf8')
+const storeReadinessSource = await readFile(path.join(root, 'scripts', 'store-readiness-page.mjs'), 'utf8')
 const gameCanvasSource = await readFile(path.join(root, 'src', 'components', 'GameCanvas.tsx'), 'utf8')
 const harborRingsSource = await readFile(path.join(root, 'src', 'game', 'HarborRingsScene.ts'), 'utf8')
 const generatedPuzzleSource = await readFile(path.join(root, 'src', 'game', 'GeneratedPuzzleScene.ts'), 'utf8')
@@ -4543,6 +4555,7 @@ if (
   !postDeployReadinessSyncScript.includes('autonomous:pwa-install') ||
   !postDeployReadinessSyncScript.includes('autonomous:store-listing-optimize') ||
   !postDeployReadinessSyncScript.includes('autonomous:store-compliance') ||
+  !postDeployReadinessSyncScript.includes('autonomous:store-readiness') ||
   !postDeployReadinessSyncScript.includes('autonomous:performance') ||
   !postDeployReadinessSyncScript.includes('autonomous:release-candidate') ||
   !postDeployReadinessSyncScript.includes('autonomous:post-deploy-smoke') ||
@@ -4584,6 +4597,11 @@ if (
   !postDeployEvidenceSyncWorkflow.includes('data/store-compliance.json') ||
   !postDeployEvidenceSyncWorkflow.includes('src/data/storeCompliance.ts') ||
   !postDeployEvidenceSyncWorkflow.includes('reports/store-compliance-latest.md') ||
+  !postDeployEvidenceSyncWorkflow.includes('data/store-readiness.json') ||
+  !postDeployEvidenceSyncWorkflow.includes('src/data/storeReadiness.ts') ||
+  !postDeployEvidenceSyncWorkflow.includes('public/store-readiness.html') ||
+  !postDeployEvidenceSyncWorkflow.includes('public/store-readiness.json') ||
+  !postDeployEvidenceSyncWorkflow.includes('reports/store-readiness-latest.md') ||
   !postDeployEvidenceSyncWorkflow.includes('data/post-deploy-smoke.json') ||
   !postDeployEvidenceSyncWorkflow.includes('data/live-site-monitor.json') ||
   !postDeployEvidenceSyncWorkflow.includes('src/data/liveSiteMonitor.ts') ||
@@ -5142,6 +5160,18 @@ if (!packageJson.scripts?.['autonomous:daily']?.includes('autonomous:store-compl
   fail('Autonomous daily loop must generate store compliance drafts.')
 }
 
+if (!packageJson.scripts?.['autonomous:store-readiness']?.includes('store-readiness-page')) {
+  fail('Autonomous scripts must expose the public store readiness handoff.')
+}
+
+if (!packageJson.scripts?.['autonomous:daily']?.includes('autonomous:store-readiness')) {
+  fail('Autonomous daily loop must generate the store readiness handoff.')
+}
+
+if (!packageJson.scripts?.['autonomous:bundle-finalize']?.includes('autonomous:store-readiness')) {
+  fail('Bundle finalization must regenerate the store readiness handoff.')
+}
+
 if (
   packageJson.scripts?.['autonomous:daily']?.includes('autonomous:store-assets') &&
   packageJson.scripts?.['autonomous:daily']?.includes('autonomous:store-listing-optimize') &&
@@ -5258,6 +5288,18 @@ const storeComplianceSourceDataHash = hashSourceData({
   unitEconomics,
   storeAssets,
 })
+const storeReadinessSourceDataHash = hashSourceData({
+  storePackage,
+  storeCompliance,
+  storeListingOptimizer,
+  nativePackage,
+  androidRelease,
+  iosRelease,
+  unitEconomics,
+  monetizationPlan,
+  productionEnvironment,
+  storeAssets,
+})
 
 if (
   storePackage.status !== 'store-package-ready' ||
@@ -5369,6 +5411,64 @@ if (
   publicComplianceManifest.storeCompliance?.policyPosture !== 'no-accounts-no-ugc-no-gambling-no-paid-spend'
 ) {
   fail('Store package must publish a deployable compliance manifest with privacy, support, and post-deploy smoke handoff.')
+}
+
+const storeReadinessPlatformIds = new Set((storeReadiness.platformHandoffs ?? []).map((handoff) => handoff.id))
+const publicStoreReadinessPlatformIds = new Set((publicStoreReadiness.platformHandoffs ?? []).map((handoff) => handoff.id))
+const storeReadinessCheckIds = new Set((storeReadiness.checks ?? []).map((check) => check.id))
+
+if (
+  storeReadiness.status !== 'store-readiness-prepared-external-blockers' ||
+  storeReadiness.sourceDataHash !== storeReadinessSourceDataHash ||
+  storeReadiness.summary?.launchCandidateId !== storePackage.launchCandidate?.id ||
+  storeReadiness.summary?.complianceStatus !== storeCompliance.status ||
+  storeReadiness.summary?.androidStatus !== androidRelease.status ||
+  storeReadiness.summary?.iosStatus !== iosRelease.status ||
+  storeReadiness.summary?.nativePackageStatus !== nativePackage.status ||
+  storeReadiness.summary?.storeSpendAllowed !== (unitEconomics.controls?.storeSpendAllowed === true) ||
+  storeReadiness.summary?.revenueEnabled !== (monetizationPlan.revenueEnabled === true) ||
+  storeReadiness.summary?.screenshotCount !== (storeAssets.screenshots?.length ?? 0) ||
+  storeReadiness.summary?.externalBlockerCount < 1 ||
+  storeReadiness.summary?.productBlockerCount < 1 ||
+  storeReadiness.publicRoutes?.storeReadiness !== '/store-readiness.html' ||
+  storeReadiness.publicRoutes?.storeReadinessJson !== '/store-readiness.json' ||
+  storeReadiness.publicRoutes?.measurementStatus !== '/measurement-status.html' ||
+  storeReadiness.publicRoutes?.monetization !== '/monetization.html' ||
+  storeReadiness.publicRoutes?.compliance !== '/compliance.json' ||
+  !storeReadinessPlatformIds.has('web-pwa') ||
+  !storeReadinessPlatformIds.has('android-google-play') ||
+  !storeReadinessPlatformIds.has('ios-app-store') ||
+  !storeReadinessCheckIds.has('store-package') ||
+  !storeReadinessCheckIds.has('store-compliance') ||
+  !storeReadinessCheckIds.has('native-package') ||
+  !storeReadinessCheckIds.has('android-release') ||
+  !storeReadinessCheckIds.has('ios-release') ||
+  !storeReadiness.blockers?.external?.some((item) => item.includes('support-contact')) ||
+  !storeReadiness.blockers?.external?.some((item) => item.includes('google-play-account')) ||
+  !storeReadiness.blockers?.product?.some((item) => item.includes('retention') || item.includes('completion')) ||
+  storeReadiness.controls?.zeroPaidSpend !== true ||
+  storeReadiness.controls?.noPaidSpend !== true ||
+  storeReadiness.controls?.noStoreSubmission !== true ||
+  storeReadiness.controls?.noRevenueEnablement !== true ||
+  storeReadiness.controls?.noAccountCreation !== true ||
+  storeReadiness.controls?.ownerInputsRequired !== true ||
+  storeReadiness.controls?.postDeploySmokeRequired !== true ||
+  publicStoreReadiness.status !== storeReadiness.status ||
+  publicStoreReadiness.sourceDataHash !== storeReadiness.sourceDataHash ||
+  publicStoreReadiness.publicRoutes?.storeReadiness !== '/store-readiness.html' ||
+  !publicStoreReadinessPlatformIds.has('android-google-play') ||
+  !publicStoreReadinessPlatformIds.has('ios-app-store') ||
+  !storeReadinessHtml.includes('Autonomous Game Lab Store Readiness') ||
+  !storeReadinessHtml.includes('Android Google Play') ||
+  !storeReadinessHtml.includes('iOS App Store') ||
+  !storeReadinessHtml.includes('./measurement-status.html') ||
+  !storeReadinessHtml.includes('./monetization.html') ||
+  !storeReadinessHtml.includes('./compliance.json') ||
+  !storeReadinessSource.includes('noStoreSubmission') ||
+  !storeReadinessSource.includes('postDeploySmokeRequired') ||
+  !appSource.includes('/store-readiness.html')
+) {
+  fail('Store readiness must publish a public web, Android, and iOS handoff with current blockers, controls, and route evidence.')
 }
 
 if (
@@ -6021,6 +6121,8 @@ const operationalFreshnessAssets = [
   'gate-sample.html',
   'share-manifest.json',
   'monetization.html',
+  'store-readiness.html',
+  'store-readiness.json',
   'privacy.html',
   'support.html',
   'install.html',
@@ -6066,6 +6168,10 @@ if (
   !releaseCandidate.postDeploySmoke?.some((item) => item.path === '/sample-fastest.html') ||
   !releaseCandidate.postDeploySmoke?.some((item) => item.path === '/sample-fastest.json') ||
   !releaseCandidate.postDeploySmoke?.some((item) => item.path === '/monetization.html') ||
+  !releaseCandidate.postDeploySmoke?.some((item) => item.path === '/store-readiness.html') ||
+  !releaseCandidate.postDeploySmoke?.some(
+    (item) => item.path === '/store-readiness.json' && item.requiredText === 'store-readiness',
+  ) ||
   !releaseCandidate.postDeploySmoke?.some((item) => item.path === '/owner-unlock-brief.json') ||
   !releaseCandidate.postDeploySmoke?.some((item) => item.path === '/owner-unlock-preflight.json') ||
   !releaseCandidate.postDeploySmoke?.some(
@@ -6089,6 +6195,8 @@ if (
   !releaseCandidateRequiredFiles.has('sample-fastest.html') ||
   !releaseCandidateRequiredFiles.has('sample-fastest.json') ||
   !releaseCandidateRequiredFiles.has('monetization.html') ||
+  !releaseCandidateRequiredFiles.has('store-readiness.html') ||
+  !releaseCandidateRequiredFiles.has('store-readiness.json') ||
   !releaseCandidateRequiredFiles.has('owner-unlock-brief.json') ||
   !releaseCandidateRequiredFiles.has('owner-unlock-preflight.json') ||
   !releaseCandidateRequiredFiles.has('.nojekyll') ||
@@ -6329,6 +6437,11 @@ if (
   !postDeployEvidenceSyncWorkflow.includes('reports/post-deploy-artifact-sync-latest.md') ||
   !postDeployEvidenceSyncWorkflow.includes('data/performance-budget.json') ||
   !postDeployEvidenceSyncWorkflow.includes('data/release-candidate.json') ||
+  !postDeployEvidenceSyncWorkflow.includes('data/store-readiness.json') ||
+  !postDeployEvidenceSyncWorkflow.includes('src/data/storeReadiness.ts') ||
+  !postDeployEvidenceSyncWorkflow.includes('public/store-readiness.html') ||
+  !postDeployEvidenceSyncWorkflow.includes('public/store-readiness.json') ||
+  !postDeployEvidenceSyncWorkflow.includes('reports/store-readiness-latest.md') ||
   !postDeployEvidenceSyncWorkflow.includes('data/post-deploy-smoke.json') ||
   !postDeployEvidenceSyncWorkflow.includes('data/live-site-monitor.json') ||
   !postDeployEvidenceSyncWorkflow.includes('src/data/liveSiteMonitor.ts') ||
@@ -7142,6 +7255,10 @@ const ownerLocalSelectableActions = (autonomousOwnerLoop.safeAutonomousActions ?
 const ownerRecentlyExecutedActionStillExecutable = (autonomousOwnerLoop.safeAutonomousActions ?? []).some(
   (action) => action.id === ownerLastExecutedActionId && ownerActionLocallySelectable(action),
 )
+const ownerRepeatSuppressedActionIds = new Set([...ownerRecentlyCoveredActionIds])
+if (ownerRecentlyExecutedActionStillExecutable && ownerLastExecutedActionId) {
+  ownerRepeatSuppressedActionIds.add(ownerLastExecutedActionId)
+}
 const ownerRecentlyExecutedExecutableActionIds = ownerRecentExecutedActionIds.filter((actionId) =>
   (autonomousOwnerLoop.safeAutonomousActions ?? []).some(
     (action) => action.id === actionId && ownerActionLocallySelectable(action),
@@ -7156,11 +7273,11 @@ const ownerRecentlySatisfiedExecutableActionIds = ownerRecentlySatisfiedActionId
   ),
 )
 const ownerHasExecutableAlternativeOutsideCovered = (autonomousOwnerLoop.safeAutonomousActions ?? []).some(
-  (action) => ownerActionLocallySelectable(action) && !ownerRecentlyCoveredActionIds.has(action.id),
+  (action) => ownerActionLocallySelectable(action) && !ownerRepeatSuppressedActionIds.has(action.id),
 )
 const ownerExpectedImmediateRepeatSuppressed =
   ownerLocalSelectableActions.length > 0 &&
-  ownerLocalSelectableActions.every((action) => ownerRecentlyCoveredActionIds.has(action.id))
+  ownerLocalSelectableActions.every((action) => ownerRepeatSuppressedActionIds.has(action.id))
 const ownerGateSampleBackoff = autonomousOwnerLoop.executionMemory?.gateSampleDownloadsBackoff
 const ownerGateSampleEvidenceReadyNow =
   (localEventBridge.gateSampleEvidence?.inbox?.events ?? 0) > 0 ||
@@ -7708,6 +7825,8 @@ if (
   autonomousOwnerLoop.executionMemory?.recentExecutionWindow !== 8 ||
   autonomousOwnerLoop.executionMemory?.repeatSuppressionMaxAgeHours !== ownerRepeatSuppressionMaxAgeHours ||
   autonomousOwnerLoop.executionMemory?.lastExecutedActionId !== ownerLastExecutedActionId ||
+  autonomousOwnerLoop.executionMemory?.lastExecutedActionStillExecutable !==
+    ownerRecentlyExecutedActionStillExecutable ||
   autonomousOwnerLoop.executionMemory?.lastExecutedAgeHours !== ownerActionAgeHours(ownerExecutedRecords[0]) ||
   autonomousOwnerLoop.executionMemory?.lastExecutedStatus !== ownerLastExecutedStatus ||
   autonomousOwnerLoop.executionMemory?.lastRecordExecutionStatus !== ownerLastRecordExecutionStatus ||

@@ -1,6 +1,6 @@
 # Android Release
 
-Generated: 2026-05-22T22:53:26.121Z
+Generated: 2026-05-24T22:14:05.752Z
 Status: blocked-needs-host-signing-play
 Channel: android-google-play
 Package: app.autonomousgamelab.portal
@@ -9,11 +9,11 @@ Cost posture: zero-paid-spend-until-live-revenue-and-retention-pass
 
 ## Checks
 
-- pass: native-package-ready - Native package is ready-for-bubblewrap-build.
-- pass: store-package-draft - Store package is draft-ready; data safety is draft-ready.
+- blocker: native-package-ready - Native package is blocked-draft-ready.
+- blocker: store-package-draft - Store package is blocked; data safety is draft-ready.
 - pass: store-compliance-draft - Store compliance is draft-ready-external-blockers.
 - pass: store-screenshots - 4 screenshot asset(s) are available.
-- pass: asset-links - Digital Asset Links are generated and verifiable at https://moshequ.github.io/.well-known/assetlinks.json.
+- blocker: asset-links - Digital Asset Links are domain-verification-blocked; Android requires https://moshequ.github.io/.well-known/assetlinks.json and current artifact publishes https://moshequ.github.io/autonomous-game-lab/.well-known/assetlinks.json.
 - pass: signing-fingerprint - Android signing fingerprint is configured.
 - pass: signing-secrets - Android keystore, password, and alias are available to CI.
 - missing-env: google-play-account - Google Play account is not connected.

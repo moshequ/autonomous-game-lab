@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2026-05-23T01:07:40.048Z",
+  "generatedAt": "2026-05-24T22:13:34.574Z",
   "status": "root-assetlinks-live",
   "platform": "android-trusted-web-activity",
   "sourceStatus": {
-    "nativePackage": "ready-for-bubblewrap-build",
-    "nativeAssetLinks": "ready",
-    "repositoryReadiness": "repository-channel-ready"
+    "nativePackage": "blocked-draft-ready",
+    "nativeAssetLinks": "domain-verification-blocked",
+    "repositoryReadiness": "waiting-for-repository-channel"
   },
   "target": {
     "repository": "moshequ/moshequ.github.io",
@@ -19,7 +19,7 @@
     "projectPublishedUrl": "https://moshequ.github.io/autonomous-game-lab/.well-known/assetlinks.json"
   },
   "live": {
-    "checkedAt": "2026-05-23T01:07:39.783Z",
+    "checkedAt": "2026-05-24T22:13:34.196Z",
     "status": "live-match",
     "httpStatus": 200,
     "finalUrl": "https://moshequ.github.io/.well-known/assetlinks.json",
@@ -69,8 +69,8 @@
   "checks": [
     {
       "id": "root-assetlinks-needed",
-      "status": "pass",
-      "detail": "Native package is already root-verifiable or does not need a root handoff."
+      "status": "actionable",
+      "detail": "Android requires https://moshequ.github.io/.well-known/assetlinks.json; project Pages currently publishes https://moshequ.github.io/autonomous-game-lab/.well-known/assetlinks.json."
     },
     {
       "id": "source-assetlinks",
@@ -89,8 +89,8 @@
     },
     {
       "id": "github-cli",
-      "status": "available",
-      "detail": "GitHub CLI automation is available for the repository context."
+      "status": "owner-input-required",
+      "detail": "A GitHub token with access to the root Pages repository is required before syncing."
     }
   ],
   "nextActions": [

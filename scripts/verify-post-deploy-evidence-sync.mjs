@@ -20,6 +20,8 @@ const [
   storeAssets,
   storeListingOptimizer,
   storeCompliance,
+  storeReadiness,
+  publicStoreReadiness,
   postDeploySmoke,
   repositoryReadiness,
   repositoryBootstrap,
@@ -53,6 +55,8 @@ const [
   readJson('data/store-assets.json'),
   readJson('data/store-listing-optimizer.json'),
   readJson('data/store-compliance.json'),
+  readJson('data/store-readiness.json'),
+  readJson('public/store-readiness.json'),
   readJson('data/post-deploy-smoke.json'),
   readJson('data/repository-readiness.json'),
   readJson('data/repository-bootstrap.json'),
@@ -169,6 +173,7 @@ const requiredReadinessRefreshCommands = [
   'autonomous:pwa-install',
   'autonomous:store-listing-optimize',
   'autonomous:store-compliance',
+  'autonomous:store-readiness',
   'autonomous:performance',
   'autonomous:release-candidate',
   'autonomous:post-deploy-smoke',
@@ -201,6 +206,7 @@ const finalStoreAssetsIndex = postDeployReadinessSyncScript.lastIndexOf('autonom
 const finalPwaInstallIndex = postDeployReadinessSyncScript.lastIndexOf('autonomous:pwa-install')
 const finalStoreListingOptimizeIndex = postDeployReadinessSyncScript.lastIndexOf('autonomous:store-listing-optimize')
 const finalStoreComplianceIndex = postDeployReadinessSyncScript.lastIndexOf('autonomous:store-compliance')
+const finalStoreReadinessIndex = postDeployReadinessSyncScript.lastIndexOf('autonomous:store-readiness')
 const finalRepoReadinessIndex = postDeployReadinessSyncScript.lastIndexOf('autonomous:repo-readiness')
 const finalRepoBootstrapIndex = postDeployReadinessSyncScript.lastIndexOf('autonomous:repo-bootstrap')
 const finalUnlockRunnerIndex = postDeployReadinessSyncScript.lastIndexOf('autonomous:unlock-runner')
@@ -237,9 +243,10 @@ if (
   finalPwaInstallIndex < finalStoreAssetsIndex ||
   finalStoreListingOptimizeIndex < finalPwaInstallIndex ||
   finalStoreComplianceIndex < finalStoreListingOptimizeIndex ||
-  finalStoreComplianceIndex > finalReadinessRefreshIndex
+  finalStoreReadinessIndex < finalStoreComplianceIndex ||
+  finalStoreReadinessIndex > finalReadinessRefreshIndex
 ) {
-  fail('autonomous:post-deploy-readiness-sync must refresh env, PWA install, store package/assets/listing, and compliance before final readiness.')
+  fail('autonomous:post-deploy-readiness-sync must refresh env, PWA install, store package/assets/listing, compliance, and store readiness before final readiness.')
 }
 
 if (finalPostDeploySmokeIndex < deployPlanBeforeFinalRepoReadinessIndex) {
@@ -303,6 +310,18 @@ if (finalDeployPlanRefreshIndex < finalReadinessRefreshIndex) {
 }
 
 if (
+  storeReadiness.status !== 'store-readiness-prepared-external-blockers' ||
+  publicStoreReadiness.status !== storeReadiness.status ||
+  publicStoreReadiness.sourceDataHash !== storeReadiness.sourceDataHash ||
+  storeReadiness.publicRoutes?.storeReadiness !== '/store-readiness.html' ||
+  storeReadiness.controls?.noStoreSubmission !== true ||
+  storeReadiness.controls?.noRevenueEnablement !== true ||
+  storeReadiness.controls?.postDeploySmokeRequired !== true
+) {
+  fail('Post-deploy evidence sync must refresh the public store readiness handoff without enabling store submission or revenue.')
+}
+
+if (
   JSON.stringify(publicOwnerUnlockBrief) !== JSON.stringify(ownerUnlockBrief) ||
   JSON.stringify(publicOwnerUnlockPreflight) !== JSON.stringify(ownerUnlockPreflight) ||
   JSON.stringify(ownerUnlockBrief.brief) !== JSON.stringify(productionBlockerHandoff.ownerUnlockBrief) ||
@@ -362,6 +381,11 @@ if (
   !workflow.includes('data/store-compliance.json') ||
   !workflow.includes('src/data/storeCompliance.ts') ||
   !workflow.includes('reports/store-compliance-latest.md') ||
+  !workflow.includes('data/store-readiness.json') ||
+  !workflow.includes('src/data/storeReadiness.ts') ||
+  !workflow.includes('public/store-readiness.html') ||
+  !workflow.includes('public/store-readiness.json') ||
+  !workflow.includes('reports/store-readiness-latest.md') ||
   !workflow.includes('data/post-deploy-smoke.json') ||
   !workflow.includes('src/data/postDeploySmoke.ts') ||
   !workflow.includes('reports/post-deploy-smoke-latest.md') ||

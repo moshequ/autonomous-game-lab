@@ -131,7 +131,6 @@ test('portal loads a playable canvas and autonomy cockpit', async ({ page }) => 
   const nativePackage = JSON.parse(await readFile('data/native-package.json', 'utf8')) as {
     status: string
   }
-
   await page.goto('/')
 
   await expect(page.getByRole('heading', { name: /Original board-game-inspired/i })).toBeVisible()
@@ -161,6 +160,7 @@ test('portal loads a playable canvas and autonomy cockpit', async ({ page }) => 
   await expect(page.getByLabel('Store Compliance')).toContainText('draft-ready-external-blockers')
   await expect(page.getByLabel('Store Compliance')).toContainText('Everyone')
   await expect(page.getByLabel('Store Compliance')).toContainText('ads-disabled')
+  await expect(page.getByText('Store readiness')).toBeVisible()
   await expect(page.getByLabel('Store Listing Optimizer')).toContainText('store-listing-optimizer-ready')
   await expect(page.getByLabel('Store Listing Optimizer')).toContainText(storeListingOptimizer.recommendation.title)
   await expect(page.getByText('Asset links', { exact: true })).toBeVisible()
@@ -1479,6 +1479,8 @@ test('release candidate records the exact deployable PWA artifact', async () => 
   expect(candidate.integrity.files.some((file) => file.path === 'seed-next.html')).toBe(true)
   expect(candidate.integrity.files.some((file) => file.path === 'seed-next.json')).toBe(true)
   expect(candidate.integrity.files.some((file) => file.path === 'monetization.html')).toBe(true)
+  expect(candidate.integrity.files.some((file) => file.path === 'store-readiness.html')).toBe(true)
+  expect(candidate.integrity.files.some((file) => file.path === 'store-readiness.json')).toBe(true)
   expect(candidate.integrity.files.some((file) => file.path === '.nojekyll')).toBe(true)
   expect(candidate.integrity.files.some((file) => file.path === '.well-known/assetlinks.json')).toBe(true)
   expect(candidate.integrity.files.some((file) => file.cacheControl.includes('immutable'))).toBe(true)
@@ -1500,6 +1502,8 @@ test('release candidate records the exact deployable PWA artifact', async () => 
   expect(candidate.postDeploySmoke.some((check) => check.path === '/seed-next.html')).toBe(true)
   expect(candidate.postDeploySmoke.some((check) => check.path === '/seed-next.json')).toBe(true)
   expect(candidate.postDeploySmoke.some((check) => check.path === '/monetization.html')).toBe(true)
+  expect(candidate.postDeploySmoke.some((check) => check.path === '/store-readiness.html')).toBe(true)
+  expect(candidate.postDeploySmoke.some((check) => check.path === '/store-readiness.json')).toBe(true)
   expect(candidate.postDeploySmoke.some((check) => check.path === '/privacy.html')).toBe(true)
   expect(candidate.postDeploySmoke.some((check) => check.path === '/.well-known/assetlinks.json')).toBe(true)
   expect(candidate.controls.zeroPaidSpend).toBe(true)
@@ -1542,6 +1546,8 @@ test('PWA service worker keeps operational evidence endpoints fresh', async () =
     'gate-sample.html',
     'share-manifest.json',
     'monetization.html',
+    'store-readiness.html',
+    'store-readiness.json',
     'privacy.html',
     'support.html',
     'install.html',
@@ -4387,6 +4393,7 @@ test('autonomous operator history keeps a capped audit trail', async ({ page }) 
       recentExecutedActionIds: string[]
       expiredExecutedActionIds: string[]
       lastExecutedActionId: string | null
+      lastExecutedActionStillExecutable: boolean
       lastExecutedAgeHours: number | null
       lastExecutedStatus: string | null
       lastRecordExecutionStatus: string | null
@@ -4641,12 +4648,20 @@ test('autonomous operator history keeps a capped audit trail', async ({ page }) 
   const isLocalSelectableAction = (action: { id: string; status: string }) =>
     action.status === 'armed' && action.id !== 'run-daily-owner-loop'
   const localSelectableActions = ownerLoop.safeAutonomousActions.filter(isLocalSelectableAction)
+  const lastExecutedActionStillSelectable = Boolean(
+    ownerLoop.executionMemory.lastExecutedActionId &&
+      localSelectableActions.some((action) => action.id === ownerLoop.executionMemory.lastExecutedActionId),
+  )
+  const repeatSuppressedActionIds = new Set([...recentlyCoveredActionIds])
+  if (lastExecutedActionStillSelectable && ownerLoop.executionMemory.lastExecutedActionId) {
+    repeatSuppressedActionIds.add(ownerLoop.executionMemory.lastExecutedActionId)
+  }
   const hasExecutableAlternativeOutsideCovered = ownerLoop.safeAutonomousActions.some(
-    (action) => isLocalSelectableAction(action) && !recentlyCoveredActionIds.has(action.id),
+    (action) => isLocalSelectableAction(action) && !repeatSuppressedActionIds.has(action.id),
   )
   const expectedImmediateRepeatSuppressed =
     localSelectableActions.length > 0 &&
-    localSelectableActions.every((action) => recentlyCoveredActionIds.has(action.id))
+    localSelectableActions.every((action) => repeatSuppressedActionIds.has(action.id))
   const gateSampleEvidenceReadyNow =
     (localEventBridge.gateSampleEvidence?.inbox?.events ?? 0) > 0 ||
     (localEventBridge.gateSampleEvidence?.imported?.events ?? 0) > 0
@@ -4757,6 +4772,7 @@ test('autonomous operator history keeps a capped audit trail', async ({ page }) 
   expect(ownerLoop.executionMemory.expiredExecutedActionIds).toEqual(expiredExecutedActionIds)
   expect(ownerLoop.executionMemory.recentlySatisfiedActionIds).toEqual(recentlySatisfiedActionIds)
   expect(ownerLoop.executionMemory.lastExecutedActionId).toBe(history.summary.lastExecutedActionId)
+  expect(ownerLoop.executionMemory.lastExecutedActionStillExecutable).toBe(lastExecutedActionStillSelectable)
   expect(ownerLoop.executionMemory.lastExecutedAgeHours).toBe(actionAgeHours(lastExecutedRecord ?? {}))
   expect(ownerLoop.executionMemory.lastExecutedStatus).toBe(lastExecutedRecord?.execution.status ?? null)
   expect(ownerLoop.executionMemory.lastRecordExecutionStatus).toBe(history.summary.lastExecutionStatus)
@@ -5014,6 +5030,12 @@ test('autonomous operator history keeps a capped audit trail', async ({ page }) 
   expect(collectGateSampleAction?.status).toBe('monitor')
   expect(collectGateSampleAction?.reason).toContain('owner opts in')
   expect(ownerLoop.ownerDecision.nextBestActionId).not.toBe('collect-gate-sample-downloads')
+  if (lastExecutedActionStillSelectable && ownerLoop.executionMemory.lastExecutedActionId) {
+    expect(ownerLoop.ownerDecision.nextBestActionId).not.toBe(ownerLoop.executionMemory.lastExecutedActionId)
+    expect(ownerLoop.executionMemory.skippedRecentlyExecutedActionIds).toContain(
+      ownerLoop.executionMemory.lastExecutedActionId,
+    )
+  }
   if (hasExecutableAlternativeOutsideCovered) {
     expect(recentExecutedActionIds).not.toContain(ownerLoop.ownerDecision.nextBestActionId)
     for (const actionId of recentExecutedActionIds) {
@@ -10179,7 +10201,7 @@ test('monetization runtime is guarded before revenue gates pass', async ({ page 
   const monetizationPanel = page.locator('.sectionPanel').filter({ hasText: 'Monetization Path' })
   await expect(monetizationPanel.getByText('Preflight', { exact: true })).toBeVisible()
   await expect(page.getByText('waiting-on-provider-or-product-gates')).toBeVisible()
-  await expect(monetizationPanel.getByRole('link', { name: 'open' })).toHaveAttribute(
+  await expect(monetizationPanel.getByRole('link', { name: 'open preflight' })).toHaveAttribute(
     'href',
     '/monetization.html',
   )
@@ -10295,6 +10317,110 @@ test('store listing optimizer promotes the data-led store focus', async ({ page 
 
   await page.goto('/')
   await expect(page.getByLabel('Store Listing Optimizer')).toContainText(optimizer.recommendation.title)
+})
+
+test('store readiness handoff publishes web, Android, and iOS blockers', async ({ page }) => {
+  const readiness = JSON.parse(await readFile('data/store-readiness.json', 'utf8')) as {
+    status: string
+    sourceDataHash: string
+    summary: {
+      launchCandidateId: string
+      complianceStatus: string
+      androidStatus: string
+      iosStatus: string
+      nativePackageStatus: string
+      storeSpendAllowed: boolean
+      revenueEnabled: boolean
+      externalBlockerCount: number
+      productBlockerCount: number
+    }
+    publicRoutes: Record<string, string>
+    platformHandoffs: Array<{ id: string; status: string }>
+    checks: Array<{ id: string; status: string }>
+    blockers: { external: string[]; product: string[] }
+    controls: {
+      zeroPaidSpend: boolean
+      noPaidSpend: boolean
+      noStoreSubmission: boolean
+      noRevenueEnablement: boolean
+      ownerInputsRequired: boolean
+      postDeploySmokeRequired: boolean
+    }
+  }
+  const publicReadiness = JSON.parse(await readFile('public/store-readiness.json', 'utf8')) as {
+    status: string
+    sourceDataHash: string
+    publicRoutes: Record<string, string>
+    platformHandoffs: Array<{ id: string }>
+  }
+  const storePackage = JSON.parse(await readFile('data/store-package.json', 'utf8')) as {
+    launchCandidate: { id: string }
+  }
+  const storeCompliance = JSON.parse(await readFile('data/store-compliance.json', 'utf8')) as {
+    status: string
+  }
+  const androidRelease = JSON.parse(await readFile('data/android-release.json', 'utf8')) as {
+    status: string
+  }
+  const iosRelease = JSON.parse(await readFile('data/ios-release.json', 'utf8')) as {
+    status: string
+  }
+  const nativePackage = JSON.parse(await readFile('data/native-package.json', 'utf8')) as {
+    status: string
+  }
+
+  expect(readiness.status).toBe('store-readiness-prepared-external-blockers')
+  expect(readiness.sourceDataHash).toMatch(/^[a-f0-9]{12}$/)
+  expect(readiness.summary.launchCandidateId).toBe(storePackage.launchCandidate.id)
+  expect(readiness.summary.complianceStatus).toBe(storeCompliance.status)
+  expect(readiness.summary.androidStatus).toBe(androidRelease.status)
+  expect(readiness.summary.iosStatus).toBe(iosRelease.status)
+  expect(readiness.summary.nativePackageStatus).toBe(nativePackage.status)
+  expect(readiness.summary.storeSpendAllowed).toBe(false)
+  expect(readiness.summary.revenueEnabled).toBe(false)
+  expect(readiness.summary.externalBlockerCount).toBeGreaterThan(0)
+  expect(readiness.summary.productBlockerCount).toBeGreaterThan(0)
+  expect(readiness.publicRoutes.storeReadiness).toBe('/store-readiness.html')
+  expect(readiness.publicRoutes.storeReadinessJson).toBe('/store-readiness.json')
+  expect(readiness.publicRoutes.compliance).toBe('/compliance.json')
+  expect(readiness.platformHandoffs.map((handoff) => handoff.id)).toEqual(
+    expect.arrayContaining(['web-pwa', 'android-google-play', 'ios-app-store']),
+  )
+  expect(readiness.checks.map((check) => check.id)).toEqual(
+    expect.arrayContaining(['store-package', 'store-compliance', 'native-package', 'android-release', 'ios-release']),
+  )
+  expect(readiness.blockers.external.some((blocker) => blocker.includes('support-contact'))).toBe(true)
+  expect(readiness.blockers.external.some((blocker) => blocker.includes('google-play-account'))).toBe(true)
+  expect(readiness.blockers.product.length).toBeGreaterThan(0)
+  expect(readiness.controls.zeroPaidSpend).toBe(true)
+  expect(readiness.controls.noPaidSpend).toBe(true)
+  expect(readiness.controls.noStoreSubmission).toBe(true)
+  expect(readiness.controls.noRevenueEnablement).toBe(true)
+  expect(readiness.controls.ownerInputsRequired).toBe(true)
+  expect(readiness.controls.postDeploySmokeRequired).toBe(true)
+  expect(publicReadiness.status).toBe(readiness.status)
+  expect(publicReadiness.sourceDataHash).toBe(readiness.sourceDataHash)
+  expect(publicReadiness.publicRoutes.storeReadiness).toBe('/store-readiness.html')
+  expect(publicReadiness.platformHandoffs.map((handoff) => handoff.id)).toEqual(
+    expect.arrayContaining(['android-google-play', 'ios-app-store']),
+  )
+
+  const response = await page.goto('/store-readiness.html')
+
+  expect(response?.ok()).toBeTruthy()
+  await expect(page.getByRole('heading', { name: 'Autonomous Game Lab Store Readiness' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Android Google Play' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'iOS App Store' })).toBeVisible()
+  await expect(page.getByRole('link', { name: 'store-readiness.json' })).toHaveAttribute(
+    'href',
+    './store-readiness.json',
+  )
+  await expect(page.getByRole('link', { name: 'measurement-status.html' })).toHaveAttribute(
+    'href',
+    './measurement-status.html',
+  )
+  await expect(page.getByRole('link', { name: 'monetization.html' })).toHaveAttribute('href', './monetization.html')
+  await expect(page.getByRole('link', { name: 'compliance.json' })).toHaveAttribute('href', './compliance.json')
 })
 
 test('generated install icon assets are reachable', async ({ page }) => {

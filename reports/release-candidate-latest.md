@@ -1,22 +1,22 @@
 # Release Candidate
 
-Generated: 2026-05-24T20:26:42.355Z
+Generated: 2026-05-24T22:38:53.751Z
 Status: release-candidate-ready
-Candidate: pwa-282ce0f31806
-Files: 70
-Size: 3900 KB
-Aggregate SHA-256: 282ce0f31806cc5c07d905d9f25363952eefae931459f3e07ae7b8e50d42195b
+Candidate: pwa-9767429af930
+Files: 72
+Size: 3915.5 KB
+Aggregate SHA-256: 9767429af930e58f0428de93f2dcfcb0122046f25079b5c12a98be095850e9a7
 
 ## Checks
 
-- pass: dist-inventory - 70 dist files inventoried.
-- pass: required-files - 34/34 required files present.
+- pass: dist-inventory - 72 dist files inventoried.
+- pass: required-files - 36/36 required files present.
 - pass: game-pages - 10 generated game page(s) in dist.
 - pass: performance-budget - Performance budget is performance-budget-ready.
 - pass: release-health - Release health is monitoring.
 - pass: production-response - Deploy allowed is true.
 - pass: spend-guard - Spend mode is no-spend.
-- pass: post-deploy-smoke-plan - 29 post-deploy smoke URL(s) planned.
+- pass: post-deploy-smoke-plan - 31 post-deploy smoke URL(s) planned.
 
 ## Required Files
 
@@ -48,6 +48,8 @@ Aggregate SHA-256: 282ce0f31806cc5c07d905d9f25363952eefae931459f3e07ae7b8e50d421
 - pass: share-manifest.json
 - pass: monetization.html
 - pass: monetization.json
+- pass: store-readiness.html
+- pass: store-readiness.json
 - pass: app-ads.txt
 - pass: .nojekyll
 - pass: .well-known/assetlinks.json
@@ -73,6 +75,8 @@ Aggregate SHA-256: 282ce0f31806cc5c07d905d9f25363952eefae931459f3e07ae7b8e50d421
 - 200: https://moshequ.github.io/autonomous-game-lab/install.html
 - 200: https://moshequ.github.io/autonomous-game-lab/compliance.json
 - 200: https://moshequ.github.io/autonomous-game-lab/monetization.json
+- 200: https://moshequ.github.io/autonomous-game-lab/store-readiness.html
+- 200: https://moshequ.github.io/autonomous-game-lab/store-readiness.json
 - 200: https://moshequ.github.io/autonomous-game-lab/app-ads.txt
 - 200: https://moshequ.github.io/autonomous-game-lab/.well-known/assetlinks.json
 - 200: https://moshequ.github.io/autonomous-game-lab/gate-sample.html

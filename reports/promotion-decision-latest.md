@@ -1,6 +1,6 @@
 # Promotion Decision
 
-Generated: 2026-05-23T11:49:38.183Z
+Generated: 2026-05-24T22:20:50.847Z
 Analytics source: fixture-sample
 Release health: monitoring
 Cost posture: no-new-spend
@@ -31,6 +31,7 @@ Cost posture: no-new-spend
 - Next action: Host privacy URL, create signing assets, and connect Google Play account.
 - Blockers:
   - Google Play developer account is not connected.
+  - Native package is blocked-draft-ready.
 
 ### ios-app-store
 

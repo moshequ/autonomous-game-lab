@@ -4384,7 +4384,7 @@ function App() {
               <div className="factRow">
                 <span>Preflight page</span>
                 <a href="/monetization.html" target="_blank" rel="noreferrer">
-                  open
+                  open preflight
                 </a>
               </div>
               <div className="monetizationRuntime" aria-label="Revenue runtime">
@@ -4482,6 +4482,12 @@ function App() {
                   <span>Ads declaration</span>
                   <strong>{storeCompliance.adsAndMonetization.status}</strong>
                 </div>
+              </div>
+              <div className="factRow">
+                <span>Store readiness</span>
+                <a href="/store-readiness.html" target="_blank" rel="noreferrer">
+                  open readiness
+                </a>
               </div>
               <div className="monetizationRuntime" aria-label="Store Listing Optimizer">
                 <div>

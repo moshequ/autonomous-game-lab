@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-24T17:52:56.578Z",
+  "generatedAt": "2026-05-24T21:42:32.735Z",
   "siteUrl": "https://moshequ.github.io/autonomous-game-lab",
   "publicUrlMode": "absolute-origin",
   "publicOrigin": {
@@ -396,6 +396,12 @@
       "path": "/measurement-status.html",
       "role": "public-measurement-status",
       "channel": "player-evidence",
+      "changefreq": "daily"
+    },
+    {
+      "path": "/store-readiness.html",
+      "role": "store-distribution-readiness",
+      "channel": "store-readiness",
       "changefreq": "daily"
     },
     {

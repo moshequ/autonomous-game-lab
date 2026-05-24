@@ -1,5 +1,5 @@
 export const monetizationPlan = {
-  "generatedAt": "2026-05-24T20:13:32.255Z",
+  "generatedAt": "2026-05-24T21:43:10.131Z",
   "status": "blocked-by-product-gates",
   "revenueEnabled": false,
   "costPosture": "no-new-spend-until-gates-pass",

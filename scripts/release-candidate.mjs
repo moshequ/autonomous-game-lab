@@ -122,6 +122,8 @@ const requiredFiles = [
   'share-manifest.json',
   'monetization.html',
   'monetization.json',
+  'store-readiness.html',
+  'store-readiness.json',
   'app-ads.txt',
   '.nojekyll',
   '.well-known/assetlinks.json',
@@ -205,6 +207,8 @@ const smokePaths = [
   'install.html',
   'compliance.json',
   'monetization.json',
+  'store-readiness.html',
+  'store-readiness.json',
   'app-ads.txt',
   '.well-known/assetlinks.json',
   'gate-sample.html',
@@ -235,6 +239,14 @@ const requiredTextForSmokePath = (filePath) => {
 
   if (filePath === 'monetization.html') {
     return 'Monetization Preflight'
+  }
+
+  if (filePath === 'store-readiness.html') {
+    return 'Store Readiness'
+  }
+
+  if (filePath === 'store-readiness.json') {
+    return 'store-readiness'
   }
 
   if (filePath === 'app-ads.txt') {

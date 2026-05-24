@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-05-24T18:17:57.663Z",
-  "sourceDataHash": "5974f9d8d441",
+  "generatedAt": "2026-05-24T21:43:52.570Z",
+  "sourceDataHash": "c66189db9de4",
   "status": "product-gate-sample-plan-ready",
   "sourceStatus": {
     "analyticsSource": "fixture-sample",
@@ -16,7 +16,7 @@
     "primaryGateId": "firstGameCompletion",
     "fastestGateId": "d1Retention",
     "defaultRouteGateId": "firstGameCompletion",
-    "defaultRouteCampaignId": "gate-sample-20260524-firstGameCompletion",
+    "defaultRouteCampaignId": "gate-sample-20260525-firstGameCompletion",
     "totalPromptViewsNeeded": 70,
     "totalObservedSuccessesNeeded": 139,
     "sampleReadyCount": 0,
@@ -38,16 +38,16 @@
     "evidenceReadyNow": false,
     "lastScanAt": "2026-05-22T13:53:13.086Z",
     "lastScanStatus": "no-evidence-found",
-    "scanAgeHours": 52.41,
+    "scanAgeHours": 55.84,
     "cooldownRemainingHours": 0,
     "nextRecommendedScanAt": "2026-05-22T17:53:13.086Z"
   },
   "publicSamplePage": {
     "path": "/gate-sample.html",
     "missionCount": 3,
-    "primaryCampaignId": "gate-sample-20260524-firstGameCompletion",
-    "fastestCampaignId": "gate-sample-20260524-d1Retention",
-    "defaultRouteCampaignId": "gate-sample-20260524-firstGameCompletion",
+    "primaryCampaignId": "gate-sample-20260525-firstGameCompletion",
+    "fastestCampaignId": "gate-sample-20260525-d1Retention",
+    "defaultRouteCampaignId": "gate-sample-20260525-firstGameCompletion",
     "localProgressEnabled": true,
     "autonomousDefaultRoutingEnabled": true,
     "playerInitiatedExportEnabled": true,
@@ -140,7 +140,7 @@
     "defaultRouting": {
       "status": "active",
       "gateId": "firstGameCompletion",
-      "campaignId": "gate-sample-20260524-firstGameCompletion",
+      "campaignId": "gate-sample-20260525-firstGameCompletion",
       "gameId": "harbor-rings",
       "latencyDays": 0,
       "source": "gate_sample",
@@ -199,8 +199,8 @@
       "gameId": "harbor-rings",
       "title": "Harbor Rings",
       "surface": "autonomy-cockpit-completion-card",
-      "campaignId": "gate-sample-20260524-firstGameCompletion",
-      "playPath": "/?game=harbor-rings&utm_source=gate_sample&utm_campaign=gate-sample-20260524-firstGameCompletion",
+      "campaignId": "gate-sample-20260525-firstGameCompletion",
+      "playPath": "/?game=harbor-rings&utm_source=gate_sample&utm_campaign=gate-sample-20260525-firstGameCompletion",
       "organicSeedCampaignId": null,
       "current": {
         "actual": 0.397,
@@ -300,8 +300,8 @@
       "gameId": "harbor-rings",
       "title": "Harbor Rings",
       "surface": "autonomy-cockpit-replay-card",
-      "campaignId": "gate-sample-20260524-replayRate",
-      "playPath": "/?game=harbor-rings&utm_source=gate_sample&utm_campaign=gate-sample-20260524-replayRate",
+      "campaignId": "gate-sample-20260525-replayRate",
+      "playPath": "/?game=harbor-rings&utm_source=gate_sample&utm_campaign=gate-sample-20260525-replayRate",
       "organicSeedCampaignId": null,
       "current": {
         "actual": 0.309,
@@ -393,9 +393,9 @@
       "gameId": "market-pulse",
       "title": "Market Pulse",
       "surface": "autonomy-cockpit-return-intent-card",
-      "campaignId": "gate-sample-20260524-d1Retention",
-      "playPath": "/?game=market-pulse&utm_source=gate_sample&utm_campaign=gate-sample-20260524-d1Retention",
-      "organicSeedCampaignId": "seed-20260524-market-pulse",
+      "campaignId": "gate-sample-20260525-d1Retention",
+      "playPath": "/?game=market-pulse&utm_source=gate_sample&utm_campaign=gate-sample-20260525-d1Retention",
+      "organicSeedCampaignId": "seed-20260525-market-pulse",
       "current": {
         "actual": 0.167,
         "gate": 0.18,
@@ -515,7 +515,7 @@
     "aggregateEvidenceDoesNotPassGates": true
   },
   "nextActions": [
-    "First game completion needs 30 more prompt exposure(s) and 128 observed success(es); feature Harbor Rings via /?game=harbor-rings&utm_source=gate_sample&utm_campaign=gate-sample-20260524-firstGameCompletion.",
+    "First game completion needs 30 more prompt exposure(s) and 128 observed success(es); feature Harbor Rings via /?game=harbor-rings&utm_source=gate_sample&utm_campaign=gate-sample-20260525-firstGameCompletion.",
     "D1 retention is the fastest gate sample: 10 prompt exposure(s), 1 observed success(es).",
     "Export or collect real browser events, then run npm run autonomous:collect-local-event-drops; use npm run autonomous:collect-sample-downloads only after explicit owner opt-in."
   ]

@@ -21,7 +21,7 @@ export const retentionLoop = {
   },
   "samplePolicy": {
     "status": "collecting-sample",
-    "campaignId": "gate-sample-20260524-d1Retention",
+    "campaignId": "gate-sample-20260525-d1Retention",
     "gateId": "d1Retention",
     "needed": {
       "promptViews": 10,
@@ -65,7 +65,7 @@ export const retentionLoop = {
     "ctaLabel": "Copy return link",
     "queryParam": "return_intent",
     "intentDate": "2026-05-25",
-    "campaignId": "gate-sample-20260524-d1Retention",
+    "campaignId": "gate-sample-20260525-d1Retention",
     "telemetry": {
       "copied": "daily_return_link_copied"
     }
@@ -75,7 +75,7 @@ export const retentionLoop = {
     "ctaLabel": "Save reminder",
     "queryParam": "return_intent",
     "intentDate": "2026-05-25",
-    "campaignId": "gate-sample-20260524-d1Retention",
+    "campaignId": "gate-sample-20260525-d1Retention",
     "telemetry": {
       "downloaded": "daily_return_calendar_downloaded"
     }

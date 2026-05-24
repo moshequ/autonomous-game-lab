@@ -145,6 +145,11 @@ jobs:
             data/store-compliance.json \
             src/data/storeCompliance.ts \
             reports/store-compliance-latest.md \
+            data/store-readiness.json \
+            src/data/storeReadiness.ts \
+            public/store-readiness.html \
+            public/store-readiness.json \
+            reports/store-readiness-latest.md \
             data/post-deploy-smoke.json \
             src/data/postDeploySmoke.ts \
             reports/post-deploy-smoke-latest.md \
@@ -254,6 +259,10 @@ jobs:
             reports/store-listing-optimizer-latest.md
             data/store-compliance.json
             reports/store-compliance-latest.md
+            data/store-readiness.json
+            public/store-readiness.html
+            public/store-readiness.json
+            reports/store-readiness-latest.md
             data/post-deploy-smoke.json
             reports/post-deploy-smoke-latest.md
             data/live-site-monitor.json

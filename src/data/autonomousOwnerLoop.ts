@@ -8,19 +8,9 @@ export const autonomousOwnerLoop = {
     "externalAccountInterventionRequired": true
   },
   "ownerDecision": {
-    "nextBestActionId": "hold-for-external-input"
+    "nextBestActionId": "refresh-organic-seed-loop"
   },
-  "externalInputHandoff": {
-    "nextUnlockId": "production-analytics-browser",
-    "recommendedPathId": "first-party-collector",
-    "lowestInputPathId": "posthog-browser",
-    "ownerActionRequired": 4,
-    "missingVariableCount": 5,
-    "missingSecretCount": 1,
-    "lowestInputMissingVariableCount": 2,
-    "lowestInputMissingSecretCount": 0,
-    "publicStatusPage": "/measurement-status.html"
-  }
+  "externalInputHandoff": null
 } as const
 
 export type AutonomousOwnerLoop = typeof autonomousOwnerLoop

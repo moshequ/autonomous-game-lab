@@ -1,6 +1,6 @@
 export const nativePackage = {
-  "generatedAt": "2026-05-23T01:07:39.050Z",
-  "status": "ready-for-bubblewrap-build",
+  "generatedAt": "2026-05-24T22:13:54.177Z",
+  "status": "blocked-draft-ready",
   "platform": "android-trusted-web-activity",
   "costGate": {
     "googlePlayOneTimeUsd": 25,
@@ -29,7 +29,7 @@ export const nativePackage = {
     "localSecretsConfigured": true
   },
   "assetLinks": {
-    "status": "ready",
+    "status": "domain-verification-blocked",
     "template": [
       {
         "relation": [
@@ -45,16 +45,14 @@ export const nativePackage = {
       }
     ],
     "publicGenerated": true,
-    "domainVerificationReady": true,
-    "rootAssetLinksDeployable": true,
+    "domainVerificationReady": false,
+    "rootAssetLinksDeployable": false,
     "rootAssetLinksLive": {
-      "checkedAt": "2026-05-23T01:07:38.680Z",
-      "status": "live-match",
-      "httpStatus": 200,
-      "finalUrl": "https://moshequ.github.io/.well-known/assetlinks.json",
-      "liveMatchesSource": true,
-      "bytes": 348,
-      "detail": "Root Digital Asset Links match app.autonomousgamelab.portal."
+      "checkedAt": "2026-05-24T22:13:54.116Z",
+      "status": "fetch-failed",
+      "httpStatus": null,
+      "liveMatchesSource": false,
+      "detail": "fetch failed"
     },
     "requiresRootWellKnownPath": true,
     "requiredRootUrl": "https://moshequ.github.io/.well-known/assetlinks.json",
@@ -118,8 +116,8 @@ export const nativePackage = {
     },
     {
       "id": "assetlinks-domain-verification",
-      "status": "pass",
-      "detail": "Digital Asset Links can be served from https://moshequ.github.io/.well-known/assetlinks.json; root verification is live-match."
+      "status": "blocker",
+      "detail": "Digital Asset Links must be reachable at https://moshequ.github.io/.well-known/assetlinks.json; current artifact publishes https://moshequ.github.io/autonomous-game-lab/.well-known/assetlinks.json."
     },
     {
       "id": "hosted-privacy",
@@ -147,7 +145,9 @@ export const nativePackage = {
       "detail": "Google Play developer account is not connected; local TWA handoff can still be prepared."
     }
   ],
-  "blockers": [],
+  "blockers": [
+    "Android Digital Asset Links must be hosted at https://moshequ.github.io/.well-known/assetlinks.json; current project Pages path publishes https://moshequ.github.io/autonomous-game-lab/.well-known/assetlinks.json."
+  ],
   "commands": {
     "init": "npx @bubblewrap/cli init --manifest https://moshequ.github.io/autonomous-game-lab/manifest.webmanifest",
     "validate": "npx @bubblewrap/cli validate",

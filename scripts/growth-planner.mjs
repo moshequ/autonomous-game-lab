@@ -261,6 +261,12 @@ const utilityPages = [
     changefreq: 'daily',
   },
   {
+    path: '/store-readiness.html',
+    role: 'store-distribution-readiness',
+    channel: 'store-readiness',
+    changefreq: 'daily',
+  },
+  {
     path: '/gate-sample.html',
     role: 'product-gate-sample',
     channel: 'player-evidence',
