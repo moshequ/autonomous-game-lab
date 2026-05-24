@@ -939,6 +939,9 @@ const publicAnalyticsUnlockPathIds = new Set((publicAnalyticsUnlock?.paths ?? []
 const publicAnalyticsFirstPartyCollectorPath = (publicAnalyticsUnlock?.paths ?? []).find(
   (unlockPath) => unlockPath.id === 'first-party-collector',
 )
+const publicAnalyticsPosthogPath = (publicAnalyticsUnlock?.paths ?? []).find(
+  (unlockPath) => unlockPath.id === 'posthog-browser',
+)
 const publicAnalyticsUnlockLeaksValues = (publicAnalyticsUnlock?.paths ?? []).some((unlockPath) =>
   [...(unlockPath.requiredVariables ?? []), ...(unlockPath.requiredSecrets ?? [])].some((item) =>
     Object.hasOwn(item, 'value'),
@@ -1048,6 +1051,12 @@ if (
   publicEvidenceControls.noRevenueEnablement !== true ||
   publicAnalyticsUnlock?.id !== 'production-analytics-browser' ||
   publicAnalyticsUnlock?.recommendedPathId !== 'first-party-collector' ||
+  publicAnalyticsUnlock?.lowestInputPathId !== 'posthog-browser' ||
+  publicAnalyticsUnlock?.lowestInputMissingVariableCount !== publicAnalyticsPosthogPath?.missingVariableCount ||
+  publicAnalyticsUnlock?.lowestInputMissingSecretCount !== publicAnalyticsPosthogPath?.missingSecretCount ||
+  publicAnalyticsUnlock?.lowestInputMissingInputCount !== publicAnalyticsPosthogPath?.missingInputCount ||
+  (publicAnalyticsPosthogPath?.missingInputCount ?? Number.POSITIVE_INFINITY) >
+    (publicAnalyticsFirstPartyCollectorPath?.missingInputCount ?? Number.POSITIVE_INFINITY) ||
   (publicAnalyticsUnlock?.commandCount ?? 0) < 5 ||
   (publicAnalyticsUnlock?.validationCommandCount ?? 0) < 4 ||
   publicAnalyticsUnlock?.controls?.zeroPaidSpend !== true ||
@@ -1087,6 +1096,7 @@ if (
   publicCollectorDeploymentLeaksValues ||
   publicAnalyticsUnlockStatus.status !== publicAnalyticsUnlock?.status ||
   publicAnalyticsUnlockStatus.recommendedPathId !== publicAnalyticsUnlock?.recommendedPathId ||
+  publicAnalyticsUnlockStatus.lowestInputPathId !== publicAnalyticsUnlock?.lowestInputPathId ||
   JSON.stringify(publicAnalyticsUnlockStatus.analyticsUnlock) !== JSON.stringify(publicAnalyticsUnlock) ||
   JSON.stringify(publicAnalyticsUnlockStatus.collectorDeployment) !== JSON.stringify(publicCollectorDeployment) ||
   JSON.stringify(publicAnalyticsUnlockStatus.externalUnlockQueue?.topItems) !==
@@ -1114,6 +1124,7 @@ if (
   !publicExternalUnlockItemIds.has('google-play-account') ||
   publicExternalUnlockQueue.nextUnlockKit?.id !== 'production-analytics-browser' ||
   publicExternalUnlockQueue.nextUnlockKit?.recommendedPathId !== 'first-party-collector' ||
+  publicExternalUnlockQueue.nextUnlockKit?.lowestInputPathId !== 'posthog-browser' ||
   publicExternalUnlockQueue.controls?.zeroPaidSpend !== true ||
   publicExternalUnlockQueue.controls?.noSecretValues !== true ||
   publicExternalUnlockQueue.controls?.noSecretValuesStored !== true ||
@@ -1151,11 +1162,15 @@ if (
   !measurementStatusHtml.includes('First-Party Collector Deployment') ||
   !measurementStatusHtml.includes('External Unlock Queue') ||
   !measurementStatusHtml.includes('first-party-collector') ||
+  !measurementStatusHtml.includes('Lowest-input path') ||
+  !measurementStatusHtml.includes('posthog-browser') ||
   !measurementStatusHtml.includes('google-play-account') ||
   !measurementStatusHtml.includes('does not pass gates') ||
   !analyticsUnlockHtml.includes('Production Analytics Unlock') ||
   !analyticsUnlockHtml.includes('First-Party Collector Deployment') ||
   !analyticsUnlockHtml.includes('first-party-collector') ||
+  !analyticsUnlockHtml.includes('Lowest-input path') ||
+  !analyticsUnlockHtml.includes('posthog-browser') ||
   !analyticsUnlockHtml.includes('CLOUDFLARE_API_TOKEN') ||
   !analyticsUnlockHtml.includes('Secret commands use stdin: true') ||
   !analyticsUnlockHtml.includes('analytics-unlock.json') ||
@@ -3446,8 +3461,15 @@ if (
   productionBlockerSupportItem?.status !== 'web-support-ready-store-email-deferred' ||
   productionBlockerSupportItem?.ownerInputRequired !== false ||
   productionAnalyticsHandoffItem?.unlockKit?.id !== 'production-analytics-browser' ||
+  productionAnalyticsHandoffItem?.unlockKit?.lowestInputPathId !== 'posthog-browser' ||
   (productionAnalyticsHandoffItem?.unlockKit?.commandCount ?? 0) < 5 ||
   productionAnalyticsUnlockKit?.recommendedPathId !== 'first-party-collector' ||
+  productionAnalyticsUnlockKit?.lowestInputPathId !== 'posthog-browser' ||
+  productionAnalyticsUnlockKit?.lowestInputMissingVariableCount !== posthogBrowserUnlockPath?.missingVariableCount ||
+  productionAnalyticsUnlockKit?.lowestInputMissingSecretCount !== posthogBrowserUnlockPath?.missingSecretCount ||
+  productionAnalyticsUnlockKit?.lowestInputMissingInputCount !== posthogBrowserUnlockPath?.missingInputCount ||
+  (posthogBrowserUnlockPath?.missingInputCount ?? Number.POSITIVE_INFINITY) >
+    (firstPartyCollectorUnlockPath?.missingInputCount ?? Number.POSITIVE_INFINITY) ||
   (productionAnalyticsUnlockKit?.commandCount ?? 0) < 5 ||
   (productionAnalyticsUnlockKit?.validationCommandCount ?? 0) < 4 ||
   productionAnalyticsUnlockKit?.controls?.zeroPaidSpend !== true ||
@@ -3482,6 +3504,7 @@ if (
   productionBlockerHandoff.secretPlan?.some((item) => Object.hasOwn(item, 'value')) ||
   !productionBlockerHandoffSource.includes('hashSourceData') ||
   !productionBlockerHandoffSource.includes('unlockKits') ||
+  !productionBlockerHandoffSource.includes('lowestInputPathId') ||
   !productionBlockerHandoffSource.includes('secretCommandsUseStdin') ||
   !productionBlockerHandoffSource.includes('noSecretValues') ||
   !productionBlockerHandoffSource.includes('noMutation') ||
@@ -3655,6 +3678,7 @@ const operatorExternalInputLeaksValues = [
 const operatorExternalInputHandoffValid = operatorHeldWithoutEligibleAction
   ? operatorExternalInputHandoff?.nextUnlockId === productionBlockerHandoff.summary?.nextBestUnlockId &&
     operatorExternalInputHandoff?.recommendedPathId === productionBlockerHandoff.nextUnlockKit?.recommendedPathId &&
+    operatorExternalInputHandoff?.lowestInputPathId === productionBlockerHandoff.nextUnlockKit?.lowestInputPathId &&
     operatorExternalInputHandoff?.publicStatusPage === '/measurement-status.html' &&
     operatorExternalInputHandoff?.publicStatusJson === '/measurement-status.json' &&
     operatorExternalInputHandoff?.controls?.zeroPaidSpend === true &&
@@ -6646,7 +6670,10 @@ if (
   readiness.productionBlockerHandoff?.nextUnlockKit?.id !== productionBlockerHandoff.nextUnlockKit?.id ||
   readiness.productionBlockerHandoff?.nextUnlockKit?.recommendedPathId !==
     productionBlockerHandoff.nextUnlockKit?.recommendedPathId ||
+  readiness.productionBlockerHandoff?.nextUnlockKit?.lowestInputPathId !==
+    productionBlockerHandoff.nextUnlockKit?.lowestInputPathId ||
   !appSource.includes('Production Blocker Handoff') ||
+  !appSource.includes('Low-input path') ||
   !appSource.includes('Unlock kit') ||
   !appSource.includes('productionBlockerHandoff')
 ) {
@@ -7504,6 +7531,9 @@ const ownerRecommendedUnlockPath =
   ownerFullNextUnlockKit?.paths?.find((unlockPath) => unlockPath.id === ownerFullNextUnlockKit.recommendedPathId) ??
   ownerFullNextUnlockKit?.paths?.[0] ??
   null
+const ownerLowestInputUnlockPath =
+  ownerFullNextUnlockKit?.paths?.find((unlockPath) => unlockPath.id === ownerFullNextUnlockKit.lowestInputPathId) ??
+  null
 const ownerExpectedExternalInputHandoff =
   autonomousOwnerLoop.ownerDecision?.nextBestActionId === 'hold-for-external-input' &&
   productionBlockerHandoff.status === 'handoff-waiting-on-owner-inputs'
@@ -7547,8 +7577,14 @@ if (
     autonomousOwnerLoop.externalInputHandoff?.recommendedPathId !==
       (ownerFullNextUnlockKit?.recommendedPathId ?? null)) ||
   (ownerExpectedExternalInputHandoff &&
+    autonomousOwnerLoop.externalInputHandoff?.lowestInputPathId !==
+      (ownerFullNextUnlockKit?.lowestInputPathId ?? null)) ||
+  (ownerExpectedExternalInputHandoff &&
     autonomousOwnerLoop.externalInputHandoff?.recommendedPathStatus !==
       (ownerRecommendedUnlockPath?.status ?? null)) ||
+  (ownerExpectedExternalInputHandoff &&
+    autonomousOwnerLoop.externalInputHandoff?.lowestInputPathStatus !==
+      (ownerLowestInputUnlockPath?.status ?? ownerFullNextUnlockKit?.lowestInputPathStatus ?? null)) ||
   (ownerExpectedExternalInputHandoff &&
     autonomousOwnerLoop.externalInputHandoff?.publicStatusPage !== '/measurement-status.html') ||
   (ownerExpectedExternalInputHandoff &&
@@ -7562,6 +7598,12 @@ if (
   (ownerExpectedExternalInputHandoff &&
     autonomousOwnerLoop.externalInputHandoff?.missingSecretCount !==
       (ownerFullNextUnlockKit?.missingSecretCount ?? productionBlockerHandoff.summary?.missingSecrets ?? 0)) ||
+  (ownerExpectedExternalInputHandoff &&
+    autonomousOwnerLoop.externalInputHandoff?.lowestInputMissingVariableCount !==
+      (ownerLowestInputUnlockPath?.missingVariableCount ?? ownerFullNextUnlockKit?.lowestInputMissingVariableCount ?? 0)) ||
+  (ownerExpectedExternalInputHandoff &&
+    autonomousOwnerLoop.externalInputHandoff?.lowestInputMissingSecretCount !==
+      (ownerLowestInputUnlockPath?.missingSecretCount ?? ownerFullNextUnlockKit?.lowestInputMissingSecretCount ?? 0)) ||
   (ownerExpectedExternalInputHandoff &&
     autonomousOwnerLoop.externalInputHandoff?.productGateBlockers !==
       (productionBlockerHandoff.summary?.productGateBlockers ?? 0)) ||

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-24T18:37:18.579Z",
+  "generatedAt": "2026-05-24T19:41:50.256Z",
   "status": "operator-held",
   "mode": "plan-only",
   "ownerDecision": {
@@ -15,12 +15,18 @@
     "title": "Browser production analytics unlock kit",
     "recommendedPathId": "first-party-collector",
     "recommendedPathStatus": "needs-variables-and-secrets",
+    "lowestInputPathId": "posthog-browser",
+    "lowestInputPathStatus": "needs-public-project-key",
+    "lowestInputMissingVariableCount": 2,
+    "lowestInputMissingSecretCount": 0,
+    "lowestInputMissingInputCount": 2,
+    "lowestInputReason": "PostHog browser capture currently needs 2 missing input(s), compared with 8 for the recommended path.",
     "publicStatusPage": "/measurement-status.html",
     "publicStatusJson": "/measurement-status.json",
     "setupScript": "ops/github/setup-production.sh",
     "envTemplate": "ops/production.env.example",
-    "missingVariableCount": 5,
-    "missingSecretCount": 1,
+    "missingVariableCount": 7,
+    "missingSecretCount": 3,
     "commandCount": 5,
     "validationCommandCount": 4,
     "requiredVariables": [
@@ -32,12 +38,12 @@
       {
         "repositoryName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
         "envName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
-        "configured": true
+        "configured": false
       },
       {
         "repositoryName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
         "envName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
-        "configured": true
+        "configured": false
       },
       {
         "repositoryName": "VITE_EVENT_COLLECTOR_URL",
@@ -59,12 +65,12 @@
       {
         "repositoryName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
         "envName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
-        "configured": true
+        "configured": false
       },
       {
         "repositoryName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
         "envName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
-        "configured": true
+        "configured": false
       }
     ],
     "commandSequence": [

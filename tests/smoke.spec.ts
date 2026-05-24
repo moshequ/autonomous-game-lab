@@ -114,6 +114,7 @@ test('portal loads a playable canvas and autonomy cockpit', async ({ page }) => 
     externalInputHandoff?: {
       nextUnlockId: string | null
       recommendedPathId: string | null
+      lowestInputPathId?: string | null
       ownerActionRequired: number
     } | null
   }
@@ -173,6 +174,7 @@ test('portal loads a playable canvas and autonomy cockpit', async ({ page }) => 
   if (ownerLoop.externalInputHandoff) {
     await expect(page.getByText(ownerLoop.externalInputHandoff.nextUnlockId ?? 'none').first()).toBeVisible()
     await expect(page.getByText(ownerLoop.externalInputHandoff.recommendedPathId ?? 'none').first()).toBeVisible()
+    await expect(page.getByText(ownerLoop.externalInputHandoff.lowestInputPathId ?? 'none').first()).toBeVisible()
     await expect(page.getByText(String(ownerLoop.externalInputHandoff.ownerActionRequired)).first()).toBeVisible()
   }
   await expect(page.getByLabel('Performance Budget')).toContainText('performance-budget-ready')
@@ -3859,6 +3861,7 @@ test('autonomous operator plans or executes one allowlisted zero-spend local act
     externalInputHandoff: {
       nextUnlockId: string | null
       recommendedPathId: string | null
+      lowestInputPathId: string | null
       publicStatusPage: string
       publicStatusJson: string
       missingVariableCount: number | null
@@ -3882,7 +3885,7 @@ test('autonomous operator plans or executes one allowlisted zero-spend local act
   }
   const handoff = JSON.parse(await readFile('data/production-blocker-handoff.json', 'utf8')) as {
     summary: { nextBestUnlockId: string | null }
-    nextUnlockKit: { recommendedPathId: string | null } | null
+    nextUnlockKit: { recommendedPathId: string | null; lowestInputPathId?: string | null } | null
   }
 
   const operatorHeldWithoutEligibleAction =
@@ -3898,6 +3901,7 @@ test('autonomous operator plans or executes one allowlisted zero-spend local act
   } else {
     expect(operator.externalInputHandoff?.nextUnlockId).toBe(handoff.summary.nextBestUnlockId)
     expect(operator.externalInputHandoff?.recommendedPathId).toBe(handoff.nextUnlockKit?.recommendedPathId)
+    expect(operator.externalInputHandoff?.lowestInputPathId).toBe(handoff.nextUnlockKit?.lowestInputPathId)
     expect(operator.externalInputHandoff?.publicStatusPage).toBe('/measurement-status.html')
     expect(operator.externalInputHandoff?.publicStatusJson).toBe('/measurement-status.json')
     expect(operator.externalInputHandoff?.missingVariableCount).toBeGreaterThanOrEqual(0)
@@ -4344,6 +4348,9 @@ test('autonomous operator history keeps a capped audit trail', async ({ page }) 
       holdReason: string | null
       nextUnlockId: string | null
       recommendedPathId: string | null
+      lowestInputPathId: string | null
+      lowestInputMissingVariableCount: number
+      lowestInputMissingSecretCount: number
       publicStatusPage: string
       publicStatusJson: string
       ownerActionRequired: number
@@ -4525,7 +4532,12 @@ test('autonomous operator history keeps a capped audit trail', async ({ page }) 
       missingSecrets: number
       productGateBlockers: number
     }
-    nextUnlockKit: { recommendedPathId: string | null } | null
+    nextUnlockKit: {
+      recommendedPathId: string | null
+      lowestInputPathId?: string | null
+      lowestInputMissingVariableCount?: number
+      lowestInputMissingSecretCount?: number
+    } | null
   }
   const localEventBridge = JSON.parse(await readFile('data/local-event-bridge.json', 'utf8')) as {
     generatedAt: string
@@ -4771,6 +4783,15 @@ test('autonomous operator history keeps a capped audit trail', async ({ page }) 
     expect(ownerLoop.externalInputHandoff?.nextUnlockId).toBe(productionBlockerHandoff.summary.nextBestUnlockId)
     expect(ownerLoop.externalInputHandoff?.recommendedPathId).toBe(
       productionBlockerHandoff.nextUnlockKit?.recommendedPathId,
+    )
+    expect(ownerLoop.externalInputHandoff?.lowestInputPathId).toBe(
+      productionBlockerHandoff.nextUnlockKit?.lowestInputPathId,
+    )
+    expect(ownerLoop.externalInputHandoff?.lowestInputMissingVariableCount).toBe(
+      productionBlockerHandoff.nextUnlockKit?.lowestInputMissingVariableCount,
+    )
+    expect(ownerLoop.externalInputHandoff?.lowestInputMissingSecretCount).toBe(
+      productionBlockerHandoff.nextUnlockKit?.lowestInputMissingSecretCount,
     )
     expect(ownerLoop.externalInputHandoff?.publicStatusPage).toBe('/measurement-status.html')
     expect(ownerLoop.externalInputHandoff?.publicStatusJson).toBe('/measurement-status.json')
@@ -5874,12 +5895,16 @@ test('production blocker handoff ranks remaining external unlocks', async ({ pag
       status: string
       ownerInputRequired: boolean
       costMode: string
-      unlockKit?: { id: string; recommendedPathId: string; commandCount: number }
+      unlockKit?: { id: string; recommendedPathId: string; lowestInputPathId?: string | null; commandCount: number }
     }>
     nextUnlockKit: {
       id: string
       status: string
       recommendedPathId: string
+      lowestInputPathId: string | null
+      lowestInputMissingVariableCount: number
+      lowestInputMissingSecretCount: number
+      lowestInputMissingInputCount: number
       commandCount: number
       validationCommandCount: number
       controls: {
@@ -5893,6 +5918,9 @@ test('production blocker handoff ranks remaining external unlocks', async ({ pag
         id: string
         status: string
         costMode: string
+        missingVariableCount: number
+        missingSecretCount: number
+        missingInputCount: number
         requiredVariables: Array<{ repositoryName: string; configured: boolean; command: string; value?: string }>
         requiredSecrets: Array<{ repositoryName: string; configured: boolean; command: string; value?: string }>
         commandSequence: string[]
@@ -5904,7 +5932,7 @@ test('production blocker handoff ranks remaining external unlocks', async ({ pag
     productionBlockerHandoff?: {
       status: string
       summary: { nextBestUnlockId: string | null }
-      nextUnlockKit?: { id: string; recommendedPathId: string } | null
+      nextUnlockKit?: { id: string; recommendedPathId: string; lowestInputPathId?: string | null } | null
     }
   }
   const packageJson = JSON.parse(await readFile('package.json', 'utf8')) as {
@@ -5937,10 +5965,12 @@ test('production blocker handoff ranks remaining external unlocks', async ({ pag
   expect(supportItem?.costMode).toBe('zero-spend-public-issues-ready')
   expect(analyticsItem?.unlockKit?.id).toBe('production-analytics-browser')
   expect(analyticsItem?.unlockKit?.recommendedPathId).toBe('first-party-collector')
+  expect(analyticsItem?.unlockKit?.lowestInputPathId).toBe('posthog-browser')
   expect(analyticsItem?.unlockKit?.commandCount).toBeGreaterThan(0)
   expect(handoff.summary.nextBestUnlockId).toBe('production-analytics-browser')
   expect(handoff.nextUnlockKit?.id).toBe('production-analytics-browser')
   expect(handoff.nextUnlockKit?.recommendedPathId).toBe('first-party-collector')
+  expect(handoff.nextUnlockKit?.lowestInputPathId).toBe('posthog-browser')
   expect(handoff.nextUnlockKit?.commandCount).toBeGreaterThanOrEqual(5)
   expect(handoff.nextUnlockKit?.validationCommandCount).toBeGreaterThanOrEqual(4)
   expect(handoff.nextUnlockKit?.controls.zeroPaidSpend).toBe(true)
@@ -5953,6 +5983,12 @@ test('production blocker handoff ranks remaining external unlocks', async ({ pag
   )
   const firstPartyCollectorPath = handoff.nextUnlockKit?.paths.find((item) => item.id === 'first-party-collector')
   const posthogPath = handoff.nextUnlockKit?.paths.find((item) => item.id === 'posthog-browser')
+  expect(handoff.nextUnlockKit?.lowestInputMissingVariableCount).toBe(posthogPath?.missingVariableCount)
+  expect(handoff.nextUnlockKit?.lowestInputMissingSecretCount).toBe(posthogPath?.missingSecretCount)
+  expect(handoff.nextUnlockKit?.lowestInputMissingInputCount).toBe(posthogPath?.missingInputCount)
+  expect((posthogPath?.missingInputCount ?? Number.POSITIVE_INFINITY)).toBeLessThanOrEqual(
+    firstPartyCollectorPath?.missingInputCount ?? Number.POSITIVE_INFINITY,
+  )
   expect(firstPartyCollectorPath?.requiredVariables.map((item) => item.repositoryName)).toEqual(
     expect.arrayContaining(['VITE_EVENT_COLLECTOR_URL', 'AGL_EVENT_COLLECTOR_EXPORT_URL']),
   )
@@ -5981,6 +6017,9 @@ test('production blocker handoff ranks remaining external unlocks', async ({ pag
   expect(readiness.productionBlockerHandoff?.nextUnlockKit?.id).toBe(handoff.nextUnlockKit?.id)
   expect(readiness.productionBlockerHandoff?.nextUnlockKit?.recommendedPathId).toBe(
     handoff.nextUnlockKit?.recommendedPathId,
+  )
+  expect(readiness.productionBlockerHandoff?.nextUnlockKit?.lowestInputPathId).toBe(
+    handoff.nextUnlockKit?.lowestInputPathId,
   )
   expect(packageJson.scripts['autonomous:blocker-handoff']).toBe('node scripts/production-blocker-handoff.mjs')
   expect(packageJson.scripts['autonomous:owner-unlock-brief']).toBe(
@@ -9237,6 +9276,10 @@ test('production measurement status publishes public aggregate evidence handoff'
       id: string
       status: string
       recommendedPathId: string
+      lowestInputPathId: string | null
+      lowestInputMissingVariableCount: number
+      lowestInputMissingSecretCount: number
+      lowestInputMissingInputCount: number
       commandCount: number
       validationCommandCount: number
       missingVariableCount: number
@@ -9253,6 +9296,9 @@ test('production measurement status publishes public aggregate evidence handoff'
       }
       paths: Array<{
         id: string
+        missingVariableCount: number
+        missingSecretCount: number
+        missingInputCount: number
         requiredVariables: Array<{ repositoryName: string; command: string; value?: string }>
         requiredSecrets: Array<{ repositoryName: string; command: string; value?: string }>
         commandSequence: string[]
@@ -9311,6 +9357,10 @@ test('production measurement status publishes public aggregate evidence handoff'
       nextUnlockKit: {
         id: string
         recommendedPathId: string
+        lowestInputPathId: string | null
+        lowestInputMissingVariableCount: number
+        lowestInputMissingSecretCount: number
+        lowestInputMissingInputCount: number
         commandCount: number
         validationCommandCount: number
       } | null
@@ -9489,6 +9539,7 @@ test('production measurement status publishes public aggregate evidence handoff'
   const analyticsUnlockPage = JSON.parse(await readFile('public/analytics-unlock.json', 'utf8')) as {
     status: string
     recommendedPathId: string | null
+    lowestInputPathId: string | null
     analyticsUnlock: typeof measurement.analyticsUnlock
     externalUnlockQueue: {
       status: string
@@ -9644,6 +9695,7 @@ test('production measurement status publishes public aggregate evidence handoff'
   expect(measurement.publicEvidenceHandoff.controls.noRevenueEnablement).toBe(true)
   expect(measurement.analyticsUnlock?.id).toBe('production-analytics-browser')
   expect(measurement.analyticsUnlock?.recommendedPathId).toBe('first-party-collector')
+  expect(measurement.analyticsUnlock?.lowestInputPathId).toBe('posthog-browser')
   expect(measurement.analyticsUnlock?.commandCount).toBeGreaterThanOrEqual(5)
   expect(measurement.analyticsUnlock?.validationCommandCount).toBeGreaterThanOrEqual(4)
   expect(measurement.analyticsUnlock?.missingVariableCount).toBeGreaterThan(0)
@@ -9661,6 +9713,13 @@ test('production measurement status publishes public aggregate evidence handoff'
   )
   const publicFirstPartyCollectorPath = measurement.analyticsUnlock?.paths.find(
     (item) => item.id === 'first-party-collector',
+  )
+  const publicPosthogPath = measurement.analyticsUnlock?.paths.find((item) => item.id === 'posthog-browser')
+  expect(measurement.analyticsUnlock?.lowestInputMissingVariableCount).toBe(publicPosthogPath?.missingVariableCount)
+  expect(measurement.analyticsUnlock?.lowestInputMissingSecretCount).toBe(publicPosthogPath?.missingSecretCount)
+  expect(measurement.analyticsUnlock?.lowestInputMissingInputCount).toBe(publicPosthogPath?.missingInputCount)
+  expect((publicPosthogPath?.missingInputCount ?? Number.POSITIVE_INFINITY)).toBeLessThanOrEqual(
+    publicFirstPartyCollectorPath?.missingInputCount ?? Number.POSITIVE_INFINITY,
   )
   expect(publicFirstPartyCollectorPath?.requiredVariables.map((item) => item.repositoryName)).toEqual(
     expect.arrayContaining(['VITE_EVENT_COLLECTOR_URL', 'AGL_EVENT_COLLECTOR_EXPORT_URL']),
@@ -9701,6 +9760,7 @@ test('production measurement status publishes public aggregate evidence handoff'
   expect(publicMeasurement.collectorDeployment).toEqual(measurement.collectorDeployment)
   expect(analyticsUnlockPage.status).toBe(measurement.analyticsUnlock?.status)
   expect(analyticsUnlockPage.recommendedPathId).toBe(measurement.analyticsUnlock?.recommendedPathId)
+  expect(analyticsUnlockPage.lowestInputPathId).toBe(measurement.analyticsUnlock?.lowestInputPathId)
   expect(analyticsUnlockPage.analyticsUnlock).toEqual(measurement.analyticsUnlock)
   expect(analyticsUnlockPage.collectorDeployment).toEqual(measurement.collectorDeployment)
   expect(analyticsUnlockPage.externalUnlockQueue.status).toBe(measurement.externalUnlockQueue.status)
@@ -9739,6 +9799,7 @@ test('production measurement status publishes public aggregate evidence handoff'
   )
   expect(measurement.externalUnlockQueue.nextUnlockKit?.id).toBe('production-analytics-browser')
   expect(measurement.externalUnlockQueue.nextUnlockKit?.recommendedPathId).toBe('first-party-collector')
+  expect(measurement.externalUnlockQueue.nextUnlockKit?.lowestInputPathId).toBe('posthog-browser')
   expect(blockerHandoff.ownerUnlockBrief?.id).toBe('owner-next-unlock-brief')
   expect(ownerUnlockBrief.brief).toEqual(blockerHandoff.ownerUnlockBrief)
   expect(publicOwnerUnlockBrief).toEqual(ownerUnlockBrief)
@@ -9816,6 +9877,7 @@ test('production measurement status publishes public aggregate evidence handoff'
     blockerHandoff.summary.nextBestUnlockId,
   )
   expect(measurement.externalUnlockQueue.ownerUnlockBrief?.recommendedPathId).toBe('first-party-collector')
+  expect(measurement.externalUnlockQueue.ownerUnlockBrief?.lowestInputPathId).toBe('posthog-browser')
   expect(measurement.externalUnlockQueue.ownerUnlockBrief?.missingVariables.length).toBeGreaterThan(0)
   expect(measurement.externalUnlockQueue.ownerUnlockBrief?.missingSecrets.length).toBeGreaterThan(0)
   expect(Array.isArray(measurement.externalUnlockQueue.ownerUnlockBrief?.configuredVariables)).toBe(true)
@@ -9883,6 +9945,8 @@ test('production measurement status publishes public aggregate evidence handoff'
   expect(html).toContain('External Unlock Queue')
   expect(html).toContain('does not pass gates')
   expect(html).toContain('first-party-collector')
+  expect(html).toContain('Lowest-input path')
+  expect(html).toContain('posthog-browser')
   expect(html).toContain('CLOUDFLARE_API_TOKEN')
   expect(html).toContain('google-play-account')
   expect(html).not.toContain('href="/gate-sample.html"')
@@ -9905,6 +9969,8 @@ test('production measurement status publishes public aggregate evidence handoff'
   expect(analyticsUnlockHtml).toContain('Owner Unlock Brief')
   expect(analyticsUnlockHtml).toContain('First-Party Collector Deployment')
   expect(analyticsUnlockHtml).toContain('first-party-collector')
+  expect(analyticsUnlockHtml).toContain('Lowest-input path')
+  expect(analyticsUnlockHtml).toContain('posthog-browser')
   expect(analyticsUnlockHtml).toContain('CLOUDFLARE_API_TOKEN')
   expect(analyticsUnlockHtml).toContain('Secret commands use stdin: true')
   expect(analyticsUnlockHtml).toContain('Open measurement status')

@@ -108,6 +108,40 @@ const sanitizeConfigAction = (item) =>
       }
     : null
 const configActions = (map, names) => names.map((name) => sanitizeConfigAction(map.get(name))).filter(Boolean)
+const countMissingConfigInputs = (items) => (items ?? []).filter((item) => item.configured !== true).length
+const withUnlockPathEffort = (unlockPath) => {
+  const missingVariableCount = countMissingConfigInputs(unlockPath.requiredVariables)
+  const missingSecretCount = countMissingConfigInputs(unlockPath.requiredSecrets)
+
+  return {
+    ...unlockPath,
+    missingVariableCount,
+    missingSecretCount,
+    missingInputCount: missingVariableCount + missingSecretCount,
+    commandCount: unique(unlockPath.commandSequence ?? []).length,
+    validationCommandCount: unique(unlockPath.validationCommands ?? []).length,
+  }
+}
+const compareUnlockPathEffort = (left, right) =>
+  left.missingInputCount - right.missingInputCount ||
+  left.missingSecretCount - right.missingSecretCount ||
+  left.missingVariableCount - right.missingVariableCount ||
+  Number(left.ownerInputRequired === true) - Number(right.ownerInputRequired === true) ||
+  left.commandCount - right.commandCount ||
+  left.validationCommandCount - right.validationCommandCount ||
+  left.id.localeCompare(right.id)
+const selectLowestInputPath = (paths) => [...(paths ?? [])].sort(compareUnlockPathEffort)[0] ?? null
+const describeLowestInputPath = (lowestInputPath, recommendedPath) => {
+  if (!lowestInputPath) {
+    return null
+  }
+
+  if (lowestInputPath.id === recommendedPath?.id) {
+    return 'The recommended unlock path is also the lowest-input path for the current repository state.'
+  }
+
+  return `${lowestInputPath.title} currently needs ${lowestInputPath.missingInputCount} missing input(s), compared with ${recommendedPath?.missingInputCount ?? 'unknown'} for the recommended path.`
+}
 const firstPartyCollectorReady = envConfigured('VITE_EVENT_COLLECTOR_URL + AGL_EVENT_COLLECTOR_EXPORT_URL')
 const posthogBrowserReady = envConfigured('VITE_POSTHOG_KEY')
 const analyticsRecommendedPathId = firstPartyCollectorReady
@@ -115,11 +149,78 @@ const analyticsRecommendedPathId = firstPartyCollectorReady
   : posthogBrowserReady
     ? 'posthog-browser'
     : 'first-party-collector'
+const analyticsUnlockPaths = [
+  {
+    id: 'first-party-collector',
+    title: 'First-party event collector',
+    status: firstPartyCollectorReady ? 'configured' : 'needs-variables-and-secrets',
+    costMode: 'zero-spend-use-existing-cloudflare-free-tier',
+    ownerInputRequired: !firstPartyCollectorReady,
+    requiredVariables: configActions(variableByRepositoryName, [
+      'CLOUDFLARE_ACCOUNT_ID',
+      'AGL_EVENT_COLLECTOR_R2_BUCKET',
+      'AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS',
+      'VITE_EVENT_COLLECTOR_URL',
+      'AGL_EVENT_COLLECTOR_EXPORT_URL',
+    ]),
+    requiredSecrets: configActions(secretByRepositoryName, [
+      'CLOUDFLARE_API_TOKEN',
+      'VITE_EVENT_COLLECTOR_WRITE_TOKEN',
+      'AGL_EVENT_COLLECTOR_ADMIN_TOKEN',
+    ]),
+    commandSequence: [
+      'npm run autonomous:event-collector-smoke',
+      'npm run autonomous:collector-deploy-plan',
+      './ops/github/setup-production.sh',
+      'RUN_WORKFLOWS=1 ./ops/github/setup-production.sh',
+      'npm run autonomous:readiness',
+    ],
+    validationCommands: [
+      'npm run autonomous:event-collector-smoke',
+      'npm run autonomous:collector-deploy-plan',
+      'npm run autonomous:readiness',
+      'npm run test:e2e',
+    ],
+    unlocks: [
+      'Browser events can forward to a first-party collector without PostHog.',
+      'Autonomous rollups can import collector exports after the admin token is configured.',
+    ],
+  },
+  {
+    id: 'posthog-browser',
+    title: 'PostHog browser capture',
+    status: posthogBrowserReady ? 'configured' : 'needs-public-project-key',
+    costMode: 'zero-spend-use-existing-posthog-free-project',
+    ownerInputRequired: !posthogBrowserReady,
+    requiredVariables: configActions(variableByRepositoryName, ['VITE_POSTHOG_KEY', 'VITE_POSTHOG_HOST']),
+    requiredSecrets: [],
+    commandSequence: [
+      './ops/github/setup-production.sh',
+      'RUN_WORKFLOWS=1 ./ops/github/setup-production.sh',
+      'npm run autonomous:readiness',
+    ],
+    validationCommands: ['npm run autonomous:readiness', 'npm run test:e2e'],
+    unlocks: [
+      'Browser events can forward to an existing PostHog project.',
+      'Autonomous rollups still require a server-side export credential before scheduled production learning.',
+    ],
+  },
+].map(withUnlockPathEffort)
+const analyticsRecommendedPath =
+  analyticsUnlockPaths.find((unlockPath) => unlockPath.id === analyticsRecommendedPathId) ?? analyticsUnlockPaths[0]
+const analyticsLowestInputPath = selectLowestInputPath(analyticsUnlockPaths)
 const analyticsUnlockKit = {
   id: 'production-analytics-browser',
   title: 'Browser production analytics unlock kit',
   status: firstPartyCollectorReady || posthogBrowserReady ? 'configured' : 'owner-input-required',
   recommendedPathId: analyticsRecommendedPathId,
+  lowestInputPathId: analyticsLowestInputPath?.id ?? null,
+  lowestInputPathTitle: analyticsLowestInputPath?.title ?? null,
+  lowestInputPathStatus: analyticsLowestInputPath?.status ?? null,
+  lowestInputMissingVariableCount: analyticsLowestInputPath?.missingVariableCount ?? 0,
+  lowestInputMissingSecretCount: analyticsLowestInputPath?.missingSecretCount ?? 0,
+  lowestInputMissingInputCount: analyticsLowestInputPath?.missingInputCount ?? 0,
+  lowestInputReason: describeLowestInputPath(analyticsLowestInputPath, analyticsRecommendedPath),
   handoffItemId: 'production-analytics-browser',
   ownerInputRequired: !(firstPartyCollectorReady || posthogBrowserReady),
   setupScript: 'ops/github/setup-production.sh',
@@ -134,77 +235,33 @@ const analyticsUnlockKit = {
     githubVariablesOnly: true,
     secretCommandsUseStdin: true,
   },
-  paths: [
-    {
-      id: 'first-party-collector',
-      title: 'First-party event collector',
-      status: firstPartyCollectorReady ? 'configured' : 'needs-variables-and-secrets',
-      costMode: 'zero-spend-use-existing-cloudflare-free-tier',
-      ownerInputRequired: !firstPartyCollectorReady,
-      requiredVariables: configActions(variableByRepositoryName, [
-        'CLOUDFLARE_ACCOUNT_ID',
-        'AGL_EVENT_COLLECTOR_R2_BUCKET',
-        'AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS',
-        'VITE_EVENT_COLLECTOR_URL',
-        'AGL_EVENT_COLLECTOR_EXPORT_URL',
-      ]),
-      requiredSecrets: configActions(secretByRepositoryName, [
-        'CLOUDFLARE_API_TOKEN',
-        'VITE_EVENT_COLLECTOR_WRITE_TOKEN',
-        'AGL_EVENT_COLLECTOR_ADMIN_TOKEN',
-      ]),
-      commandSequence: [
-        'npm run autonomous:event-collector-smoke',
-        'npm run autonomous:collector-deploy-plan',
-        './ops/github/setup-production.sh',
-        'RUN_WORKFLOWS=1 ./ops/github/setup-production.sh',
-        'npm run autonomous:readiness',
-      ],
-      validationCommands: [
-        'npm run autonomous:event-collector-smoke',
-        'npm run autonomous:collector-deploy-plan',
-        'npm run autonomous:readiness',
-        'npm run test:e2e',
-      ],
-      unlocks: [
-        'Browser events can forward to a first-party collector without PostHog.',
-        'Autonomous rollups can import collector exports after the admin token is configured.',
-      ],
-    },
-    {
-      id: 'posthog-browser',
-      title: 'PostHog browser capture',
-      status: posthogBrowserReady ? 'configured' : 'needs-public-project-key',
-      costMode: 'zero-spend-use-existing-posthog-free-project',
-      ownerInputRequired: !posthogBrowserReady,
-      requiredVariables: configActions(variableByRepositoryName, ['VITE_POSTHOG_KEY', 'VITE_POSTHOG_HOST']),
-      requiredSecrets: [],
-      commandSequence: [
-        './ops/github/setup-production.sh',
-        'RUN_WORKFLOWS=1 ./ops/github/setup-production.sh',
-        'npm run autonomous:readiness',
-      ],
-      validationCommands: ['npm run autonomous:readiness', 'npm run test:e2e'],
-      unlocks: [
-        'Browser events can forward to an existing PostHog project.',
-        'Autonomous rollups still require a server-side export credential before scheduled production learning.',
-      ],
-    },
-  ],
+  paths: analyticsUnlockPaths,
 }
-const unlockKits = [analyticsUnlockKit].map((kit) => ({
-  ...kit,
-  commandCount: unique(kit.paths.flatMap((unlockPath) => unlockPath.commandSequence)).length,
-  validationCommandCount: unique(kit.paths.flatMap((unlockPath) => unlockPath.validationCommands)).length,
-  missingVariableCount: kit.paths.reduce(
-    (sum, unlockPath) => sum + unlockPath.requiredVariables.filter((item) => !item.configured).length,
-    0,
-  ),
-  missingSecretCount: kit.paths.reduce(
-    (sum, unlockPath) => sum + unlockPath.requiredSecrets.filter((item) => !item.configured).length,
-    0,
-  ),
-}))
+const unlockKits = [analyticsUnlockKit].map((kit) => {
+  const lowestInputPath = selectLowestInputPath(kit.paths)
+  const recommendedPath = kit.paths.find((unlockPath) => unlockPath.id === kit.recommendedPathId) ?? kit.paths[0]
+
+  return {
+    ...kit,
+    commandCount: unique(kit.paths.flatMap((unlockPath) => unlockPath.commandSequence)).length,
+    validationCommandCount: unique(kit.paths.flatMap((unlockPath) => unlockPath.validationCommands)).length,
+    missingVariableCount: kit.paths.reduce(
+      (sum, unlockPath) => sum + countMissingConfigInputs(unlockPath.requiredVariables),
+      0,
+    ),
+    missingSecretCount: kit.paths.reduce(
+      (sum, unlockPath) => sum + countMissingConfigInputs(unlockPath.requiredSecrets),
+      0,
+    ),
+    lowestInputPathId: lowestInputPath?.id ?? null,
+    lowestInputPathTitle: lowestInputPath?.title ?? null,
+    lowestInputPathStatus: lowestInputPath?.status ?? null,
+    lowestInputMissingVariableCount: lowestInputPath?.missingVariableCount ?? 0,
+    lowestInputMissingSecretCount: lowestInputPath?.missingSecretCount ?? 0,
+    lowestInputMissingInputCount: lowestInputPath?.missingInputCount ?? 0,
+    lowestInputReason: describeLowestInputPath(lowestInputPath, recommendedPath),
+  }
+})
 const kitById = new Map(unlockKits.map((kit) => [kit.id, kit]))
 const summarizeUnlockKit = (kit) =>
   kit
@@ -213,6 +270,13 @@ const summarizeUnlockKit = (kit) =>
         title: kit.title,
         status: kit.status,
         recommendedPathId: kit.recommendedPathId,
+        lowestInputPathId: kit.lowestInputPathId,
+        lowestInputPathTitle: kit.lowestInputPathTitle,
+        lowestInputPathStatus: kit.lowestInputPathStatus,
+        lowestInputMissingVariableCount: kit.lowestInputMissingVariableCount,
+        lowestInputMissingSecretCount: kit.lowestInputMissingSecretCount,
+        lowestInputMissingInputCount: kit.lowestInputMissingInputCount,
+        lowestInputReason: kit.lowestInputReason,
         commandCount: kit.commandCount,
         validationCommandCount: kit.validationCommandCount,
         missingVariableCount: kit.missingVariableCount,
@@ -224,6 +288,11 @@ const summarizeUnlockKit = (kit) =>
           status: unlockPath.status,
           costMode: unlockPath.costMode,
           ownerInputRequired: unlockPath.ownerInputRequired,
+          missingVariableCount: unlockPath.missingVariableCount,
+          missingSecretCount: unlockPath.missingSecretCount,
+          missingInputCount: unlockPath.missingInputCount,
+          commandCount: unlockPath.commandCount,
+          validationCommandCount: unlockPath.validationCommandCount,
           requiredVariables: unlockPath.requiredVariables,
           requiredSecrets: unlockPath.requiredSecrets,
           commandSequence: unlockPath.commandSequence,
@@ -278,6 +347,9 @@ const handoffItems = [
     unlockKit: {
       id: analyticsUnlockKit.id,
       recommendedPathId: analyticsUnlockKit.recommendedPathId,
+      lowestInputPathId: analyticsUnlockKit.lowestInputPathId,
+      lowestInputMissingVariableCount: analyticsUnlockKit.lowestInputMissingVariableCount,
+      lowestInputMissingSecretCount: analyticsUnlockKit.lowestInputMissingSecretCount,
       commandCount: kitById.get(analyticsUnlockKit.id)?.commandCount ?? 0,
       validationCommandCount: kitById.get(analyticsUnlockKit.id)?.validationCommandCount ?? 0,
     },
@@ -425,6 +497,10 @@ const recommendedUnlockPath =
   nextUnlockKit?.paths.find((unlockPath) => unlockPath.id === nextUnlockKit.recommendedPathId) ??
   nextUnlockKit?.paths[0] ??
   null
+const lowestInputUnlockPath =
+  nextUnlockKit?.paths.find((unlockPath) => unlockPath.id === nextUnlockKit.lowestInputPathId) ??
+  selectLowestInputPath(nextUnlockKit?.paths) ??
+  null
 const summarizeConfigInputs = (items) =>
   (items ?? []).map((item) => ({
     repositoryName: item.repositoryName,
@@ -441,6 +517,13 @@ const ownerUnlockBrief =
         title: nextOwnerAction?.title ?? nextUnlockKit.title,
         recommendedPathId: recommendedUnlockPath.id,
         recommendedPathTitle: recommendedUnlockPath.title,
+        lowestInputPathId: lowestInputUnlockPath?.id ?? null,
+        lowestInputPathTitle: lowestInputUnlockPath?.title ?? null,
+        lowestInputPathStatus: lowestInputUnlockPath?.status ?? null,
+        lowestInputMissingVariableCount: lowestInputUnlockPath?.missingVariableCount ?? 0,
+        lowestInputMissingSecretCount: lowestInputUnlockPath?.missingSecretCount ?? 0,
+        lowestInputMissingInputCount: lowestInputUnlockPath?.missingInputCount ?? 0,
+        lowestInputReason: describeLowestInputPath(lowestInputUnlockPath, recommendedUnlockPath),
         costMode: recommendedUnlockPath.costMode,
         ownerInputRequired: recommendedUnlockPath.ownerInputRequired === true,
         missingVariables: summarizeConfigInputs(recommendedUnlockPath.requiredVariables).filter(
@@ -460,6 +543,9 @@ const ownerUnlockBrief =
         afterUnlockCommands: nextOwnerAction?.afterUnlockCommands ?? [],
         steps: [
           `Use ${recommendedUnlockPath.title} (${recommendedUnlockPath.id}) for the next zero-spend measurement unlock.`,
+          lowestInputUnlockPath?.id && lowestInputUnlockPath.id !== recommendedUnlockPath.id
+            ? `Use ${lowestInputUnlockPath.title} (${lowestInputUnlockPath.id}) when the lowest-input owner path is more important than the first-party collector recommendation.`
+            : 'The recommended unlock path is currently also the lowest-input owner path.',
           'Set only the missing repository variables shown in this brief.',
           'Set missing repository secrets with the stdin-fed gh secret commands; never paste secret values into files or issues.',
           'Run the setup commands, then the validation commands, before trusting production analytics for gates.',
@@ -563,6 +649,9 @@ const appPayload = {
         status: payload.ownerUnlockBrief.status,
         nextUnlockId: payload.ownerUnlockBrief.nextUnlockId,
         recommendedPathId: payload.ownerUnlockBrief.recommendedPathId,
+        lowestInputPathId: payload.ownerUnlockBrief.lowestInputPathId,
+        lowestInputMissingVariableCount: payload.ownerUnlockBrief.lowestInputMissingVariableCount,
+        lowestInputMissingSecretCount: payload.ownerUnlockBrief.lowestInputMissingSecretCount,
         missingVariableCount: payload.ownerUnlockBrief.missingVariables.length,
         missingSecretCount: payload.ownerUnlockBrief.missingSecrets.length,
         setupCommands: payload.ownerUnlockBrief.setupCommands,
@@ -705,6 +794,7 @@ const report = [
       ? [
           `  - unlock kit: ${item.unlockKit.id}`,
           `  - recommended path: ${item.unlockKit.recommendedPathId}`,
+          `  - lowest-input path: ${item.unlockKit.lowestInputPathId ?? 'none'}`,
           `  - setup commands: ${item.unlockKit.commandCount}`,
         ]
       : []),

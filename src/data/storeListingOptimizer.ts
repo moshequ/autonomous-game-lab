@@ -1,6 +1,6 @@
 export const storeListingOptimizer = {
-  "generatedAt": "2026-05-24T18:36:56.658Z",
-  "sourceDataHash": "92ac9978923d",
+  "generatedAt": "2026-05-24T19:34:03.238Z",
+  "sourceDataHash": "f5e2082ed161",
   "status": "store-listing-optimizer-ready",
   "sourceStatus": {
     "growthPlan": "growth-assets-ready",

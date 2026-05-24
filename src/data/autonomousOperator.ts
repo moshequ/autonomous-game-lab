@@ -9,6 +9,7 @@ export const autonomousOperator = {
     "status": "handoff-waiting-on-owner-inputs",
     "nextUnlockId": "production-analytics-browser",
     "recommendedPathId": "first-party-collector",
+    "lowestInputPathId": "posthog-browser",
     "publicStatusPage": "/measurement-status.html"
   }
 } as const

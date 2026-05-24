@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-05-24T18:37:17.476Z",
-  "sourceDataHash": "e1a66e87a64d",
+  "generatedAt": "2026-05-24T19:41:30.751Z",
+  "sourceDataHash": "0a66f7f33c7f",
   "status": "production-measurement-local-intake-ready",
   "activePath": "local-browser-buffer",
   "liveCandidate": "pwa-36719894f5df",
@@ -204,10 +204,17 @@
     "title": "Browser production analytics unlock kit",
     "status": "owner-input-required",
     "recommendedPathId": "first-party-collector",
+    "lowestInputPathId": "posthog-browser",
+    "lowestInputPathTitle": "PostHog browser capture",
+    "lowestInputPathStatus": "needs-public-project-key",
+    "lowestInputMissingVariableCount": 2,
+    "lowestInputMissingSecretCount": 0,
+    "lowestInputMissingInputCount": 2,
+    "lowestInputReason": "PostHog browser capture currently needs 2 missing input(s), compared with 8 for the recommended path.",
     "commandCount": 5,
     "validationCommandCount": 4,
-    "missingVariableCount": 5,
-    "missingSecretCount": 1,
+    "missingVariableCount": 7,
+    "missingSecretCount": 3,
     "controls": {
       "zeroPaidSpend": true,
       "noSecretValues": true,
@@ -225,6 +232,11 @@
         "status": "needs-variables-and-secrets",
         "costMode": "zero-spend-use-existing-cloudflare-free-tier",
         "ownerInputRequired": true,
+        "missingVariableCount": 5,
+        "missingSecretCount": 3,
+        "missingInputCount": 8,
+        "commandCount": 5,
+        "validationCommandCount": 4,
         "requiredVariables": [
           {
             "repositoryName": "CLOUDFLARE_ACCOUNT_ID",
@@ -235,13 +247,13 @@
           {
             "repositoryName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
             "envName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
-            "configured": true,
+            "configured": false,
             "command": "gh variable set AGL_EVENT_COLLECTOR_R2_BUCKET --body \"$AGL_EVENT_COLLECTOR_R2_BUCKET\""
           },
           {
             "repositoryName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
             "envName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
-            "configured": true,
+            "configured": false,
             "command": "gh variable set AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS --body \"$AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS\""
           },
           {
@@ -267,13 +279,13 @@
           {
             "repositoryName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
             "envName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
-            "configured": true,
+            "configured": false,
             "command": "printf \"%s\" \"$VITE_EVENT_COLLECTOR_WRITE_TOKEN\" | gh secret set VITE_EVENT_COLLECTOR_WRITE_TOKEN"
           },
           {
             "repositoryName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
             "envName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
-            "configured": true,
+            "configured": false,
             "command": "printf \"%s\" \"$AGL_EVENT_COLLECTOR_ADMIN_TOKEN\" | gh secret set AGL_EVENT_COLLECTOR_ADMIN_TOKEN"
           }
         ],
@@ -297,6 +309,11 @@
         "status": "needs-public-project-key",
         "costMode": "zero-spend-use-existing-posthog-free-project",
         "ownerInputRequired": true,
+        "missingVariableCount": 2,
+        "missingSecretCount": 0,
+        "missingInputCount": 2,
+        "commandCount": 3,
+        "validationCommandCount": 2,
         "requiredVariables": [
           {
             "repositoryName": "VITE_POSTHOG_KEY",
@@ -434,7 +451,7 @@
     "ownerActionRequired": 4,
     "externalOwnerActions": 4,
     "missingEnvironmentItems": 7,
-    "missingSecrets": 3,
+    "missingSecrets": 5,
     "productGateBlockers": 3,
     "topItems": [
       {
@@ -493,7 +510,7 @@
           {
             "repositoryName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
             "envName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
-            "configured": true,
+            "configured": false,
             "command": "printf \"%s\" \"$VITE_EVENT_COLLECTOR_WRITE_TOKEN\" | gh secret set VITE_EVENT_COLLECTOR_WRITE_TOKEN"
           },
           {
@@ -523,10 +540,17 @@
           "title": "Browser production analytics unlock kit",
           "status": "owner-input-required",
           "recommendedPathId": "first-party-collector",
+          "lowestInputPathId": "posthog-browser",
+          "lowestInputPathTitle": "PostHog browser capture",
+          "lowestInputPathStatus": "needs-public-project-key",
+          "lowestInputMissingVariableCount": 2,
+          "lowestInputMissingSecretCount": 0,
+          "lowestInputMissingInputCount": 2,
+          "lowestInputReason": "PostHog browser capture currently needs 2 missing input(s), compared with 8 for the recommended path.",
           "commandCount": 5,
           "validationCommandCount": 4,
-          "missingVariableCount": 5,
-          "missingSecretCount": 1,
+          "missingVariableCount": 7,
+          "missingSecretCount": 3,
           "controls": {
             "zeroPaidSpend": true,
             "noSecretValues": true,
@@ -543,6 +567,11 @@
               "status": "needs-variables-and-secrets",
               "costMode": "zero-spend-use-existing-cloudflare-free-tier",
               "ownerInputRequired": true,
+              "missingVariableCount": 5,
+              "missingSecretCount": 3,
+              "missingInputCount": 8,
+              "commandCount": 5,
+              "validationCommandCount": 4,
               "requiredVariables": [
                 {
                   "repositoryName": "CLOUDFLARE_ACCOUNT_ID",
@@ -553,13 +582,13 @@
                 {
                   "repositoryName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
                   "envName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
-                  "configured": true,
+                  "configured": false,
                   "command": "gh variable set AGL_EVENT_COLLECTOR_R2_BUCKET --body \"$AGL_EVENT_COLLECTOR_R2_BUCKET\""
                 },
                 {
                   "repositoryName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
                   "envName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
-                  "configured": true,
+                  "configured": false,
                   "command": "gh variable set AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS --body \"$AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS\""
                 },
                 {
@@ -585,13 +614,13 @@
                 {
                   "repositoryName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
                   "envName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
-                  "configured": true,
+                  "configured": false,
                   "command": "printf \"%s\" \"$VITE_EVENT_COLLECTOR_WRITE_TOKEN\" | gh secret set VITE_EVENT_COLLECTOR_WRITE_TOKEN"
                 },
                 {
                   "repositoryName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
                   "envName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
-                  "configured": true,
+                  "configured": false,
                   "command": "printf \"%s\" \"$AGL_EVENT_COLLECTOR_ADMIN_TOKEN\" | gh secret set AGL_EVENT_COLLECTOR_ADMIN_TOKEN"
                 }
               ],
@@ -615,6 +644,11 @@
               "status": "needs-public-project-key",
               "costMode": "zero-spend-use-existing-posthog-free-project",
               "ownerInputRequired": true,
+              "missingVariableCount": 2,
+              "missingSecretCount": 0,
+              "missingInputCount": 2,
+              "commandCount": 3,
+              "validationCommandCount": 2,
               "requiredVariables": [
                 {
                   "repositoryName": "VITE_POSTHOG_KEY",
@@ -667,7 +701,7 @@
           {
             "repositoryName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
             "envName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
-            "configured": true,
+            "configured": false,
             "command": "printf \"%s\" \"$AGL_EVENT_COLLECTOR_ADMIN_TOKEN\" | gh secret set AGL_EVENT_COLLECTOR_ADMIN_TOKEN"
           },
           {
@@ -840,10 +874,17 @@
       "title": "Browser production analytics unlock kit",
       "status": "owner-input-required",
       "recommendedPathId": "first-party-collector",
+      "lowestInputPathId": "posthog-browser",
+      "lowestInputPathTitle": "PostHog browser capture",
+      "lowestInputPathStatus": "needs-public-project-key",
+      "lowestInputMissingVariableCount": 2,
+      "lowestInputMissingSecretCount": 0,
+      "lowestInputMissingInputCount": 2,
+      "lowestInputReason": "PostHog browser capture currently needs 2 missing input(s), compared with 8 for the recommended path.",
       "commandCount": 5,
       "validationCommandCount": 4,
-      "missingVariableCount": 5,
-      "missingSecretCount": 1,
+      "missingVariableCount": 7,
+      "missingSecretCount": 3,
       "controls": {
         "zeroPaidSpend": true,
         "noSecretValues": true,
@@ -860,6 +901,11 @@
           "status": "needs-variables-and-secrets",
           "costMode": "zero-spend-use-existing-cloudflare-free-tier",
           "ownerInputRequired": true,
+          "missingVariableCount": 5,
+          "missingSecretCount": 3,
+          "missingInputCount": 8,
+          "commandCount": 5,
+          "validationCommandCount": 4,
           "requiredVariables": [
             {
               "repositoryName": "CLOUDFLARE_ACCOUNT_ID",
@@ -870,13 +916,13 @@
             {
               "repositoryName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
               "envName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
-              "configured": true,
+              "configured": false,
               "command": "gh variable set AGL_EVENT_COLLECTOR_R2_BUCKET --body \"$AGL_EVENT_COLLECTOR_R2_BUCKET\""
             },
             {
               "repositoryName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
               "envName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
-              "configured": true,
+              "configured": false,
               "command": "gh variable set AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS --body \"$AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS\""
             },
             {
@@ -902,13 +948,13 @@
             {
               "repositoryName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
               "envName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
-              "configured": true,
+              "configured": false,
               "command": "printf \"%s\" \"$VITE_EVENT_COLLECTOR_WRITE_TOKEN\" | gh secret set VITE_EVENT_COLLECTOR_WRITE_TOKEN"
             },
             {
               "repositoryName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
               "envName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
-              "configured": true,
+              "configured": false,
               "command": "printf \"%s\" \"$AGL_EVENT_COLLECTOR_ADMIN_TOKEN\" | gh secret set AGL_EVENT_COLLECTOR_ADMIN_TOKEN"
             }
           ],
@@ -932,6 +978,11 @@
           "status": "needs-public-project-key",
           "costMode": "zero-spend-use-existing-posthog-free-project",
           "ownerInputRequired": true,
+          "missingVariableCount": 2,
+          "missingSecretCount": 0,
+          "missingInputCount": 2,
+          "commandCount": 3,
+          "validationCommandCount": 2,
           "requiredVariables": [
             {
               "repositoryName": "VITE_POSTHOG_KEY",
@@ -966,6 +1017,13 @@
       "title": "Browser production analytics",
       "recommendedPathId": "first-party-collector",
       "recommendedPathTitle": "First-party event collector",
+      "lowestInputPathId": "posthog-browser",
+      "lowestInputPathTitle": "PostHog browser capture",
+      "lowestInputPathStatus": "needs-public-project-key",
+      "lowestInputMissingVariableCount": 2,
+      "lowestInputMissingSecretCount": 0,
+      "lowestInputMissingInputCount": 2,
+      "lowestInputReason": "PostHog browser capture currently needs 2 missing input(s), compared with 8 for the recommended path.",
       "costMode": "zero-spend-use-existing-cloudflare-free-tier",
       "ownerInputRequired": true,
       "missingVariables": [
@@ -974,6 +1032,18 @@
           "envName": "CLOUDFLARE_ACCOUNT_ID",
           "configured": false,
           "command": "gh variable set CLOUDFLARE_ACCOUNT_ID --body \"$CLOUDFLARE_ACCOUNT_ID\""
+        },
+        {
+          "repositoryName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
+          "envName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
+          "configured": false,
+          "command": "gh variable set AGL_EVENT_COLLECTOR_R2_BUCKET --body \"$AGL_EVENT_COLLECTOR_R2_BUCKET\""
+        },
+        {
+          "repositoryName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
+          "envName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
+          "configured": false,
+          "command": "gh variable set AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS --body \"$AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS\""
         },
         {
           "repositoryName": "VITE_EVENT_COLLECTOR_URL",
@@ -994,36 +1064,22 @@
           "envName": "CLOUDFLARE_API_TOKEN",
           "configured": false,
           "command": "printf \"%s\" \"$CLOUDFLARE_API_TOKEN\" | gh secret set CLOUDFLARE_API_TOKEN"
-        }
-      ],
-      "configuredVariables": [
-        {
-          "repositoryName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
-          "envName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
-          "configured": true,
-          "command": "gh variable set AGL_EVENT_COLLECTOR_R2_BUCKET --body \"$AGL_EVENT_COLLECTOR_R2_BUCKET\""
         },
-        {
-          "repositoryName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
-          "envName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
-          "configured": true,
-          "command": "gh variable set AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS --body \"$AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS\""
-        }
-      ],
-      "configuredSecrets": [
         {
           "repositoryName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
           "envName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
-          "configured": true,
+          "configured": false,
           "command": "printf \"%s\" \"$VITE_EVENT_COLLECTOR_WRITE_TOKEN\" | gh secret set VITE_EVENT_COLLECTOR_WRITE_TOKEN"
         },
         {
           "repositoryName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
           "envName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
-          "configured": true,
+          "configured": false,
           "command": "printf \"%s\" \"$AGL_EVENT_COLLECTOR_ADMIN_TOKEN\" | gh secret set AGL_EVENT_COLLECTOR_ADMIN_TOKEN"
         }
       ],
+      "configuredVariables": [],
+      "configuredSecrets": [],
       "setupCommands": [
         "npm run autonomous:event-collector-smoke",
         "npm run autonomous:collector-deploy-plan",
@@ -1047,6 +1103,7 @@
       ],
       "steps": [
         "Use First-party event collector (first-party-collector) for the next zero-spend measurement unlock.",
+        "Use PostHog browser capture (posthog-browser) when the lowest-input owner path is more important than the first-party collector recommendation.",
         "Set only the missing repository variables shown in this brief.",
         "Set missing repository secrets with the stdin-fed gh secret commands; never paste secret values into files or issues.",
         "Run the setup commands, then the validation commands, before trusting production analytics for gates.",
@@ -1092,11 +1149,11 @@
     },
     "summary": {
       "totalInputs": 8,
-      "readyInputs": 4,
-      "missingInputs": 4,
+      "readyInputs": 0,
+      "missingInputs": 8,
       "invalidInputs": 0,
-      "repositoryConfiguredInputs": 4,
-      "localAvailableInputs": 4,
+      "repositoryConfiguredInputs": 0,
+      "localAvailableInputs": 0,
       "localUrlValidationsPassed": 0,
       "setupCanRun": false
     },
@@ -1106,6 +1163,18 @@
         "repositoryName": "CLOUDFLARE_ACCOUNT_ID",
         "envName": "CLOUDFLARE_ACCOUNT_ID",
         "command": "gh variable set CLOUDFLARE_ACCOUNT_ID --body \"$CLOUDFLARE_ACCOUNT_ID\""
+      },
+      {
+        "kind": "github-variable",
+        "repositoryName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
+        "envName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
+        "command": "gh variable set AGL_EVENT_COLLECTOR_R2_BUCKET --body \"$AGL_EVENT_COLLECTOR_R2_BUCKET\""
+      },
+      {
+        "kind": "github-variable",
+        "repositoryName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
+        "envName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
+        "command": "gh variable set AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS --body \"$AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS\""
       },
       {
         "kind": "github-variable",
@@ -1124,6 +1193,18 @@
         "repositoryName": "CLOUDFLARE_API_TOKEN",
         "envName": "CLOUDFLARE_API_TOKEN",
         "command": "printf \"%s\" \"$CLOUDFLARE_API_TOKEN\" | gh secret set CLOUDFLARE_API_TOKEN"
+      },
+      {
+        "kind": "github-secret",
+        "repositoryName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
+        "envName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
+        "command": "printf \"%s\" \"$VITE_EVENT_COLLECTOR_WRITE_TOKEN\" | gh secret set VITE_EVENT_COLLECTOR_WRITE_TOKEN"
+      },
+      {
+        "kind": "github-secret",
+        "repositoryName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
+        "envName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
+        "command": "printf \"%s\" \"$AGL_EVENT_COLLECTOR_ADMIN_TOKEN\" | gh secret set AGL_EVENT_COLLECTOR_ADMIN_TOKEN"
       }
     ],
     "invalidInputs": [],
@@ -1206,7 +1287,7 @@
   },
   "nextActions": [
     "Use the player-initiated local evidence route until PostHog or the first-party collector is configured.",
-    "Unlock production analytics with first-party-collector; 5 setup command(s) and 4 validation command(s) are published with redacted secret names only.",
+    "Unlock production analytics with first-party-collector; lowest-input path is posthog-browser with 2 missing input(s).",
     "First-party collector deployment is blocked-needs-cloudflare-env; smoke is pass.",
     "External unlock queue has 4 owner action(s); next zero-spend unlock is production-analytics-browser.",
     "Product gate recovery is product-gate-recovery-ready; public recovery route is /product-gate-recovery.html.",

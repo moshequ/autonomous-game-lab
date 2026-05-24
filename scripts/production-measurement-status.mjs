@@ -328,6 +328,13 @@ const publicAnalyticsUnlock = productionAnalyticsUnlockKit
       title: productionAnalyticsUnlockKit.title,
       status: productionAnalyticsUnlockKit.status,
       recommendedPathId: productionAnalyticsUnlockKit.recommendedPathId,
+      lowestInputPathId: productionAnalyticsUnlockKit.lowestInputPathId ?? null,
+      lowestInputPathTitle: productionAnalyticsUnlockKit.lowestInputPathTitle ?? null,
+      lowestInputPathStatus: productionAnalyticsUnlockKit.lowestInputPathStatus ?? null,
+      lowestInputMissingVariableCount: numberOrZero(productionAnalyticsUnlockKit.lowestInputMissingVariableCount),
+      lowestInputMissingSecretCount: numberOrZero(productionAnalyticsUnlockKit.lowestInputMissingSecretCount),
+      lowestInputMissingInputCount: numberOrZero(productionAnalyticsUnlockKit.lowestInputMissingInputCount),
+      lowestInputReason: productionAnalyticsUnlockKit.lowestInputReason ?? null,
       commandCount: productionAnalyticsUnlockKit.commandCount,
       validationCommandCount: productionAnalyticsUnlockKit.validationCommandCount,
       missingVariableCount: productionAnalyticsUnlockKit.missingVariableCount,
@@ -348,6 +355,11 @@ const publicAnalyticsUnlock = productionAnalyticsUnlockKit
         status: unlockPath.status,
         costMode: unlockPath.costMode,
         ownerInputRequired: unlockPath.ownerInputRequired === true,
+        missingVariableCount: numberOrZero(unlockPath.missingVariableCount),
+        missingSecretCount: numberOrZero(unlockPath.missingSecretCount),
+        missingInputCount: numberOrZero(unlockPath.missingInputCount),
+        commandCount: numberOrZero(unlockPath.commandCount),
+        validationCommandCount: numberOrZero(unlockPath.validationCommandCount),
         requiredVariables: (unlockPath.requiredVariables ?? []).map((item) => ({
           repositoryName: item.repositoryName,
           envName: item.envName,
@@ -391,6 +403,13 @@ const summarizeUnlockKit = (kit) =>
         title: kit.title,
         status: kit.status,
         recommendedPathId: kit.recommendedPathId,
+        lowestInputPathId: kit.lowestInputPathId ?? null,
+        lowestInputPathTitle: kit.lowestInputPathTitle ?? null,
+        lowestInputPathStatus: kit.lowestInputPathStatus ?? null,
+        lowestInputMissingVariableCount: numberOrZero(kit.lowestInputMissingVariableCount),
+        lowestInputMissingSecretCount: numberOrZero(kit.lowestInputMissingSecretCount),
+        lowestInputMissingInputCount: numberOrZero(kit.lowestInputMissingInputCount),
+        lowestInputReason: kit.lowestInputReason ?? null,
         commandCount: numberOrZero(kit.commandCount),
         validationCommandCount: numberOrZero(kit.validationCommandCount),
         missingVariableCount: numberOrZero(kit.missingVariableCount),
@@ -410,6 +429,11 @@ const summarizeUnlockKit = (kit) =>
           status: unlockPath.status,
           costMode: unlockPath.costMode,
           ownerInputRequired: unlockPath.ownerInputRequired === true,
+          missingVariableCount: numberOrZero(unlockPath.missingVariableCount),
+          missingSecretCount: numberOrZero(unlockPath.missingSecretCount),
+          missingInputCount: numberOrZero(unlockPath.missingInputCount),
+          commandCount: numberOrZero(unlockPath.commandCount),
+          validationCommandCount: numberOrZero(unlockPath.validationCommandCount),
           requiredVariables: (unlockPath.requiredVariables ?? []).map((item) => ({
             repositoryName: item.repositoryName,
             envName: item.envName,
@@ -709,7 +733,7 @@ const payload = {
   nextActions: [
     nextAction,
     publicAnalyticsUnlock
-      ? `Unlock production analytics with ${publicAnalyticsUnlock.recommendedPathId}; ${publicAnalyticsUnlock.commandCount} setup command(s) and ${publicAnalyticsUnlock.validationCommandCount} validation command(s) are published with redacted secret names only.`
+      ? `Unlock production analytics with ${publicAnalyticsUnlock.recommendedPathId}; lowest-input path is ${publicAnalyticsUnlock.lowestInputPathId ?? 'unknown'} with ${publicAnalyticsUnlock.lowestInputMissingInputCount} missing input(s).`
       : 'Regenerate the production blocker handoff before publishing production analytics unlock guidance.',
     `First-party collector deployment is ${publicCollectorDeployment.status}; smoke is ${publicCollectorDeployment.smoke.status}.`,
     `External unlock queue has ${publicExternalUnlockQueue.ownerActionRequired} owner action(s); next zero-spend unlock is ${publicExternalUnlockQueue.nextBestZeroCostUnlockId ?? 'none'}.`,
@@ -738,6 +762,9 @@ const appAnalyticsUnlock = payload.analyticsUnlock
   ? {
       status: payload.analyticsUnlock.status,
       recommendedPathId: payload.analyticsUnlock.recommendedPathId,
+      lowestInputPathId: payload.analyticsUnlock.lowestInputPathId,
+      lowestInputMissingVariableCount: payload.analyticsUnlock.lowestInputMissingVariableCount,
+      lowestInputMissingSecretCount: payload.analyticsUnlock.lowestInputMissingSecretCount,
       commandCount: payload.analyticsUnlock.commandCount,
       validationCommandCount: payload.analyticsUnlock.validationCommandCount,
     }
@@ -825,6 +852,9 @@ const analyticsUnlockPayload = {
   activePath: payload.activePath,
   liveCandidate: payload.liveCandidate,
   recommendedPathId: payload.analyticsUnlock?.recommendedPathId ?? null,
+  lowestInputPathId: payload.analyticsUnlock?.lowestInputPathId ?? null,
+  lowestInputMissingVariableCount: payload.analyticsUnlock?.lowestInputMissingVariableCount ?? 0,
+  lowestInputMissingSecretCount: payload.analyticsUnlock?.lowestInputMissingSecretCount ?? 0,
   analyticsUnlock: payload.analyticsUnlock,
   collectorDeployment: payload.collectorDeployment,
   externalUnlockQueue: {
@@ -892,6 +922,10 @@ const ownerUnlockBriefHtml = (brief) =>
           <div class="card">
             <span>Recommended path</span>
             <strong>${escapeHtml(brief.recommendedPathId)}</strong>
+          </div>
+          <div class="card">
+            <span>Lowest-input path</span>
+            <strong>${escapeHtml(brief.lowestInputPathId ?? 'none')}</strong>
           </div>
           <div class="card">
             <span>Missing variables</span>
@@ -1126,6 +1160,10 @@ const analyticsUnlockHtml = `<!doctype html>
           <strong>${escapeHtml(analyticsUnlockPayload.recommendedPathId ?? 'none')}</strong>
         </div>
         <div class="card">
+          <span>Lowest-input path</span>
+          <strong>${escapeHtml(analyticsUnlockPayload.lowestInputPathId ?? 'none')}</strong>
+        </div>
+        <div class="card">
           <span>Owner actions</span>
           <strong>${analyticsUnlockPayload.externalUnlockQueue.ownerActionRequired}</strong>
         </div>
@@ -1149,6 +1187,7 @@ const analyticsUnlockHtml = `<!doctype html>
           <span>${escapeHtml(unlockPath.status)}</span>
           <h3>${escapeHtml(unlockPath.title)}</h3>
           <p>${escapeHtml(unlockPath.costMode)}</p>
+          <p>Missing inputs: ${unlockPath.missingVariableCount ?? 0} variable(s), ${unlockPath.missingSecretCount ?? 0} secret(s)</p>
           <h3>Repository Variables</h3>
           ${requiredList(unlockPath.requiredVariables)}
           <h3>Repository Secrets</h3>
@@ -1512,6 +1551,10 @@ const html = `<!doctype html>
             <strong>${escapeHtml(payload.analyticsUnlock?.recommendedPathId ?? 'none')}</strong>
           </div>
           <div class="card">
+            <span>Lowest-input path</span>
+            <strong>${escapeHtml(payload.analyticsUnlock?.lowestInputPathId ?? 'none')}</strong>
+          </div>
+          <div class="card">
             <span>Setup commands</span>
             <strong>${payload.analyticsUnlock?.commandCount ?? 0}</strong>
           </div>
@@ -1528,6 +1571,7 @@ const html = `<!doctype html>
             <span>${escapeHtml(unlockPath.title)}</span>
             <strong>${escapeHtml(unlockPath.status)}</strong>
             <p>${escapeHtml(unlockPath.costMode)}</p>
+            <p>Missing inputs: ${unlockPath.missingVariableCount ?? 0} variable(s), ${unlockPath.missingSecretCount ?? 0} secret(s)</p>
             <p>Variables: ${escapeHtml(unlockPath.requiredVariables.map((item) => item.repositoryName).join(', ') || 'none')}</p>
             <p>Secrets: ${escapeHtml(unlockPath.requiredSecrets.map((item) => item.repositoryName).join(', ') || 'none')}</p>
             <p>Commands: ${escapeHtml(unlockPath.commandSequence.join(' && ') || 'none')}</p>
@@ -1670,6 +1714,7 @@ const report = [
   `- public aggregate handoff: ${payload.publicEvidenceHandoff.status}`,
   `- analytics unlock: ${payload.analyticsUnlock?.status ?? 'missing'}`,
   `- analytics unlock path: ${payload.analyticsUnlock?.recommendedPathId ?? 'none'}`,
+  `- lowest-input analytics path: ${payload.analyticsUnlock?.lowestInputPathId ?? 'none'}`,
   `- external unlock queue: ${payload.externalUnlockQueue.status}`,
   `- next external unlock: ${payload.externalUnlockQueue.nextBestUnlockId ?? 'none'}`,
   `- owner unlock brief: ${payload.externalUnlockQueue.ownerUnlockBrief?.recommendedPathId ?? 'none'}`,

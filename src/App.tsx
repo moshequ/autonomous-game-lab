@@ -1037,6 +1037,10 @@ function App() {
     productionBlockerNextUnlockKit?.paths.find(
       (unlockPath) => unlockPath.id === productionBlockerNextUnlockKit.recommendedPathId,
     ) ?? productionBlockerNextUnlockKit?.paths[0]
+  const productionBlockerLowInputPath =
+    productionBlockerNextUnlockKit?.paths.find(
+      (unlockPath) => unlockPath.id === productionBlockerNextUnlockKit.lowestInputPathId,
+    ) ?? productionBlockerNextUnlockKit?.paths[0]
   const productionActivationRunnableActions = productionActivation.plannedActions.filter(
     (action) => action.runnableNow,
   ).length
@@ -1062,6 +1066,9 @@ function App() {
       analyticsUnlock?: {
         status: string
         recommendedPathId: string
+        lowestInputPathId?: string | null
+        lowestInputMissingVariableCount?: number
+        lowestInputMissingSecretCount?: number
         commandCount: number
         validationCommandCount: number
       } | null
@@ -1082,9 +1089,12 @@ function App() {
       externalInputHandoff?: {
         nextUnlockId: string | null
         recommendedPathId: string | null
+        lowestInputPathId?: string | null
         ownerActionRequired: number
         missingVariableCount: number
         missingSecretCount: number
+        lowestInputMissingVariableCount?: number
+        lowestInputMissingSecretCount?: number
         publicStatusPage: string
       } | null
     }
@@ -1096,6 +1106,7 @@ function App() {
       externalInputHandoff?: {
         nextUnlockId: string | null
         recommendedPathId: string | null
+        lowestInputPathId?: string | null
         publicStatusPage: string
       } | null
     }
@@ -3447,6 +3458,10 @@ function App() {
                 <strong>{ownerExternalInputHandoff?.recommendedPathId ?? 'none'}</strong>
               </div>
               <div className="factRow">
+                <span>Low-input path</span>
+                <strong>{ownerExternalInputHandoff?.lowestInputPathId ?? 'none'}</strong>
+              </div>
+              <div className="factRow">
                 <span>Owner inputs</span>
                 <strong>{ownerExternalInputHandoff?.ownerActionRequired ?? 0}</strong>
               </div>
@@ -3542,6 +3557,10 @@ function App() {
                 <div>
                   <span>Unlock path</span>
                   <strong>{productionBlockerUnlockPath?.id ?? 'none'}</strong>
+                </div>
+                <div>
+                  <span>Low-input path</span>
+                  <strong>{productionBlockerLowInputPath?.id ?? 'none'}</strong>
                 </div>
                 <div>
                   <span>Kit commands</span>
@@ -3675,6 +3694,10 @@ function App() {
                   <strong>{productionMeasurementAnalyticsUnlock?.recommendedPathId ?? 'none'}</strong>
                 </div>
                 <div>
+                  <span>Low-input path</span>
+                  <strong>{productionMeasurementAnalyticsUnlock?.lowestInputPathId ?? 'none'}</strong>
+                </div>
+                <div>
                   <span>Unlock checks</span>
                   <strong>
                     {productionMeasurementAnalyticsUnlock
@@ -3771,6 +3794,10 @@ function App() {
                 <div>
                   <span>Unlock path</span>
                   <strong>{operatorExternalInputHandoff?.recommendedPathId ?? 'none'}</strong>
+                </div>
+                <div>
+                  <span>Low-input path</span>
+                  <strong>{operatorExternalInputHandoff?.lowestInputPathId ?? 'none'}</strong>
                 </div>
                 <div>
                   <span>Handoff</span>

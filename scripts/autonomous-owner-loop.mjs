@@ -2536,6 +2536,8 @@ const recommendedUnlockPath =
   fullNextUnlockKit?.paths?.find((unlockPath) => unlockPath.id === fullNextUnlockKit.recommendedPathId) ??
   fullNextUnlockKit?.paths?.[0] ??
   null
+const lowestInputUnlockPath =
+  fullNextUnlockKit?.paths?.find((unlockPath) => unlockPath.id === fullNextUnlockKit.lowestInputPathId) ?? null
 const sanitizeExternalInput = (item) => ({
   repositoryName: item.repositoryName ?? item.repositorySecret ?? item.name ?? null,
   envName: item.envName ?? item.repositoryName ?? item.repositorySecret ?? item.name ?? null,
@@ -2552,6 +2554,15 @@ const ownerExternalInputHandoff =
         title: fullNextUnlockKit?.title ?? null,
         recommendedPathId: fullNextUnlockKit?.recommendedPathId ?? null,
         recommendedPathStatus: recommendedUnlockPath?.status ?? null,
+        lowestInputPathId: fullNextUnlockKit?.lowestInputPathId ?? null,
+        lowestInputPathStatus: lowestInputUnlockPath?.status ?? fullNextUnlockKit?.lowestInputPathStatus ?? null,
+        lowestInputMissingVariableCount:
+          lowestInputUnlockPath?.missingVariableCount ?? fullNextUnlockKit?.lowestInputMissingVariableCount ?? 0,
+        lowestInputMissingSecretCount:
+          lowestInputUnlockPath?.missingSecretCount ?? fullNextUnlockKit?.lowestInputMissingSecretCount ?? 0,
+        lowestInputMissingInputCount:
+          lowestInputUnlockPath?.missingInputCount ?? fullNextUnlockKit?.lowestInputMissingInputCount ?? 0,
+        lowestInputReason: fullNextUnlockKit?.lowestInputReason ?? null,
         publicStatusPage: '/measurement-status.html',
         publicStatusJson: '/measurement-status.json',
         setupScript: fullNextUnlockKit?.setupScript ?? 'ops/github/setup-production.sh',
@@ -2819,9 +2830,12 @@ const appPayload = {
     ? {
         nextUnlockId: payload.externalInputHandoff.nextUnlockId,
         recommendedPathId: payload.externalInputHandoff.recommendedPathId,
+        lowestInputPathId: payload.externalInputHandoff.lowestInputPathId,
         ownerActionRequired: payload.externalInputHandoff.ownerActionRequired,
         missingVariableCount: payload.externalInputHandoff.missingVariableCount,
         missingSecretCount: payload.externalInputHandoff.missingSecretCount,
+        lowestInputMissingVariableCount: payload.externalInputHandoff.lowestInputMissingVariableCount,
+        lowestInputMissingSecretCount: payload.externalInputHandoff.lowestInputMissingSecretCount,
         publicStatusPage: payload.externalInputHandoff.publicStatusPage,
       }
     : null,
@@ -2853,6 +2867,7 @@ const report = [
         '',
         `- Next unlock: ${payload.externalInputHandoff.nextUnlockId ?? 'none'}`,
         `- Recommended path: ${payload.externalInputHandoff.recommendedPathId ?? 'none'}`,
+        `- Lowest-input path: ${payload.externalInputHandoff.lowestInputPathId ?? 'none'}`,
         `- Public status: ${payload.externalInputHandoff.publicStatusPage}`,
         `- Missing inputs: ${payload.externalInputHandoff.missingVariableCount} variable(s), ${payload.externalInputHandoff.missingSecretCount} secret(s)`,
         ...payload.externalInputHandoff.validationCommands.map((command) => `- validate: ${command}`),
