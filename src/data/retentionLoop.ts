@@ -1,10 +1,10 @@
 export const retentionLoop = {
   "status": "retention-loop-ready",
   "dailyChallenge": {
-    "date": "2026-05-24",
+    "date": "2026-05-25",
     "gameId": "market-pulse",
     "title": "Market Pulse",
-    "seed": "daily-20260524-59u",
+    "seed": "daily-20260525-3qr",
     "reason": "Market Pulse has the strongest blended portfolio score (51.912)."
   },
   "metrics": {
@@ -36,7 +36,7 @@ export const retentionLoop = {
     "ctaLabel": "Queue tomorrow",
     "dismissLabel": "Not today",
     "copy": "Queue tomorrow's board to protect your local daily streak.",
-    "nextChallengeDate": "2026-05-25",
+    "nextChallengeDate": "2026-05-26",
     "cooldown": "one prompt per daily challenge date",
     "reason": "D1 retention is 17% and the gate is 18%; ask for a local return intent after a completed run.",
     "telemetry": {
@@ -64,7 +64,7 @@ export const retentionLoop = {
     "surface": "autonomy-cockpit-retention-card",
     "ctaLabel": "Copy return link",
     "queryParam": "return_intent",
-    "intentDate": "2026-05-25",
+    "intentDate": "2026-05-26",
     "campaignId": "gate-sample-20260525-d1Retention",
     "telemetry": {
       "copied": "daily_return_link_copied"
@@ -74,7 +74,7 @@ export const retentionLoop = {
     "surface": "autonomy-cockpit-retention-card",
     "ctaLabel": "Save reminder",
     "queryParam": "return_intent",
-    "intentDate": "2026-05-25",
+    "intentDate": "2026-05-26",
     "campaignId": "gate-sample-20260525-d1Retention",
     "telemetry": {
       "downloaded": "daily_return_calendar_downloaded"
