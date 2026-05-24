@@ -245,6 +245,8 @@ const requiredFiles = [
   'public/gate-sample.html',
   'public/measurement-status.html',
   'public/measurement-status.json',
+  'public/product-gate-recovery.html',
+  'public/product-gate-recovery.json',
   'public/owner-unlock-brief.json',
   'public/owner-unlock-preflight.json',
   'public/install.html',
@@ -267,6 +269,8 @@ const requiredFiles = [
   'dist/owner-unlock-preflight.json',
   'dist/.well-known/assetlinks.json',
   'dist/gate-sample.html',
+  'dist/product-gate-recovery.html',
+  'dist/product-gate-recovery.json',
   'dist/sample-next.html',
   'dist/sample-next.json',
   'dist/sample-fastest.html',
@@ -429,6 +433,10 @@ const shareManifest = JSON.parse(await readFile(path.join(root, 'public', 'share
 const gateSampleHtml = await readFile(path.join(root, 'public', 'gate-sample.html'), 'utf8')
 const measurementStatusHtml = await readFile(path.join(root, 'public', 'measurement-status.html'), 'utf8')
 const publicMeasurementStatus = JSON.parse(await readFile(path.join(root, 'public', 'measurement-status.json'), 'utf8'))
+const productGateRecoveryHtml = await readFile(path.join(root, 'public', 'product-gate-recovery.html'), 'utf8')
+const publicProductGateRecovery = JSON.parse(
+  await readFile(path.join(root, 'public', 'product-gate-recovery.json'), 'utf8'),
+)
 const publicOwnerUnlockBrief = JSON.parse(await readFile(path.join(root, 'public', 'owner-unlock-brief.json'), 'utf8'))
 const publicOwnerUnlockPreflight = JSON.parse(
   await readFile(path.join(root, 'public', 'owner-unlock-preflight.json'), 'utf8'),
@@ -824,6 +832,10 @@ if (
   !publicEvidenceIntakeWorkflow.includes('reports/support-feedback-latest.md') ||
   !publicEvidenceIntakeWorkflow.includes('data/improvement-backlog-summary.json') ||
   !publicEvidenceIntakeWorkflow.includes('data/improvement-routing.json') ||
+  !publicEvidenceIntakeWorkflow.includes('data/product-gate-recovery.json') ||
+  !publicEvidenceIntakeWorkflow.includes('src/data/productGateRecovery.ts') ||
+  !publicEvidenceIntakeWorkflow.includes('public/product-gate-recovery.html') ||
+  !publicEvidenceIntakeWorkflow.includes('public/product-gate-recovery.json') ||
   !publicEvidenceIntakeWorkflow.includes('data/product-gate-sample-plan.json') ||
   !publicEvidenceIntakeWorkflow.includes('public/gate-sample.html') ||
   !publicEvidenceIntakeWorkflow.includes('data/production-measurement-status.json') ||
@@ -902,6 +914,9 @@ if (
   !productionInputWatchWorkflow.includes('public/measurement-status.json') ||
   !productionInputWatchWorkflow.includes('public/analytics-unlock.html') ||
   !productionInputWatchWorkflow.includes('public/analytics-unlock.json') ||
+  !productionInputWatchWorkflow.includes('data/product-gate-recovery.json') ||
+  !productionInputWatchWorkflow.includes('public/product-gate-recovery.html') ||
+  !productionInputWatchWorkflow.includes('public/product-gate-recovery.json') ||
   !productionInputWatchWorkflow.includes('data/release-candidate.json') ||
   !webDeployWorkflow.includes("'Production Input Watch'") ||
   productionInputWatchWorkflow.includes('gh workflow run') ||
@@ -917,6 +932,8 @@ const publicAnalyticsUnlock = productionMeasurementStatus.analyticsUnlock ?? nul
 const publicCollectorDeployment = productionMeasurementStatus.collectorDeployment ?? {}
 const publicExternalUnlockQueue = productionMeasurementStatus.externalUnlockQueue ?? {}
 const measurementSampleNextRoute = productionMeasurementStatus.productGateEvidence?.sampleNextRoute ?? {}
+const measurementProductGateRecovery = productionMeasurementStatus.productGateEvidence ?? {}
+const publicMeasurementProductGateRecovery = publicMeasurementStatus.productGateRecovery ?? {}
 const measurementPublicRoutes = productionMeasurementStatus.publicRoutes ?? {}
 const publicAnalyticsUnlockPathIds = new Set((publicAnalyticsUnlock?.paths ?? []).map((unlockPath) => unlockPath.id))
 const publicAnalyticsFirstPartyCollectorPath = (publicAnalyticsUnlock?.paths ?? []).find(
@@ -950,6 +967,11 @@ if (
     (supportFeedback.summary?.aggregateCompletions ?? 0) ||
   productionMeasurementStatus.productGateEvidence?.supportingAggregateEvidenceNotes !==
     (productGateSamplePlan.summary?.supportingAggregateEvidenceNotes ?? 0) ||
+  measurementProductGateRecovery.recoveryStatus !== productGateRecovery.status ||
+  measurementProductGateRecovery.recoverySummary?.primaryBottleneck !==
+    productGateRecovery.summary?.primaryBottleneck ||
+  measurementProductGateRecovery.recoverySummary?.quickestGateTest !== productGateRecovery.summary?.quickestGateTest ||
+  measurementProductGateRecovery.recoveryPriorities?.[0]?.gateId !== productGateRecovery.priorities?.[0]?.gateId ||
   measurementSampleNextRoute.path !== '/sample-next.html' ||
   measurementSampleNextRoute.jsonPath !== '/sample-next.json' ||
   measurementSampleNextRoute.targetCampaignId !== trafficSeeding.sampleNextRoute?.targetCampaignId ||
@@ -978,11 +1000,14 @@ if (
   productionMeasurementStatus.productGateEvidence?.sampleFastestRoute?.guardrails?.noRevenueEnablement !== true ||
   measurementPublicRoutes.analyticsUnlock !== '/analytics-unlock.html' ||
   measurementPublicRoutes.analyticsUnlockJson !== '/analytics-unlock.json' ||
+  measurementPublicRoutes.productGateRecovery !== '/product-gate-recovery.html' ||
+  measurementPublicRoutes.productGateRecoveryJson !== '/product-gate-recovery.json' ||
   measurementPublicRoutes.sampleNext !== '/sample-next.html' ||
   measurementPublicRoutes.sampleNextJson !== '/sample-next.json' ||
   measurementPublicRoutes.sampleFastest !== '/sample-fastest.html' ||
   measurementPublicRoutes.sampleFastestJson !== '/sample-fastest.json' ||
   productionMeasurementStatus.sourceStatus?.trafficSeeding !== trafficSeeding.status ||
+  productionMeasurementStatus.sourceStatus?.productGateRecovery !== productGateRecovery.status ||
   productionMeasurementStatus.sourceStatus?.eventCollectorDeployment !== eventCollectorDeployment.status ||
   productionMeasurementStatus.sourceStatus?.postDeployArtifactSync !== postDeployArtifactSync.status ||
   productionMeasurementStatus.liveCandidate !== postDeployArtifactSync.live?.candidateId ||
@@ -998,6 +1023,11 @@ if (
   productionMeasurementStatus.liveRelease?.controls?.noDeployLoop !== true ||
   productionMeasurementStatus.liveRelease?.controls?.zeroPaidSpend !== true ||
   JSON.stringify(publicMeasurementStatus.liveRelease) !== JSON.stringify(productionMeasurementStatus.liveRelease) ||
+  publicMeasurementProductGateRecovery.status !== productGateRecovery.status ||
+  publicMeasurementProductGateRecovery.summary?.primaryBottleneck !== productGateRecovery.summary?.primaryBottleneck ||
+  publicMeasurementProductGateRecovery.publicRoutes?.productGateRecovery !== '/product-gate-recovery.html' ||
+  publicMeasurementProductGateRecovery.controls?.zeroPaidSpend !== true ||
+  publicMeasurementProductGateRecovery.controls?.noSyntheticGatePasses !== true ||
   !['aggregate-evidence-ready-for-review', 'awaiting-player-initiated-aggregate-notes'].includes(
     publicEvidenceHandoff.status,
   ) ||
@@ -1109,11 +1139,14 @@ if (
   !measurementStatusHtml.includes('Start current sample') ||
   !measurementStatusHtml.includes('sample-next.html') ||
   !measurementStatusHtml.includes('sample-fastest.html') ||
+  !measurementStatusHtml.includes('Open recovery plan') ||
+  !measurementStatusHtml.includes('product-gate-recovery.html') ||
   !measurementStatusHtml.includes('analytics-unlock.html') ||
   measurementStatusHtml.includes('href="/gate-sample.html"') ||
   measurementStatusHtml.includes('href="/support.html"') ||
   measurementStatusHtml.includes('href="/measurement-status.json"') ||
   measurementStatusHtml.includes('href="/analytics-unlock.html"') ||
+  measurementStatusHtml.includes('href="/product-gate-recovery.html"') ||
   !measurementStatusHtml.includes('Zero-Spend Analytics Unlock') ||
   !measurementStatusHtml.includes('First-Party Collector Deployment') ||
   !measurementStatusHtml.includes('External Unlock Queue') ||
@@ -1138,6 +1171,7 @@ if (
   !productionMeasurementStatusSource.includes('publicExternalUnlockQueue') ||
   !productionMeasurementStatusSource.includes('readLiveReleaseManifest') ||
   !productionMeasurementStatusSource.includes('trafficSeeding') ||
+  !productionMeasurementStatusSource.includes('productGateRecovery') ||
   !productionMeasurementStatusSource.includes('publicRouteHref') ||
   !productionMeasurementStatusSource.includes('aggregateEvidenceDoesNotPassGates') ||
   !productionMeasurementStatusSource.includes('manualReviewRequiredForGateDecisions')
@@ -2533,6 +2567,10 @@ if (
   productGateRecovery.summary?.quickestGateTest !== 'd1Retention' ||
   productGateRecovery.summary?.primaryExperimentStatus !== 'collecting-sample' ||
   productGateRecovery.summary?.revenueEnabled !== false ||
+  productGateRecovery.publicRoutes?.productGateRecovery !== '/product-gate-recovery.html' ||
+  productGateRecovery.publicRoutes?.productGateRecoveryJson !== '/product-gate-recovery.json' ||
+  productGateRecovery.publicRoutes?.measurementStatus !== '/measurement-status.html' ||
+  JSON.stringify(publicProductGateRecovery) !== JSON.stringify(productGateRecovery) ||
   productGateRecovery.controls?.zeroPaidSpend !== true ||
   productGateRecovery.controls?.revenueStillDisabledUntilAllGatesPass !== true ||
   productGateRecovery.controls?.noSyntheticGatePasses !== true ||
@@ -2561,9 +2599,16 @@ if (
   recoveryPrimaryExperiment?.canChangeCopy !== false ||
   recoveryPrimaryExperiment?.canChangePlacement !== false ||
   recoveryPrimaryExperiment?.recommendedChange !== 'hold-current-runtime-copy' ||
+  !productGateRecoveryHtml.includes('Product Gate Recovery') ||
+  !productGateRecoveryHtml.includes('Recovery Gates') ||
+  !productGateRecoveryHtml.includes('Open measurement status') ||
+  !productGateRecoveryHtml.includes('product-gate-recovery.json') ||
+  productGateRecoveryHtml.includes('href="/measurement-status.html"') ||
+  productGateRecoveryHtml.includes('href="/product-gate-recovery.json"') ||
   !appSource.includes('Product Gate Recovery') ||
   !appSource.includes('productGateRecovery') ||
-  !productGateRecoverySource.includes('sourceDataHash')
+  !productGateRecoverySource.includes('sourceDataHash') ||
+  !productGateRecoverySource.includes('publicHtmlPath')
 ) {
   fail('Product gate recovery must quantify observed lift, sample needs, and zero-spend controls before revenue can open.')
 }
@@ -3884,6 +3929,8 @@ if (
   !autonomousSelfUpdateSource.includes('public/analytics-unlock.html') ||
   !autonomousSelfUpdateSource.includes('public/analytics-unlock.json') ||
   !autonomousSelfUpdateSource.includes('public/measurement-status.json') ||
+  !autonomousSelfUpdateSource.includes('public/product-gate-recovery.html') ||
+  !autonomousSelfUpdateSource.includes('public/product-gate-recovery.json') ||
   !autonomousSelfUpdateSource.includes('public/owner-unlock-brief.json') ||
   !autonomousSelfUpdateSource.includes('public/owner-unlock-preflight.json') ||
   !autonomousSelfUpdateSource.includes('public/seed-kit.html') ||
@@ -4454,6 +4501,7 @@ if (
   !postDeployReadinessSyncScript.includes('autonomous:deploy-plan') ||
   !postDeployReadinessSyncScript.includes('autonomous:bootstrap') ||
   !postDeployReadinessSyncScript.includes('autonomous:activate-production') ||
+  !postDeployReadinessSyncScript.includes('autonomous:gate-recovery') ||
   !postDeployReadinessSyncScript.includes('autonomous:measurement-status') ||
   !postDeployReadinessSyncScript.includes('node scripts/production-readiness.mjs') ||
   !postDeployReadinessSyncScript.includes('autonomous:owner-loop') ||
@@ -4510,6 +4558,11 @@ if (
   !postDeployEvidenceSyncWorkflow.includes('public/measurement-status.json') ||
   !postDeployEvidenceSyncWorkflow.includes('public/analytics-unlock.html') ||
   !postDeployEvidenceSyncWorkflow.includes('public/analytics-unlock.json') ||
+  !postDeployEvidenceSyncWorkflow.includes('data/product-gate-recovery.json') ||
+  !postDeployEvidenceSyncWorkflow.includes('src/data/productGateRecovery.ts') ||
+  !postDeployEvidenceSyncWorkflow.includes('public/product-gate-recovery.html') ||
+  !postDeployEvidenceSyncWorkflow.includes('public/product-gate-recovery.json') ||
+  !postDeployEvidenceSyncWorkflow.includes('reports/product-gate-recovery-latest.md') ||
   !postDeployEvidenceSyncWorkflow.includes('reports/production-measurement-status-latest.md') ||
   !postDeployEvidenceSyncWorkflow.includes('data/production-readiness.json') ||
   !postDeployEvidenceSyncWorkflow.includes('data/objective-audit.json') ||
@@ -5893,6 +5946,8 @@ const operationalFreshnessAssets = [
   'owner-unlock-preflight.json',
   'analytics-unlock.html',
   'analytics-unlock.json',
+  'product-gate-recovery.html',
+  'product-gate-recovery.json',
   'release-candidate.json',
   'sample-next.html',
   'sample-next.json',
@@ -5941,6 +5996,8 @@ if (
   !releaseCandidate.postDeploySmoke?.some((item) => item.path === '/privacy.html') ||
   !releaseCandidate.postDeploySmoke?.some((item) => item.path === '/install.html') ||
   !releaseCandidate.postDeploySmoke?.some((item) => item.path === '/gate-sample.html') ||
+  !releaseCandidate.postDeploySmoke?.some((item) => item.path === '/product-gate-recovery.html') ||
+  !releaseCandidate.postDeploySmoke?.some((item) => item.path === '/product-gate-recovery.json') ||
   !releaseCandidate.postDeploySmoke?.some((item) => item.path === '/sample-next.html') ||
   !releaseCandidate.postDeploySmoke?.some((item) => item.path === '/sample-next.json') ||
   !releaseCandidate.postDeploySmoke?.some((item) => item.path === '/sample-fastest.html') ||
@@ -5961,6 +6018,8 @@ if (
   !releaseCandidateRequiredFiles.has('compliance.json') ||
   !releaseCandidateRequiredFiles.has('install.html') ||
   !releaseCandidateRequiredFiles.has('gate-sample.html') ||
+  !releaseCandidateRequiredFiles.has('product-gate-recovery.html') ||
+  !releaseCandidateRequiredFiles.has('product-gate-recovery.json') ||
   !releaseCandidateRequiredFiles.has('sample-next.html') ||
   !releaseCandidateRequiredFiles.has('sample-next.json') ||
   !releaseCandidateRequiredFiles.has('sample-fastest.html') ||
@@ -6163,6 +6222,7 @@ if (
   !postDeployReadinessSyncScript.includes('autonomous:deploy-plan') ||
   !postDeployReadinessSyncScript.includes('autonomous:bootstrap') ||
   !postDeployReadinessSyncScript.includes('autonomous:activate-production') ||
+  !postDeployReadinessSyncScript.includes('autonomous:gate-recovery') ||
   !postDeployReadinessSyncScript.includes('autonomous:measurement-status') ||
   !postDeployReadinessSyncScript.includes('node scripts/production-readiness.mjs') ||
   !postDeployReadinessSyncScript.includes('autonomous:owner-loop') ||
@@ -6229,6 +6289,11 @@ if (
   !postDeployEvidenceSyncWorkflow.includes('public/measurement-status.json') ||
   !postDeployEvidenceSyncWorkflow.includes('public/analytics-unlock.html') ||
   !postDeployEvidenceSyncWorkflow.includes('public/analytics-unlock.json') ||
+  !postDeployEvidenceSyncWorkflow.includes('data/product-gate-recovery.json') ||
+  !postDeployEvidenceSyncWorkflow.includes('src/data/productGateRecovery.ts') ||
+  !postDeployEvidenceSyncWorkflow.includes('public/product-gate-recovery.html') ||
+  !postDeployEvidenceSyncWorkflow.includes('public/product-gate-recovery.json') ||
+  !postDeployEvidenceSyncWorkflow.includes('reports/product-gate-recovery-latest.md') ||
   !postDeployEvidenceSyncWorkflow.includes('reports/production-measurement-status-latest.md') ||
   !postDeployEvidenceSyncWorkflow.includes('data/production-readiness.json') ||
   !postDeployEvidenceSyncWorkflow.includes('data/objective-audit.json') ||
@@ -6357,6 +6422,8 @@ if (
   !repositoryReadinessSource.includes('public/analytics-unlock.html') ||
   !repositoryReadinessSource.includes('public/analytics-unlock.json') ||
   !repositoryReadinessSource.includes('public/measurement-status.json') ||
+  !repositoryReadinessSource.includes('public/product-gate-recovery.html') ||
+  !repositoryReadinessSource.includes('public/product-gate-recovery.json') ||
   !repositoryReadinessSource.includes('public/owner-unlock-brief.json') ||
   !repositoryReadinessSource.includes('public/owner-unlock-preflight.json') ||
   !repositoryReadinessSource.includes('public/sample-next.html') ||
@@ -6457,6 +6524,8 @@ if (
   !repositoryBootstrapSource.includes('public/share-manifest.json') ||
   !repositoryBootstrapSource.includes('public/gate-sample.html') ||
   !repositoryBootstrapSource.includes('public/install.html') ||
+  !repositoryBootstrapSource.includes('public/product-gate-recovery.html') ||
+  !repositoryBootstrapSource.includes('public/product-gate-recovery.json') ||
   !repositoryBootstrapSource.includes('public/owner-unlock-brief.json') ||
   !repositoryBootstrapSource.includes('public/owner-unlock-preflight.json') ||
   !repositoryBootstrapSource.includes('public/sample-next.html') ||

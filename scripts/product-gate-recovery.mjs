@@ -5,14 +5,31 @@ import { hashSourceData } from './lib/source-hash.mjs'
 const root = process.cwd()
 const dataDir = path.join(root, 'data')
 const srcDataDir = path.join(root, 'src', 'data')
+const publicDir = path.join(root, 'public')
 const reportsDir = path.join(root, 'reports')
 const outputJsonPath = path.join(dataDir, 'product-gate-recovery.json')
 const outputTsPath = path.join(srcDataDir, 'productGateRecovery.ts')
+const publicJsonPath = path.join(publicDir, 'product-gate-recovery.json')
+const publicHtmlPath = path.join(publicDir, 'product-gate-recovery.html')
 const reportPath = path.join(reportsDir, 'product-gate-recovery-latest.md')
 
 const readJson = async (filePath) => JSON.parse(await readFile(filePath, 'utf8'))
 const roundMetric = (value) => (typeof value === 'number' ? Math.round(value * 1000) / 1000 : null)
 const pct = (value) => (typeof value === 'number' ? `${Math.round(value * 100)}%` : 'n/a')
+const escapeHtml = (value) =>
+  String(value ?? '')
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&#39;')
+const publicRouteHref = (value, fallback = './') => {
+  const candidate = String(value ?? fallback)
+  if (/^https?:\/\//.test(candidate)) {
+    return candidate
+  }
+  return candidate.startsWith('/') ? `.${candidate}` : candidate
+}
 const clampNeeded = (needed) => Math.max(0, needed)
 const ratio = (numerator, denominator) =>
   denominator > 0 ? Math.round((numerator / denominator) * 1000) / 1000 : null
@@ -274,6 +291,14 @@ const payload = {
     revenueEnabled: monetization.revenueEnabled === true,
     primaryExperimentStatus: primaryExperiment?.status ?? 'missing',
   },
+  publicRoutes: {
+    productGateRecovery: '/product-gate-recovery.html',
+    productGateRecoveryJson: '/product-gate-recovery.json',
+    measurementStatus: '/measurement-status.html',
+    gateSample: '/gate-sample.html',
+    sampleNext: '/sample-next.html',
+    sampleFastest: '/sample-fastest.html',
+  },
   gates: gateRows,
   priorities,
   experiments: recoveryExperiments,
@@ -304,6 +329,204 @@ const payload = {
     'Keep revenue, paid acquisition, push notifications, and app-store submission disabled until every gate passes with observed data.',
   ],
 }
+
+const publicPayload = payload
+
+const publicHtml = `<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Product Gate Recovery | Autonomous Game Lab</title>
+    <style>
+      :root {
+        color: #191713;
+        background: #fbf7ef;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        line-height: 1.5;
+      }
+
+      body {
+        margin: 0;
+      }
+
+      main {
+        width: min(980px, calc(100% - 32px));
+        margin: 0 auto;
+        padding: 44px 0;
+      }
+
+      h1,
+      h2,
+      h3 {
+        line-height: 1.08;
+        margin: 0;
+      }
+
+      h1 {
+        font-size: clamp(2rem, 6vw, 4.2rem);
+        max-width: 780px;
+      }
+
+      p {
+        max-width: 760px;
+      }
+
+      a {
+        color: #187f7a;
+        font-weight: 700;
+      }
+
+      .eyebrow {
+        color: #7d2f18;
+        font-size: 0.82rem;
+        font-weight: 800;
+        letter-spacing: 0;
+        text-transform: uppercase;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 12px;
+        margin: 28px 0;
+      }
+
+      .card {
+        border: 1px solid #d9d0bf;
+        border-radius: 8px;
+        background: #fffdf7;
+        padding: 16px;
+      }
+
+      .card span {
+        display: block;
+        color: #6d675c;
+        font-size: 0.78rem;
+        font-weight: 800;
+        text-transform: uppercase;
+      }
+
+      .card strong {
+        display: block;
+        margin-top: 8px;
+        overflow-wrap: anywhere;
+        font-size: 1.05rem;
+      }
+
+      section {
+        border-top: 1px solid #d9d0bf;
+        padding: 22px 0;
+      }
+
+      ul {
+        padding-left: 20px;
+      }
+
+      li {
+        margin: 6px 0;
+      }
+
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .actions a {
+        border: 1px solid #187f7a;
+        border-radius: 8px;
+        padding: 10px 12px;
+        text-decoration: none;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <p class="eyebrow">Autonomous Game Lab</p>
+      <h1>Product Gate Recovery</h1>
+      <p>This generated handoff shows which observed product gates still block revenue and app-store escalation. It uses aggregate telemetry only and keeps paid acquisition, push notifications, store submission, and revenue disabled until every gate clears with real player evidence.</p>
+
+      <div class="grid" aria-label="Product gate recovery summary">
+        <div class="card">
+          <span>Status</span>
+          <strong>${escapeHtml(payload.status)}</strong>
+        </div>
+        <div class="card">
+          <span>Primary bottleneck</span>
+          <strong>${escapeHtml(payload.summary.primaryBottleneck)}</strong>
+        </div>
+        <div class="card">
+          <span>Quickest gate test</span>
+          <strong>${escapeHtml(payload.summary.quickestGateTest)}</strong>
+        </div>
+        <div class="card">
+          <span>Failing gates</span>
+          <strong>${payload.summary.failingGates}</strong>
+        </div>
+        <div class="card">
+          <span>Revenue enabled</span>
+          <strong>${payload.summary.revenueEnabled}</strong>
+        </div>
+      </div>
+
+      <section>
+        <h2>Recovery Gates</h2>
+        <div class="grid" aria-label="Recovery gates">
+          ${payload.gates
+            .map(
+              (gate) => `<article class="card">
+            <span>${escapeHtml(gate.status)}</span>
+            <h3>${escapeHtml(gate.label)}</h3>
+            <p>${pct(gate.actual)} observed against ${pct(gate.gate)} gate.</p>
+            <p>${gate.neededSuccesses} observed success(es) and ${gate.promptViewsNeeded} prompt exposure(s) needed before the next safe decision.</p>
+            <p>Experiment: ${escapeHtml(gate.experimentStatus)}; next: ${escapeHtml(gate.recommendedChange)}.</p>
+          </article>`,
+            )
+            .join('\n          ')}
+        </div>
+      </section>
+
+      <section>
+        <h2>Recovery Priorities</h2>
+        <ul>
+          ${payload.priorities
+            .map(
+              (priority) =>
+                `<li><strong>${priority.rank}. ${escapeHtml(priority.label)}</strong>: ${escapeHtml(priority.ownerLoop)} needs ${priority.neededSuccesses} success(es); ${escapeHtml(priority.reason)}</li>`,
+            )
+            .join('\n          ')}
+        </ul>
+      </section>
+
+      <section>
+        <h2>Controls</h2>
+        <ul>
+          <li>Zero paid spend: ${payload.controls.zeroPaidSpend}</li>
+          <li>Revenue still disabled until all gates pass: ${payload.controls.revenueStillDisabledUntilAllGatesPass}</li>
+          <li>No synthetic gate passes: ${payload.controls.noSyntheticGatePasses}</li>
+          <li>Observed telemetry required before copy change: ${payload.controls.requireObservedTelemetryBeforeCopyChange}</li>
+          <li>No paid rewards or push notifications: ${payload.controls.noPaidRewardsOrPushNotifications}</li>
+          <li>No automatic rule changes: ${payload.controls.noAutomaticRuleChanges}</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>Next Actions</h2>
+        <ul>
+          ${payload.nextActions.map((action) => `<li>${escapeHtml(action)}</li>`).join('\n          ')}
+        </ul>
+        <div class="actions">
+          <a href="${escapeHtml(publicRouteHref(payload.publicRoutes.measurementStatus))}">Open measurement status</a>
+          <a href="${escapeHtml(publicRouteHref(payload.publicRoutes.sampleNext))}">Start current sample</a>
+          <a href="${escapeHtml(publicRouteHref(payload.publicRoutes.sampleFastest))}">Start fastest sample</a>
+          <a href="${escapeHtml(publicRouteHref(payload.publicRoutes.productGateRecoveryJson))}">Open recovery JSON</a>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
+`
 
 const report = [
   '# Product Gate Recovery',
@@ -350,14 +573,19 @@ const report = [
 
 await mkdir(path.dirname(outputJsonPath), { recursive: true })
 await mkdir(path.dirname(outputTsPath), { recursive: true })
+await mkdir(path.dirname(publicJsonPath), { recursive: true })
 await mkdir(path.dirname(reportPath), { recursive: true })
 await writeFile(outputJsonPath, JSON.stringify(payload, null, 2) + '\n')
 await writeFile(
   outputTsPath,
   `export const productGateRecovery = ${JSON.stringify(payload, null, 2)} as const\n\nexport type ProductGateRecovery = typeof productGateRecovery\n`,
 )
+await writeFile(publicJsonPath, JSON.stringify(publicPayload, null, 2) + '\n')
+await writeFile(publicHtmlPath, publicHtml)
 await writeFile(reportPath, report.join('\n'))
 
 console.log(`Wrote ${path.relative(root, outputJsonPath)}`)
 console.log(`Wrote ${path.relative(root, outputTsPath)}`)
+console.log(`Wrote ${path.relative(root, publicJsonPath)}`)
+console.log(`Wrote ${path.relative(root, publicHtmlPath)}`)
 console.log(`Wrote ${path.relative(root, reportPath)}`)

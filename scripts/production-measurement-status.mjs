@@ -42,6 +42,16 @@ const localEventBridge = await readJson(path.join(dataDir, 'local-event-bridge.j
 const supportChannel = await readJson(path.join(dataDir, 'support-channel.json'))
 const supportFeedback = await readJson(path.join(dataDir, 'support-feedback.json'))
 const productGateSamplePlan = await readJson(path.join(dataDir, 'product-gate-sample-plan.json'))
+const productGateRecovery = await readOptionalJson(path.join(dataDir, 'product-gate-recovery.json'), {
+  status: 'missing',
+  summary: {},
+  priorities: [],
+  publicRoutes: {
+    productGateRecovery: '/product-gate-recovery.html',
+    productGateRecoveryJson: '/product-gate-recovery.json',
+  },
+  controls: {},
+})
 const trafficSeeding = await readJson(path.join(dataDir, 'traffic-seeding.json'))
 const productionBlockerHandoff = await readJson(path.join(dataDir, 'production-blocker-handoff.json'))
 const ownerUnlockPreflight = await readOptionalJson(path.join(dataDir, 'owner-unlock-preflight.json'), {
@@ -533,6 +543,7 @@ const sourceDataHash = hashSourceData({
   localEventBridge,
   supportChannel,
   supportFeedback,
+  productGateRecovery,
   productGateSamplePlan,
   trafficSeeding,
   productionBlockerHandoff,
@@ -599,6 +610,9 @@ const payload = {
   },
   productGateEvidence: {
     status: productGateSamplePlan.status,
+    recoveryStatus: productGateRecovery.status,
+    recoverySummary: productGateRecovery.summary ?? {},
+    recoveryPriorities: (productGateRecovery.priorities ?? []).slice(0, 3),
     primaryMission: primaryMission
       ? {
           id: primaryMission.id,
@@ -637,6 +651,9 @@ const payload = {
     analyticsUnlock: '/analytics-unlock.html',
     analyticsUnlockJson: '/analytics-unlock.json',
     ownerUnlockPreflightJson: '/owner-unlock-preflight.json',
+    productGateRecovery: productGateRecovery.publicRoutes?.productGateRecovery ?? '/product-gate-recovery.html',
+    productGateRecoveryJson:
+      productGateRecovery.publicRoutes?.productGateRecoveryJson ?? '/product-gate-recovery.json',
     gateSample: '/gate-sample.html',
     sampleNext: sampleNextRoute.path,
     sampleNextJson: sampleNextRoute.jsonPath,
@@ -668,6 +685,7 @@ const payload = {
     localEventBridge: localEventBridge.status,
     supportChannel: supportChannel.status,
     supportFeedback: supportFeedback.status,
+    productGateRecovery: productGateRecovery.status,
     productGateSamplePlan: productGateSamplePlan.status,
     trafficSeeding: trafficSeeding.status,
     productionBlockerHandoff: productionBlockerHandoff.status,
@@ -695,6 +713,7 @@ const payload = {
       : 'Regenerate the production blocker handoff before publishing production analytics unlock guidance.',
     `First-party collector deployment is ${publicCollectorDeployment.status}; smoke is ${publicCollectorDeployment.smoke.status}.`,
     `External unlock queue has ${publicExternalUnlockQueue.ownerActionRequired} owner action(s); next zero-spend unlock is ${publicExternalUnlockQueue.nextBestZeroCostUnlockId ?? 'none'}.`,
+    `Product gate recovery is ${productGateRecovery.status}; public recovery route is ${productGateRecovery.publicRoutes?.productGateRecovery ?? '/product-gate-recovery.html'}.`,
     ...publicEvidenceHandoff.nextActions,
     'Keep product gates blocked until real player evidence clears completion, replay, and D1 retention thresholds.',
   ],
@@ -773,6 +792,22 @@ const publicPayload = {
   liveRelease: payload.liveRelease,
   analytics: payload.analytics,
   productGateEvidence: payload.productGateEvidence,
+  productGateRecovery: {
+    status: productGateRecovery.status,
+    summary: productGateRecovery.summary ?? {},
+    priorities: (productGateRecovery.priorities ?? []).slice(0, 3),
+    publicRoutes: payload.publicRoutes
+      ? {
+          productGateRecovery: payload.publicRoutes.productGateRecovery,
+          productGateRecoveryJson: payload.publicRoutes.productGateRecoveryJson,
+        }
+      : {},
+    controls: {
+      zeroPaidSpend: productGateRecovery.controls?.zeroPaidSpend === true,
+      noSyntheticGatePasses: productGateRecovery.controls?.noSyntheticGatePasses === true,
+      noRevenueEnablement: payload.controls.noRevenueEnablement,
+    },
+  },
   publicEvidenceHandoff: payload.publicEvidenceHandoff,
   analyticsUnlock: payload.analyticsUnlock,
   collectorDeployment: payload.collectorDeployment,
@@ -1374,6 +1409,14 @@ const html = `<!doctype html>
             <strong>${escapeHtml(payload.productGateEvidence.status)}</strong>
           </div>
           <div class="card">
+            <span>Recovery plan</span>
+            <strong>${escapeHtml(payload.productGateEvidence.recoveryStatus)}</strong>
+          </div>
+          <div class="card">
+            <span>Primary bottleneck</span>
+            <strong>${escapeHtml(payload.productGateEvidence.recoverySummary?.primaryBottleneck ?? 'waiting')}</strong>
+          </div>
+          <div class="card">
             <span>Primary mission</span>
             <strong>${escapeHtml(payload.productGateEvidence.primaryMission?.title ?? 'waiting')}</strong>
           </div>
@@ -1409,6 +1452,7 @@ const html = `<!doctype html>
         <div class="actions">
           <a href="${escapeHtml(publicRouteHref(payload.publicRoutes.sampleNext))}">Start current sample</a>
           <a href="${escapeHtml(publicRouteHref(payload.publicRoutes.sampleFastest))}">Start fastest sample</a>
+          <a href="${escapeHtml(publicRouteHref(payload.publicRoutes.productGateRecovery))}">Open recovery plan</a>
           <a href="${escapeHtml(publicRouteHref(payload.publicRoutes.gateSample))}">Open all missions</a>
         </div>
       </section>
@@ -1554,6 +1598,7 @@ const html = `<!doctype html>
         <div class="actions">
           <a href="${escapeHtml(publicRouteHref(payload.publicRoutes.sampleNext))}">Start current sample</a>
           <a href="${escapeHtml(publicRouteHref(payload.publicRoutes.gateSample))}">Open gate sample</a>
+          <a href="${escapeHtml(publicRouteHref(payload.publicRoutes.productGateRecovery))}">Open recovery plan</a>
           <a href="${escapeHtml(publicRouteHref(payload.publicRoutes.analyticsUnlock))}">Open analytics unlock</a>
           <a href="${escapeHtml(publicRouteHref(payload.publicRoutes.support))}">Open support</a>
           <a href="${escapeHtml(publicRouteHref(payload.publicRoutes.statusJson))}">Open status JSON</a>

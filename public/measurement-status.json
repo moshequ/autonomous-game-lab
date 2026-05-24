@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-24T14:12:31.801Z",
+  "generatedAt": "2026-05-24T14:35:09.627Z",
   "status": "production-measurement-local-intake-ready",
   "activePath": "local-browser-buffer",
   "liveCandidate": "pwa-b5b8d0009c07",
@@ -53,6 +53,56 @@
   },
   "productGateEvidence": {
     "status": "product-gate-sample-plan-ready",
+    "recoveryStatus": "product-gate-recovery-ready",
+    "recoverySummary": {
+      "failingGates": 3,
+      "passingGates": 0,
+      "primaryBottleneck": "firstGameCompletion",
+      "quickestGateTest": "d1Retention",
+      "revenueEnabled": false,
+      "primaryExperimentStatus": "collecting-sample"
+    },
+    "recoveryPriorities": [
+      {
+        "rank": 1,
+        "gateId": "firstGameCompletion",
+        "label": "First game completion",
+        "ownerLoop": "completion-loop",
+        "actionId": "refresh-completion-loop",
+        "neededSuccesses": 128,
+        "promptViewsNeeded": 30,
+        "experimentStatus": "collecting-sample",
+        "recommendedChange": "hold-current-runtime-copy",
+        "nextMeasurement": "completion_nudge_viewed, finish_line_coach_viewed, first_move_coach_shown, completion_nudge_clicked, finish_line_coach_clicked, first_move_coach_used, level_completed",
+        "reason": "First game completion is the largest revenue-blocking gap."
+      },
+      {
+        "rank": 2,
+        "gateId": "replayRate",
+        "label": "Replay rate",
+        "ownerLoop": "replay-loop",
+        "actionId": "refresh-replay-loop",
+        "neededSuccesses": 10,
+        "promptViewsNeeded": 30,
+        "experimentStatus": "collecting-sample",
+        "recommendedChange": "hold-current-runtime-copy",
+        "nextMeasurement": "replay_prompt_viewed, replay_prompt_clicked, replay_clicked",
+        "reason": "Replay rate still blocks revenue and store payback assumptions."
+      },
+      {
+        "rank": 3,
+        "gateId": "d1Retention",
+        "label": "D1 retention",
+        "ownerLoop": "retention-loop",
+        "actionId": "optimize-daily-retention",
+        "neededSuccesses": 1,
+        "promptViewsNeeded": 10,
+        "experimentStatus": "collecting-sample",
+        "recommendedChange": "hold-current-runtime-copy",
+        "nextMeasurement": "daily_return_prompt_viewed, daily_return_intent_viewed, daily_return_prompt_clicked, daily_return_link_copied, daily_return_calendar_downloaded, daily_return_intent_started, daily_return_intent_started",
+        "reason": "D1 retention is the fastest gate to re-test with real retained-player evidence."
+      }
+    ],
     "primaryMission": {
       "id": "collect-firstGameCompletion-sample",
       "title": "Harbor Rings",
@@ -109,6 +159,67 @@
       }
     }
   },
+  "productGateRecovery": {
+    "status": "product-gate-recovery-ready",
+    "summary": {
+      "failingGates": 3,
+      "passingGates": 0,
+      "primaryBottleneck": "firstGameCompletion",
+      "quickestGateTest": "d1Retention",
+      "revenueEnabled": false,
+      "primaryExperimentStatus": "collecting-sample"
+    },
+    "priorities": [
+      {
+        "rank": 1,
+        "gateId": "firstGameCompletion",
+        "label": "First game completion",
+        "ownerLoop": "completion-loop",
+        "actionId": "refresh-completion-loop",
+        "neededSuccesses": 128,
+        "promptViewsNeeded": 30,
+        "experimentStatus": "collecting-sample",
+        "recommendedChange": "hold-current-runtime-copy",
+        "nextMeasurement": "completion_nudge_viewed, finish_line_coach_viewed, first_move_coach_shown, completion_nudge_clicked, finish_line_coach_clicked, first_move_coach_used, level_completed",
+        "reason": "First game completion is the largest revenue-blocking gap."
+      },
+      {
+        "rank": 2,
+        "gateId": "replayRate",
+        "label": "Replay rate",
+        "ownerLoop": "replay-loop",
+        "actionId": "refresh-replay-loop",
+        "neededSuccesses": 10,
+        "promptViewsNeeded": 30,
+        "experimentStatus": "collecting-sample",
+        "recommendedChange": "hold-current-runtime-copy",
+        "nextMeasurement": "replay_prompt_viewed, replay_prompt_clicked, replay_clicked",
+        "reason": "Replay rate still blocks revenue and store payback assumptions."
+      },
+      {
+        "rank": 3,
+        "gateId": "d1Retention",
+        "label": "D1 retention",
+        "ownerLoop": "retention-loop",
+        "actionId": "optimize-daily-retention",
+        "neededSuccesses": 1,
+        "promptViewsNeeded": 10,
+        "experimentStatus": "collecting-sample",
+        "recommendedChange": "hold-current-runtime-copy",
+        "nextMeasurement": "daily_return_prompt_viewed, daily_return_intent_viewed, daily_return_prompt_clicked, daily_return_link_copied, daily_return_calendar_downloaded, daily_return_intent_started, daily_return_intent_started",
+        "reason": "D1 retention is the fastest gate to re-test with real retained-player evidence."
+      }
+    ],
+    "publicRoutes": {
+      "productGateRecovery": "/product-gate-recovery.html",
+      "productGateRecoveryJson": "/product-gate-recovery.json"
+    },
+    "controls": {
+      "zeroPaidSpend": true,
+      "noSyntheticGatePasses": true,
+      "noRevenueEnablement": true
+    }
+  },
   "publicEvidenceHandoff": {
     "status": "awaiting-player-initiated-aggregate-notes",
     "source": "support-feedback-public-issues",
@@ -155,8 +266,8 @@
     "recommendedPathId": "first-party-collector",
     "commandCount": 5,
     "validationCommandCount": 4,
-    "missingVariableCount": 5,
-    "missingSecretCount": 1,
+    "missingVariableCount": 7,
+    "missingSecretCount": 3,
     "controls": {
       "zeroPaidSpend": true,
       "noSecretValues": true,
@@ -184,13 +295,13 @@
           {
             "repositoryName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
             "envName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
-            "configured": true,
+            "configured": false,
             "command": "gh variable set AGL_EVENT_COLLECTOR_R2_BUCKET --body \"$AGL_EVENT_COLLECTOR_R2_BUCKET\""
           },
           {
             "repositoryName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
             "envName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
-            "configured": true,
+            "configured": false,
             "command": "gh variable set AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS --body \"$AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS\""
           },
           {
@@ -216,13 +327,13 @@
           {
             "repositoryName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
             "envName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
-            "configured": true,
+            "configured": false,
             "command": "printf \"%s\" \"$VITE_EVENT_COLLECTOR_WRITE_TOKEN\" | gh secret set VITE_EVENT_COLLECTOR_WRITE_TOKEN"
           },
           {
             "repositoryName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
             "envName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
-            "configured": true,
+            "configured": false,
             "command": "printf \"%s\" \"$AGL_EVENT_COLLECTOR_ADMIN_TOKEN\" | gh secret set AGL_EVENT_COLLECTOR_ADMIN_TOKEN"
           }
         ],
@@ -383,7 +494,7 @@
     "ownerActionRequired": 4,
     "externalOwnerActions": 4,
     "missingEnvironmentItems": 7,
-    "missingSecrets": 3,
+    "missingSecrets": 5,
     "productGateBlockers": 3,
     "topItems": [
       {
@@ -442,7 +553,7 @@
           {
             "repositoryName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
             "envName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
-            "configured": true,
+            "configured": false,
             "command": "printf \"%s\" \"$VITE_EVENT_COLLECTOR_WRITE_TOKEN\" | gh secret set VITE_EVENT_COLLECTOR_WRITE_TOKEN"
           },
           {
@@ -474,8 +585,8 @@
           "recommendedPathId": "first-party-collector",
           "commandCount": 5,
           "validationCommandCount": 4,
-          "missingVariableCount": 5,
-          "missingSecretCount": 1,
+          "missingVariableCount": 7,
+          "missingSecretCount": 3,
           "controls": {
             "zeroPaidSpend": true,
             "noSecretValues": true,
@@ -502,13 +613,13 @@
                 {
                   "repositoryName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
                   "envName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
-                  "configured": true,
+                  "configured": false,
                   "command": "gh variable set AGL_EVENT_COLLECTOR_R2_BUCKET --body \"$AGL_EVENT_COLLECTOR_R2_BUCKET\""
                 },
                 {
                   "repositoryName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
                   "envName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
-                  "configured": true,
+                  "configured": false,
                   "command": "gh variable set AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS --body \"$AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS\""
                 },
                 {
@@ -534,13 +645,13 @@
                 {
                   "repositoryName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
                   "envName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
-                  "configured": true,
+                  "configured": false,
                   "command": "printf \"%s\" \"$VITE_EVENT_COLLECTOR_WRITE_TOKEN\" | gh secret set VITE_EVENT_COLLECTOR_WRITE_TOKEN"
                 },
                 {
                   "repositoryName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
                   "envName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
-                  "configured": true,
+                  "configured": false,
                   "command": "printf \"%s\" \"$AGL_EVENT_COLLECTOR_ADMIN_TOKEN\" | gh secret set AGL_EVENT_COLLECTOR_ADMIN_TOKEN"
                 }
               ],
@@ -616,7 +727,7 @@
           {
             "repositoryName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
             "envName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
-            "configured": true,
+            "configured": false,
             "command": "printf \"%s\" \"$AGL_EVENT_COLLECTOR_ADMIN_TOKEN\" | gh secret set AGL_EVENT_COLLECTOR_ADMIN_TOKEN"
           },
           {
@@ -791,8 +902,8 @@
       "recommendedPathId": "first-party-collector",
       "commandCount": 5,
       "validationCommandCount": 4,
-      "missingVariableCount": 5,
-      "missingSecretCount": 1,
+      "missingVariableCount": 7,
+      "missingSecretCount": 3,
       "controls": {
         "zeroPaidSpend": true,
         "noSecretValues": true,
@@ -819,13 +930,13 @@
             {
               "repositoryName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
               "envName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
-              "configured": true,
+              "configured": false,
               "command": "gh variable set AGL_EVENT_COLLECTOR_R2_BUCKET --body \"$AGL_EVENT_COLLECTOR_R2_BUCKET\""
             },
             {
               "repositoryName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
               "envName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
-              "configured": true,
+              "configured": false,
               "command": "gh variable set AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS --body \"$AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS\""
             },
             {
@@ -851,13 +962,13 @@
             {
               "repositoryName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
               "envName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
-              "configured": true,
+              "configured": false,
               "command": "printf \"%s\" \"$VITE_EVENT_COLLECTOR_WRITE_TOKEN\" | gh secret set VITE_EVENT_COLLECTOR_WRITE_TOKEN"
             },
             {
               "repositoryName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
               "envName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
-              "configured": true,
+              "configured": false,
               "command": "printf \"%s\" \"$AGL_EVENT_COLLECTOR_ADMIN_TOKEN\" | gh secret set AGL_EVENT_COLLECTOR_ADMIN_TOKEN"
             }
           ],
@@ -925,6 +1036,18 @@
           "command": "gh variable set CLOUDFLARE_ACCOUNT_ID --body \"$CLOUDFLARE_ACCOUNT_ID\""
         },
         {
+          "repositoryName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
+          "envName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
+          "configured": false,
+          "command": "gh variable set AGL_EVENT_COLLECTOR_R2_BUCKET --body \"$AGL_EVENT_COLLECTOR_R2_BUCKET\""
+        },
+        {
+          "repositoryName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
+          "envName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
+          "configured": false,
+          "command": "gh variable set AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS --body \"$AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS\""
+        },
+        {
           "repositoryName": "VITE_EVENT_COLLECTOR_URL",
           "envName": "VITE_EVENT_COLLECTOR_URL",
           "configured": false,
@@ -943,36 +1066,22 @@
           "envName": "CLOUDFLARE_API_TOKEN",
           "configured": false,
           "command": "printf \"%s\" \"$CLOUDFLARE_API_TOKEN\" | gh secret set CLOUDFLARE_API_TOKEN"
-        }
-      ],
-      "configuredVariables": [
-        {
-          "repositoryName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
-          "envName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
-          "configured": true,
-          "command": "gh variable set AGL_EVENT_COLLECTOR_R2_BUCKET --body \"$AGL_EVENT_COLLECTOR_R2_BUCKET\""
         },
-        {
-          "repositoryName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
-          "envName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
-          "configured": true,
-          "command": "gh variable set AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS --body \"$AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS\""
-        }
-      ],
-      "configuredSecrets": [
         {
           "repositoryName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
           "envName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
-          "configured": true,
+          "configured": false,
           "command": "printf \"%s\" \"$VITE_EVENT_COLLECTOR_WRITE_TOKEN\" | gh secret set VITE_EVENT_COLLECTOR_WRITE_TOKEN"
         },
         {
           "repositoryName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
           "envName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
-          "configured": true,
+          "configured": false,
           "command": "printf \"%s\" \"$AGL_EVENT_COLLECTOR_ADMIN_TOKEN\" | gh secret set AGL_EVENT_COLLECTOR_ADMIN_TOKEN"
         }
       ],
+      "configuredVariables": [],
+      "configuredSecrets": [],
       "setupCommands": [
         "npm run autonomous:event-collector-smoke",
         "npm run autonomous:collector-deploy-plan",
@@ -1041,11 +1150,11 @@
     },
     "summary": {
       "totalInputs": 8,
-      "readyInputs": 4,
-      "missingInputs": 4,
+      "readyInputs": 0,
+      "missingInputs": 8,
       "invalidInputs": 0,
-      "repositoryConfiguredInputs": 4,
-      "localAvailableInputs": 4,
+      "repositoryConfiguredInputs": 0,
+      "localAvailableInputs": 0,
       "localUrlValidationsPassed": 0,
       "setupCanRun": false
     },
@@ -1055,6 +1164,18 @@
         "repositoryName": "CLOUDFLARE_ACCOUNT_ID",
         "envName": "CLOUDFLARE_ACCOUNT_ID",
         "command": "gh variable set CLOUDFLARE_ACCOUNT_ID --body \"$CLOUDFLARE_ACCOUNT_ID\""
+      },
+      {
+        "kind": "github-variable",
+        "repositoryName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
+        "envName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
+        "command": "gh variable set AGL_EVENT_COLLECTOR_R2_BUCKET --body \"$AGL_EVENT_COLLECTOR_R2_BUCKET\""
+      },
+      {
+        "kind": "github-variable",
+        "repositoryName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
+        "envName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
+        "command": "gh variable set AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS --body \"$AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS\""
       },
       {
         "kind": "github-variable",
@@ -1073,6 +1194,18 @@
         "repositoryName": "CLOUDFLARE_API_TOKEN",
         "envName": "CLOUDFLARE_API_TOKEN",
         "command": "printf \"%s\" \"$CLOUDFLARE_API_TOKEN\" | gh secret set CLOUDFLARE_API_TOKEN"
+      },
+      {
+        "kind": "github-secret",
+        "repositoryName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
+        "envName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
+        "command": "printf \"%s\" \"$VITE_EVENT_COLLECTOR_WRITE_TOKEN\" | gh secret set VITE_EVENT_COLLECTOR_WRITE_TOKEN"
+      },
+      {
+        "kind": "github-secret",
+        "repositoryName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
+        "envName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
+        "command": "printf \"%s\" \"$AGL_EVENT_COLLECTOR_ADMIN_TOKEN\" | gh secret set AGL_EVENT_COLLECTOR_ADMIN_TOKEN"
       }
     ],
     "invalidInputs": [],
@@ -1104,6 +1237,8 @@
     "analyticsUnlock": "/analytics-unlock.html",
     "analyticsUnlockJson": "/analytics-unlock.json",
     "ownerUnlockPreflightJson": "/owner-unlock-preflight.json",
+    "productGateRecovery": "/product-gate-recovery.html",
+    "productGateRecoveryJson": "/product-gate-recovery.json",
     "gateSample": "/gate-sample.html",
     "sampleNext": "/sample-next.html",
     "sampleNextJson": "/sample-next.json",
@@ -1143,6 +1278,7 @@
     "Unlock production analytics with first-party-collector; 5 setup command(s) and 4 validation command(s) are published with redacted secret names only.",
     "First-party collector deployment is blocked-needs-cloudflare-env; smoke is pass.",
     "External unlock queue has 4 owner action(s); next zero-spend unlock is production-analytics-browser.",
+    "Product gate recovery is product-gate-recovery-ready; public recovery route is /product-gate-recovery.html.",
     "Invite players to start the current sample through /sample-next.html, or the fastest separate gate through /sample-fastest.html, then use Share evidence after the play session so public aggregate evidence can be reviewed without raw events.",
     "Do not pass product gates, enable revenue, or submit stores from public aggregate notes alone.",
     "Keep product gates blocked until real player evidence clears completion, replay, and D1 retention thresholds."

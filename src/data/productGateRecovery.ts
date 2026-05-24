@@ -1,5 +1,5 @@
 export const productGateRecovery = {
-  "generatedAt": "2026-05-24T14:10:09.113Z",
+  "generatedAt": "2026-05-24T14:35:09.354Z",
   "sourceDataHash": "3325a748aa6f",
   "status": "product-gate-recovery-ready",
   "sourceStatus": {
@@ -15,6 +15,14 @@ export const productGateRecovery = {
     "quickestGateTest": "d1Retention",
     "revenueEnabled": false,
     "primaryExperimentStatus": "collecting-sample"
+  },
+  "publicRoutes": {
+    "productGateRecovery": "/product-gate-recovery.html",
+    "productGateRecoveryJson": "/product-gate-recovery.json",
+    "measurementStatus": "/measurement-status.html",
+    "gateSample": "/gate-sample.html",
+    "sampleNext": "/sample-next.html",
+    "sampleFastest": "/sample-fastest.html"
   },
   "gates": [
     {

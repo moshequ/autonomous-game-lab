@@ -1467,6 +1467,8 @@ test('release candidate records the exact deployable PWA artifact', async () => 
   expect(candidate.integrity.files.some((file) => file.path === 'owner-unlock-preflight.json')).toBe(true)
   expect(candidate.integrity.files.some((file) => file.path === 'analytics-unlock.html')).toBe(true)
   expect(candidate.integrity.files.some((file) => file.path === 'analytics-unlock.json')).toBe(true)
+  expect(candidate.integrity.files.some((file) => file.path === 'product-gate-recovery.html')).toBe(true)
+  expect(candidate.integrity.files.some((file) => file.path === 'product-gate-recovery.json')).toBe(true)
   expect(candidate.integrity.files.some((file) => file.path === 'sample-next.html')).toBe(true)
   expect(candidate.integrity.files.some((file) => file.path === 'sample-next.json')).toBe(true)
   expect(candidate.integrity.files.some((file) => file.path === 'sample-fastest.html')).toBe(true)
@@ -1484,6 +1486,8 @@ test('release candidate records the exact deployable PWA artifact', async () => 
   expect(candidate.postDeploySmoke.some((check) => check.path === '/owner-unlock-preflight.json')).toBe(true)
   expect(candidate.postDeploySmoke.some((check) => check.path === '/analytics-unlock.html')).toBe(true)
   expect(candidate.postDeploySmoke.some((check) => check.path === '/analytics-unlock.json')).toBe(true)
+  expect(candidate.postDeploySmoke.some((check) => check.path === '/product-gate-recovery.html')).toBe(true)
+  expect(candidate.postDeploySmoke.some((check) => check.path === '/product-gate-recovery.json')).toBe(true)
   expect(candidate.postDeploySmoke.some((check) => check.path === '/gate-sample.html')).toBe(true)
   expect(candidate.postDeploySmoke.some((check) => check.path === '/sample-next.html')).toBe(true)
   expect(candidate.postDeploySmoke.some((check) => check.path === '/sample-next.json')).toBe(true)
@@ -1521,6 +1525,8 @@ test('PWA service worker keeps operational evidence endpoints fresh', async () =
     'owner-unlock-preflight.json',
     'analytics-unlock.html',
     'analytics-unlock.json',
+    'product-gate-recovery.html',
+    'product-gate-recovery.json',
     'release-candidate.json',
     'sample-next.html',
     'sample-next.json',
@@ -1831,6 +1837,11 @@ test('post-deploy artifact sync preserves strict Pages workflow evidence', async
   expect(workflow).toContain('public/analytics-unlock.html')
   expect(workflow).toContain('public/analytics-unlock.json')
   expect(workflow).toContain('reports/production-measurement-status-latest.md')
+  expect(workflow).toContain('data/product-gate-recovery.json')
+  expect(workflow).toContain('src/data/productGateRecovery.ts')
+  expect(workflow).toContain('public/product-gate-recovery.html')
+  expect(workflow).toContain('public/product-gate-recovery.json')
+  expect(workflow).toContain('reports/product-gate-recovery-latest.md')
   expect(workflow).toContain('data/production-readiness.json')
   expect(workflow).toContain('data/objective-audit.json')
   expect(workflow).toContain('data/autonomous-operator.json')
@@ -2555,6 +2566,13 @@ test('product optimizer applies one guarded tuning step from product-gate eviden
       quickestGateTest: string
       primaryExperimentStatus: string
     }
+    publicRoutes: {
+      productGateRecovery: string
+      productGateRecoveryJson: string
+      measurementStatus: string
+      sampleNext: string
+      sampleFastest: string
+    }
     gates: Array<{
       id: string
       denominator: number
@@ -2581,6 +2599,10 @@ test('product optimizer applies one guarded tuning step from product-gate eviden
       noAutomaticRuleChanges: boolean
     }
   }
+  const publicRecovery = JSON.parse(
+    await readFile('public/product-gate-recovery.json', 'utf8'),
+  ) as typeof recovery
+  const recoveryHtml = await readFile('public/product-gate-recovery.html', 'utf8')
   const samplePlan = JSON.parse(await readFile('data/product-gate-sample-plan.json', 'utf8')) as {
     status: string
     summary: {
@@ -2759,6 +2781,9 @@ test('product optimizer applies one guarded tuning step from product-gate eviden
   expect(recovery.summary.primaryBottleneck).toBe('firstGameCompletion')
   expect(recovery.summary.quickestGateTest).toBe('d1Retention')
   expect(recovery.summary.primaryExperimentStatus).toBe('collecting-sample')
+  expect(recovery.publicRoutes.productGateRecovery).toBe('/product-gate-recovery.html')
+  expect(recovery.publicRoutes.productGateRecoveryJson).toBe('/product-gate-recovery.json')
+  expect(recovery.publicRoutes.measurementStatus).toBe('/measurement-status.html')
   expect(recovery.controls.zeroPaidSpend).toBe(true)
   expect(recovery.controls.noSyntheticGatePasses).toBe(true)
   expect(recovery.controls.requireObservedTelemetryBeforeCopyChange).toBe(true)
@@ -2819,6 +2844,28 @@ test('product optimizer applies one guarded tuning step from product-gate eviden
     canChangePlacement: false,
     recommendedChange: 'hold-current-runtime-copy',
   })
+  expect(publicRecovery).toEqual(recovery)
+  expect(recoveryHtml).toContain('Product Gate Recovery')
+  expect(recoveryHtml).toContain('Recovery Gates')
+  expect(recoveryHtml).toContain('Open measurement status')
+  expect(recoveryHtml).toContain('product-gate-recovery.json')
+  expect(recoveryHtml).not.toContain('href="/measurement-status.html"')
+  expect(recoveryHtml).not.toContain('href="/product-gate-recovery.json"')
+
+  await page.goto('/product-gate-recovery.html')
+  await expect(page.getByRole('heading', { name: 'Product Gate Recovery' })).toBeVisible()
+  await expect(page.getByLabel('Product gate recovery summary')).toContainText('firstGameCompletion')
+  await expect(page.getByLabel('Recovery gates')).toContainText('First game completion')
+  await expect(page.getByRole('link', { name: 'Open measurement status' })).toHaveAttribute(
+    'href',
+    './measurement-status.html',
+  )
+  await expect(page.getByRole('link', { name: 'Open recovery JSON' })).toHaveAttribute(
+    'href',
+    './product-gate-recovery.json',
+  )
+
+  await page.goto('/')
   expect(samplePlan.status).toBe('product-gate-sample-plan-ready')
   expect(samplePlan.summary.primaryGateId).toBe(recovery.summary.primaryBottleneck)
   expect(samplePlan.summary.fastestGateId).toBe(recovery.summary.quickestGateTest)
@@ -5149,6 +5196,9 @@ test('autonomous cadence keeps unattended operation auditable and guarded', asyn
   expect(productionInputWorkflow).toContain('public/measurement-status.json')
   expect(productionInputWorkflow).toContain('public/analytics-unlock.html')
   expect(productionInputWorkflow).toContain('public/analytics-unlock.json')
+  expect(productionInputWorkflow).toContain('data/product-gate-recovery.json')
+  expect(productionInputWorkflow).toContain('public/product-gate-recovery.html')
+  expect(productionInputWorkflow).toContain('public/product-gate-recovery.json')
   expect(productionInputWorkflow).toContain('data/release-candidate.json')
   expect(productionInputWorkflow).not.toContain('gh workflow run')
   expect(productionInputWorkflow).not.toContain('data/player-events')
@@ -8713,6 +8763,10 @@ test('support feedback ingests public issues as redacted improvement evidence', 
   expect(intakeWorkflow).toContain('reports/support-feedback-latest.md')
   expect(intakeWorkflow).toContain('data/improvement-backlog-summary.json')
   expect(intakeWorkflow).toContain('data/improvement-routing.json')
+  expect(intakeWorkflow).toContain('data/product-gate-recovery.json')
+  expect(intakeWorkflow).toContain('src/data/productGateRecovery.ts')
+  expect(intakeWorkflow).toContain('public/product-gate-recovery.html')
+  expect(intakeWorkflow).toContain('public/product-gate-recovery.json')
   expect(intakeWorkflow).toContain('data/product-gate-sample-plan.json')
   expect(intakeWorkflow).toContain('public/gate-sample.html')
   expect(intakeWorkflow).toContain('data/production-measurement-status.json')
@@ -9093,6 +9147,13 @@ test('production measurement status publishes public aggregate evidence handoff'
       }
     }
     productGateEvidence: {
+      recoveryStatus: string
+      recoverySummary: {
+        primaryBottleneck?: string
+        quickestGateTest?: string
+        failingGates?: number
+      }
+      recoveryPriorities: Array<{ gateId: string; ownerLoop: string; neededSuccesses: number }>
       supportingAggregateEvidenceNotes: number
       aggregateEvidenceMissionCount: number
       sampleNextRoute: {
@@ -9290,6 +9351,8 @@ test('production measurement status publishes public aggregate evidence handoff'
       analyticsUnlock: string
       analyticsUnlockJson: string
       ownerUnlockPreflightJson: string
+      productGateRecovery: string
+      productGateRecoveryJson: string
       gateSample: string
       sampleNext: string
       sampleNextJson: string
@@ -9297,7 +9360,7 @@ test('production measurement status publishes public aggregate evidence handoff'
       sampleFastestJson: string
       support: string
     }
-    sourceStatus: { trafficSeeding: string }
+    sourceStatus: { productGateRecovery: string; trafficSeeding: string }
     nextActions: string[]
   }
   const ownerUnlockBrief = JSON.parse(await readFile('data/owner-unlock-brief.json', 'utf8')) as {
@@ -9367,6 +9430,22 @@ test('production measurement status publishes public aggregate evidence handoff'
   const ownerUnlockPreflightReport = await readFile('reports/owner-unlock-preflight-latest.md', 'utf8')
   const ownerUnlockPreflightScript = await readFile('scripts/owner-unlock-preflight.mjs', 'utf8')
   const publicMeasurement = JSON.parse(await readFile('public/measurement-status.json', 'utf8')) as typeof measurement
+  const publicMeasurementWithRecovery = publicMeasurement as typeof measurement & {
+    productGateRecovery: {
+      status: string
+      summary: { primaryBottleneck?: string; quickestGateTest?: string; failingGates?: number }
+      priorities: Array<{ gateId: string; ownerLoop: string; neededSuccesses: number }>
+      publicRoutes: { productGateRecovery?: string; productGateRecoveryJson?: string }
+      controls: { zeroPaidSpend: boolean; noSyntheticGatePasses: boolean; noRevenueEnablement: boolean }
+    }
+  }
+  const publicRecovery = JSON.parse(await readFile('public/product-gate-recovery.json', 'utf8')) as {
+    status: string
+    summary: { primaryBottleneck: string; quickestGateTest: string; failingGates: number }
+    priorities: Array<{ gateId: string; ownerLoop: string; neededSuccesses: number }>
+    publicRoutes: { productGateRecovery: string; productGateRecoveryJson: string }
+    controls: { zeroPaidSpend: boolean; noSyntheticGatePasses: boolean }
+  }
   const analyticsUnlockPage = JSON.parse(await readFile('public/analytics-unlock.json', 'utf8')) as {
     status: string
     recommendedPathId: string | null
@@ -9448,6 +9527,16 @@ test('production measurement status publishes public aggregate evidence handoff'
   expect(measurement.productGateEvidence.supportingAggregateEvidenceNotes).toBe(
     samplePlan.summary.supportingAggregateEvidenceNotes,
   )
+  expect(measurement.productGateEvidence.recoveryStatus).toBe(publicRecovery.status)
+  expect(measurement.productGateEvidence.recoverySummary.primaryBottleneck).toBe(
+    publicRecovery.summary.primaryBottleneck,
+  )
+  expect(measurement.productGateEvidence.recoverySummary.quickestGateTest).toBe(
+    publicRecovery.summary.quickestGateTest,
+  )
+  expect(measurement.productGateEvidence.recoveryPriorities[0]?.gateId).toBe(
+    publicRecovery.priorities[0]?.gateId,
+  )
   expect(measurement.productGateEvidence.sampleNextRoute).toMatchObject({
     status: traffic.sampleNextRoute.status,
     path: traffic.sampleNextRoute.path,
@@ -9485,11 +9574,23 @@ test('production measurement status publishes public aggregate evidence handoff'
   expect(measurement.publicRoutes.analyticsUnlock).toBe('/analytics-unlock.html')
   expect(measurement.publicRoutes.analyticsUnlockJson).toBe('/analytics-unlock.json')
   expect(measurement.publicRoutes.ownerUnlockPreflightJson).toBe('/owner-unlock-preflight.json')
+  expect(measurement.publicRoutes.productGateRecovery).toBe('/product-gate-recovery.html')
+  expect(measurement.publicRoutes.productGateRecoveryJson).toBe('/product-gate-recovery.json')
   expect(measurement.publicRoutes.sampleNext).toBe('/sample-next.html')
   expect(measurement.publicRoutes.sampleNextJson).toBe('/sample-next.json')
   expect(measurement.publicRoutes.sampleFastest).toBe('/sample-fastest.html')
   expect(measurement.publicRoutes.sampleFastestJson).toBe('/sample-fastest.json')
   expect(measurement.sourceStatus.trafficSeeding).toBe(traffic.status)
+  expect(measurement.sourceStatus.productGateRecovery).toBe(publicRecovery.status)
+  expect(publicMeasurementWithRecovery.productGateRecovery.status).toBe(publicRecovery.status)
+  expect(publicMeasurementWithRecovery.productGateRecovery.summary.primaryBottleneck).toBe(
+    publicRecovery.summary.primaryBottleneck,
+  )
+  expect(publicMeasurementWithRecovery.productGateRecovery.publicRoutes.productGateRecovery).toBe(
+    '/product-gate-recovery.html',
+  )
+  expect(publicMeasurementWithRecovery.productGateRecovery.controls.zeroPaidSpend).toBe(true)
+  expect(publicMeasurementWithRecovery.productGateRecovery.controls.noSyntheticGatePasses).toBe(true)
   expect(measurement.publicEvidenceHandoff.productGateMissions.supportingAggregateEvidenceNotes).toBe(
     samplePlan.summary.supportingAggregateEvidenceNotes,
   )
@@ -9716,6 +9817,7 @@ test('production measurement status publishes public aggregate evidence handoff'
   expect(measurement.publicEvidenceHandoff.nextActions.join(' ')).toContain('/sample-next.html')
   expect(measurement.publicEvidenceHandoff.nextActions.join(' ')).toContain('/sample-fastest.html')
   expect(measurement.nextActions.join(' ')).toContain('public aggregate evidence')
+  expect(measurement.nextActions.join(' ')).toContain('Product gate recovery')
   expect(measurement.nextActions.join(' ')).toContain('Unlock production analytics')
   expect(measurement.nextActions.join(' ')).toContain('First-party collector deployment')
   expect(publicMeasurement.publicEvidenceHandoff).toEqual(measurement.publicEvidenceHandoff)
@@ -9732,6 +9834,8 @@ test('production measurement status publishes public aggregate evidence handoff'
   expect(html).toContain('sample-next.html')
   expect(html).toContain('Start fastest sample')
   expect(html).toContain('sample-fastest.html')
+  expect(html).toContain('Open recovery plan')
+  expect(html).toContain('product-gate-recovery.html')
   expect(html).toContain('Zero-Spend Analytics Unlock')
   expect(html).toContain('Owner Unlock Brief')
   expect(html).toContain('First-Party Collector Deployment')
@@ -9744,6 +9848,7 @@ test('production measurement status publishes public aggregate evidence handoff'
   expect(html).not.toContain('href="/gate-sample.html"')
   expect(html).not.toContain('href="/support.html"')
   expect(html).not.toContain('href="/measurement-status.json"')
+  expect(html).not.toContain('href="/product-gate-recovery.html"')
   expect(script).toContain('publicEvidenceHandoff')
   expect(script).toContain('publicAnalyticsUnlock')
   expect(script).toContain('analyticsUnlockPayload')
@@ -9752,6 +9857,7 @@ test('production measurement status publishes public aggregate evidence handoff'
   expect(script).toContain('publicExternalUnlockQueue')
   expect(script).toContain('readLiveReleaseManifest')
   expect(script).toContain('trafficSeeding')
+  expect(script).toContain('productGateRecovery')
   expect(script).toContain('publicRouteHref')
   expect(script).toContain('aggregateEvidenceDoesNotPassGates')
   expect(script).toContain('manualReviewRequiredForGateDecisions')
@@ -9795,6 +9901,10 @@ test('production measurement status publishes public aggregate evidence handoff'
   await expect(page.getByRole('link', { name: 'Start fastest sample' }).first()).toHaveAttribute(
     'href',
     './sample-fastest.html',
+  )
+  await expect(page.getByRole('link', { name: 'Open recovery plan' }).first()).toHaveAttribute(
+    'href',
+    './product-gate-recovery.html',
   )
   await expect(page.getByRole('link', { name: 'Open all missions' })).toHaveAttribute('href', './gate-sample.html')
   await expect(page.getByRole('link', { name: 'Open gate sample' })).toHaveAttribute('href', './gate-sample.html')

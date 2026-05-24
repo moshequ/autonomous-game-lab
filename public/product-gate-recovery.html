@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Product Gate Recovery | Autonomous Game Lab</title>
+    <style>
+      :root {
+        color: #191713;
+        background: #fbf7ef;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        line-height: 1.5;
+      }
+
+      body {
+        margin: 0;
+      }
+
+      main {
+        width: min(980px, calc(100% - 32px));
+        margin: 0 auto;
+        padding: 44px 0;
+      }
+
+      h1,
+      h2,
+      h3 {
+        line-height: 1.08;
+        margin: 0;
+      }
+
+      h1 {
+        font-size: clamp(2rem, 6vw, 4.2rem);
+        max-width: 780px;
+      }
+
+      p {
+        max-width: 760px;
+      }
+
+      a {
+        color: #187f7a;
+        font-weight: 700;
+      }
+
+      .eyebrow {
+        color: #7d2f18;
+        font-size: 0.82rem;
+        font-weight: 800;
+        letter-spacing: 0;
+        text-transform: uppercase;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 12px;
+        margin: 28px 0;
+      }
+
+      .card {
+        border: 1px solid #d9d0bf;
+        border-radius: 8px;
+        background: #fffdf7;
+        padding: 16px;
+      }
+
+      .card span {
+        display: block;
+        color: #6d675c;
+        font-size: 0.78rem;
+        font-weight: 800;
+        text-transform: uppercase;
+      }
+
+      .card strong {
+        display: block;
+        margin-top: 8px;
+        overflow-wrap: anywhere;
+        font-size: 1.05rem;
+      }
+
+      section {
+        border-top: 1px solid #d9d0bf;
+        padding: 22px 0;
+      }
+
+      ul {
+        padding-left: 20px;
+      }
+
+      li {
+        margin: 6px 0;
+      }
+
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .actions a {
+        border: 1px solid #187f7a;
+        border-radius: 8px;
+        padding: 10px 12px;
+        text-decoration: none;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <p class="eyebrow">Autonomous Game Lab</p>
+      <h1>Product Gate Recovery</h1>
+      <p>This generated handoff shows which observed product gates still block revenue and app-store escalation. It uses aggregate telemetry only and keeps paid acquisition, push notifications, store submission, and revenue disabled until every gate clears with real player evidence.</p>
+
+      <div class="grid" aria-label="Product gate recovery summary">
+        <div class="card">
+          <span>Status</span>
+          <strong>product-gate-recovery-ready</strong>
+        </div>
+        <div class="card">
+          <span>Primary bottleneck</span>
+          <strong>firstGameCompletion</strong>
+        </div>
+        <div class="card">
+          <span>Quickest gate test</span>
+          <strong>d1Retention</strong>
+        </div>
+        <div class="card">
+          <span>Failing gates</span>
+          <strong>3</strong>
+        </div>
+        <div class="card">
+          <span>Revenue enabled</span>
+          <strong>false</strong>
+        </div>
+      </div>
+
+      <section>
+        <h2>Recovery Gates</h2>
+        <div class="grid" aria-label="Recovery gates">
+          <article class="card">
+            <span>needs-observed-lift</span>
+            <h3>First game completion</h3>
+            <p>40% observed against 55% gate.</p>
+            <p>128 observed success(es) and 30 prompt exposure(s) needed before the next safe decision.</p>
+            <p>Experiment: collecting-sample; next: hold-current-runtime-copy.</p>
+          </article>
+          <article class="card">
+            <span>needs-observed-lift</span>
+            <h3>Replay rate</h3>
+            <p>31% observed against 35% gate.</p>
+            <p>10 observed success(es) and 30 prompt exposure(s) needed before the next safe decision.</p>
+            <p>Experiment: collecting-sample; next: hold-current-runtime-copy.</p>
+          </article>
+          <article class="card">
+            <span>needs-observed-lift</span>
+            <h3>D1 retention</h3>
+            <p>17% observed against 18% gate.</p>
+            <p>1 observed success(es) and 10 prompt exposure(s) needed before the next safe decision.</p>
+            <p>Experiment: collecting-sample; next: hold-current-runtime-copy.</p>
+          </article>
+        </div>
+      </section>
+
+      <section>
+        <h2>Recovery Priorities</h2>
+        <ul>
+          <li><strong>1. First game completion</strong>: completion-loop needs 128 success(es); First game completion is the largest revenue-blocking gap.</li>
+          <li><strong>2. Replay rate</strong>: replay-loop needs 10 success(es); Replay rate still blocks revenue and store payback assumptions.</li>
+          <li><strong>3. D1 retention</strong>: retention-loop needs 1 success(es); D1 retention is the fastest gate to re-test with real retained-player evidence.</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>Controls</h2>
+        <ul>
+          <li>Zero paid spend: true</li>
+          <li>Revenue still disabled until all gates pass: true</li>
+          <li>No synthetic gate passes: true</li>
+          <li>Observed telemetry required before copy change: true</li>
+          <li>No paid rewards or push notifications: true</li>
+          <li>No automatic rule changes: true</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>Next Actions</h2>
+        <ul>
+          <li>First game completion needs 128 more observed success(es), accounting for denominator growth, before the gate clears.</li>
+          <li>completion-loop is collecting-sample and should collect 30 more prompt exposure(s) before automation changes copy or placement again.</li>
+          <li>D1 retention is the quickest separate gate test: 1 more observed success(es) would clear it.</li>
+          <li>Keep revenue, paid acquisition, push notifications, and app-store submission disabled until every gate passes with observed data.</li>
+        </ul>
+        <div class="actions">
+          <a href="./measurement-status.html">Open measurement status</a>
+          <a href="./sample-next.html">Start current sample</a>
+          <a href="./sample-fastest.html">Start fastest sample</a>
+          <a href="./product-gate-recovery.json">Open recovery JSON</a>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

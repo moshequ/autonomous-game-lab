@@ -1,22 +1,22 @@
 # Release Candidate
 
-Generated: 2026-05-24T14:12:21.084Z
+Generated: 2026-05-24T14:41:14.477Z
 Status: release-candidate-ready
-Candidate: pwa-3e04aa78cfa0
-Files: 67
-Size: 3805.4 KB
-Aggregate SHA-256: 3e04aa78cfa03be99992ab2f8ceb2f8b46944e990b18a4bbbf66390837e6e983
+Candidate: pwa-216942da0d49
+Files: 69
+Size: 3832.5 KB
+Aggregate SHA-256: 216942da0d492e6f017bf765b3f9776d232fa7afdff6ffaa12fd2e38563189e1
 
 ## Checks
 
-- pass: dist-inventory - 67 dist files inventoried.
-- pass: required-files - 31/31 required files present.
+- pass: dist-inventory - 69 dist files inventoried.
+- pass: required-files - 33/33 required files present.
 - pass: game-pages - 10 generated game page(s) in dist.
 - pass: performance-budget - Performance budget is performance-budget-ready.
 - pass: release-health - Release health is monitoring.
 - pass: production-response - Deploy allowed is true.
 - pass: spend-guard - Spend mode is no-spend.
-- pass: post-deploy-smoke-plan - 26 post-deploy smoke URL(s) planned.
+- pass: post-deploy-smoke-plan - 28 post-deploy smoke URL(s) planned.
 
 ## Required Files
 
@@ -31,6 +31,8 @@ Aggregate SHA-256: 3e04aa78cfa03be99992ab2f8ceb2f8b46944e990b18a4bbbf66390837e6e
 - pass: owner-unlock-preflight.json
 - pass: analytics-unlock.html
 - pass: analytics-unlock.json
+- pass: product-gate-recovery.html
+- pass: product-gate-recovery.json
 - pass: install.html
 - pass: compliance.json
 - pass: sitemap.xml
@@ -65,6 +67,8 @@ Aggregate SHA-256: 3e04aa78cfa03be99992ab2f8ceb2f8b46944e990b18a4bbbf66390837e6e
 - 200: https://moshequ.github.io/autonomous-game-lab/owner-unlock-preflight.json
 - 200: https://moshequ.github.io/autonomous-game-lab/analytics-unlock.html
 - 200: https://moshequ.github.io/autonomous-game-lab/analytics-unlock.json
+- 200: https://moshequ.github.io/autonomous-game-lab/product-gate-recovery.html
+- 200: https://moshequ.github.io/autonomous-game-lab/product-gate-recovery.json
 - 200: https://moshequ.github.io/autonomous-game-lab/install.html
 - 200: https://moshequ.github.io/autonomous-game-lab/compliance.json
 - 200: https://moshequ.github.io/autonomous-game-lab/monetization.json

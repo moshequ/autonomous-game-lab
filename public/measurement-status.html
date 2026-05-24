@@ -180,6 +180,14 @@
             <strong>product-gate-sample-plan-ready</strong>
           </div>
           <div class="card">
+            <span>Recovery plan</span>
+            <strong>product-gate-recovery-ready</strong>
+          </div>
+          <div class="card">
+            <span>Primary bottleneck</span>
+            <strong>firstGameCompletion</strong>
+          </div>
+          <div class="card">
             <span>Primary mission</span>
             <strong>Harbor Rings</strong>
           </div>
@@ -215,6 +223,7 @@
         <div class="actions">
           <a href="./sample-next.html">Start current sample</a>
           <a href="./sample-fastest.html">Start fastest sample</a>
+          <a href="./product-gate-recovery.html">Open recovery plan</a>
           <a href="./gate-sample.html">Open all missions</a>
         </div>
       </section>
@@ -262,17 +271,17 @@
           </div>
           <div class="card">
             <span>Missing variables</span>
-            <strong>3</strong>
+            <strong>5</strong>
           </div>
           <div class="card">
             <span>Missing secrets</span>
-            <strong>1</strong>
+            <strong>3</strong>
           </div>
         </div>
         <h3>Missing Variables</h3>
-        <ul><li><strong>CLOUDFLARE_ACCOUNT_ID</strong> missing <code>gh variable set CLOUDFLARE_ACCOUNT_ID --body &quot;$CLOUDFLARE_ACCOUNT_ID&quot;</code></li><li><strong>VITE_EVENT_COLLECTOR_URL</strong> missing <code>gh variable set VITE_EVENT_COLLECTOR_URL --body &quot;$VITE_EVENT_COLLECTOR_URL&quot;</code></li><li><strong>AGL_EVENT_COLLECTOR_EXPORT_URL</strong> missing <code>gh variable set AGL_EVENT_COLLECTOR_EXPORT_URL --body &quot;$AGL_EVENT_COLLECTOR_EXPORT_URL&quot;</code></li></ul>
+        <ul><li><strong>CLOUDFLARE_ACCOUNT_ID</strong> missing <code>gh variable set CLOUDFLARE_ACCOUNT_ID --body &quot;$CLOUDFLARE_ACCOUNT_ID&quot;</code></li><li><strong>AGL_EVENT_COLLECTOR_R2_BUCKET</strong> missing <code>gh variable set AGL_EVENT_COLLECTOR_R2_BUCKET --body &quot;$AGL_EVENT_COLLECTOR_R2_BUCKET&quot;</code></li><li><strong>AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS</strong> missing <code>gh variable set AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS --body &quot;$AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS&quot;</code></li><li><strong>VITE_EVENT_COLLECTOR_URL</strong> missing <code>gh variable set VITE_EVENT_COLLECTOR_URL --body &quot;$VITE_EVENT_COLLECTOR_URL&quot;</code></li><li><strong>AGL_EVENT_COLLECTOR_EXPORT_URL</strong> missing <code>gh variable set AGL_EVENT_COLLECTOR_EXPORT_URL --body &quot;$AGL_EVENT_COLLECTOR_EXPORT_URL&quot;</code></li></ul>
         <h3>Missing Secrets</h3>
-        <ul><li><strong>CLOUDFLARE_API_TOKEN</strong> missing <code>printf &quot;%s&quot; &quot;$CLOUDFLARE_API_TOKEN&quot; | gh secret set CLOUDFLARE_API_TOKEN</code></li></ul>
+        <ul><li><strong>CLOUDFLARE_API_TOKEN</strong> missing <code>printf &quot;%s&quot; &quot;$CLOUDFLARE_API_TOKEN&quot; | gh secret set CLOUDFLARE_API_TOKEN</code></li><li><strong>VITE_EVENT_COLLECTOR_WRITE_TOKEN</strong> missing <code>printf &quot;%s&quot; &quot;$VITE_EVENT_COLLECTOR_WRITE_TOKEN&quot; | gh secret set VITE_EVENT_COLLECTOR_WRITE_TOKEN</code></li><li><strong>AGL_EVENT_COLLECTOR_ADMIN_TOKEN</strong> missing <code>printf &quot;%s&quot; &quot;$AGL_EVENT_COLLECTOR_ADMIN_TOKEN&quot; | gh secret set AGL_EVENT_COLLECTOR_ADMIN_TOKEN</code></li></ul>
         <h3>Setup Commands</h3>
         <ol><li><code>npm run autonomous:event-collector-smoke</code></li><li><code>npm run autonomous:collector-deploy-plan</code></li><li><code>./ops/github/setup-production.sh</code></li><li><code>RUN_WORKFLOWS=1 ./ops/github/setup-production.sh</code></li><li><code>npm run autonomous:readiness</code></li></ol>
         <h3>Validation Commands</h3>
@@ -292,7 +301,7 @@
           </div>
           <div class="card">
             <span>Ready inputs</span>
-            <strong>4/8</strong>
+            <strong>0/8</strong>
           </div>
           <div class="card">
             <span>Invalid inputs</span>
@@ -300,7 +309,7 @@
           </div>
         </div>
         <h3>Missing Inputs</h3>
-        <ul><li><strong>CLOUDFLARE_ACCOUNT_ID</strong> missing <code>gh variable set CLOUDFLARE_ACCOUNT_ID --body &quot;$CLOUDFLARE_ACCOUNT_ID&quot;</code></li><li><strong>VITE_EVENT_COLLECTOR_URL</strong> missing <code>gh variable set VITE_EVENT_COLLECTOR_URL --body &quot;$VITE_EVENT_COLLECTOR_URL&quot;</code></li><li><strong>AGL_EVENT_COLLECTOR_EXPORT_URL</strong> missing <code>gh variable set AGL_EVENT_COLLECTOR_EXPORT_URL --body &quot;$AGL_EVENT_COLLECTOR_EXPORT_URL&quot;</code></li><li><strong>CLOUDFLARE_API_TOKEN</strong> missing <code>printf &quot;%s&quot; &quot;$CLOUDFLARE_API_TOKEN&quot; | gh secret set CLOUDFLARE_API_TOKEN</code></li></ul>
+        <ul><li><strong>CLOUDFLARE_ACCOUNT_ID</strong> missing <code>gh variable set CLOUDFLARE_ACCOUNT_ID --body &quot;$CLOUDFLARE_ACCOUNT_ID&quot;</code></li><li><strong>AGL_EVENT_COLLECTOR_R2_BUCKET</strong> missing <code>gh variable set AGL_EVENT_COLLECTOR_R2_BUCKET --body &quot;$AGL_EVENT_COLLECTOR_R2_BUCKET&quot;</code></li><li><strong>AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS</strong> missing <code>gh variable set AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS --body &quot;$AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS&quot;</code></li><li><strong>VITE_EVENT_COLLECTOR_URL</strong> missing <code>gh variable set VITE_EVENT_COLLECTOR_URL --body &quot;$VITE_EVENT_COLLECTOR_URL&quot;</code></li><li><strong>AGL_EVENT_COLLECTOR_EXPORT_URL</strong> missing <code>gh variable set AGL_EVENT_COLLECTOR_EXPORT_URL --body &quot;$AGL_EVENT_COLLECTOR_EXPORT_URL&quot;</code></li><li><strong>CLOUDFLARE_API_TOKEN</strong> missing <code>printf &quot;%s&quot; &quot;$CLOUDFLARE_API_TOKEN&quot; | gh secret set CLOUDFLARE_API_TOKEN</code></li><li><strong>VITE_EVENT_COLLECTOR_WRITE_TOKEN</strong> missing <code>printf &quot;%s&quot; &quot;$VITE_EVENT_COLLECTOR_WRITE_TOKEN&quot; | gh secret set VITE_EVENT_COLLECTOR_WRITE_TOKEN</code></li><li><strong>AGL_EVENT_COLLECTOR_ADMIN_TOKEN</strong> missing <code>printf &quot;%s&quot; &quot;$AGL_EVENT_COLLECTOR_ADMIN_TOKEN&quot; | gh secret set AGL_EVENT_COLLECTOR_ADMIN_TOKEN</code></li></ul>
         <h3>Invalid Inputs</h3>
         <p>none</p>
       </section>
@@ -411,7 +420,7 @@
           </div>
           <div class="card">
             <span>Missing secrets</span>
-            <strong>3</strong>
+            <strong>5</strong>
           </div>
         </div>
         <article class="card">
@@ -500,6 +509,7 @@
           <li>Unlock production analytics with first-party-collector; 5 setup command(s) and 4 validation command(s) are published with redacted secret names only.</li>
           <li>First-party collector deployment is blocked-needs-cloudflare-env; smoke is pass.</li>
           <li>External unlock queue has 4 owner action(s); next zero-spend unlock is production-analytics-browser.</li>
+          <li>Product gate recovery is product-gate-recovery-ready; public recovery route is /product-gate-recovery.html.</li>
           <li>Invite players to start the current sample through /sample-next.html, or the fastest separate gate through /sample-fastest.html, then use Share evidence after the play session so public aggregate evidence can be reviewed without raw events.</li>
           <li>Do not pass product gates, enable revenue, or submit stores from public aggregate notes alone.</li>
           <li>Keep product gates blocked until real player evidence clears completion, replay, and D1 retention thresholds.</li>
@@ -507,6 +517,7 @@
         <div class="actions">
           <a href="./sample-next.html">Start current sample</a>
           <a href="./gate-sample.html">Open gate sample</a>
+          <a href="./product-gate-recovery.html">Open recovery plan</a>
           <a href="./analytics-unlock.html">Open analytics unlock</a>
           <a href="./support.html">Open support</a>
           <a href="./measurement-status.json">Open status JSON</a>

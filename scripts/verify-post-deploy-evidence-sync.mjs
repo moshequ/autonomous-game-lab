@@ -179,6 +179,7 @@ const requiredReadinessRefreshCommands = [
   'autonomous:bootstrap',
   'autonomous:activate-production',
   'autonomous:blocker-handoff',
+  'autonomous:gate-recovery',
   'autonomous:measurement-status',
   'node scripts/production-readiness.mjs',
   'autonomous:owner-loop',
@@ -203,6 +204,7 @@ const finalStoreComplianceIndex = postDeployReadinessSyncScript.lastIndexOf('aut
 const finalRepoReadinessIndex = postDeployReadinessSyncScript.lastIndexOf('autonomous:repo-readiness')
 const finalRepoBootstrapIndex = postDeployReadinessSyncScript.lastIndexOf('autonomous:repo-bootstrap')
 const finalUnlockRunnerIndex = postDeployReadinessSyncScript.lastIndexOf('autonomous:unlock-runner')
+const finalGateRecoveryIndex = postDeployReadinessSyncScript.lastIndexOf('autonomous:gate-recovery')
 const finalMeasurementStatusIndex = postDeployReadinessSyncScript.lastIndexOf('autonomous:measurement-status')
 const finalPostDeploySmokeIndex = postDeployReadinessSyncScript.lastIndexOf(
   'autonomous:post-deploy-smoke',
@@ -258,6 +260,10 @@ if (
 
 if (finalMeasurementStatusIndex < finalUnlockRunnerIndex) {
   fail('autonomous:post-deploy-readiness-sync must refresh production measurement status after the final blocker/unlock evidence.')
+}
+
+if (finalGateRecoveryIndex < finalUnlockRunnerIndex || finalMeasurementStatusIndex < finalGateRecoveryIndex) {
+  fail('autonomous:post-deploy-readiness-sync must refresh product gate recovery before production measurement status.')
 }
 
 if (finalMeasurementStatusIndex > finalReadinessRefreshIndex) {
@@ -395,6 +401,11 @@ if (
   !workflow.includes('public/measurement-status.json') ||
   !workflow.includes('public/analytics-unlock.html') ||
   !workflow.includes('public/analytics-unlock.json') ||
+  !workflow.includes('public/product-gate-recovery.html') ||
+  !workflow.includes('public/product-gate-recovery.json') ||
+  !workflow.includes('data/product-gate-recovery.json') ||
+  !workflow.includes('src/data/productGateRecovery.ts') ||
+  !workflow.includes('reports/product-gate-recovery-latest.md') ||
   !workflow.includes('reports/production-measurement-status-latest.md') ||
   !workflow.includes('data/player-evidence-watchdog.json') ||
   !workflow.includes('src/data/playerEvidenceWatchdog.ts') ||

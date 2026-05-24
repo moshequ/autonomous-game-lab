@@ -105,6 +105,8 @@ const requiredFiles = [
   'owner-unlock-preflight.json',
   'analytics-unlock.html',
   'analytics-unlock.json',
+  'product-gate-recovery.html',
+  'product-gate-recovery.json',
   'install.html',
   'compliance.json',
   'sitemap.xml',
@@ -197,6 +199,8 @@ const smokePaths = [
   'owner-unlock-preflight.json',
   'analytics-unlock.html',
   'analytics-unlock.json',
+  'product-gate-recovery.html',
+  'product-gate-recovery.json',
   'install.html',
   'compliance.json',
   'monetization.json',
@@ -233,6 +237,14 @@ const requiredTextForSmokePath = (filePath) => {
 
   if (filePath === 'analytics-unlock.html') {
     return 'Production Analytics Unlock'
+  }
+
+  if (filePath === 'product-gate-recovery.html') {
+    return 'Product Gate Recovery'
+  }
+
+  if (filePath === 'product-gate-recovery.json') {
+    return 'product-gate-recovery-ready'
   }
 
   if (filePath === 'owner-unlock-preflight.json') {

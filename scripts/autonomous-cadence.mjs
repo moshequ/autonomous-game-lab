@@ -781,6 +781,8 @@ const checks = [
       productionInputWatchWorkflow.includes('data/production-unlock-runner.json') &&
       productionInputWatchWorkflow.includes('data/production-measurement-status.json') &&
       productionInputWatchWorkflow.includes('public/measurement-status.json') &&
+      productionInputWatchWorkflow.includes('public/product-gate-recovery.html') &&
+      productionInputWatchWorkflow.includes('public/product-gate-recovery.json') &&
       productionInputWatchWorkflow.includes('data/release-candidate.json') &&
       productionInputWatchScript.includes('npm run build') &&
       productionInputWatchScript.includes('autonomous:performance') &&
@@ -833,6 +835,8 @@ const checks = [
       publicEvidenceIntakeWorkflow.includes('node scripts/verify-autonomy.mjs') &&
       publicEvidenceIntakeWorkflow.includes('data/support-feedback.json') &&
       publicEvidenceIntakeWorkflow.includes('public/measurement-status.json') &&
+      publicEvidenceIntakeWorkflow.includes('public/product-gate-recovery.html') &&
+      publicEvidenceIntakeWorkflow.includes('public/product-gate-recovery.json') &&
       publicEvidenceIntakeWorkflow.includes('data/owner-unlock-brief.json') &&
       publicEvidenceIntakeWorkflow.includes('data/owner-unlock-preflight.json') &&
       publicEvidenceIntakeWorkflow.includes('public/owner-unlock-brief.json') &&
@@ -944,6 +948,8 @@ const checks = [
       postDeployEvidenceSyncWorkflow.includes('data/owner-unlock-preflight.json') &&
       postDeployEvidenceSyncWorkflow.includes('public/owner-unlock-brief.json') &&
       postDeployEvidenceSyncWorkflow.includes('public/owner-unlock-preflight.json') &&
+      postDeployEvidenceSyncWorkflow.includes('public/product-gate-recovery.html') &&
+      postDeployEvidenceSyncWorkflow.includes('public/product-gate-recovery.json') &&
       postDeployEvidenceSyncWorkflow.includes('data/production-readiness.json') &&
       postDeployEvidenceSyncWorkflow.includes('data/objective-audit.json') &&
       postDeployEvidenceSyncWorkflow.includes('data/autonomous-operator.json') &&

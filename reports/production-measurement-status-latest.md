@@ -1,11 +1,11 @@
 # Production Measurement Status
 
-Generated: 2026-05-24T14:12:31.801Z
+Generated: 2026-05-24T14:35:09.627Z
 Status: production-measurement-local-intake-ready
 Active path: local-browser-buffer
 Live candidate: pwa-b5b8d0009c07
 Exact live manifest: /release-candidate.json
-Source hash: e06a5c0f265c
+Source hash: 41405e7dbfc9
 
 ## Analytics
 
@@ -29,6 +29,8 @@ Source hash: e06a5c0f265c
 - analyticsUnlock: /analytics-unlock.html
 - analyticsUnlockJson: /analytics-unlock.json
 - ownerUnlockPreflightJson: /owner-unlock-preflight.json
+- productGateRecovery: /product-gate-recovery.html
+- productGateRecoveryJson: /product-gate-recovery.json
 - gateSample: /gate-sample.html
 - sampleNext: /sample-next.html
 - sampleNextJson: /sample-next.json
@@ -58,6 +60,7 @@ Source hash: e06a5c0f265c
 - Unlock production analytics with first-party-collector; 5 setup command(s) and 4 validation command(s) are published with redacted secret names only.
 - First-party collector deployment is blocked-needs-cloudflare-env; smoke is pass.
 - External unlock queue has 4 owner action(s); next zero-spend unlock is production-analytics-browser.
+- Product gate recovery is product-gate-recovery-ready; public recovery route is /product-gate-recovery.html.
 - Invite players to start the current sample through /sample-next.html, or the fastest separate gate through /sample-fastest.html, then use Share evidence after the play session so public aggregate evidence can be reviewed without raw events.
 - Do not pass product gates, enable revenue, or submit stores from public aggregate notes alone.
 - Keep product gates blocked until real player evidence clears completion, replay, and D1 retention thresholds.

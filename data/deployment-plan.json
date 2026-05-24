@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-05-24T14:12:33.243Z",
-  "status": "ready-for-pages",
+  "generatedAt": "2026-05-24T14:44:52.715Z",
+  "status": "blocked",
   "target": {
     "provider": "github-pages",
     "cost": "$0 platform hosting for public/internal experiment traffic",
@@ -8,13 +8,15 @@
     "artifactPath": "dist"
   },
   "repositoryChannel": {
-    "status": "repository-channel-ready",
+    "status": "waiting-for-repository-channel",
     "repository": "moshequ/autonomous-game-lab",
-    "source": "environment",
+    "source": "origin-remote",
     "insideWorkTree": true,
     "ghCliAvailable": true,
-    "workflowDispatchReady": true,
-    "blockers": []
+    "workflowDispatchReady": false,
+    "blockers": [
+      "Refresh build, release candidate, post-deploy smoke, and deployment plan artifacts."
+    ]
   },
   "eventCollector": {
     "status": "blocked-needs-cloudflare-env",
@@ -50,12 +52,12 @@
   },
   "releaseCandidate": {
     "status": "release-candidate-ready",
-    "candidateId": "pwa-3e04aa78cfa0",
+    "candidateId": "pwa-216942da0d49",
     "manifestPath": "dist/release-candidate.json",
-    "aggregateHash": "3e04aa78cfa03be99992ab2f8ceb2f8b46944e990b18a4bbbf66390837e6e983",
-    "totalFiles": 67,
-    "totalKb": 3805.4,
-    "postDeploySmokeUrls": 26
+    "aggregateHash": "216942da0d492e6f017bf765b3f9776d232fa7afdff6ffaa12fd2e38563189e1",
+    "totalFiles": 69,
+    "totalKb": 3832.5,
+    "postDeploySmokeUrls": 28
   },
   "compliance": {
     "privacyPath": "/privacy.html",
@@ -65,7 +67,7 @@
   "environment": {
     "status": "production-env-missing",
     "publicOrigin": "https://moshequ.github.io/autonomous-game-lab",
-    "publicOriginStatus": "configured",
+    "publicOriginStatus": "inferred-github-pages",
     "analyticsStatus": "local-or-fixture"
   },
   "setupRequiredOnce": [
@@ -82,8 +84,8 @@
     },
     {
       "id": "web-readiness",
-      "status": "pass",
-      "detail": "Pre-deploy web readiness passed; live post-deploy smoke remains ready-after-build."
+      "status": "blocker",
+      "detail": "Web readiness is blocked."
     },
     {
       "id": "release-health",
@@ -123,7 +125,7 @@
     {
       "id": "release-candidate",
       "status": "pass",
-      "detail": "Release candidate is release-candidate-ready; candidate pwa-3e04aa78cfa0."
+      "detail": "Release candidate is release-candidate-ready; candidate pwa-216942da0d49."
     },
     {
       "id": "deploy-workflow",
