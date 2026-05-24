@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-24T11:58:19.940Z",
+  "generatedAt": "2026-05-24T12:02:40.537Z",
   "environment": {
     "status": "production-env-missing",
     "publicOrigin": "https://moshequ.github.io/autonomous-game-lab",
@@ -623,7 +623,7 @@
       {
         "id": "performance-budget",
         "status": "pass",
-        "detail": "Performance budget is performance-budget-ready; initial JS 684.2 KB / 185.3 KB gzip; deferred game chunk GameCanvas-D0wUVUM6.js."
+        "detail": "Performance budget is performance-budget-ready; initial JS 685.6 KB / 185.4 KB gzip; deferred game chunk GameCanvas-D6S-H9Sz.js."
       },
       {
         "id": "release-candidate",
@@ -1262,21 +1262,21 @@
     },
     "initial": {
       "entryScripts": [
-        "index-DEF4_njo.js",
+        "index-Bni-_weh.js",
         "registerSW.js"
       ],
       "scriptPaths": [
-        "assets/index-DEF4_njo.js",
+        "assets/index-Bni-_weh.js",
         "registerSW.js"
       ],
       "jsFiles": [
         {
-          "file": "index-DEF4_njo.js",
-          "path": "assets/index-DEF4_njo.js",
-          "bytes": 700470,
-          "kb": 684.1,
-          "gzipBytes": 189574,
-          "gzipKb": 185.1
+          "file": "index-Bni-_weh.js",
+          "path": "assets/index-Bni-_weh.js",
+          "bytes": 701838,
+          "kb": 685.4,
+          "gzipBytes": 189677,
+          "gzipKb": 185.2
         },
         {
           "file": "registerSW.js",
@@ -1287,10 +1287,10 @@
           "gzipKb": 0.1
         }
       ],
-      "jsBytes": 700644,
-      "jsKb": 684.2,
-      "gzipBytes": 189715,
-      "gzipKb": 185.3,
+      "jsBytes": 702012,
+      "jsKb": 685.6,
+      "gzipBytes": 189818,
+      "gzipKb": 185.4,
       "cssFiles": [
         {
           "file": "index-BzgYwZsM.css",
@@ -1309,19 +1309,19 @@
     "deferred": {
       "chunks": [
         {
-          "file": "aggregateEvidenceIssue-CYAu9z-W.js",
-          "path": "assets/aggregateEvidenceIssue-CYAu9z-W.js",
+          "file": "aggregateEvidenceIssue-i717Nn2W.js",
+          "path": "assets/aggregateEvidenceIssue-i717Nn2W.js",
           "bytes": 3717,
           "kb": 3.6,
-          "gzipBytes": 1482,
+          "gzipBytes": 1479,
           "gzipKb": 1.4
         },
         {
-          "file": "calendarReminder-SvYssgLA.js",
-          "path": "assets/calendarReminder-SvYssgLA.js",
+          "file": "calendarReminder-aQtS_p-p.js",
+          "path": "assets/calendarReminder-aQtS_p-p.js",
           "bytes": 1627,
           "kb": 1.6,
-          "gzipBytes": 920,
+          "gzipBytes": 919,
           "gzipKb": 0.9
         },
         {
@@ -1341,11 +1341,11 @@
           "gzipKb": 0.8
         },
         {
-          "file": "GameCanvas-D0wUVUM6.js",
-          "path": "assets/GameCanvas-D0wUVUM6.js",
+          "file": "GameCanvas-D6S-H9Sz.js",
+          "path": "assets/GameCanvas-D6S-H9Sz.js",
           "bytes": 3362,
           "kb": 3.3,
-          "gzipBytes": 1241,
+          "gzipBytes": 1239,
           "gzipKb": 1.2
         },
         {
@@ -1406,11 +1406,11 @@
         }
       ],
       "gameChunk": {
-        "file": "GameCanvas-D0wUVUM6.js",
-        "path": "assets/GameCanvas-D0wUVUM6.js",
+        "file": "GameCanvas-D6S-H9Sz.js",
+        "path": "assets/GameCanvas-D6S-H9Sz.js",
         "bytes": 3362,
         "kb": 3.3,
-        "gzipBytes": 1241,
+        "gzipBytes": 1239,
         "gzipKb": 1.2
       },
       "largestDeferredChunk": {
@@ -1444,12 +1444,12 @@
       {
         "id": "initial-js-budget",
         "status": "pass",
-        "detail": "Initial JS is 684.2 KB; budget is 686 KB."
+        "detail": "Initial JS is 685.6 KB; budget is 686 KB."
       },
       {
         "id": "initial-js-gzip-budget",
         "status": "pass",
-        "detail": "Initial JS gzip is 185.3 KB; budget is 200 KB."
+        "detail": "Initial JS gzip is 185.4 KB; budget is 200 KB."
       },
       {
         "id": "initial-css-budget",
@@ -1469,7 +1469,7 @@
       {
         "id": "game-runtime-deferred",
         "status": "pass",
-        "detail": "GameCanvas-D0wUVUM6.js is deferred from the initial shell."
+        "detail": "GameCanvas-D6S-H9Sz.js is deferred from the initial shell."
       },
       {
         "id": "largest-js-deferred",
@@ -1485,19 +1485,19 @@
   },
   "releaseCandidate": {
     "status": "release-candidate-ready",
-    "candidateId": "pwa-c85834bab772",
+    "candidateId": "pwa-96e264b333e2",
     "target": {
       "provider": "github-pages",
       "artifactPath": "dist",
       "manifestPath": "dist/release-candidate.json",
       "publicOrigin": "https://moshequ.github.io/autonomous-game-lab",
-      "publicOriginStatus": "inferred-github-pages",
+      "publicOriginStatus": "configured",
       "basePath": "/autonomous-game-lab/"
     },
     "summary": {
       "totalFiles": 66,
-      "totalBytes": 3865966,
-      "totalKb": 3775.4,
+      "totalBytes": 3865829,
+      "totalKb": 3775.2,
       "assetFiles": 14,
       "htmlFiles": 21,
       "gamePages": 10,
@@ -1506,7 +1506,7 @@
     },
     "integrity": {
       "algorithm": "sha256",
-      "aggregateHash": "c85834bab7722714f6d47cce9dca1df30f379f7599616d4876863ec39048a1b5",
+      "aggregateHash": "96e264b333e21f8bc4af93926d706268cd36ae31f55faa70c1b6a09d9048895f",
       "requiredFileChecks": [
         {
           "path": "index.html",
@@ -1865,8 +1865,8 @@
       "origin": null,
       "originSource": "network-blocked",
       "provider": "github-pages",
-      "candidateId": "pwa-c85834bab772",
-      "aggregateHash": "c85834bab7722714f6d47cce9dca1df30f379f7599616d4876863ec39048a1b5",
+      "candidateId": "pwa-96e264b333e2",
+      "aggregateHash": "96e264b333e21f8bc4af93926d706268cd36ae31f55faa70c1b6a09d9048895f",
       "strictManifestComparison": false
     },
     "sourceStatus": {
@@ -1951,7 +1951,7 @@
           "file": "dist/measurement-status.html",
           "expectedStatus": 200,
           "status": "pass",
-          "bytes": 22282,
+          "bytes": 21531,
           "textMatched": true,
           "detail": "Local production artifact matched required text."
         },
@@ -1961,7 +1961,7 @@
           "file": "dist/measurement-status.json",
           "expectedStatus": 200,
           "status": "pass",
-          "bytes": 41422,
+          "bytes": 41416,
           "textMatched": true,
           "detail": "Local production artifact matched required text."
         },
@@ -1971,7 +1971,7 @@
           "file": "dist/owner-unlock-brief.json",
           "expectedStatus": 200,
           "status": "pass",
-          "bytes": 6288,
+          "bytes": 6292,
           "textMatched": true,
           "detail": "Local production artifact matched required text."
         },
@@ -1981,7 +1981,7 @@
           "file": "dist/analytics-unlock.html",
           "expectedStatus": 200,
           "status": "pass",
-          "bytes": 15567,
+          "bytes": 14828,
           "textMatched": true,
           "detail": "Local production artifact matched required text."
         },
@@ -1991,7 +1991,7 @@
           "file": "dist/analytics-unlock.json",
           "expectedStatus": 200,
           "status": "pass",
-          "bytes": 28133,
+          "bytes": 28131,
           "textMatched": true,
           "detail": "Local production artifact matched required text."
         },
@@ -2011,7 +2011,7 @@
           "file": "dist/compliance.json",
           "expectedStatus": 200,
           "status": "pass",
-          "bytes": 5636,
+          "bytes": 5625,
           "textMatched": true,
           "detail": "Local production artifact matched required text."
         },
@@ -2151,11 +2151,11 @@
           "file": "dist/release-candidate.json",
           "expectedStatus": 200,
           "status": "pass",
-          "bytes": 29064,
+          "bytes": 29053,
           "candidateMatches": true,
           "hashMatches": true,
-          "localCandidateId": "pwa-c85834bab772",
-          "localAggregateHash": "c85834bab7722714f6d47cce9dca1df30f379f7599616d4876863ec39048a1b5",
+          "localCandidateId": "pwa-96e264b333e2",
+          "localAggregateHash": "96e264b333e21f8bc4af93926d706268cd36ae31f55faa70c1b6a09d9048895f",
           "detail": "Local release manifest matches the release candidate."
         }
       ]
@@ -2527,7 +2527,7 @@
         "path": "/release-candidate.json",
         "url": "https://moshequ.github.io/autonomous-game-lab/release-candidate.json",
         "expectedStatus": 200,
-        "requiredText": "pwa-c85834bab772",
+        "requiredText": "pwa-96e264b333e2",
         "status": "blocked",
         "detail": "fetch failed",
         "actualStatus": null,
@@ -4832,7 +4832,7 @@
     "mode": "execute-unlocked-local-followups",
     "sourceStatus": {
       "productionBlockerHandoff": "handoff-waiting-on-owner-inputs",
-      "productionBlockerHandoffSourceDataHash": "26239846301a"
+      "productionBlockerHandoffSourceDataHash": "59ce120e570f"
     },
     "summary": {
       "handoffItems": 8,
@@ -6304,16 +6304,19 @@
       "noRevenueEnablementUntilGatesPass": true,
       "noStoreSubmissionUntilExternalAccounts": true,
       "currentWorktreeClean": false,
-      "currentWorktreeDirtyFiles": 84,
-      "productionBootstrapFresh": true,
-      "productionBootstrapSourceDataHash": "cc82c23ba015",
-      "productionBootstrapStaleInputIds": [],
-      "objectiveNextBestActionSource": "freshness-guard"
+      "currentWorktreeDirtyFiles": 39,
+      "productionBootstrapFresh": false,
+      "productionBootstrapSourceDataHash": "c30c91601595",
+      "productionBootstrapStaleInputIds": [
+        "deployment-plan",
+        "production-environment"
+      ],
+      "objectiveNextBestActionSource": "owner-loop"
     },
     "completion": {
       "canMarkGoalComplete": false,
       "reason": "The local autonomous PWA system is largely prepared with strict live deploy evidence synced from GitHub Actions, but production credentials, live data, monetization gates, and store account/signing blockers remain.",
-      "nextBestAction": "collect-live-events"
+      "nextBestAction": "hold-for-external-input"
     },
     "requirements": [
       {
@@ -6381,7 +6384,7 @@
           "Backlog: improvement-backlog-ready; items 4; hash 210c880a9e74",
           "Support feedback: support-feedback-empty; issues 0; routable signals 0; aggregate notes 0",
           "Applied/deferred actions: 7",
-          "Operator selected: bootstrap-production-setup; status operator-plan-ready; execution not-requested"
+          "Operator selected: none; status operator-held; execution not-requested"
         ],
         "blockers": [],
         "nextAction": "Keep collecting starts until a safe product-gate tuning action is justified.",
@@ -6395,7 +6398,7 @@
           "Owner loop: owner-loop-ready",
           "Autonomous cadence: cadence-ready; Codex active-confirmed; GitHub scheduled",
           "Autonomous self-update: self-update-ready; workflow .github/workflows/autonomous-self-update.yml; unsafe pending 0",
-          "Operator: operator-plan-ready",
+          "Operator: operator-held",
           "Operator history: operator-history-ready; records 40; executed 1",
           "Bootstrap: production-bootstrap-ready",
           "Unlock runner: unlock-runner-idle; runnable 0; queued 0; unsafe 0",

@@ -1,5 +1,5 @@
 export const postDeploySmoke = {
-  "generatedAt": "2026-05-24T11:53:46.316Z",
+  "generatedAt": "2026-05-24T12:00:57.374Z",
   "status": "blocked-missing-origin",
   "envFiles": {
     "loaded": true,
@@ -55,8 +55,8 @@ export const postDeploySmoke = {
     "origin": null,
     "originSource": "network-blocked",
     "provider": "github-pages",
-    "candidateId": "pwa-c85834bab772",
-    "aggregateHash": "c85834bab7722714f6d47cce9dca1df30f379f7599616d4876863ec39048a1b5",
+    "candidateId": "pwa-96e264b333e2",
+    "aggregateHash": "96e264b333e21f8bc4af93926d706268cd36ae31f55faa70c1b6a09d9048895f",
     "strictManifestComparison": false
   },
   "liveRelease": null,
@@ -142,7 +142,7 @@ export const postDeploySmoke = {
         "file": "dist/measurement-status.html",
         "expectedStatus": 200,
         "status": "pass",
-        "bytes": 22282,
+        "bytes": 21531,
         "textMatched": true,
         "detail": "Local production artifact matched required text."
       },
@@ -152,7 +152,7 @@ export const postDeploySmoke = {
         "file": "dist/measurement-status.json",
         "expectedStatus": 200,
         "status": "pass",
-        "bytes": 41422,
+        "bytes": 41416,
         "textMatched": true,
         "detail": "Local production artifact matched required text."
       },
@@ -162,7 +162,7 @@ export const postDeploySmoke = {
         "file": "dist/owner-unlock-brief.json",
         "expectedStatus": 200,
         "status": "pass",
-        "bytes": 6288,
+        "bytes": 6292,
         "textMatched": true,
         "detail": "Local production artifact matched required text."
       },
@@ -172,7 +172,7 @@ export const postDeploySmoke = {
         "file": "dist/analytics-unlock.html",
         "expectedStatus": 200,
         "status": "pass",
-        "bytes": 15567,
+        "bytes": 14828,
         "textMatched": true,
         "detail": "Local production artifact matched required text."
       },
@@ -182,7 +182,7 @@ export const postDeploySmoke = {
         "file": "dist/analytics-unlock.json",
         "expectedStatus": 200,
         "status": "pass",
-        "bytes": 28133,
+        "bytes": 28131,
         "textMatched": true,
         "detail": "Local production artifact matched required text."
       },
@@ -202,7 +202,7 @@ export const postDeploySmoke = {
         "file": "dist/compliance.json",
         "expectedStatus": 200,
         "status": "pass",
-        "bytes": 5636,
+        "bytes": 5625,
         "textMatched": true,
         "detail": "Local production artifact matched required text."
       },
@@ -342,11 +342,11 @@ export const postDeploySmoke = {
         "file": "dist/release-candidate.json",
         "expectedStatus": 200,
         "status": "pass",
-        "bytes": 29064,
+        "bytes": 29053,
         "candidateMatches": true,
         "hashMatches": true,
-        "localCandidateId": "pwa-c85834bab772",
-        "localAggregateHash": "c85834bab7722714f6d47cce9dca1df30f379f7599616d4876863ec39048a1b5",
+        "localCandidateId": "pwa-96e264b333e2",
+        "localAggregateHash": "96e264b333e21f8bc4af93926d706268cd36ae31f55faa70c1b6a09d9048895f",
         "detail": "Local release manifest matches the release candidate."
       }
     ]
@@ -718,7 +718,7 @@ export const postDeploySmoke = {
       "path": "/release-candidate.json",
       "url": "https://moshequ.github.io/autonomous-game-lab/release-candidate.json",
       "expectedStatus": 200,
-      "requiredText": "pwa-c85834bab772",
+      "requiredText": "pwa-96e264b333e2",
       "status": "blocked",
       "detail": "fetch failed",
       "actualStatus": null,

@@ -171,6 +171,7 @@ const commandForVariable = ([repoName, envName]) => {
   return {
     id: `var-${repoName.toLowerCase().replaceAll('_', '-')}`,
     kind: 'github-variable',
+    name: repoName,
     repositoryVariable: repoName,
     envName,
     valueSource: envConfigured
@@ -189,6 +190,7 @@ const commandForVariable = ([repoName, envName]) => {
 const commandForSecret = ([repoName, envName]) => ({
   id: `secret-${repoName.toLowerCase().replaceAll('_', '-')}`,
   kind: 'github-secret',
+  name: repoName,
   repositorySecret: repoName,
   envName,
   valueSource: configured(process.env[envName])

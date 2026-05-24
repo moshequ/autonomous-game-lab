@@ -1,6 +1,6 @@
 # Production Readiness
 
-Generated: 2026-05-24T11:58:19.940Z
+Generated: 2026-05-24T12:02:40.537Z
 
 ## Environment
 
@@ -59,7 +59,7 @@ Status: ready-after-build
 - pass: organic-seed-loop - Organic seed loop is organic-seed-loop-ready; target market-pulse; player-initiated share guard active.
 - pass: retention-loop - Retention loop is retention-loop-ready; daily challenge market-pulse; no-push/no-account guardrails active.
 - pass: pwa-install-loop - PWA install loop is pwa-install-loop-ready; prompt surface autonomy-cockpit; cost $0.
-- pass: performance-budget - Performance budget is performance-budget-ready; initial JS 684.2 KB / 185.3 KB gzip; deferred game chunk GameCanvas-D0wUVUM6.js.
+- pass: performance-budget - Performance budget is performance-budget-ready; initial JS 685.6 KB / 185.4 KB gzip; deferred game chunk GameCanvas-D6S-H9Sz.js.
 - pass: release-candidate - Release candidate is release-candidate-ready; files 66; smoke URLs 25.
 - pass: post-deploy-smoke-runner - Post-deploy smoke is blocked-missing-origin; origin missing; checks 0/26 passed, 26 blocked; local artifact predeploy-artifact-smoke-passed 26/26 passed.
 - pass: live-site-monitor - Live monitor is live-site-monitor-passed; origin https://moshequ.github.io/autonomous-game-lab; checks 26/26 passed; live matches synced deploy true.
@@ -121,23 +121,23 @@ Installs: 0
 ## Performance Budget
 
 Status: performance-budget-ready
-Initial JS: 684.2 KB (185.3 KB gzip)
-Deferred game chunk: GameCanvas-D0wUVUM6.js
-- pass: performance-initial-js-budget - Initial JS is 684.2 KB; budget is 686 KB.
-- pass: performance-initial-js-gzip-budget - Initial JS gzip is 185.3 KB; budget is 200 KB.
+Initial JS: 685.6 KB (185.4 KB gzip)
+Deferred game chunk: GameCanvas-D6S-H9Sz.js
+- pass: performance-initial-js-budget - Initial JS is 685.6 KB; budget is 686 KB.
+- pass: performance-initial-js-gzip-budget - Initial JS gzip is 185.4 KB; budget is 200 KB.
 - pass: performance-initial-css-budget - Initial CSS is 10.5 KB; budget is 40 KB.
 - pass: performance-manifest - PWA manifest exists in dist.
 - pass: performance-service-worker - Service worker exists in dist.
-- pass: performance-game-runtime-deferred - GameCanvas-D0wUVUM6.js is deferred from the initial shell.
+- pass: performance-game-runtime-deferred - GameCanvas-D6S-H9Sz.js is deferred from the initial shell.
 - pass: performance-largest-js-deferred - Largest JS chunk is phaser.esm-Bs14CRsP.js at 1321.4 KB.
 - pass: performance-deferred-game-budget - Deferred game chunk is 3.3 KB; monitor budget is 1600 KB.
 
 ## Release Candidate
 
 Status: release-candidate-ready
-Candidate: pwa-c85834bab772
+Candidate: pwa-96e264b333e2
 Files: 66
-Aggregate SHA-256: c85834bab7722714f6d47cce9dca1df30f379f7599616d4876863ec39048a1b5
+Aggregate SHA-256: 96e264b333e21f8bc4af93926d706268cd36ae31f55faa70c1b6a09d9048895f
 - pass: release-dist-inventory - 66 dist files inventoried.
 - pass: release-required-files - 30/30 required files present.
 - pass: release-game-pages - 10 generated game page(s) in dist.
@@ -151,7 +151,7 @@ Aggregate SHA-256: c85834bab7722714f6d47cce9dca1df30f379f7599616d4876863ec39048a
 
 Status: blocked-missing-origin
 Origin: missing
-Candidate: pwa-c85834bab772
+Candidate: pwa-96e264b333e2
 Checks: 0/26 passed (26 blocked)
 Local artifact: predeploy-artifact-smoke-passed (26/26 passed)
 - blocked: smoke-app-shell - fetch failed

@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-05-24T11:57:57.589Z",
-  "sourceDataHash": "26239846301a",
+  "generatedAt": "2026-05-24T12:02:54.878Z",
+  "sourceDataHash": "d8a369e0dd7b",
   "status": "handoff-waiting-on-owner-inputs",
   "statusDetail": "blocked-external-inputs",
   "liveCandidate": "pwa-f21d67ecce15",
@@ -307,6 +307,7 @@
         {
           "id": "secret-vite-event-collector-write-token",
           "kind": "github-secret",
+          "name": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
           "repositorySecret": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
           "envName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
           "valueSource": "github-secret",
@@ -316,6 +317,7 @@
         {
           "id": "secret-cloudflare-api-token",
           "kind": "github-secret",
+          "name": "CLOUDFLARE_API_TOKEN",
           "repositorySecret": "CLOUDFLARE_API_TOKEN",
           "envName": "CLOUDFLARE_API_TOKEN",
           "valueSource": "missing",
@@ -369,6 +371,7 @@
         {
           "id": "secret-agl-event-collector-admin-token",
           "kind": "github-secret",
+          "name": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
           "repositorySecret": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
           "envName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
           "valueSource": "github-secret",
@@ -378,6 +381,7 @@
         {
           "id": "secret-posthog-personal-api-key",
           "kind": "github-secret",
+          "name": "POSTHOG_PERSONAL_API_KEY",
           "repositorySecret": "POSTHOG_PERSONAL_API_KEY",
           "envName": "POSTHOG_PERSONAL_API_KEY",
           "valueSource": "missing",
@@ -499,6 +503,7 @@
         {
           "id": "secret-google-play-service-account-json",
           "kind": "github-secret",
+          "name": "GOOGLE_PLAY_SERVICE_ACCOUNT_JSON",
           "repositorySecret": "GOOGLE_PLAY_SERVICE_ACCOUNT_JSON",
           "envName": "GOOGLE_PLAY_SERVICE_ACCOUNT_JSON",
           "valueSource": "missing",
@@ -596,6 +601,7 @@
         {
           "id": "secret-vite-event-collector-write-token",
           "kind": "github-secret",
+          "name": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
           "repositorySecret": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
           "envName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
           "valueSource": "github-secret",
@@ -605,6 +611,7 @@
         {
           "id": "secret-cloudflare-api-token",
           "kind": "github-secret",
+          "name": "CLOUDFLARE_API_TOKEN",
           "repositorySecret": "CLOUDFLARE_API_TOKEN",
           "envName": "CLOUDFLARE_API_TOKEN",
           "valueSource": "missing",
@@ -658,6 +665,7 @@
         {
           "id": "secret-agl-event-collector-admin-token",
           "kind": "github-secret",
+          "name": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
           "repositorySecret": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
           "envName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
           "valueSource": "github-secret",
@@ -667,6 +675,7 @@
         {
           "id": "secret-posthog-personal-api-key",
           "kind": "github-secret",
+          "name": "POSTHOG_PERSONAL_API_KEY",
           "repositorySecret": "POSTHOG_PERSONAL_API_KEY",
           "envName": "POSTHOG_PERSONAL_API_KEY",
           "valueSource": "missing",
@@ -788,6 +797,7 @@
         {
           "id": "secret-google-play-service-account-json",
           "kind": "github-secret",
+          "name": "GOOGLE_PLAY_SERVICE_ACCOUNT_JSON",
           "repositorySecret": "GOOGLE_PLAY_SERVICE_ACCOUNT_JSON",
           "envName": "GOOGLE_PLAY_SERVICE_ACCOUNT_JSON",
           "valueSource": "missing",

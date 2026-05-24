@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-05-24T11:57:17.105Z",
-  "sourceDataHash": "cc82c23ba015",
+  "generatedAt": "2026-05-24T12:02:27.097Z",
+  "sourceDataHash": "ddc9f327e7a9",
   "status": "production-bootstrap-ready",
   "mode": "waiting-for-external-credentials",
   "envFiles": {
@@ -416,6 +416,7 @@
     {
       "id": "var-vite-base-path",
       "kind": "github-variable",
+      "name": "VITE_BASE_PATH",
       "repositoryVariable": "VITE_BASE_PATH",
       "envName": "VITE_BASE_PATH",
       "valueSource": "github-variable",
@@ -425,6 +426,7 @@
     {
       "id": "var-agl-public-origin",
       "kind": "github-variable",
+      "name": "AGL_PUBLIC_ORIGIN",
       "repositoryVariable": "AGL_PUBLIC_ORIGIN",
       "envName": "AGL_PUBLIC_ORIGIN",
       "valueSource": "github-variable",
@@ -434,6 +436,7 @@
     {
       "id": "var-vite-public-origin",
       "kind": "github-variable",
+      "name": "VITE_PUBLIC_ORIGIN",
       "repositoryVariable": "VITE_PUBLIC_ORIGIN",
       "envName": "AGL_PUBLIC_ORIGIN",
       "valueSource": "github-variable",
@@ -443,6 +446,7 @@
     {
       "id": "var-public-site-url",
       "kind": "github-variable",
+      "name": "PUBLIC_SITE_URL",
       "repositoryVariable": "PUBLIC_SITE_URL",
       "envName": "AGL_PUBLIC_ORIGIN",
       "valueSource": "github-variable",
@@ -452,6 +456,7 @@
     {
       "id": "var-agl-support-email",
       "kind": "github-variable",
+      "name": "AGL_SUPPORT_EMAIL",
       "repositoryVariable": "AGL_SUPPORT_EMAIL",
       "envName": "AGL_SUPPORT_EMAIL",
       "valueSource": "missing",
@@ -461,6 +466,7 @@
     {
       "id": "var-vite-posthog-key",
       "kind": "github-variable",
+      "name": "VITE_POSTHOG_KEY",
       "repositoryVariable": "VITE_POSTHOG_KEY",
       "envName": "VITE_POSTHOG_KEY",
       "valueSource": "missing",
@@ -470,6 +476,7 @@
     {
       "id": "var-vite-posthog-host",
       "kind": "github-variable",
+      "name": "VITE_POSTHOG_HOST",
       "repositoryVariable": "VITE_POSTHOG_HOST",
       "envName": "VITE_POSTHOG_HOST",
       "valueSource": "missing",
@@ -479,6 +486,7 @@
     {
       "id": "var-posthog-project-id",
       "kind": "github-variable",
+      "name": "POSTHOG_PROJECT_ID",
       "repositoryVariable": "POSTHOG_PROJECT_ID",
       "envName": "POSTHOG_PROJECT_ID",
       "valueSource": "missing",
@@ -488,6 +496,7 @@
     {
       "id": "var-posthog-host",
       "kind": "github-variable",
+      "name": "POSTHOG_HOST",
       "repositoryVariable": "POSTHOG_HOST",
       "envName": "POSTHOG_HOST",
       "valueSource": "missing",
@@ -497,6 +506,7 @@
     {
       "id": "var-cloudflare-account-id",
       "kind": "github-variable",
+      "name": "CLOUDFLARE_ACCOUNT_ID",
       "repositoryVariable": "CLOUDFLARE_ACCOUNT_ID",
       "envName": "CLOUDFLARE_ACCOUNT_ID",
       "valueSource": "missing",
@@ -506,6 +516,7 @@
     {
       "id": "var-vite-event-collector-url",
       "kind": "github-variable",
+      "name": "VITE_EVENT_COLLECTOR_URL",
       "repositoryVariable": "VITE_EVENT_COLLECTOR_URL",
       "envName": "VITE_EVENT_COLLECTOR_URL",
       "valueSource": "missing",
@@ -515,6 +526,7 @@
     {
       "id": "var-agl-event-collector-export-url",
       "kind": "github-variable",
+      "name": "AGL_EVENT_COLLECTOR_EXPORT_URL",
       "repositoryVariable": "AGL_EVENT_COLLECTOR_EXPORT_URL",
       "envName": "AGL_EVENT_COLLECTOR_EXPORT_URL",
       "valueSource": "missing",
@@ -524,6 +536,7 @@
     {
       "id": "var-agl-event-collector-r2-bucket",
       "kind": "github-variable",
+      "name": "AGL_EVENT_COLLECTOR_R2_BUCKET",
       "repositoryVariable": "AGL_EVENT_COLLECTOR_R2_BUCKET",
       "envName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
       "valueSource": "github-variable",
@@ -533,6 +546,7 @@
     {
       "id": "var-agl-event-collector-allowed-origins",
       "kind": "github-variable",
+      "name": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
       "repositoryVariable": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
       "envName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
       "valueSource": "github-variable",
@@ -542,6 +556,7 @@
     {
       "id": "var-vite-adsense-client-id",
       "kind": "github-variable",
+      "name": "VITE_ADSENSE_CLIENT_ID",
       "repositoryVariable": "VITE_ADSENSE_CLIENT_ID",
       "envName": "VITE_ADSENSE_CLIENT_ID",
       "valueSource": "missing",
@@ -551,6 +566,7 @@
     {
       "id": "var-vite-adsense-rewarded-slot-id",
       "kind": "github-variable",
+      "name": "VITE_ADSENSE_REWARDED_SLOT_ID",
       "repositoryVariable": "VITE_ADSENSE_REWARDED_SLOT_ID",
       "envName": "VITE_ADSENSE_REWARDED_SLOT_ID",
       "valueSource": "missing",
@@ -560,6 +576,7 @@
     {
       "id": "var-admob-publisher-id",
       "kind": "github-variable",
+      "name": "ADMOB_PUBLISHER_ID",
       "repositoryVariable": "ADMOB_PUBLISHER_ID",
       "envName": "ADMOB_PUBLISHER_ID",
       "valueSource": "missing",
@@ -569,6 +586,7 @@
     {
       "id": "var-ad-network-provider",
       "kind": "github-variable",
+      "name": "AD_NETWORK_PROVIDER",
       "repositoryVariable": "AD_NETWORK_PROVIDER",
       "envName": "AD_NETWORK_PROVIDER",
       "valueSource": "missing",
@@ -578,6 +596,7 @@
     {
       "id": "var-agl-android-package-name",
       "kind": "github-variable",
+      "name": "AGL_ANDROID_PACKAGE_NAME",
       "repositoryVariable": "AGL_ANDROID_PACKAGE_NAME",
       "envName": "AGL_ANDROID_PACKAGE_NAME",
       "valueSource": "environment",
@@ -587,6 +606,7 @@
     {
       "id": "var-agl-android-sha256-cert-fingerprint",
       "kind": "github-variable",
+      "name": "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
       "repositoryVariable": "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
       "envName": "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
       "valueSource": "environment",
@@ -596,6 +616,7 @@
     {
       "id": "var-agl-google-play-account-connected",
       "kind": "github-variable",
+      "name": "AGL_GOOGLE_PLAY_ACCOUNT_CONNECTED",
       "repositoryVariable": "AGL_GOOGLE_PLAY_ACCOUNT_CONNECTED",
       "envName": "AGL_GOOGLE_PLAY_ACCOUNT_CONNECTED",
       "valueSource": "missing",
@@ -605,6 +626,7 @@
     {
       "id": "var-agl-apple-developer-account-connected",
       "kind": "github-variable",
+      "name": "AGL_APPLE_DEVELOPER_ACCOUNT_CONNECTED",
       "repositoryVariable": "AGL_APPLE_DEVELOPER_ACCOUNT_CONNECTED",
       "envName": "AGL_APPLE_DEVELOPER_ACCOUNT_CONNECTED",
       "valueSource": "missing",
@@ -614,6 +636,7 @@
     {
       "id": "var-agl-autonomous-self-update",
       "kind": "github-variable",
+      "name": "AGL_AUTONOMOUS_SELF_UPDATE",
       "repositoryVariable": "AGL_AUTONOMOUS_SELF_UPDATE",
       "envName": "AGL_AUTONOMOUS_SELF_UPDATE",
       "valueSource": "github-variable",
@@ -623,6 +646,7 @@
     {
       "id": "var-agl-autonomous-self-update-direct",
       "kind": "github-variable",
+      "name": "AGL_AUTONOMOUS_SELF_UPDATE_DIRECT",
       "repositoryVariable": "AGL_AUTONOMOUS_SELF_UPDATE_DIRECT",
       "envName": "AGL_AUTONOMOUS_SELF_UPDATE_DIRECT",
       "valueSource": "github-variable",
@@ -634,6 +658,7 @@
     {
       "id": "secret-cloudflare-api-token",
       "kind": "github-secret",
+      "name": "CLOUDFLARE_API_TOKEN",
       "repositorySecret": "CLOUDFLARE_API_TOKEN",
       "envName": "CLOUDFLARE_API_TOKEN",
       "valueSource": "missing",
@@ -643,6 +668,7 @@
     {
       "id": "secret-vite-event-collector-write-token",
       "kind": "github-secret",
+      "name": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
       "repositorySecret": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
       "envName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
       "valueSource": "github-secret",
@@ -652,6 +678,7 @@
     {
       "id": "secret-agl-event-collector-admin-token",
       "kind": "github-secret",
+      "name": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
       "repositorySecret": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
       "envName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
       "valueSource": "github-secret",
@@ -661,6 +688,7 @@
     {
       "id": "secret-posthog-personal-api-key",
       "kind": "github-secret",
+      "name": "POSTHOG_PERSONAL_API_KEY",
       "repositorySecret": "POSTHOG_PERSONAL_API_KEY",
       "envName": "POSTHOG_PERSONAL_API_KEY",
       "valueSource": "missing",
@@ -670,6 +698,7 @@
     {
       "id": "secret-agl-android-keystore-base64",
       "kind": "github-secret",
+      "name": "AGL_ANDROID_KEYSTORE_BASE64",
       "repositorySecret": "AGL_ANDROID_KEYSTORE_BASE64",
       "envName": "AGL_ANDROID_KEYSTORE_BASE64",
       "valueSource": "environment",
@@ -679,6 +708,7 @@
     {
       "id": "secret-agl-android-keystore-password",
       "kind": "github-secret",
+      "name": "AGL_ANDROID_KEYSTORE_PASSWORD",
       "repositorySecret": "AGL_ANDROID_KEYSTORE_PASSWORD",
       "envName": "AGL_ANDROID_KEYSTORE_PASSWORD",
       "valueSource": "environment",
@@ -688,6 +718,7 @@
     {
       "id": "secret-agl-android-key-alias",
       "kind": "github-secret",
+      "name": "AGL_ANDROID_KEY_ALIAS",
       "repositorySecret": "AGL_ANDROID_KEY_ALIAS",
       "envName": "AGL_ANDROID_KEY_ALIAS",
       "valueSource": "environment",
@@ -697,6 +728,7 @@
     {
       "id": "secret-google-play-service-account-json",
       "kind": "github-secret",
+      "name": "GOOGLE_PLAY_SERVICE_ACCOUNT_JSON",
       "repositorySecret": "GOOGLE_PLAY_SERVICE_ACCOUNT_JSON",
       "envName": "GOOGLE_PLAY_SERVICE_ACCOUNT_JSON",
       "valueSource": "missing",
@@ -708,6 +740,7 @@
     {
       "id": "var-vite-base-path",
       "kind": "github-variable",
+      "name": "VITE_BASE_PATH",
       "repositoryVariable": "VITE_BASE_PATH",
       "envName": "VITE_BASE_PATH",
       "valueSource": "github-variable",
@@ -717,6 +750,7 @@
     {
       "id": "var-agl-public-origin",
       "kind": "github-variable",
+      "name": "AGL_PUBLIC_ORIGIN",
       "repositoryVariable": "AGL_PUBLIC_ORIGIN",
       "envName": "AGL_PUBLIC_ORIGIN",
       "valueSource": "github-variable",
@@ -726,6 +760,7 @@
     {
       "id": "var-vite-public-origin",
       "kind": "github-variable",
+      "name": "VITE_PUBLIC_ORIGIN",
       "repositoryVariable": "VITE_PUBLIC_ORIGIN",
       "envName": "AGL_PUBLIC_ORIGIN",
       "valueSource": "github-variable",
@@ -735,6 +770,7 @@
     {
       "id": "var-public-site-url",
       "kind": "github-variable",
+      "name": "PUBLIC_SITE_URL",
       "repositoryVariable": "PUBLIC_SITE_URL",
       "envName": "AGL_PUBLIC_ORIGIN",
       "valueSource": "github-variable",
@@ -744,6 +780,7 @@
     {
       "id": "var-agl-support-email",
       "kind": "github-variable",
+      "name": "AGL_SUPPORT_EMAIL",
       "repositoryVariable": "AGL_SUPPORT_EMAIL",
       "envName": "AGL_SUPPORT_EMAIL",
       "valueSource": "missing",
@@ -753,6 +790,7 @@
     {
       "id": "var-vite-posthog-key",
       "kind": "github-variable",
+      "name": "VITE_POSTHOG_KEY",
       "repositoryVariable": "VITE_POSTHOG_KEY",
       "envName": "VITE_POSTHOG_KEY",
       "valueSource": "missing",
@@ -762,6 +800,7 @@
     {
       "id": "var-vite-posthog-host",
       "kind": "github-variable",
+      "name": "VITE_POSTHOG_HOST",
       "repositoryVariable": "VITE_POSTHOG_HOST",
       "envName": "VITE_POSTHOG_HOST",
       "valueSource": "missing",
@@ -771,6 +810,7 @@
     {
       "id": "var-posthog-project-id",
       "kind": "github-variable",
+      "name": "POSTHOG_PROJECT_ID",
       "repositoryVariable": "POSTHOG_PROJECT_ID",
       "envName": "POSTHOG_PROJECT_ID",
       "valueSource": "missing",
@@ -780,6 +820,7 @@
     {
       "id": "var-posthog-host",
       "kind": "github-variable",
+      "name": "POSTHOG_HOST",
       "repositoryVariable": "POSTHOG_HOST",
       "envName": "POSTHOG_HOST",
       "valueSource": "missing",
@@ -789,6 +830,7 @@
     {
       "id": "var-cloudflare-account-id",
       "kind": "github-variable",
+      "name": "CLOUDFLARE_ACCOUNT_ID",
       "repositoryVariable": "CLOUDFLARE_ACCOUNT_ID",
       "envName": "CLOUDFLARE_ACCOUNT_ID",
       "valueSource": "missing",
@@ -798,6 +840,7 @@
     {
       "id": "var-vite-event-collector-url",
       "kind": "github-variable",
+      "name": "VITE_EVENT_COLLECTOR_URL",
       "repositoryVariable": "VITE_EVENT_COLLECTOR_URL",
       "envName": "VITE_EVENT_COLLECTOR_URL",
       "valueSource": "missing",
@@ -807,6 +850,7 @@
     {
       "id": "var-agl-event-collector-export-url",
       "kind": "github-variable",
+      "name": "AGL_EVENT_COLLECTOR_EXPORT_URL",
       "repositoryVariable": "AGL_EVENT_COLLECTOR_EXPORT_URL",
       "envName": "AGL_EVENT_COLLECTOR_EXPORT_URL",
       "valueSource": "missing",
@@ -816,6 +860,7 @@
     {
       "id": "var-agl-event-collector-r2-bucket",
       "kind": "github-variable",
+      "name": "AGL_EVENT_COLLECTOR_R2_BUCKET",
       "repositoryVariable": "AGL_EVENT_COLLECTOR_R2_BUCKET",
       "envName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
       "valueSource": "github-variable",
@@ -825,6 +870,7 @@
     {
       "id": "var-agl-event-collector-allowed-origins",
       "kind": "github-variable",
+      "name": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
       "repositoryVariable": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
       "envName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
       "valueSource": "github-variable",
@@ -834,6 +880,7 @@
     {
       "id": "var-vite-adsense-client-id",
       "kind": "github-variable",
+      "name": "VITE_ADSENSE_CLIENT_ID",
       "repositoryVariable": "VITE_ADSENSE_CLIENT_ID",
       "envName": "VITE_ADSENSE_CLIENT_ID",
       "valueSource": "missing",
@@ -843,6 +890,7 @@
     {
       "id": "var-vite-adsense-rewarded-slot-id",
       "kind": "github-variable",
+      "name": "VITE_ADSENSE_REWARDED_SLOT_ID",
       "repositoryVariable": "VITE_ADSENSE_REWARDED_SLOT_ID",
       "envName": "VITE_ADSENSE_REWARDED_SLOT_ID",
       "valueSource": "missing",
@@ -852,6 +900,7 @@
     {
       "id": "var-admob-publisher-id",
       "kind": "github-variable",
+      "name": "ADMOB_PUBLISHER_ID",
       "repositoryVariable": "ADMOB_PUBLISHER_ID",
       "envName": "ADMOB_PUBLISHER_ID",
       "valueSource": "missing",
@@ -861,6 +910,7 @@
     {
       "id": "var-ad-network-provider",
       "kind": "github-variable",
+      "name": "AD_NETWORK_PROVIDER",
       "repositoryVariable": "AD_NETWORK_PROVIDER",
       "envName": "AD_NETWORK_PROVIDER",
       "valueSource": "missing",
@@ -870,6 +920,7 @@
     {
       "id": "var-agl-android-package-name",
       "kind": "github-variable",
+      "name": "AGL_ANDROID_PACKAGE_NAME",
       "repositoryVariable": "AGL_ANDROID_PACKAGE_NAME",
       "envName": "AGL_ANDROID_PACKAGE_NAME",
       "valueSource": "environment",
@@ -879,6 +930,7 @@
     {
       "id": "var-agl-android-sha256-cert-fingerprint",
       "kind": "github-variable",
+      "name": "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
       "repositoryVariable": "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
       "envName": "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
       "valueSource": "environment",
@@ -888,6 +940,7 @@
     {
       "id": "var-agl-google-play-account-connected",
       "kind": "github-variable",
+      "name": "AGL_GOOGLE_PLAY_ACCOUNT_CONNECTED",
       "repositoryVariable": "AGL_GOOGLE_PLAY_ACCOUNT_CONNECTED",
       "envName": "AGL_GOOGLE_PLAY_ACCOUNT_CONNECTED",
       "valueSource": "missing",
@@ -897,6 +950,7 @@
     {
       "id": "var-agl-apple-developer-account-connected",
       "kind": "github-variable",
+      "name": "AGL_APPLE_DEVELOPER_ACCOUNT_CONNECTED",
       "repositoryVariable": "AGL_APPLE_DEVELOPER_ACCOUNT_CONNECTED",
       "envName": "AGL_APPLE_DEVELOPER_ACCOUNT_CONNECTED",
       "valueSource": "missing",
@@ -906,6 +960,7 @@
     {
       "id": "var-agl-autonomous-self-update",
       "kind": "github-variable",
+      "name": "AGL_AUTONOMOUS_SELF_UPDATE",
       "repositoryVariable": "AGL_AUTONOMOUS_SELF_UPDATE",
       "envName": "AGL_AUTONOMOUS_SELF_UPDATE",
       "valueSource": "github-variable",
@@ -915,6 +970,7 @@
     {
       "id": "var-agl-autonomous-self-update-direct",
       "kind": "github-variable",
+      "name": "AGL_AUTONOMOUS_SELF_UPDATE_DIRECT",
       "repositoryVariable": "AGL_AUTONOMOUS_SELF_UPDATE_DIRECT",
       "envName": "AGL_AUTONOMOUS_SELF_UPDATE_DIRECT",
       "valueSource": "github-variable",
@@ -926,6 +982,7 @@
     {
       "id": "secret-cloudflare-api-token",
       "kind": "github-secret",
+      "name": "CLOUDFLARE_API_TOKEN",
       "repositorySecret": "CLOUDFLARE_API_TOKEN",
       "envName": "CLOUDFLARE_API_TOKEN",
       "valueSource": "missing",
@@ -935,6 +992,7 @@
     {
       "id": "secret-vite-event-collector-write-token",
       "kind": "github-secret",
+      "name": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
       "repositorySecret": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
       "envName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
       "valueSource": "github-secret",
@@ -944,6 +1002,7 @@
     {
       "id": "secret-agl-event-collector-admin-token",
       "kind": "github-secret",
+      "name": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
       "repositorySecret": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
       "envName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
       "valueSource": "github-secret",
@@ -953,6 +1012,7 @@
     {
       "id": "secret-posthog-personal-api-key",
       "kind": "github-secret",
+      "name": "POSTHOG_PERSONAL_API_KEY",
       "repositorySecret": "POSTHOG_PERSONAL_API_KEY",
       "envName": "POSTHOG_PERSONAL_API_KEY",
       "valueSource": "missing",
@@ -962,6 +1022,7 @@
     {
       "id": "secret-agl-android-keystore-base64",
       "kind": "github-secret",
+      "name": "AGL_ANDROID_KEYSTORE_BASE64",
       "repositorySecret": "AGL_ANDROID_KEYSTORE_BASE64",
       "envName": "AGL_ANDROID_KEYSTORE_BASE64",
       "valueSource": "environment",
@@ -971,6 +1032,7 @@
     {
       "id": "secret-agl-android-keystore-password",
       "kind": "github-secret",
+      "name": "AGL_ANDROID_KEYSTORE_PASSWORD",
       "repositorySecret": "AGL_ANDROID_KEYSTORE_PASSWORD",
       "envName": "AGL_ANDROID_KEYSTORE_PASSWORD",
       "valueSource": "environment",
@@ -980,6 +1042,7 @@
     {
       "id": "secret-agl-android-key-alias",
       "kind": "github-secret",
+      "name": "AGL_ANDROID_KEY_ALIAS",
       "repositorySecret": "AGL_ANDROID_KEY_ALIAS",
       "envName": "AGL_ANDROID_KEY_ALIAS",
       "valueSource": "environment",
@@ -989,6 +1052,7 @@
     {
       "id": "secret-google-play-service-account-json",
       "kind": "github-secret",
+      "name": "GOOGLE_PLAY_SERVICE_ACCOUNT_JSON",
       "repositorySecret": "GOOGLE_PLAY_SERVICE_ACCOUNT_JSON",
       "envName": "GOOGLE_PLAY_SERVICE_ACCOUNT_JSON",
       "valueSource": "missing",
