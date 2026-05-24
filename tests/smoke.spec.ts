@@ -4321,6 +4321,7 @@ test('autonomous operator history keeps a capped audit trail', async ({ page }) 
       historyIsCapped: boolean
     }
     records: Array<{
+      generatedAt: string
       selectedActionId: string | null
       runFingerprint: string
       execution: { requested: boolean; status: string }
@@ -4372,8 +4373,11 @@ test('autonomous operator history keeps a capped audit trail', async ({ page }) 
     executionMemory: {
       avoidImmediateRepeat: boolean
       recentExecutionWindow: number
+      repeatSuppressionMaxAgeHours: number
       recentExecutedActionIds: string[]
+      expiredExecutedActionIds: string[]
       lastExecutedActionId: string | null
+      lastExecutedAgeHours: number | null
       lastExecutedStatus: string | null
       lastRecordExecutionStatus: string | null
       recentlySatisfiedActionIds: string[]
@@ -4554,15 +4558,48 @@ test('autonomous operator history keeps a capped audit trail', async ({ page }) 
   const lastExecutedRecord = [...history.records]
     .reverse()
     .find((record) => record.execution.requested === true && record.execution.status === 'executed')
+  const ownerGeneratedAtMs = Date.parse(ownerLoop.generatedAt ?? '')
+  const actionAgeHours = (record: { generatedAt?: string }) => {
+    const recordGeneratedAtMs = Date.parse(record.generatedAt ?? '')
+
+    return Number.isFinite(ownerGeneratedAtMs) && Number.isFinite(recordGeneratedAtMs)
+      ? Math.round(((ownerGeneratedAtMs - recordGeneratedAtMs) / (60 * 60 * 1000)) * 1000) / 1000
+      : null
+  }
+  const allExecutedRecords = [...history.records]
+    .reverse()
+    .filter((record) => record.execution.requested === true && record.execution.status === 'executed')
   const recentExecutedActionIds = [
     ...new Set(
-      [...history.records]
-        .reverse()
-        .filter((record) => record.execution.requested === true && record.execution.status === 'executed')
+      allExecutedRecords
+        .filter((record) => {
+          const ageHours = actionAgeHours(record)
+
+          return (
+            typeof ageHours === 'number' &&
+            ageHours >= -1 &&
+            ageHours <= ownerLoop.executionMemory.repeatSuppressionMaxAgeHours
+          )
+        })
         .map((record) => record.selectedActionId)
         .filter(Boolean),
     ),
-  ].slice(0, 8)
+  ].slice(0, ownerLoop.executionMemory.recentExecutionWindow)
+  const expiredExecutedActionIds = [
+    ...new Set(
+      allExecutedRecords
+        .filter((record) => {
+          const ageHours = actionAgeHours(record)
+
+          return (
+            typeof ageHours !== 'number' ||
+            ageHours > ownerLoop.executionMemory.repeatSuppressionMaxAgeHours
+          )
+        })
+        .map((record) => record.selectedActionId)
+        .filter(Boolean),
+    ),
+  ].slice(0, ownerLoop.executionMemory.recentExecutionWindow)
   const preservedExecutedActionIds = history.records
     .filter((record) => record.execution.requested === true)
     .slice(-history.retention.recentExecutedRecordWindow)
@@ -4700,9 +4737,12 @@ test('autonomous operator history keeps a capped audit trail', async ({ page }) 
   }
   expect(ownerLoop.executionMemory.avoidImmediateRepeat).toBe(true)
   expect(ownerLoop.executionMemory.recentExecutionWindow).toBe(8)
+  expect(ownerLoop.executionMemory.repeatSuppressionMaxAgeHours).toBe(18)
   expect(ownerLoop.executionMemory.recentExecutedActionIds).toEqual(recentExecutedActionIds)
+  expect(ownerLoop.executionMemory.expiredExecutedActionIds).toEqual(expiredExecutedActionIds)
   expect(ownerLoop.executionMemory.recentlySatisfiedActionIds).toEqual(recentlySatisfiedActionIds)
   expect(ownerLoop.executionMemory.lastExecutedActionId).toBe(history.summary.lastExecutedActionId)
+  expect(ownerLoop.executionMemory.lastExecutedAgeHours).toBe(actionAgeHours(lastExecutedRecord ?? {}))
   expect(ownerLoop.executionMemory.lastExecutedStatus).toBe(lastExecutedRecord?.execution.status ?? null)
   expect(ownerLoop.executionMemory.lastRecordExecutionStatus).toBe(history.summary.lastExecutionStatus)
   expect(ownerLoop.controls.localActionAvailable).toBe(localSelectableActions.length > 0)

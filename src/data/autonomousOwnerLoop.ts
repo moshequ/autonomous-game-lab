@@ -14,8 +14,8 @@ export const autonomousOwnerLoop = {
     "nextUnlockId": "production-analytics-browser",
     "recommendedPathId": "first-party-collector",
     "ownerActionRequired": 4,
-    "missingVariableCount": 5,
-    "missingSecretCount": 1,
+    "missingVariableCount": 7,
+    "missingSecretCount": 3,
     "publicStatusPage": "/measurement-status.html"
   }
 } as const

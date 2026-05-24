@@ -2425,10 +2425,38 @@ const executableNow = safeAutonomousActions.filter((action) =>
 const locallyExecutableNow = executableNow.filter((action) => action.status === 'armed')
 const ownerSelectableNow = locallyExecutableNow.filter((action) => action.id !== 'run-daily-owner-loop')
 const recentExecutionWindow = 8
-const recentExecutedRecords = [...(autonomousOperatorHistory.records ?? [])]
+const repeatSuppressionMaxAgeHours = 18
+const ownerGeneratedAtMs = Date.parse(ownerGeneratedAt)
+const executedRecords = [...(autonomousOperatorHistory.records ?? [])]
   .reverse()
   .filter((record) => record.execution?.requested === true && record.execution?.status === 'executed')
-const lastExecutedRecord = recentExecutedRecords[0]
+const actionAgeHours = (record) => {
+  const recordGeneratedAtMs = Date.parse(record?.generatedAt ?? '')
+
+  if (!Number.isFinite(ownerGeneratedAtMs) || !Number.isFinite(recordGeneratedAtMs)) {
+    return null
+  }
+
+  return roundMetric((ownerGeneratedAtMs - recordGeneratedAtMs) / (60 * 60 * 1000))
+}
+const recentExecutedRecords = executedRecords.filter((record) => {
+  const ageHours = actionAgeHours(record)
+
+  return typeof ageHours === 'number' && ageHours >= -1 && ageHours <= repeatSuppressionMaxAgeHours
+})
+const expiredExecutedActionIds = [
+  ...new Set(
+    executedRecords
+      .filter((record) => {
+        const ageHours = actionAgeHours(record)
+
+        return typeof ageHours !== 'number' || ageHours > repeatSuppressionMaxAgeHours
+      })
+      .map((record) => record.selectedActionId)
+      .filter(Boolean),
+  ),
+].slice(0, recentExecutionWindow)
+const lastExecutedRecord = executedRecords[0]
 const lastExecutedActionId =
   lastExecutedRecord?.selectedActionId ?? autonomousOperatorHistory.summary?.lastExecutedActionId ?? null
 const recentExecutedActionIds = [
@@ -2586,8 +2614,11 @@ const payload = {
   executionMemory: {
     avoidImmediateRepeat: true,
     recentExecutionWindow,
+    repeatSuppressionMaxAgeHours,
     recentExecutedActionIds,
+    expiredExecutedActionIds,
     lastExecutedActionId,
+    lastExecutedAgeHours: actionAgeHours(lastExecutedRecord),
     lastExecutedStatus: lastExecutedRecord?.execution?.status ?? null,
     lastRecordExecutionStatus: autonomousOperatorHistory.summary?.lastExecutionStatus ?? null,
     recentlySatisfiedActionIds,

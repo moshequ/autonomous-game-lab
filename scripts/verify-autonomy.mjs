@@ -7008,10 +7008,26 @@ const missingBootstrapSecret = (productionBootstrap.requiredSecrets ?? [])
         (action) => action.target === item.repositorySecret,
       ),
   )
-const ownerRecentExecutedRecords = [...(autonomousOperatorHistory.records ?? [])]
+const ownerExecutedRecords = [...(autonomousOperatorHistory.records ?? [])]
   .reverse()
   .filter((record) => record.execution?.requested === true && record.execution?.status === 'executed')
-const ownerLastExecutedRecord = ownerRecentExecutedRecords[0]
+const ownerRepeatSuppressionMaxAgeHours = 18
+const ownerLoopGeneratedAtMs = Date.parse(autonomousOwnerLoop.generatedAt ?? '')
+const ownerActionAgeHours = (record) => {
+  const recordGeneratedAtMs = Date.parse(record?.generatedAt ?? '')
+
+  if (!Number.isFinite(ownerLoopGeneratedAtMs) || !Number.isFinite(recordGeneratedAtMs)) {
+    return null
+  }
+
+  return roundMetric((ownerLoopGeneratedAtMs - recordGeneratedAtMs) / (60 * 60 * 1000))
+}
+const ownerRecentExecutedRecords = ownerExecutedRecords.filter((record) => {
+  const ageHours = ownerActionAgeHours(record)
+
+  return typeof ageHours === 'number' && ageHours >= -1 && ageHours <= ownerRepeatSuppressionMaxAgeHours
+})
+const ownerLastExecutedRecord = ownerExecutedRecords[0]
 const ownerLastExecutedActionId =
   ownerLastExecutedRecord?.selectedActionId ?? autonomousOperatorHistory.summary?.lastExecutedActionId ?? null
 const ownerLastExecutedStatus = ownerLastExecutedRecord?.execution?.status ?? null
@@ -7020,6 +7036,18 @@ const ownerHasExecutedAction = (autonomousOperatorHistory.summary?.executedRecor
 const ownerNeedsInitialOperatorExecution = !ownerHasExecutedAction
 const ownerRecentExecutedActionIds = [
   ...new Set(ownerRecentExecutedRecords.map((record) => record.selectedActionId).filter(Boolean)),
+].slice(0, 8)
+const ownerExpiredExecutedActionIds = [
+  ...new Set(
+    ownerExecutedRecords
+      .filter((record) => {
+        const ageHours = ownerActionAgeHours(record)
+
+        return typeof ageHours !== 'number' || ageHours > ownerRepeatSuppressionMaxAgeHours
+      })
+      .map((record) => record.selectedActionId)
+      .filter(Boolean),
+  ),
 ].slice(0, 8)
 const ownerCompositeActionSatisfiedActionIds = {
   'seed-portfolio-traffic': ['refresh-organic-seed-loop'],
@@ -7595,7 +7623,9 @@ if (
   missingBootstrapSecret ||
   autonomousOwnerLoop.executionMemory?.avoidImmediateRepeat !== true ||
   autonomousOwnerLoop.executionMemory?.recentExecutionWindow !== 8 ||
+  autonomousOwnerLoop.executionMemory?.repeatSuppressionMaxAgeHours !== ownerRepeatSuppressionMaxAgeHours ||
   autonomousOwnerLoop.executionMemory?.lastExecutedActionId !== ownerLastExecutedActionId ||
+  autonomousOwnerLoop.executionMemory?.lastExecutedAgeHours !== ownerActionAgeHours(ownerExecutedRecords[0]) ||
   autonomousOwnerLoop.executionMemory?.lastExecutedStatus !== ownerLastExecutedStatus ||
   autonomousOwnerLoop.executionMemory?.lastRecordExecutionStatus !== ownerLastRecordExecutionStatus ||
   autonomousOwnerLoop.executionMemory?.immediateRepeatSuppressed !== ownerExpectedImmediateRepeatSuppressed ||
@@ -7617,6 +7647,8 @@ if (
   !autonomousOwnerLoopSource.includes('ownerExternalInputHandoff') ||
   JSON.stringify(autonomousOwnerLoop.executionMemory?.recentExecutedActionIds ?? []) !==
     JSON.stringify(ownerRecentExecutedActionIds) ||
+  JSON.stringify(autonomousOwnerLoop.executionMemory?.expiredExecutedActionIds ?? []) !==
+    JSON.stringify(ownerExpiredExecutedActionIds) ||
   JSON.stringify(autonomousOwnerLoop.executionMemory?.recentlySatisfiedActionIds ?? []) !==
     JSON.stringify(ownerRecentlySatisfiedActionIds) ||
   autonomousOwnerLoop.executionMemory?.objectiveAuditFreshness?.fresh !== ownerObjectiveAuditFresh ||
