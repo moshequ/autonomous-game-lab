@@ -1,16 +1,16 @@
 # Post-Deploy Smoke
 
-Generated: 2026-05-24T20:18:34.561Z
+Generated: 2026-05-24T20:26:49.214Z
 Status: post-deploy-smoke-observed-live
 Origin: https://moshequ.github.io/autonomous-game-lab
 Origin source: release-candidate-public-origin
-Candidate: pwa-b1242f7b7124
-Live candidate: pwa-9570ecc362c8
+Candidate: pwa-282ce0f31806
+Live candidate: pwa-90841adbe8ca
 
 ## Summary
 
-- Planned: 29
-- Passed: 29
+- Planned: 30
+- Passed: 30
 - Failed: 0
 - Blocked: 0
 
@@ -79,6 +79,7 @@ Checks: 30/30 passed
 - pass: seed-next-html - https://moshequ.github.io/autonomous-game-lab/seed-next.html - Live URL matched status and required text.
 - pass: seed-next-json - https://moshequ.github.io/autonomous-game-lab/seed-next.json - Live URL matched status and required text.
 - pass: sitemap-xml - https://moshequ.github.io/autonomous-game-lab/sitemap.xml - Live URL matched status and required text.
+- pass: monetization-html - https://moshequ.github.io/autonomous-game-lab/monetization.html - Live URL matched status and required text.
 - pass: games-canopy-bloom-html - https://moshequ.github.io/autonomous-game-lab/games/canopy-bloom.html - Live URL matched status and required text.
 - pass: release-candidate-manifest - https://moshequ.github.io/autonomous-game-lab/release-candidate.json - Live release manifest is reachable; it does not match the current local release candidate.
 
@@ -96,5 +97,5 @@ Checks: 30/30 passed
 
 ## Next Actions
 
-- Live Pages is reachable and serving pwa-9570ecc362c8; run the deploy workflow for strict proof of the current local candidate if needed.
+- Live Pages is reachable and serving pwa-90841adbe8ca; run the deploy workflow for strict proof of the current local candidate if needed.
 - Keep revenue, paid acquisition, and app-store submission disabled until product and credential gates pass.

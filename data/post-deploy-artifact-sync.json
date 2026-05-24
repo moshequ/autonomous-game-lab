@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-24T20:03:34.632Z",
+  "generatedAt": "2026-05-24T20:26:43.961Z",
   "status": "post-deploy-artifact-sync-passed",
   "envFiles": {
     "loaded": false,
@@ -41,22 +41,22 @@
   "workflow": {
     "workflowFile": "web-pwa-deploy.yml",
     "artifactName": "post-deploy-smoke",
-    "runId": 26371367023,
-    "headSha": "bcd3fedc203419d18ddb205cf91491f16adebb36",
-    "createdAt": "2026-05-24T20:02:03Z",
-    "url": "https://github.com/moshequ/autonomous-game-lab/actions/runs/26371367023",
+    "runId": 26371866217,
+    "headSha": "0ab275d072aba1c3a92fd91e5edbd1367827112e",
+    "createdAt": "2026-05-24T20:25:02Z",
+    "url": "https://github.com/moshequ/autonomous-game-lab/actions/runs/26371866217",
     "source": "latest-successful-run",
     "runListAvailable": true
   },
   "artifact": {
     "status": "post-deploy-smoke-passed",
-    "generatedAt": "2026-05-24T20:02:44.904Z",
+    "generatedAt": "2026-05-24T20:25:51.580Z",
     "target": {
       "origin": "https://moshequ.github.io/autonomous-game-lab/",
       "originSource": "agl-deployed-pwa-origin",
       "provider": "github-pages",
-      "candidateId": "pwa-9570ecc362c8",
-      "aggregateHash": "9570ecc362c89f7838be31daf4def833c08c39e41f833e9d4f15f31f005adfd2",
+      "candidateId": "pwa-90841adbe8ca",
+      "aggregateHash": "90841adbe8caafdf305f3a95dc8b70a087de24783fe7982d3859e9f88812b524",
       "strictManifestComparison": true
     },
     "sourceStatus": {
@@ -65,18 +65,18 @@
       "productionResponse": "guarded-operations"
     },
     "summary": {
-      "planned": 29,
-      "passed": 29,
+      "planned": 30,
+      "passed": 30,
       "failed": 0,
       "blocked": 0
     },
     "liveRelease": {
       "status": "release-candidate-ready",
-      "candidateId": "pwa-9570ecc362c8",
-      "aggregateHash": "9570ecc362c89f7838be31daf4def833c08c39e41f833e9d4f15f31f005adfd2",
+      "candidateId": "pwa-90841adbe8ca",
+      "aggregateHash": "90841adbe8caafdf305f3a95dc8b70a087de24783fe7982d3859e9f88812b524",
       "localCandidateMatches": true,
       "strictManifestComparison": true,
-      "postDeploySmokeUrls": 28,
+      "postDeploySmokeUrls": 29,
       "smokePlanSource": "current-local-release-candidate"
     },
     "controls": {
@@ -90,7 +90,7 @@
       "strictManifestComparison": true,
       "inferredLiveObservationAllowed": false
     },
-    "reportSha256": "403bbfec945d6b828d05d06ed58866f48101de175c438091426514c712d9bdbe"
+    "reportSha256": "249141d46e6f5abe2f3aeaf43c4c1f3adca83d67e15be287d473b6b26f2cd41d"
   },
   "live": {
     "origin": "https://moshequ.github.io/autonomous-game-lab/",
@@ -98,11 +98,11 @@
     "status": 200,
     "finalUrl": "https://moshequ.github.io/autonomous-game-lab/release-candidate.json",
     "contentType": "application/json; charset=utf-8",
-    "bytes": 30945,
-    "textSha256": "eae7ee7171d62af5d097bb54ca4bf4667b760a8ea8818dc59d138720a97266f6",
+    "bytes": 31500,
+    "textSha256": "94a93b1c5061aa3c52a06de3f3f0e2c055e5d8e7d23f49e805ba73f7af911277",
     "releaseStatus": "release-candidate-ready",
-    "candidateId": "pwa-9570ecc362c8",
-    "aggregateHash": "9570ecc362c89f7838be31daf4def833c08c39e41f833e9d4f15f31f005adfd2",
+    "candidateId": "pwa-90841adbe8ca",
+    "aggregateHash": "90841adbe8caafdf305f3a95dc8b70a087de24783fe7982d3859e9f88812b524",
     "matchesArtifact": true
   },
   "validation": {
@@ -144,17 +144,17 @@
     {
       "id": "successful-pages-run",
       "status": "pass",
-      "detail": "Latest successful web-pwa-deploy.yml run is 26371367023."
+      "detail": "Latest successful web-pwa-deploy.yml run is 26371866217."
     },
     {
       "id": "post-deploy-smoke-artifact",
       "status": "pass",
-      "detail": "Downloaded post-deploy-smoke artifact from run 26371367023."
+      "detail": "Downloaded post-deploy-smoke artifact from run 26371866217."
     },
     {
       "id": "strict-smoke-artifact",
       "status": "pass",
-      "detail": "Artifact status post-deploy-smoke-passed; strict manifest comparison true; checks 29/29."
+      "detail": "Artifact status post-deploy-smoke-passed; strict manifest comparison true; checks 30/30."
     },
     {
       "id": "live-release-manifest",
