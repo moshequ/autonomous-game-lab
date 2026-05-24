@@ -1,14 +1,16 @@
 # Owner Unlock Brief
 
-Generated: 2026-05-24T11:29:10.839Z
+Generated: 2026-05-24T11:57:57.589Z
 Status: waiting-on-owner-input
-Source hash: 8a238a28d4bd
+Source hash: 26239846301a
 Next unlock: production-analytics-browser
 Recommended path: first-party-collector
 
 ## Setup Guard
 
 - print brief: ./ops/github/setup-production.sh --owner-unlock-brief
+- preflight: npm run autonomous:owner-unlock-preflight
+- direct preflight: node scripts/owner-unlock-preflight.mjs --assert --print
 - sync configured values: ./ops/github/setup-production.sh
 - workflow dispatch: RUN_WORKFLOWS=1 ./ops/github/setup-production.sh
 - workflow dispatch default: disabled

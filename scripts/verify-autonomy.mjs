@@ -52,6 +52,7 @@ const requiredFiles = [
   'data/production-activation.json',
   'data/production-blocker-handoff.json',
   'data/owner-unlock-brief.json',
+  'data/owner-unlock-preflight.json',
   'data/production-unlock-runner.json',
   'data/production-measurement-status.json',
   'data/autonomous-operator.json',
@@ -172,6 +173,7 @@ const requiredFiles = [
   'reports/production-activation-latest.md',
   'reports/production-blocker-handoff-latest.md',
   'reports/owner-unlock-brief-latest.md',
+  'reports/owner-unlock-preflight-latest.md',
   'reports/production-unlock-runner-latest.md',
   'reports/production-measurement-status-latest.md',
   'reports/autonomous-operator-latest.md',
@@ -227,6 +229,7 @@ const requiredFiles = [
   'scripts/production-activation.mjs',
   'scripts/production-blocker-handoff.mjs',
   'scripts/owner-unlock-brief.mjs',
+  'scripts/owner-unlock-preflight.mjs',
   'scripts/production-unlock-runner.mjs',
   'scripts/autonomous-cadence.mjs',
   'scripts/autonomous-self-update.mjs',
@@ -346,6 +349,9 @@ const productionBlockerHandoff = JSON.parse(
   await readFile(path.join(root, 'data', 'production-blocker-handoff.json'), 'utf8'),
 )
 const ownerUnlockBrief = JSON.parse(await readFile(path.join(root, 'data', 'owner-unlock-brief.json'), 'utf8'))
+const ownerUnlockPreflight = JSON.parse(
+  await readFile(path.join(root, 'data', 'owner-unlock-preflight.json'), 'utf8'),
+)
 const productionUnlockRunner = JSON.parse(
   await readFile(path.join(root, 'data', 'production-unlock-runner.json'), 'utf8'),
 )
@@ -476,6 +482,8 @@ const productionBlockerHandoffSource = await readFile(
   'utf8',
 )
 const ownerUnlockBriefSource = await readFile(path.join(root, 'scripts', 'owner-unlock-brief.mjs'), 'utf8')
+const ownerUnlockPreflightSource = await readFile(path.join(root, 'scripts', 'owner-unlock-preflight.mjs'), 'utf8')
+const ownerUnlockPreflightReport = await readFile(path.join(root, 'reports', 'owner-unlock-preflight-latest.md'), 'utf8')
 const productionUnlockRunnerSource = await readFile(
   path.join(root, 'scripts', 'production-unlock-runner.mjs'),
   'utf8',
@@ -817,8 +825,10 @@ if (
   !publicEvidenceIntakeWorkflow.includes('public/measurement-status.html') ||
   !publicEvidenceIntakeWorkflow.includes('public/measurement-status.json') ||
   !publicEvidenceIntakeWorkflow.includes('data/owner-unlock-brief.json') ||
+  !publicEvidenceIntakeWorkflow.includes('data/owner-unlock-preflight.json') ||
   !publicEvidenceIntakeWorkflow.includes('public/owner-unlock-brief.json') ||
   !publicEvidenceIntakeWorkflow.includes('reports/owner-unlock-brief-latest.md') ||
+  !publicEvidenceIntakeWorkflow.includes('reports/owner-unlock-preflight-latest.md') ||
   !publicEvidenceIntakeWorkflow.includes('public/analytics-unlock.html') ||
   !publicEvidenceIntakeWorkflow.includes('public/analytics-unlock.json') ||
   !publicEvidenceIntakeWorkflow.includes('data/production-environment.json') ||
@@ -876,8 +886,10 @@ if (
   !productionInputWatchWorkflow.includes('ops/production.env.example') ||
   !productionInputWatchWorkflow.includes('data/production-blocker-handoff.json') ||
   !productionInputWatchWorkflow.includes('data/owner-unlock-brief.json') ||
+  !productionInputWatchWorkflow.includes('data/owner-unlock-preflight.json') ||
   !productionInputWatchWorkflow.includes('public/owner-unlock-brief.json') ||
   !productionInputWatchWorkflow.includes('reports/owner-unlock-brief-latest.md') ||
+  !productionInputWatchWorkflow.includes('reports/owner-unlock-preflight-latest.md') ||
   !productionInputWatchWorkflow.includes('data/production-unlock-runner.json') ||
   !productionInputWatchWorkflow.includes('data/production-measurement-status.json') ||
   !productionInputWatchWorkflow.includes('public/measurement-status.json') ||
@@ -3305,6 +3317,13 @@ const productionAnalyticsUnlockKitLeaksValues = (productionAnalyticsUnlockKit?.p
 const ownerUnlockBriefLeaksValues = [ownerUnlockBrief, publicOwnerUnlockBrief].some((payload) =>
   JSON.stringify(payload).includes('"value"'),
 )
+const ownerUnlockPreflightLeaksValues = JSON.stringify(ownerUnlockPreflight).includes('"value"')
+const ownerUnlockPreflightMissingInputCount = (ownerUnlockPreflight.inputs ?? []).filter(
+  (input) => input.ready !== true,
+).length
+const ownerUnlockPreflightInvalidInputCount = (ownerUnlockPreflight.inputs ?? []).filter(
+  (input) => input.validation?.status === 'fail',
+).length
 const requiredProductionBlockerHandoffIds = [
   'support-contact',
   'production-analytics-browser',
@@ -3398,6 +3417,8 @@ if (
   ownerUnlockBrief.sourceStatus?.productionBlockerHandoff !== productionBlockerHandoff.status ||
   ownerUnlockBrief.setup?.setupScript !== 'ops/github/setup-production.sh' ||
   ownerUnlockBrief.setup?.printCommand !== './ops/github/setup-production.sh --owner-unlock-brief' ||
+  ownerUnlockBrief.setup?.preflightCommand !== 'npm run autonomous:owner-unlock-preflight' ||
+  ownerUnlockBrief.setup?.directPreflightCommand !== 'node scripts/owner-unlock-preflight.mjs --assert --print' ||
   ownerUnlockBrief.setup?.syncConfiguredValuesCommand !== './ops/github/setup-production.sh' ||
   ownerUnlockBrief.setup?.workflowDispatchCommand !== 'RUN_WORKFLOWS=1 ./ops/github/setup-production.sh' ||
   ownerUnlockBrief.setup?.workflowDispatchRequiresRunWorkflows !== true ||
@@ -3409,15 +3430,53 @@ if (
   ownerUnlockBriefLeaksValues ||
   packageJson.scripts?.['autonomous:owner-unlock-brief'] !==
     'npm run autonomous:blocker-handoff && node scripts/owner-unlock-brief.mjs --assert --print' ||
+  packageJson.scripts?.['autonomous:owner-unlock-preflight'] !==
+    'npm run autonomous:blocker-handoff && node scripts/owner-unlock-preflight.mjs --assert --print' ||
+  !packageJson.scripts?.['autonomous:readiness']?.includes('autonomous:owner-unlock-preflight') ||
   !ownerUnlockBriefSource.includes('--assert') ||
   !ownerUnlockBriefSource.includes('--json') ||
+  !ownerUnlockBriefSource.includes('owner-unlock-preflight') ||
   !ownerUnlockBriefSource.includes('workflowDispatchRequiresRunWorkflows') ||
   !ownerUnlockBriefSource.includes('noSecretValuesStored') ||
   !productionBlockerHandoffSource.includes('ownerUnlockBriefPayload') ||
   !productionBlockerHandoffSource.includes('owner-unlock-brief.json') ||
-  !productionBlockerHandoffSource.includes('owner-unlock-brief-latest.md')
+  !productionBlockerHandoffSource.includes('owner-unlock-brief-latest.md') ||
+  !productionBlockerHandoffSource.includes('owner-unlock-preflight')
 ) {
   fail('Owner unlock brief must be a public, secretless, setup-script printable handoff for the next analytics unlock.')
+}
+
+if (
+  ![
+    'owner-unlock-preflight-unavailable',
+    'owner-unlock-preflight-waiting-on-input',
+    'owner-unlock-preflight-needs-fixes',
+    'owner-unlock-preflight-ready',
+  ].includes(ownerUnlockPreflight.status) ||
+  ownerUnlockPreflight.sourceStatus?.ownerUnlockBrief !== ownerUnlockBrief.status ||
+  ownerUnlockPreflight.sourceStatus?.productionBlockerHandoff !== productionBlockerHandoff.status ||
+  ownerUnlockPreflight.sourceStatus?.nextUnlockId !== ownerUnlockBrief.brief?.nextUnlockId ||
+  ownerUnlockPreflight.recommendedPath?.id !== ownerUnlockBrief.brief?.recommendedPathId ||
+  ownerUnlockPreflight.summary?.missingInputs !== ownerUnlockPreflightMissingInputCount ||
+  ownerUnlockPreflight.summary?.invalidInputs !== ownerUnlockPreflightInvalidInputCount ||
+  ownerUnlockPreflight.controls?.zeroPaidSpend !== true ||
+  ownerUnlockPreflight.controls?.noSecretValuesStored !== true ||
+  ownerUnlockPreflight.controls?.noSecretValuesSerialized !== true ||
+  ownerUnlockPreflight.controls?.noMutation !== true ||
+  ownerUnlockPreflight.controls?.noWorkflowDispatch !== true ||
+  ownerUnlockPreflight.controls?.setupStillRequiresExplicitRun !== true ||
+  ownerUnlockPreflight.controls?.workflowDispatchStillRequiresRunWorkflows !== true ||
+  ownerUnlockPreflight.localEnvironment?.valuesRedacted !== true ||
+  ownerUnlockPreflight.commands?.syncConfiguredValues !== './ops/github/setup-production.sh' ||
+  ownerUnlockPreflight.commands?.dispatchWhenReady !== 'RUN_WORKFLOWS=1 ./ops/github/setup-production.sh' ||
+  ownerUnlockPreflightLeaksValues ||
+  !ownerUnlockPreflightSource.includes('loadLocalEnv') ||
+  !ownerUnlockPreflightSource.includes('hasValueKey') ||
+  !ownerUnlockPreflightSource.includes('new URL') ||
+  !ownerUnlockPreflightSource.includes('noSecretValuesSerialized') ||
+  !ownerUnlockPreflightReport.includes('## Guardrails')
+) {
+  fail('Owner unlock preflight must validate next-unlock readiness without storing values, mutating GitHub, or dispatching workflows.')
 }
 
 if (
@@ -3450,6 +3509,7 @@ if (
   !packageJson.scripts?.['autonomous:post-deploy-readiness-sync']?.includes(
     'autonomous:unlock-runner -- --execute',
   ) ||
+  !packageJson.scripts?.['autonomous:post-deploy-readiness-sync']?.includes('autonomous:owner-unlock-preflight') ||
   !postDeployEvidenceSyncWorkflow.includes('data/production-unlock-runner.json') ||
   !postDeployEvidenceSyncWorkflow.includes('src/data/productionUnlockRunner.ts') ||
   !postDeployEvidenceSyncWorkflow.includes('reports/production-unlock-runner-latest.md') ||
@@ -4397,8 +4457,10 @@ if (
   !postDeployEvidenceSyncWorkflow.includes('data/production-activation.json') ||
   !postDeployEvidenceSyncWorkflow.includes('data/production-blocker-handoff.json') ||
   !postDeployEvidenceSyncWorkflow.includes('data/owner-unlock-brief.json') ||
+  !postDeployEvidenceSyncWorkflow.includes('data/owner-unlock-preflight.json') ||
   !postDeployEvidenceSyncWorkflow.includes('public/owner-unlock-brief.json') ||
   !postDeployEvidenceSyncWorkflow.includes('reports/owner-unlock-brief-latest.md') ||
+  !postDeployEvidenceSyncWorkflow.includes('reports/owner-unlock-preflight-latest.md') ||
   !postDeployEvidenceSyncWorkflow.includes('data/production-measurement-status.json') ||
   !postDeployEvidenceSyncWorkflow.includes('src/data/productionMeasurementStatus.ts') ||
   !postDeployEvidenceSyncWorkflow.includes('public/measurement-status.html') ||
@@ -6110,8 +6172,10 @@ if (
   !postDeployEvidenceSyncWorkflow.includes('data/production-activation.json') ||
   !postDeployEvidenceSyncWorkflow.includes('data/production-blocker-handoff.json') ||
   !postDeployEvidenceSyncWorkflow.includes('data/owner-unlock-brief.json') ||
+  !postDeployEvidenceSyncWorkflow.includes('data/owner-unlock-preflight.json') ||
   !postDeployEvidenceSyncWorkflow.includes('public/owner-unlock-brief.json') ||
   !postDeployEvidenceSyncWorkflow.includes('reports/owner-unlock-brief-latest.md') ||
+  !postDeployEvidenceSyncWorkflow.includes('reports/owner-unlock-preflight-latest.md') ||
   !postDeployEvidenceSyncWorkflow.includes('data/production-measurement-status.json') ||
   !postDeployEvidenceSyncWorkflow.includes('src/data/productionMeasurementStatus.ts') ||
   !postDeployEvidenceSyncWorkflow.includes('public/measurement-status.html') ||

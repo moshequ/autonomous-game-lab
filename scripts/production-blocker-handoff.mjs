@@ -587,6 +587,8 @@ const ownerUnlockBriefPayload = {
     setupScript: 'ops/github/setup-production.sh',
     printCommand: './ops/github/setup-production.sh --owner-unlock-brief',
     directPrintCommand: 'node scripts/owner-unlock-brief.mjs --print',
+    preflightCommand: 'npm run autonomous:owner-unlock-preflight',
+    directPreflightCommand: 'node scripts/owner-unlock-preflight.mjs --assert --print',
     syncConfiguredValuesCommand: './ops/github/setup-production.sh',
     workflowDispatchCommand: 'RUN_WORKFLOWS=1 ./ops/github/setup-production.sh',
     workflowDispatchRequiresRunWorkflows: true,
@@ -607,6 +609,7 @@ const ownerUnlockBriefPayload = {
   nextActions: payload.ownerUnlockBrief
     ? [
         `Print the current brief with ./ops/github/setup-production.sh --owner-unlock-brief before setting ${payload.ownerUnlockBrief.nextUnlockId}.`,
+        'Run npm run autonomous:owner-unlock-preflight to check local/repository readiness without storing secret values.',
         'Export only the missing variables/secrets in the current shell, then run ./ops/github/setup-production.sh to sync configured values.',
         'Use RUN_WORKFLOWS=1 only after the missing analytics inputs are configured and you are ready to dispatch deployment workflows.',
         ...payload.ownerUnlockBrief.validationCommands,
@@ -626,6 +629,8 @@ const ownerUnlockReport = [
   '## Setup Guard',
   '',
   `- print brief: ${ownerUnlockBriefPayload.setup.printCommand}`,
+  `- preflight: ${ownerUnlockBriefPayload.setup.preflightCommand}`,
+  `- direct preflight: ${ownerUnlockBriefPayload.setup.directPreflightCommand}`,
   `- sync configured values: ${ownerUnlockBriefPayload.setup.syncConfiguredValuesCommand}`,
   `- workflow dispatch: ${ownerUnlockBriefPayload.setup.workflowDispatchCommand}`,
   `- workflow dispatch default: ${ownerUnlockBriefPayload.setup.workflowDispatchDefault}`,

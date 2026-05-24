@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-05-24T11:29:10.839Z",
+  "generatedAt": "2026-05-24T11:57:57.589Z",
   "status": "waiting-on-owner-input",
-  "sourceDataHash": "8a238a28d4bd",
+  "sourceDataHash": "26239846301a",
   "sourceStatus": {
     "productionBlockerHandoff": "handoff-waiting-on-owner-inputs",
     "nextBestUnlockId": "production-analytics-browser",
@@ -115,6 +115,8 @@
     "setupScript": "ops/github/setup-production.sh",
     "printCommand": "./ops/github/setup-production.sh --owner-unlock-brief",
     "directPrintCommand": "node scripts/owner-unlock-brief.mjs --print",
+    "preflightCommand": "npm run autonomous:owner-unlock-preflight",
+    "directPreflightCommand": "node scripts/owner-unlock-preflight.mjs --assert --print",
     "syncConfiguredValuesCommand": "./ops/github/setup-production.sh",
     "workflowDispatchCommand": "RUN_WORKFLOWS=1 ./ops/github/setup-production.sh",
     "workflowDispatchRequiresRunWorkflows": true,
@@ -134,6 +136,7 @@
   },
   "nextActions": [
     "Print the current brief with ./ops/github/setup-production.sh --owner-unlock-brief before setting production-analytics-browser.",
+    "Run npm run autonomous:owner-unlock-preflight to check local/repository readiness without storing secret values.",
     "Export only the missing variables/secrets in the current shell, then run ./ops/github/setup-production.sh to sync configured values.",
     "Use RUN_WORKFLOWS=1 only after the missing analytics inputs are configured and you are ready to dispatch deployment workflows.",
     "npm run autonomous:event-collector-smoke",

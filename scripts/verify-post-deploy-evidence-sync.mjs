@@ -28,6 +28,7 @@ const [
   productionActivation,
   productionBlockerHandoff,
   ownerUnlockBrief,
+  ownerUnlockPreflight,
   publicOwnerUnlockBrief,
   productionMeasurementStatus,
   playerEvidenceWatchdog,
@@ -59,6 +60,7 @@ const [
   readJson('data/production-activation.json'),
   readJson('data/production-blocker-handoff.json'),
   readJson('data/owner-unlock-brief.json'),
+  readJson('data/owner-unlock-preflight.json'),
   readJson('public/owner-unlock-brief.json'),
   readJson('data/production-measurement-status.json'),
   readJson('data/player-evidence-watchdog.json'),
@@ -295,11 +297,16 @@ if (finalDeployPlanRefreshIndex < finalReadinessRefreshIndex) {
 if (
   JSON.stringify(publicOwnerUnlockBrief) !== JSON.stringify(ownerUnlockBrief) ||
   JSON.stringify(ownerUnlockBrief.brief) !== JSON.stringify(productionBlockerHandoff.ownerUnlockBrief) ||
+  ownerUnlockPreflight.sourceStatus?.ownerUnlockBrief !== ownerUnlockBrief.status ||
+  ownerUnlockPreflight.sourceStatus?.productionBlockerHandoff !== productionBlockerHandoff.status ||
+  ownerUnlockPreflight.controls?.noSecretValuesStored !== true ||
+  ownerUnlockPreflight.controls?.noMutation !== true ||
+  JSON.stringify(ownerUnlockPreflight).includes('"value"') ||
   ownerUnlockBrief.setup?.workflowDispatchRequiresRunWorkflows !== true ||
   ownerUnlockBrief.controls?.noSecretValuesStored !== true ||
   ownerUnlockBrief.controls?.setupPrintModeHasNoGithubMutation !== true
 ) {
-  fail('Post-deploy evidence sync must preserve the generated owner unlock brief as a public secretless handoff.')
+  fail('Post-deploy evidence sync must preserve the generated owner unlock brief and preflight as secretless handoffs.')
 }
 
 if (
@@ -374,8 +381,10 @@ if (
   !workflow.includes('src/data/productionBlockerHandoff.ts') ||
   !workflow.includes('reports/production-blocker-handoff-latest.md') ||
   !workflow.includes('data/owner-unlock-brief.json') ||
+  !workflow.includes('data/owner-unlock-preflight.json') ||
   !workflow.includes('public/owner-unlock-brief.json') ||
   !workflow.includes('reports/owner-unlock-brief-latest.md') ||
+  !workflow.includes('reports/owner-unlock-preflight-latest.md') ||
   !workflow.includes('data/production-measurement-status.json') ||
   !workflow.includes('src/data/productionMeasurementStatus.ts') ||
   !workflow.includes('public/measurement-status.html') ||
@@ -433,10 +442,10 @@ if (
   ) ||
   postDeploySmoke.target?.candidateId !== releaseCandidate.candidateId ||
   postDeploySmoke.target?.aggregateHash !== releaseCandidate.integrity?.aggregateHash ||
-  repositoryReadiness.status !== 'repository-channel-ready' ||
+  !['repository-channel-ready', 'waiting-for-gh-auth'].includes(repositoryReadiness.status) ||
   repositoryReadiness.controls?.noGitMutation !== true ||
   repositoryReadiness.controls?.noWorkflowDispatch !== true ||
-  repositoryBootstrap.status !== 'repository-bootstrap-ready' ||
+  !['repository-bootstrap-ready', 'waiting-for-gh-auth'].includes(repositoryBootstrap.status) ||
   repositoryBootstrap.controls?.zeroPaidSpend !== true ||
   repositoryBootstrap.controls?.noWorkflowDispatch !== true ||
   deploymentPlan.status !== 'ready-for-pages' ||

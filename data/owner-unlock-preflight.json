@@ -1,0 +1,277 @@
+{
+  "generatedAt": "2026-05-24T11:58:01.157Z",
+  "status": "owner-unlock-preflight-waiting-on-input",
+  "readyForSetup": false,
+  "sourceDataHash": "26239846301a",
+  "sourceStatus": {
+    "ownerUnlockBrief": "waiting-on-owner-input",
+    "productionBlockerHandoff": "handoff-waiting-on-owner-inputs",
+    "nextUnlockId": "production-analytics-browser",
+    "recommendedPathId": "first-party-collector",
+    "nextBestUnlockId": "production-analytics-browser",
+    "nextBestZeroCostUnlockId": "production-analytics-browser"
+  },
+  "recommendedPath": {
+    "id": "first-party-collector",
+    "title": "First-party event collector",
+    "status": "needs-variables-and-secrets",
+    "costMode": "zero-spend-use-existing-cloudflare-free-tier",
+    "ownerInputRequired": true
+  },
+  "summary": {
+    "totalInputs": 8,
+    "readyInputs": 4,
+    "missingInputs": 4,
+    "invalidInputs": 0,
+    "repositoryConfiguredInputs": 4,
+    "localAvailableInputs": 0,
+    "localUrlValidationsPassed": 0,
+    "setupCanRun": false
+  },
+  "inputs": [
+    {
+      "kind": "github-variable",
+      "repositoryName": "CLOUDFLARE_ACCOUNT_ID",
+      "envName": "CLOUDFLARE_ACCOUNT_ID",
+      "configuredInRepository": false,
+      "availableInShell": false,
+      "availableInLocalEnvFile": false,
+      "availableLocally": false,
+      "localEnvFiles": [],
+      "ready": false,
+      "validation": {
+        "kind": "presence",
+        "status": "not-checked-missing-input",
+        "detail": "No local input is available yet.",
+        "checks": [
+          {
+            "id": "non-empty-local-input",
+            "passed": false,
+            "detail": "CLOUDFLARE_ACCOUNT_ID must be exported before setup can sync it."
+          }
+        ]
+      },
+      "command": "gh variable set CLOUDFLARE_ACCOUNT_ID --body \"$CLOUDFLARE_ACCOUNT_ID\""
+    },
+    {
+      "kind": "github-variable",
+      "repositoryName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
+      "envName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
+      "configuredInRepository": true,
+      "availableInShell": false,
+      "availableInLocalEnvFile": false,
+      "availableLocally": false,
+      "localEnvFiles": [],
+      "ready": true,
+      "validation": {
+        "kind": "redacted-repository-presence",
+        "status": "not-inspected-repository-configured",
+        "detail": "GitHub stores the configured value redacted; export it locally to validate shape before changing it.",
+        "checks": []
+      },
+      "command": "gh variable set AGL_EVENT_COLLECTOR_R2_BUCKET --body \"$AGL_EVENT_COLLECTOR_R2_BUCKET\""
+    },
+    {
+      "kind": "github-variable",
+      "repositoryName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
+      "envName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
+      "configuredInRepository": true,
+      "availableInShell": false,
+      "availableInLocalEnvFile": false,
+      "availableLocally": false,
+      "localEnvFiles": [],
+      "ready": true,
+      "validation": {
+        "kind": "redacted-repository-presence",
+        "status": "not-inspected-repository-configured",
+        "detail": "GitHub stores the configured value redacted; export it locally to validate shape before changing it.",
+        "checks": []
+      },
+      "command": "gh variable set AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS --body \"$AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS\""
+    },
+    {
+      "kind": "github-variable",
+      "repositoryName": "VITE_EVENT_COLLECTOR_URL",
+      "envName": "VITE_EVENT_COLLECTOR_URL",
+      "configuredInRepository": false,
+      "availableInShell": false,
+      "availableInLocalEnvFile": false,
+      "availableLocally": false,
+      "localEnvFiles": [],
+      "ready": false,
+      "validation": {
+        "kind": "presence",
+        "status": "not-checked-missing-input",
+        "detail": "No local input is available yet.",
+        "checks": [
+          {
+            "id": "non-empty-local-input",
+            "passed": false,
+            "detail": "VITE_EVENT_COLLECTOR_URL must be exported before setup can sync it."
+          }
+        ]
+      },
+      "command": "gh variable set VITE_EVENT_COLLECTOR_URL --body \"$VITE_EVENT_COLLECTOR_URL\""
+    },
+    {
+      "kind": "github-variable",
+      "repositoryName": "AGL_EVENT_COLLECTOR_EXPORT_URL",
+      "envName": "AGL_EVENT_COLLECTOR_EXPORT_URL",
+      "configuredInRepository": false,
+      "availableInShell": false,
+      "availableInLocalEnvFile": false,
+      "availableLocally": false,
+      "localEnvFiles": [],
+      "ready": false,
+      "validation": {
+        "kind": "presence",
+        "status": "not-checked-missing-input",
+        "detail": "No local input is available yet.",
+        "checks": [
+          {
+            "id": "non-empty-local-input",
+            "passed": false,
+            "detail": "AGL_EVENT_COLLECTOR_EXPORT_URL must be exported before setup can sync it."
+          }
+        ]
+      },
+      "command": "gh variable set AGL_EVENT_COLLECTOR_EXPORT_URL --body \"$AGL_EVENT_COLLECTOR_EXPORT_URL\""
+    },
+    {
+      "kind": "github-secret",
+      "repositoryName": "CLOUDFLARE_API_TOKEN",
+      "envName": "CLOUDFLARE_API_TOKEN",
+      "configuredInRepository": false,
+      "availableInShell": false,
+      "availableInLocalEnvFile": false,
+      "availableLocally": false,
+      "localEnvFiles": [],
+      "ready": false,
+      "validation": {
+        "kind": "presence",
+        "status": "not-checked-missing-input",
+        "detail": "No local input is available yet.",
+        "checks": [
+          {
+            "id": "non-empty-local-input",
+            "passed": false,
+            "detail": "CLOUDFLARE_API_TOKEN must be exported before setup can sync it."
+          }
+        ]
+      },
+      "command": "printf \"%s\" \"$CLOUDFLARE_API_TOKEN\" | gh secret set CLOUDFLARE_API_TOKEN"
+    },
+    {
+      "kind": "github-secret",
+      "repositoryName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
+      "envName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
+      "configuredInRepository": true,
+      "availableInShell": false,
+      "availableInLocalEnvFile": false,
+      "availableLocally": false,
+      "localEnvFiles": [],
+      "ready": true,
+      "validation": {
+        "kind": "redacted-repository-presence",
+        "status": "not-inspected-repository-configured",
+        "detail": "GitHub stores the configured value redacted; export it locally to validate shape before changing it.",
+        "checks": []
+      },
+      "command": "printf \"%s\" \"$VITE_EVENT_COLLECTOR_WRITE_TOKEN\" | gh secret set VITE_EVENT_COLLECTOR_WRITE_TOKEN"
+    },
+    {
+      "kind": "github-secret",
+      "repositoryName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
+      "envName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
+      "configuredInRepository": true,
+      "availableInShell": false,
+      "availableInLocalEnvFile": false,
+      "availableLocally": false,
+      "localEnvFiles": [],
+      "ready": true,
+      "validation": {
+        "kind": "redacted-repository-presence",
+        "status": "not-inspected-repository-configured",
+        "detail": "GitHub stores the configured value redacted; export it locally to validate shape before changing it.",
+        "checks": []
+      },
+      "command": "printf \"%s\" \"$AGL_EVENT_COLLECTOR_ADMIN_TOKEN\" | gh secret set AGL_EVENT_COLLECTOR_ADMIN_TOKEN"
+    }
+  ],
+  "missingInputs": [
+    {
+      "kind": "github-variable",
+      "repositoryName": "CLOUDFLARE_ACCOUNT_ID",
+      "envName": "CLOUDFLARE_ACCOUNT_ID",
+      "command": "gh variable set CLOUDFLARE_ACCOUNT_ID --body \"$CLOUDFLARE_ACCOUNT_ID\""
+    },
+    {
+      "kind": "github-variable",
+      "repositoryName": "VITE_EVENT_COLLECTOR_URL",
+      "envName": "VITE_EVENT_COLLECTOR_URL",
+      "command": "gh variable set VITE_EVENT_COLLECTOR_URL --body \"$VITE_EVENT_COLLECTOR_URL\""
+    },
+    {
+      "kind": "github-variable",
+      "repositoryName": "AGL_EVENT_COLLECTOR_EXPORT_URL",
+      "envName": "AGL_EVENT_COLLECTOR_EXPORT_URL",
+      "command": "gh variable set AGL_EVENT_COLLECTOR_EXPORT_URL --body \"$AGL_EVENT_COLLECTOR_EXPORT_URL\""
+    },
+    {
+      "kind": "github-secret",
+      "repositoryName": "CLOUDFLARE_API_TOKEN",
+      "envName": "CLOUDFLARE_API_TOKEN",
+      "command": "printf \"%s\" \"$CLOUDFLARE_API_TOKEN\" | gh secret set CLOUDFLARE_API_TOKEN"
+    }
+  ],
+  "invalidInputs": [],
+  "localEnvironment": {
+    "loaded": true,
+    "supportedFiles": [
+      ".env",
+      ".env.local",
+      ".env.production",
+      ".env.production.local",
+      "ops/production.env",
+      "ops/production.env.local"
+    ],
+    "candidateFiles": [
+      ".env",
+      ".env.local",
+      ".env.production",
+      ".env.production.local",
+      "ops/production.env",
+      "ops/production.env.local"
+    ],
+    "loadedInputKeys": [],
+    "shellInputKeys": [],
+    "valuesRedacted": true,
+    "controls": {
+      "shellEnvPrecedence": true,
+      "noSecretValuesInReports": true,
+      "gitIgnoredLocalEnvFiles": true
+    }
+  },
+  "commands": {
+    "printBrief": "node scripts/owner-unlock-brief.mjs --print",
+    "preflight": "node scripts/owner-unlock-preflight.mjs --assert --print",
+    "packagePreflight": "npm run autonomous:owner-unlock-preflight",
+    "syncConfiguredValues": "./ops/github/setup-production.sh",
+    "dispatchWhenReady": "RUN_WORKFLOWS=1 ./ops/github/setup-production.sh"
+  },
+  "controls": {
+    "zeroPaidSpend": true,
+    "noSecretValues": true,
+    "noSecretValuesStored": true,
+    "noSecretValuesSerialized": true,
+    "noMutation": true,
+    "noWorkflowDispatch": true,
+    "noAccountCreation": true,
+    "noStoreSubmission": true,
+    "noRevenueEnablement": true,
+    "setupStillRequiresExplicitRun": true,
+    "workflowDispatchStillRequiresRunWorkflows": true,
+    "secretValuesNeverSerialized": true
+  },
+  "unavailableReasons": []
+}
