@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-24T22:44:22.734Z",
+  "generatedAt": "2026-05-24T22:58:55.660Z",
   "status": "production-measurement-local-intake-ready",
   "activePath": "local-browser-buffer",
   "liveCandidate": "pwa-3eed355d8138",
@@ -1228,7 +1228,7 @@
       "missingInputs": 4,
       "invalidInputs": 0,
       "repositoryConfiguredInputs": 4,
-      "localAvailableInputs": 4,
+      "localAvailableInputs": 0,
       "localUrlValidationsPassed": 0,
       "setupCanRun": false,
       "lowestInputMissingInputs": 2,
@@ -1389,7 +1389,7 @@
           "variableInputs": 5,
           "secretInputs": 3,
           "repositoryConfiguredInputs": 4,
-          "localAvailableInputs": 4,
+          "localAvailableInputs": 0,
           "setupCanRun": false
         },
         "inputs": [
@@ -1422,22 +1422,16 @@
             "repositoryName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
             "envName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
             "configuredInRepository": true,
-            "availableInShell": true,
+            "availableInShell": false,
             "availableInLocalEnvFile": false,
-            "availableLocally": true,
+            "availableLocally": false,
             "localEnvFiles": [],
             "ready": true,
             "validation": {
-              "kind": "variable-presence",
-              "status": "pass",
-              "detail": "Variable presence is checked without storing its content.",
-              "checks": [
-                {
-                  "id": "non-empty-local-input",
-                  "passed": true,
-                  "detail": "AGL_EVENT_COLLECTOR_R2_BUCKET is available locally."
-                }
-              ]
+              "kind": "redacted-repository-presence",
+              "status": "not-inspected-repository-configured",
+              "detail": "GitHub stores the configured value redacted; export it locally to validate shape before changing it.",
+              "checks": []
             },
             "command": "gh variable set AGL_EVENT_COLLECTOR_R2_BUCKET --body \"$AGL_EVENT_COLLECTOR_R2_BUCKET\""
           },
@@ -1446,22 +1440,16 @@
             "repositoryName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
             "envName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
             "configuredInRepository": true,
-            "availableInShell": true,
+            "availableInShell": false,
             "availableInLocalEnvFile": false,
-            "availableLocally": true,
+            "availableLocally": false,
             "localEnvFiles": [],
             "ready": true,
             "validation": {
-              "kind": "variable-presence",
-              "status": "pass",
-              "detail": "Variable presence is checked without storing its content.",
-              "checks": [
-                {
-                  "id": "non-empty-local-input",
-                  "passed": true,
-                  "detail": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS is available locally."
-                }
-              ]
+              "kind": "redacted-repository-presence",
+              "status": "not-inspected-repository-configured",
+              "detail": "GitHub stores the configured value redacted; export it locally to validate shape before changing it.",
+              "checks": []
             },
             "command": "gh variable set AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS --body \"$AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS\""
           },
@@ -1542,22 +1530,16 @@
             "repositoryName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
             "envName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
             "configuredInRepository": true,
-            "availableInShell": true,
+            "availableInShell": false,
             "availableInLocalEnvFile": false,
-            "availableLocally": true,
+            "availableLocally": false,
             "localEnvFiles": [],
             "ready": true,
             "validation": {
-              "kind": "secret-presence",
-              "status": "pass",
-              "detail": "Secret presence is checked without inspecting or storing its content.",
-              "checks": [
-                {
-                  "id": "non-empty-local-input",
-                  "passed": true,
-                  "detail": "VITE_EVENT_COLLECTOR_WRITE_TOKEN is available locally."
-                }
-              ]
+              "kind": "redacted-repository-presence",
+              "status": "not-inspected-repository-configured",
+              "detail": "GitHub stores the configured value redacted; export it locally to validate shape before changing it.",
+              "checks": []
             },
             "command": "printf \"%s\" \"$VITE_EVENT_COLLECTOR_WRITE_TOKEN\" | gh secret set VITE_EVENT_COLLECTOR_WRITE_TOKEN"
           },
@@ -1566,22 +1548,16 @@
             "repositoryName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
             "envName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
             "configuredInRepository": true,
-            "availableInShell": true,
+            "availableInShell": false,
             "availableInLocalEnvFile": false,
-            "availableLocally": true,
+            "availableLocally": false,
             "localEnvFiles": [],
             "ready": true,
             "validation": {
-              "kind": "secret-presence",
-              "status": "pass",
-              "detail": "Secret presence is checked without inspecting or storing its content.",
-              "checks": [
-                {
-                  "id": "non-empty-local-input",
-                  "passed": true,
-                  "detail": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN is available locally."
-                }
-              ]
+              "kind": "redacted-repository-presence",
+              "status": "not-inspected-repository-configured",
+              "detail": "GitHub stores the configured value redacted; export it locally to validate shape before changing it.",
+              "checks": []
             },
             "command": "printf \"%s\" \"$AGL_EVENT_COLLECTOR_ADMIN_TOKEN\" | gh secret set AGL_EVENT_COLLECTOR_ADMIN_TOKEN"
           }

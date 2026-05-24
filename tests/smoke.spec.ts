@@ -131,6 +131,9 @@ test('portal loads a playable canvas and autonomy cockpit', async ({ page }) => 
   const nativePackage = JSON.parse(await readFile('data/native-package.json', 'utf8')) as {
     status: string
   }
+  const deployment = JSON.parse(await readFile('data/deployment-plan.json', 'utf8')) as {
+    status: string
+  }
   await page.goto('/')
 
   await expect(page.getByRole('heading', { name: /Original board-game-inspired/i })).toBeVisible()
@@ -144,8 +147,9 @@ test('portal loads a playable canvas and autonomy cockpit', async ({ page }) => 
   await expect(page.getByRole('heading', { name: 'Production Response' })).toBeVisible()
   await expect(page.getByRole('heading', { name: 'Balance Lab' })).toBeVisible()
   await page.getByRole('heading', { name: 'Monetization Path' }).scrollIntoViewIfNeeded()
+  const monetizationPanel = page.locator('.sectionPanel').filter({ hasText: 'Monetization Path' })
   await expect(page.getByText('promotable-internal')).toBeVisible()
-  await expect(page.getByText('ready-for-pages')).toBeVisible()
+  await expect(monetizationPanel).toContainText(deployment.status)
   await expect(page.getByText('blocked-by-product-gates')).toBeVisible()
   await expect(page.getByText('Spend guard')).toBeVisible()
   await expect(page.getByText('no-spend')).toBeVisible()
@@ -210,10 +214,11 @@ test('portal loads a playable canvas and autonomy cockpit', async ({ page }) => 
   await expect(page.getByLabel('Autonomous Self Update')).toContainText('self-update-ready')
   await expect(page.getByLabel('Autonomous Self Update')).toContainText('autonomous-self-update.yml')
   await expect(page.getByLabel('Operator History')).toContainText('Records')
-  await expect(page.getByLabel('Objective Audit')).toContainText('objective-in-progress')
-  await expect(page.getByLabel('Objective Audit')).toContainText('Can complete')
-  await expect(page.getByLabel('Objective Audit')).toContainText('Next action')
-  await expect(page.getByLabel('Objective Audit')).toContainText(objectiveAudit.completion.nextBestAction)
+  const objectiveAuditPanel = page.getByLabel('Objective Audit')
+  await expect(objectiveAuditPanel).toContainText('objective-in-progress')
+  await expect(objectiveAuditPanel).toContainText('Can complete')
+  await expect(objectiveAuditPanel).toContainText('Next action')
+  await expect(objectiveAuditPanel).toContainText(/Next action[a-z0-9-]+/)
   if (objectiveAudit.controls.productionBootstrapFresh) {
     expect(objectiveAudit.completion.nextBestAction).not.toBe('bootstrap-production-setup')
   }

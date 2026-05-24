@@ -1,29 +1,30 @@
 {
-  "generatedAt": "2026-05-24T22:44:23.834Z",
+  "generatedAt": "2026-05-24T22:58:57.382Z",
   "status": "operator-plan-ready",
   "mode": "plan-only",
   "ownerDecision": {
-    "actionId": "refresh-organic-seed-loop",
-    "command": "npm run autonomous:organic-seed-loop",
+    "actionId": "refresh-completion-loop",
+    "command": "npm run autonomous:completion-loop",
     "locallyExecutable": true,
     "rejectionReason": null
   },
   "externalInputHandoff": null,
   "requestedActionId": null,
   "selectedAction": {
-    "id": "refresh-organic-seed-loop",
+    "id": "refresh-completion-loop",
     "status": "armed",
-    "command": "npm run autonomous:organic-seed-loop",
+    "command": "npm run autonomous:completion-loop",
     "targets": [
-      "market-pulse"
+      "harbor-rings"
     ],
-    "reason": "Refreshes the player-initiated zero-cost share surface for the highest-opportunity seed campaign.",
+    "reason": "Refreshes optional completion nudges and behind-pace finish-line coaching from product-gate evidence.",
     "costUsd": 0
   },
   "selectedRejection": null,
   "eligibleActionIds": [
-    "seed-portfolio-traffic",
-    "refresh-organic-seed-loop"
+    "optimize-daily-retention",
+    "refresh-completion-loop",
+    "refresh-replay-loop"
   ],
   "blockedActions": [
     {
@@ -52,9 +53,15 @@
     },
     {
       "id": "seed-portfolio-traffic",
-      "status": "armed",
+      "status": "monitor",
       "command": "npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop",
-      "reason": "not-selected-this-run"
+      "reason": "status-monitor"
+    },
+    {
+      "id": "refresh-organic-seed-loop",
+      "status": "monitor",
+      "command": "npm run autonomous:organic-seed-loop",
+      "reason": "status-monitor"
     },
     {
       "id": "refresh-support-feedback",
@@ -64,9 +71,9 @@
     },
     {
       "id": "optimize-daily-retention",
-      "status": "monitor",
+      "status": "armed",
       "command": "npm run autonomous:retention",
-      "reason": "status-monitor"
+      "reason": "not-selected-this-run"
     },
     {
       "id": "measure-pwa-install-loop",
@@ -141,16 +148,10 @@
       "reason": "status-monitor"
     },
     {
-      "id": "refresh-completion-loop",
-      "status": "monitor",
-      "command": "npm run autonomous:completion-loop",
-      "reason": "status-monitor"
-    },
-    {
       "id": "refresh-replay-loop",
-      "status": "monitor",
+      "status": "armed",
       "command": "npm run autonomous:replay-loop",
-      "reason": "status-monitor"
+      "reason": "not-selected-this-run"
     },
     {
       "id": "prepare-repository-channel",
@@ -233,8 +234,8 @@
   ],
   "commandPlan": [
     {
-      "segment": "npm run autonomous:organic-seed-loop",
-      "script": "autonomous:organic-seed-loop"
+      "segment": "npm run autonomous:completion-loop",
+      "script": "autonomous:completion-loop"
     }
   ],
   "execution": {
@@ -310,7 +311,7 @@
     "RUN_WORKFLOWS=1"
   ],
   "nextActions": [
-    "Run npm run autonomous:operator -- --execute --action=refresh-organic-seed-loop to execute exactly one allowed local action.",
+    "Run npm run autonomous:operator -- --execute --action=refresh-completion-loop to execute exactly one allowed local action.",
     "Do not execute GitHub workflow, store, paid ads, or account setup commands from the local operator."
   ]
 }
