@@ -1,10 +1,27 @@
 export const postDeploySmoke = {
-  "generatedAt": "2026-05-24T20:03:40.549Z",
+  "generatedAt": "2026-05-24T20:18:34.561Z",
   "status": "post-deploy-smoke-observed-live",
   "envFiles": {
-    "loaded": false,
-    "loadedFiles": [],
-    "loadedKeys": [],
+    "loaded": true,
+    "loadedFiles": [
+      {
+        "path": "ops/production.env.local",
+        "keys": [
+          "AGL_ANDROID_PACKAGE_NAME",
+          "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
+          "AGL_ANDROID_KEYSTORE_BASE64",
+          "AGL_ANDROID_KEYSTORE_PASSWORD",
+          "AGL_ANDROID_KEY_ALIAS"
+        ]
+      }
+    ],
+    "loadedKeys": [
+      "AGL_ANDROID_PACKAGE_NAME",
+      "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
+      "AGL_ANDROID_KEYSTORE_BASE64",
+      "AGL_ANDROID_KEYSTORE_PASSWORD",
+      "AGL_ANDROID_KEY_ALIAS"
+    ],
     "skippedExistingKeys": [],
     "skippedProtectedKeys": [],
     "overwrittenEnvFileKeys": [],
@@ -38,8 +55,8 @@ export const postDeploySmoke = {
     "origin": "https://moshequ.github.io/autonomous-game-lab",
     "originSource": "release-candidate-public-origin",
     "provider": "github-pages",
-    "candidateId": "pwa-f874ad9b0bca",
-    "aggregateHash": "f874ad9b0bca2c02796b1e1ee5daceea90e5bc2bc2a99de735886faf397af956",
+    "candidateId": "pwa-b1242f7b7124",
+    "aggregateHash": "b1242f7b712414c9b874349e1efebb4f95c0186c140e7e56d16eb1083c194730",
     "strictManifestComparison": false
   },
   "liveRelease": {
@@ -66,8 +83,8 @@ export const postDeploySmoke = {
     "status": "predeploy-artifact-smoke-passed",
     "artifactPath": "dist",
     "summary": {
-      "planned": 29,
-      "passed": 29,
+      "planned": 30,
+      "passed": 30,
       "failed": 0
     },
     "controls": {
@@ -103,7 +120,7 @@ export const postDeploySmoke = {
         "file": "dist/sw.js",
         "expectedStatus": 200,
         "status": "pass",
-        "bytes": 5184,
+        "bytes": 5222,
         "textMatched": true,
         "detail": "Local production artifact matched required text."
       },
@@ -233,7 +250,7 @@ export const postDeploySmoke = {
         "file": "dist/monetization.json",
         "expectedStatus": 200,
         "status": "pass",
-        "bytes": 1720,
+        "bytes": 2095,
         "textMatched": true,
         "detail": "Local production artifact matched required text."
       },
@@ -348,6 +365,16 @@ export const postDeploySmoke = {
         "detail": "Local production artifact matched required text."
       },
       {
+        "id": "monetization-html",
+        "path": "/monetization.html",
+        "file": "dist/monetization.html",
+        "expectedStatus": 200,
+        "status": "pass",
+        "bytes": 7213,
+        "textMatched": true,
+        "detail": "Local production artifact matched required text."
+      },
+      {
         "id": "games-canopy-bloom-html",
         "path": "/games/canopy-bloom.html",
         "file": "dist/games/canopy-bloom.html",
@@ -363,11 +390,11 @@ export const postDeploySmoke = {
         "file": "dist/release-candidate.json",
         "expectedStatus": 200,
         "status": "pass",
-        "bytes": 30934,
+        "bytes": 31498,
         "candidateMatches": true,
         "hashMatches": true,
-        "localCandidateId": "pwa-f874ad9b0bca",
-        "localAggregateHash": "f874ad9b0bca2c02796b1e1ee5daceea90e5bc2bc2a99de735886faf397af956",
+        "localCandidateId": "pwa-b1242f7b7124",
+        "localAggregateHash": "b1242f7b712414c9b874349e1efebb4f95c0186c140e7e56d16eb1083c194730",
         "detail": "Local release manifest matches the release candidate."
       }
     ]
@@ -781,7 +808,7 @@ export const postDeploySmoke = {
       "path": "/release-candidate.json",
       "url": "https://moshequ.github.io/autonomous-game-lab/release-candidate.json",
       "expectedStatus": 200,
-      "requiredText": "pwa-f874ad9b0bca",
+      "requiredText": "pwa-b1242f7b7124",
       "status": "pass",
       "detail": "Live release manifest is reachable; it does not match the current local release candidate.",
       "actualStatus": 200,

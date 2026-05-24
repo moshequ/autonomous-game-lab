@@ -14,12 +14,20 @@ const outputTsPath = path.join(root, 'src', 'data', 'monetizationPlan.ts')
 const reportPath = path.join(root, 'reports', 'monetization-plan-latest.md')
 const appAdsPath = path.join(root, 'public', 'app-ads.txt')
 const publicManifestPath = path.join(root, 'public', 'monetization.json')
+const publicHtmlPath = path.join(root, 'public', 'monetization.html')
 
 const readJson = async (filePath) => JSON.parse(await readFile(filePath, 'utf8'))
 const readOptionalJson = async (filePath, fallback) =>
   readFile(filePath, 'utf8')
     .then((raw) => JSON.parse(raw))
     .catch(() => fallback)
+const escapeHtml = (value) =>
+  String(value ?? '')
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&#39;')
 
 const gates = await readJson(gatesPath)
 const readiness = await readJson(readinessPath)
@@ -239,6 +247,14 @@ const payload = {
     adDisclosureRequiredWhenEnabled: true,
     purchasesDisabledUntilExplicitGate: true,
   },
+  publicRoutes: {
+    monetization: '/monetization.html',
+    monetizationJson: '/monetization.json',
+    appAdsTxt: '/app-ads.txt',
+    measurementStatus: '/measurement-status.html',
+    gateSample: '/gate-sample.html',
+    privacyPolicy: storePackage.privacyPolicy?.path ?? '/privacy.html',
+  },
   safety: {
     neverEnableBeforeRetention: gates.monetization.blockedBeforeRetention,
     firstAllowedPlacement: placements[0].id,
@@ -275,12 +291,14 @@ const publicManifest = {
   revenueTestPreflight: {
     status: payload.revenueTestPreflight.status,
     canArmRevenueTest: payload.revenueTestPreflight.canArmRevenueTest,
+    blockingCheckIds: payload.revenueTestPreflight.blockingCheckIds,
     checks: payload.revenueTestPreflight.checks.map((check) => ({
       id: check.id,
       status: check.status,
     })),
     controls: payload.revenueTestPreflight.controls,
   },
+  publicRoutes: payload.publicRoutes,
   runtime: payload.runtime,
   placements: payload.placements.map((placement) => ({
     id: placement.id,
@@ -298,6 +316,7 @@ const report = [
   `Analytics source: ${payload.analyticsSource}`,
   `Runtime: ${payload.runtime.status}`,
   `Revenue test preflight: ${payload.revenueTestPreflight.status}`,
+  `Public preflight: ${payload.publicRoutes.monetization}`,
   '',
   '## Metrics',
   '',
@@ -341,6 +360,239 @@ const report = [
   '',
 ]
 
+const publicHtml = `<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Autonomous Game Lab Monetization Preflight</title>
+    <style>
+      :root {
+        color: #16211f;
+        background: #f6f8f7;
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+      }
+
+      header,
+      main {
+        width: min(1120px, calc(100% - 32px));
+        margin: 0 auto;
+      }
+
+      header {
+        padding: 42px 0 22px;
+      }
+
+      h1,
+      h2,
+      p {
+        margin: 0;
+      }
+
+      h1 {
+        max-width: 760px;
+        font-size: clamp(2rem, 5vw, 4.4rem);
+        line-height: 0.98;
+        letter-spacing: 0;
+      }
+
+      h2 {
+        font-size: 1.2rem;
+        letter-spacing: 0;
+      }
+
+      p {
+        color: #4d5c58;
+        line-height: 1.55;
+      }
+
+      header p:not(.eyebrow) {
+        max-width: 720px;
+        margin-top: 14px;
+        font-size: 1.05rem;
+      }
+
+      .eyebrow {
+        margin-bottom: 10px;
+        color: #0f766e;
+        font-size: 0.76rem;
+        font-weight: 800;
+        letter-spacing: 0;
+        text-transform: uppercase;
+      }
+
+      .summary,
+      .checks,
+      .placements {
+        display: grid;
+        gap: 12px;
+      }
+
+      .summary {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        padding: 18px 0 22px;
+      }
+
+      .checks,
+      .placements {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .placements {
+        margin-top: 14px;
+      }
+
+      .metric,
+      .check,
+      .placement,
+      .handoff {
+        border: 1px solid #c9d6d2;
+        border-radius: 8px;
+        background: #ffffff;
+        padding: 16px;
+      }
+
+      .metric span,
+      .check span,
+      .placement span {
+        display: block;
+        color: #68736f;
+        font-size: 0.76rem;
+        font-weight: 800;
+        text-transform: uppercase;
+      }
+
+      .metric strong,
+      .check strong,
+      .placement strong {
+        display: block;
+        margin-top: 5px;
+        overflow-wrap: anywhere;
+        font-size: 1.05rem;
+      }
+
+      .check p,
+      .placement p {
+        margin-top: 10px;
+      }
+
+      section {
+        margin-bottom: 24px;
+      }
+
+      section > h2 {
+        margin-bottom: 12px;
+      }
+
+      .handoff {
+        margin: 24px 0 42px;
+      }
+
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 14px;
+      }
+
+      a {
+        color: #0f5f58;
+        font-weight: 800;
+      }
+
+      .actions a {
+        display: inline-flex;
+        min-height: 42px;
+        align-items: center;
+        justify-content: center;
+        padding: 0 14px;
+        border-radius: 7px;
+        background: #0f766e;
+        color: #ffffff;
+        text-decoration: none;
+      }
+
+      .actions a:nth-child(2) {
+        background: #31423d;
+      }
+
+      .actions a:nth-child(3) {
+        background: #bd4d38;
+      }
+
+      @media (max-width: 820px) {
+        .summary,
+        .checks,
+        .placements {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <p class="eyebrow">Zero-spend revenue gate</p>
+      <h1>Autonomous Game Lab Monetization Preflight</h1>
+      <p>Rewarded and cosmetic revenue tests stay disabled until product gates, promotion safety, provider setup, privacy, and spend controls all pass.</p>
+    </header>
+    <main>
+      <section class="summary" aria-label="Monetization summary">
+        <div class="metric"><span>Status</span><strong>${escapeHtml(payload.status)}</strong></div>
+        <div class="metric"><span>Revenue enabled</span><strong>${payload.revenueEnabled ? 'yes' : 'no'}</strong></div>
+        <div class="metric"><span>Preflight</span><strong>${escapeHtml(payload.revenueTestPreflight.status)}</strong></div>
+        <div class="metric"><span>Runtime</span><strong>${escapeHtml(payload.runtime.status)}</strong></div>
+      </section>
+      <section aria-label="Revenue test checks">
+        <h2>Revenue Test Checks</h2>
+        <div class="checks">
+          ${preflightChecks
+            .map(
+              (check) => `<article class="check">
+                <span>${escapeHtml(check.id)}</span>
+                <strong>${escapeHtml(check.status)}</strong>
+                <p>${escapeHtml(check.detail)}</p>
+              </article>`,
+            )
+            .join('')}
+        </div>
+      </section>
+      <section aria-label="Revenue placements">
+        <h2>Placements</h2>
+        <div class="placements">
+          ${payload.placements
+            .map(
+              (placement) => `<article class="placement">
+                <span>${escapeHtml(placement.type)}</span>
+                <strong>${escapeHtml(placement.id)}: ${escapeHtml(placement.status)}</strong>
+                <p>${escapeHtml(placement.trigger)} ${escapeHtml(placement.frequencyCap)}</p>
+              </article>`,
+            )
+            .join('')}
+        </div>
+      </section>
+      <section class="handoff" aria-label="Monetization handoff">
+        <h2>Handoff</h2>
+        <p>Current blocker: ${escapeHtml(payload.runtime.disabledReason ?? 'none')}. Revenue, paid acquisition, and store submission remain blocked while this preflight is not ready.</p>
+        <div class="actions">
+          <a href="./measurement-status.html">Open measurement status</a>
+          <a href="./gate-sample.html">Open gate sample</a>
+          <a href="./monetization.json">Open monetization JSON</a>
+          <a href="./app-ads.txt">Open app-ads.txt</a>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
+`
+
 await mkdir(path.dirname(outputJsonPath), { recursive: true })
 await mkdir(path.dirname(outputTsPath), { recursive: true })
 await mkdir(path.dirname(reportPath), { recursive: true })
@@ -351,11 +603,13 @@ await writeFile(
   `export const monetizationPlan = ${JSON.stringify(payload, null, 2)} as const\n\nexport type MonetizationPlan = typeof monetizationPlan\n`,
 )
 await writeFile(publicManifestPath, JSON.stringify(publicManifest, null, 2) + '\n')
+await writeFile(publicHtmlPath, publicHtml)
 await writeFile(appAdsPath, appAdsText)
 await writeFile(reportPath, report.join('\n'))
 
 console.log(`Wrote ${path.relative(root, outputJsonPath)}`)
 console.log(`Wrote ${path.relative(root, outputTsPath)}`)
 console.log(`Wrote ${path.relative(root, publicManifestPath)}`)
+console.log(`Wrote ${path.relative(root, publicHtmlPath)}`)
 console.log(`Wrote ${path.relative(root, appAdsPath)}`)
 console.log(`Wrote ${path.relative(root, reportPath)}`)

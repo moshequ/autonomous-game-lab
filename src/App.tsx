@@ -4381,6 +4381,12 @@ function App() {
                 <span>Preflight</span>
                 <strong>{monetizationPlan.revenueTestPreflight.status}</strong>
               </div>
+              <div className="factRow">
+                <span>Preflight page</span>
+                <a href="/monetization.html" target="_blank" rel="noreferrer">
+                  open
+                </a>
+              </div>
               <div className="monetizationRuntime" aria-label="Revenue runtime">
                 <div>
                   <span>Runtime offer</span>

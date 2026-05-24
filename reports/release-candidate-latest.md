@@ -1,22 +1,22 @@
 # Release Candidate
 
-Generated: 2026-05-24T20:03:32.930Z
+Generated: 2026-05-24T20:18:24.448Z
 Status: release-candidate-ready
-Candidate: pwa-f874ad9b0bca
-Files: 69
-Size: 3892.2 KB
-Aggregate SHA-256: f874ad9b0bca2c02796b1e1ee5daceea90e5bc2bc2a99de735886faf397af956
+Candidate: pwa-b1242f7b7124
+Files: 70
+Size: 3900 KB
+Aggregate SHA-256: b1242f7b712414c9b874349e1efebb4f95c0186c140e7e56d16eb1083c194730
 
 ## Checks
 
-- pass: dist-inventory - 69 dist files inventoried.
-- pass: required-files - 33/33 required files present.
+- pass: dist-inventory - 70 dist files inventoried.
+- pass: required-files - 34/34 required files present.
 - pass: game-pages - 10 generated game page(s) in dist.
 - pass: performance-budget - Performance budget is performance-budget-ready.
 - pass: release-health - Release health is monitoring.
 - pass: production-response - Deploy allowed is true.
 - pass: spend-guard - Spend mode is no-spend.
-- pass: post-deploy-smoke-plan - 28 post-deploy smoke URL(s) planned.
+- pass: post-deploy-smoke-plan - 29 post-deploy smoke URL(s) planned.
 
 ## Required Files
 
@@ -46,6 +46,7 @@ Aggregate SHA-256: f874ad9b0bca2c02796b1e1ee5daceea90e5bc2bc2a99de735886faf397af
 - pass: seed-next.html
 - pass: seed-next.json
 - pass: share-manifest.json
+- pass: monetization.html
 - pass: monetization.json
 - pass: app-ads.txt
 - pass: .nojekyll
@@ -83,6 +84,7 @@ Aggregate SHA-256: f874ad9b0bca2c02796b1e1ee5daceea90e5bc2bc2a99de735886faf397af
 - 200: https://moshequ.github.io/autonomous-game-lab/seed-next.html
 - 200: https://moshequ.github.io/autonomous-game-lab/seed-next.json
 - 200: https://moshequ.github.io/autonomous-game-lab/sitemap.xml
+- 200: https://moshequ.github.io/autonomous-game-lab/monetization.html
 - 200: https://moshequ.github.io/autonomous-game-lab/games/canopy-bloom.html
 
 ## Controls

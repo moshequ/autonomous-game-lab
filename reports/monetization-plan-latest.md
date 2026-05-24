@@ -1,11 +1,12 @@
 # Monetization Plan
 
-Generated: 2026-05-23T00:45:55.061Z
+Generated: 2026-05-24T20:13:32.255Z
 Status: blocked-by-product-gates
 Revenue enabled: false
 Analytics source: fixture-sample
 Runtime: guarded-disabled
 Revenue test preflight: waiting-on-provider-or-product-gates
+Public preflight: /monetization.html
 
 ## Metrics
 

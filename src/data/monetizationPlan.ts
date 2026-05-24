@@ -1,5 +1,5 @@
 export const monetizationPlan = {
-  "generatedAt": "2026-05-23T00:45:55.061Z",
+  "generatedAt": "2026-05-24T20:13:32.255Z",
   "status": "blocked-by-product-gates",
   "revenueEnabled": false,
   "costPosture": "no-new-spend-until-gates-pass",
@@ -164,6 +164,14 @@ export const monetizationPlan = {
     "appAdsTxtPath": "/app-ads.txt",
     "adDisclosureRequiredWhenEnabled": true,
     "purchasesDisabledUntilExplicitGate": true
+  },
+  "publicRoutes": {
+    "monetization": "/monetization.html",
+    "monetizationJson": "/monetization.json",
+    "appAdsTxt": "/app-ads.txt",
+    "measurementStatus": "/measurement-status.html",
+    "gateSample": "/gate-sample.html",
+    "privacyPolicy": "/privacy.html"
   },
   "safety": {
     "neverEnableBeforeRetention": [

@@ -1,10 +1,15 @@
 {
-  "generatedAt": "2026-05-23T00:45:55.061Z",
+  "generatedAt": "2026-05-24T20:13:32.255Z",
   "status": "blocked-by-product-gates",
   "revenueEnabled": false,
   "revenueTestPreflight": {
     "status": "waiting-on-provider-or-product-gates",
     "canArmRevenueTest": false,
+    "blockingCheckIds": [
+      "product-gates",
+      "promotion-gate",
+      "ad-provider"
+    ],
     "checks": [
       {
         "id": "product-gates",
@@ -41,6 +46,14 @@
       "noStoreSubmission": true,
       "noSecretValues": true
     }
+  },
+  "publicRoutes": {
+    "monetization": "/monetization.html",
+    "monetizationJson": "/monetization.json",
+    "appAdsTxt": "/app-ads.txt",
+    "measurementStatus": "/measurement-status.html",
+    "gateSample": "/gate-sample.html",
+    "privacyPolicy": "/privacy.html"
   },
   "runtime": {
     "status": "guarded-disabled",

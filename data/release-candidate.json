@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-05-24T20:03:32.930Z",
+  "generatedAt": "2026-05-24T20:18:24.448Z",
   "status": "release-candidate-ready",
-  "candidateId": "pwa-f874ad9b0bca",
+  "candidateId": "pwa-b1242f7b7124",
   "target": {
     "provider": "github-pages",
     "artifactPath": "dist",
@@ -11,18 +11,18 @@
     "basePath": "/autonomous-game-lab/"
   },
   "summary": {
-    "totalFiles": 69,
-    "totalBytes": 3985620,
-    "totalKb": 3892.2,
+    "totalFiles": 70,
+    "totalBytes": 3993630,
+    "totalKb": 3900,
     "assetFiles": 14,
-    "htmlFiles": 22,
+    "htmlFiles": 23,
     "gamePages": 10,
     "requiredFilesPresent": true,
-    "postDeploySmokeUrls": 28
+    "postDeploySmokeUrls": 29
   },
   "integrity": {
     "algorithm": "sha256",
-    "aggregateHash": "f874ad9b0bca2c02796b1e1ee5daceea90e5bc2bc2a99de735886faf397af956",
+    "aggregateHash": "b1242f7b712414c9b874349e1efebb4f95c0186c140e7e56d16eb1083c194730",
     "files": [
       {
         "path": ".nojekyll",
@@ -48,7 +48,7 @@
       {
         "path": "analytics-unlock.json",
         "bytes": 57107,
-        "sha256": "870e35cda2c48a2496c8c36c55e5c95066252f76dd2f0bef1518bc21429950a1",
+        "sha256": "26031551892cbc9b1004758ebbf334f35bde18a135df303676d44d27e9947b31",
         "contentType": "application/json; charset=utf-8",
         "cacheControl": "public, max-age=3600"
       },
@@ -60,16 +60,16 @@
         "cacheControl": "public, max-age=3600"
       },
       {
-        "path": "assets/aggregateEvidenceIssue-Cj-w7XjV.js",
+        "path": "assets/aggregateEvidenceIssue-C-6MgfiH.js",
         "bytes": 3717,
-        "sha256": "36afeee27984affe989417864d87ba1f0fc48da6c035570c5cfeb0ab7e6791bc",
+        "sha256": "3c92f398b63c7f0ce1a77732e4343a8804558f96ae1bf3296475e8b906dea231",
         "contentType": "text/javascript; charset=utf-8",
         "cacheControl": "public, max-age=31536000, immutable"
       },
       {
-        "path": "assets/calendarReminder-D3o-sRYx.js",
+        "path": "assets/calendarReminder-OLeHCEiR.js",
         "bytes": 1627,
-        "sha256": "dc54ada1f0be5fb08b0aa28f89e52306d727ec380e72477e1a5742a107091fde",
+        "sha256": "4a27cf2b60eab44339ffaa0de35005fd211c32810488f5ef1fe4cf13c740e05b",
         "contentType": "text/javascript; charset=utf-8",
         "cacheControl": "public, max-age=31536000, immutable"
       },
@@ -88,9 +88,9 @@
         "cacheControl": "public, max-age=31536000, immutable"
       },
       {
-        "path": "assets/GameCanvas-B4UDKMh-.js",
+        "path": "assets/GameCanvas-DHHtCWKx.js",
         "bytes": 3362,
-        "sha256": "c87bdec2500984aa6611384caac4f119649545054444c605d18d32525152468c",
+        "sha256": "c91d8f63cb0e942ce5c0571b136858deabea720882fb59e7d4e1892d5ddbe424",
         "contentType": "text/javascript; charset=utf-8",
         "cacheControl": "public, max-age=31536000, immutable"
       },
@@ -116,17 +116,17 @@
         "cacheControl": "public, max-age=31536000, immutable"
       },
       {
+        "path": "assets/index-BGdV17uC.js",
+        "bytes": 697671,
+        "sha256": "9fec926f81e93c71ff72fcbd2c2cc6d6efa847bb5c272f3e797181c4de7b4357",
+        "contentType": "text/javascript; charset=utf-8",
+        "cacheControl": "public, max-age=31536000, immutable"
+      },
+      {
         "path": "assets/index-BzgYwZsM.css",
         "bytes": 10779,
         "sha256": "89188e66d91ef0b9e7625648b0d29b258bade07986611b5703ad4689ce0effa2",
         "contentType": "text/css; charset=utf-8",
-        "cacheControl": "public, max-age=31536000, immutable"
-      },
-      {
-        "path": "assets/index-Cv-k75vM.js",
-        "bytes": 697287,
-        "sha256": "f9fb6921e2eb6beeab240ad65d94ec2de10f2d25077303c54a160d2e2d825ce3",
-        "contentType": "text/javascript; charset=utf-8",
         "cacheControl": "public, max-age=31536000, immutable"
       },
       {
@@ -160,7 +160,7 @@
       {
         "path": "compliance.json",
         "bytes": 5625,
-        "sha256": "085dcc0ed4959b519669dc924f00b77479746b5f81927e5cbbbda5d0b9998dc8",
+        "sha256": "7f8b0a3e8a9e892dc735a84248baa7c00307d7af17c7fcc80f811627c95321f3",
         "contentType": "application/json; charset=utf-8",
         "cacheControl": "public, max-age=3600"
       },
@@ -307,7 +307,7 @@
       {
         "path": "index.html",
         "bytes": 2846,
-        "sha256": "10a76f9084253b983e4262a320d54e591e7578329202fca2ad8506a14bf40a37",
+        "sha256": "a8ff16f6663cc3e29f3cc6233f44ad0fdcca4b741f6747f14b650bf9fcc05332",
         "contentType": "text/html; charset=utf-8",
         "cacheControl": "no-cache"
       },
@@ -328,35 +328,42 @@
       {
         "path": "measurement-status.html",
         "bytes": 29189,
-        "sha256": "afe8063410f8a6c95c707b846b04818a9bd38cb5bac77faf26b2fa2912964525",
+        "sha256": "7b69b46a773b6ebb96e0910c1f0d3e32ca622a4a3603607d5b8162b26438ff9c",
         "contentType": "text/html; charset=utf-8",
         "cacheControl": "no-cache"
       },
       {
         "path": "measurement-status.json",
         "bytes": 76046,
-        "sha256": "586f3f86e9950f6f194e33bc5d0a93ddd2fd9acb023c16a58501ae9953200a04",
+        "sha256": "8df2069a2544e2360c5e35ce402958f2594db616021849512631f4eae4ded73b",
         "contentType": "application/json; charset=utf-8",
         "cacheControl": "public, max-age=3600"
       },
       {
+        "path": "monetization.html",
+        "bytes": 7213,
+        "sha256": "0c52f37abe5384bd7b99119586646bddc3593fc7d3e1b07908c9b0669abb2a42",
+        "contentType": "text/html; charset=utf-8",
+        "cacheControl": "no-cache"
+      },
+      {
         "path": "monetization.json",
-        "bytes": 1720,
-        "sha256": "586d7890a837a178c1cf183614c61887d9ef7120cf22e69445930c0616d88ffd",
+        "bytes": 2095,
+        "sha256": "7ce79aff8b708e54b2240ab2dc0e722730e4ea19990a64fd47b9d8cedaca7172",
         "contentType": "application/json; charset=utf-8",
         "cacheControl": "public, max-age=3600"
       },
       {
         "path": "owner-unlock-brief.json",
         "bytes": 6848,
-        "sha256": "534b4af721ac93a54551d987e138574618448307b16145e4788d0b9ffa422d4d",
+        "sha256": "4deda89975e59aa28f6ca3139deb07bccc448fadd42fbe254686118aa9a31375",
         "contentType": "application/json; charset=utf-8",
         "cacheControl": "public, max-age=3600"
       },
       {
         "path": "owner-unlock-preflight.json",
         "bytes": 29658,
-        "sha256": "4370a967f55ac1f82fc1c5a01217e3b294b7ea7d1c8909213b6de79b90d4a19c",
+        "sha256": "03c96550efd8764d916e0c7a3ca51e3aec33c418c46a81dd3bcbbb3676b45fbc",
         "contentType": "application/json; charset=utf-8",
         "cacheControl": "public, max-age=3600"
       },
@@ -377,7 +384,7 @@
       {
         "path": "product-gate-recovery.json",
         "bytes": 9315,
-        "sha256": "938fc8fc50d594c7c1fe9b6fa77809ebfbf92a423ec5288152fa0b5938dd4283",
+        "sha256": "aab402c4a1a2830506f3ffbeb56b285e7baa71b1efc6c9436c867d31fcfb6d3b",
         "contentType": "application/json; charset=utf-8",
         "cacheControl": "public, max-age=3600"
       },
@@ -495,8 +502,8 @@
       },
       {
         "path": "sw.js",
-        "bytes": 5186,
-        "sha256": "cd24117ded0a832fb46c267a16fe9e24588067dc755e1346688e55f9ba13b6a1",
+        "bytes": 5224,
+        "sha256": "53de1e140de78460b3a6250b5d08b44e3df8594c767b4d08a4470f3c83339900",
         "contentType": "text/javascript; charset=utf-8",
         "cacheControl": "no-cache"
       },
@@ -611,6 +618,10 @@
       },
       {
         "path": "share-manifest.json",
+        "status": "pass"
+      },
+      {
+        "path": "monetization.html",
         "status": "pass"
       },
       {
@@ -834,6 +845,13 @@
       "requiredText": null
     },
     {
+      "id": "monetization-html",
+      "path": "/monetization.html",
+      "url": "https://moshequ.github.io/autonomous-game-lab/monetization.html",
+      "expectedStatus": 200,
+      "requiredText": "Monetization Preflight"
+    },
+    {
       "id": "games-canopy-bloom-html",
       "path": "/games/canopy-bloom.html",
       "url": "https://moshequ.github.io/autonomous-game-lab/games/canopy-bloom.html",
@@ -886,12 +904,12 @@
     {
       "id": "dist-inventory",
       "status": "pass",
-      "detail": "69 dist files inventoried."
+      "detail": "70 dist files inventoried."
     },
     {
       "id": "required-files",
       "status": "pass",
-      "detail": "33/33 required files present."
+      "detail": "34/34 required files present."
     },
     {
       "id": "game-pages",
@@ -921,7 +939,7 @@
     {
       "id": "post-deploy-smoke-plan",
       "status": "pass",
-      "detail": "28 post-deploy smoke URL(s) planned."
+      "detail": "29 post-deploy smoke URL(s) planned."
     }
   ],
   "nextActions": [

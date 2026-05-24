@@ -120,6 +120,7 @@ const requiredFiles = [
   'seed-next.html',
   'seed-next.json',
   'share-manifest.json',
+  'monetization.html',
   'monetization.json',
   'app-ads.txt',
   '.nojekyll',
@@ -215,6 +216,7 @@ const smokePaths = [
   'seed-next.html',
   'seed-next.json',
   'sitemap.xml',
+  'monetization.html',
   gamePages[0]?.path,
 ].filter(Boolean)
 
@@ -229,6 +231,10 @@ const requiredTextForSmokePath = (filePath) => {
 
   if (filePath === 'monetization.json') {
     return 'blocked-by-product-gates'
+  }
+
+  if (filePath === 'monetization.html') {
+    return 'Monetization Preflight'
   }
 
   if (filePath === 'app-ads.txt') {

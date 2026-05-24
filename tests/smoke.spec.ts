@@ -1478,6 +1478,7 @@ test('release candidate records the exact deployable PWA artifact', async () => 
   expect(candidate.integrity.files.some((file) => file.path === 'seed-kit.html')).toBe(true)
   expect(candidate.integrity.files.some((file) => file.path === 'seed-next.html')).toBe(true)
   expect(candidate.integrity.files.some((file) => file.path === 'seed-next.json')).toBe(true)
+  expect(candidate.integrity.files.some((file) => file.path === 'monetization.html')).toBe(true)
   expect(candidate.integrity.files.some((file) => file.path === '.nojekyll')).toBe(true)
   expect(candidate.integrity.files.some((file) => file.path === '.well-known/assetlinks.json')).toBe(true)
   expect(candidate.integrity.files.some((file) => file.cacheControl.includes('immutable'))).toBe(true)
@@ -1498,6 +1499,7 @@ test('release candidate records the exact deployable PWA artifact', async () => 
   expect(candidate.postDeploySmoke.some((check) => check.path === '/seed-kit.html')).toBe(true)
   expect(candidate.postDeploySmoke.some((check) => check.path === '/seed-next.html')).toBe(true)
   expect(candidate.postDeploySmoke.some((check) => check.path === '/seed-next.json')).toBe(true)
+  expect(candidate.postDeploySmoke.some((check) => check.path === '/monetization.html')).toBe(true)
   expect(candidate.postDeploySmoke.some((check) => check.path === '/privacy.html')).toBe(true)
   expect(candidate.postDeploySmoke.some((check) => check.path === '/.well-known/assetlinks.json')).toBe(true)
   expect(candidate.controls.zeroPaidSpend).toBe(true)
@@ -1539,6 +1541,7 @@ test('PWA service worker keeps operational evidence endpoints fresh', async () =
     'seed-kit.html',
     'gate-sample.html',
     'share-manifest.json',
+    'monetization.html',
     'privacy.html',
     'support.html',
     'install.html',
@@ -10143,11 +10146,24 @@ test('generated compliance manifest is reachable', async ({ page }) => {
 })
 
 test('monetization manifest and app ads placeholder are reachable', async ({ page }) => {
+  await page.goto('/monetization.html')
+
+  await expect(page.getByRole('heading', { name: 'Autonomous Game Lab Monetization Preflight' })).toBeVisible()
+  await expect(page.getByLabel('Monetization summary')).toContainText('blocked-by-product-gates')
+  await expect(page.getByLabel('Revenue test checks')).toContainText('product-gates')
+  await expect(page.getByLabel('Revenue placements')).toContainText('rewarded-hint-after-failed-daily')
+  await expect(page.getByRole('link', { name: 'Open measurement status' })).toHaveAttribute(
+    'href',
+    './measurement-status.html',
+  )
+  await expect(page.getByRole('link', { name: 'Open gate sample' })).toHaveAttribute('href', './gate-sample.html')
+
   await page.goto('/monetization.json')
 
   await expect(page.locator('body')).toContainText('blocked-by-product-gates')
   await expect(page.locator('body')).toContainText('rewarded-hint-after-failed-daily')
   await expect(page.locator('body')).toContainText('revenueTestPreflight')
+  await expect(page.locator('body')).toContainText('monetization.html')
   await expect(page.locator('body')).toContainText('canArmRevenueTest')
   await expect(page.locator('body')).toContainText('noRevenueEnablementUntilAllChecksPass')
 
@@ -10160,8 +10176,13 @@ test('monetization runtime is guarded before revenue gates pass', async ({ page 
 
   await expect(page.getByLabel('Revenue runtime')).toContainText('guarded-disabled')
   await expect(page.getByLabel('Revenue runtime')).toContainText('rewarded-hint-after-failed-daily')
-  await expect(page.getByText('Preflight')).toBeVisible()
+  const monetizationPanel = page.locator('.sectionPanel').filter({ hasText: 'Monetization Path' })
+  await expect(monetizationPanel.getByText('Preflight', { exact: true })).toBeVisible()
   await expect(page.getByText('waiting-on-provider-or-product-gates')).toBeVisible()
+  await expect(monetizationPanel.getByRole('link', { name: 'open' })).toHaveAttribute(
+    'href',
+    '/monetization.html',
+  )
   await expect(page.getByRole('button', { name: 'Revenue gate held' })).toBeDisabled()
 
   await expect

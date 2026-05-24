@@ -262,9 +262,11 @@ const requiredFiles = [
   'public/share-manifest.json',
   'public/compliance.json',
   'public/app-ads.txt',
+  'public/monetization.html',
   'public/monetization.json',
   'public/.well-known/assetlinks.json',
   'dist/compliance.json',
+  'dist/monetization.html',
   'dist/owner-unlock-brief.json',
   'dist/owner-unlock-preflight.json',
   'dist/.well-known/assetlinks.json',
@@ -443,6 +445,8 @@ const publicOwnerUnlockPreflight = JSON.parse(
 )
 const analyticsUnlockHtml = await readFile(path.join(root, 'public', 'analytics-unlock.html'), 'utf8')
 const publicAnalyticsUnlockStatus = JSON.parse(await readFile(path.join(root, 'public', 'analytics-unlock.json'), 'utf8'))
+const monetizationHtml = await readFile(path.join(root, 'public', 'monetization.html'), 'utf8')
+const publicMonetizationManifest = JSON.parse(await readFile(path.join(root, 'public', 'monetization.json'), 'utf8'))
 const installHtml = await readFile(path.join(root, 'public', 'install.html'), 'utf8')
 const seedKitHtml = await readFile(path.join(root, 'public', 'seed-kit.html'), 'utf8')
 const seedNextHtml = await readFile(path.join(root, 'public', 'seed-next.html'), 'utf8')
@@ -5642,6 +5646,16 @@ if (
   monetizationPlan.revenueTestPreflight?.controls?.noRevenueEnablementUntilAllChecksPass !== true ||
   monetizationPlan.revenueTestPreflight?.controls?.noPaidSpend !== true ||
   monetizationPlan.revenueTestPreflight?.controls?.noStoreSubmission !== true ||
+  monetizationPlan.publicRoutes?.monetization !== '/monetization.html' ||
+  monetizationPlan.publicRoutes?.monetizationJson !== '/monetization.json' ||
+  publicMonetizationManifest.publicRoutes?.monetization !== '/monetization.html' ||
+  publicMonetizationManifest.revenueTestPreflight?.blockingCheckIds?.length !==
+    monetizationPlan.revenueTestPreflight?.blockingCheckIds?.length ||
+  !monetizationHtml.includes('Autonomous Game Lab Monetization Preflight') ||
+  !monetizationHtml.includes('Revenue Test Checks') ||
+  !monetizationHtml.includes('./measurement-status.html') ||
+  !monetizationHtml.includes('./gate-sample.html') ||
+  !monetizationHtml.includes('rewarded-hint-after-failed-daily') ||
   !['product-gates', 'promotion-gate', 'ad-provider', 'privacy-policy', 'runtime-guardrails', 'telemetry-contract', 'spend-guard'].every((id) =>
     monetizationPlan.revenueTestPreflight?.checks?.some((check) => check.id === id),
   ) ||
@@ -5744,6 +5758,7 @@ if (
 
 try {
   await readFile(path.join(root, 'dist', 'app-ads.txt'), 'utf8')
+  await readFile(path.join(root, 'dist', 'monetization.html'), 'utf8')
   await readFile(path.join(root, 'dist', 'monetization.json'), 'utf8')
 } catch {
   fail('Monetization public assets must be included in the production build.')
@@ -6005,6 +6020,7 @@ const operationalFreshnessAssets = [
   'seed-kit.html',
   'gate-sample.html',
   'share-manifest.json',
+  'monetization.html',
   'privacy.html',
   'support.html',
   'install.html',
@@ -6049,6 +6065,7 @@ if (
   !releaseCandidate.postDeploySmoke?.some((item) => item.path === '/sample-next.json') ||
   !releaseCandidate.postDeploySmoke?.some((item) => item.path === '/sample-fastest.html') ||
   !releaseCandidate.postDeploySmoke?.some((item) => item.path === '/sample-fastest.json') ||
+  !releaseCandidate.postDeploySmoke?.some((item) => item.path === '/monetization.html') ||
   !releaseCandidate.postDeploySmoke?.some((item) => item.path === '/owner-unlock-brief.json') ||
   !releaseCandidate.postDeploySmoke?.some((item) => item.path === '/owner-unlock-preflight.json') ||
   !releaseCandidate.postDeploySmoke?.some(
@@ -6071,6 +6088,7 @@ if (
   !releaseCandidateRequiredFiles.has('sample-next.json') ||
   !releaseCandidateRequiredFiles.has('sample-fastest.html') ||
   !releaseCandidateRequiredFiles.has('sample-fastest.json') ||
+  !releaseCandidateRequiredFiles.has('monetization.html') ||
   !releaseCandidateRequiredFiles.has('owner-unlock-brief.json') ||
   !releaseCandidateRequiredFiles.has('owner-unlock-preflight.json') ||
   !releaseCandidateRequiredFiles.has('.nojekyll') ||
