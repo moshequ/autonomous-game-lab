@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-23T03:46:12.565Z",
+  "generatedAt": "2026-05-24T11:25:17.071Z",
   "status": "self-update-ready",
   "mode": "plan-and-assert",
   "envFiles": {
@@ -58,20 +58,20 @@
     "remoteRepository": "moshequ/autonomous-game-lab",
     "currentBranch": "main",
     "insideWorkTree": true,
-    "githubTokenConfigured": false,
+    "githubTokenConfigured": true,
     "githubCredentialConfigured": true,
     "directPushConfigured": false,
     "selfUpdateEnabled": false,
     "remotePushReady": false
   },
   "sourceStatus": {
-    "repositoryReadiness": "waiting-for-repository-channel",
-    "productionReadiness": "blocked",
+    "repositoryReadiness": "repository-channel-ready",
+    "productionReadiness": "ready-after-build",
     "autonomousCadence": "cadence-ready",
     "ownerLoop": "owner-loop-ready"
   },
   "pendingChanges": {
-    "total": 25,
+    "total": 19,
     "safe": [
       {
         "code": "M",
@@ -103,13 +103,6 @@
       },
       {
         "code": "M",
-        "path": "data/autonomous-self-update.json",
-        "raw": " M data/autonomous-self-update.json",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
         "path": "data/deployment-plan.json",
         "raw": " M data/deployment-plan.json",
         "safe": true,
@@ -126,20 +119,6 @@
         "code": "M",
         "path": "data/production-readiness.json",
         "raw": " M data/production-readiness.json",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "data/repository-bootstrap.json",
-        "raw": " M data/repository-bootstrap.json",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "data/repository-readiness.json",
-        "raw": " M data/repository-readiness.json",
         "safe": true,
         "reason": "allowlisted-generated-artifact"
       },
@@ -173,13 +152,6 @@
       },
       {
         "code": "M",
-        "path": "reports/autonomous-self-update-latest.md",
-        "raw": " M reports/autonomous-self-update-latest.md",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
         "path": "reports/deployment-plan-latest.md",
         "raw": " M reports/deployment-plan-latest.md",
         "safe": true,
@@ -201,22 +173,22 @@
       },
       {
         "code": "M",
-        "path": "reports/repository-bootstrap-latest.md",
-        "raw": " M reports/repository-bootstrap-latest.md",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "reports/repository-readiness-latest.md",
-        "raw": " M reports/repository-readiness-latest.md",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
         "path": "src/data/autonomousCadence.ts",
         "raw": " M src/data/autonomousCadence.ts",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
+        "path": "src/data/autonomousOperator.ts",
+        "raw": " M src/data/autonomousOperator.ts",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
+        "path": "src/data/autonomousOperatorHistory.ts",
+        "raw": " M src/data/autonomousOperatorHistory.ts",
         "safe": true,
         "reason": "allowlisted-generated-artifact"
       },
@@ -229,20 +201,6 @@
       },
       {
         "code": "M",
-        "path": "src/data/autonomousSelfUpdate.ts",
-        "raw": " M src/data/autonomousSelfUpdate.ts",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "src/data/deploymentPlan.ts",
-        "raw": " M src/data/deploymentPlan.ts",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
         "path": "src/data/objectiveAudit.ts",
         "raw": " M src/data/objectiveAudit.ts",
         "safe": true,
@@ -250,7 +208,7 @@
       }
     ],
     "unsafe": [],
-    "safeCount": 25,
+    "safeCount": 19,
     "unsafeCount": 0
   },
   "commitPlan": {
@@ -267,27 +225,24 @@
       "data/autonomous-operator-history.json",
       "data/autonomous-operator.json",
       "data/autonomous-owner-loop.json",
-      "data/autonomous-self-update.json",
       "data/deployment-plan.json",
       "data/objective-audit.json",
       "data/production-readiness.json",
-      "data/repository-bootstrap.json",
-      "data/repository-readiness.json",
       "reports/autonomous-cadence-latest.md",
       "reports/autonomous-operator-history-latest.md",
       "reports/autonomous-operator-latest.md",
       "reports/autonomous-owner-loop-latest.md",
-      "reports/autonomous-self-update-latest.md",
       "reports/deployment-plan-latest.md",
       "reports/objective-audit-latest.md",
       "reports/production-readiness-latest.md",
-      "reports/repository-bootstrap-latest.md",
-      "reports/repository-readiness-latest.md",
       "src/data/autonomousCadence.ts",
+      "src/data/autonomousOperator.ts",
+      "src/data/autonomousOperatorHistory.ts",
       "src/data/autonomousOwnerLoop.ts",
+      "src/data/objectiveAudit.ts",
+      "data/autonomous-self-update.json",
       "src/data/autonomousSelfUpdate.ts",
-      "src/data/deploymentPlan.ts",
-      "src/data/objectiveAudit.ts"
+      "reports/autonomous-self-update-latest.md"
     ],
     "commitMessage": "Autonomous daily self-update",
     "skipWhenNoAllowlistedChanges": true
@@ -405,7 +360,7 @@
     {
       "id": "safe-path-allowlist",
       "status": "pass",
-      "detail": "25 safe pending file(s), 0 unsafe pending file(s)."
+      "detail": "19 safe pending file(s), 0 unsafe pending file(s)."
     },
     {
       "id": "repository-optional",
