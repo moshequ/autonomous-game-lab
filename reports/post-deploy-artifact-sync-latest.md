@@ -1,13 +1,13 @@
 # Post-Deploy Artifact Sync
 
-Generated: 2026-05-24T12:41:05.156Z
+Generated: 2026-05-24T12:45:23.556Z
 Status: post-deploy-artifact-sync-passed
 Repository: moshequ/autonomous-game-lab
 Workflow: web-pwa-deploy.yml
-Run: 26360832555
+Run: 26361582491
 Origin: https://moshequ.github.io/autonomous-game-lab/
-Artifact candidate: pwa-695c78728375
-Live candidate: pwa-695c78728375
+Artifact candidate: pwa-2e6aff6df0be
+Live candidate: pwa-2e6aff6df0be
 
 ## Summary
 
@@ -28,9 +28,9 @@ Live candidate: pwa-695c78728375
 
 - pass: gh-cli - gh version 2.92.0 (2026-04-28)
 - pass: github-repository - Target repository is moshequ/autonomous-game-lab.
-- pass: successful-pages-run - Latest successful web-pwa-deploy.yml run is 26360832555.
-- pass: post-deploy-smoke-artifact - Downloaded post-deploy-smoke artifact from run 26360832555.
-- pass: strict-smoke-artifact - Artifact status post-deploy-smoke-passed; strict manifest comparison true; checks 26/26.
+- pass: successful-pages-run - Latest successful web-pwa-deploy.yml run is 26361582491.
+- pass: post-deploy-smoke-artifact - Downloaded post-deploy-smoke artifact from run 26361582491.
+- pass: strict-smoke-artifact - Artifact status post-deploy-smoke-passed; strict manifest comparison true; checks 27/27.
 - pass: live-release-manifest - Live release-candidate.json still matches the strict smoke artifact.
 
 ## Controls

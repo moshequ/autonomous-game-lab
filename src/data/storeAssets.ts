@@ -1,5 +1,5 @@
 export const storeAssets = {
-  "generatedAt": "2026-05-24T12:34:29.341Z",
+  "generatedAt": "2026-05-24T12:45:12.017Z",
   "status": "screenshots-ready",
   "basePath": "/autonomous-game-lab/",
   "sourceBuild": "dist",
