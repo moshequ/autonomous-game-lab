@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-24T11:20:34.435Z",
+  "generatedAt": "2026-05-24T11:29:04.793Z",
   "status": "performance-budget-ready",
   "sourceBuild": "dist",
   "basePath": "/autonomous-game-lab/",
@@ -15,20 +15,20 @@
   },
   "initial": {
     "entryScripts": [
-      "index-Pgin3iok.js",
+      "index-V8MyhUoB.js",
       "registerSW.js"
     ],
     "scriptPaths": [
-      "assets/index-Pgin3iok.js",
+      "assets/index-V8MyhUoB.js",
       "registerSW.js"
     ],
     "jsFiles": [
       {
-        "file": "index-Pgin3iok.js",
-        "path": "assets/index-Pgin3iok.js",
-        "bytes": 700274,
-        "kb": 683.9,
-        "gzipBytes": 189815,
+        "file": "index-V8MyhUoB.js",
+        "path": "assets/index-V8MyhUoB.js",
+        "bytes": 700212,
+        "kb": 683.8,
+        "gzipBytes": 189816,
         "gzipKb": 185.4
       },
       {
@@ -40,9 +40,9 @@
         "gzipKb": 0.1
       }
     ],
-    "jsBytes": 700448,
+    "jsBytes": 700386,
     "jsKb": 684,
-    "gzipBytes": 189957,
+    "gzipBytes": 189958,
     "gzipKb": 185.5,
     "cssFiles": [
       {
@@ -62,19 +62,19 @@
   "deferred": {
     "chunks": [
       {
-        "file": "aggregateEvidenceIssue-DvadTdyV.js",
-        "path": "assets/aggregateEvidenceIssue-DvadTdyV.js",
+        "file": "aggregateEvidenceIssue-DBEI6POJ.js",
+        "path": "assets/aggregateEvidenceIssue-DBEI6POJ.js",
         "bytes": 3717,
         "kb": 3.6,
-        "gzipBytes": 1480,
+        "gzipBytes": 1483,
         "gzipKb": 1.4
       },
       {
-        "file": "calendarReminder-DBpobSAI.js",
-        "path": "assets/calendarReminder-DBpobSAI.js",
+        "file": "calendarReminder-BnkU1it3.js",
+        "path": "assets/calendarReminder-BnkU1it3.js",
         "bytes": 1627,
         "kb": 1.6,
-        "gzipBytes": 930,
+        "gzipBytes": 931,
         "gzipKb": 0.9
       },
       {
@@ -94,8 +94,8 @@
         "gzipKb": 0.8
       },
       {
-        "file": "GameCanvas-qUNT456M.js",
-        "path": "assets/GameCanvas-qUNT456M.js",
+        "file": "GameCanvas-BGwJvnzv.js",
+        "path": "assets/GameCanvas-BGwJvnzv.js",
         "bytes": 3362,
         "kb": 3.3,
         "gzipBytes": 1237,
@@ -159,8 +159,8 @@
       }
     ],
     "gameChunk": {
-      "file": "GameCanvas-qUNT456M.js",
-      "path": "assets/GameCanvas-qUNT456M.js",
+      "file": "GameCanvas-BGwJvnzv.js",
+      "path": "assets/GameCanvas-BGwJvnzv.js",
       "bytes": 3362,
       "kb": 3.3,
       "gzipBytes": 1237,
@@ -188,19 +188,19 @@
   "assets": {
     "js": [
       {
-        "file": "aggregateEvidenceIssue-DvadTdyV.js",
-        "path": "assets/aggregateEvidenceIssue-DvadTdyV.js",
+        "file": "aggregateEvidenceIssue-DBEI6POJ.js",
+        "path": "assets/aggregateEvidenceIssue-DBEI6POJ.js",
         "bytes": 3717,
         "kb": 3.6,
-        "gzipBytes": 1480,
+        "gzipBytes": 1483,
         "gzipKb": 1.4
       },
       {
-        "file": "calendarReminder-DBpobSAI.js",
-        "path": "assets/calendarReminder-DBpobSAI.js",
+        "file": "calendarReminder-BnkU1it3.js",
+        "path": "assets/calendarReminder-BnkU1it3.js",
         "bytes": 1627,
         "kb": 1.6,
-        "gzipBytes": 930,
+        "gzipBytes": 931,
         "gzipKb": 0.9
       },
       {
@@ -220,8 +220,8 @@
         "gzipKb": 0.8
       },
       {
-        "file": "GameCanvas-qUNT456M.js",
-        "path": "assets/GameCanvas-qUNT456M.js",
+        "file": "GameCanvas-BGwJvnzv.js",
+        "path": "assets/GameCanvas-BGwJvnzv.js",
         "bytes": 3362,
         "kb": 3.3,
         "gzipBytes": 1237,
@@ -252,11 +252,11 @@
         "gzipKb": 2.4
       },
       {
-        "file": "index-Pgin3iok.js",
-        "path": "assets/index-Pgin3iok.js",
-        "bytes": 700274,
-        "kb": 683.9,
-        "gzipBytes": 189815,
+        "file": "index-V8MyhUoB.js",
+        "path": "assets/index-V8MyhUoB.js",
+        "bytes": 700212,
+        "kb": 683.8,
+        "gzipBytes": 189816,
         "gzipKb": 185.4
       },
       {
@@ -351,7 +351,7 @@
     {
       "id": "game-runtime-deferred",
       "status": "pass",
-      "detail": "GameCanvas-qUNT456M.js is deferred from the initial shell."
+      "detail": "GameCanvas-BGwJvnzv.js is deferred from the initial shell."
     },
     {
       "id": "largest-js-deferred",

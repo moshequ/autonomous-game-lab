@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-24T11:20:45.802Z",
+  "generatedAt": "2026-05-24T11:29:12.840Z",
   "status": "repository-channel-ready",
   "envFiles": {
     "loaded": false,
@@ -39,7 +39,7 @@
     "insideWorkTree": true,
     "gitRoot": "/home/runner/work/autonomous-game-lab/autonomous-game-lab",
     "currentBranch": "main",
-    "dirtyFiles": 66,
+    "dirtyFiles": 63,
     "dirtyPaths": [
       "data/deployment-plan.json",
       "data/live-site-monitor.json",
@@ -93,12 +93,9 @@
       "reports/store-listing-optimizer-latest.md",
       "reports/store-package-latest.md",
       "src/data/liveSiteMonitor.ts",
-      "src/data/performanceBudget.ts",
       "src/data/postDeployArtifactSync.ts",
       "src/data/postDeploySmoke.ts",
       "src/data/productionActivation.ts",
-      "src/data/productionBlockerHandoff.ts",
-      "src/data/productionBootstrap.ts",
       "src/data/productionEnvironment.ts",
       "src/data/productionMeasurementStatus.ts",
       "src/data/publicRepoSecurityAudit.ts",
@@ -108,7 +105,7 @@
       "src/data/storeCompliance.ts",
       "src/data/storeListingOptimizer.ts"
     ],
-    "generatedEvidenceDirtyFiles": 66,
+    "generatedEvidenceDirtyFiles": 63,
     "generatedEvidenceDirtyPaths": [
       "data/deployment-plan.json",
       "data/live-site-monitor.json",
@@ -162,12 +159,9 @@
       "reports/store-listing-optimizer-latest.md",
       "reports/store-package-latest.md",
       "src/data/liveSiteMonitor.ts",
-      "src/data/performanceBudget.ts",
       "src/data/postDeployArtifactSync.ts",
       "src/data/postDeploySmoke.ts",
       "src/data/productionActivation.ts",
-      "src/data/productionBlockerHandoff.ts",
-      "src/data/productionBootstrap.ts",
       "src/data/productionEnvironment.ts",
       "src/data/productionMeasurementStatus.ts",
       "src/data/publicRepoSecurityAudit.ts",
@@ -214,7 +208,7 @@
     "workflowExists": true,
     "deployWorkflowIncludesSmoke": true,
     "deploymentStatus": "ready-for-pages",
-    "releaseCandidateId": "pwa-fd25d6488cd0",
+    "releaseCandidateId": "pwa-ef1f761d88cf",
     "postDeploySmokeStatus": "post-deploy-smoke-observed-live",
     "liveSettings": {
       "status": "inspected",
