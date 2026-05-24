@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-24T16:27:38.993Z",
+  "generatedAt": "2026-05-24T17:42:05.963Z",
   "status": "owner-loop-ready",
   "mode": "zero-spend-web-ready",
   "autonomyScore": {
@@ -21,17 +21,107 @@
     "repositoryHandoffPrepared": false,
     "localActionAvailable": true,
     "heldForExternalInput": false,
-    "heldForExecutionBackoff": false
+    "heldForExecutionBackoff": true
   },
   "ownerDecision": {
-    "nextBestActionId": "optimize-daily-retention",
-    "nextBestAction": "npm run autonomous:retention",
+    "nextBestActionId": "hold-for-external-input",
+    "nextBestAction": "No local command is available until external inputs, configured credentials, or new player evidence arrive.",
     "canExecuteWithoutSpend": true,
     "localActionAvailable": true,
-    "holdReason": null,
-    "rationale": "Keeps daily challenge, local streak prompts, and retention-safe missions aligned with behavior data."
+    "holdReason": "All currently armed local actions were recently executed or covered; holding to avoid cycling until new player evidence, external inputs, or a cooldown expiry changes the state.",
+    "rationale": "All safe local refresh actions are current; hold execution until owner-provided inputs, production analytics, or real player evidence changes the state."
   },
-  "externalInputHandoff": null,
+  "externalInputHandoff": {
+    "status": "handoff-waiting-on-owner-inputs",
+    "holdReason": "All currently armed local actions were recently executed or covered; holding to avoid cycling until new player evidence, external inputs, or a cooldown expiry changes the state.",
+    "nextUnlockId": "production-analytics-browser",
+    "title": "Browser production analytics unlock kit",
+    "recommendedPathId": "first-party-collector",
+    "recommendedPathStatus": "needs-variables-and-secrets",
+    "publicStatusPage": "/measurement-status.html",
+    "publicStatusJson": "/measurement-status.json",
+    "setupScript": "ops/github/setup-production.sh",
+    "envTemplate": "ops/production.env.example",
+    "ownerActionRequired": 4,
+    "externalOwnerActions": 4,
+    "missingVariableCount": 5,
+    "missingSecretCount": 1,
+    "productGateBlockers": 3,
+    "requiredVariables": [
+      {
+        "repositoryName": "CLOUDFLARE_ACCOUNT_ID",
+        "envName": "CLOUDFLARE_ACCOUNT_ID",
+        "configured": false,
+        "command": "gh variable set CLOUDFLARE_ACCOUNT_ID --body \"$CLOUDFLARE_ACCOUNT_ID\""
+      },
+      {
+        "repositoryName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
+        "envName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
+        "configured": true,
+        "command": "gh variable set AGL_EVENT_COLLECTOR_R2_BUCKET --body \"$AGL_EVENT_COLLECTOR_R2_BUCKET\""
+      },
+      {
+        "repositoryName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
+        "envName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
+        "configured": true,
+        "command": "gh variable set AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS --body \"$AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS\""
+      },
+      {
+        "repositoryName": "VITE_EVENT_COLLECTOR_URL",
+        "envName": "VITE_EVENT_COLLECTOR_URL",
+        "configured": false,
+        "command": "gh variable set VITE_EVENT_COLLECTOR_URL --body \"$VITE_EVENT_COLLECTOR_URL\""
+      },
+      {
+        "repositoryName": "AGL_EVENT_COLLECTOR_EXPORT_URL",
+        "envName": "AGL_EVENT_COLLECTOR_EXPORT_URL",
+        "configured": false,
+        "command": "gh variable set AGL_EVENT_COLLECTOR_EXPORT_URL --body \"$AGL_EVENT_COLLECTOR_EXPORT_URL\""
+      }
+    ],
+    "requiredSecrets": [
+      {
+        "repositoryName": "CLOUDFLARE_API_TOKEN",
+        "envName": "CLOUDFLARE_API_TOKEN",
+        "configured": false,
+        "command": "printf \"%s\" \"$CLOUDFLARE_API_TOKEN\" | gh secret set CLOUDFLARE_API_TOKEN"
+      },
+      {
+        "repositoryName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
+        "envName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
+        "configured": true,
+        "command": "printf \"%s\" \"$VITE_EVENT_COLLECTOR_WRITE_TOKEN\" | gh secret set VITE_EVENT_COLLECTOR_WRITE_TOKEN"
+      },
+      {
+        "repositoryName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
+        "envName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
+        "configured": true,
+        "command": "printf \"%s\" \"$AGL_EVENT_COLLECTOR_ADMIN_TOKEN\" | gh secret set AGL_EVENT_COLLECTOR_ADMIN_TOKEN"
+      }
+    ],
+    "commandSequence": [
+      "npm run autonomous:event-collector-smoke",
+      "npm run autonomous:collector-deploy-plan",
+      "./ops/github/setup-production.sh",
+      "RUN_WORKFLOWS=1 ./ops/github/setup-production.sh",
+      "npm run autonomous:readiness"
+    ],
+    "validationCommands": [
+      "npm run autonomous:event-collector-smoke",
+      "npm run autonomous:collector-deploy-plan",
+      "npm run autonomous:readiness",
+      "npm run test:e2e"
+    ],
+    "controls": {
+      "zeroPaidSpend": true,
+      "noSecretValues": true,
+      "noSecretValuesStored": true,
+      "noAccountCreation": true,
+      "noStoreSubmission": true,
+      "noRevenueEnablement": true,
+      "ownerLoopWillNotRunExternalWorkflow": true
+    }
+  },
   "executionMemory": {
     "avoidImmediateRepeat": true,
     "recentExecutionWindow": 8,
@@ -44,11 +134,11 @@
     "recentlySatisfiedActionIds": [
       "refresh-organic-seed-loop"
     ],
-    "immediateRepeatSuppressed": false,
+    "immediateRepeatSuppressed": true,
     "objectiveAuditFreshness": {
       "fresh": true,
       "structurallyReady": true,
-      "auditGeneratedAt": "2026-05-24T16:27:38.504Z",
+      "auditGeneratedAt": "2026-05-24T17:42:05.704Z",
       "evaluatedInputIds": [
         "analytics-rollup",
         "event-ingest",
@@ -72,7 +162,7 @@
         "ready": true,
         "status": "cadence-ready",
         "artifactGeneratedAt": "2026-05-24T15:07:00.649Z",
-        "ageHours": 1.344,
+        "ageHours": 2.585,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -83,7 +173,7 @@
         "ready": true,
         "status": "self-update-ready",
         "artifactGeneratedAt": "2026-05-24T15:07:33.583Z",
-        "ageHours": 1.335,
+        "ageHours": 2.576,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -94,7 +184,7 @@
         "ready": true,
         "status": "support-feedback-empty",
         "artifactGeneratedAt": "2026-05-24T14:10:08.816Z",
-        "ageHours": 2.292,
+        "ageHours": 3.533,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -104,8 +194,8 @@
         "fresh": true,
         "ready": true,
         "status": "performance-budget-ready",
-        "artifactGeneratedAt": "2026-05-24T16:27:19.182Z",
-        "ageHours": 0.006,
+        "artifactGeneratedAt": "2026-05-24T17:41:42.004Z",
+        "ageHours": 0.007,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -115,8 +205,8 @@
         "fresh": true,
         "ready": true,
         "status": "live-site-monitor-passed",
-        "artifactGeneratedAt": "2026-05-24T16:27:23.814Z",
-        "ageHours": 0.004,
+        "artifactGeneratedAt": "2026-05-24T17:36:26.255Z",
+        "ageHours": 0.094,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -138,11 +228,11 @@
         ]
       },
       "retentionLoop": {
-        "current": false,
-        "ready": false,
+        "current": true,
+        "ready": true,
         "status": "retention-loop-ready",
-        "artifactGeneratedAt": "2026-05-24T07:49:04.277Z",
-        "artifactSourceDataHash": "ee67d875d5c4",
+        "artifactGeneratedAt": "2026-05-24T17:18:05.045Z",
+        "artifactSourceDataHash": "c336f1e50e42",
         "sourceDataHash": "c336f1e50e42",
         "evaluatedInputIds": [
           "analytics-rollup",
@@ -186,12 +276,12 @@
         ]
       },
       "organicSeedLoop": {
-        "current": true,
-        "ready": true,
+        "current": false,
+        "ready": false,
         "status": "organic-seed-loop-ready",
         "artifactGeneratedAt": "2026-05-24T07:49:21.827Z",
         "artifactSourceDataHash": "a553bac40555",
-        "sourceDataHash": "a553bac40555",
+        "sourceDataHash": "278c64739c66",
         "evaluatedInputIds": [
           "playable-games",
           "analytics-rollup",
@@ -205,9 +295,9 @@
         "current": true,
         "ready": true,
         "status": "pwa-install-loop-ready",
-        "artifactGeneratedAt": "2026-05-24T16:27:09.886Z",
-        "artifactSourceDataHash": "7e353fae50af",
-        "sourceDataHash": "7e353fae50af",
+        "artifactGeneratedAt": "2026-05-24T17:15:01.703Z",
+        "artifactSourceDataHash": "a23a951717ac",
+        "sourceDataHash": "a23a951717ac",
         "evaluatedInputIds": [
           "analytics-rollup",
           "growth-plan",
@@ -223,7 +313,7 @@
         "current": true,
         "ready": true,
         "status": "product-gate-recovery-ready",
-        "artifactGeneratedAt": "2026-05-24T16:27:37.689Z",
+        "artifactGeneratedAt": "2026-05-24T17:15:42.217Z",
         "artifactSourceDataHash": "3325a748aa6f",
         "sourceDataHash": "3325a748aa6f",
         "evaluatedInputIds": [
@@ -241,9 +331,9 @@
         "current": true,
         "ready": true,
         "status": "product-gate-sample-plan-ready",
-        "artifactGeneratedAt": "2026-05-24T15:05:31.730Z",
-        "artifactSourceDataHash": "92a114f3150f",
-        "sourceDataHash": "92a114f3150f",
+        "artifactGeneratedAt": "2026-05-24T16:55:34.777Z",
+        "artifactSourceDataHash": "036d748ed7c6",
+        "sourceDataHash": "036d748ed7c6",
         "evaluatedInputIds": [
           "sample-date",
           "product-gate-recovery",
@@ -263,9 +353,9 @@
         "current": true,
         "ready": true,
         "status": "store-package-ready",
-        "artifactGeneratedAt": "2026-05-24T16:27:00.140Z",
-        "artifactSourceDataHash": "ac376d981c1d",
-        "sourceDataHash": "ac376d981c1d",
+        "artifactGeneratedAt": "2026-05-24T17:14:49.000Z",
+        "artifactSourceDataHash": "18602ac84f71",
+        "sourceDataHash": "18602ac84f71",
         "evaluatedInputIds": [
           "prototype-pipeline",
           "production-gates",
@@ -278,9 +368,9 @@
         "current": true,
         "ready": true,
         "status": "store-listing-optimizer-ready",
-        "artifactGeneratedAt": "2026-05-24T16:27:10.033Z",
-        "artifactSourceDataHash": "5b95b094f885",
-        "sourceDataHash": "5b95b094f885",
+        "artifactGeneratedAt": "2026-05-24T17:15:01.940Z",
+        "artifactSourceDataHash": "555888824345",
+        "sourceDataHash": "555888824345",
         "evaluatedInputIds": [
           "store-package",
           "store-assets",
@@ -298,9 +388,9 @@
         "current": true,
         "ready": true,
         "status": "draft-ready-external-blockers",
-        "artifactGeneratedAt": "2026-05-24T16:27:10.174Z",
-        "artifactSourceDataHash": "620444c3ffea",
-        "sourceDataHash": "620444c3ffea",
+        "artifactGeneratedAt": "2026-05-24T17:15:02.173Z",
+        "artifactSourceDataHash": "1ff32316bddd",
+        "sourceDataHash": "1ff32316bddd",
         "evaluatedInputIds": [
           "store-package",
           "monetization-plan",
@@ -387,7 +477,7 @@
       "lastExplicitScanAt": "2026-05-22T13:53:13.086Z",
       "lastExplicitScanStatus": "no-evidence-found",
       "nextRecommendedScanAt": "2026-05-22T17:53:13.086Z",
-      "scanAgeHours": 50.57,
+      "scanAgeHours": 51.81,
       "cooldownRemainingHours": 0,
       "evidenceReadyNow": false
     },
@@ -399,7 +489,8 @@
       "sampleDateCurrent": true,
       "freshAfterLastDownloadsScan": true,
       "staleInputIds": [
-        "product-gate-recovery"
+        "product-gate-recovery",
+        "retention-loop"
       ]
     },
     "localEventCollectionFreshness": {
@@ -431,7 +522,9 @@
     "skippedRecentlyExecutedActionIds": [
       "seed-portfolio-traffic"
     ],
-    "skippedRecentlySatisfiedActionIds": [],
+    "skippedRecentlySatisfiedActionIds": [
+      "refresh-organic-seed-loop"
+    ],
     "preferredActionOrder": [
       "prepare-repository-channel",
       "deploy-web-pwa",
@@ -468,9 +561,9 @@
     },
     "productionBootstrapFreshness": {
       "fresh": true,
-      "bootstrapGeneratedAt": "2026-05-24T16:27:38.342Z",
-      "artifactSourceDataHash": "72d83c25931a",
-      "sourceDataHash": "72d83c25931a",
+      "bootstrapGeneratedAt": "2026-05-24T17:42:03.735Z",
+      "artifactSourceDataHash": "3ec2ed974e0b",
+      "sourceDataHash": "3ec2ed974e0b",
       "evaluatedInputIds": [
         "release-candidate",
         "deployment-plan",
@@ -485,7 +578,7 @@
       "current": true,
       "ready": true,
       "status": "handoff-waiting-on-owner-inputs",
-      "generatedAt": "2026-05-24T16:27:29.531Z",
+      "generatedAt": "2026-05-24T17:15:29.661Z",
       "nextBestUnlockId": "production-analytics-browser",
       "ownerActionRequired": 4,
       "missingEnv": 7,
@@ -607,7 +700,7 @@
       "id": "performance-budget",
       "status": "ready",
       "autonomy": "automatic-build-budget",
-      "evidence": "Initial JS 684.5 KB; gzip 185.7 KB; deferred chunks 12.",
+      "evidence": "Initial JS 681.1 KB; gzip 184.6 KB; deferred chunks 12.",
       "nextAction": "Keep Phaser and game scenes outside the initial PWA shell."
     },
     {
@@ -676,15 +769,15 @@
     {
       "id": "repository-channel",
       "status": "ready",
-      "autonomy": "workflow-dispatch-ready",
-      "evidence": "Repository moshequ/autonomous-game-lab; git worktree ready; workflow dispatch ready.",
+      "autonomy": "read-only-repository-preflight",
+      "evidence": "Repository moshequ/autonomous-game-lab; git worktree ready; workflow dispatch blocked.",
       "nextAction": "Use production bootstrap to sync configured repository variables/secrets, then dispatch the Web PWA Deploy workflow."
     },
     {
       "id": "repository-bootstrap",
       "status": "ready",
       "autonomy": "guarded-git-transport-bootstrap",
-      "evidence": "Bootstrap repository-bootstrap-ready; mode plan-only; helper ops/github/bootstrap-repository.sh; local git ready.",
+      "evidence": "Bootstrap waiting-for-gh-auth; mode plan-only; helper ops/github/bootstrap-repository.sh; local git ready.",
       "nextAction": "Set GITHUB_REPOSITORY/GH_REPO, set AGL_GITHUB_OWNER, or authenticate gh, then run repository bootstrap with explicit remote flags when credentials exist."
     },
     {
@@ -705,8 +798,8 @@
       "id": "post-deploy-smoke",
       "status": "ready",
       "autonomy": "read-only-live-deploy-verification",
-      "evidence": "Smoke post-deploy-smoke-observed-live; origin https://moshequ.github.io/autonomous-game-lab; manifest comparison required; checks 29/29 passed; local artifact predeploy-artifact-smoke-passed 29/29 passed.",
-      "nextAction": "Live Pages is reachable and serving pwa-c82c7da2eaa4; run the deploy workflow for strict proof of the current local candidate if needed."
+      "evidence": "Smoke blocked-missing-origin; origin missing; manifest comparison required; checks 0/29 passed; local artifact predeploy-artifact-smoke-passed 29/29 passed.",
+      "nextAction": "Keep the deployed Pages URL active for live traffic collection."
     },
     {
       "id": "post-deploy-artifact-sync",
@@ -726,8 +819,8 @@
       "id": "production-bootstrap",
       "status": "ready",
       "autonomy": "zero-spend-setup-orchestration",
-      "evidence": "Bootstrap production-bootstrap-ready; mode can-apply-configured-actions; external blockers 14.",
-      "nextAction": "gh workflow run web-pwa-deploy.yml"
+      "evidence": "Bootstrap production-bootstrap-ready; mode waiting-for-external-credentials; external blockers 17.",
+      "nextAction": "Fill required environment values, then run npm run autonomous:bootstrap."
     },
     {
       "id": "production-activation",
@@ -761,7 +854,7 @@
       "id": "autonomous-operator",
       "status": "ready",
       "autonomy": "one-safe-action-runner",
-      "evidence": "Operator operator-plan-ready; selected optimize-daily-retention; execution not-requested.",
+      "evidence": "Operator operator-held; selected none; execution not-requested.",
       "nextAction": "Keep a dry-run operator plan ready, then execute only one allowlisted local action when explicitly requested."
     },
     {
@@ -775,7 +868,7 @@
       "id": "objective-audit",
       "status": "ready",
       "autonomy": "completion-evidence-ledger",
-      "evidence": "Audit objective-in-progress; met 6/8; external blockers 15.",
+      "evidence": "Audit objective-in-progress; met 6/8; external blockers 17.",
       "nextAction": "The local autonomous PWA system is largely prepared with strict live deploy evidence synced from GitHub Actions, but production credentials, live data, monetization gates, and store account/signing blockers remain."
     },
     {
@@ -876,13 +969,13 @@
     },
     {
       "id": "refresh-organic-seed-loop",
-      "status": "monitor",
+      "status": "armed",
       "costUsd": 0,
       "command": "npm run autonomous:organic-seed-loop",
       "targets": [
         "market-pulse"
       ],
-      "reason": "Organic seed surface already reflects current traffic, acquisition, retention, and analytics inputs."
+      "reason": "Refreshes the player-initiated zero-cost share surface for the highest-opportunity seed campaign."
     },
     {
       "id": "refresh-support-feedback",
@@ -896,13 +989,13 @@
     },
     {
       "id": "optimize-daily-retention",
-      "status": "armed",
+      "status": "monitor",
       "costUsd": 0,
       "command": "npm run autonomous:retention",
       "targets": [
         "market-pulse"
       ],
-      "reason": "Keeps daily challenge, local streak prompts, and retention-safe missions aligned with behavior data."
+      "reason": "Daily challenge, return-intent, and D1 sample policies already reflect current retention evidence."
     },
     {
       "id": "measure-pwa-install-loop",
@@ -921,7 +1014,7 @@
       "command": "npm run build && npm run autonomous:performance && npm run autonomous:release-candidate",
       "targets": [
         "pwa-shell",
-        "GameCanvas-BTdNsq4c.js",
+        "GameCanvas-CcH1W9r4.js",
         "dist-release-candidate"
       ],
       "reason": "Performance budget and release-candidate evidence are already fresh for the current guarded build."
@@ -943,7 +1036,7 @@
       "costUsd": 0,
       "command": "npm run autonomous:post-deploy-smoke",
       "targets": [
-        "https://moshequ.github.io/autonomous-game-lab",
+        "deployed-pages-url",
         "release-candidate-manifest"
       ],
       "reason": "Local smoke and strict CI artifact sync already prove the current deploy evidence; continue product learning."
@@ -1115,7 +1208,7 @@
       "costUsd": 0,
       "command": "npm run autonomous:operator",
       "targets": [
-        "optimize-daily-retention"
+        "owner-loop-safe-actions"
       ],
       "reason": "One-action operator plan is already published; avoid cycling on meta-operator refreshes."
     },
@@ -1125,7 +1218,7 @@
       "costUsd": 0,
       "command": "npm run autonomous:operator",
       "targets": [
-        "optimize-daily-retention"
+        "prepare-repository-channel"
       ],
       "reason": "Operator history is already capped and published; keep attention on product evidence."
     },
@@ -1323,11 +1416,11 @@
     "autonomousCadenceStatus": "cadence-ready",
     "autonomousSelfUpdateStatus": "self-update-ready",
     "performanceBudgetStatus": "performance-budget-ready",
-    "repositoryReadinessStatus": "repository-channel-ready",
-    "repositoryBootstrapStatus": "repository-bootstrap-ready",
+    "repositoryReadinessStatus": "waiting-for-gh-auth",
+    "repositoryBootstrapStatus": "waiting-for-gh-auth",
     "repositoryHandoffPrepared": false,
     "releaseCandidateStatus": "release-candidate-ready",
-    "postDeploySmokeStatus": "post-deploy-smoke-observed-live",
+    "postDeploySmokeStatus": "blocked-missing-origin",
     "postDeployArtifactSyncStatus": "post-deploy-artifact-sync-passed",
     "liveSiteMonitorStatus": "live-site-monitor-passed",
     "productOptimizationStatus": "product-optimization-ready",
@@ -1341,7 +1434,7 @@
     "productionUnlockRunnerStatus": "unlock-runner-idle",
     "supportChannelStatus": "support-channel-ready",
     "supportFeedbackStatus": "support-feedback-empty",
-    "autonomousOperatorStatus": "operator-plan-ready",
+    "autonomousOperatorStatus": "operator-held",
     "autonomousOperatorHistoryStatus": "operator-history-ready",
     "objectiveAuditStatus": "objective-in-progress",
     "storeListingOptimizerStatus": "store-listing-optimizer-ready",

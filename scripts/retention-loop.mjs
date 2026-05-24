@@ -518,10 +518,42 @@ const report = [
 await mkdir(path.dirname(outputJsonPath), { recursive: true })
 await mkdir(path.dirname(outputTsPath), { recursive: true })
 await mkdir(path.dirname(reportPath), { recursive: true })
+const appPayload = {
+  status: payload.status,
+  dailyChallenge: payload.dailyChallenge,
+  metrics: {
+    d1Retention: payload.metrics.d1Retention,
+  },
+  localState: payload.localState,
+  samplePolicy: {
+    status: payload.samplePolicy.status,
+    campaignId: payload.samplePolicy.campaignId,
+    gateId: payload.samplePolicy.gateId,
+    needed: payload.samplePolicy.needed,
+  },
+  promptPolicy: payload.promptPolicy,
+  returnIntentPolicy: payload.returnIntentPolicy,
+  returnLinkPolicy: {
+    surface: payload.returnLinkPolicy.surface,
+    ctaLabel: payload.returnLinkPolicy.ctaLabel,
+    queryParam: payload.returnLinkPolicy.queryParam,
+    intentDate: payload.returnLinkPolicy.intentDate,
+    campaignId: payload.returnLinkPolicy.campaignId,
+    telemetry: payload.returnLinkPolicy.telemetry,
+  },
+  returnCalendarPolicy: {
+    surface: payload.returnCalendarPolicy.surface,
+    ctaLabel: payload.returnCalendarPolicy.ctaLabel,
+    queryParam: payload.returnCalendarPolicy.queryParam,
+    intentDate: payload.returnCalendarPolicy.intentDate,
+    campaignId: payload.returnCalendarPolicy.campaignId,
+    telemetry: payload.returnCalendarPolicy.telemetry,
+  },
+}
 await writeFile(outputJsonPath, JSON.stringify(payload, null, 2) + '\n')
 await writeFile(
   outputTsPath,
-  `export const retentionLoop = ${JSON.stringify(payload, null, 2)} as const\n\nexport type RetentionLoop = typeof retentionLoop\n`,
+  `export const retentionLoop = ${JSON.stringify(appPayload, null, 2)} as const\n\nexport type RetentionLoop = typeof retentionLoop\n`,
 )
 await writeFile(reportPath, report.join('\n'))
 
