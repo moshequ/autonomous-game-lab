@@ -1,10 +1,10 @@
 export const productionMeasurementStatus = {
-  "generatedAt": "2026-05-23T11:56:26.372Z",
+  "generatedAt": "2026-05-24T11:05:47.615Z",
   "status": "production-measurement-local-intake-ready",
   "activePath": "local-browser-buffer",
-  "liveCandidate": "pwa-226a3ee37549",
+  "liveCandidate": "pwa-e56b8be328a2",
   "liveRelease": {
-    "syncedCandidateId": "pwa-226a3ee37549",
+    "syncedCandidateId": "pwa-e56b8be328a2",
     "exactManifestPath": "/release-candidate.json",
     "staticJsonMayLagBehindLatestDeploy": true
   },
@@ -35,8 +35,8 @@ export const productionMeasurementStatus = {
       "status": "waiting-on-owner-input",
       "nextUnlockId": "production-analytics-browser",
       "recommendedPathId": "first-party-collector",
-      "missingVariableCount": 5,
-      "missingSecretCount": 3
+      "missingVariableCount": 3,
+      "missingSecretCount": 1
     }
   }
 } as const

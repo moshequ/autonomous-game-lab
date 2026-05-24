@@ -1,6 +1,6 @@
 export const productionActivation = {
-  "generatedAt": "2026-05-23T11:52:03.891Z",
-  "status": "activation-waiting-for-credentials",
+  "generatedAt": "2026-05-24T11:05:45.151Z",
+  "status": "activation-ready",
   "mode": "dry-run",
   "envFiles": {
     "loaded": true,
@@ -53,8 +53,8 @@ export const productionActivation = {
     }
   },
   "sourceStatus": {
-    "repositoryReadiness": "waiting-for-repository-channel",
-    "repositoryBootstrap": "waiting-for-gh-auth",
+    "repositoryReadiness": "repository-channel-ready",
+    "repositoryBootstrap": "repository-bootstrap-ready",
     "productionBootstrap": "production-bootstrap-ready",
     "deployment": "ready-for-pages",
     "postDeploySmoke": "post-deploy-smoke-observed-live"
@@ -62,13 +62,13 @@ export const productionActivation = {
   "configuration": {
     "activationRequested": false,
     "repositoryTargetKnown": true,
-    "ghCredentialReady": false,
+    "ghCredentialReady": true,
     "deploymentReady": true,
     "runWebWorkflows": false,
     "allowRepositoryBootstrap": false,
     "allowAndroidWorkflow": false,
-    "configuredVariables": 6,
-    "configuredSecrets": 3
+    "configuredVariables": 10,
+    "configuredSecrets": 5
   },
   "controls": {
     "zeroPaidSpend": true,
@@ -98,11 +98,11 @@ export const productionActivation = {
     {
       "id": "sync-production-settings",
       "command": "ops/github/setup-production.sh",
-      "status": "waiting-for-github-credentials",
+      "status": "ready",
       "canRun": false,
       "costUsd": 0,
       "mutatesExternalState": true,
-      "reason": "Held until an existing GitHub repository target and gh credentials are available.",
+      "reason": "GitHub credentials and repository target are available; setup can sync configured variables, secrets, and Pages settings.",
       "args": [],
       "runnableNow": false
     }
@@ -114,7 +114,7 @@ export const productionActivation = {
     "results": []
   },
   "nextActions": [
-    "Provide an existing GitHub repository target and gh credentials before production activation can apply setup.",
+    "Set AGL_PRODUCTION_ACTIVATE=1 in the production automation environment to apply configured zero-spend GitHub/Pages setup.",
     "Set AGL_PRODUCTION_RUN_WORKFLOWS=1 only after Pages settings and repository variables are configured.",
     "Android workflow dispatch stays held until store economics, signing, and Play credentials clear."
   ]

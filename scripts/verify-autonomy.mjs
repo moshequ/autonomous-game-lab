@@ -606,6 +606,7 @@ if (
   !packageJson.scripts?.['autonomous:public-evidence-intake']?.includes('autonomous:security-audit') ||
   !packageJson.scripts?.['autonomous:production-input-watch']?.includes('autonomous:security-audit') ||
   !packageJson.scripts?.['autonomous:post-deploy-readiness-sync']?.includes('autonomous:security-audit') ||
+  !packageJson.scripts?.['autonomous:post-deploy-readiness-sync']?.includes('autonomous:post-deploy-artifact-sync') ||
   !packageJson.scripts?.['autonomous:daily']?.includes('autonomous:security-audit') ||
   !packageJson.scripts?.['test:automation']?.includes('autonomous:security-audit') ||
   !publicEvidenceIntakeWorkflow.includes('data/public-repo-security-audit.json') ||

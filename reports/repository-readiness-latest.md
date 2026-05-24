@@ -1,7 +1,7 @@
 # Repository Readiness
 
-Generated: 2026-05-23T11:56:25.881Z
-Status: waiting-for-gh-auth
+Generated: 2026-05-24T11:05:43.219Z
+Status: repository-channel-ready
 Workspace: /Users/moshequ/Documents/Codex/2026-05-18/i-want-to-have-a-new
 Repository: moshequ/autonomous-game-lab
 Planned target: moshequ/autonomous-game-lab
@@ -16,10 +16,10 @@ Live Pages URL: https://moshequ.github.io/autonomous-game-lab/
 - pass: github-target - Target repository is moshequ/autonomous-game-lab.
 - pass: origin-remote - Origin remote resolves to moshequ/autonomous-game-lab.
 - pass: gh-cli - gh version 2.92.0 (2026-04-28)
-- external-blocker: gh-token - Authenticate GitHub CLI or configure GH_TOKEN/GITHUB_TOKEN for non-interactive workflow dispatch.
+- pass: gh-token - GitHub CLI authentication is available for repository operations.
 - pass: pages-workflow - Web PWA Deploy workflow exists and includes post-deploy smoke.
-- pass: pages-settings - GitHub Pages settings could not be inspected: gh-credentials-unavailable.
-- pass: deployable-artifact - Deployment ready-for-pages; release candidate release-candidate-ready; smoke blocked-missing-origin.
+- pass: pages-settings - GitHub Pages build type is workflow; HTTPS enforced true.
+- pass: deployable-artifact - Deployment ready-for-pages; release candidate release-candidate-ready; smoke post-deploy-smoke-observed-live.
 
 ## Controls
 
@@ -36,9 +36,8 @@ Live Pages URL: https://moshequ.github.io/autonomous-game-lab/
 - Create or attach repository target: moshequ/autonomous-game-lab
 - GitHub create URL: https://github.com/new?name=autonomous-game-lab&visibility=public
 - Attach origin command: GITHUB_REPOSITORY=moshequ/autonomous-game-lab AGL_ALLOW_REPOSITORY_BOOTSTRAP=1 AGL_ALLOW_ORIGIN_REMOTE=1 ./ops/github/bootstrap-repository.sh
-- Authenticate GitHub CLI or provide GH_TOKEN/GITHUB_TOKEN before non-interactive workflow dispatch.
 - Let the production bootstrap helper enable GitHub Pages with GitHub Actions as the source once gh credentials exist.
 
 ## Blockers
 
-- Authenticate GitHub CLI or configure GH_TOKEN/GITHUB_TOKEN for workflow dispatch and repository settings sync.
+- none

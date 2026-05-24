@@ -431,7 +431,6 @@ const postDeploySmokeActionFresh =
   postDeploySmokeRunnerReady &&
   postDeployArtifactSyncReady &&
   postDeployArtifactSync.artifact?.target?.candidateId === postDeployArtifactSync.live?.candidateId
-const releaseCandidateActionFresh = postDeploySmokeRunnerReady && postDeployArtifactSyncReady && liveSiteMonitorReady
 const operatorPlanHeld =
   autonomousOperator.status === 'operator-held' &&
   (autonomousOperator.eligibleActionIds?.length ?? 0) === 0 &&
@@ -1941,6 +1940,8 @@ const liveSiteMonitorOperationalFreshness = operationalEvidenceFreshness({
   checksPass: (liveSiteMonitor.checks ?? []).every((check) => check.status === 'pass'),
   extraReady: liveSiteMonitorReady,
 })
+const releaseCandidateActionFresh =
+  postDeploySmokeRunnerReady && postDeployArtifactSyncReady && liveSiteMonitorOperationalFreshness.fresh
 const collectLocalEventDropsCommand = 'npm run autonomous:collect-local-event-drops'
 const downloadsScanRecommendationOptIn = ['1', 'true', 'yes'].includes(
   String(process.env.AGL_OWNER_ALLOW_DOWNLOADS_SCAN_RECOMMENDATION ?? '').toLowerCase(),

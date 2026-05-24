@@ -1,8 +1,8 @@
 # Owner Unlock Brief
 
-Generated: 2026-05-23T11:52:01.386Z
+Generated: 2026-05-24T11:05:35.206Z
 Status: waiting-on-owner-input
-Source hash: f29d668c9793
+Source hash: bce1092e5548
 Next unlock: production-analytics-browser
 Recommended path: first-party-collector
 
@@ -17,16 +17,12 @@ Recommended path: first-party-collector
 ## Missing Variables
 
 - CLOUDFLARE_ACCOUNT_ID: gh variable set CLOUDFLARE_ACCOUNT_ID --body "$CLOUDFLARE_ACCOUNT_ID"
-- AGL_EVENT_COLLECTOR_R2_BUCKET: gh variable set AGL_EVENT_COLLECTOR_R2_BUCKET --body "$AGL_EVENT_COLLECTOR_R2_BUCKET"
-- AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS: gh variable set AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS --body "$AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS"
 - VITE_EVENT_COLLECTOR_URL: gh variable set VITE_EVENT_COLLECTOR_URL --body "$VITE_EVENT_COLLECTOR_URL"
 - AGL_EVENT_COLLECTOR_EXPORT_URL: gh variable set AGL_EVENT_COLLECTOR_EXPORT_URL --body "$AGL_EVENT_COLLECTOR_EXPORT_URL"
 
 ## Missing Secrets
 
 - CLOUDFLARE_API_TOKEN: printf "%s" "$CLOUDFLARE_API_TOKEN" | gh secret set CLOUDFLARE_API_TOKEN
-- VITE_EVENT_COLLECTOR_WRITE_TOKEN: printf "%s" "$VITE_EVENT_COLLECTOR_WRITE_TOKEN" | gh secret set VITE_EVENT_COLLECTOR_WRITE_TOKEN
-- AGL_EVENT_COLLECTOR_ADMIN_TOKEN: printf "%s" "$AGL_EVENT_COLLECTOR_ADMIN_TOKEN" | gh secret set AGL_EVENT_COLLECTOR_ADMIN_TOKEN
 
 ## Setup Commands
 
