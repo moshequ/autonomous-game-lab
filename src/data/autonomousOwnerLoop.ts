@@ -15,8 +15,8 @@ export const autonomousOwnerLoop = {
     "recommendedPathId": "first-party-collector",
     "lowestInputPathId": "posthog-browser",
     "ownerActionRequired": 4,
-    "missingVariableCount": 7,
-    "missingSecretCount": 3,
+    "missingVariableCount": 5,
+    "missingSecretCount": 1,
     "lowestInputMissingVariableCount": 2,
     "lowestInputMissingSecretCount": 0,
     "publicStatusPage": "/measurement-status.html"
