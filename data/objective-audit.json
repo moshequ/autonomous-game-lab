@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-24T16:09:13.064Z",
+  "generatedAt": "2026-05-24T16:27:38.504Z",
   "status": "objective-in-progress",
   "objective": "Build a bootstrapped autonomous web/PWA game portal that can generate original board-game-inspired games, measure user behavior, propose and apply data-driven improvements, and prepare a path to monetization and app-store distribution with minimal manual intervention.",
   "summary": {
@@ -96,9 +96,9 @@
         "Unlock runner: unlock-runner-idle; runnable 0; queued 0; unsafe 0",
         "Repository bootstrap: repository-bootstrap-ready; helper ops/github/bootstrap-repository.sh",
         "Release candidate: release-candidate-ready; smoke URLs 28",
-        "Post-deploy smoke: post-deploy-smoke-observed-live; origin https://moshequ.github.io/autonomous-game-lab; checks 27/27; local artifact predeploy-artifact-smoke-passed 29/29",
-        "Strict deploy artifact sync: post-deploy-artifact-sync-passed; run 26363509763; live matches artifact true; candidate pwa-b5b8d0009c07",
-        "Live site monitor: live-site-monitor-passed; checks 27/27; live matches synced deploy true",
+        "Post-deploy smoke: post-deploy-smoke-observed-live; origin https://moshequ.github.io/autonomous-game-lab; checks 29/29; local artifact predeploy-artifact-smoke-passed 29/29",
+        "Strict deploy artifact sync: post-deploy-artifact-sync-passed; run 26366550465; live matches artifact true; candidate pwa-c82c7da2eaa4",
+        "Live site monitor: live-site-monitor-passed; checks 29/29; live matches synced deploy true",
         "Repository channel: repository-channel-ready; repository moshequ/autonomous-game-lab; git worktree true",
         "Autonomy score: 98%",
         "Credential-gated actions: 10"
@@ -245,7 +245,7 @@
     "currentWorktreeClean": false,
     "currentWorktreeDirtyFiles": 80,
     "productionBootstrapFresh": true,
-    "productionBootstrapSourceDataHash": "f21c43622300",
+    "productionBootstrapSourceDataHash": "72d83c25931a",
     "productionBootstrapStaleInputIds": [],
     "objectiveNextBestActionSource": "owner-loop"
   },

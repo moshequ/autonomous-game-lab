@@ -1,27 +1,10 @@
 {
-  "generatedAt": "2026-05-24T16:09:07.388Z",
+  "generatedAt": "2026-05-24T16:27:35.100Z",
   "status": "repository-channel-ready",
   "envFiles": {
-    "loaded": true,
-    "loadedFiles": [
-      {
-        "path": "ops/production.env.local",
-        "keys": [
-          "AGL_ANDROID_PACKAGE_NAME",
-          "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
-          "AGL_ANDROID_KEYSTORE_BASE64",
-          "AGL_ANDROID_KEYSTORE_PASSWORD",
-          "AGL_ANDROID_KEY_ALIAS"
-        ]
-      }
-    ],
-    "loadedKeys": [
-      "AGL_ANDROID_PACKAGE_NAME",
-      "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
-      "AGL_ANDROID_KEYSTORE_BASE64",
-      "AGL_ANDROID_KEYSTORE_PASSWORD",
-      "AGL_ANDROID_KEY_ALIAS"
-    ],
+    "loaded": false,
+    "loadedFiles": [],
+    "loadedKeys": [],
     "skippedExistingKeys": [],
     "skippedProtectedKeys": [],
     "overwrittenEnvFileKeys": [],
@@ -52,11 +35,11 @@
     }
   },
   "workspace": {
-    "path": "/Users/moshequ/Documents/Codex/2026-05-18/i-want-to-have-a-new",
+    "path": "/home/runner/work/autonomous-game-lab/autonomous-game-lab",
     "insideWorkTree": true,
-    "gitRoot": "/Users/moshequ/Documents/Codex/2026-05-18/i-want-to-have-a-new",
+    "gitRoot": "/home/runner/work/autonomous-game-lab/autonomous-game-lab",
     "currentBranch": "main",
-    "dirtyFiles": 71,
+    "dirtyFiles": 72,
     "dirtyPaths": [
       "data/deployment-plan.json",
       "data/live-site-monitor.json",
@@ -85,12 +68,11 @@
       "data/store-package.json",
       "public/analytics-unlock.json",
       "public/compliance.json",
+      "public/measurement-status.html",
       "public/measurement-status.json",
       "public/owner-unlock-brief.json",
       "public/owner-unlock-preflight.json",
       "public/product-gate-recovery.json",
-      "public/store-assets/screenshots/phone-lantern-relay-game.png",
-      "public/store-assets/screenshots/phone-market-pulse-generated.png",
       "reports/deployment-plan-latest.md",
       "reports/live-site-monitor-latest.md",
       "reports/owner-unlock-brief-latest.md",
@@ -117,10 +99,12 @@
       "reports/store-listing-optimizer-latest.md",
       "reports/store-package-latest.md",
       "src/data/liveSiteMonitor.ts",
+      "src/data/performanceBudget.ts",
       "src/data/postDeployArtifactSync.ts",
       "src/data/postDeploySmoke.ts",
       "src/data/productGateRecovery.ts",
       "src/data/productionActivation.ts",
+      "src/data/productionBlockerHandoff.ts",
       "src/data/productionEnvironment.ts",
       "src/data/productionMeasurementStatus.ts",
       "src/data/publicRepoSecurityAudit.ts",
@@ -130,7 +114,7 @@
       "src/data/storeCompliance.ts",
       "src/data/storeListingOptimizer.ts"
     ],
-    "generatedEvidenceDirtyFiles": 71,
+    "generatedEvidenceDirtyFiles": 72,
     "generatedEvidenceDirtyPaths": [
       "data/deployment-plan.json",
       "data/live-site-monitor.json",
@@ -159,12 +143,11 @@
       "data/store-package.json",
       "public/analytics-unlock.json",
       "public/compliance.json",
+      "public/measurement-status.html",
       "public/measurement-status.json",
       "public/owner-unlock-brief.json",
       "public/owner-unlock-preflight.json",
       "public/product-gate-recovery.json",
-      "public/store-assets/screenshots/phone-lantern-relay-game.png",
-      "public/store-assets/screenshots/phone-market-pulse-generated.png",
       "reports/deployment-plan-latest.md",
       "reports/live-site-monitor-latest.md",
       "reports/owner-unlock-brief-latest.md",
@@ -191,10 +174,12 @@
       "reports/store-listing-optimizer-latest.md",
       "reports/store-package-latest.md",
       "src/data/liveSiteMonitor.ts",
+      "src/data/performanceBudget.ts",
       "src/data/postDeployArtifactSync.ts",
       "src/data/postDeploySmoke.ts",
       "src/data/productGateRecovery.ts",
       "src/data/productionActivation.ts",
+      "src/data/productionBlockerHandoff.ts",
       "src/data/productionEnvironment.ts",
       "src/data/productionMeasurementStatus.ts",
       "src/data/publicRepoSecurityAudit.ts",
@@ -209,14 +194,14 @@
   },
   "repository": {
     "target": "moshequ/autonomous-game-lab",
-    "source": "origin-remote",
-    "originRemote": "git@github.com:moshequ/autonomous-game-lab.git",
+    "source": "environment",
+    "originRemote": "https://github.com/moshequ/autonomous-game-lab",
     "remoteRepository": "moshequ/autonomous-game-lab",
-    "ownerHint": null,
-    "ownerHintEnv": null,
-    "ownerHintTarget": null,
-    "inferredTarget": "moshequ/autonomous-game-lab",
-    "inferredTargetSource": "gh-auth-user-and-package-name",
+    "ownerHint": "moshequ",
+    "ownerHintEnv": "GITHUB_REPOSITORY_OWNER",
+    "ownerHintTarget": "moshequ/autonomous-game-lab",
+    "inferredTarget": null,
+    "inferredTargetSource": null,
     "packageName": "autonomous-game-lab",
     "inferredRepositoryName": "autonomous-game-lab",
     "remoteParsing": {
@@ -231,8 +216,8 @@
     "ghCliAvailable": true,
     "ghAuthAvailable": true,
     "ghCredentialReady": true,
-    "ghTokenConfigured": false,
-    "ghUserLogin": "moshequ",
+    "ghTokenConfigured": true,
+    "ghUserLogin": null,
     "workflowDispatchReady": true,
     "canSyncRepositorySettings": true
   },
@@ -241,7 +226,7 @@
     "workflowExists": true,
     "deployWorkflowIncludesSmoke": true,
     "deploymentStatus": "ready-for-pages",
-    "releaseCandidateId": "pwa-ef4099779816",
+    "releaseCandidateId": "pwa-5d8ac8ddb0de",
     "postDeploySmokeStatus": "post-deploy-smoke-observed-live",
     "liveSettings": {
       "status": "inspected",
@@ -267,7 +252,7 @@
     "status": "target-known",
     "repositoryName": "autonomous-game-lab",
     "target": "moshequ/autonomous-game-lab",
-    "targetSource": "origin-remote",
+    "targetSource": "environment",
     "placeholderTarget": "OWNER/autonomous-game-lab",
     "plannedTarget": "moshequ/autonomous-game-lab",
     "ownerRequired": false,
@@ -311,7 +296,7 @@
     {
       "id": "local-git-worktree",
       "status": "pass",
-      "detail": "Git worktree detected at /Users/moshequ/Documents/Codex/2026-05-18/i-want-to-have-a-new."
+      "detail": "Git worktree detected at /home/runner/work/autonomous-game-lab/autonomous-game-lab."
     },
     {
       "id": "github-target",
@@ -331,7 +316,7 @@
     {
       "id": "gh-token",
       "status": "pass",
-      "detail": "GitHub CLI authentication is available for repository operations."
+      "detail": "GitHub token is present in the current environment."
     },
     {
       "id": "pages-workflow",

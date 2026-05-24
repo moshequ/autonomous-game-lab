@@ -1,16 +1,16 @@
 # Post-Deploy Smoke
 
-Generated: 2026-05-24T16:09:05.335Z
+Generated: 2026-05-24T16:27:33.827Z
 Status: post-deploy-smoke-observed-live
 Origin: https://moshequ.github.io/autonomous-game-lab
 Origin source: release-candidate-public-origin
-Candidate: pwa-ef4099779816
-Live candidate: pwa-b5b8d0009c07
+Candidate: pwa-5d8ac8ddb0de
+Live candidate: pwa-c82c7da2eaa4
 
 ## Summary
 
-- Planned: 27
-- Passed: 27
+- Planned: 29
+- Passed: 29
 - Failed: 0
 - Blocked: 0
 
@@ -62,6 +62,8 @@ Checks: 29/29 passed
 - pass: owner-unlock-preflight-json - https://moshequ.github.io/autonomous-game-lab/owner-unlock-preflight.json - Live URL matched status and required text.
 - pass: analytics-unlock-html - https://moshequ.github.io/autonomous-game-lab/analytics-unlock.html - Live URL matched status and required text.
 - pass: analytics-unlock-json - https://moshequ.github.io/autonomous-game-lab/analytics-unlock.json - Live URL matched status and required text.
+- pass: product-gate-recovery-html - https://moshequ.github.io/autonomous-game-lab/product-gate-recovery.html - Live URL matched status and required text.
+- pass: product-gate-recovery-json - https://moshequ.github.io/autonomous-game-lab/product-gate-recovery.json - Live URL matched status and required text.
 - pass: install-html - https://moshequ.github.io/autonomous-game-lab/install.html - Live URL matched status and required text.
 - pass: compliance-json - https://moshequ.github.io/autonomous-game-lab/compliance.json - Live URL matched status and required text.
 - pass: monetization-json - https://moshequ.github.io/autonomous-game-lab/monetization.json - Live URL matched status and required text.
@@ -93,5 +95,5 @@ Checks: 29/29 passed
 
 ## Next Actions
 
-- Live Pages is reachable and serving pwa-b5b8d0009c07; run the deploy workflow for strict proof of the current local candidate if needed.
+- Live Pages is reachable and serving pwa-c82c7da2eaa4; run the deploy workflow for strict proof of the current local candidate if needed.
 - Keep revenue, paid acquisition, and app-store submission disabled until product and credential gates pass.
