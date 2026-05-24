@@ -1,15 +1,15 @@
 # Store Assets
 
-Generated: 2026-05-24T14:40:20.330Z
+Generated: 2026-05-24T16:08:31.455Z
 Status: screenshots-ready
 
 ## Screenshots
 
-- desktop-growth-page: 1440x900, 58 KB, /store-assets/screenshots/desktop-growth-page.png
-- phone-lantern-relay-game: 1170x2532, 193 KB, /store-assets/screenshots/phone-lantern-relay-game.png
-- phone-market-pulse-generated: 1170x2532, 182 KB, /store-assets/screenshots/phone-market-pulse-generated.png
 - phone-portal-home: 1170x2532, 207 KB, /store-assets/screenshots/phone-portal-home.png
+- phone-lantern-relay-game: 1170x2532, 195 KB, /store-assets/screenshots/phone-lantern-relay-game.png
+- phone-market-pulse-generated: 1170x2532, 182 KB, /store-assets/screenshots/phone-market-pulse-generated.png
+- desktop-growth-page: 1440x900, 58 KB, /store-assets/screenshots/desktop-growth-page.png
 
 ## Store Package
 
-- Attached reusable screenshot assets to data/store-package.json.
+- Attached generated screenshot assets to data/store-package.json.

@@ -1,10 +1,10 @@
 # Autonomous Operator
 
-Generated: 2026-05-24T14:42:43.674Z
+Generated: 2026-05-24T16:09:13.547Z
 Status: operator-plan-ready
 Mode: plan-only
-Owner decision: prepare-repository-channel
-Selected action: prepare-repository-channel
+Owner decision: optimize-daily-retention
+Selected action: optimize-daily-retention
 Execution: not-requested
 
 ## Controls
@@ -18,7 +18,7 @@ Execution: not-requested
 
 ## Selected Action
 
-- prepare-repository-channel: npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap
+- optimize-daily-retention: npm run autonomous:retention
 
 ## External Input Handoff
 
@@ -29,27 +29,20 @@ Execution: not-requested
 
 ## Eligible Local Actions
 
-- refresh-autonomous-self-update
 - seed-portfolio-traffic
-- refresh-support-feedback
 - optimize-daily-retention
-- prepare-release-candidate
-- refresh-completion-loop
-- refresh-replay-loop
-- prepare-repository-channel
-- bootstrap-production-setup
 
 ## Blocked Actions
 
 - run-daily-owner-loop: daily-loop-recursion-blocked
 - hold-for-external-input: status-monitor
 - refresh-autonomous-cadence: status-monitor
-- refresh-autonomous-self-update: not-selected-this-run
+- refresh-autonomous-self-update: status-monitor
 - seed-portfolio-traffic: not-selected-this-run
 - refresh-organic-seed-loop: status-monitor
-- refresh-support-feedback: not-selected-this-run
-- optimize-daily-retention: not-selected-this-run
+- refresh-support-feedback: status-monitor
 - measure-pwa-install-loop: status-monitor
 - check-performance-budget: status-monitor
-- prepare-release-candidate: not-selected-this-run
+- prepare-release-candidate: status-monitor
 - run-post-deploy-smoke: status-monitor
+- sync-post-deploy-artifact: status-monitor

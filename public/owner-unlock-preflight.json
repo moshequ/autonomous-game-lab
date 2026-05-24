@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-05-24T14:35:08.862Z",
+  "generatedAt": "2026-05-24T16:08:59.381Z",
   "status": "owner-unlock-preflight-waiting-on-input",
   "readyForSetup": false,
-  "sourceDataHash": "0f4d043c3c2c",
+  "sourceDataHash": "108f4676eb2d",
   "sourceStatus": {
     "ownerUnlockBrief": "waiting-on-owner-input",
     "productionBlockerHandoff": "handoff-waiting-on-owner-inputs",
@@ -20,10 +20,10 @@
   },
   "summary": {
     "totalInputs": 8,
-    "readyInputs": 0,
-    "missingInputs": 8,
+    "readyInputs": 4,
+    "missingInputs": 4,
     "invalidInputs": 0,
-    "repositoryConfiguredInputs": 0,
+    "repositoryConfiguredInputs": 4,
     "localAvailableInputs": 0,
     "localUrlValidationsPassed": 0,
     "setupCanRun": false
@@ -57,23 +57,17 @@
       "kind": "github-variable",
       "repositoryName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
       "envName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
-      "configuredInRepository": false,
+      "configuredInRepository": true,
       "availableInShell": false,
       "availableInLocalEnvFile": false,
       "availableLocally": false,
       "localEnvFiles": [],
-      "ready": false,
+      "ready": true,
       "validation": {
-        "kind": "presence",
-        "status": "not-checked-missing-input",
-        "detail": "No local input is available yet.",
-        "checks": [
-          {
-            "id": "non-empty-local-input",
-            "passed": false,
-            "detail": "AGL_EVENT_COLLECTOR_R2_BUCKET must be exported before setup can sync it."
-          }
-        ]
+        "kind": "redacted-repository-presence",
+        "status": "not-inspected-repository-configured",
+        "detail": "GitHub stores the configured value redacted; export it locally to validate shape before changing it.",
+        "checks": []
       },
       "command": "gh variable set AGL_EVENT_COLLECTOR_R2_BUCKET --body \"$AGL_EVENT_COLLECTOR_R2_BUCKET\""
     },
@@ -81,23 +75,17 @@
       "kind": "github-variable",
       "repositoryName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
       "envName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
-      "configuredInRepository": false,
+      "configuredInRepository": true,
       "availableInShell": false,
       "availableInLocalEnvFile": false,
       "availableLocally": false,
       "localEnvFiles": [],
-      "ready": false,
+      "ready": true,
       "validation": {
-        "kind": "presence",
-        "status": "not-checked-missing-input",
-        "detail": "No local input is available yet.",
-        "checks": [
-          {
-            "id": "non-empty-local-input",
-            "passed": false,
-            "detail": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS must be exported before setup can sync it."
-          }
-        ]
+        "kind": "redacted-repository-presence",
+        "status": "not-inspected-repository-configured",
+        "detail": "GitHub stores the configured value redacted; export it locally to validate shape before changing it.",
+        "checks": []
       },
       "command": "gh variable set AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS --body \"$AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS\""
     },
@@ -177,23 +165,17 @@
       "kind": "github-secret",
       "repositoryName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
       "envName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
-      "configuredInRepository": false,
+      "configuredInRepository": true,
       "availableInShell": false,
       "availableInLocalEnvFile": false,
       "availableLocally": false,
       "localEnvFiles": [],
-      "ready": false,
+      "ready": true,
       "validation": {
-        "kind": "presence",
-        "status": "not-checked-missing-input",
-        "detail": "No local input is available yet.",
-        "checks": [
-          {
-            "id": "non-empty-local-input",
-            "passed": false,
-            "detail": "VITE_EVENT_COLLECTOR_WRITE_TOKEN must be exported before setup can sync it."
-          }
-        ]
+        "kind": "redacted-repository-presence",
+        "status": "not-inspected-repository-configured",
+        "detail": "GitHub stores the configured value redacted; export it locally to validate shape before changing it.",
+        "checks": []
       },
       "command": "printf \"%s\" \"$VITE_EVENT_COLLECTOR_WRITE_TOKEN\" | gh secret set VITE_EVENT_COLLECTOR_WRITE_TOKEN"
     },
@@ -201,23 +183,17 @@
       "kind": "github-secret",
       "repositoryName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
       "envName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
-      "configuredInRepository": false,
+      "configuredInRepository": true,
       "availableInShell": false,
       "availableInLocalEnvFile": false,
       "availableLocally": false,
       "localEnvFiles": [],
-      "ready": false,
+      "ready": true,
       "validation": {
-        "kind": "presence",
-        "status": "not-checked-missing-input",
-        "detail": "No local input is available yet.",
-        "checks": [
-          {
-            "id": "non-empty-local-input",
-            "passed": false,
-            "detail": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN must be exported before setup can sync it."
-          }
-        ]
+        "kind": "redacted-repository-presence",
+        "status": "not-inspected-repository-configured",
+        "detail": "GitHub stores the configured value redacted; export it locally to validate shape before changing it.",
+        "checks": []
       },
       "command": "printf \"%s\" \"$AGL_EVENT_COLLECTOR_ADMIN_TOKEN\" | gh secret set AGL_EVENT_COLLECTOR_ADMIN_TOKEN"
     }
@@ -228,18 +204,6 @@
       "repositoryName": "CLOUDFLARE_ACCOUNT_ID",
       "envName": "CLOUDFLARE_ACCOUNT_ID",
       "command": "gh variable set CLOUDFLARE_ACCOUNT_ID --body \"$CLOUDFLARE_ACCOUNT_ID\""
-    },
-    {
-      "kind": "github-variable",
-      "repositoryName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
-      "envName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
-      "command": "gh variable set AGL_EVENT_COLLECTOR_R2_BUCKET --body \"$AGL_EVENT_COLLECTOR_R2_BUCKET\""
-    },
-    {
-      "kind": "github-variable",
-      "repositoryName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
-      "envName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
-      "command": "gh variable set AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS --body \"$AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS\""
     },
     {
       "kind": "github-variable",
@@ -258,18 +222,6 @@
       "repositoryName": "CLOUDFLARE_API_TOKEN",
       "envName": "CLOUDFLARE_API_TOKEN",
       "command": "printf \"%s\" \"$CLOUDFLARE_API_TOKEN\" | gh secret set CLOUDFLARE_API_TOKEN"
-    },
-    {
-      "kind": "github-secret",
-      "repositoryName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
-      "envName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
-      "command": "printf \"%s\" \"$VITE_EVENT_COLLECTOR_WRITE_TOKEN\" | gh secret set VITE_EVENT_COLLECTOR_WRITE_TOKEN"
-    },
-    {
-      "kind": "github-secret",
-      "repositoryName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
-      "envName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
-      "command": "printf \"%s\" \"$AGL_EVENT_COLLECTOR_ADMIN_TOKEN\" | gh secret set AGL_EVENT_COLLECTOR_ADMIN_TOKEN"
     }
   ],
   "invalidInputs": [],
