@@ -1,18 +1,18 @@
 {
-  "generatedAt": "2026-05-24T20:00:05.997Z",
+  "generatedAt": "2026-05-24T20:03:32.930Z",
   "status": "release-candidate-ready",
-  "candidateId": "pwa-bfd2d1c75509",
+  "candidateId": "pwa-f874ad9b0bca",
   "target": {
     "provider": "github-pages",
     "artifactPath": "dist",
     "manifestPath": "dist/release-candidate.json",
     "publicOrigin": "https://moshequ.github.io/autonomous-game-lab",
-    "publicOriginStatus": "inferred-github-pages",
+    "publicOriginStatus": "configured",
     "basePath": "/autonomous-game-lab/"
   },
   "summary": {
     "totalFiles": 69,
-    "totalBytes": 3985585,
+    "totalBytes": 3985620,
     "totalKb": 3892.2,
     "assetFiles": 14,
     "htmlFiles": 22,
@@ -22,7 +22,7 @@
   },
   "integrity": {
     "algorithm": "sha256",
-    "aggregateHash": "bfd2d1c7550999ad78e5f120d99965d61a90960c84e303dffe73b177ecd93450",
+    "aggregateHash": "f874ad9b0bca2c02796b1e1ee5daceea90e5bc2bc2a99de735886faf397af956",
     "files": [
       {
         "path": ".nojekyll",
@@ -60,16 +60,16 @@
         "cacheControl": "public, max-age=3600"
       },
       {
-        "path": "assets/aggregateEvidenceIssue-9RE8euUM.js",
+        "path": "assets/aggregateEvidenceIssue-Cj-w7XjV.js",
         "bytes": 3717,
-        "sha256": "b1dc1c94b6c8ea7b999585ea93da53e7e77a81655ce418f7c7a7668b07e35593",
+        "sha256": "36afeee27984affe989417864d87ba1f0fc48da6c035570c5cfeb0ab7e6791bc",
         "contentType": "text/javascript; charset=utf-8",
         "cacheControl": "public, max-age=31536000, immutable"
       },
       {
-        "path": "assets/calendarReminder-BHRjJ7j2.js",
+        "path": "assets/calendarReminder-D3o-sRYx.js",
         "bytes": 1627,
-        "sha256": "fc2f2148c591f0f99c3e62e9d43df0ff3669f349fe41cad075648b004cebe370",
+        "sha256": "dc54ada1f0be5fb08b0aa28f89e52306d727ec380e72477e1a5742a107091fde",
         "contentType": "text/javascript; charset=utf-8",
         "cacheControl": "public, max-age=31536000, immutable"
       },
@@ -88,9 +88,9 @@
         "cacheControl": "public, max-age=31536000, immutable"
       },
       {
-        "path": "assets/GameCanvas-IMnGB9-1.js",
+        "path": "assets/GameCanvas-B4UDKMh-.js",
         "bytes": 3362,
-        "sha256": "5359d13f7c6d2a0e466f2cb3715005672c791370432bde42214d5c38a61bb8ae",
+        "sha256": "c87bdec2500984aa6611384caac4f119649545054444c605d18d32525152468c",
         "contentType": "text/javascript; charset=utf-8",
         "cacheControl": "public, max-age=31536000, immutable"
       },
@@ -123,9 +123,9 @@
         "cacheControl": "public, max-age=31536000, immutable"
       },
       {
-        "path": "assets/index-D1nqyG6W.js",
-        "bytes": 697241,
-        "sha256": "8b61cd46d5cdd03bb1f60038232ef2f798ff8cda37e12636f707be78418aaea0",
+        "path": "assets/index-Cv-k75vM.js",
+        "bytes": 697287,
+        "sha256": "f9fb6921e2eb6beeab240ad65d94ec2de10f2d25077303c54a160d2e2d825ce3",
         "contentType": "text/javascript; charset=utf-8",
         "cacheControl": "public, max-age=31536000, immutable"
       },
@@ -159,8 +159,8 @@
       },
       {
         "path": "compliance.json",
-        "bytes": 5636,
-        "sha256": "3dd2d96d78f15964e45ea82e9a04ad203ae337be00cfa4fd403841102af69c81",
+        "bytes": 5625,
+        "sha256": "085dcc0ed4959b519669dc924f00b77479746b5f81927e5cbbbda5d0b9998dc8",
         "contentType": "application/json; charset=utf-8",
         "cacheControl": "public, max-age=3600"
       },
@@ -307,7 +307,7 @@
       {
         "path": "index.html",
         "bytes": 2846,
-        "sha256": "77f1f09d867cb5ad74892fc1a8566e69990f449ffbeb29d68bd65468c157b7bb",
+        "sha256": "10a76f9084253b983e4262a320d54e591e7578329202fca2ad8506a14bf40a37",
         "contentType": "text/html; charset=utf-8",
         "cacheControl": "no-cache"
       },
@@ -496,7 +496,7 @@
       {
         "path": "sw.js",
         "bytes": 5186,
-        "sha256": "32a6802f2896f2b10007dd9e5309ba4775dc09d57acfd4bd5e65e62eb1329801",
+        "sha256": "cd24117ded0a832fb46c267a16fe9e24588067dc755e1346688e55f9ba13b6a1",
         "contentType": "text/javascript; charset=utf-8",
         "cacheControl": "no-cache"
       },

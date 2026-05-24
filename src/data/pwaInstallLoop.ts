@@ -1,13 +1,13 @@
 export const pwaInstallLoop = {
-  "generatedAt": "2026-05-24T19:53:12.066Z",
-  "sourceDataHash": "b95adcb0ea95",
+  "generatedAt": "2026-05-24T20:03:22.975Z",
+  "sourceDataHash": "8c3a4c0cc55f",
   "status": "pwa-install-loop-ready",
   "sourceStatus": {
     "analyticsSource": "fixture-sample",
     "acquisitionLearning": "acquisition-learning-ready",
     "retentionLoop": "retention-loop-ready",
     "releaseHealth": "monitoring",
-    "publicOrigin": "inferred-github-pages"
+    "publicOrigin": "configured"
   },
   "channel": {
     "id": "pwa-install",
@@ -60,7 +60,7 @@ export const pwaInstallLoop = {
     "playerInitiatedOnly": true,
     "browserPromptControlled": true,
     "nativePromptRequired": true,
-    "hostedOriginRequired": true
+    "hostedOriginRequired": false
   },
   "localState": {
     "dismissalKey": "agl.pwa.installDismissedAt",
@@ -70,7 +70,7 @@ export const pwaInstallLoop = {
   "controls": {
     "canMeasureInstall": true,
     "canPromptInstall": true,
-    "hostRequiredForProductionInstall": true,
+    "hostRequiredForProductionInstall": false,
     "noPaidInstallIncentive": true,
     "noNotificationPermissionPrompt": true
   },
@@ -131,9 +131,9 @@ export const pwaInstallLoop = {
       "launch": "pwa_launch_mode_detected"
     },
     "hostPolicy": {
-      "publicOriginStatus": "inferred-github-pages",
+      "publicOriginStatus": "configured",
       "stableHttpsRequired": true,
-      "hostedOriginRequired": true,
+      "hostedOriginRequired": false,
       "productionInstallClaimsAllowed": false
     },
     "controls": {
@@ -148,16 +148,16 @@ export const pwaInstallLoop = {
       "noRevenueEnablement": true,
       "noStoreSubmission": true
     },
-    "nextAction": "Publish to a stable HTTPS host before treating PWA install evidence as production-ready."
+    "nextAction": "Route zero-spend install traffic through /?game=market-pulse&utm_source=pwa_install&utm_campaign=pwa-install-market-pulse until 20 prompt view(s) and 10 launch-mode event(s) are collected."
   },
   "installSample": {
     "status": "collecting-sample",
     "campaignId": "pwa-install-market-pulse",
     "playPath": "/?game=market-pulse&utm_source=pwa_install&utm_campaign=pwa-install-market-pulse",
-    "hostedOriginRequired": true,
+    "hostedOriginRequired": false,
     "promptViewsNeeded": 20,
     "launchModesNeeded": 10,
-    "nextAction": "Publish to a stable HTTPS host before treating PWA install evidence as production-ready.",
+    "nextAction": "Route zero-spend install traffic through /?game=market-pulse&utm_source=pwa_install&utm_campaign=pwa-install-market-pulse until 20 prompt view(s) and 10 launch-mode event(s) are collected.",
     "controls": {
       "zeroPaidSpend": true,
       "playerInitiatedOnly": true,
@@ -180,10 +180,10 @@ export const pwaInstallLoop = {
     "noPaidInstallReward": true
   },
   "nextActions": [
-    "Publish to a stable HTTPS host before treating PWA install evidence as production-ready.",
+    "Route zero-spend install traffic through /?game=market-pulse&utm_source=pwa_install&utm_campaign=pwa-install-market-pulse until 20 prompt view(s) and 10 launch-mode event(s) are collected.",
     "Start measuring native install prompt availability and standalone launches.",
     "Route install traffic through /?game=market-pulse&utm_source=pwa_install&utm_campaign=pwa-install-market-pulse so prompt events carry pwa-install attribution.",
-    "Publish to a stable HTTPS host before using PWA install data for store-readiness claims.",
+    "Keep install links pointed at the stable HTTPS production origin.",
     "Keep install prompts optional, non-blocking, and separated from paid rewards."
   ]
 } as const
