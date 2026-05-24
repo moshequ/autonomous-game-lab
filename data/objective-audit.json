@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-24T19:41:07.500Z",
+  "generatedAt": "2026-05-24T19:46:27.509Z",
   "status": "objective-in-progress",
   "objective": "Build a bootstrapped autonomous web/PWA game portal that can generate original board-game-inspired games, measure user behavior, propose and apply data-driven improvements, and prepare a path to monetization and app-store distribution with minimal manual intervention.",
   "summary": {
@@ -7,7 +7,7 @@
     "met": 6,
     "prepared": 2,
     "incomplete": 0,
-    "externalBlockers": 16,
+    "externalBlockers": 15,
     "productBlockers": 7
   },
   "requirements": [
@@ -94,17 +94,16 @@
         "Operator history: operator-history-ready; records 40; executed 1",
         "Bootstrap: production-bootstrap-ready",
         "Unlock runner: unlock-runner-idle; runnable 0; queued 0; unsafe 0",
-        "Repository bootstrap: waiting-for-gh-auth; helper ops/github/bootstrap-repository.sh",
+        "Repository bootstrap: repository-bootstrap-ready; helper ops/github/bootstrap-repository.sh",
         "Release candidate: release-candidate-ready; smoke URLs 28",
         "Post-deploy smoke: post-deploy-smoke-observed-live; origin https://moshequ.github.io/autonomous-game-lab; checks 29/29; local artifact predeploy-artifact-smoke-passed 29/29",
-        "Strict deploy artifact sync: post-deploy-artifact-sync-passed; run 26369464808; live matches artifact true; candidate pwa-36719894f5df",
+        "Strict deploy artifact sync: post-deploy-artifact-sync-passed; run 26370985268; live matches artifact true; candidate pwa-c6f1a92790e3",
         "Live site monitor: live-site-monitor-passed; checks 29/29; live matches synced deploy true",
         "Repository channel: repository-channel-ready; repository moshequ/autonomous-game-lab; git worktree true",
         "Autonomy score: 98%",
-        "Credential-gated actions: 12"
+        "Credential-gated actions: 10"
       ],
       "blockers": [
-        "Authenticate GitHub CLI or provide GH_TOKEN/GITHUB_TOKEN for remote repository bootstrap.",
         "AGL_SUPPORT_EMAIL: Production support contact for privacy and store listings.",
         "VITE_POSTHOG_KEY: Optional browser-side PostHog analytics forwarding.",
         "POSTHOG_PROJECT_ID + POSTHOG_PERSONAL_API_KEY: Optional autonomous production analytics and experiment result rollups from PostHog.",
@@ -113,8 +112,6 @@
         "ADMOB_PUBLISHER_ID: Native app seller line for app-ads.txt and Android rewarded tests after app-store gates pass.",
         "AGL_GOOGLE_PLAY_ACCOUNT_CONNECTED: Allows native packaging gates to treat Play Console access as connected.",
         "CLOUDFLARE_API_TOKEN: Repository secret sourced from CLOUDFLARE_API_TOKEN.",
-        "VITE_EVENT_COLLECTOR_WRITE_TOKEN: Repository secret sourced from VITE_EVENT_COLLECTOR_WRITE_TOKEN.",
-        "AGL_EVENT_COLLECTOR_ADMIN_TOKEN: Repository secret sourced from AGL_EVENT_COLLECTOR_ADMIN_TOKEN.",
         "POSTHOG_PERSONAL_API_KEY: Repository secret sourced from POSTHOG_PERSONAL_API_KEY.",
         "GOOGLE_PLAY_SERVICE_ACCOUNT_JSON: Repository secret sourced from GOOGLE_PLAY_SERVICE_ACCOUNT_JSON."
       ],
@@ -190,7 +187,6 @@
   ],
   "blockers": {
     "external": [
-      "Authenticate GitHub CLI or provide GH_TOKEN/GITHUB_TOKEN for remote repository bootstrap.",
       "Set AGL_SUPPORT_EMAIL to a real support inbox before public store submission.",
       "Set VITE_EVENT_COLLECTOR_URL or VITE_POSTHOG_KEY to forward browser analytics in production.",
       "Set AGL_EVENT_COLLECTOR_EXPORT_URL + AGL_EVENT_COLLECTOR_ADMIN_TOKEN or PostHog server credentials for autonomous production rollups.",
@@ -217,7 +213,6 @@
       "annual-fee-payback: Store spend allowed is false; projected Apple payback is not available."
     ],
     "all": [
-      "Authenticate GitHub CLI or provide GH_TOKEN/GITHUB_TOKEN for remote repository bootstrap.",
       "Set AGL_SUPPORT_EMAIL to a real support inbox before public store submission.",
       "Set VITE_EVENT_COLLECTOR_URL or VITE_POSTHOG_KEY to forward browser analytics in production.",
       "Set AGL_EVENT_COLLECTOR_EXPORT_URL + AGL_EVENT_COLLECTOR_ADMIN_TOKEN or PostHog server credentials for autonomous production rollups.",
@@ -248,9 +243,9 @@
     "noRevenueEnablementUntilGatesPass": true,
     "noStoreSubmissionUntilExternalAccounts": true,
     "currentWorktreeClean": false,
-    "currentWorktreeDirtyFiles": 85,
+    "currentWorktreeDirtyFiles": 86,
     "productionBootstrapFresh": true,
-    "productionBootstrapSourceDataHash": "c80cbca53aa1",
+    "productionBootstrapSourceDataHash": "fd0dde0c9a91",
     "productionBootstrapStaleInputIds": [],
     "objectiveNextBestActionSource": "owner-loop"
   },
