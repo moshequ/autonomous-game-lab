@@ -1,10 +1,10 @@
 # Objective Audit
 
-Generated: 2026-05-24T23:11:23.067Z
+Generated: 2026-05-24T23:15:36.441Z
 Status: objective-in-progress
 Can mark goal complete: false
 Reason: The local autonomous PWA system is largely prepared with strict live deploy evidence synced from GitHub Actions, but production credentials, live data, monetization gates, and store account/signing blockers remain.
-Next best action: collect-live-events
+Next best action: hold-for-external-input
 
 ## Summary
 
@@ -12,7 +12,7 @@ Next best action: collect-live-events
 - Met: 6
 - Prepared: 2
 - Incomplete: 0
-- External blockers: 17
+- External blockers: 16
 - Product blockers: 7
 
 ## Requirements
@@ -36,7 +36,6 @@ Next best action: collect-live-events
 
 ## Top Blockers
 
-- Authenticate GitHub CLI or provide GH_TOKEN/GITHUB_TOKEN for remote repository bootstrap.
 - Set AGL_SUPPORT_EMAIL to a real support inbox before public store submission.
 - Set VITE_EVENT_COLLECTOR_URL or VITE_POSTHOG_KEY to forward browser analytics in production.
 - Set AGL_EVENT_COLLECTOR_EXPORT_URL + AGL_EVENT_COLLECTOR_ADMIN_TOKEN or PostHog server credentials for autonomous production rollups.
@@ -52,3 +51,4 @@ Next best action: collect-live-events
 - apple-developer-account: Apple Developer account remains deferred until iOS spend is justified.
 - native-package-ready: Native package is blocked-draft-ready.
 - store-package-draft: Store package is blocked; data safety is draft-ready.
+- asset-links: Digital Asset Links are domain-verification-blocked; Android requires https://moshequ.github.io/.well-known/assetlinks.json and current artifact publishes https://moshequ.github.io/autonomous-game-lab/.well-known/assetlinks.json.
