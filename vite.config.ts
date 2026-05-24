@@ -121,6 +121,7 @@ const operationalFreshnessAssets = [
   'measurement-status.html',
   'measurement-status.json',
   'owner-unlock-brief.json',
+  'owner-unlock-preflight.json',
   'analytics-unlock.html',
   'analytics-unlock.json',
   'release-candidate.json',

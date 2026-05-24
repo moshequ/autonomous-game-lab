@@ -103,6 +103,7 @@ const allowedExactPaths = new Set([
   'public/measurement-status.html',
   'public/measurement-status.json',
   'public/owner-unlock-brief.json',
+  'public/owner-unlock-preflight.json',
   'public/monetization.json',
   'public/privacy.html',
   'public/.well-known/assetlinks.json',

@@ -1,22 +1,22 @@
 # Release Candidate
 
-Generated: 2026-05-24T12:10:20.212Z
+Generated: 2026-05-24T12:40:40.612Z
 Status: release-candidate-ready
-Candidate: pwa-81e4886dadb7
-Files: 66
-Size: 3773.9 KB
-Aggregate SHA-256: 81e4886dadb79fda47576834d892c69de10d32620e1de4cb2d1e1ff0d54fe4b9
+Candidate: pwa-63c9250f7d04
+Files: 67
+Size: 3793.2 KB
+Aggregate SHA-256: 63c9250f7d0478af9e0e6c2a6127f9323079070e0deaaeb28908aec4635d2687
 
 ## Checks
 
-- pass: dist-inventory - 66 dist files inventoried.
-- pass: required-files - 30/30 required files present.
+- pass: dist-inventory - 67 dist files inventoried.
+- pass: required-files - 31/31 required files present.
 - pass: game-pages - 10 generated game page(s) in dist.
 - pass: performance-budget - Performance budget is performance-budget-ready.
 - pass: release-health - Release health is monitoring.
 - pass: production-response - Deploy allowed is true.
 - pass: spend-guard - Spend mode is no-spend.
-- pass: post-deploy-smoke-plan - 25 post-deploy smoke URL(s) planned.
+- pass: post-deploy-smoke-plan - 26 post-deploy smoke URL(s) planned.
 
 ## Required Files
 
@@ -28,6 +28,7 @@ Aggregate SHA-256: 81e4886dadb79fda47576834d892c69de10d32620e1de4cb2d1e1ff0d54fe
 - pass: measurement-status.html
 - pass: measurement-status.json
 - pass: owner-unlock-brief.json
+- pass: owner-unlock-preflight.json
 - pass: analytics-unlock.html
 - pass: analytics-unlock.json
 - pass: install.html
@@ -61,6 +62,7 @@ Aggregate SHA-256: 81e4886dadb79fda47576834d892c69de10d32620e1de4cb2d1e1ff0d54fe
 - 200: https://moshequ.github.io/autonomous-game-lab/measurement-status.html
 - 200: https://moshequ.github.io/autonomous-game-lab/measurement-status.json
 - 200: https://moshequ.github.io/autonomous-game-lab/owner-unlock-brief.json
+- 200: https://moshequ.github.io/autonomous-game-lab/owner-unlock-preflight.json
 - 200: https://moshequ.github.io/autonomous-game-lab/analytics-unlock.html
 - 200: https://moshequ.github.io/autonomous-game-lab/analytics-unlock.json
 - 200: https://moshequ.github.io/autonomous-game-lab/install.html

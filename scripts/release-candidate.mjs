@@ -102,6 +102,7 @@ const requiredFiles = [
   'measurement-status.html',
   'measurement-status.json',
   'owner-unlock-brief.json',
+  'owner-unlock-preflight.json',
   'analytics-unlock.html',
   'analytics-unlock.json',
   'install.html',
@@ -193,6 +194,7 @@ const smokePaths = [
   'measurement-status.html',
   'measurement-status.json',
   'owner-unlock-brief.json',
+  'owner-unlock-preflight.json',
   'analytics-unlock.html',
   'analytics-unlock.json',
   'install.html',
@@ -231,6 +233,10 @@ const requiredTextForSmokePath = (filePath) => {
 
   if (filePath === 'analytics-unlock.html') {
     return 'Production Analytics Unlock'
+  }
+
+  if (filePath === 'owner-unlock-preflight.json') {
+    return 'owner-unlock-preflight'
   }
 
   if (filePath === '.well-known/assetlinks.json') {

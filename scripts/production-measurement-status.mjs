@@ -44,6 +44,15 @@ const supportFeedback = await readJson(path.join(dataDir, 'support-feedback.json
 const productGateSamplePlan = await readJson(path.join(dataDir, 'product-gate-sample-plan.json'))
 const trafficSeeding = await readJson(path.join(dataDir, 'traffic-seeding.json'))
 const productionBlockerHandoff = await readJson(path.join(dataDir, 'production-blocker-handoff.json'))
+const ownerUnlockPreflight = await readOptionalJson(path.join(dataDir, 'owner-unlock-preflight.json'), {
+  status: 'missing',
+  readyForSetup: false,
+  summary: { totalInputs: 0, readyInputs: 0, missingInputs: 0, invalidInputs: 0 },
+  missingInputs: [],
+  invalidInputs: [],
+  commands: {},
+  controls: {},
+})
 const eventCollectorSmoke = await readJson(path.join(dataDir, 'event-collector-smoke.json'))
 const postDeployArtifactSync = await readOptionalJson(path.join(dataDir, 'post-deploy-artifact-sync.json'), {
   status: 'missing',
@@ -455,6 +464,7 @@ const sourceDataHash = hashSourceData({
   productGateSamplePlan,
   trafficSeeding,
   productionBlockerHandoff,
+  ownerUnlockPreflight,
   eventCollectorSmoke,
   postDeployArtifactSync,
 })
@@ -537,11 +547,22 @@ const payload = {
   publicEvidenceHandoff,
   analyticsUnlock: publicAnalyticsUnlock,
   externalUnlockQueue: publicExternalUnlockQueue,
+  ownerUnlockPreflight: {
+    status: ownerUnlockPreflight.status,
+    readyForSetup: ownerUnlockPreflight.readyForSetup === true,
+    recommendedPath: ownerUnlockPreflight.recommendedPath ?? null,
+    summary: ownerUnlockPreflight.summary ?? {},
+    missingInputs: ownerUnlockPreflight.missingInputs ?? [],
+    invalidInputs: ownerUnlockPreflight.invalidInputs ?? [],
+    commands: ownerUnlockPreflight.commands ?? {},
+    controls: ownerUnlockPreflight.controls ?? {},
+  },
   publicRoutes: {
     statusPage: '/measurement-status.html',
     statusJson: '/measurement-status.json',
     analyticsUnlock: '/analytics-unlock.html',
     analyticsUnlockJson: '/analytics-unlock.json',
+    ownerUnlockPreflightJson: '/owner-unlock-preflight.json',
     gateSample: '/gate-sample.html',
     sampleNext: sampleNextRoute.path,
     sampleNextJson: sampleNextRoute.jsonPath,
@@ -654,6 +675,12 @@ const appPayload = {
         }
       : null,
   },
+  ownerUnlockPreflight: {
+    status: payload.ownerUnlockPreflight.status,
+    readyForSetup: payload.ownerUnlockPreflight.readyForSetup,
+    missingInputCount: payload.ownerUnlockPreflight.summary?.missingInputs ?? 0,
+    invalidInputCount: payload.ownerUnlockPreflight.summary?.invalidInputs ?? 0,
+  },
 }
 
 const publicPayload = {
@@ -667,6 +694,7 @@ const publicPayload = {
   publicEvidenceHandoff: payload.publicEvidenceHandoff,
   analyticsUnlock: payload.analyticsUnlock,
   externalUnlockQueue: payload.externalUnlockQueue,
+  ownerUnlockPreflight: payload.ownerUnlockPreflight,
   publicRoutes: payload.publicRoutes,
   blockers: payload.blockers,
   controls: payload.controls,
@@ -691,11 +719,13 @@ const analyticsUnlockPayload = {
     topItems: payload.externalUnlockQueue.topItems,
     ownerUnlockBrief: payload.externalUnlockQueue.ownerUnlockBrief,
   },
+  ownerUnlockPreflight: payload.ownerUnlockPreflight,
   publicRoutes: {
     statusPage: payload.publicRoutes.statusPage,
     statusJson: payload.publicRoutes.statusJson,
     analyticsUnlock: payload.publicRoutes.analyticsUnlock,
     analyticsUnlockJson: payload.publicRoutes.analyticsUnlockJson,
+    ownerUnlockPreflightJson: payload.publicRoutes.ownerUnlockPreflightJson,
   },
   controls: {
     publicArtifact: true,
@@ -761,6 +791,36 @@ const ownerUnlockBriefHtml = (brief) =>
         ${commandList(brief.setupCommands)}
         <h3>Validation Commands</h3>
         ${commandList(brief.validationCommands)}
+      </section>`
+    : ''
+
+const ownerUnlockPreflightHtml = (preflight) =>
+  preflight
+    ? `<section>
+        <h2>Owner Unlock Preflight</h2>
+        <p>This public preflight shows whether the next analytics setup can run. It publishes names, statuses, and guardrails only; raw values and secret contents are never serialized.</p>
+        <div class="grid" aria-label="Owner unlock preflight">
+          <div class="card">
+            <span>Status</span>
+            <strong>${escapeHtml(preflight.status)}</strong>
+          </div>
+          <div class="card">
+            <span>Ready for setup</span>
+            <strong>${preflight.readyForSetup === true}</strong>
+          </div>
+          <div class="card">
+            <span>Ready inputs</span>
+            <strong>${preflight.summary?.readyInputs ?? 0}/${preflight.summary?.totalInputs ?? 0}</strong>
+          </div>
+          <div class="card">
+            <span>Invalid inputs</span>
+            <strong>${preflight.summary?.invalidInputs ?? 0}</strong>
+          </div>
+        </div>
+        <h3>Missing Inputs</h3>
+        ${requiredList(preflight.missingInputs ?? [])}
+        <h3>Invalid Inputs</h3>
+        ${requiredList(preflight.invalidInputs ?? [])}
       </section>`
     : ''
 
@@ -904,6 +964,7 @@ const analyticsUnlockHtml = `<!doctype html>
       </div>
 
       ${ownerUnlockBriefHtml(analyticsUnlockPayload.externalUnlockQueue.ownerUnlockBrief)}
+      ${ownerUnlockPreflightHtml(analyticsUnlockPayload.ownerUnlockPreflight)}
 
       <section>
         <h2>Unlock Paths</h2>
@@ -985,6 +1046,7 @@ const analyticsUnlockHtml = `<!doctype html>
         <div class="actions">
           <a href="${escapeHtml(publicRouteHref(analyticsUnlockPayload.publicRoutes.statusPage))}">Open measurement status</a>
           <a href="${escapeHtml(publicRouteHref(analyticsUnlockPayload.publicRoutes.analyticsUnlockJson))}">Open unlock JSON</a>
+          <a href="${escapeHtml(publicRouteHref(analyticsUnlockPayload.publicRoutes.ownerUnlockPreflightJson))}">Open preflight JSON</a>
         </div>
       </section>
     </main>
@@ -1252,6 +1314,7 @@ const html = `<!doctype html>
       </section>
 
       ${ownerUnlockBriefHtml(payload.externalUnlockQueue.ownerUnlockBrief)}
+      ${ownerUnlockPreflightHtml(payload.ownerUnlockPreflight)}
 
       <section>
         <h2>Zero-Spend Analytics Unlock</h2>
@@ -1292,6 +1355,7 @@ const html = `<!doctype html>
         }
         <div class="actions">
           <a href="${escapeHtml(publicRouteHref(payload.publicRoutes.analyticsUnlock))}">Open analytics unlock</a>
+          <a href="${escapeHtml(publicRouteHref(payload.publicRoutes.ownerUnlockPreflightJson))}">Open preflight JSON</a>
         </div>
       </section>
 

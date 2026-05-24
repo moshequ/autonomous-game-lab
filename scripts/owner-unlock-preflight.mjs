@@ -10,6 +10,7 @@ const assertMode = args.has('--assert')
 const assertReadyMode = args.has('--assert-ready')
 
 const outputJsonPath = path.join(root, 'data', 'owner-unlock-preflight.json')
+const publicJsonPath = path.join(root, 'public', 'owner-unlock-preflight.json')
 const reportPath = path.join(root, 'reports', 'owner-unlock-preflight-latest.md')
 
 const readJson = async (filePath) => JSON.parse(await readFile(filePath, 'utf8'))
@@ -349,8 +350,10 @@ if (assertReadyMode && payload.status !== 'owner-unlock-preflight-ready') {
 }
 
 await mkdir(path.dirname(outputJsonPath), { recursive: true })
+await mkdir(path.dirname(publicJsonPath), { recursive: true })
 await mkdir(path.dirname(reportPath), { recursive: true })
 await writeFile(outputJsonPath, JSON.stringify(payload, null, 2) + '\n')
+await writeFile(publicJsonPath, JSON.stringify(payload, null, 2) + '\n')
 await writeFile(reportPath, report.join('\n'))
 
 const linesForInputs = (items, emptyText) =>

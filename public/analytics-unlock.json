@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-24T12:10:30.288Z",
+  "generatedAt": "2026-05-24T12:42:01.449Z",
   "status": "owner-input-required",
   "activePath": "local-browser-buffer",
   "liveCandidate": "pwa-695c78728375",
@@ -646,11 +646,81 @@
       }
     }
   },
+  "ownerUnlockPreflight": {
+    "status": "owner-unlock-preflight-waiting-on-input",
+    "readyForSetup": false,
+    "recommendedPath": {
+      "id": "first-party-collector",
+      "title": "First-party event collector",
+      "status": "needs-variables-and-secrets",
+      "costMode": "zero-spend-use-existing-cloudflare-free-tier",
+      "ownerInputRequired": true
+    },
+    "summary": {
+      "totalInputs": 8,
+      "readyInputs": 4,
+      "missingInputs": 4,
+      "invalidInputs": 0,
+      "repositoryConfiguredInputs": 4,
+      "localAvailableInputs": 0,
+      "localUrlValidationsPassed": 0,
+      "setupCanRun": false
+    },
+    "missingInputs": [
+      {
+        "kind": "github-variable",
+        "repositoryName": "CLOUDFLARE_ACCOUNT_ID",
+        "envName": "CLOUDFLARE_ACCOUNT_ID",
+        "command": "gh variable set CLOUDFLARE_ACCOUNT_ID --body \"$CLOUDFLARE_ACCOUNT_ID\""
+      },
+      {
+        "kind": "github-variable",
+        "repositoryName": "VITE_EVENT_COLLECTOR_URL",
+        "envName": "VITE_EVENT_COLLECTOR_URL",
+        "command": "gh variable set VITE_EVENT_COLLECTOR_URL --body \"$VITE_EVENT_COLLECTOR_URL\""
+      },
+      {
+        "kind": "github-variable",
+        "repositoryName": "AGL_EVENT_COLLECTOR_EXPORT_URL",
+        "envName": "AGL_EVENT_COLLECTOR_EXPORT_URL",
+        "command": "gh variable set AGL_EVENT_COLLECTOR_EXPORT_URL --body \"$AGL_EVENT_COLLECTOR_EXPORT_URL\""
+      },
+      {
+        "kind": "github-secret",
+        "repositoryName": "CLOUDFLARE_API_TOKEN",
+        "envName": "CLOUDFLARE_API_TOKEN",
+        "command": "printf \"%s\" \"$CLOUDFLARE_API_TOKEN\" | gh secret set CLOUDFLARE_API_TOKEN"
+      }
+    ],
+    "invalidInputs": [],
+    "commands": {
+      "printBrief": "node scripts/owner-unlock-brief.mjs --print",
+      "preflight": "node scripts/owner-unlock-preflight.mjs --assert --print",
+      "packagePreflight": "npm run autonomous:owner-unlock-preflight",
+      "syncConfiguredValues": "./ops/github/setup-production.sh",
+      "dispatchWhenReady": "RUN_WORKFLOWS=1 ./ops/github/setup-production.sh"
+    },
+    "controls": {
+      "zeroPaidSpend": true,
+      "noSecretValues": true,
+      "noSecretValuesStored": true,
+      "noSecretValuesSerialized": true,
+      "noMutation": true,
+      "noWorkflowDispatch": true,
+      "noAccountCreation": true,
+      "noStoreSubmission": true,
+      "noRevenueEnablement": true,
+      "setupStillRequiresExplicitRun": true,
+      "workflowDispatchStillRequiresRunWorkflows": true,
+      "secretValuesNeverSerialized": true
+    }
+  },
   "publicRoutes": {
     "statusPage": "/measurement-status.html",
     "statusJson": "/measurement-status.json",
     "analyticsUnlock": "/analytics-unlock.html",
-    "analyticsUnlockJson": "/analytics-unlock.json"
+    "analyticsUnlockJson": "/analytics-unlock.json",
+    "ownerUnlockPreflightJson": "/owner-unlock-preflight.json"
   },
   "controls": {
     "publicArtifact": true,

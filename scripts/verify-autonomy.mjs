@@ -246,6 +246,7 @@ const requiredFiles = [
   'public/measurement-status.html',
   'public/measurement-status.json',
   'public/owner-unlock-brief.json',
+  'public/owner-unlock-preflight.json',
   'public/install.html',
   'public/robots.txt',
   'public/sample-next.html',
@@ -263,6 +264,7 @@ const requiredFiles = [
   'public/.well-known/assetlinks.json',
   'dist/compliance.json',
   'dist/owner-unlock-brief.json',
+  'dist/owner-unlock-preflight.json',
   'dist/.well-known/assetlinks.json',
   'dist/gate-sample.html',
   'dist/sample-next.html',
@@ -428,6 +430,9 @@ const gateSampleHtml = await readFile(path.join(root, 'public', 'gate-sample.htm
 const measurementStatusHtml = await readFile(path.join(root, 'public', 'measurement-status.html'), 'utf8')
 const publicMeasurementStatus = JSON.parse(await readFile(path.join(root, 'public', 'measurement-status.json'), 'utf8'))
 const publicOwnerUnlockBrief = JSON.parse(await readFile(path.join(root, 'public', 'owner-unlock-brief.json'), 'utf8'))
+const publicOwnerUnlockPreflight = JSON.parse(
+  await readFile(path.join(root, 'public', 'owner-unlock-preflight.json'), 'utf8'),
+)
 const analyticsUnlockHtml = await readFile(path.join(root, 'public', 'analytics-unlock.html'), 'utf8')
 const publicAnalyticsUnlockStatus = JSON.parse(await readFile(path.join(root, 'public', 'analytics-unlock.json'), 'utf8'))
 const installHtml = await readFile(path.join(root, 'public', 'install.html'), 'utf8')
@@ -827,6 +832,7 @@ if (
   !publicEvidenceIntakeWorkflow.includes('data/owner-unlock-brief.json') ||
   !publicEvidenceIntakeWorkflow.includes('data/owner-unlock-preflight.json') ||
   !publicEvidenceIntakeWorkflow.includes('public/owner-unlock-brief.json') ||
+  !publicEvidenceIntakeWorkflow.includes('public/owner-unlock-preflight.json') ||
   !publicEvidenceIntakeWorkflow.includes('reports/owner-unlock-brief-latest.md') ||
   !publicEvidenceIntakeWorkflow.includes('reports/owner-unlock-preflight-latest.md') ||
   !publicEvidenceIntakeWorkflow.includes('public/analytics-unlock.html') ||
@@ -888,6 +894,7 @@ if (
   !productionInputWatchWorkflow.includes('data/owner-unlock-brief.json') ||
   !productionInputWatchWorkflow.includes('data/owner-unlock-preflight.json') ||
   !productionInputWatchWorkflow.includes('public/owner-unlock-brief.json') ||
+  !productionInputWatchWorkflow.includes('public/owner-unlock-preflight.json') ||
   !productionInputWatchWorkflow.includes('reports/owner-unlock-brief-latest.md') ||
   !productionInputWatchWorkflow.includes('reports/owner-unlock-preflight-latest.md') ||
   !productionInputWatchWorkflow.includes('data/production-unlock-runner.json') ||
@@ -3317,7 +3324,9 @@ const productionAnalyticsUnlockKitLeaksValues = (productionAnalyticsUnlockKit?.p
 const ownerUnlockBriefLeaksValues = [ownerUnlockBrief, publicOwnerUnlockBrief].some((payload) =>
   JSON.stringify(payload).includes('"value"'),
 )
-const ownerUnlockPreflightLeaksValues = JSON.stringify(ownerUnlockPreflight).includes('"value"')
+const ownerUnlockPreflightLeaksValues = [ownerUnlockPreflight, publicOwnerUnlockPreflight].some((payload) =>
+  JSON.stringify(payload).includes('"value"'),
+)
 const ownerUnlockPreflightMissingInputCount = (ownerUnlockPreflight.inputs ?? []).filter(
   (input) => input.ready !== true,
 ).length
@@ -3453,6 +3462,7 @@ if (
     'owner-unlock-preflight-needs-fixes',
     'owner-unlock-preflight-ready',
   ].includes(ownerUnlockPreflight.status) ||
+  JSON.stringify(publicOwnerUnlockPreflight) !== JSON.stringify(ownerUnlockPreflight) ||
   ownerUnlockPreflight.sourceStatus?.ownerUnlockBrief !== ownerUnlockBrief.status ||
   ownerUnlockPreflight.sourceStatus?.productionBlockerHandoff !== productionBlockerHandoff.status ||
   ownerUnlockPreflight.sourceStatus?.nextUnlockId !== ownerUnlockBrief.brief?.nextUnlockId ||
@@ -3469,6 +3479,11 @@ if (
   ownerUnlockPreflight.localEnvironment?.valuesRedacted !== true ||
   ownerUnlockPreflight.commands?.syncConfiguredValues !== './ops/github/setup-production.sh' ||
   ownerUnlockPreflight.commands?.dispatchWhenReady !== 'RUN_WORKFLOWS=1 ./ops/github/setup-production.sh' ||
+  publicMeasurementStatus.ownerUnlockPreflight?.status !== ownerUnlockPreflight.status ||
+  publicAnalyticsUnlockStatus.ownerUnlockPreflight?.status !== ownerUnlockPreflight.status ||
+  publicAnalyticsUnlockStatus.publicRoutes?.ownerUnlockPreflightJson !== '/owner-unlock-preflight.json' ||
+  !analyticsUnlockHtml.includes('Owner Unlock Preflight') ||
+  !analyticsUnlockHtml.includes('Open preflight JSON') ||
   ownerUnlockPreflightLeaksValues ||
   !ownerUnlockPreflightSource.includes('loadLocalEnv') ||
   !ownerUnlockPreflightSource.includes('hasValueKey') ||
@@ -3844,6 +3859,7 @@ if (
   !autonomousSelfUpdateSource.includes('public/analytics-unlock.json') ||
   !autonomousSelfUpdateSource.includes('public/measurement-status.json') ||
   !autonomousSelfUpdateSource.includes('public/owner-unlock-brief.json') ||
+  !autonomousSelfUpdateSource.includes('public/owner-unlock-preflight.json') ||
   !autonomousSelfUpdateSource.includes('public/seed-kit.html') ||
   !autonomousSelfUpdateSource.includes('public/sample-next.html') ||
   !autonomousSelfUpdateSource.includes('public/sample-next.json') ||
@@ -4459,6 +4475,7 @@ if (
   !postDeployEvidenceSyncWorkflow.includes('data/owner-unlock-brief.json') ||
   !postDeployEvidenceSyncWorkflow.includes('data/owner-unlock-preflight.json') ||
   !postDeployEvidenceSyncWorkflow.includes('public/owner-unlock-brief.json') ||
+  !postDeployEvidenceSyncWorkflow.includes('public/owner-unlock-preflight.json') ||
   !postDeployEvidenceSyncWorkflow.includes('reports/owner-unlock-brief-latest.md') ||
   !postDeployEvidenceSyncWorkflow.includes('reports/owner-unlock-preflight-latest.md') ||
   !postDeployEvidenceSyncWorkflow.includes('data/production-measurement-status.json') ||
@@ -5847,6 +5864,7 @@ const operationalFreshnessAssets = [
   'measurement-status.html',
   'measurement-status.json',
   'owner-unlock-brief.json',
+  'owner-unlock-preflight.json',
   'analytics-unlock.html',
   'analytics-unlock.json',
   'release-candidate.json',
@@ -5902,6 +5920,7 @@ if (
   !releaseCandidate.postDeploySmoke?.some((item) => item.path === '/sample-fastest.html') ||
   !releaseCandidate.postDeploySmoke?.some((item) => item.path === '/sample-fastest.json') ||
   !releaseCandidate.postDeploySmoke?.some((item) => item.path === '/owner-unlock-brief.json') ||
+  !releaseCandidate.postDeploySmoke?.some((item) => item.path === '/owner-unlock-preflight.json') ||
   !releaseCandidate.postDeploySmoke?.some(
     (item) => item.path === '/compliance.json' && item.requiredText === 'store-compliance',
   ) ||
@@ -5921,6 +5940,7 @@ if (
   !releaseCandidateRequiredFiles.has('sample-fastest.html') ||
   !releaseCandidateRequiredFiles.has('sample-fastest.json') ||
   !releaseCandidateRequiredFiles.has('owner-unlock-brief.json') ||
+  !releaseCandidateRequiredFiles.has('owner-unlock-preflight.json') ||
   !releaseCandidateRequiredFiles.has('.nojekyll') ||
   !releaseCandidateRequiredFiles.has('.well-known/assetlinks.json') ||
   !releaseCandidateDistEvidenceCurrent ||
@@ -6174,6 +6194,7 @@ if (
   !postDeployEvidenceSyncWorkflow.includes('data/owner-unlock-brief.json') ||
   !postDeployEvidenceSyncWorkflow.includes('data/owner-unlock-preflight.json') ||
   !postDeployEvidenceSyncWorkflow.includes('public/owner-unlock-brief.json') ||
+  !postDeployEvidenceSyncWorkflow.includes('public/owner-unlock-preflight.json') ||
   !postDeployEvidenceSyncWorkflow.includes('reports/owner-unlock-brief-latest.md') ||
   !postDeployEvidenceSyncWorkflow.includes('reports/owner-unlock-preflight-latest.md') ||
   !postDeployEvidenceSyncWorkflow.includes('data/production-measurement-status.json') ||
@@ -6311,6 +6332,7 @@ if (
   !repositoryReadinessSource.includes('public/analytics-unlock.json') ||
   !repositoryReadinessSource.includes('public/measurement-status.json') ||
   !repositoryReadinessSource.includes('public/owner-unlock-brief.json') ||
+  !repositoryReadinessSource.includes('public/owner-unlock-preflight.json') ||
   !repositoryReadinessSource.includes('public/sample-next.html') ||
   !repositoryReadinessSource.includes('public/sample-next.json') ||
   !repositoryReadinessSource.includes('public/sample-fastest.html') ||
@@ -6410,6 +6432,7 @@ if (
   !repositoryBootstrapSource.includes('public/gate-sample.html') ||
   !repositoryBootstrapSource.includes('public/install.html') ||
   !repositoryBootstrapSource.includes('public/owner-unlock-brief.json') ||
+  !repositoryBootstrapSource.includes('public/owner-unlock-preflight.json') ||
   !repositoryBootstrapSource.includes('public/sample-next.html') ||
   !repositoryBootstrapSource.includes('public/sample-next.json') ||
   !repositoryBootstrapSource.includes('public/sample-fastest.html') ||

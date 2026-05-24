@@ -30,6 +30,7 @@ const [
   ownerUnlockBrief,
   ownerUnlockPreflight,
   publicOwnerUnlockBrief,
+  publicOwnerUnlockPreflight,
   productionMeasurementStatus,
   playerEvidenceWatchdog,
   publicMeasurementStatus,
@@ -62,6 +63,7 @@ const [
   readJson('data/owner-unlock-brief.json'),
   readJson('data/owner-unlock-preflight.json'),
   readJson('public/owner-unlock-brief.json'),
+  readJson('public/owner-unlock-preflight.json'),
   readJson('data/production-measurement-status.json'),
   readJson('data/player-evidence-watchdog.json'),
   readJson('public/measurement-status.json'),
@@ -296,6 +298,7 @@ if (finalDeployPlanRefreshIndex < finalReadinessRefreshIndex) {
 
 if (
   JSON.stringify(publicOwnerUnlockBrief) !== JSON.stringify(ownerUnlockBrief) ||
+  JSON.stringify(publicOwnerUnlockPreflight) !== JSON.stringify(ownerUnlockPreflight) ||
   JSON.stringify(ownerUnlockBrief.brief) !== JSON.stringify(productionBlockerHandoff.ownerUnlockBrief) ||
   ownerUnlockPreflight.sourceStatus?.ownerUnlockBrief !== ownerUnlockBrief.status ||
   ownerUnlockPreflight.sourceStatus?.productionBlockerHandoff !== productionBlockerHandoff.status ||
@@ -383,6 +386,7 @@ if (
   !workflow.includes('data/owner-unlock-brief.json') ||
   !workflow.includes('data/owner-unlock-preflight.json') ||
   !workflow.includes('public/owner-unlock-brief.json') ||
+  !workflow.includes('public/owner-unlock-preflight.json') ||
   !workflow.includes('reports/owner-unlock-brief-latest.md') ||
   !workflow.includes('reports/owner-unlock-preflight-latest.md') ||
   !workflow.includes('data/production-measurement-status.json') ||

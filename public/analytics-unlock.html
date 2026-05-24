@@ -167,6 +167,32 @@
         <h3>Validation Commands</h3>
         <ol><li><code>npm run autonomous:event-collector-smoke</code></li><li><code>npm run autonomous:collector-deploy-plan</code></li><li><code>npm run autonomous:readiness</code></li><li><code>npm run test:e2e</code></li></ol>
       </section>
+      <section>
+        <h2>Owner Unlock Preflight</h2>
+        <p>This public preflight shows whether the next analytics setup can run. It publishes names, statuses, and guardrails only; raw values and secret contents are never serialized.</p>
+        <div class="grid" aria-label="Owner unlock preflight">
+          <div class="card">
+            <span>Status</span>
+            <strong>owner-unlock-preflight-waiting-on-input</strong>
+          </div>
+          <div class="card">
+            <span>Ready for setup</span>
+            <strong>false</strong>
+          </div>
+          <div class="card">
+            <span>Ready inputs</span>
+            <strong>4/8</strong>
+          </div>
+          <div class="card">
+            <span>Invalid inputs</span>
+            <strong>0</strong>
+          </div>
+        </div>
+        <h3>Missing Inputs</h3>
+        <ul><li><strong>CLOUDFLARE_ACCOUNT_ID</strong> missing <code>gh variable set CLOUDFLARE_ACCOUNT_ID --body &quot;$CLOUDFLARE_ACCOUNT_ID&quot;</code></li><li><strong>VITE_EVENT_COLLECTOR_URL</strong> missing <code>gh variable set VITE_EVENT_COLLECTOR_URL --body &quot;$VITE_EVENT_COLLECTOR_URL&quot;</code></li><li><strong>AGL_EVENT_COLLECTOR_EXPORT_URL</strong> missing <code>gh variable set AGL_EVENT_COLLECTOR_EXPORT_URL --body &quot;$AGL_EVENT_COLLECTOR_EXPORT_URL&quot;</code></li><li><strong>CLOUDFLARE_API_TOKEN</strong> missing <code>printf &quot;%s&quot; &quot;$CLOUDFLARE_API_TOKEN&quot; | gh secret set CLOUDFLARE_API_TOKEN</code></li></ul>
+        <h3>Invalid Inputs</h3>
+        <p>none</p>
+      </section>
 
       <section>
         <h2>Unlock Paths</h2>
@@ -309,6 +335,7 @@
         <div class="actions">
           <a href="./measurement-status.html">Open measurement status</a>
           <a href="./analytics-unlock.json">Open unlock JSON</a>
+          <a href="./owner-unlock-preflight.json">Open preflight JSON</a>
         </div>
       </section>
     </main>

@@ -1464,6 +1464,7 @@ test('release candidate records the exact deployable PWA artifact', async () => 
   expect(candidate.integrity.files.some((file) => file.path === 'sw.js')).toBe(true)
   expect(candidate.integrity.files.some((file) => file.path === 'gate-sample.html')).toBe(true)
   expect(candidate.integrity.files.some((file) => file.path === 'owner-unlock-brief.json')).toBe(true)
+  expect(candidate.integrity.files.some((file) => file.path === 'owner-unlock-preflight.json')).toBe(true)
   expect(candidate.integrity.files.some((file) => file.path === 'analytics-unlock.html')).toBe(true)
   expect(candidate.integrity.files.some((file) => file.path === 'analytics-unlock.json')).toBe(true)
   expect(candidate.integrity.files.some((file) => file.path === 'sample-next.html')).toBe(true)
@@ -1480,6 +1481,7 @@ test('release candidate records the exact deployable PWA artifact', async () => 
   expect(candidate.postDeploySmoke.some((check) => check.path === '/' && check.expectedStatus === 200)).toBe(true)
   expect(candidate.postDeploySmoke.some((check) => check.path === '/install.html')).toBe(true)
   expect(candidate.postDeploySmoke.some((check) => check.path === '/owner-unlock-brief.json')).toBe(true)
+  expect(candidate.postDeploySmoke.some((check) => check.path === '/owner-unlock-preflight.json')).toBe(true)
   expect(candidate.postDeploySmoke.some((check) => check.path === '/analytics-unlock.html')).toBe(true)
   expect(candidate.postDeploySmoke.some((check) => check.path === '/analytics-unlock.json')).toBe(true)
   expect(candidate.postDeploySmoke.some((check) => check.path === '/gate-sample.html')).toBe(true)
@@ -1516,6 +1518,7 @@ test('PWA service worker keeps operational evidence endpoints fresh', async () =
     'measurement-status.html',
     'measurement-status.json',
     'owner-unlock-brief.json',
+    'owner-unlock-preflight.json',
     'analytics-unlock.html',
     'analytics-unlock.json',
     'release-candidate.json',
@@ -1818,6 +1821,7 @@ test('post-deploy artifact sync preserves strict Pages workflow evidence', async
   expect(workflow).toContain('data/owner-unlock-brief.json')
   expect(workflow).toContain('data/owner-unlock-preflight.json')
   expect(workflow).toContain('public/owner-unlock-brief.json')
+  expect(workflow).toContain('public/owner-unlock-preflight.json')
   expect(workflow).toContain('reports/owner-unlock-brief-latest.md')
   expect(workflow).toContain('reports/owner-unlock-preflight-latest.md')
   expect(workflow).toContain('data/production-measurement-status.json')
@@ -5137,6 +5141,7 @@ test('autonomous cadence keeps unattended operation auditable and guarded', asyn
   expect(productionInputWorkflow).toContain('data/owner-unlock-brief.json')
   expect(productionInputWorkflow).toContain('data/owner-unlock-preflight.json')
   expect(productionInputWorkflow).toContain('public/owner-unlock-brief.json')
+  expect(productionInputWorkflow).toContain('public/owner-unlock-preflight.json')
   expect(productionInputWorkflow).toContain('reports/owner-unlock-brief-latest.md')
   expect(productionInputWorkflow).toContain('reports/owner-unlock-preflight-latest.md')
   expect(productionInputWorkflow).toContain('data/production-unlock-runner.json')
@@ -8716,6 +8721,7 @@ test('support feedback ingests public issues as redacted improvement evidence', 
   expect(intakeWorkflow).toContain('data/owner-unlock-brief.json')
   expect(intakeWorkflow).toContain('data/owner-unlock-preflight.json')
   expect(intakeWorkflow).toContain('public/owner-unlock-brief.json')
+  expect(intakeWorkflow).toContain('public/owner-unlock-preflight.json')
   expect(intakeWorkflow).toContain('reports/owner-unlock-brief-latest.md')
   expect(intakeWorkflow).toContain('reports/owner-unlock-preflight-latest.md')
   expect(intakeWorkflow).toContain('public/analytics-unlock.html')
@@ -9166,6 +9172,13 @@ test('production measurement status publishes public aggregate evidence handoff'
       }
       nextActions: string[]
     }
+    ownerUnlockPreflight: {
+      status: string
+      readyForSetup: boolean
+      summary: { missingInputs: number; invalidInputs: number }
+      missingInputs: Array<{ repositoryName: string }>
+      invalidInputs: Array<{ repositoryName: string }>
+    }
     publicEvidenceHandoff: {
       status: string
       source: string
@@ -9221,6 +9234,7 @@ test('production measurement status publishes public aggregate evidence handoff'
       statusJson: string
       analyticsUnlock: string
       analyticsUnlockJson: string
+      ownerUnlockPreflightJson: string
       gateSample: string
       sampleNext: string
       sampleNextJson: string
@@ -9292,6 +9306,9 @@ test('production measurement status publishes public aggregate evidence handoff'
       workflowDispatchStillRequiresRunWorkflows: boolean
     }
   }
+  const publicOwnerUnlockPreflight = JSON.parse(
+    await readFile('public/owner-unlock-preflight.json', 'utf8'),
+  ) as typeof ownerUnlockPreflight
   const ownerUnlockPreflightReport = await readFile('reports/owner-unlock-preflight-latest.md', 'utf8')
   const ownerUnlockPreflightScript = await readFile('scripts/owner-unlock-preflight.mjs', 'utf8')
   const publicMeasurement = JSON.parse(await readFile('public/measurement-status.json', 'utf8')) as typeof measurement
@@ -9309,11 +9326,13 @@ test('production measurement status publishes public aggregate evidence handoff'
       topItems: typeof measurement.externalUnlockQueue.topItems
       ownerUnlockBrief: typeof blockerHandoff.ownerUnlockBrief
     }
+    ownerUnlockPreflight: typeof ownerUnlockPreflight
     publicRoutes: {
       statusPage: string
       statusJson: string
       analyticsUnlock: string
       analyticsUnlockJson: string
+      ownerUnlockPreflightJson: string
     }
     controls: {
       publicArtifact: boolean
@@ -9409,6 +9428,7 @@ test('production measurement status publishes public aggregate evidence handoff'
   })
   expect(measurement.publicRoutes.analyticsUnlock).toBe('/analytics-unlock.html')
   expect(measurement.publicRoutes.analyticsUnlockJson).toBe('/analytics-unlock.json')
+  expect(measurement.publicRoutes.ownerUnlockPreflightJson).toBe('/owner-unlock-preflight.json')
   expect(measurement.publicRoutes.sampleNext).toBe('/sample-next.html')
   expect(measurement.publicRoutes.sampleNextJson).toBe('/sample-next.json')
   expect(measurement.publicRoutes.sampleFastest).toBe('/sample-fastest.html')
@@ -9468,6 +9488,7 @@ test('production measurement status publishes public aggregate evidence handoff'
   expect(analyticsUnlockPage.externalUnlockQueue.topItems).toEqual(measurement.externalUnlockQueue.topItems)
   expect(analyticsUnlockPage.publicRoutes.analyticsUnlock).toBe('/analytics-unlock.html')
   expect(analyticsUnlockPage.publicRoutes.analyticsUnlockJson).toBe('/analytics-unlock.json')
+  expect(analyticsUnlockPage.publicRoutes.ownerUnlockPreflightJson).toBe('/owner-unlock-preflight.json')
   expect(analyticsUnlockPage.controls.zeroPaidSpend).toBe(true)
   expect(analyticsUnlockPage.controls.noSecretValues).toBe(true)
   expect(analyticsUnlockPage.controls.noSecretValuesStored).toBe(true)
@@ -9536,6 +9557,9 @@ test('production measurement status publishes public aggregate evidence handoff'
     ],
   ).toContain(ownerUnlockPreflight.status)
   expect(ownerUnlockPreflight.sourceStatus.ownerUnlockBrief).toBe(ownerUnlockBrief.status)
+  expect(publicOwnerUnlockPreflight).toEqual(ownerUnlockPreflight)
+  expect(publicMeasurement.ownerUnlockPreflight.status).toBe(ownerUnlockPreflight.status)
+  expect(analyticsUnlockPage.ownerUnlockPreflight.status).toBe(ownerUnlockPreflight.status)
   expect(ownerUnlockPreflight.sourceStatus.productionBlockerHandoff).toBe(blockerHandoff.status)
   expect(ownerUnlockPreflight.sourceStatus.nextUnlockId).toBe(ownerUnlockBrief.brief?.nextUnlockId)
   expect(ownerUnlockPreflight.recommendedPath?.id).toBe(ownerUnlockBrief.brief?.recommendedPathId)
@@ -9560,7 +9584,10 @@ test('production measurement status publishes public aggregate evidence handoff'
   expect(ownerUnlockPreflightScript).toContain('loadLocalEnv')
   expect(ownerUnlockPreflightScript).toContain('new URL')
   expect(ownerUnlockPreflightScript).toContain('hasValueKey')
+  expect(analyticsUnlockHtml).toContain('Owner Unlock Preflight')
+  expect(analyticsUnlockHtml).toContain('Open preflight JSON')
   expect(JSON.stringify(ownerUnlockPreflight)).not.toContain('"value"')
+  expect(JSON.stringify(publicOwnerUnlockPreflight)).not.toContain('"value"')
   expect(measurement.externalUnlockQueue.ownerUnlockBrief).toEqual(blockerHandoff.ownerUnlockBrief)
   expect(analyticsUnlockPage.externalUnlockQueue.ownerUnlockBrief).toEqual(blockerHandoff.ownerUnlockBrief)
   expect(measurement.externalUnlockQueue.ownerUnlockBrief?.nextUnlockId).toBe(

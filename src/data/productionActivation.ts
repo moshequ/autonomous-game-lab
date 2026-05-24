@@ -1,11 +1,28 @@
 export const productionActivation = {
-  "generatedAt": "2026-05-24T12:10:28.852Z",
+  "generatedAt": "2026-05-24T12:41:48.381Z",
   "status": "activation-ready",
   "mode": "dry-run",
   "envFiles": {
-    "loaded": false,
-    "loadedFiles": [],
-    "loadedKeys": [],
+    "loaded": true,
+    "loadedFiles": [
+      {
+        "path": "ops/production.env.local",
+        "keys": [
+          "AGL_ANDROID_PACKAGE_NAME",
+          "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
+          "AGL_ANDROID_KEYSTORE_BASE64",
+          "AGL_ANDROID_KEYSTORE_PASSWORD",
+          "AGL_ANDROID_KEY_ALIAS"
+        ]
+      }
+    ],
+    "loadedKeys": [
+      "AGL_ANDROID_PACKAGE_NAME",
+      "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
+      "AGL_ANDROID_KEYSTORE_BASE64",
+      "AGL_ANDROID_KEYSTORE_PASSWORD",
+      "AGL_ANDROID_KEY_ALIAS"
+    ],
     "skippedExistingKeys": [],
     "skippedProtectedKeys": [],
     "overwrittenEnvFileKeys": [],
@@ -37,7 +54,7 @@ export const productionActivation = {
   },
   "sourceStatus": {
     "repositoryReadiness": "repository-channel-ready",
-    "repositoryBootstrap": "repository-bootstrap-ready",
+    "repositoryBootstrap": "waiting-for-gh-auth",
     "productionBootstrap": "production-bootstrap-ready",
     "deployment": "ready-for-pages",
     "postDeploySmoke": "post-deploy-smoke-observed-live"

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-24T12:10:31.363Z",
+  "generatedAt": "2026-05-24T12:42:25.871Z",
   "status": "operator-history-ready",
   "retention": {
     "maxRecords": 40,
@@ -19,7 +19,7 @@
     "plannedRecords": 39,
     "executedRecords": 1,
     "failedRecords": 0,
-    "lastActionId": "refresh-objective-audit",
+    "lastActionId": "measure-pwa-install-loop",
     "lastExecutionStatus": "not-requested",
     "lastExecutedActionId": "seed-portfolio-traffic"
   },
@@ -31,40 +31,6 @@
     "historyIsCapped": true
   },
   "records": [
-    {
-      "id": "20260523022729-bootstrap-production-setup",
-      "generatedAt": "2026-05-23T02:27:29.049Z",
-      "runFingerprint": "a1ec08c8775e9270",
-      "mode": "plan-only",
-      "status": "operator-plan-ready",
-      "selectedActionId": "bootstrap-production-setup",
-      "selectedCommand": "npm run autonomous:release-candidate && npm run autonomous:deploy-plan && npm run autonomous:bootstrap",
-      "eligibleActionIds": [
-        "seed-portfolio-traffic",
-        "refresh-organic-seed-loop",
-        "prepare-release-candidate",
-        "run-post-deploy-smoke",
-        "refresh-replay-loop",
-        "bootstrap-production-setup",
-        "run-production-unlock-runner",
-        "refresh-objective-audit",
-        "apply-safe-improvements"
-      ],
-      "blockedActionCount": 34,
-      "execution": {
-        "requested": false,
-        "status": "not-requested",
-        "attemptedActionId": null,
-        "resultCount": 0,
-        "failedScripts": []
-      },
-      "controls": {
-        "zeroPaidSpend": true,
-        "localCommandAllowlistEnforced": true,
-        "externalWorkflowExecutionBlockedByDefault": true,
-        "maxActionsPerRun": 1
-      }
-    },
     {
       "id": "20260523022803-prepare-repository-channel",
       "generatedAt": "2026-05-23T02:28:03.756Z",
@@ -1182,6 +1148,33 @@
       "selectedCommand": "npm run autonomous:objective-audit",
       "eligibleActionIds": [
         "refresh-objective-audit"
+      ],
+      "blockedActionCount": 34,
+      "execution": {
+        "requested": false,
+        "status": "not-requested",
+        "attemptedActionId": null,
+        "resultCount": 0,
+        "failedScripts": []
+      },
+      "controls": {
+        "zeroPaidSpend": true,
+        "localCommandAllowlistEnforced": true,
+        "externalWorkflowExecutionBlockedByDefault": true,
+        "maxActionsPerRun": 1
+      }
+    },
+    {
+      "id": "20260524123226-measure-pwa-install-loop",
+      "generatedAt": "2026-05-24T12:32:26.855Z",
+      "runFingerprint": "b4f8580e06b8c9e9",
+      "mode": "plan-only",
+      "status": "operator-plan-ready",
+      "selectedActionId": "measure-pwa-install-loop",
+      "selectedCommand": "npm run autonomous:pwa-install",
+      "eligibleActionIds": [
+        "measure-pwa-install-loop",
+        "optimize-store-listing"
       ],
       "blockedActionCount": 34,
       "execution": {
