@@ -6,6 +6,11 @@ if [[ "${1:-}" == "--owner-unlock-brief" || "${1:-}" == "--next-brief" ]]; then
   exit 0
 fi
 
+if [[ "${1:-}" == "--owner-unlock-preflight" || "${1:-}" == "--preflight" ]]; then
+  node scripts/owner-unlock-preflight.mjs --assert --print
+  exit 0
+fi
+
 if ! command -v gh >/dev/null 2>&1; then
   echo "GitHub CLI (gh) is required." >&2
   exit 1

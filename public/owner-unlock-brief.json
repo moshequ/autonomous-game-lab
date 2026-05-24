@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-05-24T23:15:30.972Z",
+  "generatedAt": "2026-05-24T23:25:08.510Z",
   "status": "waiting-on-owner-input",
-  "sourceDataHash": "e94923baf20b",
+  "sourceDataHash": "8565faa022be",
   "sourceStatus": {
     "productionBlockerHandoff": "handoff-waiting-on-owner-inputs",
     "nextBestUnlockId": "production-analytics-browser",
@@ -20,7 +20,7 @@
     "lowestInputMissingVariableCount": 2,
     "lowestInputMissingSecretCount": 0,
     "lowestInputMissingInputCount": 2,
-    "lowestInputReason": "PostHog browser capture currently needs 2 missing input(s), compared with 4 for the recommended path.",
+    "lowestInputReason": "PostHog browser capture currently needs 2 missing input(s), compared with 8 for the recommended path.",
     "costMode": "zero-spend-use-existing-cloudflare-free-tier",
     "ownerInputRequired": true,
     "missingVariables": [
@@ -29,6 +29,18 @@
         "envName": "CLOUDFLARE_ACCOUNT_ID",
         "configured": false,
         "command": "gh variable set CLOUDFLARE_ACCOUNT_ID --body \"$CLOUDFLARE_ACCOUNT_ID\""
+      },
+      {
+        "repositoryName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
+        "envName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
+        "configured": false,
+        "command": "gh variable set AGL_EVENT_COLLECTOR_R2_BUCKET --body \"$AGL_EVENT_COLLECTOR_R2_BUCKET\""
+      },
+      {
+        "repositoryName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
+        "envName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
+        "configured": false,
+        "command": "gh variable set AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS --body \"$AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS\""
       },
       {
         "repositoryName": "VITE_EVENT_COLLECTOR_URL",
@@ -49,36 +61,22 @@
         "envName": "CLOUDFLARE_API_TOKEN",
         "configured": false,
         "command": "printf \"%s\" \"$CLOUDFLARE_API_TOKEN\" | gh secret set CLOUDFLARE_API_TOKEN"
-      }
-    ],
-    "configuredVariables": [
-      {
-        "repositoryName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
-        "envName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
-        "configured": true,
-        "command": "gh variable set AGL_EVENT_COLLECTOR_R2_BUCKET --body \"$AGL_EVENT_COLLECTOR_R2_BUCKET\""
       },
-      {
-        "repositoryName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
-        "envName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
-        "configured": true,
-        "command": "gh variable set AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS --body \"$AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS\""
-      }
-    ],
-    "configuredSecrets": [
       {
         "repositoryName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
         "envName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
-        "configured": true,
+        "configured": false,
         "command": "printf \"%s\" \"$VITE_EVENT_COLLECTOR_WRITE_TOKEN\" | gh secret set VITE_EVENT_COLLECTOR_WRITE_TOKEN"
       },
       {
         "repositoryName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
         "envName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
-        "configured": true,
+        "configured": false,
         "command": "printf \"%s\" \"$AGL_EVENT_COLLECTOR_ADMIN_TOKEN\" | gh secret set AGL_EVENT_COLLECTOR_ADMIN_TOKEN"
       }
     ],
+    "configuredVariables": [],
+    "configuredSecrets": [],
     "setupCommands": [
       "npm run autonomous:event-collector-smoke",
       "npm run autonomous:collector-deploy-plan",
@@ -124,6 +122,7 @@
     "printCommand": "./ops/github/setup-production.sh --owner-unlock-brief",
     "directPrintCommand": "node scripts/owner-unlock-brief.mjs --print",
     "preflightCommand": "npm run autonomous:owner-unlock-preflight",
+    "setupPreflightCommand": "./ops/github/setup-production.sh --owner-unlock-preflight",
     "directPreflightCommand": "node scripts/owner-unlock-preflight.mjs --assert --print",
     "syncConfiguredValuesCommand": "./ops/github/setup-production.sh",
     "workflowDispatchCommand": "RUN_WORKFLOWS=1 ./ops/github/setup-production.sh",
@@ -140,11 +139,12 @@
     "productGatesStillRequiredForRevenue": true,
     "secretCommandsUseStdin": true,
     "setupPrintModeHasNoGithubMutation": true,
+    "setupPreflightModeHasNoGithubMutation": true,
     "workflowDispatchRequiresRunWorkflows": true
   },
   "nextActions": [
     "Print the current brief with ./ops/github/setup-production.sh --owner-unlock-brief before setting production-analytics-browser.",
-    "Run npm run autonomous:owner-unlock-preflight to check local/repository readiness without storing secret values.",
+    "Run ./ops/github/setup-production.sh --owner-unlock-preflight to check local/repository readiness without storing secret values or mutating GitHub.",
     "Export only the missing variables/secrets in the current shell, then run ./ops/github/setup-production.sh to sync configured values.",
     "Use RUN_WORKFLOWS=1 only after the missing analytics inputs are configured and you are ready to dispatch deployment workflows.",
     "npm run autonomous:event-collector-smoke",

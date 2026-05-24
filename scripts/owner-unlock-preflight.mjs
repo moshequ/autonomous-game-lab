@@ -320,6 +320,7 @@ const payload = {
   commands: {
     printBrief: 'node scripts/owner-unlock-brief.mjs --print',
     preflight: 'node scripts/owner-unlock-preflight.mjs --assert --print',
+    setupPreflight: './ops/github/setup-production.sh --owner-unlock-preflight',
     lowestInputPreflight: 'node scripts/owner-unlock-preflight.mjs --assert --print',
     packagePreflight: 'npm run autonomous:owner-unlock-preflight',
     syncConfiguredValues: './ops/github/setup-production.sh',
@@ -385,6 +386,7 @@ const report = [
   '',
   `- print brief: ${payload.commands.printBrief}`,
   `- preflight: ${payload.commands.preflight}`,
+  `- setup preflight: ${payload.commands.setupPreflight}`,
   `- package preflight: ${payload.commands.packagePreflight}`,
   `- sync configured values: ${payload.commands.syncConfiguredValues}`,
   `- workflow dispatch when ready: ${payload.commands.dispatchWhenReady}`,
@@ -468,6 +470,7 @@ if (jsonMode) {
     'Commands:',
     `  - Print brief: ${payload.commands.printBrief}`,
     `  - Preflight: ${payload.commands.preflight}`,
+    `  - Setup preflight: ${payload.commands.setupPreflight}`,
     `  - Sync configured values: ${payload.commands.syncConfiguredValues}`,
     `  - Dispatch when ready: ${payload.commands.dispatchWhenReady}`,
     '',

@@ -3381,6 +3381,8 @@ if (
   !githubSetupScript.includes('AGL_SYNC_PAGES_SETTINGS') ||
   !githubSetupScript.includes('--owner-unlock-brief') ||
   !githubSetupScript.includes('node scripts/owner-unlock-brief.mjs --print') ||
+  !githubSetupScript.includes('--owner-unlock-preflight') ||
+  !githubSetupScript.includes('node scripts/owner-unlock-preflight.mjs --assert --print') ||
   !githubSetupScript.includes('repos/$repo/pages') ||
   !githubSetupScript.includes('build_type=workflow') ||
   !githubSetupScript.includes('RUN_WORKFLOWS') ||
@@ -3389,7 +3391,8 @@ if (
   githubSetupScript.includes('admin-export-token') ||
   githubSetupScript.includes('ca-pub-your-web-client-id') ||
   !githubSetupReadme.includes('zero-spend') ||
-  !githubSetupReadme.includes('--owner-unlock-brief')
+  !githubSetupReadme.includes('--owner-unlock-brief') ||
+  !githubSetupReadme.includes('--owner-unlock-preflight')
 ) {
   fail('Production bootstrap must generate zero-spend GitHub setup stages, sanitized variable/secret commands, and guarded workflow triggers.')
 }
@@ -3541,6 +3544,7 @@ if (
   ownerUnlockBrief.setup?.setupScript !== 'ops/github/setup-production.sh' ||
   ownerUnlockBrief.setup?.printCommand !== './ops/github/setup-production.sh --owner-unlock-brief' ||
   ownerUnlockBrief.setup?.preflightCommand !== 'npm run autonomous:owner-unlock-preflight' ||
+  ownerUnlockBrief.setup?.setupPreflightCommand !== './ops/github/setup-production.sh --owner-unlock-preflight' ||
   ownerUnlockBrief.setup?.directPreflightCommand !== 'node scripts/owner-unlock-preflight.mjs --assert --print' ||
   ownerUnlockBrief.setup?.syncConfiguredValuesCommand !== './ops/github/setup-production.sh' ||
   ownerUnlockBrief.setup?.workflowDispatchCommand !== 'RUN_WORKFLOWS=1 ./ops/github/setup-production.sh' ||
@@ -3549,6 +3553,7 @@ if (
   ownerUnlockBrief.controls?.noSecretValues !== true ||
   ownerUnlockBrief.controls?.noSecretValuesStored !== true ||
   ownerUnlockBrief.controls?.setupPrintModeHasNoGithubMutation !== true ||
+  ownerUnlockBrief.controls?.setupPreflightModeHasNoGithubMutation !== true ||
   ownerUnlockBrief.controls?.workflowDispatchRequiresRunWorkflows !== true ||
   ownerUnlockBriefLeaksValues ||
   packageJson.scripts?.['autonomous:owner-unlock-brief'] !==
@@ -3604,6 +3609,7 @@ if (
   ownerUnlockPreflight.localEnvironment?.valuesRedacted !== true ||
   ownerUnlockPreflight.commands?.syncConfiguredValues !== './ops/github/setup-production.sh' ||
   ownerUnlockPreflight.commands?.dispatchWhenReady !== 'RUN_WORKFLOWS=1 ./ops/github/setup-production.sh' ||
+  ownerUnlockPreflight.commands?.setupPreflight !== './ops/github/setup-production.sh --owner-unlock-preflight' ||
   !ownerUnlockPreflight.commands?.lowestInputPreflight?.includes('owner-unlock-preflight') ||
   publicMeasurementStatus.ownerUnlockPreflight?.status !== ownerUnlockPreflight.status ||
   publicMeasurementStatus.ownerUnlockPreflight?.lowestInputPath?.id !== ownerUnlockBrief.brief?.lowestInputPathId ||

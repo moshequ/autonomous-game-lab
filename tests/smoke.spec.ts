@@ -3793,6 +3793,8 @@ test('production bootstrap emits zero-spend setup handoff artifacts', async ({ p
   expect(setupScript).toContain('AGL_SYNC_PAGES_SETTINGS')
   expect(setupScript).toContain('--owner-unlock-brief')
   expect(setupScript).toContain('node scripts/owner-unlock-brief.mjs --print')
+  expect(setupScript).toContain('--owner-unlock-preflight')
+  expect(setupScript).toContain('node scripts/owner-unlock-preflight.mjs --assert --print')
   expect(setupScript).toContain('repos/$repo/pages')
   expect(setupScript).toContain('build_type=workflow')
   expect(setupScript).toContain('RUN_WORKFLOWS')
@@ -9499,6 +9501,7 @@ test('production measurement status publishes public aggregate evidence handoff'
       printCommand: string
       directPrintCommand: string
       preflightCommand: string
+      setupPreflightCommand: string
       directPreflightCommand: string
       syncConfiguredValuesCommand: string
       workflowDispatchCommand: string
@@ -9510,6 +9513,7 @@ test('production measurement status publishes public aggregate evidence handoff'
       noSecretValues: boolean
       noSecretValuesStored: boolean
       setupPrintModeHasNoGithubMutation: boolean
+      setupPreflightModeHasNoGithubMutation: boolean
       workflowDispatchRequiresRunWorkflows: boolean
       secretCommandsUseStdin: boolean
     }
@@ -9572,6 +9576,7 @@ test('production measurement status publishes public aggregate evidence handoff'
       syncConfiguredValues: string
       dispatchWhenReady: string
       packagePreflight: string
+      setupPreflight: string
       lowestInputPreflight: string
     }
     controls: {
@@ -9881,6 +9886,7 @@ test('production measurement status publishes public aggregate evidence handoff'
     printCommand: './ops/github/setup-production.sh --owner-unlock-brief',
     directPrintCommand: 'node scripts/owner-unlock-brief.mjs --print',
     preflightCommand: 'npm run autonomous:owner-unlock-preflight',
+    setupPreflightCommand: './ops/github/setup-production.sh --owner-unlock-preflight',
     directPreflightCommand: 'node scripts/owner-unlock-preflight.mjs --assert --print',
     syncConfiguredValuesCommand: './ops/github/setup-production.sh',
     workflowDispatchCommand: 'RUN_WORKFLOWS=1 ./ops/github/setup-production.sh',
@@ -9891,10 +9897,12 @@ test('production measurement status publishes public aggregate evidence handoff'
   expect(ownerUnlockBrief.controls.noSecretValues).toBe(true)
   expect(ownerUnlockBrief.controls.noSecretValuesStored).toBe(true)
   expect(ownerUnlockBrief.controls.setupPrintModeHasNoGithubMutation).toBe(true)
+  expect(ownerUnlockBrief.controls.setupPreflightModeHasNoGithubMutation).toBe(true)
   expect(ownerUnlockBrief.controls.workflowDispatchRequiresRunWorkflows).toBe(true)
   expect(ownerUnlockBrief.controls.secretCommandsUseStdin).toBe(true)
   expect(ownerUnlockBrief.nextActions.join(' ')).toContain('RUN_WORKFLOWS=1')
   expect(ownerUnlockBriefReport).toContain('Owner Unlock Brief')
+  expect(ownerUnlockBriefReport).toContain('setup preflight: ./ops/github/setup-production.sh --owner-unlock-preflight')
   expect(ownerUnlockBriefReport).toContain('workflow dispatch requires RUN_WORKFLOWS: true')
   expect(ownerUnlockBriefReport).toContain('CLOUDFLARE_API_TOKEN')
   expect(ownerUnlockBriefScript).toContain('--assert')
@@ -9941,7 +9949,11 @@ test('production measurement status publishes public aggregate evidence handoff'
   expect(ownerUnlockPreflight.commands.syncConfiguredValues).toBe('./ops/github/setup-production.sh')
   expect(ownerUnlockPreflight.commands.dispatchWhenReady).toBe('RUN_WORKFLOWS=1 ./ops/github/setup-production.sh')
   expect(ownerUnlockPreflight.commands.packagePreflight).toBe('npm run autonomous:owner-unlock-preflight')
+  expect(ownerUnlockPreflight.commands.setupPreflight).toBe(
+    './ops/github/setup-production.sh --owner-unlock-preflight',
+  )
   expect(ownerUnlockPreflight.commands.lowestInputPreflight).toContain('owner-unlock-preflight')
+  expect(ownerUnlockPreflightReport).toContain('setup preflight: ./ops/github/setup-production.sh --owner-unlock-preflight')
   expect(ownerUnlockPreflight.controls.zeroPaidSpend).toBe(true)
   expect(ownerUnlockPreflight.controls.noSecretValuesStored).toBe(true)
   expect(ownerUnlockPreflight.controls.noSecretValuesSerialized).toBe(true)

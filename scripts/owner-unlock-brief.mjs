@@ -38,6 +38,7 @@ const payload = await readJson(path.join(root, 'data', 'owner-unlock-brief.json'
       printCommand: './ops/github/setup-production.sh --owner-unlock-brief',
       directPrintCommand: 'node scripts/owner-unlock-brief.mjs --print',
       preflightCommand: 'npm run autonomous:owner-unlock-preflight',
+      setupPreflightCommand: './ops/github/setup-production.sh --owner-unlock-preflight',
       directPreflightCommand: 'node scripts/owner-unlock-preflight.mjs --assert --print',
       syncConfiguredValuesCommand: './ops/github/setup-production.sh',
       workflowDispatchCommand: 'RUN_WORKFLOWS=1 ./ops/github/setup-production.sh',
@@ -111,6 +112,7 @@ if (jsonMode) {
     'Preflight commands:',
     ...linesForCommands([
       payload.setup?.preflightCommand ?? 'npm run autonomous:owner-unlock-preflight',
+      payload.setup?.setupPreflightCommand ?? './ops/github/setup-production.sh --owner-unlock-preflight',
       payload.setup?.directPreflightCommand ?? 'node scripts/owner-unlock-preflight.mjs --assert --print',
     ]),
     '',

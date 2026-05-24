@@ -573,6 +573,11 @@ if [[ "\${1:-}" == "--owner-unlock-brief" || "\${1:-}" == "--next-brief" ]]; the
   exit 0
 fi
 
+if [[ "\${1:-}" == "--owner-unlock-preflight" || "\${1:-}" == "--preflight" ]]; then
+  node scripts/owner-unlock-preflight.mjs --assert --print
+  exit 0
+fi
+
 if ! command -v gh >/dev/null 2>&1; then
   echo "GitHub CLI (gh) is required." >&2
   exit 1
@@ -782,13 +787,19 @@ This folder contains the zero-spend GitHub setup helper for the autonomous PWA r
 ./ops/github/setup-production.sh --owner-unlock-brief
 \`\`\`
 
-6. To initialize/attach the repository transport, run the guarded helper with only the explicit actions you want:
+6. To preflight the current owner unlock inputs without GitHub mutation or workflow dispatch, run:
+
+\`\`\`bash
+./ops/github/setup-production.sh --owner-unlock-preflight
+\`\`\`
+
+7. To initialize/attach the repository transport, run the guarded helper with only the explicit actions you want:
 
 \`\`\`bash
 AGL_ALLOW_REPOSITORY_BOOTSTRAP=1 ./ops/github/bootstrap-repository.sh
 \`\`\`
 
-7. To sync production variables/secrets, run:
+8. To sync production variables/secrets, run:
 
 \`\`\`bash
 ./ops/github/setup-production.sh
