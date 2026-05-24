@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-24T12:45:31.707Z",
+  "generatedAt": "2026-05-24T13:04:39.523Z",
   "status": "production-measurement-local-intake-ready",
   "activePath": "local-browser-buffer",
   "liveCandidate": "pwa-2e6aff6df0be",
@@ -277,6 +277,104 @@
       "Sync only configured GitHub variables and secrets through ops/github/setup-production.sh; never paste secret values into tracked files.",
       "Run the validation commands before trusting production analytics for product-gate or monetization decisions."
     ]
+  },
+  "collectorDeployment": {
+    "status": "blocked-needs-cloudflare-env",
+    "provider": "cloudflare-worker-r2",
+    "costPosture": "free-tier-friendly-no-paid-traffic",
+    "worker": {
+      "path": "ops/cloudflare/event-collector-worker.mjs",
+      "storageBinding": "EVENT_BUCKET",
+      "bucketConfigured": true,
+      "allowedOriginsConfigured": true
+    },
+    "workflow": {
+      "path": ".github/workflows/event-collector-deploy.yml",
+      "status": "present",
+      "triggers": {
+        "manualDispatch": true,
+        "autonomousDaily": true,
+        "productionInputWatch": true
+      },
+      "deploysWhenConfigured": false,
+      "autoCreatesBucket": true,
+      "preflightRequiresWriteToken": true
+    },
+    "environment": {
+      "browserCollectorConfigured": false,
+      "serverExportConfigured": false,
+      "cloudflareAccountConfigured": false,
+      "cloudflareTokenConfigured": false,
+      "bucketConfigured": true,
+      "allowedOriginsConfigured": true,
+      "writeTokenConfigured": true,
+      "adminTokenConfigured": true,
+      "collectorUrl": null,
+      "exportUrl": null
+    },
+    "smoke": {
+      "status": "pass",
+      "piiStripped": true,
+      "exportedEvents": 19,
+      "activeSource": "local-event-drops"
+    },
+    "checks": [
+      {
+        "id": "worker-source",
+        "status": "pass",
+        "detail": "Cloudflare Worker collector source exists."
+      },
+      {
+        "id": "wrangler-config-template",
+        "status": "pass",
+        "detail": "Wrangler config template exists for the collector."
+      },
+      {
+        "id": "collector-smoke",
+        "status": "pass",
+        "detail": "Event collector smoke is pass."
+      },
+      {
+        "id": "deploy-workflow",
+        "status": "pass",
+        "detail": "GitHub Actions collector deploy workflow exists."
+      },
+      {
+        "id": "cloudflare-credentials",
+        "status": "missing-env",
+        "detail": "Cloudflare account id and API token are configured."
+      },
+      {
+        "id": "collector-runtime-env",
+        "status": "missing-env",
+        "detail": "Browser collector URL, export URL, R2 bucket, and allowed origins are configured."
+      },
+      {
+        "id": "collector-tokens",
+        "status": "pass",
+        "detail": "Public write token and admin export token are configured before Worker deployment."
+      }
+    ],
+    "setupRequiredOnce": [
+      "Create or select a Cloudflare account; the deploy workflow creates or reuses the R2 bucket for collector event batches.",
+      "Set repository variables CLOUDFLARE_ACCOUNT_ID, AGL_EVENT_COLLECTOR_R2_BUCKET, AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS, VITE_EVENT_COLLECTOR_URL, and AGL_EVENT_COLLECTOR_EXPORT_URL.",
+      "Set repository secrets CLOUDFLARE_API_TOKEN, VITE_EVENT_COLLECTOR_WRITE_TOKEN, and AGL_EVENT_COLLECTOR_ADMIN_TOKEN.",
+      "Let Production Input Watch or the Event Collector Deploy workflow run; it refreshes production environment evidence, runs the collector smoke, and only deploys when the full preflight passes."
+    ],
+    "commands": {
+      "smoke": "npm run autonomous:event-collector-smoke",
+      "plan": "npm run autonomous:collector-deploy-plan",
+      "deployWorkflow": "Production Input Watch triggers Event Collector Deploy after Cloudflare variables and secrets are configured."
+    },
+    "controls": {
+      "publicArtifact": true,
+      "zeroPaidSpend": true,
+      "noSecretValues": true,
+      "noSecretValuesStored": true,
+      "noAccountCreation": true,
+      "noStoreSubmission": true,
+      "noRevenueEnablement": true
+    }
   },
   "externalUnlockQueue": {
     "status": "handoff-waiting-on-owner-inputs",
@@ -947,7 +1045,7 @@
       "missingInputs": 4,
       "invalidInputs": 0,
       "repositoryConfiguredInputs": 4,
-      "localAvailableInputs": 4,
+      "localAvailableInputs": 0,
       "localUrlValidationsPassed": 0,
       "setupCanRun": false
     },
@@ -1043,6 +1141,7 @@
   "nextActions": [
     "Use the player-initiated local evidence route until PostHog or the first-party collector is configured.",
     "Unlock production analytics with first-party-collector; 5 setup command(s) and 4 validation command(s) are published with redacted secret names only.",
+    "First-party collector deployment is blocked-needs-cloudflare-env; smoke is pass.",
     "External unlock queue has 4 owner action(s); next zero-spend unlock is production-analytics-browser.",
     "Invite players to start the current sample through /sample-next.html, or the fastest separate gate through /sample-fastest.html, then use Share evidence after the play session so public aggregate evidence can be reviewed without raw events.",
     "Do not pass product gates, enable revenue, or submit stores from public aggregate notes alone.",

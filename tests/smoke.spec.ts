@@ -8993,6 +8993,29 @@ test('production measurement status publishes public aggregate evidence handoff'
     live?: { candidateId?: string }
     artifact?: { target?: { candidateId?: string } }
   }
+  const eventCollectorDeployment = JSON.parse(await readFile('data/event-collector-deployment.json', 'utf8')) as {
+    status: string
+    provider: string
+    costPosture: string
+    workflow: {
+      status: string
+      deploysWhenConfigured: boolean
+      autoCreatesBucket: boolean
+      preflightRequiresWriteToken: boolean
+    }
+    environment: {
+      browserCollectorConfigured: boolean
+      serverExportConfigured: boolean
+      cloudflareAccountConfigured: boolean
+      cloudflareTokenConfigured: boolean
+      writeTokenConfigured: boolean
+      adminTokenConfigured: boolean
+    }
+    smoke: { status: string; piiStripped: boolean; exportedEvents: number }
+    checks: Array<{ id: string; status: string }>
+    setupRequiredOnce: string[]
+    commands: { smoke: string; plan: string }
+  }
   const blockerHandoff = JSON.parse(await readFile('data/production-blocker-handoff.json', 'utf8')) as {
     status: string
     summary: {
@@ -9136,6 +9159,38 @@ test('production measurement status publishes public aggregate evidence handoff'
       }>
       nextActions: string[]
     } | null
+    collectorDeployment: {
+      status: string
+      provider: string
+      costPosture: string
+      workflow: {
+        status: string
+        deploysWhenConfigured: boolean
+        autoCreatesBucket: boolean
+        preflightRequiresWriteToken: boolean
+      }
+      environment: {
+        browserCollectorConfigured: boolean
+        serverExportConfigured: boolean
+        cloudflareAccountConfigured: boolean
+        cloudflareTokenConfigured: boolean
+        writeTokenConfigured: boolean
+        adminTokenConfigured: boolean
+      }
+      smoke: { status: string; piiStripped: boolean; exportedEvents: number }
+      checks: Array<{ id: string; status: string }>
+      setupRequiredOnce: string[]
+      commands: { smoke: string; plan: string }
+      controls: {
+        publicArtifact: boolean
+        zeroPaidSpend: boolean
+        noSecretValues: boolean
+        noSecretValuesStored: boolean
+        noAccountCreation: boolean
+        noStoreSubmission: boolean
+        noRevenueEnablement: boolean
+      }
+    }
     externalUnlockQueue: {
       status: string
       nextBestUnlockId: string | null
@@ -9327,6 +9382,7 @@ test('production measurement status publishes public aggregate evidence handoff'
       ownerUnlockBrief: typeof blockerHandoff.ownerUnlockBrief
     }
     ownerUnlockPreflight: typeof ownerUnlockPreflight
+    collectorDeployment: typeof measurement.collectorDeployment
     publicRoutes: {
       statusPage: string
       statusJson: string
@@ -9478,9 +9534,34 @@ test('production measurement status publishes public aggregate evidence handoff'
       [...unlockPath.requiredVariables, ...unlockPath.requiredSecrets].some((item) => Object.hasOwn(item, 'value')),
     ),
   ).toBe(false)
+  expect(measurement.collectorDeployment.status).toBe(eventCollectorDeployment.status)
+  expect(measurement.collectorDeployment.provider).toBe('cloudflare-worker-r2')
+  expect(measurement.collectorDeployment.costPosture).toBe(eventCollectorDeployment.costPosture)
+  expect(measurement.collectorDeployment.workflow.status).toBe(eventCollectorDeployment.workflow.status)
+  expect(measurement.collectorDeployment.workflow.autoCreatesBucket).toBe(true)
+  expect(measurement.collectorDeployment.workflow.preflightRequiresWriteToken).toBe(true)
+  expect(measurement.collectorDeployment.environment.browserCollectorConfigured).toBe(
+    eventCollectorDeployment.environment.browserCollectorConfigured,
+  )
+  expect(measurement.collectorDeployment.environment.serverExportConfigured).toBe(
+    eventCollectorDeployment.environment.serverExportConfigured,
+  )
+  expect(measurement.collectorDeployment.smoke.status).toBe(eventCollectorDeployment.smoke.status)
+  expect(measurement.collectorDeployment.smoke.piiStripped).toBe(true)
+  expect(measurement.collectorDeployment.checks.map((check) => check.id)).toEqual(
+    expect.arrayContaining(['worker-source', 'deploy-workflow', 'cloudflare-credentials']),
+  )
+  expect(measurement.collectorDeployment.setupRequiredOnce.join(' ')).toContain('Cloudflare')
+  expect(measurement.collectorDeployment.commands.smoke).toBe('npm run autonomous:event-collector-smoke')
+  expect(measurement.collectorDeployment.commands.plan).toBe('npm run autonomous:collector-deploy-plan')
+  expect(measurement.collectorDeployment.controls.zeroPaidSpend).toBe(true)
+  expect(measurement.collectorDeployment.controls.noSecretValuesStored).toBe(true)
+  expect(JSON.stringify(measurement.collectorDeployment)).not.toContain('"value"')
+  expect(publicMeasurement.collectorDeployment).toEqual(measurement.collectorDeployment)
   expect(analyticsUnlockPage.status).toBe(measurement.analyticsUnlock?.status)
   expect(analyticsUnlockPage.recommendedPathId).toBe(measurement.analyticsUnlock?.recommendedPathId)
   expect(analyticsUnlockPage.analyticsUnlock).toEqual(measurement.analyticsUnlock)
+  expect(analyticsUnlockPage.collectorDeployment).toEqual(measurement.collectorDeployment)
   expect(analyticsUnlockPage.externalUnlockQueue.status).toBe(measurement.externalUnlockQueue.status)
   expect(analyticsUnlockPage.externalUnlockQueue.nextBestUnlockId).toBe(
     measurement.externalUnlockQueue.nextBestUnlockId,
@@ -9636,6 +9717,7 @@ test('production measurement status publishes public aggregate evidence handoff'
   expect(measurement.publicEvidenceHandoff.nextActions.join(' ')).toContain('/sample-fastest.html')
   expect(measurement.nextActions.join(' ')).toContain('public aggregate evidence')
   expect(measurement.nextActions.join(' ')).toContain('Unlock production analytics')
+  expect(measurement.nextActions.join(' ')).toContain('First-party collector deployment')
   expect(publicMeasurement.publicEvidenceHandoff).toEqual(measurement.publicEvidenceHandoff)
   expect(publicMeasurement.analyticsUnlock).toEqual(measurement.analyticsUnlock)
   expect(publicMeasurement.externalUnlockQueue).toEqual(measurement.externalUnlockQueue)
@@ -9652,6 +9734,7 @@ test('production measurement status publishes public aggregate evidence handoff'
   expect(html).toContain('sample-fastest.html')
   expect(html).toContain('Zero-Spend Analytics Unlock')
   expect(html).toContain('Owner Unlock Brief')
+  expect(html).toContain('First-Party Collector Deployment')
   expect(html).toContain('analytics-unlock.html')
   expect(html).toContain('External Unlock Queue')
   expect(html).toContain('does not pass gates')
@@ -9664,6 +9747,7 @@ test('production measurement status publishes public aggregate evidence handoff'
   expect(script).toContain('publicEvidenceHandoff')
   expect(script).toContain('publicAnalyticsUnlock')
   expect(script).toContain('analyticsUnlockPayload')
+  expect(script).toContain('publicCollectorDeployment')
   expect(script).toContain('publicAnalyticsUnlockHtmlPath')
   expect(script).toContain('publicExternalUnlockQueue')
   expect(script).toContain('readLiveReleaseManifest')
@@ -9673,6 +9757,7 @@ test('production measurement status publishes public aggregate evidence handoff'
   expect(script).toContain('manualReviewRequiredForGateDecisions')
   expect(analyticsUnlockHtml).toContain('Production Analytics Unlock')
   expect(analyticsUnlockHtml).toContain('Owner Unlock Brief')
+  expect(analyticsUnlockHtml).toContain('First-Party Collector Deployment')
   expect(analyticsUnlockHtml).toContain('first-party-collector')
   expect(analyticsUnlockHtml).toContain('CLOUDFLARE_API_TOKEN')
   expect(analyticsUnlockHtml).toContain('Secret commands use stdin: true')
@@ -9699,6 +9784,7 @@ test('production measurement status publishes public aggregate evidence handoff'
   await expect(page.getByRole('heading', { name: 'Public Aggregate Evidence' })).toBeVisible()
   await expect(page.getByRole('heading', { name: 'Zero-Spend Analytics Unlock' })).toBeVisible()
   await expect(page.getByRole('heading', { name: 'Owner Unlock Brief' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'First-Party Collector Deployment' })).toBeVisible()
   await expect(page.getByRole('heading', { name: 'External Unlock Queue' })).toBeVisible()
   await expect(page.getByLabel('Product evidence')).toContainText('/sample-next.html')
   await expect(page.getByLabel('Product evidence')).toContainText('/sample-fastest.html')
@@ -9731,6 +9817,8 @@ test('production measurement status publishes public aggregate evidence handoff'
   }
   await expect(page.getByLabel('Zero-spend analytics unlock')).toContainText('first-party-collector')
   await expect(page.getByLabel('Owner unlock brief')).toContainText('first-party-collector')
+  await expect(page.getByLabel('First-party collector deployment')).toContainText(eventCollectorDeployment.status)
+  await expect(page.getByLabel('First-party collector deployment')).toContainText(eventCollectorDeployment.smoke.status)
   await expect(page.getByLabel('Owner unlock brief')).toContainText(
     measurement.externalUnlockQueue.ownerUnlockBrief?.nextUnlockId ?? 'none',
   )
@@ -9742,8 +9830,10 @@ test('production measurement status publishes public aggregate evidence handoff'
   await page.goto('/analytics-unlock.html')
   await expect(page.getByRole('heading', { name: 'Production Analytics Unlock' })).toBeVisible()
   await expect(page.getByRole('heading', { name: 'Owner Unlock Brief' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'First-Party Collector Deployment' })).toBeVisible()
   await expect(page.getByLabel('Analytics unlock summary')).toContainText('first-party-collector')
   await expect(page.getByLabel('Owner unlock brief')).toContainText('first-party-collector')
+  await expect(page.getByLabel('First-party collector deployment')).toContainText('deploy-workflow')
   await expect(page.getByLabel('first-party-collector')).toContainText('CLOUDFLARE_API_TOKEN')
   await expect(page.getByLabel('first-party-collector')).toContainText('./ops/github/setup-production.sh')
   await expect(page.getByLabel('External unlock queue')).toContainText(

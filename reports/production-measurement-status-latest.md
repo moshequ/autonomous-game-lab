@@ -1,11 +1,11 @@
 # Production Measurement Status
 
-Generated: 2026-05-24T12:45:31.707Z
+Generated: 2026-05-24T13:04:39.523Z
 Status: production-measurement-local-intake-ready
 Active path: local-browser-buffer
 Live candidate: pwa-2e6aff6df0be
 Exact live manifest: /release-candidate.json
-Source hash: bf5a67009be7
+Source hash: 224bdd1dbcba
 
 ## Analytics
 
@@ -56,6 +56,7 @@ Source hash: bf5a67009be7
 
 - Use the player-initiated local evidence route until PostHog or the first-party collector is configured.
 - Unlock production analytics with first-party-collector; 5 setup command(s) and 4 validation command(s) are published with redacted secret names only.
+- First-party collector deployment is blocked-needs-cloudflare-env; smoke is pass.
 - External unlock queue has 4 owner action(s); next zero-spend unlock is production-analytics-browser.
 - Invite players to start the current sample through /sample-next.html, or the fastest separate gate through /sample-fastest.html, then use Share evidence after the play session so public aggregate evidence can be reviewed without raw events.
 - Do not pass product gates, enable revenue, or submit stores from public aggregate notes alone.

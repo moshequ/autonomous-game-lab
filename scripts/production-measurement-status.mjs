@@ -54,6 +54,18 @@ const ownerUnlockPreflight = await readOptionalJson(path.join(dataDir, 'owner-un
   controls: {},
 })
 const eventCollectorSmoke = await readJson(path.join(dataDir, 'event-collector-smoke.json'))
+const eventCollectorDeployment = await readOptionalJson(path.join(dataDir, 'event-collector-deployment.json'), {
+  status: 'missing',
+  provider: 'cloudflare-worker-r2',
+  costPosture: 'free-tier-friendly-no-paid-traffic',
+  worker: {},
+  workflow: {},
+  environment: {},
+  smoke: {},
+  checks: [],
+  setupRequiredOnce: [],
+  commands: {},
+})
 const postDeployArtifactSync = await readOptionalJson(path.join(dataDir, 'post-deploy-artifact-sync.json'), {
   status: 'missing',
   live: {},
@@ -455,6 +467,66 @@ const publicExternalUnlockQueue = {
   ],
 }
 
+const publicCollectorDeployment = {
+  status: eventCollectorDeployment.status,
+  provider: eventCollectorDeployment.provider ?? 'cloudflare-worker-r2',
+  costPosture: eventCollectorDeployment.costPosture ?? 'free-tier-friendly-no-paid-traffic',
+  worker: {
+    path: eventCollectorDeployment.worker?.path ?? 'ops/cloudflare/event-collector-worker.mjs',
+    storageBinding: eventCollectorDeployment.worker?.storageBinding ?? 'EVENT_BUCKET',
+    bucketConfigured: eventCollectorDeployment.worker?.bucketConfigured === true,
+    allowedOriginsConfigured: eventCollectorDeployment.worker?.allowedOriginsConfigured === true,
+  },
+  workflow: {
+    path: eventCollectorDeployment.workflow?.path ?? '.github/workflows/event-collector-deploy.yml',
+    status: eventCollectorDeployment.workflow?.status ?? 'missing',
+    triggers: eventCollectorDeployment.workflow?.triggers ?? {},
+    deploysWhenConfigured: eventCollectorDeployment.workflow?.deploysWhenConfigured === true,
+    autoCreatesBucket: eventCollectorDeployment.workflow?.autoCreatesBucket === true,
+    preflightRequiresWriteToken: eventCollectorDeployment.workflow?.preflightRequiresWriteToken === true,
+  },
+  environment: {
+    browserCollectorConfigured: eventCollectorDeployment.environment?.browserCollectorConfigured === true,
+    serverExportConfigured: eventCollectorDeployment.environment?.serverExportConfigured === true,
+    cloudflareAccountConfigured: eventCollectorDeployment.environment?.cloudflareAccountConfigured === true,
+    cloudflareTokenConfigured: eventCollectorDeployment.environment?.cloudflareTokenConfigured === true,
+    bucketConfigured: eventCollectorDeployment.environment?.bucketConfigured === true,
+    allowedOriginsConfigured: eventCollectorDeployment.environment?.allowedOriginsConfigured === true,
+    writeTokenConfigured: eventCollectorDeployment.environment?.writeTokenConfigured === true,
+    adminTokenConfigured: eventCollectorDeployment.environment?.adminTokenConfigured === true,
+    collectorUrl: eventCollectorDeployment.environment?.collectorUrl ?? null,
+    exportUrl: eventCollectorDeployment.environment?.exportUrl ?? null,
+  },
+  smoke: {
+    status: eventCollectorDeployment.smoke?.status ?? eventCollectorSmoke.status,
+    piiStripped: eventCollectorDeployment.smoke?.piiStripped === true,
+    exportedEvents: eventCollectorDeployment.smoke?.exportedEvents ?? 0,
+    activeSource: eventCollectorDeployment.smoke?.activeSource ?? null,
+  },
+  checks: (eventCollectorDeployment.checks ?? []).map((check) => ({
+    id: check.id,
+    status: check.status,
+    detail: check.detail,
+  })),
+  setupRequiredOnce: eventCollectorDeployment.setupRequiredOnce ?? [],
+  commands: {
+    smoke: eventCollectorDeployment.commands?.smoke ?? 'npm run autonomous:event-collector-smoke',
+    plan: eventCollectorDeployment.commands?.plan ?? 'npm run autonomous:collector-deploy-plan',
+    deployWorkflow:
+      eventCollectorDeployment.commands?.deployWorkflow ??
+      'Production Input Watch triggers Event Collector Deploy after Cloudflare variables and secrets are configured.',
+  },
+  controls: {
+    publicArtifact: true,
+    zeroPaidSpend: true,
+    noSecretValues: true,
+    noSecretValuesStored: true,
+    noAccountCreation: true,
+    noStoreSubmission: true,
+    noRevenueEnablement: true,
+  },
+}
+
 const sourceDataHash = hashSourceData({
   productionEnvironment,
   analytics,
@@ -466,6 +538,7 @@ const sourceDataHash = hashSourceData({
   productionBlockerHandoff,
   ownerUnlockPreflight,
   eventCollectorSmoke,
+  eventCollectorDeployment,
   postDeployArtifactSync,
 })
 
@@ -546,6 +619,7 @@ const payload = {
   },
   publicEvidenceHandoff,
   analyticsUnlock: publicAnalyticsUnlock,
+  collectorDeployment: publicCollectorDeployment,
   externalUnlockQueue: publicExternalUnlockQueue,
   ownerUnlockPreflight: {
     status: ownerUnlockPreflight.status,
@@ -598,6 +672,7 @@ const payload = {
     trafficSeeding: trafficSeeding.status,
     productionBlockerHandoff: productionBlockerHandoff.status,
     eventCollectorSmoke: eventCollectorSmoke.status,
+    eventCollectorDeployment: eventCollectorDeployment.status,
     postDeployArtifactSync: postDeployArtifactSync.status,
   },
   controls: {
@@ -618,6 +693,7 @@ const payload = {
     publicAnalyticsUnlock
       ? `Unlock production analytics with ${publicAnalyticsUnlock.recommendedPathId}; ${publicAnalyticsUnlock.commandCount} setup command(s) and ${publicAnalyticsUnlock.validationCommandCount} validation command(s) are published with redacted secret names only.`
       : 'Regenerate the production blocker handoff before publishing production analytics unlock guidance.',
+    `First-party collector deployment is ${publicCollectorDeployment.status}; smoke is ${publicCollectorDeployment.smoke.status}.`,
     `External unlock queue has ${publicExternalUnlockQueue.ownerActionRequired} owner action(s); next zero-spend unlock is ${publicExternalUnlockQueue.nextBestZeroCostUnlockId ?? 'none'}.`,
     ...publicEvidenceHandoff.nextActions,
     'Keep product gates blocked until real player evidence clears completion, replay, and D1 retention thresholds.',
@@ -660,6 +736,12 @@ const appPayload = {
   },
   publicEvidenceHandoff: appPublicEvidenceHandoff,
   analyticsUnlock: appAnalyticsUnlock,
+  collectorDeployment: {
+    status: payload.collectorDeployment.status,
+    workflowStatus: payload.collectorDeployment.workflow.status,
+    deploysWhenConfigured: payload.collectorDeployment.workflow.deploysWhenConfigured,
+    smokeStatus: payload.collectorDeployment.smoke.status,
+  },
   externalUnlockQueue: {
     status: payload.externalUnlockQueue.status,
     nextBestUnlockId: payload.externalUnlockQueue.nextBestUnlockId,
@@ -693,6 +775,7 @@ const publicPayload = {
   productGateEvidence: payload.productGateEvidence,
   publicEvidenceHandoff: payload.publicEvidenceHandoff,
   analyticsUnlock: payload.analyticsUnlock,
+  collectorDeployment: payload.collectorDeployment,
   externalUnlockQueue: payload.externalUnlockQueue,
   ownerUnlockPreflight: payload.ownerUnlockPreflight,
   publicRoutes: payload.publicRoutes,
@@ -708,6 +791,7 @@ const analyticsUnlockPayload = {
   liveCandidate: payload.liveCandidate,
   recommendedPathId: payload.analyticsUnlock?.recommendedPathId ?? null,
   analyticsUnlock: payload.analyticsUnlock,
+  collectorDeployment: payload.collectorDeployment,
   externalUnlockQueue: {
     status: payload.externalUnlockQueue.status,
     nextBestUnlockId: payload.externalUnlockQueue.nextBestUnlockId,
@@ -821,6 +905,59 @@ const ownerUnlockPreflightHtml = (preflight) =>
         ${requiredList(preflight.missingInputs ?? [])}
         <h3>Invalid Inputs</h3>
         ${requiredList(preflight.invalidInputs ?? [])}
+      </section>`
+    : ''
+
+const collectorDeploymentHtml = (deployment) =>
+  deployment
+    ? `<section>
+        <h2>First-Party Collector Deployment</h2>
+        <p>This public deployment plan shows whether the Cloudflare Worker/R2 collector can deploy. It publishes readiness booleans, command names, and check statuses only; account IDs, tokens, and secret values are not serialized.</p>
+        <div class="grid" aria-label="First-party collector deployment">
+          <div class="card">
+            <span>Status</span>
+            <strong>${escapeHtml(deployment.status)}</strong>
+          </div>
+          <div class="card">
+            <span>Workflow</span>
+            <strong>${escapeHtml(deployment.workflow?.status ?? 'missing')}</strong>
+          </div>
+          <div class="card">
+            <span>Collector smoke</span>
+            <strong>${escapeHtml(deployment.smoke?.status ?? 'missing')}</strong>
+          </div>
+          <div class="card">
+            <span>Deploy gate</span>
+            <strong>${deployment.workflow?.deploysWhenConfigured === true}</strong>
+          </div>
+          <div class="card">
+            <span>Deploy check</span>
+            <strong>${deployment.checks?.some((check) => check.id === 'deploy-workflow') ? 'deploy-workflow' : 'missing'}</strong>
+          </div>
+        </div>
+        <h3>Checks</h3>
+        <ul>
+          ${
+            deployment.checks?.length
+              ? deployment.checks
+                  .map(
+                    (check) =>
+                      `<li><strong>${escapeHtml(check.status)}</strong>: ${escapeHtml(check.id)} - ${escapeHtml(check.detail)}</li>`,
+                  )
+                  .join('\n          ')
+              : '<li>No collector deployment checks are available yet.</li>'
+          }
+        </ul>
+        <h3>One-Time Setup</h3>
+        <ul>
+          ${
+            deployment.setupRequiredOnce?.length
+              ? deployment.setupRequiredOnce.map((item) => `<li>${escapeHtml(item)}</li>`).join('\n          ')
+              : '<li>Regenerate the collector deployment plan before setup.</li>'
+          }
+        </ul>
+        <h3>Commands</h3>
+        ${commandList([deployment.commands?.smoke, deployment.commands?.plan, deployment.commands?.deployWorkflow])}
       </section>`
     : ''
 
@@ -965,6 +1102,7 @@ const analyticsUnlockHtml = `<!doctype html>
 
       ${ownerUnlockBriefHtml(analyticsUnlockPayload.externalUnlockQueue.ownerUnlockBrief)}
       ${ownerUnlockPreflightHtml(analyticsUnlockPayload.ownerUnlockPreflight)}
+      ${collectorDeploymentHtml(analyticsUnlockPayload.collectorDeployment)}
 
       <section>
         <h2>Unlock Paths</h2>
@@ -1315,6 +1453,7 @@ const html = `<!doctype html>
 
       ${ownerUnlockBriefHtml(payload.externalUnlockQueue.ownerUnlockBrief)}
       ${ownerUnlockPreflightHtml(payload.ownerUnlockPreflight)}
+      ${collectorDeploymentHtml(payload.collectorDeployment)}
 
       <section>
         <h2>Zero-Spend Analytics Unlock</h2>

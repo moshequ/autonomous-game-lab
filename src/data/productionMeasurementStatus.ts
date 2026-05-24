@@ -1,5 +1,5 @@
 export const productionMeasurementStatus = {
-  "generatedAt": "2026-05-24T12:45:31.707Z",
+  "generatedAt": "2026-05-24T13:04:39.523Z",
   "status": "production-measurement-local-intake-ready",
   "activePath": "local-browser-buffer",
   "liveCandidate": "pwa-2e6aff6df0be",
@@ -25,6 +25,12 @@ export const productionMeasurementStatus = {
     "recommendedPathId": "first-party-collector",
     "commandCount": 5,
     "validationCommandCount": 4
+  },
+  "collectorDeployment": {
+    "status": "blocked-needs-cloudflare-env",
+    "workflowStatus": "present",
+    "deploysWhenConfigured": false,
+    "smokeStatus": "pass"
   },
   "externalUnlockQueue": {
     "status": "handoff-waiting-on-owner-inputs",

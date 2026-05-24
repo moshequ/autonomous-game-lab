@@ -914,6 +914,7 @@ if (
 const publicEvidenceHandoff = productionMeasurementStatus.publicEvidenceHandoff ?? {}
 const publicEvidenceControls = publicEvidenceHandoff.controls ?? {}
 const publicAnalyticsUnlock = productionMeasurementStatus.analyticsUnlock ?? null
+const publicCollectorDeployment = productionMeasurementStatus.collectorDeployment ?? {}
 const publicExternalUnlockQueue = productionMeasurementStatus.externalUnlockQueue ?? {}
 const measurementSampleNextRoute = productionMeasurementStatus.productGateEvidence?.sampleNextRoute ?? {}
 const measurementPublicRoutes = productionMeasurementStatus.publicRoutes ?? {}
@@ -926,6 +927,8 @@ const publicAnalyticsUnlockLeaksValues = (publicAnalyticsUnlock?.paths ?? []).so
     Object.hasOwn(item, 'value'),
   ),
 )
+const publicCollectorDeploymentCheckIds = new Set((publicCollectorDeployment.checks ?? []).map((check) => check.id))
+const publicCollectorDeploymentLeaksValues = JSON.stringify(publicCollectorDeployment).includes('"value"')
 const publicExternalUnlockItemIds = new Set((publicExternalUnlockQueue.topItems ?? []).map((item) => item.id))
 const publicExternalUnlockLeaksValues = (publicExternalUnlockQueue.topItems ?? []).some((item) =>
   [...(item.requiredEnv ?? []), ...(item.requiredSecrets ?? [])].some((requiredItem) =>
@@ -980,6 +983,7 @@ if (
   measurementPublicRoutes.sampleFastest !== '/sample-fastest.html' ||
   measurementPublicRoutes.sampleFastestJson !== '/sample-fastest.json' ||
   productionMeasurementStatus.sourceStatus?.trafficSeeding !== trafficSeeding.status ||
+  productionMeasurementStatus.sourceStatus?.eventCollectorDeployment !== eventCollectorDeployment.status ||
   productionMeasurementStatus.sourceStatus?.postDeployArtifactSync !== postDeployArtifactSync.status ||
   productionMeasurementStatus.liveCandidate !== postDeployArtifactSync.live?.candidateId ||
   publicMeasurementStatus.liveCandidate !== postDeployArtifactSync.live?.candidateId ||
@@ -1034,9 +1038,27 @@ if (
   !publicAnalyticsFirstPartyCollectorPath?.commandSequence?.includes('./ops/github/setup-production.sh') ||
   !publicAnalyticsFirstPartyCollectorPath?.validationCommands?.includes('npm run test:e2e') ||
   publicAnalyticsUnlockLeaksValues ||
+  publicCollectorDeployment.status !== eventCollectorDeployment.status ||
+  publicCollectorDeployment.provider !== 'cloudflare-worker-r2' ||
+  publicCollectorDeployment.costPosture !== eventCollectorDeployment.costPosture ||
+  publicCollectorDeployment.workflow?.status !== eventCollectorDeployment.workflow?.status ||
+  publicCollectorDeployment.workflow?.autoCreatesBucket !== true ||
+  publicCollectorDeployment.workflow?.preflightRequiresWriteToken !== true ||
+  publicCollectorDeployment.smoke?.status !== eventCollectorDeployment.smoke?.status ||
+  publicCollectorDeployment.smoke?.piiStripped !== true ||
+  !publicCollectorDeploymentCheckIds.has('worker-source') ||
+  !publicCollectorDeploymentCheckIds.has('deploy-workflow') ||
+  !publicCollectorDeploymentCheckIds.has('cloudflare-credentials') ||
+  !publicCollectorDeployment.setupRequiredOnce?.some((item) => item.includes('Cloudflare')) ||
+  publicCollectorDeployment.commands?.smoke !== 'npm run autonomous:event-collector-smoke' ||
+  publicCollectorDeployment.commands?.plan !== 'npm run autonomous:collector-deploy-plan' ||
+  publicCollectorDeployment.controls?.zeroPaidSpend !== true ||
+  publicCollectorDeployment.controls?.noSecretValuesStored !== true ||
+  publicCollectorDeploymentLeaksValues ||
   publicAnalyticsUnlockStatus.status !== publicAnalyticsUnlock?.status ||
   publicAnalyticsUnlockStatus.recommendedPathId !== publicAnalyticsUnlock?.recommendedPathId ||
   JSON.stringify(publicAnalyticsUnlockStatus.analyticsUnlock) !== JSON.stringify(publicAnalyticsUnlock) ||
+  JSON.stringify(publicAnalyticsUnlockStatus.collectorDeployment) !== JSON.stringify(publicCollectorDeployment) ||
   JSON.stringify(publicAnalyticsUnlockStatus.externalUnlockQueue?.topItems) !==
     JSON.stringify(publicExternalUnlockQueue.topItems) ||
   publicAnalyticsUnlockStatus.publicRoutes?.analyticsUnlock !== '/analytics-unlock.html' ||
@@ -1076,6 +1098,7 @@ if (
   productionMeasurementStatus.controls?.manualReviewRequiredForGateDecisions !== true ||
   JSON.stringify(publicMeasurementStatus.publicEvidenceHandoff) !== JSON.stringify(publicEvidenceHandoff) ||
   JSON.stringify(publicMeasurementStatus.analyticsUnlock) !== JSON.stringify(publicAnalyticsUnlock) ||
+  JSON.stringify(publicMeasurementStatus.collectorDeployment) !== JSON.stringify(publicCollectorDeployment) ||
   JSON.stringify(publicMeasurementStatus.externalUnlockQueue) !== JSON.stringify(publicExternalUnlockQueue) ||
   JSON.stringify(publicMeasurementStatus.publicRoutes) !== JSON.stringify(measurementPublicRoutes) ||
   !measurementStatusHtml.includes('Public Aggregate Evidence') ||
@@ -1092,11 +1115,13 @@ if (
   measurementStatusHtml.includes('href="/measurement-status.json"') ||
   measurementStatusHtml.includes('href="/analytics-unlock.html"') ||
   !measurementStatusHtml.includes('Zero-Spend Analytics Unlock') ||
+  !measurementStatusHtml.includes('First-Party Collector Deployment') ||
   !measurementStatusHtml.includes('External Unlock Queue') ||
   !measurementStatusHtml.includes('first-party-collector') ||
   !measurementStatusHtml.includes('google-play-account') ||
   !measurementStatusHtml.includes('does not pass gates') ||
   !analyticsUnlockHtml.includes('Production Analytics Unlock') ||
+  !analyticsUnlockHtml.includes('First-Party Collector Deployment') ||
   !analyticsUnlockHtml.includes('first-party-collector') ||
   !analyticsUnlockHtml.includes('CLOUDFLARE_API_TOKEN') ||
   !analyticsUnlockHtml.includes('Secret commands use stdin: true') ||
@@ -1107,6 +1132,7 @@ if (
   !appSource.includes('Analytics unlock') ||
   !productionMeasurementStatusSource.includes('publicEvidenceHandoff') ||
   !productionMeasurementStatusSource.includes('publicAnalyticsUnlock') ||
+  !productionMeasurementStatusSource.includes('publicCollectorDeployment') ||
   !productionMeasurementStatusSource.includes('analyticsUnlockPayload') ||
   !productionMeasurementStatusSource.includes('publicAnalyticsUnlockHtmlPath') ||
   !productionMeasurementStatusSource.includes('publicExternalUnlockQueue') ||

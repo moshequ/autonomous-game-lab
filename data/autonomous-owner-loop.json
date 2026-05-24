@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-24T12:45:32.955Z",
+  "generatedAt": "2026-05-24T13:07:55.131Z",
   "status": "owner-loop-ready",
   "mode": "zero-spend-web-ready",
   "autonomyScore": {
@@ -138,7 +138,7 @@
     "objectiveAuditFreshness": {
       "fresh": true,
       "structurallyReady": true,
-      "auditGeneratedAt": "2026-05-24T12:45:32.428Z",
+      "auditGeneratedAt": "2026-05-24T13:07:44.597Z",
       "evaluatedInputIds": [
         "analytics-rollup",
         "event-ingest",
@@ -162,7 +162,7 @@
         "ready": true,
         "status": "cadence-ready",
         "artifactGeneratedAt": "2026-05-24T11:23:46.403Z",
-        "ageHours": 1.363,
+        "ageHours": 1.736,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -173,7 +173,7 @@
         "ready": true,
         "status": "self-update-ready",
         "artifactGeneratedAt": "2026-05-24T11:25:17.071Z",
-        "ageHours": 1.338,
+        "ageHours": 1.711,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -184,7 +184,7 @@
         "ready": true,
         "status": "support-feedback-empty",
         "artifactGeneratedAt": "2026-05-23T19:46:50.158Z",
-        "ageHours": 16.979,
+        "ageHours": 17.351,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -194,8 +194,8 @@
         "fresh": true,
         "ready": true,
         "status": "performance-budget-ready",
-        "artifactGeneratedAt": "2026-05-24T12:45:21.713Z",
-        "ageHours": 0.003,
+        "artifactGeneratedAt": "2026-05-24T13:06:01.962Z",
+        "ageHours": 0.031,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -205,8 +205,8 @@
         "fresh": true,
         "ready": true,
         "status": "live-site-monitor-passed",
-        "artifactGeneratedAt": "2026-05-24T12:45:23.725Z",
-        "ageHours": 0.003,
+        "artifactGeneratedAt": "2026-05-24T13:06:53.773Z",
+        "ageHours": 0.017,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -295,9 +295,9 @@
         "current": true,
         "ready": true,
         "status": "pwa-install-loop-ready",
-        "artifactGeneratedAt": "2026-05-24T12:45:12.170Z",
-        "artifactSourceDataHash": "7999dd3b1a62",
-        "sourceDataHash": "7999dd3b1a62",
+        "artifactGeneratedAt": "2026-05-24T12:55:06.667Z",
+        "artifactSourceDataHash": "ad44b7ef087a",
+        "sourceDataHash": "ad44b7ef087a",
         "evaluatedInputIds": [
           "analytics-rollup",
           "growth-plan",
@@ -353,9 +353,9 @@
         "current": true,
         "ready": true,
         "status": "store-package-ready",
-        "artifactGeneratedAt": "2026-05-24T12:45:02.025Z",
-        "artifactSourceDataHash": "ac376d981c1d",
-        "sourceDataHash": "ac376d981c1d",
+        "artifactGeneratedAt": "2026-05-24T12:55:11.550Z",
+        "artifactSourceDataHash": "49d210f533b0",
+        "sourceDataHash": "49d210f533b0",
         "evaluatedInputIds": [
           "prototype-pipeline",
           "production-gates",
@@ -368,9 +368,9 @@
         "current": true,
         "ready": true,
         "status": "store-listing-optimizer-ready",
-        "artifactGeneratedAt": "2026-05-24T12:45:12.322Z",
-        "artifactSourceDataHash": "590fa6c6f9b2",
-        "sourceDataHash": "590fa6c6f9b2",
+        "artifactGeneratedAt": "2026-05-24T12:55:15.650Z",
+        "artifactSourceDataHash": "4538365bbfd0",
+        "sourceDataHash": "4538365bbfd0",
         "evaluatedInputIds": [
           "store-package",
           "store-assets",
@@ -388,9 +388,9 @@
         "current": true,
         "ready": true,
         "status": "draft-ready-external-blockers",
-        "artifactGeneratedAt": "2026-05-24T12:45:12.470Z",
-        "artifactSourceDataHash": "ce2299db9092",
-        "sourceDataHash": "ce2299db9092",
+        "artifactGeneratedAt": "2026-05-24T12:55:19.744Z",
+        "artifactSourceDataHash": "22ba4eec38c0",
+        "sourceDataHash": "22ba4eec38c0",
         "evaluatedInputIds": [
           "store-package",
           "monetization-plan",
@@ -477,7 +477,7 @@
       "lastExplicitScanAt": "2026-05-22T13:53:13.086Z",
       "lastExplicitScanStatus": "no-evidence-found",
       "nextRecommendedScanAt": "2026-05-22T17:53:13.086Z",
-      "scanAgeHours": 46.87,
+      "scanAgeHours": 47.25,
       "cooldownRemainingHours": 0,
       "evidenceReadyNow": false
     },
@@ -554,9 +554,9 @@
     },
     "productionBootstrapFreshness": {
       "fresh": true,
-      "bootstrapGeneratedAt": "2026-05-24T12:45:32.254Z",
-      "artifactSourceDataHash": "2bafa553c2ac",
-      "sourceDataHash": "2bafa553c2ac",
+      "bootstrapGeneratedAt": "2026-05-24T13:07:30.941Z",
+      "artifactSourceDataHash": "d1ef0b178cb5",
+      "sourceDataHash": "d1ef0b178cb5",
       "evaluatedInputIds": [
         "release-candidate",
         "deployment-plan",
@@ -571,7 +571,7 @@
       "current": true,
       "ready": true,
       "status": "handoff-waiting-on-owner-inputs",
-      "generatedAt": "2026-05-24T12:45:27.593Z",
+      "generatedAt": "2026-05-24T13:01:47.856Z",
       "nextBestUnlockId": "production-analytics-browser",
       "ownerActionRequired": 4,
       "missingEnv": 7,
@@ -693,7 +693,7 @@
       "id": "performance-budget",
       "status": "ready",
       "autonomy": "automatic-build-budget",
-      "evidence": "Initial JS 684.4 KB; gzip 185.6 KB; deferred chunks 12.",
+      "evidence": "Initial JS 685.8 KB; gzip 185.5 KB; deferred chunks 12.",
       "nextAction": "Keep Phaser and game scenes outside the initial PWA shell."
     },
     {
@@ -770,7 +770,7 @@
       "id": "repository-bootstrap",
       "status": "ready",
       "autonomy": "guarded-git-transport-bootstrap",
-      "evidence": "Bootstrap repository-bootstrap-ready; mode plan-only; helper ops/github/bootstrap-repository.sh; local git ready.",
+      "evidence": "Bootstrap waiting-for-gh-auth; mode plan-only; helper ops/github/bootstrap-repository.sh; local git ready.",
       "nextAction": "Set GITHUB_REPOSITORY/GH_REPO, set AGL_GITHUB_OWNER, or authenticate gh, then run repository bootstrap with explicit remote flags when credentials exist."
     },
     {
@@ -812,7 +812,7 @@
       "id": "production-bootstrap",
       "status": "ready",
       "autonomy": "zero-spend-setup-orchestration",
-      "evidence": "Bootstrap production-bootstrap-ready; mode can-apply-configured-actions; external blockers 14.",
+      "evidence": "Bootstrap production-bootstrap-ready; mode can-apply-configured-actions; external blockers 16.",
       "nextAction": "gh workflow run web-pwa-deploy.yml"
     },
     {
@@ -861,7 +861,7 @@
       "id": "objective-audit",
       "status": "ready",
       "autonomy": "completion-evidence-ledger",
-      "evidence": "Audit objective-in-progress; met 6/8; external blockers 15.",
+      "evidence": "Audit objective-in-progress; met 6/8; external blockers 16.",
       "nextAction": "The local autonomous PWA system is largely prepared with strict live deploy evidence synced from GitHub Actions, but production credentials, live data, monetization gates, and store account/signing blockers remain."
     },
     {
@@ -1007,7 +1007,7 @@
       "command": "npm run build && npm run autonomous:performance && npm run autonomous:release-candidate",
       "targets": [
         "pwa-shell",
-        "GameCanvas-Bnxv_sqi.js",
+        "GameCanvas-CN1K-jwR.js",
         "dist-release-candidate"
       ],
       "reason": "Performance budget and release-candidate evidence are already fresh for the current guarded build."
@@ -1410,7 +1410,7 @@
     "autonomousSelfUpdateStatus": "self-update-ready",
     "performanceBudgetStatus": "performance-budget-ready",
     "repositoryReadinessStatus": "repository-channel-ready",
-    "repositoryBootstrapStatus": "repository-bootstrap-ready",
+    "repositoryBootstrapStatus": "waiting-for-gh-auth",
     "repositoryHandoffPrepared": false,
     "releaseCandidateStatus": "release-candidate-ready",
     "postDeploySmokeStatus": "post-deploy-smoke-observed-live",
