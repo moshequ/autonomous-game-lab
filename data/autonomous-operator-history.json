@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-24T22:39:50.783Z",
+  "generatedAt": "2026-05-24T22:44:23.834Z",
   "status": "operator-history-ready",
   "retention": {
     "maxRecords": 40,
@@ -52,59 +52,6 @@
         "status": "executed",
         "attemptedActionId": "seed-portfolio-traffic",
         "resultCount": 5,
-        "failedScripts": []
-      },
-      "controls": {
-        "zeroPaidSpend": true,
-        "localCommandAllowlistEnforced": true,
-        "externalWorkflowExecutionBlockedByDefault": true,
-        "maxActionsPerRun": 1
-      }
-    },
-    {
-      "id": "20260524120319-bootstrap-production-setup",
-      "generatedAt": "2026-05-24T12:03:19.098Z",
-      "runFingerprint": "0c619dd93134654a",
-      "mode": "plan-only",
-      "status": "operator-plan-ready",
-      "selectedActionId": "bootstrap-production-setup",
-      "selectedCommand": "npm run autonomous:release-candidate && npm run autonomous:deploy-plan && npm run autonomous:bootstrap",
-      "eligibleActionIds": [
-        "bootstrap-production-setup"
-      ],
-      "blockedActionCount": 34,
-      "execution": {
-        "requested": false,
-        "status": "not-requested",
-        "attemptedActionId": null,
-        "resultCount": 0,
-        "failedScripts": []
-      },
-      "controls": {
-        "zeroPaidSpend": true,
-        "localCommandAllowlistEnforced": true,
-        "externalWorkflowExecutionBlockedByDefault": true,
-        "maxActionsPerRun": 1
-      }
-    },
-    {
-      "id": "20260524120605-bootstrap-production-setup",
-      "generatedAt": "2026-05-24T12:06:05.770Z",
-      "runFingerprint": "3b2dbd94ee1169ff",
-      "mode": "plan-only",
-      "status": "operator-plan-ready",
-      "selectedActionId": "bootstrap-production-setup",
-      "selectedCommand": "npm run autonomous:release-candidate && npm run autonomous:deploy-plan && npm run autonomous:bootstrap",
-      "eligibleActionIds": [
-        "bootstrap-production-setup",
-        "refresh-production-blocker-handoff"
-      ],
-      "blockedActionCount": 34,
-      "execution": {
-        "requested": false,
-        "status": "not-requested",
-        "attemptedActionId": null,
-        "resultCount": 0,
         "failedScripts": []
       },
       "controls": {
@@ -1148,6 +1095,61 @@
     {
       "id": "20260524223446-refresh-organic-seed-loop",
       "generatedAt": "2026-05-24T22:34:46.642Z",
+      "runFingerprint": "7a2e1c436a936d52",
+      "mode": "plan-only",
+      "status": "operator-plan-ready",
+      "selectedActionId": "refresh-organic-seed-loop",
+      "selectedCommand": "npm run autonomous:organic-seed-loop",
+      "eligibleActionIds": [
+        "seed-portfolio-traffic",
+        "refresh-organic-seed-loop"
+      ],
+      "blockedActionCount": 34,
+      "execution": {
+        "requested": false,
+        "status": "not-requested",
+        "attemptedActionId": null,
+        "resultCount": 0,
+        "failedScripts": []
+      },
+      "controls": {
+        "zeroPaidSpend": true,
+        "localCommandAllowlistEnforced": true,
+        "externalWorkflowExecutionBlockedByDefault": true,
+        "maxActionsPerRun": 1
+      }
+    },
+    {
+      "id": "20260524224421-refresh-organic-seed-loop",
+      "generatedAt": "2026-05-24T22:44:21.670Z",
+      "runFingerprint": "0127cd40d3ef2770",
+      "mode": "plan-only",
+      "status": "operator-plan-ready",
+      "selectedActionId": "refresh-organic-seed-loop",
+      "selectedCommand": "npm run autonomous:organic-seed-loop",
+      "eligibleActionIds": [
+        "seed-portfolio-traffic",
+        "refresh-organic-seed-loop",
+        "refresh-objective-audit"
+      ],
+      "blockedActionCount": 34,
+      "execution": {
+        "requested": false,
+        "status": "not-requested",
+        "attemptedActionId": null,
+        "resultCount": 0,
+        "failedScripts": []
+      },
+      "controls": {
+        "zeroPaidSpend": true,
+        "localCommandAllowlistEnforced": true,
+        "externalWorkflowExecutionBlockedByDefault": true,
+        "maxActionsPerRun": 1
+      }
+    },
+    {
+      "id": "20260524224422-refresh-organic-seed-loop",
+      "generatedAt": "2026-05-24T22:44:22.212Z",
       "runFingerprint": "7a2e1c436a936d52",
       "mode": "plan-only",
       "status": "operator-plan-ready",

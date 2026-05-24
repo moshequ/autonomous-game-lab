@@ -1,16 +1,16 @@
 # Post-Deploy Smoke
 
-Generated: 2026-05-24T22:39:02.237Z
+Generated: 2026-05-24T22:44:19.294Z
 Status: post-deploy-smoke-observed-live
 Origin: https://moshequ.github.io/autonomous-game-lab
 Origin source: release-candidate-public-origin
-Candidate: pwa-9767429af930
-Live candidate: pwa-90841adbe8ca
+Candidate: pwa-339cb6b29793
+Live candidate: pwa-3eed355d8138
 
 ## Summary
 
-- Planned: 30
-- Passed: 30
+- Planned: 32
+- Passed: 32
 - Failed: 0
 - Blocked: 0
 
@@ -70,6 +70,8 @@ Checks: 32/32 passed
 - pass: install-html - https://moshequ.github.io/autonomous-game-lab/install.html - Live URL matched status and required text.
 - pass: compliance-json - https://moshequ.github.io/autonomous-game-lab/compliance.json - Live URL matched status and required text.
 - pass: monetization-json - https://moshequ.github.io/autonomous-game-lab/monetization.json - Live URL matched status and required text.
+- pass: store-readiness-html - https://moshequ.github.io/autonomous-game-lab/store-readiness.html - Live URL matched status and required text.
+- pass: store-readiness-json - https://moshequ.github.io/autonomous-game-lab/store-readiness.json - Live URL matched status and required text.
 - pass: app-ads-txt - https://moshequ.github.io/autonomous-game-lab/app-ads.txt - Live URL matched status and required text.
 - pass: well-known-assetlinks-json - https://moshequ.github.io/autonomous-game-lab/.well-known/assetlinks.json - Live URL matched status and required text.
 - pass: gate-sample-html - https://moshequ.github.io/autonomous-game-lab/gate-sample.html - Live URL matched status and required text.
@@ -99,5 +101,5 @@ Checks: 32/32 passed
 
 ## Next Actions
 
-- Live Pages is reachable and serving pwa-90841adbe8ca; run the deploy workflow for strict proof of the current local candidate if needed.
+- Live Pages is reachable and serving pwa-3eed355d8138; run the deploy workflow for strict proof of the current local candidate if needed.
 - Keep revenue, paid acquisition, and app-store submission disabled until product and credential gates pass.
