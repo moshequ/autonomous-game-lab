@@ -3442,6 +3442,7 @@ const ownerUnlockPreflightPathIds = new Set(
   (ownerUnlockPreflight.pathPreflights ?? []).map((pathPreflight) => pathPreflight.path?.id),
 )
 const ownerUnlockLowestInputPreflight = ownerUnlockPreflight.lowestInputPreflight ?? null
+const ownerUnlockLowestInputPath = ownerUnlockBrief.brief?.lowestInputPath ?? null
 const requiredProductionBlockerHandoffIds = [
   'support-contact',
   'production-analytics-browser',
@@ -3528,6 +3529,7 @@ if (
   !productionBlockerHandoffSource.includes('hashSourceData') ||
   !productionBlockerHandoffSource.includes('unlockKits') ||
   !productionBlockerHandoffSource.includes('lowestInputPathId') ||
+  !productionBlockerHandoffSource.includes('summarizeOwnerUnlockPath') ||
   !productionBlockerHandoffSource.includes('secretCommandsUseStdin') ||
   !productionBlockerHandoffSource.includes('noSecretValues') ||
   !productionBlockerHandoffSource.includes('noMutation') ||
@@ -3555,6 +3557,16 @@ if (
   ownerUnlockBrief.controls?.setupPrintModeHasNoGithubMutation !== true ||
   ownerUnlockBrief.controls?.setupPreflightModeHasNoGithubMutation !== true ||
   ownerUnlockBrief.controls?.workflowDispatchRequiresRunWorkflows !== true ||
+  ownerUnlockLowestInputPath?.id !== 'posthog-browser' ||
+  ownerUnlockLowestInputPath?.missingVariableCount !== posthogBrowserUnlockPath?.missingVariableCount ||
+  ownerUnlockLowestInputPath?.missingSecretCount !== posthogBrowserUnlockPath?.missingSecretCount ||
+  ownerUnlockLowestInputPath?.missingInputCount !== posthogBrowserUnlockPath?.missingInputCount ||
+  ownerUnlockLowestInputPath?.noSecretsRequired !== true ||
+  !ownerUnlockLowestInputPath?.missingVariables?.some((item) => item.repositoryName === 'VITE_POSTHOG_KEY') ||
+  !ownerUnlockLowestInputPath?.missingVariables?.some((item) => item.repositoryName === 'VITE_POSTHOG_HOST') ||
+  (ownerUnlockLowestInputPath?.missingSecrets?.length ?? 1) !== 0 ||
+  !ownerUnlockLowestInputPath?.setupCommands?.includes('./ops/github/setup-production.sh') ||
+  !ownerUnlockLowestInputPath?.validationCommands?.includes('npm run test:e2e') ||
   ownerUnlockBriefLeaksValues ||
   packageJson.scripts?.['autonomous:owner-unlock-brief'] !==
     'npm run autonomous:blocker-handoff && node scripts/owner-unlock-brief.mjs --assert --print' ||
@@ -3564,6 +3576,7 @@ if (
   !ownerUnlockBriefSource.includes('--assert') ||
   !ownerUnlockBriefSource.includes('--json') ||
   !ownerUnlockBriefSource.includes('owner-unlock-preflight') ||
+  !ownerUnlockBriefSource.includes('Lowest-input missing variables') ||
   !ownerUnlockBriefSource.includes('workflowDispatchRequiresRunWorkflows') ||
   !ownerUnlockBriefSource.includes('noSecretValuesStored') ||
   !productionBlockerHandoffSource.includes('ownerUnlockBriefPayload') ||

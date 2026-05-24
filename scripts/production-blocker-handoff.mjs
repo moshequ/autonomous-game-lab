@@ -508,6 +508,30 @@ const summarizeConfigInputs = (items) =>
     configured: item.configured === true,
     command: item.command,
   }))
+const summarizeOwnerUnlockPath = (unlockPath, recommendedPath) =>
+  unlockPath
+    ? {
+        id: unlockPath.id,
+        title: unlockPath.title,
+        status: unlockPath.status,
+        costMode: unlockPath.costMode,
+        ownerInputRequired: unlockPath.ownerInputRequired === true,
+        missingVariableCount: unlockPath.missingVariableCount,
+        missingSecretCount: unlockPath.missingSecretCount,
+        missingInputCount: unlockPath.missingInputCount,
+        manualInputReduction:
+          typeof recommendedPath?.missingInputCount === 'number'
+            ? Math.max(0, recommendedPath.missingInputCount - unlockPath.missingInputCount)
+            : null,
+        noSecretsRequired: (unlockPath.requiredSecrets ?? []).length === 0,
+        missingVariables: summarizeConfigInputs(unlockPath.requiredVariables).filter((item) => !item.configured),
+        missingSecrets: summarizeConfigInputs(unlockPath.requiredSecrets).filter((item) => !item.configured),
+        configuredVariables: summarizeConfigInputs(unlockPath.requiredVariables).filter((item) => item.configured),
+        configuredSecrets: summarizeConfigInputs(unlockPath.requiredSecrets).filter((item) => item.configured),
+        setupCommands: unlockPath.commandSequence ?? [],
+        validationCommands: unlockPath.validationCommands ?? [],
+      }
+    : null
 const ownerUnlockBrief =
   nextUnlockKit && recommendedUnlockPath
     ? {
@@ -524,6 +548,7 @@ const ownerUnlockBrief =
         lowestInputMissingSecretCount: lowestInputUnlockPath?.missingSecretCount ?? 0,
         lowestInputMissingInputCount: lowestInputUnlockPath?.missingInputCount ?? 0,
         lowestInputReason: describeLowestInputPath(lowestInputUnlockPath, recommendedUnlockPath),
+        lowestInputPath: summarizeOwnerUnlockPath(lowestInputUnlockPath, recommendedUnlockPath),
         costMode: recommendedUnlockPath.costMode,
         ownerInputRequired: recommendedUnlockPath.ownerInputRequired === true,
         missingVariables: summarizeConfigInputs(recommendedUnlockPath.requiredVariables).filter(
@@ -716,6 +741,8 @@ const ownerUnlockReport = [
   `Source hash: ${ownerUnlockBriefPayload.sourceDataHash}`,
   `Next unlock: ${ownerUnlockBriefPayload.brief?.nextUnlockId ?? 'none'}`,
   `Recommended path: ${ownerUnlockBriefPayload.brief?.recommendedPathId ?? 'none'}`,
+  `Lowest-input path: ${ownerUnlockBriefPayload.brief?.lowestInputPath?.id ?? 'none'}`,
+  `Lowest-input reason: ${ownerUnlockBriefPayload.brief?.lowestInputReason ?? 'none'}`,
   '',
   '## Setup Guard',
   '',
@@ -738,6 +765,39 @@ const ownerUnlockReport = [
   '',
   ...(ownerUnlockBriefPayload.brief?.missingSecrets.length
     ? ownerUnlockBriefPayload.brief.missingSecrets.map((item) => `- ${item.repositoryName}: ${item.command}`)
+    : ['- none']),
+  '',
+  '## Lowest-Input Path',
+  '',
+  `- path: ${ownerUnlockBriefPayload.brief?.lowestInputPath?.id ?? 'none'}`,
+  `- title: ${ownerUnlockBriefPayload.brief?.lowestInputPath?.title ?? 'none'}`,
+  `- missing inputs: ${ownerUnlockBriefPayload.brief?.lowestInputPath?.missingInputCount ?? 'n/a'}`,
+  `- missing secrets: ${ownerUnlockBriefPayload.brief?.lowestInputPath?.missingSecretCount ?? 'n/a'}`,
+  `- manual input reduction: ${ownerUnlockBriefPayload.brief?.lowestInputPath?.manualInputReduction ?? 'n/a'}`,
+  `- no secrets required: ${ownerUnlockBriefPayload.brief?.lowestInputPath?.noSecretsRequired === true}`,
+  '',
+  '### Lowest-Input Missing Variables',
+  '',
+  ...(ownerUnlockBriefPayload.brief?.lowestInputPath?.missingVariables.length
+    ? ownerUnlockBriefPayload.brief.lowestInputPath.missingVariables.map((item) => `- ${item.repositoryName}: ${item.command}`)
+    : ['- none']),
+  '',
+  '### Lowest-Input Missing Secrets',
+  '',
+  ...(ownerUnlockBriefPayload.brief?.lowestInputPath?.missingSecrets.length
+    ? ownerUnlockBriefPayload.brief.lowestInputPath.missingSecrets.map((item) => `- ${item.repositoryName}: ${item.command}`)
+    : ['- none']),
+  '',
+  '### Lowest-Input Setup Commands',
+  '',
+  ...(ownerUnlockBriefPayload.brief?.lowestInputPath?.setupCommands.length
+    ? ownerUnlockBriefPayload.brief.lowestInputPath.setupCommands.map((command) => `- ${command}`)
+    : ['- none']),
+  '',
+  '### Lowest-Input Validation Commands',
+  '',
+  ...(ownerUnlockBriefPayload.brief?.lowestInputPath?.validationCommands.length
+    ? ownerUnlockBriefPayload.brief.lowestInputPath.validationCommands.map((command) => `- ${command}`)
     : ['- none']),
   '',
   '## Setup Commands',

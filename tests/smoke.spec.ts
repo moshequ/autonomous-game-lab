@@ -9215,6 +9215,21 @@ test('production measurement status publishes public aggregate evidence handoff'
       status: string
       nextUnlockId: string | null
       recommendedPathId: string
+      lowestInputPathId: string | null
+      lowestInputReason?: string
+      lowestInputPath: {
+        id: string
+        title: string
+        missingVariableCount: number
+        missingSecretCount: number
+        missingInputCount: number
+        manualInputReduction: number | null
+        noSecretsRequired: boolean
+        missingVariables: Array<{ repositoryName: string; configured: boolean; command: string; value?: string }>
+        missingSecrets: Array<{ repositoryName: string; configured: boolean; command: string; value?: string }>
+        setupCommands: string[]
+        validationCommands: string[]
+      } | null
       missingVariables: Array<{ repositoryName: string; configured: boolean; command: string; value?: string }>
       missingSecrets: Array<{ repositoryName: string; configured: boolean; command: string; value?: string }>
       configuredVariables: Array<{ repositoryName: string; configured: boolean; command: string; value?: string }>
@@ -9903,6 +9918,10 @@ test('production measurement status publishes public aggregate evidence handoff'
   expect(ownerUnlockBrief.nextActions.join(' ')).toContain('RUN_WORKFLOWS=1')
   expect(ownerUnlockBriefReport).toContain('Owner Unlock Brief')
   expect(ownerUnlockBriefReport).toContain('setup preflight: ./ops/github/setup-production.sh --owner-unlock-preflight')
+  expect(ownerUnlockBriefReport).toContain('Lowest-input path: posthog-browser')
+  expect(ownerUnlockBriefReport).toContain('Lowest-Input Missing Variables')
+  expect(ownerUnlockBriefReport).toContain('VITE_POSTHOG_KEY')
+  expect(ownerUnlockBriefReport).toContain('no secrets required: true')
   expect(ownerUnlockBriefReport).toContain('workflow dispatch requires RUN_WORKFLOWS: true')
   expect(ownerUnlockBriefReport).toContain('CLOUDFLARE_API_TOKEN')
   expect(ownerUnlockBriefScript).toContain('--assert')
@@ -9926,6 +9945,14 @@ test('production measurement status publishes public aggregate evidence handoff'
   expect(ownerUnlockPreflight.sourceStatus.lowestInputPathId).toBe(ownerUnlockBrief.brief?.lowestInputPathId)
   expect(ownerUnlockPreflight.recommendedPath?.id).toBe(ownerUnlockBrief.brief?.recommendedPathId)
   expect(ownerUnlockPreflight.lowestInputPath?.id).toBe(ownerUnlockBrief.brief?.lowestInputPathId)
+  expect(ownerUnlockBrief.brief?.lowestInputPath?.id).toBe('posthog-browser')
+  expect(ownerUnlockBrief.brief?.lowestInputPath?.missingVariables.map((item) => item.repositoryName)).toEqual(
+    expect.arrayContaining(['VITE_POSTHOG_KEY', 'VITE_POSTHOG_HOST']),
+  )
+  expect(ownerUnlockBrief.brief?.lowestInputPath?.missingSecrets).toEqual([])
+  expect(ownerUnlockBrief.brief?.lowestInputPath?.noSecretsRequired).toBe(true)
+  expect(ownerUnlockBrief.brief?.lowestInputPath?.setupCommands).toContain('./ops/github/setup-production.sh')
+  expect(ownerUnlockBrief.brief?.lowestInputPath?.validationCommands).toContain('npm run test:e2e')
   expect(ownerUnlockPreflight.summary.missingInputs).toBe(
     ownerUnlockPreflight.inputs.filter((input) => !input.ready).length,
   )

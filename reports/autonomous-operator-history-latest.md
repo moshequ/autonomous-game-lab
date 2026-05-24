@@ -1,6 +1,6 @@
 # Autonomous Operator History
 
-Generated: 2026-05-24T23:38:05.966Z
+Generated: 2026-05-24T23:53:09.310Z
 Status: operator-history-ready
 Records: 40
 Executed records: 5
@@ -17,13 +17,13 @@ Compacted duplicate dry-runs: 0
 
 ## Recent Records
 
-- 2026-05-24T23:04:40.694Z: collect-gate-sample-local-drops; executed; appended fingerprint 35ab6bfe740fd543
-- 2026-05-24T23:05:07.952Z: refresh-replay-loop; not-requested; appended fingerprint 15cc0c85b054c32d
-- 2026-05-24T23:05:30.961Z: refresh-replay-loop; executed; appended fingerprint f308213950b7acb0
-- 2026-05-24T23:05:58.010Z: measure-pwa-install-loop; not-requested; appended fingerprint 6a66e3711fd5d91f
 - 2026-05-24T23:07:11.452Z: refresh-objective-audit; not-requested; appended fingerprint 5de13514f9df3d96
 - 2026-05-24T23:10:15.615Z: bootstrap-production-setup; not-requested; appended fingerprint 4ce1768cd93985bb
 - 2026-05-24T23:15:34.704Z: refresh-objective-audit; not-requested; appended fingerprint 61079a5e0f1fe710
 - 2026-05-24T23:23:00.605Z: bootstrap-production-setup; not-requested; appended fingerprint 83523fab39ddaea6
 - 2026-05-24T23:26:49.181Z: bootstrap-production-setup; not-requested; appended fingerprint 4ce1768cd93985bb
 - 2026-05-24T23:38:03.865Z: refresh-objective-audit; not-requested; appended fingerprint 61079a5e0f1fe710
+- 2026-05-24T23:43:10.541Z: bootstrap-production-setup; not-requested; appended fingerprint 83523fab39ddaea6
+- 2026-05-24T23:45:13.678Z: refresh-production-blocker-handoff; not-requested; appended fingerprint ad698a5ec407a9cc
+- 2026-05-24T23:46:56.001Z: run-production-unlock-runner; not-requested; appended fingerprint 3eecdb86bff29fbc
+- 2026-05-24T23:48:07.498Z: bootstrap-production-setup; not-requested; appended fingerprint b7940df4b6b72fe9

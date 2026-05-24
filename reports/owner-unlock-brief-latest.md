@@ -1,10 +1,12 @@
 # Owner Unlock Brief
 
-Generated: 2026-05-24T23:38:00.086Z
+Generated: 2026-05-24T23:46:08.047Z
 Status: waiting-on-owner-input
-Source hash: c060305d675b
+Source hash: 7442101b5187
 Next unlock: production-analytics-browser
 Recommended path: first-party-collector
+Lowest-input path: posthog-browser
+Lowest-input reason: PostHog browser capture currently needs 2 missing input(s), compared with 8 for the recommended path.
 
 ## Setup Guard
 
@@ -20,12 +22,45 @@ Recommended path: first-party-collector
 ## Missing Variables
 
 - CLOUDFLARE_ACCOUNT_ID: gh variable set CLOUDFLARE_ACCOUNT_ID --body "$CLOUDFLARE_ACCOUNT_ID"
+- AGL_EVENT_COLLECTOR_R2_BUCKET: gh variable set AGL_EVENT_COLLECTOR_R2_BUCKET --body "$AGL_EVENT_COLLECTOR_R2_BUCKET"
+- AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS: gh variable set AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS --body "$AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS"
 - VITE_EVENT_COLLECTOR_URL: gh variable set VITE_EVENT_COLLECTOR_URL --body "$VITE_EVENT_COLLECTOR_URL"
 - AGL_EVENT_COLLECTOR_EXPORT_URL: gh variable set AGL_EVENT_COLLECTOR_EXPORT_URL --body "$AGL_EVENT_COLLECTOR_EXPORT_URL"
 
 ## Missing Secrets
 
 - CLOUDFLARE_API_TOKEN: printf "%s" "$CLOUDFLARE_API_TOKEN" | gh secret set CLOUDFLARE_API_TOKEN
+- VITE_EVENT_COLLECTOR_WRITE_TOKEN: printf "%s" "$VITE_EVENT_COLLECTOR_WRITE_TOKEN" | gh secret set VITE_EVENT_COLLECTOR_WRITE_TOKEN
+- AGL_EVENT_COLLECTOR_ADMIN_TOKEN: printf "%s" "$AGL_EVENT_COLLECTOR_ADMIN_TOKEN" | gh secret set AGL_EVENT_COLLECTOR_ADMIN_TOKEN
+
+## Lowest-Input Path
+
+- path: posthog-browser
+- title: PostHog browser capture
+- missing inputs: 2
+- missing secrets: 0
+- manual input reduction: 6
+- no secrets required: true
+
+### Lowest-Input Missing Variables
+
+- VITE_POSTHOG_KEY: gh variable set VITE_POSTHOG_KEY --body "$VITE_POSTHOG_KEY"
+- VITE_POSTHOG_HOST: gh variable set VITE_POSTHOG_HOST --body "$VITE_POSTHOG_HOST"
+
+### Lowest-Input Missing Secrets
+
+- none
+
+### Lowest-Input Setup Commands
+
+- ./ops/github/setup-production.sh
+- RUN_WORKFLOWS=1 ./ops/github/setup-production.sh
+- npm run autonomous:readiness
+
+### Lowest-Input Validation Commands
+
+- npm run autonomous:readiness
+- npm run test:e2e
 
 ## Setup Commands
 
