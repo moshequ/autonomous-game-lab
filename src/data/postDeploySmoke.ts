@@ -1,5 +1,5 @@
 export const postDeploySmoke = {
-  "generatedAt": "2026-05-24T13:12:24.484Z",
+  "generatedAt": "2026-05-24T14:10:21.377Z",
   "status": "post-deploy-smoke-observed-live",
   "envFiles": {
     "loaded": false,
@@ -38,8 +38,8 @@ export const postDeploySmoke = {
     "origin": "https://moshequ.github.io/autonomous-game-lab",
     "originSource": "release-candidate-public-origin",
     "provider": "github-pages",
-    "candidateId": "pwa-e125d14034c3",
-    "aggregateHash": "e125d14034c3e57d8e9e5d8c53b4c8ee1ab2df6d280ecf90c8d408dc19bfcc35",
+    "candidateId": "pwa-ba8f8dd0444a",
+    "aggregateHash": "ba8f8dd0444affed214803d22d9e1b6d337da3fc7ac7e57ae81904c42ecc6fbe",
     "strictManifestComparison": false
   },
   "liveRelease": {
@@ -163,7 +163,7 @@ export const postDeploySmoke = {
         "file": "dist/owner-unlock-preflight.json",
         "expectedStatus": 200,
         "status": "pass",
-        "bytes": 9735,
+        "bytes": 10445,
         "textMatched": true,
         "detail": "Local production artifact matched required text."
       },
@@ -343,11 +343,11 @@ export const postDeploySmoke = {
         "file": "dist/release-candidate.json",
         "expectedStatus": 200,
         "status": "pass",
-        "bytes": 29688,
+        "bytes": 29689,
         "candidateMatches": true,
         "hashMatches": true,
-        "localCandidateId": "pwa-e125d14034c3",
-        "localAggregateHash": "e125d14034c3e57d8e9e5d8c53b4c8ee1ab2df6d280ecf90c8d408dc19bfcc35",
+        "localCandidateId": "pwa-ba8f8dd0444a",
+        "localAggregateHash": "ba8f8dd0444affed214803d22d9e1b6d337da3fc7ac7e57ae81904c42ecc6fbe",
         "detail": "Local release manifest matches the release candidate."
       }
     ]
@@ -733,7 +733,7 @@ export const postDeploySmoke = {
       "path": "/release-candidate.json",
       "url": "https://moshequ.github.io/autonomous-game-lab/release-candidate.json",
       "expectedStatus": 200,
-      "requiredText": "pwa-e125d14034c3",
+      "requiredText": "pwa-ba8f8dd0444a",
       "status": "pass",
       "detail": "Live release manifest is reachable; it does not match the current local release candidate.",
       "actualStatus": 200,
