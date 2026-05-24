@@ -1,6 +1,6 @@
 # Production Bootstrap
 
-Generated: 2026-05-24T12:02:27.097Z
+Generated: 2026-05-24T12:06:01.962Z
 Status: production-bootstrap-ready
 Mode: waiting-for-external-credentials
 GitHub repository: moshequ/autonomous-game-lab
@@ -81,7 +81,6 @@ gh CLI available: true
 ## External Blockers
 
 - repository-readiness: Authenticate GitHub CLI or configure GH_TOKEN/GITHUB_TOKEN for workflow dispatch and repository settings sync.
-- repository-bootstrap: Commit current generated changes before pushing to GitHub Pages.
 - repository-bootstrap: Authenticate GitHub CLI or provide GH_TOKEN/GITHUB_TOKEN for remote repository bootstrap.
 - production-environment: Set AGL_SUPPORT_EMAIL to a real support inbox before public store submission.
 - production-environment: Set VITE_EVENT_COLLECTOR_URL or VITE_POSTHOG_KEY to forward browser analytics in production.
@@ -92,3 +91,4 @@ gh CLI available: true
 - event-collector: Collector environment is not configured.
 - store-compliance: support-contact: Production support email is required before public store submission.
 - store-compliance: google-play-account: Google Play developer account must be connected before Android submission.
+- store-compliance: apple-developer-account: Apple Developer account remains deferred until iOS spend is justified.
