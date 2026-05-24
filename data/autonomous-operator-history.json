@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-24T22:58:57.382Z",
+  "generatedAt": "2026-05-24T23:01:47.699Z",
   "status": "operator-history-ready",
   "retention": {
     "maxRecords": 40,
@@ -32,61 +32,6 @@
     "historyIsCapped": true
   },
   "records": [
-    {
-      "id": "20260524160910-optimize-daily-retention",
-      "generatedAt": "2026-05-24T16:09:10.150Z",
-      "runFingerprint": "88b6f03485158be0",
-      "mode": "plan-only",
-      "status": "operator-plan-ready",
-      "selectedActionId": "optimize-daily-retention",
-      "selectedCommand": "npm run autonomous:retention",
-      "eligibleActionIds": [
-        "seed-portfolio-traffic",
-        "optimize-daily-retention",
-        "refresh-objective-audit"
-      ],
-      "blockedActionCount": 34,
-      "execution": {
-        "requested": false,
-        "status": "not-requested",
-        "attemptedActionId": null,
-        "resultCount": 0,
-        "failedScripts": []
-      },
-      "controls": {
-        "zeroPaidSpend": true,
-        "localCommandAllowlistEnforced": true,
-        "externalWorkflowExecutionBlockedByDefault": true,
-        "maxActionsPerRun": 1
-      }
-    },
-    {
-      "id": "20260524160910-optimize-daily-retention",
-      "generatedAt": "2026-05-24T16:09:10.910Z",
-      "runFingerprint": "66a938481d3e091b",
-      "mode": "plan-only",
-      "status": "operator-plan-ready",
-      "selectedActionId": "optimize-daily-retention",
-      "selectedCommand": "npm run autonomous:retention",
-      "eligibleActionIds": [
-        "seed-portfolio-traffic",
-        "optimize-daily-retention"
-      ],
-      "blockedActionCount": 34,
-      "execution": {
-        "requested": false,
-        "status": "not-requested",
-        "attemptedActionId": null,
-        "resultCount": 0,
-        "failedScripts": []
-      },
-      "controls": {
-        "zeroPaidSpend": true,
-        "localCommandAllowlistEnforced": true,
-        "externalWorkflowExecutionBlockedByDefault": true,
-        "maxActionsPerRun": 1
-      }
-    },
     {
       "id": "20260524162736-optimize-daily-retention",
       "generatedAt": "2026-05-24T16:27:36.875Z",
@@ -1141,6 +1086,63 @@
     {
       "id": "20260524225854-refresh-completion-loop",
       "generatedAt": "2026-05-24T22:58:54.859Z",
+      "runFingerprint": "b1522cd98abeafa6",
+      "mode": "plan-only",
+      "status": "operator-plan-ready",
+      "selectedActionId": "refresh-completion-loop",
+      "selectedCommand": "npm run autonomous:completion-loop",
+      "eligibleActionIds": [
+        "optimize-daily-retention",
+        "refresh-completion-loop",
+        "refresh-replay-loop"
+      ],
+      "blockedActionCount": 34,
+      "execution": {
+        "requested": false,
+        "status": "not-requested",
+        "attemptedActionId": null,
+        "resultCount": 0,
+        "failedScripts": []
+      },
+      "controls": {
+        "zeroPaidSpend": true,
+        "localCommandAllowlistEnforced": true,
+        "externalWorkflowExecutionBlockedByDefault": true,
+        "maxActionsPerRun": 1
+      }
+    },
+    {
+      "id": "20260524230145-refresh-completion-loop",
+      "generatedAt": "2026-05-24T23:01:45.625Z",
+      "runFingerprint": "901a257c932921da",
+      "mode": "plan-only",
+      "status": "operator-plan-ready",
+      "selectedActionId": "refresh-completion-loop",
+      "selectedCommand": "npm run autonomous:completion-loop",
+      "eligibleActionIds": [
+        "optimize-daily-retention",
+        "refresh-completion-loop",
+        "refresh-replay-loop",
+        "refresh-objective-audit"
+      ],
+      "blockedActionCount": 34,
+      "execution": {
+        "requested": false,
+        "status": "not-requested",
+        "attemptedActionId": null,
+        "resultCount": 0,
+        "failedScripts": []
+      },
+      "controls": {
+        "zeroPaidSpend": true,
+        "localCommandAllowlistEnforced": true,
+        "externalWorkflowExecutionBlockedByDefault": true,
+        "maxActionsPerRun": 1
+      }
+    },
+    {
+      "id": "20260524230146-refresh-completion-loop",
+      "generatedAt": "2026-05-24T23:01:46.142Z",
       "runFingerprint": "b1522cd98abeafa6",
       "mode": "plan-only",
       "status": "operator-plan-ready",
