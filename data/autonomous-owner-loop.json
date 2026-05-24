@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-24T14:10:26.892Z",
+  "generatedAt": "2026-05-24T14:12:33.037Z",
   "status": "owner-loop-ready",
   "mode": "zero-spend-web-ready",
   "autonomyScore": {
@@ -138,7 +138,7 @@
     "objectiveAuditFreshness": {
       "fresh": true,
       "structurallyReady": true,
-      "auditGeneratedAt": "2026-05-24T14:10:26.706Z",
+      "auditGeneratedAt": "2026-05-24T14:12:32.510Z",
       "evaluatedInputIds": [
         "analytics-rollup",
         "event-ingest",
@@ -162,7 +162,7 @@
         "ready": true,
         "status": "cadence-ready",
         "artifactGeneratedAt": "2026-05-24T11:23:46.403Z",
-        "ageHours": 2.778,
+        "ageHours": 2.813,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -173,7 +173,7 @@
         "ready": true,
         "status": "self-update-ready",
         "artifactGeneratedAt": "2026-05-24T11:25:17.071Z",
-        "ageHours": 2.753,
+        "ageHours": 2.788,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -184,7 +184,7 @@
         "ready": true,
         "status": "support-feedback-empty",
         "artifactGeneratedAt": "2026-05-24T14:10:08.816Z",
-        "ageHours": 0.005,
+        "ageHours": 0.04,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -194,8 +194,8 @@
         "fresh": true,
         "ready": true,
         "status": "performance-budget-ready",
-        "artifactGeneratedAt": "2026-05-24T14:10:19.690Z",
-        "ageHours": 0.002,
+        "artifactGeneratedAt": "2026-05-24T14:12:20.923Z",
+        "ageHours": 0.003,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -205,8 +205,8 @@
         "fresh": true,
         "ready": true,
         "status": "live-site-monitor-passed",
-        "artifactGeneratedAt": "2026-05-24T14:10:21.524Z",
-        "ageHours": 0.001,
+        "artifactGeneratedAt": "2026-05-24T14:12:22.979Z",
+        "ageHours": 0.003,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -295,7 +295,7 @@
         "current": true,
         "ready": true,
         "status": "pwa-install-loop-ready",
-        "artifactGeneratedAt": "2026-05-24T13:12:05.573Z",
+        "artifactGeneratedAt": "2026-05-24T14:12:11.112Z",
         "artifactSourceDataHash": "7999dd3b1a62",
         "sourceDataHash": "7999dd3b1a62",
         "evaluatedInputIds": [
@@ -353,7 +353,7 @@
         "current": true,
         "ready": true,
         "status": "store-package-ready",
-        "artifactGeneratedAt": "2026-05-24T13:11:56.074Z",
+        "artifactGeneratedAt": "2026-05-24T14:12:00.948Z",
         "artifactSourceDataHash": "ac376d981c1d",
         "sourceDataHash": "ac376d981c1d",
         "evaluatedInputIds": [
@@ -368,7 +368,7 @@
         "current": true,
         "ready": true,
         "status": "store-listing-optimizer-ready",
-        "artifactGeneratedAt": "2026-05-24T13:12:05.713Z",
+        "artifactGeneratedAt": "2026-05-24T14:12:11.271Z",
         "artifactSourceDataHash": "590fa6c6f9b2",
         "sourceDataHash": "590fa6c6f9b2",
         "evaluatedInputIds": [
@@ -388,7 +388,7 @@
         "current": true,
         "ready": true,
         "status": "draft-ready-external-blockers",
-        "artifactGeneratedAt": "2026-05-24T13:12:05.847Z",
+        "artifactGeneratedAt": "2026-05-24T14:12:11.425Z",
         "artifactSourceDataHash": "ce2299db9092",
         "sourceDataHash": "ce2299db9092",
         "evaluatedInputIds": [
@@ -477,7 +477,7 @@
       "lastExplicitScanAt": "2026-05-22T13:53:13.086Z",
       "lastExplicitScanStatus": "no-evidence-found",
       "nextRecommendedScanAt": "2026-05-22T17:53:13.086Z",
-      "scanAgeHours": 48.29,
+      "scanAgeHours": 48.32,
       "cooldownRemainingHours": 0,
       "evidenceReadyNow": false
     },
@@ -513,8 +513,8 @@
       "liveSiteMonitorFresh": true,
       "smokeActionFresh": true,
       "releaseCandidateActionFresh": true,
-      "liveCandidateId": "pwa-d922b7fd691f",
-      "artifactCandidateId": "pwa-d922b7fd691f"
+      "liveCandidateId": "pwa-b5b8d0009c07",
+      "artifactCandidateId": "pwa-b5b8d0009c07"
     },
     "skippedRecentlyExecutedActionIds": [],
     "skippedRecentlySatisfiedActionIds": [],
@@ -554,9 +554,9 @@
     },
     "productionBootstrapFreshness": {
       "fresh": true,
-      "bootstrapGeneratedAt": "2026-05-24T14:10:24.206Z",
-      "artifactSourceDataHash": "49f619eb3835",
-      "sourceDataHash": "49f619eb3835",
+      "bootstrapGeneratedAt": "2026-05-24T14:12:32.333Z",
+      "artifactSourceDataHash": "f23c7ca96dec",
+      "sourceDataHash": "f23c7ca96dec",
       "evaluatedInputIds": [
         "release-candidate",
         "deployment-plan",
@@ -571,7 +571,7 @@
       "current": true,
       "ready": true,
       "status": "handoff-waiting-on-owner-inputs",
-      "generatedAt": "2026-05-24T14:10:25.788Z",
+      "generatedAt": "2026-05-24T14:12:27.357Z",
       "nextBestUnlockId": "production-analytics-browser",
       "ownerActionRequired": 4,
       "missingEnv": 7,
@@ -792,13 +792,13 @@
       "status": "ready",
       "autonomy": "read-only-live-deploy-verification",
       "evidence": "Smoke post-deploy-smoke-observed-live; origin https://moshequ.github.io/autonomous-game-lab; manifest comparison required; checks 27/27 passed; local artifact predeploy-artifact-smoke-passed 27/27 passed.",
-      "nextAction": "Live Pages is reachable and serving pwa-d922b7fd691f; run the deploy workflow for strict proof of the current local candidate if needed."
+      "nextAction": "Live Pages is reachable and serving pwa-b5b8d0009c07; run the deploy workflow for strict proof of the current local candidate if needed."
     },
     {
       "id": "post-deploy-artifact-sync",
       "status": "ready",
       "autonomy": "read-only-actions-artifact-import",
-      "evidence": "Artifact sync post-deploy-artifact-sync-passed; run 26362170915; live matches artifact true; strict true.",
+      "evidence": "Artifact sync post-deploy-artifact-sync-passed; run 26363509763; live matches artifact true; strict true.",
       "nextAction": "Keep this strict deploy artifact as live-production evidence while local candidates continue to iterate."
     },
     {
@@ -1007,7 +1007,7 @@
       "command": "npm run build && npm run autonomous:performance && npm run autonomous:release-candidate",
       "targets": [
         "pwa-shell",
-        "GameCanvas-DQgn5ElR.js",
+        "GameCanvas-BdlW-8ai.js",
         "dist-release-candidate"
       ],
       "reason": "Performance budget and release-candidate evidence are already fresh for the current guarded build."
@@ -1040,7 +1040,7 @@
       "costUsd": 0,
       "command": "npm run autonomous:post-deploy-artifact-sync",
       "targets": [
-        26362170915,
+        26363509763,
         "release-candidate-manifest"
       ],
       "reason": "Strict deploy artifact evidence is already synced from the latest successful Pages workflow."
