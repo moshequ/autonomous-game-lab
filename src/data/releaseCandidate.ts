@@ -1,7 +1,7 @@
 export const releaseCandidate = {
-  "generatedAt": "2026-05-25T09:50:05.945Z",
+  "generatedAt": "2026-05-25T10:12:02.355Z",
   "status": "release-candidate-ready",
-  "candidateId": "pwa-ac568276b0b4",
+  "candidateId": "pwa-7035ae30b294",
   "target": {
     "provider": "github-pages",
     "artifactPath": "dist",
@@ -12,7 +12,7 @@ export const releaseCandidate = {
   },
   "summary": {
     "totalFiles": 72,
-    "totalBytes": 4050207,
+    "totalBytes": 4050223,
     "totalKb": 3955.3,
     "assetFiles": 14,
     "htmlFiles": 24,
@@ -22,7 +22,7 @@ export const releaseCandidate = {
   },
   "integrity": {
     "algorithm": "sha256",
-    "aggregateHash": "ac568276b0b4edd9cc12ef9e9f9fe8e427b787e6db105259479f2d75255d9eca",
+    "aggregateHash": "7035ae30b29448371268aadd47beb2e5a0bb179f5d68d814c9c9a45ce1220a87",
     "files": [
       {
         "path": ".nojekyll",
@@ -48,7 +48,7 @@ export const releaseCandidate = {
       {
         "path": "analytics-unlock.json",
         "bytes": 65316,
-        "sha256": "f29206b7d49f9f13c42b250f093ce05e70b88a5313debe6af95d7f7b93924311",
+        "sha256": "4eb6614d7e01531d824106dbc59fa017b1622c0947be65c62a93605deee77e45",
         "contentType": "application/json; charset=utf-8",
         "cacheControl": "public, max-age=3600"
       },
@@ -60,16 +60,16 @@ export const releaseCandidate = {
         "cacheControl": "public, max-age=3600"
       },
       {
-        "path": "assets/aggregateEvidenceIssue-CJIF0fCy.js",
+        "path": "assets/aggregateEvidenceIssue-DoT_kckq.js",
         "bytes": 3717,
-        "sha256": "877b14fc0ed7e31f3cd7de51e4f48db49e6459677d930df6bc4e26fc555fdac8",
+        "sha256": "946a9743279327b2a187c6f5ef7e3a8006db317aae62b75d247a27d0f3e8472d",
         "contentType": "text/javascript; charset=utf-8",
         "cacheControl": "public, max-age=31536000, immutable"
       },
       {
-        "path": "assets/calendarReminder-Be5MlvUg.js",
+        "path": "assets/calendarReminder-DkFo6MTI.js",
         "bytes": 1627,
-        "sha256": "bdfe91fae6fc9b44a55049a12ba33630c9167321996f2bbaf51ad843228a4ef6",
+        "sha256": "cc8e8a793a62653c57b1adcf4c2882fc8d787337ebea2e3158c1298c64f4d612",
         "contentType": "text/javascript; charset=utf-8",
         "cacheControl": "public, max-age=31536000, immutable"
       },
@@ -88,9 +88,9 @@ export const releaseCandidate = {
         "cacheControl": "public, max-age=31536000, immutable"
       },
       {
-        "path": "assets/GameCanvas-RH4iCluh.js",
+        "path": "assets/GameCanvas-DD117fDE.js",
         "bytes": 3362,
-        "sha256": "4c15fab71b9a3581397f02b1eaa388624e5268de34c5708269d80ad7f2d3814d",
+        "sha256": "4ed5d89fdb0e94b735a92658c36364612d29937debb630ffe6258d7218a2c5a5",
         "contentType": "text/javascript; charset=utf-8",
         "cacheControl": "public, max-age=31536000, immutable"
       },
@@ -123,9 +123,9 @@ export const releaseCandidate = {
         "cacheControl": "public, max-age=31536000, immutable"
       },
       {
-        "path": "assets/index-CSpCywoZ.js",
-        "bytes": 699507,
-        "sha256": "9422a4f5f049e8acc7bd27466cff5d9c58f508f9fe0835da8175db5dc6b7e498",
+        "path": "assets/index-Q1iGalFm.js",
+        "bytes": 699523,
+        "sha256": "9788f5bde82145adf71c8259421ead2f2e2d84d27658882bab01b255e90a593c",
         "contentType": "text/javascript; charset=utf-8",
         "cacheControl": "public, max-age=31536000, immutable"
       },
@@ -160,7 +160,7 @@ export const releaseCandidate = {
       {
         "path": "compliance.json",
         "bytes": 5625,
-        "sha256": "fe9c7230707401a496cb685b9e9615df7c1eebd7592d4fbd882615195e2e5347",
+        "sha256": "f103b53a7dd3c4852d629e895627946d89c810750552b9773065751f1f6bb57a",
         "contentType": "application/json; charset=utf-8",
         "cacheControl": "public, max-age=3600"
       },
@@ -307,7 +307,7 @@ export const releaseCandidate = {
       {
         "path": "index.html",
         "bytes": 2846,
-        "sha256": "2be73a5699cac5a2ea0cccc450bf1e2a6658a744d49f1c4503aaca9670f791c3",
+        "sha256": "fa7bda68d6760f214af86671afd0385455905085815985ab6eabd07eda489e1a",
         "contentType": "text/html; charset=utf-8",
         "cacheControl": "no-cache"
       },
@@ -335,7 +335,7 @@ export const releaseCandidate = {
       {
         "path": "measurement-status.json",
         "bytes": 84255,
-        "sha256": "1eb982b8e195b1843b8a0350748a7f64e7930143813fe714a1738e69b7d17a4b",
+        "sha256": "41a439e51f737ad755189fe66334744905dbe732c58221f570bae13632d242b7",
         "contentType": "application/json; charset=utf-8",
         "cacheControl": "public, max-age=3600"
       },
@@ -356,14 +356,14 @@ export const releaseCandidate = {
       {
         "path": "owner-unlock-brief.json",
         "bytes": 20959,
-        "sha256": "59c252cff314233dd1b8ab4a563cb7af80d1f548392babc34154c28bd9fe70d0",
+        "sha256": "483eaaa2f87e222a61d8ab95712f5c1efb2d12ccac05b0bb9c9577ec7eda292f",
         "contentType": "application/json; charset=utf-8",
         "cacheControl": "public, max-age=3600"
       },
       {
         "path": "owner-unlock-preflight.json",
         "bytes": 29741,
-        "sha256": "41d3c5280e20827a18a65460d865049a44e61c7b1252a3db9f8167f9eb33e4ad",
+        "sha256": "46217393974294b99744ef3b98e5bd99e87c606803edc4d6e3f3fde97e38ecf7",
         "contentType": "application/json; charset=utf-8",
         "cacheControl": "public, max-age=3600"
       },
@@ -503,7 +503,7 @@ export const releaseCandidate = {
       {
         "path": "store-readiness.json",
         "bytes": 7356,
-        "sha256": "b66ea3f30133af7f82efb81ffe2e88eea239269b7cb6c6932839a7821eb14d6e",
+        "sha256": "f3b185e0c1ff10cff0abeeb263a6c6efa123e55db366942e97b044ce52380be7",
         "contentType": "application/json; charset=utf-8",
         "cacheControl": "public, max-age=3600"
       },
@@ -517,7 +517,7 @@ export const releaseCandidate = {
       {
         "path": "sw.js",
         "bytes": 5312,
-        "sha256": "1d1ad185f18a085eaa1116c310f8463faf987d11eeb901271fc6f14ee6647378",
+        "sha256": "d93a6f641ef74e4eacf515ee751689b7ed85f0b0460777013eba470b1d4f89b8",
         "contentType": "text/javascript; charset=utf-8",
         "cacheControl": "no-cache"
       },

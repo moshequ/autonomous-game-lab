@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-25T09:52:09.175Z",
+  "generatedAt": "2026-05-25T10:12:14.540Z",
   "status": "operator-history-ready",
   "retention": {
     "maxRecords": 40,
@@ -7,9 +7,8 @@
     "preserveLatestExecutedRecord": true,
     "preserveRecentExecutedRecords": true,
     "recentExecutedRecordWindow": 8,
-    "preservedExecutedRecords": 6,
+    "preservedExecutedRecords": 5,
     "recentExecutedActionIds": [
-      "refresh-organic-seed-loop",
       "seed-portfolio-traffic",
       "refresh-completion-loop",
       "collect-gate-sample-local-drops",
@@ -21,8 +20,8 @@
   },
   "summary": {
     "totalRecords": 40,
-    "plannedRecords": 34,
-    "executedRecords": 6,
+    "plannedRecords": 35,
+    "executedRecords": 5,
     "failedRecords": 0,
     "lastActionId": "refresh-autonomous-cadence",
     "lastExecutionStatus": "not-requested",
@@ -36,33 +35,6 @@
     "historyIsCapped": true
   },
   "records": [
-    {
-      "id": "20260524224524-refresh-organic-seed-loop",
-      "generatedAt": "2026-05-24T22:45:24.014Z",
-      "runFingerprint": "d6bf5c7e588b58e9",
-      "mode": "execute-one-action",
-      "status": "operator-executed",
-      "selectedActionId": "refresh-organic-seed-loop",
-      "selectedCommand": "npm run autonomous:organic-seed-loop",
-      "eligibleActionIds": [
-        "seed-portfolio-traffic",
-        "refresh-organic-seed-loop"
-      ],
-      "blockedActionCount": 34,
-      "execution": {
-        "requested": true,
-        "status": "executed",
-        "attemptedActionId": "refresh-organic-seed-loop",
-        "resultCount": 1,
-        "failedScripts": []
-      },
-      "controls": {
-        "zeroPaidSpend": true,
-        "localCommandAllowlistEnforced": true,
-        "externalWorkflowExecutionBlockedByDefault": true,
-        "maxActionsPerRun": 1
-      }
-    },
     {
       "id": "20260524224604-seed-portfolio-traffic",
       "generatedAt": "2026-05-24T22:46:04.126Z",
@@ -82,34 +54,6 @@
         "status": "executed",
         "attemptedActionId": "seed-portfolio-traffic",
         "resultCount": 5,
-        "failedScripts": []
-      },
-      "controls": {
-        "zeroPaidSpend": true,
-        "localCommandAllowlistEnforced": true,
-        "externalWorkflowExecutionBlockedByDefault": true,
-        "maxActionsPerRun": 1
-      }
-    },
-    {
-      "id": "20260524225535-refresh-completion-loop",
-      "generatedAt": "2026-05-24T22:55:35.727Z",
-      "runFingerprint": "b1522cd98abeafa6",
-      "mode": "plan-only",
-      "status": "operator-plan-ready",
-      "selectedActionId": "refresh-completion-loop",
-      "selectedCommand": "npm run autonomous:completion-loop",
-      "eligibleActionIds": [
-        "optimize-daily-retention",
-        "refresh-completion-loop",
-        "refresh-replay-loop"
-      ],
-      "blockedActionCount": 34,
-      "execution": {
-        "requested": false,
-        "status": "not-requested",
-        "attemptedActionId": null,
-        "resultCount": 0,
         "failedScripts": []
       },
       "controls": {
@@ -1173,6 +1117,65 @@
     {
       "id": "20260525092140-refresh-autonomous-cadence",
       "generatedAt": "2026-05-25T09:21:40.530Z",
+      "runFingerprint": "a7c6fc598f316380",
+      "mode": "plan-only",
+      "status": "operator-plan-ready",
+      "selectedActionId": "refresh-autonomous-cadence",
+      "selectedCommand": "npm run autonomous:cadence",
+      "eligibleActionIds": [
+        "refresh-autonomous-cadence",
+        "refresh-autonomous-self-update",
+        "seed-portfolio-traffic",
+        "refresh-organic-seed-loop"
+      ],
+      "blockedActionCount": 34,
+      "execution": {
+        "requested": false,
+        "status": "not-requested",
+        "attemptedActionId": null,
+        "resultCount": 0,
+        "failedScripts": []
+      },
+      "controls": {
+        "zeroPaidSpend": true,
+        "localCommandAllowlistEnforced": true,
+        "externalWorkflowExecutionBlockedByDefault": true,
+        "maxActionsPerRun": 1
+      }
+    },
+    {
+      "id": "20260525101212-refresh-autonomous-cadence",
+      "generatedAt": "2026-05-25T10:12:12.426Z",
+      "runFingerprint": "065439c9fdeba117",
+      "mode": "plan-only",
+      "status": "operator-plan-ready",
+      "selectedActionId": "refresh-autonomous-cadence",
+      "selectedCommand": "npm run autonomous:cadence",
+      "eligibleActionIds": [
+        "refresh-autonomous-cadence",
+        "refresh-autonomous-self-update",
+        "seed-portfolio-traffic",
+        "refresh-organic-seed-loop",
+        "refresh-objective-audit"
+      ],
+      "blockedActionCount": 34,
+      "execution": {
+        "requested": false,
+        "status": "not-requested",
+        "attemptedActionId": null,
+        "resultCount": 0,
+        "failedScripts": []
+      },
+      "controls": {
+        "zeroPaidSpend": true,
+        "localCommandAllowlistEnforced": true,
+        "externalWorkflowExecutionBlockedByDefault": true,
+        "maxActionsPerRun": 1
+      }
+    },
+    {
+      "id": "20260525101212-refresh-autonomous-cadence",
+      "generatedAt": "2026-05-25T10:12:12.956Z",
       "runFingerprint": "a7c6fc598f316380",
       "mode": "plan-only",
       "status": "operator-plan-ready",
