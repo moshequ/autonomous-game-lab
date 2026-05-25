@@ -1,6 +1,6 @@
 # Autonomous Owner Loop
 
-Generated: 2026-05-25T08:12:38.023Z
+Generated: 2026-05-25T08:24:47.062Z
 Status: owner-loop-ready
 Mode: zero-spend-web-ready
 Autonomy score: 44/45 (98%)
@@ -12,6 +12,18 @@ Autonomy score: 44/45 (98%)
 - Rationale: Reads public GitHub issue intake and turns player reports into redacted improvement signals.
 - Last executed action: refresh-replay-loop
 - Recent executed actions: refresh-replay-loop, collect-gate-sample-local-drops, refresh-completion-loop, seed-portfolio-traffic, refresh-organic-seed-loop
+
+## External Input Handoff
+
+- Next unlock: production-analytics-browser
+- Recommended path: first-party-collector
+- Lowest-input path: posthog-browser
+- Public status: /measurement-status.html
+- Missing inputs: 7 variable(s), 3 secret(s)
+- validate: npm run autonomous:event-collector-smoke
+- validate: npm run autonomous:collector-deploy-plan
+- validate: npm run autonomous:readiness
+- validate: npm run test:e2e
 
 ## Store External Input Handoff
 
@@ -57,7 +69,7 @@ Autonomy score: 44/45 (98%)
 - ready: live-site-monitor - Live monitor live-site-monitor-passed; origin https://moshequ.github.io/autonomous-game-lab; checks 32/32; live matches synced deploy true.
 - ready: production-bootstrap - Bootstrap production-bootstrap-ready; mode can-apply-configured-actions; external blockers 14.
 - ready: production-activation - Activation activation-ready; mode dry-run; execution dry-run; gh ready.
-- ready: production-blocker-handoff - Handoff handoff-waiting-on-owner-inputs; next production-analytics-browser; owner inputs 4; missing env 7; missing secrets 3.
+- ready: production-blocker-handoff - Handoff handoff-waiting-on-owner-inputs; next production-analytics-browser; owner inputs 4; missing env 7; missing secrets 5.
 - ready: production-unlock-runner - Unlock runner unlock-runner-idle; runnable 0; queued commands 0; unsafe 0.
 - ready: support-channel - Support channel support-channel-ready; repository moshequ/autonomous-game-lab; public intake ready; aggregate evidence only true.
 - ready: autonomous-operator - Operator operator-plan-ready; selected refresh-support-feedback; execution not-requested.
@@ -118,6 +130,8 @@ Autonomy score: 44/45 (98%)
 - ADMOB_PUBLISHER_ID: Native app seller line for app-ads.txt and Android rewarded tests after app-store gates pass.
 - AGL_GOOGLE_PLAY_ACCOUNT_CONNECTED: Allows native packaging gates to treat Play Console access as connected.
 - CLOUDFLARE_API_TOKEN: Repository secret sourced from CLOUDFLARE_API_TOKEN.
+- VITE_EVENT_COLLECTOR_WRITE_TOKEN: Repository secret sourced from VITE_EVENT_COLLECTOR_WRITE_TOKEN.
+- AGL_EVENT_COLLECTOR_ADMIN_TOKEN: Repository secret sourced from AGL_EVENT_COLLECTOR_ADMIN_TOKEN.
 - POSTHOG_PERSONAL_API_KEY: Repository secret sourced from POSTHOG_PERSONAL_API_KEY.
 - GOOGLE_PLAY_SERVICE_ACCOUNT_JSON: Repository secret sourced from GOOGLE_PLAY_SERVICE_ACCOUNT_JSON.
 

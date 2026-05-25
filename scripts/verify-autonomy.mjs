@@ -7762,7 +7762,6 @@ const ownerLowestInputUnlockPath =
   ownerFullNextUnlockKit?.paths?.find((unlockPath) => unlockPath.id === ownerFullNextUnlockKit.lowestInputPathId) ??
   null
 const ownerExpectedExternalInputHandoff =
-  autonomousOwnerLoop.ownerDecision?.nextBestActionId === 'hold-for-external-input' &&
   productionBlockerHandoff.status === 'handoff-waiting-on-owner-inputs'
 const ownerExternalInputHandoffLeaksValues = [
   ...(autonomousOwnerLoop.externalInputHandoff?.requiredVariables ?? []),

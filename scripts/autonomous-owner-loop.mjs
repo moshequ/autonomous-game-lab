@@ -2558,7 +2558,6 @@ const sanitizeExternalInput = (item) => ({
   command: item.command ?? null,
 })
 const ownerExternalInputHandoff =
-  nextBestAction?.id === 'hold-for-external-input' &&
   productionBlockerHandoff.status === 'handoff-waiting-on-owner-inputs'
     ? {
         status: productionBlockerHandoff.status,

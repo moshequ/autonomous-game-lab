@@ -10,7 +10,17 @@ export const autonomousOwnerLoop = {
   "ownerDecision": {
     "nextBestActionId": "refresh-support-feedback"
   },
-  "externalInputHandoff": null,
+  "externalInputHandoff": {
+    "nextUnlockId": "production-analytics-browser",
+    "recommendedPathId": "first-party-collector",
+    "lowestInputPathId": "posthog-browser",
+    "ownerActionRequired": 4,
+    "missingVariableCount": 7,
+    "missingSecretCount": 3,
+    "lowestInputMissingVariableCount": 2,
+    "lowestInputMissingSecretCount": 0,
+    "publicStatusPage": "/measurement-status.html"
+  },
   "storeExternalInputHandoff": {
     "nextUnlockId": "support-contact",
     "lowestInputUnlockId": "support-contact",
@@ -23,9 +33,18 @@ export const autonomousOwnerLoop = {
   },
   "externalInputHandoffs": [
     {
+      "id": "production-measurement",
+      "category": "analytics",
+      "priority": "primary",
+      "nextUnlockId": "production-analytics-browser",
+      "publicStatusPage": "/measurement-status.html",
+      "missingVariableCount": 7,
+      "missingSecretCount": 3
+    },
+    {
       "id": "store-readiness",
       "category": "store",
-      "priority": "primary",
+      "priority": "parallel",
       "nextUnlockId": "support-contact",
       "publicStatusPage": "/store-readiness.html",
       "missingVariableCount": 1,

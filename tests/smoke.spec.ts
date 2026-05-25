@@ -4880,7 +4880,6 @@ test('autonomous operator history keeps a capped audit trail', async ({ page }) 
     expect(ownerLoop.ownerDecision.holdReason).toBeNull()
   }
   const ownerExpectedExternalInputHandoff =
-    ownerLoop.ownerDecision.nextBestActionId === 'hold-for-external-input' &&
     productionBlockerHandoff.status === 'handoff-waiting-on-owner-inputs'
   expect(Boolean(ownerLoop.externalInputHandoff)).toBe(ownerExpectedExternalInputHandoff)
   if (ownerExpectedExternalInputHandoff) {
