@@ -691,6 +691,8 @@ const payload = {
     missingInputs: ownerUnlockPreflight.missingInputs ?? [],
     invalidInputs: ownerUnlockPreflight.invalidInputs ?? [],
     lowestInputPreflight: ownerUnlockPreflight.lowestInputPreflight ?? null,
+    minimalInterventionPath: ownerUnlockPreflight.minimalInterventionPath ?? null,
+    ownerInputPack: ownerUnlockPreflight.ownerInputPack ?? null,
     pathPreflights: ownerUnlockPreflight.pathPreflights ?? [],
     commands: ownerUnlockPreflight.commands ?? {},
     controls: ownerUnlockPreflight.controls ?? {},
@@ -1038,7 +1040,21 @@ const ownerUnlockPreflightHtml = (preflight) =>
             <span>Minimal secrets</span>
             <strong>${preflight.minimalInterventionPath?.secretInputs ?? 'n/a'}</strong>
           </div>
+          <div class="card">
+            <span>Owner pack</span>
+            <strong>${escapeHtml(preflight.ownerInputPack?.localEnvFile ?? 'none')}</strong>
+          </div>
         </div>
+        <h3>Owner Input Pack</h3>
+        <ul>
+          ${
+            preflight.ownerInputPack?.localEnvTemplateLines?.length
+              ? preflight.ownerInputPack.localEnvTemplateLines
+                  .map((line) => `<li><code>${escapeHtml(line)}</code></li>`)
+                  .join('')
+              : '<li>none</li>'
+          }
+        </ul>
         <h3>Path Options</h3>
         <ul>
           ${

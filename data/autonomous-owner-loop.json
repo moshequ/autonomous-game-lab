@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-25T16:28:50.594Z",
+  "generatedAt": "2026-05-25T17:09:55.052Z",
   "status": "owner-loop-ready",
   "mode": "zero-spend-web-ready",
   "autonomyScore": {
@@ -215,7 +215,7 @@
     "expiredExecutedActionIds": [],
     "lastExecutedActionId": "refresh-autonomous-self-update",
     "lastExecutedActionStillExecutable": false,
-    "lastExecutedAgeHours": 2.281,
+    "lastExecutedAgeHours": 2.966,
     "lastExecutedStatus": "executed",
     "lastRecordExecutionStatus": "not-requested",
     "recentlySatisfiedActionIds": [
@@ -225,7 +225,7 @@
     "objectiveAuditFreshness": {
       "fresh": true,
       "structurallyReady": true,
-      "auditGeneratedAt": "2026-05-25T16:28:50.073Z",
+      "auditGeneratedAt": "2026-05-25T17:09:42.957Z",
       "evaluatedInputIds": [
         "analytics-rollup",
         "event-ingest",
@@ -248,8 +248,8 @@
         "fresh": true,
         "ready": true,
         "status": "cadence-ready",
-        "artifactGeneratedAt": "2026-05-25T16:20:55.046Z",
-        "ageHours": 0.132,
+        "artifactGeneratedAt": "2026-05-25T17:04:14.617Z",
+        "ageHours": 0.095,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -260,7 +260,7 @@
         "ready": true,
         "status": "self-update-ready",
         "artifactGeneratedAt": "2026-05-25T14:11:57.499Z",
-        "ageHours": 2.281,
+        "ageHours": 2.966,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -271,7 +271,7 @@
         "ready": true,
         "status": "support-feedback-empty",
         "artifactGeneratedAt": "2026-05-25T08:46:00.487Z",
-        "ageHours": 7.714,
+        "ageHours": 8.398,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -281,8 +281,8 @@
         "fresh": true,
         "ready": true,
         "status": "performance-budget-ready",
-        "artifactGeneratedAt": "2026-05-25T16:28:32.813Z",
-        "ageHours": 0.005,
+        "artifactGeneratedAt": "2026-05-25T17:03:40.306Z",
+        "ageHours": 0.104,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -292,8 +292,8 @@
         "fresh": true,
         "ready": true,
         "status": "live-site-monitor-passed",
-        "artifactGeneratedAt": "2026-05-25T16:28:36.107Z",
-        "ageHours": 0.004,
+        "artifactGeneratedAt": "2026-05-25T17:03:52.499Z",
+        "ageHours": 0.101,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -382,9 +382,9 @@
         "current": true,
         "ready": true,
         "status": "pwa-install-loop-ready",
-        "artifactGeneratedAt": "2026-05-25T16:28:22.752Z",
-        "artifactSourceDataHash": "10458f59b576",
-        "sourceDataHash": "10458f59b576",
+        "artifactGeneratedAt": "2026-05-25T17:03:33.063Z",
+        "artifactSourceDataHash": "912231414ed3",
+        "sourceDataHash": "912231414ed3",
         "evaluatedInputIds": [
           "analytics-rollup",
           "growth-plan",
@@ -400,7 +400,7 @@
         "current": true,
         "ready": true,
         "status": "product-gate-recovery-ready",
-        "artifactGeneratedAt": "2026-05-25T16:28:49.215Z",
+        "artifactGeneratedAt": "2026-05-25T17:07:05.464Z",
         "artifactSourceDataHash": "3325a748aa6f",
         "sourceDataHash": "3325a748aa6f",
         "evaluatedInputIds": [
@@ -440,9 +440,9 @@
         "current": true,
         "ready": true,
         "status": "store-package-ready",
-        "artifactGeneratedAt": "2026-05-25T16:28:12.542Z",
-        "artifactSourceDataHash": "ac376d981c1d",
-        "sourceDataHash": "ac376d981c1d",
+        "artifactGeneratedAt": "2026-05-25T17:03:20.818Z",
+        "artifactSourceDataHash": "49d210f533b0",
+        "sourceDataHash": "49d210f533b0",
         "evaluatedInputIds": [
           "prototype-pipeline",
           "production-gates",
@@ -455,9 +455,9 @@
         "current": true,
         "ready": true,
         "status": "store-listing-optimizer-ready",
-        "artifactGeneratedAt": "2026-05-25T16:28:22.906Z",
-        "artifactSourceDataHash": "54c3765dc447",
-        "sourceDataHash": "54c3765dc447",
+        "artifactGeneratedAt": "2026-05-25T17:03:33.304Z",
+        "artifactSourceDataHash": "e36b3ecbb10f",
+        "sourceDataHash": "e36b3ecbb10f",
         "evaluatedInputIds": [
           "store-package",
           "store-assets",
@@ -475,9 +475,9 @@
         "current": true,
         "ready": true,
         "status": "draft-ready-external-blockers",
-        "artifactGeneratedAt": "2026-05-25T16:28:23.056Z",
-        "artifactSourceDataHash": "0c6778a1898f",
-        "sourceDataHash": "0c6778a1898f",
+        "artifactGeneratedAt": "2026-05-25T17:03:33.544Z",
+        "artifactSourceDataHash": "d61bd271ba20",
+        "sourceDataHash": "d61bd271ba20",
         "evaluatedInputIds": [
           "store-package",
           "monetization-plan",
@@ -564,7 +564,7 @@
       "lastExplicitScanAt": "2026-05-22T13:53:13.086Z",
       "lastExplicitScanStatus": "no-evidence-found",
       "nextRecommendedScanAt": "2026-05-22T17:53:13.086Z",
-      "scanAgeHours": 74.59,
+      "scanAgeHours": 75.28,
       "cooldownRemainingHours": 0,
       "evidenceReadyNow": false
     },
@@ -643,9 +643,9 @@
     },
     "productionBootstrapFreshness": {
       "fresh": true,
-      "bootstrapGeneratedAt": "2026-05-25T16:28:49.899Z",
-      "artifactSourceDataHash": "a02fd69eaf2c",
-      "sourceDataHash": "a02fd69eaf2c",
+      "bootstrapGeneratedAt": "2026-05-25T17:04:13.078Z",
+      "artifactSourceDataHash": "6a38bb79406f",
+      "sourceDataHash": "6a38bb79406f",
       "evaluatedInputIds": [
         "release-candidate",
         "deployment-plan",
@@ -660,7 +660,7 @@
       "current": true,
       "ready": true,
       "status": "handoff-waiting-on-owner-inputs",
-      "generatedAt": "2026-05-25T16:28:41.611Z",
+      "generatedAt": "2026-05-25T17:06:34.041Z",
       "nextBestUnlockId": "production-analytics-browser",
       "ownerActionRequired": 4,
       "missingEnv": 7,
@@ -782,7 +782,7 @@
       "id": "performance-budget",
       "status": "ready",
       "autonomy": "automatic-build-budget",
-      "evidence": "Initial JS 684.5 KB; gzip 185.6 KB; deferred chunks 12.",
+      "evidence": "Initial JS 685.4 KB; gzip 185.3 KB; deferred chunks 12.",
       "nextAction": "Keep Phaser and game scenes outside the initial PWA shell."
     },
     {
@@ -901,7 +901,7 @@
       "id": "production-bootstrap",
       "status": "ready",
       "autonomy": "zero-spend-setup-orchestration",
-      "evidence": "Bootstrap production-bootstrap-ready; mode can-apply-configured-actions; external blockers 14.",
+      "evidence": "Bootstrap production-bootstrap-ready; mode can-apply-configured-actions; external blockers 15.",
       "nextAction": "gh workflow run web-pwa-deploy.yml"
     },
     {
@@ -1096,7 +1096,7 @@
       "command": "npm run build && npm run autonomous:performance && npm run autonomous:release-candidate",
       "targets": [
         "pwa-shell",
-        "GameCanvas-D5vS5miB.js",
+        "GameCanvas-DJt0tkcN.js",
         "dist-release-candidate"
       ],
       "reason": "Performance budget and release-candidate evidence are already fresh for the current guarded build."

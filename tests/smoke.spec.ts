@@ -10031,6 +10031,29 @@ test('production measurement status publishes public aggregate evidence handoff'
       commandSequence: string[]
       validationCommands: string[]
     } | null
+    ownerInputPack: {
+      pathId: string | null
+      localEnvFile: string
+      missingInputNames: string[]
+      localEnvTemplateLines: string[]
+      shellExportTemplateLines: string[]
+      missingInputCount: number
+      secretInputCount: number
+      inputInstructions: Array<{
+        repositoryName: string
+        envName: string
+        validation: { kind: string; status: string; failedCheckIds: string[] }
+      }>
+      controls: {
+        zeroPaidSpend: boolean
+        noSecretValuesStored: boolean
+        noSecretValuesSerialized: boolean
+        noMutation: boolean
+        noWorkflowDispatch: boolean
+        gitIgnoredLocalEnvFile: boolean
+        onlyMinimalPathInputs: boolean
+      }
+    } | null
     commands: {
       syncConfiguredValues: string
       dispatchWhenReady: string
@@ -10473,6 +10496,26 @@ test('production measurement status publishes public aggregate evidence handoff'
   )
   expect(ownerUnlockPreflight.minimalInterventionPath?.secretInputs).toBe(0)
   expect(ownerUnlockPreflight.minimalInterventionPath?.noSecretsRequired).toBe(true)
+  expect(ownerUnlockPreflight.ownerInputPack?.pathId).toBe('posthog-browser')
+  expect(ownerUnlockPreflight.ownerInputPack?.localEnvFile).toBe('.env.production.local')
+  expect(ownerUnlockPreflight.ownerInputPack?.missingInputNames).toEqual(
+    expect.arrayContaining(['VITE_POSTHOG_KEY', 'VITE_POSTHOG_HOST']),
+  )
+  expect(ownerUnlockPreflight.ownerInputPack?.localEnvTemplateLines).toEqual(
+    expect.arrayContaining(['VITE_POSTHOG_KEY=', 'VITE_POSTHOG_HOST=']),
+  )
+  expect(ownerUnlockPreflight.ownerInputPack?.shellExportTemplateLines).toEqual(
+    expect.arrayContaining(['export VITE_POSTHOG_KEY=', 'export VITE_POSTHOG_HOST=']),
+  )
+  expect(ownerUnlockPreflight.ownerInputPack?.secretInputCount).toBe(0)
+  expect(ownerUnlockPreflight.ownerInputPack?.controls.zeroPaidSpend).toBe(true)
+  expect(ownerUnlockPreflight.ownerInputPack?.controls.noSecretValuesStored).toBe(true)
+  expect(ownerUnlockPreflight.ownerInputPack?.controls.gitIgnoredLocalEnvFile).toBe(true)
+  expect(ownerUnlockPreflight.ownerInputPack?.controls.onlyMinimalPathInputs).toBe(true)
+  expect(
+    ownerUnlockPreflight.ownerInputPack?.inputInstructions.find((input) => input.envName === 'VITE_POSTHOG_HOST')
+      ?.validation.kind,
+  ).toBe('url-shape')
   expect(publicMeasurement.ownerUnlockPreflight.lowestInputPath?.id).toBe('posthog-browser')
   expect(analyticsUnlockPage.ownerUnlockPreflight.lowestInputPreflight?.path?.id).toBe('posthog-browser')
   expect(ownerUnlockPreflight.commands.syncConfiguredValues).toBe('./ops/github/setup-production.sh')
@@ -10493,13 +10536,20 @@ test('production measurement status publishes public aggregate evidence handoff'
   expect(ownerUnlockPreflightReport).toContain('Owner Unlock Preflight')
   expect(ownerUnlockPreflightReport).toContain('Lowest-input path')
   expect(ownerUnlockPreflightReport).toContain('Minimal Intervention Path')
+  expect(ownerUnlockPreflightReport).toContain('Owner Input Pack')
+  expect(ownerUnlockPreflightReport).toContain('.env.production.local')
   expect(ownerUnlockPreflightReport).toContain('posthog-browser')
   expect(ownerUnlockPreflightReport).toContain('## Guardrails')
   expect(ownerUnlockPreflightScript).toContain('loadLocalEnv')
   expect(ownerUnlockPreflightScript).toContain('new URL')
   expect(ownerUnlockPreflightScript).toContain('hasValueKey')
+  expect(ownerUnlockPreflightScript).toContain('ownerInputPack')
+  expect(ownerUnlockPreflightScript).toContain('localEnvTemplateLines')
+  expect(ownerUnlockPreflightScript).toContain('VITE_POSTHOG_HOST')
   expect(analyticsUnlockHtml).toContain('Owner Unlock Preflight')
   expect(analyticsUnlockHtml).toContain('Lowest-input path')
+  expect(analyticsUnlockHtml).toContain('Owner Input Pack')
+  expect(analyticsUnlockHtml).toContain('VITE_POSTHOG_KEY=')
   expect(analyticsUnlockHtml).toContain('posthog-browser')
   expect(analyticsUnlockHtml).toContain('Parallel Owner Unlocks')
   expect(analyticsUnlockHtml).toContain('support-contact')

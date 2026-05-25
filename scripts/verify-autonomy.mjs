@@ -3447,6 +3447,9 @@ const ownerUnlockPreflightPathIds = new Set(
   (ownerUnlockPreflight.pathPreflights ?? []).map((pathPreflight) => pathPreflight.path?.id),
 )
 const ownerUnlockLowestInputPreflight = ownerUnlockPreflight.lowestInputPreflight ?? null
+const ownerUnlockInputPack = ownerUnlockPreflight.ownerInputPack ?? null
+const ownerUnlockInputPackNames = new Set(ownerUnlockInputPack?.missingInputNames ?? [])
+const ownerUnlockInputPackTemplateLines = new Set(ownerUnlockInputPack?.localEnvTemplateLines ?? [])
 const ownerUnlockLowestInputPath = ownerUnlockBrief.brief?.lowestInputPath ?? null
 const ownerUnlockParallelItems = ownerUnlockBrief.brief?.parallelOwnerUnlocks ?? []
 const ownerUnlockParallelIds = new Set(ownerUnlockParallelItems.map((item) => item.id))
@@ -3680,6 +3683,19 @@ if (
   ownerUnlockPreflight.commands?.dispatchWhenReady !== 'RUN_WORKFLOWS=1 ./ops/github/setup-production.sh' ||
   ownerUnlockPreflight.commands?.setupPreflight !== './ops/github/setup-production.sh --owner-unlock-preflight' ||
   !ownerUnlockPreflight.commands?.lowestInputPreflight?.includes('owner-unlock-preflight') ||
+  ownerUnlockInputPack?.pathId !== 'posthog-browser' ||
+  ownerUnlockInputPack?.localEnvFile !== '.env.production.local' ||
+  ownerUnlockInputPack?.secretInputCount !== 0 ||
+  !ownerUnlockInputPackNames.has('VITE_POSTHOG_KEY') ||
+  !ownerUnlockInputPackNames.has('VITE_POSTHOG_HOST') ||
+  !ownerUnlockInputPackTemplateLines.has('VITE_POSTHOG_KEY=') ||
+  !ownerUnlockInputPackTemplateLines.has('VITE_POSTHOG_HOST=') ||
+  ownerUnlockInputPack?.controls?.zeroPaidSpend !== true ||
+  ownerUnlockInputPack?.controls?.noSecretValuesStored !== true ||
+  ownerUnlockInputPack?.controls?.gitIgnoredLocalEnvFile !== true ||
+  ownerUnlockInputPack?.controls?.onlyMinimalPathInputs !== true ||
+  ownerUnlockInputPack?.inputInstructions?.find((input) => input.envName === 'VITE_POSTHOG_HOST')?.validation?.kind !==
+    'url-shape' ||
   publicMeasurementStatus.ownerUnlockPreflight?.status !== ownerUnlockPreflight.status ||
   publicMeasurementStatus.ownerUnlockPreflight?.lowestInputPath?.id !== ownerUnlockBrief.brief?.lowestInputPathId ||
   publicAnalyticsUnlockStatus.ownerUnlockPreflight?.status !== ownerUnlockPreflight.status ||
@@ -3688,6 +3704,8 @@ if (
   publicAnalyticsUnlockStatus.publicRoutes?.ownerUnlockPreflightJson !== '/owner-unlock-preflight.json' ||
   !analyticsUnlockHtml.includes('Owner Unlock Preflight') ||
   !analyticsUnlockHtml.includes('Lowest-input path') ||
+  !analyticsUnlockHtml.includes('Owner Input Pack') ||
+  !analyticsUnlockHtml.includes('VITE_POSTHOG_KEY=') ||
   !analyticsUnlockHtml.includes('posthog-browser') ||
   !analyticsUnlockHtml.includes('Open preflight JSON') ||
   ownerUnlockPreflightLeaksValues ||
@@ -3695,8 +3713,13 @@ if (
   !ownerUnlockPreflightSource.includes('hasValueKey') ||
   !ownerUnlockPreflightSource.includes('new URL') ||
   !ownerUnlockPreflightSource.includes('lowestInputPreflight') ||
+  !ownerUnlockPreflightSource.includes('ownerInputPack') ||
+  !ownerUnlockPreflightSource.includes('localEnvTemplateLines') ||
+  !ownerUnlockPreflightSource.includes('VITE_POSTHOG_HOST') ||
   !ownerUnlockPreflightSource.includes('noSecretValuesSerialized') ||
   !ownerUnlockPreflightReport.includes('Lowest-input path') ||
+  !ownerUnlockPreflightReport.includes('Owner Input Pack') ||
+  !ownerUnlockPreflightReport.includes('.env.production.local') ||
   !ownerUnlockPreflightReport.includes('## Guardrails')
 ) {
   fail('Owner unlock preflight must validate next-unlock readiness without storing values, mutating GitHub, or dispatching workflows.')
