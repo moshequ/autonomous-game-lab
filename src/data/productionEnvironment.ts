@@ -1,10 +1,27 @@
 export const productionEnvironment = {
-  "generatedAt": "2026-05-25T12:26:26.986Z",
+  "generatedAt": "2026-05-25T12:58:59.970Z",
   "status": "production-env-missing",
   "envFiles": {
-    "loaded": false,
-    "loadedFiles": [],
-    "loadedKeys": [],
+    "loaded": true,
+    "loadedFiles": [
+      {
+        "path": "ops/production.env.local",
+        "keys": [
+          "AGL_ANDROID_PACKAGE_NAME",
+          "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
+          "AGL_ANDROID_KEYSTORE_BASE64",
+          "AGL_ANDROID_KEYSTORE_PASSWORD",
+          "AGL_ANDROID_KEY_ALIAS"
+        ]
+      }
+    ],
+    "loadedKeys": [
+      "AGL_ANDROID_PACKAGE_NAME",
+      "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
+      "AGL_ANDROID_KEYSTORE_BASE64",
+      "AGL_ANDROID_KEYSTORE_PASSWORD",
+      "AGL_ANDROID_KEY_ALIAS"
+    ],
     "skippedExistingKeys": [],
     "skippedProtectedKeys": [],
     "overwrittenEnvFileKeys": [],
@@ -42,8 +59,8 @@ export const productionEnvironment = {
     "variableNames": [],
     "secretNames": [],
     "errors": [
-      "variables: failed to get variables: HTTP 403: Resource not accessible by integration (https://api.github.com/repos/moshequ/autonomous-game-lab/actions/variables?per_page=100)",
-      "secrets: failed to get secrets: HTTP 403: Resource not accessible by integration (https://api.github.com/repos/moshequ/autonomous-game-lab/actions/secrets?per_page=100)"
+      "variables: error connecting to api.github.com\ncheck your internet connection or https://githubstatus.com",
+      "secrets: error connecting to api.github.com\ncheck your internet connection or https://githubstatus.com"
     ],
     "controls": {
       "readOnlyInspection": true,
@@ -55,11 +72,11 @@ export const productionEnvironment = {
     "origin": "https://moshequ.github.io/autonomous-game-lab",
     "host": "moshequ.github.io",
     "basePath": "/autonomous-game-lab/",
-    "source": "environment",
-    "explicitOriginConfigured": true,
+    "source": "github-pages-target",
+    "explicitOriginConfigured": false,
     "githubPagesCandidate": {
       "repository": "moshequ/autonomous-game-lab",
-      "source": "environment",
+      "source": "origin-remote",
       "origin": "https://moshequ.github.io/autonomous-game-lab",
       "host": "moshequ.github.io",
       "basePath": "/autonomous-game-lab/",
@@ -67,7 +84,7 @@ export const productionEnvironment = {
       "supportUrl": "https://moshequ.github.io/autonomous-game-lab/support.html",
       "costUsd": 0
     },
-    "status": "configured",
+    "status": "inferred-github-pages",
     "privacyUrl": "https://moshequ.github.io/autonomous-game-lab/privacy.html",
     "supportUrl": "https://moshequ.github.io/autonomous-game-lab/support.html"
   },
@@ -83,8 +100,8 @@ export const productionEnvironment = {
       "serverExportConfigured": false,
       "url": null,
       "exportUrl": null,
-      "writeTokenConfigured": true,
-      "adminTokenConfigured": true,
+      "writeTokenConfigured": false,
+      "adminTokenConfigured": false,
       "provider": "cloudflare-worker-r2"
     },
     "host": "https://us.posthog.com",
@@ -126,7 +143,7 @@ export const productionEnvironment = {
       "name": "AGL_PUBLIC_ORIGIN",
       "purpose": "HTTPS origin used for hosted privacy/support URLs, sitemap, TWA host, and Digital Asset Links. If no custom origin is set, the setup helper can infer the zero-cost GitHub Pages origin from the repository target.",
       "configured": true,
-      "source": "environment",
+      "source": "github-pages-target",
       "fallback": "github-pages-target"
     },
     {
