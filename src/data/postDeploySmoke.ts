@@ -1,27 +1,10 @@
 export const postDeploySmoke = {
-  "generatedAt": "2026-05-25T22:15:59.412Z",
-  "status": "blocked-missing-origin",
+  "generatedAt": "2026-05-25T22:18:57.726Z",
+  "status": "post-deploy-smoke-observed-live",
   "envFiles": {
-    "loaded": true,
-    "loadedFiles": [
-      {
-        "path": "ops/production.env.local",
-        "keys": [
-          "AGL_ANDROID_PACKAGE_NAME",
-          "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
-          "AGL_ANDROID_KEYSTORE_BASE64",
-          "AGL_ANDROID_KEYSTORE_PASSWORD",
-          "AGL_ANDROID_KEY_ALIAS"
-        ]
-      }
-    ],
-    "loadedKeys": [
-      "AGL_ANDROID_PACKAGE_NAME",
-      "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
-      "AGL_ANDROID_KEYSTORE_BASE64",
-      "AGL_ANDROID_KEYSTORE_PASSWORD",
-      "AGL_ANDROID_KEY_ALIAS"
-    ],
+    "loaded": false,
+    "loadedFiles": [],
+    "loadedKeys": [],
     "skippedExistingKeys": [],
     "skippedProtectedKeys": [],
     "overwrittenEnvFileKeys": [],
@@ -52,14 +35,22 @@ export const postDeploySmoke = {
     }
   },
   "target": {
-    "origin": null,
-    "originSource": "network-blocked",
+    "origin": "https://moshequ.github.io/autonomous-game-lab",
+    "originSource": "release-candidate-public-origin",
     "provider": "github-pages",
-    "candidateId": "pwa-7a48fbb6e87c",
-    "aggregateHash": "7a48fbb6e87c0f919ea610c35b59faea53339eaac52b2fde710d6ef915ef06c6",
+    "candidateId": "pwa-7b150344d01a",
+    "aggregateHash": "7b150344d01a5673ce095ed93acd1c8798e9f40936a5f07b920fbc2084f782c8",
     "strictManifestComparison": false
   },
-  "liveRelease": null,
+  "liveRelease": {
+    "status": "release-candidate-ready",
+    "candidateId": "pwa-59b16d5e299e",
+    "aggregateHash": "59b16d5e299e607c4dbeac52feef5ed23ce8a46500cc154dc790355abcd6e17a",
+    "localCandidateMatches": false,
+    "strictManifestComparison": false,
+    "postDeploySmokeUrls": 31,
+    "smokePlanSource": "live-release-manifest"
+  },
   "sourceStatus": {
     "deployment": "ready-for-pages",
     "releaseCandidate": "release-candidate-ready",
@@ -67,9 +58,9 @@ export const postDeploySmoke = {
   },
   "summary": {
     "planned": 32,
-    "passed": 0,
+    "passed": 32,
     "failed": 0,
-    "blocked": 32
+    "blocked": 0
   },
   "localArtifactSmoke": {
     "status": "predeploy-artifact-smoke-passed",
@@ -232,7 +223,7 @@ export const postDeploySmoke = {
         "file": "dist/compliance.json",
         "expectedStatus": 200,
         "status": "pass",
-        "bytes": 5636,
+        "bytes": 5625,
         "textMatched": true,
         "detail": "Local production artifact matched required text."
       },
@@ -402,11 +393,11 @@ export const postDeploySmoke = {
         "file": "dist/release-candidate.json",
         "expectedStatus": 200,
         "status": "pass",
-        "bytes": 32682,
+        "bytes": 32671,
         "candidateMatches": true,
         "hashMatches": true,
-        "localCandidateId": "pwa-7a48fbb6e87c",
-        "localAggregateHash": "7a48fbb6e87c0f919ea610c35b59faea53339eaac52b2fde710d6ef915ef06c6",
+        "localCandidateId": "pwa-7b150344d01a",
+        "localAggregateHash": "7b150344d01a5673ce095ed93acd1c8798e9f40936a5f07b920fbc2084f782c8",
         "detail": "Local release manifest matches the release candidate."
       }
     ]
@@ -429,13 +420,13 @@ export const postDeploySmoke = {
       "url": "https://moshequ.github.io/autonomous-game-lab/",
       "expectedStatus": 200,
       "requiredText": "Autonomous Game Lab",
-      "status": "blocked",
-      "detail": "fetch failed",
-      "actualStatus": null,
+      "status": "pass",
+      "detail": "Live URL matched status and required text.",
+      "actualStatus": 200,
       "finalUrl": "https://moshequ.github.io/autonomous-game-lab/",
-      "contentType": null,
-      "bytes": 0,
-      "textMatched": false
+      "contentType": "text/html; charset=utf-8",
+      "bytes": 2846,
+      "textMatched": true
     },
     {
       "id": "manifest-webmanifest",
@@ -443,13 +434,13 @@ export const postDeploySmoke = {
       "url": "https://moshequ.github.io/autonomous-game-lab/manifest.webmanifest",
       "expectedStatus": 200,
       "requiredText": null,
-      "status": "blocked",
-      "detail": "fetch failed",
-      "actualStatus": null,
+      "status": "pass",
+      "detail": "Live URL matched status and required text.",
+      "actualStatus": 200,
       "finalUrl": "https://moshequ.github.io/autonomous-game-lab/manifest.webmanifest",
-      "contentType": null,
-      "bytes": 0,
-      "textMatched": false
+      "contentType": "application/manifest+json; charset=utf-8",
+      "bytes": 853,
+      "textMatched": true
     },
     {
       "id": "sw-js",
@@ -457,13 +448,13 @@ export const postDeploySmoke = {
       "url": "https://moshequ.github.io/autonomous-game-lab/sw.js",
       "expectedStatus": 200,
       "requiredText": null,
-      "status": "blocked",
-      "detail": "fetch failed",
-      "actualStatus": null,
+      "status": "pass",
+      "detail": "Live URL matched status and required text.",
+      "actualStatus": 200,
       "finalUrl": "https://moshequ.github.io/autonomous-game-lab/sw.js",
-      "contentType": null,
-      "bytes": 0,
-      "textMatched": false
+      "contentType": "application/javascript; charset=utf-8",
+      "bytes": 5310,
+      "textMatched": true
     },
     {
       "id": "privacy-html",
@@ -471,13 +462,13 @@ export const postDeploySmoke = {
       "url": "https://moshequ.github.io/autonomous-game-lab/privacy.html",
       "expectedStatus": 200,
       "requiredText": "Autonomous Game Lab",
-      "status": "blocked",
-      "detail": "fetch failed",
-      "actualStatus": null,
+      "status": "pass",
+      "detail": "Live URL matched status and required text.",
+      "actualStatus": 200,
       "finalUrl": "https://moshequ.github.io/autonomous-game-lab/privacy.html",
-      "contentType": null,
-      "bytes": 0,
-      "textMatched": false
+      "contentType": "text/html; charset=utf-8",
+      "bytes": 2649,
+      "textMatched": true
     },
     {
       "id": "support-html",
@@ -485,13 +476,13 @@ export const postDeploySmoke = {
       "url": "https://moshequ.github.io/autonomous-game-lab/support.html",
       "expectedStatus": 200,
       "requiredText": "Autonomous Game Lab",
-      "status": "blocked",
-      "detail": "fetch failed",
-      "actualStatus": null,
+      "status": "pass",
+      "detail": "Live URL matched status and required text.",
+      "actualStatus": 200,
       "finalUrl": "https://moshequ.github.io/autonomous-game-lab/support.html",
-      "contentType": null,
-      "bytes": 0,
-      "textMatched": false
+      "contentType": "text/html; charset=utf-8",
+      "bytes": 4241,
+      "textMatched": true
     },
     {
       "id": "measurement-status-html",
@@ -499,13 +490,13 @@ export const postDeploySmoke = {
       "url": "https://moshequ.github.io/autonomous-game-lab/measurement-status.html",
       "expectedStatus": 200,
       "requiredText": "Autonomous Game Lab",
-      "status": "blocked",
-      "detail": "fetch failed",
-      "actualStatus": null,
+      "status": "pass",
+      "detail": "Live URL matched status and required text.",
+      "actualStatus": 200,
       "finalUrl": "https://moshequ.github.io/autonomous-game-lab/measurement-status.html",
-      "contentType": null,
-      "bytes": 0,
-      "textMatched": false
+      "contentType": "text/html; charset=utf-8",
+      "bytes": 37268,
+      "textMatched": true
     },
     {
       "id": "measurement-status-json",
@@ -513,13 +504,13 @@ export const postDeploySmoke = {
       "url": "https://moshequ.github.io/autonomous-game-lab/measurement-status.json",
       "expectedStatus": 200,
       "requiredText": null,
-      "status": "blocked",
-      "detail": "fetch failed",
-      "actualStatus": null,
+      "status": "pass",
+      "detail": "Live URL matched status and required text.",
+      "actualStatus": 200,
       "finalUrl": "https://moshequ.github.io/autonomous-game-lab/measurement-status.json",
-      "contentType": null,
-      "bytes": 0,
-      "textMatched": false
+      "contentType": "application/json; charset=utf-8",
+      "bytes": 107049,
+      "textMatched": true
     },
     {
       "id": "owner-unlock-brief-json",
@@ -527,13 +518,13 @@ export const postDeploySmoke = {
       "url": "https://moshequ.github.io/autonomous-game-lab/owner-unlock-brief.json",
       "expectedStatus": 200,
       "requiredText": null,
-      "status": "blocked",
-      "detail": "fetch failed",
-      "actualStatus": null,
+      "status": "pass",
+      "detail": "Live URL matched status and required text.",
+      "actualStatus": 200,
       "finalUrl": "https://moshequ.github.io/autonomous-game-lab/owner-unlock-brief.json",
-      "contentType": null,
-      "bytes": 0,
-      "textMatched": false
+      "contentType": "application/json; charset=utf-8",
+      "bytes": 28458,
+      "textMatched": true
     },
     {
       "id": "owner-unlock-preflight-json",
@@ -541,13 +532,13 @@ export const postDeploySmoke = {
       "url": "https://moshequ.github.io/autonomous-game-lab/owner-unlock-preflight.json",
       "expectedStatus": 200,
       "requiredText": "owner-unlock-preflight",
-      "status": "blocked",
-      "detail": "fetch failed",
-      "actualStatus": null,
+      "status": "pass",
+      "detail": "Live URL matched status and required text.",
+      "actualStatus": 200,
       "finalUrl": "https://moshequ.github.io/autonomous-game-lab/owner-unlock-preflight.json",
-      "contentType": null,
-      "bytes": 0,
-      "textMatched": false
+      "contentType": "application/json; charset=utf-8",
+      "bytes": 40814,
+      "textMatched": true
     },
     {
       "id": "analytics-unlock-html",
@@ -555,13 +546,13 @@ export const postDeploySmoke = {
       "url": "https://moshequ.github.io/autonomous-game-lab/analytics-unlock.html",
       "expectedStatus": 200,
       "requiredText": "Production Analytics Unlock",
-      "status": "blocked",
-      "detail": "fetch failed",
-      "actualStatus": null,
+      "status": "pass",
+      "detail": "Live URL matched status and required text.",
+      "actualStatus": 200,
       "finalUrl": "https://moshequ.github.io/autonomous-game-lab/analytics-unlock.html",
-      "contentType": null,
-      "bytes": 0,
-      "textMatched": false
+      "contentType": "text/html; charset=utf-8",
+      "bytes": 27157,
+      "textMatched": true
     },
     {
       "id": "analytics-unlock-json",
@@ -569,13 +560,13 @@ export const postDeploySmoke = {
       "url": "https://moshequ.github.io/autonomous-game-lab/analytics-unlock.json",
       "expectedStatus": 200,
       "requiredText": null,
-      "status": "blocked",
-      "detail": "fetch failed",
-      "actualStatus": null,
+      "status": "pass",
+      "detail": "Live URL matched status and required text.",
+      "actualStatus": 200,
       "finalUrl": "https://moshequ.github.io/autonomous-game-lab/analytics-unlock.json",
-      "contentType": null,
-      "bytes": 0,
-      "textMatched": false
+      "contentType": "application/json; charset=utf-8",
+      "bytes": 82277,
+      "textMatched": true
     },
     {
       "id": "product-gate-recovery-html",
@@ -583,13 +574,13 @@ export const postDeploySmoke = {
       "url": "https://moshequ.github.io/autonomous-game-lab/product-gate-recovery.html",
       "expectedStatus": 200,
       "requiredText": "Product Gate Recovery",
-      "status": "blocked",
-      "detail": "fetch failed",
-      "actualStatus": null,
+      "status": "pass",
+      "detail": "Live URL matched status and required text.",
+      "actualStatus": 200,
       "finalUrl": "https://moshequ.github.io/autonomous-game-lab/product-gate-recovery.html",
-      "contentType": null,
-      "bytes": 0,
-      "textMatched": false
+      "contentType": "text/html; charset=utf-8",
+      "bytes": 6423,
+      "textMatched": true
     },
     {
       "id": "product-gate-recovery-json",
@@ -597,13 +588,13 @@ export const postDeploySmoke = {
       "url": "https://moshequ.github.io/autonomous-game-lab/product-gate-recovery.json",
       "expectedStatus": 200,
       "requiredText": "product-gate-recovery-ready",
-      "status": "blocked",
-      "detail": "fetch failed",
-      "actualStatus": null,
+      "status": "pass",
+      "detail": "Live URL matched status and required text.",
+      "actualStatus": 200,
       "finalUrl": "https://moshequ.github.io/autonomous-game-lab/product-gate-recovery.json",
-      "contentType": null,
-      "bytes": 0,
-      "textMatched": false
+      "contentType": "application/json; charset=utf-8",
+      "bytes": 9315,
+      "textMatched": true
     },
     {
       "id": "install-html",
@@ -611,13 +602,13 @@ export const postDeploySmoke = {
       "url": "https://moshequ.github.io/autonomous-game-lab/install.html",
       "expectedStatus": 200,
       "requiredText": "Autonomous Game Lab",
-      "status": "blocked",
-      "detail": "fetch failed",
-      "actualStatus": null,
+      "status": "pass",
+      "detail": "Live URL matched status and required text.",
+      "actualStatus": 200,
       "finalUrl": "https://moshequ.github.io/autonomous-game-lab/install.html",
-      "contentType": null,
-      "bytes": 0,
-      "textMatched": false
+      "contentType": "text/html; charset=utf-8",
+      "bytes": 7967,
+      "textMatched": true
     },
     {
       "id": "compliance-json",
@@ -625,13 +616,13 @@ export const postDeploySmoke = {
       "url": "https://moshequ.github.io/autonomous-game-lab/compliance.json",
       "expectedStatus": 200,
       "requiredText": "store-compliance",
-      "status": "blocked",
-      "detail": "fetch failed",
-      "actualStatus": null,
+      "status": "pass",
+      "detail": "Live URL matched status and required text.",
+      "actualStatus": 200,
       "finalUrl": "https://moshequ.github.io/autonomous-game-lab/compliance.json",
-      "contentType": null,
-      "bytes": 0,
-      "textMatched": false
+      "contentType": "application/json; charset=utf-8",
+      "bytes": 5636,
+      "textMatched": true
     },
     {
       "id": "monetization-json",
@@ -639,13 +630,13 @@ export const postDeploySmoke = {
       "url": "https://moshequ.github.io/autonomous-game-lab/monetization.json",
       "expectedStatus": 200,
       "requiredText": "blocked-by-product-gates",
-      "status": "blocked",
-      "detail": "fetch failed",
-      "actualStatus": null,
+      "status": "pass",
+      "detail": "Live URL matched status and required text.",
+      "actualStatus": 200,
       "finalUrl": "https://moshequ.github.io/autonomous-game-lab/monetization.json",
-      "contentType": null,
-      "bytes": 0,
-      "textMatched": false
+      "contentType": "application/json; charset=utf-8",
+      "bytes": 2095,
+      "textMatched": true
     },
     {
       "id": "store-readiness-html",
@@ -653,13 +644,13 @@ export const postDeploySmoke = {
       "url": "https://moshequ.github.io/autonomous-game-lab/store-readiness.html",
       "expectedStatus": 200,
       "requiredText": "Store Readiness",
-      "status": "blocked",
-      "detail": "fetch failed",
-      "actualStatus": null,
+      "status": "pass",
+      "detail": "Live URL matched status and required text.",
+      "actualStatus": 200,
       "finalUrl": "https://moshequ.github.io/autonomous-game-lab/store-readiness.html",
-      "contentType": null,
-      "bytes": 0,
-      "textMatched": false
+      "contentType": "text/html; charset=utf-8",
+      "bytes": 11474,
+      "textMatched": true
     },
     {
       "id": "store-readiness-json",
@@ -667,13 +658,13 @@ export const postDeploySmoke = {
       "url": "https://moshequ.github.io/autonomous-game-lab/store-readiness.json",
       "expectedStatus": 200,
       "requiredText": "store-readiness",
-      "status": "blocked",
-      "detail": "fetch failed",
-      "actualStatus": null,
+      "status": "pass",
+      "detail": "Live URL matched status and required text.",
+      "actualStatus": 200,
       "finalUrl": "https://moshequ.github.io/autonomous-game-lab/store-readiness.json",
-      "contentType": null,
-      "bytes": 0,
-      "textMatched": false
+      "contentType": "application/json; charset=utf-8",
+      "bytes": 13359,
+      "textMatched": true
     },
     {
       "id": "app-ads-txt",
@@ -681,13 +672,13 @@ export const postDeploySmoke = {
       "url": "https://moshequ.github.io/autonomous-game-lab/app-ads.txt",
       "expectedStatus": 200,
       "requiredText": "Revenue features are disabled",
-      "status": "blocked",
-      "detail": "fetch failed",
-      "actualStatus": null,
+      "status": "pass",
+      "detail": "Live URL matched status and required text.",
+      "actualStatus": 200,
       "finalUrl": "https://moshequ.github.io/autonomous-game-lab/app-ads.txt",
-      "contentType": null,
-      "bytes": 0,
-      "textMatched": false
+      "contentType": "text/plain; charset=utf-8",
+      "bytes": 187,
+      "textMatched": true
     },
     {
       "id": "well-known-assetlinks-json",
@@ -695,13 +686,13 @@ export const postDeploySmoke = {
       "url": "https://moshequ.github.io/autonomous-game-lab/.well-known/assetlinks.json",
       "expectedStatus": 200,
       "requiredText": "delegate_permission/common.handle_all_urls",
-      "status": "blocked",
-      "detail": "fetch failed",
-      "actualStatus": null,
+      "status": "pass",
+      "detail": "Live URL matched status and required text.",
+      "actualStatus": 200,
       "finalUrl": "https://moshequ.github.io/autonomous-game-lab/.well-known/assetlinks.json",
-      "contentType": null,
-      "bytes": 0,
-      "textMatched": false
+      "contentType": "application/json; charset=utf-8",
+      "bytes": 348,
+      "textMatched": true
     },
     {
       "id": "gate-sample-html",
@@ -709,13 +700,13 @@ export const postDeploySmoke = {
       "url": "https://moshequ.github.io/autonomous-game-lab/gate-sample.html",
       "expectedStatus": 200,
       "requiredText": "Autonomous Game Lab",
-      "status": "blocked",
-      "detail": "fetch failed",
-      "actualStatus": null,
+      "status": "pass",
+      "detail": "Live URL matched status and required text.",
+      "actualStatus": 200,
       "finalUrl": "https://moshequ.github.io/autonomous-game-lab/gate-sample.html",
-      "contentType": null,
-      "bytes": 0,
-      "textMatched": false
+      "contentType": "text/html; charset=utf-8",
+      "bytes": 37165,
+      "textMatched": true
     },
     {
       "id": "sample-next-html",
@@ -723,13 +714,13 @@ export const postDeploySmoke = {
       "url": "https://moshequ.github.io/autonomous-game-lab/sample-next.html",
       "expectedStatus": 200,
       "requiredText": "Autonomous Game Lab",
-      "status": "blocked",
-      "detail": "fetch failed",
-      "actualStatus": null,
+      "status": "pass",
+      "detail": "Live URL matched status and required text.",
+      "actualStatus": 200,
       "finalUrl": "https://moshequ.github.io/autonomous-game-lab/sample-next.html",
-      "contentType": null,
-      "bytes": 0,
-      "textMatched": false
+      "contentType": "text/html; charset=utf-8",
+      "bytes": 7433,
+      "textMatched": true
     },
     {
       "id": "sample-next-json",
@@ -737,13 +728,13 @@ export const postDeploySmoke = {
       "url": "https://moshequ.github.io/autonomous-game-lab/sample-next.json",
       "expectedStatus": 200,
       "requiredText": null,
-      "status": "blocked",
-      "detail": "fetch failed",
-      "actualStatus": null,
+      "status": "pass",
+      "detail": "Live URL matched status and required text.",
+      "actualStatus": 200,
       "finalUrl": "https://moshequ.github.io/autonomous-game-lab/sample-next.json",
-      "contentType": null,
-      "bytes": 0,
-      "textMatched": false
+      "contentType": "application/json; charset=utf-8",
+      "bytes": 1357,
+      "textMatched": true
     },
     {
       "id": "sample-fastest-html",
@@ -751,13 +742,13 @@ export const postDeploySmoke = {
       "url": "https://moshequ.github.io/autonomous-game-lab/sample-fastest.html",
       "expectedStatus": 200,
       "requiredText": "Autonomous Game Lab",
-      "status": "blocked",
-      "detail": "fetch failed",
-      "actualStatus": null,
+      "status": "pass",
+      "detail": "Live URL matched status and required text.",
+      "actualStatus": 200,
       "finalUrl": "https://moshequ.github.io/autonomous-game-lab/sample-fastest.html",
-      "contentType": null,
-      "bytes": 0,
-      "textMatched": false
+      "contentType": "text/html; charset=utf-8",
+      "bytes": 7382,
+      "textMatched": true
     },
     {
       "id": "sample-fastest-json",
@@ -765,13 +756,13 @@ export const postDeploySmoke = {
       "url": "https://moshequ.github.io/autonomous-game-lab/sample-fastest.json",
       "expectedStatus": 200,
       "requiredText": null,
-      "status": "blocked",
-      "detail": "fetch failed",
-      "actualStatus": null,
+      "status": "pass",
+      "detail": "Live URL matched status and required text.",
+      "actualStatus": 200,
       "finalUrl": "https://moshequ.github.io/autonomous-game-lab/sample-fastest.json",
-      "contentType": null,
-      "bytes": 0,
-      "textMatched": false
+      "contentType": "application/json; charset=utf-8",
+      "bytes": 1319,
+      "textMatched": true
     },
     {
       "id": "seed-kit-html",
@@ -779,13 +770,13 @@ export const postDeploySmoke = {
       "url": "https://moshequ.github.io/autonomous-game-lab/seed-kit.html",
       "expectedStatus": 200,
       "requiredText": "Autonomous Game Lab",
-      "status": "blocked",
-      "detail": "fetch failed",
-      "actualStatus": null,
+      "status": "pass",
+      "detail": "Live URL matched status and required text.",
+      "actualStatus": 200,
       "finalUrl": "https://moshequ.github.io/autonomous-game-lab/seed-kit.html",
-      "contentType": null,
-      "bytes": 0,
-      "textMatched": false
+      "contentType": "text/html; charset=utf-8",
+      "bytes": 22314,
+      "textMatched": true
     },
     {
       "id": "seed-next-html",
@@ -793,13 +784,13 @@ export const postDeploySmoke = {
       "url": "https://moshequ.github.io/autonomous-game-lab/seed-next.html",
       "expectedStatus": 200,
       "requiredText": "Autonomous Game Lab",
-      "status": "blocked",
-      "detail": "fetch failed",
-      "actualStatus": null,
+      "status": "pass",
+      "detail": "Live URL matched status and required text.",
+      "actualStatus": 200,
       "finalUrl": "https://moshequ.github.io/autonomous-game-lab/seed-next.html",
-      "contentType": null,
-      "bytes": 0,
-      "textMatched": false
+      "contentType": "text/html; charset=utf-8",
+      "bytes": 6544,
+      "textMatched": true
     },
     {
       "id": "seed-next-json",
@@ -807,13 +798,13 @@ export const postDeploySmoke = {
       "url": "https://moshequ.github.io/autonomous-game-lab/seed-next.json",
       "expectedStatus": 200,
       "requiredText": null,
-      "status": "blocked",
-      "detail": "fetch failed",
-      "actualStatus": null,
+      "status": "pass",
+      "detail": "Live URL matched status and required text.",
+      "actualStatus": 200,
       "finalUrl": "https://moshequ.github.io/autonomous-game-lab/seed-next.json",
-      "contentType": null,
-      "bytes": 0,
-      "textMatched": false
+      "contentType": "application/json; charset=utf-8",
+      "bytes": 1095,
+      "textMatched": true
     },
     {
       "id": "sitemap-xml",
@@ -821,13 +812,13 @@ export const postDeploySmoke = {
       "url": "https://moshequ.github.io/autonomous-game-lab/sitemap.xml",
       "expectedStatus": 200,
       "requiredText": null,
-      "status": "blocked",
-      "detail": "fetch failed",
-      "actualStatus": null,
+      "status": "pass",
+      "detail": "Live URL matched status and required text.",
+      "actualStatus": 200,
       "finalUrl": "https://moshequ.github.io/autonomous-game-lab/sitemap.xml",
-      "contentType": null,
-      "bytes": 0,
-      "textMatched": false
+      "contentType": "application/xml",
+      "bytes": 2907,
+      "textMatched": true
     },
     {
       "id": "monetization-html",
@@ -835,13 +826,13 @@ export const postDeploySmoke = {
       "url": "https://moshequ.github.io/autonomous-game-lab/monetization.html",
       "expectedStatus": 200,
       "requiredText": "Monetization Preflight",
-      "status": "blocked",
-      "detail": "fetch failed",
-      "actualStatus": null,
+      "status": "pass",
+      "detail": "Live URL matched status and required text.",
+      "actualStatus": 200,
       "finalUrl": "https://moshequ.github.io/autonomous-game-lab/monetization.html",
-      "contentType": null,
-      "bytes": 0,
-      "textMatched": false
+      "contentType": "text/html; charset=utf-8",
+      "bytes": 7213,
+      "textMatched": true
     },
     {
       "id": "games-canopy-bloom-html",
@@ -849,37 +840,257 @@ export const postDeploySmoke = {
       "url": "https://moshequ.github.io/autonomous-game-lab/games/canopy-bloom.html",
       "expectedStatus": 200,
       "requiredText": "Autonomous Game Lab",
-      "status": "blocked",
-      "detail": "fetch failed",
-      "actualStatus": null,
+      "status": "pass",
+      "detail": "Live URL matched status and required text.",
+      "actualStatus": 200,
       "finalUrl": "https://moshequ.github.io/autonomous-game-lab/games/canopy-bloom.html",
-      "contentType": null,
-      "bytes": 0,
-      "textMatched": false
+      "contentType": "text/html; charset=utf-8",
+      "bytes": 5999,
+      "textMatched": true
     },
     {
       "id": "release-candidate-manifest",
       "path": "/release-candidate.json",
       "url": "https://moshequ.github.io/autonomous-game-lab/release-candidate.json",
       "expectedStatus": 200,
-      "requiredText": "pwa-7a48fbb6e87c",
-      "status": "blocked",
-      "detail": "fetch failed",
-      "actualStatus": null,
+      "requiredText": "pwa-7b150344d01a",
+      "status": "pass",
+      "detail": "Live release manifest is reachable; it does not match the current local release candidate.",
+      "actualStatus": 200,
       "finalUrl": "https://moshequ.github.io/autonomous-game-lab/release-candidate.json",
-      "contentType": null,
-      "bytes": 0,
+      "contentType": "application/json; charset=utf-8",
+      "bytes": 32682,
       "candidateMatches": false,
       "hashMatches": false,
       "localCandidateMatches": false,
       "strictManifestComparison": false,
-      "deployedReleaseStatus": null,
-      "deployedPostDeploySmoke": [],
-      "deployedPostDeploySmokeUrls": 0
+      "deployedReleaseStatus": "release-candidate-ready",
+      "deployedCandidateId": "pwa-59b16d5e299e",
+      "deployedAggregateHash": "59b16d5e299e607c4dbeac52feef5ed23ce8a46500cc154dc790355abcd6e17a",
+      "deployedPostDeploySmoke": [
+        {
+          "id": "app-shell",
+          "path": "/",
+          "url": "https://moshequ.github.io/autonomous-game-lab/",
+          "expectedStatus": 200,
+          "requiredText": "Autonomous Game Lab"
+        },
+        {
+          "id": "manifest-webmanifest",
+          "path": "/manifest.webmanifest",
+          "url": "https://moshequ.github.io/autonomous-game-lab/manifest.webmanifest",
+          "expectedStatus": 200,
+          "requiredText": null
+        },
+        {
+          "id": "sw-js",
+          "path": "/sw.js",
+          "url": "https://moshequ.github.io/autonomous-game-lab/sw.js",
+          "expectedStatus": 200,
+          "requiredText": null
+        },
+        {
+          "id": "privacy-html",
+          "path": "/privacy.html",
+          "url": "https://moshequ.github.io/autonomous-game-lab/privacy.html",
+          "expectedStatus": 200,
+          "requiredText": "Autonomous Game Lab"
+        },
+        {
+          "id": "support-html",
+          "path": "/support.html",
+          "url": "https://moshequ.github.io/autonomous-game-lab/support.html",
+          "expectedStatus": 200,
+          "requiredText": "Autonomous Game Lab"
+        },
+        {
+          "id": "measurement-status-html",
+          "path": "/measurement-status.html",
+          "url": "https://moshequ.github.io/autonomous-game-lab/measurement-status.html",
+          "expectedStatus": 200,
+          "requiredText": "Autonomous Game Lab"
+        },
+        {
+          "id": "measurement-status-json",
+          "path": "/measurement-status.json",
+          "url": "https://moshequ.github.io/autonomous-game-lab/measurement-status.json",
+          "expectedStatus": 200,
+          "requiredText": null
+        },
+        {
+          "id": "owner-unlock-brief-json",
+          "path": "/owner-unlock-brief.json",
+          "url": "https://moshequ.github.io/autonomous-game-lab/owner-unlock-brief.json",
+          "expectedStatus": 200,
+          "requiredText": null
+        },
+        {
+          "id": "owner-unlock-preflight-json",
+          "path": "/owner-unlock-preflight.json",
+          "url": "https://moshequ.github.io/autonomous-game-lab/owner-unlock-preflight.json",
+          "expectedStatus": 200,
+          "requiredText": "owner-unlock-preflight"
+        },
+        {
+          "id": "analytics-unlock-html",
+          "path": "/analytics-unlock.html",
+          "url": "https://moshequ.github.io/autonomous-game-lab/analytics-unlock.html",
+          "expectedStatus": 200,
+          "requiredText": "Production Analytics Unlock"
+        },
+        {
+          "id": "analytics-unlock-json",
+          "path": "/analytics-unlock.json",
+          "url": "https://moshequ.github.io/autonomous-game-lab/analytics-unlock.json",
+          "expectedStatus": 200,
+          "requiredText": null
+        },
+        {
+          "id": "product-gate-recovery-html",
+          "path": "/product-gate-recovery.html",
+          "url": "https://moshequ.github.io/autonomous-game-lab/product-gate-recovery.html",
+          "expectedStatus": 200,
+          "requiredText": "Product Gate Recovery"
+        },
+        {
+          "id": "product-gate-recovery-json",
+          "path": "/product-gate-recovery.json",
+          "url": "https://moshequ.github.io/autonomous-game-lab/product-gate-recovery.json",
+          "expectedStatus": 200,
+          "requiredText": "product-gate-recovery-ready"
+        },
+        {
+          "id": "install-html",
+          "path": "/install.html",
+          "url": "https://moshequ.github.io/autonomous-game-lab/install.html",
+          "expectedStatus": 200,
+          "requiredText": "Autonomous Game Lab"
+        },
+        {
+          "id": "compliance-json",
+          "path": "/compliance.json",
+          "url": "https://moshequ.github.io/autonomous-game-lab/compliance.json",
+          "expectedStatus": 200,
+          "requiredText": "store-compliance"
+        },
+        {
+          "id": "monetization-json",
+          "path": "/monetization.json",
+          "url": "https://moshequ.github.io/autonomous-game-lab/monetization.json",
+          "expectedStatus": 200,
+          "requiredText": "blocked-by-product-gates"
+        },
+        {
+          "id": "store-readiness-html",
+          "path": "/store-readiness.html",
+          "url": "https://moshequ.github.io/autonomous-game-lab/store-readiness.html",
+          "expectedStatus": 200,
+          "requiredText": "Store Readiness"
+        },
+        {
+          "id": "store-readiness-json",
+          "path": "/store-readiness.json",
+          "url": "https://moshequ.github.io/autonomous-game-lab/store-readiness.json",
+          "expectedStatus": 200,
+          "requiredText": "store-readiness"
+        },
+        {
+          "id": "app-ads-txt",
+          "path": "/app-ads.txt",
+          "url": "https://moshequ.github.io/autonomous-game-lab/app-ads.txt",
+          "expectedStatus": 200,
+          "requiredText": "Revenue features are disabled"
+        },
+        {
+          "id": "well-known-assetlinks-json",
+          "path": "/.well-known/assetlinks.json",
+          "url": "https://moshequ.github.io/autonomous-game-lab/.well-known/assetlinks.json",
+          "expectedStatus": 200,
+          "requiredText": "delegate_permission/common.handle_all_urls"
+        },
+        {
+          "id": "gate-sample-html",
+          "path": "/gate-sample.html",
+          "url": "https://moshequ.github.io/autonomous-game-lab/gate-sample.html",
+          "expectedStatus": 200,
+          "requiredText": "Autonomous Game Lab"
+        },
+        {
+          "id": "sample-next-html",
+          "path": "/sample-next.html",
+          "url": "https://moshequ.github.io/autonomous-game-lab/sample-next.html",
+          "expectedStatus": 200,
+          "requiredText": "Autonomous Game Lab"
+        },
+        {
+          "id": "sample-next-json",
+          "path": "/sample-next.json",
+          "url": "https://moshequ.github.io/autonomous-game-lab/sample-next.json",
+          "expectedStatus": 200,
+          "requiredText": null
+        },
+        {
+          "id": "sample-fastest-html",
+          "path": "/sample-fastest.html",
+          "url": "https://moshequ.github.io/autonomous-game-lab/sample-fastest.html",
+          "expectedStatus": 200,
+          "requiredText": "Autonomous Game Lab"
+        },
+        {
+          "id": "sample-fastest-json",
+          "path": "/sample-fastest.json",
+          "url": "https://moshequ.github.io/autonomous-game-lab/sample-fastest.json",
+          "expectedStatus": 200,
+          "requiredText": null
+        },
+        {
+          "id": "seed-kit-html",
+          "path": "/seed-kit.html",
+          "url": "https://moshequ.github.io/autonomous-game-lab/seed-kit.html",
+          "expectedStatus": 200,
+          "requiredText": "Autonomous Game Lab"
+        },
+        {
+          "id": "seed-next-html",
+          "path": "/seed-next.html",
+          "url": "https://moshequ.github.io/autonomous-game-lab/seed-next.html",
+          "expectedStatus": 200,
+          "requiredText": "Autonomous Game Lab"
+        },
+        {
+          "id": "seed-next-json",
+          "path": "/seed-next.json",
+          "url": "https://moshequ.github.io/autonomous-game-lab/seed-next.json",
+          "expectedStatus": 200,
+          "requiredText": null
+        },
+        {
+          "id": "sitemap-xml",
+          "path": "/sitemap.xml",
+          "url": "https://moshequ.github.io/autonomous-game-lab/sitemap.xml",
+          "expectedStatus": 200,
+          "requiredText": null
+        },
+        {
+          "id": "monetization-html",
+          "path": "/monetization.html",
+          "url": "https://moshequ.github.io/autonomous-game-lab/monetization.html",
+          "expectedStatus": 200,
+          "requiredText": "Monetization Preflight"
+        },
+        {
+          "id": "games-canopy-bloom-html",
+          "path": "/games/canopy-bloom.html",
+          "url": "https://moshequ.github.io/autonomous-game-lab/games/canopy-bloom.html",
+          "expectedStatus": 200,
+          "requiredText": "Autonomous Game Lab"
+        }
+      ],
+      "deployedPostDeploySmokeUrls": 31
     }
   ],
   "nextActions": [
-    "Keep the deployed Pages URL active for live traffic collection.",
+    "Live Pages is reachable and serving pwa-59b16d5e299e; run the deploy workflow for strict proof of the current local candidate if needed.",
     "Keep revenue, paid acquisition, and app-store submission disabled until product and credential gates pass."
   ]
 } as const
