@@ -1,8 +1,8 @@
 # Store Readiness
 
-Generated: 2026-05-25T07:17:06.913Z
+Generated: 2026-05-25T07:28:35.172Z
 Status: store-readiness-prepared-external-blockers
-Source hash: 5d09af917b1f
+Source hash: 54ffda079a35
 
 ## Summary
 
@@ -13,6 +13,73 @@ Source hash: 5d09af917b1f
 - Store spend allowed: false
 - Revenue enabled: false
 - Screenshots: 4
+
+## Owner Unlock Order
+
+- Next unlock: support-contact
+- Lowest input: Production support contact currently needs 1 owner input(s) and can be done without store spend.
+- Immediate unlocks: support-contact
+- Gated unlocks: google-play-account, ios-app-store-account
+
+### Production support contact
+
+- id: support-contact
+- status: needs-production-support-email
+- cost: zero-spend-use-existing-support-address
+- missing inputs: 1
+- missing secrets: 0
+- before product gates: true
+- missing variables:
+  - AGL_SUPPORT_EMAIL
+- missing secrets: none
+- setup:
+  - `gh variable set AGL_SUPPORT_EMAIL --body "$AGL_SUPPORT_EMAIL"`
+  - `npm run autonomous:store-package`
+  - `npm run autonomous:store-compliance`
+  - `npm run autonomous:store-readiness`
+  - `npm run autonomous:readiness`
+- validation:
+  - `npm run autonomous:store-readiness`
+  - `npm run test:e2e`
+
+### Google Play account and upload credential
+
+- id: google-play-account
+- status: gated-by-store-spend-and-product-signals
+- cost: paid-store-account-gated-by-unit-economics
+- missing inputs: 2
+- missing secrets: 1
+- before product gates: false
+- missing variables:
+  - AGL_GOOGLE_PLAY_ACCOUNT_CONNECTED
+- missing secrets:
+  - GOOGLE_PLAY_SERVICE_ACCOUNT_JSON
+- setup:
+  - `npm run autonomous:native-package`
+  - `npm run autonomous:android-release-plan`
+  - `npm run autonomous:store-readiness`
+  - `npm run autonomous:readiness`
+- validation:
+  - `npm run autonomous:android-release-plan`
+  - `npm run autonomous:store-readiness`
+  - `npm run test:e2e`
+
+### Apple Developer and App Store Connect
+
+- id: ios-app-store-account
+- status: deferred-until-ios-payback
+- cost: annual-fee-deferred-until-payback
+- missing inputs: 0
+- missing secrets: 0
+- before product gates: false
+- missing variables: none
+- missing secrets: none
+- setup:
+  - `npm run autonomous:ios-release-plan`
+  - `npm run autonomous:store-readiness`
+- validation:
+  - `npm run autonomous:ios-release-plan`
+  - `npm run autonomous:store-readiness`
 
 ## Checks
 

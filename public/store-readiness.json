@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-05-25T07:17:06.913Z",
-  "sourceDataHash": "5d09af917b1f",
+  "generatedAt": "2026-05-25T07:28:35.172Z",
+  "sourceDataHash": "54ffda079a35",
   "status": "store-readiness-prepared-external-blockers",
   "summary": {
     "launchCandidateId": "market-pulse",
@@ -26,6 +26,87 @@
     "measurementStatus": "/measurement-status.html",
     "appAdsTxt": "/app-ads.txt"
   },
+  "storeOwnerUnlockSummary": {
+    "status": "waiting-on-owner-input",
+    "nextUnlockId": "support-contact",
+    "lowestInputUnlockId": "support-contact",
+    "lowestInputMissingInputCount": 1,
+    "lowestInputMissingSecretCount": 0,
+    "lowestInputReason": "Production support contact currently needs 1 owner input(s) and can be done without store spend.",
+    "immediateUnlocks": [
+      "support-contact"
+    ],
+    "gatedUnlocks": [
+      "google-play-account",
+      "ios-app-store-account"
+    ],
+    "controls": {
+      "noAccountCreation": true,
+      "noStoreSubmission": true,
+      "noRevenueEnablement": true,
+      "noSecretValuesStored": true,
+      "storeSpendStillBlocked": true
+    }
+  },
+  "storeOwnerUnlocks": [
+    {
+      "id": "support-contact",
+      "title": "Production support contact",
+      "status": "needs-production-support-email",
+      "costMode": "zero-spend-use-existing-support-address",
+      "missingInputCount": 1,
+      "missingSecretCount": 0,
+      "canApplyBeforeProductGates": true,
+      "setupCommands": [
+        "gh variable set AGL_SUPPORT_EMAIL --body \"$AGL_SUPPORT_EMAIL\"",
+        "npm run autonomous:store-package",
+        "npm run autonomous:store-compliance",
+        "npm run autonomous:store-readiness",
+        "npm run autonomous:readiness"
+      ],
+      "validationCommands": [
+        "npm run autonomous:store-readiness",
+        "npm run test:e2e"
+      ]
+    },
+    {
+      "id": "google-play-account",
+      "title": "Google Play account and upload credential",
+      "status": "gated-by-store-spend-and-product-signals",
+      "costMode": "paid-store-account-gated-by-unit-economics",
+      "missingInputCount": 2,
+      "missingSecretCount": 1,
+      "canApplyBeforeProductGates": false,
+      "setupCommands": [
+        "npm run autonomous:native-package",
+        "npm run autonomous:android-release-plan",
+        "npm run autonomous:store-readiness",
+        "npm run autonomous:readiness"
+      ],
+      "validationCommands": [
+        "npm run autonomous:android-release-plan",
+        "npm run autonomous:store-readiness",
+        "npm run test:e2e"
+      ]
+    },
+    {
+      "id": "ios-app-store-account",
+      "title": "Apple Developer and App Store Connect",
+      "status": "deferred-until-ios-payback",
+      "costMode": "annual-fee-deferred-until-payback",
+      "missingInputCount": 0,
+      "missingSecretCount": 0,
+      "canApplyBeforeProductGates": false,
+      "setupCommands": [
+        "npm run autonomous:ios-release-plan",
+        "npm run autonomous:store-readiness"
+      ],
+      "validationCommands": [
+        "npm run autonomous:ios-release-plan",
+        "npm run autonomous:store-readiness"
+      ]
+    }
+  ],
   "platformHandoffs": [
     {
       "id": "web-pwa",

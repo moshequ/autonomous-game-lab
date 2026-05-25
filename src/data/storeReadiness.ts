@@ -1,6 +1,6 @@
 export const storeReadiness = {
-  "generatedAt": "2026-05-25T07:17:06.913Z",
-  "sourceDataHash": "5d09af917b1f",
+  "generatedAt": "2026-05-25T07:28:35.172Z",
+  "sourceDataHash": "54ffda079a35",
   "status": "store-readiness-prepared-external-blockers",
   "sourceStatus": {
     "storePackage": "store-package-ready",
@@ -38,6 +38,146 @@ export const storeReadiness = {
     "measurementStatus": "/measurement-status.html",
     "appAdsTxt": "/app-ads.txt"
   },
+  "storeOwnerUnlockSummary": {
+    "status": "waiting-on-owner-input",
+    "nextUnlockId": "support-contact",
+    "lowestInputUnlockId": "support-contact",
+    "lowestInputMissingInputCount": 1,
+    "lowestInputMissingSecretCount": 0,
+    "lowestInputReason": "Production support contact currently needs 1 owner input(s) and can be done without store spend.",
+    "immediateUnlocks": [
+      "support-contact"
+    ],
+    "gatedUnlocks": [
+      "google-play-account",
+      "ios-app-store-account"
+    ],
+    "controls": {
+      "noAccountCreation": true,
+      "noStoreSubmission": true,
+      "noRevenueEnablement": true,
+      "noSecretValuesStored": true,
+      "storeSpendStillBlocked": true
+    }
+  },
+  "storeOwnerUnlocks": [
+    {
+      "id": "support-contact",
+      "title": "Production support contact",
+      "status": "needs-production-support-email",
+      "costMode": "zero-spend-use-existing-support-address",
+      "ownerInputRequired": true,
+      "canApplyBeforeProductGates": true,
+      "storeSubmissionStillBlocked": true,
+      "missingVariableCount": 1,
+      "missingSecretCount": 0,
+      "missingInputCount": 1,
+      "missingVariables": [
+        {
+          "type": "github-variable",
+          "repositoryName": "AGL_SUPPORT_EMAIL",
+          "envName": "AGL_SUPPORT_EMAIL",
+          "configured": false,
+          "command": "gh variable set AGL_SUPPORT_EMAIL --body \"$AGL_SUPPORT_EMAIL\"",
+          "purpose": "Public support contact for privacy and store listings."
+        }
+      ],
+      "missingSecrets": [],
+      "configuredVariables": [],
+      "configuredSecrets": [],
+      "setupCommands": [
+        "gh variable set AGL_SUPPORT_EMAIL --body \"$AGL_SUPPORT_EMAIL\"",
+        "npm run autonomous:store-package",
+        "npm run autonomous:store-compliance",
+        "npm run autonomous:store-readiness",
+        "npm run autonomous:readiness"
+      ],
+      "validationCommands": [
+        "npm run autonomous:store-readiness",
+        "npm run test:e2e"
+      ],
+      "blockersCleared": [
+        "support-contact"
+      ]
+    },
+    {
+      "id": "google-play-account",
+      "title": "Google Play account and upload credential",
+      "status": "gated-by-store-spend-and-product-signals",
+      "costMode": "paid-store-account-gated-by-unit-economics",
+      "ownerInputRequired": true,
+      "canApplyBeforeProductGates": false,
+      "storeSubmissionStillBlocked": true,
+      "missingVariableCount": 1,
+      "missingSecretCount": 1,
+      "missingInputCount": 2,
+      "missingVariables": [
+        {
+          "type": "github-variable",
+          "repositoryName": "AGL_GOOGLE_PLAY_ACCOUNT_CONNECTED",
+          "envName": "AGL_GOOGLE_PLAY_ACCOUNT_CONNECTED",
+          "configured": false,
+          "command": "gh variable set AGL_GOOGLE_PLAY_ACCOUNT_CONNECTED --body \"$AGL_GOOGLE_PLAY_ACCOUNT_CONNECTED\"",
+          "purpose": "Marks Play Console access as connected after the owner creates or connects the account."
+        }
+      ],
+      "missingSecrets": [
+        {
+          "type": "github-secret",
+          "repositoryName": "GOOGLE_PLAY_SERVICE_ACCOUNT_JSON",
+          "envName": "GOOGLE_PLAY_SERVICE_ACCOUNT_JSON",
+          "configured": false,
+          "command": "printf \"%s\" \"$GOOGLE_PLAY_SERVICE_ACCOUNT_JSON\" | gh secret set GOOGLE_PLAY_SERVICE_ACCOUNT_JSON",
+          "purpose": "CI upload credential for Android release workflow."
+        }
+      ],
+      "configuredVariables": [],
+      "configuredSecrets": [],
+      "setupCommands": [
+        "npm run autonomous:native-package",
+        "npm run autonomous:android-release-plan",
+        "npm run autonomous:store-readiness",
+        "npm run autonomous:readiness"
+      ],
+      "validationCommands": [
+        "npm run autonomous:android-release-plan",
+        "npm run autonomous:store-readiness",
+        "npm run test:e2e"
+      ],
+      "blockersCleared": [
+        "google-play-account",
+        "play-service-account"
+      ]
+    },
+    {
+      "id": "ios-app-store-account",
+      "title": "Apple Developer and App Store Connect",
+      "status": "deferred-until-ios-payback",
+      "costMode": "annual-fee-deferred-until-payback",
+      "ownerInputRequired": true,
+      "canApplyBeforeProductGates": false,
+      "storeSubmissionStillBlocked": true,
+      "missingVariableCount": 0,
+      "missingSecretCount": 0,
+      "missingInputCount": 0,
+      "missingVariables": [],
+      "missingSecrets": [],
+      "configuredVariables": [],
+      "configuredSecrets": [],
+      "setupCommands": [
+        "npm run autonomous:ios-release-plan",
+        "npm run autonomous:store-readiness"
+      ],
+      "validationCommands": [
+        "npm run autonomous:ios-release-plan",
+        "npm run autonomous:store-readiness"
+      ],
+      "blockersCleared": [
+        "apple-developer-account",
+        "app-store-connect-api"
+      ]
+    }
+  ],
   "platformHandoffs": [
     {
       "id": "web-pwa",

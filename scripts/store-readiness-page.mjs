@@ -217,6 +217,177 @@ const controls = {
   storeSpendStillBlocked: unitEconomics.controls?.storeSpendAllowed !== true,
   postDeploySmokeRequired: true,
 }
+const unlockInput = ({ type, repositoryName, envName = repositoryName, configured, command, purpose }) => ({
+  type,
+  repositoryName,
+  envName,
+  configured,
+  command,
+  purpose,
+})
+const commandList = (items) => items.filter(Boolean)
+const supportEmailConfigured = storePackage.supportPage?.supportEmailStatus === 'configured'
+const googlePlayAccountReady =
+  androidRelease.checks?.find((check) => check.id === 'google-play-account')?.status === 'pass' ||
+  productionEnvironment.android?.googlePlayAccountConnected === true
+const playServiceAccountReady =
+  androidRelease.checks?.find((check) => check.id === 'play-service-account')?.status === 'pass'
+const supportContactUnlock = {
+  id: 'support-contact',
+  title: 'Production support contact',
+  status: supportEmailConfigured ? 'configured' : 'needs-production-support-email',
+  costMode: 'zero-spend-use-existing-support-address',
+  ownerInputRequired: !supportEmailConfigured,
+  canApplyBeforeProductGates: true,
+  storeSubmissionStillBlocked: true,
+  missingVariableCount: supportEmailConfigured ? 0 : 1,
+  missingSecretCount: 0,
+  missingInputCount: supportEmailConfigured ? 0 : 1,
+  missingVariables: supportEmailConfigured
+    ? []
+    : [
+        unlockInput({
+          type: 'github-variable',
+          repositoryName: 'AGL_SUPPORT_EMAIL',
+          configured: false,
+          command: 'gh variable set AGL_SUPPORT_EMAIL --body "$AGL_SUPPORT_EMAIL"',
+          purpose: 'Public support contact for privacy and store listings.',
+        }),
+      ],
+  missingSecrets: [],
+  configuredVariables: supportEmailConfigured
+    ? [
+        unlockInput({
+          type: 'github-variable',
+          repositoryName: 'AGL_SUPPORT_EMAIL',
+          configured: true,
+          command: 'gh variable set AGL_SUPPORT_EMAIL --body "$AGL_SUPPORT_EMAIL"',
+          purpose: 'Public support contact for privacy and store listings.',
+        }),
+      ]
+    : [],
+  configuredSecrets: [],
+  setupCommands: commandList([
+    supportEmailConfigured ? null : 'gh variable set AGL_SUPPORT_EMAIL --body "$AGL_SUPPORT_EMAIL"',
+    'npm run autonomous:store-package',
+    'npm run autonomous:store-compliance',
+    'npm run autonomous:store-readiness',
+    'npm run autonomous:readiness',
+  ]),
+  validationCommands: ['npm run autonomous:store-readiness', 'npm run test:e2e'],
+  blockersCleared: ['support-contact'],
+}
+const googlePlayUnlock = {
+  id: 'google-play-account',
+  title: 'Google Play account and upload credential',
+  status:
+    googlePlayAccountReady && playServiceAccountReady
+      ? 'configured'
+      : unitEconomics.controls?.storeSpendAllowed === true
+        ? 'needs-google-play-owner-inputs'
+        : 'gated-by-store-spend-and-product-signals',
+  costMode: 'paid-store-account-gated-by-unit-economics',
+  ownerInputRequired: !(googlePlayAccountReady && playServiceAccountReady),
+  canApplyBeforeProductGates: false,
+  storeSubmissionStillBlocked: true,
+  missingVariableCount: googlePlayAccountReady ? 0 : 1,
+  missingSecretCount: playServiceAccountReady ? 0 : 1,
+  missingInputCount: (googlePlayAccountReady ? 0 : 1) + (playServiceAccountReady ? 0 : 1),
+  missingVariables: googlePlayAccountReady
+    ? []
+    : [
+        unlockInput({
+          type: 'github-variable',
+          repositoryName: 'AGL_GOOGLE_PLAY_ACCOUNT_CONNECTED',
+          configured: false,
+          command: 'gh variable set AGL_GOOGLE_PLAY_ACCOUNT_CONNECTED --body "$AGL_GOOGLE_PLAY_ACCOUNT_CONNECTED"',
+          purpose: 'Marks Play Console access as connected after the owner creates or connects the account.',
+        }),
+      ],
+  missingSecrets: playServiceAccountReady
+    ? []
+    : [
+        unlockInput({
+          type: 'github-secret',
+          repositoryName: 'GOOGLE_PLAY_SERVICE_ACCOUNT_JSON',
+          configured: false,
+          command: 'printf "%s" "$GOOGLE_PLAY_SERVICE_ACCOUNT_JSON" | gh secret set GOOGLE_PLAY_SERVICE_ACCOUNT_JSON',
+          purpose: 'CI upload credential for Android release workflow.',
+        }),
+      ],
+  configuredVariables: googlePlayAccountReady
+    ? [
+        unlockInput({
+          type: 'github-variable',
+          repositoryName: 'AGL_GOOGLE_PLAY_ACCOUNT_CONNECTED',
+          configured: true,
+          command: 'gh variable set AGL_GOOGLE_PLAY_ACCOUNT_CONNECTED --body "$AGL_GOOGLE_PLAY_ACCOUNT_CONNECTED"',
+          purpose: 'Marks Play Console access as connected after the owner creates or connects the account.',
+        }),
+      ]
+    : [],
+  configuredSecrets: playServiceAccountReady
+    ? [
+        unlockInput({
+          type: 'github-secret',
+          repositoryName: 'GOOGLE_PLAY_SERVICE_ACCOUNT_JSON',
+          configured: true,
+          command: 'printf "%s" "$GOOGLE_PLAY_SERVICE_ACCOUNT_JSON" | gh secret set GOOGLE_PLAY_SERVICE_ACCOUNT_JSON',
+          purpose: 'CI upload credential for Android release workflow.',
+        }),
+      ]
+    : [],
+  setupCommands: [
+    'npm run autonomous:native-package',
+    'npm run autonomous:android-release-plan',
+    'npm run autonomous:store-readiness',
+    'npm run autonomous:readiness',
+  ],
+  validationCommands: ['npm run autonomous:android-release-plan', 'npm run autonomous:store-readiness', 'npm run test:e2e'],
+  blockersCleared: ['google-play-account', 'play-service-account'],
+}
+const iosUnlock = {
+  id: 'ios-app-store-account',
+  title: 'Apple Developer and App Store Connect',
+  status: iosRelease.status === 'deferred-until-ios-payback' ? 'deferred-until-ios-payback' : iosRelease.status,
+  costMode: 'annual-fee-deferred-until-payback',
+  ownerInputRequired: true,
+  canApplyBeforeProductGates: false,
+  storeSubmissionStillBlocked: true,
+  missingVariableCount: 0,
+  missingSecretCount: 0,
+  missingInputCount: 0,
+  missingVariables: [],
+  missingSecrets: [],
+  configuredVariables: [],
+  configuredSecrets: [],
+  setupCommands: ['npm run autonomous:ios-release-plan', 'npm run autonomous:store-readiness'],
+  validationCommands: ['npm run autonomous:ios-release-plan', 'npm run autonomous:store-readiness'],
+  blockersCleared: ['apple-developer-account', 'app-store-connect-api'],
+}
+const storeOwnerUnlocks = [supportContactUnlock, googlePlayUnlock, iosUnlock]
+const lowestInputStoreUnlock = [...storeOwnerUnlocks]
+  .filter((unlock) => unlock.ownerInputRequired && unlock.canApplyBeforeProductGates)
+  .sort((left, right) => left.missingInputCount - right.missingInputCount)[0]
+const storeOwnerUnlockSummary = {
+  status: lowestInputStoreUnlock ? 'waiting-on-owner-input' : 'store-owner-inputs-configured',
+  nextUnlockId: lowestInputStoreUnlock?.id ?? null,
+  lowestInputUnlockId: lowestInputStoreUnlock?.id ?? null,
+  lowestInputMissingInputCount: lowestInputStoreUnlock?.missingInputCount ?? 0,
+  lowestInputMissingSecretCount: lowestInputStoreUnlock?.missingSecretCount ?? 0,
+  lowestInputReason: lowestInputStoreUnlock
+    ? `${lowestInputStoreUnlock.title} currently needs ${lowestInputStoreUnlock.missingInputCount} owner input(s) and can be done without store spend.`
+    : 'No zero-spend store owner inputs are currently missing.',
+  immediateUnlocks: storeOwnerUnlocks.filter((unlock) => unlock.canApplyBeforeProductGates).map((unlock) => unlock.id),
+  gatedUnlocks: storeOwnerUnlocks.filter((unlock) => !unlock.canApplyBeforeProductGates).map((unlock) => unlock.id),
+  controls: {
+    noAccountCreation: true,
+    noStoreSubmission: true,
+    noRevenueEnablement: true,
+    noSecretValuesStored: true,
+    storeSpendStillBlocked: unitEconomics.controls?.storeSpendAllowed !== true,
+  },
+}
 const platformHandoffs = [
   {
     id: 'web-pwa',
@@ -282,6 +453,8 @@ const payload = {
   sourceStatus,
   summary,
   publicRoutes,
+  storeOwnerUnlockSummary,
+  storeOwnerUnlocks,
   platformHandoffs,
   checks,
   blockers: {
@@ -296,6 +469,18 @@ const publicPayload = {
   status,
   summary,
   publicRoutes,
+  storeOwnerUnlockSummary,
+  storeOwnerUnlocks: storeOwnerUnlocks.map((unlock) => ({
+    id: unlock.id,
+    title: unlock.title,
+    status: unlock.status,
+    costMode: unlock.costMode,
+    missingInputCount: unlock.missingInputCount,
+    missingSecretCount: unlock.missingSecretCount,
+    canApplyBeforeProductGates: unlock.canApplyBeforeProductGates,
+    setupCommands: unlock.setupCommands,
+    validationCommands: unlock.validationCommands,
+  })),
   platformHandoffs: platformHandoffs.map((handoff) => ({
     id: handoff.id,
     label: handoff.label,
@@ -523,6 +708,24 @@ const html = `<!doctype html>
       </section>
 
       <section>
+        <h2>Owner Unlock Order</h2>
+        <div class="row"><span>Next unlock</span><strong>${escapeHtml(storeOwnerUnlockSummary.nextUnlockId ?? 'none')}</strong></div>
+        <div class="row"><span>Lowest input</span><strong>${escapeHtml(storeOwnerUnlockSummary.lowestInputReason)}</strong></div>
+        <div class="grid">
+          ${storeOwnerUnlocks
+            .map(
+              (unlock) => `<div class="handoff">
+            <h3>${escapeHtml(unlock.title)}</h3>
+            <p><strong>${escapeHtml(unlock.status)}</strong></p>
+            <p>${escapeHtml(unlock.costMode)}</p>
+            <p>${unlock.missingInputCount} input(s), ${unlock.missingSecretCount} secret(s)</p>
+          </div>`,
+            )
+            .join('\n          ')}
+        </div>
+      </section>
+
+      <section>
         <h2>External Blockers</h2>
         <p class="warning">Owner-controlled accounts, contact fields, provider credentials, or store spend remain gated.</p>
         <ul>
@@ -566,6 +769,34 @@ const report = [
   `- Revenue enabled: ${summary.revenueEnabled}`,
   `- Screenshots: ${summary.screenshotCount}`,
   '',
+  '## Owner Unlock Order',
+  '',
+  `- Next unlock: ${storeOwnerUnlockSummary.nextUnlockId ?? 'none'}`,
+  `- Lowest input: ${storeOwnerUnlockSummary.lowestInputReason}`,
+  `- Immediate unlocks: ${storeOwnerUnlockSummary.immediateUnlocks.join(', ') || 'none'}`,
+  `- Gated unlocks: ${storeOwnerUnlockSummary.gatedUnlocks.join(', ') || 'none'}`,
+  '',
+  ...storeOwnerUnlocks.flatMap((unlock) => [
+    `### ${unlock.title}`,
+    '',
+    `- id: ${unlock.id}`,
+    `- status: ${unlock.status}`,
+    `- cost: ${unlock.costMode}`,
+    `- missing inputs: ${unlock.missingInputCount}`,
+    `- missing secrets: ${unlock.missingSecretCount}`,
+    `- before product gates: ${unlock.canApplyBeforeProductGates}`,
+    ...(unlock.missingVariables.length
+      ? ['- missing variables:', ...unlock.missingVariables.map((item) => `  - ${item.repositoryName}`)]
+      : ['- missing variables: none']),
+    ...(unlock.missingSecrets.length
+      ? ['- missing secrets:', ...unlock.missingSecrets.map((item) => `  - ${item.repositoryName}`)]
+      : ['- missing secrets: none']),
+    ...(unlock.setupCommands.length ? ['- setup:', ...unlock.setupCommands.map((item) => `  - \`${item}\``)] : []),
+    ...(unlock.validationCommands.length
+      ? ['- validation:', ...unlock.validationCommands.map((item) => `  - \`${item}\``)]
+      : []),
+    '',
+  ]),
   '## Checks',
   '',
   ...checks.map((item) => `- ${item.status}: ${item.id} - ${item.detail}`),

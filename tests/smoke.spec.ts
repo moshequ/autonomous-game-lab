@@ -10383,6 +10383,32 @@ test('store readiness handoff publishes web, Android, and iOS blockers', async (
       productBlockerCount: number
     }
     publicRoutes: Record<string, string>
+    storeOwnerUnlockSummary: {
+      nextUnlockId: string
+      lowestInputUnlockId: string
+      lowestInputMissingInputCount: number
+      lowestInputMissingSecretCount: number
+      immediateUnlocks: string[]
+      gatedUnlocks: string[]
+      controls: {
+        noAccountCreation: boolean
+        noStoreSubmission: boolean
+        noRevenueEnablement: boolean
+        noSecretValuesStored: boolean
+        storeSpendStillBlocked: boolean
+      }
+    }
+    storeOwnerUnlocks: Array<{
+      id: string
+      status: string
+      missingVariableCount: number
+      missingSecretCount: number
+      canApplyBeforeProductGates: boolean
+      missingVariables: Array<{ repositoryName: string; command: string }>
+      missingSecrets: Array<{ repositoryName: string; command: string }>
+      setupCommands: string[]
+      validationCommands: string[]
+    }>
     platformHandoffs: Array<{ id: string; status: string }>
     checks: Array<{ id: string; status: string }>
     blockers: { external: string[]; product: string[] }
@@ -10399,6 +10425,8 @@ test('store readiness handoff publishes web, Android, and iOS blockers', async (
     status: string
     sourceDataHash: string
     publicRoutes: Record<string, string>
+    storeOwnerUnlockSummary: { nextUnlockId: string; lowestInputUnlockId: string }
+    storeOwnerUnlocks: Array<{ id: string; status: string; setupCommands: string[]; validationCommands: string[] }>
     platformHandoffs: Array<{ id: string }>
   }
   const storePackage = JSON.parse(await readFile('data/store-package.json', 'utf8')) as {
@@ -10431,6 +10459,37 @@ test('store readiness handoff publishes web, Android, and iOS blockers', async (
   expect(readiness.publicRoutes.storeReadiness).toBe('/store-readiness.html')
   expect(readiness.publicRoutes.storeReadinessJson).toBe('/store-readiness.json')
   expect(readiness.publicRoutes.compliance).toBe('/compliance.json')
+  expect(readiness.storeOwnerUnlockSummary.nextUnlockId).toBe('support-contact')
+  expect(readiness.storeOwnerUnlockSummary.lowestInputUnlockId).toBe('support-contact')
+  expect(readiness.storeOwnerUnlockSummary.lowestInputMissingInputCount).toBe(1)
+  expect(readiness.storeOwnerUnlockSummary.lowestInputMissingSecretCount).toBe(0)
+  expect(readiness.storeOwnerUnlockSummary.immediateUnlocks).toContain('support-contact')
+  expect(readiness.storeOwnerUnlockSummary.gatedUnlocks).toEqual(
+    expect.arrayContaining(['google-play-account', 'ios-app-store-account']),
+  )
+  expect(readiness.storeOwnerUnlockSummary.controls.noAccountCreation).toBe(true)
+  expect(readiness.storeOwnerUnlockSummary.controls.noStoreSubmission).toBe(true)
+  expect(readiness.storeOwnerUnlockSummary.controls.noRevenueEnablement).toBe(true)
+  expect(readiness.storeOwnerUnlockSummary.controls.noSecretValuesStored).toBe(true)
+  expect(readiness.storeOwnerUnlockSummary.controls.storeSpendStillBlocked).toBe(true)
+  const supportUnlock = readiness.storeOwnerUnlocks.find((unlock) => unlock.id === 'support-contact')
+  const googlePlayUnlock = readiness.storeOwnerUnlocks.find((unlock) => unlock.id === 'google-play-account')
+  expect(supportUnlock?.status).toBe('needs-production-support-email')
+  expect(supportUnlock?.missingVariableCount).toBe(1)
+  expect(supportUnlock?.missingSecretCount).toBe(0)
+  expect(supportUnlock?.canApplyBeforeProductGates).toBe(true)
+  expect(supportUnlock?.missingVariables.map((item) => item.repositoryName)).toContain('AGL_SUPPORT_EMAIL')
+  expect(supportUnlock?.missingVariables[0]?.command).toContain('gh variable set AGL_SUPPORT_EMAIL')
+  expect(supportUnlock?.setupCommands).toContain('npm run autonomous:store-readiness')
+  expect(supportUnlock?.validationCommands).toContain('npm run test:e2e')
+  expect(googlePlayUnlock?.status).toBe('gated-by-store-spend-and-product-signals')
+  expect(googlePlayUnlock?.canApplyBeforeProductGates).toBe(false)
+  expect(googlePlayUnlock?.missingVariables.map((item) => item.repositoryName)).toContain(
+    'AGL_GOOGLE_PLAY_ACCOUNT_CONNECTED',
+  )
+  expect(googlePlayUnlock?.missingSecrets.map((item) => item.repositoryName)).toContain(
+    'GOOGLE_PLAY_SERVICE_ACCOUNT_JSON',
+  )
   expect(readiness.platformHandoffs.map((handoff) => handoff.id)).toEqual(
     expect.arrayContaining(['web-pwa', 'android-google-play', 'ios-app-store']),
   )
@@ -10449,6 +10508,10 @@ test('store readiness handoff publishes web, Android, and iOS blockers', async (
   expect(publicReadiness.status).toBe(readiness.status)
   expect(publicReadiness.sourceDataHash).toBe(readiness.sourceDataHash)
   expect(publicReadiness.publicRoutes.storeReadiness).toBe('/store-readiness.html')
+  expect(publicReadiness.storeOwnerUnlockSummary.nextUnlockId).toBe('support-contact')
+  expect(publicReadiness.storeOwnerUnlocks.find((unlock) => unlock.id === 'support-contact')?.setupCommands).toContain(
+    'npm run autonomous:store-readiness',
+  )
   expect(publicReadiness.platformHandoffs.map((handoff) => handoff.id)).toEqual(
     expect.arrayContaining(['android-google-play', 'ios-app-store']),
   )
@@ -10459,6 +10522,9 @@ test('store readiness handoff publishes web, Android, and iOS blockers', async (
   await expect(page.getByRole('heading', { name: 'Autonomous Game Lab Store Readiness' })).toBeVisible()
   await expect(page.getByRole('heading', { name: 'Android Google Play' })).toBeVisible()
   await expect(page.getByRole('heading', { name: 'iOS App Store' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Owner Unlock Order' })).toBeVisible()
+  await expect(page.getByText('support-contact', { exact: true })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Production support contact' })).toBeVisible()
   await expect(page.getByRole('link', { name: 'store-readiness.json' })).toHaveAttribute(
     'href',
     './store-readiness.json',

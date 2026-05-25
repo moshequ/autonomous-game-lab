@@ -5456,6 +5456,37 @@ if (
   storeReadiness.publicRoutes?.measurementStatus !== '/measurement-status.html' ||
   storeReadiness.publicRoutes?.monetization !== '/monetization.html' ||
   storeReadiness.publicRoutes?.compliance !== '/compliance.json' ||
+  storeReadiness.storeOwnerUnlockSummary?.nextUnlockId !== 'support-contact' ||
+  storeReadiness.storeOwnerUnlockSummary?.lowestInputUnlockId !== 'support-contact' ||
+  storeReadiness.storeOwnerUnlockSummary?.lowestInputMissingInputCount !== 1 ||
+  storeReadiness.storeOwnerUnlockSummary?.lowestInputMissingSecretCount !== 0 ||
+  !storeReadiness.storeOwnerUnlockSummary?.immediateUnlocks?.includes('support-contact') ||
+  !storeReadiness.storeOwnerUnlockSummary?.gatedUnlocks?.includes('google-play-account') ||
+  !storeReadiness.storeOwnerUnlockSummary?.gatedUnlocks?.includes('ios-app-store-account') ||
+  storeReadiness.storeOwnerUnlockSummary?.controls?.noAccountCreation !== true ||
+  storeReadiness.storeOwnerUnlockSummary?.controls?.noStoreSubmission !== true ||
+  storeReadiness.storeOwnerUnlockSummary?.controls?.noRevenueEnablement !== true ||
+  storeReadiness.storeOwnerUnlockSummary?.controls?.noSecretValuesStored !== true ||
+  storeReadiness.storeOwnerUnlockSummary?.controls?.storeSpendStillBlocked !== true ||
+  !storeReadiness.storeOwnerUnlocks?.some(
+    (unlock) =>
+      unlock.id === 'support-contact' &&
+      unlock.status === 'needs-production-support-email' &&
+      unlock.missingVariableCount === 1 &&
+      unlock.missingSecretCount === 0 &&
+      unlock.canApplyBeforeProductGates === true &&
+      unlock.missingVariables?.some((item) => item.repositoryName === 'AGL_SUPPORT_EMAIL') &&
+      unlock.setupCommands?.includes('npm run autonomous:store-readiness') &&
+      unlock.validationCommands?.includes('npm run test:e2e'),
+  ) ||
+  !storeReadiness.storeOwnerUnlocks?.some(
+    (unlock) =>
+      unlock.id === 'google-play-account' &&
+      unlock.status === 'gated-by-store-spend-and-product-signals' &&
+      unlock.canApplyBeforeProductGates === false &&
+      unlock.missingVariables?.some((item) => item.repositoryName === 'AGL_GOOGLE_PLAY_ACCOUNT_CONNECTED') &&
+      unlock.missingSecrets?.some((item) => item.repositoryName === 'GOOGLE_PLAY_SERVICE_ACCOUNT_JSON'),
+  ) ||
   !storeReadinessPlatformIds.has('web-pwa') ||
   !storeReadinessPlatformIds.has('android-google-play') ||
   !storeReadinessPlatformIds.has('ios-app-store') ||
@@ -5477,14 +5508,22 @@ if (
   publicStoreReadiness.status !== storeReadiness.status ||
   publicStoreReadiness.sourceDataHash !== storeReadiness.sourceDataHash ||
   publicStoreReadiness.publicRoutes?.storeReadiness !== '/store-readiness.html' ||
+  publicStoreReadiness.storeOwnerUnlockSummary?.nextUnlockId !== 'support-contact' ||
+  !publicStoreReadiness.storeOwnerUnlocks?.some((unlock) => unlock.id === 'support-contact') ||
   !publicStoreReadinessPlatformIds.has('android-google-play') ||
   !publicStoreReadinessPlatformIds.has('ios-app-store') ||
   !storeReadinessHtml.includes('Autonomous Game Lab Store Readiness') ||
   !storeReadinessHtml.includes('Android Google Play') ||
   !storeReadinessHtml.includes('iOS App Store') ||
+  !storeReadinessHtml.includes('Owner Unlock Order') ||
+  !storeReadinessHtml.includes('Production support contact') ||
   !storeReadinessHtml.includes('./measurement-status.html') ||
   !storeReadinessHtml.includes('./monetization.html') ||
   !storeReadinessHtml.includes('./compliance.json') ||
+  !storeReadinessSource.includes('storeOwnerUnlockSummary') ||
+  !storeReadinessSource.includes('AGL_SUPPORT_EMAIL') ||
+  !storeReadinessSource.includes('GOOGLE_PLAY_SERVICE_ACCOUNT_JSON') ||
+  !storeReadinessSource.includes('noSecretValuesStored') ||
   !storeReadinessSource.includes('noStoreSubmission') ||
   !storeReadinessSource.includes('postDeploySmokeRequired') ||
   !appSource.includes('/store-readiness.html')
