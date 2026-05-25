@@ -49,6 +49,8 @@ const postDeployArtifactSync = await readOptionalJson(path.join(dataDir, 'post-d
 })
 
 const unique = (items) => [...new Set(items.filter(Boolean))]
+const setupAnalyticsLocalEnvTemplateCommand = './ops/github/setup-production.sh --analytics-input-template'
+const writeAnalyticsLocalEnvTemplateCommand = 'node scripts/owner-unlock-preflight.mjs --analytics-input-template'
 const envByName = new Map((productionEnvironment.requiredEnv ?? []).map((item) => [item.name, item]))
 const secretByName = new Map((productionBootstrap.requiredSecrets ?? []).map((item) => [item.repositorySecret, item]))
 const requiredEnv = (names) => names.map((name) => envByName.get(name)).filter(Boolean)
@@ -202,11 +204,12 @@ const analyticsUnlockPaths = [
     costMode: 'zero-spend-use-existing-posthog-free-project',
     ownerInputRequired: !posthogBrowserReady,
     requiredVariables: configActions(variableByRepositoryName, ['VITE_POSTHOG_KEY', 'VITE_POSTHOG_HOST']),
-    requiredSecrets: [],
-    commandSequence: [
-      './ops/github/setup-production.sh',
-      'RUN_WORKFLOWS=1 ./ops/github/setup-production.sh',
-      'npm run autonomous:readiness',
+      requiredSecrets: [],
+      commandSequence: [
+        setupAnalyticsLocalEnvTemplateCommand,
+        './ops/github/setup-production.sh',
+        'RUN_WORKFLOWS=1 ./ops/github/setup-production.sh',
+        'npm run autonomous:readiness',
     ],
     validationCommands: ['npm run autonomous:readiness', 'npm run test:e2e'],
     unlocks: [
@@ -705,9 +708,11 @@ const summarizeCombinedOwnerInputPack = (analyticsPath, supportPack, supportUnlo
       combinedPreflight: 'node scripts/owner-unlock-preflight.mjs --assert --print',
       analyticsPreflight: 'node scripts/owner-unlock-preflight.mjs --assert --print',
       storeReadiness: 'npm run autonomous:store-readiness',
-      setupPreflight: './ops/github/setup-production.sh --owner-unlock-preflight',
-      writeLocalEnvTemplate: 'node scripts/owner-unlock-preflight.mjs --write-local-env-template',
-      setupWriteLocalEnvTemplate: './ops/github/setup-production.sh --owner-input-template',
+        setupPreflight: './ops/github/setup-production.sh --owner-unlock-preflight',
+        writeAnalyticsLocalEnvTemplate: writeAnalyticsLocalEnvTemplateCommand,
+        setupWriteAnalyticsLocalEnvTemplate: setupAnalyticsLocalEnvTemplateCommand,
+        writeLocalEnvTemplate: 'node scripts/owner-unlock-preflight.mjs --write-local-env-template',
+        setupWriteLocalEnvTemplate: './ops/github/setup-production.sh --owner-input-template',
       syncConfiguredValues: './ops/github/setup-production.sh',
       workflowDispatch: 'RUN_WORKFLOWS=1 ./ops/github/setup-production.sh',
     },
@@ -945,10 +950,12 @@ const ownerUnlockBriefPayload = {
     directPrintCommand: 'node scripts/owner-unlock-brief.mjs --print',
     preflightCommand: 'npm run autonomous:owner-unlock-preflight',
     setupPreflightCommand: './ops/github/setup-production.sh --owner-unlock-preflight',
-    directPreflightCommand: 'node scripts/owner-unlock-preflight.mjs --assert --print',
-    writeLocalEnvTemplateCommand: 'node scripts/owner-unlock-preflight.mjs --write-local-env-template',
-    setupWriteLocalEnvTemplateCommand: './ops/github/setup-production.sh --owner-input-template',
-    syncConfiguredValuesCommand: './ops/github/setup-production.sh',
+      directPreflightCommand: 'node scripts/owner-unlock-preflight.mjs --assert --print',
+      writeLocalEnvTemplateCommand: 'node scripts/owner-unlock-preflight.mjs --write-local-env-template',
+      setupWriteLocalEnvTemplateCommand: './ops/github/setup-production.sh --owner-input-template',
+      writeAnalyticsLocalEnvTemplateCommand,
+      setupWriteAnalyticsLocalEnvTemplateCommand: setupAnalyticsLocalEnvTemplateCommand,
+      syncConfiguredValuesCommand: './ops/github/setup-production.sh',
     workflowDispatchCommand: 'RUN_WORKFLOWS=1 ./ops/github/setup-production.sh',
     workflowDispatchRequiresRunWorkflows: true,
     workflowDispatchDefault: 'disabled',
@@ -968,9 +975,10 @@ const ownerUnlockBriefPayload = {
   },
   nextActions: payload.ownerUnlockBrief
     ? [
-        `Print the current brief with ./ops/github/setup-production.sh --owner-unlock-brief before setting ${payload.ownerUnlockBrief.nextUnlockId}.`,
-        'Run ./ops/github/setup-production.sh --owner-unlock-preflight to check local/repository readiness without storing secret values or mutating GitHub.',
-        'Run ./ops/github/setup-production.sh --owner-input-template to create or update the ignored .env.production.local template before adding values.',
+          `Print the current brief with ./ops/github/setup-production.sh --owner-unlock-brief before setting ${payload.ownerUnlockBrief.nextUnlockId}.`,
+          'Run ./ops/github/setup-production.sh --owner-unlock-preflight to check local/repository readiness without storing secret values or mutating GitHub.',
+          'Run ./ops/github/setup-production.sh --analytics-input-template to create or update only the ignored analytics template before adding PostHog values.',
+          'Run ./ops/github/setup-production.sh --owner-input-template to create or update the ignored .env.production.local template before adding values.',
         'Export only the missing variables/secrets in the current shell, then run ./ops/github/setup-production.sh to sync configured values.',
         'Resolve zero-spend entries in the parallel owner unlocks queue, including support-contact, when an existing support inbox is available.',
         'Use RUN_WORKFLOWS=1 only after the missing analytics inputs are configured and you are ready to dispatch deployment workflows.',
@@ -999,6 +1007,8 @@ const ownerUnlockReport = [
   `- direct preflight: ${ownerUnlockBriefPayload.setup.directPreflightCommand}`,
   `- write local env template: ${ownerUnlockBriefPayload.setup.writeLocalEnvTemplateCommand}`,
   `- setup write local env template: ${ownerUnlockBriefPayload.setup.setupWriteLocalEnvTemplateCommand}`,
+  `- write analytics local env template: ${ownerUnlockBriefPayload.setup.writeAnalyticsLocalEnvTemplateCommand}`,
+  `- setup write analytics local env template: ${ownerUnlockBriefPayload.setup.setupWriteAnalyticsLocalEnvTemplateCommand}`,
   `- sync configured values: ${ownerUnlockBriefPayload.setup.syncConfiguredValuesCommand}`,
   `- workflow dispatch: ${ownerUnlockBriefPayload.setup.workflowDispatchCommand}`,
   `- workflow dispatch default: ${ownerUnlockBriefPayload.setup.workflowDispatchDefault}`,

@@ -2,12 +2,12 @@ export const productGateSamplePlan = {
   "status": "product-gate-sample-plan-ready",
   "summary": {
     "fastestGateId": "d1Retention",
-    "defaultRouteCampaignId": "gate-sample-20260525-firstGameCompletion",
+    "defaultRouteCampaignId": "gate-sample-20260526-firstGameCompletion",
     "totalPromptViewsNeeded": 70
   },
   "runtimeEvidencePolicy": {
     "defaultRouting": {
-      "campaignId": "gate-sample-20260525-firstGameCompletion"
+      "campaignId": "gate-sample-20260526-firstGameCompletion"
     }
   },
   "controls": {
@@ -24,8 +24,8 @@ export const productGateSamplePlan = {
       "gameId": "harbor-rings",
       "title": "Harbor Rings",
       "surface": "autonomy-cockpit-completion-card",
-      "campaignId": "gate-sample-20260525-firstGameCompletion",
-      "playPath": "/?game=harbor-rings&utm_source=gate_sample&utm_campaign=gate-sample-20260525-firstGameCompletion",
+      "campaignId": "gate-sample-20260526-firstGameCompletion",
+      "playPath": "/?game=harbor-rings&utm_source=gate_sample&utm_campaign=gate-sample-20260526-firstGameCompletion",
       "needed": {
         "promptViews": 30,
         "successes": 128,
@@ -77,8 +77,8 @@ export const productGateSamplePlan = {
       "gameId": "harbor-rings",
       "title": "Harbor Rings",
       "surface": "autonomy-cockpit-replay-card",
-      "campaignId": "gate-sample-20260525-replayRate",
-      "playPath": "/?game=harbor-rings&utm_source=gate_sample&utm_campaign=gate-sample-20260525-replayRate",
+      "campaignId": "gate-sample-20260526-replayRate",
+      "playPath": "/?game=harbor-rings&utm_source=gate_sample&utm_campaign=gate-sample-20260526-replayRate",
       "needed": {
         "promptViews": 30,
         "successes": 10,
@@ -122,8 +122,8 @@ export const productGateSamplePlan = {
       "gameId": "market-pulse",
       "title": "Market Pulse",
       "surface": "autonomy-cockpit-return-intent-card",
-      "campaignId": "gate-sample-20260525-d1Retention",
-      "playPath": "/?game=market-pulse&utm_source=gate_sample&utm_campaign=gate-sample-20260525-d1Retention",
+      "campaignId": "gate-sample-20260526-d1Retention",
+      "playPath": "/?game=market-pulse&utm_source=gate_sample&utm_campaign=gate-sample-20260526-d1Retention",
       "needed": {
         "promptViews": 10,
         "successes": 1,

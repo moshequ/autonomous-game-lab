@@ -213,11 +213,11 @@
           </div>
           <div class="card">
             <span>Route campaign</span>
-            <strong>gate-sample-20260525-firstGameCompletion</strong>
+            <strong>gate-sample-20260526-firstGameCompletion</strong>
           </div>
           <div class="card">
             <span>Fastest campaign</span>
-            <strong>gate-sample-20260525-d1Retention</strong>
+            <strong>gate-sample-20260526-d1Retention</strong>
           </div>
         </div>
         <div class="actions">
@@ -363,7 +363,7 @@
               <h4>Local Env Template</h4>
               <ul><li><code>VITE_POSTHOG_KEY=</code></li><li><code>VITE_POSTHOG_HOST=</code></li><li><code>AGL_SUPPORT_EMAIL=</code></li></ul>
               <h4>Commands</h4>
-              <ol><li><strong>printBrief</strong> <code>node scripts/owner-unlock-brief.mjs --print</code></li><li><strong>combinedPreflight</strong> <code>node scripts/owner-unlock-preflight.mjs --assert --print</code></li><li><strong>analyticsPreflight</strong> <code>node scripts/owner-unlock-preflight.mjs --assert --print</code></li><li><strong>storeReadiness</strong> <code>npm run autonomous:store-readiness</code></li><li><strong>setupPreflight</strong> <code>./ops/github/setup-production.sh --owner-unlock-preflight</code></li><li><strong>writeLocalEnvTemplate</strong> <code>node scripts/owner-unlock-preflight.mjs --write-local-env-template</code></li><li><strong>setupWriteLocalEnvTemplate</strong> <code>./ops/github/setup-production.sh --owner-input-template</code></li><li><strong>syncConfiguredValues</strong> <code>./ops/github/setup-production.sh</code></li><li><strong>workflowDispatch</strong> <code>RUN_WORKFLOWS=1 ./ops/github/setup-production.sh</code></li></ol>
+              <ol><li><strong>printBrief</strong> <code>node scripts/owner-unlock-brief.mjs --print</code></li><li><strong>combinedPreflight</strong> <code>node scripts/owner-unlock-preflight.mjs --assert --print</code></li><li><strong>analyticsPreflight</strong> <code>node scripts/owner-unlock-preflight.mjs --assert --print</code></li><li><strong>storeReadiness</strong> <code>npm run autonomous:store-readiness</code></li><li><strong>setupPreflight</strong> <code>./ops/github/setup-production.sh --owner-unlock-preflight</code></li><li><strong>writeAnalyticsLocalEnvTemplate</strong> <code>node scripts/owner-unlock-preflight.mjs --analytics-input-template</code></li><li><strong>setupWriteAnalyticsLocalEnvTemplate</strong> <code>./ops/github/setup-production.sh --analytics-input-template</code></li><li><strong>writeLocalEnvTemplate</strong> <code>node scripts/owner-unlock-preflight.mjs --write-local-env-template</code></li><li><strong>setupWriteLocalEnvTemplate</strong> <code>./ops/github/setup-production.sh --owner-input-template</code></li><li><strong>syncConfiguredValues</strong> <code>./ops/github/setup-production.sh</code></li><li><strong>workflowDispatch</strong> <code>RUN_WORKFLOWS=1 ./ops/github/setup-production.sh</code></li></ol>
         <h3>Missing Variables</h3>
         <ul><li><strong>CLOUDFLARE_ACCOUNT_ID</strong> missing <code>gh variable set CLOUDFLARE_ACCOUNT_ID --body &quot;$CLOUDFLARE_ACCOUNT_ID&quot;</code></li><li><strong>VITE_EVENT_COLLECTOR_URL</strong> missing <code>gh variable set VITE_EVENT_COLLECTOR_URL --body &quot;$VITE_EVENT_COLLECTOR_URL&quot;</code></li><li><strong>AGL_EVENT_COLLECTOR_EXPORT_URL</strong> missing <code>gh variable set AGL_EVENT_COLLECTOR_EXPORT_URL --body &quot;$AGL_EVENT_COLLECTOR_EXPORT_URL&quot;</code></li></ul>
         <h3>Missing Secrets</h3>
@@ -526,7 +526,7 @@
           </div>
           <div class="card">
             <span>Setup commands</span>
-            <strong>5</strong>
+            <strong>6</strong>
           </div>
           <div class="card">
             <span>Validation commands</span>
@@ -549,7 +549,7 @@
             <p>Missing inputs: 2 variable(s), 0 secret(s)</p>
             <p>Variables: VITE_POSTHOG_KEY, VITE_POSTHOG_HOST</p>
             <p>Secrets: none</p>
-            <p>Commands: ./ops/github/setup-production.sh &amp;&amp; RUN_WORKFLOWS=1 ./ops/github/setup-production.sh &amp;&amp; npm run autonomous:readiness</p>
+            <p>Commands: ./ops/github/setup-production.sh --analytics-input-template &amp;&amp; ./ops/github/setup-production.sh &amp;&amp; RUN_WORKFLOWS=1 ./ops/github/setup-production.sh &amp;&amp; npm run autonomous:readiness</p>
           </article>
         <div class="actions">
           <a href="./analytics-unlock.html">Open analytics unlock</a>

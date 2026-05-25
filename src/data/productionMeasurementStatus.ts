@@ -1,5 +1,5 @@
 export const productionMeasurementStatus = {
-  "generatedAt": "2026-05-25T20:52:10.277Z",
+  "generatedAt": "2026-05-25T21:08:30.111Z",
   "status": "production-measurement-local-intake-ready",
   "activePath": "local-browser-buffer",
   "liveCandidate": "pwa-c956c904b305",
@@ -29,7 +29,7 @@ export const productionMeasurementStatus = {
     "minimalInterventionPathId": "posthog-browser",
     "minimalInterventionMissingInputCount": 2,
     "minimalInterventionSecretInputCount": 0,
-    "commandCount": 5,
+    "commandCount": 6,
     "validationCommandCount": 4
   },
   "collectorDeployment": {
@@ -77,6 +77,7 @@ export const productionMeasurementStatus = {
         "VITE_POSTHOG_HOST",
         "AGL_SUPPORT_EMAIL"
       ],
+      "writeAnalyticsLocalEnvTemplateCommand": "./ops/github/setup-production.sh --analytics-input-template",
       "writeLocalEnvTemplateCommand": "./ops/github/setup-production.sh --owner-input-template"
     }
   }

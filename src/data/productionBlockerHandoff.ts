@@ -64,7 +64,7 @@ export const productionBlockerHandoff = {
         "lowestInputPathId": "posthog-browser",
         "lowestInputMissingVariableCount": 2,
         "lowestInputMissingSecretCount": 0,
-        "commandCount": 5,
+        "commandCount": 6,
         "validationCommandCount": 4
       }
     },
@@ -99,7 +99,7 @@ export const productionBlockerHandoff = {
     "lowestInputMissingSecretCount": 0,
     "lowestInputMissingInputCount": 2,
     "lowestInputReason": "PostHog browser capture currently needs 2 missing input(s), compared with 4 for the recommended path.",
-    "commandCount": 5,
+    "commandCount": 6,
     "validationCommandCount": 4,
     "missingVariableCount": 5,
     "missingSecretCount": 1,
@@ -139,7 +139,7 @@ export const productionBlockerHandoff = {
             "repositoryName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
             "envName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
             "configured": true,
-            "valueSource": "environment",
+            "valueSource": "github-variable",
             "command": "gh variable set AGL_EVENT_COLLECTOR_R2_BUCKET --body \"$AGL_EVENT_COLLECTOR_R2_BUCKET\""
           },
           {
@@ -147,7 +147,7 @@ export const productionBlockerHandoff = {
             "repositoryName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
             "envName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
             "configured": true,
-            "valueSource": "environment",
+            "valueSource": "github-variable",
             "command": "gh variable set AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS --body \"$AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS\""
           },
           {
@@ -181,7 +181,7 @@ export const productionBlockerHandoff = {
             "repositoryName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
             "envName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
             "configured": true,
-            "valueSource": "environment",
+            "valueSource": "github-secret",
             "command": "printf \"%s\" \"$VITE_EVENT_COLLECTOR_WRITE_TOKEN\" | gh secret set VITE_EVENT_COLLECTOR_WRITE_TOKEN"
           },
           {
@@ -189,7 +189,7 @@ export const productionBlockerHandoff = {
             "repositoryName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
             "envName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
             "configured": true,
-            "valueSource": "environment",
+            "valueSource": "github-secret",
             "command": "printf \"%s\" \"$AGL_EVENT_COLLECTOR_ADMIN_TOKEN\" | gh secret set AGL_EVENT_COLLECTOR_ADMIN_TOKEN"
           }
         ],
@@ -216,7 +216,7 @@ export const productionBlockerHandoff = {
         "missingVariableCount": 2,
         "missingSecretCount": 0,
         "missingInputCount": 2,
-        "commandCount": 3,
+        "commandCount": 4,
         "validationCommandCount": 2,
         "requiredVariables": [
           {
@@ -238,6 +238,7 @@ export const productionBlockerHandoff = {
         ],
         "requiredSecrets": [],
         "commandSequence": [
+          "./ops/github/setup-production.sh --analytics-input-template",
           "./ops/github/setup-production.sh",
           "RUN_WORKFLOWS=1 ./ops/github/setup-production.sh",
           "npm run autonomous:readiness"

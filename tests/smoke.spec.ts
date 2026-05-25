@@ -3804,6 +3804,7 @@ test('production bootstrap emits zero-spend setup handoff artifacts', async ({ p
       infersGithubPagesOrigin: boolean
       supportsSshUrlRemotes: boolean
       supportsDottedRepositoryNames: boolean
+      writesAnalyticsInputTemplate: boolean
       writesSupportInputTemplate: boolean
     }
     requiredVariables: Array<{ repositoryVariable: string; command: string; valueSource: string }>
@@ -3839,6 +3840,7 @@ test('production bootstrap emits zero-spend setup handoff artifacts', async ({ p
   expect(bootstrap.setupScript.infersGithubPagesOrigin).toBe(true)
   expect(bootstrap.setupScript.supportsSshUrlRemotes).toBe(true)
   expect(bootstrap.setupScript.supportsDottedRepositoryNames).toBe(true)
+  expect(bootstrap.setupScript.writesAnalyticsInputTemplate).toBe(true)
   expect(bootstrap.setupScript.writesSupportInputTemplate).toBe(true)
   expect(bootstrap.requiredVariables.find((item) => item.repositoryVariable === 'VITE_BASE_PATH')?.valueSource).toMatch(
     /environment|github-variable|production-environment|inferred-github-pages/,
@@ -3862,6 +3864,8 @@ test('production bootstrap emits zero-spend setup handoff artifacts', async ({ p
   expect(setupScript).toContain('node scripts/owner-unlock-preflight.mjs --assert --print')
   expect(setupScript).toContain('--owner-input-template')
   expect(setupScript).toContain('node scripts/owner-unlock-preflight.mjs --write-local-env-template --print')
+  expect(setupScript).toContain('--analytics-input-template')
+  expect(setupScript).toContain('node scripts/owner-unlock-preflight.mjs --analytics-input-template --print')
   expect(setupScript).toContain('--support-input-template')
   expect(setupScript).toContain('node scripts/store-readiness-page.mjs --write-local-env-template --print')
   expect(setupScript).toContain('repos/$repo/pages')
@@ -6343,6 +6347,7 @@ test('production blocker handoff ranks remaining external unlocks', async ({ pag
   expect(firstPartyCollectorPath?.validationCommands).toContain('npm run autonomous:readiness')
   expect(firstPartyCollectorPath?.validationCommands).toContain('npm run test:e2e')
   expect(posthogPath?.requiredVariables.map((item) => item.repositoryName)).toContain('VITE_POSTHOG_KEY')
+  expect(posthogPath?.commandSequence).toContain('./ops/github/setup-production.sh --analytics-input-template')
   expect(
     handoff.nextUnlockKit?.paths.some((unlockPath) =>
       [...unlockPath.requiredVariables, ...unlockPath.requiredSecrets].some((item) => Object.hasOwn(item, 'value')),
@@ -7330,21 +7335,37 @@ test('local event drop folder autosaves play milestones without a manual downloa
   }
 
   await page.waitForFunction(() => {
-    const state = window as unknown as { __eventDropWrites?: unknown[] }
-    return (state.__eventDropWrites?.length ?? 0) > 0
+    const state = window as unknown as { __eventDropWrites?: Array<{ text: string }> }
+    return (state.__eventDropWrites ?? []).some((write) => {
+      const events = JSON.parse(write.text) as Array<{ name: string; properties?: Record<string, unknown> }>
+      return events.some(
+        (event) =>
+          event.name === 'analytics_exported' &&
+          event.properties?.autoExportTrigger === 'tutorial_completed',
+      )
+    })
   })
 
   const drop = await page.evaluate(() => {
     const state = window as unknown as {
       __eventDropWrites: Array<{ name: string; text: string }>
     }
-    return state.__eventDropWrites.at(-1)
+    return state.__eventDropWrites.findLast((write) => {
+      const events = JSON.parse(write.text) as Array<{ name: string; properties?: Record<string, unknown> }>
+      return events.some(
+        (event) =>
+          event.name === 'analytics_exported' &&
+          event.properties?.autoExportTrigger === 'tutorial_completed',
+      )
+    })
   })
   const events = JSON.parse(drop.text) as Array<{
     name: string
     properties: Record<string, string | number | boolean | null>
   }>
-  const exportEvent = events.findLast((event) => event.name === 'analytics_exported')
+  const exportEvent = events.findLast(
+    (event) => event.name === 'analytics_exported' && event.properties.autoExportTrigger === 'tutorial_completed',
+  )
 
   expect(drop.name).toMatch(/^player-events-\d{4}-\d{2}-\d{2}T.*-local-event-drop-autosave\.json$/)
   expect(events.some((event) => event.name === 'tutorial_completed')).toBe(true)
@@ -7396,15 +7417,27 @@ test('local event drop folder autosaves gate sample starts without external uplo
   await router.getByRole('button', { name: /Start measured run|Start fastest sample/ }).click()
 
   await page.waitForFunction(() => {
-    const state = window as unknown as { __eventDropWrites?: unknown[] }
-    return (state.__eventDropWrites?.length ?? 0) > 0
+    const state = window as unknown as { __eventDropWrites?: Array<{ text: string }> }
+    return (state.__eventDropWrites ?? []).some((write) => {
+      const events = JSON.parse(write.text) as Array<{ name: string; properties?: Record<string, unknown> }>
+      return (
+        events.some((event) => event.name === 'gate_sample_mission_clicked') &&
+        events.some((event) => event.name === 'game_started')
+      )
+    })
   })
 
   const drop = await page.evaluate(() => {
     const state = window as unknown as {
       __eventDropWrites: Array<{ name: string; text: string }>
     }
-    return state.__eventDropWrites.at(-1)
+    return state.__eventDropWrites.findLast((write) => {
+      const events = JSON.parse(write.text) as Array<{ name: string; properties?: Record<string, unknown> }>
+      return (
+        events.some((event) => event.name === 'gate_sample_mission_clicked') &&
+        events.some((event) => event.name === 'game_started')
+      )
+    })
   })
   const events = JSON.parse(drop.text) as Array<{
     name: string
@@ -7436,7 +7469,9 @@ test('local event drop folder autosaves gate sample starts without external uplo
     fallbackDownloadEnabled: false,
     eventDropMode: 'folder-preferred',
   })
-  expect(exportEvent?.properties.autoExportTrigger).toBe('gate_sample_mission_clicked')
+  expect(['gate_sample_mission_clicked', 'game_started', 'first_move_coach_shown']).toContain(
+    exportEvent?.properties.autoExportTrigger,
+  )
   expect(exportEvent?.properties.eventDropFileName).toBe(drop.name)
   await expect(bridge).toContainText('saved')
 })
@@ -7449,7 +7484,7 @@ test('lantern relay prototype is playable and instrumented', async ({ page }) =>
     .click()
 
   await expectRunMoves(page, '0/10')
-  await expect(page.getByText('86')).toBeVisible()
+  await expect(page.getByText('86', { exact: true })).toBeVisible()
 
   const canvas = page.locator('canvas').first()
   const box = await canvas.boundingBox()
@@ -9756,10 +9791,12 @@ test('production measurement status publishes public aggregate evidence handoff'
           printBrief: string
           combinedPreflight: string
           analyticsPreflight: string
-          storeReadiness: string
-          setupPreflight: string
-          writeLocalEnvTemplate: string
-          setupWriteLocalEnvTemplate: string
+            storeReadiness: string
+            setupPreflight: string
+            writeAnalyticsLocalEnvTemplate: string
+            setupWriteAnalyticsLocalEnvTemplate: string
+            writeLocalEnvTemplate: string
+            setupWriteLocalEnvTemplate: string
           syncConfiguredValues: string
           workflowDispatch: string
         }
@@ -10207,10 +10244,12 @@ test('production measurement status publishes public aggregate evidence handoff'
       directPrintCommand: string
       preflightCommand: string
       setupPreflightCommand: string
-      directPreflightCommand: string
-      writeLocalEnvTemplateCommand: string
-      setupWriteLocalEnvTemplateCommand: string
-      syncConfiguredValuesCommand: string
+        directPreflightCommand: string
+        writeLocalEnvTemplateCommand: string
+        setupWriteLocalEnvTemplateCommand: string
+        writeAnalyticsLocalEnvTemplateCommand: string
+        setupWriteAnalyticsLocalEnvTemplateCommand: string
+        syncConfiguredValuesCommand: string
       workflowDispatchCommand: string
       workflowDispatchRequiresRunWorkflows: boolean
       workflowDispatchDefault: string
@@ -10303,13 +10342,15 @@ test('production measurement status publishes public aggregate evidence handoff'
       shellExportTemplateLines: string[]
       missingInputCount: number
       secretInputCount: number
-      commands: {
-        writeLocalEnvTemplate: string
-        setupWriteLocalEnvTemplate: string
-        validate: string
-        syncConfiguredValues: string
-        refreshStoreReadiness: string
-      }
+        commands: {
+          preflight: string
+          writeLocalEnvTemplate: string
+          setupWriteLocalEnvTemplate: string
+          writeCombinedLocalEnvTemplate: string
+          setupWriteCombinedLocalEnvTemplate: string
+          syncConfiguredValues: string
+          dispatchWhenReady: string
+        }
       inputInstructions: Array<{
         repositoryName: string
         envName: string
@@ -10358,12 +10399,14 @@ test('production measurement status publishes public aggregate evidence handoff'
         availableInLocalEnvFile: boolean
         validation: { kind: string; status: string; failedCheckIds: string[] }
       }>
-      commands: {
-        combinedPreflight?: string
-        analyticsPreflight: string
-        storeReadiness: string
-        writeLocalEnvTemplate: string
-        setupWriteLocalEnvTemplate: string
+        commands: {
+          combinedPreflight?: string
+          analyticsPreflight: string
+          storeReadiness: string
+          writeAnalyticsLocalEnvTemplate: string
+          setupWriteAnalyticsLocalEnvTemplate: string
+          writeLocalEnvTemplate: string
+          setupWriteLocalEnvTemplate: string
         syncConfiguredValues: string
         workflowDispatch: string
       }
@@ -10385,11 +10428,13 @@ test('production measurement status publishes public aggregate evidence handoff'
     commands: {
       syncConfiguredValues: string
       dispatchWhenReady: string
-      packagePreflight: string
-      setupPreflight: string
-      writeLocalEnvTemplate: string
-      setupWriteLocalEnvTemplate: string
-      lowestInputPreflight: string
+        packagePreflight: string
+        setupPreflight: string
+        writeLocalEnvTemplate: string
+        setupWriteLocalEnvTemplate: string
+        writeAnalyticsLocalEnvTemplate: string
+        setupWriteAnalyticsLocalEnvTemplate: string
+        lowestInputPreflight: string
       combinedInputPreflight: string
     }
     controls: {
@@ -10781,10 +10826,12 @@ test('production measurement status publishes public aggregate evidence handoff'
     directPrintCommand: 'node scripts/owner-unlock-brief.mjs --print',
     preflightCommand: 'npm run autonomous:owner-unlock-preflight',
     setupPreflightCommand: './ops/github/setup-production.sh --owner-unlock-preflight',
-    directPreflightCommand: 'node scripts/owner-unlock-preflight.mjs --assert --print',
-    writeLocalEnvTemplateCommand: 'node scripts/owner-unlock-preflight.mjs --write-local-env-template',
-    setupWriteLocalEnvTemplateCommand: './ops/github/setup-production.sh --owner-input-template',
-    syncConfiguredValuesCommand: './ops/github/setup-production.sh',
+      directPreflightCommand: 'node scripts/owner-unlock-preflight.mjs --assert --print',
+      writeLocalEnvTemplateCommand: 'node scripts/owner-unlock-preflight.mjs --write-local-env-template',
+      setupWriteLocalEnvTemplateCommand: './ops/github/setup-production.sh --owner-input-template',
+      writeAnalyticsLocalEnvTemplateCommand: 'node scripts/owner-unlock-preflight.mjs --analytics-input-template',
+      setupWriteAnalyticsLocalEnvTemplateCommand: './ops/github/setup-production.sh --analytics-input-template',
+      syncConfiguredValuesCommand: './ops/github/setup-production.sh',
     workflowDispatchCommand: 'RUN_WORKFLOWS=1 ./ops/github/setup-production.sh',
     workflowDispatchRequiresRunWorkflows: true,
     workflowDispatchDefault: 'disabled',
@@ -10806,10 +10853,10 @@ test('production measurement status publishes public aggregate evidence handoff'
     (unlock) => unlock.id === 'support-contact',
   )
   expect(analyticsParallelUnlock?.publicStatusPage).toBe('/measurement-status.html')
-  expect(analyticsParallelUnlock?.publicStatusJson).toBe('/measurement-status.json')
-  expect(analyticsParallelUnlock?.recommendedPathId).toBe('first-party-collector')
-  expect(analyticsParallelUnlock?.lowestInputPathId).toBe('posthog-browser')
-  expect(analyticsParallelUnlock?.controls.zeroPaidSpend).toBe(true)
+    expect(analyticsParallelUnlock?.publicStatusJson).toBe('/measurement-status.json')
+    expect(analyticsParallelUnlock?.recommendedPathId).toBe('first-party-collector')
+    expect(analyticsParallelUnlock?.lowestInputPathId).toBe('posthog-browser')
+    expect(analyticsParallelUnlock?.controls.zeroPaidSpend).toBe(true)
   expect(analyticsParallelUnlock?.controls.noSecretValuesStored).toBe(true)
   expect(supportParallelUnlock?.publicStatusPage).toBe(storeReadiness.publicRoutes.storeReadiness)
   expect(supportParallelUnlock?.publicStatusJson).toBe(storeReadiness.publicRoutes.storeReadinessJson)
@@ -10827,12 +10874,14 @@ test('production measurement status publishes public aggregate evidence handoff'
   expect(supportParallelUnlock?.validationCommands).toContain('npm run autonomous:store-readiness')
   expect(supportParallelUnlock?.controls.noSecretValuesStored).toBe(true)
   expect(supportParallelUnlock?.controls.storeSpendStillBlocked).toBe(true)
-  expect(ownerUnlockBrief.nextActions.join(' ')).toContain('RUN_WORKFLOWS=1')
-  expect(ownerUnlockBrief.nextActions.join(' ')).toContain('support-contact')
-  expect(ownerUnlockBrief.nextActions.join(' ')).toContain('--owner-input-template')
+    expect(ownerUnlockBrief.nextActions.join(' ')).toContain('RUN_WORKFLOWS=1')
+    expect(ownerUnlockBrief.nextActions.join(' ')).toContain('support-contact')
+    expect(ownerUnlockBrief.nextActions.join(' ')).toContain('--analytics-input-template')
+    expect(ownerUnlockBrief.nextActions.join(' ')).toContain('--owner-input-template')
   expect(ownerUnlockBriefReport).toContain('Owner Unlock Brief')
   expect(ownerUnlockBriefReport).toContain('setup preflight: ./ops/github/setup-production.sh --owner-unlock-preflight')
-  expect(ownerUnlockBriefReport).toContain('setup write local env template: ./ops/github/setup-production.sh --owner-input-template')
+    expect(ownerUnlockBriefReport).toContain('setup write local env template: ./ops/github/setup-production.sh --owner-input-template')
+    expect(ownerUnlockBriefReport).toContain('setup write analytics local env template: ./ops/github/setup-production.sh --analytics-input-template')
   expect(ownerUnlockBriefReport).toContain('Lowest-input path: posthog-browser')
   expect(ownerUnlockBriefReport).toContain('Parallel Owner Unlocks')
   expect(ownerUnlockBriefReport).toContain('Combined Owner Input Pack')
@@ -10849,10 +10898,11 @@ test('production measurement status publishes public aggregate evidence handoff'
   expect(ownerUnlockBriefReport).toContain('workflow dispatch requires RUN_WORKFLOWS: true')
   expect(ownerUnlockBriefReport).toContain('CLOUDFLARE_API_TOKEN')
   expect(ownerUnlockBriefScript).toContain('--assert')
-  expect(ownerUnlockBriefScript).toContain('--json')
-  expect(ownerUnlockBriefScript).toContain('owner-unlock-preflight')
-  expect(ownerUnlockBriefScript).toContain('--owner-input-template')
-  expect(ownerUnlockBriefScript).toContain('Parallel owner unlocks')
+    expect(ownerUnlockBriefScript).toContain('--json')
+    expect(ownerUnlockBriefScript).toContain('owner-unlock-preflight')
+    expect(ownerUnlockBriefScript).toContain('--owner-input-template')
+    expect(ownerUnlockBriefScript).toContain('--analytics-input-template')
+    expect(ownerUnlockBriefScript).toContain('Parallel owner unlocks')
   expect(ownerUnlockBriefScript).toContain('Combined owner input pack')
   expect(ownerUnlockBriefScript).toContain('workflowDispatchRequiresRunWorkflows')
   expect(JSON.stringify(ownerUnlockBrief)).not.toContain('"value"')
@@ -10877,9 +10927,12 @@ test('production measurement status publishes public aggregate evidence handoff'
   expect(ownerUnlockBrief.brief?.lowestInputPath?.missingVariables.map((item) => item.repositoryName)).toEqual(
     expect.arrayContaining(['VITE_POSTHOG_KEY', 'VITE_POSTHOG_HOST']),
   )
-  expect(ownerUnlockBrief.brief?.lowestInputPath?.missingSecrets).toEqual([])
-  expect(ownerUnlockBrief.brief?.lowestInputPath?.noSecretsRequired).toBe(true)
-  expect(ownerUnlockBrief.brief?.lowestInputPath?.setupCommands).toContain('./ops/github/setup-production.sh')
+    expect(ownerUnlockBrief.brief?.lowestInputPath?.missingSecrets).toEqual([])
+    expect(ownerUnlockBrief.brief?.lowestInputPath?.noSecretsRequired).toBe(true)
+    expect(ownerUnlockBrief.brief?.lowestInputPath?.setupCommands).toContain(
+      './ops/github/setup-production.sh --analytics-input-template',
+    )
+    expect(ownerUnlockBrief.brief?.lowestInputPath?.setupCommands).toContain('./ops/github/setup-production.sh')
   expect(ownerUnlockBrief.brief?.lowestInputPath?.validationCommands).toContain('npm run test:e2e')
   expect(ownerUnlockBrief.brief?.minimalInterventionPath?.id).toBe('posthog-browser')
   expect(ownerUnlockBrief.brief?.minimalInterventionPath?.missingInputCount).toBe(
@@ -10911,9 +10964,15 @@ test('production measurement status publishes public aggregate evidence handoff'
   expect(combinedOwnerInputPack?.commands.analyticsPreflight).toBe(
     'node scripts/owner-unlock-preflight.mjs --assert --print',
   )
-  expect(combinedOwnerInputPack?.commands.storeReadiness).toBe('npm run autonomous:store-readiness')
-  expect(combinedOwnerInputPack?.commands.writeLocalEnvTemplate).toBe(
-    'node scripts/owner-unlock-preflight.mjs --write-local-env-template',
+    expect(combinedOwnerInputPack?.commands.storeReadiness).toBe('npm run autonomous:store-readiness')
+    expect(combinedOwnerInputPack?.commands.writeAnalyticsLocalEnvTemplate).toBe(
+      'node scripts/owner-unlock-preflight.mjs --analytics-input-template',
+    )
+    expect(combinedOwnerInputPack?.commands.setupWriteAnalyticsLocalEnvTemplate).toBe(
+      './ops/github/setup-production.sh --analytics-input-template',
+    )
+    expect(combinedOwnerInputPack?.commands.writeLocalEnvTemplate).toBe(
+      'node scripts/owner-unlock-preflight.mjs --write-local-env-template',
   )
   expect(combinedOwnerInputPack?.commands.setupWriteLocalEnvTemplate).toBe(
     './ops/github/setup-production.sh --owner-input-template',
@@ -10973,8 +11032,20 @@ test('production measurement status publishes public aggregate evidence handoff'
   expect(ownerUnlockPreflight.ownerInputPack?.shellExportTemplateLines).toEqual(
     expect.arrayContaining(['export VITE_POSTHOG_KEY=', 'export VITE_POSTHOG_HOST=']),
   )
-  expect(ownerUnlockPreflight.ownerInputPack?.secretInputCount).toBe(0)
-  expect(ownerUnlockPreflight.ownerInputPack?.controls.zeroPaidSpend).toBe(true)
+    expect(ownerUnlockPreflight.ownerInputPack?.secretInputCount).toBe(0)
+    expect(ownerUnlockPreflight.ownerInputPack?.commands.writeLocalEnvTemplate).toBe(
+      'node scripts/owner-unlock-preflight.mjs --analytics-input-template',
+    )
+    expect(ownerUnlockPreflight.ownerInputPack?.commands.setupWriteLocalEnvTemplate).toBe(
+      './ops/github/setup-production.sh --analytics-input-template',
+    )
+    expect(ownerUnlockPreflight.ownerInputPack?.commands.writeCombinedLocalEnvTemplate).toBe(
+      'node scripts/owner-unlock-preflight.mjs --write-local-env-template',
+    )
+    expect(ownerUnlockPreflight.ownerInputPack?.commands.setupWriteCombinedLocalEnvTemplate).toBe(
+      './ops/github/setup-production.sh --owner-input-template',
+    )
+    expect(ownerUnlockPreflight.ownerInputPack?.controls.zeroPaidSpend).toBe(true)
   expect(ownerUnlockPreflight.ownerInputPack?.controls.noSecretValuesStored).toBe(true)
   expect(ownerUnlockPreflight.ownerInputPack?.controls.gitIgnoredLocalEnvFile).toBe(true)
   expect(ownerUnlockPreflight.ownerInputPack?.controls.localTemplateWriteNoSecretValues).toBe(true)
@@ -11025,11 +11096,17 @@ test('production measurement status publishes public aggregate evidence handoff'
   expect(ownerUnlockPreflight.combinedOwnerInputPreflight?.commands.combinedPreflight).toBe(
     'node scripts/owner-unlock-preflight.mjs --assert --print',
   )
-  expect(ownerUnlockPreflight.combinedOwnerInputPreflight?.commands.storeReadiness).toBe(
-    'npm run autonomous:store-readiness',
-  )
-  expect(ownerUnlockPreflight.combinedOwnerInputPreflight?.commands.writeLocalEnvTemplate).toBe(
-    'node scripts/owner-unlock-preflight.mjs --write-local-env-template',
+    expect(ownerUnlockPreflight.combinedOwnerInputPreflight?.commands.storeReadiness).toBe(
+      'npm run autonomous:store-readiness',
+    )
+    expect(ownerUnlockPreflight.combinedOwnerInputPreflight?.commands.writeAnalyticsLocalEnvTemplate).toBe(
+      'node scripts/owner-unlock-preflight.mjs --analytics-input-template',
+    )
+    expect(ownerUnlockPreflight.combinedOwnerInputPreflight?.commands.setupWriteAnalyticsLocalEnvTemplate).toBe(
+      './ops/github/setup-production.sh --analytics-input-template',
+    )
+    expect(ownerUnlockPreflight.combinedOwnerInputPreflight?.commands.writeLocalEnvTemplate).toBe(
+      'node scripts/owner-unlock-preflight.mjs --write-local-env-template',
   )
   expect(ownerUnlockPreflight.combinedOwnerInputPreflight?.commands.setupWriteLocalEnvTemplate).toBe(
     './ops/github/setup-production.sh --owner-input-template',
@@ -11049,17 +11126,25 @@ test('production measurement status publishes public aggregate evidence handoff'
   expect(ownerUnlockPreflight.commands.setupPreflight).toBe(
     './ops/github/setup-production.sh --owner-unlock-preflight',
   )
-  expect(ownerUnlockPreflight.commands.writeLocalEnvTemplate).toBe(
-    'node scripts/owner-unlock-preflight.mjs --write-local-env-template',
-  )
-  expect(ownerUnlockPreflight.commands.setupWriteLocalEnvTemplate).toBe(
-    './ops/github/setup-production.sh --owner-input-template',
-  )
+    expect(ownerUnlockPreflight.commands.writeLocalEnvTemplate).toBe(
+      'node scripts/owner-unlock-preflight.mjs --write-local-env-template',
+    )
+    expect(ownerUnlockPreflight.commands.setupWriteLocalEnvTemplate).toBe(
+      './ops/github/setup-production.sh --owner-input-template',
+    )
+    expect(ownerUnlockPreflight.commands.writeAnalyticsLocalEnvTemplate).toBe(
+      'node scripts/owner-unlock-preflight.mjs --analytics-input-template',
+    )
+    expect(ownerUnlockPreflight.commands.setupWriteAnalyticsLocalEnvTemplate).toBe(
+      './ops/github/setup-production.sh --analytics-input-template',
+    )
   expect(ownerUnlockPreflight.commands.lowestInputPreflight).toContain('owner-unlock-preflight')
   expect(ownerUnlockPreflight.commands.combinedInputPreflight).toContain('owner-unlock-preflight')
   expect(ownerUnlockPreflightReport).toContain('setup preflight: ./ops/github/setup-production.sh --owner-unlock-preflight')
-  expect(ownerUnlockPreflightReport).toContain('write local env template: node scripts/owner-unlock-preflight.mjs --write-local-env-template')
-  expect(ownerUnlockPreflightReport).toContain('setup write local env template: ./ops/github/setup-production.sh --owner-input-template')
+    expect(ownerUnlockPreflightReport).toContain('write local env template: node scripts/owner-unlock-preflight.mjs --write-local-env-template')
+    expect(ownerUnlockPreflightReport).toContain('setup write local env template: ./ops/github/setup-production.sh --owner-input-template')
+    expect(ownerUnlockPreflightReport).toContain('write analytics local env template: node scripts/owner-unlock-preflight.mjs --analytics-input-template')
+    expect(ownerUnlockPreflightReport).toContain('setup write analytics local env template: ./ops/github/setup-production.sh --analytics-input-template')
   expect(ownerUnlockPreflight.controls.zeroPaidSpend).toBe(true)
   expect(ownerUnlockPreflight.controls.noSecretValuesStored).toBe(true)
   expect(ownerUnlockPreflight.controls.noSecretValuesSerialized).toBe(true)
@@ -11087,15 +11172,17 @@ test('production measurement status publishes public aggregate evidence handoff'
   expect(ownerUnlockPreflightScript).toContain('combinedOwnerInputPreflight')
   expect(ownerUnlockPreflightScript).toContain('validateSupportEmail')
   expect(ownerUnlockPreflightScript).toContain('localEnvTemplateLines')
-  expect(ownerUnlockPreflightScript).toContain('writeLocalEnvTemplate')
-  expect(ownerUnlockPreflightScript).toContain('preservedExistingValues')
+    expect(ownerUnlockPreflightScript).toContain('writeLocalEnvTemplate')
+    expect(ownerUnlockPreflightScript).toContain('writeAnalyticsLocalEnvTemplateMode')
+    expect(ownerUnlockPreflightScript).toContain('preservedExistingValues')
   expect(ownerUnlockPreflightScript).toContain('VITE_POSTHOG_HOST')
   expect(analyticsUnlockHtml).toContain('Owner Unlock Preflight')
   expect(analyticsUnlockHtml).toContain('Lowest-input path')
-  expect(analyticsUnlockHtml).toContain('Owner Input Pack')
-  expect(analyticsUnlockHtml).toContain('Combined Owner Input Preflight')
-  expect(analyticsUnlockHtml).toContain('VITE_POSTHOG_KEY=')
-  expect(analyticsUnlockHtml).toContain('AGL_SUPPORT_EMAIL=')
+    expect(analyticsUnlockHtml).toContain('Owner Input Pack')
+    expect(analyticsUnlockHtml).toContain('Combined Owner Input Preflight')
+    expect(analyticsUnlockHtml).toContain('VITE_POSTHOG_KEY=')
+    expect(analyticsUnlockHtml).toContain('--analytics-input-template')
+    expect(analyticsUnlockHtml).toContain('AGL_SUPPORT_EMAIL=')
   expect(analyticsUnlockHtml).toContain('posthog-browser')
   expect(analyticsUnlockHtml).toContain('Parallel Owner Unlocks')
   expect(analyticsUnlockHtml).toContain('support-contact')

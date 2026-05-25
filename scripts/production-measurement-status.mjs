@@ -1004,9 +1004,13 @@ const appCombinedOwnerInputPreflight = payload.ownerUnlockPreflight.combinedOwne
         payload.ownerUnlockPreflight.combinedOwnerInputPreflight.summary?.secretInputs ?? null,
       invalidInputCount:
         payload.ownerUnlockPreflight.combinedOwnerInputPreflight.summary?.invalidInputs ?? null,
-      missingInputNames: payload.ownerUnlockPreflight.combinedOwnerInputPreflight.missingInputNames ?? [],
-      writeLocalEnvTemplateCommand:
-        payload.ownerUnlockPreflight.combinedOwnerInputPreflight.commands?.setupWriteLocalEnvTemplate ??
+	      missingInputNames: payload.ownerUnlockPreflight.combinedOwnerInputPreflight.missingInputNames ?? [],
+	      writeAnalyticsLocalEnvTemplateCommand:
+	        payload.ownerUnlockPreflight.combinedOwnerInputPreflight.commands?.setupWriteAnalyticsLocalEnvTemplate ??
+	        payload.ownerUnlockPreflight.combinedOwnerInputPreflight.commands?.writeAnalyticsLocalEnvTemplate ??
+	        null,
+	      writeLocalEnvTemplateCommand:
+	        payload.ownerUnlockPreflight.combinedOwnerInputPreflight.commands?.setupWriteLocalEnvTemplate ??
         payload.ownerUnlockPreflight.combinedOwnerInputPreflight.commands?.writeLocalEnvTemplate ??
         null,
     }

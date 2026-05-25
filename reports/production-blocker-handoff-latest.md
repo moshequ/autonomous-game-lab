@@ -1,10 +1,10 @@
 # Production Blocker Handoff
 
-Generated: 2026-05-25T20:52:03.912Z
+Generated: 2026-05-25T21:08:17.743Z
 Status: handoff-waiting-on-owner-inputs
 Detail: blocked-external-inputs
 Live candidate: pwa-c956c904b305
-Source hash: 9e0f9179c43e
+Source hash: 71db304d8ad0
 
 ## Summary
 
@@ -44,7 +44,7 @@ Source hash: 9e0f9179c43e
   - unlock kit: production-analytics-browser
   - recommended path: first-party-collector
   - lowest-input path: posthog-browser
-  - setup commands: 5
+  - setup commands: 6
   - unlocks: Real player events can replace fixture/local-only evidence for product gates and retention decisions.
 - owner-input-required: autonomous-rollup-credentials - Autonomous production rollups
   - category: measurement
@@ -81,7 +81,7 @@ Source hash: 9e0f9179c43e
 
 - owner-input-required: production-analytics-browser - Browser production analytics unlock kit
 - recommended path: first-party-collector
-- setup commands: 5
+- setup commands: 6
 - validation commands: 4
 - path first-party-collector: needs-variables-and-secrets; zero-spend-use-existing-cloudflare-free-tier
   - variables: CLOUDFLARE_ACCOUNT_ID, AGL_EVENT_COLLECTOR_R2_BUCKET, AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS, VITE_EVENT_COLLECTOR_URL, AGL_EVENT_COLLECTOR_EXPORT_URL
@@ -90,7 +90,7 @@ Source hash: 9e0f9179c43e
 - path posthog-browser: needs-public-project-key; zero-spend-use-existing-posthog-free-project
   - variables: VITE_POSTHOG_KEY, VITE_POSTHOG_HOST
   - secrets: none
-  - commands: ./ops/github/setup-production.sh && RUN_WORKFLOWS=1 ./ops/github/setup-production.sh && npm run autonomous:readiness
+  - commands: ./ops/github/setup-production.sh --analytics-input-template && ./ops/github/setup-production.sh && RUN_WORKFLOWS=1 ./ops/github/setup-production.sh && npm run autonomous:readiness
 
 ## Owner Unlock Brief
 

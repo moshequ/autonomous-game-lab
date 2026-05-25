@@ -481,6 +481,7 @@ const payload = {
     infersGithubPagesOrigin: true,
     supportsSshUrlRemotes: true,
     supportsDottedRepositoryNames: true,
+    writesAnalyticsInputTemplate: true,
     writesSupportInputTemplate: true,
     configuresPagesSource: true,
     avoidsSecretEcho: true,
@@ -581,6 +582,11 @@ fi
 
 if [[ "\${1:-}" == "--owner-input-template" || "\${1:-}" == "--combined-owner-input-template" || "\${1:-}" == "--write-owner-input-template" ]]; then
   node scripts/owner-unlock-preflight.mjs --write-local-env-template --print
+  exit 0
+fi
+
+if [[ "\${1:-}" == "--analytics-input-template" || "\${1:-}" == "--posthog-input-template" || "\${1:-}" == "--write-analytics-input-template" ]]; then
+  node scripts/owner-unlock-preflight.mjs --analytics-input-template --print
   exit 0
 fi
 
@@ -810,19 +816,25 @@ This folder contains the zero-spend GitHub setup helper for the autonomous PWA r
 ./ops/github/setup-production.sh --owner-input-template
 \`\`\`
 
-8. To create or update only the ignored support-contact template before adding \`AGL_SUPPORT_EMAIL\`, run:
+8. To create or update only the ignored analytics template before adding \`VITE_POSTHOG_KEY\` and \`VITE_POSTHOG_HOST\`, run:
+
+\`\`\`bash
+./ops/github/setup-production.sh --analytics-input-template
+\`\`\`
+
+9. To create or update only the ignored support-contact template before adding \`AGL_SUPPORT_EMAIL\`, run:
 
 \`\`\`bash
 ./ops/github/setup-production.sh --support-input-template
 \`\`\`
 
-9. To initialize/attach the repository transport, run the guarded helper with only the explicit actions you want:
+10. To initialize/attach the repository transport, run the guarded helper with only the explicit actions you want:
 
 \`\`\`bash
 AGL_ALLOW_REPOSITORY_BOOTSTRAP=1 ./ops/github/bootstrap-repository.sh
 \`\`\`
 
-10. To sync production variables/secrets, run:
+11. To sync production variables/secrets, run:
 
 \`\`\`bash
 ./ops/github/setup-production.sh

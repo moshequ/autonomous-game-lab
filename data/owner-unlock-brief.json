@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-05-25T20:52:03.912Z",
+  "generatedAt": "2026-05-25T21:08:17.743Z",
   "status": "waiting-on-owner-input",
-  "sourceDataHash": "9e0f9179c43e",
+  "sourceDataHash": "71db304d8ad0",
   "sourceStatus": {
     "productionBlockerHandoff": "handoff-waiting-on-owner-inputs",
     "storeReadiness": "store-readiness-prepared-external-blockers",
@@ -51,6 +51,7 @@
       "configuredVariables": [],
       "configuredSecrets": [],
       "setupCommands": [
+        "./ops/github/setup-production.sh --analytics-input-template",
         "./ops/github/setup-production.sh",
         "RUN_WORKFLOWS=1 ./ops/github/setup-production.sh",
         "npm run autonomous:readiness"
@@ -72,6 +73,7 @@
       "noSecretsRequired": true,
       "reason": "PostHog browser capture currently needs 2 missing input(s), compared with 4 for the recommended path.",
       "setupCommands": [
+        "./ops/github/setup-production.sh --analytics-input-template",
         "./ops/github/setup-production.sh",
         "RUN_WORKFLOWS=1 ./ops/github/setup-production.sh",
         "npm run autonomous:readiness"
@@ -120,6 +122,8 @@
         "analyticsPreflight": "node scripts/owner-unlock-preflight.mjs --assert --print",
         "storeReadiness": "npm run autonomous:store-readiness",
         "setupPreflight": "./ops/github/setup-production.sh --owner-unlock-preflight",
+        "writeAnalyticsLocalEnvTemplate": "node scripts/owner-unlock-preflight.mjs --analytics-input-template",
+        "setupWriteAnalyticsLocalEnvTemplate": "./ops/github/setup-production.sh --analytics-input-template",
         "writeLocalEnvTemplate": "node scripts/owner-unlock-preflight.mjs --write-local-env-template",
         "setupWriteLocalEnvTemplate": "./ops/github/setup-production.sh --owner-input-template",
         "syncConfiguredValues": "./ops/github/setup-production.sh",
@@ -602,6 +606,8 @@
       "analyticsPreflight": "node scripts/owner-unlock-preflight.mjs --assert --print",
       "storeReadiness": "npm run autonomous:store-readiness",
       "setupPreflight": "./ops/github/setup-production.sh --owner-unlock-preflight",
+      "writeAnalyticsLocalEnvTemplate": "node scripts/owner-unlock-preflight.mjs --analytics-input-template",
+      "setupWriteAnalyticsLocalEnvTemplate": "./ops/github/setup-production.sh --analytics-input-template",
       "writeLocalEnvTemplate": "node scripts/owner-unlock-preflight.mjs --write-local-env-template",
       "setupWriteLocalEnvTemplate": "./ops/github/setup-production.sh --owner-input-template",
       "syncConfiguredValues": "./ops/github/setup-production.sh",
@@ -638,6 +644,8 @@
     "directPreflightCommand": "node scripts/owner-unlock-preflight.mjs --assert --print",
     "writeLocalEnvTemplateCommand": "node scripts/owner-unlock-preflight.mjs --write-local-env-template",
     "setupWriteLocalEnvTemplateCommand": "./ops/github/setup-production.sh --owner-input-template",
+    "writeAnalyticsLocalEnvTemplateCommand": "node scripts/owner-unlock-preflight.mjs --analytics-input-template",
+    "setupWriteAnalyticsLocalEnvTemplateCommand": "./ops/github/setup-production.sh --analytics-input-template",
     "syncConfiguredValuesCommand": "./ops/github/setup-production.sh",
     "workflowDispatchCommand": "RUN_WORKFLOWS=1 ./ops/github/setup-production.sh",
     "workflowDispatchRequiresRunWorkflows": true,
@@ -659,6 +667,7 @@
   "nextActions": [
     "Print the current brief with ./ops/github/setup-production.sh --owner-unlock-brief before setting production-analytics-browser.",
     "Run ./ops/github/setup-production.sh --owner-unlock-preflight to check local/repository readiness without storing secret values or mutating GitHub.",
+    "Run ./ops/github/setup-production.sh --analytics-input-template to create or update only the ignored analytics template before adding PostHog values.",
     "Run ./ops/github/setup-production.sh --owner-input-template to create or update the ignored .env.production.local template before adding values.",
     "Export only the missing variables/secrets in the current shell, then run ./ops/github/setup-production.sh to sync configured values.",
     "Resolve zero-spend entries in the parallel owner unlocks queue, including support-contact, when an existing support inbox is available.",

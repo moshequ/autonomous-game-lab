@@ -1,8 +1,8 @@
 # Owner Unlock Brief
 
-Generated: 2026-05-25T20:52:03.912Z
+Generated: 2026-05-25T21:08:17.743Z
 Status: waiting-on-owner-input
-Source hash: 9e0f9179c43e
+Source hash: 71db304d8ad0
 Next unlock: production-analytics-browser
 Recommended path: first-party-collector
 Lowest-input path: posthog-browser
@@ -17,6 +17,8 @@ Parallel owner unlocks: production-analytics-browser, support-contact
 - direct preflight: node scripts/owner-unlock-preflight.mjs --assert --print
 - write local env template: node scripts/owner-unlock-preflight.mjs --write-local-env-template
 - setup write local env template: ./ops/github/setup-production.sh --owner-input-template
+- write analytics local env template: node scripts/owner-unlock-preflight.mjs --analytics-input-template
+- setup write analytics local env template: ./ops/github/setup-production.sh --analytics-input-template
 - sync configured values: ./ops/github/setup-production.sh
 - workflow dispatch: RUN_WORKFLOWS=1 ./ops/github/setup-production.sh
 - workflow dispatch default: disabled
@@ -78,6 +80,8 @@ Parallel owner unlocks: production-analytics-browser, support-contact
 - analyticsPreflight: node scripts/owner-unlock-preflight.mjs --assert --print
 - storeReadiness: npm run autonomous:store-readiness
 - setupPreflight: ./ops/github/setup-production.sh --owner-unlock-preflight
+- writeAnalyticsLocalEnvTemplate: node scripts/owner-unlock-preflight.mjs --analytics-input-template
+- setupWriteAnalyticsLocalEnvTemplate: ./ops/github/setup-production.sh --analytics-input-template
 - writeLocalEnvTemplate: node scripts/owner-unlock-preflight.mjs --write-local-env-template
 - setupWriteLocalEnvTemplate: ./ops/github/setup-production.sh --owner-input-template
 - syncConfiguredValues: ./ops/github/setup-production.sh
@@ -94,6 +98,7 @@ Parallel owner unlocks: production-analytics-browser, support-contact
 
 ### Lowest-Input Setup Commands
 
+- ./ops/github/setup-production.sh --analytics-input-template
 - ./ops/github/setup-production.sh
 - RUN_WORKFLOWS=1 ./ops/github/setup-production.sh
 - npm run autonomous:readiness

@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-05-24T23:04:39.442Z",
+  "generatedAt": "2026-05-25T21:01:13.247Z",
   "status": "retention-loop-ready",
-  "sourceDataHash": "674be19e71ce",
+  "sourceDataHash": "8604e6874320",
   "dailyChallenge": {
     "date": "2026-05-25",
     "gameId": "market-pulse",
@@ -96,7 +96,7 @@
     "ctaLabel": "Copy return link",
     "queryParam": "return_intent",
     "intentDate": "2026-05-26",
-    "campaignId": "gate-sample-20260525-d1Retention",
+    "campaignId": "gate-sample-20260526-d1Retention",
     "telemetry": {
       "copied": "daily_return_link_copied"
     },
@@ -118,7 +118,7 @@
     "queryParam": "return_intent",
     "fileExtension": ".ics",
     "intentDate": "2026-05-26",
-    "campaignId": "gate-sample-20260525-d1Retention",
+    "campaignId": "gate-sample-20260526-d1Retention",
     "telemetry": {
       "downloaded": "daily_return_calendar_downloaded"
     },
@@ -149,8 +149,8 @@
     "label": "D1 retention",
     "status": "collecting-sample",
     "sampleRole": "fastest-validation",
-    "campaignId": "gate-sample-20260525-d1Retention",
-    "playPath": "/?game=market-pulse&utm_source=gate_sample&utm_campaign=gate-sample-20260525-d1Retention",
+    "campaignId": "gate-sample-20260526-d1Retention",
+    "playPath": "/?game=market-pulse&utm_source=gate_sample&utm_campaign=gate-sample-20260526-d1Retention",
     "publicSamplePath": "/gate-sample.html",
     "current": {
       "actual": 0.167,
@@ -219,7 +219,7 @@
       "downloadsImportRequiresExplicitOptIn": true,
       "downloadsScanBackoffRequired": true
     },
-    "nextAction": "Feature the daily challenge via /?game=market-pulse&utm_source=gate_sample&utm_campaign=gate-sample-20260525-d1Retention and collect 10 prompt exposure(s) plus 1 retained start(s)."
+    "nextAction": "Feature the daily challenge via /?game=market-pulse&utm_source=gate_sample&utm_campaign=gate-sample-20260526-d1Retention and collect 10 prompt exposure(s) plus 1 retained start(s)."
   },
   "controls": {
     "canNudgeRetention": true,
@@ -290,7 +290,7 @@
   ],
   "nextActions": [
     "Improve D1 retention from 17% toward 18% with local streak prompts.",
-    "Feature the daily challenge via /?game=market-pulse&utm_source=gate_sample&utm_campaign=gate-sample-20260525-d1Retention and collect 10 prompt exposure(s) plus 1 retained start(s).",
+    "Feature the daily challenge via /?game=market-pulse&utm_source=gate_sample&utm_campaign=gate-sample-20260526-d1Retention and collect 10 prompt exposure(s) plus 1 retained start(s).",
     "Improve replay rate from 31% toward 35% with the daily return mission.",
     "Do not use push notifications, accounts, paid rewards, or ads for retention until gates pass."
   ]

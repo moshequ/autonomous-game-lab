@@ -1,6 +1,6 @@
 # Autonomous Owner Loop
 
-Generated: 2026-05-25T20:52:11.540Z
+Generated: 2026-05-25T21:10:24.464Z
 Status: owner-loop-ready
 Mode: zero-spend-web-ready
 Autonomy score: 44/45 (98%)
@@ -15,13 +15,11 @@ Autonomy score: 44/45 (98%)
 
 ## Execution Backoff
 
-- Status: cooling-down
-- Selectable actions: seed-portfolio-traffic, refresh-organic-seed-loop
-- Held actions: seed-portfolio-traffic, refresh-organic-seed-loop
-- Next resume: 2026-05-26T06:36:37.654Z
+- Status: idle
+- Selectable actions: none
+- Held actions: none
+- Next resume: new evidence or owner input
 - No repeat cycling: true
-- held seed-portfolio-traffic: seed-portfolio-traffic; resume 2026-05-26T06:36:37.654Z
-- held refresh-organic-seed-loop: seed-portfolio-traffic; resume 2026-05-26T06:36:37.654Z
 
 ## External Input Handoff
 
@@ -60,7 +58,7 @@ Autonomy score: 44/45 (98%)
 - ready: organic-seed-loop - Target market-pulse; surface portal-growth-loop; share telemetry organic_seed_share_clicked.
 - ready: retention-loop - Daily market-pulse; D1 17%; streak variant daily-streak; return prompt armed; return intent armed.
 - ready: pwa-install-loop - Prompt autonomy-cockpit; installs 0; launch events 0; sample collecting-sample needs 20 prompt(s) and 10 launch event(s).
-- ready: performance-budget - Initial JS 689.5 KB; gzip 186.6 KB; deferred chunks 12.
+- ready: performance-budget - Initial JS 690.8 KB; gzip 186.3 KB; deferred chunks 12.
 - ready: product-optimization - Completion 40% / gate 55%; latest already-applied.
 - ready: support-feedback - Support feedback support-feedback-empty; issues 0; routable signals 0; aggregate notes 0.
 - ready: product-gate-recovery - Recovery product-gate-recovery-ready; primary firstGameCompletion; experiment collecting-sample; failing gates 3; next lift 128.
@@ -71,20 +69,20 @@ Autonomy score: 44/45 (98%)
 - ready: improvement-loop - improvement-backlog-ready; 4 backlog item(s); 3 experiment recommendation(s); applied status actions-ready; source 210c880a9e74.
 - ready: organic-growth - 10 SEO/share pages; optimization 5 page(s).
 - ready: repository-channel - Repository moshequ/autonomous-game-lab; git worktree ready; workflow dispatch ready.
-- ready: repository-bootstrap - Bootstrap repository-bootstrap-ready; mode plan-only; helper ops/github/bootstrap-repository.sh; local git ready.
+- ready: repository-bootstrap - Bootstrap waiting-for-gh-auth; mode plan-only; helper ops/github/bootstrap-repository.sh; local git ready.
 - ready: web-deployment - Deployment ready-for-pages; web readiness ready-after-build; promotion promotable-internal.
 - ready: release-candidate - Release candidate release-candidate-ready; files 72; smoke URLs 31.
 - ready: post-deploy-smoke - Smoke post-deploy-smoke-observed-live; origin https://moshequ.github.io/autonomous-game-lab; manifest comparison required; checks 32/32 passed; local artifact predeploy-artifact-smoke-passed 32/32 passed.
 - ready: post-deploy-artifact-sync - Artifact sync post-deploy-artifact-sync-passed; run 26419272049; live matches artifact true; strict true.
 - ready: live-site-monitor - Live monitor live-site-monitor-passed; origin https://moshequ.github.io/autonomous-game-lab; checks 32/32; live matches synced deploy true.
-- ready: production-bootstrap - Bootstrap production-bootstrap-ready; mode can-apply-configured-actions; external blockers 14.
+- ready: production-bootstrap - Bootstrap production-bootstrap-ready; mode can-apply-configured-actions; external blockers 16.
 - ready: production-activation - Activation activation-ready; mode dry-run; execution dry-run; gh ready.
 - ready: production-blocker-handoff - Handoff handoff-waiting-on-owner-inputs; next production-analytics-browser; owner inputs 4; missing env 7; missing secrets 3.
 - ready: production-unlock-runner - Unlock runner unlock-runner-idle; runnable 0; queued commands 0; unsafe 0.
 - ready: support-channel - Support channel support-channel-ready; repository moshequ/autonomous-game-lab; public intake ready; aggregate evidence only true.
 - ready: autonomous-operator - Operator operator-held; selected none; execution not-requested.
 - ready: operator-history - History operator-history-ready; records 40; executed 2.
-- ready: objective-audit - Audit objective-in-progress; met 6/8; external blockers 15.
+- ready: objective-audit - Audit objective-in-progress; met 6/8; external blockers 16.
 - ready: store-listing-optimizer - Focus market-pulse; lead screenshot phone-market-pulse-generated; candidate changed yes.
 - ready: store-compliance - Rating Everyone; target audience general; blockers 3.
 - ready: android-signing - Signing signing-prepared; fingerprint available; local secrets configured.
@@ -98,8 +96,8 @@ Autonomy score: 44/45 (98%)
 - monitor: hold-for-external-input - No local command is available until external inputs, configured credentials, or new player evidence arrive.
 - monitor: refresh-autonomous-cadence - npm run autonomous:cadence
 - monitor: refresh-autonomous-self-update - npm run autonomous:self-update
-- armed: seed-portfolio-traffic - npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop
-- armed: refresh-organic-seed-loop - npm run autonomous:organic-seed-loop
+- monitor: seed-portfolio-traffic - npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop
+- monitor: refresh-organic-seed-loop - npm run autonomous:organic-seed-loop
 - monitor: refresh-support-feedback - npm run autonomous:support-feedback
 - monitor: optimize-daily-retention - npm run autonomous:retention
 - monitor: measure-pwa-install-loop - npm run autonomous:pwa-install
