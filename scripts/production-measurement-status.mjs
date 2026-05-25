@@ -107,6 +107,58 @@ const fastestMission =
   (productGateSamplePlan.missions ?? []).find((mission) => String(mission.sampleRole ?? '').includes('fastest-validation')) ??
   null
 const numberOrZero = (value) => (typeof value === 'number' && Number.isFinite(value) ? value : 0)
+const arrayOrEmpty = (value) => (Array.isArray(value) ? value : [])
+const sanitizeOwnerInputValidation = (validation) =>
+  validation
+    ? {
+        kind: validation.kind ?? null,
+        status: validation.status ?? null,
+        failedCheckIds: arrayOrEmpty(validation.failedCheckIds),
+        detail: validation.detail ?? null,
+      }
+    : null
+const sanitizeOwnerInputPreflightItem = (input) => ({
+  kind: input?.kind ?? null,
+  unlockId: input?.unlockId ?? null,
+  repositoryName: input?.repositoryName ?? null,
+  envName: input?.envName ?? null,
+  ready: input?.ready === true,
+  configuredInRepository: input?.configuredInRepository === true,
+  availableLocally: input?.availableLocally === true,
+  availableInLocalEnvFile: input?.availableInLocalEnvFile === true,
+  validation: sanitizeOwnerInputValidation(input?.validation),
+  command: input?.command ?? null,
+})
+const sanitizeOwnerMissingInput = (input) => ({
+  kind: input?.kind ?? null,
+  unlockId: input?.unlockId ?? null,
+  repositoryName: input?.repositoryName ?? null,
+  envName: input?.envName ?? null,
+  command: input?.command ?? null,
+})
+const sanitizeCombinedOwnerInputPreflight = (preflight) =>
+  preflight
+    ? {
+        id: preflight.id ?? null,
+        title: preflight.title ?? null,
+        status: preflight.status ?? null,
+        readyForSetup: preflight.readyForSetup === true,
+        localEnvFile: preflight.localEnvFile ?? null,
+        unlockIds: arrayOrEmpty(preflight.unlockIds),
+        analyticsPathId: preflight.analyticsPathId ?? null,
+        supportUnlockId: preflight.supportUnlockId ?? null,
+        summary: preflight.summary ?? {},
+        missingInputNames: arrayOrEmpty(preflight.missingInputNames),
+        localEnvTemplateLines: arrayOrEmpty(preflight.localEnvTemplateLines),
+        shellExportTemplateLines: arrayOrEmpty(preflight.shellExportTemplateLines),
+        inputs: arrayOrEmpty(preflight.inputs).map(sanitizeOwnerInputPreflightItem),
+        missingInputs: arrayOrEmpty(preflight.missingInputs).map(sanitizeOwnerMissingInput),
+        invalidInputs: arrayOrEmpty(preflight.invalidInputs).map(sanitizeOwnerInputPreflightItem),
+        commands: preflight.commands ?? {},
+        controls: preflight.controls ?? {},
+        unavailableReasons: arrayOrEmpty(preflight.unavailableReasons),
+      }
+    : null
 const trafficSampleNextRoute = trafficSeeding.sampleNextRoute ?? {}
 const sampleNextRoute = {
   status: trafficSampleNextRoute.status ?? (primaryMission ? 'armed' : 'missing'),
@@ -691,6 +743,9 @@ const payload = {
     missingInputs: ownerUnlockPreflight.missingInputs ?? [],
     invalidInputs: ownerUnlockPreflight.invalidInputs ?? [],
     lowestInputPreflight: ownerUnlockPreflight.lowestInputPreflight ?? null,
+    combinedOwnerInputPreflight: sanitizeCombinedOwnerInputPreflight(
+      ownerUnlockPreflight.combinedOwnerInputPreflight,
+    ),
     minimalInterventionPath: ownerUnlockPreflight.minimalInterventionPath ?? null,
     ownerInputPack: ownerUnlockPreflight.ownerInputPack ?? null,
     pathPreflights: ownerUnlockPreflight.pathPreflights ?? [],
@@ -1080,6 +1135,14 @@ const ownerUnlockPreflightHtml = (preflight) =>
             <span>Owner pack</span>
             <strong>${escapeHtml(preflight.ownerInputPack?.localEnvFile ?? 'none')}</strong>
           </div>
+          <div class="card">
+            <span>Combined preflight</span>
+            <strong>${escapeHtml(preflight.combinedOwnerInputPreflight?.status ?? 'none')}</strong>
+          </div>
+          <div class="card">
+            <span>Combined missing</span>
+            <strong>${preflight.combinedOwnerInputPreflight?.summary?.missingInputs ?? 'n/a'}</strong>
+          </div>
         </div>
         <h3>Owner Input Pack</h3>
         <ul>
@@ -1091,6 +1154,20 @@ const ownerUnlockPreflightHtml = (preflight) =>
               : '<li>none</li>'
           }
         </ul>
+        ${
+          preflight.combinedOwnerInputPreflight
+            ? `<h3>Combined Owner Input Preflight</h3>
+              <ul>
+                <li><strong>Status</strong>: ${escapeHtml(preflight.combinedOwnerInputPreflight.status)}</li>
+                <li><strong>Local env</strong>: <code>${escapeHtml(preflight.combinedOwnerInputPreflight.localEnvFile)}</code></li>
+                <li><strong>Missing</strong>: ${escapeHtml(preflight.combinedOwnerInputPreflight.missingInputNames?.join(', ') || 'none')}</li>
+                <li><strong>Secrets</strong>: ${preflight.combinedOwnerInputPreflight.summary?.secretInputs ?? 0}</li>
+                <li><strong>Support validation</strong>: ${escapeHtml(preflight.combinedOwnerInputPreflight.inputs?.find((input) => input.envName === 'AGL_SUPPORT_EMAIL')?.validation?.status ?? 'unknown')}</li>
+              </ul>
+              <h4>Combined Local Env Template</h4>
+              ${codeList(preflight.combinedOwnerInputPreflight.localEnvTemplateLines)}`
+            : ''
+        }
         <h3>Path Options</h3>
         <ul>
           ${

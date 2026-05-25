@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-05-25T17:46:23.391Z",
+  "generatedAt": "2026-05-25T17:59:48.544Z",
   "status": "waiting-on-owner-input",
-  "sourceDataHash": "456d38b86938",
+  "sourceDataHash": "8d3de82149d8",
   "sourceStatus": {
     "productionBlockerHandoff": "handoff-waiting-on-owner-inputs",
     "storeReadiness": "store-readiness-prepared-external-blockers",
@@ -116,6 +116,7 @@
       },
       "commands": {
         "printBrief": "node scripts/owner-unlock-brief.mjs --print",
+        "combinedPreflight": "node scripts/owner-unlock-preflight.mjs --assert --print",
         "analyticsPreflight": "node scripts/owner-unlock-preflight.mjs --assert --print",
         "storeReadiness": "npm run autonomous:store-readiness",
         "setupPreflight": "./ops/github/setup-production.sh --owner-unlock-preflight",
@@ -590,6 +591,7 @@
     },
     "commands": {
       "printBrief": "node scripts/owner-unlock-brief.mjs --print",
+      "combinedPreflight": "node scripts/owner-unlock-preflight.mjs --assert --print",
       "analyticsPreflight": "node scripts/owner-unlock-preflight.mjs --assert --print",
       "storeReadiness": "npm run autonomous:store-readiness",
       "setupPreflight": "./ops/github/setup-production.sh --owner-unlock-preflight",

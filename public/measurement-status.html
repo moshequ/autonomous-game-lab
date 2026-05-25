@@ -315,7 +315,7 @@
               <h4>Local Env Template</h4>
               <ul><li><code>VITE_POSTHOG_KEY=</code></li><li><code>VITE_POSTHOG_HOST=</code></li><li><code>AGL_SUPPORT_EMAIL=</code></li></ul>
               <h4>Commands</h4>
-              <ol><li><strong>printBrief</strong> <code>node scripts/owner-unlock-brief.mjs --print</code></li><li><strong>analyticsPreflight</strong> <code>node scripts/owner-unlock-preflight.mjs --assert --print</code></li><li><strong>storeReadiness</strong> <code>npm run autonomous:store-readiness</code></li><li><strong>setupPreflight</strong> <code>./ops/github/setup-production.sh --owner-unlock-preflight</code></li><li><strong>syncConfiguredValues</strong> <code>./ops/github/setup-production.sh</code></li><li><strong>workflowDispatch</strong> <code>RUN_WORKFLOWS=1 ./ops/github/setup-production.sh</code></li></ol>
+              <ol><li><strong>printBrief</strong> <code>node scripts/owner-unlock-brief.mjs --print</code></li><li><strong>combinedPreflight</strong> <code>node scripts/owner-unlock-preflight.mjs --assert --print</code></li><li><strong>analyticsPreflight</strong> <code>node scripts/owner-unlock-preflight.mjs --assert --print</code></li><li><strong>storeReadiness</strong> <code>npm run autonomous:store-readiness</code></li><li><strong>setupPreflight</strong> <code>./ops/github/setup-production.sh --owner-unlock-preflight</code></li><li><strong>syncConfiguredValues</strong> <code>./ops/github/setup-production.sh</code></li><li><strong>workflowDispatch</strong> <code>RUN_WORKFLOWS=1 ./ops/github/setup-production.sh</code></li></ol>
         <h3>Missing Variables</h3>
         <ul><li><strong>CLOUDFLARE_ACCOUNT_ID</strong> missing <code>gh variable set CLOUDFLARE_ACCOUNT_ID --body &quot;$CLOUDFLARE_ACCOUNT_ID&quot;</code></li><li><strong>VITE_EVENT_COLLECTOR_URL</strong> missing <code>gh variable set VITE_EVENT_COLLECTOR_URL --body &quot;$VITE_EVENT_COLLECTOR_URL&quot;</code></li><li><strong>AGL_EVENT_COLLECTOR_EXPORT_URL</strong> missing <code>gh variable set AGL_EVENT_COLLECTOR_EXPORT_URL --body &quot;$AGL_EVENT_COLLECTOR_EXPORT_URL&quot;</code></li></ul>
         <h3>Missing Secrets</h3>
@@ -365,11 +365,29 @@
             <span>Owner pack</span>
             <strong>.env.production.local</strong>
           </div>
+          <div class="card">
+            <span>Combined preflight</span>
+            <strong>combined-owner-input-preflight-waiting-on-input</strong>
+          </div>
+          <div class="card">
+            <span>Combined missing</span>
+            <strong>3</strong>
+          </div>
         </div>
         <h3>Owner Input Pack</h3>
         <ul>
           <li><code>VITE_POSTHOG_KEY=</code></li><li><code>VITE_POSTHOG_HOST=</code></li>
         </ul>
+        <h3>Combined Owner Input Preflight</h3>
+              <ul>
+                <li><strong>Status</strong>: combined-owner-input-preflight-waiting-on-input</li>
+                <li><strong>Local env</strong>: <code>.env.production.local</code></li>
+                <li><strong>Missing</strong>: VITE_POSTHOG_KEY, VITE_POSTHOG_HOST, AGL_SUPPORT_EMAIL</li>
+                <li><strong>Secrets</strong>: 0</li>
+                <li><strong>Support validation</strong>: not-checked-missing-input</li>
+              </ul>
+              <h4>Combined Local Env Template</h4>
+              <ul><li><code>VITE_POSTHOG_KEY=</code></li><li><code>VITE_POSTHOG_HOST=</code></li><li><code>AGL_SUPPORT_EMAIL=</code></li></ul>
         <h3>Path Options</h3>
         <ul>
           <li><strong>recommended</strong>: first-party-collector - 4 missing input(s), 3 secret input(s)</li><li><strong>lowest-input</strong>: posthog-browser - 2 missing input(s), 0 secret input(s)</li>

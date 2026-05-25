@@ -10031,6 +10031,7 @@ test('production measurement status publishes public aggregate evidence handoff'
       nextUnlockId: string | null
       recommendedPathId: string | null
       lowestInputPathId: string | null
+      storeReadiness: string
     }
     recommendedPath: { id: string; costMode: string; missingInputCount: number } | null
     lowestInputPath: { id: string; costMode: string; missingInputCount: number } | null
@@ -10043,6 +10044,12 @@ test('production measurement status publishes public aggregate evidence handoff'
       lowestInputSecretInputs: number | null
       lowestInputSetupCanRun: boolean
       manualInputReduction: number | null
+      combinedMissingInputs: number | null
+      combinedInvalidInputs: number | null
+      combinedReadyInputs: number | null
+      combinedTotalInputs: number | null
+      combinedSecretInputs: number | null
+      combinedSetupCanRun: boolean
     }
     inputs: Array<{
       kind: string
@@ -10102,12 +10109,62 @@ test('production measurement status publishes public aggregate evidence handoff'
         onlyMinimalPathInputs: boolean
       }
     } | null
+    combinedOwnerInputPreflight: {
+      id: string
+      status: string
+      readyForSetup: boolean
+      localEnvFile: string
+      unlockIds: string[]
+      analyticsPathId: string | null
+      supportUnlockId: string | null
+      summary: {
+        totalInputs: number
+        readyInputs: number
+        missingInputs: number
+        invalidInputs: number
+        secretInputs: number
+        setupCanRun: boolean
+      }
+      missingInputNames: string[]
+      localEnvTemplateLines: string[]
+      shellExportTemplateLines: string[]
+      inputs: Array<{
+        kind: string
+        unlockId: string
+        repositoryName: string
+        envName: string
+        ready: boolean
+        configuredInRepository: boolean
+        availableLocally: boolean
+        availableInLocalEnvFile: boolean
+        validation: { kind: string; status: string; failedCheckIds: string[] }
+      }>
+      commands: {
+        combinedPreflight?: string
+        analyticsPreflight: string
+        storeReadiness: string
+        syncConfiguredValues: string
+        workflowDispatch: string
+      }
+      controls: {
+        zeroPaidSpend: boolean
+        noSecretValues: boolean
+        noSecretValuesStored: boolean
+        noMutation: boolean
+        noWorkflowDispatch: boolean
+        workflowDispatchRequiresRunWorkflows: boolean
+        storeSubmissionStillBlocked: boolean
+        revenueStillBlocked: boolean
+        setupStillRequiresExplicitRun: boolean
+      }
+    } | null
     commands: {
       syncConfiguredValues: string
       dispatchWhenReady: string
       packagePreflight: string
       setupPreflight: string
       lowestInputPreflight: string
+      combinedInputPreflight: string
     }
     controls: {
       zeroPaidSpend: boolean
@@ -10507,6 +10564,7 @@ test('production measurement status publishes public aggregate evidence handoff'
   expect(publicMeasurement.ownerUnlockPreflight.status).toBe(ownerUnlockPreflight.status)
   expect(analyticsUnlockPage.ownerUnlockPreflight.status).toBe(ownerUnlockPreflight.status)
   expect(ownerUnlockPreflight.sourceStatus.productionBlockerHandoff).toBe(blockerHandoff.status)
+  expect(ownerUnlockPreflight.sourceStatus.storeReadiness).toBe(storeReadiness.status)
   expect(ownerUnlockPreflight.sourceStatus.nextUnlockId).toBe(ownerUnlockBrief.brief?.nextUnlockId)
   expect(ownerUnlockPreflight.sourceStatus.lowestInputPathId).toBe(ownerUnlockBrief.brief?.lowestInputPathId)
   expect(ownerUnlockPreflight.recommendedPath?.id).toBe(ownerUnlockBrief.brief?.recommendedPathId)
@@ -10611,6 +10669,53 @@ test('production measurement status publishes public aggregate evidence handoff'
     ownerUnlockPreflight.ownerInputPack?.inputInstructions.find((input) => input.envName === 'VITE_POSTHOG_HOST')
       ?.validation.kind,
   ).toBe('url-shape')
+  expect(ownerUnlockPreflight.combinedOwnerInputPreflight?.id).toBe('combined-zero-secret-owner-input-pack')
+  expect(ownerUnlockPreflight.combinedOwnerInputPreflight?.status).toBe(
+    'combined-owner-input-preflight-waiting-on-input',
+  )
+  expect(ownerUnlockPreflight.combinedOwnerInputPreflight?.localEnvFile).toBe('.env.production.local')
+  expect(ownerUnlockPreflight.combinedOwnerInputPreflight?.unlockIds).toEqual(
+    expect.arrayContaining(['production-analytics-browser', 'support-contact']),
+  )
+  expect(ownerUnlockPreflight.combinedOwnerInputPreflight?.analyticsPathId).toBe('posthog-browser')
+  expect(ownerUnlockPreflight.combinedOwnerInputPreflight?.supportUnlockId).toBe('support-contact')
+  expect(ownerUnlockPreflight.combinedOwnerInputPreflight?.summary.totalInputs).toBe(3)
+  expect(ownerUnlockPreflight.combinedOwnerInputPreflight?.summary.secretInputs).toBe(0)
+  expect(ownerUnlockPreflight.combinedOwnerInputPreflight?.summary.missingInputs).toBe(
+    ownerUnlockPreflight.combinedOwnerInputPreflight?.inputs.filter((input) => !input.ready).length,
+  )
+  expect(ownerUnlockPreflight.summary.combinedMissingInputs).toBe(
+    ownerUnlockPreflight.combinedOwnerInputPreflight?.summary.missingInputs,
+  )
+  expect(ownerUnlockPreflight.summary.combinedInvalidInputs).toBe(0)
+  expect(ownerUnlockPreflight.summary.combinedSecretInputs).toBe(0)
+  expect(ownerUnlockPreflight.combinedOwnerInputPreflight?.missingInputNames).toEqual(
+    expect.arrayContaining(['VITE_POSTHOG_KEY', 'VITE_POSTHOG_HOST', 'AGL_SUPPORT_EMAIL']),
+  )
+  expect(ownerUnlockPreflight.combinedOwnerInputPreflight?.localEnvTemplateLines).toEqual(
+    expect.arrayContaining(['VITE_POSTHOG_KEY=', 'VITE_POSTHOG_HOST=', 'AGL_SUPPORT_EMAIL=']),
+  )
+  expect(ownerUnlockPreflight.combinedOwnerInputPreflight?.shellExportTemplateLines).toEqual(
+    expect.arrayContaining(['export VITE_POSTHOG_KEY=', 'export VITE_POSTHOG_HOST=', 'export AGL_SUPPORT_EMAIL=']),
+  )
+  expect(
+    ownerUnlockPreflight.combinedOwnerInputPreflight?.inputs.find((input) => input.envName === 'AGL_SUPPORT_EMAIL')
+      ?.validation.kind,
+  ).toBe('email-shape')
+  expect(
+    ownerUnlockPreflight.combinedOwnerInputPreflight?.inputs.find((input) => input.envName === 'VITE_POSTHOG_HOST')
+      ?.validation.kind,
+  ).toBe('url-shape')
+  expect(ownerUnlockPreflight.combinedOwnerInputPreflight?.commands.combinedPreflight).toBe(
+    'node scripts/owner-unlock-preflight.mjs --assert --print',
+  )
+  expect(ownerUnlockPreflight.combinedOwnerInputPreflight?.commands.storeReadiness).toBe(
+    'npm run autonomous:store-readiness',
+  )
+  expect(ownerUnlockPreflight.combinedOwnerInputPreflight?.controls.zeroPaidSpend).toBe(true)
+  expect(ownerUnlockPreflight.combinedOwnerInputPreflight?.controls.noSecretValuesStored).toBe(true)
+  expect(ownerUnlockPreflight.combinedOwnerInputPreflight?.controls.noWorkflowDispatch).toBe(true)
+  expect(ownerUnlockPreflight.combinedOwnerInputPreflight?.controls.setupStillRequiresExplicitRun).toBe(true)
   expect(publicMeasurement.ownerUnlockPreflight.lowestInputPath?.id).toBe('posthog-browser')
   expect(analyticsUnlockPage.ownerUnlockPreflight.lowestInputPreflight?.path?.id).toBe('posthog-browser')
   expect(ownerUnlockPreflight.commands.syncConfiguredValues).toBe('./ops/github/setup-production.sh')
@@ -10620,6 +10725,7 @@ test('production measurement status publishes public aggregate evidence handoff'
     './ops/github/setup-production.sh --owner-unlock-preflight',
   )
   expect(ownerUnlockPreflight.commands.lowestInputPreflight).toContain('owner-unlock-preflight')
+  expect(ownerUnlockPreflight.commands.combinedInputPreflight).toContain('owner-unlock-preflight')
   expect(ownerUnlockPreflightReport).toContain('setup preflight: ./ops/github/setup-production.sh --owner-unlock-preflight')
   expect(ownerUnlockPreflight.controls.zeroPaidSpend).toBe(true)
   expect(ownerUnlockPreflight.controls.noSecretValuesStored).toBe(true)
@@ -10632,6 +10738,8 @@ test('production measurement status publishes public aggregate evidence handoff'
   expect(ownerUnlockPreflightReport).toContain('Lowest-input path')
   expect(ownerUnlockPreflightReport).toContain('Minimal Intervention Path')
   expect(ownerUnlockPreflightReport).toContain('Owner Input Pack')
+  expect(ownerUnlockPreflightReport).toContain('Combined Owner Input Preflight')
+  expect(ownerUnlockPreflightReport).toContain('AGL_SUPPORT_EMAIL=')
   expect(ownerUnlockPreflightReport).toContain('.env.production.local')
   expect(ownerUnlockPreflightReport).toContain('posthog-browser')
   expect(ownerUnlockPreflightReport).toContain('## Guardrails')
@@ -10639,12 +10747,16 @@ test('production measurement status publishes public aggregate evidence handoff'
   expect(ownerUnlockPreflightScript).toContain('new URL')
   expect(ownerUnlockPreflightScript).toContain('hasValueKey')
   expect(ownerUnlockPreflightScript).toContain('ownerInputPack')
+  expect(ownerUnlockPreflightScript).toContain('combinedOwnerInputPreflight')
+  expect(ownerUnlockPreflightScript).toContain('validateSupportEmail')
   expect(ownerUnlockPreflightScript).toContain('localEnvTemplateLines')
   expect(ownerUnlockPreflightScript).toContain('VITE_POSTHOG_HOST')
   expect(analyticsUnlockHtml).toContain('Owner Unlock Preflight')
   expect(analyticsUnlockHtml).toContain('Lowest-input path')
   expect(analyticsUnlockHtml).toContain('Owner Input Pack')
+  expect(analyticsUnlockHtml).toContain('Combined Owner Input Preflight')
   expect(analyticsUnlockHtml).toContain('VITE_POSTHOG_KEY=')
+  expect(analyticsUnlockHtml).toContain('AGL_SUPPORT_EMAIL=')
   expect(analyticsUnlockHtml).toContain('posthog-browser')
   expect(analyticsUnlockHtml).toContain('Parallel Owner Unlocks')
   expect(analyticsUnlockHtml).toContain('support-contact')
@@ -10734,6 +10846,7 @@ test('production measurement status publishes public aggregate evidence handoff'
   expect(html).toContain('Zero-Spend Analytics Unlock')
   expect(html).toContain('Owner Unlock Brief')
   expect(html).toContain('Combined Owner Input Pack')
+  expect(html).toContain('Combined Owner Input Preflight')
   expect(html).toContain('.env.production.local')
   expect(html).toContain('AGL_SUPPORT_EMAIL=')
   expect(html).toContain('First-Party Collector Deployment')
@@ -10756,6 +10869,7 @@ test('production measurement status publishes public aggregate evidence handoff'
   expect(script).toContain('publicAnalyticsUnlockHtmlPath')
   expect(script).toContain('publicExternalUnlockQueue')
   expect(script).toContain('Combined Owner Input Pack')
+  expect(script).toContain('Combined Owner Input Preflight')
   expect(script).toContain('readLiveReleaseManifest')
   expect(script).toContain('trafficSeeding')
   expect(script).toContain('productGateRecovery')

@@ -702,6 +702,7 @@ const summarizeCombinedOwnerInputPack = (analyticsPath, supportPack, supportUnlo
     },
     commands: {
       printBrief: 'node scripts/owner-unlock-brief.mjs --print',
+      combinedPreflight: 'node scripts/owner-unlock-preflight.mjs --assert --print',
       analyticsPreflight: 'node scripts/owner-unlock-preflight.mjs --assert --print',
       storeReadiness: 'npm run autonomous:store-readiness',
       setupPreflight: './ops/github/setup-production.sh --owner-unlock-preflight',

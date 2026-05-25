@@ -3456,6 +3456,11 @@ const ownerUnlockCombinedInputPackTemplateLines = new Set(ownerUnlockCombinedInp
 const ownerUnlockCombinedInputPackCommands = new Set(
   Object.values(ownerUnlockCombinedInputPack?.commands ?? {}).filter(Boolean),
 )
+const ownerUnlockCombinedInputPreflight = ownerUnlockPreflight.combinedOwnerInputPreflight ?? null
+const ownerUnlockCombinedInputPreflightNames = new Set(ownerUnlockCombinedInputPreflight?.missingInputNames ?? [])
+const ownerUnlockCombinedInputPreflightTemplateLines = new Set(
+  ownerUnlockCombinedInputPreflight?.localEnvTemplateLines ?? [],
+)
 const ownerUnlockLowestInputPath = ownerUnlockBrief.brief?.lowestInputPath ?? null
 const ownerUnlockParallelItems = ownerUnlockBrief.brief?.parallelOwnerUnlocks ?? []
 const ownerUnlockParallelIds = new Set(ownerUnlockParallelItems.map((item) => item.id))
@@ -3698,6 +3703,7 @@ if (
   JSON.stringify(publicOwnerUnlockPreflight) !== JSON.stringify(ownerUnlockPreflight) ||
   ownerUnlockPreflight.sourceStatus?.ownerUnlockBrief !== ownerUnlockBrief.status ||
   ownerUnlockPreflight.sourceStatus?.productionBlockerHandoff !== productionBlockerHandoff.status ||
+  ownerUnlockPreflight.sourceStatus?.storeReadiness !== storeReadiness.status ||
   ownerUnlockPreflight.sourceStatus?.nextUnlockId !== ownerUnlockBrief.brief?.nextUnlockId ||
   ownerUnlockPreflight.sourceStatus?.lowestInputPathId !== ownerUnlockBrief.brief?.lowestInputPathId ||
   ownerUnlockPreflight.recommendedPath?.id !== ownerUnlockBrief.brief?.recommendedPathId ||
@@ -3713,6 +3719,10 @@ if (
   !ownerUnlockPreflightPathIds.has('posthog-browser') ||
   ownerUnlockPreflight.summary?.missingInputs !== ownerUnlockPreflightMissingInputCount ||
   ownerUnlockPreflight.summary?.invalidInputs !== ownerUnlockPreflightInvalidInputCount ||
+  ownerUnlockPreflight.summary?.combinedMissingInputs !==
+    ownerUnlockCombinedInputPreflight?.summary?.missingInputs ||
+  ownerUnlockPreflight.summary?.combinedInvalidInputs !== 0 ||
+  ownerUnlockPreflight.summary?.combinedSecretInputs !== 0 ||
   ownerUnlockPreflight.controls?.zeroPaidSpend !== true ||
   ownerUnlockPreflight.controls?.noSecretValuesStored !== true ||
   ownerUnlockPreflight.controls?.noSecretValuesSerialized !== true ||
@@ -3738,8 +3748,37 @@ if (
   ownerUnlockInputPack?.controls?.onlyMinimalPathInputs !== true ||
   ownerUnlockInputPack?.inputInstructions?.find((input) => input.envName === 'VITE_POSTHOG_HOST')?.validation?.kind !==
     'url-shape' ||
+  ownerUnlockCombinedInputPreflight?.id !== 'combined-zero-secret-owner-input-pack' ||
+  ownerUnlockCombinedInputPreflight?.localEnvFile !== '.env.production.local' ||
+  ownerUnlockCombinedInputPreflight?.summary?.totalInputs !== 3 ||
+  ownerUnlockCombinedInputPreflight?.summary?.secretInputs !== 0 ||
+  ownerUnlockCombinedInputPreflight?.summary?.missingInputs !== 3 ||
+  ownerUnlockCombinedInputPreflight?.summary?.invalidInputs !== 0 ||
+  ownerUnlockCombinedInputPreflight?.analyticsPathId !== 'posthog-browser' ||
+  ownerUnlockCombinedInputPreflight?.supportUnlockId !== 'support-contact' ||
+  !ownerUnlockCombinedInputPreflight?.unlockIds?.includes('production-analytics-browser') ||
+  !ownerUnlockCombinedInputPreflight?.unlockIds?.includes('support-contact') ||
+  !ownerUnlockCombinedInputPreflightNames.has('VITE_POSTHOG_KEY') ||
+  !ownerUnlockCombinedInputPreflightNames.has('VITE_POSTHOG_HOST') ||
+  !ownerUnlockCombinedInputPreflightNames.has('AGL_SUPPORT_EMAIL') ||
+  !ownerUnlockCombinedInputPreflightTemplateLines.has('VITE_POSTHOG_KEY=') ||
+  !ownerUnlockCombinedInputPreflightTemplateLines.has('VITE_POSTHOG_HOST=') ||
+  !ownerUnlockCombinedInputPreflightTemplateLines.has('AGL_SUPPORT_EMAIL=') ||
+  ownerUnlockCombinedInputPreflight?.inputs?.find((input) => input.envName === 'AGL_SUPPORT_EMAIL')?.validation
+    ?.kind !== 'email-shape' ||
+  ownerUnlockCombinedInputPreflight?.inputs?.find((input) => input.envName === 'VITE_POSTHOG_HOST')?.validation
+    ?.kind !== 'url-shape' ||
+  ownerUnlockCombinedInputPreflight?.commands?.combinedPreflight !==
+    'node scripts/owner-unlock-preflight.mjs --assert --print' ||
+  ownerUnlockCombinedInputPreflight?.commands?.storeReadiness !== 'npm run autonomous:store-readiness' ||
+  ownerUnlockCombinedInputPreflight?.controls?.zeroPaidSpend !== true ||
+  ownerUnlockCombinedInputPreflight?.controls?.noSecretValuesStored !== true ||
+  ownerUnlockCombinedInputPreflight?.controls?.noWorkflowDispatch !== true ||
+  ownerUnlockCombinedInputPreflight?.controls?.setupStillRequiresExplicitRun !== true ||
   publicMeasurementStatus.ownerUnlockPreflight?.status !== ownerUnlockPreflight.status ||
   publicMeasurementStatus.ownerUnlockPreflight?.lowestInputPath?.id !== ownerUnlockBrief.brief?.lowestInputPathId ||
+  publicMeasurementStatus.ownerUnlockPreflight?.combinedOwnerInputPreflight?.id !==
+    'combined-zero-secret-owner-input-pack' ||
   publicAnalyticsUnlockStatus.ownerUnlockPreflight?.status !== ownerUnlockPreflight.status ||
   publicAnalyticsUnlockStatus.ownerUnlockPreflight?.lowestInputPreflight?.path?.id !==
     ownerUnlockBrief.brief?.lowestInputPathId ||
@@ -3747,7 +3786,9 @@ if (
   !analyticsUnlockHtml.includes('Owner Unlock Preflight') ||
   !analyticsUnlockHtml.includes('Lowest-input path') ||
   !analyticsUnlockHtml.includes('Owner Input Pack') ||
+  !analyticsUnlockHtml.includes('Combined Owner Input Preflight') ||
   !analyticsUnlockHtml.includes('VITE_POSTHOG_KEY=') ||
+  !analyticsUnlockHtml.includes('AGL_SUPPORT_EMAIL=') ||
   !analyticsUnlockHtml.includes('posthog-browser') ||
   !analyticsUnlockHtml.includes('Open preflight JSON') ||
   ownerUnlockPreflightLeaksValues ||
@@ -3756,13 +3797,19 @@ if (
   !ownerUnlockPreflightSource.includes('new URL') ||
   !ownerUnlockPreflightSource.includes('lowestInputPreflight') ||
   !ownerUnlockPreflightSource.includes('ownerInputPack') ||
+  !ownerUnlockPreflightSource.includes('combinedOwnerInputPreflight') ||
+  !ownerUnlockPreflightSource.includes('validateSupportEmail') ||
   !ownerUnlockPreflightSource.includes('localEnvTemplateLines') ||
   !ownerUnlockPreflightSource.includes('VITE_POSTHOG_HOST') ||
   !ownerUnlockPreflightSource.includes('noSecretValuesSerialized') ||
   !ownerUnlockPreflightReport.includes('Lowest-input path') ||
   !ownerUnlockPreflightReport.includes('Owner Input Pack') ||
+  !ownerUnlockPreflightReport.includes('Combined Owner Input Preflight') ||
+  !ownerUnlockPreflightReport.includes('AGL_SUPPORT_EMAIL=') ||
   !ownerUnlockPreflightReport.includes('.env.production.local') ||
-  !ownerUnlockPreflightReport.includes('## Guardrails')
+  !ownerUnlockPreflightReport.includes('## Guardrails') ||
+  !productionMeasurementStatusSource.includes('Combined Owner Input Preflight') ||
+  !measurementStatusHtml.includes('Combined Owner Input Preflight')
 ) {
   fail('Owner unlock preflight must validate next-unlock readiness without storing values, mutating GitHub, or dispatching workflows.')
 }

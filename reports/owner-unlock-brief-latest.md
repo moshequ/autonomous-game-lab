@@ -1,8 +1,8 @@
 # Owner Unlock Brief
 
-Generated: 2026-05-25T17:46:23.391Z
+Generated: 2026-05-25T17:59:48.544Z
 Status: waiting-on-owner-input
-Source hash: 456d38b86938
+Source hash: 8d3de82149d8
 Next unlock: production-analytics-browser
 Recommended path: first-party-collector
 Lowest-input path: posthog-browser
@@ -72,6 +72,7 @@ Parallel owner unlocks: production-analytics-browser, support-contact
 ### Combined Pack Commands
 
 - printBrief: node scripts/owner-unlock-brief.mjs --print
+- combinedPreflight: node scripts/owner-unlock-preflight.mjs --assert --print
 - analyticsPreflight: node scripts/owner-unlock-preflight.mjs --assert --print
 - storeReadiness: npm run autonomous:store-readiness
 - setupPreflight: ./ops/github/setup-production.sh --owner-unlock-preflight

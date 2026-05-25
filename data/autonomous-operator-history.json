@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-25T17:46:30.990Z",
+  "generatedAt": "2026-05-25T18:00:05.478Z",
   "status": "operator-history-ready",
   "retention": {
     "maxRecords": 40,
@@ -12,7 +12,7 @@
       "seed-portfolio-traffic",
       "refresh-autonomous-self-update"
     ],
-    "latestRunAppended": false,
+    "latestRunAppended": true,
     "compactedDuplicateDryRuns": 0
   },
   "summary": {
@@ -20,7 +20,7 @@
     "plannedRecords": 38,
     "executedRecords": 2,
     "failedRecords": 0,
-    "lastActionId": "refresh-objective-audit",
+    "lastActionId": "prepare-repository-channel",
     "lastExecutionStatus": "not-requested",
     "lastExecutedActionId": "refresh-autonomous-self-update"
   },
@@ -32,94 +32,6 @@
     "historyIsCapped": true
   },
   "records": [
-    {
-      "id": "20260525121140-seed-portfolio-traffic",
-      "generatedAt": "2026-05-25T12:11:40.874Z",
-      "runFingerprint": "ab6cc1e0a8a65c80",
-      "mode": "plan-only",
-      "status": "operator-plan-ready",
-      "selectedActionId": "seed-portfolio-traffic",
-      "selectedCommand": "npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop",
-      "eligibleActionIds": [
-        "refresh-autonomous-self-update",
-        "seed-portfolio-traffic",
-        "refresh-organic-seed-loop",
-        "refresh-objective-audit"
-      ],
-      "blockedActionCount": 34,
-      "execution": {
-        "requested": false,
-        "status": "not-requested",
-        "attemptedActionId": null,
-        "resultCount": 0,
-        "failedScripts": []
-      },
-      "controls": {
-        "zeroPaidSpend": true,
-        "localCommandAllowlistEnforced": true,
-        "externalWorkflowExecutionBlockedByDefault": true,
-        "maxActionsPerRun": 1
-      }
-    },
-    {
-      "id": "20260525121141-seed-portfolio-traffic",
-      "generatedAt": "2026-05-25T12:11:41.417Z",
-      "runFingerprint": "a95af1a90fe4c4d9",
-      "mode": "plan-only",
-      "status": "operator-plan-ready",
-      "selectedActionId": "seed-portfolio-traffic",
-      "selectedCommand": "npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop",
-      "eligibleActionIds": [
-        "refresh-autonomous-self-update",
-        "seed-portfolio-traffic",
-        "refresh-organic-seed-loop"
-      ],
-      "blockedActionCount": 34,
-      "execution": {
-        "requested": false,
-        "status": "not-requested",
-        "attemptedActionId": null,
-        "resultCount": 0,
-        "failedScripts": []
-      },
-      "controls": {
-        "zeroPaidSpend": true,
-        "localCommandAllowlistEnforced": true,
-        "externalWorkflowExecutionBlockedByDefault": true,
-        "maxActionsPerRun": 1
-      }
-    },
-    {
-      "id": "20260525121350-seed-portfolio-traffic",
-      "generatedAt": "2026-05-25T12:13:50.216Z",
-      "runFingerprint": "9846e6097dadf373",
-      "mode": "plan-only",
-      "status": "operator-plan-ready",
-      "selectedActionId": "seed-portfolio-traffic",
-      "selectedCommand": "npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop",
-      "eligibleActionIds": [
-        "refresh-autonomous-self-update",
-        "seed-portfolio-traffic",
-        "refresh-organic-seed-loop",
-        "measure-pwa-install-loop",
-        "bootstrap-production-setup",
-        "optimize-store-listing"
-      ],
-      "blockedActionCount": 34,
-      "execution": {
-        "requested": false,
-        "status": "not-requested",
-        "attemptedActionId": null,
-        "resultCount": 0,
-        "failedScripts": []
-      },
-      "controls": {
-        "zeroPaidSpend": true,
-        "localCommandAllowlistEnforced": true,
-        "externalWorkflowExecutionBlockedByDefault": true,
-        "maxActionsPerRun": 1
-      }
-    },
     {
       "id": "20260525121405-seed-portfolio-traffic",
       "generatedAt": "2026-05-25T12:14:05.635Z",
@@ -1141,6 +1053,93 @@
       "selectedCommand": "npm run autonomous:objective-audit",
       "eligibleActionIds": [
         "refresh-objective-audit"
+      ],
+      "blockedActionCount": 34,
+      "execution": {
+        "requested": false,
+        "status": "not-requested",
+        "attemptedActionId": null,
+        "resultCount": 0,
+        "failedScripts": []
+      },
+      "controls": {
+        "zeroPaidSpend": true,
+        "localCommandAllowlistEnforced": true,
+        "externalWorkflowExecutionBlockedByDefault": true,
+        "maxActionsPerRun": 1
+      }
+    },
+    {
+      "id": "20260525180002-prepare-repository-channel",
+      "generatedAt": "2026-05-25T18:00:02.280Z",
+      "runFingerprint": "d0122f375e964f6a",
+      "mode": "plan-only",
+      "status": "operator-plan-ready",
+      "selectedActionId": "prepare-repository-channel",
+      "selectedCommand": "npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap",
+      "eligibleActionIds": [
+        "prepare-release-candidate",
+        "refresh-live-site-monitor",
+        "prepare-repository-channel",
+        "bootstrap-production-setup",
+        "refresh-objective-audit"
+      ],
+      "blockedActionCount": 34,
+      "execution": {
+        "requested": false,
+        "status": "not-requested",
+        "attemptedActionId": null,
+        "resultCount": 0,
+        "failedScripts": []
+      },
+      "controls": {
+        "zeroPaidSpend": true,
+        "localCommandAllowlistEnforced": true,
+        "externalWorkflowExecutionBlockedByDefault": true,
+        "maxActionsPerRun": 1
+      }
+    },
+    {
+      "id": "20260525180003-prepare-repository-channel",
+      "generatedAt": "2026-05-25T18:00:03.052Z",
+      "runFingerprint": "c5e7b1280e06f6b8",
+      "mode": "plan-only",
+      "status": "operator-plan-ready",
+      "selectedActionId": "prepare-repository-channel",
+      "selectedCommand": "npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap",
+      "eligibleActionIds": [
+        "prepare-release-candidate",
+        "refresh-live-site-monitor",
+        "prepare-repository-channel",
+        "bootstrap-production-setup"
+      ],
+      "blockedActionCount": 34,
+      "execution": {
+        "requested": false,
+        "status": "not-requested",
+        "attemptedActionId": null,
+        "resultCount": 0,
+        "failedScripts": []
+      },
+      "controls": {
+        "zeroPaidSpend": true,
+        "localCommandAllowlistEnforced": true,
+        "externalWorkflowExecutionBlockedByDefault": true,
+        "maxActionsPerRun": 1
+      }
+    },
+    {
+      "id": "20260525180005-prepare-repository-channel",
+      "generatedAt": "2026-05-25T18:00:05.478Z",
+      "runFingerprint": "63a934d25fc9c4ea",
+      "mode": "plan-only",
+      "status": "operator-plan-ready",
+      "selectedActionId": "prepare-repository-channel",
+      "selectedCommand": "npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap",
+      "eligibleActionIds": [
+        "prepare-release-candidate",
+        "refresh-live-site-monitor",
+        "prepare-repository-channel"
       ],
       "blockedActionCount": 34,
       "execution": {

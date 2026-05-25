@@ -34,8 +34,11 @@ const ownerUnlockBrief = await readJson(path.join(root, 'data', 'owner-unlock-br
 const productionBlockerHandoff = await readJson(path.join(root, 'data', 'production-blocker-handoff.json')).catch(
   () => null,
 )
+const storeReadiness = await readJson(path.join(root, 'data', 'store-readiness.json')).catch(() => null)
 
 const brief = ownerUnlockBrief?.brief ?? null
+const combinedOwnerInputPack = brief?.combinedOwnerInputPack ?? ownerUnlockBrief?.combinedOwnerInputPack ?? null
+const supportOwnerInputPack = storeReadiness?.supportOwnerInputPack ?? null
 const nextUnlockKit =
   productionBlockerHandoff?.nextUnlockKit?.id === brief?.nextUnlockId ? productionBlockerHandoff.nextUnlockKit : null
 const recommendedPath =
@@ -164,6 +167,53 @@ const validateInput = ({ kind, envName, configuredInRepository, availableLocally
   }
 }
 
+const validateSupportEmail = ({ envName, configuredInRepository }) => {
+  const availableLocally = configured(process.env[envName])
+
+  if (!availableLocally) {
+    return configuredInRepository
+      ? {
+          kind: 'redacted-repository-presence',
+          status: 'not-inspected-repository-configured',
+          detail: 'GitHub stores the configured support contact redacted; export it locally to validate shape before changing it.',
+          checks: [],
+        }
+      : {
+          kind: 'email-shape',
+          status: 'not-checked-missing-input',
+          detail: 'No local support email is available yet; email shape will be validated before setup can sync it.',
+          expected: {
+            containsAt: true,
+            hasDomain: true,
+            noWhitespace: true,
+          },
+          checks: [passCheck('non-empty-local-input', false, `${envName} must be exported before setup can sync it.`)],
+        }
+  }
+
+  const value = process.env[envName].trim()
+  const [localPart, domainPart, extraPart] = value.split('@')
+  const checks = [
+    passCheck('contains-one-at', Boolean(localPart && domainPart && !extraPart), `${envName} must contain one @.`),
+    passCheck('has-local-part', Boolean(localPart), `${envName} must include a local part.`),
+    passCheck('has-domain', Boolean(domainPart?.includes('.')), `${envName} must include a domain with a dot.`),
+    passCheck('no-whitespace', !/\s/.test(value), `${envName} must not contain whitespace.`),
+  ]
+  const failedChecks = checks.filter((check) => !check.passed)
+
+  return {
+    kind: 'email-shape',
+    status: failedChecks.length ? 'fail' : 'pass',
+    expected: {
+      containsAt: true,
+      hasDomain: true,
+      noWhitespace: true,
+    },
+    checks,
+    failedCheckIds: failedChecks.map((check) => check.id),
+  }
+}
+
 const normalizeInput = (item, kind) => {
   const repositoryName = item.repositoryName ?? item.repositoryVariable ?? item.repositorySecret
   const envName = item.envName ?? repositoryName
@@ -176,6 +226,32 @@ const normalizeInput = (item, kind) => {
 
   return {
     kind,
+    repositoryName,
+    envName,
+    configuredInRepository,
+    availableInShell,
+    availableInLocalEnvFile,
+    availableLocally,
+    localEnvFiles: localEnvFilesForKey(envName),
+    ready: (configuredInRepository || availableLocally) && !localValidationFailed,
+    validation,
+    command: item.command,
+  }
+}
+
+const normalizeSupportInput = (item, unlockId) => {
+  const repositoryName = item.repositoryName ?? item.repositoryVariable ?? item.repositorySecret
+  const envName = item.envName ?? repositoryName
+  const configuredInRepository = item.configuredInRepository === true || item.configured === true
+  const availableInShell = initialShellKeys.has(envName) && configured(process.env[envName])
+  const availableInLocalEnvFile = localEnvFilesForKey(envName).length > 0
+  const availableLocally = configured(process.env[envName])
+  const validation = validateSupportEmail({ envName, configuredInRepository })
+  const localValidationFailed = validation.status === 'fail'
+
+  return {
+    kind: item.kind ?? item.type ?? 'github-variable',
+    unlockId,
     repositoryName,
     envName,
     configuredInRepository,
@@ -332,6 +408,99 @@ const buildOwnerInputPack = (pathPreflight) =>
       }
     : null
 const ownerInputPack = buildOwnerInputPack(lowestInputPathPreflight)
+const buildCombinedOwnerInputPreflight = () => {
+  if (!combinedOwnerInputPack) {
+    return null
+  }
+
+  const combinedInputNameSet = new Set(combinedOwnerInputPack.missingInputNames ?? [])
+  const analyticsInputs = (lowestInputPathPreflight?.inputs ?? [])
+    .filter((input) => combinedInputNameSet.has(input.envName))
+    .map((input) => ({
+      ...input,
+      unlockId: 'production-analytics-browser',
+    }))
+  const supportInputInstruction =
+    supportOwnerInputPack?.inputInstructions?.find((input) => combinedInputNameSet.has(input.envName)) ??
+    (combinedInputNameSet.has('AGL_SUPPORT_EMAIL')
+      ? {
+          kind: 'github-variable',
+          repositoryName: 'AGL_SUPPORT_EMAIL',
+          envName: 'AGL_SUPPORT_EMAIL',
+          configuredInRepository: false,
+          command: 'gh variable set AGL_SUPPORT_EMAIL --body "$AGL_SUPPORT_EMAIL"',
+        }
+      : null)
+  const supportInputs = supportInputInstruction
+    ? [normalizeSupportInput(supportInputInstruction, supportOwnerInputPack?.unlockId ?? 'support-contact')]
+    : []
+  const combinedInputs = [...analyticsInputs, ...supportInputs]
+  const combinedMissingInputs = combinedInputs.filter((input) => !input.ready)
+  const combinedInvalidInputs = combinedInputs.filter((input) => input.validation.status === 'fail')
+  const unavailableReasons = [
+    ...(analyticsInputs.length ? [] : ['combined-analytics-inputs-missing']),
+    ...(combinedInputNameSet.has('AGL_SUPPORT_EMAIL') && supportInputs.length === 0
+      ? ['combined-support-input-missing']
+      : []),
+  ]
+  const status = unavailableReasons.length
+    ? 'combined-owner-input-preflight-unavailable'
+    : combinedInvalidInputs.length
+      ? 'combined-owner-input-preflight-needs-fixes'
+      : combinedMissingInputs.length
+        ? 'combined-owner-input-preflight-waiting-on-input'
+        : 'combined-owner-input-preflight-ready'
+
+  return {
+    id: combinedOwnerInputPack.id,
+    title: combinedOwnerInputPack.title,
+    status,
+    readyForSetup: status === 'combined-owner-input-preflight-ready',
+    localEnvFile: combinedOwnerInputPack.localEnvFile,
+    unlockIds: combinedOwnerInputPack.unlockIds ?? [],
+    analyticsPathId: combinedOwnerInputPack.analyticsPathId ?? lowestInputPathPreflight?.path?.id ?? null,
+    supportUnlockId: combinedOwnerInputPack.supportUnlockId ?? supportOwnerInputPack?.unlockId ?? null,
+    summary: {
+      totalInputs: combinedInputs.length,
+      readyInputs: combinedInputs.filter((input) => input.ready).length,
+      missingInputs: combinedMissingInputs.length,
+      invalidInputs: combinedInvalidInputs.length,
+      secretInputs: combinedOwnerInputPack.secretInputCount ?? 0,
+      setupCanRun: status === 'combined-owner-input-preflight-ready',
+    },
+    missingInputNames: combinedMissingInputs.map((input) => input.envName),
+    localEnvTemplateLines: combinedMissingInputs.map((input) => `${input.envName}=`),
+    shellExportTemplateLines: combinedMissingInputs.map((input) => `export ${input.envName}=`),
+    inputs: combinedInputs.map((input) => ({
+      kind: input.kind,
+      unlockId: input.unlockId,
+      repositoryName: input.repositoryName,
+      envName: input.envName,
+      ready: input.ready,
+      configuredInRepository: input.configuredInRepository,
+      availableLocally: input.availableLocally,
+      availableInLocalEnvFile: input.availableInLocalEnvFile,
+      validation: {
+        kind: input.validation.kind,
+        status: input.validation.status,
+        failedCheckIds: input.validation.failedCheckIds ?? [],
+        detail: input.validation.detail,
+      },
+      command: input.command,
+    })),
+    missingInputs: summarizeInputs(combinedMissingInputs),
+    invalidInputs: summarizeInvalidInputs(combinedInvalidInputs),
+    commands: combinedOwnerInputPack.commands,
+    controls: {
+      ...combinedOwnerInputPack.controls,
+      setupStillRequiresExplicitRun: true,
+    },
+    unavailableReasons,
+  }
+}
+const combinedOwnerInputPreflight = buildCombinedOwnerInputPreflight()
+const combinedInvalidInputs = combinedOwnerInputPreflight?.invalidInputs ?? []
+const combinedMissingInputCount = combinedOwnerInputPreflight?.summary?.missingInputs ?? 0
 const unavailableReasons = [
   ...(ownerUnlockBrief ? [] : ['owner-unlock-brief-missing']),
   ...(brief ? [] : ['owner-unlock-brief-payload-missing']),
@@ -340,9 +509,9 @@ const unavailableReasons = [
 
 const status = unavailableReasons.length
   ? 'owner-unlock-preflight-unavailable'
-  : invalidInputs.length
+  : invalidInputs.length || combinedInvalidInputs.length
     ? 'owner-unlock-preflight-needs-fixes'
-    : missingInputs.length
+    : missingInputs.length || combinedMissingInputCount
       ? 'owner-unlock-preflight-waiting-on-input'
       : 'owner-unlock-preflight-ready'
 
@@ -357,6 +526,7 @@ const payload = {
     nextUnlockId: brief?.nextUnlockId ?? null,
     recommendedPathId: brief?.recommendedPathId ?? null,
     lowestInputPathId: brief?.lowestInputPathId ?? nextUnlockKit?.lowestInputPathId ?? null,
+    storeReadiness: storeReadiness?.status ?? 'missing',
     nextBestUnlockId: productionBlockerHandoff?.summary?.nextBestUnlockId ?? null,
     nextBestZeroCostUnlockId: productionBlockerHandoff?.summary?.nextBestZeroCostUnlockId ?? null,
   },
@@ -383,6 +553,12 @@ const payload = {
       typeof lowestInputPathPreflight?.summary.missingInputs === 'number'
         ? missingInputs.length - lowestInputPathPreflight.summary.missingInputs
         : null,
+    combinedMissingInputs: combinedOwnerInputPreflight?.summary.missingInputs ?? null,
+    combinedInvalidInputs: combinedOwnerInputPreflight?.summary.invalidInputs ?? null,
+    combinedReadyInputs: combinedOwnerInputPreflight?.summary.readyInputs ?? null,
+    combinedTotalInputs: combinedOwnerInputPreflight?.summary.totalInputs ?? null,
+    combinedSecretInputs: combinedOwnerInputPreflight?.summary.secretInputs ?? null,
+    combinedSetupCanRun: combinedOwnerInputPreflight?.summary.setupCanRun ?? false,
   },
   inputs,
   missingInputs: summarizeInputs(missingInputs),
@@ -391,6 +567,7 @@ const payload = {
   lowestInputPreflight: lowestInputPathPreflight,
   minimalInterventionPath,
   ownerInputPack,
+  combinedOwnerInputPreflight,
   localEnvironment: {
     loaded: localEnv.loaded === true,
     supportedFiles: localEnv.supportedFiles,
@@ -409,6 +586,7 @@ const payload = {
     preflight: 'node scripts/owner-unlock-preflight.mjs --assert --print',
     setupPreflight: './ops/github/setup-production.sh --owner-unlock-preflight',
     lowestInputPreflight: 'node scripts/owner-unlock-preflight.mjs --assert --print',
+    combinedInputPreflight: 'node scripts/owner-unlock-preflight.mjs --assert --print',
     packagePreflight: 'npm run autonomous:owner-unlock-preflight',
     syncConfiguredValues: './ops/github/setup-production.sh',
     dispatchWhenReady: 'RUN_WORKFLOWS=1 ./ops/github/setup-production.sh',
@@ -452,6 +630,8 @@ const report = [
   `- lowest-input missing inputs: ${payload.summary.lowestInputMissingInputs ?? 'n/a'}`,
   `- lowest-input secret inputs: ${payload.summary.lowestInputSecretInputs ?? 'n/a'}`,
   `- manual input reduction: ${payload.summary.manualInputReduction ?? 'n/a'}`,
+  `- combined missing inputs: ${payload.summary.combinedMissingInputs ?? 'n/a'}`,
+  `- combined secret inputs: ${payload.summary.combinedSecretInputs ?? 'n/a'}`,
   '',
   '## Minimal Intervention Path',
   '',
@@ -475,6 +655,25 @@ const report = [
     ? payload.ownerInputPack.localEnvTemplateLines.map((line) => `- ${line}`)
     : ['- none']),
   '',
+  '## Combined Owner Input Preflight',
+  '',
+  `- id: ${payload.combinedOwnerInputPreflight?.id ?? 'none'}`,
+  `- status: ${payload.combinedOwnerInputPreflight?.status ?? 'none'}`,
+  `- local env file: ${payload.combinedOwnerInputPreflight?.localEnvFile ?? 'none'}`,
+  `- missing input names: ${payload.combinedOwnerInputPreflight?.missingInputNames?.join(', ') || 'none'}`,
+  `- secret inputs: ${payload.combinedOwnerInputPreflight?.summary?.secretInputs ?? 'n/a'}`,
+  `- ready for setup: ${payload.combinedOwnerInputPreflight?.readyForSetup === true}`,
+  `- support validation: ${
+    payload.combinedOwnerInputPreflight?.inputs?.find((input) => input.envName === 'AGL_SUPPORT_EMAIL')?.validation
+      ?.status ?? 'unknown'
+  }`,
+  '',
+  '### Combined Local Env Template',
+  '',
+  ...(payload.combinedOwnerInputPreflight?.localEnvTemplateLines?.length
+    ? payload.combinedOwnerInputPreflight.localEnvTemplateLines.map((line) => `- ${line}`)
+    : ['- none']),
+  '',
   '## Path Options',
   '',
   ...payload.pathPreflights.map(
@@ -496,6 +695,7 @@ const report = [
   `- print brief: ${payload.commands.printBrief}`,
   `- preflight: ${payload.commands.preflight}`,
   `- setup preflight: ${payload.commands.setupPreflight}`,
+  `- combined input preflight: ${payload.commands.combinedInputPreflight}`,
   `- package preflight: ${payload.commands.packagePreflight}`,
   `- sync configured values: ${payload.commands.syncConfiguredValues}`,
   `- workflow dispatch when ready: ${payload.commands.dispatchWhenReady}`,
@@ -534,9 +734,10 @@ if (assertMode) {
     fail('Owner unlock preflight must never store raw variable or secret values.')
   }
 
-  if (invalidInputs.length) {
+  if (invalidInputs.length || combinedInvalidInputs.length) {
     fail(
       `Owner unlock preflight found invalid local input shapes: ${invalidInputs
+        .concat(combinedInvalidInputs)
         .map((input) => input.repositoryName)
         .join(', ')}`,
     )
@@ -580,6 +781,14 @@ if (jsonMode) {
     '  - Local env template:',
     ...linesForTemplate(payload.ownerInputPack?.localEnvTemplateLines ?? [], 'none'),
     '',
+    'Combined owner input preflight:',
+    `  - Status: ${payload.combinedOwnerInputPreflight?.status ?? 'none'}`,
+    `  - Local env file: ${payload.combinedOwnerInputPreflight?.localEnvFile ?? 'none'}`,
+    `  - Missing inputs: ${payload.combinedOwnerInputPreflight?.missingInputNames?.join(', ') || 'none'}`,
+    `  - Secret inputs: ${payload.combinedOwnerInputPreflight?.summary?.secretInputs ?? 'n/a'}`,
+    '  - Local env template:',
+    ...linesForTemplate(payload.combinedOwnerInputPreflight?.localEnvTemplateLines ?? [], 'none'),
+    '',
     'Missing inputs:',
     ...linesForInputs(payload.missingInputs, 'none'),
     '',
@@ -589,6 +798,7 @@ if (jsonMode) {
     'Commands:',
     `  - Print brief: ${payload.commands.printBrief}`,
     `  - Preflight: ${payload.commands.preflight}`,
+    `  - Combined input preflight: ${payload.commands.combinedInputPreflight}`,
     `  - Setup preflight: ${payload.commands.setupPreflight}`,
     `  - Sync configured values: ${payload.commands.syncConfiguredValues}`,
     `  - Dispatch when ready: ${payload.commands.dispatchWhenReady}`,
