@@ -613,13 +613,20 @@ const analyticsEventNames = extractQuotedValues(analyticsEventTypeSource)
 const collectorAllowedEventNames = new Set(extractQuotedValues(collectorAllowedEventSource))
 const missingCollectorEventNames = analyticsEventNames.filter((eventName) => !collectorAllowedEventNames.has(eventName))
 const sampleFastestRouteEvents = ['sample_fastest_viewed', 'sample_fastest_routed']
+const sampleFastestReturnEvents = ['daily_return_link_copied', 'daily_return_calendar_downloaded']
 const sampleFastestEventContractsCurrent =
   sampleFastestRouteEvents.every((eventName) => analyticsLibSource.includes(`'${eventName}'`)) &&
   sampleFastestRouteEvents.every((eventName) => eventCollectorWorkerSource.includes(`'${eventName}'`)) &&
   sampleFastestRouteEvents.every((eventName) => eventIngestorSource.includes(`'${eventName}'`)) &&
   sampleFastestRouteEvents.every((eventName) => localEventBridgeSource.includes(`'${eventName}'`)) &&
   sampleFastestRouteEvents.every((eventName) => analyticsRollupSource.includes(`'${eventName}'`)) &&
+  sampleFastestReturnEvents.every((eventName) => analyticsLibSource.includes(`'${eventName}'`)) &&
+  sampleFastestReturnEvents.every((eventName) => eventCollectorWorkerSource.includes(`'${eventName}'`)) &&
+  sampleFastestReturnEvents.every((eventName) => eventIngestorSource.includes(`'${eventName}'`)) &&
+  sampleFastestReturnEvents.every((eventName) => localEventBridgeSource.includes(`'${eventName}'`)) &&
+  sampleFastestReturnEvents.every((eventName) => analyticsRollupSource.includes(`'${eventName}'`)) &&
   sampleFastestRouteEvents.every((eventName) => trafficSeedingSource.includes(`'${eventName}'`)) &&
+  sampleFastestReturnEvents.every((eventName) => trafficSeedingSource.includes(`'${eventName}'`)) &&
   acquisitionLearningSource.includes("'sample_fastest_routed'")
 const corePlayableIds = new Set([
   'harbor-rings',
@@ -1859,6 +1866,7 @@ const trafficFastestSampleMission =
   productGateSamplePlan.missions?.find((mission) => mission.gateId === productGateSamplePlan.summary?.fastestGateId) ??
   productGateSamplePlan.missions?.find((mission) => String(mission.sampleRole ?? '').includes('fastest-validation')) ??
   null
+const trafficFastestReturnHandoff = trafficSeeding.sampleFastestRoute?.returnHandoff ?? null
 
 if (
   trafficSeeding.status !== 'traffic-seeding-ready' ||
@@ -1908,6 +1916,15 @@ if (
   shareManifest.sampleFastest?.noAutomatedExternalPosting !== true ||
   shareManifest.sampleFastest?.noSyntheticEvents !== true ||
   shareManifest.sampleFastest?.noRevenueEnablement !== true ||
+  shareManifest.sampleFastest?.returnHandoff?.status !== 'armed' ||
+  shareManifest.sampleFastest?.returnHandoff?.campaignId !== trafficFastestSampleMission?.campaignId ||
+  shareManifest.sampleFastest?.returnHandoff?.returnPath !== trafficFastestReturnHandoff?.returnPath ||
+  shareManifest.sampleFastest?.returnHandoff?.telemetry?.copied !== 'daily_return_link_copied' ||
+  shareManifest.sampleFastest?.returnHandoff?.telemetry?.calendarDownloaded !==
+    'daily_return_calendar_downloaded' ||
+  shareManifest.sampleFastest?.returnHandoff?.controls?.playerInitiatedOnly !== true ||
+  shareManifest.sampleFastest?.returnHandoff?.controls?.noExternalUpload !== true ||
+  shareManifest.sampleFastest?.returnHandoff?.controls?.noSyntheticEvents !== true ||
   shareManifest.seedKit?.campaignCount !== trafficCampaigns.length ||
 	  shareManifest.seedKit?.costUsd !== 0 ||
 	  shareManifest.seedKit?.playerInitiatedSharingOnly !== true ||
@@ -1959,6 +1976,21 @@ if (
   trafficSeeding.sampleFastestRoute?.noAutomatedExternalPosting !== true ||
   trafficSeeding.sampleFastestRoute?.noSyntheticEvents !== true ||
   trafficSeeding.sampleFastestRoute?.noRevenueEnablement !== true ||
+  trafficFastestReturnHandoff?.status !== 'armed' ||
+  trafficFastestReturnHandoff?.gateId !== 'd1Retention' ||
+  trafficFastestReturnHandoff?.campaignId !== trafficFastestSampleMission?.campaignId ||
+  trafficFastestReturnHandoff?.returnPath?.includes('return_intent=') !== true ||
+  trafficFastestReturnHandoff?.calendarFileExtension !== '.ics' ||
+  trafficFastestReturnHandoff?.telemetry?.copied !== 'daily_return_link_copied' ||
+  trafficFastestReturnHandoff?.telemetry?.calendarDownloaded !== 'daily_return_calendar_downloaded' ||
+  trafficFastestReturnHandoff?.controls?.playerInitiatedOnly !== true ||
+  trafficFastestReturnHandoff?.controls?.noNotificationPermissionRequest !== true ||
+  trafficFastestReturnHandoff?.controls?.noPushNotifications !== true ||
+  trafficFastestReturnHandoff?.controls?.noAccountRequired !== true ||
+  trafficFastestReturnHandoff?.controls?.noExternalUpload !== true ||
+  trafficFastestReturnHandoff?.controls?.noRevenueEnablement !== true ||
+  trafficFastestReturnHandoff?.controls?.noSyntheticEvents !== true ||
+  trafficSeeding.sampleDistribution?.fastestReturnHandoffEnabled !== true ||
   trafficSeeding.sampleDistribution?.sampleNextPath !== '/sample-next.html' ||
   trafficSeeding.sampleDistribution?.sampleNextJsonPath !== '/sample-next.json' ||
   trafficSeeding.sampleDistribution?.sampleFastestPath !== '/sample-fastest.html' ||
@@ -2002,7 +2034,20 @@ if (
   sampleFastestJson.guardrails?.noPaidPromotion !== true ||
   sampleFastestJson.guardrails?.noSyntheticEvents !== true ||
   sampleFastestJson.guardrails?.noRevenueEnablement !== true ||
+  sampleFastestJson.returnHandoff?.status !== 'armed' ||
+  sampleFastestJson.returnHandoff?.campaignId !== trafficFastestSampleMission?.campaignId ||
+  sampleFastestJson.returnHandoff?.returnPath !== trafficFastestReturnHandoff?.returnPath ||
+  sampleFastestJson.returnHandoff?.telemetry?.copied !== 'daily_return_link_copied' ||
+  sampleFastestJson.returnHandoff?.telemetry?.calendarDownloaded !== 'daily_return_calendar_downloaded' ||
+  sampleFastestJson.returnHandoff?.controls?.playerInitiatedOnly !== true ||
+  sampleFastestJson.returnHandoff?.controls?.noExternalUpload !== true ||
+  sampleFastestJson.returnHandoff?.controls?.noSyntheticEvents !== true ||
   !sampleFastestHtml.includes('Fastest zero-spend gate sample') ||
+  !sampleFastestHtml.includes('D1 return handoff') ||
+  !sampleFastestHtml.includes('daily_return_link_copied') ||
+  !sampleFastestHtml.includes('daily_return_calendar_downloaded') ||
+  !sampleFastestHtml.includes('returnHandoffActive') ||
+  !sampleFastestHtml.includes('return_intent') ||
   !sampleFastestHtml.includes('sample_fastest_viewed') ||
   !sampleFastestHtml.includes('sample_fastest_routed') ||
   !sampleFastestHtml.includes('gate_sample_mission_clicked') ||

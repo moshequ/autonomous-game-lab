@@ -1,105 +1,33 @@
 {
-  "generatedAt": "2026-05-25T23:06:29.240Z",
-  "status": "operator-held",
+  "generatedAt": "2026-05-25T23:25:07.123Z",
+  "status": "operator-plan-ready",
   "mode": "plan-only",
   "ownerDecision": {
-    "actionId": "hold-for-external-input",
-    "command": "No local command is available until external inputs, configured credentials, or new player evidence arrive.",
-    "locallyExecutable": false,
-    "rejectionReason": "status-monitor"
+    "actionId": "seed-portfolio-traffic",
+    "command": "npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop",
+    "locallyExecutable": true,
+    "rejectionReason": null
   },
-  "externalInputHandoff": {
-    "status": "handoff-waiting-on-owner-inputs",
-    "holdReason": "All safe local actions are current; remaining progress requires external inputs or new player evidence.",
-    "nextUnlockId": "production-analytics-browser",
-    "title": "Browser production analytics unlock kit",
-    "recommendedPathId": "first-party-collector",
-    "recommendedPathStatus": "needs-variables-and-secrets",
-    "lowestInputPathId": "posthog-browser",
-    "lowestInputPathStatus": "needs-public-project-key",
-    "lowestInputMissingVariableCount": 2,
-    "lowestInputMissingSecretCount": 0,
-    "lowestInputMissingInputCount": 2,
-    "lowestInputReason": "PostHog browser capture currently needs 2 missing input(s), compared with 4 for the recommended path.",
-    "publicStatusPage": "/measurement-status.html",
-    "publicStatusJson": "/measurement-status.json",
-    "setupScript": "ops/github/setup-production.sh",
-    "envTemplate": "ops/production.env.example",
-    "missingVariableCount": 5,
-    "missingSecretCount": 1,
-    "commandCount": 7,
-    "validationCommandCount": 4,
-    "requiredVariables": [
-      {
-        "repositoryName": "CLOUDFLARE_ACCOUNT_ID",
-        "envName": "CLOUDFLARE_ACCOUNT_ID",
-        "configured": false
-      },
-      {
-        "repositoryName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
-        "envName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
-        "configured": true
-      },
-      {
-        "repositoryName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
-        "envName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
-        "configured": true
-      },
-      {
-        "repositoryName": "VITE_EVENT_COLLECTOR_URL",
-        "envName": "VITE_EVENT_COLLECTOR_URL",
-        "configured": false
-      },
-      {
-        "repositoryName": "AGL_EVENT_COLLECTOR_EXPORT_URL",
-        "envName": "AGL_EVENT_COLLECTOR_EXPORT_URL",
-        "configured": false
-      }
-    ],
-    "requiredSecrets": [
-      {
-        "repositoryName": "CLOUDFLARE_API_TOKEN",
-        "envName": "CLOUDFLARE_API_TOKEN",
-        "configured": false
-      },
-      {
-        "repositoryName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
-        "envName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
-        "configured": true
-      },
-      {
-        "repositoryName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
-        "envName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
-        "configured": true
-      }
-    ],
-    "commandSequence": [
-      "npm run autonomous:event-collector-smoke",
-      "npm run autonomous:collector-deploy-plan",
-      "./ops/github/setup-production.sh",
-      "RUN_WORKFLOWS=1 ./ops/github/setup-production.sh",
-      "npm run autonomous:readiness"
-    ],
-    "validationCommands": [
-      "npm run autonomous:event-collector-smoke",
-      "npm run autonomous:collector-deploy-plan",
-      "npm run autonomous:readiness",
-      "npm run test:e2e"
-    ],
-    "controls": {
-      "zeroPaidSpend": true,
-      "noSecretValues": true,
-      "noSecretValuesStored": true,
-      "noAccountCreation": true,
-      "noStoreSubmission": true,
-      "noRevenueEnablement": true,
-      "operatorWillNotRunExternalWorkflow": true
-    }
-  },
+  "externalInputHandoff": null,
   "requestedActionId": null,
-  "selectedAction": null,
+  "selectedAction": {
+    "id": "seed-portfolio-traffic",
+    "status": "armed",
+    "command": "npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop",
+    "targets": [
+      "market-pulse",
+      "guild-garden",
+      "canopy-bloom",
+      "metro-loom"
+    ],
+    "reason": "Under-measured playable games need free organic/internal traffic before quality judgment.",
+    "costUsd": 0
+  },
   "selectedRejection": null,
-  "eligibleActionIds": [],
+  "eligibleActionIds": [
+    "seed-portfolio-traffic",
+    "refresh-organic-seed-loop"
+  ],
   "blockedActions": [
     {
       "id": "run-daily-owner-loop",
@@ -126,16 +54,10 @@
       "reason": "status-monitor"
     },
     {
-      "id": "seed-portfolio-traffic",
-      "status": "monitor",
-      "command": "npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop",
-      "reason": "status-monitor"
-    },
-    {
       "id": "refresh-organic-seed-loop",
-      "status": "monitor",
+      "status": "armed",
       "command": "npm run autonomous:organic-seed-loop",
-      "reason": "status-monitor"
+      "reason": "not-selected-this-run"
     },
     {
       "id": "refresh-support-feedback",
@@ -318,7 +240,28 @@
       "reason": "status-monitor"
     }
   ],
-  "commandPlan": [],
+  "commandPlan": [
+    {
+      "segment": "npm run autonomous:growth",
+      "script": "autonomous:growth"
+    },
+    {
+      "segment": "npm run autonomous:portfolio",
+      "script": "autonomous:portfolio"
+    },
+    {
+      "segment": "npm run autonomous:traffic",
+      "script": "autonomous:traffic"
+    },
+    {
+      "segment": "npm run autonomous:acquisition",
+      "script": "autonomous:acquisition"
+    },
+    {
+      "segment": "npm run autonomous:organic-seed-loop",
+      "script": "autonomous:organic-seed-loop"
+    }
+  ],
   "execution": {
     "requested": false,
     "status": "not-requested",
@@ -393,7 +336,7 @@
     "RUN_WORKFLOWS=1"
   ],
   "nextActions": [
-    "Resolve production-analytics-browser through /measurement-status.html, then rerun npm run autonomous:readiness.",
+    "Run npm run autonomous:operator -- --execute --action=seed-portfolio-traffic to execute exactly one allowed local action.",
     "Do not execute GitHub workflow, store, paid ads, or account setup commands from the local operator."
   ]
 }

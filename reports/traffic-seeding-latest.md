@@ -1,6 +1,6 @@
 # Traffic Seeding
 
-Generated: 2026-05-25T21:01:13.024Z
+Generated: 2026-05-25T23:19:03.922Z
 Status: traffic-seeding-ready
 Analytics source: fixture-sample
 Max cost: $0.00
@@ -33,5 +33,6 @@ Max cost: $0.00
 - Feature Market Pulse in the internal growth loop and share manifest.
 - Feature Sample First game completion as the default product-gate sample share link.
 - Expose Sample D1 retention through /sample-fastest.html for the quickest separate gate validation.
+- Publish a player-initiated D1 return handoff on /sample-fastest.html for 2026-05-26.
 - Keep traffic sources organic/internal until paid acquisition gates pass.
 - Judge seeded games only after each reaches the target start sample.

@@ -8034,6 +8034,7 @@ test('zero-spend seed kit is reachable and uses runtime-relative campaign links'
       noSyntheticEvents: boolean
       exportControls: boolean
       shareControls: boolean
+      fastestReturnHandoffEnabled: boolean
     }
     evergreenRoute: {
       status: string
@@ -8070,6 +8071,30 @@ test('zero-spend seed kit is reachable and uses runtime-relative campaign links'
       noAutomatedExternalPosting: boolean
       noSyntheticEvents: boolean
       noRevenueEnablement: boolean
+      telemetry: string[]
+      returnHandoff?: {
+        status: string
+        gateId: string
+        gameId: string
+        campaignId: string
+        intentDate: string
+        queryParam: string
+        returnPath: string
+        copyCta: string
+        calendarCta: string
+        calendarFileExtension: string
+        surface: string
+        telemetry: { copied: string; calendarDownloaded: string }
+        controls: {
+          playerInitiatedOnly: boolean
+          noNotificationPermissionRequest: boolean
+          noPushNotifications: boolean
+          noAccountRequired: boolean
+          noExternalUpload: boolean
+          noRevenueEnablement: boolean
+          noSyntheticEvents: boolean
+        }
+      } | null
     }
     campaigns: Array<{ id: string; gameId: string; sharePath: string; title: string }>
   }
@@ -8124,6 +8149,13 @@ test('zero-spend seed kit is reachable and uses runtime-relative campaign links'
       noRevenueEnablement: boolean
       localAnalyticsEvents: boolean
       localAnalyticsStorageKey: string
+      returnHandoff?: {
+        status: string
+        campaignId: string
+        returnPath: string
+        telemetry: { copied: string; calendarDownloaded: string }
+        controls: { playerInitiatedOnly: boolean; noExternalUpload: boolean; noSyntheticEvents: boolean }
+      } | null
     }
     gateSampleKit: {
       path: string
@@ -8207,6 +8239,29 @@ test('zero-spend seed kit is reachable and uses runtime-relative campaign links'
       noSyntheticEvents: boolean
       noRevenueEnablement: boolean
     }
+    returnHandoff?: {
+      status: string
+      gateId: string
+      gameId: string
+      campaignId: string
+      intentDate: string
+      queryParam: string
+      returnPath: string
+      copyCta: string
+      calendarCta: string
+      calendarFileExtension: string
+      surface: string
+      telemetry: { copied: string; calendarDownloaded: string }
+      controls: {
+        playerInitiatedOnly: boolean
+        noNotificationPermissionRequest: boolean
+        noPushNotifications: boolean
+        noAccountRequired: boolean
+        noExternalUpload: boolean
+        noRevenueEnablement: boolean
+        noSyntheticEvents: boolean
+      }
+    } | null
     telemetry: string[]
   }
 
@@ -8259,6 +8314,29 @@ test('zero-spend seed kit is reachable and uses runtime-relative campaign links'
   expect(traffic.sampleFastestRoute.noAutomatedExternalPosting).toBe(true)
   expect(traffic.sampleFastestRoute.noSyntheticEvents).toBe(true)
   expect(traffic.sampleFastestRoute.noRevenueEnablement).toBe(true)
+  expect(traffic.sampleFastestRoute.returnHandoff).toMatchObject({
+    status: 'armed',
+    gateId: 'd1Retention',
+    campaignId: traffic.sampleFastestRoute.targetCampaignId,
+    queryParam: 'return_intent',
+    calendarFileExtension: '.ics',
+    telemetry: {
+      copied: 'daily_return_link_copied',
+      calendarDownloaded: 'daily_return_calendar_downloaded',
+    },
+    controls: {
+      playerInitiatedOnly: true,
+      noNotificationPermissionRequest: true,
+      noPushNotifications: true,
+      noAccountRequired: true,
+      noExternalUpload: true,
+      noRevenueEnablement: true,
+      noSyntheticEvents: true,
+    },
+  })
+  expect(traffic.sampleFastestRoute.returnHandoff?.returnPath).toContain('return_intent=')
+  expect(traffic.sampleFastestRoute.telemetry).toContain('daily_return_link_copied')
+  expect(traffic.sampleFastestRoute.telemetry).toContain('daily_return_calendar_downloaded')
   expect(shareManifest.sampleNext.path).toBe('/sample-next.html')
   expect(shareManifest.sampleNext.jsonPath).toBe('/sample-next.json')
   expect(shareManifest.sampleNext.targetCampaignId).toBe(traffic.sampleNextRoute.targetCampaignId)
@@ -8281,6 +8359,11 @@ test('zero-spend seed kit is reachable and uses runtime-relative campaign links'
   expect(shareManifest.sampleFastest.noSyntheticEvents).toBe(true)
   expect(shareManifest.sampleFastest.noRevenueEnablement).toBe(true)
   expect(shareManifest.sampleFastest.localAnalyticsStorageKey).toBe('agl.analytics.events')
+  expect(shareManifest.sampleFastest.returnHandoff?.campaignId).toBe(traffic.sampleFastestRoute.targetCampaignId)
+  expect(shareManifest.sampleFastest.returnHandoff?.returnPath).toBe(
+    traffic.sampleFastestRoute.returnHandoff?.returnPath,
+  )
+  expect(shareManifest.sampleFastest.returnHandoff?.controls.noExternalUpload).toBe(true)
   expect(seedNext.path).toBe('/seed-next.html')
   expect(seedNext.jsonPath).toBe('/seed-next.json')
   expect(seedNext.status).toBe('armed')
@@ -8322,6 +8405,14 @@ test('zero-spend seed kit is reachable and uses runtime-relative campaign links'
   expect(sampleFastest.guardrails.noRevenueEnablement).toBe(true)
   expect(sampleFastest.telemetry).toContain('sample_fastest_viewed')
   expect(sampleFastest.telemetry).toContain('sample_fastest_routed')
+  expect(sampleFastest.telemetry).toContain('daily_return_link_copied')
+  expect(sampleFastest.telemetry).toContain('daily_return_calendar_downloaded')
+  expect(sampleFastest.returnHandoff?.campaignId).toBe(sampleFastest.target.campaignId)
+  expect(sampleFastest.returnHandoff?.gameId).toBe(sampleFastest.target.gameId)
+  expect(sampleFastest.returnHandoff?.gateId).toBe('d1Retention')
+  expect(sampleFastest.returnHandoff?.controls.playerInitiatedOnly).toBe(true)
+  expect(sampleFastest.returnHandoff?.controls.noExternalUpload).toBe(true)
+  expect(sampleFastest.returnHandoff?.controls.noSyntheticEvents).toBe(true)
   expect(traffic.sampleDistribution.status).toBe('gate-sample-sharing-ready')
   expect(traffic.sampleDistribution.sampleNextPath).toBe('/sample-next.html')
   expect(traffic.sampleDistribution.sampleNextJsonPath).toBe('/sample-next.json')
@@ -8333,6 +8424,7 @@ test('zero-spend seed kit is reachable and uses runtime-relative campaign links'
   expect(traffic.sampleDistribution.noSyntheticEvents).toBe(true)
   expect(traffic.sampleDistribution.exportControls).toBe(true)
   expect(traffic.sampleDistribution.shareControls).toBe(true)
+  expect(traffic.sampleDistribution.fastestReturnHandoffEnabled).toBe(true)
   expect(shareManifest.gateSampleKit.path).toBe(traffic.sampleDistribution.kitPath)
   expect(shareManifest.gateSampleKit.defaultCampaignId).toBe(traffic.sampleDistribution.defaultCampaignId)
   expect(shareManifest.gateSampleKit.playerInitiatedSharingOnly).toBe(true)
@@ -8475,15 +8567,63 @@ test('zero-spend seed kit is reachable and uses runtime-relative campaign links'
       ),
   ).toBe(true)
 
+  await page.addInitScript(() => {
+    Object.defineProperty(navigator, 'clipboard', {
+      configurable: true,
+      value: {
+        writeText: (text: string) => {
+          ;(window as unknown as { __lastClipboardWrite?: string }).__lastClipboardWrite = text
+          return Promise.resolve()
+        },
+      },
+    })
+  })
+
   await page.goto('/sample-fastest.html?preview=1')
   await expect(page.getByRole('heading', { name: sampleFastest.target.title })).toBeVisible()
   await expect(page.getByRole('link').first()).toHaveAttribute('href', runtimeHref(sampleFastest.target.targetPath))
+  await expect(page.getByText('D1 return handoff')).toBeVisible()
   await expect(page.locator('[data-sample-fastest-status]')).toContainText('Preview mode')
+  await page.getByRole('button', { name: sampleFastest.returnHandoff?.copyCta ?? 'Copy return link' }).click()
+  const calendarDownloadPromise = page.waitForEvent('download')
+  await page.getByRole('button', { name: sampleFastest.returnHandoff?.calendarCta ?? 'Save reminder' }).click()
+  const calendarDownload = await calendarDownloadPromise
+  const calendarDownloadPath = await calendarDownload.path()
+  expect(calendarDownload.suggestedFilename()).toBe(`agl-return-${sampleFastest.returnHandoff?.intentDate}.ics`)
+
+  if (calendarDownloadPath) {
+    const calendarText = await readFile(calendarDownloadPath, 'utf8')
+    const calendarDate = sampleFastest.returnHandoff?.intentDate.replaceAll('-', '')
+
+    expect(calendarText).toContain('BEGIN:VCALENDAR')
+    expect(calendarText).toContain(`DTSTART;VALUE=DATE:${calendarDate}`)
+    expect(calendarText).toContain(sampleFastest.returnHandoff?.queryParam)
+    expect(calendarText).toContain(sampleFastest.target.campaignId)
+  }
+
+  await expect
+    .poll(() => page.evaluate(() => (window as unknown as { __lastClipboardWrite?: string }).__lastClipboardWrite ?? ''))
+    .not.toBe('')
+  const copiedFastestReturnUrl = await page.evaluate(
+    () => (window as unknown as { __lastClipboardWrite?: string }).__lastClipboardWrite ?? '',
+  )
+  const fastestReturnUrl = new URL(copiedFastestReturnUrl, page.url())
+  expect(fastestReturnUrl.searchParams.get(sampleFastest.returnHandoff?.queryParam ?? 'return_intent')).toBe(
+    sampleFastest.returnHandoff?.intentDate,
+  )
+  expect(fastestReturnUrl.searchParams.get('utm_source')).toBe('gate_sample')
+  expect(fastestReturnUrl.searchParams.get('utm_campaign')).toBe(sampleFastest.target.campaignId)
   const fastestPreviewEvents = await page.evaluate(() =>
     JSON.parse(window.localStorage.getItem('agl.analytics.events') ?? '[]') as Array<{
       name: string
       properties: Record<string, string | number | boolean>
     }>,
+  )
+  const fastestCopyEvent = fastestPreviewEvents.findLast(
+    (event) => event.name === sampleFastest.returnHandoff?.telemetry.copied,
+  )
+  const fastestCalendarEvent = fastestPreviewEvents.findLast(
+    (event) => event.name === sampleFastest.returnHandoff?.telemetry.calendarDownloaded,
   )
   expect(
     fastestPreviewEvents.some(
@@ -8491,9 +8631,16 @@ test('zero-spend seed kit is reachable and uses runtime-relative campaign links'
         event.name === 'sample_fastest_viewed' &&
         event.properties.campaignId === sampleFastest.target.campaignId &&
         event.properties.acquisitionChannel === 'product-gate-sample' &&
+        event.properties.returnHandoffActive === true &&
         event.properties.noSyntheticEvents === true,
     ),
   ).toBe(true)
+  expect(fastestCopyEvent?.properties.intentDate).toBe(sampleFastest.returnHandoff?.intentDate)
+  expect(fastestCopyEvent?.properties.noPushNotifications).toBe(true)
+  expect(fastestCopyEvent?.properties.noExternalUpload).toBe(true)
+  expect(fastestCalendarEvent?.properties.fileExtension).toBe('.ics')
+  expect(fastestCalendarEvent?.properties.playerInitiatedOnly).toBe(true)
+  expect(fastestCalendarEvent?.properties.noNotificationPermissionRequest).toBe(true)
 
   await page.goto('/sample-fastest.html')
   await page.waitForURL((url) => url.searchParams.get('utm_campaign') === sampleFastest.target.campaignId)
@@ -9907,6 +10054,12 @@ test('production measurement status publishes public aggregate evidence handoff'
       noPaidPromotion: boolean
       noSyntheticEvents: boolean
       noRevenueEnablement: boolean
+      returnHandoff?: {
+        status: string
+        returnPath: string
+        telemetry: { copied: string; calendarDownloaded: string }
+        controls: { playerInitiatedOnly: boolean; noExternalUpload: boolean; noSyntheticEvents: boolean }
+      } | null
     }
   }
   const postDeploySync = JSON.parse(await readFile('data/post-deploy-artifact-sync.json', 'utf8')) as {
@@ -10169,6 +10322,12 @@ test('production measurement status publishes public aggregate evidence handoff'
           noSyntheticEvents: boolean
           noRevenueEnablement: boolean
         }
+        returnHandoff?: {
+          status: string
+          returnPath: string
+          telemetry: { copied: string; calendarDownloaded: string }
+          controls: { playerInitiatedOnly: boolean; noExternalUpload: boolean; noSyntheticEvents: boolean }
+        } | null
       }
     }
     analyticsUnlock: {
@@ -10820,6 +10979,19 @@ test('production measurement status publishes public aggregate evidence handoff'
     targetGameId: traffic.sampleFastestRoute.targetGameId,
     targetPath: traffic.sampleFastestRoute.targetPath,
     costUsd: 0,
+  })
+  expect(measurement.productGateEvidence.sampleFastestRoute.returnHandoff).toMatchObject({
+    status: 'armed',
+    returnPath: traffic.sampleFastestRoute.returnHandoff?.returnPath,
+    telemetry: {
+      copied: 'daily_return_link_copied',
+      calendarDownloaded: 'daily_return_calendar_downloaded',
+    },
+    controls: {
+      playerInitiatedOnly: true,
+      noExternalUpload: true,
+      noSyntheticEvents: true,
+    },
   })
   expect(measurement.productGateEvidence.sampleFastestRoute.guardrails).toMatchObject({
     playerInitiatedOnly: true,

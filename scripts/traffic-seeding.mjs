@@ -100,6 +100,14 @@ const productGateSamplePlan = await readOptionalJson(path.join(dataDir, 'product
   missions: [],
   controls: {},
 })
+const retentionLoop = await readOptionalJson(path.join(dataDir, 'retention-loop.json'), {
+  status: 'missing',
+  dailyChallenge: {},
+  returnLinkPolicy: {},
+  returnCalendarPolicy: {},
+  promptPolicy: {},
+  guardrails: {},
+})
 const supportChannel = await readOptionalJson(path.join(dataDir, 'support-channel.json'), {
   status: 'missing',
   repository: { target: null },
@@ -133,6 +141,13 @@ const sourceDataHash = hashSourceData({
   growth,
   analytics,
   unitEconomics,
+  retentionLoop: {
+    status: retentionLoop.status,
+    dailyChallenge: retentionLoop.dailyChallenge,
+    returnLinkPolicy: retentionLoop.returnLinkPolicy,
+    returnCalendarPolicy: retentionLoop.returnCalendarPolicy,
+    promptPolicy: retentionLoop.promptPolicy,
+  },
   supportChannel: {
     status: supportChannel.status,
     repository: aggregateEvidenceRepository,
@@ -274,6 +289,55 @@ const fastestGateSampleMission =
   gateSampleMissions.find((mission) => mission.gateId === productGateSamplePlan.summary?.fastestGateId) ??
   gateSampleMissions.find((mission) => mission.tags.some((tag) => String(tag).includes('fastest-validation'))) ??
   null
+const appendQueryParams = (pathname, params) => {
+  const url = new URL(pathname ?? '/', 'https://runtime.invalid')
+
+  for (const [key, value] of Object.entries(params)) {
+    if (value !== null && value !== undefined && value !== '') {
+      url.searchParams.set(key, String(value))
+    }
+  }
+
+  return `${url.pathname}${url.search}`
+}
+const fastestReturnHandoff =
+  fastestGateSampleMission?.gateId === 'd1Retention' &&
+  retentionLoop.returnLinkPolicy?.status === 'armed' &&
+  retentionLoop.returnCalendarPolicy?.status === 'armed' &&
+  typeof retentionLoop.returnLinkPolicy?.queryParam === 'string' &&
+  typeof retentionLoop.promptPolicy?.nextChallengeDate === 'string'
+    ? {
+        status: 'armed',
+        gateId: fastestGateSampleMission.gateId,
+        gameId: fastestGateSampleMission.gameId,
+        campaignId: fastestGateSampleMission.campaignId,
+        challengeDate: retentionLoop.dailyChallenge?.date ?? null,
+        intentDate: retentionLoop.promptPolicy.nextChallengeDate,
+        queryParam: retentionLoop.returnLinkPolicy.queryParam,
+        returnPath: appendQueryParams(fastestGateSampleMission.playPath, {
+          [retentionLoop.returnLinkPolicy.queryParam]: retentionLoop.promptPolicy.nextChallengeDate,
+        }),
+        copyCta: retentionLoop.returnLinkPolicy.ctaLabel ?? 'Copy return link',
+        calendarCta: retentionLoop.returnCalendarPolicy.ctaLabel ?? 'Save reminder',
+        calendarFileExtension: retentionLoop.returnCalendarPolicy.fileExtension ?? '.ics',
+        surface: 'sample-fastest-return-handoff',
+        telemetry: {
+          copied: retentionLoop.returnLinkPolicy.telemetry?.copied ?? 'daily_return_link_copied',
+          calendarDownloaded:
+            retentionLoop.returnCalendarPolicy.telemetry?.downloaded ?? 'daily_return_calendar_downloaded',
+        },
+        controls: {
+          zeroPaidSpend: true,
+          playerInitiatedOnly: true,
+          noNotificationPermissionRequest: true,
+          noPushNotifications: true,
+          noAccountRequired: true,
+          noExternalUpload: true,
+          noRevenueEnablement: true,
+          noSyntheticEvents: true,
+        },
+      }
+    : null
 const seedNextCampaign = campaigns[0] ?? null
 const seedNextRoute = {
   status: seedNextCampaign ? 'armed' : 'waiting-for-seed-campaign',
@@ -333,7 +397,19 @@ const sampleFastestRoute = {
   noRevenueEnablement: true,
   localAnalyticsEvents: true,
   localAnalyticsStorageKey: 'agl.analytics.events',
-  telemetry: ['sample_fastest_viewed', 'sample_fastest_routed', 'gate_sample_mission_clicked', 'game_started'],
+  returnHandoff: fastestReturnHandoff,
+  telemetry: [
+    'sample_fastest_viewed',
+    'sample_fastest_routed',
+    'gate_sample_mission_clicked',
+    'game_started',
+    ...(fastestReturnHandoff
+      ? [
+          fastestReturnHandoff.telemetry.copied,
+          fastestReturnHandoff.telemetry.calendarDownloaded,
+        ]
+      : []),
+  ],
 }
 
 const payload = {
@@ -378,6 +454,7 @@ const payload = {
     noSyntheticEvents: productGateSamplePlan.controls?.noSyntheticGatePasses === true,
     exportControls: productGateSamplePlan.publicSamplePage?.playerInitiatedExportEnabled === true,
     shareControls: productGateSamplePlan.publicSamplePage?.playerInitiatedShareEnabled === true,
+    fastestReturnHandoffEnabled: Boolean(fastestReturnHandoff),
   },
   sitemapPriority,
   nextActions: [
@@ -389,6 +466,11 @@ const payload = {
       : []),
     ...(fastestGateSampleMission
       ? [`Expose ${fastestGateSampleMission.title} through ${sampleFastestRoute.path} for the quickest separate gate validation.`]
+      : []),
+    ...(fastestReturnHandoff
+      ? [
+          `Publish a player-initiated D1 return handoff on ${sampleFastestRoute.path} for ${fastestReturnHandoff.intentDate}.`,
+        ]
       : []),
     'Keep traffic sources organic/internal until paid acquisition gates pass.',
     'Judge seeded games only after each reaches the target start sample.',
@@ -1062,6 +1144,7 @@ const sampleFastestPublicPayload = {
     noSyntheticEvents: sampleFastestRoute.noSyntheticEvents,
     noRevenueEnablement: sampleFastestRoute.noRevenueEnablement,
   },
+  returnHandoff: fastestReturnHandoff,
   telemetry: sampleFastestRoute.telemetry,
 }
 const sampleNextRuntimeHref = defaultGateSampleMission
@@ -1219,11 +1302,15 @@ const sampleFastestHtml = `<!doctype html>
       .actions { display: flex; flex-wrap: wrap; gap: 10px; }
       a, button { color: #ffffff; background: #1f6b4d; border: 0; border-radius: 6px; padding: 10px 12px; text-decoration: none; font: inherit; font-weight: 800; cursor: pointer; min-height: 42px; }
       .secondary { color: #1f6b4d; background: #e9f2eb; }
+      .tertiary { color: #17211f; background: #f2e8d5; }
       dl { display: grid; gap: 8px; margin: 8px 0 0; padding: 16px; background: #ffffff; border: 1px solid #d6ded2; border-radius: 8px; }
       dl div { display: flex; justify-content: space-between; gap: 12px; border-top: 1px solid #edf1ea; padding-top: 8px; }
       dl div:first-child { border-top: 0; padding-top: 0; }
       dt { color: #5d6b63; }
       dd { margin: 0; font-weight: 800; text-align: right; overflow-wrap: anywhere; }
+      .handoff { display: grid; gap: 12px; padding: 14px; border: 1px solid #d6ded2; border-radius: 8px; background: #ffffff; }
+      .handoff[hidden] { display: none; }
+      .handoff strong { display: block; }
       .status { min-height: 1.4rem; color: #496858; font-weight: 800; }
     </style>
   </head>
@@ -1252,6 +1339,25 @@ const sampleFastestHtml = `<!doctype html>
         <div><dt>Need</dt><dd>${fastestGateSampleMission?.needed.promptViews ?? 0} views / ${fastestGateSampleMission?.needed.successes ?? 0} wins</dd></div>
         <div><dt>Cost</dt><dd>$0.00</dd></div>
       </dl>
+      ${
+        fastestReturnHandoff
+          ? `<section class="handoff" data-return-handoff>
+        <div>
+          <strong>D1 return handoff</strong>
+          <p>${escapeHtml(
+            `Save the ${fastestReturnHandoff.intentDate} return route before or after the run; the gate still waits for exported real return-intent events.`,
+          )}</p>
+        </div>
+        <div class="actions">
+          <button type="button" data-copy-return-link>${escapeHtml(fastestReturnHandoff.copyCta)}</button>
+          <button class="tertiary" type="button" data-download-return-calendar>${escapeHtml(
+            fastestReturnHandoff.calendarCta,
+          )}</button>
+        </div>
+        <p class="status" data-return-handoff-status aria-live="polite">Return handoff ready.</p>
+      </section>`
+          : ''
+      }
       <p class="status" data-sample-fastest-status aria-live="polite">Preparing fastest sample route.</p>
     </main>
     <script>
@@ -1262,10 +1368,15 @@ const sampleFastestHtml = `<!doctype html>
         const previewOnly = params.get('preview') === '1' || params.get('no_redirect') === '1'
         const root = document.querySelector('[data-sample-fastest]')
         const status = document.querySelector('[data-sample-fastest-status]')
+        const handoffStatus = document.querySelector('[data-return-handoff-status]')
         const targetPath = root?.dataset.targetPath || './gate-sample.html'
         const campaignId = root?.dataset.campaignId || route.target?.campaignId || null
         const gateId = root?.dataset.gateId || route.target?.gateId || null
         const gameId = root?.dataset.gameId || route.target?.gameId || null
+        const returnHandoff = route.returnHandoff || null
+        const returnUrl = returnHandoff?.returnPath
+          ? new URL(returnHandoff.returnPath, window.location.href).toString()
+          : null
         const readEvents = () => {
           try {
             const raw = window.localStorage.getItem(analyticsKey)
@@ -1303,8 +1414,63 @@ const sampleFastestHtml = `<!doctype html>
           }
           window.localStorage.setItem(analyticsKey, JSON.stringify([...readEvents(), event].slice(-300)))
         }
+        const formatCalendarDate = (isoDate) => String(isoDate || '').replaceAll('-', '')
+        const nextIsoDate = (isoDate) => {
+          const date = new Date(\`\${isoDate}T00:00:00.000Z\`)
+          date.setUTCDate(date.getUTCDate() + 1)
+          return date.toISOString().slice(0, 10)
+        }
+        const formatCalendarTimestamp = () =>
+          new Date()
+            .toISOString()
+            .replace(/[-:]/g, '')
+            .replace(/\\.\\d{3}Z$/, 'Z')
+        const escapeCalendarText = (value) =>
+          String(value || '')
+            .replaceAll('\\\\', '\\\\\\\\')
+            .replaceAll('\\n', '\\\\n')
+            .replaceAll(';', '\\\\;')
+            .replaceAll(',', '\\\\,')
+        const downloadCalendar = () => {
+          if (!returnHandoff || !returnUrl) {
+            return
+          }
 
-        track('sample_fastest_viewed', { targetPath, previewOnly })
+          const startDate = formatCalendarDate(returnHandoff.intentDate)
+          const endDate = formatCalendarDate(nextIsoDate(returnHandoff.intentDate))
+          const calendar = [
+            'BEGIN:VCALENDAR',
+            'VERSION:2.0',
+            'PRODID:-//Autonomous Game Lab//Fastest Sample Return//EN',
+            'CALSCALE:GREGORIAN',
+            'BEGIN:VEVENT',
+            \`UID:agl-fastest-return-\${returnHandoff.intentDate}-\${returnHandoff.gameId}@autonomous-game-lab\`,
+            \`DTSTAMP:\${formatCalendarTimestamp()}\`,
+            \`DTSTART;VALUE=DATE:\${startDate}\`,
+            \`DTEND;VALUE=DATE:\${endDate}\`,
+            \`SUMMARY:\${escapeCalendarText(\`Play \${route.target?.title || 'the queued board'}\`)}\`,
+            \`DESCRIPTION:\${escapeCalendarText(\`Open the measured return route: \${returnUrl}\`)}\`,
+            \`URL:\${returnUrl}\`,
+            'END:VEVENT',
+            'END:VCALENDAR',
+            '',
+          ].join('\\r\\n')
+          const calendarObjectUrl = URL.createObjectURL(new Blob([calendar], { type: 'text/calendar;charset=utf-8' }))
+          const anchor = document.createElement('a')
+          anchor.href = calendarObjectUrl
+          anchor.download = \`agl-return-\${returnHandoff.intentDate}.ics\`
+          document.body.append(anchor)
+          anchor.click()
+          anchor.remove()
+          window.setTimeout(() => URL.revokeObjectURL(calendarObjectUrl), 0)
+        }
+
+        track('sample_fastest_viewed', {
+          targetPath,
+          previewOnly,
+          returnHandoffActive: Boolean(returnHandoff),
+          returnIntentDate: returnHandoff?.intentDate || null,
+        })
 
         document.querySelector('[data-sample-fastest-link]')?.addEventListener('click', () => {
           track('gate_sample_mission_clicked', {
@@ -1315,13 +1481,85 @@ const sampleFastestHtml = `<!doctype html>
             observedSuccessesNeeded: route.target?.needed?.successes ?? 0,
           })
         })
+        document.querySelector('[data-copy-return-link]')?.addEventListener('click', async () => {
+          if (!returnHandoff || !returnUrl) {
+            return
+          }
+
+          let method = 'unsupported'
+          let succeeded = false
+
+          if (navigator.clipboard?.writeText) {
+            method = 'clipboard'
+
+            try {
+              await navigator.clipboard.writeText(returnUrl)
+              succeeded = true
+            } catch {
+              method = 'clipboard_unavailable'
+            }
+          }
+
+          track(returnHandoff.telemetry.copied, {
+            challengeDate: returnHandoff.challengeDate,
+            intentDate: returnHandoff.intentDate,
+            returnUrl,
+            surface: returnHandoff.surface,
+            method,
+            succeeded,
+            zeroPaidSpend: true,
+            playerInitiatedOnly: true,
+            noNotificationPermissionRequest: true,
+            noPushNotifications: true,
+            noAccountRequired: true,
+            noExternalUpload: true,
+            noRevenueEnablement: true,
+          })
+
+          if (handoffStatus) {
+            handoffStatus.textContent = succeeded ? 'Return link copied.' : 'Copy unavailable; use the start link after saving this page.'
+          }
+        })
+        document.querySelector('[data-download-return-calendar]')?.addEventListener('click', () => {
+          if (!returnHandoff || !returnUrl) {
+            return
+          }
+
+          downloadCalendar()
+          track(returnHandoff.telemetry.calendarDownloaded, {
+            challengeDate: returnHandoff.challengeDate,
+            intentDate: returnHandoff.intentDate,
+            returnUrl,
+            surface: returnHandoff.surface,
+            method: 'calendar-download',
+            fileExtension: returnHandoff.calendarFileExtension || '.ics',
+            zeroPaidSpend: true,
+            playerInitiatedOnly: true,
+            noNotificationPermissionRequest: true,
+            noPushNotifications: true,
+            noAccountRequired: true,
+            noExternalUpload: true,
+            noRevenueEnablement: true,
+          })
+
+          if (handoffStatus) {
+            handoffStatus.textContent = 'Calendar reminder saved.'
+          }
+        })
 
         if (!previewOnly && route.target) {
-          status.textContent = 'Routing to the fastest gate sample.'
+          const redirectDelayMs = returnHandoff ? 3000 : 350
+          status.textContent = returnHandoff
+            ? 'Return handoff ready; routing to the fastest gate sample.'
+            : 'Routing to the fastest gate sample.'
           window.setTimeout(() => {
-            track('sample_fastest_routed', { targetPath })
+            track('sample_fastest_routed', {
+              targetPath,
+              returnHandoffActive: Boolean(returnHandoff),
+              returnIntentDate: returnHandoff?.intentDate || null,
+            })
             window.location.assign(targetPath)
-          }, 350)
+          }, redirectDelayMs)
         } else {
           status.textContent = route.target ? 'Preview mode. Use the button to open the fastest gate sample.' : 'No fastest gate sample is armed yet.'
         }

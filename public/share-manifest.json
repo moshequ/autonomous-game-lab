@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-25T21:01:13.024Z",
+  "generatedAt": "2026-05-25T23:19:03.922Z",
   "siteUrl": "https://moshequ.github.io/autonomous-game-lab",
   "publicUrlMode": "absolute-origin",
   "shares": [
@@ -146,7 +146,7 @@
     "aggregateEvidenceRepository": "moshequ/autonomous-game-lab",
     "localAnalyticsEvents": true,
     "localAnalyticsStorageKey": "agl.analytics.events",
-    "generatedAt": "2026-05-25T21:01:13.024Z"
+    "generatedAt": "2026-05-25T23:19:03.922Z"
   },
   "gateSampleKit": {
     "path": "/gate-sample.html",
@@ -159,7 +159,7 @@
     "exportControls": true,
     "localAnalyticsEvents": true,
     "localAnalyticsStorageKey": "agl.analytics.events",
-    "generatedAt": "2026-05-25T21:01:13.024Z"
+    "generatedAt": "2026-05-25T23:19:03.922Z"
   },
   "seedCampaigns": [
     {
@@ -318,7 +318,7 @@
     ],
     "url": "https://moshequ.github.io/autonomous-game-lab/seed-next.html",
     "jsonUrl": "https://moshequ.github.io/autonomous-game-lab/seed-next.json",
-    "generatedAt": "2026-05-25T21:01:13.024Z"
+    "generatedAt": "2026-05-25T23:19:03.922Z"
   },
   "sampleNext": {
     "status": "armed",
@@ -347,7 +347,7 @@
     ],
     "url": "https://moshequ.github.io/autonomous-game-lab/sample-next.html",
     "jsonUrl": "https://moshequ.github.io/autonomous-game-lab/sample-next.json",
-    "generatedAt": "2026-05-25T21:01:13.024Z"
+    "generatedAt": "2026-05-25T23:19:03.922Z"
   },
   "sampleFastest": {
     "status": "armed",
@@ -368,14 +368,44 @@
     "noRevenueEnablement": true,
     "localAnalyticsEvents": true,
     "localAnalyticsStorageKey": "agl.analytics.events",
+    "returnHandoff": {
+      "status": "armed",
+      "gateId": "d1Retention",
+      "gameId": "market-pulse",
+      "campaignId": "gate-sample-20260526-d1Retention",
+      "challengeDate": "2026-05-25",
+      "intentDate": "2026-05-26",
+      "queryParam": "return_intent",
+      "returnPath": "/?game=market-pulse&utm_source=gate_sample&utm_campaign=gate-sample-20260526-d1Retention&return_intent=2026-05-26",
+      "copyCta": "Copy return link",
+      "calendarCta": "Save reminder",
+      "calendarFileExtension": ".ics",
+      "surface": "sample-fastest-return-handoff",
+      "telemetry": {
+        "copied": "daily_return_link_copied",
+        "calendarDownloaded": "daily_return_calendar_downloaded"
+      },
+      "controls": {
+        "zeroPaidSpend": true,
+        "playerInitiatedOnly": true,
+        "noNotificationPermissionRequest": true,
+        "noPushNotifications": true,
+        "noAccountRequired": true,
+        "noExternalUpload": true,
+        "noRevenueEnablement": true,
+        "noSyntheticEvents": true
+      }
+    },
     "telemetry": [
       "sample_fastest_viewed",
       "sample_fastest_routed",
       "gate_sample_mission_clicked",
-      "game_started"
+      "game_started",
+      "daily_return_link_copied",
+      "daily_return_calendar_downloaded"
     ],
     "url": "https://moshequ.github.io/autonomous-game-lab/sample-fastest.html",
     "jsonUrl": "https://moshequ.github.io/autonomous-game-lab/sample-fastest.json",
-    "generatedAt": "2026-05-25T21:01:13.024Z"
+    "generatedAt": "2026-05-25T23:19:03.922Z"
   }
 }

@@ -8,12 +8,12 @@ export const autonomousOwnerLoop = {
     "externalAccountInterventionRequired": true
   },
   "ownerDecision": {
-    "nextBestActionId": "hold-for-external-input"
+    "nextBestActionId": "seed-portfolio-traffic"
   },
   "executionBackoff": {
-    "status": "idle",
+    "status": "ready",
     "heldActionCount": 0,
-    "executableWithoutRepeatCount": 0,
+    "executableWithoutRepeatCount": 2,
     "nextResumeAt": null,
     "nextResumeInHours": null,
     "heldActionIds": []

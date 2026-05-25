@@ -1,7 +1,7 @@
 export const trafficSeeding = {
-  "generatedAt": "2026-05-25T21:01:13.024Z",
+  "generatedAt": "2026-05-25T23:19:03.922Z",
   "status": "traffic-seeding-ready",
-  "sourceDataHash": "958ad426f1dc",
+  "sourceDataHash": "c7d1a76289b8",
   "analyticsSource": "fixture-sample",
   "publicUrlMode": "absolute-origin",
   "siteUrl": "https://moshequ.github.io/autonomous-game-lab",
@@ -314,11 +314,41 @@ export const trafficSeeding = {
     "noRevenueEnablement": true,
     "localAnalyticsEvents": true,
     "localAnalyticsStorageKey": "agl.analytics.events",
+    "returnHandoff": {
+      "status": "armed",
+      "gateId": "d1Retention",
+      "gameId": "market-pulse",
+      "campaignId": "gate-sample-20260526-d1Retention",
+      "challengeDate": "2026-05-25",
+      "intentDate": "2026-05-26",
+      "queryParam": "return_intent",
+      "returnPath": "/?game=market-pulse&utm_source=gate_sample&utm_campaign=gate-sample-20260526-d1Retention&return_intent=2026-05-26",
+      "copyCta": "Copy return link",
+      "calendarCta": "Save reminder",
+      "calendarFileExtension": ".ics",
+      "surface": "sample-fastest-return-handoff",
+      "telemetry": {
+        "copied": "daily_return_link_copied",
+        "calendarDownloaded": "daily_return_calendar_downloaded"
+      },
+      "controls": {
+        "zeroPaidSpend": true,
+        "playerInitiatedOnly": true,
+        "noNotificationPermissionRequest": true,
+        "noPushNotifications": true,
+        "noAccountRequired": true,
+        "noExternalUpload": true,
+        "noRevenueEnablement": true,
+        "noSyntheticEvents": true
+      }
+    },
     "telemetry": [
       "sample_fastest_viewed",
       "sample_fastest_routed",
       "gate_sample_mission_clicked",
-      "game_started"
+      "game_started",
+      "daily_return_link_copied",
+      "daily_return_calendar_downloaded"
     ]
   },
   "sampleDistribution": {
@@ -338,7 +368,8 @@ export const trafficSeeding = {
     "noAutomatedExternalPosting": true,
     "noSyntheticEvents": true,
     "exportControls": true,
-    "shareControls": true
+    "shareControls": true,
+    "fastestReturnHandoffEnabled": true
   },
   "sitemapPriority": [
     {
@@ -366,6 +397,7 @@ export const trafficSeeding = {
     "Feature Market Pulse in the internal growth loop and share manifest.",
     "Feature Sample First game completion as the default product-gate sample share link.",
     "Expose Sample D1 retention through /sample-fastest.html for the quickest separate gate validation.",
+    "Publish a player-initiated D1 return handoff on /sample-fastest.html for 2026-05-26.",
     "Keep traffic sources organic/internal until paid acquisition gates pass.",
     "Judge seeded games only after each reaches the target start sample."
   ]

@@ -191,6 +191,7 @@ const sampleFastestRoute = {
   targetPath: trafficSampleFastestRoute.targetPath ?? fastestMission?.playPath ?? null,
   fallbackPath: trafficSampleFastestRoute.fallbackPath ?? '/gate-sample.html',
   costUsd: numberOrZero(trafficSampleFastestRoute.costUsd),
+  returnHandoff: trafficSampleFastestRoute.returnHandoff ?? null,
   guardrails: {
     playerInitiatedOnly: trafficSampleFastestRoute.playerInitiatedOnly !== false,
     noAutomatedExternalPosting: trafficSampleFastestRoute.noAutomatedExternalPosting !== false,
@@ -364,6 +365,7 @@ const playerEvidenceInviteRoute = ({ id, title, route, mission, priority }) => (
   neededSuccesses: numberOrZero(mission?.needed?.successes),
   evidenceStatus: mission?.evidence?.status ?? 'waiting-for-player-export',
   sampleRole: mission?.sampleRole ?? null,
+  returnHandoff: route.returnHandoff ?? null,
   guardrails: route.guardrails,
 })
 const currentSampleMission = sampleMissionForRoute(sampleNextRoute)
