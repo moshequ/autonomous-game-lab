@@ -946,6 +946,7 @@ const checks = [
       postDeployReadinessSyncScript.includes('autonomous:owner-loop') &&
       postDeployReadinessSyncScript.includes('autonomous:operator') &&
       postDeployReadinessSyncScript.includes('autonomous:objective-audit') &&
+      postDeployReadinessSyncScript.includes('autonomous:cadence') &&
       postDeployEvidenceSyncWorkflow.includes('npm run autonomous:verify-post-deploy-sync') &&
       postDeployEvidenceSyncWorkflow.includes('AGL_AUTONOMOUS_SELF_UPDATE_DIRECT') &&
       postDeployEvidenceSyncWorkflow.includes('data/post-deploy-artifact-sync.json') &&
