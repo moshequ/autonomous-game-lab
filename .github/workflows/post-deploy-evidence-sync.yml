@@ -218,7 +218,11 @@ jobs:
             reports/autonomous-operator-history-latest.md \
             data/autonomous-owner-loop.json \
             src/data/autonomousOwnerLoop.ts \
-            reports/autonomous-owner-loop-latest.md
+            reports/autonomous-owner-loop-latest.md \
+            data/autonomous-cadence.json \
+            src/data/autonomousCadence.ts \
+            reports/autonomous-cadence-latest.md \
+            ops/codex/autonomous-game-lab-daily-owner-loop.json
 
           if git diff --cached --quiet; then
             echo "no synced deploy evidence changes to commit"
@@ -312,4 +316,7 @@ jobs:
             reports/autonomous-operator-history-latest.md
             data/autonomous-owner-loop.json
             reports/autonomous-owner-loop-latest.md
+            data/autonomous-cadence.json
+            reports/autonomous-cadence-latest.md
+            ops/codex/autonomous-game-lab-daily-owner-loop.json
           if-no-files-found: ignore

@@ -996,6 +996,10 @@ const checks = [
       postDeployEvidenceSyncWorkflow.includes('data/objective-audit.json') &&
       postDeployEvidenceSyncWorkflow.includes('data/autonomous-operator.json') &&
       postDeployEvidenceSyncWorkflow.includes('data/autonomous-owner-loop.json') &&
+      postDeployEvidenceSyncWorkflow.includes('data/autonomous-cadence.json') &&
+      postDeployEvidenceSyncWorkflow.includes('src/data/autonomousCadence.ts') &&
+      postDeployEvidenceSyncWorkflow.includes('reports/autonomous-cadence-latest.md') &&
+      postDeployEvidenceSyncWorkflow.includes('ops/codex/autonomous-game-lab-daily-owner-loop.json') &&
       !postDeployEvidenceSyncWorkflow.includes('npm run build') &&
       !postDeployEvidenceSyncWorkflow.includes('autonomous:release-candidate') &&
       !postDeployEvidenceSyncWorkflow.includes('autonomous:post-deploy-smoke')

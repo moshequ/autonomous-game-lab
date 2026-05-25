@@ -4721,6 +4721,10 @@ if (
   !postDeployEvidenceSyncWorkflow.includes('data/autonomous-owner-loop.json') ||
   !postDeployEvidenceSyncWorkflow.includes('src/data/autonomousOwnerLoop.ts') ||
   !postDeployEvidenceSyncWorkflow.includes('reports/autonomous-owner-loop-latest.md') ||
+  !postDeployEvidenceSyncWorkflow.includes('data/autonomous-cadence.json') ||
+  !postDeployEvidenceSyncWorkflow.includes('src/data/autonomousCadence.ts') ||
+  !postDeployEvidenceSyncWorkflow.includes('reports/autonomous-cadence-latest.md') ||
+  !postDeployEvidenceSyncWorkflow.includes('ops/codex/autonomous-game-lab-daily-owner-loop.json') ||
   postDeployEvidenceSyncWorkflow.includes('autonomous:release-candidate') ||
   postDeployEvidenceSyncWorkflow.includes('autonomous:post-deploy-smoke') ||
   !autonomousCadenceSource.includes('postDeployEvidenceSyncWorkflow') ||

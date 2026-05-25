@@ -190,6 +190,7 @@ const requiredReadinessRefreshCommands = [
   'autonomous:owner-loop',
   'autonomous:operator',
   'autonomous:objective-audit',
+  'autonomous:cadence',
 ]
 
 for (const command of requiredReadinessRefreshCommands) {
@@ -447,7 +448,11 @@ if (
   !workflow.includes('reports/autonomous-operator-history-latest.md') ||
   !workflow.includes('data/autonomous-owner-loop.json') ||
   !workflow.includes('src/data/autonomousOwnerLoop.ts') ||
-  !workflow.includes('reports/autonomous-owner-loop-latest.md')
+  !workflow.includes('reports/autonomous-owner-loop-latest.md') ||
+  !workflow.includes('data/autonomous-cadence.json') ||
+  !workflow.includes('src/data/autonomousCadence.ts') ||
+  !workflow.includes('reports/autonomous-cadence-latest.md') ||
+  !workflow.includes('ops/codex/autonomous-game-lab-daily-owner-loop.json')
 ) {
   fail('Post-deploy evidence sync workflow must import strict deployed smoke evidence and refresh dependent owner evidence.')
 }
