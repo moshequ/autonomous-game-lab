@@ -10953,6 +10953,32 @@ test('store readiness handoff publishes web, Android, and iOS blockers', async (
         storeSpendStillBlocked: boolean
       }
     }
+    supportOwnerInputPack: {
+      unlockId: string
+      localEnvFile: string
+      missingInputNames: string[]
+      localEnvTemplateLines: string[]
+      shellExportTemplateLines: string[]
+      missingInputCount: number
+      secretInputCount: number
+      inputInstructions: Array<{
+        repositoryName: string
+        envName: string
+        validation: { kind: string; status: string; failedCheckIds?: string[] }
+      }>
+      controls: {
+        zeroPaidSpend: boolean
+        noSecretValuesStored: boolean
+        noSecretValuesSerialized: boolean
+        noMutation: boolean
+        noWorkflowDispatch: boolean
+        noAccountCreation: boolean
+        noStoreSubmission: boolean
+        noRevenueEnablement: boolean
+        gitIgnoredLocalEnvFile: boolean
+        onlySupportContactInput: boolean
+      }
+    }
     storeOwnerUnlocks: Array<{
       id: string
       status: string
@@ -10981,6 +11007,7 @@ test('store readiness handoff publishes web, Android, and iOS blockers', async (
     sourceDataHash: string
     publicRoutes: Record<string, string>
     storeOwnerUnlockSummary: { nextUnlockId: string; lowestInputUnlockId: string }
+    supportOwnerInputPack: typeof readiness.supportOwnerInputPack
     storeOwnerUnlocks: Array<{ id: string; status: string; setupCommands: string[]; validationCommands: string[] }>
     platformHandoffs: Array<{ id: string }>
   }
@@ -11027,6 +11054,20 @@ test('store readiness handoff publishes web, Android, and iOS blockers', async (
   expect(readiness.storeOwnerUnlockSummary.controls.noRevenueEnablement).toBe(true)
   expect(readiness.storeOwnerUnlockSummary.controls.noSecretValuesStored).toBe(true)
   expect(readiness.storeOwnerUnlockSummary.controls.storeSpendStillBlocked).toBe(true)
+  expect(readiness.supportOwnerInputPack.unlockId).toBe('support-contact')
+  expect(readiness.supportOwnerInputPack.localEnvFile).toBe('.env.production.local')
+  expect(readiness.supportOwnerInputPack.missingInputNames).toEqual(['AGL_SUPPORT_EMAIL'])
+  expect(readiness.supportOwnerInputPack.localEnvTemplateLines).toEqual(['AGL_SUPPORT_EMAIL='])
+  expect(readiness.supportOwnerInputPack.shellExportTemplateLines).toEqual(['export AGL_SUPPORT_EMAIL='])
+  expect(readiness.supportOwnerInputPack.missingInputCount).toBe(1)
+  expect(readiness.supportOwnerInputPack.secretInputCount).toBe(0)
+  expect(readiness.supportOwnerInputPack.inputInstructions[0]?.validation.kind).toBe('email-shape')
+  expect(readiness.supportOwnerInputPack.controls.zeroPaidSpend).toBe(true)
+  expect(readiness.supportOwnerInputPack.controls.noSecretValuesStored).toBe(true)
+  expect(readiness.supportOwnerInputPack.controls.noAccountCreation).toBe(true)
+  expect(readiness.supportOwnerInputPack.controls.noStoreSubmission).toBe(true)
+  expect(readiness.supportOwnerInputPack.controls.gitIgnoredLocalEnvFile).toBe(true)
+  expect(readiness.supportOwnerInputPack.controls.onlySupportContactInput).toBe(true)
   const supportUnlock = readiness.storeOwnerUnlocks.find((unlock) => unlock.id === 'support-contact')
   const googlePlayUnlock = readiness.storeOwnerUnlocks.find((unlock) => unlock.id === 'google-play-account')
   expect(supportUnlock?.status).toBe('needs-production-support-email')
@@ -11064,6 +11105,7 @@ test('store readiness handoff publishes web, Android, and iOS blockers', async (
   expect(publicReadiness.sourceDataHash).toBe(readiness.sourceDataHash)
   expect(publicReadiness.publicRoutes.storeReadiness).toBe('/store-readiness.html')
   expect(publicReadiness.storeOwnerUnlockSummary.nextUnlockId).toBe('support-contact')
+  expect(publicReadiness.supportOwnerInputPack).toEqual(readiness.supportOwnerInputPack)
   expect(publicReadiness.storeOwnerUnlocks.find((unlock) => unlock.id === 'support-contact')?.setupCommands).toContain(
     'npm run autonomous:store-readiness',
   )
@@ -11078,6 +11120,8 @@ test('store readiness handoff publishes web, Android, and iOS blockers', async (
   await expect(page.getByRole('heading', { name: 'Android Google Play' })).toBeVisible()
   await expect(page.getByRole('heading', { name: 'iOS App Store' })).toBeVisible()
   await expect(page.getByRole('heading', { name: 'Owner Unlock Order' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Support Contact Input Pack' })).toBeVisible()
+  await expect(page.getByText('AGL_SUPPORT_EMAIL=')).toBeVisible()
   await expect(page.getByText('support-contact', { exact: true })).toBeVisible()
   await expect(page.getByRole('heading', { name: 'Production support contact' })).toBeVisible()
   await expect(page.getByRole('link', { name: 'store-readiness.json' })).toHaveAttribute(

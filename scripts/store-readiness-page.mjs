@@ -1,5 +1,6 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises'
 import path from 'node:path'
+import { loadLocalEnv } from './lib/env-loader.mjs'
 import { hashSourceData } from './lib/source-hash.mjs'
 
 const root = process.cwd()
@@ -33,6 +34,7 @@ const storeAssets = await readOptionalJson(path.join(dataDir, 'store-assets.json
   status: 'missing',
   screenshots: [],
 })
+const localEnv = await loadLocalEnv({ root })
 
 const sourceData = {
   storePackage,
@@ -50,6 +52,7 @@ const sourceDataHash = hashSourceData(sourceData)
 const generatedAt = new Date().toISOString()
 
 const unique = (items) => [...new Set(items.filter(Boolean))]
+const configured = (value) => typeof value === 'string' && value.trim().length > 0
 const checkStatus = (status) => {
   if (
     ['pass', 'ready', 'hosted', 'configured', 'store-package-ready', 'store-listing-optimizer-ready', 'screenshots-ready'].includes(
@@ -226,6 +229,59 @@ const unlockInput = ({ type, repositoryName, envName = repositoryName, configure
   purpose,
 })
 const commandList = (items) => items.filter(Boolean)
+const validationCheck = (id, passed, detail) => ({ id, passed, detail })
+const localEnvFilesForKey = (envName) =>
+  (localEnv.loadedFiles ?? [])
+    .filter((file) => (file.keys ?? []).includes(envName))
+    .map((file) => file.path)
+const validateSupportEmail = ({ envName, configuredInRepository }) => {
+  const availableLocally = configured(process.env[envName])
+
+  if (!availableLocally) {
+    return configuredInRepository
+      ? {
+          kind: 'redacted-repository-presence',
+          status: 'not-inspected-repository-configured',
+          detail: 'GitHub stores the configured support contact redacted; export it locally to validate shape before changing it.',
+          checks: [],
+        }
+      : {
+          kind: 'email-shape',
+          status: 'not-checked-missing-input',
+          detail: 'No local support email is available yet; email shape will be validated before setup can sync it.',
+          expected: {
+            containsAt: true,
+            hasDomain: true,
+            noWhitespace: true,
+          },
+          checks: [
+            validationCheck('non-empty-local-input', false, `${envName} must be exported before setup can sync it.`),
+          ],
+        }
+  }
+
+  const value = process.env[envName].trim()
+  const [localPart, domainPart, extraPart] = value.split('@')
+  const checks = [
+    validationCheck('contains-one-at', Boolean(localPart && domainPart && !extraPart), `${envName} must contain one @.`),
+    validationCheck('has-local-part', Boolean(localPart), `${envName} must include a local part.`),
+    validationCheck('has-domain', Boolean(domainPart?.includes('.')), `${envName} must include a domain with a dot.`),
+    validationCheck('no-whitespace', !/\s/.test(value), `${envName} must not contain whitespace.`),
+  ]
+  const failedChecks = checks.filter((check) => !check.passed)
+
+  return {
+    kind: 'email-shape',
+    status: failedChecks.length ? 'fail' : 'pass',
+    expected: {
+      containsAt: true,
+      hasDomain: true,
+      noWhitespace: true,
+    },
+    checks,
+    failedCheckIds: failedChecks.map((check) => check.id),
+  }
+}
 const supportEmailConfigured = storePackage.supportPage?.supportEmailStatus === 'configured'
 const googlePlayAccountReady =
   androidRelease.checks?.find((check) => check.id === 'google-play-account')?.status === 'pass' ||
@@ -277,6 +333,60 @@ const supportContactUnlock = {
   validationCommands: ['npm run autonomous:store-readiness', 'npm run test:e2e'],
   blockersCleared: ['support-contact'],
 }
+const buildSupportOwnerInputPack = (unlock) => {
+  const envName = 'AGL_SUPPORT_EMAIL'
+  const configuredInRepository = supportEmailConfigured
+  const availableLocally = configured(process.env[envName])
+  const validation = validateSupportEmail({ envName, configuredInRepository })
+  const ready = (configuredInRepository || availableLocally) && validation.status !== 'fail'
+  const missingInputNames = ready ? [] : [envName]
+
+  return {
+    unlockId: unlock.id,
+    title: unlock.title,
+    status: ready ? 'support-contact-input-ready' : unlock.status,
+    readyForSetup: ready,
+    repositoryMissingInputCount: unlock.missingInputCount,
+    missingInputCount: missingInputNames.length,
+    secretInputCount: unlock.missingSecretCount,
+    missingInputNames,
+    localEnvFile: '.env.production.local',
+    localEnvTemplateLines: missingInputNames.map((name) => `${name}=`),
+    shellExportTemplateLines: missingInputNames.map((name) => `export ${name}=`),
+    inputInstructions: [
+      {
+        kind: 'github-variable',
+        repositoryName: envName,
+        envName,
+        ready,
+        configuredInRepository,
+        availableLocally,
+        availableInLocalEnvFile: localEnvFilesForKey(envName).length > 0,
+        localEnvFiles: localEnvFilesForKey(envName),
+        validation,
+        command: 'gh variable set AGL_SUPPORT_EMAIL --body "$AGL_SUPPORT_EMAIL"',
+      },
+    ],
+    commands: {
+      validate: 'npm run autonomous:store-readiness',
+      syncConfiguredValues: './ops/github/setup-production.sh',
+      refreshStoreReadiness: 'npm run autonomous:store-readiness',
+    },
+    controls: {
+      zeroPaidSpend: true,
+      noSecretValuesStored: true,
+      noSecretValuesSerialized: true,
+      noMutation: true,
+      noWorkflowDispatch: true,
+      noAccountCreation: true,
+      noStoreSubmission: true,
+      noRevenueEnablement: true,
+      gitIgnoredLocalEnvFile: true,
+      onlySupportContactInput: true,
+    },
+  }
+}
+const supportOwnerInputPack = buildSupportOwnerInputPack(supportContactUnlock)
 const googlePlayUnlock = {
   id: 'google-play-account',
   title: 'Google Play account and upload credential',
@@ -454,6 +564,7 @@ const payload = {
   summary,
   publicRoutes,
   storeOwnerUnlockSummary,
+  supportOwnerInputPack,
   storeOwnerUnlocks,
   platformHandoffs,
   checks,
@@ -470,6 +581,7 @@ const publicPayload = {
   summary,
   publicRoutes,
   storeOwnerUnlockSummary,
+  supportOwnerInputPack,
   storeOwnerUnlocks: storeOwnerUnlocks.map((unlock) => ({
     id: unlock.id,
     title: unlock.title,
@@ -711,6 +823,16 @@ const html = `<!doctype html>
         <h2>Owner Unlock Order</h2>
         <div class="row"><span>Next unlock</span><strong>${escapeHtml(storeOwnerUnlockSummary.nextUnlockId ?? 'none')}</strong></div>
         <div class="row"><span>Lowest input</span><strong>${escapeHtml(storeOwnerUnlockSummary.lowestInputReason)}</strong></div>
+        <div class="row"><span>Support input pack</span><strong>${escapeHtml(supportOwnerInputPack.localEnvFile)}</strong></div>
+        <div class="row"><span>Support pack missing</span><strong>${supportOwnerInputPack.missingInputCount} input(s), ${supportOwnerInputPack.secretInputCount} secret(s)</strong></div>
+        <h3>Support Contact Input Pack</h3>
+        <ul>
+          ${
+            supportOwnerInputPack.localEnvTemplateLines.length
+              ? supportOwnerInputPack.localEnvTemplateLines.map((line) => `<li><code>${escapeHtml(line)}</code></li>`).join('\n          ')
+              : '<li>All support-contact inputs are available locally or configured in GitHub.</li>'
+          }
+        </ul>
         <div class="grid">
           ${storeOwnerUnlocks
             .map(
@@ -775,6 +897,19 @@ const report = [
   `- Lowest input: ${storeOwnerUnlockSummary.lowestInputReason}`,
   `- Immediate unlocks: ${storeOwnerUnlockSummary.immediateUnlocks.join(', ') || 'none'}`,
   `- Gated unlocks: ${storeOwnerUnlockSummary.gatedUnlocks.join(', ') || 'none'}`,
+  '',
+  '## Support Contact Input Pack',
+  '',
+  `- unlock: ${supportOwnerInputPack.unlockId}`,
+  `- status: ${supportOwnerInputPack.status}`,
+  `- local env file: ${supportOwnerInputPack.localEnvFile}`,
+  `- missing inputs: ${supportOwnerInputPack.missingInputNames.join(', ') || 'none'}`,
+  `- secret inputs: ${supportOwnerInputPack.secretInputCount}`,
+  `- email validation: ${supportOwnerInputPack.inputInstructions[0]?.validation?.status ?? 'unknown'}`,
+  `- no secret values stored: ${supportOwnerInputPack.controls.noSecretValuesStored}`,
+  ...(supportOwnerInputPack.localEnvTemplateLines.length
+    ? ['- local env template:', ...supportOwnerInputPack.localEnvTemplateLines.map((line) => `  - ${line}`)]
+    : ['- local env template: none']),
   '',
   ...storeOwnerUnlocks.flatMap((unlock) => [
     `### ${unlock.title}`,

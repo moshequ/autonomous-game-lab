@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-05-25T17:13:04.933Z",
-  "sourceDataHash": "4dc565430b74",
+  "generatedAt": "2026-05-25T17:18:20.157Z",
+  "sourceDataHash": "e0992205af98",
   "status": "store-readiness-prepared-external-blockers",
   "summary": {
     "launchCandidateId": "market-pulse",
@@ -46,6 +46,72 @@
       "noRevenueEnablement": true,
       "noSecretValuesStored": true,
       "storeSpendStillBlocked": true
+    }
+  },
+  "supportOwnerInputPack": {
+    "unlockId": "support-contact",
+    "title": "Production support contact",
+    "status": "needs-production-support-email",
+    "readyForSetup": false,
+    "repositoryMissingInputCount": 1,
+    "missingInputCount": 1,
+    "secretInputCount": 0,
+    "missingInputNames": [
+      "AGL_SUPPORT_EMAIL"
+    ],
+    "localEnvFile": ".env.production.local",
+    "localEnvTemplateLines": [
+      "AGL_SUPPORT_EMAIL="
+    ],
+    "shellExportTemplateLines": [
+      "export AGL_SUPPORT_EMAIL="
+    ],
+    "inputInstructions": [
+      {
+        "kind": "github-variable",
+        "repositoryName": "AGL_SUPPORT_EMAIL",
+        "envName": "AGL_SUPPORT_EMAIL",
+        "ready": false,
+        "configuredInRepository": false,
+        "availableLocally": false,
+        "availableInLocalEnvFile": false,
+        "localEnvFiles": [],
+        "validation": {
+          "kind": "email-shape",
+          "status": "not-checked-missing-input",
+          "detail": "No local support email is available yet; email shape will be validated before setup can sync it.",
+          "expected": {
+            "containsAt": true,
+            "hasDomain": true,
+            "noWhitespace": true
+          },
+          "checks": [
+            {
+              "id": "non-empty-local-input",
+              "passed": false,
+              "detail": "AGL_SUPPORT_EMAIL must be exported before setup can sync it."
+            }
+          ]
+        },
+        "command": "gh variable set AGL_SUPPORT_EMAIL --body \"$AGL_SUPPORT_EMAIL\""
+      }
+    ],
+    "commands": {
+      "validate": "npm run autonomous:store-readiness",
+      "syncConfiguredValues": "./ops/github/setup-production.sh",
+      "refreshStoreReadiness": "npm run autonomous:store-readiness"
+    },
+    "controls": {
+      "zeroPaidSpend": true,
+      "noSecretValuesStored": true,
+      "noSecretValuesSerialized": true,
+      "noMutation": true,
+      "noWorkflowDispatch": true,
+      "noAccountCreation": true,
+      "noStoreSubmission": true,
+      "noRevenueEnablement": true,
+      "gitIgnoredLocalEnvFile": true,
+      "onlySupportContactInput": true
     }
   },
   "storeOwnerUnlocks": [

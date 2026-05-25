@@ -5527,6 +5527,9 @@ if (
 const storeReadinessPlatformIds = new Set((storeReadiness.platformHandoffs ?? []).map((handoff) => handoff.id))
 const publicStoreReadinessPlatformIds = new Set((publicStoreReadiness.platformHandoffs ?? []).map((handoff) => handoff.id))
 const storeReadinessCheckIds = new Set((storeReadiness.checks ?? []).map((check) => check.id))
+const supportOwnerInputPack = storeReadiness.supportOwnerInputPack ?? null
+const supportOwnerInputPackNames = new Set(supportOwnerInputPack?.missingInputNames ?? [])
+const supportOwnerInputPackTemplateLines = new Set(supportOwnerInputPack?.localEnvTemplateLines ?? [])
 
 if (
   storeReadiness.status !== 'store-readiness-prepared-external-blockers' ||
@@ -5558,6 +5561,20 @@ if (
   storeReadiness.storeOwnerUnlockSummary?.controls?.noRevenueEnablement !== true ||
   storeReadiness.storeOwnerUnlockSummary?.controls?.noSecretValuesStored !== true ||
   storeReadiness.storeOwnerUnlockSummary?.controls?.storeSpendStillBlocked !== true ||
+  supportOwnerInputPack?.unlockId !== 'support-contact' ||
+  supportOwnerInputPack?.localEnvFile !== '.env.production.local' ||
+  supportOwnerInputPack?.missingInputCount !== 1 ||
+  supportOwnerInputPack?.secretInputCount !== 0 ||
+  !supportOwnerInputPackNames.has('AGL_SUPPORT_EMAIL') ||
+  !supportOwnerInputPackTemplateLines.has('AGL_SUPPORT_EMAIL=') ||
+  supportOwnerInputPack?.inputInstructions?.find((input) => input.envName === 'AGL_SUPPORT_EMAIL')?.validation?.kind !==
+    'email-shape' ||
+  supportOwnerInputPack?.controls?.zeroPaidSpend !== true ||
+  supportOwnerInputPack?.controls?.noSecretValuesStored !== true ||
+  supportOwnerInputPack?.controls?.noAccountCreation !== true ||
+  supportOwnerInputPack?.controls?.noStoreSubmission !== true ||
+  supportOwnerInputPack?.controls?.gitIgnoredLocalEnvFile !== true ||
+  supportOwnerInputPack?.controls?.onlySupportContactInput !== true ||
   !storeReadiness.storeOwnerUnlocks?.some(
     (unlock) =>
       unlock.id === 'support-contact' &&
@@ -5599,6 +5616,7 @@ if (
   publicStoreReadiness.sourceDataHash !== storeReadiness.sourceDataHash ||
   publicStoreReadiness.publicRoutes?.storeReadiness !== '/store-readiness.html' ||
   publicStoreReadiness.storeOwnerUnlockSummary?.nextUnlockId !== 'support-contact' ||
+  JSON.stringify(publicStoreReadiness.supportOwnerInputPack) !== JSON.stringify(supportOwnerInputPack) ||
   !publicStoreReadiness.storeOwnerUnlocks?.some((unlock) => unlock.id === 'support-contact') ||
   !publicStoreReadinessPlatformIds.has('android-google-play') ||
   !publicStoreReadinessPlatformIds.has('ios-app-store') ||
@@ -5606,11 +5624,15 @@ if (
   !storeReadinessHtml.includes('Android Google Play') ||
   !storeReadinessHtml.includes('iOS App Store') ||
   !storeReadinessHtml.includes('Owner Unlock Order') ||
+  !storeReadinessHtml.includes('Support Contact Input Pack') ||
+  !storeReadinessHtml.includes('AGL_SUPPORT_EMAIL=') ||
   !storeReadinessHtml.includes('Production support contact') ||
   !storeReadinessHtml.includes('./measurement-status.html') ||
   !storeReadinessHtml.includes('./monetization.html') ||
   !storeReadinessHtml.includes('./compliance.json') ||
   !storeReadinessSource.includes('storeOwnerUnlockSummary') ||
+  !storeReadinessSource.includes('supportOwnerInputPack') ||
+  !storeReadinessSource.includes('email-shape') ||
   !storeReadinessSource.includes('AGL_SUPPORT_EMAIL') ||
   !storeReadinessSource.includes('GOOGLE_PLAY_SERVICE_ACCOUNT_JSON') ||
   !storeReadinessSource.includes('noSecretValuesStored') ||

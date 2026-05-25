@@ -1,8 +1,8 @@
 # Store Readiness
 
-Generated: 2026-05-25T17:13:04.933Z
+Generated: 2026-05-25T17:18:20.157Z
 Status: store-readiness-prepared-external-blockers
-Source hash: 4dc565430b74
+Source hash: e0992205af98
 
 ## Summary
 
@@ -20,6 +20,18 @@ Source hash: 4dc565430b74
 - Lowest input: Production support contact currently needs 1 owner input(s) and can be done without store spend.
 - Immediate unlocks: support-contact
 - Gated unlocks: google-play-account, ios-app-store-account
+
+## Support Contact Input Pack
+
+- unlock: support-contact
+- status: needs-production-support-email
+- local env file: .env.production.local
+- missing inputs: AGL_SUPPORT_EMAIL
+- secret inputs: 0
+- email validation: not-checked-missing-input
+- no secret values stored: true
+- local env template:
+  - AGL_SUPPORT_EMAIL=
 
 ### Production support contact
 
