@@ -949,6 +949,11 @@ if (
 
 const publicEvidenceHandoff = productionMeasurementStatus.publicEvidenceHandoff ?? {}
 const publicEvidenceControls = publicEvidenceHandoff.controls ?? {}
+const playerEvidenceInvitePack = publicEvidenceHandoff.playerInvitePack ?? {}
+const playerEvidenceInviteRouteIds = new Set((playerEvidenceInvitePack.routes ?? []).map((route) => route.id))
+const currentPlayerInviteRoute = (playerEvidenceInvitePack.routes ?? []).find((route) => route.id === 'current-sample')
+const fastestPlayerInviteRoute = (playerEvidenceInvitePack.routes ?? []).find((route) => route.id === 'fastest-sample')
+const allMissionsPlayerInviteRoute = (playerEvidenceInvitePack.routes ?? []).find((route) => route.id === 'all-missions')
 const publicAnalyticsUnlock = productionMeasurementStatus.analyticsUnlock ?? null
 const publicCollectorDeployment = productionMeasurementStatus.collectorDeployment ?? {}
 const publicExternalUnlockQueue = productionMeasurementStatus.externalUnlockQueue ?? {}
@@ -1062,6 +1067,50 @@ if (
     (supportFeedback.summary?.aggregateEvidenceCampaigns ?? 0) ||
   publicEvidenceHandoff.productGateMissions?.supportingAggregateEvidenceNotes !==
     (productGateSamplePlan.summary?.supportingAggregateEvidenceNotes ?? 0) ||
+  playerEvidenceInvitePack.id !== 'zero-spend-player-evidence-invite-pack' ||
+  playerEvidenceInvitePack.status !== 'player-evidence-invite-pack-ready' ||
+  playerEvidenceInvitePack.primaryRouteId !== 'current-sample' ||
+  playerEvidenceInvitePack.fastestRouteId !== 'fastest-sample' ||
+  playerEvidenceInvitePack.summary?.routes !== 3 ||
+  playerEvidenceInvitePack.summary?.failingGates !== productGateSamplePlan.summary?.failingGates ||
+  playerEvidenceInvitePack.summary?.totalPromptViewsNeeded !==
+    productGateSamplePlan.summary?.totalPromptViewsNeeded ||
+  playerEvidenceInvitePack.summary?.totalObservedSuccessesNeeded !==
+    productGateSamplePlan.summary?.totalObservedSuccessesNeeded ||
+  playerEvidenceInvitePack.summary?.evidenceReadyCount !== productGateSamplePlan.summary?.evidenceReadyCount ||
+  !playerEvidenceInviteRouteIds.has('current-sample') ||
+  !playerEvidenceInviteRouteIds.has('fastest-sample') ||
+  !playerEvidenceInviteRouteIds.has('all-missions') ||
+  currentPlayerInviteRoute?.path !== '/sample-next.html' ||
+  currentPlayerInviteRoute?.jsonPath !== '/sample-next.json' ||
+  currentPlayerInviteRoute?.targetCampaignId !== trafficSeeding.sampleNextRoute?.targetCampaignId ||
+  currentPlayerInviteRoute?.targetGateId !== trafficSeeding.sampleNextRoute?.targetGateId ||
+  currentPlayerInviteRoute?.targetGameId !== trafficSeeding.sampleNextRoute?.targetGameId ||
+  currentPlayerInviteRoute?.priority !== 1 ||
+  (currentPlayerInviteRoute?.neededPromptViews ?? 0) < 1 ||
+  (currentPlayerInviteRoute?.neededSuccesses ?? 0) < 1 ||
+  fastestPlayerInviteRoute?.path !== '/sample-fastest.html' ||
+  fastestPlayerInviteRoute?.jsonPath !== '/sample-fastest.json' ||
+  fastestPlayerInviteRoute?.targetCampaignId !== trafficSeeding.sampleFastestRoute?.targetCampaignId ||
+  fastestPlayerInviteRoute?.targetGateId !== trafficSeeding.sampleFastestRoute?.targetGateId ||
+  fastestPlayerInviteRoute?.targetGameId !== trafficSeeding.sampleFastestRoute?.targetGameId ||
+  fastestPlayerInviteRoute?.priority !== 2 ||
+  allMissionsPlayerInviteRoute?.path !== '/gate-sample.html' ||
+  !playerEvidenceInvitePack.shareCopy?.some((item) => item.includes('/sample-next.html')) ||
+  !playerEvidenceInvitePack.shareCopy?.some((item) => item.includes('/sample-fastest.html')) ||
+  !playerEvidenceInvitePack.followUpCommands?.includes('npm run autonomous:collect-local-event-drops') ||
+  !playerEvidenceInvitePack.followUpCommands?.includes('npm run autonomous:player-evidence-watchdog') ||
+  !playerEvidenceInvitePack.followUpCommands?.includes('npm run autonomous:measurement-status') ||
+  playerEvidenceInvitePack.publicReview?.aggregateEvidenceIssue !== publicEvidenceHandoff.analyticsEvidenceIssue ||
+  playerEvidenceInvitePack.publicReview?.supportRoute !== '/support.html' ||
+  playerEvidenceInvitePack.controls?.zeroPaidSpend !== true ||
+  playerEvidenceInvitePack.controls?.noPaidTraffic !== true ||
+  playerEvidenceInvitePack.controls?.playerInitiatedOnly !== true ||
+  playerEvidenceInvitePack.controls?.noSyntheticEvents !== true ||
+  playerEvidenceInvitePack.controls?.noRawEventsInPublicIssues !== true ||
+  playerEvidenceInvitePack.controls?.noAutomaticPublicUpload !== true ||
+  playerEvidenceInvitePack.controls?.aggregateEvidenceDoesNotPassGates !== true ||
+  playerEvidenceInvitePack.controls?.localEventDropImportOnly !== true ||
   publicEvidenceControls.aggregateEvidenceDoesNotPassGates !== true ||
   publicEvidenceControls.manualReviewRequiredForGateDecisions !== true ||
   publicEvidenceControls.noRawEventsStored !== true ||
@@ -1171,6 +1220,10 @@ if (
   !measurementStatusHtml.includes('Start current sample') ||
   !measurementStatusHtml.includes('sample-next.html') ||
   !measurementStatusHtml.includes('sample-fastest.html') ||
+  !measurementStatusHtml.includes('Player Evidence Invite Pack') ||
+  !measurementStatusHtml.includes('Start invite route') ||
+  !measurementStatusHtml.includes('npm run autonomous:collect-local-event-drops') ||
+  !measurementStatusHtml.includes('zero-spend-player-evidence-invite-pack') ||
   !measurementStatusHtml.includes('Open recovery plan') ||
   !measurementStatusHtml.includes('product-gate-recovery.html') ||
   !measurementStatusHtml.includes('analytics-unlock.html') ||
@@ -1200,6 +1253,8 @@ if (
   !appSource.includes('Production Measurement') ||
   !appSource.includes('Analytics unlock') ||
   !productionMeasurementStatusSource.includes('publicEvidenceHandoff') ||
+  !productionMeasurementStatusSource.includes('playerEvidenceInvitePack') ||
+  !productionMeasurementStatusSource.includes('zero-spend-player-evidence-invite-pack') ||
   !productionMeasurementStatusSource.includes('publicAnalyticsUnlock') ||
   !productionMeasurementStatusSource.includes('publicCollectorDeployment') ||
   !productionMeasurementStatusSource.includes('analyticsUnlockPayload') ||

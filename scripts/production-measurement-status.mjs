@@ -340,6 +340,128 @@ const publicEvidenceHandoffStatus = aggregateEvidenceNotes.length
   : supportReady
     ? 'awaiting-player-initiated-aggregate-notes'
     : 'aggregate-evidence-channel-blocked'
+const missionByCampaignId = new Map((productGateSamplePlan.missions ?? []).map((mission) => [mission.campaignId, mission]))
+const sampleMissionForRoute = (route) =>
+  missionByCampaignId.get(route.targetCampaignId) ??
+  (productGateSamplePlan.missions ?? []).find(
+    (mission) => mission.gateId === route.targetGateId && mission.gameId === route.targetGameId,
+  ) ??
+  null
+const playerEvidenceInviteRoute = ({ id, title, route, mission, priority }) => ({
+  id,
+  title,
+  status: route.status,
+  path: route.path,
+  jsonPath: route.jsonPath,
+  targetCampaignId: route.targetCampaignId,
+  targetGateId: route.targetGateId,
+  targetGameId: route.targetGameId,
+  targetTitle: route.targetTitle,
+  targetPath: route.targetPath,
+  fallbackPath: route.fallbackPath,
+  priority,
+  neededPromptViews: numberOrZero(mission?.needed?.promptViews),
+  neededSuccesses: numberOrZero(mission?.needed?.successes),
+  evidenceStatus: mission?.evidence?.status ?? 'waiting-for-player-export',
+  sampleRole: mission?.sampleRole ?? null,
+  guardrails: route.guardrails,
+})
+const currentSampleMission = sampleMissionForRoute(sampleNextRoute)
+const fastestSampleMission = sampleMissionForRoute(sampleFastestRoute)
+const playerEvidenceInvitePack = {
+  id: 'zero-spend-player-evidence-invite-pack',
+  title: 'Zero-spend player evidence invite pack',
+  status: supportReady ? 'player-evidence-invite-pack-ready' : 'player-evidence-invite-pack-blocked',
+  primaryRouteId: 'current-sample',
+  fastestRouteId: 'fastest-sample',
+  summary: {
+    routes: 3,
+    missions: productGateSamplePlan.missions?.length ?? 0,
+    failingGates: numberOrZero(productGateSamplePlan.summary?.failingGates),
+    totalPromptViewsNeeded: numberOrZero(productGateSamplePlan.summary?.totalPromptViewsNeeded),
+    totalObservedSuccessesNeeded: numberOrZero(productGateSamplePlan.summary?.totalObservedSuccessesNeeded),
+    sampleReadyCount: numberOrZero(productGateSamplePlan.summary?.sampleReadyCount),
+    evidenceReadyCount: numberOrZero(productGateSamplePlan.summary?.evidenceReadyCount),
+    localEventsAvailable: productGateSamplePlan.summary?.localEventsAvailable === true,
+    aggregateEvidenceNotes: aggregateEvidenceNotes.length,
+  },
+  routes: [
+    playerEvidenceInviteRoute({
+      id: 'current-sample',
+      title: 'Current sample',
+      route: sampleNextRoute,
+      mission: currentSampleMission,
+      priority: 1,
+    }),
+    playerEvidenceInviteRoute({
+      id: 'fastest-sample',
+      title: 'Fastest sample',
+      route: sampleFastestRoute,
+      mission: fastestSampleMission,
+      priority: 2,
+    }),
+    {
+      id: 'all-missions',
+      title: 'All sample missions',
+      status: productGateSamplePlan.status,
+      path: '/gate-sample.html',
+      jsonPath: null,
+      targetCampaignId: productGateSamplePlan.publicSamplePage?.defaultRouteCampaignId ?? null,
+      targetGateId: productGateSamplePlan.summary?.defaultRouteGateId ?? null,
+      targetGameId: currentSampleMission?.gameId ?? null,
+      targetTitle: currentSampleMission?.title ?? null,
+      targetPath: null,
+      fallbackPath: null,
+      priority: 3,
+      neededPromptViews: numberOrZero(productGateSamplePlan.summary?.totalPromptViewsNeeded),
+      neededSuccesses: numberOrZero(productGateSamplePlan.summary?.totalObservedSuccessesNeeded),
+      evidenceStatus: productGateSamplePlan.summary?.evidenceReadyCount ? 'partially-ready' : 'waiting-for-player-export',
+      sampleRole: 'all-failing-gates',
+      guardrails: {
+        playerInitiatedOnly: true,
+        noAutomatedExternalPosting: true,
+        noPaidPromotion: true,
+        noSyntheticEvents: true,
+        noRevenueEnablement: true,
+      },
+    },
+  ],
+  shareCopy: [
+    `Start the current sample: ${sampleNextRoute.path}`,
+    `Fastest separate gate sample: ${sampleFastestRoute.path}`,
+    'After playing, use the in-browser Share evidence flow or Export local analytics; share aggregate counts only.',
+  ],
+  followUpCommands: [
+    'npm run autonomous:collect-local-event-drops',
+    'npm run autonomous:player-evidence-watchdog',
+    'npm run autonomous:measurement-status',
+  ],
+  publicReview: {
+    aggregateEvidenceIssue: aggregateEvidenceIssueUrl,
+    supportRoute: '/support.html',
+    measurementStatusRoute: '/measurement-status.html',
+    gateSampleRoute: '/gate-sample.html',
+  },
+  controls: {
+    zeroPaidSpend: true,
+    noPaidTraffic: true,
+    playerInitiatedOnly: true,
+    noSyntheticEvents: true,
+    noRawEventsInPublicIssues: true,
+    noAutomaticPublicUpload: true,
+    publicAggregateOnly: true,
+    aggregateEvidenceDoesNotPassGates: true,
+    manualReviewRequiredForGateDecisions: true,
+    localEventDropImportOnly: true,
+    noRevenueEnablement: true,
+    noStoreSubmission: true,
+  },
+  nextActions: [
+    `Share ${sampleNextRoute.path} first; use ${sampleFastestRoute.path} when the owner wants the shortest separate D1-retention check.`,
+    'After testers play, import local event drops or review public aggregate notes before rerunning product gates.',
+    'Keep revenue, store submission, and product-gate pass decisions blocked until real event evidence clears thresholds.',
+  ],
+}
 const publicEvidenceHandoff = {
   status: publicEvidenceHandoffStatus,
   source: 'support-feedback-public-issues',
@@ -362,6 +484,7 @@ const publicEvidenceHandoff = {
     missionsWithAggregateEvidence: aggregateEvidenceMissions.length,
     topMissions: aggregateEvidenceMissions.slice(0, 5),
   },
+  playerInvitePack: playerEvidenceInvitePack,
   controls: aggregateEvidencePrivacyControls,
   nextActions: [
     aggregateEvidenceNotes.length
@@ -1716,6 +1839,57 @@ const html = `<!doctype html>
       </section>
 
       <section>
+        <h2>Player Evidence Invite Pack</h2>
+        <p>Zero-spend tester routes for the current product gates. Public notes remain aggregate-only supporting evidence; local event drops or configured production analytics are still required before gate decisions.</p>
+        <div class="grid" aria-label="Player evidence invite pack">
+          <div class="card">
+            <span>Pack</span>
+            <strong>${escapeHtml(payload.publicEvidenceHandoff.playerInvitePack.status)}</strong>
+          </div>
+          <div class="card">
+            <span>Pack ID</span>
+            <strong>${escapeHtml(payload.publicEvidenceHandoff.playerInvitePack.id)}</strong>
+          </div>
+          <div class="card">
+            <span>Routes</span>
+            <strong>${payload.publicEvidenceHandoff.playerInvitePack.summary.routes}</strong>
+          </div>
+          <div class="card">
+            <span>Needed views</span>
+            <strong>${payload.publicEvidenceHandoff.playerInvitePack.summary.totalPromptViewsNeeded}</strong>
+          </div>
+          <div class="card">
+            <span>Needed successes</span>
+            <strong>${payload.publicEvidenceHandoff.playerInvitePack.summary.totalObservedSuccessesNeeded}</strong>
+          </div>
+          <div class="card">
+            <span>Evidence ready</span>
+            <strong>${payload.publicEvidenceHandoff.playerInvitePack.summary.evidenceReadyCount}</strong>
+          </div>
+          <div class="card">
+            <span>Aggregate notes</span>
+            <strong>${payload.publicEvidenceHandoff.playerInvitePack.summary.aggregateEvidenceNotes}</strong>
+          </div>
+        </div>
+        <h3>Tester Routes</h3>
+        <ul>
+          ${payload.publicEvidenceHandoff.playerInvitePack.routes
+            .map(
+              (route) =>
+                `<li><strong>${escapeHtml(route.title)}</strong>: <code>${escapeHtml(route.path)}</code> ${escapeHtml(route.targetGateId ?? 'all gates')} needs ${route.neededPromptViews} view(s) and ${route.neededSuccesses} success(es).</li>`,
+            )
+            .join('\n          ')}
+        </ul>
+        <h3>Follow-Up Commands</h3>
+        ${codeList(payload.publicEvidenceHandoff.playerInvitePack.followUpCommands)}
+        <div class="actions">
+          <a href="${escapeHtml(publicRouteHref(payload.publicEvidenceHandoff.playerInvitePack.routes[0]?.path, payload.publicRoutes.sampleNext))}">Start invite route</a>
+          <a href="${escapeHtml(publicRouteHref(payload.publicEvidenceHandoff.playerInvitePack.routes[1]?.path, payload.publicRoutes.sampleFastest))}">Start fastest invite</a>
+          <a href="${escapeHtml(publicRouteHref(payload.publicEvidenceHandoff.playerInvitePack.publicReview.aggregateEvidenceIssue, payload.publicRoutes.support))}">Open aggregate note</a>
+        </div>
+      </section>
+
+      <section>
         <h2>Public Aggregate Evidence</h2>
         <p>Player-initiated public issue notes are supporting diagnosis only. They help route what to investigate next, but they do not pass product gates, enable revenue, or replace production analytics.</p>
         <div class="grid" aria-label="Public aggregate evidence">
@@ -1947,6 +2121,9 @@ const report = [
   `- owner unlock brief: ${payload.externalUnlockQueue.ownerUnlockBrief?.recommendedPathId ?? 'none'}`,
   `- aggregate evidence notes: ${payload.publicEvidenceHandoff.aggregateEvidence.notes}`,
   `- supporting aggregate mission notes: ${payload.publicEvidenceHandoff.productGateMissions.supportingAggregateEvidenceNotes}`,
+  `- player evidence invite pack: ${payload.publicEvidenceHandoff.playerInvitePack.status}`,
+  `- player evidence primary route: ${payload.publicEvidenceHandoff.playerInvitePack.routes[0]?.path ?? 'missing'}`,
+  `- player evidence follow-up: ${payload.publicEvidenceHandoff.playerInvitePack.followUpCommands.join(' && ')}`,
   '',
   '## Public Routes',
   '',

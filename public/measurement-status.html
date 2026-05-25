@@ -229,6 +229,54 @@
       </section>
 
       <section>
+        <h2>Player Evidence Invite Pack</h2>
+        <p>Zero-spend tester routes for the current product gates. Public notes remain aggregate-only supporting evidence; local event drops or configured production analytics are still required before gate decisions.</p>
+        <div class="grid" aria-label="Player evidence invite pack">
+          <div class="card">
+            <span>Pack</span>
+            <strong>player-evidence-invite-pack-ready</strong>
+          </div>
+          <div class="card">
+            <span>Pack ID</span>
+            <strong>zero-spend-player-evidence-invite-pack</strong>
+          </div>
+          <div class="card">
+            <span>Routes</span>
+            <strong>3</strong>
+          </div>
+          <div class="card">
+            <span>Needed views</span>
+            <strong>70</strong>
+          </div>
+          <div class="card">
+            <span>Needed successes</span>
+            <strong>139</strong>
+          </div>
+          <div class="card">
+            <span>Evidence ready</span>
+            <strong>0</strong>
+          </div>
+          <div class="card">
+            <span>Aggregate notes</span>
+            <strong>0</strong>
+          </div>
+        </div>
+        <h3>Tester Routes</h3>
+        <ul>
+          <li><strong>Current sample</strong>: <code>/sample-next.html</code> firstGameCompletion needs 30 view(s) and 128 success(es).</li>
+          <li><strong>Fastest sample</strong>: <code>/sample-fastest.html</code> d1Retention needs 10 view(s) and 1 success(es).</li>
+          <li><strong>All sample missions</strong>: <code>/gate-sample.html</code> firstGameCompletion needs 70 view(s) and 139 success(es).</li>
+        </ul>
+        <h3>Follow-Up Commands</h3>
+        <ul><li><code>npm run autonomous:collect-local-event-drops</code></li><li><code>npm run autonomous:player-evidence-watchdog</code></li><li><code>npm run autonomous:measurement-status</code></li></ul>
+        <div class="actions">
+          <a href="./sample-next.html">Start invite route</a>
+          <a href="./sample-fastest.html">Start fastest invite</a>
+          <a href="https://github.com/moshequ/autonomous-game-lab/issues/new?template=analytics-evidence.yml&amp;title=%5BEvidence%5D+Player+event+export+note&amp;body=Thanks+for+helping+improve+Autonomous+Game+Lab.%0A%0AGitHub+Issues+are+public.+Share+aggregate+counts+only.%0ADo+not+paste+private+information%2C+raw+analytics+exports%2C+event+rows%2C+private+identifiers%2C+or+uploaded+event+files+into+this+issue.%0A%0ASupport+type%3A+analytics-evidence%0AGame+or+mission%3A%0AEvidence+window%3A%0AAggregate+starts%3A%0AAggregate+completions%3A%0AAggregate+replays%3A%0AAggregate+D1+eligible+players%3A%0AAggregate+D1+retained+players%3A%0AWhat+changed+or+looked+unusual%3A">Open aggregate note</a>
+        </div>
+      </section>
+
+      <section>
         <h2>Public Aggregate Evidence</h2>
         <p>Player-initiated public issue notes are supporting diagnosis only. They help route what to investigate next, but they do not pass product gates, enable revenue, or replace production analytics.</p>
         <div class="grid" aria-label="Public aggregate evidence">

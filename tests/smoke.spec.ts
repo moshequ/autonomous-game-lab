@@ -9492,7 +9492,13 @@ test('production measurement status publishes public aggregate evidence handoff'
     }
   }
   const samplePlan = JSON.parse(await readFile('data/product-gate-sample-plan.json', 'utf8')) as {
-    summary: { supportingAggregateEvidenceNotes: number }
+    summary: {
+      supportingAggregateEvidenceNotes: number
+      failingGates: number
+      totalPromptViewsNeeded: number
+      totalObservedSuccessesNeeded: number
+      evidenceReadyCount: number
+    }
   }
   const traffic = JSON.parse(await readFile('data/traffic-seeding.json', 'utf8')) as {
     status: string
@@ -9937,6 +9943,66 @@ test('production measurement status publishes public aggregate evidence handoff'
           manualReviewRequired: boolean
         }>
       }
+      playerInvitePack: {
+        id: string
+        status: string
+        primaryRouteId: string
+        fastestRouteId: string
+        summary: {
+          routes: number
+          missions: number
+          failingGates: number
+          totalPromptViewsNeeded: number
+          totalObservedSuccessesNeeded: number
+          evidenceReadyCount: number
+          aggregateEvidenceNotes: number
+        }
+        routes: Array<{
+          id: string
+          title: string
+          status: string
+          path: string
+          jsonPath: string | null
+          targetCampaignId: string | null
+          targetGateId: string | null
+          targetGameId: string | null
+          targetPath: string | null
+          priority: number
+          neededPromptViews: number
+          neededSuccesses: number
+          evidenceStatus: string
+          guardrails: {
+            playerInitiatedOnly: boolean
+            noAutomatedExternalPosting: boolean
+            noPaidPromotion: boolean
+            noSyntheticEvents: boolean
+            noRevenueEnablement: boolean
+          }
+        }>
+        shareCopy: string[]
+        followUpCommands: string[]
+        publicReview: {
+          aggregateEvidenceIssue: string | null
+          supportRoute: string
+          measurementStatusRoute: string
+          gateSampleRoute: string
+        }
+        controls: {
+          zeroPaidSpend: boolean
+          noPaidTraffic: boolean
+          playerInitiatedOnly: boolean
+          noSyntheticEvents: boolean
+          noRawEventsInPublicIssues: boolean
+          noAutomaticPublicUpload: boolean
+          publicAggregateOnly: boolean
+          aggregateEvidenceDoesNotPassGates: boolean
+          manualReviewRequiredForGateDecisions: boolean
+          localEventDropImportOnly: boolean
+          noRevenueEnablement: boolean
+          noStoreSubmission: boolean
+        }
+        nextActions: string[]
+      }
       controls: {
         aggregateEvidenceDoesNotPassGates: boolean
         manualReviewRequiredForGateDecisions: boolean
@@ -10348,6 +10414,64 @@ test('production measurement status publishes public aggregate evidence handoff'
   expect(measurement.publicEvidenceHandoff.productGateMissions.supportingAggregateEvidenceNotes).toBe(
     samplePlan.summary.supportingAggregateEvidenceNotes,
   )
+  expect(measurement.publicEvidenceHandoff.playerInvitePack.id).toBe('zero-spend-player-evidence-invite-pack')
+  expect(measurement.publicEvidenceHandoff.playerInvitePack.status).toBe('player-evidence-invite-pack-ready')
+  expect(measurement.publicEvidenceHandoff.playerInvitePack.primaryRouteId).toBe('current-sample')
+  expect(measurement.publicEvidenceHandoff.playerInvitePack.fastestRouteId).toBe('fastest-sample')
+  expect(measurement.publicEvidenceHandoff.playerInvitePack.summary.failingGates).toBe(
+    samplePlan.summary.failingGates,
+  )
+  expect(measurement.publicEvidenceHandoff.playerInvitePack.summary.totalPromptViewsNeeded).toBe(
+    samplePlan.summary.totalPromptViewsNeeded,
+  )
+  expect(measurement.publicEvidenceHandoff.playerInvitePack.summary.totalObservedSuccessesNeeded).toBe(
+    samplePlan.summary.totalObservedSuccessesNeeded,
+  )
+  expect(measurement.publicEvidenceHandoff.playerInvitePack.summary.evidenceReadyCount).toBe(
+    samplePlan.summary.evidenceReadyCount,
+  )
+  expect(measurement.publicEvidenceHandoff.playerInvitePack.routes.map((route) => route.id)).toEqual([
+    'current-sample',
+    'fastest-sample',
+    'all-missions',
+  ])
+  expect(measurement.publicEvidenceHandoff.playerInvitePack.routes[0]).toMatchObject({
+    path: traffic.sampleNextRoute.path,
+    jsonPath: traffic.sampleNextRoute.jsonPath,
+    targetCampaignId: traffic.sampleNextRoute.targetCampaignId,
+    targetGateId: traffic.sampleNextRoute.targetGateId,
+    targetGameId: traffic.sampleNextRoute.targetGameId,
+    priority: 1,
+  })
+  expect(measurement.publicEvidenceHandoff.playerInvitePack.routes[1]).toMatchObject({
+    path: traffic.sampleFastestRoute.path,
+    jsonPath: traffic.sampleFastestRoute.jsonPath,
+    targetCampaignId: traffic.sampleFastestRoute.targetCampaignId,
+    targetGateId: traffic.sampleFastestRoute.targetGateId,
+    targetGameId: traffic.sampleFastestRoute.targetGameId,
+    priority: 2,
+  })
+  expect(measurement.publicEvidenceHandoff.playerInvitePack.routes[2].path).toBe('/gate-sample.html')
+  expect(measurement.publicEvidenceHandoff.playerInvitePack.routes[0].neededPromptViews).toBeGreaterThan(0)
+  expect(measurement.publicEvidenceHandoff.playerInvitePack.routes[0].neededSuccesses).toBeGreaterThan(0)
+  expect(measurement.publicEvidenceHandoff.playerInvitePack.followUpCommands).toEqual([
+    'npm run autonomous:collect-local-event-drops',
+    'npm run autonomous:player-evidence-watchdog',
+    'npm run autonomous:measurement-status',
+  ])
+  expect(measurement.publicEvidenceHandoff.playerInvitePack.shareCopy.join(' ')).toContain('/sample-next.html')
+  expect(measurement.publicEvidenceHandoff.playerInvitePack.shareCopy.join(' ')).toContain('/sample-fastest.html')
+  expect(measurement.publicEvidenceHandoff.playerInvitePack.publicReview.aggregateEvidenceIssue).toBe(
+    measurement.publicEvidenceHandoff.analyticsEvidenceIssue,
+  )
+  expect(measurement.publicEvidenceHandoff.playerInvitePack.publicReview.supportRoute).toBe('/support.html')
+  expect(measurement.publicEvidenceHandoff.playerInvitePack.controls.zeroPaidSpend).toBe(true)
+  expect(measurement.publicEvidenceHandoff.playerInvitePack.controls.noPaidTraffic).toBe(true)
+  expect(measurement.publicEvidenceHandoff.playerInvitePack.controls.noSyntheticEvents).toBe(true)
+  expect(measurement.publicEvidenceHandoff.playerInvitePack.controls.noRawEventsInPublicIssues).toBe(true)
+  expect(measurement.publicEvidenceHandoff.playerInvitePack.controls.noAutomaticPublicUpload).toBe(true)
+  expect(measurement.publicEvidenceHandoff.playerInvitePack.controls.aggregateEvidenceDoesNotPassGates).toBe(true)
+  expect(measurement.publicEvidenceHandoff.playerInvitePack.controls.localEventDropImportOnly).toBe(true)
   expect(measurement.publicEvidenceHandoff.controls.aggregateEvidenceDoesNotPassGates).toBe(true)
   expect(measurement.publicEvidenceHandoff.controls.manualReviewRequiredForGateDecisions).toBe(true)
   expect(measurement.publicEvidenceHandoff.controls.noRawEventsStored).toBe(true)
@@ -10824,6 +10948,9 @@ test('production measurement status publishes public aggregate evidence handoff'
   expect(measurement.publicEvidenceHandoff.nextActions.join(' ')).toContain('Do not pass product gates')
   expect(measurement.publicEvidenceHandoff.nextActions.join(' ')).toContain('/sample-next.html')
   expect(measurement.publicEvidenceHandoff.nextActions.join(' ')).toContain('/sample-fastest.html')
+  expect(measurement.publicEvidenceHandoff.playerInvitePack.nextActions.join(' ')).toContain(
+    'real event evidence',
+  )
   expect(measurement.nextActions.join(' ')).toContain('public aggregate evidence')
   expect(measurement.nextActions.join(' ')).toContain('Product gate recovery')
   expect(measurement.nextActions.join(' ')).toContain('Unlock production analytics')
@@ -10842,6 +10969,10 @@ test('production measurement status publishes public aggregate evidence handoff'
   expect(html).toContain('sample-next.html')
   expect(html).toContain('Start fastest sample')
   expect(html).toContain('sample-fastest.html')
+  expect(html).toContain('Player Evidence Invite Pack')
+  expect(html).toContain('Start invite route')
+  expect(html).toContain('npm run autonomous:collect-local-event-drops')
+  expect(html).toContain('zero-spend-player-evidence-invite-pack')
   expect(html).toContain('Open recovery plan')
   expect(html).toContain('product-gate-recovery.html')
   expect(html).toContain('Zero-Spend Analytics Unlock')
@@ -10864,6 +10995,8 @@ test('production measurement status publishes public aggregate evidence handoff'
   expect(html).not.toContain('href="/measurement-status.json"')
   expect(html).not.toContain('href="/product-gate-recovery.html"')
   expect(script).toContain('publicEvidenceHandoff')
+  expect(script).toContain('playerEvidenceInvitePack')
+  expect(script).toContain('zero-spend-player-evidence-invite-pack')
   expect(script).toContain('publicAnalyticsUnlock')
   expect(script).toContain('analyticsUnlockPayload')
   expect(script).toContain('publicCollectorDeployment')
@@ -10908,6 +11041,7 @@ test('production measurement status publishes public aggregate evidence handoff'
   await expect(page.getByRole('heading', { name: 'Production Measurement Status' })).toBeVisible()
   await expect(page.getByRole('heading', { name: 'Live Release Evidence' })).toBeVisible()
   await expect(page.getByRole('heading', { name: 'Public Aggregate Evidence' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Player Evidence Invite Pack' })).toBeVisible()
   await expect(page.getByRole('heading', { name: 'Zero-Spend Analytics Unlock' })).toBeVisible()
   await expect(page.getByRole('heading', { name: 'Owner Unlock Brief' })).toBeVisible()
   await expect(page.getByRole('heading', { name: 'Combined Owner Input Pack' })).toBeVisible()
@@ -10923,6 +11057,15 @@ test('production measurement status publishes public aggregate evidence handoff'
   await expect(page.getByRole('link', { name: 'Start fastest sample' }).first()).toHaveAttribute(
     'href',
     './sample-fastest.html',
+  )
+  await expect(page.getByRole('link', { name: 'Start invite route' })).toHaveAttribute('href', './sample-next.html')
+  await expect(page.getByRole('link', { name: 'Start fastest invite' })).toHaveAttribute(
+    'href',
+    './sample-fastest.html',
+  )
+  await expect(page.getByRole('link', { name: 'Open aggregate note' })).toHaveAttribute(
+    'href',
+    measurement.publicEvidenceHandoff.analyticsEvidenceIssue ?? './support.html',
   )
   await expect(page.getByRole('link', { name: 'Open recovery plan' }).first()).toHaveAttribute(
     'href',
@@ -10940,6 +11083,10 @@ test('production measurement status publishes public aggregate evidence handoff'
     './measurement-status.json',
   )
   await expect(page.getByLabel('Public aggregate evidence')).toContainText(measurement.publicEvidenceHandoff.status)
+  await expect(page.getByLabel('Player evidence invite pack')).toContainText(
+    measurement.publicEvidenceHandoff.playerInvitePack.status,
+  )
+  await expect(page.getByLabel('Player evidence invite pack')).toContainText('70')
   await expect(page.getByLabel('Live release evidence')).toContainText('Synced evidence candidate')
   await expect(page.getByLabel('Live release evidence')).toContainText('Status JSON caveat')
   await expect(page.locator('#exact-live-candidate')).not.toContainText('checking')
