@@ -1,6 +1,6 @@
 # Autonomous Owner Loop
 
-Generated: 2026-05-25T12:14:59.662Z
+Generated: 2026-05-25T12:17:38.376Z
 Status: owner-loop-ready
 Mode: zero-spend-web-ready
 Autonomy score: 44/45 (98%)
@@ -67,7 +67,7 @@ Autonomy score: 44/45 (98%)
 - ready: post-deploy-smoke - Smoke blocked-missing-origin; origin missing; manifest comparison required; checks 0/32 passed; local artifact predeploy-artifact-smoke-passed 32/32 passed.
 - ready: post-deploy-artifact-sync - Artifact sync post-deploy-artifact-sync-passed; run 26399788354; live matches artifact true; strict true.
 - ready: live-site-monitor - Live monitor live-site-monitor-passed; origin https://moshequ.github.io/autonomous-game-lab; checks 32/32; live matches synced deploy true.
-- ready: production-bootstrap - Bootstrap production-bootstrap-ready; mode waiting-for-external-credentials; external blockers 16.
+- ready: production-bootstrap - Bootstrap production-bootstrap-ready; mode waiting-for-external-credentials; external blockers 17.
 - ready: production-activation - Activation activation-waiting-for-credentials; mode dry-run; execution dry-run; gh blocked.
 - ready: production-blocker-handoff - Handoff handoff-waiting-on-owner-inputs; next production-analytics-browser; owner inputs 4; missing env 7; missing secrets 5.
 - ready: production-unlock-runner - Unlock runner unlock-runner-idle; runnable 0; queued commands 0; unsafe 0.
@@ -75,7 +75,7 @@ Autonomy score: 44/45 (98%)
 - ready: autonomous-operator - Operator operator-plan-ready; selected seed-portfolio-traffic; execution not-requested.
 - ready: operator-history - History operator-history-ready; records 40; executed 4.
 - ready: objective-audit - Audit objective-in-progress; met 6/8; external blockers 17.
-- ready: store-listing-optimizer - Focus market-pulse; lead screenshot phone-market-pulse-generated; candidate changed no.
+- ready: store-listing-optimizer - Focus market-pulse; lead screenshot phone-market-pulse-generated; candidate changed yes.
 - ready: store-compliance - Rating Everyone; target audience general; blockers 3.
 - ready: android-signing - Signing signing-prepared; fingerprint available; local secrets configured.
 - ready: production-safety - Response guarded-operations; incident drill pass; spend mode no-spend.

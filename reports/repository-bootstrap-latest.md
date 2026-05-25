@@ -1,6 +1,6 @@
 # Repository Bootstrap
 
-Generated: 2026-05-25T12:14:16.449Z
+Generated: 2026-05-25T12:17:04.589Z
 Status: waiting-for-gh-auth
 Mode: plan-only
 Workspace git: ready
@@ -14,10 +14,10 @@ Origin: moshequ/autonomous-game-lab
 - done: inspect-repository-channel; Repository readiness is waiting-for-gh-auth.
 - ready: initialize-local-git; Git worktree is available at /Users/moshequ/Documents/Codex/2026-05-18/i-want-to-have-a-new.
 - ready: create-initial-commit; The local repository has at least one commit.
-- ready: commit-current-snapshot; 73 repository evidence file(s) changed during this dry run; the outer verified commit will persist them.
+- ready-for-explicit-snapshot-commit: commit-current-snapshot; 1 non-generated source or artifact file(s) are not committed yet.
 - ready: set-or-create-origin; Origin remote resolves to moshequ/autonomous-game-lab.
 - credential-gated: create-github-repository; GitHub CLI auth or GH_TOKEN/GITHUB_TOKEN is required before remote repository creation.
-- ready-for-explicit-push: push-initial-snapshot; Push stays held until an origin remote exists and AGL_ALLOW_PUSH=1 is set.
+- waiting-for-clean-snapshot: push-initial-snapshot; Push stays held until a committed local snapshot and origin remote exist.
 
 ## Controls
 
@@ -36,6 +36,7 @@ Origin: moshequ/autonomous-game-lab
 
 ## Blockers
 
+- Commit current generated changes before pushing to GitHub Pages.
 - Authenticate GitHub CLI or provide GH_TOKEN/GITHUB_TOKEN for remote repository bootstrap.
 
 ## Explicit Repository Target Commands

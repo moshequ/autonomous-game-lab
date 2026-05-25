@@ -1,9 +1,9 @@
 # Store Listing Optimizer
 
-Generated: 2026-05-25T12:14:50.079Z
+Generated: 2026-05-25T12:17:37.026Z
 Status: store-listing-optimizer-ready
 Focus: Market Pulse (market-pulse)
-Previous candidate: market-pulse
+Previous candidate: lantern-relay
 
 ## Copy
 
@@ -40,6 +40,6 @@ Previous candidate: market-pulse
 
 ## Next Actions
 
-- Keep Market Pulse as the store listing focus.
+- Use Market Pulse as the store listing focus instead of lantern-relay.
 - Lead screenshots with Market Pulse gameplay board.
 - Regenerate store compliance after every listing, screenshot, monetization, or privacy change.
