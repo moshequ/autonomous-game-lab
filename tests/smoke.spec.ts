@@ -5251,6 +5251,9 @@ test('autonomous cadence keeps unattended operation auditable and guarded', asyn
         verificationGate: string
         directPushRequiresRepositoryVariable: string
         followedByDeployWorkflow: string
+        ownerUnlockQueueSourceStatus: string
+        ownerUnlockQueueCoverage: boolean
+        ownerUnlockQueueWatchedInputs: string[]
         watchedInputs: string[]
       }
       githubPublicEvidenceIntake: {
@@ -5319,11 +5322,58 @@ test('autonomous cadence keeps unattended operation auditable and guarded', asyn
     guardrails: { zeroPaidSpend: boolean; noStoreSubmission: boolean; noRevenueEnablement: boolean }
   }
   const packageJson = JSON.parse(await readFile('package.json', 'utf8')) as { scripts: Record<string, string> }
+  const ownerUnlockBrief = JSON.parse(await readFile('data/owner-unlock-brief.json', 'utf8')) as {
+    status: string
+    brief: {
+      missingVariables: Array<{ repositoryName: string }>
+      missingSecrets: Array<{ repositoryName: string }>
+      configuredVariables: Array<{ repositoryName: string }>
+      configuredSecrets: Array<{ repositoryName: string }>
+      lowestInputPath: {
+        missingVariables: Array<{ repositoryName: string }>
+        missingSecrets: Array<{ repositoryName: string }>
+        configuredVariables: Array<{ repositoryName: string }>
+        configuredSecrets: Array<{ repositoryName: string }>
+      } | null
+      parallelOwnerUnlocks: Array<{
+        missingVariables: Array<{ repositoryName: string }>
+        missingSecrets: Array<{ repositoryName: string }>
+        configuredVariables: Array<{ repositoryName: string }>
+        configuredSecrets: Array<{ repositoryName: string }>
+      }>
+    }
+    ownerInputQueue: Array<{
+      missingVariables: Array<{ repositoryName: string }>
+      missingSecrets: Array<{ repositoryName: string }>
+      configuredVariables: Array<{ repositoryName: string }>
+      configuredSecrets: Array<{ repositoryName: string }>
+    }>
+  }
   const productionInputWorkflow = await readFile('.github/workflows/production-input-watch.yml', 'utf8')
   const publicEvidenceWorkflow = await readFile('.github/workflows/public-evidence-intake.yml', 'utf8')
   const postDeploySyncWorkflow = await readFile('.github/workflows/post-deploy-evidence-sync.yml', 'utf8')
   const webDeployWorkflow = await readFile('.github/workflows/web-pwa-deploy.yml', 'utf8')
   const productionInputScript = packageJson.scripts['autonomous:production-input-watch'] ?? ''
+  const ownerQueueInputNames = [
+    ...new Set(
+      [
+        ...(ownerUnlockBrief.brief?.missingVariables ?? []),
+        ...(ownerUnlockBrief.brief?.missingSecrets ?? []),
+        ...(ownerUnlockBrief.brief?.configuredVariables ?? []),
+        ...(ownerUnlockBrief.brief?.configuredSecrets ?? []),
+        ...(ownerUnlockBrief.brief?.lowestInputPath?.missingVariables ?? []),
+        ...(ownerUnlockBrief.brief?.lowestInputPath?.missingSecrets ?? []),
+        ...(ownerUnlockBrief.brief?.lowestInputPath?.configuredVariables ?? []),
+        ...(ownerUnlockBrief.brief?.lowestInputPath?.configuredSecrets ?? []),
+        ...(ownerUnlockBrief.ownerInputQueue ?? []).flatMap((unlock) => [
+          ...unlock.missingVariables,
+          ...unlock.missingSecrets,
+          ...unlock.configuredVariables,
+          ...unlock.configuredSecrets,
+        ]),
+      ].map((item) => item.repositoryName),
+    ),
+  ]
 
   expect(cadence.status).toBe('cadence-ready')
   expect(cadence.schedulers.codexDesktop.id).toBe('autonomous-game-lab-daily-owner-loop')
@@ -5374,9 +5424,20 @@ test('autonomous cadence keeps unattended operation auditable and guarded', asyn
     expect.arrayContaining([
       'VITE_EVENT_COLLECTOR_WRITE_TOKEN',
       'POSTHOG_PERSONAL_API_KEY',
+      'VITE_POSTHOG_HOST',
+      'CLOUDFLARE_ACCOUNT_ID',
       'AGL_ANDROID_KEYSTORE_BASE64',
     ]),
   )
+  expect(cadence.schedulers.githubProductionInputWatch.ownerUnlockQueueSourceStatus).toBe(ownerUnlockBrief.status)
+  expect(cadence.schedulers.githubProductionInputWatch.ownerUnlockQueueCoverage).toBe(true)
+  expect(cadence.schedulers.githubProductionInputWatch.ownerUnlockQueueWatchedInputs).toEqual(ownerQueueInputNames)
+  expect(cadence.schedulers.githubProductionInputWatch.watchedInputs).toEqual(
+    expect.arrayContaining(ownerQueueInputNames),
+  )
+  for (const inputName of ownerQueueInputNames) {
+    expect(productionInputWorkflow).toContain(`${inputName}:`)
+  }
   expect(productionInputScript).toContain('npm run build')
   expect(productionInputScript).toContain('autonomous:performance')
   expect(productionInputScript).toContain('autonomous:release-candidate')

@@ -379,6 +379,11 @@ const playerEvidenceWatchdog = await readOptionalJson(path.join(dataDir, 'player
   controls: {},
   publicRepoSecurity: {},
 })
+const ownerUnlockBrief = await readOptionalJson(path.join(dataDir, 'owner-unlock-brief.json'), {
+  status: 'missing',
+  brief: null,
+  ownerInputQueue: [],
+})
 const ownerLoop = await readOptionalJson(path.join(dataDir, 'autonomous-owner-loop.json'), {
   status: 'missing',
   ownerDecision: {},
@@ -537,6 +542,41 @@ const codexDesktopActual = {
     rrule: automation.rrule ?? null,
   })),
 }
+
+const uniqueStrings = (items) => [...new Set(items.map((item) => String(item ?? '').trim()).filter(Boolean))]
+const ownerUnlockInputName = (item) => item?.repositoryName ?? item?.repositorySecret ?? item?.envName ?? item?.name ?? null
+const ownerUnlockInputNames = (items) => (items ?? []).map(ownerUnlockInputName)
+const collectOwnerUnlockWatchInputs = (unlock) =>
+  uniqueStrings([
+    ...ownerUnlockInputNames(unlock?.missingVariables),
+    ...ownerUnlockInputNames(unlock?.missingSecrets),
+    ...ownerUnlockInputNames(unlock?.configuredVariables),
+    ...ownerUnlockInputNames(unlock?.configuredSecrets),
+  ])
+const ownerUnlockInputQueue = ownerUnlockBrief.ownerInputQueue ?? ownerUnlockBrief.brief?.parallelOwnerUnlocks ?? []
+const ownerUnlockWatchedInputs = uniqueStrings([
+  ...collectOwnerUnlockWatchInputs(ownerUnlockBrief.brief),
+  ...collectOwnerUnlockWatchInputs(ownerUnlockBrief.brief?.lowestInputPath),
+  ...ownerUnlockInputQueue.flatMap(collectOwnerUnlockWatchInputs),
+])
+const baseProductionInputWatchedInputs = [
+  'VITE_EVENT_COLLECTOR_URL',
+  'VITE_EVENT_COLLECTOR_WRITE_TOKEN',
+  'AGL_EVENT_COLLECTOR_EXPORT_URL',
+  'CLOUDFLARE_API_TOKEN',
+  'VITE_POSTHOG_KEY',
+  'POSTHOG_PERSONAL_API_KEY',
+  'AGL_SUPPORT_EMAIL',
+  'ADMOB_PUBLISHER_ID',
+  'AGL_ANDROID_KEYSTORE_BASE64',
+]
+const productionInputWatchedInputs = uniqueStrings([
+  ...baseProductionInputWatchedInputs,
+  ...ownerUnlockWatchedInputs,
+])
+const productionInputWorkflowCoversOwnerUnlockQueue =
+  ownerUnlockWatchedInputs.length > 0 &&
+  ownerUnlockWatchedInputs.every((name) => productionInputWatchWorkflow.includes(`${name}:`))
 
 const checks = [
   {
@@ -784,6 +824,7 @@ const checks = [
       productionInputWatchWorkflow.includes('public/product-gate-recovery.html') &&
       productionInputWatchWorkflow.includes('public/product-gate-recovery.json') &&
       productionInputWatchWorkflow.includes('data/release-candidate.json') &&
+      productionInputWorkflowCoversOwnerUnlockQueue &&
       productionInputWatchScript.includes('npm run build') &&
       productionInputWatchScript.includes('autonomous:performance') &&
       productionInputWatchScript.includes('autonomous:release-candidate') &&
@@ -799,7 +840,7 @@ const checks = [
         ? 'pass'
         : 'blocker',
     detail: productionInputWatchWorkflowExists
-      ? 'Production input watch refreshes production environment, deploy/readiness evidence, unlock follow-ups, and measurement status after owner-provided repository variables or secrets, gates direct commits, and avoids workflow dispatch or raw event storage.'
+      ? 'Production input watch refreshes production environment, deploy/readiness evidence, owner-unlock queue follow-ups, and measurement status after owner-provided repository variables or secrets, gates direct commits, and avoids workflow dispatch or raw event storage.'
       : 'Production input watch GitHub workflow is missing.',
   },
   {
@@ -1036,17 +1077,10 @@ const payload = {
       verificationGate: 'node scripts/verify-autonomy.mjs',
       directPushRequiresRepositoryVariable: 'AGL_AUTONOMOUS_SELF_UPDATE_DIRECT=1',
       followedByDeployWorkflow: '.github/workflows/web-pwa-deploy.yml',
-      watchedInputs: [
-        'VITE_EVENT_COLLECTOR_URL',
-        'VITE_EVENT_COLLECTOR_WRITE_TOKEN',
-        'AGL_EVENT_COLLECTOR_EXPORT_URL',
-        'CLOUDFLARE_API_TOKEN',
-        'VITE_POSTHOG_KEY',
-        'POSTHOG_PERSONAL_API_KEY',
-        'AGL_SUPPORT_EMAIL',
-        'ADMOB_PUBLISHER_ID',
-        'AGL_ANDROID_KEYSTORE_BASE64',
-      ],
+      ownerUnlockQueueSourceStatus: ownerUnlockBrief.status,
+      ownerUnlockQueueCoverage: productionInputWorkflowCoversOwnerUnlockQueue,
+      ownerUnlockQueueWatchedInputs: ownerUnlockWatchedInputs,
+      watchedInputs: productionInputWatchedInputs,
     },
     githubPublicEvidenceIntake: {
       status:
@@ -1171,6 +1205,8 @@ const report = [
   `- GitHub self-update: ${payload.schedulers.githubSelfUpdate.status} (${payload.schedulers.githubSelfUpdate.workflow})`,
   `- GitHub post-self-update deploy: ${payload.schedulers.githubPostSelfUpdateDeploy.status} (${payload.schedulers.githubPostSelfUpdateDeploy.workflow})`,
   `- GitHub production input watch: ${payload.schedulers.githubProductionInputWatch.status} (${payload.schedulers.githubProductionInputWatch.workflow})`,
+  `- Production input watch owner queue coverage: ${payload.schedulers.githubProductionInputWatch.ownerUnlockQueueCoverage}`,
+  `- Production input watched owner queue inputs: ${payload.schedulers.githubProductionInputWatch.ownerUnlockQueueWatchedInputs.join(', ') || 'none'}`,
   `- GitHub public evidence intake: ${payload.schedulers.githubPublicEvidenceIntake.status} (${payload.schedulers.githubPublicEvidenceIntake.workflow})`,
   `- GitHub post-deploy evidence sync: ${payload.schedulers.githubPostDeployEvidenceSync.status} (${payload.schedulers.githubPostDeployEvidenceSync.workflow})`,
   '',

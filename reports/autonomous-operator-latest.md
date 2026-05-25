@@ -1,10 +1,10 @@
 # Autonomous Operator
 
-Generated: 2026-05-25T10:12:14.540Z
+Generated: 2026-05-25T12:07:13.357Z
 Status: operator-plan-ready
 Mode: plan-only
-Owner decision: refresh-autonomous-cadence
-Selected action: refresh-autonomous-cadence
+Owner decision: seed-portfolio-traffic
+Selected action: seed-portfolio-traffic
 Execution: not-requested
 
 ## Controls
@@ -18,7 +18,7 @@ Execution: not-requested
 
 ## Selected Action
 
-- refresh-autonomous-cadence: npm run autonomous:cadence
+- seed-portfolio-traffic: npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop
 
 ## External Input Handoff
 
@@ -30,7 +30,6 @@ Execution: not-requested
 
 ## Eligible Local Actions
 
-- refresh-autonomous-cadence
 - refresh-autonomous-self-update
 - seed-portfolio-traffic
 - refresh-organic-seed-loop
@@ -39,8 +38,8 @@ Execution: not-requested
 
 - run-daily-owner-loop: daily-loop-recursion-blocked
 - hold-for-external-input: status-monitor
+- refresh-autonomous-cadence: status-monitor
 - refresh-autonomous-self-update: not-selected-this-run
-- seed-portfolio-traffic: not-selected-this-run
 - refresh-organic-seed-loop: not-selected-this-run
 - refresh-support-feedback: status-monitor
 - optimize-daily-retention: status-monitor

@@ -3452,6 +3452,28 @@ const ownerUnlockParallelItems = ownerUnlockBrief.brief?.parallelOwnerUnlocks ??
 const ownerUnlockParallelIds = new Set(ownerUnlockParallelItems.map((item) => item.id))
 const ownerUnlockParallelAnalytics = ownerUnlockParallelItems.find((item) => item.id === 'production-analytics-browser')
 const ownerUnlockParallelSupport = ownerUnlockParallelItems.find((item) => item.id === 'support-contact')
+const ownerUnlockInputName = (item) => item?.repositoryName ?? item?.repositorySecret ?? item?.envName ?? item?.name ?? null
+const ownerUnlockInputNames = (items) => (items ?? []).map(ownerUnlockInputName).filter(Boolean)
+const ownerUnlockQueueInputNames = [
+  ...new Set(
+    [
+      ...ownerUnlockInputNames(ownerUnlockBrief.brief?.missingVariables),
+      ...ownerUnlockInputNames(ownerUnlockBrief.brief?.missingSecrets),
+      ...ownerUnlockInputNames(ownerUnlockBrief.brief?.configuredVariables),
+      ...ownerUnlockInputNames(ownerUnlockBrief.brief?.configuredSecrets),
+      ...ownerUnlockInputNames(ownerUnlockBrief.brief?.lowestInputPath?.missingVariables),
+      ...ownerUnlockInputNames(ownerUnlockBrief.brief?.lowestInputPath?.missingSecrets),
+      ...ownerUnlockInputNames(ownerUnlockBrief.brief?.lowestInputPath?.configuredVariables),
+      ...ownerUnlockInputNames(ownerUnlockBrief.brief?.lowestInputPath?.configuredSecrets),
+      ...ownerUnlockParallelItems.flatMap((unlock) => [
+        ...ownerUnlockInputNames(unlock.missingVariables),
+        ...ownerUnlockInputNames(unlock.missingSecrets),
+        ...ownerUnlockInputNames(unlock.configuredVariables),
+        ...ownerUnlockInputNames(unlock.configuredSecrets),
+      ]),
+    ].filter(Boolean),
+  ),
+]
 const requiredProductionBlockerHandoffIds = [
   'support-contact',
   'production-analytics-browser',
@@ -3959,6 +3981,9 @@ const cadenceRequiredFreshnessIds = [
 ]
 const cadenceFreshnessIds = new Set((autonomousCadence.artifactFreshness ?? []).map((artifact) => artifact.id))
 const cadenceTracksRequiredFreshness = cadenceRequiredFreshnessIds.every((id) => cadenceFreshnessIds.has(id))
+const cadenceProductionInputWatch = autonomousCadence.schedulers?.githubProductionInputWatch ?? {}
+const cadenceWatchedInputNames = cadenceProductionInputWatch.watchedInputs ?? []
+const cadenceOwnerQueueWatchedInputNames = cadenceProductionInputWatch.ownerUnlockQueueWatchedInputs ?? []
 
 if (
   autonomousCadence.status !== 'cadence-ready' ||
@@ -4494,27 +4519,30 @@ if (
     'npm run autonomous:assert-deployable' ||
   autonomousCadence.schedulers?.githubPostSelfUpdateDeploy?.smokeGate !==
     'npm run autonomous:post-deploy-smoke -- --assert' ||
-  autonomousCadence.schedulers?.githubProductionInputWatch?.status !== 'scheduled' ||
-  autonomousCadence.schedulers?.githubProductionInputWatch?.workflow !==
+  cadenceProductionInputWatch.status !== 'scheduled' ||
+  cadenceProductionInputWatch.workflow !==
     '.github/workflows/production-input-watch.yml' ||
-  autonomousCadence.schedulers?.githubProductionInputWatch?.trigger !==
+  cadenceProductionInputWatch.trigger !==
     'workflow_dispatch, schedule: every 12 hours' ||
-  autonomousCadence.schedulers?.githubProductionInputWatch?.permission !==
+  cadenceProductionInputWatch.permission !==
     'actions: read, contents: write, issues: read' ||
-  autonomousCadence.schedulers?.githubProductionInputWatch?.command !==
+  cadenceProductionInputWatch.command !==
     'npm run autonomous:production-input-watch' ||
-  autonomousCadence.schedulers?.githubProductionInputWatch?.verificationGate !==
+  cadenceProductionInputWatch.verificationGate !==
     'node scripts/verify-autonomy.mjs' ||
-  autonomousCadence.schedulers?.githubProductionInputWatch?.directPushRequiresRepositoryVariable !==
+  cadenceProductionInputWatch.directPushRequiresRepositoryVariable !==
     'AGL_AUTONOMOUS_SELF_UPDATE_DIRECT=1' ||
-  autonomousCadence.schedulers?.githubProductionInputWatch?.followedByDeployWorkflow !==
+  cadenceProductionInputWatch.followedByDeployWorkflow !==
     '.github/workflows/web-pwa-deploy.yml' ||
-  !(autonomousCadence.schedulers?.githubProductionInputWatch?.watchedInputs ?? []).includes(
-    'VITE_EVENT_COLLECTOR_WRITE_TOKEN',
-  ) ||
-  !(autonomousCadence.schedulers?.githubProductionInputWatch?.watchedInputs ?? []).includes(
-    'POSTHOG_PERSONAL_API_KEY',
-  ) ||
+  cadenceProductionInputWatch.ownerUnlockQueueSourceStatus !== ownerUnlockBrief.status ||
+  cadenceProductionInputWatch.ownerUnlockQueueCoverage !== true ||
+  JSON.stringify(cadenceOwnerQueueWatchedInputNames) !== JSON.stringify(ownerUnlockQueueInputNames) ||
+  !ownerUnlockQueueInputNames.every((name) => cadenceWatchedInputNames.includes(name)) ||
+  !cadenceWatchedInputNames.includes('VITE_EVENT_COLLECTOR_WRITE_TOKEN') ||
+  !cadenceWatchedInputNames.includes('POSTHOG_PERSONAL_API_KEY') ||
+  !cadenceWatchedInputNames.includes('VITE_POSTHOG_HOST') ||
+  !cadenceWatchedInputNames.includes('CLOUDFLARE_ACCOUNT_ID') ||
+  !cadenceWatchedInputNames.includes('AGL_SUPPORT_EMAIL') ||
   autonomousCadence.schedulers?.githubPublicEvidenceIntake?.status !== 'scheduled' ||
   autonomousCadence.schedulers?.githubPublicEvidenceIntake?.workflow !==
     '.github/workflows/public-evidence-intake.yml' ||
@@ -4694,7 +4722,9 @@ if (
   !postDeployEvidenceSyncWorkflow.includes('reports/autonomous-owner-loop-latest.md') ||
   postDeployEvidenceSyncWorkflow.includes('autonomous:release-candidate') ||
   postDeployEvidenceSyncWorkflow.includes('autonomous:post-deploy-smoke') ||
-  !autonomousCadenceSource.includes('postDeployEvidenceSyncWorkflow')
+  !autonomousCadenceSource.includes('postDeployEvidenceSyncWorkflow') ||
+  !autonomousCadenceSource.includes('ownerUnlockQueueWatchedInputs') ||
+  !autonomousCadenceSource.includes('ownerUnlockWatchedInputs')
 ) {
   fail('Autonomous cadence must publish the daily Codex/GitHub schedule, guarded operate command, and zero-spend controls.')
 }
