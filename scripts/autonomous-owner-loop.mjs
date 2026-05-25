@@ -1949,6 +1949,13 @@ const liveSiteMonitorOperationalFreshness = operationalEvidenceFreshness({
 const releaseCandidateActionFresh =
   postDeploySmokeRunnerReady && postDeployArtifactSyncReady && liveSiteMonitorOperationalFreshness.fresh
 const collectLocalEventDropsCommand = 'npm run autonomous:collect-local-event-drops'
+const collectProductionExportCommand = 'npm run autonomous:collect-production-export'
+const productionExportFilesConfigured = Boolean(
+  process.env.AGL_PRODUCTION_EVENT_EXPORT_FILES?.trim() ||
+    process.env.AGL_PRODUCTION_EVENT_EXPORT_FILE?.trim() ||
+    process.env.AGL_EVENT_COLLECTOR_EXPORT_FILES?.trim() ||
+    process.env.AGL_EVENT_COLLECTOR_EXPORT_FILE?.trim(),
+)
 const downloadsScanRecommendationOptIn = ['1', 'true', 'yes'].includes(
   String(process.env.AGL_OWNER_ALLOW_DOWNLOADS_SCAN_RECOMMENDATION ?? '').toLowerCase(),
 )
@@ -2183,6 +2190,16 @@ const safeAutonomousActions = [
       : gateSampleDownloadsScanCoolingDown
       ? `Recent explicit Downloads scan found no player exports; retry after ${gateSampleDownloadsBackoffHours} hours or when an inbox event drop appears.`
       : 'Opt-in scans local browser Downloads and the event inbox for real player exports, imports them, refreshes analytics and recovery, then regenerates the sample plan.',
+  },
+  {
+    id: 'collect-production-export',
+    status: productionExportFilesConfigured ? 'armed' : 'monitor',
+    costUsd: 0,
+    command: collectProductionExportCommand,
+    targets: ['production-analytics', analytics.sourceStatus?.activeSource ?? 'analytics-rollup'],
+    reason: productionExportFilesConfigured
+      ? 'Imports the explicitly configured production export file, strips sensitive fields, hashes external identifiers, and refreshes gate evidence without server export credentials.'
+      : 'Waits for AGL_PRODUCTION_EVENT_EXPORT_FILES or AGL_PRODUCTION_EVENT_EXPORT_FILE before importing a manual production analytics export.',
   },
   {
     id: 'refresh-product-gate-sample-plan',

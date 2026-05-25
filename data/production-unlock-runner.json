@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2026-05-25T22:18:56.665Z",
+  "generatedAt": "2026-05-25T22:49:50.373Z",
   "status": "unlock-runner-idle",
   "mode": "execute-unlocked-local-followups",
   "sourceStatus": {
     "productionBlockerHandoff": "handoff-waiting-on-owner-inputs",
-    "productionBlockerHandoffSourceDataHash": "3154e785798c"
+    "productionBlockerHandoffSourceDataHash": "1e164c5a539a"
   },
   "summary": {
     "handoffItems": 8,
@@ -30,6 +30,7 @@
   "allowedCommands": [
     "npm run autonomous:analytics",
     "npm run autonomous:android-release-plan",
+    "npm run autonomous:collect-production-export",
     "npm run autonomous:collect-sample-downloads",
     "npm run autonomous:env",
     "npm run autonomous:gate-recovery",
@@ -71,7 +72,7 @@
       "category": "measurement",
       "status": "owner-input-required",
       "ownerInputRequired": true,
-      "fingerprint": "bbf73b2124d4",
+      "fingerprint": "92139036e27a",
       "executableStatus": false,
       "alreadyCompleted": false,
       "runnable": false,
@@ -79,6 +80,7 @@
         "npm run autonomous:env",
         "npm run autonomous:local-event-bridge",
         "npm run autonomous:import-events",
+        "npm run autonomous:collect-production-export",
         "npm run autonomous:analytics",
         "npm run autonomous:gate-recovery",
         "npm run autonomous:sample-plan"
@@ -92,11 +94,12 @@
       "category": "measurement",
       "status": "owner-input-required",
       "ownerInputRequired": true,
-      "fingerprint": "9f411c728a99",
+      "fingerprint": "dd802ab81918",
       "executableStatus": false,
       "alreadyCompleted": false,
       "runnable": false,
       "commands": [
+        "npm run autonomous:collect-production-export",
         "npm run autonomous:import-events",
         "npm run autonomous:analytics",
         "npm run autonomous:objective-audit"

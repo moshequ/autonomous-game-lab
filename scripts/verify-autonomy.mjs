@@ -4019,6 +4019,7 @@ if (
   productionUnlockRunner.unlockPlans?.some((item) => (item.unsafeCommands?.length ?? 0) > 0) ||
   !productionUnlockRunner.allowedCommands?.includes('npm run autonomous:analytics') ||
   !productionUnlockRunner.allowedCommands?.includes('npm run autonomous:gate-recovery') ||
+  !productionUnlockRunner.allowedCommands?.includes('npm run autonomous:collect-production-export') ||
   !productionUnlockRunner.allowedCommands?.includes('npm run autonomous:android-release-plan') ||
   packageJson.scripts?.['autonomous:unlock-runner'] !== 'node scripts/production-unlock-runner.mjs' ||
   !packageJson.scripts?.['autonomous:daily']?.includes('autonomous:unlock-runner -- --execute') ||
@@ -4150,6 +4151,7 @@ if (
   !autonomousOperator.allowlist?.includes('npm run autonomous:sample-plan') ||
   !autonomousOperator.allowlist?.includes('npm run autonomous:collect-local-event-drops') ||
   !autonomousOperator.allowlist?.includes('npm run autonomous:collect-sample-downloads') ||
+  !autonomousOperator.allowlist?.includes('npm run autonomous:collect-production-export') ||
   !autonomousOperator.allowlist?.includes(
     'npm run autonomous:local-event-bridge && npm run autonomous:import-events && npm run autonomous:analytics && npm run autonomous:gate-recovery && npm run autonomous:sample-plan',
   ) ||
@@ -5289,6 +5291,39 @@ if (
   !packageJson.scripts?.['autonomous:collect-sample-downloads']?.includes('autonomous:retention')
 ) {
   fail('Autonomous scripts must expose the opt-in gate-sample Downloads collection refresh chain.')
+}
+
+if (
+  !packageJson.scripts?.['autonomous:collect-production-export']?.includes('autonomous:import-events') ||
+  !packageJson.scripts?.['autonomous:collect-production-export']?.includes('autonomous:analytics') ||
+  !packageJson.scripts?.['autonomous:collect-production-export']?.includes('autonomous:gate-recovery') ||
+  !packageJson.scripts?.['autonomous:collect-production-export']?.includes('autonomous:sample-plan') ||
+  !packageJson.scripts?.['autonomous:collect-production-export']?.includes('autonomous:measurement-status') ||
+  eventIngest.manualProductionExports?.mode !== 'explicit-file-only' ||
+  eventIngest.manualProductionExports?.controls?.explicitFileOnly !== true ||
+  eventIngest.manualProductionExports?.controls?.noDirectoryScan !== true ||
+  eventIngest.manualProductionExports?.controls?.noDownloadsScan !== true ||
+  eventIngest.manualProductionExports?.controls?.localOnly !== true ||
+  eventIngest.manualProductionExports?.controls?.noExternalUpload !== true ||
+  eventIngest.manualProductionExports?.controls?.externalIdentifiersHashed !== true ||
+  eventIngest.manualProductionExports?.controls?.rawExportsStayLocal !== true ||
+  !(eventIngest.manualProductionExports?.envVars ?? []).includes('AGL_PRODUCTION_EVENT_EXPORT_FILES') ||
+  !eventIngest.manualProductionExports?.command?.includes('autonomous:collect-production-export') ||
+  !eventIngest.privacy?.strippedPropertyKeys?.includes('distinct_id') ||
+  typeof eventIngest.privacy?.externalIdentifiersHashed !== 'number' ||
+  eventIngestSmoke.productionExport?.mode !== 'explicit-file-only' ||
+  eventIngestSmoke.productionExport?.importedEvents !== 4 ||
+  eventIngestSmoke.productionExport?.externalIdentifiersHashed !== 4 ||
+  eventIngestSmoke.productionExport?.explicitFileOnly !== true ||
+  eventIngestSmoke.productionExport?.noDownloadsScan !== true ||
+  eventIngestSmoke.productionExport?.activeSource !== 'local-event-drops' ||
+  eventIngestSmoke.productionExport?.d1Retention !== 1 ||
+  !eventIngestorSource.includes('AGL_PRODUCTION_EVENT_EXPORT_FILES') ||
+  !eventIngestorSource.includes('manualProductionExports') ||
+  !eventIngestorSource.includes('hashExternalId') ||
+  !eventIngestorSource.includes('externalIdentifiersHashed')
+) {
+  fail('Event ingest must support explicit, local-only production export files with PII stripping and hashed external identifiers.')
 }
 
 if (!packageJson.scripts?.['autonomous:event-ingest-smoke']?.includes('event-ingest-smoke')) {

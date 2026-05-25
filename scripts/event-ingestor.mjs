@@ -95,6 +95,12 @@ const sensitivePropertyKeys = new Set([
   'address',
   'ip',
   'ipAddress',
+  'distinct_id',
+  '$distinct_id',
+  'person_id',
+  'personId',
+  '$set',
+  '$set_once',
   'preciseLocation',
   'latitude',
   'longitude',
@@ -105,16 +111,26 @@ const exists = async (filePath) =>
     .then(() => true)
     .catch(() => false)
 
+const parseConfiguredPaths = (...values) =>
+  values
+    .flatMap((value) => (value ? value.split(path.delimiter) : []))
+    .map((value) => value.trim())
+    .filter(Boolean)
+
 const importDirs = (
   process.env.AGL_EVENT_IMPORT_DIRS
-    ? process.env.AGL_EVENT_IMPORT_DIRS.split(path.delimiter)
+    ? parseConfiguredPaths(process.env.AGL_EVENT_IMPORT_DIRS)
     : [
         inboxDir,
         ...(process.env.AGL_EVENT_IMPORT_DOWNLOADS === 'true' ? [path.join(os.homedir(), 'Downloads')] : []),
       ]
-)
-  .map((dir) => dir.trim())
-  .filter(Boolean)
+).filter(Boolean)
+const manualProductionExportFiles = parseConfiguredPaths(
+  process.env.AGL_PRODUCTION_EVENT_EXPORT_FILES,
+  process.env.AGL_PRODUCTION_EVENT_EXPORT_FILE,
+  process.env.AGL_EVENT_COLLECTOR_EXPORT_FILES,
+  process.env.AGL_EVENT_COLLECTOR_EXPORT_FILE,
+).map((filePath) => path.resolve(root, filePath))
 
 const filePattern = /^player-events.*\.json$/i
 const importedPattern = /^imported-.*\.json$/i
@@ -129,6 +145,58 @@ const relativeToRoot = (value) => {
 
 const stableJson = (value) => JSON.stringify(value, Object.keys(value).sort())
 
+const hashExternalId = (value) =>
+  `external-${crypto.createHash('sha256').update(String(value)).digest('hex').slice(0, 16)}`
+
+const simpleValue = (value) => {
+  const type = typeof value
+  return type === 'string' || type === 'number' || type === 'boolean' || value === null ? value : undefined
+}
+
+const parsePropertiesValue = (value) => {
+  if (!value) {
+    return {}
+  }
+
+  if (typeof value === 'string') {
+    try {
+      const parsed = JSON.parse(value)
+      return parsed && typeof parsed === 'object' && !Array.isArray(parsed) ? parsed : {}
+    } catch {
+      return {}
+    }
+  }
+
+  return typeof value === 'object' && !Array.isArray(value) ? value : {}
+}
+
+const toIsoDate = (value) => {
+  if (typeof value === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(value)) {
+    return value
+  }
+
+  if (typeof value !== 'string' && typeof value !== 'number') {
+    return null
+  }
+
+  const date = new Date(value)
+  return Number.isNaN(date.getTime()) ? null : date.toISOString().slice(0, 10)
+}
+
+const toIsoDateTime = (value) => {
+  if (typeof value === 'string' && !Number.isNaN(Date.parse(value))) {
+    return new Date(value).toISOString()
+  }
+
+  if (typeof value === 'number' && Number.isFinite(value)) {
+    const normalized = value < 10_000_000_000 ? value * 1000 : value
+    const date = new Date(normalized)
+    return Number.isNaN(date.getTime()) ? null : date.toISOString()
+  }
+
+  return null
+}
+
 const eventIdFor = (event) =>
   event.id ??
   crypto
@@ -142,6 +210,124 @@ const eventIdFor = (event) =>
     )
     .digest('hex')
     .slice(0, 16)
+
+const columnNameFor = (column) =>
+  typeof column === 'string'
+    ? column
+    : typeof column?.name === 'string'
+      ? column.name
+      : typeof column?.key === 'string'
+        ? column.key
+        : ''
+
+const mapResultRow = (row, columns) => {
+  if (!Array.isArray(row)) {
+    return row
+  }
+
+  const mapped = {}
+
+  columns.forEach((column, index) => {
+    const name = columnNameFor(column)
+
+    if (name) {
+      mapped[name] = row[index]
+    }
+  })
+
+  return mapped
+}
+
+const rawEventsFromPayload = (payload) => {
+  if (Array.isArray(payload)) {
+    return payload
+  }
+
+  if (!payload || typeof payload !== 'object') {
+    return []
+  }
+
+  if (Array.isArray(payload.events)) {
+    return payload.events
+  }
+
+  if (Array.isArray(payload.data)) {
+    return payload.data
+  }
+
+  if (Array.isArray(payload.results)) {
+    const columns = Array.isArray(payload.columns)
+      ? payload.columns
+      : Array.isArray(payload.result_columns)
+        ? payload.result_columns
+        : []
+    return payload.results.map((row) => mapResultRow(row, columns))
+  }
+
+  return []
+}
+
+const normalizedInputEvent = (event) => {
+  if (!event || typeof event !== 'object' || Array.isArray(event)) {
+    return null
+  }
+
+  const rawProperties = parsePropertiesValue(event.properties ?? event.props ?? event.$properties)
+  const properties = { ...rawProperties }
+  const createdAt = toIsoDateTime(event.createdAt ?? event.timestamp ?? event.created_at ?? event.time)
+  const propertyMappings = {
+    gameId: event.gameId ?? event.game_id,
+    sessionId: event.sessionId ?? event.session_id,
+    sessionDate: event.sessionDate ?? event.session_date,
+    campaignId: event.campaignId ?? event.campaign_id,
+    acquisitionCampaign: event.acquisitionCampaign ?? event.acquisition_campaign,
+    acquisitionSource: event.acquisitionSource ?? event.acquisition_source,
+    acquisitionChannel: event.acquisitionChannel ?? event.acquisition_channel,
+    gateId: event.gateId ?? event.gate_id,
+    revenueCents: event.revenueCents ?? event.revenue_cents,
+    value: event.value,
+  }
+
+  for (const [key, value] of Object.entries(propertyMappings)) {
+    if (properties[key] !== undefined) {
+      continue
+    }
+
+    const candidate = simpleValue(value)
+
+    if (candidate !== undefined) {
+      properties[key] = candidate
+    }
+  }
+
+  if (properties.sessionDate === undefined && createdAt) {
+    properties.sessionDate = toIsoDate(createdAt)
+  }
+
+  const rawExternalId =
+    event.distinct_id ??
+    event.distinctId ??
+    event.anonymous_id ??
+    event.anonymousId ??
+    rawProperties.distinct_id ??
+    rawProperties.$distinct_id
+  const canHashExternalId =
+    properties.anonymousId === undefined && (typeof rawExternalId === 'string' || typeof rawExternalId === 'number')
+
+  if (canHashExternalId) {
+    properties.anonymousId = hashExternalId(rawExternalId)
+  }
+
+  const id = event.id ?? event.uuid ?? event.event_id ?? event.eventId
+
+  return {
+    id: typeof id === 'string' || typeof id === 'number' ? String(id).slice(0, 96) : undefined,
+    name: event.name ?? event.event ?? event.event_name,
+    properties,
+    createdAt,
+    externalIdentifiersHashed: canHashExternalId ? 1 : 0,
+  }
+}
 
 const sanitizeProperties = (properties) => {
   if (!properties || typeof properties !== 'object' || Array.isArray(properties)) {
@@ -168,50 +354,51 @@ const sanitizeProperties = (properties) => {
 }
 
 const normalizeEvent = (event) => {
-  if (!event || typeof event !== 'object') {
+  const input = normalizedInputEvent(event)
+
+  if (!input) {
     return null
   }
 
-  const name = event.name ?? event.event
+  const name = input.name
 
   if (typeof name !== 'string' || !allowedEventNames.has(name)) {
     return null
   }
 
-  const sanitized = sanitizeProperties(event.properties)
-  const createdAt =
-    typeof event.createdAt === 'string'
-      ? event.createdAt
-      : typeof event.timestamp === 'string'
-        ? event.timestamp
-        : new Date().toISOString()
+  const sanitized = sanitizeProperties(input.properties)
+  const createdAt = input.createdAt ?? new Date().toISOString()
 
   return {
     event: {
-      id: eventIdFor({ ...event, name, properties: sanitized.properties, createdAt }),
+      id: eventIdFor({ ...input, name, properties: sanitized.properties, createdAt }),
       name,
       properties: sanitized.properties,
       createdAt,
     },
     sensitivePropertiesDropped: sanitized.sensitivePropertiesDropped,
+    externalIdentifiersHashed: input.externalIdentifiersHashed,
   }
 }
 
 const parseEvents = (raw) => {
   const payload = JSON.parse(raw)
-  const rawEvents = Array.isArray(payload) ? payload : Array.isArray(payload.events) ? payload.events : []
+  const rawEvents = rawEventsFromPayload(payload)
   let sensitivePropertiesDropped = 0
+  let externalIdentifiersHashed = 0
   const events = rawEvents
     .map(normalizeEvent)
     .filter(Boolean)
     .map((normalized) => {
       sensitivePropertiesDropped += normalized.sensitivePropertiesDropped
+      externalIdentifiersHashed += normalized.externalIdentifiersHashed
       return normalized.event
     })
   const seen = new Set()
 
   return {
     sensitivePropertiesDropped,
+    externalIdentifiersHashed,
     events: events.filter((event) => {
       if (seen.has(event.id)) {
         return false
@@ -245,7 +432,13 @@ let knownEventIds = new Set()
 
 const importBatch = async (events, sourcePath, privacy = {}) => {
   if (!events.length) {
-    skippedFiles.push({ sourcePath, reason: 'no valid events' })
+    skippedFiles.push({
+      sourcePath,
+      sourceKind: privacy.sourceKind ?? 'local-event-drop',
+      reason: 'no valid events',
+      sensitivePropertiesDropped: privacy.sensitivePropertiesDropped ?? 0,
+      externalIdentifiersHashed: privacy.externalIdentifiersHashed ?? 0,
+    })
     return
   }
 
@@ -259,6 +452,8 @@ const importBatch = async (events, sourcePath, privacy = {}) => {
       events: events.length,
       duplicateEvents,
       sensitivePropertiesDropped: privacy.sensitivePropertiesDropped ?? 0,
+      externalIdentifiersHashed: privacy.externalIdentifiersHashed ?? 0,
+      sourceKind: privacy.sourceKind ?? 'local-event-drop',
     })
     return
   }
@@ -272,6 +467,8 @@ const importBatch = async (events, sourcePath, privacy = {}) => {
       reason: 'duplicate batch',
       targetPath,
       sensitivePropertiesDropped: privacy.sensitivePropertiesDropped ?? 0,
+      externalIdentifiersHashed: privacy.externalIdentifiersHashed ?? 0,
+      sourceKind: privacy.sourceKind ?? 'local-event-drop',
     })
     return
   }
@@ -287,7 +484,9 @@ const importBatch = async (events, sourcePath, privacy = {}) => {
     sourceEvents: events.length,
     duplicateEvents,
     hash,
+    sourceKind: privacy.sourceKind ?? 'local-event-drop',
     sensitivePropertiesDropped: privacy.sensitivePropertiesDropped ?? 0,
+    externalIdentifiersHashed: privacy.externalIdentifiersHashed ?? 0,
     privacyStripped: true,
   })
 }
@@ -319,6 +518,7 @@ knownEventIds = await loadKnownEventIds()
 
 const sourceDirectories = []
 const remoteCollectors = []
+const manualProductionExportResults = []
 
 if (collectorExportUrl) {
   try {
@@ -348,6 +548,8 @@ if (collectorExportUrl) {
 
       await importBatch(parsed.events, collectorExportUrl, {
         sensitivePropertiesDropped: parsed.sensitivePropertiesDropped,
+        externalIdentifiersHashed: parsed.externalIdentifiersHashed,
+        sourceKind: 'remote-collector-export',
       })
     }
   } catch (error) {
@@ -356,6 +558,44 @@ if (collectorExportUrl) {
       status: 'error',
       events: 0,
       error: error instanceof Error ? error.message : String(error),
+    })
+  }
+}
+
+for (const filePath of manualProductionExportFiles) {
+  try {
+    const parsed = parseEvents(await readFile(filePath, 'utf8'))
+
+    manualProductionExportResults.push({
+      sourcePath: filePath,
+      status: parsed.events.length ? 'available' : 'empty',
+      events: parsed.events.length,
+      sensitivePropertiesDropped: parsed.sensitivePropertiesDropped,
+      externalIdentifiersHashed: parsed.externalIdentifiersHashed,
+    })
+
+    await importBatch(parsed.events, filePath, {
+      sensitivePropertiesDropped: parsed.sensitivePropertiesDropped,
+      externalIdentifiersHashed: parsed.externalIdentifiersHashed,
+      sourceKind: 'manual-production-export',
+    })
+  } catch (error) {
+    const reason = error instanceof Error ? error.message : String(error)
+
+    manualProductionExportResults.push({
+      sourcePath: filePath,
+      status: 'error',
+      events: 0,
+      error: reason,
+      sensitivePropertiesDropped: 0,
+      externalIdentifiersHashed: 0,
+    })
+    skippedFiles.push({
+      sourcePath: filePath,
+      sourceKind: 'manual-production-export',
+      reason,
+      sensitivePropertiesDropped: 0,
+      externalIdentifiersHashed: 0,
     })
   }
 }
@@ -378,15 +618,20 @@ for (const directory of importDirs) {
       const parsed = parseEvents(await readFile(sourcePath, 'utf8'))
       await importBatch(parsed.events, sourcePath, {
         sensitivePropertiesDropped: parsed.sensitivePropertiesDropped,
+        externalIdentifiersHashed: parsed.externalIdentifiersHashed,
+        sourceKind: 'local-event-drop',
       })
     } catch (error) {
       skippedFiles.push({
         sourcePath,
         reason: error instanceof Error ? error.message : String(error),
+        sourceKind: 'local-event-drop',
       })
     }
   }
 }
+
+const manualProductionImportedFiles = importedFiles.filter((file) => file.sourceKind === 'manual-production-export')
 
 const payload = {
   generatedAt: new Date().toISOString(),
@@ -400,6 +645,43 @@ const payload = {
   existingImportedEvents: knownEventIds.size - importedFiles.reduce((sum, file) => sum + file.events, 0),
   sourceDirectories,
   remoteCollectors,
+  manualProductionExports: {
+    mode: 'explicit-file-only',
+    enabled: manualProductionExportFiles.length > 0,
+    envVars: [
+      'AGL_PRODUCTION_EVENT_EXPORT_FILES',
+      'AGL_PRODUCTION_EVENT_EXPORT_FILE',
+      'AGL_EVENT_COLLECTOR_EXPORT_FILES',
+      'AGL_EVENT_COLLECTOR_EXPORT_FILE',
+    ],
+    command:
+      'AGL_PRODUCTION_EVENT_EXPORT_FILES=/absolute/path/to/export.json npm run autonomous:collect-production-export',
+    pathsConfigured: manualProductionExportFiles.length,
+    files: manualProductionExportResults.map((file) => ({
+      ...file,
+      sourcePath: relativeToRoot(file.sourcePath),
+    })),
+    importedFiles: manualProductionImportedFiles.length,
+    importedEvents: manualProductionImportedFiles.reduce((sum, file) => sum + file.events, 0),
+    supportedPayloads: [
+      'Array<AnalyticsEvent>',
+      '{ "events": Array<AnalyticsEvent> }',
+      '{ "results": Array<object>, "columns"?: Array<string> }',
+      'PostHog JSON rows with event/timestamp/properties/distinct_id columns',
+      'first-party collector JSON export',
+    ],
+    controls: {
+      explicitFileOnly: true,
+      noDirectoryScan: true,
+      noDownloadsScan: true,
+      localOnly: true,
+      noExternalUpload: true,
+      piiStrippingEnabled: true,
+      externalIdentifiersHashed: true,
+      rawExportsStayLocal: true,
+      noSecretValuesStored: true,
+    },
+  },
   importedFiles: importedFiles.map((file) => ({
     ...file,
     sourcePath: relativeToRoot(file.sourcePath),
@@ -423,6 +705,10 @@ const payload = {
       ...importedFiles.map((file) => file.sensitivePropertiesDropped ?? 0),
       ...skippedFiles.map((file) => file.sensitivePropertiesDropped ?? 0),
     ].reduce((sum, value) => sum + value, 0),
+    externalIdentifiersHashed: [
+      ...importedFiles.map((file) => file.externalIdentifiersHashed ?? 0),
+      ...skippedFiles.map((file) => file.externalIdentifiersHashed ?? 0),
+    ].reduce((sum, value) => sum + value, 0),
     strippedPropertyKeys: [...sensitivePropertyKeys].sort(),
   },
 }
@@ -445,6 +731,7 @@ const report = [
         collector.error ? ` (${collector.error})` : ''
       }`,
   ),
+  `- manual production exports: ${payload.manualProductionExports.pathsConfigured} explicit file(s), ${payload.manualProductionExports.importedEvents} imported event(s)`,
   '',
   '## Imported',
   '',
@@ -457,6 +744,8 @@ const report = [
   `- Existing imported events before run: ${payload.existingImportedEvents}`,
   `- Duplicate events skipped: ${payload.duplicateEvents}`,
   `- Sensitive properties stripped: ${payload.privacy.sensitivePropertiesDropped}`,
+  `- External identifiers hashed: ${payload.privacy.externalIdentifiersHashed}`,
+  `- Manual production export command: ${payload.manualProductionExports.command}`,
   '',
   '## Skipped',
   '',

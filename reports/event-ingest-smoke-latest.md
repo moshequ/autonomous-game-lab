@@ -1,6 +1,6 @@
 # Event Ingest Smoke
 
-Generated: 2026-05-25T22:14:52.872Z
+Generated: 2026-05-25T22:48:33.001Z
 Status: pass
 
 ## Ingest
@@ -20,6 +20,9 @@ Status: pass
 - Follow-up preserved scan: evidence-found
 - Downloads gate-sample events: 3
 - Downloads export coverage receipts: 1
+- Production export imported events: 4
+- Production export external identifiers hashed: 4
+- Production export command: AGL_PRODUCTION_EVENT_EXPORT_FILES=/absolute/path/to/export.json npm run autonomous:collect-production-export
 
 ## Analytics
 

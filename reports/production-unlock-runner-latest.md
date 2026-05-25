@@ -1,10 +1,10 @@
 # Production Unlock Runner
 
-Generated: 2026-05-25T22:18:56.665Z
+Generated: 2026-05-25T22:49:50.373Z
 Status: unlock-runner-idle
 Mode: execute-unlocked-local-followups
 Handoff: handoff-waiting-on-owner-inputs
-Source hash: 3154e785798c
+Source hash: 1e164c5a539a
 
 ## Summary
 
@@ -16,8 +16,8 @@ Source hash: 3154e785798c
 ## Unlock Plans
 
 - held: support-contact - web-support-ready-store-email-deferred; commands 4; Held because handoff status is web-support-ready-store-email-deferred.
-- held: production-analytics-browser - owner-input-required; commands 6; Held because handoff status is owner-input-required.
-- held: autonomous-rollup-credentials - owner-input-required; commands 3; Held because handoff status is owner-input-required.
+- held: production-analytics-browser - owner-input-required; commands 7; Held because handoff status is owner-input-required.
+- held: autonomous-rollup-credentials - owner-input-required; commands 4; Held because handoff status is owner-input-required.
 - held: product-gate-sample - needs-live-sample; commands 4; Held because handoff status is needs-live-sample.
 - held: ad-provider-config - blocked-by-product-gates; commands 2; Held because handoff status is blocked-by-product-gates.
 - held: google-play-account - owner-account-required; commands 2; Held because handoff status is owner-account-required.

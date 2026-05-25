@@ -8,7 +8,7 @@ export const productionBlockerHandoff = {
     "zeroCostFirstActions": 1,
     "missingEnv": 7,
     "missingEnvironmentItems": 7,
-    "missingSecrets": 3,
+    "missingSecrets": 5,
     "productGateBlockers": 3,
     "publicSupportChannelReady": true,
     "storeSupportEmailNeededNow": false,
@@ -64,7 +64,7 @@ export const productionBlockerHandoff = {
         "lowestInputPathId": "posthog-browser",
         "lowestInputMissingVariableCount": 2,
         "lowestInputMissingSecretCount": 0,
-        "commandCount": 6,
+        "commandCount": 7,
         "validationCommandCount": 4
       }
     },
@@ -98,11 +98,11 @@ export const productionBlockerHandoff = {
     "lowestInputMissingVariableCount": 2,
     "lowestInputMissingSecretCount": 0,
     "lowestInputMissingInputCount": 2,
-    "lowestInputReason": "PostHog browser capture currently needs 2 missing input(s), compared with 4 for the recommended path.",
-    "commandCount": 6,
+    "lowestInputReason": "PostHog browser capture currently needs 2 missing input(s), compared with 8 for the recommended path.",
+    "commandCount": 7,
     "validationCommandCount": 4,
-    "missingVariableCount": 5,
-    "missingSecretCount": 1,
+    "missingVariableCount": 7,
+    "missingSecretCount": 3,
     "controls": {
       "zeroPaidSpend": true,
       "noSecretValues": true,
@@ -120,9 +120,9 @@ export const productionBlockerHandoff = {
         "status": "needs-variables-and-secrets",
         "costMode": "zero-spend-use-existing-cloudflare-free-tier",
         "ownerInputRequired": true,
-        "missingVariableCount": 3,
-        "missingSecretCount": 1,
-        "missingInputCount": 4,
+        "missingVariableCount": 5,
+        "missingSecretCount": 3,
+        "missingInputCount": 8,
         "commandCount": 5,
         "validationCommandCount": 4,
         "requiredVariables": [
@@ -138,16 +138,16 @@ export const productionBlockerHandoff = {
             "id": "var-agl-event-collector-r2-bucket",
             "repositoryName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
             "envName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
-            "configured": true,
-            "valueSource": "environment",
+            "configured": false,
+            "valueSource": "missing",
             "command": "gh variable set AGL_EVENT_COLLECTOR_R2_BUCKET --body \"$AGL_EVENT_COLLECTOR_R2_BUCKET\""
           },
           {
             "id": "var-agl-event-collector-allowed-origins",
             "repositoryName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
             "envName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
-            "configured": true,
-            "valueSource": "environment",
+            "configured": false,
+            "valueSource": "missing",
             "command": "gh variable set AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS --body \"$AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS\""
           },
           {
@@ -180,16 +180,16 @@ export const productionBlockerHandoff = {
             "id": "secret-vite-event-collector-write-token",
             "repositoryName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
             "envName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
-            "configured": true,
-            "valueSource": "environment",
+            "configured": false,
+            "valueSource": "missing",
             "command": "printf \"%s\" \"$VITE_EVENT_COLLECTOR_WRITE_TOKEN\" | gh secret set VITE_EVENT_COLLECTOR_WRITE_TOKEN"
           },
           {
             "id": "secret-agl-event-collector-admin-token",
             "repositoryName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
             "envName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
-            "configured": true,
-            "valueSource": "environment",
+            "configured": false,
+            "valueSource": "missing",
             "command": "printf \"%s\" \"$AGL_EVENT_COLLECTOR_ADMIN_TOKEN\" | gh secret set AGL_EVENT_COLLECTOR_ADMIN_TOKEN"
           }
         ],
@@ -216,7 +216,7 @@ export const productionBlockerHandoff = {
         "missingVariableCount": 2,
         "missingSecretCount": 0,
         "missingInputCount": 2,
-        "commandCount": 4,
+        "commandCount": 5,
         "validationCommandCount": 2,
         "requiredVariables": [
           {
@@ -241,6 +241,7 @@ export const productionBlockerHandoff = {
           "./ops/github/setup-production.sh --analytics-input-template",
           "./ops/github/setup-production.sh",
           "RUN_WORKFLOWS=1 ./ops/github/setup-production.sh",
+          "AGL_PRODUCTION_EVENT_EXPORT_FILES=/absolute/path/to/export.json npm run autonomous:collect-production-export",
           "npm run autonomous:readiness"
         ],
         "validationCommands": [
@@ -261,11 +262,11 @@ export const productionBlockerHandoff = {
       "id": "posthog-browser",
       "missingInputCount": 2,
       "missingSecretCount": 0,
-      "manualInputReduction": 2,
+      "manualInputReduction": 6,
       "noSecretsRequired": true
     },
-    "missingVariableCount": 3,
-    "missingSecretCount": 1,
+    "missingVariableCount": 5,
+    "missingSecretCount": 3,
     "setupCommands": [
       "npm run autonomous:event-collector-smoke",
       "npm run autonomous:collector-deploy-plan",
@@ -284,8 +285,8 @@ export const productionBlockerHandoff = {
         "id": "production-analytics-browser",
         "category": "measurement",
         "publicStatusPage": "/measurement-status.html",
-        "missingVariableCount": 3,
-        "missingSecretCount": 1,
+        "missingVariableCount": 5,
+        "missingSecretCount": 3,
         "lowestInputMissingInputCount": 2
       },
       {

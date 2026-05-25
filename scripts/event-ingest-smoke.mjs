@@ -82,12 +82,21 @@ const ingestOutput = path.join(tempRoot, 'event-ingest.json')
 const ingestReport = path.join(reportsDir, 'event-ingest.md')
 const analyticsOutput = path.join(tempRoot, 'analytics-rollup.json')
 const analyticsReport = path.join(reportsDir, 'analytics-rollup.md')
+const productionExportFile = path.join(tempRoot, 'posthog-production-export.json')
+const productionOutputDir = path.join(tempRoot, 'production-player-events')
+const productionEmptyImportDir = path.join(tempRoot, 'production-empty-imports')
+const productionIngestOutput = path.join(tempRoot, 'production-event-ingest.json')
+const productionIngestReport = path.join(reportsDir, 'production-event-ingest.md')
+const productionAnalyticsOutput = path.join(tempRoot, 'production-analytics-rollup.json')
+const productionAnalyticsReport = path.join(reportsDir, 'production-analytics-rollup.md')
 
 try {
   await mkdir(inboxDir, { recursive: true })
   await mkdir(dropDir, { recursive: true })
   await mkdir(downloadsDir, { recursive: true })
   await mkdir(outputDir, { recursive: true })
+  await mkdir(productionOutputDir, { recursive: true })
+  await mkdir(productionEmptyImportDir, { recursive: true })
   await mkdir(reportsDir, { recursive: true })
   await mkdir(path.dirname(smokeOutputPath), { recursive: true })
   await mkdir(path.dirname(smokeReportPath), { recursive: true })
@@ -426,6 +435,105 @@ try {
     fail(`Expected non-download bridge run to preserve the last explicit Downloads scan, got ${JSON.stringify(followupBridge)}`)
   }
 
+  const productionExport = {
+    columns: ['event', 'timestamp', 'properties', 'distinct_id', 'uuid'],
+    results: [
+      [
+        'game_viewed',
+        '2026-05-19T09:00:00.000Z',
+        {
+          gameId: smokeGameId,
+          email: 'production-owner@example.com',
+        },
+        'production-player@example.com',
+        'production-view',
+      ],
+      [
+        'game_started',
+        '2026-05-19T09:01:00.000Z',
+        {
+          gameId: smokeGameId,
+        },
+        'production-player@example.com',
+        'production-start',
+      ],
+      [
+        'level_completed',
+        '2026-05-19T09:06:00.000Z',
+        {
+          gameId: smokeGameId,
+        },
+        'production-player@example.com',
+        'production-complete',
+      ],
+      [
+        'game_viewed',
+        '2026-05-20T09:00:00.000Z',
+        {
+          gameId: smokeGameId,
+        },
+        'production-player@example.com',
+        'production-return',
+      ],
+    ],
+  }
+
+  await writeFile(productionExportFile, JSON.stringify(productionExport, null, 2))
+
+  await run(process.execPath, ['scripts/event-ingestor.mjs'], {
+    AGL_PRODUCTION_EVENT_EXPORT_FILES: productionExportFile,
+    AGL_EVENT_IMPORT_DIRS: productionEmptyImportDir,
+    AGL_EVENT_OUTPUT_DIR: productionOutputDir,
+    AGL_EVENT_INBOX_DIR: productionEmptyImportDir,
+    AGL_EVENT_INGEST_OUTPUT: productionIngestOutput,
+    AGL_EVENT_INGEST_REPORT: productionIngestReport,
+  })
+
+  const productionIngest = JSON.parse(await readFile(productionIngestOutput, 'utf8'))
+  const productionImportedPath = productionIngest.importedFiles[0]?.targetPath
+    ? path.resolve(root, productionIngest.importedFiles[0].targetPath)
+    : null
+  const productionImportedEvents = productionImportedPath
+    ? JSON.parse(await readFile(productionImportedPath, 'utf8'))
+    : []
+
+  if (
+    productionIngest.status !== 'imported' ||
+    productionIngest.manualProductionExports?.mode !== 'explicit-file-only' ||
+    productionIngest.manualProductionExports?.pathsConfigured !== 1 ||
+    productionIngest.manualProductionExports?.importedEvents !== 4 ||
+    productionIngest.manualProductionExports?.controls?.explicitFileOnly !== true ||
+    productionIngest.manualProductionExports?.controls?.noDownloadsScan !== true ||
+    productionIngest.manualProductionExports?.controls?.externalIdentifiersHashed !== true ||
+    productionIngest.privacy?.sensitivePropertiesDropped < 1 ||
+    productionIngest.privacy?.externalIdentifiersHashed !== 4 ||
+    productionImportedEvents.some((event) => JSON.stringify(event).includes('production-player@example.com')) ||
+    productionImportedEvents.some((event) => event.properties.email) ||
+    !productionImportedEvents.every((event) => String(event.properties.anonymousId ?? '').startsWith('external-'))
+  ) {
+    fail(`Expected explicit production export import to sanitize and hash identifiers, got ${JSON.stringify(productionIngest)}`)
+  }
+
+  await run(process.execPath, ['scripts/analytics-rollup.mjs'], {
+    AGL_LOCAL_EVENTS_DIR: productionOutputDir,
+    AGL_ANALYTICS_OUTPUT: productionAnalyticsOutput,
+    AGL_ANALYTICS_REPORT: productionAnalyticsReport,
+  })
+
+  const productionAnalytics = JSON.parse(await readFile(productionAnalyticsOutput, 'utf8'))
+  const productionGame = productionAnalytics.games.find((row) => row.gameId === smokeGameId)
+
+  if (
+    productionAnalytics.sourceStatus.activeSource !== 'local-event-drops' ||
+    productionAnalytics.retention.source !== 'local-event-drops' ||
+    productionAnalytics.retention.d1Retention !== 1 ||
+    productionGame?.counts.game_viewed !== 2 ||
+    productionGame?.counts.game_started !== 1 ||
+    productionGame?.counts.level_completed !== 1
+  ) {
+    fail(`Expected explicit production export to roll up like local evidence, got ${JSON.stringify(productionAnalytics)}`)
+  }
+
   const smoke = {
     generatedAt: new Date().toISOString(),
     status: 'pass',
@@ -481,6 +589,19 @@ try {
       duplicateEvents: incrementalIngest.duplicateEvents,
       importedFileDuplicateEvents: incrementalIngest.importedFiles[0]?.duplicateEvents ?? 0,
     },
+    productionExport: {
+      status: productionIngest.status,
+      mode: productionIngest.manualProductionExports.mode,
+      pathsConfigured: productionIngest.manualProductionExports.pathsConfigured,
+      importedEvents: productionIngest.manualProductionExports.importedEvents,
+      sensitivePropertiesDropped: productionIngest.privacy.sensitivePropertiesDropped,
+      externalIdentifiersHashed: productionIngest.privacy.externalIdentifiersHashed,
+      explicitFileOnly: productionIngest.manualProductionExports.controls.explicitFileOnly,
+      noDownloadsScan: productionIngest.manualProductionExports.controls.noDownloadsScan,
+      command: productionIngest.manualProductionExports.command,
+      activeSource: productionAnalytics.sourceStatus.activeSource,
+      d1Retention: productionAnalytics.retention.d1Retention,
+    },
     analytics: {
       activeSource: incrementalAnalytics.sourceStatus.activeSource,
       localEventFiles: incrementalAnalytics.sourceStatus.localEventDrops.files,
@@ -525,6 +646,9 @@ try {
     `- Follow-up preserved scan: ${smoke.followupBridge.explicitScanStatus}`,
     `- Downloads gate-sample events: ${smoke.downloadsBridge.gateSampleEvents}`,
     `- Downloads export coverage receipts: ${smoke.downloadsBridge.exportCoverageReceipts}`,
+    `- Production export imported events: ${smoke.productionExport.importedEvents}`,
+    `- Production export external identifiers hashed: ${smoke.productionExport.externalIdentifiersHashed}`,
+    `- Production export command: ${smoke.productionExport.command}`,
     '',
     '## Analytics',
     '',

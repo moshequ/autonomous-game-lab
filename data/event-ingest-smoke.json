@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-25T22:14:52.872Z",
+  "generatedAt": "2026-05-25T22:48:33.001Z",
   "status": "pass",
   "fixture": {
     "sourceFile": "player-events-smoke.json",
@@ -36,13 +36,13 @@
     "downloadsImportEnabled": false,
     "explicitScanStatus": "evidence-found",
     "explicitScanEvidenceFound": true,
-    "preservedScanAt": "2026-05-25T22:14:52.764Z"
+    "preservedScanAt": "2026-05-25T22:48:32.759Z"
   },
   "ingest": {
     "status": "imported",
     "importedEvents": 6,
     "importedFiles": 1,
-    "outputDirectory": "../../../../../../var/folders/tq/1ph_b7c95_gc2jsn1hc3h1jw0000gn/T/agl-event-ingest-37nT2O/player-events",
+    "outputDirectory": "../../../../../../var/folders/tq/1ph_b7c95_gc2jsn1hc3h1jw0000gn/T/agl-event-ingest-vLDfNL/player-events",
     "piiStrippingEnabled": true,
     "importedFilesAreSanitized": true
   },
@@ -52,6 +52,19 @@
     "importedFiles": 1,
     "duplicateEvents": 12,
     "importedFileDuplicateEvents": 6
+  },
+  "productionExport": {
+    "status": "imported",
+    "mode": "explicit-file-only",
+    "pathsConfigured": 1,
+    "importedEvents": 4,
+    "sensitivePropertiesDropped": 1,
+    "externalIdentifiersHashed": 4,
+    "explicitFileOnly": true,
+    "noDownloadsScan": true,
+    "command": "AGL_PRODUCTION_EVENT_EXPORT_FILES=/absolute/path/to/export.json npm run autonomous:collect-production-export",
+    "activeSource": "local-event-drops",
+    "d1Retention": 1
   },
   "analytics": {
     "activeSource": "local-event-drops",

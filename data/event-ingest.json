@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-25T22:14:53.176Z",
+  "generatedAt": "2026-05-25T22:48:33.292Z",
   "status": "idle-no-files",
   "outputDirectory": "data/player-events",
   "importPattern": "/^player-events.*\\.json$/i",
@@ -12,6 +12,39 @@
     }
   ],
   "remoteCollectors": [],
+  "manualProductionExports": {
+    "mode": "explicit-file-only",
+    "enabled": false,
+    "envVars": [
+      "AGL_PRODUCTION_EVENT_EXPORT_FILES",
+      "AGL_PRODUCTION_EVENT_EXPORT_FILE",
+      "AGL_EVENT_COLLECTOR_EXPORT_FILES",
+      "AGL_EVENT_COLLECTOR_EXPORT_FILE"
+    ],
+    "command": "AGL_PRODUCTION_EVENT_EXPORT_FILES=/absolute/path/to/export.json npm run autonomous:collect-production-export",
+    "pathsConfigured": 0,
+    "files": [],
+    "importedFiles": 0,
+    "importedEvents": 0,
+    "supportedPayloads": [
+      "Array<AnalyticsEvent>",
+      "{ \"events\": Array<AnalyticsEvent> }",
+      "{ \"results\": Array<object>, \"columns\"?: Array<string> }",
+      "PostHog JSON rows with event/timestamp/properties/distinct_id columns",
+      "first-party collector JSON export"
+    ],
+    "controls": {
+      "explicitFileOnly": true,
+      "noDirectoryScan": true,
+      "noDownloadsScan": true,
+      "localOnly": true,
+      "noExternalUpload": true,
+      "piiStrippingEnabled": true,
+      "externalIdentifiersHashed": true,
+      "rawExportsStayLocal": true,
+      "noSecretValuesStored": true
+    }
+  },
   "importedFiles": [],
   "skippedFiles": [],
   "importedEvents": 0,
@@ -21,8 +54,13 @@
     "importedFilesAreSanitized": true,
     "rawPlayerEventDropsStayLocal": true,
     "sensitivePropertiesDropped": 0,
+    "externalIdentifiersHashed": 0,
     "strippedPropertyKeys": [
+      "$distinct_id",
+      "$set",
+      "$set_once",
       "address",
+      "distinct_id",
       "email",
       "firstName",
       "ip",
@@ -31,6 +69,8 @@
       "latitude",
       "longitude",
       "name",
+      "personId",
+      "person_id",
       "phone",
       "preciseLocation"
     ]

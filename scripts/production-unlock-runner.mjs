@@ -49,6 +49,7 @@ const allowedCommands = new Set([
   'npm run autonomous:sample-plan',
   'npm run autonomous:objective-audit',
   'npm run autonomous:collect-sample-downloads',
+  'npm run autonomous:collect-production-export',
   'npm run autonomous:monetization',
   'npm run autonomous:unit-economics',
   'npm run autonomous:native-package',

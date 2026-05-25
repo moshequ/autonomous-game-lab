@@ -92,6 +92,19 @@ test('event smoke fixtures follow the generated game roster', async () => {
   }
   const eventIngestSmoke = JSON.parse(await readFile('data/event-ingest-smoke.json', 'utf8')) as {
     fixture: { gameSourceFile: string; gameId: string; title: string }
+    productionExport: {
+      status: string
+      mode: string
+      pathsConfigured: number
+      importedEvents: number
+      sensitivePropertiesDropped: number
+      externalIdentifiersHashed: number
+      explicitFileOnly: boolean
+      noDownloadsScan: boolean
+      command: string
+      activeSource: string
+      d1Retention: number
+    }
   }
   const smokeGame = generatedPlayable.games.find((game) => game.id === eventIngestSmoke.fixture.gameId)
 
@@ -105,6 +118,20 @@ test('event smoke fixtures follow the generated game roster', async () => {
     gameSourceFile: 'data/generated-playable-games.json',
     title: smokeGame?.title,
   })
+  expect(eventIngestSmoke.productionExport).toMatchObject({
+    status: 'imported',
+    mode: 'explicit-file-only',
+    pathsConfigured: 1,
+    importedEvents: 4,
+    explicitFileOnly: true,
+    noDownloadsScan: true,
+    activeSource: 'local-event-drops',
+    d1Retention: 1,
+  })
+  expect(eventIngestSmoke.productionExport.sensitivePropertiesDropped).toBeGreaterThanOrEqual(1)
+  expect(eventIngestSmoke.productionExport.externalIdentifiersHashed).toBe(4)
+  expect(eventIngestSmoke.productionExport.command).toContain('AGL_PRODUCTION_EVENT_EXPORT_FILES')
+  expect(eventIngestSmoke.productionExport.command).toContain('autonomous:collect-production-export')
 })
 
 test('portal loads a playable canvas and autonomy cockpit', async ({ page }) => {
@@ -4031,6 +4058,7 @@ test('autonomous operator plans or executes one allowlisted zero-spend local act
   expect(['not-requested', 'executed']).toContain(operator.execution.status)
   expect(operator.execution.maxActionsPerRun).toBe(1)
   expect(operator.allowlist).toContain('npm run autonomous:blocker-handoff')
+  expect(operator.allowlist).toContain('npm run autonomous:collect-production-export')
   expect(operator.blockedFragments).toContain('gh workflow run')
   expect(operator.blockedActions.some((action) => action.reason === 'daily-loop-recursion-blocked')).toBe(true)
 
@@ -4120,6 +4148,35 @@ test('local event bridge keeps browser analytics drops importable without extern
       strippedPropertyKeys: string[]
     }
   }
+  const ingest = JSON.parse(await readFile('data/event-ingest.json', 'utf8')) as {
+    manualProductionExports: {
+      mode: string
+      enabled: boolean
+      envVars: string[]
+      command: string
+      pathsConfigured: number
+      importedEvents: number
+      supportedPayloads: string[]
+      controls: {
+        explicitFileOnly: boolean
+        noDirectoryScan: boolean
+        noDownloadsScan: boolean
+        localOnly: boolean
+        noExternalUpload: boolean
+        piiStrippingEnabled: boolean
+        externalIdentifiersHashed: boolean
+        rawExportsStayLocal: boolean
+        noSecretValuesStored: boolean
+      }
+    }
+    privacy: {
+      externalIdentifiersHashed: number
+      strippedPropertyKeys: string[]
+    }
+  }
+  const packageJson = JSON.parse(await readFile('package.json', 'utf8')) as {
+    scripts: Record<string, string>
+  }
 
   expect(['bridge-ready-for-ingest', 'bridge-local-events-active', 'bridge-waiting-for-export']).toContain(
     bridge.status,
@@ -4187,6 +4244,31 @@ test('local event bridge keeps browser analytics drops importable without extern
   expect(typeof bridge.exportCoverage.readyForIngest).toBe('boolean')
   expect(bridge.gateSampleEvidence.localEvidenceAvailable).toBe(false)
   expect(bridge.gateSampleEvidence.inbox.campaigns).toHaveLength(0)
+  expect(ingest.manualProductionExports.mode).toBe('explicit-file-only')
+  expect(ingest.manualProductionExports.enabled).toBe(false)
+  expect(ingest.manualProductionExports.envVars).toContain('AGL_PRODUCTION_EVENT_EXPORT_FILES')
+  expect(ingest.manualProductionExports.command).toContain('autonomous:collect-production-export')
+  expect(ingest.manualProductionExports.pathsConfigured).toBe(0)
+  expect(ingest.manualProductionExports.importedEvents).toBe(0)
+  expect(ingest.manualProductionExports.supportedPayloads).toContain(
+    'PostHog JSON rows with event/timestamp/properties/distinct_id columns',
+  )
+  expect(ingest.manualProductionExports.controls).toMatchObject({
+    explicitFileOnly: true,
+    noDirectoryScan: true,
+    noDownloadsScan: true,
+    localOnly: true,
+    noExternalUpload: true,
+    piiStrippingEnabled: true,
+    externalIdentifiersHashed: true,
+    rawExportsStayLocal: true,
+    noSecretValuesStored: true,
+  })
+  expect(ingest.privacy.externalIdentifiersHashed).toBe(0)
+  expect(ingest.privacy.strippedPropertyKeys).toContain('distinct_id')
+  expect(packageJson.scripts['autonomous:collect-production-export']).toContain('autonomous:import-events')
+  expect(packageJson.scripts['autonomous:collect-production-export']).toContain('autonomous:analytics')
+  expect(packageJson.scripts['autonomous:collect-production-export']).toContain('autonomous:measurement-status')
 
   await page.goto('/')
   await expect(page.getByLabel('Local Event Bridge')).toContainText('Local Event Bridge')
