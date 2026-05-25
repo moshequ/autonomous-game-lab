@@ -2780,6 +2780,7 @@ if (
   productGateSamplePlan.publicSamplePage?.localFolderDrop?.mode !== 'browser-selected-local-folder' ||
   productGateSamplePlan.publicSamplePage?.localFolderDrop?.supportedRuntime !== 'showDirectoryPicker' ||
   productGateSamplePlan.publicSamplePage?.localFolderDrop?.fallback !== 'download' ||
+  productGateSamplePlan.publicSamplePage?.localFolderDrop?.selfDescribingExportReceipts !== true ||
   productGateSamplePlan.publicSamplePage?.localFolderDrop?.noExternalUpload !== true ||
   productGateSamplePlan.publicSamplePage?.zeroPaidSpend !== true ||
   productGateSamplePlan.publicSamplePage?.playerInitiatedOnly !== true ||
@@ -2796,6 +2797,14 @@ if (
   !productGateSamplePlan.runtimeEvidencePolicy?.publicPageExportProperties?.includes('exportSurfaceDetail') ||
   !productGateSamplePlan.runtimeEvidencePolicy?.publicPageExportProperties?.includes('localSampleStarts') ||
   !productGateSamplePlan.runtimeEvidencePolicy?.publicPageExportProperties?.includes('localEvidenceDropReady') ||
+  !productGateSamplePlan.runtimeEvidencePolicy?.publicPageExportProperties?.includes('eventCountAtExport') ||
+  !productGateSamplePlan.runtimeEvidencePolicy?.publicPageExportProperties?.includes('unexportedEventsBeforeExport') ||
+  !productGateSamplePlan.runtimeEvidencePolicy?.publicPageExportProperties?.includes(
+    'exportedEventCountBeforeExport',
+  ) ||
+  !productGateSamplePlan.runtimeEvidencePolicy?.publicPageExportProperties?.includes(
+    'exportCoverageStatusBeforeExport',
+  ) ||
   !productGateSamplePlan.runtimeEvidencePolicy?.publicPageExportProperties?.includes('eventDropMode') ||
   !productGateSamplePlan.runtimeEvidencePolicy?.publicPageExportProperties?.includes('noExternalUpload') ||
   productGateSamplePlan.runtimeEvidencePolicy?.sampleStartPolicy?.event !== 'gate_sample_mission_clicked' ||
@@ -2808,6 +2817,7 @@ if (
   productGateSamplePlan.runtimeEvidencePolicy?.controls?.noSyntheticEvents !== true ||
   productGateSamplePlan.runtimeEvidencePolicy?.controls?.playerInitiatedExportOnly !== true ||
   productGateSamplePlan.runtimeEvidencePolicy?.controls?.sampleStartCreatesFreshRun !== true ||
+  productGateSamplePlan.runtimeEvidencePolicy?.controls?.publicPageSelfDescribingExportReceipts !== true ||
   typeof productGateSamplePlan.summary?.importedGateSampleEvents !== 'number' ||
   typeof productGateSamplePlan.summary?.inboxGateSampleEvents !== 'number' ||
   typeof productGateSamplePlan.summary?.supportingAggregateEvidenceNotes !== 'number' ||
@@ -2866,6 +2876,8 @@ if (
   !productGateSamplePlanSource.includes('sampleRoleForMission') ||
   !productGateSamplePlanSource.includes('runtimeEvidencePolicy') ||
   !productGateSamplePlanSource.includes('sampleStartCreatesFreshRun') ||
+  !productGateSamplePlanSource.includes('localExportReceiptKey') ||
+  !productGateSamplePlanSource.includes('eventCountAtExport') ||
   !productGateSamplePlanSource.includes('fresh-run-key') ||
   !productGateSamplePlanSource.includes('sourceDataHash') ||
   !productGateSamplePlanSource.includes('publicMissionEvidence') ||
@@ -2874,6 +2886,8 @@ if (
   !productGateSamplePlanSource.includes('Support type: analytics-evidence') ||
   !productGateSamplePlanSource.includes('parseableBodyFallback') ||
   !gateSampleHtml.includes('gate-sample-mission-data') ||
+  !gateSampleHtml.includes('localExportReceiptKey') ||
+  !gateSampleHtml.includes('eventCountAtExport') ||
   !gateSampleHtml.includes('data-export-campaign') ||
   !gateSampleHtml.includes('data-connect-drop-folder') ||
   !gateSampleHtml.includes('showDirectoryPicker') ||

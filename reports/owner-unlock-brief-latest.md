@@ -1,12 +1,12 @@
 # Owner Unlock Brief
 
-Generated: 2026-05-25T22:03:21.574Z
+Generated: 2026-05-25T22:16:15.817Z
 Status: waiting-on-owner-input
-Source hash: dff5cd410b9c
+Source hash: 3b53d5c6e115
 Next unlock: production-analytics-browser
 Recommended path: first-party-collector
 Lowest-input path: posthog-browser
-Lowest-input reason: PostHog browser capture currently needs 2 missing input(s), compared with 4 for the recommended path.
+Lowest-input reason: PostHog browser capture currently needs 2 missing input(s), compared with 8 for the recommended path.
 Parallel owner unlocks: production-analytics-browser, support-contact
 
 ## Setup Guard
@@ -27,12 +27,16 @@ Parallel owner unlocks: production-analytics-browser, support-contact
 ## Missing Variables
 
 - CLOUDFLARE_ACCOUNT_ID: gh variable set CLOUDFLARE_ACCOUNT_ID --body "$CLOUDFLARE_ACCOUNT_ID"
+- AGL_EVENT_COLLECTOR_R2_BUCKET: gh variable set AGL_EVENT_COLLECTOR_R2_BUCKET --body "$AGL_EVENT_COLLECTOR_R2_BUCKET"
+- AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS: gh variable set AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS --body "$AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS"
 - VITE_EVENT_COLLECTOR_URL: gh variable set VITE_EVENT_COLLECTOR_URL --body "$VITE_EVENT_COLLECTOR_URL"
 - AGL_EVENT_COLLECTOR_EXPORT_URL: gh variable set AGL_EVENT_COLLECTOR_EXPORT_URL --body "$AGL_EVENT_COLLECTOR_EXPORT_URL"
 
 ## Missing Secrets
 
 - CLOUDFLARE_API_TOKEN: printf "%s" "$CLOUDFLARE_API_TOKEN" | gh secret set CLOUDFLARE_API_TOKEN
+- VITE_EVENT_COLLECTOR_WRITE_TOKEN: printf "%s" "$VITE_EVENT_COLLECTOR_WRITE_TOKEN" | gh secret set VITE_EVENT_COLLECTOR_WRITE_TOKEN
+- AGL_EVENT_COLLECTOR_ADMIN_TOKEN: printf "%s" "$AGL_EVENT_COLLECTOR_ADMIN_TOKEN" | gh secret set AGL_EVENT_COLLECTOR_ADMIN_TOKEN
 
 ## Lowest-Input Path
 
@@ -40,7 +44,7 @@ Parallel owner unlocks: production-analytics-browser, support-contact
 - title: PostHog browser capture
 - missing inputs: 2
 - missing secrets: 0
-- manual input reduction: 2
+- manual input reduction: 6
 - no secrets required: true
 
 ## Minimal Intervention Path
@@ -48,7 +52,7 @@ Parallel owner unlocks: production-analytics-browser, support-contact
 - path: posthog-browser
 - missing inputs: 2
 - missing secrets: 0
-- manual input reduction: 2
+- manual input reduction: 6
 - no secrets required: true
 
 ## Combined Owner Input Pack
@@ -116,9 +120,9 @@ Parallel owner unlocks: production-analytics-browser, support-contact
 - status: waiting-on-owner-input
 - public status: /measurement-status.html
 - public json: /measurement-status.json
-- missing inputs: 4
-- missing variables: CLOUDFLARE_ACCOUNT_ID, VITE_EVENT_COLLECTOR_URL, AGL_EVENT_COLLECTOR_EXPORT_URL
-- missing secrets: CLOUDFLARE_API_TOKEN
+- missing inputs: 8
+- missing variables: CLOUDFLARE_ACCOUNT_ID, AGL_EVENT_COLLECTOR_R2_BUCKET, AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS, VITE_EVENT_COLLECTOR_URL, AGL_EVENT_COLLECTOR_EXPORT_URL
+- missing secrets: CLOUDFLARE_API_TOKEN, VITE_EVENT_COLLECTOR_WRITE_TOKEN, AGL_EVENT_COLLECTOR_ADMIN_TOKEN
 - lowest-input missing: 2
 - can apply before product gates: true
 - store submission still blocked: true

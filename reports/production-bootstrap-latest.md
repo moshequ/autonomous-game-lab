@@ -1,29 +1,29 @@
 # Production Bootstrap
 
-Generated: 2026-05-25T22:03:29.130Z
+Generated: 2026-05-25T22:16:09.971Z
 Status: production-bootstrap-ready
-Mode: can-apply-configured-actions
+Mode: waiting-for-external-credentials
 GitHub repository: moshequ/autonomous-game-lab
-Repository channel: repository-channel-ready
+Repository channel: waiting-for-gh-auth
 gh CLI available: true
 
 ## Local Env Files
 
-- none loaded
+- ops/production.env.local: AGL_ANDROID_PACKAGE_NAME, AGL_ANDROID_SHA256_CERT_FINGERPRINT, AGL_ANDROID_KEYSTORE_BASE64, AGL_ANDROID_KEYSTORE_PASSWORD, AGL_ANDROID_KEY_ALIAS
 - shell env precedence: true
 - protected mutation keys require shell env: true
 - values redacted: true
 
 ## Setup Groups
 
-- repository-channel-ready: repository-channel; auto-run no; Repository moshequ/autonomous-game-lab; git worktree ready; workflow dispatch ready.
-- repository-bootstrap-ready: repository-bootstrap; auto-run no; Repository bootstrap repository-bootstrap-ready; helper ops/github/bootstrap-repository.sh; local git ready.
-- waiting-for-origin-support: production-environment; auto-run no; Environment production-env-missing; public origin configured; support missing-production-address.
-- ready-for-actions-pages: github-pages-hosting; auto-run yes; Deployment plan is ready-for-pages; Pages workflow is .github/workflows/web-pwa-deploy.yml.
-- ready-to-sync: github-pages-settings; auto-run yes; GitHub CLI can configure Pages to use the Actions workflow source.
-- ready-for-direct-persistence: autonomous-self-update; auto-run yes; Self-update gate configured; direct push configured.
-- partially-configured: github-actions-variables; auto-run yes; 10/24 repository variable value(s) present in this environment.
-- partially-configured: github-actions-secrets; auto-run yes; 5/8 repository secret value(s) present in this environment.
+- waiting-for-gh-auth: repository-channel; auto-run no; Repository moshequ/autonomous-game-lab; git worktree ready; workflow dispatch blocked.
+- waiting-for-gh-auth: repository-bootstrap; auto-run no; Repository bootstrap waiting-for-gh-auth; helper ops/github/bootstrap-repository.sh; local git ready.
+- waiting-for-origin-support: production-environment; auto-run no; Environment production-env-missing; public origin inferred-github-pages; support missing-production-address.
+- ready-for-actions-pages: github-pages-hosting; auto-run no; Deployment plan is ready-for-pages; Pages workflow is .github/workflows/web-pwa-deploy.yml.
+- waiting-for-gh-auth: github-pages-settings; auto-run no; GitHub CLI authentication is required before Pages settings can be synced.
+- waiting-for-self-update-gate: autonomous-self-update; auto-run no; Self-update gate missing; direct push held.
+- partially-configured: github-actions-variables; auto-run no; 6/24 repository variable value(s) present in this environment.
+- partially-configured: github-actions-secrets; auto-run no; 3/8 repository secret value(s) present in this environment.
 - blocked-needs-cloudflare-env: event-collector; auto-run no; Collector deployment is blocked-needs-cloudflare-env; provider cloudflare-worker-r2.
 - held-by-product-gates: monetization-gate; auto-run no; Revenue disabled; spend mode no-spend.
 - draft-ready-external-blockers: store-compliance-unblock; auto-run no; 3 store compliance blocker(s) remain.
@@ -42,10 +42,10 @@ gh CLI available: true
 
 ## Repository Variables
 
-- ready: VITE_BASE_PATH from VITE_BASE_PATH (environment)
-- ready: AGL_PUBLIC_ORIGIN from AGL_PUBLIC_ORIGIN (environment)
-- ready: VITE_PUBLIC_ORIGIN from AGL_PUBLIC_ORIGIN (environment)
-- ready: PUBLIC_SITE_URL from AGL_PUBLIC_ORIGIN (environment)
+- ready: VITE_BASE_PATH from VITE_BASE_PATH (inferred-github-pages)
+- ready: AGL_PUBLIC_ORIGIN from AGL_PUBLIC_ORIGIN (inferred-github-pages)
+- ready: VITE_PUBLIC_ORIGIN from AGL_PUBLIC_ORIGIN (inferred-github-pages)
+- ready: PUBLIC_SITE_URL from AGL_PUBLIC_ORIGIN (inferred-github-pages)
 - missing: AGL_SUPPORT_EMAIL from AGL_SUPPORT_EMAIL (missing)
 - missing: VITE_POSTHOG_KEY from VITE_POSTHOG_KEY (missing)
 - missing: VITE_POSTHOG_HOST from VITE_POSTHOG_HOST (missing)
@@ -54,8 +54,8 @@ gh CLI available: true
 - missing: CLOUDFLARE_ACCOUNT_ID from CLOUDFLARE_ACCOUNT_ID (missing)
 - missing: VITE_EVENT_COLLECTOR_URL from VITE_EVENT_COLLECTOR_URL (missing)
 - missing: AGL_EVENT_COLLECTOR_EXPORT_URL from AGL_EVENT_COLLECTOR_EXPORT_URL (missing)
-- ready: AGL_EVENT_COLLECTOR_R2_BUCKET from AGL_EVENT_COLLECTOR_R2_BUCKET (environment)
-- ready: AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS from AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS (environment)
+- missing: AGL_EVENT_COLLECTOR_R2_BUCKET from AGL_EVENT_COLLECTOR_R2_BUCKET (missing)
+- missing: AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS from AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS (missing)
 - missing: VITE_ADSENSE_CLIENT_ID from VITE_ADSENSE_CLIENT_ID (missing)
 - missing: VITE_ADSENSE_REWARDED_SLOT_ID from VITE_ADSENSE_REWARDED_SLOT_ID (missing)
 - missing: ADMOB_PUBLISHER_ID from ADMOB_PUBLISHER_ID (missing)
@@ -64,14 +64,14 @@ gh CLI available: true
 - ready: AGL_ANDROID_SHA256_CERT_FINGERPRINT from AGL_ANDROID_SHA256_CERT_FINGERPRINT (environment)
 - missing: AGL_GOOGLE_PLAY_ACCOUNT_CONNECTED from AGL_GOOGLE_PLAY_ACCOUNT_CONNECTED (missing)
 - missing: AGL_APPLE_DEVELOPER_ACCOUNT_CONNECTED from AGL_APPLE_DEVELOPER_ACCOUNT_CONNECTED (missing)
-- ready: AGL_AUTONOMOUS_SELF_UPDATE from AGL_AUTONOMOUS_SELF_UPDATE (environment)
-- ready: AGL_AUTONOMOUS_SELF_UPDATE_DIRECT from AGL_AUTONOMOUS_SELF_UPDATE_DIRECT (environment)
+- missing: AGL_AUTONOMOUS_SELF_UPDATE from AGL_AUTONOMOUS_SELF_UPDATE (missing)
+- missing: AGL_AUTONOMOUS_SELF_UPDATE_DIRECT from AGL_AUTONOMOUS_SELF_UPDATE_DIRECT (missing)
 
 ## Repository Secrets
 
 - missing: CLOUDFLARE_API_TOKEN from CLOUDFLARE_API_TOKEN
-- ready: VITE_EVENT_COLLECTOR_WRITE_TOKEN from VITE_EVENT_COLLECTOR_WRITE_TOKEN
-- ready: AGL_EVENT_COLLECTOR_ADMIN_TOKEN from AGL_EVENT_COLLECTOR_ADMIN_TOKEN
+- missing: VITE_EVENT_COLLECTOR_WRITE_TOKEN from VITE_EVENT_COLLECTOR_WRITE_TOKEN
+- missing: AGL_EVENT_COLLECTOR_ADMIN_TOKEN from AGL_EVENT_COLLECTOR_ADMIN_TOKEN
 - missing: POSTHOG_PERSONAL_API_KEY from POSTHOG_PERSONAL_API_KEY
 - ready: AGL_ANDROID_KEYSTORE_BASE64 from AGL_ANDROID_KEYSTORE_BASE64
 - ready: AGL_ANDROID_KEYSTORE_PASSWORD from AGL_ANDROID_KEYSTORE_PASSWORD
@@ -80,6 +80,8 @@ gh CLI available: true
 
 ## External Blockers
 
+- repository-readiness: Authenticate GitHub CLI or configure GH_TOKEN/GITHUB_TOKEN for workflow dispatch and repository settings sync.
+- repository-bootstrap: Authenticate GitHub CLI or provide GH_TOKEN/GITHUB_TOKEN for remote repository bootstrap.
 - production-environment: Set AGL_SUPPORT_EMAIL to a real support inbox before public store submission.
 - production-environment: Set VITE_EVENT_COLLECTOR_URL or VITE_POSTHOG_KEY to forward browser analytics in production.
 - production-environment: Set AGL_EVENT_COLLECTOR_EXPORT_URL + AGL_EVENT_COLLECTOR_ADMIN_TOKEN or PostHog server credentials for autonomous production rollups.
@@ -90,5 +92,3 @@ gh CLI available: true
 - store-compliance: support-contact: Production support email is required before public store submission.
 - store-compliance: google-play-account: Google Play developer account must be connected before Android submission.
 - store-compliance: apple-developer-account: Apple Developer account remains deferred until iOS spend is justified.
-- android-release: google-play-account: Google Play account is not connected.
-- android-release: play-service-account: Google Play service account upload credentials are not available to CI.

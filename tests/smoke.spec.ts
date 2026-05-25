@@ -2747,6 +2747,7 @@ test('product optimizer applies one guarded tuning step from product-gate eviden
         mode: string
         supportedRuntime: string
         fallback: string
+        selfDescribingExportReceipts: boolean
         noExternalUpload: boolean
         playerInitiatedOnly: boolean
       }
@@ -2800,6 +2801,7 @@ test('product optimizer applies one guarded tuning step from product-gate eviden
         noSyntheticEvents: boolean
         playerInitiatedExportOnly: boolean
         sampleStartCreatesFreshRun: boolean
+        publicPageSelfDescribingExportReceipts: boolean
       }
     }
     controls: {
@@ -2994,6 +2996,7 @@ test('product optimizer applies one guarded tuning step from product-gate eviden
     mode: 'browser-selected-local-folder',
     supportedRuntime: 'showDirectoryPicker',
     fallback: 'download',
+    selfDescribingExportReceipts: true,
     noExternalUpload: true,
     playerInitiatedOnly: true,
   })
@@ -3010,6 +3013,10 @@ test('product optimizer applies one guarded tuning step from product-gate eviden
   expect(samplePlan.runtimeEvidencePolicy.publicPageExportProperties).toContain('exportSurfaceDetail')
   expect(samplePlan.runtimeEvidencePolicy.publicPageExportProperties).toContain('localSampleStarts')
   expect(samplePlan.runtimeEvidencePolicy.publicPageExportProperties).toContain('localEvidenceDropReady')
+  expect(samplePlan.runtimeEvidencePolicy.publicPageExportProperties).toContain('eventCountAtExport')
+  expect(samplePlan.runtimeEvidencePolicy.publicPageExportProperties).toContain('unexportedEventsBeforeExport')
+  expect(samplePlan.runtimeEvidencePolicy.publicPageExportProperties).toContain('exportedEventCountBeforeExport')
+  expect(samplePlan.runtimeEvidencePolicy.publicPageExportProperties).toContain('exportCoverageStatusBeforeExport')
   expect(samplePlan.runtimeEvidencePolicy.publicPageExportProperties).toContain('eventDropMode')
   expect(samplePlan.runtimeEvidencePolicy.publicPageExportProperties).toContain('noExternalUpload')
   expect(samplePlan.runtimeEvidencePolicy.publicPageShareProperties).toContain('shareUrl')
@@ -3046,6 +3053,7 @@ test('product optimizer applies one guarded tuning step from product-gate eviden
   expect(samplePlan.runtimeEvidencePolicy.controls.noSyntheticEvents).toBe(true)
   expect(samplePlan.runtimeEvidencePolicy.controls.playerInitiatedExportOnly).toBe(true)
   expect(samplePlan.runtimeEvidencePolicy.controls.sampleStartCreatesFreshRun).toBe(true)
+  expect(samplePlan.runtimeEvidencePolicy.controls.publicPageSelfDescribingExportReceipts).toBe(true)
   expect(samplePlan.controls.zeroPaidSpend).toBe(true)
   expect(samplePlan.controls.noPaidTraffic).toBe(true)
   expect(samplePlan.controls.noSyntheticGatePasses).toBe(true)
@@ -4254,6 +4262,26 @@ test('local event bridge preserves fastest gate sample route telemetry', async (
           },
           createdAt: '2026-05-23T00:00:03.000Z',
         },
+        {
+          id: 'fastest-public-page-export',
+          name: 'analytics_exported',
+          properties: {
+            gameId: 'market-pulse',
+            gateId: 'd1Retention',
+            campaignId,
+            acquisitionSource: 'gate_sample',
+            acquisitionChannel: 'product-gate-sample',
+            exportSurface: 'product-gate-sample',
+            exportSurfaceDetail: 'public-gate-sample-page',
+            eventCountAtExport: 5,
+            unexportedEventsBeforeExport: 4,
+            exportedEventCountBeforeExport: 0,
+            exportCoverageStatusBeforeExport: 'waiting-for-first-export',
+            zeroPaidSpend: true,
+            noExternalUpload: true,
+          },
+          createdAt: '2026-05-23T00:00:04.000Z',
+        },
       ],
       null,
       2,
@@ -4289,16 +4317,27 @@ test('local event bridge preserves fastest gate sample route telemetry', async (
         }
       }
       controls: { noExternalUpload: boolean; noSyntheticEvents: boolean }
+      exportCoverage: {
+        status: string
+        inbox: { analyticsExports: number; coverageReceipts: number; latestEventCountAtExport: number | null }
+        readyForIngest: boolean
+      }
     }
     const campaign = bridge.gateSampleEvidence.inbox.campaigns.find((item) => item.campaignId === campaignId)
 
     expect(bridge.status).toBe('bridge-ready-for-ingest')
-    expect(bridge.inbox.validEvents).toBe(4)
-    expect(bridge.copiedFiles[0]).toMatchObject({ events: 4, privacyStripped: true })
-    expect(bridge.gateSampleEvidence.inbox.events).toBe(4)
+    expect(bridge.inbox.validEvents).toBe(5)
+    expect(bridge.copiedFiles[0]).toMatchObject({ events: 5, privacyStripped: true })
+    expect(bridge.gateSampleEvidence.inbox.events).toBe(5)
     expect(campaign?.eventCounts.sample_fastest_viewed).toBe(1)
     expect(campaign?.eventCounts.sample_fastest_routed).toBe(1)
     expect(campaign?.missionClicks).toBe(1)
+    expect(campaign?.eventCounts.analytics_exported).toBe(1)
+    expect(bridge.exportCoverage.status).toBe('inbox-export-coverage-ready')
+    expect(bridge.exportCoverage.inbox.analyticsExports).toBe(1)
+    expect(bridge.exportCoverage.inbox.coverageReceipts).toBe(1)
+    expect(bridge.exportCoverage.inbox.latestEventCountAtExport).toBe(5)
+    expect(bridge.exportCoverage.readyForIngest).toBe(true)
     expect(bridge.controls.noExternalUpload).toBe(true)
     expect(bridge.controls.noSyntheticEvents).toBe(true)
   } finally {
@@ -8506,6 +8545,7 @@ test('zero-spend gate sample page is reachable and uses runtime-relative mission
         mode: string
         supportedRuntime: string
         fallback: string
+        selfDescribingExportReceipts: boolean
         noExternalUpload: boolean
       }
       zeroPaidSpend: boolean
@@ -8583,6 +8623,7 @@ test('zero-spend gate sample page is reachable and uses runtime-relative mission
     mode: 'browser-selected-local-folder',
     supportedRuntime: 'showDirectoryPicker',
     fallback: 'download',
+    selfDescribingExportReceipts: true,
     noExternalUpload: true,
   })
   expect(samplePlan.publicSamplePage.zeroPaidSpend).toBe(true)
@@ -8662,6 +8703,10 @@ test('zero-spend gate sample page is reachable and uses runtime-relative mission
       localSampleStarts: 0,
       localObservedSuccesses: 1,
       localEvidenceDropReady: true,
+      eventCountAtExport: 4,
+      unexportedEventsBeforeExport: 3,
+      exportedEventCountBeforeExport: 0,
+      exportCoverageStatusBeforeExport: 'waiting-for-first-export',
       eventDropMode: 'download',
       eventDropFolderStatus: 'not-connected',
       noExternalUpload: true,
@@ -8669,6 +8714,9 @@ test('zero-spend gate sample page is reachable and uses runtime-relative mission
       noSyntheticEvents: true,
     })
     expect(Number(exportEvent?.properties.localCampaignEvents ?? 0)).toBeGreaterThanOrEqual(3)
+
+    const exportReceipt = events.findLast((event) => event.name === 'analytics_exported')
+    expect(exportReceipt?.properties.eventCountAtExport).toBe(events.length)
   }
   expect(fastestMission).toBeTruthy()
 
@@ -8690,6 +8738,7 @@ test('public gate sample can save evidence to a player-selected local drop folde
       localFolderDrop: {
         mode: string
         fallback: string
+        selfDescribingExportReceipts: boolean
         noExternalUpload: boolean
       }
     }
@@ -8775,6 +8824,7 @@ test('public gate sample can save evidence to a player-selected local drop folde
   expect(samplePlan.publicSamplePage.localFolderDrop).toMatchObject({
     mode: 'browser-selected-local-folder',
     fallback: 'download',
+    selfDescribingExportReceipts: true,
     noExternalUpload: true,
   })
 
@@ -8797,6 +8847,10 @@ test('public gate sample can save evidence to a player-selected local drop folde
       writes: target.__gateSampleDropWrites ?? [],
       fileNames: target.__gateSampleDropFileNames ?? [],
       events,
+      receipt: JSON.parse(window.localStorage.getItem('agl.analytics.localExportReceipt') ?? 'null') as {
+        exportSurface?: string
+        exportedEventCount?: number
+      } | null,
     }
   })
 
@@ -8830,10 +8884,18 @@ test('public gate sample can save evidence to a player-selected local drop folde
     gameId: mission.gameId,
     localSampleStarts: 0,
     localObservedSuccesses: 1,
+    eventCountAtExport: 4,
+    unexportedEventsBeforeExport: 3,
+    exportedEventCountBeforeExport: 0,
+    exportCoverageStatusBeforeExport: 'waiting-for-first-export',
     noExternalUpload: true,
     zeroPaidSpend: true,
     noSyntheticEvents: true,
     noRevenueEnablement: true,
+  })
+  expect(result.receipt).toMatchObject({
+    exportSurface: 'product-gate-sample',
+    exportedEventCount: writtenEvents.length,
   })
 })
 

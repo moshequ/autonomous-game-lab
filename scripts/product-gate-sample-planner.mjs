@@ -463,6 +463,7 @@ const payload = {
       filenamePattern: 'player-events*.json',
       fallback: 'download',
       bridgeImport: 'data/player-events/inbox or AGL_LOCAL_EVENT_DROP_DIRS via npm run autonomous:collect-local-event-drops',
+      selfDescribingExportReceipts: true,
       noExternalUpload: true,
       playerInitiatedOnly: true,
     },
@@ -502,6 +503,10 @@ const payload = {
       'localAnalyticsExports',
       'localEvidenceDropReady',
       'localSampleDecisionReady',
+      'eventCountAtExport',
+      'unexportedEventsBeforeExport',
+      'exportedEventCountBeforeExport',
+      'exportCoverageStatusBeforeExport',
       'eventDropMode',
       'eventDropFolderStatus',
       'noExternalUpload',
@@ -520,6 +525,10 @@ const payload = {
       'localAnalyticsExports',
       'localEvidenceDropReady',
       'localSampleDecisionReady',
+      'eventCountAtExport',
+      'unexportedEventsBeforeExport',
+      'exportedEventCountBeforeExport',
+      'exportCoverageStatusBeforeExport',
       'eventDropMode',
       'eventDropFolderStatus',
       'noExternalUpload',
@@ -581,6 +590,7 @@ const payload = {
       noSyntheticEvents: true,
       playerInitiatedExportOnly: true,
       sampleStartCreatesFreshRun: true,
+      publicPageSelfDescribingExportReceipts: true,
       noRevenueEnablement: true,
     },
   },
@@ -1052,6 +1062,9 @@ const gateSamplePage = `<!doctype html>
     <script>
       (() => {
         const bufferKey = 'agl.analytics.events'
+        const localExportReceiptKey = 'agl.analytics.localExportReceipt'
+        const localExportDebtThreshold = 12
+        const localExportAgeThresholdHours = 24
         const missions = JSON.parse(document.getElementById('gate-sample-mission-data')?.textContent || '[]')
         const support = JSON.parse(document.getElementById('gate-sample-support-data')?.textContent || '{}')
         let dropDirectoryHandle = null
@@ -1068,6 +1081,81 @@ const gateSamplePage = `<!doctype html>
 
         const writeEvents = (events) => {
           window.localStorage.setItem(bufferKey, JSON.stringify(events.slice(-300)))
+        }
+
+        const readLocalExportReceipt = () => {
+          try {
+            const raw = window.localStorage.getItem(localExportReceiptKey)
+            const parsed = raw ? JSON.parse(raw) : null
+            const exportedEventCount = Number(parsed?.exportedEventCount)
+
+            if (!parsed || typeof parsed.exportedAt !== 'string') {
+              return null
+            }
+
+            return {
+              exportedAt: parsed.exportedAt,
+              exportSurface: typeof parsed.exportSurface === 'string' ? parsed.exportSurface : 'manual',
+              exportedEventCount: Number.isFinite(exportedEventCount) ? Math.max(0, exportedEventCount) : 0,
+              latestEventId: typeof parsed.latestEventId === 'string' ? parsed.latestEventId : null,
+              latestEventAt: typeof parsed.latestEventAt === 'string' ? parsed.latestEventAt : null,
+            }
+          } catch {
+            return null
+          }
+        }
+
+        const localExportCoverage = (events) => {
+          const receipt = readLocalExportReceipt()
+          const latestEvent = events.at(-1) || null
+          const latestEventIndex =
+            receipt?.latestEventId ? events.findIndex((event) => event.id === receipt.latestEventId) : -1
+          const unexportedEvents = receipt
+            ? latestEventIndex >= 0
+              ? Math.max(0, events.length - latestEventIndex - 1)
+              : Math.max(0, events.length - receipt.exportedEventCount)
+            : events.length
+          const exportedEventCount = Math.max(0, events.length - unexportedEvents)
+          const exportedAtMs = receipt ? Date.parse(receipt.exportedAt) : Number.NaN
+          const exportAgeHours = Number.isFinite(exportedAtMs)
+            ? Math.max(0, (Date.now() - exportedAtMs) / (60 * 60 * 1000))
+            : null
+          const exportSuggested =
+            !receipt ||
+            unexportedEvents >= localExportDebtThreshold ||
+            (typeof exportAgeHours === 'number' && exportAgeHours >= localExportAgeThresholdHours)
+          const status = !receipt ? 'waiting-for-first-export' : exportSuggested ? 'export-due' : 'fresh'
+
+          return {
+            totalEvents: events.length,
+            exportedEventCount,
+            unexportedEvents,
+            coverageRatio: events.length ? exportedEventCount / events.length : receipt ? 1 : 0,
+            status,
+            latestEventId: latestEvent?.id || null,
+            latestEventAt: latestEvent?.createdAt || null,
+            exportDebtThreshold: localExportDebtThreshold,
+            exportAgeThresholdHours: localExportAgeThresholdHours,
+          }
+        }
+
+        const markLocalAnalyticsExported = (events, exportSurface) => {
+          const latestEvent = events.at(-1) || null
+
+          try {
+            window.localStorage.setItem(
+              localExportReceiptKey,
+              JSON.stringify({
+                exportedAt: new Date().toISOString(),
+                exportSurface,
+                exportedEventCount: events.length,
+                latestEventId: latestEvent?.id || null,
+                latestEventAt: latestEvent?.createdAt || null,
+              }),
+            )
+          } catch {
+            // Local export receipts are useful debt markers, but exports remain valid without storage.
+          }
         }
 
         const eventNames = (events, names) => {
@@ -1341,6 +1429,7 @@ const gateSamplePage = `<!doctype html>
 
         const exportMission = async (mission) => {
           const events = readEvents()
+          const coverageBeforeExport = localExportCoverage(events)
           const progress = missionProgress(mission, events)
           const folderPreferred = Boolean(dropDirectoryHandle)
           const exportEvent = {
@@ -1367,6 +1456,13 @@ const gateSamplePage = `<!doctype html>
               localSuccessesRemaining: progress.successesRemaining,
               localEvidenceDropReady: progress.evidenceDropReady,
               localSampleDecisionReady: progress.sampleDecisionReady,
+              eventCountAtExport: events.length + 1,
+              unexportedEventsBeforeExport: coverageBeforeExport.unexportedEvents,
+              exportedEventCountBeforeExport: coverageBeforeExport.exportedEventCount,
+              exportCoverageRatioBeforeExport: Math.round(coverageBeforeExport.coverageRatio * 1000) / 1000,
+              exportCoverageStatusBeforeExport: coverageBeforeExport.status,
+              exportDebtThreshold: coverageBeforeExport.exportDebtThreshold,
+              exportAgeThresholdHours: coverageBeforeExport.exportAgeThresholdHours,
               noExternalUpload: true,
               zeroPaidSpend: true,
               noSyntheticEvents: mission.controls.noSyntheticEvents,
@@ -1385,6 +1481,7 @@ const gateSamplePage = `<!doctype html>
           }
 
           writeEvents(nextEvents)
+          markLocalAnalyticsExported(nextEvents, 'product-gate-sample')
           renderProgress()
         }
 
