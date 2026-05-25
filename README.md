@@ -54,8 +54,10 @@ npm run autonomous:bootstrap
 npm run autonomous:owner-loop
 npm run autonomous:operator
 npm run autonomous:objective-audit
-npm run test:automation
+npm run autonomous:verify
 ```
+
+`npm run autonomous:verify` is the one-command autonomy verifier. It rebuilds the ignored `dist/` release artifact through `test:automation` before running the strict `scripts/verify-autonomy.mjs` checks, so a fresh checkout does not have to remember the build-manifest ordering by hand.
 
 Optional PostHog forwarding:
 

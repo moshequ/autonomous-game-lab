@@ -1,10 +1,10 @@
 # Autonomous Operator
 
-Generated: 2026-05-25T21:19:41.678Z
-Status: operator-held
+Generated: 2026-05-25T21:35:20.383Z
+Status: operator-plan-ready
 Mode: plan-only
-Owner decision: hold-for-external-input
-Selected action: none
+Owner decision: refresh-objective-audit
+Selected action: refresh-objective-audit
 Execution: not-requested
 
 ## Controls
@@ -18,23 +18,19 @@ Execution: not-requested
 
 ## Selected Action
 
-- none: no eligible local actions
+- refresh-objective-audit: npm run autonomous:objective-audit
 
 ## External Input Handoff
 
-- next unlock: production-analytics-browser
-- recommended path: first-party-collector
-- lowest-input path: posthog-browser
-- public status: /measurement-status.html
-- missing inputs: 5 variable(s), 1 secret(s)
-- validate: npm run autonomous:event-collector-smoke
-- validate: npm run autonomous:collector-deploy-plan
-- validate: npm run autonomous:readiness
-- validate: npm run test:e2e
+- none
+- recommended path: none
+- lowest-input path: none
+- public status: none
+- missing inputs: none
 
 ## Eligible Local Actions
 
-- none
+- refresh-objective-audit
 
 ## Blocked Actions
 

@@ -304,12 +304,25 @@ const fail = (message) => {
   process.exitCode = 1
 }
 
+const missingRequiredFiles = []
+
 for (const file of requiredFiles) {
   try {
     await readFile(path.join(root, file), 'utf8')
   } catch {
+    missingRequiredFiles.push(file)
     fail(`Missing required autonomy artifact: ${file}`)
   }
+}
+
+if (missingRequiredFiles.length) {
+  const distMissing = missingRequiredFiles.some((file) => file.startsWith('dist/'))
+  if (distMissing) {
+    console.error(
+      'Run npm run autonomous:verify to rebuild the ignored dist/ release artifact before strict autonomy verification.',
+    )
+  }
+  process.exit(1)
 }
 
 const trend = JSON.parse(await readFile(path.join(root, 'data', 'trend-signals.json'), 'utf8'))
@@ -4836,20 +4849,20 @@ if (
     'disabled-after-deploy-to-preserve-live-artifact-evidence' ||
   autonomousCadence.schedulers?.githubPostDeployEvidenceSync?.verificationGate !==
     'npm run autonomous:verify-post-deploy-sync' ||
-	  autonomousCadence.commandPlan?.operate !== 'npm run autonomous:operate' ||
-	  autonomousCadence.commandPlan?.daily !== 'npm run autonomous:daily' ||
-	  autonomousCadence.commandPlan?.executeOneLocalAction !== 'npm run autonomous:operator -- --execute' ||
-	  autonomousCadence.commandPlan?.afterAction !== 'npm run autonomous:after-action' ||
-	  autonomousCadence.commandPlan?.selfUpdate !== 'npm run autonomous:self-update' ||
-  autonomousCadence.commandPlan?.verifyAutomation !== 'npm run test:automation' ||
+  autonomousCadence.commandPlan?.operate !== 'npm run autonomous:operate' ||
+  autonomousCadence.commandPlan?.daily !== 'npm run autonomous:daily' ||
+  autonomousCadence.commandPlan?.executeOneLocalAction !== 'npm run autonomous:operator -- --execute' ||
+  autonomousCadence.commandPlan?.afterAction !== 'npm run autonomous:after-action' ||
+  autonomousCadence.commandPlan?.selfUpdate !== 'npm run autonomous:self-update' ||
+  autonomousCadence.commandPlan?.verifyAutomation !== 'npm run autonomous:verify' ||
   autonomousCadence.commandPlan?.browserSmoke !== 'npm run test:e2e' ||
-	  autonomousCadence.controls?.zeroPaidSpend !== true ||
-	  autonomousCadence.controls?.noStoreSubmission !== true ||
-	  autonomousCadence.controls?.noRevenueEnablement !== true ||
-	  autonomousCadence.controls?.scheduledLocalActionExecution !== true ||
-	  autonomousCadence.controls?.scheduledExecutionUsesOperatorAllowlist !== true ||
-	  autonomousCadence.controls?.postActionBuildRefresh !== true ||
-	  autonomousCadence.controls?.postActionVerification !== true ||
+  autonomousCadence.controls?.zeroPaidSpend !== true ||
+  autonomousCadence.controls?.noStoreSubmission !== true ||
+  autonomousCadence.controls?.noRevenueEnablement !== true ||
+  autonomousCadence.controls?.scheduledLocalActionExecution !== true ||
+  autonomousCadence.controls?.scheduledExecutionUsesOperatorAllowlist !== true ||
+  autonomousCadence.controls?.postActionBuildRefresh !== true ||
+  autonomousCadence.controls?.postActionVerification !== true ||
   autonomousCadence.controls?.codexAutomationExpectedActive !== true ||
   autonomousCadence.controls?.productionInputWatchWritePermissionGated !== true ||
   autonomousCadence.controls?.publicEvidenceIntakeWritePermissionGated !== true ||
@@ -5272,7 +5285,12 @@ if (
 }
 
 const testAutomationScript = packageJson.scripts?.['test:automation'] ?? ''
+const autonomousVerifyScript = packageJson.scripts?.['autonomous:verify'] ?? ''
 const bundleSyncScript = packageJson.scripts?.['autonomous:bundle-sync'] ?? ''
+
+if (autonomousVerifyScript !== 'npm run test:automation') {
+  fail('Autonomous verification must expose npm run autonomous:verify as the one-command verification entrypoint.')
+}
 
 if (!testAutomationScript.includes('event-collector-smoke')) {
   fail('Autonomous verification must run the isolated event collector smoke check.')

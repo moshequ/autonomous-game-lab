@@ -440,6 +440,7 @@ const securityAuditScript = script('autonomous:security-audit')
 const playerEvidenceWatchdogScript = script('autonomous:player-evidence-watchdog')
 const gateRecoveryScript = script('autonomous:gate-recovery')
 const testAutomationScript = script('test:automation')
+const autonomousVerifyScript = script('autonomous:verify')
 const testE2eScript = script('test:e2e')
 const postDeployReadinessSyncScript = script('autonomous:post-deploy-readiness-sync')
 const publicEvidenceIntakeScript = script('autonomous:public-evidence-intake')
@@ -701,6 +702,7 @@ const checks = [
   {
     id: 'automation-verifier',
     status:
+      autonomousVerifyScript === 'npm run test:automation' &&
       testAutomationScript.includes('event-collector-smoke') &&
       testAutomationScript.includes('autonomous:security-audit') &&
       testAutomationScript.includes('autonomous:player-evidence-watchdog') &&
@@ -716,7 +718,7 @@ const checks = [
       testAutomationScript.includes('verify-autonomy')
         ? 'pass'
         : 'blocker',
-    detail: `test:automation is ${testAutomationScript || 'missing'}.`,
+    detail: `autonomous:verify is ${autonomousVerifyScript || 'missing'}; test:automation is ${testAutomationScript || 'missing'}.`,
   },
   {
     id: 'browser-smoke',
@@ -1123,7 +1125,7 @@ const payload = {
     executeOneLocalAction: 'npm run autonomous:operator -- --execute',
     afterAction: 'npm run autonomous:after-action',
     selfUpdate: 'npm run autonomous:self-update',
-    verifyAutomation: 'npm run test:automation',
+    verifyAutomation: 'npm run autonomous:verify',
     browserSmoke: 'npm run test:e2e',
     ownerDecision: ownerLoop.ownerDecision?.nextBestActionId ?? null,
   },

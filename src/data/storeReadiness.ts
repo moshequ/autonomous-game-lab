@@ -1,6 +1,6 @@
 export const storeReadiness = {
-  "generatedAt": "2026-05-25T21:19:20.344Z",
-  "sourceDataHash": "fac972b31149",
+  "generatedAt": "2026-05-25T21:28:07.091Z",
+  "sourceDataHash": "cda356b9ed50",
   "status": "store-readiness-prepared-external-blockers",
   "sourceStatus": {
     "storePackage": "store-package-ready",
