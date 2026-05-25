@@ -1,27 +1,10 @@
 export const postDeployArtifactSync = {
-  "generatedAt": "2026-05-25T17:59:27.792Z",
+  "generatedAt": "2026-05-25T18:18:17.539Z",
   "status": "post-deploy-artifact-sync-passed",
   "envFiles": {
-    "loaded": true,
-    "loadedFiles": [
-      {
-        "path": "ops/production.env.local",
-        "keys": [
-          "AGL_ANDROID_PACKAGE_NAME",
-          "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
-          "AGL_ANDROID_KEYSTORE_BASE64",
-          "AGL_ANDROID_KEYSTORE_PASSWORD",
-          "AGL_ANDROID_KEY_ALIAS"
-        ]
-      }
-    ],
-    "loadedKeys": [
-      "AGL_ANDROID_PACKAGE_NAME",
-      "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
-      "AGL_ANDROID_KEYSTORE_BASE64",
-      "AGL_ANDROID_KEYSTORE_PASSWORD",
-      "AGL_ANDROID_KEY_ALIAS"
-    ],
+    "loaded": false,
+    "loadedFiles": [],
+    "loadedKeys": [],
     "skippedExistingKeys": [],
     "skippedProtectedKeys": [],
     "overwrittenEnvFileKeys": [],
@@ -53,27 +36,27 @@ export const postDeployArtifactSync = {
   },
   "repository": {
     "target": "moshequ/autonomous-game-lab",
-    "source": "origin-remote"
+    "source": "environment-or-cli"
   },
   "workflow": {
     "workflowFile": "web-pwa-deploy.yml",
     "artifactName": "post-deploy-smoke",
-    "runId": 26412940808,
-    "headSha": "b6edfd65a70ea50521f746186b019c19949c1913",
-    "createdAt": "2026-05-25T17:44:43Z",
-    "url": "https://github.com/moshequ/autonomous-game-lab/actions/runs/26412940808",
+    "runId": 26414061937,
+    "headSha": "c42db761253675a8a0a2e5736dc77594f1df00f3",
+    "createdAt": "2026-05-25T18:16:49Z",
+    "url": "https://github.com/moshequ/autonomous-game-lab/actions/runs/26414061937",
     "source": "latest-successful-run",
     "runListAvailable": true
   },
   "artifact": {
     "status": "post-deploy-smoke-passed",
-    "generatedAt": "2026-05-25T17:45:20.870Z",
+    "generatedAt": "2026-05-25T18:17:29.444Z",
     "target": {
       "origin": "https://moshequ.github.io/autonomous-game-lab/",
       "originSource": "agl-deployed-pwa-origin",
       "provider": "github-pages",
-      "candidateId": "pwa-74463d104cca",
-      "aggregateHash": "74463d104ccab8000f8d1e793f559ec8fd810d0b517567cab81fe9ef2404de5d",
+      "candidateId": "pwa-e4250a16c2b9",
+      "aggregateHash": "e4250a16c2b91af80e3ba5b711156a53a0d75c90ab99c05b60d7ec41359aea90",
       "strictManifestComparison": true
     },
     "sourceStatus": {
@@ -89,8 +72,8 @@ export const postDeployArtifactSync = {
     },
     "liveRelease": {
       "status": "release-candidate-ready",
-      "candidateId": "pwa-74463d104cca",
-      "aggregateHash": "74463d104ccab8000f8d1e793f559ec8fd810d0b517567cab81fe9ef2404de5d",
+      "candidateId": "pwa-e4250a16c2b9",
+      "aggregateHash": "e4250a16c2b91af80e3ba5b711156a53a0d75c90ab99c05b60d7ec41359aea90",
       "localCandidateMatches": true,
       "strictManifestComparison": true,
       "postDeploySmokeUrls": 31,
@@ -107,7 +90,7 @@ export const postDeployArtifactSync = {
       "strictManifestComparison": true,
       "inferredLiveObservationAllowed": false
     },
-    "reportSha256": "8c9c5bae8dec52e8d8e1666ff1e162d0daef3c8ebbd78c4df564673015ffb664"
+    "reportSha256": "992d911b1bce0b96b18fc59cc6a28026d233b10e75575879db53795c4d2e4abb"
   },
   "live": {
     "origin": "https://moshequ.github.io/autonomous-game-lab/",
@@ -116,10 +99,10 @@ export const postDeployArtifactSync = {
     "finalUrl": "https://moshequ.github.io/autonomous-game-lab/release-candidate.json",
     "contentType": "application/json; charset=utf-8",
     "bytes": 32669,
-    "textSha256": "3878ea7014001722d3d649aefeba1031243da8baf508d29c505d0a54b7e6ad43",
+    "textSha256": "c5d28c034e2e675f856dda717db1e8cfe135e6df0a0b0935dc59ed877d87e225",
     "releaseStatus": "release-candidate-ready",
-    "candidateId": "pwa-74463d104cca",
-    "aggregateHash": "74463d104ccab8000f8d1e793f559ec8fd810d0b517567cab81fe9ef2404de5d",
+    "candidateId": "pwa-e4250a16c2b9",
+    "aggregateHash": "e4250a16c2b91af80e3ba5b711156a53a0d75c90ab99c05b60d7ec41359aea90",
     "matchesArtifact": true
   },
   "validation": {
@@ -161,12 +144,12 @@ export const postDeployArtifactSync = {
     {
       "id": "successful-pages-run",
       "status": "pass",
-      "detail": "Latest successful web-pwa-deploy.yml run is 26412940808."
+      "detail": "Latest successful web-pwa-deploy.yml run is 26414061937."
     },
     {
       "id": "post-deploy-smoke-artifact",
       "status": "pass",
-      "detail": "Downloaded post-deploy-smoke artifact from run 26412940808."
+      "detail": "Downloaded post-deploy-smoke artifact from run 26414061937."
     },
     {
       "id": "strict-smoke-artifact",
