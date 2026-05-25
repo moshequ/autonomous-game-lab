@@ -63,6 +63,7 @@ const payload = await readJson(path.join(root, 'data', 'owner-unlock-brief.json'
 })
 
 const brief = payload.brief
+const combinedOwnerInputPack = brief?.combinedOwnerInputPack ?? payload.combinedOwnerInputPack ?? null
 const fail = (message) => {
   console.error(message)
   process.exitCode = 1
@@ -81,6 +82,18 @@ if (assertMode) {
     fail('Owner unlock brief must keep workflow dispatch behind RUN_WORKFLOWS=1.')
   }
 
+  if (
+    !combinedOwnerInputPack ||
+    combinedOwnerInputPack.id !== 'combined-zero-secret-owner-input-pack' ||
+    combinedOwnerInputPack.localEnvFile !== '.env.production.local' ||
+    combinedOwnerInputPack.secretInputCount !== 0 ||
+    combinedOwnerInputPack.controls?.zeroPaidSpend !== true ||
+    combinedOwnerInputPack.controls?.noSecretValuesStored !== true ||
+    combinedOwnerInputPack.controls?.noWorkflowDispatch !== true
+  ) {
+    fail('Owner unlock brief must include the combined zero-secret owner input pack.')
+  }
+
   if (hasValueKey(payload)) {
     fail('Owner unlock brief must never store raw variable or secret values.')
   }
@@ -90,6 +103,10 @@ const linesForItems = (items, emptyText = 'none') =>
   items?.length ? items.map((item) => `  - ${item.repositoryName}: ${item.command}`) : [`  - ${emptyText}`]
 const linesForCommands = (commands, emptyText = 'none') =>
   commands?.length ? commands.map((command) => `  - ${command}`) : [`  - ${emptyText}`]
+const linesForNamedCommands = (commands, emptyText = 'none') =>
+  commands && Object.keys(commands).length
+    ? Object.entries(commands).map(([key, command]) => `  - ${key}: ${command}`)
+    : [`  - ${emptyText}`]
 const linesForParallelOwnerUnlocks = (items, emptyText = 'none') =>
   items?.length
     ? items.flatMap((item) => [
@@ -137,6 +154,21 @@ if (jsonMode) {
     '',
     'Parallel owner unlocks:',
     ...linesForParallelOwnerUnlocks(brief?.parallelOwnerUnlocks ?? payload.ownerInputQueue),
+    '',
+    'Combined owner input pack:',
+    `  - id: ${combinedOwnerInputPack?.id ?? 'none'}`,
+    `  - local env file: ${combinedOwnerInputPack?.localEnvFile ?? 'none'}`,
+    `  - missing inputs: ${combinedOwnerInputPack?.missingInputCount ?? 'n/a'}`,
+    `  - secret inputs: ${combinedOwnerInputPack?.secretInputCount ?? 'n/a'}`,
+    `  - unlocks: ${combinedOwnerInputPack?.unlockIds?.join(', ') || 'none'}`,
+    `  - store submission still blocked: ${combinedOwnerInputPack?.controls?.storeSubmissionStillBlocked === true}`,
+    `  - revenue still blocked: ${combinedOwnerInputPack?.controls?.revenueStillBlocked === true}`,
+    'Combined local env template:',
+    ...linesForCommands(combinedOwnerInputPack?.localEnvTemplateLines),
+    'Combined shell export template:',
+    ...linesForCommands(combinedOwnerInputPack?.shellExportTemplateLines),
+    'Combined pack commands:',
+    ...linesForNamedCommands(combinedOwnerInputPack?.commands),
     '',
     'Setup commands:',
     ...linesForCommands(brief?.setupCommands),

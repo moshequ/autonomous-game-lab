@@ -3450,6 +3450,12 @@ const ownerUnlockLowestInputPreflight = ownerUnlockPreflight.lowestInputPrefligh
 const ownerUnlockInputPack = ownerUnlockPreflight.ownerInputPack ?? null
 const ownerUnlockInputPackNames = new Set(ownerUnlockInputPack?.missingInputNames ?? [])
 const ownerUnlockInputPackTemplateLines = new Set(ownerUnlockInputPack?.localEnvTemplateLines ?? [])
+const ownerUnlockCombinedInputPack = ownerUnlockBrief.brief?.combinedOwnerInputPack ?? null
+const ownerUnlockCombinedInputPackNames = new Set(ownerUnlockCombinedInputPack?.missingInputNames ?? [])
+const ownerUnlockCombinedInputPackTemplateLines = new Set(ownerUnlockCombinedInputPack?.localEnvTemplateLines ?? [])
+const ownerUnlockCombinedInputPackCommands = new Set(
+  Object.values(ownerUnlockCombinedInputPack?.commands ?? {}).filter(Boolean),
+)
 const ownerUnlockLowestInputPath = ownerUnlockBrief.brief?.lowestInputPath ?? null
 const ownerUnlockParallelItems = ownerUnlockBrief.brief?.parallelOwnerUnlocks ?? []
 const ownerUnlockParallelIds = new Set(ownerUnlockParallelItems.map((item) => item.id))
@@ -3603,6 +3609,36 @@ if (
   (ownerUnlockLowestInputPath?.missingSecrets?.length ?? 1) !== 0 ||
   !ownerUnlockLowestInputPath?.setupCommands?.includes('./ops/github/setup-production.sh') ||
   !ownerUnlockLowestInputPath?.validationCommands?.includes('npm run test:e2e') ||
+  JSON.stringify(ownerUnlockBrief.combinedOwnerInputPack ?? null) !==
+    JSON.stringify(ownerUnlockCombinedInputPack) ||
+  ownerUnlockCombinedInputPack?.id !== 'combined-zero-secret-owner-input-pack' ||
+  ownerUnlockCombinedInputPack?.localEnvFile !== '.env.production.local' ||
+  ownerUnlockCombinedInputPack?.inputCount !== ownerUnlockCombinedInputPack?.missingInputNames?.length ||
+  ownerUnlockCombinedInputPack?.missingInputCount !== 3 ||
+  ownerUnlockCombinedInputPack?.secretInputCount !== 0 ||
+  !ownerUnlockCombinedInputPackNames.has('VITE_POSTHOG_KEY') ||
+  !ownerUnlockCombinedInputPackNames.has('VITE_POSTHOG_HOST') ||
+  !ownerUnlockCombinedInputPackNames.has('AGL_SUPPORT_EMAIL') ||
+  !ownerUnlockCombinedInputPackTemplateLines.has('VITE_POSTHOG_KEY=') ||
+  !ownerUnlockCombinedInputPackTemplateLines.has('VITE_POSTHOG_HOST=') ||
+  !ownerUnlockCombinedInputPackTemplateLines.has('AGL_SUPPORT_EMAIL=') ||
+  !ownerUnlockCombinedInputPack?.unlockIds?.includes('production-analytics-browser') ||
+  !ownerUnlockCombinedInputPack?.unlockIds?.includes('support-contact') ||
+  ownerUnlockCombinedInputPack?.analyticsPathId !== 'posthog-browser' ||
+  ownerUnlockCombinedInputPack?.supportUnlockId !== 'support-contact' ||
+  !ownerUnlockCombinedInputPackCommands.has('node scripts/owner-unlock-preflight.mjs --assert --print') ||
+  !ownerUnlockCombinedInputPackCommands.has('npm run autonomous:store-readiness') ||
+  !ownerUnlockCombinedInputPackCommands.has('./ops/github/setup-production.sh') ||
+  !ownerUnlockCombinedInputPackCommands.has('RUN_WORKFLOWS=1 ./ops/github/setup-production.sh') ||
+  ownerUnlockCombinedInputPack?.controls?.zeroPaidSpend !== true ||
+  ownerUnlockCombinedInputPack?.controls?.noSecretValues !== true ||
+  ownerUnlockCombinedInputPack?.controls?.noSecretValuesStored !== true ||
+  ownerUnlockCombinedInputPack?.controls?.noMutation !== true ||
+  ownerUnlockCombinedInputPack?.controls?.noWorkflowDispatch !== true ||
+  ownerUnlockCombinedInputPack?.controls?.workflowDispatchRequiresRunWorkflows !== true ||
+  ownerUnlockCombinedInputPack?.controls?.storeSubmissionStillBlocked !== true ||
+  ownerUnlockCombinedInputPack?.controls?.revenueStillBlocked !== true ||
+  ownerUnlockCombinedInputPack?.controls?.onlyZeroSecretInputs !== true ||
   JSON.stringify(ownerUnlockBrief.ownerInputQueue ?? []) !== JSON.stringify(ownerUnlockParallelItems) ||
   !ownerUnlockParallelIds.has('production-analytics-browser') ||
   !ownerUnlockParallelIds.has('support-contact') ||
@@ -3635,13 +3671,19 @@ if (
   !ownerUnlockBriefSource.includes('owner-unlock-preflight') ||
   !ownerUnlockBriefSource.includes('Lowest-input missing variables') ||
   !ownerUnlockBriefSource.includes('Parallel owner unlocks') ||
+  !ownerUnlockBriefSource.includes('Combined owner input pack') ||
   !ownerUnlockBriefSource.includes('workflowDispatchRequiresRunWorkflows') ||
   !ownerUnlockBriefSource.includes('noSecretValuesStored') ||
   !productionBlockerHandoffSource.includes('ownerUnlockBriefPayload') ||
+  !productionBlockerHandoffSource.includes('combinedOwnerInputPack') ||
   !productionBlockerHandoffSource.includes('parallelOwnerUnlocks') ||
   !productionBlockerHandoffSource.includes('owner-unlock-brief.json') ||
   !productionBlockerHandoffSource.includes('owner-unlock-brief-latest.md') ||
-  !productionBlockerHandoffSource.includes('owner-unlock-preflight')
+  !productionBlockerHandoffSource.includes('owner-unlock-preflight') ||
+  !productionMeasurementStatusSource.includes('Combined Owner Input Pack') ||
+  !measurementStatusHtml.includes('Combined Owner Input Pack') ||
+  !measurementStatusHtml.includes('.env.production.local') ||
+  !measurementStatusHtml.includes('AGL_SUPPORT_EMAIL=')
 ) {
   fail('Owner unlock brief must be a public, secretless, setup-script printable handoff for the next analytics unlock.')
 }

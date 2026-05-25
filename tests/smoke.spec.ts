@@ -9610,6 +9610,45 @@ test('production measurement status publishes public aggregate evidence handoff'
         manualInputReduction: number | null
         noSecretsRequired: boolean
       } | null
+      combinedOwnerInputPack: {
+        id: string
+        localEnvFile: string
+        inputCount: number
+        missingInputCount: number
+        secretInputCount: number
+        missingInputNames: string[]
+        localEnvTemplateLines: string[]
+        shellExportTemplateLines: string[]
+        unlockIds: string[]
+        analyticsPathId: string
+        supportUnlockId: string | null
+        commands: {
+          printBrief: string
+          analyticsPreflight: string
+          storeReadiness: string
+          setupPreflight: string
+          syncConfiguredValues: string
+          workflowDispatch: string
+        }
+        controls: {
+          zeroPaidSpend: boolean
+          noSecretValues: boolean
+          noSecretValuesStored: boolean
+          noSecretValuesSerialized: boolean
+          noMutation: boolean
+          noWorkflowDispatch: boolean
+          workflowDispatchRequiresRunWorkflows: boolean
+          noAccountCreation: boolean
+          noStoreSubmission: boolean
+          noRevenueEnablement: boolean
+          productGatesStillRequiredForRevenue: boolean
+          storeSubmissionStillBlocked: boolean
+          revenueStillBlocked: boolean
+          gitIgnoredLocalEnvFile: boolean
+          onlyZeroSecretInputs: boolean
+          combinesMinimalAnalyticsAndSupportInputs: boolean
+        }
+      } | null
       missingVariables: Array<{ repositoryName: string; configured: boolean; command: string; value?: string }>
       missingSecrets: Array<{ repositoryName: string; configured: boolean; command: string; value?: string }>
       configuredVariables: Array<{ repositoryName: string; configured: boolean; command: string; value?: string }>
@@ -9940,12 +9979,21 @@ test('production measurement status publishes public aggregate evidence handoff'
       lowestInputMissingInputCount: number
       lowestInputMissingSecretCount: number
     }
+    supportOwnerInputPack: {
+      unlockId: string
+      missingInputCount: number
+      secretInputCount: number
+      missingInputNames: string[]
+      localEnvFile: string
+      localEnvTemplateLines: string[]
+    }
   }
   const ownerUnlockBrief = JSON.parse(await readFile('data/owner-unlock-brief.json', 'utf8')) as {
     status: string
     sourceStatus: { productionBlockerHandoff: string; storeReadiness: string; nextBestUnlockId: string | null }
     brief: typeof blockerHandoff.ownerUnlockBrief
     ownerInputQueue: NonNullable<typeof blockerHandoff.ownerUnlockBrief>['parallelOwnerUnlocks']
+    combinedOwnerInputPack: NonNullable<typeof blockerHandoff.ownerUnlockBrief>['combinedOwnerInputPack']
     setup: {
       setupScript: string
       printCommand: string
@@ -10427,6 +10475,10 @@ test('production measurement status publishes public aggregate evidence handoff'
   expect(ownerUnlockBriefReport).toContain('setup preflight: ./ops/github/setup-production.sh --owner-unlock-preflight')
   expect(ownerUnlockBriefReport).toContain('Lowest-input path: posthog-browser')
   expect(ownerUnlockBriefReport).toContain('Parallel Owner Unlocks')
+  expect(ownerUnlockBriefReport).toContain('Combined Owner Input Pack')
+  expect(ownerUnlockBriefReport).toContain('.env.production.local')
+  expect(ownerUnlockBriefReport).toContain('VITE_POSTHOG_HOST=')
+  expect(ownerUnlockBriefReport).toContain('AGL_SUPPORT_EMAIL=')
   expect(ownerUnlockBriefReport).toContain('support-contact')
   expect(ownerUnlockBriefReport).toContain('AGL_SUPPORT_EMAIL')
   expect(ownerUnlockBriefReport).toContain('/store-readiness.html')
@@ -10440,6 +10492,7 @@ test('production measurement status publishes public aggregate evidence handoff'
   expect(ownerUnlockBriefScript).toContain('--json')
   expect(ownerUnlockBriefScript).toContain('owner-unlock-preflight')
   expect(ownerUnlockBriefScript).toContain('Parallel owner unlocks')
+  expect(ownerUnlockBriefScript).toContain('Combined owner input pack')
   expect(ownerUnlockBriefScript).toContain('workflowDispatchRequiresRunWorkflows')
   expect(JSON.stringify(ownerUnlockBrief)).not.toContain('"value"')
   expect(
@@ -10472,6 +10525,48 @@ test('production measurement status publishes public aggregate evidence handoff'
   )
   expect(ownerUnlockBrief.brief?.minimalInterventionPath?.missingSecretCount).toBe(0)
   expect(ownerUnlockBrief.brief?.minimalInterventionPath?.noSecretsRequired).toBe(true)
+  const combinedOwnerInputPack = ownerUnlockBrief.brief?.combinedOwnerInputPack
+  expect(ownerUnlockBrief.combinedOwnerInputPack).toEqual(combinedOwnerInputPack)
+  expect(combinedOwnerInputPack?.id).toBe('combined-zero-secret-owner-input-pack')
+  expect(combinedOwnerInputPack?.localEnvFile).toBe('.env.production.local')
+  expect(combinedOwnerInputPack?.inputCount).toBe(combinedOwnerInputPack?.missingInputNames.length)
+  expect(combinedOwnerInputPack?.missingInputCount).toBe(3)
+  expect(combinedOwnerInputPack?.secretInputCount).toBe(0)
+  expect(combinedOwnerInputPack?.missingInputNames).toEqual(
+    expect.arrayContaining(['VITE_POSTHOG_KEY', 'VITE_POSTHOG_HOST', 'AGL_SUPPORT_EMAIL']),
+  )
+  expect(combinedOwnerInputPack?.localEnvTemplateLines).toEqual(
+    expect.arrayContaining(['VITE_POSTHOG_KEY=', 'VITE_POSTHOG_HOST=', 'AGL_SUPPORT_EMAIL=']),
+  )
+  expect(combinedOwnerInputPack?.shellExportTemplateLines).toEqual(
+    expect.arrayContaining(['export VITE_POSTHOG_KEY=', 'export VITE_POSTHOG_HOST=', 'export AGL_SUPPORT_EMAIL=']),
+  )
+  expect(combinedOwnerInputPack?.unlockIds).toEqual(
+    expect.arrayContaining(['production-analytics-browser', 'support-contact']),
+  )
+  expect(combinedOwnerInputPack?.analyticsPathId).toBe('posthog-browser')
+  expect(combinedOwnerInputPack?.supportUnlockId).toBe(storeReadiness.supportOwnerInputPack.unlockId)
+  expect(combinedOwnerInputPack?.commands.analyticsPreflight).toBe(
+    'node scripts/owner-unlock-preflight.mjs --assert --print',
+  )
+  expect(combinedOwnerInputPack?.commands.storeReadiness).toBe('npm run autonomous:store-readiness')
+  expect(combinedOwnerInputPack?.commands.syncConfiguredValues).toBe('./ops/github/setup-production.sh')
+  expect(combinedOwnerInputPack?.commands.workflowDispatch).toBe(
+    'RUN_WORKFLOWS=1 ./ops/github/setup-production.sh',
+  )
+  expect(combinedOwnerInputPack?.controls.zeroPaidSpend).toBe(true)
+  expect(combinedOwnerInputPack?.controls.noSecretValues).toBe(true)
+  expect(combinedOwnerInputPack?.controls.noSecretValuesStored).toBe(true)
+  expect(combinedOwnerInputPack?.controls.noMutation).toBe(true)
+  expect(combinedOwnerInputPack?.controls.noWorkflowDispatch).toBe(true)
+  expect(combinedOwnerInputPack?.controls.workflowDispatchRequiresRunWorkflows).toBe(true)
+  expect(combinedOwnerInputPack?.controls.noStoreSubmission).toBe(true)
+  expect(combinedOwnerInputPack?.controls.noRevenueEnablement).toBe(true)
+  expect(combinedOwnerInputPack?.controls.storeSubmissionStillBlocked).toBe(true)
+  expect(combinedOwnerInputPack?.controls.revenueStillBlocked).toBe(true)
+  expect(combinedOwnerInputPack?.controls.gitIgnoredLocalEnvFile).toBe(true)
+  expect(combinedOwnerInputPack?.controls.onlyZeroSecretInputs).toBe(true)
+  expect(combinedOwnerInputPack?.controls.combinesMinimalAnalyticsAndSupportInputs).toBe(true)
   expect(ownerUnlockPreflight.summary.missingInputs).toBe(
     ownerUnlockPreflight.inputs.filter((input) => !input.ready).length,
   )
@@ -10566,6 +10661,16 @@ test('production measurement status publishes public aggregate evidence handoff'
   expect(measurement.externalUnlockQueue.ownerUnlockBrief?.parallelOwnerUnlocks.map((unlock) => unlock.id)).toEqual(
     expect.arrayContaining(['production-analytics-browser', 'support-contact']),
   )
+  expect(measurement.externalUnlockQueue.ownerUnlockBrief?.combinedOwnerInputPack?.id).toBe(
+    'combined-zero-secret-owner-input-pack',
+  )
+  expect(measurement.externalUnlockQueue.ownerUnlockBrief?.combinedOwnerInputPack?.missingInputNames).toEqual(
+    expect.arrayContaining(['VITE_POSTHOG_KEY', 'VITE_POSTHOG_HOST', 'AGL_SUPPORT_EMAIL']),
+  )
+  expect(measurement.externalUnlockQueue.ownerUnlockBrief?.combinedOwnerInputPack?.secretInputCount).toBe(0)
+  expect(measurement.externalUnlockQueue.ownerUnlockBrief?.combinedOwnerInputPack?.controls.noWorkflowDispatch).toBe(
+    true,
+  )
   expect(measurement.externalUnlockQueue.ownerUnlockBrief?.missingVariables.length).toBeGreaterThan(0)
   expect(measurement.externalUnlockQueue.ownerUnlockBrief?.missingSecrets.length).toBeGreaterThan(0)
   expect(Array.isArray(measurement.externalUnlockQueue.ownerUnlockBrief?.configuredVariables)).toBe(true)
@@ -10628,6 +10733,9 @@ test('production measurement status publishes public aggregate evidence handoff'
   expect(html).toContain('product-gate-recovery.html')
   expect(html).toContain('Zero-Spend Analytics Unlock')
   expect(html).toContain('Owner Unlock Brief')
+  expect(html).toContain('Combined Owner Input Pack')
+  expect(html).toContain('.env.production.local')
+  expect(html).toContain('AGL_SUPPORT_EMAIL=')
   expect(html).toContain('First-Party Collector Deployment')
   expect(html).toContain('analytics-unlock.html')
   expect(html).toContain('External Unlock Queue')
@@ -10647,6 +10755,7 @@ test('production measurement status publishes public aggregate evidence handoff'
   expect(script).toContain('publicCollectorDeployment')
   expect(script).toContain('publicAnalyticsUnlockHtmlPath')
   expect(script).toContain('publicExternalUnlockQueue')
+  expect(script).toContain('Combined Owner Input Pack')
   expect(script).toContain('readLiveReleaseManifest')
   expect(script).toContain('trafficSeeding')
   expect(script).toContain('productGateRecovery')
@@ -10655,6 +10764,8 @@ test('production measurement status publishes public aggregate evidence handoff'
   expect(script).toContain('manualReviewRequiredForGateDecisions')
   expect(analyticsUnlockHtml).toContain('Production Analytics Unlock')
   expect(analyticsUnlockHtml).toContain('Owner Unlock Brief')
+  expect(analyticsUnlockHtml).toContain('Combined Owner Input Pack')
+  expect(analyticsUnlockHtml).toContain('AGL_SUPPORT_EMAIL=')
   expect(analyticsUnlockHtml).toContain('First-Party Collector Deployment')
   expect(analyticsUnlockHtml).toContain('first-party-collector')
   expect(analyticsUnlockHtml).toContain('Lowest-input path')
@@ -10684,6 +10795,8 @@ test('production measurement status publishes public aggregate evidence handoff'
   await expect(page.getByRole('heading', { name: 'Public Aggregate Evidence' })).toBeVisible()
   await expect(page.getByRole('heading', { name: 'Zero-Spend Analytics Unlock' })).toBeVisible()
   await expect(page.getByRole('heading', { name: 'Owner Unlock Brief' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Combined Owner Input Pack' })).toBeVisible()
+  await expect(page.getByText('.env.production.local').first()).toBeVisible()
   await expect(page.getByRole('heading', { name: 'First-Party Collector Deployment' })).toBeVisible()
   await expect(page.getByRole('heading', { name: 'External Unlock Queue' })).toBeVisible()
   await expect(page.getByLabel('Product evidence')).toContainText('/sample-next.html')

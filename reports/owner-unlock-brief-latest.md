@@ -1,8 +1,8 @@
 # Owner Unlock Brief
 
-Generated: 2026-05-25T17:21:36.234Z
+Generated: 2026-05-25T17:43:12.103Z
 Status: waiting-on-owner-input
-Source hash: 0f986e8052b7
+Source hash: be0199262bb0
 Next unlock: production-analytics-browser
 Recommended path: first-party-collector
 Lowest-input path: posthog-browser
@@ -46,6 +46,37 @@ Parallel owner unlocks: production-analytics-browser, support-contact
 - missing secrets: 0
 - manual input reduction: 2
 - no secrets required: true
+
+## Combined Owner Input Pack
+
+- id: combined-zero-secret-owner-input-pack
+- local env file: .env.production.local
+- missing inputs: 3
+- secret inputs: 0
+- unlocks: production-analytics-browser, support-contact
+- store submission still blocked: true
+- revenue still blocked: true
+
+### Combined Local Env Template
+
+- VITE_POSTHOG_KEY=
+- VITE_POSTHOG_HOST=
+- AGL_SUPPORT_EMAIL=
+
+### Combined Shell Export Template
+
+- export VITE_POSTHOG_KEY=
+- export VITE_POSTHOG_HOST=
+- export AGL_SUPPORT_EMAIL=
+
+### Combined Pack Commands
+
+- printBrief: node scripts/owner-unlock-brief.mjs --print
+- analyticsPreflight: node scripts/owner-unlock-preflight.mjs --assert --print
+- storeReadiness: npm run autonomous:store-readiness
+- setupPreflight: ./ops/github/setup-production.sh --owner-unlock-preflight
+- syncConfiguredValues: ./ops/github/setup-production.sh
+- workflowDispatch: RUN_WORKFLOWS=1 ./ops/github/setup-production.sh
 
 ### Lowest-Input Missing Variables
 

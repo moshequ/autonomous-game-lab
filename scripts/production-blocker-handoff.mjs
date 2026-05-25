@@ -657,10 +657,86 @@ const summarizeStoreParallelUnlock = (unlock, summary) =>
         },
       }
     : null
+const templateLinesForNames = (names) => names.map((name) => `${name}=`)
+const shellExportLinesForNames = (names) => names.map((name) => `export ${name}=`)
+const summarizeCombinedOwnerInputPack = (analyticsPath, supportPack, supportUnlock) => {
+  const analyticsMissingVariables = summarizeConfigInputs(analyticsPath?.requiredVariables).filter(
+    (item) => !item.configured,
+  )
+  const analyticsMissingSecrets = summarizeConfigInputs(analyticsPath?.requiredSecrets).filter(
+    (item) => !item.configured,
+  )
+  const supportMissingInputNames =
+    supportPack?.missingInputNames ??
+    summarizeStoreUnlockInputs(supportUnlock?.missingVariables)
+      .filter((item) => !item.configured)
+      .map((item) => item.repositoryName)
+  const missingInputNames = unique([
+    ...analyticsMissingVariables.map((item) => item.repositoryName),
+    ...supportMissingInputNames,
+  ])
+  const secretInputCount =
+    analyticsMissingSecrets.length + (supportPack?.secretInputCount ?? supportUnlock?.missingSecretCount ?? 0)
+
+  if (!analyticsPath || missingInputNames.length === 0 || secretInputCount > 0) {
+    return null
+  }
+
+  return {
+    id: 'combined-zero-secret-owner-input-pack',
+    title: 'Combined zero-secret owner input pack',
+    status: 'waiting-on-owner-input',
+    localEnvFile: supportPack?.localEnvFile ?? '.env.production.local',
+    inputCount: missingInputNames.length,
+    missingInputCount: missingInputNames.length,
+    secretInputCount,
+    missingInputNames,
+    localEnvTemplateLines: templateLinesForNames(missingInputNames),
+    shellExportTemplateLines: shellExportLinesForNames(missingInputNames),
+    unlockIds: unique(['production-analytics-browser', supportPack?.unlockId ?? supportUnlock?.id]),
+    analyticsPathId: analyticsPath.id,
+    supportUnlockId: supportPack?.unlockId ?? supportUnlock?.id ?? null,
+    sourcePacks: {
+      analyticsLowestInputPath: analyticsPath.id,
+      supportOwnerInputPack: supportPack?.unlockId ?? supportUnlock?.id ?? null,
+    },
+    commands: {
+      printBrief: 'node scripts/owner-unlock-brief.mjs --print',
+      analyticsPreflight: 'node scripts/owner-unlock-preflight.mjs --assert --print',
+      storeReadiness: 'npm run autonomous:store-readiness',
+      setupPreflight: './ops/github/setup-production.sh --owner-unlock-preflight',
+      syncConfiguredValues: './ops/github/setup-production.sh',
+      workflowDispatch: 'RUN_WORKFLOWS=1 ./ops/github/setup-production.sh',
+    },
+    controls: {
+      zeroPaidSpend: true,
+      noSecretValues: true,
+      noSecretValuesStored: true,
+      noSecretValuesSerialized: true,
+      noMutation: true,
+      noWorkflowDispatch: true,
+      workflowDispatchRequiresRunWorkflows: true,
+      noAccountCreation: true,
+      noStoreSubmission: true,
+      noRevenueEnablement: true,
+      productGatesStillRequiredForRevenue: true,
+      storeSubmissionStillBlocked: true,
+      revenueStillBlocked: true,
+      gitIgnoredLocalEnvFile: true,
+      onlyZeroSecretInputs: true,
+      combinesMinimalAnalyticsAndSupportInputs: true,
+    },
+  }
+}
 const parallelOwnerUnlocks = [
   summarizeAnalyticsParallelUnlock(nextOwnerAction, nextUnlockKit, recommendedUnlockPath, lowestInputUnlockPath),
   summarizeStoreParallelUnlock(storeOwnerNextUnlock, storeOwnerUnlockSummary),
 ].filter(Boolean)
+const combinedOwnerInputPack = summarizeCombinedOwnerInputPack(
+  lowestInputUnlockPath,
+  storeReadiness.supportOwnerInputPack,
+  storeOwnerNextUnlock,
+)
 const ownerUnlockBrief =
   nextUnlockKit && recommendedUnlockPath
     ? {
@@ -682,6 +758,7 @@ const ownerUnlockBrief =
           lowestInputUnlockPath,
           recommendedUnlockPath,
         ),
+        combinedOwnerInputPack,
         costMode: recommendedUnlockPath.costMode,
         ownerInputRequired: recommendedUnlockPath.ownerInputRequired === true,
         missingVariables: summarizeConfigInputs(recommendedUnlockPath.requiredVariables).filter(
@@ -823,7 +900,7 @@ const appPayload = {
               missingSecretCount: payload.ownerUnlockBrief.minimalInterventionPath.missingSecretCount,
               manualInputReduction: payload.ownerUnlockBrief.minimalInterventionPath.manualInputReduction,
               noSecretsRequired: payload.ownerUnlockBrief.minimalInterventionPath.noSecretsRequired,
-            }
+          }
           : null,
         missingVariableCount: payload.ownerUnlockBrief.missingVariables.length,
         missingSecretCount: payload.ownerUnlockBrief.missingSecrets.length,
@@ -855,6 +932,7 @@ const ownerUnlockBriefPayload = {
   },
   brief: payload.ownerUnlockBrief,
   ownerInputQueue: payload.ownerUnlockBrief?.parallelOwnerUnlocks ?? [],
+  combinedOwnerInputPack: payload.ownerUnlockBrief?.combinedOwnerInputPack ?? null,
   setup: {
     setupScript: 'ops/github/setup-production.sh',
     printCommand: './ops/github/setup-production.sh --owner-unlock-brief',
@@ -943,6 +1021,36 @@ const ownerUnlockReport = [
   `- missing secrets: ${ownerUnlockBriefPayload.brief?.minimalInterventionPath?.missingSecretCount ?? 'n/a'}`,
   `- manual input reduction: ${ownerUnlockBriefPayload.brief?.minimalInterventionPath?.manualInputReduction ?? 'n/a'}`,
   `- no secrets required: ${ownerUnlockBriefPayload.brief?.minimalInterventionPath?.noSecretsRequired === true}`,
+  '',
+  '## Combined Owner Input Pack',
+  '',
+  `- id: ${ownerUnlockBriefPayload.combinedOwnerInputPack?.id ?? 'none'}`,
+  `- local env file: ${ownerUnlockBriefPayload.combinedOwnerInputPack?.localEnvFile ?? 'none'}`,
+  `- missing inputs: ${ownerUnlockBriefPayload.combinedOwnerInputPack?.missingInputCount ?? 'n/a'}`,
+  `- secret inputs: ${ownerUnlockBriefPayload.combinedOwnerInputPack?.secretInputCount ?? 'n/a'}`,
+  `- unlocks: ${ownerUnlockBriefPayload.combinedOwnerInputPack?.unlockIds?.join(', ') || 'none'}`,
+  `- store submission still blocked: ${ownerUnlockBriefPayload.combinedOwnerInputPack?.controls?.storeSubmissionStillBlocked === true}`,
+  `- revenue still blocked: ${ownerUnlockBriefPayload.combinedOwnerInputPack?.controls?.revenueStillBlocked === true}`,
+  '',
+  '### Combined Local Env Template',
+  '',
+  ...(ownerUnlockBriefPayload.combinedOwnerInputPack?.localEnvTemplateLines?.length
+    ? ownerUnlockBriefPayload.combinedOwnerInputPack.localEnvTemplateLines.map((line) => `- ${line}`)
+    : ['- none']),
+  '',
+  '### Combined Shell Export Template',
+  '',
+  ...(ownerUnlockBriefPayload.combinedOwnerInputPack?.shellExportTemplateLines?.length
+    ? ownerUnlockBriefPayload.combinedOwnerInputPack.shellExportTemplateLines.map((line) => `- ${line}`)
+    : ['- none']),
+  '',
+  '### Combined Pack Commands',
+  '',
+  ...(ownerUnlockBriefPayload.combinedOwnerInputPack?.commands
+    ? Object.entries(ownerUnlockBriefPayload.combinedOwnerInputPack.commands).map(
+        ([key, command]) => `- ${key}: ${command}`,
+      )
+    : ['- none']),
   '',
   '### Lowest-Input Missing Variables',
   '',

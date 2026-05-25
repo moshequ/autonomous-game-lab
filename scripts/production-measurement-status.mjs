@@ -934,6 +934,14 @@ const commandList = (commands) =>
   commands.length
     ? `<ol>${commands.map((command) => `<li><code>${escapeHtml(command)}</code></li>`).join('')}</ol>`
     : '<p>none</p>'
+const namedCommandList = (commands) =>
+  commands && Object.keys(commands).length
+    ? `<ol>${Object.entries(commands)
+        .map(([key, command]) => `<li><strong>${escapeHtml(key)}</strong> <code>${escapeHtml(command)}</code></li>`)
+        .join('')}</ol>`
+    : '<p>none</p>'
+const codeList = (items) =>
+  items?.length ? `<ul>${items.map((item) => `<li><code>${escapeHtml(item)}</code></li>`).join('')}</ul>` : '<p>none</p>'
 
 const requiredList = (items, labelKey = 'repositoryName') =>
   items.length
@@ -990,6 +998,34 @@ const ownerUnlockBriefHtml = (brief) =>
                 )
                 .join('')}</ul>`
             : '<p>none</p>'
+        }
+        ${
+          brief.combinedOwnerInputPack
+            ? `<h3>Combined Owner Input Pack</h3>
+              <div class="grid" aria-label="Combined owner input pack">
+                <div class="card">
+                  <span>Local env file</span>
+                  <strong>${escapeHtml(brief.combinedOwnerInputPack.localEnvFile)}</strong>
+                </div>
+                <div class="card">
+                  <span>Missing inputs</span>
+                  <strong>${brief.combinedOwnerInputPack.missingInputCount}</strong>
+                </div>
+                <div class="card">
+                  <span>Secret inputs</span>
+                  <strong>${brief.combinedOwnerInputPack.secretInputCount}</strong>
+                </div>
+                <div class="card">
+                  <span>Workflow dispatch</span>
+                  <strong>${brief.combinedOwnerInputPack.controls?.workflowDispatchRequiresRunWorkflows === true ? 'RUN_WORKFLOWS=1' : 'disabled'}</strong>
+                </div>
+              </div>
+              <p>One ignored local env edit can cover ${escapeHtml(brief.combinedOwnerInputPack.unlockIds?.join(', ') ?? 'the owner unlocks')} while revenue and store submission stay blocked.</p>
+              <h4>Local Env Template</h4>
+              ${codeList(brief.combinedOwnerInputPack.localEnvTemplateLines)}
+              <h4>Commands</h4>
+              ${namedCommandList(brief.combinedOwnerInputPack.commands)}`
+            : ''
         }
         <h3>Missing Variables</h3>
         ${requiredList(brief.missingVariables)}
