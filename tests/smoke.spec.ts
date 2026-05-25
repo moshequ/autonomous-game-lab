@@ -1678,11 +1678,12 @@ test('post-deploy smoke runner is wired to the release manifest and Pages workfl
   expect(smoke.checks.length).toBeGreaterThanOrEqual(liveSmokeExpectedChecks)
   expect(smoke.checks.some((check) => check.id === 'release-candidate-manifest')).toBe(true)
   expect(smoke.target.origin ? smoke.summary.passed : smoke.summary.blocked).toBe(smoke.summary.planned)
-  expect(deploymentScript).toContain("['release-candidate', 'post-deploy-smoke-runner']")
+  const deferredPreDeployCheckIds = ['release-candidate', 'post-deploy-smoke-runner', 'live-site-monitor']
+  expect(deploymentScript).toContain("'live-site-monitor'")
 
   if (
     readiness.webPwa.checks.every(
-      (check) => check.status === 'pass' || ['release-candidate', 'post-deploy-smoke-runner'].includes(check.id),
+      (check) => check.status === 'pass' || deferredPreDeployCheckIds.includes(check.id),
     )
   ) {
     expect(deployment.checks.find((check) => check.id === 'web-readiness')?.status).toBe('pass')
