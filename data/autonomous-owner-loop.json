@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-25T18:46:56.515Z",
+  "generatedAt": "2026-05-25T18:56:20.137Z",
   "status": "owner-loop-ready",
   "mode": "zero-spend-web-ready",
   "autonomyScore": {
@@ -215,7 +215,7 @@
     "expiredExecutedActionIds": [],
     "lastExecutedActionId": "refresh-autonomous-self-update",
     "lastExecutedActionStillExecutable": false,
-    "lastExecutedAgeHours": 4.583,
+    "lastExecutedAgeHours": 4.74,
     "lastExecutedStatus": "executed",
     "lastRecordExecutionStatus": "not-requested",
     "recentlySatisfiedActionIds": [
@@ -225,7 +225,7 @@
     "objectiveAuditFreshness": {
       "fresh": true,
       "structurallyReady": true,
-      "auditGeneratedAt": "2026-05-25T18:46:56.472Z",
+      "auditGeneratedAt": "2026-05-25T18:56:11.692Z",
       "evaluatedInputIds": [
         "analytics-rollup",
         "event-ingest",
@@ -248,8 +248,8 @@
         "fresh": true,
         "ready": true,
         "status": "cadence-ready",
-        "artifactGeneratedAt": "2026-05-25T18:45:31.305Z",
-        "ageHours": 0.024,
+        "artifactGeneratedAt": "2026-05-25T18:55:04.175Z",
+        "ageHours": 0.021,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -260,7 +260,7 @@
         "ready": true,
         "status": "self-update-ready",
         "artifactGeneratedAt": "2026-05-25T14:11:57.499Z",
-        "ageHours": 4.583,
+        "ageHours": 4.74,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -271,7 +271,7 @@
         "ready": true,
         "status": "support-feedback-empty",
         "artifactGeneratedAt": "2026-05-25T08:46:00.487Z",
-        "ageHours": 10.016,
+        "ageHours": 10.172,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -281,8 +281,8 @@
         "fresh": true,
         "ready": true,
         "status": "performance-budget-ready",
-        "artifactGeneratedAt": "2026-05-25T18:44:57.646Z",
-        "ageHours": 0.033,
+        "artifactGeneratedAt": "2026-05-25T18:54:28.237Z",
+        "ageHours": 0.031,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -292,8 +292,8 @@
         "fresh": true,
         "ready": true,
         "status": "live-site-monitor-passed",
-        "artifactGeneratedAt": "2026-05-25T18:46:14.048Z",
-        "ageHours": 0.012,
+        "artifactGeneratedAt": "2026-05-25T18:54:40.013Z",
+        "ageHours": 0.028,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -564,7 +564,7 @@
       "lastExplicitScanAt": "2026-05-22T13:53:13.086Z",
       "lastExplicitScanStatus": "no-evidence-found",
       "nextRecommendedScanAt": "2026-05-22T17:53:13.086Z",
-      "scanAgeHours": 76.9,
+      "scanAgeHours": 77.05,
       "cooldownRemainingHours": 0,
       "evidenceReadyNow": false
     },
@@ -643,9 +643,9 @@
     },
     "productionBootstrapFreshness": {
       "fresh": true,
-      "bootstrapGeneratedAt": "2026-05-25T18:45:29.681Z",
-      "artifactSourceDataHash": "dc74bf002250",
-      "sourceDataHash": "dc74bf002250",
+      "bootstrapGeneratedAt": "2026-05-25T18:56:04.947Z",
+      "artifactSourceDataHash": "764a64736653",
+      "sourceDataHash": "764a64736653",
       "evaluatedInputIds": [
         "release-candidate",
         "deployment-plan",
@@ -782,7 +782,7 @@
       "id": "performance-budget",
       "status": "ready",
       "autonomy": "automatic-build-budget",
-      "evidence": "Initial JS 685.7 KB; gzip 185.4 KB; deferred chunks 12.",
+      "evidence": "Initial JS 686.1 KB; gzip 185.4 KB; deferred chunks 12.",
       "nextAction": "Keep Phaser and game scenes outside the initial PWA shell."
     },
     {
@@ -859,7 +859,7 @@
       "id": "repository-bootstrap",
       "status": "ready",
       "autonomy": "guarded-git-transport-bootstrap",
-      "evidence": "Bootstrap repository-bootstrap-ready; mode plan-only; helper ops/github/bootstrap-repository.sh; local git ready.",
+      "evidence": "Bootstrap waiting-for-gh-auth; mode plan-only; helper ops/github/bootstrap-repository.sh; local git ready.",
       "nextAction": "Set GITHUB_REPOSITORY/GH_REPO, set AGL_GITHUB_OWNER, or authenticate gh, then run repository bootstrap with explicit remote flags when credentials exist."
     },
     {
@@ -901,7 +901,7 @@
       "id": "production-bootstrap",
       "status": "ready",
       "autonomy": "zero-spend-setup-orchestration",
-      "evidence": "Bootstrap production-bootstrap-ready; mode can-apply-configured-actions; external blockers 15.",
+      "evidence": "Bootstrap production-bootstrap-ready; mode can-apply-configured-actions; external blockers 16.",
       "nextAction": "gh workflow run web-pwa-deploy.yml"
     },
     {
@@ -950,7 +950,7 @@
       "id": "objective-audit",
       "status": "ready",
       "autonomy": "completion-evidence-ledger",
-      "evidence": "Audit objective-in-progress; met 6/8; external blockers 15.",
+      "evidence": "Audit objective-in-progress; met 6/8; external blockers 16.",
       "nextAction": "The local autonomous PWA system is largely prepared with strict live deploy evidence synced from GitHub Actions, but production credentials, live data, monetization gates, and store account/signing blockers remain."
     },
     {
@@ -1096,7 +1096,7 @@
       "command": "npm run build && npm run autonomous:performance && npm run autonomous:release-candidate",
       "targets": [
         "pwa-shell",
-        "GameCanvas-nxuqJyea.js",
+        "GameCanvas--B-q1aRa.js",
         "dist-release-candidate"
       ],
       "reason": "Performance budget and release-candidate evidence are already fresh for the current guarded build."
@@ -1499,7 +1499,7 @@
     "autonomousSelfUpdateStatus": "self-update-ready",
     "performanceBudgetStatus": "performance-budget-ready",
     "repositoryReadinessStatus": "repository-channel-ready",
-    "repositoryBootstrapStatus": "repository-bootstrap-ready",
+    "repositoryBootstrapStatus": "waiting-for-gh-auth",
     "repositoryHandoffPrepared": false,
     "releaseCandidateStatus": "release-candidate-ready",
     "postDeploySmokeStatus": "post-deploy-smoke-observed-live",

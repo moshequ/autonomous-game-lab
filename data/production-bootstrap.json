@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-05-25T18:45:29.681Z",
-  "sourceDataHash": "dc74bf002250",
+  "generatedAt": "2026-05-25T18:56:04.947Z",
+  "sourceDataHash": "764a64736653",
   "status": "production-bootstrap-ready",
   "mode": "can-apply-configured-actions",
   "envFiles": {
@@ -63,7 +63,7 @@
     "ghCredentialReady": true,
     "canUseGh": true,
     "repositoryReadinessStatus": "repository-channel-ready",
-    "repositoryBootstrapStatus": "repository-bootstrap-ready",
+    "repositoryBootstrapStatus": "waiting-for-gh-auth",
     "insideWorkTree": true,
     "workflowDispatchReady": true,
     "bootstrapHelperPath": "ops/github/bootstrap-repository.sh"
@@ -88,7 +88,7 @@
     "totalVariables": 24,
     "configuredSecrets": 5,
     "totalSecrets": 8,
-    "externalBlockers": 15
+    "externalBlockers": 16
   },
   "stages": [
     {
@@ -102,13 +102,14 @@
     },
     {
       "id": "repository-bootstrap",
-      "status": "repository-bootstrap-ready",
+      "status": "waiting-for-gh-auth",
       "canAutoRun": false,
       "costUsd": 0,
       "command": "npm run autonomous:repo-bootstrap",
-      "evidence": "Repository bootstrap repository-bootstrap-ready; helper ops/github/bootstrap-repository.sh; local git ready.",
+      "evidence": "Repository bootstrap waiting-for-gh-auth; helper ops/github/bootstrap-repository.sh; local git ready.",
       "requires": [
-        "Commit current generated changes before pushing to GitHub Pages."
+        "Commit current generated changes before pushing to GitHub Pages.",
+        "Authenticate GitHub CLI or provide GH_TOKEN/GITHUB_TOKEN for remote repository bootstrap."
       ]
     },
     {
@@ -260,13 +261,14 @@
     },
     {
       "id": "repository-bootstrap",
-      "status": "repository-bootstrap-ready",
+      "status": "waiting-for-gh-auth",
       "canAutoRun": false,
       "costUsd": 0,
       "command": "npm run autonomous:repo-bootstrap",
-      "evidence": "Repository bootstrap repository-bootstrap-ready; helper ops/github/bootstrap-repository.sh; local git ready.",
+      "evidence": "Repository bootstrap waiting-for-gh-auth; helper ops/github/bootstrap-repository.sh; local git ready.",
       "requires": [
-        "Commit current generated changes before pushing to GitHub Pages."
+        "Commit current generated changes before pushing to GitHub Pages.",
+        "Authenticate GitHub CLI or provide GH_TOKEN/GITHUB_TOKEN for remote repository bootstrap."
       ]
     },
     {
@@ -1136,6 +1138,10 @@
     {
       "source": "repository-bootstrap",
       "blocker": "Commit current generated changes before pushing to GitHub Pages."
+    },
+    {
+      "source": "repository-bootstrap",
+      "blocker": "Authenticate GitHub CLI or provide GH_TOKEN/GITHUB_TOKEN for remote repository bootstrap."
     },
     {
       "source": "production-environment",

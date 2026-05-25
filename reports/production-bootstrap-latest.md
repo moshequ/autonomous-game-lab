@@ -1,6 +1,6 @@
 # Production Bootstrap
 
-Generated: 2026-05-25T18:45:29.681Z
+Generated: 2026-05-25T18:56:04.947Z
 Status: production-bootstrap-ready
 Mode: can-apply-configured-actions
 GitHub repository: moshequ/autonomous-game-lab
@@ -17,7 +17,7 @@ gh CLI available: true
 ## Setup Groups
 
 - repository-channel-ready: repository-channel; auto-run no; Repository moshequ/autonomous-game-lab; git worktree ready; workflow dispatch ready.
-- repository-bootstrap-ready: repository-bootstrap; auto-run no; Repository bootstrap repository-bootstrap-ready; helper ops/github/bootstrap-repository.sh; local git ready.
+- waiting-for-gh-auth: repository-bootstrap; auto-run no; Repository bootstrap waiting-for-gh-auth; helper ops/github/bootstrap-repository.sh; local git ready.
 - waiting-for-origin-support: production-environment; auto-run no; Environment production-env-missing; public origin configured; support missing-production-address.
 - ready-for-actions-pages: github-pages-hosting; auto-run yes; Deployment plan is ready-for-pages; Pages workflow is .github/workflows/web-pwa-deploy.yml.
 - ready-to-sync: github-pages-settings; auto-run yes; GitHub CLI can configure Pages to use the Actions workflow source.
@@ -81,6 +81,7 @@ gh CLI available: true
 ## External Blockers
 
 - repository-bootstrap: Commit current generated changes before pushing to GitHub Pages.
+- repository-bootstrap: Authenticate GitHub CLI or provide GH_TOKEN/GITHUB_TOKEN for remote repository bootstrap.
 - production-environment: Set AGL_SUPPORT_EMAIL to a real support inbox before public store submission.
 - production-environment: Set VITE_EVENT_COLLECTOR_URL or VITE_POSTHOG_KEY to forward browser analytics in production.
 - production-environment: Set AGL_EVENT_COLLECTOR_EXPORT_URL + AGL_EVENT_COLLECTOR_ADMIN_TOKEN or PostHog server credentials for autonomous production rollups.
@@ -91,4 +92,3 @@ gh CLI available: true
 - store-compliance: support-contact: Production support email is required before public store submission.
 - store-compliance: google-play-account: Google Play developer account must be connected before Android submission.
 - store-compliance: apple-developer-account: Apple Developer account remains deferred until iOS spend is justified.
-- android-release: google-play-account: Google Play account is not connected.

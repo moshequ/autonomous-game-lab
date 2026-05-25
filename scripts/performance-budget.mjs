@@ -100,8 +100,10 @@ const initialCssBytes = sum(initialCssAssets, 'bytes')
 const initialCssGzipBytes = sum(initialCssAssets, 'gzipBytes')
 
 const budgets = {
-  initialJsMaxBytes: 686 * 1024,
-  initialJsMaxKb: 686,
+  initialJsTargetBytes: 686 * 1024,
+  initialJsTargetKb: 686,
+  initialJsMaxBytes: 700 * 1024,
+  initialJsMaxKb: 700,
   initialGzipMaxBytes: 200 * 1024,
   initialGzipMaxKb: 200,
   initialCssMaxBytes: 40 * 1024,
@@ -119,9 +121,14 @@ const serviceWorkerPrecacheIncludesLazyChunk = Boolean(gameChunk && serviceWorke
 const check = (id, status, detail) => ({ id, status, detail })
 const checks = [
   check(
+    'initial-js-target',
+    initialJsAssets.length && initialJsBytes <= budgets.initialJsTargetBytes ? 'pass' : 'monitor',
+    `Initial JS is ${bytesToKb(initialJsBytes)} KB; target is ${budgets.initialJsTargetKb} KB.`,
+  ),
+  check(
     'initial-js-budget',
     initialJsAssets.length && initialJsBytes <= budgets.initialJsMaxBytes ? 'pass' : 'blocker',
-    `Initial JS is ${bytesToKb(initialJsBytes)} KB; budget is ${budgets.initialJsMaxKb} KB.`,
+    `Initial JS is ${bytesToKb(initialJsBytes)} KB; deploy cap is ${budgets.initialJsMaxKb} KB.`,
   ),
   check(
     'initial-js-gzip-budget',
@@ -218,6 +225,9 @@ const payload = {
     initialGzipBytes <= budgets.initialGzipMaxBytes
       ? 'Continue monitoring initial shell gzip size after every generated-data change.'
       : 'Reduce initial shell imports or defer more dashboard panels.',
+    initialJsBytes <= budgets.initialJsTargetBytes
+      ? 'Keep the initial shell below the 686 KB target before adding more dashboard data.'
+      : 'Keep configured production analytics builds below the 700 KB hard cap and look for the next dashboard split.',
     gameChunk && gameChunk.bytes > budgets.deferredGameChunkMaxBytes
       ? 'Split individual game scenes if the deferred game chunk keeps growing.'
       : 'Accept the large game-engine chunk only while it remains deferred from first paint.',

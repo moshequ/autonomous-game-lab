@@ -1,6 +1,6 @@
 # Production Readiness
 
-Generated: 2026-05-25T18:46:51.581Z
+Generated: 2026-05-25T18:56:11.512Z
 
 ## Environment
 
@@ -25,16 +25,16 @@ Workflow dispatch ready: true
 
 ## Repository Bootstrap
 
-Status: repository-bootstrap-ready
+Status: waiting-for-gh-auth
 Mode: plan-only
 Helper: ops/github/bootstrap-repository.sh
 Local git: true
 - done: repo-bootstrap-inspect-repository-channel - Repository readiness is repository-channel-ready.
 - ready: repo-bootstrap-initialize-local-git - Git worktree is available at /Users/moshequ/Documents/Codex/2026-05-18/i-want-to-have-a-new.
 - ready: repo-bootstrap-create-initial-commit - The local repository has at least one commit.
-- ready-for-explicit-snapshot-commit: repo-bootstrap-commit-current-snapshot - 6 non-generated source or artifact file(s) are not committed yet.
+- ready-for-explicit-snapshot-commit: repo-bootstrap-commit-current-snapshot - 1 non-generated source or artifact file(s) are not committed yet.
 - ready: repo-bootstrap-set-or-create-origin - Origin remote resolves to moshequ/autonomous-game-lab.
-- ready-for-explicit-create-or-attach: repo-bootstrap-create-github-repository - GitHub CLI can create or attach moshequ/autonomous-game-lab when explicitly allowed.
+- credential-gated: repo-bootstrap-create-github-repository - GitHub CLI auth or GH_TOKEN/GITHUB_TOKEN is required before remote repository creation.
 - waiting-for-clean-snapshot: repo-bootstrap-push-initial-snapshot - Push stays held until a committed local snapshot and origin remote exist.
 
 ## Web/PWA
@@ -59,7 +59,7 @@ Status: ready-after-build
 - pass: organic-seed-loop - Organic seed loop is organic-seed-loop-ready; target market-pulse; player-initiated share guard active.
 - pass: retention-loop - Retention loop is retention-loop-ready; daily challenge market-pulse; no-push/no-account guardrails active.
 - pass: pwa-install-loop - PWA install loop is pwa-install-loop-ready; prompt surface autonomy-cockpit; cost $0.
-- pass: performance-budget - Performance budget is performance-budget-ready; initial JS 685.7 KB / 185.4 KB gzip; deferred game chunk GameCanvas-nxuqJyea.js.
+- pass: performance-budget - Performance budget is performance-budget-ready; initial JS 686.1 KB / 185.4 KB gzip; deferred game chunk GameCanvas--B-q1aRa.js.
 - pass: release-candidate - Release candidate is release-candidate-ready; files 72; smoke URLs 31.
 - pass: post-deploy-smoke-runner - Post-deploy smoke is post-deploy-smoke-observed-live; origin https://moshequ.github.io/autonomous-game-lab; checks 32/32 passed, 0 blocked; local artifact predeploy-artifact-smoke-passed 32/32 passed.
 - pass: live-site-monitor - Live monitor is live-site-monitor-passed; origin https://moshequ.github.io/autonomous-game-lab; checks 32/32 passed; live matches synced deploy true.
@@ -69,7 +69,7 @@ Status: ready-after-build
 - pass: replay-loop - Replay loop is replay-loop-ready; prompt armed; target harbor-rings.
 - pass: release-health - Release health guard is monitoring.
 - pass: production-environment - Production environment status is production-env-missing.
-- pass: production-bootstrap - Production bootstrap is production-bootstrap-ready; mode can-apply-configured-actions; external blockers 15.
+- pass: production-bootstrap - Production bootstrap is production-bootstrap-ready; mode can-apply-configured-actions; external blockers 16.
 - pass: production-blocker-handoff - Production blocker handoff is handoff-waiting-on-owner-inputs; owner inputs 4; next unlock production-analytics-browser.
 - pass: production-unlock-runner - Production unlock runner is unlock-runner-idle; runnable 0; queued 0; unsafe 0.
 - pass: production-activation - Production activation is activation-ready; mode dry-run; execution dry-run.
@@ -121,23 +121,24 @@ Installs: 0
 ## Performance Budget
 
 Status: performance-budget-ready
-Initial JS: 685.7 KB (185.4 KB gzip)
-Deferred game chunk: GameCanvas-nxuqJyea.js
-- pass: performance-initial-js-budget - Initial JS is 685.7 KB; budget is 686 KB.
+Initial JS: 686.1 KB (185.4 KB gzip)
+Deferred game chunk: GameCanvas--B-q1aRa.js
+- monitor: performance-initial-js-target - Initial JS is 686.1 KB; target is 686 KB.
+- pass: performance-initial-js-budget - Initial JS is 686.1 KB; deploy cap is 700 KB.
 - pass: performance-initial-js-gzip-budget - Initial JS gzip is 185.4 KB; budget is 200 KB.
 - pass: performance-initial-css-budget - Initial CSS is 10.5 KB; budget is 40 KB.
 - pass: performance-manifest - PWA manifest exists in dist.
 - pass: performance-service-worker - Service worker exists in dist.
-- pass: performance-game-runtime-deferred - GameCanvas-nxuqJyea.js is deferred from the initial shell.
+- pass: performance-game-runtime-deferred - GameCanvas--B-q1aRa.js is deferred from the initial shell.
 - pass: performance-largest-js-deferred - Largest JS chunk is phaser.esm-Bs14CRsP.js at 1321.4 KB.
 - pass: performance-deferred-game-budget - Deferred game chunk is 3.3 KB; monitor budget is 1600 KB.
 
 ## Release Candidate
 
 Status: release-candidate-ready
-Candidate: pwa-64c244880234
+Candidate: pwa-3bff211dd766
 Files: 72
-Aggregate SHA-256: 64c244880234ead6f3ba519fc36ed584b13834a6d815622e0561b075cdd3ab26
+Aggregate SHA-256: 3bff211dd7666b546dd16a41b5a03c1ef1a18ff9b1b2fff70b67e832dd258d52
 - pass: release-dist-inventory - 72 dist files inventoried.
 - pass: release-required-files - 36/36 required files present.
 - pass: release-game-pages - 10 generated game page(s) in dist.
@@ -151,7 +152,7 @@ Aggregate SHA-256: 64c244880234ead6f3ba519fc36ed584b13834a6d815622e0561b075cdd3a
 
 Status: post-deploy-smoke-observed-live
 Origin: https://moshequ.github.io/autonomous-game-lab
-Candidate: pwa-64c244880234
+Candidate: pwa-3bff211dd766
 Checks: 32/32 passed (0 blocked)
 Local artifact: predeploy-artifact-smoke-passed (32/32 passed)
 - pass: smoke-app-shell - Live URL matched status and required text.
@@ -273,7 +274,7 @@ Status: production-bootstrap-ready
 Mode: can-apply-configured-actions
 Setup script: ops/github/setup-production.sh
 - repository-channel-ready: bootstrap-repository-channel - Repository moshequ/autonomous-game-lab; git worktree ready; workflow dispatch ready.
-- repository-bootstrap-ready: bootstrap-repository-bootstrap - Repository bootstrap repository-bootstrap-ready; helper ops/github/bootstrap-repository.sh; local git ready.
+- waiting-for-gh-auth: bootstrap-repository-bootstrap - Repository bootstrap waiting-for-gh-auth; helper ops/github/bootstrap-repository.sh; local git ready.
 - waiting-for-origin-support: bootstrap-production-environment - Environment production-env-missing; public origin configured; support missing-production-address.
 - ready-for-actions-pages: bootstrap-github-pages-hosting - Deployment plan is ready-for-pages; Pages workflow is .github/workflows/web-pwa-deploy.yml.
 - ready-to-sync: bootstrap-github-pages-settings - GitHub CLI can configure Pages to use the Actions workflow source.
