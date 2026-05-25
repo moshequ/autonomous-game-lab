@@ -1,6 +1,6 @@
 # Completion Loop
 
-Generated: 2026-05-24T23:03:41.154Z
+Generated: 2026-05-25T22:58:28.392Z
 Status: completion-loop-ready
 Target: Harbor Rings (harbor-rings)
 Completion: 40% / 55%
@@ -32,6 +32,15 @@ Decision: collect-sample
 - Trigger: behind-pace-after-midpoint at move 6
 - Telemetry: finish_line_coach_viewed, finish_line_coach_clicked, finish_line_coach_dismissed
 - Sample: 0 view(s), 0 decision(s), 20 view(s) needed
+
+## Local Router Priority
+
+- Status: armed
+- Surface: autonomy-cockpit-local-router
+- Priority: finish-line-coach -> completion-nudge -> gate-sample
+- Reason: Route active in-run completion prompts ahead of starting a new sample so a partial first run can finish before becoming abandonment.
+- 0: finish-line-coach-route - finish-line coach is visible for an active behind-pace run; outcome finish_line_coach_clicked
+- 1: completion-nudge-route - mid-run completion nudge is visible after the checkpoint; outcome completion_nudge_clicked
 
 ## Guardrails
 

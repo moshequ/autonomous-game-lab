@@ -462,7 +462,14 @@ type ProductGateSampleMission = (typeof productGateSamplePlan.missions)[number]
 type TrafficCampaign = (typeof trafficSeeding.campaigns)[number]
 type LocalRouterRecommendation = {
   id: string
-  actionType: 'gate-sample' | 'organic-seed' | 'daily-challenge' | 'queued-return' | 'replay'
+  actionType:
+    | 'gate-sample'
+    | 'organic-seed'
+    | 'daily-challenge'
+    | 'queued-return'
+    | 'replay'
+    | 'completion-nudge'
+    | 'finish-line-coach'
   label: string
   ctaLabel: string
   gameId: string
@@ -1309,6 +1316,47 @@ function App() {
         ? pwaInstallLoop.promptPolicy.ctaLabel
         : 'Install unavailable'
   const localRouterRecommendation = useMemo<LocalRouterRecommendation>(() => {
+    const completionRoute = completionLoop.localRouterPolicy.actions.find(
+      (action) => action.actionType === 'completion-nudge',
+    )
+    const finishLineRoute = completionLoop.localRouterPolicy.actions.find(
+      (action) => action.actionType === 'finish-line-coach',
+    )
+
+    if (finishLineCoachVisible && finishLineRoute) {
+      return {
+        id: finishLineRoute.id,
+        actionType: 'finish-line-coach',
+        label: finishLineRoute.label,
+        ctaLabel: finishLineRoute.ctaLabel,
+        gameId: selectedGameId,
+        campaignId: null,
+        gateId: finishLineRoute.gateId,
+        reason: `${finishLineRemainingScore} points left in ${finishLineRemainingMoves} turns; focus this board before starting another sample.`,
+        source: 'local_router',
+        channel: finishLineRoute.channel,
+        sampleStatus: completionLoop.samplePolicy.status,
+        priority: finishLineRoute.priority,
+      }
+    }
+
+    if (completionNudgeVisible && completionRoute) {
+      return {
+        id: completionRoute.id,
+        actionType: 'completion-nudge',
+        label: completionRoute.label,
+        ctaLabel: completionRoute.ctaLabel,
+        gameId: selectedGameId,
+        campaignId: null,
+        gateId: completionRoute.gateId,
+        reason: `Move ${snapshot.moves} reached the completion checkpoint; finish this live run before opening a new route.`,
+        source: 'local_router',
+        channel: completionRoute.channel,
+        sampleStatus: completionLoop.samplePolicy.status,
+        priority: completionRoute.priority,
+      }
+    }
+
     if (dailyReturnIntentVisible) {
       return {
         id: 'queued-return-intent',
@@ -1432,6 +1480,10 @@ function App() {
     }
   }, [
     dailyReturnIntentVisible,
+    completionNudgeVisible,
+    finishLineCoachVisible,
+    finishLineRemainingMoves,
+    finishLineRemainingScore,
     organicSeedProgress?.sampleDecisionReady,
     organicSeedProgress?.status,
     organicSeedTargetCampaign,
@@ -1442,6 +1494,7 @@ function App() {
     productGateSamplePrimaryProgress?.sampleDecisionReady,
     replayPromptVisible,
     selectedGameId,
+    snapshot.moves,
   ])
   const fastestGateSampleRecommendation: LocalRouterRecommendation | null =
     productGateSampleFastestDistinct && productGateSampleFastestProgress?.sampleDecisionReady !== true
@@ -2044,6 +2097,18 @@ function App() {
     if (recommendation.actionType === 'replay') {
       trackEvent('local_router_choice_clicked', localRouterEventProperties())
       playAgainFromReplayPrompt()
+      return
+    }
+
+    if (recommendation.actionType === 'finish-line-coach') {
+      trackEvent('local_router_choice_clicked', localRouterEventProperties())
+      focusFromFinishLineCoach()
+      return
+    }
+
+    if (recommendation.actionType === 'completion-nudge') {
+      trackEvent('local_router_choice_clicked', localRouterEventProperties())
+      keepPlayingFromCompletionNudge()
       return
     }
 

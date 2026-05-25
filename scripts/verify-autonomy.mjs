@@ -3115,6 +3115,27 @@ if (
   completionLoop.finishLinePolicy?.moveHint?.controls?.noRuleChange !== true ||
   completionLoop.finishLinePolicy?.moveHint?.controls?.noScoreManipulation !== true ||
   !completionLoop.finishLinePolicy?.moveHint?.telemetryProperties?.includes('recommendedMoveGained') ||
+  completionLoop.localRouterPolicy?.surface !== 'autonomy-cockpit-local-router' ||
+  completionLoop.localRouterPolicy?.priorityOrder?.[0] !== 'finish-line-coach' ||
+  completionLoop.localRouterPolicy?.priorityOrder?.[1] !== 'completion-nudge' ||
+  completionLoop.localRouterPolicy?.controls?.playerInitiatedOnly !== true ||
+  completionLoop.localRouterPolicy?.controls?.noAutoMove !== true ||
+  completionLoop.localRouterPolicy?.controls?.noRuleChange !== true ||
+  completionLoop.localRouterPolicy?.controls?.preservesPromptCooldowns !== true ||
+  !completionLoop.localRouterPolicy?.actions?.some(
+    (action) =>
+      action.id === 'finish-line-coach-route' &&
+      action.actionType === 'finish-line-coach' &&
+      action.telemetry?.outcome === 'finish_line_coach_clicked' &&
+      action.priority === 0,
+  ) ||
+  !completionLoop.localRouterPolicy?.actions?.some(
+    (action) =>
+      action.id === 'completion-nudge-route' &&
+      action.actionType === 'completion-nudge' &&
+      action.telemetry?.outcome === 'completion_nudge_clicked' &&
+      action.priority === 1,
+  ) ||
   completionLoop.localState?.dismissedRunKey !== 'agl.completion.dismissedRunKey' ||
   completionLoop.localState?.acceptedRunKey !== 'agl.completion.acceptedRunKey' ||
   completionLoop.localState?.finishLineDismissedRunKey !== 'agl.finishLine.dismissedRunKey' ||
@@ -3146,6 +3167,9 @@ if (
   !appSource.includes('recommendedMoveGained') ||
   !appSource.includes('keepPlayingFromCompletionNudge') ||
   !appSource.includes('focusFromFinishLineCoach') ||
+  !appSource.includes('completionLoop.localRouterPolicy.actions') ||
+  !appSource.includes("actionType === 'finish-line-coach'") ||
+  !appSource.includes("actionType === 'completion-nudge'") ||
   !harborRingsSceneSource.includes('recommendedMove()') ||
   !completionLoopSource.includes('runtime-best-immediate-score') ||
   !gameCanvasSource.includes('activeRunId') ||

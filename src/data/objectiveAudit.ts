@@ -5,13 +5,13 @@ export const objectiveAudit = {
     "met": 6,
     "prepared": 2,
     "incomplete": 0,
-    "externalBlockers": 15,
+    "externalBlockers": 17,
     "productBlockers": 7
   },
   "completion": {
     "canMarkGoalComplete": false,
     "reason": "The local autonomous PWA system is largely prepared with strict live deploy evidence synced from GitHub Actions, but production credentials, live data, monetization gates, and store account/signing blockers remain.",
-    "nextBestAction": "refresh-objective-audit"
+    "nextBestAction": "prepare-release-candidate"
   }
 } as const
 

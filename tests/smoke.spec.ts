@@ -1119,6 +1119,17 @@ test('mid-run completion nudge records checkpoint telemetry without changing the
     decisionPolicy: { currentDecision: string; fallbackWhenSampleSmall: string }
     controls: { noDecisionWithoutSample: boolean; requireRunIdOnAbandonment: boolean }
     promptPolicy: { ctaLabel: string; surface: string; triggerMove: number }
+    localRouterPolicy: {
+      controls: { playerInitiatedOnly: boolean; preservesPromptCooldowns: boolean }
+      actions: Array<{
+        actionType: string
+        label: string
+        ctaLabel: string
+        gateId: string
+        priority: number
+        telemetry: { outcome: string }
+      }>
+    }
   }
 
   expect(completion.metrics).toMatchObject({ promptViews: 0, promptClicks: 0, promptDismissals: 0 })
@@ -1137,6 +1148,20 @@ test('mid-run completion nudge records checkpoint telemetry without changing the
   )
   expect(completion.controls.noDecisionWithoutSample).toBe(true)
   expect(completion.controls.requireRunIdOnAbandonment).toBe(true)
+  expect(completion.localRouterPolicy.controls).toMatchObject({
+    playerInitiatedOnly: true,
+    preservesPromptCooldowns: true,
+  })
+  const completionRouterAction = completion.localRouterPolicy.actions.find(
+    (action) => action.actionType === 'completion-nudge',
+  )
+  expect(completionRouterAction).toMatchObject({
+    label: 'Finish this run',
+    ctaLabel: completion.promptPolicy.ctaLabel,
+    gateId: 'firstGameCompletion',
+    priority: 1,
+    telemetry: { outcome: 'completion_nudge_clicked' },
+  })
 
   await page.addInitScript(() => {
     window.localStorage.setItem('agl.experiment.first_session_pacing', 'fast-start')
@@ -1192,12 +1217,17 @@ test('mid-run completion nudge records checkpoint telemetry without changing the
   await expect(completionPanel).toContainText('Nudge sample')
   await expect(completionPanel).toContainText(completion.decisionPolicy.currentDecision)
   await expect(completionPanel).toContainText('Progress nudge')
-  await completionPanel.getByRole('button', { name: completion.promptPolicy.ctaLabel }).click()
+  const routerPanel = page.getByLabel('Local Learning Router')
+  await expect(routerPanel).toContainText(completionRouterAction?.label ?? 'Finish this run')
+  await routerPanel.getByRole('button', { name: completionRouterAction?.ctaLabel ?? completion.promptPolicy.ctaLabel }).click()
 
   const events = await page.evaluate(() => {
     const raw = window.localStorage.getItem('agl.analytics.events')
     return raw ? JSON.parse(raw) : []
   })
+  const routerClicked = events.findLast(
+    (event: { name: string }) => event.name === 'local_router_choice_clicked',
+  )
   const viewed = events.findLast((event: { name: string }) => event.name === 'completion_nudge_viewed')
   const clicked = events.findLast((event: { name: string }) => event.name === 'completion_nudge_clicked')
   const acceptedRunKey = await page.evaluate(
@@ -1205,6 +1235,9 @@ test('mid-run completion nudge records checkpoint telemetry without changing the
     completion.localState.acceptedRunKey,
   )
 
+  expect(routerClicked.properties.actionType).toBe('completion-nudge')
+  expect(routerClicked.properties.channel).toBe('completion')
+  expect(routerClicked.properties.gateId).toBe('firstGameCompletion')
   expect(viewed.properties.surface).toBe(completion.promptPolicy.surface)
   expect(viewed.properties.moves).toBe(completion.promptPolicy.triggerMove)
   expect(clicked.properties.surface).toBe(completion.promptPolicy.surface)
@@ -1246,6 +1279,16 @@ test('finish-line coach shows target pace for behind runs and records telemetry'
         telemetryProperties: string[]
       }
     }
+    localRouterPolicy: {
+      actions: Array<{
+        actionType: string
+        label: string
+        ctaLabel: string
+        gateId: string
+        priority: number
+        telemetry: { outcome: string }
+      }>
+    }
   }
 
   expect(completion.samplePolicy.finishLine.minimumViewsForDecision).toBe(20)
@@ -1262,6 +1305,16 @@ test('finish-line coach shows target pace for behind runs and records telemetry'
     noRuleChange: true,
   })
   expect(completion.finishLinePolicy.moveHint.telemetryProperties).toContain('recommendedMoveGained')
+  const finishLineRouterAction = completion.localRouterPolicy.actions.find(
+    (action) => action.actionType === 'finish-line-coach',
+  )
+  expect(finishLineRouterAction).toMatchObject({
+    label: 'Finish-line focus',
+    ctaLabel: completion.finishLinePolicy.ctaLabel,
+    gateId: 'firstGameCompletion',
+    priority: 0,
+    telemetry: { outcome: 'finish_line_coach_clicked' },
+  })
 
   await page.addInitScript(() => {
     window.localStorage.setItem('agl.experiment.first_session_pacing', 'fast-start')
@@ -1317,12 +1370,17 @@ test('finish-line coach shows target pace for behind runs and records telemetry'
   const finishLinePanel = page.getByLabel('Completion Loop')
   await expect(finishLinePanel).toContainText('Finish line')
   await expect(finishLinePanel).toContainText('Suggested move')
-  await finishLinePanel.getByRole('button', { name: completion.finishLinePolicy.ctaLabel }).click()
+  const routerPanel = page.getByLabel('Local Learning Router')
+  await expect(routerPanel).toContainText(finishLineRouterAction?.label ?? 'Finish-line focus')
+  await routerPanel.getByRole('button', { name: finishLineRouterAction?.ctaLabel ?? completion.finishLinePolicy.ctaLabel }).click()
 
   const events = await page.evaluate(() => {
     const raw = window.localStorage.getItem('agl.analytics.events')
     return raw ? JSON.parse(raw) : []
   })
+  const routerClicked = events.findLast(
+    (event: { name: string }) => event.name === 'local_router_choice_clicked',
+  )
   const viewed = events.findLast((event: { name: string }) => event.name === 'finish_line_coach_viewed')
   const clicked = events.findLast((event: { name: string }) => event.name === 'finish_line_coach_clicked')
   const acceptedRunKey = await page.evaluate(
@@ -1330,6 +1388,9 @@ test('finish-line coach shows target pace for behind runs and records telemetry'
     completion.localState.finishLineAcceptedRunKey,
   )
 
+  expect(routerClicked.properties.actionType).toBe('finish-line-coach')
+  expect(routerClicked.properties.channel).toBe('completion')
+  expect(routerClicked.properties.gateId).toBe('firstGameCompletion')
   expect(viewed.properties.surface).toBe(completion.finishLinePolicy.surface)
   expect(viewed.properties.remainingScore).toBeGreaterThan(0)
   expect(viewed.properties.hasRecommendedMoveHint).toBe(true)

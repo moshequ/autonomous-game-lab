@@ -277,6 +277,56 @@ const payload = {
       abandoned: 'game_abandoned',
     },
   },
+  localRouterPolicy: {
+    status: promptStatus,
+    surface: 'autonomy-cockpit-local-router',
+    priorityOrder: ['finish-line-coach', 'completion-nudge', 'gate-sample'],
+    reason:
+      promptStatus === 'armed'
+        ? 'Route active in-run completion prompts ahead of starting a new sample so a partial first run can finish before becoming abandonment.'
+        : 'Keep the local router in monitor mode while completion gates are stable or nudges are held.',
+    actions: [
+      {
+        id: 'finish-line-coach-route',
+        actionType: 'finish-line-coach',
+        label: 'Finish-line focus',
+        ctaLabel: 'Focus board',
+        channel: 'completion',
+        gateId: 'firstGameCompletion',
+        priority: 0,
+        when: 'finish-line coach is visible for an active behind-pace run',
+        telemetry: {
+          viewed: 'local_router_card_viewed',
+          clicked: 'local_router_choice_clicked',
+          outcome: 'finish_line_coach_clicked',
+        },
+      },
+      {
+        id: 'completion-nudge-route',
+        actionType: 'completion-nudge',
+        label: 'Finish this run',
+        ctaLabel: 'Keep playing',
+        channel: 'completion',
+        gateId: 'firstGameCompletion',
+        priority: 1,
+        when: 'mid-run completion nudge is visible after the checkpoint',
+        telemetry: {
+          viewed: 'local_router_card_viewed',
+          clicked: 'local_router_choice_clicked',
+          outcome: 'completion_nudge_clicked',
+        },
+      },
+    ],
+    controls: {
+      zeroPaidSpend: true,
+      playerInitiatedOnly: true,
+      noAutoMove: true,
+      noRuleChange: true,
+      noScoreManipulation: true,
+      noRevenueEnablement: true,
+      preservesPromptCooldowns: true,
+    },
+  },
   localState: {
     dismissedRunKey: 'agl.completion.dismissedRunKey',
     acceptedRunKey: 'agl.completion.acceptedRunKey',
@@ -395,6 +445,16 @@ const report = [
   `- Trigger: ${payload.finishLinePolicy.trigger} at move ${payload.finishLinePolicy.triggerMove}`,
   `- Telemetry: ${payload.finishLinePolicy.telemetry.viewed}, ${payload.finishLinePolicy.telemetry.clicked}, ${payload.finishLinePolicy.telemetry.dismissed}`,
   `- Sample: ${payload.samplePolicy.finishLine.current.views} view(s), ${payload.samplePolicy.finishLine.current.decisions} decision(s), ${payload.samplePolicy.finishLine.needed.views} view(s) needed`,
+  '',
+  '## Local Router Priority',
+  '',
+  `- Status: ${payload.localRouterPolicy.status}`,
+  `- Surface: ${payload.localRouterPolicy.surface}`,
+  `- Priority: ${payload.localRouterPolicy.priorityOrder.join(' -> ')}`,
+  `- Reason: ${payload.localRouterPolicy.reason}`,
+  ...payload.localRouterPolicy.actions.map(
+    (action) => `- ${action.priority}: ${action.id} - ${action.when}; outcome ${action.telemetry.outcome}`,
+  ),
   '',
   '## Guardrails',
   '',

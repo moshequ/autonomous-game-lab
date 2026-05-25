@@ -1,5 +1,5 @@
 export const completionLoop = {
-  "generatedAt": "2026-05-24T23:03:41.154Z",
+  "generatedAt": "2026-05-25T22:58:28.392Z",
   "sourceDataHash": "2c9c10da6181",
   "status": "completion-loop-ready",
   "sourceStatus": {
@@ -163,6 +163,57 @@ export const completionLoop = {
       "dismissed": "finish_line_coach_dismissed",
       "completed": "level_completed",
       "abandoned": "game_abandoned"
+    }
+  },
+  "localRouterPolicy": {
+    "status": "armed",
+    "surface": "autonomy-cockpit-local-router",
+    "priorityOrder": [
+      "finish-line-coach",
+      "completion-nudge",
+      "gate-sample"
+    ],
+    "reason": "Route active in-run completion prompts ahead of starting a new sample so a partial first run can finish before becoming abandonment.",
+    "actions": [
+      {
+        "id": "finish-line-coach-route",
+        "actionType": "finish-line-coach",
+        "label": "Finish-line focus",
+        "ctaLabel": "Focus board",
+        "channel": "completion",
+        "gateId": "firstGameCompletion",
+        "priority": 0,
+        "when": "finish-line coach is visible for an active behind-pace run",
+        "telemetry": {
+          "viewed": "local_router_card_viewed",
+          "clicked": "local_router_choice_clicked",
+          "outcome": "finish_line_coach_clicked"
+        }
+      },
+      {
+        "id": "completion-nudge-route",
+        "actionType": "completion-nudge",
+        "label": "Finish this run",
+        "ctaLabel": "Keep playing",
+        "channel": "completion",
+        "gateId": "firstGameCompletion",
+        "priority": 1,
+        "when": "mid-run completion nudge is visible after the checkpoint",
+        "telemetry": {
+          "viewed": "local_router_card_viewed",
+          "clicked": "local_router_choice_clicked",
+          "outcome": "completion_nudge_clicked"
+        }
+      }
+    ],
+    "controls": {
+      "zeroPaidSpend": true,
+      "playerInitiatedOnly": true,
+      "noAutoMove": true,
+      "noRuleChange": true,
+      "noScoreManipulation": true,
+      "noRevenueEnablement": true,
+      "preservesPromptCooldowns": true
     }
   },
   "localState": {
