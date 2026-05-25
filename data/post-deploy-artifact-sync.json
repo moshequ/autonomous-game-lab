@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-25T21:19:31.585Z",
+  "generatedAt": "2026-05-25T21:38:42.577Z",
   "status": "post-deploy-artifact-sync-passed",
   "envFiles": {
     "loaded": false,
@@ -41,22 +41,22 @@
   "workflow": {
     "workflowFile": "web-pwa-deploy.yml",
     "artifactName": "post-deploy-smoke",
-    "runId": 26420144620,
-    "headSha": "cd5ba21b42620075e38a0bdc9a10143ddbcb97a7",
-    "createdAt": "2026-05-25T21:17:55Z",
-    "url": "https://github.com/moshequ/autonomous-game-lab/actions/runs/26420144620",
+    "runId": 26420752161,
+    "headSha": "594b3b37e5f011791f8b34e647533c372353bc73",
+    "createdAt": "2026-05-25T21:37:15Z",
+    "url": "https://github.com/moshequ/autonomous-game-lab/actions/runs/26420752161",
     "source": "latest-successful-run",
     "runListAvailable": true
   },
   "artifact": {
     "status": "post-deploy-smoke-passed",
-    "generatedAt": "2026-05-25T21:18:38.888Z",
+    "generatedAt": "2026-05-25T21:37:52.540Z",
     "target": {
       "origin": "https://moshequ.github.io/autonomous-game-lab/",
       "originSource": "agl-deployed-pwa-origin",
       "provider": "github-pages",
-      "candidateId": "pwa-f70066b9d736",
-      "aggregateHash": "f70066b9d7364b6aa20248de68308e399840ed3283210e2b097179f6766dc54b",
+      "candidateId": "pwa-8a8737d81d92",
+      "aggregateHash": "8a8737d81d921edb85938f3bf7cbf5930094d22066fd27b2c3e7bba5e43628f9",
       "strictManifestComparison": true
     },
     "sourceStatus": {
@@ -72,8 +72,8 @@
     },
     "liveRelease": {
       "status": "release-candidate-ready",
-      "candidateId": "pwa-f70066b9d736",
-      "aggregateHash": "f70066b9d7364b6aa20248de68308e399840ed3283210e2b097179f6766dc54b",
+      "candidateId": "pwa-8a8737d81d92",
+      "aggregateHash": "8a8737d81d921edb85938f3bf7cbf5930094d22066fd27b2c3e7bba5e43628f9",
       "localCandidateMatches": true,
       "strictManifestComparison": true,
       "postDeploySmokeUrls": 31,
@@ -90,7 +90,7 @@
       "strictManifestComparison": true,
       "inferredLiveObservationAllowed": false
     },
-    "reportSha256": "a4c84b5797ec9865d59d6f6f4c114ec4ae767f24141ecd6c83e9cee699e84f60"
+    "reportSha256": "9af9200b170c8ac014f2a440bc87501440b37d0bbb5e02cc054f9c2818b53c06"
   },
   "live": {
     "origin": "https://moshequ.github.io/autonomous-game-lab/",
@@ -98,11 +98,11 @@
     "status": 200,
     "finalUrl": "https://moshequ.github.io/autonomous-game-lab/release-candidate.json",
     "contentType": "application/json; charset=utf-8",
-    "bytes": 32671,
-    "textSha256": "fe38a58921e98153b89a54578a3554b2bb9a04c17543b48301bc81f7ae54a69d",
+    "bytes": 32682,
+    "textSha256": "32f979b5a785c035089a27a646a09d4736421ce671ca463ee977fe63d3e8cb8a",
     "releaseStatus": "release-candidate-ready",
-    "candidateId": "pwa-f70066b9d736",
-    "aggregateHash": "f70066b9d7364b6aa20248de68308e399840ed3283210e2b097179f6766dc54b",
+    "candidateId": "pwa-8a8737d81d92",
+    "aggregateHash": "8a8737d81d921edb85938f3bf7cbf5930094d22066fd27b2c3e7bba5e43628f9",
     "matchesArtifact": true
   },
   "validation": {
@@ -144,12 +144,12 @@
     {
       "id": "successful-pages-run",
       "status": "pass",
-      "detail": "Latest successful web-pwa-deploy.yml run is 26420144620."
+      "detail": "Latest successful web-pwa-deploy.yml run is 26420752161."
     },
     {
       "id": "post-deploy-smoke-artifact",
       "status": "pass",
-      "detail": "Downloaded post-deploy-smoke artifact from run 26420144620."
+      "detail": "Downloaded post-deploy-smoke artifact from run 26420752161."
     },
     {
       "id": "strict-smoke-artifact",
