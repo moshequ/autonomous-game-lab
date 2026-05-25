@@ -237,6 +237,7 @@ const requiredFiles = [
   'scripts/autonomous-cadence.mjs',
   'scripts/autonomous-self-update.mjs',
   'scripts/android-signing-prep.mjs',
+  'scripts/native-packager.mjs',
   'scripts/store-readiness-page.mjs',
   'public/icons/app-icon.svg',
   'public/icons/icon-192.png',
@@ -550,6 +551,7 @@ const autonomousSelfUpdateSource = await readFile(path.join(root, 'scripts', 'au
 const localEventBridgeSource = await readFile(path.join(root, 'scripts', 'local-event-bridge.mjs'), 'utf8')
 const harborRingsSceneSource = await readFile(path.join(root, 'src', 'game', 'HarborRingsScene.ts'), 'utf8')
 const androidSigningSource = await readFile(path.join(root, 'scripts', 'android-signing-prep.mjs'), 'utf8')
+const nativePackagerSource = await readFile(path.join(root, 'scripts', 'native-packager.mjs'), 'utf8')
 const objectiveAuditSource = await readFile(path.join(root, 'scripts', 'objective-audit.mjs'), 'utf8')
 const githubRepositoryBootstrapScript = await readFile(path.join(root, 'ops', 'github', 'bootstrap-repository.sh'), 'utf8')
 const githubSetupScript = await readFile(path.join(root, 'ops', 'github', 'setup-production.sh'), 'utf8')
@@ -5504,6 +5506,15 @@ if (
   !nativePackage.commands?.build
 ) {
   fail('Native packager must publish Android TWA handoff metadata, asset-links template, and build commands.')
+}
+
+if (
+  !nativePackagerSource.includes('android-root-assetlinks-handoff.json') ||
+  !nativePackagerSource.includes('cachedRootAssetLinksLive') ||
+  !nativePackagerSource.includes('cached-live-match') ||
+  !nativePackagerSource.includes('AGL_NATIVE_PACKAGE_SKIP_ROOT_FETCH')
+) {
+  fail('Native packager must preserve recent matching root Digital Asset Links handoff evidence when local root URL fetches fail.')
 }
 
 const nativeSigningFingerprintReady = Boolean(androidSigning.signing?.sha256CertFingerprint)

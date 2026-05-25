@@ -1,12 +1,12 @@
 export const storeReadiness = {
-  "generatedAt": "2026-05-24T23:56:32.842Z",
-  "sourceDataHash": "a659f72ae262",
+  "generatedAt": "2026-05-25T07:13:06.881Z",
+  "sourceDataHash": "76f72d48d10e",
   "status": "store-readiness-prepared-external-blockers",
   "sourceStatus": {
     "storePackage": "store-package-ready",
     "storeCompliance": "draft-ready-external-blockers",
     "storeListingOptimizer": "store-listing-optimizer-ready",
-    "nativePackage": "blocked-draft-ready",
+    "nativePackage": "ready-for-bubblewrap-build",
     "androidRelease": "blocked-needs-host-signing-play",
     "iosRelease": "deferred-until-ios-payback",
     "unitEconomics": "no-spend",
@@ -20,11 +20,11 @@ export const storeReadiness = {
     "complianceStatus": "draft-ready-external-blockers",
     "androidStatus": "blocked-needs-host-signing-play",
     "iosStatus": "deferred-until-ios-payback",
-    "nativePackageStatus": "blocked-draft-ready",
+    "nativePackageStatus": "ready-for-bubblewrap-build",
     "storeSpendAllowed": false,
     "revenueEnabled": false,
     "screenshotCount": 4,
-    "externalBlockerCount": 18,
+    "externalBlockerCount": 14,
     "productBlockerCount": 11
   },
   "publicRoutes": {
@@ -76,9 +76,6 @@ export const storeReadiness = {
       "packageStrategy": "android-trusted-web-activity",
       "workflowPath": ".github/workflows/android-twa-release.yml",
       "blockers": [
-        "native-package-ready: Native package is blocked-draft-ready.",
-        "store-package-draft: Store package is blocked; data safety is draft-ready.",
-        "asset-links: Digital Asset Links are domain-verification-blocked; Android requires https://moshequ.github.io/.well-known/assetlinks.json and current artifact publishes https://moshequ.github.io/autonomous-game-lab/.well-known/assetlinks.json.",
         "google-play-account: Google Play account is not connected.",
         "play-service-account: Google Play service account upload credentials are not available to CI.",
         "unit-economics-store-spend: Store spend allowed is false; spend mode is no-spend.",
@@ -149,8 +146,8 @@ export const storeReadiness = {
     },
     {
       "id": "native-package",
-      "status": "blocker",
-      "detail": "Native Android package handoff is blocked-draft-ready."
+      "status": "pass",
+      "detail": "Native Android package handoff is ready-for-bubblewrap-build."
     },
     {
       "id": "android-release",
@@ -183,9 +180,6 @@ export const storeReadiness = {
       "store-compliance: support-contact: Production support email is required before public store submission.",
       "store-compliance: google-play-account: Google Play developer account must be connected before Android submission.",
       "store-compliance: apple-developer-account: Apple Developer account remains deferred until iOS spend is justified.",
-      "android: native-package-ready: Native package is blocked-draft-ready.",
-      "android: store-package-draft: Store package is blocked; data safety is draft-ready.",
-      "android: asset-links: Digital Asset Links are domain-verification-blocked; Android requires https://moshequ.github.io/.well-known/assetlinks.json and current artifact publishes https://moshequ.github.io/autonomous-game-lab/.well-known/assetlinks.json.",
       "android: google-play-account: Google Play account is not connected.",
       "android: play-service-account: Google Play service account upload credentials are not available to CI.",
       "ios: support-contact: Production support email is required before public store submission.",
@@ -195,7 +189,6 @@ export const storeReadiness = {
       "google-play-fee: Google Play developer account is not connected.",
       "ios-fee: Apple Developer account is not connected.",
       "ios-fee: Projected annual revenue is $0.00, below $99.00.",
-      "native-package: Native Android package handoff is blocked-draft-ready.",
       "monetization: Revenue enabled is false.",
       "support-contact: Production support email is required before public app-store submission."
     ],

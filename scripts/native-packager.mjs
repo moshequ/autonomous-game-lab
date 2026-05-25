@@ -7,6 +7,7 @@ const gatesPath = path.join(root, 'data', 'production-gates.json')
 const storeAssetsPath = path.join(root, 'data', 'store-assets.json')
 const environmentPath = path.join(root, 'data', 'production-environment.json')
 const androidSigningPath = path.join(root, 'data', 'android-signing.json')
+const androidRootAssetlinksHandoffPath = path.join(root, 'data', 'android-root-assetlinks-handoff.json')
 const iconAssetsPath = path.join(root, 'data', 'icon-assets.json')
 const outputJsonPath = path.join(root, 'data', 'native-package.json')
 const outputTsPath = path.join(root, 'src', 'data', 'nativePackage.ts')
@@ -23,6 +24,8 @@ const readOptionalJson = async (filePath, fallback) =>
   readFile(filePath, 'utf8')
     .then((raw) => JSON.parse(raw))
     .catch(() => fallback)
+
+const cachedRootAssetLinksMaxAgeMs = 7 * 24 * 60 * 60 * 1000
 
 const normalizePath = (value) => {
   const raw = String(value ?? '').trim()
@@ -58,6 +61,19 @@ const joinUrl = (baseUrl, relativePath) => {
   const normalizedBase = baseUrl.endsWith('/') ? baseUrl : `${baseUrl}/`
   return new URL(String(relativePath).replace(/^\/+/, ''), normalizedBase).href
 }
+
+const urlsMatch = (left, right) => {
+  if (!left || !right) {
+    return false
+  }
+
+  try {
+    return new URL(left).href === new URL(right).href
+  } catch {
+    return String(left) === String(right)
+  }
+}
+
 const verifyRootAssetLinks = async ({ url, packageName, sha256CertFingerprint }) => {
   const checkedAt = new Date().toISOString()
 
@@ -68,6 +84,16 @@ const verifyRootAssetLinks = async ({ url, packageName, sha256CertFingerprint })
       httpStatus: null,
       liveMatchesSource: false,
       detail: 'Root URL, package name, or signing fingerprint is missing.',
+    }
+  }
+
+  if (process.env.AGL_NATIVE_PACKAGE_SKIP_ROOT_FETCH === '1') {
+    return {
+      checkedAt,
+      status: 'fetch-skipped',
+      httpStatus: null,
+      liveMatchesSource: false,
+      detail: 'Root Digital Asset Links fetch skipped by AGL_NATIVE_PACKAGE_SKIP_ROOT_FETCH.',
     }
   }
 
@@ -122,6 +148,41 @@ const verifyRootAssetLinks = async ({ url, packageName, sha256CertFingerprint })
   }
 }
 
+const cachedRootAssetLinksLive = ({ handoff, url, packageName, sha256CertFingerprint, directProbe }) => {
+  const live = handoff?.live
+  const cachedCheckedAt = live?.checkedAt ?? handoff?.generatedAt ?? null
+  const cachedCheckedAtMs = Date.parse(cachedCheckedAt ?? '')
+  const ageMs = Number.isFinite(cachedCheckedAtMs) ? Date.now() - cachedCheckedAtMs : Number.POSITIVE_INFINITY
+  const directProbeCanUseCache = ['fetch-failed', 'fetch-skipped'].includes(directProbe.status)
+
+  if (
+    !directProbeCanUseCache ||
+    handoff?.status !== 'root-assetlinks-live' ||
+    live?.liveMatchesSource !== true ||
+    !urlsMatch(live?.finalUrl ?? handoff?.target?.requiredRootUrl, url) ||
+    handoff?.source?.packageName !== packageName ||
+    handoff?.source?.sha256CertFingerprint !== sha256CertFingerprint ||
+    ageMs < 0 ||
+    ageMs > cachedRootAssetLinksMaxAgeMs
+  ) {
+    return null
+  }
+
+  return {
+    checkedAt: new Date().toISOString(),
+    status: 'cached-live-match',
+    httpStatus: live.httpStatus ?? null,
+    finalUrl: live.finalUrl ?? url,
+    liveMatchesSource: true,
+    bytes: live.bytes ?? null,
+    detail: `Recent root Digital Asset Links handoff confirms ${packageName}; direct probe was ${directProbe.status}.`,
+    evidenceSource: 'android-root-assetlinks-handoff',
+    cachedCheckedAt,
+    directProbeStatus: directProbe.status,
+    directProbeDetail: directProbe.detail,
+  }
+}
+
 const storePackage = await readJson(storePackagePath)
 const gates = await readJson(gatesPath)
 const storeAssets = await readJson(storeAssetsPath)
@@ -137,6 +198,7 @@ const androidSigning = await readOptionalJson(androidSigningPath, {
   status: 'missing',
   signing: {},
 })
+const androidRootAssetlinksHandoff = await readOptionalJson(androidRootAssetlinksHandoffPath, null)
 const iconAssets = await readOptionalJson(iconAssetsPath, {
   status: 'missing',
   storeIcons: [],
@@ -181,11 +243,21 @@ const screenshotsReady = storeAssets.status === 'screenshots-ready' && (storeAss
 const iconsReady = iconAssets.status === 'icons-ready' && (iconAssets.storeIcons?.length ?? 0) >= 1
 const requiredAssetLinksUrl = host ? `https://${host}/.well-known/assetlinks.json` : null
 const publishedAssetLinksUrl = joinUrl(publicSiteUrl, '.well-known/assetlinks.json')
-const rootAssetLinksLive = await verifyRootAssetLinks({
+const directRootAssetLinksLive = await verifyRootAssetLinks({
   url: requiredAssetLinksUrl,
   packageName,
   sha256CertFingerprint: certificateFingerprint,
 })
+const rootAssetLinksLive =
+  directRootAssetLinksLive.liveMatchesSource === true
+    ? { ...directRootAssetLinksLive, evidenceSource: 'live-fetch' }
+    : (cachedRootAssetLinksLive({
+        handoff: androidRootAssetlinksHandoff,
+        url: requiredAssetLinksUrl,
+        packageName,
+        sha256CertFingerprint: certificateFingerprint,
+        directProbe: directRootAssetLinksLive,
+      }) ?? directRootAssetLinksLive)
 const rootAssetLinksDeployable = publicOriginBasePath === '/' || rootAssetLinksLive.liveMatchesSource
 const assetLinksDomainVerificationReady = realHostReady && signingReady && rootAssetLinksDeployable
 const publicAssetLinksReady = signingReady
@@ -245,11 +317,11 @@ const twaManifest = {
     sha256CertFingerprint: certificateFingerprint ?? null,
   },
   assetLinks: {
-      status: assetLinksStatus,
-      domainVerificationReady: assetLinksDomainVerificationReady,
-      rootAssetLinksLive,
-      requiredRootUrl: requiredAssetLinksUrl,
-      publishedUrl: publishedAssetLinksUrl,
+    status: assetLinksStatus,
+    domainVerificationReady: assetLinksDomainVerificationReady,
+    rootAssetLinksLive,
+    requiredRootUrl: requiredAssetLinksUrl,
+    publishedUrl: publishedAssetLinksUrl,
     requiresRootWellKnownPath: true,
     hostedPath: '/.well-known/assetlinks.json',
     templatePath: 'native/android/assetlinks.template.json',

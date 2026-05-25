@@ -1,6 +1,6 @@
 # Objective Audit
 
-Generated: 2026-05-24T23:56:57.678Z
+Generated: 2026-05-25T07:13:48.369Z
 Status: objective-in-progress
 Can mark goal complete: false
 Reason: The local autonomous PWA system is largely prepared with strict live deploy evidence synced from GitHub Actions, but production credentials, live data, monetization gates, and store account/signing blockers remain.
@@ -12,7 +12,7 @@ Next best action: hold-for-external-input
 - Met: 6
 - Prepared: 2
 - Incomplete: 0
-- External blockers: 16
+- External blockers: 15
 - Product blockers: 7
 
 ## Requirements
@@ -30,7 +30,7 @@ Next best action: hold-for-external-input
 - prepared-blocked-by-gates: monetization-path - Revenue path exists with guarded rewarded/cosmetic tests, app-ads output, and unit-economics spend controls.
   - next: Collect live completion, replay, and retention data until gates pass.
 - prepared-external-blockers: app-store-distribution-path - Store listing, compliance drafts, screenshots, Android TWA handoff, and iOS App Store handoff are prepared while store release stays gated.
-  - next: Host privacy URL, create signing assets, and connect Google Play account.
+  - next: Connect the Google Play developer account.
 - met: minimal-cost-guardrails - Zero-spend, no-store-submission, and no-revenue-before-gates controls are enforced.
   - next: Preserve zero-spend posture until observed revenue and payback gates open.
 
@@ -49,6 +49,6 @@ Next best action: hold-for-external-input
 - support-contact: Production support email is required before public store submission.
 - google-play-account: Google Play developer account must be connected before Android submission.
 - apple-developer-account: Apple Developer account remains deferred until iOS spend is justified.
-- native-package-ready: Native package is blocked-draft-ready.
-- store-package-draft: Store package is blocked; data safety is draft-ready.
-- asset-links: Digital Asset Links are domain-verification-blocked; Android requires https://moshequ.github.io/.well-known/assetlinks.json and current artifact publishes https://moshequ.github.io/autonomous-game-lab/.well-known/assetlinks.json.
+- google-play-account: Google Play account is not connected.
+- play-service-account: Google Play service account upload credentials are not available to CI.
+- unit-economics-store-spend: Store spend allowed is false; spend mode is no-spend.

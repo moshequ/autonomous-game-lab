@@ -1,5 +1,5 @@
 export const promotionDecision = {
-  "generatedAt": "2026-05-24T22:20:50.847Z",
+  "generatedAt": "2026-05-25T07:11:36.445Z",
   "analyticsSource": "fixture-sample",
   "releaseHealth": {
     "status": "monitoring",
@@ -31,10 +31,9 @@ export const promotionDecision = {
       "status": "blocked",
       "decision": "Keep Android packaging blocked.",
       "blockers": [
-        "Google Play developer account is not connected.",
-        "Native package is blocked-draft-ready."
+        "Google Play developer account is not connected."
       ],
-      "nextAction": "Host privacy URL, create signing assets, and connect Google Play account."
+      "nextAction": "Connect the Google Play developer account."
     },
     {
       "channel": "ios-app-store",

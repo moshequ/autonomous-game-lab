@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-24T22:14:05.752Z",
+  "generatedAt": "2026-05-25T07:11:44.098Z",
   "status": "blocked-needs-host-signing-play",
   "envFiles": {
     "loaded": true,
@@ -57,7 +57,7 @@
   "packageName": "app.autonomousgamelab.portal",
   "releaseTrack": "internal",
   "releaseMode": "draft",
-  "nativePackageStatus": "blocked-draft-ready",
+  "nativePackageStatus": "ready-for-bubblewrap-build",
   "signingStatus": "signing-prepared",
   "storeComplianceStatus": "draft-ready-external-blockers",
   "promotionStatus": "blocked",
@@ -79,20 +79,20 @@
     "googlePlayFeeAllowed": false,
     "paybackDays": null,
     "hostedPrivacyStatus": "hosted",
-    "assetLinksStatus": "domain-verification-blocked",
+    "assetLinksStatus": "ready",
     "signingFingerprint": "FC:92:04:44:5B:93:78:92:A9:8C:08:50:BF:97:7A:90:A5:62:61:81:53:E7:A9:AA:A9:39:86:74:AE:D3:52:C2",
     "localSigningSecretsConfigured": true
   },
   "checks": [
     {
       "id": "native-package-ready",
-      "status": "blocker",
-      "detail": "Native package is blocked-draft-ready."
+      "status": "pass",
+      "detail": "Native package is ready-for-bubblewrap-build."
     },
     {
       "id": "store-package-draft",
-      "status": "blocker",
-      "detail": "Store package is blocked; data safety is draft-ready."
+      "status": "pass",
+      "detail": "Store package is draft-ready; data safety is draft-ready."
     },
     {
       "id": "store-compliance-draft",
@@ -106,8 +106,8 @@
     },
     {
       "id": "asset-links",
-      "status": "blocker",
-      "detail": "Digital Asset Links are domain-verification-blocked; Android requires https://moshequ.github.io/.well-known/assetlinks.json and current artifact publishes https://moshequ.github.io/autonomous-game-lab/.well-known/assetlinks.json."
+      "status": "pass",
+      "detail": "Digital Asset Links are generated and verifiable at https://moshequ.github.io/.well-known/assetlinks.json."
     },
     {
       "id": "signing-fingerprint",
@@ -146,9 +146,6 @@
     }
   ],
   "blockers": [
-    "native-package-ready: Native package is blocked-draft-ready.",
-    "store-package-draft: Store package is blocked; data safety is draft-ready.",
-    "asset-links: Digital Asset Links are domain-verification-blocked; Android requires https://moshequ.github.io/.well-known/assetlinks.json and current artifact publishes https://moshequ.github.io/autonomous-game-lab/.well-known/assetlinks.json.",
     "google-play-account: Google Play account is not connected.",
     "play-service-account: Google Play service account upload credentials are not available to CI.",
     "unit-economics-store-spend: Store spend allowed is false; spend mode is no-spend.",

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-24T23:56:57.678Z",
+  "generatedAt": "2026-05-25T07:13:48.369Z",
   "status": "objective-in-progress",
   "objective": "Build a bootstrapped autonomous web/PWA game portal that can generate original board-game-inspired games, measure user behavior, propose and apply data-driven improvements, and prepare a path to monetization and app-store distribution with minimal manual intervention.",
   "summary": {
@@ -7,7 +7,7 @@
     "met": 6,
     "prepared": 2,
     "incomplete": 0,
-    "externalBlockers": 16,
+    "externalBlockers": 15,
     "productBlockers": 7
   },
   "requirements": [
@@ -148,7 +148,7 @@
         "Store assets: screenshots-ready",
         "Store compliance: draft-ready-external-blockers",
         "Android signing: signing-prepared; fingerprint available",
-        "Native package: blocked-draft-ready",
+        "Native package: ready-for-bubblewrap-build",
         "Android release: blocked-needs-host-signing-play",
         "iOS release: deferred-until-ios-payback; native project deferred true"
       ],
@@ -156,9 +156,6 @@
         "support-contact: Production support email is required before public store submission.",
         "google-play-account: Google Play developer account must be connected before Android submission.",
         "apple-developer-account: Apple Developer account remains deferred until iOS spend is justified.",
-        "native-package-ready: Native package is blocked-draft-ready.",
-        "store-package-draft: Store package is blocked; data safety is draft-ready.",
-        "asset-links: Digital Asset Links are domain-verification-blocked; Android requires https://moshequ.github.io/.well-known/assetlinks.json and current artifact publishes https://moshequ.github.io/autonomous-game-lab/.well-known/assetlinks.json.",
         "google-play-account: Google Play account is not connected.",
         "play-service-account: Google Play service account upload credentials are not available to CI.",
         "unit-economics-store-spend: Store spend allowed is false; spend mode is no-spend.",
@@ -170,7 +167,7 @@
         "Revenue signal is $0.00, below $99.00.",
         "Apple Developer account is not connected."
       ],
-      "nextAction": "Host privacy URL, create signing assets, and connect Google Play account.",
+      "nextAction": "Connect the Google Play developer account.",
       "completionCritical": true
     },
     {
@@ -199,7 +196,6 @@
       "support-contact: Production support email is required before public store submission.",
       "google-play-account: Google Play developer account must be connected before Android submission.",
       "apple-developer-account: Apple Developer account remains deferred until iOS spend is justified.",
-      "asset-links: Digital Asset Links are domain-verification-blocked; Android requires https://moshequ.github.io/.well-known/assetlinks.json and current artifact publishes https://moshequ.github.io/autonomous-game-lab/.well-known/assetlinks.json.",
       "google-play-account: Google Play account is not connected.",
       "play-service-account: Google Play service account upload credentials are not available to CI.",
       "apple-developer-account: Apple Developer Program account is not connected.",
@@ -230,9 +226,6 @@
       "support-contact: Production support email is required before public store submission.",
       "google-play-account: Google Play developer account must be connected before Android submission.",
       "apple-developer-account: Apple Developer account remains deferred until iOS spend is justified.",
-      "native-package-ready: Native package is blocked-draft-ready.",
-      "store-package-draft: Store package is blocked; data safety is draft-ready.",
-      "asset-links: Digital Asset Links are domain-verification-blocked; Android requires https://moshequ.github.io/.well-known/assetlinks.json and current artifact publishes https://moshequ.github.io/autonomous-game-lab/.well-known/assetlinks.json.",
       "google-play-account: Google Play account is not connected.",
       "play-service-account: Google Play service account upload credentials are not available to CI.",
       "unit-economics-store-spend: Store spend allowed is false; spend mode is no-spend.",
@@ -250,9 +243,9 @@
     "noRevenueEnablementUntilGatesPass": true,
     "noStoreSubmissionUntilExternalAccounts": true,
     "currentWorktreeClean": false,
-    "currentWorktreeDirtyFiles": 91,
+    "currentWorktreeDirtyFiles": 111,
     "productionBootstrapFresh": true,
-    "productionBootstrapSourceDataHash": "d56153bfd0ac",
+    "productionBootstrapSourceDataHash": "4f454cc0f300",
     "productionBootstrapStaleInputIds": [],
     "objectiveNextBestActionSource": "owner-loop"
   },

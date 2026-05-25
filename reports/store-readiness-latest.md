@@ -1,8 +1,8 @@
 # Store Readiness
 
-Generated: 2026-05-24T23:56:32.842Z
+Generated: 2026-05-25T07:13:06.881Z
 Status: store-readiness-prepared-external-blockers
-Source hash: a659f72ae262
+Source hash: 76f72d48d10e
 
 ## Summary
 
@@ -20,7 +20,7 @@ Source hash: a659f72ae262
 - pass: store-compliance - Store compliance draft is draft-ready-external-blockers.
 - pass: store-listing - Store listing optimizer is store-listing-optimizer-ready.
 - pass: store-screenshots - 4 screenshot asset(s) are available.
-- blocker: native-package - Native Android package handoff is blocked-draft-ready.
+- pass: native-package - Native Android package handoff is ready-for-bubblewrap-build.
 - pass: android-release - Android release plan is blocked-needs-host-signing-play.
 - pass: ios-release - iOS handoff is deferred-until-ios-payback.
 - external-blocker: unit-economics - Store spend allowed is false.
@@ -38,9 +38,6 @@ Source hash: a659f72ae262
 - store-compliance: support-contact: Production support email is required before public store submission.
 - store-compliance: google-play-account: Google Play developer account must be connected before Android submission.
 - store-compliance: apple-developer-account: Apple Developer account remains deferred until iOS spend is justified.
-- android: native-package-ready: Native package is blocked-draft-ready.
-- android: store-package-draft: Store package is blocked; data safety is draft-ready.
-- android: asset-links: Digital Asset Links are domain-verification-blocked; Android requires https://moshequ.github.io/.well-known/assetlinks.json and current artifact publishes https://moshequ.github.io/autonomous-game-lab/.well-known/assetlinks.json.
 - android: google-play-account: Google Play account is not connected.
 - android: play-service-account: Google Play service account upload credentials are not available to CI.
 - ios: support-contact: Production support email is required before public store submission.
@@ -50,7 +47,6 @@ Source hash: a659f72ae262
 - google-play-fee: Google Play developer account is not connected.
 - ios-fee: Apple Developer account is not connected.
 - ios-fee: Projected annual revenue is $0.00, below $99.00.
-- native-package: Native Android package handoff is blocked-draft-ready.
 - monetization: Revenue enabled is false.
 - support-contact: Production support email is required before public app-store submission.
 

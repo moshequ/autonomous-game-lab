@@ -41,6 +41,27 @@ const decide = ({ channel, status, decision, blockers, nextAction }) => ({
   nextAction,
 })
 
+const androidNextActionFor = (blockers) => {
+  if (!blockers.length) {
+    return 'Run Android package build and Play Console upload.'
+  }
+
+  const actions = [
+    blockers.includes('Web/PWA readiness is not green.') ? 'Restore web/PWA readiness.' : null,
+    blockers.includes('Store package draft is not ready.') ? 'Finish the store package draft.' : null,
+    blockers.includes('Hosted privacy policy URL is missing.') ? 'Host the production privacy URL.' : null,
+    blockers.includes('Signed Android package and keystore are missing.') ? 'Create Android signing assets.' : null,
+    blockers.includes('Google Play developer account is not connected.')
+      ? 'Connect the Google Play developer account.'
+      : null,
+    blockers.some((blocker) => blocker.startsWith('Native package is '))
+      ? 'Refresh the native Android package handoff.'
+      : null,
+  ].filter(Boolean)
+
+  return actions.join(' ')
+}
+
 const webBlockers = []
 
 if (readiness.webPwa?.status !== policy.webPwa.requiredReadinessStatus) {
@@ -136,9 +157,7 @@ const android = decide({
     ? 'Keep Android packaging blocked.'
     : 'Package Android Trusted Web Activity and prepare Play Console submission.',
   blockers: androidBlockers,
-  nextAction: androidBlockers.length
-    ? 'Host privacy URL, create signing assets, and connect Google Play account.'
-    : 'Run Android package build and Play Console upload.',
+  nextAction: androidNextActionFor(androidBlockers),
 })
 
 const revenueCents = analytics.totals?.metrics?.revenueCents ?? 0

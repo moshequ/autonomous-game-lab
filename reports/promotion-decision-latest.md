@@ -1,6 +1,6 @@
 # Promotion Decision
 
-Generated: 2026-05-24T22:20:50.847Z
+Generated: 2026-05-25T07:11:36.445Z
 Analytics source: fixture-sample
 Release health: monitoring
 Cost posture: no-new-spend
@@ -28,10 +28,9 @@ Cost posture: no-new-spend
 
 - Status: blocked
 - Decision: Keep Android packaging blocked.
-- Next action: Host privacy URL, create signing assets, and connect Google Play account.
+- Next action: Connect the Google Play developer account.
 - Blockers:
   - Google Play developer account is not connected.
-  - Native package is blocked-draft-ready.
 
 ### ios-app-store
 

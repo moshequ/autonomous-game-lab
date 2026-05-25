@@ -5849,7 +5849,7 @@ test('objective audit maps the goal to evidence and remaining blockers', async (
   const audit = JSON.parse(await readFile('data/objective-audit.json', 'utf8')) as {
     status: string
     summary: { requirements: number; met: number; prepared: number; externalBlockers: number }
-    requirements: Array<{ id: string; status: string; evidence: string[] }>
+    requirements: Array<{ id: string; status: string; evidence: string[]; blockers?: string[]; nextAction?: string }>
     blockers: { external: string[]; product: string[] }
     controls: {
       preserveOriginalScope: boolean
@@ -5880,6 +5880,10 @@ test('objective audit maps the goal to evidence and remaining blockers', async (
       .find((item) => item.id === 'app-store-distribution-path')
       ?.evidence.some((item) => item.includes('iOS release:')),
   ).toBe(true)
+  const appStoreRequirement = audit.requirements.find((item) => item.id === 'app-store-distribution-path')
+  expect(appStoreRequirement?.evidence).toContain('Native package: ready-for-bubblewrap-build')
+  expect(appStoreRequirement?.blockers?.some((item) => item.includes('asset-links:'))).toBe(false)
+  expect(appStoreRequirement?.nextAction).toBe('Connect the Google Play developer account.')
   expect(audit.controls.preserveOriginalScope).toBe(true)
   expect(audit.controls.doNotMarkGoalCompleteWhileBlocked).toBe(true)
   expect(audit.controls.zeroSpendGuard).toBe(true)
