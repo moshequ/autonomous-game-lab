@@ -117,6 +117,11 @@ test('portal loads a playable canvas and autonomy cockpit', async ({ page }) => 
       lowestInputPathId?: string | null
       ownerActionRequired: number
     } | null
+    storeExternalInputHandoff?: {
+      nextUnlockId: string | null
+      lowestInputUnlockId: string | null
+      ownerActionRequired: number
+    } | null
   }
   const objectiveAudit = JSON.parse(await readFile('data/objective-audit.json', 'utf8')) as {
     completion: { nextBestAction: string }
@@ -180,6 +185,11 @@ test('portal loads a playable canvas and autonomy cockpit', async ({ page }) => 
     await expect(page.getByText(ownerLoop.externalInputHandoff.recommendedPathId ?? 'none').first()).toBeVisible()
     await expect(page.getByText(ownerLoop.externalInputHandoff.lowestInputPathId ?? 'none').first()).toBeVisible()
     await expect(page.getByText(String(ownerLoop.externalInputHandoff.ownerActionRequired)).first()).toBeVisible()
+  }
+  if (ownerLoop.storeExternalInputHandoff) {
+    await expect(page.getByText(ownerLoop.storeExternalInputHandoff.nextUnlockId ?? 'none').first()).toBeVisible()
+    await expect(page.getByText(ownerLoop.storeExternalInputHandoff.lowestInputUnlockId ?? 'none').first()).toBeVisible()
+    await expect(page.getByText(String(ownerLoop.storeExternalInputHandoff.ownerActionRequired)).first()).toBeVisible()
   }
   await expect(page.getByLabel('Performance Budget')).toContainText('performance-budget-ready')
   await expect(page.getByLabel('Performance Budget')).toContainText('Initial JS')
@@ -4386,6 +4396,42 @@ test('autonomous operator history keeps a capped audit trail', async ({ page }) 
         ownerLoopWillNotRunExternalWorkflow: boolean
       }
     } | null
+    storeExternalInputHandoff: {
+      status: string
+      holdReason: string | null
+      nextUnlockId: string | null
+      lowestInputUnlockId: string | null
+      lowestInputMissingInputCount: number
+      lowestInputMissingSecretCount: number
+      publicStatusPage: string
+      publicStatusJson: string
+      ownerActionRequired: number
+      missingInputCount: number
+      missingVariableCount: number
+      missingSecretCount: number
+      canApplyBeforeProductGates: boolean
+      storeSubmissionStillBlocked: boolean
+      validationCommands: string[]
+      requiredVariables: Array<{ repositoryName: string | null; configured: boolean; value?: string }>
+      requiredSecrets: Array<{ repositoryName: string | null; configured: boolean; value?: string }>
+      controls: {
+        noAccountCreation: boolean
+        noStoreSubmission: boolean
+        noRevenueEnablement: boolean
+        noSecretValuesStored: boolean
+        storeSpendStillBlocked: boolean
+        ownerLoopWillNotRunExternalWorkflow: boolean
+      }
+    } | null
+    externalInputHandoffs: Array<{
+      id: string
+      category: string
+      priority: string
+      nextUnlockId: string | null
+      publicStatusPage: string
+      missingVariableCount: number
+      missingSecretCount: number
+    }>
     controls: {
       repositoryHandoffPrepared: boolean
       localActionAvailable: boolean
@@ -4555,6 +4601,40 @@ test('autonomous operator history keeps a capped audit trail', async ({ page }) 
       lowestInputMissingVariableCount?: number
       lowestInputMissingSecretCount?: number
     } | null
+  }
+  const storeReadiness = JSON.parse(await readFile('data/store-readiness.json', 'utf8')) as {
+    status: string
+    publicRoutes: { storeReadiness: string; storeReadinessJson: string }
+    storeOwnerUnlockSummary: {
+      status: string
+      nextUnlockId: string | null
+      lowestInputUnlockId: string | null
+      lowestInputMissingInputCount: number
+      lowestInputMissingSecretCount: number
+      immediateUnlocks: string[]
+      gatedUnlocks: string[]
+      controls: {
+        noAccountCreation: boolean
+        noStoreSubmission: boolean
+        noRevenueEnablement: boolean
+        noSecretValuesStored: boolean
+        storeSpendStillBlocked: boolean
+      }
+    }
+    storeOwnerUnlocks: Array<{
+      id: string
+      status: string
+      ownerInputRequired: boolean
+      canApplyBeforeProductGates: boolean
+      storeSubmissionStillBlocked: boolean
+      missingInputCount: number
+      missingVariableCount: number
+      missingSecretCount: number
+      missingVariables: Array<Record<string, unknown>>
+      missingSecrets: Array<Record<string, unknown>>
+      setupCommands: string[]
+      validationCommands: string[]
+    }>
   }
   const localEventBridge = JSON.parse(await readFile('data/local-event-bridge.json', 'utf8')) as {
     generatedAt: string
@@ -4843,6 +4923,60 @@ test('autonomous operator history keeps a capped audit trail', async ({ page }) 
     expect(ownerLoop.externalInputHandoff?.controls.noStoreSubmission).toBe(true)
     expect(ownerLoop.externalInputHandoff?.controls.noRevenueEnablement).toBe(true)
     expect(ownerLoop.externalInputHandoff?.controls.ownerLoopWillNotRunExternalWorkflow).toBe(true)
+  }
+  const supportContactStoreUnlock = storeReadiness.storeOwnerUnlocks.find(
+    (unlock) => unlock.id === storeReadiness.storeOwnerUnlockSummary.nextUnlockId,
+  )
+  const ownerExpectedStoreExternalInputHandoff =
+    storeReadiness.storeOwnerUnlockSummary.status === 'waiting-on-owner-input'
+  expect(Boolean(ownerLoop.storeExternalInputHandoff)).toBe(ownerExpectedStoreExternalInputHandoff)
+  if (ownerExpectedStoreExternalInputHandoff) {
+    expect(ownerLoop.storeExternalInputHandoff?.status).toBe(storeReadiness.status)
+    expect(ownerLoop.storeExternalInputHandoff?.holdReason).toBe(ownerLoop.ownerDecision.holdReason)
+    expect(ownerLoop.storeExternalInputHandoff?.nextUnlockId).toBe(
+      storeReadiness.storeOwnerUnlockSummary.nextUnlockId,
+    )
+    expect(ownerLoop.storeExternalInputHandoff?.lowestInputUnlockId).toBe(
+      storeReadiness.storeOwnerUnlockSummary.lowestInputUnlockId,
+    )
+    expect(ownerLoop.storeExternalInputHandoff?.lowestInputMissingInputCount).toBe(
+      storeReadiness.storeOwnerUnlockSummary.lowestInputMissingInputCount,
+    )
+    expect(ownerLoop.storeExternalInputHandoff?.lowestInputMissingSecretCount).toBe(
+      storeReadiness.storeOwnerUnlockSummary.lowestInputMissingSecretCount,
+    )
+    expect(ownerLoop.storeExternalInputHandoff?.publicStatusPage).toBe(storeReadiness.publicRoutes.storeReadiness)
+    expect(ownerLoop.storeExternalInputHandoff?.publicStatusJson).toBe(
+      storeReadiness.publicRoutes.storeReadinessJson,
+    )
+    expect(ownerLoop.storeExternalInputHandoff?.ownerActionRequired).toBe(
+      supportContactStoreUnlock?.ownerInputRequired ? 1 : 0,
+    )
+    expect(ownerLoop.storeExternalInputHandoff?.missingInputCount).toBe(
+      supportContactStoreUnlock?.missingInputCount,
+    )
+    expect(ownerLoop.storeExternalInputHandoff?.missingVariableCount).toBe(
+      supportContactStoreUnlock?.missingVariableCount,
+    )
+    expect(ownerLoop.storeExternalInputHandoff?.missingSecretCount).toBe(
+      supportContactStoreUnlock?.missingSecretCount,
+    )
+    expect(ownerLoop.storeExternalInputHandoff?.canApplyBeforeProductGates).toBe(true)
+    expect(ownerLoop.storeExternalInputHandoff?.storeSubmissionStillBlocked).toBe(true)
+    expect(ownerLoop.storeExternalInputHandoff?.validationCommands).toContain('npm run autonomous:store-readiness')
+    expect(
+      [
+        ...(ownerLoop.storeExternalInputHandoff?.requiredVariables ?? []),
+        ...(ownerLoop.storeExternalInputHandoff?.requiredSecrets ?? []),
+      ].some((item) => Object.hasOwn(item, 'value')),
+    ).toBe(false)
+    expect(ownerLoop.storeExternalInputHandoff?.controls.noAccountCreation).toBe(true)
+    expect(ownerLoop.storeExternalInputHandoff?.controls.noStoreSubmission).toBe(true)
+    expect(ownerLoop.storeExternalInputHandoff?.controls.noRevenueEnablement).toBe(true)
+    expect(ownerLoop.storeExternalInputHandoff?.controls.noSecretValuesStored).toBe(true)
+    expect(ownerLoop.storeExternalInputHandoff?.controls.storeSpendStillBlocked).toBe(true)
+    expect(ownerLoop.storeExternalInputHandoff?.controls.ownerLoopWillNotRunExternalWorkflow).toBe(true)
+    expect(ownerLoop.externalInputHandoffs.some((handoff) => handoff.id === 'store-readiness')).toBe(true)
   }
   expect(ownerLoop.executionMemory.gateSampleDownloadsBackoff.enabled).toBe(true)
   expect(ownerLoop.executionMemory.gateSampleDownloadsBackoff.cooldownHours).toBe(4)

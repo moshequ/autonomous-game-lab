@@ -223,6 +223,12 @@ const productionBlockerHandoff = await readOptionalJson(path.join(dataDir, 'prod
   handoffItems: [],
   unlocks: [],
 })
+const storeReadiness = await readOptionalJson(path.join(dataDir, 'store-readiness.json'), {
+  status: 'missing',
+  publicRoutes: {},
+  storeOwnerUnlockSummary: null,
+  storeOwnerUnlocks: [],
+})
 const productionUnlockRunner = await readOptionalJson(path.join(dataDir, 'production-unlock-runner.json'), {
   status: 'missing',
   mode: 'missing',
@@ -2594,6 +2600,83 @@ const ownerExternalInputHandoff =
         },
       }
     : null
+const storeOwnerUnlockSummary = storeReadiness.storeOwnerUnlockSummary ?? null
+const storeOwnerUnlocks = storeReadiness.storeOwnerUnlocks ?? []
+const storeOwnerNextUnlock =
+  storeOwnerUnlocks.find((unlock) => unlock.id === storeOwnerUnlockSummary?.nextUnlockId) ??
+  storeOwnerUnlocks.find((unlock) => unlock.ownerInputRequired && unlock.canApplyBeforeProductGates) ??
+  null
+const storeOwnerLowestInputUnlock =
+  storeOwnerUnlocks.find((unlock) => unlock.id === storeOwnerUnlockSummary?.lowestInputUnlockId) ??
+  storeOwnerNextUnlock
+const ownerStoreExternalInputHandoff =
+  storeOwnerUnlockSummary?.status === 'waiting-on-owner-input'
+    ? {
+        status: storeReadiness.status,
+        holdReason: ownerHoldReason,
+        nextUnlockId: storeOwnerUnlockSummary.nextUnlockId ?? storeOwnerNextUnlock?.id ?? null,
+        title: storeOwnerNextUnlock?.title ?? null,
+        costMode: storeOwnerNextUnlock?.costMode ?? null,
+        nextUnlockStatus: storeOwnerNextUnlock?.status ?? null,
+        lowestInputUnlockId: storeOwnerUnlockSummary.lowestInputUnlockId ?? storeOwnerLowestInputUnlock?.id ?? null,
+        lowestInputUnlockStatus: storeOwnerLowestInputUnlock?.status ?? null,
+        lowestInputMissingInputCount:
+          storeOwnerUnlockSummary.lowestInputMissingInputCount ?? storeOwnerLowestInputUnlock?.missingInputCount ?? 0,
+        lowestInputMissingSecretCount:
+          storeOwnerUnlockSummary.lowestInputMissingSecretCount ?? storeOwnerLowestInputUnlock?.missingSecretCount ?? 0,
+        lowestInputReason: storeOwnerUnlockSummary.lowestInputReason ?? null,
+        immediateUnlocks: storeOwnerUnlockSummary.immediateUnlocks ?? [],
+        gatedUnlocks: storeOwnerUnlockSummary.gatedUnlocks ?? [],
+        publicStatusPage: storeReadiness.publicRoutes?.storeReadiness ?? '/store-readiness.html',
+        publicStatusJson: storeReadiness.publicRoutes?.storeReadinessJson ?? '/store-readiness.json',
+        ownerActionRequired: storeOwnerNextUnlock?.ownerInputRequired ? 1 : 0,
+        missingInputCount: storeOwnerNextUnlock?.missingInputCount ?? 0,
+        missingVariableCount: storeOwnerNextUnlock?.missingVariableCount ?? 0,
+        missingSecretCount: storeOwnerNextUnlock?.missingSecretCount ?? 0,
+        canApplyBeforeProductGates: storeOwnerNextUnlock?.canApplyBeforeProductGates === true,
+        storeSubmissionStillBlocked: storeOwnerNextUnlock?.storeSubmissionStillBlocked === true,
+        requiredVariables: (storeOwnerNextUnlock?.missingVariables ?? []).map(sanitizeExternalInput),
+        requiredSecrets: (storeOwnerNextUnlock?.missingSecrets ?? []).map(sanitizeExternalInput),
+        commandSequence: storeOwnerNextUnlock?.setupCommands ?? [],
+        validationCommands: storeOwnerNextUnlock?.validationCommands ?? [],
+        controls: {
+          noAccountCreation: storeOwnerUnlockSummary.controls?.noAccountCreation === true,
+          noStoreSubmission: storeOwnerUnlockSummary.controls?.noStoreSubmission === true,
+          noRevenueEnablement: storeOwnerUnlockSummary.controls?.noRevenueEnablement === true,
+          noSecretValuesStored: storeOwnerUnlockSummary.controls?.noSecretValuesStored === true,
+          storeSpendStillBlocked: storeOwnerUnlockSummary.controls?.storeSpendStillBlocked === true,
+          ownerLoopWillNotRunExternalWorkflow: true,
+        },
+      }
+    : null
+const ownerExternalInputHandoffs = [
+  ...(ownerExternalInputHandoff
+    ? [
+        {
+          id: 'production-measurement',
+          category: 'analytics',
+          priority: 'primary',
+          nextUnlockId: ownerExternalInputHandoff.nextUnlockId,
+          publicStatusPage: ownerExternalInputHandoff.publicStatusPage,
+          missingVariableCount: ownerExternalInputHandoff.missingVariableCount,
+          missingSecretCount: ownerExternalInputHandoff.missingSecretCount,
+        },
+      ]
+    : []),
+  ...(ownerStoreExternalInputHandoff
+    ? [
+        {
+          id: 'store-readiness',
+          category: 'store',
+          priority: ownerExternalInputHandoff ? 'parallel' : 'primary',
+          nextUnlockId: ownerStoreExternalInputHandoff.nextUnlockId,
+          publicStatusPage: ownerStoreExternalInputHandoff.publicStatusPage,
+          missingVariableCount: ownerStoreExternalInputHandoff.missingVariableCount,
+          missingSecretCount: ownerStoreExternalInputHandoff.missingSecretCount,
+        },
+      ]
+    : []),
+]
 
 const payload = {
   generatedAt: ownerGeneratedAt,
@@ -2629,6 +2712,8 @@ const payload = {
     rationale: nextBestAction.reason,
   },
   externalInputHandoff: ownerExternalInputHandoff,
+  storeExternalInputHandoff: ownerStoreExternalInputHandoff,
+  externalInputHandoffs: ownerExternalInputHandoffs,
   executionMemory: {
     avoidImmediateRepeat: true,
     recentExecutionWindow,
@@ -2851,6 +2936,27 @@ const appPayload = {
         publicStatusPage: payload.externalInputHandoff.publicStatusPage,
       }
     : null,
+  storeExternalInputHandoff: payload.storeExternalInputHandoff
+    ? {
+        nextUnlockId: payload.storeExternalInputHandoff.nextUnlockId,
+        lowestInputUnlockId: payload.storeExternalInputHandoff.lowestInputUnlockId,
+        ownerActionRequired: payload.storeExternalInputHandoff.ownerActionRequired,
+        missingVariableCount: payload.storeExternalInputHandoff.missingVariableCount,
+        missingSecretCount: payload.storeExternalInputHandoff.missingSecretCount,
+        lowestInputMissingInputCount: payload.storeExternalInputHandoff.lowestInputMissingInputCount,
+        lowestInputMissingSecretCount: payload.storeExternalInputHandoff.lowestInputMissingSecretCount,
+        publicStatusPage: payload.storeExternalInputHandoff.publicStatusPage,
+      }
+    : null,
+  externalInputHandoffs: payload.externalInputHandoffs.map((handoff) => ({
+    id: handoff.id,
+    category: handoff.category,
+    priority: handoff.priority,
+    nextUnlockId: handoff.nextUnlockId,
+    publicStatusPage: handoff.publicStatusPage,
+    missingVariableCount: handoff.missingVariableCount,
+    missingSecretCount: handoff.missingSecretCount,
+  })),
 }
 
 const report = [
@@ -2883,6 +2989,18 @@ const report = [
         `- Public status: ${payload.externalInputHandoff.publicStatusPage}`,
         `- Missing inputs: ${payload.externalInputHandoff.missingVariableCount} variable(s), ${payload.externalInputHandoff.missingSecretCount} secret(s)`,
         ...payload.externalInputHandoff.validationCommands.map((command) => `- validate: ${command}`),
+      ]
+    : []),
+  ...(payload.storeExternalInputHandoff
+    ? [
+        '',
+        '## Store External Input Handoff',
+        '',
+        `- Next unlock: ${payload.storeExternalInputHandoff.nextUnlockId ?? 'none'}`,
+        `- Lowest-input unlock: ${payload.storeExternalInputHandoff.lowestInputUnlockId ?? 'none'}`,
+        `- Public status: ${payload.storeExternalInputHandoff.publicStatusPage}`,
+        `- Missing inputs: ${payload.storeExternalInputHandoff.missingVariableCount} variable(s), ${payload.storeExternalInputHandoff.missingSecretCount} secret(s)`,
+        ...payload.storeExternalInputHandoff.validationCommands.map((command) => `- validate: ${command}`),
       ]
     : []),
   '',

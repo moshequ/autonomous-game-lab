@@ -7768,6 +7768,18 @@ const ownerExternalInputHandoffLeaksValues = [
   ...(autonomousOwnerLoop.externalInputHandoff?.requiredVariables ?? []),
   ...(autonomousOwnerLoop.externalInputHandoff?.requiredSecrets ?? []),
 ].some((item) => Object.hasOwn(item, 'value'))
+const ownerStoreUnlockSummary = storeReadiness.storeOwnerUnlockSummary ?? null
+const ownerStoreUnlocks = storeReadiness.storeOwnerUnlocks ?? []
+const ownerStoreNextUnlock =
+  ownerStoreUnlocks.find((unlock) => unlock.id === ownerStoreUnlockSummary?.nextUnlockId) ??
+  ownerStoreUnlocks.find((unlock) => unlock.ownerInputRequired && unlock.canApplyBeforeProductGates) ??
+  null
+const ownerExpectedStoreExternalInputHandoff =
+  ownerStoreUnlockSummary?.status === 'waiting-on-owner-input'
+const ownerStoreExternalInputHandoffLeaksValues = [
+  ...(autonomousOwnerLoop.storeExternalInputHandoff?.requiredVariables ?? []),
+  ...(autonomousOwnerLoop.storeExternalInputHandoff?.requiredSecrets ?? []),
+].some((item) => Object.hasOwn(item, 'value'))
 
 if (
   autonomousOwnerLoop.status !== 'owner-loop-ready' ||
@@ -7851,6 +7863,65 @@ if (
     autonomousOwnerLoop.externalInputHandoff?.controls?.noRevenueEnablement !== true) ||
   (ownerExpectedExternalInputHandoff &&
     autonomousOwnerLoop.externalInputHandoff?.controls?.ownerLoopWillNotRunExternalWorkflow !== true) ||
+  Boolean(autonomousOwnerLoop.storeExternalInputHandoff) !== ownerExpectedStoreExternalInputHandoff ||
+  (ownerExpectedStoreExternalInputHandoff &&
+    autonomousOwnerLoop.storeExternalInputHandoff?.status !== storeReadiness.status) ||
+  (ownerExpectedStoreExternalInputHandoff &&
+    autonomousOwnerLoop.storeExternalInputHandoff?.holdReason !== autonomousOwnerLoop.ownerDecision?.holdReason) ||
+  (ownerExpectedStoreExternalInputHandoff &&
+    autonomousOwnerLoop.storeExternalInputHandoff?.nextUnlockId !==
+      (ownerStoreUnlockSummary?.nextUnlockId ?? ownerStoreNextUnlock?.id ?? null)) ||
+  (ownerExpectedStoreExternalInputHandoff &&
+    autonomousOwnerLoop.storeExternalInputHandoff?.lowestInputUnlockId !==
+      (ownerStoreUnlockSummary?.lowestInputUnlockId ?? ownerStoreNextUnlock?.id ?? null)) ||
+  (ownerExpectedStoreExternalInputHandoff &&
+    autonomousOwnerLoop.storeExternalInputHandoff?.lowestInputMissingInputCount !==
+      (ownerStoreUnlockSummary?.lowestInputMissingInputCount ?? ownerStoreNextUnlock?.missingInputCount ?? 0)) ||
+  (ownerExpectedStoreExternalInputHandoff &&
+    autonomousOwnerLoop.storeExternalInputHandoff?.lowestInputMissingSecretCount !==
+      (ownerStoreUnlockSummary?.lowestInputMissingSecretCount ?? ownerStoreNextUnlock?.missingSecretCount ?? 0)) ||
+  (ownerExpectedStoreExternalInputHandoff &&
+    autonomousOwnerLoop.storeExternalInputHandoff?.publicStatusPage !==
+      (storeReadiness.publicRoutes?.storeReadiness ?? '/store-readiness.html')) ||
+  (ownerExpectedStoreExternalInputHandoff &&
+    autonomousOwnerLoop.storeExternalInputHandoff?.publicStatusJson !==
+      (storeReadiness.publicRoutes?.storeReadinessJson ?? '/store-readiness.json')) ||
+  (ownerExpectedStoreExternalInputHandoff &&
+    autonomousOwnerLoop.storeExternalInputHandoff?.ownerActionRequired !==
+      (ownerStoreNextUnlock?.ownerInputRequired ? 1 : 0)) ||
+  (ownerExpectedStoreExternalInputHandoff &&
+    autonomousOwnerLoop.storeExternalInputHandoff?.missingInputCount !== (ownerStoreNextUnlock?.missingInputCount ?? 0)) ||
+  (ownerExpectedStoreExternalInputHandoff &&
+    autonomousOwnerLoop.storeExternalInputHandoff?.missingVariableCount !==
+      (ownerStoreNextUnlock?.missingVariableCount ?? 0)) ||
+  (ownerExpectedStoreExternalInputHandoff &&
+    autonomousOwnerLoop.storeExternalInputHandoff?.missingSecretCount !==
+      (ownerStoreNextUnlock?.missingSecretCount ?? 0)) ||
+  (ownerExpectedStoreExternalInputHandoff &&
+    autonomousOwnerLoop.storeExternalInputHandoff?.canApplyBeforeProductGates !==
+      (ownerStoreNextUnlock?.canApplyBeforeProductGates === true)) ||
+  (ownerExpectedStoreExternalInputHandoff &&
+    autonomousOwnerLoop.storeExternalInputHandoff?.storeSubmissionStillBlocked !==
+      (ownerStoreNextUnlock?.storeSubmissionStillBlocked === true)) ||
+  (ownerExpectedStoreExternalInputHandoff &&
+    !autonomousOwnerLoop.storeExternalInputHandoff?.validationCommands?.includes(
+      'npm run autonomous:store-readiness',
+    )) ||
+  (ownerExpectedStoreExternalInputHandoff && ownerStoreExternalInputHandoffLeaksValues) ||
+  (ownerExpectedStoreExternalInputHandoff &&
+    autonomousOwnerLoop.storeExternalInputHandoff?.controls?.noAccountCreation !== true) ||
+  (ownerExpectedStoreExternalInputHandoff &&
+    autonomousOwnerLoop.storeExternalInputHandoff?.controls?.noStoreSubmission !== true) ||
+  (ownerExpectedStoreExternalInputHandoff &&
+    autonomousOwnerLoop.storeExternalInputHandoff?.controls?.noRevenueEnablement !== true) ||
+  (ownerExpectedStoreExternalInputHandoff &&
+    autonomousOwnerLoop.storeExternalInputHandoff?.controls?.noSecretValuesStored !== true) ||
+  (ownerExpectedStoreExternalInputHandoff &&
+    autonomousOwnerLoop.storeExternalInputHandoff?.controls?.storeSpendStillBlocked !== true) ||
+  (ownerExpectedStoreExternalInputHandoff &&
+    autonomousOwnerLoop.storeExternalInputHandoff?.controls?.ownerLoopWillNotRunExternalWorkflow !== true) ||
+  (ownerExpectedStoreExternalInputHandoff &&
+    !autonomousOwnerLoop.externalInputHandoffs?.some((handoff) => handoff.id === 'store-readiness')) ||
   autonomousOwnerLoop.evidence?.analyticsSource !== analytics.sourceStatus.activeSource ||
   autonomousOwnerLoop.evidence?.localEventBridgeStatus !== localEventBridge.status ||
   autonomousOwnerLoop.evidence?.dailyChallenge?.gameId !== portfolioPolicy.dailyChallenge?.gameId ||
@@ -7916,6 +7987,9 @@ if (
   !autonomousOwnerLoopSource.includes('operationalEvidenceFreshness') ||
   !autonomousOwnerLoopSource.includes('liveSiteMonitorOperationalFreshness') ||
   !autonomousOwnerLoopSource.includes('ownerExternalInputHandoff') ||
+  !autonomousOwnerLoopSource.includes('ownerStoreExternalInputHandoff') ||
+  !autonomousOwnerLoopSource.includes('store-readiness.json') ||
+  !autonomousOwnerLoopSource.includes('storeOwnerUnlockSummary') ||
   JSON.stringify(autonomousOwnerLoop.executionMemory?.recentExecutedActionIds ?? []) !==
     JSON.stringify(ownerRecentExecutedActionIds) ||
   JSON.stringify(autonomousOwnerLoop.executionMemory?.expiredExecutedActionIds ?? []) !==
@@ -8414,6 +8488,7 @@ if (
 if (
   !appSource.includes('autonomousOwnerLoop.ownerDecision.nextBestActionId') ||
   !appSource.includes('ownerExternalInputHandoff?.nextUnlockId') ||
+  !appSource.includes('ownerStoreExternalInputHandoff?.nextUnlockId') ||
   appSource.includes('ownerDecisionAction') ||
   appSource.includes('autonomousOwnerLoop.safeAutonomousActions')
 ) {

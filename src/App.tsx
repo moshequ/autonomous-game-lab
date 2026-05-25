@@ -1099,6 +1099,20 @@ function App() {
       } | null
     }
   ).externalInputHandoff
+  const ownerStoreExternalInputHandoff = (
+    autonomousOwnerLoop as {
+      storeExternalInputHandoff?: {
+        nextUnlockId: string | null
+        lowestInputUnlockId: string | null
+        ownerActionRequired: number
+        missingVariableCount: number
+        missingSecretCount: number
+        lowestInputMissingInputCount?: number
+        lowestInputMissingSecretCount?: number
+        publicStatusPage: string
+      } | null
+    }
+  ).storeExternalInputHandoff
   const liveSiteMonitorOrigin = liveSiteMonitor.origin.origin ?? 'missing'
   const operatorSelectedAction = autonomousOperator.selectedAction as { id: string } | null
   const operatorExternalInputHandoff = (
@@ -3470,6 +3484,22 @@ function App() {
                 <strong>
                   {ownerExternalInputHandoff
                     ? `${ownerExternalInputHandoff.missingVariableCount}/${ownerExternalInputHandoff.missingSecretCount}`
+                    : '0/0'}
+                </strong>
+              </div>
+              <div className="factRow">
+                <span>Store unlock</span>
+                <strong>{ownerStoreExternalInputHandoff?.nextUnlockId ?? 'none'}</strong>
+              </div>
+              <div className="factRow">
+                <span>Store low-input</span>
+                <strong>{ownerStoreExternalInputHandoff?.lowestInputUnlockId ?? 'none'}</strong>
+              </div>
+              <div className="factRow">
+                <span>Store inputs</span>
+                <strong>
+                  {ownerStoreExternalInputHandoff
+                    ? `${ownerStoreExternalInputHandoff.missingVariableCount}/${ownerStoreExternalInputHandoff.missingSecretCount}`
                     : '0/0'}
                 </strong>
               </div>
