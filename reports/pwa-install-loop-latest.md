@@ -1,8 +1,8 @@
 # PWA Install Loop
 
-Generated: 2026-05-25T23:02:28.369Z
+Generated: 2026-05-25T23:06:06.598Z
 Status: pwa-install-loop-ready
-Source hash: fa978c4ada94
+Source hash: 33068b9a52a6
 Channel: pwa-install (ready-after-hosting)
 Install page views: 0
 Open-app clicks: 0
@@ -29,8 +29,8 @@ Acceptance: 0%
 - Play path: /?game=market-pulse&utm_source=pwa_install&utm_campaign=pwa-install-market-pulse
 - Prompt views needed: 20
 - Launch-mode events needed: 10
-- Hosted origin required: true
-- Next action: Publish to a stable HTTPS host before treating PWA install evidence as production-ready.
+- Hosted origin required: false
+- Next action: Route zero-spend install traffic through /?game=market-pulse&utm_source=pwa_install&utm_campaign=pwa-install-market-pulse until 20 prompt view(s) and 10 launch-mode event(s) are collected.
 
 ## Guardrails
 
@@ -52,8 +52,8 @@ Acceptance: 0%
 
 ## Next Actions
 
-- Publish to a stable HTTPS host before treating PWA install evidence as production-ready.
+- Route zero-spend install traffic through /?game=market-pulse&utm_source=pwa_install&utm_campaign=pwa-install-market-pulse until 20 prompt view(s) and 10 launch-mode event(s) are collected.
 - Start measuring native install prompt availability and standalone launches.
 - Route install traffic through /?game=market-pulse&utm_source=pwa_install&utm_campaign=pwa-install-market-pulse so prompt events carry pwa-install attribution.
-- Publish to a stable HTTPS host before using PWA install data for store-readiness claims.
+- Keep install links pointed at the stable HTTPS production origin.
 - Keep install prompts optional, non-blocking, and separated from paid rewards.
