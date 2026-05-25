@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-05-25T21:38:40.838Z",
+  "generatedAt": "2026-05-25T22:00:40.728Z",
   "status": "performance-budget-ready",
   "sourceBuild": "dist",
-  "basePath": "/autonomous-game-lab/",
+  "basePath": "/",
   "budgets": {
     "initialJsTargetBytes": 702464,
     "initialJsTargetKb": 686,
@@ -17,66 +17,66 @@
   },
   "initial": {
     "entryScripts": [
-      "index-DtyuKTQ0.js",
+      "index-DOPG4Qs5.js",
       "registerSW.js"
     ],
     "scriptPaths": [
-      "assets/index-DtyuKTQ0.js",
+      "assets/index-DOPG4Qs5.js",
       "registerSW.js"
     ],
     "jsFiles": [
       {
-        "file": "index-DtyuKTQ0.js",
-        "path": "assets/index-DtyuKTQ0.js",
-        "bytes": 705728,
-        "kb": 689.2,
-        "gzipBytes": 190856,
-        "gzipKb": 186.4
+        "file": "index-DOPG4Qs5.js",
+        "path": "assets/index-DOPG4Qs5.js",
+        "bytes": 705816,
+        "kb": 689.3,
+        "gzipBytes": 190430,
+        "gzipKb": 186
       },
       {
         "file": "registerSW.js",
         "path": "registerSW.js",
         "bytes": 174,
         "kb": 0.2,
-        "gzipBytes": 142,
+        "gzipBytes": 141,
         "gzipKb": 0.1
       }
     ],
-    "jsBytes": 705902,
+    "jsBytes": 705990,
     "jsKb": 689.4,
-    "gzipBytes": 190998,
-    "gzipKb": 186.5,
+    "gzipBytes": 190571,
+    "gzipKb": 186.1,
     "cssFiles": [
       {
         "file": "index-BzgYwZsM.css",
         "path": "assets/index-BzgYwZsM.css",
         "bytes": 10779,
         "kb": 10.5,
-        "gzipBytes": 2892,
+        "gzipBytes": 2888,
         "gzipKb": 2.8
       }
     ],
     "cssBytes": 10779,
     "cssKb": 10.5,
-    "cssGzipBytes": 2892,
+    "cssGzipBytes": 2888,
     "cssGzipKb": 2.8
   },
   "deferred": {
     "chunks": [
       {
-        "file": "aggregateEvidenceIssue-V48UZc0b.js",
-        "path": "assets/aggregateEvidenceIssue-V48UZc0b.js",
+        "file": "aggregateEvidenceIssue-Bl6icjqx.js",
+        "path": "assets/aggregateEvidenceIssue-Bl6icjqx.js",
         "bytes": 3717,
         "kb": 3.6,
-        "gzipBytes": 1481,
+        "gzipBytes": 1484,
         "gzipKb": 1.4
       },
       {
-        "file": "calendarReminder-B15qQuX6.js",
-        "path": "assets/calendarReminder-B15qQuX6.js",
+        "file": "calendarReminder-C2Fw7Db2.js",
+        "path": "assets/calendarReminder-C2Fw7Db2.js",
         "bytes": 1627,
         "kb": 1.6,
-        "gzipBytes": 932,
+        "gzipBytes": 920,
         "gzipKb": 0.9
       },
       {
@@ -84,7 +84,7 @@
         "path": "assets/FoundryLedgerScene-CbI7dT9M.js",
         "bytes": 5526,
         "kb": 5.4,
-        "gzipBytes": 2154,
+        "gzipBytes": 2147,
         "gzipKb": 2.1
       },
       {
@@ -92,15 +92,15 @@
         "path": "assets/gameBalance-CXOFAfbC.js",
         "bytes": 2657,
         "kb": 2.6,
-        "gzipBytes": 776,
+        "gzipBytes": 778,
         "gzipKb": 0.8
       },
       {
-        "file": "GameCanvas-CUxJgV_5.js",
-        "path": "assets/GameCanvas-CUxJgV_5.js",
+        "file": "GameCanvas-GuQzyp_u.js",
+        "path": "assets/GameCanvas-GuQzyp_u.js",
         "bytes": 3362,
         "kb": 3.3,
-        "gzipBytes": 1238,
+        "gzipBytes": 1242,
         "gzipKb": 1.2
       },
       {
@@ -108,7 +108,7 @@
         "path": "assets/GeneratedPuzzleScene-BfP1ABij.js",
         "bytes": 7690,
         "kb": 7.5,
-        "gzipBytes": 2483,
+        "gzipBytes": 2477,
         "gzipKb": 2.4
       },
       {
@@ -116,7 +116,7 @@
         "path": "assets/HarborCircuitScene-Cw3r8FYQ.js",
         "bytes": 6112,
         "kb": 6,
-        "gzipBytes": 2188,
+        "gzipBytes": 2184,
         "gzipKb": 2.1
       },
       {
@@ -124,7 +124,7 @@
         "path": "assets/HarborRingsScene-DHmvrPMJ.js",
         "bytes": 7117,
         "kb": 7,
-        "gzipBytes": 2468,
+        "gzipBytes": 2462,
         "gzipKb": 2.4
       },
       {
@@ -132,7 +132,7 @@
         "path": "assets/LanternRelayScene-C0ZoQldW.js",
         "bytes": 5431,
         "kb": 5.3,
-        "gzipBytes": 2092,
+        "gzipBytes": 2085,
         "gzipKb": 2
       },
       {
@@ -140,7 +140,7 @@
         "path": "assets/OrbitAtlasScene-CBk3c0UY.js",
         "bytes": 6130,
         "kb": 6,
-        "gzipBytes": 2233,
+        "gzipBytes": 2225,
         "gzipKb": 2.2
       },
       {
@@ -148,24 +148,24 @@
         "path": "assets/phaser.esm-Bs14CRsP.js",
         "bytes": 1353147,
         "kb": 1321.4,
-        "gzipBytes": 350097,
-        "gzipKb": 341.9
+        "gzipBytes": 348935,
+        "gzipKb": 340.8
       },
       {
         "file": "returnLink-BXo05S0b.js",
         "path": "assets/returnLink-BXo05S0b.js",
         "bytes": 532,
         "kb": 0.5,
-        "gzipBytes": 347,
+        "gzipBytes": 348,
         "gzipKb": 0.3
       }
     ],
     "gameChunk": {
-      "file": "GameCanvas-CUxJgV_5.js",
-      "path": "assets/GameCanvas-CUxJgV_5.js",
+      "file": "GameCanvas-GuQzyp_u.js",
+      "path": "assets/GameCanvas-GuQzyp_u.js",
       "bytes": 3362,
       "kb": 3.3,
-      "gzipBytes": 1238,
+      "gzipBytes": 1242,
       "gzipKb": 1.2
     },
     "largestDeferredChunk": {
@@ -173,16 +173,16 @@
       "path": "assets/phaser.esm-Bs14CRsP.js",
       "bytes": 1353147,
       "kb": 1321.4,
-      "gzipBytes": 350097,
-      "gzipKb": 341.9
+      "gzipBytes": 348935,
+      "gzipKb": 340.8
     },
     "largestJsChunk": {
       "file": "phaser.esm-Bs14CRsP.js",
       "path": "assets/phaser.esm-Bs14CRsP.js",
       "bytes": 1353147,
       "kb": 1321.4,
-      "gzipBytes": 350097,
-      "gzipKb": 341.9
+      "gzipBytes": 348935,
+      "gzipKb": 340.8
     },
     "chunksBytes": 1403048,
     "chunksKb": 1370.2
@@ -190,19 +190,19 @@
   "assets": {
     "js": [
       {
-        "file": "aggregateEvidenceIssue-V48UZc0b.js",
-        "path": "assets/aggregateEvidenceIssue-V48UZc0b.js",
+        "file": "aggregateEvidenceIssue-Bl6icjqx.js",
+        "path": "assets/aggregateEvidenceIssue-Bl6icjqx.js",
         "bytes": 3717,
         "kb": 3.6,
-        "gzipBytes": 1481,
+        "gzipBytes": 1484,
         "gzipKb": 1.4
       },
       {
-        "file": "calendarReminder-B15qQuX6.js",
-        "path": "assets/calendarReminder-B15qQuX6.js",
+        "file": "calendarReminder-C2Fw7Db2.js",
+        "path": "assets/calendarReminder-C2Fw7Db2.js",
         "bytes": 1627,
         "kb": 1.6,
-        "gzipBytes": 932,
+        "gzipBytes": 920,
         "gzipKb": 0.9
       },
       {
@@ -210,7 +210,7 @@
         "path": "assets/FoundryLedgerScene-CbI7dT9M.js",
         "bytes": 5526,
         "kb": 5.4,
-        "gzipBytes": 2154,
+        "gzipBytes": 2147,
         "gzipKb": 2.1
       },
       {
@@ -218,15 +218,15 @@
         "path": "assets/gameBalance-CXOFAfbC.js",
         "bytes": 2657,
         "kb": 2.6,
-        "gzipBytes": 776,
+        "gzipBytes": 778,
         "gzipKb": 0.8
       },
       {
-        "file": "GameCanvas-CUxJgV_5.js",
-        "path": "assets/GameCanvas-CUxJgV_5.js",
+        "file": "GameCanvas-GuQzyp_u.js",
+        "path": "assets/GameCanvas-GuQzyp_u.js",
         "bytes": 3362,
         "kb": 3.3,
-        "gzipBytes": 1238,
+        "gzipBytes": 1242,
         "gzipKb": 1.2
       },
       {
@@ -234,7 +234,7 @@
         "path": "assets/GeneratedPuzzleScene-BfP1ABij.js",
         "bytes": 7690,
         "kb": 7.5,
-        "gzipBytes": 2483,
+        "gzipBytes": 2477,
         "gzipKb": 2.4
       },
       {
@@ -242,7 +242,7 @@
         "path": "assets/HarborCircuitScene-Cw3r8FYQ.js",
         "bytes": 6112,
         "kb": 6,
-        "gzipBytes": 2188,
+        "gzipBytes": 2184,
         "gzipKb": 2.1
       },
       {
@@ -250,23 +250,23 @@
         "path": "assets/HarborRingsScene-DHmvrPMJ.js",
         "bytes": 7117,
         "kb": 7,
-        "gzipBytes": 2468,
+        "gzipBytes": 2462,
         "gzipKb": 2.4
       },
       {
-        "file": "index-DtyuKTQ0.js",
-        "path": "assets/index-DtyuKTQ0.js",
-        "bytes": 705728,
-        "kb": 689.2,
-        "gzipBytes": 190856,
-        "gzipKb": 186.4
+        "file": "index-DOPG4Qs5.js",
+        "path": "assets/index-DOPG4Qs5.js",
+        "bytes": 705816,
+        "kb": 689.3,
+        "gzipBytes": 190430,
+        "gzipKb": 186
       },
       {
         "file": "LanternRelayScene-C0ZoQldW.js",
         "path": "assets/LanternRelayScene-C0ZoQldW.js",
         "bytes": 5431,
         "kb": 5.3,
-        "gzipBytes": 2092,
+        "gzipBytes": 2085,
         "gzipKb": 2
       },
       {
@@ -274,7 +274,7 @@
         "path": "assets/OrbitAtlasScene-CBk3c0UY.js",
         "bytes": 6130,
         "kb": 6,
-        "gzipBytes": 2233,
+        "gzipBytes": 2225,
         "gzipKb": 2.2
       },
       {
@@ -282,15 +282,15 @@
         "path": "assets/phaser.esm-Bs14CRsP.js",
         "bytes": 1353147,
         "kb": 1321.4,
-        "gzipBytes": 350097,
-        "gzipKb": 341.9
+        "gzipBytes": 348935,
+        "gzipKb": 340.8
       },
       {
         "file": "registerSW.js",
         "path": "registerSW.js",
         "bytes": 174,
         "kb": 0.2,
-        "gzipBytes": 142,
+        "gzipBytes": 141,
         "gzipKb": 0.1
       },
       {
@@ -298,7 +298,7 @@
         "path": "assets/returnLink-BXo05S0b.js",
         "bytes": 532,
         "kb": 0.5,
-        "gzipBytes": 347,
+        "gzipBytes": 348,
         "gzipKb": 0.3
       }
     ],
@@ -308,7 +308,7 @@
         "path": "assets/index-BzgYwZsM.css",
         "bytes": 10779,
         "kb": 10.5,
-        "gzipBytes": 2892,
+        "gzipBytes": 2888,
         "gzipKb": 2.8
       }
     ],
@@ -338,7 +338,7 @@
     {
       "id": "initial-js-gzip-budget",
       "status": "pass",
-      "detail": "Initial JS gzip is 186.5 KB; budget is 200 KB."
+      "detail": "Initial JS gzip is 186.1 KB; budget is 200 KB."
     },
     {
       "id": "initial-css-budget",
@@ -358,7 +358,7 @@
     {
       "id": "game-runtime-deferred",
       "status": "pass",
-      "detail": "GameCanvas-CUxJgV_5.js is deferred from the initial shell."
+      "detail": "GameCanvas-GuQzyp_u.js is deferred from the initial shell."
     },
     {
       "id": "largest-js-deferred",

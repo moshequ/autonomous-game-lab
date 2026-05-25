@@ -133,10 +133,37 @@ const [
 const distManifestExists = await exists(path.join(root, 'dist', 'manifest.webmanifest'))
 const distServiceWorkerExists = await exists(path.join(root, 'dist', 'sw.js'))
 const gitStatusResult = await run('git', ['status', '--short', '--untracked-files=all'])
-const currentWorktreeDirtyFiles = gitStatusResult.ok
-  ? gitStatusResult.stdout.split('\n').filter(Boolean).length
+const parseGitStatusPath = (line) => {
+  const rawPath = line.slice(3).trim()
+  const renameTarget = rawPath.split(' -> ').at(-1)?.trim()
+
+  return renameTarget || rawPath
+}
+const generatedEvidenceWorktreePaths = [
+  /^data\/[^/]+\.json$/,
+  /^reports\/[^/]+\.md$/,
+  /^src\/data\/[^/]+\.ts$/,
+  /^public\/(?:analytics-unlock|measurement-status|owner-unlock-brief|owner-unlock-preflight|product-gate-recovery|store-readiness|sample-next|sample-fastest|monetization)\.(?:html|json)$/,
+  /^public\/(?:compliance|share-manifest|monetization|sample-next|sample-fastest|seed-next)\.json$/,
+  /^public\/(?:gate-sample|seed-kit|seed-next|privacy|support|install|monetization|store-readiness|analytics-unlock|measurement-status|product-gate-recovery)\.html$/,
+  /^public\/(?:app-ads\.txt|robots\.txt|sitemap\.xml)$/,
+  /^public\/(?:icons|store-assets|games|\.well-known)\//,
+  /^ops\/(?:production\.env\.example|codex\/[^/]+\.json|github\/(?:README\.md|setup-production\.sh|bootstrap-repository\.sh))$/,
+  /^native\/(?:android|ios)\//,
+]
+const isGeneratedEvidencePath = (filePath) =>
+  generatedEvidenceWorktreePaths.some((pattern) => pattern.test(filePath))
+const currentWorktreeDirtyPaths = gitStatusResult.ok
+  ? gitStatusResult.stdout.split('\n').filter(Boolean).map(parseGitStatusPath)
+  : []
+const currentGeneratedEvidenceDirtyFiles = gitStatusResult.ok
+  ? currentWorktreeDirtyPaths.filter(isGeneratedEvidencePath).length
   : null
-const currentWorktreeClean = currentWorktreeDirtyFiles === 0
+const currentNonGeneratedWorktreeDirtyFiles = gitStatusResult.ok
+  ? currentWorktreeDirtyPaths.filter((filePath) => !isGeneratedEvidencePath(filePath)).length
+  : null
+const currentWorktreeDirtyFiles = gitStatusResult.ok ? currentWorktreeDirtyPaths.length : null
+const currentWorktreeClean = currentNonGeneratedWorktreeDirtyFiles === 0
 const generatedAtMs = (artifact) => {
   const value = Date.parse(artifact?.generatedAt ?? '')
   return Number.isFinite(value) ? value : null
@@ -681,6 +708,13 @@ const payload = {
     noStoreSubmissionUntilExternalAccounts: true,
     currentWorktreeClean,
     currentWorktreeDirtyFiles,
+    currentGitWorktreeDirtyFiles: currentWorktreeDirtyFiles,
+    currentGeneratedEvidenceDirtyFiles,
+    currentNonGeneratedWorktreeDirtyFiles,
+    currentWorktreeHasOnlyGeneratedEvidenceChanges:
+      currentWorktreeDirtyFiles !== null &&
+      currentWorktreeDirtyFiles > 0 &&
+      currentNonGeneratedWorktreeDirtyFiles === 0,
     productionBootstrapFresh,
     productionBootstrapSourceDataHash: currentProductionBootstrapSourceDataHash,
     productionBootstrapStaleInputIds,

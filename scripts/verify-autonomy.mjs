@@ -4353,6 +4353,8 @@ if (
   !autonomousSelfUpdateSource.includes('public/product-gate-recovery.json') ||
   !autonomousSelfUpdateSource.includes('public/owner-unlock-brief.json') ||
   !autonomousSelfUpdateSource.includes('public/owner-unlock-preflight.json') ||
+  !autonomousSelfUpdateSource.includes('public/store-readiness.html') ||
+  !autonomousSelfUpdateSource.includes('public/store-readiness.json') ||
   !autonomousSelfUpdateSource.includes('public/seed-kit.html') ||
   !autonomousSelfUpdateSource.includes('public/sample-next.html') ||
   !autonomousSelfUpdateSource.includes('public/sample-next.json') ||
@@ -4450,6 +4452,18 @@ if (
   objectiveAudit.controls?.preserveOriginalScope !== true ||
   objectiveAudit.controls?.doNotMarkGoalCompleteWhileBlocked !== true ||
   objectiveAudit.controls?.zeroSpendGuard !== true ||
+  objectiveAudit.controls?.currentGitWorktreeDirtyFiles !== objectiveAudit.controls?.currentWorktreeDirtyFiles ||
+  typeof objectiveAudit.controls?.currentGeneratedEvidenceDirtyFiles !== 'number' ||
+  typeof objectiveAudit.controls?.currentNonGeneratedWorktreeDirtyFiles !== 'number' ||
+  typeof objectiveAudit.controls?.currentWorktreeDirtyFiles !== 'number' ||
+  objectiveAudit.controls.currentGeneratedEvidenceDirtyFiles +
+    objectiveAudit.controls.currentNonGeneratedWorktreeDirtyFiles !==
+    objectiveAudit.controls.currentWorktreeDirtyFiles ||
+  objectiveAudit.controls?.currentWorktreeClean !==
+    (objectiveAudit.controls.currentNonGeneratedWorktreeDirtyFiles === 0) ||
+  objectiveAudit.controls?.currentWorktreeHasOnlyGeneratedEvidenceChanges !==
+    (objectiveAudit.controls.currentWorktreeDirtyFiles > 0 &&
+      objectiveAudit.controls.currentNonGeneratedWorktreeDirtyFiles === 0) ||
   objectiveAudit.controls?.productionBootstrapFresh !== objectiveProductionBootstrapFresh ||
   objectiveAudit.controls?.productionBootstrapSourceDataHash !== objectiveProductionBootstrapSourceDataHash ||
   JSON.stringify(objectiveAudit.controls?.productionBootstrapStaleInputIds ?? []) !==
@@ -4503,6 +4517,8 @@ if (
   !objectiveAuditSource.includes('objectiveNextBestAction') ||
   !objectiveAuditSource.includes('objectiveNextBestActionSource') ||
   !objectiveAuditSource.includes('productionBootstrapFreshnessInputs') ||
+  !objectiveAuditSource.includes('generatedEvidenceWorktreePaths') ||
+  !objectiveAuditSource.includes('currentNonGeneratedWorktreeDirtyFiles') ||
   !appSource.includes('Objective Audit')
 ) {
   fail('Objective audit must map the original goal to concrete evidence, prepared states, blockers, and a false completion claim while gates remain blocked.')

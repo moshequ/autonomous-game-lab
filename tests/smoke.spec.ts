@@ -6170,6 +6170,12 @@ test('objective audit maps the goal to evidence and remaining blockers', async (
       preserveOriginalScope: boolean
       doNotMarkGoalCompleteWhileBlocked: boolean
       zeroSpendGuard: boolean
+      currentWorktreeClean: boolean
+      currentWorktreeDirtyFiles: number | null
+      currentGitWorktreeDirtyFiles: number | null
+      currentGeneratedEvidenceDirtyFiles: number | null
+      currentNonGeneratedWorktreeDirtyFiles: number | null
+      currentWorktreeHasOnlyGeneratedEvidenceChanges: boolean
     }
     completion: { canMarkGoalComplete: boolean; reason: string }
   }
@@ -6202,6 +6208,20 @@ test('objective audit maps the goal to evidence and remaining blockers', async (
   expect(audit.controls.preserveOriginalScope).toBe(true)
   expect(audit.controls.doNotMarkGoalCompleteWhileBlocked).toBe(true)
   expect(audit.controls.zeroSpendGuard).toBe(true)
+  expect(audit.controls.currentGitWorktreeDirtyFiles).toBe(audit.controls.currentWorktreeDirtyFiles)
+  if (
+    typeof audit.controls.currentGeneratedEvidenceDirtyFiles === 'number' &&
+    typeof audit.controls.currentNonGeneratedWorktreeDirtyFiles === 'number' &&
+    typeof audit.controls.currentWorktreeDirtyFiles === 'number'
+  ) {
+    expect(
+      audit.controls.currentGeneratedEvidenceDirtyFiles + audit.controls.currentNonGeneratedWorktreeDirtyFiles,
+    ).toBe(audit.controls.currentWorktreeDirtyFiles)
+    expect(audit.controls.currentWorktreeClean).toBe(audit.controls.currentNonGeneratedWorktreeDirtyFiles === 0)
+    expect(audit.controls.currentWorktreeHasOnlyGeneratedEvidenceChanges).toBe(
+      audit.controls.currentWorktreeDirtyFiles > 0 && audit.controls.currentNonGeneratedWorktreeDirtyFiles === 0,
+    )
+  }
   expect(audit.completion.canMarkGoalComplete).toBe(false)
   expect(audit.blockers.external.length).toBeGreaterThan(0)
   expect(audit.blockers.product.length).toBeGreaterThan(0)
