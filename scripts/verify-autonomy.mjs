@@ -776,6 +776,7 @@ if (
   supportFeedback.controls?.redactsContactText !== true ||
   supportFeedback.controls?.playableTargetsOnlyForAutomation !== true ||
   supportFeedback.controls?.publicAggregateOnly !== true ||
+  supportFeedback.controls?.preservesLastGoodSnapshot !== true ||
   supportFeedback.controls?.aggregateEvidenceNeverMarksProductGatePass !== true ||
   supportFeedback.controls?.aggregateEvidenceRequiresManualReviewForGateDecisions !== true ||
   typeof supportFeedback.summary?.aggregateEvidenceNotes !== 'number' ||
@@ -788,6 +789,8 @@ if (
   !supportFeedbackSource.includes('readOnlyGithubIssueList') ||
   !supportFeedbackSource.includes('noAttachmentsDownloaded') ||
   !supportFeedbackSource.includes('issueFormField') ||
+  !supportFeedbackSource.includes('preservedLastGoodSnapshot') ||
+  !supportFeedbackSource.includes('preservesLastGoodSnapshot') ||
   !supportFeedbackSource.includes('parseMissionMetadata') ||
   !supportFeedbackSource.includes('campaignId') ||
   !supportFeedbackSource.includes('aggregateEvidenceNeverMarksProductGatePass') ||

@@ -8,15 +8,15 @@ export const autonomousOwnerLoop = {
     "externalAccountInterventionRequired": true
   },
   "ownerDecision": {
-    "nextBestActionId": "refresh-support-feedback"
+    "nextBestActionId": "hold-for-external-input"
   },
   "externalInputHandoff": {
     "nextUnlockId": "production-analytics-browser",
     "recommendedPathId": "first-party-collector",
     "lowestInputPathId": "posthog-browser",
     "ownerActionRequired": 4,
-    "missingVariableCount": 5,
-    "missingSecretCount": 1,
+    "missingVariableCount": 7,
+    "missingSecretCount": 3,
     "lowestInputMissingVariableCount": 2,
     "lowestInputMissingSecretCount": 0,
     "publicStatusPage": "/measurement-status.html"
@@ -38,8 +38,8 @@ export const autonomousOwnerLoop = {
       "priority": "primary",
       "nextUnlockId": "production-analytics-browser",
       "publicStatusPage": "/measurement-status.html",
-      "missingVariableCount": 5,
-      "missingSecretCount": 1
+      "missingVariableCount": 7,
+      "missingSecretCount": 3
     },
     {
       "id": "store-readiness",

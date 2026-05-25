@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-25T08:29:09.356Z",
+  "generatedAt": "2026-05-25T08:52:20.754Z",
   "status": "owner-loop-ready",
   "mode": "zero-spend-web-ready",
   "autonomyScore": {
@@ -21,19 +21,19 @@
     "repositoryHandoffPrepared": false,
     "localActionAvailable": true,
     "heldForExternalInput": false,
-    "heldForExecutionBackoff": false
+    "heldForExecutionBackoff": true
   },
   "ownerDecision": {
-    "nextBestActionId": "refresh-support-feedback",
-    "nextBestAction": "npm run autonomous:support-feedback",
+    "nextBestActionId": "hold-for-external-input",
+    "nextBestAction": "No local command is available until external inputs, configured credentials, or new player evidence arrive.",
     "canExecuteWithoutSpend": true,
     "localActionAvailable": true,
-    "holdReason": null,
-    "rationale": "Reads public GitHub issue intake and turns player reports into redacted improvement signals."
+    "holdReason": "All currently armed local actions were recently executed or covered; holding to avoid cycling until new player evidence, external inputs, or a cooldown expiry changes the state.",
+    "rationale": "All safe local refresh actions are current; hold execution until owner-provided inputs, production analytics, or real player evidence changes the state."
   },
   "externalInputHandoff": {
     "status": "handoff-waiting-on-owner-inputs",
-    "holdReason": null,
+    "holdReason": "All currently armed local actions were recently executed or covered; holding to avoid cycling until new player evidence, external inputs, or a cooldown expiry changes the state.",
     "nextUnlockId": "production-analytics-browser",
     "title": "Browser production analytics unlock kit",
     "recommendedPathId": "first-party-collector",
@@ -43,15 +43,15 @@
     "lowestInputMissingVariableCount": 2,
     "lowestInputMissingSecretCount": 0,
     "lowestInputMissingInputCount": 2,
-    "lowestInputReason": "PostHog browser capture currently needs 2 missing input(s), compared with 4 for the recommended path.",
+    "lowestInputReason": "PostHog browser capture currently needs 2 missing input(s), compared with 8 for the recommended path.",
     "publicStatusPage": "/measurement-status.html",
     "publicStatusJson": "/measurement-status.json",
     "setupScript": "ops/github/setup-production.sh",
     "envTemplate": "ops/production.env.example",
     "ownerActionRequired": 4,
     "externalOwnerActions": 4,
-    "missingVariableCount": 5,
-    "missingSecretCount": 1,
+    "missingVariableCount": 7,
+    "missingSecretCount": 3,
     "productGateBlockers": 3,
     "requiredVariables": [
       {
@@ -63,13 +63,13 @@
       {
         "repositoryName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
         "envName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
-        "configured": true,
+        "configured": false,
         "command": "gh variable set AGL_EVENT_COLLECTOR_R2_BUCKET --body \"$AGL_EVENT_COLLECTOR_R2_BUCKET\""
       },
       {
         "repositoryName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
         "envName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
-        "configured": true,
+        "configured": false,
         "command": "gh variable set AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS --body \"$AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS\""
       },
       {
@@ -95,13 +95,13 @@
       {
         "repositoryName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
         "envName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
-        "configured": true,
+        "configured": false,
         "command": "printf \"%s\" \"$VITE_EVENT_COLLECTOR_WRITE_TOKEN\" | gh secret set VITE_EVENT_COLLECTOR_WRITE_TOKEN"
       },
       {
         "repositoryName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
         "envName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
-        "configured": true,
+        "configured": false,
         "command": "printf \"%s\" \"$AGL_EVENT_COLLECTOR_ADMIN_TOKEN\" | gh secret set AGL_EVENT_COLLECTOR_ADMIN_TOKEN"
       }
     ],
@@ -130,7 +130,7 @@
   },
   "storeExternalInputHandoff": {
     "status": "store-readiness-prepared-external-blockers",
-    "holdReason": null,
+    "holdReason": "All currently armed local actions were recently executed or covered; holding to avoid cycling until new player evidence, external inputs, or a cooldown expiry changes the state.",
     "nextUnlockId": "support-contact",
     "title": "Production support contact",
     "costMode": "zero-spend-use-existing-support-address",
@@ -191,8 +191,8 @@
       "priority": "primary",
       "nextUnlockId": "production-analytics-browser",
       "publicStatusPage": "/measurement-status.html",
-      "missingVariableCount": 5,
-      "missingSecretCount": 1
+      "missingVariableCount": 7,
+      "missingSecretCount": 3
     },
     {
       "id": "store-readiness",
@@ -209,6 +209,7 @@
     "recentExecutionWindow": 8,
     "repeatSuppressionMaxAgeHours": 18,
     "recentExecutedActionIds": [
+      "refresh-support-feedback",
       "refresh-replay-loop",
       "collect-gate-sample-local-drops",
       "refresh-completion-loop",
@@ -216,22 +217,22 @@
       "refresh-organic-seed-loop"
     ],
     "expiredExecutedActionIds": [],
-    "lastExecutedActionId": "refresh-replay-loop",
+    "lastExecutedActionId": "refresh-support-feedback",
     "lastExecutedActionStillExecutable": false,
-    "lastExecutedAgeHours": 9.394,
+    "lastExecutedAgeHours": 0.331,
     "lastExecutedStatus": "executed",
-    "lastRecordExecutionStatus": "not-requested",
+    "lastRecordExecutionStatus": "executed",
     "recentlySatisfiedActionIds": [
       "collect-live-events",
       "refresh-product-gate-recovery",
       "refresh-product-gate-sample-plan",
       "refresh-organic-seed-loop"
     ],
-    "immediateRepeatSuppressed": false,
+    "immediateRepeatSuppressed": true,
     "objectiveAuditFreshness": {
       "fresh": true,
       "structurallyReady": true,
-      "auditGeneratedAt": "2026-05-25T08:29:08.836Z",
+      "auditGeneratedAt": "2026-05-25T08:51:52.606Z",
       "evaluatedInputIds": [
         "analytics-rollup",
         "event-ingest",
@@ -255,7 +256,7 @@
         "ready": true,
         "status": "cadence-ready",
         "artifactGeneratedAt": "2026-05-24T15:07:00.649Z",
-        "ageHours": 17.369,
+        "ageHours": 17.756,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -266,20 +267,20 @@
         "ready": true,
         "status": "self-update-ready",
         "artifactGeneratedAt": "2026-05-24T15:07:33.583Z",
-        "ageHours": 17.36,
+        "ageHours": 17.746,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
         "extraReady": true
       },
       "supportFeedback": {
-        "fresh": false,
+        "fresh": true,
         "ready": true,
         "status": "support-feedback-empty",
-        "artifactGeneratedAt": "2026-05-24T14:10:08.816Z",
-        "ageHours": 18.317,
+        "artifactGeneratedAt": "2026-05-25T08:46:00.487Z",
+        "ageHours": 0.106,
         "maxAgeHours": 18,
-        "generatedAtFresh": false,
+        "generatedAtFresh": true,
         "checksPass": true,
         "extraReady": true
       },
@@ -288,7 +289,7 @@
         "ready": true,
         "status": "performance-budget-ready",
         "artifactGeneratedAt": "2026-05-25T08:28:57.329Z",
-        "ageHours": 0.003,
+        "ageHours": 0.39,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -298,8 +299,8 @@
         "fresh": true,
         "ready": true,
         "status": "live-site-monitor-passed",
-        "artifactGeneratedAt": "2026-05-25T08:28:59.484Z",
-        "ageHours": 0.003,
+        "artifactGeneratedAt": "2026-05-25T08:50:19.480Z",
+        "ageHours": 0.034,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -570,7 +571,7 @@
       "lastExplicitScanAt": "2026-05-22T13:53:13.086Z",
       "lastExplicitScanStatus": "no-evidence-found",
       "nextRecommendedScanAt": "2026-05-22T17:53:13.086Z",
-      "scanAgeHours": 66.6,
+      "scanAgeHours": 66.99,
       "cooldownRemainingHours": 0,
       "evidenceReadyNow": false
     },
@@ -583,7 +584,8 @@
       "freshAfterLastDownloadsScan": true,
       "staleInputIds": [
         "product-gate-recovery",
-        "unit-economics"
+        "unit-economics",
+        "support-feedback"
       ]
     },
     "localEventCollectionFreshness": {
@@ -655,9 +657,9 @@
     },
     "productionBootstrapFreshness": {
       "fresh": true,
-      "bootstrapGeneratedAt": "2026-05-25T08:29:08.665Z",
-      "artifactSourceDataHash": "5f23f2c3d8b5",
-      "sourceDataHash": "5f23f2c3d8b5",
+      "bootstrapGeneratedAt": "2026-05-25T08:51:03.143Z",
+      "artifactSourceDataHash": "b93e92a2d1f9",
+      "sourceDataHash": "b93e92a2d1f9",
       "evaluatedInputIds": [
         "release-candidate",
         "deployment-plan",
@@ -672,11 +674,11 @@
       "current": true,
       "ready": true,
       "status": "handoff-waiting-on-owner-inputs",
-      "generatedAt": "2026-05-25T08:29:03.509Z",
+      "generatedAt": "2026-05-25T08:51:12.730Z",
       "nextBestUnlockId": "production-analytics-browser",
       "ownerActionRequired": 4,
       "missingEnv": 7,
-      "missingSecrets": 3,
+      "missingSecrets": 5,
       "sourceStatusesFresh": true,
       "evaluatedSourceStatuses": [
         "production-environment",
@@ -927,7 +929,7 @@
       "id": "production-blocker-handoff",
       "status": "ready",
       "autonomy": "ranked-external-unlock-router",
-      "evidence": "Handoff handoff-waiting-on-owner-inputs; next production-analytics-browser; owner inputs 4; missing env 7; missing secrets 3.",
+      "evidence": "Handoff handoff-waiting-on-owner-inputs; next production-analytics-browser; owner inputs 4; missing env 7; missing secrets 5.",
       "nextAction": "Start with Browser production analytics; it is the highest-priority zero-spend owner input."
     },
     {
@@ -948,14 +950,14 @@
       "id": "autonomous-operator",
       "status": "ready",
       "autonomy": "one-safe-action-runner",
-      "evidence": "Operator operator-plan-ready; selected refresh-support-feedback; execution not-requested.",
+      "evidence": "Operator operator-held; selected none; execution not-requested.",
       "nextAction": "Keep a dry-run operator plan ready, then execute only one allowlisted local action when explicitly requested."
     },
     {
       "id": "operator-history",
       "status": "ready",
       "autonomy": "operator-audit-trail",
-      "evidence": "History operator-history-ready; records 40; executed 5.",
+      "evidence": "History operator-history-ready; records 40; executed 6.",
       "nextAction": "Keep a capped durable record of operator plans and one-action executions."
     },
     {
@@ -1073,13 +1075,13 @@
     },
     {
       "id": "refresh-support-feedback",
-      "status": "armed",
+      "status": "monitor",
       "costUsd": 0,
       "command": "npm run autonomous:support-feedback",
       "targets": [
         "moshequ/autonomous-game-lab"
       ],
-      "reason": "Reads public GitHub issue intake and turns player reports into redacted improvement signals."
+      "reason": "Support feedback evidence was recently inspected with read-only GitHub issue controls."
     },
     {
       "id": "optimize-daily-retention",
@@ -1283,7 +1285,7 @@
       "targets": [
         "production-analytics-browser"
       ],
-      "reason": "Production blocker handoff already ranks 4 owner input(s), 7 env blocker(s), and 3 secret blocker(s)."
+      "reason": "Production blocker handoff already ranks 4 owner input(s), 7 env blocker(s), and 5 secret blocker(s)."
     },
     {
       "id": "run-production-unlock-runner",
@@ -1302,7 +1304,7 @@
       "costUsd": 0,
       "command": "npm run autonomous:operator",
       "targets": [
-        "refresh-support-feedback"
+        "owner-loop-safe-actions"
       ],
       "reason": "One-action operator plan is already published; avoid cycling on meta-operator refreshes."
     },
@@ -1433,6 +1435,20 @@
       "source": "production-bootstrap"
     },
     {
+      "id": "secret-vite-event-collector-write-token",
+      "status": "credential-required",
+      "target": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
+      "purpose": "Repository secret sourced from VITE_EVENT_COLLECTOR_WRITE_TOKEN.",
+      "source": "production-bootstrap"
+    },
+    {
+      "id": "secret-agl-event-collector-admin-token",
+      "status": "credential-required",
+      "target": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
+      "purpose": "Repository secret sourced from AGL_EVENT_COLLECTOR_ADMIN_TOKEN.",
+      "source": "production-bootstrap"
+    },
+    {
       "id": "secret-posthog-personal-api-key",
       "status": "credential-required",
       "target": "POSTHOG_PERSONAL_API_KEY",
@@ -1528,7 +1544,7 @@
     "productionUnlockRunnerStatus": "unlock-runner-idle",
     "supportChannelStatus": "support-channel-ready",
     "supportFeedbackStatus": "support-feedback-empty",
-    "autonomousOperatorStatus": "operator-plan-ready",
+    "autonomousOperatorStatus": "operator-held",
     "autonomousOperatorHistoryStatus": "operator-history-ready",
     "objectiveAuditStatus": "objective-in-progress",
     "storeListingOptimizerStatus": "store-listing-optimizer-ready",

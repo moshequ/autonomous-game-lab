@@ -1,17 +1,17 @@
 # Autonomous Owner Loop
 
-Generated: 2026-05-25T08:29:09.356Z
+Generated: 2026-05-25T08:52:20.754Z
 Status: owner-loop-ready
 Mode: zero-spend-web-ready
 Autonomy score: 44/45 (98%)
 
 ## Owner Decision
 
-- Next action: refresh-support-feedback
-- Command: npm run autonomous:support-feedback
-- Rationale: Reads public GitHub issue intake and turns player reports into redacted improvement signals.
-- Last executed action: refresh-replay-loop
-- Recent executed actions: refresh-replay-loop, collect-gate-sample-local-drops, refresh-completion-loop, seed-portfolio-traffic, refresh-organic-seed-loop
+- Next action: hold-for-external-input
+- Command: No local command is available until external inputs, configured credentials, or new player evidence arrive.
+- Rationale: All safe local refresh actions are current; hold execution until owner-provided inputs, production analytics, or real player evidence changes the state.
+- Last executed action: refresh-support-feedback
+- Recent executed actions: refresh-support-feedback, refresh-replay-loop, collect-gate-sample-local-drops, refresh-completion-loop, seed-portfolio-traffic, refresh-organic-seed-loop
 
 ## External Input Handoff
 
@@ -19,7 +19,7 @@ Autonomy score: 44/45 (98%)
 - Recommended path: first-party-collector
 - Lowest-input path: posthog-browser
 - Public status: /measurement-status.html
-- Missing inputs: 5 variable(s), 1 secret(s)
+- Missing inputs: 7 variable(s), 3 secret(s)
 - validate: npm run autonomous:event-collector-smoke
 - validate: npm run autonomous:collector-deploy-plan
 - validate: npm run autonomous:readiness
@@ -69,11 +69,11 @@ Autonomy score: 44/45 (98%)
 - ready: live-site-monitor - Live monitor live-site-monitor-passed; origin https://moshequ.github.io/autonomous-game-lab; checks 32/32; live matches synced deploy true.
 - ready: production-bootstrap - Bootstrap production-bootstrap-ready; mode can-apply-configured-actions; external blockers 14.
 - ready: production-activation - Activation activation-ready; mode dry-run; execution dry-run; gh ready.
-- ready: production-blocker-handoff - Handoff handoff-waiting-on-owner-inputs; next production-analytics-browser; owner inputs 4; missing env 7; missing secrets 3.
+- ready: production-blocker-handoff - Handoff handoff-waiting-on-owner-inputs; next production-analytics-browser; owner inputs 4; missing env 7; missing secrets 5.
 - ready: production-unlock-runner - Unlock runner unlock-runner-idle; runnable 0; queued commands 0; unsafe 0.
 - ready: support-channel - Support channel support-channel-ready; repository moshequ/autonomous-game-lab; public intake ready; aggregate evidence only true.
-- ready: autonomous-operator - Operator operator-plan-ready; selected refresh-support-feedback; execution not-requested.
-- ready: operator-history - History operator-history-ready; records 40; executed 5.
+- ready: autonomous-operator - Operator operator-held; selected none; execution not-requested.
+- ready: operator-history - History operator-history-ready; records 40; executed 6.
 - ready: objective-audit - Audit objective-in-progress; met 6/8; external blockers 15.
 - ready: store-listing-optimizer - Focus market-pulse; lead screenshot phone-market-pulse-generated; candidate changed yes.
 - ready: store-compliance - Rating Everyone; target audience general; blockers 3.
@@ -90,7 +90,7 @@ Autonomy score: 44/45 (98%)
 - monitor: refresh-autonomous-self-update - npm run autonomous:self-update
 - armed: seed-portfolio-traffic - npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop
 - armed: refresh-organic-seed-loop - npm run autonomous:organic-seed-loop
-- armed: refresh-support-feedback - npm run autonomous:support-feedback
+- monitor: refresh-support-feedback - npm run autonomous:support-feedback
 - monitor: optimize-daily-retention - npm run autonomous:retention
 - monitor: measure-pwa-install-loop - npm run autonomous:pwa-install
 - monitor: check-performance-budget - npm run build && npm run autonomous:performance && npm run autonomous:release-candidate
@@ -130,6 +130,8 @@ Autonomy score: 44/45 (98%)
 - ADMOB_PUBLISHER_ID: Native app seller line for app-ads.txt and Android rewarded tests after app-store gates pass.
 - AGL_GOOGLE_PLAY_ACCOUNT_CONNECTED: Allows native packaging gates to treat Play Console access as connected.
 - CLOUDFLARE_API_TOKEN: Repository secret sourced from CLOUDFLARE_API_TOKEN.
+- VITE_EVENT_COLLECTOR_WRITE_TOKEN: Repository secret sourced from VITE_EVENT_COLLECTOR_WRITE_TOKEN.
+- AGL_EVENT_COLLECTOR_ADMIN_TOKEN: Repository secret sourced from AGL_EVENT_COLLECTOR_ADMIN_TOKEN.
 - POSTHOG_PERSONAL_API_KEY: Repository secret sourced from POSTHOG_PERSONAL_API_KEY.
 - GOOGLE_PLAY_SERVICE_ACCOUNT_JSON: Repository secret sourced from GOOGLE_PLAY_SERVICE_ACCOUNT_JSON.
 

@@ -8890,6 +8890,7 @@ test('support feedback ingests public issues as redacted improvement evidence', 
       playableTargetsOnlyForAutomation: boolean
       publicAggregateOnly: boolean
       githubRestFallback: boolean
+      preservesLastGoodSnapshot: boolean
       aggregateEvidenceNeverMarksProductGatePass: boolean
       aggregateEvidenceRequiresManualReviewForGateDecisions: boolean
     }
@@ -8942,6 +8943,7 @@ test('support feedback ingests public issues as redacted improvement evidence', 
   expect(supportFeedback.controls.playableTargetsOnlyForAutomation).toBe(true)
   expect(supportFeedback.controls.publicAggregateOnly).toBe(true)
   expect(supportFeedback.controls.githubRestFallback).toBe(true)
+  expect(supportFeedback.controls.preservesLastGoodSnapshot).toBe(true)
   expect(supportFeedback.controls.aggregateEvidenceNeverMarksProductGatePass).toBe(true)
   expect(supportFeedback.controls.aggregateEvidenceRequiresManualReviewForGateDecisions).toBe(true)
   expect(supportFeedback.issueRecords.length).toBe(supportFeedback.summary.issuesInspected)
@@ -9040,6 +9042,8 @@ test('support feedback ingests public issues as redacted improvement evidence', 
   expect(script).toContain('noAttachmentsDownloaded')
   expect(script).toContain('issueFormField')
   expect(script).toContain('runGitHubRestIssueList')
+  expect(script).toContain('preservedLastGoodSnapshot')
+  expect(script).toContain('preservesLastGoodSnapshot')
   expect(script).toContain('parseMissionMetadata')
   expect(script).toContain('campaignId')
   expect(script).toContain('aggregateEvidenceNeverMarksProductGatePass')
@@ -9233,6 +9237,177 @@ test('support feedback intake falls back to read-only GitHub REST issues when gh
     expect(supportFeedback.aggregateEvidenceNotes[0].summary).toContain('[redacted-email]')
     expect(JSON.stringify(supportFeedback)).not.toContain('qa@example.com')
     expect(supportFeedback.improvementSignals.some((signal) => signal.status === 'routable')).toBe(true)
+  } finally {
+    if (closeServer) {
+      await closeServer()
+    }
+
+    await rm(tempRoot, { recursive: true, force: true })
+  }
+})
+
+test('support feedback preserves last good snapshot when issue inspection is unavailable', async () => {
+  const tempRoot = await mkdtemp(path.join(tmpdir(), 'agl-support-feedback-preserve-'))
+  const tempBin = path.join(tempRoot, 'bin')
+  const dataDir = path.join(tempRoot, 'data')
+  const scriptPath = path.resolve('scripts/support-feedback-ingestor.mjs')
+  let closeServer: (() => Promise<void>) | null = null
+
+  try {
+    await mkdir(tempBin, { recursive: true })
+    await mkdir(dataDir, { recursive: true })
+    await writeFile(path.join(tempBin, 'gh'), '#!/usr/bin/env sh\necho "gh unavailable" >&2\nexit 1\n')
+    await chmod(path.join(tempBin, 'gh'), 0o755)
+    await writeFile(
+      path.join(dataDir, 'support-channel.json'),
+      JSON.stringify(
+        {
+          status: 'support-channel-ready',
+          provider: 'github-issues',
+          repository: {
+            target: 'demo/autonomous-game-lab',
+            publicIssuesReady: true,
+            metadata: { visibility: 'PUBLIC' },
+          },
+        },
+        null,
+        2,
+      ),
+    )
+    await writeFile(path.join(dataDir, 'playable-games.json'), JSON.stringify({ games: ['harbor-rings'] }, null, 2))
+    await writeFile(
+      path.join(dataDir, 'support-feedback.json'),
+      JSON.stringify(
+        {
+          generatedAt: '2026-05-24T12:00:00.000Z',
+          status: 'support-feedback-ready',
+          provider: 'github-issues',
+          repository: 'demo/autonomous-game-lab',
+          sourceDataHash: 'previous-good',
+          sourceStatus: { inspected: true, inspector: 'gh-cli', error: null },
+          summary: {
+            issuesInspected: 1,
+            openIssues: 1,
+            closedIssues: 0,
+            categorizedIssues: 1,
+            matchedPlayableIssues: 1,
+            improvementSignals: 1,
+            routableSignals: 1,
+            aggregateEvidenceNotes: 0,
+            aggregateEvidenceGames: 0,
+            aggregateEvidenceCampaigns: 0,
+            aggregateStarts: 0,
+            aggregateCompletions: 0,
+            aggregateReplays: 0,
+            aggregateD1Eligible: 0,
+            aggregateD1Retained: 0,
+          },
+          controls: { zeroPaidSpend: true },
+          issueRecords: [
+            {
+              number: 7,
+              title: 'Preserved Harbor Rings feedback',
+              excerpt: 'Tutorial clarity issue',
+              state: 'OPEN',
+              kind: 'player-feedback',
+              gameId: 'harbor-rings',
+              gameTitle: 'Harbor Rings',
+              matchedSignals: ['tutorial-confusion'],
+              labels: ['feedback'],
+            },
+          ],
+          aggregateEvidenceNotes: [],
+          improvementSignals: [
+            {
+              id: 'harbor-rings:tutorial-confusion',
+              signalId: 'tutorial-confusion',
+              label: 'Tutorial clarity',
+              experiment: 'first_session_pacing',
+              gameId: 'harbor-rings',
+              gameTitle: 'Harbor Rings',
+              issueNumbers: [7],
+              issueCount: 1,
+              confidence: 76,
+              status: 'routable',
+              reason: '1 public GitHub issue mentions tutorial clarity.',
+            },
+          ],
+          nextActions: ['Keep routing preserved public feedback signals.'],
+        },
+        null,
+        2,
+      ),
+    )
+
+    const server = createServer((request, response) => {
+      expect(request.url).toContain('/repos/demo/autonomous-game-lab/issues')
+      response.writeHead(503, { 'content-type': 'application/json' })
+      response.end(JSON.stringify({ message: 'temporarily unavailable' }))
+    })
+    await new Promise<void>((resolve) => server.listen(0, '127.0.0.1', resolve))
+    closeServer = () => new Promise<void>((resolve) => server.close(() => resolve()))
+
+    const { port } = server.address() as AddressInfo
+    await execFileAsync(process.execPath, [scriptPath], {
+      cwd: tempRoot,
+      env: {
+        ...process.env,
+        PATH: `${tempBin}${path.delimiter}${process.env.PATH ?? ''}`,
+        AGL_GITHUB_API_BASE_URL: `http://127.0.0.1:${port}`,
+      },
+    })
+
+    const supportFeedback = JSON.parse(await readFile(path.join(dataDir, 'support-feedback.json'), 'utf8')) as {
+      status: string
+      sourceDataHash: string
+      sourceStatus: {
+        inspected: boolean
+        inspector: string
+        fallbackUsed: boolean
+        primaryError: string | null
+        error: string | null
+        preservedLastGoodSnapshot: boolean
+        preservedSnapshotStatus: string
+        preservedSnapshotGeneratedAt: string
+        preservedSnapshotSourceDataHash: string
+      }
+      summary: { issuesInspected: number; improvementSignals: number; routableSignals: number }
+      controls: { preservesLastGoodSnapshot: boolean }
+      issueRecords: Array<{ number: number; title: string }>
+      improvementSignals: Array<{ id: string; status: string }>
+      nextActions: string[]
+    }
+    const supportFeedbackTs = await readFile(path.join(tempRoot, 'src', 'data', 'supportFeedback.ts'), 'utf8')
+
+    expect(supportFeedback.status).toBe('support-feedback-ready')
+    expect(supportFeedback.sourceDataHash).toBe('previous-good')
+    expect(supportFeedback.summary).toMatchObject({
+      issuesInspected: 1,
+      improvementSignals: 1,
+      routableSignals: 1,
+    })
+    expect(supportFeedback.issueRecords[0]).toMatchObject({
+      number: 7,
+      title: 'Preserved Harbor Rings feedback',
+    })
+    expect(supportFeedback.improvementSignals[0]).toMatchObject({
+      id: 'harbor-rings:tutorial-confusion',
+      status: 'routable',
+    })
+    expect(supportFeedback.sourceStatus).toMatchObject({
+      inspected: false,
+      inspector: 'unavailable',
+      fallbackUsed: true,
+      preservedLastGoodSnapshot: true,
+      preservedSnapshotStatus: 'support-feedback-ready',
+      preservedSnapshotGeneratedAt: '2026-05-24T12:00:00.000Z',
+      preservedSnapshotSourceDataHash: 'previous-good',
+    })
+    expect(supportFeedback.sourceStatus.primaryError).toContain('gh unavailable')
+    expect(supportFeedback.sourceStatus.error).toBe('github-rest-api-503')
+    expect(supportFeedback.controls.preservesLastGoodSnapshot).toBe(true)
+    expect(supportFeedback.nextActions[0]).toContain('using the last redacted support-feedback snapshot')
+    expect(supportFeedbackTs).toContain('harbor-rings:tutorial-confusion')
   } finally {
     if (closeServer) {
       await closeServer()

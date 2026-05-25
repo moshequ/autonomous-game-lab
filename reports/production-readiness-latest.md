@@ -1,6 +1,6 @@
 # Production Readiness
 
-Generated: 2026-05-25T08:29:09.427Z
+Generated: 2026-05-25T08:50:46.195Z
 
 ## Environment
 
@@ -14,11 +14,11 @@ Status: repository-channel-ready
 Repository: moshequ/autonomous-game-lab
 Git worktree: true
 Workflow dispatch ready: true
-- pass: repository-local-git-worktree - Git worktree detected at /home/runner/work/autonomous-game-lab/autonomous-game-lab.
+- pass: repository-local-git-worktree - Git worktree detected at /Users/moshequ/Documents/Codex/2026-05-18/i-want-to-have-a-new.
 - pass: repository-github-target - Target repository is moshequ/autonomous-game-lab.
 - pass: repository-origin-remote - Origin remote resolves to moshequ/autonomous-game-lab.
 - pass: repository-gh-cli - gh version 2.92.0 (2026-04-28)
-- pass: repository-gh-token - GitHub token is present in the current environment.
+- pass: repository-gh-token - GitHub CLI authentication is available for repository operations.
 - pass: repository-pages-workflow - Web PWA Deploy workflow exists and includes post-deploy smoke.
 - pass: repository-pages-settings - GitHub Pages build type is workflow; HTTPS enforced true.
 - pass: repository-deployable-artifact - Deployment ready-for-pages; release candidate release-candidate-ready; smoke post-deploy-smoke-observed-live.
@@ -73,8 +73,8 @@ Status: ready-after-build
 - pass: production-blocker-handoff - Production blocker handoff is handoff-waiting-on-owner-inputs; owner inputs 4; next unlock production-analytics-browser.
 - pass: production-unlock-runner - Production unlock runner is unlock-runner-idle; runnable 0; queued 0; unsafe 0.
 - pass: production-activation - Production activation is activation-ready; mode dry-run; execution dry-run.
-- pass: autonomous-operator - Autonomous operator is operator-plan-ready; selected refresh-support-feedback; execution not-requested.
-- pass: autonomous-operator-history - Autonomous operator history is operator-history-ready; records 40; executed 5.
+- pass: autonomous-operator - Autonomous operator is operator-held; selected none; execution not-requested.
+- pass: autonomous-operator-history - Autonomous operator history is operator-history-ready; records 40; executed 6.
 - pass: autonomous-cadence - Autonomous cadence is cadence-ready; Codex active-confirmed; GitHub scheduled.
 - pass: autonomous-self-update - Autonomous self-update is self-update-ready; safe pending 70; unsafe pending 0; remote push held.
 - pass: objective-audit - Objective audit is objective-in-progress; met 6 / 8; can complete false.
@@ -135,9 +135,9 @@ Deferred game chunk: GameCanvas-DhHx-FJY.js
 ## Release Candidate
 
 Status: release-candidate-ready
-Candidate: pwa-331e73f7491f
+Candidate: pwa-1bcd76b808c3
 Files: 72
-Aggregate SHA-256: 331e73f7491f6a51dfb80a87b55d0bbcfe056d8400d7d58166571c62874a629b
+Aggregate SHA-256: 1bcd76b808c36db82aa1f7998cc25ae19b7cf811714b695cde45acfdaa67ae1c
 - pass: release-dist-inventory - 72 dist files inventoried.
 - pass: release-required-files - 36/36 required files present.
 - pass: release-game-pages - 10 generated game page(s) in dist.
@@ -151,7 +151,7 @@ Aggregate SHA-256: 331e73f7491f6a51dfb80a87b55d0bbcfe056d8400d7d58166571c62874a6
 
 Status: post-deploy-smoke-observed-live
 Origin: https://moshequ.github.io/autonomous-game-lab
-Candidate: pwa-331e73f7491f
+Candidate: pwa-1bcd76b808c3
 Checks: 32/32 passed (0 blocked)
 Local artifact: predeploy-artifact-smoke-passed (32/32 passed)
 - pass: smoke-app-shell - Live URL matched status and required text.
@@ -311,16 +311,16 @@ Execution: idle
 
 ## Autonomous Operator
 
-Status: operator-plan-ready
+Status: operator-held
 Mode: plan-only
-Selected action: refresh-support-feedback
+Selected action: none
 Execution: not-requested
 
 ## Autonomous Operator History
 
 Status: operator-history-ready
 Records: 40
-Executed: 5
+Executed: 6
 
 ## Autonomous Cadence
 

@@ -316,6 +316,17 @@ const games = [
 ]
 const uniqueGames = [...new Map(games.filter((game) => playableIds.has(game.id)).map((game) => [game.id, game])).values()]
 const repository = supportChannel.repository?.target ?? null
+const previousSupportFeedback = await readOptionalJson(outputJsonPath, null)
+const previousUsableSupportFeedback =
+  previousSupportFeedback &&
+  previousSupportFeedback.provider === 'github-issues' &&
+  previousSupportFeedback.repository === repository &&
+  ['support-feedback-ready', 'support-feedback-empty'].includes(previousSupportFeedback.status) &&
+  Array.isArray(previousSupportFeedback.issueRecords) &&
+  Array.isArray(previousSupportFeedback.aggregateEvidenceNotes) &&
+  Array.isArray(previousSupportFeedback.improvementSignals)
+    ? previousSupportFeedback
+    : null
 const canInspect =
   repository &&
   ['support-channel-ready', 'support-channel-planned'].includes(supportChannel.status) &&
@@ -497,7 +508,7 @@ const status = result.ok
   : canInspect
     ? 'support-feedback-unavailable'
     : 'support-feedback-planned'
-const payload = {
+const currentPayload = {
   generatedAt: new Date().toISOString(),
   status,
   provider: 'github-issues',
@@ -542,6 +553,7 @@ const payload = {
     playableTargetsOnlyForAutomation: true,
     publicAggregateOnly: true,
     githubRestFallback: true,
+    preservesLastGoodSnapshot: true,
     aggregateEvidenceNeverMarksProductGatePass: true,
     aggregateEvidenceRequiresManualReviewForGateDecisions: true,
   },
@@ -557,6 +569,31 @@ const payload = {
       : 'Keep collecting public GitHub issue feedback until a playable game signal appears.',
     'Never paste private information, raw event rows, or raw analytics exports into public issues.',
   ],
+}
+let payload = currentPayload
+
+if (!result.ok && previousUsableSupportFeedback) {
+  payload = {
+    ...currentPayload,
+    status: previousUsableSupportFeedback.status,
+    sourceDataHash: previousUsableSupportFeedback.sourceDataHash ?? currentPayload.sourceDataHash,
+    summary: previousUsableSupportFeedback.summary ?? currentPayload.summary,
+    issueRecords: previousUsableSupportFeedback.issueRecords,
+    aggregateEvidenceNotes: previousUsableSupportFeedback.aggregateEvidenceNotes,
+    improvementSignals: previousUsableSupportFeedback.improvementSignals,
+    sourceStatus: {
+      ...currentPayload.sourceStatus,
+      preservedLastGoodSnapshot: true,
+      preservedSnapshotStatus: previousUsableSupportFeedback.status,
+      preservedSnapshotGeneratedAt: previousUsableSupportFeedback.generatedAt ?? null,
+      preservedSnapshotSourceDataHash: previousUsableSupportFeedback.sourceDataHash ?? null,
+    },
+    nextActions: [
+      'GitHub issue inspection is temporarily unavailable; using the last redacted support-feedback snapshot until the next successful refresh.',
+      ...(previousUsableSupportFeedback.nextActions ?? currentPayload.nextActions).slice(0, 2),
+      'Never paste private information, raw event rows, or raw analytics exports into public issues.',
+    ],
+  }
 }
 const appPayload = {
   generatedAt: payload.generatedAt,
