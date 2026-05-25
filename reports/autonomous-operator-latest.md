@@ -1,10 +1,10 @@
 # Autonomous Operator
 
-Generated: 2026-05-25T14:09:19.980Z
-Status: operator-plan-ready
+Generated: 2026-05-25T14:20:03.038Z
+Status: operator-held
 Mode: plan-only
-Owner decision: refresh-autonomous-self-update
-Selected action: refresh-autonomous-self-update
+Owner decision: hold-for-external-input
+Selected action: none
 Execution: not-requested
 
 ## Controls
@@ -18,25 +18,30 @@ Execution: not-requested
 
 ## Selected Action
 
-- refresh-autonomous-self-update: npm run autonomous:self-update
+- none: no eligible local actions
 
 ## External Input Handoff
 
-- none
-- recommended path: none
-- lowest-input path: none
-- public status: none
-- missing inputs: none
+- next unlock: production-analytics-browser
+- recommended path: first-party-collector
+- lowest-input path: posthog-browser
+- public status: /measurement-status.html
+- missing inputs: 7 variable(s), 3 secret(s)
+- validate: npm run autonomous:event-collector-smoke
+- validate: npm run autonomous:collector-deploy-plan
+- validate: npm run autonomous:readiness
+- validate: npm run test:e2e
 
 ## Eligible Local Actions
 
-- refresh-autonomous-self-update
+- none
 
 ## Blocked Actions
 
 - run-daily-owner-loop: daily-loop-recursion-blocked
 - hold-for-external-input: status-monitor
 - refresh-autonomous-cadence: status-monitor
+- refresh-autonomous-self-update: status-monitor
 - seed-portfolio-traffic: status-monitor
 - refresh-organic-seed-loop: status-monitor
 - refresh-support-feedback: status-monitor
@@ -45,4 +50,3 @@ Execution: not-requested
 - check-performance-budget: status-monitor
 - prepare-release-candidate: status-monitor
 - run-post-deploy-smoke: status-monitor
-- sync-post-deploy-artifact: status-monitor
