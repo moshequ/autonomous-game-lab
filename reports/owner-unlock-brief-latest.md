@@ -1,12 +1,12 @@
 # Owner Unlock Brief
 
-Generated: 2026-05-25T08:51:12.730Z
+Generated: 2026-05-25T08:56:28.822Z
 Status: waiting-on-owner-input
-Source hash: 7d248e0a7db3
+Source hash: ded0c7997e39
 Next unlock: production-analytics-browser
 Recommended path: first-party-collector
 Lowest-input path: posthog-browser
-Lowest-input reason: PostHog browser capture currently needs 2 missing input(s), compared with 8 for the recommended path.
+Lowest-input reason: PostHog browser capture currently needs 2 missing input(s), compared with 4 for the recommended path.
 
 ## Setup Guard
 
@@ -22,16 +22,12 @@ Lowest-input reason: PostHog browser capture currently needs 2 missing input(s),
 ## Missing Variables
 
 - CLOUDFLARE_ACCOUNT_ID: gh variable set CLOUDFLARE_ACCOUNT_ID --body "$CLOUDFLARE_ACCOUNT_ID"
-- AGL_EVENT_COLLECTOR_R2_BUCKET: gh variable set AGL_EVENT_COLLECTOR_R2_BUCKET --body "$AGL_EVENT_COLLECTOR_R2_BUCKET"
-- AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS: gh variable set AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS --body "$AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS"
 - VITE_EVENT_COLLECTOR_URL: gh variable set VITE_EVENT_COLLECTOR_URL --body "$VITE_EVENT_COLLECTOR_URL"
 - AGL_EVENT_COLLECTOR_EXPORT_URL: gh variable set AGL_EVENT_COLLECTOR_EXPORT_URL --body "$AGL_EVENT_COLLECTOR_EXPORT_URL"
 
 ## Missing Secrets
 
 - CLOUDFLARE_API_TOKEN: printf "%s" "$CLOUDFLARE_API_TOKEN" | gh secret set CLOUDFLARE_API_TOKEN
-- VITE_EVENT_COLLECTOR_WRITE_TOKEN: printf "%s" "$VITE_EVENT_COLLECTOR_WRITE_TOKEN" | gh secret set VITE_EVENT_COLLECTOR_WRITE_TOKEN
-- AGL_EVENT_COLLECTOR_ADMIN_TOKEN: printf "%s" "$AGL_EVENT_COLLECTOR_ADMIN_TOKEN" | gh secret set AGL_EVENT_COLLECTOR_ADMIN_TOKEN
 
 ## Lowest-Input Path
 
@@ -39,7 +35,7 @@ Lowest-input reason: PostHog browser capture currently needs 2 missing input(s),
 - title: PostHog browser capture
 - missing inputs: 2
 - missing secrets: 0
-- manual input reduction: 6
+- manual input reduction: 2
 - no secrets required: true
 
 ### Lowest-Input Missing Variables
