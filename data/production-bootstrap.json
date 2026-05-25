@@ -1,29 +1,12 @@
 {
-  "generatedAt": "2026-05-25T12:06:50.046Z",
-  "sourceDataHash": "264e939391ad",
+  "generatedAt": "2026-05-25T12:11:42.515Z",
+  "sourceDataHash": "368ddedcade5",
   "status": "production-bootstrap-ready",
-  "mode": "waiting-for-external-credentials",
+  "mode": "can-apply-configured-actions",
   "envFiles": {
-    "loaded": true,
-    "loadedFiles": [
-      {
-        "path": "ops/production.env.local",
-        "keys": [
-          "AGL_ANDROID_PACKAGE_NAME",
-          "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
-          "AGL_ANDROID_KEYSTORE_BASE64",
-          "AGL_ANDROID_KEYSTORE_PASSWORD",
-          "AGL_ANDROID_KEY_ALIAS"
-        ]
-      }
-    ],
-    "loadedKeys": [
-      "AGL_ANDROID_PACKAGE_NAME",
-      "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
-      "AGL_ANDROID_KEYSTORE_BASE64",
-      "AGL_ANDROID_KEYSTORE_PASSWORD",
-      "AGL_ANDROID_KEY_ALIAS"
-    ],
+    "loaded": false,
+    "loadedFiles": [],
+    "loadedKeys": [],
     "skippedExistingKeys": [],
     "skippedProtectedKeys": [],
     "overwrittenEnvFileKeys": [],
@@ -55,17 +38,17 @@
   },
   "repository": {
     "githubRepository": "moshequ/autonomous-game-lab",
-    "githubRepositorySource": "origin-remote",
+    "githubRepositorySource": "environment",
     "inferredRepository": null,
     "ghCliAvailable": true,
-    "ghTokenConfigured": false,
-    "ghAuthAvailable": false,
-    "ghCredentialReady": false,
-    "canUseGh": false,
-    "repositoryReadinessStatus": "waiting-for-gh-auth",
-    "repositoryBootstrapStatus": "waiting-for-gh-auth",
+    "ghTokenConfigured": true,
+    "ghAuthAvailable": true,
+    "ghCredentialReady": true,
+    "canUseGh": true,
+    "repositoryReadinessStatus": "repository-channel-ready",
+    "repositoryBootstrapStatus": "repository-bootstrap-ready",
     "insideWorkTree": true,
-    "workflowDispatchReady": false,
+    "workflowDispatchReady": true,
     "bootstrapHelperPath": "ops/github/bootstrap-repository.sh"
   },
   "controls": {
@@ -84,35 +67,30 @@
   "summary": {
     "readyGroups": 3,
     "totalGroups": 12,
-    "configuredVariables": 6,
+    "configuredVariables": 10,
     "totalVariables": 24,
-    "configuredSecrets": 3,
+    "configuredSecrets": 5,
     "totalSecrets": 8,
-    "externalBlockers": 17
+    "externalBlockers": 14
   },
   "stages": [
     {
       "id": "repository-channel",
-      "status": "waiting-for-gh-auth",
+      "status": "repository-channel-ready",
       "canAutoRun": false,
       "costUsd": 0,
       "command": "npm run autonomous:repo-readiness",
-      "evidence": "Repository moshequ/autonomous-game-lab; git worktree ready; workflow dispatch blocked.",
-      "requires": [
-        "Authenticate GitHub CLI or configure GH_TOKEN/GITHUB_TOKEN for workflow dispatch and repository settings sync."
-      ]
+      "evidence": "Repository moshequ/autonomous-game-lab; git worktree ready; workflow dispatch ready.",
+      "requires": []
     },
     {
       "id": "repository-bootstrap",
-      "status": "waiting-for-gh-auth",
+      "status": "repository-bootstrap-ready",
       "canAutoRun": false,
       "costUsd": 0,
       "command": "npm run autonomous:repo-bootstrap",
-      "evidence": "Repository bootstrap waiting-for-gh-auth; helper ops/github/bootstrap-repository.sh; local git ready.",
-      "requires": [
-        "Commit current generated changes before pushing to GitHub Pages.",
-        "Authenticate GitHub CLI or provide GH_TOKEN/GITHUB_TOKEN for remote repository bootstrap."
-      ]
+      "evidence": "Repository bootstrap repository-bootstrap-ready; helper ops/github/bootstrap-repository.sh; local git ready.",
+      "requires": []
     },
     {
       "id": "production-environment",
@@ -120,7 +98,7 @@
       "canAutoRun": false,
       "costUsd": 0,
       "command": "npm run autonomous:env",
-      "evidence": "Environment production-env-missing; public origin inferred-github-pages; support missing-production-address.",
+      "evidence": "Environment production-env-missing; public origin configured; support missing-production-address.",
       "requires": [
         "Set AGL_SUPPORT_EMAIL to a real support inbox before public store submission.",
         "Set VITE_EVENT_COLLECTOR_URL or VITE_POSTHOG_KEY to forward browser analytics in production.",
@@ -133,7 +111,7 @@
     {
       "id": "github-pages-hosting",
       "status": "ready-for-actions-pages",
-      "canAutoRun": false,
+      "canAutoRun": true,
       "costUsd": 0,
       "command": "gh workflow run web-pwa-deploy.yml",
       "evidence": "Deployment plan is ready-for-pages; Pages workflow is .github/workflows/web-pwa-deploy.yml.",
@@ -145,11 +123,11 @@
     },
     {
       "id": "github-pages-settings",
-      "status": "waiting-for-gh-auth",
-      "canAutoRun": false,
+      "status": "ready-to-sync",
+      "canAutoRun": true,
       "costUsd": 0,
       "command": "AGL_SYNC_PAGES_SETTINGS=1 ./ops/github/setup-production.sh",
-      "evidence": "GitHub CLI authentication is required before Pages settings can be synced.",
+      "evidence": "GitHub CLI can configure Pages to use the Actions workflow source.",
       "requires": [
         "Repository exists on GitHub.",
         "Authenticated gh token has repository administration or Pages settings access."
@@ -157,11 +135,11 @@
     },
     {
       "id": "autonomous-self-update",
-      "status": "waiting-for-self-update-gate",
-      "canAutoRun": false,
+      "status": "ready-for-direct-persistence",
+      "canAutoRun": true,
       "costUsd": 0,
       "command": "Run Autonomous Self Update after the daily workflow succeeds.",
-      "evidence": "Self-update gate missing; direct push held.",
+      "evidence": "Self-update gate configured; direct push configured.",
       "requires": [
         "Set AGL_AUTONOMOUS_SELF_UPDATE=1 to allow the self-update workflow to run after verified daily builds.",
         "Set AGL_AUTONOMOUS_SELF_UPDATE_DIRECT=1 only when direct generated-artifact commits to the default branch are acceptable."
@@ -170,10 +148,10 @@
     {
       "id": "github-actions-variables",
       "status": "partially-configured",
-      "canAutoRun": false,
+      "canAutoRun": true,
       "costUsd": 0,
       "command": "./ops/github/setup-production.sh",
-      "evidence": "6/24 repository variable value(s) present in this environment.",
+      "evidence": "10/24 repository variable value(s) present in this environment.",
       "requires": [
         "AGL_SUPPORT_EMAIL",
         "VITE_POSTHOG_KEY",
@@ -185,14 +163,12 @@
     {
       "id": "github-actions-secrets",
       "status": "partially-configured",
-      "canAutoRun": false,
+      "canAutoRun": true,
       "costUsd": 0,
       "command": "./ops/github/setup-production.sh",
-      "evidence": "3/8 repository secret value(s) present in this environment.",
+      "evidence": "5/8 repository secret value(s) present in this environment.",
       "requires": [
         "CLOUDFLARE_API_TOKEN",
-        "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
-        "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
         "POSTHOG_PERSONAL_API_KEY",
         "GOOGLE_PLAY_SERVICE_ACCOUNT_JSON"
       ]
@@ -256,26 +232,21 @@
   "setupGroups": [
     {
       "id": "repository-channel",
-      "status": "waiting-for-gh-auth",
+      "status": "repository-channel-ready",
       "canAutoRun": false,
       "costUsd": 0,
       "command": "npm run autonomous:repo-readiness",
-      "evidence": "Repository moshequ/autonomous-game-lab; git worktree ready; workflow dispatch blocked.",
-      "requires": [
-        "Authenticate GitHub CLI or configure GH_TOKEN/GITHUB_TOKEN for workflow dispatch and repository settings sync."
-      ]
+      "evidence": "Repository moshequ/autonomous-game-lab; git worktree ready; workflow dispatch ready.",
+      "requires": []
     },
     {
       "id": "repository-bootstrap",
-      "status": "waiting-for-gh-auth",
+      "status": "repository-bootstrap-ready",
       "canAutoRun": false,
       "costUsd": 0,
       "command": "npm run autonomous:repo-bootstrap",
-      "evidence": "Repository bootstrap waiting-for-gh-auth; helper ops/github/bootstrap-repository.sh; local git ready.",
-      "requires": [
-        "Commit current generated changes before pushing to GitHub Pages.",
-        "Authenticate GitHub CLI or provide GH_TOKEN/GITHUB_TOKEN for remote repository bootstrap."
-      ]
+      "evidence": "Repository bootstrap repository-bootstrap-ready; helper ops/github/bootstrap-repository.sh; local git ready.",
+      "requires": []
     },
     {
       "id": "production-environment",
@@ -283,7 +254,7 @@
       "canAutoRun": false,
       "costUsd": 0,
       "command": "npm run autonomous:env",
-      "evidence": "Environment production-env-missing; public origin inferred-github-pages; support missing-production-address.",
+      "evidence": "Environment production-env-missing; public origin configured; support missing-production-address.",
       "requires": [
         "Set AGL_SUPPORT_EMAIL to a real support inbox before public store submission.",
         "Set VITE_EVENT_COLLECTOR_URL or VITE_POSTHOG_KEY to forward browser analytics in production.",
@@ -296,7 +267,7 @@
     {
       "id": "github-pages-hosting",
       "status": "ready-for-actions-pages",
-      "canAutoRun": false,
+      "canAutoRun": true,
       "costUsd": 0,
       "command": "gh workflow run web-pwa-deploy.yml",
       "evidence": "Deployment plan is ready-for-pages; Pages workflow is .github/workflows/web-pwa-deploy.yml.",
@@ -308,11 +279,11 @@
     },
     {
       "id": "github-pages-settings",
-      "status": "waiting-for-gh-auth",
-      "canAutoRun": false,
+      "status": "ready-to-sync",
+      "canAutoRun": true,
       "costUsd": 0,
       "command": "AGL_SYNC_PAGES_SETTINGS=1 ./ops/github/setup-production.sh",
-      "evidence": "GitHub CLI authentication is required before Pages settings can be synced.",
+      "evidence": "GitHub CLI can configure Pages to use the Actions workflow source.",
       "requires": [
         "Repository exists on GitHub.",
         "Authenticated gh token has repository administration or Pages settings access."
@@ -320,11 +291,11 @@
     },
     {
       "id": "autonomous-self-update",
-      "status": "waiting-for-self-update-gate",
-      "canAutoRun": false,
+      "status": "ready-for-direct-persistence",
+      "canAutoRun": true,
       "costUsd": 0,
       "command": "Run Autonomous Self Update after the daily workflow succeeds.",
-      "evidence": "Self-update gate missing; direct push held.",
+      "evidence": "Self-update gate configured; direct push configured.",
       "requires": [
         "Set AGL_AUTONOMOUS_SELF_UPDATE=1 to allow the self-update workflow to run after verified daily builds.",
         "Set AGL_AUTONOMOUS_SELF_UPDATE_DIRECT=1 only when direct generated-artifact commits to the default branch are acceptable."
@@ -333,10 +304,10 @@
     {
       "id": "github-actions-variables",
       "status": "partially-configured",
-      "canAutoRun": false,
+      "canAutoRun": true,
       "costUsd": 0,
       "command": "./ops/github/setup-production.sh",
-      "evidence": "6/24 repository variable value(s) present in this environment.",
+      "evidence": "10/24 repository variable value(s) present in this environment.",
       "requires": [
         "AGL_SUPPORT_EMAIL",
         "VITE_POSTHOG_KEY",
@@ -348,14 +319,12 @@
     {
       "id": "github-actions-secrets",
       "status": "partially-configured",
-      "canAutoRun": false,
+      "canAutoRun": true,
       "costUsd": 0,
       "command": "./ops/github/setup-production.sh",
-      "evidence": "3/8 repository secret value(s) present in this environment.",
+      "evidence": "5/8 repository secret value(s) present in this environment.",
       "requires": [
         "CLOUDFLARE_API_TOKEN",
-        "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
-        "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
         "POSTHOG_PERSONAL_API_KEY",
         "GOOGLE_PLAY_SERVICE_ACCOUNT_JSON"
       ]
@@ -423,7 +392,7 @@
       "name": "VITE_BASE_PATH",
       "repositoryVariable": "VITE_BASE_PATH",
       "envName": "VITE_BASE_PATH",
-      "valueSource": "inferred-github-pages",
+      "valueSource": "environment",
       "configured": true,
       "command": "gh variable set VITE_BASE_PATH --body \"$VITE_BASE_PATH\""
     },
@@ -433,7 +402,7 @@
       "name": "AGL_PUBLIC_ORIGIN",
       "repositoryVariable": "AGL_PUBLIC_ORIGIN",
       "envName": "AGL_PUBLIC_ORIGIN",
-      "valueSource": "inferred-github-pages",
+      "valueSource": "environment",
       "configured": true,
       "command": "gh variable set AGL_PUBLIC_ORIGIN --body \"$AGL_PUBLIC_ORIGIN\""
     },
@@ -443,7 +412,7 @@
       "name": "VITE_PUBLIC_ORIGIN",
       "repositoryVariable": "VITE_PUBLIC_ORIGIN",
       "envName": "AGL_PUBLIC_ORIGIN",
-      "valueSource": "inferred-github-pages",
+      "valueSource": "environment",
       "configured": true,
       "command": "gh variable set VITE_PUBLIC_ORIGIN --body \"$AGL_PUBLIC_ORIGIN\""
     },
@@ -453,7 +422,7 @@
       "name": "PUBLIC_SITE_URL",
       "repositoryVariable": "PUBLIC_SITE_URL",
       "envName": "AGL_PUBLIC_ORIGIN",
-      "valueSource": "inferred-github-pages",
+      "valueSource": "environment",
       "configured": true,
       "command": "gh variable set PUBLIC_SITE_URL --body \"$AGL_PUBLIC_ORIGIN\""
     },
@@ -543,8 +512,8 @@
       "name": "AGL_EVENT_COLLECTOR_R2_BUCKET",
       "repositoryVariable": "AGL_EVENT_COLLECTOR_R2_BUCKET",
       "envName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
-      "valueSource": "missing",
-      "configured": false,
+      "valueSource": "environment",
+      "configured": true,
       "command": "gh variable set AGL_EVENT_COLLECTOR_R2_BUCKET --body \"$AGL_EVENT_COLLECTOR_R2_BUCKET\""
     },
     {
@@ -553,8 +522,8 @@
       "name": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
       "repositoryVariable": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
       "envName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
-      "valueSource": "missing",
-      "configured": false,
+      "valueSource": "environment",
+      "configured": true,
       "command": "gh variable set AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS --body \"$AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS\""
     },
     {
@@ -643,8 +612,8 @@
       "name": "AGL_AUTONOMOUS_SELF_UPDATE",
       "repositoryVariable": "AGL_AUTONOMOUS_SELF_UPDATE",
       "envName": "AGL_AUTONOMOUS_SELF_UPDATE",
-      "valueSource": "missing",
-      "configured": false,
+      "valueSource": "environment",
+      "configured": true,
       "command": "gh variable set AGL_AUTONOMOUS_SELF_UPDATE --body \"$AGL_AUTONOMOUS_SELF_UPDATE\""
     },
     {
@@ -653,8 +622,8 @@
       "name": "AGL_AUTONOMOUS_SELF_UPDATE_DIRECT",
       "repositoryVariable": "AGL_AUTONOMOUS_SELF_UPDATE_DIRECT",
       "envName": "AGL_AUTONOMOUS_SELF_UPDATE_DIRECT",
-      "valueSource": "missing",
-      "configured": false,
+      "valueSource": "environment",
+      "configured": true,
       "command": "gh variable set AGL_AUTONOMOUS_SELF_UPDATE_DIRECT --body \"$AGL_AUTONOMOUS_SELF_UPDATE_DIRECT\""
     }
   ],
@@ -675,8 +644,8 @@
       "name": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
       "repositorySecret": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
       "envName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
-      "valueSource": "missing",
-      "configured": false,
+      "valueSource": "environment",
+      "configured": true,
       "command": "printf \"%s\" \"$VITE_EVENT_COLLECTOR_WRITE_TOKEN\" | gh secret set VITE_EVENT_COLLECTOR_WRITE_TOKEN"
     },
     {
@@ -685,8 +654,8 @@
       "name": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
       "repositorySecret": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
       "envName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
-      "valueSource": "missing",
-      "configured": false,
+      "valueSource": "environment",
+      "configured": true,
       "command": "printf \"%s\" \"$AGL_EVENT_COLLECTOR_ADMIN_TOKEN\" | gh secret set AGL_EVENT_COLLECTOR_ADMIN_TOKEN"
     },
     {
@@ -747,7 +716,7 @@
       "name": "VITE_BASE_PATH",
       "repositoryVariable": "VITE_BASE_PATH",
       "envName": "VITE_BASE_PATH",
-      "valueSource": "inferred-github-pages",
+      "valueSource": "environment",
       "configured": true,
       "command": "gh variable set VITE_BASE_PATH --body \"$VITE_BASE_PATH\""
     },
@@ -757,7 +726,7 @@
       "name": "AGL_PUBLIC_ORIGIN",
       "repositoryVariable": "AGL_PUBLIC_ORIGIN",
       "envName": "AGL_PUBLIC_ORIGIN",
-      "valueSource": "inferred-github-pages",
+      "valueSource": "environment",
       "configured": true,
       "command": "gh variable set AGL_PUBLIC_ORIGIN --body \"$AGL_PUBLIC_ORIGIN\""
     },
@@ -767,7 +736,7 @@
       "name": "VITE_PUBLIC_ORIGIN",
       "repositoryVariable": "VITE_PUBLIC_ORIGIN",
       "envName": "AGL_PUBLIC_ORIGIN",
-      "valueSource": "inferred-github-pages",
+      "valueSource": "environment",
       "configured": true,
       "command": "gh variable set VITE_PUBLIC_ORIGIN --body \"$AGL_PUBLIC_ORIGIN\""
     },
@@ -777,7 +746,7 @@
       "name": "PUBLIC_SITE_URL",
       "repositoryVariable": "PUBLIC_SITE_URL",
       "envName": "AGL_PUBLIC_ORIGIN",
-      "valueSource": "inferred-github-pages",
+      "valueSource": "environment",
       "configured": true,
       "command": "gh variable set PUBLIC_SITE_URL --body \"$AGL_PUBLIC_ORIGIN\""
     },
@@ -867,8 +836,8 @@
       "name": "AGL_EVENT_COLLECTOR_R2_BUCKET",
       "repositoryVariable": "AGL_EVENT_COLLECTOR_R2_BUCKET",
       "envName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
-      "valueSource": "missing",
-      "configured": false,
+      "valueSource": "environment",
+      "configured": true,
       "command": "gh variable set AGL_EVENT_COLLECTOR_R2_BUCKET --body \"$AGL_EVENT_COLLECTOR_R2_BUCKET\""
     },
     {
@@ -877,8 +846,8 @@
       "name": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
       "repositoryVariable": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
       "envName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
-      "valueSource": "missing",
-      "configured": false,
+      "valueSource": "environment",
+      "configured": true,
       "command": "gh variable set AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS --body \"$AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS\""
     },
     {
@@ -967,8 +936,8 @@
       "name": "AGL_AUTONOMOUS_SELF_UPDATE",
       "repositoryVariable": "AGL_AUTONOMOUS_SELF_UPDATE",
       "envName": "AGL_AUTONOMOUS_SELF_UPDATE",
-      "valueSource": "missing",
-      "configured": false,
+      "valueSource": "environment",
+      "configured": true,
       "command": "gh variable set AGL_AUTONOMOUS_SELF_UPDATE --body \"$AGL_AUTONOMOUS_SELF_UPDATE\""
     },
     {
@@ -977,8 +946,8 @@
       "name": "AGL_AUTONOMOUS_SELF_UPDATE_DIRECT",
       "repositoryVariable": "AGL_AUTONOMOUS_SELF_UPDATE_DIRECT",
       "envName": "AGL_AUTONOMOUS_SELF_UPDATE_DIRECT",
-      "valueSource": "missing",
-      "configured": false,
+      "valueSource": "environment",
+      "configured": true,
       "command": "gh variable set AGL_AUTONOMOUS_SELF_UPDATE_DIRECT --body \"$AGL_AUTONOMOUS_SELF_UPDATE_DIRECT\""
     }
   ],
@@ -999,8 +968,8 @@
       "name": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
       "repositorySecret": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
       "envName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
-      "valueSource": "missing",
-      "configured": false,
+      "valueSource": "environment",
+      "configured": true,
       "command": "printf \"%s\" \"$VITE_EVENT_COLLECTOR_WRITE_TOKEN\" | gh secret set VITE_EVENT_COLLECTOR_WRITE_TOKEN"
     },
     {
@@ -1009,8 +978,8 @@
       "name": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
       "repositorySecret": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
       "envName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
-      "valueSource": "missing",
-      "configured": false,
+      "valueSource": "environment",
+      "configured": true,
       "command": "printf \"%s\" \"$AGL_EVENT_COLLECTOR_ADMIN_TOKEN\" | gh secret set AGL_EVENT_COLLECTOR_ADMIN_TOKEN"
     },
     {
@@ -1086,13 +1055,13 @@
     {
       "id": "sync-pages-settings",
       "command": "AGL_SYNC_PAGES_SETTINGS=1 ./ops/github/setup-production.sh",
-      "safeToRunAutomatically": false,
+      "safeToRunAutomatically": true,
       "costUsd": 0
     },
     {
       "id": "sync-repository-config",
       "command": "./ops/github/setup-production.sh",
-      "safeToRunAutomatically": false,
+      "safeToRunAutomatically": true,
       "costUsd": 0
     },
     {
@@ -1104,7 +1073,7 @@
     {
       "id": "run-web-workflow",
       "command": "RUN_WORKFLOWS=1 ./ops/github/setup-production.sh",
-      "safeToRunAutomatically": false,
+      "safeToRunAutomatically": true,
       "costUsd": 0
     },
     {
@@ -1143,18 +1112,6 @@
     "ops/github/README.md"
   ],
   "externalBlockers": [
-    {
-      "source": "repository-readiness",
-      "blocker": "Authenticate GitHub CLI or configure GH_TOKEN/GITHUB_TOKEN for workflow dispatch and repository settings sync."
-    },
-    {
-      "source": "repository-bootstrap",
-      "blocker": "Commit current generated changes before pushing to GitHub Pages."
-    },
-    {
-      "source": "repository-bootstrap",
-      "blocker": "Authenticate GitHub CLI or provide GH_TOKEN/GITHUB_TOKEN for remote repository bootstrap."
-    },
     {
       "source": "production-environment",
       "blocker": "Set AGL_SUPPORT_EMAIL to a real support inbox before public store submission."
@@ -1213,13 +1170,13 @@
     }
   ],
   "ownerAction": {
-    "id": "collect-production-credentials",
-    "status": "credential-gated",
-    "command": "Fill required environment values, then run npm run autonomous:bootstrap.",
+    "id": "github-pages-hosting",
+    "status": "ready",
+    "command": "gh workflow run web-pwa-deploy.yml",
     "costUsd": 0
   },
   "nextActions": [
-    "Provide a GitHub repository plus required environment values/secrets to let the bootstrap script configure production workflows.",
+    "Run gh workflow run web-pwa-deploy.yml for github-pages-hosting.",
     "Keep GitHub Pages as the first zero-cost distribution channel.",
     "Keep app-store, paid spend, and revenue disabled until product and compliance gates pass."
   ]
