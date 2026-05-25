@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2026-05-25T08:07:55.387Z",
+  "generatedAt": "2026-05-25T08:12:30.475Z",
   "status": "unlock-runner-idle",
-  "mode": "plan-only",
+  "mode": "execute-unlocked-local-followups",
   "sourceStatus": {
     "productionBlockerHandoff": "handoff-waiting-on-owner-inputs",
-    "productionBlockerHandoffSourceDataHash": "fc9ddf6b2550"
+    "productionBlockerHandoffSourceDataHash": "1ff63bc1b44f"
   },
   "summary": {
     "handoffItems": 8,
@@ -71,7 +71,7 @@
       "category": "measurement",
       "status": "owner-input-required",
       "ownerInputRequired": true,
-      "fingerprint": "6a27a452a19e",
+      "fingerprint": "bbf73b2124d4",
       "executableStatus": false,
       "alreadyCompleted": false,
       "runnable": false,
@@ -92,7 +92,7 @@
       "category": "measurement",
       "status": "owner-input-required",
       "ownerInputRequired": true,
-      "fingerprint": "7011f4ed729f",
+      "fingerprint": "9f411c728a99",
       "executableStatus": false,
       "alreadyCompleted": false,
       "runnable": false,
@@ -194,9 +194,9 @@
   "commandQueue": [],
   "completedUnlockFingerprints": [],
   "execution": {
-    "requested": false,
+    "requested": true,
     "force": false,
-    "status": "not-requested",
+    "status": "idle",
     "attemptedCommands": [],
     "results": []
   },
