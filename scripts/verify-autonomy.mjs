@@ -396,6 +396,11 @@ const supportFeedback = JSON.parse(await readFile(path.join(root, 'data', 'suppo
 const iconAssets = JSON.parse(await readFile(path.join(root, 'data', 'icon-assets.json'), 'utf8'))
 const monetizationPlan = JSON.parse(await readFile(path.join(root, 'data', 'monetization-plan.json'), 'utf8'))
 const unitEconomics = JSON.parse(await readFile(path.join(root, 'data', 'unit-economics.json'), 'utf8'))
+const storePaybackLadder = unitEconomics.storePaybackLadder ?? null
+const googleStorePayback = storePaybackLadder?.channels?.googlePlay ?? null
+const iosStorePayback = storePaybackLadder?.channels?.iosAppStore ?? null
+const expectedGoogleDailyRevenueCents = Math.ceil(Math.round(unitEconomics.storeFees.googlePlay.costUsd * 100) / 60)
+const expectedIosDailyRevenueCents = Math.ceil(Math.round(unitEconomics.storeFees.iosAppStore.costUsd * 100) / 90)
 const androidRelease = JSON.parse(await readFile(path.join(root, 'data', 'android-release.json'), 'utf8'))
 const iosRelease = JSON.parse(await readFile(path.join(root, 'data', 'ios-release.json'), 'utf8'))
 const productionResponse = JSON.parse(await readFile(path.join(root, 'data', 'production-response.json'), 'utf8'))
@@ -5700,6 +5705,7 @@ if (
   storeReadiness.summary?.nativePackageStatus !== nativePackage.status ||
   storeReadiness.summary?.storeSpendAllowed !== (unitEconomics.controls?.storeSpendAllowed === true) ||
   storeReadiness.summary?.revenueEnabled !== (monetizationPlan.revenueEnabled === true) ||
+  storeReadiness.summary?.storePaybackStatus !== storePaybackLadder.status ||
   storeReadiness.summary?.screenshotCount !== (storeAssets.screenshots?.length ?? 0) ||
   storeReadiness.summary?.externalBlockerCount < 1 ||
   storeReadiness.summary?.productBlockerCount < 1 ||
@@ -5764,6 +5770,11 @@ if (
   !storeReadiness.blockers?.external?.some((item) => item.includes('support-contact')) ||
   !storeReadiness.blockers?.external?.some((item) => item.includes('google-play-account')) ||
   !storeReadiness.blockers?.product?.some((item) => item.includes('retention') || item.includes('completion')) ||
+  storeReadiness.storePaybackLadder?.channels?.googlePlay?.requiredDailyRevenueCents !==
+    expectedGoogleDailyRevenueCents ||
+  storeReadiness.storePaybackLadder?.channels?.iosAppStore?.requiredDailyRevenueCents !==
+    expectedIosDailyRevenueCents ||
+  storeReadiness.storePaybackLadder?.controls?.zeroPaidSpendUntilPayback !== true ||
   storeReadiness.controls?.zeroPaidSpend !== true ||
   storeReadiness.controls?.noPaidSpend !== true ||
   storeReadiness.controls?.noStoreSubmission !== true ||
@@ -5776,6 +5787,7 @@ if (
   publicStoreReadiness.publicRoutes?.storeReadiness !== '/store-readiness.html' ||
   publicStoreReadiness.storeOwnerUnlockSummary?.nextUnlockId !== 'support-contact' ||
   JSON.stringify(publicStoreReadiness.supportOwnerInputPack) !== JSON.stringify(supportOwnerInputPack) ||
+  JSON.stringify(publicStoreReadiness.storePaybackLadder) !== JSON.stringify(storeReadiness.storePaybackLadder) ||
   !publicStoreReadiness.storeOwnerUnlocks?.some((unlock) => unlock.id === 'support-contact') ||
   !publicStoreReadinessPlatformIds.has('android-google-play') ||
   !publicStoreReadinessPlatformIds.has('ios-app-store') ||
@@ -5784,6 +5796,9 @@ if (
   !storeReadinessHtml.includes('iOS App Store') ||
   !storeReadinessHtml.includes('Owner Unlock Order') ||
   !storeReadinessHtml.includes('Support Contact Input Pack') ||
+  !storeReadinessHtml.includes('Store Payback Ladder') ||
+  !storeReadinessHtml.includes('$0.42/day') ||
+  !storeReadinessHtml.includes('$1.10/day') ||
   !storeReadinessHtml.includes('AGL_SUPPORT_EMAIL=') ||
   !storeReadinessHtml.includes('Production support contact') ||
   !storeReadinessHtml.includes('./measurement-status.html') ||
@@ -5791,6 +5806,7 @@ if (
   !storeReadinessHtml.includes('./compliance.json') ||
   !storeReadinessSource.includes('storeOwnerUnlockSummary') ||
   !storeReadinessSource.includes('supportOwnerInputPack') ||
+  !storeReadinessSource.includes('storePaybackLadder') ||
   !storeReadinessSource.includes('email-shape') ||
   !storeReadinessSource.includes('AGL_SUPPORT_EMAIL') ||
   !storeReadinessSource.includes('GOOGLE_PLAY_SERVICE_ACCOUNT_JSON') ||
@@ -6132,6 +6148,28 @@ if (
   typeof unitEconomics.storeFees?.iosAppStore?.costUsd !== 'number'
 ) {
   fail('Unit economics guard must publish active spend controls and app-store payback gates.')
+}
+
+if (
+  !storePaybackLadder ||
+  !googleStorePayback ||
+  !iosStorePayback ||
+  storePaybackLadder.controls?.zeroPaidSpendUntilPayback !== true ||
+  storePaybackLadder.controls?.noPaidStoreFeesUntilSpendAllowed !== true ||
+  storePaybackLadder.controls?.noAccountCreationUntilSpendAllowed !== true ||
+  storePaybackLadder.controls?.noStoreSubmissionUntilSpendAllowed !== true ||
+  storePaybackLadder.controls?.requiresLiveRevenue !== true ||
+  googleStorePayback.requiredDailyRevenueCents !== expectedGoogleDailyRevenueCents ||
+  iosStorePayback.requiredDailyRevenueCents !== expectedIosDailyRevenueCents ||
+  googleStorePayback.additionalDailyRevenueCentsNeeded < 0 ||
+  iosStorePayback.additionalDailyRevenueCentsNeeded < googleStorePayback.additionalDailyRevenueCentsNeeded ||
+  googleStorePayback.paybackWindowDays !== 60 ||
+  iosStorePayback.paybackWindowDays !== 90 ||
+  googleStorePayback.spendAllowed !== unitEconomics.storeFees.googlePlay.allowed ||
+  iosStorePayback.spendAllowed !== unitEconomics.storeFees.iosAppStore.allowed ||
+  (analytics.totals.metrics.revenueCents === 0 && !storePaybackLadder.evidenceNeeded?.includes('live-revenue-signal'))
+) {
+  fail('Unit economics guard must publish zero-spend store payback thresholds before app-store spend can open.')
 }
 
 if (

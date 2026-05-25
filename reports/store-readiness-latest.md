@@ -1,8 +1,8 @@
 # Store Readiness
 
-Generated: 2026-05-25T18:58:44.031Z
+Generated: 2026-05-25T19:15:07.846Z
 Status: store-readiness-prepared-external-blockers
-Source hash: 4dc565430b74
+Source hash: 407d8ac3e7c0
 
 ## Summary
 
@@ -12,7 +12,16 @@ Source hash: 4dc565430b74
 - iOS: deferred-until-ios-payback
 - Store spend allowed: false
 - Revenue enabled: false
+- Store payback: waiting-for-live-revenue
 - Screenshots: 4
+
+## Store Payback Ladder
+
+- Status: waiting-for-live-revenue
+- Evidence needed: live-revenue-signal, passing-retention-and-engagement-gates, configured-revenue-provider, google-play-payback-and-account-clearance, ios-payback-and-account-clearance
+- Controls: zero paid spend until payback true
+- Google Play: $0.42/day, $12.60/month, gap $0.42/day
+- iOS App Store: $1.10/day, $33.00/month, gap $1.10/day
 
 ## Owner Unlock Order
 

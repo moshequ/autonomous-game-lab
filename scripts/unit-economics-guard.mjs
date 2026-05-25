@@ -26,6 +26,8 @@ const pct = (value) => (typeof value === 'number' ? `${Math.round(value * 100)}%
 const paybackDays = (costCents, dailyRevenueCents) =>
   dailyRevenueCents > 0 ? Math.ceil(costCents / dailyRevenueCents) : null
 
+const unique = (items) => [...new Set(items.filter(Boolean))]
+
 const decisionFor = (promotion, channel) =>
   promotion.decisions?.find((decision) => decision.channel === channel) ?? null
 
@@ -95,6 +97,136 @@ const appleStoreSpendAllowed =
   applePaybackDays !== null &&
   applePaybackDays <= 90
 const storeSpendAllowed = googleStoreSpendAllowed || appleStoreSpendAllowed
+
+const googleFeeBlockers = unique([
+  ...(androidDecision?.blockers ?? []),
+  ...(hostedPrivacyReady ? [] : ['Hosted privacy policy URL is missing.']),
+  ...(revenueSignalPresent ? [] : ['No live revenue signal yet.']),
+  ...(googlePaybackDays === null || googlePaybackDays > 60
+    ? ['Projected Google Play fee payback is not within 60 days.']
+    : []),
+])
+const appleFeeBlockers = unique([
+  ...(iosDecision?.blockers ?? []),
+  ...(hostedPrivacyReady ? [] : ['Hosted privacy policy URL is missing.']),
+  ...(projectedAnnualRevenueCents >= appleCostCents
+    ? []
+    : [`Projected annual revenue is $${dollars(projectedAnnualRevenueCents).toFixed(2)}, below $${dollars(appleCostCents).toFixed(2)}.`]),
+  ...(applePaybackDays === null || applePaybackDays > 90
+    ? ['Projected Apple fee payback is not within 90 days.']
+    : []),
+])
+const buildPaybackChannel = ({
+  id,
+  label,
+  costCents,
+  type,
+  paybackWindowDays,
+  currentPaybackDays,
+  spendAllowed,
+  requiresAnnualRevenueFloor = false,
+  blockers,
+}) => {
+  const requiredDailyRevenueCents = Math.ceil(costCents / paybackWindowDays)
+  const requiredMonthlyRevenueCents = round(requiredDailyRevenueCents * 30, 2)
+  const requiredAnnualRevenueCents = round(requiredDailyRevenueCents * 365, 2)
+  const requiredAnnualFloorCents = requiresAnnualRevenueFloor
+    ? Math.max(costCents, requiredAnnualRevenueCents)
+    : requiredAnnualRevenueCents
+
+  return {
+    id,
+    label,
+    type,
+    costUsd: dollars(costCents),
+    paybackWindowDays,
+    currentPaybackDays,
+    currentDailyRevenueCents: estimatedDailyRevenueCents,
+    currentMonthlyRevenueCents: projectedMonthlyRevenueCents,
+    currentAnnualRevenueCents: projectedAnnualRevenueCents,
+    requiredDailyRevenueCents,
+    requiredDailyRevenueUsd: dollars(requiredDailyRevenueCents),
+    requiredMonthlyRevenueCents,
+    requiredMonthlyRevenueUsd: dollars(requiredMonthlyRevenueCents),
+    requiredAnnualRevenueCents,
+    requiredAnnualRevenueUsd: dollars(requiredAnnualRevenueCents),
+    requiredAnnualFloorCents,
+    requiredAnnualFloorUsd: dollars(requiredAnnualFloorCents),
+    requiredRevenuePerStartedGameCents:
+      liveAnalyticsSource && lookbackDays && gameStarts
+        ? round((requiredDailyRevenueCents * lookbackDays) / gameStarts, 4)
+        : null,
+    additionalDailyRevenueCentsNeeded: round(Math.max(0, requiredDailyRevenueCents - estimatedDailyRevenueCents), 2),
+    additionalMonthlyRevenueCentsNeeded: round(
+      Math.max(0, requiredMonthlyRevenueCents - projectedMonthlyRevenueCents),
+      2,
+    ),
+    additionalAnnualRevenueCentsNeeded: round(
+      Math.max(0, requiredAnnualFloorCents - projectedAnnualRevenueCents),
+      2,
+    ),
+    paybackReady: currentPaybackDays !== null && currentPaybackDays <= paybackWindowDays,
+    annualRevenueReady: requiresAnnualRevenueFloor ? projectedAnnualRevenueCents >= costCents : true,
+    spendAllowed,
+    blockers,
+  }
+}
+const storePaybackLadder = {
+  status: storeSpendAllowed
+    ? 'store-spend-economics-ready'
+    : revenueSignalPresent
+      ? 'waiting-for-payback-or-store-inputs'
+      : 'waiting-for-live-revenue',
+  source: {
+    analyticsSource: activeSource,
+    projectionConfidence,
+    lookbackDays,
+    revenueSignalPresent,
+    basis: liveAnalyticsSource
+      ? `live ${activeSource}${lookbackDays ? ` over ${lookbackDays} day(s)` : ''}`
+      : 'fixture/local-free fallback; not valid for paid spend',
+  },
+  controls: {
+    zeroPaidSpendUntilPayback: true,
+    noPaidStoreFeesUntilSpendAllowed: true,
+    noAccountCreationUntilSpendAllowed: true,
+    noStoreSubmissionUntilSpendAllowed: true,
+    noRevenueEnablementUntilProductGatesPass: true,
+    requiresLiveRevenue: true,
+    fixtureEvidenceCannotClear: !liveAnalyticsSource,
+  },
+  evidenceNeeded: unique([
+    revenueSignalPresent ? null : 'live-revenue-signal',
+    retentionReady ? null : 'passing-retention-and-engagement-gates',
+    adNetworkConfigured ? null : 'configured-revenue-provider',
+    hostedPrivacyReady ? null : 'hosted-privacy-url',
+    googleStoreSpendAllowed ? null : 'google-play-payback-and-account-clearance',
+    appleStoreSpendAllowed ? null : 'ios-payback-and-account-clearance',
+  ]),
+  channels: {
+    googlePlay: buildPaybackChannel({
+      id: 'google-play',
+      label: 'Google Play',
+      costCents: googleCostCents,
+      type: 'one-time-developer-account',
+      paybackWindowDays: 60,
+      currentPaybackDays: googlePaybackDays,
+      spendAllowed: googleStoreSpendAllowed,
+      blockers: googleFeeBlockers,
+    }),
+    iosAppStore: buildPaybackChannel({
+      id: 'ios-app-store',
+      label: 'iOS App Store',
+      costCents: appleCostCents,
+      type: 'annual-developer-account',
+      paybackWindowDays: 90,
+      currentPaybackDays: applePaybackDays,
+      spendAllowed: appleStoreSpendAllowed,
+      requiresAnnualRevenueFloor: true,
+      blockers: appleFeeBlockers,
+    }),
+  },
+}
 
 const status = paidAcquisitionAllowed
   ? 'reinvest-capped'
@@ -181,32 +313,17 @@ const payload = {
       type: 'one-time-developer-account',
       allowed: googleStoreSpendAllowed,
       paybackDays: googlePaybackDays,
-      blockers: [
-        ...(androidDecision?.blockers ?? []),
-        ...(hostedPrivacyReady ? [] : ['Hosted privacy policy URL is missing.']),
-        ...(revenueSignalPresent ? [] : ['No live revenue signal yet.']),
-        ...(googlePaybackDays === null || googlePaybackDays > 60
-          ? ['Projected Google Play fee payback is not within 60 days.']
-          : []),
-      ].filter((blocker, index, blockers) => blockers.indexOf(blocker) === index),
+      blockers: googleFeeBlockers,
     },
     iosAppStore: {
       costUsd: dollars(appleCostCents),
       type: 'annual-developer-account',
       allowed: appleStoreSpendAllowed,
       paybackDays: applePaybackDays,
-      blockers: [
-        ...(iosDecision?.blockers ?? []),
-        ...(hostedPrivacyReady ? [] : ['Hosted privacy policy URL is missing.']),
-        ...(projectedAnnualRevenueCents >= appleCostCents
-          ? []
-          : [`Projected annual revenue is $${dollars(projectedAnnualRevenueCents).toFixed(2)}, below $${dollars(appleCostCents).toFixed(2)}.`]),
-        ...(applePaybackDays === null || applePaybackDays > 90
-          ? ['Projected Apple fee payback is not within 90 days.']
-          : []),
-      ].filter((blocker, index, blockers) => blockers.indexOf(blocker) === index),
+      blockers: appleFeeBlockers,
     },
   },
+  storePaybackLadder,
   controls: {
     spendGuardActive: true,
     spendMode: status,
@@ -261,6 +378,14 @@ const report = [
   `- iOS App Store: $${payload.storeFees.iosAppStore.costUsd.toFixed(2)}/yr, payback ${
     payload.storeFees.iosAppStore.paybackDays ?? 'not enough revenue'
   }, allowed ${payload.storeFees.iosAppStore.allowed}`,
+  '',
+  '## Store Payback Ladder',
+  '',
+  `- Status: ${payload.storePaybackLadder.status}`,
+  `- Google Play threshold: $${payload.storePaybackLadder.channels.googlePlay.requiredDailyRevenueUsd.toFixed(2)}/day, $${payload.storePaybackLadder.channels.googlePlay.requiredMonthlyRevenueUsd.toFixed(2)}/month, gap $${dollars(payload.storePaybackLadder.channels.googlePlay.additionalDailyRevenueCentsNeeded).toFixed(2)}/day`,
+  `- iOS App Store threshold: $${payload.storePaybackLadder.channels.iosAppStore.requiredDailyRevenueUsd.toFixed(2)}/day, $${payload.storePaybackLadder.channels.iosAppStore.requiredMonthlyRevenueUsd.toFixed(2)}/month, gap $${dollars(payload.storePaybackLadder.channels.iosAppStore.additionalDailyRevenueCentsNeeded).toFixed(2)}/day`,
+  `- Requires live revenue: ${payload.storePaybackLadder.controls.requiresLiveRevenue}`,
+  `- Fixture evidence cannot clear: ${payload.storePaybackLadder.controls.fixtureEvidenceCannotClear}`,
   '',
   '## Recommendations',
   '',

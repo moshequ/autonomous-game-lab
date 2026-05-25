@@ -220,6 +220,12 @@ const controls = {
   storeSpendStillBlocked: unitEconomics.controls?.storeSpendAllowed !== true,
   postDeploySmokeRequired: true,
 }
+const storePaybackLadder = unitEconomics.storePaybackLadder ?? {
+  status: 'missing',
+  controls: {},
+  evidenceNeeded: [],
+  channels: {},
+}
 const unlockInput = ({ type, repositoryName, envName = repositoryName, configured, command, purpose }) => ({
   type,
   repositoryName,
@@ -552,6 +558,7 @@ const summary = {
   nativePackageStatus: nativePackage.status,
   storeSpendAllowed: unitEconomics.controls?.storeSpendAllowed === true,
   revenueEnabled: monetizationPlan.revenueEnabled === true,
+  storePaybackStatus: storePaybackLadder.status,
   screenshotCount: storeAssets.screenshots?.length ?? 0,
   externalBlockerCount: externalBlockers.length,
   productBlockerCount: productBlockers.length,
@@ -567,6 +574,7 @@ const payload = {
   supportOwnerInputPack,
   storeOwnerUnlocks,
   platformHandoffs,
+  storePaybackLadder,
   checks,
   blockers: {
     external: externalBlockers,
@@ -582,6 +590,7 @@ const publicPayload = {
   publicRoutes,
   storeOwnerUnlockSummary,
   supportOwnerInputPack,
+  storePaybackLadder,
   storeOwnerUnlocks: storeOwnerUnlocks.map((unlock) => ({
     id: unlock.id,
     title: unlock.title,
@@ -612,6 +621,16 @@ const escapeHtml = (value) =>
     .replaceAll("'", '&#39;')
 const renderList = (items) =>
   items.length ? items.map((item) => `<li>${escapeHtml(item)}</li>`).join('\n            ') : '<li>None recorded.</li>'
+const formatUsd = (value) => `$${Number(value ?? 0).toFixed(2)}`
+const renderPaybackChannel = (channel) =>
+  channel
+    ? `<div class="handoff">
+            <h3>${escapeHtml(channel.label)} Payback</h3>
+            <p><strong>${formatUsd(channel.requiredDailyRevenueUsd)}/day</strong></p>
+            <p>${formatUsd(channel.requiredMonthlyRevenueUsd)}/month, ${formatUsd(channel.requiredAnnualRevenueUsd)}/year</p>
+            <p>Gap: ${formatUsd((channel.additionalDailyRevenueCentsNeeded ?? 0) / 100)}/day</p>
+          </div>`
+    : ''
 const html = `<!doctype html>
 <html lang="en">
   <head>
@@ -848,6 +867,17 @@ const html = `<!doctype html>
       </section>
 
       <section>
+        <h2>Store Payback Ladder</h2>
+        <div class="row"><span>Status</span><strong>${escapeHtml(storePaybackLadder.status)}</strong></div>
+        <div class="row"><span>Evidence needed</span><strong>${escapeHtml((storePaybackLadder.evidenceNeeded ?? []).join(', ') || 'none')}</strong></div>
+        <div class="row"><span>Spend controls</span><strong>${storePaybackLadder.controls?.zeroPaidSpendUntilPayback === true ? 'zero-spend until payback' : 'missing'}</strong></div>
+        <div class="grid">
+          ${renderPaybackChannel(storePaybackLadder.channels?.googlePlay)}
+          ${renderPaybackChannel(storePaybackLadder.channels?.iosAppStore)}
+        </div>
+      </section>
+
+      <section>
         <h2>External Blockers</h2>
         <p class="warning">Owner-controlled accounts, contact fields, provider credentials, or store spend remain gated.</p>
         <ul>
@@ -889,7 +919,16 @@ const report = [
   `- iOS: ${summary.iosStatus}`,
   `- Store spend allowed: ${summary.storeSpendAllowed}`,
   `- Revenue enabled: ${summary.revenueEnabled}`,
+  `- Store payback: ${summary.storePaybackStatus}`,
   `- Screenshots: ${summary.screenshotCount}`,
+  '',
+  '## Store Payback Ladder',
+  '',
+  `- Status: ${storePaybackLadder.status}`,
+  `- Evidence needed: ${(storePaybackLadder.evidenceNeeded ?? []).join(', ') || 'none'}`,
+  `- Controls: zero paid spend until payback ${storePaybackLadder.controls?.zeroPaidSpendUntilPayback === true}`,
+  `- Google Play: ${formatUsd(storePaybackLadder.channels?.googlePlay?.requiredDailyRevenueUsd)}/day, ${formatUsd(storePaybackLadder.channels?.googlePlay?.requiredMonthlyRevenueUsd)}/month, gap ${formatUsd((storePaybackLadder.channels?.googlePlay?.additionalDailyRevenueCentsNeeded ?? 0) / 100)}/day`,
+  `- iOS App Store: ${formatUsd(storePaybackLadder.channels?.iosAppStore?.requiredDailyRevenueUsd)}/day, ${formatUsd(storePaybackLadder.channels?.iosAppStore?.requiredMonthlyRevenueUsd)}/month, gap ${formatUsd((storePaybackLadder.channels?.iosAppStore?.additionalDailyRevenueCentsNeeded ?? 0) / 100)}/day`,
   '',
   '## Owner Unlock Order',
   '',

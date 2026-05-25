@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-25T18:59:05.765Z",
+  "generatedAt": "2026-05-25T19:14:20.243Z",
   "status": "operator-held",
   "mode": "plan-only",
   "ownerDecision": {
@@ -10,7 +10,7 @@
   },
   "externalInputHandoff": {
     "status": "handoff-waiting-on-owner-inputs",
-    "holdReason": "All safe local actions are current; remaining progress requires external inputs or new player evidence.",
+    "holdReason": "All currently armed local actions were recently executed or covered; holding to avoid cycling until new player evidence, external inputs, or a cooldown expiry changes the state.",
     "nextUnlockId": "production-analytics-browser",
     "title": "Browser production analytics unlock kit",
     "recommendedPathId": "first-party-collector",
@@ -127,15 +127,15 @@
     },
     {
       "id": "seed-portfolio-traffic",
-      "status": "monitor",
+      "status": "armed",
       "command": "npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop",
-      "reason": "status-monitor"
+      "reason": "owner-decision-held"
     },
     {
       "id": "refresh-organic-seed-loop",
-      "status": "monitor",
+      "status": "armed",
       "command": "npm run autonomous:organic-seed-loop",
-      "reason": "status-monitor"
+      "reason": "owner-decision-held"
     },
     {
       "id": "refresh-support-feedback",

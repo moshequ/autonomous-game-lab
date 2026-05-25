@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-25T07:04:29.820Z",
+  "generatedAt": "2026-05-25T19:07:14.249Z",
   "status": "no-spend",
   "analyticsSource": "fixture-sample",
   "projectionConfidence": "low-fixture-or-zero",
@@ -61,6 +61,97 @@
         "Projected annual revenue is $0.00, below $99.00.",
         "Projected Apple fee payback is not within 90 days."
       ]
+    }
+  },
+  "storePaybackLadder": {
+    "status": "waiting-for-live-revenue",
+    "source": {
+      "analyticsSource": "fixture-sample",
+      "projectionConfidence": "low-fixture-or-zero",
+      "lookbackDays": null,
+      "revenueSignalPresent": false,
+      "basis": "fixture/local-free fallback; not valid for paid spend"
+    },
+    "controls": {
+      "zeroPaidSpendUntilPayback": true,
+      "noPaidStoreFeesUntilSpendAllowed": true,
+      "noAccountCreationUntilSpendAllowed": true,
+      "noStoreSubmissionUntilSpendAllowed": true,
+      "noRevenueEnablementUntilProductGatesPass": true,
+      "requiresLiveRevenue": true,
+      "fixtureEvidenceCannotClear": true
+    },
+    "evidenceNeeded": [
+      "live-revenue-signal",
+      "passing-retention-and-engagement-gates",
+      "configured-revenue-provider",
+      "google-play-payback-and-account-clearance",
+      "ios-payback-and-account-clearance"
+    ],
+    "channels": {
+      "googlePlay": {
+        "id": "google-play",
+        "label": "Google Play",
+        "type": "one-time-developer-account",
+        "costUsd": 25,
+        "paybackWindowDays": 60,
+        "currentPaybackDays": null,
+        "currentDailyRevenueCents": 0,
+        "currentMonthlyRevenueCents": 0,
+        "currentAnnualRevenueCents": 0,
+        "requiredDailyRevenueCents": 42,
+        "requiredDailyRevenueUsd": 0.42,
+        "requiredMonthlyRevenueCents": 1260,
+        "requiredMonthlyRevenueUsd": 12.6,
+        "requiredAnnualRevenueCents": 15330,
+        "requiredAnnualRevenueUsd": 153.3,
+        "requiredAnnualFloorCents": 15330,
+        "requiredAnnualFloorUsd": 153.3,
+        "requiredRevenuePerStartedGameCents": null,
+        "additionalDailyRevenueCentsNeeded": 42,
+        "additionalMonthlyRevenueCentsNeeded": 1260,
+        "additionalAnnualRevenueCentsNeeded": 15330,
+        "paybackReady": false,
+        "annualRevenueReady": true,
+        "spendAllowed": false,
+        "blockers": [
+          "Google Play developer account is not connected.",
+          "No live revenue signal yet.",
+          "Projected Google Play fee payback is not within 60 days."
+        ]
+      },
+      "iosAppStore": {
+        "id": "ios-app-store",
+        "label": "iOS App Store",
+        "type": "annual-developer-account",
+        "costUsd": 99,
+        "paybackWindowDays": 90,
+        "currentPaybackDays": null,
+        "currentDailyRevenueCents": 0,
+        "currentMonthlyRevenueCents": 0,
+        "currentAnnualRevenueCents": 0,
+        "requiredDailyRevenueCents": 110,
+        "requiredDailyRevenueUsd": 1.1,
+        "requiredMonthlyRevenueCents": 3300,
+        "requiredMonthlyRevenueUsd": 33,
+        "requiredAnnualRevenueCents": 40150,
+        "requiredAnnualRevenueUsd": 401.5,
+        "requiredAnnualFloorCents": 40150,
+        "requiredAnnualFloorUsd": 401.5,
+        "requiredRevenuePerStartedGameCents": null,
+        "additionalDailyRevenueCentsNeeded": 110,
+        "additionalMonthlyRevenueCentsNeeded": 3300,
+        "additionalAnnualRevenueCentsNeeded": 40150,
+        "paybackReady": false,
+        "annualRevenueReady": false,
+        "spendAllowed": false,
+        "blockers": [
+          "Revenue signal is $0.00, below $99.00.",
+          "Apple Developer account is not connected.",
+          "Projected annual revenue is $0.00, below $99.00.",
+          "Projected Apple fee payback is not within 90 days."
+        ]
+      }
     }
   },
   "controls": {

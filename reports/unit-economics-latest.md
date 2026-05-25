@@ -1,6 +1,6 @@
 # Unit Economics Guard
 
-Generated: 2026-05-25T07:04:29.820Z
+Generated: 2026-05-25T19:07:14.249Z
 Status: no-spend
 Analytics source: fixture-sample
 Cost posture: zero-paid-spend-until-live-revenue-and-retention-pass
@@ -26,6 +26,14 @@ Cost posture: zero-paid-spend-until-live-revenue-and-retention-pass
 
 - Google Play: $25.00, payback not enough revenue, allowed false
 - iOS App Store: $99.00/yr, payback not enough revenue, allowed false
+
+## Store Payback Ladder
+
+- Status: waiting-for-live-revenue
+- Google Play threshold: $0.42/day, $12.60/month, gap $0.42/day
+- iOS App Store threshold: $1.10/day, $33.00/month, gap $1.10/day
+- Requires live revenue: true
+- Fixture evidence cannot clear: true
 
 ## Recommendations
 

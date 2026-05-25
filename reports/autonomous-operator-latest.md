@@ -1,6 +1,6 @@
 # Autonomous Operator
 
-Generated: 2026-05-25T18:59:05.765Z
+Generated: 2026-05-25T19:14:20.243Z
 Status: operator-held
 Mode: plan-only
 Owner decision: hold-for-external-input
@@ -42,8 +42,8 @@ Execution: not-requested
 - hold-for-external-input: status-monitor
 - refresh-autonomous-cadence: status-monitor
 - refresh-autonomous-self-update: status-monitor
-- seed-portfolio-traffic: status-monitor
-- refresh-organic-seed-loop: status-monitor
+- seed-portfolio-traffic: owner-decision-held
+- refresh-organic-seed-loop: owner-decision-held
 - refresh-support-feedback: status-monitor
 - optimize-daily-retention: status-monitor
 - measure-pwa-install-loop: status-monitor

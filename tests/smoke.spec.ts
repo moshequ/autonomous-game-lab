@@ -11342,6 +11342,7 @@ test('store readiness handoff publishes web, Android, and iOS blockers', async (
       nativePackageStatus: string
       storeSpendAllowed: boolean
       revenueEnabled: boolean
+      storePaybackStatus: string
       externalBlockerCount: number
       productBlockerCount: number
     }
@@ -11399,6 +11400,38 @@ test('store readiness handoff publishes web, Android, and iOS blockers', async (
       validationCommands: string[]
     }>
     platformHandoffs: Array<{ id: string; status: string }>
+    storePaybackLadder: {
+      status: string
+      evidenceNeeded: string[]
+      controls: {
+        zeroPaidSpendUntilPayback: boolean
+        noPaidStoreFeesUntilSpendAllowed: boolean
+        noAccountCreationUntilSpendAllowed: boolean
+        noStoreSubmissionUntilSpendAllowed: boolean
+        requiresLiveRevenue: boolean
+        fixtureEvidenceCannotClear: boolean
+      }
+      channels: {
+        googlePlay: {
+          requiredDailyRevenueCents: number
+          requiredDailyRevenueUsd: number
+          requiredMonthlyRevenueCents: number
+          requiredMonthlyRevenueUsd: number
+          additionalDailyRevenueCentsNeeded: number
+          paybackWindowDays: number
+          spendAllowed: boolean
+        }
+        iosAppStore: {
+          requiredDailyRevenueCents: number
+          requiredDailyRevenueUsd: number
+          requiredMonthlyRevenueCents: number
+          requiredMonthlyRevenueUsd: number
+          additionalDailyRevenueCentsNeeded: number
+          paybackWindowDays: number
+          spendAllowed: boolean
+        }
+      }
+    }
     checks: Array<{ id: string; status: string }>
     blockers: { external: string[]; product: string[] }
     controls: {
@@ -11416,6 +11449,7 @@ test('store readiness handoff publishes web, Android, and iOS blockers', async (
     publicRoutes: Record<string, string>
     storeOwnerUnlockSummary: { nextUnlockId: string; lowestInputUnlockId: string }
     supportOwnerInputPack: typeof readiness.supportOwnerInputPack
+    storePaybackLadder: typeof readiness.storePaybackLadder
     storeOwnerUnlocks: Array<{ id: string; status: string; setupCommands: string[]; validationCommands: string[] }>
     platformHandoffs: Array<{ id: string }>
   }
@@ -11444,6 +11478,7 @@ test('store readiness handoff publishes web, Android, and iOS blockers', async (
   expect(readiness.summary.nativePackageStatus).toBe(nativePackage.status)
   expect(readiness.summary.storeSpendAllowed).toBe(false)
   expect(readiness.summary.revenueEnabled).toBe(false)
+  expect(readiness.summary.storePaybackStatus).toBe('waiting-for-live-revenue')
   expect(readiness.summary.externalBlockerCount).toBeGreaterThan(0)
   expect(readiness.summary.productBlockerCount).toBeGreaterThan(0)
   expect(readiness.publicRoutes.storeReadiness).toBe('/store-readiness.html')
@@ -11497,6 +11532,30 @@ test('store readiness handoff publishes web, Android, and iOS blockers', async (
   expect(readiness.platformHandoffs.map((handoff) => handoff.id)).toEqual(
     expect.arrayContaining(['web-pwa', 'android-google-play', 'ios-app-store']),
   )
+  expect(readiness.storePaybackLadder.status).toBe('waiting-for-live-revenue')
+  expect(readiness.storePaybackLadder.controls.zeroPaidSpendUntilPayback).toBe(true)
+  expect(readiness.storePaybackLadder.controls.noPaidStoreFeesUntilSpendAllowed).toBe(true)
+  expect(readiness.storePaybackLadder.controls.noAccountCreationUntilSpendAllowed).toBe(true)
+  expect(readiness.storePaybackLadder.controls.noStoreSubmissionUntilSpendAllowed).toBe(true)
+  expect(readiness.storePaybackLadder.controls.requiresLiveRevenue).toBe(true)
+  expect(readiness.storePaybackLadder.controls.fixtureEvidenceCannotClear).toBe(true)
+  expect(readiness.storePaybackLadder.evidenceNeeded).toEqual(
+    expect.arrayContaining(['live-revenue-signal', 'google-play-payback-and-account-clearance']),
+  )
+  expect(readiness.storePaybackLadder.channels.googlePlay.requiredDailyRevenueCents).toBe(42)
+  expect(readiness.storePaybackLadder.channels.googlePlay.requiredDailyRevenueUsd).toBe(0.42)
+  expect(readiness.storePaybackLadder.channels.googlePlay.requiredMonthlyRevenueCents).toBe(1260)
+  expect(readiness.storePaybackLadder.channels.googlePlay.requiredMonthlyRevenueUsd).toBe(12.6)
+  expect(readiness.storePaybackLadder.channels.googlePlay.additionalDailyRevenueCentsNeeded).toBe(42)
+  expect(readiness.storePaybackLadder.channels.googlePlay.paybackWindowDays).toBe(60)
+  expect(readiness.storePaybackLadder.channels.googlePlay.spendAllowed).toBe(false)
+  expect(readiness.storePaybackLadder.channels.iosAppStore.requiredDailyRevenueCents).toBe(110)
+  expect(readiness.storePaybackLadder.channels.iosAppStore.requiredDailyRevenueUsd).toBe(1.1)
+  expect(readiness.storePaybackLadder.channels.iosAppStore.requiredMonthlyRevenueCents).toBe(3300)
+  expect(readiness.storePaybackLadder.channels.iosAppStore.requiredMonthlyRevenueUsd).toBe(33)
+  expect(readiness.storePaybackLadder.channels.iosAppStore.additionalDailyRevenueCentsNeeded).toBe(110)
+  expect(readiness.storePaybackLadder.channels.iosAppStore.paybackWindowDays).toBe(90)
+  expect(readiness.storePaybackLadder.channels.iosAppStore.spendAllowed).toBe(false)
   expect(readiness.checks.map((check) => check.id)).toEqual(
     expect.arrayContaining(['store-package', 'store-compliance', 'native-package', 'android-release', 'ios-release']),
   )
@@ -11514,6 +11573,7 @@ test('store readiness handoff publishes web, Android, and iOS blockers', async (
   expect(publicReadiness.publicRoutes.storeReadiness).toBe('/store-readiness.html')
   expect(publicReadiness.storeOwnerUnlockSummary.nextUnlockId).toBe('support-contact')
   expect(publicReadiness.supportOwnerInputPack).toEqual(readiness.supportOwnerInputPack)
+  expect(publicReadiness.storePaybackLadder).toEqual(readiness.storePaybackLadder)
   expect(publicReadiness.storeOwnerUnlocks.find((unlock) => unlock.id === 'support-contact')?.setupCommands).toContain(
     'npm run autonomous:store-readiness',
   )
@@ -11525,10 +11585,13 @@ test('store readiness handoff publishes web, Android, and iOS blockers', async (
 
   expect(response?.ok()).toBeTruthy()
   await expect(page.getByRole('heading', { name: 'Autonomous Game Lab Store Readiness' })).toBeVisible()
-  await expect(page.getByRole('heading', { name: 'Android Google Play' })).toBeVisible()
-  await expect(page.getByRole('heading', { name: 'iOS App Store' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Android Google Play', exact: true })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'iOS App Store', exact: true })).toBeVisible()
   await expect(page.getByRole('heading', { name: 'Owner Unlock Order' })).toBeVisible()
   await expect(page.getByRole('heading', { name: 'Support Contact Input Pack' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Store Payback Ladder' })).toBeVisible()
+  await expect(page.getByText('$0.42/day', { exact: true })).toBeVisible()
+  await expect(page.getByText('$1.10/day', { exact: true })).toBeVisible()
   await expect(page.getByText('AGL_SUPPORT_EMAIL=')).toBeVisible()
   await expect(page.getByText('support-contact', { exact: true })).toBeVisible()
   await expect(page.getByRole('heading', { name: 'Production support contact' })).toBeVisible()
