@@ -942,6 +942,17 @@ const ownerUnlockBriefHtml = (brief) =>
             <strong>${brief.missingSecrets.length}</strong>
           </div>
         </div>
+        <h3>Parallel Owner Unlocks</h3>
+        ${
+          brief.parallelOwnerUnlocks?.length
+            ? `<ul>${brief.parallelOwnerUnlocks
+                .map(
+                  (unlock) =>
+                    `<li><strong>${escapeHtml(unlock.id)}</strong>: ${escapeHtml(unlock.category)} - ${unlock.missingInputCount ?? 0} missing input(s), status <a href="${publicRouteHref(unlock.publicStatusPage)}">${escapeHtml(unlock.publicStatusPage)}</a></li>`,
+                )
+                .join('')}</ul>`
+            : '<p>none</p>'
+        }
         <h3>Missing Variables</h3>
         ${requiredList(brief.missingVariables)}
         <h3>Missing Secrets</h3>

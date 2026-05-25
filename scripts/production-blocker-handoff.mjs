@@ -34,6 +34,15 @@ const supportChannel = await readOptionalJson(path.join(dataDir, 'support-channe
   controls: {},
   links: {},
 })
+const storeReadiness = await readOptionalJson(path.join(dataDir, 'store-readiness.json'), {
+  status: 'missing',
+  publicRoutes: {
+    storeReadiness: '/store-readiness.html',
+    storeReadinessJson: '/store-readiness.json',
+  },
+  storeOwnerUnlockSummary: null,
+  storeOwnerUnlocks: [],
+})
 const postDeployArtifactSync = await readOptionalJson(path.join(dataDir, 'post-deploy-artifact-sync.json'), {
   status: 'missing',
   live: {},
@@ -480,6 +489,7 @@ const sourceDataHash = hashSourceData({
   supportChannel,
   monetization,
   storeCompliance,
+  storeReadiness,
   androidRelease,
   iosRelease,
   unitEconomics,
@@ -532,6 +542,105 @@ const summarizeOwnerUnlockPath = (unlockPath, recommendedPath) =>
         validationCommands: unlockPath.validationCommands ?? [],
       }
     : null
+const summarizeStoreUnlockInputs = (items) =>
+  (items ?? []).map((item) => ({
+    type: item.type,
+    repositoryName: item.repositoryName,
+    envName: item.envName,
+    configured: item.configured === true,
+    command: item.command,
+    purpose: item.purpose,
+  }))
+const storeOwnerUnlockSummary = storeReadiness.storeOwnerUnlockSummary ?? null
+const storeOwnerUnlocks = storeReadiness.storeOwnerUnlocks ?? []
+const storeOwnerNextUnlock =
+  storeOwnerUnlocks.find((unlock) => unlock.id === storeOwnerUnlockSummary?.nextUnlockId) ??
+  storeOwnerUnlocks.find((unlock) => unlock.ownerInputRequired && unlock.canApplyBeforeProductGates) ??
+  null
+const summarizeAnalyticsParallelUnlock = (ownerAction, unlockKit, recommendedPath, lowestInputPath) =>
+  unlockKit && recommendedPath
+    ? {
+        id: ownerAction?.id ?? unlockKit.id,
+        title: ownerAction?.title ?? unlockKit.title,
+        category: 'measurement',
+        status: ownerAction?.ownerInputRequired ? 'waiting-on-owner-input' : 'ready-to-validate',
+        costMode: recommendedPath.costMode,
+        ownerInputRequired: recommendedPath.ownerInputRequired === true,
+        canApplyBeforeProductGates: true,
+        storeSubmissionStillBlocked: true,
+        publicStatusPage: '/measurement-status.html',
+        publicStatusJson: '/measurement-status.json',
+        recommendedPathId: recommendedPath.id,
+        lowestInputPathId: lowestInputPath?.id ?? null,
+        lowestInputUnlockId: null,
+        missingVariableCount: recommendedPath.missingVariableCount,
+        missingSecretCount: recommendedPath.missingSecretCount,
+        missingInputCount: recommendedPath.missingInputCount,
+        lowestInputMissingInputCount: lowestInputPath?.missingInputCount ?? 0,
+        lowestInputMissingSecretCount: lowestInputPath?.missingSecretCount ?? 0,
+        missingVariables: summarizeConfigInputs(recommendedPath.requiredVariables).filter((item) => !item.configured),
+        missingSecrets: summarizeConfigInputs(recommendedPath.requiredSecrets).filter((item) => !item.configured),
+        configuredVariables: summarizeConfigInputs(recommendedPath.requiredVariables).filter((item) => item.configured),
+        configuredSecrets: summarizeConfigInputs(recommendedPath.requiredSecrets).filter((item) => item.configured),
+        setupCommands: recommendedPath.commandSequence ?? [],
+        validationCommands: recommendedPath.validationCommands ?? [],
+        controls: {
+          zeroPaidSpend: true,
+          noSecretValues: true,
+          noSecretValuesStored: true,
+          noAccountCreation: true,
+          noStoreSubmission: true,
+          noRevenueEnablement: true,
+          productGatesStillRequiredForRevenue: true,
+          storeSpendStillBlocked: true,
+          secretCommandsUseStdin: unlockKit.controls?.secretCommandsUseStdin === true,
+        },
+      }
+    : null
+const summarizeStoreParallelUnlock = (unlock, summary) =>
+  unlock
+    ? {
+        id: unlock.id,
+        title: unlock.title,
+        category: 'store-readiness',
+        status: unlock.ownerInputRequired ? 'waiting-on-owner-input' : 'ready-to-validate',
+        costMode: unlock.costMode,
+        ownerInputRequired: unlock.ownerInputRequired === true,
+        canApplyBeforeProductGates: unlock.canApplyBeforeProductGates === true,
+        storeSubmissionStillBlocked: unlock.storeSubmissionStillBlocked === true,
+        publicStatusPage: storeReadiness.publicRoutes?.storeReadiness ?? '/store-readiness.html',
+        publicStatusJson: storeReadiness.publicRoutes?.storeReadinessJson ?? '/store-readiness.json',
+        recommendedPathId: null,
+        lowestInputPathId: null,
+        lowestInputUnlockId: summary?.lowestInputUnlockId ?? unlock.id,
+        missingVariableCount: unlock.missingVariableCount ?? 0,
+        missingSecretCount: unlock.missingSecretCount ?? 0,
+        missingInputCount: unlock.missingInputCount ?? 0,
+        lowestInputMissingInputCount: summary?.lowestInputMissingInputCount ?? unlock.missingInputCount ?? 0,
+        lowestInputMissingSecretCount: summary?.lowestInputMissingSecretCount ?? unlock.missingSecretCount ?? 0,
+        missingVariables: summarizeStoreUnlockInputs(unlock.missingVariables),
+        missingSecrets: summarizeStoreUnlockInputs(unlock.missingSecrets),
+        configuredVariables: summarizeStoreUnlockInputs(unlock.configuredVariables),
+        configuredSecrets: summarizeStoreUnlockInputs(unlock.configuredSecrets),
+        setupCommands: unlock.setupCommands ?? [],
+        validationCommands: unlock.validationCommands ?? [],
+        controls: {
+          zeroPaidSpend: true,
+          noSecretValues: true,
+          noSecretValuesStored: summary?.controls?.noSecretValuesStored === true,
+          noAccountCreation: summary?.controls?.noAccountCreation === true,
+          noStoreSubmission: summary?.controls?.noStoreSubmission === true,
+          noRevenueEnablement: summary?.controls?.noRevenueEnablement === true,
+          productGatesStillRequiredForRevenue: true,
+          storeSpendStillBlocked: summary?.controls?.storeSpendStillBlocked === true,
+          secretCommandsUseStdin: (unlock.missingSecrets ?? []).length > 0,
+        },
+      }
+    : null
+const parallelOwnerUnlocks = [
+  summarizeAnalyticsParallelUnlock(nextOwnerAction, nextUnlockKit, recommendedUnlockPath, lowestInputUnlockPath),
+  summarizeStoreParallelUnlock(storeOwnerNextUnlock, storeOwnerUnlockSummary),
+].filter(Boolean)
 const ownerUnlockBrief =
   nextUnlockKit && recommendedUnlockPath
     ? {
@@ -566,11 +675,13 @@ const ownerUnlockBrief =
         setupCommands: recommendedUnlockPath.commandSequence ?? [],
         validationCommands: recommendedUnlockPath.validationCommands ?? [],
         afterUnlockCommands: nextOwnerAction?.afterUnlockCommands ?? [],
+        parallelOwnerUnlocks,
         steps: [
           `Use ${recommendedUnlockPath.title} (${recommendedUnlockPath.id}) for the next zero-spend measurement unlock.`,
           lowestInputUnlockPath?.id && lowestInputUnlockPath.id !== recommendedUnlockPath.id
             ? `Use ${lowestInputUnlockPath.title} (${lowestInputUnlockPath.id}) when the lowest-input owner path is more important than the first-party collector recommendation.`
             : 'The recommended unlock path is currently also the lowest-input owner path.',
+          'Use the parallel owner unlocks queue to resolve store support-contact inputs alongside analytics inputs when an existing support inbox is available.',
           'Set only the missing repository variables shown in this brief.',
           'Set missing repository secrets with the stdin-fed gh secret commands; never paste secret values into files or issues.',
           'Run the setup commands, then the validation commands, before trusting production analytics for gates.',
@@ -603,6 +714,7 @@ const payload = {
     supportChannel: supportChannel.status,
     monetization: monetization.status,
     storeCompliance: storeCompliance.status,
+    storeReadiness: storeReadiness.status,
     androidRelease: androidRelease.status,
     iosRelease: iosRelease.status,
     unitEconomics: unitEconomics.status,
@@ -681,6 +793,14 @@ const appPayload = {
         missingSecretCount: payload.ownerUnlockBrief.missingSecrets.length,
         setupCommands: payload.ownerUnlockBrief.setupCommands,
         validationCommands: payload.ownerUnlockBrief.validationCommands,
+        parallelOwnerUnlocks: payload.ownerUnlockBrief.parallelOwnerUnlocks.map((unlock) => ({
+          id: unlock.id,
+          category: unlock.category,
+          publicStatusPage: unlock.publicStatusPage,
+          missingVariableCount: unlock.missingVariableCount,
+          missingSecretCount: unlock.missingSecretCount,
+          lowestInputMissingInputCount: unlock.lowestInputMissingInputCount,
+        })),
         controls: payload.ownerUnlockBrief.controls,
       }
     : null,
@@ -693,10 +813,12 @@ const ownerUnlockBriefPayload = {
   sourceDataHash: payload.sourceDataHash,
   sourceStatus: {
     productionBlockerHandoff: payload.status,
+    storeReadiness: storeReadiness.status,
     nextBestUnlockId: payload.summary.nextBestUnlockId,
     nextBestZeroCostUnlockId: payload.summary.nextBestZeroCostUnlockId,
   },
   brief: payload.ownerUnlockBrief,
+  ownerInputQueue: payload.ownerUnlockBrief?.parallelOwnerUnlocks ?? [],
   setup: {
     setupScript: 'ops/github/setup-production.sh',
     printCommand: './ops/github/setup-production.sh --owner-unlock-brief',
@@ -727,6 +849,7 @@ const ownerUnlockBriefPayload = {
         `Print the current brief with ./ops/github/setup-production.sh --owner-unlock-brief before setting ${payload.ownerUnlockBrief.nextUnlockId}.`,
         'Run ./ops/github/setup-production.sh --owner-unlock-preflight to check local/repository readiness without storing secret values or mutating GitHub.',
         'Export only the missing variables/secrets in the current shell, then run ./ops/github/setup-production.sh to sync configured values.',
+        'Resolve zero-spend entries in the parallel owner unlocks queue, including support-contact, when an existing support inbox is available.',
         'Use RUN_WORKFLOWS=1 only after the missing analytics inputs are configured and you are ready to dispatch deployment workflows.',
         ...payload.ownerUnlockBrief.validationCommands,
       ]
@@ -743,6 +866,7 @@ const ownerUnlockReport = [
   `Recommended path: ${ownerUnlockBriefPayload.brief?.recommendedPathId ?? 'none'}`,
   `Lowest-input path: ${ownerUnlockBriefPayload.brief?.lowestInputPath?.id ?? 'none'}`,
   `Lowest-input reason: ${ownerUnlockBriefPayload.brief?.lowestInputReason ?? 'none'}`,
+  `Parallel owner unlocks: ${ownerUnlockBriefPayload.ownerInputQueue.map((unlock) => unlock.id).join(', ') || 'none'}`,
   '',
   '## Setup Guard',
   '',
@@ -798,6 +922,32 @@ const ownerUnlockReport = [
   '',
   ...(ownerUnlockBriefPayload.brief?.lowestInputPath?.validationCommands.length
     ? ownerUnlockBriefPayload.brief.lowestInputPath.validationCommands.map((command) => `- ${command}`)
+    : ['- none']),
+  '',
+  '## Parallel Owner Unlocks',
+  '',
+  ...(ownerUnlockBriefPayload.ownerInputQueue.length
+    ? ownerUnlockBriefPayload.ownerInputQueue.flatMap((unlock) => [
+        `### ${unlock.title} (${unlock.id})`,
+        '',
+        `- category: ${unlock.category}`,
+        `- status: ${unlock.status}`,
+        `- public status: ${unlock.publicStatusPage}`,
+        `- public json: ${unlock.publicStatusJson}`,
+        `- missing inputs: ${unlock.missingInputCount}`,
+        `- missing variables: ${unlock.missingVariables.map((item) => item.repositoryName).join(', ') || 'none'}`,
+        `- missing secrets: ${unlock.missingSecrets.map((item) => item.repositoryName).join(', ') || 'none'}`,
+        `- lowest-input missing: ${unlock.lowestInputMissingInputCount}`,
+        `- can apply before product gates: ${unlock.canApplyBeforeProductGates}`,
+        `- store submission still blocked: ${unlock.storeSubmissionStillBlocked}`,
+        '',
+        'Setup commands:',
+        ...(unlock.setupCommands.length ? unlock.setupCommands.map((command) => `- ${command}`) : ['- none']),
+        '',
+        'Validation commands:',
+        ...(unlock.validationCommands.length ? unlock.validationCommands.map((command) => `- ${command}`) : ['- none']),
+        '',
+      ])
     : ['- none']),
   '',
   '## Setup Commands',

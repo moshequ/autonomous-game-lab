@@ -3448,6 +3448,10 @@ const ownerUnlockPreflightPathIds = new Set(
 )
 const ownerUnlockLowestInputPreflight = ownerUnlockPreflight.lowestInputPreflight ?? null
 const ownerUnlockLowestInputPath = ownerUnlockBrief.brief?.lowestInputPath ?? null
+const ownerUnlockParallelItems = ownerUnlockBrief.brief?.parallelOwnerUnlocks ?? []
+const ownerUnlockParallelIds = new Set(ownerUnlockParallelItems.map((item) => item.id))
+const ownerUnlockParallelAnalytics = ownerUnlockParallelItems.find((item) => item.id === 'production-analytics-browser')
+const ownerUnlockParallelSupport = ownerUnlockParallelItems.find((item) => item.id === 'support-contact')
 const requiredProductionBlockerHandoffIds = [
   'support-contact',
   'production-analytics-browser',
@@ -3468,6 +3472,7 @@ if (
   productionBlockerHandoff.sourceStatus?.supportChannel !== supportChannel.status ||
   productionBlockerHandoff.sourceStatus?.monetization !== monetizationPlan.status ||
   productionBlockerHandoff.sourceStatus?.storeCompliance !== storeCompliance.status ||
+  productionBlockerHandoff.sourceStatus?.storeReadiness !== storeReadiness.status ||
   productionBlockerHandoff.sourceStatus?.androidRelease !== androidRelease.status ||
   productionBlockerHandoff.sourceStatus?.iosRelease !== iosRelease.status ||
   productionBlockerHandoff.sourceStatus?.unitEconomics !== unitEconomics.status ||
@@ -3548,6 +3553,7 @@ if (
   JSON.stringify(publicOwnerUnlockBrief) !== JSON.stringify(ownerUnlockBrief) ||
   ownerUnlockBrief.status !== productionBlockerHandoff.ownerUnlockBrief?.status ||
   ownerUnlockBrief.sourceStatus?.productionBlockerHandoff !== productionBlockerHandoff.status ||
+  ownerUnlockBrief.sourceStatus?.storeReadiness !== storeReadiness.status ||
   ownerUnlockBrief.setup?.setupScript !== 'ops/github/setup-production.sh' ||
   ownerUnlockBrief.setup?.printCommand !== './ops/github/setup-production.sh --owner-unlock-brief' ||
   ownerUnlockBrief.setup?.preflightCommand !== 'npm run autonomous:owner-unlock-preflight' ||
@@ -3572,6 +3578,27 @@ if (
   (ownerUnlockLowestInputPath?.missingSecrets?.length ?? 1) !== 0 ||
   !ownerUnlockLowestInputPath?.setupCommands?.includes('./ops/github/setup-production.sh') ||
   !ownerUnlockLowestInputPath?.validationCommands?.includes('npm run test:e2e') ||
+  JSON.stringify(ownerUnlockBrief.ownerInputQueue ?? []) !== JSON.stringify(ownerUnlockParallelItems) ||
+  !ownerUnlockParallelIds.has('production-analytics-browser') ||
+  !ownerUnlockParallelIds.has('support-contact') ||
+  ownerUnlockParallelAnalytics?.publicStatusPage !== '/measurement-status.html' ||
+  ownerUnlockParallelAnalytics?.publicStatusJson !== '/measurement-status.json' ||
+  ownerUnlockParallelAnalytics?.recommendedPathId !== 'first-party-collector' ||
+  ownerUnlockParallelAnalytics?.lowestInputPathId !== 'posthog-browser' ||
+  ownerUnlockParallelAnalytics?.controls?.zeroPaidSpend !== true ||
+  ownerUnlockParallelAnalytics?.controls?.noSecretValuesStored !== true ||
+  ownerUnlockParallelSupport?.publicStatusPage !== storeReadiness.publicRoutes?.storeReadiness ||
+  ownerUnlockParallelSupport?.publicStatusJson !== storeReadiness.publicRoutes?.storeReadinessJson ||
+  ownerUnlockParallelSupport?.lowestInputUnlockId !== 'support-contact' ||
+  ownerUnlockParallelSupport?.missingInputCount !== 1 ||
+  ownerUnlockParallelSupport?.missingSecretCount !== 0 ||
+  ownerUnlockParallelSupport?.canApplyBeforeProductGates !== true ||
+  ownerUnlockParallelSupport?.storeSubmissionStillBlocked !== true ||
+  !ownerUnlockParallelSupport?.missingVariables?.some((item) => item.repositoryName === 'AGL_SUPPORT_EMAIL') ||
+  !ownerUnlockParallelSupport?.setupCommands?.includes('npm run autonomous:store-readiness') ||
+  !ownerUnlockParallelSupport?.validationCommands?.includes('npm run autonomous:store-readiness') ||
+  ownerUnlockParallelSupport?.controls?.noSecretValuesStored !== true ||
+  ownerUnlockParallelSupport?.controls?.storeSpendStillBlocked !== true ||
   ownerUnlockBriefLeaksValues ||
   packageJson.scripts?.['autonomous:owner-unlock-brief'] !==
     'npm run autonomous:blocker-handoff && node scripts/owner-unlock-brief.mjs --assert --print' ||
@@ -3582,9 +3609,11 @@ if (
   !ownerUnlockBriefSource.includes('--json') ||
   !ownerUnlockBriefSource.includes('owner-unlock-preflight') ||
   !ownerUnlockBriefSource.includes('Lowest-input missing variables') ||
+  !ownerUnlockBriefSource.includes('Parallel owner unlocks') ||
   !ownerUnlockBriefSource.includes('workflowDispatchRequiresRunWorkflows') ||
   !ownerUnlockBriefSource.includes('noSecretValuesStored') ||
   !productionBlockerHandoffSource.includes('ownerUnlockBriefPayload') ||
+  !productionBlockerHandoffSource.includes('parallelOwnerUnlocks') ||
   !productionBlockerHandoffSource.includes('owner-unlock-brief.json') ||
   !productionBlockerHandoffSource.includes('owner-unlock-brief-latest.md') ||
   !productionBlockerHandoffSource.includes('owner-unlock-preflight')
@@ -7726,6 +7755,7 @@ const ownerProductionBlockerSourceFresh =
   productionBlockerHandoff.sourceStatus?.supportChannel === supportChannel.status &&
   productionBlockerHandoff.sourceStatus?.monetization === monetizationPlan.status &&
   productionBlockerHandoff.sourceStatus?.storeCompliance === storeCompliance.status &&
+  productionBlockerHandoff.sourceStatus?.storeReadiness === storeReadiness.status &&
   productionBlockerHandoff.sourceStatus?.androidRelease === androidRelease.status &&
   productionBlockerHandoff.sourceStatus?.iosRelease === iosRelease.status &&
   productionBlockerHandoff.sourceStatus?.unitEconomics === unitEconomics.status &&

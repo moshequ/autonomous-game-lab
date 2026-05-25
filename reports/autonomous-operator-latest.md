@@ -1,10 +1,10 @@
 # Autonomous Operator
 
-Generated: 2026-05-25T08:56:34.916Z
-Status: operator-held
+Generated: 2026-05-25T09:52:09.175Z
+Status: operator-plan-ready
 Mode: plan-only
-Owner decision: hold-for-external-input
-Selected action: none
+Owner decision: refresh-autonomous-cadence
+Selected action: refresh-autonomous-cadence
 Execution: not-requested
 
 ## Controls
@@ -18,35 +18,34 @@ Execution: not-requested
 
 ## Selected Action
 
-- none: no eligible local actions
+- refresh-autonomous-cadence: npm run autonomous:cadence
 
 ## External Input Handoff
 
-- next unlock: production-analytics-browser
-- recommended path: first-party-collector
-- lowest-input path: posthog-browser
-- public status: /measurement-status.html
-- missing inputs: 5 variable(s), 1 secret(s)
-- validate: npm run autonomous:event-collector-smoke
-- validate: npm run autonomous:collector-deploy-plan
-- validate: npm run autonomous:readiness
-- validate: npm run test:e2e
+- none
+- recommended path: none
+- lowest-input path: none
+- public status: none
+- missing inputs: none
 
 ## Eligible Local Actions
 
-- none
+- refresh-autonomous-cadence
+- refresh-autonomous-self-update
+- seed-portfolio-traffic
+- refresh-organic-seed-loop
 
 ## Blocked Actions
 
 - run-daily-owner-loop: daily-loop-recursion-blocked
 - hold-for-external-input: status-monitor
-- refresh-autonomous-cadence: status-monitor
-- refresh-autonomous-self-update: status-monitor
-- seed-portfolio-traffic: owner-decision-held
-- refresh-organic-seed-loop: owner-decision-held
+- refresh-autonomous-self-update: not-selected-this-run
+- seed-portfolio-traffic: not-selected-this-run
+- refresh-organic-seed-loop: not-selected-this-run
 - refresh-support-feedback: status-monitor
 - optimize-daily-retention: status-monitor
 - measure-pwa-install-loop: status-monitor
 - check-performance-budget: status-monitor
 - prepare-release-candidate: status-monitor
 - run-post-deploy-smoke: status-monitor
+- sync-post-deploy-artifact: status-monitor

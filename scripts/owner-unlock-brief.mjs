@@ -90,6 +90,20 @@ const linesForItems = (items, emptyText = 'none') =>
   items?.length ? items.map((item) => `  - ${item.repositoryName}: ${item.command}`) : [`  - ${emptyText}`]
 const linesForCommands = (commands, emptyText = 'none') =>
   commands?.length ? commands.map((command) => `  - ${command}`) : [`  - ${emptyText}`]
+const linesForParallelOwnerUnlocks = (items, emptyText = 'none') =>
+  items?.length
+    ? items.flatMap((item) => [
+        `  - ${item.title} (${item.id})`,
+        `    category: ${item.category}`,
+        `    public status: ${item.publicStatusPage}`,
+        `    missing inputs: ${item.missingInputCount}`,
+        `    missing variables: ${item.missingVariables?.map((input) => input.repositoryName).join(', ') || 'none'}`,
+        `    missing secrets: ${item.missingSecrets?.map((input) => input.repositoryName).join(', ') || 'none'}`,
+        `    lowest-input missing: ${item.lowestInputMissingInputCount}`,
+        `    can apply before product gates: ${item.canApplyBeforeProductGates === true}`,
+        `    store submission still blocked: ${item.storeSubmissionStillBlocked === true}`,
+      ])
+    : [`  - ${emptyText}`]
 
 if (jsonMode) {
   process.stdout.write(`${JSON.stringify(payload, null, 2)}\n`)
@@ -120,6 +134,9 @@ if (jsonMode) {
     '',
     'Lowest-input validation commands:',
     ...linesForCommands(brief?.lowestInputPath?.validationCommands),
+    '',
+    'Parallel owner unlocks:',
+    ...linesForParallelOwnerUnlocks(brief?.parallelOwnerUnlocks ?? payload.ownerInputQueue),
     '',
     'Setup commands:',
     ...linesForCommands(brief?.setupCommands),

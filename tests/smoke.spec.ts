@@ -9548,6 +9548,37 @@ test('production measurement status publishes public aggregate evidence handoff'
       configuredSecrets: Array<{ repositoryName: string; configured: boolean; command: string; value?: string }>
       setupCommands: string[]
       validationCommands: string[]
+      parallelOwnerUnlocks: Array<{
+        id: string
+        title: string
+        category: string
+        publicStatusPage: string
+        publicStatusJson: string
+        recommendedPathId: string | null
+        lowestInputPathId: string | null
+        lowestInputUnlockId: string | null
+        missingVariableCount: number
+        missingSecretCount: number
+        missingInputCount: number
+        lowestInputMissingInputCount: number
+        lowestInputMissingSecretCount: number
+        missingVariables: Array<{ repositoryName: string; configured: boolean; command: string; value?: string }>
+        missingSecrets: Array<{ repositoryName: string; configured: boolean; command: string; value?: string }>
+        setupCommands: string[]
+        validationCommands: string[]
+        canApplyBeforeProductGates: boolean
+        storeSubmissionStillBlocked: boolean
+        controls: {
+          zeroPaidSpend: boolean
+          noSecretValues: boolean
+          noSecretValuesStored: boolean
+          noAccountCreation: boolean
+          noStoreSubmission: boolean
+          noRevenueEnablement: boolean
+          storeSpendStillBlocked: boolean
+          secretCommandsUseStdin: boolean
+        }
+      }>
       controls: {
         zeroPaidSpend: boolean
         noSecretValues: boolean
@@ -9819,10 +9850,21 @@ test('production measurement status publishes public aggregate evidence handoff'
     sourceStatus: { productGateRecovery: string; trafficSeeding: string }
     nextActions: string[]
   }
+  const storeReadiness = JSON.parse(await readFile('data/store-readiness.json', 'utf8')) as {
+    status: string
+    publicRoutes: { storeReadiness: string; storeReadinessJson: string }
+    storeOwnerUnlockSummary: {
+      nextUnlockId: string
+      lowestInputUnlockId: string
+      lowestInputMissingInputCount: number
+      lowestInputMissingSecretCount: number
+    }
+  }
   const ownerUnlockBrief = JSON.parse(await readFile('data/owner-unlock-brief.json', 'utf8')) as {
     status: string
-    sourceStatus: { productionBlockerHandoff: string; nextBestUnlockId: string | null }
+    sourceStatus: { productionBlockerHandoff: string; storeReadiness: string; nextBestUnlockId: string | null }
     brief: typeof blockerHandoff.ownerUnlockBrief
+    ownerInputQueue: NonNullable<typeof blockerHandoff.ownerUnlockBrief>['parallelOwnerUnlocks']
     setup: {
       setupScript: string
       printCommand: string
@@ -10207,6 +10249,7 @@ test('production measurement status publishes public aggregate evidence handoff'
   expect(publicOwnerUnlockBrief).toEqual(ownerUnlockBrief)
   expect(ownerUnlockBrief.status).toBe(blockerHandoff.ownerUnlockBrief?.status)
   expect(ownerUnlockBrief.sourceStatus.productionBlockerHandoff).toBe(blockerHandoff.status)
+  expect(ownerUnlockBrief.sourceStatus.storeReadiness).toBe(storeReadiness.status)
   expect(ownerUnlockBrief.sourceStatus.nextBestUnlockId).toBe(blockerHandoff.summary.nextBestUnlockId)
   expect(ownerUnlockBrief.setup).toMatchObject({
     setupScript: 'ops/github/setup-production.sh',
@@ -10227,10 +10270,46 @@ test('production measurement status publishes public aggregate evidence handoff'
   expect(ownerUnlockBrief.controls.setupPreflightModeHasNoGithubMutation).toBe(true)
   expect(ownerUnlockBrief.controls.workflowDispatchRequiresRunWorkflows).toBe(true)
   expect(ownerUnlockBrief.controls.secretCommandsUseStdin).toBe(true)
+  expect(ownerUnlockBrief.ownerInputQueue).toEqual(ownerUnlockBrief.brief?.parallelOwnerUnlocks)
+  const ownerParallelUnlockIds = ownerUnlockBrief.brief?.parallelOwnerUnlocks.map((unlock) => unlock.id) ?? []
+  expect(ownerParallelUnlockIds).toEqual(expect.arrayContaining(['production-analytics-browser', 'support-contact']))
+  const analyticsParallelUnlock = ownerUnlockBrief.brief?.parallelOwnerUnlocks.find(
+    (unlock) => unlock.id === 'production-analytics-browser',
+  )
+  const supportParallelUnlock = ownerUnlockBrief.brief?.parallelOwnerUnlocks.find(
+    (unlock) => unlock.id === 'support-contact',
+  )
+  expect(analyticsParallelUnlock?.publicStatusPage).toBe('/measurement-status.html')
+  expect(analyticsParallelUnlock?.publicStatusJson).toBe('/measurement-status.json')
+  expect(analyticsParallelUnlock?.recommendedPathId).toBe('first-party-collector')
+  expect(analyticsParallelUnlock?.lowestInputPathId).toBe('posthog-browser')
+  expect(analyticsParallelUnlock?.controls.zeroPaidSpend).toBe(true)
+  expect(analyticsParallelUnlock?.controls.noSecretValuesStored).toBe(true)
+  expect(supportParallelUnlock?.publicStatusPage).toBe(storeReadiness.publicRoutes.storeReadiness)
+  expect(supportParallelUnlock?.publicStatusJson).toBe(storeReadiness.publicRoutes.storeReadinessJson)
+  expect(supportParallelUnlock?.lowestInputUnlockId).toBe(storeReadiness.storeOwnerUnlockSummary.lowestInputUnlockId)
+  expect(supportParallelUnlock?.missingInputCount).toBe(
+    storeReadiness.storeOwnerUnlockSummary.lowestInputMissingInputCount,
+  )
+  expect(supportParallelUnlock?.lowestInputMissingSecretCount).toBe(
+    storeReadiness.storeOwnerUnlockSummary.lowestInputMissingSecretCount,
+  )
+  expect(supportParallelUnlock?.canApplyBeforeProductGates).toBe(true)
+  expect(supportParallelUnlock?.storeSubmissionStillBlocked).toBe(true)
+  expect(supportParallelUnlock?.missingVariables.map((item) => item.repositoryName)).toContain('AGL_SUPPORT_EMAIL')
+  expect(supportParallelUnlock?.setupCommands).toContain('npm run autonomous:store-readiness')
+  expect(supportParallelUnlock?.validationCommands).toContain('npm run autonomous:store-readiness')
+  expect(supportParallelUnlock?.controls.noSecretValuesStored).toBe(true)
+  expect(supportParallelUnlock?.controls.storeSpendStillBlocked).toBe(true)
   expect(ownerUnlockBrief.nextActions.join(' ')).toContain('RUN_WORKFLOWS=1')
+  expect(ownerUnlockBrief.nextActions.join(' ')).toContain('support-contact')
   expect(ownerUnlockBriefReport).toContain('Owner Unlock Brief')
   expect(ownerUnlockBriefReport).toContain('setup preflight: ./ops/github/setup-production.sh --owner-unlock-preflight')
   expect(ownerUnlockBriefReport).toContain('Lowest-input path: posthog-browser')
+  expect(ownerUnlockBriefReport).toContain('Parallel Owner Unlocks')
+  expect(ownerUnlockBriefReport).toContain('support-contact')
+  expect(ownerUnlockBriefReport).toContain('AGL_SUPPORT_EMAIL')
+  expect(ownerUnlockBriefReport).toContain('/store-readiness.html')
   expect(ownerUnlockBriefReport).toContain('Lowest-Input Missing Variables')
   expect(ownerUnlockBriefReport).toContain('VITE_POSTHOG_KEY')
   expect(ownerUnlockBriefReport).toContain('no secrets required: true')
@@ -10239,6 +10318,7 @@ test('production measurement status publishes public aggregate evidence handoff'
   expect(ownerUnlockBriefScript).toContain('--assert')
   expect(ownerUnlockBriefScript).toContain('--json')
   expect(ownerUnlockBriefScript).toContain('owner-unlock-preflight')
+  expect(ownerUnlockBriefScript).toContain('Parallel owner unlocks')
   expect(ownerUnlockBriefScript).toContain('workflowDispatchRequiresRunWorkflows')
   expect(JSON.stringify(ownerUnlockBrief)).not.toContain('"value"')
   expect(
@@ -10310,6 +10390,8 @@ test('production measurement status publishes public aggregate evidence handoff'
   expect(analyticsUnlockHtml).toContain('Owner Unlock Preflight')
   expect(analyticsUnlockHtml).toContain('Lowest-input path')
   expect(analyticsUnlockHtml).toContain('posthog-browser')
+  expect(analyticsUnlockHtml).toContain('Parallel Owner Unlocks')
+  expect(analyticsUnlockHtml).toContain('support-contact')
   expect(analyticsUnlockHtml).toContain('Open preflight JSON')
   expect(JSON.stringify(ownerUnlockPreflight)).not.toContain('"value"')
   expect(JSON.stringify(publicOwnerUnlockPreflight)).not.toContain('"value"')
@@ -10320,6 +10402,9 @@ test('production measurement status publishes public aggregate evidence handoff'
   )
   expect(measurement.externalUnlockQueue.ownerUnlockBrief?.recommendedPathId).toBe('first-party-collector')
   expect(measurement.externalUnlockQueue.ownerUnlockBrief?.lowestInputPathId).toBe('posthog-browser')
+  expect(measurement.externalUnlockQueue.ownerUnlockBrief?.parallelOwnerUnlocks.map((unlock) => unlock.id)).toEqual(
+    expect.arrayContaining(['production-analytics-browser', 'support-contact']),
+  )
   expect(measurement.externalUnlockQueue.ownerUnlockBrief?.missingVariables.length).toBeGreaterThan(0)
   expect(measurement.externalUnlockQueue.ownerUnlockBrief?.missingSecrets.length).toBeGreaterThan(0)
   expect(Array.isArray(measurement.externalUnlockQueue.ownerUnlockBrief?.configuredVariables)).toBe(true)

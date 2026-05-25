@@ -1,12 +1,13 @@
 # Owner Unlock Brief
 
-Generated: 2026-05-25T08:56:28.822Z
+Generated: 2026-05-25T09:51:22.232Z
 Status: waiting-on-owner-input
-Source hash: ded0c7997e39
+Source hash: 6e7437de58a4
 Next unlock: production-analytics-browser
 Recommended path: first-party-collector
 Lowest-input path: posthog-browser
-Lowest-input reason: PostHog browser capture currently needs 2 missing input(s), compared with 4 for the recommended path.
+Lowest-input reason: PostHog browser capture currently needs 2 missing input(s), compared with 8 for the recommended path.
+Parallel owner unlocks: production-analytics-browser, support-contact
 
 ## Setup Guard
 
@@ -22,12 +23,16 @@ Lowest-input reason: PostHog browser capture currently needs 2 missing input(s),
 ## Missing Variables
 
 - CLOUDFLARE_ACCOUNT_ID: gh variable set CLOUDFLARE_ACCOUNT_ID --body "$CLOUDFLARE_ACCOUNT_ID"
+- AGL_EVENT_COLLECTOR_R2_BUCKET: gh variable set AGL_EVENT_COLLECTOR_R2_BUCKET --body "$AGL_EVENT_COLLECTOR_R2_BUCKET"
+- AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS: gh variable set AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS --body "$AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS"
 - VITE_EVENT_COLLECTOR_URL: gh variable set VITE_EVENT_COLLECTOR_URL --body "$VITE_EVENT_COLLECTOR_URL"
 - AGL_EVENT_COLLECTOR_EXPORT_URL: gh variable set AGL_EVENT_COLLECTOR_EXPORT_URL --body "$AGL_EVENT_COLLECTOR_EXPORT_URL"
 
 ## Missing Secrets
 
 - CLOUDFLARE_API_TOKEN: printf "%s" "$CLOUDFLARE_API_TOKEN" | gh secret set CLOUDFLARE_API_TOKEN
+- VITE_EVENT_COLLECTOR_WRITE_TOKEN: printf "%s" "$VITE_EVENT_COLLECTOR_WRITE_TOKEN" | gh secret set VITE_EVENT_COLLECTOR_WRITE_TOKEN
+- AGL_EVENT_COLLECTOR_ADMIN_TOKEN: printf "%s" "$AGL_EVENT_COLLECTOR_ADMIN_TOKEN" | gh secret set AGL_EVENT_COLLECTOR_ADMIN_TOKEN
 
 ## Lowest-Input Path
 
@@ -35,7 +40,7 @@ Lowest-input reason: PostHog browser capture currently needs 2 missing input(s),
 - title: PostHog browser capture
 - missing inputs: 2
 - missing secrets: 0
-- manual input reduction: 2
+- manual input reduction: 6
 - no secrets required: true
 
 ### Lowest-Input Missing Variables
@@ -57,6 +62,59 @@ Lowest-input reason: PostHog browser capture currently needs 2 missing input(s),
 
 - npm run autonomous:readiness
 - npm run test:e2e
+
+## Parallel Owner Unlocks
+
+### Browser production analytics (production-analytics-browser)
+
+- category: measurement
+- status: waiting-on-owner-input
+- public status: /measurement-status.html
+- public json: /measurement-status.json
+- missing inputs: 8
+- missing variables: CLOUDFLARE_ACCOUNT_ID, AGL_EVENT_COLLECTOR_R2_BUCKET, AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS, VITE_EVENT_COLLECTOR_URL, AGL_EVENT_COLLECTOR_EXPORT_URL
+- missing secrets: CLOUDFLARE_API_TOKEN, VITE_EVENT_COLLECTOR_WRITE_TOKEN, AGL_EVENT_COLLECTOR_ADMIN_TOKEN
+- lowest-input missing: 2
+- can apply before product gates: true
+- store submission still blocked: true
+
+Setup commands:
+- npm run autonomous:event-collector-smoke
+- npm run autonomous:collector-deploy-plan
+- ./ops/github/setup-production.sh
+- RUN_WORKFLOWS=1 ./ops/github/setup-production.sh
+- npm run autonomous:readiness
+
+Validation commands:
+- npm run autonomous:event-collector-smoke
+- npm run autonomous:collector-deploy-plan
+- npm run autonomous:readiness
+- npm run test:e2e
+
+### Production support contact (support-contact)
+
+- category: store-readiness
+- status: waiting-on-owner-input
+- public status: /store-readiness.html
+- public json: /store-readiness.json
+- missing inputs: 1
+- missing variables: AGL_SUPPORT_EMAIL
+- missing secrets: none
+- lowest-input missing: 1
+- can apply before product gates: true
+- store submission still blocked: true
+
+Setup commands:
+- gh variable set AGL_SUPPORT_EMAIL --body "$AGL_SUPPORT_EMAIL"
+- npm run autonomous:store-package
+- npm run autonomous:store-compliance
+- npm run autonomous:store-readiness
+- npm run autonomous:readiness
+
+Validation commands:
+- npm run autonomous:store-readiness
+- npm run test:e2e
+
 
 ## Setup Commands
 

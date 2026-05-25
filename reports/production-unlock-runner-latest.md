@@ -1,10 +1,10 @@
 # Production Unlock Runner
 
-Generated: 2026-05-25T08:56:29.032Z
+Generated: 2026-05-25T09:51:28.513Z
 Status: unlock-runner-idle
-Mode: execute-unlocked-local-followups
+Mode: plan-only
 Handoff: handoff-waiting-on-owner-inputs
-Source hash: ded0c7997e39
+Source hash: 6e7437de58a4
 
 ## Summary
 
@@ -30,8 +30,8 @@ Source hash: ded0c7997e39
 
 ## Execution
 
-- Requested: true
-- Status: idle
+- Requested: false
+- Status: not-requested
 - Attempted commands: 0
 
 ## Controls
