@@ -3435,6 +3435,7 @@ if (
   productionBootstrap.setupScript?.infersRepositoryFromOwnerHint !== true ||
   productionBootstrap.setupScript?.supportsSshUrlRemotes !== true ||
   productionBootstrap.setupScript?.supportsDottedRepositoryNames !== true ||
+  productionBootstrap.setupScript?.writesSupportInputTemplate !== true ||
   productionBootstrap.repository?.repositoryReadinessStatus !== repositoryReadiness.status ||
   productionBootstrap.repository?.repositoryBootstrapStatus !== repositoryBootstrap.status ||
   productionBootstrap.repository?.insideWorkTree !== repositoryReadiness.workspace?.insideWorkTree ||
@@ -3471,6 +3472,8 @@ if (
   !githubSetupScript.includes('node scripts/owner-unlock-preflight.mjs --assert --print') ||
   !githubSetupScript.includes('--owner-input-template') ||
   !githubSetupScript.includes('node scripts/owner-unlock-preflight.mjs --write-local-env-template --print') ||
+  !githubSetupScript.includes('--support-input-template') ||
+  !githubSetupScript.includes('node scripts/store-readiness-page.mjs --write-local-env-template --print') ||
   !githubSetupScript.includes('repos/$repo/pages') ||
   !githubSetupScript.includes('build_type=workflow') ||
   !githubSetupScript.includes('RUN_WORKFLOWS') ||
@@ -3481,7 +3484,8 @@ if (
   !githubSetupReadme.includes('zero-spend') ||
   !githubSetupReadme.includes('--owner-unlock-brief') ||
   !githubSetupReadme.includes('--owner-unlock-preflight') ||
-  !githubSetupReadme.includes('--owner-input-template')
+  !githubSetupReadme.includes('--owner-input-template') ||
+  !githubSetupReadme.includes('--support-input-template')
 ) {
   fail('Production bootstrap must generate zero-spend GitHub setup stages, sanitized variable/secret commands, and guarded workflow triggers.')
 }
@@ -5736,6 +5740,7 @@ const storeReadinessCheckIds = new Set((storeReadiness.checks ?? []).map((check)
 const supportOwnerInputPack = storeReadiness.supportOwnerInputPack ?? null
 const supportOwnerInputPackNames = new Set(supportOwnerInputPack?.missingInputNames ?? [])
 const supportOwnerInputPackTemplateLines = new Set(supportOwnerInputPack?.localEnvTemplateLines ?? [])
+const supportOwnerInputPackCommands = new Set(Object.values(supportOwnerInputPack?.commands ?? {}))
 
 if (
   storeReadiness.status !== 'store-readiness-prepared-external-blockers' ||
@@ -5774,6 +5779,8 @@ if (
   supportOwnerInputPack?.secretInputCount !== 0 ||
   !supportOwnerInputPackNames.has('AGL_SUPPORT_EMAIL') ||
   !supportOwnerInputPackTemplateLines.has('AGL_SUPPORT_EMAIL=') ||
+  !supportOwnerInputPackCommands.has('node scripts/store-readiness-page.mjs --write-local-env-template') ||
+  !supportOwnerInputPackCommands.has('./ops/github/setup-production.sh --support-input-template') ||
   supportOwnerInputPack?.inputInstructions?.find((input) => input.envName === 'AGL_SUPPORT_EMAIL')?.validation?.kind !==
     'email-shape' ||
   supportOwnerInputPack?.controls?.zeroPaidSpend !== true ||
@@ -5781,6 +5788,9 @@ if (
   supportOwnerInputPack?.controls?.noAccountCreation !== true ||
   supportOwnerInputPack?.controls?.noStoreSubmission !== true ||
   supportOwnerInputPack?.controls?.gitIgnoredLocalEnvFile !== true ||
+  supportOwnerInputPack?.controls?.localTemplateWriteNoSecretValues !== true ||
+  supportOwnerInputPack?.controls?.localTemplateWritePreservesExistingValues !== true ||
+  supportOwnerInputPack?.controls?.localTemplateWriteNoGithubMutation !== true ||
   supportOwnerInputPack?.controls?.onlySupportContactInput !== true ||
   !storeReadiness.storeOwnerUnlocks?.some(
     (unlock) =>
@@ -5790,6 +5800,7 @@ if (
       unlock.missingSecretCount === 0 &&
       unlock.canApplyBeforeProductGates === true &&
       unlock.missingVariables?.some((item) => item.repositoryName === 'AGL_SUPPORT_EMAIL') &&
+      unlock.setupCommands?.includes('./ops/github/setup-production.sh --support-input-template') &&
       unlock.setupCommands?.includes('npm run autonomous:store-readiness') &&
       unlock.validationCommands?.includes('npm run test:e2e'),
   ) ||
@@ -5842,12 +5853,15 @@ if (
   !storeReadinessHtml.includes('$0.42/day') ||
   !storeReadinessHtml.includes('$1.10/day') ||
   !storeReadinessHtml.includes('AGL_SUPPORT_EMAIL=') ||
+  !storeReadinessHtml.includes('--support-input-template') ||
   !storeReadinessHtml.includes('Production support contact') ||
   !storeReadinessHtml.includes('./measurement-status.html') ||
   !storeReadinessHtml.includes('./monetization.html') ||
   !storeReadinessHtml.includes('./compliance.json') ||
   !storeReadinessSource.includes('storeOwnerUnlockSummary') ||
   !storeReadinessSource.includes('supportOwnerInputPack') ||
+  !storeReadinessSource.includes('writeLocalEnvTemplate') ||
+  !storeReadinessSource.includes('supportLocalEnvTemplateCommand') ||
   !storeReadinessSource.includes('storePaybackLadder') ||
   !storeReadinessSource.includes('email-shape') ||
   !storeReadinessSource.includes('AGL_SUPPORT_EMAIL') ||

@@ -1,8 +1,8 @@
 # Store Readiness
 
-Generated: 2026-05-25T20:37:22.429Z
+Generated: 2026-05-25T20:46:50.031Z
 Status: store-readiness-prepared-external-blockers
-Source hash: 4bb20e14be87
+Source hash: 0351f3ccb199
 
 ## Summary
 
@@ -35,10 +35,14 @@ Source hash: 4bb20e14be87
 - unlock: support-contact
 - status: needs-production-support-email
 - local env file: .env.production.local
+- write local env template: node scripts/store-readiness-page.mjs --write-local-env-template
+- setup write local env template: ./ops/github/setup-production.sh --support-input-template
 - missing inputs: AGL_SUPPORT_EMAIL
 - secret inputs: 0
 - email validation: not-checked-missing-input
 - no secret values stored: true
+- local template preserves existing values: true
+- local template avoids GitHub mutation: true
 - local env template:
   - AGL_SUPPORT_EMAIL=
 
@@ -54,6 +58,7 @@ Source hash: 4bb20e14be87
   - AGL_SUPPORT_EMAIL
 - missing secrets: none
 - setup:
+  - `./ops/github/setup-production.sh --support-input-template`
   - `gh variable set AGL_SUPPORT_EMAIL --body "$AGL_SUPPORT_EMAIL"`
   - `npm run autonomous:store-package`
   - `npm run autonomous:store-compliance`

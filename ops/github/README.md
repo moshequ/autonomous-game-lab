@@ -28,13 +28,19 @@ This folder contains the zero-spend GitHub setup helper for the autonomous PWA r
 ./ops/github/setup-production.sh --owner-input-template
 ```
 
-8. To initialize/attach the repository transport, run the guarded helper with only the explicit actions you want:
+8. To create or update only the ignored support-contact template before adding `AGL_SUPPORT_EMAIL`, run:
+
+```bash
+./ops/github/setup-production.sh --support-input-template
+```
+
+9. To initialize/attach the repository transport, run the guarded helper with only the explicit actions you want:
 
 ```bash
 AGL_ALLOW_REPOSITORY_BOOTSTRAP=1 ./ops/github/bootstrap-repository.sh
 ```
 
-9. To sync production variables/secrets, run:
+10. To sync production variables/secrets, run:
 
 ```bash
 ./ops/github/setup-production.sh

@@ -1,6 +1,6 @@
 export const storeReadiness = {
-  "generatedAt": "2026-05-25T20:37:22.429Z",
-  "sourceDataHash": "4bb20e14be87",
+  "generatedAt": "2026-05-25T20:46:50.031Z",
+  "sourceDataHash": "0351f3ccb199",
   "status": "store-readiness-prepared-external-blockers",
   "sourceStatus": {
     "storePackage": "store-package-ready",
@@ -110,6 +110,8 @@ export const storeReadiness = {
       }
     ],
     "commands": {
+      "writeLocalEnvTemplate": "node scripts/store-readiness-page.mjs --write-local-env-template",
+      "setupWriteLocalEnvTemplate": "./ops/github/setup-production.sh --support-input-template",
       "validate": "npm run autonomous:store-readiness",
       "syncConfiguredValues": "./ops/github/setup-production.sh",
       "refreshStoreReadiness": "npm run autonomous:store-readiness"
@@ -124,6 +126,9 @@ export const storeReadiness = {
       "noStoreSubmission": true,
       "noRevenueEnablement": true,
       "gitIgnoredLocalEnvFile": true,
+      "localTemplateWriteNoSecretValues": true,
+      "localTemplateWritePreservesExistingValues": true,
+      "localTemplateWriteNoGithubMutation": true,
       "onlySupportContactInput": true
     }
   },
@@ -153,6 +158,7 @@ export const storeReadiness = {
       "configuredVariables": [],
       "configuredSecrets": [],
       "setupCommands": [
+        "./ops/github/setup-production.sh --support-input-template",
         "gh variable set AGL_SUPPORT_EMAIL --body \"$AGL_SUPPORT_EMAIL\"",
         "npm run autonomous:store-package",
         "npm run autonomous:store-compliance",

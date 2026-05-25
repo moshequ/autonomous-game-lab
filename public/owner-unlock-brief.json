@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-05-25T20:37:38.997Z",
+  "generatedAt": "2026-05-25T20:47:17.281Z",
   "status": "waiting-on-owner-input",
-  "sourceDataHash": "a8e28e3ad7b2",
+  "sourceDataHash": "1a9b01d9cac6",
   "sourceStatus": {
     "productionBlockerHandoff": "handoff-waiting-on-owner-inputs",
     "storeReadiness": "store-readiness-prepared-external-blockers",
@@ -360,6 +360,7 @@
         "configuredVariables": [],
         "configuredSecrets": [],
         "setupCommands": [
+          "./ops/github/setup-production.sh --support-input-template",
           "gh variable set AGL_SUPPORT_EMAIL --body \"$AGL_SUPPORT_EMAIL\"",
           "npm run autonomous:store-package",
           "npm run autonomous:store-compliance",
@@ -538,6 +539,7 @@
       "configuredVariables": [],
       "configuredSecrets": [],
       "setupCommands": [
+        "./ops/github/setup-production.sh --support-input-template",
         "gh variable set AGL_SUPPORT_EMAIL --body \"$AGL_SUPPORT_EMAIL\"",
         "npm run autonomous:store-package",
         "npm run autonomous:store-compliance",

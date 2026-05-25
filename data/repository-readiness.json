@@ -1,10 +1,27 @@
 {
-  "generatedAt": "2026-05-25T20:37:41.240Z",
+  "generatedAt": "2026-05-25T20:47:25.437Z",
   "status": "repository-channel-ready",
   "envFiles": {
-    "loaded": false,
-    "loadedFiles": [],
-    "loadedKeys": [],
+    "loaded": true,
+    "loadedFiles": [
+      {
+        "path": "ops/production.env.local",
+        "keys": [
+          "AGL_ANDROID_PACKAGE_NAME",
+          "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
+          "AGL_ANDROID_KEYSTORE_BASE64",
+          "AGL_ANDROID_KEYSTORE_PASSWORD",
+          "AGL_ANDROID_KEY_ALIAS"
+        ]
+      }
+    ],
+    "loadedKeys": [
+      "AGL_ANDROID_PACKAGE_NAME",
+      "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
+      "AGL_ANDROID_KEYSTORE_BASE64",
+      "AGL_ANDROID_KEYSTORE_PASSWORD",
+      "AGL_ANDROID_KEY_ALIAS"
+    ],
     "skippedExistingKeys": [],
     "skippedProtectedKeys": [],
     "overwrittenEnvFileKeys": [],
@@ -35,11 +52,11 @@
     }
   },
   "workspace": {
-    "path": "/home/runner/work/autonomous-game-lab/autonomous-game-lab",
+    "path": "/Users/moshequ/Documents/Codex/2026-05-18/i-want-to-have-a-new",
     "insideWorkTree": true,
-    "gitRoot": "/home/runner/work/autonomous-game-lab/autonomous-game-lab",
+    "gitRoot": "/Users/moshequ/Documents/Codex/2026-05-18/i-want-to-have-a-new",
     "currentBranch": "main",
-    "dirtyFiles": 78,
+    "dirtyFiles": 83,
     "dirtyPaths": [
       "data/deployment-plan.json",
       "data/live-site-monitor.json",
@@ -67,9 +84,10 @@
       "data/store-listing-optimizer.json",
       "data/store-package.json",
       "data/store-readiness.json",
+      "ops/github/README.md",
+      "ops/github/setup-production.sh",
       "public/analytics-unlock.json",
       "public/compliance.json",
-      "public/measurement-status.html",
       "public/measurement-status.json",
       "public/owner-unlock-brief.json",
       "public/owner-unlock-preflight.json",
@@ -102,6 +120,9 @@
       "reports/store-listing-optimizer-latest.md",
       "reports/store-package-latest.md",
       "reports/store-readiness-latest.md",
+      "scripts/production-bootstrap.mjs",
+      "scripts/store-readiness-page.mjs",
+      "scripts/verify-autonomy.mjs",
       "src/data/liveSiteMonitor.ts",
       "src/data/performanceBudget.ts",
       "src/data/postDeployArtifactSync.ts",
@@ -118,9 +139,10 @@
       "src/data/storeAssets.ts",
       "src/data/storeCompliance.ts",
       "src/data/storeListingOptimizer.ts",
-      "src/data/storeReadiness.ts"
+      "src/data/storeReadiness.ts",
+      "tests/smoke.spec.ts"
     ],
-    "generatedEvidenceDirtyFiles": 78,
+    "generatedEvidenceDirtyFiles": 79,
     "generatedEvidenceDirtyPaths": [
       "data/deployment-plan.json",
       "data/live-site-monitor.json",
@@ -148,9 +170,10 @@
       "data/store-listing-optimizer.json",
       "data/store-package.json",
       "data/store-readiness.json",
+      "ops/github/README.md",
+      "ops/github/setup-production.sh",
       "public/analytics-unlock.json",
       "public/compliance.json",
-      "public/measurement-status.html",
       "public/measurement-status.json",
       "public/owner-unlock-brief.json",
       "public/owner-unlock-preflight.json",
@@ -201,19 +224,24 @@
       "src/data/storeListingOptimizer.ts",
       "src/data/storeReadiness.ts"
     ],
-    "nonGeneratedDirtyFiles": 0,
-    "nonGeneratedDirtyPaths": []
+    "nonGeneratedDirtyFiles": 4,
+    "nonGeneratedDirtyPaths": [
+      "scripts/production-bootstrap.mjs",
+      "scripts/store-readiness-page.mjs",
+      "scripts/verify-autonomy.mjs",
+      "tests/smoke.spec.ts"
+    ]
   },
   "repository": {
     "target": "moshequ/autonomous-game-lab",
-    "source": "environment",
-    "originRemote": "https://github.com/moshequ/autonomous-game-lab",
+    "source": "origin-remote",
+    "originRemote": "git@github.com:moshequ/autonomous-game-lab.git",
     "remoteRepository": "moshequ/autonomous-game-lab",
-    "ownerHint": "moshequ",
-    "ownerHintEnv": "GITHUB_REPOSITORY_OWNER",
-    "ownerHintTarget": "moshequ/autonomous-game-lab",
-    "inferredTarget": null,
-    "inferredTargetSource": null,
+    "ownerHint": null,
+    "ownerHintEnv": null,
+    "ownerHintTarget": null,
+    "inferredTarget": "moshequ/autonomous-game-lab",
+    "inferredTargetSource": "gh-auth-user-and-package-name",
     "packageName": "autonomous-game-lab",
     "inferredRepositoryName": "autonomous-game-lab",
     "remoteParsing": {
@@ -228,8 +256,8 @@
     "ghCliAvailable": true,
     "ghAuthAvailable": true,
     "ghCredentialReady": true,
-    "ghTokenConfigured": true,
-    "ghUserLogin": null,
+    "ghTokenConfigured": false,
+    "ghUserLogin": "moshequ",
     "workflowDispatchReady": true,
     "canSyncRepositorySettings": true
   },
@@ -238,7 +266,7 @@
     "workflowExists": true,
     "deployWorkflowIncludesSmoke": true,
     "deploymentStatus": "ready-for-pages",
-    "releaseCandidateId": "pwa-619ad2cf6bd3",
+    "releaseCandidateId": "pwa-209c3a46c0c2",
     "postDeploySmokeStatus": "post-deploy-smoke-observed-live",
     "liveSettings": {
       "status": "inspected",
@@ -264,7 +292,7 @@
     "status": "target-known",
     "repositoryName": "autonomous-game-lab",
     "target": "moshequ/autonomous-game-lab",
-    "targetSource": "environment",
+    "targetSource": "origin-remote",
     "placeholderTarget": "OWNER/autonomous-game-lab",
     "plannedTarget": "moshequ/autonomous-game-lab",
     "ownerRequired": false,
@@ -308,7 +336,7 @@
     {
       "id": "local-git-worktree",
       "status": "pass",
-      "detail": "Git worktree detected at /home/runner/work/autonomous-game-lab/autonomous-game-lab."
+      "detail": "Git worktree detected at /Users/moshequ/Documents/Codex/2026-05-18/i-want-to-have-a-new."
     },
     {
       "id": "github-target",
@@ -328,7 +356,7 @@
     {
       "id": "gh-token",
       "status": "pass",
-      "detail": "GitHub token is present in the current environment."
+      "detail": "GitHub CLI authentication is available for repository operations."
     },
     {
       "id": "pages-workflow",

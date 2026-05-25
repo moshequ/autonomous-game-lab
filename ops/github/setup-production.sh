@@ -16,6 +16,11 @@ if [[ "${1:-}" == "--owner-input-template" || "${1:-}" == "--combined-owner-inpu
   exit 0
 fi
 
+if [[ "${1:-}" == "--support-input-template" || "${1:-}" == "--support-contact-template" || "${1:-}" == "--write-support-input-template" ]]; then
+  node scripts/store-readiness-page.mjs --write-local-env-template --print
+  exit 0
+fi
+
 if ! command -v gh >/dev/null 2>&1; then
   echo "GitHub CLI (gh) is required." >&2
   exit 1

@@ -3804,6 +3804,7 @@ test('production bootstrap emits zero-spend setup handoff artifacts', async ({ p
       infersGithubPagesOrigin: boolean
       supportsSshUrlRemotes: boolean
       supportsDottedRepositoryNames: boolean
+      writesSupportInputTemplate: boolean
     }
     requiredVariables: Array<{ repositoryVariable: string; command: string; valueSource: string }>
     requiredSecrets: Array<{ repositorySecret: string; command: string }>
@@ -3838,6 +3839,7 @@ test('production bootstrap emits zero-spend setup handoff artifacts', async ({ p
   expect(bootstrap.setupScript.infersGithubPagesOrigin).toBe(true)
   expect(bootstrap.setupScript.supportsSshUrlRemotes).toBe(true)
   expect(bootstrap.setupScript.supportsDottedRepositoryNames).toBe(true)
+  expect(bootstrap.setupScript.writesSupportInputTemplate).toBe(true)
   expect(bootstrap.requiredVariables.find((item) => item.repositoryVariable === 'VITE_BASE_PATH')?.valueSource).toMatch(
     /environment|github-variable|production-environment|inferred-github-pages/,
   )
@@ -3860,6 +3862,8 @@ test('production bootstrap emits zero-spend setup handoff artifacts', async ({ p
   expect(setupScript).toContain('node scripts/owner-unlock-preflight.mjs --assert --print')
   expect(setupScript).toContain('--owner-input-template')
   expect(setupScript).toContain('node scripts/owner-unlock-preflight.mjs --write-local-env-template --print')
+  expect(setupScript).toContain('--support-input-template')
+  expect(setupScript).toContain('node scripts/store-readiness-page.mjs --write-local-env-template --print')
   expect(setupScript).toContain('repos/$repo/pages')
   expect(setupScript).toContain('build_type=workflow')
   expect(setupScript).toContain('RUN_WORKFLOWS')
@@ -10299,6 +10303,13 @@ test('production measurement status publishes public aggregate evidence handoff'
       shellExportTemplateLines: string[]
       missingInputCount: number
       secretInputCount: number
+      commands: {
+        writeLocalEnvTemplate: string
+        setupWriteLocalEnvTemplate: string
+        validate: string
+        syncConfiguredValues: string
+        refreshStoreReadiness: string
+      }
       inputInstructions: Array<{
         repositoryName: string
         envName: string
@@ -11555,6 +11566,9 @@ test('store readiness handoff publishes web, Android, and iOS blockers', async (
         noStoreSubmission: boolean
         noRevenueEnablement: boolean
         gitIgnoredLocalEnvFile: boolean
+        localTemplateWriteNoSecretValues: boolean
+        localTemplateWritePreservesExistingValues: boolean
+        localTemplateWriteNoGithubMutation: boolean
         onlySupportContactInput: boolean
       }
     }
@@ -11674,12 +11688,22 @@ test('store readiness handoff publishes web, Android, and iOS blockers', async (
   expect(readiness.supportOwnerInputPack.shellExportTemplateLines).toEqual(['export AGL_SUPPORT_EMAIL='])
   expect(readiness.supportOwnerInputPack.missingInputCount).toBe(1)
   expect(readiness.supportOwnerInputPack.secretInputCount).toBe(0)
+  expect(readiness.supportOwnerInputPack.commands.writeLocalEnvTemplate).toBe(
+    'node scripts/store-readiness-page.mjs --write-local-env-template',
+  )
+  expect(readiness.supportOwnerInputPack.commands.setupWriteLocalEnvTemplate).toBe(
+    './ops/github/setup-production.sh --support-input-template',
+  )
+  expect(readiness.supportOwnerInputPack.commands.syncConfiguredValues).toBe('./ops/github/setup-production.sh')
   expect(readiness.supportOwnerInputPack.inputInstructions[0]?.validation.kind).toBe('email-shape')
   expect(readiness.supportOwnerInputPack.controls.zeroPaidSpend).toBe(true)
   expect(readiness.supportOwnerInputPack.controls.noSecretValuesStored).toBe(true)
   expect(readiness.supportOwnerInputPack.controls.noAccountCreation).toBe(true)
   expect(readiness.supportOwnerInputPack.controls.noStoreSubmission).toBe(true)
   expect(readiness.supportOwnerInputPack.controls.gitIgnoredLocalEnvFile).toBe(true)
+  expect(readiness.supportOwnerInputPack.controls.localTemplateWriteNoSecretValues).toBe(true)
+  expect(readiness.supportOwnerInputPack.controls.localTemplateWritePreservesExistingValues).toBe(true)
+  expect(readiness.supportOwnerInputPack.controls.localTemplateWriteNoGithubMutation).toBe(true)
   expect(readiness.supportOwnerInputPack.controls.onlySupportContactInput).toBe(true)
   const supportUnlock = readiness.storeOwnerUnlocks.find((unlock) => unlock.id === 'support-contact')
   const googlePlayUnlock = readiness.storeOwnerUnlocks.find((unlock) => unlock.id === 'google-play-account')
@@ -11689,6 +11713,7 @@ test('store readiness handoff publishes web, Android, and iOS blockers', async (
   expect(supportUnlock?.canApplyBeforeProductGates).toBe(true)
   expect(supportUnlock?.missingVariables.map((item) => item.repositoryName)).toContain('AGL_SUPPORT_EMAIL')
   expect(supportUnlock?.missingVariables[0]?.command).toContain('gh variable set AGL_SUPPORT_EMAIL')
+  expect(supportUnlock?.setupCommands).toContain('./ops/github/setup-production.sh --support-input-template')
   expect(supportUnlock?.setupCommands).toContain('npm run autonomous:store-readiness')
   expect(supportUnlock?.validationCommands).toContain('npm run test:e2e')
   expect(googlePlayUnlock?.status).toBe('gated-by-store-spend-and-product-signals')
@@ -11745,6 +11770,9 @@ test('store readiness handoff publishes web, Android, and iOS blockers', async (
   expect(publicReadiness.supportOwnerInputPack).toEqual(readiness.supportOwnerInputPack)
   expect(publicReadiness.storePaybackLadder).toEqual(readiness.storePaybackLadder)
   expect(publicReadiness.storeOwnerUnlocks.find((unlock) => unlock.id === 'support-contact')?.setupCommands).toContain(
+    './ops/github/setup-production.sh --support-input-template',
+  )
+  expect(publicReadiness.storeOwnerUnlocks.find((unlock) => unlock.id === 'support-contact')?.setupCommands).toContain(
     'npm run autonomous:store-readiness',
   )
   expect(publicReadiness.platformHandoffs.map((handoff) => handoff.id)).toEqual(
@@ -11763,6 +11791,7 @@ test('store readiness handoff publishes web, Android, and iOS blockers', async (
   await expect(page.getByText('$0.42/day', { exact: true })).toBeVisible()
   await expect(page.getByText('$1.10/day', { exact: true })).toBeVisible()
   await expect(page.getByText('AGL_SUPPORT_EMAIL=')).toBeVisible()
+  await expect(page.getByText('./ops/github/setup-production.sh --support-input-template')).toBeVisible()
   await expect(page.getByText('support-contact', { exact: true })).toBeVisible()
   await expect(page.getByRole('heading', { name: 'Production support contact' })).toBeVisible()
   await expect(page.getByRole('link', { name: 'store-readiness.json' })).toHaveAttribute(

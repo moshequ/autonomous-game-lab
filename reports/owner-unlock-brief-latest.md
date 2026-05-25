@@ -1,8 +1,8 @@
 # Owner Unlock Brief
 
-Generated: 2026-05-25T20:37:38.997Z
+Generated: 2026-05-25T20:47:17.281Z
 Status: waiting-on-owner-input
-Source hash: a8e28e3ad7b2
+Source hash: 1a9b01d9cac6
 Next unlock: production-analytics-browser
 Recommended path: first-party-collector
 Lowest-input path: posthog-browser
@@ -145,6 +145,7 @@ Validation commands:
 - store submission still blocked: true
 
 Setup commands:
+- ./ops/github/setup-production.sh --support-input-template
 - gh variable set AGL_SUPPORT_EMAIL --body "$AGL_SUPPORT_EMAIL"
 - npm run autonomous:store-package
 - npm run autonomous:store-compliance
