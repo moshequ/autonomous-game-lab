@@ -139,7 +139,7 @@ export const productionBlockerHandoff = {
             "repositoryName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
             "envName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
             "configured": true,
-            "valueSource": "environment",
+            "valueSource": "github-variable",
             "command": "gh variable set AGL_EVENT_COLLECTOR_R2_BUCKET --body \"$AGL_EVENT_COLLECTOR_R2_BUCKET\""
           },
           {
@@ -147,7 +147,7 @@ export const productionBlockerHandoff = {
             "repositoryName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
             "envName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
             "configured": true,
-            "valueSource": "environment",
+            "valueSource": "github-variable",
             "command": "gh variable set AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS --body \"$AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS\""
           },
           {
@@ -181,7 +181,7 @@ export const productionBlockerHandoff = {
             "repositoryName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
             "envName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
             "configured": true,
-            "valueSource": "environment",
+            "valueSource": "github-secret",
             "command": "printf \"%s\" \"$VITE_EVENT_COLLECTOR_WRITE_TOKEN\" | gh secret set VITE_EVENT_COLLECTOR_WRITE_TOKEN"
           },
           {
@@ -189,7 +189,7 @@ export const productionBlockerHandoff = {
             "repositoryName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
             "envName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
             "configured": true,
-            "valueSource": "environment",
+            "valueSource": "github-secret",
             "command": "printf \"%s\" \"$AGL_EVENT_COLLECTOR_ADMIN_TOKEN\" | gh secret set AGL_EVENT_COLLECTOR_ADMIN_TOKEN"
           }
         ],
@@ -256,6 +256,13 @@ export const productionBlockerHandoff = {
     "lowestInputPathId": "posthog-browser",
     "lowestInputMissingVariableCount": 2,
     "lowestInputMissingSecretCount": 0,
+    "minimalInterventionPath": {
+      "id": "posthog-browser",
+      "missingInputCount": 2,
+      "missingSecretCount": 0,
+      "manualInputReduction": 2,
+      "noSecretsRequired": true
+    },
     "missingVariableCount": 3,
     "missingSecretCount": 1,
     "setupCommands": [

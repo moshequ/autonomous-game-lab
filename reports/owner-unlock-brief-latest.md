@@ -1,8 +1,8 @@
 # Owner Unlock Brief
 
-Generated: 2026-05-25T14:28:58.251Z
+Generated: 2026-05-25T16:24:35.911Z
 Status: waiting-on-owner-input
-Source hash: 2f3e4d18ef9a
+Source hash: c08c25987015
 Next unlock: production-analytics-browser
 Recommended path: first-party-collector
 Lowest-input path: posthog-browser
@@ -34,6 +34,14 @@ Parallel owner unlocks: production-analytics-browser, support-contact
 
 - path: posthog-browser
 - title: PostHog browser capture
+- missing inputs: 2
+- missing secrets: 0
+- manual input reduction: 2
+- no secrets required: true
+
+## Minimal Intervention Path
+
+- path: posthog-browser
 - missing inputs: 2
 - missing secrets: 0
 - manual input reduction: 2

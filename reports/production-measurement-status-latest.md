@@ -1,11 +1,11 @@
 # Production Measurement Status
 
-Generated: 2026-05-25T14:29:03.801Z
+Generated: 2026-05-25T16:24:48.838Z
 Status: production-measurement-local-intake-ready
 Active path: local-browser-buffer
 Live candidate: pwa-5e201ea01503
 Exact live manifest: /release-candidate.json
-Source hash: f1f3c2a37729
+Source hash: 42e2b5de7b85
 
 ## Analytics
 
@@ -58,7 +58,7 @@ Source hash: f1f3c2a37729
 ## Next Actions
 
 - Use the player-initiated local evidence route until PostHog or the first-party collector is configured.
-- Unlock production analytics with first-party-collector; lowest-input path is posthog-browser with 2 missing input(s).
+- Unlock production analytics with first-party-collector; minimal-intervention path is posthog-browser with 2 missing input(s) and 0 secret(s).
 - First-party collector deployment is blocked-needs-cloudflare-env; smoke is pass.
 - External unlock queue has 4 owner action(s); next zero-spend unlock is production-analytics-browser.
 - Product gate recovery is product-gate-recovery-ready; public recovery route is /product-gate-recovery.html.

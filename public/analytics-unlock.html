@@ -132,6 +132,14 @@
           <strong>posthog-browser</strong>
         </div>
         <div class="card">
+          <span>Minimal inputs</span>
+          <strong>2</strong>
+        </div>
+        <div class="card">
+          <span>Minimal secrets</span>
+          <strong>0</strong>
+        </div>
+        <div class="card">
           <span>Owner actions</span>
           <strong>4</strong>
         </div>
@@ -164,6 +172,14 @@
           <div class="card">
             <span>Missing secrets</span>
             <strong>1</strong>
+          </div>
+          <div class="card">
+            <span>Minimal inputs</span>
+            <strong>2</strong>
+          </div>
+          <div class="card">
+            <span>Minimal secrets</span>
+            <strong>0</strong>
           </div>
         </div>
         <h3>Parallel Owner Unlocks</h3>
@@ -204,6 +220,14 @@
           <div class="card">
             <span>Invalid inputs</span>
             <strong>0</strong>
+          </div>
+          <div class="card">
+            <span>Minimal path</span>
+            <strong>posthog-browser</strong>
+          </div>
+          <div class="card">
+            <span>Minimal secrets</span>
+            <strong>n/a</strong>
           </div>
         </div>
         <h3>Path Options</h3>
@@ -396,6 +420,7 @@
         <h2>Next Actions</h2>
         <ul>
           <li>Choose the first-party collector path when a zero-spend Cloudflare free-tier account already exists; otherwise use an existing PostHog free project.</li>
+          <li>Minimal-intervention analytics setup is posthog-browser with 2 missing input(s) and 0 secret(s).</li>
           <li>Sync only configured GitHub variables and secrets through ops/github/setup-production.sh; never paste secret values into tracked files.</li>
           <li>Run the validation commands before trusting production analytics for product-gate or monetization decisions.</li>
           <li>Run validation commands after repository variables or stdin-fed secrets change.</li>

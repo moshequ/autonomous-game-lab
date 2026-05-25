@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-05-25T14:28:58.251Z",
+  "generatedAt": "2026-05-25T16:24:35.911Z",
   "status": "waiting-on-owner-input",
-  "sourceDataHash": "2f3e4d18ef9a",
+  "sourceDataHash": "c08c25987015",
   "sourceStatus": {
     "productionBlockerHandoff": "handoff-waiting-on-owner-inputs",
     "storeReadiness": "store-readiness-prepared-external-blockers",
@@ -50,6 +50,27 @@
       "missingSecrets": [],
       "configuredVariables": [],
       "configuredSecrets": [],
+      "setupCommands": [
+        "./ops/github/setup-production.sh",
+        "RUN_WORKFLOWS=1 ./ops/github/setup-production.sh",
+        "npm run autonomous:readiness"
+      ],
+      "validationCommands": [
+        "npm run autonomous:readiness",
+        "npm run test:e2e"
+      ]
+    },
+    "minimalInterventionPath": {
+      "id": "posthog-browser",
+      "title": "PostHog browser capture",
+      "status": "needs-public-project-key",
+      "costMode": "zero-spend-use-existing-posthog-free-project",
+      "missingInputCount": 2,
+      "missingVariableCount": 2,
+      "missingSecretCount": 0,
+      "manualInputReduction": 2,
+      "noSecretsRequired": true,
+      "reason": "PostHog browser capture currently needs 2 missing input(s), compared with 4 for the recommended path.",
       "setupCommands": [
         "./ops/github/setup-production.sh",
         "RUN_WORKFLOWS=1 ./ops/github/setup-production.sh",
@@ -299,6 +320,7 @@
     "steps": [
       "Use First-party event collector (first-party-collector) for the next zero-spend measurement unlock.",
       "Use PostHog browser capture (posthog-browser) when the lowest-input owner path is more important than the first-party collector recommendation.",
+      "Minimal-intervention setup currently needs 2 input(s) and 0 secret(s).",
       "Use the parallel owner unlocks queue to resolve store support-contact inputs alongside analytics inputs when an existing support inbox is available.",
       "Set only the missing repository variables shown in this brief.",
       "Set missing repository secrets with the stdin-fed gh secret commands; never paste secret values into files or issues.",

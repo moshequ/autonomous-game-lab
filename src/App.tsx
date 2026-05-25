@@ -1069,6 +1069,9 @@ function App() {
         lowestInputPathId?: string | null
         lowestInputMissingVariableCount?: number
         lowestInputMissingSecretCount?: number
+        minimalInterventionPathId?: string | null
+        minimalInterventionMissingInputCount?: number | null
+        minimalInterventionSecretInputCount?: number | null
         commandCount: number
         validationCommandCount: number
       } | null
@@ -3476,6 +3479,14 @@ function App() {
                 <strong>{ownerExternalInputHandoff?.lowestInputPathId ?? 'none'}</strong>
               </div>
               <div className="factRow">
+                <span>Low-input missing</span>
+                <strong>
+                  {ownerExternalInputHandoff
+                    ? `${ownerExternalInputHandoff.lowestInputMissingVariableCount ?? 0}/${ownerExternalInputHandoff.lowestInputMissingSecretCount ?? 0}`
+                    : '0/0'}
+                </strong>
+              </div>
+              <div className="factRow">
                 <span>Owner inputs</span>
                 <strong>{ownerExternalInputHandoff?.ownerActionRequired ?? 0}</strong>
               </div>
@@ -3726,6 +3737,14 @@ function App() {
                 <div>
                   <span>Low-input path</span>
                   <strong>{productionMeasurementAnalyticsUnlock?.lowestInputPathId ?? 'none'}</strong>
+                </div>
+                <div>
+                  <span>Minimal inputs</span>
+                  <strong>
+                    {productionMeasurementAnalyticsUnlock?.minimalInterventionPathId
+                      ? `${productionMeasurementAnalyticsUnlock.minimalInterventionMissingInputCount ?? 0}/${productionMeasurementAnalyticsUnlock.minimalInterventionSecretInputCount ?? 0}`
+                      : '0/0'}
+                  </strong>
                 </div>
                 <div>
                   <span>Unlock checks</span>

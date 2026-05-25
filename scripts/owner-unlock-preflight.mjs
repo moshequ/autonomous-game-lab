@@ -247,6 +247,23 @@ const allPathInputs = pathPreflights.flatMap((pathPreflight) => pathPreflight.in
 const requiredEnvNames = new Set(allPathInputs.map((input) => input.envName))
 const missingInputs = inputs.filter((input) => !input.ready)
 const invalidInputs = inputs.filter((input) => input.validation.status === 'fail')
+const minimalInterventionPath = lowestInputPathPreflight
+  ? {
+      pathId: lowestInputPathPreflight.path?.id ?? null,
+      title: lowestInputPathPreflight.path?.title ?? null,
+      status: lowestInputPathPreflight.status,
+      readyForSetup: lowestInputPathPreflight.readyForSetup,
+      missingInputs: lowestInputPathPreflight.summary.missingInputs,
+      secretInputs: lowestInputPathPreflight.summary.secretInputs,
+      manualInputReduction:
+        typeof lowestInputPathPreflight.summary.missingInputs === 'number'
+          ? missingInputs.length - lowestInputPathPreflight.summary.missingInputs
+          : null,
+      noSecretsRequired: lowestInputPathPreflight.summary.secretInputs === 0,
+      commandSequence: lowestInputPathPreflight.commandSequence,
+      validationCommands: lowestInputPathPreflight.validationCommands,
+    }
+  : null
 const unavailableReasons = [
   ...(ownerUnlockBrief ? [] : ['owner-unlock-brief-missing']),
   ...(brief ? [] : ['owner-unlock-brief-payload-missing']),
@@ -304,6 +321,7 @@ const payload = {
   invalidInputs: summarizeInvalidInputs(invalidInputs),
   pathPreflights,
   lowestInputPreflight: lowestInputPathPreflight,
+  minimalInterventionPath,
   localEnvironment: {
     loaded: localEnv.loaded === true,
     supportedFiles: localEnv.supportedFiles,
@@ -365,6 +383,14 @@ const report = [
   `- lowest-input missing inputs: ${payload.summary.lowestInputMissingInputs ?? 'n/a'}`,
   `- lowest-input secret inputs: ${payload.summary.lowestInputSecretInputs ?? 'n/a'}`,
   `- manual input reduction: ${payload.summary.manualInputReduction ?? 'n/a'}`,
+  '',
+  '## Minimal Intervention Path',
+  '',
+  `- path: ${payload.minimalInterventionPath?.pathId ?? 'none'}`,
+  `- missing inputs: ${payload.minimalInterventionPath?.missingInputs ?? 'n/a'}`,
+  `- secret inputs: ${payload.minimalInterventionPath?.secretInputs ?? 'n/a'}`,
+  `- manual input reduction: ${payload.minimalInterventionPath?.manualInputReduction ?? 'n/a'}`,
+  `- ready for setup: ${payload.minimalInterventionPath?.readyForSetup === true}`,
   '',
   '## Path Options',
   '',

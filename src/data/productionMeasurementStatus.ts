@@ -1,5 +1,5 @@
 export const productionMeasurementStatus = {
-  "generatedAt": "2026-05-25T14:29:03.801Z",
+  "generatedAt": "2026-05-25T16:24:48.838Z",
   "status": "production-measurement-local-intake-ready",
   "activePath": "local-browser-buffer",
   "liveCandidate": "pwa-5e201ea01503",
@@ -26,6 +26,9 @@ export const productionMeasurementStatus = {
     "lowestInputPathId": "posthog-browser",
     "lowestInputMissingVariableCount": 2,
     "lowestInputMissingSecretCount": 0,
+    "minimalInterventionPathId": "posthog-browser",
+    "minimalInterventionMissingInputCount": 2,
+    "minimalInterventionSecretInputCount": 0,
     "commandCount": 5,
     "validationCommandCount": 4
   },

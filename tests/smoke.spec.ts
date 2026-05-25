@@ -9603,6 +9603,13 @@ test('production measurement status publishes public aggregate evidence handoff'
         setupCommands: string[]
         validationCommands: string[]
       } | null
+      minimalInterventionPath: {
+        id: string
+        missingInputCount: number
+        missingSecretCount: number
+        manualInputReduction: number | null
+        noSecretsRequired: boolean
+      } | null
       missingVariables: Array<{ repositoryName: string; configured: boolean; command: string; value?: string }>
       missingSecrets: Array<{ repositoryName: string; configured: boolean; command: string; value?: string }>
       configuredVariables: Array<{ repositoryName: string; configured: boolean; command: string; value?: string }>
@@ -9747,6 +9754,9 @@ test('production measurement status publishes public aggregate evidence handoff'
       }
       paths: Array<{
         id: string
+        title?: string
+        status?: string
+        costMode?: string
         missingVariableCount: number
         missingSecretCount: number
         missingInputCount: number
@@ -9755,6 +9765,16 @@ test('production measurement status publishes public aggregate evidence handoff'
         commandSequence: string[]
         validationCommands: string[]
       }>
+      minimalInterventionPath: {
+        id: string
+        title: string
+        missingInputCount: number
+        missingVariableCount: number
+        missingSecretCount: number
+        noSecretsRequired: boolean
+        setupCommands: string[]
+        validationCommands: string[]
+      } | null
       nextActions: string[]
     } | null
     collectorDeployment: {
@@ -10002,6 +10022,15 @@ test('production measurement status publishes public aggregate evidence handoff'
       inputs: Array<{ repositoryName: string; value?: string }>
       missingInputs: Array<{ repositoryName: string; envName: string; value?: string }>
     } | null
+    minimalInterventionPath: {
+      pathId: string | null
+      missingInputs: number
+      secretInputs: number
+      manualInputReduction: number | null
+      noSecretsRequired: boolean
+      commandSequence: string[]
+      validationCommands: string[]
+    } | null
     commands: {
       syncConfiguredValues: string
       dispatchWhenReady: string
@@ -10223,6 +10252,13 @@ test('production measurement status publishes public aggregate evidence handoff'
   expect(measurement.analyticsUnlock?.lowestInputMissingVariableCount).toBe(publicPosthogPath?.missingVariableCount)
   expect(measurement.analyticsUnlock?.lowestInputMissingSecretCount).toBe(publicPosthogPath?.missingSecretCount)
   expect(measurement.analyticsUnlock?.lowestInputMissingInputCount).toBe(publicPosthogPath?.missingInputCount)
+  expect(measurement.analyticsUnlock?.minimalInterventionPath?.id).toBe('posthog-browser')
+  expect(measurement.analyticsUnlock?.minimalInterventionPath?.missingInputCount).toBe(
+    publicPosthogPath?.missingInputCount,
+  )
+  expect(measurement.analyticsUnlock?.minimalInterventionPath?.missingSecretCount).toBe(0)
+  expect(measurement.analyticsUnlock?.minimalInterventionPath?.noSecretsRequired).toBe(true)
+  expect(measurement.analyticsUnlock?.nextActions.join(' ')).toContain('Minimal-intervention analytics setup')
   expect((publicPosthogPath?.missingInputCount ?? Number.POSITIVE_INFINITY)).toBeLessThanOrEqual(
     publicFirstPartyCollectorPath?.missingInputCount ?? Number.POSITIVE_INFINITY,
   )
@@ -10372,6 +10408,7 @@ test('production measurement status publishes public aggregate evidence handoff'
   expect(ownerUnlockBriefReport).toContain('AGL_SUPPORT_EMAIL')
   expect(ownerUnlockBriefReport).toContain('/store-readiness.html')
   expect(ownerUnlockBriefReport).toContain('Lowest-Input Missing Variables')
+  expect(ownerUnlockBriefReport).toContain('Minimal Intervention Path')
   expect(ownerUnlockBriefReport).toContain('VITE_POSTHOG_KEY')
   expect(ownerUnlockBriefReport).toContain('no secrets required: true')
   expect(ownerUnlockBriefReport).toContain('workflow dispatch requires RUN_WORKFLOWS: true')
@@ -10406,6 +10443,12 @@ test('production measurement status publishes public aggregate evidence handoff'
   expect(ownerUnlockBrief.brief?.lowestInputPath?.noSecretsRequired).toBe(true)
   expect(ownerUnlockBrief.brief?.lowestInputPath?.setupCommands).toContain('./ops/github/setup-production.sh')
   expect(ownerUnlockBrief.brief?.lowestInputPath?.validationCommands).toContain('npm run test:e2e')
+  expect(ownerUnlockBrief.brief?.minimalInterventionPath?.id).toBe('posthog-browser')
+  expect(ownerUnlockBrief.brief?.minimalInterventionPath?.missingInputCount).toBe(
+    ownerUnlockBrief.brief?.lowestInputPath?.missingInputCount,
+  )
+  expect(ownerUnlockBrief.brief?.minimalInterventionPath?.missingSecretCount).toBe(0)
+  expect(ownerUnlockBrief.brief?.minimalInterventionPath?.noSecretsRequired).toBe(true)
   expect(ownerUnlockPreflight.summary.missingInputs).toBe(
     ownerUnlockPreflight.inputs.filter((input) => !input.ready).length,
   )
@@ -10424,6 +10467,12 @@ test('production measurement status publishes public aggregate evidence handoff'
     ownerUnlockPreflight.summary.missingInputs,
   )
   expect(ownerUnlockPreflight.summary.manualInputReduction ?? 0).toBeGreaterThanOrEqual(0)
+  expect(ownerUnlockPreflight.minimalInterventionPath?.pathId).toBe('posthog-browser')
+  expect(ownerUnlockPreflight.minimalInterventionPath?.missingInputs).toBe(
+    ownerUnlockPreflight.summary.lowestInputMissingInputs,
+  )
+  expect(ownerUnlockPreflight.minimalInterventionPath?.secretInputs).toBe(0)
+  expect(ownerUnlockPreflight.minimalInterventionPath?.noSecretsRequired).toBe(true)
   expect(publicMeasurement.ownerUnlockPreflight.lowestInputPath?.id).toBe('posthog-browser')
   expect(analyticsUnlockPage.ownerUnlockPreflight.lowestInputPreflight?.path?.id).toBe('posthog-browser')
   expect(ownerUnlockPreflight.commands.syncConfiguredValues).toBe('./ops/github/setup-production.sh')
@@ -10443,6 +10492,7 @@ test('production measurement status publishes public aggregate evidence handoff'
   expect(ownerUnlockPreflight.controls.workflowDispatchStillRequiresRunWorkflows).toBe(true)
   expect(ownerUnlockPreflightReport).toContain('Owner Unlock Preflight')
   expect(ownerUnlockPreflightReport).toContain('Lowest-input path')
+  expect(ownerUnlockPreflightReport).toContain('Minimal Intervention Path')
   expect(ownerUnlockPreflightReport).toContain('posthog-browser')
   expect(ownerUnlockPreflightReport).toContain('## Guardrails')
   expect(ownerUnlockPreflightScript).toContain('loadLocalEnv')
@@ -10656,6 +10706,7 @@ test('production measurement status publishes public aggregate evidence handoff'
   await expect(page.getByLabel('Production Measurement')).toContainText(measurement.status)
   await expect(page.getByLabel('Production Measurement')).toContainText(measurement.publicEvidenceHandoff.status)
   await expect(page.getByLabel('Production Measurement')).toContainText('first-party-collector')
+  await expect(page.getByLabel('Production Measurement')).toContainText('Minimal inputs')
   await expect(page.getByLabel('Production Measurement')).toContainText(
     measurement.externalUnlockQueue.nextBestUnlockId ?? 'none',
   )

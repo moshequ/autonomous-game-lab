@@ -375,8 +375,31 @@ const publicAnalyticsUnlock = productionAnalyticsUnlockKit
         commandSequence: unlockPath.commandSequence ?? [],
         validationCommands: unlockPath.validationCommands ?? [],
       })),
+      minimalInterventionPath: (() => {
+        const lowestInputPath = (productionAnalyticsUnlockKit.paths ?? []).find(
+          (unlockPath) => unlockPath.id === productionAnalyticsUnlockKit.lowestInputPathId,
+        )
+
+        return lowestInputPath
+          ? {
+              id: lowestInputPath.id,
+              title: lowestInputPath.title,
+              status: lowestInputPath.status,
+              costMode: lowestInputPath.costMode,
+              missingInputCount: numberOrZero(lowestInputPath.missingInputCount),
+              missingVariableCount: numberOrZero(lowestInputPath.missingVariableCount),
+              missingSecretCount: numberOrZero(lowestInputPath.missingSecretCount),
+              noSecretsRequired: (lowestInputPath.requiredSecrets ?? []).length === 0,
+              setupCommands: lowestInputPath.commandSequence ?? [],
+              validationCommands: lowestInputPath.validationCommands ?? [],
+            }
+          : null
+      })(),
       nextActions: [
         'Choose the first-party collector path when a zero-spend Cloudflare free-tier account already exists; otherwise use an existing PostHog free project.',
+        productionAnalyticsUnlockKit.lowestInputPathId
+          ? `Minimal-intervention analytics setup is ${productionAnalyticsUnlockKit.lowestInputPathId} with ${numberOrZero(productionAnalyticsUnlockKit.lowestInputMissingInputCount)} missing input(s) and ${numberOrZero(productionAnalyticsUnlockKit.lowestInputMissingSecretCount)} secret(s).`
+          : 'No minimal-intervention analytics path is available yet.',
         'Sync only configured GitHub variables and secrets through ops/github/setup-production.sh; never paste secret values into tracked files.',
         'Run the validation commands before trusting production analytics for product-gate or monetization decisions.',
       ],
@@ -736,7 +759,7 @@ const payload = {
   nextActions: [
     nextAction,
     publicAnalyticsUnlock
-      ? `Unlock production analytics with ${publicAnalyticsUnlock.recommendedPathId}; lowest-input path is ${publicAnalyticsUnlock.lowestInputPathId ?? 'unknown'} with ${publicAnalyticsUnlock.lowestInputMissingInputCount} missing input(s).`
+      ? `Unlock production analytics with ${publicAnalyticsUnlock.recommendedPathId}; minimal-intervention path is ${publicAnalyticsUnlock.minimalInterventionPath?.id ?? publicAnalyticsUnlock.lowestInputPathId ?? 'unknown'} with ${publicAnalyticsUnlock.minimalInterventionPath?.missingInputCount ?? publicAnalyticsUnlock.lowestInputMissingInputCount} missing input(s) and ${publicAnalyticsUnlock.minimalInterventionPath?.missingSecretCount ?? publicAnalyticsUnlock.lowestInputMissingSecretCount} secret(s).`
       : 'Regenerate the production blocker handoff before publishing production analytics unlock guidance.',
     `First-party collector deployment is ${publicCollectorDeployment.status}; smoke is ${publicCollectorDeployment.smoke.status}.`,
     `External unlock queue has ${publicExternalUnlockQueue.ownerActionRequired} owner action(s); next zero-spend unlock is ${publicExternalUnlockQueue.nextBestZeroCostUnlockId ?? 'none'}.`,
@@ -768,6 +791,11 @@ const appAnalyticsUnlock = payload.analyticsUnlock
       lowestInputPathId: payload.analyticsUnlock.lowestInputPathId,
       lowestInputMissingVariableCount: payload.analyticsUnlock.lowestInputMissingVariableCount,
       lowestInputMissingSecretCount: payload.analyticsUnlock.lowestInputMissingSecretCount,
+      minimalInterventionPathId: payload.analyticsUnlock.minimalInterventionPath?.id ?? null,
+      minimalInterventionMissingInputCount:
+        payload.analyticsUnlock.minimalInterventionPath?.missingInputCount ?? null,
+      minimalInterventionSecretInputCount:
+        payload.analyticsUnlock.minimalInterventionPath?.missingSecretCount ?? null,
       commandCount: payload.analyticsUnlock.commandCount,
       validationCommandCount: payload.analyticsUnlock.validationCommandCount,
     }
@@ -941,6 +969,14 @@ const ownerUnlockBriefHtml = (brief) =>
             <span>Missing secrets</span>
             <strong>${brief.missingSecrets.length}</strong>
           </div>
+          <div class="card">
+            <span>Minimal inputs</span>
+            <strong>${brief.minimalInterventionPath?.missingInputCount ?? 'n/a'}</strong>
+          </div>
+          <div class="card">
+            <span>Minimal secrets</span>
+            <strong>${brief.minimalInterventionPath?.missingSecretCount ?? 'n/a'}</strong>
+          </div>
         </div>
         <h3>Parallel Owner Unlocks</h3>
         ${
@@ -993,6 +1029,14 @@ const ownerUnlockPreflightHtml = (preflight) =>
           <div class="card">
             <span>Invalid inputs</span>
             <strong>${preflight.summary?.invalidInputs ?? 0}</strong>
+          </div>
+          <div class="card">
+            <span>Minimal path</span>
+            <strong>${escapeHtml(preflight.minimalInterventionPath?.pathId ?? preflight.lowestInputPath?.id ?? 'none')}</strong>
+          </div>
+          <div class="card">
+            <span>Minimal secrets</span>
+            <strong>${preflight.minimalInterventionPath?.secretInputs ?? 'n/a'}</strong>
           </div>
         </div>
         <h3>Path Options</h3>
@@ -1200,6 +1244,14 @@ const analyticsUnlockHtml = `<!doctype html>
         <div class="card">
           <span>Lowest-input path</span>
           <strong>${escapeHtml(analyticsUnlockPayload.lowestInputPathId ?? 'none')}</strong>
+        </div>
+        <div class="card">
+          <span>Minimal inputs</span>
+          <strong>${analyticsUnlockPayload.analyticsUnlock?.minimalInterventionPath?.missingInputCount ?? 'n/a'}</strong>
+        </div>
+        <div class="card">
+          <span>Minimal secrets</span>
+          <strong>${analyticsUnlockPayload.analyticsUnlock?.minimalInterventionPath?.missingSecretCount ?? 'n/a'}</strong>
         </div>
         <div class="card">
           <span>Owner actions</span>
@@ -1591,6 +1643,14 @@ const html = `<!doctype html>
           <div class="card">
             <span>Lowest-input path</span>
             <strong>${escapeHtml(payload.analyticsUnlock?.lowestInputPathId ?? 'none')}</strong>
+          </div>
+          <div class="card">
+            <span>Minimal inputs</span>
+            <strong>${payload.analyticsUnlock?.minimalInterventionPath?.missingInputCount ?? 'n/a'}</strong>
+          </div>
+          <div class="card">
+            <span>Minimal secrets</span>
+            <strong>${payload.analyticsUnlock?.minimalInterventionPath?.missingSecretCount ?? 'n/a'}</strong>
           </div>
           <div class="card">
             <span>Setup commands</span>

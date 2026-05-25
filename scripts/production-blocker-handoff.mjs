@@ -542,6 +542,26 @@ const summarizeOwnerUnlockPath = (unlockPath, recommendedPath) =>
         validationCommands: unlockPath.validationCommands ?? [],
       }
     : null
+const summarizeMinimalInterventionPath = (unlockPath, recommendedPath) => {
+  const summarizedPath = summarizeOwnerUnlockPath(unlockPath, recommendedPath)
+
+  return summarizedPath
+    ? {
+        id: summarizedPath.id,
+        title: summarizedPath.title,
+        status: summarizedPath.status,
+        costMode: summarizedPath.costMode,
+        missingInputCount: summarizedPath.missingInputCount,
+        missingVariableCount: summarizedPath.missingVariableCount,
+        missingSecretCount: summarizedPath.missingSecretCount,
+        manualInputReduction: summarizedPath.manualInputReduction,
+        noSecretsRequired: summarizedPath.noSecretsRequired,
+        reason: describeLowestInputPath(unlockPath, recommendedPath),
+        setupCommands: summarizedPath.setupCommands,
+        validationCommands: summarizedPath.validationCommands,
+      }
+    : null
+}
 const summarizeStoreUnlockInputs = (items) =>
   (items ?? []).map((item) => ({
     type: item.type,
@@ -658,6 +678,10 @@ const ownerUnlockBrief =
         lowestInputMissingInputCount: lowestInputUnlockPath?.missingInputCount ?? 0,
         lowestInputReason: describeLowestInputPath(lowestInputUnlockPath, recommendedUnlockPath),
         lowestInputPath: summarizeOwnerUnlockPath(lowestInputUnlockPath, recommendedUnlockPath),
+        minimalInterventionPath: summarizeMinimalInterventionPath(
+          lowestInputUnlockPath,
+          recommendedUnlockPath,
+        ),
         costMode: recommendedUnlockPath.costMode,
         ownerInputRequired: recommendedUnlockPath.ownerInputRequired === true,
         missingVariables: summarizeConfigInputs(recommendedUnlockPath.requiredVariables).filter(
@@ -681,6 +705,9 @@ const ownerUnlockBrief =
           lowestInputUnlockPath?.id && lowestInputUnlockPath.id !== recommendedUnlockPath.id
             ? `Use ${lowestInputUnlockPath.title} (${lowestInputUnlockPath.id}) when the lowest-input owner path is more important than the first-party collector recommendation.`
             : 'The recommended unlock path is currently also the lowest-input owner path.',
+          lowestInputUnlockPath
+            ? `Minimal-intervention setup currently needs ${lowestInputUnlockPath.missingInputCount} input(s) and ${lowestInputUnlockPath.missingSecretCount} secret(s).`
+            : 'No minimal-intervention setup path is available yet.',
           'Use the parallel owner unlocks queue to resolve store support-contact inputs alongside analytics inputs when an existing support inbox is available.',
           'Set only the missing repository variables shown in this brief.',
           'Set missing repository secrets with the stdin-fed gh secret commands; never paste secret values into files or issues.',
@@ -789,6 +816,15 @@ const appPayload = {
         lowestInputPathId: payload.ownerUnlockBrief.lowestInputPathId,
         lowestInputMissingVariableCount: payload.ownerUnlockBrief.lowestInputMissingVariableCount,
         lowestInputMissingSecretCount: payload.ownerUnlockBrief.lowestInputMissingSecretCount,
+        minimalInterventionPath: payload.ownerUnlockBrief.minimalInterventionPath
+          ? {
+              id: payload.ownerUnlockBrief.minimalInterventionPath.id,
+              missingInputCount: payload.ownerUnlockBrief.minimalInterventionPath.missingInputCount,
+              missingSecretCount: payload.ownerUnlockBrief.minimalInterventionPath.missingSecretCount,
+              manualInputReduction: payload.ownerUnlockBrief.minimalInterventionPath.manualInputReduction,
+              noSecretsRequired: payload.ownerUnlockBrief.minimalInterventionPath.noSecretsRequired,
+            }
+          : null,
         missingVariableCount: payload.ownerUnlockBrief.missingVariables.length,
         missingSecretCount: payload.ownerUnlockBrief.missingSecrets.length,
         setupCommands: payload.ownerUnlockBrief.setupCommands,
@@ -899,6 +935,14 @@ const ownerUnlockReport = [
   `- missing secrets: ${ownerUnlockBriefPayload.brief?.lowestInputPath?.missingSecretCount ?? 'n/a'}`,
   `- manual input reduction: ${ownerUnlockBriefPayload.brief?.lowestInputPath?.manualInputReduction ?? 'n/a'}`,
   `- no secrets required: ${ownerUnlockBriefPayload.brief?.lowestInputPath?.noSecretsRequired === true}`,
+  '',
+  '## Minimal Intervention Path',
+  '',
+  `- path: ${ownerUnlockBriefPayload.brief?.minimalInterventionPath?.id ?? 'none'}`,
+  `- missing inputs: ${ownerUnlockBriefPayload.brief?.minimalInterventionPath?.missingInputCount ?? 'n/a'}`,
+  `- missing secrets: ${ownerUnlockBriefPayload.brief?.minimalInterventionPath?.missingSecretCount ?? 'n/a'}`,
+  `- manual input reduction: ${ownerUnlockBriefPayload.brief?.minimalInterventionPath?.manualInputReduction ?? 'n/a'}`,
+  `- no secrets required: ${ownerUnlockBriefPayload.brief?.minimalInterventionPath?.noSecretsRequired === true}`,
   '',
   '### Lowest-Input Missing Variables',
   '',
