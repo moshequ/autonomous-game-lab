@@ -2541,6 +2541,94 @@ const ownerHoldReason =
     : immediateRepeatSuppressed && nextBestAction?.id === 'hold-for-external-input'
       ? 'All currently armed local actions were recently executed or covered; holding to avoid cycling until new player evidence, external inputs, or a cooldown expiry changes the state.'
       : null
+const sourceRecordsForSuppressedAction = (actionId) =>
+  recentExecutedRecords.filter((record) => {
+    const selectedActionId = record.selectedActionId
+
+    return selectedActionId === actionId || (compositeActionSatisfiedActionIds[selectedActionId] ?? []).includes(actionId)
+  })
+const suppressionExpiryForRecord = (record) => {
+  const recordGeneratedAtMs = Date.parse(record?.generatedAt ?? '')
+
+  return Number.isFinite(recordGeneratedAtMs)
+    ? new Date(recordGeneratedAtMs + repeatSuppressionMaxAgeHours * 60 * 60 * 1000).toISOString()
+    : null
+}
+const suppressedUntilForAction = (actionId) => {
+  const expiryTimes = sourceRecordsForSuppressedAction(actionId)
+    .map(suppressionExpiryForRecord)
+    .filter(Boolean)
+    .map((value) => Date.parse(value))
+    .filter(Number.isFinite)
+
+  if (!expiryTimes.length) {
+    return null
+  }
+
+  return new Date(Math.max(...expiryTimes)).toISOString()
+}
+const hoursUntil = (isoValue) => {
+  const valueMs = Date.parse(isoValue ?? '')
+
+  if (!Number.isFinite(ownerGeneratedAtMs) || !Number.isFinite(valueMs)) {
+    return null
+  }
+
+  return roundMetric(Math.max(0, (valueMs - ownerGeneratedAtMs) / (60 * 60 * 1000)))
+}
+const suppressedLocalActions = ownerSelectableNow
+  .filter((action) => repeatSuppressedActionIds.has(action.id))
+  .map((action) => {
+    const sourceActionIds = [
+      ...new Set(sourceRecordsForSuppressedAction(action.id).map((record) => record.selectedActionId).filter(Boolean)),
+    ]
+    const suppressedUntil = suppressedUntilForAction(action.id)
+
+    return {
+      id: action.id,
+      status: action.status,
+      command: action.command,
+      reason: action.reason,
+      sourceActionIds,
+      suppressedUntil,
+      resumeInHours: hoursUntil(suppressedUntil),
+      resumeCondition:
+        sourceActionIds.length > 0
+          ? 'Wait for repeat-suppression cooldown, new player evidence, or owner-provided production inputs.'
+          : 'Wait for new player evidence or owner-provided production inputs.',
+    }
+  })
+const nextBackoffResumeAt =
+  suppressedLocalActions
+    .map((action) => action.suppressedUntil)
+    .filter(Boolean)
+    .sort()[0] ?? null
+const executionBackoff = {
+  status: immediateRepeatSuppressed
+    ? 'cooling-down'
+    : prioritizedExecutableNow.length > 0
+      ? 'ready'
+      : ownerSelectableNow.length > 0
+        ? 'partially-held'
+        : 'idle',
+  localActionAvailable: ownerSelectableNow.length > 0,
+  executableWithoutRepeatCount: prioritizedExecutableNow.length,
+  heldActionCount: suppressedLocalActions.length,
+  selectableActionIds: ownerSelectableNow.map((action) => action.id),
+  executableActionIds: prioritizedExecutableNow.map((action) => action.id),
+  heldActionIds: suppressedLocalActions.map((action) => action.id),
+  nextResumeAt: nextBackoffResumeAt,
+  nextResumeInHours: hoursUntil(nextBackoffResumeAt),
+  holdReason: ownerHoldReason,
+  controls: {
+    avoidImmediateRepeat: true,
+    zeroPaidSpend: unitEconomics.controls?.maxDailySpendUsd === 0,
+    noExternalWorkflowDispatch: true,
+    newEvidenceCanResumeBeforeCooldown: true,
+    ownerInputCanResumeBeforeCooldown: true,
+  },
+  heldActions: suppressedLocalActions,
+}
 const fullNextUnlockKit =
   (productionBlockerHandoff.unlockKits ?? []).find(
     (kit) => kit.id === productionBlockerHandoff.nextUnlockKit?.id,
@@ -2710,6 +2798,7 @@ const payload = {
     holdReason: ownerHoldReason,
     rationale: nextBestAction.reason,
   },
+  executionBackoff,
   externalInputHandoff: ownerExternalInputHandoff,
   storeExternalInputHandoff: ownerStoreExternalInputHandoff,
   externalInputHandoffs: ownerExternalInputHandoffs,
@@ -2922,6 +3011,14 @@ const appPayload = {
   ownerDecision: {
     nextBestActionId: payload.ownerDecision.nextBestActionId,
   },
+  executionBackoff: {
+    status: payload.executionBackoff.status,
+    heldActionCount: payload.executionBackoff.heldActionCount,
+    executableWithoutRepeatCount: payload.executionBackoff.executableWithoutRepeatCount,
+    nextResumeAt: payload.executionBackoff.nextResumeAt,
+    nextResumeInHours: payload.executionBackoff.nextResumeInHours,
+    heldActionIds: payload.executionBackoff.heldActionIds,
+  },
   externalInputHandoff: payload.externalInputHandoff
     ? {
         nextUnlockId: payload.externalInputHandoff.nextUnlockId,
@@ -2977,6 +3074,18 @@ const report = [
       ? payload.executionMemory.recentExecutedActionIds.join(', ')
       : 'none'
   }`,
+  '',
+  '## Execution Backoff',
+  '',
+  `- Status: ${payload.executionBackoff.status}`,
+  `- Selectable actions: ${payload.executionBackoff.selectableActionIds.join(', ') || 'none'}`,
+  `- Held actions: ${payload.executionBackoff.heldActionIds.join(', ') || 'none'}`,
+  `- Next resume: ${payload.executionBackoff.nextResumeAt ?? 'new evidence or owner input'}`,
+  `- No repeat cycling: ${payload.executionBackoff.controls.avoidImmediateRepeat}`,
+  ...payload.executionBackoff.heldActions.map(
+    (action) =>
+      `- held ${action.id}: ${action.sourceActionIds.join(', ') || 'unknown source'}; resume ${action.suppressedUntil ?? 'on new evidence'}`,
+  ),
   ...(payload.externalInputHandoff
     ? [
         '',

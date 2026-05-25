@@ -1102,6 +1102,18 @@ function App() {
       } | null
     }
   ).externalInputHandoff
+  const ownerExecutionBackoff = (
+    autonomousOwnerLoop as {
+      executionBackoff?: {
+        status: string
+        heldActionCount: number
+        executableWithoutRepeatCount: number
+        nextResumeAt: string | null
+        nextResumeInHours: number | null
+        heldActionIds: readonly string[]
+      }
+    }
+  ).executionBackoff
   const ownerStoreExternalInputHandoff = (
     autonomousOwnerLoop as {
       storeExternalInputHandoff?: {
@@ -3457,6 +3469,26 @@ function App() {
               <div className="factRow">
                 <span>Next action</span>
                 <strong>{autonomousOwnerLoop.ownerDecision.nextBestActionId}</strong>
+              </div>
+              <div className="factRow">
+                <span>Backoff</span>
+                <strong>{ownerExecutionBackoff?.status ?? 'idle'}</strong>
+              </div>
+              <div className="factRow">
+                <span>Held local actions</span>
+                <strong>{ownerExecutionBackoff?.heldActionCount ?? 0}</strong>
+              </div>
+              <div className="factRow">
+                <span>Ready after repeat guard</span>
+                <strong>{ownerExecutionBackoff?.executableWithoutRepeatCount ?? 0}</strong>
+              </div>
+              <div className="factRow">
+                <span>Resume in</span>
+                <strong>
+                  {typeof ownerExecutionBackoff?.nextResumeInHours === 'number'
+                    ? `${ownerExecutionBackoff.nextResumeInHours}h`
+                    : 'new evidence'}
+                </strong>
               </div>
               <div className="factRow">
                 <span>External accounts</span>

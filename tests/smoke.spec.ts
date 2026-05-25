@@ -111,6 +111,12 @@ test('portal loads a playable canvas and autonomy cockpit', async ({ page }) => 
   const ownerLoop = JSON.parse(await readFile('data/autonomous-owner-loop.json', 'utf8')) as {
     mode: string
     ownerDecision: { nextBestActionId: string }
+    executionBackoff?: {
+      status: string
+      heldActionCount: number
+      executableWithoutRepeatCount: number
+      nextResumeInHours: number | null
+    }
     externalInputHandoff?: {
       nextUnlockId: string | null
       recommendedPathId: string | null
@@ -180,6 +186,12 @@ test('portal loads a playable canvas and autonomy cockpit', async ({ page }) => 
   await expect(page.getByText('owner-loop-ready')).toBeVisible()
   await expect(page.getByText(ownerLoop.mode)).toBeVisible()
   await expect(page.getByText(ownerLoop.ownerDecision.nextBestActionId).first()).toBeVisible()
+  await expect(page.getByText('Backoff')).toBeVisible()
+  await expect(page.getByText(ownerLoop.executionBackoff?.status ?? 'idle')).toBeVisible()
+  await expect(page.getByText('Held local actions')).toBeVisible()
+  await expect(page.getByText(String(ownerLoop.executionBackoff?.heldActionCount ?? 0)).first()).toBeVisible()
+  await expect(page.getByText('Ready after repeat guard')).toBeVisible()
+  await expect(page.getByText(String(ownerLoop.executionBackoff?.executableWithoutRepeatCount ?? 0)).first()).toBeVisible()
   if (ownerLoop.externalInputHandoff) {
     await expect(page.getByText(ownerLoop.externalInputHandoff.nextUnlockId ?? 'none').first()).toBeVisible()
     await expect(page.getByText(ownerLoop.externalInputHandoff.recommendedPathId ?? 'none').first()).toBeVisible()
@@ -4440,6 +4452,31 @@ test('autonomous operator history keeps a capped audit trail', async ({ page }) 
       heldForExecutionBackoff: boolean
     }
     safeAutonomousActions: Array<{ id: string; status: string; reason?: string }>
+    executionBackoff: {
+      status: string
+      localActionAvailable: boolean
+      executableWithoutRepeatCount: number
+      heldActionCount: number
+      selectableActionIds: string[]
+      executableActionIds: string[]
+      heldActionIds: string[]
+      nextResumeAt: string | null
+      nextResumeInHours: number | null
+      controls: {
+        avoidImmediateRepeat: boolean
+        zeroPaidSpend: boolean
+        noExternalWorkflowDispatch: boolean
+        newEvidenceCanResumeBeforeCooldown: boolean
+        ownerInputCanResumeBeforeCooldown: boolean
+      }
+      heldActions: Array<{
+        id: string
+        sourceActionIds: string[]
+        suppressedUntil: string | null
+        resumeInHours: number | null
+        resumeCondition: string
+      }>
+    }
     executionMemory: {
       avoidImmediateRepeat: boolean
       recentExecutionWindow: number
@@ -4744,6 +4781,12 @@ test('autonomous operator history keeps a capped audit trail', async ({ page }) 
   if (lastExecutedActionStillSelectable && ownerLoop.executionMemory.lastExecutedActionId) {
     repeatSuppressedActionIds.add(ownerLoop.executionMemory.lastExecutedActionId)
   }
+  const expectedHeldActionIds = localSelectableActions
+    .filter((action) => repeatSuppressedActionIds.has(action.id))
+    .map((action) => action.id)
+  const expectedExecutableActionIds = localSelectableActions
+    .filter((action) => !repeatSuppressedActionIds.has(action.id))
+    .map((action) => action.id)
   const hasExecutableAlternativeOutsideCovered = ownerLoop.safeAutonomousActions.some(
     (action) => isLocalSelectableAction(action) && !repeatSuppressedActionIds.has(action.id),
   )
@@ -4869,6 +4912,29 @@ test('autonomous operator history keeps a capped audit trail', async ({ page }) 
   expect(ownerLoop.controls.heldForExecutionBackoff).toBe(expectedImmediateRepeatSuppressed)
   expect(ownerLoop.ownerDecision.localActionAvailable).toBe(localSelectableActions.length > 0)
   expect(ownerLoop.executionMemory.immediateRepeatSuppressed).toBe(expectedImmediateRepeatSuppressed)
+  expect(ownerLoop.executionBackoff.localActionAvailable).toBe(localSelectableActions.length > 0)
+  expect(ownerLoop.executionBackoff.selectableActionIds).toEqual(localSelectableActions.map((action) => action.id))
+  expect(ownerLoop.executionBackoff.executableActionIds).toEqual(expectedExecutableActionIds)
+  expect(ownerLoop.executionBackoff.heldActionIds).toEqual(expectedHeldActionIds)
+  expect(ownerLoop.executionBackoff.heldActionCount).toBe(expectedHeldActionIds.length)
+  expect(ownerLoop.executionBackoff.executableWithoutRepeatCount).toBe(expectedExecutableActionIds.length)
+  expect(ownerLoop.executionBackoff.controls.avoidImmediateRepeat).toBe(true)
+  expect(ownerLoop.executionBackoff.controls.zeroPaidSpend).toBe(true)
+  expect(ownerLoop.executionBackoff.controls.noExternalWorkflowDispatch).toBe(true)
+  expect(ownerLoop.executionBackoff.controls.newEvidenceCanResumeBeforeCooldown).toBe(true)
+  expect(ownerLoop.executionBackoff.controls.ownerInputCanResumeBeforeCooldown).toBe(true)
+  expect(ownerLoop.executionBackoff.heldActions.map((action) => action.id)).toEqual(expectedHeldActionIds)
+  if (expectedImmediateRepeatSuppressed) {
+    expect(ownerLoop.executionBackoff.status).toBe('cooling-down')
+    expect(ownerLoop.executionBackoff.nextResumeAt).toMatch(/T/)
+    expect(typeof ownerLoop.executionBackoff.nextResumeInHours).toBe('number')
+  } else if (expectedExecutableActionIds.length > 0) {
+    expect(ownerLoop.executionBackoff.status).toBe('ready')
+  } else if (localSelectableActions.length > 0) {
+    expect(ownerLoop.executionBackoff.status).toBe('partially-held')
+  } else {
+    expect(ownerLoop.executionBackoff.status).toBe('idle')
+  }
   expect(holdForExternalInputAction?.status).toBe('monitor')
   expect(holdForExternalInputAction?.reason).toContain('All safe local refresh actions are current')
   if (localSelectableActions.length === 0) {

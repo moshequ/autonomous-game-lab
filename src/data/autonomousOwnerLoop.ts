@@ -10,6 +10,17 @@ export const autonomousOwnerLoop = {
   "ownerDecision": {
     "nextBestActionId": "hold-for-external-input"
   },
+  "executionBackoff": {
+    "status": "cooling-down",
+    "heldActionCount": 2,
+    "executableWithoutRepeatCount": 0,
+    "nextResumeAt": "2026-05-26T06:36:37.654Z",
+    "nextResumeInHours": 10.918,
+    "heldActionIds": [
+      "seed-portfolio-traffic",
+      "refresh-organic-seed-loop"
+    ]
+  },
   "externalInputHandoff": {
     "nextUnlockId": "production-analytics-browser",
     "recommendedPathId": "first-party-collector",

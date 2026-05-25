@@ -7657,6 +7657,19 @@ const ownerHasExecutableAlternativeOutsideCovered = (autonomousOwnerLoop.safeAut
 const ownerExpectedImmediateRepeatSuppressed =
   ownerLocalSelectableActions.length > 0 &&
   ownerLocalSelectableActions.every((action) => ownerRepeatSuppressedActionIds.has(action.id))
+const ownerExpectedHeldActionIds = ownerLocalSelectableActions
+  .filter((action) => ownerRepeatSuppressedActionIds.has(action.id))
+  .map((action) => action.id)
+const ownerExpectedExecutableActionIds = ownerLocalSelectableActions
+  .filter((action) => !ownerRepeatSuppressedActionIds.has(action.id))
+  .map((action) => action.id)
+const ownerExpectedExecutionBackoffStatus = ownerExpectedImmediateRepeatSuppressed
+  ? 'cooling-down'
+  : ownerExpectedExecutableActionIds.length > 0
+    ? 'ready'
+    : ownerLocalSelectableActions.length > 0
+      ? 'partially-held'
+      : 'idle'
 const ownerGateSampleBackoff = autonomousOwnerLoop.executionMemory?.gateSampleDownloadsBackoff
 const ownerGateSampleEvidenceReadyNow =
   (localEventBridge.gateSampleEvidence?.inbox?.events ?? 0) > 0 ||
@@ -8104,6 +8117,24 @@ if (
   autonomousOwnerLoop.controls?.heldForExternalInput !== (ownerLocalSelectableActions.length === 0) ||
   autonomousOwnerLoop.controls?.heldForExecutionBackoff !== ownerExpectedImmediateRepeatSuppressed ||
   autonomousOwnerLoop.ownerDecision?.localActionAvailable !== (ownerLocalSelectableActions.length > 0) ||
+  autonomousOwnerLoop.executionBackoff?.status !== ownerExpectedExecutionBackoffStatus ||
+  autonomousOwnerLoop.executionBackoff?.localActionAvailable !== (ownerLocalSelectableActions.length > 0) ||
+  autonomousOwnerLoop.executionBackoff?.heldActionCount !== ownerExpectedHeldActionIds.length ||
+  autonomousOwnerLoop.executionBackoff?.executableWithoutRepeatCount !== ownerExpectedExecutableActionIds.length ||
+  JSON.stringify(autonomousOwnerLoop.executionBackoff?.selectableActionIds ?? []) !==
+    JSON.stringify(ownerLocalSelectableActions.map((action) => action.id)) ||
+  JSON.stringify(autonomousOwnerLoop.executionBackoff?.heldActionIds ?? []) !==
+    JSON.stringify(ownerExpectedHeldActionIds) ||
+  JSON.stringify(autonomousOwnerLoop.executionBackoff?.executableActionIds ?? []) !==
+    JSON.stringify(ownerExpectedExecutableActionIds) ||
+  autonomousOwnerLoop.executionBackoff?.controls?.avoidImmediateRepeat !== true ||
+  autonomousOwnerLoop.executionBackoff?.controls?.zeroPaidSpend !== true ||
+  autonomousOwnerLoop.executionBackoff?.controls?.noExternalWorkflowDispatch !== true ||
+  autonomousOwnerLoop.executionBackoff?.controls?.newEvidenceCanResumeBeforeCooldown !== true ||
+  autonomousOwnerLoop.executionBackoff?.controls?.ownerInputCanResumeBeforeCooldown !== true ||
+  (ownerExpectedImmediateRepeatSuppressed && !autonomousOwnerLoop.executionBackoff?.nextResumeAt) ||
+  (ownerExpectedImmediateRepeatSuppressed &&
+    typeof autonomousOwnerLoop.executionBackoff?.nextResumeInHours !== 'number') ||
   (ownerLocalSelectableActions.length === 0 &&
     autonomousOwnerLoop.ownerDecision?.nextBestActionId !== 'hold-for-external-input') ||
   (ownerLocalSelectableActions.length === 0 && typeof autonomousOwnerLoop.ownerDecision?.holdReason !== 'string') ||
@@ -8797,6 +8828,8 @@ if (
 
 if (
   !appSource.includes('autonomousOwnerLoop.ownerDecision.nextBestActionId') ||
+  !appSource.includes('ownerExecutionBackoff') ||
+  !appSource.includes('Held local actions') ||
   !appSource.includes('ownerExternalInputHandoff?.nextUnlockId') ||
   !appSource.includes('ownerStoreExternalInputHandoff?.nextUnlockId') ||
   appSource.includes('ownerDecisionAction') ||
