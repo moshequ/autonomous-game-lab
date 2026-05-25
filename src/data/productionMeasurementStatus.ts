@@ -1,10 +1,10 @@
 export const productionMeasurementStatus = {
-  "generatedAt": "2026-05-25T19:14:18.592Z",
+  "generatedAt": "2026-05-25T19:20:32.978Z",
   "status": "production-measurement-local-intake-ready",
   "activePath": "local-browser-buffer",
-  "liveCandidate": "pwa-26d99b185072",
+  "liveCandidate": "pwa-fe2016e57639",
   "liveRelease": {
-    "syncedCandidateId": "pwa-26d99b185072",
+    "syncedCandidateId": "pwa-fe2016e57639",
     "exactManifestPath": "/release-candidate.json",
     "staticJsonMayLagBehindLatestDeploy": true
   },
