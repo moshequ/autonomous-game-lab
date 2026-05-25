@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-25T12:21:47.503Z",
+  "generatedAt": "2026-05-25T12:26:48.043Z",
   "status": "performance-budget-ready",
   "sourceBuild": "dist",
   "basePath": "/autonomous-game-lab/",
@@ -15,21 +15,21 @@
   },
   "initial": {
     "entryScripts": [
-      "index-B5-QbfsM.js",
+      "index-CYhrQvOM.js",
       "registerSW.js"
     ],
     "scriptPaths": [
-      "assets/index-B5-QbfsM.js",
+      "assets/index-CYhrQvOM.js",
       "registerSW.js"
     ],
     "jsFiles": [
       {
-        "file": "index-B5-QbfsM.js",
-        "path": "assets/index-B5-QbfsM.js",
-        "bytes": 699810,
-        "kb": 683.4,
-        "gzipBytes": 189649,
-        "gzipKb": 185.2
+        "file": "index-CYhrQvOM.js",
+        "path": "assets/index-CYhrQvOM.js",
+        "bytes": 699525,
+        "kb": 683.1,
+        "gzipBytes": 189593,
+        "gzipKb": 185.1
       },
       {
         "file": "registerSW.js",
@@ -40,9 +40,9 @@
         "gzipKb": 0.1
       }
     ],
-    "jsBytes": 699984,
-    "jsKb": 683.6,
-    "gzipBytes": 189791,
+    "jsBytes": 699699,
+    "jsKb": 683.3,
+    "gzipBytes": 189735,
     "gzipKb": 185.3,
     "cssFiles": [
       {
@@ -62,19 +62,19 @@
   "deferred": {
     "chunks": [
       {
-        "file": "aggregateEvidenceIssue-foCeS98S.js",
-        "path": "assets/aggregateEvidenceIssue-foCeS98S.js",
+        "file": "aggregateEvidenceIssue-BruRRfpe.js",
+        "path": "assets/aggregateEvidenceIssue-BruRRfpe.js",
         "bytes": 3717,
         "kb": 3.6,
-        "gzipBytes": 1483,
+        "gzipBytes": 1482,
         "gzipKb": 1.4
       },
       {
-        "file": "calendarReminder-CLvR613_.js",
-        "path": "assets/calendarReminder-CLvR613_.js",
+        "file": "calendarReminder-lOpDy8iG.js",
+        "path": "assets/calendarReminder-lOpDy8iG.js",
         "bytes": 1627,
         "kb": 1.6,
-        "gzipBytes": 931,
+        "gzipBytes": 932,
         "gzipKb": 0.9
       },
       {
@@ -94,8 +94,8 @@
         "gzipKb": 0.8
       },
       {
-        "file": "GameCanvas-D4BYZTaP.js",
-        "path": "assets/GameCanvas-D4BYZTaP.js",
+        "file": "GameCanvas-C2IRWIHT.js",
+        "path": "assets/GameCanvas-C2IRWIHT.js",
         "bytes": 3362,
         "kb": 3.3,
         "gzipBytes": 1237,
@@ -159,8 +159,8 @@
       }
     ],
     "gameChunk": {
-      "file": "GameCanvas-D4BYZTaP.js",
-      "path": "assets/GameCanvas-D4BYZTaP.js",
+      "file": "GameCanvas-C2IRWIHT.js",
+      "path": "assets/GameCanvas-C2IRWIHT.js",
       "bytes": 3362,
       "kb": 3.3,
       "gzipBytes": 1237,
@@ -188,19 +188,19 @@
   "assets": {
     "js": [
       {
-        "file": "aggregateEvidenceIssue-foCeS98S.js",
-        "path": "assets/aggregateEvidenceIssue-foCeS98S.js",
+        "file": "aggregateEvidenceIssue-BruRRfpe.js",
+        "path": "assets/aggregateEvidenceIssue-BruRRfpe.js",
         "bytes": 3717,
         "kb": 3.6,
-        "gzipBytes": 1483,
+        "gzipBytes": 1482,
         "gzipKb": 1.4
       },
       {
-        "file": "calendarReminder-CLvR613_.js",
-        "path": "assets/calendarReminder-CLvR613_.js",
+        "file": "calendarReminder-lOpDy8iG.js",
+        "path": "assets/calendarReminder-lOpDy8iG.js",
         "bytes": 1627,
         "kb": 1.6,
-        "gzipBytes": 931,
+        "gzipBytes": 932,
         "gzipKb": 0.9
       },
       {
@@ -220,8 +220,8 @@
         "gzipKb": 0.8
       },
       {
-        "file": "GameCanvas-D4BYZTaP.js",
-        "path": "assets/GameCanvas-D4BYZTaP.js",
+        "file": "GameCanvas-C2IRWIHT.js",
+        "path": "assets/GameCanvas-C2IRWIHT.js",
         "bytes": 3362,
         "kb": 3.3,
         "gzipBytes": 1237,
@@ -252,12 +252,12 @@
         "gzipKb": 2.4
       },
       {
-        "file": "index-B5-QbfsM.js",
-        "path": "assets/index-B5-QbfsM.js",
-        "bytes": 699810,
-        "kb": 683.4,
-        "gzipBytes": 189649,
-        "gzipKb": 185.2
+        "file": "index-CYhrQvOM.js",
+        "path": "assets/index-CYhrQvOM.js",
+        "bytes": 699525,
+        "kb": 683.1,
+        "gzipBytes": 189593,
+        "gzipKb": 185.1
       },
       {
         "file": "LanternRelayScene-C0ZoQldW.js",
@@ -326,7 +326,7 @@
     {
       "id": "initial-js-budget",
       "status": "pass",
-      "detail": "Initial JS is 683.6 KB; budget is 686 KB."
+      "detail": "Initial JS is 683.3 KB; budget is 686 KB."
     },
     {
       "id": "initial-js-gzip-budget",
@@ -351,7 +351,7 @@
     {
       "id": "game-runtime-deferred",
       "status": "pass",
-      "detail": "GameCanvas-D4BYZTaP.js is deferred from the initial shell."
+      "detail": "GameCanvas-C2IRWIHT.js is deferred from the initial shell."
     },
     {
       "id": "largest-js-deferred",
