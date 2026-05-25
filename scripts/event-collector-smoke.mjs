@@ -419,6 +419,37 @@ if (exportPayload.events.some((event) => event.properties?.email)) {
   fail('Collector export leaked a sensitive email property.')
 }
 
+const summaryResponse = await worker.fetch(
+  new Request('https://collector.example/events/summary?limit=20', {
+    headers: {
+      Authorization: `Bearer ${env.ADMIN_EXPORT_TOKEN}`,
+    },
+  }),
+  env,
+)
+const summaryPayload = await summaryResponse.json()
+const summaryText = JSON.stringify(summaryPayload)
+
+if (
+  summaryResponse.status !== 200 ||
+  summaryPayload.controls?.aggregateOnly !== true ||
+  summaryPayload.controls?.rawEventsReturned !== false ||
+  summaryPayload.events?.total !== expectedCollectorEvents ||
+  summaryPayload.events?.byName?.game_started !== 1 ||
+  summaryPayload.events?.byName?.level_completed !== 1 ||
+  summaryPayload.events?.byGame?.[smokeGameId] !== expectedCollectorEvents ||
+  summaryPayload.events?.byCampaign?.['gate-sample-smoke'] !== 4 ||
+  summaryPayload.events?.byGate?.firstGameCompletion !== 4 ||
+  summaryPayload.events?.bySessionDate?.['2026-05-17'] !== expectedCollectorEvents - 1 ||
+  summaryPayload.files?.included !== exportPayload.files.length ||
+  summaryText.includes('anon-collector') ||
+  summaryText.includes('session-collector') ||
+  summaryText.includes('collector-start') ||
+  Array.isArray(summaryPayload.events)
+) {
+  fail(`Expected aggregate-only collector summary, got ${summaryResponse.status} ${JSON.stringify(summaryPayload)}`)
+}
+
 const tempRoot = await mkdtemp(path.join(os.tmpdir(), 'agl-event-collector-'))
 const outputDir = path.join(tempRoot, 'player-events')
 const emptyImportDir = path.join(tempRoot, 'empty-imports')
@@ -496,6 +527,11 @@ try {
       storedEvents: postPayload.events + beaconPayload.events,
       exportedEvents: exportPayload.events.length,
       files: exportPayload.files.length,
+      summaryStatus: summaryResponse.status,
+      summaryEvents: summaryPayload.events.total,
+      summaryFilesIncluded: summaryPayload.files.included,
+      summaryAggregateOnly: summaryPayload.controls.aggregateOnly,
+      summaryRawEventsReturned: summaryPayload.controls.rawEventsReturned,
       piiStripped: true,
       acceptsBeaconBodyToken: true,
       normalizesAllowedOriginPath: true,
@@ -544,6 +580,9 @@ try {
     `- Beacon status: ${smoke.collector.beaconStatus}`,
     `- Stored events: ${smoke.collector.storedEvents}`,
     `- Exported events: ${smoke.collector.exportedEvents}`,
+    `- Summary status: ${smoke.collector.summaryStatus}`,
+    `- Summary events: ${smoke.collector.summaryEvents}`,
+    `- Summary aggregate only: ${smoke.collector.summaryAggregateOnly}`,
     `- Normalizes allowed origin path: ${smoke.collector.normalizesAllowedOriginPath}`,
     `- PII stripped: ${smoke.collector.piiStripped}`,
     '',

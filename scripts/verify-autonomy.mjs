@@ -1150,20 +1150,27 @@ if (
   publicCollectorDeployment.status !== eventCollectorDeployment.status ||
   publicCollectorDeployment.provider !== 'cloudflare-worker-r2' ||
   publicCollectorDeployment.costPosture !== eventCollectorDeployment.costPosture ||
+  publicCollectorDeployment.worker?.endpoints?.summary !== '/events/summary' ||
+  publicCollectorDeployment.worker?.aggregateSummaryEndpoint !== eventCollectorDeployment.worker?.aggregateSummaryEndpoint ||
   publicCollectorDeployment.workflow?.status !== eventCollectorDeployment.workflow?.status ||
   publicCollectorDeployment.workflow?.autoCreatesBucket !== true ||
   publicCollectorDeployment.workflow?.preflightRequiresWriteToken !== true ||
   publicCollectorDeployment.smoke?.status !== eventCollectorDeployment.smoke?.status ||
   publicCollectorDeployment.smoke?.piiStripped !== true ||
+  publicCollectorDeployment.smoke?.summaryAggregateOnly !== true ||
+  publicCollectorDeployment.smoke?.summaryRawEventsReturned !== false ||
   !publicCollectorDeploymentCheckIds.has('worker-source') ||
   !publicCollectorDeploymentCheckIds.has('deploy-workflow') ||
   !publicCollectorDeploymentCheckIds.has('cloudflare-credentials') ||
+  !publicCollectorDeploymentCheckIds.has('collector-aggregate-summary') ||
   !publicCollectorDeployment.setupRequiredOnce?.some((item) => item.includes('Cloudflare')) ||
   publicCollectorDeployment.commands?.smoke !== 'npm run autonomous:event-collector-smoke' ||
   publicCollectorDeployment.commands?.plan !== 'npm run autonomous:collector-deploy-plan' ||
   publicCollectorDeployment.controls?.zeroPaidSpend !== true ||
   publicCollectorDeployment.controls?.noSecretValuesStored !== true ||
   publicCollectorDeploymentLeaksValues ||
+  JSON.stringify(publicCollectorDeployment).includes('anon-') ||
+  JSON.stringify(publicCollectorDeployment).includes('session-') ||
   publicAnalyticsUnlockStatus.status !== publicAnalyticsUnlock?.status ||
   publicAnalyticsUnlockStatus.recommendedPathId !== publicAnalyticsUnlock?.recommendedPathId ||
   publicAnalyticsUnlockStatus.lowestInputPathId !== publicAnalyticsUnlock?.lowestInputPathId ||
@@ -1578,6 +1585,9 @@ if (
   eventCollectorSmoke.collector?.normalizesAllowedOriginPath !== true ||
   eventCollectorSmoke.collector?.storedEvents < 5 ||
   eventCollectorSmoke.collector?.exportedEvents < 5 ||
+  eventCollectorSmoke.collector?.summaryEvents < eventCollectorSmoke.collector?.exportedEvents ||
+  eventCollectorSmoke.collector?.summaryAggregateOnly !== true ||
+  eventCollectorSmoke.collector?.summaryRawEventsReturned !== false ||
   eventCollectorSmoke.collector?.piiStripped !== true ||
   eventCollectorSmoke.ingest?.status !== 'imported' ||
   eventCollectorSmoke.ingest?.remoteCollectorStatus !== 'available' ||
@@ -1609,6 +1619,10 @@ if (
   eventCollectorDeployment.provider !== 'cloudflare-worker-r2' ||
   eventCollectorDeployment.smoke?.status !== eventCollectorSmoke.status ||
   eventCollectorDeployment.smoke?.piiStripped !== true ||
+  eventCollectorDeployment.smoke?.summaryAggregateOnly !== true ||
+  eventCollectorDeployment.smoke?.summaryRawEventsReturned !== false ||
+  eventCollectorDeployment.worker?.endpoints?.summary !== '/events/summary' ||
+  eventCollectorDeployment.worker?.aggregateSummaryEndpoint !== true ||
   eventCollectorDeployment.workflow?.path !== '.github/workflows/event-collector-deploy.yml' ||
   eventCollectorDeployment.workflow?.autoCreatesBucket !== true ||
   eventCollectorDeployment.workflow?.triggers?.manualDispatch !== true ||
@@ -1621,6 +1635,7 @@ if (
   !eventCollectorWorkerSource.includes('new URL(value).origin') ||
   !eventCollectorDeployment.checks?.some((check) => check.id === 'worker-source' && check.status === 'pass') ||
   !eventCollectorDeployment.checks?.some((check) => check.id === 'collector-smoke' && check.status === 'pass') ||
+  !eventCollectorDeployment.checks?.some((check) => check.id === 'collector-aggregate-summary' && check.status === 'pass') ||
   !eventCollectorDeployment.checks?.some((check) => check.id === 'collector-tokens') ||
   !eventCollectorDeployment.checks?.some((check) => check.id === 'deploy-workflow' && check.status === 'pass')
 ) {

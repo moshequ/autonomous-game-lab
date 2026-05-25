@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-24T12:54:29.543Z",
+  "generatedAt": "2026-05-25T18:39:39.311Z",
   "status": "blocked-needs-cloudflare-env",
   "envFiles": {
     "loaded": true,
@@ -57,9 +57,16 @@
     "path": "ops/cloudflare/event-collector-worker.mjs",
     "storageBinding": "EVENT_BUCKET",
     "bucketName": "autonomous-game-lab-events",
-    "bucketConfigured": true,
+    "bucketConfigured": false,
     "allowedOrigins": null,
-    "allowedOriginsConfigured": true
+    "allowedOriginsConfigured": false,
+    "endpoints": {
+      "health": "/health",
+      "ingest": "/events",
+      "export": "/events/export",
+      "summary": "/events/summary"
+    },
+    "aggregateSummaryEndpoint": true
   },
   "workflow": {
     "path": ".github/workflows/event-collector-deploy.yml",
@@ -78,10 +85,10 @@
     "serverExportConfigured": false,
     "cloudflareAccountConfigured": false,
     "cloudflareTokenConfigured": false,
-    "bucketConfigured": true,
-    "allowedOriginsConfigured": true,
-    "writeTokenConfigured": true,
-    "adminTokenConfigured": true,
+    "bucketConfigured": false,
+    "allowedOriginsConfigured": false,
+    "writeTokenConfigured": false,
+    "adminTokenConfigured": false,
     "collectorUrl": null,
     "exportUrl": null
   },
@@ -89,6 +96,9 @@
     "status": "pass",
     "piiStripped": true,
     "exportedEvents": 19,
+    "summaryEvents": 19,
+    "summaryAggregateOnly": true,
+    "summaryRawEventsReturned": false,
     "activeSource": "local-event-drops"
   },
   "setupRequiredOnce": [
@@ -114,6 +124,11 @@
       "detail": "Event collector smoke is pass."
     },
     {
+      "id": "collector-aggregate-summary",
+      "status": "pass",
+      "detail": "Admin-only aggregate summary endpoint returns counts without raw events."
+    },
+    {
       "id": "deploy-workflow",
       "status": "pass",
       "detail": "GitHub Actions collector deploy workflow exists."
@@ -130,7 +145,7 @@
     },
     {
       "id": "collector-tokens",
-      "status": "pass",
+      "status": "missing-env",
       "detail": "Public write token and admin export token are configured before Worker deployment."
     }
   ],

@@ -67,6 +67,8 @@ const workflowSource = workflowExists ? await readFile(workflowPath, 'utf8') : '
 const smokeReady =
   eventCollectorSmoke.status === 'pass' &&
   eventCollectorSmoke.collector?.piiStripped === true &&
+  eventCollectorSmoke.collector?.summaryAggregateOnly === true &&
+  eventCollectorSmoke.collector?.summaryRawEventsReturned === false &&
   eventCollectorSmoke.ingest?.remoteCollectorStatus === 'available'
 
 const checks = [
@@ -84,6 +86,15 @@ const checks = [
     id: 'collector-smoke',
     status: smokeReady ? 'pass' : 'blocker',
     detail: `Event collector smoke is ${eventCollectorSmoke.status}.`,
+  },
+  {
+    id: 'collector-aggregate-summary',
+    status:
+      eventCollectorSmoke.collector?.summaryAggregateOnly === true &&
+      eventCollectorSmoke.collector?.summaryRawEventsReturned === false
+        ? 'pass'
+        : 'blocker',
+    detail: 'Admin-only aggregate summary endpoint returns counts without raw events.',
   },
   {
     id: 'deploy-workflow',
@@ -127,6 +138,13 @@ const payload = {
     bucketConfigured,
     allowedOrigins: allowedOrigins || null,
     allowedOriginsConfigured,
+    endpoints: {
+      health: '/health',
+      ingest: '/events',
+      export: '/events/export',
+      summary: '/events/summary',
+    },
+    aggregateSummaryEndpoint: workerSourceExists && eventCollectorSmoke.collector?.summaryAggregateOnly === true,
   },
   workflow: {
     path: '.github/workflows/event-collector-deploy.yml',
@@ -157,6 +175,9 @@ const payload = {
     status: eventCollectorSmoke.status,
     piiStripped: eventCollectorSmoke.collector?.piiStripped === true,
     exportedEvents: eventCollectorSmoke.collector?.exportedEvents ?? 0,
+    summaryEvents: eventCollectorSmoke.collector?.summaryEvents ?? 0,
+    summaryAggregateOnly: eventCollectorSmoke.collector?.summaryAggregateOnly === true,
+    summaryRawEventsReturned: eventCollectorSmoke.collector?.summaryRawEventsReturned === true,
     activeSource: eventCollectorSmoke.analytics?.activeSource ?? null,
   },
   setupRequiredOnce: [
@@ -194,6 +215,8 @@ const report = [
   `- Cloudflare credentials configured: ${payload.environment.cloudflareAccountConfigured && payload.environment.cloudflareTokenConfigured}`,
   `- Bucket and allowed origins configured: ${payload.environment.bucketConfigured && payload.environment.allowedOriginsConfigured}`,
   `- Tokens configured: write=${payload.environment.writeTokenConfigured}, admin=${payload.environment.adminTokenConfigured}`,
+  `- Aggregate summary endpoint: ${payload.worker.endpoints.summary}`,
+  `- Summary aggregate only: ${payload.smoke.summaryAggregateOnly}`,
   '',
   '## One-Time Setup',
   '',

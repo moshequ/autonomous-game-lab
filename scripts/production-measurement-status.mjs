@@ -708,6 +708,13 @@ const publicCollectorDeployment = {
     storageBinding: eventCollectorDeployment.worker?.storageBinding ?? 'EVENT_BUCKET',
     bucketConfigured: eventCollectorDeployment.worker?.bucketConfigured === true,
     allowedOriginsConfigured: eventCollectorDeployment.worker?.allowedOriginsConfigured === true,
+    endpoints: eventCollectorDeployment.worker?.endpoints ?? {
+      health: '/health',
+      ingest: '/events',
+      export: '/events/export',
+      summary: '/events/summary',
+    },
+    aggregateSummaryEndpoint: eventCollectorDeployment.worker?.aggregateSummaryEndpoint === true,
   },
   workflow: {
     path: eventCollectorDeployment.workflow?.path ?? '.github/workflows/event-collector-deploy.yml',
@@ -733,6 +740,9 @@ const publicCollectorDeployment = {
     status: eventCollectorDeployment.smoke?.status ?? eventCollectorSmoke.status,
     piiStripped: eventCollectorDeployment.smoke?.piiStripped === true,
     exportedEvents: eventCollectorDeployment.smoke?.exportedEvents ?? 0,
+    summaryEvents: eventCollectorDeployment.smoke?.summaryEvents ?? 0,
+    summaryAggregateOnly: eventCollectorDeployment.smoke?.summaryAggregateOnly === true,
+    summaryRawEventsReturned: eventCollectorDeployment.smoke?.summaryRawEventsReturned === true,
     activeSource: eventCollectorDeployment.smoke?.activeSource ?? null,
   },
   checks: (eventCollectorDeployment.checks ?? []).map((check) => ({
@@ -1336,6 +1346,14 @@ const collectorDeploymentHtml = (deployment) =>
           <div class="card">
             <span>Deploy check</span>
             <strong>${deployment.checks?.some((check) => check.id === 'deploy-workflow') ? 'deploy-workflow' : 'missing'}</strong>
+          </div>
+          <div class="card">
+            <span>Summary endpoint</span>
+            <strong>${escapeHtml(deployment.worker?.endpoints?.summary ?? 'missing')}</strong>
+          </div>
+          <div class="card">
+            <span>Aggregate only</span>
+            <strong>${deployment.smoke?.summaryAggregateOnly === true}</strong>
           </div>
         </div>
         <h3>Checks</h3>

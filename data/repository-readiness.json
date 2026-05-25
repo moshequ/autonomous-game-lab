@@ -1,10 +1,27 @@
 {
-  "generatedAt": "2026-05-25T18:32:12.639Z",
+  "generatedAt": "2026-05-25T18:45:24.532Z",
   "status": "repository-channel-ready",
   "envFiles": {
-    "loaded": false,
-    "loadedFiles": [],
-    "loadedKeys": [],
+    "loaded": true,
+    "loadedFiles": [
+      {
+        "path": "ops/production.env.local",
+        "keys": [
+          "AGL_ANDROID_PACKAGE_NAME",
+          "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
+          "AGL_ANDROID_KEYSTORE_BASE64",
+          "AGL_ANDROID_KEYSTORE_PASSWORD",
+          "AGL_ANDROID_KEY_ALIAS"
+        ]
+      }
+    ],
+    "loadedKeys": [
+      "AGL_ANDROID_PACKAGE_NAME",
+      "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
+      "AGL_ANDROID_KEYSTORE_BASE64",
+      "AGL_ANDROID_KEYSTORE_PASSWORD",
+      "AGL_ANDROID_KEY_ALIAS"
+    ],
     "skippedExistingKeys": [],
     "skippedProtectedKeys": [],
     "overwrittenEnvFileKeys": [],
@@ -35,14 +52,19 @@
     }
   },
   "workspace": {
-    "path": "/home/runner/work/autonomous-game-lab/autonomous-game-lab",
+    "path": "/Users/moshequ/Documents/Codex/2026-05-18/i-want-to-have-a-new",
     "insideWorkTree": true,
-    "gitRoot": "/home/runner/work/autonomous-game-lab/autonomous-game-lab",
+    "gitRoot": "/Users/moshequ/Documents/Codex/2026-05-18/i-want-to-have-a-new",
     "currentBranch": "main",
-    "dirtyFiles": 78,
+    "dirtyFiles": 100,
     "dirtyPaths": [
+      "data/autonomous-cadence.json",
+      "data/autonomous-owner-loop.json",
       "data/deployment-plan.json",
+      "data/event-collector-deployment.json",
+      "data/event-collector-smoke.json",
       "data/live-site-monitor.json",
+      "data/objective-audit.json",
       "data/owner-unlock-brief.json",
       "data/owner-unlock-preflight.json",
       "data/performance-budget.json",
@@ -67,6 +89,9 @@
       "data/store-listing-optimizer.json",
       "data/store-package.json",
       "data/store-readiness.json",
+      "ops/cloudflare/event-collector-worker.mjs",
+      "ops/codex/autonomous-game-lab-daily-owner-loop.json",
+      "public/analytics-unlock.html",
       "public/analytics-unlock.json",
       "public/compliance.json",
       "public/measurement-status.html",
@@ -76,8 +101,13 @@
       "public/product-gate-recovery.json",
       "public/store-readiness.html",
       "public/store-readiness.json",
+      "reports/autonomous-cadence-latest.md",
+      "reports/autonomous-owner-loop-latest.md",
       "reports/deployment-plan-latest.md",
+      "reports/event-collector-deployment-latest.md",
+      "reports/event-collector-smoke-latest.md",
       "reports/live-site-monitor-latest.md",
+      "reports/objective-audit-latest.md",
       "reports/owner-unlock-brief-latest.md",
       "reports/owner-unlock-preflight-latest.md",
       "reports/performance-budget-latest.md",
@@ -102,7 +132,15 @@
       "reports/store-listing-optimizer-latest.md",
       "reports/store-package-latest.md",
       "reports/store-readiness-latest.md",
+      "scripts/event-collector-deploy-plan.mjs",
+      "scripts/event-collector-smoke.mjs",
+      "scripts/production-measurement-status.mjs",
+      "scripts/verify-autonomy.mjs",
+      "src/data/autonomousCadence.ts",
+      "src/data/autonomousOwnerLoop.ts",
+      "src/data/eventCollectorDeployment.ts",
       "src/data/liveSiteMonitor.ts",
+      "src/data/objectiveAudit.ts",
       "src/data/performanceBudget.ts",
       "src/data/postDeployArtifactSync.ts",
       "src/data/postDeploySmoke.ts",
@@ -118,12 +156,18 @@
       "src/data/storeAssets.ts",
       "src/data/storeCompliance.ts",
       "src/data/storeListingOptimizer.ts",
-      "src/data/storeReadiness.ts"
+      "src/data/storeReadiness.ts",
+      "tests/smoke.spec.ts"
     ],
-    "generatedEvidenceDirtyFiles": 78,
+    "generatedEvidenceDirtyFiles": 94,
     "generatedEvidenceDirtyPaths": [
+      "data/autonomous-cadence.json",
+      "data/autonomous-owner-loop.json",
       "data/deployment-plan.json",
+      "data/event-collector-deployment.json",
+      "data/event-collector-smoke.json",
       "data/live-site-monitor.json",
+      "data/objective-audit.json",
       "data/owner-unlock-brief.json",
       "data/owner-unlock-preflight.json",
       "data/performance-budget.json",
@@ -148,6 +192,8 @@
       "data/store-listing-optimizer.json",
       "data/store-package.json",
       "data/store-readiness.json",
+      "ops/codex/autonomous-game-lab-daily-owner-loop.json",
+      "public/analytics-unlock.html",
       "public/analytics-unlock.json",
       "public/compliance.json",
       "public/measurement-status.html",
@@ -157,8 +203,13 @@
       "public/product-gate-recovery.json",
       "public/store-readiness.html",
       "public/store-readiness.json",
+      "reports/autonomous-cadence-latest.md",
+      "reports/autonomous-owner-loop-latest.md",
       "reports/deployment-plan-latest.md",
+      "reports/event-collector-deployment-latest.md",
+      "reports/event-collector-smoke-latest.md",
       "reports/live-site-monitor-latest.md",
+      "reports/objective-audit-latest.md",
       "reports/owner-unlock-brief-latest.md",
       "reports/owner-unlock-preflight-latest.md",
       "reports/performance-budget-latest.md",
@@ -183,7 +234,11 @@
       "reports/store-listing-optimizer-latest.md",
       "reports/store-package-latest.md",
       "reports/store-readiness-latest.md",
+      "src/data/autonomousCadence.ts",
+      "src/data/autonomousOwnerLoop.ts",
+      "src/data/eventCollectorDeployment.ts",
       "src/data/liveSiteMonitor.ts",
+      "src/data/objectiveAudit.ts",
       "src/data/performanceBudget.ts",
       "src/data/postDeployArtifactSync.ts",
       "src/data/postDeploySmoke.ts",
@@ -201,19 +256,26 @@
       "src/data/storeListingOptimizer.ts",
       "src/data/storeReadiness.ts"
     ],
-    "nonGeneratedDirtyFiles": 0,
-    "nonGeneratedDirtyPaths": []
+    "nonGeneratedDirtyFiles": 6,
+    "nonGeneratedDirtyPaths": [
+      "ops/cloudflare/event-collector-worker.mjs",
+      "scripts/event-collector-deploy-plan.mjs",
+      "scripts/event-collector-smoke.mjs",
+      "scripts/production-measurement-status.mjs",
+      "scripts/verify-autonomy.mjs",
+      "tests/smoke.spec.ts"
+    ]
   },
   "repository": {
     "target": "moshequ/autonomous-game-lab",
-    "source": "environment",
-    "originRemote": "https://github.com/moshequ/autonomous-game-lab",
+    "source": "origin-remote",
+    "originRemote": "git@github.com:moshequ/autonomous-game-lab.git",
     "remoteRepository": "moshequ/autonomous-game-lab",
-    "ownerHint": "moshequ",
-    "ownerHintEnv": "GITHUB_REPOSITORY_OWNER",
-    "ownerHintTarget": "moshequ/autonomous-game-lab",
-    "inferredTarget": null,
-    "inferredTargetSource": null,
+    "ownerHint": null,
+    "ownerHintEnv": null,
+    "ownerHintTarget": null,
+    "inferredTarget": "moshequ/autonomous-game-lab",
+    "inferredTargetSource": "gh-auth-user-and-package-name",
     "packageName": "autonomous-game-lab",
     "inferredRepositoryName": "autonomous-game-lab",
     "remoteParsing": {
@@ -228,8 +290,8 @@
     "ghCliAvailable": true,
     "ghAuthAvailable": true,
     "ghCredentialReady": true,
-    "ghTokenConfigured": true,
-    "ghUserLogin": null,
+    "ghTokenConfigured": false,
+    "ghUserLogin": "moshequ",
     "workflowDispatchReady": true,
     "canSyncRepositorySettings": true
   },
@@ -238,7 +300,7 @@
     "workflowExists": true,
     "deployWorkflowIncludesSmoke": true,
     "deploymentStatus": "ready-for-pages",
-    "releaseCandidateId": "pwa-54c2e4a5aa81",
+    "releaseCandidateId": "pwa-64c244880234",
     "postDeploySmokeStatus": "post-deploy-smoke-observed-live",
     "liveSettings": {
       "status": "inspected",
@@ -264,7 +326,7 @@
     "status": "target-known",
     "repositoryName": "autonomous-game-lab",
     "target": "moshequ/autonomous-game-lab",
-    "targetSource": "environment",
+    "targetSource": "origin-remote",
     "placeholderTarget": "OWNER/autonomous-game-lab",
     "plannedTarget": "moshequ/autonomous-game-lab",
     "ownerRequired": false,
@@ -308,7 +370,7 @@
     {
       "id": "local-git-worktree",
       "status": "pass",
-      "detail": "Git worktree detected at /home/runner/work/autonomous-game-lab/autonomous-game-lab."
+      "detail": "Git worktree detected at /Users/moshequ/Documents/Codex/2026-05-18/i-want-to-have-a-new."
     },
     {
       "id": "github-target",
@@ -328,7 +390,7 @@
     {
       "id": "gh-token",
       "status": "pass",
-      "detail": "GitHub token is present in the current environment."
+      "detail": "GitHub CLI authentication is available for repository operations."
     },
     {
       "id": "pages-workflow",

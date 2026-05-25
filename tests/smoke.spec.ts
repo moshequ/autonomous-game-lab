@@ -9542,6 +9542,10 @@ test('production measurement status publishes public aggregate evidence handoff'
     status: string
     provider: string
     costPosture: string
+    worker: {
+      endpoints: { health: string; ingest: string; export: string; summary: string }
+      aggregateSummaryEndpoint: boolean
+    }
     workflow: {
       status: string
       deploysWhenConfigured: boolean
@@ -9556,7 +9560,14 @@ test('production measurement status publishes public aggregate evidence handoff'
       writeTokenConfigured: boolean
       adminTokenConfigured: boolean
     }
-    smoke: { status: string; piiStripped: boolean; exportedEvents: number }
+    smoke: {
+      status: string
+      piiStripped: boolean
+      exportedEvents: number
+      summaryEvents: number
+      summaryAggregateOnly: boolean
+      summaryRawEventsReturned: boolean
+    }
     checks: Array<{ id: string; status: string }>
     setupRequiredOnce: string[]
     commands: { smoke: string; plan: string }
@@ -9827,6 +9838,10 @@ test('production measurement status publishes public aggregate evidence handoff'
       status: string
       provider: string
       costPosture: string
+      worker: {
+        endpoints: { health: string; ingest: string; export: string; summary: string }
+        aggregateSummaryEndpoint: boolean
+      }
       workflow: {
         status: string
         deploysWhenConfigured: boolean
@@ -9841,7 +9856,14 @@ test('production measurement status publishes public aggregate evidence handoff'
         writeTokenConfigured: boolean
         adminTokenConfigured: boolean
       }
-      smoke: { status: string; piiStripped: boolean; exportedEvents: number }
+      smoke: {
+        status: string
+        piiStripped: boolean
+        exportedEvents: number
+        summaryEvents: number
+        summaryAggregateOnly: boolean
+        summaryRawEventsReturned: boolean
+      }
       checks: Array<{ id: string; status: string }>
       setupRequiredOnce: string[]
       commands: { smoke: string; plan: string }
@@ -10531,6 +10553,10 @@ test('production measurement status publishes public aggregate evidence handoff'
   expect(measurement.collectorDeployment.status).toBe(eventCollectorDeployment.status)
   expect(measurement.collectorDeployment.provider).toBe('cloudflare-worker-r2')
   expect(measurement.collectorDeployment.costPosture).toBe(eventCollectorDeployment.costPosture)
+  expect(measurement.collectorDeployment.worker.endpoints.summary).toBe('/events/summary')
+  expect(measurement.collectorDeployment.worker.aggregateSummaryEndpoint).toBe(
+    eventCollectorDeployment.worker.aggregateSummaryEndpoint,
+  )
   expect(measurement.collectorDeployment.workflow.status).toBe(eventCollectorDeployment.workflow.status)
   expect(measurement.collectorDeployment.workflow.autoCreatesBucket).toBe(true)
   expect(measurement.collectorDeployment.workflow.preflightRequiresWriteToken).toBe(true)
@@ -10542,8 +10568,13 @@ test('production measurement status publishes public aggregate evidence handoff'
   )
   expect(measurement.collectorDeployment.smoke.status).toBe(eventCollectorDeployment.smoke.status)
   expect(measurement.collectorDeployment.smoke.piiStripped).toBe(true)
+  expect(measurement.collectorDeployment.smoke.summaryEvents).toBeGreaterThanOrEqual(
+    measurement.collectorDeployment.smoke.exportedEvents,
+  )
+  expect(measurement.collectorDeployment.smoke.summaryAggregateOnly).toBe(true)
+  expect(measurement.collectorDeployment.smoke.summaryRawEventsReturned).toBe(false)
   expect(measurement.collectorDeployment.checks.map((check) => check.id)).toEqual(
-    expect.arrayContaining(['worker-source', 'deploy-workflow', 'cloudflare-credentials']),
+    expect.arrayContaining(['worker-source', 'deploy-workflow', 'cloudflare-credentials', 'collector-aggregate-summary']),
   )
   expect(measurement.collectorDeployment.setupRequiredOnce.join(' ')).toContain('Cloudflare')
   expect(measurement.collectorDeployment.commands.smoke).toBe('npm run autonomous:event-collector-smoke')
@@ -10551,6 +10582,8 @@ test('production measurement status publishes public aggregate evidence handoff'
   expect(measurement.collectorDeployment.controls.zeroPaidSpend).toBe(true)
   expect(measurement.collectorDeployment.controls.noSecretValuesStored).toBe(true)
   expect(JSON.stringify(measurement.collectorDeployment)).not.toContain('"value"')
+  expect(JSON.stringify(measurement.collectorDeployment)).not.toContain('anon-')
+  expect(JSON.stringify(measurement.collectorDeployment)).not.toContain('session-')
   expect(publicMeasurement.collectorDeployment).toEqual(measurement.collectorDeployment)
   expect(analyticsUnlockPage.status).toBe(measurement.analyticsUnlock?.status)
   expect(analyticsUnlockPage.recommendedPathId).toBe(measurement.analyticsUnlock?.recommendedPathId)

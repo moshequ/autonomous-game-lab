@@ -148,6 +148,22 @@ const tokenFromAuthorization = (request) => {
   return match?.[1] ?? null
 }
 
+const adminAuthError = (request, env, headers) => {
+  const adminToken = env.ADMIN_EXPORT_TOKEN || env.AGL_EVENT_COLLECTOR_ADMIN_TOKEN
+
+  if (!adminToken) {
+    return json({ status: 'error', error: 'admin export token is not configured' }, 503, headers)
+  }
+
+  const requestToken = tokenFromAuthorization(request) ?? request.headers.get('X-AGL-Admin-Token')
+
+  if (requestToken !== adminToken) {
+    return json({ status: 'error', error: 'unauthorized' }, 401, headers)
+  }
+
+  return null
+}
+
 const validDate = (value) => {
   if (typeof value === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(value)) {
     return value
@@ -273,19 +289,7 @@ const handlePostEvents = async (request, env, headers) => {
   return json({ status: 'accepted', events: events.length, key }, 202, headers)
 }
 
-const handleExportEvents = async (request, env, headers) => {
-  const adminToken = env.ADMIN_EXPORT_TOKEN || env.AGL_EVENT_COLLECTOR_ADMIN_TOKEN
-
-  if (!adminToken) {
-    return json({ status: 'error', error: 'admin export token is not configured' }, 503, headers)
-  }
-
-  const requestToken = tokenFromAuthorization(request) ?? request.headers.get('X-AGL-Admin-Token')
-
-  if (requestToken !== adminToken) {
-    return json({ status: 'error', error: 'unauthorized' }, 401, headers)
-  }
-
+const readStoredEvents = async (request, env) => {
   const bucket = requireBucket(env)
   const url = new URL(request.url)
   const fromDate = validDate(url.searchParams.get('from'))
@@ -313,12 +317,92 @@ const handleExportEvents = async (request, env, headers) => {
     }
   }
 
+  return { fromDate, limit, listed, files, events }
+}
+
+const increment = (target, key) => {
+  if (typeof key !== 'string' || !key.trim()) {
+    return
+  }
+
+  target[key] = (target[key] ?? 0) + 1
+}
+
+const aggregateEvents = (events) => {
+  const byName = {}
+  const byGame = {}
+  const byCampaign = {}
+  const byGate = {}
+  const bySessionDate = {}
+
+  for (const event of events) {
+    const properties = event.properties ?? {}
+    const sessionDate = validDate(properties.sessionDate) ?? String(event.createdAt ?? '').slice(0, 10)
+
+    increment(byName, event.name)
+    increment(byGame, properties.gameId)
+    increment(byCampaign, properties.campaignId)
+    increment(byGate, properties.gateId)
+    increment(bySessionDate, sessionDate)
+  }
+
+  return {
+    total: events.length,
+    byName,
+    byGame,
+    byCampaign,
+    byGate,
+    bySessionDate,
+  }
+}
+
+const handleExportEvents = async (request, env, headers) => {
+  const authError = adminAuthError(request, env, headers)
+
+  if (authError) {
+    return authError
+  }
+
+  const { files, events } = await readStoredEvents(request, env)
+
   return json(
     {
       generatedAt: new Date().toISOString(),
       source: 'cloudflare-worker-r2',
       files,
       events,
+    },
+    200,
+    headers,
+  )
+}
+
+const handleSummaryEvents = async (request, env, headers) => {
+  const authError = adminAuthError(request, env, headers)
+
+  if (authError) {
+    return authError
+  }
+
+  const { fromDate, limit, listed, files, events } = await readStoredEvents(request, env)
+
+  return json(
+    {
+      generatedAt: new Date().toISOString(),
+      source: 'cloudflare-worker-r2',
+      fromDate,
+      objectLimit: limit,
+      files: {
+        scanned: listed.objects?.length ?? 0,
+        included: files.length,
+      },
+      events: aggregateEvents(events),
+      controls: {
+        aggregateOnly: true,
+        rawEventsReturned: false,
+        adminTokenRequired: true,
+        piiStrippedAtIngest: true,
+      },
     },
     200,
     headers,
@@ -346,6 +430,10 @@ export default {
 
       if (request.method === 'GET' && url.pathname === '/events/export') {
         return await handleExportEvents(request, env, headers)
+      }
+
+      if (request.method === 'GET' && url.pathname === '/events/summary') {
+        return await handleSummaryEvents(request, env, headers)
       }
 
       return json({ status: 'error', error: 'not found' }, 404, headers)
