@@ -1,5 +1,5 @@
 export const storeCompliance = {
-  "generatedAt": "2026-05-25T08:12:12.138Z",
+  "generatedAt": "2026-05-25T08:28:47.729Z",
   "sourceDataHash": "da401a883b69",
   "status": "draft-ready-external-blockers",
   "launchCandidate": {

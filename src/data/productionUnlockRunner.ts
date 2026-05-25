@@ -1,6 +1,6 @@
 export const productionUnlockRunner = {
   "status": "unlock-runner-idle",
-  "mode": "plan-only",
+  "mode": "execute-unlocked-local-followups",
   "summary": {
     "handoffItems": 8,
     "runnableUnlocks": 0,
