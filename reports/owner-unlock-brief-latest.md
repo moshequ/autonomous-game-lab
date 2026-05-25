@@ -1,8 +1,8 @@
 # Owner Unlock Brief
 
-Generated: 2026-05-25T20:01:56.256Z
+Generated: 2026-05-25T20:17:20.452Z
 Status: waiting-on-owner-input
-Source hash: 6f443f738818
+Source hash: bb3ba4934d6d
 Next unlock: production-analytics-browser
 Recommended path: first-party-collector
 Lowest-input path: posthog-browser
@@ -15,6 +15,8 @@ Parallel owner unlocks: production-analytics-browser, support-contact
 - preflight: npm run autonomous:owner-unlock-preflight
 - setup preflight: ./ops/github/setup-production.sh --owner-unlock-preflight
 - direct preflight: node scripts/owner-unlock-preflight.mjs --assert --print
+- write local env template: node scripts/owner-unlock-preflight.mjs --write-local-env-template
+- setup write local env template: ./ops/github/setup-production.sh --owner-input-template
 - sync configured values: ./ops/github/setup-production.sh
 - workflow dispatch: RUN_WORKFLOWS=1 ./ops/github/setup-production.sh
 - workflow dispatch default: disabled
@@ -76,6 +78,8 @@ Parallel owner unlocks: production-analytics-browser, support-contact
 - analyticsPreflight: node scripts/owner-unlock-preflight.mjs --assert --print
 - storeReadiness: npm run autonomous:store-readiness
 - setupPreflight: ./ops/github/setup-production.sh --owner-unlock-preflight
+- writeLocalEnvTemplate: node scripts/owner-unlock-preflight.mjs --write-local-env-template
+- setupWriteLocalEnvTemplate: ./ops/github/setup-production.sh --owner-input-template
 - syncConfiguredValues: ./ops/github/setup-production.sh
 - workflowDispatch: RUN_WORKFLOWS=1 ./ops/github/setup-production.sh
 

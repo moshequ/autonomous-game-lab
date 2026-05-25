@@ -1102,6 +1102,7 @@ function App() {
           secretInputCount: number | null
           invalidInputCount: number | null
           missingInputNames: readonly string[]
+          writeLocalEnvTemplateCommand: string | null
         } | null
       }
     }
@@ -3834,6 +3835,10 @@ function App() {
                 <div>
                   <span>Local env file</span>
                   <strong>{productionMeasurementCombinedOwnerInput?.localEnvFile ?? 'none'}</strong>
+                </div>
+                <div>
+                  <span>Template helper</span>
+                  <strong>{productionMeasurementCombinedOwnerInput?.writeLocalEnvTemplateCommand ?? 'none'}</strong>
                 </div>
                 <div>
                   <span>Combined unlocks</span>

@@ -11,6 +11,11 @@ if [[ "${1:-}" == "--owner-unlock-preflight" || "${1:-}" == "--preflight" ]]; th
   exit 0
 fi
 
+if [[ "${1:-}" == "--owner-input-template" || "${1:-}" == "--combined-owner-input-template" || "${1:-}" == "--write-owner-input-template" ]]; then
+  node scripts/owner-unlock-preflight.mjs --write-local-env-template --print
+  exit 0
+fi
+
 if ! command -v gh >/dev/null 2>&1; then
   echo "GitHub CLI (gh) is required." >&2
   exit 1

@@ -1266,11 +1266,13 @@ if (
   !appSource.includes('Analytics unlock') ||
   !appSource.includes('productionMeasurementCombinedOwnerInput') ||
   !appSource.includes('Combined owner pack') ||
+  !appSource.includes('Template helper') ||
   !appSource.includes('Combined unlocks') ||
   !productionMeasurementStatusSource.includes('publicEvidenceHandoff') ||
   !productionMeasurementStatusSource.includes('playerEvidenceInvitePack') ||
   !productionMeasurementStatusSource.includes('zero-spend-player-evidence-invite-pack') ||
   !productionMeasurementStatusSource.includes('appCombinedOwnerInputPreflight') ||
+  !productionMeasurementStatusSource.includes('setupWriteLocalEnvTemplate') ||
   !productionMeasurementStatusSource.includes('publicAnalyticsUnlock') ||
   !productionMeasurementStatusSource.includes('publicCollectorDeployment') ||
   !productionMeasurementStatusSource.includes('analyticsUnlockPayload') ||
@@ -3467,6 +3469,8 @@ if (
   !githubSetupScript.includes('node scripts/owner-unlock-brief.mjs --print') ||
   !githubSetupScript.includes('--owner-unlock-preflight') ||
   !githubSetupScript.includes('node scripts/owner-unlock-preflight.mjs --assert --print') ||
+  !githubSetupScript.includes('--owner-input-template') ||
+  !githubSetupScript.includes('node scripts/owner-unlock-preflight.mjs --write-local-env-template --print') ||
   !githubSetupScript.includes('repos/$repo/pages') ||
   !githubSetupScript.includes('build_type=workflow') ||
   !githubSetupScript.includes('RUN_WORKFLOWS') ||
@@ -3476,7 +3480,8 @@ if (
   githubSetupScript.includes('ca-pub-your-web-client-id') ||
   !githubSetupReadme.includes('zero-spend') ||
   !githubSetupReadme.includes('--owner-unlock-brief') ||
-  !githubSetupReadme.includes('--owner-unlock-preflight')
+  !githubSetupReadme.includes('--owner-unlock-preflight') ||
+  !githubSetupReadme.includes('--owner-input-template')
 ) {
   fail('Production bootstrap must generate zero-spend GitHub setup stages, sanitized variable/secret commands, and guarded workflow triggers.')
 }
@@ -3674,6 +3679,10 @@ if (
   ownerUnlockBrief.setup?.preflightCommand !== 'npm run autonomous:owner-unlock-preflight' ||
   ownerUnlockBrief.setup?.setupPreflightCommand !== './ops/github/setup-production.sh --owner-unlock-preflight' ||
   ownerUnlockBrief.setup?.directPreflightCommand !== 'node scripts/owner-unlock-preflight.mjs --assert --print' ||
+  ownerUnlockBrief.setup?.writeLocalEnvTemplateCommand !==
+    'node scripts/owner-unlock-preflight.mjs --write-local-env-template' ||
+  ownerUnlockBrief.setup?.setupWriteLocalEnvTemplateCommand !==
+    './ops/github/setup-production.sh --owner-input-template' ||
   ownerUnlockBrief.setup?.syncConfiguredValuesCommand !== './ops/github/setup-production.sh' ||
   ownerUnlockBrief.setup?.workflowDispatchCommand !== 'RUN_WORKFLOWS=1 ./ops/github/setup-production.sh' ||
   ownerUnlockBrief.setup?.workflowDispatchRequiresRunWorkflows !== true ||
@@ -3711,6 +3720,8 @@ if (
   ownerUnlockCombinedInputPack?.analyticsPathId !== 'posthog-browser' ||
   ownerUnlockCombinedInputPack?.supportUnlockId !== 'support-contact' ||
   !ownerUnlockCombinedInputPackCommands.has('node scripts/owner-unlock-preflight.mjs --assert --print') ||
+  !ownerUnlockCombinedInputPackCommands.has('node scripts/owner-unlock-preflight.mjs --write-local-env-template') ||
+  !ownerUnlockCombinedInputPackCommands.has('./ops/github/setup-production.sh --owner-input-template') ||
   !ownerUnlockCombinedInputPackCommands.has('npm run autonomous:store-readiness') ||
   !ownerUnlockCombinedInputPackCommands.has('./ops/github/setup-production.sh') ||
   !ownerUnlockCombinedInputPackCommands.has('RUN_WORKFLOWS=1 ./ops/github/setup-production.sh') ||
@@ -3722,6 +3733,9 @@ if (
   ownerUnlockCombinedInputPack?.controls?.workflowDispatchRequiresRunWorkflows !== true ||
   ownerUnlockCombinedInputPack?.controls?.storeSubmissionStillBlocked !== true ||
   ownerUnlockCombinedInputPack?.controls?.revenueStillBlocked !== true ||
+  ownerUnlockCombinedInputPack?.controls?.localTemplateWriteNoSecretValues !== true ||
+  ownerUnlockCombinedInputPack?.controls?.localTemplateWritePreservesExistingValues !== true ||
+  ownerUnlockCombinedInputPack?.controls?.localTemplateWriteNoGithubMutation !== true ||
   ownerUnlockCombinedInputPack?.controls?.onlyZeroSecretInputs !== true ||
   JSON.stringify(ownerUnlockBrief.ownerInputQueue ?? []) !== JSON.stringify(ownerUnlockParallelItems) ||
   !ownerUnlockParallelIds.has('production-analytics-browser') ||
@@ -3753,6 +3767,7 @@ if (
   !ownerUnlockBriefSource.includes('--assert') ||
   !ownerUnlockBriefSource.includes('--json') ||
   !ownerUnlockBriefSource.includes('owner-unlock-preflight') ||
+  !ownerUnlockBriefSource.includes('--owner-input-template') ||
   !ownerUnlockBriefSource.includes('Lowest-input missing variables') ||
   !ownerUnlockBriefSource.includes('Parallel owner unlocks') ||
   !ownerUnlockBriefSource.includes('Combined owner input pack') ||
@@ -3764,6 +3779,7 @@ if (
   !productionBlockerHandoffSource.includes('owner-unlock-brief.json') ||
   !productionBlockerHandoffSource.includes('owner-unlock-brief-latest.md') ||
   !productionBlockerHandoffSource.includes('owner-unlock-preflight') ||
+  !productionBlockerHandoffSource.includes('writeLocalEnvTemplate') ||
   !productionMeasurementStatusSource.includes('Combined Owner Input Pack') ||
   !measurementStatusHtml.includes('Combined Owner Input Pack') ||
   !measurementStatusHtml.includes('.env.production.local') ||
@@ -3813,6 +3829,10 @@ if (
   ownerUnlockPreflight.commands?.syncConfiguredValues !== './ops/github/setup-production.sh' ||
   ownerUnlockPreflight.commands?.dispatchWhenReady !== 'RUN_WORKFLOWS=1 ./ops/github/setup-production.sh' ||
   ownerUnlockPreflight.commands?.setupPreflight !== './ops/github/setup-production.sh --owner-unlock-preflight' ||
+  ownerUnlockPreflight.commands?.writeLocalEnvTemplate !==
+    'node scripts/owner-unlock-preflight.mjs --write-local-env-template' ||
+  ownerUnlockPreflight.commands?.setupWriteLocalEnvTemplate !==
+    './ops/github/setup-production.sh --owner-input-template' ||
   !ownerUnlockPreflight.commands?.lowestInputPreflight?.includes('owner-unlock-preflight') ||
   ownerUnlockInputPack?.pathId !== 'posthog-browser' ||
   ownerUnlockInputPack?.localEnvFile !== '.env.production.local' ||
@@ -3824,6 +3844,9 @@ if (
   ownerUnlockInputPack?.controls?.zeroPaidSpend !== true ||
   ownerUnlockInputPack?.controls?.noSecretValuesStored !== true ||
   ownerUnlockInputPack?.controls?.gitIgnoredLocalEnvFile !== true ||
+  ownerUnlockInputPack?.controls?.localTemplateWriteNoSecretValues !== true ||
+  ownerUnlockInputPack?.controls?.localTemplateWritePreservesExistingValues !== true ||
+  ownerUnlockInputPack?.controls?.localTemplateWriteNoGithubMutation !== true ||
   ownerUnlockInputPack?.controls?.onlyMinimalPathInputs !== true ||
   ownerUnlockInputPack?.inputInstructions?.find((input) => input.envName === 'VITE_POSTHOG_HOST')?.validation?.kind !==
     'url-shape' ||
@@ -3850,10 +3873,21 @@ if (
   ownerUnlockCombinedInputPreflight?.commands?.combinedPreflight !==
     'node scripts/owner-unlock-preflight.mjs --assert --print' ||
   ownerUnlockCombinedInputPreflight?.commands?.storeReadiness !== 'npm run autonomous:store-readiness' ||
+  ownerUnlockCombinedInputPreflight?.commands?.writeLocalEnvTemplate !==
+    'node scripts/owner-unlock-preflight.mjs --write-local-env-template' ||
+  ownerUnlockCombinedInputPreflight?.commands?.setupWriteLocalEnvTemplate !==
+    './ops/github/setup-production.sh --owner-input-template' ||
   ownerUnlockCombinedInputPreflight?.controls?.zeroPaidSpend !== true ||
   ownerUnlockCombinedInputPreflight?.controls?.noSecretValuesStored !== true ||
   ownerUnlockCombinedInputPreflight?.controls?.noWorkflowDispatch !== true ||
   ownerUnlockCombinedInputPreflight?.controls?.setupStillRequiresExplicitRun !== true ||
+  ownerUnlockCombinedInputPreflight?.controls?.localTemplateWriteNoSecretValues !== true ||
+  ownerUnlockCombinedInputPreflight?.controls?.localTemplateWritePreservesExistingValues !== true ||
+  ownerUnlockCombinedInputPreflight?.controls?.localTemplateWriteNoGithubMutation !== true ||
+  ownerUnlockPreflight.controls?.localTemplateWriteNoSecretValues !== true ||
+  ownerUnlockPreflight.controls?.localTemplateWritePreservesExistingValues !== true ||
+  ownerUnlockPreflight.controls?.localTemplateWriteNoGithubMutation !== true ||
+  ownerUnlockPreflight.controls?.localTemplateWriteGitignored !== true ||
   publicMeasurementStatus.ownerUnlockPreflight?.status !== ownerUnlockPreflight.status ||
   publicMeasurementStatus.ownerUnlockPreflight?.lowestInputPath?.id !== ownerUnlockBrief.brief?.lowestInputPathId ||
   publicMeasurementStatus.ownerUnlockPreflight?.combinedOwnerInputPreflight?.id !==
@@ -3879,12 +3913,16 @@ if (
   !ownerUnlockPreflightSource.includes('combinedOwnerInputPreflight') ||
   !ownerUnlockPreflightSource.includes('validateSupportEmail') ||
   !ownerUnlockPreflightSource.includes('localEnvTemplateLines') ||
+  !ownerUnlockPreflightSource.includes('writeLocalEnvTemplate') ||
+  !ownerUnlockPreflightSource.includes('preservedExistingValues') ||
   !ownerUnlockPreflightSource.includes('VITE_POSTHOG_HOST') ||
   !ownerUnlockPreflightSource.includes('noSecretValuesSerialized') ||
   !ownerUnlockPreflightReport.includes('Lowest-input path') ||
   !ownerUnlockPreflightReport.includes('Owner Input Pack') ||
   !ownerUnlockPreflightReport.includes('Combined Owner Input Preflight') ||
   !ownerUnlockPreflightReport.includes('AGL_SUPPORT_EMAIL=') ||
+  !ownerUnlockPreflightReport.includes('write local env template') ||
+  !ownerUnlockPreflightReport.includes('--owner-input-template') ||
   !ownerUnlockPreflightReport.includes('.env.production.local') ||
   !ownerUnlockPreflightReport.includes('## Guardrails') ||
   !productionMeasurementStatusSource.includes('Combined Owner Input Preflight') ||

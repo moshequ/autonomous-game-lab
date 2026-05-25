@@ -1005,6 +1005,10 @@ const appCombinedOwnerInputPreflight = payload.ownerUnlockPreflight.combinedOwne
       invalidInputCount:
         payload.ownerUnlockPreflight.combinedOwnerInputPreflight.summary?.invalidInputs ?? null,
       missingInputNames: payload.ownerUnlockPreflight.combinedOwnerInputPreflight.missingInputNames ?? [],
+      writeLocalEnvTemplateCommand:
+        payload.ownerUnlockPreflight.combinedOwnerInputPreflight.commands?.setupWriteLocalEnvTemplate ??
+        payload.ownerUnlockPreflight.combinedOwnerInputPreflight.commands?.writeLocalEnvTemplate ??
+        null,
     }
   : null
 

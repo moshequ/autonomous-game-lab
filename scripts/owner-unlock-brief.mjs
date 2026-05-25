@@ -40,6 +40,8 @@ const payload = await readJson(path.join(root, 'data', 'owner-unlock-brief.json'
       preflightCommand: 'npm run autonomous:owner-unlock-preflight',
       setupPreflightCommand: './ops/github/setup-production.sh --owner-unlock-preflight',
       directPreflightCommand: 'node scripts/owner-unlock-preflight.mjs --assert --print',
+      writeLocalEnvTemplateCommand: 'node scripts/owner-unlock-preflight.mjs --write-local-env-template',
+      setupWriteLocalEnvTemplateCommand: './ops/github/setup-production.sh --owner-input-template',
       syncConfiguredValuesCommand: './ops/github/setup-production.sh',
       workflowDispatchCommand: 'RUN_WORKFLOWS=1 ./ops/github/setup-production.sh',
       workflowDispatchRequiresRunWorkflows: true,
@@ -178,6 +180,9 @@ if (jsonMode) {
       payload.setup?.preflightCommand ?? 'npm run autonomous:owner-unlock-preflight',
       payload.setup?.setupPreflightCommand ?? './ops/github/setup-production.sh --owner-unlock-preflight',
       payload.setup?.directPreflightCommand ?? 'node scripts/owner-unlock-preflight.mjs --assert --print',
+      payload.setup?.setupWriteLocalEnvTemplateCommand ?? './ops/github/setup-production.sh --owner-input-template',
+      payload.setup?.writeLocalEnvTemplateCommand ??
+        'node scripts/owner-unlock-preflight.mjs --write-local-env-template',
     ]),
     '',
     'Validation commands:',

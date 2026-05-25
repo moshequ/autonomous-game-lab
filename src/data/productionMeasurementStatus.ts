@@ -1,5 +1,5 @@
 export const productionMeasurementStatus = {
-  "generatedAt": "2026-05-25T20:02:01.196Z",
+  "generatedAt": "2026-05-25T20:17:35.221Z",
   "status": "production-measurement-local-intake-ready",
   "activePath": "local-browser-buffer",
   "liveCandidate": "pwa-d017ef0b37ea",
@@ -76,7 +76,8 @@ export const productionMeasurementStatus = {
         "VITE_POSTHOG_KEY",
         "VITE_POSTHOG_HOST",
         "AGL_SUPPORT_EMAIL"
-      ]
+      ],
+      "writeLocalEnvTemplateCommand": "./ops/github/setup-production.sh --owner-input-template"
     }
   }
 } as const

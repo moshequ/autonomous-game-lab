@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-05-25T20:01:56.256Z",
+  "generatedAt": "2026-05-25T20:17:20.452Z",
   "status": "waiting-on-owner-input",
-  "sourceDataHash": "6f443f738818",
+  "sourceDataHash": "bb3ba4934d6d",
   "sourceStatus": {
     "productionBlockerHandoff": "handoff-waiting-on-owner-inputs",
     "storeReadiness": "store-readiness-prepared-external-blockers",
@@ -120,6 +120,8 @@
         "analyticsPreflight": "node scripts/owner-unlock-preflight.mjs --assert --print",
         "storeReadiness": "npm run autonomous:store-readiness",
         "setupPreflight": "./ops/github/setup-production.sh --owner-unlock-preflight",
+        "writeLocalEnvTemplate": "node scripts/owner-unlock-preflight.mjs --write-local-env-template",
+        "setupWriteLocalEnvTemplate": "./ops/github/setup-production.sh --owner-input-template",
         "syncConfiguredValues": "./ops/github/setup-production.sh",
         "workflowDispatch": "RUN_WORKFLOWS=1 ./ops/github/setup-production.sh"
       },
@@ -138,6 +140,9 @@
         "storeSubmissionStillBlocked": true,
         "revenueStillBlocked": true,
         "gitIgnoredLocalEnvFile": true,
+        "localTemplateWriteNoSecretValues": true,
+        "localTemplateWritePreservesExistingValues": true,
+        "localTemplateWriteNoGithubMutation": true,
         "onlyZeroSecretInputs": true,
         "combinesMinimalAnalyticsAndSupportInputs": true
       }
@@ -595,6 +600,8 @@
       "analyticsPreflight": "node scripts/owner-unlock-preflight.mjs --assert --print",
       "storeReadiness": "npm run autonomous:store-readiness",
       "setupPreflight": "./ops/github/setup-production.sh --owner-unlock-preflight",
+      "writeLocalEnvTemplate": "node scripts/owner-unlock-preflight.mjs --write-local-env-template",
+      "setupWriteLocalEnvTemplate": "./ops/github/setup-production.sh --owner-input-template",
       "syncConfiguredValues": "./ops/github/setup-production.sh",
       "workflowDispatch": "RUN_WORKFLOWS=1 ./ops/github/setup-production.sh"
     },
@@ -613,6 +620,9 @@
       "storeSubmissionStillBlocked": true,
       "revenueStillBlocked": true,
       "gitIgnoredLocalEnvFile": true,
+      "localTemplateWriteNoSecretValues": true,
+      "localTemplateWritePreservesExistingValues": true,
+      "localTemplateWriteNoGithubMutation": true,
       "onlyZeroSecretInputs": true,
       "combinesMinimalAnalyticsAndSupportInputs": true
     }
@@ -624,6 +634,8 @@
     "preflightCommand": "npm run autonomous:owner-unlock-preflight",
     "setupPreflightCommand": "./ops/github/setup-production.sh --owner-unlock-preflight",
     "directPreflightCommand": "node scripts/owner-unlock-preflight.mjs --assert --print",
+    "writeLocalEnvTemplateCommand": "node scripts/owner-unlock-preflight.mjs --write-local-env-template",
+    "setupWriteLocalEnvTemplateCommand": "./ops/github/setup-production.sh --owner-input-template",
     "syncConfiguredValuesCommand": "./ops/github/setup-production.sh",
     "workflowDispatchCommand": "RUN_WORKFLOWS=1 ./ops/github/setup-production.sh",
     "workflowDispatchRequiresRunWorkflows": true,
@@ -645,6 +657,7 @@
   "nextActions": [
     "Print the current brief with ./ops/github/setup-production.sh --owner-unlock-brief before setting production-analytics-browser.",
     "Run ./ops/github/setup-production.sh --owner-unlock-preflight to check local/repository readiness without storing secret values or mutating GitHub.",
+    "Run ./ops/github/setup-production.sh --owner-input-template to create or update the ignored .env.production.local template before adding values.",
     "Export only the missing variables/secrets in the current shell, then run ./ops/github/setup-production.sh to sync configured values.",
     "Resolve zero-spend entries in the parallel owner unlocks queue, including support-contact, when an existing support inbox is available.",
     "Use RUN_WORKFLOWS=1 only after the missing analytics inputs are configured and you are ready to dispatch deployment workflows.",

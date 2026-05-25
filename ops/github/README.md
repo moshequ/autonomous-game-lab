@@ -22,13 +22,19 @@ This folder contains the zero-spend GitHub setup helper for the autonomous PWA r
 ./ops/github/setup-production.sh --owner-unlock-preflight
 ```
 
-7. To initialize/attach the repository transport, run the guarded helper with only the explicit actions you want:
+7. To create or update the ignored local owner-input template before adding values, run:
+
+```bash
+./ops/github/setup-production.sh --owner-input-template
+```
+
+8. To initialize/attach the repository transport, run the guarded helper with only the explicit actions you want:
 
 ```bash
 AGL_ALLOW_REPOSITORY_BOOTSTRAP=1 ./ops/github/bootstrap-repository.sh
 ```
 
-8. To sync production variables/secrets, run:
+9. To sync production variables/secrets, run:
 
 ```bash
 ./ops/github/setup-production.sh
