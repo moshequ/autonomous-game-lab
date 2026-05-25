@@ -1,8 +1,8 @@
 # Store Readiness
 
-Generated: 2026-05-25T07:28:35.172Z
+Generated: 2026-05-25T07:32:06.805Z
 Status: store-readiness-prepared-external-blockers
-Source hash: 54ffda079a35
+Source hash: c4efb1a25bf9
 
 ## Summary
 
